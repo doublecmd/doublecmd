@@ -1,0 +1,7 @@
+{ This is an automatically generated lazarus resource file }
+
+LazarusResources.Add('TdmCommander','FORMDATA',[
+  'TPF0'#12'TdmCommander'#11'dmCommander'#6'Height'#3','#1#16'HorizontalOffset'
+  +#3#205#1#14'VerticalOffset'#3#217#0#5'Width'#3#144#1#0#10'TImageList'#7'imgL'
+  +'ist'#4'left'#2'K'#3'top'#2'x'#0#0#0
+]);

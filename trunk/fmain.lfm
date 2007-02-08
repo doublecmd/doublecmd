@@ -1,0 +1,766 @@
+object frmMain: TfrmMain
+  Caption = 'Double Commander'
+  ClientHeight = 317
+  ClientWidth = 525
+  Font.Color = clBlack
+  Font.Height = 13
+  Font.Name = 'Helvetica'
+  Font.Pitch = fpVariable
+  KeyPreview = True
+  Menu = mnuMain
+  OnActivate = FormActivate
+  OnClose = frmMainClose
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
+  OnKeyPress = FormKeyPress
+  OnKeyUp = frmMainKeyUp
+  OnResize = FormResize
+  OnShow = frmMainShow
+  PixelsPerInch = 96
+  Position = poDesktopCenter
+  ShowHint = True
+  TextHeight = 16
+  HorzScrollBar.Page = 524
+  VertScrollBar.Page = 316
+  VertScrollBar.Range = 79
+  Left = 447
+  Height = 336
+  Top = 549
+  Width = 525
+  object pnlButton: TPanel
+    Align = alTop
+    ClientHeight = 22
+    ClientWidth = 525
+    FullRepaint = False
+    TabOrder = 0
+    Visible = False
+    Height = 22
+    Top = 23
+    Width = 525
+  end
+  object pnlDisk: TPanel
+    Align = alTop
+    Caption = 'pnlDisk'
+    ClientHeight = 24
+    ClientWidth = 525
+    FullRepaint = False
+    ParentColor = False
+    TabOrder = 1
+    Height = 24
+    Top = 45
+    Width = 525
+    object dskLeft: TKAStoolBar
+      OnToolButtonClick = dskLeftToolButtonClick
+      CheckToolButton = True
+      FlatButtons = True
+      IsDiskPanel = True
+      Align = alLeft
+      ClientHeight = 22
+      ClientWidth = 354
+      ParentColor = False
+      TabOrder = 0
+      Left = 1
+      Height = 22
+      Top = 1
+      Width = 354
+    end
+    object dskRight: TKAStoolBar
+      OnToolButtonClick = dskRightToolButtonClick
+      CheckToolButton = True
+      FlatButtons = True
+      IsDiskPanel = True
+      Align = alClient
+      Anchors = [akTop, akLeft, akBottom]
+      ClientHeight = 22
+      ClientWidth = 169
+      TabOrder = 1
+      Left = 355
+      Height = 22
+      Top = 1
+      Width = 169
+    end
+  end
+  object pnlCommand: TPanel
+    Align = alBottom
+    Anchors = [akLeft, akRight]
+    BevelOuter = bvLowered
+    ClientHeight = 66
+    ClientWidth = 525
+    FullRepaint = False
+    ParentColor = False
+    TabOrder = 2
+    Height = 66
+    Top = 251
+    Width = 525
+    object lblCommandPath: TLabel
+      Alignment = taRightJustify
+      Caption = 'Path'
+      Color = clNone
+      ParentColor = False
+      ShowAccelChar = False
+      Left = 1
+      Height = 14
+      Top = 8
+      Width = 23
+    end
+    object pnlKeys: TPanel
+      Align = alBottom
+      Anchors = [akLeft, akRight]
+      BevelOuter = bvLowered
+      ClientHeight = 27
+      ClientWidth = 523
+      FullRepaint = False
+      TabOrder = 0
+      OnResize = pnlKeysResize
+      Left = 1
+      Height = 27
+      Top = 38
+      Width = 523
+      object btnF3: TSpeedButton
+        Action = actView
+        Flat = True
+        NumGlyphs = 0
+        Left = 1
+        Height = 23
+        Top = 4
+        Width = 75
+      end
+      object btnF4: TSpeedButton
+        Action = actEdit
+        Flat = True
+        NumGlyphs = 0
+        Left = 76
+        Height = 23
+        Top = 4
+        Width = 75
+      end
+      object btnF5: TSpeedButton
+        Action = actCopy
+        Flat = True
+        NumGlyphs = 0
+        Left = 151
+        Height = 23
+        Top = 4
+        Width = 75
+      end
+      object btnF6: TSpeedButton
+        Action = actRename
+        Flat = True
+        NumGlyphs = 0
+        Left = 226
+        Height = 23
+        Top = 4
+        Width = 75
+      end
+      object btnF7: TSpeedButton
+        Action = actMakeDir
+        Flat = True
+        NumGlyphs = 0
+        Left = 301
+        Height = 23
+        Top = 4
+        Width = 75
+      end
+      object btnF8: TSpeedButton
+        Action = actDelete
+        Flat = True
+        NumGlyphs = 0
+        Left = 376
+        Height = 23
+        Top = 4
+        Width = 75
+      end
+      object btnF10: TSpeedButton
+        Action = actExit
+        Flat = True
+        NumGlyphs = 0
+        Left = 539
+        Height = 23
+        Top = 4
+        Width = 75
+      end
+      object btnF9: TSpeedButton
+        Action = actShowMenu
+        Flat = True
+        NumGlyphs = 0
+        Left = 448
+        Height = 22
+        Top = 4
+        Width = 89
+      end
+    end
+    object edtCommand: TComboBox
+      AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+      ItemHeight = 18
+      MaxLength = 0
+      OnKeyDown = edtCommandKeyDown
+      OnKeyUp = edtCommandKeyUp
+      ParentCtl3D = False
+      TabOrder = 1
+      TabStop = False
+      TabStop = False
+      Left = 56
+      Height = 21
+      Top = 8
+      Width = 688
+    end
+  end
+  object pnlNotebooks: TPanel
+    Align = alClient
+    ClientHeight = 182
+    ClientWidth = 525
+    FullRepaint = False
+    TabOrder = 3
+    TabStop = True
+    Height = 182
+    Top = 69
+    Width = 525
+    object nbLeft: TNotebook
+      Align = alLeft
+      OnCloseTabClicked = NoteBookCloseTabClicked
+      Options = [nboShowCloseButtons]
+      Left = 1
+      Height = 180
+      Top = 1
+      Width = 391
+    end
+    object Splitter1: TSplitter
+      Height = 180
+      ResizeStyle = rsLine
+      Width = 4
+      Cursor = crHSplit
+      Left = 392
+      Height = 180
+      Top = 1
+      Width = 4
+    end
+    object nbRight: TNotebook
+      Align = alClient
+      OnCloseTabClicked = NoteBookCloseTabClicked
+      Options = [nboShowCloseButtons]
+      Left = 396
+      Height = 180
+      Top = 1
+      Width = 128
+    end
+  end
+  object MainToolBar: TKAStoolBar
+    OnToolButtonClick = MainToolBarToolButtonClick
+    FlatButtons = True
+    Align = alTop
+    ClientHeight = 23
+    ClientWidth = 525
+    TabOrder = 4
+    OnMouseDown = MainToolBarMouseDown
+    Height = 23
+    Width = 525
+  end
+  object mnuMain: TMainMenu
+    left = 283
+    top = 8
+    object mnuFiles: TMenuItem
+      Caption = 'Files'
+      object mnuFilesLink: TMenuItem
+        Action = actHardLink
+        OnClick = actHardLinkExecute
+      end
+      object mnuFilesSymLink: TMenuItem
+        Action = actSymLink
+        OnClick = actSymLinkExecute
+      end
+      object miLine1: TMenuItem
+        Caption = '-'
+      end
+      object mnuFilesAttrib: TMenuItem
+        Action = actChMod
+        OnClick = actChModExecute
+      end
+      object mnuFilesChown: TMenuItem
+        Action = actChown
+        OnClick = actChownExecute
+      end
+      object mnuFilesProperties: TMenuItem
+        Action = actFileProperties
+        OnClick = actFilePropertiesExecute
+      end
+      object mnuFilesSpace: TMenuItem
+        Action = actCalculateSpace
+        OnClick = actCalculateSpaceExecute
+      end
+      object mnuFilesCmpCnt: TMenuItem
+        Action = actCompareContents
+        OnClick = actCompareContentsExecute
+      end
+      object miMultiRename: TMenuItem
+        Action = actMultiRename
+        OnClick = actMultiRenameExecute
+      end
+      object miLine2: TMenuItem
+        Caption = '-'
+      end
+      object mnuFilesSplit: TMenuItem
+        Action = actFileSpliter
+        OnClick = actFileSpliterExecute
+      end
+      object mnuFilesCombine: TMenuItem
+        Action = actFileLinker
+        Caption = 'Combine Files'
+        OnClick = actFileLinkerExecute
+      end
+      object miLine3: TMenuItem
+        Caption = '-'
+      end
+      object mnuFilesShwSysFiles: TMenuItem
+        Action = actShowSysFiles
+        OnClick = actShowSysFilesExecute
+      end
+      object miLine4: TMenuItem
+        Caption = '-'
+      end
+      object miExit: TMenuItem
+        Action = actExit
+        OnClick = actExitExecute
+      end
+    end
+    object mnuMark: TMenuItem
+      Caption = '&Mark'
+      object mnuMarkSGroup: TMenuItem
+        Action = actMarkPlus
+        OnClick = actMarkPlusExecute
+      end
+      object mnuMarkUGroup: TMenuItem
+        Action = actMarkMinus
+        OnClick = actMarkMinusExecute
+      end
+      object mnuMarkSAll: TMenuItem
+        Action = actMarkMarkAll
+        OnClick = actMarkMarkAllExecute
+      end
+      object mnuMarkUAll: TMenuItem
+        Action = actMarkUnmarkAll
+        OnClick = actMarkUnmarkAllExecute
+      end
+      object mnuMarkInvert: TMenuItem
+        Action = actMarkInvert
+        OnClick = actMarkInvertExecute
+      end
+      object miLine5: TMenuItem
+        Caption = '-'
+      end
+      object mnuMarkCmpDir: TMenuItem
+        Caption = '&Compare Directories'
+        Enabled = False
+        ShortCut = 12337
+      end
+    end
+    object mnuCmd: TMenuItem
+      Caption = '&Commands'
+      object mnuCmdSearch: TMenuItem
+        Action = actSearch
+        OnClick = actSearchExecute
+      end
+      object mnuCmdDirHotlist: TMenuItem
+        Action = actDirHotList
+        OnClick = actDirHotListExecute
+      end
+      object miLine6: TMenuItem
+        Caption = '-'
+      end
+      object miRunTerm: TMenuItem
+        Action = actRunTerm
+        OnClick = actRunTermExecute
+      end
+      object miLine9: TMenuItem
+        Caption = '-'
+      end
+      object mnuCmdSwapSourceTarget: TMenuItem
+        Caption = 'Source &<-> Target'
+        Enabled = False
+        ShortCut = 16469
+      end
+      object mnuCmdTargetIsSource: TMenuItem
+        Caption = 'Target &= Source'
+        Enabled = False
+      end
+    end
+    object mnuShow: TMenuItem
+      Caption = '&Show'
+      object mnuShowName: TMenuItem
+        Action = actSortByName
+        OnClick = actSortByNameExecute
+      end
+      object mnuShowExtension: TMenuItem
+        Action = actSortByExt
+        OnClick = actSortByExtExecute
+      end
+      object mnuShowSize: TMenuItem
+        Action = actSortBySize
+        OnClick = actSortBySizeExecute
+      end
+      object mnuShowTime: TMenuItem
+        Action = actSortByDate
+        OnClick = actSortByDateExecute
+      end
+      object mnuShowAttrib: TMenuItem
+        Action = actSortByAttr
+        OnClick = actSortByAttrExecute
+      end
+      object miLine7: TMenuItem
+        Caption = '-'
+      end
+      object mnuShowReverse: TMenuItem
+        Action = actReverseOrder
+        OnClick = actReverseOrderExecute
+      end
+      object mnuShowReread: TMenuItem
+        Action = actRefresh
+        OnClick = actRefreshExecute
+      end
+    end
+    object mnuConfig: TMenuItem
+      Caption = 'C&onfiguration'
+      object mnuConfigOptions: TMenuItem
+        Action = actOptions
+        OnClick = actOptionsExecute
+      end
+    end
+    object mnuHelp: TMenuItem
+      Caption = '&Help'
+      object mnuHelpAbout: TMenuItem
+        Action = actAbout
+        ShortCut = 112
+        OnClick = actAboutExecute
+      end
+    end
+  end
+  object actionLst: TActionList
+    left = 360
+    top = 64
+    object actExit: TAction
+      Caption = 'Exit'
+      HelpType = htKeyword
+      OnExecute = actExitExecute
+      Category = 'File'
+    end
+    object actView: TAction
+      Caption = 'View F3'
+      HelpType = htKeyword
+      OnExecute = actViewExecute
+      ShortCut = 4146
+      Category = 'Classic'
+    end
+    object actEdit: TAction
+      Caption = 'Edit F4'
+      HelpType = htKeyword
+      OnExecute = actEditExecute
+      ShortCut = 4147
+      Category = 'Classic'
+    end
+    object actCopy: TAction
+      Caption = 'Copy F5'
+      HelpType = htKeyword
+      OnExecute = actCopyExecute
+      ShortCut = 4148
+      Category = 'Classic'
+    end
+    object actRename: TAction
+      Caption = 'Rename F6'
+      HelpType = htKeyword
+      OnExecute = actRenameExecute
+      ShortCut = 4149
+      Category = 'Classic'
+    end
+    object actMakeDir: TAction
+      Caption = 'MakeDir F7'
+      HelpType = htKeyword
+      OnExecute = actMakeDirExecute
+      ShortCut = 4150
+      Category = 'Classic'
+    end
+    object actDelete: TAction
+      Caption = 'Delete F8'
+      HelpType = htKeyword
+      OnExecute = actDeleteExecute
+      ShortCut = 4151
+      Category = 'Classic'
+    end
+    object actAbout: TAction
+      Caption = 'About'
+      HelpType = htKeyword
+      OnExecute = actAboutExecute
+      ShortCut = 4144
+      Category = 'Help'
+    end
+    object actShowSysFiles: TAction
+      Caption = 'Show System Files'
+      Checked = True
+      HelpType = htKeyword
+      OnExecute = actShowSysFilesExecute
+      Category = 'File'
+    end
+    object actOptions: TAction
+      Caption = 'Options...'
+      HelpType = htKeyword
+      OnExecute = actOptionsExecute
+      Category = 'Config'
+    end
+    object actCompareContents: TAction
+      Caption = 'Compare by &Contents'
+      HelpType = htKeyword
+      OnExecute = actCompareContentsExecute
+      Category = 'File'
+    end
+    object actShowMenu: TAction
+      Caption = 'Menu F9'
+      HelpType = htKeyword
+      OnExecute = actShowMenuExecute
+      ShortCut = 4152
+      Category = 'Classic'
+    end
+    object actRefresh: TAction
+      Caption = '&Refresh'
+      HelpType = htKeyword
+      OnExecute = actRefreshExecute
+      ShortCut = 16466
+      Category = 'Show'
+    end
+    object actSearch: TAction
+      Caption = '&Search'
+      HelpType = htKeyword
+      OnExecute = actSearchExecute
+      ShortCut = 20534
+      Category = 'Commands'
+    end
+    object actDirHotList: TAction
+      Caption = 'Directory &hotlist'
+      HelpType = htKeyword
+      OnExecute = actDirHotListExecute
+      ShortCut = 16452
+      Category = 'Commands'
+    end
+    object actMarkMarkAll: TAction
+      Caption = '&Select All'
+      HelpType = htKeyword
+      OnExecute = actMarkMarkAllExecute
+      Category = 'Mark'
+    end
+    object actMarkInvert: TAction
+      Caption = 'Invert Selections'
+      HelpType = htKeyword
+      OnExecute = actMarkInvertExecute
+      ShortCut = 42
+      Category = 'Mark'
+    end
+    object actMarkUnmarkAll: TAction
+      Caption = 'Unselect All'
+      HelpType = htKeyword
+      OnExecute = actMarkUnmarkAllExecute
+      Category = 'Mark'
+    end
+    object actDelete2: TAction
+      Caption = 'actDelete2'
+      HelpType = htKeyword
+      OnExecute = actDelete2Execute
+      ShortCut = 4103
+      Category = 'Classic'
+    end
+    object actPathToCmdLine: TAction
+      Caption = 'actPathToCmdLine'
+      HelpType = htKeyword
+      OnExecute = actPathToCmdLineExecute
+      ShortCut = 16464
+    end
+    object actMarkPlus: TAction
+      Caption = 'Select a group'
+      HelpType = htKeyword
+      OnExecute = actMarkPlusExecute
+      Category = 'Mark'
+    end
+    object actMarkMinus: TAction
+      Caption = 'Unselect a group'
+      HelpType = htKeyword
+      OnExecute = actMarkMinusExecute
+      Category = 'Mark'
+    end
+    object actChMod: TAction
+      Caption = 'Change Attributes'
+      HelpType = htKeyword
+      OnExecute = actChModExecute
+      Category = 'File'
+    end
+    object actSymLink: TAction
+      Caption = 'Create symlink...'
+      HelpType = htKeyword
+      OnExecute = actSymLinkExecute
+      Category = 'File'
+    end
+    object actHardLink: TAction
+      Caption = 'Create link...'
+      HelpType = htKeyword
+      OnExecute = actHardLinkExecute
+      Category = 'File'
+    end
+    object actReverseOrder: TAction
+      Caption = 'Reverse order'
+      HelpType = htKeyword
+      OnExecute = actReverseOrderExecute
+      Category = 'Show'
+    end
+    object actSortByName: TAction
+      Caption = 'Name'
+      HelpType = htKeyword
+      OnExecute = actSortByNameExecute
+      Category = 'Show'
+    end
+    object actSortByExt: TAction
+      Caption = 'Extension'
+      HelpType = htKeyword
+      OnExecute = actSortByExtExecute
+      Category = 'Show'
+    end
+    object actSortBySize: TAction
+      Caption = 'Size'
+      HelpType = htKeyword
+      OnExecute = actSortBySizeExecute
+      Category = 'Show'
+    end
+    object actSortByDate: TAction
+      Caption = 'Date'
+      HelpType = htKeyword
+      OnExecute = actSortByDateExecute
+      Category = 'Show'
+    end
+    object actSortByAttr: TAction
+      Caption = 'Attrib'
+      HelpType = htKeyword
+      OnExecute = actSortByAttrExecute
+      Category = 'Show'
+    end
+    object actMultiRename: TAction
+      Caption = 'Multi Rename Tool'
+      HelpType = htKeyword
+      OnExecute = actMultiRenameExecute
+      Category = 'File'
+    end
+    object actShiftF5: TAction
+      Caption = 'actShiftF5'
+      HelpType = htKeyword
+      OnExecute = actShiftF5Execute
+      ShortCut = 12340
+      Category = 'Commands'
+    end
+    object actShiftF6: TAction
+      Caption = 'actShiftF6'
+      HelpType = htKeyword
+      OnExecute = actShiftF6Execute
+      ShortCut = 12341
+      Category = 'Commands'
+    end
+    object actShiftF4: TAction
+      Caption = 'actShiftF4'
+      HelpType = htKeyword
+      OnExecute = actShiftF4Execute
+      Category = 'Commands'
+    end
+    object actDirHistory: TAction
+      Caption = 'actDirHistory'
+      HelpType = htKeyword
+      OnExecute = actDirHistoryExecute
+      ShortCut = 16456
+      Category = 'Commands'
+    end
+    object actCtrlF8: TAction
+      Caption = 'actCtrlF8'
+      HelpType = htKeyword
+      OnExecute = actCtrlF8Execute
+      ShortCut = 20535
+      Category = 'Commands'
+    end
+    object actRunTerm: TAction
+      Caption = 'Run Term'
+      HelpType = htKeyword
+      OnExecute = actRunTermExecute
+      ShortCut = 16468
+      Category = 'Commands'
+    end
+    object actCalculateSpace: TAction
+      Caption = 'Calculate &Occupied Space...'
+      HelpType = htKeyword
+      OnExecute = actCalculateSpaceExecute
+      Category = 'File'
+    end
+    object actFileProperties: TAction
+      Caption = 'Show File Properties'
+      HelpType = htKeyword
+      OnExecute = actFilePropertiesExecute
+      Category = 'File'
+    end
+    object actChown: TAction
+      Caption = 'Chown'
+      HelpType = htKeyword
+      OnExecute = actChownExecute
+      Category = 'File'
+    end
+    object actFileLinker: TAction
+      Caption = 'Link Files'
+      HelpType = htKeyword
+      OnExecute = actFileLinkerExecute
+      Category = 'File'
+    end
+    object actFileSpliter: TAction
+      Caption = 'Split File'
+      HelpType = htKeyword
+      OnExecute = actFileSpliterExecute
+      Category = 'File'
+    end
+    object actNewTab: TAction
+      Caption = 'actNewTab'
+      HelpType = htKeyword
+      OnExecute = actNewTabExecute
+      Category = 'Tabs'
+    end
+    object actRemoveTab: TAction
+      Caption = 'actRemoveTab'
+      HelpType = htKeyword
+      OnExecute = actRemoveTabExecute
+      Category = 'Tabs'
+    end
+  end
+  object pmHotList: TPopupMenu
+    left = 152
+    top = 136
+    object MenuItem3: TMenuItem
+      Caption = 'New Item1'
+    end
+  end
+  object pmFileList: TPopupMenu
+    OnPopup = pmFileListPopup
+    left = 216
+    top = 136
+    object file1: TMenuItem
+      Caption = 'file'
+    end
+  end
+  object pmDirHistory: TPopupMenu
+    AutoPopup = False
+    left = 184
+    top = 136
+    object MenuItem4: TMenuItem
+      Caption = 'New Item1'
+    end
+  end
+  object pmToolBar: TPopupMenu
+    Tag = -1
+    left = 120
+    top = 136
+    object tbEdit: TMenuItem
+      Caption = 'Edit'
+      OnClick = tbEditClick
+    end
+    object tbDelete: TMenuItem
+      Caption = 'Delete'
+      OnClick = DeleteClick
+    end
+  end
+end

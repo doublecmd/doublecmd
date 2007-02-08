@@ -1,0 +1,489 @@
+object frmEditorConf: TfrmEditorConf
+  ActiveControl = grColor
+  Caption = 'Editor configuration'
+  ClientHeight = 295
+  ClientWidth = 483
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  Position = poScreenCenter
+  TextHeight = 16
+  AutoScroll = True
+  Left = 666
+  Height = 295
+  Top = 467
+  Width = 483
+  object lbSample: TLabel
+    Caption = 'Sample'
+    Color = clNone
+    ParentColor = False
+    Left = 8
+    Height = 14
+    Top = 184
+    Width = 35
+  end
+  object lbPredefined: TLabel
+    Caption = 'Predefined'
+    Color = clNone
+    ParentColor = False
+    Left = 8
+    Height = 14
+    Top = 136
+    Width = 53
+  end
+  object grColor: TDrawGrid
+    AutoAdvance = aaDown
+    Color = clWhite
+    ColCount = 4
+    DefaultColWidth = 30
+    DefaultDrawing = False
+    DefaultRowHeight = 30
+    FixedColor = clBtnFace
+    FixedCols = 0
+    FixedRows = 0
+    GridLineWidth = 0
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goSmoothScroll]
+    RowCount = 4
+    ScrollBars = ssAutoBoth
+    TabOrder = 0
+    TabStop = True
+    VisibleColCount = 4
+    VisibleRowCount = 4
+    OnDrawCell = grColorDrawCell
+    OnMouseDown = grColorMouseDown
+    Left = 8
+    Height = 128
+    Top = 8
+    Width = 128
+  end
+  object lbNames: TListBox
+    OnClick = lbNamesClick
+    TabOrder = 1
+    Left = 240
+    Height = 192
+    Width = 201
+  end
+  object cbBold: TCheckBox
+    AllowGrayed = True
+    Caption = 'cbBold'
+    OnClick = cbBoldClick
+    TabOrder = 2
+    Left = 137
+    Height = 13
+    Top = 56
+    Width = 53
+  end
+  object cbUnderline: TCheckBox
+    AllowGrayed = True
+    Caption = 'cbUnderline'
+    OnClick = cbBoldClick
+    TabOrder = 3
+    Left = 136
+    Height = 13
+    Top = 8
+    Width = 77
+  end
+  object cbStrikeOut: TCheckBox
+    AllowGrayed = True
+    Caption = 'cbStrikeOut'
+    OnClick = cbBoldClick
+    TabOrder = 4
+    Left = 136
+    Height = 13
+    Top = 24
+    Width = 76
+  end
+  object cbItalic: TCheckBox
+    AllowGrayed = True
+    Caption = 'cbItalic'
+    OnClick = cbBoldClick
+    TabOrder = 5
+    Left = 136
+    Height = 13
+    Top = 40
+    Width = 54
+  end
+  object cmbPredefined: TComboBox
+    AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+    ItemHeight = 18
+    MaxLength = 0
+    OnChange = cmbPredefinedChange
+    ParentCtl3D = False
+    Style = csDropDownList
+    TabOrder = 6
+    Left = 8
+    Height = 21
+    Top = 152
+    Width = 208
+  end
+  object btnCancel: TBitBtn
+    BorderSpacing.InnerBorder = 2
+    Caption = 'Cancel'
+    Kind = bkCancel
+    ModalResult = 2
+    NumGlyphs = 0
+    OnClick = btnCancelClick
+    TabOrder = 9
+    Left = 366
+    Height = 25
+    Top = 240
+    Width = 75
+  end
+  object btnOK: TBitBtn
+    BorderSpacing.InnerBorder = 2
+    Caption = '&OK'
+    Default = True
+    Kind = bkOK
+    ModalResult = 1
+    NumGlyphs = 0
+    OnClick = btnOKClick
+    TabOrder = 7
+    Left = 272
+    Height = 25
+    Top = 240
+    Width = 75
+  end
+  object edtSample: TSynEdit
+    Font.Height = -12
+    Font.Name = 'courier'
+    Height = 56
+    Name = 'edtSample'
+    ParentColor = False
+    ParentCtl3D = False
+    TabOrder = 8
+    Width = 232
+    BookMarkOptions.OnChange = nil
+    Gutter.OnChange = nil
+    Gutter.CodeFoldingWidth = 14
+    Keystrokes = <    
+      item
+        Command = 3
+        ShortCut = 38
+      end    
+      item
+        Command = 103
+        ShortCut = 8230
+      end    
+      item
+        Command = 211
+        ShortCut = 16422
+      end    
+      item
+        Command = 4
+        ShortCut = 40
+      end    
+      item
+        Command = 104
+        ShortCut = 8232
+      end    
+      item
+        Command = 212
+        ShortCut = 16424
+      end    
+      item
+        Command = 1
+        ShortCut = 37
+      end    
+      item
+        Command = 101
+        ShortCut = 8229
+      end    
+      item
+        Command = 5
+        ShortCut = 16421
+      end    
+      item
+        Command = 105
+        ShortCut = 24613
+      end    
+      item
+        Command = 2
+        ShortCut = 39
+      end    
+      item
+        Command = 102
+        ShortCut = 8231
+      end    
+      item
+        Command = 6
+        ShortCut = 16423
+      end    
+      item
+        Command = 106
+        ShortCut = 24615
+      end    
+      item
+        Command = 10
+        ShortCut = 34
+      end    
+      item
+        Command = 110
+        ShortCut = 8226
+      end    
+      item
+        Command = 14
+        ShortCut = 16418
+      end    
+      item
+        Command = 114
+        ShortCut = 24610
+      end    
+      item
+        Command = 9
+        ShortCut = 33
+      end    
+      item
+        Command = 109
+        ShortCut = 8225
+      end    
+      item
+        Command = 13
+        ShortCut = 16417
+      end    
+      item
+        Command = 113
+        ShortCut = 24609
+      end    
+      item
+        Command = 7
+        ShortCut = 36
+      end    
+      item
+        Command = 107
+        ShortCut = 8228
+      end    
+      item
+        Command = 15
+        ShortCut = 16420
+      end    
+      item
+        Command = 115
+        ShortCut = 24612
+      end    
+      item
+        Command = 8
+        ShortCut = 35
+      end    
+      item
+        Command = 108
+        ShortCut = 8227
+      end    
+      item
+        Command = 16
+        ShortCut = 16419
+      end    
+      item
+        Command = 116
+        ShortCut = 24611
+      end    
+      item
+        Command = 223
+        ShortCut = 45
+      end    
+      item
+        Command = 201
+        ShortCut = 16429
+      end    
+      item
+        Command = 604
+        ShortCut = 8237
+      end    
+      item
+        Command = 502
+        ShortCut = 46
+      end    
+      item
+        Command = 603
+        ShortCut = 8238
+      end    
+      item
+        Command = 501
+        ShortCut = 8
+      end    
+      item
+        Command = 501
+        ShortCut = 8200
+      end    
+      item
+        Command = 504
+        ShortCut = 16392
+      end    
+      item
+        Command = 601
+        ShortCut = 32776
+      end    
+      item
+        Command = 602
+        ShortCut = 40968
+      end    
+      item
+        Command = 509
+        ShortCut = 13
+      end    
+      item
+        Command = 199
+        ShortCut = 16449
+      end    
+      item
+        Command = 201
+        ShortCut = 16451
+      end    
+      item
+        Command = 610
+        ShortCut = 24649
+      end    
+      item
+        Command = 509
+        ShortCut = 16461
+      end    
+      item
+        Command = 510
+        ShortCut = 16462
+      end    
+      item
+        Command = 503
+        ShortCut = 16468
+      end    
+      item
+        Command = 611
+        ShortCut = 24661
+      end    
+      item
+        Command = 604
+        ShortCut = 16470
+      end    
+      item
+        Command = 603
+        ShortCut = 16472
+      end    
+      item
+        Command = 507
+        ShortCut = 16473
+      end    
+      item
+        Command = 506
+        ShortCut = 24665
+      end    
+      item
+        Command = 601
+        ShortCut = 16474
+      end    
+      item
+        Command = 602
+        ShortCut = 24666
+      end    
+      item
+        Command = 301
+        ShortCut = 16432
+      end    
+      item
+        Command = 302
+        ShortCut = 16433
+      end    
+      item
+        Command = 303
+        ShortCut = 16434
+      end    
+      item
+        Command = 304
+        ShortCut = 16435
+      end    
+      item
+        Command = 305
+        ShortCut = 16436
+      end    
+      item
+        Command = 306
+        ShortCut = 16437
+      end    
+      item
+        Command = 307
+        ShortCut = 16438
+      end    
+      item
+        Command = 308
+        ShortCut = 16439
+      end    
+      item
+        Command = 309
+        ShortCut = 16440
+      end    
+      item
+        Command = 310
+        ShortCut = 16441
+      end    
+      item
+        Command = 351
+        ShortCut = 24624
+      end    
+      item
+        Command = 352
+        ShortCut = 24625
+      end    
+      item
+        Command = 353
+        ShortCut = 24626
+      end    
+      item
+        Command = 354
+        ShortCut = 24627
+      end    
+      item
+        Command = 355
+        ShortCut = 24628
+      end    
+      item
+        Command = 356
+        ShortCut = 24629
+      end    
+      item
+        Command = 357
+        ShortCut = 24630
+      end    
+      item
+        Command = 358
+        ShortCut = 24631
+      end    
+      item
+        Command = 359
+        ShortCut = 24632
+      end    
+      item
+        Command = 360
+        ShortCut = 24633
+      end    
+      item
+        Command = 231
+        ShortCut = 24654
+      end    
+      item
+        Command = 232
+        ShortCut = 24643
+      end    
+      item
+        Command = 233
+        ShortCut = 24652
+      end    
+      item
+        Command = 612
+        ShortCut = 9
+      end    
+      item
+        Command = 613
+        ShortCut = 8201
+      end    
+      item
+        Command = 250
+        ShortCut = 24642
+      end>
+    Lines.Strings = (
+      'bla bla ble ble blu blu'
+      'blu blu ble ble bla bla'
+    )
+    SelectedColor.OnChange = nil
+    Cursor = crIBeam
+    Left = 8
+    Height = 56
+    Top = 209
+    Width = 232
+  end
+end

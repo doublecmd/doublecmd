@@ -1,0 +1,20 @@
+How to install RPM plugin:
+
+1. Unzip the rpm.wcx and cpio.wcx to the Totalcmd directory
+2. In Total Commander, choose Configuration - Options
+3. Open the 'Packer' page
+4. Click 'Configure packer extension WCXs
+5. type  rpm  as the extension
+6. Click 'new type', and select the rpm.wcx
+5. type  cpio  as the extension
+6. Click 'new type', and select the cpio.wcx
+7. Click OK
+
+What it does:
+
+  This plugin allow you to browse rpm archives.
+
+Mandryka Yurij
+Brain group
+http://braingroup.hotmail.ru/wcplugins/
+mailto:braingroup@hotmail.ru

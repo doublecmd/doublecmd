@@ -1,0 +1,147 @@
+object FrameFilePanel: TFrameFilePanel
+  Left = 456
+  Height = 415
+  Top = 231
+  Width = 349
+  object pnPanel: TPanel
+    Align = alClient
+    BevelOuter = bvNone
+    ClientHeight = 415
+    ClientWidth = 349
+    FullRepaint = False
+    TabOrder = 0
+    Height = 415
+    Width = 349
+    object lblLInfo: TLabel
+      Caption = 'lblLInfo'
+      Color = clNone
+      ParentColor = False
+      Height = 17
+      Width = 65
+    end
+    object pnlHeader: TPanel
+      Align = alTop
+      BevelInner = bvLowered
+      ClientHeight = 41
+      ClientWidth = 349
+      FullRepaint = False
+      TabOrder = 0
+      Height = 41
+      Width = 349
+      object btnRoot: TSpeedButton
+        Anchors = [akTop]
+        Caption = '/'
+        Flat = True
+        NumGlyphs = 0
+        Left = 166
+        Height = 20
+        Top = 20
+        Width = 17
+      end
+      object btnHome: TSpeedButton
+        Anchors = [akTop]
+        Caption = '~'
+        Flat = True
+        NumGlyphs = 0
+        Left = 166
+        Height = 20
+        Top = 19
+        Width = 17
+      end
+      object btnUp: TSpeedButton
+        Caption = '..'
+        Flat = True
+        NumGlyphs = 0
+        Left = 320
+        Height = 20
+        Top = 20
+        Width = 17
+      end
+      object lblLPath: TLabel
+        Align = alTop
+        Caption = 'lblLPath'
+        Color = clBackground
+        ParentColor = False
+        Transparent = False
+        Left = 2
+        Height = 17
+        Top = 2
+        Width = 345
+      end
+      object lblFree: TLabel
+        Align = alLeft
+        Caption = 'lblFree'
+        Color = clNone
+        ParentColor = False
+        Left = 2
+        Height = 20
+        Top = 19
+        Width = 65
+      end
+    end
+    object edtRename: TEdit
+      TabOrder = 2
+      Visible = False
+      Height = 1
+      Width = 1
+    end
+    object dgPanel: TDrawGrid
+      Align = alClient
+      AutoAdvance = aaDown
+      Color = clWhite
+      ColCount = 5
+      DefaultDrawing = False
+      DefaultRowHeight = 16
+      FixedColor = clBtnFace
+      FixedCols = 0
+      FixedRows = 0
+      GridLineWidth = 0
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goRowSelect]
+      RowCount = 5
+      ScrollBars = ssAutoBoth
+      TabOrder = 1
+      TabStop = True
+      VisibleColCount = 1
+      VisibleRowCount = 1
+      Left = 224
+      Height = 344
+      Top = 208
+      Width = 349
+    end
+    object pnAltSearch: TPanel
+      Alignment = taLeftJustify
+      Caption = ' Find:'
+      ClientHeight = 29
+      ClientWidth = 185
+      FullRepaint = False
+      TabOrder = 3
+      Visible = False
+      Left = 8
+      Height = 29
+      Top = 336
+      Width = 185
+      object edSearch: TEdit
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        OnKeyPress = edSearchKeyPress
+        TabOrder = 0
+        Left = 64
+        Height = 24
+        Top = 2
+        Width = 118
+      end
+    end
+    object pnlFooter: TPanel
+      Align = alBottom
+      Anchors = [akLeft, akRight]
+      Caption = 'pnlFooter'
+      ClientHeight = 30
+      ClientWidth = 349
+      FullRepaint = False
+      TabOrder = 4
+      TabStop = True
+      Height = 30
+      Top = 385
+      Width = 349
+    end
+  end
+end

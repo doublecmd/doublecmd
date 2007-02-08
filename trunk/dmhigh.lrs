@@ -1,0 +1,30 @@
+{ This is an automatically generated lazarus resource file }
+
+LazarusResources.Add('TdmHighl','FORMDATA',[
+  'TPF0'#8'TdmHighl'#7'dmHighl'#8'OnCreate'#7#13'dmHighlCreate'#9'OnDestroy'#7
+  +#14'dmHighlDestroy'#6'Height'#3','#1#16'HorizontalOffset'#3#192#1#14'Vertica'
+  +'lOffset'#3#218#0#5'Width'#3#144#1#0#10'TSynPasSyn'#10'SynPasSyn1'#7'Enabled'
+  +#8#4'left'#2'*'#3'top'#2'B'#0#0#10'TSynCppSyn'#10'SynCppSyn1'#13'DefaultFilt'
+  +'er'#6'3C++ Files (*.c,*.cpp,*.h,*.hpp)|*.c;*.cpp;*.h;*.hpp'#7'Enabled'#8#4
+  +'left'#2'*'#3'top'#2'h'#0#0#11'TSynJavaSyn'#11'SynJavaSyn1'#13'DefaultFilter'
+  +#6#26'Java Files (*.java)|*.java'#7'Enabled'#8#4'left'#2')'#3'top'#3#151#0#0
+  +#0#11'TSynHTMLSyn'#11'SynHTMLSyn1'#13'DefaultFilter'#6')HTML Document (*.htm'
+  +',*.html)|*.htm;*.html'#7'Enabled'#8#4'left'#2'*'#3'top'#3#184#0#0#0#10'TSyn'
+  +'XMLSyn'#10'SynXMLSyn1'#16'WantBracesParsed'#8#13'DefaultFilter'#6'LXML Docu'
+  +'ment (*.xml,*.xsd,*.xsl,*.xslt,*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd'#7'Ena'
+  +'bled'#8#4'left'#2'*'#3'top'#3#224#0#0#0#10'TSynLFMSyn'#10'SynLFMSyn1'#13'De'
+  +'faultFilter'#6' Lazarus Form Files (*.lfm)|*.lfm'#7'Enabled'#8#4'left'#2')'
+  +#3'top'#3#0#1#0#0#22'TSynUNIXShellScriptSyn'#22'SynUNIXShellScriptSyn1'#13'D'
+  +'efaultFilter'#6#30'UNIX Shell Scripts (*.sh)|*.sh'#7'Enabled'#8#4'left'#2'U'
+  +#3'top'#3#224#0#0#0#10'TSynPHPSyn'#10'SynPHPSyn1'#13'DefaultFilter'#6'APHP F'
+  +'iles (*.php,*.php3,*.phtml,*.inc)|*.php;*.php3;*.phtml;*.inc'#7'Enabled'#8#4
+  +'left'#2'U'#3'top'#2'B'#0#0#10'TSynTeXSyn'#10'SynTeXSyn1'#13'DefaultFilter'#6
+  +#23'TeX Files (*.tex)|*.tex'#7'Enabled'#8#4'left'#2'U'#3'top'#2'h'#0#0#10'TS'
+  +'ynSQLSyn'#10'SynSQLSyn1'#10'SQLDialect'#7#9'sqlSybase'#13'DefaultFilter'#6
+  +#23'SQL Files (*.sql)|*.sql'#7'Enabled'#8#4'left'#2'U'#3'top'#3#151#0#0#0#12
+  +'TSynMultiSyn'#12'SynMultiSyn1'#7'Schemes'#14#0#7'Enabled'#8#4'left'#2'U'#3
+  +'top'#3#185#0#0#0#11'TSynPerlSyn'#11'SynPerlSyn1'#13'DefaultFilter'#6',Perl '
+  +'Files (*.pl,*.pm,*.cgi)|*.pl;*.pm;*.cgi'#7'Enabled'#8#4'left'#2'X'#3'top'#3
+  +#0#1#0#0#10'TSynCssSyn'#10'SynCssSyn1'#13'DefaultFilter'#6'#Cascading Styles'
+  +'heets (*.css)|*.css'#7'Enabled'#8#4'left'#2':'#3'top'#3'0'#1#0#0#0
+]);

@@ -1,0 +1,260 @@
+object OneButtonChangeDlg: TOneButtonChangeDlg
+  ActiveControl = id_btn_command
+  BorderIcons = []
+  BorderStyle = bsDialog
+  Caption = 'Change single button'
+  ClientHeight = 240
+  ClientWidth = 533
+  Font.Color = clBtnText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  PixelsPerInch = 96
+  Position = poScreenCenter
+  TextHeight = 13
+  HorzScrollBar.Page = 532
+  VertScrollBar.Page = 239
+  Left = 349
+  Height = 240
+  Top = 436
+  Width = 533
+  HelpContext = 270
+  Tag = 1
+  object Command: TLabel
+    AutoSize = False
+    Caption = '&Command:'
+    Color = clNone
+    FocusControl = id_btn_command
+    ParentColor = False
+    Left = 4
+    Height = 14
+    Top = 7
+    Width = 80
+    Tag = 9
+  end
+  object Parameters: TLabel
+    AutoSize = False
+    Caption = '&Parameters:'
+    Color = clNone
+    FocusControl = id_btn_param
+    ParentColor = False
+    Left = 4
+    Height = 14
+    Top = 35
+    Width = 80
+    Tag = 10
+  end
+  object Startpath: TLabel
+    AutoSize = False
+    Caption = '&Start path:'
+    Color = clNone
+    FocusControl = id_btn_startpath
+    ParentColor = False
+    Left = 4
+    Height = 14
+    Top = 60
+    Width = 80
+    Tag = 11
+  end
+  object Iconfile: TLabel
+    AutoSize = False
+    Caption = 'Icon &file:'
+    Color = clNone
+    FocusControl = id_btn_iconfilename
+    ParentColor = False
+    Left = 4
+    Height = 13
+    Top = 85
+    Width = 80
+    Tag = 12
+  end
+  object Icon: TLabel
+    AutoSize = False
+    Caption = '&Icon:'
+    Color = clNone
+    FocusControl = id_btn_icon
+    ParentColor = False
+    WordWrap = True
+    Left = 4
+    Height = 14
+    Top = 110
+    Width = 45
+    Tag = 13
+  end
+  object id_btn_iconindex: TLabel
+    AutoSize = False
+    Caption = '0'
+    Color = clNone
+    ParentColor = False
+    WordWrap = True
+    Left = 54
+    Height = 14
+    Top = 110
+    Width = 25
+  end
+  object Tooltip: TLabel
+    AutoSize = False
+    Caption = '&Tooltip:'
+    Color = clNone
+    FocusControl = id_btn_ToolTip
+    ParentColor = False
+    Left = 4
+    Height = 14
+    Top = 167
+    Width = 80
+    Tag = 14
+  end
+  object id_btn_command: TComboBox
+    AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+    DropDownCount = 20
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    ItemHeight = 13
+    MaxLength = 0
+    TabOrder = 0
+    Left = 85
+    Height = 21
+    Top = 6
+    Width = 298
+  end
+  object id_btn_find1: TButton
+    BorderSpacing.InnerBorder = 2
+    Caption = '>>'
+    OnClick = id_btn_find1Click
+    TabOrder = 1
+    Left = 384
+    Height = 22
+    Top = 5
+    Width = 25
+  end
+  object id_btn_findbar: TButton
+    BorderSpacing.InnerBorder = 2
+    Caption = 'Add Subbar >>'
+    TabOrder = 2
+    Left = 412
+    Height = 23
+    Top = 4
+    Width = 110
+    Tag = 15
+  end
+  object id_btn_param: TKASEdit
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    MaxLength = 259
+    TabOrder = 3
+    Left = 85
+    Height = 21
+    Top = 31
+    Width = 298
+  end
+  object id_btn_assymbol: TCheckBox
+    Caption = 'Run mi&nimized'
+    TabOrder = 4
+    Left = 387
+    Height = 13
+    Top = 34
+    Width = 94
+    Tag = 16
+  end
+  object id_btn_startpath: TKASEdit
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    MaxLength = 259
+    TabOrder = 6
+    Left = 85
+    Height = 21
+    Top = 56
+    Width = 298
+  end
+  object id_btn_iconfilename: TKASEdit
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    MaxLength = 259
+    TabOrder = 7
+    Left = 85
+    Height = 21
+    Top = 81
+    Width = 298
+  end
+  object id_btn_iconfile: TButton
+    BorderSpacing.InnerBorder = 2
+    Caption = '>>'
+    OnClick = id_btn_iconfileClick
+    TabOrder = 8
+    Left = 384
+    Height = 21
+    Top = 81
+    Width = 25
+  end
+  object id_btn_icon: TListBox
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    ItemHeight = 36
+    Style = lbOwnerDrawFixed
+    TabOrder = 9
+    Left = 85
+    Height = 54
+    Top = 106
+    Width = 298
+  end
+  object id_btn_ToolTip: TKASEdit
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    MaxLength = 259
+    TabOrder = 10
+    Left = 85
+    Height = 21
+    Top = 164
+    Width = 298
+  end
+  object Ok: TButton
+    BorderSpacing.InnerBorder = 2
+    Caption = 'OK'
+    Default = True
+    OnClick = OkClick
+    TabOrder = 11
+    Left = 420
+    Height = 23
+    Top = 110
+    Width = 100
+    Tag = 4001
+  end
+  object Cancel: TButton
+    BorderSpacing.InnerBorder = 2
+    Cancel = True
+    Caption = 'Cancel'
+    ModalResult = 2
+    OnClick = CancelClick
+    TabOrder = 12
+    Left = 420
+    Height = 23
+    Top = 136
+    Width = 100
+    Tag = 4002
+  end
+  object id_Globalhelp: TButton
+    BorderSpacing.InnerBorder = 2
+    Caption = '&Help'
+    TabOrder = 13
+    Left = 420
+    Height = 23
+    Top = 162
+    Width = 100
+    Tag = 4003
+  end
+  object id_btn_maximized: TCheckBox
+    Caption = 'Run ma&ximized'
+    TabOrder = 5
+    Left = 387
+    Height = 13
+    Top = 50
+    Width = 97
+    Tag = 17
+  end
+  object OpenDialog: TOpenDialog
+    Title = 'Открыть существующий файл'
+    FilterIndex = 0
+    Title = 'Открыть существующий файл'
+    left = 32
+    top = 496
+  end
+end

@@ -1,0 +1,360 @@
+;formát souboru:
+; ID:øetìzec
+; Pokud je první znak ; pak je celý øádek brán jako poznámka
+; jazykový soubor èestiny pro program seksi commander
+; autor: radek.cervinka@centrum.cz
+; realizováno pod licencí GNU GPL 2
+; pøispìli:
+; * Pavel Letko (1330-1367),(2200-2211),(2220-2232)
+; The Fox (thefox@pobox.sk   http://www.tfden.host.sk) (malé úpravy)
+
+1:Nemohu smazat soubor %s.
+2:Soubor %s existuje, pøepsat?
+3:Soubor %s byl zmìnìn, ulo¾it?
+4:Nový soubor
+5:Smazat %d vybraných souborù/adresáøù?
+6:Smazat vybraný "%s"?
+7:Kopírovat %d vybraných souborù/adresáøù?
+8:Kopírovat vybraný "%s"?
+9:Pøejmenovat/pøesunout %d vybraných souborù/adresáøù?
+10:Pøejmenovat/pøesunout vybraný "%s"?
+11:Nemohu vytvoøit adresáø %s!
+12:Vybráno %s z %s v %d z %d souborù
+13:&Pøidat %s
+14:&Konfigurovat
+15:&OK;&Ne;&Ano;&Zru¹it;®á&dný;Pøipo&jit;&Pøepsat;Pøepsat &v¹e;Pøe&skoèit;Pøes&koèit v¹e; V¹e;
+16:Poèet souborù:%d, adresáøù:%d, Velikost: %d bajtù
+17:Vyberte adresáø
+18:Maska výbìru
+19:Maska odstranìní
+20:Zadejte masku:
+21:Volných %s z %s bajtù
+22:Adresáø %s ji¾ existuje!
+30:&Ulo¾it pozici
+31:Pozice ulo¾ena.
+
+; buttons
+980:&Start
+981:&Zru¹it
+982:Za&vøít
+983:&Stop
+984:&Pøeskoèit
+985:&V¹e
+986:&Najít
+
+
+; fMain.pas
+; Actions Captions
+1000:Konec
+1001:Zobrazit F3
+1002:Upravit F4
+1003:Kopírovat F5
+1004:Pøejmenovat F6
+1005:VytvoøAdr F7
+1006:Smazat F8
+1007:Menu F9
+1008:&Vícenásobné pøejmenování
+1009:Spustit &Terminál
+
+;Column in TListView
+1020:Jméno
+1021:Pøípona
+1022:Velikost
+1023:Datum
+1024:Attr
+
+; Menu
+;File
+1040:&Soubory
+1041:Vytvoø &Link...
+1042:Vytvoø S&ymbolický Link...
+1043:Zmìna &Atributù...
+1044:&Vlastnosti...
+1045:Spoèítat &Obsazené Místo...
+1046:&Rozdìlit Soubor...
+1047:S&pojit Soubory...
+1048:&Zobrazovat Systémové Soubory
+1049:Porovnat &dle obsahu
+1050:Zmìna &vlastníka/skupiny
+
+;Mark
+1060:&Výbìr
+1061:Vybrat &Skupinu...
+1062:&Odvybrat Skupinu...
+1063:V&ybrat V¹e
+1064:O&dvybrat V¹e
+1065:&Invertovat Výbìr
+1066:&Porovnat Adresáøe
+
+;Commands
+1080:&Pøíkazy
+1081:&Najít...
+1082:&Oblíbené adresáøe
+1083:Zdroj &<-> Cíl
+1084:Zdroj &= Cíl
+
+;Show
+1100:&Zobrazení
+1101:dle &Jména
+1102:dle &Pøípony
+1103:dle &Velikosti
+1104:dle Da&tum a Èasu
+1105:dle &Atributù
+1106:&Opaèné Poøadí
+1107:Znovu &Naèíst
+
+;Configuration
+1120:K&onfigurace
+1121:&Mo¾nosti...
+
+;Help
+
+1140:&Nápovìda
+1141:&O Programu
+
+;dlg Options
+1160:Mo¾nosti
+1161:Výbìr jazyka
+1162:Terminál
+1163:Vybrat adresáøe keypadem
+1164:Pohyb jako v Lynxu
+1165:Tøídit s citlivostí (case)
+1166:Zkracený formát délek souborù
+1167:Chování
+1168:Nástroje
+1169:Externí editor
+1170:Externí prohlí¾eè
+1171:Externí differ
+1172:Spustit term
+1173:Fonty
+1174:Hlavní font
+1175:Font editoru
+1176:Font prohlí¾eèe
+1177:Oddìlit pøíponu
+
+;MkDirDlg
+1180:Vytvoøení adresáøe
+1181:Zadejte jméno nového adresáøe
+
+;CopyDlg
+1200:Kopírování souborù
+;1201:Kopírovat %s:
+1202:Jen typu:
+
+;MoveDlg
+1220:Pøesun souborù
+;1221:Pøesunout %s:
+1222:Jen typu:
+1223:Smazat soubor(y)
+
+;Editor & Viewer
+1240:&Soubor
+1241:&Pøedchozí
+1242:&Následující
+1243:&Konec
+1245:Zvýraznìní &syntaxe
+1246:&Nový
+1247:&Otevøít
+1248:&Ulo¾it
+1249:Ulo¾it &jako...
+1250:&Editace
+1251:&Zpìt
+1252:&Vyøíznout
+1253:&Kopírovat
+1254:V&lo¾it
+1255:&Najít...
+1256:Na&hradit...
+1257:&Obrázek
+1258:&Roztáhnout
+1259:Uka¾ jako &Text
+1260:Uka¾ jako &Bin
+1261:Uka¾ jako &Hex
+1262:Uka¾ jako &Zalomený text
+1263:Zobrazit
+1264:O Vieweru...
+1265:Viewer - èást Seksi Commanderu, (C)opyright Radek Èervinka (GNU GPL 2)
+1266:Hledat
+;viewer find dialog
+1267:Vyhledat
+1268:Citlivost malé/velké
+1269:&Zpracuj soubor
+1270:&Grafika
+1271:&Kopirovat do schránky
+1272:Vybrat &V¹e
+
+; find dialog
+1280:Hledání souborù
+1281:Standardní
+1282:Advanced
+1283:Adresáø
+1284:Maska
+1285:Hledat v souboru
+1286:Data pro hledání
+1287:S citlivostí
+1288:Adresáø %s neexistuje!
+1289:Kde zaèít
+1290:Zobraz v prohlí¾eèi
+1291:Prozkoumáno: %d
+
+; multirename dialog
+1330:Pùvodní název
+1331:Výsledný název
+1332:Cesta k souboru
+1333:Jméno...
+1334:[N]Jméno
+1335:[Nx]Jméno
+1336:[Nx:x]Jméno
+1337:Pøípona...
+1338:[E]Pøípona
+1339:[Ex]Pøípona
+1340:[Ex:x]Pøípona
+1341:[C]Èíslování
+1342:Èas...
+1343:[Y]Rok
+1344:[Mo]Mìsíc
+1345:[D]en
+1346:[H]odina
+1347:[Mi]nuta
+1348:[S]ekunda
+1349:Ulo¾ záznam
+1350:Maska
+1351:Jméno souboru
+1352:Pøípona souboru
+1353:Najdi a nahraï
+1354:Najít co...
+1355:Nahradit èím...
+1356:Èíslování
+1357:Poè. èíslo
+1358:Interval
+1359:Poè. míst
+1360:Tvar jména
+1361:beze zmìn
+1362:V©ECHNA VELKÁ
+1363:v¹echna malá
+1364:První velké
+1365:Logování zmìn
+1366:Logovat
+1367:Obnov v¹e
+
+;Attr dialog
+1500:Zmìna módu
+1501:Vlastník
+1502:Skupina
+1503:Jiní
+1504:Ètení
+1505:Zápis
+1506:Provádìní
+1507:Textovì:
+
+;symlink dialog
+1520:Vytvoøení symbolického odkazu
+1521:Existující místo (kam bude link ukazovat)
+1522:Jméno linku
+1523:Chyba pøi vytváøení symlinku.
+
+;HardLinkDialog
+1530:Vytvoøení hardlinku
+1531:Existující místo (kam bude link ukazovat)
+1532:Jméno linku
+1533:Chyba pøi vytváøení hardlinku.
+
+;Shift+F4
+1540:novy.txt
+1541:Otevøít soubor
+1542:Jméno souboru:
+
+;search & replace in editor
+1560:Najít
+1561:Nahradit
+1562:Hledat:
+1563:Nahradit:
+1564:&Dopøedu
+1565:D&ozadu
+1566:&Rozli¹ovat malé/velké
+1567:Jen &celá slova
+1568:Zaèít od &kurzoru
+1569:Jen &vybraný text
+
+;chown/chgrp dialog
+1580:Zmìna vlastníka/skupiny
+1581:Vlastník
+1582:Skupina
+
+1600:&Konfigurace
+1601:Konfigurace editoru
+1602:Ukázka
+1603:&Bold
+1604:&Kurzíva
+1605:Pod&tr¾ení
+1606:&Pøe¹krtnutí
+1607:Pøeddefinované
+1608:%s nahrán v poøádku.
+
+;File/Directory properties
+2000:Vlastnosti
+2001:Ano (%s)
+2002:Ne
+2003:Zavøít
+2004:Dal¹í
+2005:Soubor
+2006:Adresáø
+2007:Speciální blokové zaøízení
+2008:Speciální znakové zaøízení
+2009:Pojmenovaná roura
+2010:Symbolický odkaz
+2011:Socket
+2012:Neznamý typ
+
+2013:Ètení
+2014:Zápis
+2015:Spou¹tìní
+2016:UID po spu¹tìní
+2017:GID po spu¹tìní
+2018:Sticky bit
+
+2020:Jméno:
+2021:Cesta:
+2022:Typ:
+2023:Velikost:
+2024:Poslední pøístup:
+2025:Poslední zmìna:
+2026:Poslední zmìna vlastností:
+2027:Vlastník:
+2028:Skupina:
+2029:Odkaz:
+2030:Atributy
+2031:Ostatní:
+2032:Bity:
+2033:Alternativní reprezentace:
+
+;Compare by content Dialog
+2101:Poèet zmìn:
+
+;Linker
+2200:Jméno souboru
+2201:Konec
+2202:Proveï
+2203:Polo¾ka
+2204:Sma¾
+2205:Dolù
+2206:Na spod
+2207:Nahoru
+2208:Na vrch
+2209:Ulo¾ jako
+2210:Ulo¾ v¹e
+2211:Úspì¹nì provedeno
+
+;Splitter
+2220:Konec
+2221:Proveï
+2222:Jméno souboru
+2223:Cílový adresáø
+2224:Zdrojový soubor
+2225:Velikost souboru
+2226:Informaèní tabule
+2227:Nesprávnì zadaná velikost souboru!
+2228:Nepovedlo se vytvoøit cílový adresáø!
+2229:Nepovedlo se rozdìlit zdrojový soubor!
+2230:Vytvoøen:
+2231:velikost:
+2232:Vyberte adresáø:

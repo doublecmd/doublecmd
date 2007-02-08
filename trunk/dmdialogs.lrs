@@ -1,0 +1,8 @@
+{ This is an automatically generated lazarus resource file }
+
+LazarusResources.Add('TdmDlg','FORMDATA',[
+  'TPF0'#6'TdmDlg'#5'dmDlg'#6'Height'#3','#1#16'HorizontalOffset'#3'x'#1#14'Ver'
+  +'ticalOffset'#3#238#0#5'Width'#3#144#1#0#11'TOpenDialog'#10'OpenDialog'#11'F'
+  +'ilterIndex'#2#0#4'left'#2'A'#3'top'#2'H'#0#0#11'TSaveDialog'#10'SaveDialog'
+  +#11'FilterIndex'#2#0#4'left'#2'A'#3'top'#2'h'#0#0#0
+]);

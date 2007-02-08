@@ -1,0 +1,13 @@
+# this is color file for Seksi commander
+# format of file
+# each line is one ext + color
+# ext: color
+# lines started with # or black lines are ignored
+# format of color is xxbbggrr
+# where xx can be:
+# 00  - color is the closest matching color in system palette
+# 01  -                                        active palette
+# 02  -                                        logical palette
+# rr, gg, bb is hex value of RGB  
+# warning:selected items are $000000ff - red 
+pas: $0000ff00

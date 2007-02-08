@@ -1,0 +1,86 @@
+object frmMoveDlg: TfrmMoveDlg
+  ActiveControl = btnOK
+  Caption = 'frmMoveDlg'
+  ClientHeight = 147
+  ClientWidth = 345
+  KeyPreview = True
+  OnKeyPress = frmMoveDlgKeyPress
+  OnShow = frmMoveDlgShow
+  PixelsPerInch = 78
+  Position = poScreenCenter
+  TextHeight = 16
+  HorzScrollBar.Page = 344
+  HorzScrollBar.Range = 337
+  VertScrollBar.Page = 146
+  VertScrollBar.Range = 145
+  Left = 447
+  Height = 147
+  Top = 344
+  Width = 345
+  object lblMoveSrc: TLabel
+    Caption = 'lblMoveSrc'
+    Color = clNone
+    ParentColor = False
+    Left = 8
+    Height = 13
+    Top = 8
+    Width = 65
+  end
+  object lblFileType: TLabel
+    Caption = 'lblFileType'
+    Color = clNone
+    ParentColor = False
+    Left = 8
+    Height = 13
+    Top = 64
+    Width = 63
+  end
+  object btnOK: TBitBtn
+    Anchors = [akTop, akRight]
+    BorderSpacing.InnerBorder = 2
+    Caption = '&OK'
+    Default = True
+    Kind = bkOK
+    ModalResult = 1
+    NumGlyphs = 0
+    TabOrder = 0
+    Left = 170
+    Height = 23
+    Top = 120
+    Width = 75
+  end
+  object btnCancel: TBitBtn
+    Anchors = [akTop, akRight]
+    BorderSpacing.InnerBorder = 2
+    Cancel = True
+    Caption = 'Cancel'
+    Kind = bkCancel
+    ModalResult = 2
+    NumGlyphs = 0
+    TabOrder = 1
+    Left = 260
+    Height = 23
+    Top = 120
+    Width = 75
+  end
+  object edtDst: TEdit
+    TabOrder = 2
+    Text = 'edtDst'
+    Left = 8
+    Height = 24
+    Top = 32
+    Width = 329
+  end
+  object cmbFileType: TComboBox
+    AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+    Enabled = False
+    ItemHeight = 18
+    MaxLength = 0
+    ParentCtl3D = False
+    TabOrder = 3
+    Left = 8
+    Height = 24
+    Top = 88
+    Width = 329
+  end
+end

@@ -1,0 +1,10 @@
+object dmCommander: TdmCommander
+  Height = 300
+  HorizontalOffset = 461
+  VerticalOffset = 217
+  Width = 400
+  object imgList: TImageList
+    left = 75
+    top = 120
+  end
+end

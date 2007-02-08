@@ -1,0 +1,361 @@
+;format pliku:
+; ID:Napis
+; je¶li pierwszym znakiem jest ; to ca³a linia jest komentarzem
+; polski plik jêzykowy programu seksi commander
+; autor programu: radek.cervinka@centrum.cz
+; autor tego pliku: dominz@wp.pl
+; opublikowany na licencji GNU GPL 2
+
+1:Nie mo¿na usun±æ pliku %s
+2:Plik %s istnieje, nadpisaæ?
+3:Plik %s zosta³ zmieniony, zapisaæ?
+4:Nowy plik
+5:Usun±æ %d zaznaczonych plików/katalogów?
+6:Usun±æ zaznaczony "%s"?
+7:Skopiowaæ %d zaznaczonych plików/katalogów?
+8:Skopiowaæ zaznaczony "%s"?
+9:Zmieniæ nazwê/przenie¶æ %d zaznaczonych plików/katalogów?
+10:Zmieniæ nazwê/przenie¶æ zaznaczony "%s"?
+11:Nie mo¿na utworzyæ katalogu %s!
+12:Zaznaczono %s z %s w %d z %d plików
+13:&Dodaj %s
+14:&Ustawienia
+15:&Tak;&Nie;&Tak;&Anuluj;&¯aden;&Do³±cz;&Nadpisz;Nadpisz &Wszystkie;&Pomiñ;P&omiñ wszystkie;Wszystkie;
+16:Plików:%d, katalogów:%d, rozmiar: %d bajtów
+17:Wybierz katalog 
+18:Wzorzec zaznaczenia
+19:Wzorzec odznaczenia
+20:Podaj wzorzec:
+21:Wolnych %s z %s bajtów
+22:Katalog %s istnieje!
+30:&Save position
+31:Position saved.
+
+; buttons
+980:&Start
+981:&Anuluj
+982:Z&amknij
+983:&Zatrzymaj
+984:Pomi&ñ
+985:&Wszystkie
+986:&Znajd¼
+
+; fMain.pas
+; Actions Captions
+1000:Wyj¶cie
+1001:Podgl±d F3
+1002:Edycja F4
+1003:Kopiuj F5
+1004:Zm.Nazwê F6
+1005:Utw.Kat. F7
+1006:Usuñ F8
+1007:Menu F9
+1008:Narzêdzie &wielokrotnej zamiany
+1009:Uruchom &terminal
+
+;Column in TListView
+1020:Nazwa
+1021:Rozsz.
+1022:Rozmiar
+1023:Data
+1024:Atr.
+
+; Menu
+;File
+1040:&Plik
+1041:Utwórz &dowi±zanie...
+1042:Utwórz dowi±zanie &Symb...
+1043:&Zmieñ atrybuty...
+1044:&W³a¶ciwo¶ci...
+1045:Oblicz &zajmowane miejsce...
+1046:&Podziel plik...
+1047:&Po³±cz pliki...
+1048:&Poka¿ pliki systemowe
+1049:Porównywanie zawarto¶ci
+1050:Zmieñ &w³a¶ciciela/grupê
+
+;Mark
+1060:&Zaznaczenie
+1061:Zaznacz &grupê...
+1062:&Odznacz grupê...
+1063:&Zaznacz wszystkie
+1064:O&dznacz wszystkie
+1065:&Odwróæ zaznaczenie
+1066:&Porównaj katalogi
+
+;Commands
+1080:&Polecenia
+1081:&Szukaj...
+1082:Podrêczna lista &katalogów
+1083:¬ród³owy &<-> docelowy
+1084:Docelowy &= ¼ród³owy
+
+;Show
+1100:&Widok
+1101:&Nazwa
+1102:&Rozszerzenie
+1103:&Rozmiar
+1104:Data i &czas
+1105:&Atrybuty
+1106:Odwrotna &kolejno¶æ
+1107:&Od¶wie¿
+
+;Configuration
+1120:U&stawienia
+1121:&Opcje...
+
+;Help
+
+1140:&Pomoc
+1141:&O Programie
+
+;dlg Options
+1160:Opcje
+1161:Wybierz jêzyk
+1162:Terminal
+1163:Wybór katalogu klawiatur± numeryczn±
+1164:Poruszanie siê jak w Lynx
+1165:Sortuj±c uwzgl. wielko¶æ liter
+1166:Wielko¶æ pliku w krótkim formacie
+1167:Zachowanie
+1168:Narzêdzia
+1169:Zewnêtrzny edytor
+1170:Zewnêtrzny podgl±d
+1171:Zewnêtrzny diff
+1172:Uruchom term
+1173:Czcionki
+1174:G³ówna
+1175:Edytor
+1176:Podgl±d
+1177:Rozszerzenie pliku osobno
+
+;MkdirDlg
+1180:Utwórz katalog
+1181:Podaj nazwê katalogu
+
+
+;CopyDlg
+1200:Kopiuj plik(i)
+;1201:Kopiuj %s:
+1202:Tylko typu:
+
+;MoveDlg
+1220:Przesuñ plik(i)
+;1221:Przesuñ %s:
+1222:Tylko typu:
+1223:Usuñ plik(i)
+
+;Editor & Viewer
+1240:&Plik
+1241:&Poprzedni
+1242:&Nastêpny
+1243:W&yj¶cie
+1245:&Wyró¿nianie sk³adni
+1246:&Nowy
+1247:&Otwórz
+1248:&Zapisz
+1249:Zapisz &Jako...
+1250:&Edytuj
+1251:&Cofnij
+1252:Wy&tnij
+1253:&Kopiuj
+1254:&Wklej
+1255:&Znajd¼...
+1256:&Zamieñ...
+1257:&Obraz
+1258:&Rozci±gnij
+1259:Poka¿ jako &Tekst
+1260:Poka¿ jako &Bin
+1261:Poka¿ jako &Hex
+1262:Poka¿ jako &Zawiniêty Tekst
+1263:Widok
+1264:O przegl±darce...
+1265:Przegl±darka - czê¶æ Seksi Commandera, (C)opyright Radek Cervinka (GNU GPL 2)
+1266:Szukaj
+;viewer find dialog
+1267:Znajd¼
+1268:Uwzglêdnij wielko¶æ liter
+1269:&Przetwarzaj plik
+1270:&Grafika
+1271:&Kopiuj do schowka
+1272:Zaznacz &wszystko
+
+; find dialog
+1280:Znajd¼ pliki
+1281:Zwyk³e
+1282:Zaawansowane
+1283:Adres
+1284:Wzorzec
+1285:Znajd¼ w pliku
+1286:Znajd¼ tekst
+1287:Uwzglêdnij wielko¶c liter
+1288:Katalog %s nie istnieje!
+; Nasledujucim som si nie isty...
+1289:Rozpocznij od
+1290:Poka¿ w przegl±darce
+1291:Przeszukano: %d
+
+; multirename dialog
+1330:Obecna nazwa pliku
+1331:Nowa nazwa pliku
+1332:¦cie¿ka do pliku
+1333:Nazwa...
+1334:[N]Nazwa
+1335:[Nx]Nazwa
+1336:[Nx:x]Nazwa
+1337:Rozszerzenie...
+1338:[E]Rozszerzenie
+1339:[Ex]Rozszerzenie
+1340:[Ex:x]Rozszerzenie
+1341:[C]Licznik
+1342:Czas...
+1343:[Y]Rok
+1344:[Mo]Miesi±c
+1345:[D]Dzieñ
+1346:[H]Godzina
+1347:[Mi]Minuta
+1348:[S]ekunda
+1349:Zapisz dziennik
+1350:Wzorzec
+1351:Nazwa pliku
+1352:Rozszerzenie
+1353:Znajd¼ &i zamieñ
+1354:Znajd¼...
+1355:Zamieñ...
+1356:Licznik
+1357:Numer pocz±tkowy
+1358:Interwa³
+1359:Rozmiar(?)
+1360:Rozmiar nazwy pliku
+1361:bez zmiany
+1362:WIELKIMI LITERAMI
+1363:ma³ymi literami
+1364:Kapitaliki
+1365:Zapisz zmiany w dzienniku
+1366:Dziennik
+1367:Przywróæ wszystkie
+
+;Attr dialog
+1500:ChMod(?)
+1501:W³a¶ciciel
+1502:Grupa
+1503:Inni
+1504:Odczyt
+1505:Zapis
+1506:Wykonanie
+1507:W tek¶cie:
+
+;SymLinkDialog
+1520:Utwórz dowi±zanie symboliczne
+1521:Istniej±ce przeznaczenie (na które bêdzie wskazywaæ dowi±zanie)
+1522:Nazwa dowi±zania
+1523:B³±d przy tworzeniu dowi±zania.
+
+;HardLinkDialog
+1530:Utwórz dowi±zanie twarde
+1531:Istniej±ce przeznaczenie (na które bêdzie wskazywaæ dowi±zanie)
+1532:Nazwa dowi±zania
+1533:B³±d przy tworzeniu dowi±zania.
+
+;Shift+F4
+1540:nowy.txt
+1541:Otwórz plik
+1542:Nazwa pliku:
+
+;search & replace in editor
+1560:Znajd¼
+1561:Zamieñ
+1562:Zamieñ na(?for):
+1563:Replace z(?with):
+1564:&Naprzód
+1565:&Wstecz
+1566:&Uwzglêdniaj wielko¶c liter
+1567:&Tylko ca³e s³owa
+1568:Szukaj &od kursora
+1569:&Tylko w zaznaczonym tek¶cie
+
+;chown/chgrp dialog
+1580:Zmieñ W³a¶ciciela/Grupê
+1581:W³a¶ciciel
+1582:Grupa
+
+1600:&Ustawienia
+1601:Ustawienia Edytora
+1602:Przyk³ad
+1603:&Pogrubienie
+1604:&Kursywa
+1605:Po&dkre¶lenie
+1606:P&rzekre¶lenie
+1607:Przedefiniowane(?)
+1608:%s za³adowano pomy¶lnie.
+
+;File/Directory properties
+2000:W³a¶ciwo¶ci
+2001:Tak (%s)
+2002:Nie
+2003:Zamknij
+2004:Nastepny
+2005:Plik
+2006:Katalog
+2007:Specjalne urz±dzenie blokowe
+2008:Specjalne urz±dzenie znakowe
+2009:Nazwany potok
+2010:Dowi±zanie symboliczne
+2011:Gniazdo
+2012:Nieznany typ pliku
+
+2013:Odczyt
+2014:Zapis
+2015:Wykonanie
+2016:UID przy wykonaniu
+2017:GID przy wykonaniu
+2018:Bit sticky(?)
+
+2020:Nazwa:
+2021:¦cie¿ka:
+2022:Typ:
+2023:Wielko¶æ:
+2024:Ostatni dostêp:
+2025:Ostatnia zmiana:
+2026:Ostatnia zmiana statusu:
+2027:W³a¶ciciel:
+2028:Grupa:
+2029:Dow. Symboliczne:
+2030:Attrybuty
+2031:Inne:
+2032:Bity:
+2033:Alternatywna reprezentacja:
+
+;Compare by content Dialog
+2101:Liczba zmian:
+
+;Linker
+2200:Nazwa pliku
+2201:Wyj¶cie
+2202:OK
+2203:Element
+2204:Usuñ
+2205:W dó³
+2206:Na spód
+2207:W górê
+2208:Na wierzch
+2209:Zapisz jako...
+2210:Zapisz wszystkie
+2211:£±czenie ukoñczone
+
+;Splitter
+2220:Wyj¶cie
+2221:OK
+2222:Nazwa pliku
+2223:Katalog docelowy
+2224:Plik ¼ród³owy
+2225:Rozmiar pliku
+2226:Watchtower
+2227:B³êdnie podany rozmiar pliku!
+2228:Nie mo¿na utworzyæ katalogu docelowego!
+2229:Nie moge podzieliæ pliku
+2230:Utworzono:
+2231:rozmiar:
+2232:Wybierz katalog:
+
+

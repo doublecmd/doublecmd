@@ -1,0 +1,68 @@
+object frmHotDir: TfrmHotDir
+  ActiveControl = lsHotDir
+  Caption = 'frmHotDir'
+  ClientHeight = 423
+  ClientWidth = 411
+  Color = clBackground
+  TextHeight = 16
+  HorzScrollBar.Page = 412
+  HorzScrollBar.Range = 403
+  VertScrollBar.Page = 424
+  VertScrollBar.Range = 417
+  Left = 277
+  Height = 423
+  Top = 211
+  Width = 411
+  object lsHotDir: TListBox
+    TabOrder = 0
+    TopIndex = -1
+    Left = 8
+    Height = 409
+    Top = 8
+    Width = 305
+  end
+  object btnOK: TBitBtn
+    Kind = bkOK
+    ModalResult = 1
+    OnClick = btnOKClick
+    ModalResult = 1
+    Caption = '&OK'
+    TabOrder = 1
+    OnClick = btnOKClick
+    Left = 328
+    Height = 25
+    Top = 8
+    Width = 75
+  end
+  object btnCancel: TBitBtn
+    Kind = bkCancel
+    ModalResult = 2
+    ModalResult = 2
+    Caption = 'Cancel'
+    TabOrder = 2
+    Left = 328
+    Height = 25
+    Top = 128
+    Width = 75
+  end
+  object btnADD: TBitBtn
+    OnClick = btnADDClick
+    Caption = 'Add'
+    TabOrder = 3
+    OnClick = btnADDClick
+    Left = 328
+    Height = 25
+    Top = 48
+    Width = 75
+  end
+  object btnDelete: TBitBtn
+    OnClick = btnDeleteClick
+    Caption = 'Delete'
+    TabOrder = 4
+    OnClick = btnDeleteClick
+    Left = 328
+    Height = 25
+    Top = 88
+    Width = 75
+  end
+end

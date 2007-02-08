@@ -1,0 +1,181 @@
+object frmViewer: TfrmViewer
+  ActiveControl = ScrollBarVert
+  Caption = 'frmViewer'
+  KeyPreview = True
+  Menu = MainMenu
+  OnClose = frmViewerClose
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnKeyDown = frmViewerKeyDown
+  OnKeyPress = FormKeyPress
+  OnKeyUp = frmViewerKeyUp
+  PixelsPerInch = 96
+  Position = poScreenCenter
+  TextHeight = 16
+  HorzScrollBar.Page = 65535
+  VertScrollBar.Page = 65535
+  VertScrollBar.Range = 19
+  Height = 518
+  Top = 539
+  Width = 792
+  object Status: TStatusBar
+    Panels = <    
+      item
+        Width = 200
+      end    
+      item
+        Width = 70
+      end    
+      item
+        Width = 150
+      end    
+      item
+        Width = 50
+      end>
+    SimplePanel = False
+    Height = 23
+    Top = -23
+  end
+  object nbPages: TNotebook
+    Align = alClient
+    PageIndex = 0
+    ShowTabs = False
+    Top = -11
+    object pgText: TPage
+      Caption = 'pgText'
+      object ScrollBarVert: TScrollBar
+        Align = alRight
+        Anchors = [akTop, akRight]
+        Kind = sbVertical
+        Max = 1000
+        PageSize = 1
+        ParentCtl3D = False
+        Position = 50
+        TabOrder = 0
+        OnScroll = ScrollBarVertScroll
+        Left = -15
+        Width = 15
+      end
+      object ViewerControl: TViewerControl
+        Font.Height = -14
+        Font.Name = 'fixed'
+        Font.Pitch = fpFixed
+        Align = alClient
+        OnMouseWheelDown = ViewerControlMouseWheelDown
+        OnMouseWheelUp = ViewerControlMouseWheelUp
+        Cursor = crIBeam
+        Left = -7
+      end
+    end
+    object pgImage: TPage
+      Caption = 'pgImage'
+      object ScrollBox: TScrollBox
+        Align = alClient
+        ParentCtl3D = False
+        TabOrder = 0
+        TabStop = True
+        HorzScrollBar.Page = 787
+        VertScrollBar.Page = 467
+        Height = 468
+        Width = 788
+        object Image: TImage
+          Align = alClient
+          Transparent = True
+          Height = 468
+          Width = 788
+        end
+      end
+    end
+  end
+  object MainMenu: TMainMenu
+    left = 88
+    top = 8
+    object miFile: TMenuItem
+      Caption = '&File'
+      object miPrev: TMenuItem
+        Caption = '&Previous'
+        ShortCut = 80
+        OnClick = miPrevClick
+      end
+      object miNext: TMenuItem
+        Caption = '&Next'
+        ShortCut = 78
+        OnClick = miNextClick
+      end
+      object miSeparator: TMenuItem
+        Caption = '-'
+      end
+      object miSavePos: TMenuItem
+        Caption = '&Save Position'
+        OnClick = miSavePosClick
+      end
+      object N1: TMenuItem
+        Caption = '-'
+      end
+      object miExit: TMenuItem
+        Caption = 'E&xit'
+        OnClick = miExitClick
+      end
+    end
+    object miEdit: TMenuItem
+      Caption = '&Edit'
+      object miCopyToClipboard: TMenuItem
+        Caption = 'Copy To Clipboard'
+        OnClick = miCopyToClipboardClick
+      end
+      object miSelectAll: TMenuItem
+        Caption = 'Select All'
+        OnClick = miSelectAllClick
+      end
+    end
+    object miView: TMenuItem
+      Caption = '&View'
+      object miText: TMenuItem
+        Caption = 'Text'
+        OnClick = miTextClick
+      end
+      object miBin: TMenuItem
+        Caption = 'Bin'
+        OnClick = miBinClick
+      end
+      object miHex: TMenuItem
+        Caption = 'Hex'
+        OnClick = miHexClick
+      end
+      object miWrapText: TMenuItem
+        Caption = 'Wrap Text'
+        OnClick = miWrapTextClick
+      end
+      object miDiv2: TMenuItem
+        Caption = '-'
+      end
+      object miGraphics: TMenuItem
+        Caption = 'Graphics'
+        ShortCut = 54
+        OnClick = miGraphicsClick
+      end
+      object miDiv1: TMenuItem
+        Caption = '-'
+      end
+      object miSearch: TMenuItem
+        Caption = 'Search'
+        ShortCut = 114
+        OnClick = miSearchClick
+      end
+    end
+    object miImage: TMenuItem
+      Caption = '&Image'
+      object miStretch: TMenuItem
+        Caption = 'Stretch'
+        OnClick = miStretchClick
+      end
+    end
+    object miAbout: TMenuItem
+      Caption = 'About'
+      object miAbout2: TMenuItem
+        Caption = 'About '
+        OnClick = miAbout2Click
+      end
+    end
+  end
+end
