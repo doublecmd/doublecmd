@@ -1,0 +1,141 @@
+object frmLinker: TfrmLinker
+  ActiveControl = edSave
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'Linker'
+  ClientHeight = 347
+  ClientWidth = 315
+  PixelsPerInch = 96
+  HorzScrollBar.Page = 314
+  HorzScrollBar.Range = 289
+  VertScrollBar.Page = 346
+  VertScrollBar.Range = 331
+  Left = 513
+  Height = 347
+  Top = 252
+  Width = 315
+  object prbrWork: TProgressBar
+    Align = alBottom
+    Max = 100
+    TabOrder = 0
+    Height = 19
+    Top = 328
+    Width = 315
+  end
+  object gbSaveTo: TGroupBox
+    Caption = 'Save to...'
+    ClientHeight = 47
+    ClientWidth = 213
+    ParentCtl3D = False
+    TabOrder = 1
+    Height = 65
+    Top = 256
+    Width = 217
+    object lblFileName: TLabel
+      Caption = 'lblFileName'
+      Color = clNone
+      ParentColor = False
+      Left = 6
+      Height = 14
+      Top = 1
+      Width = 54
+    end
+    object edSave: TEdit
+      TabOrder = 0
+      Left = 6
+      Height = 24
+      Top = 17
+      Width = 168
+    end
+    object btnSave: TButton
+      BorderSpacing.InnerBorder = 2
+      Caption = '...'
+      OnClick = btnSaveClick
+      TabOrder = 1
+      Left = 182
+      Height = 25
+      Top = 17
+      Width = 25
+    end
+  end
+  object grbxControl: TGroupBox
+    Caption = 'Item'
+    ClientHeight = 231
+    ClientWidth = 84
+    ParentCtl3D = False
+    TabOrder = 2
+    Left = 224
+    Height = 249
+    Width = 88
+    object spbtnUp: TButton
+      BorderSpacing.InnerBorder = 2
+      Caption = 'Up'
+      OnClick = spbtnUpClick
+      ParentShowHint = False
+      TabOrder = 0
+      Left = 6
+      Height = 23
+      Hint = 'Up'
+      Top = 1
+      Width = 75
+    end
+    object spbtnDown: TButton
+      BorderSpacing.InnerBorder = 2
+      Caption = 'Down'
+      OnClick = spbtnDownClick
+      ParentShowHint = False
+      TabOrder = 1
+      Left = 6
+      Height = 23
+      Hint = 'Down'
+      Top = 33
+      Width = 75
+    end
+    object spbtnDel: TButton
+      BorderSpacing.InnerBorder = 2
+      Caption = 'Delete'
+      OnClick = spbtnDelClick
+      ParentShowHint = False
+      TabOrder = 2
+      Left = 6
+      Height = 23
+      Hint = 'Delete'
+      Top = 65
+      Width = 75
+    end
+  end
+  object btnOK: TButton
+    BorderSpacing.InnerBorder = 2
+    Caption = 'OK'
+    OnClick = btnOKClick
+    TabOrder = 3
+    Left = 227
+    Height = 25
+    Top = 262
+    Width = 88
+  end
+  object btnExit: TButton
+    BorderSpacing.InnerBorder = 2
+    Caption = 'Exit'
+    ModalResult = 2
+    TabOrder = 4
+    Left = 224
+    Height = 25
+    Top = 296
+    Width = 88
+  end
+  object lstFile: TListBox
+    TabOrder = 5
+    Height = 248
+    Top = 8
+    Width = 212
+  end
+  object dlgSaveAll: TSaveDialog
+    Title = 'Сохранить файл как'
+    Filter = 'All files|*.*'
+    FilterIndex = 0
+    Title = 'Сохранить файл как'
+    left = 160
+    top = 240
+  end
+end

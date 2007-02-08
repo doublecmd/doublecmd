@@ -1,0 +1,87 @@
+object dmHighl: TdmHighl
+  OnCreate = dmHighlCreate
+  OnDestroy = dmHighlDestroy
+  Height = 300
+  HorizontalOffset = 448
+  VerticalOffset = 218
+  Width = 400
+  object SynPasSyn1: TSynPasSyn
+    Enabled = False
+    left = 42
+    top = 66
+  end
+  object SynCppSyn1: TSynCppSyn
+    DefaultFilter = 'C++ Files (*.c,*.cpp,*.h,*.hpp)|*.c;*.cpp;*.h;*.hpp'
+    Enabled = False
+    left = 42
+    top = 104
+  end
+  object SynJavaSyn1: TSynJavaSyn
+    DefaultFilter = 'Java Files (*.java)|*.java'
+    Enabled = False
+    left = 41
+    top = 151
+  end
+  object SynHTMLSyn1: TSynHTMLSyn
+    DefaultFilter = 'HTML Document (*.htm,*.html)|*.htm;*.html'
+    Enabled = False
+    left = 42
+    top = 184
+  end
+  object SynXMLSyn1: TSynXMLSyn
+    WantBracesParsed = False
+    DefaultFilter = 'XML Document (*.xml,*.xsd,*.xsl,*.xslt,*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd'
+    Enabled = False
+    left = 42
+    top = 224
+  end
+  object SynLFMSyn1: TSynLFMSyn
+    DefaultFilter = 'Lazarus Form Files (*.lfm)|*.lfm'
+    Enabled = False
+    left = 41
+    top = 256
+  end
+  object SynUNIXShellScriptSyn1: TSynUNIXShellScriptSyn
+    DefaultFilter = 'UNIX Shell Scripts (*.sh)|*.sh'
+    Enabled = False
+    left = 85
+    top = 224
+  end
+  object SynPHPSyn1: TSynPHPSyn
+    DefaultFilter = 'PHP Files (*.php,*.php3,*.phtml,*.inc)|*.php;*.php3;*.phtml;*.inc'
+    Enabled = False
+    left = 85
+    top = 66
+  end
+  object SynTeXSyn1: TSynTeXSyn
+    DefaultFilter = 'TeX Files (*.tex)|*.tex'
+    Enabled = False
+    left = 85
+    top = 104
+  end
+  object SynSQLSyn1: TSynSQLSyn
+    SQLDialect = sqlSybase
+    DefaultFilter = 'SQL Files (*.sql)|*.sql'
+    Enabled = False
+    left = 85
+    top = 151
+  end
+  object SynMultiSyn1: TSynMultiSyn
+    Schemes = <>
+    Enabled = False
+    left = 85
+    top = 185
+  end
+  object SynPerlSyn1: TSynPerlSyn
+    DefaultFilter = 'Perl Files (*.pl,*.pm,*.cgi)|*.pl;*.pm;*.cgi'
+    Enabled = False
+    left = 88
+    top = 256
+  end
+  object SynCssSyn1: TSynCssSyn
+    DefaultFilter = 'Cascading Stylesheets (*.css)|*.css'
+    Enabled = False
+    left = 58
+    top = 304
+  end
+end

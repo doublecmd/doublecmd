@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Compiler Value="X:\Prog\Lazarus\pp\bin\i386-win32\ppc386.exe" Date="877110550"/>
+  <Params Value=" -S2cdgi -CX -OG1 -gl -vewnhi -l -FuX:\linux\Delphi\ARC_FPC\fparchive-0.1\ -Fu. -oX:\linux\Delphi\ARC_FPC\zip.exe Zip.dpr"/>
+</CONFIG>

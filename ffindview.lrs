@@ -1,0 +1,20 @@
+{ This is an automatically generated lazarus resource file }
+
+LazarusResources.Add('TfrmFindView','FORMDATA',[
+  'TPF0'#12'TfrmFindView'#11'frmFindView'#13'ActiveControl'#7#12'cbDataToFind'#7
+  +'Caption'#6#11'frmFindView'#12'ClientHeight'#2'^'#11'ClientWidth'#3'S'#1#6'O'
+  +'nShow'#7#8'FormShow'#8'Position'#7#17'poOwnerFormCenter'#10'TextHeight'#2#16
+  +#18'HorzScrollBar.Page'#3'T'#1#19'HorzScrollBar.Range'#3'K'#1#18'VertScrollB'
+  +'ar.Page'#2'_'#19'VertScrollBar.Range'#2'V'#4'Left'#3#189#1#6'Height'#2'^'#3
+  +'Top'#3'\'#1#5'Width'#3'S'#1#0#9'TComboBox'#12'cbDataToFind'#10'ItemHeight'#2
+  +#18#9'MaxLength'#2#0#7'OnKeyUp'#7#17'cbDataToFindKeyUp'#11'ParentCtl3D'#8#8
+  +'TabOrder'#2#0#4'Left'#2#16#6'Height'#2#23#3'Top'#2#16#5'Width'#3'8'#1#0#0#7
+  +'TBitBtn'#7'btnFind'#7'Default'#9#7'OnClick'#7#12'btnFindClick'#7'Default'#9
+  +#7'Caption'#6#4'Find'#8'TabOrder'#2#1#7'OnClick'#7#12'btnFindClick'#4'Left'#3
+  +#176#0#6'Height'#2#25#3'Top'#2'8'#5'Width'#2'K'#0#0#7'TBitBtn'#8'btnClose'#4
+  +'Kind'#7#8'bkCancel'#11'ModalResult'#2#2#11'ModalResult'#2#2#7'Caption'#6#6
+  +'Cancel'#8'TabOrder'#2#2#4'Left'#3#0#1#6'Height'#2#25#3'Top'#2'8'#5'Width'#2
+  +'K'#0#0#9'TCheckBox'#10'cbCaseSens'#11'AllowGrayed'#9#8'AutoSize'#9#7'Captio'
+  +'n'#6#10'cbCaseSens'#10'DragCursor'#4#244#255#0#0#8'TabOrder'#2#3#4'Left'#2
+  +#16#6'Height'#2#30#3'Top'#2'8'#5'Width'#3#153#0#0#0#0
+]);

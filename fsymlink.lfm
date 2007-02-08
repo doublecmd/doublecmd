@@ -1,0 +1,74 @@
+object frmSymLink: TfrmSymLink
+  ActiveControl = btnOK
+  Caption = 'frmSymLink'
+  ClientHeight = 138
+  ClientWidth = 355
+  KeyPreview = True
+  OnKeyPress = frmSymLinkKeyPress
+  PixelsPerInch = 96
+  Position = poScreenCenter
+  TextHeight = 16
+  HorzScrollBar.Page = 354
+  HorzScrollBar.Range = 344
+  HorzScrollBar.Visible = True
+  VertScrollBar.Page = 137
+  VertScrollBar.Range = 119
+  VertScrollBar.Visible = True
+  Left = 291
+  Height = 138
+  Top = 233
+  Width = 355
+  object lblNew: TLabel
+    Caption = 'lblNew'
+    Color = clNone
+    ParentColor = False
+    Height = 14
+    Width = 32
+  end
+  object lblDst: TLabel
+    Caption = 'lblDst'
+    Color = clNone
+    ParentColor = False
+    Height = 14
+    Top = 40
+    Width = 27
+  end
+  object edtNew: TEdit
+    TabOrder = 1
+    Height = 23
+    Top = 16
+    Width = 344
+  end
+  object edtDst: TEdit
+    TabOrder = 3
+    Height = 23
+    Top = 64
+    Width = 344
+  end
+  object btnOK: TBitBtn
+    BorderSpacing.InnerBorder = 2
+    Caption = '&OK'
+    Default = True
+    Kind = bkOK
+    ModalResult = 1
+    NumGlyphs = 0
+    OnClick = btnOKClick
+    TabOrder = 0
+    Left = 176
+    Height = 23
+    Top = 96
+    Width = 88
+  end
+  object btnCancel: TBitBtn
+    BorderSpacing.InnerBorder = 2
+    Caption = 'Cancel'
+    Kind = bkCancel
+    ModalResult = 2
+    NumGlyphs = 0
+    TabOrder = 2
+    Left = 269
+    Height = 23
+    Top = 96
+    Width = 75
+  end
+end

@@ -1,0 +1,264 @@
+object frmAttrib: TfrmAttrib
+  ActiveControl = cbReadOwner
+  Caption = 'frmAttrib'
+  ClientHeight = 272
+  ClientWidth = 335
+  HorzScrollBar.Page = 336
+  HorzScrollBar.Range = 323
+  VertScrollBar.Page = 273
+  VertScrollBar.Range = 257
+  Left = 391
+  Height = 272
+  Top = 258
+  Width = 335
+  object lblFileName: TLabel
+    Caption = 'lblFileName'
+    Font.Color = clBlack
+    Font.Height = 13
+    Font.Name = 'Helvetica'
+    Font.Pitch = fpVariable
+    Font.Style = [fsBold]
+    Left = 104
+    Height = 15
+    Top = 8
+    Width = 219
+  end
+  object cbReadOwner: TCheckBox
+    AllowGrayed = True
+    AutoSize = True
+    DragCursor = 65524
+    TabOrder = 0
+    Left = 112
+    Height = 30
+    Top = 48
+    Width = 25
+  end
+  object cbWriteOwner: TCheckBox
+    AllowGrayed = True
+    AutoSize = True
+    DragCursor = 65524
+    TabOrder = 1
+    Left = 184
+    Height = 30
+    Top = 48
+    Width = 25
+  end
+  object cbExecOwner: TCheckBox
+    AllowGrayed = True
+    AutoSize = True
+    DragCursor = 65524
+    TabOrder = 2
+    Left = 256
+    Height = 30
+    Top = 48
+    Width = 25
+  end
+  object lblOwner: TLabel
+    Caption = 'Owner'
+    Left = 8
+    Height = 15
+    Top = 54
+    Width = 88
+  end
+  object lblGroup: TLabel
+    Caption = 'Group'
+    Left = 8
+    Height = 15
+    Top = 94
+    Width = 88
+  end
+  object cbReadGroup: TCheckBox
+    AllowGrayed = True
+    AutoSize = True
+    DragCursor = 65524
+    TabOrder = 3
+    Left = 112
+    Height = 30
+    Top = 88
+    Width = 25
+  end
+  object cbWriteGroup: TCheckBox
+    AllowGrayed = True
+    AutoSize = True
+    DragCursor = 65524
+    TabOrder = 4
+    Left = 184
+    Height = 30
+    Top = 88
+    Width = 25
+  end
+  object cbExecGroup: TCheckBox
+    AllowGrayed = True
+    AutoSize = True
+    DragCursor = 65524
+    TabOrder = 5
+    Left = 256
+    Height = 30
+    Top = 88
+    Width = 25
+  end
+  object lblOther: TLabel
+    Caption = 'Other'
+    Left = 8
+    Height = 15
+    Top = 134
+    Width = 82
+  end
+  object cbReadOther: TCheckBox
+    AllowGrayed = True
+    AutoSize = True
+    DragCursor = 65524
+    TabOrder = 6
+    Left = 112
+    Height = 30
+    Top = 128
+    Width = 25
+  end
+  object cbWriteOther: TCheckBox
+    AllowGrayed = True
+    AutoSize = True
+    DragCursor = 65524
+    TabOrder = 7
+    Left = 184
+    Height = 30
+    Top = 128
+    Width = 25
+  end
+  object cbExecOther: TCheckBox
+    AllowGrayed = True
+    AutoSize = True
+    DragCursor = 65524
+    TabOrder = 8
+    Left = 256
+    Height = 30
+    Top = 128
+    Width = 25
+  end
+  object lblRead: TLabel
+    Caption = 'Read'
+    Left = 104
+    Height = 15
+    Top = 32
+    Width = 72
+  end
+  object lblWrite: TLabel
+    Caption = 'Write'
+    Left = 176
+    Height = 15
+    Top = 32
+    Width = 63
+  end
+  object lblExec: TLabel
+    Caption = 'Execute'
+    Left = 240
+    Height = 15
+    Top = 32
+    Width = 83
+  end
+  object btnOK: TBitBtn
+    Default = True
+    Kind = bkOK
+    ModalResult = 1
+    OnClick = btnOKClick
+    Default = True
+    ModalResult = 1
+    Caption = '&OK'
+    TabOrder = 9
+    OnClick = btnOKClick
+    Left = 8
+    Height = 25
+    Top = 232
+    Width = 75
+  end
+  object btnAll: TBitBtn
+    OnClick = btnAllClick
+    Caption = '&All'
+    TabOrder = 10
+    OnClick = btnAllClick
+    Left = 88
+    Height = 25
+    Top = 232
+    Width = 75
+  end
+  object btnSkip: TBitBtn
+    OnClick = btnSkipClick
+    Caption = 'Skip'
+    TabOrder = 11
+    OnClick = btnSkipClick
+    Left = 168
+    Height = 25
+    Top = 232
+    Width = 75
+  end
+  object btnCancel: TBitBtn
+    Kind = bkCancel
+    ModalResult = 2
+    ModalResult = 2
+    Caption = 'Cancel'
+    TabOrder = 12
+    Left = 248
+    Height = 25
+    Top = 232
+    Width = 75
+  end
+  object lblTextAttr: TLabel
+    AutoSize = True
+    Caption = 'Representation in text:'
+    Left = 8
+    Height = 15
+    Top = 200
+    Width = 144
+  end
+  object lblAttr: TLabel
+    Caption = 'lblAttr'
+    Font.Color = clBlack
+    Font.Height = 13
+    Font.Name = 'adobe-helvetica'
+    Font.Pitch = fpVariable
+    Font.Style = [fsBold]
+    Left = 162
+    Height = 16
+    Top = 200
+    Width = 151
+  end
+  object cbSuid: TCheckBox
+    AllowGrayed = True
+    AutoSize = True
+    Caption = 'SUID'
+    DragCursor = 65524
+    TabOrder = 13
+    Left = 112
+    Height = 30
+    Top = 168
+    Width = 69
+  end
+  object cbSgid: TCheckBox
+    AllowGrayed = True
+    AutoSize = True
+    Caption = 'SGID'
+    DragCursor = 65524
+    TabOrder = 14
+    Left = 184
+    Height = 30
+    Top = 168
+    Width = 59
+  end
+  object cbSticky: TCheckBox
+    AllowGrayed = True
+    AutoSize = True
+    Caption = 'Sticky'
+    DragCursor = 65524
+    TabOrder = 15
+    Left = 248
+    Height = 30
+    Top = 168
+    Width = 65
+  end
+  object lblFile: TLabel
+    Caption = 'Filename'
+    Left = 8
+    Height = 17
+    Top = 6
+    Width = 81
+  end
+end

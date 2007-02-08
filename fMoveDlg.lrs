@@ -1,0 +1,27 @@
+{ This is an automatically generated lazarus resource file }
+
+LazarusResources.Add('TfrmMoveDlg','FORMDATA',[
+  'TPF0'#11'TfrmMoveDlg'#10'frmMoveDlg'#13'ActiveControl'#7#5'btnOK'#7'Caption'
+  +#6#10'frmMoveDlg'#12'ClientHeight'#3#147#0#11'ClientWidth'#3'Y'#1#10'KeyPrev'
+  +'iew'#9#10'OnKeyPress'#7#18'frmMoveDlgKeyPress'#6'OnShow'#7#14'frmMoveDlgSho'
+  +'w'#13'PixelsPerInch'#2'N'#8'Position'#7#14'poScreenCenter'#10'TextHeight'#2
+  +#16#18'HorzScrollBar.Page'#3'X'#1#19'HorzScrollBar.Range'#3'Q'#1#18'VertScro'
+  +'llBar.Page'#3#146#0#19'VertScrollBar.Range'#3#145#0#4'Left'#3#191#1#6'Heigh'
+  +'t'#3#147#0#3'Top'#3'X'#1#5'Width'#3'Y'#1#0#6'TLabel'#10'lblMoveSrc'#7'Capti'
+  +'on'#6#10'lblMoveSrc'#5'Color'#7#6'clNone'#11'ParentColor'#8#4'Left'#2#8#6'H'
+  +'eight'#2#13#3'Top'#2#8#5'Width'#2'A'#0#0#6'TLabel'#11'lblFileType'#7'Captio'
+  +'n'#6#11'lblFileType'#5'Color'#7#6'clNone'#11'ParentColor'#8#4'Left'#2#8#6'H'
+  +'eight'#2#13#3'Top'#2'@'#5'Width'#2'?'#0#0#7'TBitBtn'#5'btnOK'#7'Anchors'#11
+  +#5'akTop'#7'akRight'#0#25'BorderSpacing.InnerBorder'#2#2#7'Caption'#6#3'&OK'
+  +#7'Default'#9#4'Kind'#7#4'bkOK'#11'ModalResult'#2#1#9'NumGlyphs'#2#0#8'TabOr'
+  +'der'#2#0#4'Left'#3#170#0#6'Height'#2#23#3'Top'#2'x'#5'Width'#2'K'#0#0#7'TBi'
+  +'tBtn'#9'btnCancel'#7'Anchors'#11#5'akTop'#7'akRight'#0#25'BorderSpacing.Inn'
+  +'erBorder'#2#2#6'Cancel'#9#7'Caption'#6#6'Cancel'#4'Kind'#7#8'bkCancel'#11'M'
+  +'odalResult'#2#2#9'NumGlyphs'#2#0#8'TabOrder'#2#1#4'Left'#3#4#1#6'Height'#2
+  +#23#3'Top'#2'x'#5'Width'#2'K'#0#0#5'TEdit'#6'edtDst'#8'TabOrder'#2#2#4'Text'
+  +#6#6'edtDst'#4'Left'#2#8#6'Height'#2#24#3'Top'#2' '#5'Width'#3'I'#1#0#0#9'TC'
+  +'omboBox'#11'cmbFileType'#16'AutoCompleteText'#11#22'cbactEndOfLineComplete'
+  +#20'cbactSearchAscending'#0#7'Enabled'#8#10'ItemHeight'#2#18#9'MaxLength'#2#0
+  +#11'ParentCtl3D'#8#8'TabOrder'#2#3#4'Left'#2#8#6'Height'#2#24#3'Top'#2'X'#5
+  +'Width'#3'I'#1#0#0#0
+]);

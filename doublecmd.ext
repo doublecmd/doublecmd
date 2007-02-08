@@ -1,0 +1,404 @@
+# Seksi Commander extension file
+# Based on Midnight Commander 3.0 extension file
+#
+# All lines starting with # or empty lines are thrown away.
+# Syntax (command is case unsensitive)
+# All commands for file is showed in Popupmenu
+# [extension] or [extension1|extension2 ...] - case insensitive !!no regular expression!!
+# open used with tap on Enter or DblClick
+# view used only in Viewer
+# other commands is showed in popup menu only
+# macros (case sensitive):
+#   {!VFS} - for archives - use virtual file system (scvfs.in in vfs directory)
+#   {!EDITOR} call editor (internal or external by configuration}
+#   {!VIEWER} call viewer (the same)
+#    for View command Viewer frm Seksi Commander show stdout output from command (see zip...) 
+#   {!SHELL} use shell from configuration to execute program (see mplayer)
+# %f > filename
+# %d > directory
+# %p > path(directory+filename)
+
+
+### Sources ###
+
+# C
+[c]
+Open={!EDITOR}%p
+Compile=cc -O -c %f
+#Link=cc -O -o %d/`basename %f .c` %f
+
+[exe]
+Open=%p
+
+# Fortran
+[f]
+Open={!EDITOR}%p
+Compile=f77 -O -c %f
+Compile and Link=f77 -O %f
+
+#Pascal and Object Pascal :)
+[dpr|pas|pp]
+Open={!EDITOR}%p
+#freepascal
+#Compile={!SHELL} fpc %f
+
+# Object
+#[o]
+#	#Open=%var{PAGER:more} %f
+#	View=%view{ascii} nm %f
+#	Link=%var{CC:cc} -O %f
+#	Disassemble=%view{ascii} objdump -d -r %f
+
+# Asm
+[s]
+Open={!EDITOR}%p
+Assemble={!SHELL} cc -O -c %f
+#Link=cc -O -o %d/`basename %f .s` %f
+
+# C++
+[C|c|cc]
+Open={!EDITOR}%p
+Compile={!SHELL} c++ -O -c %f
+#Link=c++ -O -o %d/`basename %f .c` %f
+
+### Documentation ###
+
+# Texinfo
+#regex/\.(te?xi|texinfo)$
+
+# GNU Info page
+#type/^Info\ text
+#	Open=info -f %f
+
+[info]
+Open={!SHELL} info -f %f
+
+# Manual page
+# Exception - .so libraries are not manual pages
+#regex/\.(so|so\.[0-9\.]*)$
+#	View=%view{ascii} nm %f
+
+#regex/(([^0-9]|^[^\.]*)\.([1-9][A-Za-z]*|n)|\.man)$
+[man]
+Open={!SHELL} nroff  -Tlatin2 -mandoc %f | less
+View=nroff  -Tlatin2 -mandoc %f
+
+# Troff with me macros.
+
+#shell/.me
+#	Open=nroff  -Tlatin1 -me %f | %var{PAGER:more}
+#	View=%view{ascii,nroff} nroff  -Tlatin1 -me %f
+
+# Troff with ms macros.
+#shell/.ms
+#	Open=nroff  -Tlatin1 -ms %f | %var{PAGER:more}
+#	View=%view{ascii,nroff} nroff  -Tlatin1 -ms %f
+
+# Manual page - compressed
+#regex/([^0-9]|^[^\.]*)\.([1-9][a-z]?|n)\.g?[Zz]$
+#	Open=gzip -dc %f | nroff  -Tlatin1 -mandoc | %var{PAGER:more}
+#	View=%view{ascii,nroff} gzip -dc %f | nroff  -Tlatin1 -mandoc
+
+#regex/([^0-9]|^[^\.]*)\.([1-9][a-z]?|n)\.bz$
+#	Open=bzip -dc %f | nroff  -Tlatin1 -mandoc | %var{PAGER:more}
+#	View=%view{ascii,nroff} bzip -dc %f | nroff  -Tlatin1 -mandoc
+
+#regex/([^0-9]|^[^\.]*)\.([1-9][a-z]?|n)\.bz2$
+#	Open=bzip2 -dc %f | nroff  -Tlatin1 -mandoc | %var{PAGER:more}
+#	View=%view{ascii,nroff} bzip2 -dc %f | nroff  -Tlatin1 -mandoc
+
+
+
+### Sound files ###
+
+[wav|WAV|Wav|snd|SND|Snd|voc|VOC|Voc|au|AU|Au]
+Open={!SHELL} play %f
+
+[mod|s3m|xm]
+Open=xmms %f
+#Open=mikmod %f
+#Open=tracker %f
+
+[mp3]
+Open={!SHELL} xmms '%p'
+View=mpg123 -tn1 %f 2>&1|grep -E '^(Title|Album|Comment|MPEG|$)'
+
+
+### Multimedia ###
+
+[mpg|mpeg|avi|asf|mov]
+Open=totem '%p'
+#Open=xanim '%f'
+#Open=aviplay '%f'
+#Open=mtv '%f' 2>/dev/null&
+#Open=gtv '%f' 2>/dev/null&
+#Open=plaympeg '%f' 2>/dev/null&
+#Open=mpeg_play '%f' &
+#Open(big)=mpeg_play -dither 2x2 '%f' &
+#Open(gray)=mpeg_play -dither gray '%f' &
+
+
+[rm|ram]
+Open={!SHELL} mplayer '%f'
+#Open=realplay %f&
+
+
+### Documents ###
+
+# Postscript
+[ps]
+Open=gv %f
+View=ps2ascii %f
+View with GhostView=gv %f
+
+# PDF
+[pdf]
+Open=xpdf '%f'
+#Open=acroread '%f'
+#Open=ghostview '%f'
+View=pdftotext '%f'
+
+# html
+[html|htm]
+Open=X:\Alexx\Opera_8.5\Opera.exe %p
+#Open=mozilla %p
+View=lynx -dump -force_html %p
+
+#txt
+[txt]
+Open={!EDITOR}%p
+
+
+#regex/\.([Hh]tml?|HTML?)$
+#	#Open=if echo "%d/%p" | grep ^ftp; then $viewer %d/%p; else $viewer file:%p; fi
+#	Open=if [ x$DISPLAY = x ]; then lynx -force_html %f; else (lynx %f &); fi
+#	View=%view{ascii} lynx -dump -force_html %f;
+#	Run with AppletViewer=appletviewer %f
+#	View with lynx=lynx file://%f
+
+# StarOffice and OpenOffice
+[sdw]
+Open=soffice %f
+
+# AbiWord
+[abw]
+Open=abiword %f
+
+# Microsoft Word Document
+[doc|dot|wri]
+Open=soffice %f
+#Open=koffice %f
+View=catdoc -w %f || word2x -f text %f - || strings %f
+
+# Microsoft Excel Worksheet
+[xls|xlw]
+Open=soffice %f
+#Open=koffice %f
+View=xls2csv %f || strings %f
+
+# Framemaker
+#type/^FrameMaker
+#	Open=fmclient -f %f
+
+# DVI
+[dvi]
+Open=xdvi %f &
+View=dvi2tty %f
+Convert file to Postscript=dvips %f
+
+# TeX
+[tex]
+Open={!EDITOR}%p
+TeX this file=tex %f
+LaTeX this file=latex %f
+csTeX this file=csplain %f
+csLaTeX this file=cslatex %f
+### Miscellaneous ###
+
+#shell/^RMAIL$
+#	Start Emacs on this RMAIL file=emacs %f
+#	Open=emacs %f
+
+#type/^(M|m)ail
+#	Open=elm -f %f
+#	View=%view{ascii} mcmfmt < %f
+
+# core
+#shell/core
+
+# Makefile
+#regex/[Mm]akefile
+#	Open=make -f %f %{Enter parameters}
+
+# Imakefile
+#shell/Imakefile
+#	Open=xmkmf -a
+
+# Executables
+#type/\ executable
+#	Open=./%f
+#	Drop=%f %q
+#	Execute in XTerm=xterm -e %f &
+#	View Required Libraries=%view{ascii} ldd %f
+#	Strip binary=strip %f
+
+# dbf
+[dbf]
+#Open={!VIEWER} dbview %f
+View=dbview -b %f
+
+# REXX script
+#regex/\.(rexx|rex|cmd)$
+#       Open=rexx %f %{Enter parameters};echo "Press ENTER";read y
+
+
+### Archives ###
+
+# browsing archives are handled separate in scvfs.ini
+# Open=[!VFS] is needed for browsing archives
+
+[tar]
+Open={!VFS}
+View=tar tvvf %f
+Extract=tar xf %f
+
+[tgz]
+Open={!VFS}
+View=gzip -dc %f 2>/dev/null | tar tvvf -
+Extract=gzip -dc %f 2>/dev/null | tar xzf -
+
+[bz]
+Open={!VFS}
+View=bzip -dc %f 2>/dev/null
+Extract=bzip -dc %f 2>/dev/null
+
+[bz2]
+Open={!VFS}
+View=bzip2 -dc %f 2>/dev/null
+Extract=bzip2 -dc %f 2>/dev/null
+
+
+# zip
+[zip|jar]
+Open={!VFS}
+View=unzip -v %f
+Extract=unzip %f
+#Extract (with flags)=I=%{Enter any Unzip flags:}; if test -n "$I"; then unzip $I %f; fi
+Unzip=unzip %f '*'
+
+# zoo
+[zoo]
+Open={!VFS}
+View=zoo l %f
+Extract=zoo x %f '*'
+
+# lha
+Open={!VFS}
+View=lharc l %f
+Extract=lharc x %f '*'
+#Extract (with flags)=I=%{Enter any LHarc flags:}; if test -n "$I"; then lharc x $I %f; fi
+
+# arj
+[arj]
+#regex/\.a(rj|[0-9][0-9])$
+Open={!VFS}
+View=unarj l %f
+Extract=unarj x %f '*'
+#Extract (with flags)=I=%{Enter any Unarj flags:}; if test -n "$I"; then unarj x $I %f; fi
+
+# ha
+[ha]
+Open={!VFS}
+View=ha lf %f
+Extract=ha xy %f '*'
+#	Extract (with flags)=I=%{Enter any HA flags:}; if test -n "$I"; then ha xy $I %f; fi
+
+# rar
+[rar|r00|r02|r02|r03|r04|r05|r06|r07|r08|r09]
+Open={!VFS}
+View=rar v -c- %f
+Extract=rar x -c- %f '*'
+#	Extract (with flags)=I=%{Enter any RAR flags:}; if test -n "$I";then rar x $I %f; fi
+
+#compress
+[Z]
+Open={!VFS}
+View=compress -dc '%f'
+Extract=compress -dc '%f'
+
+
+# cpio
+[cpio]
+Open={!VFS}
+View=cat '%f' | cpio -ictv
+Extract=cat '%f' | cpio -ic
+
+# ls-lR
+#regex/(^|\.)ls-?lR$
+#	Open=%cd %p#lslR
+#regex/(^|\.)ls-?lR\.(g?z|Z)$
+#	Open=%cd %p#lslR
+#	View=%view{ascii} gunzip -c %f
+
+# ftplist
+#regex/\.ftplist$
+#	Open=%cd %p#ftplist
+
+# gzip
+[gz]
+Open={!VFS}
+View=gzip -dc %f 2>/dev/null
+Uncompress=gunzip %f
+#	Edit=I=`date +%%s`; export I; gzip -cd %f >/tmp/gzed.$I && %var{EDITOR:vi} /tmp/gzed.$I && gzip -c /tmp/gzed.$I > %f; rm -f /tmp/gzed.$I
+
+# bzip2
+[bz2|bzip2]
+Open={!VFS}
+View=bzip2 -dc %f 2>/dev/null
+#	Edit=I=`date +%%s`; export I; bzip2 -cd %f >/tmp/bzed.$I && %var{EDITOR:vi} /tmp/bzed.$I && bzip2 -c /tmp/bzed.$I > %f; rm -f /tmp/bzed.$I
+Uncompress=bunzip2 %f
+
+# bzip
+[bz|bzip]
+Open={!VFS}
+View=bzip -dc %f 2>/dev/null
+#Edit=I=`date +%%s`; export I; bzip -cd %f >/tmp/bzed.$I && %var{EDITOR:vi} /tmp/bzed.$I && bzip -c /tmp/bzed.$I > %f; rm -f /tmp/bzed.$I
+Uncompress=bunzip %f
+
+# ace
+[ace]
+Open={!VFS}
+Uncompress=unace e %f
+
+# ar library
+#regex/\.s?a$
+#	Open=%cd %p#uar
+#	#Open=%view{ascii} ar tv %f
+#	View=%view{ascii} nm %f
+
+# trpm
+#regex/\.trpm$
+#	Open=%cd %p#trpm
+#	View=%view{ascii} rpm -qivl --scripts `basename %p .trpm`
+
+# Source RPMs (SuSE uses *.spm, others use *.src.rpm)
+[spm|srcm]
+Open={!VFS}
+View=rpm -qivlp --scripts %f
+Install this RPM=rpm -i %f
+Rebuild this RPM=rpm --rebuild %f
+Check signature=rpm --checksig %f
+
+# Compiled RPMs
+[rpm]
+Open={!VFS}
+View=rpm -qivlp --scripts %f
+Install this RPM=rpm -i %f
+Upgrade this RPM=rpm -U %f
+Check signature=rpm --checksig %f
+
+# deb
+[deb]
+Open={!VFS}
+View=dpkg-deb -c %f
+

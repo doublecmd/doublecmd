@@ -1,0 +1,362 @@
+;format of file:
+; ID:String
+; if first char is ; then all line is remark
+; english language file for seksi commander
+; author: radek.cervinka@centrum.cz
+; realised under GNU GPL 2
+; contributors:
+; * Pavel Letko (1330-1367),(2200-2211),(2220-2232)
+; The Fox (thefox@pobox.sk   http://www.tfden.host.sk) (minor changes/corrections)
+
+1:Can't delete file %s
+2:File %s exists, overwrite?
+3:File %s changed, save?
+4:New file
+5:Delete %d selected files/directories?
+6:Delete selected "%s"?
+7:Copy %d selected files/directories?
+8:Copy selected "%s"?
+9:Rename/move %d selected files/directories?
+10:Rename/move selected "%s"?
+11:Can't create directory %s!
+12:Selected %s of %s in %d of %d files
+13:&Add %s
+14:&Configure
+15:&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &All;&Skip;S&kip All;All;
+16:Files:%d, Dirs:%d, Size: %d bytes
+17:Select a directory 
+18:Select mask
+19:Unselect mask
+20:Input mask:
+21:Free %s from %s bytes
+22:Directory %s exists!
+30:&Save position
+31:Position saved.
+
+; buttons
+980:&Start
+981:&Cancel
+982:C&lose
+983:&Stop
+984:Ski&p
+985:&All
+986:&Find
+
+; fMain.pas
+; Actions Captions
+1000:Exit
+1001:View F3
+1002:Edit F4
+1003:Copy F5
+1004:Rename F6
+1005:MakeDir F7
+1006:Delete F8
+1007:Menu F9
+1008:Multi &Rename Tool
+1009:Run &Term
+
+;Column in TListView
+1020:Name
+1021:Ext
+1022:Size
+1023:Date
+1024:Attr
+
+; Menu
+;File
+1040:&Files
+1041:Create &Link...
+1042:Create Symbolic L&ink...
+1043:&Change Attributes...
+1044:&Properties...
+1045:Calculate &Occupied Space...
+1046:&Split File...
+1047:&Combine Files...
+1048:&Show System Files
+1049:Compare b&y Content
+1050:Change &owner/group
+
+;Mark
+1060:&Mark
+1061:Select &Group...
+1062:&Unselect Group...
+1063:&Select All
+1064:U&nselect All
+1065:&Invert Selection
+1066:&Compare Directories
+
+;Commands
+1080:&Commands
+1081:&Search...
+1082:Directory &Hotlist
+1083:Source &<-> Target
+1084:Targed &= Source
+
+;Show
+1100:&Show
+1101:&Name
+1102:&Extension
+1103:&Size
+1104:Date and &Time
+1105:&Atributes
+1106:Reverse &Order
+1107:&Reread
+
+;Configuration
+1120:C&onfiguration
+1121:&Options...
+
+;Help
+
+1140:&Help
+1141:&About
+
+;dlg Options
+1160:Options
+1161:Select language
+1162:Terminal
+1163:Select directory with keypad
+1164:Lynx like movement
+1165:Case sensitive sorting
+1166:Short Filesize format
+1167:Behaviour
+1168:Tools
+1169:External editor
+1170:External viewer
+1171:External differ
+1172:Run term
+1173:Fonts
+1174:Main font
+1175:Editor font
+1176:Viewer font
+1177:Separate extension
+
+;MkdirDlg
+1180:Create new directory
+1181:Input new directory name
+
+
+;CopyDlg
+1200:Copy file(s)
+;1201:Copy %s:
+1202:Only type:
+
+;MoveDlg
+1220:Move file(s)
+;1221:Move %s:
+1222:Only type:
+1223:Delete file(s)
+
+;Editor & Viewer
+1240:&File
+1241:&Previous
+1242:&Next
+1243:E&xit
+1245:&Syntax Highlight
+1246:&New
+1247:&Open
+1248:&Save
+1249:Save &As...
+1250:&Edit
+1251:&Undo
+1252:Cu&t
+1253:&Copy
+1254:&Paste
+1255:&Find...
+1256:&Replace...
+1257:&Image
+1258:&Stretch
+1259:Show as &Text
+1260:Show as &Bin
+1261:Show as &Hex
+1262:Show as &Wrap text
+1263:View
+1264:About Viewer...
+1265:Viewer - part of Seksi Commander, (C)opyright Radek Cervinka (GNU GPL 2)
+1266:Search
+;viewer find dialog
+1267:Find
+1268:Case sensitive
+1269:&Process file
+1270:&Graphics
+1271:&Copy to clipboard
+1272:Select &All
+
+; find dialog
+1280:Find files
+1281:Standard
+1282:Advanced
+1283:FileDir
+1284:FileMask
+1285:Find in file
+1286:Find Data
+1287:Case sensitive
+1288:Directory %s doesn't exist!
+; Nasledujucim som si nie isty...
+1289:Begin at
+1290:Show in viewer
+1291:Scanned: %d
+
+; multirename dialog
+1330:Old file name
+1331:New file name
+1332:File path
+1333:Name...
+1334:[N]ame
+1335:[Nx]ame
+1336:[Nx:x]ame
+1337:Extension...
+1338:[E]xtension
+1339:[Ex]xtension
+1340:[Ex:x]xtension
+1341:[C]ounter
+1342:Time...
+1343:[Y]ear
+1344:[Mo]nth
+1345:[D]ay
+1346:[H]our
+1347:[Mi]nute
+1348:[S]econd
+1349:Save log
+1350:Mask
+1351:File name
+1352:Extension
+1353:Find && replace
+1354:Find...
+1355:Replace...
+1356:Counter
+1357:Start number
+1358:Interval
+1359:Width
+1360:File name style
+1361:no change
+1362:UPPERCASE
+1363:lowercase
+1364:First capital
+1365:Log result
+1366:Log
+1367:Restore all
+
+;Attr dialog
+1500:ChMod
+1501:Owner
+1502:Group
+1503:Other
+1504:Read
+1505:Write
+1506:Execute
+1507:In text:
+
+;SymLinkDialog
+1520:Create symlink
+1521:Existing destination (where will link point)
+1522:Link name
+1523:Error creating symlink.
+
+;HardLinkDialog
+1530:Create hardlink
+1531:Existing destination (where will link point)
+1532:Link name
+1533:Error creating hardlink.
+
+;Shift+F4
+1540:new.txt
+1541:Open file
+1542:Filename:
+
+;search & replace in editor
+1560:Search
+1561:Replace
+1562:Search for:
+1563:Replace with:
+1564:&Forward
+1565:&Backward
+1566:C&ase sensitivity
+1567:&Whole words only
+1568:Search from &cursor
+1569:&Selected text only
+
+;chown/chgrp dialog
+1580:Change Owner/Group
+1581:Owner
+1582:Group
+
+1600:&Configuration
+1601:Editor configuration
+1602:Sample
+1603:&Bold
+1604:&Italic
+1605:&Underline
+1606:&StrikeOut
+1607:Predefined
+1608:%s loaded OK.
+
+;File/Directory properties
+2000:Properties
+2001:Yes (%s)
+2002:No
+2003:Close
+2004:Next
+2005:File
+2006:Directory
+2007:Special block device
+2008:Special character device
+2009:Named pipe
+2010:Symbolic link
+2011:Socket
+2012:Unknown type
+
+2013:Read
+2014:Write
+2015:Execute
+2016:UID after execution
+2017:GID after execution
+2018:Sticky bit
+
+2020:Name:
+2021:Path:
+2022:Type:
+2023:Size:
+2024:Last access:
+2025:Last modification:
+2026:Last change of status:
+2027:Owner:
+2028:Group:
+2029:Symlink:
+2030:Attributes
+2031:Other:
+2032:Bits:
+2033:Alternative reprezentation:
+
+;Compare by content Dialog
+2101:Number of changes:
+
+;Linker
+2200:File name
+2201:Exit
+2202:OK
+2203:Item
+2204:Delete
+2205:Down
+2206:Bottom
+2207:Up
+2208:Top
+2209:Save to...
+2210:Save All
+2211:Linker complete
+
+;Splitter
+2220:Exit
+2221:OK
+2222:File name
+2223:Directory target
+2224:File source
+2225:File size
+2226:Watchtower
+2227:Incorrect file size format!
+2228:Unable to create target directory!
+2229:Unable to split the file!
+2230:Created:
+2231:size:
+2232:Select directory:
+

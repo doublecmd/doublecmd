@@ -1,0 +1,80 @@
+object frmAbout: TfrmAbout
+  ActiveControl = OKButton
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'About'
+  ClientHeight = 324
+  ClientWidth = 532
+  KeyPreview = True
+  OnKeyDown = FormKeyDown
+  OnShow = frmAboutShow
+  PixelsPerInch = 96
+  Position = poScreenCenter
+  TextHeight = 16
+  HorzScrollBar.Page = 531
+  HorzScrollBar.Range = 521
+  VertScrollBar.Page = 323
+  VertScrollBar.Range = 281
+  Left = 298
+  Height = 324
+  Top = 372
+  Width = 532
+  object imgLogo: TImage
+    AutoSize = True
+    Center = True
+    Transparent = True
+    Left = 8
+    Height = 148
+    Top = 8
+    Width = 135
+  end
+  object lblVersion: TLabel
+    Caption = 'version 0.1 alpha'
+    Color = clNone
+    ParentColor = False
+    Left = 24
+    Height = 14
+    Top = 200
+    Width = 84
+  end
+  object OKButton: TButton
+    BorderSpacing.InnerBorder = 2
+    Caption = 'Hmm...'
+    OnClick = OKButtonClick
+    TabOrder = 0
+    Left = 32
+    Height = 23
+    Top = 288
+    Width = 100
+  end
+  object Panel1: TPanel
+    BevelInner = bvRaised
+    BevelOuter = bvLowered
+    ClientHeight = 305
+    ClientWidth = 369
+    FullRepaint = False
+    TabOrder = 1
+    Left = 152
+    Height = 305
+    Top = 8
+    Width = 369
+    object memInfo: TMemo
+      ReadOnly = True
+      TabOrder = 0
+      Left = 8
+      Height = 289
+      Top = 8
+      Width = 353
+    end
+  end
+  object lblTitle: TStaticText
+    AutoSize = True
+    Caption = 'Double Commander'
+    Color = clBtnFace
+    Font.Color = 3485410
+    Left = 24
+    Height = 16
+    Top = 176
+    Width = 100
+  end
+end

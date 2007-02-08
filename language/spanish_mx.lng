@@ -1,0 +1,362 @@
+;format of file:
+; ID:String
+; if first char is ; then all line is remark
+; english language file for seksi commander
+; author: radek.cervinka@centrum.cz
+; realised under GNU GPL 2
+; contributors:
+; * Pavel Letko (1330-1367),(2200-2211),(2220-2232)
+; The Fox (thefox@pobox.sk   http://www.tfden.host.sk) (minor changes/corrections)
+
+1:No se puede eliminar el archivo %s
+2:El archivo %s ya existe, ¿sobreescribirlo?
+3:El archivo %s ha cambiado, ¿guardarlo?
+4:Archivo Nuevo
+5:¿Eliminar los %d archivos/directorios selecionados?
+6:¿Eliminar la selección "%s"?
+7:¿Copiar los %d archivos/directorios seleccionados?
+8:¿Copiar la selección "%s"?
+9:¿Renombrar/mover los %d archivos/directorios seleccionados?
+10:¿Renombrar/mover la selección "%s"?
+11:No se puede crear el directorio %s!
+12:%s de %s en %d de %d archivos
+13:&Agregar %s
+14:&Configuración
+15:&Aceptar;&No;&Si;&Cancelar;&Nada;&Agregar;&Reescribir;Reescribir &Todo;&Saltar;S&altar Todo;Todo;
+16:Archivos:%d, Dirs:%d, Tamaño: %d bytes
+17:Seleccionar un directorio
+18:Seleccionar mascara
+19:Deseleccionar mascara
+20:Introducir mascara:
+21:%s de %s bytes libres
+22:El directorio %s ya existe!
+30:&Save position
+31:Position saved.
+
+; buttons
+980:Co&menzar
+981:&Cancelar
+982:C&errar
+983:&Detener
+984:&Saltar
+985:&Todo
+986:&Buscar
+
+; fMain.pas
+; Actions Captions
+1000:Salir
+1001:Ver F3
+1002:Editar F4
+1003:Copiar F5
+1004:Renombrar F6
+1005:MkDir F7
+1006:Eliminar F8
+1007:Menu F9
+1008:&Renombrado Multiple
+1009:Ejec. &Terminal
+
+;Column in TListView
+1020:Nombre
+1021:Ext
+1022:Tamaño
+1023:Fecha
+1024:Atrib.
+
+; Menu
+;File
+1040:&Archivos
+1041:Crear En&lace...
+1042:Crear Enlace S&imbólico...
+1043:&Cambiar Atributos...
+1044:&Propiedades...
+1045:Calcular Espacio &Ocupado...
+1046:Di&vidir Archivo...
+1047:&Combinar Archivos...
+1048:&Mostar Archivos del Sistema
+1049:Comparar Por Conte&nido
+1050:Cambiar Pr&opietario/grupo
+
+;Mark
+1060:&Marcar
+1061:Seleccionar &Grupo...
+1062:&Deseleccionar Grupo...
+1063:&Seleccionar Todo
+1064:D&eseleccionar Todo
+1065:&Invertir la Seleccion
+1066:&Comparar Directorios
+
+;Commands
+1080:&Comandos
+1081:&Buscar...
+1082:Lista &Rápida de Directorios
+1083:Origen &<-> Destino
+1084:Destino &= Origen
+
+;Show
+1100:&Ver
+1101:&Nombre
+1102:&Extensión
+1103:&Tamaño
+1104:Fecha y &Hora
+1105:&Atributos
+1106:&Orden Invertido
+1107:&Releer
+
+;Configuration
+1120:C&onfiguración
+1121:&Opciones...
+
+;Help
+
+1140:A&yuda
+1141:&Acerca de
+
+;dlg Options
+1160:Opciones
+1161:Seleccionar Lenguaje
+1162:Terminal
+1163:Sel. dir. con teclado numérico
+1164:Movimientos tipo Lynx
+1165:Ordenar con Mayúsculas/Minúsculas
+1166:Formato corto de Tamaño de archivo
+1167:Comportamiento
+1168:Herramientas
+1169:Editor Externo
+1170:Visualizador Externo
+1171:Comparador Externo
+1172:Ejecutar Terminal
+1173:Fuentes
+1174:Principal
+1175:Editor
+1176:Visualizador
+1177:Extensión separada
+
+;MkdirDlg
+1180:Crear directorio nuevo
+1181:Introducir nuevo nombre del directorio
+
+
+;CopyDlg
+1200:Copiar archivo(s)
+;1201:Copiar %s:
+1202:Solo del tipo:
+
+;MoveDlg
+1220:Mover archivo(s)
+;1221:Mover %s:
+1222:Solo del tipo:
+1223:Eliminar archivo(s)
+
+;Editor & Viewer
+1240:&Archivo
+1241:A&nterior
+1242:&Siguiente
+1243:Sa&lir
+1245:Sintaxis
+1246:&Nuevo
+1247:&Abrir
+1248:&Guardar
+1249:Guardar &Como...
+1250:&Editar
+1251:&Deshacer
+1252:Cor&tar
+1253:&Copiar
+1254:&Pegar
+1255:&Buscar...
+1256:&Reemplazar...
+1257:&Imagen
+1258:&Extender
+1259:Mostrar como &Texto
+1260:Mostrar como &Binario
+1261:Mostrar como &Hexadecimal
+1262:Mostrar como Texto &Envuelto
+1263:Ver
+1264:A cerca del Visualizador...
+1265:Visualizador - Parte del Seksi Commander, (C)opyright Radek Cervinka (GNU GPL 2)
+1266:Busqueda
+;viewer find dialog
+1267:Buscar
+1268:MAYS/min.
+1269:&Procesar Archivo
+1270:&Gráficos
+1271:&Copiar al portapapeles
+1272:Seleccionar &Todo
+
+; find dialog
+1280:Buscar archivos
+1281:Normal
+1282:Busqueda avanzada
+1283:Archivo/Directorio
+1284:MascaraArchivo
+1285:Buscar en archivo
+1286:Datos de busqueda
+1287:Considerar MAYUSCULAS/minusculas
+1288:¡El directorio %s no existe!
+; Nasledujucim som si nie isty...
+1289:Comenzar en
+1290:Mostrar en visualizador
+1291:Rastreados: %d
+
+; multirename dialog
+1330:Nombre de archivo anterior
+1331:Nombre de archivo nuevo
+1332:Ruta de archivo
+1333:Nombre...
+1334:[N]ombre
+1335:[Nx]ombre
+1336:[Nx:x]ombre
+1337:Extensión...
+1338:[E]xtensión
+1339:[Ex]xtensión
+1340:[Ex:x]xtensión
+1341:[C]ontador
+1342:Hora...
+1343:[A]ño
+1344:[M]es
+1345:[D]ía
+1346:[H]ora
+1347:[Mi]nutos
+1348:[S]egundos
+1349:Guardar registro
+1350:Mascara
+1351:Nombre
+1352:Extensión
+1353:Buscar y reemplazar
+1354:Buscar...
+1355:Reemplazar...
+1356:Contador
+1357:Núm. inicial
+1358:Intervalo
+1359:Ancho
+1360:Estilo de nombre
+1361:sin cambios
+1362:MAYUSCULAS
+1363:minúsculas
+1364:Primera Mayúscula
+1365:Registro resultante
+1366:Llevar registro
+1367:Deshacer todo
+
+;Attr dialog
+1500:ChMod
+1501:Propietario
+1502:Grupo
+1503:Otros
+1504:Lectura
+1505:Escritura
+1506:Ejecución
+1507:En texto:
+
+;SymLinkDialog
+1520:Crear un symlink
+1521:Destino existente (a donde el symlink señalará)
+1522:Nombre del enlace
+1523:Error al crear el symlink.
+
+;HardLinkDialog
+1530:Crear un hardlink
+1531:Destino existente (a donde el hardlink señalará)
+1532:Nombre del enlace
+1533:Error al crear el hardlink.
+
+;Shift+F4
+1540:nuevo.txt
+1541:Abrir archivo
+1542:Nombre:
+
+;search & replace in editor
+1560:Busqueda
+1561:Reemplazo
+1562:Buscar:
+1563:Reemplazar con:
+1564:Hacia &Adelante
+1565:Hacia A&tras
+1566:&MAYS/mins.
+1567:&Solo palabras completas
+1568:Buscar desde el &cursor
+1569:&Solo en el texto seleccionado
+
+;chown/chgrp dialog
+1580:Cambiar Propietario/Grupo
+1581:Propietario
+1582:Grupo
+
+1600:&Configuración
+1601:Configuración del editor
+1602:Ejemplo
+1603:&Negrita
+1604:&Cursiva
+1605:&Subrayada
+1606:&Cancelada
+1607:Predefinida
+1608:%s cargados OK.
+
+;File/Directory properties
+2000:Propiedades
+2001:Si (%s)
+2002:No
+2003:Cerrar
+2004:Siguiente
+2005:Archivo
+2006:Directorio
+2007:Dispositivo especial de bloques
+2008:Dispositivo especual de caracteres
+2009:Tuberia Nombrada
+2010:Enlace simbólico
+2011:Socket
+2012:Tipo desconocido
+
+2013:Leer
+2014:Escribir
+2015:Ejecutar
+2016:UID despues de ejecución
+2017:GID despues de ejecución
+2018:Sticky bit
+
+2020:Nombre:
+2021:Ruta:
+2022:Tipo:
+2023:Tamaño:
+2024:Ultimo acceso:
+2025:Ultima modificación:
+2026:Ultimo cambio de estado:
+2027:Propietario:
+2028:Grupo:
+2029:Symlink:
+2030:Atributos
+2031:Otros:
+2032:Bits:
+2033:Representación alternativa:
+
+;Compare by content Dialog
+2101:Numbero de cambios:
+
+;Linker
+2200:Nombre de archivo
+2201:Salir
+2202:Aceptar
+2203:Elemento
+2204:Eliminar
+2205:Hacia abajo
+2206:Abajo
+2207:Hacia arriba
+2208:Arriba
+2209:Guardar en...
+2210:Guardar Todo
+2211:Linker terminado
+
+;Splitter
+2220:Salir
+2221:Aceptar
+2222:Nombre de archivo
+2223:Directorio destino
+2224:Origen
+2225:Tamaño de archivo
+2226:Vigia
+2227:¡Formato de tamaño de archivo incorrecto!
+2228:¡No se puede crear el directorio destino!
+2229:¡No se puede dividir el archivo!
+2230:Creado:
+2231:tamaño:
+2232:Seleccionar directorio:
+

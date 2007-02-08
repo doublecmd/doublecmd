@@ -1,0 +1,16 @@
+object dmDlg: TdmDlg
+  Height = 300
+  HorizontalOffset = 376
+  VerticalOffset = 238
+  Width = 400
+  object OpenDialog: TOpenDialog
+    FilterIndex = 0
+    left = 65
+    top = 72
+  end
+  object SaveDialog: TSaveDialog
+    FilterIndex = 0
+    left = 65
+    top = 104
+  end
+end

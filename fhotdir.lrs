@@ -1,0 +1,21 @@
+{ This is an automatically generated lazarus resource file }
+
+LazarusResources.Add('TfrmHotDir','FORMDATA',[
+  'TPF0'#10'TfrmHotDir'#9'frmHotDir'#13'ActiveControl'#7#8'lsHotDir'#7'Caption'
+  +#6#9'frmHotDir'#12'ClientHeight'#3#167#1#11'ClientWidth'#3#155#1#5'Color'#7
+  +#12'clBackground'#10'TextHeight'#2#16#18'HorzScrollBar.Page'#3#156#1#19'Horz'
+  +'ScrollBar.Range'#3#147#1#18'VertScrollBar.Page'#3#168#1#19'VertScrollBar.Ra'
+  +'nge'#3#161#1#4'Left'#3#21#1#6'Height'#3#167#1#3'Top'#3#211#0#5'Width'#3#155
+  +#1#0#8'TListBox'#8'lsHotDir'#8'TabOrder'#2#0#8'TopIndex'#2#255#4'Left'#2#8#6
+  +'Height'#3#153#1#3'Top'#2#8#5'Width'#3'1'#1#0#0#7'TBitBtn'#5'btnOK'#4'Kind'#7
+  +#4'bkOK'#11'ModalResult'#2#1#7'OnClick'#7#10'btnOKClick'#11'ModalResult'#2#1
+  +#7'Caption'#6#3'&OK'#8'TabOrder'#2#1#7'OnClick'#7#10'btnOKClick'#4'Left'#3'H'
+  +#1#6'Height'#2#25#3'Top'#2#8#5'Width'#2'K'#0#0#7'TBitBtn'#9'btnCancel'#4'Kin'
+  +'d'#7#8'bkCancel'#11'ModalResult'#2#2#11'ModalResult'#2#2#7'Caption'#6#6'Can'
+  +'cel'#8'TabOrder'#2#2#4'Left'#3'H'#1#6'Height'#2#25#3'Top'#3#128#0#5'Width'#2
+  +'K'#0#0#7'TBitBtn'#6'btnADD'#7'OnClick'#7#11'btnADDClick'#7'Caption'#6#3'Add'
+  +#8'TabOrder'#2#3#7'OnClick'#7#11'btnADDClick'#4'Left'#3'H'#1#6'Height'#2#25#3
+  +'Top'#2'0'#5'Width'#2'K'#0#0#7'TBitBtn'#9'btnDelete'#7'OnClick'#7#14'btnDele'
+  +'teClick'#7'Caption'#6#6'Delete'#8'TabOrder'#2#4#7'OnClick'#7#14'btnDeleteCl'
+  +'ick'#4'Left'#3'H'#1#6'Height'#2#25#3'Top'#2'X'#5'Width'#2'K'#0#0#0
+]);

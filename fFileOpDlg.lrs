@@ -1,0 +1,24 @@
+{ This is an automatically generated lazarus resource file }
+
+LazarusResources.Add('TfrmFileOp','FORMDATA',[
+  'TPF0'#10'TfrmFileOp'#9'frmFileOp'#13'ActiveControl'#7#9'btnCancel'#11'Border'
+  +'Icons'#11#12'biSystemMenu'#10'biMinimize'#0#11'BorderStyle'#7#8'bsSingle'#7
+  +'Caption'#6#9'frmFileOp'#12'ClientHeight'#3#144#0#11'ClientWidth'#3#146#1#7
+  +'OnClose'#7#9'FormClose'#6'OnShow'#7#8'FormShow'#13'PixelsPerInch'#2'`'#8'Po'
+  +'sition'#7#14'poScreenCenter'#10'TextHeight'#2#16#18'HorzScrollBar.Page'#3
+  +#145#1#19'HorzScrollBar.Range'#3'Q'#1#18'VertScrollBar.Page'#3#143#0#19'Vert'
+  +'ScrollBar.Range'#3#137#0#4'Left'#3#22#1#6'Height'#3#144#0#3'Top'#3#234#0#5
+  +'Width'#3#146#1#0#6'TLabel'#11'lblFileName'#7'Caption'#6#11'lblFileName'#5'C'
+  +'olor'#7#6'clNone'#10'Font.Color'#7#7'clBlack'#11'Font.Height'#2#13#9'Font.N'
+  +'ame'#6#15'adobe-helvetica'#10'Font.Pitch'#7#10'fpVariable'#10'Font.Style'#11
+  +#6'fsBold'#0#11'ParentColor'#8#6'Height'#2#13#5'Width'#2';'#0#0#6'TLabel'#12
+  +'lblEstimated'#7'Caption'#6#12'lblEstimated'#5'Color'#7#6'clNone'#11'ParentC'
+  +'olor'#8#6'Height'#2#14#3'Top'#2'`'#5'Width'#2':'#0#0#12'TProgressBar'#8'pbS'
+  +'econd'#3'Max'#2'd'#6'Smooth'#9#8'TabOrder'#2#0#11'BarShowText'#9#6'Height'#2
+  +#22#3'Top'#2'@'#5'Width'#3#128#1#0#0#12'TProgressBar'#7'pbFirst'#3'Max'#2'd'
+  +#8'Position'#2#20#6'Smooth'#9#8'TabOrder'#2#1#11'BarShowText'#9#6'Height'#2
+  +#22#3'Top'#2' '#5'Width'#3#129#1#0#0#7'TBitBtn'#9'btnCancel'#25'BorderSpacin'
+  +'g.InnerBorder'#2#2#6'Cancel'#9#7'Caption'#6#6'Cancel'#4'Kind'#7#8'bkCancel'
+  +#11'ModalResult'#2#2#9'NumGlyphs'#2#0#7'OnClick'#7#14'btnCancelClick'#8'TabO'
+  +'rder'#2#2#4'Left'#3#160#0#6'Height'#2#25#3'Top'#2'`'#5'Width'#2'Y'#0#0#0
+]);

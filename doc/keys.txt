@@ -1,0 +1,88 @@
+Lines with - are planed in future
+Due to porting maybe some of this (temporally) disabled (report please)
+
+F1 : show program About information
+Shift+F2 : Set focus to command line
+F3 : open file for view in internal viewer (multiple files is also OK)
+-F3: on directory show information about directory
+F4 : open file in internal editor
+Shift+F4 - new file (or open existing) in internal editor
+F5 : copy items from source to target
+Shift+F5 - copy items ("inline")
+F6 : rename or move items
+Shift+F6 - move items ("inline")
+F7 : create new directory
+F8, Del : delete item
+F9: select main menu (hack)
+
+Ctrl + H: invoke dir history pop up menu
+Ctrl + D : directory hotlist
+-Ctrl + K : combine splitted file (from Ctrl + S)
+-Ctrl + L : calculate occupied space
+-Ctrl + O : ????in future show terminal output ???
+Ctrl + R : refresh actual panel
+-Ctrl + S : split file into smaller parts (then combine with Ctrl + K)
+-Ctrl + U : swap source and target panel
+
+Ctrl+Down,
+Ctrl + F8 : pull down commands combo box
+ 
+CTRL+ENTER : append selected item to the command combo box text
+CRTL+Shift+Enter - like CTRL+P and Alt+Enter
+CTRL+P - put path to command line
+CTRL+X - run terminal in current dir
+CTRL+T - New tab in active panel
+CTRL+W - Close actual tab
+CTRL+PgDown - like Enter
+CTRL+PgUp - like backspace
+Ctrl+Q - Terminate Double Commander
+Shift+Enter: execute command in terminal (choose in Options..)
+
+NUM +  : expand selection
+NUM -  : shrink selection
+NUM *  : invert selection
+
+Shift+NUM+ : tag all files in current directory with same extension as focused file
+Shift+NUM- : untag all files in current directory with same extension as focused file
+
+CTRL+NUM +  : select all
+CTRL+NUM -  : unselect all
+
+TAB   : switch between panels
+LEFT  : go to upper directory
+RIGHT : go to selected directory
+ENTER : go to selected directory / open file with VFS /
+		try to run file / execute not empty command line
+INSERT: select file or directory
+BACKSPACE : goto to the upper directory
+SPACE : on file - select / deselcet item
+        on directory - select / deselect item and compute space occupied in dir
+
+alfanumeric keys: write to command line
+
+Right mouse button show popup menu with configurable commands (doublecmd.ext)
+
+-------
+Viewer
+N - next file in multiple files
+P - previous file in multiple files
+Esc, Q ( or with any combination Ctrl, Shift, Alt) - Close
+1 - show as Text
+2 - show as bin
+3 - show as hex
+4 - show as wrapped text
+-5 - try process file by external command (currently disabled)
+
+---
+Editor
+
+many shortcuts similar to Borland IDE (80 shortcuts)
+(including bookmarks Ctrl+0-9,
+ (un)indent Shift+Ctrl+I, U
+ and ...
+)
++
+F2, CTRL+S - save
+ESC - quit
+...
+

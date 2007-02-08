@@ -1,0 +1,255 @@
+object frmFindDlg: TfrmFindDlg
+  ActiveControl = pgcSearch
+  Caption = 'frmFindDlg'
+  ClientHeight = 513
+  ClientWidth = 495
+  KeyPreview = True
+  OnClose = frmFindDlgClose
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
+  OnShow = frmFindDlgShow
+  PixelsPerInch = 96
+  Position = poScreenCenter
+  TextHeight = 16
+  HorzScrollBar.Page = 494
+  VertScrollBar.Page = 512
+  VertScrollBar.Range = 316
+  Left = 305
+  Height = 513
+  Top = 428
+  Width = 495
+  object Splitter1: TSplitter
+    Align = alTop
+    Cursor = crVSplit
+    Height = 1
+    Width = 495
+    ResizeAnchor = akTop
+    Cursor = crVSplit
+    Height = 1
+    Width = 495
+  end
+  object Panel2: TPanel
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 313
+    ClientWidth = 495
+    FullRepaint = False
+    TabOrder = 0
+    Height = 313
+    Top = 1
+    Width = 495
+    object pgcSearch: TPageControl
+      ActivePage = tsStandard
+      Align = alClient
+      Anchors = [akTop, akLeft, akRight]
+      TabIndex = 0
+      TabOrder = 0
+      Height = 313
+      Width = 495
+      object tsStandard: TTabSheet
+        Caption = 'Standard'
+        ClientHeight = 287
+        ClientWidth = 487
+        Height = 287
+        Width = 487
+        object lblFindPathStart: TLabel
+          Caption = 'FileDir'
+          Color = clNone
+          ParentColor = False
+          Height = 14
+          Top = 8
+          Width = 30
+        end
+        object lblFindFileMask: TLabel
+          Caption = 'FileMask'
+          Color = clNone
+          ParentColor = False
+          Height = 14
+          Top = 64
+          Width = 41
+        end
+        object edtFindPathStart: TEdit
+          Anchors = [akTop, akLeft, akRight]
+          TabOrder = 0
+          Height = 24
+          Top = 32
+          Width = 282
+        end
+        object btnSelDir: TButton
+          Anchors = [akTop, akRight]
+          BorderSpacing.InnerBorder = 2
+          Caption = '...'
+          OnClick = btnSelDirClick
+          TabOrder = 1
+          Left = 284
+          Height = 25
+          Top = 32
+          Width = 25
+        end
+        object cmbFindFileMask: TComboBox
+          Anchors = [akTop, akLeft, akRight]
+          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 18
+          MaxLength = 0
+          ParentCtl3D = False
+          TabOrder = 4
+          Text = '*'
+          Height = 21
+          Top = 88
+          Width = 306
+        end
+        object cbFindInFile: TCheckBox
+          AllowGrayed = True
+          Caption = 'Find in file'
+          OnClick = cbFindInFileClick
+          TabOrder = 2
+          Height = 13
+          Top = 120
+          Width = 67
+        end
+        object gbFindData: TGroupBox
+          Anchors = [akTop, akLeft, akRight]
+          Caption = 'Find Data'
+          ClientHeight = 87
+          ClientWidth = 313
+          Enabled = False
+          ParentCtl3D = False
+          TabOrder = 3
+          Height = 105
+          Top = 152
+          Width = 317
+          object cbCaseSens: TCheckBox
+            AllowGrayed = True
+            Caption = 'Case sensitive'
+            TabOrder = 0
+            Left = 16
+            Height = 13
+            Top = 56
+            Width = 88
+          end
+          object edtFindText: TEdit
+            Anchors = [akTop, akLeft, akRight]
+            TabOrder = 1
+            Left = 16
+            Height = 24
+            Top = 24
+            Width = 273
+          end
+        end
+      end
+      object tsAdvanced: TTabSheet
+        Caption = 'Advanced'
+        ClientHeight = 287
+        ClientWidth = 487
+        ImageIndex = 1
+        Height = 287
+        Width = 487
+      end
+    end
+    object btnStart: TButton
+      Anchors = [akTop, akRight]
+      BorderSpacing.InnerBorder = 2
+      Caption = '&Start'
+      Default = True
+      OnClick = btnStartClick
+      TabOrder = 1
+      Left = 376
+      Height = 25
+      Top = 87
+      Width = 75
+    end
+    object btnStop: TButton
+      Anchors = [akTop, akRight]
+      BorderSpacing.InnerBorder = 2
+      Cancel = True
+      Caption = 'Cancel'
+      Enabled = False
+      OnClick = btnStopClick
+      TabOrder = 2
+      Left = 376
+      Height = 25
+      Top = 151
+      Width = 75
+    end
+    object btnClose: TButton
+      Anchors = [akTop, akRight]
+      BorderSpacing.InnerBorder = 2
+      Caption = '&Close'
+      OnClick = btnCloseClick
+      TabOrder = 3
+      Left = 376
+      Height = 25
+      Top = 119
+      Width = 75
+    end
+  end
+  object Panel1: TPanel
+    Align = alClient
+    BevelOuter = bvNone
+    ClientHeight = 199
+    ClientWidth = 495
+    FullRepaint = False
+    TabOrder = 1
+    Height = 199
+    Top = 314
+    Width = 495
+    object Panel3: TPanel
+      Align = alTop
+      BevelInner = bvRaised
+      BevelOuter = bvLowered
+      ClientHeight = 65
+      ClientWidth = 495
+      FullRepaint = False
+      TabOrder = 0
+      Height = 65
+      Width = 495
+      object lblStatus: TLabel
+        Caption = 'lblStatus'
+        Color = clNone
+        Font.Color = clBlack
+        Font.Height = 13
+        Font.Name = 'adobe-helvetica'
+        Font.Pitch = fpVariable
+        Font.Style = [fsBold]
+        ParentColor = False
+        Left = 392
+        Height = 13
+        Top = 12
+        Width = 44
+      end
+      object lblCurrent: TLabel
+        Caption = 'lblCurrent'
+        Color = clNone
+        Font.Color = clBlack
+        Font.Height = 13
+        Font.Name = 'adobe-helvetica'
+        Font.Pitch = fpVariable
+        Font.Style = [fsBold]
+        ParentColor = False
+        Left = 8
+        Height = 13
+        Top = 12
+        Width = 49
+      end
+    end
+    object lsFoundedFiles: TListBox
+      Align = alClient
+      MultiSelect = True
+      OnDblClick = lsFoundedFilesDblClick
+      PopupMenu = PopupMenuFind
+      TabOrder = 1
+      Height = 134
+      Top = 65
+      Width = 495
+    end
+  end
+  object PopupMenuFind: TPopupMenu
+    left = 272
+    top = 400
+    object miShowInViewer: TMenuItem
+      Caption = 'Show In Viewer'
+      OnClick = miShowInViewerClick
+    end
+  end
+end
