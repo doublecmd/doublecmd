@@ -127,7 +127,7 @@ procedure Register;
 
 implementation
 uses
-  Clipbrd{$IFNDEF WIN32}, unix, Libc{$ENDIF};
+  Clipbrd{$IFNDEF WIN32}, Libc, unix{$ENDIF};
 
 const
   cTextWidth=80;  // wrap on 80 chars
