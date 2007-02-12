@@ -11,7 +11,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="Double Commander"/>
-      <ActiveEditorIndexAtStart Value="39"/>
+      <ActiveEditorIndexAtStart Value="0"/>
     </General>
     <LazDoc Paths=""/>
     <PublishOptions>
@@ -48,16 +48,14 @@
         <PackageName Value="JPEGForLazarus"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="43">
+    <Units Count="5">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="doublecmd"/>
         <CursorPos X="78" Y="72"/>
         <TopLine Value="59"/>
-        <EditorIndex Value="33"/>
         <UsageCount Value="200"/>
-        <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="fbtnchangedlg.pas"/>
@@ -68,9 +66,7 @@
         <UnitName Value="fbtnchangedlg"/>
         <CursorPos X="1" Y="11"/>
         <TopLine Value="23"/>
-        <EditorIndex Value="2"/>
         <UsageCount Value="166"/>
-        <Loaded Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="fconfigtoolbar.pas"/>
@@ -81,9 +77,7 @@
         <UnitName Value="fconfigtoolbar"/>
         <CursorPos X="1" Y="7"/>
         <TopLine Value="34"/>
-        <EditorIndex Value="1"/>
         <UsageCount Value="166"/>
-        <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="fmain.pas"/>
@@ -91,399 +85,20 @@
         <HasResources Value="True"/>
         <ResourceFilename Value="fMain.lrs"/>
         <UnitName Value="fMain"/>
-        <CursorPos X="34" Y="13"/>
+        <CursorPos X="9" Y="5"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="39"/>
+        <EditorIndex Value="0"/>
         <UsageCount Value="77"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="uwcxmodule.pas"/>
-        <UnitName Value="uWCXmodule"/>
-        <CursorPos X="1" Y="211"/>
-        <TopLine Value="205"/>
-        <EditorIndex Value="26"/>
-        <UsageCount Value="77"/>
-        <Loaded Value="True"/>
-      </Unit4>
-      <Unit5>
-        <Filename Value="findex.pas"/>
-        <UnitName Value="FindEx"/>
-        <CursorPos X="1" Y="19"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="3"/>
-        <UsageCount Value="77"/>
-        <Loaded Value="True"/>
-      </Unit5>
-      <Unit6>
-        <Filename Value="ufileop.pas"/>
-        <UnitName Value="uFileOp"/>
-        <CursorPos X="1" Y="7"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="12"/>
-        <UsageCount Value="77"/>
-        <Loaded Value="True"/>
-      </Unit6>
-      <Unit7>
-        <Filename Value="framepanel.pas"/>
-        <ComponentName Value="FrameFilePanel"/>
-        <HasResources Value="True"/>
-        <ResourceFilename Value="framepanel.lrs"/>
-        <UnitName Value="framePanel"/>
-        <CursorPos X="1" Y="725"/>
-        <TopLine Value="771"/>
-        <EditorIndex Value="35"/>
-        <UsageCount Value="77"/>
-        <Loaded Value="True"/>
-      </Unit7>
-      <Unit8>
-        <Filename Value="upixmapmanager.pas"/>
-        <UnitName Value="uPixMapManager"/>
-        <CursorPos X="16" Y="72"/>
-        <TopLine Value="255"/>
-        <EditorIndex Value="40"/>
-        <UsageCount Value="77"/>
-        <Loaded Value="True"/>
-      </Unit8>
-      <Unit9>
-        <Filename Value="uexeccmd.pas"/>
-        <UnitName Value="uExecCmd"/>
-        <CursorPos X="28" Y="15"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="8"/>
-        <UsageCount Value="77"/>
-        <Loaded Value="True"/>
-      </Unit9>
-      <Unit10>
-        <Filename Value="foptions.pas"/>
-        <ComponentName Value="frmOptions"/>
-        <HasResources Value="True"/>
-        <ResourceFilename Value="fOptions.lrs"/>
-        <UnitName Value="fOptions"/>
-        <CursorPos X="71" Y="266"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="19"/>
-        <UsageCount Value="76"/>
-        <Loaded Value="True"/>
-      </Unit10>
-      <Unit11>
-        <Filename Value="ufileopthread.pas"/>
-        <UnitName Value="uFileOpThread"/>
-        <CursorPos X="1" Y="11"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="22"/>
-        <UsageCount Value="76"/>
-        <Loaded Value="True"/>
-      </Unit11>
-      <Unit12>
-        <Filename Value="umovethread.pas"/>
-        <UnitName Value="uMoveThread"/>
-        <CursorPos X="37" Y="11"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="6"/>
-        <UsageCount Value="76"/>
-        <Loaded Value="True"/>
-      </Unit12>
-      <Unit13>
-        <Filename Value="ufileprocs.pas"/>
-        <UnitName Value="uFileProcs"/>
-        <CursorPos X="1" Y="9"/>
-        <TopLine Value="45"/>
-        <EditorIndex Value="7"/>
-        <UsageCount Value="76"/>
-        <Loaded Value="True"/>
-      </Unit13>
-      <Unit14>
-        <Filename Value="ufilelist.pas"/>
-        <UnitName Value="uFileList"/>
-        <CursorPos X="32" Y="11"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="9"/>
-        <UsageCount Value="75"/>
-        <Loaded Value="True"/>
-      </Unit14>
-      <Unit15>
-        <Filename Value="uvfsutil.pas"/>
-        <UnitName Value="uVFSutil"/>
-        <CursorPos X="57" Y="12"/>
-        <TopLine Value="59"/>
-        <EditorIndex Value="13"/>
-        <UsageCount Value="74"/>
-        <Loaded Value="True"/>
-      </Unit15>
-      <Unit16>
-        <Filename Value="ufindmmap.pas"/>
-        <UnitName Value="uFindMmap"/>
-        <CursorPos X="32" Y="8"/>
-        <TopLine Value="61"/>
-        <EditorIndex Value="31"/>
-        <UsageCount Value="74"/>
-        <Loaded Value="True"/>
-      </Unit16>
-      <Unit17>
-        <Filename Value="ufindthread.pas"/>
-        <UnitName Value="uFindThread"/>
-        <CursorPos X="37" Y="11"/>
-        <TopLine Value="193"/>
-        <EditorIndex Value="32"/>
-        <UsageCount Value="74"/>
-        <Loaded Value="True"/>
-      </Unit17>
-      <Unit18>
-        <Filename Value="ufilepanel.pas"/>
-        <UnitName Value="uFilePanel"/>
-        <CursorPos X="19" Y="544"/>
-        <TopLine Value="591"/>
-        <EditorIndex Value="29"/>
-        <UsageCount Value="74"/>
-        <Loaded Value="True"/>
-      </Unit18>
-      <Unit19>
-        <Filename Value="ufakethread.pas"/>
-        <UnitName Value="uFakeThread"/>
-        <CursorPos X="60" Y="54"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="38"/>
-        <UsageCount Value="74"/>
-        <Loaded Value="True"/>
-      </Unit19>
-      <Unit20>
-        <Filename Value="ucopythread.pas"/>
-        <UnitName Value="uCopyThread"/>
-        <CursorPos X="37" Y="11"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="20"/>
-        <UsageCount Value="74"/>
-        <Loaded Value="True"/>
-      </Unit20>
-      <Unit21>
-        <Filename Value="udeletethread.pas"/>
-        <UnitName Value="uDeleteThread"/>
-        <CursorPos X="41" Y="9"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="21"/>
-        <UsageCount Value="74"/>
-        <Loaded Value="True"/>
-      </Unit21>
-      <Unit22>
-        <Filename Value="fhardlink.pas"/>
-        <ComponentName Value="frmHardLink"/>
-        <HasResources Value="True"/>
-        <ResourceFilename Value="fHardLink.lrs"/>
-        <UnitName Value="fHardLink"/>
-        <CursorPos X="27" Y="22"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="4"/>
-        <UsageCount Value="73"/>
-        <Loaded Value="True"/>
-      </Unit22>
-      <Unit23>
-        <Filename Value="fsymlink.pas"/>
-        <ComponentName Value="frmSymLink"/>
-        <HasResources Value="True"/>
-        <ResourceFilename Value="fSymLink.lrs"/>
-        <UnitName Value="fSymLink"/>
-        <CursorPos X="19" Y="32"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="5"/>
-        <UsageCount Value="73"/>
-        <Loaded Value="True"/>
-      </Unit23>
-      <Unit24>
-        <Filename Value="uGlobsPaths.pas"/>
-        <UnitName Value="uGlobsPaths"/>
-        <CursorPos X="38" Y="33"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="17"/>
-        <UsageCount Value="73"/>
-        <Loaded Value="True"/>
-      </Unit24>
-      <Unit25>
-        <Filename Value="fCopyDlg.pas"/>
-        <ComponentName Value="frmCopyDlg"/>
-        <HasResources Value="True"/>
-        <ResourceFilename Value="fCopyDlg.lrs"/>
-        <UnitName Value="fCopyDlg"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="10"/>
-        <UsageCount Value="73"/>
-        <Loaded Value="True"/>
-      </Unit25>
-      <Unit26>
-        <Filename Value="fLngForm.pas"/>
-        <ComponentName Value="frmLng"/>
-        <HasResources Value="True"/>
-        <ResourceFilename Value="fLngForm.lrs"/>
-        <UnitName Value="fLngForm"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="11"/>
-        <UsageCount Value="73"/>
-        <Loaded Value="True"/>
-      </Unit26>
-      <Unit27>
-        <Filename Value="fFindDlg.pas"/>
-        <ComponentName Value="frmFindDlg"/>
-        <HasResources Value="True"/>
-        <ResourceFilename Value="fFindDlg.lrs"/>
-        <UnitName Value="fFindDlg"/>
-        <CursorPos X="5" Y="147"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="0"/>
-        <UsageCount Value="72"/>
-        <Loaded Value="True"/>
-      </Unit27>
-      <Unit28>
-        <Filename Value="uglobs.pas"/>
-        <UnitName Value="uGlobs"/>
-        <CursorPos X="37" Y="11"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="15"/>
-        <UsageCount Value="71"/>
-        <Loaded Value="True"/>
-      </Unit28>
-      <Unit29>
-        <Filename Value="utypes.pas"/>
-        <UnitName Value="uTypes"/>
-        <CursorPos X="1" Y="9"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="41"/>
-        <UsageCount Value="66"/>
-        <Loaded Value="True"/>
-      </Unit29>
-      <Unit30>
-        <Filename Value="fFileOpDlg.pas"/>
-        <ComponentName Value="frmFileOp"/>
-        <HasResources Value="True"/>
-        <ResourceFilename Value="fFileOpDlg.lrs"/>
-        <UnitName Value="fFileOpDlg"/>
-        <CursorPos X="1" Y="81"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="23"/>
-        <UsageCount Value="64"/>
-        <Loaded Value="True"/>
-      </Unit30>
-      <Unit31>
         <Filename Value="uwcxprototypes.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWCXprototypes"/>
         <CursorPos X="28" Y="8"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="27"/>
         <UsageCount Value="116"/>
-        <Loaded Value="True"/>
-      </Unit31>
-      <Unit32>
-        <Filename Value="uWCXhead.pas"/>
-        <UnitName Value="uWCXhead"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="28"/>
-        <UsageCount Value="60"/>
-        <Loaded Value="True"/>
-      </Unit32>
-      <Unit33>
-        <Filename Value="uVFS_.pas"/>
-        <UnitName Value="uVFS_"/>
-        <CursorPos X="42" Y="11"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="14"/>
-        <UsageCount Value="60"/>
-        <Loaded Value="True"/>
-      </Unit33>
-      <Unit34>
-        <Filename Value="uini.pas"/>
-        <UnitName Value="uIni"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="16"/>
-        <UsageCount Value="57"/>
-        <Loaded Value="True"/>
-      </Unit34>
-      <Unit35>
-        <Filename Value="uColorExt.pas"/>
-        <UnitName Value="uColorExt"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="37"/>
-        <UsageCount Value="40"/>
-        <Loaded Value="True"/>
-      </Unit35>
-      <Unit36>
-        <Filename Value="uConv.pas"/>
-        <UnitName Value="uConv"/>
-        <CursorPos X="31" Y="33"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="36"/>
-        <UsageCount Value="37"/>
-        <Loaded Value="True"/>
-      </Unit36>
-      <Unit37>
-        <Filename Value="feditor.pas"/>
-        <ComponentName Value="frmEditor"/>
-        <HasResources Value="True"/>
-        <ResourceFilename Value="fEditor.lrs"/>
-        <UnitName Value="fEditor"/>
-        <CursorPos X="5" Y="102"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="34"/>
-        <UsageCount Value="21"/>
-        <Loaded Value="True"/>
-      </Unit37>
-      <Unit38>
-        <Filename Value="uShowMsg.pas"/>
-        <UnitName Value="uShowMsg"/>
-        <CursorPos X="1" Y="10"/>
-        <TopLine Value="173"/>
-        <EditorIndex Value="24"/>
-        <UsageCount Value="18"/>
-        <Loaded Value="True"/>
-      </Unit38>
-      <Unit39>
-        <Filename Value="fMsg.pas"/>
-        <ComponentName Value="frmMsg"/>
-        <HasResources Value="True"/>
-        <ResourceFilename Value="fMsg.lrs"/>
-        <UnitName Value="fMsg"/>
-        <CursorPos X="39" Y="68"/>
-        <TopLine Value="51"/>
-        <EditorIndex Value="25"/>
-        <UsageCount Value="18"/>
-        <Loaded Value="True"/>
-      </Unit39>
-      <Unit40>
-        <Filename Value="ffindview.pas"/>
-        <ComponentName Value="frmFindView"/>
-        <HasResources Value="True"/>
-        <UnitName Value="fFindView"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="30"/>
-        <UsageCount Value="12"/>
-        <Loaded Value="True"/>
-      </Unit40>
-      <Unit41>
-        <Filename Value="fAbout.pas"/>
-        <ComponentName Value="frmAbout"/>
-        <HasResources Value="True"/>
-        <ResourceFilename Value="fAbout.lrs"/>
-        <UnitName Value="fAbout"/>
-        <CursorPos X="5" Y="48"/>
-        <TopLine Value="41"/>
-        <EditorIndex Value="42"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
-      </Unit41>
-      <Unit42>
-        <Filename Value="ulng.pas"/>
-        <UnitName Value="uLng"/>
-        <CursorPos X="15" Y="419"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="18"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
-      </Unit42>
+      </Unit4>
     </Units>
     <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
