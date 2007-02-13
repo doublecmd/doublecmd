@@ -40,6 +40,7 @@ const
   clngMaskInput=20;
   clngFreeMsg=21;
   clngMsgErrDirExists=22;
+  clngMsgPopUpHotDelete=23;
 
   clngSavePosition=30;
   clngPositionSaved=31;
