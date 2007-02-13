@@ -1,7 +1,7 @@
 ;format of file:
 ; ID:String
 ; if first char is ; then all line is remark
-; english language file for seksi commander
+; english language file for Double commander
 ; author: radek.cervinka@centrum.cz
 ; realised under GNU GPL 2
 ; contributors:
@@ -173,7 +173,7 @@
 1262:Show as &Wrap text
 1263:View
 1264:About Viewer...
-1265:Viewer - part of Seksi Commander, (C)opyright Radek Cervinka (GNU GPL 2)
+1265:Internal Viewer of Double Commander.
 1266:Search
 ;viewer find dialog
 1267:Find
