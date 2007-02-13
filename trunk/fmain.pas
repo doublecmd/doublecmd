@@ -41,7 +41,7 @@ uses
   LResources,
   Graphics, Forms, Menus, Controls, Dialogs, ComCtrls,
   StdCtrls, ExtCtrls,ActnList,Buttons,
-  SysUtils, Classes,  {uFilePanel,} fLngForm, framePanel, FileCtrl, Grids,
+  SysUtils, Classes,  {uFilePanel,} fLngForm, framePanel, {FileCtrl,} Grids,
   KASToolBar;
 
 const
@@ -277,6 +277,7 @@ type
     procedure CreatePopUpHotDir;
     procedure CreatePopUpDirHistory;
     procedure miHotAddClick(Sender: TObject);
+    procedure miHotDeleteClick(Sender: TObject);
     procedure miHotConfClick(Sender: TObject);
     procedure CalculateSpace(bDisplayMessage:Boolean);
     procedure RenameFile(sDestPath:String); // this is for F6 and Shift+F6
@@ -1221,7 +1222,7 @@ var
   p:TPoint;
 begin
   inherited;
-  CreatePopUpHotDir;
+  CreatePopUpHotDir;// TODO: i thing in future this must call on create or change
   p:=ActiveFrame.dgPanel.ClientToScreen(Point(0,0));
   pmHotList.Popup(p.X,p.Y);
 end;
@@ -1239,6 +1240,13 @@ begin
   glsHotDir.Add(ActiveFrame.ActiveDir);
 //  pmHotList.Items.Add();
 // OnClick:=HotDirSelected;
+end;
+
+procedure TfrmMain.miHotDeleteClick(Sender: TObject);
+var i : integer;
+begin
+  i:= glsHotDir.IndexOf(ActiveFrame.ActiveDir);
+  if i > 0 then glsHotDir.Delete(i);
 end;
 
 procedure TfrmMain.miHotConfClick(Sender: TObject);
@@ -1298,10 +1306,19 @@ begin
   mi:=TMenuItem.Create(pmHotList);
   mi.Caption:='-';
   pmHotList.Items.Add(mi);
-  // now add ADD item
+  // now add ADD or DELETE item
+
   mi:=TMenuItem.Create(pmHotList);
-  mi.Caption:=Format(lngGetString(clngMsgPopUpHotAdd),[ActiveFrame.ActiveDir]);
-  mi.OnClick:=@miHotAddClick;
+  if glsHotDir.IndexOf(ActiveFrame.ActiveDir)>0 then
+  begin
+    mi.Caption:=Format(lngGetString(clngMsgPopUpHotDelete),[ActiveFrame.ActiveDir]);
+    mi.OnClick:=@miHotDeleteClick;
+  end
+  else
+  begin
+    mi.Caption:=Format(lngGetString(clngMsgPopUpHotAdd),[ActiveFrame.ActiveDir]);
+    mi.OnClick:=@miHotAddClick;
+  end;
   pmHotList.Items.Add(mi);
 
   // now add configure item
