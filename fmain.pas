@@ -856,8 +856,11 @@ begin
 {         Key:=0;
          ActiveFrame.ClearCmdLine; // hack delete key
 }
-         actDelete.Execute;
-         Exit;
+         if (not edtCommand.Focused) or (Key = VK_F8) then
+         begin
+           actDelete.Execute;
+           Exit;
+         end;
        end;
      VK_F9:
        begin
@@ -1028,8 +1031,11 @@ begin
 
     if (Key=VK_X) then
     begin
-      actRunTerm.Execute;
-      Exit;
+      if not edtCommand.Focused then
+      begin
+        actRunTerm.Execute;
+        Exit;
+      end;
     end;
 
     if (Key=VK_T) then
@@ -1986,7 +1992,7 @@ end;
 procedure TfrmMain.FormActivate(Sender: TObject);
 begin
   KeyPreview:=True;
-  ActiveFrame.SetFocus;
+//  ActiveFrame.SetFocus;
 //  writeln('Activate');
 end;
 
@@ -2237,7 +2243,7 @@ begin
     with ActiveFrame do
     begin
       SelectFileIfNoSelected(GetActiveitem);
-      {$IFNDEF WIN32} // Alexx2000 сделать позже
+      {$IFNDEF WIN32} //TODO Alexx2000 сделать позже
       ShowChownForm(ActiveFrame.pnlFile.FileList, ActiveFrame.ActiveDir);
       {$ENDIF}
     end;
