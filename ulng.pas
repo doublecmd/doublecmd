@@ -41,6 +41,7 @@ const
   clngFreeMsg=21;
   clngMsgErrDirExists=22;
   clngMsgPopUpHotDelete=23;
+  clngMsgDiskNotAvail=24;
 
   clngSavePosition=30;
   clngPositionSaved=31;

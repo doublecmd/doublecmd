@@ -337,7 +337,6 @@ begin
   {*Tool Bar*}
 end;
 
-{Alexx2000}
 procedure TfrmMain.DeleteClick(Sender: TObject);
 begin
 if pmToolBar.Tag >= 0 then
@@ -350,7 +349,6 @@ if pmToolBar.Tag >= 0 then
    end;
 end;
 
-{Alexx2000}
 procedure TfrmMain.dskLeftToolButtonClick(NumberOfButton: Integer);
 var
 Command : String;
@@ -366,7 +364,18 @@ begin
         FrameLeft.pnlFile.ActiveDir := GetHomeDir;
      end
   else
-  FrameLeft.pnlFile.ActiveDir := dskLeft.Commands[NumberOfButton];
+  begin
+     if IsAvailable(dskLeft.Commands[NumberOfButton]) then
+       begin
+         FrameLeft.pnlFile.ActiveDir := dskLeft.Commands[NumberOfButton];
+         dskLeft.Tag := NumberOfButton;
+       end
+     else
+       begin
+         dskLeft.Buttons[dskLeft.Tag].Down := True;
+         msgOK(lngGetString(clngMsgDiskNotAvail));
+       end;
+  end;
   FrameLeft.pnlFile.LoadPanel;
 end;
 
@@ -385,10 +394,20 @@ begin
         FrameRight.pnlFile.ActiveDir := GetHomeDir;
      end
   else
-  FrameRight.pnlFile.ActiveDir := dskRight.Commands[NumberOfButton];
+   begin
+     if IsAvailable(dskRight.Commands[NumberOfButton]) then
+       begin
+         FrameRight.pnlFile.ActiveDir := dskRight.Commands[NumberOfButton];
+         dskRight.Tag := NumberOfButton;
+       end
+     else
+       begin
+         dskRight.Buttons[dskRight.Tag].Down := True;
+         msgOK(lngGetString(clngMsgDiskNotAvail));
+       end;
+  end;
   FrameRight.pnlFile.LoadPanel;
 end;
-{Alexx2000}
 
 
 procedure TfrmMain.MainToolBarMouseDown(Sender: TOBject; Button: TMouseButton;
@@ -419,7 +438,6 @@ begin
   ExecCmdFork(MainToolBar.Commands[NumberOfButton]);
   writeln(MainToolBar.Commands[NumberOfButton]);
 end;
-{Alexx2000}
 
 
 procedure TfrmMain.actExitExecute(Sender: TObject);
@@ -1416,7 +1434,6 @@ begin
           iDirSize:=FilesSize;
         ActiveFrame.pnlFile.LastActive:=sName;
       end;
-      //Alexx2000
       Free;
     end;
   finally
@@ -1447,7 +1464,7 @@ begin
     with ActiveFrame do
     begin
       SelectFileIfNoSelected(GetActiveItem);
-      {$IFNDEF WIN32}  // Alexx2000 сделать позже
+      {$IFNDEF WIN32}  //TODO cross platform
       ShowAttrForm(ActiveFrame.pnlFile.FileList, ActiveFrame.ActiveDir);
       {$ENDIF}
     end;
@@ -2067,7 +2084,7 @@ begin
     with ActiveFrame do
     begin
       SelectFileIfNoSelected(GetActiveItem);
-      {$IFNDEF WIN32} // Alexx2000 сделать позже
+      {$IFNDEF WIN32} //TODO cross platform
       ShowFileProperties(ActiveFrame.pnlFile.FileList, ActiveFrame.ActiveDir);
       {$ENDIF}
     end;
@@ -2121,18 +2138,24 @@ Drive := PDrive(Drives.Items[I]);
 with Drive^ do
     begin
       dskPanel.AddButton(Path, Name, '');
-      {Set choose drive}
+      {Set chosen drive}
       if dskPanel.Align = alLeft then
         begin
           if Pos(Path, FrameLeft.pnlFile.ActiveDir) = 1 then
-            dskPanel.Buttons[I].Down := True;
+            begin
+              dskPanel.Buttons[I].Down := True;
+              dskPanel.Tag := I;
+            end;
         end
       else
         begin
           if Pos(Path, FrameRight.pnlFile.ActiveDir) = 1 then
-            dskPanel.Buttons[I].Down := True;
+            begin
+              dskPanel.Buttons[I].Down := True;
+              dskPanel.Tag := I;
+            end;
         end;
-      {/Set choose drive}
+      {/Set chosen drive}
       dskPanel.Buttons[I].Caption := Name;
       dskPanel.Buttons[I].Glyph := PixMapManager.GetBitmap(DriveIcon, dskPanel.Buttons[I].Color);
       {Set Buttons Transparent. Is need? }
@@ -2243,7 +2266,7 @@ begin
     with ActiveFrame do
     begin
       SelectFileIfNoSelected(GetActiveitem);
-      {$IFNDEF WIN32} //TODO Alexx2000 сделать позже
+      {$IFNDEF WIN32} //TODO cross platform
       ShowChownForm(ActiveFrame.pnlFile.FileList, ActiveFrame.ActiveDir);
       {$ENDIF}
     end;
@@ -2305,7 +2328,6 @@ begin
   end;
 end;
 
-{Alexx2000}
 procedure TfrmMain.tbEditClick(Sender: TObject);
 begin
 if pmToolBar.Tag >= 0 then
@@ -2317,7 +2339,7 @@ begin
 ShowConfigToolbar;
 end;
 end;
-{/Alexx2000}
+
 
 function TfrmMain.ExecuteCommandFromEdit(sCmd: String): Boolean;
 var
