@@ -11,7 +11,7 @@ contributors:
 interface
 
 uses
-    SysUtils, Classes {$IFDEF WIN32}, Windows, ShellApi, MMSystem{$ELSE}, BaseUnix{$ENDIF};
+    SysUtils, Classes {$IFDEF WIN32}, Windows, ShellApi, MMSystem{$ELSE}, BaseUnix, Libc{$ENDIF};
     
 type
 TDriveType = (dtUnknown, dtNoDrive, dtFloppy, dtFixed, dtNetwork, dtCDROM,
@@ -71,6 +71,7 @@ function CreateSymLink(Path, LinkName: string) : Boolean;
 function GetHomeDir : String;
 function GetLastDir(Path : String) : String;
 
+function IsAvailable(Path : String) : Boolean;
 function GetAllDrives : TList;
 
 implementation
@@ -88,6 +89,8 @@ Result := BaseUnix.FPS_ISDIR(iAttr);
 end;
 {$ENDIF}
 
+(*Is Link*)
+
 function FPS_ISLNK(iAttr:Cardinal) : Boolean;
 {$IFDEF WIN32}
 begin
@@ -102,7 +105,7 @@ end;
 function CreateHardLink(Path, LinkName: string) : Boolean;
 {$IFDEF WIN32}
 begin
-// on NTFS
+// TODO on NTFS
 end;
 {$ELSE}
 begin
@@ -113,13 +116,15 @@ end;
 function CreateSymLink(Path, LinkName: string) : Boolean;
 {$IFDEF WIN32}
 begin
-// on NTFS
+// TODO on NTFS
 end;
 {$ELSE}
 begin
 Result := (fpsymlink(PChar(@Path[1]),PChar(@LinkName[1]))=0);
 end;
 {$ENDIF}
+
+(* Return home directory*)
 
 function GetHomeDir : String;
 {$IFDEF WIN32}
@@ -173,8 +178,7 @@ function GetLabelDisk(const Drv: Char; const VolReal: Boolean): string;
     SHGetFileInfo(PChar(Drv + ':\'), 0, SFI, SizeOf(SFI), SHGFI_DISPLAYNAME);
     Result := SFI.szDisplayName;
 
-    // В Win9x, Me - нет метки диска -> #32 + (x:)
-    // В WinNT 5.x - нет метки диска -> Название устройства + #32 + (x:)
+
     if Pos('(', Result) <> 0 then
       SetLength(Result, Pos('(', Result) - 2);
   end;
@@ -196,7 +200,7 @@ begin
     Result := Buf;
 
     if VolReal and (WinVer >= 5) and (Result <> '') and
-       (DriveType <> DRIVE_REMOVABLE) then // Win2k, XP и выше
+       (DriveType <> DRIVE_REMOVABLE) then // Win2k, XP and higher
       Result := DisplayName(Drv)
     else if (Result = '') and (not VolReal) then
       Result := '<none>';
@@ -244,14 +248,57 @@ begin
 end;
 {$ENDIF}
 
+
+function IsAvailable(Path: String): Boolean;
+{$IFDEF WIN32}
+var
+  Drv: Char;
+    DriveLabel: string;
+begin
+
+  Drv := ExtractFileDrive(Path)[1];
+
+  { Close CD/DVD }
+  if (GetDriveType(PChar(Drv + ':\')) = DRIVE_CDROM) and
+     (not DriveReady(Drv)) then
+    begin
+       DriveLabel:= GetLabelDisk(Drv, False);
+       CloseCD(Drv);
+       if DriveReady(Drv) then
+         WaitLabelChange(Drv, DriveLabel);
+    end;
+  Result :=  DriveReady(Drv);
+end;
+{$ELSE}
+var
+  mtab: PIOFile;
+  pme: PMountEntry;
+begin
+  Result:= False;
+  mtab:= setmntent(_PATH_MOUNTED,'r');
+  if not Assigned(mtab) then exit;
+  pme:= getmntent(mtab);
+  while (pme <> nil) do
+  begin
+    if pme.mnt_dir = Path then
+    begin
+      Result:= True;
+      Break;
+    end;
+    pme:= getmntent(mtab);
+  end;
+  endmntent(mtab);
+end;
+{$ENDIF}
+
 (*Return a list of drives in system*)
 
 function GetAllDrives : TList;
 var
-Drive : PDrive;
+  Drive : PDrive;
 
 {$IFDEF WIN32}
-DriveNum: Integer;
+  DriveNum: Integer;
   DriveBits: set of 0..25;
 begin
 Result := TList.Create;
@@ -276,9 +323,31 @@ Result := TList.Create;
 end;
 
 {$ELSE}
+  fstab: PIOFile;
+  pme: PMountEntry;
 begin
-Result := TList.Create;
-//need to make
+  Result := TList.Create;
+  fstab:= setmntent(_PATH_FSTAB,'r');
+  if not Assigned(fstab) then exit;
+  pme:= getmntent(fstab);
+  while (pme <> nil) do
+  begin
+    if (pme.mnt_dir <> '/') and (pme.mnt_dir <> 'none') and
+       (pme.mnt_dir <> 'swap') and (pme.mnt_dir <> '/proc') and 
+       (pme.mnt_dir <> '/dev/pts') then
+       begin
+         New(Drive);
+         with Drive^ do
+         begin
+           Name := ExtractFileName(pme.mnt_dir);
+           Path := pme.mnt_dir;
+           // TODO drive icons on Linux
+         end;
+         Result.Add(Drive);
+       end;
+    pme:= getmntent(fstab);
+  end;
+  endmntent(fstab);
 end;
 {$ENDIF}
 
