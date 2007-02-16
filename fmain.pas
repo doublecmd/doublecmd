@@ -298,7 +298,7 @@ implementation
 
 uses
   uTypes, fAbout, uGlobs, uLng, fOptions,{ fViewer,}fbtnchangedlg, fconfigtoolbar,
-  uCopyThread, uFileList, uDeleteThread, uExecCmd,
+  uCopyThread, uFileList, uDeleteThread,
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg,
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg,

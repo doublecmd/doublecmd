@@ -66,6 +66,7 @@ type
 
 function FPS_ISDIR(iAttr:Cardinal) : Boolean;
 function FPS_ISLNK(iAttr:Cardinal) : Boolean;
+function ExecCmdFork(const sCmd:String):Integer;
 function CreateHardLink(Path, LinkName: string) : Boolean;
 function CreateSymLink(Path, LinkName: string) : Boolean;
 function GetHomeDir : String;
@@ -76,6 +77,9 @@ function GetAllDrives : TList;
 
 implementation
 
+uses
+   Process;
+   
 (*Is Directory*)
 
 function  FPS_ISDIR(iAttr:Cardinal) : Boolean;
@@ -99,6 +103,29 @@ end;
 {$ELSE}
 begin
 Result := BaseUnix.FPS_ISLNK(iAttr);
+end;
+{$ENDIF}
+
+(* Execute external commands *)
+
+function ExecCmdFork(const sCmd:String):Integer;
+{$IFDEF UNIX}
+var
+  AProcess: TProcess;
+Begin
+  try
+    AProcess := TProcess.Create(nil);
+    AProcess.CommandLine := sCmd;
+    AProcess.Execute;
+    AProcess.Free;
+    Result:=0;
+  except
+    Result:=-1;
+  end;
+end;
+{$ELSE}
+begin
+ShellExecute(0, 'open',PChar(sCmd), nil, PChar(ExtractFilePath(sCmd)), SW_SHOW);
 end;
 {$ENDIF}
 

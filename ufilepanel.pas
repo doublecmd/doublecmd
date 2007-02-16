@@ -92,7 +92,7 @@ type
 implementation
 
 uses
-  SysUtils, uFileOp, uGlobs, uExecCmd,
+  SysUtils, uFileOp, uGlobs,
   uShowMsg, Controls, uFilter, uConv, uLng, uShowForm,
   uOSUtils{$IFNDEF WIN32}, BaseUnix, Unix, UnixType{$ELSE}, Windows{$ENDIF};
 
@@ -344,8 +344,8 @@ begin
       begin
         System.ChDir(ActiveDir);
         LastActive:=sName;
-        ExecuteFile('./'+sName, False);
-//        uExecCmd.ExecCmdFork('./'+sName);
+        ExecuteFile(sName, False);
+//        ExecCmdFork('./'+sName);
         LoadPanel;
         Exit;
       end;
@@ -355,10 +355,10 @@ end;
 procedure TFilePanel.ExecuteFile(const sName:String; bTerm:Boolean);
 begin
   if bTerm then
-//    uExecCmd.ExecCmdFork(Format(gTerm,[sName+'|less']))
-    uExecCmd.ExecCmdFork(Format(gTerm,[sName+';echo ''Press Enter'';read']))
+//    ExecCmdFork(Format(gTerm,[sName+'|less']))
+    ExecCmdFork(Format(gTerm,[sName+';echo ''Press Enter'';read']))
   else
-    uExecCmd.ExecCmdFork(sName);
+    ExecCmdFork(sName);
 end;
 
 procedure TFilePanel.MarkAllFiles(bMarked:Boolean);
@@ -595,7 +595,7 @@ begin
   System.ChDir(ActiveDir);
 //    LastActive:=sName;
   writeln(sCmd);
-  uExecCmd.ExecCmdFork(sCmd);
+  ExecCmdFork(sCmd);
 //      LoadPanel;
 end;
 
