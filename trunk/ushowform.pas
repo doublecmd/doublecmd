@@ -25,7 +25,7 @@ Function ShowViewerByGlobList(list:TStringList):Boolean;
 implementation
 uses
   SysUtils,
-  uGlobs, uExecCmd, fEditor, fViewer;
+  uGlobs, uOSUtils, fEditor, fViewer;
 
 Function ShowEditorByGlob(const sFileName:String):Boolean;
 begin

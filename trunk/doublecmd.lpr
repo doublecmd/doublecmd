@@ -23,7 +23,6 @@ uses
   uConstants,
   uTypes,
   framePanel,
-  uExecCmd,
   uFileOpThread,
   uFileProcs,
   fFileOpDlg,

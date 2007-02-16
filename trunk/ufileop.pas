@@ -123,7 +123,7 @@ begin
     fr.bIsLink:=FPS_ISLNK(fr.iMode);
     fr.sLinkTo:='';
     fr.iDirSize:=0;
-    {$IFNDEF WIN32}   // *nix
+    {$IFDEF UNIX}   // *nix
     if fr.bIsLink then
     begin
       fr.sLinkTo:=fpReadLink(PChar(sr.Name));
@@ -133,6 +133,9 @@ begin
     else
       fr.bLinkIsDir:=False;
     fr.bExecutable:=(not FPS_ISDIR(fr.iMode)) and (fr.iMode AND (S_IXUSR OR S_IXGRP OR S_IXOTH)>0);
+    {$ELSE}  // Windows for ShellExecute
+    fr.bExecutable:= not FPS_ISDIR(fr.iMode);
+    fr.bLinkIsDir:=False;
     {$ENDIF}
     fr.bSelected:=False;
     fr.sModeStr:=AttrToStr(fr.iMode);
