@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<CONFIG>
-  <Compiler Value="E:\Prog\lazarus\pp\bin\i386-win32\ppc386.exe" Date="877110550"/>
-  <Params Value=" -S2cdgi -OG3 -gl -vewnhi -l -FiX:\linux\sccmd\viewer\ -Fu..\..\..\Prog\lazarus\components\jpeg\lib\i386-win32\ -Fucomponents\KASToolBar\lib\i386-win32\ -Fu..\..\..\Prog\lazarus\components\synedit\units\i386-win32\ -Fu..\..\..\Prog\lazarus\lcl\units\i386-win32\ -Fu..\..\..\Prog\lazarus\lcl\units\i386-win32\win32\ -Fucomponents\viewer\lib\i386-win32\ -Fu..\..\..\Prog\lazarus\packager\units\i386-win32\ -Fu. -oE:\Doublecmd\Internet\Doublecmd\doublecmd.exe -dLCL -dLCLwin32 doublecmd.lpr"/>
-</CONFIG>
