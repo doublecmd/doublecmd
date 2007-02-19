@@ -11,9 +11,8 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="Double Commander"/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ActiveEditorIndexAtStart Value="1"/>
     </General>
-    <LazDoc Paths=""/>
     <PublishOptions>
       <Version Value="2"/>
       <DestinationDirectory Value="\mnt\X\linux\sccmd\scfpc\"/>
@@ -48,7 +47,7 @@
         <PackageName Value="JPEGForLazarus"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="6">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -99,8 +98,77 @@
         <TopLine Value="1"/>
         <UsageCount Value="116"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="foptions.pas"/>
+        <ComponentName Value="frmOptions"/>
+        <HasResources Value="True"/>
+        <ResourceFilename Value="fOptions.lrs"/>
+        <UnitName Value="fOptions"/>
+        <CursorPos X="8" Y="123"/>
+        <TopLine Value="119"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit5>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="14" HistoryIndex="13">
+      <Position1>
+        <Filename Value="foptions.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position1>
+      <Position2>
+        <Filename Value="foptions.pas"/>
+        <Caret Line="25" Column="3" TopLine="12"/>
+      </Position2>
+      <Position3>
+        <Filename Value="foptions.pas"/>
+        <Caret Line="30" Column="26" TopLine="12"/>
+      </Position3>
+      <Position4>
+        <Filename Value="foptions.pas"/>
+        <Caret Line="31" Column="26" TopLine="12"/>
+      </Position4>
+      <Position5>
+        <Filename Value="foptions.pas"/>
+        <Caret Line="32" Column="26" TopLine="12"/>
+      </Position5>
+      <Position6>
+        <Filename Value="foptions.pas"/>
+        <Caret Line="35" Column="15" TopLine="16"/>
+      </Position6>
+      <Position7>
+        <Filename Value="foptions.pas"/>
+        <Caret Line="31" Column="19" TopLine="17"/>
+      </Position7>
+      <Position8>
+        <Filename Value="foptions.pas"/>
+        <Caret Line="29" Column="22" TopLine="17"/>
+      </Position8>
+      <Position9>
+        <Filename Value="foptions.pas"/>
+        <Caret Line="30" Column="22" TopLine="17"/>
+      </Position9>
+      <Position10>
+        <Filename Value="foptions.pas"/>
+        <Caret Line="31" Column="22" TopLine="17"/>
+      </Position10>
+      <Position11>
+        <Filename Value="foptions.pas"/>
+        <Caret Line="34" Column="31" TopLine="17"/>
+      </Position11>
+      <Position12>
+        <Filename Value="foptions.pas"/>
+        <Caret Line="76" Column="5" TopLine="75"/>
+      </Position12>
+      <Position13>
+        <Filename Value="foptions.pas"/>
+        <Caret Line="34" Column="19" TopLine="34"/>
+      </Position13>
+      <Position14>
+        <Filename Value="foptions.pas"/>
+        <Caret Line="76" Column="45" TopLine="75"/>
+      </Position14>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
