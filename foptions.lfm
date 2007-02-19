@@ -1,363 +1,444 @@
-object frmOptions: TfrmOptions
+inherited frmOptions: TfrmOptions
+  Left = 298
+  Height = 312
+  Top = 197
+  Width = 454
+  HorzScrollBar.Page = 453
+  VertScrollBar.Page = 311
+  VertScrollBar.Range = 41
   ActiveControl = PageControl1
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Options'
-  ClientHeight = 312
-  ClientWidth = 454
-  OnCreate = FormCreate
-  PixelsPerInch = 96
   Position = poMainFormCenter
-  TextHeight = 16
-  HorzScrollBar.Page = 453
-  VertScrollBar.Page = 311
-  VertScrollBar.Range = 41
-  Left = 313
-  Height = 312
-  Top = 416
-  Width = 454
   object PageControl1: TPageControl
-    ActivePage = tsFonts
-    Align = alClient
-    TabIndex = 3
-    TabOrder = 0
     Height = 272
     Width = 454
+    ActivePage = TabSheet1
+    Align = alClient
+    TabIndex = 4
+    TabOrder = 0
     object tsLng: TTabSheet
       Caption = 'Language'
-      ClientHeight = 246
-      ClientWidth = 446
-      Height = 246
-      Width = 446
       object lngList: TListBox
+        Height = 242
+        Width = 450
         Align = alClient
         TabOrder = 0
         TopIndex = -1
-        Height = 242
-        Width = 450
       end
     end
     object tsBehav: TTabSheet
       Caption = 'Behaviour'
-      ClientHeight = 246
-      ClientWidth = 446
       ImageIndex = 1
-      Height = 246
-      Width = 446
       object lblTerm: TLabel
-        Caption = 'Terminal:'
-        Color = clNone
-        ParentColor = False
         Left = 8
         Height = 13
         Top = 16
         Width = 51
-      end
-      object lblRunTerm: TLabel
-        Caption = 'Run terminal:'
+        Caption = 'Terminal:'
         Color = clNone
         ParentColor = False
+      end
+      object lblRunTerm: TLabel
         Left = 8
         Height = 13
         Top = 48
         Width = 73
+        Caption = 'Run terminal:'
+        Color = clNone
+        ParentColor = False
       end
       object edtTerm: TEdit
-        TabOrder = 0
-        Text = '/usr/X11R6/bin/xterm -e bash -i -c %s'
         Left = 96
         Height = 24
         Top = 8
         Width = 313
+        TabOrder = 0
+        Text = '/usr/X11R6/bin/xterm -e bash -i -c %s'
       end
       object gb: TGroupBox
-        ClientHeight = 148
-        ClientWidth = 225
-        ParentCtl3D = False
-        TabOrder = 2
         Left = 8
         Height = 148
         Top = 80
         Width = 225
+        ParentCtl3D = False
+        TabOrder = 2
         object cbDirSelect: TCheckBox
-          AllowGrayed = True
-          Caption = 'cbDirSelect'
-          TabOrder = 0
           Left = 8
           Height = 24
           Top = -3
           Width = 92
+          AllowGrayed = True
+          Caption = 'cbDirSelect'
+          TabOrder = 0
         end
         object cbCaseSensitiveSort: TCheckBox
-          AllowGrayed = True
-          Caption = 'cbCaseSensitiveSort'
-          TabOrder = 1
           Left = 8
           Height = 24
           Top = 45
           Width = 143
+          AllowGrayed = True
+          Caption = 'cbCaseSensitiveSort'
+          TabOrder = 1
         end
         object cbLynxLike: TCheckBox
-          AllowGrayed = True
-          Caption = 'cbLynxLike'
-          TabOrder = 2
           Left = 8
           Height = 24
           Top = 21
           Width = 91
+          AllowGrayed = True
+          Caption = 'cbLynxLike'
+          TabOrder = 2
         end
         object cbShortFileSizeFormat: TCheckBox
-          AllowGrayed = True
-          Caption = 'cbShortFileSizeFormat'
-          TabOrder = 3
           Left = 8
           Height = 24
           Top = 69
           Width = 153
+          AllowGrayed = True
+          Caption = 'cbShortFileSizeFormat'
+          TabOrder = 3
         end
         object cbSeparateExt: TCheckBox
-          AllowGrayed = True
-          Caption = 'cbSeparateExt'
-          TabOrder = 4
           Left = 8
           Height = 24
           Top = 101
           Width = 108
+          AllowGrayed = True
+          Caption = 'cbSeparateExt'
+          TabOrder = 4
         end
       end
       object edtRunTerm: TEdit
-        TabOrder = 1
-        Text = '/usr/X11R6/bin/xterm'
         Left = 96
         Height = 24
         Top = 40
         Width = 313
+        TabOrder = 1
+        Text = '/usr/X11R6/bin/xterm'
       end
     end
     object tsTools: TTabSheet
       Caption = 'Tools'
-      ClientHeight = 246
-      ClientWidth = 446
       ImageIndex = 2
-      Height = 246
-      Width = 446
       object cbExtEditor: TCheckBox
+        Left = 8
+        Height = 24
+        Width = 90
         AllowGrayed = True
         Caption = 'cbExtEditor'
         OnClick = cbExtEditorClick
         TabOrder = 0
-        Left = 8
-        Height = 24
-        Width = 90
       end
       object edtExtEditor: TEdit
-        TabOrder = 1
-        Text = 'gEdit "%s"'
         Left = 24
         Height = 24
         Top = 32
         Width = 313
+        TabOrder = 1
+        Text = 'gEdit "%s"'
       end
       object cbExtDiffer: TCheckBox
-        AllowGrayed = True
-        Caption = 'cbExtDiffer'
-        OnClick = cbExtDifferClick
-        TabOrder = 2
         Left = 8
         Height = 24
         Top = 56
         Width = 87
+        AllowGrayed = True
+        Caption = 'cbExtDiffer'
+        OnClick = cbExtDifferClick
+        TabOrder = 2
       end
       object edtExtDiffer: TEdit
-        TabOrder = 3
-        Text = 'gtk-diff "%s" "%s"'
         Left = 24
         Height = 24
         Top = 88
         Width = 313
+        TabOrder = 3
+        Text = 'gtk-diff "%s" "%s"'
       end
       object cbExtViewer: TCheckBox
-        AllowGrayed = True
-        Caption = 'cbExtViewer'
-        OnClick = cbExtViewerClick
-        TabOrder = 4
         Left = 8
         Height = 24
         Top = 120
         Width = 97
+        AllowGrayed = True
+        Caption = 'cbExtViewer'
+        OnClick = cbExtViewerClick
+        TabOrder = 4
       end
       object edtExtViewer: TEdit
-        TabOrder = 5
-        Text = 'emacs "%s"'
         Left = 24
         Height = 24
         Top = 152
         Width = 313
+        TabOrder = 5
+        Text = 'emacs "%s"'
       end
     end
     object tsFonts: TTabSheet
       Caption = 'Fonts'
-      ClientHeight = 246
-      ClientWidth = 446
       ImageIndex = 3
-      Height = 246
-      Width = 446
       object lblMainFont: TLabel
-        Caption = 'Main font'
-        Color = clNone
-        ParentColor = False
         Height = 14
         Top = 24
         Width = 46
-      end
-      object lblEditorFont: TLabel
-        Caption = 'Editor font'
+        Caption = 'Main font'
         Color = clNone
         ParentColor = False
+      end
+      object lblEditorFont: TLabel
         Height = 14
         Top = 96
         Width = 52
-      end
-      object lblViewerFont: TLabel
-        Caption = 'Viewer font'
+        Caption = 'Editor font'
         Color = clNone
         ParentColor = False
+      end
+      object lblViewerFont: TLabel
         Height = 14
         Top = 168
         Width = 56
+        Caption = 'Viewer font'
+        Color = clNone
+        ParentColor = False
       end
       object cbMainFont: TComboBox
+        Left = 78
+        Height = 21
+        Top = 16
+        Width = 272
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemHeight = 18
         MaxLength = 0
         OnChange = cbMainFontChange
         ParentCtl3D = False
         TabOrder = 0
-        Left = 78
-        Height = 21
-        Top = 16
-        Width = 272
       end
       object cbEditorFont: TComboBox
+        Left = 78
+        Height = 21
+        Top = 87
+        Width = 272
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemHeight = 18
         MaxLength = 0
         OnChange = cbEditorFontChange
         ParentCtl3D = False
         TabOrder = 1
-        Left = 78
-        Height = 21
-        Top = 87
-        Width = 272
       end
       object edtTest1: TEdit
-        TabOrder = 2
-        Text = 'Example Проверка'
         Left = 78
         Height = 24
         Top = 48
         Width = 256
+        TabOrder = 2
+        Text = 'Example Проверка'
       end
       object edtTest2: TEdit
-        TabOrder = 3
-        Text = 'Example Проверка'
         Left = 78
         Height = 24
         Top = 120
         Width = 257
+        TabOrder = 3
+        Text = 'Example Проверка'
       end
       object edtTest3: TEdit
-        TabOrder = 4
-        Text = 'Example Проверка'
         Left = 78
         Height = 24
         Top = 192
         Width = 257
+        TabOrder = 4
+        Text = 'Example Проверка'
       end
       object cbViewerFont: TComboBox
+        Left = 78
+        Height = 21
+        Top = 159
+        Width = 272
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemHeight = 18
         MaxLength = 0
         OnChange = cbViewerFontChange
         ParentCtl3D = False
         TabOrder = 5
-        Left = 78
-        Height = 21
-        Top = 159
-        Width = 272
       end
       object btnSelMainFnt: TButton
-        BorderSpacing.InnerBorder = 2
-        Caption = '...'
-        OnClick = btnSelMainFntClick
-        TabOrder = 7
         Left = 360
         Height = 23
         Top = 16
         Width = 23
+        Caption = '...'
+        OnClick = btnSelMainFntClick
+        TabOrder = 7
       end
       object btnSelEditFnt: TButton
-        BorderSpacing.InnerBorder = 2
-        Caption = '...'
-        OnClick = btnSelEditFntClick
-        TabOrder = 9
         Left = 360
         Height = 23
         Top = 87
         Width = 23
+        Caption = '...'
+        OnClick = btnSelEditFntClick
+        TabOrder = 9
       end
       object btnSelViewFnt: TButton
-        BorderSpacing.InnerBorder = 2
-        Caption = '...'
-        OnClick = btnSelViewFntClick
-        TabOrder = 11
         Left = 360
         Height = 23
         Top = 159
         Width = 23
+        Caption = '...'
+        OnClick = btnSelViewFntClick
+        TabOrder = 11
       end
       object edtMainSize: TSpinEdit
-        MaxValue = 25
-        MinValue = 8
-        TabOrder = 6
-        Value = 14
         Left = 340
         Height = 23
         Top = 49
         Width = 68
-      end
-      object edtEditorSize: TSpinEdit
         MaxValue = 25
         MinValue = 8
-        TabOrder = 8
+        TabOrder = 6
         Value = 14
+      end
+      object edtEditorSize: TSpinEdit
         Left = 340
         Height = 23
         Top = 121
         Width = 68
-      end
-      object edtViewerSize: TSpinEdit
         MaxValue = 25
         MinValue = 8
-        TabOrder = 10
+        TabOrder = 8
         Value = 14
+      end
+      object edtViewerSize: TSpinEdit
         Left = 340
         Height = 23
         Top = 192
         Width = 68
+        MaxValue = 25
+        MinValue = 8
+        TabOrder = 10
+        Value = 14
+      end
+    end
+    object TabSheet1: TTabSheet
+      Caption = 'Color'
+      object cTextLabel: TLabel
+        Left = 25
+        Height = 14
+        Top = 31
+        Width = 23
+        Caption = 'Text'
+        Color = clNone
+        ParentColor = False
+      end
+      object cBackGrndLabel: TLabel
+        Left = 23
+        Height = 14
+        Top = 58
+        Width = 58
+        Caption = 'BackGround'
+        Color = clNone
+        ParentColor = False
+      end
+      object cTextColor: TColorBox
+        Left = 108
+        Height = 24
+        Top = 26
+        Width = 100
+        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        Items.Strings = (
+          'clBlack'
+          'clMaroon'
+          'clGreen'
+          'clOlive'
+          'clNavy'
+          'clPurple'
+          'clTeal'
+          'clGray'
+          'clSilver'
+          'clRed'
+          'clLime'
+          'clYellow'
+          'clBlue'
+          'clFuchsia'
+          'clAqua'
+          'clSilver'
+          'clGray'
+          'clWhite'
+          'clCream'
+          'clNone'
+          'clDefault'
+        )
+        MaxLength = 0
+        TabOrder = 0
+      end
+      object cbackgrndcolor: TColorBox
+        Left = 108
+        Height = 24
+        Top = 53
+        Width = 100
+        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        Items.Strings = (
+          'clBlack'
+          'clMaroon'
+          'clGreen'
+          'clOlive'
+          'clNavy'
+          'clPurple'
+          'clTeal'
+          'clGray'
+          'clSilver'
+          'clRed'
+          'clLime'
+          'clYellow'
+          'clBlue'
+          'clFuchsia'
+          'clAqua'
+          'clSilver'
+          'clGray'
+          'clWhite'
+          'clCream'
+          'clNone'
+          'clDefault'
+        )
+        MaxLength = 0
+        TabOrder = 1
+      end
+      object Button1: TButton
+        Left = 209
+        Height = 25
+        Top = 26
+        Width = 27
+        BorderSpacing.InnerBorder = 4
+        Caption = '>>'
+        OnClick = Button1Click
+        TabOrder = 2
+      end
+      object Button2: TButton
+        Left = 208
+        Height = 25
+        Top = 53
+        Width = 28
+        BorderSpacing.InnerBorder = 4
+        Caption = '>>'
+        OnClick = Button2Click
+        TabOrder = 3
       end
     end
   end
   object Panel1: TPanel
-    Align = alBottom
-    ClientHeight = 40
-    ClientWidth = 454
-    FullRepaint = False
-    TabOrder = 1
     Height = 40
     Top = 272
     Width = 454
+    Align = alBottom
+    FullRepaint = False
+    TabOrder = 1
     object btnOK: TBitBtn
+      Left = 280
+      Height = 25
+      Top = 8
+      Width = 75
       BorderSpacing.InnerBorder = 2
       Caption = '&OK'
       Kind = bkOK
@@ -365,28 +446,28 @@ object frmOptions: TfrmOptions
       NumGlyphs = 0
       OnClick = btnOKClick
       TabOrder = 0
-      Left = 280
+    end
+    object btnCancel: TBitBtn
+      Left = 368
       Height = 25
       Top = 8
       Width = 75
-    end
-    object btnCancel: TBitBtn
       BorderSpacing.InnerBorder = 2
       Caption = 'Cancel'
       Kind = bkCancel
       ModalResult = 2
       NumGlyphs = 0
       TabOrder = 1
-      Left = 368
-      Height = 25
-      Top = 8
-      Width = 75
     end
   end
   object dlgFnt: TFontDialog
     Title = 'Выбрать шрифт'
-    Title = 'Выбрать шрифт'
-    left = 86
-    top = 23
+    left = 224
+    top = 16
+  end
+  object optColorDialog: TColorDialog
+    Title = 'Выбрать цвет'
+    left = 224
+    top = 49
   end
 end

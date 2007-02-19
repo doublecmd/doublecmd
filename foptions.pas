@@ -16,19 +16,30 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, Buttons, fLngForm, Spin;
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, Buttons, fLngForm, Spin, ColorBox;
 
 type
+
+  { TfrmOptions }
+
   TfrmOptions = class(TfrmLng)
     btnSelMainFnt: TButton;
     btnSelEditFnt: TButton;
     btnSelViewFnt: TButton;
+    Button1: TButton;
+    Button2: TButton;
     cbSeparateExt: TCheckBox;
+    cTextColor: TColorBox;
+    cbackgrndcolor: TColorBox;
+    optColorDialog: TColorDialog;
     dlgFnt: TFontDialog;
+    cTextLabel: TLabel;
+    cBackGrndLabel: TLabel;
     PageControl1: TPageControl;
     edtMainSize: TSpinEdit;
     edtEditorSize: TSpinEdit;
     edtViewerSize: TSpinEdit;
+    TabSheet1: TTabSheet;
     tsLng: TTabSheet;
     tsBehav: TTabSheet;
     Panel1: TPanel;
@@ -61,6 +72,8 @@ type
     edtTest3: TEdit;
     cbViewerFont: TComboBox;
     lblViewerFont: TLabel;
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnSelEditFntClick(Sender: TObject);
@@ -94,6 +107,20 @@ begin
   FillFontLists;
   writeln(gTerm);
   edtTerm.Text:=gTerm;
+end;
+
+procedure TfrmOptions.Button1Click(Sender: TObject);
+begin
+ if optColorDialog.Execute then
+   begin
+   end;
+end;
+
+procedure TfrmOptions.Button2Click(Sender: TObject);
+begin
+   if optColorDialog.Execute then
+   begin
+   end;
 end;
 
 procedure TfrmOptions.LoadLng;
