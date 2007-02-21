@@ -140,27 +140,30 @@ var
   png:TPortableNetworkGraphic;
 
 begin
-  assignFile(f,sFileName);
-  reset(f);
-  try
-    while not eof(f) do
-    begin
-      readln(f,s);
-      s:=Trim(lowercase(s));
-      iekv:=Pos('=',s);
-      if iekv=0 then
-        Continue;
-      sExt:=Copy(s,1, iekv-1);
-      sPixMap:=Copy(s, iekv+1, length(s)-iekv);
-      iPixMap:=CheckAddPixmap(sPixMap);
-      if iPixMap<0 then
-        Continue;
+  if FileExists(sFileName) then
+  begin
+    assignFile(f,sFileName);
+    reset(f);
+    try
+      while not eof(f) do
+      begin
+        readln(f,s);
+        s:=Trim(lowercase(s));
+        iekv:=Pos('=',s);
+        if iekv=0 then
+          Continue;
+        sExt:=Copy(s,1, iekv-1);
+        sPixMap:=Copy(s, iekv+1, length(s)-iekv);
+        iPixMap:=CheckAddPixmap(sPixMap);
+        if iPixMap<0 then
+          Continue;
 
-      if FExtList.IndexOf(sExt)<0 then
-        FExtList.AddObject(sExt, TObject(iPixMap));
+        if FExtList.IndexOf(sExt)<0 then
+          FExtList.AddObject(sExt, TObject(iPixMap));
+      end;
+    finally
+      CloseFile(f);
     end;
-  finally
-    CloseFile(f);
   end;
   // add some standard icons
   FiDirIconID:=CheckAddPixmap('fdir.png');

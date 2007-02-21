@@ -94,7 +94,7 @@ implementation
 uses
   SysUtils, uFileOp, uGlobs,
   uShowMsg, Controls, uFilter, uConv, uLng, uShowForm,
-  uOSUtils{$IFNDEF WIN32}, BaseUnix, Unix, UnixType{$ELSE}, Windows{$ENDIF};
+  uOSUtils;
 
 constructor TFilePanel.Create(APanel:TDrawGrid; AlblPath: TStaticText; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
 begin
@@ -522,12 +522,8 @@ end;
 
 procedure TFilePanel.UpdatePrompt;
 var
-FreeSize,
-TotalSize : Int64;
-{$IFNDEF WIN32}
-  sbfs:Tstatfs;
-{$ENDIF}
-//  iPathWidth:Integer;
+  FreeSize,
+  TotalSize : Int64;
 begin
   with flblCurPath do
   begin
@@ -541,16 +537,8 @@ begin
   fedtCommand.Width:=TControl(fedtCommand.Parent).Width-fedtCommand.Left;
   if fPanelMode=pmDirectory then
   begin
-  {$IFNDEF WIN32}
-    statfs(PChar(fActiveDir),sbfs);
-//    writeln('Statfs:',sbfs.bavail,' ',sbfs.bsize,' ',sbfs.blocks,' ', sbfs.bfree);
-    flblFree.Caption:=Format(lngGetString(clngFreeMsg),
-       [cnvFormatFileSize(Int64(sbfs.bavail)*sbfs.bsize),
-        cnvFormatFileSize(Int64(sbfs.blocks)*sbfs.bsize)]);
-  {$ELSE}
-  if GetDiskFreeSpaceEx(PChar(fActiveDir), FreeSize, TotalSize, nil) then
-  flblFree.Caption:= Format(lngGetString(clngFreeMsg),[cnvFormatFileSize(FreeSize),cnvFormatFileSize(TotalSize)]);
-  {$ENDIF}
+    GetDiskFreeSpace(fActiveDir, FreeSize, TotalSize);
+    flblFree.Caption := Format(lngGetString(clngFreeMsg),[cnvFormatFileSize(FreeSize),cnvFormatFileSize(TotalSize)]);
   end
   else
   //TODO

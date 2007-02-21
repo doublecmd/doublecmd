@@ -4,12 +4,6 @@ interface
 var
 
   gpExePath:String ='';
- {
-  gpIniDir='./'; // local for user
-  gpCfgDir='./'; // global for all user
-  gpLngDir='./lng/'; // path to lng files
-  }
-
   gpIniDir:String =''; // local for user
   gpCfgDir:String =''; // global for all user
   gpLngDir:String =''; // path to lng files

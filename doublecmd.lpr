@@ -12,7 +12,6 @@ uses
   uGlobsPaths,
   uGlobs,
   uLng,
-  uIni,
   SysUtils,
   Forms,
   fMain,
@@ -73,11 +72,13 @@ uses
   writeln('  and contributors (see about dialog)');
   
   LoadPaths;
-  LoadGlobs;
-  LoadPixMapManager;
-  Application.CreateForm(TfrmMain, frmMain); // main form
-  Application.CreateForm(TdmHighl, dmHighl); // highlighters
-  Application.Run;
+  if LoadGlobs then
+     begin
+       LoadPixMapManager;
+       Application.CreateForm(TfrmMain, frmMain); // main form
+       Application.CreateForm(TdmHighl, dmHighl); // highlighters
+       Application.Run;
+     end;
 {  except
   on E:Exception do
     Writeln('Critical unhandled exception:', E.Message);
