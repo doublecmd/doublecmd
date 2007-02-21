@@ -16,7 +16,7 @@ unit uGlobs;
 
 interface
 uses
-  Classes, uExts, uColorExt, Graphics, uIni;
+  Classes, uExts, uColorExt, Graphics, IniFiles;
 const
   cTopBorder = 23; // px on top is title
   cLeftBorder = 6; // px on left
@@ -59,7 +59,7 @@ var
   gViewerPos:TRect;
   gEditorPos:TRect;
 
-procedure LoadGlobs;
+function LoadGlobs : Boolean;
 procedure SaveGlobs;
 function LoadStringsFromFile(var list:TStringList; const sFileName:String):boolean;
 
@@ -67,7 +67,7 @@ const
   cMaxStringItems=50;
   
 var
-  gIni:TIni =nil;
+  gIni:TIniFile = nil;
 
 implementation
 uses
@@ -76,30 +76,30 @@ uses
 procedure LoadRect(Var ARect:TRect; sPrefix:String);
 begin
 //  writeln('Load Rect',sPrefix);
-  ARect.Left:=StrToIntDef(gIni.Value[sPrefix+'left'],50);
+  ARect.Left:=gIni.ReadInteger('Configuration', sPrefix+'left',50);
 //  writeln(ARect.Left);
-  ARect.Top:=StrToIntDef(gIni.Value[sPrefix+'top'],50);
+  ARect.Top:=gIni.ReadInteger('Configuration', sPrefix+'top',50);
 //  writeln(ARect.Top);
 // warning Bottom = height rigth = width, TRect is used only for simplification
-  ARect.Bottom:=StrToIntDef(gIni.Value[sPrefix+'height'],300);
+  ARect.Bottom:=gIni.ReadInteger('Configuration', sPrefix+'height',300);
 //  writeln(ARect.Bottom);
-  ARect.Right:=StrToIntDef(gIni.Value[sPrefix+'width'],400);
+  ARect.Right:=gIni.ReadInteger('Configuration', sPrefix+'width',400);
 //  writeln(ARect.Right);
 end;
 
 procedure SaveRect(ARect:TRect; sPrefix:String);
 begin
 
-  gIni.Value[sPrefix+'left']:=IntToStr(ARect.Left+cLeftBorder);
-  gIni.Value[sPrefix+'top']:=IntToStr(ARect.Top+cTopBorder);
+  gIni.WriteInteger('Configuration', sPrefix+'left', ARect.Left + cLeftBorder);
+  gIni.WriteInteger('Configuration', sPrefix+'top', ARect.Top + cTopBorder);
 // warning Bottom = height rigth = width, TRect is used only for simplification
-  gIni.Value[sPrefix+'height']:=IntToStr(ARect.Bottom);
-  gIni.Value[sPrefix+'width']:=IntToStr(ARect.Right);
+  gIni.WriteInteger('Configuration', sPrefix+'height', ARect.Bottom);
+  gIni.WriteInteger('Configuration', sPrefix+'width', ARect.Right);
 end;
 
 procedure InitGlobs;
 begin
-  gIni:=TIni.Create(gpIniDir+'doublecmd.ini');
+  gIni:=TIniFile.Create(gpIniDir+'doublecmd.ini');
   gExts:=TExts.Create;
   gColorExt:=TColorExt.Create;
   glsHotDir:=TStringList.Create;
@@ -120,71 +120,71 @@ begin
     FreeAndNil(gIni);
 end;
 
-function StrToBoolDef(const sString:String; bDef:Boolean):Boolean;
+function LoadGlobs : Boolean;
 begin
-  if sString='' then
-    Result:=bDef
-  else
-    Result:=StrToBool(sString);
-end;
-
-procedure LoadGlobs;
-begin
+  Result := False;
   writeln('Loading configuration...');
   InitGlobs;
-  gShowSystemFiles:=StrToBoolDef(gIni.Value['ShowSystemFiles'], False);
-  gLng:=gIni.Value['Language'];
-  gTerm:=gIni.Value['Term'];
-  gCaseSensitiveSort:=StrToBoolDef(gIni.Value['CaseSensitiveSort'], False);
-  gLynxLike:=StrToBoolDef(gIni.Value['LynxLike'], True);
-  gDirSelect:=StrToBoolDef(gIni.Value['DirSelect'], True);
-  glsHotDir.CommaText:=gIni.Value['HotDir'];
-  gShortFileSizeFormat:=StrToBoolDef(gIni.Value['ShortFileSizeFormat'], True);
+  gShowSystemFiles := gIni.ReadBool('Configuration', 'ShowSystemFiles', False);
+  gLng := gIni.ReadString('Configuration', 'Language', gLng);
+  gTerm := gIni.ReadString('Configuration', 'Term', gTerm);
+  gCaseSensitiveSort := gIni.ReadBool('Configuration', 'CaseSensitiveSort', False);
+  gLynxLike := gIni.ReadBool('Configuration', 'LynxLike', True);
+  gDirSelect := gIni.ReadBool('Configuration', 'DirSelect', True);
+  glsHotDir.CommaText := gIni.ReadString('Configuration', 'HotDir', '');
+  gShortFileSizeFormat := gIni.ReadBool('Configuration', 'ShortFileSizeFormat', True);
 
-  gUseExtEdit:=StrToBoolDef(gIni.Value['UseExtEdit'], False);
-  gUseExtView:=StrToBoolDef(gIni.Value['UseExtView'], False);
-  gUseExtDiff:=StrToBoolDef(gIni.Value['UseExtDiff'], False);
-  gSeparateExt:=StrToBoolDef(gIni.Value['SeparateExt'], True);
+  gUseExtEdit := gIni.ReadBool('Configuration', 'UseExtEdit', False);
+  gUseExtView := gIni.ReadBool('Configuration', 'UseExtView', False);
+  gUseExtDiff := gIni.ReadBool('Configuration', 'UseExtDiff', False);
+  gSeparateExt := gIni.ReadBool('Configuration', 'SeparateExt', True);
 
-  gExtEdit:=gIni.Value['ExtEdit'];
-  gExtView:=gIni.Value['ExtView'];
-  gExtDiff:=gIni.Value['ExtDiff'];
-  gRunTerm:=gIni.Value['RunTerm'];
+  gExtEdit := gIni.ReadString('Configuration', 'ExtEdit', '');
+  gExtView := gIni.ReadString('Configuration', 'ExtView', '');
+  gExtDiff := gIni.ReadString('Configuration', 'ExtDiff', '');
+  gRunTerm := gIni.ReadString('Configuration', 'RunTerm', gRunTerm);
 
-  gFontName:=gIni.Value['FontName'];
-  gFontWeight := StrToIntDef(gIni.Value['FontWeight'],700);
+  gFontName:=gIni.ReadString('Configuration', 'FontName', '');
+  gFontWeight := gIni.ReadInteger('Configuration', 'FontWeight', 700);
   writeln('gFontName:',gFontName);
-  gEditorFontName:=gIni.Value['FontEditorName'];
+  gEditorFontName:=gIni.ReadString('Configuration', 'FontEditorName', '');
   writeln('gEditorFontName:',gEditorFontName);
-  gViewerFontName:=gIni.Value['FontViewerName'];
+  gViewerFontName:=gIni.ReadString('Configuration', 'FontViewerName', '');
   writeln('gViewerEditorFontName:',gViewerFontName);
-  gFontSize:=StrToIntDef(gIni.Value['FontSize'],10);
-  gEditorSize:=StrToIntDef(gIni.Value['EditorSize'],14);
-  gViewerSize:=StrToIntDef(gIni.Value['ViewerSize'],14);
+  gFontSize:=gIni.ReadInteger('Configuration', 'FontSize', 10);
+  gEditorSize:=gIni.ReadInteger('Configuration', 'EditorSize', 14);
+  gViewerSize:=gIni.ReadInteger('Configuration', 'ViewerSize', 14);
 
+  if FileExists(gpCfgDir+'doublecmd.ext') then
+    gExts.LoadFromFile(gpCfgDir+'doublecmd.ext');
 
-  gExts.LoadFromFile(gpCfgDir+'doublecmd.ext');
-  LoadStringsFromFile(glsDirHistory,gpIniDir+'dirhistory.txt');
-  gColorExt.LoadFromFile(gpCfgDir+'color.ext');
+  if FileExists(gpIniDir+'dirhistory.txt') then
+    LoadStringsFromFile(glsDirHistory,gpIniDir+'dirhistory.txt');
+
+  if FileExists(gpCfgDir+'color.ext') then
+    gColorExt.LoadFromFile(gpCfgDir+'color.ext');
 
   // default column widths
-  gColumnSize[0]:=StrToIntDef(gIni.Value['Col0'],133);
-  gColumnSize[1]:=StrToIntDef(gIni.Value['Col1'],50);
-  gColumnSize[2]:=StrToIntDef(gIni.Value['Col2'],64);
-  gColumnSize[3]:=StrToIntDef(gIni.Value['Col3'],73);
-  gColumnSize[4]:=StrToIntDef(gIni.Value['Col4'],59);
+  gColumnSize[0] := gIni.ReadInteger('Configuration', 'Col0', 133);
+  gColumnSize[1] := gIni.ReadInteger('Configuration', 'Col1', 50);
+  gColumnSize[2] := gIni.ReadInteger('Configuration', 'Col2', 64);
+  gColumnSize[3] := gIni.ReadInteger('Configuration', 'Col3', 73);
+  gColumnSize[4] := gIni.ReadInteger('Configuration', 'Col4', 59);
 
   writeln('Loading viewer position...');
   LoadRect(gViewerPos, 'Viewer.');
   writeln('Loading editor position...');
   LoadRect(gEditorPos, 'Editor.');
-  DoLoadLng;
-  msgLoadLng;
-end;
 
-function Bool2Str(b:Boolean):Char;
-begin
-  Result:=Chr(ord(b)+ord('0'));
+    if FileExists(gpLngDir + gLng) then
+      begin
+        DoLoadLng;
+        msgLoadLng;
+        Result := True;
+        WriteLn
+      end
+    else
+      msgError('File "' + gpLngDir + gLng + '" not found. Double Commander is closed.');
 end;
 
 function LoadStringsFromFile(var list:TStringList; const sFileName:String):boolean;
@@ -211,42 +211,40 @@ var
 begin
   glsDirHistory.SaveToFile(gpIniDir+'dirhistory.txt');
 
-  gIni.Value['ShowSystemFiles']:=Bool2Str(gShowSystemFiles);
-  gIni.Value['Language']:=gLng;
-  gIni.Value['Term']:=gTerm;
-  gIni.Value['CaseSensitiveSort']:=Bool2Str(gCaseSensitiveSort);
-  gIni.Value['LynxLike']:=Bool2Str(gLynxLike);
-  gIni.Value['DirSelect']:=Bool2Str(gDirSelect);
-  gIni.Value['HotDir']:=glsHotDir.CommaText;
-  gIni.Value['ShortFileSizeFormat']:=Bool2Str(gShortFileSizeFormat);
+  gIni.WriteBool('Configuration', 'ShowSystemFiles', gShowSystemFiles);
+  gIni.WriteString('Configuration', 'Language', gLng);
+  gIni.WriteString('Configuration', 'Term', gTerm);
+  gIni.WriteBool('Configuration', 'CaseSensitiveSort', gCaseSensitiveSort);
+  gIni.WriteBool('Configuration', 'LynxLike', gLynxLike);
+  gIni.WriteBool('Configuration', 'DirSelect', gDirSelect);
+  gIni.WriteString('Configuration', 'HotDir', glsHotDir.CommaText);
+  gIni.WriteBool('Configuration', 'ShortFileSizeFormat', gShortFileSizeFormat);
 
 
-  gIni.Value['UseExtEdit']:=Bool2Str(gUseExtEdit);
-  gIni.Value['UseExtView']:=Bool2Str(gUseExtView);
-  gIni.Value['UseExtDiff']:=Bool2Str(gUseExtDiff);
-  gIni.Value['SeparateExt']:=Bool2Str(gSeparateExt);
+  gIni.WriteBool('Configuration', 'UseExtEdit', gUseExtEdit);
+  gIni.WriteBool('Configuration', 'UseExtView', gUseExtView);
+  gIni.WriteBool('Configuration', 'UseExtDiff', gUseExtDiff);
+  gIni.WriteBool('Configuration', 'SeparateExt', gSeparateExt);
 
-  gIni.Value['ExtEdit']:=gExtEdit;
-  gIni.Value['ExtView']:=gExtView;
-  gIni.Value['ExtDiff']:=gExtDiff;
-  gIni.Value['RunTerm']:=gRunTerm;
+  gIni.WriteString('Configuration', 'ExtEdit', gExtEdit);
+  gIni.WriteString('Configuration', 'ExtView', gExtView);
+  gIni.WriteString('Configuration', 'ExtDiff', gExtDiff);
+  gIni.WriteString('Configuration', 'RunTerm', gRunTerm);
 
-  gIni.Value['FontName']:=gFontName;
-  gIni.Value['FontWeight'] := IntToStr(gFontWeight);
-  gIni.Value['FontEditorName']:=gEditorFontName;
-  gIni.Value['FontViewerName']:=gViewerFontName;
+  gIni.WriteString('Configuration', 'FontName', gFontName);
+  gIni.WriteInteger('Configuration', 'FontWeight', gFontWeight);
+  gIni.WriteString('Configuration', 'FontEditorName', gEditorFontName);
+  gIni.WriteString('Configuration', 'FontViewerName', gViewerFontName);
 
-  gIni.Value['FontSize']:=IntToStr(gFontSize);
-  gIni.Value['EditorSize']:=IntToStr(gEditorSize);
-  gIni.Value['ViewerSize']:=IntToStr(gViewerSize);
+  gIni.WriteInteger('Configuration', 'FontSize', gFontSize);
+  gIni.WriteInteger('Configuration', 'EditorSize', gEditorSize);
+  gIni.WriteInteger('Configuration', 'ViewerSize', gViewerSize);
 
   for x:=0 to 4 do
-    gIni.Value['Col'+IntToStr(x)]:= IntToStr(gColumnSize[x]);
+    gIni.WriteInteger('Configuration', 'Col'+IntToStr(x), gColumnSize[x]);
     
   SaveRect(gViewerPos, 'Viewer.');
   SaveRect(gEditorPos, 'Editor.');
-
-  gIni.Save;
 end;
 
 initialization

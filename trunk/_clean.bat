@@ -5,6 +5,7 @@ del /Q *.or
 del /Q *.*~
 del /Q *.~*
 del /Q doublecmd*.exe
+del /Q doublecmd.compiled
 
 del /Q plugins\cpio\bin\*.*
 del /Q plugins\rpm\bin\*.*

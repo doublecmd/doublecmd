@@ -1,2 +1,2 @@
 strip --strip-all doublecmd.exe
-upx --best --lzma doublecmd.exe
+upx --9 doublecmd.exe

@@ -472,14 +472,14 @@ begin
   for x:=0 to 4 do
     gColumnSize[x]:=FrameLeft.dgPanel.ColWidths[x];
   (* Save Paths *)
-  gIni.Value['leftpath'] := FrameLeft.pnlFile.ActiveDir;
-  gIni.Value['rightpath'] := FrameRight.pnlFile.ActiveDir;
+  gIni.WriteString('left', 'path', FrameLeft.pnlFile.ActiveDir);
+  gIni.WriteString('right', 'path', FrameRight.pnlFile.ActiveDir);
   (* /Save Paths *)
   
-  gIni.Value['Main.Left']:=IntToStr(Left+cLeftBorder);// border!!
-  gIni.Value['Main.Top']:=IntToStr(Top+cTopBorder); // border!!
-  gIni.Value['Main.Width']:=IntToStr(Width);
-  gIni.Value['Main.Height']:=IntToStr(Height);
+  gIni.WriteInteger('Configuration', 'Main.Left', Left+cLeftBorder);// border!!
+  gIni.WriteInteger('Configuration', 'Main.Top', Top+cTopBorder); // border!!
+  gIni.WriteInteger('Configuration', 'Main.Width', Width);
+  gIni.WriteInteger('Configuration', 'Main.Height', Height);
 end;
 
 procedure TfrmMain.frmMainKeyUp(Sender: TObject; var Key: Word;
@@ -502,14 +502,14 @@ begin
   (* Restore Paths *)
   
   {Left panel}
-  LastDir := gIni.Value['leftpath'];
+  LastDir := gIni.ReadString('left', 'path', '');
   if LastDir <> '' then
     begin
      FrameLeft.pnlFile.ActiveDir := LastDir;
      FrameLeft.pnlFile.LoadPanel;
     end;
   {Right panel}
-  LastDir := gIni.Value['rightpath'];
+  LastDir := gIni.ReadString('right', 'path', '');
   if LastDir <> '' then
     begin
      FrameRight.pnlFile.ActiveDir := LastDir;
@@ -520,10 +520,10 @@ begin
   PanelSelected:=fpLeft;
 
   SetActiveFrame(fpLeft);
-  Left:=StrToIntDef(gIni.Value['Main.Left'], Left);
-  Top:= StrToIntDef(gIni.Value['Main.Top'], Top);
-  Width:= StrToIntDef( gIni.Value['Main.Width'], Width);
-  Height:= StrToIntDef( gIni.Value['Main.Height'], Height);
+  Left := gIni.ReadInteger('Configuration', 'Main.Left', Left);
+  Top := gIni.ReadInteger('Configuration', 'Main.Top', Top);
+  Width :=  gIni.ReadInteger('Configuration', 'Main.Width', Width);
+  Height :=  gIni.ReadInteger('Configuration', 'Main.Height', Height);
   pnlNotebooks.Width:=Width div 2;
   
   (*Create Disk Panels*)
@@ -2194,7 +2194,7 @@ begin
     ReAlign;
     pnlFile.LoadPanel;
     UpDatelblInfo;
-    dgPanel.Color := StrToIntDef(gIni.Value['BackColor'], 0);
+    dgPanel.Color := gIni.ReadInteger('Colors', 'BackColor', 16777215);
     lblLPath.OnClick:=@FramelblLPathClick;
     edtRename.OnExit:=@FrameRightedtRenameExit;
     edtSearch.OnExit:=@FrameedtSearchExit;
@@ -2217,9 +2217,9 @@ begin
   if x = 0 then // First page
      begin
        if ANoteBook.Align = alLeft then
-          PageName := GetLastDir(gIni.Value['leftpath'])
+          PageName := GetLastDir(gIni.ReadString('left', 'path', ''))
        else
-          PageName := GetLastDir(gIni.Value['rightpath']);
+          PageName := GetLastDir(gIni.ReadString('right', 'path', ''));
        if PageName = '' then
              PageName := ExtractFileDrive(gpExePath);
      end

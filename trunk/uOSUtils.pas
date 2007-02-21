@@ -11,7 +11,7 @@ contributors:
 interface
 
 uses
-    SysUtils, Classes {$IFDEF WIN32}, Windows, ShellApi, MMSystem{$ELSE}, BaseUnix, Libc{$ENDIF};
+    SysUtils, Classes {$IFDEF WIN32}, Windows, ShellApi, MMSystem{$ELSE}, BaseUnix, Libc, Unix, UnixType{$ENDIF};
     
 type
 TDriveType = (dtUnknown, dtNoDrive, dtFloppy, dtFixed, dtNetwork, dtCDROM,
@@ -67,6 +67,7 @@ type
 function FPS_ISDIR(iAttr:Cardinal) : Boolean;
 function FPS_ISLNK(iAttr:Cardinal) : Boolean;
 function ExecCmdFork(const sCmd:String):Integer;
+function GetDiskFreeSpace(Path : String; var FreeSize, TotalSize : Int64) : Boolean;
 function CreateHardLink(Path, LinkName: string) : Boolean;
 function CreateSymLink(Path, LinkName: string) : Boolean;
 function GetHomeDir : String;
@@ -128,6 +129,26 @@ begin
 ShellExecute(0, 'open',PChar(sCmd), nil, PChar(ExtractFilePath(sCmd)), SW_SHOW);
 end;
 {$ENDIF}
+
+(* Get Disk Free Space *)
+
+function GetDiskFreeSpace(Path : String; var FreeSize, TotalSize : Int64) : Boolean;
+{$IFDEF UNIX}
+var
+  sbfs:Tstatfs;
+begin
+    statfs(PChar(Path),sbfs);
+//    writeln('Statfs:',sbfs.bavail,' ',sbfs.bsize,' ',sbfs.blocks,' ', sbfs.bfree);
+    FreeSize := (Int64(sbfs.bavail)*sbfs.bsize);
+    TotalSize := (Int64(sbfs.blocks)*sbfs.bsize);
+end;
+{$ELSE}
+begin
+  Result:= GetDiskFreeSpaceEx(PChar(Path), FreeSize, TotalSize, nil);
+end;
+{$ENDIF}
+
+
 
 function CreateHardLink(Path, LinkName: string) : Boolean;
 {$IFDEF WIN32}
