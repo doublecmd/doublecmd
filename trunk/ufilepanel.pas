@@ -25,7 +25,7 @@ type
   private
     fFileList:TFileList;
     fVFS : TVFS;
-    flblPath:TStaticText;
+    flblPath:TLabel;
     fPanel:TDrawGrid;
     fSortCol:Integer;
     fSortDirect:Boolean;
@@ -46,7 +46,7 @@ type
   public
 //    iLastDrawnIndex  :Integer; // fucking dirty hack (OnDrawItem
 
-    constructor Create(APanel:TDrawGrid; AlblPath: TStaticText; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
+    constructor Create(APanel:TDrawGrid; AlblPath: TLabel; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
     Destructor Destroy; override;
     procedure LoadPanel;
     procedure LoadPanelVFS(frp:PFileRecItem);
@@ -93,10 +93,10 @@ implementation
 
 uses
   SysUtils, uFileOp, uGlobs,
-  uShowMsg, Controls, uFilter, uConv, uLng, uShowForm,
+  uShowMsg, Controls, uLng, uShowForm, uDCUtils,
   uOSUtils;
 
-constructor TFilePanel.Create(APanel:TDrawGrid; AlblPath: TStaticText; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
+constructor TFilePanel.Create(APanel:TDrawGrid; AlblPath: TLabel; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
 begin
   fPanel:=APanel;
   fRefList:=TList.Create;
@@ -134,12 +134,17 @@ var
   bAnyRow:Boolean;
 begin
   case fPanelMode of
-    pmDirectory: flblPath.Caption:=' '+ActiveDir;
-    pmArchive: flblPath.Caption:=' '+ExtractFileName(fPathHistory.GetLastPath)+':'+ActiveDir;
-    pmFTP: flblPath.Caption:=' fix me: FTP is only prepared';
+    pmDirectory:
+      flblPath.Caption:=' '+MinimizeFilePath(ActiveDir, flblPath.Canvas, flblPath.Width);
+    pmArchive:
+      flblPath.Caption:=' '+ExtractFileName(fPathHistory.GetLastPath)+':'+ActiveDir;
+    pmFTP:
+      flblPath.Caption:=' fix me: FTP is only prepared';
   else
     Raise Exception.Create('fix me:UpdatePanel:bad panelmode');
   end;
+  //flblPath.Height := 14;
+  //WriteLN('Path = ', flblPath.Caption);
 //  writeln('fPanel.Row:',fPanel.Row);
 //  writeln('TFilePanel:', fFileList.Count);
   bAnyRow:=fPanel.Row>=0;
@@ -501,23 +506,16 @@ end;
 
 procedure TFilePanel.MarkGroup(const sMask:String; bSelect:Boolean);
 var
-  flt:TFilter;
   i:Integer;
   frp:PFileRecItem;
 begin
-  flt:=TFilter.Create;
-  try
-    flt.FileMask:=sMask;
     for i:=0 to fFileList.Count-1 do
     begin
       frp:=fFileList.GetItem(i);
       if (frp^.sName='..') then Continue;
-      if flt.CheckFileMask(frp^.sName) then
+      if FileMaskEquate(frp^.sName, sMask) then
         frp^.bSelected := bSelect;
     end;
-  finally
-    FreeAndNil(flt);
-  end;
 end;
 
 procedure TFilePanel.UpdatePrompt;

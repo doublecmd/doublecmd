@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
   Caption = 'Double Commander'
-  ClientHeight = 317
+  ClientHeight = 316
   ClientWidth = 525
   Font.Color = clBlack
   Font.Height = 13
@@ -22,11 +22,11 @@ object frmMain: TfrmMain
   ShowHint = True
   TextHeight = 16
   HorzScrollBar.Page = 524
-  VertScrollBar.Page = 316
+  VertScrollBar.Page = 315
   VertScrollBar.Range = 79
-  Left = 447
+  Left = 250
   Height = 336
-  Top = 549
+  Top = 174
   Width = 525
   object pnlButton: TPanel
     Align = alTop
@@ -91,7 +91,7 @@ object frmMain: TfrmMain
     ParentColor = False
     TabOrder = 2
     Height = 66
-    Top = 251
+    Top = 250
     Width = 525
     object lblCommandPath: TLabel
       Alignment = taRightJustify
@@ -208,12 +208,12 @@ object frmMain: TfrmMain
   end
   object pnlNotebooks: TPanel
     Align = alClient
-    ClientHeight = 182
+    ClientHeight = 181
     ClientWidth = 525
     FullRepaint = False
     TabOrder = 3
     TabStop = True
-    Height = 182
+    Height = 181
     Top = 69
     Width = 525
     object nbLeft: TNotebook
@@ -221,17 +221,17 @@ object frmMain: TfrmMain
       OnCloseTabClicked = NoteBookCloseTabClicked
       Options = [nboShowCloseButtons]
       Left = 1
-      Height = 180
+      Height = 179
       Top = 1
       Width = 391
     end
     object Splitter1: TSplitter
-      Height = 180
+      Height = 179
       ResizeStyle = rsLine
       Width = 4
       Cursor = crHSplit
       Left = 392
-      Height = 180
+      Height = 179
       Top = 1
       Width = 4
     end
@@ -240,7 +240,7 @@ object frmMain: TfrmMain
       OnCloseTabClicked = NoteBookCloseTabClicked
       Options = [nboShowCloseButtons]
       Left = 396
-      Height = 180
+      Height = 179
       Top = 1
       Width = 128
     end

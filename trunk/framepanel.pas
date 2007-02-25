@@ -34,7 +34,7 @@ type
     pnPanel: TPanel;
     lblLInfo: TLabel;
     pnlHeader: TPanel;
-    lblLPath: TStaticText;
+    lblLPath: TLabel;
     lblFree: TLabel;
     edtRename: TEdit;
     dgPanel: TDrawGrid;
@@ -109,7 +109,7 @@ type
 implementation
 
 uses
-  uLng, uConv, uShowMsg, uGlobs, GraphType, uPixmapManager, uOSUtils;
+  uLng, uShowMsg, uGlobs, GraphType, uPixmapManager, uDCUtils, uOSUtils;
 
 
 procedure TFrameFilePanel.LoadPanel;
@@ -664,7 +664,7 @@ end;
 
 procedure TFrameFilePanel.pnlHeaderResize(Sender: TObject);
 begin
-
+  lblLPath.Width:=pnlHeader.Width - 4;
 end;
 
 
@@ -696,11 +696,11 @@ begin
   lblFree.Width:=pnlHeader.Width*2 div 3;
 //  lblFree.AutoSize:=True;
 
-  lblLPath:=TStaticText.Create(pnlHeader);
+  lblLPath:=TLabel.Create(pnlHeader);
   lblLPath.Parent:=pnlHeader;
   lblLPath.Top:=19;
-//  lblLPath.AutoSize:=True;
-  lblLPath.Width:=pnlHeader.Width*2 div 3;
+  lblLPath.AutoSize:=False;
+  lblLPath.Width:=pnlHeader.Width - 4;
   lblLPath.Color:=clActiveCaption;
 
   pnlFooter:=TPanel.Create(Self);

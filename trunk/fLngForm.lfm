@@ -1,11 +1,14 @@
 object frmLng: TfrmLng
   Caption = 'frmLng'
+  ClientHeight = 344
+  ClientWidth = 551
   OnCreate = FormCreate
-  PixelsPerInch = 96
+  PixelsPerInch = 78
   TextHeight = 16
   HorzScrollBar.Page = 550
   VertScrollBar.Page = 343
+  Left = 444
   Height = 344
-  Top = 539
+  Top = 446
   Width = 551
 end

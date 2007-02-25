@@ -2,7 +2,7 @@
 
 LazarusResources.Add('TfrmMain','FORMDATA',[
   'TPF0'#8'TfrmMain'#7'frmMain'#7'Caption'#6#16'Double Commander'#12'ClientHeig'
-  +'ht'#3'='#1#11'ClientWidth'#3#13#2#10'Font.Color'#7#7'clBlack'#11'Font.Heigh'
+  +'ht'#3'<'#1#11'ClientWidth'#3#13#2#10'Font.Color'#7#7'clBlack'#11'Font.Heigh'
   +'t'#2#13#9'Font.Name'#6#9'Helvetica'#10'Font.Pitch'#7#10'fpVariable'#10'KeyP'
   +'review'#9#4'Menu'#7#7'mnuMain'#10'OnActivate'#7#12'FormActivate'#7'OnClose'
   +#7#12'frmMainClose'#8'OnCreate'#7#10'FormCreate'#9'OnDestroy'#7#11'FormDestr'
@@ -10,10 +10,10 @@ LazarusResources.Add('TfrmMain','FORMDATA',[
   +'yUp'#7#12'frmMainKeyUp'#8'OnResize'#7#10'FormResize'#6'OnShow'#7#11'frmMain'
   +'Show'#13'PixelsPerInch'#2'`'#8'Position'#7#15'poDesktopCenter'#8'ShowHint'#9
   +#10'TextHeight'#2#16#18'HorzScrollBar.Page'#3#12#2#18'VertScrollBar.Page'#3
-  +'<'#1#19'VertScrollBar.Range'#2'O'#4'Left'#3#191#1#6'Height'#3'P'#1#3'Top'#3
-  +'%'#2#5'Width'#3#13#2#0#6'TPanel'#9'pnlButton'#5'Align'#7#5'alTop'#12'Client'
-  +'Height'#2#22#11'ClientWidth'#3#13#2#11'FullRepaint'#8#8'TabOrder'#2#0#7'Vis'
-  +'ible'#8#6'Height'#2#22#3'Top'#2#23#5'Width'#3#13#2#0#0#6'TPanel'#7'pnlDisk'
+  +';'#1#19'VertScrollBar.Range'#2'O'#4'Left'#3#250#0#6'Height'#3'P'#1#3'Top'#3
+  +#174#0#5'Width'#3#13#2#0#6'TPanel'#9'pnlButton'#5'Align'#7#5'alTop'#12'Clien'
+  +'tHeight'#2#22#11'ClientWidth'#3#13#2#11'FullRepaint'#8#8'TabOrder'#2#0#7'Vi'
+  +'sible'#8#6'Height'#2#22#3'Top'#2#23#5'Width'#3#13#2#0#0#6'TPanel'#7'pnlDisk'
   +#5'Align'#7#5'alTop'#7'Caption'#6#7'pnlDisk'#12'ClientHeight'#2#24#11'Client'
   +'Width'#3#13#2#11'FullRepaint'#8#11'ParentColor'#8#8'TabOrder'#2#1#6'Height'
   +#2#24#3'Top'#2'-'#5'Width'#3#13#2#0#11'TKAStoolBar'#7'dskLeft'#17'OnToolButt'
@@ -27,7 +27,7 @@ LazarusResources.Add('TfrmMain','FORMDATA',[
   +'eft'#3'c'#1#6'Height'#2#22#3'Top'#2#1#5'Width'#3#169#0#0#0#0#6'TPanel'#10'p'
   +'nlCommand'#5'Align'#7#8'alBottom'#7'Anchors'#11#6'akLeft'#7'akRight'#0#10'B'
   +'evelOuter'#7#9'bvLowered'#12'ClientHeight'#2'B'#11'ClientWidth'#3#13#2#11'F'
-  +'ullRepaint'#8#11'ParentColor'#8#8'TabOrder'#2#2#6'Height'#2'B'#3'Top'#3#251
+  +'ullRepaint'#8#11'ParentColor'#8#8'TabOrder'#2#2#6'Height'#2'B'#3'Top'#3#250
   +#0#5'Width'#3#13#2#0#6'TLabel'#14'lblCommandPath'#9'Alignment'#7#14'taRightJ'
   +'ustify'#7'Caption'#6#4'Path'#5'Color'#7#6'clNone'#11'ParentColor'#8#13'Show'
   +'AccelChar'#8#4'Left'#2#1#6'Height'#2#14#3'Top'#2#8#5'Width'#2#23#0#0#6'TPan'
@@ -54,16 +54,16 @@ LazarusResources.Add('TfrmMain','FORMDATA',[
   +'nKeyDown'#7#17'edtCommandKeyDown'#7'OnKeyUp'#7#15'edtCommandKeyUp'#11'Paren'
   +'tCtl3D'#8#8'TabOrder'#2#1#7'TabStop'#8#7'TabStop'#8#4'Left'#2'8'#6'Height'#2
   +#21#3'Top'#2#8#5'Width'#3#176#2#0#0#0#6'TPanel'#12'pnlNotebooks'#5'Align'#7#8
-  +'alClient'#12'ClientHeight'#3#182#0#11'ClientWidth'#3#13#2#11'FullRepaint'#8
-  +#8'TabOrder'#2#3#7'TabStop'#9#6'Height'#3#182#0#3'Top'#2'E'#5'Width'#3#13#2#0
+  +'alClient'#12'ClientHeight'#3#181#0#11'ClientWidth'#3#13#2#11'FullRepaint'#8
+  +#8'TabOrder'#2#3#7'TabStop'#9#6'Height'#3#181#0#3'Top'#2'E'#5'Width'#3#13#2#0
   +#9'TNotebook'#6'nbLeft'#5'Align'#7#6'alLeft'#17'OnCloseTabClicked'#7#23'Note'
   +'BookCloseTabClicked'#7'Options'#11#19'nboShowCloseButtons'#0#4'Left'#2#1#6
-  +'Height'#3#180#0#3'Top'#2#1#5'Width'#3#135#1#0#0#9'TSplitter'#9'Splitter1'#6
-  +'Height'#3#180#0#11'ResizeStyle'#7#6'rsLine'#5'Width'#2#4#6'Cursor'#7#8'crHS'
-  +'plit'#4'Left'#3#136#1#6'Height'#3#180#0#3'Top'#2#1#5'Width'#2#4#0#0#9'TNote'
+  +'Height'#3#179#0#3'Top'#2#1#5'Width'#3#135#1#0#0#9'TSplitter'#9'Splitter1'#6
+  +'Height'#3#179#0#11'ResizeStyle'#7#6'rsLine'#5'Width'#2#4#6'Cursor'#7#8'crHS'
+  +'plit'#4'Left'#3#136#1#6'Height'#3#179#0#3'Top'#2#1#5'Width'#2#4#0#0#9'TNote'
   +'book'#7'nbRight'#5'Align'#7#8'alClient'#17'OnCloseTabClicked'#7#23'NoteBook'
   +'CloseTabClicked'#7'Options'#11#19'nboShowCloseButtons'#0#4'Left'#3#140#1#6
-  +'Height'#3#180#0#3'Top'#2#1#5'Width'#3#128#0#0#0#0#11'TKAStoolBar'#11'MainTo'
+  +'Height'#3#179#0#3'Top'#2#1#5'Width'#3#128#0#0#0#0#11'TKAStoolBar'#11'MainTo'
   +'olBar'#17'OnToolButtonClick'#7#26'MainToolBarToolButtonClick'#11'FlatButton'
   ,'s'#9#5'Align'#7#5'alTop'#12'ClientHeight'#2#23#11'ClientWidth'#3#13#2#8'Tab'
   +'Order'#2#4#11'OnMouseDown'#7#20'MainToolBarMouseDown'#6'Height'#2#23#5'Widt'
