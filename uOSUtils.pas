@@ -78,8 +78,6 @@ function GetAllDrives : TList;
 
 implementation
 
-uses
-   Process;
    
 (*Is Directory*)
 
@@ -112,17 +110,23 @@ end;
 function ExecCmdFork(const sCmd:String):Integer;
 {$IFDEF UNIX}
 var
-  AProcess: TProcess;
+  pid    : longint;
 Begin
-  try
-    AProcess := TProcess.Create(nil);
-    AProcess.CommandLine := sCmd;
-    AProcess.Execute;
-    AProcess.Free;
-    Result:=0;
-  except
-    Result:=-1;
-  end;
+  pid := fpFork;
+
+  if pid = 0 then
+   begin
+     {The child does the actual exec, and then exits}
+      Shell(sCmd);
+     { If the shell fails, we return an exitvalue of 127, to let it be known}
+      fpExit(127);
+   end
+  else
+   if pid = -1 then         {Fork failed}
+    begin
+      raise Exception.Create('Fork failed:'+sCmd);
+    end;
+  Result:=0;
 end;
 {$ELSE}
 begin
