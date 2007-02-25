@@ -104,6 +104,7 @@ begin
     frmFindDlg:=TfrmFindDlg.Create(nil);
   frmFindDlg.Show;
   frmFindDlg.BringToFront;
+  frmFindDlg.cmbFindFileMask.SetFocus;
 end;
 
 procedure TfrmFindDlg.LoadLng;

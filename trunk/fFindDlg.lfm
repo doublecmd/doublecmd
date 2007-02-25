@@ -15,9 +15,9 @@ object frmFindDlg: TfrmFindDlg
   HorzScrollBar.Page = 494
   VertScrollBar.Page = 460
   VertScrollBar.Range = 316
-  Left = 276
+  Left = 304
   Height = 461
-  Top = 17
+  Top = 318
   Width = 495
   object Splitter1: TSplitter
     Align = alTop
@@ -72,7 +72,7 @@ object frmFindDlg: TfrmFindDlg
         end
         object edtFindPathStart: TEdit
           Anchors = [akTop, akLeft, akRight]
-          TabOrder = 1
+          TabOrder = 0
           Left = 8
           Height = 24
           Top = 81
@@ -95,7 +95,7 @@ object frmFindDlg: TfrmFindDlg
           ItemHeight = 18
           MaxLength = 0
           ParentCtl3D = False
-          TabOrder = 0
+          TabOrder = 1
           Text = '*'
           Left = 8
           Height = 21
@@ -324,7 +324,7 @@ object frmFindDlg: TfrmFindDlg
       BorderSpacing.InnerBorder = 2
       Caption = '&Close'
       OnClick = btnCloseClick
-      TabOrder = 1
+      TabOrder = 3
       Left = 408
       Height = 25
       Top = 71
@@ -337,7 +337,7 @@ object frmFindDlg: TfrmFindDlg
       Caption = 'Cancel'
       Enabled = False
       OnClick = btnStopClick
-      TabOrder = 2
+      TabOrder = 1
       Left = 408
       Height = 25
       Top = 103
@@ -349,7 +349,7 @@ object frmFindDlg: TfrmFindDlg
       Caption = '&Start'
       Default = True
       OnClick = btnStartClick
-      TabOrder = 3
+      TabOrder = 2
       Left = 408
       Height = 25
       Top = 39
