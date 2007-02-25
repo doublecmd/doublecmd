@@ -27,7 +27,7 @@ type
 
 implementation
 uses
-  uFileProcs, SysUtils, uLng, uFilter, uOSUtils;
+  uFileProcs, SysUtils, uLng, uDCUtils, uOSUtils;
 
 
 procedure TMoveThread.MainExecute;

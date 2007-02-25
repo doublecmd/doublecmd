@@ -208,7 +208,6 @@ inherited frmOptions: TfrmOptions
         Height = 21
         Top = 16
         Width = 272
-        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemHeight = 18
         MaxLength = 0
         OnChange = cbMainFontChange
@@ -220,7 +219,6 @@ inherited frmOptions: TfrmOptions
         Height = 21
         Top = 87
         Width = 272
-        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemHeight = 18
         MaxLength = 0
         OnChange = cbEditorFontChange
@@ -256,7 +254,6 @@ inherited frmOptions: TfrmOptions
         Height = 21
         Top = 159
         Width = 272
-        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemHeight = 18
         MaxLength = 0
         OnChange = cbViewerFontChange
@@ -346,7 +343,6 @@ inherited frmOptions: TfrmOptions
         Height = 24
         Top = 26
         Width = 100
-        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         Items.Strings = (
           'clBlack'
           'clMaroon'
@@ -378,7 +374,6 @@ inherited frmOptions: TfrmOptions
         Height = 24
         Top = 53
         Width = 100
-        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         Items.Strings = (
           'clBlack'
           'clMaroon'

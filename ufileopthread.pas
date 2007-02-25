@@ -8,7 +8,6 @@ Licence  : GNU GPL v 2.0
 Author   : radek.cervinka@centrum.cz
 
 contributors:
-
 Koblov Alexander (Alexx2000@mail.ru)
 }
 unit uFileOpThread;
@@ -74,7 +73,7 @@ const
 implementation
 
 uses
-  SysUtils, uLng, uFilter, uFileProcs, Forms, FindEx, uOSUtils;
+  SysUtils, uLng, uFileProcs, Forms, FindEx, uDCUtils, uOSUtils;
 
 { TFileOpThread }
 

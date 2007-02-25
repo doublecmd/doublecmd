@@ -30,7 +30,7 @@ type
 
 implementation
 uses
-  SysUtils, Classes, uLng, uShowMsg, uFilter, uFileProcs, FindEx, uOSUtils {$IFNDEF WIN32}, BaseUnix, Unix{$ENDIF};
+  SysUtils, Classes, uLng, uShowMsg, uFileProcs, FindEx, uDCUtils, uOSUtils {$IFNDEF WIN32}, BaseUnix, Unix{$ENDIF};
 
 const
   cBlockSize=16384; // size of block if copyfile
@@ -176,6 +176,7 @@ begin
       Synchronize(@FFileOpDlg.UpdateDlg);
       Result:=CorrectFileInfo(sSrc, sDst); // chmod, chgrp, udate a spol
     finally
+      WriteLN('finally');
       if assigned(src) then
         FreeAndNil(src);
       if assigned(dst) then

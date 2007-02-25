@@ -32,11 +32,9 @@ uses
   uHighlighterProcs,
   fEditor,
   uMoveThread,
-  uFilter,
   fMsg,
   uSpaceThread,
   fHotDir,
-  uConv,
   fHardLink,
   fFindView,
   uPathHistory,
@@ -55,7 +53,7 @@ uses
   fCompareFiles,
   dmHigh,
   uPixMapManager, uVFS_,
-  KASComp, fbtnchangedlg, fconfigtoolbar, uWCXprototypes;
+  KASComp, fbtnchangedlg, fconfigtoolbar, uWCXprototypes, uDCUtils;
   
 {$IFDEF WIN32}
 {$R XP.res}

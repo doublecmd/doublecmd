@@ -1,7 +1,7 @@
 object frmFindDlg: TfrmFindDlg
-  ActiveControl = pgcSearch
+  ActiveControl = cmbFindFileMask
   Caption = 'frmFindDlg'
-  ClientHeight = 513
+  ClientHeight = 461
   ClientWidth = 495
   KeyPreview = True
   OnClose = frmFindDlgClose
@@ -13,11 +13,11 @@ object frmFindDlg: TfrmFindDlg
   Position = poScreenCenter
   TextHeight = 16
   HorzScrollBar.Page = 494
-  VertScrollBar.Page = 512
+  VertScrollBar.Page = 460
   VertScrollBar.Range = 316
-  Left = 305
-  Height = 513
-  Top = 428
+  Left = 276
+  Height = 461
+  Top = 17
   Width = 495
   object Splitter1: TSplitter
     Align = alTop
@@ -32,59 +32,61 @@ object frmFindDlg: TfrmFindDlg
   object Panel2: TPanel
     Align = alTop
     BevelOuter = bvNone
-    ClientHeight = 313
+    ClientHeight = 281
     ClientWidth = 495
     FullRepaint = False
     TabOrder = 0
-    Height = 313
+    Height = 281
     Top = 1
     Width = 495
     object pgcSearch: TPageControl
       ActivePage = tsStandard
-      Align = alClient
       Anchors = [akTop, akLeft, akRight]
       TabIndex = 0
       TabOrder = 0
-      Height = 313
-      Width = 495
+      Height = 273
+      Width = 400
       object tsStandard: TTabSheet
         Caption = 'Standard'
-        ClientHeight = 287
-        ClientWidth = 487
-        Height = 287
-        Width = 487
+        ClientHeight = 247
+        ClientWidth = 392
+        Height = 247
+        Width = 392
         object lblFindPathStart: TLabel
           Caption = 'FileDir'
           Color = clNone
           ParentColor = False
+          Left = 8
           Height = 14
-          Top = 8
+          Top = 57
           Width = 30
         end
         object lblFindFileMask: TLabel
           Caption = 'FileMask'
           Color = clNone
           ParentColor = False
+          Left = 8
           Height = 14
-          Top = 64
+          Top = 1
           Width = 41
         end
         object edtFindPathStart: TEdit
           Anchors = [akTop, akLeft, akRight]
-          TabOrder = 0
+          TabOrder = 1
+          Left = 8
           Height = 24
-          Top = 32
-          Width = 282
+          Top = 81
+          Width = 316
         end
         object btnSelDir: TButton
           Anchors = [akTop, akRight]
           BorderSpacing.InnerBorder = 2
           Caption = '...'
           OnClick = btnSelDirClick
-          TabOrder = 1
-          Left = 284
+          TabOrder = 2
+          Left = 332
           Height = 25
-          Top = 32
+          Top = 80
           Width = 25
         end
         object cmbFindFileMask: TComboBox
@@ -93,39 +95,32 @@ object frmFindDlg: TfrmFindDlg
           ItemHeight = 18
           MaxLength = 0
           ParentCtl3D = False
-          TabOrder = 4
+          TabOrder = 0
           Text = '*'
+          Left = 8
           Height = 21
-          Top = 88
-          Width = 306
-        end
-        object cbFindInFile: TCheckBox
-          AllowGrayed = True
-          Caption = 'Find in file'
-          OnClick = cbFindInFileClick
-          TabOrder = 2
-          Height = 13
-          Top = 120
-          Width = 67
+          Top = 25
+          Width = 316
         end
         object gbFindData: TGroupBox
           Anchors = [akTop, akLeft, akRight]
           Caption = 'Find Data'
-          ClientHeight = 87
-          ClientWidth = 313
+          ClientHeight = 62
+          ClientWidth = 368
           Enabled = False
           ParentCtl3D = False
           TabOrder = 3
-          Height = 105
-          Top = 152
-          Width = 317
+          Left = 8
+          Height = 80
+          Top = 145
+          Width = 372
           object cbCaseSens: TCheckBox
             AllowGrayed = True
             Caption = 'Case sensitive'
             TabOrder = 0
-            Left = 16
+            Left = 18
             Height = 13
-            Top = 56
+            Top = 40
             Width = 88
           end
           object edtFindText: TEdit
@@ -133,30 +128,206 @@ object frmFindDlg: TfrmFindDlg
             TabOrder = 1
             Left = 16
             Height = 24
-            Top = 24
-            Width = 273
+            Top = 8
+            Width = 324
           end
+          object cbNoThisText: TCheckBox
+            Caption = 'Find files NOT containing the text'
+            TabOrder = 2
+            Left = 154
+            Height = 13
+            Top = 40
+            Width = 177
+          end
+        end
+        object cbFindInFile: TCheckBox
+          AllowGrayed = True
+          Caption = 'Find in file'
+          OnClick = cbFindInFileClick
+          TabOrder = 4
+          Left = 12
+          Height = 13
+          Top = 121
+          Width = 67
         end
       end
       object tsAdvanced: TTabSheet
         Caption = 'Advanced'
-        ClientHeight = 287
-        ClientWidth = 487
+        ClientHeight = 247
+        ClientWidth = 392
         ImageIndex = 1
-        Height = 287
-        Width = 487
+        Height = 247
+        Width = 392
+        object deDateFrom: TDateEdit
+          CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
+          OKCaption = 'OK'
+          CancelCaption = 'Cancel'
+          Date = 39136
+          ReadOnly = False
+          ButtonWidth = 23
+          Color = clBtnFace
+          Enabled = False
+          Glyph.Data = {
+            2F0200002F2A2058504D202A2F0A7374617469632063686172202A63616C656E
+            6461725B5D203D207B0A2F2A20636F6C756D6E7320726F777320636F6C6F7273
+            2063686172732D7065722D706978656C202A2F0A223134203132203137203122
+            2C0A2220206320626C61636B222C0A222E20632023383030303030222C0A2258
+            20632023303038303030222C0A226F20632023383038303030222C0A224F2063
+            206E617679222C0A222B20632023383030303830222C0A224020632023303038
+            303830222C0A222320632023383038303830222C0A2224206320234330433043
+            30222C0A2225206320726564222C0A2226206320677265656E222C0A222A2063
+            2079656C6C6F77222C0A223D206320626C7565222C0A222D2063206D6167656E
+            7461222C0A223B2063206379616E222C0A223A20632067726179313030222C0A
+            223E2063204E6F6E65222C0A2F2A20706978656C73202A2F0A223E3E20202020
+            2020202020203E3E222C0A223E3E3A24242424242424243A4F23222C0A223E3E
+            3A3A3A3A3A3A3A3A3A3A4F23222C0A223E3E3A3A203A3A202020203A4F23222C
+            0A223E3E3A20203A3A203A3A3A3A4F23222C0A223E3E3A3A203A3A202020243A
+            4F23222C0A223E3E3A3A203A3A3A3A3A203A4F23222C0A223E3E3A3A203A3A24
+            3A24203A4F23222C0A223E3E3A2020203A202020243A4F23222C0A223E3E3A3A
+            3A3A3A3A3A3A3A3A4F23222C0A223E3E20204F204F4F204F20204F23222C0A22
+            3E3E3E2323232323232323232323220A7D3B0A
+          }
+          NumGlyphs = 1
+          ParentColor = False
+          TabOrder = 0
+          Color = clBtnFace
+          Enabled = False
+          TabOrder = 0
+          Text = '23.02.2007'
+          Left = 4
+          Height = 23
+          Top = 41
+          Width = 80
+        end
+        object deDateTo: TDateEdit
+          CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
+          OKCaption = 'OK'
+          CancelCaption = 'Cancel'
+          Date = 39136
+          ReadOnly = False
+          ButtonWidth = 23
+          Color = clBtnFace
+          Enabled = False
+          Glyph.Data = {
+            2F0200002F2A2058504D202A2F0A7374617469632063686172202A63616C656E
+            6461725B5D203D207B0A2F2A20636F6C756D6E7320726F777320636F6C6F7273
+            2063686172732D7065722D706978656C202A2F0A223134203132203137203122
+            2C0A2220206320626C61636B222C0A222E20632023383030303030222C0A2258
+            20632023303038303030222C0A226F20632023383038303030222C0A224F2063
+            206E617679222C0A222B20632023383030303830222C0A224020632023303038
+            303830222C0A222320632023383038303830222C0A2224206320234330433043
+            30222C0A2225206320726564222C0A2226206320677265656E222C0A222A2063
+            2079656C6C6F77222C0A223D206320626C7565222C0A222D2063206D6167656E
+            7461222C0A223B2063206379616E222C0A223A20632067726179313030222C0A
+            223E2063204E6F6E65222C0A2F2A20706978656C73202A2F0A223E3E20202020
+            2020202020203E3E222C0A223E3E3A24242424242424243A4F23222C0A223E3E
+            3A3A3A3A3A3A3A3A3A3A4F23222C0A223E3E3A3A203A3A202020203A4F23222C
+            0A223E3E3A20203A3A203A3A3A3A4F23222C0A223E3E3A3A203A3A202020243A
+            4F23222C0A223E3E3A3A203A3A3A3A3A203A4F23222C0A223E3E3A3A203A3A24
+            3A24203A4F23222C0A223E3E3A2020203A202020243A4F23222C0A223E3E3A3A
+            3A3A3A3A3A3A3A3A4F23222C0A223E3E20204F204F4F204F20204F23222C0A22
+            3E3E3E2323232323232323232323220A7D3B0A
+          }
+          NumGlyphs = 1
+          ParentColor = False
+          TabOrder = 1
+          Color = clBtnFace
+          Enabled = False
+          TabOrder = 1
+          Text = '23.02.2007'
+          Left = 164
+          Height = 23
+          Top = 41
+          Width = 80
+        end
+        object cbDateFrom: TCheckBox
+          Caption = 'Date From:'
+          OnChange = cbDateFromChange
+          TabOrder = 2
+          Left = 4
+          Height = 13
+          Top = 22
+          Width = 72
+        end
+        object cbNotOlderThan: TCheckBox
+          Caption = 'Not older than:'
+          TabOrder = 3
+          Left = 4
+          Height = 13
+          Top = 160
+          Width = 90
+        end
+        object SpinEdit1: TSpinEdit
+          TabOrder = 4
+          Left = 100
+          Height = 20
+          Top = 153
+          Width = 112
+        end
+        object ComboBox1: TComboBox
+          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          MaxLength = 0
+          TabOrder = 5
+          Text = 'ComboBox1'
+          Left = 260
+          Height = 21
+          Top = 153
+          Width = 104
+        end
+        object cbFileSizeFrom: TCheckBox
+          Caption = 'File Size From:'
+          OnChange = cbFileSizeFromChange
+          TabOrder = 6
+          Left = 4
+          Height = 13
+          Top = 81
+          Width = 88
+        end
+        object cbDateTo: TCheckBox
+          Caption = 'Date To:'
+          OnChange = cbDateToChange
+          TabOrder = 7
+          Left = 164
+          Height = 13
+          Top = 22
+          Width = 62
+        end
+        object cbFileSizeTo: TCheckBox
+          Caption = 'File Size To:'
+          OnChange = cbFileSizeToChange
+          TabOrder = 8
+          Left = 164
+          Height = 13
+          Top = 81
+          Width = 78
+        end
+        object seFileSizeFrom: TSpinEdit
+          Enabled = False
+          TabOrder = 9
+          Left = 4
+          Height = 20
+          Top = 105
+          Width = 106
+        end
+        object seFileSizeTo: TSpinEdit
+          Enabled = False
+          TabOrder = 10
+          Left = 164
+          Height = 20
+          Top = 105
+          Width = 110
+        end
       end
     end
-    object btnStart: TButton
+    object btnClose: TButton
       Anchors = [akTop, akRight]
       BorderSpacing.InnerBorder = 2
-      Caption = '&Start'
-      Default = True
-      OnClick = btnStartClick
+      Caption = '&Close'
+      OnClick = btnCloseClick
       TabOrder = 1
-      Left = 376
+      Left = 408
       Height = 25
-      Top = 87
+      Top = 71
       Width = 75
     end
     object btnStop: TButton
@@ -167,42 +338,43 @@ object frmFindDlg: TfrmFindDlg
       Enabled = False
       OnClick = btnStopClick
       TabOrder = 2
-      Left = 376
+      Left = 408
       Height = 25
-      Top = 151
+      Top = 103
       Width = 75
     end
-    object btnClose: TButton
+    object btnStart: TButton
       Anchors = [akTop, akRight]
       BorderSpacing.InnerBorder = 2
-      Caption = '&Close'
-      OnClick = btnCloseClick
+      Caption = '&Start'
+      Default = True
+      OnClick = btnStartClick
       TabOrder = 3
-      Left = 376
+      Left = 408
       Height = 25
-      Top = 119
+      Top = 39
       Width = 75
     end
   end
   object Panel1: TPanel
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 199
+    ClientHeight = 179
     ClientWidth = 495
     FullRepaint = False
     TabOrder = 1
-    Height = 199
-    Top = 314
+    Height = 179
+    Top = 282
     Width = 495
     object Panel3: TPanel
       Align = alTop
       BevelInner = bvRaised
       BevelOuter = bvLowered
-      ClientHeight = 65
+      ClientHeight = 54
       ClientWidth = 495
       FullRepaint = False
       TabOrder = 0
-      Height = 65
+      Height = 54
       Width = 495
       object lblStatus: TLabel
         Caption = 'lblStatus'
@@ -213,9 +385,9 @@ object frmFindDlg: TfrmFindDlg
         Font.Pitch = fpVariable
         Font.Style = [fsBold]
         ParentColor = False
-        Left = 392
+        Left = 8
         Height = 13
-        Top = 12
+        Top = 30
         Width = 44
       end
       object lblCurrent: TLabel
@@ -239,14 +411,14 @@ object frmFindDlg: TfrmFindDlg
       OnDblClick = lsFoundedFilesDblClick
       PopupMenu = PopupMenuFind
       TabOrder = 1
-      Height = 134
-      Top = 65
+      Height = 125
+      Top = 54
       Width = 495
     end
   end
   object PopupMenuFind: TPopupMenu
-    left = 272
-    top = 400
+    left = 152
+    top = 408
     object miShowInViewer: TMenuItem
       Caption = 'Show In Viewer'
       OnClick = miShowInViewerClick
