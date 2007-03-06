@@ -30,6 +30,7 @@ TFindThread = class(TThread)
     { Private declarations }
     FPathStart:String;
     FItems: TStrings;
+    FIsNoThisText,
     FFindInFiles:Boolean;
     FStatus: TLabel;
     FCurrent: TLabel;
@@ -43,18 +44,21 @@ TFindThread = class(TThread)
     {Date search}
     FIsDateFrom,
     FIsDateTo : Boolean;
-    FDateFrom,
-    FDateTo : TDateTime;
+    FDateTimeFrom,
+    FDateTimeTo : TDateTime;
+    {Time search}
+    FIsTimeFrom,
+    FIsTimeTo : Boolean;
     (* File size search *)
     FIsFileSizeFrom,
     FIsFileSizeTo : Boolean;
     FFileSizeFrom,
-    FFileSizeTo : Integer;
+    FFileSizeTo : Int64;
     
     FFindData:String;
 
-    function CheckFileDate(Date : LongInt) : Boolean;
-    function CheckFileSize(FileSize : LongInt) : Boolean;
+    function CheckFileDate(DT : LongInt) : Boolean;
+    function CheckFileSize(FileSize : Int64) : Boolean;
     function CheckFile(const Folder : String; const sr : TSearchRec) : Boolean;
   protected
     procedure Execute; override;
@@ -68,6 +72,7 @@ TFindThread = class(TThread)
     property PathStart:String read FPathStart write FPathStart;
     property Items:TStrings write FItems;
     property FindInFiles:Boolean write FFindInFiles;
+    property IsNoThisText:Boolean write FIsNoThisText default False;
     property Status:TLabel read FStatus write FStatus;
     property Current:TLabel read FCurrent write FCurrent; // label current file
     property CaseSensitive:boolean read FCaseSens write FCaseSens;
@@ -75,13 +80,17 @@ TFindThread = class(TThread)
     (* Date search *)
     property IsDateFrom:Boolean read FIsDateFrom write FIsDateFrom;
     property IsDateTo:Boolean read FIsDateTo write FIsDateTo;
-    property DateFrom:TDateTime read FDateFrom write FDateFrom;
-    property DateTo:TDateTime read FDateTo write FDateTo;
+    property DateTimeFrom:TDateTime read FDateTimeFrom write FDateTimeFrom;
+    property DateTimeTo:TDateTime read FDateTimeTo write FDateTimeTo;
+    (* Time search *)
+    property IsTimeFrom:Boolean read FIsTimeFrom write FIsTimeFrom;
+    property IsTimeTo:Boolean read FIsTimeTo write FIsTimeTo;
+
     (* File size search *)
     property IsFileSizeFrom : Boolean read FIsFileSizeFrom write FIsFileSizeFrom;
     property IsFileSizeTo : Boolean read FIsFileSizeTo write FIsFileSizeTo;
-    property FileSizeFrom : LongInt read FFileSizeFrom write FFileSizeFrom;
-    property FileSizeTo : LongInt read FFileSizeTo write FFileSizeTo;
+    property FileSizeFrom : Int64 read FFileSizeFrom write FFileSizeFrom;
+    property FileSizeTo : Int64 read FFileSizeTo write FFileSizeTo;
     
     property Attributes: Cardinal read FAttributes write FAttributes default
       (faArchive or faReadonly or faHidden or faSysFile or faDirectory);
@@ -109,6 +118,10 @@ begin
   FPathStart:='/';
   {$ENDIF}
   FItems:=Nil;
+  FIsDateFrom := False;
+  FIsDateTo := False;
+  FIsFileSizeFrom := False;
+  FIsFileSizeTo := False;
 end;
 
 destructor TFindThread.Destroy;
@@ -204,29 +217,47 @@ Result := FindMmap(sFileName, sData, bCase);
 end;
 {$ENDIF}
 
-function TFindThread.CheckFileDate(Date : LongInt) : Boolean;
+function TFindThread.CheckFileDate(DT : LongInt) : Boolean;
 var
   DateTime: TDateTime;
 begin
    Result := True;
-   DateTime := FileDateToDateTime(Date);
+   DateTime := FileDateToDateTime(DT);
 
+   (* Check date from *)
    if FIsDateFrom then
-      Result := (DateTime >= FDateFrom);
+      Result := (Int(DateTime) >= Int(FDateTimeFrom));
 
+   (* Check time to *)
    if (FIsDateTo and Result) then
-      Result := (DateTime <= FDateTo);
+      Result := (Int(DateTime) <= Int(FDateTimeTo));
+
+   (* Check time from *)         //TODO Сделать секунды
+   if (FIsTimeFrom and Result) then
+      Result := ((Trunc(Frac(DateTime) * 10000000) / 10000000) >= (Trunc(Frac(FDateTimeFrom) * 1000) / 1000));
+      
+      WriteLN('Time From = ', FloatToStr(FDateTimeFrom), ' File time = ', FloatToStr(DateTime), ' Result = ', BoolToStr(Result));
+
+   (* Check time to *)
+   if (FIsTimeTo and Result) then
+      Result := ((Trunc(Frac(DateTime) * 10000000) / 10000000) <= (Trunc(Frac(FDateTimeTo) * 1000) / 1000));
+
+   //WriteLN('Time To = ', FloatToStr(FDateTimeTo), ' File time = ', FloatToStr(DateTime), ' Result = ', BoolToStr(Result));
+
 
 end;
 
-function TFindThread.CheckFileSize(FileSize: LongInt): Boolean;
+function TFindThread.CheckFileSize(FileSize: Int64): Boolean;
 begin
    Result := True;
    if FIsFileSizeFrom then
       Result := (FileSize >= FFileSizeFrom);
-
+      
+      //WriteLN('After From', FileSize, '-',  FFileSizeFrom, BoolToStr(Result));
+      
    if (FIsFileSizeTo and Result) then
       Result := (FileSize <= FFileSizeTo);
+    //WriteLN('After To',  FileSize, '-',  FFileSizeTo, BoolToStr(Result));
 end;
 
 function TFindThread.CheckFile(const Folder : String; const sr : TSearchRec) : Boolean;
@@ -234,21 +265,25 @@ begin
   Result := True;
 {$IFDEF WIN32}
 (* This is hack *)
-if not FileMaskEquate(sr.Name, FFileMask) then
+//WriteLN('File = ', sr.Name);
+if not G_ValidateWildText(sr.Name, FFileMask) then
    begin
      Result := False;
      Exit;
    end;
 {$ENDIF}
-  if (FIsDateFrom or FIsDateTo) then
+  if (FIsDateFrom or FIsDateTo or FIsTimeFrom or FIsTimeTo) then
       Result := CheckFileDate(sr.Time);
 
   if (FIsFileSizeFrom or FIsFileSizeTo) and Result then
       Result := CheckFileSize(sr.Size);
 
   if (FFindInFiles and Result) then
-     Result := FindInFile(Folder + PathDelim + sr.Name, FFindData, FCaseSens);
-
+     begin
+       Result := FindInFile(Folder + PathDelim + sr.Name, FFindData, FCaseSens);
+       if FIsNoThisText then
+         Result := not Result;
+     end;
 end;
 
 procedure TFindThread.WalkAdr(const sNewDir:String);
@@ -262,7 +297,7 @@ begin
   Path := sNewDir + PathDelim + FFileMask;
   //WriteLN('Path = ', Path);
 
-  if FindFirst(Path, faAnyFile, sr)<>0 then Exit;
+  if FindFirst(Path, faAnyFile, sr) = 0 then
   repeat
     if (sr.Name='.') or (sr.Name='..') then Continue;
     inc(FFilesScaned);

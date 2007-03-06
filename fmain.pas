@@ -255,6 +255,7 @@ type
     { Private declarations }
     PanelSelected:TFilePanelSelect;
     bAltPress:Boolean;
+    IsPanelsCreated : Boolean;
     
     function ExecuteCommandFromEdit(sCmd:String):Boolean;
   public
@@ -317,6 +318,7 @@ begin
   if FileExists(gpIniDir+cHistoryFile) then
     edtCommand.Items.LoadFromFile(gpIniDir+cHistoryFile);
 //  writeln('frmMain.FormCreate Done');
+  IsPanelsCreated := False;
 end;
 
 procedure TfrmMain.Button1Click(Sender: TObject);
@@ -330,7 +332,7 @@ end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
-  writeln('frmMain.Destroy');
+  DebugLn('frmMain.Destroy');
   edtCommand.Items.SaveToFile(gpIniDir+cHistoryFile);
   {*Tool Bar*}
   MainToolBar.SaveToFile(gpIniDir + 'default.bar');
@@ -436,7 +438,7 @@ end;
 procedure TfrmMain.MainToolBarToolButtonClick(NumberOfButton : Integer);
 begin
   ExecCmdFork(MainToolBar.Commands[NumberOfButton]);
-  writeln(MainToolBar.Commands[NumberOfButton]);
+  DebugLn(MainToolBar.Commands[NumberOfButton]);
 end;
 
 
@@ -492,6 +494,21 @@ procedure TfrmMain.frmMainShow(Sender: TObject);
 var
 LastDir : String;
 begin
+   DebugLn('frmMainShow');
+  (* If panels already created then refresh their and exit *)
+  if IsPanelsCreated then
+    begin
+      FrameLeft.RefreshPanel;
+      FrameRight.RefreshPanel;
+      Exit;
+    end;
+
+
+  Left := gIni.ReadInteger('Configuration', 'Main.Left', Left);
+  Top := gIni.ReadInteger('Configuration', 'Main.Top', Top);
+  Width :=  gIni.ReadInteger('Configuration', 'Main.Width', Width);
+  Height :=  gIni.ReadInteger('Configuration', 'Main.Height', Height);
+
   CreatePanel(AddPage(nbLeft), fpLeft );
   CreatePanel(AddPage(nbRight), fpRight);
   
@@ -520,10 +537,7 @@ begin
   PanelSelected:=fpLeft;
 
   SetActiveFrame(fpLeft);
-  Left := gIni.ReadInteger('Configuration', 'Main.Left', Left);
-  Top := gIni.ReadInteger('Configuration', 'Main.Top', Top);
-  Width :=  gIni.ReadInteger('Configuration', 'Main.Width', Width);
-  Height :=  gIni.ReadInteger('Configuration', 'Main.Height', Height);
+
   pnlNotebooks.Width:=Width div 2;
   
   (*Create Disk Panels*)
@@ -534,6 +548,8 @@ begin
   (*Tool Bar*)
    MainToolBar.LoadFromFile(gpIniDir + 'default.bar');
   (*Tool Bar*)
+  
+  IsPanelsCreated := True;
 end;
 
 procedure TfrmMain.NoteBookCloseTabClicked(Sender: TObject);
@@ -592,7 +608,7 @@ begin
         if fr^.bSelected and not (FPS_ISDIR(fr^.iMode)) then
         begin
           sl.Add(ActiveDir+fr^.sName);
-          writeln('View.Add:',ActiveDir+fr^.sName);
+          DebugLn('View.Add:',ActiveDir+fr^.sName);
         end;
       end;
       if sl.Count>0 then
@@ -1098,7 +1114,7 @@ end;
 
 procedure TfrmMain.FormKeyPress(Sender: TObject; var Key: Char);
 begin
-//  writeln('KeyPress:',Key);
+//  DebugLn('KeyPress:',Key);
   if Key=#27 then
     ActiveFrame.ClearCmdLine;
   if (ord(key)>31) and (ord(key)<255) then
@@ -1140,13 +1156,13 @@ end;
 
 function TfrmMain.FrameLeft: TFrameFilePanel;
 begin
-//  writeln(nbLeft.Page[nbLeft.PageIndex].Components[0].ClassName);
+//  DebugLn(nbLeft.Page[nbLeft.PageIndex].Components[0].ClassName);
   Result:=TFrameFilePanel(nbLeft.Page[nbLeft.PageIndex].Components[0]);
 end;
 
 function TfrmMain.FrameRight: TFrameFilePanel;
 begin
-//  writeln(nbRight.Page[nbRight.PageIndex].Components[0].ClassName);
+//  DebugLn(nbRight.Page[nbRight.PageIndex].Components[0].ClassName);
   Result:=TFrameFilePanel(nbRight.Page[nbRight.PageIndex].Components[0]);
   
 //  Result:=TFrameFilePanel(nbRight.Page[0].Components[0]);
@@ -1191,8 +1207,8 @@ end;
 
 procedure TfrmMain.AppException(Sender: TObject; E: Exception);
 begin
-  writeln(stdErr,'Exception:',E.Message);
-  writeln(stdErr,'Func:',BackTraceStrFunc(get_caller_frame(get_frame)));
+  WriteLn(stdErr,'Exception:',E.Message);
+  WriteLn(stdErr,'Func:',BackTraceStrFunc(get_caller_frame(get_frame)));
   Dump_Stack(StdErr, get_caller_frame(get_frame));
 end;
 
@@ -1254,7 +1270,7 @@ end;
 procedure TfrmMain.actSearchExecute(Sender: TObject);
 begin
   inherited;
-  WriteLN('ShowFindDlg');
+  DebugLn('ShowFindDlg');
   ShowFindDlg(ActiveFrame.ActiveDir);
 end;
 
@@ -1881,7 +1897,7 @@ procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word;
 begin
   inherited;
 
-//  writeln('Key down:',Key);
+//  DebugLn('Key down:',Key);
   if Key=18 then // is the ALT?
   begin
     ActiveFrame.ShowAltPanel;
@@ -1952,13 +1968,13 @@ begin
       Exit;
     end;
   end;}
-//  writeln(Key);
+//  DebugLn(Key);
   if HandleActionHotKeys(Key, Shift) Then
   begin
     Key:=0;;
     Exit;
   end;
-//  writeln(Key);
+//  DebugLn(Key);
 
 {  if bAltPress and (shift=[ssAlt]) and (key=VK_Alt) and not IsAltPanel then
   begin
@@ -2010,13 +2026,13 @@ procedure TfrmMain.FormActivate(Sender: TObject);
 begin
   KeyPreview:=True;
 //  ActiveFrame.SetFocus;
-//  writeln('Activate');
+//  DebugLn('Activate');
 end;
 
 procedure TfrmMain.FrameRightedtRenameExit(Sender: TObject);
 begin
 // handler for both edits
-//  writeln('On exit');
+//  DebugLn('On exit');
   KeyPreview:=True;
   ActiveFrame.edtRename.Visible:=False;
 end;
@@ -2110,7 +2126,7 @@ end;
 
 procedure TfrmMain.FramelblLPathClick(Sender: TObject);
 begin
-//  writeln(TControl(Sender).Parent.Parent.ClassName);
+//  DebugLn(TControl(Sender).Parent.Parent.ClassName);
   SetActiveFrame(TFrameFilePanel(TControl(Sender).Parent.Parent).PanelSelect);
   actDirHistory.Execute;
 end;
@@ -2228,8 +2244,8 @@ begin
   ANoteBook.Pages.Add(PageName);
   ANoteBook.ActivePage:= PageName;
   Result:=ANoteBook.Page[x];
-{  writeln(Result.ClassName);
-  writeln(Result.Name);}
+{  DebugLn(Result.ClassName);
+  DebugLn(Result.Name);}
   ANoteBook.ShowTabs:= (ANoteBook.PageCount > 1);
 end;
 
@@ -2352,7 +2368,7 @@ begin
   begin
     sDir:=Trim(Copy(sCmd, iIndex+3, length(sCmd)));
     sDir:=IncludeTrailingBackslash(sDir);
-    writeln('Chdir to:',sDir);
+    DebugLn('Chdir to:',sDir);
     if not SetCurrentDir(sDir) then
     begin
       msgError(Format('ChDir to [%s] failed!',[sDir]));
@@ -2363,7 +2379,7 @@ begin
       begin
         GetDir(0,sDir);
         ActiveDir:=sDir;
-        writeln(sDir);
+        DebugLn(sDir);
       end;
     end;
   end
