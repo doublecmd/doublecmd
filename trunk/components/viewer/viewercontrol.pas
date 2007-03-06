@@ -54,6 +54,7 @@ type
     FViewerMode:TViewerMode;
     FFileHandle:Integer;
     FFileSize:Integer;
+    FMappingHandle : THandle;
     FMappedFile:PChar;
     FPosition: Integer;
     FLineList:TList;
@@ -127,7 +128,7 @@ procedure Register;
 
 implementation
 uses
-  Clipbrd{$IFNDEF WIN32}, Libc, unix{$ENDIF};
+  Clipbrd{$IFNDEF WIN32}, Libc, unix{$ELSE}, Windows{$ENDIF};
 
 const
   cTextWidth=80;  // wrap on 80 chars
@@ -402,7 +403,24 @@ end;
 Function TViewerControl.MapFile(const sFileName:String):Boolean;
 {$IFDEF WIN32}
 begin
+  Result:=False;
+  if assigned(FMappedFile) then
+    UnMapFile; // if needed
 
+  FFileHandle := FileOpen(sFileName, fmOpenRead);
+  FFileSize := GetFileSize(FFileHandle, nil);
+  
+  FMappingHandle := CreateFileMapping(FFileHandle, nil, PAGE_READONLY, 0, 0, nil);
+
+  if FMappingHandle <> 0 then
+    begin
+      FMappedFile := MapViewOfFile(FMappingHandle, FILE_MAP_READ, 0, 0, 0);
+      Exit;
+    end;
+
+  FPosition:=0;
+  Invalidate;
+  Result:=True;
 end;
 {$ELSE}
 var
@@ -446,6 +464,14 @@ end;
 procedure TViewerControl.UnMapFile;
 {$IFDEF WIN32}
 begin
+  if Assigned(FMappedFile) then
+    UnmapViewOfFile(FMappedFile);
+    
+  if FMappingHandle <> 0 then
+    CloseHandle(FMappingHandle);
+    
+  if FFileHandle >= 0 then
+    FileClose(FFileHandle);
 
 end;
 {$ELSE}
@@ -497,7 +523,7 @@ begin
         else
         begin
           if c<' ' then c:=' ';
-          if c>#$F0 then c:='.';
+
           s:=s+c;
         end;
       end;
@@ -702,7 +728,7 @@ begin
   if iBegDrawIndex<>pBegLine then
   begin
 
-    Canvas.FillRect(Rect(x+(iBegDrawIndex-pBegLine-1)*FTextWidth, y, x+(iEndDrawIndex-pBegLine)*FTextWidth, y+FTextHeight));
+    Canvas.FillRect(Types.Rect(x+(iBegDrawIndex-pBegLine-1)*FTextWidth, y, x+(iEndDrawIndex-pBegLine)*FTextWidth, y+FTextHeight));
 //   Canvas.Font.Color:=clRed; // test
     Canvas.Font.Color:=clLight;
 //    Canvas.TextRect(ARect, x+(iBegDrawIndex-pBegLine-1)*FTextWidth, y,Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex+1));!!!
@@ -710,7 +736,7 @@ begin
   end
   else
   begin
-    Canvas.FillRect(Rect(x+(iBegDrawIndex-pBegLine)*FTextWidth, y, x+(iEndDrawIndex-pBegLine)*FTextWidth, y+FTextHeight));
+    Canvas.FillRect(Types.Rect(x+(iBegDrawIndex-pBegLine)*FTextWidth, y, x+(iEndDrawIndex-pBegLine)*FTextWidth, y+FTextHeight));
 //    Canvas.Font.Color:=clMaroon; // test
     Canvas.Font.Color:=clLight;
 //    Canvas.TextRect(ARect, x+(iBegDrawIndex-pBegLine)*FTextWidth, y,Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex));

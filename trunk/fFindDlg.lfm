@@ -1,95 +1,85 @@
-object frmFindDlg: TfrmFindDlg
-  ActiveControl = cmbFindFileMask
+inherited frmFindDlg: TfrmFindDlg
+  Left = 289
+  Height = 461
+  Top = 25
+  Width = 541
+  HorzScrollBar.Page = 540
+  VertScrollBar.Page = 460
+  VertScrollBar.Range = 316
+  ActiveControl = cbDateFrom
   Caption = 'frmFindDlg'
-  ClientHeight = 461
-  ClientWidth = 495
   KeyPreview = True
   OnClose = frmFindDlgClose
   OnCloseQuery = FormCloseQuery
-  OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   OnShow = frmFindDlgShow
-  PixelsPerInch = 96
   Position = poScreenCenter
-  TextHeight = 16
-  HorzScrollBar.Page = 494
-  VertScrollBar.Page = 460
-  VertScrollBar.Range = 316
-  Left = 304
-  Height = 461
-  Top = 318
-  Width = 495
   object Splitter1: TSplitter
+    Cursor = crVSplit
+    Height = 1
+    Width = 541
     Align = alTop
-    Cursor = crVSplit
-    Height = 1
-    Width = 495
     ResizeAnchor = akTop
-    Cursor = crVSplit
-    Height = 1
-    Width = 495
   end
   object Panel2: TPanel
-    Align = alTop
-    BevelOuter = bvNone
-    ClientHeight = 281
-    ClientWidth = 495
-    FullRepaint = False
-    TabOrder = 0
     Height = 281
     Top = 1
-    Width = 495
+    Width = 541
+    Align = alTop
+    BevelOuter = bvNone
+    FullRepaint = False
+    TabOrder = 0
     object pgcSearch: TPageControl
+      Height = 273
+      Width = 446
       ActivePage = tsStandard
       Anchors = [akTop, akLeft, akRight]
       TabIndex = 0
       TabOrder = 0
-      Height = 273
-      Width = 400
       object tsStandard: TTabSheet
         Caption = 'Standard'
-        ClientHeight = 247
-        ClientWidth = 392
-        Height = 247
-        Width = 392
         object lblFindPathStart: TLabel
-          Caption = 'FileDir'
-          Color = clNone
-          ParentColor = False
           Left = 8
           Height = 14
           Top = 57
           Width = 30
-        end
-        object lblFindFileMask: TLabel
-          Caption = 'FileMask'
+          Caption = 'FileDir'
           Color = clNone
           ParentColor = False
+        end
+        object lblFindFileMask: TLabel
           Left = 8
           Height = 14
           Top = 1
           Width = 41
+          Caption = 'FileMask'
+          Color = clNone
+          ParentColor = False
         end
         object edtFindPathStart: TEdit
-          Anchors = [akTop, akLeft, akRight]
-          TabOrder = 0
           Left = 8
           Height = 24
           Top = 81
-          Width = 316
+          Width = 362
+          Anchors = [akTop, akLeft, akRight]
+          TabOrder = 0
         end
         object btnSelDir: TButton
-          Anchors = [akTop, akRight]
-          BorderSpacing.InnerBorder = 2
-          Caption = '...'
-          OnClick = btnSelDirClick
-          TabOrder = 2
-          Left = 332
+          Left = 378
           Height = 25
           Top = 80
           Width = 25
+          Anchors = [akTop, akRight]
+          BorderSpacing.InnerBorder = 4
+          Caption = '...'
+          OnClick = btnSelDirClick
+          TabOrder = 2
         end
         object cmbFindFileMask: TComboBox
+          Left = 8
+          Height = 21
+          Top = 25
+          Width = 362
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           ItemHeight = 18
@@ -97,117 +87,68 @@ object frmFindDlg: TfrmFindDlg
           ParentCtl3D = False
           TabOrder = 1
           Text = '*'
-          Left = 8
-          Height = 21
-          Top = 25
-          Width = 316
         end
         object gbFindData: TGroupBox
-          Anchors = [akTop, akLeft, akRight]
-          Caption = 'Find Data'
-          ClientHeight = 62
-          ClientWidth = 368
-          Enabled = False
-          ParentCtl3D = False
-          TabOrder = 3
           Left = 8
           Height = 80
           Top = 145
-          Width = 372
+          Width = 418
+          Anchors = [akTop, akLeft, akRight]
+          Caption = 'Find Data'
+          Enabled = False
+          ParentCtl3D = False
+          TabOrder = 3
           object cbCaseSens: TCheckBox
-            AllowGrayed = True
-            Caption = 'Case sensitive'
-            TabOrder = 0
             Left = 18
             Height = 13
             Top = 40
             Width = 88
+            AllowGrayed = True
+            Caption = 'Case sensitive'
+            TabOrder = 0
           end
           object edtFindText: TEdit
-            Anchors = [akTop, akLeft, akRight]
-            TabOrder = 1
             Left = 16
             Height = 24
             Top = 8
-            Width = 324
+            Width = 366
+            Anchors = [akTop, akLeft, akRight]
+            TabOrder = 1
           end
           object cbNoThisText: TCheckBox
-            Caption = 'Find files NOT containing the text'
-            TabOrder = 2
             Left = 154
             Height = 13
             Top = 40
             Width = 177
+            Caption = 'Find files NOT containing the text'
+            TabOrder = 2
           end
         end
         object cbFindInFile: TCheckBox
-          AllowGrayed = True
-          Caption = 'Find in file'
-          OnClick = cbFindInFileClick
-          TabOrder = 4
           Left = 12
           Height = 13
           Top = 121
           Width = 67
+          AllowGrayed = True
+          Caption = 'Find in file'
+          OnClick = cbFindInFileClick
+          TabOrder = 4
         end
       end
       object tsAdvanced: TTabSheet
         Caption = 'Advanced'
-        ClientHeight = 247
-        ClientWidth = 392
         ImageIndex = 1
-        Height = 247
-        Width = 392
         object deDateFrom: TDateEdit
-          CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
-          OKCaption = 'OK'
-          CancelCaption = 'Cancel'
-          Date = 39136
-          ReadOnly = False
-          ButtonWidth = 23
-          Color = clBtnFace
-          Enabled = False
-          Glyph.Data = {
-            2F0200002F2A2058504D202A2F0A7374617469632063686172202A63616C656E
-            6461725B5D203D207B0A2F2A20636F6C756D6E7320726F777320636F6C6F7273
-            2063686172732D7065722D706978656C202A2F0A223134203132203137203122
-            2C0A2220206320626C61636B222C0A222E20632023383030303030222C0A2258
-            20632023303038303030222C0A226F20632023383038303030222C0A224F2063
-            206E617679222C0A222B20632023383030303830222C0A224020632023303038
-            303830222C0A222320632023383038303830222C0A2224206320234330433043
-            30222C0A2225206320726564222C0A2226206320677265656E222C0A222A2063
-            2079656C6C6F77222C0A223D206320626C7565222C0A222D2063206D6167656E
-            7461222C0A223B2063206379616E222C0A223A20632067726179313030222C0A
-            223E2063204E6F6E65222C0A2F2A20706978656C73202A2F0A223E3E20202020
-            2020202020203E3E222C0A223E3E3A24242424242424243A4F23222C0A223E3E
-            3A3A3A3A3A3A3A3A3A3A4F23222C0A223E3E3A3A203A3A202020203A4F23222C
-            0A223E3E3A20203A3A203A3A3A3A4F23222C0A223E3E3A3A203A3A202020243A
-            4F23222C0A223E3E3A3A203A3A3A3A3A203A4F23222C0A223E3E3A3A203A3A24
-            3A24203A4F23222C0A223E3E3A2020203A202020243A4F23222C0A223E3E3A3A
-            3A3A3A3A3A3A3A3A4F23222C0A223E3E20204F204F4F204F20204F23222C0A22
-            3E3E3E2323232323232323232323220A7D3B0A
-          }
-          NumGlyphs = 1
-          ParentColor = False
-          TabOrder = 0
-          Color = clBtnFace
-          Enabled = False
-          TabOrder = 0
-          Text = '23.02.2007'
           Left = 4
           Height = 23
           Top = 41
           Width = 80
-        end
-        object deDateTo: TDateEdit
-          CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
-          OKCaption = 'OK'
-          CancelCaption = 'Cancel'
-          Date = 39136
-          ReadOnly = False
-          ButtonWidth = 23
           Color = clBtnFace
           Enabled = False
+          ReadOnly = False
+          TabOrder = 0
+          Text = '23.02.2007'
+          ButtonWidth = 23
           Glyph.Data = {
             2F0200002F2A2058504D202A2F0A7374617469632063686172202A63616C656E
             6461725B5D203D207B0A2F2A20636F6C756D6E7320726F777320636F6C6F7273
@@ -230,153 +171,260 @@ object frmFindDlg: TfrmFindDlg
           }
           NumGlyphs = 1
           ParentColor = False
-          TabOrder = 1
-          Color = clBtnFace
-          Enabled = False
-          TabOrder = 1
-          Text = '23.02.2007'
+          CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
+          OKCaption = 'OK'
+          CancelCaption = 'Cancel'
+          Date = 39136
+        end
+        object deDateTo: TDateEdit
           Left = 164
           Height = 23
           Top = 41
           Width = 80
+          Color = clBtnFace
+          Enabled = False
+          ReadOnly = False
+          TabOrder = 1
+          Text = '23.02.2007'
+          ButtonWidth = 23
+          Glyph.Data = {
+            2F0200002F2A2058504D202A2F0A7374617469632063686172202A63616C656E
+            6461725B5D203D207B0A2F2A20636F6C756D6E7320726F777320636F6C6F7273
+            2063686172732D7065722D706978656C202A2F0A223134203132203137203122
+            2C0A2220206320626C61636B222C0A222E20632023383030303030222C0A2258
+            20632023303038303030222C0A226F20632023383038303030222C0A224F2063
+            206E617679222C0A222B20632023383030303830222C0A224020632023303038
+            303830222C0A222320632023383038303830222C0A2224206320234330433043
+            30222C0A2225206320726564222C0A2226206320677265656E222C0A222A2063
+            2079656C6C6F77222C0A223D206320626C7565222C0A222D2063206D6167656E
+            7461222C0A223B2063206379616E222C0A223A20632067726179313030222C0A
+            223E2063204E6F6E65222C0A2F2A20706978656C73202A2F0A223E3E20202020
+            2020202020203E3E222C0A223E3E3A24242424242424243A4F23222C0A223E3E
+            3A3A3A3A3A3A3A3A3A3A4F23222C0A223E3E3A3A203A3A202020203A4F23222C
+            0A223E3E3A20203A3A203A3A3A3A4F23222C0A223E3E3A3A203A3A202020243A
+            4F23222C0A223E3E3A3A203A3A3A3A3A203A4F23222C0A223E3E3A3A203A3A24
+            3A24203A4F23222C0A223E3E3A2020203A202020243A4F23222C0A223E3E3A3A
+            3A3A3A3A3A3A3A3A4F23222C0A223E3E20204F204F4F204F20204F23222C0A22
+            3E3E3E2323232323232323232323220A7D3B0A
+          }
+          NumGlyphs = 1
+          ParentColor = False
+          CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
+          OKCaption = 'OK'
+          CancelCaption = 'Cancel'
+          Date = 39136
         end
         object cbDateFrom: TCheckBox
-          Caption = 'Date From:'
-          OnChange = cbDateFromChange
-          TabOrder = 2
           Left = 4
           Height = 13
           Top = 22
           Width = 72
+          Caption = 'Date From:'
+          OnChange = cbDateFromChange
+          TabOrder = 2
         end
         object cbNotOlderThan: TCheckBox
-          Caption = 'Not older than:'
-          TabOrder = 3
           Left = 4
           Height = 13
-          Top = 160
+          Top = 136
           Width = 90
+          Caption = 'Not older than:'
+          OnChange = cbNotOlderThanChange
+          TabOrder = 3
         end
-        object SpinEdit1: TSpinEdit
-          TabOrder = 4
-          Left = 100
+        object seNotOlderThan: TSpinEdit
+          Left = 4
           Height = 20
-          Top = 153
-          Width = 112
+          Top = 161
+          Width = 106
+          Enabled = False
+          TabOrder = 4
         end
-        object ComboBox1: TComboBox
+        object cbDelayUnit: TComboBox
+          Left = 164
+          Height = 21
+          Top = 160
+          Width = 110
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          Enabled = False
+          ItemIndex = 2
+          Items.Strings = (
+            'Minute(s)'
+            'Hour(s)'
+            'Day(s)'
+            'Week(s)'
+            'Month(s)'
+            'Year(s)'
+          )
           MaxLength = 0
           TabOrder = 5
-          Text = 'ComboBox1'
-          Left = 260
-          Height = 21
-          Top = 153
-          Width = 104
+          Text = 'Day(s)'
         end
         object cbFileSizeFrom: TCheckBox
+          Left = 4
+          Height = 13
+          Top = 193
+          Width = 88
           Caption = 'File Size From:'
           OnChange = cbFileSizeFromChange
           TabOrder = 6
-          Left = 4
-          Height = 13
-          Top = 81
-          Width = 88
         end
         object cbDateTo: TCheckBox
-          Caption = 'Date To:'
-          OnChange = cbDateToChange
-          TabOrder = 7
           Left = 164
           Height = 13
           Top = 22
           Width = 62
+          Caption = 'Date To:'
+          OnChange = cbDateToChange
+          TabOrder = 7
         end
         object cbFileSizeTo: TCheckBox
+          Left = 164
+          Height = 13
+          Top = 193
+          Width = 78
           Caption = 'File Size To:'
           OnChange = cbFileSizeToChange
           TabOrder = 8
-          Left = 164
-          Height = 13
-          Top = 81
-          Width = 78
         end
         object seFileSizeFrom: TSpinEdit
-          Enabled = False
-          TabOrder = 9
           Left = 4
           Height = 20
-          Top = 105
+          Top = 217
           Width = 106
+          Enabled = False
+          TabOrder = 9
         end
         object seFileSizeTo: TSpinEdit
-          Enabled = False
-          TabOrder = 10
           Left = 164
           Height = 20
-          Top = 105
+          Top = 217
           Width = 110
+          Enabled = False
+          TabOrder = 10
+        end
+        object cbUnitOfMeasure: TComboBox
+          Left = 284
+          Height = 21
+          Top = 217
+          Width = 72
+          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemIndex = 1
+          Items.Strings = (
+            'Byte'
+            'Kbyte'
+            'Mbyte'
+            'Gbyte'
+          )
+          MaxLength = 0
+          Style = csDropDownList
+          TabOrder = 11
+          Text = 'Kbyte'
+        end
+        object cbTimeFrom: TCheckBox
+          Left = 4
+          Height = 13
+          Top = 73
+          Width = 69
+          Caption = 'Time from:'
+          OnChange = cbTimeFromChange
+          TabOrder = 12
+        end
+        object cbTimeTo: TCheckBox
+          Left = 164
+          Height = 13
+          Top = 73
+          Width = 58
+          Caption = 'Time to:'
+          OnChange = cbTimeToChange
+          TabOrder = 13
+        end
+        object meTimeFrom: TMaskEdit
+          Left = 4
+          Height = 23
+          Top = 97
+          Width = 80
+          Enabled = False
+          EditMask = '00:00:00'
+          MaxLength = 8
+          ParentColor = False
+          TabOrder = 14
+          Text = '00:00:00'
+          OnChange = meTimeChange
+        end
+        object meTimeTo: TMaskEdit
+          Left = 164
+          Height = 23
+          Top = 97
+          Width = 80
+          Enabled = False
+          EditMask = '00:00:00'
+          MaxLength = 8
+          ParentColor = False
+          TabOrder = 15
+          Text = '00:00:00'
+          OnChange = meTimeChange
         end
       end
     end
     object btnClose: TButton
-      Anchors = [akTop, akRight]
-      BorderSpacing.InnerBorder = 2
-      Caption = '&Close'
-      OnClick = btnCloseClick
-      TabOrder = 3
-      Left = 408
+      Left = 454
       Height = 25
       Top = 71
       Width = 75
+      Anchors = [akTop, akRight]
+      BorderSpacing.InnerBorder = 4
+      Caption = '&Close'
+      OnClick = btnCloseClick
+      TabOrder = 3
     end
     object btnStop: TButton
+      Left = 454
+      Height = 25
+      Top = 103
+      Width = 75
       Anchors = [akTop, akRight]
-      BorderSpacing.InnerBorder = 2
+      BorderSpacing.InnerBorder = 4
       Cancel = True
       Caption = 'Cancel'
       Enabled = False
       OnClick = btnStopClick
       TabOrder = 1
-      Left = 408
-      Height = 25
-      Top = 103
-      Width = 75
     end
     object btnStart: TButton
+      Left = 454
+      Height = 25
+      Top = 39
+      Width = 75
       Anchors = [akTop, akRight]
-      BorderSpacing.InnerBorder = 2
+      BorderSpacing.InnerBorder = 4
       Caption = '&Start'
       Default = True
       OnClick = btnStartClick
       TabOrder = 2
-      Left = 408
-      Height = 25
-      Top = 39
-      Width = 75
     end
   end
   object Panel1: TPanel
-    Align = alClient
-    BevelOuter = bvNone
-    ClientHeight = 179
-    ClientWidth = 495
-    FullRepaint = False
-    TabOrder = 1
     Height = 179
     Top = 282
-    Width = 495
+    Width = 541
+    Align = alClient
+    BevelOuter = bvNone
+    FullRepaint = False
+    TabOrder = 1
     object Panel3: TPanel
+      Height = 54
+      Width = 541
       Align = alTop
       BevelInner = bvRaised
       BevelOuter = bvLowered
-      ClientHeight = 54
-      ClientWidth = 495
       FullRepaint = False
       TabOrder = 0
-      Height = 54
-      Width = 495
       object lblStatus: TLabel
+        Left = 8
+        Height = 13
+        Top = 30
+        Width = 44
         Caption = 'lblStatus'
         Color = clNone
         Font.Color = clBlack
@@ -385,12 +433,12 @@ object frmFindDlg: TfrmFindDlg
         Font.Pitch = fpVariable
         Font.Style = [fsBold]
         ParentColor = False
-        Left = 8
-        Height = 13
-        Top = 30
-        Width = 44
       end
       object lblCurrent: TLabel
+        Left = 8
+        Height = 13
+        Top = 12
+        Width = 49
         Caption = 'lblCurrent'
         Color = clNone
         Font.Color = clBlack
@@ -399,21 +447,17 @@ object frmFindDlg: TfrmFindDlg
         Font.Pitch = fpVariable
         Font.Style = [fsBold]
         ParentColor = False
-        Left = 8
-        Height = 13
-        Top = 12
-        Width = 49
       end
     end
     object lsFoundedFiles: TListBox
+      Height = 125
+      Top = 54
+      Width = 541
       Align = alClient
       MultiSelect = True
       OnDblClick = lsFoundedFilesDblClick
       PopupMenu = PopupMenuFind
       TabOrder = 1
-      Height = 125
-      Top = 54
-      Width = 495
     end
   end
   object PopupMenuFind: TPopupMenu

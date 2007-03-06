@@ -20,7 +20,7 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, Buttons, uFindThread, Menus,
-  fLngForm, Calendar, EditBtn, Spin;
+  fLngForm, Calendar, EditBtn, Spin, MaskEdit;
 
 type
 
@@ -37,10 +37,15 @@ type
     cbFileSizeFrom: TCheckBox;
     cbDateTo: TCheckBox;
     cbFileSizeTo: TCheckBox;
-    ComboBox1: TComboBox;
+    cbTimeFrom: TCheckBox;
+    cbTimeTo: TCheckBox;
+    cbDelayUnit: TComboBox;
+    cbUnitOfMeasure: TComboBox;
     deDateFrom: TDateEdit;
     deDateTo: TDateEdit;
-    SpinEdit1: TSpinEdit;
+    meTimeFrom: TMaskEdit;
+    meTimeTo: TMaskEdit;
+    seNotOlderThan: TSpinEdit;
     seFileSizeFrom: TSpinEdit;
     seFileSizeTo: TSpinEdit;
     Splitter1: TSplitter;
@@ -69,6 +74,9 @@ type
     procedure cbDateToChange(Sender: TObject);
     procedure cbFileSizeFromChange(Sender: TObject);
     procedure cbFileSizeToChange(Sender: TObject);
+    procedure cbNotOlderThanChange(Sender: TObject);
+    procedure cbTimeFromChange(Sender: TObject);
+    procedure cbTimeToChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnStopClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -77,6 +85,7 @@ type
     procedure frmFindDlgClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure frmFindDlgShow(Sender: TObject);
     procedure lsFoundedFilesDblClick(Sender: TObject);
+    procedure meTimeChange(Sender: TObject);
     procedure miShowInViewerClick(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
@@ -105,6 +114,7 @@ begin
   frmFindDlg.Show;
   frmFindDlg.BringToFront;
   frmFindDlg.cmbFindFileMask.SetFocus;
+
 end;
 
 procedure TfrmFindDlg.LoadLng;
@@ -135,6 +145,8 @@ begin
 end;
 
 procedure TfrmFindDlg.btnStartClick(Sender: TObject);
+var
+  dtTime : TDateTime;
 begin
   if not DirectoryExists(edtFindPathStart.Text) then
   begin
@@ -155,6 +167,7 @@ begin
     FilterMask:=cmbFindFileMask.Text;
     PathStart:=edtFindPathStart.Text;
     Items:=lsFoundedFiles.Items;
+    IsNoThisText := cbNoThisText.Checked;
     FindInFiles:=cbFindInFile.Checked;
     FindData:=edtFindText.Text;
     CaseSensitive:=cbCaseSens.Checked;
@@ -162,24 +175,99 @@ begin
     if cbDateFrom.Checked then
        begin
          IsDateFrom := True;
-         DateFrom := deDateFrom.Date;
+         DateTimeFrom := deDateFrom.Date;
        end;
     if cbDateTo.Checked then
        begin
          IsDateTo := True;
-         DateTo := deDateTo.Date;
+         DateTimeTo := deDateTo.Date;
        end;
+    (* Time search *)
+    if cbTimeFrom.Checked then
+       begin
+         IsTimeFrom := True;
+         dtTime := 0;
+         if TryStrToTime(meTimeFrom.Text, dtTime) then
+           DateTimeFrom := DateTimeFrom + dtTime;
+       end;
+       
+    if cbTimeTo.Checked then
+       begin
+         IsTimeTo := True;
+         dtTime := 0;
+         if TryStrToTime(meTimeTo.Text, dtTime) then
+           DateTimeTo := DateTimeTo +  dtTime;
+       end;
+    (* Not Older Than *)
+     if cbNotOlderThan.Checked then
+       begin
+         case cbDelayUnit.ItemIndex of
+           0:  //Minute(s)
+             begin
+               IsTimeFrom := True;
+               IsDateFrom := True;
+               DateTimeFrom := Now -  0.0006945 * StrToInt(seNotOlderThan.Text);
+             end;
+           1:  //Hour(s)
+             begin
+               IsTimeFrom := True;
+               IsDateFrom := True;
+               DateTimeFrom := Now -  0.0416667 * StrToInt(seNotOlderThan.Text);
+             end;
+           2:  //Day(s)
+             begin
+               IsDateFrom := True;
+               DateTimeFrom := Now - 1 * StrToInt(seNotOlderThan.Text);
+             end;
+           3:  //Week(s)
+             begin
+               IsDateFrom := True;
+               DateTimeFrom := Now - 7 * StrToInt(seNotOlderThan.Text);
+             end;
+           4:  //Month(s)
+             begin
+               IsDateFrom := True;
+               DateTimeFrom := Now - 31 * StrToInt(seNotOlderThan.Text);
+             end;
+           5:  //Year(s)
+             begin
+               IsDateFrom := True;
+               DateTimeFrom := Now - 365 * StrToInt(seNotOlderThan.Text);
+             end;
+         end;
+       end;
+
+                
     (* File size search *)
      if cbFileSizeFrom.Checked then
        begin
          IsFileSizeFrom := True;
-         FileSizeFrom := seFileSizeFrom.Value;
+         case cbUnitOfMeasure.ItemIndex of
+           0:
+             FileSizeFrom := seFileSizeFrom.Value;   //Byte
+           1:
+             FileSizeFrom := seFileSizeFrom.Value * 1024; //KiloByte
+           2:
+             FileSizeFrom := seFileSizeFrom.Value * 1048576; //MegaByte
+           3:
+             FileSizeFrom := seFileSizeFrom.Value * 1073741824; //GigaByte
+         end;
        end;
     if cbFileSizeTo.Checked then
        begin
          IsFileSizeTo := True;
-         FileSizeTo := seFileSizeTo.Value;
+         case cbUnitOfMeasure.ItemIndex of
+           0:
+             FileSizeTo := seFileSizeTo.Value;   //Byte
+           1:
+             FileSizeTo := seFileSizeTo.Value * 1024; //KiloByte
+           2:
+             FileSizeTo := seFileSizeTo.Value * 1048576; //MegaByte
+           3:
+             FileSizeTo := seFileSizeTo.Value * 1073741824; //GigaByte
+         end;
        end;
+
     Status:=lblStatus;
     Current:=lblCurrent;
     writeln('thread a');
@@ -217,6 +305,30 @@ end;
 procedure TfrmFindDlg.cbFileSizeToChange(Sender: TObject);
 begin
   seFileSizeTo.Enabled := cbFileSizeTo.Checked;
+end;
+
+procedure TfrmFindDlg.cbNotOlderThanChange(Sender: TObject);
+begin
+  seNotOlderThan.Enabled := cbNotOlderThan.Checked;
+  cbDelayUnit.Enabled := cbNotOlderThan.Checked;
+end;
+
+procedure TfrmFindDlg.cbTimeFromChange(Sender: TObject);
+var
+  sTime : String;
+begin
+  meTimeFrom.Enabled := cbTimeFrom.Checked;
+  DateTimeToString(sTime, 'hh:mm:ss', Time);
+  meTimeFrom.EditText := sTime;
+end;
+
+procedure TfrmFindDlg.cbTimeToChange(Sender: TObject);
+var
+  sTime : String;
+begin
+  meTimeTo.Enabled := cbTimeTo.Checked;
+  DateTimeToString(sTime, 'hh:mm:ss', Time);
+  meTimeTo.EditText := sTime;
 end;
 
 procedure TfrmFindDlg.ThreadTerminate(Sender:TObject);
@@ -283,6 +395,24 @@ procedure TfrmFindDlg.lsFoundedFilesDblClick(Sender: TObject);
 begin
   miShowInViewer.Click;
 end;
+
+procedure TfrmFindDlg.meTimeChange(Sender: TObject);
+var
+  ME : TMaskEdit;
+begin
+  ME := TMaskEdit(Sender);
+  
+  if StrToIntDef(Copy(ME.EditText, 1, 2), 24) > 23 then
+    ME.EditText := '00' + Copy(ME.EditText, 3, 6);
+
+  if StrToIntDef(Copy(ME.EditText, 4, 2), 60) > 59 then
+    ME.EditText := Copy(ME.EditText, 1, 3) + '00' + Copy(ME.EditText, 6, 3);
+
+  if StrToIntDef(Copy(ME.EditText, 7, 2), 60) > 59 then
+    ME.EditText := Copy(ME.EditText, 1, 6) + '00';
+
+end;
+
 
 procedure TfrmFindDlg.miShowInViewerClick(Sender: TObject);
 var

@@ -11,7 +11,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="Double Commander"/>
-      <ActiveEditorIndexAtStart Value="1"/>
+      <ActiveEditorIndexAtStart Value="0"/>
     </General>
     <PublishOptions>
       <Version Value="2"/>
@@ -47,13 +47,13 @@
         <PackageName Value="JPEGForLazarus"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="6">
+    <Units Count="5">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="doublecmd"/>
-        <CursorPos X="78" Y="72"/>
-        <TopLine Value="59"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
         <UsageCount Value="200"/>
       </Unit0>
       <Unit1>
@@ -65,7 +65,7 @@
         <UnitName Value="fbtnchangedlg"/>
         <CursorPos X="1" Y="11"/>
         <TopLine Value="23"/>
-        <UsageCount Value="166"/>
+        <UsageCount Value="200"/>
       </Unit1>
       <Unit2>
         <Filename Value="fconfigtoolbar.pas"/>
@@ -76,7 +76,7 @@
         <UnitName Value="fconfigtoolbar"/>
         <CursorPos X="1" Y="7"/>
         <TopLine Value="34"/>
-        <UsageCount Value="166"/>
+        <UsageCount Value="200"/>
       </Unit2>
       <Unit3>
         <Filename Value="fmain.pas"/>
@@ -84,10 +84,10 @@
         <HasResources Value="True"/>
         <ResourceFilename Value="fMain.lrs"/>
         <UnitName Value="fMain"/>
-        <CursorPos X="9" Y="5"/>
-        <TopLine Value="1"/>
+        <CursorPos X="11" Y="1210"/>
+        <TopLine Value="1195"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="77"/>
+        <UsageCount Value="92"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
@@ -96,79 +96,10 @@
         <UnitName Value="uWCXprototypes"/>
         <CursorPos X="28" Y="8"/>
         <TopLine Value="1"/>
-        <UsageCount Value="116"/>
+        <UsageCount Value="157"/>
       </Unit4>
-      <Unit5>
-        <Filename Value="foptions.pas"/>
-        <ComponentName Value="frmOptions"/>
-        <HasResources Value="True"/>
-        <ResourceFilename Value="fOptions.lrs"/>
-        <UnitName Value="fOptions"/>
-        <CursorPos X="8" Y="123"/>
-        <TopLine Value="119"/>
-        <EditorIndex Value="1"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-      </Unit5>
     </Units>
-    <JumpHistory Count="14" HistoryIndex="13">
-      <Position1>
-        <Filename Value="foptions.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position1>
-      <Position2>
-        <Filename Value="foptions.pas"/>
-        <Caret Line="25" Column="3" TopLine="12"/>
-      </Position2>
-      <Position3>
-        <Filename Value="foptions.pas"/>
-        <Caret Line="30" Column="26" TopLine="12"/>
-      </Position3>
-      <Position4>
-        <Filename Value="foptions.pas"/>
-        <Caret Line="31" Column="26" TopLine="12"/>
-      </Position4>
-      <Position5>
-        <Filename Value="foptions.pas"/>
-        <Caret Line="32" Column="26" TopLine="12"/>
-      </Position5>
-      <Position6>
-        <Filename Value="foptions.pas"/>
-        <Caret Line="35" Column="15" TopLine="16"/>
-      </Position6>
-      <Position7>
-        <Filename Value="foptions.pas"/>
-        <Caret Line="31" Column="19" TopLine="17"/>
-      </Position7>
-      <Position8>
-        <Filename Value="foptions.pas"/>
-        <Caret Line="29" Column="22" TopLine="17"/>
-      </Position8>
-      <Position9>
-        <Filename Value="foptions.pas"/>
-        <Caret Line="30" Column="22" TopLine="17"/>
-      </Position9>
-      <Position10>
-        <Filename Value="foptions.pas"/>
-        <Caret Line="31" Column="22" TopLine="17"/>
-      </Position10>
-      <Position11>
-        <Filename Value="foptions.pas"/>
-        <Caret Line="34" Column="31" TopLine="17"/>
-      </Position11>
-      <Position12>
-        <Filename Value="foptions.pas"/>
-        <Caret Line="76" Column="5" TopLine="75"/>
-      </Position12>
-      <Position13>
-        <Filename Value="foptions.pas"/>
-        <Caret Line="34" Column="19" TopLine="34"/>
-      </Position13>
-      <Position14>
-        <Filename Value="foptions.pas"/>
-        <Caret Line="76" Column="45" TopLine="75"/>
-      </Position14>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
@@ -187,12 +118,17 @@
         <OptimizationLevel Value="3"/>
       </Optimizations>
     </CodeGeneration>
+    <Linking>
+      <Debugging>
+        <GenerateDebugInfo Value="True"/>
+      </Debugging>
+    </Linking>
     <Other>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="4">
+    <BreakPoints Count="5">
       <Item1>
         <Source Value="mnt\X\linux\lazarus\lcl\include\imglist.inc"/>
         <Line Value="435"/>
@@ -203,12 +139,16 @@
       </Item2>
       <Item3>
         <Source Value="ucopythread.pas"/>
-        <Line Value="69"/>
+        <Line Value="42"/>
       </Item3>
       <Item4>
-        <Source Value="ucopythread.pas"/>
-        <Line Value="42"/>
+        <Source Value="uFilePanel.pas"/>
+        <Line Value="300"/>
       </Item4>
+      <Item5>
+        <Source Value="uFilePanel.pas"/>
+        <Line Value="324"/>
+      </Item5>
     </BreakPoints>
   </Debugging>
 </CONFIG>

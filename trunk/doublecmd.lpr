@@ -9,6 +9,7 @@ uses
   cthreads,
   {$ENDIF}
   Interfaces,
+  LCLProc,
   uGlobsPaths,
   uGlobs,
   uLng,
@@ -64,10 +65,10 @@ uses
 //  try
   Application.Initialize;
   ThousandSeparator:=' ';
-  writeln('Double commander 0.1 alpha - Free Pascal');
-  writeln('This program is free software released under terms of GNU GPL 2');
-  writeln('(C)opyright 2006-7 Koblov Alexander (Alexx2000@mail.ru)');
-  writeln('  and contributors (see about dialog)');
+  DebugLn('Double commander 0.1 alpha - Free Pascal');
+  DebugLn('This program is free software released under terms of GNU GPL 2');
+  DebugLn('(C)opyright 2006-7 Koblov Alexander (Alexx2000@mail.ru)');
+  DebugLn('  and contributors (see about dialog)');
   
   LoadPaths;
   if LoadGlobs then

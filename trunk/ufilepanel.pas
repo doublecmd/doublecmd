@@ -513,7 +513,7 @@ begin
     begin
       frp:=fFileList.GetItem(i);
       if (frp^.sName='..') then Continue;
-      if FileMaskEquate(frp^.sName, sMask) then
+      if G_ValidateWildText(frp^.sName, sMask) then
         frp^.bSelected := bSelect;
     end;
 end;

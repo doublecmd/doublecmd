@@ -40,11 +40,7 @@ type
     dgPanel: TDrawGrid;
     pnAltSearch: TPanel;
     edtSearch: TEdit;
-    { Alexx2000 This is old method
-    btnRoot: TSpeedButton;
-    btnHome: TSpeedButton;
-    btnUp: TSpeedButton;
-    }
+
     procedure edSearchChange(Sender: TObject);
     procedure edtRenameKeyPress(Sender: TObject; var Key: Char);
     procedure dgPanelDrawCell(Sender: TObject; ACol, ARow: Integer;
@@ -775,6 +771,8 @@ begin
   edtSearch.OnKeyPress:=@edSearchKeyPress;
   
   edtRename.OnKeyPress:=@edtRenameKeyPress;
+
+  pnlHeader.OnResize := @pnlHeaderResize;
 
   lblLPath.OnMouseEnter:=@lblLPathMouseEnter;
   lblLPath.OnMouseLeave:=@lblLPathMouseLeave;
