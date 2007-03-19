@@ -11,7 +11,12 @@ contributors:
 interface
 
 uses
-    SysUtils, Classes {$IFDEF WIN32}, Windows, ShellApi, MMSystem{$ELSE}, BaseUnix, Libc, Unix, UnixType{$ENDIF};
+    SysUtils, Classes
+    {$IFDEF WIN32}
+    , Windows, ShellApi, MMSystem, uNTFSLinks
+    {$ELSE}
+    , BaseUnix, Libc, Unix, UnixType
+    {$ENDIF};
     
 type
 TDriveType = (dtUnknown, dtNoDrive, dtFloppy, dtFixed, dtNetwork, dtCDROM,
@@ -29,6 +34,7 @@ PDrive = ^TDrive;
 {$IFDEF WIN32}
 const
   WM_DEVICECHANGE = $0219;
+  faSymLink   = $00000400;
 
 type
   _DEV_BROADCAST_HDR = record // Device broadcast header
@@ -84,11 +90,11 @@ implementation
 function  FPS_ISDIR(iAttr:Cardinal) : Boolean;
 {$IFDEF WIN32}
 begin
-Result := Boolean(iAttr and faDirectory);
+  Result := Boolean(iAttr and faDirectory);
 end;
 {$ELSE}
 begin
-Result := BaseUnix.FPS_ISDIR(iAttr);
+  Result := BaseUnix.FPS_ISDIR(iAttr);
 end;
 {$ENDIF}
 
@@ -97,11 +103,11 @@ end;
 function FPS_ISLNK(iAttr:Cardinal) : Boolean;
 {$IFDEF WIN32}
 begin
-Result := False;
+  Result := Boolean(iAttr and faSymLink);
 end;
 {$ELSE}
 begin
-Result := BaseUnix.FPS_ISLNK(iAttr);
+  Result := BaseUnix.FPS_ISLNK(iAttr);
 end;
 {$ENDIF}
 
@@ -157,7 +163,12 @@ end;
 function CreateHardLink(Path, LinkName: string) : Boolean;
 {$IFDEF WIN32}
 begin
-// TODO on NTFS
+  Result := True;
+  try
+    uNTFSLinks.CreateHardlink(Path, LinkName);
+  except
+    Result := False;
+  end;
 end;
 {$ELSE}
 begin
@@ -168,7 +179,12 @@ end;
 function CreateSymLink(Path, LinkName: string) : Boolean;
 {$IFDEF WIN32}
 begin
-// TODO on NTFS
+  Result := True;
+  try
+    uNTFSLinks.CreateSymlink(Path, LinkName);
+  except
+    Result := False;
+  end;
 end;
 {$ELSE}
 begin

@@ -135,7 +135,10 @@ begin
     fr.bExecutable:=(not FPS_ISDIR(fr.iMode)) and (fr.iMode AND (S_IXUSR OR S_IXGRP OR S_IXOTH)>0);
     {$ELSE}  // Windows for ShellExecute
     fr.bExecutable:= not FPS_ISDIR(fr.iMode);
-    fr.bLinkIsDir:=False;
+    if fr.bIsLink then
+      fr.bLinkIsDir:=True //Because symbolic link works on Windows 2k/XP for directories only
+    else
+      fr.bLinkIsDir:=False;
     {$ENDIF}
     fr.bSelected:=False;
     fr.sModeStr:=AttrToStr(fr.iMode);
@@ -152,7 +155,8 @@ begin
   
 {$IFDEF WIN32}
 
-if Boolean(iAttr and $10) then Result[1] := 'd';
+if FPS_ISDIR(iAttr) then Result[1]:='d';
+if FPS_ISLNK(iAttr) then Result[1]:='l';
 if Boolean(iAttr and $02) then Result[2] := 'h';
 if Boolean(iAttr and $04) then Result[3] := 's';
 if Boolean(iAttr and $08) then Result[4] := 'v';
