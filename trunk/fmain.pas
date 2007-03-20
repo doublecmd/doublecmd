@@ -1767,7 +1767,7 @@ try
   end;
 
 except
-    FreeAndNil(frmFileOp);
+    //FreeAndNil(frmFileOp);
 end;
 end;
 
@@ -1832,8 +1832,9 @@ begin
       end;
 
   except
-    FreeAndNil(frmFileOp);
+    //frmFileOp.Free;
   end;
+
 end;
 
 procedure TfrmMain.actShiftF5Execute(Sender: TObject);

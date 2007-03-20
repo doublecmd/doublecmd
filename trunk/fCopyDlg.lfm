@@ -1,41 +1,42 @@
-object frmCopyDlg: TfrmCopyDlg
+inherited frmCopyDlg: TfrmCopyDlg
+  Left = 255
+  Height = 162
+  Top = 198
+  Width = 345
+  HorzScrollBar.Page = 344
+  HorzScrollBar.Range = 337
+  VertScrollBar.Page = 161
+  VertScrollBar.Range = 143
   ActiveControl = btnOK
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'frmCopyDlg'
   OnKeyPress = frmCopyDlgKeyPress
   OnShow = frmCopyDlgShow
-  PixelsPerInch = 96
   Position = poScreenCenter
-  TextHeight = 16
-  HorzScrollBar.Page = 344
-  HorzScrollBar.Range = 337
-  VertScrollBar.Page = 161
-  VertScrollBar.Range = 143
-  Left = 160
-  Height = 162
-  Top = 539
-  Width = 345
   object lblCopySrc: TLabel
-    Caption = 'lblCopySrc'
-    Color = clNone
-    ParentColor = False
     Left = 8
     Height = 14
     Top = 8
     Width = 51
-  end
-  object lblFileType: TLabel
-    Caption = 'lblFileType'
+    Caption = 'lblCopySrc'
     Color = clNone
     ParentColor = False
+  end
+  object lblFileType: TLabel
     Left = 8
     Height = 14
     Top = 64
     Width = 51
+    Caption = 'lblFileType'
+    Color = clNone
+    ParentColor = False
   end
   object btnOK: TBitBtn
-    Anchors = [akTop, akRight]
+    Left = 176
+    Height = 23
+    Top = 120
+    Width = 75
     BorderSpacing.InnerBorder = 2
     Caption = '&OK'
     Default = True
@@ -43,13 +44,12 @@ object frmCopyDlg: TfrmCopyDlg
     ModalResult = 1
     NumGlyphs = 0
     TabOrder = 0
-    Left = 176
+  end
+  object btnCancel: TBitBtn
+    Left = 264
     Height = 23
     Top = 120
     Width = 75
-  end
-  object btnCancel: TBitBtn
-    Anchors = [akTop, akRight]
     BorderSpacing.InnerBorder = 2
     Cancel = True
     Caption = 'Cancel'
@@ -57,29 +57,24 @@ object frmCopyDlg: TfrmCopyDlg
     ModalResult = 2
     NumGlyphs = 0
     TabOrder = 1
-    Left = 262
-    Height = 23
-    Top = 120
-    Width = 75
   end
   object edtDst: TEdit
-    TabOrder = 2
-    Text = 'edtDst'
     Left = 8
     Height = 24
     Top = 32
     Width = 329
+    TabOrder = 2
   end
   object cmbFileType: TComboBox
+    Left = 8
+    Height = 21
+    Top = 88
+    Width = 329
     AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
     Enabled = False
     ItemHeight = 18
     MaxLength = 0
     ParentCtl3D = False
     TabOrder = 3
-    Left = 8
-    Height = 21
-    Top = 88
-    Width = 329
   end
 end

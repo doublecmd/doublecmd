@@ -22,6 +22,9 @@ uses
 type
 
 {$IFDEF NOFAKETHREAD}
+
+  { TFileOpThread }
+
   TFileOpThread = class(TThread)          //check compilation
 {$ELSE}
   TFileOpThread = class(TFakeThread)
@@ -55,6 +58,7 @@ type
     Function CorrectDstName(const sName:String):String;
     Function CorrectDstExt(const sExt:String):String;
     procedure ShowDlgFileExist; //Alexx2000
+    procedure FileOpDlgEnabled;
 
   public
     FFileOpDlg: TfrmFileOp; // progress window
@@ -209,7 +213,10 @@ try
 
   finally
     if UseForm then
-       FFileOpDlg.Close; // FreeAndNil(FFileOpDlg);
+    begin
+       Synchronize(@FFileOpDlg.Close);
+       WriteLN('TFileOpThread finally');
+    end;
     if assigned(NewFileList) then
       FreeAndNil(NewFileList);
   end;
@@ -251,10 +258,15 @@ begin
 
 {    writeln(FloatToStr(Now));
     writeln(sEstimated);}
-    UpdateDlg;
+    Synchronize(@FFileOpDlg.UpdateDlg);
   end;
 end;
 
+
+procedure TFileOpThread.FileOpDlgEnabled;
+begin
+  FFileOpDlg.Enabled := not FFileOpDlg.Enabled;
+end;
 
 
 procedure  TFileOpThread.ShowDlgFileExist;
@@ -273,9 +285,9 @@ begin
 
   {For pseudo modal window}
   Synchronize(@ShowDlgFileExist);
-  FFileOpDlg.Enabled := False;
+  Synchronize(@FileOpDlgEnabled);
   while (FDlgFileExist.iSelected) < 0 do Sleep(10);
-  FFileOpDlg.Enabled := True;
+  Synchronize(@FileOpDlgEnabled);
   {/For pseudo modal window}
   
   DlgResult:=TMyMsgResult(FMyMsgButtons[FDlgFileExist.iSelected]);
