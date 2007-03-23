@@ -467,11 +467,7 @@ begin
        Break;
       end;
     end;
-    if not bPathFound then // this occurs in archive
-    begin
-      LastActive:=fActiveDir;
-      fActiveDir:='';
-    end;
+    
     if glsDirHistory.IndexOf(ActiveDir)=-1 then
       glsDirHistory.Insert(0,ActiveDir);
   end;
