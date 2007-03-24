@@ -290,6 +290,7 @@ type
     procedure CreatePanel(AOwner:TWinControl; APanel:TFilePanelSelect);
     function AddPage(ANoteBook:TNoteBook):TPage;
     procedure RemovePage(ANoteBook:TNoteBook; iPageIndex:Integer);
+    function ExecCmd(Cmd : String) : Boolean;
   end;
 
 var
@@ -437,7 +438,7 @@ end;
 
 procedure TfrmMain.MainToolBarToolButtonClick(NumberOfButton : Integer);
 begin
-  ExecCmdFork(MainToolBar.Commands[NumberOfButton]);
+  ExecCmd(MainToolBar.Commands[NumberOfButton]);
   DebugLn(MainToolBar.Commands[NumberOfButton]);
 end;
 
@@ -2263,6 +2264,16 @@ begin
     ANoteBook.Pages.Delete(iPageIndex);
   end;
   ANoteBook.ShowTabs:= (ANoteBook.PageCount > 1);
+end;
+
+(* Execute internal or external command *)
+
+function TfrmMain.ExecCmd(Cmd: String): Boolean;
+begin
+  if actionLst.ActionByName(Cmd) <> nil then
+    Result := actionLst.ActionByName(Cmd).Execute
+  else
+    Result := (ExecCmdFork(Cmd) = 0);
 end;
 
 procedure TfrmMain.edtCommandKeyDown(Sender: TObject; var Key: Word;
