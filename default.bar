@@ -1,19 +1,8 @@
 [Buttonbar]
-Buttoncount=8
-button2=/mnt/X/linux/sccmd/scfpc/pixmap/fgnome-term.png
-cmd2=C:\PROGRA~1\OPENOF~1\program\soffice.exe
-button3=/usr/share/opera/images/opera_16x16.png
-button1=/mnt/X/linux/sccmd/scfpc/pixmap/fxmms.png
-cmd1=/usr/bin/xmms
-menu1=XMMS
-cmd3=opera
-menu3=Opera
-cmd4=NOTEPAD.EXE
-menu4=Блокнот
-cmd5=regedit.exe
-menu5=Редактор реестра
-button6=X:\Smarts.ico
-cmd6=X:\Prog\Borland\PRG\Internet\Internet.exe
-button7=X:\Doublecmd\pixmap\fhtml.png
-cmd7=X:\Alexx\Opera\Opera.exe
-menu7=Opera
+Buttoncount=3
+button1=X:\DC\svn\doublecmd\pixmaps\16x16\actions\view-refresh.png
+cmd1=actRefresh
+button2=X:\DC\svn\doublecmd\pixmaps\16x16\apps\utilities-terminal.png
+cmd2=cmd.exe
+button3=X:\DC\svn\doublecmd\pixmaps\16x16\actions\edit-select-all.png
+cmd3=actMarkMarkAll

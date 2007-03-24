@@ -1,34 +1,34 @@
 { This is an automatically generated lazarus resource file }
 
 LazarusResources.Add('TfrmMain','FORMDATA',[
-  'TPF0'#241#8'TfrmMain'#7'frmMain'#4'Left'#3#217#0#6'Height'#3'P'#1#3'Top'#3
-  +#158#0#5'Width'#3#13#2#18'HorzScrollBar.Page'#3#12#2#18'VertScrollBar.Page'#3
-  +';'#1#19'VertScrollBar.Range'#2'O'#7'Caption'#6#16'Double Commander'#10'Font'
-  +'.Color'#7#7'clBlack'#11'Font.Height'#2#13#9'Font.Name'#6#9'Helvetica'#10'Fo'
-  +'nt.Pitch'#7#10'fpVariable'#10'KeyPreview'#9#4'Menu'#7#7'mnuMain'#10'OnActiv'
-  +'ate'#7#12'FormActivate'#7'OnClose'#7#12'frmMainClose'#9'OnDestroy'#7#11'For'
-  +'mDestroy'#9'OnKeyDown'#7#11'FormKeyDown'#10'OnKeyPress'#7#12'FormKeyPress'#7
-  +'OnKeyUp'#7#12'frmMainKeyUp'#8'OnResize'#7#10'FormResize'#6'OnShow'#7#11'frm'
-  +'MainShow'#8'Position'#7#15'poDesktopCenter'#8'ShowHint'#9#0#6'TPanel'#9'pnl'
-  +'Button'#6'Height'#2#22#3'Top'#2#23#5'Width'#3#13#2#5'Align'#7#5'alTop'#11'F'
-  +'ullRepaint'#8#8'TabOrder'#2#0#7'Visible'#8#0#0#6'TPanel'#7'pnlDisk'#6'Heigh'
-  +'t'#2#24#3'Top'#2'-'#5'Width'#3#13#2#5'Align'#7#5'alTop'#7'Caption'#6#7'pnlD'
-  +'isk'#11'FullRepaint'#8#11'ParentColor'#8#8'TabOrder'#2#1#0#11'TKAStoolBar'#7
-  +'dskLeft'#4'Left'#2#1#6'Height'#2#22#3'Top'#2#1#5'Width'#3'b'#1#5'Align'#7#6
-  +'alLeft'#11'ParentColor'#8#8'TabOrder'#2#0#17'OnToolButtonClick'#7#22'dskLef'
-  +'tToolButtonClick'#15'CheckToolButton'#9#11'FlatButtons'#9#11'IsDiskPanel'#9
-  +#0#0#11'TKAStoolBar'#8'dskRight'#4'Left'#3'c'#1#6'Height'#2#22#3'Top'#2#1#5
-  +'Width'#3#169#0#5'Align'#7#8'alClient'#7'Anchors'#11#5'akTop'#6'akLeft'#8'ak'
-  +'Bottom'#0#8'TabOrder'#2#1#17'OnToolButtonClick'#7#23'dskRightToolButtonClic'
-  +'k'#15'CheckToolButton'#9#11'FlatButtons'#9#11'IsDiskPanel'#9#0#0#0#6'TPanel'
-  +#10'pnlCommand'#6'Height'#2'B'#3'Top'#3#250#0#5'Width'#3#13#2#5'Align'#7#8'a'
-  +'lBottom'#7'Anchors'#11#6'akLeft'#7'akRight'#0#10'BevelOuter'#7#9'bvLowered'
-  +#11'FullRepaint'#8#11'ParentColor'#8#8'TabOrder'#2#2#0#6'TLabel'#14'lblComma'
-  +'ndPath'#4'Left'#2#1#6'Height'#2#14#3'Top'#2#8#5'Width'#2#23#9'Alignment'#7
-  +#14'taRightJustify'#7'Caption'#6#4'Path'#5'Color'#7#6'clNone'#11'ParentColor'
-  +#8#13'ShowAccelChar'#8#0#0#6'TPanel'#7'pnlKeys'#4'Left'#2#1#6'Height'#2#27#3
-  +'Top'#2'&'#5'Width'#3#11#2#5'Align'#7#8'alBottom'#7'Anchors'#11#6'akLeft'#7
-  +'akRight'#0#10'BevelOuter'#7#9'bvLowered'#11'FullRepaint'#8#8'TabOrder'#2#0#8
+  'TPF0'#241#8'TfrmMain'#7'frmMain'#4'Left'#3#15#1#6'Height'#3'P'#1#3'Top'#3#184
+  +#0#5'Width'#3#13#2#18'HorzScrollBar.Page'#3#12#2#18'VertScrollBar.Page'#3';'
+  +#1#19'VertScrollBar.Range'#2'O'#7'Caption'#6#16'Double Commander'#10'Font.Co'
+  +'lor'#7#7'clBlack'#11'Font.Height'#2#13#9'Font.Name'#6#9'Helvetica'#10'Font.'
+  +'Pitch'#7#10'fpVariable'#10'KeyPreview'#9#4'Menu'#7#7'mnuMain'#10'OnActivate'
+  +#7#12'FormActivate'#7'OnClose'#7#12'frmMainClose'#9'OnDestroy'#7#11'FormDest'
+  +'roy'#9'OnKeyDown'#7#11'FormKeyDown'#10'OnKeyPress'#7#12'FormKeyPress'#7'OnK'
+  +'eyUp'#7#12'frmMainKeyUp'#8'OnResize'#7#10'FormResize'#6'OnShow'#7#11'frmMai'
+  +'nShow'#8'Position'#7#15'poDesktopCenter'#8'ShowHint'#9#0#6'TPanel'#9'pnlBut'
+  +'ton'#6'Height'#2#22#3'Top'#2#23#5'Width'#3#13#2#5'Align'#7#5'alTop'#11'Full'
+  +'Repaint'#8#8'TabOrder'#2#0#7'Visible'#8#0#0#6'TPanel'#7'pnlDisk'#6'Height'#2
+  +#24#3'Top'#2'-'#5'Width'#3#13#2#5'Align'#7#5'alTop'#7'Caption'#6#7'pnlDisk'
+  +#11'FullRepaint'#8#11'ParentColor'#8#8'TabOrder'#2#1#0#11'TKAStoolBar'#7'dsk'
+  +'Left'#4'Left'#2#1#6'Height'#2#22#3'Top'#2#1#5'Width'#3'b'#1#5'Align'#7#6'al'
+  +'Left'#11'ParentColor'#8#8'TabOrder'#2#0#17'OnToolButtonClick'#7#22'dskLeftT'
+  +'oolButtonClick'#15'CheckToolButton'#9#11'FlatButtons'#9#11'IsDiskPanel'#9#0
+  +#0#11'TKAStoolBar'#8'dskRight'#4'Left'#3'c'#1#6'Height'#2#22#3'Top'#2#1#5'Wi'
+  +'dth'#3#169#0#5'Align'#7#8'alClient'#7'Anchors'#11#5'akTop'#6'akLeft'#8'akBo'
+  +'ttom'#0#8'TabOrder'#2#1#17'OnToolButtonClick'#7#23'dskRightToolButtonClick'
+  +#15'CheckToolButton'#9#11'FlatButtons'#9#11'IsDiskPanel'#9#0#0#0#6'TPanel'#10
+  +'pnlCommand'#6'Height'#2'B'#3'Top'#3#250#0#5'Width'#3#13#2#5'Align'#7#8'alBo'
+  +'ttom'#7'Anchors'#11#6'akLeft'#7'akRight'#0#10'BevelOuter'#7#9'bvLowered'#11
+  +'FullRepaint'#8#11'ParentColor'#8#8'TabOrder'#2#2#0#6'TLabel'#14'lblCommandP'
+  +'ath'#4'Left'#2#1#6'Height'#2#14#3'Top'#2#8#5'Width'#2#23#9'Alignment'#7#14
+  +'taRightJustify'#7'Caption'#6#4'Path'#5'Color'#7#6'clNone'#11'ParentColor'#8
+  +#13'ShowAccelChar'#8#0#0#6'TPanel'#7'pnlKeys'#4'Left'#2#1#6'Height'#2#27#3'T'
+  +'op'#2'&'#5'Width'#3#11#2#5'Align'#7#8'alBottom'#7'Anchors'#11#6'akLeft'#7'a'
+  +'kRight'#0#10'BevelOuter'#7#9'bvLowered'#11'FullRepaint'#8#8'TabOrder'#2#0#8
   +'OnResize'#7#13'pnlKeysResize'#0#12'TSpeedButton'#5'btnF3'#4'Left'#2#1#6'Hei'
   +'ght'#2#23#3'Top'#2#4#5'Width'#2'K'#6'Action'#7#7'actView'#5'Color'#7#9'clBt'
   +'nFace'#4'Flat'#9#9'NumGlyphs'#2#0#0#0#12'TSpeedButton'#5'btnF4'#4'Left'#2'L'
@@ -116,7 +116,7 @@ LazarusResources.Add('TfrmMain','FORMDATA',[
   +'Options'#7'OnClick'#7#17'actOptionsExecute'#0#0#0#9'TMenuItem'#7'mnuHelp'#7
   +'Caption'#6#5'&Help'#0#9'TMenuItem'#12'mnuHelpAbout'#6'Action'#7#8'actAbout'
   +#8'ShortCut'#2'p'#7'OnClick'#7#15'actAboutExecute'#0#0#0#0#11'TActionList'#9
-  +'actionLst'#4'left'#3'h'#1#3'top'#2'@'#0#7'TAction'#7'actExit'#8'Category'#6
+  +'actionLst'#4'left'#3'!'#1#3'top'#2'@'#0#7'TAction'#7'actExit'#8'Category'#6
   +#4'File'#7'Caption'#6#4'Exit'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKey'
   +'word'#9'OnExecute'#7#14'actExitExecute'#0#0#7'TAction'#7'actView'#8'Categor'
   +'y'#6#7'Classic'#7'Caption'#6#7'View F3'#18'DisableIfNoHandler'#9#8'HelpType'

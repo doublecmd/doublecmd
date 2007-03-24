@@ -1,7 +1,7 @@
 inherited frmMain: TfrmMain
-  Left = 217
+  Left = 271
   Height = 336
-  Top = 158
+  Top = 184
   Width = 525
   HorzScrollBar.Page = 524
   VertScrollBar.Page = 315
@@ -418,7 +418,7 @@ inherited frmMain: TfrmMain
     end
   end
   object actionLst: TActionList
-    left = 360
+    left = 289
     top = 64
     object actExit: TAction
       Category = 'File'
