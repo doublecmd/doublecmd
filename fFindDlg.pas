@@ -30,6 +30,10 @@ type
     btnClose: TButton;
     btnStart: TButton;
     btnStop: TButton;
+    btnView: TButton;
+    btnNewSearch: TButton;
+    btnGoToPath: TButton;
+    btnWorkWithFound: TButton;
     cbFindInFile: TCheckBox;
     cbNoThisText: TCheckBox;
     cbDateFrom: TCheckBox;
@@ -37,14 +41,17 @@ type
     cbFileSizeFrom: TCheckBox;
     cbDateTo: TCheckBox;
     cbFileSizeTo: TCheckBox;
+    cbReplaceText: TCheckBox;
     cbTimeFrom: TCheckBox;
     cbTimeTo: TCheckBox;
     cbDelayUnit: TComboBox;
     cbUnitOfMeasure: TComboBox;
     deDateFrom: TDateEdit;
     deDateTo: TDateEdit;
+    edtReplaceText: TEdit;
     meTimeFrom: TMaskEdit;
     meTimeTo: TMaskEdit;
+    Panel4: TPanel;
     seNotOlderThan: TSpinEdit;
     seFileSizeFrom: TSpinEdit;
     seFileSizeTo: TSpinEdit;
@@ -68,13 +75,18 @@ type
     lblCurrent: TLabel;
     PopupMenuFind: TPopupMenu;
     miShowInViewer: TMenuItem;
+    procedure btnGoToPathClick(Sender: TObject);
+    procedure btnNewSearchClick(Sender: TObject);
     procedure btnSelDirClick(Sender: TObject);
     procedure btnStartClick(Sender: TObject);
+    procedure btnViewClick(Sender: TObject);
+    procedure btnWorkWithFoundClick(Sender: TObject);
     procedure cbDateFromChange(Sender: TObject);
     procedure cbDateToChange(Sender: TObject);
     procedure cbFileSizeFromChange(Sender: TObject);
     procedure cbFileSizeToChange(Sender: TObject);
     procedure cbNotOlderThanChange(Sender: TObject);
+    procedure cbReplaceTextChange(Sender: TObject);
     procedure cbTimeFromChange(Sender: TObject);
     procedure cbTimeToChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -105,7 +117,7 @@ procedure ShowFindDlg(const sActPath:String);
 implementation
 
 uses
-  fViewer, uLng;
+  fViewer, uLng, uShowForm, fMain, uTypes, uFileOp;
   
 procedure ShowFindDlg(const sActPath:String);
 begin
@@ -144,6 +156,20 @@ begin
   edtFindPathStart.Text:=s;
 end;
 
+procedure TfrmFindDlg.btnNewSearchClick(Sender: TObject);
+begin
+  Panel1.Visible := False;
+  Height := Panel2.Height;
+end;
+
+procedure TfrmFindDlg.btnGoToPathClick(Sender: TObject);
+begin
+  frmMain.ActiveFrame.pnlFile.ActiveDir := ExtractFilePath(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
+  frmMain.ActiveFrame.pnlFile.LoadPanel;
+  frmMain.ActiveFrame.edtSearch.Text := ExtractFileName(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
+  Close;
+end;
+
 procedure TfrmFindDlg.btnStartClick(Sender: TObject);
 var
   dtTime : TDateTime;
@@ -154,8 +180,8 @@ begin
     Exit;
   end;
   
-  //Panel1.Visible := True;
-  //Height := Panel2.Height + Panel1.Height;
+  Panel1.Visible := True;
+  Height := (Screen.Height * 4) div 5;
   
   lsFoundedFiles.Items.Clear;
   btnStop.Enabled:=True;
@@ -171,6 +197,8 @@ begin
     FindInFiles:=cbFindInFile.Checked;
     FindData:=edtFindText.Text;
     CaseSensitive:=cbCaseSens.Checked;
+    ReplaceInFiles := cbReplaceText.Checked;
+    ReplaceData := edtReplaceText.Text;
     (* Date search *)
     if cbDateFrom.Checked then
        begin
@@ -287,6 +315,40 @@ begin
 
 end;
 
+procedure TfrmFindDlg.btnViewClick(Sender: TObject);
+begin
+  ShowViewerByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
+end;
+
+(* Not working full now *)
+
+procedure TfrmFindDlg.btnWorkWithFoundClick(Sender: TObject);
+var
+  I, Count : Integer;
+  fr:TFileRecItem;
+  sr : TSearchRec;
+begin
+  Count := lsFoundedFiles.Items.Count - 1;
+  frmMain.ActiveFrame.pnlFile.FileList.Clear;
+  for I := 0 to Count do
+    begin
+      fr.sNameNoExt := lsFoundedFiles.Items[I];
+      fr.sName := fr.sNameNoExt;
+      FindFirst(fr.sNameNoExt, faAnyFile, sr);
+      fr.sExt := ExtractFileExt(fr.sNameNoExt);
+      fr.iSize := sr.Size;
+      fr.sTime := DateTimeToStr(Trunc(FileDateToDateTime(sr.Time)));
+      fr.iMode := sr.Attr;
+      fr.sModeStr := AttrToStr(sr.Attr);
+      fr.bLinkIsDir:=False;
+      fr.bSelected:=False;
+      frmMain.ActiveFrame.pnlFile.FileList.AddItem(@fr);
+    end;
+  frmMain.ActiveFrame.pnlFile.FileList.UpdateFileInformation;
+  frmMain.ActiveFrame.pnlFile.Sort;
+  Close;
+end;
+
 procedure TfrmFindDlg.cbDateFromChange(Sender: TObject);
 begin
   deDateFrom.Enabled := cbDateFrom.Checked;
@@ -311,6 +373,13 @@ procedure TfrmFindDlg.cbNotOlderThanChange(Sender: TObject);
 begin
   seNotOlderThan.Enabled := cbNotOlderThan.Checked;
   cbDelayUnit.Enabled := cbNotOlderThan.Checked;
+end;
+
+procedure TfrmFindDlg.cbReplaceTextChange(Sender: TObject);
+begin
+  edtReplaceText.Enabled := cbReplaceText.Checked;
+  cbNoThisText.Checked := False;
+  cbNoThisText.Enabled := not cbReplaceText.Checked;
 end;
 
 procedure TfrmFindDlg.cbTimeFromChange(Sender: TObject);
@@ -351,8 +420,8 @@ begin
   edtFindPathStart.Text:=GetCurrentDir;
   lblCurrent.Caption:='';
   lblStatus.Caption:='';
-  //Panel1.Visible := False;
-  //Height := Panel2.Height + 4;
+  Panel1.Visible := False;
+  Height := Panel2.Height;
 end;
 
 procedure TfrmFindDlg.btnStopClick(Sender: TObject);
@@ -383,6 +452,8 @@ procedure TfrmFindDlg.frmFindDlgClose(Sender: TObject;
   var CloseAction: TCloseAction);
 begin
 //  CloseAction:=caFree;
+  Panel1.Visible := False;
+  Height := Panel2.Height;
 end;
 
 procedure TfrmFindDlg.frmFindDlgShow(Sender: TObject);

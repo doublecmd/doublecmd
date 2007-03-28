@@ -79,7 +79,7 @@ type
     property SortDirection:Boolean read fSortDirect write fSortDirect; // maybe write method
     property ActiveDir:String read GetActiveDir write SetActiveDir;
     property LastActive:String read fLastActive write fLastActive;
-    property FileList: TFileList read fFileList;
+    property FileList: TFileList read fFileList write fFileList;
     property SelectedCount:Integer read GetSelectedCount;
     property FilesInDir:Integer read fFilesInDir;
     property FilesSelected:Integer read fFilesSelected;
