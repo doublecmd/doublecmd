@@ -481,7 +481,10 @@ begin
           // show not-counted dir size and date
           if ACol=2 then
           begin
-            s:=cnvFormatFileSize(iSize);
+            if FPS_ISDIR(iMode) then
+              s:= '<DIR>'
+            else
+              s:=cnvFormatFileSize(iSize);
           end
           else
             s:=sTime;

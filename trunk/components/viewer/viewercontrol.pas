@@ -413,10 +413,9 @@ begin
   FMappingHandle := CreateFileMapping(FFileHandle, nil, PAGE_READONLY, 0, 0, nil);
 
   if FMappingHandle <> 0 then
-    begin
-      FMappedFile := MapViewOfFile(FMappingHandle, FILE_MAP_READ, 0, 0, 0);
+      FMappedFile := MapViewOfFile(FMappingHandle, FILE_MAP_READ, 0, 0, 0)
+  else
       Exit;
-    end;
 
   FPosition:=0;
   Invalidate;

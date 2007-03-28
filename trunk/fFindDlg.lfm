@@ -1,12 +1,12 @@
 inherited frmFindDlg: TfrmFindDlg
-  Left = 289
-  Height = 461
-  Top = 25
+  Left = 229
+  Height = 476
+  Top = 39
   Width = 541
   HorzScrollBar.Page = 540
-  VertScrollBar.Page = 460
+  VertScrollBar.Page = 475
   VertScrollBar.Range = 316
-  ActiveControl = cbDateFrom
+  ActiveControl = edtFindPathStart
   Caption = 'frmFindDlg'
   KeyPreview = True
   OnClose = frmFindDlgClose
@@ -17,20 +17,20 @@ inherited frmFindDlg: TfrmFindDlg
   object Splitter1: TSplitter
     Cursor = crVSplit
     Height = 1
+    Top = 295
     Width = 541
     Align = alTop
     ResizeAnchor = akTop
   end
   object Panel2: TPanel
-    Height = 281
-    Top = 1
+    Height = 295
     Width = 541
     Align = alTop
     BevelOuter = bvNone
     FullRepaint = False
     TabOrder = 0
     object pgcSearch: TPageControl
-      Height = 273
+      Height = 296
       Width = 446
       ActivePage = tsStandard
       Anchors = [akTop, akLeft, akRight]
@@ -41,7 +41,7 @@ inherited frmFindDlg: TfrmFindDlg
         object lblFindPathStart: TLabel
           Left = 8
           Height = 14
-          Top = 57
+          Top = 50
           Width = 30
           Caption = 'FileDir'
           Color = clNone
@@ -50,7 +50,7 @@ inherited frmFindDlg: TfrmFindDlg
         object lblFindFileMask: TLabel
           Left = 8
           Height = 14
-          Top = 1
+          Top = 4
           Width = 41
           Caption = 'FileMask'
           Color = clNone
@@ -59,7 +59,7 @@ inherited frmFindDlg: TfrmFindDlg
         object edtFindPathStart: TEdit
           Left = 8
           Height = 24
-          Top = 81
+          Top = 67
           Width = 362
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 0
@@ -67,7 +67,7 @@ inherited frmFindDlg: TfrmFindDlg
         object btnSelDir: TButton
           Left = 378
           Height = 25
-          Top = 80
+          Top = 66
           Width = 25
           Anchors = [akTop, akRight]
           BorderSpacing.InnerBorder = 4
@@ -90,8 +90,8 @@ inherited frmFindDlg: TfrmFindDlg
         end
         object gbFindData: TGroupBox
           Left = 8
-          Height = 80
-          Top = 145
+          Height = 145
+          Top = 119
           Width = 418
           Anchors = [akTop, akLeft, akRight]
           Caption = 'Find Data'
@@ -101,35 +101,50 @@ inherited frmFindDlg: TfrmFindDlg
           object cbCaseSens: TCheckBox
             Left = 18
             Height = 13
-            Top = 40
+            Top = 97
             Width = 88
-            AllowGrayed = True
             Caption = 'Case sensitive'
             TabOrder = 0
           end
           object edtFindText: TEdit
             Left = 16
             Height = 24
-            Top = 8
-            Width = 366
+            Top = 9
+            Width = 338
             Anchors = [akTop, akLeft, akRight]
             TabOrder = 1
           end
           object cbNoThisText: TCheckBox
             Left = 154
             Height = 13
-            Top = 40
+            Top = 97
             Width = 177
             Caption = 'Find files NOT containing the text'
             TabOrder = 2
+          end
+          object cbReplaceText: TCheckBox
+            Left = 16
+            Height = 13
+            Top = 41
+            Width = 80
+            Caption = 'Replace text'
+            OnChange = cbReplaceTextChange
+            TabOrder = 4
+          end
+          object edtReplaceText: TEdit
+            Left = 16
+            Height = 23
+            Top = 65
+            Width = 346
+            Enabled = False
+            TabOrder = 3
           end
         end
         object cbFindInFile: TCheckBox
           Left = 12
           Height = 13
-          Top = 121
+          Top = 98
           Width = 67
-          AllowGrayed = True
           Caption = 'Find in file'
           OnClick = cbFindInFileClick
           TabOrder = 4
@@ -405,8 +420,8 @@ inherited frmFindDlg: TfrmFindDlg
     end
   end
   object Panel1: TPanel
-    Height = 179
-    Top = 282
+    Height = 180
+    Top = 296
     Width = 541
     Align = alClient
     BevelOuter = bvNone
@@ -450,7 +465,7 @@ inherited frmFindDlg: TfrmFindDlg
       end
     end
     object lsFoundedFiles: TListBox
-      Height = 125
+      Height = 76
       Top = 54
       Width = 541
       Align = alClient
@@ -458,6 +473,53 @@ inherited frmFindDlg: TfrmFindDlg
       OnDblClick = lsFoundedFilesDblClick
       PopupMenu = PopupMenuFind
       TabOrder = 1
+    end
+    object Panel4: TPanel
+      Height = 50
+      Top = 130
+      Width = 541
+      Align = alBottom
+      TabOrder = 2
+      object btnView: TButton
+        Left = 24
+        Height = 25
+        Top = 14
+        Width = 104
+        BorderSpacing.InnerBorder = 4
+        Caption = '&View'
+        OnClick = btnViewClick
+        TabOrder = 0
+      end
+      object btnNewSearch: TButton
+        Left = 152
+        Height = 25
+        Top = 14
+        Width = 104
+        BorderSpacing.InnerBorder = 4
+        Caption = '&New search'
+        OnClick = btnNewSearchClick
+        TabOrder = 1
+      end
+      object btnGoToPath: TButton
+        Left = 280
+        Height = 25
+        Top = 14
+        Width = 104
+        BorderSpacing.InnerBorder = 4
+        Caption = '&Go to file'
+        OnClick = btnGoToPathClick
+        TabOrder = 2
+      end
+      object btnWorkWithFound: TButton
+        Left = 408
+        Height = 25
+        Top = 14
+        Width = 104
+        BorderSpacing.InnerBorder = 4
+        Caption = 'Feed to &listbox'
+        OnClick = btnWorkWithFoundClick
+        TabOrder = 3
+      end
     end
   end
   object PopupMenuFind: TPopupMenu

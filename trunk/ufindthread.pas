@@ -30,14 +30,11 @@ TFindThread = class(TThread)
     { Private declarations }
     FPathStart:String;
     FItems: TStrings;
-    FIsNoThisText,
-    FFindInFiles:Boolean;
     FStatus: TLabel;
     FCurrent: TLabel;
     FCurrentFile:String;
     FFilesScaned:Integer;
     FFoundFile:String;
-
     FFileMask : String;
     FAttributes: Cardinal;
     FCaseSens:Boolean;
@@ -54,8 +51,14 @@ TFindThread = class(TThread)
     FIsFileSizeTo : Boolean;
     FFileSizeFrom,
     FFileSizeTo : Int64;
-    
+    (* Find text *)
+    FIsNoThisText,
+    FFindInFiles:Boolean;
     FFindData:String;
+    (* Replace text *)
+    FReplaceInFiles : Boolean;
+    FReplaceData : String;
+
 
     function CheckFileDate(DT : LongInt) : Boolean;
     function CheckFileSize(FileSize : Int64) : Boolean;
@@ -71,12 +74,16 @@ TFindThread = class(TThread)
     property FilterMask:String read FFileMask write FFileMask;
     property PathStart:String read FPathStart write FPathStart;
     property Items:TStrings write FItems;
+    (* Find text *)
     property FindInFiles:Boolean write FFindInFiles;
     property IsNoThisText:Boolean write FIsNoThisText default False;
     property Status:TLabel read FStatus write FStatus;
     property Current:TLabel read FCurrent write FCurrent; // label current file
     property CaseSensitive:boolean read FCaseSens write FCaseSens;
     property FindData:String read FFindData write FFindData;
+    (* Replace text *)
+    property ReplaceInFiles:Boolean write FReplaceInFiles;
+    property ReplaceData:String read FReplaceData write FReplaceData;
     (* Date search *)
     property IsDateFrom:Boolean read FIsDateFrom write FIsDateFrom;
     property IsDateTo:Boolean read FIsDateTo write FIsDateTo;
@@ -217,6 +224,33 @@ Result := FindMmap(sFileName, sData, bCase);
 end;
 {$ENDIF}
 
+
+procedure FileReplaceString(const FileName, SearchString, ReplaceString: string; bCase:Boolean);
+var
+  fs: TFileStream;
+  S: string;
+  Flags : TReplaceFlags;
+begin
+  Include(Flags, rfReplaceAll);
+  if not bCase then
+    Include(Flags, rfIgnoreCase);
+    
+  fs := TFileStream.Create(FileName, fmOpenread or fmShareDenyNone);
+  try
+    SetLength(S, fs.Size);
+    fs.ReadBuffer(S[1], fs.Size);
+  finally
+    fs.Free;
+  end;
+  S  := StringReplace(S, SearchString, replaceString, Flags);
+  fs := TFileStream.Create(FileName, fmCreate);
+  try
+    fs.WriteBuffer(S[1], Length(S));
+  finally
+    fs.Free;
+  end;
+end;
+
 function TFindThread.CheckFileDate(DT : LongInt) : Boolean;
 var
   DateTime: TDateTime;
@@ -281,6 +315,10 @@ if not G_ValidateWildText(sr.Name, FFileMask) then
   if (FFindInFiles and Result) then
      begin
        Result := FindInFile(Folder + PathDelim + sr.Name, FFindData, FCaseSens);
+
+       if (FReplaceInFiles and Result) then
+         FileReplaceString(Folder + PathDelim + sr.Name, FFindData, FReplaceData, FCaseSens);
+
        if FIsNoThisText then
          Result := not Result;
      end;
