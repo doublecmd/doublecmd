@@ -28,9 +28,14 @@ type
     btnSelViewFnt: TButton;
     Button1: TButton;
     Button2: TButton;
+    btSetHotKey: TButton;
     cbSeparateExt: TCheckBox;
+    cbActions: TComboBox;
     cTextColor: TColorBox;
     cbackgrndcolor: TColorBox;
+    edHotKey: TEdit;
+    lblActions: TLabel;
+    lblHotKey: TLabel;
     optColorDialog: TColorDialog;
     dlgFnt: TFontDialog;
     cTextLabel: TLabel;
@@ -39,7 +44,8 @@ type
     edtMainSize: TSpinEdit;
     edtEditorSize: TSpinEdit;
     edtViewerSize: TSpinEdit;
-    TabSheet1: TTabSheet;
+    tsColor: TTabSheet;
+    tfHotKey: TTabSheet;
     tsLng: TTabSheet;
     tsBehav: TTabSheet;
     Panel1: TPanel;
@@ -75,6 +81,7 @@ type
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btSetHotKeyClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnSelEditFntClick(Sender: TObject);
     procedure btnSelMainFntClick(Sender: TObject);
@@ -85,6 +92,8 @@ type
     procedure cbMainFontChange(Sender: TObject);
     procedure cbEditorFontChange(Sender: TObject);
     procedure cbViewerFontChange(Sender: TObject);
+    procedure edHotKeyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
+      );
   private
     { Private declarations }
   public
@@ -92,21 +101,47 @@ type
     procedure FillLngListBox;
     procedure LoadLng; override;
     procedure FillFontLists;
+    procedure FillActionLists;
   end;
 
 
 implementation
 
 uses
-  uLng, uGlobs, uGlobsPaths, FindEx;
+  uLng, uGlobs, uGlobsPaths, FindEx, fMain, ActnList, LCLProc, menus;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
   inherited;
+  FillActionLists;
   FillLngListBox;
   FillFontLists;
   writeln(gTerm);
   edtTerm.Text:=gTerm;
+end;
+
+procedure TfrmOptions.btSetHotKeyClick(Sender: TObject);
+var vShortCut: TShortCut;
+    vNum: integer;
+    vActions: TAction;
+begin
+  // ToDo Black list HotKey which can't use
+  vShortCut := TextToShortCut(edHotKey.Text);
+
+  for vNum := 0 to cbActions.Items.Count - 1 do
+  begin
+    vActions := cbActions.Items.Objects[vNum] as TAction;
+    if vActions.ShortCut = vShortCut then
+    begin
+      ShowMessage('ShortCut used by '+vActions.Name);// ToDo lang
+      Exit;
+    end;
+  end;
+
+  vActions := cbActions.Items.Objects[cbActions.ItemIndex] as TAction;
+  vActions.ShortCut := vShortCut;
+  cbActions.Items[cbActions.ItemIndex] := vActions.Name+'('+ShortCutToText(vActions.ShortCut)+')';
+  cbActions.Text := vActions.Name+'('+ShortCutToText(vActions.ShortCut)+')';
 end;
 
 procedure TfrmOptions.Button1Click(Sender: TObject);
@@ -169,6 +204,7 @@ begin
   lblMainFont.Caption:= lngGetString(clngDlgOptMainFont);
   lblEditorFont.Caption:= lngGetString(clngDlgOptEditorFont);
   lblViewerFont.Caption:= lngGetString(clngDlgOptViewerFont);
+  // ToDo lang to tsColor tsHotKey
 end;
 
 procedure TfrmOptions.FillLngListBox;
@@ -294,6 +330,17 @@ begin
   edtMainSize.Value:=gFontSize;
 end;
 
+procedure TfrmOptions.FillActionLists;
+var vNum: integer;
+var vActions: TAction;
+begin
+  for vNum := 0 to frmMain.actionLst.ActionCount -1 do
+  begin
+    vActions := frmMain.actionLst.Actions[vNum] as TAction;
+    cbActions.Items.AddObject(vActions.Name+'('+ShortCutToText(vActions.ShortCut)+')',vActions);
+  end;
+end;
+
 procedure TfrmOptions.cbMainFontChange(Sender: TObject);
 begin
 //  edtTest1.Font.Name:=cbMainFont.Text;
@@ -307,6 +354,30 @@ end;
 procedure TfrmOptions.cbViewerFontChange(Sender: TObject);
 begin
 //  edtTest3.Font.Name:=cbViewerFont.Text;
+end;
+
+procedure TfrmOptions.edHotKeyKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+var str: string;
+begin
+  if ssCtrl in Shift then
+    str := 'Ctrl+';
+  if ssShift in Shift then
+    str := str + 'Shift+';
+  if ssAlt in Shift then
+    str := str + 'Alt+';
+  if Key in [112..124] then
+    str := str + 'F'+IntToStr(Key - 111)
+  else if Key = 45 then str := str + 'Ins'
+  else if Key = 46 then str := str + 'Del'
+  else if Key = 8 then str := str + 'BkSp'
+  else if Key = 27 then str := ''  // on Esc clear
+  else str := str + Char(Key);
+
+
+  TEdit(Sender).Text := ShortCutToText(ShortCut(Key,Shift));
+
+  Key := 0;
 end;
 
 

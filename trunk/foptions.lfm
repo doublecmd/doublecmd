@@ -2,8 +2,8 @@ inherited frmOptions: TfrmOptions
   Left = 298
   Height = 312
   Top = 197
-  Width = 454
-  HorzScrollBar.Page = 453
+  Width = 456
+  HorzScrollBar.Page = 455
   VertScrollBar.Page = 311
   VertScrollBar.Range = 41
   ActiveControl = PageControl1
@@ -13,16 +13,16 @@ inherited frmOptions: TfrmOptions
   Position = poMainFormCenter
   object PageControl1: TPageControl
     Height = 272
-    Width = 454
-    ActivePage = TabSheet1
+    Width = 456
+    ActivePage = tfHotKey
     Align = alClient
-    TabIndex = 4
+    TabIndex = 5
     TabOrder = 0
     object tsLng: TTabSheet
       Caption = 'Language'
       object lngList: TListBox
         Height = 242
-        Width = 450
+        Width = 452
         Align = alClient
         TabOrder = 0
         TopIndex = -1
@@ -66,45 +66,45 @@ inherited frmOptions: TfrmOptions
         TabOrder = 2
         object cbDirSelect: TCheckBox
           Left = 8
-          Height = 24
+          Height = 20
           Top = -3
-          Width = 92
+          Width = 89
           AllowGrayed = True
           Caption = 'cbDirSelect'
           TabOrder = 0
         end
         object cbCaseSensitiveSort: TCheckBox
           Left = 8
-          Height = 24
+          Height = 20
           Top = 45
-          Width = 143
+          Width = 140
           AllowGrayed = True
           Caption = 'cbCaseSensitiveSort'
           TabOrder = 1
         end
         object cbLynxLike: TCheckBox
           Left = 8
-          Height = 24
+          Height = 20
           Top = 21
-          Width = 91
+          Width = 88
           AllowGrayed = True
           Caption = 'cbLynxLike'
           TabOrder = 2
         end
         object cbShortFileSizeFormat: TCheckBox
           Left = 8
-          Height = 24
+          Height = 20
           Top = 69
-          Width = 153
+          Width = 150
           AllowGrayed = True
           Caption = 'cbShortFileSizeFormat'
           TabOrder = 3
         end
         object cbSeparateExt: TCheckBox
           Left = 8
-          Height = 24
+          Height = 20
           Top = 101
-          Width = 108
+          Width = 105
           AllowGrayed = True
           Caption = 'cbSeparateExt'
           TabOrder = 4
@@ -124,8 +124,8 @@ inherited frmOptions: TfrmOptions
       ImageIndex = 2
       object cbExtEditor: TCheckBox
         Left = 8
-        Height = 24
-        Width = 90
+        Height = 20
+        Width = 87
         AllowGrayed = True
         Caption = 'cbExtEditor'
         OnClick = cbExtEditorClick
@@ -141,9 +141,9 @@ inherited frmOptions: TfrmOptions
       end
       object cbExtDiffer: TCheckBox
         Left = 8
-        Height = 24
+        Height = 20
         Top = 56
-        Width = 87
+        Width = 84
         AllowGrayed = True
         Caption = 'cbExtDiffer'
         OnClick = cbExtDifferClick
@@ -159,9 +159,9 @@ inherited frmOptions: TfrmOptions
       end
       object cbExtViewer: TCheckBox
         Left = 8
-        Height = 24
+        Height = 20
         Top = 120
-        Width = 97
+        Width = 94
         AllowGrayed = True
         Caption = 'cbExtViewer'
         OnClick = cbExtViewerClick
@@ -180,25 +180,25 @@ inherited frmOptions: TfrmOptions
       Caption = 'Fonts'
       ImageIndex = 3
       object lblMainFont: TLabel
-        Height = 14
+        Height = 13
         Top = 24
-        Width = 46
+        Width = 53
         Caption = 'Main font'
         Color = clNone
         ParentColor = False
       end
       object lblEditorFont: TLabel
-        Height = 14
+        Height = 13
         Top = 96
-        Width = 52
+        Width = 57
         Caption = 'Editor font'
         Color = clNone
         ParentColor = False
       end
       object lblViewerFont: TLabel
-        Height = 14
+        Height = 13
         Top = 168
-        Width = 56
+        Width = 64
         Caption = 'Viewer font'
         Color = clNone
         ParentColor = False
@@ -208,6 +208,7 @@ inherited frmOptions: TfrmOptions
         Height = 21
         Top = 16
         Width = 272
+        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemHeight = 18
         MaxLength = 0
         OnChange = cbMainFontChange
@@ -219,6 +220,7 @@ inherited frmOptions: TfrmOptions
         Height = 21
         Top = 87
         Width = 272
+        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemHeight = 18
         MaxLength = 0
         OnChange = cbEditorFontChange
@@ -254,6 +256,7 @@ inherited frmOptions: TfrmOptions
         Height = 21
         Top = 159
         Width = 272
+        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemHeight = 18
         MaxLength = 0
         OnChange = cbViewerFontChange
@@ -265,6 +268,7 @@ inherited frmOptions: TfrmOptions
         Height = 23
         Top = 16
         Width = 23
+        BorderSpacing.InnerBorder = 4
         Caption = '...'
         OnClick = btnSelMainFntClick
         TabOrder = 7
@@ -274,6 +278,7 @@ inherited frmOptions: TfrmOptions
         Height = 23
         Top = 87
         Width = 23
+        BorderSpacing.InnerBorder = 4
         Caption = '...'
         OnClick = btnSelEditFntClick
         TabOrder = 9
@@ -283,6 +288,7 @@ inherited frmOptions: TfrmOptions
         Height = 23
         Top = 159
         Width = 23
+        BorderSpacing.InnerBorder = 4
         Caption = '...'
         OnClick = btnSelViewFntClick
         TabOrder = 11
@@ -318,22 +324,22 @@ inherited frmOptions: TfrmOptions
         Value = 14
       end
     end
-    object TabSheet1: TTabSheet
+    object tsColor: TTabSheet
       Caption = 'Color'
       object cTextLabel: TLabel
         Left = 25
-        Height = 14
+        Height = 13
         Top = 31
-        Width = 23
+        Width = 24
         Caption = 'Text'
         Color = clNone
         ParentColor = False
       end
       object cBackGrndLabel: TLabel
         Left = 23
-        Height = 14
+        Height = 13
         Top = 58
-        Width = 58
+        Width = 70
         Caption = 'BackGround'
         Color = clNone
         ParentColor = False
@@ -343,6 +349,7 @@ inherited frmOptions: TfrmOptions
         Height = 24
         Top = 26
         Width = 100
+        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         Items.Strings = (
           'clBlack'
           'clMaroon'
@@ -367,6 +374,7 @@ inherited frmOptions: TfrmOptions
           'clDefault'
         )
         MaxLength = 0
+        ParentColor = False
         TabOrder = 0
       end
       object cbackgrndcolor: TColorBox
@@ -374,6 +382,7 @@ inherited frmOptions: TfrmOptions
         Height = 24
         Top = 53
         Width = 100
+        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         Items.Strings = (
           'clBlack'
           'clMaroon'
@@ -398,6 +407,7 @@ inherited frmOptions: TfrmOptions
           'clDefault'
         )
         MaxLength = 0
+        ParentColor = False
         TabOrder = 1
       end
       object Button1: TButton
@@ -421,11 +431,61 @@ inherited frmOptions: TfrmOptions
         TabOrder = 3
       end
     end
+    object tfHotKey: TTabSheet
+      Caption = 'Hot Keys'
+      object lblActions: TLabel
+        Left = 14
+        Height = 13
+        Top = 4
+        Width = 43
+        Caption = 'Actions'
+        Color = clNone
+        ParentColor = False
+      end
+      object lblHotKey: TLabel
+        Left = 14
+        Height = 13
+        Top = 52
+        Width = 46
+        Caption = 'Hot Key'
+        Color = clNone
+        ParentColor = False
+      end
+      object cbActions: TComboBox
+        Left = 14
+        Height = 25
+        Top = 20
+        Width = 296
+        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        MaxLength = 0
+        Sorted = True
+        Style = csDropDownList
+        TabOrder = 0
+      end
+      object edHotKey: TEdit
+        Left = 14
+        Height = 23
+        Top = 68
+        Width = 160
+        OnKeyDown = edHotKeyKeyDown
+        TabOrder = 1
+      end
+      object btSetHotKey: TButton
+        Left = 182
+        Height = 25
+        Top = 66
+        Width = 128
+        BorderSpacing.InnerBorder = 4
+        Caption = 'Set HotKey'
+        OnClick = btSetHotKeyClick
+        TabOrder = 2
+      end
+    end
   end
   object Panel1: TPanel
     Height = 40
     Top = 272
-    Width = 454
+    Width = 456
     Align = alBottom
     FullRepaint = False
     TabOrder = 1
