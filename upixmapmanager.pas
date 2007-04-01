@@ -38,6 +38,9 @@ uses
 
 
 type
+
+  { TPixMapManager }
+
   TPixMapManager=class
   
   private
@@ -58,6 +61,7 @@ type
     destructor Destroy; override;
     procedure Load(const sFileName:String);
     function GetBitmap(iIndex:Integer; BkColor : TColor):TBitmap;
+    function DrawBitmap(iIndex: Integer; Canvas : TCanvas; Rect : TRect) : Boolean;
     Function GetIconByFile(fi:PFileRecItem):Integer;
   end;
   
@@ -209,6 +213,27 @@ begin
 
 {$ELSE}
     Result:=nil;
+{$ENDIF}
+end;
+
+
+function TPixMapManager.DrawBitmap(iIndex: Integer; Canvas: TCanvas; Rect: TRect): Boolean;
+begin
+  Result := True;
+  if iIndex < FimgList.Count then
+    Canvas.Draw(Rect.Left, Rect.Top ,Graphics.TBitmap(FimgList.Items[iIndex]))
+  else
+{$IFDEF WIN32}
+  if iIndex >= $1000 then
+    try
+      (*For transparent*)
+      ImageList_Draw(SysImgList, iIndex - $1000, Canvas.Handle, Rect.Left, Rect.Top, ILD_TRANSPARENT);
+    except
+      Result:= False;
+    end;
+
+{$ELSE}
+    Result:= False;
 {$ENDIF}
 end;
 

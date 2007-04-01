@@ -495,13 +495,7 @@ begin
     0:begin
       if iIconID>=0 then
         begin
-          bmp:=PixMapManager.GetBitmap(iIconID, Color);
-          if assigned(bmp) then
-             begin
-             Canvas.Draw(Rect.Left, Rect.Top ,bmp);
-             if iIconID >= $1000 then
-             FreeAndNil(bmp);
-             end;
+          PixMapManager.DrawBitmap(iIconID, Canvas, Rect);
         end;
         if gSeparateExt then
           s:=sNameNoExt
