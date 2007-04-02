@@ -96,6 +96,7 @@ type
       );
   private
     { Private declarations }
+    vShortCut: TShortCut;
   public
     { Public declarations }
     procedure FillLngListBox;
@@ -108,7 +109,7 @@ type
 implementation
 
 uses
-  uLng, uGlobs, uGlobsPaths, FindEx, fMain, ActnList, LCLProc, menus;
+  uLng, uGlobs, uGlobsPaths, fMain, ActnList, LCLProc, menus;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
@@ -116,17 +117,15 @@ begin
   FillActionLists;
   FillLngListBox;
   FillFontLists;
-  writeln(gTerm);
+  DebugLn(gTerm);
   edtTerm.Text:=gTerm;
 end;
 
 procedure TfrmOptions.btSetHotKeyClick(Sender: TObject);
-var vShortCut: TShortCut;
-    vNum: integer;
+var vNum: integer;
     vActions: TAction;
 begin
   // ToDo Black list HotKey which can't use
-  vShortCut := TextToShortCut(edHotKey.Text);
 
   for vNum := 0 to cbActions.Items.Count - 1 do
   begin
@@ -213,7 +212,7 @@ var
   iIndex:Integer;
 begin
   lngList.Clear;
-  writeln('Language dir:'+gpLngDir);
+  DebugLn('Language dir:'+gpLngDir);
   if FindFirst(gpLngDir+'*.lng', faAnyFile, fr)<>0 then
   begin
     FindClose(fr);
@@ -358,25 +357,9 @@ end;
 
 procedure TfrmOptions.edHotKeyKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
-var str: string;
 begin
-  if ssCtrl in Shift then
-    str := 'Ctrl+';
-  if ssShift in Shift then
-    str := str + 'Shift+';
-  if ssAlt in Shift then
-    str := str + 'Alt+';
-  if Key in [112..124] then
-    str := str + 'F'+IntToStr(Key - 111)
-  else if Key = 45 then str := str + 'Ins'
-  else if Key = 46 then str := str + 'Del'
-  else if Key = 8 then str := str + 'BkSp'
-  else if Key = 27 then str := ''  // on Esc clear
-  else str := str + Char(Key);
-
-
-  TEdit(Sender).Text := ShortCutToText(ShortCut(Key,Shift));
-
+  vShortCut := ShortCut(Key,Shift);
+  TEdit(Sender).Text := ShortCutToText(vShortCut);
   Key := 0;
 end;
 

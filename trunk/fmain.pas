@@ -306,7 +306,7 @@ uses
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg,
   fLinker, fSplitter, uFileProcs, lclType, LCLProc, uOSUtils, uPixMapManager
   {$IFNDEF WIN32}, fAttrib, fFileProperties, fChown,
-  gtk, BaseUnix {$ENDIF};
+  gtk, BaseUnix {$ELSE}, ShellAPI, windows{$ENDIF};
 
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -318,7 +318,7 @@ begin
 
   if FileExists(gpIniDir+cHistoryFile) then
     edtCommand.Items.LoadFromFile(gpIniDir+cHistoryFile);
-//  writeln('frmMain.FormCreate Done');
+//  DebugLn('frmMain.FormCreate Done');
   IsPanelsCreated := False;
 end;
 
@@ -380,6 +380,9 @@ begin
        end;
   end;
   FrameLeft.pnlFile.LoadPanel;
+
+  if ActiveFrame <> FrameLeft then
+     SetActiveFrame(fpLeft);
 end;
 
 procedure TfrmMain.dskRightToolButtonClick(NumberOfButton: Integer);
@@ -410,6 +413,9 @@ begin
        end;
   end;
   FrameRight.pnlFile.LoadPanel;
+
+  if ActiveFrame <> FrameRight then
+     SetActiveFrame(fpRight);
 end;
 
 
@@ -1264,7 +1270,7 @@ var
 begin
   inherited;
   CreatePopUpHotDir;// TODO: i thing in future this must call on create or change
-  p:=ActiveFrame.dgPanel.ClientToScreen(Point(0,0));
+  p:=ActiveFrame.dgPanel.ClientToScreen(Classes.Point(0,0));
   pmHotList.Popup(p.X,p.Y);
 end;
 
@@ -1878,7 +1884,7 @@ var
 begin
   inherited;
   CreatePopUpDirHistory;
-  p:=ActiveFrame.dgPanel.ClientToScreen(Point(0,0));
+  p:=ActiveFrame.dgPanel.ClientToScreen(Classes.Point(0,0));
   pmDirHistory.Popup(p.X,p.Y);
 end;
 
@@ -2096,6 +2102,20 @@ begin
 end;
 
 procedure TfrmMain.actFilePropertiesExecute(Sender: TObject);
+{$IFDEF WIN32}
+  procedure ShowFilePropertiesDialog(FName: string);
+  var
+    SExInfo: TSHELLEXECUTEINFO;
+    Error: LongInt;
+  begin
+    ZeroMemory(Addr(SExInfo),SizeOf(SExInfo));
+    SExInfo.cbSize := SizeOf(SExInfo);
+    SExInfo.lpFile := PChar(FName);
+    SExInfo.lpVerb := 'properties';
+    SExInfo.fMask := SEE_MASK_INVOKEIDLIST;
+    ShellExecuteExA(Addr(SExInfo));
+  end;
+{$ENDIF}
 begin
   inherited;
   try
@@ -2104,6 +2124,8 @@ begin
       SelectFileIfNoSelected(GetActiveItem);
       {$IFNDEF WIN32} //TODO cross platform
       ShowFileProperties(ActiveFrame.pnlFile.FileList, ActiveFrame.ActiveDir);
+      {$ELSE}
+      ShowFilePropertiesDialog(ActiveFrame.pnlFile.FileList.GetFileName(0));
       {$ENDIF}
     end;
   finally

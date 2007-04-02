@@ -433,7 +433,6 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actViewExecute
-      ShortCut = 4146
     end
     object actEdit: TAction
       Category = 'Classic'
@@ -441,7 +440,6 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actEditExecute
-      ShortCut = 4147
     end
     object actCopy: TAction
       Category = 'Classic'
@@ -449,7 +447,6 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actCopyExecute
-      ShortCut = 4148
     end
     object actRename: TAction
       Category = 'Classic'
@@ -457,7 +454,6 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actRenameExecute
-      ShortCut = 4149
     end
     object actMakeDir: TAction
       Category = 'Classic'
@@ -465,7 +461,6 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actMakeDirExecute
-      ShortCut = 4150
     end
     object actDelete: TAction
       Category = 'Classic'
@@ -473,7 +468,6 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actDeleteExecute
-      ShortCut = 4151
     end
     object actAbout: TAction
       Category = 'Help'
@@ -481,7 +475,6 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actAboutExecute
-      ShortCut = 4144
     end
     object actShowSysFiles: TAction
       Category = 'File'
@@ -511,7 +504,6 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actShowMenuExecute
-      ShortCut = 4152
     end
     object actRefresh: TAction
       Category = 'Show'
@@ -550,7 +542,6 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actMarkInvertExecute
-      ShortCut = 42
     end
     object actMarkUnmarkAll: TAction
       Category = 'Mark'
@@ -565,7 +556,6 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actDelete2Execute
-      ShortCut = 4103
     end
     object actPathToCmdLine: TAction
       Caption = 'actPathToCmdLine'
