@@ -374,7 +374,6 @@ inherited frmOptions: TfrmOptions
           'clDefault'
         )
         MaxLength = 0
-        ParentColor = False
         TabOrder = 0
       end
       object cbackgrndcolor: TColorBox
@@ -407,7 +406,6 @@ inherited frmOptions: TfrmOptions
           'clDefault'
         )
         MaxLength = 0
-        ParentColor = False
         TabOrder = 1
       end
       object Button1: TButton
@@ -435,25 +433,25 @@ inherited frmOptions: TfrmOptions
       Caption = 'Hot Keys'
       object lblActions: TLabel
         Left = 14
-        Height = 13
+        Height = 14
         Top = 4
-        Width = 43
+        Width = 36
         Caption = 'Actions'
         Color = clNone
         ParentColor = False
       end
       object lblHotKey: TLabel
         Left = 14
-        Height = 13
+        Height = 14
         Top = 52
-        Width = 46
+        Width = 39
         Caption = 'Hot Key'
         Color = clNone
         ParentColor = False
       end
       object cbActions: TComboBox
         Left = 14
-        Height = 25
+        Height = 21
         Top = 20
         Width = 296
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
