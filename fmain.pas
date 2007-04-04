@@ -381,8 +381,7 @@ begin
   end;
   FrameLeft.pnlFile.LoadPanel;
 
-  if ActiveFrame <> FrameLeft then
-     SetActiveFrame(fpLeft);
+  SetActiveFrame(fpLeft);
 end;
 
 procedure TfrmMain.dskRightToolButtonClick(NumberOfButton: Integer);
@@ -414,8 +413,7 @@ begin
   end;
   FrameRight.pnlFile.LoadPanel;
 
-  if ActiveFrame <> FrameRight then
-     SetActiveFrame(fpRight);
+  SetActiveFrame(fpRight);
 end;
 
 
