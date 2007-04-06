@@ -1,24 +1,29 @@
-unit uVFSutil;
 {
+  Double Commander
+  --------------------------------------------------------------
   Some utils for VFS system (and maybe classic fs) .
   Part of Commander, realised under GNU GPL 2.  (C)opyright 2003
 
 Authors:
   Radek Cervinka, radek.cervinka@centrum.cz
-
+  Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
 
 contributors:
 
-Alexander Koblov (Alexx2000@mail.ru)
+
 
 }
 
+unit uVFSutil;
 
 interface
 
 uses
-  Classes, uTypes;
+  Classes, uTypes, uFileList;
 
+procedure AddUpLevel(sUpPath : String; var ls:TFileList);
+function LowDirLevel(sPath : String) : String;
+function IncludeFileInList(sPath : String; var sFileName : String) : Boolean;
 function ls2FileInfo(sls:string):TFileRecItem;
 // convert line in ls -la (or vfs) format to our structure
 function ModeStr2Mode(const sMode:String):Integer;
@@ -29,6 +34,68 @@ uses
   SysUtils, uFileOp {$IFNDEF WIN32}, BaseUnix{$ENDIF};
 
 { TFileList }
+
+
+procedure AddUpLevel(sUpPath : String; var ls:TFileList); // add virtually ..
+var
+  fi:TFileRecItem;
+begin
+  if sUpPath = PathDelim then
+    sUpPath := '';
+    
+  fi.sName:='..';
+  fi.iSize:=0;
+  fi.sExt:='';
+  fi.sNameNoExt:=fi.sName;
+  fi.bSelected:=False;
+  fi.bExecutable:=False;
+  fi.sModeStr:='drwxr-xr-x';
+  fi.iMode:=ModeStr2Mode(fi.sModeStr); //!!!!
+  fi.iDirSize:=0;
+  fi.sPath := sUpPath;
+  ls.AddItem(@fi);
+end;
+
+function LowDirLevel(sPath : String) : String;
+var
+Index, I, Count : Integer;
+tmp : String;
+begin
+  Count := 0;
+  sPath := ExcludeTrailingPathDelimiter(sPath);
+  tmp := sPath;
+  while True do
+    begin
+      Index := Pos(PathDelim, tmp);
+      if Index > 0 then
+        begin
+          Delete(tmp, Index, 1);
+          Inc(Count);
+          I := Index;
+        end
+      else
+        Break;
+    end;
+  Result := Copy(sPath, 1, I + Count - 1);
+
+end;
+
+
+function IncludeFileInList(sPath : String; var sFileName : String) : Boolean;
+var
+Index : Integer;
+begin
+//WriteLN('Folder = ', SPath);
+Result := False;
+Index := Pos(SPath, sFileName);
+if Index > 0 then
+  begin
+    Delete(sFileName, 1, Index + Length(SPath) - 1);
+    if Pos(DirectorySeparator, sFileName) = 0 then
+      Result := True;
+  end;
+end;
+
 function ModeStr2Mode(const sMode:String):Integer;
 begin
 // stupid conversion

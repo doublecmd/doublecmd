@@ -8,7 +8,7 @@ Thread for search in files (called from frmSearchDlg)
 
 contributors:
 
-Alexander Koblov (Alexx2000@mail.ru)
+Copyright (C) 2006-2007 Alexander Koblov (Alexx2000@mail.ru)
 
 }
 

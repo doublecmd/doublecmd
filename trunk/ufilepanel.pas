@@ -8,7 +8,7 @@ Author   : radek.cervinka@centrum.cz
 
 contributors:
 
-Alexander Koblov (Alexx2000@mail.ru)
+Copyright (C) 2006-2007 Alexander Koblov (Alexx2000@mail.ru)
 
 
 }
@@ -18,7 +18,7 @@ unit uFilePanel;
 
 interface
 uses
-  StdCtrls, Grids, uFileList, uTypes, uPathHistory, Classes, uVFS_;
+  StdCtrls, Grids, uFileList, uTypes, uPathHistory, Classes, uVFS;
 
 type
   TFilePanel=Class
@@ -137,7 +137,7 @@ begin
     pmDirectory:
       flblPath.Caption:=' '+MinimizeFilePath(ActiveDir, flblPath.Canvas, flblPath.Width);
     pmArchive:
-      flblPath.Caption:=' '+ExtractFileName(fPathHistory.GetLastPath)+':'+ActiveDir;
+      flblPath.Caption:=' ' + ActiveDir;
     pmFTP:
       flblPath.Caption:=' fix me: FTP is only prepared';
   else
@@ -216,7 +216,7 @@ begin
      end
     else // Is not in archive
        begin
-           fVFS.OpenArchive(fFileList);
+           fVFS.VFSmodule.VFSList(PathDelim, fFileList);
            fPanelMode:=pmArchive;
            fActiveDir := fVFS.ArcFullName + DirectorySeparator;
        end;
