@@ -1,11 +1,23 @@
 {
- Double commander - Archive File support
- - class for manage WCX plugins
+   Double commander
+   -------------------------------------------------------------------------
+   Archive File support - class for manage WCX plugins
 
- (C) Alexander Koblov 2006, Alexx2000@mail.ru
- released under GNU GPL2
+   Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
 
- constributors:
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 }
 
@@ -13,7 +25,7 @@ unit uWCXmodule;
 
 interface
 uses
-  uWCXprototypes, uWCXhead, uFileList, uTypes, dynlibs, Classes;
+  uWCXprototypes, uWCXhead, uFileList, uTypes, dynlibs, Classes, uVFSModule, uVFSUtil;
 
 {$H+}
 Type
@@ -24,7 +36,13 @@ Type
   end;
   PWCXItem = ^TWCXItem;
 
-  TWCXModule= Class
+  PHeaderData = ^THeaderData;
+  
+  { TWCXModule }
+
+  TWCXModule = class (TVFSModule)
+  private
+    FArcFileList : TList;
   protected
     // module's functions
   //**mandatory:
@@ -47,18 +65,39 @@ Type
   FModuleHandle:TLibHandle;  // Handle to .DLL or .so
   FArchiveName : String;
   public
+    constructor Create;
     destructor Destroy; override;
-    function LoadModule(const sName:String):Boolean; {Load WCX plugin}
-    procedure UnloadModule;                          {UnLoad WCX plugin}
-    function WCXCaps(const sExt:String):Integer; {Get WCX plugin capabilities}
-    function WCXOpen(const sName:String):TList; {Return the filelist of archive}
-    function WCXCopyOut(const sExtractList : TFileList; sDstPath:String):Integer; {Extract files from archive}
-    function WCXCopyIn(const sSrcName, sDstName:String):Integer;  {Pack files in archive}
-    function WCXDelete(PackedFile: pchar;  DeleteList: pchar) : Integer;               {Delete files from archive}
+
+    function LoadModule(const sName:String):Boolean;override; {Load WCX plugin}
+    procedure UnloadModule;override;                          {UnLoad WCX plugin}
+
+    function VFSInit:Boolean;override;
+    procedure VFSDestroy;override;
+    function VFSCaps(const sExt:String):Integer;override;
+
+    function VFSGetExts:String;override;
+    function VFSOpen(const sName:String):Boolean;override;
+    function VFSClose:Boolean;override;
+
+    function VFSMkDir(const sDirName:String ):Boolean;override;{Create a directory}
+    function VFSRmDir(const sDirName:String):Boolean;override; {Remove a directory}
+
+    function VFSCopyOut(const flSrcList : TFileList; sDstPath:String):Boolean;override;{Extract files from archive}
+    function VFSCopyIn(const flSrcList : TFileList; sDstName:String):Boolean;override;{Pack files in archive}
+    function VFSRename(const sSrcName, sDstName:String):Boolean;override;{Rename or move file}
+    function VFSRun(const sName:String):Boolean;override;
+    function VFSDelete(const flNameList:TFileList):Boolean;override;{Delete files from archive}
+
+    function VFSList(const sDir:String; var fl:TFileList ):Boolean;override;{Return the filelist of archive}
   end;
 
 implementation
-uses SysUtils, uFileOp, uOSUtils;
+uses SysUtils, uFileOp, uOSUtils, LCLProc;
+
+constructor TWCXModule.Create;
+begin
+
+end;
 
 destructor TWCXModule.Destroy;
 begin
@@ -70,7 +109,7 @@ begin
   FModuleHandle := LoadLibrary(sName);
   Result := (FModuleHandle <> 0);
   if  FModuleHandle = 0 then exit;
-  //WriteLN('FModuleHandle =', FModuleHandle);
+  //DebugLN('FModuleHandle =', FModuleHandle);
  OpenArchive:= TOpenArchive(GetProcAddress(FModuleHandle,'OpenArchive'));
  @ReadHeader:= GetProcAddress(FModuleHandle,'ReadHeader');
  @ProcessFile:= GetProcAddress(FModuleHandle,'ProcessFile');
@@ -120,20 +159,36 @@ begin
  @PackSetDefaultParams:= nil;
 end;
 
-function TWCXModule.WCXCaps(const sExt:String):Integer;
+function TWCXModule.VFSInit: Boolean;
 begin
-  Result:= E_NOT_SUPPORTED;//FWCXCaps(FModuleGlobs, PChar(sExt));
+
 end;
 
-function TWCXModule.WCXOpen(const sName:String):TList;
+procedure TWCXModule.VFSDestroy;
+begin
+
+end;
+
+function TWCXModule.VFSCaps(const sExt: String): Integer;
+begin
+
+end;
+
+function TWCXModule.VFSGetExts: String;
+begin
+
+end;
+
+function TWCXModule.VFSOpen(const sName: String): Boolean;
 var
 ArcHandle : THandle;
 ArcFile : tOpenArchiveData;
 ArcHeader : THeaderData;
-WCXItem : PWCXItem;
+HeaderData : PHeaderData;
 begin
-FArchiveName := sName;
-   WriteLN(sName);
+  FArchiveName := sName;
+  DebugLN(sName);
+
   (*Open Archive*)
   FillChar(ArcFile, SizeOf(ArcFile), #0);
   ArcFile.ArcName := PChar(sName);
@@ -148,42 +203,39 @@ FArchiveName := sName;
 
   (*Get File List*)
   FillChar(ArcHeader, SizeOf(ArcHeader), #0);
-  Result := TList.Create;
-  //Result.Add(nil);
+  FArcFileList := TList.Create;
+
   while (ReadHeader(ArcHandle, ArcHeader) = 0) do
    begin
-     New(WCXItem);
-     with WCXItem^ do
-         begin
-            HeaderData := ArcHeader;
-            FileRecItem.sName := DirectorySeparator + ArcHeader.FileName;
-            FileRecItem.iMode := ArcHeader.FileAttr;
-            FileRecItem.sModeStr := AttrToStr(FileRecItem.iMode);
-            if FPS_ISDIR(FileRecItem.iMode) then
-              FileRecItem.sExt:=''
-            else
-              FileRecItem.sExt:=ExtractFileExt(ArcHeader.FileName);
-            FileRecItem.sNameNoExt:=Copy(ArcHeader.FileName,1,length(ArcHeader.FileName)-length(FileRecItem.sExt));
-            FileRecItem.sPath := DirectorySeparator;
-            FileRecItem.fTimeI := FileDateToDateTime(ArcHeader.FileTime);
-            FileRecItem.sTime := DateToStr(FileRecItem.fTimeI);
-            FileRecItem.iSize := ArcHeader.UnpSize;
-            // Alexx2000 доделать позже
-         end; //with
-     Result.Add(WCXItem);
+     New(HeaderData);
+     HeaderData^ := ArcHeader;
+     FArcFileList.Add(HeaderData);
      FillChar(ArcHeader, SizeOf(ArcHeader), #0);
      // get next file
      ProcessFile(ArcHandle, PK_SKIP, nil, nil);
-     WriteLN(PWCXItem(Result.Items[0])^.FileRecItem.sName);
-end;
+
+    end;
 end;
 
-{function TWCXModule.WCXClose:Integer;
+function TWCXModule.VFSClose: Boolean;
 begin
-  Result:= CloseArchive (FArcHandle);
-end; }
 
-function TWCXModule.WCXCopyOut(const sExtractList : TFileList; sDstPath:String):Integer;
+end;
+
+function TWCXModule.VFSMkDir(const sDirName: String): Boolean;
+begin
+
+end;
+
+function TWCXModule.VFSRmDir(const sDirName: String): Boolean;
+begin
+
+end;
+
+{Extract files from archive}
+
+function TWCXModule.VFSCopyOut(const flSrcList: TFileList; sDstPath: String
+  ): Boolean;
 var
 ArcHandle : THandle;
 ArcFile : tOpenArchiveData;
@@ -191,7 +243,7 @@ ArcHeader : THeaderData;
 Extract : Boolean;
 Count, I : Integer;
 begin
-  Count := sExtractList.Count;
+  Count := flSrcList.Count;
   FillChar(ArcFile, SizeOf(ArcFile), #0);
   ArcFile.ArcName := PChar(FArchiveName);
   ArcFile.OpenMode := PK_OM_EXTRACT;
@@ -199,7 +251,7 @@ begin
 
   if ArcHandle = 0 then
    begin
-    Result := E_EOPEN;
+    Result := False;
     Exit;
    end;
 
@@ -207,27 +259,79 @@ begin
   while (ReadHeader(ArcHandle, ArcHeader) = 0) do
    begin
 
-        if  sExtractList.CheckFileName(FArchiveName + DirectorySeparator + ArcHeader.FileName) >= 0 then
+        if  flSrcList.CheckFileName(FArchiveName + DirectorySeparator + ArcHeader.FileName) >= 0 then
             ProcessFile(ArcHandle, PK_EXTRACT, nil, PChar(sDstPath + ExtractFileName(ArcHeader.FileName)))
         else
             ProcessFile(ArcHandle, PK_SKIP, nil, nil);
      FillChar(ArcHeader, SizeOf(ArcHeader), #0);
    end;
    CloseArchive(ArcHandle);
-   Result := 0;
+   Result := True;
 end;
 
-function TWCXModule.WCXCopyIn(const sSrcName, sDstName:String):Integer;
+function TWCXModule.VFSCopyIn(const flSrcList: TFileList; sDstName: String
+  ): Boolean;
 begin
-  Result:= E_NOT_SUPPORTED;
+
 end;
 
-function TWCXModule.WCXDelete(PackedFile: pchar;  DeleteList: pchar) : Integer;
+function TWCXModule.VFSRename(const sSrcName, sDstName: String): Boolean;
 begin
-  if Assigned(DeleteFiles) then
-    Result := E_NOT_SUPPORTED
-  else
-    Result:=DeleteFiles(PackedFile, DeleteList);
+
 end;
+
+function TWCXModule.VFSRun(const sName: String): Boolean;
+begin
+
+end;
+
+function TWCXModule.VFSDelete(const flNameList: TFileList): Boolean;
+begin
+
+end;
+
+function TWCXModule.VFSList(const sDir: String; var fl: TFileList): Boolean;
+var
+  fr : PFileRecItem;
+  I, Count : Integer;
+  CurrFileName : String;  // Current file name
+begin
+  fl.Clear;
+  AddUpLevel(LowDirLevel(sDir), fl);
+  
+  //DebugLN('LowDirLevel(sDir) = ' + LowDirLevel(sDir));
+  
+  Count := FArcFileList.Count - 1;
+  for I := 0 to  Count do
+   begin
+     CurrFileName := PathDelim + PHeaderData(FArcFileList.Items[I])^.FileName;
+     
+     //DebugLN(CurrFileName);
+     
+     if not IncludeFileInList(sDir, CurrFileName) then
+       Continue;
+
+     //DebugLN('In folder = ' + CurrFileName);
+
+     New(fr);
+     with fr^, PHeaderData(FArcFileList.Items[I])^  do
+         begin
+            sName := CurrFileName;
+            iMode := FileAttr;
+            sModeStr := AttrToStr(iMode);
+            if FPS_ISDIR(iMode) then
+              sExt:=''
+            else
+              sExt:=ExtractFileExt(CurrFileName);
+            sNameNoExt:=Copy(CurrFileName,1,length(CurrFileName)-length(sExt));
+            sPath := sDir;
+            fTimeI := FileDateToDateTime(FileTime);
+            sTime := DateToStr(fTimeI);
+            iSize := UnpSize;
+         end; //with
+     fl.AddItem(fr);
+   end;
+end;
+
 
 end.

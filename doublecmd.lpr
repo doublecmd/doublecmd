@@ -7,6 +7,7 @@ program doublecmd;
 uses
   {$IFDEF UNIX}
   cthreads,
+  //cwstring,
   {$ENDIF}
   Interfaces,
   LCLProc,
@@ -20,7 +21,6 @@ uses
   uFileList,
   uFilePanel,
   uFileOp,
-  uConstants,
   uTypes,
   framePanel,
   uFileOpThread,
@@ -53,7 +53,7 @@ uses
   fLinker,
   fCompareFiles,
   dmHigh,
-  uPixMapManager, uVFS_,
+  uPixMapManager, uVFS,
   KASComp, fbtnchangedlg, fconfigtoolbar, uWCXprototypes, uDCUtils;
   
 {$IFDEF WIN32}

@@ -2,7 +2,7 @@
 Double Commander
 ----------------------------
 Licence  : GNU GPL v 2.0
-Author   : Alexander Koblov (Alexx2000@mail.ru)
+Copyright (C) 2006-2007 Alexander Koblov (Alexx2000@mail.ru)
 
 Main Dialog window
 
@@ -1816,7 +1816,7 @@ begin
     (*Extract files from archive*)
     if  ActiveFrame.pnlFile.PanelMode = pmArchive then
       begin
-        ActiveFrame.pnlFile.VFS.WCXmodule.WCXCopyOut(fl, sDestPath);
+        ActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyOut(fl, sDestPath);
       end
     else
     (*Copy files*)

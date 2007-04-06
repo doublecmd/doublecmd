@@ -34,7 +34,7 @@ type
 implementation
 
 uses
-  SysUtils;
+  SysUtils, uGlobs;
 
 constructor TColorExt.Create;
 begin
@@ -52,7 +52,7 @@ function TColorExt.ColorByExt(const sExt:String):TColor;
 var
   iIndex:Integer;
 begin
-  Result:=0; //$0000ff00;
+  Result:= gIni.ReadInteger('Colors', 'ForeColor', 0); //$0000ff00;
   if sExt='' then Exit;
   if sExt[1]='.' then
     iIndex:= lsExts.IndexOf(UpperCase(Copy(sExt,2, Length(sExt)-1)))
