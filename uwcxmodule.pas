@@ -43,6 +43,10 @@ Type
   TWCXModule = class (TVFSModule)
   private
     FArcFileList : TList;
+    FDstPath,
+    fFolder : String;
+    procedure SelectFilesInSubfolders(var fl : TFileList; sDir : String);
+    procedure CopySelectedWithSubFolders(var flist:TFileList);
   protected
     // module's functions
   //**mandatory:
@@ -82,7 +86,7 @@ Type
     function VFSMkDir(const sDirName:String ):Boolean;override;{Create a directory}
     function VFSRmDir(const sDirName:String):Boolean;override; {Remove a directory}
 
-    function VFSCopyOut(const flSrcList : TFileList; sDstPath:String):Boolean;override;{Extract files from archive}
+    function VFSCopyOut(var flSrcList : TFileList; sDstPath:String):Boolean;override;{Extract files from archive}
     function VFSCopyIn(const flSrcList : TFileList; sDstName:String):Boolean;override;{Pack files in archive}
     function VFSRename(const sSrcName, sDstName:String):Boolean;override;{Rename or move file}
     function VFSRun(const sName:String):Boolean;override;
@@ -92,7 +96,7 @@ Type
   end;
 
 implementation
-uses SysUtils, uFileOp, uOSUtils, LCLProc;
+uses SysUtils, uFileOp, uOSUtils, LCLProc, uFileProcs;
 
 constructor TWCXModule.Create;
 begin
@@ -232,9 +236,77 @@ begin
 
 end;
 
+procedure TWCXModule.SelectFilesInSubfolders(var fl : TFileList; sDir : String);
+var
+  fr : PFileRecItem;
+  I, Count : Integer;
+  CurrFileName : String;  // Current file name
+begin
+
+
+  ForceDirectory(FDstPath + ExtractDirLevel(FFolder, PathDelim + sDir));
+  
+  //DebugLN('ForceDirectory = ' + FDstPath + ExtractDirLevel(FFolder, PathDelim + sDir));
+  
+  Count := FArcFileList.Count - 1;
+  for I := 0 to  Count do
+   begin
+     CurrFileName := PathDelim + PHeaderData(FArcFileList.Items[I])^.FileName;
+
+     //DebugLN('sDir = ', sDir);
+     //DebugLN('In folder = ' + CurrFileName);
+
+     if not IncludeFileInList(sDir + PathDelim, CurrFileName) then
+       Continue;
+
+//     DebugLN('In folder = ' + CurrFileName);
+
+     New(fr);
+     with fr^, PHeaderData(FArcFileList.Items[I])^  do
+         begin
+            sName := FArchiveName + PathDelim + FileName;
+            iMode := FileAttr;
+            if FPS_ISDIR(iMode) then
+              begin
+                sExt:='';
+                //DebugLN('SelectFilesInSubfolders = ' + FileName);
+                SelectFilesInSubfolders(fl, FileName);
+              end;
+         end; //with
+     fl.AddItem(fr);
+   end;
+end;
+
+
+procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
+
+var
+  xIndex:Integer;
+  p:TFileRecItem;
+  tmp : String;
+  Count : Integer;
+begin
+
+  Count := flist.Count-1;
+  for xIndex:=0 to Count do
+  begin
+    p:=flist.GetItem(xIndex)^;
+
+
+    tmp := p.sName;
+    Delete(tmp, Pos(FArchiveName, tmp), Length(FArchiveName));
+
+    //DebugLN('Curr File = ' + tmp);
+
+    if FPS_ISDIR(p.iMode) then
+      SelectFilesInSubfolders(flist, tmp);
+
+  end;
+end;
+
 {Extract files from archive}
 
-function TWCXModule.VFSCopyOut(const flSrcList: TFileList; sDstPath: String
+function TWCXModule.VFSCopyOut(var flSrcList: TFileList; sDstPath: String
   ): Boolean;
 var
 ArcHandle : THandle;
@@ -242,7 +314,28 @@ ArcFile : tOpenArchiveData;
 ArcHeader : THeaderData;
 Extract : Boolean;
 Count, I : Integer;
+Folder : String;
 begin
+
+   FDstPath := sDstPath;
+   
+
+   (* Get current folder in archive *)
+   Folder := LowDirLevel(flSrcList.GetItem(0)^.sName);
+
+   (* Get relative path *)
+   IncludeFileInList(FArchiveName, Folder);
+   
+   FFolder := Folder;
+   
+   //DebugLN('Folder = ' + Folder);
+   
+   //sDstPath := ExcludeTrailingPathDelimiter(sDstPath);
+   
+   CopySelectedWithSubFolders(flSrcList);
+   DebugLN('Extract file = ' + FArchiveName + DirectorySeparator + ArcHeader.FileName);
+
+
   Count := flSrcList.Count;
   FillChar(ArcFile, SizeOf(ArcFile), #0);
   ArcFile.ArcName := PChar(FArchiveName);
@@ -259,8 +352,14 @@ begin
   while (ReadHeader(ArcHandle, ArcHeader) = 0) do
    begin
 
+
         if  flSrcList.CheckFileName(FArchiveName + DirectorySeparator + ArcHeader.FileName) >= 0 then
-            ProcessFile(ArcHandle, PK_EXTRACT, nil, PChar(sDstPath + ExtractFileName(ArcHeader.FileName)))
+        begin
+            DebugLN(sDstPath + ExtractDirLevel(Folder, ArcHeader.FileName));
+
+            ProcessFile(ArcHandle, PK_EXTRACT, nil, PChar(sDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)));
+            
+            end
         else
             ProcessFile(ArcHandle, PK_SKIP, nil, nil);
      FillChar(ArcHeader, SizeOf(ArcHeader), #0);

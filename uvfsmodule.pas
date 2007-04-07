@@ -44,7 +44,7 @@ Type
     function VFSMkDir(const sDirName:String ):Boolean;virtual;abstract;
     function VFSRmDir(const sDirName:String):Boolean;virtual;abstract;
     
-    function VFSCopyOut(const flSrcList : TFileList; sDstPath:String):Boolean;virtual;abstract;
+    function VFSCopyOut(var flSrcList : TFileList; sDstPath:String):Boolean;virtual;abstract;
     function VFSCopyIn(const flSrcList : TFileList; sDstName:String):Boolean;virtual;abstract;
     function VFSRename(const sSrcName, sDstName:String):Boolean;virtual;abstract;
     function VFSRun(const sName:String):Boolean;virtual;abstract;
