@@ -1816,6 +1816,7 @@ begin
     (*Extract files from archive*)
     if  ActiveFrame.pnlFile.PanelMode = pmArchive then
       begin
+        DebugLN('+++ Extract files +++');
         ActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyOut(fl, sDestPath);
       end
     else

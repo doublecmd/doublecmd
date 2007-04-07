@@ -24,6 +24,7 @@ uses
 procedure AddUpLevel(sUpPath : String; var ls:TFileList);
 function LowDirLevel(sPath : String) : String;
 function IncludeFileInList(sPath : String; var sFileName : String) : Boolean;
+function ExtractDirLevel(const sPrefix, sPath: String): String;
 function ls2FileInfo(sls:string):TFileRecItem;
 // convert line in ls -la (or vfs) format to our structure
 function ModeStr2Mode(const sMode:String):Integer;
@@ -31,7 +32,7 @@ function ModeStr2Mode(const sMode:String):Integer;
 implementation
 
 uses
-  SysUtils, uFileOp {$IFNDEF WIN32}, BaseUnix{$ENDIF};
+  SysUtils, uFileOp, uOSUtils, LCLProc {$IFNDEF WIN32}, BaseUnix{$ENDIF};
 
 { TFileList }
 
@@ -94,6 +95,15 @@ if Index > 0 then
     if Pos(DirectorySeparator, sFileName) = 0 then
       Result := True;
   end;
+end;
+
+function ExtractDirLevel(const sPrefix, sPath: String): String;
+begin
+  Result := sPath;
+  DebugLN('Prefix = ' + sPrefix);
+  DebugLN('sPath = ' + sPath);
+  IncludeFileInList(sPrefix, Result);
+  DebugLN('Result := ' + Result);
 end;
 
 function ModeStr2Mode(const sMode:String):Integer;
