@@ -1,0 +1,277 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectOptions>
+    <PathDelim Value="\"/>
+    <Version Value="5"/>
+    <General>
+      <MainUnit Value="0"/>
+      <TargetFileExt Value=".exe"/>
+      <ActiveEditorIndexAtStart Value="1"/>
+    </General>
+    <VersionInfo>
+      <ProjectVersion Value=""/>
+      <Language Value=""/>
+      <CharSet Value=""/>
+    </VersionInfo>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+      </local>
+    </RunParams>
+    <Units Count="13">
+      <Unit0>
+        <Filename Value="unbz2.dpr"/>
+        <IsPartOfProject Value="True"/>
+        <CursorPos X="44" Y="12"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="0"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="bz2func.pas"/>
+        <UnitName Value="bz2func"/>
+        <CursorPos X="39" Y="122"/>
+        <TopLine Value="105"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="wcxhead.pas"/>
+        <UnitName Value="wcxhead"/>
+        <CursorPos X="47" Y="71"/>
+        <TopLine Value="60"/>
+        <UsageCount Value="10"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\inc\systemh.inc"/>
+        <CursorPos X="3" Y="349"/>
+        <TopLine Value="329"/>
+        <UsageCount Value="10"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\inc\objects.pp"/>
+        <UnitName Value="Objects"/>
+        <CursorPos X="10" Y="273"/>
+        <TopLine Value="257"/>
+        <UsageCount Value="10"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\objpas\sysutils\finah.inc"/>
+        <CursorPos X="1" Y="30"/>
+        <TopLine Value="13"/>
+        <UsageCount Value="10"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\objpas\sysutils\fina.inc"/>
+        <CursorPos X="1" Y="89"/>
+        <TopLine Value="69"/>
+        <UsageCount Value="10"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\inc\fexpand.inc"/>
+        <CursorPos X="10" Y="84"/>
+        <TopLine Value="553"/>
+        <UsageCount Value="10"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\objpas\sysutils\syspchh.inc"/>
+        <CursorPos X="10" Y="45"/>
+        <TopLine Value="18"/>
+        <UsageCount Value="10"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\win32\wininc\func.inc"/>
+        <CursorPos X="10" Y="184"/>
+        <TopLine Value="168"/>
+        <UsageCount Value="10"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\win32\sysutils.pp"/>
+        <UnitName Value="sysutils"/>
+        <CursorPos X="17" Y="254"/>
+        <TopLine Value="249"/>
+        <UsageCount Value="10"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\objpas\sysutils\filutilh.inc"/>
+        <CursorPos X="19" Y="86"/>
+        <TopLine Value="69"/>
+        <UsageCount Value="10"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="bzip2\bzip2.pas"/>
+        <UnitName Value="bzip2"/>
+        <CursorPos X="7" Y="46"/>
+        <TopLine Value="30"/>
+        <UsageCount Value="10"/>
+      </Unit12>
+    </Units>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="102" Column="10" TopLine="86"/>
+      </Position1>
+      <Position2>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="114" Column="19" TopLine="98"/>
+      </Position2>
+      <Position3>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="115" Column="38" TopLine="99"/>
+      </Position3>
+      <Position4>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="117" Column="33" TopLine="101"/>
+      </Position4>
+      <Position5>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="118" Column="17" TopLine="102"/>
+      </Position5>
+      <Position6>
+        <Filename Value="unbz2.dpr"/>
+        <Caret Line="20" Column="20" TopLine="1"/>
+      </Position6>
+      <Position7>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="122" Column="17" TopLine="106"/>
+      </Position7>
+      <Position8>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="119" Column="48" TopLine="105"/>
+      </Position8>
+      <Position9>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="147" Column="6" TopLine="131"/>
+      </Position9>
+      <Position10>
+        <Filename Value="unbz2.dpr"/>
+        <Caret Line="28" Column="1" TopLine="1"/>
+      </Position10>
+      <Position11>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="57" Column="41" TopLine="35"/>
+      </Position11>
+      <Position12>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="117" Column="54" TopLine="101"/>
+      </Position12>
+      <Position13>
+        <Filename Value="unbz2.dpr"/>
+        <Caret Line="19" Column="45" TopLine="1"/>
+      </Position13>
+      <Position14>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="103" Column="8" TopLine="94"/>
+      </Position14>
+      <Position15>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="106" Column="14" TopLine="86"/>
+      </Position15>
+      <Position16>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="102" Column="45" TopLine="86"/>
+      </Position16>
+      <Position17>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="141" Column="65" TopLine="122"/>
+      </Position17>
+      <Position18>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="107" Column="10" TopLine="91"/>
+      </Position18>
+      <Position19>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="47" Column="18" TopLine="27"/>
+      </Position19>
+      <Position20>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="107" Column="1" TopLine="95"/>
+      </Position20>
+      <Position21>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="114" Column="25" TopLine="94"/>
+      </Position21>
+      <Position22>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="110" Column="32" TopLine="94"/>
+      </Position22>
+      <Position23>
+        <Filename Value="unbz2.dpr"/>
+        <Caret Line="15" Column="50" TopLine="1"/>
+      </Position23>
+      <Position24>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="147" Column="67" TopLine="122"/>
+      </Position24>
+      <Position25>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="135" Column="48" TopLine="121"/>
+      </Position25>
+      <Position26>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="109" Column="15" TopLine="105"/>
+      </Position26>
+      <Position27>
+        <Filename Value="unbz2.dpr"/>
+        <Caret Line="7" Column="3" TopLine="1"/>
+      </Position27>
+      <Position28>
+        <Filename Value="unbz2.dpr"/>
+        <Caret Line="6" Column="3" TopLine="1"/>
+      </Position28>
+      <Position29>
+        <Filename Value="unbz2.dpr"/>
+        <Caret Line="18" Column="26" TopLine="1"/>
+      </Position29>
+      <Position30>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="121" Column="49" TopLine="103"/>
+      </Position30>
+    </JumpHistory>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="5"/>
+    <PathDelim Value="\"/>
+    <SearchPaths>
+      <OtherUnitFiles Value="bzip2\;..\..\"/>
+      <UnitOutputDirectory Value="bin"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <DelphiCompat Value="True"/>
+      </SyntaxOptions>
+    </Parsing>
+    <CodeGeneration>
+      <Generate Value="Faster"/>
+    </CodeGeneration>
+    <Linking>
+      <Options>
+        <ExecutableType Value="Library"/>
+      </Options>
+    </Linking>
+    <Other>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <BreakPoints Count="2">
+      <Item1>
+        <Source Value="..\..\mnt\X\linux\lazarus\lcl\include\imglist.inc"/>
+        <Line Value="435"/>
+      </Item1>
+      <Item2>
+        <Source Value="..\..\ucopythread.pas"/>
+        <Line Value="42"/>
+      </Item2>
+    </BreakPoints>
+  </Debugging>
+</CONFIG>
