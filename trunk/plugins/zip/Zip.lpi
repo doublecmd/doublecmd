@@ -36,7 +36,7 @@
       <Unit1>
         <Filename Value="wcxhead.pas"/>
         <UnitName Value="wcxhead"/>
-        <CursorPos X="22" Y="5"/>
+        <CursorPos X="21" Y="8"/>
         <TopLine Value="1"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="10"/>
@@ -59,12 +59,7 @@
         <UsageCount Value="10"/>
       </Unit3>
     </Units>
-    <JumpHistory Count="1" HistoryIndex="0">
-      <Position1>
-        <Filename Value="Zip.dpr"/>
-        <Caret Line="29" Column="8" TopLine="14"/>
-      </Position1>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
