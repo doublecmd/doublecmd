@@ -98,7 +98,7 @@ begin
       UnpSize := 0; // we don't now real file size
       FileTime := sr.Time;
       FileAttr := sr.Attr;
-
+      FindClose(sr);
     end;
   Result := 0;
 end;
@@ -155,7 +155,7 @@ begin
     begin
 
     end;
-end; {case}
+  end; {case}
 
   Count := Count + 1;
   Result :=0;

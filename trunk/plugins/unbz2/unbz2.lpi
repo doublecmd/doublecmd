@@ -5,6 +5,7 @@
     <Version Value="5"/>
     <General>
       <MainUnit Value="0"/>
+      <IconPath Value="./"/>
       <TargetFileExt Value=".exe"/>
       <ActiveEditorIndexAtStart Value="1"/>
     </General>
@@ -38,8 +39,8 @@
       <Unit1>
         <Filename Value="bz2func.pas"/>
         <UnitName Value="bz2func"/>
-        <CursorPos X="39" Y="122"/>
-        <TopLine Value="105"/>
+        <CursorPos X="3" Y="158"/>
+        <TopLine Value="148"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
@@ -115,128 +116,7 @@
         <UsageCount Value="10"/>
       </Unit12>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
-      <Position1>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="102" Column="10" TopLine="86"/>
-      </Position1>
-      <Position2>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="114" Column="19" TopLine="98"/>
-      </Position2>
-      <Position3>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="115" Column="38" TopLine="99"/>
-      </Position3>
-      <Position4>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="117" Column="33" TopLine="101"/>
-      </Position4>
-      <Position5>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="118" Column="17" TopLine="102"/>
-      </Position5>
-      <Position6>
-        <Filename Value="unbz2.dpr"/>
-        <Caret Line="20" Column="20" TopLine="1"/>
-      </Position6>
-      <Position7>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="122" Column="17" TopLine="106"/>
-      </Position7>
-      <Position8>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="119" Column="48" TopLine="105"/>
-      </Position8>
-      <Position9>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="147" Column="6" TopLine="131"/>
-      </Position9>
-      <Position10>
-        <Filename Value="unbz2.dpr"/>
-        <Caret Line="28" Column="1" TopLine="1"/>
-      </Position10>
-      <Position11>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="57" Column="41" TopLine="35"/>
-      </Position11>
-      <Position12>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="117" Column="54" TopLine="101"/>
-      </Position12>
-      <Position13>
-        <Filename Value="unbz2.dpr"/>
-        <Caret Line="19" Column="45" TopLine="1"/>
-      </Position13>
-      <Position14>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="103" Column="8" TopLine="94"/>
-      </Position14>
-      <Position15>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="106" Column="14" TopLine="86"/>
-      </Position15>
-      <Position16>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="102" Column="45" TopLine="86"/>
-      </Position16>
-      <Position17>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="141" Column="65" TopLine="122"/>
-      </Position17>
-      <Position18>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="107" Column="10" TopLine="91"/>
-      </Position18>
-      <Position19>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="47" Column="18" TopLine="27"/>
-      </Position19>
-      <Position20>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="107" Column="1" TopLine="95"/>
-      </Position20>
-      <Position21>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="114" Column="25" TopLine="94"/>
-      </Position21>
-      <Position22>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="110" Column="32" TopLine="94"/>
-      </Position22>
-      <Position23>
-        <Filename Value="unbz2.dpr"/>
-        <Caret Line="15" Column="50" TopLine="1"/>
-      </Position23>
-      <Position24>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="147" Column="67" TopLine="122"/>
-      </Position24>
-      <Position25>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="135" Column="48" TopLine="121"/>
-      </Position25>
-      <Position26>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="109" Column="15" TopLine="105"/>
-      </Position26>
-      <Position27>
-        <Filename Value="unbz2.dpr"/>
-        <Caret Line="7" Column="3" TopLine="1"/>
-      </Position27>
-      <Position28>
-        <Filename Value="unbz2.dpr"/>
-        <Caret Line="6" Column="3" TopLine="1"/>
-      </Position28>
-      <Position29>
-        <Filename Value="unbz2.dpr"/>
-        <Caret Line="18" Column="26" TopLine="1"/>
-      </Position29>
-      <Position30>
-        <Filename Value="bz2func.pas"/>
-        <Caret Line="121" Column="49" TopLine="103"/>
-      </Position30>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
