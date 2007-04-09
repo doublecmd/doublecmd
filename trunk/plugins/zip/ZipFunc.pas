@@ -1,14 +1,10 @@
 {
-   File name: zipfunc.pas
+   Double commander
+   -------------------------------------------------------------------------
+   WCX plugin for working with *.zip, *.gz, *.tar, *.tgz archives
 
-   Author:    Koblov Alexander (Alexx2000@mail.ru)
 
-   Plugin functions
-
-   Copyright (C) 2006
-
-   contributors:
-
+   Copyright (C) 2007  Koblov Alexander (Alexx2000@mail.ru)
 
 
    This program is free software; you can redistribute it and/or
@@ -31,7 +27,7 @@
 unit ZipFunc;
 
 interface
-uses wcxhead;
+uses uWCXhead;
 
 {Mandatory functions}
 function OpenArchive (var ArchiveData : tOpenArchiveData) : THandle;{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
@@ -46,52 +42,90 @@ function GetPackerCaps : Integer;{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
 
 
 implementation
-uses AbZipKit, SysUtils, Classes;
+uses AbZipKit, AbUtils, SysUtils, Classes;//, windows;
 var
 Arc : TAbZipKit;
 
+function ExtractOnlyFileName(const FileName: string): string;
+var
+ iDotIndex,
+ I: longint;
+ sExt : String;
+begin
+  (* Find a dot index *)
+  I := Length(FileName);
+  while (I > 0) and not (FileName[I] in ['.', '/', '\', ':']) do Dec(I);
+  if (I > 0) and (FileName[I] = '.') then
+     begin
+       iDotIndex := I;
+       sExt := Copy(FileName, I, MaxInt);
+     end
+  else
+    begin
+     iDotIndex := MaxInt;
+     sExt := '';
+    end;
+  (* Find file name index *)
+  I := Length(FileName);
+  while (I > 0) and not (FileName[I] in ['/', '\', ':']) do Dec(I);
+  Result := Copy(FileName, I + 1, iDotIndex - I - 1);
+  if sExt = '.tgz' then
+    Result := Result + '.tar';
+end;
+
+
 function OpenArchive (var ArchiveData : tOpenArchiveData) : THandle;
 begin
-if not Assigned(Arc) Then
-Arc := TAbZipKit.Create(nil);
-//MessageBox(0,ArchiveData.ArcName,'OpenArchive',16);
-Arc.OpenArchive(ArchiveData.ArcName);
-Arc.Tag :=0;
-//MessageBox(0,'OpenArchive','OpenArchive',16);
-Result :=Cardinal(Arc);
+  if not Assigned(Arc) Then
+    Arc := TAbZipKit.Create(nil);
+  //MessageBox(0,ArchiveData.ArcName,'OpenArchive',16);
+  Arc.OpenArchive(ArchiveData.ArcName);
+  Arc.Tag :=0;
+  //MessageBox(0,'OpenArchive','OpenArchive',16);
+  Result :=Cardinal(Arc);
 
 end;
 
 function ReadHeader (hArcData : THandle; var HeaderData : THeaderData) : Integer;
 var
-I, Size : Integer;
-Year, Month, Day,
-Hour, Min, Sec, MSec: Word;
+  I, Size : Integer;
+  Year, Month, Day,
+  Hour, Min, Sec, MSec: Word;
+  sFileName : String;
 begin
 
-if Arc.Tag > Arc.Count - 1 then
-begin
-Result := E_END_ARCHIVE;
-exit;
-end;
+  if Arc.Tag > Arc.Count - 1 then
+    begin
+      Result := E_END_ARCHIVE;
+      exit;
+    end;
 
 
-with HeaderData do
-begin
-//MessageBox(0,PChar(Arc.Items[Arc.Tag].FileName),'',16);
+  with HeaderData do
+    begin
+      //MessageBox(0,PChar(Arc.Items[Arc.Tag].FileName),'',16);
 
-StrPCopy(FileName, Arc.Items[Arc.Tag].FileName);
-PackSize := Arc.Items[Arc.Tag].CompressedSize;
-UnpSize := Arc.Items[Arc.Tag].UncompressedSize;
-FileCRC := Arc.Items[Arc.Tag].CRC32;
-{File date/time}
-DecodeDate(Arc.Items[Arc.Tag].LastModTimeAsDateTime, Year, Month, Day);
-DecodeTime(Arc.Items[Arc.Tag].LastModTimeAsDateTime, Hour, Min, Sec, MSec);
-FileTime := (Year - 1980) shl 25 or (Month shl 21) or (Day shl 16) or (Hour shl 11) or (Min shl 5) or (Sec div 2);
-FileAttr := Arc.Items[Arc.Tag].ExternalFileAttributes;
+      sFileName := Arc.Items[Arc.Tag].FileName;
+      
+      if (Arc.ArchiveType in [atGzip, atGzippedTar]) and (sFileName = 'unknown') then
+         sFileName := ExtractOnlyFileName(Arc.FileName);
+         
+      DoDirSeparators(sFileName);
+      sFileName := ExcludeTrailingPathDelimiter(sFileName);
 
-end;
-Result := 0;
+      StrPCopy(FileName, sFileName);
+
+      PackSize := Arc.Items[Arc.Tag].CompressedSize;
+      UnpSize := Arc.Items[Arc.Tag].UncompressedSize;
+      FileCRC := Arc.Items[Arc.Tag].CRC32;
+      {File date/time}
+      DecodeDate(Arc.Items[Arc.Tag].LastModTimeAsDateTime, Year, Month, Day);
+      DecodeTime(Arc.Items[Arc.Tag].LastModTimeAsDateTime, Hour, Min, Sec, MSec);
+      FileTime := (Year - 1980) shl 25 or (Month shl 21) or (Day shl 16) or (Hour shl 11) or (Min shl 5) or (Sec div 2);
+      FileAttr := Arc.Items[Arc.Tag].ExternalFileAttributes;
+
+    end;
+  Result := 0;
 
 end;
 
@@ -124,9 +158,9 @@ end;
 
 function CloseArchive (hArcData : THandle) : Integer;
 begin
-Arc.CloseArchive;
-FreeAndNil(Arc);
-Result := 0;
+  Arc.CloseArchive;
+  FreeAndNil(Arc);
+  Result := 0;
 end;
 
 procedure SetChangeVolProc (hArcData : THandle; pChangeVolProc1 : PChangeVolProc);
@@ -141,22 +175,22 @@ end;
 
 function DeleteFiles (PackedFile, DeleteList : PChar) : Integer;
 begin
-try
-if not Assigned(Arc) Then
-Arc := TAbZipKit.Create(nil);
-Arc.OpenArchive(PackedFile);
-Arc.DeleteFiles(DeleteList);
-Arc.CloseArchive;
-FreeAndNil(Arc);
-Result := 0;
-except
-Result := E_BAD_DATA;
-end;
+  try
+    if not Assigned(Arc) Then
+    Arc := TAbZipKit.Create(nil);
+    Arc.OpenArchive(PackedFile);
+    Arc.DeleteFiles(DeleteList);
+    Arc.CloseArchive;
+    FreeAndNil(Arc);
+    Result := 0;
+  except
+    Result := E_BAD_DATA;
+  end;
 end;
 
 function GetPackerCaps : Integer;
 begin
-Result := PK_CAPS_DELETE or PK_CAPS_MODIFY or PK_CAPS_MULTIPLE;
+  Result := PK_CAPS_DELETE or PK_CAPS_MODIFY or PK_CAPS_MULTIPLE;
 end;
 
 
