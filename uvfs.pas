@@ -126,7 +126,7 @@ begin
       DebugLN('FCurrentPlugin = ', FCurrentPlugin);
       sLastArchive := sFileName;
       DebugLN('sLastArchive = ', sLastArchive);
-      
+
       FVFSModule := TWCXModule.Create;
       FVFSModule.LoadModule(FCurrentPlugin);
       FVFSModule.VFSOpen(sLastArchive);

@@ -1,24 +1,23 @@
-object frmFileOp: TfrmFileOp
-  ActiveControl = btnCancel
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
-  Caption = 'frmFileOp'
-  ClientHeight = 144
-  ClientWidth = 402
-  OnClose = FormClose
-  OnShow = FormShow
-  PixelsPerInch = 96
-  Position = poScreenCenter
-  TextHeight = 16
-  HorzScrollBar.Page = 401
-  HorzScrollBar.Range = 337
-  VertScrollBar.Page = 143
-  VertScrollBar.Range = 137
+inherited frmFileOp: TfrmFileOp
   Left = 278
   Height = 144
   Top = 234
   Width = 402
+  HorzScrollBar.Page = 401
+  HorzScrollBar.Range = 337
+  VertScrollBar.Page = 143
+  VertScrollBar.Range = 137
+  ActiveControl = btnCancel
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'frmFileOp'
+  OnClose = FormClose
+  OnShow = FormShow
+  Position = poScreenCenter
+  ShowInTaskBar = stAlways
   object lblFileName: TLabel
+    Height = 13
+    Width = 59
     Caption = 'lblFileName'
     Color = clNone
     Font.Color = clBlack
@@ -27,37 +26,39 @@ object frmFileOp: TfrmFileOp
     Font.Pitch = fpVariable
     Font.Style = [fsBold]
     ParentColor = False
-    Height = 13
-    Width = 59
   end
   object lblEstimated: TLabel
-    Caption = 'lblEstimated'
-    Color = clNone
-    ParentColor = False
     Height = 14
     Top = 96
     Width = 58
+    Caption = 'lblEstimated'
+    Color = clNone
+    ParentColor = False
   end
   object pbSecond: TProgressBar
+    Height = 22
+    Top = 64
+    Width = 384
     Max = 100
     Smooth = True
     TabOrder = 0
     BarShowText = True
-    Height = 22
-    Top = 64
-    Width = 384
   end
   object pbFirst: TProgressBar
+    Height = 22
+    Top = 32
+    Width = 385
     Max = 100
     Position = 20
     Smooth = True
     TabOrder = 1
     BarShowText = True
-    Height = 22
-    Top = 32
-    Width = 385
   end
   object btnCancel: TBitBtn
+    Left = 160
+    Height = 25
+    Top = 96
+    Width = 89
     BorderSpacing.InnerBorder = 2
     Cancel = True
     Caption = 'Cancel'
@@ -66,9 +67,5 @@ object frmFileOp: TfrmFileOp
     NumGlyphs = 0
     OnClick = btnCancelClick
     TabOrder = 2
-    Left = 160
-    Height = 25
-    Top = 96
-    Width = 89
   end
 end

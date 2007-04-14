@@ -6,6 +6,7 @@ inherited frmMain: TfrmMain
   HorzScrollBar.Page = 524
   VertScrollBar.Page = 315
   VertScrollBar.Range = 79
+  ActiveControl = pnlNotebooks
   Caption = 'Double Commander'
   Font.Color = clBlack
   Font.Height = 13
@@ -410,6 +411,7 @@ inherited frmMain: TfrmMain
     end
     object mnuHelp: TMenuItem
       Caption = '&Help'
+      OnClick = mnuHelpClick
       object mnuHelpAbout: TMenuItem
         Action = actAbout
         ShortCut = 112
@@ -743,6 +745,13 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actRemoveTabExecute
+    end
+    object actPackFiles: TAction
+      Category = 'File'
+      Caption = 'Pack files...'
+      DisableIfNoHandler = True
+      OnExecute = actPackFilesExecute
+      ShortCut = 32884
     end
   end
   object pmHotList: TPopupMenu

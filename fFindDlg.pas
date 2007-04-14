@@ -7,7 +7,7 @@ Author   : radek.cervinka@centrum.cz
 Find dialog, with searching in thread
 
 contributors:
-
+Copyright (C) 2006-2007 Alexander Koblov (Alexx2000@mail.ru)
 
 }
 { $threading on}
@@ -159,6 +159,7 @@ end;
 procedure TfrmFindDlg.btnNewSearchClick(Sender: TObject);
 begin
   Panel1.Visible := False;
+  Splitter1.Visible := False;
   Height := Panel2.Height;
 end;
 
@@ -181,6 +182,7 @@ begin
   end;
   
   Panel1.Visible := True;
+  Splitter1.Visible := True;
   Height := (Screen.Height * 4) div 5;
   
   lsFoundedFiles.Items.Clear;
@@ -421,6 +423,7 @@ begin
   lblCurrent.Caption:='';
   lblStatus.Caption:='';
   Panel1.Visible := False;
+  Splitter1.Visible := False;
   Height := Panel2.Height;
 end;
 

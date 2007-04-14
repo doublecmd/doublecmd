@@ -1,7 +1,7 @@
 inherited frmFindDlg: TfrmFindDlg
-  Left = 229
+  Left = 282
   Height = 476
-  Top = 39
+  Top = 231
   Width = 541
   HorzScrollBar.Page = 540
   VertScrollBar.Page = 475
@@ -14,6 +14,7 @@ inherited frmFindDlg: TfrmFindDlg
   OnKeyPress = FormKeyPress
   OnShow = frmFindDlgShow
   Position = poScreenCenter
+  ShowInTaskBar = stAlways
   object Splitter1: TSplitter
     Cursor = crVSplit
     Height = 1
@@ -110,7 +111,7 @@ inherited frmFindDlg: TfrmFindDlg
             Left = 16
             Height = 24
             Top = 9
-            Width = 338
+            Width = 314
             Anchors = [akTop, akLeft, akRight]
             TabOrder = 1
           end
@@ -158,12 +159,12 @@ inherited frmFindDlg: TfrmFindDlg
           Height = 23
           Top = 41
           Width = 80
-          Color = clBtnFace
-          Enabled = False
+          CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
+          OKCaption = 'OK'
+          CancelCaption = 'Cancel'
           ReadOnly = False
-          TabOrder = 0
-          Text = '23.02.2007'
           ButtonWidth = 23
+          Color = clBtnFace
           Glyph.Data = {
             2F0200002F2A2058504D202A2F0A7374617469632063686172202A63616C656E
             6461725B5D203D207B0A2F2A20636F6C756D6E7320726F777320636F6C6F7273
@@ -185,23 +186,20 @@ inherited frmFindDlg: TfrmFindDlg
             3E3E3E2323232323232323232323220A7D3B0A
           }
           NumGlyphs = 1
-          ParentColor = False
-          CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
-          OKCaption = 'OK'
-          CancelCaption = 'Cancel'
-          Date = 39136
+          Enabled = False
+          TabOrder = 0
         end
         object deDateTo: TDateEdit
           Left = 164
           Height = 23
           Top = 41
           Width = 80
-          Color = clBtnFace
-          Enabled = False
+          CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
+          OKCaption = 'OK'
+          CancelCaption = 'Cancel'
           ReadOnly = False
-          TabOrder = 1
-          Text = '23.02.2007'
           ButtonWidth = 23
+          Color = clBtnFace
           Glyph.Data = {
             2F0200002F2A2058504D202A2F0A7374617469632063686172202A63616C656E
             6461725B5D203D207B0A2F2A20636F6C756D6E7320726F777320636F6C6F7273
@@ -223,11 +221,8 @@ inherited frmFindDlg: TfrmFindDlg
             3E3E3E2323232323232323232323220A7D3B0A
           }
           NumGlyphs = 1
-          ParentColor = False
-          CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
-          OKCaption = 'OK'
-          CancelCaption = 'Cancel'
-          Date = 39136
+          Enabled = False
+          TabOrder = 1
         end
         object cbDateFrom: TCheckBox
           Left = 4
