@@ -69,6 +69,7 @@ begin
 //  writeln('Enter LoadFilesbyDir');
   Result:=True;
   fl.Clear;
+  fl.CurrentDirectory := IncludeTrailingPathDelimiter(sDir);
   if FindFirst('*',faAnyFile,sr)<>0 then
   begin
     with fr do     // append "blank dir"

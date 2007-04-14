@@ -87,7 +87,7 @@ Type
     function VFSRmDir(const sDirName:String):Boolean;override; {Remove a directory}
 
     function VFSCopyOut(var flSrcList : TFileList; sDstPath:String):Boolean;override;{Extract files from archive}
-    function VFSCopyIn(const flSrcList : TFileList; sDstName:String):Boolean;override;{Pack files in archive}
+    function VFSCopyIn(var flSrcList : TFileList; sDstName:String;  Flags : Integer):Boolean;override;{Pack files in archive}
     function VFSRename(const sSrcName, sDstName:String):Boolean;override;{Rename or move file}
     function VFSRun(const sName:String):Boolean;override;
     function VFSDelete(const flNameList:TFileList):Boolean;override;{Delete files from archive}
@@ -190,6 +190,7 @@ ArcFile : tOpenArchiveData;
 ArcHeader : THeaderData;
 HeaderData : PHeaderData;
 begin
+  try
   FArchiveName := sName;
   DebugLN(sName);
 
@@ -219,6 +220,9 @@ begin
      ProcessFile(ArcHandle, PK_SKIP, nil, nil);
 
     end;
+  finally
+  CloseArchive(ArcHandle);
+  end;
 end;
 
 function TWCXModule.VFSClose: Boolean;
@@ -234,6 +238,24 @@ end;
 function TWCXModule.VFSRmDir(const sDirName: String): Boolean;
 begin
 
+end;
+
+function GetFileList(var fl:TFileList) : String;
+var
+  I, Count : Integer;
+  FileList : String;
+begin
+  I := 1;
+  Count := fl.Count - 1;
+  FileList := fl.GetItem(0)^.sName;
+  while I <= Count do
+    begin
+      FileList := FileList + #0 + fl.GetItem(I)^.sName;
+      I := I + 1;
+    end;
+  FileList := FileList + #0#0;
+  DebugLN('FileList := ' + FileList);
+  Result := FileList;
 end;
 
 procedure TWCXModule.SelectFilesInSubfolders(var fl : TFileList; sDir : String);
@@ -368,10 +390,26 @@ begin
    Result := True;
 end;
 
-function TWCXModule.VFSCopyIn(const flSrcList: TFileList; sDstName: String
+function TWCXModule.VFSCopyIn(var flSrcList: TFileList; sDstName: String; Flags : Integer
   ): Boolean;
+var
+  FileList, Folder : PChar;
 begin
-
+  New(FileList);
+  New(Folder);
+  
+  (* Add in file list files from subfolders *)
+  SelectFilesInSubFoldersInRFS(flSrcList);
+  
+  (* Convert TFileList into PChar *)
+  FileList := PChar(GetFileList(flSrcList));
+  
+  //FileList := 'unbz2.log' + #0 +'unMain.pas' + #0#0;
+  
+  DebugLN('Curr Dir := ' + flSrcList.CurrentDirectory);
+  Folder := PChar(flSrcList.CurrentDirectory);
+  
+  PackFiles(PChar(FArchiveName), nil{PChar(sDstName)}, Folder, FileList, Flags);
 end;
 
 function TWCXModule.VFSRename(const sSrcName, sDstName: String): Boolean;

@@ -52,6 +52,7 @@ type
   { TfrmMain }
 
   TfrmMain = class(TfrmLng)
+    actPackFiles: TAction;
     actRemoveTab: TAction;
     actNewTab: TAction;
     dskLeft: TKASToolBar;
@@ -175,6 +176,7 @@ type
     actFileSpliter: TAction;
     pmToolBar: TPopupMenu;
     Splitter1: TSplitter;
+    procedure actPackFilesExecute(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure DeleteClick(Sender: TObject);
@@ -191,6 +193,7 @@ type
     procedure frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure frmMainKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure frmMainShow(Sender: TObject);
+    procedure mnuHelpClick(Sender: TObject);
     procedure NotebookCloseTabClicked(Sender: TObject);
     procedure pnlKeysResize(Sender: TObject);
     procedure actViewExecute(Sender: TObject);
@@ -303,7 +306,7 @@ uses
   uCopyThread, uFileList, uDeleteThread,
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg,
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink,
-  fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg,
+  fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg,
   fLinker, fSplitter, uFileProcs, lclType, LCLProc, uOSUtils, uPixMapManager
   {$IFNDEF WIN32}, fAttrib, fFileProperties, fChown,
   gtk, BaseUnix {$ELSE}, ShellAPI, windows{$ENDIF};
@@ -325,6 +328,30 @@ end;
 procedure TfrmMain.Button1Click(Sender: TObject);
 begin
    CreatePanel(AddPage(nbLeft), fpLeft);
+end;
+
+
+(* Pack files in archive *)
+procedure TfrmMain.actPackFilesExecute(Sender: TObject);
+var
+  fl : TFileList;
+begin
+  fl:=TFileList.Create;
+  with ActiveFrame do
+    begin
+      SelectFileIfNoSelected(GetActiveItem);
+      CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
+
+      fl.CurrentDirectory := ActiveDir;
+    end;
+  try
+    ShowPackFilesForm(NotActiveFrame.pnlFile.VFS, fl, NotActiveFrame.ActiveDir);
+  finally
+    frameLeft.RefreshPanel;
+    frameRight.RefreshPanel;
+    fl.Free;
+  end;
+
 end;
 
 procedure TfrmMain.Button2Click(Sender: TObject);
@@ -555,6 +582,11 @@ begin
   (*Tool Bar*)
   
   IsPanelsCreated := True;
+end;
+
+procedure TfrmMain.mnuHelpClick(Sender: TObject);
+begin
+
 end;
 
 procedure TfrmMain.NoteBookCloseTabClicked(Sender: TObject);
@@ -1794,7 +1826,9 @@ begin
     sDestPath:=sDestPath+ActiveFrame.pnlFile.GetActiveItem^.sName
   else
     sDestPath:=sDestPath+'*.*';
-    
+
+  (* Check not active panel *)
+        
   if NotActiveFrame.pnlFile.PanelMode = pmDirectory then
   with TfrmCopyDlg.Create(Application) do
   begin
@@ -1809,9 +1843,16 @@ begin
     finally
       Free;
     end;
-  end; //with
+  end //with
+  else
+    begin
+      DebugLN('+++ Pack files +++');
+      fl.CurrentDirectory := ActiveFrame.ActiveDir;
+      NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyIn(fl, sDestPath, 2);
+      Exit;
+    end;
 
-
+  (* Check active panel *)
   try
     (*Extract files from archive*)
     if  ActiveFrame.pnlFile.PanelMode = pmArchive then

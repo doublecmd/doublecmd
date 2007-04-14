@@ -40,6 +40,7 @@ Type
   private
     sortIn          : Integer;      //column for sorting
     negatSort       : Boolean;
+    fDir : String;
     function GetCount:Integer;
   protected
     fList: TList;                   //store for file items
@@ -58,6 +59,7 @@ Type
     procedure Sort(SortBy:Integer; bDirection:Boolean); overload;
 
     property Count      : Integer read GetCount;
+    property CurrentDirectory : String read fDir write fDir;
   end;
 
 { this function couldn't be a method > type of parametr TList.Sort

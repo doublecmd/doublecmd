@@ -114,122 +114,124 @@ LazarusResources.Add('TfrmMain','FORMDATA',[
   +'read'#6'Action'#7#10'actRefresh'#7'OnClick'#7#17'actRefreshExecute'#0#0#0#9
   +'TMenuItem'#9'mnuConfig'#7'Caption'#6#14'C&onfiguration'#0#9'TMenuItem'#16'm'
   +'nuConfigOptions'#6'Action'#7#10'actOptions'#7'OnClick'#7#17'actOptionsExecu'
-  +'te'#0#0#0#9'TMenuItem'#7'mnuHelp'#7'Caption'#6#5'&Help'#0#9'TMenuItem'#12'm'
-  +'nuHelpAbout'#6'Action'#7#8'actAbout'#8'ShortCut'#2'p'#7'OnClick'#7#15'actAb'
-  +'outExecute'#0#0#0#0#11'TActionList'#9'actionLst'#4'left'#3'!'#1#3'top'#2'@'
-  +#0#7'TAction'#7'actExit'#8'Category'#6#4'File'#7'Caption'#6#4'Exit'#18'Disab'
-  +'leIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#14'actExitExecut'
-  +'e'#0#0#7'TAction'#7'actView'#8'Category'#6#7'Classic'#7'Caption'#6#7'View F'
-  +'3'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#14'ac'
-  +'tViewExecute'#0#0#7'TAction'#7'actEdit'#8'Category'#6#7'Classic'#7'Caption'
-  +#6#7'Edit F4'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecut'
-  +'e'#7#14'actEditExecute'#0#0#7'TAction'#7'actCopy'#8'Category'#6#7'Classic'#7
-  +'Caption'#6#7'Copy F5'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9
-  +'OnExecute'#7#14'actCopyExecute'#0#0#7'TAction'#9'actRename'#8'Category'#6#7
-  +'Classic'#7'Caption'#6#9'Rename F6'#18'DisableIfNoHandler'#9#8'HelpType'#7#9
-  +'htKeyword'#9'OnExecute'#7#16'actRenameExecute'#0#0#7'TAction'#10'actMakeDir'
-  +#8'Category'#6#7'Classic'#7'Caption'#6#10'MakeDir F7'#18'DisableIfNoHandler'
-  ,#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#17'actMakeDirExecute'#0#0#7'TAc'
-  +'tion'#9'actDelete'#8'Category'#6#7'Classic'#7'Caption'#6#9'Delete F8'#18'Di'
-  +'sableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#16'actDeleteE'
-  +'xecute'#0#0#7'TAction'#8'actAbout'#8'Category'#6#4'Help'#7'Caption'#6#5'Abo'
-  +'ut'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#15'a'
-  +'ctAboutExecute'#0#0#7'TAction'#15'actShowSysFiles'#8'Category'#6#4'File'#7
-  +'Caption'#6#17'Show System Files'#7'Checked'#9#18'DisableIfNoHandler'#9#8'He'
-  +'lpType'#7#9'htKeyword'#9'OnExecute'#7#22'actShowSysFilesExecute'#0#0#7'TAct'
-  +'ion'#10'actOptions'#8'Category'#6#6'Config'#7'Caption'#6#10'Options...'#18
-  +'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#17'actOptio'
-  +'nsExecute'#0#0#7'TAction'#18'actCompareContents'#8'Category'#6#4'File'#7'Ca'
-  +'ption'#6#20'Compare by &Contents'#18'DisableIfNoHandler'#9#8'HelpType'#7#9
-  +'htKeyword'#9'OnExecute'#7#25'actCompareContentsExecute'#0#0#7'TAction'#11'a'
-  +'ctShowMenu'#8'Category'#6#7'Classic'#7'Caption'#6#7'Menu F9'#18'DisableIfNo'
-  +'Handler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#18'actShowMenuExecute'
-  +#0#0#7'TAction'#10'actRefresh'#8'Category'#6#4'Show'#7'Caption'#6#8'&Refresh'
-  +#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#17'actRe'
-  +'freshExecute'#8'ShortCut'#3'R@'#0#0#7'TAction'#9'actSearch'#8'Category'#6#8
-  +'Commands'#7'Caption'#6#7'&Search'#18'DisableIfNoHandler'#9#8'HelpType'#7#9
-  +'htKeyword'#9'OnExecute'#7#16'actSearchExecute'#8'ShortCut'#3'6P'#0#0#7'TAct'
-  +'ion'#13'actDirHotList'#8'Category'#6#8'Commands'#7'Caption'#6#18'Directory '
-  +'&hotlist'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7
-  +#20'actDirHotListExecute'#8'ShortCut'#3'D@'#0#0#7'TAction'#14'actMarkMarkAll'
-  +#8'Category'#6#4'Mark'#7'Caption'#6#11'&Select All'#18'DisableIfNoHandler'#9
-  +#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#21'actMarkMarkAllExecute'#0#0#7'T'
-  +'Action'#13'actMarkInvert'#8'Category'#6#4'Mark'#7'Caption'#6#17'Invert Sele'
-  +'ctions'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7
-  +#20'actMarkInvertExecute'#0#0#7'TAction'#16'actMarkUnmarkAll'#8'Category'#6#4
-  +'Mark'#7'Caption'#6#12'Unselect All'#18'DisableIfNoHandler'#9#8'HelpType'#7#9
-  +'htKeyword'#9'OnExecute'#7#23'actMarkUnmarkAllExecute'#0#0#7'TAction'#10'act'
-  +'Delete2'#8'Category'#6#7'Classic'#7'Caption'#6#10'actDelete2'#18'DisableIfN'
-  +'oHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#17'actDelete2Execute'
-  +#0#0#7'TAction'#16'actPathToCmdLine'#7'Caption'#6#16'actPathToCmdLine'#18'Di'
-  +'sableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#23'actPathToC'
-  +'mdLineExecute'#8'ShortCut'#3'P@'#0#0#7'TAction'#11'actMarkPlus'#8'Category'
-  +#6#4'Mark'#7'Caption'#6#14'Select a group'#18'DisableIfNoHandler'#9#8'HelpTy'
-  +'pe'#7#9'htKeyword'#9'OnExecute'#7#18'actMarkPlusExecute'#0#0#7'TAction'#12
-  +'actMarkMinus'#8'Category'#6#4'Mark'#7'Caption'#6#16'Unselect a group'#18'Di'
-  +'sableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#19'actMarkMin'
-  +'usExecute'#0#0#7'TAction'#8'actChMod'#8'Category'#6#4'File'#7'Caption'#6#17
-  +'Change Attributes'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'On'
-  +'Execute'#7#15'actChModExecute'#0#0#7'TAction'#10'actSymLink'#8'Category'#6#4
-  +'File'#7'Caption'#6#17'Create symlink...'#18'DisableIfNoHandler'#9#8'HelpTyp'
-  +'e'#7#9'htKeyword'#9'OnExecute'#7#17'actSymLinkExecute'#0#0#7'TAction'#11'ac'
-  +'tHardLink'#8'Category'#6#4'File'#7'Caption'#6#14'Create link...'#18'Disable'
-  +'IfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#18'actHardLinkExec'
-  +'ute'#0#0#7'TAction'#15'actReverseOrder'#8'Category'#6#4'Show'#7'Caption'#6
-  +#13'Reverse order'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnE'
-  +'xecute'#7#22'actReverseOrderExecute'#0#0#7'TAction'#13'actSortByName'#8'Cat'
-  +'egory'#6#4'Show'#7'Caption'#6#4'Name'#18'DisableIfNoHandler'#9#8'HelpType'#7
-  +#9'htKeyword'#9'OnExecute'#7#20'actSortByNameExecute'#0#0#7'TAction'#12'actS'
-  +'ortByExt'#8'Category'#6#4'Show'#7'Caption'#6#9'Extension'#18'DisableIfNoHan'
-  +'dler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#19'actSortByExtExecute'#0
-  +#0#7'TAction'#13'actSortBySize'#8'Category'#6#4'Show'#7'Caption'#6#4'Size'#18
-  +'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#20'actSortB'
-  +'ySizeExecute'#0#0#7'TAction'#13'actSortByDate'#8'Category'#6#4'Show'#7'Capt'
-  +'ion'#6#4'Date'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExec'
-  +'ute'#7#20'actSortByDateExecute'#0#0#7'TAction'#13'actSortByAttr'#8'Category'
-  +#6#4'Show'#7'Caption'#6#6'Attrib'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'h'
-  +'tKeyword'#9'OnExecute'#7#20'actSortByAttrExecute'#0#0#7'TAction'#14'actMult'
-  +'iRename'#8'Category'#6#4'File'#7'Caption'#6#17'Multi Rename Tool'#18'Disabl'
-  +'eIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#21'actMultiRename'
-  +'Execute'#0#0#7'TAction'#10'actShiftF5'#8'Category'#6#8'Commands'#7'Caption'
-  +#6#10'actShiftF5'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnEx'
-  ,'ecute'#7#17'actShiftF5Execute'#8'ShortCut'#3'40'#0#0#7'TAction'#10'actShift'
-  +'F6'#8'Category'#6#8'Commands'#7'Caption'#6#10'actShiftF6'#18'DisableIfNoHan'
-  +'dler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#17'actShiftF6Execute'#8'S'
-  +'hortCut'#3'50'#0#0#7'TAction'#10'actShiftF4'#8'Category'#6#8'Commands'#7'Ca'
-  +'ption'#6#10'actShiftF4'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'
-  +#9'OnExecute'#7#17'actShiftF4Execute'#0#0#7'TAction'#13'actDirHistory'#8'Cat'
-  +'egory'#6#8'Commands'#7'Caption'#6#13'actDirHistory'#18'DisableIfNoHandler'#9
-  +#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#20'actDirHistoryExecute'#8'ShortC'
-  +'ut'#3'H@'#0#0#7'TAction'#9'actCtrlF8'#8'Category'#6#8'Commands'#7'Caption'#6
-  +#9'actCtrlF8'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecut'
-  +'e'#7#16'actCtrlF8Execute'#8'ShortCut'#3'7P'#0#0#7'TAction'#10'actRunTerm'#8
-  +'Category'#6#8'Commands'#7'Caption'#6#8'Run Term'#18'DisableIfNoHandler'#9#8
-  +'HelpType'#7#9'htKeyword'#9'OnExecute'#7#17'actRunTermExecute'#8'ShortCut'#3
-  +'T@'#0#0#7'TAction'#17'actCalculateSpace'#8'Category'#6#4'File'#7'Caption'#6
-  +#28'Calculate &Occupied Space...'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'h'
-  +'tKeyword'#9'OnExecute'#7#24'actCalculateSpaceExecute'#0#0#7'TAction'#17'act'
-  +'FileProperties'#8'Category'#6#4'File'#7'Caption'#6#20'Show File Properties'
-  +#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#24'actFi'
-  +'lePropertiesExecute'#0#0#7'TAction'#8'actChown'#8'Category'#6#4'File'#7'Cap'
-  +'tion'#6#5'Chown'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnEx'
-  +'ecute'#7#15'actChownExecute'#0#0#7'TAction'#13'actFileLinker'#8'Category'#6
-  +#4'File'#7'Caption'#6#10'Link Files'#18'DisableIfNoHandler'#9#8'HelpType'#7#9
-  +'htKeyword'#9'OnExecute'#7#20'actFileLinkerExecute'#0#0#7'TAction'#14'actFil'
-  +'eSpliter'#8'Category'#6#4'File'#7'Caption'#6#10'Split File'#18'DisableIfNoH'
-  +'andler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#21'actFileSpliterExecut'
-  +'e'#0#0#7'TAction'#9'actNewTab'#8'Category'#6#4'Tabs'#7'Caption'#6#9'actNewT'
-  +'ab'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#16'a'
-  +'ctNewTabExecute'#0#0#7'TAction'#12'actRemoveTab'#8'Category'#6#4'Tabs'#7'Ca'
-  +'ption'#6#12'actRemoveTab'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeywor'
-  +'d'#9'OnExecute'#7#19'actRemoveTabExecute'#0#0#0#10'TPopupMenu'#9'pmHotList'
-  +#4'left'#3#152#0#3'top'#3#136#0#0#9'TMenuItem'#9'MenuItem3'#7'Caption'#6#9'N'
-  +'ew Item1'#0#0#0#10'TPopupMenu'#10'pmFileList'#7'OnPopup'#7#15'pmFileListPop'
-  +'up'#4'left'#3#216#0#3'top'#3#136#0#0#9'TMenuItem'#5'file1'#7'Caption'#6#4'f'
-  +'ile'#0#0#0#10'TPopupMenu'#12'pmDirHistory'#9'AutoPopup'#8#4'left'#3#184#0#3
-  +'top'#3#136#0#0#9'TMenuItem'#9'MenuItem4'#7'Caption'#6#9'New Item1'#0#0#0#10
-  +'TPopupMenu'#9'pmToolBar'#3'Tag'#2#255#4'left'#2'x'#3'top'#3#136#0#0#9'TMenu'
-  +'Item'#6'tbEdit'#7'Caption'#6#4'Edit'#7'OnClick'#7#11'tbEditClick'#0#0#9'TMe'
-  +'nuItem'#8'tbDelete'#7'Caption'#6#6'Delete'#7'OnClick'#7#11'DeleteClick'#0#0
-  +#0#0
+  +'te'#0#0#0#9'TMenuItem'#7'mnuHelp'#7'Caption'#6#5'&Help'#7'OnClick'#7#12'mnu'
+  +'HelpClick'#0#9'TMenuItem'#12'mnuHelpAbout'#6'Action'#7#8'actAbout'#8'ShortC'
+  +'ut'#2'p'#7'OnClick'#7#15'actAboutExecute'#0#0#0#0#11'TActionList'#9'actionL'
+  +'st'#4'left'#3'!'#1#3'top'#2'@'#0#7'TAction'#7'actExit'#8'Category'#6#4'File'
+  +#7'Caption'#6#4'Exit'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9
+  +'OnExecute'#7#14'actExitExecute'#0#0#7'TAction'#7'actView'#8'Category'#6#7'C'
+  +'lassic'#7'Caption'#6#7'View F3'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'ht'
+  +'Keyword'#9'OnExecute'#7#14'actViewExecute'#0#0#7'TAction'#7'actEdit'#8'Cate'
+  +'gory'#6#7'Classic'#7'Caption'#6#7'Edit F4'#18'DisableIfNoHandler'#9#8'HelpT'
+  +'ype'#7#9'htKeyword'#9'OnExecute'#7#14'actEditExecute'#0#0#7'TAction'#7'actC'
+  +'opy'#8'Category'#6#7'Classic'#7'Caption'#6#7'Copy F5'#18'DisableIfNoHandler'
+  +#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#14'actCopyExecute'#0#0#7'TActio'
+  +'n'#9'actRename'#8'Category'#6#7'Classic'#7'Caption'#6#9'Rename F6'#18'Disab'
+  +'leIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#16'actRenameExec'
+  +'ute'#0#0#7'TAction'#10'actMakeDir'#8'Category'#6#7'Classic'#7'Caption'#6#10
+  ,'MakeDir F7'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'
+  +#7#17'actMakeDirExecute'#0#0#7'TAction'#9'actDelete'#8'Category'#6#7'Classic'
+  +#7'Caption'#6#9'Delete F8'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeywor'
+  +'d'#9'OnExecute'#7#16'actDeleteExecute'#0#0#7'TAction'#8'actAbout'#8'Categor'
+  +'y'#6#4'Help'#7'Caption'#6#5'About'#18'DisableIfNoHandler'#9#8'HelpType'#7#9
+  +'htKeyword'#9'OnExecute'#7#15'actAboutExecute'#0#0#7'TAction'#15'actShowSysF'
+  +'iles'#8'Category'#6#4'File'#7'Caption'#6#17'Show System Files'#7'Checked'#9
+  +#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#22'actSh'
+  +'owSysFilesExecute'#0#0#7'TAction'#10'actOptions'#8'Category'#6#6'Config'#7
+  +'Caption'#6#10'Options...'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeywor'
+  +'d'#9'OnExecute'#7#17'actOptionsExecute'#0#0#7'TAction'#18'actCompareContent'
+  +'s'#8'Category'#6#4'File'#7'Caption'#6#20'Compare by &Contents'#18'DisableIf'
+  +'NoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#25'actCompareContent'
+  +'sExecute'#0#0#7'TAction'#11'actShowMenu'#8'Category'#6#7'Classic'#7'Caption'
+  +#6#7'Menu F9'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecut'
+  +'e'#7#18'actShowMenuExecute'#0#0#7'TAction'#10'actRefresh'#8'Category'#6#4'S'
+  +'how'#7'Caption'#6#8'&Refresh'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKe'
+  +'yword'#9'OnExecute'#7#17'actRefreshExecute'#8'ShortCut'#3'R@'#0#0#7'TAction'
+  +#9'actSearch'#8'Category'#6#8'Commands'#7'Caption'#6#7'&Search'#18'DisableIf'
+  +'NoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#16'actSearchExecute'
+  +#8'ShortCut'#3'6P'#0#0#7'TAction'#13'actDirHotList'#8'Category'#6#8'Commands'
+  +#7'Caption'#6#18'Directory &hotlist'#18'DisableIfNoHandler'#9#8'HelpType'#7#9
+  +'htKeyword'#9'OnExecute'#7#20'actDirHotListExecute'#8'ShortCut'#3'D@'#0#0#7
+  +'TAction'#14'actMarkMarkAll'#8'Category'#6#4'Mark'#7'Caption'#6#11'&Select A'
+  +'ll'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#21'a'
+  +'ctMarkMarkAllExecute'#0#0#7'TAction'#13'actMarkInvert'#8'Category'#6#4'Mark'
+  +#7'Caption'#6#17'Invert Selections'#18'DisableIfNoHandler'#9#8'HelpType'#7#9
+  +'htKeyword'#9'OnExecute'#7#20'actMarkInvertExecute'#0#0#7'TAction'#16'actMar'
+  +'kUnmarkAll'#8'Category'#6#4'Mark'#7'Caption'#6#12'Unselect All'#18'DisableI'
+  +'fNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#23'actMarkUnmarkAll'
+  +'Execute'#0#0#7'TAction'#10'actDelete2'#8'Category'#6#7'Classic'#7'Caption'#6
+  +#10'actDelete2'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExec'
+  +'ute'#7#17'actDelete2Execute'#0#0#7'TAction'#16'actPathToCmdLine'#7'Caption'
+  +#6#16'actPathToCmdLine'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9
+  +'OnExecute'#7#23'actPathToCmdLineExecute'#8'ShortCut'#3'P@'#0#0#7'TAction'#11
+  +'actMarkPlus'#8'Category'#6#4'Mark'#7'Caption'#6#14'Select a group'#18'Disab'
+  +'leIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#18'actMarkPlusEx'
+  +'ecute'#0#0#7'TAction'#12'actMarkMinus'#8'Category'#6#4'Mark'#7'Caption'#6#16
+  +'Unselect a group'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnE'
+  +'xecute'#7#19'actMarkMinusExecute'#0#0#7'TAction'#8'actChMod'#8'Category'#6#4
+  +'File'#7'Caption'#6#17'Change Attributes'#18'DisableIfNoHandler'#9#8'HelpTyp'
+  +'e'#7#9'htKeyword'#9'OnExecute'#7#15'actChModExecute'#0#0#7'TAction'#10'actS'
+  +'ymLink'#8'Category'#6#4'File'#7'Caption'#6#17'Create symlink...'#18'Disable'
+  +'IfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#17'actSymLinkExecu'
+  +'te'#0#0#7'TAction'#11'actHardLink'#8'Category'#6#4'File'#7'Caption'#6#14'Cr'
+  +'eate link...'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecu'
+  +'te'#7#18'actHardLinkExecute'#0#0#7'TAction'#15'actReverseOrder'#8'Category'
+  +#6#4'Show'#7'Caption'#6#13'Reverse order'#18'DisableIfNoHandler'#9#8'HelpTyp'
+  +'e'#7#9'htKeyword'#9'OnExecute'#7#22'actReverseOrderExecute'#0#0#7'TAction'
+  +#13'actSortByName'#8'Category'#6#4'Show'#7'Caption'#6#4'Name'#18'DisableIfNo'
+  +'Handler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#20'actSortByNameExecut'
+  +'e'#0#0#7'TAction'#12'actSortByExt'#8'Category'#6#4'Show'#7'Caption'#6#9'Ext'
+  +'ension'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7
+  +#19'actSortByExtExecute'#0#0#7'TAction'#13'actSortBySize'#8'Category'#6#4'Sh'
+  +'ow'#7'Caption'#6#4'Size'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'
+  +#9'OnExecute'#7#20'actSortBySizeExecute'#0#0#7'TAction'#13'actSortByDate'#8
+  +'Category'#6#4'Show'#7'Caption'#6#4'Date'#18'DisableIfNoHandler'#9#8'HelpTyp'
+  +'e'#7#9'htKeyword'#9'OnExecute'#7#20'actSortByDateExecute'#0#0#7'TAction'#13
+  +'actSortByAttr'#8'Category'#6#4'Show'#7'Caption'#6#6'Attrib'#18'DisableIfNoH'
+  +'andler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#20'actSortByAttrExecute'
+  +#0#0#7'TAction'#14'actMultiRename'#8'Category'#6#4'File'#7'Caption'#6#17'Mul'
+  +'ti Rename Tool'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExe'
+  +'cute'#7#21'actMultiRenameExecute'#0#0#7'TAction'#10'actShiftF5'#8'Category'
+  +#6#8'Commands'#7'Caption'#6#10'actShiftF5'#18'DisableIfNoHandler'#9#8'HelpTy'
+  ,'pe'#7#9'htKeyword'#9'OnExecute'#7#17'actShiftF5Execute'#8'ShortCut'#3'40'#0
+  +#0#7'TAction'#10'actShiftF6'#8'Category'#6#8'Commands'#7'Caption'#6#10'actSh'
+  +'iftF6'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#17
+  +'actShiftF6Execute'#8'ShortCut'#3'50'#0#0#7'TAction'#10'actShiftF4'#8'Catego'
+  +'ry'#6#8'Commands'#7'Caption'#6#10'actShiftF4'#18'DisableIfNoHandler'#9#8'He'
+  +'lpType'#7#9'htKeyword'#9'OnExecute'#7#17'actShiftF4Execute'#0#0#7'TAction'
+  +#13'actDirHistory'#8'Category'#6#8'Commands'#7'Caption'#6#13'actDirHistory'
+  +#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#20'actDi'
+  +'rHistoryExecute'#8'ShortCut'#3'H@'#0#0#7'TAction'#9'actCtrlF8'#8'Category'#6
+  +#8'Commands'#7'Caption'#6#9'actCtrlF8'#18'DisableIfNoHandler'#9#8'HelpType'#7
+  +#9'htKeyword'#9'OnExecute'#7#16'actCtrlF8Execute'#8'ShortCut'#3'7P'#0#0#7'TA'
+  +'ction'#10'actRunTerm'#8'Category'#6#8'Commands'#7'Caption'#6#8'Run Term'#18
+  +'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#17'actRunTe'
+  +'rmExecute'#8'ShortCut'#3'T@'#0#0#7'TAction'#17'actCalculateSpace'#8'Categor'
+  +'y'#6#4'File'#7'Caption'#6#28'Calculate &Occupied Space...'#18'DisableIfNoHa'
+  +'ndler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#24'actCalculateSpaceExec'
+  +'ute'#0#0#7'TAction'#17'actFileProperties'#8'Category'#6#4'File'#7'Caption'#6
+  +#20'Show File Properties'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'
+  +#9'OnExecute'#7#24'actFilePropertiesExecute'#0#0#7'TAction'#8'actChown'#8'Ca'
+  +'tegory'#6#4'File'#7'Caption'#6#5'Chown'#18'DisableIfNoHandler'#9#8'HelpType'
+  +#7#9'htKeyword'#9'OnExecute'#7#15'actChownExecute'#0#0#7'TAction'#13'actFile'
+  +'Linker'#8'Category'#6#4'File'#7'Caption'#6#10'Link Files'#18'DisableIfNoHan'
+  +'dler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#20'actFileLinkerExecute'#0
+  +#0#7'TAction'#14'actFileSpliter'#8'Category'#6#4'File'#7'Caption'#6#10'Split'
+  +' File'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'#9'OnExecute'#7#21
+  +'actFileSpliterExecute'#0#0#7'TAction'#9'actNewTab'#8'Category'#6#4'Tabs'#7
+  +'Caption'#6#9'actNewTab'#18'DisableIfNoHandler'#9#8'HelpType'#7#9'htKeyword'
+  +#9'OnExecute'#7#16'actNewTabExecute'#0#0#7'TAction'#12'actRemoveTab'#8'Categ'
+  +'ory'#6#4'Tabs'#7'Caption'#6#12'actRemoveTab'#18'DisableIfNoHandler'#9#8'Hel'
+  +'pType'#7#9'htKeyword'#9'OnExecute'#7#19'actRemoveTabExecute'#0#0#7'TAction'
+  +#12'actPackFiles'#8'Category'#6#4'File'#7'Caption'#6#13'Pack files...'#18'Di'
+  +'sableIfNoHandler'#9#9'OnExecute'#7#19'actPackFilesExecute'#8'ShortCut'#4't'
+  +#128#0#0#0#0#0#10'TPopupMenu'#9'pmHotList'#4'left'#3#152#0#3'top'#3#136#0#0#9
+  +'TMenuItem'#9'MenuItem3'#7'Caption'#6#9'New Item1'#0#0#0#10'TPopupMenu'#10'p'
+  +'mFileList'#7'OnPopup'#7#15'pmFileListPopup'#4'left'#3#216#0#3'top'#3#136#0#0
+  +#9'TMenuItem'#5'file1'#7'Caption'#6#4'file'#0#0#0#10'TPopupMenu'#12'pmDirHis'
+  +'tory'#9'AutoPopup'#8#4'left'#3#184#0#3'top'#3#136#0#0#9'TMenuItem'#9'MenuIt'
+  +'em4'#7'Caption'#6#9'New Item1'#0#0#0#10'TPopupMenu'#9'pmToolBar'#3'Tag'#2
+  +#255#4'left'#2'x'#3'top'#3#136#0#0#9'TMenuItem'#6'tbEdit'#7'Caption'#6#4'Edi'
+  +'t'#7'OnClick'#7#11'tbEditClick'#0#0#9'TMenuItem'#8'tbDelete'#7'Caption'#6#6
+  +'Delete'#7'OnClick'#7#11'DeleteClick'#0#0#0#0
 ]);

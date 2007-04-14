@@ -21,6 +21,7 @@ interface
 uses
   Classes, uTypes, uFileList;
 
+procedure SelectFilesInSubFoldersInRFS(var fl:TFileList);
 procedure AddUpLevel(sUpPath : String; var ls:TFileList);
 function LowDirLevel(sPath : String) : String;
 function IncludeFileInList(sPath : String; var sFileName : String) : Boolean;
@@ -36,6 +37,65 @@ uses
 
 { TFileList }
 
+(* Get all files in subfolders in Real File System *)
+
+procedure SelectFilesInSubFoldersInRFS(var fl:TFileList);
+
+
+  procedure SelectFilesInSubFolders(const sDir : String; var fl:TFileList);
+  var
+    sr : TSearchRec;
+    fr : PFileRecItem;
+  begin
+    if FindFirst(sDir + PathDelim + '*',faAnyFile,sr) = 0 then
+      repeat
+        New(fr);
+        with fr^ do
+          begin
+            sName := ExtractDirLevel(fl.CurrentDirectory, sr.Name);
+            DebugLN('Name of File = ' + sName);
+            iMode := sr.Attr;
+            if FPS_ISDIR(iMode) then
+              begin
+                sExt:='';
+                //DebugLN('SelectFilesInSubfolders = ' + sName);
+                SelectFilesInSubFolders(sr.Name, fl);
+              end;
+          end; //with
+        fl.AddItem(fr);
+      until FindNext(sr)<>0;
+      FindClose(sr);
+  end;
+
+var
+  Count, I : Integer;
+  newfl : TFileList;
+  frp : PFileRecItem;
+begin
+  newfl := TFileList.Create;
+  I := 0;
+  Count := fl.Count - 1;
+  while I <= Count do
+    begin
+      New(frp);
+      frp^ := fl.GetItem(I)^;
+      newfl.CurrentDirectory := fl.CurrentDirectory;
+      
+      if FPS_ISDIR(frp^.iMode) then
+        begin
+          newfl.AddItem(frp);
+          SelectFilesInSubFolders(frp^.sName, newfl)
+        end
+      else
+        begin
+          frp^.sName := ExtractDirLevel(fl.CurrentDirectory, frp^.sName);
+          newfl.AddItem(frp);
+        end;
+      I := I + 1;
+    end;
+    fl.Free;
+    fl := newfl;
+end;
 
 procedure AddUpLevel(sUpPath : String; var ls:TFileList); // add virtually ..
 var
@@ -84,9 +144,9 @@ end;
 
 function IncludeFileInList(sPath : String; var sFileName : String) : Boolean;
 var
-Index : Integer;
+  Index : Integer;
 begin
-//WriteLN('Folder = ', SPath);
+//DebugLN('Folder = ' + SPath);
 Result := False;
 Index := Pos(SPath, sFileName);
 if Index > 0 then
@@ -100,10 +160,12 @@ end;
 function ExtractDirLevel(const sPrefix, sPath: String): String;
 begin
   Result := sPath;
-  DebugLN('Prefix = ' + sPrefix);
-  DebugLN('sPath = ' + sPath);
+  //DebugLN('Prefix = ' + sPrefix);
+  //DebugLN('sPath = ' + sPath);
+
   IncludeFileInList(sPrefix, Result);
-  DebugLN('Result := ' + Result);
+
+  //DebugLN('Result := ' + Result);
 end;
 
 function ModeStr2Mode(const sMode:String):Integer;

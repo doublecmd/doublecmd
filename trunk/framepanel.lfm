@@ -1,4 +1,4 @@
-object FrameFilePanel: TFrameFilePanel
+inherited FrameFilePanel: TFrameFilePanel
   Left = 132
   Height = 415
   Top = 83

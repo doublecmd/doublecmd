@@ -1,7 +1,7 @@
 inherited frmOptions: TfrmOptions
-  Left = 298
+  Left = 304
   Height = 312
-  Top = 197
+  Top = 126
   Width = 456
   HorzScrollBar.Page = 455
   VertScrollBar.Page = 311
@@ -10,13 +10,41 @@ inherited frmOptions: TfrmOptions
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Options'
+  Icon.Data = {
+    36030000424D3603000000000000360000002800000010000000100000000100
+    1800000000000003000064000000640000000000000000000000FFFFFF874A20
+    874A20874A20FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFF874A20BEA592B89C86B89C86874A20FFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFF858A88858A88858A88FFFFFFFFFFFF874A20CCBBAD
+    A7917DB5957AAE8B72874A20FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF858A889EA1
+    A0858A88FFFFFFFFFFFF874A20CCBBADA48D78A28A74B4957AB3937C874A20FF
+    FFFFFFFFFFFFFFFF858A88D2D3D4C2C3C4858A88FFFFFFFFFFFFFFFFFF874A20
+    D4C8BDA48D78A48D78BEA592874A20FFFFFFFFFFFF858A88E2E3E4C2C4C6858A
+    88858A88FFFFFFFFFFFFFFFFFFFFFFFF874A20CCBBADCCBBADB3937C874A2085
+    8A88858A88D3D3D4BDBEBF858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFF874A20874A20874A2085837DAAADADC8C9CABDBEBF858A88FFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB5B7B885
+    8A88B7B8B9858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    858A88858A88858A88858A88D0D1D2A3A4A4858A88858A88FFFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFF858A88F3F3F3EFF0F0EDEEEEEAECECB6B9BA85
+    8A88FFFFFF858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF858A88F5F6F6
+    A9ACAB858A88F7F7F7E2E3E5AAADADECEEEEFFFFFFFFFFFF858A88FFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFF858A88FFFFFFFFFFFF858A88FAFAFA858A88FF
+    FFFFFFFFFFFFFFFFFFFFFF858A88878C8AFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFF858A88EEF0F0858A88FFFFFFFFFFFFFFFFFFFFFFFF858A88F0F0
+    F0858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF858A88E9EBEC858A88FFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFF858A88EEEFEF858A88FFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFF858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FF858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+  }
   Position = poMainFormCenter
   object PageControl1: TPageControl
     Height = 272
     Width = 456
-    ActivePage = tfHotKey
+    ActivePage = tsFonts
     Align = alClient
-    TabIndex = 5
+    TabIndex = 3
     TabOrder = 0
     object tsLng: TTabSheet
       Caption = 'Language'
@@ -33,18 +61,18 @@ inherited frmOptions: TfrmOptions
       ImageIndex = 1
       object lblTerm: TLabel
         Left = 8
-        Height = 13
+        Height = 14
         Top = 16
-        Width = 51
+        Width = 45
         Caption = 'Terminal:'
         Color = clNone
         ParentColor = False
       end
       object lblRunTerm: TLabel
         Left = 8
-        Height = 13
+        Height = 14
         Top = 48
-        Width = 73
+        Width = 65
         Caption = 'Run terminal:'
         Color = clNone
         ParentColor = False
@@ -66,45 +94,45 @@ inherited frmOptions: TfrmOptions
         TabOrder = 2
         object cbDirSelect: TCheckBox
           Left = 8
-          Height = 20
+          Height = 13
           Top = -3
-          Width = 89
+          Width = 75
           AllowGrayed = True
           Caption = 'cbDirSelect'
           TabOrder = 0
         end
         object cbCaseSensitiveSort: TCheckBox
           Left = 8
-          Height = 20
+          Height = 13
           Top = 45
-          Width = 140
+          Width = 118
           AllowGrayed = True
           Caption = 'cbCaseSensitiveSort'
           TabOrder = 1
         end
         object cbLynxLike: TCheckBox
           Left = 8
-          Height = 20
+          Height = 13
           Top = 21
-          Width = 88
+          Width = 74
           AllowGrayed = True
           Caption = 'cbLynxLike'
           TabOrder = 2
         end
         object cbShortFileSizeFormat: TCheckBox
           Left = 8
-          Height = 20
+          Height = 13
           Top = 69
-          Width = 150
+          Width = 125
           AllowGrayed = True
           Caption = 'cbShortFileSizeFormat'
           TabOrder = 3
         end
         object cbSeparateExt: TCheckBox
           Left = 8
-          Height = 20
+          Height = 13
           Top = 101
-          Width = 105
+          Width = 90
           AllowGrayed = True
           Caption = 'cbSeparateExt'
           TabOrder = 4
@@ -180,25 +208,25 @@ inherited frmOptions: TfrmOptions
       Caption = 'Fonts'
       ImageIndex = 3
       object lblMainFont: TLabel
-        Height = 13
+        Height = 14
         Top = 24
-        Width = 53
+        Width = 46
         Caption = 'Main font'
         Color = clNone
         ParentColor = False
       end
       object lblEditorFont: TLabel
-        Height = 13
+        Height = 14
         Top = 96
-        Width = 57
+        Width = 52
         Caption = 'Editor font'
         Color = clNone
         ParentColor = False
       end
       object lblViewerFont: TLabel
-        Height = 13
+        Height = 14
         Top = 168
-        Width = 64
+        Width = 56
         Caption = 'Viewer font'
         Color = clNone
         ParentColor = False
