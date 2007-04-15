@@ -39,7 +39,6 @@
       </Item1>
     </RequiredPkgs>
     <UsageOptions>
-      <IncludePath Value="X:\linux\sccmd\viewer\"/>
       <UnitPath Value="$(PkgOutDir)\"/>
     </UsageOptions>
     <PublishOptions>
