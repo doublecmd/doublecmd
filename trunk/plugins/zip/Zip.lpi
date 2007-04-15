@@ -22,14 +22,14 @@
         <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <Units Count="8">
+    <Units Count="9">
       <Unit0>
         <Filename Value="Zip.dpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="26" Y="22"/>
         <TopLine Value="1"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -42,10 +42,10 @@
       <Unit2>
         <Filename Value="ZipFunc.pas"/>
         <UnitName Value="ZipFunc"/>
-        <CursorPos X="18" Y="6"/>
-        <TopLine Value="1"/>
+        <CursorPos X="11" Y="222"/>
+        <TopLine Value="211"/>
         <EditorIndex Value="1"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
@@ -63,7 +63,7 @@
         <UsageCount Value="10"/>
       </Unit4>
       <Unit5>
-        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\objpas\sysutils\finah.inc"/>
+        <Filename Value="..\..\..\Prog\lazarus\fpcsrc\rtl\objpas\sysutils\finah.inc"/>
         <CursorPos X="25" Y="30"/>
         <TopLine Value="13"/>
         <UsageCount Value="10"/>
@@ -82,20 +82,25 @@
         <TopLine Value="72"/>
         <UsageCount Value="10"/>
       </Unit7>
+      <Unit8>
+        <Filename Value="fparchive\abutils.pas"/>
+        <UnitName Value="AbUtils"/>
+        <CursorPos X="12" Y="516"/>
+        <TopLine Value="496"/>
+        <EditorIndex Value="2"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit8>
     </Units>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="2" HistoryIndex="1">
       <Position1>
         <Filename Value="ZipFunc.pas"/>
-        <Caret Line="49" Column="29" TopLine="46"/>
+        <Caret Line="46" Column="20" TopLine="34"/>
       </Position1>
       <Position2>
-        <Filename Value="ZipFunc.pas"/>
-        <Caret Line="73" Column="21" TopLine="49"/>
+        <Filename Value="fparchive\abutils.pas"/>
+        <Caret Line="509" Column="3" TopLine="495"/>
       </Position2>
-      <Position3>
-        <Filename Value="ZipFunc.pas"/>
-        <Caret Line="43" Column="54" TopLine="26"/>
-      </Position3>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

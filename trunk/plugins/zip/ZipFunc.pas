@@ -37,6 +37,7 @@ function CloseArchive (hArcData : THandle) : Integer;{$IFNDEF WIN32}cdecl{$ELSE}
 procedure SetChangeVolProc (hArcData : THandle; pChangeVolProc1 : PChangeVolProc);{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
 procedure SetProcessDataProc (hArcData : THandle; pProcessDataProc1 : PProcessDataProc);{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
 {Optional functions}
+function PackFiles(PackedFile: pchar;  SubPath: pchar;  SrcPath: pchar;  AddList: pchar;  Flags: integer): Integer;{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
 function DeleteFiles (PackedFile, DeleteList : PChar) : Integer;{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
 function GetPackerCaps : Integer;{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
 
@@ -73,6 +74,31 @@ begin
     Result := Result + '.tar';
 end;
 
+
+{
+  Create file list like "filename1;filename2;filename3"
+  from file list like "filename1#0filename2#0filename3#0#0"
+}
+
+function MakeFileList(FileList : PChar) : String;
+var
+  I : Integer;
+  CurrentChar : Char;
+begin
+    I := 0;
+    while True do
+    begin
+      CurrentChar :=  (FileList + I)^;
+      if CurrentChar = #0 then
+        CurrentChar := ';';
+
+      if ((FileList + I)^ = #0) and ((FileList + I + 1)^ = #0) then
+        break;
+      Result := Result +  CurrentChar;
+      I := I + 1;
+    end;
+   //WriteLN('MakeFileList = ' + Result);
+end;
 
 function OpenArchive (var ArchiveData : tOpenArchiveData) : THandle;
 begin
@@ -173,13 +199,33 @@ end;
 
 {Optional functions}
 
+function PackFiles(PackedFile: pchar;  SubPath: pchar;  SrcPath: pchar;  AddList: pchar;  Flags: integer): integer;
+begin
+  try
+
+    if not Assigned(Arc) Then
+      Arc := TAbZipKit.Create(nil);
+    
+    Arc.OpenArchive(PackedFile);
+    Arc.BaseDirectory := SrcPath;
+    
+    Arc.AddFiles(MakeFileList(AddList), faAnyFile);
+    Arc.Save;
+    Arc.CloseArchive;
+    FreeAndNil(Arc);
+    Result := 0;
+  except
+    Result := E_BAD_DATA;
+  end;
+end;
+
 function DeleteFiles (PackedFile, DeleteList : PChar) : Integer;
 begin
   try
     if not Assigned(Arc) Then
     Arc := TAbZipKit.Create(nil);
     Arc.OpenArchive(PackedFile);
-    Arc.DeleteFiles(DeleteList);
+    Arc.DeleteFiles(MakeFileList(DeleteList));
     Arc.CloseArchive;
     FreeAndNil(Arc);
     Result := 0;

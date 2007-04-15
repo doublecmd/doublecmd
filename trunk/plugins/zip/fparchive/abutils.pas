@@ -505,8 +505,18 @@ begin
     GetTempPath(sizeof(TempPathZ), TempPathZ)
   else
     StrPCopy(TempPathZ, Dir);
+  {Alexx2000}
+  {$IFDEF FPC}
+  Result := TempPathZ + 'VMS'+IntToStr(Random(MaxInt)) + '.tmp';
+  if CreateIt then
+    FileClose(FileCreate(Result));
+  {/Alexx2000}
+  {$ELSE}
+  (* This code not working in Lazarus on Windows *)
+  (* I don't know why *)
   GetTempFileName(TempPathZ, 'VMS', Word(not CreateIt), FileNameZ);
   Result := StrPas(FileNameZ);
+  {$ENDIF}
 {$ENDIF}
 {$IFDEF LINUX}
   Result := GetTempFileName(Dir, 'VMSXXXXXX');
