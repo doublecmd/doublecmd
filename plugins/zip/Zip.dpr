@@ -19,11 +19,12 @@ CloseArchive,
 SetChangeVolProc,
 SetProcessDataProc,
 {optional}
+PackFiles,
 DeleteFiles,
 GetPackerCaps;
 
 begin
-{$IFNDEF WIN32}
+{$IFDEF UNIX}
 WriteLN('Zip plugin is loaded');
 {$ENDIF}
 end.
