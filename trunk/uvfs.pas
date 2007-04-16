@@ -44,6 +44,7 @@ type
     function FindModule(const sFileName:String):Boolean;
     property VFSmodule : TVFSmodule read FVFSModule;
     property ArcFullName : String read sLastArchive;
+    property Plugins : TStringList read FPlugins;
   end; //class TVFS
 
 implementation
@@ -129,6 +130,7 @@ begin
 
       FVFSModule := TWCXModule.Create;
       FVFSModule.LoadModule(FCurrentPlugin);
+
       FVFSModule.VFSOpen(sLastArchive);
 
       DebugLN('After Module Load');

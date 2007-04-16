@@ -79,7 +79,7 @@ Type
     procedure VFSDestroy;override;
     function VFSCaps(const sExt:String):Integer;override;
 
-    function VFSGetExts:String;override;
+    function VFSConfigure(Parent: THandle):Boolean;override;
     function VFSOpen(const sName:String):Boolean;override;
     function VFSClose:Boolean;override;
 
@@ -178,10 +178,12 @@ begin
 
 end;
 
-function TWCXModule.VFSGetExts: String;
+function TWCXModule.VFSConfigure(Parent: THandle): Boolean;
 begin
-
+  if @ConfigurePacker <> nil then
+    ConfigurePacker(Parent, FModuleHandle);
 end;
+
 
 function TWCXModule.VFSOpen(const sName: String): Boolean;
 var
@@ -190,9 +192,19 @@ ArcFile : tOpenArchiveData;
 ArcHeader : THeaderData;
 HeaderData : PHeaderData;
 begin
-  try
+
   FArchiveName := sName;
-  DebugLN(sName);
+  DebugLN('FArchiveName = ' + FArchiveName);
+
+  if not FileExists(FArchiveName) then
+    begin
+      Result := False;
+      exit;
+    end;
+
+  try
+
+  DebugLN('Open Archive');
 
   (*Open Archive*)
   FillChar(ArcFile, SizeOf(ArcFile), #0);
@@ -206,6 +218,7 @@ begin
       Exit;
     end;
 
+  DebugLN('Get File List');
   (*Get File List*)
   FillChar(ArcHeader, SizeOf(ArcHeader), #0);
   FArcFileList := TList.Create;
@@ -395,6 +408,9 @@ function TWCXModule.VFSCopyIn(var flSrcList: TFileList; sDstName: String; Flags 
 var
   FileList, Folder : PChar;
 begin
+
+  DebugLN('VFSCopyIn =' + FArchiveName);
+
   New(FileList);
   New(Folder);
   

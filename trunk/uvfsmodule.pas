@@ -37,7 +37,7 @@ Type
     procedure VFSDestroy;virtual;abstract;
     function VFSCaps(const sExt:String):Integer;virtual;abstract;
 
-    function VFSGetExts:String;virtual;abstract;
+    function VFSConfigure(Parent: THandle):Boolean;virtual;abstract;
     function VFSOpen(const sName:String):Boolean;virtual;abstract;
     function VFSClose:Boolean;virtual;abstract;
     

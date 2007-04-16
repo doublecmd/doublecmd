@@ -15,8 +15,8 @@ inherited FrameFilePanel: TFrameFilePanel
     FullRepaint = False
     TabOrder = 0
     object lblLInfo: TLabel
-      Height = 14
-      Width = 36
+      Height = 13
+      Width = 41
       Caption = 'lblLInfo'
       Color = clNone
       ParentColor = False
@@ -62,7 +62,7 @@ inherited FrameFilePanel: TFrameFilePanel
       end
       object lblLPath: TLabel
         Left = 2
-        Height = 14
+        Height = 13
         Top = 2
         Width = 345
         Align = alTop
@@ -73,9 +73,9 @@ inherited FrameFilePanel: TFrameFilePanel
       end
       object lblFree: TLabel
         Left = 2
-        Height = 23
-        Top = 16
-        Width = 33
+        Height = 24
+        Top = 15
+        Width = 40
         Align = alLeft
         Caption = 'lblFree'
         Color = clNone
