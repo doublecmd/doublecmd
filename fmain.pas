@@ -82,6 +82,7 @@ type
     mnuShowReverse: TMenuItem;
     mnuShowReread: TMenuItem;
     mnuFiles: TMenuItem;
+    mnuPackFiles : TMenuItem;
     mnuFilesSplit: TMenuItem;
     mnuFilesCombine: TMenuItem;
     mnuCmd: TMenuItem;
@@ -853,6 +854,7 @@ begin
 // Menu
 // File
   mnuFiles.Caption:=   lngGetString(clngMnuFile);
+  mnuPackFiles.Caption:= 'Pack Files...'; //TODO localize
   mnuFilesSplit.Caption:=     lngGetString(clngMnuFileSplit);
   mnuFilesCombine.Caption:=     lngGetString(clngMnuFileCombine);
 

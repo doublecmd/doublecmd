@@ -1,7 +1,7 @@
 inherited frmMain: TfrmMain
-  Left = 271
+  Left = 245
   Height = 336
-  Top = 184
+  Top = 170
   Width = 525
   HorzScrollBar.Page = 524
   VertScrollBar.Page = 315
@@ -282,6 +282,10 @@ inherited frmMain: TfrmMain
       end
       object miLine2: TMenuItem
         Caption = '-'
+      end
+      object mnuPackFiles: TMenuItem
+        Action = actPackFiles
+        OnClick = actPackFilesExecute
       end
       object mnuFilesSplit: TMenuItem
         Action = actFileSpliter

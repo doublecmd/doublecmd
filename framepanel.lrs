@@ -1,4 +1,4 @@
-{ Это - файл ресурсов, автоматически созданный lazarus }
+{ Р­С‚Рѕ - С„Р°Р№Р» СЂРµСЃСѓСЂСЃРѕРІ, Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё СЃРѕР·РґР°РЅРЅС‹Р№ lazarus }
 
 LazarusResources.Add('TFrameFilePanel','FORMDATA',[
   'TPF0'#241#15'TFrameFilePanel'#14'FrameFilePanel'#4'Left'#3#132#0#6'Height'#3
@@ -6,7 +6,7 @@ LazarusResources.Add('TFrameFilePanel','FORMDATA',[
   +'llBar.Page'#3#158#1#13'ActiveControl'#7#7'dgPanel'#7'Caption'#6#14'FrameFil'
   +'ePanel'#0#6'TPanel'#7'pnPanel'#6'Height'#3#159#1#5'Width'#3']'#1#5'Align'#7
   +#8'alClient'#10'BevelOuter'#7#6'bvNone'#11'FullRepaint'#8#8'TabOrder'#2#0#0#6
-  +'TLabel'#8'lblLInfo'#6'Height'#2#14#5'Width'#2'$'#7'Caption'#6#8'lblLInfo'#5
+  +'TLabel'#8'lblLInfo'#6'Height'#2#13#5'Width'#2')'#7'Caption'#6#8'lblLInfo'#5
   +'Color'#7#6'clNone'#11'ParentColor'#8#0#0#6'TPanel'#9'pnlHeader'#6'Height'#2
   +')'#5'Width'#3']'#1#5'Align'#7#5'alTop'#10'BevelInner'#7#9'bvLowered'#11'Ful'
   +'lRepaint'#8#8'TabOrder'#2#0#0#12'TSpeedButton'#7'btnRoot'#4'Left'#3#166#0#6
@@ -16,10 +16,10 @@ LazarusResources.Add('TFrameFilePanel','FORMDATA',[
   +'rs'#11#5'akTop'#0#7'Caption'#6#1'~'#5'Color'#7#9'clBtnFace'#4'Flat'#9#9'Num'
   +'Glyphs'#2#0#0#0#12'TSpeedButton'#5'btnUp'#4'Left'#3'@'#1#6'Height'#2#20#3'T'
   +'op'#2#20#5'Width'#2#17#7'Caption'#6#2'..'#5'Color'#7#9'clBtnFace'#4'Flat'#9
-  +#9'NumGlyphs'#2#0#0#0#6'TLabel'#8'lblLPath'#4'Left'#2#2#6'Height'#2#14#3'Top'
+  +#9'NumGlyphs'#2#0#0#0#6'TLabel'#8'lblLPath'#4'Left'#2#2#6'Height'#2#13#3'Top'
   +#2#2#5'Width'#3'Y'#1#5'Align'#7#5'alTop'#7'Caption'#6#8'lblLPath'#5'Color'#7
   +#12'clBackground'#11'ParentColor'#8#11'Transparent'#8#0#0#6'TLabel'#7'lblFre'
-  +'e'#4'Left'#2#2#6'Height'#2#23#3'Top'#2#16#5'Width'#2'!'#5'Align'#7#6'alLeft'
+  +'e'#4'Left'#2#2#6'Height'#2#24#3'Top'#2#15#5'Width'#2'('#5'Align'#7#6'alLeft'
   +#7'Caption'#6#7'lblFree'#5'Color'#7#6'clNone'#11'ParentColor'#8#0#0#0#5'TEdi'
   +'t'#9'edtRename'#6'Height'#2#1#5'Width'#2#1#8'TabOrder'#2#2#7'Visible'#8#0#0
   +#9'TDrawGrid'#7'dgPanel'#6'Height'#3'X'#1#3'Top'#2')'#5'Width'#3']'#1#5'Alig'

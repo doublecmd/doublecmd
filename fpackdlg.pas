@@ -52,16 +52,10 @@ type
     cbRecurse: TCheckBox;
     cbStoredir: TCheckBox;
     edtPackCmd: TEdit;
-    rb_6: TRadioButton;
-    rb_2: TRadioButton;
-    rb_8: TRadioButton;
-    rb_3: TRadioButton;
     rbOtherPlugins: TRadioButton;
-    rb_4: TRadioButton;
-    rb_7: TRadioButton;
-    rb_9: TRadioButton;
-    rb_5: TRadioButton;
-    rb_1: TRadioButton;
+    procedure btnConfigClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure arbChange(Sender: TObject);
 
   private
     { private declarations }
@@ -70,8 +64,15 @@ type
   end; 
 procedure ShowPackFilesForm(var VFS : TVFS; var fl : TFileList; sDestPath:String);
 
-implementation
+var
+  arbRadioButtonArray : array [0..8] of TRadioButton;
 
+implementation
+uses
+  uWCXhead;
+
+var
+  CurrentVFS : TVFS;
 
 procedure ShowPackFilesForm(var VFS : TVFS; var fl: TFileList; sDestPath:String);
 begin
@@ -81,13 +82,14 @@ begin
       if fl.Count = 1 then
         begin
           edtPackCmd.Text := sDestPath + ExtractFileName(fl.GetFileName(0));
-          edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.7z');
+          edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.none');
         end
       else
       (* if some files selected *)
         begin
-          edtPackCmd.Text := sDestPath + ExtractFileName(ExcludeTrailingPathDelimiter(fl.CurrentDirectory)) + '.7z';
+          edtPackCmd.Text := sDestPath + ExtractFileName(ExcludeTrailingPathDelimiter(fl.CurrentDirectory)) + '.none';
         end;
+      CurrentVFS := VFS;
       if (ShowModal = mrOK) then
           if VFS.FindModule(edtPackCmd.Text) then
             begin
@@ -96,6 +98,73 @@ begin
       Free;
     end;
 end;
+
+{ TPackDlg }
+
+procedure TPackDlg.FormShow(Sender: TObject);
+var
+ I, J : Integer;
+ sCurrentPlugin : String;
+ iCurPlugCaps : Integer;
+ Count : Integer;
+begin
+  J := 0;
+  Count := 0;
+  with CurrentVFS do
+    begin
+      for I:=0 to Plugins.Count -1 do
+        begin
+          sCurrentPlugin := Plugins.ValueFromIndex[i];
+          iCurPlugCaps := StrToInt(Copy(sCurrentPlugin, 1, Pos(',',sCurrentPlugin) - 1));
+          if (iCurPlugCaps and PK_CAPS_NEW) = PK_CAPS_NEW then
+            begin
+              (* First 9 plugins we display as  RadioButtons *)
+              if J < 9 then
+                begin
+                  arbRadioButtonArray[J] := TRadioButton.Create(gbPacker);
+                  arbRadioButtonArray[J].Parent := gbPacker;
+                  arbRadioButtonArray[J].Left := 5 + 45 * (J div 3);
+                  arbRadioButtonArray[J].Top := Count * (arbRadioButtonArray[J].Height + 4);
+                  arbRadioButtonArray[J].Visible := True;
+                  arbRadioButtonArray[J].Caption := Plugins.Names[I];
+                  arbRadioButtonArray[J].OnChange := @arbChange;
+                  J := J + 1;
+                  Count := Count + 1;
+                  if Count > 2 then
+                    Count := 0;
+                end
+              else
+                (* Other plugins we add in ComboBox *)
+                begin
+                  cbPackerList.Items.Add(Plugins.Names[I]);
+                end;
+            end;
+        end; //for
+        if arbRadioButtonArray[0] <> nil then
+          arbRadioButtonArray[0].Checked := True;
+        if cbPackerList.Items.Count > 0 then
+          begin
+            rbOtherPlugins.Enabled := True;
+            cbPackerList.ItemIndex := 0;
+          end;
+    end;
+end;
+
+procedure TPackDlg.btnConfigClick(Sender: TObject);
+begin
+   if CurrentVFS.FindModule(edtPackCmd.Text) then
+     CurrentVFS.VFSmodule.VFSConfigure(Handle);
+end;
+
+procedure TPackDlg.arbChange(Sender: TObject);
+begin
+  cbPackerList.Enabled := rbOtherPlugins.Checked;
+  if rbOtherPlugins.Checked then
+    edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.' + cbPackerList.Text)
+  else
+    edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.' + TRadioButton(Sender).Caption);
+end;
+
 
 initialization
   {$I fpackdlg.lrs}
