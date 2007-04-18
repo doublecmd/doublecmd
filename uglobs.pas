@@ -17,7 +17,10 @@ unit uGlobs;
 interface
 uses
   Classes, uExts, uColorExt, Graphics, IniFiles;
+  
 const
+  // TODO: It's really need?
+  // SaveRect and SaveGlobs depends on this
   cTopBorder = 23; // px on top is title
   cLeftBorder = 6; // px on left
 
@@ -89,7 +92,7 @@ end;
 
 procedure SaveRect(ARect:TRect; sPrefix:String);
 begin
-
+  // TODO: It is really need to add cLeftBorder/cTopBorder ? for what?
   gIni.WriteInteger('Configuration', sPrefix+'left', ARect.Left + cLeftBorder);
   gIni.WriteInteger('Configuration', sPrefix+'top', ARect.Top + cTopBorder);
 // warning Bottom = height rigth = width, TRect is used only for simplification
