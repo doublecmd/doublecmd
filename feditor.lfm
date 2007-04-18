@@ -1,25 +1,23 @@
-object frmEditor: TfrmEditor
-  ActiveControl = Editor
-  Caption = 'frmEditor'
-  ClientHeight = 468
-  ClientWidth = 733
-  KeyPreview = True
-  Menu = MainMenu1
-  OnClose = frmEditorClose
-  OnCloseQuery = FormCloseQuery
-  OnCreate = FormCreate
-  OnDestroy = FormDestroy
-  PixelsPerInch = 96
-  Position = poScreenCenter
-  TextHeight = 16
-  HorzScrollBar.Page = 732
-  VertScrollBar.Page = 467
-  VertScrollBar.Range = 19
+inherited frmEditor: TfrmEditor
   Left = 436
   Height = 488
   Top = 292
   Width = 733
+  HorzScrollBar.Page = 732
+  VertScrollBar.Page = 467
+  VertScrollBar.Range = 19
+  ActiveControl = Editor
+  Caption = 'frmEditor'
+  KeyPreview = True
+  Menu = MainMenu1
+  OnClose = frmEditorClose
+  OnCloseQuery = FormCloseQuery
+  OnDestroy = FormDestroy
+  Position = poScreenCenter
   object StatusBar: TStatusBar
+    Height = 23
+    Top = 445
+    Width = 733
     Panels = <    
       item
         Width = 50
@@ -34,28 +32,26 @@ object frmEditor: TfrmEditor
         Width = 50
       end>
     SimplePanel = False
-    Height = 23
-    Top = 445
-    Width = 733
   end
   object Editor: TSynEdit
+    Height = 445
+    Width = 733
     Align = alClient
     Anchors = [akTop]
     Font.Color = clBlack
     Font.Height = 13
     Font.Name = 'adobe-courier'
     Font.Pitch = fpFixed
-    Height = 445
-    Name = 'Editor'
     ParentColor = False
     ParentCtl3D = False
     TabOrder = 0
-    Width = 733
     OnKeyDown = EditorKeyDown
     OnKeyPress = EditorKeyPress
     OnKeyUp = EditorKeyUp
     BookMarkOptions.Xoffset = 34
+    BookMarkOptions.OnChange = nil
     Gutter.ShowLineNumbers = True
+    Gutter.OnChange = nil
     Gutter.CodeFoldingWidth = 14
     Keystrokes = <    
       item
@@ -378,12 +374,10 @@ object frmEditor: TfrmEditor
         Command = 250
         ShortCut = 24642
       end>
+    SelectedColor.OnChange = nil
     OnChange = EditorChange
     OnReplaceText = EditorReplaceText
     OnStatusChange = EditorStatusChange
-    Cursor = crIBeam
-    Height = 445
-    Width = 733
   end
   object MainMenu1: TMainMenu
     left = 48
@@ -469,122 +463,140 @@ object frmEditor: TfrmEditor
     left = 128
     top = 232
     object actAbout: TAction
+      Category = 'Help'
       Caption = 'About'
+      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actAboutExecute
-      Category = 'Help'
     end
     object actFileOpen: TAction
+      Category = 'File'
       Caption = '&Open'
+      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actFileOpenExecute
       ShortCut = 16463
-      Category = 'File'
     end
     object actFileClose: TAction
-      Caption = '&Close'
-      HelpType = htKeyword
       Category = 'File'
+      Caption = '&Close'
+      DisableIfNoHandler = True
+      HelpType = htKeyword
     end
     object actFileSave: TAction
+      Category = 'File'
       Caption = '&Save'
+      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actFileSaveExecute
       ShortCut = 113
-      Category = 'File'
     end
     object actFileSaveAs: TAction
+      Category = 'File'
       Caption = 'Save &As..'
+      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actFileSaveAsExecute
-      Category = 'File'
     end
     object actFileNew: TAction
+      Category = 'File'
       Caption = '&New'
+      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actFileNewExecute
       ShortCut = 16462
-      Category = 'File'
     end
     object actFileExit: TAction
+      Category = 'File'
       Caption = 'E&xit'
+      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actFileExitExecute
       ShortCut = 16472
-      Category = 'File'
     end
     object actSaveAll: TAction
+      Category = 'File'
       Caption = 'Sa&ve All'
+      DisableIfNoHandler = True
       HelpType = htKeyword
       ShortCut = 24659
-      Category = 'File'
     end
     object actEditFind: TAction
+      Category = 'Edit'
       Caption = '&Find'
+      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actEditFindExecute
       ShortCut = 16454
-      Category = 'Edit'
     end
     object actEditRplc: TAction
+      Category = 'Edit'
       Caption = '&Replace'
+      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actEditRplcExecute
       ShortCut = 16466
-      Category = 'Edit'
     end
     object actSave2: TAction
+      Category = 'File'
       Caption = 'actSave2'
+      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actSave2Execute
       ShortCut = 16467
-      Category = 'File'
     end
     object actConfHigh: TAction
+      Category = 'File'
       Caption = 'actConfHigh'
+      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actConfHighExecute
-      Category = 'File'
     end
     object actEditCut: TAction
+      Category = 'Edit'
       Caption = 'Cut'
+      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actEditCutExecute
       ShortCut = 16472
-      Category = 'Edit'
     end
     object actEditCopy: TAction
+      Category = 'Edit'
       Caption = 'Copy'
+      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actEditCopyExecute
       ShortCut = 16451
-      Category = 'Edit'
     end
     object actEditPaste: TAction
+      Category = 'Edit'
       Caption = 'Paste'
+      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actEditPasteExecute
       ShortCut = 16470
-      Category = 'Edit'
     end
     object actEditUndo: TAction
+      Category = 'Edit'
       Caption = 'Undo'
+      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actEditUndoExecute
       ShortCut = 16474
-      Category = 'Edit'
     end
     object actEditRedo: TAction
-      Caption = 'actEditRedo'
-      HelpType = htKeyword
       Category = 'Edit'
+      Caption = 'actEditRedo'
+      DisableIfNoHandler = True
+      HelpType = htKeyword
     end
     object actEditSelectAll: TAction
+      Category = 'Edit'
       Caption = 'Select&All'
+      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actEditSelectAllExecute
       ShortCut = 16449
-      Category = 'Edit'
     end
   end
 end

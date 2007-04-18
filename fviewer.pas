@@ -128,8 +128,9 @@ begin
 //    writeln('ShowViewer - Using Internal - created');
     Left:=gViewerPos.Left;
     Top:=gViewerPos.Top;
-    Width:=gViewerPos.Right;
-    Height:=gViewerPos.Bottom;
+    Width:=gViewerPos.Width;
+    Height:=gViewerPos.Height;
+
     try
       sList:=TStringList.Create;
 //      writeln('ShowViewer - Using Internal - before assign');
@@ -253,7 +254,15 @@ end;
 procedure TfrmViewer.frmViewerClose(Sender: TObject;
   var CloseAction: TCloseAction);
 begin
+  // TODO: may be better automtic save
+  // (see also TfrmViewer.miSavePosClick)
   CloseAction:=caFree;
+  gViewerPos.Left := Left;
+  gViewerPos.Top := Top;
+  gViewerPos.Width := Width;
+  gViewerPos.Height := Height;
+  write('Save to gViewerPos = ');
+  dbgShowWindowPos(gViewerPos);
 end;
 
 procedure TfrmViewer.frmViewerKeyDown(Sender: TObject; var Key: Word;
@@ -318,10 +327,12 @@ end;
 
 procedure TfrmViewer.miSavePosClick(Sender: TObject);
 begin
+  // TODO: It really need? may be better automtic save
+  // (see also TfrmViewer.frmViewerClose)
   gViewerPos.Left:=Left;
   gViewerPos.Top:=Top;
-  gViewerPos.Bottom:=Height;
-  gViewerPos.Right:=Width;
+  gViewerPos.Width:=Width;
+  gViewerPos.Height:=Height;
   msgOK(lngGetString(clngPositionSaved));
 end;
 

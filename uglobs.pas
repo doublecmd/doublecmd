@@ -17,6 +17,14 @@ unit uGlobs;
 interface
 uses
   Classes, uExts, uColorExt, Graphics, IniFiles;
+
+type
+  TWindowPos = record
+    Left: Integer;
+    Top: Integer;
+    Width: Integer;
+    Height: Integer;
+  end;
   
 const
   // TODO: It's really need?
@@ -59,12 +67,15 @@ var
   gViewerFontName:String;
   gViewerSize:Integer;
 
-  gViewerPos:TRect;
-  gEditorPos:TRect;
+  gViewerPos:TWindowPos;
+  gEditorPos:TWindowPos;
 
 function LoadGlobs : Boolean;
 procedure SaveGlobs;
 function LoadStringsFromFile(var list:TStringList; const sFileName:String):boolean;
+
+// for debugging only, can be removed
+procedure dbgShowWindowPos(const pos: TWindowPos);
 
 const
   cMaxStringItems=50;
@@ -76,28 +87,36 @@ implementation
 uses
    SysUtils, uGlobsPaths, uLng, uShowMsg;
 
-procedure LoadRect(Var ARect:TRect; sPrefix:String);
+// for debugging only, can be removed
+procedure dbgShowWindowPos(const pos: TWindowPos);
 begin
-//  writeln('Load Rect',sPrefix);
-  ARect.Left:=gIni.ReadInteger('Configuration', sPrefix+'left',50);
-//  writeln(ARect.Left);
-  ARect.Top:=gIni.ReadInteger('Configuration', sPrefix+'top',50);
-//  writeln(ARect.Top);
-// warning Bottom = height rigth = width, TRect is used only for simplification
-  ARect.Bottom:=gIni.ReadInteger('Configuration', sPrefix+'height',300);
-//  writeln(ARect.Bottom);
-  ARect.Right:=gIni.ReadInteger('Configuration', sPrefix+'width',400);
-//  writeln(ARect.Right);
+  writeln('TWindowPos');
+  writeln('Left: ', pos.Left);
+  writeln('Top:  ', pos.Top);
+  writeln('Width: ', pos.Width);
+  writeln('Height: ', pos.Height);
+  writeln('END');
 end;
 
-procedure SaveRect(ARect:TRect; sPrefix:String);
+procedure LoadWindowPos(var pos:TWindowPos; sPrefix:String);
 begin
-  // TODO: It is really need to add cLeftBorder/cTopBorder ? for what?
-  gIni.WriteInteger('Configuration', sPrefix+'left', ARect.Left + cLeftBorder);
-  gIni.WriteInteger('Configuration', sPrefix+'top', ARect.Top + cTopBorder);
-// warning Bottom = height rigth = width, TRect is used only for simplification
-  gIni.WriteInteger('Configuration', sPrefix+'height', ARect.Bottom);
-  gIni.WriteInteger('Configuration', sPrefix+'width', ARect.Right);
+  writeln('LoadWindowPos(',sPrefix,') enter');
+
+  pos.Left:=gIni.ReadInteger('Configuration', sPrefix+'left',50);
+  pos.Top:=gIni.ReadInteger('Configuration', sPrefix+'top',50);
+  pos.Width:= gIni.ReadInteger('Configuration', sPrefix+'width',300);
+  pos.Height:= gIni.ReadInteger('Configuration', sPrefix+'height',400);
+
+  dbgShowWindowPos(pos);
+  writeln('LoadWindowPos(',sPrefix,') leave');
+end;
+
+procedure SaveWindowPos(pos: TWindowPos; sPrefix:String);
+begin
+  gIni.WriteInteger('Configuration', sPrefix+'left', pos.Left);
+  gIni.WriteInteger('Configuration', sPrefix+'top', pos.Top);
+  gIni.WriteInteger('Configuration', sPrefix+'width', pos.Width);
+  gIni.WriteInteger('Configuration', sPrefix+'height', pos.Height);
 end;
 
 procedure InitGlobs;
@@ -175,9 +194,9 @@ begin
   gColumnSize[4] := gIni.ReadInteger('Configuration', 'Col4', 59);
 
   writeln('Loading viewer position...');
-  LoadRect(gViewerPos, 'Viewer.');
+  LoadWindowPos(gViewerPos, 'Viewer.');
   writeln('Loading editor position...');
-  LoadRect(gEditorPos, 'Editor.');
+  LoadWindowPos(gEditorPos, 'Editor.');
 
     if FileExists(gpLngDir + gLng) then
       begin
@@ -246,8 +265,8 @@ begin
   for x:=0 to 4 do
     gIni.WriteInteger('Configuration', 'Col'+IntToStr(x), gColumnSize[x]);
     
-  SaveRect(gViewerPos, 'Viewer.');
-  SaveRect(gEditorPos, 'Editor.');
+  SaveWindowPos(gViewerPos, 'Viewer.');
+  SaveWindowPos(gEditorPos, 'Editor.');
 end;
 
 initialization
