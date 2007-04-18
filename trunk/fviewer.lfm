@@ -1,27 +1,25 @@
-object frmViewer: TfrmViewer
+inherited frmViewer: TfrmViewer
+  Left = 349
+  Height = 273
+  Top = 287
+  Width = 320
+  HorzScrollBar.Page = 319
+  VertScrollBar.Page = 252
+  VertScrollBar.Range = 19
   ActiveControl = ScrollBarVert
   Caption = 'frmViewer'
-  ClientHeight = 498
-  ClientWidth = 792
   KeyPreview = True
   Menu = MainMenu
   OnClose = frmViewerClose
-  OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyDown = frmViewerKeyDown
   OnKeyPress = FormKeyPress
   OnKeyUp = frmViewerKeyUp
-  PixelsPerInch = 96
-  Position = poScreenCenter
-  TextHeight = 16
-  HorzScrollBar.Page = 791
-  VertScrollBar.Page = 497
-  VertScrollBar.Range = 19
-  Left = 109
-  Height = 518
-  Top = 207
-  Width = 792
+  Position = poDefault
   object Status: TStatusBar
+    Height = 23
+    Top = 230
+    Width = 320
     Panels = <    
       item
         Width = 200
@@ -36,23 +34,19 @@ object frmViewer: TfrmViewer
         Width = 50
       end>
     SimplePanel = False
-    Height = 23
-    Top = 475
-    Width = 792
   end
   object nbPages: TNotebook
+    Height = 230
+    Width = 320
     Align = alClient
     PageIndex = 0
     ShowTabs = False
-    Height = 475
-    Width = 792
     object pgText: TPage
       Caption = 'pgText'
-      ClientWidth = 784
-      ClientHeight = 467
-      Height = 467
-      Width = 784
       object ScrollBarVert: TScrollBar
+        Left = 297
+        Height = 222
+        Width = 15
         Align = alRight
         Anchors = [akTop, akRight]
         Kind = sbVertical
@@ -62,42 +56,34 @@ object frmViewer: TfrmViewer
         Position = 50
         TabOrder = 0
         OnScroll = ScrollBarVertScroll
-        Left = 769
-        Height = 467
-        Width = 15
       end
       object ViewerControl: TViewerControl
+        Cursor = crIBeam
+        Height = 222
+        Width = 297
         Font.Height = -14
         Font.Name = 'fixed'
         Font.Pitch = fpFixed
         Align = alClient
         OnMouseWheelDown = ViewerControlMouseWheelDown
         OnMouseWheelUp = ViewerControlMouseWheelUp
-        Cursor = crIBeam
-        Height = 467
-        Width = 769
       end
     end
     object pgImage: TPage
       Caption = 'pgImage'
-      ClientWidth = 784
-      ClientHeight = 467
-      Height = 467
-      Width = 784
       object ScrollBox: TScrollBox
+        Height = 468
+        Width = 788
+        HorzScrollBar.Page = 787
+        VertScrollBar.Page = 467
         Align = alClient
         ParentCtl3D = False
         TabOrder = 0
         TabStop = True
-        HorzScrollBar.Page = 787
-        VertScrollBar.Page = 467
-        Height = 468
-        Width = 788
         object Image: TImage
-          Align = alClient
-          Transparent = True
           Height = 468
           Width = 788
+          Align = alClient
         end
       end
     end

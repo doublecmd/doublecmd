@@ -182,8 +182,8 @@ begin
   begin
     Left:=gEditorPos.Left;
     Top:=gEditorPos.Top;
-    Width:=gEditorPos.Right;
-    Height:=gEditorPos.Bottom;
+    Width:=gEditorPos.Width;
+    Height:=gEditorPos.Height;
     try
       LoadAttrFromFile(gpIniDir+csDefaultName);
       if sFileName='' then
@@ -638,8 +638,8 @@ begin
   
   gEditorPos.Left:= Left;
   gEditorPos.Top:= Top;
-  gEditorPos.Right:= Width;
-  gEditorPos.Bottom:= Height;
+  gEditorPos.Width:= Width;
+  gEditorPos.Height:= Height;
 
 end;
 

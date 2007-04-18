@@ -240,11 +240,13 @@ end;
 {$IFDEF WIN32}
 (* Drive ready *)
 
+const drive_root: AnsiString = ':\';
+
 function DriveReady(const Drv: Char): Boolean;
 var
   NotUsed: DWORD;
 begin
-  Result := GetVolumeInformation(PChar(Drv + ':\'), nil, 0, nil,
+  Result := GetVolumeInformation(PChar(Drv + drive_root), nil, 0, nil,
     NotUsed, NotUsed, nil, 0);
 end;
 
@@ -257,7 +259,7 @@ function GetLabelDisk(const Drv: Char; const VolReal: Boolean): string;
     SFI: TSHFileInfo;
   begin
     FillChar(SFI, SizeOf(SFI), 0);
-    SHGetFileInfo(PChar(Drv + ':\'), 0, SFI, SizeOf(SFI), SHGFI_DISPLAYNAME);
+    SHGetFileInfo(PChar(Drv + drive_root), 0, SFI, SizeOf(SFI), SHGFI_DISPLAYNAME);
     Result := SFI.szDisplayName;
 
 
@@ -272,12 +274,12 @@ var
 begin
   Result := '';
   WinVer := LOBYTE(LOWORD(GetVersion));
-  DriveType := GetDriveType(PChar(Drv + ':\'));
+  DriveType := GetDriveType(PChar(Drv + drive_root));
 
   if (WinVer <= 4) and (DriveType <> DRIVE_REMOVABLE) or VolReal then
   begin // Win9x, Me, NT <= 4.0
     Buf[0] := #0;
-    GetVolumeInformation(PChar(Drv + ':\'), Buf, DWORD(SizeOf(Buf)), nil,
+    GetVolumeInformation(PChar(Drv + drive_root), Buf, DWORD(SizeOf(Buf)), nil,
       NotUsed, NotUsed, nil, 0);
     Result := Buf;
 
@@ -341,7 +343,7 @@ begin
   Drv := ExtractFileDrive(Path)[1];
 
   { Close CD/DVD }
-  if (GetDriveType(PChar(Drv + ':\')) = DRIVE_CDROM) and
+  if (GetDriveType(PChar(Drv + drive_root)) = DRIVE_CDROM) and
      (not DriveReady(Drv)) then
     begin
        DriveLabel:= GetLabelDisk(Drv, False);

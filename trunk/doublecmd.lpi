@@ -11,7 +11,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="Double Commander"/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ActiveEditorIndexAtStart Value="3"/>
     </General>
     <PublishOptions>
       <Version Value="2"/>
@@ -47,14 +47,16 @@
         <PackageName Value="JPEGForLazarus"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="12">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="doublecmd"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
+        <CursorPos X="25" Y="65"/>
+        <TopLine Value="59"/>
+        <EditorIndex Value="4"/>
         <UsageCount Value="200"/>
+        <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="fbtnchangedlg.pas"/>
@@ -84,10 +86,10 @@
         <HasResources Value="True"/>
         <ResourceFilename Value="fMain.lrs"/>
         <UnitName Value="fMain"/>
-        <CursorPos X="11" Y="1210"/>
-        <TopLine Value="1195"/>
-        <EditorIndex Value="0"/>
-        <UsageCount Value="92"/>
+        <CursorPos X="29" Y="893"/>
+        <TopLine Value="878"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="95"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
@@ -96,10 +98,202 @@
         <UnitName Value="uWCXprototypes"/>
         <CursorPos X="28" Y="8"/>
         <TopLine Value="1"/>
-        <UsageCount Value="157"/>
+        <UsageCount Value="162"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="uOSUtils.pas"/>
+        <UnitName Value="uOSUtils"/>
+        <CursorPos X="19" Y="263"/>
+        <TopLine Value="237"/>
+        <EditorIndex Value="0"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="uglobs.pas"/>
+        <UnitName Value="uGlobs"/>
+        <CursorPos X="24" Y="116"/>
+        <TopLine Value="45"/>
+        <EditorIndex Value="7"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\lazarus\lcl\actnlist.pas"/>
+        <UnitName Value="ActnList"/>
+        <CursorPos X="29" Y="206"/>
+        <TopLine Value="192"/>
+        <EditorIndex Value="5"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\lazarus\lcl\lcltype.pp"/>
+        <UnitName Value="LCLType"/>
+        <CursorPos X="3" Y="2417"/>
+        <TopLine Value="2403"/>
+        <EditorIndex Value="6"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="fviewer.pas"/>
+        <ComponentName Value="frmViewer"/>
+        <HasResources Value="True"/>
+        <ResourceFilename Value="fViewer.lrs"/>
+        <UnitName Value="fViewer"/>
+        <CursorPos X="16" Y="344"/>
+        <TopLine Value="328"/>
+        <EditorIndex Value="3"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="framepanel.pas"/>
+        <ComponentName Value="FrameFilePanel"/>
+        <HasResources Value="True"/>
+        <UnitName Value="framePanel"/>
+        <CursorPos X="36" Y="71"/>
+        <TopLine Value="59"/>
+        <EditorIndex Value="2"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="feditor.pas"/>
+        <ComponentName Value="frmEditor"/>
+        <HasResources Value="True"/>
+        <ResourceFilename Value="fEditor.lrs"/>
+        <UnitName Value="fEditor"/>
+        <CursorPos X="20" Y="642"/>
+        <TopLine Value="627"/>
+        <EditorIndex Value="8"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit11>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="uglobs.pas"/>
+        <Caret Line="266" Column="7" TopLine="247"/>
+      </Position1>
+      <Position2>
+        <Filename Value="fviewer.pas"/>
+        <Caret Line="132" Column="9" TopLine="128"/>
+      </Position2>
+      <Position3>
+        <Filename Value="fviewer.pas"/>
+        <Caret Line="133" Column="1" TopLine="127"/>
+      </Position3>
+      <Position4>
+        <Filename Value="fviewer.pas"/>
+        <Caret Line="72" Column="20" TopLine="66"/>
+      </Position4>
+      <Position5>
+        <Filename Value="doublecmd.lpr"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position5>
+      <Position6>
+        <Filename Value="doublecmd.lpr"/>
+        <Caret Line="67" Column="16" TopLine="41"/>
+      </Position6>
+      <Position7>
+        <Filename Value="doublecmd.lpr"/>
+        <Caret Line="1" Column="1" TopLine="25"/>
+      </Position7>
+      <Position8>
+        <Filename Value="fviewer.pas"/>
+        <Caret Line="129" Column="14" TopLine="118"/>
+      </Position8>
+      <Position9>
+        <Filename Value="uglobs.pas"/>
+        <Caret Line="104" Column="8" TopLine="84"/>
+      </Position9>
+      <Position10>
+        <Filename Value="uglobs.pas"/>
+        <Caret Line="105" Column="8" TopLine="90"/>
+      </Position10>
+      <Position11>
+        <Filename Value="uglobs.pas"/>
+        <Caret Line="152" Column="1" TopLine="125"/>
+      </Position11>
+      <Position12>
+        <Filename Value="uglobs.pas"/>
+        <Caret Line="196" Column="16" TopLine="180"/>
+      </Position12>
+      <Position13>
+        <Filename Value="uglobs.pas"/>
+        <Caret Line="266" Column="16" TopLine="246"/>
+      </Position13>
+      <Position14>
+        <Filename Value="uglobs.pas"/>
+        <Caret Line="76" Column="24" TopLine="62"/>
+      </Position14>
+      <Position15>
+        <Filename Value="feditor.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position15>
+      <Position16>
+        <Filename Value="feditor.pas"/>
+        <Caret Line="186" Column="30" TopLine="171"/>
+      </Position16>
+      <Position17>
+        <Filename Value="fviewer.pas"/>
+        <Caret Line="129" Column="14" TopLine="118"/>
+      </Position17>
+      <Position18>
+        <Filename Value="fviewer.pas"/>
+        <Caret Line="132" Column="30" TopLine="117"/>
+      </Position18>
+      <Position19>
+        <Filename Value="fviewer.pas"/>
+        <Caret Line="260" Column="23" TopLine="246"/>
+      </Position19>
+      <Position20>
+        <Filename Value="fviewer.pas"/>
+        <Caret Line="263" Column="16" TopLine="249"/>
+      </Position20>
+      <Position21>
+        <Filename Value="fviewer.pas"/>
+        <Caret Line="137" Column="14" TopLine="124"/>
+      </Position21>
+      <Position22>
+        <Filename Value="fviewer.pas"/>
+        <Caret Line="113" Column="21" TopLine="141"/>
+      </Position22>
+      <Position23>
+        <Filename Value="fviewer.pas"/>
+        <Caret Line="254" Column="36" TopLine="254"/>
+      </Position23>
+      <Position24>
+        <Filename Value="fviewer.pas"/>
+        <Caret Line="330" Column="1" TopLine="326"/>
+      </Position24>
+      <Position25>
+        <Filename Value="fviewer.pas"/>
+        <Caret Line="258" Column="12" TopLine="254"/>
+      </Position25>
+      <Position26>
+        <Filename Value="fviewer.pas"/>
+        <Caret Line="331" Column="17" TopLine="328"/>
+      </Position26>
+      <Position27>
+        <Filename Value="fviewer.pas"/>
+        <Caret Line="265" Column="9" TopLine="239"/>
+      </Position27>
+      <Position28>
+        <Filename Value="uglobs.pas"/>
+        <Caret Line="91" Column="14" TopLine="65"/>
+      </Position28>
+      <Position29>
+        <Filename Value="fviewer.pas"/>
+        <Caret Line="265" Column="9" TopLine="239"/>
+      </Position29>
+      <Position30>
+        <Filename Value="fviewer.pas"/>
+        <Caret Line="262" Column="20" TopLine="251"/>
+      </Position30>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
