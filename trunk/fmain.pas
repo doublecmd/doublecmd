@@ -511,8 +511,8 @@ begin
   gIni.WriteString('right', 'path', FrameRight.pnlFile.ActiveDir);
   (* /Save Paths *)
   
-  gIni.WriteInteger('Configuration', 'Main.Left', Left+cLeftBorder);// border!!
-  gIni.WriteInteger('Configuration', 'Main.Top', Top+cTopBorder); // border!!
+  gIni.WriteInteger('Configuration', 'Main.Left', Left);
+  gIni.WriteInteger('Configuration', 'Main.Top', Top);
   gIni.WriteInteger('Configuration', 'Main.Width', Width);
   gIni.WriteInteger('Configuration', 'Main.Height', Height);
 end;
