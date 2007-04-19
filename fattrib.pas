@@ -204,6 +204,6 @@ begin
 end;
 
 initialization
- {$I fAttrib.lrs}
+ {$I fattrib.lrs}
 
 end.

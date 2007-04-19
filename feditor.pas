@@ -683,6 +683,6 @@ end;
 
 
 initialization
- {$I fEditor.lrs}
+ {$I feditor.lrs}
 
 end.

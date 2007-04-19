@@ -1,80 +1,70 @@
-object frmCompareFiles: TfrmCompareFiles
-  ActiveControl = edtFileNameLeft
-  Caption = 'Compare files'
-  ClientHeight = 540
-  ClientWidth = 783
-  PixelsPerInch = 96
-  Position = poScreenCenter
-  TextHeight = 15
+inherited frmCompareFiles: TfrmCompareFiles
+  Left = 235
+  Height = 540
+  Top = 94
+  Width = 783
   HorzScrollBar.Page = 782
   HorzScrollBar.Range = 365
   VertScrollBar.Page = 539
   VertScrollBar.Range = 52
-  Left = 61
-  Height = 540
-  Top = 550
-  Width = 783
+  ActiveControl = edtFileNameLeft
+  Caption = 'Compare files'
+  Position = poScreenCenter
   object Splitter1: TSplitter
-    Height = 476
-    Width = 5
-    Cursor = crHSplit
     Left = 361
     Height = 476
     Top = 41
     Width = 5
   end
   object Panel1: TPanel
-    Align = alLeft
-    BevelOuter = bvNone
-    ClientHeight = 476
-    ClientWidth = 361
-    FullRepaint = False
-    TabOrder = 0
     Height = 476
     Top = 41
     Width = 361
+    Align = alLeft
+    BevelOuter = bvNone
+    FullRepaint = False
+    TabOrder = 0
     object pnlLeftBox: TPanel
+      Height = 25
+      Width = 361
       Align = alTop
       BevelOuter = bvNone
-      ClientHeight = 25
-      ClientWidth = 361
       FullRepaint = False
       TabOrder = 0
       OnResize = pnlLeftBoxResize
-      Height = 25
-      Width = 361
       object edtFileNameLeft: TEdit
-        TabOrder = 0
-        Text = 'pp'
         Height = 20
         Width = 307
+        TabOrder = 0
+        Text = 'pp'
       end
       object btnFileNameLeft: TButton
-        BorderSpacing.InnerBorder = 2
-        Caption = '...'
-        TabOrder = 1
         Left = 323
         Height = 20
         Width = 20
+        Caption = '...'
+        TabOrder = 1
       end
     end
     object lstLeft: TSynEdit
+      Height = 451
+      Top = 25
+      Width = 361
       Align = alClient
       Font.Color = clBlack
       Font.Height = 13
       Font.Name = 'adobe-courier'
       Font.Pitch = fpVariable
-      Height = 451
-      Name = 'lstLeft'
       ParentColor = False
       ParentCtl3D = False
       TabOrder = 1
-      Width = 361
       BookMarkOptions.Xoffset = -18
+      BookMarkOptions.OnChange = nil
       Gutter.DigitCount = 2
       Gutter.LeftOffset = 0
       Gutter.Visible = False
       Gutter.Width = 15
+      Gutter.OnChange = nil
       Gutter.CodeFoldingWidth = 14
       Keystrokes = <      
         item
@@ -398,65 +388,59 @@ object frmCompareFiles: TfrmCompareFiles
           ShortCut = 24642
         end>
       ReadOnly = True
+      SelectedColor.OnChange = nil
       OnSpecialLineColors = lstLeftSpecialLineColors
       OnStatusChange = lstLeftStatusChange
-      Cursor = crIBeam
-      Height = 451
-      Top = 25
-      Width = 361
     end
   end
   object Panel2: TPanel
-    Align = alClient
-    BevelOuter = bvNone
-    ClientHeight = 476
-    ClientWidth = 417
-    FullRepaint = False
-    TabOrder = 1
     Left = 366
     Height = 476
     Top = 41
     Width = 417
+    Align = alClient
+    BevelOuter = bvNone
+    FullRepaint = False
+    TabOrder = 1
     object pnlRightBox: TPanel
+      Height = 25
+      Width = 417
       Align = alTop
       BevelOuter = bvNone
-      ClientHeight = 25
-      ClientWidth = 417
       FullRepaint = False
       TabOrder = 0
       OnResize = pnlRightBoxResize
-      Height = 25
-      Width = 417
       object edtFileNameRight: TEdit
-        TabOrder = 0
-        Text = 'ppp'
         Left = 10
         Height = 20
         Width = 344
+        TabOrder = 0
+        Text = 'ppp'
       end
       object btnFileNameRight: TButton
-        BorderSpacing.InnerBorder = 2
-        Caption = '...'
-        TabOrder = 1
         Left = 370
         Height = 20
         Width = 20
+        Caption = '...'
+        TabOrder = 1
       end
     end
     object lstRight: TSynEdit
+      Height = 451
+      Top = 25
+      Width = 417
       Align = alClient
       Font.Color = clBlack
       Font.Height = 13
       Font.Name = 'adobe-courier'
       Font.Pitch = fpVariable
-      Height = 451
-      Name = 'lstRight'
       ParentColor = False
       ParentCtl3D = False
       TabOrder = 1
-      Width = 417
       BookMarkOptions.Xoffset = -18
+      BookMarkOptions.OnChange = nil
       Gutter.Visible = False
+      Gutter.OnChange = nil
       Gutter.CodeFoldingWidth = 14
       Keystrokes = <      
         item
@@ -780,88 +764,79 @@ object frmCompareFiles: TfrmCompareFiles
           ShortCut = 24642
         end>
       ReadOnly = True
+      SelectedColor.OnChange = nil
       OnSpecialLineColors = lstRightSpecialLineColors
       OnStatusChange = lstRightStatusChange
-      Cursor = crIBeam
-      Height = 451
-      Top = 25
-      Width = 417
     end
   end
   object pnlStatusBar: TStatusBar
+    Height = 23
+    Top = 517
+    Width = 783
     Panels = <    
       item
         Text = 'Number of changes: '
         Width = 50
       end>
-    Height = 23
-    Top = 517
-    Width = 783
   end
   object pnlButtons: TPanel
-    Align = alTop
-    BevelOuter = bvNone
-    ClientHeight = 41
-    ClientWidth = 783
-    FullRepaint = False
-    TabOrder = 2
     Height = 41
     Width = 783
+    Align = alTop
+    BevelOuter = bvNone
+    FullRepaint = False
+    TabOrder = 2
     object btnCompare: TButton
-      BorderSpacing.InnerBorder = 2
-      Caption = 'Compare files'
-      OnClick = btnCompareClick
-      TabOrder = 0
       Left = 5
       Height = 23
       Top = 8
       Width = 96
+      Caption = 'Compare files'
+      OnClick = btnCompareClick
+      TabOrder = 0
     end
     object btnNextDiff: TButton
-      BorderSpacing.InnerBorder = 2
-      Caption = 'Next difference'
-      TabOrder = 1
       Left = 120
       Height = 23
       Top = 8
       Width = 122
+      Caption = 'Next difference'
+      TabOrder = 1
     end
     object btnPrevDiff: TButton
-      BorderSpacing.InnerBorder = 2
-      Caption = 'Previous difference'
-      TabOrder = 2
       Left = 256
       Height = 23
       Top = 8
       Width = 147
+      Caption = 'Previous difference'
+      TabOrder = 2
     end
     object chbBinMode: TCheckBox
-      AllowGrayed = True
-      Caption = 'Binary mode'
-      TabOrder = 3
       Left = 424
       Height = 13
       Top = 8
       Width = 78
+      AllowGrayed = True
+      Caption = 'Binary mode'
+      TabOrder = 3
     end
     object btnClose: TButton
-      BorderSpacing.InnerBorder = 2
-      Caption = 'Close'
-      OnClick = btnCloseClick
-      TabOrder = 4
       Left = 648
       Height = 23
       Top = 8
       Width = 50
+      Caption = 'Close'
+      OnClick = btnCloseClick
+      TabOrder = 4
     end
     object chbKeepScrolling: TCheckBox
-      AllowGrayed = True
-      Caption = 'Keep scrolling'
-      TabOrder = 5
       Left = 528
       Height = 13
       Top = 8
       Width = 86
+      AllowGrayed = True
+      Caption = 'Keep scrolling'
+      TabOrder = 5
     end
   end
 end

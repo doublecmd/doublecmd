@@ -268,7 +268,7 @@ begin
 end;
 
 initialization
- {$I fFileProperties.lrs}
+ {$I ffileproperties.lrs}
 
 end.
 

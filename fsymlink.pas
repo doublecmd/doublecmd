@@ -80,6 +80,6 @@ begin
 end;
 
 initialization
- {$I fSymLink.lrs}
+ {$I fsymlink.lrs}
 
 end.

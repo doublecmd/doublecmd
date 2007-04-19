@@ -57,5 +57,5 @@ begin
 end;
 
 initialization
- {$I fMoveDlg.lrs}
+ {$I fmovedlg.lrs}
 end.

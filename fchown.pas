@@ -179,6 +179,6 @@ begin
 end;
 
 initialization
- {$I fChown.lrs}
+ {$I fchown.lrs}
 end.
 {/mate}

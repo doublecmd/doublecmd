@@ -480,6 +480,6 @@ begin
 end;
 
 initialization
- {$I fMultiRename.lrs}
+ {$I fmultirename.lrs}
 end.
 

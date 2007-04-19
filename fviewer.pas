@@ -579,5 +579,5 @@ begin
 end;
 
 initialization
- {$I fViewer.lrs}
+ {$I fviewer.lrs}
 end.

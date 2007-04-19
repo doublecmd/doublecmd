@@ -23,7 +23,7 @@ var
 implementation
 
 initialization
-  {$I dmDialogs.lrs}
+  {$I dmdialogs.lrs}
 
 end.
 

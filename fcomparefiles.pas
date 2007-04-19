@@ -171,6 +171,6 @@ begin
 end;
 
 initialization
- {$I fCompareFiles.lrs}
+ {$I fcomparefiles.lrs}
 end.
 

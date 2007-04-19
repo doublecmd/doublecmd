@@ -365,6 +365,6 @@ end;
 
 
 initialization
- {$I fOptions.lrs}
+ {$I foptions.lrs}
 
 end.

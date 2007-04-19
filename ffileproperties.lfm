@@ -1,278 +1,333 @@
-object frmFileProperties: TfrmFileProperties
-  ActiveControl = btnClose
-  Caption = 'frmFileProperties'
-  ClientHeight = 383
-  ClientWidth = 434
-  Color = clBackground
-  OnCreate = FormCreate
-  TextHeight = 16
-  HorzScrollBar.Page = 435
-  HorzScrollBar.Range = 425
-  VertScrollBar.Page = 384
-  VertScrollBar.Range = 401
+inherited frmFileProperties: TfrmFileProperties
   Left = 599
   Height = 383
   Top = 219
   Width = 434
+  HorzScrollBar.Page = 416
+  HorzScrollBar.Range = 425
+  VertScrollBar.Page = 365
+  VertScrollBar.Range = 401
+  ActiveControl = btnClose
+  Caption = 'frmFileProperties'
+  Color = clBackground
   object lblFileName: TLabel
-    Caption = '???'
-    ShowAccelChar = False
     Left = 200
-    Height = 15
+    Height = 14
     Top = 8
-    Width = 224
-  end
-  object btnClose: TButton
-    Default = True
-    Cancel = True
-    Caption = 'Close'
-    TabOrder = 1
-    OnClick = btnCloseClick
-    Left = 349
-    Height = 25
-    Top = 352
-    Width = 75
-  end
-  object btnNext: TButton
-    Caption = 'Next'
-    TabOrder = 2
-    OnClick = btnNextClick
-    Left = 264
-    Height = 25
-    Top = 352
-    Width = 75
+    Width = 16
+    Caption = '???'
+    Color = clNone
+    ParentColor = False
+    ShowAccelChar = False
   end
   object lblFileNameStr: TLabel
+    Left = 16
+    Height = 11
+    Top = 8
+    Width = 23
     Caption = 'Name:'
+    Color = clNone
     Font.Color = clBlack
     Font.Height = 11
     Font.Name = 'Helvetica'
     Font.Pitch = fpVariable
-    Left = 16
-    Height = 15
-    Top = 8
-    Width = 160
+    ParentColor = False
   end
   object lblSizeStr: TLabel
-    Caption = 'Size:'
     Left = 16
-    Height = 15
+    Height = 14
     Top = 80
-    Width = 160
+    Width = 24
+    Caption = 'Size:'
+    Color = clNone
+    ParentColor = False
   end
   object lblFolderStr: TLabel
-    Caption = 'Path:'
     Left = 16
-    Height = 15
+    Height = 14
     Top = 32
-    Width = 160
+    Width = 27
+    Caption = 'Path:'
+    Color = clNone
+    ParentColor = False
+  end
+  object lblLastAccessStr: TLabel
+    Left = 16
+    Height = 14
+    Top = 112
+    Width = 60
+    Caption = 'Last access:'
+    Color = clNone
+    ParentColor = False
+  end
+  object lblSymlinkStr: TLabel
+    Left = 16
+    Height = 14
+    Top = 64
+    Width = 40
+    Caption = 'Symlink:'
+    Color = clNone
+    ParentColor = False
+  end
+  object lblOwnerStr: TLabel
+    Left = 16
+    Height = 14
+    Top = 176
+    Width = 37
+    Caption = 'Owner:'
+    Color = clNone
+    ParentColor = False
+  end
+  object lblGroupStr: TLabel
+    Left = 16
+    Height = 14
+    Top = 192
+    Width = 34
+    Caption = 'Group:'
+    Color = clNone
+    ParentColor = False
+  end
+  object lblFolder: TLabel
+    Left = 200
+    Height = 14
+    Top = 32
+    Width = 16
+    Caption = '???'
+    Color = clNone
+    ParentColor = False
+    ShowAccelChar = False
+  end
+  object lblSize: TLabel
+    Left = 200
+    Height = 14
+    Top = 80
+    Width = 16
+    Caption = '???'
+    Color = clNone
+    ParentColor = False
+    ShowAccelChar = False
+  end
+  object lblLastAccess: TLabel
+    Left = 200
+    Height = 14
+    Top = 112
+    Width = 16
+    Caption = '???'
+    Color = clNone
+    ParentColor = False
+    ShowAccelChar = False
+  end
+  object lblOwner: TLabel
+    Left = 200
+    Height = 14
+    Top = 176
+    Width = 16
+    Caption = '???'
+    Color = clNone
+    ParentColor = False
+    ShowAccelChar = False
+  end
+  object lblGroup: TLabel
+    Left = 200
+    Height = 14
+    Top = 192
+    Width = 16
+    Caption = '???'
+    Color = clNone
+    ParentColor = False
+    ShowAccelChar = False
+  end
+  object lblSymlink: TLabel
+    Left = 200
+    Height = 14
+    Top = 64
+    Width = 16
+    Caption = '???'
+    Color = clNone
+    ParentColor = False
+    ShowAccelChar = False
+  end
+  object lblTypeStr: TLabel
+    Left = 16
+    Height = 14
+    Top = 48
+    Width = 29
+    Caption = 'Type:'
+    Color = clNone
+    ParentColor = False
+  end
+  object lblType: TLabel
+    Left = 200
+    Height = 14
+    Top = 48
+    Width = 16
+    Caption = '???'
+    Color = clNone
+    ParentColor = False
+    ShowAccelChar = False
+  end
+  object lblLastModifStr: TLabel
+    Left = 16
+    Height = 14
+    Top = 128
+    Width = 85
+    Caption = 'Last modification:'
+    Color = clNone
+    ParentColor = False
+  end
+  object lblLastStChangeStr: TLabel
+    Left = 16
+    Height = 14
+    Top = 144
+    Width = 96
+    Caption = 'Last status change:'
+    Color = clNone
+    ParentColor = False
+  end
+  object lblLastModif: TLabel
+    Left = 200
+    Height = 14
+    Top = 128
+    Width = 16
+    Caption = '???'
+    Color = clNone
+    ParentColor = False
+    ShowAccelChar = False
+  end
+  object lblLastStChange: TLabel
+    Left = 200
+    Height = 14
+    Top = 144
+    Width = 16
+    Caption = '???'
+    Color = clNone
+    ParentColor = False
+    ShowAccelChar = False
+  end
+  object btnClose: TButton
+    Left = 349
+    Height = 25
+    Top = 352
+    Width = 75
+    BorderSpacing.InnerBorder = 4
+    Cancel = True
+    Caption = 'Close'
+    Default = True
+    OnClick = btnCloseClick
+    TabOrder = 0
+  end
+  object btnNext: TButton
+    Left = 264
+    Height = 25
+    Top = 352
+    Width = 75
+    BorderSpacing.InnerBorder = 4
+    Caption = 'Next'
+    OnClick = btnNextClick
+    TabOrder = 2
   end
   object lblAttributesStr: TGroupBox
-    Caption = 'Attributes'
-    ClientHeight = 112
-    ClientWidth = 405
-    ParentColor = True
-    ParentCtl3D = False
-    TabOrder = 6
     Left = 16
     Height = 129
     Top = 216
     Width = 409
+    Caption = 'Attributes'
+    ParentCtl3D = False
+    TabOrder = 1
     object lblAttrOwnerStr: TLabel
-      Caption = 'Owner'
       Left = 6
-      Height = 15
+      Height = 14
       Top = 24
-      Width = 160
+      Width = 33
+      Caption = 'Owner'
+      Color = clNone
+      ParentColor = False
     end
     object lblAttrGroupStr: TLabel
-      Caption = 'Group'
       Left = 6
-      Height = 15
+      Height = 14
       Top = 40
-      Width = 160
+      Width = 30
+      Caption = 'Group'
+      Color = clNone
+      ParentColor = False
     end
     object lblAttrOtherStr: TLabel
-      Caption = 'Other'
       Left = 6
-      Height = 15
+      Height = 14
       Top = 56
-      Width = 160
+      Width = 29
+      Caption = 'Other'
+      Color = clNone
+      ParentColor = False
     end
     object lblAttrTextStr: TLabel
-      Caption = 'Alternative representation:'
       Left = 6
-      Height = 15
+      Height = 14
       Top = 96
-      Width = 160
+      Width = 132
+      Caption = 'Alternative representation:'
+      Color = clNone
+      ParentColor = False
     end
     object lblAttrBitsStr: TLabel
-      Caption = 'Bits:'
       Left = 6
-      Height = 15
+      Height = 14
       Top = 72
-      Width = 160
+      Width = 22
+      Caption = 'Bits:'
+      Color = clNone
+      ParentColor = False
     end
     object lblAttrOwner: TLabel
-      Caption = '???'
-      ShowAccelChar = False
       Left = 182
-      Height = 15
+      Height = 14
       Top = 25
-      Width = 208
+      Width = 16
+      Caption = '???'
+      Color = clNone
+      ParentColor = False
+      ShowAccelChar = False
     end
     object lblAttrGroup: TLabel
-      Caption = '???'
-      ShowAccelChar = False
       Left = 182
-      Height = 15
+      Height = 14
       Top = 41
-      Width = 208
+      Width = 16
+      Caption = '???'
+      Color = clNone
+      ParentColor = False
+      ShowAccelChar = False
     end
     object lblAttrOther: TLabel
-      Caption = '???'
-      ShowAccelChar = False
       Left = 182
-      Height = 15
+      Height = 14
       Top = 57
-      Width = 208
+      Width = 16
+      Caption = '???'
+      Color = clNone
+      ParentColor = False
+      ShowAccelChar = False
     end
     object lblAttrBits: TLabel
-      Caption = '???'
-      ShowAccelChar = False
       Left = 182
-      Height = 15
+      Height = 14
       Top = 73
-      Width = 208
+      Width = 16
+      Caption = '???'
+      Color = clNone
+      ParentColor = False
+      ShowAccelChar = False
     end
     object lblAttrText: TLabel
-      Caption = '???'
-      ShowAccelChar = False
       Left = 182
-      Height = 15
+      Height = 14
       Top = 97
-      Width = 208
+      Width = 16
+      Caption = '???'
+      Color = clNone
+      ParentColor = False
+      ShowAccelChar = False
     end
-  end
-  object lblLastAccessStr: TLabel
-    Caption = 'Last access:'
-    Left = 16
-    Height = 15
-    Top = 112
-    Width = 160
-  end
-  object lblSymlinkStr: TLabel
-    Caption = 'Symlink:'
-    Left = 16
-    Height = 15
-    Top = 64
-    Width = 160
-  end
-  object lblOwnerStr: TLabel
-    Caption = 'Owner:'
-    Left = 16
-    Height = 15
-    Top = 176
-    Width = 160
-  end
-  object lblGroupStr: TLabel
-    Caption = 'Group:'
-    Left = 16
-    Height = 15
-    Top = 192
-    Width = 160
-  end
-  object lblFolder: TLabel
-    Caption = '???'
-    ShowAccelChar = False
-    Left = 200
-    Height = 15
-    Top = 32
-    Width = 224
-  end
-  object lblSize: TLabel
-    Caption = '???'
-    ShowAccelChar = False
-    Left = 200
-    Height = 15
-    Top = 80
-    Width = 224
-  end
-  object lblLastAccess: TLabel
-    Caption = '???'
-    ShowAccelChar = False
-    Left = 200
-    Height = 15
-    Top = 112
-    Width = 224
-  end
-  object lblOwner: TLabel
-    Caption = '???'
-    ShowAccelChar = False
-    Left = 200
-    Height = 15
-    Top = 176
-    Width = 272
-  end
-  object lblGroup: TLabel
-    Caption = '???'
-    ShowAccelChar = False
-    Left = 200
-    Height = 15
-    Top = 192
-    Width = 224
-  end
-  object lblSymlink: TLabel
-    Caption = '???'
-    ShowAccelChar = False
-    Left = 200
-    Height = 15
-    Top = 64
-    Width = 224
-  end
-  object lblTypeStr: TLabel
-    Caption = 'Type:'
-    Left = 16
-    Height = 15
-    Top = 48
-    Width = 160
-  end
-  object lblType: TLabel
-    Caption = '???'
-    ShowAccelChar = False
-    Left = 200
-    Height = 15
-    Top = 48
-    Width = 224
-  end
-  object lblLastModifStr: TLabel
-    Caption = 'Last modification:'
-    Left = 16
-    Height = 15
-    Top = 128
-    Width = 160
-  end
-  object lblLastStChangeStr: TLabel
-    Caption = 'Last status change:'
-    Left = 16
-    Height = 15
-    Top = 144
-    Width = 160
-  end
-  object lblLastModif: TLabel
-    Caption = '???'
-    ShowAccelChar = False
-    Left = 200
-    Height = 15
-    Top = 128
-    Width = 224
-  end
-  object lblLastStChange: TLabel
-    Caption = '???'
-    ShowAccelChar = False
-    Left = 200
-    Height = 15
-    Top = 144
-    Width = 272
   end
 end

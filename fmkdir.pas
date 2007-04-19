@@ -60,6 +60,6 @@ begin
 end;
 
 initialization
- {$I fMkDir.lrs}
+ {$I fmkdir.lrs}
 
 end.

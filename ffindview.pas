@@ -86,6 +86,6 @@ end;
 
 
 initialization
- {$I fFindView.lrs}
+ {$I ffindview.lrs}
 
 end.
