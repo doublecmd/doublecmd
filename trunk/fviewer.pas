@@ -94,12 +94,13 @@ type
       var ScrollPos: Integer);
   private
     { Private declarations }
-    sList:TStringList;
+    FileList: TStringList;
     iActiveFile:Integer;
     bImage:Boolean;
     FFindDialog:TfrmFindView;
     procedure UpDateScrollBar;
     Function CheckGraphics(const sFileName:String):Boolean;
+    procedure AdjustViewerSize(ReqWidth, ReqHeight: Integer);
     procedure LoadGraphics(const sFileName:String);
     procedure DoSearch;
   public
@@ -118,38 +119,14 @@ uses
   uLng, uShowMsg, uGlobs, lcltype, lazjpeg{$IFNDEF WIN32}, uFindMmap{$ENDIF} ;
 
 procedure ShowViewer(sl:TStringList);
-var
-  x:Integer;
+var viewer: TfrmViewer;
 begin
-//  writeln('ShowViewer - Using Internal');
-
-  With TfrmViewer.Create(Application) do
-  begin
-//    writeln('ShowViewer - Using Internal - created');
-    Left:=gViewerPos.Left;
-    Top:=gViewerPos.Top;
-    Width:=gViewerPos.Width;
-    Height:=gViewerPos.Height;
-
-    try
-      sList:=TStringList.Create;
-//      writeln('ShowViewer - Using Internal - before assign');
-      for x:=0 to sl.Count-1 do
-      begin
-        writeln('Viewing:',sl.Strings[x]);
-        sList.Add(sl.Strings[x]);
-      end;
-//      writeln('ShowViewer - Using Internal - after assign');
-      
-
-      ViewerControl.ViewerMode:=vmText;
-//      miProcess.Checked:=False;
-      LoadFile(0);
-      Show;//Modal;
-    finally
-//      Free;
-    end;
-  end;
+  //writeln('ShowViewer - Using Internal');
+  viewer := TfrmViewer.Create(Application);
+  gViewerPos.Restore(viewer);
+  viewer.FileList.Assign(sl);
+  viewer.LoadFile(0);
+  viewer.Show;
 end;
 
 procedure TfrmViewer.LoadLng;
@@ -186,14 +163,14 @@ procedure TfrmViewer.LoadFile(iIndex:Integer);
 begin
 //  writeln('Viewer: LoadFile:',iIndex);
   iActiveFile:=iIndex;
-  Caption:=sList.Strings[iIndex];
+  Caption:=FileList.Strings[iIndex];
   Screen.Cursor:=crHourGlass;
   try
 //    writeln('View: BeforeCheckGraphics:',iIndex);
-    if CheckGraphics(sList.Strings[iIndex]) then
+    if CheckGraphics(FileList.Strings[iIndex]) then
     begin
 //      writeln('View: LoadGraphics:',iIndex);
-      LoadGraphics(sList.Strings[iIndex]);
+      LoadGraphics(FileList.Strings[iIndex]);
     end
     else
     begin
@@ -205,17 +182,15 @@ begin
       nbPages.ActivePageComponent:=pgText;
       ViewerControl.UnMapFile; // if any mapped
 //      miProcess.Click;
-      ViewerControl.MapFile(sList.Strings[iIndex]);     //handled by miProcess.Click
+      ViewerControl.MapFile(FileList.Strings[iIndex]);     //handled by miProcess.Click
       UpDateScrollBar;
     end;
-    Status.Panels[0].Text:=sList.Strings[iIndex];
-    Status.Panels[1].Text:=Format('%d/%d',[iIndex+1,slist.Count]);
+    Status.Panels[0].Text:=FileList.Strings[iIndex];
+    Status.Panels[1].Text:=Format('%d/%d',[iIndex+1,FileList.Count]);
   finally
     Screen.Cursor:=crDefault;
   end;
 end;
-
-
 
 procedure TfrmViewer.FormKeyPress(Sender: TObject; var Key: Char);
 begin
@@ -257,12 +232,7 @@ begin
   // TODO: may be better automtic save
   // (see also TfrmViewer.miSavePosClick)
   CloseAction:=caFree;
-  gViewerPos.Left := Left;
-  gViewerPos.Top := Top;
-  gViewerPos.Width := Width;
-  gViewerPos.Height := Height;
-  write('Save to gViewerPos = ');
-  dbgShowWindowPos(gViewerPos);
+  if not bImage then gViewerPos.Save(Self);
 end;
 
 procedure TfrmViewer.frmViewerKeyDown(Sender: TObject; var Key: Word;
@@ -310,7 +280,7 @@ end;
 procedure TfrmViewer.miNextClick(Sender: TObject);
 begin
   inherited;
-  if iActiveFile+1>=sList.Count then
+  if iActiveFile+1>=FileList.Count then
     LoadFile(0)
   else
     LoadFile(iActiveFile+1);
@@ -322,17 +292,13 @@ begin
   if iActiveFile>0 then
     LoadFile(iActiveFile-1)
   else
-    LoadFile(sList.Count-1);
+    LoadFile(FileList.Count-1);
 end;
 
 procedure TfrmViewer.miSavePosClick(Sender: TObject);
 begin
   // TODO: It really need? may be better automtic save
-  // (see also TfrmViewer.frmViewerClose)
-  gViewerPos.Left:=Left;
-  gViewerPos.Top:=Top;
-  gViewerPos.Width:=Width;
-  gViewerPos.Height:=Height;
+  gViewerPos.Save(Self);
   msgOK(lngGetString(clngPositionSaved));
 end;
 
@@ -341,7 +307,6 @@ begin
   miStretch.Checked:=not miStretch.Checked;
   Image.Stretch:=miStretch.Checked;
 end;
-
 
 procedure TfrmViewer.miTextClick(Sender: TObject);
 begin
@@ -383,6 +348,8 @@ procedure TfrmViewer.FormCreate(Sender: TObject);
 begin
 //  writeln('TfrmViewer.FormCreate');
   inherited;
+  FileList := TStringList.Create;
+
   FFindDialog:=nil; // dialog is created in first use
 {  Status.Panels[0].Width:=50;
   Status.Panels[1].Width:=50;}
@@ -392,6 +359,7 @@ end;
 
 procedure TfrmViewer.FormDestroy(Sender: TObject);
 begin
+  FileList.Free;
   if assigned(FFindDialog) then
      FreeAndNil(FFindDialog);
   inherited;
@@ -408,12 +376,12 @@ begin
   if not miProcess.Checked then
   begin
 //    if ViewerControl.DataAccess=dtNothing then
-    ViewerControl.MapFile(sList.Strings[iActiveFile]);
+    ViewerControl.MapFile(FileList.Strings[iActiveFile]);
     miProcess.Checked:=not miProcess.Checked;
   end
   else
   begin
-    sCurrName:=sList.Strings[iActiveFile];
+    sCurrName:=FileList.Strings[iActiveFile];
     sViewCmd:=gExts.GetCommandText(lowercase(ExtractFileExt(sCurrName)),'view');
     if (sViewCmd='') then Exit;
     sViewCmd:=Copy(sViewCmd, pos('=',sViewCmd)+1, length(sViewCmd));
@@ -438,7 +406,7 @@ begin
   if bImage then
   begin
     bImage:=False;
-    ViewerControl.MapFile(sList.Strings[iActiveFile]);
+    ViewerControl.MapFile(FileList.Strings[iActiveFile]);
     miImage.Visible:=False;
     miEdit.Visible:=True;
     bImage:=False;
@@ -464,8 +432,8 @@ end;
 procedure TfrmViewer.miGraphicsClick(Sender: TObject);
 begin
   inherited;
-  if CheckGraphics(sList.Strings[iActiveFile]) then
-    LoadGraphics(sList.Strings[iActiveFile]);
+  if CheckGraphics(FileList.Strings[iActiveFile]) then
+    LoadGraphics(FileList.Strings[iActiveFile]);
 end;
 
 Function TfrmViewer.CheckGraphics(const sFileName:String):Boolean;
@@ -479,19 +447,24 @@ begin
        (sExt='.ddw') or (sExt='.tga');
 end;
 
+// Adjust Viewer size (width and height) to view image
+// with dimensions ReqWidth/ReqHeight
+procedure TfrmViewer.AdjustViewerSize(ReqWidth, ReqHeight: Integer);
+var
+  dx, dy: Integer;
+begin
+  dx := Width - ViewerControl.Width;
+  dy := Height - ViewerControl.Height;
+  Width := ReqWidth + dx;
+  Height := ReqHeight + dy;
+end;
+
 procedure TfrmViewer.LoadGraphics(const sFileName:String);
 begin
 //  writeln('TfrmViewer.Load graphics');
   Image.Stretch:=miStretch.Checked;
   Image.Picture.LoadFromFile(sFileName);
-  if Image.Picture.Width<350 then
-    Width:=350
-  else
-    Width:=Image.Picture.Width+10;
-  if Image.Picture.Height<100 then
-     Height:=100
-  else
-     Height:=Image.Picture.Height+Status.Height+10; // bulgarian constant
+  with Image.Picture do AdjustViewerSize(Width, Height);
   nbPages.ActivePageComponent:=pgImage;
   miImage.Visible:=True;
   miEdit.Visible:=False;
