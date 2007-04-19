@@ -1,10 +1,10 @@
 inherited frmEditor: TfrmEditor
-  Left = 436
-  Height = 488
-  Top = 292
-  Width = 733
-  HorzScrollBar.Page = 732
-  VertScrollBar.Page = 467
+  Left = 372
+  Height = 220
+  Top = 253
+  Width = 342
+  HorzScrollBar.Page = 341
+  VertScrollBar.Page = 199
   VertScrollBar.Range = 19
   ActiveControl = Editor
   Caption = 'frmEditor'
@@ -16,8 +16,8 @@ inherited frmEditor: TfrmEditor
   Position = poScreenCenter
   object StatusBar: TStatusBar
     Height = 23
-    Top = 445
-    Width = 733
+    Top = 177
+    Width = 342
     Panels = <    
       item
         Width = 50
@@ -34,8 +34,8 @@ inherited frmEditor: TfrmEditor
     SimplePanel = False
   end
   object Editor: TSynEdit
-    Height = 445
-    Width = 733
+    Height = 177
+    Width = 342
     Align = alClient
     Anchors = [akTop]
     Font.Color = clBlack
@@ -460,8 +460,8 @@ inherited frmEditor: TfrmEditor
     end
   end
   object ActListEdit: TActionList
-    left = 128
-    top = 232
+    left = 96
+    top = 8
     object actAbout: TAction
       Category = 'Help'
       Caption = 'About'

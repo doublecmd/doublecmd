@@ -16,22 +16,19 @@ unit uGlobs;
 
 interface
 uses
-  Classes, uExts, uColorExt, Graphics, IniFiles;
+  Classes, Controls, uExts, uColorExt, Graphics, IniFiles;
 
 type
-  TWindowPos = record
+  TControlPosition = object
     Left: Integer;
     Top: Integer;
     Width: Integer;
     Height: Integer;
+    
+    procedure Save(Control: TControl);
+    procedure Restore(Control: TControl);
   end;
   
-const
-  // TODO: It's really need?
-  // SaveRect and SaveGlobs depends on this
-  cTopBorder = 23; // px on top is title
-  cLeftBorder = 6; // px on left
-
 var
   gDirSortFirst:Boolean=True; // want to show dir first in panels
   gDirHistoryCount:Integer=30; // how many history we remember
@@ -67,15 +64,15 @@ var
   gViewerFontName:String;
   gViewerSize:Integer;
 
-  gViewerPos:TWindowPos;
-  gEditorPos:TWindowPos;
+  gViewerPos:TControlPosition;
+  gEditorPos:TControlPosition;
 
 function LoadGlobs : Boolean;
 procedure SaveGlobs;
 function LoadStringsFromFile(var list:TStringList; const sFileName:String):boolean;
 
 // for debugging only, can be removed
-procedure dbgShowWindowPos(const pos: TWindowPos);
+procedure dbgShowWindowPos(const pos: TControlPosition);
 
 const
   cMaxStringItems=50;
@@ -88,7 +85,7 @@ uses
    SysUtils, uGlobsPaths, uLng, uShowMsg;
 
 // for debugging only, can be removed
-procedure dbgShowWindowPos(const pos: TWindowPos);
+procedure dbgShowWindowPos(const pos: TControlPosition);
 begin
   writeln('TWindowPos');
   writeln('Left: ', pos.Left);
@@ -98,20 +95,31 @@ begin
   writeln('END');
 end;
 
-procedure LoadWindowPos(var pos:TWindowPos; sPrefix:String);
+procedure TControlPosition.Save(Control: TControl);
 begin
-  writeln('LoadWindowPos(',sPrefix,') enter');
+  Left := Control.Left;
+  Top := Control.Top;
+  Width := Control.Width;
+  Height := Control.Height;
+end;
 
+procedure TControlPosition.Restore(Control: TControl);
+begin
+  Control.Left := Left;
+  Control.Top := Top;
+  Control.Width := Width;
+  Control.Height := Height;
+end;
+
+procedure LoadWindowPos(var pos:TControlPosition; sPrefix:String);
+begin
   pos.Left:=gIni.ReadInteger('Configuration', sPrefix+'left',50);
   pos.Top:=gIni.ReadInteger('Configuration', sPrefix+'top',50);
   pos.Width:= gIni.ReadInteger('Configuration', sPrefix+'width',300);
   pos.Height:= gIni.ReadInteger('Configuration', sPrefix+'height',400);
-
-  dbgShowWindowPos(pos);
-  writeln('LoadWindowPos(',sPrefix,') leave');
 end;
 
-procedure SaveWindowPos(pos: TWindowPos; sPrefix:String);
+procedure SaveWindowPos(pos: TControlPosition; sPrefix:String);
 begin
   gIni.WriteInteger('Configuration', sPrefix+'left', pos.Left);
   gIni.WriteInteger('Configuration', sPrefix+'top', pos.Top);

@@ -1,13 +1,15 @@
 inherited frmViewer: TfrmViewer
   Left = 349
-  Height = 273
+  Height = 100
   Top = 287
-  Width = 320
-  HorzScrollBar.Page = 319
-  VertScrollBar.Page = 252
+  Width = 200
+  HorzScrollBar.Page = 199
+  VertScrollBar.Page = 79
   VertScrollBar.Range = 19
   ActiveControl = ScrollBarVert
   Caption = 'frmViewer'
+  Constraints.MinHeight = 100
+  Constraints.MinWidth = 200
   KeyPreview = True
   Menu = MainMenu
   OnClose = frmViewerClose
@@ -18,8 +20,8 @@ inherited frmViewer: TfrmViewer
   Position = poDefault
   object Status: TStatusBar
     Height = 23
-    Top = 230
-    Width = 320
+    Top = 57
+    Width = 200
     Panels = <    
       item
         Width = 200
@@ -36,16 +38,16 @@ inherited frmViewer: TfrmViewer
     SimplePanel = False
   end
   object nbPages: TNotebook
-    Height = 230
-    Width = 320
+    Height = 57
+    Width = 200
     Align = alClient
     PageIndex = 0
     ShowTabs = False
     object pgText: TPage
       Caption = 'pgText'
       object ScrollBarVert: TScrollBar
-        Left = 297
-        Height = 222
+        Left = 177
+        Height = 49
         Width = 15
         Align = alRight
         Anchors = [akTop, akRight]
@@ -59,8 +61,8 @@ inherited frmViewer: TfrmViewer
       end
       object ViewerControl: TViewerControl
         Cursor = crIBeam
-        Height = 222
-        Width = 297
+        Height = 49
+        Width = 177
         Font.Height = -14
         Font.Name = 'fixed'
         Font.Pitch = fpFixed

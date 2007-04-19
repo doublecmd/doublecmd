@@ -175,26 +175,19 @@ begin
 end;
 
 procedure ShowEditor(const sFileName:String);
-{var
-  i:Integer;}
+var editor: TfrmEditor;
 begin
-  with TfrmEditor.Create(Application) do
-  begin
-    Left:=gEditorPos.Left;
-    Top:=gEditorPos.Top;
-    Width:=gEditorPos.Width;
-    Height:=gEditorPos.Height;
-    try
-      LoadAttrFromFile(gpIniDir+csDefaultName);
-      if sFileName='' then
-        actFileNew.Execute
-      else
-        OpenFile(sFileName);
-      ShowOnTop;
-
-    finally
-//      Free;
-    end;
+  editor := TfrmEditor.Create(Application);
+  gEditorPos.Restore(editor);
+  try
+    LoadAttrFromFile(gpIniDir+csDefaultName);
+    if sFileName='' then
+      editor.actFileNew.Execute
+    else
+      editor.OpenFile(sFileName);
+    editor.ShowOnTop;
+  finally
+    //editor.Free;
   end;
 end;
 
@@ -636,11 +629,7 @@ begin
     closefile(f);
   end;
   
-  gEditorPos.Left:= Left;
-  gEditorPos.Top:= Top;
-  gEditorPos.Width:= Width;
-  gEditorPos.Height:= Height;
-
+  gEditorPos.Save(Self);
 end;
 
 
