@@ -1,36 +1,35 @@
-object frmEditorConf: TfrmEditorConf
+inherited frmEditorConf: TfrmEditorConf
+  Left = 324
+  Height = 295
+  Top = 201
+  Width = 483
+  AutoScroll = True
   ActiveControl = grColor
   Caption = 'Editor configuration'
-  ClientHeight = 295
-  ClientWidth = 483
-  OnCreate = FormCreate
-  PixelsPerInch = 96
   Position = poScreenCenter
-  TextHeight = 16
-  AutoScroll = True
-  Left = 666
-  Height = 295
-  Top = 467
-  Width = 483
   object lbSample: TLabel
-    Caption = 'Sample'
-    Color = clNone
-    ParentColor = False
     Left = 8
     Height = 14
     Top = 184
     Width = 35
-  end
-  object lbPredefined: TLabel
-    Caption = 'Predefined'
+    Caption = 'Sample'
     Color = clNone
     ParentColor = False
+  end
+  object lbPredefined: TLabel
     Left = 8
     Height = 14
     Top = 136
     Width = 53
+    Caption = 'Predefined'
+    Color = clNone
+    ParentColor = False
   end
   object grColor: TDrawGrid
+    Left = 8
+    Height = 128
+    Top = 8
+    Width = 128
     AutoAdvance = aaDown
     Color = clWhite
     ColCount = 4
@@ -46,63 +45,61 @@ object frmEditorConf: TfrmEditorConf
     ScrollBars = ssAutoBoth
     TabOrder = 0
     TabStop = True
-    VisibleColCount = 4
-    VisibleRowCount = 4
     OnDrawCell = grColorDrawCell
     OnMouseDown = grColorMouseDown
-    Left = 8
-    Height = 128
-    Top = 8
-    Width = 128
   end
   object lbNames: TListBox
-    OnClick = lbNamesClick
-    TabOrder = 1
     Left = 240
     Height = 192
     Width = 201
+    OnClick = lbNamesClick
+    TabOrder = 1
   end
   object cbBold: TCheckBox
-    AllowGrayed = True
-    Caption = 'cbBold'
-    OnClick = cbBoldClick
-    TabOrder = 2
     Left = 137
     Height = 13
     Top = 56
     Width = 53
+    AllowGrayed = True
+    Caption = 'cbBold'
+    OnClick = cbBoldClick
+    TabOrder = 2
   end
   object cbUnderline: TCheckBox
-    AllowGrayed = True
-    Caption = 'cbUnderline'
-    OnClick = cbBoldClick
-    TabOrder = 3
     Left = 136
     Height = 13
     Top = 8
     Width = 77
+    AllowGrayed = True
+    Caption = 'cbUnderline'
+    OnClick = cbBoldClick
+    TabOrder = 3
   end
   object cbStrikeOut: TCheckBox
-    AllowGrayed = True
-    Caption = 'cbStrikeOut'
-    OnClick = cbBoldClick
-    TabOrder = 4
     Left = 136
     Height = 13
     Top = 24
     Width = 76
+    AllowGrayed = True
+    Caption = 'cbStrikeOut'
+    OnClick = cbBoldClick
+    TabOrder = 4
   end
   object cbItalic: TCheckBox
-    AllowGrayed = True
-    Caption = 'cbItalic'
-    OnClick = cbBoldClick
-    TabOrder = 5
     Left = 136
     Height = 13
     Top = 40
     Width = 54
+    AllowGrayed = True
+    Caption = 'cbItalic'
+    OnClick = cbBoldClick
+    TabOrder = 5
   end
   object cmbPredefined: TComboBox
+    Left = 8
+    Height = 21
+    Top = 152
+    Width = 208
     AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
     ItemHeight = 18
     MaxLength = 0
@@ -110,12 +107,12 @@ object frmEditorConf: TfrmEditorConf
     ParentCtl3D = False
     Style = csDropDownList
     TabOrder = 6
-    Left = 8
-    Height = 21
-    Top = 152
-    Width = 208
   end
   object btnCancel: TBitBtn
+    Left = 366
+    Height = 25
+    Top = 240
+    Width = 75
     BorderSpacing.InnerBorder = 2
     Caption = 'Cancel'
     Kind = bkCancel
@@ -123,12 +120,12 @@ object frmEditorConf: TfrmEditorConf
     NumGlyphs = 0
     OnClick = btnCancelClick
     TabOrder = 9
-    Left = 366
+  end
+  object btnOK: TBitBtn
+    Left = 272
     Height = 25
     Top = 240
     Width = 75
-  end
-  object btnOK: TBitBtn
     BorderSpacing.InnerBorder = 2
     Caption = '&OK'
     Default = True
@@ -137,22 +134,17 @@ object frmEditorConf: TfrmEditorConf
     NumGlyphs = 0
     OnClick = btnOKClick
     TabOrder = 7
-    Left = 272
-    Height = 25
-    Top = 240
-    Width = 75
   end
   object edtSample: TSynEdit
+    Left = 8
+    Height = 56
+    Top = 209
+    Width = 232
     Font.Height = -12
     Font.Name = 'courier'
-    Height = 56
-    Name = 'edtSample'
     ParentColor = False
     ParentCtl3D = False
     TabOrder = 8
-    Width = 232
-    BookMarkOptions.OnChange = nil
-    Gutter.OnChange = nil
     Gutter.CodeFoldingWidth = 14
     Keystrokes = <    
       item
@@ -479,11 +471,5 @@ object frmEditorConf: TfrmEditorConf
       'bla bla ble ble blu blu'
       'blu blu ble ble bla bla'
     )
-    SelectedColor.OnChange = nil
-    Cursor = crIBeam
-    Left = 8
-    Height = 56
-    Top = 209
-    Width = 232
   end
 end

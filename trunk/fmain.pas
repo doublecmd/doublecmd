@@ -2472,5 +2472,5 @@ begin
 end;
 
 initialization
- {$I fMain.lrs}
+ {$I fmain.lrs}
 end.

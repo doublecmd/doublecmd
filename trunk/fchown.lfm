@@ -1,112 +1,116 @@
-object frmChown: TfrmChown
-  ActiveControl = btnCancel
-  Caption = 'Change Owner/Group'
-  ClientHeight = 160
-  ClientWidth = 336
-  Color = clBackground
-  Position = poMainFormCenter
-  HorzScrollBar.Page = 337
-  HorzScrollBar.Range = 323
-  VertScrollBar.Page = 161
-  VertScrollBar.Range = 145
+inherited frmChown: TfrmChown
   Left = 329
   Height = 160
   Top = 222
   Width = 336
+  HorzScrollBar.Page = 335
+  HorzScrollBar.Range = 323
+  VertScrollBar.Page = 159
+  VertScrollBar.Range = 145
+  ActiveControl = btnCancel
+  Caption = 'Change Owner/Group'
+  Color = clBackground
+  Position = poMainFormCenter
+  object lblFileName: TLabel
+    Left = 8
+    Height = 13
+    Top = 8
+    Width = 59
+    Caption = 'lblFileName'
+    Color = clNone
+    Font.Color = clBlack
+    Font.Height = 13
+    Font.Name = 'Helvetica'
+    Font.Pitch = fpVariable
+    Font.Style = [fsBold]
+    ParentColor = False
+  end
+  object lblOwner: TLabel
+    Left = 8
+    Height = 14
+    Top = 46
+    Width = 33
+    Caption = 'Owner'
+    Color = clNone
+    ParentColor = False
+  end
+  object lblGroup: TLabel
+    Left = 8
+    Height = 14
+    Top = 78
+    Width = 30
+    Caption = 'Group'
+    Color = clNone
+    ParentColor = False
+  end
   object btnCancel: TBitBtn
-    Kind = bkCancel
-    ModalResult = 2
-    ModalResult = 2
-    Caption = 'Cancel'
-    TabOrder = 5
     Left = 248
     Height = 25
     Top = 120
     Width = 75
+    Caption = 'Cancel'
+    Kind = bkCancel
+    ModalResult = 2
+    NumGlyphs = 0
+    TabOrder = 5
   end
   object btnSkip: TBitBtn
-    OnClick = btnSkipClick
-    Caption = 'Skip'
-    TabOrder = 4
-    OnClick = btnSkipClick
     Left = 168
     Height = 25
     Top = 120
     Width = 75
+    Caption = 'Skip'
+    NumGlyphs = 0
+    OnClick = btnSkipClick
+    TabOrder = 4
   end
   object btnOK: TBitBtn
-    Default = True
-    Kind = bkOK
-    ModalResult = 1
-    OnClick = btnOKClick
-    Default = True
-    ModalResult = 1
-    Caption = '&OK'
-    TabOrder = 2
-    OnClick = btnOKClick
     Left = 8
     Height = 25
     Top = 120
     Width = 75
+    Caption = '&OK'
+    Default = True
+    Kind = bkOK
+    ModalResult = 1
+    NumGlyphs = 0
+    OnClick = btnOKClick
+    TabOrder = 2
   end
   object btnAll: TBitBtn
-    OnClick = btnAllClick
-    Caption = '&All'
-    TabOrder = 3
-    OnClick = btnAllClick
     Left = 88
     Height = 25
     Top = 120
     Width = 75
+    Caption = '&All'
+    NumGlyphs = 0
+    OnClick = btnAllClick
+    TabOrder = 3
   end
   object cbxUsers: TComboBox
+    Left = 96
+    Height = 21
+    Top = 40
+    Width = 227
+    AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
     ItemHeight = 20
     MaxLength = 0
     ParentCtl3D = False
     Sorted = True
     TabOrder = 0
     Text = 'cbxUsers'
-    Left = 96
-    Height = 26
-    Top = 40
-    Width = 227
   end
   object cbxGroups: TComboBox
+    Left = 96
+    Height = 21
+    Top = 72
+    Width = 227
+    AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
     ItemHeight = 20
     MaxLength = 0
     ParentCtl3D = False
     Sorted = True
     TabOrder = 1
     Text = 'cbxGroups'
-    Left = 96
-    Height = 26
-    Top = 72
-    Width = 227
-  end
-  object lblFileName: TLabel
-    Caption = 'lblFileName'
-    Font.Color = clBlack
-    Font.Height = 13
-    Font.Name = 'Helvetica'
-    Font.Pitch = fpVariable
-    Font.Style = [fsBold]
-    Left = 8
-    Height = 15
-    Top = 8
-    Width = 315
-  end
-  object lblOwner: TLabel
-    Caption = 'Owner'
-    Left = 8
-    Height = 15
-    Top = 46
-    Width = 80
-  end
-  object lblGroup: TLabel
-    Caption = 'Group'
-    Left = 8
-    Height = 15
-    Top = 78
-    Width = 80
   end
 end

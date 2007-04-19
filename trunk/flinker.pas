@@ -182,5 +182,5 @@ begin
 end;
 
 initialization
- {$I fLinker.lrs}
+ {$I flinker.lrs}
 end.

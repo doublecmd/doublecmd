@@ -81,5 +81,5 @@ begin
 end;
 
 initialization
- {$I fHardLink.lrs}
+ {$I fhardlink.lrs}
 end.

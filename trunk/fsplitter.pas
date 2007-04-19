@@ -206,6 +206,6 @@ begin
 end;
 
 initialization
- {$I fSplitter.lrs}
+ {$I fsplitter.lrs}
 
 end.

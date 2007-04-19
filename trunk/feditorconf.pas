@@ -381,5 +381,5 @@ begin
 end;
 
 initialization
- {$I fEditorConf.lrs}
+ {$I feditorconf.lrs}
 end.

@@ -82,5 +82,5 @@ begin
 end;
 
 initialization
- {$I fHotDir.lrs}
+ {$I fhotdir.lrs}
 end.
