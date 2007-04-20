@@ -42,7 +42,7 @@ uses
   Graphics, Forms, Menus, Controls, Dialogs, ComCtrls,
   StdCtrls, ExtCtrls,ActnList,Buttons,
   SysUtils, Classes,  {uFilePanel,} fLngForm, framePanel, {FileCtrl,} Grids,
-  KASToolBar;
+  KASToolBar, IniFiles;
 
 const
   cHistoryFile='cmdhistory.txt';
@@ -295,6 +295,8 @@ type
     function AddPage(ANoteBook:TNoteBook):TPage;
     procedure RemovePage(ANoteBook:TNoteBook; iPageIndex:Integer);
     function ExecCmd(Cmd : String) : Boolean;
+    procedure SaveShortCuts;
+    procedure LoadShortCuts;
   end;
 
 var
@@ -581,6 +583,8 @@ begin
   (*Tool Bar*)
    MainToolBar.LoadFromFile(gpIniDir + 'default.bar');
   (*Tool Bar*)
+  
+  LoadShortCuts;
   
   IsPanelsCreated := True;
 end;
@@ -2468,6 +2472,47 @@ begin
     // only cMaxStringItems(see uGlobs.pas) is stored
     if edtCommand.Items.Count>cMaxStringItems then
       edtCommand.Items.Delete(edtCommand.Items.Count-1);
+  end;
+end;
+
+// Save ShortCuts to config file
+procedure TfrmMain.SaveShortCuts;
+var
+  i, count: Integer;
+  ini: TIniFile;
+begin
+  ini:=TIniFile.Create(gpIniDir + 'shortcuts.ini');
+  try
+    count := actionLst.ActionCount;
+    for i := 0 to count-1 do
+      with actionLst.Actions[i] as TAction do
+        ini.WriteString('SHORTCUTS', Name, ShortCutToText(ShortCut));
+    ini.UpdateFile;
+  finally
+    ini.Free;
+  end;
+end;
+
+// Load ShortCuts from config file
+procedure TfrmMain.LoadShortCuts;
+var
+  i, j, count: Integer;
+  ini: TIniFile;
+  vAction: TAction;
+begin
+  // ToDo Black list HotKey which can't use
+  // ToDo checking for duplicates (hint: 2 actions can swap shortcuts)
+  ini:=TIniFile.Create(gpIniDir + 'shortcuts.ini');
+  try
+    count := actionLst.ActionCount;
+    for i := 0 to count-1 do
+    begin
+      vAction := actionLst.Actions[i] as TAction;
+      vAction.ShortCut := TextToShortCut(ini.ReadString('SHORTCUTS',
+        vAction.Name, ShortCutToText(vAction.ShortCut)));
+    end; // for i
+  finally
+    ini.Free;
   end;
 end;
 
