@@ -30,12 +30,6 @@ uses
 {$H+}
 Type
 
-  TWCXItem=packed record
-    HeaderData : THeaderData;
-    FileRecItem : TFileRecItem;
-  end;
-  PWCXItem = ^TWCXItem;
-
   PHeaderData = ^THeaderData;
   
   { TWCXModule }
@@ -45,7 +39,7 @@ Type
     FArcFileList : TList;
     FDstPath,
     fFolder : String;
-    procedure SelectFilesInSubfolders(var fl : TFileList; sDir : String);
+    function ProcessDataProc(FileName:pchar;Size:longint):longint; stdcall;
     procedure CopySelectedWithSubFolders(var flist:TFileList);
   protected
     // module's functions
@@ -90,7 +84,7 @@ Type
     function VFSCopyIn(var flSrcList : TFileList; sDstName:String;  Flags : Integer):Boolean;override;{Pack files in archive}
     function VFSRename(const sSrcName, sDstName:String):Boolean;override;{Rename or move file}
     function VFSRun(const sName:String):Boolean;override;
-    function VFSDelete(const flNameList:TFileList):Boolean;override;{Delete files from archive}
+    function VFSDelete(var flNameList:TFileList):Boolean;override;{Delete files from archive}
 
     function VFSList(const sDir:String; var fl:TFileList ):Boolean;override;{Return the filelist of archive}
   end;
@@ -271,72 +265,82 @@ begin
   Result := FileList;
 end;
 
-procedure TWCXModule.SelectFilesInSubfolders(var fl : TFileList; sDir : String);
-var
-  fr : PFileRecItem;
-  I, Count : Integer;
-  CurrFileName : String;  // Current file name
+function TWCXModule.ProcessDataProc(FileName: pchar; Size: longint): longint;
 begin
-
-
-  ForceDirectory(FDstPath + ExtractDirLevel(FFolder, PathDelim + sDir));
-  
-  //DebugLN('ForceDirectory = ' + FDstPath + ExtractDirLevel(FFolder, PathDelim + sDir));
-  
-  Count := FArcFileList.Count - 1;
-  for I := 0 to  Count do
-   begin
-     CurrFileName := PathDelim + PHeaderData(FArcFileList.Items[I])^.FileName;
-
-     //DebugLN('sDir = ', sDir);
-     //DebugLN('In folder = ' + CurrFileName);
-
-     if not IncludeFileInList(sDir + PathDelim, CurrFileName) then
-       Continue;
-
-//     DebugLN('In folder = ' + CurrFileName);
-
-     New(fr);
-     with fr^, PHeaderData(FArcFileList.Items[I])^  do
-         begin
-            sName := FArchiveName + PathDelim + FileName;
-            iMode := FileAttr;
-            if FPS_ISDIR(iMode) then
-              begin
-                sExt:='';
-                //DebugLN('SelectFilesInSubfolders = ' + FileName);
-                SelectFilesInSubfolders(fl, FileName);
-              end;
-         end; //with
-     fl.AddItem(fr);
-   end;
+  DebugLN('Working ' + FileName + IntToStr(Size));
 end;
-
 
 procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
 
+  procedure SelectFilesInSubfolders(var fl : TFileList; sDir : String);
+  var
+    fr : PFileRecItem;
+    I, Count : Integer;
+    CurrFileName : String;  // Current file name
+  begin
+
+
+    ForceDirectory(FDstPath + ExtractDirLevel(FFolder, PathDelim + sDir));
+
+    //DebugLN('ForceDirectory = ' + FDstPath + ExtractDirLevel(FFolder, PathDelim + sDir));
+
+    Count := FArcFileList.Count - 1;
+    for I := 0 to  Count do
+     begin
+       CurrFileName := PathDelim + PHeaderData(FArcFileList.Items[I])^.FileName;
+
+       //DebugLN('sDir = ', sDir);
+       //DebugLN('In folder = ' + CurrFileName);
+
+       if not IncludeFileInList(sDir + PathDelim, CurrFileName) then
+         Continue;
+
+  //     DebugLN('In folder = ' + CurrFileName);
+
+       New(fr);
+       with fr^, PHeaderData(FArcFileList.Items[I])^  do
+           begin
+             sName := {FArchiveName + PathDelim +} FileName;
+             iMode := FileAttr;
+             if FPS_ISDIR(iMode) then
+               begin
+                 sExt:='';
+                 //DebugLN('SelectFilesInSubfolders = ' + FileName);
+                 SelectFilesInSubfolders(fl, FileName);
+               end;
+          end; //with
+       fl.AddItem(fr);
+     end;
+  end;
+
+
 var
   xIndex:Integer;
-  p:TFileRecItem;
-  tmp : String;
+  fri:TFileRecItem;
+  Newfl : TFileList;
   Count : Integer;
 begin
-
+  Newfl := TFileList.Create;
   Count := flist.Count-1;
   for xIndex:=0 to Count do
   begin
-    p:=flist.GetItem(xIndex)^;
+    fri:=flist.GetItem(xIndex)^;
 
 
-    tmp := p.sName;
-    Delete(tmp, Pos(FArchiveName, tmp), Length(FArchiveName));
+    fri.sName := ExtractDirLevel(FArchiveName, fri.sName);
 
-    //DebugLN('Curr File = ' + tmp);
+    if fri.sName[1] = PathDelim then
+      Delete(fri.sName, 1, 1);
 
-    if FPS_ISDIR(p.iMode) then
-      SelectFilesInSubfolders(flist, tmp);
+    Newfl.AddItem(@fri);
+    DebugLN('Curr File = ' + fri.sName);
+
+    if FPS_ISDIR(fri.iMode) then
+      SelectFilesInSubfolders(Newfl, fri.sName);
 
   end;
+  flist.Free;
+  flist := Newfl;
 end;
 
 {Extract files from archive}
@@ -382,13 +386,15 @@ begin
     Result := False;
     Exit;
    end;
+   
+  SetProcessDataProc(ArcHandle, TProcessDataProc(ProcessDataProc));
 
   FillChar(ArcHeader, SizeOf(ArcHeader), #0);
   while (ReadHeader(ArcHandle, ArcHeader) = 0) do
    begin
 
 
-        if  flSrcList.CheckFileName(FArchiveName + DirectorySeparator + ArcHeader.FileName) >= 0 then
+        if  flSrcList.CheckFileName({FArchiveName + DirectorySeparator +} ArcHeader.FileName) >= 0 then
         begin
             DebugLN(sDstPath + ExtractDirLevel(Folder, ArcHeader.FileName));
 
@@ -438,9 +444,26 @@ begin
 
 end;
 
-function TWCXModule.VFSDelete(const flNameList: TFileList): Boolean;
+function TWCXModule.VFSDelete(var flNameList: TFileList): Boolean;
+var
+  Folder : String;
 begin
 
+   (* Get current folder in archive *)
+  // Folder := LowDirLevel(flNameList.GetItem(0)^.sName);
+
+   (* Get relative path *)
+   //IncludeFileInList(FArchiveName, Folder);
+
+   //FFolder := Folder;
+
+  // DebugLN('Folder = ' + Folder);
+
+   CopySelectedWithSubFolders(flNameList);
+   
+   DeleteFiles(PChar(FArchiveName), PChar(GetFileList(flNameList)));
+   
+  
 end;
 
 function TWCXModule.VFSList(const sDir: String; var fl: TFileList): Boolean;

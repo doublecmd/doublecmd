@@ -1,6 +1,7 @@
 
 delp .\
 
+del /Q *.lrs
 del /Q *.or
 del /Q *.*~
 del /Q *.~*

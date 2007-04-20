@@ -1,7 +1,7 @@
 inherited frmFindDlg: TfrmFindDlg
-  Left = 282
+  Left = 173
   Height = 476
-  Top = 231
+  Top = 33
   Width = 541
   HorzScrollBar.Page = 540
   VertScrollBar.Page = 475
@@ -111,7 +111,7 @@ inherited frmFindDlg: TfrmFindDlg
             Left = 16
             Height = 24
             Top = 9
-            Width = 314
+            Width = 310
             Anchors = [akTop, akLeft, akRight]
             TabOrder = 1
           end

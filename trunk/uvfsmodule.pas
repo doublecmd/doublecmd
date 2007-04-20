@@ -48,7 +48,7 @@ Type
     function VFSCopyIn(var flSrcList : TFileList; sDstName:String; Flags : Integer):Boolean;virtual;abstract;
     function VFSRename(const sSrcName, sDstName:String):Boolean;virtual;abstract;
     function VFSRun(const sName:String):Boolean;virtual;abstract;
-    function VFSDelete(const flNameList:TFileList):Boolean;virtual;abstract;
+    function VFSDelete(var flNameList:TFileList):Boolean;virtual;abstract;
     
     function VFSList(const sDir:String; var fl:TFileList):Boolean;virtual;abstract;
   end;

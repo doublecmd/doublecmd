@@ -348,6 +348,7 @@ begin
     end;
   frmMain.ActiveFrame.pnlFile.FileList.UpdateFileInformation;
   frmMain.ActiveFrame.pnlFile.Sort;
+  frmMain.ActiveFrame.pnlFile.ActiveDir := '';
   Close;
 end;
 
