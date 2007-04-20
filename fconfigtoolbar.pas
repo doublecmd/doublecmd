@@ -23,48 +23,48 @@ type
   { TButtonChangeDlg }
 
   TButtonChangeDlg = class(TForm)
-    Buttonbar: TLabel;
-    Cancel: TButton;
-    Command: TLabel;
-    GroupBox1: TGroupBox;
-    IconX: TLabel;
-    Iconfile: TLabel;
-    id_btn_add: TButton;
-    id_btn_assymbol: TCheckBox;
-    id_btn_bar: TKASToolBar;
-    id_btn_barfilesearch: TButton;
-    id_btn_barsize: TKASEdit;
-    id_btn_command: TComboBox;
-    id_btn_delete: TButton;
-    id_btn_find1: TButton;
-    id_btn_findbar: TButton;
-    id_btn_icon: TListBox;
-    id_btn_iconfile: TButton;
-    id_btn_iconfilename: TKASEdit;
-    id_btn_iconindex: TLabel;
-    id_btn_maximized: TCheckBox;
-    id_btn_param: TKASEdit;
-    id_btn_startpath: TKASEdit;
-    id_btn_ToolTip: TKASEdit;
-    id_FlatIcons: TCheckBox;
-    id_Globalhelp: TButton;
-    id_SmallIcons: TCheckBox;
-    Label1: TLabel;
-    Ok: TButton;
+    lblButtonBar: TLabel;
+    btnCancel: TButton;
+    lblCommand: TLabel;
+    gbGroupBox: TGroupBox;
+    lblIconX: TLabel;
+    lblIconfile: TLabel;
+    btnAddButton: TButton;
+    cbRunMinimized: TCheckBox;
+    ktbBar: TKASToolBar;
+    btnOpenBarFile: TButton;
+    kedtBarSize: TKASEdit;
+    cbCommand: TComboBox;
+    btnDeleteButton: TButton;
+    btnOpenFile: TButton;
+    btnAddSubBar: TButton;
+    lbIcons: TListBox;
+    btnOpenIconFile: TButton;
+    kedtIconFileName: TKASEdit;
+    lblIconIndex: TLabel;
+    cbRunMaximized: TCheckBox;
+    kedtParams: TKASEdit;
+    kedtStartPath: TKASEdit;
+    kedtToolTip: TKASEdit;
+    cbFlatIcons: TCheckBox;
+    btnHelp: TButton;
+    cbSmallIcons: TCheckBox;
+    lblLabel: TLabel;
+    btnOK: TButton;
     OpenDialog: TOpenDialog;
-    Parameters: TLabel;
+    lblParameters: TLabel;
     tbScrollBox: TScrollBox;
-    Size: TLabel;
-    Startpath: TLabel;
-    Tooltip: TLabel;
+    lblSize: TLabel;
+    lblStartpath: TLabel;
+    lblTooltip: TLabel;
     procedure FormShow(Sender: TObject);
-    procedure OkClick(Sender: TObject);
-    procedure id_btn_addClick(Sender: TObject);
-    procedure id_btn_barToolButtonClick(NumberOfButton : Integer);
+    procedure btnOKClick(Sender: TObject);
+    procedure btnAddButtonClick(Sender: TObject);
+    procedure ktbBarToolButtonClick(NumberOfButton : Integer);
     procedure Save;
-    procedure id_btn_deleteClick(Sender: TObject);
-    procedure id_btn_find1Click(Sender: TObject);
-    procedure id_btn_iconfileClick(Sender: TObject);
+    procedure btnDeleteButtonClick(Sender: TObject);
+    procedure btnOpenFileClick(Sender: TObject);
+    procedure btnOpenIconFileClick(Sender: TObject);
   private
     { private declarations }
   public
@@ -86,7 +86,7 @@ begin
   try
     LastToolButton := -1;
     NewToolButton := -1;
-    id_btn_bar.CreateWnd;
+    ktbBar.CreateWnd;
     ShowModal;
   finally
     Free;
@@ -97,13 +97,13 @@ end;
 
 procedure TButtonChangeDlg.FormShow(Sender: TObject);
 begin
-  id_btn_bar.LoadFromFile(gpIniDir + 'default.bar');
+  ktbBar.LoadFromFile(gpIniDir + 'default.bar');
 end;
 
-procedure TButtonChangeDlg.OkClick(Sender: TObject);
+procedure TButtonChangeDlg.btnOKClick(Sender: TObject);
 begin
   Save;
-  id_btn_bar.SaveToFile(gpIniDir + 'default.bar');
+  ktbBar.SaveToFile(gpIniDir + 'default.bar');
   frmMain.MainToolBar.DeleteAllToolButtons;
   //frmMain.MainToolBar.CreateWnd;
   frmMain.MainToolBar.LoadFromFile(gpIniDir + 'default.bar');
@@ -111,68 +111,68 @@ begin
 end;
 
 (*Add new button on tool bar*)
-procedure TButtonChangeDlg.id_btn_addClick(Sender: TObject);
+procedure TButtonChangeDlg.btnAddButtonClick(Sender: TObject);
 begin
   Save;
-  NewToolButton := id_btn_bar.AddButton('', '', '');
+  NewToolButton := ktbBar.AddButton('', '', '');
   //ShowMessage(IntToStr(NewToolButton));
 end;
 
 (*Select button on panel*)
-procedure TButtonChangeDlg.id_btn_barToolButtonClick(NumberOfButton : Integer);
+procedure TButtonChangeDlg.ktbBarToolButtonClick(NumberOfButton : Integer);
 begin
  Save;
- id_btn_command.Text := id_btn_bar.Commands[NumberOfButton];
- id_btn_iconfilename.Text := id_btn_bar.Icons[NumberOfButton];
- id_btn_ToolTip.Text := id_btn_bar.Buttons[NumberOfButton].Hint;
+ cbCommand.Text := ktbBar.Commands[NumberOfButton];
+ kedtIconFileName.Text := ktbBar.Icons[NumberOfButton];
+ kedtToolTip.Text := ktbBar.Buttons[NumberOfButton].Hint;
  LastToolButton := NumberOfButton;
 end;
 
 (*Save current button*)
 procedure TButtonChangeDlg.Save;
 begin
-   if (LastToolButton >= 0) and (id_btn_bar.ButtonCount > 0) then
+   if (LastToolButton >= 0) and (ktbBar.ButtonCount > 0) then
       begin
-       id_btn_bar.Commands[LastToolButton] := id_btn_command.Text;
-       id_btn_bar.Icons[LastToolButton] :=  id_btn_iconfilename.Text;
-       id_btn_bar.Buttons[LastToolButton].Hint := id_btn_ToolTip.Text;
+       ktbBar.Commands[LastToolButton] := cbCommand.Text;
+       ktbBar.Icons[LastToolButton] :=  kedtIconFileName.Text;
+       ktbBar.Buttons[LastToolButton].Hint := kedtToolTip.Text;
       end
    else   (*If only Append clicked*)
       if NewToolButton >= 0 then
          begin
             //ShowMessage(IntToStr(NewToolButton));
-            id_btn_bar.Commands[NewToolButton] := id_btn_command.Text;
-            id_btn_bar.Icons[NewToolButton] :=  id_btn_iconfilename.Text;
-            id_btn_bar.Buttons[NewToolButton].Hint := id_btn_ToolTip.Text;
+            ktbBar.Commands[NewToolButton] := cbCommand.Text;
+            ktbBar.Icons[NewToolButton] :=  kedtIconFileName.Text;
+            ktbBar.Buttons[NewToolButton].Hint := kedtToolTip.Text;
          end;
 end;
 
 (*Remove current button*)
-procedure TButtonChangeDlg.id_btn_deleteClick(Sender: TObject);
+procedure TButtonChangeDlg.btnDeleteButtonClick(Sender: TObject);
 begin
-   if (LastToolButton >= 0) and (id_btn_bar.ButtonCount > 0) then
+   if (LastToolButton >= 0) and (ktbBar.ButtonCount > 0) then
       begin
-      id_btn_bar.RemoveButton(LastToolButton);
-      id_btn_command.Text := '';
-      id_btn_iconfilename.Text := '';
-      id_btn_ToolTip.Text := '';
+      ktbBar.RemoveButton(LastToolButton);
+      cbCommand.Text := '';
+      kedtIconFileName.Text := '';
+      kedtToolTip.Text := '';
       LastToolButton := -1;
       NewToolButton := -1;
       end;
 end;
 
-procedure TButtonChangeDlg.id_btn_find1Click(Sender: TObject);
+procedure TButtonChangeDlg.btnOpenFileClick(Sender: TObject);
 begin
   if OpenDialog.Execute then
-     id_btn_command.Text := OpenDialog.FileName;
+     cbCommand.Text := OpenDialog.FileName;
 end;
 
-procedure TButtonChangeDlg.id_btn_iconfileClick(Sender: TObject);
+procedure TButtonChangeDlg.btnOpenIconFileClick(Sender: TObject);
 var
   sDir: string;
 begin
   if OpenDialog.Execute then
-     id_btn_iconfilename.Text := OpenDialog.FileName;
+     kedtIconFileName.Text := OpenDialog.FileName;
 end;
 
 initialization

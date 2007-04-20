@@ -49,17 +49,18 @@ procedure SelectFilesInSubFoldersInRFS(var fl:TFileList);
   begin
     if FindFirst(sDir + PathDelim + '*',faAnyFile,sr) = 0 then
       repeat
+        if (sr.Name = '.') or (sr.Name = '..') then Continue;
         New(fr);
         with fr^ do
           begin
-            sName := ExtractDirLevel(fl.CurrentDirectory, sr.Name);
+            sName := ExtractDirLevel(fl.CurrentDirectory, sDir + PathDelim + sr.Name);
             DebugLN('Name of File = ' + sName);
             iMode := sr.Attr;
             if FPS_ISDIR(iMode) then
               begin
                 sExt:='';
                 //DebugLN('SelectFilesInSubfolders = ' + sName);
-                SelectFilesInSubFolders(sr.Name, fl);
+                SelectFilesInSubFolders(fl.CurrentDirectory + sr.Name, fl);
               end;
           end; //with
         fl.AddItem(fr);

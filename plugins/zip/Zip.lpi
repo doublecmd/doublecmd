@@ -5,7 +5,7 @@
     <Version Value="5"/>
     <General>
       <MainUnit Value="0"/>
-      <IconPath Value="./"/>
+      <IconPath Value=".\"/>
       <TargetFileExt Value=".wcx"/>
       <ActiveEditorIndexAtStart Value="1"/>
     </General>
@@ -42,8 +42,8 @@
       <Unit2>
         <Filename Value="ZipFunc.pas"/>
         <UnitName Value="ZipFunc"/>
-        <CursorPos X="11" Y="222"/>
-        <TopLine Value="211"/>
+        <CursorPos X="27" Y="219"/>
+        <TopLine Value="203"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="13"/>
         <Loaded Value="True"/>
@@ -92,16 +92,7 @@
         <Loaded Value="True"/>
       </Unit8>
     </Units>
-    <JumpHistory Count="2" HistoryIndex="1">
-      <Position1>
-        <Filename Value="ZipFunc.pas"/>
-        <Caret Line="46" Column="20" TopLine="34"/>
-      </Position1>
-      <Position2>
-        <Filename Value="fparchive\abutils.pas"/>
-        <Caret Line="509" Column="3" TopLine="495"/>
-      </Position2>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>

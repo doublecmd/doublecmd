@@ -770,8 +770,15 @@ begin
   try
     CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
     
-    (*Delete files*)
     
+    (* Delete files from archive *)
+    if  ActiveFrame.pnlFile.PanelMode = pmArchive then
+      begin
+        DebugLN('+++ Delete files +++');
+        ActiveFrame.pnlFile.VFS.VFSmodule.VFSDelete(fl);
+      end
+    else
+    (* Delete files *)
     begin
      if not Assigned(frmFileOp) then
        frmFileOp:= TfrmFileOp.Create(Application);
