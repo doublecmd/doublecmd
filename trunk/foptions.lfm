@@ -42,9 +42,9 @@ inherited frmOptions: TfrmOptions
   object PageControl1: TPageControl
     Height = 272
     Width = 456
-    ActivePage = tsFonts
+    ActivePage = tfHotKey
     Align = alClient
-    TabIndex = 3
+    TabIndex = 5
     TabOrder = 0
     object tsLng: TTabSheet
       Caption = 'Language'

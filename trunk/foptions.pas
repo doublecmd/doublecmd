@@ -261,6 +261,8 @@ begin
   gEditorSize:=Round(edtEditorSize.Value);
   gViewerSize:=Round(edtViewerSize.Value);
   gFontSize:=Round(edtMainSize.Value);
+  
+  frmMain.SaveShortCuts;
 end;
 
 procedure TfrmOptions.btnSelEditFntClick(Sender: TObject);
