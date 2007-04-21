@@ -80,6 +80,9 @@ type
     lblViewerFont: TLabel;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure edtEditorSizeChange(Sender: TObject);
+    procedure edtMainSizeChange(Sender: TObject);
+    procedure edtViewerSizeChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btSetHotKeyClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
@@ -155,6 +158,21 @@ begin
    if optColorDialog.Execute then
    begin
    end;
+end;
+
+procedure TfrmOptions.edtEditorSizeChange(Sender: TObject);
+begin
+  edtTest2.Font.Size := edtEditorSize.Value;
+end;
+
+procedure TfrmOptions.edtMainSizeChange(Sender: TObject);
+begin
+  edtTest1.Font.Size := edtMainSize.Value;
+end;
+
+procedure TfrmOptions.edtViewerSizeChange(Sender: TObject);
+begin
+  edtTest3.Font.Size := edtViewerSize.Value;
 end;
 
 procedure TfrmOptions.LoadLng;
@@ -318,10 +336,9 @@ end;
 
 procedure TfrmOptions.FillFontLists;
 begin
-
-  cbMainFont.Text:=gFontName;
-  cbViewerFont.Text:=gViewerFontName;
-  cbEditorFont.Text:=gEditorFontName;
+  cbMainFont.Text := gFontName;
+  cbViewerFont.Text := gViewerFontName;
+  cbEditorFont.Text := gEditorFontName;
 
   if gFontWeight = 700 then
     EdtTest1.Font.Style := [fsBold];
@@ -329,6 +346,24 @@ begin
   edtEditorSize.Value:=gEditorSize;
   edtViewerSize.Value:=gViewerSize;
   edtMainSize.Value:=gFontSize;
+  
+  with edtTest1.Font do
+  begin
+    Name := gFontName;
+    Size := gFontSize;
+  end; // with
+  
+  with edtTest2.Font do
+  begin
+    Name := gEditorFontName;
+    Size := gEditorSize;
+  end; // with
+  
+  with edtTest3.Font do
+  begin
+    Name := gViewerFontName;
+    Size := gViewerSize;
+  end; // with
 end;
 
 procedure TfrmOptions.FillActionLists;

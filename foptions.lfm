@@ -1,10 +1,10 @@
 inherited frmOptions: TfrmOptions
   Left = 304
-  Height = 312
+  Height = 313
   Top = 126
   Width = 456
   HorzScrollBar.Page = 455
-  VertScrollBar.Page = 311
+  VertScrollBar.Page = 312
   VertScrollBar.Range = 41
   ActiveControl = PageControl1
   BorderIcons = [biSystemMenu, biMinimize]
@@ -40,20 +40,19 @@ inherited frmOptions: TfrmOptions
   }
   Position = poMainFormCenter
   object PageControl1: TPageControl
-    Height = 272
+    Height = 273
     Width = 456
-    ActivePage = tfHotKey
+    ActivePage = tsFonts
     Align = alClient
-    TabIndex = 5
+    TabIndex = 3
     TabOrder = 0
     object tsLng: TTabSheet
       Caption = 'Language'
       object lngList: TListBox
-        Height = 242
-        Width = 452
+        Height = 247
+        Width = 448
         Align = alClient
         TabOrder = 0
-        TopIndex = -1
       end
     end
     object tsBehav: TTabSheet
@@ -151,55 +150,59 @@ inherited frmOptions: TfrmOptions
       Caption = 'Tools'
       ImageIndex = 2
       object cbExtEditor: TCheckBox
-        Left = 8
-        Height = 20
-        Width = 87
+        Left = 3
+        Height = 13
+        Top = 13
+        Width = 74
         AllowGrayed = True
         Caption = 'cbExtEditor'
         OnClick = cbExtEditorClick
         TabOrder = 0
       end
       object edtExtEditor: TEdit
-        Left = 24
+        Left = 3
         Height = 24
-        Top = 32
-        Width = 313
+        Top = 33
+        Width = 438
+        Anchors = [akTop, akLeft, akRight]
         TabOrder = 1
         Text = 'gEdit "%s"'
       end
       object cbExtDiffer: TCheckBox
-        Left = 8
-        Height = 20
-        Top = 56
-        Width = 84
+        Left = 3
+        Height = 13
+        Top = 78
+        Width = 72
         AllowGrayed = True
         Caption = 'cbExtDiffer'
         OnClick = cbExtDifferClick
         TabOrder = 2
       end
       object edtExtDiffer: TEdit
-        Left = 24
+        Left = 3
         Height = 24
-        Top = 88
-        Width = 313
+        Top = 98
+        Width = 438
+        Anchors = [akTop, akLeft, akRight]
         TabOrder = 3
         Text = 'gtk-diff "%s" "%s"'
       end
       object cbExtViewer: TCheckBox
-        Left = 8
-        Height = 20
-        Top = 120
-        Width = 94
+        Left = 3
+        Height = 13
+        Top = 143
+        Width = 79
         AllowGrayed = True
         Caption = 'cbExtViewer'
         OnClick = cbExtViewerClick
         TabOrder = 4
       end
       object edtExtViewer: TEdit
-        Left = 24
+        Left = 3
         Height = 24
-        Top = 152
-        Width = 313
+        Top = 163
+        Width = 438
+        Anchors = [akTop, akLeft, akRight]
         TabOrder = 5
         Text = 'emacs "%s"'
       end
@@ -208,22 +211,25 @@ inherited frmOptions: TfrmOptions
       Caption = 'Fonts'
       ImageIndex = 3
       object lblMainFont: TLabel
+        Left = 6
         Height = 14
-        Top = 24
+        Top = 8
         Width = 46
         Caption = 'Main font'
         Color = clNone
         ParentColor = False
       end
       object lblEditorFont: TLabel
+        Left = 6
         Height = 14
-        Top = 96
+        Top = 87
         Width = 52
         Caption = 'Editor font'
         Color = clNone
         ParentColor = False
       end
       object lblViewerFont: TLabel
+        Left = 6
         Height = 14
         Top = 168
         Width = 56
@@ -232,10 +238,11 @@ inherited frmOptions: TfrmOptions
         ParentColor = False
       end
       object cbMainFont: TComboBox
-        Left = 78
+        Left = 6
         Height = 21
-        Top = 16
-        Width = 272
+        Top = 26
+        Width = 402
+        Anchors = [akTop, akLeft, akRight]
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemHeight = 18
         MaxLength = 0
@@ -244,10 +251,11 @@ inherited frmOptions: TfrmOptions
         TabOrder = 0
       end
       object cbEditorFont: TComboBox
-        Left = 78
+        Left = 6
         Height = 21
-        Top = 87
-        Width = 272
+        Top = 108
+        Width = 402
+        Anchors = [akTop, akLeft, akRight]
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemHeight = 18
         MaxLength = 0
@@ -256,34 +264,38 @@ inherited frmOptions: TfrmOptions
         TabOrder = 1
       end
       object edtTest1: TEdit
-        Left = 78
+        Left = 6
         Height = 24
-        Top = 48
-        Width = 256
+        Top = 53
+        Width = 355
+        Anchors = [akTop, akLeft, akRight]
         TabOrder = 2
         Text = 'Example Проверка'
       end
       object edtTest2: TEdit
-        Left = 78
+        Left = 6
         Height = 24
-        Top = 120
-        Width = 257
+        Top = 133
+        Width = 355
+        Anchors = [akTop, akLeft, akRight]
         TabOrder = 3
         Text = 'Example Проверка'
       end
       object edtTest3: TEdit
-        Left = 78
+        Left = 6
         Height = 24
-        Top = 192
-        Width = 257
+        Top = 213
+        Width = 355
+        Anchors = [akTop, akLeft, akRight]
         TabOrder = 4
         Text = 'Example Проверка'
       end
       object cbViewerFont: TComboBox
-        Left = 78
+        Left = 6
         Height = 21
-        Top = 159
-        Width = 272
+        Top = 188
+        Width = 402
+        Anchors = [akTop, akLeft, akRight]
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemHeight = 18
         MaxLength = 0
@@ -292,62 +304,71 @@ inherited frmOptions: TfrmOptions
         TabOrder = 5
       end
       object btnSelMainFnt: TButton
-        Left = 360
+        Left = 416
         Height = 23
-        Top = 16
+        Top = 26
         Width = 23
+        Anchors = [akTop, akRight]
         BorderSpacing.InnerBorder = 4
         Caption = '...'
         OnClick = btnSelMainFntClick
         TabOrder = 7
       end
       object btnSelEditFnt: TButton
-        Left = 360
+        Left = 416
         Height = 23
-        Top = 87
+        Top = 108
         Width = 23
+        Anchors = [akTop, akRight]
         BorderSpacing.InnerBorder = 4
         Caption = '...'
         OnClick = btnSelEditFntClick
         TabOrder = 9
       end
       object btnSelViewFnt: TButton
-        Left = 360
+        Left = 416
         Height = 23
-        Top = 159
+        Top = 188
         Width = 23
+        Anchors = [akTop, akRight]
         BorderSpacing.InnerBorder = 4
         Caption = '...'
         OnClick = btnSelViewFntClick
         TabOrder = 11
       end
       object edtMainSize: TSpinEdit
-        Left = 340
+        Left = 371
         Height = 23
-        Top = 49
+        Top = 54
         Width = 68
+        Anchors = [akTop, akRight]
         MaxValue = 25
         MinValue = 8
+        OnChange = edtMainSizeChange
         TabOrder = 6
         Value = 14
       end
       object edtEditorSize: TSpinEdit
-        Left = 340
+        Left = 371
         Height = 23
-        Top = 121
+        Top = 133
         Width = 68
+        Anchors = [akTop, akRight]
         MaxValue = 25
         MinValue = 8
+        OnChange = edtEditorSizeChange
         TabOrder = 8
         Value = 14
       end
       object edtViewerSize: TSpinEdit
-        Left = 340
+        Left = 371
         Height = 23
-        Top = 192
+        Top = 213
         Width = 68
+        Anchors = [akTop, akRight]
         MaxValue = 25
         MinValue = 8
+        OnChange = edtViewerSizeChange
         TabOrder = 10
         Value = 14
       end
@@ -356,18 +377,18 @@ inherited frmOptions: TfrmOptions
       Caption = 'Color'
       object cTextLabel: TLabel
         Left = 25
-        Height = 13
+        Height = 14
         Top = 31
-        Width = 24
+        Width = 23
         Caption = 'Text'
         Color = clNone
         ParentColor = False
       end
       object cBackGrndLabel: TLabel
         Left = 23
-        Height = 13
+        Height = 14
         Top = 58
-        Width = 70
+        Width = 58
         Caption = 'BackGround'
         Color = clNone
         ParentColor = False
@@ -460,28 +481,29 @@ inherited frmOptions: TfrmOptions
     object tfHotKey: TTabSheet
       Caption = 'Hot Keys'
       object lblActions: TLabel
-        Left = 14
+        Left = 6
         Height = 14
-        Top = 4
+        Top = 13
         Width = 36
         Caption = 'Actions'
         Color = clNone
         ParentColor = False
       end
       object lblHotKey: TLabel
-        Left = 14
+        Left = 6
         Height = 14
-        Top = 52
+        Top = 68
         Width = 39
         Caption = 'Hot Key'
         Color = clNone
         ParentColor = False
       end
       object cbActions: TComboBox
-        Left = 14
+        Left = 6
         Height = 21
-        Top = 20
-        Width = 296
+        Top = 33
+        Width = 436
+        Anchors = [akTop, akLeft, akRight]
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         MaxLength = 0
         Sorted = True
@@ -489,18 +511,20 @@ inherited frmOptions: TfrmOptions
         TabOrder = 0
       end
       object edHotKey: TEdit
-        Left = 14
+        Left = 6
         Height = 23
-        Top = 68
-        Width = 160
+        Top = 88
+        Width = 320
+        Anchors = [akTop, akLeft, akRight]
         OnKeyDown = edHotKeyKeyDown
         TabOrder = 1
       end
       object btSetHotKey: TButton
-        Left = 182
+        Left = 331
         Height = 25
-        Top = 66
-        Width = 128
+        Top = 88
+        Width = 111
+        Anchors = [akTop, akRight]
         BorderSpacing.InnerBorder = 4
         Caption = 'Set HotKey'
         OnClick = btSetHotKeyClick
@@ -510,16 +534,16 @@ inherited frmOptions: TfrmOptions
   end
   object Panel1: TPanel
     Height = 40
-    Top = 272
+    Top = 273
     Width = 456
     Align = alBottom
     FullRepaint = False
     TabOrder = 1
     object btnOK: TBitBtn
-      Left = 280
-      Height = 25
-      Top = 8
-      Width = 75
+      Left = 255
+      Height = 31
+      Top = 2
+      Width = 90
       BorderSpacing.InnerBorder = 2
       Caption = '&OK'
       Kind = bkOK
@@ -529,10 +553,10 @@ inherited frmOptions: TfrmOptions
       TabOrder = 0
     end
     object btnCancel: TBitBtn
-      Left = 368
-      Height = 25
-      Top = 8
-      Width = 75
+      Left = 354
+      Height = 31
+      Top = 2
+      Width = 98
       BorderSpacing.InnerBorder = 2
       Caption = 'Cancel'
       Kind = bkCancel
@@ -543,12 +567,12 @@ inherited frmOptions: TfrmOptions
   end
   object dlgFnt: TFontDialog
     Title = 'Выбрать шрифт'
-    left = 224
-    top = 16
+    left = 170
+    top = 25
   end
   object optColorDialog: TColorDialog
     Title = 'Выбрать цвет'
-    left = 224
-    top = 49
+    left = 205
+    top = 25
   end
 end
