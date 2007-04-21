@@ -1,8 +1,6 @@
 [Buttonbar]
-Buttoncount=3
-button1=X:\DC\svn\doublecmd\pixmaps\16x16\actions\view-refresh.png
-cmd1=actRefresh
-button2=X:\DC\svn\doublecmd\pixmaps\16x16\apps\utilities-terminal.png
-cmd2=cmd.exe
+Buttoncount=1
+button1=D:\svn\doublecmd\pixmaps\fcommand.png
+cmd1=cmd
 button3=X:\DC\svn\doublecmd\pixmaps\16x16\actions\edit-select-all.png
 cmd3=actMarkMarkAll
