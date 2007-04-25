@@ -50,7 +50,7 @@ const       {Error codes returned to calling application}
   PK_CAPS_OPTIONS=     16;    {Supports the options dialogbox}
   PK_CAPS_MEMPACK=     32;    {Supports packing in memory}
   PK_CAPS_BY_CONTENT=  64;    {Detect archive type by content}
-  PK_CAPS_SEARCHTEXT= 128;    {Allow searching for text in archives
+  PK_CAPS_SEARCHTEXT= 128;    {Allow searching for text in archives}
                               { created with this plugin}
   PK_CAPS_HIDE=       256;    { Show as normal files (hide packer icon) }
                               { open with Ctrl+PgDn, not Enter }
