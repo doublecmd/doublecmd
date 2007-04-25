@@ -9,7 +9,7 @@
         <MainUnitHasUsesSectionForAllUnits Value="False"/>
       </Flags>
       <MainUnit Value="0"/>
-      <IconPath Value="./"/>
+      <IconPath Value=".\"/>
       <TargetFileExt Value=""/>
       <Title Value="Double Commander"/>
       <ActiveEditorIndexAtStart Value="0"/>
@@ -53,8 +53,8 @@
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="doublecmd"/>
-        <CursorPos X="1" Y="88"/>
-        <TopLine Value="63"/>
+        <CursorPos X="6" Y="19"/>
+        <TopLine Value="56"/>
         <UsageCount Value="200"/>
       </Unit0>
       <Unit1>
@@ -86,9 +86,11 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="fmain.lrs"/>
         <UnitName Value="fMain"/>
-        <CursorPos X="22" Y="2351"/>
-        <TopLine Value="2346"/>
+        <CursorPos X="9" Y="5"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="0"/>
         <UsageCount Value="104"/>
+        <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="uwcxprototypes.pas"/>
@@ -207,11 +209,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="foptions.lrs"/>
         <UnitName Value="fOptions"/>
-        <CursorPos X="16" Y="352"/>
-        <TopLine Value="337"/>
-        <EditorIndex Value="0"/>
+        <CursorPos X="25" Y="265"/>
+        <TopLine Value="252"/>
         <UsageCount Value="29"/>
-        <Loaded Value="True"/>
       </Unit14>
       <Unit15>
         <Filename Value="fFileOpDlg.pas"/>
@@ -330,8 +330,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="fpackdlg.lrs"/>
         <UnitName Value="fPackDlg"/>
-        <CursorPos X="46" Y="159"/>
-        <TopLine Value="149"/>
+        <CursorPos X="4" Y="6"/>
+        <TopLine Value="1"/>
         <UsageCount Value="29"/>
       </Unit25>
       <Unit26>
@@ -390,19 +390,11 @@
         <UsageCount Value="29"/>
       </Unit30>
     </Units>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="1" HistoryIndex="0">
       <Position1>
-        <Filename Value="foptions.pas"/>
-        <Caret Line="271" Column="5" TopLine="214"/>
+        <Filename Value="fmain.pas"/>
+        <Caret Line="2482" Column="26" TopLine="1792"/>
       </Position1>
-      <Position2>
-        <Filename Value="foptions.pas"/>
-        <Caret Line="105" Column="1" TopLine="105"/>
-      </Position2>
-      <Position3>
-        <Filename Value="foptions.pas"/>
-        <Caret Line="122" Column="8" TopLine="104"/>
-      </Position3>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

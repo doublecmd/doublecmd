@@ -120,7 +120,7 @@ begin
     fr.sNameNoExt:=Copy(sr.Name,1,length(sr.Name)-length(fr.sExt));
     fr.sName:=sr.Name;
 
-    fr.sTime:=DateTimeToStr(Trunc(fr.fTimeI));
+    fr.sTime:=FormatDateTime('dd.mm.yyyy', Trunc(fr.fTimeI));
     fr.bIsLink:=FPS_ISLNK(fr.iMode);
     fr.sLinkTo:='';
     fr.iDirSize:=0;

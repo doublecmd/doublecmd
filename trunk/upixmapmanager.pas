@@ -9,7 +9,7 @@
    
    contributors:
    
-   Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -51,6 +51,7 @@ type
     FiLinkIconID: Integer;
     FiUpDirIconID: Integer;
     FiDefaultIconID: Integer;
+    FiArcIconID : Integer;
     {$IFDEF WIN32}
     SysImgList : Cardinal;
     {$ENDIF}
@@ -73,7 +74,7 @@ procedure LoadPixMapManager;
 
 implementation
 uses
-  uGlobsPaths, uOSUtils{$IFDEF WIN32}, ShellAPI, Windows{$ENDIF};
+  uGlobsPaths, uOSUtils, uWCXhead, uGlobs{$IFDEF WIN32}, ShellAPI, Windows{$ENDIF};
 { TPixMapManager }
 
 {$IFDEF WIN32}
@@ -140,9 +141,11 @@ var
   sExt, sPixMap:String;
   iekv:integer;
   iPixMap:Integer;
-  x:Integer;
+  I : Integer;
   png:TPortableNetworkGraphic;
-
+  Plugins : TStringList;
+  sCurrentPlugin : String;
+  iCurPlugCaps : Integer;
 begin
   if FileExists(sFileName) then
   begin
@@ -174,14 +177,34 @@ begin
   FiLinkIconID:=CheckAddPixmap('flink.png');
   FiUpDirIconID:=CheckAddPixmap('fupdir.png');
   FiDefaultIconID:=CheckAddPixmap('fblank.png');
+  FiArcIconID := CheckAddPixmap('farc.png');
+  
+  (* Set archive icons *)
+  
+  Plugins := TStringList.Create;
+  gIni.ReadSectionRaw('PackerPlugins', Plugins);
+  
+  for I:=0 to Plugins.Count - 1 do
+        begin
+          sCurrentPlugin := Plugins.ValueFromIndex[I];
+          iCurPlugCaps := StrToInt(Copy(sCurrentPlugin, 1, Pos(',',sCurrentPlugin) - 1));
+          if (iCurPlugCaps and PK_CAPS_HIDE) <> PK_CAPS_HIDE then
+            begin
+              if FExtList.IndexOf(Plugins.Names[I]) < 0 then
+                FExtList.AddObject(Plugins.Names[I], TObject(FiArcIconID));
+            end;
+        end; //for
+  Plugins.Free;
+  
+  (* /Set archive icons *)
 
   // now fill imagelist by FPixMap
 
-  for x:=0 to FPixmapName.Count-1 do
+  for I := 0 to FPixmapName.Count - 1 do
   begin
-//    writeln('Loading:',x,' ',FExtList[x],': ',gpPixmapPath+FPixmapName[x]);
+//    writeln('Loading:',I,' ',FExtList[I],': ',gpPixmapPath+FPixmapName[I]);
     png:=TPortableNetworkGraphic.Create;
-    png.LoadFromFile(gpPixmapPath+FPixmapName[x]);
+    png.LoadFromFile(gpPixmapPath+FPixmapName[I]);
     png.Transparent:=True;
 //    bmp.TransparentMode:=tmFixed;
 //    writeln(bmp.Width,' ',bmp.Height);
