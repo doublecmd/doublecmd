@@ -1,4 +1,6 @@
 {
+Double Commander
+------------------------------------------------------------
 Seksi Commander
 ----------------------------
 Licence  : GNU GPL v 2.0
@@ -8,7 +10,7 @@ Globals variables and some consts
 
 contributors:
 
-Alexander Koblov (Alexx2000@mail.ru)
+Copyright (C) 2006-2007 Alexander Koblov (Alexx2000@mail.ru)
 
 }
 
@@ -82,7 +84,7 @@ var
 
 implementation
 uses
-   SysUtils, uGlobsPaths, uLng, uShowMsg;
+   SysUtils, uGlobsPaths, uLng, uShowMsg, uOSUtils;
 
 // for debugging only, can be removed
 procedure dbgShowWindowPos(const pos: TControlPosition);
@@ -130,6 +132,11 @@ end;
 procedure InitGlobs;
 begin
   gIni:=TIniFile.Create(gpIniDir+'doublecmd.ini');
+  if gIni.ReadInteger('Configuration', 'UseIniInProgramDir', 1)  = 0 then
+    begin
+      gIni.Free;
+      gIni:=TIniFile.Create(GetHomeDir + 'doublecmd.ini');
+    end;
   gExts:=TExts.Create;
   gColorExt:=TColorExt.Create;
   glsHotDir:=TStringList.Create;

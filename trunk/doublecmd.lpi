@@ -86,7 +86,7 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="fmain.lrs"/>
         <UnitName Value="fMain"/>
-        <CursorPos X="9" Y="5"/>
+        <CursorPos X="12" Y="10"/>
         <TopLine Value="1"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="104"/>
@@ -390,12 +390,7 @@
         <UsageCount Value="29"/>
       </Unit30>
     </Units>
-    <JumpHistory Count="1" HistoryIndex="0">
-      <Position1>
-        <Filename Value="fmain.pas"/>
-        <Caret Line="2482" Column="26" TopLine="1792"/>
-      </Position1>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
