@@ -13,11 +13,15 @@ unit uDeleteThread;
 {$mode objfpc}{$H+}
 interface
 uses
-  uFileOpThread, uTypes, SysUtils;
+  uFileOpThread, uFileList, uTypes, SysUtils;
 type
+
+  { TDeleteThread }
+
   TDeleteThread=Class(TFileOpThread)
 
   protected
+    constructor Create(aFileList:TFileList);override;
     procedure MainExecute; override;
     Function DeleteFile(fr:PFileRecItem):Boolean;
     Function GetCaptionLng:String;override;
@@ -26,6 +30,12 @@ type
 implementation
 uses
   uLng, uOSUtils;
+
+constructor TDeleteThread.Create(aFileList: TFileList);
+begin
+  inherited Create(aFileList);
+  FSymLinkAll := True;
+end;
 
 procedure TDeleteThread.MainExecute;
 var

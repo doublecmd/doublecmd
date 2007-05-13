@@ -46,6 +46,8 @@ type
     FAppend: Boolean; // used mainly for pass information between move and copy
     FDlgFileExist : TfrmMsg; //Alexx2000
     FMsg : String; //Alexx2000
+    FSymLinkAll, // process all symlinks
+    FNotSymLinkAll : Boolean; // process all real files/folders
 
     
     procedure Execute; override;
@@ -53,31 +55,36 @@ type
     procedure FillAndCount;
     procedure FillAndCountRec(const srcPath, dstPath:String); // rekursive called
     procedure EstimateTime(iSizeCoped:Int64);
-    Function GetCaptionLng:String; virtual;
+    Function  GetCaptionLng:String; virtual;
     procedure CorrectMask;
-    Function CorrectDstName(const sName:String):String;
-    Function CorrectDstExt(const sExt:String):String;
+    Function  CorrectDstName(const sName:String):String;
+    Function  CorrectDstExt(const sExt:String):String;
     procedure ShowDlgFileExist; //Alexx2000
     procedure FileOpDlgEnabled;
+    procedure ShowDlgProcessSymLink;
+
 
   public
     FFileOpDlg: TfrmFileOp; // progress window
     sDstPath: String;
     sDstMask: String;
-    constructor Create(aFileList:TFileList);
+    constructor Create(aFileList:TFileList);virtual;
     destructor Destroy; override;
     function UseForm:Boolean; virtual;
     function FreeAtEnd:Boolean; virtual;
     function DlgFileExist(const sMsg:String):Boolean; // result=true > rewrite file
+    function DlgProcessSymLink(const sMsg:String):Boolean;
+
   end;
   
 const
     FMyMsgButtons : array[0..5] of TMyMsgButton = (msmbRewrite, msmbNo, msmbSkip, msmbAppend, msmbRewriteAll, msmbSkipAll); //Alexx2000
+    FSymLinkBtns : array[0..3] of TMyMsgButton = (msmbYes, msmbNo, msmbRewriteAll, msmbSkipAll); //Alexx2000
 
 implementation
 
 uses
-  SysUtils, uLng, uFileProcs, Forms, FindEx, uDCUtils, uOSUtils;
+  SysUtils, uLng, uFileProcs, uFileOp, Forms, FindEx, uDCUtils, uOSUtils;
 
 { TFileOpThread }
 
@@ -90,6 +97,8 @@ begin
   FFileList := aFileList;
   FreeOnTerminate:=FreeAtEnd;
   sDstMask:='*.*';
+  FSymLinkAll := False;
+  FNotSymLinkAll := False;
 end;
 
 destructor TFileOpThread.Destroy;
@@ -158,6 +167,8 @@ procedure TFileOpThread.FillAndCount;
 var
   i:Integer;
   ptr:PFileRecItem;
+  sRealName : String;
+  sr : TSearchRec;
 begin
   NewFileList.Clear;
   FFilesCount:=0;
@@ -166,6 +177,29 @@ begin
   for i:=0 to FFileList.Count-1 do
   begin
     ptr:=FFileList.GetItem(i);
+    //----------------------------------------
+    (* For process symlink or real file/folder *)
+    if FPS_ISLNK(ptr^.iMode) then
+    if (not FSymLinkAll) and (FNotSymLinkAll  or not DlgProcessSymLink('Process SymLink "' + ptr^.sName +'"? Press "Yes" to copy or "No" for copy real file/folder')) then //TODO: Localize message
+      begin
+        sRealName:=ReadSymLink(ptr^.sName);
+        sRealName := GetAbsoluteFileName(ExtractFilePath(ptr^.sName), sRealName);
+            
+        FindFirst(sRealName, faAnyFile, sr);
+        with ptr^ do
+        begin
+          iSize := sr.Size;
+          sTime := DateTimeToStr(Trunc(FileDateToDateTime(sr.Time)));
+          iMode := sr.Attr;
+          sModeStr := AttrToStr(sr.Attr);
+          bLinkIsDir:=False;
+          bSelected:=False;
+        end;
+        DivFileName(sRealName, ptr^.sName, ptr^.sExt);
+      end;
+    //----------------------------------------
+    
+    
     if FPS_ISDIR(ptr^.iMode) and (not ptr^.bLinkIsDir) then
     begin
       inc(FDirCount);
@@ -271,7 +305,7 @@ end;
 
 procedure  TFileOpThread.ShowDlgFileExist;
 begin
-FDlgFileExist := MsgBoxModal(FMsg, FMyMsgButtons, msmbRewrite, msmbNo);
+FDlgFileExist := MsgBoxModal(FMsg, FMyMsgButtons, msmbYes, msmbNo);
 end;
 
 
@@ -315,6 +349,53 @@ begin
       Raise Exception.Create('bad handling msg result');
   end; //case
 end;
+
+{Dialog for process symlink or real file/folder}
+
+procedure  TFileOpThread.ShowDlgProcessSymLink;
+begin
+  FDlgFileExist := MsgBoxModal(FMsg, FSymLinkBtns, msmbYes, msmbNo);
+end;
+
+function TFileOpThread.DlgProcessSymLink(const sMsg:String):Boolean; // result=true > rewrite file
+var
+    DlgResult : TMyMsgResult;
+begin
+  FAppend:=False;
+  Result:=False;
+  FMsg := sMsg;
+
+  {For pseudo modal window}
+  Synchronize(@ShowDlgProcessSymLink);
+  Synchronize(@FileOpDlgEnabled);
+  while (FDlgFileExist.iSelected) < 0 do Sleep(10);
+  Synchronize(@FileOpDlgEnabled);
+  {/For pseudo modal window}
+
+  DlgResult:=TMyMsgResult(FSymLinkBtns[FDlgFileExist.iSelected]);
+  case DlgResult of
+    mmrNo:;
+    
+    mmrYes:
+      begin
+        Result:=True;
+      end;
+    mmrRewriteAll:
+      begin
+        FSymLinkAll:=True;
+        Result:=True;
+      end;
+
+    mmrSkipAll:
+      begin
+        FNotSymLinkAll:=True;
+      end;
+    else
+      Raise Exception.Create('bad handling msg result');
+  end; //case
+end;
+
+{/Dialog for process symlink or real file/folder}
 
 Function TFileOpThread.GetCaptionLng:String;
 begin

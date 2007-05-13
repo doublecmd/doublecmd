@@ -90,6 +90,7 @@ function ExecCmdFork(const sCmd:String):Integer;
 function GetDiskFreeSpace(Path : String; var FreeSize, TotalSize : Int64) : Boolean;
 function CreateHardLink(Path, LinkName: string) : Boolean;
 function CreateSymLink(Path, LinkName: string) : Boolean;
+function ReadSymLink(LinkName : String) : String;
 function GetHomeDir : String;
 function GetLastDir(Path : String) : String;
 
@@ -186,7 +187,7 @@ begin
 end;
 {$ELSE}
 begin
-Result := (fplink(PChar(@Path[1]),PChar(@LinkName[1]))=0);
+  Result := (fplink(PChar(@Path[1]),PChar(@LinkName[1]))=0);
 end;
 {$ENDIF}
 
@@ -202,7 +203,30 @@ begin
 end;
 {$ELSE}
 begin
-Result := (fpsymlink(PChar(@Path[1]),PChar(@LinkName[1]))=0);
+  Result := (fpsymlink(PChar(@Path[1]),PChar(@LinkName[1]))=0);
+end;
+{$ENDIF}
+
+(* Get symlink target *)
+
+function ReadSymLink(LinkName : String) : String;
+{$IFDEF WIN32}
+var
+  Target: WideString;
+  LinkType: TReparsePointType;
+begin
+  try
+    if uNTFSLinks.FGetSymlinkInfo(LinkName, Target, LinkType) then
+      Result := Target
+    else
+      Result := '';
+  except
+    Result := '';
+  end;
+end;
+{$ELSE}
+begin
+  Result := fpReadlink(LinkName);
 end;
 {$ENDIF}
 

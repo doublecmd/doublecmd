@@ -1,8 +1,8 @@
 unit uNTFSLinks;
 {
-Create link(s) on NTFS.
+Create and read link(s) on NTFS.
 
-Based on:
+*** Based on: ***
 }
 { **** UBPFD *********** by kladovka.net.ru ****
 >> Создание hardlink и symbolic link.
@@ -16,6 +16,21 @@ Symbolic link можно создать только для директориев и только на NTFS5 (Win2K/XP) 
 Copyright:   http://home.earthlink.net/~akonshin/files/xlink.zip
 Дата:        30 декабря 2002 г.
 ********************************************** }
+{
+*** and ***
+}
+//====================================================================
+// Junction creation and listing utility, based on Junction.c source
+// by Mark Russinovich, http://www.sysinternals.com. Thanks Mark!
+//
+// Note: targets of some rare reparse point types are not recognized,
+// as in Mark's source.
+//
+// (C) Alexey Torgashin, http://alextpp.narod.ru, atorg@yandex.ru
+// 18.02.06 - initial version
+//====================================================================
+
+
 interface
 
 uses
@@ -29,15 +44,44 @@ type
     lo: LongWord;
     hi: LongInt;
   end;
+  
+   TReparsePointType = (
+    slUnknown,
+    slJunction,
+    slMountPoint,
+    slSymLink,
+    slHSM,
+    slSIS,
+    slDFS
+    );
 
 const
   FILE_DOES_NOT_EXIST = DWORD(-1);
+  FILE_ATTRIBUTE_DEVICE               = $00000040;
+  FILE_ATTRIBUTE_SPARSE_FILE          = $00000200;
+  FILE_ATTRIBUTE_REPARSE_POINT        = $00000400;
+  FILE_ATTRIBUTE_OFFLINE              = $00001000;
+  FILE_ATTRIBUTE_NOT_CONTENT_INDEXED  = $00002000;
+  FILE_ATTRIBUTE_ENCRYPTED            = $00004000;
+  SReparsePointType: array[TReparsePointType] of PChar = (
+    'Unknown point type',
+    'Junction',
+    'Mount Point',
+    'Symbolic Link',
+    'Hierarchical Storage Management point',
+    'Single Instance Store point',
+    'Distributed File System point'
+    );
 
 (* To create symbolic link (works on Windows 2k/XP for directories only) *)
 function CreateSymlink( ATargetName, ALinkName: String; const options: TOptions = []): Boolean;
 (* To create hardlink(s) (works only for files) *)
 procedure CreateHardlink( AFileName, ALinkName: String; options: TOptions = []);
 
+function FCreateSymlink(const fnLink, fnTarget: WideString): boolean;
+function FGetSymlinkInfo(const fn: WideString; var Target: WideString; var LinkType: TReparsePointType): boolean;
+function FDeleteSymlink(const fn: WideString): boolean;
+function FDriveSupportsSymlinks(const fn: WideString): boolean;
 
 implementation
 //=============================================================
@@ -399,11 +443,27 @@ const
 
   FILE_FLAG_OPEN_REPARSE_POINT = $00200000;
 
-  FILE_ATTRIBUTE_REPARSE_POINT = $00000400;
-
-  IO_REPARSE_TAG_MOUNT_POINT = $A0000003;
 
   REPARSE_MOUNTPOINT_HEADER_SIZE = 8;
+
+  MAX_REPARSE_SIZE = 17000;
+  MAX_NAME_LENGTH = 1024;
+
+
+  IO_REPARSE_TAG_RESERVED_ZERO  = $000000000;
+  IO_REPARSE_TAG_SYMBOLIC_LINK  = IO_REPARSE_TAG_RESERVED_ZERO;
+  IO_REPARSE_TAG_RESERVED_ONE   = $000000001;
+  IO_REPARSE_TAG_RESERVED_RANGE = $000000001;
+  IO_REPARSE_TAG_VALID_VALUES   = $0E000FFFF;
+  IO_REPARSE_TAG_HSM            = $0C0000004;
+  IO_REPARSE_TAG_NSS            = $080000005;
+  IO_REPARSE_TAG_NSSRECOVER     = $080000006;
+  IO_REPARSE_TAG_SIS            = $080000007;
+  IO_REPARSE_TAG_DFS            = $080000008;
+  IO_REPARSE_TAG_MOUNT_POINT    = $0A0000003;
+
+
+  FILE_SUPPORTS_REPARSE_POINTS = $00000080;
 
 type
   REPARSE_MOUNTPOINT_DATA_BUFFER = packed record
@@ -418,6 +478,18 @@ type
   TReparseMountpointDataBuffer = REPARSE_MOUNTPOINT_DATA_BUFFER;
   PReparseMountpointDataBuffer = ^TReparseMountpointDataBuffer;
 
+  REPARSE_DATA_BUFFER = packed record
+    ReparseTag: DWORD;
+    ReparseDataLength: Word;
+    Reserved: Word;
+    SubstituteNameOffset: Word;
+    SubstituteNameLength: Word;
+    PrintNameOffset: Word;
+    PrintNameLength: Word;
+    PathBuffer: array[0..0] of WideChar;
+  end;
+  TReparseDataBuffer = REPARSE_DATA_BUFFER;
+  PReparseDataBuffer = ^TReparseDataBuffer;
 
 //-------------------------------------------------------------
 function CreateSymlink( ATargetName, ALinkName: String; const options: TOptions ): Boolean;
@@ -637,4 +709,221 @@ begin
 
 end;
 }
+
+
+//-------------------------------------------------------------
+procedure Log(const msg: string);
+begin
+  //Writeln(msg);
+end;
+
+//-------------------------------------------------------------
+const
+  Prefix: WideString = '\??\';
+
+function FCreateSymlink(const fnLink, fnTarget: WideString): boolean;
+var
+  h: THandle;
+  Buffer: PReparseMountPointDataBuffer;
+  BufSize: integer;
+  TargetName: WideString;
+  BytesRead: DWORD;
+begin
+  Result:= false;
+  if FileExists(fnLink) then
+    begin
+    Log('Target already exists');
+    Exit
+    end;
+  if not CreateDirectoryW(PWChar(fnLink), nil) then
+    begin
+    Log('CreateDirectoryW failed');
+    Exit
+    end;
+
+  h:= CreateFileW(PWChar(fnLink), GENERIC_WRITE, 0, nil, OPEN_EXISTING,
+    FILE_FLAG_OPEN_REPARSE_POINT or FILE_FLAG_BACKUP_SEMANTICS, 0);
+  if h=INVALID_HANDLE_VALUE then
+    begin
+    Log('CreateFileW failed');
+    RemoveDirectoryW(PWChar(fnLink));
+    Exit
+    end;
+
+  TargetName:= Prefix+fnTarget;
+  BufSize:= (Length(Prefix)+Length(fnTarget)+1)*2+REPARSE_MOUNTPOINT_HEADER_SIZE+12;
+  GetMem(Buffer, BufSize);
+  FillChar(Buffer^, BufSize, 0);
+
+  with Buffer^ do
+    begin
+    Move(TargetName[1], ReparseTarget, (Length(TargetName)+1)*2);
+    ReparseTag:= IO_REPARSE_TAG_MOUNT_POINT;
+    ReparseTargetLength:= Length(TargetName)*2;
+    ReparseTargetMaximumLength:= ReparseTargetLength+2;
+    ReparseDataLength:= ReparseTargetLength+12;
+    end;
+
+  {
+  with Buffer^ do
+    begin
+    Writeln('Reparse info:');
+    Writeln('ReparseTargetLength: ', ReparseTargetLength);
+    Writeln('ReparseTarget: "', string(ReparseTarget), '"');
+    end;
+    }
+
+  BytesRead:= 0;
+  Result:= DeviceIoControl(h, FSCTL_SET_REPARSE_POINT,
+    Buffer, Buffer^.ReparseDataLength+REPARSE_MOUNTPOINT_HEADER_SIZE, nil, 0,
+    BytesRead, nil);
+  if not Result then
+    begin
+    Log('DeviceIoControl failed');
+    Sleep(500); //for RemoveDirectoryW to work
+    RemoveDirectoryW(PWChar(fnLink));
+    end;
+
+  FreeMem(Buffer);
+  CloseHandle(h);
+end;
+
+//-------------------------------------------------------------
+function FGetSymlinkInfo(const fn: WideString; var Target: WideString; var LinkType: TReparsePointType): boolean;
+var
+  attr: DWORD;
+  h: THandle;
+  reparseBuffer: array[0..MAX_REPARSE_SIZE-1] of char;
+  reparseInfo: PReparseDataBuffer;
+  reparseData: pointer;
+  //reparseData1,
+  reparseData2: PWChar;
+  //name1,
+  name2: array[0..MAX_NAME_LENGTH-1] of WideChar;
+  returnedLength: DWORD;
+  control: boolean;
+begin
+  Result:= false;
+  Target:= '';
+  LinkType:= slUnknown;
+
+  attr:= GetFileAttributesW(PWChar(fn));
+  if (attr and FILE_ATTRIBUTE_REPARSE_POINT)=0 then Exit;
+
+  if (attr and FILE_ATTRIBUTE_DIRECTORY)<>0 then
+    h:= CreateFileW(PWChar(fn), 0,
+      FILE_SHARE_READ or FILE_SHARE_WRITE, nil,
+      OPEN_EXISTING,
+      FILE_FLAG_BACKUP_SEMANTICS or FILE_FLAG_OPEN_REPARSE_POINT, 0)
+  else
+    h:= CreateFileW(PWChar(fn), 0,
+      FILE_SHARE_READ or FILE_SHARE_WRITE, nil,
+      OPEN_EXISTING,
+      FILE_FLAG_OPEN_REPARSE_POINT, 0);
+
+  if h=INVALID_HANDLE_VALUE then
+    begin
+    Log('CreateFileW failed');
+    Exit
+    end;
+
+  reparseInfo:= @reparseBuffer;
+  control:= DeviceIoControl(h, FSCTL_GET_REPARSE_POINT,
+    nil, 0, reparseInfo, SizeOf(reparseBuffer),
+    returnedLength, nil);
+  CloseHandle(h);
+  if not control then
+    begin
+    Log('DeviceIoControl failed');
+    Exit
+    end;
+
+  case reparseInfo^.ReparseTag of
+    IO_REPARSE_TAG_MOUNT_POINT:
+      begin
+      reparseData:= @reparseInfo.PathBuffer;
+
+      {
+      FillChar(name1, SizeOf(name1), 0);
+      reparseData1:= pointer(integer(reparseData)+reparseInfo.PrintNameOffset);
+      lstrcpynW(name1, reparseData1, reparseInfo.PrintNameLength);
+      }
+
+      FillChar(name2, SizeOf(name2), 0);
+      reparseData2:= pointer(integer(reparseData)+reparseInfo.SubstituteNameOffset);
+      lstrcpynW(name2, reparseData2, reparseInfo.SubstituteNameLength);
+
+      Target:= name2;
+      if Pos(Prefix, Target)=1 then
+        Delete(Target, 1, Length(Prefix));
+
+      if Pos(':', Target)>0
+        then LinkType:= slJunction
+        else LinkType:= slMountPoint;
+
+      Result:= true;
+      end;
+
+    IO_REPARSE_TAG_SYMBOLIC_LINK or $80000000:
+      begin
+      reparseData:= @reparseInfo.PathBuffer;
+
+      {
+      FillChar(name1, SizeOf(name1), 0);
+      reparseData1:= pointer(integer(reparseData)+reparseInfo.PrintNameOffset);
+      lstrcpynW(name1, reparseData1, reparseInfo.PrintNameLength);
+      }
+
+      FillChar(name2, SizeOf(name2), 0);
+      reparseData2:= pointer(integer(reparseData)+reparseInfo.SubstituteNameOffset);
+      lstrcpynW(name2, reparseData2, reparseInfo.SubstituteNameLength);
+
+      Target:= name2;
+      LinkType:= slSymLink;
+      Result:= true;
+      end;
+
+    IO_REPARSE_TAG_HSM:
+      begin
+      LinkType:= slHSM;
+      Result:= true;
+      end;
+
+    IO_REPARSE_TAG_SIS:
+      begin
+      LinkType:= slSIS;
+      Result:= true;
+      end;
+
+    IO_REPARSE_TAG_DFS:
+      begin
+      LinkType:= slDFS;
+      Result:= true;
+      end;
+  end;
+end;
+
+//-------------------------------------------------------------
+function FDeleteSymlink(const fn: WideString): boolean;
+begin
+  Result:= RemoveDirectoryW(PWChar(fn));
+end;
+
+//-------------------------------------------------------------
+function FDriveSupportsSymlinks(const fn: WideString): boolean;
+var
+  disk: char;
+  buf1, buf2: array[0..50] of char;
+  Serial, NameLen, Flags: DWORD;
+begin
+  Result:= false;
+  if (fn='') or (Pos(':\', fn)<>2) then Exit;
+  disk:= char(fn[1]);
+  FillChar(buf1, SizeOf(buf1), 0);
+  FillChar(buf2, SizeOf(buf2), 0);
+  if GetVolumeInformation(PChar(disk+':\'), @buf1, SizeOf(buf1),
+    @Serial, NameLen, Flags, @buf2, SizeOf(buf2)) then
+    Result:= (Flags and FILE_SUPPORTS_REPARSE_POINTS)<>0;
+end;
+
 end.
