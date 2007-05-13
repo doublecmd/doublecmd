@@ -83,20 +83,20 @@ begin
   FFileOpDlg.sFileName:=ExtractFileName(fr^.sName)+' -> '+fr^.sPath+sDstNew;
   Synchronize(@FFileOpDlg.UpdateDlg);
   if FPS_ISLNK(fr^.iMode) then
-  begin
-    // use sDstName as link target
-    {$IFNDEF WIN32}  // Alexx2000
-    sDstName:=fpReadlink(fr^.sName);
-    {$ENDIF}
-    if sDstName<>'' then
     begin
-      if not CreateSymlink(fr^.sName, sDstName) then
-        writeln('Symlink error:');
+      // use sDstName as link target
+      sDstName:=ReadSymLink(fr^.sName);
+      if sDstName<>'' then
+            begin
+              sDstName := GetAbsoluteFileName(ExtractFilePath(fr^.sName), sDstName);
+              WriteLN('ReadSymLink := ' + sDstName);
+              if not CreateSymlink(sDstName, sDst+fr^.sPath+sDstNew) then
+                writeln('Symlink error:');
+            end
+          else
+            writeln('Error reading link');
+          Result:=True;
     end
-    else
-      writeln('Error reading link');
-   Result:=True;
-  end
   else
   if FPS_ISDIR(fr^.iMode) then
    begin
@@ -123,7 +123,7 @@ begin
       end;   
     end;
     Result:=CopyFile(fr^.sName, sDst+fr^.sPath+sDstNew, FAppend);
-  end;
+  end; // files and other stuff
 end;
 
 Function TCopyThread.CopyFile(const sSrc, sDst:String; bAppend:Boolean):Boolean;

@@ -22,6 +22,8 @@ interface
 uses
   Classes, SysUtils, Graphics;
 
+function GetAbsoluteFileName(sPath, sRelativeFileName : String) : String;
+function ExtractOnlyFileName(const FileName: string): string;
 Function cnvFormatFileSize(iSize:Int64):String;
 Function MinimizeFilePath(const PathToMince: String; Canvas: TCanvas;
                                            MaxLen: Integer): String;
@@ -31,7 +33,52 @@ procedure DivFileName(const sFileName:String; var n,e:String);
 
 implementation
 uses
-   uGlobs;
+   uGlobs, uVFSUtil;
+
+function GetAbsoluteFileName(sPath, sRelativeFileName : String) : String;
+var
+  iPos : Integer;
+  sDir : String;
+begin
+  sDir := '';
+  if (Pos(PathDelim, sRelativeFileName)  <> 0) and (Pos(DriveDelim, sRelativeFileName) = 0) then
+    begin
+      iPos := Pos('..' + PathDelim, sRelativeFileName);
+      if iPos <> 0 then
+        sDir := sPath;
+      while iPos <> 0 do
+        begin
+          sDir := LowDirLevel(sDir);
+          Delete(sRelativeFileName, iPos, 3);
+          iPos := Pos('..' + PathDelim, sRelativeFileName);
+        end;
+      Result := sDir + sRelativeFileName;
+    end
+  else
+    if Pos(DriveDelim, sRelativeFileName) = 0 then
+      Result := sPath + sRelativeFileName
+    else
+      Result := sRelativeFileName;
+end;
+
+function ExtractOnlyFileName(const FileName: string): string;
+var
+ iDotIndex,
+ I: longint;
+begin
+  (* Find a dot index *)
+  I := Length(FileName);
+  while (I > 0) and not (FileName[I] in ['.', '/', '\', ':']) do Dec(I);
+  if (I > 0) and (FileName[I] = '.') then
+     iDotIndex := I
+  else
+     iDotIndex := MaxInt;
+  (* Find file name index *)
+  I := Length(FileName);
+  while (I > 0) and not (FileName[I] in ['/', '\', ':']) do Dec(I);
+  Result := Copy(FileName, I + 1, iDotIndex - I - 1);
+end;
+
 
 Function cnvFormatFileSize(iSize:Int64):String;
 var
