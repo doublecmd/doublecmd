@@ -1,0 +1,2 @@
+$$$*** This is unit history file ***$$$
+15.05.2007 ADD: Function ShowFilePropertiesDialog for Show file properties dialog (Функция для отображения диалога свойств файлов)

@@ -25,11 +25,11 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes
+    SysUtils, Classes, uFileList, LCLProc
     {$IFDEF WIN32}
     , Windows, ShellApi, MMSystem, uNTFSLinks
     {$ELSE}
-    , BaseUnix, Libc, Unix, UnixType
+    , BaseUnix, Libc, Unix, UnixType, fFileProperties
     {$ENDIF};
     
 type
@@ -96,6 +96,8 @@ function GetLastDir(Path : String) : String;
 
 function IsAvailable(Path : String) : Boolean;
 function GetAllDrives : TList;
+
+procedure ShowFilePropertiesDialog(FileList:TFileList; const aPath:String);
 
 implementation
 
@@ -248,7 +250,7 @@ begin
 end;
 {$ELSE}
 begin
-Result := GetEnvironmentVariable('HOME')+DirectorySeparator;
+  Result := GetEnvironmentVariable('HOME')+DirectorySeparator;
 end;
 {$ENDIF}
 
@@ -456,6 +458,52 @@ begin
     pme:= getmntent(fstab);
   end;
   endmntent(fstab);
+end;
+{$ENDIF}
+
+(* Show file properties dialog *)
+procedure ShowFilePropertiesDialog(FileList:TFileList; const aPath:String);
+{$IFDEF UNIX}
+begin
+  ShowFileProperties(FileList, aPath);
+end;
+{$ELSE}
+var
+  SExInfo: TSHELLEXECUTEINFO;
+  Error: LongInt;
+  iCurrent : Integer;
+  FName : String;
+
+  (* Find first selected file *)
+  function FindNextSelected:Boolean;
+  var
+    i:Integer;
+  begin
+    for i:=iCurrent to FileList.Count-1 do
+    begin
+      if FileList.GetItem(i)^.bSelected then
+      begin
+        iCurrent:=i;
+        Result:=True;
+        Exit;
+      end;
+    end;
+    Result:=False;
+  end;
+
+begin
+  iCurrent := 0;
+  if FindNextSelected then
+    begin
+      FName := aPath + FileList.GetItem(iCurrent)^.sName;
+      //DebugLN(FName);
+      ZeroMemory(Addr(SExInfo),SizeOf(SExInfo));
+      SExInfo.cbSize := SizeOf(SExInfo);
+      SExInfo.lpFile := PChar(FName);
+      SExInfo.lpVerb := 'properties';
+      SExInfo.fMask := SEE_MASK_INVOKEIDLIST;
+      ShellExecuteExA(Addr(SExInfo));
+    end;
 end;
 {$ENDIF}
 

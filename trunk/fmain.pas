@@ -305,9 +305,7 @@ uses
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg,
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg,
-  fLinker, fSplitter, uFileProcs, lclType, LCLProc, uOSUtils, uPixMapManager
-  {$IFNDEF WIN32}, fFileProperties,
-  gtk, BaseUnix {$ELSE}, ShellAPI, windows{$ENDIF};
+  fLinker, fSplitter, uFileProcs, lclType, LCLProc, uOSUtils, uPixMapManager;
 
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -2130,31 +2128,13 @@ begin
 end;
 
 procedure TfrmMain.actFilePropertiesExecute(Sender: TObject);
-{$IFDEF WIN32}
-  procedure ShowFilePropertiesDialog(FName: string);
-  var
-    SExInfo: TSHELLEXECUTEINFO;
-    Error: LongInt;
-  begin
-    ZeroMemory(Addr(SExInfo),SizeOf(SExInfo));
-    SExInfo.cbSize := SizeOf(SExInfo);
-    SExInfo.lpFile := PChar(FName);
-    SExInfo.lpVerb := 'properties';
-    SExInfo.fMask := SEE_MASK_INVOKEIDLIST;
-    ShellExecuteExA(Addr(SExInfo));
-  end;
-{$ENDIF}
 begin
   inherited;
   try
     with ActiveFrame do
     begin
       SelectFileIfNoSelected(GetActiveItem);
-      {$IFNDEF WIN32} //TODO cross platform
-      ShowFileProperties(ActiveFrame.pnlFile.FileList, ActiveFrame.ActiveDir);
-      {$ELSE}
-      ShowFilePropertiesDialog(ActiveFrame.pnlFile.FileList.GetFileName(0));
-      {$ENDIF}
+      ShowFilePropertiesDialog(ActiveFrame.pnlFile.FileList, ActiveFrame.ActiveDir);
     end;
   finally
     frameLeft.RefreshPanel;

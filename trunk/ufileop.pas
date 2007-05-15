@@ -124,11 +124,12 @@ begin
     fr.bIsLink:=FPS_ISLNK(fr.iMode);
     fr.sLinkTo:='';
     fr.iDirSize:=0;
-    {$IFDEF UNIX}   // *nix
+
     if fr.bIsLink then
     begin
-      fr.sLinkTo:=fpReadLink(PChar(sr.Name));
+      fr.sLinkTo:=ReadSymLink(sr.Name);
     end;
+    {$IFDEF UNIX}   // *nix
     if fr.bIsLink then
       fr.bLinkIsDir:=IsDirByName(fr.sLinkTo)
     else

@@ -1,0 +1,2 @@
+$$$*** This is unit history file ***$$$
+15.05.2007 UPD: made full platform independed (сделал полностью платформонезависимым) 
