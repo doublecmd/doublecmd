@@ -145,7 +145,6 @@ type
     actPathToCmdLine: TAction;
     actMarkPlus: TAction;
     actMarkMinus: TAction;
-    actChMod: TAction;
     actSymLink: TAction;
     actHardLink: TAction;
     actReverseOrder: TAction;
@@ -171,8 +170,6 @@ type
     miRunTerm: TMenuItem;
     actCalculateSpace: TAction;
     actFileProperties:  TAction;
-    actChown: TAction;
-    mnuFilesChown: TMenuItem;
     actFileLinker: TAction;
     actFileSpliter: TAction;
     pmToolBar: TPopupMenu;
@@ -222,7 +219,6 @@ type
     procedure actPathToCmdLineExecute(Sender: TObject);
     procedure actMarkPlusExecute(Sender: TObject);
     procedure actMarkMinusExecute(Sender: TObject);
-    procedure actChModExecute(Sender: TObject);
     procedure actSymLinkExecute(Sender: TObject);
     procedure actHardLinkExecute(Sender: TObject);
     procedure actReverseOrderExecute(Sender: TObject);
@@ -251,7 +247,6 @@ type
     procedure FramelblLPathClick(Sender: TObject);
     procedure edtCommandKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure actChownExecute(Sender: TObject);
     procedure actFileLinkerExecute(Sender: TObject);
     procedure actFileSpliterExecute(Sender: TObject);
     procedure tbEditClick(Sender: TObject);
@@ -311,7 +306,7 @@ uses
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg,
   fLinker, fSplitter, uFileProcs, lclType, LCLProc, uOSUtils, uPixMapManager
-  {$IFNDEF WIN32}, fAttrib, fFileProperties, fChown,
+  {$IFNDEF WIN32}, fFileProperties,
   gtk, BaseUnix {$ELSE}, ShellAPI, windows{$ENDIF};
 
 
@@ -850,8 +845,6 @@ begin
   actMarkInvert.Caption:=     lngGetString(clngMnuMarkInvSel);
   actMarkPlus.Caption:=   lngGetString(clngMnuMarkSelGr);
   actMarkMinus.Caption:=  lngGetString(clngMnuMarkUnSelGr);
-  actChMod.Caption:=     lngGetString(clngMnuFileChAttr);
-  actChown.Caption:=    lngGetString(clngMnuFileChown);
 
   actHardLink.Caption:=     lngGetString(clngMnuFileLink);
   actSymLink.Caption:=     lngGetString(clngMnuFileSymLink);
@@ -1523,24 +1516,6 @@ begin
   ActiveFrame.MarkMinus;
 end;
 
-procedure TfrmMain.actChModExecute(Sender: TObject);
-begin
-  inherited;
-  try
-    with ActiveFrame do
-    begin
-      SelectFileIfNoSelected(GetActiveItem);
-      {$IFNDEF WIN32}  //TODO cross platform
-      ShowAttrForm(ActiveFrame.pnlFile.FileList, ActiveFrame.ActiveDir);
-      {$ENDIF}
-    end;
-  finally
-    frameLeft.RefreshPanel;
-    frameRight.RefreshPanel;
-    ActiveFrame.SetFocus;
-  end
-
-end;
 
 procedure TfrmMain.actSymLinkExecute(Sender: TObject);
 var
@@ -2361,25 +2336,6 @@ begin
   end;
 end;
 
-{mate}
-procedure TfrmMain.actChownExecute(Sender: TObject);
-begin
-  inherited;
-  try
-    with ActiveFrame do
-    begin
-      SelectFileIfNoSelected(GetActiveitem);
-      {$IFNDEF WIN32} //TODO cross platform
-      ShowChownForm(ActiveFrame.pnlFile.FileList, ActiveFrame.ActiveDir);
-      {$ENDIF}
-    end;
-  finally
-    frameLeft.RefreshPanel;
-    frameRight.RefreshPanel;
-    ActiveFrame.SetFocus;
-  end
-end;
-{/mate}
 
 procedure TfrmMain.actFileLinkerExecute(Sender: TObject);
 var

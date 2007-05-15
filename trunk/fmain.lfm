@@ -1,7 +1,7 @@
 inherited frmMain: TfrmMain
-  Left = 257
+  Left = 254
   Height = 336
-  Top = 284
+  Top = 195
   Width = 525
   HorzScrollBar.Page = 524
   VertScrollBar.Page = 309
@@ -70,8 +70,8 @@ inherited frmMain: TfrmMain
     end
   end
   object pnlCommand: TPanel
-    Height = 66
-    Top = 244
+    Height = 62
+    Top = 248
     Width = 525
     Align = alBottom
     Anchors = [akLeft, akRight]
@@ -93,7 +93,7 @@ inherited frmMain: TfrmMain
     object pnlKeys: TPanel
       Left = 1
       Height = 27
-      Top = 38
+      Top = 34
       Width = 523
       Align = alBottom
       Anchors = [akLeft, akRight]
@@ -189,7 +189,6 @@ inherited frmMain: TfrmMain
       Width = 688
       TabStop = False
       AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-      ItemHeight = 18
       MaxLength = 0
       OnKeyDown = edtCommandKeyDown
       OnKeyUp = edtCommandKeyUp
@@ -198,7 +197,7 @@ inherited frmMain: TfrmMain
     end
   end
   object pnlNotebooks: TPanel
-    Height = 175
+    Height = 179
     Top = 69
     Width = 525
     Align = alClient
@@ -207,7 +206,7 @@ inherited frmMain: TfrmMain
     TabStop = True
     object nbLeft: TNotebook
       Left = 1
-      Height = 173
+      Height = 177
       Top = 1
       Width = 391
       Align = alLeft
@@ -216,14 +215,14 @@ inherited frmMain: TfrmMain
     end
     object Splitter1: TSplitter
       Left = 392
-      Height = 173
+      Height = 177
       Top = 1
       Width = 4
       ResizeStyle = rsLine
     end
     object nbRight: TNotebook
       Left = 396
-      Height = 173
+      Height = 177
       Top = 1
       Width = 128
       Align = alClient
@@ -255,14 +254,6 @@ inherited frmMain: TfrmMain
       end
       object miLine1: TMenuItem
         Caption = '-'
-      end
-      object mnuFilesAttrib: TMenuItem
-        Action = actChMod
-        OnClick = actChModExecute
-      end
-      object mnuFilesChown: TMenuItem
-        Action = actChown
-        OnClick = actChownExecute
       end
       object mnuFilesProperties: TMenuItem
         Action = actFileProperties
@@ -589,7 +580,6 @@ inherited frmMain: TfrmMain
       Caption = 'Change Attributes'
       DisableIfNoHandler = True
       HelpType = htKeyword
-      OnExecute = actChModExecute
     end
     object actSymLink: TAction
       Category = 'File'
@@ -720,7 +710,6 @@ inherited frmMain: TfrmMain
       Caption = 'Chown'
       DisableIfNoHandler = True
       HelpType = htKeyword
-      OnExecute = actChownExecute
     end
     object actFileLinker: TAction
       Category = 'File'
