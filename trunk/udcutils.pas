@@ -22,6 +22,7 @@ interface
 uses
   Classes, SysUtils, Graphics;
 
+function GetDirs (var DirName : String; var Dirs : TStrings) : Longint;
 function GetAbsoluteFileName(sPath, sRelativeFileName : String) : String;
 function ExtractOnlyFileName(const FileName: string): string;
 Function cnvFormatFileSize(iSize:Int64):String;
@@ -34,6 +35,36 @@ procedure DivFileName(const sFileName:String; var n,e:String);
 implementation
 uses
    uGlobs, uVFSUtil;
+
+{
+  DirName is split in a list of directory names,
+  Dirs is an TStrings.
+  The function returns the number of directories found, or -1
+  if none were found.
+  DirName must contain only PathDelim as Directory separator chars.
+}
+
+function GetDirs (var DirName : String; var Dirs : TStrings) : Longint;
+
+Var
+  I : Longint;
+  len : Integer;
+begin
+  I:= 1;
+  Result:= -1;
+  dirs.Clear;
+  len := Length(DirName);
+  While I <= len do
+    begin
+    If DirName[I]=PathDelim then
+      begin
+      Inc(Result);
+      dirs.Add(Copy(DirName, 1, len - (len - I)));
+      end;
+    Inc(I);
+    end;
+  If Result > -1 then inc(Result);
+end;
 
 function GetAbsoluteFileName(sPath, sRelativeFileName : String) : String;
 var

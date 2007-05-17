@@ -62,7 +62,7 @@ type
   public
     { public declarations }
   end; 
-procedure ShowPackFilesForm(var VFS : TVFS; var fl : TFileList; sDestPath:String);
+procedure ShowPackFilesForm(VFS : TVFS; var fl : TFileList; sDestPath:String);
 
 var
   arbRadioButtonArray : array [0..8] of TRadioButton;
@@ -74,7 +74,7 @@ uses
 var
   CurrentVFS : TVFS;
 
-procedure ShowPackFilesForm(var VFS : TVFS; var fl: TFileList; sDestPath:String);
+procedure ShowPackFilesForm(VFS : TVFS; var fl: TFileList; sDestPath:String);
 begin
   with TPackDlg.Create(nil) do
     begin

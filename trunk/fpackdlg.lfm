@@ -11,6 +11,8 @@ object PackDlg: TPackDlg
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Pack files'
+  ClientHeight = 202
+  ClientWidth = 517
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   OnShow = FormShow
@@ -114,6 +116,8 @@ object PackDlg: TPackDlg
     Top = 17
     Width = 142
     Caption = ' Packer '
+    ClientHeight = 115
+    ClientWidth = 138
     Font.Color = clBtnText
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
