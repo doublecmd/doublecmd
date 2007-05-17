@@ -296,7 +296,7 @@ ToolButton: TSpeedButton;
 
 begin
 ToolButton:= TSpeedButton.Create(Self);
-Include(ToolButton.ComponentStyle, csSubComponent);
+//Include(ToolButton.ComponentStyle, csSubComponent);
 ToolButton.Parent:=Self;
 ToolButton.Visible := True;
 ToolButton.Left:=FPositionX;

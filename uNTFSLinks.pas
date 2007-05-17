@@ -912,13 +912,13 @@ end;
 //-------------------------------------------------------------
 function FDriveSupportsSymlinks(const fn: WideString): boolean;
 var
-  disk: char;
+  disk: pchar;
   buf1, buf2: array[0..50] of char;
   Serial, NameLen, Flags: DWORD;
 begin
   Result:= false;
   if (fn='') or (Pos(':\', fn)<>2) then Exit;
-  disk:= char(fn[1]);
+  disk:= pchar(fn[1]);
   FillChar(buf1, SizeOf(buf1), 0);
   FillChar(buf2, SizeOf(buf2), 0);
   if GetVolumeInformation(PChar(disk+':\'), @buf1, SizeOf(buf1),
