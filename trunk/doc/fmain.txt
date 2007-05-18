@@ -1,2 +1,2 @@
-$$$*** This is unit history file ***$$$
-15.05.2007 UPD: made full platform independed (сделал полностью платформонезависимым) 
+п»ї$$$*** This is unit history file ***$$$ ###encoding="UTF-8"###
+15.05.2007 UPD: made full platform independed (СЃРґРµР»Р°Р» РїРѕР»РЅРѕСЃС‚СЊСЋ РїР»Р°С‚С„РѕСЂРјРѕРЅРµР·Р°РІРёСЃРёРјС‹Рј) 

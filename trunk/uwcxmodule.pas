@@ -39,7 +39,7 @@ Type
     FArcFileList : TList;
     FDstPath,
     fFolder : String;
-    function ProcessDataProc(FileName:pchar;Size:longint):longint; stdcall;
+    function ProcessDataProc(FileName:pchar;Size:longint):longint;stdcall;
     procedure CopySelectedWithSubFolders(var flist:TFileList);
   protected
     // module's functions
@@ -90,7 +90,7 @@ Type
   end;
 
 implementation
-uses SysUtils, uFileOp, uOSUtils, LCLProc, uFileProcs;
+uses SysUtils, uFileOp, uOSUtils, LCLProc, uFileProcs, uDCUtils;
 
 constructor TWCXModule.Create;
 begin
@@ -185,8 +185,13 @@ ArcHandle : THandle;
 ArcFile : tOpenArchiveData;
 ArcHeader : THeaderData;
 HeaderData : PHeaderData;
+bHasDir : Boolean;
+sDirs : TStringList;
+I : Integer;
 begin
-
+  bHasDir := False;
+  sDirs := TStringList.Create;
+  
   FArchiveName := sName;
   DebugLN('FArchiveName = ' + FArchiveName);
 
@@ -211,7 +216,7 @@ begin
       //Result := E_EOPEN
       Exit;
     end;
-
+  SetProcessDataProc(ArcHandle, TProcessDataProc(ProcessDataProc));
   DebugLN('Get File List');
   (*Get File List*)
   FillChar(ArcHeader, SizeOf(ArcHeader), #0);
@@ -222,12 +227,35 @@ begin
      New(HeaderData);
      HeaderData^ := ArcHeader;
      FArcFileList.Add(HeaderData);
+     //****************************
+     (* if plugin is not list a list of folders *)
+     if not bHasDir then
+       begin
+         bHasDir := FPS_ISDIR(HeaderData^.FileAttr);
+         GetDirs(String(HeaderData^.FileName), sDirs);
+       end;
+     //****************************
      FillChar(ArcHeader, SizeOf(ArcHeader), #0);
      // get next file
      ProcessFile(ArcHandle, PK_SKIP, nil, nil);
 
     end;
+    (* if plugin is not list a list of folders *)
+    if not bHasDir then
+      begin
+        for I := 0 to sDirs.Count - 1 do
+          begin
+            FillChar(ArcHeader, SizeOf(ArcHeader), #0);
+            ArcHeader.FileName := sDirs.Strings[I];
+            ArcHeader.FileAttr := faDirectory;
+            ArcHeader.FileTime := FileAge(FArchiveName);
+            New(HeaderData);
+            HeaderData^ := ArcHeader;
+            FArcFileList.Add(HeaderData);
+          end;
+      end;
   finally
+  sDirs.Free;
   CloseArchive(ArcHandle);
   end;
 end;
@@ -265,7 +293,7 @@ begin
   Result := FileList;
 end;
 
-function TWCXModule.ProcessDataProc(FileName: pchar; Size: longint): longint;
+function TWCXModule.ProcessDataProc(FileName: pchar; Size: longint): longint;stdcall;
 begin
   DebugLN('Working ' + FileName + IntToStr(Size));
 end;
@@ -367,7 +395,7 @@ begin
    
    FFolder := Folder;
    
-   //DebugLN('Folder = ' + Folder);
+   DebugLN('Folder = ' + Folder);
    
    //sDstPath := ExcludeTrailingPathDelimiter(sDstPath);
    
@@ -475,14 +503,14 @@ begin
   fl.Clear;
   AddUpLevel(LowDirLevel(sDir), fl);
   
-  //DebugLN('LowDirLevel(sDir) = ' + LowDirLevel(sDir));
+  DebugLN('LowDirLevel(sDir) = ' + LowDirLevel(sDir));
   
   Count := FArcFileList.Count - 1;
   for I := 0 to  Count do
    begin
      CurrFileName := PathDelim + PHeaderData(FArcFileList.Items[I])^.FileName;
      
-     //DebugLN(CurrFileName);
+     DebugLN(CurrFileName);
      
      if not IncludeFileInList(sDir, CurrFileName) then
        Continue;

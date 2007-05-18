@@ -199,6 +199,7 @@ begin
       if sName = '..' then
         begin
           fActiveDir := fVFS.ArcFullName + sPath;
+          WriteLN('UpDir = ' + sPath);
           if not fVFS.ChangeDirLevel(frp, fFileList, True) then
             begin
               fPanelMode := pmDirectory;
