@@ -22,7 +22,7 @@ interface
 uses
   Classes, SysUtils, Graphics;
 
-function GetDirs (var DirName : String; var Dirs : TStrings) : Longint;
+function GetDirs (DirName : String; var Dirs : TStringList) : Longint;
 function GetAbsoluteFileName(sPath, sRelativeFileName : String) : String;
 function ExtractOnlyFileName(const FileName: string): string;
 Function cnvFormatFileSize(iSize:Int64):String;
@@ -44,22 +44,24 @@ uses
   DirName must contain only PathDelim as Directory separator chars.
 }
 
-function GetDirs (var DirName : String; var Dirs : TStrings) : Longint;
+function GetDirs (DirName : String; var Dirs : TStringList) : Longint;
 
 Var
   I : Longint;
   len : Integer;
+  sDir : String;
 begin
   I:= 1;
   Result:= -1;
-  dirs.Clear;
   len := Length(DirName);
   While I <= len do
     begin
     If DirName[I]=PathDelim then
       begin
       Inc(Result);
-      dirs.Add(Copy(DirName, 1, len - (len - I)));
+      sDir := Copy(DirName, 1, len - (len - I + 1));
+      if dirs.IndexOf(sDir) < 0 then
+        dirs.Add(sDir);
       end;
     Inc(I);
     end;

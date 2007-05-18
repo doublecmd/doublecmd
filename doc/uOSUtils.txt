@@ -1,2 +1,2 @@
-$$$*** This is unit history file ***$$$
-15.05.2007 ADD: Function ShowFilePropertiesDialog for Show file properties dialog (Функция для отображения диалога свойств файлов)
+п»ї$$$*** This is unit history file ***$$$ ###encoding="UTF-8"###
+15.05.2007 ADD: Function ShowFilePropertiesDialog for Show file properties dialog (Р¤СѓРЅРєС†РёСЏ РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РґРёР°Р»РѕРіР° СЃРІРѕР№СЃС‚РІ С„Р°Р№Р»РѕРІ)

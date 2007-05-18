@@ -1,14 +1,14 @@
 inherited frmMain: TfrmMain
   Left = 254
   Height = 336
-  Top = 195
+  Top = 153
   Width = 525
   HorzScrollBar.Page = 524
-  VertScrollBar.Page = 316
+  VertScrollBar.Page = 315
   VertScrollBar.Range = 79
   ActiveControl = pnlNotebooks
   Caption = 'Double Commander'
-  ClientHeight = 317
+  ClientHeight = 316
   ClientWidth = 525
   Font.Color = clBlack
   Font.Height = 13
@@ -75,7 +75,7 @@ inherited frmMain: TfrmMain
   end
   object pnlCommand: TPanel
     Height = 62
-    Top = 255
+    Top = 254
     Width = 525
     Align = alBottom
     Anchors = [akLeft, akRight]
@@ -206,18 +206,18 @@ inherited frmMain: TfrmMain
     end
   end
   object pnlNotebooks: TPanel
-    Height = 186
+    Height = 185
     Top = 69
     Width = 525
     Align = alClient
-    ClientHeight = 186
+    ClientHeight = 185
     ClientWidth = 525
     FullRepaint = False
     TabOrder = 3
     TabStop = True
     object nbLeft: TNotebook
       Left = 1
-      Height = 184
+      Height = 183
       Top = 1
       Width = 391
       Align = alLeft
@@ -226,14 +226,14 @@ inherited frmMain: TfrmMain
     end
     object Splitter1: TSplitter
       Left = 392
-      Height = 184
+      Height = 183
       Top = 1
       Width = 4
       ResizeStyle = rsLine
     end
     object nbRight: TNotebook
       Left = 396
-      Height = 184
+      Height = 183
       Top = 1
       Width = 128
       Align = alClient
