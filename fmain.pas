@@ -1845,6 +1845,7 @@ begin
       begin
         DebugLN('+++ Extract files +++');
         ActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyOut(fl, sDestPath);
+        NotActiveFrame.RefreshPanel;
       end
     else
     (*Copy files*)
