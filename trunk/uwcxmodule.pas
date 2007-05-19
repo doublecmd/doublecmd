@@ -454,7 +454,6 @@ begin
   (* Convert TFileList into PChar *)
   FileList := PChar(GetFileList(flSrcList));
   
-  //FileList := 'unbz2.log' + #0 +'unMain.pas' + #0#0;
   
   DebugLN('Curr Dir := ' + flSrcList.CurrentDirectory);
   Folder := PChar(flSrcList.CurrentDirectory);
@@ -477,13 +476,6 @@ var
   Folder : String;
 begin
 
-   (* Get current folder in archive *)
-  // Folder := LowDirLevel(flNameList.GetItem(0)^.sName);
-
-   (* Get relative path *)
-   //IncludeFileInList(FArchiveName, Folder);
-
-   //FFolder := Folder;
 
   // DebugLN('Folder = ' + Folder);
 

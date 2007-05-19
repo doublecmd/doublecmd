@@ -40,71 +40,72 @@ uses
 (* Get all files in subfolders in Real File System *)
 
 procedure SelectFilesInSubFoldersInRFS(var fl:TFileList);
-
-
-  procedure SelectFilesInSubFolders(const sDir : String; var fl:TFileList);
-  var
-    sr : TSearchRec;
-    fr : PFileRecItem;
-  begin
-    if FindFirst(sDir + PathDelim + '*',faAnyFile,sr) = 0 then
-      repeat
-        if (sr.Name = '.') or (sr.Name = '..') then Continue;
-        New(fr);
-        with fr^ do
-          begin
-            sName := ExtractDirLevel(fl.CurrentDirectory, sDir + PathDelim + sr.Name);
-            DebugLN('Name of File = ' + sName);
-            iMode := sr.Attr;
-            if FPS_ISDIR(iMode) then
-              begin
-                sExt:='';
-                //DebugLN('SelectFilesInSubfolders = ' + sName);
-                SelectFilesInSubFolders(fl.CurrentDirectory + sr.Name, fl);
-              end;
-          end; //with
-        fl.AddItem(fr);
-      until FindNext(sr)<>0;
-      FindClose(sr);
-  end;
-
 var
-  Count, I : Integer;
-  newfl : TFileList;
-  frp : PFileRecItem;
+  i:Integer;
+  ptr:PFileRecItem;
+  sRealName : String;
+  sr : TSearchRec;
+  NewFileList: TFileList;
+
+procedure FillAndCountRec(const srcPath, dstPath:String);
+var
+  sr:TSearchRec;
+  fr:TFileRecItem;
+
 begin
-  newfl := TFileList.Create;
-  I := 0;
-  Count := fl.Count - 1;
-  while I <= Count do
+  if FindFirst(srcPath+'*',faAnyFile,sr)<>0 then
+  begin
+    FindClose(sr);
+    Exit;
+  end;
+  repeat
+    if (sr.Name='.') or (sr.Name='..') then Continue;
+    fr.sName:=ExtractDirLevel(fl.CurrentDirectory, srcPath+sr.Name);
+    fr.sPath:=dstPath;
+    fr.sNameNoExt:=sr.Name; // we use to save dstname
+    fr.iMode := sr.Attr;
+    fr.bSelected:=False;
+
+    NewFileList.AddItem(@fr);
+
+    if FPS_ISDIR(fr.iMode) then
     begin
-      New(frp);
-      frp^ := fl.GetItem(I)^;
-      newfl.CurrentDirectory := fl.CurrentDirectory;
-      
-      if FPS_ISDIR(frp^.iMode) then
-        begin
-          newfl.AddItem(frp);
-          SelectFilesInSubFolders(frp^.sName, newfl)
-        end
-      else
-        begin
-          frp^.sName := ExtractDirLevel(fl.CurrentDirectory, frp^.sName);
-          newfl.AddItem(frp);
-        end;
-      I := I + 1;
+      FillAndCountRec(srcPath+sr.Name+DirectorySeparator, dstPath+sr.Name+DirectorySeparator);
     end;
-    fl.Free;
-    fl := newfl;
+  until FindNext(sr)<>0;
+  FindClose(sr);
+end;
+
+
+
+begin
+  NewFileList:=TFileList.Create;
+  NewFileList.CurrentDirectory := fl.CurrentDirectory;
+  for i:=0 to fl.Count-1 do
+  begin
+    ptr:=fl.GetItem(i);
+
+    if FPS_ISDIR(ptr^.iMode) and (not ptr^.bLinkIsDir) then
+    begin
+      sRealName := ptr^.sName;
+      ptr^.sName := ExtractDirLevel(fl.CurrentDirectory, ptr^.sName);
+      NewFileList.AddItem(ptr); // add DIR to List
+      FillAndCountRec(sRealName + DirectorySeparator, ptr^.sNameNoExt + DirectorySeparator);  // rekursive browse child dir
+    end
+    else
+    begin
+      ptr^.sName := ExtractDirLevel(fl.CurrentDirectory, ptr^.sName);
+      NewFileList.AddItem(ptr);
+    end;
+  end;
+  fl.Free;
+  fl := NewFileList;
 end;
 
 procedure AddUpLevel(sUpPath : String; var ls:TFileList); // add virtually ..
 var
   fi:TFileRecItem;
 begin
-  if sUpPath = PathDelim then
-    sUpPath := '';
-    
   fi.sName:='..';
   fi.iSize:=0;
   fi.sExt:='';
