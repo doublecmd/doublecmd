@@ -117,13 +117,13 @@ Function cnvFormatFileSize(iSize:Int64):String;
 var
   d:double;
 begin
-//   writeln(iSize);
+//   WriteLN(output, iSize);
   if gShortFileSizeFormat then
   begin
   // TODo  Giga
     if iSize div (1024*1024) >0 then
     begin
-//      writeln('Div:',Trunc(iSize*10 /(1024*1024))/10);
+//      WriteLN(output, 'Div:',Trunc(iSize*10 /(1024*1024))/10);
       Result:=FloatToStrF((iSize*10 div (1024*1024))/10, ffFixed, 15, 1)+'M'
     end
     else
@@ -208,7 +208,7 @@ Begin
           End;
     sl.Free;
   End;
-  //WriteLN('PathX ' , Result);
+  //WriteLN(output, 'PathX ' , Result);
   if Canvas.TextWidth(Result) > MaxLen + Canvas.TextWidth('XXX') then
        begin
          while Canvas.TextWidth(Result) > MaxLen do

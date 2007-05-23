@@ -199,7 +199,7 @@ begin
       if sName = '..' then
         begin
           fActiveDir := fVFS.ArcFullName + sPath;
-          WriteLN('UpDir = ' + sPath);
+          WriteLN(output, 'UpDir = ' + sPath);
           if not fVFS.ChangeDirLevel(frp, fFileList, True) then
             begin
               fPanelMode := pmDirectory;
@@ -577,7 +577,7 @@ begin
   end;
   System.ChDir(ActiveDir);
 //    LastActive:=sName;
-  writeln(sCmd);
+  writeln(output, sCmd);
   ExecCmdFork(sCmd);
 //      LoadPanel;
 end;

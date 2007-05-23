@@ -13,7 +13,7 @@ unit uDeleteThread;
 {$mode objfpc}{$H+}
 interface
 uses
-  uFileOpThread, uFileList, uTypes, SysUtils;
+  uFileOpThread, uFileList, uTypes, SysUtils, LCLProc;
 type
 
   { TDeleteThread }
@@ -65,17 +65,20 @@ end;
 
 Function TDeleteThread.DeleteFile (fr:PFileRecItem):Boolean;
 begin
-//  writeln(fr^.sName,'>',sDst+fr^.sName);
+  try
+//  WriteLN(output, fr^.sName,'>',sDst+fr^.sName);
   if FPS_ISDIR(fr^.iMode) then
    begin
-//     writeln('rmdir:',fr^.sName);
-     RmDir(fr^.sName);      // not complete (link...)
-     Result:=True;
+     //WriteLN(output, 'rmdir:',fr^.sName);
+     Result := RemoveDir(fr^.sName);
    end
   else
   begin // files and other stuff
-    Result:= sysutils.DeleteFile(fr^.sName);
-//    writeln('del file not implemented:',fr^.sName);
+    Result := sysutils.DeleteFile(fr^.sName);
+//    WriteLN(output, 'del file not implemented:',fr^.sName);
+  end;
+  except
+    DebugLN('Can not delete ', fr^.sName);
   end;
 end;
 

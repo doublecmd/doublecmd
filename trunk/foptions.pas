@@ -23,63 +23,72 @@ type
   { TfrmOptions }
 
   TfrmOptions = class(TfrmLng)
-    btnSelMainFnt: TButton;
     btnSelEditFnt: TButton;
+    btnSelMainFnt: TButton;
     btnSelViewFnt: TButton;
+    btSetHotKey: TButton;
     Button1: TButton;
     Button2: TButton;
-    btSetHotKey: TButton;
-    cbSeparateExt: TCheckBox;
-    cbActions: TComboBox;
-    cTextColor: TColorBox;
     cbackgrndcolor: TColorBox;
-    edHotKey: TEdit;
-    lblActions: TLabel;
-    lblHotKey: TLabel;
-    optColorDialog: TColorDialog;
-    dlgFnt: TFontDialog;
-    cTextLabel: TLabel;
     cBackGrndLabel: TLabel;
-    PageControl1: TPageControl;
-    edtMainSize: TSpinEdit;
-    edtEditorSize: TSpinEdit;
-    edtViewerSize: TSpinEdit;
-    tsColor: TTabSheet;
-    tfHotKey: TTabSheet;
-    tsLng: TTabSheet;
-    tsBehav: TTabSheet;
-    Panel1: TPanel;
-    btnOK: TBitBtn;
-    btnCancel: TBitBtn;
-    lngList: TListBox;
-    lblTerm: TLabel;
-    edtTerm: TEdit;
-    gb: TGroupBox;
-    cbDirSelect: TCheckBox;
+    cbActions: TComboBox;
     cbCaseSensitiveSort: TCheckBox;
-    cbLynxLike: TCheckBox;
-    cbShortFileSizeFormat: TCheckBox;
-    tsTools: TTabSheet;
-    cbExtEditor: TCheckBox;
-    edtExtEditor: TEdit;
-    cbExtDiffer: TCheckBox;
-    edtExtDiffer: TEdit;
-    cbExtViewer: TCheckBox;
-    edtExtViewer: TEdit;
-    lblRunTerm: TLabel;
-    edtRunTerm: TEdit;
-    tsFonts: TTabSheet;
-    lblMainFont: TLabel;
-    cbMainFont: TComboBox;
+    cbDirSelect: TCheckBox;
     cbEditorFont: TComboBox;
-    lblEditorFont: TLabel;
+    cbExtDiffer: TCheckBox;
+    cbExtEditor: TCheckBox;
+    cbExtViewer: TCheckBox;
+    cbLynxLike: TCheckBox;
+    cbMainFont: TComboBox;
+    cbSeparateExt: TCheckBox;
+    cbShortFileSizeFormat: TCheckBox;
+    cbViewerFont: TComboBox;
+    cTextColor: TColorBox;
+    cTextLabel: TLabel;
+    dlgFnt: TFontDialog;
+    edHotKey: TEdit;
+    edtEditorSize: TSpinEdit;
+    edtExtDiffer: TEdit;
+    edtExtEditor: TEdit;
+    edtExtViewer: TEdit;
+    edtMainSize: TSpinEdit;
+    edtRunTerm: TEdit;
+    edtTerm: TEdit;
     edtTest1: TEdit;
     edtTest2: TEdit;
     edtTest3: TEdit;
-    cbViewerFont: TComboBox;
+    edtViewerSize: TSpinEdit;
+    gb: TGroupBox;
+    ilTreeView: TImageList;
+    lblActions: TLabel;
+    lblEditorFont: TLabel;
+    lblHotKey: TLabel;
+    lblMainFont: TLabel;
+    lblRunTerm: TLabel;
+    lblTerm: TLabel;
     lblViewerFont: TLabel;
+    lngList: TListBox;
+    nbNotebook: TNotebook;
+    optColorDialog: TColorDialog;
+    pgPlugins: TPage;
+    pnlCaption: TPanel;
+    Panel3: TPanel;
+    Panel1: TPanel;
+    btnOK: TBitBtn;
+    btnCancel: TBitBtn;
+    pgBehav: TPage;
+    pgColor: TPage;
+    pgFonts: TPage;
+    pgHotKey: TPage;
+    pgLng: TPage;
+    pgTools: TPage;
+    tvTreeView: TTreeView;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure cbackgrndcolorChange(Sender: TObject);
+    procedure cbackgrndcolorDropDown(Sender: TObject);
+    procedure cTextColorChange(Sender: TObject);
+    procedure cTextColorDropDown(Sender: TObject);
     procedure edtEditorSizeChange(Sender: TObject);
     procedure edtMainSizeChange(Sender: TObject);
     procedure edtViewerSizeChange(Sender: TObject);
@@ -97,6 +106,7 @@ type
     procedure cbViewerFontChange(Sender: TObject);
     procedure edHotKeyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
       );
+    procedure tvTreeViewChange(Sender: TObject; Node: TTreeNode);
   private
     { Private declarations }
     vShortCut: TShortCut;
@@ -150,6 +160,8 @@ procedure TfrmOptions.Button1Click(Sender: TObject);
 begin
  if optColorDialog.Execute then
    begin
+     cTextColor.Text := '';
+     cTextColor.Color := optColorDialog.Color;
    end;
 end;
 
@@ -157,7 +169,29 @@ procedure TfrmOptions.Button2Click(Sender: TObject);
 begin
    if optColorDialog.Execute then
    begin
+     cbackgrndcolor.Text := '';
+     cbackgrndcolor.Color := optColorDialog.Color;
    end;
+end;
+
+procedure TfrmOptions.cbackgrndcolorChange(Sender: TObject);
+begin
+  cbackgrndcolor.Color := cbackgrndcolor.Selection;
+end;
+
+procedure TfrmOptions.cbackgrndcolorDropDown(Sender: TObject);
+begin
+  cbackgrndcolor.Color := clWindow;
+end;
+
+procedure TfrmOptions.cTextColorChange(Sender: TObject);
+begin
+  cTextColor.Color := cTextColor.Selection;
+end;
+
+procedure TfrmOptions.cTextColorDropDown(Sender: TObject);
+begin
+  cTextColor.Color := clWindow;
 end;
 
 procedure TfrmOptions.edtEditorSizeChange(Sender: TObject);
@@ -181,15 +215,16 @@ begin
 //  btnOK.Caption:= lngGetString(clngbutOK);
 
   Caption:=lngGetString(clngDlgOpt);
-  tsLng.Caption:=lngGetString(clngDlgOptSelLng);
+  tvTreeView.Items.Item[0].Text := lngGetString(clngDlgOptSelLng);
+  pnlCaption.Caption := tvTreeView.Items.Item[0].Text;
   lblTerm.Caption:=lngGetString(clngDlgOptTerm);
   cbDirSelect.Caption:=lngGetString(clngDlgOptSelDir);
   cbCaseSensitiveSort.Caption:=lngGetString(clngDlgOptCaseSens);
   cbLynxLike.Caption:=lngGetString(clngDlgOptLynx);
 
   cbShortFileSizeFormat.Caption:=lngGetString(clngDlgOptShortFileSize);
-  tsBehav.Caption:=lngGetString(clngDlgOptBehaviourTab);
-  tsTools.Caption:=lngGetString(clngDlgOptToolsTab);
+  tvTreeView.Items.Item[1].Text := lngGetString(clngDlgOptBehaviourTab);
+  tvTreeView.Items.Item[2].Text := lngGetString(clngDlgOptToolsTab);
 
   cbExtEditor.Caption:=lngGetString(clngDlgOptExtEdit);
   cbExtViewer.Caption:=lngGetString(clngDlgOptExtView);
@@ -217,10 +252,15 @@ begin
   edtRunTerm.Text:=gRunTerm;
   lblRunTerm.Caption:=lngGetString(clngDlgOptRunTerm);
 
-  tsFonts.Caption:=lngGetString(clngDlgOptFonts);
+  tvTreeView.Items.Item[3].Text := lngGetString(clngDlgOptFonts);
   lblMainFont.Caption:= lngGetString(clngDlgOptMainFont);
   lblEditorFont.Caption:= lngGetString(clngDlgOptEditorFont);
   lblViewerFont.Caption:= lngGetString(clngDlgOptViewerFont);
+  
+  cTextColor.Selection := gForeColor;
+  cTextColor.Color := gForeColor;
+  cbackgrndcolor.Selection := gBackColor;
+  cbackgrndcolor.Color := gBackColor;
   // ToDo lang to tsColor tsHotKey
 end;
 
@@ -279,6 +319,9 @@ begin
   gEditorSize:=Round(edtEditorSize.Value);
   gViewerSize:=Round(edtViewerSize.Value);
   gFontSize:=Round(edtMainSize.Value);
+  
+  gForeColor := cTextColor.Color;
+  gBackColor := cbackgrndcolor.Color;
   
   frmMain.SaveShortCuts;
 end;
@@ -398,6 +441,12 @@ begin
   vShortCut := ShortCut(Key,Shift);
   TEdit(Sender).Text := ShortCutToText(vShortCut);
   Key := 0;
+end;
+
+procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
+begin
+  nbNotebook.PageIndex := tvTreeView.Selected.Index;
+  pnlCaption.Caption := tvTreeView.Selected.Text;
 end;
 
 

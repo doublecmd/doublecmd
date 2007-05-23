@@ -106,7 +106,7 @@ begin
   end;
   if pbFirst.Position<> iProgress1Pos then
   begin
-    if iProgress1Pos>0 then
+    if iProgress1Pos>=0 then
       pbFirst.Position:= iProgress1Pos;
     bP1:=True;
   end;

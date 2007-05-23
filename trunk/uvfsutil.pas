@@ -21,7 +21,7 @@ interface
 uses
   Classes, uTypes, uFileList;
 
-procedure SelectFilesInSubFoldersInRFS(var fl:TFileList);
+procedure SelectFilesInSubFoldersInRFS(var fl:TFileList; out FilesSize : Int64);
 procedure AddUpLevel(sUpPath : String; var ls:TFileList);
 function LowDirLevel(sPath : String) : String;
 function IncludeFileInList(sPath : String; var sFileName : String) : Boolean;
@@ -39,7 +39,7 @@ uses
 
 (* Get all files in subfolders in Real File System *)
 
-procedure SelectFilesInSubFoldersInRFS(var fl:TFileList);
+procedure SelectFilesInSubFoldersInRFS(var fl:TFileList; out FilesSize : Int64);
 var
   i:Integer;
   ptr:PFileRecItem;
@@ -65,13 +65,16 @@ begin
     fr.sNameNoExt:=sr.Name; // we use to save dstname
     fr.iMode := sr.Attr;
     fr.bSelected:=False;
+    fr.iSize := sr.Size;
 
     NewFileList.AddItem(@fr);
 
     if FPS_ISDIR(fr.iMode) then
-    begin
-      FillAndCountRec(srcPath+sr.Name+DirectorySeparator, dstPath+sr.Name+DirectorySeparator);
-    end;
+      begin
+        FillAndCountRec(srcPath+sr.Name+DirectorySeparator, dstPath+sr.Name+DirectorySeparator);
+      end
+    else
+      inc(FilesSize, fr.iSize);
   until FindNext(sr)<>0;
   FindClose(sr);
 end;
@@ -96,6 +99,7 @@ begin
     begin
       ptr^.sName := ExtractDirLevel(fl.CurrentDirectory, ptr^.sName);
       NewFileList.AddItem(ptr);
+      inc(FilesSize, ptr^.iSize);
     end;
   end;
   fl.Free;

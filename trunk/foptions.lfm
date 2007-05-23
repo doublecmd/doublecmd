@@ -1,15 +1,17 @@
 inherited frmOptions: TfrmOptions
-  Left = 304
-  Height = 313
-  Top = 126
-  Width = 456
-  HorzScrollBar.Page = 455
-  VertScrollBar.Page = 312
+  Left = 254
+  Height = 359
+  Top = 236
+  Width = 577
+  HorzScrollBar.Page = 576
+  VertScrollBar.Page = 358
   VertScrollBar.Range = 41
-  ActiveControl = PageControl1
+  ActiveControl = btnOK
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Options'
+  ClientHeight = 359
+  ClientWidth = 577
   Icon.Data = {
     36030000424D3603000000000000360000002800000010000000100000000100
     1800000000000003000064000000640000000000000000000000FFFFFF874A20
@@ -39,511 +41,20 @@ inherited frmOptions: TfrmOptions
     FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
   }
   Position = poMainFormCenter
-  object PageControl1: TPageControl
-    Height = 273
-    Width = 456
-    ActivePage = tsFonts
-    Align = alClient
-    TabIndex = 3
-    TabOrder = 0
-    object tsLng: TTabSheet
-      Caption = 'Language'
-      object lngList: TListBox
-        Height = 247
-        Width = 448
-        Align = alClient
-        TabOrder = 0
-      end
-    end
-    object tsBehav: TTabSheet
-      Caption = 'Behaviour'
-      ImageIndex = 1
-      object lblTerm: TLabel
-        Left = 8
-        Height = 14
-        Top = 16
-        Width = 45
-        Caption = 'Terminal:'
-        Color = clNone
-        ParentColor = False
-      end
-      object lblRunTerm: TLabel
-        Left = 8
-        Height = 14
-        Top = 48
-        Width = 65
-        Caption = 'Run terminal:'
-        Color = clNone
-        ParentColor = False
-      end
-      object edtTerm: TEdit
-        Left = 96
-        Height = 24
-        Top = 8
-        Width = 313
-        TabOrder = 0
-        Text = '/usr/X11R6/bin/xterm -e bash -i -c %s'
-      end
-      object gb: TGroupBox
-        Left = 8
-        Height = 148
-        Top = 80
-        Width = 225
-        ParentCtl3D = False
-        TabOrder = 2
-        object cbDirSelect: TCheckBox
-          Left = 8
-          Height = 13
-          Top = -3
-          Width = 75
-          AllowGrayed = True
-          Caption = 'cbDirSelect'
-          TabOrder = 0
-        end
-        object cbCaseSensitiveSort: TCheckBox
-          Left = 8
-          Height = 13
-          Top = 45
-          Width = 118
-          AllowGrayed = True
-          Caption = 'cbCaseSensitiveSort'
-          TabOrder = 1
-        end
-        object cbLynxLike: TCheckBox
-          Left = 8
-          Height = 13
-          Top = 21
-          Width = 74
-          AllowGrayed = True
-          Caption = 'cbLynxLike'
-          TabOrder = 2
-        end
-        object cbShortFileSizeFormat: TCheckBox
-          Left = 8
-          Height = 13
-          Top = 69
-          Width = 125
-          AllowGrayed = True
-          Caption = 'cbShortFileSizeFormat'
-          TabOrder = 3
-        end
-        object cbSeparateExt: TCheckBox
-          Left = 8
-          Height = 13
-          Top = 101
-          Width = 90
-          AllowGrayed = True
-          Caption = 'cbSeparateExt'
-          TabOrder = 4
-        end
-      end
-      object edtRunTerm: TEdit
-        Left = 96
-        Height = 24
-        Top = 40
-        Width = 313
-        TabOrder = 1
-        Text = '/usr/X11R6/bin/xterm'
-      end
-    end
-    object tsTools: TTabSheet
-      Caption = 'Tools'
-      ImageIndex = 2
-      object cbExtEditor: TCheckBox
-        Left = 3
-        Height = 13
-        Top = 13
-        Width = 74
-        AllowGrayed = True
-        Caption = 'cbExtEditor'
-        OnClick = cbExtEditorClick
-        TabOrder = 0
-      end
-      object edtExtEditor: TEdit
-        Left = 3
-        Height = 24
-        Top = 33
-        Width = 438
-        Anchors = [akTop, akLeft, akRight]
-        TabOrder = 1
-        Text = 'gEdit "%s"'
-      end
-      object cbExtDiffer: TCheckBox
-        Left = 3
-        Height = 13
-        Top = 78
-        Width = 72
-        AllowGrayed = True
-        Caption = 'cbExtDiffer'
-        OnClick = cbExtDifferClick
-        TabOrder = 2
-      end
-      object edtExtDiffer: TEdit
-        Left = 3
-        Height = 24
-        Top = 98
-        Width = 438
-        Anchors = [akTop, akLeft, akRight]
-        TabOrder = 3
-        Text = 'gtk-diff "%s" "%s"'
-      end
-      object cbExtViewer: TCheckBox
-        Left = 3
-        Height = 13
-        Top = 143
-        Width = 79
-        AllowGrayed = True
-        Caption = 'cbExtViewer'
-        OnClick = cbExtViewerClick
-        TabOrder = 4
-      end
-      object edtExtViewer: TEdit
-        Left = 3
-        Height = 24
-        Top = 163
-        Width = 438
-        Anchors = [akTop, akLeft, akRight]
-        TabOrder = 5
-        Text = 'emacs "%s"'
-      end
-    end
-    object tsFonts: TTabSheet
-      Caption = 'Fonts'
-      ImageIndex = 3
-      object lblMainFont: TLabel
-        Left = 6
-        Height = 14
-        Top = 8
-        Width = 46
-        Caption = 'Main font'
-        Color = clNone
-        ParentColor = False
-      end
-      object lblEditorFont: TLabel
-        Left = 6
-        Height = 14
-        Top = 87
-        Width = 52
-        Caption = 'Editor font'
-        Color = clNone
-        ParentColor = False
-      end
-      object lblViewerFont: TLabel
-        Left = 6
-        Height = 14
-        Top = 168
-        Width = 56
-        Caption = 'Viewer font'
-        Color = clNone
-        ParentColor = False
-      end
-      object cbMainFont: TComboBox
-        Left = 6
-        Height = 21
-        Top = 26
-        Width = 402
-        Anchors = [akTop, akLeft, akRight]
-        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-        ItemHeight = 18
-        MaxLength = 0
-        OnChange = cbMainFontChange
-        ParentCtl3D = False
-        TabOrder = 0
-      end
-      object cbEditorFont: TComboBox
-        Left = 6
-        Height = 21
-        Top = 108
-        Width = 402
-        Anchors = [akTop, akLeft, akRight]
-        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-        ItemHeight = 18
-        MaxLength = 0
-        OnChange = cbEditorFontChange
-        ParentCtl3D = False
-        TabOrder = 1
-      end
-      object edtTest1: TEdit
-        Left = 6
-        Height = 24
-        Top = 53
-        Width = 355
-        Anchors = [akTop, akLeft, akRight]
-        TabOrder = 2
-        Text = 'Example Проверка'
-      end
-      object edtTest2: TEdit
-        Left = 6
-        Height = 24
-        Top = 133
-        Width = 355
-        Anchors = [akTop, akLeft, akRight]
-        TabOrder = 3
-        Text = 'Example Проверка'
-      end
-      object edtTest3: TEdit
-        Left = 6
-        Height = 24
-        Top = 213
-        Width = 355
-        Anchors = [akTop, akLeft, akRight]
-        TabOrder = 4
-        Text = 'Example Проверка'
-      end
-      object cbViewerFont: TComboBox
-        Left = 6
-        Height = 21
-        Top = 188
-        Width = 402
-        Anchors = [akTop, akLeft, akRight]
-        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-        ItemHeight = 18
-        MaxLength = 0
-        OnChange = cbViewerFontChange
-        ParentCtl3D = False
-        TabOrder = 5
-      end
-      object btnSelMainFnt: TButton
-        Left = 416
-        Height = 23
-        Top = 26
-        Width = 23
-        Anchors = [akTop, akRight]
-        BorderSpacing.InnerBorder = 4
-        Caption = '...'
-        OnClick = btnSelMainFntClick
-        TabOrder = 7
-      end
-      object btnSelEditFnt: TButton
-        Left = 416
-        Height = 23
-        Top = 108
-        Width = 23
-        Anchors = [akTop, akRight]
-        BorderSpacing.InnerBorder = 4
-        Caption = '...'
-        OnClick = btnSelEditFntClick
-        TabOrder = 9
-      end
-      object btnSelViewFnt: TButton
-        Left = 416
-        Height = 23
-        Top = 188
-        Width = 23
-        Anchors = [akTop, akRight]
-        BorderSpacing.InnerBorder = 4
-        Caption = '...'
-        OnClick = btnSelViewFntClick
-        TabOrder = 11
-      end
-      object edtMainSize: TSpinEdit
-        Left = 371
-        Height = 23
-        Top = 54
-        Width = 68
-        Anchors = [akTop, akRight]
-        MaxValue = 25
-        MinValue = 8
-        OnChange = edtMainSizeChange
-        TabOrder = 6
-        Value = 14
-      end
-      object edtEditorSize: TSpinEdit
-        Left = 371
-        Height = 23
-        Top = 133
-        Width = 68
-        Anchors = [akTop, akRight]
-        MaxValue = 25
-        MinValue = 8
-        OnChange = edtEditorSizeChange
-        TabOrder = 8
-        Value = 14
-      end
-      object edtViewerSize: TSpinEdit
-        Left = 371
-        Height = 23
-        Top = 213
-        Width = 68
-        Anchors = [akTop, akRight]
-        MaxValue = 25
-        MinValue = 8
-        OnChange = edtViewerSizeChange
-        TabOrder = 10
-        Value = 14
-      end
-    end
-    object tsColor: TTabSheet
-      Caption = 'Color'
-      object cTextLabel: TLabel
-        Left = 25
-        Height = 14
-        Top = 31
-        Width = 23
-        Caption = 'Text'
-        Color = clNone
-        ParentColor = False
-      end
-      object cBackGrndLabel: TLabel
-        Left = 23
-        Height = 14
-        Top = 58
-        Width = 58
-        Caption = 'BackGround'
-        Color = clNone
-        ParentColor = False
-      end
-      object cTextColor: TColorBox
-        Left = 108
-        Height = 24
-        Top = 26
-        Width = 100
-        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-        Items.Strings = (
-          'clBlack'
-          'clMaroon'
-          'clGreen'
-          'clOlive'
-          'clNavy'
-          'clPurple'
-          'clTeal'
-          'clGray'
-          'clSilver'
-          'clRed'
-          'clLime'
-          'clYellow'
-          'clBlue'
-          'clFuchsia'
-          'clAqua'
-          'clSilver'
-          'clGray'
-          'clWhite'
-          'clCream'
-          'clNone'
-          'clDefault'
-        )
-        MaxLength = 0
-        TabOrder = 0
-      end
-      object cbackgrndcolor: TColorBox
-        Left = 108
-        Height = 24
-        Top = 53
-        Width = 100
-        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-        Items.Strings = (
-          'clBlack'
-          'clMaroon'
-          'clGreen'
-          'clOlive'
-          'clNavy'
-          'clPurple'
-          'clTeal'
-          'clGray'
-          'clSilver'
-          'clRed'
-          'clLime'
-          'clYellow'
-          'clBlue'
-          'clFuchsia'
-          'clAqua'
-          'clSilver'
-          'clGray'
-          'clWhite'
-          'clCream'
-          'clNone'
-          'clDefault'
-        )
-        MaxLength = 0
-        TabOrder = 1
-      end
-      object Button1: TButton
-        Left = 209
-        Height = 25
-        Top = 26
-        Width = 27
-        BorderSpacing.InnerBorder = 4
-        Caption = '>>'
-        OnClick = Button1Click
-        TabOrder = 2
-      end
-      object Button2: TButton
-        Left = 208
-        Height = 25
-        Top = 53
-        Width = 28
-        BorderSpacing.InnerBorder = 4
-        Caption = '>>'
-        OnClick = Button2Click
-        TabOrder = 3
-      end
-    end
-    object tfHotKey: TTabSheet
-      Caption = 'Hot Keys'
-      object lblActions: TLabel
-        Left = 6
-        Height = 14
-        Top = 13
-        Width = 36
-        Caption = 'Actions'
-        Color = clNone
-        ParentColor = False
-      end
-      object lblHotKey: TLabel
-        Left = 6
-        Height = 14
-        Top = 68
-        Width = 39
-        Caption = 'Hot Key'
-        Color = clNone
-        ParentColor = False
-      end
-      object cbActions: TComboBox
-        Left = 6
-        Height = 21
-        Top = 33
-        Width = 436
-        Anchors = [akTop, akLeft, akRight]
-        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-        MaxLength = 0
-        Sorted = True
-        Style = csDropDownList
-        TabOrder = 0
-      end
-      object edHotKey: TEdit
-        Left = 6
-        Height = 23
-        Top = 88
-        Width = 320
-        Anchors = [akTop, akLeft, akRight]
-        OnKeyDown = edHotKeyKeyDown
-        TabOrder = 1
-      end
-      object btSetHotKey: TButton
-        Left = 331
-        Height = 25
-        Top = 88
-        Width = 111
-        Anchors = [akTop, akRight]
-        BorderSpacing.InnerBorder = 4
-        Caption = 'Set HotKey'
-        OnClick = btSetHotKeyClick
-        TabOrder = 2
-      end
-    end
-  end
   object Panel1: TPanel
-    Height = 40
-    Top = 273
-    Width = 456
+    Height = 43
+    Top = 316
+    Width = 577
     Align = alBottom
+    ClientHeight = 43
+    ClientWidth = 577
     FullRepaint = False
-    TabOrder = 1
+    TabOrder = 0
     object btnOK: TBitBtn
-      Left = 255
+      Left = 344
       Height = 31
-      Top = 2
-      Width = 90
+      Top = 5
+      Width = 98
       BorderSpacing.InnerBorder = 2
       Caption = '&OK'
       Kind = bkOK
@@ -553,9 +64,9 @@ inherited frmOptions: TfrmOptions
       TabOrder = 0
     end
     object btnCancel: TBitBtn
-      Left = 354
+      Left = 456
       Height = 31
-      Top = 2
+      Top = 5
       Width = 98
       BorderSpacing.InnerBorder = 2
       Caption = 'Cancel'
@@ -565,14 +76,925 @@ inherited frmOptions: TfrmOptions
       TabOrder = 1
     end
   end
+  object tvTreeView: TTreeView
+    Height = 316
+    Width = 121
+    Align = alLeft
+    DefaultItemHeight = 16
+    Images = ilTreeView
+    ScrollBars = ssNone
+    TabOrder = 1
+    OnChange = tvTreeViewChange
+    Items.Data = {
+      F9FFFFFF0100070000000000000000000000FFFFFFFFFFFFFFFF000000000000
+      00000000000000080000004C616E67756167650100000001000000FFFFFFFFFF
+      FFFFFF00000000000000000000000000090000004265686176696F7273020000
+      0002000000FFFFFFFFFFFFFFFF0000000000000000000000000005000000546F
+      6F6C730300000003000000FFFFFFFFFFFFFFFF00000000000000000000000000
+      05000000466F6E74730400000004000000FFFFFFFFFFFFFFFF00000000000000
+      00000000000006000000436F6C6F72730500000005000000FFFFFFFFFFFFFFFF
+      0000000000000000000000000008000000486F74206B65797306000000060000
+      00FFFFFFFFFFFFFFFF0000000000000000000000000007000000506C7567696E
+      73
+    }
+  end
+  object Panel3: TPanel
+    Left = 121
+    Height = 316
+    Width = 456
+    Align = alClient
+    Caption = 'Panel3'
+    ClientHeight = 316
+    ClientWidth = 456
+    TabOrder = 2
+    object nbNotebook: TNotebook
+      Left = 1
+      Height = 291
+      Top = 24
+      Width = 454
+      Align = alClient
+      PageIndex = 0
+      ShowTabs = False
+      object pgLng: TPage
+        Caption = 'pgLng'
+        ClientWidth = 446
+        ClientHeight = 283
+        object lngList: TListBox
+          Height = 283
+          Width = 446
+          Align = alClient
+          TabOrder = 0
+        end
+      end
+      object pgBehav: TPage
+        Caption = 'pgBehav'
+        ClientWidth = 446
+        ClientHeight = 283
+        object lblTerm: TLabel
+          Left = 8
+          Height = 14
+          Top = 16
+          Width = 45
+          Caption = 'Terminal:'
+          Color = clNone
+          ParentColor = False
+        end
+        object lblRunTerm: TLabel
+          Left = 8
+          Height = 14
+          Top = 48
+          Width = 65
+          Caption = 'Run terminal:'
+          Color = clNone
+          ParentColor = False
+        end
+        object edtTerm: TEdit
+          Left = 96
+          Height = 24
+          Top = 8
+          Width = 313
+          TabOrder = 0
+          Text = '/usr/X11R6/bin/xterm -e bash -i -c %s'
+        end
+        object edtRunTerm: TEdit
+          Left = 96
+          Height = 24
+          Top = 40
+          Width = 313
+          TabOrder = 1
+          Text = '/usr/X11R6/bin/xterm'
+        end
+        object gb: TGroupBox
+          Left = 8
+          Height = 148
+          Top = 66
+          Width = 225
+          ClientHeight = 148
+          ClientWidth = 225
+          ParentCtl3D = False
+          TabOrder = 2
+          object cbDirSelect: TCheckBox
+            Left = 8
+            Height = 13
+            Top = -3
+            Width = 75
+            AllowGrayed = True
+            Caption = 'cbDirSelect'
+            TabOrder = 0
+          end
+          object cbCaseSensitiveSort: TCheckBox
+            Left = 8
+            Height = 13
+            Top = 45
+            Width = 118
+            AllowGrayed = True
+            Caption = 'cbCaseSensitiveSort'
+            TabOrder = 1
+          end
+          object cbLynxLike: TCheckBox
+            Left = 8
+            Height = 13
+            Top = 21
+            Width = 74
+            AllowGrayed = True
+            Caption = 'cbLynxLike'
+            TabOrder = 2
+          end
+          object cbShortFileSizeFormat: TCheckBox
+            Left = 8
+            Height = 13
+            Top = 69
+            Width = 125
+            AllowGrayed = True
+            Caption = 'cbShortFileSizeFormat'
+            TabOrder = 3
+          end
+          object cbSeparateExt: TCheckBox
+            Left = 8
+            Height = 13
+            Top = 101
+            Width = 90
+            AllowGrayed = True
+            Caption = 'cbSeparateExt'
+            TabOrder = 4
+          end
+        end
+      end
+      object pgTools: TPage
+        Caption = 'pgTools'
+        ClientWidth = 446
+        ClientHeight = 283
+        object cbExtEditor: TCheckBox
+          Left = 3
+          Height = 13
+          Top = 13
+          Width = 74
+          AllowGrayed = True
+          Caption = 'cbExtEditor'
+          OnClick = cbExtEditorClick
+          TabOrder = 0
+        end
+        object edtExtEditor: TEdit
+          Left = 2
+          Height = 24
+          Top = 33
+          Width = 438
+          Anchors = [akTop, akLeft, akRight]
+          TabOrder = 1
+          Text = 'gEdit "%s"'
+        end
+        object cbExtDiffer: TCheckBox
+          Left = 3
+          Height = 13
+          Top = 78
+          Width = 72
+          AllowGrayed = True
+          Caption = 'cbExtDiffer'
+          OnClick = cbExtDifferClick
+          TabOrder = 2
+        end
+        object edtExtDiffer: TEdit
+          Left = 2
+          Height = 24
+          Top = 98
+          Width = 440
+          Anchors = [akTop, akLeft, akRight]
+          TabOrder = 3
+          Text = 'gtk-diff "%s" "%s"'
+        end
+        object cbExtViewer: TCheckBox
+          Left = 3
+          Height = 13
+          Top = 143
+          Width = 79
+          AllowGrayed = True
+          Caption = 'cbExtViewer'
+          OnClick = cbExtViewerClick
+          TabOrder = 4
+        end
+        object edtExtViewer: TEdit
+          Left = 2
+          Height = 24
+          Top = 163
+          Width = 440
+          Anchors = [akTop, akLeft, akRight]
+          TabOrder = 5
+          Text = 'emacs "%s"'
+        end
+      end
+      object pgFonts: TPage
+        Caption = 'pgFonts'
+        ClientWidth = 446
+        ClientHeight = 283
+        object lblMainFont: TLabel
+          Left = 6
+          Height = 14
+          Top = 8
+          Width = 46
+          Caption = 'Main font'
+          Color = clNone
+          ParentColor = False
+        end
+        object lblEditorFont: TLabel
+          Left = 6
+          Height = 14
+          Top = 87
+          Width = 52
+          Caption = 'Editor font'
+          Color = clNone
+          ParentColor = False
+        end
+        object lblViewerFont: TLabel
+          Left = 6
+          Height = 14
+          Top = 168
+          Width = 56
+          Caption = 'Viewer font'
+          Color = clNone
+          ParentColor = False
+        end
+        object cbMainFont: TComboBox
+          Left = 6
+          Height = 21
+          Top = 26
+          Width = 364
+          Anchors = [akTop, akLeft, akRight]
+          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
+          MaxLength = 0
+          OnChange = cbMainFontChange
+          ParentCtl3D = False
+          TabOrder = 0
+        end
+        object btnSelMainFnt: TButton
+          Left = 379
+          Height = 23
+          Top = 24
+          Width = 23
+          Anchors = [akTop, akRight]
+          BorderSpacing.InnerBorder = 4
+          Caption = '...'
+          OnClick = btnSelMainFntClick
+          TabOrder = 1
+        end
+        object edtMainSize: TSpinEdit
+          Left = 379
+          Height = 23
+          Top = 54
+          Width = 55
+          Anchors = [akTop, akRight]
+          MaxValue = 25
+          MinValue = 8
+          OnChange = edtMainSizeChange
+          TabOrder = 2
+          Value = 14
+        end
+        object edtTest1: TEdit
+          Left = 6
+          Height = 24
+          Top = 53
+          Width = 363
+          Anchors = [akTop, akLeft, akRight]
+          TabOrder = 3
+          Text = 'Example Проверка'
+        end
+        object cbEditorFont: TComboBox
+          Left = 6
+          Height = 21
+          Top = 108
+          Width = 363
+          Anchors = [akTop, akLeft, akRight]
+          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
+          MaxLength = 0
+          OnChange = cbEditorFontChange
+          ParentCtl3D = False
+          TabOrder = 4
+        end
+        object btnSelEditFnt: TButton
+          Left = 379
+          Height = 23
+          Top = 106
+          Width = 23
+          Anchors = [akTop, akRight]
+          BorderSpacing.InnerBorder = 4
+          Caption = '...'
+          OnClick = btnSelEditFntClick
+          TabOrder = 5
+        end
+        object edtTest2: TEdit
+          Left = 6
+          Height = 24
+          Top = 133
+          Width = 363
+          Anchors = [akTop, akLeft, akRight]
+          TabOrder = 6
+          Text = 'Example Проверка'
+        end
+        object edtEditorSize: TSpinEdit
+          Left = 379
+          Height = 23
+          Top = 133
+          Width = 55
+          Anchors = [akTop, akRight]
+          MaxValue = 25
+          MinValue = 8
+          OnChange = edtEditorSizeChange
+          TabOrder = 7
+          Value = 14
+        end
+        object cbViewerFont: TComboBox
+          Left = 6
+          Height = 21
+          Top = 188
+          Width = 363
+          Anchors = [akTop, akLeft, akRight]
+          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
+          MaxLength = 0
+          OnChange = cbViewerFontChange
+          ParentCtl3D = False
+          TabOrder = 8
+        end
+        object btnSelViewFnt: TButton
+          Left = 378
+          Height = 23
+          Top = 186
+          Width = 23
+          Anchors = [akTop, akRight]
+          BorderSpacing.InnerBorder = 4
+          Caption = '...'
+          OnClick = btnSelViewFntClick
+          TabOrder = 9
+        end
+        object edtTest3: TEdit
+          Left = 6
+          Height = 24
+          Top = 212
+          Width = 363
+          Anchors = [akTop, akLeft, akRight]
+          TabOrder = 10
+          Text = 'Example Проверка'
+        end
+        object edtViewerSize: TSpinEdit
+          Left = 378
+          Height = 23
+          Top = 213
+          Width = 56
+          Anchors = [akTop, akRight]
+          MaxValue = 25
+          MinValue = 8
+          OnChange = edtViewerSizeChange
+          TabOrder = 11
+          Value = 14
+        end
+      end
+      object pgColor: TPage
+        Caption = 'pgColor'
+        ClientWidth = 446
+        ClientHeight = 283
+        object cTextLabel: TLabel
+          Left = 25
+          Height = 14
+          Top = 31
+          Width = 23
+          Caption = 'Text'
+          Color = clNone
+          ParentColor = False
+        end
+        object cBackGrndLabel: TLabel
+          Left = 23
+          Height = 14
+          Top = 58
+          Width = 58
+          Caption = 'BackGround'
+          Color = clNone
+          ParentColor = False
+        end
+        object cTextColor: TColorBox
+          Left = 108
+          Height = 22
+          Top = 26
+          Width = 100
+          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 16
+          Items.Strings = (
+            'clBlack'
+            'clMaroon'
+            'clGreen'
+            'clOlive'
+            'clNavy'
+            'clPurple'
+            'clTeal'
+            'clGray'
+            'clSilver'
+            'clRed'
+            'clLime'
+            'clYellow'
+            'clBlue'
+            'clFuchsia'
+            'clAqua'
+            'clSilver'
+            'clGray'
+            'clWhite'
+            'clCream'
+            'clNone'
+            'clDefault'
+          )
+          MaxLength = 0
+          TabOrder = 0
+          OnChange = cTextColorChange
+          OnDropDown = cTextColorDropDown
+        end
+        object cbackgrndcolor: TColorBox
+          Left = 108
+          Height = 22
+          Top = 53
+          Width = 100
+          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 16
+          Items.Strings = (
+            'clBlack'
+            'clMaroon'
+            'clGreen'
+            'clOlive'
+            'clNavy'
+            'clPurple'
+            'clTeal'
+            'clGray'
+            'clSilver'
+            'clRed'
+            'clLime'
+            'clYellow'
+            'clBlue'
+            'clFuchsia'
+            'clAqua'
+            'clSilver'
+            'clGray'
+            'clWhite'
+            'clCream'
+            'clNone'
+            'clDefault'
+          )
+          MaxLength = 0
+          TabOrder = 1
+          OnChange = cbackgrndcolorChange
+          OnDropDown = cbackgrndcolorDropDown
+        end
+        object Button1: TButton
+          Left = 209
+          Height = 25
+          Top = 23
+          Width = 28
+          BorderSpacing.InnerBorder = 4
+          Caption = '>>'
+          OnClick = Button1Click
+          TabOrder = 2
+        end
+        object Button2: TButton
+          Left = 209
+          Height = 25
+          Top = 50
+          Width = 28
+          BorderSpacing.InnerBorder = 4
+          Caption = '>>'
+          OnClick = Button2Click
+          TabOrder = 3
+        end
+      end
+      object pgHotKey: TPage
+        Caption = 'pgHotKey'
+        ClientWidth = 446
+        ClientHeight = 283
+        object lblActions: TLabel
+          Left = 6
+          Height = 14
+          Top = 13
+          Width = 36
+          Caption = 'Actions'
+          Color = clNone
+          ParentColor = False
+        end
+        object lblHotKey: TLabel
+          Left = 6
+          Height = 14
+          Top = 68
+          Width = 39
+          Caption = 'Hot Key'
+          Color = clNone
+          ParentColor = False
+        end
+        object cbActions: TComboBox
+          Left = 4
+          Height = 21
+          Top = 33
+          Width = 429
+          Anchors = [akTop, akLeft, akRight]
+          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
+          MaxLength = 0
+          Sorted = True
+          Style = csDropDownList
+          TabOrder = 0
+        end
+        object edHotKey: TEdit
+          Left = 6
+          Height = 23
+          Top = 88
+          Width = 304
+          Anchors = [akTop, akLeft, akRight]
+          OnKeyDown = edHotKeyKeyDown
+          TabOrder = 1
+        end
+        object btSetHotKey: TButton
+          Left = 322
+          Height = 25
+          Top = 88
+          Width = 111
+          Anchors = [akTop, akRight]
+          BorderSpacing.InnerBorder = 4
+          Caption = 'Set HotKey'
+          OnClick = btSetHotKeyClick
+          TabOrder = 2
+        end
+      end
+      object pgPlugins: TPage
+        Caption = 'pgPlugins'
+      end
+    end
+    object pnlCaption: TPanel
+      Left = 1
+      Height = 23
+      Top = 1
+      Width = 454
+      Align = alTop
+      Caption = 'Language'
+      Color = clActiveCaption
+      Font.Color = clCaptionText
+      Font.Style = [fsBold]
+      ParentColor = False
+      TabOrder = 1
+    end
+  end
   object dlgFnt: TFontDialog
     Title = 'Выбрать шрифт'
-    left = 170
-    top = 25
+    left = 48
+    top = 320
   end
   object optColorDialog: TColorDialog
     Title = 'Выбрать цвет'
-    left = 205
-    top = 25
+    left = 83
+    top = 320
+  end
+  object ilTreeView: TImageList
+    left = 16
+    top = 320
+    Bitmap = {
+      6C690700000010000000100000006D0400002F2A2058504D202A2F0A73746174
+      69632063686172202A677261706869635B5D203D207B0A223136203136203531
+      2031222C0A222E20632023354333353636222C0A222C2063204E6F6E65222C0A
+      222D20632023414639354233222C0A222A20632023433341434336222C0A2261
+      20632023443042454433222C0A226220632023434543304431222C0A22632063
+      2023433742424339222C0A226420632023413739374141222C0A226520632023
+      383437313837222C0A226620632023373135383735222C0A2267206320233635
+      34353641222C0A226820632023364634423734222C0A22692063202337383532
+      3745222C0A226A20632023394237364131222C0A226B20632023413538314142
+      222C0A226C20632023384636443935222C0A226D20632023373935413745222C
+      0A226E20632023363334373638222C0A226F20632023353233373536222C0A22
+      7020632023354233453630222C0A227120632023344539413036222C0A227220
+      632023353039423038222C0A227320632023413645373638222C0A2274206320
+      23423045433733222C0A227520632023424446313839222C0A22762063202343
+      3545453943222C0A227720632023434545444146222C0A227820632023413544
+      413731222C0A227920632023373643313245222C0A227A206320233641424631
+      38222C0A224120632023373243393145222C0A22422063202337414432323422
+      2C0A224320632023383044393238222C0A224420632023413645363636222C0A
+      224520632023393245363345222C0A224620632023393945413438222C0A2247
+      20632023384344453342222C0A224820632023383044323246222C0A22492063
+      2023373343363232222C0A224A20632023363642413135222C0A224B20632023
+      393345363430222C0A224C20632023394145413441222C0A224D206320233844
+      44453345222C0A224E20632023383244323333222C0A224F2063202337344336
+      3234222C0A225020632023344639413037222C0A225120632023414645433732
+      222C0A225220632023424346313837222C0A225320632023433345443939222C
+      0A225420632023434245434141222C0A225520632023413444413730222C0A22
+      2E2E2E2E2E2E2E2E2E2E2E2E2E2C2C2C222C0A222E2D2A616263646566676869
+      2E2C2C2C222C0A222E2D6A6B6C6D6E6F706768692E2C2C2C222C0A222E2D6A6B
+      6C6D6E6F706768692E2C2C2C222C0A222E2D6A6B6C6D6E6F706768692E2C2C2C
+      222C0A222E2D6A71717171717171717171717171222C0A222E2D6A7273747576
+      7778797A41424371222C0A222E2D6A724445464748494A7A41424371222C0A22
+      2E2D6A724445464748494A7A41424371222C0A222E2D2A724445464748494A7A
+      41424371222C0A222E2E2E724445464748494A7A41424371222C0A222C2C2C72
+      4445464748494A7A41424371222C0A222C2C2C724445464748494A7A41424371
+      222C0A222C2C2C72444B4C4D4E4F4A7A41424371222C0A222C2C2C5044515253
+      5455797A41424371222C0A222C2C2C71717171717171717171717171227D0A30
+      0500002F2A2058504D202A2F0A7374617469632063686172202A677261706869
+      635B5D203D207B0A2231362031362036342031222C0A222E2063204E6F6E6522
+      2C0A222C20632023383838413835222C0A222D20632023464646464646222C0A
+      222A20632023453345334533222C0A226120632023464446444644222C0A2262
+      20632023433643364335222C0A226320632023414141424138222C0A22642063
+      2023433743374336222C0A226520632023453645364536222C0A226620632023
+      453645374536222C0A226720632023433743384336222C0A2268206320234534
+      45344535222C0A226920632023453445334534222C0A226A2063202345344534
+      4534222C0A226B20632023453645364535222C0A226C20632023453945384539
+      222C0A226D20632023453945394539222C0A226E20632023454145394539222C
+      0A226F20632023453845374537222C0A227020632023453445354534222C0A22
+      7120632023464246424642222C0A227220632023453945384538222C0A227320
+      632023454245434542222C0A227420632023454345434543222C0A2275206320
+      23454445444543222C0A227620632023454345444543222C0A22772063202345
+      4145424542222C0A227820632023453745374536222C0A227920632023453845
+      384539222C0A227A20632023454345434542222C0A2241206320234539453945
+      41222C0A224220632023463846384638222C0A22432063202345384538453822
+      2C0A224420632023454545454545222C0A224520632023454345424543222C0A
+      224620632023463646364636222C0A224720632023463046304630222C0A2248
+      20632023454445444544222C0A224920632023454645464546222C0A224A2063
+      2023454145424541222C0A224B20632023454445444545222C0A224C20632023
+      463246314631222C0A224D20632023454645454546222C0A224E206320234542
+      45424542222C0A224F20632023434443444343222C0A22502063202343464346
+      4345222C0A225120632023463346334633222C0A225220632023454646304546
+      222C0A225320632023463246314632222C0A225420632023463546354635222C
+      0A225520632023464546454645222C0A225620632023464346434643222C0A22
+      5720632023463946394639222C0A225820632023463546364636222C0A225920
+      632023454245414541222C0A225A20632023454445454544222C0A2230206320
+      23463146314631222C0A223120632023463446344634222C0A22322063202346
+      3746364636222C0A223320632023464246414642222C0A223420632023463946
+      414639222C0A223520632023463446354635222C0A2236206320234632463246
+      32222C0A223720632023464146414641222C0A222E2C2C2C2C2C2C2C2C2C2C2C
+      2C2C2C2E222C0A222C2D2D2D2D2D2D2D2D2D2D2D2D2D2D2C222C0A222C2D2A2A
+      2A2A2A2A2A2A2A2A2A2A612C222C0A222C2D2A2A2A6263636363622A2A2A612C
+      222C0A222C2D2A2A2A63646566676368692A612C222C0A222C2D2A6A6B636C6D
+      6D6E636F6570712C222C0A222C2D6A6672637374757663776D78712C222C0A22
+      2C2D657963636363636363637A41422C222C0A222C2D43776363636363636363
+      4445462C222C0A222C2D6E7463636363636363634748492C222C0A222C2D4A4B
+      63636363636363634C4D492C222C0A222C2D4E444F636363636363505152492C
+      222C0A222C2D774453544271555657585149492C222C0A222C2D595A30313257
+      333442353649492C222C0A222C2D565656565656373737464646492C222C0A22
+      2E2C2C2C2C2C2C2C2C2C2C2C2C2C2C2E227D0A040400002F2A2058504D202A2F
+      0A7374617469632063686172202A677261706869635B5D203D207B0A22313620
+      31362034342031222C0A222E2063204E6F6E65222C0A222C2063202338383841
+      3835222C0A222D20632023454345424539222C0A222A20632023454645464545
+      222C0A226120632023463046304545222C0A226220632023463046304630222C
+      0A226320632023464146414641222C0A226420632023384138433837222C0A22
+      6520632023463646364635222C0A226620632023414241434139222C0A226720
+      632023463746374637222C0A226820632023453545334532222C0A2269206320
+      23414441444141222C0A226A20632023454545454543222C0A226B2063202346
+      3346334633222C0A226C20632023463046304546222C0A226D20632023454545
+      454544222C0A226E20632023454345434541222C0A226F206320234241423942
+      36222C0A227020632023443244314430222C0A22712063202341344134413322
+      2C0A227220632023423842374235222C0A227320632023423942384237222C0A
+      227420632023323034413837222C0A227520632023374438333835222C0A2276
+      20632023434143394338222C0A227720632023424642454244222C0A22782063
+      2023414442424343222C0A227920632023374339334233222C0A227A20632023
+      443444334433222C0A224120632023424443384434222C0A2242206320233738
+      38444134222C0A224320632023393241354245222C0A22442063202345344533
+      4532222C0A224520632023433643344332222C0A224620632023373438414132
+      222C0A224720632023374139354234222C0A224820632023443444334432222C
+      0A224920632023433443334332222C0A224A20632023374439314137222C0A22
+      4B20632023374139354235222C0A224C20632023373238424145222C0A224D20
+      632023413041313945222C0A224E20632023383639434238222C0A222E2E2E2E
+      2E2E2E2E2E2E2E2E2E2E2E2E222C0A222E2E2E2E2C2E2E2E2E2E2E2E2E2C2E2E
+      222C0A222E2E2E2C2D2C2E2E2E2E2E2E2C2A2C2E222C0A222E2E2E2E2C612C2E
+      2E2E2E2C622C2E2E222C0A222E2C2E2E2C632C2E2E2E2E2C642E2E2E222C0A22
+      2C65662C6768696A2E2E2C2E2E2E2E2E222C0A222E2C6B6C6D6E6F2C2E2C2E2E
+      2E2E2E2E222C0A222E2E2C2C2C2C70712C2C2E2E2E2E2E2E222C0A222E2E2E2E
+      2E2E722C732C2E2E2E2E2E2E222C0A222E2E2E747474756976772C2E2E2E2E2E
+      222C0A222E2E74787879742C2C7A772C2E2E2E2E222C0A222E7441424243742E
+      2E2C44452C2C2E2E222C0A22747842464779742E2E2E2C48492C2E2E222C0A22
+      74784A4B4C742E2E2E2E2E2C4D2C2E2E222C0A2274434E4E742E2E2E2E2E2E2C
+      2C2C2E2E222C0A222E7474742E2E2E2E2E2E2E2E2E2E2E2E227D0A500700002F
+      2A2058504D202A2F0A7374617469632063686172202A677261706869635B5D20
+      3D207B0A2231362031362037382032222C0A222E2E2063204E6F6E65222C0A22
+      2E2C20632023383838413835222C0A222E2D20632023464646464646222C0A22
+      2E2A20632023453345334533222C0A222E6120632023413741374137222C0A22
+      2E6220632023383238323832222C0A222E6320632023324632463246222C0A22
+      2E6420632023453645364536222C0A222E6520632023464446444644222C0A22
+      2E6620632023453245324532222C0A222E6720632023444244424442222C0A22
+      2E6820632023434543454345222C0A222E6920632023453845384538222C0A22
+      2E6A20632023453945394539222C0A222E6B20632023423142314231222C0A22
+      2E6C20632023373437343734222C0A222E6D20632023453645374536222C0A22
+      2E6E20632023453545364535222C0A222E6F20632023453445344535222C0A22
+      2E7020632023453445334534222C0A222E7120632023443344334433222C0A22
+      2E7220632023424642464246222C0A222E7320632023454145394539222C0A22
+      2E7420632023453845394539222C0A222E7520632023453845374537222C0A22
+      2E7620632023453445354534222C0A222E7720632023464246424642222C0A22
+      2E7820632023453445344534222C0A222E7920632023423842394238222C0A22
+      2E7A20632023344234423442222C0A222E4120632023454345444543222C0A22
+      2E4220632023454345424543222C0A222E4320632023454145424542222C0A22
+      2E4420632023453745374536222C0A222E4520632023454345434543222C0A22
+      2E4620632023454445444544222C0A222E4720632023454545454545222C0A22
+      2E4820632023454645464546222C0A222E4920632023343734373437222C0A22
+      2E4A20632023324332433243222C0A222E4B20632023463046304630222C0A22
+      2E4C20632023454345434542222C0A222E4D20632023453945394541222C0A22
+      2E4E20632023463846384638222C0A222E4F20632023463146314631222C0A22
+      2E5020632023343834383438222C0A222E5120632023323032303230222C0A22
+      2E5220632023333433343334222C0A222E5320632023303030303030222C0A22
+      2E5420632023303130313031222C0A222E5520632023363236323632222C0A22
+      2E5620632023463246324632222C0A222E5720632023463646364636222C0A22
+      2E5820632023463346334633222C0A222E5920632023373637363736222C0A22
+      2E5A20632023363636363636222C0A222E3020632023454145424541222C0A22
+      2E3120632023463546354635222C0A222E3220632023343934393439222C0A22
+      2E3320632023303530353035222C0A222E3420632023463946394639222C0A22
+      2E3520632023374337433743222C0A222E3620632023454245424542222C0A22
+      2E3720632023463446344634222C0A222E3820632023303630363036222C0A22
+      2E3920632023463746374637222C0A222E4020632023344134413441222C0A22
+      2E2320632023373937393739222C0A222E3B20632023354635463546222C0A22
+      2E3A20632023414441444144222C0A222E3D20632023454245414541222C0A22
+      2E2B20632023353635363536222C0A222E2520632023324532453245222C0A22
+      2E2420632023323232323232222C0A222E2820632023303430343034222C0A22
+      2E2920632023344434443444222C0A222E5B20632023464346434643222C0A22
+      2E5D20632023464146414641222C0A222E2E2E2C2E2C2E2C2E2C2E2C2E2C2E2C
+      2E2C2E2C2E2C2E2C2E2C2E2C2E2C2E2E222C0A222E2C2E2D2E2D2E2D2E2D2E2D
+      2E2D2E2D2E2D2E2D2E2D2E2D2E2D2E2D2E2D2E2C222C0A222E2C2E2D2E2A2E61
+      2E622E632E632E2A2E642E642E642E642E2A2E2A2E652E2C222C0A222E2C2E2D
+      2E2A2E662E672E682E632E2A2E692E6A2E692E692E2A2E2A2E652E2C222C0A22
+      2E2C2E2D2E2A2E6B2E632E6C2E632E642E6D2E642E6E2E6F2E702E2A2E652E2C
+      222C0A222E2C2E2D2E2A2E632E712E722E632E6A2E6A2E732E742E752E642E76
+      2E772E2C222C0A222E2C2E2D2E782E632E632E632E792E7A2E632E412E422E43
+      2E6A2E442E772E2C222C0A222E2C2E2D2E642E452E462E472E482E492E4A2E4B
+      2E482E472E4C2E4D2E4E2E2C222C0A222E2C2E2D2E692E462E482E4B2E4F2E50
+      2E512E522E532E542E552E562E572E2C222C0A222E2C2E2D2E732E482E4B2E56
+      2E582E502E532E592E562E5A2E532E6B2E482E2C222C0A222E2C2E2D2E302E4B
+      2E562E582E312E322E332E582E342E672E532E352E482E2C222C0A222E2C2E2D
+      2E362E4F2E582E372E572E322E382E4F2E772E712E532E592E482E2C222C0A22
+      2E2C2E2D2E432E562E372E572E392E402E532E232E392E3B2E532E3A2E482E2C
+      222C0A222E2C2E2D2E3D2E562E372E572E4E2E2B2E252E242E282E532E292E39
+      2E482E2C222C0A222E2C2E2D2E5B2E5B2E5B2E5B2E5B2E5B2E5D2E5D2E5D2E57
+      2E572E572E482E2C222C0A222E2E2E2C2E2C2E2C2E2C2E2C2E2C2E2C2E2C2E2C
+      2E2C2E2C2E2C2E2C2E2C2E2E227D0A500800002F2A2058504D202A2F0A737461
+      7469632063686172202A677261706869635B5D203D207B0A2231362031362039
+      342032222C0A222E2E20632023343434343434222C0A222E2C20632023424142
+      414241222C0A222E2D20632023343634363436222C0A222E2A20632023424442
+      444244222C0A222E6120632023334633463346222C0A222E6220632023433543
+      354335222C0A222E6320632023333433343334222C0A222E6420632023443144
+      314431222C0A222E6520632023323632363236222C0A222E6620632023453245
+      324532222C0A222E6720632023313231323132222C0A222E6820632023433137
+      443131222C0A222E6920632023464646464646222C0A222E6A2063204E6F6E65
+      222C0A222E6B20632023454444463932222C0A222E6C20632023454444453932
+      222C0A222E6D20632023454345434543222C0A222E6E20632023353235323532
+      222C0A222E6F20632023373037303730222C0A222E7020632023434639443432
+      222C0A222E7120632023434539443142222C0A222E7220632023454444443932
+      222C0A222E7320632023433144354144222C0A222E7420632023393142443638
+      222C0A222E7520632023454344443932222C0A222E7620632023444242423235
+      222C0A222E7720632023454344433931222C0A222E7820632023384143343534
+      222C0A222E7920632023413445323638222C0A222E7A20632023443241333434
+      222C0A222E4120632023444142393234222C0A222E4220632023453643453739
+      222C0A222E4320632023454345434544222C0A222E4420632023393944423539
+      222C0A222E4520632023454244423931222C0A222E4620632023443942373234
+      222C0A222E4720632023453543453739222C0A222E4820632023454445444544
+      222C0A222E4920632023394239423942222C0A222E4A20632023383042343446
+      222C0A222E4B20632023413745343642222C0A222E4C20632023393844413537
+      222C0A222E4D20632023443241323433222C0A222E4E20632023443842353233
+      222C0A222E4F20632023453443443738222C0A222E5020632023454445434544
+      222C0A222E5120632023454545444544222C0A222E5220632023393242443639
+      222C0A222E5320632023413545323638222C0A222E5420632023394144423539
+      222C0A222E5520632023454244383930222C0A222E5620632023443742323233
+      222C0A222E5720632023453443423738222C0A222E5820632023454445454545
+      222C0A222E5920632023373239464346222C0A222E5A20632023363839443938
+      222C0A222E3020632023363541433442222C0A222E3120632023374643413546
+      222C0A222E3220632023443141313433222C0A222E3320632023443642313232
+      222C0A222E3420632023453443413738222C0A222E3520632023454545444545
+      222C0A222E3620632023324333453531222C0A222E3720632023353035433631
+      222C0A222E3820632023383541463946222C0A222E3920632023364541363546
+      222C0A222E4020632023454144363846222C0A222E2320632023443541463232
+      222C0A222E3B20632023444543313635222C0A222E3A20632023454545454546
+      222C0A222E3D20632023323733373438222C0A222E2B20632023343134383532
+      222C0A222E2520632023383638433934222C0A222E2420632023434639423431
+      222C0A222E2820632023434239353139222C0A222E2920632023444543303635
+      222C0A222E5B20632023454645454545222C0A222E5D20632023364437413932
+      222C0A222C2E20632023364437393846222C0A222C2C20632023363937343836
+      222C0A222C2D20632023453944343846222C0A222C2A20632023443441423146
+      222C0A222C6120632023444542463635222C0A222C6220632023454545464546
+      222C0A222C6320632023443039463433222C0A222C6420632023443341383146
+      222C0A222C6520632023444542453634222C0A222C6620632023453844323845
+      222C0A222C6720632023443341373146222C0A222C6820632023444142373535
+      222C0A222C6920632023333533353335222C0A222C6A20632023453145314531
+      222C0A222C6B20632023443039453433222C0A222C6C20632023443141343145
+      222C0A222E2E2E2C2E2D2E2A2E612E622E632E642E652E662E672E682E682E68
+      2E682E68222C0A222E2C2E692E692E692E692E692E692E6A2E6A2E6A2E6A2E68
+      2E6B2E6C2E6C2E68222C0A222E2D2E692E6D2E6E2E6F2E6D2E6D2E6A2E6A2E6A
+      2E6A2E682E702E712E722E68222C0A222E2C2E692E6D2E6F2E6F2E732E742E6A
+      2E6A2E6A2E6A2E682E752E762E772E68222C0A222E2D2E692E6D2E6D2E732E78
+      2E792E6A2E6A2E6A2E6A2E682E7A2E412E422E68222C0A222E2C2E692E6D2E43
+      2E742E792E442E6A2E6A2E6A2E6A2E682E452E462E472E68222C0A222E2D2E69
+      2E482E492E4A2E4B2E4C2E6A2E6A2E6A2E6A2E682E4D2E4E2E4F2E68222C0A22
+      2E2C2E692E502E512E522E532E542E6A2E6A2E6A2E6A2E682E552E562E572E68
+      222C0A222E2D2E692E582E592E5A2E302E312E6A2E6A2E6A2E6A2E682E322E33
+      2E342E68222C0A222E2C2E692E352E362E372E382E392E6A2E6A2E6A2E6A2E68
+      2E402E232E3B2E68222C0A222E2D2E692E3A2E3D2E2B2E252E252E6A2E6A2E6A
+      2E6A2E682E242E282E292E68222C0A222E2C2E692E5B2E592E5D2C2E2C2C2E6A
+      2E6A2E6A2E6A2E682C2D2C2A2C612E68222C0A222E2D2E692C622E592E592E59
+      2E592E6A2E6A2E6A2E6A2E682C632C642C652E68222C0A222E2C2E692E692E69
+      2E692E692E692E6A2E6A2E6A2E6A2E682C662C672C682E68222C0A222E2E2E2C
+      2E2D2E2A2E612E622C692E642E652C6A2E672E682C6B2C6C2C682E68222C0A22
+      2E6A2E6A2E6A2E6A2E6A2E6A2E6A2E6A2E6A2E6A2E6A2E682E682E682E682E68
+      227D0AA10900002F2A2058504D202A2F0A7374617469632063686172202A6772
+      61706869635B5D203D207B0A223136203136203131352032222C0A222E2E2063
+      204E6F6E65222C0A222E2C20632023323534443839222C0A222E2D2063202332
+      3334433838222C0A222E2A20632023323634463839222C0A222E612063202332
+      3935313842222C0A222E6220632023444144464532222C0A222E632063202345
+      4545464544222C0A222E6420632023463146324630222C0A222E652063202346
+      3446354634222C0A222E6620632023463746374636222C0A222E672063202346
+      3846384637222C0A222E6820632023463646364635222C0A222E692063202346
+      3446344633222C0A222E6A20632023443444414531222C0A222E6B2063202332
+      3034413837222C0A222E6C20632023333035363845222C0A222E6D2063202345
+      4145424538222C0A222E6E20632023444144414436222C0A222E6F2063202344
+      4144414437222C0A222E7020632023444244434438222C0A222E712063202344
+      4244434437222C0A222E7220632023444544454441222C0A222E732063202346
+      3046304546222C0A222E7420632023324635363845222C0A222E752063202345
+      3745384536222C0A222E7620632023444244424436222C0A222E772063202344
+      4445304441222C0A222E7820632023444645324443222C0A222E792063202345
+      3045334444222C0A222E7A20632023453145344445222C0A222E412063202345
+      3045324443222C0A222E4220632023444344434438222C0A222E432063202345
+      4345434541222C0A222E4420632023453245334530222C0A222E452063202345
+      3145324445222C0A222E4620632023453345364530222C0A222E472063202345
+      3545374532222C0A222E4820632023453545384533222C0A222E492063202345
+      3445374532222C0A222E4A20632023453245324446222C0A222E4B2063202345
+      3645374534222C0A222E4C20632023324635363844222C0A222E4D2063202344
+      4344454442222C0A222E4E20632023453945394537222C0A222E4F2063202345
+      3345364531222C0A222E5020632023453645394534222C0A222E512063202345
+      3945424537222C0A222E5220632023453945434538222C0A222E532063202345
+      3845424536222C0A222E5420632023453845384536222C0A222E552063202344
+      4645304445222C0A222E5620632023323734463839222C0A222E572063202332
+      3134423837222C0A222E5820632023323234423837222C0A222E592063202332
+      3134413837222C0A222E5A20632023324635353844222C0A222E302063202344
+      3944424437222C0A222E3120632023463246324546222C0A222E322063202345
+      4145434538222C0A222E3320632023454445464542222C0A222E342063202345
+      4546304544222C0A222E3520632023454645464544222C0A222E362063202332
+      3835303839222C0A222E3720632023414242364331222C0A222E382063202344
+      3844394435222C0A222E3920632023443944414436222C0A222E402063202343
+      4444304431222C0A222E2320632023333335393846222C0A222E3B2063202344
+      3844414436222C0A222E3A20632023463046314546222C0A222E3D2063202346
+      3946394638222C0A222E2B20632023454245424539222C0A222E252063202344
+      4244424437222C0A222E2420632023443044334432222C0A222E282063202342
+      4242454237222C0A222E2920632023424342464239222C0A222E5B2063202345
+      3645364534222C0A222E5D20632023443444384430222C0A222C2E2063202344
+      3344384433222C0A222C2C20632023324535343843222C0A222C2D2063202343
+      3543424345222C0A222C2A20632023443844414437222C0A222C612063202342
+      3943324338222C0A222C6220632023323534453838222C0A222C632063202345
+      4645464545222C0A222C6420632023443644414433222C0A222C652063202344
+      4244454437222C0A222C6620632023384441314237222C0A222C672063202333
+      3135373845222C0A222C6820632023323434443838222C0A222C692063202333
+      3435413846222C0A222C6A20632023323534443837222C0A222C6B2063202346
+      3846384638222C0A222C6C20632023443844424434222C0A222C6D2063202344
+      4445304439222C0A222C6E20632023453145344446222C0A222C6F2063202345
+      3945434537222C0A222C7020632023454245454541222C0A222C712063202345
+      3245354530222C0A222C7220632023444545314442222C0A222C732063202344
+      4644464443222C0A222C7420632023323534443838222C0A222C752063202346
+      4346434643222C0A222C7620632023463746374635222C0A222C772063202346
+      3846384636222C0A222C7820632023463846394637222C0A222C792063202346
+      3946394637222C0A222C7A20632023463746384636222C0A222C412063202345
+      3045314445222C0A222C4220632023433143344245222C0A222C432063202343
+      3443374331222C0A222C4420632023433443364330222C0A222C452063202341
+      3842344330222C0A222C4620632023413742344246222C0A222C472063202332
+      3935303839222C0A222E2E2E2E2E2E2E2E2E2E2E2E2E2C2E2D2E2D2E2D2E2D2E
+      2D2E2D2E2D2E2A2E2E222C0A222E2E2E2E2E2E2E2E2E2E2E612E622E632E642E
+      652E662E672E682E692E6A2E2A222C0A222E2E2E2E2E2E2E6B2E6B2E6C2E6D2E
+      6E2E6E2E6F2E702E702E712E722E732E6B222C0A222E2E2E2E2E6B2E6B2E6B2E
+      742E752E762E772E782E792E7A2E412E422E432E6B222C0A222E2E2E6B2E6B2E
+      6B2E2E2E742E442E452E792E462E472E482E492E4A2E4B2E6B222C0A222E2E2E
+      6B2E6B2E2E2E2E2E4C2E4D2E4E2E4F2E502E512E522E532E542E552E6B222C0A
+      222E2E2E562E572E582E592E5A2E302E312E502E322E332E342E332E352E302E
+      6B222C0A222E362E372E382E392E402E232E3B2E3A2E3D2E3D2E3D2E3D2E3D2E
+      2B2E302E6B222C0A222E582E392E252E422E242E232E3B2E282E282E282E282E
+      282E282E292E302E6B222C0A222E582E392E5B2E5D2C2E2C2C2C2D2C2A2C2A2C
+      2A2C2A2C2A2C2A2C2A2C612C62222C0A222E582E392C632C642C652C662C672C
+      682C682C682C682C682C682C682C692C6A222C0A222E582E392C6B2C6C2C6D2C
+      6E2E482C6F2C702E322E502C712C722E632C732C74222C0A222E582E392C752C
+      762E662C772E672C782E3D2C792E672C772C7A2C752C412C74222C0A222E582E
+      392C422C432C432C432C432C432C432C432C432C432C432C442E392C68222C0A
+      222E362C452E3B2E392E392E392E392E392E392E392E392E392E392E3B2C462E
+      36222C0A222E2E2C472E6B2E6B2E6B2E6B2E6B2E6B2E6B2E6B2E6B2E6B2E6B2E
+      6B2E362E2E227D0A040400002F2A2058504D202A2F0A73746174696320636861
+      72202A677261706869635B5D203D207B0A2231362031362034342031222C0A22
+      2E2063204E6F6E65222C0A222C20632023394439443944222C0A222D20632023
+      394339433943222C0A222A20632023394639463946222C0A2261206320234641
+      46414641222C0A226220632023464246424642222C0A22632063202346464646
+      4646222C0A226420632023453245324532222C0A226520632023453345334533
+      222C0A226620632023453445344534222C0A226720632023453545354535222C
+      0A226820632023453645364536222C0A226920632023394239423942222C0A22
+      6A20632023343834453446222C0A226B20632023453845384538222C0A226C20
+      632023344535353537222C0A226D20632023454545454543222C0A226E206320
+      23454145414541222C0A226F20632023353435443546222C0A22702063202345
+      4345434543222C0A227120632023354136343637222C0A227220632023413041
+      304130222C0A227320632023413541354135222C0A2274206320234644464446
+      44222C0A227520632023353936333636222C0A22762063202346454645464422
+      2C0A227720632023454645464544222C0A227820632023454245424542222C0A
+      227920632023354636413645222C0A227A20632023454445444544222C0A2241
+      20632023363437313735222C0A224220632023454645464546222C0A22432063
+      2023363737353739222C0A224420632023463146314631222C0A224520632023
+      454545454545222C0A224620632023463046304630222C0A2247206320234632
+      46324632222C0A224820632023463446344634222C0A22492063202346364636
+      4636222C0A224A20632023463846384638222C0A224B20632023463946394639
+      222C0A224C20632023463746374637222C0A224D20632023463546354635222C
+      0A224E20632023413141314131222C0A222E2C2D2D2D2D2D2D2D2D2D2D2D2D2C
+      2A222C0A222C61626262626262626262626262622D222C0A222D636465666667
+      68686868686767632D222C0A222D63696969696969686A6A6A6A67632D222C0A
+      222D636963636363696B6C6C6C6C68632D222C0A222D6369636D6D63696E6F6F
+      6F6F6B632D222C0A222D6369636D6D636970717171716E632D222C0A222D6369
+      6363636369696969696972632D222C0A222D6369696969696973636363742A63
+      2D222C0A222C636E757575757073766D77742A632D222C0A222C637879797979
+      7A73766D77742A632D222C0A222C6370414141414273636363742A632D222C0A
+      222C637A4343434344696969696972632D222C0A222C6345464748494A616261
+      4B4C4D632D222C0A222C63636363636363636363636363632D222C0A22726969
+      6969696969696969696969694E227D0A
+    }
   end
 end
