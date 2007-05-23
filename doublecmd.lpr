@@ -63,11 +63,14 @@ uses
 {$ENDIF}
 
  begin
+ // AssignFile(output, 'c:\doublecmd.log');
+ // Rewrite(output);
+
    Application.Title:='Double Commander';
 //  try
   Application.Initialize;
   ThousandSeparator:=' ';
-  DebugLn('Double commander 0.1 alpha - Free Pascal');
+  DebugLn('Double commander 0.2 alpha - Free Pascal');
   DebugLn('This program is free software released under terms of GNU GPL 2');
   DebugLn('(C)opyright 2006-7 Koblov Alexander (Alexx2000@mail.ru)');
   DebugLn('  and contributors (see about dialog)');

@@ -219,7 +219,7 @@ begin
   dwAttributes := GetFileAttributes( PChar(ADirForLinks) );
   if dwAttributes=FILE_DOES_NOT_EXIST then
     begin
-// WriteLn('Create Directory ',ADirForLinks);
+// WriteLN(output, 'Create Directory ',ADirForLinks);
       if not CreateDir(ADirForLinks) then 
         raise Exception.Create('Can''t create directory "'+ADirForLinks+'".');
     end
@@ -652,7 +652,7 @@ begin
       'r','R': Include( options, optRecursive );
       'd','D': Include( options, optDirectory );
       else
-        WriteLn('Error: Invalid option ''-',ptr^,'''');
+        WriteLN(output, 'Error: Invalid option ''-',ptr^,'''');
         Exit;
       end;
       Inc(ptr);
@@ -669,7 +669,7 @@ begin
       repeat
         sExistedFileName := ParamStr(iArg);
         if not CreateSymlink( sExistedFileName, sLink, options ) then 
-          WriteLn( 'The symbolic link creation failed.' );
+          WriteLN(output,  'The symbolic link creation failed.' );
         Inc(iArg);
       until iArg>=ParamCount;
     end
@@ -694,12 +694,12 @@ begin
 
       if dwAttrs=FILE_DOES_NOT_EXIST then
       begin
-        writeln('Error: The source file does not exist');
+        WriteLN(output, 'Error: The source file does not exist');
         Exit;
       end;
       if (dwAttrs and FILE_ATTRIBUTE_DIRECTORY)<>0 then
       begin
-        writeln('Error: Can''t create hardlink for directory');
+        WriteLN(output, 'Error: Can''t create hardlink for directory');
         Exit;
       end;
       CreateHardlink( sExistedFileName, sLink, options );
@@ -714,7 +714,7 @@ end;
 //-------------------------------------------------------------
 procedure Log(const msg: string);
 begin
-  //Writeln(msg);
+  //WriteLN(output, msg);
 end;
 
 //-------------------------------------------------------------
@@ -767,9 +767,9 @@ begin
   {
   with Buffer^ do
     begin
-    Writeln('Reparse info:');
-    Writeln('ReparseTargetLength: ', ReparseTargetLength);
-    Writeln('ReparseTarget: "', string(ReparseTarget), '"');
+    WriteLN(output, 'Reparse info:');
+    WriteLN(output, 'ReparseTargetLength: ', ReparseTargetLength);
+    WriteLN(output, 'ReparseTarget: "', string(ReparseTarget), '"');
     end;
     }
 

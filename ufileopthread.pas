@@ -84,7 +84,7 @@ const
 implementation
 
 uses
-  SysUtils, uLng, uFileProcs, uFileOp, Forms, FindEx, uDCUtils, uOSUtils;
+  SysUtils, uLng, uFileProcs, uFileOp, Forms, FindEx, uDCUtils, uOSUtils, LCLProc;
 
 { TFileOpThread }
 
@@ -249,7 +249,7 @@ try
     if UseForm then
     begin
        Synchronize(@FFileOpDlg.Close);
-       WriteLN('TFileOpThread finally');
+       DebugLN('TFileOpThread finally');
     end;
     if assigned(NewFileList) then
       FreeAndNil(NewFileList);

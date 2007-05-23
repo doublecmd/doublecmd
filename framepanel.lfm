@@ -7,16 +7,20 @@ inherited FrameFilePanel: TFrameFilePanel
   VertScrollBar.Page = 414
   ActiveControl = dgPanel
   Caption = 'FrameFilePanel'
+  ClientHeight = 415
+  ClientWidth = 349
   object pnPanel: TPanel
     Height = 415
     Width = 349
     Align = alClient
     BevelOuter = bvNone
+    ClientHeight = 415
+    ClientWidth = 349
     FullRepaint = False
     TabOrder = 0
     object lblLInfo: TLabel
-      Height = 13
-      Width = 41
+      Height = 14
+      Width = 36
       Caption = 'lblLInfo'
       Color = clNone
       ParentColor = False
@@ -26,6 +30,8 @@ inherited FrameFilePanel: TFrameFilePanel
       Width = 349
       Align = alTop
       BevelInner = bvLowered
+      ClientHeight = 41
+      ClientWidth = 349
       FullRepaint = False
       TabOrder = 0
       object btnRoot: TSpeedButton
@@ -62,7 +68,7 @@ inherited FrameFilePanel: TFrameFilePanel
       end
       object lblLPath: TLabel
         Left = 2
-        Height = 13
+        Height = 14
         Top = 2
         Width = 345
         Align = alTop
@@ -73,9 +79,9 @@ inherited FrameFilePanel: TFrameFilePanel
       end
       object lblFree: TLabel
         Left = 2
-        Height = 24
-        Top = 15
-        Width = 40
+        Height = 23
+        Top = 16
+        Width = 33
         Align = alLeft
         Caption = 'lblFree'
         Color = clNone
@@ -115,6 +121,8 @@ inherited FrameFilePanel: TFrameFilePanel
       Width = 185
       Alignment = taLeftJustify
       Caption = ' Find:'
+      ClientHeight = 29
+      ClientWidth = 185
       FullRepaint = False
       TabOrder = 3
       Visible = False

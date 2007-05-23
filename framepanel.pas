@@ -216,7 +216,7 @@ end;
 
 procedure TFrameFilePanel.dgPanelKeyPress(Sender: TObject; var Key: Char);
 begin
-  writeln('dgpanel:',Ord(Key))
+  writeln(output, 'dgpanel:',Ord(Key))
 end;
 
 procedure TFrameFilePanel.dgPanelPrepareCanvas(sender: TObject; Col,
@@ -666,7 +666,7 @@ constructor TFrameFilePanel.Create(AOwner : TWinControl; lblCommandPath:TLabel; 
 var
   x:Integer;
 begin
-  writeln('TFrameFilePanel.Create components');
+  writeln(output, 'TFrameFilePanel.Create components');
   inherited Create(AOwner);
   Parent:=AOwner;
   Align:=alClient;

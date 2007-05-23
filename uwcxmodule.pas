@@ -25,20 +25,46 @@ unit uWCXmodule;
 
 interface
 uses
-  uWCXprototypes, uWCXhead, uFileList, uTypes, dynlibs, Classes, uVFSModule, uVFSUtil;
+  uWCXprototypes, uWCXhead, uFileList, uTypes, dynlibs, Classes, uVFSModule, uVFSUtil, fFileOpDlg;
 
 {$H+}
-Type
+const
+  OP_EXTRACT = 0;
+  OP_PACK = 1;
 
+Type
+  TWCXModule = class;
+  
   PHeaderData = ^THeaderData;
+  
+  { Packing/Unpacking thread }
+  
+   TArcThread = class(TThread)
+   protected
+     procedure Execute; override;
+   public
+     Operation : Integer;
+     WCXModule : TWCXModule;
+   end;
+  
   
   { TWCXModule }
 
   TWCXModule = class (TVFSModule)
   private
     FArcFileList : TList;
+    FFileList : TFileList;
+    FFlags : Integer;
     FDstPath,
     fFolder : String;
+    FFilesSize: Int64;
+    FPercent : Double;
+    AT : TArcThread;         // Packing/Unpacking thread
+    FFileOpDlg: TfrmFileOp; // progress window
+    FEmulate : Boolean;
+    function WCXCopyOut : Boolean;{Extract files from archive}
+    function WCXCopyIn : Boolean;{Pack files in archive}
+
     function ProcessDataProc(FileName:pchar;Size:longint):longint;stdcall;
     procedure CopySelectedWithSubFolders(var flist:TFileList);
   protected
@@ -94,7 +120,9 @@ uses SysUtils, uFileOp, uOSUtils, LCLProc, uFileProcs, uDCUtils;
 
 constructor TWCXModule.Create;
 begin
-
+  FFilesSize:= 0;
+  FPercent := 0;
+  FEmulate := True; // temporally
 end;
 
 destructor TWCXModule.Destroy;
@@ -216,7 +244,10 @@ begin
       //Result := E_EOPEN
       Exit;
     end;
-  SetProcessDataProc(ArcHandle, TProcessDataProc(ProcessDataProc));
+
+  if not FEmulate then
+    SetProcessDataProc(ArcHandle, Pointer(ProcessDataProc));
+
   DebugLN('Get File List');
   (*Get File List*)
   FillChar(ArcHeader, SizeOf(ArcHeader), #0);
@@ -293,9 +324,157 @@ begin
   Result := FileList;
 end;
 
+function TWCXModule.WCXCopyOut : Boolean;
+var
+  ArcHandle : THandle;
+  ArcFile : tOpenArchiveData;
+  ArcHeader : THeaderData;
+  Extract : Boolean;
+  Count, I : Integer;
+  Folder : String;
+begin
+   FPercent := 0;
+   //FDstPath := sDstPath;
+
+
+   (* Get current folder in archive *)
+   Folder := LowDirLevel(FFileList.GetItem(0)^.sName);
+
+   (* Get relative path *)
+   IncludeFileInList(FArchiveName, Folder);
+
+   FFolder := Folder;
+
+   DebugLN('Folder = ' + Folder);
+
+   //sDstPath := ExcludeTrailingPathDelimiter(sDstPath);
+
+   CopySelectedWithSubFolders(FFileList);
+   DebugLN('Extract file = ' + FArchiveName + DirectorySeparator + ArcHeader.FileName);
+
+
+  Count := FFileList.Count;
+  FillChar(ArcFile, SizeOf(ArcFile), #0);
+  ArcFile.ArcName := PChar(FArchiveName);
+  ArcFile.OpenMode := PK_OM_EXTRACT;
+  ArcHandle := OpenArchive(ArcFile);
+
+  if ArcHandle = 0 then
+   begin
+    Result := False;
+    Exit;
+   end;
+  if not FEmulate then
+    SetProcessDataProc(ArcHandle, Pointer(ProcessDataProc));
+
+  FillChar(ArcHeader, SizeOf(ArcHeader), #0);
+  while (ReadHeader(ArcHandle, ArcHeader) = 0) do
+   begin
+
+
+        if  FFileList.CheckFileName(ArcHeader.FileName) >= 0 then
+          begin
+            DebugLN(FDstPath + ExtractDirLevel(Folder, ArcHeader.FileName));
+
+            if FEmulate then
+              begin
+                FFileOpDlg.sFileName := FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName);
+                FFileOpDlg.iProgress1Pos := 0;
+                if AT.Terminated then Exit;
+                AT.Synchronize(FFileOpDlg.UpdateDlg);
+              end;
+
+            ProcessFile(ArcHandle, PK_EXTRACT, nil, PChar(FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)));
+            //*************
+            if FEmulate then
+              begin
+                if FFilesSize > 0 then
+                  FPercent := FPercent + ((ArcHeader.PackSize * 100) / FFilesSize)
+                else
+                  FPercent := 100;
+                  
+                DebugLN('Percent = ' + IntToStr(Round(FPercent)));
+
+                FFileOpDlg.iProgress1Pos := 100;
+                FFileOpDlg.iProgress2Pos := Round(FPercent);
+
+                AT.Synchronize(FFileOpDlg.UpdateDlg);
+              end; // Emulate
+            //*************
+            end
+        else
+            ProcessFile(ArcHandle, PK_SKIP, nil, nil);
+     FillChar(ArcHeader, SizeOf(ArcHeader), #0);
+   end;
+   CloseArchive(ArcHandle);
+   Result := True;
+end;
+
+function TWCXModule.WCXCopyIn : Boolean;
+var
+  FileList, Folder : PChar;
+  I : Integer;
+begin
+  DebugLN('VFSCopyIn =' + FArchiveName);
+  FPercent := 0;
+  New(FileList);
+  New(Folder);
+
+  (* Add in file list files from subfolders *)
+  SelectFilesInSubFoldersInRFS(FFileList, FFilesSize);
+
+  DebugLN('Curr Dir := ' + FFileList.CurrentDirectory);
+  Folder := PChar(FFileList.CurrentDirectory);
+  
+  if not FEmulate then
+  begin
+  (* Convert TFileList into PChar *)
+  FileList := PChar(GetFileList(FFileList));
+
+  PackFiles(PChar(FArchiveName), nil{PChar(sDstName)}, Folder, FileList, FFlags);
+  end
+  else
+    begin
+      for I := 0 to FFileList.Count - 1 do
+        begin
+
+          FileList := PChar(FFileList.GetItem(I)^.sName + #0#0);
+
+          FFileOpDlg.sFileName := FileList;
+          FFileOpDlg.iProgress1Pos := 0;
+          if AT.Terminated then Exit;
+          AT.Synchronize(FFileOpDlg.UpdateDlg);
+          
+          PackFiles(PChar(FArchiveName), nil{PChar(sDstName)}, Folder, FileList, FFlags);
+
+          if FFilesSize > 0 then
+            FPercent := FPercent + ((FFileList.GetItem(I)^.iSize * 100) / FFilesSize)
+          else
+            FPercent := 100;
+            
+          DebugLN('Percent = ' + IntToStr(Round(FPercent)));
+
+          FFileOpDlg.iProgress1Pos := 100;
+          FFileOpDlg.iProgress2Pos := Round(FPercent);
+
+          AT.Synchronize(FFileOpDlg.UpdateDlg);
+        end;
+    end;
+end;
+
 function TWCXModule.ProcessDataProc(FileName: pchar; Size: longint): longint;stdcall;
 begin
-  DebugLN('Working ' + FileName + IntToStr(Size));
+  DebugLN('Working ' + FileName + ' Size = ' + IntToStr(Size));
+
+  Result := 1;
+  
+  FPercent := FPercent + ((Size * 100) / FFilesSize);
+  DebugLN('Percent = ' + IntToStr(Round(FPercent)));
+
+  FFileOpDlg.iProgress1Pos := 100;
+  FFileOpDlg.iProgress2Pos := Round(FPercent);
+
+  AT.Synchronize(FFileOpDlg.UpdateDlg);
 end;
 
 procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
@@ -335,6 +514,10 @@ procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
                  sExt:='';
                  //DebugLN('SelectFilesInSubfolders = ' + FileName);
                  SelectFilesInSubfolders(fl, FileName);
+               end
+             else
+               begin
+                 inc(FFilesSize, PackSize);
                end;
           end; //with
        fl.AddItem(fr);
@@ -364,101 +547,70 @@ begin
     DebugLN('Curr File = ' + fri.sName);
 
     if FPS_ISDIR(fri.iMode) then
-      SelectFilesInSubfolders(Newfl, fri.sName);
+      SelectFilesInSubfolders(Newfl, fri.sName)
+    else
+      begin
+        inc(FFilesSize);
+      end;
 
   end;
   flist.Free;
   flist := Newfl;
 end;
 
-{Extract files from archive}
+{Extract files from archive in thread}
 
 function TWCXModule.VFSCopyOut(var flSrcList: TFileList; sDstPath: String
   ): Boolean;
-var
-ArcHandle : THandle;
-ArcFile : tOpenArchiveData;
-ArcHeader : THeaderData;
-Extract : Boolean;
-Count, I : Integer;
-Folder : String;
 begin
-
-   FDstPath := sDstPath;
-   
-
-   (* Get current folder in archive *)
-   Folder := LowDirLevel(flSrcList.GetItem(0)^.sName);
-
-   (* Get relative path *)
-   IncludeFileInList(FArchiveName, Folder);
-   
-   FFolder := Folder;
-   
-   DebugLN('Folder = ' + Folder);
-   
-   //sDstPath := ExcludeTrailingPathDelimiter(sDstPath);
-   
-   CopySelectedWithSubFolders(flSrcList);
-   DebugLN('Extract file = ' + FArchiveName + DirectorySeparator + ArcHeader.FileName);
-
-
-  Count := flSrcList.Count;
-  FillChar(ArcFile, SizeOf(ArcFile), #0);
-  ArcFile.ArcName := PChar(FArchiveName);
-  ArcFile.OpenMode := PK_OM_EXTRACT;
-  ArcHandle := OpenArchive(ArcFile);
-
-  if ArcHandle = 0 then
-   begin
+  Result := True;
+  try
+    FFileOpDlg:= TfrmFileOp.Create(nil);
+    FFileOpDlg.Show;
+    FFileOpDlg.iProgress1Max:=100;
+    FFileOpDlg.iProgress2Max:=100;
+    FFileOpDlg.Caption := 'Extracting...'; //TODO: Localize
+  
+    FFileList := flSrcList;
+    FDstPath := sDstPath;
+  
+    AT := TArcThread.Create(True);
+    AT.FreeOnTerminate := True;
+    AT.Operation := OP_EXTRACT;
+    AT.WCXModule := Self;
+    FFileOpDlg.Thread := TThread(AT);
+    AT.Resume;
+  except
     Result := False;
-    Exit;
-   end;
-   
-  SetProcessDataProc(ArcHandle, TProcessDataProc(ProcessDataProc));
-
-  FillChar(ArcHeader, SizeOf(ArcHeader), #0);
-  while (ReadHeader(ArcHandle, ArcHeader) = 0) do
-   begin
-
-
-        if  flSrcList.CheckFileName({FArchiveName + DirectorySeparator +} ArcHeader.FileName) >= 0 then
-        begin
-            DebugLN(sDstPath + ExtractDirLevel(Folder, ArcHeader.FileName));
-
-            ProcessFile(ArcHandle, PK_EXTRACT, nil, PChar(sDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)));
-            
-            end
-        else
-            ProcessFile(ArcHandle, PK_SKIP, nil, nil);
-     FillChar(ArcHeader, SizeOf(ArcHeader), #0);
-   end;
-   CloseArchive(ArcHandle);
-   Result := True;
+  end;
 end;
+
+{Pack files in thread}
 
 function TWCXModule.VFSCopyIn(var flSrcList: TFileList; sDstName: String; Flags : Integer
   ): Boolean;
-var
-  FileList, Folder : PChar;
 begin
-
-  DebugLN('VFSCopyIn =' + FArchiveName);
-
-  New(FileList);
-  New(Folder);
+  Result := True;
+  try
+    FFileOpDlg:= TfrmFileOp.Create(nil);
+    FFileOpDlg.Show;
+    FFileOpDlg.iProgress1Max:=100;
+    FFileOpDlg.iProgress2Max:=100;
+    FFileOpDlg.Caption := 'Packing...'; //TODO: Localize
+    
+    FFileList := flSrcList;
+    FDstPath := sDstName;
+    FFlags := Flags;
   
-  (* Add in file list files from subfolders *)
-  SelectFilesInSubFoldersInRFS(flSrcList);
-  
-  (* Convert TFileList into PChar *)
-  FileList := PChar(GetFileList(flSrcList));
-  
-  
-  DebugLN('Curr Dir := ' + flSrcList.CurrentDirectory);
-  Folder := PChar(flSrcList.CurrentDirectory);
-  
-  PackFiles(PChar(FArchiveName), nil{PChar(sDstName)}, Folder, FileList, Flags);
+    AT := TArcThread.Create(True);
+    AT.FreeOnTerminate := True;
+    AT.Operation := OP_PACK;
+    AT.WCXModule := Self;
+    FFileOpDlg.Thread := TThread(AT);
+    AT.Resume;
+  except
+    Result := False
+  end;
 end;
 
 function TWCXModule.VFSRename(const sSrcName, sDstName: String): Boolean;
@@ -529,5 +681,29 @@ begin
    end;
 end;
 
+{ TArcThread }
 
+procedure TArcThread.Execute;
+
+begin
+// main archive thread code started here
+  try
+    with WCXModule do
+      begin
+      case Operation of
+        OP_EXTRACT:
+          begin
+            WCXCopyOut;
+          end;
+        OP_PACK:
+          begin
+            WCXCopyIn;
+          end;
+      end; //case
+        FFileOpDlg.Close;
+      end; //with
+  except
+    DebugLN('Error in "ArcThread.Execute"');
+  end;
+  end;
 end.

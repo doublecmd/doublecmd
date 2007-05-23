@@ -11,6 +11,8 @@ inherited frmFileOp: TfrmFileOp
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'frmFileOp'
+  ClientHeight = 144
+  ClientWidth = 402
   OnClose = FormClose
   OnShow = FormShow
   Position = poScreenCenter

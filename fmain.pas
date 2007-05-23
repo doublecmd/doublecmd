@@ -345,7 +345,6 @@ begin
   finally
     frameLeft.RefreshPanel;
     frameRight.RefreshPanel;
-    fl.Free;
   end;
 
 end;
@@ -1248,8 +1247,8 @@ end;
 
 procedure TfrmMain.AppException(Sender: TObject; E: Exception);
 begin
-  WriteLn(stdErr,'Exception:',E.Message);
-  WriteLn(stdErr,'Func:',BackTraceStrFunc(get_caller_frame(get_frame)));
+  WriteLN(stdErr,'Exception:',E.Message);
+  WriteLN(stdErr,'Func:',BackTraceStrFunc(get_caller_frame(get_frame)));
   Dump_Stack(StdErr, get_caller_frame(get_frame));
 end;
 
@@ -2243,7 +2242,7 @@ begin
     ReAlign;
     pnlFile.LoadPanel;
     UpDatelblInfo;
-    dgPanel.Color := gIni.ReadInteger('Colors', 'BackColor', 16777215);
+    dgPanel.Color := gBackColor;
     lblLPath.OnClick:=@FramelblLPathClick;
     edtRename.OnExit:=@FrameRightedtRenameExit;
     edtSearch.OnExit:=@FrameedtSearchExit;

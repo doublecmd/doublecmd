@@ -1,8 +1,8 @@
 object PackDlg: TPackDlg
   Tag = 1
-  Left = 241
+  Left = 243
   Height = 202
-  Top = 138
+  Top = 185
   Width = 517
   HelpContext = 150
   HorzScrollBar.Page = 516

@@ -68,6 +68,9 @@ var
 
   gViewerPos:TControlPosition;
   gEditorPos:TControlPosition;
+  
+  gBackColor, //Background color
+  gForeColor : TColor; //text color
 
 function LoadGlobs : Boolean;
 procedure SaveGlobs;
@@ -192,6 +195,9 @@ begin
   gEditorSize:=gIni.ReadInteger('Configuration', 'EditorSize', 14);
   gViewerSize:=gIni.ReadInteger('Configuration', 'ViewerSize', 14);
 
+  gForeColor  := gIni.ReadInteger('Colors', 'ForeColor', clBlack);
+  gBackColor := gIni.ReadInteger('Colors', 'BackColor', clWhite);
+
   if FileExists(gpCfgDir+'doublecmd.ext') then
     gExts.LoadFromFile(gpCfgDir+'doublecmd.ext');
 
@@ -276,6 +282,9 @@ begin
   gIni.WriteInteger('Configuration', 'FontSize', gFontSize);
   gIni.WriteInteger('Configuration', 'EditorSize', gEditorSize);
   gIni.WriteInteger('Configuration', 'ViewerSize', gViewerSize);
+
+  gIni.WriteInteger('Colors', 'ForeColor', gForeColor);
+  gIni.WriteInteger('Colors', 'BackColor', gBackColor);
 
   for x:=0 to 4 do
     gIni.WriteInteger('Configuration', 'Col'+IntToStr(x), gColumnSize[x]);
