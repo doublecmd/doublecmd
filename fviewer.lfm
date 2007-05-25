@@ -8,6 +8,8 @@ inherited frmViewer: TfrmViewer
   VertScrollBar.Range = 19
   ActiveControl = ScrollBarVert
   Caption = 'frmViewer'
+  ClientHeight = 80
+  ClientWidth = 200
   Constraints.MinHeight = 100
   Constraints.MinWidth = 200
   KeyPreview = True
@@ -45,6 +47,8 @@ inherited frmViewer: TfrmViewer
     ShowTabs = False
     object pgText: TPage
       Caption = 'pgText'
+      ClientWidth = 192
+      ClientHeight = 49
       object ScrollBarVert: TScrollBar
         Left = 177
         Height = 49
@@ -63,6 +67,7 @@ inherited frmViewer: TfrmViewer
         Cursor = crIBeam
         Height = 49
         Width = 177
+        ViewerMode = vmText
         Font.Height = -14
         Font.Name = 'fixed'
         Font.Pitch = fpFixed
@@ -73,6 +78,8 @@ inherited frmViewer: TfrmViewer
     end
     object pgImage: TPage
       Caption = 'pgImage'
+      ClientWidth = 192
+      ClientHeight = 49
       object ScrollBox: TScrollBox
         Height = 468
         Width = 788

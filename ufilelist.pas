@@ -239,13 +239,13 @@ begin
   Result:=0;
   if item1=item2 then Exit;
 
-  if (not FPS_ISDIR(item1^.iMode)) and  (not FPS_ISDIR(item2^.iMode)) then  Exit;
-  if (not FPS_ISDIR(item1^.iMode)) and FPS_ISDIR(item2^.iMode) then
+  if (not (FPS_ISDIR(item1^.iMode) or item1^.bLinkIsDir)) and  (not (FPS_ISDIR(item2^.iMode) or item2^.bLinkIsDir)) then  Exit;
+  if (not (FPS_ISDIR(item1^.iMode) or item1^.bLinkIsDir)) and (FPS_ISDIR(item2^.iMode) or item2^.bLinkIsDir) then
   begin
     Result:=+1;
     Exit;
   end;
-  if FPS_ISDIR(item1^.iMode) and (not FPS_ISDIR(item2^.iMode)) then
+  if (FPS_ISDIR(item1^.iMode) or item1^.bLinkIsDir) and (not (FPS_ISDIR(item2^.iMode) or item2^.bLinkIsDir)) then
   begin
     Result:=-1;
     Exit;
