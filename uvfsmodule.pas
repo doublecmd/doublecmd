@@ -35,7 +35,7 @@ Type
     procedure UnloadModule;virtual;abstract;
     function VFSInit:Boolean;virtual;abstract;
     procedure VFSDestroy;virtual;abstract;
-    function VFSCaps(const sExt:String):Integer;virtual;abstract;
+    function VFSCaps : Integer;virtual;abstract;
 
     function VFSConfigure(Parent: THandle):Boolean;virtual;abstract;
     function VFSOpen(const sName:String):Boolean;virtual;abstract;

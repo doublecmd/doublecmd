@@ -1,7 +1,7 @@
 inherited frmOptions: TfrmOptions
-  Left = 254
+  Left = 288
   Height = 359
-  Top = 236
+  Top = 99
   Width = 577
   HorzScrollBar.Page = 576
   VertScrollBar.Page = 358
@@ -620,6 +620,110 @@ inherited frmOptions: TfrmOptions
       end
       object pgPlugins: TPage
         Caption = 'pgPlugins'
+        ClientWidth = 446
+        ClientHeight = 283
+        object PageControl1: TPageControl
+          Height = 283
+          Width = 446
+          ActivePage = tsWCX
+          Align = alClient
+          TabIndex = 0
+          TabOrder = 0
+          object tsWCX: TTabSheet
+            Caption = 'Packer plugins (.WCX)'
+            ClientHeight = 257
+            ClientWidth = 438
+            OnShow = tsWCXShow
+            object lblAbout: TLabel
+              Left = 14
+              Height = 27
+              Top = 6
+              Width = 268
+              Caption = 'Packer plugins are used to open archives not supported'#13#10'internally by Double Commander.'
+              Color = clNone
+              ParentColor = False
+            end
+            object lblExt: TLabel
+              Left = 14
+              Height = 14
+              Top = 46
+              Width = 177
+              Caption = 'All files with e&xtension (ending with):'
+              Color = clNone
+              ParentColor = False
+            end
+            object lblAssociateWith: TLabel
+              Left = 14
+              Height = 14
+              Top = 77
+              Width = 74
+              Caption = '&Associate with:'
+              Color = clNone
+              ParentColor = False
+            end
+            object cbExt: TComboBox
+              Left = 230
+              Height = 21
+              Top = 46
+              Width = 100
+              AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+              ItemHeight = 13
+              MaxLength = 0
+              OnChange = cbExtChange
+              TabOrder = 0
+            end
+            object cbWCXPath: TComboBox
+              Left = 14
+              Height = 21
+              Top = 98
+              Width = 200
+              AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+              ItemHeight = 13
+              MaxLength = 0
+              TabOrder = 1
+            end
+            object btnOpen: TBitBtn
+              Left = 230
+              Height = 32
+              Top = 98
+              Width = 100
+              Caption = 'Open with'
+              NumGlyphs = 0
+              OnClick = btnOpenClick
+              TabOrder = 2
+            end
+            object bbtnApply: TBitBtn
+              Left = 230
+              Height = 32
+              Top = 142
+              Width = 100
+              Caption = 'Apply'
+              NumGlyphs = 0
+              OnClick = bbtnApplyClick
+              TabOrder = 3
+            end
+            object bbtnHelp: TBitBtn
+              Left = 230
+              Height = 32
+              Top = 182
+              Width = 100
+              Caption = 'Help'
+              NumGlyphs = 0
+              TabOrder = 4
+            end
+            object clbWCXList: TCheckListBox
+              Left = 14
+              Height = 128
+              Top = 126
+              Width = 200
+              OnClick = clbWCXListClick
+              TabOrder = 5
+            end
+          end
+          object tsWFX: TTabSheet
+            Caption = 'File system plugins (.WFX)'
+          end
+        end
       end
     end
     object pnlCaption: TPanel
@@ -996,5 +1100,11 @@ inherited frmOptions: TfrmOptions
       4B4C4D632D222C0A222C63636363636363636363636363632D222C0A22726969
       6969696969696969696969694E227D0A
     }
+  end
+  object odOpenDialog: TOpenDialog
+    Title = 'Открыть существующий файл'
+    FilterIndex = 0
+    left = 120
+    top = 320
   end
 end

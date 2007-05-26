@@ -1,14 +1,30 @@
 {
-Seksi Commander
-----------------------------
-Implementing of Options dialog
+   Double Commander
+   ----------------------------
+   Implementing of Options dialog
 
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Licence  : GNU GPL v 2.0
+   Author   : radek.cervinka@centrum.cz
 
-contributors:
+   contributors:
 
+   Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
+
 unit fOptions;
 {$mode objfpc}{$H+}
 interface
@@ -16,13 +32,17 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, Buttons, fLngForm, Spin, ColorBox;
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, Buttons, fLngForm, Spin, ColorBox,
+  CheckLst;
 
 type
 
   { TfrmOptions }
 
   TfrmOptions = class(TfrmLng)
+    bbtnApply: TBitBtn;
+    bbtnHelp: TBitBtn;
+    btnOpen: TBitBtn;
     btnSelEditFnt: TButton;
     btnSelMainFnt: TButton;
     btnSelViewFnt: TButton;
@@ -43,6 +63,9 @@ type
     cbSeparateExt: TCheckBox;
     cbShortFileSizeFormat: TCheckBox;
     cbViewerFont: TComboBox;
+    cbExt: TComboBox;
+    cbWCXPath: TComboBox;
+    clbWCXList: TCheckListBox;
     cTextColor: TColorBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
@@ -60,6 +83,9 @@ type
     edtViewerSize: TSpinEdit;
     gb: TGroupBox;
     ilTreeView: TImageList;
+    lblAssociateWith: TLabel;
+    lblExt: TLabel;
+    lblAbout: TLabel;
     lblActions: TLabel;
     lblEditorFont: TLabel;
     lblHotKey: TLabel;
@@ -69,7 +95,9 @@ type
     lblViewerFont: TLabel;
     lngList: TListBox;
     nbNotebook: TNotebook;
+    odOpenDialog: TOpenDialog;
     optColorDialog: TColorDialog;
+    PageControl1: TPageControl;
     pgPlugins: TPage;
     pnlCaption: TPanel;
     Panel3: TPanel;
@@ -82,11 +110,17 @@ type
     pgHotKey: TPage;
     pgLng: TPage;
     pgTools: TPage;
+    tsWCX: TTabSheet;
+    tsWFX: TTabSheet;
     tvTreeView: TTreeView;
+    procedure bbtnApplyClick(Sender: TObject);
+    procedure btnOpenClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure cbackgrndcolorChange(Sender: TObject);
     procedure cbackgrndcolorDropDown(Sender: TObject);
+    procedure cbExtChange(Sender: TObject);
+    procedure clbWCXListClick(Sender: TObject);
     procedure cTextColorChange(Sender: TObject);
     procedure cTextColorDropDown(Sender: TObject);
     procedure edtEditorSizeChange(Sender: TObject);
@@ -106,6 +140,7 @@ type
     procedure cbViewerFontChange(Sender: TObject);
     procedure edHotKeyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
       );
+    procedure tsWCXShow(Sender: TObject);
     procedure tvTreeViewChange(Sender: TObject; Node: TTreeNode);
   private
     { Private declarations }
@@ -122,7 +157,7 @@ type
 implementation
 
 uses
-  uLng, uGlobs, uGlobsPaths, fMain, ActnList, LCLProc, menus;
+  uLng, uGlobs, uGlobsPaths, fMain, ActnList, LCLProc, menus, uWCXModule;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
@@ -165,6 +200,23 @@ begin
    end;
 end;
 
+procedure TfrmOptions.btnOpenClick(Sender: TObject);
+var
+  WCXmodule : TWCXmodule;
+begin
+  odOpenDialog.Filter := 'Archive plugins (*.wcx)|*.wcx';
+  if odOpenDialog.Execute then
+  begin
+    WCXmodule := TWCXmodule.Create;
+    if WCXmodule.LoadModule(odOpenDialog.FileName)then
+      cbWCXPath.Text := IntToStr(WCXmodule.VFSCaps) + ',' + odOpenDialog.FileName
+    else
+      cbWCXPath.Text := '0,' + odOpenDialog.FileName;
+  WCXModule.UnloadModule;
+  WCXmodule.Free;
+  end;
+end;
+
 procedure TfrmOptions.Button2Click(Sender: TObject);
 begin
    if optColorDialog.Execute then
@@ -182,6 +234,16 @@ end;
 procedure TfrmOptions.cbackgrndcolorDropDown(Sender: TObject);
 begin
   cbackgrndcolor.Color := clWindow;
+end;
+
+procedure TfrmOptions.cbExtChange(Sender: TObject);
+begin
+  clbWCXList.ItemIndex := cbExt.ItemIndex;
+end;
+
+procedure TfrmOptions.clbWCXListClick(Sender: TObject);
+begin
+  cbWCXPath.Text := clbWCXList.Items[clbWCXList.ItemIndex];
 end;
 
 procedure TfrmOptions.cTextColorChange(Sender: TObject);
@@ -441,6 +503,88 @@ begin
   vShortCut := ShortCut(Key,Shift);
   TEdit(Sender).Text := ShortCutToText(vShortCut);
   Key := 0;
+end;
+
+procedure TfrmOptions.tsWCXShow(Sender: TObject);
+var
+  I : Integer;
+  sCurrPlugin,
+  sExt : String;
+  PosEqual : Integer;
+begin
+  gIni.ReadSectionRaw('PackerPlugins', clbWCXList.Items);
+  for I := 0 to clbWCXList.Count - 1 do
+  begin
+    sCurrPlugin := clbWCXList.Items[I];
+    PosEqual := Pos('=', sCurrPlugin);
+    sExt := Copy(sCurrPlugin, 1, PosEqual - 1);
+    if sExt[1] = '?' then
+      Delete(sExt, 1, 1);
+    cbExt.Items.Add(sExt);
+    if Pos('?', clbWCXList.Items[I]) = 0 then
+      begin
+        clbWCXList.Items[I] := Copy(sCurrPlugin, PosEqual + 1, Length(sCurrPlugin) - PosEqual);
+        clbWCXList.Checked[I] := True
+      end
+    else
+      begin
+        clbWCXList.Items[I] := Copy(sCurrPlugin, PosEqual + 1, Length(sCurrPlugin) - PosEqual);
+        clbWCXList.Checked[I] := False;
+      end;
+  end;
+end;
+
+procedure TfrmOptions.bbtnApplyClick(Sender: TObject);
+var
+ I,
+ iIndex : Integer;
+ bChecked : Boolean;
+begin
+  if cbExt.Text <> '' then
+  if cbExt.Items.IndexOf(cbExt.Text) < 0 then
+    begin
+    
+      if cbWCXPath.Text = '' then
+        Exit;
+        
+      if Pos(',', cbWCXPath.Text) = 0 then
+        iIndex := clbWCXList.Items.Add('0,' + cbWCXPath.Text)
+      else
+        iIndex := clbWCXList.Items.Add(cbWCXPath.Text);
+      clbWCXList.Checked[iIndex] := True;
+      cbExt.Items.Add(cbExt.Text);
+    end
+  else
+    begin
+      iIndex := cbExt.Items.IndexOf(cbExt.Text);
+      bChecked := clbWCXList.Checked[iIndex];
+      
+      if cbWCXPath.Text = '' then
+        begin
+          gIni.DeleteKey('PackerPlugins', cbExt.Items[iIndex]);
+          Exit;
+        end;
+        
+      if Pos(',', cbWCXPath.Text) = 0 then
+        clbWCXList.Items[iIndex] := '0,' + cbWCXPath.Text
+      else
+        clbWCXList.Items[iIndex] := cbWCXPath.Text;
+      clbWCXList.Checked[iIndex] := bChecked;
+    end;
+  
+  for I := 0 to clbWCXList.Count - 1 do
+    begin
+      if clbWCXList.Checked[I] then
+        begin
+          gIni.DeleteKey('PackerPlugins', '?' + cbExt.Items[I]);
+          gIni.WriteString('PackerPlugins', cbExt.Items[I],  clbWCXList.Items[I])
+        end
+      else
+        begin
+          gIni.DeleteKey('PackerPlugins', cbExt.Items[I]);
+          gIni.WriteString('PackerPlugins', '?' + cbExt.Items[I],  clbWCXList.Items[I]);
+        end;
+    end;
 end;
 
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);

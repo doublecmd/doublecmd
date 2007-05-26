@@ -97,7 +97,7 @@ Type
 
     function VFSInit:Boolean;override;
     procedure VFSDestroy;override;
-    function VFSCaps(const sExt:String):Integer;override;
+    function VFSCaps :Integer;override;
 
     function VFSConfigure(Parent: THandle):Boolean;override;
     function VFSOpen(const sName:String):Boolean;override;
@@ -195,9 +195,12 @@ begin
 
 end;
 
-function TWCXModule.VFSCaps(const sExt: String): Integer;
+function TWCXModule.VFSCaps : Integer;
 begin
-
+  if Assigned(GetPackerCaps) then
+    Result := GetPackerCaps
+  else
+    Result := 0;
 end;
 
 function TWCXModule.VFSConfigure(Parent: THandle): Boolean;
