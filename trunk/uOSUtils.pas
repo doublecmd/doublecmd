@@ -32,6 +32,13 @@ uses
     , BaseUnix, Libc, Unix, UnixType, fFileProperties
     {$ENDIF};
     
+const
+  {$IFDEF UNIX}
+  faFolder = S_IFDIR;
+  {$ELSE}
+  faFolder = faDirectory;
+  {$ENDIF}
+
 type
 TDriveType = (dtUnknown, dtNoDrive, dtFloppy, dtFixed, dtNetwork, dtCDROM,
     dtRAM);
