@@ -115,7 +115,6 @@ inherited frmOptions: TfrmOptions
       Align = alClient
       PageIndex = 0
       ShowTabs = False
-      TabOrder = 0
       object pgLng: TPage
         Caption = 'pgLng'
         ClientWidth = 450
