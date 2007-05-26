@@ -2442,17 +2442,24 @@ var
   i, j, count: Integer;
   ini: TIniFile;
   vAction: TAction;
+  vShortCut: TShortCut;
 begin
   // ToDo Black list HotKey which can't use
-  // ToDo checking for duplicates (hint: 2 actions can swap shortcuts)
   ini:=TIniFile.Create(gpIniDir + 'shortcuts.ini');
   try
     count := actionLst.ActionCount;
     for i := 0 to count-1 do
     begin
       vAction := actionLst.Actions[i] as TAction;
-      vAction.ShortCut := TextToShortCut(ini.ReadString('SHORTCUTS',
+      vShortCut := TextToShortCut(ini.ReadString('SHORTCUTS',
         vAction.Name, ShortCutToText(vAction.ShortCut)));
+      if (ShortCutToText(vShortCut) <> ShortCutToText(vAction.ShortCut)) and (ShortCutToText(vShortCut) <> '') then
+      begin
+        for j := 0 to count-1 do
+        if (ShortCutToText(TAction(actionLst.Actions[j]).ShortCut) = ShortCutToText(vShortCut)) then
+           TAction(actionLst.Actions[j]).ShortCut := TextToShortCut('');
+        vAction.ShortCut := vShortCut;
+      end; // if
     end; // for i
   finally
     ini.Free;

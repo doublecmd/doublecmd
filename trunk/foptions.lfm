@@ -10,8 +10,6 @@ inherited frmOptions: TfrmOptions
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Options'
-  ClientHeight = 359
-  ClientWidth = 577
   Icon.Data = {
     36030000424D3603000000000000360000002800000010000000100000000100
     1800000000000003000064000000640000000000000000000000FFFFFF874A20
@@ -46,8 +44,6 @@ inherited frmOptions: TfrmOptions
     Top = 316
     Width = 577
     Align = alBottom
-    ClientHeight = 43
-    ClientWidth = 577
     FullRepaint = False
     TabOrder = 0
     object btnOK: TBitBtn
@@ -104,8 +100,6 @@ inherited frmOptions: TfrmOptions
     Width = 456
     Align = alClient
     Caption = 'Panel3'
-    ClientHeight = 316
-    ClientWidth = 456
     TabOrder = 2
     object nbNotebook: TNotebook
       Left = 1
@@ -113,12 +107,10 @@ inherited frmOptions: TfrmOptions
       Top = 24
       Width = 454
       Align = alClient
-      PageIndex = 0
+      PageIndex = 6
       ShowTabs = False
       object pgLng: TPage
         Caption = 'pgLng'
-        ClientWidth = 450
-        ClientHeight = 287
         object lngList: TListBox
           Height = 287
           Width = 450
@@ -129,8 +121,6 @@ inherited frmOptions: TfrmOptions
       end
       object pgBehav: TPage
         Caption = 'pgBehav'
-        ClientWidth = 454
-        ClientHeight = 291
         object lblTerm: TLabel
           Left = 8
           Height = 14
@@ -170,8 +160,6 @@ inherited frmOptions: TfrmOptions
           Height = 148
           Top = 66
           Width = 225
-          ClientHeight = 148
-          ClientWidth = 225
           ParentCtl3D = False
           TabOrder = 2
           object cbDirSelect: TCheckBox
@@ -223,8 +211,6 @@ inherited frmOptions: TfrmOptions
       end
       object pgTools: TPage
         Caption = 'pgTools'
-        ClientWidth = 454
-        ClientHeight = 291
         object cbExtEditor: TCheckBox
           Left = 3
           Height = 13
@@ -239,7 +225,7 @@ inherited frmOptions: TfrmOptions
           Left = 2
           Height = 24
           Top = 33
-          Width = 438
+          Width = 442
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 1
           Text = 'gEdit "%s"'
@@ -258,7 +244,7 @@ inherited frmOptions: TfrmOptions
           Left = 2
           Height = 24
           Top = 98
-          Width = 440
+          Width = 444
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 3
           Text = 'gtk-diff "%s" "%s"'
@@ -277,7 +263,7 @@ inherited frmOptions: TfrmOptions
           Left = 2
           Height = 24
           Top = 163
-          Width = 440
+          Width = 444
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 5
           Text = 'emacs "%s"'
@@ -285,8 +271,6 @@ inherited frmOptions: TfrmOptions
       end
       object pgFonts: TPage
         Caption = 'pgFonts'
-        ClientWidth = 454
-        ClientHeight = 291
         object lblMainFont: TLabel
           Left = 6
           Height = 14
@@ -318,16 +302,17 @@ inherited frmOptions: TfrmOptions
           Left = 6
           Height = 21
           Top = 26
-          Width = 364
+          Width = 368
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
           MaxLength = 0
           OnChange = cbMainFontChange
           ParentCtl3D = False
           TabOrder = 0
         end
         object btnSelMainFnt: TButton
-          Left = 379
+          Left = 383
           Height = 23
           Top = 24
           Width = 23
@@ -338,7 +323,7 @@ inherited frmOptions: TfrmOptions
           TabOrder = 1
         end
         object edtMainSize: TSpinEdit
-          Left = 379
+          Left = 383
           Height = 23
           Top = 54
           Width = 55
@@ -353,24 +338,26 @@ inherited frmOptions: TfrmOptions
           Left = 6
           Height = 24
           Top = 53
-          Width = 363
+          Width = 367
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 3
+          Text = 'Example Проверка'
         end
         object cbEditorFont: TComboBox
           Left = 6
           Height = 21
           Top = 108
-          Width = 363
+          Width = 367
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
           MaxLength = 0
           OnChange = cbEditorFontChange
           ParentCtl3D = False
           TabOrder = 4
         end
         object btnSelEditFnt: TButton
-          Left = 379
+          Left = 383
           Height = 23
           Top = 106
           Width = 23
@@ -384,12 +371,13 @@ inherited frmOptions: TfrmOptions
           Left = 6
           Height = 24
           Top = 133
-          Width = 363
+          Width = 367
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 6
+          Text = 'Example Проверка'
         end
         object edtEditorSize: TSpinEdit
-          Left = 379
+          Left = 383
           Height = 23
           Top = 133
           Width = 55
@@ -404,16 +392,17 @@ inherited frmOptions: TfrmOptions
           Left = 6
           Height = 21
           Top = 188
-          Width = 363
+          Width = 367
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
           MaxLength = 0
           OnChange = cbViewerFontChange
           ParentCtl3D = False
           TabOrder = 8
         end
         object btnSelViewFnt: TButton
-          Left = 378
+          Left = 382
           Height = 23
           Top = 186
           Width = 23
@@ -427,12 +416,12 @@ inherited frmOptions: TfrmOptions
           Left = 6
           Height = 24
           Top = 212
-          Width = 363
+          Width = 367
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 10
         end
         object edtViewerSize: TSpinEdit
-          Left = 378
+          Left = 382
           Height = 23
           Top = 213
           Width = 56
@@ -446,8 +435,6 @@ inherited frmOptions: TfrmOptions
       end
       object pgColor: TPage
         Caption = 'pgColor'
-        ClientWidth = 454
-        ClientHeight = 291
         object cTextLabel: TLabel
           Left = 25
           Height = 14
@@ -559,22 +546,20 @@ inherited frmOptions: TfrmOptions
       end
       object pgHotKey: TPage
         Caption = 'pgHotKey'
-        ClientWidth = 454
-        ClientHeight = 291
         object lblActions: TLabel
           Left = 6
-          Height = 14
+          Height = 13
           Top = 13
-          Width = 36
+          Width = 43
           Caption = 'Actions'
           Color = clNone
           ParentColor = False
         end
         object lblHotKey: TLabel
           Left = 6
-          Height = 14
+          Height = 13
           Top = 68
-          Width = 39
+          Width = 46
           Caption = 'Hot Key'
           Color = clNone
           ParentColor = False
@@ -583,7 +568,7 @@ inherited frmOptions: TfrmOptions
           Left = 4
           Height = 21
           Top = 33
-          Width = 429
+          Width = 310
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           MaxLength = 0
@@ -595,62 +580,69 @@ inherited frmOptions: TfrmOptions
           Left = 6
           Height = 23
           Top = 88
-          Width = 304
+          Width = 308
           Anchors = [akTop, akLeft, akRight]
           OnKeyDown = edHotKeyKeyDown
           TabOrder = 1
         end
         object btSetHotKey: TButton
-          Left = 322
+          Left = 326
           Height = 25
           Top = 88
           Width = 111
           Anchors = [akTop, akRight]
           BorderSpacing.InnerBorder = 4
           Caption = 'Set HotKey'
+          Enabled = False
           OnClick = btSetHotKeyClick
           TabOrder = 2
+        end
+        object btClearHotKey: TButton
+          Left = 326
+          Height = 25
+          Top = 33
+          Width = 111
+          BorderSpacing.InnerBorder = 4
+          Caption = 'Clear HotKey'
+          OnClick = btClearHotKeyClick
+          TabOrder = 3
         end
       end
       object pgPlugins: TPage
         Caption = 'pgPlugins'
-        ClientWidth = 454
-        ClientHeight = 291
-        object PageControl1: TPageControl
-          Height = 291
-          Width = 454
+        object pcPluginsTypes: TPageControl
+          Height = 287
+          Width = 450
           ActivePage = tsWCX
           Align = alClient
           TabIndex = 0
           TabOrder = 0
           object tsWCX: TTabSheet
             Caption = 'Packer plugins (.WCX)'
-            ClientHeight = 291
-            ClientWidth = 454
             OnShow = tsWCXShow
             object lblAbout: TLabel
               Left = 14
-              Height = 27
+              Height = 28
               Top = 6
-              Width = 268
+              Width = 315
               Caption = 'Packer plugins are used to open archives not supported'#13#10'internally by Double Commander.'
               Color = clNone
               ParentColor = False
             end
             object lblExt: TLabel
               Left = 14
-              Height = 14
+              Height = 13
               Top = 46
-              Width = 177
+              Width = 213
               Caption = 'All files with e&xtension (ending with):'
               Color = clNone
               ParentColor = False
             end
             object lblAssociateWith: TLabel
               Left = 14
-              Height = 14
+              Height = 13
               Top = 77
-              Width = 74
+              Width = 94
               Caption = '&Associate with:'
               Color = clNone
               ParentColor = False
@@ -661,6 +653,7 @@ inherited frmOptions: TfrmOptions
               Top = 46
               Width = 100
               AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+              ItemHeight = 13
               MaxLength = 0
               OnChange = cbExtChange
               TabOrder = 0
@@ -671,6 +664,7 @@ inherited frmOptions: TfrmOptions
               Top = 98
               Width = 200
               AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+              ItemHeight = 13
               MaxLength = 0
               TabOrder = 1
             end
