@@ -49,6 +49,7 @@ type
     btSetHotKey: TButton;
     Button1: TButton;
     Button2: TButton;
+    btClearHotKey: TButton;
     cbackgrndcolor: TColorBox;
     cBackGrndLabel: TLabel;
     cbActions: TComboBox;
@@ -97,7 +98,8 @@ type
     nbNotebook: TNotebook;
     odOpenDialog: TOpenDialog;
     optColorDialog: TColorDialog;
-    PageControl1: TPageControl;
+    pcPluginsTypes: TPageControl;
+    pcPluginsType: TPageControl;
     pgPlugins: TPage;
     pnlCaption: TPanel;
     Panel3: TPanel;
@@ -114,6 +116,7 @@ type
     tsWFX: TTabSheet;
     tvTreeView: TTreeView;
     procedure bbtnApplyClick(Sender: TObject);
+    procedure btClearHotKeyClick(Sender: TObject);
     procedure btnOpenClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -167,6 +170,7 @@ begin
   FillFontLists;
   DebugLn(gTerm);
   edtTerm.Text:=gTerm;
+  nbNotebook.PageIndex := 0;//let not warning on which page save form
 end;
 
 procedure TfrmOptions.btSetHotKeyClick(Sender: TObject);
@@ -378,10 +382,12 @@ begin
   gEditorFontName:=cbEditorFont.Text;
   gViewerFontName:=cbViewerFont.Text;
   
+  {$hints off}
   gEditorSize:=Round(edtEditorSize.Value);
   gViewerSize:=Round(edtViewerSize.Value);
   gFontSize:=Round(edtMainSize.Value);
-  
+  {$hints on}
+
   gForeColor := cTextColor.Color;
   gBackColor := cbackgrndcolor.Color;
   
@@ -503,6 +509,7 @@ begin
   vShortCut := ShortCut(Key,Shift);
   TEdit(Sender).Text := ShortCutToText(vShortCut);
   Key := 0;
+  btSetHotKey.Enabled := (edHotKey.Text <> '');
 end;
 
 procedure TfrmOptions.tsWCXShow(Sender: TObject);
@@ -585,6 +592,15 @@ begin
           gIni.WriteString('PackerPlugins', '?' + cbExt.Items[I],  clbWCXList.Items[I]);
         end;
     end;
+end;
+
+procedure TfrmOptions.btClearHotKeyClick(Sender: TObject);
+var vActions: TAction;
+begin
+  vActions := cbActions.Items.Objects[cbActions.ItemIndex] as TAction;
+  vActions.ShortCut := TextToShortCut('');
+  cbActions.Items[cbActions.ItemIndex] := vActions.Name+'('+ShortCutToText(vActions.ShortCut)+')';
+  cbActions.Text := vActions.Name+'('+ShortCutToText(vActions.ShortCut)+')';
 end;
 
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
