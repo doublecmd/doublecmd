@@ -115,21 +115,23 @@ inherited frmOptions: TfrmOptions
       Align = alClient
       PageIndex = 0
       ShowTabs = False
+      TabOrder = 0
       object pgLng: TPage
         Caption = 'pgLng'
-        ClientWidth = 446
-        ClientHeight = 283
+        ClientWidth = 450
+        ClientHeight = 287
         object lngList: TListBox
-          Height = 283
-          Width = 446
+          Height = 287
+          Width = 450
           Align = alClient
           TabOrder = 0
+          TopIndex = -1
         end
       end
       object pgBehav: TPage
         Caption = 'pgBehav'
-        ClientWidth = 446
-        ClientHeight = 283
+        ClientWidth = 454
+        ClientHeight = 291
         object lblTerm: TLabel
           Left = 8
           Height = 14
@@ -222,8 +224,8 @@ inherited frmOptions: TfrmOptions
       end
       object pgTools: TPage
         Caption = 'pgTools'
-        ClientWidth = 446
-        ClientHeight = 283
+        ClientWidth = 454
+        ClientHeight = 291
         object cbExtEditor: TCheckBox
           Left = 3
           Height = 13
@@ -284,8 +286,8 @@ inherited frmOptions: TfrmOptions
       end
       object pgFonts: TPage
         Caption = 'pgFonts'
-        ClientWidth = 446
-        ClientHeight = 283
+        ClientWidth = 454
+        ClientHeight = 291
         object lblMainFont: TLabel
           Left = 6
           Height = 14
@@ -320,7 +322,6 @@ inherited frmOptions: TfrmOptions
           Width = 364
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-          ItemHeight = 13
           MaxLength = 0
           OnChange = cbMainFontChange
           ParentCtl3D = False
@@ -356,7 +357,6 @@ inherited frmOptions: TfrmOptions
           Width = 363
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 3
-          Text = 'Example Проверка'
         end
         object cbEditorFont: TComboBox
           Left = 6
@@ -365,7 +365,6 @@ inherited frmOptions: TfrmOptions
           Width = 363
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-          ItemHeight = 13
           MaxLength = 0
           OnChange = cbEditorFontChange
           ParentCtl3D = False
@@ -389,7 +388,6 @@ inherited frmOptions: TfrmOptions
           Width = 363
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 6
-          Text = 'Example Проверка'
         end
         object edtEditorSize: TSpinEdit
           Left = 379
@@ -410,7 +408,6 @@ inherited frmOptions: TfrmOptions
           Width = 363
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-          ItemHeight = 13
           MaxLength = 0
           OnChange = cbViewerFontChange
           ParentCtl3D = False
@@ -434,7 +431,6 @@ inherited frmOptions: TfrmOptions
           Width = 363
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 10
-          Text = 'Example Проверка'
         end
         object edtViewerSize: TSpinEdit
           Left = 378
@@ -451,8 +447,8 @@ inherited frmOptions: TfrmOptions
       end
       object pgColor: TPage
         Caption = 'pgColor'
-        ClientWidth = 446
-        ClientHeight = 283
+        ClientWidth = 454
+        ClientHeight = 291
         object cTextLabel: TLabel
           Left = 25
           Height = 14
@@ -564,8 +560,8 @@ inherited frmOptions: TfrmOptions
       end
       object pgHotKey: TPage
         Caption = 'pgHotKey'
-        ClientWidth = 446
-        ClientHeight = 283
+        ClientWidth = 454
+        ClientHeight = 291
         object lblActions: TLabel
           Left = 6
           Height = 14
@@ -591,7 +587,6 @@ inherited frmOptions: TfrmOptions
           Width = 429
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-          ItemHeight = 13
           MaxLength = 0
           Sorted = True
           Style = csDropDownList
@@ -620,19 +615,19 @@ inherited frmOptions: TfrmOptions
       end
       object pgPlugins: TPage
         Caption = 'pgPlugins'
-        ClientWidth = 446
-        ClientHeight = 283
+        ClientWidth = 454
+        ClientHeight = 291
         object PageControl1: TPageControl
-          Height = 283
-          Width = 446
+          Height = 291
+          Width = 454
           ActivePage = tsWCX
           Align = alClient
           TabIndex = 0
           TabOrder = 0
           object tsWCX: TTabSheet
             Caption = 'Packer plugins (.WCX)'
-            ClientHeight = 257
-            ClientWidth = 438
+            ClientHeight = 291
+            ClientWidth = 454
             OnShow = tsWCXShow
             object lblAbout: TLabel
               Left = 14
@@ -667,7 +662,6 @@ inherited frmOptions: TfrmOptions
               Top = 46
               Width = 100
               AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-              ItemHeight = 13
               MaxLength = 0
               OnChange = cbExtChange
               TabOrder = 0
@@ -678,7 +672,6 @@ inherited frmOptions: TfrmOptions
               Top = 98
               Width = 200
               AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-              ItemHeight = 13
               MaxLength = 0
               TabOrder = 1
             end
@@ -718,6 +711,7 @@ inherited frmOptions: TfrmOptions
               Width = 200
               OnClick = clbWCXListClick
               TabOrder = 5
+              TopIndex = -1
             end
           end
           object tsWFX: TTabSheet

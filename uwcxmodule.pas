@@ -281,7 +281,7 @@ begin
           begin
             FillChar(ArcHeader, SizeOf(ArcHeader), #0);
             ArcHeader.FileName := sDirs.Strings[I];
-            ArcHeader.FileAttr := faDirectory;
+            ArcHeader.FileAttr := faFolder;
             ArcHeader.FileTime := FileAge(FArchiveName);
             New(HeaderData);
             HeaderData^ := ArcHeader;
@@ -670,6 +670,8 @@ begin
             sName := CurrFileName;
             iMode := FileAttr;
             sModeStr := AttrToStr(iMode);
+            bLinkIsDir := False;
+            bSelected := False;
             if FPS_ISDIR(iMode) then
               sExt:=''
             else
@@ -703,7 +705,7 @@ begin
             WCXCopyIn;
           end;
       end; //case
-        FFileOpDlg.Close;
+        Synchronize(FFileOpDlg.Close);
       end; //with
   except
     DebugLN('Error in "ArcThread.Execute"');
