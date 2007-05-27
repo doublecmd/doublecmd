@@ -102,7 +102,7 @@ procedure Register;
 
 implementation
 
-uses GraphType;
+uses GraphType, uDCUtils;
 
 procedure Register;
 begin
@@ -267,9 +267,9 @@ IniFile := Tinifile.Create(FileName);
 BtnCount := IniFile.ReadInteger('Buttonbar', 'Buttoncount', 0);
 
 for I := 1 to BtnCount do
-AddButton(IniFile.ReadString('Buttonbar', 'cmd' + IntToStr(I), ''),
+AddButton(GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'cmd' + IntToStr(I), '')),
           IniFile.ReadString('Buttonbar', 'menu' + IntToStr(I), ''),
-          IniFile.ReadString('Buttonbar', 'button' + IntToStr(I), ''));
+          GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'button' + IntToStr(I), '')));
 IniFile.Free;
 end;
 
@@ -283,8 +283,8 @@ IniFile.WriteInteger('Buttonbar', 'Buttoncount', FButtonsList.Count);
 
 for I := 0 to FButtonsList.Count - 1 do
     begin
-    IniFile.WriteString('Buttonbar', 'button' + IntToStr(I + 1), FIconList[I]);
-    IniFile.WriteString('Buttonbar', 'cmd' + IntToStr(I + 1), FCmdList[I]);
+    IniFile.WriteString('Buttonbar', 'button' + IntToStr(I + 1), SetCmdDirAsEnvVar(FIconList[I]));
+    IniFile.WriteString('Buttonbar', 'cmd' + IntToStr(I + 1), SetCmdDirAsEnvVar(FCmdList[I]));
     IniFile.WriteString('Buttonbar', 'menu' + IntToStr(I + 1), TSpeedButton(FButtonsList.Items[I]).Hint);
     end;
 IniFile.Free;
