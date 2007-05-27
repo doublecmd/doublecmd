@@ -52,12 +52,16 @@ type
   { TfrmMain }
 
   TfrmMain = class(TfrmLng)
+    actChMod: TAction;
+    actChown: TAction;
     actPackFiles: TAction;
     actRemoveTab: TAction;
     actNewTab: TAction;
     dskLeft: TKASToolBar;
     dskRight: TKASToolBar;
     MainToolBar: TKASToolBar;
+    pnlLeftdskRes: TPanel;
+    pnlRightdskRes: TPanel;
     tbDelete: TMenuItem;
     tbEdit: TMenuItem;
     MenuItem3: TMenuItem;
@@ -795,7 +799,9 @@ end;
 procedure TfrmMain.FormResize(Sender: TObject);
 begin
   nbLeft.Width:=frmMain.Width div 2;
-  dskLeft.Width := nbLeft.Width + 2;
+  pnlLeftdskRes.Width := nbLeft.Width + 2;
+  dskLeft.Repaint;
+  dskRight.Repaint;
 End;
 
 procedure TfrmMain.actAboutExecute(Sender: TObject);
