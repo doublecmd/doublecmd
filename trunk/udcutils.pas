@@ -22,6 +22,8 @@ interface
 uses
   Classes, SysUtils, Graphics;
 
+function GetCmdDirFromEnvVar(sPath : String) : String;
+function SetCmdDirAsEnvVar(sPath : String) : String;
 function GetDirs (DirName : String; var Dirs : TStringList) : Longint;
 function GetAbsoluteFileName(sPath, sRelativeFileName : String) : String;
 function ExtractOnlyFileName(const FileName: string): string;
@@ -34,7 +36,24 @@ procedure DivFileName(const sFileName:String; var n,e:String);
 
 implementation
 uses
-   uGlobs, uVFSUtil;
+   uGlobs, uGlobsPaths, uVFSUtil;
+
+
+function GetCmdDirFromEnvVar(sPath: String): String;
+begin
+  if Pos('%commander_path%', sPath) <> 0 then
+    Result := StringReplace(sPath, '%commander_path%', ExcludeTrailingPathDelimiter(gpExePath), [rfIgnoreCase])
+  else
+    Result := sPath;
+end;
+
+function SetCmdDirAsEnvVar(sPath: String): String;
+begin
+  if Pos(gpExePath, sPath) <> 0 then
+    Result := StringReplace(sPath, ExcludeTrailingPathDelimiter(gpExePath), '%commander_path%', [rfIgnoreCase])
+  else
+    Result := sPath;
+end;
 
 {
   DirName is split in a list of directory names,
