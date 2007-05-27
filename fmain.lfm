@@ -4,12 +4,10 @@ inherited frmMain: TfrmMain
   Top = 169
   Width = 525
   HorzScrollBar.Page = 524
-  VertScrollBar.Page = 315
+  VertScrollBar.Page = 309
   VertScrollBar.Range = 79
   ActiveControl = pnlNotebooks
   Caption = 'Double Commander'
-  ClientHeight = 316
-  ClientWidth = 525
   Font.Color = clBlack
   Font.Height = 13
   Font.Name = 'Helvetica'
@@ -41,55 +39,69 @@ inherited frmMain: TfrmMain
     Width = 525
     Align = alTop
     Caption = 'pnlDisk'
-    ClientHeight = 24
-    ClientWidth = 525
     FullRepaint = False
     ParentColor = False
     TabOrder = 1
-    object dskLeft: TKAStoolBar
+    object pnlLeftdskRes: TPanel
       Left = 1
       Height = 22
       Top = 1
-      Width = 354
+      Width = 170
       Align = alLeft
-      ParentColor = False
+      Caption = 'pnlLeftdskRes'
       TabOrder = 0
-      OnToolButtonClick = dskLeftToolButtonClick
-      CheckToolButton = True
-      FlatButtons = True
-      IsDiskPanel = True
+      object dskLeft: TKAStoolBar
+        Left = 1
+        Height = 20
+        Top = 1
+        Width = 168
+        Align = alClient
+        ParentColor = False
+        TabOrder = 0
+        OnToolButtonClick = dskLeftToolButtonClick
+        CheckToolButton = True
+        FlatButtons = True
+        IsDiskPanel = True
+      end
     end
-    object dskRight: TKAStoolBar
-      Left = 355
+    object pnlRightdskRes: TPanel
+      Left = 171
       Height = 22
       Top = 1
-      Width = 169
+      Width = 353
       Align = alClient
-      Anchors = [akTop, akLeft, akBottom]
+      Caption = 'pnlRightdskRes'
       TabOrder = 1
-      OnToolButtonClick = dskRightToolButtonClick
-      CheckToolButton = True
-      FlatButtons = True
-      IsDiskPanel = True
+      object dskRight: TKAStoolBar
+        Left = 1
+        Height = 20
+        Top = 1
+        Width = 351
+        Align = alClient
+        Anchors = [akTop, akLeft, akBottom]
+        TabOrder = 0
+        OnToolButtonClick = dskRightToolButtonClick
+        CheckToolButton = True
+        FlatButtons = True
+        IsDiskPanel = True
+      end
     end
   end
   object pnlCommand: TPanel
     Height = 62
-    Top = 254
+    Top = 248
     Width = 525
     Align = alBottom
     Anchors = [akLeft, akRight]
     BevelOuter = bvLowered
-    ClientHeight = 62
-    ClientWidth = 525
     FullRepaint = False
     ParentColor = False
     TabOrder = 2
     object lblCommandPath: TLabel
       Left = 1
-      Height = 14
+      Height = 13
       Top = 8
-      Width = 23
+      Width = 26
       Alignment = taRightJustify
       Caption = 'Path'
       Color = clNone
@@ -104,8 +116,6 @@ inherited frmMain: TfrmMain
       Align = alBottom
       Anchors = [akLeft, akRight]
       BevelOuter = bvLowered
-      ClientHeight = 27
-      ClientWidth = 523
       FullRepaint = False
       TabOrder = 0
       OnResize = pnlKeysResize
@@ -206,18 +216,16 @@ inherited frmMain: TfrmMain
     end
   end
   object pnlNotebooks: TPanel
-    Height = 185
+    Height = 179
     Top = 69
     Width = 525
     Align = alClient
-    ClientHeight = 185
-    ClientWidth = 525
     FullRepaint = False
     TabOrder = 3
     TabStop = True
     object nbLeft: TNotebook
       Left = 1
-      Height = 183
+      Height = 177
       Top = 1
       Width = 391
       Align = alLeft
@@ -226,14 +234,14 @@ inherited frmMain: TfrmMain
     end
     object Splitter1: TSplitter
       Left = 392
-      Height = 183
+      Height = 177
       Top = 1
       Width = 4
       ResizeStyle = rsLine
     end
     object nbRight: TNotebook
       Left = 396
-      Height = 183
+      Height = 177
       Top = 1
       Width = 128
       Align = alClient
