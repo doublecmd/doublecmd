@@ -48,6 +48,7 @@ type
     FPixmapName:TStringList;
     FimgList: TObjectList;
     FiDirIconID: Integer;
+    FiDirLinkIconID: Integer;
     FiLinkIconID: Integer;
     FiUpDirIconID: Integer;
     FiDefaultIconID: Integer;
@@ -174,6 +175,7 @@ begin
   end;
   // add some standard icons
   FiDirIconID:=CheckAddPixmap('fdir.png');
+  FiDirLinkIconID:=CheckAddPixmap('fdir-link.png');
   FiLinkIconID:=CheckAddPixmap('flink.png');
   FiUpDirIconID:=CheckAddPixmap('fupdir.png');
   FiDefaultIconID:=CheckAddPixmap('fblank.png');
@@ -277,6 +279,11 @@ begin
     if sName='..' then
     begin
       Result:=FiUpDirIconID;
+      Exit;
+    end;
+    if bLinkIsDir then
+    begin
+      Result:=FiDirLinkIconID;
       Exit;
     end;
     if FPS_ISDIR(iMode) then
