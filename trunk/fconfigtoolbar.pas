@@ -97,6 +97,8 @@ end;
 
 procedure TButtonChangeDlg.FormShow(Sender: TObject);
 begin
+  ktbBar.ChangePath := gpExePath;
+  ktbBar.EnvVar := '%commander_path%';
   ktbBar.LoadFromFile(gpIniDir + 'default.bar');
 end;
 
