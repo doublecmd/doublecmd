@@ -11,6 +11,8 @@ object ButtonChangeDlg: TButtonChangeDlg
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Change button bar'
+  ClientHeight = 281
+  ClientWidth = 562
   Font.Color = clBtnText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
@@ -126,6 +128,7 @@ object ButtonChangeDlg: TButtonChangeDlg
     Height = 21
     Top = 2
     Width = 24
+    BorderSpacing.InnerBorder = 4
     Caption = '>>'
     TabOrder = 0
   end
@@ -135,6 +138,7 @@ object ButtonChangeDlg: TButtonChangeDlg
     Height = 23
     Top = 52
     Width = 77
+    BorderSpacing.InnerBorder = 4
     Caption = '&Delete'
     OnClick = btnDeleteButtonClick
     TabOrder = 2
@@ -145,6 +149,7 @@ object ButtonChangeDlg: TButtonChangeDlg
     Height = 23
     Top = 25
     Width = 77
+    BorderSpacing.InnerBorder = 4
     Caption = '&Append'
     OnClick = btnAddButtonClick
     TabOrder = 1
@@ -167,6 +172,7 @@ object ButtonChangeDlg: TButtonChangeDlg
     Height = 22
     Top = 85
     Width = 24
+    BorderSpacing.InnerBorder = 4
     Caption = '>>'
     OnClick = btnOpenFileClick
     TabOrder = 5
@@ -177,6 +183,7 @@ object ButtonChangeDlg: TButtonChangeDlg
     Height = 23
     Top = 84
     Width = 109
+    BorderSpacing.InnerBorder = 4
     Caption = 'Add S&ubbar >>'
     TabOrder = 6
   end
@@ -224,6 +231,7 @@ object ButtonChangeDlg: TButtonChangeDlg
     Height = 21
     Top = 160
     Width = 24
+    BorderSpacing.InnerBorder = 4
     Caption = '>>'
     OnClick = btnOpenIconFileClick
     TabOrder = 12
@@ -255,6 +263,7 @@ object ButtonChangeDlg: TButtonChangeDlg
     Height = 23
     Top = 187
     Width = 109
+    BorderSpacing.InnerBorder = 4
     Caption = 'OK'
     Default = True
     OnClick = btnOKClick
@@ -266,6 +275,7 @@ object ButtonChangeDlg: TButtonChangeDlg
     Height = 23
     Top = 213
     Width = 109
+    BorderSpacing.InnerBorder = 4
     Cancel = True
     Caption = 'Cancel'
     ModalResult = 2
@@ -277,6 +287,7 @@ object ButtonChangeDlg: TButtonChangeDlg
     Height = 23
     Top = 239
     Width = 109
+    BorderSpacing.InnerBorder = 4
     Caption = '&Help'
     TabOrder = 16
   end
@@ -295,6 +306,8 @@ object ButtonChangeDlg: TButtonChangeDlg
     Height = 77
     Width = 113
     Caption = 'Appearance'
+    ClientHeight = 59
+    ClientWidth = 109
     TabOrder = 3
     object lblSize: TLabel
       Tag = 6

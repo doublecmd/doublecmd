@@ -2,6 +2,7 @@
 Buttoncount=4
 button1=%commander_path%\pixmaps\16x16\actions\view-refresh.png
 cmd1=actRefresh
+menu1=Refresh
 button2=%commander_path%\pixmaps\16x16\apps\utilities-terminal.png
 cmd2=actRunTerm
 menu2=Run terminal
