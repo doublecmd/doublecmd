@@ -1813,7 +1813,7 @@ begin
 
   CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
 
-  if (ActiveFrame.pnlFile.GetSelectedCount=1) and not (FPS_ISDIR(ActiveFrame.pnlFile.GetActiveItem^.iMode)) then
+  if (ActiveFrame.pnlFile.GetSelectedCount=1) and not (FPS_ISDIR(ActiveFrame.pnlFile.GetActiveItem^.iMode) or ActiveFrame.pnlFile.GetActiveItem^.bLinkIsDir) then
     sDestPath:=sDestPath+ActiveFrame.pnlFile.GetActiveItem^.sName
   else
     sDestPath:=sDestPath+'*.*';

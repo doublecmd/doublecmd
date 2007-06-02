@@ -62,7 +62,7 @@ type
     procedure ShowDlgFileExist; //Alexx2000
     procedure FileOpDlgEnabled;
     procedure ShowDlgProcessSymLink;
-
+    procedure msgErrorForThread;
 
   public
     FFileOpDlg: TfrmFileOp; // progress window
@@ -74,6 +74,7 @@ type
     function FreeAtEnd:Boolean; virtual;
     function DlgFileExist(const sMsg:String):Boolean; // result=true > rewrite file
     function DlgProcessSymLink(const sMsg:String):Boolean;
+    function ShowMsgError(const sMsg:String) : Boolean;
 
   end;
   
@@ -84,7 +85,7 @@ const
 implementation
 
 uses
-  SysUtils, uLng, uFileProcs, uFileOp, Forms, FindEx, uDCUtils, uOSUtils, LCLProc;
+  SysUtils, uLng, uFileProcs, uFileOp, Forms, uFindEx, uDCUtils, uOSUtils, LCLProc;
 
 { TFileOpThread }
 
@@ -183,9 +184,10 @@ begin
     if (not FSymLinkAll) and (FNotSymLinkAll  or not DlgProcessSymLink('Process SymLink "' + ptr^.sName +'"? Press "Yes" to copy or "No" for copy real file/folder')) then //TODO: Localize message
       begin
         sRealName:=ReadSymLink(ptr^.sName);
+
         sRealName := GetAbsoluteFileName(ExtractFilePath(ptr^.sName), sRealName);
-            
-        FindFirst(sRealName, faAnyFile, sr);
+
+       FindFirstEx(sRealName, faAnyFile, sr);
         with ptr^ do
         begin
           iSize := sr.Size;
@@ -195,8 +197,11 @@ begin
           bLinkIsDir:=False;
           bSelected:=False;
         end;
-        DivFileName(sRealName, ptr^.sName, ptr^.sExt);
+        DivFileName(sRealName, ptr^.sNameNoExt, ptr^.sExt);
+        ptr^.sNameNoExt := sr.Name;
+        ptr^.sName := sRealName;
       end;
+      WriteLN('sNameNoExt ==' + ptr^.sNameNoExt);
     //----------------------------------------
     
     
@@ -256,7 +261,7 @@ try
   end;
 except
   on E:Exception do
-    msgError(E.Message);
+    ShowMsgError(E.Message);
 end;
 end;
 
@@ -443,5 +448,17 @@ begin
     else
       Result:=Result+FDstExtMask[i];
   end;
+end;
+
+(* Error message show in threads *)
+procedure TFileOpThread.msgErrorForThread;
+begin
+  msgError(FMsg);
+end;
+
+function TFileOpThread.ShowMsgError(const sMsg:String) : Boolean;
+begin
+  FMsg := sMsg;
+  Synchronize(@msgErrorForThread);
 end;
 end.

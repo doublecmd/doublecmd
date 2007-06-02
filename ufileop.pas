@@ -47,7 +47,7 @@ const
 
 implementation
 uses
-  SysUtils, uFileProcs, FindEx, uOSUtils {$IFNDEF WIN32}, uUsersGroups, Unix, BaseUnix{$ENDIF};
+  SysUtils, uFileProcs, uFindEx, uOSUtils {$IFNDEF WIN32}, uUsersGroups, Unix, BaseUnix{$ENDIF};
 
 {$IFNDEF WIN32}   // *nix
 Function IsDirByName(const sName:String):Boolean;

@@ -33,7 +33,7 @@ function ModeStr2Mode(const sMode:String):Integer;
 implementation
 
 uses
-  SysUtils, uFileOp, uOSUtils, LCLProc {$IFNDEF WIN32}, BaseUnix{$ENDIF};
+  SysUtils, uFileOp, uOSUtils, uFindEx, LCLProc {$IFNDEF WIN32}, BaseUnix{$ENDIF};
 
 { TFileList }
 
@@ -63,7 +63,11 @@ begin
     fr.sName:=ExtractDirLevel(fl.CurrentDirectory, srcPath+sr.Name);
     fr.sPath:=dstPath;
     fr.sNameNoExt:=sr.Name; // we use to save dstname
+    {$IFDEF UNIX}
+    fr.iMode := sr.Mode;
+    {$ELSE}}
     fr.iMode := sr.Attr;
+    {$ENDIF}
     fr.bSelected:=False;
     fr.iSize := sr.Size;
 
