@@ -8,6 +8,8 @@ inherited frmMain: TfrmMain
   VertScrollBar.Range = 79
   ActiveControl = pnlNotebooks
   Caption = 'Double Commander'
+  ClientHeight = 310
+  ClientWidth = 525
   Font.Color = clBlack
   Font.Height = 13
   Font.Name = 'Helvetica'
@@ -39,6 +41,8 @@ inherited frmMain: TfrmMain
     Width = 525
     Align = alTop
     Caption = 'pnlDisk'
+    ClientHeight = 24
+    ClientWidth = 525
     FullRepaint = False
     ParentColor = False
     TabOrder = 1
@@ -49,6 +53,8 @@ inherited frmMain: TfrmMain
       Width = 170
       Align = alLeft
       Caption = 'pnlLeftdskRes'
+      ClientHeight = 22
+      ClientWidth = 170
       TabOrder = 0
       object dskLeft: TKAStoolBar
         Left = 1
@@ -71,6 +77,8 @@ inherited frmMain: TfrmMain
       Width = 353
       Align = alClient
       Caption = 'pnlRightdskRes'
+      ClientHeight = 22
+      ClientWidth = 353
       TabOrder = 1
       object dskRight: TKAStoolBar
         Left = 1
@@ -94,6 +102,8 @@ inherited frmMain: TfrmMain
     Align = alBottom
     Anchors = [akLeft, akRight]
     BevelOuter = bvLowered
+    ClientHeight = 62
+    ClientWidth = 525
     FullRepaint = False
     ParentColor = False
     TabOrder = 2
@@ -116,6 +126,8 @@ inherited frmMain: TfrmMain
       Align = alBottom
       Anchors = [akLeft, akRight]
       BevelOuter = bvLowered
+      ClientHeight = 27
+      ClientWidth = 523
       FullRepaint = False
       TabOrder = 0
       OnResize = pnlKeysResize
@@ -207,7 +219,6 @@ inherited frmMain: TfrmMain
       Width = 688
       TabStop = False
       AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-      ItemHeight = 13
       MaxLength = 0
       OnKeyDown = edtCommandKeyDown
       OnKeyUp = edtCommandKeyUp
@@ -220,6 +231,8 @@ inherited frmMain: TfrmMain
     Top = 69
     Width = 525
     Align = alClient
+    ClientHeight = 179
+    ClientWidth = 525
     FullRepaint = False
     TabOrder = 3
     TabStop = True
@@ -231,6 +244,7 @@ inherited frmMain: TfrmMain
       Align = alLeft
       OnCloseTabClicked = NoteBookCloseTabClicked
       Options = [nboShowCloseButtons]
+      TabOrder = 0
     end
     object Splitter1: TSplitter
       Left = 392
@@ -247,6 +261,7 @@ inherited frmMain: TfrmMain
       Align = alClient
       OnCloseTabClicked = NoteBookCloseTabClicked
       Options = [nboShowCloseButtons]
+      TabOrder = 1
     end
   end
   object MainToolBar: TKAStoolBar

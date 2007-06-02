@@ -50,7 +50,7 @@ type
 implementation
 
 uses
-  SysUtils, uGlobsPaths, FindEx, uOSUtils, LCLProc;
+  SysUtils, uGlobsPaths, uFindEx, uOSUtils, LCLProc;
 
 { TVFS }
 

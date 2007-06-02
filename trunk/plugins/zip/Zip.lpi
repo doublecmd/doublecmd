@@ -1,17 +1,16 @@
 <?xml version="1.0"?>
 <CONFIG>
   <ProjectOptions>
-    <PathDelim Value="\"/>
+    <PathDelim Value="/"/>
     <Version Value="5"/>
     <General>
       <MainUnit Value="0"/>
-      <IconPath Value=".\"/>
+      <IconPath Value="./"/>
       <TargetFileExt Value=".wcx"/>
       <ActiveEditorIndexAtStart Value="1"/>
     </General>
     <PublishOptions>
       <Version Value="2"/>
-      <DestinationDirectory Value="$(TestDir)\publishedproject\"/>
       <IgnoreBinaries Value="False"/>
       <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
       <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
@@ -19,7 +18,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
+        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
     <Units Count="9">
@@ -49,41 +48,41 @@
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="fparchive-0.1\abfcifdi.pas"/>
+        <Filename Value="fparchive-0.1/abfcifdi.pas"/>
         <UnitName Value="AbFciFdi"/>
         <CursorPos X="1" Y="420"/>
         <TopLine Value="407"/>
         <UsageCount Value="10"/>
       </Unit3>
       <Unit4>
-        <Filename Value="fparchive-0.1\abarctyp.pas"/>
+        <Filename Value="fparchive-0.1/abarctyp.pas"/>
         <UnitName Value="AbArcTyp"/>
         <CursorPos X="14" Y="118"/>
         <TopLine Value="102"/>
         <UsageCount Value="10"/>
       </Unit4>
       <Unit5>
-        <Filename Value="..\..\..\Prog\lazarus\fpcsrc\rtl\objpas\sysutils\finah.inc"/>
+        <Filename Value="../../../Prog/lazarus/fpcsrc/rtl/objpas/sysutils/finah.inc"/>
         <CursorPos X="25" Y="30"/>
         <TopLine Value="13"/>
         <UsageCount Value="10"/>
       </Unit5>
       <Unit6>
-        <Filename Value="fparchive-0.1\abbrowse.pas"/>
+        <Filename Value="fparchive-0.1/abbrowse.pas"/>
         <UnitName Value="AbBrowse"/>
         <CursorPos X="36" Y="198"/>
         <TopLine Value="182"/>
         <UsageCount Value="10"/>
       </Unit6>
       <Unit7>
-        <Filename Value="fparchive-0.1\abutils.pas"/>
+        <Filename Value="fparchive-0.1/abutils.pas"/>
         <UnitName Value="AbUtils"/>
         <CursorPos X="3" Y="88"/>
         <TopLine Value="72"/>
         <UsageCount Value="10"/>
       </Unit7>
       <Unit8>
-        <Filename Value="fparchive\abutils.pas"/>
+        <Filename Value="fparchive/abutils.pas"/>
         <UnitName Value="AbUtils"/>
         <CursorPos X="12" Y="516"/>
         <TopLine Value="496"/>
@@ -96,9 +95,8 @@
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
-    <PathDelim Value="\"/>
     <SearchPaths>
-      <OtherUnitFiles Value="fparchive\;..\..\"/>
+      <OtherUnitFiles Value="fparchive/;../../"/>
       <UnitOutputDirectory Value="bin"/>
     </SearchPaths>
     <Parsing>

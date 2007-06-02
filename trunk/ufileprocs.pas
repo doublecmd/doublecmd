@@ -36,7 +36,7 @@ Function RenFile(const sSrc, sDst:String):Boolean;
 
 implementation
 uses
-  SysUtils, uShowMsg, Classes, uLng, FindEx {$IFNDEF WIN32}, BaseUnix, UnixUtil{$ENDIF};
+  SysUtils, uShowMsg, Classes, uLng, uFindEx {$IFNDEF WIN32}, BaseUnix, UnixUtil{$ENDIF};
 
 const
   cBlockSize=16384; // size of block if copyfile

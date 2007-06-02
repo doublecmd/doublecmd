@@ -118,7 +118,7 @@ procedure ShowFileProperties(FileList:TFileList; const aPath:String);
 implementation
 
 uses
-  uLng, uFileOp, uFileProcs, FindEx, BaseUnix, Libc, uUsersGroups;
+  uLng, uFileOp, uFileProcs, uFindEx, BaseUnix, Libc, uUsersGroups;
 
 procedure ShowFileProperties(FileList:TFileList; const aPath:String);
 begin
@@ -235,7 +235,7 @@ end;
 
 procedure TfrmFileProperties.ShowFile(iIndex:Integer);
 var
-  sb: FindEx.Stat64;
+  sb: uFindEx.Stat64;
   dtFileDates:TDateTime;
   iMyUID: Cardinal;
 begin

@@ -120,7 +120,7 @@ implementation
 
 
 uses
-  uShowMsg, uLng, FindEx;
+  uShowMsg, uLng, uFindEx;
 
 procedure SetupColorOfHighlighter(var h: TSynCustomHighlighter);
 var

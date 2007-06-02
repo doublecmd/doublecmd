@@ -30,7 +30,7 @@ type
 
 implementation
 uses
-  SysUtils, Classes, uLng, uShowMsg, uFileProcs, FindEx, uDCUtils, uOSUtils {$IFNDEF WIN32}, BaseUnix, Unix{$ENDIF};
+  SysUtils, Classes, uLng, uShowMsg, uFileProcs, uFindEx, uDCUtils, uOSUtils {$IFNDEF WIN32}, BaseUnix, Unix{$ENDIF};
 
 const
   cBlockSize=16384; // size of block if copyfile
@@ -69,10 +69,11 @@ var
   sDstNew:String;
 begin
 //  writeln(fr^.sName);
-//  writeln(fr^.sNameNoExt);
+  writeln('NameNoExt ==' +fr^.sNameNoExt);
 
   DivFileName(fr^.sNameNoExt,sDstName, sDstExt);
   sDstName:=CorrectDstName(sDstName);
+  WriteLN('sDstName ==' + sDstName);
   sDstExt:=CorrectDstExt(sDstExt);
   sDstNew:='';
   if sDstName<>'' then
@@ -100,6 +101,7 @@ begin
   else
   if FPS_ISDIR(fr^.iMode) then
    begin
+   WriteLN('Force =' + sDst+fr^.sPath+fr^.sNameNoExt);
     if not DirectoryExists(sDst+fr^.sPath+fr^.sNameNoExt) then
       uFileProcs.ForceDirectory(sDst+fr^.sPath+fr^.sNameNoExt);
     Result:=True;
@@ -186,11 +188,11 @@ begin
     end;
   except
     on EFCreateError do
-      msgError('!!!!EFCreateError');
+       ShowMsgError('!!!!EFCreateError');
     on EFOpenError do
-      msgError('!!!!EFOpenError');
+      ShowMsgError('!!!!EFOpenError');
     on EWriteError do
-      msgError('!!!!EFWriteError');
+      ShowMsgError('!!!!EFWriteError');
   end;
 end;
 
