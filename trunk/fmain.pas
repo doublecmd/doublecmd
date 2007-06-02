@@ -575,9 +575,11 @@ begin
   CreateDiskPanel(dskLeft);
   CreateDiskPanel(dskRight);
   (*/Create Disk Panels*)
-  
+
   (*Tool Bar*)
-   MainToolBar.LoadFromFile(gpIniDir + 'default.bar');
+  MainToolBar.ChangePath := gpExePath;
+  MainToolBar.EnvVar := '%commander_path%';
+  MainToolBar.LoadFromFile(gpIniDir + 'default.bar');
   (*Tool Bar*)
   
   LoadShortCuts;

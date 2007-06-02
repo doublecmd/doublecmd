@@ -61,6 +61,8 @@ type
     FCheckToolButton : Boolean;
     FFlatButtons: Boolean;
     FDiskPanel: Boolean;
+    FChangePath : String;
+    FEnvVar : String;
     function LoadBtnIcon(IconPath : String) : TBitMap;
     function GetButton(Index: Integer): TSpeedButton;
     function GetButtonCount: Integer;
@@ -74,6 +76,8 @@ type
 
   protected
     { Protected declarations }
+    function GetCmdDirFromEnvVar(sPath: String): String;
+    function SetCmdDirAsEnvVar(sPath: String): String;
   public
      constructor Create(TheOwner: TComponent); override;
      destructor Destroy; override;
@@ -95,6 +99,9 @@ type
       property CheckToolButton : Boolean read FCheckToolButton write FCheckToolButton default False;
       property FlatButtons : Boolean read FFlatButtons write FFlatButtons default False;
       property IsDiskPanel : Boolean read FDiskPanel write FDiskPanel default False;
+
+      property ChangePath : String read FChangePath write FChangePath;
+      property EnvVar : String read FEnvVar write FEnvVar;
   end;
 
 
@@ -102,7 +109,23 @@ procedure Register;
 
 implementation
 
-uses GraphType, uDCUtils;
+uses GraphType;
+
+function TKAStoolBar.GetCmdDirFromEnvVar(sPath: String): String;
+begin
+  if Pos(FEnvVar, sPath) <> 0 then
+    Result := StringReplace(sPath, FEnvVar, ExcludeTrailingPathDelimiter(FChangePath), [rfIgnoreCase])
+  else
+    Result := sPath;
+end;
+
+function TKAStoolBar.SetCmdDirAsEnvVar(sPath: String): String;
+begin
+  if Pos(FChangePath, sPath) <> 0 then
+    Result := StringReplace(sPath, ExcludeTrailingPathDelimiter(FChangePath), FEnvVar, [rfIgnoreCase])
+  else
+    Result := sPath;
+end;
 
 procedure Register;
 begin

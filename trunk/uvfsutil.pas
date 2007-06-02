@@ -65,7 +65,7 @@ begin
     fr.sNameNoExt:=sr.Name; // we use to save dstname
     {$IFDEF UNIX}
     fr.iMode := sr.Mode;
-    {$ELSE}}
+    {$ELSE}
     fr.iMode := sr.Attr;
     {$ENDIF}
     fr.bSelected:=False;
