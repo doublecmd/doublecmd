@@ -2183,6 +2183,7 @@ var
 Drives : TList;
 I, Count, btnIndex : Integer;
 Drive : PDrive;
+ButtonIcon : TBitMap;
 begin
 dskPanel.CreateWnd; // Update information
 Drives := GetAllDrives;
@@ -2213,6 +2214,23 @@ with Drive^ do
         end;
       {/Set chosen drive}
       dskPanel.Buttons[I].Caption := Name;
+      //**********************************
+      if gIconsSize > 16 then
+        begin
+          ButtonIcon:= TBitMap.Create;
+          with ButtonIcon do
+          begin
+            Width:=dskPanel.Buttons[I].Height;
+            Height:=Width;
+
+            Canvas.Brush.Color := dskPanel.Buttons[I].Color;
+            Canvas.FillRect(Canvas.ClipRect);
+            Canvas.StretchDraw(Canvas.ClipRect,PixMapManager.GetBitmap(DriveIcon, dskPanel.Buttons[I].Color));
+            dskPanel.Buttons[I].Glyph := ButtonIcon;
+          end;
+        end
+      else
+      //**********************************
       dskPanel.Buttons[I].Glyph := PixMapManager.GetBitmap(DriveIcon, dskPanel.Buttons[I].Color);
       {Set Buttons Transparent. Is need? }
       dskPanel.Buttons[I].Glyph.Transparent := True;

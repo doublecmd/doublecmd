@@ -71,6 +71,8 @@ var
   
   gBackColor, //Background color
   gForeColor : TColor; //text color
+  
+  gIconsSize : Integer;
 
 function LoadGlobs : Boolean;
 procedure SaveGlobs;
@@ -197,6 +199,10 @@ begin
 
   gForeColor  := gIni.ReadInteger('Colors', 'ForeColor', clBlack);
   gBackColor := gIni.ReadInteger('Colors', 'BackColor', clWhite);
+  
+  gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
+
+  gpPixmapPath := gpPixmapPath + IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize) + PathDelim;
 
   if FileExists(gpCfgDir+'doublecmd.ext') then
     gExts.LoadFromFile(gpCfgDir+'doublecmd.ext');
@@ -285,6 +291,8 @@ begin
 
   gIni.WriteInteger('Colors', 'ForeColor', gForeColor);
   gIni.WriteInteger('Colors', 'BackColor', gBackColor);
+  
+  gIni.WriteInteger('Configuration', 'IconsSize', gIconsSize);
 
   for x:=0 to 4 do
     gIni.WriteInteger('Configuration', 'Col'+IntToStr(x), gColumnSize[x]);

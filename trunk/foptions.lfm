@@ -1,7 +1,7 @@
 inherited frmOptions: TfrmOptions
-  Left = 288
+  Left = 132
   Height = 359
-  Top = 99
+  Top = 124
   Width = 577
   HorzScrollBar.Page = 576
   VertScrollBar.Page = 358
@@ -113,13 +113,13 @@ inherited frmOptions: TfrmOptions
       Top = 24
       Width = 454
       Align = alClient
-      PageIndex = 6
+      PageIndex = 1
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
         Caption = 'pgLng'
-        ClientWidth = 454
-        ClientHeight = 291
+        ClientWidth = 446
+        ClientHeight = 265
         object lngList: TListBox
           Height = 291
           Width = 454
@@ -130,8 +130,8 @@ inherited frmOptions: TfrmOptions
       end
       object pgBehav: TPage
         Caption = 'pgBehav'
-        ClientWidth = 454
-        ClientHeight = 291
+        ClientWidth = 446
+        ClientHeight = 265
         object lblTerm: TLabel
           Left = 8
           Height = 14
@@ -147,6 +147,15 @@ inherited frmOptions: TfrmOptions
           Top = 48
           Width = 65
           Caption = 'Run terminal:'
+          Color = clNone
+          ParentColor = False
+        end
+        object lblIconsSize: TLabel
+          Left = 250
+          Height = 14
+          Top = 84
+          Width = 53
+          Caption = 'Icons Size:'
           Color = clNone
           ParentColor = False
         end
@@ -171,8 +180,8 @@ inherited frmOptions: TfrmOptions
           Height = 148
           Top = 66
           Width = 225
-          ClientHeight = 148
-          ClientWidth = 225
+          ClientHeight = 130
+          ClientWidth = 221
           ParentCtl3D = False
           TabOrder = 2
           object cbDirSelect: TCheckBox
@@ -221,11 +230,29 @@ inherited frmOptions: TfrmOptions
             TabOrder = 4
           end
         end
+        object cbIconsSize: TComboBox
+          Left = 322
+          Height = 21
+          Top = 77
+          Width = 91
+          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
+          ItemIndex = 0
+          Items.Strings = (
+            '16x16'
+            '22x22'
+            '32x32'
+          )
+          MaxLength = 0
+          Style = csDropDownList
+          TabOrder = 3
+          Text = '16x16'
+        end
       end
       object pgTools: TPage
         Caption = 'pgTools'
-        ClientWidth = 454
-        ClientHeight = 291
+        ClientWidth = 446
+        ClientHeight = 265
         object cbExtEditor: TCheckBox
           Left = 3
           Height = 13
@@ -286,8 +313,8 @@ inherited frmOptions: TfrmOptions
       end
       object pgFonts: TPage
         Caption = 'pgFonts'
-        ClientWidth = 454
-        ClientHeight = 291
+        ClientWidth = 446
+        ClientHeight = 265
         object lblMainFont: TLabel
           Left = 6
           Height = 14
@@ -322,6 +349,7 @@ inherited frmOptions: TfrmOptions
           Width = 368
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
           MaxLength = 0
           OnChange = cbMainFontChange
           ParentCtl3D = False
@@ -365,6 +393,7 @@ inherited frmOptions: TfrmOptions
           Width = 367
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
           MaxLength = 0
           OnChange = cbEditorFontChange
           ParentCtl3D = False
@@ -408,6 +437,7 @@ inherited frmOptions: TfrmOptions
           Width = 367
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
           MaxLength = 0
           OnChange = cbViewerFontChange
           ParentCtl3D = False
@@ -447,8 +477,8 @@ inherited frmOptions: TfrmOptions
       end
       object pgColor: TPage
         Caption = 'pgColor'
-        ClientWidth = 454
-        ClientHeight = 291
+        ClientWidth = 446
+        ClientHeight = 265
         object cTextLabel: TLabel
           Left = 25
           Height = 14
@@ -560,8 +590,8 @@ inherited frmOptions: TfrmOptions
       end
       object pgHotKey: TPage
         Caption = 'pgHotKey'
-        ClientWidth = 454
-        ClientHeight = 291
+        ClientWidth = 446
+        ClientHeight = 265
         object lblActions: TLabel
           Left = 6
           Height = 13
@@ -587,6 +617,7 @@ inherited frmOptions: TfrmOptions
           Width = 310
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
           MaxLength = 0
           Sorted = True
           Style = csDropDownList
@@ -626,11 +657,11 @@ inherited frmOptions: TfrmOptions
       end
       object pgPlugins: TPage
         Caption = 'pgPlugins'
-        ClientWidth = 450
-        ClientHeight = 287
+        ClientWidth = 446
+        ClientHeight = 283
         object pcPluginsTypes: TPageControl
-          Height = 287
-          Width = 450
+          Height = 283
+          Width = 446
           ActivePage = tsWCX
           Align = alClient
           TabIndex = 0
@@ -638,31 +669,31 @@ inherited frmOptions: TfrmOptions
           object tsWCX: TTabSheet
             Caption = 'Packer plugins (.WCX)'
             ClientHeight = 257
-            ClientWidth = 446
+            ClientWidth = 438
             OnShow = tsWCXShow
             object lblAbout: TLabel
               Left = 14
-              Height = 28
+              Height = 27
               Top = 6
-              Width = 315
+              Width = 268
               Caption = 'Packer plugins are used to open archives not supported'#13#10'internally by Double Commander.'
               Color = clNone
               ParentColor = False
             end
             object lblExt: TLabel
               Left = 14
-              Height = 13
+              Height = 14
               Top = 46
-              Width = 213
+              Width = 177
               Caption = 'All files with e&xtension (ending with):'
               Color = clNone
               ParentColor = False
             end
             object lblAssociateWith: TLabel
               Left = 14
-              Height = 13
+              Height = 14
               Top = 77
-              Width = 94
+              Width = 74
               Caption = '&Associate with:'
               Color = clNone
               ParentColor = False
@@ -673,6 +704,7 @@ inherited frmOptions: TfrmOptions
               Top = 46
               Width = 100
               AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+              ItemHeight = 13
               MaxLength = 0
               OnChange = cbExtChange
               TabOrder = 0
@@ -683,6 +715,7 @@ inherited frmOptions: TfrmOptions
               Top = 98
               Width = 200
               AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+              ItemHeight = 13
               MaxLength = 0
               TabOrder = 1
             end
@@ -722,7 +755,6 @@ inherited frmOptions: TfrmOptions
               Width = 200
               OnClick = clbWCXListClick
               TabOrder = 5
-              TopIndex = -1
             end
           end
           object tsWFX: TTabSheet

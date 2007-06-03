@@ -189,7 +189,7 @@ begin
   ClearCmdLine;
   UpDatelblInfo;
   FLastMark:='*.*';
-  dgPanel.DefaultRowHeight:=16;
+  dgPanel.DefaultRowHeight:=gIconsSize;
   with FLastSelect do
   begin
     Left:=0;
@@ -416,9 +416,12 @@ var
   s:String;
   frp:PFileRecItem;
   bmp:TBitmap;
+  iTextTop : Integer;
 begin
 {  (Sender as TDrawGrid).Canvas.TextOut(Rect.Left, Rect.Top, IntToStr(ARow));
   Exit;}
+
+  iTextTop := Rect.Top + (gIconsSize div 2) - (dgPanel.Canvas.TextHeight('Pp') div 2);
 
   if ARow=0 then
   begin
@@ -427,7 +430,7 @@ begin
     with dgPanel do
     begin
       DefaultDrawCell(ACol, ARow, Rect, State);
-      Canvas.TextOut(Rect.Left + 4, Rect.Top, FHeaderString[ACol]);
+      Canvas.TextOut(Rect.Left + 4, iTextTop, FHeaderString[ACol]);
     end;
     Exit;
   end;
@@ -460,11 +463,11 @@ begin
     1:
       begin
         if gSeparateExt then
-          Canvas.TextOut(Rect.Left,Rect.Top,sExt);
+          Canvas.TextOut(Rect.Left,iTextTop,sExt);
       end;
     4:
       begin
-        Canvas.TextOut(Rect.Left + 2,Rect.Top,sModeStr);
+        Canvas.TextOut(Rect.Left + 2,iTextTop,sModeStr);
       end;
     2,3:    // filesize and date
       begin
@@ -474,7 +477,7 @@ begin
           // show counted dir size
           s:=cnvFormatFileSize(iDirSize);
           tw:=Canvas.TextWidth(s);
-          Canvas.TextOut(Rect.Left+cw-tw,Rect.Top,s);
+          Canvas.TextOut(Rect.Left+cw-tw,iTextTop,s);
         end
         else
         begin
@@ -489,7 +492,7 @@ begin
           else
             s:=sTime;
           tw:=Canvas.TextWidth(s);
-          Canvas.TextOut(Rect.Left+cw-tw,Rect.Top,s);
+          Canvas.TextOut(Rect.Left+cw-tw,iTextTop,s);
         end;
       end;
     0:begin
@@ -501,17 +504,7 @@ begin
           s:=sNameNoExt
         else
           s:=sName;
-        Canvas.TextOut(Rect.Left+18 ,Rect.Top,s);
-        //Alexx2000
-        {if bExecutable and not bIsLink then
-        begin
-          if s<>'..' then
-          begin
- //            Canvas.Font.Style:=[fsUnderline, fsBold];
- // This is hack, bold is text drawed twice
-            Canvas.TextOut(Rect.Left+19 ,Rect.Top,s);
-          end
-        end;}
+        Canvas.TextOut(Rect.Left + gIconsSize + 2 ,iTextTop,s);
       end;
     end; //case
   end;   //with

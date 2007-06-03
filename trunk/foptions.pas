@@ -67,6 +67,7 @@ type
     cbExt: TComboBox;
     cbWCXPath: TComboBox;
     clbWCXList: TCheckListBox;
+    cbIconsSize: TComboBox;
     cTextColor: TColorBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
@@ -84,6 +85,7 @@ type
     edtViewerSize: TSpinEdit;
     gb: TGroupBox;
     ilTreeView: TImageList;
+    lblIconsSize: TLabel;
     lblAssociateWith: TLabel;
     lblExt: TLabel;
     lblAbout: TLabel;
@@ -160,7 +162,7 @@ type
 implementation
 
 uses
-  uLng, uGlobs, uGlobsPaths, fMain, ActnList, LCLProc, menus, uWCXModule;
+  uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc, menus, uWCXModule, uOSUtils;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
@@ -327,6 +329,8 @@ begin
   cTextColor.Color := gForeColor;
   cbackgrndcolor.Selection := gBackColor;
   cbackgrndcolor.Color := gBackColor;
+  
+  cbIconsSize.Text := IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize);
   // ToDo lang to tsColor tsHotKey
 end;
 
@@ -389,9 +393,18 @@ begin
   {$hints on}
 
   gForeColor := cTextColor.Color;
-  gBackColor := cbackgrndcolor.Color;
-  
+
   frmMain.SaveShortCuts;
+  
+  if (gIconsSize <> StrToInt(Copy(cbIconsSize.Text, 1, 2))) or (gBackColor <> cbackgrndcolor.Color) then
+    begin
+      gIconsSize := StrToInt(Copy(cbIconsSize.Text, 1, 2)); //file panel icons size
+      gBackColor := cbackgrndcolor.Color; // background color
+      SaveGlobs;
+      ShowMessage('Double Commander will restart for apply changes');
+      ExecCmdFork(Application.ExeName);
+      frmMain.Close;
+    end;
 end;
 
 procedure TfrmOptions.btnSelEditFntClick(Sender: TObject);
