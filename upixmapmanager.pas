@@ -107,17 +107,23 @@ constructor TPixMapManager.Create;
 {$IFDEF WIN32}
 var
   FileInfo : TSHFileInfo;
+  iIconSize : Integer;
 {$ENDIF}
 begin
   FExtList:=TStringList.Create;
   FimgList:=TObjectList.Create;
   FPixmapName:=TStringList.Create;
   {$IFDEF WIN32}
+    if gIconsSize < 32 then
+      iIconSize := SHGFI_SMALLICON
+    else
+      iIconSize := SHGFI_LARGEICON;
+      
     SysImgList := SHGetFileInfo('C:\',
                            0,
                            FileInfo,
                            SizeOf(FileInfo),
-                           SHGFI_SYSICONINDEX or SHGFI_SMALLICON);
+                           SHGFI_SYSICONINDEX or iIconSize);
   {$ENDIF}
 end;
 
@@ -162,7 +168,7 @@ begin
           Continue;
         sExt:=Copy(s,1, iekv-1);
         sPixMap:=Copy(s, iekv+1, length(s)-iekv);
-        iPixMap:=CheckAddPixmap(sPixMap);
+        iPixMap:=CheckAddPixmap('mimetypes' + PathDelim + sPixMap);
         if iPixMap<0 then
           Continue;
 
@@ -174,12 +180,12 @@ begin
     end;
   end;
   // add some standard icons
-  FiDirIconID:=CheckAddPixmap('fdir.png');
-  FiDirLinkIconID:=CheckAddPixmap('fdir-link.png');
-  FiLinkIconID:=CheckAddPixmap('flink.png');
-  FiUpDirIconID:=CheckAddPixmap('fupdir.png');
-  FiDefaultIconID:=CheckAddPixmap('fblank.png');
-  FiArcIconID := CheckAddPixmap('farc.png');
+  FiDirIconID:=CheckAddPixmap('filesystems' + PathDelim + 'folder.png');
+  FiDirLinkIconID:=CheckAddPixmap('filesystems' + PathDelim + 'folder-link.png');
+  FiLinkIconID:=CheckAddPixmap('filesystems' + PathDelim + 'link.png');
+  FiUpDirIconID:=CheckAddPixmap('actions' + PathDelim + 'go-up.png');
+  FiDefaultIconID:=CheckAddPixmap('mimetypes' + PathDelim + 'empty.png');
+  FiArcIconID := CheckAddPixmap('filesystems' + PathDelim + 'archive.png');
   
   (* Set archive icons *)
   
@@ -224,9 +230,16 @@ begin
   if iIndex >= $1000 then
   begin
   Result := Graphics.TBitmap.Create;
-
-  Result.Width := GetSystemMetrics( SM_CXSMICON );
-  Result.Height := GetSystemMetrics( SM_CYSMICON );
+  if gIconsSize < 32 then
+    begin
+      Result.Width := GetSystemMetrics( SM_CXSMICON );
+      Result.Height := GetSystemMetrics( SM_CYSMICON );
+    end
+  else
+    begin
+      Result.Width := GetSystemMetrics( SM_CXICON );
+      Result.Height := GetSystemMetrics( SM_CYICON );
+    end;
 
   try
    (*For pseudo transparent*)
@@ -267,6 +280,7 @@ var
 Ext : String;
 {$IFDEF WIN32}
     FileInfo : TSHFileInfo;
+    iIconSize : Integer;
 {$ENDIF}
 begin
   Result:=-1;
@@ -306,11 +320,16 @@ begin
     if Result<0 then
     begin
     {$IFDEF WIN32}
+    if gIconsSize < 32 then
+      iIconSize := SHGFI_SMALLICON
+    else
+      iIconSize := SHGFI_LARGEICON;
+      
     SHGetFileInfo(PCHar(sName),
                            0,
                            FileInfo,
                            SizeOf(FileInfo),
-                           SHGFI_SYSICONINDEX or SHGFI_SMALLICON);
+                           SHGFI_SYSICONINDEX or iIconSize);
        Result := FileInfo.iIcon + $1000;
        if (FExtList.IndexOf(Ext)<0) and (Ext <> 'exe') then
         FExtList.AddObject(Ext, TObject(Result));
