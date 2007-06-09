@@ -1,7 +1,7 @@
 inherited frmOptions: TfrmOptions
-  Left = 132
+  Left = 202
   Height = 359
-  Top = 124
+  Top = 100
   Width = 577
   HorzScrollBar.Page = 576
   VertScrollBar.Page = 358
@@ -113,7 +113,7 @@ inherited frmOptions: TfrmOptions
       Top = 24
       Width = 454
       Align = alClient
-      PageIndex = 1
+      PageIndex = 4
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
@@ -131,7 +131,7 @@ inherited frmOptions: TfrmOptions
       object pgBehav: TPage
         Caption = 'pgBehav'
         ClientWidth = 446
-        ClientHeight = 265
+        ClientHeight = 283
         object lblTerm: TLabel
           Left = 8
           Height = 14
@@ -497,7 +497,43 @@ inherited frmOptions: TfrmOptions
           Color = clNone
           ParentColor = False
         end
-        object cTextColor: TColorBox
+        object lblBackground2: TLabel
+          Left = 23
+          Height = 14
+          Top = 88
+          Width = 63
+          Caption = 'Background2'
+          Color = clNone
+          ParentColor = False
+        end
+        object lblMarkColor: TLabel
+          Left = 25
+          Height = 14
+          Top = 123
+          Width = 52
+          Caption = 'Mark Color'
+          Color = clNone
+          ParentColor = False
+        end
+        object lblCursorColor: TLabel
+          Left = 25
+          Height = 14
+          Top = 158
+          Width = 61
+          Caption = 'Cursor Color'
+          Color = clNone
+          ParentColor = False
+        end
+        object lblCursorText: TLabel
+          Left = 25
+          Height = 14
+          Top = 191
+          Width = 58
+          Caption = 'Cursor Text'
+          Color = clNone
+          ParentColor = False
+        end
+        object cbTextColor: TColorBox
           Left = 108
           Height = 22
           Top = 26
@@ -529,10 +565,10 @@ inherited frmOptions: TfrmOptions
           )
           MaxLength = 0
           TabOrder = 0
-          OnChange = cTextColorChange
-          OnDropDown = cTextColorDropDown
+          OnChange = cbColorBoxChange
+          OnDropDown = cbColorBoxDropDown
         end
-        object cbackgrndcolor: TColorBox
+        object cbBackColor: TColorBox
           Left = 108
           Height = 22
           Top = 53
@@ -564,28 +600,208 @@ inherited frmOptions: TfrmOptions
           )
           MaxLength = 0
           TabOrder = 1
-          OnChange = cbackgrndcolorChange
-          OnDropDown = cbackgrndcolorDropDown
+          OnChange = cbColorBoxChange
+          OnDropDown = cbColorBoxDropDown
         end
-        object Button1: TButton
+        object btnForeColor: TButton
           Left = 209
-          Height = 25
-          Top = 23
+          Height = 22
+          Top = 26
           Width = 28
           BorderSpacing.InnerBorder = 4
           Caption = '>>'
-          OnClick = Button1Click
+          OnClick = btnForeColorClick
           TabOrder = 2
         end
-        object Button2: TButton
+        object btnBackColor: TButton
           Left = 209
-          Height = 25
-          Top = 50
+          Height = 23
+          Top = 52
           Width = 28
           BorderSpacing.InnerBorder = 4
           Caption = '>>'
-          OnClick = Button2Click
+          OnClick = btnBackColorClick
           TabOrder = 3
+        end
+        object cbBackColor2: TColorBox
+          Left = 108
+          Height = 24
+          Top = 84
+          Width = 100
+          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 16
+          Items.Strings = (
+            'clBlack'
+            'clMaroon'
+            'clGreen'
+            'clOlive'
+            'clNavy'
+            'clPurple'
+            'clTeal'
+            'clGray'
+            'clSilver'
+            'clRed'
+            'clLime'
+            'clYellow'
+            'clBlue'
+            'clFuchsia'
+            'clAqua'
+            'clSilver'
+            'clGray'
+            'clWhite'
+            'clCream'
+            'clNone'
+            'clDefault'
+          )
+          MaxLength = 0
+          TabOrder = 4
+          OnChange = cbColorBoxChange
+          OnDropDown = cbColorBoxDropDown
+        end
+        object cbMarkColor: TColorBox
+          Left = 108
+          Height = 24
+          Top = 116
+          Width = 100
+          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 16
+          Items.Strings = (
+            'clBlack'
+            'clMaroon'
+            'clGreen'
+            'clOlive'
+            'clNavy'
+            'clPurple'
+            'clTeal'
+            'clGray'
+            'clSilver'
+            'clRed'
+            'clLime'
+            'clYellow'
+            'clBlue'
+            'clFuchsia'
+            'clAqua'
+            'clSilver'
+            'clGray'
+            'clWhite'
+            'clCream'
+            'clNone'
+            'clDefault'
+          )
+          MaxLength = 0
+          TabOrder = 5
+          OnChange = cbColorBoxChange
+          OnDropDown = cbColorBoxDropDown
+        end
+        object cbCursorColor: TColorBox
+          Left = 108
+          Height = 24
+          Top = 148
+          Width = 100
+          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 16
+          Items.Strings = (
+            'clBlack'
+            'clMaroon'
+            'clGreen'
+            'clOlive'
+            'clNavy'
+            'clPurple'
+            'clTeal'
+            'clGray'
+            'clSilver'
+            'clRed'
+            'clLime'
+            'clYellow'
+            'clBlue'
+            'clFuchsia'
+            'clAqua'
+            'clSilver'
+            'clGray'
+            'clWhite'
+            'clCream'
+            'clNone'
+            'clDefault'
+          )
+          MaxLength = 0
+          TabOrder = 6
+          OnChange = cbColorBoxChange
+          OnDropDown = cbColorBoxDropDown
+        end
+        object cbCursorText: TColorBox
+          Left = 108
+          Height = 24
+          Top = 180
+          Width = 100
+          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 16
+          Items.Strings = (
+            'clBlack'
+            'clMaroon'
+            'clGreen'
+            'clOlive'
+            'clNavy'
+            'clPurple'
+            'clTeal'
+            'clGray'
+            'clSilver'
+            'clRed'
+            'clLime'
+            'clYellow'
+            'clBlue'
+            'clFuchsia'
+            'clAqua'
+            'clSilver'
+            'clGray'
+            'clWhite'
+            'clCream'
+            'clNone'
+            'clDefault'
+          )
+          MaxLength = 0
+          TabOrder = 7
+          OnChange = cbColorBoxChange
+          OnDropDown = cbColorBoxDropDown
+        end
+        object btnMarkColor: TButton
+          Left = 210
+          Height = 23
+          Top = 117
+          Width = 28
+          BorderSpacing.InnerBorder = 4
+          Caption = '>>'
+          OnClick = btnMarkColorClick
+          TabOrder = 8
+        end
+        object btnCursorColor: TButton
+          Left = 210
+          Height = 23
+          Top = 149
+          Width = 28
+          BorderSpacing.InnerBorder = 4
+          Caption = '>>'
+          OnClick = btnCursorColorClick
+          TabOrder = 9
+        end
+        object btnCursorText: TButton
+          Left = 210
+          Height = 23
+          Top = 182
+          Width = 28
+          BorderSpacing.InnerBorder = 4
+          Caption = '>>'
+          OnClick = btnCursorTextClick
+          TabOrder = 10
+        end
+        object btnBackColor2: TButton
+          Left = 210
+          Height = 23
+          Top = 85
+          Width = 28
+          BorderSpacing.InnerBorder = 4
+          Caption = '>>'
+          OnClick = btnBackColor2Click
+          TabOrder = 11
         end
       end
       object pgHotKey: TPage
@@ -658,9 +874,9 @@ inherited frmOptions: TfrmOptions
       object pgPlugins: TPage
         Caption = 'pgPlugins'
         ClientWidth = 446
-        ClientHeight = 283
+        ClientHeight = 265
         object pcPluginsTypes: TPageControl
-          Height = 283
+          Height = 265
           Width = 446
           ActivePage = tsWCX
           Align = alClient
@@ -668,7 +884,7 @@ inherited frmOptions: TfrmOptions
           TabOrder = 0
           object tsWCX: TTabSheet
             Caption = 'Packer plugins (.WCX)'
-            ClientHeight = 257
+            ClientHeight = 239
             ClientWidth = 438
             OnShow = tsWCXShow
             object lblAbout: TLabel

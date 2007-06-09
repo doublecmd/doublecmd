@@ -231,7 +231,7 @@ begin
     if gFontWeight = 700 then
        Canvas.Font.Style:=[fsBold];
     if gdSelected in aState then
-      Canvas.Brush.Color:=clHighlight
+      Canvas.Brush.Color:= gCursorColor
     else
       Canvas.Brush.Color:=Color;
   end;
@@ -445,19 +445,24 @@ begin
   begin
     Canvas.Brush.Style:=bsSolid;
     if gdSelected in State then
-      Canvas.Brush.Color:=clHighlight
+      Canvas.Brush.Color:= gCursorColor
     else
-      Canvas.Brush.Color:=Color;
+      begin
+        if (ARow mod 2) = 0 then
+          Canvas.Brush.Color := gBackColor
+        else
+          Canvas.Brush.Color := gBackColor2;
+      end;
     Canvas.FillRect(Rect);
     //Canvas.Font.Style:=[];
     newColor:=gColorExt.ColorByExt(sExt);
     if bSelected then
-      Canvas.Font.Color:=clRed
+      Canvas.Font.Color:= gMarkColor
     else
     if (gdSelected in State) then
-      Canvas.Font.Color:=clHighlightedText
+      Canvas.Font.Color:=gCursorText
     else
-      Canvas.Font.Color:={clText} NewColor;
+      Canvas.Font.Color:= NewColor;
 
     case aCol of
     1:

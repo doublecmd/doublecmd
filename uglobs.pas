@@ -70,7 +70,11 @@ var
   gEditorPos:TControlPosition;
   
   gBackColor, //Background color
-  gForeColor : TColor; //text color
+  gBackColor2, //Background color 2
+  gForeColor,  //text color
+  gMarkColor,  // Mark color
+  gCursorColor, //Cursor color
+  gCursorText : TColor; //text color under cursor
   
   gIconsSize : Integer;
 
@@ -199,6 +203,10 @@ begin
 
   gForeColor  := gIni.ReadInteger('Colors', 'ForeColor', clBlack);
   gBackColor := gIni.ReadInteger('Colors', 'BackColor', clWhite);
+  gBackColor2 := gIni.ReadInteger('Colors', 'BackColor2', clWhite);
+  gMarkColor := gIni.ReadInteger('Colors', 'MarkColor', clRed);
+  gCursorColor := gIni.ReadInteger('Colors', 'CursorColor', clHighlight);
+  gCursorText := gIni.ReadInteger('Colors', 'CursorText', clHighlightedText);
   
   gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
 
@@ -210,8 +218,7 @@ begin
   if FileExists(gpIniDir+'dirhistory.txt') then
     LoadStringsFromFile(glsDirHistory,gpIniDir+'dirhistory.txt');
 
-  if FileExists(gpCfgDir+'color.ext') then
-    gColorExt.LoadFromFile(gpCfgDir+'color.ext');
+  gColorExt.Load;
 
   // default column widths
   gColumnSize[0] := gIni.ReadInteger('Configuration', 'Col0', 133);
@@ -291,6 +298,12 @@ begin
 
   gIni.WriteInteger('Colors', 'ForeColor', gForeColor);
   gIni.WriteInteger('Colors', 'BackColor', gBackColor);
+  gIni.WriteInteger('Colors', 'BackColor2', gBackColor2);
+  gIni.WriteInteger('Colors', 'MarkColor', gMarkColor);
+  gIni.WriteInteger('Colors', 'CursorColor', gCursorColor);
+  gIni.WriteInteger('Colors', 'CursorText', gCursorText);
+
+  
   
   gIni.WriteInteger('Configuration', 'IconsSize', gIconsSize);
 

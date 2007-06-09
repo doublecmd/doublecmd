@@ -47,10 +47,14 @@ type
     btnSelMainFnt: TButton;
     btnSelViewFnt: TButton;
     btSetHotKey: TButton;
-    Button1: TButton;
-    Button2: TButton;
+    btnForeColor: TButton;
+    btnBackColor: TButton;
     btClearHotKey: TButton;
-    cbackgrndcolor: TColorBox;
+    btnBackColor2: TButton;
+    btnMarkColor: TButton;
+    btnCursorColor: TButton;
+    btnCursorText: TButton;
+    cbBackColor: TColorBox;
     cBackGrndLabel: TLabel;
     cbActions: TComboBox;
     cbCaseSensitiveSort: TCheckBox;
@@ -68,7 +72,11 @@ type
     cbWCXPath: TComboBox;
     clbWCXList: TCheckListBox;
     cbIconsSize: TComboBox;
-    cTextColor: TColorBox;
+    cbBackColor2: TColorBox;
+    cbMarkColor: TColorBox;
+    cbCursorColor: TColorBox;
+    cbCursorText: TColorBox;
+    cbTextColor: TColorBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
@@ -85,6 +93,10 @@ type
     edtViewerSize: TSpinEdit;
     gb: TGroupBox;
     ilTreeView: TImageList;
+    lblBackground2: TLabel;
+    lblMarkColor: TLabel;
+    lblCursorColor: TLabel;
+    lblCursorText: TLabel;
     lblIconsSize: TLabel;
     lblAssociateWith: TLabel;
     lblExt: TLabel;
@@ -119,15 +131,18 @@ type
     tvTreeView: TTreeView;
     procedure bbtnApplyClick(Sender: TObject);
     procedure btClearHotKeyClick(Sender: TObject);
+    procedure btnBackColor2Click(Sender: TObject);
+    procedure btnCursorColorClick(Sender: TObject);
+    procedure btnCursorTextClick(Sender: TObject);
+    procedure btnMarkColorClick(Sender: TObject);
     procedure btnOpenClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
-    procedure cbackgrndcolorChange(Sender: TObject);
-    procedure cbackgrndcolorDropDown(Sender: TObject);
+    procedure btnForeColorClick(Sender: TObject);
+    procedure btnBackColorClick(Sender: TObject);
+    procedure cbColorBoxChange(Sender: TObject);
     procedure cbExtChange(Sender: TObject);
     procedure clbWCXListClick(Sender: TObject);
-    procedure cTextColorChange(Sender: TObject);
-    procedure cTextColorDropDown(Sender: TObject);
+    procedure cbTextColorChange(Sender: TObject);
+    procedure cbColorBoxDropDown(Sender: TObject);
     procedure edtEditorSizeChange(Sender: TObject);
     procedure edtMainSizeChange(Sender: TObject);
     procedure edtViewerSizeChange(Sender: TObject);
@@ -197,12 +212,12 @@ begin
   cbActions.Text := vActions.Name+'('+ShortCutToText(vActions.ShortCut)+')';
 end;
 
-procedure TfrmOptions.Button1Click(Sender: TObject);
+procedure TfrmOptions.btnForeColorClick(Sender: TObject);
 begin
  if optColorDialog.Execute then
    begin
-     cTextColor.Text := '';
-     cTextColor.Color := optColorDialog.Color;
+     cbTextColor.Text := '';
+     cbTextColor.Color := optColorDialog.Color;
    end;
 end;
 
@@ -223,23 +238,18 @@ begin
   end;
 end;
 
-procedure TfrmOptions.Button2Click(Sender: TObject);
+procedure TfrmOptions.btnBackColorClick(Sender: TObject);
 begin
    if optColorDialog.Execute then
    begin
-     cbackgrndcolor.Text := '';
-     cbackgrndcolor.Color := optColorDialog.Color;
+     cbBackColor.Text := '';
+     cbBackColor.Color := optColorDialog.Color;
    end;
 end;
 
-procedure TfrmOptions.cbackgrndcolorChange(Sender: TObject);
+procedure TfrmOptions.cbColorBoxChange(Sender: TObject);
 begin
-  cbackgrndcolor.Color := cbackgrndcolor.Selection;
-end;
-
-procedure TfrmOptions.cbackgrndcolorDropDown(Sender: TObject);
-begin
-  cbackgrndcolor.Color := clWindow;
+  (Sender as TColorBox).Color := (Sender as TColorBox).Selection;
 end;
 
 procedure TfrmOptions.cbExtChange(Sender: TObject);
@@ -252,14 +262,14 @@ begin
   cbWCXPath.Text := clbWCXList.Items[clbWCXList.ItemIndex];
 end;
 
-procedure TfrmOptions.cTextColorChange(Sender: TObject);
+procedure TfrmOptions.cbTextColorChange(Sender: TObject);
 begin
-  cTextColor.Color := cTextColor.Selection;
+  cbTextColor.Color := cbTextColor.Selection;
 end;
 
-procedure TfrmOptions.cTextColorDropDown(Sender: TObject);
+procedure TfrmOptions.cbColorBoxDropDown(Sender: TObject);
 begin
-  cTextColor.Color := clWindow;
+  (Sender as TColorBox).Color := clWindow;
 end;
 
 procedure TfrmOptions.edtEditorSizeChange(Sender: TObject);
@@ -324,12 +334,27 @@ begin
   lblMainFont.Caption:= lngGetString(clngDlgOptMainFont);
   lblEditorFont.Caption:= lngGetString(clngDlgOptEditorFont);
   lblViewerFont.Caption:= lngGetString(clngDlgOptViewerFont);
+
+  { Colors }
+  cbTextColor.Selection := gForeColor;
+  cbTextColor.Color := gForeColor;
   
-  cTextColor.Selection := gForeColor;
-  cTextColor.Color := gForeColor;
-  cbackgrndcolor.Selection := gBackColor;
-  cbackgrndcolor.Color := gBackColor;
+  cbBackColor.Selection := gBackColor;
+  cbBackColor.Color := gBackColor;
+
+  cbBackColor2.Selection := gBackColor2;
+  cbBackColor2.Color := gBackColor2;
+
+  cbMarkColor.Selection := gMarkColor;
+  cbMarkColor.Color := gMarkColor;
+
+  cbCursorColor.Selection := gCursorColor;
+  cbCursorColor.Color := gCursorColor;
+
+  cbCursorText.Selection := gCursorText;
+  cbCursorText.Color := gCursorText;
   
+  { Icons sizes in file panels }
   cbIconsSize.Text := IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize);
   // ToDo lang to tsColor tsHotKey
 end;
@@ -392,14 +417,20 @@ begin
   gFontSize:=Round(edtMainSize.Value);
   {$hints on}
 
-  gForeColor := cTextColor.Color;
-
+  { Colors }
+  gForeColor := cbTextColor.Color;
+  gBackColor := cbBackColor.Color; // background color
+  gBackColor2 := cbBackColor2.Color;
+  gMarkColor := cbMarkColor.Color;
+  gCursorColor := cbCursorColor.Color;
+  gCursorText := cbCursorText.Color;
+  
+  frmMain.Repaint; // for panels repaint
   frmMain.SaveShortCuts;
   
-  if (gIconsSize <> StrToInt(Copy(cbIconsSize.Text, 1, 2))) or (gBackColor <> cbackgrndcolor.Color) then
+  if (gIconsSize <> StrToInt(Copy(cbIconsSize.Text, 1, 2))) then
     begin
       gIconsSize := StrToInt(Copy(cbIconsSize.Text, 1, 2)); //file panel icons size
-      gBackColor := cbackgrndcolor.Color; // background color
       SaveGlobs;
       ShowMessage('Double Commander will restart for apply changes');
       ExecCmdFork(Application.ExeName);
@@ -614,6 +645,42 @@ begin
   vActions.ShortCut := TextToShortCut('');
   cbActions.Items[cbActions.ItemIndex] := vActions.Name+'('+ShortCutToText(vActions.ShortCut)+')';
   cbActions.Text := vActions.Name+'('+ShortCutToText(vActions.ShortCut)+')';
+end;
+
+procedure TfrmOptions.btnBackColor2Click(Sender: TObject);
+begin
+   if optColorDialog.Execute then
+   begin
+     cbBackColor2.Text := '';
+     cbBackColor2.Color := optColorDialog.Color;
+   end;
+end;
+
+procedure TfrmOptions.btnCursorColorClick(Sender: TObject);
+begin
+   if optColorDialog.Execute then
+   begin
+     cbCursorColor.Text := '';
+     cbCursorColor.Color := optColorDialog.Color;
+   end;
+end;
+
+procedure TfrmOptions.btnCursorTextClick(Sender: TObject);
+begin
+   if optColorDialog.Execute then
+   begin
+     cbCursorText.Text := '';
+     cbCursorText.Color := optColorDialog.Color;
+   end;
+end;
+
+procedure TfrmOptions.btnMarkColorClick(Sender: TObject);
+begin
+   if optColorDialog.Execute then
+   begin
+     cbMarkColor.Text := '';
+     cbMarkColor.Color := optColorDialog.Color;
+   end;
 end;
 
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
