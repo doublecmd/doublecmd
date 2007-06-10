@@ -92,6 +92,7 @@ type
     edtTest3: TEdit;
     edtViewerSize: TSpinEdit;
     gb: TGroupBox;
+    gbExample: TGroupBox;
     ilTreeView: TImageList;
     lblBackground2: TLabel;
     lblMarkColor: TLabel;
@@ -112,6 +113,7 @@ type
     nbNotebook: TNotebook;
     odOpenDialog: TOpenDialog;
     optColorDialog: TColorDialog;
+    pbExample: TPaintBox;
     pcPluginsTypes: TPageControl;
     pcPluginsType: TPageControl;
     pgPlugins: TPage;
@@ -160,6 +162,7 @@ type
     procedure cbViewerFontChange(Sender: TObject);
     procedure edHotKeyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
       );
+    procedure pbExamplePaint(Sender: TObject);
     procedure tsWCXShow(Sender: TObject);
     procedure tvTreeViewChange(Sender: TObject; Node: TTreeNode);
   private
@@ -212,6 +215,7 @@ begin
   cbActions.Text := vActions.Name+'('+ShortCutToText(vActions.ShortCut)+')';
 end;
 
+
 procedure TfrmOptions.btnForeColorClick(Sender: TObject);
 begin
  if optColorDialog.Execute then
@@ -250,6 +254,7 @@ end;
 procedure TfrmOptions.cbColorBoxChange(Sender: TObject);
 begin
   (Sender as TColorBox).Color := (Sender as TColorBox).Selection;
+  pbExample.Repaint;
 end;
 
 procedure TfrmOptions.cbExtChange(Sender: TObject);
@@ -353,7 +358,7 @@ begin
 
   cbCursorText.Selection := gCursorText;
   cbCursorText.Color := gCursorText;
-  
+
   { Icons sizes in file panels }
   cbIconsSize.Text := IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize);
   // ToDo lang to tsColor tsHotKey
@@ -556,6 +561,74 @@ begin
   btSetHotKey.Enabled := (edHotKey.Text <> '');
 end;
 
+procedure TfrmOptions.pbExamplePaint(Sender: TObject);
+var
+  h, I : integer;
+  sText : String;
+  iTextTop, iTextLeft : Integer;
+  Rect : TRect;
+begin
+  h := pbExample.Height div 6;
+  Rect.Left := 0;
+  Rect.Top := 0;
+  Rect.Right := pbExample.Width;
+  Rect.Bottom := h;
+
+  for I := 1 to 6 do
+  with pbExample.Canvas do
+  begin
+    case I of
+    1:
+      begin
+        Brush.Color := cbBackColor.Color;
+        Font.Color := cbMarkColor.Color;
+        sText := 'Mark';
+      end;
+    2:
+      begin
+        Brush.Color := cbBackColor2.Color;
+        Font.Color := cbMarkColor.Color;
+        sText := 'Mark';
+      end;
+    3:
+      begin
+        Brush.Color := cbBackColor.Color;
+        Font.Color := cbTextColor.Color;
+        sText := 'Text';
+      end;
+    4:
+      begin
+        Brush.Color := cbBackColor2.Color;
+        Font.Color := cbTextColor.Color;
+        sText := 'Text';
+      end;
+    5:
+      begin
+        Brush.Color := cbCursorColor.Color;
+        Font.Color := cbCursorText.Color;
+        sText := 'Cursor';
+      end;
+    6:
+      begin
+        Brush.Color := cbCursorColor.Color;
+        Font.Color := cbMarkColor.Color;
+        sText := 'Mark + Cursor';
+      end;
+    end; // case
+    
+    Font.Style := EdtTest1.Font.Style;
+    Font.Size := EdtTest1.Font.Size;
+    Font.Name := EdtTest1.Font.Name;
+
+    iTextTop := Rect.Top + (h div 2) - (TextHeight(sText) div 2);
+    iTextLeft := Rect.Left + (pbExample.Width div 2) - (TextWidth(sText) div 2);
+    FillRect(Rect);
+    TextOut(iTextLeft, iTextTop, sText);
+    Rect.Top := Rect.Bottom;
+    Rect.Bottom := h * (I + 1);
+  end; // for
+end;
+
 procedure TfrmOptions.tsWCXShow(Sender: TObject);
 var
   I : Integer;
@@ -691,6 +764,6 @@ end;
 
 
 initialization
- {$I foptions.lrs}
+ {$I fOptions.lrs}
 
 end.
