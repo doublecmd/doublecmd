@@ -56,7 +56,7 @@ uses
   uPixMapManager, uVFS,
   KASComp, fbtnchangedlg, fconfigtoolbar, uWCXprototypes, uDCUtils, fPackDlg,
   fLngForm, dmDialogs, fViewer, fOptions, fCopyDlg, fMoveDlg, fFindDlg,
-  fSymLink, fMultiRename, fSplitter, fDlgCustomColors;
+  fSymLink, fMultiRename, fSplitter;
   
 {$IFDEF WIN32}
 {$R XP.res}

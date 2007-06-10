@@ -1,7 +1,7 @@
 inherited frmOptions: TfrmOptions
-  Left = 202
+  Left = 214
   Height = 359
-  Top = 100
+  Top = 87
   Width = 577
   HorzScrollBar.Page = 576
   VertScrollBar.Page = 358
@@ -131,7 +131,7 @@ inherited frmOptions: TfrmOptions
       object pgBehav: TPage
         Caption = 'pgBehav'
         ClientWidth = 446
-        ClientHeight = 283
+        ClientHeight = 265
         object lblTerm: TLabel
           Left = 8
           Height = 14
@@ -478,58 +478,58 @@ inherited frmOptions: TfrmOptions
       object pgColor: TPage
         Caption = 'pgColor'
         ClientWidth = 446
-        ClientHeight = 265
+        ClientHeight = 283
         object cTextLabel: TLabel
           Left = 25
           Height = 14
-          Top = 31
-          Width = 23
-          Caption = 'Text'
+          Top = 34
+          Width = 55
+          Caption = 'Text Color:'
           Color = clNone
           ParentColor = False
         end
         object cBackGrndLabel: TLabel
-          Left = 23
+          Left = 25
           Height = 14
-          Top = 58
-          Width = 58
-          Caption = 'BackGround'
+          Top = 64
+          Width = 62
+          Caption = 'BackGround:'
           Color = clNone
           ParentColor = False
         end
         object lblBackground2: TLabel
-          Left = 23
+          Left = 25
           Height = 14
-          Top = 88
-          Width = 63
-          Caption = 'Background2'
+          Top = 94
+          Width = 70
+          Caption = 'Background 2:'
           Color = clNone
           ParentColor = False
         end
         object lblMarkColor: TLabel
           Left = 25
           Height = 14
-          Top = 123
-          Width = 52
-          Caption = 'Mark Color'
+          Top = 124
+          Width = 56
+          Caption = 'Mark Color:'
           Color = clNone
           ParentColor = False
         end
         object lblCursorColor: TLabel
           Left = 25
           Height = 14
-          Top = 158
-          Width = 61
-          Caption = 'Cursor Color'
+          Top = 154
+          Width = 65
+          Caption = 'Cursor Color:'
           Color = clNone
           ParentColor = False
         end
         object lblCursorText: TLabel
           Left = 25
           Height = 14
-          Top = 191
-          Width = 58
-          Caption = 'Cursor Text'
+          Top = 184
+          Width = 62
+          Caption = 'Cursor Text:'
           Color = clNone
           ParentColor = False
         end
@@ -571,7 +571,7 @@ inherited frmOptions: TfrmOptions
         object cbBackColor: TColorBox
           Left = 108
           Height = 22
-          Top = 53
+          Top = 56
           Width = 100
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           ItemHeight = 16
@@ -604,7 +604,7 @@ inherited frmOptions: TfrmOptions
           OnDropDown = cbColorBoxDropDown
         end
         object btnForeColor: TButton
-          Left = 209
+          Left = 210
           Height = 22
           Top = 26
           Width = 28
@@ -614,9 +614,9 @@ inherited frmOptions: TfrmOptions
           TabOrder = 2
         end
         object btnBackColor: TButton
-          Left = 209
-          Height = 23
-          Top = 52
+          Left = 210
+          Height = 22
+          Top = 56
           Width = 28
           BorderSpacing.InnerBorder = 4
           Caption = '>>'
@@ -625,8 +625,8 @@ inherited frmOptions: TfrmOptions
         end
         object cbBackColor2: TColorBox
           Left = 108
-          Height = 24
-          Top = 84
+          Height = 22
+          Top = 86
           Width = 100
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           ItemHeight = 16
@@ -660,7 +660,7 @@ inherited frmOptions: TfrmOptions
         end
         object cbMarkColor: TColorBox
           Left = 108
-          Height = 24
+          Height = 22
           Top = 116
           Width = 100
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
@@ -695,8 +695,8 @@ inherited frmOptions: TfrmOptions
         end
         object cbCursorColor: TColorBox
           Left = 108
-          Height = 24
-          Top = 148
+          Height = 22
+          Top = 146
           Width = 100
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           ItemHeight = 16
@@ -730,8 +730,8 @@ inherited frmOptions: TfrmOptions
         end
         object cbCursorText: TColorBox
           Left = 108
-          Height = 24
-          Top = 180
+          Height = 22
+          Top = 176
           Width = 100
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           ItemHeight = 16
@@ -765,8 +765,8 @@ inherited frmOptions: TfrmOptions
         end
         object btnMarkColor: TButton
           Left = 210
-          Height = 23
-          Top = 117
+          Height = 22
+          Top = 116
           Width = 28
           BorderSpacing.InnerBorder = 4
           Caption = '>>'
@@ -775,8 +775,8 @@ inherited frmOptions: TfrmOptions
         end
         object btnCursorColor: TButton
           Left = 210
-          Height = 23
-          Top = 149
+          Height = 22
+          Top = 146
           Width = 28
           BorderSpacing.InnerBorder = 4
           Caption = '>>'
@@ -785,8 +785,8 @@ inherited frmOptions: TfrmOptions
         end
         object btnCursorText: TButton
           Left = 210
-          Height = 23
-          Top = 182
+          Height = 22
+          Top = 176
           Width = 28
           BorderSpacing.InnerBorder = 4
           Caption = '>>'
@@ -795,13 +795,30 @@ inherited frmOptions: TfrmOptions
         end
         object btnBackColor2: TButton
           Left = 210
-          Height = 23
-          Top = 85
+          Height = 22
+          Top = 86
           Width = 28
           BorderSpacing.InnerBorder = 4
           Caption = '>>'
           OnClick = btnBackColor2Click
           TabOrder = 11
+        end
+        object gbExample: TGroupBox
+          Left = 250
+          Height = 172
+          Top = 26
+          Width = 185
+          Caption = 'Example'
+          ClientHeight = 154
+          ClientWidth = 181
+          TabOrder = 12
+          object pbExample: TPaintBox
+            Left = 8
+            Height = 132
+            Top = 10
+            Width = 166
+            OnPaint = pbExamplePaint
+          end
         end
       end
       object pgHotKey: TPage
