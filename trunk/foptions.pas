@@ -42,6 +42,10 @@ type
   TfrmOptions = class(TfrmLng)
     bbtnApply: TBitBtn;
     bbtnHelp: TBitBtn;
+    bbtnAddCategory: TBitBtn;
+    bbtnDeleteCategory: TBitBtn;
+    bbtnApplyCategory: TBitBtn;
+    btnCategoryColor: TButton;
     btnOpen: TBitBtn;
     btnSelEditFnt: TButton;
     btnSelMainFnt: TButton;
@@ -77,9 +81,12 @@ type
     cbCursorColor: TColorBox;
     cbCursorText: TColorBox;
     cbTextColor: TColorBox;
+    cbCategoryColor: TColorBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
+    edtCategoryName: TEdit;
+    edtCategoryMask: TEdit;
     edtEditorSize: TSpinEdit;
     edtExtDiffer: TEdit;
     edtExtEditor: TEdit;
@@ -93,7 +100,11 @@ type
     edtViewerSize: TSpinEdit;
     gb: TGroupBox;
     gbExample: TGroupBox;
+    gbFileTypesColors: TGroupBox;
     ilTreeView: TImageList;
+    lblCategoryColor: TLabel;
+    lblCategoryName: TLabel;
+    lblCategoryMask: TLabel;
     lblBackground2: TLabel;
     lblMarkColor: TLabel;
     lblCursorColor: TLabel;
@@ -109,6 +120,7 @@ type
     lblRunTerm: TLabel;
     lblTerm: TLabel;
     lblViewerFont: TLabel;
+    lbCategories: TListBox;
     lngList: TListBox;
     nbNotebook: TNotebook;
     odOpenDialog: TOpenDialog;
@@ -116,6 +128,7 @@ type
     pbExample: TPaintBox;
     pcPluginsTypes: TPageControl;
     pcPluginsType: TPageControl;
+    pgFileTypesColors: TPage;
     pgPlugins: TPage;
     pnlCaption: TPanel;
     Panel3: TPanel;
@@ -131,15 +144,20 @@ type
     tsWCX: TTabSheet;
     tsWFX: TTabSheet;
     tvTreeView: TTreeView;
+    procedure bbtnAddCategoryClick(Sender: TObject);
+    procedure bbtnApplyCategoryClick(Sender: TObject);
     procedure bbtnApplyClick(Sender: TObject);
+    procedure bbtnDeleteCategoryClick(Sender: TObject);
     procedure btClearHotKeyClick(Sender: TObject);
     procedure btnBackColor2Click(Sender: TObject);
     procedure btnCursorColorClick(Sender: TObject);
     procedure btnCursorTextClick(Sender: TObject);
+    procedure btnCategoryColorClick(Sender: TObject);
     procedure btnMarkColorClick(Sender: TObject);
     procedure btnOpenClick(Sender: TObject);
     procedure btnForeColorClick(Sender: TObject);
     procedure btnBackColorClick(Sender: TObject);
+    procedure cbCategoryColorChange(Sender: TObject);
     procedure cbColorBoxChange(Sender: TObject);
     procedure cbExtChange(Sender: TObject);
     procedure clbWCXListClick(Sender: TObject);
@@ -162,6 +180,7 @@ type
     procedure cbViewerFontChange(Sender: TObject);
     procedure edHotKeyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
       );
+    procedure lbCategoriesClick(Sender: TObject);
     procedure pbExamplePaint(Sender: TObject);
     procedure tsWCXShow(Sender: TObject);
     procedure tvTreeViewChange(Sender: TObject; Node: TTreeNode);
@@ -174,8 +193,14 @@ type
     procedure LoadLng; override;
     procedure FillFontLists;
     procedure FillActionLists;
+    procedure FillFileColorsList;
   end;
-
+type
+  TColorFileMask = record
+    sFileMask : String;
+    clMaskColor : TColor;
+  end;
+  PColorFileMask=^TColorFileMask;
 
 implementation
 
@@ -188,6 +213,7 @@ begin
   FillActionLists;
   FillLngListBox;
   FillFontLists;
+  FillFileColorsList;
   DebugLn(gTerm);
   edtTerm.Text:=gTerm;
   nbNotebook.PageIndex := 0;//let not warning on which page save form
@@ -711,6 +737,138 @@ begin
     end;
 end;
 
+{File types category color}
+procedure TfrmOptions.FillFileColorsList;
+var
+  sCategoryName,
+  sFileMask : String;
+  iColor,
+  I : Integer;
+  ColorFileMask : PColorFileMask;
+begin
+  I := 1;
+
+  while gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I), '') <> '' do
+    begin
+      sFileMask := gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I), '');
+      sCategoryName := gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I) + 'Name', sFileMask);
+      iColor := gIni.ReadInteger('Colors', 'ColorFilter' + IntToStr(I) + 'Color', clText);
+      New(ColorFileMask);
+      ColorFileMask^.sFileMask := sFileMask;
+      ColorFileMask^.clMaskColor := iColor;
+      lbCategories.Items.AddObject(sCategoryName,TObject(ColorFileMask));
+
+      Inc(I);
+    end; // while gIni.ReadString();
+    if lbCategories.Count > 0 then
+      lbCategories.ItemIndex := 0;
+    lbCategoriesClick(lbCategories);
+end;
+
+procedure TfrmOptions.cbCategoryColorChange(Sender: TObject);
+begin
+  (Sender as TColorBox).Color := (Sender as TColorBox).Selection;
+end;
+
+procedure TfrmOptions.lbCategoriesClick(Sender: TObject);
+var
+  ColorFileMask : PColorFileMask;
+begin
+
+  if (lbCategories.Count > 0) and (Assigned(lbCategories.Items.Objects[lbCategories.ItemIndex])) then
+    begin
+      edtCategoryName.Text := lbCategories.Items[lbCategories.ItemIndex];
+      ColorFileMask := PColorFileMask(lbCategories.Items.Objects[lbCategories.ItemIndex]);
+
+      edtCategoryMask.Text := ColorFileMask^.sFileMask;
+      cbCategoryColor.Color := ColorFileMask^.clMaskColor;
+      cbCategoryColor.Selection := cbCategoryColor.Color;
+    end
+  else
+    begin
+      if lbCategories.Count = 0 then
+        edtCategoryName.Text := ''
+      else
+        edtCategoryName.Text := lbCategories.Items[lbCategories.ItemIndex];
+      edtCategoryMask.Text := '';
+      cbCategoryColor.ItemIndex := -1;
+      cbCategoryColor.Color := clWindow;
+      cbCategoryColor.Selection := cbCategoryColor.Color;
+    end;
+end;
+
+procedure TfrmOptions.bbtnAddCategoryClick(Sender: TObject);
+var
+  iIndex : Integer;
+begin
+  iIndex := lbCategories.Items.AddObject('', nil);
+  lbCategories.ItemIndex := iIndex;
+  edtCategoryName.Text := '';
+  edtCategoryMask.Text := '';
+  cbCategoryColor.ItemIndex := -1;
+  cbCategoryColor.Color := clWindow;
+end;
+
+procedure TfrmOptions.bbtnApplyCategoryClick(Sender: TObject);
+var
+  ColorFileMask : PColorFileMask;
+  I, iCount : Integer;
+begin
+  if bbtnDeleteCategory.Tag = 0 then // if we add or change category
+    begin
+      lbCategories.Items[lbCategories.ItemIndex] := edtCategoryName.Text;
+      New(ColorFileMask);
+      ColorFileMask^.sFileMask := edtCategoryMask.Text;
+      ColorFileMask^.clMaskColor := cbCategoryColor.Color;
+      lbCategories.Items.Objects[lbCategories.ItemIndex] := TObject(ColorFileMask);
+      I := lbCategories.ItemIndex;
+      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I + 1), ColorFileMask^.sFileMask);
+      gIni.WriteInteger('Colors', 'ColorFilter' + IntToStr(I + 1) + 'Color', ColorFileMask^.clMaskColor);
+      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I + 1) + 'Name', lbCategories.Items[I]);
+    end
+  else  // if we delete category
+    begin
+      iCount := lbCategories.Tag;
+      for I := 1 to iCount do  // delete old categories
+    begin
+      gIni.DeleteKey('Colors', 'ColorFilter' + IntToStr(I));
+      gIni.DeleteKey('Colors', 'ColorFilter' + IntToStr(I) + 'Color');
+      gIni.DeleteKey('Colors', 'ColorFilter' + IntToStr(I) + 'Name');
+    end;
+  iCount := lbCategories.Count;
+  for I := 0 to iCount - 1 do  //write new categories
+    begin
+      ColorFileMask := PColorFileMask(lbCategories.Items.Objects[I]);
+      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I + 1), ColorFileMask^.sFileMask);
+      gIni.WriteInteger('Colors', 'ColorFilter' + IntToStr(I + 1) + 'Color', ColorFileMask^.clMaskColor);
+      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I + 1) + 'Name', lbCategories.Items[I]);
+
+    end;
+    end;
+    bbtnDeleteCategory.Tag := 0;
+end;
+
+procedure TfrmOptions.bbtnDeleteCategoryClick(Sender: TObject);
+begin
+  if bbtnDeleteCategory.Tag = 0 then
+    lbCategories.Tag := lbCategories.Count; // old categories count
+  lbCategories.Items.Delete(lbCategories.ItemIndex);
+  bbtnDeleteCategory.Tag := 1; // show that we delete category
+  if lbCategories.Count > 0 then
+    lbCategories.ItemIndex := 0;
+  lbCategoriesClick(lbCategories);
+end;
+
+procedure TfrmOptions.btnCategoryColorClick(Sender: TObject);
+begin
+  if optColorDialog.Execute then
+   begin
+     cbCategoryColor.Text := '';
+     cbCategoryColor.Color := optColorDialog.Color;
+   end;
+end;
+{/File types category color}
+
 procedure TfrmOptions.btClearHotKeyClick(Sender: TObject);
 var vActions: TAction;
 begin
@@ -758,7 +916,8 @@ end;
 
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
 begin
-  nbNotebook.PageIndex := tvTreeView.Selected.Index;
+  //DebugLN('Page index == ' + IntToStr(Node.Index));
+  nbNotebook.PageIndex := tvTreeView.Selected.ImageIndex; // temporally image index
   pnlCaption.Caption := tvTreeView.Selected.Text;
 end;
 
