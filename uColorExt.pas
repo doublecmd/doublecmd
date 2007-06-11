@@ -89,43 +89,49 @@ var
   iColor,
   iPos,
   iBegin,
+  iCharCount,
   I : Integer;
 begin
   I := 1;
-  iBegin := 1;
   lsExts.Clear;
 
   while gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I), '') <> '' do
     begin
+      iBegin := 1;
       sExtMask := gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I), '');
       iColor := gIni.ReadInteger('Colors', 'ColorFilter' + IntToStr(I) + 'Color', clText);
 
       if pos(';', sExtMask) <> 0 then // if some extensions
+      begin
+      if sExtMask[Length(sExtMask)] <> ';' then
+        sExtMask := sExtMask + ';';
       repeat
         begin
           iPos := pos(';', sExtMask);
+          //WriteLN('sExtMask=='+sExtMask+  ' iBegin==' + IntToStr(iBegin)+' Index=='+IntToStr(iPos));
 
-          if iPos = 0 then  // if last extension
-            iPos := Length(sExtMask) + 1
-          else
-            begin
-              Delete(sExtMask, iPos, 1);
-              Insert(' ', sExtMask, iPos); // change ';' to space
-            end;
+          Delete(sExtMask, iPos, 1);
+          Insert(' ', sExtMask, iPos); // change ';' to space
 
-          sExt := Copy(sExtMask, iBegin, iPos - 1);
+          iCharCount := Length(sExtMask) - ((Length(sExtMask) - iPos )) - iBegin;
+          sExt := Copy(sExtMask, iBegin, iCharCount);
+
           sExt := ExtractFileExt(sExt);
-          if sExt[1] = '.' then
+          
+          //WriteLN('sExt==' + sExt);
+
+          if (sExt <> '') and (sExt[1] = '.') then
             Delete(sExt,1,1);
           lsExts.AddObject(sExt,TObject(iColor));
           
           iBegin := iPos + 1;
         end
-      until pos(';', sExtMask) = 0
+      until pos(';', sExtMask) = 0;
+      end
       else  // if one extension
         begin
           sExt := ExtractFileExt(sExtMask);
-          if sExt[1] = '.' then
+          if (sExt <> '') and (sExt[1] = '.') then
             Delete(sExt,1,1);
           lsExts.AddObject(sExt,TObject(iColor));
           end;
