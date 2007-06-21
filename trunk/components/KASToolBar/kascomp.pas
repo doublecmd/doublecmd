@@ -7,14 +7,14 @@ unit KASComp;
 interface
 
 uses
-  KAStoolbar, KASEdit, LazarusPackageIntf; 
+  KASEdit, KAStoolBar, LazarusPackageIntf; 
 
 implementation
 
 procedure Register; 
 begin
-  RegisterUnit('KAStoolbar', @KAStoolbar.Register); 
   RegisterUnit('KASEdit', @KASEdit.Register); 
+  RegisterUnit('KAStoolBar', @KAStoolBar.Register); 
 end; 
 
 initialization
