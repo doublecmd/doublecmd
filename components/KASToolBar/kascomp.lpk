@@ -1,14 +1,12 @@
 <?xml version="1.0"?>
 <CONFIG>
   <Package Version="2">
-    <PathDelim Value="\"/>
     <Name Value="KASComp"/>
     <Author Value="Alexander Koblov"/>
     <CompilerOptions>
       <Version Value="5"/>
-      <PathDelim Value="\"/>
       <SearchPaths>
-        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)\"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
         <SyntaxOptions>
@@ -34,14 +32,14 @@ KASEdit include popup menu with operations such as cut, copy, paste, delete, etc
     <Version Major="1" Release="2" Build="1"/>
     <Files Count="2">
       <Item1>
-        <Filename Value="KAStoolbar.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="KAStoolBar"/>
-      </Item1>
-      <Item2>
         <Filename Value="kasedit.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="KASEdit"/>
+      </Item1>
+      <Item2>
+        <Filename Value="kastoolbar.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="KAStoolBar"/>
       </Item2>
     </Files>
     <Type Value="RunAndDesignTime"/>
@@ -56,11 +54,10 @@ KASEdit include popup menu with operations such as cut, copy, paste, delete, etc
       </Item2>
     </RequiredPkgs>
     <UsageOptions>
-      <UnitPath Value="$(PkgOutDir)\"/>
+      <UnitPath Value="$(PkgOutDir)/"/>
     </UsageOptions>
     <PublishOptions>
       <Version Value="2"/>
-      <DestinationDirectory Value="$(TestDir)\publishedpackage\"/>
       <IgnoreBinaries Value="False"/>
     </PublishOptions>
   </Package>
