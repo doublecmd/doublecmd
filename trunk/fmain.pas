@@ -1844,7 +1844,7 @@ begin
     begin
       DebugLN('+++ Pack files +++');
       fl.CurrentDirectory := ActiveFrame.ActiveDir;
-      NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyIn(fl, sDestPath, 2);
+      NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyInEx(fl, sDestPath, 2);
       Exit;
     end;
 
@@ -1854,7 +1854,7 @@ begin
     if  ActiveFrame.pnlFile.PanelMode = pmArchive then
       begin
         DebugLN('+++ Extract files +++');
-        ActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyOut(fl, sDestPath);
+        ActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyOutEx(fl, sDestPath);
         NotActiveFrame.RefreshPanel;
       end
     else

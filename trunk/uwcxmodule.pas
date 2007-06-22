@@ -108,6 +108,9 @@ Type
 
     function VFSCopyOut(var flSrcList : TFileList; sDstPath:String):Boolean;override;{Extract files from archive}
     function VFSCopyIn(var flSrcList : TFileList; sDstName:String;  Flags : Integer):Boolean;override;{Pack files in archive}
+    function VFSCopyOutEx(var flSrcList : TFileList; sDstPath:String):Boolean;override;{Extract files from archive in thread}
+    function VFSCopyInEx(var flSrcList : TFileList; sDstName:String;  Flags : Integer):Boolean;override;{Pack files in archive in thread}
+
     function VFSRename(const sSrcName, sDstName:String):Boolean;override;{Rename or move file}
     function VFSRun(const sName:String):Boolean;override;
     function VFSDelete(var flNameList:TFileList):Boolean;override;{Delete files from archive}
@@ -116,7 +119,7 @@ Type
   end;
 
 implementation
-uses SysUtils, uFileOp, uOSUtils, LCLProc, uFileProcs, uDCUtils;
+uses Forms, SysUtils, uFileOp, uOSUtils, LCLProc, uFileProcs, uDCUtils;
 
 constructor TWCXModule.Create;
 begin
@@ -383,8 +386,18 @@ begin
               begin
                 FFileOpDlg.sFileName := FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName);
                 FFileOpDlg.iProgress1Pos := 0;
-                if AT.Terminated then Exit;
-                AT.Synchronize(FFileOpDlg.UpdateDlg);
+
+                if Assigned(AT) then
+                  begin
+                    if AT.Terminated then Exit;
+                    AT.Synchronize(FFileOpDlg.UpdateDlg);
+                  end
+                else
+                  begin
+                    if not FFileOpDlg.IsVisible then Exit;
+                    FFileOpDlg.UpdateDlg;
+                    Application.ProcessMessages;
+                  end;
               end;
 
             ProcessFile(ArcHandle, PK_EXTRACT, nil, PChar(FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)));
@@ -401,7 +414,13 @@ begin
                 FFileOpDlg.iProgress1Pos := 100;
                 FFileOpDlg.iProgress2Pos := Round(FPercent);
 
-                AT.Synchronize(FFileOpDlg.UpdateDlg);
+                 if Assigned(AT) then
+                  AT.Synchronize(FFileOpDlg.UpdateDlg)
+                else
+                  begin
+                    FFileOpDlg.UpdateDlg;
+                    Application.ProcessMessages;
+                  end;
               end; // Emulate
             //*************
             end
@@ -445,8 +464,18 @@ begin
 
           FFileOpDlg.sFileName := FileList;
           FFileOpDlg.iProgress1Pos := 0;
-          if AT.Terminated then Exit;
-          AT.Synchronize(FFileOpDlg.UpdateDlg);
+
+          if Assigned(AT) then // in thread
+            begin
+              if AT.Terminated then Exit;
+              AT.Synchronize(FFileOpDlg.UpdateDlg);
+            end
+          else
+            begin
+              if not FFileOpDlg.IsVisible then Exit;
+              FFileOpDlg.UpdateDlg;
+              Application.ProcessMessages;
+            end;
           
           PackFiles(PChar(FArchiveName), nil{PChar(sDstName)}, Folder, FileList, FFlags);
 
@@ -460,7 +489,13 @@ begin
           FFileOpDlg.iProgress1Pos := 100;
           FFileOpDlg.iProgress2Pos := Round(FPercent);
 
-          AT.Synchronize(FFileOpDlg.UpdateDlg);
+          if Assigned(AT) then // in thread
+            AT.Synchronize(FFileOpDlg.UpdateDlg)
+          else
+            begin
+              FFileOpDlg.UpdateDlg;
+              Application.ProcessMessages;
+            end;
         end;
     end;
 end;
@@ -561,9 +596,62 @@ begin
   flist := Newfl;
 end;
 
-{Extract files from archive in thread}
+{Extract files from archive}
 
 function TWCXModule.VFSCopyOut(var flSrcList: TFileList; sDstPath: String
+  ): Boolean;
+begin
+  Result := True;
+  try
+    FFileOpDlg:= TfrmFileOp.Create(nil);
+    FFileOpDlg.Show;
+    FFileOpDlg.iProgress1Max:=100;
+    FFileOpDlg.iProgress2Max:=100;
+    FFileOpDlg.Caption := 'Extracting...'; //TODO: Localize
+
+    FFileList := flSrcList;
+    FDstPath := sDstPath;
+
+    AT := nil;
+    WCXCopyOut;
+    FFileOpDlg.Close;
+    FFileOpDlg.Free;
+
+  except
+    Result := False;
+  end;
+end;
+
+{Pack files}
+
+function TWCXModule.VFSCopyIn(var flSrcList: TFileList; sDstName: String; Flags : Integer
+  ): Boolean;
+begin
+  Result := True;
+  try
+    FFileOpDlg:= TfrmFileOp.Create(nil);
+    FFileOpDlg.Show;
+    FFileOpDlg.iProgress1Max:=100;
+    FFileOpDlg.iProgress2Max:=100;
+    FFileOpDlg.Caption := 'Packing...'; //TODO: Localize
+
+    FFileList := flSrcList;
+    FDstPath := sDstName;
+    FFlags := Flags;
+
+    AT := nil;
+    WCXCopyIn;
+    FFileOpDlg.Close;
+    FFileOpDlg.Free;
+
+  except
+    Result := False
+  end;
+end;
+
+{Extract files from archive in thread}
+
+function TWCXModule.VFSCopyOutEx(var flSrcList: TFileList; sDstPath: String
   ): Boolean;
 begin
   Result := True;
@@ -590,7 +678,7 @@ end;
 
 {Pack files in thread}
 
-function TWCXModule.VFSCopyIn(var flSrcList: TFileList; sDstName: String; Flags : Integer
+function TWCXModule.VFSCopyInEx(var flSrcList: TFileList; sDstName: String; Flags : Integer
   ): Boolean;
 begin
   Result := True;
