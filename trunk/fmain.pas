@@ -249,6 +249,9 @@ type
     procedure actFilePropertiesExecute(Sender: TObject);
     procedure FramedgPanelEnter(Sender: TObject);
     procedure FramelblLPathClick(Sender: TObject);
+    procedure FrameHeaderDblClick(Sender: TObject);
+    procedure FramelblLPathMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure edtCommandKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure actFileLinkerExecute(Sender: TObject);
@@ -2171,6 +2174,22 @@ begin
   actDirHistory.Execute;
 end;
 
+procedure TfrmMain.FrameHeaderDblClick(Sender: TObject);
+begin
+  SetActiveFrame(TFrameFilePanel(TControl(Sender).Parent).PanelSelect);
+  actDirHotList.Execute;
+end;
+
+procedure TfrmMain.FramelblLPathMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  if Button = mbMiddle  then
+    begin
+      SetActiveFrame(TFrameFilePanel(TControl(Sender).Parent.Parent).PanelSelect);
+      actDirHotList.Execute;
+    end;
+end;
+
 procedure TfrmMain.SetActiveFrame(panel: TFilePanelSelect);
 begin
   PanelSelected:=panel;
@@ -2270,13 +2289,14 @@ begin
     UpDatelblInfo;
     dgPanel.Color := gBackColor;
     lblLPath.OnClick:=@FramelblLPathClick;
+    lblLPath.OnMouseDown := @FramelblLPathMouseDown;
     edtRename.OnExit:=@FrameRightedtRenameExit;
     edtSearch.OnExit:=@FrameedtSearchExit;
     
-
     
     dgPanel.OnEnter:=@framedgPanelEnter;
     dgPanel.PopupMenu:=pmFileList;
+    pnlHeader.OnDblClick := @FrameHeaderDblClick;
 
   end;
 
