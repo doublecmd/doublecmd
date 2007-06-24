@@ -18,7 +18,7 @@ type
    TGetPackerCaps = function () : integer;{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
    TConfigurePacker = procedure (Parent: THandle;  DllInstance: THandle);{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
    TSetChangeVolProc = procedure (hArcData: THandle;  pChangeVolProc1: tChangeVolProc);{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
-   TSetProcessDataProc = procedure (hArcData: THandle;  pProcessDataProc: pointer);{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
+   TSetProcessDataProc = procedure (hArcData: THandle;  pProcessDataProc: TProcessDataProc);{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
    TStartMemPack = function (Options: integer;  FileName: pchar): integer;{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
    TPackToMem = function (hMemPack: integer;  BufIn: pchar;  InLen: integer;  Taken: pinteger;  BufOut: pchar;  OutLen: integer;  Written: pinteger;  SeekBy: integer): integer;{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
    TDoneMemPack = function (hMemPack: integer): integer;stdcall;
