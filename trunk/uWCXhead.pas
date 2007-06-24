@@ -69,7 +69,7 @@ type
   TChangeVolProc=function(ArcName:pchar;Mode:longint):longint; stdcall;
   {Notify that data is processed - used for progress dialog}
   PProcessDataProc=^TProcessDataProc;
-  TProcessDataProc=function(FileName:pchar;Size:longint):longint; stdcall;
+  TProcessDataProc=function(FileName: PChar; Size: Integer): Integer; stdcall;
 
 type
   THeaderData=packed record

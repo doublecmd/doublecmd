@@ -65,7 +65,6 @@ Type
     function WCXCopyOut : Boolean;{Extract files from archive}
     function WCXCopyIn : Boolean;{Pack files in archive}
 
-    function ProcessDataProc(FileName:pchar;Size:longint):longint;stdcall;
     procedure CopySelectedWithSubFolders(var flist:TFileList);
   protected
     // module's functions
@@ -121,11 +120,15 @@ Type
 implementation
 uses Forms, SysUtils, uFileOp, uOSUtils, LCLProc, uFileProcs, uDCUtils;
 
+var
+  WCXModule : TWCXModule;
+
 constructor TWCXModule.Create;
 begin
   FFilesSize:= 0;
   FPercent := 0;
-  FEmulate := True; // temporally
+  FEmulate := False;
+  WCXModule := Self;
 end;
 
 destructor TWCXModule.Destroy;
@@ -186,6 +189,29 @@ begin
  @DoneMemPack:= nil;
  @CanYouHandleThisFile:= nil;
  @PackSetDefaultParams:= nil;
+end;
+
+function ProcessDataProc(FileName: PChar; Size: Integer): Integer; stdcall;
+begin
+  DebugLN('Working ' + FileName + ' Size = ' + IntToStr(Size));
+
+  Result := 1;
+  with WCXModule do
+  begin
+    FPercent := FPercent + ((Size * 100) / FFilesSize);
+    DebugLN('Percent = ' + IntToStr(Round(FPercent)));
+
+    FFileOpDlg.iProgress1Pos := 100;
+    FFileOpDlg.iProgress2Pos := Round(FPercent);
+
+    if Assigned(AT) then
+      AT.Synchronize(FFileOpDlg.UpdateDlg)
+    else
+      begin
+        FFileOpDlg.UpdateDlg;
+        Application.ProcessMessages;
+      end;
+  end; //with
 end;
 
 function TWCXModule.VFSInit: Boolean;
@@ -252,7 +278,7 @@ begin
     end;
 
   if not FEmulate then
-    SetProcessDataProc(ArcHandle, Pointer(ProcessDataProc));
+    SetProcessDataProc(ArcHandle, ProcessDataProc);
 
   DebugLN('Get File List');
   (*Get File List*)
@@ -371,7 +397,7 @@ begin
     Exit;
    end;
   if not FEmulate then
-    SetProcessDataProc(ArcHandle, Pointer(ProcessDataProc));
+    SetProcessDataProc(ArcHandle, ProcessDataProc);
 
   FillChar(ArcHeader, SizeOf(ArcHeader), #0);
   while (ReadHeader(ArcHandle, ArcHeader) = 0) do
@@ -500,21 +526,6 @@ begin
     end;
 end;
 
-function TWCXModule.ProcessDataProc(FileName: pchar; Size: longint): longint;stdcall;
-begin
-  DebugLN('Working ' + FileName + ' Size = ' + IntToStr(Size));
-
-  Result := 1;
-  
-  FPercent := FPercent + ((Size * 100) / FFilesSize);
-  DebugLN('Percent = ' + IntToStr(Round(FPercent)));
-
-  FFileOpDlg.iProgress1Pos := 100;
-  FFileOpDlg.iProgress2Pos := Round(FPercent);
-
-  AT.Synchronize(FFileOpDlg.UpdateDlg);
-end;
-
 procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
 
   procedure SelectFilesInSubfolders(var fl : TFileList; sDir : String);
@@ -555,7 +566,7 @@ procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
                end
              else
                begin
-                 inc(FFilesSize, PackSize);
+                 inc(FFilesSize, UnpSize);
                end;
           end; //with
        fl.AddItem(fr);
@@ -588,7 +599,7 @@ begin
       SelectFilesInSubfolders(Newfl, fri.sName)
     else
       begin
-        inc(FFilesSize);
+        inc(FFilesSize, fri.iSize);
       end;
 
   end;
