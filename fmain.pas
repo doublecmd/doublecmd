@@ -773,7 +773,7 @@ begin
     
     
     (* Delete files from archive *)
-    if  ActiveFrame.pnlFile.PanelMode = pmArchive then
+    if  ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then
       begin
         DebugLN('+++ Delete files +++');
         ActiveFrame.pnlFile.VFS.VFSmodule.VFSDelete(fl);
@@ -1842,7 +1842,7 @@ begin
   end //with
   else
     begin
-      DebugLN('+++ Pack files +++');
+      DebugLN('+++ Copy files to VFS +++');
       fl.CurrentDirectory := ActiveFrame.ActiveDir;
       NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyInEx(fl, sDestPath, 2);
       Exit;
@@ -1851,9 +1851,9 @@ begin
   (* Check active panel *)
   try
     (*Extract files from archive*)
-    if  ActiveFrame.pnlFile.PanelMode = pmArchive then
+    if  ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then
       begin
-        DebugLN('+++ Extract files +++');
+        DebugLN('+++ Copy files from VFS +++');
         ActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyOutEx(fl, sDestPath);
         NotActiveFrame.RefreshPanel;
       end

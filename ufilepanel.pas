@@ -136,10 +136,9 @@ begin
   case fPanelMode of
     pmDirectory:
       flblPath.Caption:=' '+MinimizeFilePath(ActiveDir, flblPath.Canvas, flblPath.Width);
-    pmArchive:
+    pmArchive,
+    pmVFS:
       flblPath.Caption:=' ' + ActiveDir;
-    pmFTP:
-      flblPath.Caption:=' fix me: FTP is only prepared';
   else
     Raise Exception.Create('fix me:UpdatePanel:bad panelmode');
   end;
@@ -208,11 +207,15 @@ begin
               LoadFilesbyDir(fActiveDir, fFileList);
             end;
         end
-      else
+      else // is directoty
       if FPS_ISDIR(iMode) then
         begin
           fActiveDir := fVFS.ArcFullName + sPath + sName + DirectorySeparator;
           fVFS.ChangeDirLevel(frp, fFileList, False);
+        end
+      else // Is file
+        begin
+          fVFS.VFSmodule.VFSRun(sName);
         end;
      end
     else // Is not in archive
@@ -233,11 +236,10 @@ procedure TFilePanel.LoadPanel;
 begin
 //  writeln('TFilePanel.LoadPanel');
   case fPanelMode of
-  pmArchive:
+  pmArchive,
+  pmVFS:
     ;
     {VFS.VFSListItems(fPathHistory.GetLastPath,ActiveDir,fFileList);}
-  pmFTP:
-    Raise Exception.Create('FTP is only prepared');
   else
     begin
       // classic filesystem
@@ -305,9 +307,9 @@ begin
 
   with pfri^ do
   begin
-    if (fPanelMode=pmFTP) then
+    if (fPanelMode=pmVFS) then
     begin
-      LoadPanelFTP(pfri);
+      LoadPanelVFS(pfri);
       Exit;
     end;
     if (fPanelMode=pmArchive) or (not FPS_ISDIR(iMode) and fVFS.FindModule(sPath + sName)) then
@@ -448,11 +450,6 @@ begin
       else
         fPanelMode:=pmDirectory;
     end;
-    if fPanelMode=pmFTP then
-    begin
-      Raise Exception.Create('FTP is only prepared');
-      fPanelMode:=pmDirectory;
-    end;
   end
   else
   begin
@@ -543,7 +540,7 @@ end;
 procedure TFilePanel.LoadPanelFTP(frp:PFileRecItem);
 begin
   Raise Exception.Create('FTP is only prepared');
-  fPanelMode:=pmFTP;
+  //fPanelMode:=pmFTP;
 end;
 
 procedure TFilePanel.ReplaceExtCommand(var sCmd:String; pfr:PFileRecItem);

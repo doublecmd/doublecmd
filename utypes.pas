@@ -17,7 +17,7 @@ interface
 type
 
 // what is showed in panel
-  TPanelMode= (pmDirectory, pmArchive, pmFTP);
+  TPanelMode= (pmDirectory, pmArchive, pmVFS);
 
   //base structure for storing file informations
   TFileRecItem = record
