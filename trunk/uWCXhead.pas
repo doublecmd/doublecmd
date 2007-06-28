@@ -5,7 +5,7 @@ unit uWCXhead;
 
 interface
 uses
- SysUtils;
+ SysUtils {$IFNDEF FPC}, Windows {$ENDIF};
 const       {Error codes returned to calling application}
   E_END_ARCHIVE=     10;       {No more files in archive}
   E_NO_MEMORY=       11;       {Not enough memory}

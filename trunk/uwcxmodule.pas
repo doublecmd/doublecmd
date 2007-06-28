@@ -198,12 +198,25 @@ begin
   Result := 1;
   with WCXModule do
   begin
-    FPercent := FPercent + ((Size * 100) / FFilesSize);
-    DebugLN('Percent = ' + IntToStr(Round(FPercent)));
+    if not (Size < 0) then
+    begin
+      FPercent := FPercent + ((Size * 100) / FFilesSize);
+      DebugLN('Percent = ' + IntToStr(Round(FPercent)));
 
-    FFileOpDlg.iProgress1Pos := 100;
-    FFileOpDlg.iProgress2Pos := Round(FPercent);
-
+      FFileOpDlg.iProgress1Pos := 100;
+      FFileOpDlg.iProgress2Pos := Round(FPercent);
+    end
+    else // For plugins which unpack in CloseArchive
+      if Size in [-1..-100] then // first percent bar
+        begin
+          FFileOpDlg.iProgress1Pos := (Size * -1)
+        end
+      else if Size in [-1000..-1100] then // second percent bar
+        begin
+          FFileOpDlg.iProgress2Pos := (Size * -1) - 1000;
+        end;
+        
+        
     if Assigned(AT) then
       AT.Synchronize(FFileOpDlg.UpdateDlg)
     else

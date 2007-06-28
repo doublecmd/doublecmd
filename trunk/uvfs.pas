@@ -26,7 +26,7 @@ unit uVFS;
 
 interface
 uses
-  Classes, uGlobs, uFileList, uVFSutil, uTypes, uVFSmodule, uWCXmodule;
+  Classes, uGlobs, uFileList, uVFSutil, uTypes, uVFSmodule, uWCXmodule, uWFXmodule;
 type
 
   { TVFS }
@@ -136,7 +136,17 @@ begin
       DebugLN('After Module Load');
 
       Result := True;
-    end;
+    end
+  else
+    if sExt = 'wfx' then  // WFX Support
+      begin
+
+        FVFSModule := TWFXModule.Create;
+        FVFSModule.LoadModule(sFileName);
+
+        FVFSModule.VFSOpen('');
+        Result := True;
+      end;
 end;
 
 
