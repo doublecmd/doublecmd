@@ -105,9 +105,9 @@ Type
     function VFSMkDir(const sDirName:String ):Boolean;override;{Create a directory}
     function VFSRmDir(const sDirName:String):Boolean;override; {Remove a directory}
 
-    function VFSCopyOut(var flSrcList : TFileList; sDstPath:String):Boolean;override;{Extract files from archive}
+    function VFSCopyOut(var flSrcList : TFileList; sDstPath:String; Flags: Integer):Boolean;override;{Extract files from archive}
     function VFSCopyIn(var flSrcList : TFileList; sDstName:String;  Flags : Integer):Boolean;override;{Pack files in archive}
-    function VFSCopyOutEx(var flSrcList : TFileList; sDstPath:String):Boolean;override;{Extract files from archive in thread}
+    function VFSCopyOutEx(var flSrcList : TFileList; sDstPath:String; Flags: Integer):Boolean;override;{Extract files from archive in thread}
     function VFSCopyInEx(var flSrcList : TFileList; sDstName:String;  Flags : Integer):Boolean;override;{Pack files in archive in thread}
 
     function VFSRename(const sSrcName, sDstName:String):Boolean;override;{Rename or move file}
@@ -622,8 +622,8 @@ end;
 
 {Extract files from archive}
 
-function TWCXModule.VFSCopyOut(var flSrcList: TFileList; sDstPath: String
-  ): Boolean;
+function TWCXModule.VFSCopyOut(var flSrcList: TFileList; sDstPath: String;
+  Flags: Integer): Boolean;
 begin
   Result := True;
   try
@@ -675,8 +675,8 @@ end;
 
 {Extract files from archive in thread}
 
-function TWCXModule.VFSCopyOutEx(var flSrcList: TFileList; sDstPath: String
-  ): Boolean;
+function TWCXModule.VFSCopyOutEx(var flSrcList: TFileList; sDstPath: String;
+  Flags: Integer): Boolean;
 begin
   Result := True;
   try

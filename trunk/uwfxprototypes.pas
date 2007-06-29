@@ -5,34 +5,8 @@ unit uWFXprototypes;
 interface
 
 uses
-  {Classes,} SysUtils, ufsplugin;
-type
-  {$ifdef UNICODE}
-     TBYTE = word;
-     TCHAR = widechar;
-     BCHAR = word;
-  {$else}
-     TBYTE = byte;
-     TCHAR = char;
-     BCHAR = BYTE;
-  {$endif}
+  {Classes, SysUtils,} ufsplugin;
 
-  WIN32_FIND_DATA = record
-          dwFileAttributes : DWORD;
-          ftCreationTime : TFILETIME;
-          ftLastAccessTime : TFILETIME;
-          ftLastWriteTime : TFILETIME;
-          nFileSizeHigh : DWORD;
-          nFileSizeLow : DWORD;
-          dwReserved0 : DWORD;
-          dwReserved1 : DWORD;
-          cFileName : array[0..(MAX_PATH)-1] of TCHAR;
-          cAlternateFileName : array[0..13] of TCHAR;
-       end;
-  tWIN32FINDDATA = WIN32_FIND_DATA;
-  HICON = THANDLE;
-const
-  MAXDWORD = DWORD($FFFFFFFF);
 type
 {Mandatory}
   TFsInit=function(PluginNr:Integer; pProgressProc:tProgressProc; pLogProc:tlogProc; pRequestProc:tRequestProc):integer;stdcall;

@@ -724,6 +724,16 @@ begin
       sPath:=ActiveDir;
       if not ShowMkDir(sPath) then Exit;
       if (sPath='') then Exit;
+      
+      { Create directory in VFS }
+        if  ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then
+        begin
+          DebugLN('+++ Create directory in VFS +++');
+          ActiveFrame.pnlFile.VFS.VFSmodule.VFSMkDir(ActiveDir + sPath);
+          ActiveFrame.RefreshPanel;
+        end
+      else
+      { /Create directory in VFS }
 
       if (DirectoryExists(ActiveDir+sPath)) then
       begin
@@ -1850,11 +1860,11 @@ begin
 
   (* Check active panel *)
   try
-    (*Extract files from archive*)
+    (*Copy files from VFS*)
     if  ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then
       begin
         DebugLN('+++ Copy files from VFS +++');
-        ActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyOutEx(fl, sDestPath);
+        ActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyOutEx(fl, sDestPath, 0);
         NotActiveFrame.RefreshPanel;
       end
     else
