@@ -51,6 +51,7 @@ Type
     FsDeleteFile : TFsDeleteFile;
     FsRemoveDir : TFsRemoveDir;
     FsExecuteFile : TFsExecuteFile;
+    FsMkDir : TFsMkDir;
   public
     constructor Create;
     destructor Destroy; override;
@@ -67,9 +68,9 @@ Type
     function VFSMkDir(const sDirName:String ):Boolean;override;
     function VFSRmDir(const sDirName:String):Boolean;override;
     
-    function VFSCopyOut(var flSrcList : TFileList; sDstPath:String):Boolean;override;
+    function VFSCopyOut(var flSrcList : TFileList; sDstPath:String; Flags: Integer):Boolean;override;
     function VFSCopyIn(var flSrcList : TFileList; sDstName:String; Flags : Integer):Boolean;override;
-    function VFSCopyOutEx(var flSrcList : TFileList; sDstPath:String):Boolean;override;
+    function VFSCopyOutEx(var flSrcList : TFileList; sDstPath:String; Flags: Integer):Boolean;override;
     function VFSCopyInEx(var flSrcList : TFileList; sDstName:String; Flags : Integer):Boolean;override;
     function VFSRename(const sSrcName, sDstName:String):Boolean;override;
     function VFSRun(const sName:String):Boolean;override;
@@ -120,6 +121,8 @@ begin
   FsGetFile := TFsGetFile(GetProcAddress(FModuleHandle,'FsGetFile'));
   FsPutFile := TFsPutFile(GetProcAddress(FModuleHandle,'FsPutFile'));
   FsDeleteFile := TFsDeleteFile(GetProcAddress(FModuleHandle,'FsDeleteFile'));
+  FsMkDir := TFsMkDir(GetProcAddress(FModuleHandle,'FsMkDir'));
+  FsRemoveDir := TFsRemoveDir(GetProcAddress(FModuleHandle,'FsRemoveDir'));
 end;
 
 procedure TWFXModule.UnloadModule;
@@ -138,7 +141,7 @@ begin
   FsDeleteFile := nil;
   FsRemoveDir := nil;
   FsExecuteFile := nil;
-  
+  FsMkDir := nil;
 end;
 
 {CallBack functions}
@@ -270,17 +273,40 @@ end;
 
 function TWFXModule.VFSMkDir(const sDirName: String): Boolean;
 begin
-
+  Result := FsMkDir(PChar(sDirName));
 end;
 
 function TWFXModule.VFSRmDir(const sDirName: String): Boolean;
 begin
-
+  Result := FsRemoveDir(PChar(sDirName));
 end;
 
-function TWFXModule.VFSCopyOut(var flSrcList: TFileList; sDstPath: String
-  ): Boolean;
+function TWFXModule.VFSCopyOut(var flSrcList: TFileList; sDstPath: String;
+  Flags: Integer): Boolean;
+var
+  Count, I : Integer;
+  ri : pRemoteInfo;
+  iInt64Rec : TInt64Rec;
+  CurrFileName : String;
 begin
+  Count := flSrcList.Count - 1;
+  for I := 0 to Count do
+    begin
+      CurrFileName := ExtractFilePath(sDstPath) +  ExtractFileName(flSrcList.GetFileName(I));
+
+      DebugLN('Local name == ' + CurrFileName);
+
+      with ri^, flSrcList.GetItem(I)^ do
+        begin
+          iInt64Rec.Value := iSize;
+          SizeLow := iInt64Rec.Low;
+          SizeHigh := iInt64Rec.High;
+          //LastWriteTime := fTimeI;
+          Attr := iMode;
+        end;
+
+      Result := (FsGetFile(PChar(flSrcList.GetFileName(I)), PChar(CurrFileName), Flags, ri) = FS_FILE_OK)
+    end;
 
 end;
 
@@ -288,19 +314,23 @@ function TWFXModule.VFSCopyIn(var flSrcList: TFileList; sDstName: String;
   Flags: Integer): Boolean;
 var
   Count, I : Integer;
+  CurrFileName : String;
 begin
   Count := flSrcList.Count - 1;
   for I := 0 to Count do
     begin
-      DebugLN('Remout name == ' + (ExtractFileName(sDstName + flSrcList.GetFileName(I))));
-      FsPutFile(PChar(flSrcList.GetFileName(I)), PChar(ExtractFileName(sDstName + flSrcList.GetFileName(I))), Flags);
+      CurrFileName := ExtractFilePath(sDstName) +  ExtractFileName(flSrcList.GetFileName(I));
+
+      DebugLN('Remout name == ' + CurrFileName);
+
+      Result := (FsPutFile(PChar(flSrcList.GetFileName(I)), PChar(CurrFileName), Flags) = FS_FILE_OK)
     end;
 end;
 
-function TWFXModule.VFSCopyOutEx(var flSrcList: TFileList; sDstPath: String
-  ): Boolean;
+function TWFXModule.VFSCopyOutEx(var flSrcList: TFileList; sDstPath: String;
+  Flags: Integer): Boolean;
 begin
-
+  VFSCopyOut(flSrcList, sDstPath, Flags);
 end;
 
 function TWFXModule.VFSCopyInEx(var flSrcList: TFileList; sDstName: String;
@@ -327,7 +357,11 @@ begin
   for I := 0 to Count do
     begin
       DebugLN('Delete name == ' + flNameList.GetFileName(I));
-      Result := FsDeleteFile(PChar(flNameList.GetFileName(I)));
+      
+      if FPS_ISDIR(flNameList.GetItem(I)^.iMode) then
+        Result := FsRemoveDir(PChar(flNameList.GetFileName(I)))
+      else
+        Result := FsDeleteFile(PChar(flNameList.GetFileName(I)));
     end;
 end;
 

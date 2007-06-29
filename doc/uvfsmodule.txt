@@ -1,3 +1,4 @@
 ﻿$$$*** This is unit history file ***$$$ ###encoding="UTF-8"###
 22.06.2007 Добавил функции VFSCopyOutEx, VFSCopyInEx которые выполняют
                    копирование в потоке
+30.06.2007 Добавил параметр Flags к функциям: VFSCopyOut, VFSCopyOutEx

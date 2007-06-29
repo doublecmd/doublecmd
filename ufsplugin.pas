@@ -150,12 +150,48 @@ const FS_BITMAP_NONE=0;
 
       FS_BITMAP_CACHE=256;
 
+const
+  MAXDWORD = DWORD($FFFFFFFF);
+  
 type
   TFileTime = record
     dwLowDateTime: DWORD;
     dwHighDateTime: DWORD;
   end;
   PFileTime = ^TFileTime;
+
+type
+  TInt64Rec = packed record
+      case Boolean of
+        True : (Value : Int64);
+        False : (Low,High : DWORD);
+   end;
+
+type
+  {$ifdef UNICODE}
+     TBYTE = word;
+     TCHAR = widechar;
+     BCHAR = word;
+  {$else}
+     TBYTE = byte;
+     TCHAR = char;
+     BCHAR = BYTE;
+  {$endif}
+
+  WIN32_FIND_DATA = record
+          dwFileAttributes : DWORD;
+          ftCreationTime : TFILETIME;
+          ftLastAccessTime : TFILETIME;
+          ftLastWriteTime : TFILETIME;
+          nFileSizeHigh : DWORD;
+          nFileSizeLow : DWORD;
+          dwReserved0 : DWORD;
+          dwReserved1 : DWORD;
+          cFileName : array[0..(MAX_PATH)-1] of TCHAR;
+          cAlternateFileName : array[0..13] of TCHAR;
+       end;
+  tWIN32FINDDATA = WIN32_FIND_DATA;
+  HICON = THANDLE;
 
 type
 
