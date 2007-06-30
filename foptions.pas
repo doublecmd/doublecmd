@@ -45,6 +45,10 @@ type
     bbtnAddCategory: TBitBtn;
     bbtnDeleteCategory: TBitBtn;
     bbtnApplyCategory: TBitBtn;
+    bbtnWFXAdd: TBitBtn;
+    bbtnWFXDelete: TBitBtn;
+    bbtnWFXRename: TBitBtn;
+    bbtnWFXApply: TBitBtn;
     btnCategoryColor: TButton;
     btnOpen: TBitBtn;
     btnSelEditFnt: TButton;
@@ -74,6 +78,7 @@ type
     cbViewerFont: TComboBox;
     cbExt: TComboBox;
     cbWCXPath: TComboBox;
+    clbWFXList: TCheckListBox;
     clbWCXList: TCheckListBox;
     cbIconsSize: TComboBox;
     cbBackColor2: TColorBox;
@@ -102,6 +107,7 @@ type
     gbExample: TGroupBox;
     gbFileTypesColors: TGroupBox;
     ilTreeView: TImageList;
+    lblInstalledPlugins: TLabel;
     lblCategoryColor: TLabel;
     lblCategoryName: TLabel;
     lblCategoryMask: TLabel;
@@ -148,6 +154,10 @@ type
     procedure bbtnApplyCategoryClick(Sender: TObject);
     procedure bbtnApplyClick(Sender: TObject);
     procedure bbtnDeleteCategoryClick(Sender: TObject);
+    procedure bbtnWFXAddClick(Sender: TObject);
+    procedure bbtnWFXApplyClick(Sender: TObject);
+    procedure bbtnWFXDeleteClick(Sender: TObject);
+    procedure bbtnWFXRenameClick(Sender: TObject);
     procedure btClearHotKeyClick(Sender: TObject);
     procedure btnBackColor2Click(Sender: TObject);
     procedure btnCursorColorClick(Sender: TObject);
@@ -183,6 +193,7 @@ type
     procedure lbCategoriesClick(Sender: TObject);
     procedure pbExamplePaint(Sender: TObject);
     procedure tsWCXShow(Sender: TObject);
+    procedure tsWFXShow(Sender: TObject);
     procedure tvTreeViewChange(Sender: TObject; Node: TTreeNode);
   private
     { Private declarations }
@@ -205,7 +216,7 @@ type
 implementation
 
 uses
-  uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc, menus, uWCXModule, uOSUtils;
+  uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc, menus, uWCXModule, uWFXmodule, uOSUtils;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
@@ -736,6 +747,94 @@ begin
         end;
     end;
 end;
+
+{WFX plugins}
+
+procedure TfrmOptions.tsWFXShow(Sender: TObject);
+var
+  I : Integer;
+  sCurrPlugin : String;
+begin
+  gIni.ReadSectionRaw('FileSystemPlugins', clbWFXList.Items);
+  for I := 0 to clbWFXList.Count - 1 do
+  begin
+    sCurrPlugin := clbWFXList.Items[I];
+
+    if Pos('?', clbWFXList.Items[I]) = 0 then
+      begin
+        clbWFXList.Items[I] := Copy(sCurrPlugin, 1, Length(sCurrPlugin));
+        clbWFXList.Checked[I] := True
+      end
+    else
+      begin
+        clbWFXList.Items[I] := Copy(sCurrPlugin, 2, Length(sCurrPlugin) - 1);
+        clbWFXList.Checked[I] := False;
+      end;
+  end;
+end;
+
+procedure TfrmOptions.bbtnWFXAddClick(Sender: TObject);
+var
+  WFXmodule : TWFXmodule;
+  sPluginName : String;
+begin
+  odOpenDialog.Filter := 'File system plugins (*.wfx)|*.wfx';
+  if odOpenDialog.Execute then
+  begin
+    WFXmodule := TWFXmodule.Create;
+    if WFXmodule.LoadModule(odOpenDialog.FileName)then
+      sPluginName := PChar(Pointer(WFXmodule.VFSCaps)) + '=' + odOpenDialog.FileName
+    else
+      sPluginName := ExtractFileName(odOpenDialog.FileName) +'=' + odOpenDialog.FileName;
+
+  clbWFXList.Items.Add(sPluginName);
+  WFXModule.UnloadModule;
+  WFXmodule.Free;
+  end;
+end;
+
+procedure TfrmOptions.bbtnWFXApplyClick(Sender: TObject);
+var
+ I,
+ iIndex : Integer;
+ bChecked : Boolean;
+begin
+
+
+  for I := 0 to clbWFXList.Count - 1 do
+    begin
+      if clbWFXList.Checked[I] then
+        begin
+          gIni.DeleteKey('FileSystemPlugins', '?' + clbWFXList.Items.Names[I]);
+          gIni.WriteString('FileSystemPlugins', clbWFXList.Items.Names[I],  clbWFXList.Items.ValueFromIndex[I])
+        end
+      else
+        begin
+          gIni.DeleteKey('FileSystemPlugins', clbWFXList.Items.Names[I]);
+          gIni.WriteString('FileSystemPlugins', '?' + clbWFXList.Items.Names[I],  clbWFXList.Items.ValueFromIndex[I]);
+        end;
+    end;
+end;
+
+procedure TfrmOptions.bbtnWFXDeleteClick(Sender: TObject);
+begin
+
+end;
+
+procedure TfrmOptions.bbtnWFXRenameClick(Sender: TObject);
+var
+  iItemIndex : Integer;
+  sName,
+  sValue : String;
+begin
+  iItemIndex := clbWFXList.ItemIndex;
+  if iItemIndex < 0 then exit;
+  sName := clbWFXList.Items.Names[iItemIndex];
+  sValue := clbWFXList.Items.ValueFromIndex[iItemIndex];
+  clbWFXList.Items[iItemIndex] := InputBox('Double Commander', 'Rename', sName) + '=' + sValue;
+end;
+
+{/WFXPlugins}
 
 {File types category color}
 procedure TfrmOptions.FillFileColorsList;

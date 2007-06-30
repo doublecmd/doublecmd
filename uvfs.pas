@@ -145,6 +145,9 @@ begin
         FVFSModule.LoadModule(sFileName);
 
         FVFSModule.VFSOpen('');
+        //*********************
+        DebugLn(PChar(Pointer(FVFSModule.VFSCaps)));
+        //*********************
         Result := True;
       end;
 end;

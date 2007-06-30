@@ -1,7 +1,7 @@
 inherited frmOptions: TfrmOptions
-  Left = 199
+  Left = 196
   Height = 359
-  Top = 90
+  Top = 116
   Width = 577
   HorzScrollBar.Page = 576
   VertScrollBar.Page = 358
@@ -115,7 +115,7 @@ inherited frmOptions: TfrmOptions
       Top = 24
       Width = 454
       Align = alClient
-      PageIndex = 7
+      PageIndex = 6
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
@@ -140,7 +140,6 @@ inherited frmOptions: TfrmOptions
           Top = 16
           Width = 45
           Caption = 'Terminal:'
-          Color = clNone
           ParentColor = False
         end
         object lblRunTerm: TLabel
@@ -149,7 +148,6 @@ inherited frmOptions: TfrmOptions
           Top = 48
           Width = 65
           Caption = 'Run terminal:'
-          Color = clNone
           ParentColor = False
         end
         object lblIconsSize: TLabel
@@ -158,7 +156,6 @@ inherited frmOptions: TfrmOptions
           Top = 84
           Width = 53
           Caption = 'Icons Size:'
-          Color = clNone
           ParentColor = False
         end
         object edtTerm: TEdit
@@ -323,7 +320,6 @@ inherited frmOptions: TfrmOptions
           Top = 8
           Width = 46
           Caption = 'Main font'
-          Color = clNone
           ParentColor = False
         end
         object lblEditorFont: TLabel
@@ -332,7 +328,6 @@ inherited frmOptions: TfrmOptions
           Top = 87
           Width = 52
           Caption = 'Editor font'
-          Color = clNone
           ParentColor = False
         end
         object lblViewerFont: TLabel
@@ -341,7 +336,6 @@ inherited frmOptions: TfrmOptions
           Top = 168
           Width = 56
           Caption = 'Viewer font'
-          Color = clNone
           ParentColor = False
         end
         object cbMainFont: TComboBox
@@ -487,7 +481,6 @@ inherited frmOptions: TfrmOptions
           Top = 34
           Width = 55
           Caption = 'Text Color:'
-          Color = clNone
           ParentColor = False
         end
         object cBackGrndLabel: TLabel
@@ -496,7 +489,6 @@ inherited frmOptions: TfrmOptions
           Top = 64
           Width = 62
           Caption = 'BackGround:'
-          Color = clNone
           ParentColor = False
         end
         object lblBackground2: TLabel
@@ -505,7 +497,6 @@ inherited frmOptions: TfrmOptions
           Top = 94
           Width = 70
           Caption = 'Background 2:'
-          Color = clNone
           ParentColor = False
         end
         object lblMarkColor: TLabel
@@ -514,7 +505,6 @@ inherited frmOptions: TfrmOptions
           Top = 124
           Width = 56
           Caption = 'Mark Color:'
-          Color = clNone
           ParentColor = False
         end
         object lblCursorColor: TLabel
@@ -523,7 +513,6 @@ inherited frmOptions: TfrmOptions
           Top = 154
           Width = 65
           Caption = 'Cursor Color:'
-          Color = clNone
           ParentColor = False
         end
         object lblCursorText: TLabel
@@ -532,7 +521,6 @@ inherited frmOptions: TfrmOptions
           Top = 184
           Width = 62
           Caption = 'Cursor Text:'
-          Color = clNone
           ParentColor = False
         end
         object cbTextColor: TColorBox
@@ -833,7 +821,6 @@ inherited frmOptions: TfrmOptions
           Top = 13
           Width = 43
           Caption = 'Actions'
-          Color = clNone
           ParentColor = False
         end
         object lblHotKey: TLabel
@@ -842,7 +829,6 @@ inherited frmOptions: TfrmOptions
           Top = 68
           Width = 46
           Caption = 'Hot Key'
-          Color = clNone
           ParentColor = False
         end
         object cbActions: TComboBox
@@ -897,9 +883,9 @@ inherited frmOptions: TfrmOptions
         object pcPluginsTypes: TPageControl
           Height = 265
           Width = 446
-          ActivePage = tsWCX
+          ActivePage = tsWFX
           Align = alClient
-          TabIndex = 0
+          TabIndex = 1
           TabOrder = 0
           object tsWCX: TTabSheet
             Caption = 'Packer plugins (.WCX)'
@@ -912,7 +898,6 @@ inherited frmOptions: TfrmOptions
               Top = 6
               Width = 268
               Caption = 'Packer plugins are used to open archives not supported'#13#10'internally by Double Commander.'
-              Color = clNone
               ParentColor = False
             end
             object lblExt: TLabel
@@ -921,7 +906,6 @@ inherited frmOptions: TfrmOptions
               Top = 46
               Width = 177
               Caption = 'All files with e&xtension (ending with):'
-              Color = clNone
               ParentColor = False
             end
             object lblAssociateWith: TLabel
@@ -930,7 +914,6 @@ inherited frmOptions: TfrmOptions
               Top = 77
               Width = 74
               Caption = '&Associate with:'
-              Color = clNone
               ParentColor = False
             end
             object cbExt: TComboBox
@@ -994,6 +977,65 @@ inherited frmOptions: TfrmOptions
           end
           object tsWFX: TTabSheet
             Caption = 'File system plugins (.WFX)'
+            ChildSizing.LeftRightSpacing = 239
+            ClientHeight = 239
+            ClientWidth = 438
+            OnShow = tsWFXShow
+            object lblInstalledPlugins: TLabel
+              Left = 21
+              Height = 14
+              Top = 9
+              Width = 82
+              Caption = 'Installed Plugins:'
+              ParentColor = False
+            end
+            object clbWFXList: TCheckListBox
+              Left = 6
+              Height = 160
+              Top = 30
+              Width = 424
+              TabOrder = 0
+            end
+            object bbtnWFXAdd: TBitBtn
+              Left = 94
+              Height = 32
+              Top = 198
+              Width = 75
+              Caption = 'Add'
+              NumGlyphs = 0
+              OnClick = bbtnWFXAddClick
+              TabOrder = 1
+            end
+            object bbtnWFXDelete: TBitBtn
+              Left = 182
+              Height = 32
+              Top = 198
+              Width = 75
+              Caption = 'Delete'
+              NumGlyphs = 0
+              OnClick = bbtnWFXDeleteClick
+              TabOrder = 2
+            end
+            object bbtnWFXRename: TBitBtn
+              Left = 270
+              Height = 32
+              Top = 198
+              Width = 75
+              Caption = 'Rename'
+              NumGlyphs = 0
+              OnClick = bbtnWFXRenameClick
+              TabOrder = 3
+            end
+            object bbtnWFXApply: TBitBtn
+              Left = 355
+              Height = 32
+              Top = 198
+              Width = 75
+              Caption = 'Apply'
+              NumGlyphs = 0
+              OnClick = bbtnWFXApplyClick
+              TabOrder = 4
+            end
           end
         end
       end
@@ -1016,7 +1058,6 @@ inherited frmOptions: TfrmOptions
             Top = 129
             Width = 79
             Caption = 'Category name:'
-            Color = clNone
             ParentColor = False
           end
           object lblCategoryMask: TLabel
@@ -1025,7 +1066,6 @@ inherited frmOptions: TfrmOptions
             Top = 161
             Width = 77
             Caption = 'Category mask:'
-            Color = clNone
             ParentColor = False
           end
           object lblCategoryColor: TLabel
@@ -1034,7 +1074,6 @@ inherited frmOptions: TfrmOptions
             Top = 192
             Width = 76
             Caption = 'Category color:'
-            Color = clNone
             ParentColor = False
           end
           object edtCategoryName: TEdit
