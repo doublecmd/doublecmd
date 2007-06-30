@@ -46,12 +46,14 @@ Type
     FsFindNext : TFsFindNext;
     FsFindClose : TFsFindClose;
   {Optional}
+    FsGetDefRootName : TFsGetDefRootName;
     FsGetFile : TFsGetFile;
     FsPutFile : TFsPutFile;
     FsDeleteFile : TFsDeleteFile;
     FsRemoveDir : TFsRemoveDir;
     FsExecuteFile : TFsExecuteFile;
     FsMkDir : TFsMkDir;
+    FsStatusInfo : TFsStatusInfo;
   public
     constructor Create;
     destructor Destroy; override;
@@ -117,12 +119,14 @@ begin
   FsFindNext := TFsFindNext(GetProcAddress(FModuleHandle,'FsFindNext'));
   FsFindClose := TFsFindClose(GetProcAddress(FModuleHandle,'FsFindClose'));
 {Optional}
+  FsGetDefRootName := TFsGetDefRootName(GetProcAddress(FModuleHandle,'FsGetDefRootName'));
   FsExecuteFile := TFsExecuteFile(GetProcAddress(FModuleHandle,'FsExecuteFile'));
   FsGetFile := TFsGetFile(GetProcAddress(FModuleHandle,'FsGetFile'));
   FsPutFile := TFsPutFile(GetProcAddress(FModuleHandle,'FsPutFile'));
   FsDeleteFile := TFsDeleteFile(GetProcAddress(FModuleHandle,'FsDeleteFile'));
   FsMkDir := TFsMkDir(GetProcAddress(FModuleHandle,'FsMkDir'));
   FsRemoveDir := TFsRemoveDir(GetProcAddress(FModuleHandle,'FsRemoveDir'));
+  FsStatusInfo := TFsStatusInfo(GetProcAddress(FModuleHandle,'FsStatusInfo'));
 end;
 
 procedure TWFXModule.UnloadModule;
@@ -136,22 +140,24 @@ begin
   FsFindNext := nil;
   FsFindClose := nil;
 {Optional}
+  FsGetDefRootName := nil;
   FsGetFile := nil;
   FsPutFile := nil;
   FsDeleteFile := nil;
   FsRemoveDir := nil;
   FsExecuteFile := nil;
   FsMkDir := nil;
+  FsStatusInfo := nil;
 end;
 
 {CallBack functions}
-function MainProgressProc (PluginNr:integer;SourceName,TargetName:pchar;PercentDone:integer):integer;
+function MainProgressProc (PluginNr:integer;SourceName,TargetName:pchar;PercentDone:integer):integer;stdcall;
 begin
   Result:=0;
   DebugLN ('MainProgressProc ('+IntToStr(PluginNr)+','+SourceName+','+TargetName+','+inttostr(PercentDone)+')' ,inttostr(result));
 end;
 
-procedure MainLogProc (PluginNr, MsgType : Integer; LogString : PChar);
+procedure MainLogProc (PluginNr, MsgType : Integer; LogString : PChar);stdcall;
 var
   sMsg:String;
 Begin
@@ -167,7 +173,7 @@ Begin
   DebugLN('MainLogProc ('+ sMsg + ',' + logString + ')');
 End;
 
-function MainRequestProc (PluginNr,RequestType:integer;CustomTitle,CustomText,ReturnedText:pchar;maxlen:integer):longbool;
+function MainRequestProc (PluginNr,RequestType:integer;CustomTitle,CustomText,ReturnedText:pchar;maxlen:integer):longbool;stdcall;
 var
   sReq:String;
   ct:string;
@@ -257,13 +263,17 @@ begin
 end;
 
 function TWFXModule.VFSCaps: Integer;
+var
+  pPlgName : PChar;
 begin
-
+  New(pPlgName);
+  FsGetDefRootName(pPlgName, 256);
+  Result := Integer(pPlgName);
 end;
 
 function TWFXModule.VFSConfigure(Parent: THandle): Boolean;
 begin
-
+  FsStatusInfo('', 0, 0);
 end;
 
 function TWFXModule.VFSOpen(const sName: String): Boolean;
@@ -290,6 +300,7 @@ var
   CurrFileName : String;
 begin
   Count := flSrcList.Count - 1;
+  New(ri);
   for I := 0 to Count do
     begin
       CurrFileName := ExtractFilePath(sDstPath) +  ExtractFileName(flSrcList.GetFileName(I));
@@ -307,7 +318,7 @@ begin
 
       Result := (FsGetFile(PChar(flSrcList.GetFileName(I)), PChar(CurrFileName), Flags, ri) = FS_FILE_OK)
     end;
-
+    Dispose(ri);
 end;
 
 function TWFXModule.VFSCopyIn(var flSrcList: TFileList; sDstName: String;

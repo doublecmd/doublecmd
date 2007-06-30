@@ -114,7 +114,6 @@ inherited frmMain: TfrmMain
       Width = 23
       Alignment = taRightJustify
       Caption = 'Path'
-      Color = clNone
       ParentColor = False
       ShowAccelChar = False
     end

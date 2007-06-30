@@ -26,6 +26,8 @@ type
   TFsGetDefRootName=procedure (DefRootName:pchar;maxlen:integer); stdcall;
   TFsSetAttr=function (RemoteName:pchar;NewAttr:integer):longbool; stdcall;
   TFsSetTime=Function(RemoteName:pchar;CreationTime,LastAccessTime,LastWriteTime:PFileTime):longbool; stdcall;
+  TFsStatusInfo = procedure(RemoteDir:pchar;InfoStartEnd,InfoOperation:integer); stdcall;
+
 
 implementation
 

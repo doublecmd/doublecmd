@@ -1854,7 +1854,7 @@ begin
     begin
       DebugLN('+++ Copy files to VFS +++');
       fl.CurrentDirectory := ActiveFrame.ActiveDir;
-      NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyInEx(fl, sDestPath, 2);
+      NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyInEx(fl, sDestPath, 0);
       Exit;
     end;
 
