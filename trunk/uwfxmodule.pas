@@ -54,6 +54,7 @@ Type
     FsExecuteFile : TFsExecuteFile;
     FsMkDir : TFsMkDir;
     FsStatusInfo : TFsStatusInfo;
+    procedure FsFillAndCount(var fl:TFileList; out FilesSize : Int64);
   public
     constructor Create;
     destructor Destroy; override;
@@ -83,7 +84,7 @@ Type
 
 implementation
 uses
-  SysUtils, LCLProc, LCLType, uVFSutil, uFileOp, uOSUtils, Dialogs, Forms;
+  SysUtils, LCLProc, LCLType, uVFSutil, uFileOp, uOSUtils, uFileProcs, Dialogs, Forms;
 
 
 function FileTime2DateTime(FT:TFileTime):TDateTime;
@@ -97,6 +98,76 @@ begin
 end;
 
 { TWFXModule }
+
+procedure TWFXModule.FsFillAndCount(var fl: TFileList; out FilesSize: Int64);
+var
+  I:Integer;
+  ptr:PFileRecItem;
+  sRealName : String;
+  NewFileList: TFileList;
+
+procedure FillAndCountRec(const srcPath, dstPath:String);
+var
+  FindData : TWIN32FINDDATA;
+  Handle:THandle;
+  fr:TFileRecItem;
+
+begin
+  Handle := FsFindFirst(PChar(srcPath), FindData);
+  if Handle < 0 then
+  begin
+    FsFindClose(Handle);
+    Exit;
+  end;
+  repeat
+    if (FindData.cFileName='.') or (FindData.cFileName='..') then Continue;
+    fr.sName:=ExtractDirLevel(fl.CurrentDirectory, srcPath+FindData.cFileName);
+    fr.sPath:=dstPath;
+    fr.sNameNoExt:=FindData.cFileName; // we use to save dstname
+
+    fr.iMode := FindData.dwFileAttributes;
+
+    fr.bSelected:=False;
+    fr.iSize := Int64(FindData.nFileSizeHigh) shl 32 + FindData.nFileSizeLow;;
+
+    NewFileList.AddItem(@fr);
+
+    if FPS_ISDIR(fr.iMode) then
+      begin
+        FillAndCountRec(srcPath+FindData.cFileName+DirectorySeparator, dstPath+FindData.cFileName+DirectorySeparator);
+      end
+    else
+      inc(FilesSize, fr.iSize);
+  until not FsFindNext(Handle, FindData);
+  FsFindClose(Handle);
+end;
+
+
+
+begin
+  NewFileList:=TFileList.Create;
+  NewFileList.CurrentDirectory := fl.CurrentDirectory;
+  for I:=0 to fl.Count-1 do
+  begin
+    ptr:=fl.GetItem(I);
+
+    if FPS_ISDIR(ptr^.iMode) and (not ptr^.bLinkIsDir) then
+    begin
+      sRealName := ptr^.sName;
+      ptr^.sName := ExtractDirLevel(fl.CurrentDirectory, ptr^.sName);
+      NewFileList.AddItem(ptr); // add DIR to List
+      FillAndCountRec(sRealName + DirectorySeparator, ptr^.sNameNoExt + DirectorySeparator);  // rekursive browse child dir
+    end
+    else
+    begin
+      ptr^.sName := ExtractDirLevel(fl.CurrentDirectory, ptr^.sName);
+      NewFileList.AddItem(ptr);
+      inc(FilesSize, ptr^.iSize);
+    end;
+  end;
+  fl.Free;
+  fl := NewFileList;
+end;
 
 constructor TWFXModule.Create;
 begin
@@ -297,15 +368,26 @@ var
   Count, I : Integer;
   ri : pRemoteInfo;
   iInt64Rec : TInt64Rec;
-  CurrFileName : String;
+  RemoteName,
+  LocalName : String;
+  iSize : Int64;
 begin
+  FsFillAndCount(flSrcList, iSize);
   Count := flSrcList.Count - 1;
   New(ri);
   for I := 0 to Count do
     begin
-      CurrFileName := ExtractFilePath(sDstPath) +  ExtractFileName(flSrcList.GetFileName(I));
+      RemoteName := flSrcList.CurrentDirectory + flSrcList.GetFileName(I);
+      LocalName := ExtractFilePath(sDstPath) +  flSrcList.GetFileName(I);
 
-      DebugLN('Local name == ' + CurrFileName);
+      DebugLN('Remote name == ' + RemoteName);
+      DebugLN('Local name == ' + LocalName);
+
+      if FPS_ISDIR(flSrcList.GetItem(I)^.iMode) then
+        begin
+          ForceDirectory(LocalName);
+          Continue;
+        end;
 
       with ri^, flSrcList.GetItem(I)^ do
         begin
@@ -316,7 +398,7 @@ begin
           Attr := iMode;
         end;
 
-      Result := (FsGetFile(PChar(flSrcList.GetFileName(I)), PChar(CurrFileName), Flags, ri) = FS_FILE_OK)
+      Result := (FsGetFile(PChar(RemoteName), PChar(LocalName), Flags, ri) = FS_FILE_OK)
     end;
     Dispose(ri);
 end;
@@ -325,16 +407,27 @@ function TWFXModule.VFSCopyIn(var flSrcList: TFileList; sDstName: String;
   Flags: Integer): Boolean;
 var
   Count, I : Integer;
-  CurrFileName : String;
+  LocalName,
+  RemoteName : String;
+  iSize : Int64;
 begin
+  FillAndCount(flSrcList, iSize);
   Count := flSrcList.Count - 1;
   for I := 0 to Count do
     begin
-      CurrFileName := ExtractFilePath(sDstName) +  ExtractFileName(flSrcList.GetFileName(I));
+      LocalName := flSrcList.CurrentDirectory + flSrcList.GetFileName(I);
+      RemoteName := ExtractFilePath(sDstName) +  flSrcList.GetFileName(I);
 
-      DebugLN('Remout name == ' + CurrFileName);
+      DebugLN('Local name == ' + LocalName);
+      DebugLN('Remote name == ' + RemoteName);
 
-      Result := (FsPutFile(PChar(flSrcList.GetFileName(I)), PChar(CurrFileName), Flags) = FS_FILE_OK)
+      if FPS_ISDIR(flSrcList.GetItem(I)^.iMode) then
+        begin
+          FsMkDir(PChar(RemoteName));
+          Continue;
+        end;
+
+      Result := (FsPutFile(PChar(LocalName), PChar(RemoteName), Flags) = FS_FILE_OK)
     end;
 end;
 
@@ -386,6 +479,7 @@ begin
   fl.Clear;
   AddUpLevel(LowDirLevel(sDir), fl);
   
+  fl.CurrentDirectory := sDir;
   Handle := FsFindFirst(PChar(sDir), FindData);
   repeat
   New(fr);

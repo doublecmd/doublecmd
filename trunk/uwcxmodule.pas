@@ -482,7 +482,7 @@ begin
   New(Folder);
 
   (* Add in file list files from subfolders *)
-  SelectFilesInSubFoldersInRFS(FFileList, FFilesSize);
+  FillAndCount(FFileList, FFilesSize);
 
   DebugLN('Curr Dir := ' + FFileList.CurrentDirectory);
   Folder := PChar(FFileList.CurrentDirectory);

@@ -1864,6 +1864,7 @@ begin
     if  ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then
       begin
         DebugLN('+++ Copy files from VFS +++');
+        fl.CurrentDirectory := ActiveFrame.ActiveDir;
         ActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyOutEx(fl, sDestPath, 0);
         NotActiveFrame.RefreshPanel;
       end

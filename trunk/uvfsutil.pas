@@ -21,7 +21,7 @@ interface
 uses
   Classes, uTypes, uFileList;
 
-procedure SelectFilesInSubFoldersInRFS(var fl:TFileList; out FilesSize : Int64);
+procedure FillAndCount(var fl:TFileList; out FilesSize : Int64);
 procedure AddUpLevel(sUpPath : String; var ls:TFileList);
 function LowDirLevel(sPath : String) : String;
 function IncludeFileInList(sPath : String; var sFileName : String) : Boolean;
@@ -39,7 +39,7 @@ uses
 
 (* Get all files in subfolders in Real File System *)
 
-procedure SelectFilesInSubFoldersInRFS(var fl:TFileList; out FilesSize : Int64);
+procedure FillAndCount(var fl:TFileList; out FilesSize : Int64);
 var
   i:Integer;
   ptr:PFileRecItem;
