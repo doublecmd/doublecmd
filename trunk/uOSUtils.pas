@@ -25,7 +25,7 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes, uFileList, LCLProc
+    SysUtils, Classes, uFileList, LCLProc, uDCUtils
     {$IFDEF WIN32}
     , Windows, ShellApi, MMSystem, uNTFSLinks
     {$ELSE}
@@ -159,8 +159,12 @@ Begin
   Result:=0;
 end;
 {$ELSE}
+var
+  sFileName,
+  sParams : String;
 begin
-ShellExecute(0, 'open',PChar(sCmd), nil, PChar(ExtractFilePath(sCmd)), SW_SHOW);
+  Split(sCmd, sFileName, sParams);
+  ShellExecute(0, 'open',PChar(sFileName), PChar(sParams), PChar(ExtractFilePath(sCmd)), SW_SHOW);
 end;
 {$ENDIF}
 

@@ -27,9 +27,11 @@ function SetCmdDirAsEnvVar(sPath : String) : String;
 function GetDirs (DirName : String; var Dirs : TStringList) : Longint;
 function GetAbsoluteFileName(sPath, sRelativeFileName : String) : String;
 function ExtractOnlyFileName(const FileName: string): string;
+procedure Split(const sFileNameWithParams : String; var sFileName, sParams : String);
 Function cnvFormatFileSize(iSize:Int64):String;
 Function MinimizeFilePath(const PathToMince: String; Canvas: TCanvas;
                                            MaxLen: Integer): String;
+function CharPos(C: Char; const S: string; StartPos: Integer = 1): Integer; overload;
 function G_ValidateWildText(const S, Mask: string; bCaseSens : Boolean = False; MaskChar: Char = '?';
                              WildCard: Char = '*'): Boolean;
 procedure DivFileName(const sFileName:String; var n,e:String);
@@ -131,6 +133,27 @@ begin
   Result := Copy(FileName, I + 1, iDotIndex - I - 1);
 end;
 
+procedure Split(const sFileNameWithParams : String; var sFileName, sParams : String);
+var
+  sr: TSearchRec;
+  iSpacePos : Integer;
+  sTempFileName : String;
+  iLength : Integer;
+  iSearchPos : Integer;
+begin
+  iSearchPos := 1;
+  sFileName :=  sFileNameWithParams;
+  iLength := Length(sFileNameWithParams);
+  repeat
+    iSpacePos := CharPos(' ', sFileNameWithParams, iSearchPos);
+    iSearchPos := iSpacePos + 1;
+    sFileName := Copy(sFileNameWithParams, 1, iSpacePos - 1 );
+  until (FindFirst(sFileName, faAnyFile, sr) = 0)  or (iSpacePos = 0);
+  if sFileName = '' then
+    sFileName := sFileNameWithParams
+  else
+    sParams := Copy(sFileNameWithParams, iSpacePos + 1, iLength - iSpacePos);
+end;
 
 Function cnvFormatFileSize(iSize:Int64):String;
 var
