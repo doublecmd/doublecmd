@@ -492,6 +492,8 @@ begin
   (* Convert TFileList into PChar *)
   FileList := PChar(GetFileList(FFileList));
 
+  SetProcessDataProc(0, ProcessDataProc);
+
   PackFiles(PChar(FArchiveName), nil{PChar(sDstName)}, Folder, FileList, FFlags);
   end
   else
