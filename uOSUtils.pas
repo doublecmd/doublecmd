@@ -25,11 +25,11 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes, uFileList, LCLProc, uDCUtils
+    SysUtils, Classes, LCLProc, uDCUtils
     {$IFDEF WIN32}
     , Windows, ShellApi, MMSystem, uNTFSLinks
     {$ELSE}
-    , BaseUnix, Libc, Unix, UnixType, fFileProperties
+    , BaseUnix, Libc, Unix, UnixType
     {$ENDIF};
     
 const
@@ -104,7 +104,6 @@ function GetLastDir(Path : String) : String;
 function IsAvailable(Path : String) : Boolean;
 function GetAllDrives : TList;
 
-procedure ShowFilePropertiesDialog(FileList:TFileList; const aPath:String);
 
 implementation
 
@@ -462,6 +461,7 @@ begin
          begin
            Name := ExtractFileName(pme.mnt_dir);
            Path := pme.mnt_dir;
+           DriveIcon := 0;
            // TODO drive icons on Linux
          end;
          Result.Add(Drive);
@@ -471,52 +471,5 @@ begin
   endmntent(fstab);
 end;
 {$ENDIF}
-
-(* Show file properties dialog *)
-procedure ShowFilePropertiesDialog(FileList:TFileList; const aPath:String);
-{$IFDEF UNIX}
-begin
-  ShowFileProperties(FileList, aPath);
-end;
-{$ELSE}
-var
-  SExInfo: TSHELLEXECUTEINFO;
-  Error: LongInt;
-  iCurrent : Integer;
-  FName : String;
-
-  (* Find first selected file *)
-  function FindNextSelected:Boolean;
-  var
-    i:Integer;
-  begin
-    for i:=iCurrent to FileList.Count-1 do
-    begin
-      if FileList.GetItem(i)^.bSelected then
-      begin
-        iCurrent:=i;
-        Result:=True;
-        Exit;
-      end;
-    end;
-    Result:=False;
-  end;
-
-begin
-  iCurrent := 0;
-  if FindNextSelected then
-    begin
-      FName := aPath + FileList.GetItem(iCurrent)^.sName;
-      //DebugLN(FName);
-      ZeroMemory(Addr(SExInfo),SizeOf(SExInfo));
-      SExInfo.cbSize := SizeOf(SExInfo);
-      SExInfo.lpFile := PChar(FName);
-      SExInfo.lpVerb := 'properties';
-      SExInfo.fMask := SEE_MASK_INVOKEIDLIST;
-      ShellExecuteExA(Addr(SExInfo));
-    end;
-end;
-{$ENDIF}
-
 
 end.

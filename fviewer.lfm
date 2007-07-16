@@ -45,6 +45,7 @@ inherited frmViewer: TfrmViewer
     Align = alClient
     PageIndex = 0
     ShowTabs = False
+    TabOrder = 0
     object pgText: TPage
       Caption = 'pgText'
       ClientWidth = 192

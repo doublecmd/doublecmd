@@ -27,7 +27,7 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, fLngForm, Menus,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, LCLProc, fLngForm, Menus,
   viewercontrol, fFindView;
 
 type
@@ -98,6 +98,7 @@ type
     iActiveFile:Integer;
     bImage:Boolean;
     FFindDialog:TfrmFindView;
+    FDeleteAfterView : Boolean;
     procedure UpDateScrollBar;
     Function CheckGraphics(const sFileName:String):Boolean;
     procedure AdjustViewerSize(ReqWidth, ReqHeight: Integer);
@@ -111,14 +112,14 @@ type
   end;
 
 
-procedure ShowViewer(sl:TStringList);
+procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
 
 implementation
 
 uses
   uLng, uShowMsg, uGlobs, lcltype, lazjpeg{$IFNDEF WIN32}, uFindMmap{$ENDIF} ;
 
-procedure ShowViewer(sl:TStringList);
+procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
 var viewer: TfrmViewer;
 begin
   //writeln('ShowViewer - Using Internal');
@@ -127,6 +128,7 @@ begin
   viewer.FileList.Assign(sl);
   viewer.LoadFile(0);
   viewer.Show;
+  viewer.FDeleteAfterView := bDeleteAfterView;
 end;
 
 procedure TfrmViewer.LoadLng;
@@ -227,12 +229,25 @@ begin
 end;
 
 procedure TfrmViewer.frmViewerClose(Sender: TObject;
-  var CloseAction: TCloseAction);
+                                    var CloseAction: TCloseAction);
+var
+  I, Count : Integer;
 begin
   // TODO: may be better automtic save
   // (see also TfrmViewer.miSavePosClick)
   CloseAction:=caFree;
   if not bImage then gViewerPos.Save(Self);
+
+  ViewerControl.UnMapFile;
+  if FDeleteAfterView then
+    begin
+      Count := FileList.Count - 1;
+
+      //DebugLN('DeleteFile == ' + FileList.Strings[0]);
+
+      for I := 0 to Count do
+        DeleteFile(FileList.Strings[I]);
+    end;
 end;
 
 procedure TfrmViewer.frmViewerKeyDown(Sender: TObject; var Key: Word;

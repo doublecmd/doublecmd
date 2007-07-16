@@ -161,8 +161,6 @@ type
     miExit: TMenuItem;
     actMultiRename: TAction;
     miMultiRename: TMenuItem;
-    pmFileList: TPopupMenu;
-    file1: TMenuItem;
     actShiftF5: TAction;
     actShiftF6: TAction;
     actShiftF4: TAction;
@@ -232,7 +230,6 @@ type
     procedure actSortByDateExecute(Sender: TObject);
     procedure actSortByAttrExecute(Sender: TObject);
     procedure actMultiRenameExecute(Sender: TObject);
-    procedure pmFileListPopup(Sender: TObject);
     procedure actShiftF5Execute(Sender: TObject);
     procedure actShiftF6Execute(Sender: TObject);
     procedure actShiftF4Execute(Sender: TObject);
@@ -248,6 +245,8 @@ type
     procedure actCalculateSpaceExecute(Sender: TObject);
     procedure actFilePropertiesExecute(Sender: TObject);
     procedure FramedgPanelEnter(Sender: TObject);
+    procedure framedgPanelMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure FramelblLPathClick(Sender: TObject);
     procedure FrameHeaderDblClick(Sender: TObject);
     procedure FramelblLPathMouseDown(Sender: TObject; Button: TMouseButton;
@@ -280,7 +279,6 @@ type
     //check selected count and generate correct msg, parameters is lng indexs
     Function GetFileDlgStr(iLngOne, iLngMulti:Integer):String;
     procedure HotDirSelected(Sender:TObject);
-    procedure pmFileListSelect(Sender:TObject); // handling user commands from popupmenu
     procedure CreatePopUpHotDir;
     procedure CreatePopUpDirHistory;
     procedure miHotAddClick(Sender: TObject);
@@ -312,13 +310,13 @@ uses
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg,
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg,
-  fLinker, fSplitter, uFileProcs, lclType, LCLProc, uOSUtils, uPixMapManager;
+  fLinker, fSplitter, uFileProcs, lclType, LCLProc, uOSUtils, uOSForms, uPixMapManager;
 
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
   inherited;
-  
+  SetMyWndProc(Handle);
   Application.OnException := @AppException;
 
 
@@ -910,6 +908,8 @@ begin
 end;
 
 function TfrmMain.HandleActionHotKeys(var Key: Word; Shift: TShiftState):Boolean; // handled
+var
+  pfri : PFileRecItem;
 begin
   Result:=True;
   if Shift=[] then
@@ -965,7 +965,9 @@ begin
 
      VK_APPS:
        begin
-         pmFileList.PopUp(0,0);
+         pfri := ActiveFrame.GetActiveItem;
+         pfri^.sPath := ActiveFrame.ActiveDir;
+         ShowContexMenu(Handle, pfri, Mouse.CursorPos.x, Mouse.CursorPos.y);
          Exit;
        end;
      
@@ -1667,85 +1669,6 @@ begin
   end;
 end;
 
-procedure TfrmMain.pmFileListPopup(Sender: TObject);
-var
-  mi:TMenuItem;
-  i:Integer;
-  pfri:PFileRecItem;
-  sCmd:String;
-  sl: TStringList;
-begin
-  // Create All popup menu
-  with ActiveFrame do
-  begin
-    pmFileList.Items.Clear;
-    sl:=TStringList.Create;
-    try
-      pfri:=GetActiveItem;
-      if FPS_ISDIR(pfri^.iMode) or (pfri^.bIsLink) then Exit;
-      if gExts.GetExtCommands(lowercase(ExtractFileExt(pfri^.sName)),sl) then
-      begin
-      //founded any commands
-        for i:=0 to sl.Count-1 do
-        begin
-          sCmd:=sl.Strings[i];
-          if pos('VIEW=',sCmd)>0 then Continue;  // view command is only for viewer
-          pnlFile.ReplaceExtCommand(sCmd, pfri);
-          mi:=TMenuItem.Create(pmFileList);
-          mi.Caption:=sCmd;
-          mi.Hint:=Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
-          // length is bad, but in Copy is corrected
-          mi.OnClick:=@pmFileListSelect; // handler
-          mi.Tag:=Integer(pfri);
-          pmFileList.Items.Add(mi);
-        end;
-
-      end;
-      // now add delimiter
-      mi:=TMenuItem.Create(pmFileList);
-      mi.Caption:='-';
-      pmFileList.Items.Add(mi);
-
-      // now add VIEW item
-      mi:=TMenuItem.Create(pmFileList);
-      mi.Caption:='{!VIEWER}'+ActiveDir+pfri^.sName;
-      mi.Hint:=mi.Caption;
-      mi.OnClick:=@pmFileListSelect; // handler
-      pmFileList.Items.Add(mi);
-
-      // now add EDITconfigure item
-      mi:=TMenuItem.Create(pmFileList);
-      mi.Caption:='{!EDITOR}'+ActiveDir+pfri^.sName;
-      mi.Hint:=mi.Caption;
-      mi.OnClick:=@pmFileListSelect; // handler
-      pmFileList.Items.Add(mi);
-    finally
-      FreeAndNil(sl);
-    end;
-
-  end;
-end;
-
-procedure TfrmMain.pmFileListSelect(Sender:TObject);
-var
-  sCmd:String;
-begin
-//  ShowMessage((Sender as TMenuItem).Hint);
-  sCmd:=(Sender as TMenuItem).Hint;
-  with ActiveFrame do
-  begin
-    if Pos('{!VFS}',sCmd)>0 then
-    begin
-//      if VFS.VFSGetScriptName(PFileRecItem((Sender as TMenuItem).Tag).sName)<>'' then
-      begin
-        pnlFile.LoadPanelVFS(PFileRecItem((Sender as TMenuItem).Tag));
-        Exit;
-      end;
-    end;
-    pnlFile.ProcessExtCommand(sCmd);
-  end;
-end;
-
 procedure TfrmMain.RenameFile(sDestPath:String);
 var
   fl:TFileList;
@@ -2177,6 +2100,19 @@ begin
   end;
 end;
 
+procedure TfrmMain.framedgPanelMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+var
+  pfri : PFileRecItem;
+begin
+  if Button = mbRight then
+    begin
+     pfri := ActiveFrame.GetActiveItem;
+     pfri^.sPath := ActiveFrame.ActiveDir;
+     ShowContexMenu(Handle, pfri, Mouse.CursorPos.x, Mouse.CursorPos.y);
+    end;
+end;
+
 
 procedure TfrmMain.FramelblLPathClick(Sender: TObject);
 begin
@@ -2306,7 +2242,7 @@ begin
     
     
     dgPanel.OnEnter:=@framedgPanelEnter;
-    dgPanel.PopupMenu:=pmFileList;
+    dgPanel.OnMouseDown := @framedgPanelMouseDown;
     pnlHeader.OnDblClick := @FrameHeaderDblClick;
 
   end;
