@@ -70,7 +70,7 @@ type
     procedure cdDownLevel(frp:PFileRecItem);
     procedure MarkGroup(const sMask:String; bSelect:Boolean); // second parametr is switch sel/uns
     procedure UpdatePrompt;
-    procedure ProcessExtCommand(sCmd:String{; pfr:PFileRecItem});
+    function ProcessExtCommand(sCmd:String{; pfr:PFileRecItem}) : Boolean;
     procedure ReplaceExtCommand(var sCmd:String; pfr:PFileRecItem);
     procedure SetActiveDir(const AValue:String);
     function GetActiveDir:String;
@@ -553,30 +553,30 @@ begin
   end;
 end;
 
-procedure TFilePanel.ProcessExtCommand(sCmd:String{; pfr:PFileRecItem});
+function TFilePanel.ProcessExtCommand(sCmd:String{; pfr:PFileRecItem}) : Boolean;
 begin
+  Result := False;
   if Pos('{!SHELL}', sCmd)>0 then
   begin
     sCmd:=StringReplace(sCmd,'{!SHELL}','',[rfReplaceAll]);
     sCmd:=Format(gTerm,[sCmd]);
+    Result := True;
   end;
   if Pos('{!EDITOR}',sCmd)>0 then
   begin
     sCmd:=StringReplace(sCmd,'{!EDITOR}','',[rfReplaceAll]);
     uShowForm.ShowEditorByGlob(sCmd);
+    Result := True;
     Exit;
   end;
   if Pos('{!VIEWER}',sCmd)>0 then
   begin
     sCmd:=StringReplace(sCmd,'{!VIEWER}','',[rfReplaceAll]);
     uShowForm.ShowViewerByGlob(sCmd);
+    Result := True;
     Exit;
   end;
   System.ChDir(ActiveDir);
-//    LastActive:=sName;
-  writeln(output, sCmd);
-  ExecCmdFork(sCmd);
-//      LoadPanel;
 end;
 
 procedure TFilePanel.SetActiveDir(const AValue:String);
