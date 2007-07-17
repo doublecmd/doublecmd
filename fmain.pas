@@ -637,6 +637,8 @@ var
   sl:TStringList;
   i:Integer;
   fr:PFileRecItem;
+  VFSFileList : TFileList;
+  sTempDir : String;
 begin
   with ActiveFrame do
   begin
@@ -648,6 +650,21 @@ begin
         fr:=pnlFile.GetFileItemPtr(i);
         if fr^.bSelected and not (FPS_ISDIR(fr^.iMode)) then
         begin
+          (* If in Virtual File System *)
+          if  pnlFile.PanelMode in [pmArchive, pmVFS] then
+            begin
+              VFSFileList := TFileList.Create;
+              VFSFileList.CurrentDirectory := ActiveDir;
+              VFSFileList.AddItem(fr);
+              sTempDir := GetTempDir;
+              if pnlFile.VFS.VFSmodule.VFSCopyOut(VFSFileList, sTempDir, 0) then
+                begin
+                 VFSFileList.Free;
+                 sl.Add(sTempDir + fr^.sName);
+                 ShowViewerByGlobList(sl, True);
+                 Exit;
+                end;
+            end;
           sl.Add(ActiveDir+fr^.sName);
           DebugLn('View.Add:',ActiveDir+fr^.sName);
         end;
@@ -967,7 +984,7 @@ begin
        begin
          pfri := ActiveFrame.GetActiveItem;
          pfri^.sPath := ActiveFrame.ActiveDir;
-         ShowContexMenu(Handle, pfri, Mouse.CursorPos.x, Mouse.CursorPos.y);
+         ShowContextMenu(Handle, pfri, Mouse.CursorPos.x, Mouse.CursorPos.y);
          Exit;
        end;
      
@@ -2109,7 +2126,7 @@ begin
     begin
      pfri := ActiveFrame.GetActiveItem;
      pfri^.sPath := ActiveFrame.ActiveDir;
-     ShowContexMenu(Handle, pfri, Mouse.CursorPos.x, Mouse.CursorPos.y);
+     ShowContextMenu(Handle, pfri, Mouse.CursorPos.x, Mouse.CursorPos.y);
     end;
 end;
 
