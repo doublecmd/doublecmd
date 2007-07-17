@@ -34,32 +34,32 @@ uses
   Windows, Messages, ShellApi, ShlObj, ActiveX, uShlObjAdditional, JwaShlGuid;
   {$ENDIF}
 const
-  SCmdVerbOpen = 'open';
-  SCmdVerbRename = 'rename';
-  SCmdVerbDelete = 'delete';
-  SCmdVerbPaste = 'paste';
+  sCmdVerbOpen = 'open';
+  sCmdVerbRename = 'rename';
+  sCmdVerbDelete = 'delete';
+  sCmdVerbPaste = 'paste';
 
 type
-  TContexMenu = class(TPopupMenu)
-    procedure ContexMenuSelect(Sender:TObject);
+  TContextMenu = class(TPopupMenu)
+    procedure ContextMenuSelect(Sender:TObject);
   end;
 
 procedure SetMyWndProc(Handle : THandle);
   
 procedure ShowFilePropertiesDialog(FileList:TFileList; const aPath:String);
-procedure ShowContexMenu(Handle : THandle; pfri : PFileRecItem; X, Y : Integer);
+procedure ShowContextMenu(Handle : THandle; pfri : PFileRecItem; X, Y : Integer);
 
 implementation
 
 uses
-  fMain, uOSUtils, uExts, uGlobs;
+  fMain, uVFSutil, uOSUtils, uExts, uGlobs;
 
 var
 {$IFDEF MSWINDOWS}
   OldWProc: WNDPROC;
   ICM2: IContextMenu2 = nil;
 {$ELSE}
-  CM : TContexMenu = nil;
+  CM : TContextMenu = nil;
 {$ENDIF}
 
 {$IFDEF MSWINDOWS}
@@ -88,7 +88,7 @@ end;
 {$ENDIF}
 
 (* handling user commands from context menu *)
-procedure TContexMenu.ContexMenuSelect(Sender:TObject);
+procedure TContextMenu.ContextMenuSelect(Sender:TObject);
 var
   sCmd:String;
 begin
@@ -106,9 +106,10 @@ begin
   end;
 end;
 
-procedure ShowContexMenu(Handle : THandle; pfri : PFileRecItem; X, Y : Integer);
-{$IFDEF MSWINDOWS}
+procedure ShowContextMenu(Handle : THandle; pfri : PFileRecItem; X, Y : Integer);
 var
+  fri : TFileRecItem;
+{$IFDEF MSWINDOWS}
   desktop: IShellFolder;
   mycomputer: IShellFolder;
   folder: IShellFolder;
@@ -119,12 +120,29 @@ var
   contMenu: IContextMenu;
   menu: HMENU;
   cmd: UINT;
+  iCmd: Integer;
+  HR: HResult;
   cmici: CMINVOKECOMMANDINFO;
   pwPath,
   pwFileName : PWideChar;
   bHandled : Boolean;
+  ZVerb: array[0..255] of char;
   sVerb : String;
+{$ELSE}
+  mi, miActions : TMenuItem;
+  i:Integer;
+  sCmd:String;
+  sl: TStringList;
+{$ENDIF}
 begin
+  fri := pfri^;
+  if fri.sName = '..' then
+    begin
+      fri.sName := ExtractFileName(ExcludeTrailingPathDelimiter(fri.sPath));
+      fri.sPath := LowDirLevel(fri.sPath);
+    end;
+
+{$IFDEF MSWINDOWS}
   OleCheck( SHGetMalloc(malloc) );
   OleCheck( SHGetDesktopFolder(desktop) );
   OleCheck( SHGetSpecialFolderLocation(Handle, CSIDL_DRIVES, pidl) );
@@ -134,7 +152,7 @@ begin
     malloc.Free(pidl);
   end;
   dwAttributes := 0;
-  pwPath := StringToOleStr(pfri^.sPath);
+  pwPath := StringToOleStr(fri.sPath);
 
   OleCheck( mycomputer.ParseDisplayName(Handle, nil, pwPath, chEaten, pidl, dwAttributes) );
   try
@@ -143,7 +161,7 @@ begin
     malloc.Free(pidl);
   end;
   dwAttributes := 0;
-  pwFileName := StringToOleStr(pfri^.sName);
+  pwFileName := StringToOleStr(fri.sName);
   
   OleCheck( folder.ParseDisplayName(Handle, nil, pwFileName, chEaten, pidl, dwAttributes) );
   try
@@ -156,52 +174,57 @@ begin
     OleCheck( contMenu.QueryContextMenu(menu, 0, 1, $7FFF, CMF_EXPLORE or CMF_CANRENAME) );
     AppendMenu(menu,0,0,'Test');
     contMenu.QueryInterface(IID_IContextMenu2, ICM2); //To handle submenus.
-    cmd := UINT(TrackPopupMenu(menu, TPM_RETURNCMD, X, Y, 0, Handle, nil));
+    cmd := UINT(TrackPopupMenu(menu, TPM_LEFTALIGN or TPM_LEFTBUTTON or TPM_RIGHTBUTTON or TPM_RETURNCMD, X, Y, 0, Handle, nil));
   finally
     DestroyMenu(menu);
     ICM2 := nil;
   end;
   
-  {bHandled := False;
-  sVerb := StrPas(PChar(cmd - 1));
-
-  if SameText(sVerb, SCmdVerbRename) then
-  begin
-    //EditText;
-    bHandled := True;
-  end
-  else if SameText(sVerb, SCmdVerbOpen) then
-  begin
-    if FPS_ISDIR(pfri^.iMode) or (pfri^.bLinkIsDir) then
-      begin
-        frmMain.ActiveFrame.pnlFile.cdDownLevel(pfri);
-      end;
-  end;    }
-  
-  if {(not bHandled) and} (cmd > 0) then
+  if cmd > 0 then
     begin
-      with cmici do
-      begin
-        cbSize := sizeof(cmici);
-        fMask := 0;
-        hwnd := Handle;
-        lpVerb := PChar(cmd - 1);
-        lpParameters := nil;
-        lpDirectory := nil;
-        nShow := SW_NORMAL;
-      end;
-      OleCheck( contMenu.InvokeCommand(cmici) );
-    end
+      iCmd := LongInt(Cmd) - 1;
+      HR := contMenu.GetCommandString(iCmd, GCS_VERBA, nil, ZVerb, SizeOf(ZVerb));
+      sVerb := StrPas(ZVerb);
+      bHandled := False;
+
+      if SameText(sVerb, sCmdVerbRename) then
+        begin
+          frmMain.RenameFile('');
+          bHandled := True;
+        end
+      else if SameText(sVerb, sCmdVerbOpen) then
+        begin
+          if FPS_ISDIR(fri.iMode) or (fri.bLinkIsDir) then
+            begin
+              if pfri^.sName = '..' then
+                frmMain.ActiveFrame.pnlFile.cdUpLevel
+              else
+                frmMain.ActiveFrame.pnlFile.cdDownLevel(@fri);
+              bHandled := True;
+            end;
+        end;
+
+      if not bHandled then
+        begin
+          FillChar(cmici, SizeOf(cmici), #0);
+          with cmici do
+          begin
+            cbSize := sizeof(cmici);
+            hwnd := Handle;
+            lpVerb := PChar(cmd - 1);
+            nShow := SW_NORMAL;
+          end;
+          OleCheck( contMenu.InvokeCommand(cmici) );
+        end;
+        
+      if SameText(sVerb, sCmdVerbDelete) or SameText(sVerb, sCmdVerbPaste) then
+        frmMain.ActiveFrame.RefreshPanel;
+
+    end; // if cmd > 0
 end;
 {$ELSE}
-var
-  mi, miActions : TMenuItem;
-  i:Integer;
-  sCmd:String;
-  sl: TStringList;
-begin
   if not Assigned(CM) then
-    CM := TContexMenu.Create(nil)
+    CM := TContextMenu.Create(nil)
   else
     CM.Items.Clear;
 
@@ -222,21 +245,21 @@ begin
   // Read actions from doublecmd.ext
   sl:=TStringList.Create;
   try
-    if FPS_ISDIR(pfri^.iMode) or (pfri^.bIsLink) then Exit;
-    if gExts.GetExtCommands(lowercase(ExtractFileExt(pfri^.sName)),sl) then
+    if FPS_ISDIR(fri.iMode) or (fri.bIsLink) then Exit;
+    if gExts.GetExtCommands(lowercase(ExtractFileExt(fri.sName)),sl) then
       begin
       //founded any commands
         for i:=0 to sl.Count-1 do
         begin
           sCmd:=sl.Strings[i];
           if pos('VIEW=',sCmd)>0 then Continue;  // view command is only for viewer
-          frmMain.ActiveFrame.pnlFile.ReplaceExtCommand(sCmd, pfri);
+          frmMain.ActiveFrame.pnlFile.ReplaceExtCommand(sCmd, @fri);
           mi:=TMenuItem.Create(miActions);
           mi.Caption:=sCmd;
           mi.Hint:=Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
           // length is bad, but in Copy is corrected
-          mi.OnClick:=TContexMenu.ContexMenuSelect; // handler
-          mi.Tag:=Integer(pfri);
+          mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
+          mi.Tag:=Integer(@fri);
           miActions.Add(mi);
         end;
 
@@ -248,16 +271,16 @@ begin
 
     // now add VIEW item
     mi:=TMenuItem.Create(miActions);
-    mi.Caption:='{!VIEWER}' + pfri^.sPath + pfri^.sName;
+    mi.Caption:='{!VIEWER}' + fri.sPath + fri.sName;
     mi.Hint:=mi.Caption;
-    mi.OnClick:=TContexMenu.ContexMenuSelect; // handler
+    mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
     miActions.Add(mi);
 
     // now add EDITconfigure item
     mi:=TMenuItem.Create(miActions);
-    mi.Caption:='{!EDITOR}' + pfri^.sPath + pfri^.sName;
+    mi.Caption:='{!EDITOR}' + fri.sPath + fri.sName;
     mi.Hint:=mi.Caption;
-    mi.OnClick:=TContexMenu.ContexMenuSelect; // handler
+    mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
     miActions.Add(mi);
   finally
     FreeAndNil(sl);
@@ -279,13 +302,13 @@ begin
   mi:=TMenuItem.Create(CM);
   mi.Caption:='Delete';
   mi.Hint := 'actDelete';
-  mi.OnClick:=TContexMenu.ContexMenuSelect;
+  mi.OnClick:=TContextMenu.ContextMenuSelect;
   CM.Items.Add(mi);
   
   mi:=TMenuItem.Create(CM);
   mi.Caption:='Rename';
   mi.Hint := 'actShiftF6';
-  mi.OnClick:=TContexMenu.ContexMenuSelect;
+  mi.OnClick:=TContextMenu.ContextMenuSelect;
   CM.Items.Add(mi);
 
   mi:=TMenuItem.Create(CM);
@@ -295,7 +318,7 @@ begin
   mi:=TMenuItem.Create(CM);
   mi.Caption:='Properties';
   mi.Hint := 'actFileProperties';
-  mi.OnClick:=TContexMenu.ContexMenuSelect;
+  mi.OnClick:=TContextMenu.ContextMenuSelect;
   CM.Items.Add(mi);
   
   CM.PopUp(X, Y);
