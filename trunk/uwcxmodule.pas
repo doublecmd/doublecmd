@@ -25,7 +25,8 @@ unit uWCXmodule;
 
 interface
 uses
-  uWCXprototypes, uWCXhead, uFileList, uTypes, dynlibs, Classes, uVFSModule, uVFSUtil, fFileOpDlg;
+  uWCXprototypes, uWCXhead, uFileList, uTypes, dynlibs, Classes, uVFSModule,
+  uVFSUtil, fFileOpDlg, Dialogs;
 
 {$H+}
 const
@@ -191,6 +192,16 @@ begin
  @PackSetDefaultParams:= nil;
 end;
 
+function ChangeVolProc(ArcName:pchar;Mode:longint):longint; stdcall;
+begin
+  case Mode of
+  PK_VOL_ASK:
+    ShowMessage('Please location of next volume'); // TODO: localize
+  PK_VOL_NOTIFY:
+    ShowMessage('Next volume will be unpacked');   // TODO: localize
+  end;
+end;
+
 function ProcessDataProc(FileName: PChar; Size: Integer): Integer; stdcall;
 begin
   DebugLN('Working ' + FileName + ' Size = ' + IntToStr(Size));
@@ -291,7 +302,10 @@ begin
     end;
 
   if not FEmulate then
-    SetProcessDataProc(ArcHandle, ProcessDataProc);
+    begin
+      SetChangeVolProc(ArcHandle, ChangeVolProc);
+      SetProcessDataProc(ArcHandle, ProcessDataProc);
+    end;
 
   DebugLN('Get File List');
   (*Get File List*)
@@ -410,7 +424,10 @@ begin
     Exit;
    end;
   if not FEmulate then
-    SetProcessDataProc(ArcHandle, ProcessDataProc);
+    begin
+      SetChangeVolProc(ArcHandle, ChangeVolProc);
+      SetProcessDataProc(ArcHandle, ProcessDataProc);
+    end;
 
   FillChar(ArcHeader, SizeOf(ArcHeader), #0);
   while (ReadHeader(ArcHandle, ArcHeader) = 0) do
@@ -492,9 +509,10 @@ begin
   (* Convert TFileList into PChar *)
   FileList := PChar(GetFileList(FFileList));
 
+  SetChangeVolProc(0, ChangeVolProc);
   SetProcessDataProc(0, ProcessDataProc);
 
-  PackFiles(PChar(FArchiveName), nil{PChar(sDstName)}, Folder, FileList, FFlags);
+  PackFiles(PChar(FArchiveName), nil{PChar(FDstPath)}, Folder, FileList, FFlags);
   end
   else
     begin

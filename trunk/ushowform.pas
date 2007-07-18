@@ -17,6 +17,17 @@ interface
 uses
   Classes;
 
+type
+
+  { TWaitThread }
+
+  TWaitThread = class(TThread)
+  private
+    FFileList : TStringList;
+  protected
+    procedure Execute; override;
+  end;
+
 Function ShowEditorByGlob(const sFileName:String):Boolean;
 Function ShowViewerByGlob(const sFileName:String):Boolean;
 Function ShowViewerByGlobList(list:TStringList; bDeleteAfterView : Boolean = False):Boolean;
@@ -24,7 +35,7 @@ Function ShowViewerByGlobList(list:TStringList; bDeleteAfterView : Boolean = Fal
 
 implementation
 uses
-  SysUtils, Process,
+  SysUtils, Process, LCLProc,
   uGlobs, uOSUtils, fEditor, fViewer;
 
 Function ShowEditorByGlob(const sFileName:String):Boolean;
@@ -55,36 +66,46 @@ begin
   Result:=True;
 end;
 
-Function ShowViewerByGlobList(list : TStringList; bDeleteAfterView : Boolean = False):Boolean;
+Function ShowViewerByGlobList(List : TStringList; bDeleteAfterView : Boolean = False):Boolean;
 var
   I, Count:Integer;
-  Process : TProcess;
+  WaitThread : TWaitThread;
 begin
   if gUseExtView then
   begin
+    DebugLN('ShowViewerByGlobList - Use ExtView ');
     if bDeleteAfterView then
       begin
-        Process := TProcess.Create(nil);
-        Process.CommandLine := Format(gExtView,[List.Strings[0]]);
-        Process.Options := [poWaitOnExit];
-        Process.Execute;
-    
-
-        Count := list.Count - 1;
-
-      //DebugLN('DeleteFile == ' + FileList.Strings[0]);
-
-        for I := 0 to Count do
-          DeleteFile(list.Strings[I]);
-      end;
-    //************
-    writeln('ShowViewerByGlobList - Use ExtView ');
-    for i:=0 to list.Count-1 do
-      ExecCmdFork(Format(gExtView,[List.Strings[i]]))
-  end
+        WaitThread := TWaitThread.Create(True);
+        WaitThread.FFileList := List;
+        WaitThread.FreeOnTerminate := True;
+        WaitThread.Resume;
+      end
+    else
+     for i:=0 to list.Count-1 do
+       ExecCmdFork(Format(gExtView,[List.Strings[i]]))
+  end // gUseExtView
   else
-    ShowViewer(list, bDeleteAfterView);
+    ShowViewer(List, bDeleteAfterView);
   Result:=True;
+end;
+
+{ TWaitThread }
+
+procedure TWaitThread.Execute;
+var
+  I, Count : Integer;
+  Process : TProcess;
+begin
+  Process := TProcess.Create(nil);
+  Process.CommandLine := Format(gExtView,[FFileList.Strings[0]]);
+  Process.Options := [poWaitOnExit];
+  Process.Execute;
+  Process.Free;
+  (* Delete temp files after view *)
+  Count := FFileList.Count - 1;
+  for I := 0 to Count do
+    DeleteFile(FFileList.Strings[I]);
 end;
 
 end.
