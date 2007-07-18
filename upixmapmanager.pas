@@ -154,6 +154,14 @@ var
   sCurrentPlugin : String;
   iCurPlugCaps : Integer;
 begin
+  // add some standard icons
+  FiDefaultIconID:=CheckAddPixmap('mimetypes' + PathDelim + 'empty.png');
+  FiDirIconID:=CheckAddPixmap('filesystems' + PathDelim + 'folder.png');
+  FiDirLinkIconID:=CheckAddPixmap('filesystems' + PathDelim + 'folder-link.png');
+  FiLinkIconID:=CheckAddPixmap('filesystems' + PathDelim + 'link.png');
+  FiUpDirIconID:=CheckAddPixmap('actions' + PathDelim + 'go-up.png');
+  FiArcIconID := CheckAddPixmap('filesystems' + PathDelim + 'archive.png');
+
   if FileExists(sFileName) then
   begin
     assignFile(f,sFileName);
@@ -179,14 +187,7 @@ begin
       CloseFile(f);
     end;
   end;
-  // add some standard icons
-  FiDirIconID:=CheckAddPixmap('filesystems' + PathDelim + 'folder.png');
-  FiDirLinkIconID:=CheckAddPixmap('filesystems' + PathDelim + 'folder-link.png');
-  FiLinkIconID:=CheckAddPixmap('filesystems' + PathDelim + 'link.png');
-  FiUpDirIconID:=CheckAddPixmap('actions' + PathDelim + 'go-up.png');
-  FiDefaultIconID:=CheckAddPixmap('mimetypes' + PathDelim + 'empty.png');
-  FiArcIconID := CheckAddPixmap('filesystems' + PathDelim + 'archive.png');
-  
+
   (* Set archive icons *)
   
   Plugins := TStringList.Create;

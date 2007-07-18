@@ -165,7 +165,7 @@ begin
   
   OleCheck( folder.ParseDisplayName(Handle, nil, pwFileName, chEaten, pidl, dwAttributes) );
   try
-    OleCheck( folder.GetUIObjectOf(Handle, 1, pidl, IContextMenu, nil, contMenu) );
+    OleCheck( folder.GetUIObjectOf(Handle, 1, pidl, IID_IContextMenu, nil, contMenu) );
   finally
     malloc.Free(pidl);
   end;

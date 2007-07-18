@@ -4,11 +4,11 @@ inherited frmViewer: TfrmViewer
   Top = 287
   Width = 200
   HorzScrollBar.Page = 199
-  VertScrollBar.Page = 79
+  VertScrollBar.Page = 80
   VertScrollBar.Range = 19
   ActiveControl = ScrollBarVert
   Caption = 'frmViewer'
-  ClientHeight = 80
+  ClientHeight = 81
   ClientWidth = 200
   Constraints.MinHeight = 100
   Constraints.MinWidth = 200
@@ -20,9 +20,10 @@ inherited frmViewer: TfrmViewer
   OnKeyPress = FormKeyPress
   OnKeyUp = frmViewerKeyUp
   Position = poDefault
+  ShowInTaskBar = stAlways
   object Status: TStatusBar
-    Height = 23
-    Top = 57
+    Height = 20
+    Top = 61
     Width = 200
     Panels = <    
       item
@@ -40,7 +41,7 @@ inherited frmViewer: TfrmViewer
     SimplePanel = False
   end
   object nbPages: TNotebook
-    Height = 57
+    Height = 61
     Width = 200
     Align = alClient
     PageIndex = 0
@@ -49,10 +50,10 @@ inherited frmViewer: TfrmViewer
     object pgText: TPage
       Caption = 'pgText'
       ClientWidth = 192
-      ClientHeight = 49
+      ClientHeight = 53
       object ScrollBarVert: TScrollBar
         Left = 177
-        Height = 49
+        Height = 53
         Width = 15
         Align = alRight
         Anchors = [akTop, akRight]
@@ -66,7 +67,7 @@ inherited frmViewer: TfrmViewer
       end
       object ViewerControl: TViewerControl
         Cursor = crIBeam
-        Height = 49
+        Height = 53
         Width = 177
         ViewerMode = vmText
         Font.Height = -14
@@ -80,7 +81,7 @@ inherited frmViewer: TfrmViewer
     object pgImage: TPage
       Caption = 'pgImage'
       ClientWidth = 192
-      ClientHeight = 49
+      ClientHeight = 53
       object ScrollBox: TScrollBox
         Height = 468
         Width = 788
