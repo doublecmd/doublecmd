@@ -23,6 +23,9 @@ uses
   ComCtrls,  SynEditSearch;
 
 type
+
+  { TfrmEditor }
+
   TfrmEditor = class(TfrmLng)
     actEditCut: TAction;
     actEditCopy: TAction;
@@ -30,6 +33,7 @@ type
     actEditUndo: TAction;
     actEditRedo: TAction;
     actEditPaste: TAction;
+    actEditDelete: TAction;
     MainMenu1: TMainMenu;
     ActListEdit: TActionList;
     actAbout: TAction;
@@ -39,9 +43,18 @@ type
     actFileSaveAs: TAction;
     actFileNew: TAction;
     actFileExit: TAction;
+    miDeleteContext: TMenuItem;
+    miSelectAllContext: TMenuItem;
+    miSeparator2: TMenuItem;
+    miPasteContext: TMenuItem;
+    miCopyContext: TMenuItem;
+    miCutContext: TMenuItem;
+    miSeparator1: TMenuItem;
+    miUndoContext: TMenuItem;
     miFile: TMenuItem;
     New1: TMenuItem;
     Open1: TMenuItem;
+    pmContextMenu: TPopupMenu;
     Save1: TMenuItem;
     SaveAs1: TMenuItem;
     N1: TMenuItem;
@@ -67,6 +80,7 @@ type
     actConfHigh: TAction;
     miDiv: TMenuItem;
     miConfHigh: TMenuItem;
+    procedure actEditDeleteExecute(Sender: TObject);
     procedure EditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure EditorKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure EditorReplaceText(Sender: TObject; const ASearch, AReplace: string;
@@ -284,7 +298,7 @@ end;
 
 procedure TfrmEditor.actAboutExecute(Sender: TObject);
 begin
-  ShowMessage('Internal editor, part of Seksi Commander');
+  ShowMessage('Internal editor, part of Double Commander');
 end;
 
 procedure TfrmEditor.actEditCopyExecute(Sender: TObject);
@@ -300,6 +314,11 @@ end;
 procedure TfrmEditor.actEditPasteExecute(Sender: TObject);
 begin
   editor.PasteFromClipboard;
+end;
+
+procedure TfrmEditor.actEditDeleteExecute(Sender: TObject);
+begin
+  Editor.ClearSelection;
 end;
 
 procedure TfrmEditor.actEditSelectAllExecute(Sender: TObject);

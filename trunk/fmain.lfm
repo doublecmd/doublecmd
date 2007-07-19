@@ -1,7 +1,7 @@
 inherited frmMain: TfrmMain
-  Left = 181
+  Left = 125
   Height = 336
-  Top = 563
+  Top = 174
   Width = 525
   HorzScrollBar.Page = 524
   VertScrollBar.Page = 316

@@ -148,7 +148,7 @@ begin
     iSpacePos := CharPos(' ', sFileNameWithParams, iSearchPos);
     iSearchPos := iSpacePos + 1;
     sFileName := Copy(sFileNameWithParams, 1, iSpacePos - 1 );
-  until (FindFirst(sFileName, faAnyFile, sr) = 0)  or (iSpacePos = 0);
+  until (iSpacePos = 0) or (FindFirst(sFileName, faAnyFile, sr) = 0);
   if sFileName = '' then
     sFileName := sFileNameWithParams
   else
