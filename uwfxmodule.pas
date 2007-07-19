@@ -401,6 +401,7 @@ begin
       Result := (FsGetFile(PChar(RemoteName), PChar(LocalName), Flags, ri) = FS_FILE_OK)
     end;
     Dispose(ri);
+    FreeAndNil(flSrcList);
 end;
 
 function TWFXModule.VFSCopyIn(var flSrcList: TFileList; sDstName: String;

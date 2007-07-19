@@ -397,7 +397,7 @@ begin
 
 
    (* Get current folder in archive *)
-   Folder := LowDirLevel(FFileList.GetItem(0)^.sName);
+   Folder := FFileList.CurrentDirectory; //LowDirLevel(FFileList.GetItem(0)^.sName);
 
    (* Get relative path *)
    IncludeFileInList(FArchiveName, Folder);
@@ -636,7 +636,7 @@ begin
       end;
 
   end;
-  flist.Free;
+  FreeAndNil(flist);
   flist := Newfl;
 end;
 

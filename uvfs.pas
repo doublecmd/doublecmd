@@ -140,7 +140,7 @@ begin
   else
     if sExt = 'wfx' then  // WFX Support
       begin
-
+        sLastArchive := '';
         FVFSModule := TWFXModule.Create;
         FVFSModule.LoadModule(sFileName);
 

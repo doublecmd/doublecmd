@@ -659,7 +659,6 @@ begin
               sTempDir := GetTempDir;
               {if }pnlFile.VFS.VFSmodule.VFSCopyOut(VFSFileList, sTempDir, 0);{ then}
                 begin
-                 VFSFileList.Free;
                  sl.Add(sTempDir + fr^.sName);
                  ShowViewerByGlobList(sl, True);
                  Exit;

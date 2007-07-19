@@ -1,22 +1,25 @@
 inherited frmEditor: TfrmEditor
-  Left = 372
+  Left = 293
   Height = 220
-  Top = 253
+  Top = 172
   Width = 342
   HorzScrollBar.Page = 341
-  VertScrollBar.Page = 199
+  VertScrollBar.Page = 200
   VertScrollBar.Range = 19
   ActiveControl = Editor
   Caption = 'frmEditor'
+  ClientHeight = 201
+  ClientWidth = 342
   KeyPreview = True
   Menu = MainMenu1
   OnClose = frmEditorClose
   OnCloseQuery = FormCloseQuery
   OnDestroy = FormDestroy
   Position = poScreenCenter
+  ShowInTaskBar = stAlways
   object StatusBar: TStatusBar
-    Height = 23
-    Top = 177
+    Height = 20
+    Top = 181
     Width = 342
     Panels = <    
       item
@@ -34,7 +37,7 @@ inherited frmEditor: TfrmEditor
     SimplePanel = False
   end
   object Editor: TSynEdit
-    Height = 177
+    Height = 181
     Width = 342
     Align = alClient
     Anchors = [akTop]
@@ -44,14 +47,13 @@ inherited frmEditor: TfrmEditor
     Font.Pitch = fpFixed
     ParentColor = False
     ParentCtl3D = False
+    PopupMenu = pmContextMenu
     TabOrder = 0
     OnKeyDown = EditorKeyDown
     OnKeyPress = EditorKeyPress
     OnKeyUp = EditorKeyUp
     BookMarkOptions.Xoffset = 34
-    BookMarkOptions.OnChange = nil
     Gutter.ShowLineNumbers = True
-    Gutter.OnChange = nil
     Gutter.CodeFoldingWidth = 14
     Keystrokes = <    
       item
@@ -374,7 +376,6 @@ inherited frmEditor: TfrmEditor
         Command = 250
         ShortCut = 24642
       end>
-    SelectedColor.OnChange = nil
     OnChange = EditorChange
     OnReplaceText = EditorReplaceText
     OnStatusChange = EditorStatusChange
@@ -597,6 +598,46 @@ inherited frmEditor: TfrmEditor
       HelpType = htKeyword
       OnExecute = actEditSelectAllExecute
       ShortCut = 16449
+    end
+    object actEditDelete: TAction
+      Category = 'Edit'
+      Caption = 'Delete'
+      DisableIfNoHandler = True
+      OnExecute = actEditDeleteExecute
+    end
+  end
+  object pmContextMenu: TPopupMenu
+    left = 144
+    top = 8
+    object miUndoContext: TMenuItem
+      Action = actEditUndo
+      OnClick = actEditUndoExecute
+    end
+    object miSeparator1: TMenuItem
+      Caption = '-'
+    end
+    object miCutContext: TMenuItem
+      Action = actEditCut
+      OnClick = actEditCutExecute
+    end
+    object miCopyContext: TMenuItem
+      Action = actEditCopy
+      OnClick = actEditCopyExecute
+    end
+    object miPasteContext: TMenuItem
+      Action = actEditPaste
+      OnClick = actEditPasteExecute
+    end
+    object miDeleteContext: TMenuItem
+      Action = actEditDelete
+      OnClick = actEditDeleteExecute
+    end
+    object miSeparator2: TMenuItem
+      Caption = '-'
+    end
+    object miSelectAllContext: TMenuItem
+      Action = actEditSelectAll
+      OnClick = actEditSelectAllExecute
     end
   end
 end

@@ -325,14 +325,19 @@ begin
       iIconSize := SHGFI_SMALLICON
     else
       iIconSize := SHGFI_LARGEICON;
-      
+
+    //WriteLN('Icon for file == ' + sName);
+          
     SHGetFileInfo(PCHar(sName),
-                           0,
+                           FILE_ATTRIBUTE_NORMAL,
                            FileInfo,
                            SizeOf(FileInfo),
-                           SHGFI_SYSICONINDEX or iIconSize);
+                           SHGFI_SYSICONINDEX or iIconSize or SHGFI_USEFILEATTRIBUTES);
        Result := FileInfo.iIcon + $1000;
-       if (FExtList.IndexOf(Ext)<0) and (Ext <> 'exe') then
+       
+       //WriteLN('FileInfo.iIcon == ' + IntToStr(FileInfo.iIcon));
+       
+       if (FExtList.IndexOf(Ext)<0) and (Ext <> 'exe') and (Ext <> 'ico') and (Ext <> 'lnk') then
         FExtList.AddObject(Ext, TObject(Result));
     {$ELSE}
       Result:=FiDefaultIconID;
