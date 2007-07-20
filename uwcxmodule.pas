@@ -1,7 +1,7 @@
 {
    Double commander
    -------------------------------------------------------------------------
-   Archive File support - class for manage WCX plugins
+   Archive File support - class for manage WCX plugins (Version 2.10)
 
    Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
 
@@ -62,32 +62,32 @@ Type
     FPercent : Double;
     AT : TArcThread;         // Packing/Unpacking thread
     FFileOpDlg: TfrmFileOp; // progress window
-    FEmulate : Boolean;
-    function WCXCopyOut : Boolean;{Extract files from archive}
-    function WCXCopyIn : Boolean;{Pack files in archive}
+    procedure ShowErrorMessage;
+    function WCXCopyOut : Boolean; {Extract files from archive}
+    function WCXCopyIn : Boolean;  {Pack files in archive}
 
     procedure CopySelectedWithSubFolders(var flist:TFileList);
   protected
     // module's functions
   //**mandatory:
-  OpenArchive : TOpenArchive;
-  ReadHeader : TReadHeader;
-  ProcessFile : TProcessFile;
-  CloseArchive : TCloseArchive;
+    OpenArchive : TOpenArchive;
+    ReadHeader : TReadHeader;
+    ProcessFile : TProcessFile;
+    CloseArchive : TCloseArchive;
   //**optional:
-  PackFiles : TPackFiles;
-  DeleteFiles : TDeleteFiles;
-  GetPackerCaps : TGetPackerCaps;
-  ConfigurePacker : TConfigurePacker;
-  SetChangeVolProc : TSetChangeVolProc;
-  SetProcessDataProc : TSetProcessDataProc;
-  StartMemPack : TStartMemPack;
-  PackToMem : TPackToMem;
-  DoneMemPack : TDoneMemPack;
-  CanYouHandleThisFile : TCanYouHandleThisFile;
-  PackSetDefaultParams : TPackSetDefaultParams;
-  FModuleHandle:TLibHandle;  // Handle to .DLL or .so
-  FArchiveName : String;
+    PackFiles : TPackFiles;
+    DeleteFiles : TDeleteFiles;
+    GetPackerCaps : TGetPackerCaps;
+    ConfigurePacker : TConfigurePacker;
+    SetChangeVolProc : TSetChangeVolProc;
+    SetProcessDataProc : TSetProcessDataProc;
+    StartMemPack : TStartMemPack;
+    PackToMem : TPackToMem;
+    DoneMemPack : TDoneMemPack;
+    CanYouHandleThisFile : TCanYouHandleThisFile;
+    PackSetDefaultParams : TPackSetDefaultParams;
+    FModuleHandle:TLibHandle;  // Handle to .DLL or .so
+    FArchiveName : String;
   public
     constructor Create;
     destructor Destroy; override;
@@ -100,7 +100,7 @@ Type
     function VFSCaps :Integer;override;
 
     function VFSConfigure(Parent: THandle):Boolean;override;
-    function VFSOpen(const sName:String):Boolean;override;
+    function VFSOpen(const sName:String; bCanYouHandleThisFile : Boolean = False):Boolean;override;
     function VFSClose:Boolean;override;
 
     function VFSMkDir(const sDirName:String ):Boolean;override;{Create a directory}
@@ -123,12 +123,12 @@ uses Forms, SysUtils, uFileOp, uOSUtils, LCLProc, uFileProcs, uDCUtils;
 
 var
   WCXModule : TWCXModule;
+  iResult : Integer;
 
 constructor TWCXModule.Create;
 begin
   FFilesSize:= 0;
   FPercent := 0;
-  FEmulate := False;
   WCXModule := Self;
 end;
 
@@ -138,36 +138,50 @@ begin
 end;
 
 function TWCXModule.LoadModule(const sName:String):Boolean;
+var
+  PackDefaultParamStruct : pPackDefaultParamStruct;
 begin
   FModuleHandle := LoadLibrary(sName);
   Result := (FModuleHandle <> 0);
   if  FModuleHandle = 0 then exit;
   //DebugLN('FModuleHandle =', FModuleHandle);
- OpenArchive:= TOpenArchive(GetProcAddress(FModuleHandle,'OpenArchive'));
- @ReadHeader:= GetProcAddress(FModuleHandle,'ReadHeader');
- @ProcessFile:= GetProcAddress(FModuleHandle,'ProcessFile');
- @CloseArchive:= GetProcAddress(FModuleHandle,'CloseArchive');
- if ((@OpenArchive = nil)or(@ReadHeader = nil)or
-  (@ProcessFile = nil)or(@CloseArchive = nil)) then
-   begin
-     OpenArchive := nil;
-     ReadHeader:= nil;
-     ProcessFile := nil;
-     CloseArchive := nil;
-     Result := False;
-     Exit;
-   end;
- @PackFiles:= GetProcAddress(FModuleHandle,'PackFiles');
- @DeleteFiles:= GetProcAddress(FModuleHandle,'DeleteFiles');
- @GetPackerCaps:= GetProcAddress(FModuleHandle,'GetPackerCaps');
- @ConfigurePacker:= GetProcAddress(FModuleHandle,'ConfigurePacker');
- @SetChangeVolProc:= GetProcAddress(FModuleHandle,'SetChangeVolProc');
- @SetProcessDataProc:= GetProcAddress(FModuleHandle,'SetProcessDataProc');
- @StartMemPack:= GetProcAddress(FModuleHandle,'StartMemPack');
- @PackToMem:= GetProcAddress(FModuleHandle,'PackToMem');
- @DoneMemPack:= GetProcAddress(FModuleHandle,'DoneMemPack');
- @CanYouHandleThisFile:= GetProcAddress(FModuleHandle,'CanYouHandleThisFile');
- @PackSetDefaultParams:= GetProcAddress(FModuleHandle,'PackSetDefaultParams');
+  OpenArchive:= TOpenArchive(GetProcAddress(FModuleHandle,'OpenArchive'));
+  @ReadHeader:= GetProcAddress(FModuleHandle,'ReadHeader');
+  @ProcessFile:= GetProcAddress(FModuleHandle,'ProcessFile');
+  @CloseArchive:= GetProcAddress(FModuleHandle,'CloseArchive');
+  if ((@OpenArchive = nil)or(@ReadHeader = nil)or
+   (@ProcessFile = nil)or(@CloseArchive = nil)) then
+    begin
+      OpenArchive := nil;
+      ReadHeader:= nil;
+      ProcessFile := nil;
+      CloseArchive := nil;
+      Result := False;
+      Exit;
+    end;
+  @PackFiles:= GetProcAddress(FModuleHandle,'PackFiles');
+  @DeleteFiles:= GetProcAddress(FModuleHandle,'DeleteFiles');
+  @GetPackerCaps:= GetProcAddress(FModuleHandle,'GetPackerCaps');
+  @ConfigurePacker:= GetProcAddress(FModuleHandle,'ConfigurePacker');
+  @SetChangeVolProc:= GetProcAddress(FModuleHandle,'SetChangeVolProc');
+  @SetProcessDataProc:= GetProcAddress(FModuleHandle,'SetProcessDataProc');
+  @StartMemPack:= GetProcAddress(FModuleHandle,'StartMemPack');
+  @PackToMem:= GetProcAddress(FModuleHandle,'PackToMem');
+  @DoneMemPack:= GetProcAddress(FModuleHandle,'DoneMemPack');
+  @CanYouHandleThisFile:= GetProcAddress(FModuleHandle,'CanYouHandleThisFile');
+  @PackSetDefaultParams:= GetProcAddress(FModuleHandle,'PackSetDefaultParams');
+  
+  if Assigned(PackSetDefaultParams) then
+    begin
+      with PackDefaultParamStruct^ do
+        begin
+          Size := SizeOf(PackDefaultParamStruct^);
+          PluginInterfaceVersionLow := 10;
+          PluginInterfaceVersionHi := 2;
+          DefaultIniName := '';
+        end;
+      PackSetDefaultParams(PackDefaultParamStruct);
+    end;
 end;
 
 procedure TWCXModule.UnloadModule;
@@ -175,28 +189,52 @@ begin
   if FModuleHandle <> 0 then
     FreeLibrary(FModuleHandle);
   FModuleHandle := 0;
-   @OpenArchive:= nil;
- @ReadHeader:= nil;
- @ProcessFile:= nil;
- @CloseArchive:= nil;
- @PackFiles:= nil;
- @DeleteFiles:= nil;
- @GetPackerCaps:= nil;
- @ConfigurePacker:= nil;
- @SetChangeVolProc:= nil;
- @SetProcessDataProc:= nil;
- @StartMemPack:= nil;
- @PackToMem:= nil;
- @DoneMemPack:= nil;
- @CanYouHandleThisFile:= nil;
- @PackSetDefaultParams:= nil;
+  @OpenArchive:= nil;
+  @ReadHeader:= nil;
+  @ProcessFile:= nil;
+  @CloseArchive:= nil;
+  @PackFiles:= nil;
+  @DeleteFiles:= nil;
+  @GetPackerCaps:= nil;
+  @ConfigurePacker:= nil;
+  @SetChangeVolProc:= nil;
+  @SetProcessDataProc:= nil;
+  @StartMemPack:= nil;
+  @PackToMem:= nil;
+  @DoneMemPack:= nil;
+  @CanYouHandleThisFile:= nil;
+  @PackSetDefaultParams:= nil;
 end;
 
-function ChangeVolProc(ArcName:pchar;Mode:longint):longint; stdcall;
+procedure  ShowErrorMsg(iErrorMsg : Integer);
+var
+  sErrorMsg : String;
+begin
+  case iErrorMsg of
+  E_END_ARCHIVE    :   sErrorMsg := 'No more files in archive';
+  E_NO_MEMORY      :   sErrorMsg := 'Not enough memory';
+  E_BAD_DATA       :   sErrorMsg := 'Data is bad';
+  E_BAD_ARCHIVE    :   sErrorMsg := 'CRC error in archive data';
+  E_UNKNOWN_FORMAT :   sErrorMsg := 'Archive format unknown';
+  E_EOPEN          :   sErrorMsg := 'Cannot open existing file';
+  E_ECREATE        :   sErrorMsg := 'Cannot create file';
+  E_ECLOSE         :   sErrorMsg := 'Error closing file';
+  E_EREAD          :   sErrorMsg := 'Error reading from file';
+  E_EWRITE         :   sErrorMsg := 'Error writing to file';
+  E_SMALL_BUF      :   sErrorMsg := 'Buffer too small';
+  E_EABORTED       :   sErrorMsg := 'Function aborted by user';
+  E_NO_FILES       :   sErrorMsg := 'No files found';
+  E_TOO_MANY_FILES :   sErrorMsg := 'Too many files to pack';
+  E_NOT_SUPPORTED  :   sErrorMsg := 'Function not supported';
+  end;
+  ShowMessage(sErrorMsg);
+end;
+
+function ChangeVolProc(ArcName : Pchar; Mode:Longint):Longint; stdcall;
 begin
   case Mode of
   PK_VOL_ASK:
-    ShowMessage('Please location of next volume'); // TODO: localize
+    ArcName := PChar(InputBox ('Double Commander', 'Please select location of next volume', ArcName));  // TODO: localize
   PK_VOL_NOTIFY:
     ShowMessage('Next volume will be unpacked');   // TODO: localize
   end;
@@ -238,6 +276,11 @@ begin
   end; //with
 end;
 
+procedure TWCXModule.ShowErrorMessage;
+begin
+  ShowErrorMsg(iResult);
+end;
+
 function TWCXModule.VFSInit: Boolean;
 begin
 
@@ -263,7 +306,7 @@ begin
 end;
 
 
-function TWCXModule.VFSOpen(const sName: String): Boolean;
+function TWCXModule.VFSOpen(const sName: String; bCanYouHandleThisFile : Boolean = False): Boolean;
 var
 ArcHandle : THandle;
 ArcFile : tOpenArchiveData;
@@ -282,10 +325,16 @@ begin
   if not FileExists(FArchiveName) then
     begin
       Result := False;
-      exit;
+      Exit;
     end;
 
   try
+
+  if bCanYouHandleThisFile and Assigned(CanYouHandleThisFile) then
+    begin
+      Result := CanYouHandleThisFile(PChar(sName));
+      if not Result then Exit;
+    end;
 
   DebugLN('Open Archive');
 
@@ -297,15 +346,16 @@ begin
 
   if ArcHandle = 0 then
     begin
-      //Result := E_EOPEN
+      if not bCanYouHandleThisFile then
+        ShowErrorMsg(ArcFile.OpenResult);
+      Result := False;
       Exit;
     end;
 
-  if not FEmulate then
-    begin
-      SetChangeVolProc(ArcHandle, ChangeVolProc);
-      SetProcessDataProc(ArcHandle, ProcessDataProc);
-    end;
+
+  SetChangeVolProc(ArcHandle, ChangeVolProc);
+  SetProcessDataProc(ArcHandle, ProcessDataProc);
+
 
   DebugLN('Get File List');
   (*Get File List*)
@@ -327,7 +377,11 @@ begin
      //****************************
      FillChar(ArcHeader, SizeOf(ArcHeader), #0);
      // get next file
-     ProcessFile(ArcHandle, PK_SKIP, nil, nil);
+     iResult := ProcessFile(ArcHandle, PK_SKIP, nil, nil);
+
+     //Check for errors
+     if iResult <> 0 then
+       ShowErrorMessage;
 
     end;
     (* if plugin is not list a list of folders *)
@@ -348,6 +402,7 @@ begin
   sDirs.Free;
   CloseArchive(ArcHandle);
   end;
+  Result := True;
 end;
 
 function TWCXModule.VFSClose: Boolean;
@@ -393,7 +448,6 @@ var
   Folder : String;
 begin
    FPercent := 0;
-   //FDstPath := sDstPath;
 
 
    (* Get current folder in archive *)
@@ -420,72 +474,53 @@ begin
 
   if ArcHandle = 0 then
    begin
+    if Assigned(AT) then
+      begin
+        iResult := ArcFile.OpenResult;
+        AT.Synchronize(ShowErrorMessage);
+      end
+    else
+      ShowErrorMsg(ArcFile.OpenResult);
     Result := False;
     Exit;
    end;
-  if not FEmulate then
-    begin
-      SetChangeVolProc(ArcHandle, ChangeVolProc);
-      SetProcessDataProc(ArcHandle, ProcessDataProc);
-    end;
+
+  SetChangeVolProc(ArcHandle, ChangeVolProc);
+  SetProcessDataProc(ArcHandle, ProcessDataProc);
+
 
   FillChar(ArcHeader, SizeOf(ArcHeader), #0);
   while (ReadHeader(ArcHandle, ArcHeader) = 0) do
    begin
 
+     if  FFileList.CheckFileName(ArcHeader.FileName) >= 0 then // Want To Extract This File
+       begin
+         DebugLN(FDstPath + ExtractDirLevel(Folder, ArcHeader.FileName));
 
-        if  FFileList.CheckFileName(ArcHeader.FileName) >= 0 then
-          begin
-            DebugLN(FDstPath + ExtractDirLevel(Folder, ArcHeader.FileName));
+         iResult := ProcessFile(ArcHandle, PK_EXTRACT, nil, PChar(FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)));
 
-            if FEmulate then
-              begin
-                FFileOpDlg.sFileName := FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName);
-                FFileOpDlg.iProgress1Pos := 0;
+         //Check for errors
+           if iResult <> 0 then
+             if Assigned(AT) then
+               AT.Synchronize(ShowErrorMessage)
+             else
+               ShowErrorMessage;
+       end
+     else // Skip
+       begin
+         iResult := ProcessFile(ArcHandle, PK_SKIP, nil, nil);
 
-                if Assigned(AT) then
-                  begin
-                    if AT.Terminated then Exit;
-                    AT.Synchronize(FFileOpDlg.UpdateDlg);
-                  end
-                else
-                  begin
-                    if not FFileOpDlg.IsVisible then Exit;
-                    FFileOpDlg.UpdateDlg;
-                    Application.ProcessMessages;
-                  end;
-              end;
-
-            ProcessFile(ArcHandle, PK_EXTRACT, nil, PChar(FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)));
-            //*************
-            if FEmulate then
-              begin
-                if FFilesSize > 0 then
-                  FPercent := FPercent + ((ArcHeader.PackSize * 100) / FFilesSize)
-                else
-                  FPercent := 100;
-                  
-                DebugLN('Percent = ' + IntToStr(Round(FPercent)));
-
-                FFileOpDlg.iProgress1Pos := 100;
-                FFileOpDlg.iProgress2Pos := Round(FPercent);
-
-                 if Assigned(AT) then
-                  AT.Synchronize(FFileOpDlg.UpdateDlg)
-                else
-                  begin
-                    FFileOpDlg.UpdateDlg;
-                    Application.ProcessMessages;
-                  end;
-              end; // Emulate
-            //*************
-            end
-        else
-            ProcessFile(ArcHandle, PK_SKIP, nil, nil);
+         //Check for errors
+         if iResult <> 0 then
+           if Assigned(AT) then
+             AT.Synchronize(ShowErrorMessage)
+           else
+             ShowErrorMessage;
+       end; // Skip
      FillChar(ArcHeader, SizeOf(ArcHeader), #0);
    end;
-   CloseArchive(ArcHandle);
-   Result := True;
+  CloseArchive(ArcHandle);
+  Result := True;
 end;
 
 function TWCXModule.WCXCopyIn : Boolean;
@@ -504,59 +539,21 @@ begin
   DebugLN('Curr Dir := ' + FFileList.CurrentDirectory);
   Folder := PChar(FFileList.CurrentDirectory);
   
-  if not FEmulate then
-  begin
+
   (* Convert TFileList into PChar *)
   FileList := PChar(GetFileList(FFileList));
 
   SetChangeVolProc(0, ChangeVolProc);
   SetProcessDataProc(0, ProcessDataProc);
 
-  PackFiles(PChar(FArchiveName), nil{PChar(FDstPath)}, Folder, FileList, FFlags);
-  end
-  else
-    begin
-      for I := 0 to FFileList.Count - 1 do
-        begin
+  iResult := PackFiles(PChar(FArchiveName), nil{PChar(FDstPath)}, Folder, FileList, FFlags);
 
-          FileList := PChar(FFileList.GetItem(I)^.sName + #0#0);
-
-          FFileOpDlg.sFileName := FileList;
-          FFileOpDlg.iProgress1Pos := 0;
-
-          if Assigned(AT) then // in thread
-            begin
-              if AT.Terminated then Exit;
-              AT.Synchronize(FFileOpDlg.UpdateDlg);
-            end
-          else
-            begin
-              if not FFileOpDlg.IsVisible then Exit;
-              FFileOpDlg.UpdateDlg;
-              Application.ProcessMessages;
-            end;
-          
-          PackFiles(PChar(FArchiveName), nil{PChar(sDstName)}, Folder, FileList, FFlags);
-
-          if FFilesSize > 0 then
-            FPercent := FPercent + ((FFileList.GetItem(I)^.iSize * 100) / FFilesSize)
-          else
-            FPercent := 100;
-            
-          DebugLN('Percent = ' + IntToStr(Round(FPercent)));
-
-          FFileOpDlg.iProgress1Pos := 100;
-          FFileOpDlg.iProgress2Pos := Round(FPercent);
-
-          if Assigned(AT) then // in thread
-            AT.Synchronize(FFileOpDlg.UpdateDlg)
-          else
-            begin
-              FFileOpDlg.UpdateDlg;
-              Application.ProcessMessages;
-            end;
-        end;
-    end;
+  // Check for errors
+  if iResult <> 0 then
+    if Assigned(AT) then
+      AT.Synchronize(ShowErrorMessage)
+    else
+      ShowErrorMessage;
 end;
 
 procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
@@ -762,15 +759,11 @@ function TWCXModule.VFSDelete(var flNameList: TFileList): Boolean;
 var
   Folder : String;
 begin
-
-
   // DebugLN('Folder = ' + Folder);
 
    CopySelectedWithSubFolders(flNameList);
    
    DeleteFiles(PChar(FArchiveName), PChar(GetFileList(flNameList)));
-   
-  
 end;
 
 function TWCXModule.VFSList(const sDir: String; var fl: TFileList): Boolean;

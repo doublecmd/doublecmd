@@ -38,7 +38,7 @@ uses
   SysUtils, Process, LCLProc,
   uGlobs, uOSUtils, fEditor, fViewer;
 
-Function ShowEditorByGlob(const sFileName:String):Boolean;
+function ShowEditorByGlob(const sFileName:String):Boolean;
 begin
   if gUseExtEdit then
     ExecCmdFork(Format(gExtEdit,[sFileName]))
@@ -47,7 +47,7 @@ begin
   Result:=True;   
 end;
 
-Function ShowViewerByGlob(const sFileName:String):Boolean;
+function ShowViewerByGlob(const sFileName:String):Boolean;
 var
   sl:TStringList;
 begin
@@ -66,7 +66,7 @@ begin
   Result:=True;
 end;
 
-Function ShowViewerByGlobList(List : TStringList; bDeleteAfterView : Boolean = False):Boolean;
+function ShowViewerByGlobList(List : TStringList; bDeleteAfterView : Boolean = False):Boolean;
 var
   I, Count:Integer;
   WaitThread : TWaitThread;

@@ -24,6 +24,7 @@ type
    TDoneMemPack = function (hMemPack: integer): integer;stdcall;
    TCanYouHandleThisFile = function (FileName: pchar): boolean;stdcall;
    TPackSetDefaultParams = procedure (dps: pPackDefaultParamStruct);stdcall;
+   TReadHeaderEx = function (hArcData: THandle; var HeaderDataEx : THeaderDataEx): integer;{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
 
 implementation
 

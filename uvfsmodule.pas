@@ -38,7 +38,7 @@ Type
     function VFSCaps : Integer;virtual;abstract;
 
     function VFSConfigure(Parent: THandle):Boolean;virtual;abstract;
-    function VFSOpen(const sName:String):Boolean;virtual;abstract;
+    function VFSOpen(const sName:String; bCanYouHandleThisFile : Boolean = False):Boolean;virtual;abstract;
     function VFSClose:Boolean;virtual;abstract;
     
     function VFSMkDir(const sDirName:String ):Boolean;virtual;abstract;

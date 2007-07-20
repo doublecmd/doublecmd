@@ -2096,7 +2096,7 @@ begin
     with ActiveFrame do
     begin
       SelectFileIfNoSelected(GetActiveItem);
-      ShowFilePropertiesDialog(ActiveFrame.pnlFile.FileList, ActiveFrame.ActiveDir);
+      ShowFilePropertiesDialog(pnlFile.FileList, ActiveDir);
     end;
   finally
     frameLeft.RefreshPanel;
@@ -2117,6 +2117,7 @@ begin
   end;
 end;
 
+{ Show context menu on right click }
 procedure TfrmMain.framedgPanelMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
