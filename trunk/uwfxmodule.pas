@@ -1,7 +1,7 @@
 {
    Double Commander
    -------------------------------------------------------------------------
-   Virtual File System - class for manage WFX plugins
+   Virtual File System - class for manage WFX plugins (Version 1.3)
  
    Copyright (C) 2007  Koblov Alexander (Alexx2000@mail.ru)
  
@@ -65,7 +65,7 @@ Type
     function VFSCaps : Integer;override;
 
     function VFSConfigure(Parent: THandle):Boolean;override;
-    function VFSOpen(const sName:String):Boolean;override;
+    function VFSOpen(const sName:String; bCanYouHandleThisFile : Boolean = False):Boolean;override;
     //function VFSClose:Boolean;override;
     
     function VFSMkDir(const sDirName:String ):Boolean;override;
@@ -347,7 +347,7 @@ begin
   FsStatusInfo('', 0, 0);
 end;
 
-function TWFXModule.VFSOpen(const sName: String): Boolean;
+function TWFXModule.VFSOpen(const sName: String; bCanYouHandleThisFile : Boolean = False): Boolean;
 begin
   FsInit(Random(MaxInt), @MainProgressProc, @MainLogProc, @MainRequestProc);
 end;

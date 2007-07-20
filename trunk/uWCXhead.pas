@@ -41,6 +41,8 @@ const       {Error codes returned to calling application}
   {For PackFiles}
   PK_PACK_MOVE_FILES=   1;    {Delete original after packing}
   PK_PACK_SAVE_PATHS=   2;    {Save path names of files}
+  PK_PACK_ENCRYPT=      4;    {Ask user for password, then encrypt}
+
 
   {Returned by GetPackCaps}
   PK_CAPS_NEW=          1;    {Can create new archives}
@@ -54,6 +56,7 @@ const       {Error codes returned to calling application}
                               { created with this plugin}
   PK_CAPS_HIDE=       256;    { Show as normal files (hide packer icon) }
                               { open with Ctrl+PgDn, not Enter }
+  PK_CAPS_ENCRYPT=    512;    { Plugin supports PK_PACK_ENCRYPT option }
 
   {Flags for packing in memory}
   MEM_OPTIONS_WANTHEADERS=1;  {Return archive headers with packed data}
@@ -88,6 +91,27 @@ type
     CmtBufSize,
     CmtSize,
     CmtState:longint;
+  end;
+
+  THeaderDataEx=packed record
+    ArcName:array [0..1023] of char;
+    FileName:array [0..1023] of char;
+    Flags,
+    PackSize,
+    PackSizeHigh,
+    UnpSize,
+    UnpSizeHigh,
+    HostOS,
+    FileCRC,
+    FileTime,
+    UnpVer,
+    Method,
+    FileAttr:longint;
+    CmtBuf:pchar;
+    CmtBufSize,
+    CmtSize,
+    CmtState:longint;
+    Reserved:array[0..1023] of char;
   end;
 
   tOpenArchiveData=packed record
