@@ -1,41 +1,41 @@
 inherited frmCopyDlg: TfrmCopyDlg
-  Left = 255
-  Height = 162
-  Top = 198
+  Left = 286
+  Height = 187
+  Top = 169
   Width = 345
   HorzScrollBar.Page = 344
   HorzScrollBar.Range = 337
-  VertScrollBar.Page = 161
+  VertScrollBar.Page = 186
   VertScrollBar.Range = 143
   ActiveControl = btnOK
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'frmCopyDlg'
+  ClientHeight = 187
+  ClientWidth = 345
   OnKeyPress = frmCopyDlgKeyPress
   OnShow = frmCopyDlgShow
   Position = poScreenCenter
   object lblCopySrc: TLabel
     Left = 8
-    Height = 14
+    Height = 20
     Top = 8
-    Width = 51
+    Width = 65
     Caption = 'lblCopySrc'
-    Color = clNone
     ParentColor = False
   end
   object lblFileType: TLabel
     Left = 8
-    Height = 14
+    Height = 20
     Top = 64
-    Width = 51
+    Width = 62
     Caption = 'lblFileType'
-    Color = clNone
     ParentColor = False
   end
   object btnOK: TBitBtn
     Left = 176
-    Height = 23
-    Top = 120
+    Height = 32
+    Top = 144
     Width = 75
     BorderSpacing.InnerBorder = 2
     Caption = '&OK'
@@ -46,9 +46,9 @@ inherited frmCopyDlg: TfrmCopyDlg
     TabOrder = 0
   end
   object btnCancel: TBitBtn
-    Left = 264
-    Height = 23
-    Top = 120
+    Left = 262
+    Height = 32
+    Top = 144
     Width = 75
     BorderSpacing.InnerBorder = 2
     Cancel = True
@@ -72,9 +72,16 @@ inherited frmCopyDlg: TfrmCopyDlg
     Width = 329
     AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
     Enabled = False
-    ItemHeight = 18
     MaxLength = 0
     ParentCtl3D = False
     TabOrder = 3
+  end
+  object cbDropReadOnlyFlag: TCheckBox
+    Left = 8
+    Height = 22
+    Top = 120
+    Width = 139
+    Caption = 'Drop readonly flag'
+    TabOrder = 4
   end
 end

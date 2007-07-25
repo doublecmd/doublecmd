@@ -71,6 +71,7 @@ type
     cbExtDiffer: TCheckBox;
     cbExtEditor: TCheckBox;
     cbExtViewer: TCheckBox;
+    cbIconsSize: TComboBox;
     cbLynxLike: TCheckBox;
     cbMainFont: TComboBox;
     cbSeparateExt: TCheckBox;
@@ -78,9 +79,9 @@ type
     cbViewerFont: TComboBox;
     cbExt: TComboBox;
     cbWCXPath: TComboBox;
+    cbDropReadOnlyFlag: TCheckBox;
     clbWFXList: TCheckListBox;
     clbWCXList: TCheckListBox;
-    cbIconsSize: TComboBox;
     cbBackColor2: TColorBox;
     cbMarkColor: TColorBox;
     cbCursorColor: TColorBox;
@@ -106,7 +107,9 @@ type
     gb: TGroupBox;
     gbExample: TGroupBox;
     gbFileTypesColors: TGroupBox;
+    gbMisc: TGroupBox;
     ilTreeView: TImageList;
+    lblIconsSize: TLabel;
     lblInstalledPlugins: TLabel;
     lblCategoryColor: TLabel;
     lblCategoryName: TLabel;
@@ -115,7 +118,6 @@ type
     lblMarkColor: TLabel;
     lblCursorColor: TLabel;
     lblCursorText: TLabel;
-    lblIconsSize: TLabel;
     lblAssociateWith: TLabel;
     lblExt: TLabel;
     lblAbout: TLabel;
@@ -360,6 +362,7 @@ begin
   cbExtViewer.Checked:=gUseExtView;
   cbExtDiffer.Checked:=gUseExtDiff;
   cbSeparateExt.Checked:=gSeparateExt;
+  cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
 
   edtExtEditor.Text:= gExtEdit;
   edtExtViewer.Text:=gExtView;
@@ -439,6 +442,7 @@ begin
   gUseExtView:=cbExtViewer.Checked;
   gUseExtDiff:=cbExtDiffer.Checked;
   gSeparateExt:=cbSeparateExt.Checked;
+  gDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
 
   gExtEdit:= edtExtEditor.Text;
   gExtView:= edtExtViewer.Text;

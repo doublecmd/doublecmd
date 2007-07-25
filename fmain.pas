@@ -1760,6 +1760,7 @@ var
   sDstMaskTemp:String;
   sCopyQuest:String;
   CT : TCopyThread;
+  blDropReadOnlyFlag : Boolean;
 begin
   fl:=TFileList.Create; // free at Thread end by thread
   sCopyQuest:=GetFileDlgStr(clngMsgCpSel,clngMsgCpFlDr);
@@ -1773,24 +1774,27 @@ begin
   else
     sDestPath:=sDestPath+'*.*';
 
-  (* Check not active panel *)
         
-  if NotActiveFrame.pnlFile.PanelMode = pmDirectory then
   with TfrmCopyDlg.Create(Application) do
   begin
     try
       edtDst.Text:=sDestPath;
-      lblCopySrc.Caption:=sCopyQuest;
+      lblCopySrc.Caption := sCopyQuest;
+      cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
+      cbDropReadOnlyFlag.Visible := (NotActiveFrame.pnlFile.PanelMode = pmDirectory);
       if ShowModal=mrCancel then
         Exit ; // throught finally
       sDestPath:=ExtractFilePath(edtDst.Text);
       sDstMaskTemp:=ExtractFileName(edtDst.Text);
+      blDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
 
     finally
       Free;
     end;
-  end //with
-  else
+  end; //with
+
+  (* Check not active panel *)
+  if  NotActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then
     begin
       DebugLN('+++ Copy files to VFS +++');
       fl.CurrentDirectory := ActiveFrame.ActiveDir;
@@ -1818,6 +1822,8 @@ begin
          CT.FFileOpDlg := frmFileOp;
          CT.sDstPath:=sDestPath;
          CT.sDstMask:=sDstMaskTemp;
+         CT.bDropReadOnlyFlag := blDropReadOnlyFlag;
+
          frmFileOp.Thread := TThread(CT);
          frmFileOp.Show;
          CT.Resume;

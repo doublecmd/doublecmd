@@ -47,6 +47,7 @@ var
 
   gShortFileSizeFormat:Boolean=True;
   gSeparateExt:Boolean=False;    // draw filename and extension separate
+  gDropReadOnlyFlag : Boolean = True;
 
   gUseExtEdit:Boolean=False;
   gUseExtView:Boolean=False;
@@ -184,6 +185,7 @@ begin
   gUseExtView := gIni.ReadBool('Configuration', 'UseExtView', False);
   gUseExtDiff := gIni.ReadBool('Configuration', 'UseExtDiff', False);
   gSeparateExt := gIni.ReadBool('Configuration', 'SeparateExt', True);
+  gDropReadOnlyFlag := gIni.ReadBool('Configuration', 'DropReadOnlyFlag', True);
 
   gExtEdit := gIni.ReadString('Configuration', 'ExtEdit', '');
   gExtView := gIni.ReadString('Configuration', 'ExtView', '');
@@ -281,6 +283,7 @@ begin
   gIni.WriteBool('Configuration', 'UseExtView', gUseExtView);
   gIni.WriteBool('Configuration', 'UseExtDiff', gUseExtDiff);
   gIni.WriteBool('Configuration', 'SeparateExt', gSeparateExt);
+  gIni.WriteBool('Configuration', 'DropReadOnlyFlag', gDropReadOnlyFlag);
 
   gIni.WriteString('Configuration', 'ExtEdit', gExtEdit);
   gIni.WriteString('Configuration', 'ExtView', gExtView);

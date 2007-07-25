@@ -68,6 +68,7 @@ type
     FFileOpDlg: TfrmFileOp; // progress window
     sDstPath: String;
     sDstMask: String;
+    bDropReadOnlyFlag : Boolean; // for copy operation
     constructor Create(aFileList:TFileList);virtual;
     destructor Destroy; override;
     function UseForm:Boolean; virtual;

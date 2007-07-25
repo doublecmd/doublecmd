@@ -1,3 +1,5 @@
 ﻿$$$*** This is unit history file ***$$$ ###encoding="UTF-8"###
 15.05.2007 ADD: Function ShowFilePropertiesDialog for Show file properties dialog (Функция для отображения диалога свойств файлов)
 16.07.2007 DEL: Перенес в uOSForms функцию, показывающую свойства файла
+25.07.2007 ADD: Перенес из uCopyThread функцию FileCopyAttr (бывшая CorrectFileInfo), которая копирует
+                            атрибуты файлов
