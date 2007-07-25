@@ -93,6 +93,7 @@ type
 
 function FPS_ISDIR(iAttr:Cardinal) : Boolean;
 function FPS_ISLNK(iAttr:Cardinal) : Boolean;
+function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Boolean;
 function ExecCmdFork(const sCmd:String):Integer;
 function GetDiskFreeSpace(Path : String; var FreeSize, TotalSize : Int64) : Boolean;
 function CreateHardLink(Path, LinkName: string) : Boolean;
@@ -111,7 +112,7 @@ implementation
 (*Is Directory*)
 
 function  FPS_ISDIR(iAttr:Cardinal) : Boolean;
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
 begin
   Result := Boolean(iAttr and faDirectory);
 end;
@@ -124,13 +125,59 @@ end;
 (*Is Link*)
 
 function FPS_ISLNK(iAttr:Cardinal) : Boolean;
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
 begin
   Result := Boolean(iAttr and faSymLink);
 end;
 {$ELSE}
 begin
   Result := BaseUnix.FPS_ISLNK(iAttr);
+end;
+{$ENDIF}
+
+(* Copy file attributes *)
+
+function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Boolean;
+{$IFDEF MSWINDOWS}
+var
+  iAttr : LongInt;
+begin
+  iAttr := FileGetAttr(sSrc);
+  if bDropReadOnlyFlag and Boolean(iAttr and faReadOnly) then
+    iAttr := (iAttr and not faReadOnly);
+  Result := (FileSetAttr(sDst, iAttr) = 0);
+end;
+{$ELSE}  // *nix
+var
+  stat:Stat64;
+  utb:PUTimBuf;
+  mode : dword;
+begin
+  fpstat64(PChar(sSrc),stat);
+//  writeln(AttrToStr(stat.st_mode));  // file time
+  new(utb);
+  utb^.actime:=stat.st_atime;  //last access time // maybe now
+  utb^.modtime:=stat.st_mtime; // last modification time
+  fputime(PChar(sDst),utb);
+  dispose(utb);
+// end file
+
+// owner & group
+  if fpChown(PChar(sDst),stat.st_uid, stat.st_gid)=-1 then
+  begin
+    // development messages
+    writeln(Format('chown (%s) failed',[sSrc]));
+  end;
+// mod
+  mode := stat.st_mode;
+  if bDropReadOnlyFlag and ((mode AND S_IRUSR) = S_IRUSR) and ((mode AND S_IWUSR) <> S_IWUSR) then
+    mode := (mode or S_IWUSR);
+  if fpChmod(PChar(sDst), mode) = -1 then
+  begin
+    // development messages
+    writeln(Format('chmod (%s) failed',[sSrc]));
+  end;
+  Result:=True;
 end;
 {$ENDIF}
 

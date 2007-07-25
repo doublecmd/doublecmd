@@ -1,0 +1,2 @@
+﻿$$$*** This is unit history file ***$$$ ###encoding="UTF-8"###
+25.07.2007 DEL: Перенес функцию CorrectFileInfo (теперь FileCopyAttr) в модуль uOSUtils

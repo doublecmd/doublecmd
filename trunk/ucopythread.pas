@@ -25,12 +25,11 @@ type
     Function CopyFile(const sSrc, sDst:String; bAppend:Boolean):Boolean;
     procedure MainExecute; override;
     Function GetCaptionLng:String; override;
-    function CorrectFileInfo(const sSrc, sDst:String):Boolean;
   end;
 
 implementation
 uses
-  SysUtils, Classes, uLng, uShowMsg, uFileProcs, uFindEx, uDCUtils, uOSUtils {$IFNDEF WIN32}, BaseUnix, Unix{$ENDIF};
+  SysUtils, Classes, uLng, uGlobs, uShowMsg, uFileProcs, uFindEx, uDCUtils, uOSUtils;
 
 const
   cBlockSize=16384; // size of block if copyfile
@@ -176,7 +175,7 @@ begin
       end;
       FFileOpDlg.iProgress1Pos:=dst.Size;
       Synchronize(@FFileOpDlg.UpdateDlg);
-      Result:=CorrectFileInfo(sSrc, sDst); // chmod, chgrp, udate a spol
+      Result := FileCopyAttr(sSrc, sDst, bDropReadOnlyFlag); // chmod, chgrp, udate a spol
     finally
       WriteLN('finally');
       if assigned(src) then
@@ -195,42 +194,6 @@ begin
       ShowMsgError('!!!!EFWriteError');
   end;
 end;
-
-function TCopyThread.CorrectFileInfo(const sSrc, sDst:String):Boolean;
-{$IFDEF WIN32}  // Alexx2000
-begin
-Result := True;
-end;
-{$ELSE}  // *nix
-var
-  stat:Stat64;
-  utb:PUTimBuf;
-
-begin
-  fpstat64(PChar(sSrc),stat);
-//  writeln(AttrToStr(stat.st_mode));  // file time
-  new(utb);
-  utb^.actime:=stat.st_atime;  //last access time // maybe now
-  utb^.modtime:=stat.st_mtime; // last modification time
-  fputime(PChar(sDst),utb);
-  dispose(utb);
-// end file
-
-// owner & group
-  if fpChown(PChar(sDst),stat.st_uid, stat.st_gid)=-1 then
-  begin
-    // development messages
-    writeln(Format('chown (%s) failed',[sSrc]));
-  end;
-// mod
-  if fpChmod(PChar(sDst), stat.st_mode)=-1 then
-  begin
-    // development messages
-    writeln(Format('chmod (%s) failed',[sSrc]));
-  end;
-  Result:=True;
-end;
-{$ENDIF}
 
 Function TCopyThread.GetCaptionLng:String;
 begin

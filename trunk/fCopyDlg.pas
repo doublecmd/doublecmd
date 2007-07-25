@@ -8,9 +8,13 @@ uses
   Dialogs, StdCtrls, fLngForm, Buttons;
 
 type
+
+  { TfrmCopyDlg }
+
   TfrmCopyDlg = class(TfrmLng)
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
+    cbDropReadOnlyFlag: TCheckBox;
     edtDst: TEdit;
     lblCopySrc: TLabel;
     cmbFileType: TComboBox;
