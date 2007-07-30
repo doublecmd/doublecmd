@@ -21,7 +21,6 @@ inherited frmFileOp: TfrmFileOp
     Height = 13
     Width = 59
     Caption = 'lblFileName'
-    Color = clNone
     Font.Color = clBlack
     Font.Height = 13
     Font.Name = 'adobe-helvetica'
@@ -34,7 +33,6 @@ inherited frmFileOp: TfrmFileOp
     Top = 96
     Width = 58
     Caption = 'lblEstimated'
-    Color = clNone
     ParentColor = False
   end
   object pbSecond: TProgressBar

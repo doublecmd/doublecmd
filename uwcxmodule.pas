@@ -40,7 +40,7 @@ Type
   
   { Packing/Unpacking thread }
   
-   TArcThread = class(TThread)
+   TWCXCopyThread = class(TThread)
    protected
      procedure Execute; override;
    public
@@ -60,7 +60,7 @@ Type
     fFolder : String;
     FFilesSize: Int64;
     FPercent : Double;
-    AT : TArcThread;         // Packing/Unpacking thread
+    CT : TWCXCopyThread;         // Packing/Unpacking thread
     FFileOpDlg: TfrmFileOp; // progress window
     procedure ShowErrorMessage;
     function WCXCopyOut : Boolean; {Extract files from archive}
@@ -119,7 +119,7 @@ Type
   end;
 
 implementation
-uses Forms, SysUtils, uFileOp, uOSUtils, LCLProc, uFileProcs, uDCUtils;
+uses Forms, SysUtils, uFileOp, uOSUtils, LCLProc, uFileProcs, uDCUtils, uLng, Controls;
 
 var
   WCXModule : TWCXModule;
@@ -247,6 +247,9 @@ begin
   Result := 1;
   with WCXModule do
   begin
+    if FFileOpDlg.ModalResult = mrCancel then // Cancel operation
+      Result := 0;
+
     if not (Size < 0) then
     begin
       FPercent := FPercent + ((Size * 100) / FFilesSize);
@@ -266,8 +269,8 @@ begin
         end;
         
         
-    if Assigned(AT) then
-      AT.Synchronize(FFileOpDlg.UpdateDlg)
+    if Assigned(CT) then
+      CT.Synchronize(FFileOpDlg.UpdateDlg)
     else
       begin
         FFileOpDlg.UpdateDlg;
@@ -474,10 +477,10 @@ begin
 
   if ArcHandle = 0 then
    begin
-    if Assigned(AT) then
+    if Assigned(CT) then
       begin
         iResult := ArcFile.OpenResult;
-        AT.Synchronize(ShowErrorMessage);
+        CT.Synchronize(ShowErrorMessage);
       end
     else
       ShowErrorMsg(ArcFile.OpenResult);
@@ -501,8 +504,8 @@ begin
 
          //Check for errors
            if iResult <> 0 then
-             if Assigned(AT) then
-               AT.Synchronize(ShowErrorMessage)
+             if Assigned(CT) then
+               CT.Synchronize(ShowErrorMessage)
              else
                ShowErrorMessage;
        end
@@ -512,8 +515,8 @@ begin
 
          //Check for errors
          if iResult <> 0 then
-           if Assigned(AT) then
-             AT.Synchronize(ShowErrorMessage)
+           if Assigned(CT) then
+             CT.Synchronize(ShowErrorMessage)
            else
              ShowErrorMessage;
        end; // Skip
@@ -550,8 +553,8 @@ begin
 
   // Check for errors
   if iResult <> 0 then
-    if Assigned(AT) then
-      AT.Synchronize(ShowErrorMessage)
+    if Assigned(CT) then
+      CT.Synchronize(ShowErrorMessage)
     else
       ShowErrorMessage;
 end;
@@ -652,8 +655,9 @@ begin
 
     FFileList := flSrcList;
     FDstPath := sDstPath;
+    FFlags := Flags;
 
-    AT := nil;
+    CT := nil;
     WCXCopyOut;
     FFileOpDlg.Close;
     FFileOpDlg.Free;
@@ -680,7 +684,7 @@ begin
     FDstPath := sDstName;
     FFlags := Flags;
 
-    AT := nil;
+    CT := nil;
     WCXCopyIn;
     FFileOpDlg.Close;
     FFileOpDlg.Free;
@@ -706,12 +710,12 @@ begin
     FFileList := flSrcList;
     FDstPath := sDstPath;
   
-    AT := TArcThread.Create(True);
-    AT.FreeOnTerminate := True;
-    AT.Operation := OP_EXTRACT;
-    AT.WCXModule := Self;
-    FFileOpDlg.Thread := TThread(AT);
-    AT.Resume;
+    CT := TWCXCopyThread.Create(True);
+    CT.FreeOnTerminate := True;
+    CT.Operation := OP_EXTRACT;
+    CT.WCXModule := Self;
+    FFileOpDlg.Thread := TThread(CT);
+    CT.Resume;
   except
     Result := False;
   end;
@@ -734,12 +738,12 @@ begin
     FDstPath := sDstName;
     FFlags := Flags;
   
-    AT := TArcThread.Create(True);
-    AT.FreeOnTerminate := True;
-    AT.Operation := OP_PACK;
-    AT.WCXModule := Self;
-    FFileOpDlg.Thread := TThread(AT);
-    AT.Resume;
+    CT := TWCXCopyThread.Create(True);
+    CT.FreeOnTerminate := True;
+    CT.Operation := OP_PACK;
+    CT.WCXModule := Self;
+    FFileOpDlg.Thread := TThread(CT);
+    CT.Resume;
   except
     Result := False
   end;
@@ -760,10 +764,27 @@ var
   Folder : String;
 begin
   // DebugLN('Folder = ' + Folder);
+  try
+    FFileOpDlg:= TfrmFileOp.Create(nil);
+    FFileOpDlg.Show;
+    FFileOpDlg.iProgress1Max:=100;
+    FFileOpDlg.iProgress2Max:=100;
+    FFileOpDlg.Caption := lngGetString(clngDlgDel);
 
-   CopySelectedWithSubFolders(flNameList);
+    CT := nil;
+
+    SetChangeVolProc(0, ChangeVolProc);
+    SetProcessDataProc(0, ProcessDataProc);
+
+    CopySelectedWithSubFolders(flNameList);
    
-   DeleteFiles(PChar(FArchiveName), PChar(GetFileList(flNameList)));
+    DeleteFiles(PChar(FArchiveName), PChar(GetFileList(flNameList)));
+    
+    FFileOpDlg.Close;
+    FFileOpDlg.Free;
+  except
+    Result := False
+  end;
 end;
 
 function TWCXModule.VFSList(const sDir: String; var fl: TFileList): Boolean;
@@ -811,9 +832,9 @@ begin
    end;
 end;
 
-{ TArcThread }
+{ TWCXCopyThread }
 
-procedure TArcThread.Execute;
+procedure TWCXCopyThread.Execute;
 
 begin
 // main archive thread code started here
@@ -833,7 +854,7 @@ begin
         Synchronize(FFileOpDlg.Close);
       end; //with
   except
-    DebugLN('Error in "ArcThread.Execute"');
+    DebugLN('Error in "WCXCopyThread.Execute"');
   end;
   end;
 end.
