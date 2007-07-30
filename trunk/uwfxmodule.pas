@@ -5,7 +5,7 @@
  
    Copyright (C) 2007  Koblov Alexander (Alexx2000@mail.ru)
  
-   Callback functions get from:
+   Callback functions based on:
      Total Commander filesystem plugins debugger
      Author: Pavel Dubrovsky
      
@@ -29,16 +29,43 @@ unit uWFXmodule;
 
 interface
 uses
-  uFileList, uVFSModule, ufsplugin, uWFXprototypes, dynlibs, uTypes;
+  Classes, uFileList, uVFSModule, ufsplugin, uWFXprototypes, dynlibs, uTypes, fFileOpDlg;
 
-{$mode objfpc}{$H+}
+{$mode delphi}{$H+}
+const
+  OP_COPYOUT = 0;
+  OP_COPYIN = 1;
+
 Type
+  TWFXModule = class;
+
+  { CopyIn/CopyOut thread }
+
+   { TWFXCopyThread }
+
+   TWFXCopyThread = class(TThread)
+   protected
+     procedure Execute; override;
+   public
+     Operation : Integer;
+     WFXModule : TWFXModule;
+   end;
 
   { TWFXModule }
 
   TWFXModule = class (TVFSModule)
   private
     FModuleHandle:TLibHandle;  // Handle to .DLL or .so
+    FFileList : TFileList;
+    FFlags : Integer;
+    FDstPath : String;
+    FLastFileSize,
+    FFilesSize: Int64;
+    FPercent : Double;
+    CT : TWFXCopyThread;         // CopyIn/CopyOut thread
+    FFileOpDlg: TfrmFileOp; // progress window
+    function WFXCopyOut : Boolean; {Copy files from VFS}
+    function WFXCopyIn : Boolean;  {Copy files in VFS}
   protected
   {Mandatory}
     FsInit : TFsInit;
@@ -84,18 +111,10 @@ Type
 
 implementation
 uses
-  SysUtils, LCLProc, LCLType, uVFSutil, uFileOp, uOSUtils, uFileProcs, Dialogs, Forms;
+  SysUtils, LCLProc, LCLType, uVFSutil, uFileOp, uOSUtils, uFileProcs, uLng, Dialogs, Forms, Controls;
 
-
-function FileTime2DateTime(FT:TFileTime):TDateTime;
 var
-  FileTime:TSystemTime;
-begin
- //FileTimeToLocalFileTime(FT, FT);
- //FileTimeToSystemTime(FT,FileTime);
- //Result:=EncodeDate(FileTime.wYear, FileTime.wMonth, FileTime.wDay)+
- //EncodeTime(FileTime.wHour, FileTime.wMinute, FileTime.wSecond, FileTime.wMilliseconds);
-end;
+  WFXModule : TWFXModule;
 
 { TWFXModule }
 
@@ -171,7 +190,9 @@ end;
 
 constructor TWFXModule.Create;
 begin
-
+  FFilesSize := 0;
+  FPercent := 0;
+  WFXModule := Self;
 end;
 
 destructor TWFXModule.Destroy;
@@ -224,8 +245,36 @@ end;
 {CallBack functions}
 function MainProgressProc (PluginNr:integer;SourceName,TargetName:pchar;PercentDone:integer):integer;stdcall;
 begin
-  Result:=0;
+  Result := 0;
   DebugLN ('MainProgressProc ('+IntToStr(PluginNr)+','+SourceName+','+TargetName+','+inttostr(PercentDone)+')' ,inttostr(result));
+
+  with WFXModule do
+  begin
+    if FFileOpDlg.ModalResult = mrCancel then // Cancel operation
+      Result := 1;
+  
+    DebugLN('Percent1 = ' + IntToStr(PercentDone));
+
+    FFileOpDlg.iProgress1Pos := PercentDone;
+
+    if (FLastFileSize > 0) and (PercentDone = 100) then
+    begin
+      FPercent := FPercent + ((FLastFileSize * 100) / FFilesSize);
+      DebugLN('Percent2 = ' + IntToStr(Round(FPercent)));
+
+      FFileOpDlg.iProgress2Pos := Round(FPercent);
+    end;
+
+    FFileOpDlg.sFileName := SourceName + ' -> ' + TargetName;
+
+    if Assigned(CT) then
+      CT.Synchronize(FFileOpDlg.UpdateDlg)
+    else
+      begin
+        FFileOpDlg.UpdateDlg;
+        Application.ProcessMessages;
+      end;
+  end; //with
 end;
 
 procedure MainLogProc (PluginNr, MsgType : Integer; LogString : PChar);stdcall;
@@ -362,34 +411,33 @@ begin
   Result := FsRemoveDir(PChar(sDirName));
 end;
 
-function TWFXModule.VFSCopyOut(var flSrcList: TFileList; sDstPath: String;
-  Flags: Integer): Boolean;
+function TWFXModule.WFXCopyOut: Boolean;
 var
   Count, I : Integer;
   ri : pRemoteInfo;
   iInt64Rec : TInt64Rec;
   RemoteName,
   LocalName : String;
-  iSize : Int64;
+  iResult : Integer;
 begin
-  FsFillAndCount(flSrcList, iSize);
-  Count := flSrcList.Count - 1;
+  FsFillAndCount(FFileList, FFilesSize);
+  Count := FFileList.Count - 1;
   New(ri);
   for I := 0 to Count do
     begin
-      RemoteName := flSrcList.CurrentDirectory + flSrcList.GetFileName(I);
-      LocalName := ExtractFilePath(sDstPath) +  flSrcList.GetFileName(I);
+      RemoteName := FFileList.CurrentDirectory + FFileList.GetFileName(I);
+      LocalName := ExtractFilePath(FDstPath) +  FFileList.GetFileName(I);
 
       DebugLN('Remote name == ' + RemoteName);
       DebugLN('Local name == ' + LocalName);
 
-      if FPS_ISDIR(flSrcList.GetItem(I)^.iMode) then
+      if FPS_ISDIR(FFileList.GetItem(I)^.iMode) then
         begin
           ForceDirectory(LocalName);
           Continue;
         end;
 
-      with ri^, flSrcList.GetItem(I)^ do
+      with ri^, FFileList.GetItem(I)^ do
         begin
           iInt64Rec.Value := iSize;
           SizeLow := iInt64Rec.Low;
@@ -398,50 +446,152 @@ begin
           Attr := iMode;
         end;
 
-      Result := (FsGetFile(PChar(RemoteName), PChar(LocalName), Flags, ri) = FS_FILE_OK)
+      FLastFileSize := FFileList.GetItem(I)^.iSize;
+
+      iResult := FsGetFile(PChar(RemoteName), PChar(LocalName), FFlags, ri);
+
+      if iResult = FS_FILE_USERABORT then Exit; //Copying was aborted by the user (through ProgressProc)
+
+      Result := (iResult = FS_FILE_OK);
     end;
     Dispose(ri);
-    FreeAndNil(flSrcList);
+    FreeAndNil(FFileList);
 end;
 
-function TWFXModule.VFSCopyIn(var flSrcList: TFileList; sDstName: String;
-  Flags: Integer): Boolean;
+function TWFXModule.WFXCopyIn: Boolean;
 var
   Count, I : Integer;
   LocalName,
   RemoteName : String;
-  iSize : Int64;
+  iResult : Integer;
 begin
-  FillAndCount(flSrcList, iSize);
-  Count := flSrcList.Count - 1;
+  FillAndCount(FFileList, FFilesSize);
+  Count := FFileList.Count - 1;
   for I := 0 to Count do
     begin
-      LocalName := flSrcList.CurrentDirectory + flSrcList.GetFileName(I);
-      RemoteName := ExtractFilePath(sDstName) +  flSrcList.GetFileName(I);
+      LocalName := FFileList.CurrentDirectory + FFileList.GetFileName(I);
+      RemoteName := ExtractFilePath(FDstPath) +  FFileList.GetFileName(I);
 
       DebugLN('Local name == ' + LocalName);
       DebugLN('Remote name == ' + RemoteName);
 
-      if FPS_ISDIR(flSrcList.GetItem(I)^.iMode) then
+      if FPS_ISDIR(FFileList.GetItem(I)^.iMode) then
         begin
           FsMkDir(PChar(RemoteName));
           Continue;
         end;
 
-      Result := (FsPutFile(PChar(LocalName), PChar(RemoteName), Flags) = FS_FILE_OK)
+      FLastFileSize := FFileList.GetItem(I)^.iSize;
+
+      iResult := FsPutFile(PChar(LocalName), PChar(RemoteName), FFlags);
+
+      if iResult = FS_FILE_USERABORT then Exit; //Copying was aborted by the user (through ProgressProc)
+
+      Result := (iResult = FS_FILE_OK);
     end;
+end;
+
+function TWFXModule.VFSCopyOut(var flSrcList: TFileList; sDstPath: String;
+  Flags: Integer): Boolean;
+begin
+  Result := True;
+  try
+    FFileOpDlg:= TfrmFileOp.Create(nil);
+    FFileOpDlg.Show;
+    FFileOpDlg.iProgress1Max:=100;
+    FFileOpDlg.iProgress2Max:=100;
+    FFileOpDlg.Caption := lngGetString(clngDlgCp);
+
+    FFileList := flSrcList;
+    FDstPath := sDstPath;
+    FFlags := Flags;
+
+    CT := nil;
+    WFXCopyOut;
+    FFileOpDlg.Close;
+    FFileOpDlg.Free;
+
+  except
+    Result := False;
+  end;
+end;
+
+function TWFXModule.VFSCopyIn(var flSrcList: TFileList; sDstName: String;
+  Flags: Integer): Boolean;
+begin
+  Result := True;
+  try
+    FFileOpDlg:= TfrmFileOp.Create(nil);
+    FFileOpDlg.Show;
+    FFileOpDlg.iProgress1Max:=100;
+    FFileOpDlg.iProgress2Max:=100;
+    FFileOpDlg.Caption := lngGetString(clngDlgCp);
+
+    FFileList := flSrcList;
+    FDstPath := sDstName;
+    FFlags := Flags;
+
+    CT := nil;
+    WFXCopyIn;
+    FFileOpDlg.Close;
+    FFileOpDlg.Free;
+
+  except
+    Result := False
+  end;
 end;
 
 function TWFXModule.VFSCopyOutEx(var flSrcList: TFileList; sDstPath: String;
   Flags: Integer): Boolean;
 begin
-  VFSCopyOut(flSrcList, sDstPath, Flags);
+  //VFSCopyOut(flSrcList, sDstPath, Flags);
+  Result := True;
+  try
+    FFileOpDlg:= TfrmFileOp.Create(nil);
+    FFileOpDlg.Show;
+    FFileOpDlg.iProgress1Max:=100;
+    FFileOpDlg.iProgress2Max:=100;
+    FFileOpDlg.Caption := lngGetString(clngDlgCp);
+
+    FFileList := flSrcList;
+    FDstPath := sDstPath;
+    FFlags := Flags;
+
+    CT := TWFXCopyThread.Create(True);
+    CT.FreeOnTerminate := True;
+    CT.Operation := OP_COPYOUT;
+    CT.WFXModule := Self;
+    FFileOpDlg.Thread := TThread(CT);
+    CT.Resume;
+  except
+    Result := False;
+  end;
 end;
 
 function TWFXModule.VFSCopyInEx(var flSrcList: TFileList; sDstName: String;
   Flags: Integer): Boolean;
 begin
-  VFSCopyIn(flSrcList, sDstName, Flags);
+  Result := True;
+  try
+    FFileOpDlg:= TfrmFileOp.Create(nil);
+    FFileOpDlg.Show;
+    FFileOpDlg.iProgress1Max:=100;
+    FFileOpDlg.iProgress2Max:=100;
+    FFileOpDlg.Caption := lngGetString(clngDlgCp);
+
+    FFileList := flSrcList;
+    FDstPath := sDstName;
+    FFlags := Flags;
+
+    CT := TWFXCopyThread.Create(True);
+    CT.FreeOnTerminate := True;
+    CT.Operation := OP_COPYIN;
+    CT.WFXModule := Self;
+    FFileOpDlg.Thread := TThread(CT);
+    CT.Resume;
+  except
+    Result := False
+  end;
 end;
 
 function TWFXModule.VFSRename(const sSrcName, sDstName: String): Boolean;
@@ -458,16 +608,30 @@ function TWFXModule.VFSDelete(var flNameList: TFileList): Boolean;
 var
   Count, I : Integer;
 begin
-  Count := flNameList.Count - 1;
-  for I := 0 to Count do
-    begin
-      DebugLN('Delete name == ' + flNameList.GetFileName(I));
+  try
+    FFileOpDlg:= TfrmFileOp.Create(nil);
+    FFileOpDlg.Show;
+    FFileOpDlg.iProgress1Max := 100;
+    FFileOpDlg.iProgress2Max := 100;
+    FFileOpDlg.Caption := lngGetString(clngDlgDel);
+
+    CT := nil;
+
+    Count := flNameList.Count - 1;
+    for I := 0 to Count do
+      begin
+        DebugLN('Delete name == ' + flNameList.GetFileName(I));
       
-      if FPS_ISDIR(flNameList.GetItem(I)^.iMode) then
-        Result := FsRemoveDir(PChar(flNameList.GetFileName(I)))
-      else
-        Result := FsDeleteFile(PChar(flNameList.GetFileName(I)));
-    end;
+        if FPS_ISDIR(flNameList.GetItem(I)^.iMode) then
+          Result := FsRemoveDir(PChar(flNameList.GetFileName(I)))
+       else
+          Result := FsDeleteFile(PChar(flNameList.GetFileName(I)));
+      end;
+    FFileOpDlg.Close;
+    FFileOpDlg.Free;
+  except
+    Result := False;
+  end;
 end;
 
 function TWFXModule.VFSList(const sDir: String; var fl: TFileList): Boolean;
@@ -503,13 +667,38 @@ begin
       sPath := sDir;
 
       iSize := (FindData.nFileSizeHigh * MAXDWORD)+FindData.nFileSizeLow;
-      fTimeI := FileTime2DateTime(FindData.ftLastWriteTime);
+      fTimeI := 0;//FileTime2DateTime(FindData.ftLastWriteTime);
       sTime := DateToStr(fTimeI);
     end;
   fl.AddItem(fr);
   until not FsFindNext(Handle, FindData);
   FsFindClose(Handle);
   
+end;
+
+{ TWFXCopyThread }
+
+procedure TWFXCopyThread.Execute;
+begin
+// main archive thread code started here
+  try
+    with WFXModule do
+      begin
+      case Operation of
+        OP_COPYOUT:
+          begin
+            WFXCopyOut;
+          end;
+        OP_COPYIN:
+          begin
+            WFXCopyIn;
+          end;
+      end; //case
+        Synchronize(FFileOpDlg.Close);
+      end; //with
+  except
+    DebugLN('Error in "WFXCopyThread.Execute"');
+  end;
 end;
 
 end.

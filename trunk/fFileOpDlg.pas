@@ -63,8 +63,9 @@ end;
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
 begin
-if Assigned(Thread) then
-   Thread.Terminate;
+  if Assigned(Thread) then
+    Thread.Terminate;
+  ModalResult := mrCancel;
 end;
 
 procedure TfrmFileOp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
