@@ -1,7 +1,7 @@
 inherited frmMain: TfrmMain
-  Left = 125
+  Left = 189
   Height = 336
-  Top = 174
+  Top = 178
   Width = 525
   HorzScrollBar.Page = 524
   VertScrollBar.Page = 315
@@ -444,7 +444,6 @@ inherited frmMain: TfrmMain
       OnClick = mnuHelpClick
       object mnuHelpAbout: TMenuItem
         Action = actAbout
-        ShortCut = 112
         OnClick = actAboutExecute
       end
     end
@@ -465,6 +464,7 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actViewExecute
+      ShortCut = 114
     end
     object actEdit: TAction
       Category = 'Classic'
@@ -472,6 +472,7 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actEditExecute
+      ShortCut = 115
     end
     object actCopy: TAction
       Category = 'Classic'
@@ -479,6 +480,7 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actCopyExecute
+      ShortCut = 116
     end
     object actRename: TAction
       Category = 'Classic'
@@ -486,6 +488,7 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actRenameExecute
+      ShortCut = 117
     end
     object actMakeDir: TAction
       Category = 'Classic'
@@ -493,6 +496,7 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actMakeDirExecute
+      ShortCut = 118
     end
     object actDelete: TAction
       Category = 'Classic'
@@ -507,6 +511,7 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actAboutExecute
+      ShortCut = 112
     end
     object actShowSysFiles: TAction
       Category = 'File'

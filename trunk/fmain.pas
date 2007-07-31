@@ -932,37 +932,6 @@ begin
   if Shift=[] then
   begin
     case Key of
-     VK_F1:
-       begin
-         actAbout.Execute;
-         Exit;
-       end;
-     VK_F3:
-       begin
-         actView.Execute;
-         Exit;
-       end;
-     VK_F4:
-       begin
-         actEdit.Execute;
-         Exit;
-       end;
-
-     VK_F5:
-       begin
-         actCopy.Execute;
-         Exit;
-       end;
-     VK_F6:
-       begin
-         actRename.Execute;
-         Exit;
-       end;
-     VK_F7:
-       begin
-         actMakeDir.Execute;
-         Exit;
-       end;
      VK_F8, VK_DELETE:
        begin
 {         Key:=0;
