@@ -27,7 +27,16 @@
 unit ZipFunc;
 
 interface
-uses uWCXhead;
+uses uWCXhead, AbZipKit, AbArcTyp;
+
+type
+  TAbZipKitEx = class (TAbZipKit)
+  private
+    FProcessDataProc : TProcessDataProc;
+    procedure AbArchiveItemProgressEvent(Sender : TObject; Item : TAbArchiveItem; Progress : Byte;
+                                         var Abort : Boolean);
+    procedure AbArchiveProgressEvent (Sender : TObject; Progress : Byte; var Abort : Boolean);
+  end;
 
 {Mandatory functions}
 function OpenArchive (var ArchiveData : tOpenArchiveData) : THandle;{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
@@ -35,7 +44,7 @@ function ReadHeader (hArcData : THandle; var HeaderData : THeaderData) : Integer
 function ProcessFile (hArcData : THandle; Operation : Integer; DestPath, DestName : PChar) : Integer;{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
 function CloseArchive (hArcData : THandle) : Integer;{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
 procedure SetChangeVolProc (hArcData : THandle; pChangeVolProc1 : PChangeVolProc);{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
-procedure SetProcessDataProc (hArcData : THandle; pProcessDataProc1 : PProcessDataProc);{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
+procedure SetProcessDataProc (hArcData : THandle; pProcessDataProc1 : TProcessDataProc);{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
 {Optional functions}
 function PackFiles(PackedFile: pchar;  SubPath: pchar;  SrcPath: pchar;  AddList: pchar;  Flags: integer): Integer;{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
 function DeleteFiles (PackedFile, DeleteList : PChar) : Integer;{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
@@ -43,9 +52,25 @@ function GetPackerCaps : Integer;{$IFNDEF WIN32}cdecl{$ELSE}stdcall{$ENDIF};
 
 
 implementation
-uses AbZipKit, AbUtils, SysUtils, Classes;//, windows;
+uses AbUtils, SysUtils, Classes;//, windows;
+
 var
-Arc : TAbZipKit;
+  ProcessDataProc : TProcessDataProc;
+
+{$IFNDEF FPC} // for compiling under Delphi
+Const
+  DirSeparators : set of char = ['/','\'];
+
+Procedure DoDirSeparators (Var FileName : String);
+
+VAr I : longint;
+
+begin
+  For I:=1 to Length(FileName) do
+    If FileName[I] in DirSeparators then
+      FileName[i]:=PathDelim;
+end;
+{$ENDIF}
 
 function ExtractOnlyFileName(const FileName: string): string;
 var
@@ -101,29 +126,33 @@ begin
 end;
 
 function OpenArchive (var ArchiveData : tOpenArchiveData) : THandle;
+var
+  Arc : TAbZipKitEx;
 begin
-  if not Assigned(Arc) Then
-    Arc := TAbZipKit.Create(nil);
+  Arc := TAbZipKitEx.Create(nil);
   //MessageBox(0,ArchiveData.ArcName,'OpenArchive',16);
+  Arc.OnArchiveItemProgress := Arc.AbArchiveItemProgressEvent;
+  Arc.OnArchiveProgress := Arc.AbArchiveProgressEvent;
+
   Arc.OpenArchive(ArchiveData.ArcName);
-  Arc.Tag :=0;
+  Arc.Tag := 0;
   //MessageBox(0,'OpenArchive','OpenArchive',16);
   Result :=Cardinal(Arc);
-
 end;
 
 function ReadHeader (hArcData : THandle; var HeaderData : THeaderData) : Integer;
 var
+  Arc : TAbZipKitEx;
   I, Size : Integer;
   Year, Month, Day,
   Hour, Min, Sec, MSec: Word;
   sFileName : String;
 begin
-
+  Arc := TAbZipKitEx(Pointer(hArcData));
   if Arc.Tag > Arc.Count - 1 then
     begin
       Result := E_END_ARCHIVE;
-      exit;
+      Exit;
     end;
 
 
@@ -156,34 +185,38 @@ begin
 end;
 
 function ProcessFile (hArcData : THandle; Operation : Integer; DestPath, DestName : PChar) : Integer;
+var
+  Arc : TAbZipKitEx;
 begin
-case Operation of
-PK_TEST:
-        begin
-        Arc.TagItems('*.*');
-        Arc.TestTaggedItems;
-        end;
+  Arc := TAbZipKitEx(Pointer(hArcData));
+  case Operation of
+  PK_TEST:
+    begin
+      Arc.TagItems('*.*');
+      Arc.TestTaggedItems;
+    end;
 
-PK_EXTRACT:
-           begin
-           Arc.BaseDirectory := ExtractFilePath(DestName);//DestPath;
-           Arc.ExtractAt(Arc.Tag, DestName);
-           end;
+  PK_EXTRACT:
+    begin
+      Arc.BaseDirectory := ExtractFilePath(DestName);//DestPath;
+      Arc.ExtractAt(Arc.Tag, DestName);
+    end;
 
-PK_SKIP:
-        begin
+  PK_SKIP:
+    begin
 
-        end;
-end; {case}
+    end;
+  end; {case}
 
-Arc.Tag := Arc.Tag + 1;
-Result :=0;
-
-
+  Arc.Tag := Arc.Tag + 1;
+  Result := 0;
 end;
 
 function CloseArchive (hArcData : THandle) : Integer;
+var
+ Arc : TAbZipKitEx;
 begin
+  Arc := TAbZipKitEx(Pointer(hArcData));
   Arc.CloseArchive;
   FreeAndNil(Arc);
   Result := 0;
@@ -193,19 +226,37 @@ procedure SetChangeVolProc (hArcData : THandle; pChangeVolProc1 : PChangeVolProc
 begin
 end;
 
-procedure SetProcessDataProc (hArcData : THandle; pProcessDataProc1 : PProcessDataProc);
+procedure SetProcessDataProc (hArcData : THandle; pProcessDataProc1 : TProcessDataProc);
+var
+ Arc : TAbZipKitEx;
 begin
+  if (hArcData <> 0) then  // if archive is open
+   begin
+     Arc := TAbZipKitEx(Pointer(hArcData));
+     if Assigned(pProcessDataProc1) then
+       Arc.FProcessDataProc := pProcessDataProc1
+     else
+       Arc.FProcessDataProc := nil;
+   end
+  else  // if archive is close
+     if Assigned(pProcessDataProc1) then
+       ProcessDataProc := pProcessDataProc1
+     else
+       ProcessDataProc := nil;
 end;
 
 {Optional functions}
 
 function PackFiles(PackedFile: pchar;  SubPath: pchar;  SrcPath: pchar;  AddList: pchar;  Flags: integer): integer;
+var
+ Arc : TAbZipKitEx;
 begin
   try
+    Arc := TAbZipKitEx.Create(nil);
+    Arc.FProcessDataProc := ProcessDataProc;
+    Arc.OnArchiveItemProgress := Arc.AbArchiveItemProgressEvent;
+    Arc.OnArchiveProgress := Arc.AbArchiveProgressEvent;
 
-    if not Assigned(Arc) Then
-      Arc := TAbZipKit.Create(nil);
-    
     Arc.OpenArchive(PackedFile);
     Arc.BaseDirectory := SrcPath;
     
@@ -220,12 +271,18 @@ begin
 end;
 
 function DeleteFiles (PackedFile, DeleteList : PChar) : Integer;
+var
+ Arc : TAbZipKitEx;
 begin
   try
-    if not Assigned(Arc) Then
-    Arc := TAbZipKit.Create(nil);
+    Arc := TAbZipKitEx.Create(nil);
+    Arc.FProcessDataProc := ProcessDataProc;
+    Arc.OnArchiveItemProgress := Arc.AbArchiveItemProgressEvent;
+    Arc.OnArchiveProgress := Arc.AbArchiveProgressEvent;
+    
     Arc.OpenArchive(PackedFile);
     Arc.DeleteFiles(MakeFileList(DeleteList));
+    Arc.Save;
     Arc.CloseArchive;
     FreeAndNil(Arc);
     Result := 0;
@@ -236,8 +293,33 @@ end;
 
 function GetPackerCaps : Integer;
 begin
-  Result := PK_CAPS_DELETE or PK_CAPS_MODIFY or PK_CAPS_MULTIPLE;
+  Result := PK_CAPS_NEW or PK_CAPS_DELETE or PK_CAPS_MODIFY or PK_CAPS_MULTIPLE;
 end;
 
+
+{ TAbZipKitEx }
+
+procedure TAbZipKitEx.AbArchiveItemProgressEvent(Sender: TObject;
+  Item: TAbArchiveItem; Progress: Byte; var Abort: Boolean);
+begin
+  try
+    if Assigned(FProcessDataProc) then
+      Abort := (FProcessDataProc(PChar(Item.FileName), -(Progress)) = 0);
+  except
+    Abort := True;
+  end;
+
+end;
+
+procedure TAbZipKitEx.AbArchiveProgressEvent(Sender: TObject;
+  Progress: Byte; var Abort: Boolean);
+begin
+ try
+    if Assigned(FProcessDataProc) then
+      Abort := (FProcessDataProc(nil, -(Progress + 1000)) = 0);
+  except
+    Abort := True;
+  end;
+end;
 
 end.

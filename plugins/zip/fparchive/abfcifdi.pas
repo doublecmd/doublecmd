@@ -37,7 +37,9 @@ interface
 
 uses
   Types, //!! MVC for BOOL
-  //dynlibs, // loadlibrary
+  {$IFDEF FPC}
+  dynlibs, // loadlibrary
+  {$ENDIF}
 {$ifdef mswindows}
   Windows,
 {$endif}  

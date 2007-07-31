@@ -250,22 +250,26 @@ begin
     if FFileOpDlg.ModalResult = mrCancel then // Cancel operation
       Result := 0;
 
-    if not (Size < 0) then
-    begin
-      FPercent := FPercent + ((Size * 100) / FFilesSize);
-      DebugLN('Percent = ' + IntToStr(Round(FPercent)));
+    FFileOpDlg.sFileName := FileName;
 
-      FFileOpDlg.iProgress1Pos := 100;
-      FFileOpDlg.iProgress2Pos := Round(FPercent);
-    end
+    if not (Size < 0) then
+      begin
+        FPercent := FPercent + ((Size * 100) / FFilesSize);
+        DebugLN('Percent = ' + IntToStr(Round(FPercent)));
+
+        FFileOpDlg.iProgress1Pos := 100;
+        FFileOpDlg.iProgress2Pos := Round(FPercent);
+      end
     else // For plugins which unpack in CloseArchive
-      if Size in [-1..-100] then // first percent bar
+      if (Size >= -100) and (Size <= -1) then // first percent bar
         begin
-          FFileOpDlg.iProgress1Pos := (Size * -1)
+          FFileOpDlg.iProgress1Pos := (Size * -1);
+          DebugLN('Working ' + FileName + ' Percent1 = ' + IntToStr(FFileOpDlg.iProgress1Pos));
         end
-      else if Size in [-1000..-1100] then // second percent bar
+      else if (Size >= -1100) and (Size <= -1000) then // second percent bar
         begin
           FFileOpDlg.iProgress2Pos := (Size * -1) - 1000;
+          DebugLN('Working ' + FileName + ' Percent2 = ' + IntToStr(FFileOpDlg.iProgress2Pos));
         end;
         
         
