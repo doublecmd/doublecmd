@@ -26,70 +26,47 @@ interface
 
 uses
     SysUtils, Classes, LCLProc, uDCUtils
-    {$IFDEF WIN32}
+    {$IFDEF MSWINDOWS}
     , Windows, ShellApi, MMSystem, uNTFSLinks
     {$ELSE}
     , BaseUnix, Libc, Unix, UnixType
     {$ENDIF};
     
+{$mode delphi}{$H+}
+    
 const
-  {$IFDEF UNIX}
-  faFolder = S_IFDIR;
-  {$ELSE}
+  {$IFDEF MSWINDOWS}
   faFolder = faDirectory;
+  faSymLink   = $00000400;
+  {$ELSE}
+  faFolder = S_IFDIR;
   {$ENDIF}
 
 type
-TDriveType = (dtUnknown, dtNoDrive, dtFloppy, dtFixed, dtNetwork, dtCDROM,
-    dtRAM);
+   TDriveType = (dtUnknown, dtNoDrive, dtFloppy, dtFixed, dtNetwork, dtCDROM,
+                 dtRAM);
     
-TDrive = record
-Name,
-Path,
-DriveLabel :String;
-DriveType : TDriveType;
-DriveIcon : Integer;
-end;
-PDrive = ^TDrive;
-
-{$IFDEF WIN32}
-const
-  WM_DEVICECHANGE = $0219;
-  faSymLink   = $00000400;
-
-type
-  _DEV_BROADCAST_HDR = record // Device broadcast header
-    dbch_size: DWORD;
-    dbch_devicetype: DWORD;
-    dbch_reserved: DWORD;
+  TDrive = record
+    Name,
+    Path,
+    DriveLabel :String;
+    DriveType : TDriveType;
+    DriveIcon : Integer;
   end;
-  DEV_BROADCAST_HDR = _DEV_BROADCAST_HDR;
-  PDEV_BROADCAST_HDR = ^DEV_BROADCAST_HDR;
+  PDrive = ^TDrive;
 
-// The following messages are for WM_DEVICECHANGE. The immediate list
-// is for the wParam. ALL THESE MESSAGES PASS A POINTER TO A STRUCT
-// STARTING WITH A DWORD SIZE AND HAVING NO POINTER IN THE STRUCT.
-
-const
-  DBT_DEVICEARRIVAL        = $8000; // system detected a new device
-  DBT_DEVICEREMOVECOMPLETE = $8004; // device is gone
-
-  DBT_DEVTYP_VOLUME = $00000002; // logical volume
-
-  DBTF_MEDIA = $0001; // media comings and goings
-  DBTF_NET   = $0002; // network volume
-
-type
-  _DEV_BROADCAST_VOLUME = record
-    dbcv_size: DWORD;
-    dbcv_devicetype: DWORD;
-    dbcv_reserved: DWORD;
-    dbcv_unitmask: DWORD;
-    dbcv_flags: WORD;
+{$IFDEF MSWINDOWS}
+  FILETIME = Windows.FILETIME;
+{$ELSE}
+  FILETIME = record
+    dwLowDateTime : DWORD;
+    dwHighDateTime : DWORD;
   end;
-  DEV_BROADCAST_VOLUME  = _DEV_BROADCAST_VOLUME;
-  PDEV_BROADCAST_VOLUME = ^DEV_BROADCAST_VOLUME;
 {$ENDIF}
+  LPFILETIME = ^FILETIME;
+  _FILETIME = FILETIME;
+  TFILETIME = FILETIME;
+  PFILETIME = ^FILETIME;
 
 function FPS_ISDIR(iAttr:Cardinal) : Boolean;
 function FPS_ISLNK(iAttr:Cardinal) : Boolean;
@@ -104,6 +81,10 @@ function GetLastDir(Path : String) : String;
 
 function IsAvailable(Path : String) : Boolean;
 function GetAllDrives : TList;
+
+(* Date/Time routines *)
+function FileTimeToLocalFileTimeEx(const lpFileTime: TFileTime; var lpLocalFileTime: TFileTime): BOOL;
+function FileTimeToDateTime(ft : TFileTime) : TDateTime;
 
 
 implementation
@@ -235,7 +216,7 @@ end;
 
 
 function CreateHardLink(Path, LinkName: string) : Boolean;
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
 begin
   Result := True;
   try
@@ -251,7 +232,7 @@ end;
 {$ENDIF}
 
 function CreateSymLink(Path, LinkName: string) : Boolean;
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
 begin
   Result := True;
   try
@@ -269,7 +250,7 @@ end;
 (* Get symlink target *)
 
 function ReadSymLink(LinkName : String) : String;
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
 var
   Target: WideString;
   LinkType: TReparsePointType;
@@ -292,7 +273,7 @@ end;
 (* Return home directory*)
 
 function GetHomeDir : String;
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
 var
 size : Integer;
 begin
@@ -320,7 +301,7 @@ if Result = '' then
 end;
 
 
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
 (* Drive ready *)
 
 const drive_root: AnsiString = ':\';
@@ -417,7 +398,7 @@ end;
 
 
 function IsAvailable(Path: String): Boolean;
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
 var
   Drv: Char;
     DriveLabel: string;
@@ -464,12 +445,12 @@ function GetAllDrives : TList;
 var
   Drive : PDrive;
 
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
   DriveNum: Integer;
   DriveBits: set of 0..25;
 begin
-Result := TList.Create;
-{ fill list }
+  Result := TList.Create;
+  { fill list }
   Integer(DriveBits) := GetLogicalDrives;
   for DriveNum := 0 to 25 do
   begin
@@ -518,5 +499,24 @@ begin
   endmntent(fstab);
 end;
 {$ENDIF}
+
+(* Date/Time routines *)
+
+function FileTimeToLocalFileTimeEx(const lpFileTime: TFileTime; var lpLocalFileTime: TFileTime): BOOL;
+{$IFDEF MSWINDOWS}
+begin
+  Result := FileTimeToLocalFileTime(lpFileTime, lpLocalFileTime);
+end;
+{$ELSE}
+begin
+  comp(lpLocalFileTime) := comp(lpFileTime) - 10000000.0 * TZSeconds; // need to test
+end;
+{$ENDIF}
+
+function FileTimeToDateTime(ft : TFileTime) : TDateTime;
+begin
+  FileTimeToLocalFileTimeEx(ft,ft);
+  Result := (Int64(ft) / 864000000000.0) - 109205.0;
+end;
 
 end.

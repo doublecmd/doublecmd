@@ -3,3 +3,4 @@
 16.07.2007 DEL: Перенес в uOSForms функцию, показывающую свойства файла
 25.07.2007 ADD: Перенес из uCopyThread функцию FileCopyAttr (бывшая CorrectFileInfo), которая копирует
                             атрибуты файлов
+01.08.2007 ADD: Добавил функции FileTimeToLocalFileTimeEx и FileTimeToDateTime
