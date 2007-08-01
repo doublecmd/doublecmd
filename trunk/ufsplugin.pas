@@ -2,7 +2,7 @@ unit ufsplugin;    {Plugin definitions version 1.5}
 
 interface
 
-uses SysUtils;
+uses SysUtils, uOSUtils;
 
 { ids for FsGetFile }
 
@@ -153,13 +153,6 @@ const FS_BITMAP_NONE=0;
 const
   MAXDWORD = DWORD($FFFFFFFF);
   
-type
-  TFileTime = record
-    dwLowDateTime: DWORD;
-    dwHighDateTime: DWORD;
-  end;
-  PFileTime = ^TFileTime;
-
 type
   TInt64Rec = packed record
       case Boolean of

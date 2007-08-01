@@ -667,7 +667,7 @@ begin
       sPath := sDir;
 
       iSize := (FindData.nFileSizeHigh * MAXDWORD)+FindData.nFileSizeLow;
-      fTimeI := 0;//FileTime2DateTime(FindData.ftLastWriteTime);
+      fTimeI := FileTimeToDateTime(FindData.ftLastWriteTime);
       sTime := DateToStr(fTimeI);
     end;
   fl.AddItem(fr);

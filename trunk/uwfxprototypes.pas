@@ -5,7 +5,7 @@ unit uWFXprototypes;
 interface
 
 uses
-  {Classes, SysUtils,} ufsplugin;
+  {Classes, SysUtils,} ufsplugin, uOSUtils;
 
 type
 {Mandatory}
