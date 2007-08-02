@@ -32,7 +32,7 @@ uses
     , BaseUnix, Libc, Unix, UnixType, UnixUtil
     {$ENDIF};
     
-{.$mode delphi}{.$H+}
+{$mode delphi}{$H+}
     
 const
   {$IFDEF MSWINDOWS}
