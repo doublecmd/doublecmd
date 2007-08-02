@@ -25,14 +25,14 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes, LCLProc, uDCUtils
+    SysUtils, Classes, LCLProc, uDCUtils, uFindEx
     {$IFDEF MSWINDOWS}
     , Windows, ShellApi, MMSystem, uNTFSLinks
     {$ELSE}
-    , BaseUnix, Libc, Unix, UnixType
+    , BaseUnix, Libc, Unix, UnixType, UnixUtil
     {$ENDIF};
     
-{$mode delphi}{$H+}
+{.$mode delphi}{.$H+}
     
 const
   {$IFDEF MSWINDOWS}
@@ -83,7 +83,7 @@ function IsAvailable(Path : String) : Boolean;
 function GetAllDrives : TList;
 
 (* Date/Time routines *)
-function FileTimeToLocalFileTimeEx(const lpFileTime: TFileTime; var lpLocalFileTime: TFileTime): BOOL;
+function FileTimeToLocalFileTimeEx(const lpFileTime: TFileTime; var lpLocalFileTime: TFileTime): LongBool;
 function FileTimeToDateTime(ft : TFileTime) : TDateTime;
 
 
@@ -130,27 +130,27 @@ begin
 end;
 {$ELSE}  // *nix
 var
-  stat:Stat64;
-  utb:PUTimBuf;
+  StatInfo : uFindEx.Stat64;
+  utb : BaseUnix.PUTimBuf;
   mode : dword;
 begin
-  fpstat64(PChar(sSrc),stat);
+  fpstat64(PChar(sSrc),StatInfo);
 //  writeln(AttrToStr(stat.st_mode));  // file time
   new(utb);
-  utb^.actime:=stat.st_atime;  //last access time // maybe now
-  utb^.modtime:=stat.st_mtime; // last modification time
+  utb^.actime:=StatInfo.st_atime;  //last access time // maybe now
+  utb^.modtime:=StatInfo.st_mtime; // last modification time
   fputime(PChar(sDst),utb);
   dispose(utb);
 // end file
 
 // owner & group
-  if fpChown(PChar(sDst),stat.st_uid, stat.st_gid)=-1 then
+  if fpChown(PChar(sDst),StatInfo.st_uid, StatInfo.st_gid)=-1 then
   begin
     // development messages
     writeln(Format('chown (%s) failed',[sSrc]));
   end;
 // mod
-  mode := stat.st_mode;
+  mode := StatInfo.st_mode;
   if bDropReadOnlyFlag and ((mode AND S_IRUSR) = S_IRUSR) and ((mode AND S_IWUSR) <> S_IWUSR) then
     mode := (mode or S_IWUSR);
   if fpChmod(PChar(sDst), mode) = -1 then
@@ -502,14 +502,14 @@ end;
 
 (* Date/Time routines *)
 
-function FileTimeToLocalFileTimeEx(const lpFileTime: TFileTime; var lpLocalFileTime: TFileTime): BOOL;
+function FileTimeToLocalFileTimeEx(const lpFileTime: TFileTime; var lpLocalFileTime: TFileTime): LongBool;
 {$IFDEF MSWINDOWS}
 begin
   Result := FileTimeToLocalFileTime(lpFileTime, lpLocalFileTime);
 end;
 {$ELSE}
 begin
-  comp(lpLocalFileTime) := comp(lpFileTime) - 10000000.0 * TZSeconds; // need to test
+  Int64(lpLocalFileTime) := Int64(lpFileTime) + 10000000 * Int64(TZSeconds);
 end;
 {$ENDIF}
 
