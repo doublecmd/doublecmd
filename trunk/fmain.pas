@@ -54,6 +54,7 @@ type
   TfrmMain = class(TfrmLng)
     actChMod: TAction;
     actChown: TAction;
+    actExtractFiles: TAction;
     actPackFiles: TAction;
     actRemoveTab: TAction;
     actNewTab: TAction;
@@ -176,6 +177,7 @@ type
     actFileSpliter: TAction;
     pmToolBar: TPopupMenu;
     Splitter1: TSplitter;
+    procedure actExtractFilesExecute(Sender: TObject);
     procedure actPackFilesExecute(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -309,7 +311,7 @@ uses
   uCopyThread, uFileList, uDeleteThread,
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg,
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink,
-  fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg,
+  fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg, fExtractDlg,
   fLinker, fSplitter, uFileProcs, lclType, LCLProc, uOSUtils, uOSForms, uPixMapManager;
 
 
@@ -353,6 +355,28 @@ begin
   end;
 
 end;
+
+procedure TfrmMain.actExtractFilesExecute(Sender: TObject);
+var
+  fl : TFileList;
+begin
+  fl:=TFileList.Create;
+  with ActiveFrame do
+    begin
+      SelectFileIfNoSelected(GetActiveItem);
+      CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
+
+      fl.CurrentDirectory := ActiveDir;
+    end;
+  try
+    ShowExtractDlg(ActiveFrame.pnlFile.VFS, fl, NotActiveFrame.ActiveDir);
+  finally
+    frameLeft.RefreshPanel;
+    frameRight.RefreshPanel;
+  end;
+
+end;
+
 
 procedure TfrmMain.Button2Click(Sender: TObject);
 begin
@@ -552,14 +576,14 @@ begin
   
   {Left panel}
   LastDir := gIni.ReadString('left', 'path', '');
-  if LastDir <> '' then
+  if (LastDir <> '') and (DirectoryExists(LastDir)) then
     begin
      FrameLeft.pnlFile.ActiveDir := LastDir;
      FrameLeft.pnlFile.LoadPanel;
     end;
   {Right panel}
   LastDir := gIni.ReadString('right', 'path', '');
-  if LastDir <> '' then
+  if (LastDir <> '') and (DirectoryExists(LastDir)) then
     begin
      FrameRight.pnlFile.ActiveDir := LastDir;
      FrameRight.pnlFile.LoadPanel;

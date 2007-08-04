@@ -25,7 +25,6 @@ object PackDlg: TPackDlg
     Width = 445
     AutoSize = False
     Caption = 'Pack file(s) to the file:'
-    Color = clNone
     Font.Color = clBtnText
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
@@ -49,7 +48,6 @@ object PackDlg: TPackDlg
     Width = 197
     Caption = 'Also &pack path names (only recursed)'
     Checked = True
-    Enabled = False
     State = cbChecked
     TabOrder = 1
   end
@@ -167,7 +165,6 @@ object PackDlg: TPackDlg
     Top = 91
     Width = 97
     Caption = 'M&ove to archive'
-    Enabled = False
     TabOrder = 4
   end
   object cbCreateSFX: TCheckBox
@@ -197,7 +194,6 @@ object PackDlg: TPackDlg
     Top = 139
     Width = 56
     Caption = 'Encr&ypt'
-    Enabled = False
     TabOrder = 7
   end
   object cbCreateSeparateArchives: TCheckBox

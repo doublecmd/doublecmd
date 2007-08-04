@@ -75,6 +75,8 @@ var
   CurrentVFS : TVFS;
 
 procedure ShowPackFilesForm(VFS : TVFS; var fl: TFileList; sDestPath:String);
+var
+  Flags : LongInt;
 begin
   with TPackDlg.Create(nil) do
     begin
@@ -93,7 +95,11 @@ begin
       if (ShowModal = mrOK) then
           if VFS.FindModule(edtPackCmd.Text) then
             begin
-              VFS.VFSmodule.VFSCopyIn(fl, '', 2);
+              Flags := 0;
+              if cbMoveToArchive.Checked then Flags := Flags or PK_PACK_MOVE_FILES;
+              if cbStoredir.Checked then Flags := Flags or PK_PACK_SAVE_PATHS;
+              if cbEncrypt.Checked then Flags := Flags or PK_PACK_ENCRYPT;
+              VFS.VFSmodule.VFSCopyIn(fl, '', Flags);
             end;
       Free;
     end;

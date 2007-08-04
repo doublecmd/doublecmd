@@ -1,0 +1,134 @@
+object ExtractDlg: TExtractDlg
+  Tag = 1
+  Left = 309
+  Height = 168
+  Top = 176
+  Width = 400
+  HelpContext = 160
+  HorzScrollBar.Page = 399
+  VertScrollBar.Page = 167
+  ActiveControl = edtExtractTo
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Unpack files'
+  ClientHeight = 168
+  ClientWidth = 400
+  Font.Color = clBtnText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Position = poScreenCenter
+  object lblExtractTo: TLabel
+    Tag = 2
+    Left = 4
+    Height = 16
+    Top = 5
+    Width = 385
+    AutoSize = False
+    Caption = 'Unpack file to:'
+    ParentColor = False
+  end
+  object lblFileMask: TLabel
+    Tag = 3
+    Left = 4
+    Height = 16
+    Top = 51
+    Width = 129
+    AutoSize = False
+    Caption = '&Files to unpack:'
+    FocusControl = cbFileMask
+    ParentColor = False
+  end
+  object edtExtractTo: TEdit
+    Left = 4
+    Height = 21
+    Top = 26
+    Width = 385
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    TabOrder = 0
+  end
+  object cbFileMask: TComboBox
+    Left = 134
+    Height = 21
+    Top = 49
+    Width = 255
+    AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    ItemHeight = 13
+    MaxLength = 0
+    TabOrder = 1
+    Text = '*.*'
+  end
+  object cbExtractPath: TCheckBox
+    Tag = 4
+    Left = 4
+    Height = 13
+    Top = 73
+    Width = 199
+    Caption = '&Unpack path names if stored with files'
+    TabOrder = 2
+  end
+  object cbOverwrite: TCheckBox
+    Tag = 5
+    Left = 4
+    Height = 13
+    Top = 92
+    Width = 124
+    Caption = '&Overwrite existing files'
+    TabOrder = 3
+  end
+  object btnOK: TButton
+    Tag = 4001
+    Left = 39
+    Height = 32
+    Top = 129
+    Width = 85
+    BorderSpacing.InnerBorder = 4
+    Caption = 'OK'
+    Default = True
+    ModalResult = 1
+    TabOrder = 5
+  end
+  object btnTree: TButton
+    Tag = 6
+    Left = 128
+    Height = 32
+    Top = 129
+    Width = 85
+    BorderSpacing.InnerBorder = 4
+    Caption = '&Tree'
+    TabOrder = 6
+  end
+  object btnCancel: TButton
+    Tag = 4002
+    Left = 216
+    Height = 32
+    Top = 129
+    Width = 85
+    BorderSpacing.InnerBorder = 4
+    Cancel = True
+    Caption = 'Cancel'
+    ModalResult = 2
+    TabOrder = 7
+  end
+  object btnHelp: TButton
+    Tag = 4003
+    Left = 305
+    Height = 32
+    Top = 128
+    Width = 85
+    BorderSpacing.InnerBorder = 4
+    Caption = 'Help'
+    TabOrder = 8
+  end
+  object cbInSeparateFolder: TCheckBox
+    Tag = 7
+    Left = 4
+    Height = 13
+    Top = 111
+    Width = 322
+    Caption = 'Unpack each archive to a &separate subdir (name of the archive)'
+    TabOrder = 4
+  end
+end
