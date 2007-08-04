@@ -442,7 +442,7 @@ begin
           iInt64Rec.Value := iSize;
           SizeLow := iInt64Rec.Low;
           SizeHigh := iInt64Rec.High;
-          //LastWriteTime := fTimeI;
+          LastWriteTime := DateTimeToFileTime(fTimeI);
           Attr := iMode;
         end;
 

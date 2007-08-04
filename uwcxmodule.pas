@@ -55,6 +55,7 @@ Type
   private
     FArcFileList : TList;
     FFileList : TFileList;
+    FFileMask : String;
     FFlags : Integer;
     FDstPath,
     fFolder : String;
@@ -456,7 +457,10 @@ var
 begin
    FPercent := 0;
 
-
+   FFileMask := ExtractFileName(FDstPath);
+   if FFileMask = '' then FFileMask := '*';  // extract all selected files/folders
+   FDstPath := ExtractFilePath(FDstPath);
+   
    (* Get current folder in archive *)
    Folder := FFileList.CurrentDirectory; //LowDirLevel(FFileList.GetItem(0)^.sName);
 
@@ -532,13 +536,22 @@ end;
 
 function TWCXModule.WCXCopyIn : Boolean;
 var
-  FileList, Folder : PChar;
+  FileList, Folder, pDstPath : PChar;
   I : Integer;
 begin
   DebugLN('VFSCopyIn =' + FArchiveName);
   FPercent := 0;
   New(FileList);
   New(Folder);
+  FDstPath := ExtractDirLevel(FArchiveName + PathDelim, FDstPath);
+  FDstPath := ExcludeTrailingPathDelimiter(FDstPath);
+
+  if FDstPath = '' then
+    pDstPath := nil
+  else
+    pDstPath := PChar(FDstPath);
+    
+  DebugLN('sDstPath == ' + FDstPath);
 
   (* Add in file list files from subfolders *)
   FillAndCount(FFileList, FFilesSize);
@@ -553,7 +566,7 @@ begin
   SetChangeVolProc(0, ChangeVolProc);
   SetProcessDataProc(0, ProcessDataProc);
 
-  iResult := PackFiles(PChar(FArchiveName), nil{PChar(FDstPath)}, Folder, FileList, FFlags);
+  iResult := PackFiles(PChar(FArchiveName), pDstPath, Folder, FileList, FFlags);
 
   // Check for errors
   if iResult <> 0 then
@@ -570,10 +583,10 @@ procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
     fr : PFileRecItem;
     I, Count : Integer;
     CurrFileName : String;  // Current file name
+    bForceDirectory : Boolean; // for future
   begin
 
-
-    ForceDirectory(FDstPath + ExtractDirLevel(FFolder, PathDelim + sDir));
+    bForceDirectory := True;
 
     //DebugLN('ForceDirectory = ' + FDstPath + ExtractDirLevel(FFolder, PathDelim + sDir));
 
@@ -587,8 +600,13 @@ procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
 
        if not IncludeFileInList(sDir + PathDelim, CurrFileName) then
          Continue;
-
+       if not(G_ValidateWildText(CurrFileName, FFileMask)
+          or FPS_ISDIR(PHeaderData(FArcFileList.Items[I])^.FileAttr)) then
+         Continue;
   //     DebugLN('In folder = ' + CurrFileName);
+
+       if bForceDirectory then
+         ForceDirectory(FDstPath + ExtractDirLevel(FFolder, PathDelim + sDir));
 
        New(fr);
        with fr^, PHeaderData(FArcFileList.Items[I])^  do
@@ -629,6 +647,9 @@ begin
     if fri.sName[1] = PathDelim then
       Delete(fri.sName, 1, 1);
 
+    if not(G_ValidateWildText(fri.sName, FFileMask) or FPS_ISDIR(fri.iMode)) then
+      Continue;
+      
     Newfl.AddItem(@fri);
     DebugLN('Curr File = ' + fri.sName);
 
@@ -639,7 +660,7 @@ begin
         inc(FFilesSize, fri.iSize);
       end;
 
-  end;
+  end; //for
   FreeAndNil(flist);
   flist := Newfl;
 end;

@@ -1,14 +1,14 @@
 inherited frmMain: TfrmMain
-  Left = 189
+  Left = 241
   Height = 336
-  Top = 178
+  Top = 177
   Width = 525
   HorzScrollBar.Page = 524
-  VertScrollBar.Page = 315
+  VertScrollBar.Page = 316
   VertScrollBar.Range = 79
   ActiveControl = pnlNotebooks
   Caption = 'Double Commander'
-  ClientHeight = 316
+  ClientHeight = 317
   ClientWidth = 525
   Font.Color = clBlack
   Font.Height = 13
@@ -97,7 +97,7 @@ inherited frmMain: TfrmMain
   end
   object pnlCommand: TPanel
     Height = 62
-    Top = 254
+    Top = 255
     Width = 525
     Align = alBottom
     Anchors = [akLeft, akRight]
@@ -227,18 +227,18 @@ inherited frmMain: TfrmMain
     end
   end
   object pnlNotebooks: TPanel
-    Height = 185
+    Height = 186
     Top = 69
     Width = 525
     Align = alClient
-    ClientHeight = 185
+    ClientHeight = 186
     ClientWidth = 525
     FullRepaint = False
     TabOrder = 3
     TabStop = True
     object nbLeft: TNotebook
       Left = 1
-      Height = 183
+      Height = 184
       Top = 1
       Width = 391
       Align = alLeft
@@ -248,14 +248,14 @@ inherited frmMain: TfrmMain
     end
     object Splitter1: TSplitter
       Left = 392
-      Height = 183
+      Height = 184
       Top = 1
       Width = 4
       ResizeStyle = rsLine
     end
     object nbRight: TNotebook
       Left = 396
-      Height = 183
+      Height = 184
       Top = 1
       Width = 128
       Align = alClient
@@ -785,6 +785,13 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       OnExecute = actPackFilesExecute
       ShortCut = 32884
+    end
+    object actExtractFiles: TAction
+      Category = 'File'
+      Caption = 'Extract files'
+      DisableIfNoHandler = True
+      OnExecute = actExtractFilesExecute
+      ShortCut = 32888
     end
   end
   object pmHotList: TPopupMenu

@@ -9,7 +9,7 @@ Several useful functions
 contributors:
 Radek Cervinka  <radek.cervinka@centrum.cz>
 
-Part of this code got from http://www.delphirus.com.ru
+Part of this code based on code from http://www.delphirus.com.ru
 
 }
 

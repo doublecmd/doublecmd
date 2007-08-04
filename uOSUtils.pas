@@ -84,7 +84,9 @@ function GetAllDrives : TList;
 
 (* Date/Time routines *)
 function FileTimeToLocalFileTimeEx(const lpFileTime: TFileTime; var lpLocalFileTime: TFileTime): LongBool;
+function LocalFileTimeToFileTimeEx(const lpLocalFileTime: TFileTime; var lpFileTime: TFileTime): LongBool;
 function FileTimeToDateTime(ft : TFileTime) : TDateTime;
+function DateTimeToFileTime(dt : TDateTime) : TFileTime;
 
 
 implementation
@@ -513,10 +515,27 @@ begin
 end;
 {$ENDIF}
 
+function LocalFileTimeToFileTimeEx(const lpLocalFileTime: TFileTime; var lpFileTime: TFileTime): LongBool;
+{$IFDEF MSWINDOWS}
+begin
+  Result := LocalFileTimeToFileTime(lpLocalFileTime, lpFileTime);
+end;
+{$ELSE}
+begin
+  Int64(lpFileTime) := Int64(lpLocalFileTime) - 10000000 * Int64(TZSeconds);
+end;
+{$ENDIF}
+
 function FileTimeToDateTime(ft : TFileTime) : TDateTime;
 begin
   FileTimeToLocalFileTimeEx(ft,ft);
   Result := (Int64(ft) / 864000000000.0) - 109205.0;
+end;
+
+function DateTimeToFileTime(dt : TDateTime) : TFileTime;
+begin
+  Int64(Result) := Round((dt + 109205.0) * 864000000000.0);
+  LocalFileTimeToFileTimeEx(Result, Result);
 end;
 
 end.
