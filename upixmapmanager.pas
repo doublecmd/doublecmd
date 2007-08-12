@@ -64,7 +64,7 @@ type
     procedure Load(const sFileName:String);
     function GetBitmap(iIndex:Integer; BkColor : TColor):TBitmap;
     function DrawBitmap(iIndex: Integer; Canvas : TCanvas; Rect : TRect) : Boolean;
-    Function GetIconByFile(fi:PFileRecItem):Integer;
+    Function GetIconByFile(fi:PFileRecItem; PanelMode: TPanelMode):Integer;
   end;
   
 var
@@ -227,7 +227,7 @@ begin
   if iIndex<FimgList.Count then
     Result:=Graphics.TBitmap(FimgList.Items[iIndex])
   else
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
   if iIndex >= $1000 then
   begin
   Result := Graphics.TBitmap.Create;
@@ -262,7 +262,7 @@ begin
   if iIndex < FimgList.Count then
     Canvas.Draw(Rect.Left, Rect.Top ,Graphics.TBitmap(FimgList.Items[iIndex]))
   else
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
   if iIndex >= $1000 then
     try
       (*For transparent*)
@@ -276,12 +276,13 @@ begin
 {$ENDIF}
 end;
 
-function TPixMapManager.GetIconByFile(fi: PFileRecItem): Integer;
+function TPixMapManager.GetIconByFile(fi: PFileRecItem; PanelMode: TPanelMode): Integer;
 var
-Ext : String;
-{$IFDEF WIN32}
+  Ext : String;
+{$IFDEF MSWINDOWS}
     FileInfo : TSHFileInfo;
-    iIconSize : Integer;
+    _para2 : DWORD;
+    _para5 : UINT;
 {$ENDIF}
 begin
   Result:=-1;
@@ -320,19 +321,31 @@ begin
     Result:= FExtList.IndexOf(Ext); // ignore .
     if Result<0 then
     begin
-    {$IFDEF WIN32}
-    if gIconsSize < 32 then
-      iIconSize := SHGFI_SMALLICON
+    {$IFDEF MSWINDOWS}
+    
+    if PanelMode = pmDirectory then
+      begin
+        _para2 := 0;
+        _para5 := SHGFI_SYSICONINDEX;
+      end
     else
-      iIconSize := SHGFI_LARGEICON;
+      begin
+        _para2 := FILE_ATTRIBUTE_NORMAL;
+        _para5 := SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES;
+      end;
+
+    if gIconsSize < 32 then
+      _para5 := _para5 or SHGFI_SMALLICON
+    else
+      _para5 := _para5 or SHGFI_LARGEICON;
 
     //WriteLN('Icon for file == ' + sName);
           
     SHGetFileInfo(PCHar(sName),
-                           FILE_ATTRIBUTE_NORMAL,
+                           _para2,
                            FileInfo,
                            SizeOf(FileInfo),
-                           SHGFI_SYSICONINDEX or iIconSize or SHGFI_USEFILEATTRIBUTES);
+                           _para5);
        Result := FileInfo.iIcon + $1000;
        
        //WriteLN('FileInfo.iIcon == ' + IntToStr(FileInfo.iIcon));

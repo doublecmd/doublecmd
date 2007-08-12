@@ -43,6 +43,7 @@ uses
 
 function GetCmdDirFromEnvVar(sPath: String): String;
 begin
+  DoDirSeparators(sPath);
   if Pos('%commander_path%', sPath) <> 0 then
     Result := StringReplace(sPath, '%commander_path%', ExcludeTrailingPathDelimiter(gpExePath), [rfIgnoreCase])
   else
@@ -51,6 +52,7 @@ end;
 
 function SetCmdDirAsEnvVar(sPath: String): String;
 begin
+  DoDirSeparators(sPath);
   if Pos(gpExePath, sPath) <> 0 then
     Result := StringReplace(sPath, ExcludeTrailingPathDelimiter(gpExePath), '%commander_path%', [rfIgnoreCase])
   else

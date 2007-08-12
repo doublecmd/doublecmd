@@ -403,7 +403,7 @@ function IsAvailable(Path: String): Boolean;
 {$IFDEF MSWINDOWS}
 var
   Drv: Char;
-    DriveLabel: string;
+  DriveLabel: string;
 begin
 
   Drv := ExtractFileDrive(Path)[1];

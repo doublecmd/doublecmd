@@ -224,7 +224,7 @@ begin
            fPanelMode:=pmArchive;
            fActiveDir := fVFS.ArcFullName + DirectorySeparator;
        end;
-    fFileList.UpdateFileInformation;
+    fFileList.UpdateFileInformation(fPanelMode);
     Sort;
     Exit;
   //********************
@@ -253,7 +253,7 @@ begin
       LoadFilesbyDir(fActiveDir, fFileList);
     end;
   end; // case
-  fFileList.UpdateFileInformation;
+  fFileList.UpdateFileInformation(fPanelMode);
   Sort; // and Update panel
   fPanel.Invalidate;
 //  writeln('TFilePanel.LoadPanel DONE');
