@@ -1,7 +1,7 @@
 inherited frmMain: TfrmMain
-  Left = 241
+  Left = 263
   Height = 336
-  Top = 177
+  Top = 144
   Width = 525
   HorzScrollBar.Page = 524
   VertScrollBar.Page = 316
@@ -46,53 +46,34 @@ inherited frmMain: TfrmMain
     FullRepaint = False
     ParentColor = False
     TabOrder = 1
-    object pnlLeftdskRes: TPanel
+    object dskLeft: TKAStoolBar
       Left = 1
       Height = 22
       Top = 1
-      Width = 170
+      Width = 142
       Align = alLeft
-      Caption = 'pnlLeftdskRes'
-      ClientHeight = 22
-      ClientWidth = 170
+      Alignment = taLeftJustify
+      ParentColor = False
       TabOrder = 0
-      object dskLeft: TKAStoolBar
-        Left = 1
-        Height = 20
-        Top = 1
-        Width = 168
-        Align = alClient
-        ParentColor = False
-        TabOrder = 0
-        OnToolButtonClick = dskLeftToolButtonClick
-        CheckToolButton = True
-        FlatButtons = True
-        IsDiskPanel = True
-      end
+      OnToolButtonClick = dskLeftToolButtonClick
+      CheckToolButton = True
+      FlatButtons = True
+      IsDiskPanel = True
     end
-    object pnlRightdskRes: TPanel
-      Left = 171
+    object dskRight: TKAStoolBar
+      Left = 143
       Height = 22
       Top = 1
-      Width = 353
+      Width = 381
       Align = alClient
-      Caption = 'pnlRightdskRes'
-      ClientHeight = 22
-      ClientWidth = 353
+      Alignment = taRightJustify
+      Anchors = [akTop, akLeft, akBottom]
       TabOrder = 1
-      object dskRight: TKAStoolBar
-        Left = 1
-        Height = 20
-        Top = 1
-        Width = 351
-        Align = alClient
-        Anchors = [akTop, akLeft, akBottom]
-        TabOrder = 0
-        OnToolButtonClick = dskRightToolButtonClick
-        CheckToolButton = True
-        FlatButtons = True
-        IsDiskPanel = True
-      end
+      OnToolButtonClick = dskRightToolButtonClick
+      OnChangeLineCount = dskRightChangeLineCount
+      CheckToolButton = True
+      FlatButtons = True
+      IsDiskPanel = True
     end
   end
   object pnlCommand: TPanel

@@ -1,16 +1,12 @@
 {
-   File name: kastoolbar.pas
+   Double Commander components
+   -------------------------------------------------------------------------
+   Toolbar panel class
 
-   Author:    Koblov Alexander (Alexx2000@mail.ru)
-
-   Toolbar panel
-
-   Copyright (C) 2006
+   Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
    
    contributors:
    
-  
-
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2 of the
@@ -37,11 +33,12 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls,
-  Graphics, Dialogs, ExtCtrls, Buttons, IniFiles, FileUtil;
+  Graphics, Dialogs, ExtCtrls, Buttons, IniFiles, FileUtil, comCtrls;
 
 type
 
   TOnToolButtonClick = procedure (NumberOfButton : Integer) of object;
+  TChangeLineCount   = procedure (AddSize : Integer) of object;
 
   { TKAStoolBar }
 
@@ -57,12 +54,15 @@ type
     FButtonSize : Integer;
     FNeedMore : Boolean;
     FOnToolButtonClick : TOnToolButtonClick;
+    FChangeLineCount : TChangeLineCount;
     FTotalBevelWidth : Integer;
     FCheckToolButton : Boolean;
     FFlatButtons: Boolean;
     FDiskPanel: Boolean;
     FChangePath : String;
     FEnvVar : String;
+    FOldWidth : Integer;
+    FMustResize : Boolean;
     function LoadBtnIcon(IconPath : String) : TBitMap;
     function GetButton(Index: Integer): TSpeedButton;
     function GetButtonCount: Integer;
@@ -76,32 +76,36 @@ type
 
   protected
     { Protected declarations }
+    procedure CreateWnd; override;
+    procedure Resize; override;
     function GetCmdDirFromEnvVar(sPath: String): String;
     function SetCmdDirAsEnvVar(sPath: String): String;
   public
-     constructor Create(TheOwner: TComponent); override;
-     destructor Destroy; override;
-     procedure CreateWnd; override;
-     procedure LoadFromFile(FileName : String);
-     procedure SaveToFile(FileName : String);
-     function AddButton(Cmd, BtnHint, IconPath : String) : Integer;
-     procedure RemoveButton(Index: Integer);
-     procedure DeleteAllToolButtons;
-     property ButtonCount: Integer read GetButtonCount;
-     property Buttons[Index: Integer]: TSpeedButton read GetButton write SetButton;
-     property Commands[Index: Integer]: String read GetCommand write SetCommand;
-     property Icons[Index: Integer]: String read GetIconPath write SetIconPath;
-     property ButtonList: TList read FButtonsList;
+    constructor Create(TheOwner: TComponent); override;
+    destructor Destroy; override;
+    procedure InitBounds;
+
+    procedure LoadFromFile(FileName : String);
+    procedure SaveToFile(FileName : String);
+    function AddButton(sCaption, Cmd, BtnHint, IconPath : String) : Integer;
+    procedure RemoveButton(Index: Integer);
+    procedure DeleteAllToolButtons;
+    property ButtonCount: Integer read GetButtonCount;
+    property Buttons[Index: Integer]: TSpeedButton read GetButton write SetButton;
+    property Commands[Index: Integer]: String read GetCommand write SetCommand;
+    property Icons[Index: Integer]: String read GetIconPath write SetIconPath;
+    property ButtonList: TList read FButtonsList;
 
   published
     { Published declarations }
-      property OnToolButtonClick: TOnToolButtonClick read FOnToolButtonClick write FOnToolButtonClick;
-      property CheckToolButton : Boolean read FCheckToolButton write FCheckToolButton default False;
-      property FlatButtons : Boolean read FFlatButtons write FFlatButtons default False;
-      property IsDiskPanel : Boolean read FDiskPanel write FDiskPanel default False;
+    property OnToolButtonClick: TOnToolButtonClick read FOnToolButtonClick write FOnToolButtonClick;
+    property OnChangeLineCount : TChangeLineCount read FChangeLineCount write FChangeLineCount;
+    property CheckToolButton : Boolean read FCheckToolButton write FCheckToolButton default False;
+    property FlatButtons : Boolean read FFlatButtons write FFlatButtons default False;
+    property IsDiskPanel : Boolean read FDiskPanel write FDiskPanel default False;
 
-      property ChangePath : String read FChangePath write FChangePath;
-      property EnvVar : String read FEnvVar write FEnvVar;
+    property ChangePath : String read FChangePath write FChangePath;
+    property EnvVar : String read FEnvVar write FEnvVar;
   end;
 
 
@@ -113,6 +117,7 @@ uses GraphType;
 
 function TKAStoolBar.GetCmdDirFromEnvVar(sPath: String): String;
 begin
+  DoDirSeparators(sPath);
   if Pos(FEnvVar, sPath) <> 0 then
     Result := StringReplace(sPath, FEnvVar, ExcludeTrailingPathDelimiter(FChangePath), [rfIgnoreCase])
   else
@@ -121,6 +126,7 @@ end;
 
 function TKAStoolBar.SetCmdDirAsEnvVar(sPath: String): String;
 begin
+  DoDirSeparators(sPath);
   if Pos(FChangePath, sPath) <> 0 then
     Result := StringReplace(sPath, ExcludeTrailingPathDelimiter(FChangePath), FEnvVar, [rfIgnoreCase])
   else
@@ -132,18 +138,106 @@ begin
   RegisterComponents('KASComponents',[TKAStoolBar]);
 end;
 
+procedure TKAStoolBar.InitBounds;
+begin
+  Caption := '';
+  if (BevelInner <> bvNone) and (BevelOuter <> bvNone) then
+  FTotalBevelWidth := BevelWidth * 2
+  else
+  FTotalBevelWidth := BevelWidth;
+
+  FButtonSize := Height - FTotalBevelWidth * 2;
+  //writeln('FButtonSize = ' + IntToStr(FButtonSize));
+  if Width < Height then
+     Width := Height;
+
+
+  FMaxBtnCount := (Width - FTotalBevelWidth * 2) div FButtonSize;
+  if not FDiskPanel then
+  Width := (FButtonSize * FMaxBtnCount) + FTotalBevelWidth * 2;
+
+  FPositionX := FTotalBevelWidth;
+  FPositionY := FTotalBevelWidth;
+end;
+
+procedure TKAStoolBar.Resize;
+var
+  I, Count, NewHeight : Integer;
+  ToolButton : TSpeedButton;
+begin
+  inherited Resize;
+
+  if FOldWidth = 0 then
+    FOldWidth := Width;
+    
+  if ((FOldWidth <> Width) or FMustResize) and (FButtonsList.Count > 0) then
+    begin
+
+      NewHeight := FButtonSize + FTotalBevelWidth * 2;
+
+      if (BevelInner <> bvNone) and (BevelOuter <> bvNone) then
+        FTotalBevelWidth := BevelWidth * 2
+      else
+        FTotalBevelWidth := BevelWidth;
+
+      FButtonSize := NewHeight - FTotalBevelWidth * 2;
+      if Width < NewHeight then
+        Self.SetBounds(Left, Top, NewHeight, NewHeight);
+
+
+      FPositionX := FTotalBevelWidth;
+      FPositionY := FTotalBevelWidth;
+      //*****************
+      FNeedMore := False;
+
+      Count := FButtonsList.Count - 1;
+      for I := 0 to Count do
+        begin
+          ToolButton := TSpeedButton(FButtonsList.Items[I]);
+
+          ToolButton.SetBounds(FPositionX, FPositionY, ToolButton.Width, ToolButton.Height );
+          //ToolButton.Left:=FPositionX;
+          //ToolButton.Top := FPositionY;
+          ToolButton.Height := FButtonSize;
+
+          FPositionX:= FPositionX + ToolButton.Width;
+
+          if FNeedMore then
+            begin
+              NewHeight := NewHeight + FButtonSize;
+              FNeedMore := False;
+             end;
+
+            if (I <> Count) and ((FPositionX + TSpeedButton(FButtonsList.Items[I + 1]).Width) > Width) then
+              begin
+                FPositionY:= FPositionY + ToolButton.Height;
+                FPositionX := FTotalBevelWidth;
+                FNeedMore := True;
+             end;
+        end;
+      FOldWidth := Width;
+      FMustResize := False;
+      if Assigned(FChangeLineCount) then
+        FChangeLineCount(NewHeight - Height);
+
+      Self.SetBounds(Left, Top, Width, NewHeight);
+
+    end;
+
+end;
+
 function TKAStoolBar.LoadBtnIcon(IconPath: String): TBitMap;
 var
-PNG : TPortableNetworkGraphic;
+  PNG : TPortableNetworkGraphic;
 begin
   if IconPath <> '' then
   if FileExists(IconPath) then
    begin
    if CompareFileExt(IconPath, 'png', false) = 0 then
       begin
-      PNG := TPortableNetworkGraphic.Create;
-      PNG.LoadFromFile(IconPath);
-      Result := TBitMap(PNG);
+        PNG := TPortableNetworkGraphic.Create;
+        PNG.LoadFromFile(IconPath);
+        Result := TBitMap(PNG);
       end
    else
       begin
@@ -170,13 +264,13 @@ end;
 
 procedure TKAStoolBar.SetIconPath(Index: Integer; const AValue: String);
 var
-PNG : TPortableNetworkGraphic;
+  PNG : TPortableNetworkGraphic;
 begin
   FIconList[Index] := AValue;
   if FileExists(AValue) then
-  TSpeedButton(FButtonsList.Items[Index]).Glyph := LoadBtnIcon(AValue)
+    TSpeedButton(FButtonsList.Items[Index]).Glyph := LoadBtnIcon(AValue)
   else
-  ShowMessage('File "' + AValue + '" not found!' );
+    ShowMessage('File "' + AValue + '" not found!' );
 end;
 
 procedure TKAStoolBar.ToolButtonClick(Sender: TObject);
@@ -188,10 +282,10 @@ end;
 
 procedure TKAStoolBar.UpdateButtonsTag;
 var
-I :Integer;
+  I :Integer;
 begin
-for I := 0 to FButtonsList.Count - 1 do
-TSpeedButton(FButtonsList.Items[I]).Tag := I;
+  for I := 0 to FButtonsList.Count - 1 do
+    TSpeedButton(FButtonsList.Items[I]).Tag := I;
 end;
 
 procedure TKAStoolBar.DeleteAllToolButtons;
@@ -201,18 +295,24 @@ var
 begin
   BtnCount := FButtonsList.Count - 1;
   for I := 0 to BtnCount do
-  begin
+    begin
 
-  TSpeedButton(FButtonsList.Items[0]).Free;
-  FButtonsList.Delete(0);
+      TSpeedButton(FButtonsList.Items[0]).Free;
+      FButtonsList.Delete(0);
 
       
-  FCmdList.Delete(0);
-  FIconList.Delete(0);
+      FCmdList.Delete(0);
+      FIconList.Delete(0);
   end;
-Height := FButtonSize + FTotalBevelWidth * 2;
-FLineBtnCount := 0;
-FNeedMore := False;
+  // Assign to BtnCount new toolbar height
+  BtnCount := FButtonSize + FTotalBevelWidth * 2;
+
+  if Assigned(FChangeLineCount) then
+    FChangeLineCount(BtnCount - Height);
+
+  Height := BtnCount;
+  FNeedMore := False;
+  InitBounds;
 end;
 
 function TKAStoolBar.GetButtonCount: Integer;
@@ -237,6 +337,8 @@ begin
   FCmdList := TStringList.Create;
   FIconList := TStringList.Create;
   FNeedMore := False;
+  FOldWidth := Width;
+  FMustResize := False;
 end;
 
 destructor TKAStoolBar.Destroy;
@@ -255,165 +357,124 @@ end;
 
 procedure TKAStoolBar.CreateWnd;
 begin
-
   inherited CreateWnd;
-  Caption := '';
-  if (BevelInner <> bvNone) and (BevelOuter <> bvNone) then
-  FTotalBevelWidth := BevelWidth * 2
-  else
-  FTotalBevelWidth := BevelWidth;
-  
-  FButtonSize := Height - FTotalBevelWidth * 2;
-  //writeln('FButtonSize = ' + IntToStr(FButtonSize));
-  if Width < Height then
-     Width := Height;
-
-
-  FMaxBtnCount := (Width - FTotalBevelWidth * 2) div FButtonSize;
-  if not FDiskPanel then
-  Width := (FButtonSize * FMaxBtnCount) + FTotalBevelWidth * 2;
-  
-  FPositionX := FTotalBevelWidth;
-  FPositionY := FTotalBevelWidth;
+  InitBounds;
 end;
 
 procedure TKAStoolBar.LoadFromFile(FileName: String);
 var
-IniFile : Tinifile;
-BtnCount, I : Integer;
+  IniFile : Tinifile;
+  BtnCount, I : Integer;
 begin
-DeleteAllToolButtons;
-FPositionX := FTotalBevelWidth;
-FPositionY := FTotalBevelWidth;
-FMaxBtnCount := Width div FButtonSize;
-IniFile := Tinifile.Create(FileName);
-BtnCount := IniFile.ReadInteger('Buttonbar', 'Buttoncount', 0);
+  DeleteAllToolButtons;
+  FPositionX := FTotalBevelWidth;
+  FPositionY := FTotalBevelWidth;
+  FMaxBtnCount := Width div FButtonSize;
+  IniFile := Tinifile.Create(FileName);
+  BtnCount := IniFile.ReadInteger('Buttonbar', 'Buttoncount', 0);
 
-for I := 1 to BtnCount do
-AddButton(GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'cmd' + IntToStr(I), '')),
-          IniFile.ReadString('Buttonbar', 'menu' + IntToStr(I), ''),
-          GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'button' + IntToStr(I), '')));
-IniFile.Free;
+  for I := 1 to BtnCount do
+    AddButton('', GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'cmd' + IntToStr(I), '')),
+              IniFile.ReadString('Buttonbar', 'menu' + IntToStr(I), ''),
+              GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'button' + IntToStr(I), '')));
+  IniFile.Free;
 end;
 
 procedure TKAStoolBar.SaveToFile(FileName: String);
 var
-IniFile : Tinifile;
-I : Integer;
+  IniFile : Tinifile;
+  I : Integer;
 begin
-IniFile := Tinifile.Create(FileName);
-IniFile.WriteInteger('Buttonbar', 'Buttoncount', FButtonsList.Count);
+  IniFile := Tinifile.Create(FileName);
+  IniFile.WriteInteger('Buttonbar', 'Buttoncount', FButtonsList.Count);
 
-for I := 0 to FButtonsList.Count - 1 do
+  for I := 0 to FButtonsList.Count - 1 do
     begin
-    IniFile.WriteString('Buttonbar', 'button' + IntToStr(I + 1), SetCmdDirAsEnvVar(FIconList[I]));
-    IniFile.WriteString('Buttonbar', 'cmd' + IntToStr(I + 1), SetCmdDirAsEnvVar(FCmdList[I]));
-    IniFile.WriteString('Buttonbar', 'menu' + IntToStr(I + 1), TSpeedButton(FButtonsList.Items[I]).Hint);
+      IniFile.WriteString('Buttonbar', 'button' + IntToStr(I + 1), SetCmdDirAsEnvVar(FIconList[I]));
+      IniFile.WriteString('Buttonbar', 'cmd' + IntToStr(I + 1), SetCmdDirAsEnvVar(FCmdList[I]));
+      IniFile.WriteString('Buttonbar', 'menu' + IntToStr(I + 1), TSpeedButton(FButtonsList.Items[I]).Hint);
     end;
-IniFile.Free;
+  IniFile.Free;
 end;
 
-function TKAStoolBar.AddButton(Cmd, BtnHint, IconPath : String) : Integer;
+function TKAStoolBar.AddButton(sCaption, Cmd, BtnHint, IconPath : String) : Integer;
 var
-ToolButton: TSpeedButton;
-
+  ToolButton: TSpeedButton;
 begin
-ToolButton:= TSpeedButton.Create(Self);
-//Include(ToolButton.ComponentStyle, csSubComponent);
-ToolButton.Parent:=Self;
-ToolButton.Visible := True;
-ToolButton.Left:=FPositionX;
-ToolButton.Top := FPositionY;
-ToolButton.Height := FButtonSize;
-ToolButton.ParentShowHint := False;
-ToolButton.ShowHint := True;
-ToolButton.Hint := BtnHint;
+  ToolButton:= TSpeedButton.Create(Self);
+  //Include(ToolButton.ComponentStyle, csSubComponent);
+  ToolButton.Parent:=Self;
+  ToolButton.Visible := True;
 
-if Assigned(OnMouseDown) then
-   ToolButton.OnMouseDown := OnMouseDown;
+  ToolButton.Height := FButtonSize;
+  ToolButton.ParentShowHint := False;
+  ToolButton.Caption := sCaption;
+  ToolButton.ShowHint := True;
+  ToolButton.Hint := BtnHint;
 
-if FCheckToolButton then
-   ToolButton.GroupIndex := 1;
+  if FDiskPanel then
+    begin
+      ToolButton.Width := Self.Canvas.TextWidth(sCaption) + ToolButton.Glyph.Width + 32;
+    end
+  else
+    ToolButton.Width := FButtonSize;
 
-ToolButton.Flat := FFlatButtons;
+  if ((FPositionX + ToolButton.Width) > Width) then
+    begin
+      FPositionY:= FPositionY + ToolButton.Height;
+      FPositionX := FTotalBevelWidth;
+      if Assigned(FChangeLineCount) then
+        FChangeLineCount(FButtonSize);
+      Height := Height + FButtonSize;
+    end;
 
-if FileExists(IconPath) then
-ToolButton.Glyph := LoadBtnIcon(IconPath);
 
-if FDiskPanel then
-   ToolButton.Width := Self.Canvas.TextWidth(BtnHint) + ToolButton.Glyph.Width + 24
-else
-   ToolButton.Width := FButtonSize;
+  ToolButton.Left:= FPositionX;
+  ToolButton.Top := FPositionY;
 
-ToolButton.OnClick:=TNotifyEvent(@ToolButtonClick);
+  if Assigned(OnMouseDown) then
+    ToolButton.OnMouseDown := OnMouseDown;
 
-FPositionX:= FPositionX + ToolButton.Width;
+  if FCheckToolButton then
+    ToolButton.GroupIndex := 1;
 
-ToolButton.Tag := FButtonsList.Add(ToolButton);
-FCmdList.Add(Cmd);
-FIconList.Add(IconPath);
-Inc(FLineBtnCount);
+  ToolButton.Flat := FFlatButtons;
 
-if FNeedMore then
-   begin
-   Height := Height + FButtonSize;
-   FNeedMore := False;
-   end;
-   
-if FMaxBtnCount <= FLineBtnCount then
-   begin
-   FLineBtnCount := 0;
-   FMaxBtnCount := Width div ToolButton.Width;
-   FPositionY:= FPositionY + ToolButton.Height;
-   FPositionX := FTotalBevelWidth;
-   FNeedMore := True;
-   end;
-Result := ToolButton.Tag;
+  if FileExists(IconPath) then
+    ToolButton.Glyph := LoadBtnIcon(IconPath);
+
+
+
+  ToolButton.OnClick:=TNotifyEvent(@ToolButtonClick);
+
+  FPositionX:= FPositionX + ToolButton.Width;
+
+  ToolButton.Tag := FButtonsList.Add(ToolButton);
+  FCmdList.Add(Cmd);
+  FIconList.Add(IconPath);
+
+  Result := ToolButton.Tag;
 end;
 
 procedure TKAStoolBar.RemoveButton(Index: Integer);
 var
-I, OldLeft, PrevLeft,
-OldTop, PrevTop : integer;
+  I, OldLeft, PrevLeft,
+  OldTop, PrevTop : integer;
 begin
-try
- TSpeedButton(FButtonsList.Items[Index]).Visible := false;
- FPositionX := FPositionX - TSpeedButton(FButtonsList.Items[Index]).Width;
- OldLeft := TSpeedButton(FButtonsList.Items[Index]).Left;
- OldTop := TSpeedButton(FButtonsList.Items[Index]).Top;
- TSpeedButton(FButtonsList.Items[Index]).Free;
- FButtonsList.Delete(Index);
- UpdateButtonsTag;
- FCmdList.Delete(Index);
- Dec(FLineBtnCount);
+  try
+    TSpeedButton(FButtonsList.Items[Index]).Visible := False;
+    TSpeedButton(FButtonsList.Items[Index]).Free;
+    FButtonsList.Delete(Index);
+    UpdateButtonsTag;
+    FCmdList.Delete(Index);
+    FIconList.Delete(Index);
 
- if (FLineBtnCount = 0) and (FButtonsList.Count <> 0) then
-   begin
-   Height := Height - FButtonSize;
-   FNeedMore := True;
-   end
-   else
-   FNeedMore := False;
+    FMustResize := True;
+    Resize;
 
- if FLineBtnCount < 0 then
-    begin
-    FLineBtnCount := FMaxBtnCount - 1;
-    FPositionX:= FTotalBevelWidth + FLineBtnCount * TSpeedButton(FButtonsList.Items[Index]).Width;
-    FPositionY:= FPositionY - TSpeedButton(FButtonsList.Items[Index]).Height;
-    end;
-finally
- for I:= Index to FButtonsList.Count-1 do
-  begin
-  PrevLeft := TSpeedButton(FButtonsList.Items[i]).Left;
-  PrevTop := TSpeedButton(FButtonsList.Items[i]).Top;
-  TSpeedButton(FButtonsList.Items[i]).Left:= OldLeft;
-  TSpeedButton(FButtonsList.Items[i]).Top:= OldTop;
-  OldLeft := PrevLeft;
-  OldTop := PrevTop;
+  finally
+    Repaint;
   end;
- Repaint;
- end;
-
 end;
 
 end.

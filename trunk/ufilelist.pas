@@ -55,7 +55,7 @@ Type
     function  GetItem(iIndex: Integer) : PFileRecItem;
     function  GetFileName(iIndex: Integer): String;
     Function  CheckFileName(const sFileName:String):Integer;
-    procedure UpdateFileInformation;
+    procedure  UpdateFileInformation(PanelMode: TPanelMode);
     procedure Sort(SortBy:Integer; bDirection:Boolean); overload;
 
     property Count      : Integer read GetCount;
@@ -385,7 +385,7 @@ begin
 
 end;
 
-procedure TFileList.UpdateFileInformation;
+procedure TFileList.UpdateFileInformation(PanelMode: TPanelMode);
 var
   i:Integer;
   frp:PFileRecItem;
@@ -393,7 +393,7 @@ begin
   for i:=0 to fList.Count-1 do
   begin
     frp:=PFileRecItem(Flist.Items[i]);
-    frp^.iIconID:=PixMapManager.GetIconByFile(frp);
+    frp^.iIconID:=PixMapManager.GetIconByFile(frp, PanelMode);
   end;
 end;
 

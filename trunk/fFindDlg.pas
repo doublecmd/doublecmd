@@ -346,7 +346,7 @@ begin
       fr.bSelected:=False;
       frmMain.ActiveFrame.pnlFile.FileList.AddItem(@fr);
     end;
-  frmMain.ActiveFrame.pnlFile.FileList.UpdateFileInformation;
+  frmMain.ActiveFrame.pnlFile.FileList.UpdateFileInformation(pmDirectory);
   frmMain.ActiveFrame.pnlFile.Sort;
   frmMain.ActiveFrame.pnlFile.ActiveDir := '';
   Close;

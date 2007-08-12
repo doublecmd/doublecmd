@@ -86,7 +86,7 @@ begin
   try
     LastToolButton := -1;
     NewToolButton := -1;
-    ktbBar.CreateWnd;
+    ktbBar.InitBounds;
     ShowModal;
   finally
     Free;
@@ -116,7 +116,7 @@ end;
 procedure TButtonChangeDlg.btnAddButtonClick(Sender: TObject);
 begin
   Save;
-  NewToolButton := ktbBar.AddButton('', '', '');
+  NewToolButton := ktbBar.AddButton('', '', '', '');
   //ShowMessage(IntToStr(NewToolButton));
 end;
 

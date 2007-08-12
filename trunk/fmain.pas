@@ -58,11 +58,9 @@ type
     actPackFiles: TAction;
     actRemoveTab: TAction;
     actNewTab: TAction;
-    dskLeft: TKASToolBar;
-    dskRight: TKASToolBar;
+    dskLeft: TKAStoolBar;
+    dskRight: TKAStoolBar;
     MainToolBar: TKASToolBar;
-    pnlLeftdskRes: TPanel;
-    pnlRightdskRes: TPanel;
     tbDelete: TMenuItem;
     tbEdit: TMenuItem;
     MenuItem3: TMenuItem;
@@ -182,6 +180,7 @@ type
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure DeleteClick(Sender: TObject);
+    procedure dskRightChangeLineCount(AddSize: Integer);
     procedure dskLeftToolButtonClick(NumberOfButton: Integer);
     procedure dskRightToolButtonClick(NumberOfButton: Integer);
     procedure FormCreate(Sender: TObject);
@@ -403,6 +402,13 @@ if pmToolBar.Tag >= 0 then
    end;
 end;
 
+procedure TfrmMain.dskRightChangeLineCount(AddSize: Integer);
+begin
+  pnlDisk.Height := pnlDisk.Height + AddSize;
+  //pnlLeftdskRes.Height := pnlLeftdskRes.Height + AddSize;
+
+end;
+
 procedure TfrmMain.dskLeftToolButtonClick(NumberOfButton: Integer);
 var
 Command : String;
@@ -595,6 +601,8 @@ begin
   SetActiveFrame(fpLeft);
 
   pnlNotebooks.Width:=Width div 2;
+  
+ // dskLeft.Width := Width div 2;
   
   (*Create Disk Panels*)
   CreateDiskPanel(dskLeft);
@@ -853,7 +861,8 @@ end;
 procedure TfrmMain.FormResize(Sender: TObject);
 begin
   nbLeft.Width:=frmMain.Width div 2;
-  pnlLeftdskRes.Width := nbLeft.Width + 2;
+  dskLeft.Width := pnlDisk.Width div 2;
+//  pnlLeftdskRes.Width := nbLeft.Width + 2;
   dskLeft.Repaint;
   dskRight.Repaint;
 End;
@@ -2168,16 +2177,16 @@ I, Count, btnIndex : Integer;
 Drive : PDrive;
 ButtonIcon : TBitMap;
 begin
-dskPanel.CreateWnd; // Update information
-Drives := GetAllDrives;
-Count := Drives.Count - 1;
+//dskPanel.InitBounds; // Update information
+  Drives := GetAllDrives;
+  Count := Drives.Count - 1;
 
-for I := 0 to Count do
-begin
-Drive := PDrive(Drives.Items[I]);
-with Drive^ do
+  for I := 0 to Count do
+  begin
+  Drive := PDrive(Drives.Items[I]);
+  with Drive^ do
     begin
-      dskPanel.AddButton(Path, Name, '');
+      dskPanel.AddButton(Name, Path, Path, '');
       {Set chosen drive}
       if dskPanel.Align = alLeft then
         begin
@@ -2196,7 +2205,7 @@ with Drive^ do
             end;
         end;
       {/Set chosen drive}
-      dskPanel.Buttons[I].Caption := Name;
+
       //**********************************
       if gIconsSize > 16 then
         begin
@@ -2220,24 +2229,18 @@ with Drive^ do
       dskPanel.Buttons[I].Transparent := True;
       {/Set Buttons Transparent}
       dskPanel.Buttons[I].Layout := blGlyphLeft;
-    end;
-end;
+    end; // with
+  end; // for
 {Add special buttons}
 (*root button*)
-btnIndex := dskPanel.AddButton('/', '/', '');
-dskPanel.Buttons[btnIndex].Hint := 'root';
-dskPanel.Buttons[btnIndex].Caption := '/';
-dskPanel.Buttons[btnIndex].GroupIndex := 0;
+  btnIndex := dskPanel.AddButton('/', '/', 'root', '');
+  dskPanel.Buttons[btnIndex].GroupIndex := 0;
 (*up button*)
-btnIndex := dskPanel.AddButton('..', '..', '');
-dskPanel.Buttons[btnIndex].Hint := 'Up';
-dskPanel.Buttons[btnIndex].Caption := '..';
-dskPanel.Buttons[btnIndex].GroupIndex := 0;
+  btnIndex := dskPanel.AddButton('..', '..', 'Up', '');
+  dskPanel.Buttons[btnIndex].GroupIndex := 0;
 (*home button*)
-btnIndex := dskPanel.AddButton('~', '~', '');
-dskPanel.Buttons[btnIndex].Hint := 'Home';
-dskPanel.Buttons[btnIndex].Caption := '~';
-dskPanel.Buttons[btnIndex].GroupIndex := 0;
+  btnIndex := dskPanel.AddButton('~', '~', 'Home', '');
+  dskPanel.Buttons[btnIndex].GroupIndex := 0;
 
 end;
 

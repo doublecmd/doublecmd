@@ -26,7 +26,6 @@ object ButtonChangeDlg: TButtonChangeDlg
     Width = 75
     AutoSize = False
     Caption = '&Button bar:'
-    Color = clNone
     ParentColor = False
   end
   object lblLabel: TLabel
@@ -47,7 +46,6 @@ object ButtonChangeDlg: TButtonChangeDlg
     Width = 81
     AutoSize = False
     Caption = '&Command:'
-    Color = clNone
     FocusControl = cbCommand
     ParentColor = False
   end
@@ -59,7 +57,6 @@ object ButtonChangeDlg: TButtonChangeDlg
     Width = 81
     AutoSize = False
     Caption = '&Parameters:'
-    Color = clNone
     FocusControl = kedtParams
     ParentColor = False
   end
@@ -71,7 +68,6 @@ object ButtonChangeDlg: TButtonChangeDlg
     Width = 81
     AutoSize = False
     Caption = '&Start path:'
-    Color = clNone
     FocusControl = kedtStartPath
     ParentColor = False
   end
@@ -83,7 +79,6 @@ object ButtonChangeDlg: TButtonChangeDlg
     Width = 81
     AutoSize = False
     Caption = 'Icon &file:'
-    Color = clNone
     FocusControl = kedtIconFileName
     ParentColor = False
   end
@@ -95,7 +90,6 @@ object ButtonChangeDlg: TButtonChangeDlg
     Width = 49
     AutoSize = False
     Caption = 'Ic&on:'
-    Color = clNone
     FocusControl = lbIcons
     ParentColor = False
     WordWrap = True
@@ -107,7 +101,6 @@ object ButtonChangeDlg: TButtonChangeDlg
     Width = 25
     AutoSize = False
     Caption = '0'
-    Color = clNone
     ParentColor = False
     WordWrap = True
   end
@@ -119,7 +112,6 @@ object ButtonChangeDlg: TButtonChangeDlg
     Width = 81
     AutoSize = False
     Caption = '&Tooltip:'
-    Color = clNone
     FocusControl = kedtToolTip
     ParentColor = False
   end
@@ -317,7 +309,6 @@ object ButtonChangeDlg: TButtonChangeDlg
       Width = 55
       AutoSize = False
       Caption = 'S&ize:'
-      Color = clNone
       FocusControl = kedtBarSize
       ParentColor = False
     end
