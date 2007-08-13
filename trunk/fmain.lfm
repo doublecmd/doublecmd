@@ -1,7 +1,7 @@
 inherited frmMain: TfrmMain
-  Left = 263
+  Left = 273
   Height = 336
-  Top = 144
+  Top = 148
   Width = 525
   HorzScrollBar.Page = 524
   VertScrollBar.Page = 316
@@ -227,7 +227,7 @@ inherited frmMain: TfrmMain
       Options = [nboShowCloseButtons]
       TabOrder = 0
     end
-    object Splitter1: TSplitter
+    object MainSplitter: TSplitter
       Left = 392
       Height = 184
       Top = 1

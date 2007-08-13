@@ -773,7 +773,7 @@ begin
   lblLPath.OnMouseLeave:=@lblLPathMouseLeave;
 
   
-  pnlFile:=TFilePanel.Create(dgPanel,lblLPath,lblCommandPath, lblFree, cmbCommand);
+  pnlFile:=TFilePanel.Create(AOwner, dgPanel,lblLPath,lblCommandPath, lblFree, cmbCommand);
   
 //  setup column widths
   for x:=0 to 4 do

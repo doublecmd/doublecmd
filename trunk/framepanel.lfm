@@ -22,7 +22,6 @@ inherited FrameFilePanel: TFrameFilePanel
       Height = 14
       Width = 36
       Caption = 'lblLInfo'
-      Color = clNone
       ParentColor = False
     end
     object pnlHeader: TPanel
@@ -84,7 +83,6 @@ inherited FrameFilePanel: TFrameFilePanel
         Width = 33
         Align = alLeft
         Caption = 'lblFree'
-        Color = clNone
         ParentColor = False
       end
     end

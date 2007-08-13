@@ -21,8 +21,11 @@ uses
   StdCtrls, Grids, uFileList, uTypes, uPathHistory, Classes, uVFS;
 
 type
+  TOnChangeDirectory = procedure (Sender: TObject; const NewDir : String) of object;
+
   TFilePanel=Class
   private
+    fOwner : TObject;
     fFileList:TFileList;
     fVFS : TVFS;
     flblPath:TLabel;
@@ -43,10 +46,11 @@ type
     flblCurPath:TLabel; // label before Command line
     flblFree:TLabel;
     fedtCommand:TComboBox; // only for place correction after Chdir
+    FOnChangeDirectory : TOnChangeDirectory;
   public
 //    iLastDrawnIndex  :Integer; // fucking dirty hack (OnDrawItem
 
-    constructor Create(APanel:TDrawGrid; AlblPath: TLabel; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
+    constructor Create(AOwner : TObject; APanel:TDrawGrid; AlblPath: TLabel; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
     Destructor Destroy; override;
     procedure LoadPanel;
     procedure LoadPanelVFS(frp:PFileRecItem);
@@ -74,6 +78,7 @@ type
     procedure ReplaceExtCommand(var sCmd:String; pfr:PFileRecItem);
     procedure SetActiveDir(const AValue:String);
     function GetActiveDir:String;
+    property OnChangeDirectory : TOnChangeDirectory read FOnChangeDirectory write FOnChangeDirectory;
 
   published
     property SortDirection:Boolean read fSortDirect write fSortDirect; // maybe write method
@@ -96,8 +101,9 @@ uses
   uShowMsg, Controls, uLng, uShowForm, uDCUtils,
   uOSUtils;
 
-constructor TFilePanel.Create(APanel:TDrawGrid; AlblPath: TLabel; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
+constructor TFilePanel.Create(AOwner : TObject; APanel:TDrawGrid; AlblPath: TLabel; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
 begin
+  fOwner := AOwner;
   fPanel:=APanel;
   fRefList:=TList.Create;
   fVFS := TVFS.Create;
@@ -204,6 +210,8 @@ begin
               fPanelMode := pmDirectory;
               fActiveDir := ExtractFilePath(fVFS.ArcFullName);
               ChDir(fActiveDir);
+              if Assigned(FOnChangeDirectory) then
+                FOnChangeDirectory(fOwner, fActiveDir);
               LoadFilesbyDir(fActiveDir, fFileList);
             end;
         end
@@ -250,6 +258,8 @@ begin
           fActiveDir:=fActiveDir+DirectorySeparator;
         Exit;   // chdir failed
       end;
+      if Assigned(FOnChangeDirectory) then
+        FOnChangeDirectory(fOwner, fActiveDir);
       LoadFilesbyDir(fActiveDir, fFileList);
     end;
   end; // case

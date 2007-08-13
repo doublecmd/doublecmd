@@ -33,7 +33,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls,
-  Graphics, Dialogs, ExtCtrls, Buttons, IniFiles, FileUtil, comCtrls;
+  Graphics, Dialogs, ExtCtrls, Buttons, IniFiles, FileUtil;
 
 type
 
@@ -49,8 +49,6 @@ type
     FIconList : TStringList;
     FPositionX : Integer;
     FPositionY : Integer;
-    FMaxBtnCount : Integer;
-    FLineBtnCount : Integer;
     FButtonSize : Integer;
     FNeedMore : Boolean;
     FOnToolButtonClick : TOnToolButtonClick;
@@ -150,11 +148,6 @@ begin
   //writeln('FButtonSize = ' + IntToStr(FButtonSize));
   if Width < Height then
      Width := Height;
-
-
-  FMaxBtnCount := (Width - FTotalBevelWidth * 2) div FButtonSize;
-  if not FDiskPanel then
-  Width := (FButtonSize * FMaxBtnCount) + FTotalBevelWidth * 2;
 
   FPositionX := FTotalBevelWidth;
   FPositionY := FTotalBevelWidth;
@@ -369,7 +362,6 @@ begin
   DeleteAllToolButtons;
   FPositionX := FTotalBevelWidth;
   FPositionY := FTotalBevelWidth;
-  FMaxBtnCount := Width div FButtonSize;
   IniFile := Tinifile.Create(FileName);
   BtnCount := IniFile.ReadInteger('Buttonbar', 'Buttoncount', 0);
 
@@ -414,7 +406,7 @@ begin
 
   if FDiskPanel then
     begin
-      ToolButton.Width := Self.Canvas.TextWidth(sCaption) + ToolButton.Glyph.Width + 32;
+      ToolButton.Width := ToolButton.Canvas.TextWidth(sCaption) + ToolButton.Glyph.Width + 32;
     end
   else
     ToolButton.Width := FButtonSize;

@@ -174,11 +174,9 @@ type
     actFileLinker: TAction;
     actFileSpliter: TAction;
     pmToolBar: TPopupMenu;
-    Splitter1: TSplitter;
+    MainSplitter: TSplitter;
     procedure actExtractFilesExecute(Sender: TObject);
     procedure actPackFilesExecute(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
     procedure DeleteClick(Sender: TObject);
     procedure dskRightChangeLineCount(AddSize: Integer);
     procedure dskLeftToolButtonClick(NumberOfButton: Integer);
@@ -252,6 +250,7 @@ type
     procedure FrameHeaderDblClick(Sender: TObject);
     procedure FramelblLPathMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure FramepnlFileChangeDirectory(Sender: TObject; const NewDir : String);
     procedure edtCommandKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure actFileLinkerExecute(Sender: TObject);
@@ -292,9 +291,11 @@ type
     procedure SetNotActFrmByActFrm;
     procedure SetActiveFrame(panel: TFilePanelSelect);
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
-    procedure CreatePanel(AOwner:TWinControl; APanel:TFilePanelSelect);
+    procedure CreatePanel(AOwner:TWinControl; APanel:TFilePanelSelect; sPath : String);
     function AddPage(ANoteBook:TNoteBook):TPage;
     procedure RemovePage(ANoteBook:TNoteBook; iPageIndex:Integer);
+    procedure LoadTabs(ANoteBook:TNoteBook);
+    procedure SaveTabs(ANoteBook:TNoteBook);
     function ExecCmd(Cmd : String) : Boolean;
     procedure SaveShortCuts;
     procedure LoadShortCuts;
@@ -325,11 +326,6 @@ begin
     edtCommand.Items.LoadFromFile(gpIniDir+cHistoryFile);
 //  DebugLn('frmMain.FormCreate Done');
   IsPanelsCreated := False;
-end;
-
-procedure TfrmMain.Button1Click(Sender: TObject);
-begin
-   CreatePanel(AddPage(nbLeft), fpLeft);
 end;
 
 
@@ -374,11 +370,6 @@ begin
     frameRight.RefreshPanel;
   end;
 
-end;
-
-
-procedure TfrmMain.Button2Click(Sender: TObject);
-begin
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
@@ -513,9 +504,9 @@ procedure TfrmMain.actNewTabExecute(Sender: TObject);
 begin
   case PanelSelected of
   fpLeft:
-     CreatePanel(AddPage(nbLeft), fpLeft);
+     CreatePanel(AddPage(nbLeft), fpLeft, ActiveFrame.ActiveDir);
   fpRight:
-     CreatePanel(AddPage(nbRight), fpRight);
+     CreatePanel(AddPage(nbRight), fpRight, ActiveFrame.ActiveDir);
   end;
 end;
 
@@ -535,10 +526,10 @@ var
 begin
   for x:=0 to 4 do
     gColumnSize[x]:=FrameLeft.dgPanel.ColWidths[x];
-  (* Save Paths *)
-  gIni.WriteString('left', 'path', FrameLeft.pnlFile.ActiveDir);
-  gIni.WriteString('right', 'path', FrameRight.pnlFile.ActiveDir);
-  (* /Save Paths *)
+
+  (* Save all tabs *)
+  SaveTabs(nbLeft);
+  SaveTabs(nbRight);
   
   gIni.WriteInteger('Configuration', 'Main.Left', Left);
   gIni.WriteInteger('Configuration', 'Main.Top', Top);
@@ -571,37 +562,25 @@ begin
   Width :=  gIni.ReadInteger('Configuration', 'Main.Width', Width);
   Height :=  gIni.ReadInteger('Configuration', 'Main.Height', Height);
 
-  CreatePanel(AddPage(nbLeft), fpLeft );
-  CreatePanel(AddPage(nbRight), fpRight);
+  {LastDir := gIni.ReadString('left', 'path', '');
+  CreatePanel(AddPage(nbLeft), fpLeft, LastDir);
+
+  LastDir := gIni.ReadString('right', 'path', '');
+  CreatePanel(AddPage(nbRight), fpRight, LastDir); }
+  
+  LoadTabs(nbLeft);
+  LoadTabs(nbRight);
   
   nbLeft.Options:=[nboShowCloseButtons];
   nbRight.Options:=[nboShowCloseButtons];
   actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
-
-  (* Restore Paths *)
-  
-  {Left panel}
-  LastDir := gIni.ReadString('left', 'path', '');
-  if (LastDir <> '') and (DirectoryExists(LastDir)) then
-    begin
-     FrameLeft.pnlFile.ActiveDir := LastDir;
-     FrameLeft.pnlFile.LoadPanel;
-    end;
-  {Right panel}
-  LastDir := gIni.ReadString('right', 'path', '');
-  if (LastDir <> '') and (DirectoryExists(LastDir)) then
-    begin
-     FrameRight.pnlFile.ActiveDir := LastDir;
-     FrameRight.pnlFile.LoadPanel;
-    end;
-  (* /Restore Paths *)
   
   PanelSelected:=fpLeft;
 
   SetActiveFrame(fpLeft);
 
   pnlNotebooks.Width:=Width div 2;
-  
+
  // dskLeft.Width := Width div 2;
   
   (*Create Disk Panels*)
@@ -860,9 +839,9 @@ end;
 
 procedure TfrmMain.FormResize(Sender: TObject);
 begin
-  nbLeft.Width:=frmMain.Width div 2;
+  nbLeft.Width:= (frmMain.Width div 2) - (MainSplitter.Width div 2);
   dskLeft.Width := pnlDisk.Width div 2;
-//  pnlLeftdskRes.Width := nbLeft.Width + 2;
+
   dskLeft.Repaint;
   dskRight.Repaint;
 End;
@@ -2163,6 +2142,17 @@ begin
     end;
 end;
 
+procedure TfrmMain.FramepnlFileChangeDirectory(Sender: TObject; const NewDir: String);
+var
+  ANoteBook : TNoteBook;
+begin
+  if Sender is TPage then
+    begin
+      ANoteBook := (Sender as TPage).Parent as TNoteBook;
+      ANoteBook.Page[ANoteBook.PageIndex].Caption := NewDir;
+    end;
+end;
+
 procedure TfrmMain.SetActiveFrame(panel: TFilePanelSelect);
 begin
   PanelSelected:=panel;
@@ -2244,7 +2234,7 @@ begin
 
 end;
 
-procedure TfrmMain.CreatePanel(AOwner: TWinControl; APanel:TFilePanelSelect);
+procedure TfrmMain.CreatePanel(AOwner: TWinControl; APanel:TFilePanelSelect; sPath : String);
 begin
   with TFrameFilePanel.Create(AOwner, lblCommandPath, edtCommand) do
   begin
@@ -2252,6 +2242,8 @@ begin
     PanelSelect:=APanel;
     Init;
     ReAlign;
+    pnlFile.OnChangeDirectory := @FramepnlFileChangeDirectory;
+    pnlFile.ActiveDir := sPath;
     pnlFile.LoadPanel;
     UpDatelblInfo;
     dgPanel.Color := gBackColor;
@@ -2272,26 +2264,16 @@ end;
 function TfrmMain.AddPage(ANoteBook: TNoteBook):TPage;
 var
   x:Integer;
-  PageName : String;
 begin
   x:=ANotebook.PageCount;
-  if x = 0 then // First page
-     begin
-       if ANoteBook.Align = alLeft then
-          PageName := GetLastDir(gIni.ReadString('left', 'path', ''))
-       else
-          PageName := GetLastDir(gIni.ReadString('right', 'path', ''));
-       if PageName = '' then
-             PageName := ExtractFileDrive(gpExePath);
-     end
-  else
-    PageName := GetLastDir(ActiveFrame.ActiveDir);
-  ANoteBook.Pages.Add(PageName);
-  ANoteBook.ActivePage:= PageName;
+
+  ANoteBook.Pages.Add(IntToStr(x));
+  ANoteBook.ActivePage:= IntToStr(x);
   Result:=ANoteBook.Page[x];
-{  DebugLn(Result.ClassName);
-  DebugLn(Result.Name);}
-  ANoteBook.ShowTabs:= (ANoteBook.PageCount > 1);
+
+  ANoteBook.ShowTabs:= (ANoteBook.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible);
+  if Boolean(gDirTabOptions and tb_multiple_lines) then
+    ANoteBook.Options := ANoteBook.Options + [nboMultiLine];
 end;
 
 procedure TfrmMain.RemovePage(ANoteBook: TNoteBook; iPageIndex:Integer);
@@ -2306,7 +2288,105 @@ begin
     end;}
     ANoteBook.Pages.Delete(iPageIndex);
   end;
-  ANoteBook.ShowTabs:= (ANoteBook.PageCount > 1);
+  ANoteBook.ShowTabs:= (ANoteBook.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible);
+end;
+
+procedure TfrmMain.LoadTabs(ANoteBook: TNoteBook);
+var
+  I : Integer;
+  sIndex,
+  TabsSection, Section: String;
+  fpsPanel : TFilePanelSelect;
+  sPath,
+  sCaption, sActiveCaption : String;
+  iActiveTab : Integer;
+begin
+  if ANoteBook.Align = alLeft then
+    begin
+      TabsSection := 'lefttabs';
+      Section := 'left';
+      fpsPanel := fpLeft;
+    end
+  else
+    begin
+      TabsSection := 'righttabs';
+      Section := 'right';
+      fpsPanel := fpRight;
+    end;
+  I := 0;
+  sIndex := '0';
+
+  { Read active tab index and caption }
+  iActiveTab := gIni.ReadInteger(TabsSection, 'activetab', 0);
+  sActiveCaption := gIni.ReadString(Section, 'activecaption', '');
+
+   while True do
+    begin
+      if I = iActiveTab then
+        begin
+          sPath := gIni.ReadString(Section, 'path', '');
+          CreatePanel(AddPage(ANoteBook), fpsPanel, sPath);
+          if sActiveCaption <> '' then
+            ANoteBook.Page[ANoteBook.PageCount - 1].Caption := sActiveCaption;
+        end;
+      sPath := gIni.ReadString(TabsSection, sIndex + '_path', '');
+      if sPath = '' then Break;
+      sCaption := gIni.ReadString(TabsSection, sIndex + '_caption', '');
+      CreatePanel(AddPage(ANoteBook), fpsPanel, sPath);
+      if sCaption <> '' then
+        ANoteBook.Page[ANoteBook.PageCount - 1].Caption := sCaption;
+      inc(I);
+      sIndex := IntToStr(I);
+    end;
+    // set active tab
+    ANoteBook.PageIndex := iActiveTab;
+end;
+
+procedure TfrmMain.SaveTabs(ANoteBook: TNoteBook);
+var
+  I, Count, J : Integer;
+  sIndex,
+  TabsSection, Section : String;
+  sPath : String;
+begin
+  if ANoteBook.Align = alLeft then
+    begin
+      TabsSection := 'lefttabs';
+      Section := 'left';
+    end
+  else
+    begin
+      TabsSection := 'righttabs';
+      Section := 'right';
+    end;
+
+  gIni.EraseSection(TabsSection);
+  
+  I := 0;
+  J := 0;
+  Count := ANoteBook.PageCount - 1;
+  repeat
+    sIndex := IntToStr(I - J);
+
+    if I = ANoteBook.PageIndex then
+      begin
+        gIni.WriteInteger(TabsSection, 'activetab', I);
+        gIni.WriteString(TabsSection, 'activecaption', ANoteBook.ActivePage);
+        if I < Count then
+          begin
+            inc(I);
+            J := 1;
+          end
+        else
+          Break;
+      end;
+    sPath := TFrameFilePanel(ANoteBook.Page[I].Components[0]).ActiveDir;
+    gIni.WriteString(TabsSection, sIndex + '_path', sPath);
+    gIni.WriteString(TabsSection, sIndex + '_caption', ANoteBook.Page[I].Caption);
+    inc(I);
+  until (I > Count);
+  sPath := TFrameFilePanel(ANoteBook.ActivePageComponent.Components[0]).ActiveDir;
+  gIni.WriteString(Section, 'path', sPath);
 end;
 
 (* Execute internal or external command *)
