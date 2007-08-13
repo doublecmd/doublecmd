@@ -78,6 +78,21 @@ var
   gCursorText : TColor; //text color under cursor
   
   gIconsSize : Integer;
+  gDirTabOptions,
+  gDirTabLimit : Integer;
+
+const
+  { Tabs options }
+  tb_always_visible = 1;
+  tb_multiple_lines = 2;
+  tb_same_width = 4;
+  tb_text_length_limit = 8;
+  tb_confirm_close_all = 16;
+  tb_close_on_dbl_click = 32;
+  tb_open_new_in_foreground = 64;
+  tb_open_new_near_current = 128;
+  tb_show_asterisk_for_locked = 256;
+  tb_activate_panel_on_click = 512;
 
 function LoadGlobs : Boolean;
 procedure SaveGlobs;
@@ -181,6 +196,9 @@ begin
   glsHotDir.CommaText := gIni.ReadString('Configuration', 'HotDir', '');
   gShortFileSizeFormat := gIni.ReadBool('Configuration', 'ShortFileSizeFormat', True);
 
+  gDirTabOptions := gIni.ReadInteger('Configuration', 'DirTabOptions', 0);
+  gDirTabLimit :=  gIni.ReadInteger('Configuration', 'DirTabLimit', 32);
+
   gUseExtEdit := gIni.ReadBool('Configuration', 'UseExtEdit', False);
   gUseExtView := gIni.ReadBool('Configuration', 'UseExtView', False);
   gUseExtDiff := gIni.ReadBool('Configuration', 'UseExtDiff', False);
@@ -278,6 +296,8 @@ begin
   gIni.WriteString('Configuration', 'HotDir', glsHotDir.CommaText);
   gIni.WriteBool('Configuration', 'ShortFileSizeFormat', gShortFileSizeFormat);
 
+  gIni.WriteInteger('Configuration', 'DirTabOptions', gDirTabOptions);
+  gIni.WriteInteger('Configuration', 'DirTabLimit', gDirTabLimit);
 
   gIni.WriteBool('Configuration', 'UseExtEdit', gUseExtEdit);
   gIni.WriteBool('Configuration', 'UseExtView', gUseExtView);
