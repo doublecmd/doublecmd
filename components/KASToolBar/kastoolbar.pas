@@ -60,7 +60,8 @@ type
     FChangePath : String;
     FEnvVar : String;
     FOldWidth : Integer;
-    FMustResize : Boolean;
+    FMustResize,
+    FLockResize : Boolean;
     function LoadBtnIcon(IconPath : String) : TBitMap;
     function GetButton(Index: Integer): TSpeedButton;
     function GetButtonCount: Integer;
@@ -163,9 +164,11 @@ begin
   if FOldWidth = 0 then
     FOldWidth := Width;
     
-  if ((FOldWidth <> Width) or FMustResize) and (FButtonsList.Count > 0) then
+  if (((FOldWidth <> Width) and not FLockResize) or FMustResize) and (FButtonsList.Count > 0) then
     begin
-
+      // lock on resize handler
+      FLockResize := True;
+      
       NewHeight := FButtonSize + FTotalBevelWidth * 2;
 
       if (BevelInner <> bvNone) and (BevelOuter <> bvNone) then
@@ -215,6 +218,8 @@ begin
 
       Self.SetBounds(Left, Top, Width, NewHeight);
 
+      // unlock on resize handler
+      FLockResize := False;
     end;
 
 end;
@@ -332,6 +337,7 @@ begin
   FNeedMore := False;
   FOldWidth := Width;
   FMustResize := False;
+  FLockResize := False;
 end;
 
 destructor TKAStoolBar.Destroy;
@@ -393,6 +399,9 @@ function TKAStoolBar.AddButton(sCaption, Cmd, BtnHint, IconPath : String) : Inte
 var
   ToolButton: TSpeedButton;
 begin
+  // lock on resize handler
+  FLockResize := True;
+
   ToolButton:= TSpeedButton.Create(Self);
   //Include(ToolButton.ComponentStyle, csSubComponent);
   ToolButton.Parent:=Self;
@@ -420,9 +429,10 @@ begin
       Height := Height + FButtonSize;
     end;
 
-
   ToolButton.Left:= FPositionX;
   ToolButton.Top := FPositionY;
+
+  //WriteLN('ToolButton.Left == ' + IntToStr(ToolButton.Left));
 
   if Assigned(OnMouseDown) then
     ToolButton.OnMouseDown := OnMouseDown;
@@ -445,6 +455,9 @@ begin
   FCmdList.Add(Cmd);
   FIconList.Add(IconPath);
 
+  // unlock on resize handler
+  FLockResize := False;
+  
   Result := ToolButton.Tag;
 end;
 
