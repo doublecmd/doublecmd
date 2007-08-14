@@ -61,6 +61,7 @@ type
     dskLeft: TKAStoolBar;
     dskRight: TKAStoolBar;
     MainToolBar: TKASToolBar;
+    pnlDisk: TPanel;
     tbDelete: TMenuItem;
     tbEdit: TMenuItem;
     MenuItem3: TMenuItem;
@@ -69,8 +70,7 @@ type
     nbLeft: TNotebook;
     nbRight: TNotebook;
     pnlNotebooks: TPanel;
-    pnlButton: TPanel;
-    pnlDisk: TPanel;
+    pnlSyncSize: TPanel;
     pnlCommand: TPanel;
     lblCommandPath: TLabel;
     mnuHelp: TMenuItem;
@@ -395,14 +395,12 @@ end;
 
 procedure TfrmMain.dskRightChangeLineCount(AddSize: Integer);
 begin
-  pnlDisk.Height := pnlDisk.Height + AddSize;
-  //pnlLeftdskRes.Height := pnlLeftdskRes.Height + AddSize;
-
+  pnlSyncSize.Height := pnlSyncSize.Height + AddSize;
 end;
 
 procedure TfrmMain.dskLeftToolButtonClick(NumberOfButton: Integer);
 var
-Command : String;
+  Command : String;
 begin
   if dskLeft.Buttons[NumberOfButton].GroupIndex = 0 then
      begin
@@ -544,8 +542,6 @@ begin
 end;
 
 procedure TfrmMain.frmMainShow(Sender: TObject);
-var
-LastDir : String;
 begin
    DebugLn('frmMainShow');
   (* If panels already created then refresh their and exit *)
@@ -561,12 +557,6 @@ begin
   Top := gIni.ReadInteger('Configuration', 'Main.Top', Top);
   Width :=  gIni.ReadInteger('Configuration', 'Main.Width', Width);
   Height :=  gIni.ReadInteger('Configuration', 'Main.Height', Height);
-
-  {LastDir := gIni.ReadString('left', 'path', '');
-  CreatePanel(AddPage(nbLeft), fpLeft, LastDir);
-
-  LastDir := gIni.ReadString('right', 'path', '');
-  CreatePanel(AddPage(nbRight), fpRight, LastDir); }
   
   LoadTabs(nbLeft);
   LoadTabs(nbRight);
@@ -581,7 +571,8 @@ begin
 
   pnlNotebooks.Width:=Width div 2;
 
- // dskLeft.Width := Width div 2;
+  //DebugLN('dskLeft.Width == ' + IntToStr(dskLeft.Width));
+  //DebugLN('dskRight.Width == ' + IntToStr(dskRight.Width));
   
   (*Create Disk Panels*)
   CreateDiskPanel(dskLeft);
@@ -840,7 +831,17 @@ end;
 procedure TfrmMain.FormResize(Sender: TObject);
 begin
   nbLeft.Width:= (frmMain.Width div 2) - (MainSplitter.Width div 2);
-  dskLeft.Width := pnlDisk.Width div 2;
+
+  //DebugLN('pnlDisk.Width == ' + IntToStr(pnlDisk.Width));
+
+  { Synchronize width of left and right disk panels }
+
+  pnlDisk.Width := pnlSyncSize.Width - (pnlSyncSize.Width mod 2);
+
+  dskLeft.Width := (pnlDisk.Width div 2) - pnlDisk.BevelWidth;
+
+  //DebugLN('dskLeft.Width == ' + IntToStr(dskLeft.Width));
+  //DebugLN('dskRight.Width == ' + IntToStr(dskRight.Width));
 
   dskLeft.Repaint;
   dskRight.Repaint;

@@ -1,7 +1,7 @@
 inherited frmMain: TfrmMain
-  Left = 273
+  Left = 275
   Height = 336
-  Top = 148
+  Top = 363
   Width = 525
   HorzScrollBar.Page = 524
   VertScrollBar.Page = 316
@@ -26,54 +26,55 @@ inherited frmMain: TfrmMain
   OnShow = frmMainShow
   Position = poDesktopCenter
   ShowHint = True
-  object pnlButton: TPanel
-    Height = 22
+  object pnlSyncSize: TPanel
+    Height = 26
     Top = 23
     Width = 525
     Align = alTop
-    FullRepaint = False
-    TabOrder = 0
-    Visible = False
-  end
-  object pnlDisk: TPanel
-    Height = 24
-    Top = 45
-    Width = 525
-    Align = alTop
-    Caption = 'pnlDisk'
-    ClientHeight = 24
+    BevelOuter = bvNone
+    ClientHeight = 26
     ClientWidth = 525
     FullRepaint = False
-    ParentColor = False
-    TabOrder = 1
-    object dskLeft: TKAStoolBar
-      Left = 1
-      Height = 22
-      Top = 1
-      Width = 142
-      Align = alLeft
-      Alignment = taLeftJustify
+    TabOrder = 0
+    object pnlDisk: TPanel
+      Height = 26
+      Width = 525
+      Align = alRight
+      Caption = 'pnlDisk'
+      ClientHeight = 26
+      ClientWidth = 525
+      FullRepaint = False
       ParentColor = False
       TabOrder = 0
-      OnToolButtonClick = dskLeftToolButtonClick
-      CheckToolButton = True
-      FlatButtons = True
-      IsDiskPanel = True
-    end
-    object dskRight: TKAStoolBar
-      Left = 143
-      Height = 22
-      Top = 1
-      Width = 381
-      Align = alClient
-      Alignment = taRightJustify
-      Anchors = [akTop, akLeft, akBottom]
-      TabOrder = 1
-      OnToolButtonClick = dskRightToolButtonClick
-      OnChangeLineCount = dskRightChangeLineCount
-      CheckToolButton = True
-      FlatButtons = True
-      IsDiskPanel = True
+      object dskLeft: TKAStoolBar
+        Left = 1
+        Height = 24
+        Top = 1
+        Width = 142
+        Align = alLeft
+        Alignment = taLeftJustify
+        ParentColor = False
+        TabOrder = 0
+        OnToolButtonClick = dskLeftToolButtonClick
+        CheckToolButton = True
+        FlatButtons = True
+        IsDiskPanel = True
+      end
+      object dskRight: TKAStoolBar
+        Left = 143
+        Height = 24
+        Top = 1
+        Width = 381
+        Align = alClient
+        Alignment = taRightJustify
+        Anchors = [akTop, akLeft, akBottom]
+        TabOrder = 1
+        OnToolButtonClick = dskRightToolButtonClick
+        OnChangeLineCount = dskRightChangeLineCount
+        CheckToolButton = True
+        FlatButtons = True
+        IsDiskPanel = True
+      end
     end
   end
   object pnlCommand: TPanel
@@ -87,7 +88,7 @@ inherited frmMain: TfrmMain
     ClientWidth = 525
     FullRepaint = False
     ParentColor = False
-    TabOrder = 2
+    TabOrder = 1
     object lblCommandPath: TLabel
       Left = 1
       Height = 14
@@ -208,18 +209,18 @@ inherited frmMain: TfrmMain
     end
   end
   object pnlNotebooks: TPanel
-    Height = 186
-    Top = 69
+    Height = 206
+    Top = 49
     Width = 525
     Align = alClient
-    ClientHeight = 186
+    ClientHeight = 206
     ClientWidth = 525
     FullRepaint = False
-    TabOrder = 3
+    TabOrder = 2
     TabStop = True
     object nbLeft: TNotebook
       Left = 1
-      Height = 184
+      Height = 204
       Top = 1
       Width = 391
       Align = alLeft
@@ -229,14 +230,14 @@ inherited frmMain: TfrmMain
     end
     object MainSplitter: TSplitter
       Left = 392
-      Height = 184
+      Height = 204
       Top = 1
       Width = 4
       ResizeStyle = rsLine
     end
     object nbRight: TNotebook
       Left = 396
-      Height = 184
+      Height = 204
       Top = 1
       Width = 128
       Align = alClient
@@ -249,7 +250,7 @@ inherited frmMain: TfrmMain
     Height = 23
     Width = 525
     Align = alTop
-    TabOrder = 4
+    TabOrder = 3
     OnMouseDown = MainToolBarMouseDown
     OnToolButtonClick = MainToolBarToolButtonClick
     FlatButtons = True
