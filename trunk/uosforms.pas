@@ -52,7 +52,7 @@ procedure ShowContextMenu(Handle : THandle; pfri : PFileRecItem; X, Y : Integer)
 implementation
 
 uses
-  fMain, uVFSutil, uOSUtils, uExts, uGlobs;
+  fMain, uVFSutil, uOSUtils, uExts, uGlobs, JwaDbt;
 
 var
 {$IFDEF MSWINDOWS}
@@ -65,15 +65,26 @@ var
 {$IFDEF MSWINDOWS}
 function MyWndProc(hwnd: HWND; Msg, wParam, lParam: Cardinal): Cardinal; stdcall;
 begin
-  (* For working wuth submenu of contex menu *)
-  if ((Msg = WM_INITMENUPOPUP) or (Msg = WM_DRAWITEM) or (Msg = WM_MENUCHAR)
-    or (Msg = WM_MEASUREITEM)) and Assigned(ICM2) then
-    begin
-      ICM2.HandleMenuMsg(Msg, wParam, lParam);
-      Result := 0;
-    end
+  case Msg of
+    (* For working wuth submenu of contex menu *)
+    WM_INITMENUPOPUP,
+    WM_DRAWITEM,
+    WM_MENUCHAR,
+    WM_MEASUREITEM:
+      if Assigned(ICM2) then
+        begin
+          ICM2.HandleMenuMsg(Msg, wParam, lParam);
+          Result := 0;
+        end
+      else
+        Result := CallWindowProc(OldWProc, hwnd, Msg, wParam, lParam);
+        
+    WM_DEVICECHANGE:
+      if (wParam = DBT_DEVICEARRIVAL) or (wParam = DBT_DEVICEREMOVECOMPLETE) then
+        frmMain.UpdateDiskCount;
   else
     Result := CallWindowProc(OldWProc, hwnd, Msg, wParam, lParam);
+  end; // case
 end;
 {$ENDIF}
 

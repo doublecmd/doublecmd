@@ -146,7 +146,7 @@ begin
   FTotalBevelWidth := BevelWidth;
 
   FButtonSize := Height - FTotalBevelWidth * 2;
-  //writeln('FButtonSize = ' + IntToStr(FButtonSize));
+//  writeln('FButtonSize = ' + IntToStr(FButtonSize));
   if Width < Height then
      Width := Height;
 
@@ -291,6 +291,9 @@ var
   BtnCount,
   I: Integer;
 begin
+  // lock on resize handler
+  FLockResize := True;
+      
   BtnCount := FButtonsList.Count - 1;
   for I := 0 to BtnCount do
     begin
@@ -298,19 +301,24 @@ begin
       TSpeedButton(FButtonsList.Items[0]).Free;
       FButtonsList.Delete(0);
 
-      
       FCmdList.Delete(0);
       FIconList.Delete(0);
   end;
   // Assign to BtnCount new toolbar height
   BtnCount := FButtonSize + FTotalBevelWidth * 2;
-
+  // Assign to I old toolbar height
+  I := Height;
+  // set new toolbar height
+  Self.SetBounds(Left, Top, Width, BtnCount);
+  
   if Assigned(FChangeLineCount) then
-    FChangeLineCount(BtnCount - Height);
-
-  Height := BtnCount;
+    FChangeLineCount(BtnCount - I);
+  
   FNeedMore := False;
   InitBounds;
+
+  // unlock on resize handler
+  FLockResize := False;
 end;
 
 function TKAStoolBar.GetButtonCount: Integer;

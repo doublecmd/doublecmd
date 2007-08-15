@@ -290,6 +290,7 @@ type
     procedure ShowRenameFileEdit(const sFileName:String);
     procedure SetNotActFrmByActFrm;
     procedure SetActiveFrame(panel: TFilePanelSelect);
+    procedure UpdateDiskCount;
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
     procedure CreatePanel(AOwner:TWinControl; APanel:TFilePanelSelect; sPath : String);
     function AddPage(ANoteBook:TNoteBook):TPage;
@@ -432,7 +433,7 @@ end;
 
 procedure TfrmMain.dskRightToolButtonClick(NumberOfButton: Integer);
 var
-Command : String;
+  Command : String;
 begin
   if dskRight.Buttons[NumberOfButton].GroupIndex = 0 then
      begin
@@ -533,6 +534,7 @@ begin
   gIni.WriteInteger('Configuration', 'Main.Top', Top);
   gIni.WriteInteger('Configuration', 'Main.Width', Width);
   gIni.WriteInteger('Configuration', 'Main.Height', Height);
+  gIni.WriteBool('Configuration', 'maximized', (WindowState = wsMaximized));
 end;
 
 procedure TfrmMain.frmMainKeyUp(Sender: TObject; var Key: Word;
@@ -557,6 +559,9 @@ begin
   Top := gIni.ReadInteger('Configuration', 'Main.Top', Top);
   Width :=  gIni.ReadInteger('Configuration', 'Main.Width', Width);
   Height :=  gIni.ReadInteger('Configuration', 'Main.Height', Height);
+  if gIni.ReadBool('Configuration', 'maximized', True) then
+    Self.WindowState := wsMaximized;
+
   
   LoadTabs(nbLeft);
   LoadTabs(nbRight);
@@ -1186,7 +1191,10 @@ begin
     begin
       edtCommand.SetFocus; // handle first char of command line specially
       with ActiveFrame do
-        edtCommand.Text:=edtCmdLine.Text+Key;
+        begin
+          edtCommand.Text:=edtCmdLine.Text+Key;
+          edtCommand.SelStart := Length(edtCommand.Text) + 1;
+        end;
       Key:=#0;
     end;
   end;
@@ -2159,6 +2167,16 @@ begin
   PanelSelected:=panel;
   ActiveFrame.SetFocus;
   NotActiveFrame.dgPanelExit(self);
+end;
+
+procedure TfrmMain.UpdateDiskCount;
+begin
+  // delete all disk buttons
+  dskRight.DeleteAllToolButtons;
+  dskLeft.DeleteAllToolButtons;
+  // and add new
+  CreateDiskPanel(dskLeft);
+  CreateDiskPanel(dskRight);
 end;
 
 procedure TfrmMain.CreateDiskPanel(dskPanel: TKASToolBar);
