@@ -28,22 +28,22 @@ unit fExtractDlg;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls, uVFS, uFileList;
+  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls, uVFS, uFileList, framePanel,
+  EditBtn;
 
 type
 
 { TExtractDlg }
 
 TExtractDlg = class(TForm)
+  edtExtractTo: TDirectoryEdit;
     lblExtractTo : TLabel;
-    edtExtractTo : TEdit;
     lblFileMask : TLabel;
     cbFileMask : TComboBox;
     cbExtractPath : TCheckBox;
     cbOverwrite : TCheckBox;
     cbInSeparateFolder : TCheckBox;
     btnOK : TButton;
-    btnTree : TButton;
     btnCancel : TButton;
     btnHelp : TButton;
   private
@@ -55,14 +55,16 @@ TExtractDlg = class(TForm)
 var
   ExtractDlg: TExtractDlg;
 
-procedure  ShowExtractDlg(VFS : TVFS; var fl : TFileList; sDestPath:String);
+procedure  ShowExtractDlg(ActiveFrame:TFrameFilePanel; var fl : TFileList; sDestPath:String);
 
 implementation
-
+uses
+  uTypes, uDCUtils;
+  
 var
   CurrentVFS : TVFS;
 
-procedure ShowExtractDlg(VFS : TVFS; var fl: TFileList; sDestPath: String);
+procedure ShowExtractDlg(ActiveFrame:TFrameFilePanel; var fl: TFileList; sDestPath: String);
 var
   I : Integer;
   ExtractFileList : TFileList;
@@ -70,19 +72,42 @@ begin
   with TExtractDlg.Create(nil) do
     begin
       edtExtractTo.Text := sDestPath;
-      CurrentVFS := VFS;
+      CurrentVFS := ActiveFrame.pnlFile.VFS;
+
+      if ActiveFrame.pnlFile.PanelMode = pmArchive then
+        cbInSeparateFolder.Visible := False;
+
       if (ShowModal = mrOK) then
         begin
           sDestPath := IncludeTrailingPathDelimiter(edtExtractTo.Text) + cbFileMask.Text;
           ExtractFileList := TFileList.Create;
           ExtractFileList.CurrentDirectory := PathDelim;
-          for I := 0 to fl.Count - 1 do
-          if VFS.FindModule(fl.GetFileName(I)) then
+
+          // if in archive
+          if ActiveFrame.pnlFile.PanelMode = pmArchive then
             begin
-              VFS.VFSmodule.VFSList(PathDelim, ExtractFileList); // select all files
-              VFS.VFSmodule.VFSCopyOutEx(ExtractFileList, sDestPath, 0);
+              if CurrentVFS.FindModule(CurrentVFS.ArcFullName) then
+                CurrentVFS.VFSmodule.VFSCopyOutEx(fl, sDestPath, 0);
             end;
-        end;
+
+          // if in real directory
+          if ActiveFrame.pnlFile.PanelMode = pmDirectory then
+            for I := 0 to fl.Count - 1 do // extract all selected archives
+              if CurrentVFS.FindModule(fl.GetFileName(I)) then
+                begin
+                  ExtractFileList := TFileList.Create;
+                  ExtractFileList.CurrentDirectory := PathDelim;
+                  // if each archive in separate folder
+                  if cbInSeparateFolder.Checked then
+                    begin
+                      sDestPath := IncludeTrailingPathDelimiter(edtExtractTo.Text);
+                      sDestPath := sDestPath + ExtractOnlyFileName(CurrentVFS.ArcFullName) + PathDelim + cbFileMask.Text;
+                    end;
+                  // select all files and extract
+                  CurrentVFS.VFSmodule.VFSList(PathDelim, ExtractFileList);
+                  CurrentVFS.VFSmodule.VFSCopyOut(ExtractFileList, sDestPath, 0);
+                end;
+        end; // ShowModal
       Free;
     end;
 end;

@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Buttons, uFileList, uVFS;
+  Buttons, uFileList, uVFS, EditBtn;
 
 type
 
@@ -42,18 +42,18 @@ type
     cbCreateSeparateArchives: TCheckBox;
     cbCreateSFX: TCheckBox;
     cbEncrypt: TCheckBox;
-    btnTree: TButton;
     cbMoveToArchive: TCheckBox;
     cbMultivolume: TCheckBox;
     btnOk: TButton;
+    edtPackCmd: TDirectoryEdit;
     gbPacker: TGroupBox;
     cbPackerList: TComboBox;
     lblPrompt: TLabel;
     cbRecurse: TCheckBox;
     cbStoredir: TCheckBox;
-    edtPackCmd: TEdit;
     rbOtherPlugins: TRadioButton;
     procedure btnConfigClick(Sender: TObject);
+    procedure edtPackCmdAcceptDirectory(Sender: TObject; var Value: String);
     procedure FormShow(Sender: TObject);
     procedure arbChange(Sender: TObject);
 
@@ -160,6 +160,12 @@ procedure TPackDlg.btnConfigClick(Sender: TObject);
 begin
    if CurrentVFS.FindModule(edtPackCmd.Text) then
      CurrentVFS.VFSmodule.VFSConfigure(Handle);
+end;
+
+procedure TPackDlg.edtPackCmdAcceptDirectory(Sender: TObject; var Value: String
+  );
+begin
+  Value := IncludeTrailingPathDelimiter(Value) + ExtractFileName(edtPackCmd.Text);
 end;
 
 procedure TPackDlg.arbChange(Sender: TObject);
