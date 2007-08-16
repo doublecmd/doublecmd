@@ -508,6 +508,10 @@ begin
        begin
          DebugLN(FDstPath + ExtractDirLevel(Folder, ArcHeader.FileName));
 
+         if (FFileMask <> '*.*') and (FFileMask <> '*') then
+           ForceDirectory(ExtractFilePath(FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)));
+
+
          iResult := ProcessFile(ArcHandle, PK_EXTRACT, nil, PChar(FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)));
 
          //Check for errors
@@ -583,10 +587,9 @@ procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
     fr : PFileRecItem;
     I, Count : Integer;
     CurrFileName : String;  // Current file name
-    bForceDirectory : Boolean; // for future
   begin
-
-    bForceDirectory := True;
+    if (FFileMask = '*.*') or (FFileMask = '*') then
+      ForceDirectory(FDstPath + ExtractDirLevel(FFolder, PathDelim + sDir));
 
     //DebugLN('ForceDirectory = ' + FDstPath + ExtractDirLevel(FFolder, PathDelim + sDir));
 
@@ -600,13 +603,13 @@ procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
 
        if not IncludeFileInList(sDir + PathDelim, CurrFileName) then
          Continue;
-       if not(G_ValidateWildText(CurrFileName, FFileMask)
-          or FPS_ISDIR(PHeaderData(FArcFileList.Items[I])^.FileAttr)) then
-         Continue;
-  //     DebugLN('In folder = ' + CurrFileName);
 
-       if bForceDirectory then
-         ForceDirectory(FDstPath + ExtractDirLevel(FFolder, PathDelim + sDir));
+       if (FFileMask <> '*.*') and (FFileMask <> '*') and
+          not FPS_ISDIR(PHeaderData(FArcFileList.Items[I])^.FileAttr) and
+          not(G_ValidateWildText(CurrFileName, FFileMask)) then
+         Continue;
+
+  //     DebugLN('In folder = ' + CurrFileName);
 
        New(fr);
        with fr^, PHeaderData(FArcFileList.Items[I])^  do
@@ -617,14 +620,16 @@ procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
                begin
                  sExt:='';
                  //DebugLN('SelectFilesInSubfolders = ' + FileName);
+                 if (FFileMask = '*.*') or (FFileMask = '*') then
+                   fl.AddItem(fr);
                  SelectFilesInSubfolders(fl, FileName);
                end
              else
                begin
+                 fl.AddItem(fr);
                  inc(FFilesSize, UnpSize);
                end;
           end; //with
-       fl.AddItem(fr);
      end;
   end;
 
@@ -647,16 +652,21 @@ begin
     if fri.sName[1] = PathDelim then
       Delete(fri.sName, 1, 1);
 
-    if not(G_ValidateWildText(fri.sName, FFileMask) or FPS_ISDIR(fri.iMode)) then
+    if (FFileMask <> '*.*') and (FFileMask <> '*') and not(G_ValidateWildText(fri.sName, FFileMask) or FPS_ISDIR(fri.iMode)) then
       Continue;
       
-    Newfl.AddItem(@fri);
+
     DebugLN('Curr File = ' + fri.sName);
 
     if FPS_ISDIR(fri.iMode) then
-      SelectFilesInSubfolders(Newfl, fri.sName)
+      begin
+        if (FFileMask = '*.*') or (FFileMask = '*') then
+          Newfl.AddItem(@fri);
+        SelectFilesInSubfolders(Newfl, fri.sName);
+      end
     else
       begin
+        Newfl.AddItem(@fri);
         inc(FFilesSize, fri.iSize);
       end;
 

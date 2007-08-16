@@ -1,24 +1,22 @@
 object PackDlg: TPackDlg
-  Tag = 1
-  Left = 243
-  Height = 202
-  Top = 185
+  Left = 223
+  Height = 220
+  Top = 216
   Width = 517
   HelpContext = 150
   HorzScrollBar.Page = 516
-  VertScrollBar.Page = 201
-  ActiveControl = edtPackCmd
+  VertScrollBar.Page = 219
+  ActiveControl = cbStoredir
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Pack files'
-  ClientHeight = 202
+  ClientHeight = 220
   ClientWidth = 517
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   OnShow = FormShow
   Position = poScreenCenter
   object lblPrompt: TLabel
-    Tag = 2
     Left = 4
     Height = 12
     Top = 2
@@ -31,97 +29,71 @@ object PackDlg: TPackDlg
     ParentColor = False
     ShowAccelChar = False
   end
-  object edtPackCmd: TEdit
-    Left = 4
-    Height = 21
-    Top = 19
-    Width = 340
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    TabOrder = 0
-  end
   object cbStoredir: TCheckBox
-    Tag = 3
     Left = 4
-    Height = 13
+    Height = 30
     Top = 43
-    Width = 197
+    Width = 301
     Caption = 'Also &pack path names (only recursed)'
     Checked = True
     State = cbChecked
-    TabOrder = 1
+    TabOrder = 0
   end
   object cbRecurse: TCheckBox
-    Tag = 4
     Left = 4
-    Height = 13
-    Top = 59
-    Width = 170
+    Height = 26
+    Top = 63
+    Width = 252
     Caption = 'Recursively pack &subdirectories'
     Checked = True
     Enabled = False
     State = cbChecked
-    TabOrder = 2
+    TabOrder = 1
   end
   object cbMultivolume: TCheckBox
-    Tag = 5
     Left = 4
-    Height = 13
-    Top = 75
-    Width = 116
+    Height = 26
+    Top = 83
+    Width = 170
     Caption = '&Multiple disk archive'
     Enabled = False
-    TabOrder = 3
+    TabOrder = 2
   end
   object btnOk: TButton
-    Tag = 4001
-    Left = 119
+    Left = 213
     Height = 32
-    Top = 157
+    Top = 181
     Width = 90
     BorderSpacing.InnerBorder = 4
     Caption = 'OK'
     Default = True
     ModalResult = 1
-    TabOrder = 8
-  end
-  object btnTree: TButton
-    Tag = 7
-    Left = 213
-    Height = 32
-    Top = 157
-    Width = 90
-    BorderSpacing.InnerBorder = 4
-    Caption = 'Tree'
-    TabOrder = 9
+    TabOrder = 7
   end
   object btnCancel: TButton
-    Tag = 4002
     Left = 307
     Height = 32
-    Top = 157
+    Top = 181
     Width = 90
     BorderSpacing.InnerBorder = 4
     Cancel = True
     Caption = 'Cancel'
     ModalResult = 2
-    TabOrder = 10
+    TabOrder = 8
   end
   object gbPacker: TGroupBox
-    Tag = 8
     Left = 348
     Height = 133
-    Top = 17
+    Top = 16
     Width = 142
     Caption = ' Packer '
-    ClientHeight = 115
+    ClientHeight = 112
     ClientWidth = 138
     Font.Color = clBtnText
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
-    TabOrder = 12
+    TabOrder = 10
     object btnConfig: TButton
-      Tag = 6
       Left = 5
       Height = 32
       Top = 80
@@ -132,26 +104,26 @@ object PackDlg: TPackDlg
       TabOrder = 2
     end
     object rbOtherPlugins: TRadioButton
-      Tag = 9
       Left = 5
-      Height = 13
+      Height = 24
       Top = 51
-      Width = 29
+      Width = 42
       Caption = '&->'
+      Checked = True
       Enabled = False
       OnChange = arbChange
+      State = cbChecked
       TabOrder = 0
     end
     object cbPackerList: TComboBox
-      Left = 40
+      Left = 45
       Height = 21
-      Top = 49
+      Top = 51
       Width = 69
       AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
       Enabled = False
       Font.Height = -11
       Font.Name = 'MS Sans Serif'
-      ItemHeight = 13
       MaxLength = 0
       OnChange = arbChange
       Style = csDropDownList
@@ -159,51 +131,57 @@ object PackDlg: TPackDlg
     end
   end
   object cbMoveToArchive: TCheckBox
-    Tag = 9
     Left = 4
-    Height = 13
-    Top = 91
-    Width = 97
+    Height = 26
+    Top = 103
+    Width = 141
     Caption = 'M&ove to archive'
-    TabOrder = 4
+    TabOrder = 3
   end
   object cbCreateSFX: TCheckBox
-    Tag = 10
     Left = 4
-    Height = 13
-    Top = 107
-    Width = 157
+    Height = 26
+    Top = 123
+    Width = 237
     Caption = 'Create self e&xtracting archive'
     Enabled = False
-    TabOrder = 5
+    TabOrder = 4
   end
   object btnHelp: TButton
-    Tag = 4003
     Left = 401
     Height = 32
-    Top = 157
+    Top = 181
     Width = 90
     BorderSpacing.InnerBorder = 4
     Caption = 'Help'
-    TabOrder = 11
+    TabOrder = 9
   end
   object cbEncrypt: TCheckBox
-    Tag = 11
     Left = 4
-    Height = 13
-    Top = 139
-    Width = 56
+    Height = 29
+    Top = 163
+    Width = 82
     Caption = 'Encr&ypt'
-    TabOrder = 7
+    TabOrder = 6
   end
   object cbCreateSeparateArchives: TCheckBox
-    Tag = 12
     Left = 4
-    Height = 13
-    Top = 123
-    Width = 255
+    Height = 26
+    Top = 143
+    Width = 384
     Caption = 'Create separate archives, o&ne per selected file/dir'
     Enabled = False
-    TabOrder = 6
+    TabOrder = 5
+  end
+  object edtPackCmd: TDirectoryEdit
+    Left = 4
+    Height = 23
+    Top = 16
+    Width = 312
+    OnAcceptDirectory = edtPackCmdAcceptDirectory
+    ButtonWidth = 23
+    NumGlyphs = 1
+    ParentColor = False
+    TabOrder = 11
   end
 end

@@ -56,7 +56,7 @@ Type
     function  GetFileName(iIndex: Integer): String;
     Function  CheckFileName(const sFileName:String):Integer;
     procedure  UpdateFileInformation(PanelMode: TPanelMode);
-    procedure Sort(SortBy:Integer; bDirection:Boolean); overload;
+    procedure Sort(SortBy:Integer; bDirection, bCaseSensitive:Boolean); overload;
 
     property Count      : Integer read GetCount;
     property CurrentDirectory : String read fDir write fDir;
@@ -79,7 +79,8 @@ uses
   uGlobs, uPixmapManager, uOSUtils;
 
 var
-  bSortNegative:Boolean; // because implementation of TList.Sort
+  bSortNegative : Boolean; // because implementation of TList.Sort
+  bCaseSensSort : Boolean;
 
 {
 class constructor
@@ -194,9 +195,10 @@ end;
 {
 Sort files by the default value in SortCol (e.g. SortIn) variable.
 }
-procedure TFileList.Sort(SortBy:Integer; bDirection:Boolean);
+procedure TFileList.Sort(SortBy:Integer; bDirection, bCaseSensitive:Boolean);
 begin
   bSortNegative:=bDirection;
+  bCaseSensSort := bCaseSensitive;
   if fList.Count=0 then Exit;
   case SortBy of
     SF_BYNAME:   fList.Sort(@ICompareByName);
@@ -269,7 +271,10 @@ begin
     Result:=0; // used in by Attr, or Date
     Exit;
   end;
-  Result:=StrComp(PChar(item1^.sName), PChar(item2^.sName));
+  if bCaseSensSort then
+    Result:=StrComp(PChar(item1^.sName), PChar(item2^.sName))
+  else
+    Result := StrIComp(PChar(item1^.sName), PChar(item2^.sName));
   if bSortNegative then
     Result:=-Result;
 end;
@@ -284,8 +289,10 @@ begin
   Result:= ICompareCheckDir(PFileRecItem(item1),PFileRecItem(item2));
   if Result<>0 then Exit;
 
-  Result:=StrComp(PChar(PFileRecItem(item1)^.sName),PChar(PFileRecItem(item2)^.sName));
-
+  if bCaseSensSort then
+    Result:=StrComp(PChar(PFileRecItem(item1)^.sName),PChar(PFileRecItem(item2)^.sName))
+  else
+    Result:=StrIComp(PChar(PFileRecItem(item1)^.sName),PChar(PFileRecItem(item2)^.sName));
 {  if FileRecPtr(item1)^.fName = FileRecPtr(item2)^.fName then
     Exit;
 

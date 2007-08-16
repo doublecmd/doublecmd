@@ -278,7 +278,7 @@ end;
 
 procedure TFilePanel.Sort;
 begin
-  fFileList.Sort(fSortCol, fSortDirect);
+  fFileList.Sort(fSortCol, fSortDirect, gCaseSensitiveSort);
   UpDatePanel;
 end;
 

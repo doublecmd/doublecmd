@@ -61,6 +61,7 @@ type
     dskLeft: TKAStoolBar;
     dskRight: TKAStoolBar;
     MainToolBar: TKASToolBar;
+    mnuExtractFiles: TMenuItem;
     pnlDisk: TPanel;
     tbDelete: TMenuItem;
     tbEdit: TMenuItem;
@@ -365,7 +366,7 @@ begin
       fl.CurrentDirectory := ActiveDir;
     end;
   try
-    ShowExtractDlg(ActiveFrame.pnlFile.VFS, fl, NotActiveFrame.ActiveDir);
+    ShowExtractDlg(ActiveFrame, fl, NotActiveFrame.ActiveDir);
   finally
     frameLeft.RefreshPanel;
     frameRight.RefreshPanel;
@@ -1764,7 +1765,17 @@ begin
   else
     sDestPath:=sDestPath+'*.*';
 
-        
+
+  (* Extract files from archive *)
+  if  ActiveFrame.pnlFile.PanelMode = pmArchive then
+    begin
+      DebugLN('+++ Extract files from archive +++');
+      fl.CurrentDirectory := ActiveFrame.ActiveDir;
+      ShowExtractDlg(ActiveFrame, fl, ExtractFilePath(sDestPath));
+      NotActiveFrame.RefreshPanel;
+      Exit;
+    end;
+                    
   with TfrmCopyDlg.Create(Application) do
   begin
     try
@@ -1795,7 +1806,7 @@ begin
   (* Check active panel *)
   try
     (*Copy files from VFS*)
-    if  ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then
+    if  ActiveFrame.pnlFile.PanelMode = pmVFS then
       begin
         DebugLN('+++ Copy files from VFS +++');
         fl.CurrentDirectory := ActiveFrame.ActiveDir;
@@ -2262,6 +2273,8 @@ begin
     Init;
     ReAlign;
     pnlFile.OnChangeDirectory := @FramepnlFileChangeDirectory;
+    if not DirectoryExists(sPath) then
+      GetDir(0, sPath);
     pnlFile.ActiveDir := sPath;
     pnlFile.LoadPanel;
     UpDatelblInfo;

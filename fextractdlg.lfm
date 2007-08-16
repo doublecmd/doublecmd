@@ -1,24 +1,22 @@
 object ExtractDlg: TExtractDlg
-  Tag = 1
   Left = 309
-  Height = 168
+  Height = 183
   Top = 176
   Width = 400
   HelpContext = 160
   HorzScrollBar.Page = 399
-  VertScrollBar.Page = 167
-  ActiveControl = edtExtractTo
+  VertScrollBar.Page = 182
+  ActiveControl = cbFileMask
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Unpack files'
-  ClientHeight = 168
+  ClientHeight = 183
   ClientWidth = 400
   Font.Color = clBtnText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Position = poScreenCenter
   object lblExtractTo: TLabel
-    Tag = 2
     Left = 4
     Height = 16
     Top = 5
@@ -28,7 +26,6 @@ object ExtractDlg: TExtractDlg
     ParentColor = False
   end
   object lblFileMask: TLabel
-    Tag = 3
     Left = 4
     Height = 16
     Top = 51
@@ -38,15 +35,6 @@ object ExtractDlg: TExtractDlg
     FocusControl = cbFileMask
     ParentColor = False
   end
-  object edtExtractTo: TEdit
-    Left = 4
-    Height = 21
-    Top = 26
-    Width = 385
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    TabOrder = 0
-  end
   object cbFileMask: TComboBox
     Left = 134
     Height = 21
@@ -55,80 +43,79 @@ object ExtractDlg: TExtractDlg
     AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
-    ItemHeight = 13
     MaxLength = 0
-    TabOrder = 1
+    TabOrder = 0
     Text = '*.*'
   end
   object cbExtractPath: TCheckBox
-    Tag = 4
     Left = 4
-    Height = 13
+    Height = 26
     Top = 73
-    Width = 199
+    Width = 303
     Caption = '&Unpack path names if stored with files'
-    TabOrder = 2
+    Checked = True
+    Enabled = False
+    State = cbChecked
+    TabOrder = 1
   end
   object cbOverwrite: TCheckBox
-    Tag = 5
     Left = 4
-    Height = 13
-    Top = 92
-    Width = 124
+    Height = 26
+    Top = 95
+    Width = 188
     Caption = '&Overwrite existing files'
-    TabOrder = 3
+    Checked = True
+    Enabled = False
+    State = cbChecked
+    TabOrder = 2
   end
   object btnOK: TButton
-    Tag = 4001
-    Left = 39
+    Left = 128
     Height = 32
-    Top = 129
+    Top = 145
     Width = 85
     BorderSpacing.InnerBorder = 4
     Caption = 'OK'
     Default = True
     ModalResult = 1
-    TabOrder = 5
-  end
-  object btnTree: TButton
-    Tag = 6
-    Left = 128
-    Height = 32
-    Top = 129
-    Width = 85
-    BorderSpacing.InnerBorder = 4
-    Caption = '&Tree'
-    TabOrder = 6
+    TabOrder = 4
   end
   object btnCancel: TButton
-    Tag = 4002
     Left = 216
     Height = 32
-    Top = 129
+    Top = 145
     Width = 85
     BorderSpacing.InnerBorder = 4
     Cancel = True
     Caption = 'Cancel'
     ModalResult = 2
-    TabOrder = 7
+    TabOrder = 5
   end
   object btnHelp: TButton
-    Tag = 4003
     Left = 305
     Height = 32
-    Top = 128
+    Top = 145
     Width = 85
     BorderSpacing.InnerBorder = 4
     Caption = 'Help'
-    TabOrder = 8
+    TabOrder = 6
   end
   object cbInSeparateFolder: TCheckBox
-    Tag = 7
     Left = 4
-    Height = 13
-    Top = 111
-    Width = 322
+    Height = 26
+    Top = 117
+    Width = 488
     Caption = 'Unpack each archive to a &separate subdir (name of the archive)'
-    TabOrder = 4
+    TabOrder = 3
+  end
+  object edtExtractTo: TDirectoryEdit
+    Left = 4
+    Height = 23
+    Top = 24
+    Width = 364
+    ButtonWidth = 23
+    NumGlyphs = 1
+    ParentColor = False
+    TabOrder = 7
   end
 end

@@ -31,7 +31,7 @@ uses
   {$IFDEF UNIX}
   fFileProperties;
   {$ELSE}
-  Windows, Messages, ShellApi, ShlObj, ActiveX, uShlObjAdditional, JwaShlGuid;
+  Windows, Messages, ShellApi, ShlObj, ActiveX, uShlObjAdditional, JwaShlGuid, JwaDbt;
   {$ENDIF}
 const
   sCmdVerbOpen = 'open';
@@ -52,7 +52,7 @@ procedure ShowContextMenu(Handle : THandle; pfri : PFileRecItem; X, Y : Integer)
 implementation
 
 uses
-  fMain, uVFSutil, uOSUtils, uExts, uGlobs, JwaDbt;
+  fMain, uVFSutil, uOSUtils, uExts, uGlobs;
 
 var
 {$IFDEF MSWINDOWS}

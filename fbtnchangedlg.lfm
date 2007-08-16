@@ -1,77 +1,69 @@
 object OneButtonChangeDlg: TOneButtonChangeDlg
   Tag = 1
-  Left = 250
+  Left = 147
   Height = 240
-  Top = 235
-  Width = 533
+  Top = 155
+  Width = 550
   HelpContext = 270
-  HorzScrollBar.Page = 532
+  HorzScrollBar.Page = 549
   VertScrollBar.Page = 239
   ActiveControl = cbCommand
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = 'Change single button'
+  ClientHeight = 240
+  ClientWidth = 550
   Font.Color = clBtnText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Position = poScreenCenter
   object lblCommand: TLabel
-    Tag = 9
     Left = 4
     Height = 14
     Top = 7
     Width = 80
     AutoSize = False
     Caption = '&Command:'
-    Color = clNone
     FocusControl = cbCommand
     ParentColor = False
   end
   object lblParameters: TLabel
-    Tag = 10
     Left = 4
     Height = 14
     Top = 35
-    Width = 80
+    Width = 92
     AutoSize = False
     Caption = '&Parameters:'
-    Color = clNone
     FocusControl = kedtParams
     ParentColor = False
   end
   object lblStartpath: TLabel
-    Tag = 11
     Left = 4
     Height = 14
     Top = 60
     Width = 80
     AutoSize = False
     Caption = '&Start path:'
-    Color = clNone
     FocusControl = kedtStartpath
     ParentColor = False
   end
   object lblIconfile: TLabel
-    Tag = 12
     Left = 4
     Height = 13
     Top = 85
     Width = 80
     AutoSize = False
     Caption = 'Icon &file:'
-    Color = clNone
     FocusControl = kedtIconFileName
     ParentColor = False
   end
   object lblIconX: TLabel
-    Tag = 13
     Left = 4
     Height = 14
     Top = 110
     Width = 45
     AutoSize = False
     Caption = '&Icon:'
-    Color = clNone
     FocusControl = lblIcons
     ParentColor = False
     WordWrap = True
@@ -83,24 +75,21 @@ object OneButtonChangeDlg: TOneButtonChangeDlg
     Width = 25
     AutoSize = False
     Caption = '0'
-    Color = clNone
     ParentColor = False
     WordWrap = True
   end
   object lblTooltip: TLabel
-    Tag = 14
     Left = 4
     Height = 14
     Top = 167
     Width = 80
     AutoSize = False
     Caption = '&Tooltip:'
-    Color = clNone
     FocusControl = kedtToolTip
     ParentColor = False
   end
   object cbCommand: TComboBox
-    Left = 85
+    Left = 104
     Height = 21
     Top = 6
     Width = 298
@@ -108,32 +97,30 @@ object OneButtonChangeDlg: TOneButtonChangeDlg
     DropDownCount = 20
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
-    ItemHeight = 13
     MaxLength = 0
     TabOrder = 0
   end
   object btnOpenFile: TButton
-    Left = 384
+    Left = 403
     Height = 22
     Top = 5
-    Width = 25
+    Width = 26
     BorderSpacing.InnerBorder = 4
     Caption = '>>'
     OnClick = btnOpenFileClick
     TabOrder = 1
   end
   object btnAddSubBar: TButton
-    Tag = 15
-    Left = 412
-    Height = 23
-    Top = 4
-    Width = 110
+    Left = 431
+    Height = 22
+    Top = 5
+    Width = 118
     BorderSpacing.InnerBorder = 4
     Caption = 'Add Subbar >>'
     TabOrder = 2
   end
   object kedtParams: TKASEdit
-    Left = 85
+    Left = 104
     Height = 21
     Top = 31
     Width = 298
@@ -143,16 +130,15 @@ object OneButtonChangeDlg: TOneButtonChangeDlg
     TabOrder = 3
   end
   object lblRunMinimized: TCheckBox
-    Tag = 16
-    Left = 387
-    Height = 13
-    Top = 34
-    Width = 88
+    Left = 406
+    Height = 26
+    Top = 32
+    Width = 134
     Caption = 'Run mi&nimized'
     TabOrder = 4
   end
   object kedtStartpath: TKASEdit
-    Left = 85
+    Left = 104
     Height = 21
     Top = 56
     Width = 298
@@ -162,7 +148,7 @@ object OneButtonChangeDlg: TOneButtonChangeDlg
     TabOrder = 6
   end
   object kedtIconFileName: TKASEdit
-    Left = 85
+    Left = 104
     Height = 21
     Top = 81
     Width = 298
@@ -172,17 +158,17 @@ object OneButtonChangeDlg: TOneButtonChangeDlg
     TabOrder = 7
   end
   object btnOpenIconFile: TButton
-    Left = 384
+    Left = 403
     Height = 21
     Top = 81
-    Width = 25
+    Width = 26
     BorderSpacing.InnerBorder = 4
     Caption = '>>'
     OnClick = btnOpenIconFileClick
     TabOrder = 8
   end
   object lblIcons: TListBox
-    Left = 85
+    Left = 104
     Height = 54
     Top = 106
     Width = 298
@@ -191,9 +177,10 @@ object OneButtonChangeDlg: TOneButtonChangeDlg
     ItemHeight = 36
     Style = lbOwnerDrawFixed
     TabOrder = 9
+    TopIndex = -1
   end
   object kedtToolTip: TKASEdit
-    Left = 85
+    Left = 104
     Height = 21
     Top = 164
     Width = 298
@@ -203,10 +190,9 @@ object OneButtonChangeDlg: TOneButtonChangeDlg
     TabOrder = 10
   end
   object btnOK: TButton
-    Tag = 4001
-    Left = 420
-    Height = 23
-    Top = 110
+    Left = 443
+    Height = 32
+    Top = 104
     Width = 100
     BorderSpacing.InnerBorder = 4
     Caption = 'OK'
@@ -215,10 +201,9 @@ object OneButtonChangeDlg: TOneButtonChangeDlg
     TabOrder = 11
   end
   object btnCancel: TButton
-    Tag = 4002
-    Left = 420
-    Height = 23
-    Top = 136
+    Left = 443
+    Height = 32
+    Top = 144
     Width = 100
     BorderSpacing.InnerBorder = 4
     Cancel = True
@@ -228,21 +213,19 @@ object OneButtonChangeDlg: TOneButtonChangeDlg
     TabOrder = 12
   end
   object btnHelp: TButton
-    Tag = 4003
-    Left = 420
-    Height = 23
-    Top = 162
+    Left = 443
+    Height = 32
+    Top = 184
     Width = 100
     BorderSpacing.InnerBorder = 4
     Caption = '&Help'
     TabOrder = 13
   end
   object lblRunMaximized: TCheckBox
-    Tag = 17
-    Left = 387
-    Height = 13
-    Top = 50
-    Width = 91
+    Left = 406
+    Height = 26
+    Top = 52
+    Width = 139
     Caption = 'Run ma&ximized'
     TabOrder = 5
   end

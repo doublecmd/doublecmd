@@ -119,11 +119,7 @@ begin
   FCaseSens:=True;
   FFilesScaned:=0;
   FilterMask:='*';
-  {$IFDEF WIN32}
-  FPathStart:='C:\';
-  {$ELSE}
-  FPathStart:='/';
-  {$ENDIF}
+  GetDir(0, FPathStart);
   FItems:=Nil;
   FIsDateFrom := False;
   FIsDateTo := False;
