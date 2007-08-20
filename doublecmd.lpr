@@ -81,6 +81,7 @@ uses
        LoadPixMapManager;
        Application.CreateForm(TfrmMain, frmMain); // main form
        Application.CreateForm(TdmHighl, dmHighl); // highlighters
+       Application.CreateForm(TdmDlg, dmDlg); // dialogs
        Application.Run;
      end;
 {  except

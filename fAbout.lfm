@@ -1,7 +1,7 @@
 object frmAbout: TfrmAbout
-  Left = 289
+  Left = 307
   Height = 324
-  Top = 133
+  Top = 255
   Width = 532
   HorzScrollBar.Page = 531
   HorzScrollBar.Range = 521
@@ -31,7 +31,6 @@ object frmAbout: TfrmAbout
     Top = 200
     Width = 84
     Caption = 'version 0.2 alpha'
-    Color = clNone
     ParentColor = False
   end
   object OKButton: TButton
@@ -39,6 +38,7 @@ object frmAbout: TfrmAbout
     Height = 23
     Top = 288
     Width = 100
+    BorderSpacing.InnerBorder = 4
     Caption = 'Hmm...'
     OnClick = OKButtonClick
     TabOrder = 0

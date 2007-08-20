@@ -80,6 +80,7 @@ var
   gIconsSize : Integer;
   gDirTabOptions,
   gDirTabLimit : Integer;
+  gUseMmapInSearch : Boolean;
 
 const
   { Tabs options }
@@ -232,6 +233,8 @@ begin
 
   gpPixmapPath := gpPixmapPath + IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize) + PathDelim;
 
+  gUseMmapInSearch := gIni.ReadBool('Configuration', 'UseMmapInSearch', False);
+
   if FileExists(gpCfgDir+'doublecmd.ext') then
     gExts.LoadFromFile(gpCfgDir+'doublecmd.ext');
 
@@ -329,6 +332,8 @@ begin
   
   
   gIni.WriteInteger('Configuration', 'IconsSize', gIconsSize);
+
+  gIni.WriteBool('Configuration', 'UseMmapInSearch', gUseMmapInSearch);
 
   for x:=0 to 4 do
     gIni.WriteInteger('Configuration', 'Col'+IntToStr(x), gColumnSize[x]);

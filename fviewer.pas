@@ -117,7 +117,7 @@ procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
 implementation
 
 uses
-  uLng, uShowMsg, uGlobs, lcltype, lazjpeg{$IFNDEF WIN32}, uFindMmap{$ENDIF} ;
+  uLng, uShowMsg, uGlobs, lcltype, lazjpeg, uFindMmap;
 
 procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
 var viewer: TfrmViewer;
@@ -503,9 +503,9 @@ begin
      FFindDialog:=TfrmFindView.Create(Application);
   if FFindDialog.ShowModal <> mrOK then Exit;
   if FFindDialog.cbDataToFind.Text='' then Exit;
-  {$IFNDEF WIN32} // Alexx2000 сделать позже поиск
+
   PAdr:=PosMem(PAdr, iSizeData, FFindDialog.cbDataToFind.Text, FFindDialog.cbCaseSens.Checked);
-  {$ENDIF}
+
   if (Integer(PAdr)<>-1) then
   begin
 // founded, set position to ViewerControl

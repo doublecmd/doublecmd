@@ -34,6 +34,7 @@ type
     actEditRedo: TAction;
     actEditPaste: TAction;
     actEditDelete: TAction;
+    ilImageList: TImageList;
     MainMenu1: TMainMenu;
     ActListEdit: TActionList;
     actAbout: TAction;
@@ -43,6 +44,9 @@ type
     actFileSaveAs: TAction;
     actFileNew: TAction;
     actFileExit: TAction;
+    miDelete: TMenuItem;
+    miSelectAll: TMenuItem;
+    miRedo: TMenuItem;
     miDeleteContext: TMenuItem;
     miSelectAllContext: TMenuItem;
     miSeparator2: TMenuItem;
@@ -80,7 +84,22 @@ type
     actConfHigh: TAction;
     miDiv: TMenuItem;
     miConfHigh: TMenuItem;
+    tbToolBar: TToolBar;
+    tbNew: TToolButton;
+    tbOpen: TToolButton;
+    tbSave: TToolButton;
+    tbSeparator1: TToolButton;
+    tbCut: TToolButton;
+    tbCopy: TToolButton;
+    tbPaste: TToolButton;
+    tbSeparator2: TToolButton;
+    tbUndo: TToolButton;
+    tbRedo: TToolButton;
+    tbSeparator3: TToolButton;
+    tbConfig: TToolButton;
+    tbHelp: TToolButton;
     procedure actEditDeleteExecute(Sender: TObject);
+    procedure actEditRedoExecute(Sender: TObject);
     procedure EditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure EditorKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure EditorReplaceText(Sender: TObject; const ASearch, AReplace: string;
@@ -321,6 +340,11 @@ begin
   Editor.ClearSelection;
 end;
 
+procedure TfrmEditor.actEditRedoExecute(Sender: TObject);
+begin
+  editor.Redo;
+end;
+
 procedure TfrmEditor.actEditSelectAllExecute(Sender: TObject);
 begin
   editor.SelectAll;
@@ -328,7 +352,7 @@ end;
 
 procedure TfrmEditor.actFileOpenExecute(Sender: TObject);
 begin
-  inherited;
+  //inherited;
   dmDlg.OpenDialog.Filter:='*.*';
   if not dmDlg.OpenDialog.Execute then Exit;
   OpenFile(dmDlg.OpenDialog.FileName);

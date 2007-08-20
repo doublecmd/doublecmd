@@ -415,7 +415,11 @@ begin
   if FMappingHandle <> 0 then
       FMappedFile := MapViewOfFile(FMappingHandle, FILE_MAP_READ, 0, 0, 0)
   else
+    begin
+      FMappedFile:=nil;
+      FileClose(FFileHandle);
       Exit;
+    end;
 
   FPosition:=0;
   Invalidate;

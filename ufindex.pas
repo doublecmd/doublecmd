@@ -32,7 +32,7 @@ interface
 { $DEFINE USE_STAT64LIBC}    // libc version
 
 uses
-   SysUtils {$IFNDEF WIN32},BaseUnix, Unix{$IFDEF USE_STAT64LIBC}, Libc {$ELSE}, SysCall{$ENDIF}{$ENDIF};
+   SysUtils {$IFNDEF WIN32},BaseUnix, Unix, Libc{$IFDEF USE_STAT64LIBC}, Libc {$ELSE}, SysCall{$ENDIF}{$ENDIF};
 
 Type
   TFindStatus = (fsOK, fsStatFailed, fsBadAttr);
@@ -50,6 +50,7 @@ Type
 
 function FindFirstEx (Const Path : String; Attr : Longint; out Rslt : TSearchRec) : Longint;
 function FindNextEx (Var Rslt : TSearchRec) : Longint;
+function CheckAttrMask(DefaultAttr : Cardinal; sAttr : String; Attr : Cardinal) : Boolean;
 {$IFNDEF WIN32} //*nix systems
 
 {$IFNDEF FAKE_FIND}
@@ -230,6 +231,10 @@ end;
 
 function FindFirstEx (Const Path : String; Attr : Longint; out Rslt : TSearchRec) : Longint;
 begin
+  {$IFDEF UNIX}
+  if (Attr and faSymLink) = faSymLink then
+    Attr := Attr or not faSymLink;
+  {$ENDIF}
   Result := FindFirst(Path, Attr, Rslt);
   {$IFDEF UNIX}
   if Result = 0 then
@@ -245,6 +250,66 @@ begin
     Rslt.Attr := Rslt.Mode;
   {$ENDIF}
 end;
+
+function CheckAttrMask(DefaultAttr : Cardinal; sAttr : String; Attr : Cardinal) : Boolean;
+{$IFDEF WINDOWS}
+begin
+  Result := True;
+  if (DefaultAttr <> 0) and (DefaultAttr <> faAnyFile) then
+    Result := (Attr and DefaultAttr) = DefaultAttr;
+  if Length(sAttr) < 4 then Exit;
+  if Result then
+    begin
+      if sAttr[1] = 'r' then Result := Result and ((Attr and faReadOnly) = faReadOnly)
+      else if sAttr[1] = '-' then Result := Result and ((Attr and faReadOnly) <> faReadOnly);
+      //WriteLN('After r == ', BoolToStr(Result));
+      if sAttr[2] = 'a' then Result := Result and ((Attr and faArchive) = faArchive)
+      else if sAttr[2] = '-' then Result := Result and ((Attr and faArchive) <> faArchive);
+      //WriteLN('After a == ', BoolToStr(Result));
+      if sAttr[3] = 'h' then Result := Result and ((Attr and faHidden) = faHidden)
+      else if sAttr[3] = '-' then Result := Result and ((Attr and faHidden) <> faHidden);
+      //WriteLN('After h == ', BoolToStr(Result));
+      if sAttr[4] = 's' then Result := Result and ((Attr and faSysFile) = faSysFile)
+      else if sAttr[4] = '-' then Result := Result and ((Attr and faSysFile) <> faSysFile);
+  end;
+end;
+{$ELSE}
+begin
+  Result := True;
+  if (DefaultAttr <> 0) and (DefaultAttr <> faAnyFile) then
+    begin
+      if Boolean(DefaultAttr and faDirectory) then
+        Result := Result and fpS_ISDIR(Attr);
+      WriteLN('Result do == ', BoolToStr(Result));
+      if Boolean(DefaultAttr and faSymLink) then
+        Result := Result and ((Attr and S_IFLNK) = S_IFLNK);
+         WriteLN('Result after == ', BoolToStr(Result));
+    end;
+  if Length(sAttr) < 9 then Exit;
+
+  if sAttr[1]='r' then Result:=Result and ((Attr AND S_IRUSR) = S_IRUSR)
+  else if sAttr[1]='-' then Result:=Result and ((Attr AND S_IRUSR) <> S_IRUSR);
+  if sAttr[2]='w' then Result:=Result and ((Attr AND S_IWUSR) = S_IWUSR)
+  else if sAttr[2]='-' then Result:=Result and ((Attr AND S_IWUSR) <> S_IWUSR);
+  if sAttr[3]='x' then Result:=Result and ((Attr AND S_IXUSR) = S_IXUSR)
+  else if sAttr[3]='-' then Result:=Result and ((Attr AND S_IXUSR) <> S_IXUSR);
+  if sAttr[4]='r' then Result:=Result and ((Attr AND S_IRGRP) = S_IRGRP)
+  else if sAttr[4]='-' then Result:=Result and ((Attr AND S_IRGRP) <> S_IRGRP);
+  if sAttr[5]='w' then Result:=Result and ((Attr AND S_IWGRP) = S_IWGRP)
+  else if sAttr[5]='-' then Result:=Result and ((Attr AND S_IWGRP) <> S_IWGRP);
+  if sAttr[6]='x' then Result:=Result and ((Attr AND S_IXGRP) = S_IXGRP)
+  else if sAttr[6]='-' then Result:=Result and ((Attr AND S_IXGRP) <> S_IXGRP);
+  if sAttr[7]='r' then Result:=Result and ((Attr AND S_IROTH) = S_IROTH)
+  else if sAttr[7]='-' then Result:=Result and ((Attr AND S_IROTH) <> S_IROTH);
+  if sAttr[8]='w' then Result:=Result and ((Attr AND S_IWOTH) = S_IWOTH)
+  else if sAttr[8]='-' then Result:=Result and ((Attr AND S_IWOTH) <> S_IWOTH);
+  if sAttr[9]='x' then Result:=Result and ((Attr AND S_IXOTH) = S_IXOTH)
+  else if sAttr[9]='-' then Result:=Result and ((Attr AND S_IXOTH) <> S_IXOTH);
+
+  if sAttr[3]='s' then Result:=Result and ((Attr AND S_ISUID) = S_ISUID);
+  if sAttr[6]='s' then Result:=Result and ((Attr AND S_ISGID) = S_ISGID);
+end;
+{$ENDIF}
 
 end.
 

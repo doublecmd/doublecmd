@@ -56,6 +56,8 @@ const
     'Martin Matusu (xmat@volny.cz) - chown, chgrp'+#13+
     'Radek Polak - some viewer fixes'+#13+
     'translators (see detail in lng files)  '+#13+#13+
+    'In program used icons from:'+#13+
+    '-Tango Icon Library (http://tango.freedesktop.org/Tango_Icon_Library)'+#13+#13+
     'Big thanks to Lazarus and FreePascal Team';
 
 
