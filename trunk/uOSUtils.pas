@@ -40,6 +40,7 @@ const
   faSymLink   = $00000400;
   {$ELSE}
   faFolder = S_IFDIR;
+  faSymLink   = $00000040;
   {$ENDIF}
 
 type
@@ -68,6 +69,14 @@ type
   TFILETIME = FILETIME;
   PFILETIME = ^FILETIME;
 
+type
+  TFileMapRec = record
+    FileHandle : THandle;
+    FileSize : Int64;
+    MappingHandle : THandle;
+    MappedFile : PChar;
+  end;
+
 function FPS_ISDIR(iAttr:Cardinal) : Boolean;
 function FPS_ISLNK(iAttr:Cardinal) : Boolean;
 function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Boolean;
@@ -81,6 +90,10 @@ function GetLastDir(Path : String) : String;
 
 function IsAvailable(Path : String) : Boolean;
 function GetAllDrives : TList;
+
+(* File mapping/unmapping routines *)
+function MapFile(const sFileName : String; var FileMapRec : TFileMapRec) : Boolean;
+procedure UnMapFile(FileMapRec : TFileMapRec);
 
 (* Date/Time routines *)
 function FileTimeToLocalFileTimeEx(const lpFileTime: TFileTime; var lpLocalFileTime: TFileTime): LongBool;
@@ -501,6 +514,86 @@ begin
   endmntent(fstab);
 end;
 {$ENDIF}
+
+function MapFile(const sFileName : String; var FileMapRec : TFileMapRec) : Boolean;
+{$IFDEF MSWINDOWS}
+begin
+  Result := False;
+  with FileMapRec do
+    begin
+      FileHandle := FileOpen(sFileName, fmOpenRead);
+      if FileHandle <= 0 then Exit;
+      FileSize := GetFileSize(FileHandle, nil);
+
+      MappingHandle := CreateFileMapping(FileHandle, nil, PAGE_READONLY, 0, 0, nil);
+
+      if MappingHandle <> 0 then
+        MappedFile := MapViewOfFile(MappingHandle, FILE_MAP_READ, 0, 0, 0)
+      else
+        begin
+          MappedFile := nil;
+          FileClose(FileHandle);
+          Exit;
+        end;
+    end;
+  Result := True;
+end;
+{$ELSE}
+var
+  stat : _stat64;
+begin
+  Result := False;
+  with FileMapRec do
+    begin
+      FileHandle:=Libc.open(PChar(sFileName), O_RDONLY);
+
+      if FileHandle = -1 then Exit;
+      if fstat64(FileHandle, stat) <> 0 then
+        begin
+          Libc.__close(FileHandle);
+          Exit;
+        end;
+
+      FileSize := stat.st_size;
+      MappedFile:=mmap(nil,FileSize,PROT_READ, MAP_PRIVATE{SHARED},FileHandle,0 );
+      if Integer(MappedFile) = -1 then
+        begin
+          MappedFile := nil;
+          Libc.__close(FileHandle);
+          Exit;
+        end;
+    end;
+  Result := True;
+end;
+{$ENDIF}
+
+procedure UnMapFile(FileMapRec : TFileMapRec);
+{$IFDEF MSWINDOWS}
+begin
+  with FileMapRec do
+    begin
+      if Assigned(MappedFile) then
+        UnmapViewOfFile(MappedFile);
+
+      if MappingHandle <> 0 then
+        CloseHandle(MappingHandle);
+
+      if FileHandle >= 0 then
+       FileClose(FileHandle);
+    end;
+end;
+{$ELSE}
+begin
+  with FileMapRec do
+    begin
+      if FileHandle >= 0 then
+        Libc.__close(FileHandle);
+
+      if Assigned(MappedFile) then
+        munmap(MappedFile,FileSize);
+    end;
+end;
+{$ENDIF}  
 
 (* Date/Time routines *)
 

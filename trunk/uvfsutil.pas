@@ -182,14 +182,14 @@ function ModeStr2Mode(const sMode:String):Integer;
 begin
 // stupid conversion
   Result:=0;
-{$IFDEF WIN32}
+{$IFDEF WINDOWS}
 
 if sMode[1] = 'd' then Result := Result or $10;
-if sMode[2] = 'h' then Result := Result or $02;
-if sMode[3] = 's' then Result := Result or $04;
-if sMode[4] = 'v' then Result := Result or $08;
-if sMode[5] = 'r' then Result := Result or $01;
-if sMode[6] = 'a' then Result := Result or $20;
+if sMode[2] = 'r' then Result := Result or $01;
+if sMode[3] = 'a' then Result := Result or $20;
+if sMode[4] = 'h' then Result := Result or $02;
+if sMode[5] = 's' then Result := Result or $04;
+if sMode[6] = 'v' then Result := Result or $08;
 
 {$ELSE}
 //  if sMode[1]='-' then Result:=Result+10;

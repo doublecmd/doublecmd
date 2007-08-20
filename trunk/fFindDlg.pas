@@ -1,15 +1,27 @@
 {
-Seksi Commander
-----------------------------
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Double Commander
+   -------------------------------------------------------------------------
+   Find dialog, with searching in thread
 
-Find dialog, with searching in thread
+   Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
+   Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
 
-contributors:
-Copyright (C) 2006-2007 Alexander Koblov (Alexx2000@mail.ru)
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 }
+
 { $threading on}
 unit fFindDlg;
 {$mode objfpc}{$H+}
@@ -46,11 +58,19 @@ type
     cbTimeTo: TCheckBox;
     cbDelayUnit: TComboBox;
     cbUnitOfMeasure: TComboBox;
+    cbDirectory: TCheckBox;
+    cbSymLink: TCheckBox;
+    cbMore: TCheckBox;
+    cbAttrib: TCheckBox;
     deDateFrom: TDateEdit;
     deDateTo: TDateEdit;
+    edtFindPathStart: TDirectoryEdit;
+    edtAttrib: TEdit;
+    edtTimeFrom: TEdit;
+    edtTimeTo: TEdit;
     edtReplaceText: TEdit;
-    meTimeFrom: TMaskEdit;
-    meTimeTo: TMaskEdit;
+    gbAttributes: TGroupBox;
+    lblInfo: TLabel;
     Panel4: TPanel;
     seNotOlderThan: TSpinEdit;
     seFileSizeFrom: TSpinEdit;
@@ -60,8 +80,6 @@ type
     pgcSearch: TPageControl;
     tsStandard: TTabSheet;
     lblFindPathStart: TLabel;
-    edtFindPathStart: TEdit;
-    btnSelDir: TButton;
     lblFindFileMask: TLabel;
     cmbFindFileMask: TComboBox;
     gbFindData: TGroupBox;
@@ -81,12 +99,16 @@ type
     procedure btnStartClick(Sender: TObject);
     procedure btnViewClick(Sender: TObject);
     procedure btnWorkWithFoundClick(Sender: TObject);
+    procedure cbAttribChange(Sender: TObject);
     procedure cbDateFromChange(Sender: TObject);
     procedure cbDateToChange(Sender: TObject);
+    procedure cbDirectoryChange(Sender: TObject);
     procedure cbFileSizeFromChange(Sender: TObject);
     procedure cbFileSizeToChange(Sender: TObject);
+    procedure cbMoreChange(Sender: TObject);
     procedure cbNotOlderThanChange(Sender: TObject);
     procedure cbReplaceTextChange(Sender: TObject);
+    procedure cbSymLinkChange(Sender: TObject);
     procedure cbTimeFromChange(Sender: TObject);
     procedure cbTimeToChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -117,12 +139,13 @@ procedure ShowFindDlg(const sActPath:String);
 implementation
 
 uses
-  fViewer, uLng, uShowForm, fMain, uTypes, uFileOp;
+  fViewer, uLng, uShowForm, fMain, uTypes, uFileOp, uFindEx, uOSUtils;
   
 procedure ShowFindDlg(const sActPath:String);
 begin
   if not assigned (frmFindDlg) then
     frmFindDlg:=TfrmFindDlg.Create(nil);
+  frmFindDlg.edtFindPathStart.Text := sActPath;
   frmFindDlg.Show;
   frmFindDlg.BringToFront;
   frmFindDlg.cmbFindFileMask.SetFocus;
@@ -142,6 +165,7 @@ begin
   gbFindData.Caption:= lngGetString(clngFindData);
   cbCaseSens.Caption:= lngGetString(clngFindCase);
   miShowInViewer.Caption:=lngGetString(clngFindShowView);
+  edtFindPathStart.DialogTitle := lngGetString(clngFindWhereBeg);
 
 end;
 
@@ -217,7 +241,7 @@ begin
        begin
          IsTimeFrom := True;
          dtTime := 0;
-         if TryStrToTime(meTimeFrom.Text, dtTime) then
+         if TryStrToTime(edtTimeFrom.Text, dtTime) then
            DateTimeFrom := DateTimeFrom + dtTime;
        end;
        
@@ -225,7 +249,7 @@ begin
        begin
          IsTimeTo := True;
          dtTime := 0;
-         if TryStrToTime(meTimeTo.Text, dtTime) then
+         if TryStrToTime(edtTimeTo.Text, dtTime) then
            DateTimeTo := DateTimeTo +  dtTime;
        end;
     (* Not Older Than *)
@@ -297,7 +321,22 @@ begin
              FileSizeTo := seFileSizeTo.Value * 1073741824; //GigaByte
          end;
        end;
+    (* File attributes *)
+    if cbAttrib.Checked then
+      begin
+        Attributes := 0;
+        if cbDirectory.Checked then
+          Attributes := Attributes or faDirectory;
+        WriteLN('Attributes == ', Attributes);
 
+        if cbSymLink.Checked then
+          Attributes := Attributes or uOSUtils.faSymLink;
+
+
+        if cbMore.Checked then
+          AttribStr := edtAttrib.Text;
+
+      end;
     Status:=lblStatus;
     Current:=lblCurrent;
     writeln('thread a');
@@ -336,7 +375,7 @@ begin
     begin
       fr.sNameNoExt := lsFoundedFiles.Items[I];
       fr.sName := fr.sNameNoExt;
-      FindFirst(fr.sNameNoExt, faAnyFile, sr);
+      FindFirstEx(fr.sNameNoExt, faAnyFile, sr);
       fr.sExt := ExtractFileExt(fr.sNameNoExt);
       fr.iSize := sr.Size;
       fr.sTime := DateTimeToStr(Trunc(FileDateToDateTime(sr.Time)));
@@ -352,6 +391,11 @@ begin
   Close;
 end;
 
+procedure TfrmFindDlg.cbAttribChange(Sender: TObject);
+begin
+  gbAttributes.Enabled := cbAttrib.Checked;
+end;
+
 procedure TfrmFindDlg.cbDateFromChange(Sender: TObject);
 begin
   deDateFrom.Enabled := cbDateFrom.Checked;
@@ -362,14 +406,33 @@ begin
   deDateTo.Enabled := cbDateTo.Checked;
 end;
 
+procedure TfrmFindDlg.cbDirectoryChange(Sender: TObject);
+begin
+end;
+
 procedure TfrmFindDlg.cbFileSizeFromChange(Sender: TObject);
 begin
   seFileSizeFrom.Enabled := cbFileSizeFrom.Checked;
+
+  if seFileSizeFrom.Enabled or seFileSizeTo.Enabled then
+    cbUnitOfMeasure.Enabled := True
+  else
+    cbUnitOfMeasure.Enabled := False;
 end;
 
 procedure TfrmFindDlg.cbFileSizeToChange(Sender: TObject);
 begin
   seFileSizeTo.Enabled := cbFileSizeTo.Checked;
+
+  if seFileSizeFrom.Enabled or seFileSizeTo.Enabled then
+    cbUnitOfMeasure.Enabled := True
+  else
+    cbUnitOfMeasure.Enabled := False;
+end;
+
+procedure TfrmFindDlg.cbMoreChange(Sender: TObject);
+begin
+  edtAttrib.Enabled := cbMore.Checked;
 end;
 
 procedure TfrmFindDlg.cbNotOlderThanChange(Sender: TObject);
@@ -385,22 +448,27 @@ begin
   cbNoThisText.Enabled := not cbReplaceText.Checked;
 end;
 
+procedure TfrmFindDlg.cbSymLinkChange(Sender: TObject);
+begin
+
+end;
+
 procedure TfrmFindDlg.cbTimeFromChange(Sender: TObject);
 var
   sTime : String;
 begin
-  meTimeFrom.Enabled := cbTimeFrom.Checked;
+  edtTimeFrom.Enabled := cbTimeFrom.Checked;
   DateTimeToString(sTime, 'hh:mm:ss', Time);
-  meTimeFrom.EditText := sTime;
+  edtTimeFrom.Text := sTime;
 end;
 
 procedure TfrmFindDlg.cbTimeToChange(Sender: TObject);
 var
   sTime : String;
 begin
-  meTimeTo.Enabled := cbTimeTo.Checked;
+  edtTimeTo.Enabled := cbTimeTo.Checked;
   DateTimeToString(sTime, 'hh:mm:ss', Time);
-  meTimeTo.EditText := sTime;
+  edtTimeTo.Text := sTime;
 end;
 
 procedure TfrmFindDlg.ThreadTerminate(Sender:TObject);
@@ -462,7 +530,8 @@ end;
 
 procedure TfrmFindDlg.frmFindDlgShow(Sender: TObject);
 begin
-  cmbFindFileMask.SelectAll;
+  if cmbFindFileMask.Visible then
+    cmbFindFileMask.SelectAll;
   //cmbFindFileMask.SetFocus;
 end;
 
@@ -476,7 +545,7 @@ var
   ME : TMaskEdit;
 begin
   ME := TMaskEdit(Sender);
-  
+
   if StrToIntDef(Copy(ME.EditText, 1, 2), 24) > 23 then
     ME.EditText := '00' + Copy(ME.EditText, 3, 6);
 

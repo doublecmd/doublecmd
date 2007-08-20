@@ -1,14 +1,16 @@
 object dmDlg: TdmDlg
   Height = 300
-  HorizontalOffset = 376
-  VerticalOffset = 238
+  HorizontalOffset = 294
+  VerticalOffset = 172
   Width = 400
   object OpenDialog: TOpenDialog
+    Title = 'Открыть существующий файл'
     FilterIndex = 0
     left = 65
     top = 72
   end
   object SaveDialog: TSaveDialog
+    Title = 'Сохранить файл как'
     FilterIndex = 0
     left = 65
     top = 104

@@ -159,11 +159,12 @@ begin
 
 if FPS_ISDIR(iAttr) then Result[1]:='d';
 if FPS_ISLNK(iAttr) then Result[1]:='l';
-if Boolean(iAttr and $02) then Result[2] := 'h';
-if Boolean(iAttr and $04) then Result[3] := 's';
-if Boolean(iAttr and $08) then Result[4] := 'v';
-if Boolean(iAttr and $01) then Result[5] := 'r';
-if Boolean(iAttr and $20) then Result[6] := 'a';
+
+if Boolean(iAttr and $01) then Result[2] := 'r';
+if Boolean(iAttr and $20) then Result[3] := 'a';
+if Boolean(iAttr and $02) then Result[4] := 'h';
+if Boolean(iAttr and $04) then Result[5] := 's';
+if Boolean(iAttr and $08) then Result[6] := 'v';
 
 {$ELSE}
   if FPS_ISDIR(iAttr) then Result[1]:='d';

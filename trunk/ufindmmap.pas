@@ -8,7 +8,7 @@ implementind memory searching with case
 and mmap file to memory
 
 contributors:
-
+  Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 
@@ -23,7 +23,8 @@ function FindMmap(const sFileName:String; const sFindData:String; bCase:Boolean)
 
 implementation
 uses
-  Libc;
+  uOSUtils;
+
 function PosMem(pAdr:PChar; iLength:Integer; const sData:String; bCase:Boolean):Pointer;
 var
   xIndex:Integer;
@@ -59,31 +60,16 @@ end;
 
 function FindMmap(const sFileName, sFindData:String; bCase:Boolean):Boolean;
 var
-  fd:Integer;
-  pmmap:Pointer;
-  fs:Integer;
-  stat:_stat64;
+  fmr : TFileMapRec;
 begin
-
   Result:=False;
-  pmmap:=nil;
-  fs:=0;
-  fd:=Libc.Open(PChar(sFileName), O_RDONLY);
-  if fd=-1 then Exit;
-  try
-    if fstat64(fd, stat) <> 0 then Exit;
-    fs := stat.st_size;
-    pmmap:=mmap(nil,fs,PROT_READ, MAP_PRIVATE,fd,0 );
-    if Integer(Pmmap)=-1 then Exit;
 
-    Result:= PosMem(pmmap,fs,sFindData,bCase)<>Pointer(-1);
+  try
+    if MapFile(sFileName, fmr) then
+      Result:= PosMem(fmr.MappedFile, fmr.FileSize, sFindData, bCase)<>Pointer(-1);
   finally
-    Libc.__close(fd);
-    if assigned(pmmap) then
-      munmap(pmmap,fs);
+    UnMapFile(fmr);
   end;
 end;
-
-
 
 end.

@@ -1,17 +1,26 @@
 {
-Seksi Commander
-----------------------------
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Double Commander
+   -------------------------------------------------------------------------
+   Thread for search files (called from frmSearchDlg)
 
-Thread for search in files (called from frmSearchDlg)
+   Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
+   Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
 
-contributors:
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
 
-Copyright (C) 2006-2007 Alexander Koblov (Alexx2000@mail.ru)
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 }
-
 
 unit uFindThread;
 {$mode objfpc}{$H+}
@@ -37,6 +46,7 @@ TFindThread = class(TThread)
     FFoundFile:String;
     FFileMask : String;
     FAttributes: Cardinal;
+    FAttribStr : String;
     FCaseSens:Boolean;
     {Date search}
     FIsDateFrom,
@@ -99,17 +109,17 @@ TFindThread = class(TThread)
     property FileSizeFrom : Int64 read FFileSizeFrom write FFileSizeFrom;
     property FileSizeTo : Int64 read FFileSizeTo write FFileSizeTo;
     
-    property Attributes: Cardinal read FAttributes write FAttributes default
-      (faArchive or faReadonly or faHidden or faSysFile or faDirectory);
+    property Attributes: Cardinal read FAttributes write FAttributes;
+    property  AttribStr : String read FAttribStr write FAttribStr;
   end;
 
 
 implementation
 
 uses
-  Dialogs, uLng{$IFNDEF WIN32}, uFindMmap, BaseUnix{$ENDIF};
-{ TFindThread }
+  Dialogs, uLng, uFindMmap, uFindEx, uGlobs;
 
+{ TFindThread }
 
 constructor TFindThread.Create;
 begin
@@ -125,6 +135,8 @@ begin
   FIsDateTo := False;
   FIsFileSizeFrom := False;
   FIsFileSizeTo := False;
+  FAttributes := faAnyFile;
+  FAttribStr := '?????????';
 end;
 
 destructor TFindThread.Destroy;
@@ -172,7 +184,6 @@ end;
 
 
 function FindInFile(const sFileName:String; sData: String; bCase:Boolean): Boolean;
-{$IFDEF WIN32}
 const
   BufferSize = 4096;
 var
@@ -183,20 +194,26 @@ var
 
     Compare: function(Str1, Str2: PChar; MaxLen: SizeInt): SizeInt;
 
-  begin
-    Result := False;
-    if sData = '' then Exit;
+begin
+  if gUseMmapInSearch then
+    begin
+      Result := FindMmap(sFileName, sData, bCase);
+      Exit;
+    end;
+  
+  Result := False;
+  if sData = '' then Exit;
 
-    if bCase then
-     Compare := @StrLIComp
-    else
-     Compare := @StrLComp;
+  if bCase then
+    Compare := @StrLIComp
+  else
+    Compare := @StrLComp;
 
-    sDataLength := Length(sData);
+  sDataLength := Length(sData);
 
+  try
+    fs := TFileStream.Create(sFileName, fmOpenRead or fmShareDenyNone);
     try
-     fs := TFileStream.Create(sFileName, fmOpenRead or fmShareDenyNone);
-     try
       repeat
         OffsetPos := fs.Read(Buffer, BufferSize) - sDataLength;
         lastPos := 0;
@@ -207,18 +224,12 @@ var
           end;
 
       until fs.Position >= fs.Size;
-     except
-     end;
-    finally
-      fs.Free;
+    except
     end;
+  finally
+    fs.Free;
   end;
-
-{$ELSE} // *nix
-begin
-Result := FindMmap(sFileName, sData, bCase);
 end;
-{$ENDIF}
 
 
 procedure FileReplaceString(const FileName, SearchString, ReplaceString: string; bCase:Boolean);
@@ -291,6 +302,8 @@ begin
 end;
 
 function TFindThread.CheckFile(const Folder : String; const sr : TSearchRec) : Boolean;
+var
+  Attrib : Cardinal;
 begin
   Result := True;
 {$IFDEF WIN32}
@@ -307,6 +320,11 @@ if not G_ValidateWildText(sr.Name, FFileMask) then
 
   if (FIsFileSizeFrom or FIsFileSizeTo) and Result then
       Result := CheckFileSize(sr.Size);
+      
+ // if Length(FAttribStr) <> 0 then
+    begin
+      Result := CheckAttrMask(FAttributes, FAttribStr, sr.Attr);
+    end;
 
   if (FFindInFiles and Result) then
      begin
@@ -331,7 +349,9 @@ begin
   Path := sNewDir + PathDelim + FFileMask;
   //WriteLN('Path = ', Path);
 
-  if FindFirst(Path, faAnyFile, sr) = 0 then
+  WriteLN('FAttributes == ', FAttributes);
+
+  if FindFirstEx(Path, FAttributes, sr) = 0 then
   repeat
     if (sr.Name='.') or (sr.Name='..') then Continue;
     inc(FFilesScaned);
@@ -345,7 +365,7 @@ begin
       
     FCurrentFile:=sNewDir + PathDelim + sr.Name;
     Synchronize(@UpDateProgress);
-  until (FindNext(sr)<>0)or terminated;
+  until (FindNextEx(sr)<>0)or terminated;
   FindClose(sr);
 
     {Search in sub folders}
@@ -353,11 +373,11 @@ begin
     begin
       Path := sNewDir + PathDelim + '*';
       WriteLN('Search in sub folders = ', Path);
-      if not Terminated and (FindFirst(Path, faDirectory, sr) = 0) then
+      if not Terminated and (FindFirstEx(Path, faDirectory, sr) = 0) then
         repeat
           if (sr.Name[1] <> '.') then
             WalkAdr(sNewDir + PathDelim + sr.Name);
-        until Terminated or (FindNext(sr) <> 0);
+        until Terminated or (FindNextEx(sr) <> 0);
       FindClose(sr);
     end;
 
