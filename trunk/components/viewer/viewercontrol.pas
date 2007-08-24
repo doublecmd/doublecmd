@@ -165,9 +165,9 @@ var
   Rct: TRect;
 begin
 
-  FTextHeight:=Font.Size+2;  //TextHeight('0');
   with Canvas do
   begin
+    FTextHeight := Canvas.TextHeight('Pp') + 2;
     Rct := ClientRect;
     Brush.Color := Self.Color;
     FillRect(Rct);

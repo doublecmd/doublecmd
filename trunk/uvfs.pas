@@ -29,21 +29,31 @@ uses
   Classes, uGlobs, uFileList, uVFSutil, uTypes, uVFSmodule, uWCXmodule, uWFXmodule;
 type
 
+  TVFSType = (vtWCX, vtWFX);
+
   { TVFS }
 
   TVFS = class
+  private
+    procedure SetVFSModule(Value : TVFSmodule);
   protected
     FPlugins : TStringList;
     FCurrentPlugin : String;
-    sLastArchive:String;
+    sLastArchive : String;
+    FVFSType : TVFSType;
     FVFSModule : TVFSmodule;
   public
     constructor Create;
     destructor Destroy; override;
-    function ChangeDirLevel(frp:PFileRecItem; var flist: TFileList; cdUpLevel : Boolean) : Boolean;
-    function FindModule(const sFileName:String):Boolean;
-    property VFSmodule : TVFSmodule read FVFSModule;
-    property ArcFullName : String read sLastArchive;
+    
+    function cdUpLevel(frp:PFileRecItem; var flist: TFileList) : Boolean;
+    function cdDownLevel(frp:PFileRecItem; var flist: TFileList) : Boolean;
+
+    function FindModule(const sFileName:String; bLoadModule : Boolean = True):Boolean;
+    function LoadAndOpen(const sFileName:String) : Boolean;
+    property VFSType : TVFSType read FVFSType;
+    property VFSmodule : TVFSmodule read FVFSModule write SetVFSModule;
+    property ArcFullName : String read sLastArchive write sLastArchive;
     property Plugins : TStringList read FPlugins;
   end; //class TVFS
 
@@ -53,6 +63,15 @@ uses
   SysUtils, uGlobsPaths, uFindEx, uOSUtils, LCLProc;
 
 { TVFS }
+
+procedure TVFS.SetVFSModule(Value: TVFSmodule);
+begin
+  FVFSModule := Value;
+  if FVFSModule is TWCXmodule then
+    FVFSType := vtWCX;
+  if FVFSModule is TWFXmodule then
+    FVFSType := vtWFX;
+end;
 
 constructor TVFS.Create;
 begin
@@ -70,35 +89,30 @@ begin
   inherited
 end;
 
-
-
-function TVFS.ChangeDirLevel(frp:PFileRecItem; var flist: TFileList; cdUpLevel : Boolean) : Boolean;
+function TVFS.cdUpLevel(frp: PFileRecItem; var flist: TFileList): Boolean;
 var
   Folder : String;
 begin
   Result := False;
-
-  if cdUpLevel then
-    begin
-      if frp^.sPath = '' then  // Exit from VFS
-        Exit;
-      Folder := frp^.sPath;
-    end
-  else
-    begin
-      Folder := IncludeTrailingPathDelimiter(frp^.sPath + frp^.sName);
-    end;
-
-  //DebugLN('Folder = ' + Folder);
-
+  if frp^.sPath = '' then  // Exit from VFS
+    Exit;
+  Folder := frp^.sPath;
   FVFSModule.VFSList(Folder, flist);
+  Result := True;
+end;
 
+function TVFS.cdDownLevel(frp: PFileRecItem; var flist: TFileList): Boolean;
+var
+  Folder : String;
+begin
+  Result := False;
+  Folder := IncludeTrailingPathDelimiter(frp^.sPath + frp^.sName);
+  FVFSModule.VFSList(Folder, flist);
   Result := True;
 end;
 
 
-
-function TVFS.FindModule(const sFileName:String):Boolean;
+function TVFS.FindModule(const sFileName:String; bLoadModule : Boolean = True):Boolean;
 var
   Count, i:Integer;
   sExt, tmp:String;
@@ -124,32 +138,49 @@ begin
     begin
       Index := Pos(',', tmp) + 1;
       FCurrentPlugin := Copy(tmp, Index, Length(tmp));
-      DebugLN('FCurrentPlugin = ', FCurrentPlugin);
-      sLastArchive := sFileName;
-      DebugLN('sLastArchive = ', sLastArchive);
 
-      FVFSModule := TWCXModule.Create;
-      FVFSModule.LoadModule(FCurrentPlugin);
+      //DebugLN('FCurrentPlugin = ', FCurrentPlugin);
 
-      FVFSModule.VFSOpen(sLastArchive);
+      //DebugLN('sLastArchive = ', sLastArchive);
 
-      DebugLN('After Module Load');
-
+      FVFSType := vtWCX;
       Result := True;
+      if bLoadModule then
+        begin
+          sLastArchive := sFileName;
+          Result := LoadAndOpen(sLastArchive);
+        end;
     end
   else
     if sExt = 'wfx' then  // WFX Support
       begin
-        sLastArchive := '';
-        FVFSModule := TWFXModule.Create;
-        FVFSModule.LoadModule(sFileName);
+        FCurrentPlugin := sFileName;
 
-        FVFSModule.VFSOpen('');
-        //*********************
-        DebugLn(PChar(Pointer(FVFSModule.VFSCaps)));
-        //*********************
+        FVFSType := vtWFX;
         Result := True;
+        if bLoadModule then
+          begin
+            sLastArchive := '';
+            Result := LoadAndOpen(sLastArchive);
+            //*********************
+            DebugLn(PChar(Pointer(FVFSModule.VFSCaps)));
+            //*********************
+          end;
       end;
+end;
+
+function TVFS.LoadAndOpen(const sFileName:String): Boolean;
+begin
+  sLastArchive := sFileName;
+  case FVFSType of
+    vtWCX:  FVFSModule := TWCXModule.Create;
+    vtWFX:  FVFSModule := TWFXModule.Create;
+  end;
+  Result := FVFSModule.LoadModule(FCurrentPlugin);
+
+  FVFSModule.VFSOpen(sLastArchive);
+
+  DebugLN('After Module Load');
 end;
 
 

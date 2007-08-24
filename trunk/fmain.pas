@@ -310,7 +310,7 @@ implementation
 
 uses
   uTypes, fAbout, uGlobs, uLng, fOptions,{ fViewer,}fbtnchangedlg, fconfigtoolbar,
-  uCopyThread, uFileList, uDeleteThread,
+  uCopyThread, uFileList, uDeleteThread, uVFSUtil,
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg,
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg, fExtractDlg,
@@ -663,11 +663,12 @@ begin
             begin
               VFSFileList := TFileList.Create;
               VFSFileList.CurrentDirectory := ActiveDir;
+              fr^.sName := ActiveDir + fr^.sName;
               VFSFileList.AddItem(fr);
               sTempDir := GetTempDir;
               {if }pnlFile.VFS.VFSmodule.VFSCopyOut(VFSFileList, sTempDir, 0);{ then}
                 begin
-                 sl.Add(sTempDir + fr^.sName);
+                 sl.Add(sTempDir + ExtractDirLevel(ActiveDir, fr^.sName));
                  ShowViewerByGlobList(sl, True);
                  Exit;
                 end;
@@ -2169,7 +2170,7 @@ begin
   if Sender is TPage then
     begin
       ANoteBook := (Sender as TPage).Parent as TNoteBook;
-      ANoteBook.Page[ANoteBook.PageIndex].Caption := NewDir;
+      ANoteBook.Page[ANoteBook.PageIndex].Caption := GetLastDir(ExcludeTrailingPathDelimiter(NewDir));
     end;
 end;
 
@@ -2495,13 +2496,13 @@ end;
 procedure TfrmMain.tbEditClick(Sender: TObject);
 begin
 if pmToolBar.Tag >= 0 then
-begin
-ShowOneBtnChangeDlg(pmToolBar.Tag);
-end
+  begin
+    ShowOneBtnChangeDlg(pmToolBar.Tag);
+  end
 else
-begin
-ShowConfigToolbar;
-end;
+  begin
+    ShowConfigToolbar;
+  end;
 end;
 
 

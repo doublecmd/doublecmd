@@ -1,0 +1,2 @@
+﻿$$$*** This is unit history file ***$$$ ###encoding="UTF-8"###
+24.08.2007 ADD: Поддержка вложенных архивов
