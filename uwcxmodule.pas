@@ -506,7 +506,7 @@ begin
 
      if  FFileList.CheckFileName(ArcHeader.FileName) >= 0 then // Want To Extract This File
        begin
-         DebugLN(FDstPath + ExtractDirLevel(Folder, ArcHeader.FileName));
+         DebugLN(FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName));
 
          if (FFileMask <> '*.*') and (FFileMask <> '*') then
            ForceDirectory(ExtractFilePath(FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)));

@@ -325,13 +325,17 @@ begin
     if cbAttrib.Checked then
       begin
         Attributes := 0;
+
         if cbDirectory.Checked then
           Attributes := Attributes or faDirectory;
+
         WriteLN('Attributes == ', Attributes);
 
         if cbSymLink.Checked then
           Attributes := Attributes or uOSUtils.faSymLink;
 
+        if Attributes = 0 then
+          Attributes := faAnyFile;
 
         if cbMore.Checked then
           AttribStr := edtAttrib.Text;

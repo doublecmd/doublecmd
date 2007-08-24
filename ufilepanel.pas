@@ -35,9 +35,11 @@ type
     fActiveDir:String;
     fLastActive:String;
 
-    fPanelMode: TPanelMode; // file, archive or FTP?
+    fPanelMode: TPanelMode; // file, archive or VFS?
     fPathHistory: TPathHistory;
     fRefList:TList;  // list of ptr (showed in grid) to FileRecItem
+    fVFSmoduleList : TStringList; // list of VFS modules (used in sub archive)
+
 
     fFilesInDir:Integer; //must call UpdateCountStatus first
     fFilesSelected:Integer; //must call UpdateCountStatus first
@@ -54,7 +56,6 @@ type
     Destructor Destroy; override;
     procedure LoadPanel;
     procedure LoadPanelVFS(frp:PFileRecItem);
-    procedure LoadPanelFTP(frp:PFileRecItem);
     procedure SortByCol(iCol:Integer);
     procedure Sort;
     procedure UpdatePanel;
@@ -97,8 +98,8 @@ type
 implementation
 
 uses
-  SysUtils, uFileOp, uGlobs,
-  uShowMsg, Controls, uLng, uShowForm, uDCUtils,
+  SysUtils, uFileOp, uGlobs, uVFSutil,
+  uShowMsg, Controls, uLng, uShowForm, uVFSmodule, uDCUtils,
   uOSUtils;
 
 constructor TFilePanel.Create(AOwner : TObject; APanel:TDrawGrid; AlblPath: TLabel; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
@@ -116,6 +117,7 @@ begin
   fActiveDir:=ExtractFilePath(fActiveDir);
   fPathHistory:=TPathHistory.Create;
   fPanelMode:=pmDirectory;
+  fVFSmoduleList := TStringList.Create;
 //  LastActive:='';
 //  iLastDrawnIndex:=-1;
 end;
@@ -130,6 +132,8 @@ begin
     FreeAndNil(fPathHistory);
   if assigned(fRefList) then
     FreeAndNil(fRefList);
+  if Assigned(fVFSmoduleList) then
+    FreeAndNil(fVFSmoduleList);
 end;
 
 
@@ -191,51 +195,100 @@ end;
 
 procedure TFilePanel.LoadPanelVFS(frp:PFileRecItem);
 var
-  sn, fn:String; // script name
   sDir:String;
   sDummy:String;
-  //module:TVFSModule;
+  VFSFileList : TFileList;
+  sTempDir : String;
+  I : Integer;
 begin
   with frp^ do
   begin
-  //****************
-    if (fPanelMode=pmArchive) then
+    if (fPanelMode in [pmArchive, pmVFS]) then
      begin
       if sName = '..' then
         begin
           fActiveDir := fVFS.ArcFullName + sPath;
-          WriteLN(output, 'UpDir = ' + sPath);
-          if not fVFS.ChangeDirLevel(frp, fFileList, True) then
+
+          //WriteLN(output, 'UpDir = ' + sPath);
+
+          if not fVFS.cdUpLevel(frp, fFileList) then
             begin
-              fPanelMode := pmDirectory;
-              fActiveDir := ExtractFilePath(fVFS.ArcFullName);
-              ChDir(fActiveDir);
-              if Assigned(FOnChangeDirectory) then
-                FOnChangeDirectory(fOwner, fActiveDir);
-              LoadFilesbyDir(fActiveDir, fFileList);
+              if fVFSmoduleList.Count <> 0 then  // if in sub archive then return in parent VFS
+                begin
+                  DeleteFile(fVFS.ArcFullName);
+                  I := fVFSmoduleList.Count - 1;
+                  fVFS.VFSmodule := TVFSmodule(fVFSmoduleList.Objects[I]); // load VFS module
+                  fVFS.ArcFullName := fVFSmoduleList.Names[I]; // load archive name
+                  sTempDir := fVFSmoduleList.ValueFromIndex[I]; // load archive subdirectory
+                  fVFSmoduleList.Delete(I);
+                  fVFS.VFSmodule.VFSList(sTempDir, fFileList);
+                  case fVFS.VFSType of
+                    vtWCX: fPanelMode := pmArchive;
+                    vtWFX: fPanelMode := pmVFS;
+                  end;
+                  fActiveDir := fVFS.ArcFullName + sTempDir;
+                end
+              else  // exit from VFS
+                begin
+                  fPanelMode := pmDirectory;
+                  fActiveDir := ExtractFilePath(fVFS.ArcFullName);
+                  ChDir(fActiveDir);
+                  if Assigned(FOnChangeDirectory) then
+                    FOnChangeDirectory(fOwner, fActiveDir);
+                  LoadFilesbyDir(fActiveDir, fFileList);
+                end;
             end;
         end
-      else // is directoty
+      else // is directory
       if FPS_ISDIR(iMode) then
         begin
           fActiveDir := fVFS.ArcFullName + sPath + sName + DirectorySeparator;
-          fVFS.ChangeDirLevel(frp, fFileList, False);
+          fVFS.cdDownLevel(frp, fFileList);
         end
       else // Is file
         begin
-          fVFS.VFSmodule.VFSRun(sName);
+          if fVFS.FindModule(sName, False) then // if archive
+            begin
+              fVFSmoduleList.AddObject(fVFS.ArcFullName + '=' + sPath, fVFS.VFSmodule);
+
+              //WriteLN('sPath ==' + sPath);
+
+              VFSFileList := TFileList.Create;
+              VFSFileList.CurrentDirectory := ActiveDir;
+
+              //WriteLN('ActiveDir == ' + ActiveDir);
+
+              sName := ActiveDir + sName;
+              VFSFileList.AddItem(frp);
+              sTempDir := GetTempDir;
+              {if }fVFS.VFSmodule.VFSCopyOut(VFSFileList, sTempDir, 0);{ then}
+                begin
+                 fVFS.LoadAndOpen(sTempDir + ExtractDirLevel(ActiveDir, sName));
+
+                 //WriteLN('sTempDir + sName == ' + sTempDir + sName);
+
+                 fVFS.VFSmodule.VFSList(PathDelim, fFileList);
+                 fPanelMode:=pmArchive;
+                 fActiveDir := fVFS.ArcFullName + DirectorySeparator;
+
+                end;
+            end
+          else
+            fVFS.VFSmodule.VFSRun(sName);
         end;
      end
-    else // Is not in archive
+    else // Is not in VFS
        begin
            fVFS.VFSmodule.VFSList(PathDelim, fFileList);
-           fPanelMode:=pmArchive;
+           case fVFS.VFSType of
+             vtWCX: fPanelMode := pmArchive;
+             vtWFX: fPanelMode := pmVFS;
+           end;
            fActiveDir := fVFS.ArcFullName + DirectorySeparator;
        end;
     fFileList.UpdateFileInformation(fPanelMode);
     Sort;
     Exit;
-  //********************
   end;
 end;
 
@@ -444,41 +497,22 @@ var
   i:Integer;
   bPathFound:Boolean;
 begin
-// handle ..
-  if (fActiveDir=DirectorySeparator) or (fActiveDir='') then
-  begin
-    if fPanelMode=pmArchive then
-    begin
-      if not fPathHistory.IsEmpty then
-      begin
-        fPathHistory.GetLastPathRemove(fActiveDir);
-        LastActive:=ExtractFileName(fActiveDir);
-        fActiveDir:=ExtractFilePath(fActiveDir);   // escape from archive
-      end;
-      if not fPathHistory.IsEmpty then
-        fPanelMode:=pmArchive
-      else
-        fPanelMode:=pmDirectory;
-    end;
-  end
-  else
-  begin
-    bPathFound:=False;
-    fActiveDir:=ExcludeTrailingPathDelimiter(fActiveDir);
-    for i:=length(fActiveDir) downto 1 do
+  bPathFound:=False;
+  fActiveDir:=ExcludeTrailingPathDelimiter(fActiveDir);
+  for i:=length(fActiveDir) downto 1 do
     begin
       if fActiveDir[i] = DirectorySeparator then
-      begin
-       LastActive:=Copy(fActiveDir,i+1,length(fActiveDir)-i+1);
-       fActiveDir:=Copy(fActiveDir,1, i);
-       bPathFound:=True;
-       Break;
-      end;
+        begin
+          LastActive:=Copy(fActiveDir,i+1,length(fActiveDir)-i+1);
+          fActiveDir:=Copy(fActiveDir,1, i);
+          bPathFound:=True;
+          Break;
+        end;
     end;
     
-    if glsDirHistory.IndexOf(ActiveDir)=-1 then
-      glsDirHistory.Insert(0,ActiveDir);
-  end;
+  if glsDirHistory.IndexOf(ActiveDir)=-1 then
+    glsDirHistory.Insert(0,ActiveDir);
+
   LoadPanel;
 end;
 
@@ -545,12 +579,6 @@ begin
   else
   //TODO
     flblFree.Caption:=Format(lngGetString(clngFreeMsg),[cnvFormatFileSize(0),cnvFormatFileSize(0)]);
-end;
-
-procedure TFilePanel.LoadPanelFTP(frp:PFileRecItem);
-begin
-  Raise Exception.Create('FTP is only prepared');
-  //fPanelMode:=pmFTP;
 end;
 
 procedure TFilePanel.ReplaceExtCommand(var sCmd:String; pfr:PFileRecItem);
