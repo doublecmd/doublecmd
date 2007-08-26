@@ -1,32 +1,13 @@
-//***************************************************************
-// This file is part of RPMWCX, a archiver plugin for
-// Windows Commander.
-// Copyright (C) 2000 Mandryka Yurij  e-mail:braingroup@hotmail.ru
-//***************************************************************
-
-//***************************************************************
-// This code based on Christian Ghisler (support@ghisler.com) sources
-//***************************************************************
-
-
-// History
-// 2001-02-04 Bug: Error Opening rpm file on CD (readonly)
-//            Fix: Add FileMode = 0 before Reset
-//            Who: Oliver Haeger <haeger@inghb.de>
-// 2001-02-27 Bug: My or Ghisler I don't know : WC incorrectly
-//                 work with names in archive started with
-//                 "./" or "/" (normal UNIX filenames form)
-
-
-{$A-,I-}
-unit cpio_archive;
+unit deb_archive;
 
 interface
 
+{$A-,I-}
+
 uses
   Classes,
-  wcx,
-  cpio_def, cpio_io;
+  uWCXhead, uUnixTime,
+  deb_def, deb_io;
 
 const
   MAX_ARCHIVE_LIST = 20;
@@ -41,14 +22,13 @@ type
     fgEndArchive   : Boolean;
     process_proc   : TProcessDataProc;
     changevol_proc : TChangeVolProc;
-    last_header    : CPIO_Header;
+    last_header    : deb_Header;
   end;{ArchiveRec}
 
 var
   aList : TList;
 
 function  GetPackerCaps : Integer; stdcall;
-
 function  OpenArchive(var ArchiveData : TOpenArchiveData) : Integer; stdcall;
 function  CloseArchive(hArcData : Integer) : Integer; stdcall;
 function  ReadHeader(hArcData : Integer; var HeaderData : THeaderData) : Integer; stdcall;
@@ -79,7 +59,7 @@ end;
 
 function GetPackerCaps;
 begin
-  Result := 0;
+  Result := PK_CAPS_MULTIPLE;
 end;
 
 function OpenArchive;
@@ -88,7 +68,23 @@ var
   arec      : PArchiveRec;
   filename  : String;
   fgError   : Boolean;
+
+  function SignatureProbe: integer; //0 Ales Gut; 1 IO error; 2 is not DEBIAN PKG
+  const
+    deb_signature: array [0..20] of Char ='!<arch>'#10'debian-binary';
+  var
+    tmp_buf    : array [0..20] of Char;
+    j          : integer;
+  begin
+    Result:=2;
+    BlockRead(arec^.handle_file, tmp_buf, 21);
+    if IOResult <> 0 then begin Result:=1; Exit; end;
+    for j:=0 to 20 do if deb_signature[j] <> tmp_buf[j] then Exit;
+    Result:=0;
+  end;
+
 begin
+  ArchiveData.OpenResult := E_EOPEN;
   arec := nil;
   arch := 0;
   fgError := False;
@@ -111,12 +107,29 @@ begin
         process_proc := nil;
         changevol_proc := nil;
         if fdate = -1 then fdate := 0;
+        last_header.size:=0;
+        last_header.pos:=size_deb_signature;
       end;
       AssignFile(arec^.handle_file, filename);
       FileMode := 0;
       Reset(arec^.handle_file, 1);
       if IOResult <> 0 then begin
         fgError := True;
+      end else begin
+        case SignatureProbe of
+          1:  begin
+                ArchiveData.OpenResult := E_EREAD;
+                fgError := True;
+              end;
+          2:  begin
+                ArchiveData.OpenResult := E_UNKNOWN_FORMAT;
+                fgError := True;
+              end
+          else begin
+                Seek(arec^.handle_file, size_deb_signature);
+                if IOResult <> 0 then fgError := True;
+          end;
+        end;{case SignatureProbe}
       end;{ioresult}
     end;{arch = -1}
   end;{max count reached}
@@ -127,11 +140,11 @@ begin
     end;
     FileClose(arch);
     Result := 0;
-    ArchiveData.OpenResult := E_EOPEN
   end
   else begin
     aList.Add(arec);
     Result := arch;
+    ArchiveData.OpenResult := E_SUCCESS;
   end;
 end;
 
@@ -157,7 +170,7 @@ function ReadHeader;
 var
   i_rec   : Integer;
   arec    : PArchiveRec;
-  header  : CPIO_Header;
+  header  : deb_Header;
 begin
   Result := E_EREAD;
   i_rec := GetArchiveID(hArcData);
@@ -166,32 +179,25 @@ begin
     if arec^.fgEndArchive then Result := E_END_ARCHIVE
     else begin
       while True do begin
-        if CPIO_ReadHeader(arec^.handle_file, header) then begin
-          if header.filename = 'TRAILER!!!' then begin
+        if not deb_ReadHeader(arec^.handle_file, header, arec^.last_header) then begin
             Result := E_END_ARCHIVE;
             Break
-          end
-          else begin
-            if header.records[08] <> 0 then begin
-              with HeaderData do begin
-                copy_str2buf(TStrBuf(ArcName), arec^.fname);
-                copy_str2buf(TStrBuf(FileName), header.filename);
-                PackSize := header.records[08];
-                UnpSize  := header.records[08];
-                FileAttr := $20;
-                FileTime := UnixTimeToDosTime(header.records[07], True);
-              end;{with}
-              Result := 0;
-              Break;
-            end
-            else
-              Continue;
-          end;{not end of file "TRAILER!!!"}
-        end{if header readed}
+        end
         else begin
-          Result := E_EREAD;
-          Break;
-        end;
+            with HeaderData do begin
+              StrPCopy(ArcName, arec^.fname);
+              StrPCopy(FileName, header.filename);
+              PackSize := header.size;
+              UnpSize  := header.size;
+              UnpVer   := 2;
+              HostOS   := 0;
+              FileCRC  := header.CRC;
+              FileAttr := $20;
+              FileTime := UnixTimeToDosTime(header.time, True);
+            end;{with}
+            Result := E_SUCCESS;
+            Break;
+        end{if header readed}
       end;{while true}
       arec^.last_header := header;
     end;{if not end of archive}
@@ -202,82 +208,75 @@ function ProcessFile;
 var
   i_rec       : Integer;
   arec        : PArchiveRec;
-  cpio_file   : file;
-  cpio_name   : String;
-  cpio_dir    : String;
+  targz_file   : file;
+  targz_name   : String;
   buf         : Pointer;
   buf_size    : LongWord;
   fsize       : LongWord;
+  fpos        : LongWord;
   fgReadError : Boolean;
   fgWriteError: Boolean;
   fAborted    : Boolean;
-  head        : CPIO_Header;
+  head        : deb_Header;
 begin
   i_rec := GetArchiveID(hArcData);
   arec := aList.Items[i_rec];
   head := arec^.last_header;
   case Operation of
     PK_TEST : begin
-      faborted:=false;
-      fsize := head.records[08];
+      fAborted:=false;
+      fsize := head.size;
+      fpos := head.pos;
       buf_size := 65536;
       GetMem(buf, buf_size);
       fgReadError := False;
+      Seek(arec^.handle_file, fpos);
+      if IOResult <> 0 then begin fgReadError := True; fAborted:=True; end;
       while not faborted do begin
-        if fsize < buf_size then Break;
-        BlockRead(arec^.handle_file, buf^, buf_size);
-        if IOResult <> 0 then begin
-          fgReadError := True;
-          Break;
-        end;{if IO error}
-        Dec(fsize, buf_size);
-        if Assigned(arec^.process_proc) then
-          if arec^.process_proc(nil, buf_size)=0 then
-            faborted:=true;
+         if fsize < buf_size then Break;
+         BlockRead(arec^.handle_file, buf^, buf_size);
+         if IOResult <> 0 then begin
+            fgReadError := True;
+            Break;
+         end;{if IO error}
+         Dec(fsize, buf_size);
+         if Assigned(arec^.process_proc) then
+           if arec^.process_proc(nil, buf_size)=0 then
+             fAborted:=true;
       end;{while}
       if not fgReadError and not faborted then begin
-        if fsize <> 0 then begin
-          BlockRead(arec^.handle_file, buf^, fsize);
-          if IOResult <> 0 then fgReadError := True;
-          if Assigned(arec^.process_proc) then
-            arec^.process_proc(nil, fsize);
-        end;
+         if fsize <> 0 then begin
+           BlockRead(arec^.handle_file, buf^, fsize);
+           if IOResult <> 0 then fgReadError := True;
+           if Assigned(arec^.process_proc) then
+             if arec^.process_proc(nil, fsize)=0 then
+               fAborted:=true;
+         end;
       end;
-      if faborted then Result:=E_EABORTED
+      if fAborted then Result:=E_EABORTED
       else if fgReadError then Result := E_EREAD
-      else begin
-        Result := 0;
-        if arec^.last_header.oldhdrtype then begin
-          if not AlignFilePointer(arec^.handle_file, 2) then Result := E_EREAD;
-        end else
-          if not AlignFilePointer(arec^.handle_file, 4) then Result := E_EREAD;
-      end;
+      else Result := 0;
+      Seek(arec^.handle_file, size_deb_signature);
       FreeMem(buf, 65536);
     end;{PK_TEST}
-    PK_SKIP : begin
-      Seek(arec^.handle_file, FilePos(arec^.handle_file) + LongInt(head.records[08]));
-      if IOResult = 0 then begin
-        Result := 0;
-        if arec^.last_header.oldhdrtype then begin
-          if not AlignFilePointer(arec^.handle_file, 2) then Result := E_EREAD;
-        end else
-          if not AlignFilePointer(arec^.handle_file, 4) then Result := E_EREAD;
-      end else Result := E_EREAD;
-    end;{PK_SKIP}
+    PK_SKIP : Result := 0;
     PK_EXTRACT : begin
-      cpio_name := String(DestName);
-      cpio_dir := ExtractFileDir(cpio_name);
-      if CreateDirectories(cpio_dir) then begin
-        AssignFile(cpio_file, cpio_name);
-        Rewrite(cpio_file, 1);
+      targz_name := String(DestName);
+        AssignFile(targz_file, targz_name);
+        Rewrite(targz_file, 1);
         if IOResult <> 0 then Result := E_ECREATE
         else begin
-          fsize := head.records[08];
-          buf_size := 65536;
-          GetMem(buf, buf_size);
+          i_rec := GetArchiveID(hArcData);
+          arec := aList.Items[i_rec];
           fgReadError := False;
           fgWriteError :=False;
           fAborted := False;
+          fsize := head.size;
+          fpos := head.pos;
+          buf_size := 65536;
+          GetMem(buf, buf_size);
+          Seek(arec^.handle_file, fpos);
+          if IOResult <> 0 then begin fgReadError := True; fAborted:=True; end;
           while not fAborted do begin
             if fsize < buf_size then Break;
             BlockRead(arec^.handle_file, buf^, buf_size);
@@ -285,7 +284,7 @@ begin
               fgReadError := True;
               Break;
             end;{if IO error}
-            BlockWrite(cpio_file, buf^, buf_size);
+            BlockWrite(targz_file, buf^, buf_size);
             if ioresult<>0 then begin
               fgWriteError:=true;
               break;
@@ -299,7 +298,7 @@ begin
             if fsize <> 0 then begin
               BlockRead(arec^.handle_file, buf^, fsize);
               if IOResult <> 0 then fgReadError := True;
-              BlockWrite(cpio_file, buf^, fsize);
+              BlockWrite(targz_file, buf^, fsize);
               if ioresult<>0 then
                 fgWriteError:=true;
               if Assigned(arec^.process_proc) then
@@ -310,24 +309,17 @@ begin
           if fAborted then Result:= E_EABORTED
           else if fgWriteError then Result := E_EWRITE
           else if fgReadError then Result := E_EREAD
-          else begin
-            Result := 0;
-            if arec^.last_header.oldhdrtype then begin
-              if not AlignFilePointer(arec^.handle_file, 2) then Result := E_EREAD;
-            end else
-              if not AlignFilePointer(arec^.handle_file, 4) then Result := E_EREAD;
-          end;
-          FileSetDate(tfilerec(cpio_file).handle,UnixTimeToDosTime(head.records[07], True));
-          CloseFile(cpio_file);
+          else Result := 0;
+          FileSetDate(tfilerec(targz_file).handle,UnixTimeToDosTime(head.time, True));
+          CloseFile(targz_file);
+          Seek(arec^.handle_file, size_deb_signature);
           if result<>0 then
-            Erase(cpio_file);
+            Erase(targz_file);
           FreeMem(buf, 65536);
         end;
-      end
-      else Result := E_ECREATE;
-    end{PK_EXTRACT}
+    end;{PK_EXTRACT}
   else
-    Result := 0;
+    Result := E_SUCCESS;
   end;{case operation}
 end;
 

@@ -1,0 +1,17 @@
+How to install DEB plugin:
+
+1. Unzip the deb.wcx to the Wincmd directory
+2. In Windows Commander, choose Configuration - Options
+3. Open the 'Packer' page
+4. Click 'Configure packer extension WCXs
+5. type  deb  as the extension
+6. Click 'new type', and select the deb.wcx
+7. Click OK
+
+What it does:
+
+  This plugin allow you to browse debian linux package archives.
+
+Alexandre Maximov. Penza. Russia.
+http://max.reklam.ru
+

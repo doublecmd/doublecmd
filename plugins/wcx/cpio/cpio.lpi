@@ -1,15 +1,14 @@
 <?xml version="1.0"?>
 <CONFIG>
   <ProjectOptions>
-    <PathDelim Value="\"/>
+    <PathDelim Value="/"/>
     <Version Value="5"/>
     <General>
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=".wcx"/>
-      <ActiveEditorIndexAtStart Value="1"/>
+      <ActiveEditorIndexAtStart Value="0"/>
     </General>
-    <LazDoc Paths=""/>
     <PublishOptions>
       <Version Value="2"/>
       <IgnoreBinaries Value="False"/>
@@ -27,7 +26,7 @@
         <Filename Value="cpio.dpr"/>
         <IsPartOfProject Value="True"/>
         <CursorPos X="1" Y="1"/>
-        <TopLine Value="7"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
@@ -35,8 +34,8 @@
       <Unit1>
         <Filename Value="cpio_io.pas"/>
         <UnitName Value="cpio_io"/>
-        <CursorPos X="32" Y="7"/>
-        <TopLine Value="133"/>
+        <CursorPos X="55" Y="20"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
@@ -44,7 +43,7 @@
       <Unit2>
         <Filename Value="cpio_def.pas"/>
         <UnitName Value="cpio_def"/>
-        <CursorPos X="20" Y="21"/>
+        <CursorPos X="44" Y="20"/>
         <TopLine Value="1"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="10"/>
@@ -53,19 +52,60 @@
       <Unit3>
         <Filename Value="cpio_archive.pas"/>
         <UnitName Value="cpio_archive"/>
-        <CursorPos X="27" Y="59"/>
-        <TopLine Value="23"/>
+        <CursorPos X="45" Y="23"/>
+        <TopLine Value="160"/>
         <EditorIndex Value="3"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit3>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="10" HistoryIndex="9">
+      <Position1>
+        <Filename Value="cpio_archive.pas"/>
+        <Caret Line="63" Column="39" TopLine="262"/>
+      </Position1>
+      <Position2>
+        <Filename Value="cpio_io.pas"/>
+        <Caret Line="56" Column="22" TopLine="49"/>
+      </Position2>
+      <Position3>
+        <Filename Value="cpio_io.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position3>
+      <Position4>
+        <Filename Value="cpio_io.pas"/>
+        <Caret Line="34" Column="22" TopLine="17"/>
+      </Position4>
+      <Position5>
+        <Filename Value="cpio_io.pas"/>
+        <Caret Line="56" Column="22" TopLine="39"/>
+      </Position5>
+      <Position6>
+        <Filename Value="cpio_io.pas"/>
+        <Caret Line="181" Column="48" TopLine="130"/>
+      </Position6>
+      <Position7>
+        <Filename Value="cpio_io.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position7>
+      <Position8>
+        <Filename Value="cpio_io.pas"/>
+        <Caret Line="34" Column="46" TopLine="24"/>
+      </Position8>
+      <Position9>
+        <Filename Value="cpio_io.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position9>
+      <Position10>
+        <Filename Value="cpio_io.pas"/>
+        <Caret Line="33" Column="59" TopLine="17"/>
+      </Position10>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
-    <PathDelim Value="\"/>
     <SearchPaths>
+      <OtherUnitFiles Value="../../../"/>
       <UnitOutputDirectory Value="bin"/>
     </SearchPaths>
     <Parsing>
@@ -76,6 +116,11 @@
     <CodeGeneration>
       <Generate Value="Faster"/>
     </CodeGeneration>
+    <Linking>
+      <Options>
+        <ExecutableType Value="Library"/>
+      </Options>
+    </Linking>
     <Other>
       <CompilerPath Value="$(CompPath)"/>
     </Other>

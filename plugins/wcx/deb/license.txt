@@ -1,7 +1,10 @@
-RPM plugin v.1.4 for Windows Commander.
-Copyright (c) 2000..2002 Mandryka Yurij ( Brain Group )
+DEB plugin for Windows Commander.
+Copyright (c) 2002 Alexandre Maximov
 
-This plugin allow you to browse rpm archives with 
+Add some changes for Lazarus and Linux compability
+Copyright (C) 2007  Koblov Alexander (Alexx2000@mail.ru)
+
+This plugin allow you to browse debian linux package (*.deb) archives with 
 Windows Commander 4.0 or greater.
 
     This program is free software; you can redistribute it 
@@ -16,6 +19,5 @@ GNU General Public License for more details.
 License along with this program; if not, write to the Free 
 Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-    Any questions about plugin can be made via 
-e-mail : braingroup@hotmail.ru and information about plugin can be 
-found on Brain Group web site : http://braingroup.hotmail.ru/wcplugins/
+    Any information about plugin can be found on web site : 
+    http://max.reklam.ru

@@ -25,7 +25,7 @@
       <Unit0>
         <Filename Value="Zip.dpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="26" Y="22"/>
+        <CursorPos X="5" Y="3"/>
         <TopLine Value="1"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="24"/>
@@ -41,8 +41,8 @@
       <Unit2>
         <Filename Value="ZipFunc.pas"/>
         <UnitName Value="ZipFunc"/>
-        <CursorPos X="27" Y="219"/>
-        <TopLine Value="203"/>
+        <CursorPos X="22" Y="125"/>
+        <TopLine Value="38"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="13"/>
         <Loaded Value="True"/>
@@ -86,17 +86,24 @@
         <UnitName Value="AbUtils"/>
         <CursorPos X="12" Y="516"/>
         <TopLine Value="496"/>
-        <EditorIndex Value="2"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit8>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="2" HistoryIndex="1">
+      <Position1>
+        <Filename Value="ZipFunc.pas"/>
+        <Caret Line="36" Column="86" TopLine="22"/>
+      </Position1>
+      <Position2>
+        <Filename Value="ZipFunc.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position2>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
     <SearchPaths>
-      <OtherUnitFiles Value="fparchive/;../../"/>
+      <OtherUnitFiles Value="fparchive/;../../../"/>
       <UnitOutputDirectory Value="bin"/>
     </SearchPaths>
     <Parsing>
@@ -108,6 +115,11 @@
       <SmartLinkUnit Value="True"/>
       <Generate Value="Faster"/>
     </CodeGeneration>
+    <Linking>
+      <Options>
+        <ExecutableType Value="Library"/>
+      </Options>
+    </Linking>
     <Other>
       <CompilerPath Value="$(CompPath)"/>
     </Other>

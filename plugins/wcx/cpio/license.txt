@@ -1,6 +1,9 @@
 RPM plugin v.1.4 for Windows Commander.
 Copyright (c) 2000..2002 Mandryka Yurij ( Brain Group )
 
+Add some changes for Lazarus and Linux compability
+Copyright (C) 2007  Koblov Alexander (Alexx2000@mail.ru)
+
 This plugin allow you to browse rpm archives with 
 Windows Commander 4.0 or greater.
 

@@ -7,6 +7,7 @@ interface
 uses
  SysUtils {$IFNDEF FPC}, Windows {$ENDIF};
 const       {Error codes returned to calling application}
+  E_SUCCESS=          0;       {Success}
   E_END_ARCHIVE=     10;       {No more files in archive}
   E_NO_MEMORY=       11;       {Not enough memory}
   E_BAD_DATA=        12;       {Data is bad}
