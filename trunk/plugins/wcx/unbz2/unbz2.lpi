@@ -30,7 +30,7 @@
       <Unit0>
         <Filename Value="unbz2.dpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="44" Y="12"/>
+        <CursorPos X="11" Y="7"/>
         <TopLine Value="1"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="20"/>
@@ -39,8 +39,8 @@
       <Unit1>
         <Filename Value="bz2func.pas"/>
         <UnitName Value="bz2func"/>
-        <CursorPos X="3" Y="158"/>
-        <TopLine Value="148"/>
+        <CursorPos X="14" Y="36"/>
+        <TopLine Value="30"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
@@ -116,12 +116,17 @@
         <UsageCount Value="10"/>
       </Unit12>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="1" HistoryIndex="0">
+      <Position1>
+        <Filename Value="bz2func.pas"/>
+        <Caret Line="5" Column="20" TopLine="1"/>
+      </Position1>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
     <SearchPaths>
-      <OtherUnitFiles Value="bzip2/;../../"/>
+      <OtherUnitFiles Value="bzip2/;../../../"/>
       <UnitOutputDirectory Value="bin"/>
     </SearchPaths>
     <Parsing>

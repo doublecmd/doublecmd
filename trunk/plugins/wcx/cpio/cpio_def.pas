@@ -23,8 +23,8 @@ type longword=longint;
 type
   CPIO_Header = record
     records  : array [1..14] of LongWord;
-    filename : AnsiString;
-    origname : AnsiString;
+    filename : String;
+    origname : String;
     oldhdrtype:boolean;
 (* records array contains fields :
   {01}c_magic    : LongWord; //"070701" for "new" portable format "070702" for CRC format

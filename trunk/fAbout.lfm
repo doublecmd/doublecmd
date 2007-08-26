@@ -1,7 +1,7 @@
 object frmAbout: TfrmAbout
-  Left = 307
+  Left = 256
   Height = 324
-  Top = 255
+  Top = 178
   Width = 532
   HorzScrollBar.Page = 531
   HorzScrollBar.Range = 521
@@ -26,20 +26,20 @@ object frmAbout: TfrmAbout
     Center = True
   end
   object lblVersion: TLabel
-    Left = 24
-    Height = 14
-    Top = 200
-    Width = 84
+    Left = 8
+    Height = 17
+    Top = 224
+    Width = 123
     Caption = 'version 0.2 alpha'
     ParentColor = False
   end
   object OKButton: TButton
-    Left = 32
-    Height = 23
-    Top = 288
+    Left = 24
+    Height = 32
+    Top = 281
     Width = 100
     BorderSpacing.InnerBorder = 4
-    Caption = 'Hmm...'
+    Caption = 'OK'
     OnClick = OKButtonClick
     TabOrder = 0
   end
@@ -64,10 +64,10 @@ object frmAbout: TfrmAbout
     end
   end
   object lblTitle: TStaticText
-    Left = 24
-    Height = 16
+    Left = 8
+    Height = 36
     Top = 176
-    Width = 100
+    Width = 90
     AutoSize = True
     Caption = 'Double Commander'
     Color = clBtnFace

@@ -3,20 +3,23 @@
 // Windows Commander.
 // Copyright (C) 2000 Mandryka Yurij  e-mail:braingroup@hotmail.ru
 //***************************************************************
-
+{
+  Add some changes for Lazarus and Linux compability
+  Copyright (C) 2007  Koblov Alexander (Alexx2000@mail.ru)
+}
 //***************************************************************
 // This code based on Christian Ghisler (support@ghisler.com) sources
 //***************************************************************
 
-library rpm;
+library cpio;
 
 uses
   SysUtils,
   Classes,
-  wcx in 'wcx.pas',
-  rpm_io in 'rpm_io.pas',
-  rpm_def in 'rpm_def.pas',
-  rpm_archive in 'rpm_archive.pas';
+  uWCXhead in 'uWCXhead.pas',
+  cpio_io in 'cpio_io.pas',
+  cpio_def in 'cpio_def.pas',
+  cpio_archive in 'cpio_archive.pas';
 
 {$E wcx}
 
@@ -32,7 +35,4 @@ exports
   SetProcessDataProc name 'SetProcessDataProc';
   
 begin
-{$IFNDEF WIN32}
-WriteLN('Rpm plugin is loaded');
-{$ENDIF}
 end.

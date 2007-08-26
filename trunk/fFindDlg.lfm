@@ -1,15 +1,15 @@
 inherited frmFindDlg: TfrmFindDlg
-  Left = 197
+  Left = 0
   Height = 476
-  Top = 54
-  Width = 582
-  HorzScrollBar.Page = 581
+  Top = 71
+  Width = 659
+  HorzScrollBar.Page = 658
   VertScrollBar.Page = 475
   VertScrollBar.Range = 316
   ActiveControl = cmbFindFileMask
   Caption = 'frmFindDlg'
   ClientHeight = 476
-  ClientWidth = 582
+  ClientWidth = 659
   KeyPreview = True
   OnClose = frmFindDlgClose
   OnCloseQuery = FormCloseQuery
@@ -21,22 +21,22 @@ inherited frmFindDlg: TfrmFindDlg
     Cursor = crVSplit
     Height = 1
     Top = 295
-    Width = 582
+    Width = 659
     Align = alTop
     ResizeAnchor = akTop
   end
   object Panel2: TPanel
     Height = 295
-    Width = 582
+    Width = 659
     Align = alTop
     BevelOuter = bvNone
     ClientHeight = 295
-    ClientWidth = 582
+    ClientWidth = 659
     FullRepaint = False
     TabOrder = 0
     object pgcSearch: TPageControl
       Height = 296
-      Width = 487
+      Width = 564
       ActivePage = tsStandard
       Anchors = [akTop, akLeft, akRight]
       TabIndex = 0
@@ -44,7 +44,7 @@ inherited frmFindDlg: TfrmFindDlg
       object tsStandard: TTabSheet
         Caption = 'Standard'
         ClientHeight = 262
-        ClientWidth = 483
+        ClientWidth = 560
         object lblFindPathStart: TLabel
           Left = 8
           Height = 17
@@ -97,7 +97,7 @@ inherited frmFindDlg: TfrmFindDlg
             Left = 16
             Height = 24
             Top = 9
-            Width = 282
+            Width = 278
             Anchors = [akTop, akLeft, akRight]
             TabOrder = 1
           end
@@ -149,8 +149,8 @@ inherited frmFindDlg: TfrmFindDlg
       end
       object tsAdvanced: TTabSheet
         Caption = 'Advanced'
-        ClientHeight = 296
-        ClientWidth = 487
+        ClientHeight = 262
+        ClientWidth = 560
         ImageIndex = 1
         object deDateFrom: TDateEdit
           Left = 4
@@ -224,18 +224,18 @@ inherited frmFindDlg: TfrmFindDlg
         end
         object cbDateFrom: TCheckBox
           Left = 4
-          Height = 13
+          Height = 24
           Top = 22
-          Width = 72
+          Width = 109
           Caption = 'Date From:'
           OnChange = cbDateFromChange
           TabOrder = 2
         end
         object cbNotOlderThan: TCheckBox
           Left = 4
-          Height = 13
+          Height = 24
           Top = 136
-          Width = 90
+          Width = 134
           Caption = 'Not older than:'
           OnChange = cbNotOlderThanChange
           TabOrder = 3
@@ -270,27 +270,27 @@ inherited frmFindDlg: TfrmFindDlg
         end
         object cbFileSizeFrom: TCheckBox
           Left = 4
-          Height = 13
+          Height = 24
           Top = 193
-          Width = 88
+          Width = 135
           Caption = 'File Size From:'
           OnChange = cbFileSizeFromChange
           TabOrder = 6
         end
         object cbDateTo: TCheckBox
           Left = 164
-          Height = 13
+          Height = 24
           Top = 22
-          Width = 62
+          Width = 90
           Caption = 'Date To:'
           OnChange = cbDateToChange
           TabOrder = 7
         end
         object cbFileSizeTo: TCheckBox
           Left = 164
-          Height = 13
+          Height = 24
           Top = 193
-          Width = 78
+          Width = 116
           Caption = 'File Size To:'
           OnChange = cbFileSizeToChange
           TabOrder = 8
@@ -332,18 +332,18 @@ inherited frmFindDlg: TfrmFindDlg
         end
         object cbTimeFrom: TCheckBox
           Left = 4
-          Height = 13
+          Height = 24
           Top = 73
-          Width = 69
+          Width = 105
           Caption = 'Time from:'
           OnChange = cbTimeFromChange
           TabOrder = 12
         end
         object cbTimeTo: TCheckBox
           Left = 164
-          Height = 13
+          Height = 24
           Top = 73
-          Width = 58
+          Width = 86
           Caption = 'Time to:'
           OnChange = cbTimeToChange
           TabOrder = 13
@@ -370,42 +370,42 @@ inherited frmFindDlg: TfrmFindDlg
           Left = 280
           Height = 165
           Top = 41
-          Width = 188
-          ClientHeight = 165
-          ClientWidth = 188
+          Width = 270
+          ClientHeight = 144
+          ClientWidth = 266
           Enabled = False
           TabOrder = 16
           object lblInfo: TLabel
             Left = 10
-            Height = 27
-            Top = 113
-            Width = 172
+            Height = 37
+            Top = 110
+            Width = 255
             Caption = 'Windows: ''rahs'' Unix: ''rwxrwxrwx'''#13#10'Use ''-'' to off attribute and ''?'' to any'
             ParentColor = False
           end
           object cbDirectory: TCheckBox
             Left = 10
-            Height = 13
-            Top = 4
-            Width = 62
+            Height = 24
+            Top = 2
+            Width = 91
             Caption = 'Directory'
             OnChange = cbDirectoryChange
             TabOrder = 0
           end
           object cbSymLink: TCheckBox
             Left = 10
-            Height = 13
-            Top = 32
-            Width = 60
+            Height = 24
+            Top = 30
+            Width = 89
             Caption = 'SymLink'
             OnChange = cbSymLinkChange
             TabOrder = 1
           end
           object cbMore: TCheckBox
             Left = 10
-            Height = 13
-            Top = 60
-            Width = 44
+            Height = 24
+            Top = 58
+            Width = 63
             Caption = 'More'
             OnChange = cbMoreChange
             TabOrder = 2
@@ -421,9 +421,9 @@ inherited frmFindDlg: TfrmFindDlg
         end
         object cbAttrib: TCheckBox
           Left = 284
-          Height = 13
+          Height = 24
           Top = 22
-          Width = 64
+          Width = 96
           Caption = 'Attributes'
           OnChange = cbAttribChange
           TabOrder = 17
@@ -431,7 +431,7 @@ inherited frmFindDlg: TfrmFindDlg
       end
     end
     object btnClose: TButton
-      Left = 495
+      Left = 572
       Height = 25
       Top = 71
       Width = 75
@@ -442,7 +442,7 @@ inherited frmFindDlg: TfrmFindDlg
       TabOrder = 3
     end
     object btnStop: TButton
-      Left = 495
+      Left = 572
       Height = 25
       Top = 103
       Width = 75
@@ -455,7 +455,7 @@ inherited frmFindDlg: TfrmFindDlg
       TabOrder = 1
     end
     object btnStart: TButton
-      Left = 495
+      Left = 572
       Height = 25
       Top = 39
       Width = 75
@@ -470,21 +470,21 @@ inherited frmFindDlg: TfrmFindDlg
   object Panel1: TPanel
     Height = 180
     Top = 296
-    Width = 582
+    Width = 659
     Align = alClient
     BevelOuter = bvNone
     ClientHeight = 180
-    ClientWidth = 582
+    ClientWidth = 659
     FullRepaint = False
     TabOrder = 1
     object Panel3: TPanel
       Height = 54
-      Width = 582
+      Width = 659
       Align = alTop
       BevelInner = bvRaised
       BevelOuter = bvLowered
       ClientHeight = 54
-      ClientWidth = 582
+      ClientWidth = 659
       FullRepaint = False
       TabOrder = 0
       object lblStatus: TLabel
@@ -517,7 +517,7 @@ inherited frmFindDlg: TfrmFindDlg
     object lsFoundedFiles: TListBox
       Height = 76
       Top = 54
-      Width = 582
+      Width = 659
       Align = alClient
       MultiSelect = True
       OnDblClick = lsFoundedFilesDblClick
@@ -528,10 +528,10 @@ inherited frmFindDlg: TfrmFindDlg
     object Panel4: TPanel
       Height = 50
       Top = 130
-      Width = 582
+      Width = 659
       Align = alBottom
       ClientHeight = 50
-      ClientWidth = 582
+      ClientWidth = 659
       TabOrder = 2
       object btnView: TButton
         Left = 24
@@ -554,7 +554,7 @@ inherited frmFindDlg: TfrmFindDlg
         TabOrder = 1
       end
       object btnGoToPath: TButton
-        Left = 321
+        Left = 398
         Height = 25
         Top = 14
         Width = 104
@@ -565,7 +565,7 @@ inherited frmFindDlg: TfrmFindDlg
         TabOrder = 2
       end
       object btnWorkWithFound: TButton
-        Left = 449
+        Left = 526
         Height = 25
         Top = 14
         Width = 104

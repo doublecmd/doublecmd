@@ -39,19 +39,14 @@
       <Unit1>
         <Filename Value="unrardll.pas"/>
         <UnitName Value="UnRARDLL"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="19" Y="8"/>
         <TopLine Value="1"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit1>
     </Units>
-    <JumpHistory Count="1" HistoryIndex="0">
-      <Position1>
-        <Filename Value="unrardll.pas"/>
-        <Caret Line="152" Column="3" TopLine="133"/>
-      </Position1>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
