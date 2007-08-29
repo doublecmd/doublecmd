@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <CONFIG>
   <ProjectOptions>
-    <PathDelim Value="/"/>
+    <PathDelim Value="\"/>
     <Version Value="5"/>
     <General>
       <MainUnit Value="0"/>
-      <IconPath Value="./"/>
+      <IconPath Value=".\"/>
       <TargetFileExt Value=".exe"/>
       <ActiveEditorIndexAtStart Value="1"/>
     </General>
@@ -16,6 +16,7 @@
     </VersionInfo>
     <PublishOptions>
       <Version Value="2"/>
+      <DestinationDirectory Value="$(TestDir)\publishedproject\"/>
       <IgnoreBinaries Value="False"/>
       <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
       <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
@@ -23,26 +24,26 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+        <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <Units Count="13">
+    <Units Count="14">
       <Unit0>
         <Filename Value="unbz2.dpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="11" Y="7"/>
+        <CursorPos X="11" Y="2"/>
         <TopLine Value="1"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="bz2func.pas"/>
         <UnitName Value="bz2func"/>
-        <CursorPos X="14" Y="36"/>
-        <TopLine Value="30"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="1"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit1>
       <Unit2>
@@ -53,80 +54,88 @@
         <UsageCount Value="10"/>
       </Unit2>
       <Unit3>
-        <Filename Value="../../../../../Prog/lazarus/fpcsrc/rtl/inc/systemh.inc"/>
+        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\inc\systemh.inc"/>
         <CursorPos X="3" Y="349"/>
         <TopLine Value="329"/>
         <UsageCount Value="10"/>
       </Unit3>
       <Unit4>
-        <Filename Value="../../../../../Prog/lazarus/fpcsrc/rtl/inc/objects.pp"/>
+        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\inc\objects.pp"/>
         <UnitName Value="Objects"/>
         <CursorPos X="10" Y="273"/>
         <TopLine Value="257"/>
         <UsageCount Value="10"/>
       </Unit4>
       <Unit5>
-        <Filename Value="../../../../../Prog/lazarus/fpcsrc/rtl/objpas/sysutils/finah.inc"/>
+        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\objpas\sysutils\finah.inc"/>
         <CursorPos X="1" Y="30"/>
         <TopLine Value="13"/>
         <UsageCount Value="10"/>
       </Unit5>
       <Unit6>
-        <Filename Value="../../../../../Prog/lazarus/fpcsrc/rtl/objpas/sysutils/fina.inc"/>
+        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\objpas\sysutils\fina.inc"/>
         <CursorPos X="1" Y="89"/>
         <TopLine Value="69"/>
         <UsageCount Value="10"/>
       </Unit6>
       <Unit7>
-        <Filename Value="../../../../../Prog/lazarus/fpcsrc/rtl/inc/fexpand.inc"/>
+        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\inc\fexpand.inc"/>
         <CursorPos X="10" Y="84"/>
         <TopLine Value="553"/>
         <UsageCount Value="10"/>
       </Unit7>
       <Unit8>
-        <Filename Value="../../../../../Prog/lazarus/fpcsrc/rtl/objpas/sysutils/syspchh.inc"/>
+        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\objpas\sysutils\syspchh.inc"/>
         <CursorPos X="10" Y="45"/>
         <TopLine Value="18"/>
         <UsageCount Value="10"/>
       </Unit8>
       <Unit9>
-        <Filename Value="../../../../../Prog/lazarus/fpcsrc/rtl/win32/wininc/func.inc"/>
+        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\win32\wininc\func.inc"/>
         <CursorPos X="10" Y="184"/>
         <TopLine Value="168"/>
         <UsageCount Value="10"/>
       </Unit9>
       <Unit10>
-        <Filename Value="../../../../../Prog/lazarus/fpcsrc/rtl/win32/sysutils.pp"/>
+        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\win32\sysutils.pp"/>
         <UnitName Value="sysutils"/>
         <CursorPos X="17" Y="254"/>
         <TopLine Value="249"/>
         <UsageCount Value="10"/>
       </Unit10>
       <Unit11>
-        <Filename Value="../../../../../Prog/lazarus/fpcsrc/rtl/objpas/sysutils/filutilh.inc"/>
+        <Filename Value="..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\objpas\sysutils\filutilh.inc"/>
         <CursorPos X="19" Y="86"/>
         <TopLine Value="69"/>
         <UsageCount Value="10"/>
       </Unit11>
       <Unit12>
-        <Filename Value="bzip2/bzip2.pas"/>
+        <Filename Value="bzip2\bzip2.pas"/>
         <UnitName Value="bzip2"/>
-        <CursorPos X="7" Y="46"/>
-        <TopLine Value="30"/>
-        <UsageCount Value="10"/>
+        <CursorPos X="31" Y="656"/>
+        <TopLine Value="700"/>
+        <UsageCount Value="11"/>
       </Unit12>
+      <Unit13>
+        <Filename Value="..\..\..\..\..\..\Prog\lazarus\fpcsrc\rtl\inc\objects.pp"/>
+        <UnitName Value="Objects"/>
+        <CursorPos X="10" Y="273"/>
+        <TopLine Value="245"/>
+        <UsageCount Value="11"/>
+      </Unit13>
     </Units>
     <JumpHistory Count="1" HistoryIndex="0">
       <Position1>
         <Filename Value="bz2func.pas"/>
-        <Caret Line="5" Column="20" TopLine="1"/>
+        <Caret Line="133" Column="14" TopLine="127"/>
       </Position1>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
+    <PathDelim Value="\"/>
     <SearchPaths>
-      <OtherUnitFiles Value="bzip2/;../../../"/>
+      <OtherUnitFiles Value="bzip2\;..\..\..\"/>
       <UnitOutputDirectory Value="bin"/>
     </SearchPaths>
     <Parsing>
@@ -149,11 +158,11 @@
   <Debugging>
     <BreakPoints Count="2">
       <Item1>
-        <Source Value="../../mnt/X/linux/lazarus/lcl/include/imglist.inc"/>
+        <Source Value="..\..\mnt\X\linux\lazarus\lcl\include\imglist.inc"/>
         <Line Value="435"/>
       </Item1>
       <Item2>
-        <Source Value="../../ucopythread.pas"/>
+        <Source Value="..\..\ucopythread.pas"/>
         <Line Value="42"/>
       </Item2>
     </BreakPoints>

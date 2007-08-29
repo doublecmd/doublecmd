@@ -36,8 +36,8 @@ function OpenArchive (var ArchiveData : tOpenArchiveData) : THandle;stdcall;
 function ReadHeader (hArcData : THandle; var HeaderData : THeaderData) : Integer;stdcall;
 function ProcessFile (hArcData : THandle; Operation : Integer; DestPath, DestName : PChar) : Integer;stdcall;
 function CloseArchive (hArcData : THandle) : Integer;stdcall;
-procedure SetChangeVolProc (hArcData : THandle; pChangeVolProc1 : PChangeVolProc);stdcall;
-procedure SetProcessDataProc (hArcData : THandle; pProcessDataProc1 : PProcessDataProc);stdcall;
+procedure SetChangeVolProc (hArcData : THandle; pChangeVolProc : TChangeVolProc);stdcall;
+procedure SetProcessDataProc (hArcData : THandle; pProcessDataProc : TProcessDataProc);stdcall;
 {Optional functions}
 
 
@@ -47,6 +47,7 @@ uses bzip2, SysUtils, objects;
 var
   sArcName : String;
   Count : Integer = 0;
+  ProcessDataProc : TProcessDataProc;
 
 
 function ExtractOnlyFileName(const FileName: string): string;
@@ -95,7 +96,7 @@ begin
       FindFirst(sArcName, faAnyFile, sr);
       FileName := ExtractOnlyFileName(sArcName);
       PackSize := sr.Size;
-      UnpSize := 0; // we don't now real file size
+      UnpSize  := sr.Size; // we don't know real file size
       FileTime := sr.Time;
       FileAttr := sr.Attr;
       FindClose(sr);
@@ -110,6 +111,7 @@ var
   a:array[1..4096] of byte;
   i,readsize:cardinal;
   sOutputFileName : String;
+  iLastPos : LongInt;
 begin
 
   case Operation of
@@ -127,28 +129,41 @@ begin
         sOutputFileName := sOutputFileName + ExtractOnlyFileName(sArcName)
       else
         sOutputFileName := DestName;
-
+      {  // Debug
       assign(output, DestPath + 'unbz2.log');
       rewrite(output);
+      }
       begin
         infile.init(sArcName,stopenread,4096);
         outfile.init(sOutputFileName,stcreate,4096);
         decoder.init(@infile);
+        {  // Debug
         if decoder.status<>stok then
           writeln(output, 'Fout: ',decoder.status,' ',decoder.errorinfo);
+        }
+        iLastPos := infile.Position;
         repeat
           readsize:=4096;
           decoder.read(a,readsize);
           dec(readsize,decoder.short);
           outfile.write(a,readsize);
+          if Assigned(ProcessDataProc) and (infile.Position <> iLastPos) then
+            begin
+              ProcessDataProc(PChar(sOutputFileName), infile.Position - iLastPos);
+              iLastPos := infile.Position;
+            end;
         until decoder.status<>0;
+        {  // Debug
         if decoder.status<>stok then
           writeln(output, 'Fout: ',decoder.status,' ',decoder.errorinfo);
+        }
         decoder.done;
         infile.done;
         outfile.done;
       end;
+      {  // Debug
       close(output);
+      }
     end;
 
   PK_SKIP:
@@ -168,12 +183,16 @@ begin
   Result := 0;
 end;
 
-procedure SetChangeVolProc (hArcData : THandle; pChangeVolProc1 : PChangeVolProc);
+procedure SetChangeVolProc (hArcData : THandle; pChangeVolProc : TChangeVolProc);
 begin
 end;
 
-procedure SetProcessDataProc (hArcData : THandle; pProcessDataProc1 : PProcessDataProc);
+procedure SetProcessDataProc (hArcData : THandle; pProcessDataProc : TProcessDataProc);
 begin
+  if Assigned(pProcessDataProc) then
+    ProcessDataProc := pProcessDataProc
+  else
+    ProcessDataProc := nil;
 end;
 
 
