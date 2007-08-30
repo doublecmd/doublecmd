@@ -118,9 +118,10 @@ begin
   Count := 0;
   with CurrentVFS do
     begin
-      for I:=0 to Plugins.Count -1 do
+      for I:=0 to WCXPlugins.Count -1 do
         begin
-          sCurrentPlugin := Plugins.ValueFromIndex[i];
+        if Pos('#', WCXPlugins.Names[I]) <> 0 then Continue;
+          sCurrentPlugin := WCXPlugins.ValueFromIndex[i];
           iCurPlugCaps := StrToInt(Copy(sCurrentPlugin, 1, Pos(',',sCurrentPlugin) - 1));
           if (iCurPlugCaps and PK_CAPS_NEW) = PK_CAPS_NEW then
             begin
@@ -132,7 +133,7 @@ begin
                   arbRadioButtonArray[J].Left := 5 + 45 * (J div 3);
                   arbRadioButtonArray[J].Top := Count * (arbRadioButtonArray[J].Height + 4);
                   arbRadioButtonArray[J].Visible := True;
-                  arbRadioButtonArray[J].Caption := Plugins.Names[I];
+                  arbRadioButtonArray[J].Caption := WCXPlugins.Names[I];
                   arbRadioButtonArray[J].OnChange := @arbChange;
                   J := J + 1;
                   Count := Count + 1;
@@ -142,7 +143,7 @@ begin
               else
                 (* Other plugins we add in ComboBox *)
                 begin
-                  cbPackerList.Items.Add(Plugins.Names[I]);
+                  cbPackerList.Items.Add(WCXPlugins.Names[I]);
                 end;
             end;
         end; //for

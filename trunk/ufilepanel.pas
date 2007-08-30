@@ -23,6 +23,8 @@ uses
 type
   TOnChangeDirectory = procedure (Sender: TObject; const NewDir : String) of object;
 
+  { TFilePanel }
+
   TFilePanel=Class
   private
     fOwner : TObject;
@@ -56,6 +58,7 @@ type
     Destructor Destroy; override;
     procedure LoadPanel;
     procedure LoadPanelVFS(frp:PFileRecItem);
+    procedure LoadVFSListInPanel;
     procedure SortByCol(iCol:Integer);
     procedure Sort;
     procedure UpdatePanel;
@@ -230,12 +233,19 @@ begin
                 end
               else  // exit from VFS
                 begin
-                  fPanelMode := pmDirectory;
-                  fActiveDir := ExtractFilePath(fVFS.ArcFullName);
-                  ChDir(fActiveDir);
-                  if Assigned(FOnChangeDirectory) then
-                    FOnChangeDirectory(fOwner, fActiveDir);
-                  LoadFilesbyDir(fActiveDir, fFileList);
+                  case fPanelMode of
+                  pmVFS:
+                    LoadVFSListInPanel;
+                  pmArchive:
+                    begin
+                      fPanelMode := pmDirectory;
+                      fActiveDir := ExtractFilePath(fVFS.ArcFullName);
+                      ChDir(fActiveDir);
+                      if Assigned(FOnChangeDirectory) then
+                        FOnChangeDirectory(fOwner, fActiveDir);
+                      LoadFilesbyDir(fActiveDir, fFileList);
+                    end;
+                  end; // case
                 end;
             end;
         end
@@ -290,6 +300,17 @@ begin
     Sort;
     Exit;
   end;
+end;
+
+procedure TFilePanel.LoadVFSListInPanel;
+begin
+  if fVFS.LoadVFSList(fFileList) then
+    begin
+      fPanelMode := pmDirectory;
+      fActiveDir := PathDelim;
+      fFileList.UpdateFileInformation(PanelMode);
+      Sort;
+    end;
 end;
 
 
@@ -370,7 +391,7 @@ begin
 
   with pfri^ do
   begin
-    if (fPanelMode=pmVFS) then
+    if (fPanelMode=pmVFS) or ((sModeStr = 'wfx') and fVFS.FindModule(sPath + sName)) then
     begin
       LoadPanelVFS(pfri);
       Exit;

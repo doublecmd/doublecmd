@@ -55,12 +55,14 @@ type
     actChMod: TAction;
     actChown: TAction;
     actExtractFiles: TAction;
+    actOpenVFSList: TAction;
     actPackFiles: TAction;
     actRemoveTab: TAction;
     actNewTab: TAction;
     dskLeft: TKAStoolBar;
     dskRight: TKAStoolBar;
     MainToolBar: TKASToolBar;
+    MenuItem1: TMenuItem;
     mnuExtractFiles: TMenuItem;
     pnlDisk: TPanel;
     tbDelete: TMenuItem;
@@ -177,6 +179,7 @@ type
     pmToolBar: TPopupMenu;
     MainSplitter: TSplitter;
     procedure actExtractFilesExecute(Sender: TObject);
+    procedure actOpenVFSListExecute(Sender: TObject);
     procedure actPackFilesExecute(Sender: TObject);
     procedure DeleteClick(Sender: TObject);
     procedure dskRightChangeLineCount(AddSize: Integer);
@@ -372,6 +375,11 @@ begin
     frameRight.RefreshPanel;
   end;
 
+end;
+
+procedure TfrmMain.actOpenVFSListExecute(Sender: TObject);
+begin
+  ActiveFrame.pnlFile.LoadVFSListInPanel;
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);

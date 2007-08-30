@@ -37,7 +37,8 @@ type
   private
     procedure SetVFSModule(Value : TVFSmodule);
   protected
-    FPlugins : TStringList;
+    FWCXPlugins,
+    FWFXPlugins : TStringList;
     FCurrentPlugin : String;
     sLastArchive : String;
     FVFSType : TVFSType;
@@ -51,10 +52,11 @@ type
 
     function FindModule(const sFileName:String; bLoadModule : Boolean = True):Boolean;
     function LoadAndOpen(const sFileName:String) : Boolean;
+    function LoadVFSList(var fl:TFileList) : Boolean;
     property VFSType : TVFSType read FVFSType;
     property VFSmodule : TVFSmodule read FVFSModule write SetVFSModule;
     property ArcFullName : String read sLastArchive write sLastArchive;
-    property Plugins : TStringList read FPlugins;
+    property WCXPlugins : TStringList read FWCXPlugins;
   end; //class TVFS
 
 implementation
@@ -75,8 +77,9 @@ end;
 
 constructor TVFS.Create;
 begin
-  FPlugins := TStringList.Create;
-  gIni.ReadSectionRaw('PackerPlugins', FPlugins);
+  FWCXPlugins := TStringList.Create;
+  FWFXPlugins := TStringList.Create;
+  gIni.ReadSectionRaw('PackerPlugins', FWCXPlugins);
   sLastArchive:='';  // nothing
 end;
 
@@ -85,7 +88,8 @@ begin
   if Assigned(FVFSModule) then
      FVFSModule.Destroy;
   FVFSModule := nil;
-  FreeAndNil(FPlugins);
+  FreeAndNil(FWCXPlugins);
+  FreeAndNil(FWFXPlugins);
   inherited
 end;
 
@@ -123,13 +127,13 @@ begin
   sExt := LowerCase(ExtractFileExt(sFileName));
   sExt := copy(sExt,2,length(sExt));
   DebugLN('sExt = ', sExt);
-  tmp := FPlugins.Values[sExt];
+  tmp := FWCXPlugins.Values[sExt];
   
 
   //**************** Debug
      //DebugLN(FPlugins.Text);
-     for i:=0 to FPlugins.Count -1 do
-     DebugLN(FPlugins.ValueFromIndex[i]);
+     for i:=0 to FWCXPlugins.Count -1 do
+     DebugLN(FWCXPlugins.ValueFromIndex[i]);
   //***************
 
 
@@ -151,10 +155,10 @@ begin
           Result := LoadAndOpen(sLastArchive);
         end;
     end
-  else
-    if sExt = 'wfx' then  // WFX Support
+  else    // WFX Support
+    if FWFXPlugins.IndexOfName(sFileName) >=0 then
       begin
-        FCurrentPlugin := sFileName;
+        FCurrentPlugin := FWFXPlugins.Values[sFileName];
 
         FVFSType := vtWFX;
         Result := True;
@@ -178,9 +182,45 @@ begin
   end;
   Result := FVFSModule.LoadModule(FCurrentPlugin);
 
+  DebugLN(Format('After Module %s Load', [FCurrentPlugin]));
+
   FVFSModule.VFSOpen(sLastArchive);
 
-  DebugLN('After Module Load');
+end;
+
+function TVFS.LoadVFSList(var fl: TFileList) : Boolean;
+var
+  I, Count : Integer;
+  sCurrPlugin : String;
+  pfri : PFileRecItem;
+begin
+  Result := True;
+  gIni.ReadSectionRaw('FileSystemPlugins', FWFXPlugins);
+  Count := FWFXPlugins.Count;
+  if Count = 0 then
+    begin
+      Result := False;
+      Exit;
+    end;
+  dec(Count);
+  fl.Clear;
+  for I := 0 to Count do
+    begin
+      if Pos('#', FWFXPlugins.Names[I]) = 0 then
+        begin
+          New(pfri);
+          with pfri^ do
+            begin
+              sName := FWFXPlugins.Names[I];
+              sNameNoExt := sName;
+              iMode := faFolder;
+              sModeStr := 'wfx';
+              bSelected := False;
+              bLinkIsDir := False;
+              fl.AddItem(pfri);
+            end;
+        end
+    end;
 end;
 
 
