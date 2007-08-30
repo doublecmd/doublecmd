@@ -683,10 +683,10 @@ begin
     sCurrPlugin := clbWCXList.Items[I];
     PosEqual := Pos('=', sCurrPlugin);
     sExt := Copy(sCurrPlugin, 1, PosEqual - 1);
-    if sExt[1] = '?' then
+    if sExt[1] = '#' then
       Delete(sExt, 1, 1);
     cbExt.Items.Add(sExt);
-    if Pos('?', clbWCXList.Items[I]) = 0 then
+    if Pos('#', clbWCXList.Items[I]) = 0 then
       begin
         clbWCXList.Items[I] := Copy(sCurrPlugin, PosEqual + 1, Length(sCurrPlugin) - PosEqual);
         clbWCXList.Checked[I] := True
@@ -741,13 +741,13 @@ begin
     begin
       if clbWCXList.Checked[I] then
         begin
-          gIni.DeleteKey('PackerPlugins', '?' + cbExt.Items[I]);
+          gIni.DeleteKey('PackerPlugins', '#' + cbExt.Items[I]);
           gIni.WriteString('PackerPlugins', cbExt.Items[I],  clbWCXList.Items[I])
         end
       else
         begin
           gIni.DeleteKey('PackerPlugins', cbExt.Items[I]);
-          gIni.WriteString('PackerPlugins', '?' + cbExt.Items[I],  clbWCXList.Items[I]);
+          gIni.WriteString('PackerPlugins', '#' + cbExt.Items[I],  clbWCXList.Items[I]);
         end;
     end;
 end;
@@ -764,7 +764,7 @@ begin
   begin
     sCurrPlugin := clbWFXList.Items[I];
 
-    if Pos('?', clbWFXList.Items[I]) = 0 then
+    if Pos('#', clbWFXList.Items[I]) = 0 then
       begin
         clbWFXList.Items[I] := Copy(sCurrPlugin, 1, Length(sCurrPlugin));
         clbWFXList.Checked[I] := True
@@ -803,26 +803,24 @@ var
  iIndex : Integer;
  bChecked : Boolean;
 begin
-
-
+  gIni.EraseSection('FileSystemPlugins');
   for I := 0 to clbWFXList.Count - 1 do
     begin
       if clbWFXList.Checked[I] then
         begin
-          gIni.DeleteKey('FileSystemPlugins', '?' + clbWFXList.Items.Names[I]);
           gIni.WriteString('FileSystemPlugins', clbWFXList.Items.Names[I],  clbWFXList.Items.ValueFromIndex[I])
         end
       else
         begin
-          gIni.DeleteKey('FileSystemPlugins', clbWFXList.Items.Names[I]);
-          gIni.WriteString('FileSystemPlugins', '?' + clbWFXList.Items.Names[I],  clbWFXList.Items.ValueFromIndex[I]);
+          gIni.WriteString('FileSystemPlugins', '#' + clbWFXList.Items.Names[I],  clbWFXList.Items.ValueFromIndex[I]);
         end;
     end;
 end;
 
 procedure TfrmOptions.bbtnWFXDeleteClick(Sender: TObject);
 begin
-
+ if clbWFXList.SelCount > 0 then
+   clbWFXList.Items.Delete(clbWFXList.ItemIndex);
 end;
 
 procedure TfrmOptions.bbtnWFXRenameClick(Sender: TObject);
@@ -830,12 +828,15 @@ var
   iItemIndex : Integer;
   sName,
   sValue : String;
+  bChecked : Boolean;
 begin
   iItemIndex := clbWFXList.ItemIndex;
   if iItemIndex < 0 then exit;
   sName := clbWFXList.Items.Names[iItemIndex];
   sValue := clbWFXList.Items.ValueFromIndex[iItemIndex];
+  bChecked := clbWFXList.Checked[iItemIndex]; // Save state
   clbWFXList.Items[iItemIndex] := InputBox('Double Commander', 'Rename', sName) + '=' + sValue;
+  clbWFXList.Checked[iItemIndex] := bChecked; // Restore state
 end;
 
 {/WFXPlugins}

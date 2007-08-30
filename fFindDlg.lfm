@@ -1,7 +1,7 @@
 inherited frmFindDlg: TfrmFindDlg
-  Left = 0
+  Left = -84
   Height = 476
-  Top = 71
+  Top = 176
   Width = 659
   HorzScrollBar.Page = 658
   VertScrollBar.Page = 475
@@ -43,21 +43,21 @@ inherited frmFindDlg: TfrmFindDlg
       TabOrder = 0
       object tsStandard: TTabSheet
         Caption = 'Standard'
-        ClientHeight = 262
-        ClientWidth = 560
+        ClientHeight = 270
+        ClientWidth = 556
         object lblFindPathStart: TLabel
           Left = 8
-          Height = 17
+          Height = 14
           Top = 50
-          Width = 46
+          Width = 30
           Caption = 'FileDir'
           ParentColor = False
         end
         object lblFindFileMask: TLabel
           Left = 8
-          Height = 17
+          Height = 14
           Top = 4
-          Width = 64
+          Width = 41
           Caption = 'FileMask'
           ParentColor = False
         end
@@ -68,6 +68,7 @@ inherited frmFindDlg: TfrmFindDlg
           Width = 362
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
           MaxLength = 0
           ParentCtl3D = False
           TabOrder = 0
@@ -80,16 +81,16 @@ inherited frmFindDlg: TfrmFindDlg
           Width = 418
           Anchors = [akTop, akLeft, akRight]
           Caption = 'Find Data'
-          ClientHeight = 124
+          ClientHeight = 127
           ClientWidth = 414
           Enabled = False
           ParentCtl3D = False
           TabOrder = 1
           object cbCaseSens: TCheckBox
             Left = 18
-            Height = 24
+            Height = 13
             Top = 97
-            Width = 132
+            Width = 88
             Caption = 'Case sensitive'
             TabOrder = 0
           end
@@ -97,23 +98,23 @@ inherited frmFindDlg: TfrmFindDlg
             Left = 16
             Height = 24
             Top = 9
-            Width = 278
+            Width = 266
             Anchors = [akTop, akLeft, akRight]
             TabOrder = 1
           end
           object cbNoThisText: TCheckBox
             Left = 154
-            Height = 24
+            Height = 13
             Top = 97
-            Width = 269
+            Width = 177
             Caption = 'Find files NOT containing the text'
             TabOrder = 2
           end
           object cbReplaceText: TCheckBox
             Left = 16
-            Height = 24
+            Height = 13
             Top = 41
-            Width = 118
+            Width = 80
             Caption = 'Replace text'
             OnChange = cbReplaceTextChange
             TabOrder = 4
@@ -129,9 +130,9 @@ inherited frmFindDlg: TfrmFindDlg
         end
         object cbFindInFile: TCheckBox
           Left = 12
-          Height = 24
+          Height = 13
           Top = 98
-          Width = 100
+          Width = 67
           Caption = 'Find in file'
           OnClick = cbFindInFileClick
           TabOrder = 2
@@ -149,8 +150,8 @@ inherited frmFindDlg: TfrmFindDlg
       end
       object tsAdvanced: TTabSheet
         Caption = 'Advanced'
-        ClientHeight = 262
-        ClientWidth = 560
+        ClientHeight = 270
+        ClientWidth = 556
         ImageIndex = 1
         object deDateFrom: TDateEdit
           Left = 4
@@ -224,18 +225,18 @@ inherited frmFindDlg: TfrmFindDlg
         end
         object cbDateFrom: TCheckBox
           Left = 4
-          Height = 24
+          Height = 13
           Top = 22
-          Width = 109
+          Width = 72
           Caption = 'Date From:'
           OnChange = cbDateFromChange
           TabOrder = 2
         end
         object cbNotOlderThan: TCheckBox
           Left = 4
-          Height = 24
+          Height = 13
           Top = 136
-          Width = 134
+          Width = 90
           Caption = 'Not older than:'
           OnChange = cbNotOlderThanChange
           TabOrder = 3
@@ -255,6 +256,7 @@ inherited frmFindDlg: TfrmFindDlg
           Width = 110
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           Enabled = False
+          ItemHeight = 13
           ItemIndex = 2
           Items.Strings = (
             'Minute(s)'
@@ -270,27 +272,27 @@ inherited frmFindDlg: TfrmFindDlg
         end
         object cbFileSizeFrom: TCheckBox
           Left = 4
-          Height = 24
+          Height = 13
           Top = 193
-          Width = 135
+          Width = 88
           Caption = 'File Size From:'
           OnChange = cbFileSizeFromChange
           TabOrder = 6
         end
         object cbDateTo: TCheckBox
           Left = 164
-          Height = 24
+          Height = 13
           Top = 22
-          Width = 90
+          Width = 62
           Caption = 'Date To:'
           OnChange = cbDateToChange
           TabOrder = 7
         end
         object cbFileSizeTo: TCheckBox
           Left = 164
-          Height = 24
+          Height = 13
           Top = 193
-          Width = 116
+          Width = 78
           Caption = 'File Size To:'
           OnChange = cbFileSizeToChange
           TabOrder = 8
@@ -318,6 +320,7 @@ inherited frmFindDlg: TfrmFindDlg
           Width = 72
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           Enabled = False
+          ItemHeight = 13
           ItemIndex = 1
           Items.Strings = (
             'Byte'
@@ -332,18 +335,18 @@ inherited frmFindDlg: TfrmFindDlg
         end
         object cbTimeFrom: TCheckBox
           Left = 4
-          Height = 24
+          Height = 13
           Top = 73
-          Width = 105
+          Width = 69
           Caption = 'Time from:'
           OnChange = cbTimeFromChange
           TabOrder = 12
         end
         object cbTimeTo: TCheckBox
           Left = 164
-          Height = 24
+          Height = 13
           Top = 73
-          Width = 86
+          Width = 58
           Caption = 'Time to:'
           OnChange = cbTimeToChange
           TabOrder = 13
@@ -371,41 +374,45 @@ inherited frmFindDlg: TfrmFindDlg
           Height = 165
           Top = 41
           Width = 270
-          ClientHeight = 144
+          ClientHeight = 147
           ClientWidth = 266
           Enabled = False
           TabOrder = 16
           object lblInfo: TLabel
             Left = 10
-            Height = 37
+            Height = 27
             Top = 110
-            Width = 255
+            Width = 172
             Caption = 'Windows: ''rahs'' Unix: ''rwxrwxrwx'''#13#10'Use ''-'' to off attribute and ''?'' to any'
             ParentColor = False
           end
           object cbDirectory: TCheckBox
             Left = 10
-            Height = 24
+            Height = 13
             Top = 2
-            Width = 91
+            Width = 62
+            AllowGrayed = True
             Caption = 'Directory'
             OnChange = cbDirectoryChange
+            State = cbGrayed
             TabOrder = 0
           end
           object cbSymLink: TCheckBox
             Left = 10
-            Height = 24
+            Height = 13
             Top = 30
-            Width = 89
+            Width = 60
+            AllowGrayed = True
             Caption = 'SymLink'
             OnChange = cbSymLinkChange
+            State = cbGrayed
             TabOrder = 1
           end
           object cbMore: TCheckBox
             Left = 10
-            Height = 24
+            Height = 13
             Top = 58
-            Width = 63
+            Width = 44
             Caption = 'More'
             OnChange = cbMoreChange
             TabOrder = 2
@@ -421,9 +428,9 @@ inherited frmFindDlg: TfrmFindDlg
         end
         object cbAttrib: TCheckBox
           Left = 284
-          Height = 24
+          Height = 13
           Top = 22
-          Width = 96
+          Width = 64
           Caption = 'Attributes'
           OnChange = cbAttribChange
           TabOrder = 17
@@ -489,9 +496,9 @@ inherited frmFindDlg: TfrmFindDlg
       TabOrder = 0
       object lblStatus: TLabel
         Left = 8
-        Height = 17
+        Height = 13
         Top = 30
-        Width = 63
+        Width = 44
         Caption = 'lblStatus'
         Font.Color = clBlack
         Font.Height = 13
@@ -502,9 +509,9 @@ inherited frmFindDlg: TfrmFindDlg
       end
       object lblCurrent: TLabel
         Left = 8
-        Height = 17
+        Height = 13
         Top = 12
-        Width = 70
+        Width = 49
         Caption = 'lblCurrent'
         Font.Color = clBlack
         Font.Height = 13
@@ -523,7 +530,6 @@ inherited frmFindDlg: TfrmFindDlg
       OnDblClick = lsFoundedFilesDblClick
       PopupMenu = PopupMenuFind
       TabOrder = 1
-      TopIndex = -1
     end
     object Panel4: TPanel
       Height = 50

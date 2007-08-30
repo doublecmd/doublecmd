@@ -1,7 +1,7 @@
 inherited frmOptions: TfrmOptions
-  Left = 191
+  Left = 164
   Height = 369
-  Top = 58
+  Top = 85
   Width = 577
   HorzScrollBar.Page = 576
   VertScrollBar.Page = 368
@@ -115,15 +115,15 @@ inherited frmOptions: TfrmOptions
       Top = 24
       Width = 454
       Align = alClient
-      PageIndex = 1
+      PageIndex = 7
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
         Caption = 'pgLng'
         ClientWidth = 446
-        ClientHeight = 293
+        ClientHeight = 300
         object lngList: TListBox
-          Height = 293
+          Height = 300
           Width = 446
           Align = alClient
           TabOrder = 0
@@ -132,7 +132,7 @@ inherited frmOptions: TfrmOptions
       object pgBehav: TPage
         Caption = 'pgBehav'
         ClientWidth = 446
-        ClientHeight = 293
+        ClientHeight = 300
         object lblTerm: TLabel
           Left = 8
           Height = 14
@@ -267,13 +267,12 @@ inherited frmOptions: TfrmOptions
       object pgTools: TPage
         Caption = 'pgTools'
         ClientWidth = 446
-        ClientHeight = 293
+        ClientHeight = 300
         object cbExtEditor: TCheckBox
           Left = 3
           Height = 13
           Top = 13
           Width = 74
-          AllowGrayed = True
           Caption = 'cbExtEditor'
           OnClick = cbExtEditorClick
           TabOrder = 0
@@ -292,7 +291,6 @@ inherited frmOptions: TfrmOptions
           Height = 13
           Top = 78
           Width = 72
-          AllowGrayed = True
           Caption = 'cbExtDiffer'
           OnClick = cbExtDifferClick
           TabOrder = 2
@@ -311,7 +309,6 @@ inherited frmOptions: TfrmOptions
           Height = 13
           Top = 143
           Width = 79
-          AllowGrayed = True
           Caption = 'cbExtViewer'
           OnClick = cbExtViewerClick
           TabOrder = 4
@@ -329,7 +326,7 @@ inherited frmOptions: TfrmOptions
       object pgFonts: TPage
         Caption = 'pgFonts'
         ClientWidth = 446
-        ClientHeight = 293
+        ClientHeight = 300
         object lblMainFont: TLabel
           Left = 6
           Height = 14
@@ -490,7 +487,7 @@ inherited frmOptions: TfrmOptions
       object pgColor: TPage
         Caption = 'pgColor'
         ClientWidth = 446
-        ClientHeight = 293
+        ClientHeight = 300
         object cTextLabel: TLabel
           Left = 25
           Height = 14
@@ -815,8 +812,8 @@ inherited frmOptions: TfrmOptions
           Top = 26
           Width = 185
           Caption = 'Example'
-          ClientHeight = 172
-          ClientWidth = 185
+          ClientHeight = 154
+          ClientWidth = 181
           TabOrder = 12
           object pbExample: TPaintBox
             Left = 8
@@ -830,20 +827,20 @@ inherited frmOptions: TfrmOptions
       object pgHotKey: TPage
         Caption = 'pgHotKey'
         ClientWidth = 446
-        ClientHeight = 293
+        ClientHeight = 300
         object lblActions: TLabel
           Left = 6
-          Height = 13
+          Height = 14
           Top = 13
-          Width = 43
+          Width = 36
           Caption = 'Actions'
           ParentColor = False
         end
         object lblHotKey: TLabel
           Left = 6
-          Height = 13
+          Height = 14
           Top = 68
-          Width = 46
+          Width = 39
           Caption = 'Hot Key'
           ParentColor = False
         end
@@ -895,17 +892,17 @@ inherited frmOptions: TfrmOptions
       object pgPlugins: TPage
         Caption = 'pgPlugins'
         ClientWidth = 446
-        ClientHeight = 293
+        ClientHeight = 300
         object pcPluginsTypes: TPageControl
-          Height = 293
+          Height = 300
           Width = 446
-          ActivePage = tsWFX
+          ActivePage = tsWCX
           Align = alClient
-          TabIndex = 1
+          TabIndex = 0
           TabOrder = 0
           object tsWCX: TTabSheet
             Caption = 'Packer plugins (.WCX)'
-            ClientHeight = 267
+            ClientHeight = 274
             ClientWidth = 438
             OnShow = tsWCXShow
             object lblAbout: TLabel
@@ -994,7 +991,7 @@ inherited frmOptions: TfrmOptions
           object tsWFX: TTabSheet
             Caption = 'File system plugins (.WFX)'
             ChildSizing.LeftRightSpacing = 239
-            ClientHeight = 267
+            ClientHeight = 274
             ClientWidth = 438
             OnShow = tsWFXShow
             object lblInstalledPlugins: TLabel
@@ -1058,15 +1055,15 @@ inherited frmOptions: TfrmOptions
       object pgFileTypesColors: TPage
         Caption = 'pgFileTypesColors'
         ClientWidth = 446
-        ClientHeight = 293
+        ClientHeight = 300
         object gbFileTypesColors: TGroupBox
           Left = 10
           Height = 274
           Top = 2
           Width = 425
           Caption = 'File types colors'
-          ClientHeight = 274
-          ClientWidth = 425
+          ClientHeight = 256
+          ClientWidth = 421
           TabOrder = 0
           object lblCategoryName: TLabel
             Left = 45
@@ -1152,7 +1149,7 @@ inherited frmOptions: TfrmOptions
             TabOrder = 3
           end
           object bbtnDeleteCategory: TBitBtn
-            Left = 247
+            Left = 246
             Height = 32
             Top = 218
             Width = 75

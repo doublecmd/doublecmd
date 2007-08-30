@@ -1,14 +1,14 @@
 inherited frmMain: TfrmMain
-  Left = 217
+  Left = 238
   Height = 336
-  Top = 316
+  Top = 137
   Width = 525
   HorzScrollBar.Page = 524
-  VertScrollBar.Page = 305
+  VertScrollBar.Page = 316
   VertScrollBar.Range = 79
   ActiveControl = pnlNotebooks
   Caption = 'Double Commander'
-  ClientHeight = 306
+  ClientHeight = 317
   ClientWidth = 525
   Font.Color = clBlack
   Font.Height = 13
@@ -79,7 +79,7 @@ inherited frmMain: TfrmMain
   end
   object pnlCommand: TPanel
     Height = 62
-    Top = 244
+    Top = 255
     Width = 525
     Align = alBottom
     Anchors = [akLeft, akRight]
@@ -91,9 +91,9 @@ inherited frmMain: TfrmMain
     TabOrder = 1
     object lblCommandPath: TLabel
       Left = 1
-      Height = 17
+      Height = 14
       Top = 8
-      Width = 35
+      Width = 23
       Alignment = taRightJustify
       Caption = 'Path'
       ParentColor = False
@@ -200,6 +200,7 @@ inherited frmMain: TfrmMain
       Width = 688
       TabStop = False
       AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+      ItemHeight = 13
       MaxLength = 0
       OnKeyDown = edtCommandKeyDown
       OnKeyUp = edtCommandKeyUp
@@ -208,18 +209,18 @@ inherited frmMain: TfrmMain
     end
   end
   object pnlNotebooks: TPanel
-    Height = 195
+    Height = 206
     Top = 49
     Width = 525
     Align = alClient
-    ClientHeight = 195
+    ClientHeight = 206
     ClientWidth = 525
     FullRepaint = False
     TabOrder = 2
     TabStop = True
     object nbLeft: TNotebook
       Left = 1
-      Height = 193
+      Height = 204
       Top = 1
       Width = 391
       Align = alLeft
@@ -229,14 +230,14 @@ inherited frmMain: TfrmMain
     end
     object MainSplitter: TSplitter
       Left = 392
-      Height = 193
+      Height = 204
       Top = 1
       Width = 4
       ResizeStyle = rsLine
     end
     object nbRight: TNotebook
       Left = 396
-      Height = 193
+      Height = 204
       Top = 1
       Width = 128
       Align = alClient
@@ -372,6 +373,10 @@ inherited frmMain: TfrmMain
       end
       object miLine9: TMenuItem
         Caption = '-'
+      end
+      object MenuItem1: TMenuItem
+        Action = actOpenVFSList
+        OnClick = actOpenVFSListExecute
       end
       object mnuCmdSwapSourceTarget: TMenuItem
         Caption = 'Source &<-> Target'
@@ -541,7 +546,7 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actSearchExecute
-      ShortCut = 20534
+      ShortCut = 32886
     end
     object actDirHotList: TAction
       Category = 'Commands'
@@ -777,6 +782,12 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       OnExecute = actExtractFilesExecute
       ShortCut = 32888
+    end
+    object actOpenVFSList: TAction
+      Category = 'Commands'
+      Caption = 'Open VFS List'
+      DisableIfNoHandler = True
+      OnExecute = actOpenVFSListExecute
     end
   end
   object pmHotList: TPopupMenu
