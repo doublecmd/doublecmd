@@ -32,6 +32,20 @@ type
   end;
   
 var
+  {Layout page}
+  gButtonBar,
+  gDriveBar1,
+  gDriveBar2,
+  gDriveBarFlat,
+  gDriveMenuButton,
+  gDirectoryTabs,
+  gCurDir,
+  gTabHeader,
+  gStatusBar,
+  gCmdLine,
+  gKeyButtons,
+  gInterfaceFlat : Boolean;
+  
   gDirSortFirst:Boolean=True; // want to show dir first in panels
   gDirHistoryCount:Integer=30; // how many history we remember
   gShowSystemFiles:Boolean=True;
@@ -48,6 +62,8 @@ var
   gShortFileSizeFormat:Boolean=True;
   gSeparateExt:Boolean=False;    // draw filename and extension separate
   gDropReadOnlyFlag : Boolean = True;
+
+  {Tools page}
 
   gUseExtEdit:Boolean=False;
   gUseExtView:Boolean=False;
@@ -69,6 +85,8 @@ var
 
   gViewerPos:TControlPosition;
   gEditorPos:TControlPosition;
+  
+  {File panels color page}
   
   gBackColor, //Background color
   gBackColor2, //Background color 2
@@ -188,6 +206,22 @@ begin
   Result := False;
   writeln('Loading configuration...');
   InitGlobs;
+  
+  {Layout page}
+  
+  gButtonBar := gIni.ReadBool('Layout', 'ButtonBar', True);
+  gDriveBar1 := gIni.ReadBool('Layout', 'DriveBar1', True);
+  gDriveBar2 := gIni.ReadBool('Layout', 'DriveBar2', True);
+  gDriveBarFlat := gIni.ReadBool('Layout', 'DriveBarFlat', True);
+  gDriveMenuButton := gIni.ReadBool('Layout', 'DriveMenuButton', True);
+  gDirectoryTabs := gIni.ReadBool('Layout', 'DirectoryTabs', True);
+  gCurDir := gIni.ReadBool('Layout', 'CurDir', True);
+  gTabHeader := gIni.ReadBool('Layout', 'TabHeader', True);
+  gStatusBar := gIni.ReadBool('Layout', 'StatusBar', True);
+  gCmdLine := gIni.ReadBool('Layout', 'CmdLine', True);
+  gKeyButtons := gIni.ReadBool('Layout', 'KeyButtons', True);
+  gInterfaceFlat := gIni.ReadBool('Layout', 'InterfaceFlat', True);
+  
   gShowSystemFiles := gIni.ReadBool('Configuration', 'ShowSystemFiles', False);
   gLng := gIni.ReadString('Configuration', 'Language', gLng);
   gTerm := gIni.ReadString('Configuration', 'Term', gTerm);
@@ -289,6 +323,21 @@ var
   x:Integer;
 begin
   glsDirHistory.SaveToFile(gpIniDir+'dirhistory.txt');
+
+  {Layout page}
+
+  gIni.WriteBool('Layout', 'ButtonBar', gButtonBar);
+  gIni.WriteBool('Layout', 'DriveBar1', gDriveBar1);
+  gIni.WriteBool('Layout', 'DriveBar2', gDriveBar2);
+  gIni.WriteBool('Layout', 'DriveBarFlat', gDriveBarFlat);
+  gIni.WriteBool('Layout', 'DriveMenuButton', gDriveMenuButton);
+  gIni.WriteBool('Layout', 'DirectoryTabs', gDirectoryTabs);
+  gIni.WriteBool('Layout', 'CurDir', gCurDir);
+  gIni.WriteBool('Layout', 'TabHeader', gTabHeader);
+  gIni.WriteBool('Layout', 'StatusBar', gStatusBar);
+  gIni.WriteBool('Layout', 'CmdLine', gCmdLine);
+  gIni.WriteBool('Layout', 'KeyButtons', gKeyButtons);
+  gIni.WriteBool('Layout', 'InterfaceFlat', gInterfaceFlat);
 
   gIni.WriteBool('Configuration', 'ShowSystemFiles', gShowSystemFiles);
   gIni.WriteString('Configuration', 'Language', gLng);

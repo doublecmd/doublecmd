@@ -60,7 +60,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnAddButtonClick(Sender: TObject);
-    procedure ktbBarToolButtonClick(NumberOfButton : Integer);
+    procedure ktbBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
     procedure Save;
     procedure btnDeleteButtonClick(Sender: TObject);
     procedure btnOpenFileClick(Sender: TObject);
@@ -121,7 +121,7 @@ begin
 end;
 
 (*Select button on panel*)
-procedure TButtonChangeDlg.ktbBarToolButtonClick(NumberOfButton : Integer);
+procedure TButtonChangeDlg.ktbBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
 begin
  Save;
  cbCommand.Text := ktbBar.Commands[NumberOfButton];

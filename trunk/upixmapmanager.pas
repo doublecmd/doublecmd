@@ -63,6 +63,7 @@ type
     destructor Destroy; override;
     procedure Load(const sFileName:String);
     function GetBitmap(iIndex:Integer; BkColor : TColor):TBitmap;
+    function GetStretchBitmap(iIndex: Integer; BkColor : TColor; iSize : Integer): TBitmap;
     function DrawBitmap(iIndex: Integer; Canvas : TCanvas; Rect : TRect) : Boolean;
     Function GetIconByFile(fi:PFileRecItem; PanelMode: TPanelMode):Integer;
   end;
@@ -223,6 +224,10 @@ begin
 end;
 
 function TPixMapManager.GetBitmap(iIndex: Integer; BkColor : TColor): Graphics.TBitmap;
+{$IFDEF MSWINDOWS}
+var
+  memstream: TMemoryStream;
+{$ENDIF}
 begin
   if iIndex<FimgList.Count then
     Result:=Graphics.TBitmap(FimgList.Items[iIndex])
@@ -243,16 +248,43 @@ begin
     end;
 
   try
-   (*For pseudo transparent*)
-   ImageList_DrawEx(SysImgList, iIndex - $1000, Result.Canvas.Handle, 0, 0, 0, 0, GetRGBColor(BkColor), clNone, ILD_NORMAL);
+    (*For pseudo transparent*)
+    ImageList_DrawEx(SysImgList, iIndex - $1000, Result.Canvas.Handle, 0, 0, 0, 0, GetRGBColor(BkColor), clNone, ILD_NORMAL);
+    { For drawing color transparent bitmaps }
+    memstream := TMemoryStream.create;
+    try
+      Result.SaveToStream(memstream);
+      memstream.position := 0;
+      Result.LoadFromStream(memstream);
+    finally
+      memstream.free;
+    end;
+
+    Result.Transparent := True;
+    Result.TransparentColor := BkColor;
   except
-   Result:=nil;
+    Result:=nil;
   end;
   end;
 
 {$ELSE}
     Result:=nil;
 {$ENDIF}
+end;
+
+function TPixMapManager.GetStretchBitmap(iIndex: Integer; BkColor: TColor;
+  iSize: Integer): Graphics.TBitmap;
+begin
+  Result := Graphics.TBitMap.Create;
+  with Result do
+  begin
+    Width := iSize;
+    Height := iSize;
+
+    Canvas.Brush.Color := BkColor;
+    Canvas.FillRect(Canvas.ClipRect);
+    Canvas.StretchDraw(Canvas.ClipRect, GetBitmap(iIndex, BkColor));
+  end;
 end;
 
 
@@ -303,6 +335,9 @@ begin
       Exit;
     end;
     if FPS_ISDIR(iMode) then
+      {$IFDEF MSWINDOWS}
+      if not FileExists(sName + '\desktop.ini') then
+      {$ENDIF}
     begin
       Result:=FiDirIconID;
       Exit;
@@ -312,7 +347,7 @@ begin
       Result:=FiLinkIconID;
       Exit;
     end;
-    if sExt='' then
+    if (sExt = '') and (not FPS_ISDIR(iMode)) then
     begin
       Result:=FiDefaultIconID;
       Exit;
@@ -350,7 +385,7 @@ begin
        
        //WriteLN('FileInfo.iIcon == ' + IntToStr(FileInfo.iIcon));
        
-       if (FExtList.IndexOf(Ext)<0) and (Ext <> 'exe') and (Ext <> 'ico') and (Ext <> 'lnk') then
+       if (FExtList.IndexOf(Ext)<0) and (Ext <> 'exe') and (Ext <> 'ico') and (Ext <> 'lnk')  and (not FPS_ISDIR(iMode)) then
         FExtList.AddObject(Ext, TObject(Result));
     {$ELSE}
       Result:=FiDefaultIconID;

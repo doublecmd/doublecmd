@@ -55,23 +55,40 @@ type
     actChMod: TAction;
     actChown: TAction;
     actExtractFiles: TAction;
+    actRightOpenDrives: TAction;
+    actLeftOpenDrives: TAction;
     actOpenVFSList: TAction;
     actPackFiles: TAction;
     actRemoveTab: TAction;
     actNewTab: TAction;
     dskLeft: TKAStoolBar;
     dskRight: TKAStoolBar;
+    lblRightDriveInfo: TLabel;
+    lblLeftDriveInfo: TLabel;
     MainToolBar: TKASToolBar;
     MenuItem1: TMenuItem;
     mnuExtractFiles: TMenuItem;
+    nbLeft: TNotebook;
+    nbRight: TNotebook;
+    pnlLeftTools: TPanel;
+    pnlRightTools: TPanel;
+    pnlRight: TPanel;
+    pnlLeft: TPanel;
     pnlDisk: TPanel;
+    btnLeftDrive: TSpeedButton;
+    btnLeftHome: TSpeedButton;
+    btnLeftUp: TSpeedButton;
+    btnLeftRoot: TSpeedButton;
+    btnRightDrive: TSpeedButton;
+    btnRightHome: TSpeedButton;
+    btnRightUp: TSpeedButton;
+    btnRightRoot: TSpeedButton;
+    pmDrivesMenu: TPopupMenu;
     tbDelete: TMenuItem;
     tbEdit: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
     mnuMain: TMainMenu;
-    nbLeft: TNotebook;
-    nbRight: TNotebook;
     pnlNotebooks: TPanel;
     pnlSyncSize: TPanel;
     pnlCommand: TPanel;
@@ -179,17 +196,20 @@ type
     pmToolBar: TPopupMenu;
     MainSplitter: TSplitter;
     procedure actExtractFilesExecute(Sender: TObject);
+    procedure actLeftOpenDrivesExecute(Sender: TObject);
     procedure actOpenVFSListExecute(Sender: TObject);
     procedure actPackFilesExecute(Sender: TObject);
+    procedure actRightOpenDrivesExecute(Sender: TObject);
+    procedure btnLeftClick(Sender: TObject);
+    procedure btnRightClick(Sender: TObject);
     procedure DeleteClick(Sender: TObject);
     procedure dskRightChangeLineCount(AddSize: Integer);
-    procedure dskLeftToolButtonClick(NumberOfButton: Integer);
-    procedure dskRightToolButtonClick(NumberOfButton: Integer);
+    procedure dskToolButtonClick(Sender: TObject; NumberOfButton: Integer);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure MainToolBarMouseDown(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure MainToolBarToolButtonClick(NumberOfButton : Integer);
+    procedure MainToolBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
     procedure actExitExecute(Sender: TObject);
     procedure actNewTabExecute(Sender: TObject);
     procedure actRemoveTabExecute(Sender: TObject);
@@ -197,6 +217,7 @@ type
     procedure frmMainKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure frmMainShow(Sender: TObject);
     procedure mnuHelpClick(Sender: TObject);
+    procedure nbPageChanged(Sender: TObject);
     procedure NotebookCloseTabClicked(Sender: TObject);
     procedure pnlKeysResize(Sender: TObject);
     procedure actViewExecute(Sender: TObject);
@@ -264,6 +285,7 @@ type
     { Private declarations }
     PanelSelected:TFilePanelSelect;
     bAltPress:Boolean;
+    DrivesList : TList;
     IsPanelsCreated : Boolean;
     
     function ExecuteCommandFromEdit(sCmd:String):Boolean;
@@ -295,6 +317,8 @@ type
     procedure SetNotActFrmByActFrm;
     procedure SetActiveFrame(panel: TFilePanelSelect);
     procedure UpdateDiskCount;
+    procedure CreateDrivesMenu;
+    procedure DrivesMenuClick(Sender: TObject);
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
     procedure CreatePanel(AOwner:TWinControl; APanel:TFilePanelSelect; sPath : String);
     function AddPage(ANoteBook:TNoteBook):TPage;
@@ -356,6 +380,49 @@ begin
 
 end;
 
+procedure TfrmMain.actRightOpenDrivesExecute(Sender: TObject);
+var
+  p : TPoint;
+begin
+  pmDrivesMenu.Tag := 1;  // indicate that is right panel menu
+  p := Classes.Point(btnRightDrive.Left,btnRightDrive.Height);
+  p := pnlRightTools.ClientToScreen(p);
+  pmDrivesMenu.Items[dskRight.Tag].Checked := True;
+  pmDrivesMenu.PopUp(p.x, p.y);
+end;
+
+procedure TfrmMain.btnLeftClick(Sender: TObject);
+begin
+  with Sender as TSpeedButton do
+  begin
+    if Caption = '/' then
+      FrameLeft.pnlFile.ActiveDir := ExtractFileDrive(FrameLeft.pnlFile.ActiveDir);
+    if Caption = '..' then
+      FrameLeft.pnlFile.cdUpLevel;
+    if Caption = '~' then
+      FrameLeft.pnlFile.ActiveDir := GetHomeDir;
+  end;
+  FrameLeft.pnlFile.LoadPanel;
+
+  SetActiveFrame(fpLeft);
+end;
+
+procedure TfrmMain.btnRightClick(Sender: TObject);
+begin
+  with Sender as TSpeedButton do
+  begin
+    if Caption = '/' then
+      FrameRight.pnlFile.ActiveDir := ExtractFileDrive(FrameRight.pnlFile.ActiveDir);
+    if Caption = '..' then
+      FrameRight.pnlFile.cdUpLevel;
+    if Caption = '~' then
+      FrameRight.pnlFile.ActiveDir := GetHomeDir;
+  end;
+  FrameRight.pnlFile.LoadPanel;
+
+  SetActiveFrame(fpRight);
+end;
+
 procedure TfrmMain.actExtractFilesExecute(Sender: TObject);
 var
   fl : TFileList;
@@ -375,6 +442,17 @@ begin
     frameRight.RefreshPanel;
   end;
 
+end;
+
+procedure TfrmMain.actLeftOpenDrivesExecute(Sender: TObject);
+var
+  p : TPoint;
+begin
+  pmDrivesMenu.Tag := 0;  // indicate that is left panel menu
+  p := Classes.Point(btnLeftDrive.Left,btnLeftDrive.Height);
+  p := pnlLeftTools.ClientToScreen(p);
+  pmDrivesMenu.Items[dskLeft.Tag].Checked := True;
+  pmDrivesMenu.PopUp(p.x, p.y);
 end;
 
 procedure TfrmMain.actOpenVFSListExecute(Sender: TObject);
@@ -408,68 +486,60 @@ begin
   pnlSyncSize.Height := pnlSyncSize.Height + AddSize;
 end;
 
-procedure TfrmMain.dskLeftToolButtonClick(NumberOfButton: Integer);
+procedure TfrmMain.dskToolButtonClick(Sender: TObject; NumberOfButton: Integer);
 var
   Command : String;
+  dskPanel : TKASToolBar;
+  FrameFilePanel : TFrameFilePanel;
+  btnDrive : TSpeedButton;
 begin
-  if dskLeft.Buttons[NumberOfButton].GroupIndex = 0 then
-     begin
-     Command := dskLeft.Commands[NumberOfButton];
-     if Command = '/' then
-        FrameLeft.pnlFile.ActiveDir := ExtractFileDrive(FrameLeft.pnlFile.ActiveDir);
-     if Command = '..' then
-        FrameLeft.pnlFile.cdUpLevel;
-     if Command = '~' then
-        FrameLeft.pnlFile.ActiveDir := GetHomeDir;
-     end
+  dskPanel := (Sender as TKASToolBar);
+
+  if (dskPanel.Align = alLeft) or (not gDriveBar2 and (PanelSelected = fpLeft))  then
+    begin
+      FrameFilePanel := FrameLeft;
+      btnDrive := btnLeftDrive;
+      PanelSelected := fpLeft;
+    end
   else
-  begin
-     if IsAvailable(dskLeft.Commands[NumberOfButton]) then
-       begin
-         FrameLeft.pnlFile.ActiveDir := dskLeft.Commands[NumberOfButton];
-         dskLeft.Tag := NumberOfButton;
-       end
-     else
-       begin
-         dskLeft.Buttons[dskLeft.Tag].Down := True;
-         msgOK(lngGetString(clngMsgDiskNotAvail));
-       end;
-  end;
-  FrameLeft.pnlFile.LoadPanel;
+    begin
+      FrameFilePanel := FrameRight;
+      btnDrive := btnRightDrive;
+      PanelSelected := fpRight;
+    end;
+    
 
-  SetActiveFrame(fpLeft);
-end;
-
-procedure TfrmMain.dskRightToolButtonClick(NumberOfButton: Integer);
-var
-  Command : String;
-begin
-  if dskRight.Buttons[NumberOfButton].GroupIndex = 0 then
+  if dskPanel.Buttons[NumberOfButton].GroupIndex = 0 then
      begin
-     Command := dskRight.Commands[NumberOfButton];
+     Command := dskPanel.Commands[NumberOfButton];
      if Command = '/' then
-        FrameRight.pnlFile.ActiveDir := ExtractFileDrive(FrameRight.pnlFile.ActiveDir);
+        FrameFilePanel.pnlFile.ActiveDir := ExtractFileDrive(FrameFilePanel.pnlFile.ActiveDir);
      if Command = '..' then
-        FrameRight.pnlFile.cdUpLevel;
+        FrameFilePanel.pnlFile.cdUpLevel;
      if Command = '~' then
-        FrameRight.pnlFile.ActiveDir := GetHomeDir;
+        FrameFilePanel.pnlFile.ActiveDir := GetHomeDir;
      end
   else
    begin
-     if IsAvailable(dskRight.Commands[NumberOfButton]) then
+     if IsAvailable(dskPanel.Commands[NumberOfButton]) then
        begin
-         FrameRight.pnlFile.ActiveDir := dskRight.Commands[NumberOfButton];
-         dskRight.Tag := NumberOfButton;
+         FrameFilePanel.pnlFile.ActiveDir := dskPanel.Commands[NumberOfButton];
+         dskPanel.Tag := NumberOfButton;
+         if gDriveMenuButton then  //  if show drive button
+           begin
+             btnDrive.Glyph := dskRight.Buttons[NumberOfButton].Glyph;
+             btnDrive.Caption := dskRight.Buttons[NumberOfButton].Caption;
+           end;
        end
      else
        begin
-         dskRight.Buttons[dskRight.Tag].Down := True;
+         dskPanel.Buttons[dskPanel.Tag].Down := True;
          msgOK(lngGetString(clngMsgDiskNotAvail));
        end;
   end;
-  FrameRight.pnlFile.LoadPanel;
+  FrameFilePanel.pnlFile.LoadPanel;
 
-  SetActiveFrame(fpRight);
+  SetActiveFrame(PanelSelected);
 end;
 
 
@@ -483,20 +553,20 @@ if (Button = mbRight) then
     Point := Mouse.CursorPos;
     if (Sender is TSpeedButton) then
         begin
-        pmToolBar.Tag := (Sender as TSpeedButton).Tag;
-        tbDelete.Enabled := true;
+          pmToolBar.Tag := (Sender as TSpeedButton).Tag;
+          tbDelete.Enabled := true;
         end
     else
         begin
-        pmToolBar.Tag := -1;
-        tbDelete.Enabled := false;
+          pmToolBar.Tag := -1;
+          tbDelete.Enabled := false;
         end;
 
     pmToolBar.PopUp(Point.X, Point.Y);
    end;
 end;
 
-procedure TfrmMain.MainToolBarToolButtonClick(NumberOfButton : Integer);
+procedure TfrmMain.MainToolBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
 begin
   ExecCmd(MainToolBar.Commands[NumberOfButton]);
   DebugLn(MainToolBar.Commands[NumberOfButton]);
@@ -587,10 +657,20 @@ begin
 
   //DebugLN('dskLeft.Width == ' + IntToStr(dskLeft.Width));
   //DebugLN('dskRight.Width == ' + IntToStr(dskRight.Width));
+  DrivesList := GetAllDrives;
+  
+  CreateDrivesMenu;
   
   (*Create Disk Panels*)
-  CreateDiskPanel(dskLeft);
-  CreateDiskPanel(dskRight);
+  dskLeft.Visible :=  gDriveBar2;
+  if gDriveBar2 then
+    CreateDiskPanel(dskLeft);
+
+  dskRight.Visible := gDriveBar1;
+  if gDriveBar1 then
+    CreateDiskPanel(dskRight);
+
+  pnlSyncSize.Visible := gDriveBar1;
   (*/Create Disk Panels*)
 
   (*Tool Bar*)
@@ -601,12 +681,32 @@ begin
   
   LoadShortCuts;
   
+  {Load some options from layout page}
+  MainToolBar.Visible := gButtonBar;
+  btnLeftDrive.Visible := gDriveMenuButton;
+  btnRightDrive.Visible := gDriveMenuButton;
+  pnlCommand.Visible := gCmdLine;
+  pnlKeys.Visible := gKeyButtons;
+  nbLeft.ShowTabs := gDirectoryTabs;
+  nbRight.ShowTabs := gDirectoryTabs;
+  
   IsPanelsCreated := True;
 end;
 
 procedure TfrmMain.mnuHelpClick(Sender: TObject);
 begin
 
+end;
+
+procedure TfrmMain.nbPageChanged(Sender: TObject);
+begin
+  with Sender as TNoteBook do
+  begin
+    if (Hint = 'Left') and (FrameLeft <> nil) then
+      FrameLeft.pnlFile.UpdatePrompt;
+    if (Hint = 'Right') and (FrameRight <> nil) then
+      FrameRight.pnlFile.UpdatePrompt;
+  end;
 end;
 
 procedure TfrmMain.NoteBookCloseTabClicked(Sender: TObject);
@@ -845,7 +945,7 @@ end;
 
 procedure TfrmMain.FormResize(Sender: TObject);
 begin
-  nbLeft.Width:= (frmMain.Width div 2) - (MainSplitter.Width div 2);
+  pnlLeft.Width:= (frmMain.Width div 2) - (MainSplitter.Width div 2);
 
   //DebugLN('pnlDisk.Width == ' + IntToStr(pnlDisk.Width));
 
@@ -2191,6 +2291,10 @@ end;
 
 procedure TfrmMain.UpdateDiskCount;
 begin
+  DrivesList.Clear;
+  DrivesList := GetAllDrives;
+  if gDriveMenuButton then
+    CreateDrivesMenu;
   // delete all disk buttons
   dskRight.DeleteAllToolButtons;
   dskLeft.DeleteAllToolButtons;
@@ -2199,20 +2303,112 @@ begin
   CreateDiskPanel(dskRight);
 end;
 
+procedure TfrmMain.CreateDrivesMenu;
+var
+  I, Count : Integer;
+  Drive : PDrive;
+  miTmp : TMenuItem;
+begin
+  pmDrivesMenu.Items.Clear;
+  Count := DrivesList.Count - 1;
+  for I := 0 to Count do
+    begin
+      Drive := PDrive(DrivesList.Items[I]);
+      with Drive^ do
+      begin
+        miTmp := TMenuItem.Create(pmDrivesMenu);
+        miTmp.Tag := I;
+        miTmp.Caption := Name;
+        miTmp.Hint := Path;
+        
+        if gDriveMenuButton then
+          begin
+            if Pos(Path, FrameLeft.pnlFile.ActiveDir) = 1 then
+              begin
+                btnLeftDrive.Glyph := PixMapManager.GetStretchBitmap(DriveIcon, btnLeftDrive.Color, btnLeftDrive.Height - 4);
+                btnLeftDrive.Caption := Name;
+                dskLeft.Tag := I;
+              end;
+            if Pos(Path, FrameRight.pnlFile.ActiveDir) = 1 then
+              begin
+                btnRightDrive.Glyph := PixMapManager.GetStretchBitmap(DriveIcon, btnRightDrive.Color, btnRightDrive.Height - 4);
+                btnRightDrive.Caption := Name;
+                dskRight.Tag := I;
+              end;
+          end;
+        
+        // get disk icon
+        if gIconsSize > 16 then
+          miTmp.Bitmap := PixMapManager.GetStretchBitmap(DriveIcon, clMenu, 16)
+        else
+          miTmp.Bitmap := PixMapManager.GetBitmap(DriveIcon, clMenu);
+
+        miTmp.RadioItem := True;
+        miTmp.AutoCheck := True;
+        miTmp.GroupIndex := 1;
+        miTmp.OnClick := @DrivesMenuClick;
+        pmDrivesMenu.Items.Add(miTmp);
+      end;  // with
+    end; // for
+end;
+
+procedure TfrmMain.DrivesMenuClick(Sender: TObject);
+var
+  iIconIndex : Integer;
+begin
+  with Sender as TMenuItem do
+  begin
+    if IsAvailable(Hint) then
+       begin
+         case pmDrivesMenu.Tag of
+         0:
+           begin
+             FrameLeft.pnlFile.ActiveDir := Hint;
+             if gDriveBar2 then
+               dskLeft.Buttons[Tag].Down := True;
+             dskLeft.Tag := Tag;
+             FrameLeft.pnlFile.LoadPanel;
+             SetActiveFrame(fpLeft);
+             iIconIndex := PDrive(DrivesList[Tag])^.DriveIcon;
+             btnLeftDrive.Glyph := PixMapManager.GetStretchBitmap(iIconIndex, btnLeftDrive.Color, btnLeftDrive.Height - 4);
+             btnLeftDrive.Caption := Caption;
+           end;
+         1:
+           begin
+             FrameRight.pnlFile.ActiveDir := Hint;
+             if gDriveBar1 then
+               dskRight.Buttons[Tag].Down := True;
+             dskRight.Tag := Tag;
+             FrameRight.pnlFile.LoadPanel;
+             SetActiveFrame(fpRight);
+             iIconIndex := PDrive(DrivesList[Tag])^.DriveIcon;
+             btnRightDrive.Glyph := PixMapManager.GetStretchBitmap(iIconIndex, btnRightDrive.Color, btnRightDrive.Height - 4);
+             btnRightDrive.Caption := Caption;
+           end;
+         end;  // case
+       end
+     else
+       begin
+         pmDrivesMenu.Items[dskLeft.Tag].Checked := True;
+         msgOK(lngGetString(clngMsgDiskNotAvail));
+       end;
+  end;
+end;
+
 procedure TfrmMain.CreateDiskPanel(dskPanel: TKASToolBar);
 var
-Drives : TList;
 I, Count, btnIndex : Integer;
 Drive : PDrive;
 ButtonIcon : TBitMap;
 begin
 //dskPanel.InitBounds; // Update information
-  Drives := GetAllDrives;
-  Count := Drives.Count - 1;
+
+  dskPanel.FlatButtons := gDriveBarFlat;
+  Count := DrivesList.Count - 1;
 
   for I := 0 to Count do
   begin
-  Drive := PDrive(Drives.Items[I]);
+  Drive := PDrive(DrivesList.Items[I]);
   with Drive^ do
     begin
       dskPanel.AddButton(Name, Path, Path, '');
@@ -2235,24 +2431,12 @@ begin
         end;
       {/Set chosen drive}
 
-      //**********************************
+      // get drive icon
       if gIconsSize > 16 then
-        begin
-          ButtonIcon:= TBitMap.Create;
-          with ButtonIcon do
-          begin
-            Width:=dskPanel.Buttons[I].Height;
-            Height:=Width;
-
-            Canvas.Brush.Color := dskPanel.Buttons[I].Color;
-            Canvas.FillRect(Canvas.ClipRect);
-            Canvas.StretchDraw(Canvas.ClipRect,PixMapManager.GetBitmap(DriveIcon, dskPanel.Buttons[I].Color));
-            dskPanel.Buttons[I].Glyph := ButtonIcon;
-          end;
-        end
+        dskPanel.Buttons[I].Glyph := PixMapManager.GetStretchBitmap(DriveIcon, dskPanel.Buttons[I].Color, dskPanel.Buttons[I].Height - 4)
       else
-      //**********************************
-      dskPanel.Buttons[I].Glyph := PixMapManager.GetBitmap(DriveIcon, dskPanel.Buttons[I].Color);
+        dskPanel.Buttons[I].Glyph := PixMapManager.GetBitmap(DriveIcon, dskPanel.Buttons[I].Color);
+
       {Set Buttons Transparent. Is need? }
       dskPanel.Buttons[I].Glyph.Transparent := True;
       dskPanel.Buttons[I].Transparent := True;
@@ -2274,8 +2458,17 @@ begin
 end;
 
 procedure TfrmMain.CreatePanel(AOwner: TWinControl; APanel:TFilePanelSelect; sPath : String);
+var
+  lblDriveInfo : TLabel;
 begin
-  with TFrameFilePanel.Create(AOwner, lblCommandPath, edtCommand) do
+  case APanel of
+  fpLeft:
+    lblDriveInfo := lblLeftDriveInfo;
+  fpRight:
+    lblDriveInfo := lblRightDriveInfo;
+  end;
+  
+  with TFrameFilePanel.Create(AOwner, lblDriveInfo, lblCommandPath, edtCommand) do
   begin
     edtCmdLine:=edtCommand;
     PanelSelect:=APanel;
@@ -2288,6 +2481,8 @@ begin
     pnlFile.LoadPanel;
     UpDatelblInfo;
     dgPanel.Color := gBackColor;
+    pnlHeader.Visible := gCurDir;
+    pnlFooter.Visible := gStatusBar;
     lblLPath.OnClick:=@FramelblLPathClick;
     lblLPath.OnMouseDown := @FramelblLPathMouseDown;
     edtRename.OnExit:=@FrameRightedtRenameExit;
@@ -2312,7 +2507,7 @@ begin
   ANoteBook.ActivePage:= IntToStr(x);
   Result:=ANoteBook.Page[x];
 
-  ANoteBook.ShowTabs:= (ANoteBook.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible);
+  ANoteBook.ShowTabs:= ((ANoteBook.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
   if Boolean(gDirTabOptions and tb_multiple_lines) then
     ANoteBook.Options := ANoteBook.Options + [nboMultiLine];
 end;
@@ -2329,7 +2524,7 @@ begin
     end;}
     ANoteBook.Pages.Delete(iPageIndex);
   end;
-  ANoteBook.ShowTabs:= (ANoteBook.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible);
+  ANoteBook.ShowTabs:= ((ANoteBook.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
 end;
 
 procedure TfrmMain.LoadTabs(ANoteBook: TNoteBook);
@@ -2342,7 +2537,7 @@ var
   sCaption, sActiveCaption : String;
   iActiveTab : Integer;
 begin
-  if ANoteBook.Align = alLeft then
+  if ANoteBook.Hint = 'Left' then
     begin
       TabsSection := 'lefttabs';
       Section := 'left';
@@ -2390,7 +2585,7 @@ var
   TabsSection, Section : String;
   sPath : String;
 begin
-  if ANoteBook.Align = alLeft then
+  if ANoteBook.Hint = 'Left' then
     begin
       TabsSection := 'lefttabs';
       Section := 'left';

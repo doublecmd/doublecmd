@@ -37,7 +37,7 @@ uses
 
 type
 
-  TOnToolButtonClick = procedure (NumberOfButton : Integer) of object;
+  TOnToolButtonClick = procedure (Sender: TObject; NumberOfButton : Integer) of object;
   TChangeLineCount   = procedure (AddSize : Integer) of object;
 
   { TKAStoolBar }
@@ -275,7 +275,7 @@ procedure TKAStoolBar.ToolButtonClick(Sender: TObject);
 begin
   inherited Click;
   if Assigned(FOnToolButtonClick) then
-     FOnToolButtonClick((Sender as TSpeedButton).Tag);
+     FOnToolButtonClick(Self, (Sender as TSpeedButton).Tag);
 end;
 
 procedure TKAStoolBar.UpdateButtonsTag;

@@ -35,7 +35,6 @@ type
     lblLInfo: TLabel;
     pnlHeader: TPanel;
     lblLPath: TLabel;
-    lblFree: TLabel;
     edtRename: TEdit;
     dgPanel: TDrawGrid;
     pnAltSearch: TPanel;
@@ -73,7 +72,7 @@ type
     pnlFile:TFilePanel;
     edtCmdLine:TComboBox;
     PanelSelect:TFilePanelSelect;
-    constructor Create(AOwner :TWinControl; lblCommandPath:TLabel; cmbCommand:TComboBox);
+    constructor Create(AOwner :TWinControl; lblDriveInfo : TLabel; lblCommandPath:TLabel; cmbCommand:TComboBox);
     destructor Destroy; override;
     procedure LoadPanel;
     procedure SetFocus;
@@ -660,7 +659,7 @@ end;
 
 
 
-constructor TFrameFilePanel.Create(AOwner : TWinControl; lblCommandPath:TLabel; cmbCommand:TComboBox);
+constructor TFrameFilePanel.Create(AOwner : TWinControl; lblDriveInfo : TLabel; lblCommandPath:TLabel; cmbCommand:TComboBox);
 var
   x:Integer;
 begin
@@ -672,7 +671,7 @@ begin
 
   pnlHeader:=TPanel.Create(Self);
   pnlHeader.Parent:=Self;
-  pnlHeader.Height:=41;
+  pnlHeader.Height:=24;
   pnlHeader.Align:=alTop;
 
 //  pnlHeader.Width:=AOwner.Width;
@@ -682,14 +681,9 @@ begin
 
 //  pnlHeader.Color:=clRed;
 
-  lblFree:=TLabel.Create(pnlHeader);
-  lblFree.Parent:=pnlHeader;
-  lblFree.Width:=pnlHeader.Width*2 div 3;
-//  lblFree.AutoSize:=True;
-
   lblLPath:=TLabel.Create(pnlHeader);
   lblLPath.Parent:=pnlHeader;
-  lblLPath.Top:=19;
+  lblLPath.Top := 2;
   lblLPath.AutoSize:=False;
   lblLPath.Width:=pnlHeader.Width - 4;
   lblLPath.Color:=clActiveCaption;
@@ -773,7 +767,7 @@ begin
   lblLPath.OnMouseLeave:=@lblLPathMouseLeave;
 
   
-  pnlFile:=TFilePanel.Create(AOwner, dgPanel,lblLPath,lblCommandPath, lblFree, cmbCommand);
+  pnlFile:=TFilePanel.Create(AOwner, dgPanel,lblLPath,lblCommandPath, lblDriveInfo, cmbCommand);
   
 //  setup column widths
   for x:=0 to 4 do

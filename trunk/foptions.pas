@@ -108,6 +108,18 @@ type
     gbExample: TGroupBox;
     gbFileTypesColors: TGroupBox;
     gbMisc: TGroupBox;
+    gbScreenLayout: TGroupBox;
+    cbFlatDiskPanel: TCheckBox;
+    cbShowMainToolBar: TCheckBox;
+    cbShowCmdLine: TCheckBox;
+    cbShowCurDir: TCheckBox;
+    cbShowDiskPanel: TCheckBox;
+    cbShowDriveMenuButton: TCheckBox;
+    cbShowKeysPanel: TCheckBox;
+    cbShowStatusBar: TCheckBox;
+    cbShowTabHeader: TCheckBox;
+    cbShowTabs: TCheckBox;
+    cbTwoDiskPanels: TCheckBox;
     ilTreeView: TImageList;
     lblIconsSize: TLabel;
     lblInstalledPlugins: TLabel;
@@ -137,6 +149,7 @@ type
     pcPluginsTypes: TPageControl;
     pcPluginsType: TPageControl;
     pgFileTypesColors: TPage;
+    pgLayout: TPage;
     pgPlugins: TPage;
     pnlCaption: TPanel;
     Panel3: TPanel;
@@ -172,6 +185,7 @@ type
     procedure cbCategoryColorChange(Sender: TObject);
     procedure cbColorBoxChange(Sender: TObject);
     procedure cbExtChange(Sender: TObject);
+    procedure cbShowDiskPanelChange(Sender: TObject);
     procedure clbWCXListClick(Sender: TObject);
     procedure cbTextColorChange(Sender: TObject);
     procedure cbColorBoxDropDown(Sender: TObject);
@@ -301,6 +315,12 @@ begin
   clbWCXList.ItemIndex := cbExt.ItemIndex;
 end;
 
+procedure TfrmOptions.cbShowDiskPanelChange(Sender: TObject);
+begin
+  cbTwoDiskPanels.Enabled := cbShowDiskPanel.Checked;
+  cbFlatDiskPanel.Enabled := cbShowDiskPanel.Checked;
+end;
+
 procedure TfrmOptions.clbWCXListClick(Sender: TObject);
 begin
   cbWCXPath.Text := clbWCXList.Items[clbWCXList.ItemIndex];
@@ -352,6 +372,20 @@ begin
   cbExtViewer.Caption:=lngGetString(clngDlgOptExtView);
   cbExtDiffer.Caption:=lngGetString(clngDlgOptExtDiff);
   cbSeparateExt.Caption:=lngGetString(clngDlgOptSeparateExt);
+
+  {Layout page}
+  cbShowMainToolBar.Checked := gButtonBar;
+  cbShowDiskPanel.Checked := gDriveBar1;
+  cbTwoDiskPanels.Checked := gDriveBar2;
+  cbFlatDiskPanel.Checked := gDriveBarFlat;
+  cbShowDriveMenuButton.Checked := gDriveMenuButton;
+  cbShowTabs.Checked := gDirectoryTabs;
+  cbShowCurDir.Checked := gCurDir;
+  cbShowTabHeader.Checked := gTabHeader;
+  cbShowStatusBar.Checked := gStatusBar;
+  cbShowCmdLine.Checked := gCmdLine;
+  cbShowKeysPanel.Checked := gKeyButtons;
+
 
   cbDirSelect.Checked:=gDirSelect;
   cbCaseSensitiveSort.Checked:=gCaseSensitiveSort;
@@ -430,6 +464,21 @@ end;
 procedure TfrmOptions.btnOKClick(Sender: TObject);
 begin
   inherited;
+  
+  {Layout page}
+  gButtonBar := cbShowMainToolBar.Checked;
+  gDriveBar1 := cbShowDiskPanel.Checked;
+  gDriveBar2 := cbTwoDiskPanels.Checked;
+  gDriveBarFlat := cbFlatDiskPanel.Checked;
+  gDriveMenuButton := cbShowDriveMenuButton.Checked;
+  gDirectoryTabs := cbShowTabs.Checked;
+  gCurDir := cbShowCurDir.Checked;
+  gTabHeader := cbShowTabHeader.Checked;
+  gStatusBar := cbShowStatusBar.Checked;
+  gCmdLine := cbShowCmdLine.Checked;
+  gKeyButtons := cbShowKeysPanel.Checked;
+//  gInterfaceFlat :=
+  
   gTerm:=edtTerm.Text;
   if lngList.ItemIndex>-1 then
     gLng:=lngList.Items[lngList.ItemIndex];
