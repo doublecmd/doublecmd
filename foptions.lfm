@@ -1,16 +1,16 @@
 inherited frmOptions: TfrmOptions
-  Left = 164
-  Height = 369
-  Top = 85
+  Left = 259
+  Height = 398
+  Top = 82
   Width = 577
   HorzScrollBar.Page = 576
-  VertScrollBar.Page = 368
+  VertScrollBar.Page = 397
   VertScrollBar.Range = 41
   ActiveControl = btnOK
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Options'
-  ClientHeight = 369
+  ClientHeight = 398
   ClientWidth = 577
   Icon.Data = {
     36030000424D3603000000000000360000002800000010000000100000000100
@@ -43,7 +43,7 @@ inherited frmOptions: TfrmOptions
   Position = poMainFormCenter
   object Panel1: TPanel
     Height = 43
-    Top = 326
+    Top = 355
     Width = 577
     Align = alBottom
     ClientHeight = 43
@@ -77,7 +77,7 @@ inherited frmOptions: TfrmOptions
     end
   end
   object tvTreeView: TTreeView
-    Height = 326
+    Height = 355
     Width = 121
     Align = alLeft
     DefaultItemHeight = 16
@@ -86,7 +86,7 @@ inherited frmOptions: TfrmOptions
     TabOrder = 1
     OnChange = tvTreeViewChange
     Items.Data = {
-      F9FFFFFF0100070000000000000000000000FFFFFFFFFFFFFFFF000000000000
+      F9FFFFFF0100080000000000000000000000FFFFFFFFFFFFFFFF000000000000
       00000000000000080000004C616E67756167650100000001000000FFFFFFFFFF
       FFFFFF00000000000000000000000000090000004265686176696F7273020000
       0002000000FFFFFFFFFFFFFFFF0000000000000000000000000005000000546F
@@ -97,31 +97,32 @@ inherited frmOptions: TfrmOptions
       07000000FFFFFFFFFFFFFFFF000000000000000000000000000A00000046696C
       652074797065730500000005000000FFFFFFFFFFFFFFFF000000000000000000
       0000000008000000486F74206B6579730600000006000000FFFFFFFFFFFFFFFF
-      0000000000000000000000000007000000506C7567696E73
+      0000000000000000000000000007000000506C7567696E7308000000FFFFFFFF
+      FFFFFFFFFFFFFFFF00000000000000000000000000060000004C61796F7574
     }
   end
   object Panel3: TPanel
     Left = 121
-    Height = 326
+    Height = 355
     Width = 456
     Align = alClient
     Caption = 'Panel3'
-    ClientHeight = 326
+    ClientHeight = 355
     ClientWidth = 456
     TabOrder = 2
     object nbNotebook: TNotebook
       Left = 1
-      Height = 301
+      Height = 330
       Top = 24
       Width = 454
       Align = alClient
-      PageIndex = 7
+      PageIndex = 8
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
         Caption = 'pgLng'
         ClientWidth = 446
-        ClientHeight = 300
+        ClientHeight = 304
         object lngList: TListBox
           Height = 300
           Width = 446
@@ -132,7 +133,7 @@ inherited frmOptions: TfrmOptions
       object pgBehav: TPage
         Caption = 'pgBehav'
         ClientWidth = 446
-        ClientHeight = 300
+        ClientHeight = 304
         object lblTerm: TLabel
           Left = 8
           Height = 14
@@ -170,8 +171,8 @@ inherited frmOptions: TfrmOptions
           Height = 164
           Top = 66
           Width = 202
-          ClientHeight = 146
-          ClientWidth = 198
+          ClientHeight = 164
+          ClientWidth = 202
           ParentCtl3D = False
           TabOrder = 2
           object cbDirSelect: TCheckBox
@@ -225,8 +226,8 @@ inherited frmOptions: TfrmOptions
           Height = 162
           Top = 66
           Width = 188
-          ClientHeight = 144
-          ClientWidth = 184
+          ClientHeight = 162
+          ClientWidth = 188
           TabOrder = 3
           object lblIconsSize: TLabel
             Left = 6
@@ -267,7 +268,7 @@ inherited frmOptions: TfrmOptions
       object pgTools: TPage
         Caption = 'pgTools'
         ClientWidth = 446
-        ClientHeight = 300
+        ClientHeight = 304
         object cbExtEditor: TCheckBox
           Left = 3
           Height = 13
@@ -326,7 +327,7 @@ inherited frmOptions: TfrmOptions
       object pgFonts: TPage
         Caption = 'pgFonts'
         ClientWidth = 446
-        ClientHeight = 300
+        ClientHeight = 304
         object lblMainFont: TLabel
           Left = 6
           Height = 14
@@ -487,7 +488,7 @@ inherited frmOptions: TfrmOptions
       object pgColor: TPage
         Caption = 'pgColor'
         ClientWidth = 446
-        ClientHeight = 300
+        ClientHeight = 304
         object cTextLabel: TLabel
           Left = 25
           Height = 14
@@ -812,8 +813,8 @@ inherited frmOptions: TfrmOptions
           Top = 26
           Width = 185
           Caption = 'Example'
-          ClientHeight = 154
-          ClientWidth = 181
+          ClientHeight = 172
+          ClientWidth = 185
           TabOrder = 12
           object pbExample: TPaintBox
             Left = 8
@@ -827,7 +828,7 @@ inherited frmOptions: TfrmOptions
       object pgHotKey: TPage
         Caption = 'pgHotKey'
         ClientWidth = 446
-        ClientHeight = 300
+        ClientHeight = 304
         object lblActions: TLabel
           Left = 6
           Height = 14
@@ -892,9 +893,9 @@ inherited frmOptions: TfrmOptions
       object pgPlugins: TPage
         Caption = 'pgPlugins'
         ClientWidth = 446
-        ClientHeight = 300
+        ClientHeight = 304
         object pcPluginsTypes: TPageControl
-          Height = 300
+          Height = 304
           Width = 446
           ActivePage = tsWCX
           Align = alClient
@@ -902,8 +903,6 @@ inherited frmOptions: TfrmOptions
           TabOrder = 0
           object tsWCX: TTabSheet
             Caption = 'Packer plugins (.WCX)'
-            ClientHeight = 274
-            ClientWidth = 438
             OnShow = tsWCXShow
             object lblAbout: TLabel
               Left = 14
@@ -991,7 +990,7 @@ inherited frmOptions: TfrmOptions
           object tsWFX: TTabSheet
             Caption = 'File system plugins (.WFX)'
             ChildSizing.LeftRightSpacing = 239
-            ClientHeight = 274
+            ClientHeight = 278
             ClientWidth = 438
             OnShow = tsWFXShow
             object lblInstalledPlugins: TLabel
@@ -1055,15 +1054,15 @@ inherited frmOptions: TfrmOptions
       object pgFileTypesColors: TPage
         Caption = 'pgFileTypesColors'
         ClientWidth = 446
-        ClientHeight = 300
+        ClientHeight = 304
         object gbFileTypesColors: TGroupBox
           Left = 10
           Height = 274
           Top = 2
           Width = 425
           Caption = 'File types colors'
-          ClientHeight = 256
-          ClientWidth = 421
+          ClientHeight = 274
+          ClientWidth = 425
           TabOrder = 0
           object lblCategoryName: TLabel
             Left = 45
@@ -1185,6 +1184,115 @@ inherited frmOptions: TfrmOptions
             NumGlyphs = 0
             OnClick = bbtnApplyCategoryClick
             TabOrder = 7
+          end
+        end
+      end
+      object pgLayout: TPage
+        Caption = 'Layout'
+        ClientWidth = 446
+        ClientHeight = 322
+        object gbScreenLayout: TGroupBox
+          Left = 11
+          Height = 292
+          Top = 4
+          Width = 389
+          Caption = ' Screen layout '
+          ClientHeight = 274
+          ClientWidth = 385
+          TabOrder = 0
+          object cbShowMainToolBar: TCheckBox
+            Left = 10
+            Height = 13
+            Top = 16
+            Width = 98
+            Caption = 'Show &button bar'
+            TabOrder = 0
+          end
+          object cbShowDiskPanel: TCheckBox
+            Left = 10
+            Height = 13
+            Top = 38
+            Width = 111
+            Caption = 'Show &drive buttons'
+            OnChange = cbShowDiskPanelChange
+            TabOrder = 1
+          end
+          object cbShowDriveMenuButton: TCheckBox
+            Left = 10
+            Height = 13
+            Top = 96
+            Width = 135
+            Caption = 'Show d&rive menu button'
+            TabOrder = 4
+          end
+          object cbShowCurDir: TCheckBox
+            Left = 10
+            Height = 13
+            Top = 140
+            Width = 126
+            Caption = 'Show &current directory'
+            TabOrder = 6
+          end
+          object cbShowTabHeader: TCheckBox
+            Left = 10
+            Height = 13
+            Top = 162
+            Width = 121
+            Caption = 'Show &tabstop header'
+            Checked = True
+            Enabled = False
+            State = cbChecked
+            TabOrder = 7
+          end
+          object cbShowStatusBar: TCheckBox
+            Left = 10
+            Height = 13
+            Top = 184
+            Width = 96
+            Caption = 'Show &status bar'
+            TabOrder = 8
+          end
+          object cbShowCmdLine: TCheckBox
+            Left = 10
+            Height = 13
+            Top = 206
+            Width = 115
+            Caption = 'Show command &line'
+            TabOrder = 9
+          end
+          object cbShowKeysPanel: TCheckBox
+            Left = 10
+            Height = 13
+            Top = 228
+            Width = 146
+            Caption = 'Show &function key buttons'
+            TabOrder = 10
+          end
+          object cbFlatDiskPanel: TCheckBox
+            Left = 26
+            Height = 13
+            Top = 74
+            Width = 65
+            Caption = 'Flat icons'
+            Enabled = False
+            TabOrder = 3
+          end
+          object cbTwoDiskPanels: TCheckBox
+            Left = 26
+            Height = 13
+            Top = 57
+            Width = 304
+            Caption = 'Show two drive button bars (fixed width, above file windows)'
+            Enabled = False
+            TabOrder = 2
+          end
+          object cbShowTabs: TCheckBox
+            Left = 10
+            Height = 13
+            Top = 118
+            Width = 99
+            Caption = 'Sho&w folder tabs'
+            TabOrder = 5
           end
         end
       end

@@ -1,7 +1,7 @@
 inherited frmMain: TfrmMain
-  Left = 238
+  Left = 290
   Height = 336
-  Top = 137
+  Top = 146
   Width = 525
   HorzScrollBar.Page = 524
   VertScrollBar.Page = 316
@@ -55,7 +55,7 @@ inherited frmMain: TfrmMain
         Alignment = taLeftJustify
         ParentColor = False
         TabOrder = 0
-        OnToolButtonClick = dskLeftToolButtonClick
+        OnToolButtonClick = dskToolButtonClick
         CheckToolButton = True
         FlatButtons = True
         IsDiskPanel = True
@@ -66,10 +66,10 @@ inherited frmMain: TfrmMain
         Top = 1
         Width = 381
         Align = alClient
-        Alignment = taRightJustify
+        Alignment = taLeftJustify
         Anchors = [akTop, akLeft, akBottom]
         TabOrder = 1
-        OnToolButtonClick = dskRightToolButtonClick
+        OnToolButtonClick = dskToolButtonClick
         OnChangeLineCount = dskRightChangeLineCount
         CheckToolButton = True
         FlatButtons = True
@@ -218,32 +218,168 @@ inherited frmMain: TfrmMain
     FullRepaint = False
     TabOrder = 2
     TabStop = True
-    object nbLeft: TNotebook
-      Left = 1
-      Height = 204
-      Top = 1
-      Width = 391
-      Align = alLeft
-      OnCloseTabClicked = NoteBookCloseTabClicked
-      Options = [nboShowCloseButtons]
-      TabOrder = 0
-    end
     object MainSplitter: TSplitter
-      Left = 392
+      Left = 171
       Height = 204
       Top = 1
       Width = 4
       ResizeStyle = rsLine
     end
-    object nbRight: TNotebook
-      Left = 396
+    object pnlLeft: TPanel
+      Left = 1
       Height = 204
       Top = 1
-      Width = 128
+      Width = 170
+      Align = alLeft
+      BevelOuter = bvNone
+      Caption = 'pnlLeft'
+      ClientHeight = 204
+      ClientWidth = 170
+      TabOrder = 0
+      object nbLeft: TNotebook
+        Height = 180
+        Hint = 'Left'
+        Top = 24
+        Width = 170
+        Align = alClient
+        OnCloseTabClicked = NoteBookCloseTabClicked
+        OnPageChanged = nbPageChanged
+        Options = [nboShowCloseButtons]
+        TabOrder = 0
+      end
+      object pnlLeftTools: TPanel
+        Height = 24
+        Width = 170
+        Align = alTop
+        BevelOuter = bvNone
+        ClientHeight = 24
+        ClientWidth = 170
+        TabOrder = 1
+        object btnLeftDrive: TSpeedButton
+          Height = 24
+          Width = 48
+          Action = actLeftOpenDrives
+          Align = alLeft
+          Color = clBtnFace
+          NumGlyphs = 0
+        end
+        object btnLeftHome: TSpeedButton
+          Left = 147
+          Height = 24
+          Width = 23
+          Align = alRight
+          Caption = '~'
+          Color = clBtnFace
+          NumGlyphs = 0
+          OnClick = btnLeftClick
+        end
+        object btnLeftUp: TSpeedButton
+          Left = 124
+          Height = 24
+          Width = 23
+          Align = alRight
+          Caption = '..'
+          Color = clBtnFace
+          NumGlyphs = 0
+          OnClick = btnLeftClick
+        end
+        object btnLeftRoot: TSpeedButton
+          Left = 101
+          Height = 24
+          Width = 23
+          Align = alRight
+          Caption = '/'
+          Color = clBtnFace
+          NumGlyphs = 0
+          OnClick = btnLeftClick
+        end
+        object lblLeftDriveInfo: TLabel
+          Left = 48
+          Height = 24
+          Width = 53
+          Align = alClient
+          Alignment = taCenter
+          ParentColor = False
+        end
+      end
+    end
+    object pnlRight: TPanel
+      Left = 175
+      Height = 204
+      Top = 1
+      Width = 349
       Align = alClient
-      OnCloseTabClicked = NoteBookCloseTabClicked
-      Options = [nboShowCloseButtons]
+      BevelOuter = bvNone
+      Caption = 'pnlRight'
+      ClientHeight = 204
+      ClientWidth = 349
       TabOrder = 1
+      object nbRight: TNotebook
+        Height = 180
+        Hint = 'Right'
+        Top = 24
+        Width = 349
+        Align = alClient
+        OnCloseTabClicked = NoteBookCloseTabClicked
+        OnPageChanged = nbPageChanged
+        Options = [nboShowCloseButtons]
+        TabOrder = 0
+      end
+      object pnlRightTools: TPanel
+        Height = 24
+        Width = 349
+        Align = alTop
+        BevelOuter = bvNone
+        ClientHeight = 24
+        ClientWidth = 349
+        TabOrder = 1
+        object btnRightDrive: TSpeedButton
+          Height = 24
+          Width = 48
+          Action = actRightOpenDrives
+          Align = alLeft
+          Color = clBtnFace
+          NumGlyphs = 0
+        end
+        object btnRightHome: TSpeedButton
+          Left = 326
+          Height = 24
+          Width = 23
+          Align = alRight
+          Caption = '~'
+          Color = clBtnFace
+          NumGlyphs = 0
+          OnClick = btnRightClick
+        end
+        object btnRightUp: TSpeedButton
+          Left = 303
+          Height = 24
+          Width = 23
+          Align = alRight
+          Caption = '..'
+          Color = clBtnFace
+          NumGlyphs = 0
+          OnClick = btnRightClick
+        end
+        object btnRightRoot: TSpeedButton
+          Left = 280
+          Height = 24
+          Width = 23
+          Align = alRight
+          Caption = '/'
+          Color = clBtnFace
+          NumGlyphs = 0
+          OnClick = btnRightClick
+        end
+        object lblRightDriveInfo: TLabel
+          Left = 48
+          Height = 24
+          Width = 232
+          Align = alClient
+          Alignment = taCenter
+          ParentColor = False
+        end
+      end
     end
   end
   object MainToolBar: TKAStoolBar
@@ -439,8 +575,8 @@ inherited frmMain: TfrmMain
     end
   end
   object actionLst: TActionList
-    left = 289
-    top = 64
+    left = 312
+    top = 8
     object actExit: TAction
       Category = 'File'
       Caption = 'Exit'
@@ -789,6 +925,18 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       OnExecute = actOpenVFSListExecute
     end
+    object actLeftOpenDrives: TAction
+      Category = 'Commands'
+      DisableIfNoHandler = True
+      OnExecute = actLeftOpenDrivesExecute
+      ShortCut = 32880
+    end
+    object actRightOpenDrives: TAction
+      Category = 'Commands'
+      DisableIfNoHandler = True
+      OnExecute = actRightOpenDrivesExecute
+      ShortCut = 32881
+    end
   end
   object pmHotList: TPopupMenu
     left = 152
@@ -817,5 +965,9 @@ inherited frmMain: TfrmMain
       Caption = 'Delete'
       OnClick = DeleteClick
     end
+  end
+  object pmDrivesMenu: TPopupMenu
+    left = 80
+    top = 136
   end
 end

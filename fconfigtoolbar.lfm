@@ -1,7 +1,7 @@
 object ButtonChangeDlg: TButtonChangeDlg
-  Left = 166
+  Left = 17
   Height = 304
-  Top = 105
+  Top = 251
   Width = 578
   HelpContext = 270
   HorzScrollBar.Page = 577
@@ -145,6 +145,7 @@ object ButtonChangeDlg: TButtonChangeDlg
     DropDownCount = 20
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
+    ItemHeight = 13
     MaxLength = 0
     TabOrder = 4
   end
@@ -179,9 +180,9 @@ object ButtonChangeDlg: TButtonChangeDlg
   end
   object cbRunMinimized: TCheckBox
     Left = 422
-    Height = 26
+    Height = 13
     Top = 110
-    Width = 134
+    Width = 88
     Caption = 'Run mi&nimized'
     TabOrder = 8
   end
@@ -225,7 +226,6 @@ object ButtonChangeDlg: TButtonChangeDlg
     ItemHeight = 36
     Style = lbOwnerDrawFixed
     TabOrder = 13
-    TopIndex = -1
   end
   object kedtToolTip: TKASEdit
     Left = 120
@@ -270,9 +270,9 @@ object ButtonChangeDlg: TButtonChangeDlg
   end
   object cbRunMaximized: TCheckBox
     Left = 422
-    Height = 26
+    Height = 13
     Top = 130
-    Width = 139
+    Width = 91
     Caption = 'Run ma&ximized'
     TabOrder = 9
   end
@@ -281,7 +281,7 @@ object ButtonChangeDlg: TButtonChangeDlg
     Height = 82
     Width = 121
     Caption = 'Appearance'
-    ClientHeight = 61
+    ClientHeight = 64
     ClientWidth = 117
     TabOrder = 3
     object lblSize: TLabel
@@ -305,9 +305,9 @@ object ButtonChangeDlg: TButtonChangeDlg
     end
     object cbFlatIcons: TCheckBox
       Left = 6
-      Height = 26
+      Height = 13
       Top = 18
-      Width = 96
+      Width = 65
       Caption = 'F&lat icons'
       Checked = True
       State = cbChecked
@@ -315,9 +315,9 @@ object ButtonChangeDlg: TButtonChangeDlg
     end
     object cbSmallIcons: TCheckBox
       Left = 6
-      Height = 26
+      Height = 13
       Top = 38
-      Width = 109
+      Width = 73
       Caption = 'S&mall icons'
       TabOrder = 2
     end
