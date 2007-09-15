@@ -6,7 +6,7 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, fLngForm, SynEditHighlighter, SynEditStrConst,
-  Grids, Buttons, ComCtrls, uGlobsPaths, SynEdit;
+  Grids, Buttons, ComCtrls, uGlobsPaths, SynEdit, ButtonPanel;
 
 type
   TLittleAttr= Packed Record
@@ -80,6 +80,9 @@ var
   cAttrs:Array [0..cCountSynAttrs-1] of TLittleAttr;
 
 type
+
+  { TfrmEditorConf }
+
   TfrmEditorConf = class(TfrmLng)
     grColor: TDrawGrid;
     lbNames: TListBox;

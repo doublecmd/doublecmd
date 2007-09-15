@@ -57,6 +57,7 @@ type
     lblSize: TLabel;
     lblStartpath: TLabel;
     lblTooltip: TLabel;
+    procedure cbFlatIconsChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnAddButtonClick(Sender: TObject);
@@ -78,7 +79,7 @@ var
   LastToolButton, NewToolButton : Integer;
 
 implementation
-uses fMain, uGlobsPaths;
+uses fMain, uGlobsPaths, uGlobs;
 
 procedure ShowConfigToolbar;
 begin
@@ -97,16 +98,25 @@ end;
 
 procedure TButtonChangeDlg.FormShow(Sender: TObject);
 begin
+  cbFlatIcons.Checked := gToolBarFlat;
+  ktbBar.FlatButtons := gToolBarFlat;
   ktbBar.ChangePath := gpExePath;
   ktbBar.EnvVar := '%commander_path%';
   ktbBar.LoadFromFile(gpIniDir + 'default.bar');
 end;
 
+procedure TButtonChangeDlg.cbFlatIconsChange(Sender: TObject);
+begin
+  ktbBar.FlatButtons := cbFlatIcons.Checked;
+end;
+
 procedure TButtonChangeDlg.btnOKClick(Sender: TObject);
 begin
   Save;
+  gToolBarFlat := cbFlatIcons.Checked;
   ktbBar.SaveToFile(gpIniDir + 'default.bar');
   frmMain.MainToolBar.DeleteAllToolButtons;
+  frmMain.MainToolBar.FlatButtons := gToolBarFlat;
   //frmMain.MainToolBar.CreateWnd;
   frmMain.MainToolBar.LoadFromFile(gpIniDir + 'default.bar');
   Close;

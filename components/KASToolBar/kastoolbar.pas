@@ -70,6 +70,7 @@ type
     procedure SetButton(Index : Integer; Value : TSpeedButton);
     procedure SetCommand(Index: Integer; const AValue: String);
     procedure SetIconPath(Index: Integer; const AValue: String);
+    procedure SetFlatButtons(const AValue : Boolean);
     procedure ToolButtonClick(Sender: TObject);
     procedure UpdateButtonsTag;
 
@@ -100,7 +101,7 @@ type
     property OnToolButtonClick: TOnToolButtonClick read FOnToolButtonClick write FOnToolButtonClick;
     property OnChangeLineCount : TChangeLineCount read FChangeLineCount write FChangeLineCount;
     property CheckToolButton : Boolean read FCheckToolButton write FCheckToolButton default False;
-    property FlatButtons : Boolean read FFlatButtons write FFlatButtons default False;
+    property FlatButtons : Boolean read FFlatButtons write SetFlatButtons default False;
     property IsDiskPanel : Boolean read FDiskPanel write FDiskPanel default False;
 
     property ChangePath : String read FChangePath write FChangePath;
@@ -269,6 +270,15 @@ begin
     TSpeedButton(FButtonsList.Items[Index]).Glyph := LoadBtnIcon(AValue)
   else
     ShowMessage('File "' + AValue + '" not found!' );
+end;
+
+procedure TKAStoolBar.SetFlatButtons(const AValue: Boolean);
+var
+  I :Integer;
+begin
+  FFlatButtons := AValue;
+  for I := 0 to FButtonsList.Count - 1 do
+    TSpeedButton(FButtonsList.Items[I]).Flat := FFlatButtons;
 end;
 
 procedure TKAStoolBar.ToolButtonClick(Sender: TObject);

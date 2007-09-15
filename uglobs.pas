@@ -34,6 +34,7 @@ type
 var
   {Layout page}
   gButtonBar,
+  gToolBarFlat,
   gDriveBar1,
   gDriveBar2,
   gDriveBarFlat,
@@ -210,6 +211,7 @@ begin
   {Layout page}
   
   gButtonBar := gIni.ReadBool('Layout', 'ButtonBar', True);
+  gToolBarFlat := gIni.ReadBool('ButtonBar', 'FlatIcons', True);
   gDriveBar1 := gIni.ReadBool('Layout', 'DriveBar1', True);
   gDriveBar2 := gIni.ReadBool('Layout', 'DriveBar2', True);
   gDriveBarFlat := gIni.ReadBool('Layout', 'DriveBarFlat', True);
@@ -327,6 +329,7 @@ begin
   {Layout page}
 
   gIni.WriteBool('Layout', 'ButtonBar', gButtonBar);
+  gIni.WriteBool('ButtonBar', 'FlatIcons', gToolBarFlat);
   gIni.WriteBool('Layout', 'DriveBar1', gDriveBar1);
   gIni.WriteBool('Layout', 'DriveBar2', gDriveBar2);
   gIni.WriteBool('Layout', 'DriveBarFlat', gDriveBarFlat);

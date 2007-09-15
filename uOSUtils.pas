@@ -76,29 +76,95 @@ type
     MappingHandle : THandle;
     MappedFile : PChar;
   end;
-
+{en
+   Is file a directory
+   @param(iAttr File attributes)
+   @returns(@true if file is a directory, @false otherwise)
+}
 function FPS_ISDIR(iAttr:Cardinal) : Boolean;
+{en
+   Is file a symbolic link
+   @param(iAttr File attributes)
+   @returns(@true if file is a symbolic link, @false otherwise)
+}
 function FPS_ISLNK(iAttr:Cardinal) : Boolean;
 function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Boolean;
 function ExecCmdFork(const sCmd:String):Integer;
 function GetDiskFreeSpace(Path : String; var FreeSize, TotalSize : Int64) : Boolean;
+{en
+   Create a hard link to a file
+   @param(Path Name of file)
+   @param(LinkName Name of hard link)
+   @returns(The function returns @true if successful, @false otherwise)
+}
 function CreateHardLink(Path, LinkName: string) : Boolean;
+{en
+   Create a symbolic link
+   @param(Path Name of file)
+   @param(LinkName Name of symbolic link)
+   @returns(The function returns @true if successful, @false otherwise)
+}
 function CreateSymLink(Path, LinkName: string) : Boolean;
+{en
+   Read destination of symbolic link
+   @param(LinkName Name of symbolic link)
+   @returns(The file the symbolic link name is pointing to)
+}
 function ReadSymLink(LinkName : String) : String;
+{en
+   Get the user home directory
+   @returns(The user home directory)
+}
 function GetHomeDir : String;
+{en
+   Get last directory name in path
+   @returns(Last directory name in path)
+}
 function GetLastDir(Path : String) : String;
 
 function IsAvailable(Path : String) : Boolean;
 function GetAllDrives : TList;
 
 (* File mapping/unmapping routines *)
+{en
+   Create memory map of a file
+   @param(sFileName Name of file to mapping)
+   @param(FileMapRec TFileMapRec structure)
+   @returns(The function returns @true if successful, @false otherwise)
+}
 function MapFile(const sFileName : String; var FileMapRec : TFileMapRec) : Boolean;
+{en
+   Unmap previously mapped file
+   @param(FileMapRec TFileMapRec structure)
+}
 procedure UnMapFile(FileMapRec : TFileMapRec);
 
 (* Date/Time routines *)
+{en
+   Converts a file time based on the Coordinated Universal Time (UTC) to a local file time
+   @param(lpFileTime TFileTime structure containing the UTC-based file time)
+   @param(lpLocalFileTime TFileTime structure to receive the converted local file time)
+   @returns(The function returns @true if successful, @false otherwise)
+}
 function FileTimeToLocalFileTimeEx(const lpFileTime: TFileTime; var lpLocalFileTime: TFileTime): LongBool;
+{en
+   Converts a local file time to a file time based on the Coordinated Universal Time (UTC)
+   @param(lpLocalFileTime TFileTime structure that specifies the local file time)
+   @param(lpFileTime TFileTime structure to receive the converted UTC-based file time)
+   @returns(The function returns @true if successful, @false otherwise)
+}
 function LocalFileTimeToFileTimeEx(const lpLocalFileTime: TFileTime; var lpFileTime: TFileTime): LongBool;
+{en
+   Converts a file time based on the Coordinated Universal Time (UTC) to a TDateTime format
+   @param(ft TFileTime structure containing the UTC-based file time)
+   @returns(File time in TDateTime format)
+}
 function FileTimeToDateTime(ft : TFileTime) : TDateTime;
+{en
+   Converts a file time in TDateTime format to a file time based on the Coordinated Universal Time (UTC)
+   @param(dt File time in TDateTime format)
+   @returns(UTC-based file time)
+}
 function DateTimeToFileTime(dt : TDateTime) : TFileTime;
 
 

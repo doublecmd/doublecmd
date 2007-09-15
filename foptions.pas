@@ -80,6 +80,8 @@ type
     cbExt: TComboBox;
     cbWCXPath: TComboBox;
     cbDropReadOnlyFlag: TCheckBox;
+    cbFlatInterface: TCheckBox;
+    cbFlatToolBar: TCheckBox;
     clbWFXList: TCheckListBox;
     clbWCXList: TCheckListBox;
     cbBackColor2: TColorBox;
@@ -375,6 +377,7 @@ begin
 
   {Layout page}
   cbShowMainToolBar.Checked := gButtonBar;
+  cbFlatToolBar.Checked := gToolBarFlat;
   cbShowDiskPanel.Checked := gDriveBar1;
   cbTwoDiskPanels.Checked := gDriveBar2;
   cbFlatDiskPanel.Checked := gDriveBarFlat;
@@ -385,6 +388,7 @@ begin
   cbShowStatusBar.Checked := gStatusBar;
   cbShowCmdLine.Checked := gCmdLine;
   cbShowKeysPanel.Checked := gKeyButtons;
+  cbFlatInterface.Checked := gInterfaceFlat;
 
 
   cbDirSelect.Checked:=gDirSelect;
@@ -467,6 +471,7 @@ begin
   
   {Layout page}
   gButtonBar := cbShowMainToolBar.Checked;
+  gToolBarFlat := cbFlatToolBar.Checked;
   gDriveBar1 := cbShowDiskPanel.Checked;
   gDriveBar2 := cbTwoDiskPanels.Checked;
   gDriveBarFlat := cbFlatDiskPanel.Checked;
@@ -477,7 +482,7 @@ begin
   gStatusBar := cbShowStatusBar.Checked;
   gCmdLine := cbShowCmdLine.Checked;
   gKeyButtons := cbShowKeysPanel.Checked;
-//  gInterfaceFlat :=
+  gInterfaceFlat := cbFlatInterface.Checked;
   
   gTerm:=edtTerm.Text;
   if lngList.ItemIndex>-1 then
@@ -520,6 +525,7 @@ begin
   gCursorColor := cbCursorColor.Color;
   gCursorText := cbCursorText.Color;
   
+  frmMain.UpdateWindowView;
   frmMain.Repaint; // for panels repaint
   frmMain.SaveShortCuts;
   

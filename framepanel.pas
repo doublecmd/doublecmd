@@ -422,7 +422,10 @@ begin
 
   iTextTop := Rect.Top + (gIconsSize div 2) - (dgPanel.Canvas.TextHeight('Pp') div 2);
 
-  if ARow=0 then
+  if dgPanel.FixedRows <> Integer(gTabHeader) then
+    dgPanel.FixedRows := Integer(gTabHeader);
+
+  if (ARow = 0) and gTabHeader then
   begin
     // Draw fixed header
     if not (ACol in [0..4]) then Exit;
@@ -437,7 +440,7 @@ begin
 
   if (ARow>=dgPanel.RowCount)or (ARow<0) then Exit;
   if (ACol>=dgPanel.ColCount)or (ACol<0) then Exit;
-  frp:=pnlFile.GetReferenceItemPtr(ARow-1); // substract 1 fixed row (header)
+  frp:=pnlFile.GetReferenceItemPtr(ARow - dgPanel.FixedRows); // substract fixed rows (header)
   if not assigned(frp) then
     Exit;
   with frp^, dgPanel do
@@ -704,7 +707,7 @@ begin
   dgPanel:=TDrawGrid.Create(Self);
   dgPanel.Parent:=Self;
   dgPanel.FixedCols:=0;
-  dgPanel.FixedRows:=1;
+  dgPanel.FixedRows:=0;
   dgPanel.DefaultDrawing:=True;
   dgPanel.Width:=Self.Width;
 
@@ -753,8 +756,8 @@ begin
   dgPanel.OnHeaderClick:=@dgPanelHeaderClick;
   dgPanel.OnPrepareCanvas:=@dgPanelPrepareCanvas;
   {Alexx2000}
-  dgPanel.OnMouseWheelUp := @dgPanelMouseWheelUp;
-  dgPanel.OnMouseWheelDown := @dgPanelMouseWheelDown;
+  //dgPanel.OnMouseWheelUp := @dgPanelMouseWheelUp;
+  //dgPanel.OnMouseWheelDown := @dgPanelMouseWheelDown;
   {/Alexx2000}
   edtSearch.OnChange:=@edSearchChange;
   edtSearch.OnKeyPress:=@edSearchKeyPress;
