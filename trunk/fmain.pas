@@ -52,15 +52,26 @@ type
   { TfrmMain }
 
   TfrmMain = class(TfrmLng)
-    actChMod: TAction;
-    actChown: TAction;
     actExtractFiles: TAction;
+    actAddPathToCmdLine: TAction;
+    actFocusCmdLine: TAction;
+    actContextMenu: TAction;
+    actTransferRight: TAction;
+    actTransferLeft: TAction;
     actRightOpenDrives: TAction;
     actLeftOpenDrives: TAction;
     actOpenVFSList: TAction;
     actPackFiles: TAction;
     actRemoveTab: TAction;
     actNewTab: TAction;
+    btnF10: TSpeedButton;
+    btnF3: TSpeedButton;
+    btnF4: TSpeedButton;
+    btnF5: TSpeedButton;
+    btnF6: TSpeedButton;
+    btnF7: TSpeedButton;
+    btnF8: TSpeedButton;
+    btnF9: TSpeedButton;
     dskLeft: TKAStoolBar;
     dskRight: TKAStoolBar;
     lblRightDriveInfo: TLabel;
@@ -70,6 +81,7 @@ type
     mnuExtractFiles: TMenuItem;
     nbLeft: TNotebook;
     nbRight: TNotebook;
+    pnlKeys: TPanel;
     pnlLeftTools: TPanel;
     pnlRightTools: TPanel;
     pnlRight: TPanel;
@@ -135,14 +147,6 @@ type
     mnuCmdSearch: TMenuItem;
     actionLst: TActionList;
     actExit: TAction;
-    pnlKeys: TPanel;
-    btnF3: TSpeedButton;
-    btnF4: TSpeedButton;
-    btnF5: TSpeedButton;
-    btnF6: TSpeedButton;
-    btnF7: TSpeedButton;
-    btnF8: TSpeedButton;
-    btnF10: TSpeedButton;
     actView: TAction;
     actEdit: TAction;
     actCopy: TAction;
@@ -155,7 +159,6 @@ type
     edtCommand: TComboBox;
     mnuFilesCmpCnt: TMenuItem;
     actCompareContents: TAction;
-    btnF9: TSpeedButton;
     actShowMenu: TAction;
     actRefresh: TAction;
     actSearch: TAction;
@@ -164,8 +167,6 @@ type
     actMarkInvert: TAction;
     actMarkUnmarkAll: TAction;
     pmHotList: TPopupMenu;
-    actDelete2: TAction;
-    actPathToCmdLine: TAction;
     actMarkPlus: TAction;
     actMarkMinus: TAction;
     actSymLink: TAction;
@@ -180,8 +181,8 @@ type
     miExit: TMenuItem;
     actMultiRename: TAction;
     miMultiRename: TMenuItem;
-    actShiftF5: TAction;
-    actShiftF6: TAction;
+    actCopySamePanel: TAction;
+    actRenameOnly: TAction;
     actShiftF4: TAction;
     actDirHistory: TAction;
     pmDirHistory: TPopupMenu;
@@ -195,11 +196,16 @@ type
     actFileSpliter: TAction;
     pmToolBar: TPopupMenu;
     MainSplitter: TSplitter;
+    procedure actAddPathToCmdLineExecute(Sender: TObject);
+    procedure actContextMenuExecute(Sender: TObject);
     procedure actExtractFilesExecute(Sender: TObject);
+    procedure actFocusCmdLineExecute(Sender: TObject);
     procedure actLeftOpenDrivesExecute(Sender: TObject);
     procedure actOpenVFSListExecute(Sender: TObject);
     procedure actPackFilesExecute(Sender: TObject);
     procedure actRightOpenDrivesExecute(Sender: TObject);
+    procedure actTransferLeftExecute(Sender: TObject);
+    procedure actTransferRightExecute(Sender: TObject);
     procedure btnLeftClick(Sender: TObject);
     procedure btnRightClick(Sender: TObject);
     procedure DeleteClick(Sender: TObject);
@@ -242,7 +248,6 @@ type
     procedure actDelete2Execute(Sender: TObject);
     procedure edtCommandKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure actPathToCmdLineExecute(Sender: TObject);
     procedure actMarkPlusExecute(Sender: TObject);
     procedure actMarkMinusExecute(Sender: TObject);
     procedure actSymLinkExecute(Sender: TObject);
@@ -254,8 +259,8 @@ type
     procedure actSortByDateExecute(Sender: TObject);
     procedure actSortByAttrExecute(Sender: TObject);
     procedure actMultiRenameExecute(Sender: TObject);
-    procedure actShiftF5Execute(Sender: TObject);
-    procedure actShiftF6Execute(Sender: TObject);
+    procedure actCopySamePanelExecute(Sender: TObject);
+    procedure actRenameOnlyExecute(Sender: TObject);
     procedure actShiftF4Execute(Sender: TObject);
     procedure actDirHistoryExecute(Sender: TObject);
     procedure actCtrlF8Execute(Sender: TObject);
@@ -289,6 +294,7 @@ type
     IsPanelsCreated : Boolean;
     
     function ExecuteCommandFromEdit(sCmd:String):Boolean;
+    procedure AddSpecialButtons(dskPanel: TKASToolBar);
   public
 //    frameLeft, frameRight:TFrameFilePanel;
     
@@ -326,6 +332,7 @@ type
     procedure LoadTabs(ANoteBook:TNoteBook);
     procedure SaveTabs(ANoteBook:TNoteBook);
     function ExecCmd(Cmd : String) : Boolean;
+    procedure UpdateWindowView;
     procedure SaveShortCuts;
     procedure LoadShortCuts;
   end;
@@ -391,6 +398,18 @@ begin
   pmDrivesMenu.PopUp(p.x, p.y);
 end;
 
+procedure TfrmMain.actTransferLeftExecute(Sender: TObject);
+begin
+  if (PanelSelected = fpRight) then
+    SetNotActFrmByActFrm;
+end;
+
+procedure TfrmMain.actTransferRightExecute(Sender: TObject);
+begin
+  if (PanelSelected = fpLeft) then
+    SetNotActFrmByActFrm;
+end;
+
 procedure TfrmMain.btnLeftClick(Sender: TObject);
 begin
   with Sender as TSpeedButton do
@@ -442,6 +461,28 @@ begin
     frameRight.RefreshPanel;
   end;
 
+end;
+
+procedure TfrmMain.actFocusCmdLineExecute(Sender: TObject);
+begin
+  edtCommand.SetFocus;
+end;
+
+procedure TfrmMain.actAddPathToCmdLineExecute(Sender: TObject);
+begin
+  with ActiveFrame do
+    begin
+      edtCmdLine.Text := edtCmdLine.Text + (pnlFile.ActiveDir);
+    end;
+end;
+
+procedure TfrmMain.actContextMenuExecute(Sender: TObject);
+var
+  pfri : PFileRecItem;
+begin
+  pfri := ActiveFrame.GetActiveItem;
+  pfri^.sPath := ActiveFrame.ActiveDir;
+  ShowContextMenu(Handle, pfri, Mouse.CursorPos.x, Mouse.CursorPos.y);
 end;
 
 procedure TfrmMain.actLeftOpenDrivesExecute(Sender: TObject);
@@ -623,6 +664,8 @@ begin
 end;
 
 procedure TfrmMain.frmMainShow(Sender: TObject);
+var
+  I : Integer;
 begin
    DebugLn('frmMainShow');
   (* If panels already created then refresh their and exit *)
@@ -674,17 +717,43 @@ begin
   (*/Create Disk Panels*)
 
   (*Tool Bar*)
-  MainToolBar.ChangePath := gpExePath;
-  MainToolBar.EnvVar := '%commander_path%';
-  MainToolBar.LoadFromFile(gpIniDir + 'default.bar');
+  if gButtonBar then
+    begin
+      MainToolBar.FlatButtons := gToolBarFlat;
+      MainToolBar.ChangePath := gpExePath;
+      MainToolBar.EnvVar := '%commander_path%';
+      MainToolBar.LoadFromFile(gpIniDir + 'default.bar');
+    end;
   (*Tool Bar*)
   
   LoadShortCuts;
   
   {Load some options from layout page}
+
+  for I := 0 to pnlKeys.ControlCount - 1 do  // function keys
+    if pnlKeys.Controls[I] is TSpeedButton then
+      (pnlKeys.Controls[I] as TSpeedButton).Flat := gInterfaceFlat;
+
   MainToolBar.Visible := gButtonBar;
+
   btnLeftDrive.Visible := gDriveMenuButton;
+  btnLeftDrive.Flat := gInterfaceFlat;
+  btnLeftRoot.Visible := gDriveMenuButton;
+  btnLeftRoot.Flat := gInterfaceFlat;
+  btnLeftUp.Visible := gDriveMenuButton;
+  btnLeftUp.Flat := gInterfaceFlat;
+  btnLeftHome.Visible := gDriveMenuButton;
+  btnLeftHome.Flat := gInterfaceFlat;
+
   btnRightDrive.Visible := gDriveMenuButton;
+  btnRightDrive.Flat := gInterfaceFlat;
+  btnRightRoot.Visible := gDriveMenuButton;
+  btnRightRoot.Flat := gInterfaceFlat;
+  btnRightUp.Visible := gDriveMenuButton;
+  btnRightUp.Flat := gInterfaceFlat;
+  btnRightHome.Visible := gDriveMenuButton;;
+  btnRightHome.Flat := gInterfaceFlat;
+
   pnlCommand.Visible := gCmdLine;
   pnlKeys.Visible := gKeyButtons;
   nbLeft.ShowTabs := gDirectoryTabs;
@@ -1071,17 +1140,11 @@ begin
            Exit;
          end;
        end;
-     VK_F9:
-       begin
-         actShowMenu.Execute;
-         Exit;
-       end;
+
 
      VK_APPS:
        begin
-         pfri := ActiveFrame.GetActiveItem;
-         pfri^.sPath := ActiveFrame.ActiveDir;
-         ShowContextMenu(Handle, pfri, Mouse.CursorPos.x, Mouse.CursorPos.y);
+         actContextMenu.Execute;
          Exit;
        end;
      
@@ -1124,7 +1187,7 @@ begin
       if Shift=[ssShift] then
       begin
         Chdir(ActiveDir);
-        pnlFile.ExecuteFile('./'+pnlFile.GetActiveItem^.sName, True);
+        pnlFile.ExecuteFile(pnlFile.GetActiveItem^.sName, True);
         Exit;
       end;
       // alt enter
@@ -1160,11 +1223,6 @@ begin
 
   if Shift=[ssShift] then
   begin
-    if (Key=VK_F2) then
-    begin
-      edtCommand.SetFocus;
-      Exit;
-    end;
 
     {Kylix:
     this strange: KEY_15 is at real KEY_5
@@ -1177,45 +1235,13 @@ begin
       Exit;
     end;
 
-    if ((Key=VK_F5){ or (Key=VK_F15)}) then
-    begin
-      actShiftF5.Execute;
-      Exit;
-    end;
 
-    if ((Key=VK_F6) {or (Key=VK_F16)})then
-    begin
-      actShiftF6.Execute;
-      Exit;
-    end;
+
   end;
 
   if Shift=[ssCtrl] then
   begin
 
-    // handle ctrl+q
-    if (Key=VK_Q) then
-    begin
-      actExit.Execute;
-      Exit;
-    end;
-
-    if (Key=VK_D) then
-    begin
-      actDirHotList.Execute;
-      Exit;
-    end;
-
-    if (Key=VK_H) then
-    begin
-      actDirHistory.Execute;
-      Exit;
-    end;
-    if (Key=VK_R) then
-    begin
-      actRefresh.Execute;
-      Exit;
-    end;
 {
    // handle Ctrl+Enter
     if ((Key=VK_Return) or (Key=VK_SELECT)) and (edtCommand.Text='') then
@@ -1231,14 +1257,14 @@ begin
         SetNotActFrmByActFrm;
       Exit;
     end;
-
     // handle ctrl+left
-    if (Key=VK_Left) then
+    if (Key=VK_Right) then
     begin
       if (PanelSelected = fpRight) then
         SetNotActFrmByActFrm;
       Exit;
     end;
+
 
     if (Key=VK_X) then
     begin
@@ -1247,27 +1273,6 @@ begin
         actRunTerm.Execute;
         Exit;
       end;
-    end;
-
-    if (Key=VK_T) then
-    begin
-      actNewTab.Execute;
-      Exit;
-    end;
-    if (Key=VK_W) then
-    begin
-      actRemoveTab.Execute;
-      Exit;
-    end;
-
-    
-    if (Key=VK_P) then
-    begin
-      with ActiveFrame do
-      begin
-        edtCmdLine.Text:=edtCmdLine.Text+(pnlFile.ActiveDir);
-      end;
-      Exit;
     end;
 
   end;
@@ -1584,16 +1589,6 @@ begin
     edtCommand.DroppedDown:=True;
   end;
 end;
-
-procedure TfrmMain.actPathToCmdLineExecute(Sender: TObject);
-begin
-  inherited;
-  with ActiveFrame do
-  begin
-    edtCmdLine.Text:=edtCmdLine.Text+ActiveDir;
-  end;
-end;
-
 
 procedure TfrmMain.CalculateSpace(bDisplayMessage:Boolean);
 var
@@ -1948,12 +1943,12 @@ begin
 
 end;
 
-procedure TfrmMain.actShiftF5Execute(Sender: TObject);
+procedure TfrmMain.actCopySamePanelExecute(Sender: TObject);
 begin
   CopyFile('');
 end;
 
-procedure TfrmMain.actShiftF6Execute(Sender: TObject);
+procedure TfrmMain.actRenameOnlyExecute(Sender: TObject);
 begin
   RenameFile('');
 end;
@@ -2001,7 +1996,8 @@ end;
 
 procedure TfrmMain.actRunTermExecute(Sender: TObject);
 begin
-  ExecCmdFork(gRunTerm);
+  if not edtCommand.Focused then
+    ExecCmdFork(gRunTerm);
 end;
 
 procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word;
@@ -2395,11 +2391,25 @@ begin
   end;
 end;
 
+procedure TfrmMain.AddSpecialButtons(dskPanel: TKASToolBar);
+var
+  btnIndex : Integer;
+begin
+  (*root button*)
+  btnIndex := dskPanel.AddButton('/', '/', 'root', '');
+  dskPanel.Buttons[btnIndex].GroupIndex := 0;
+  (*up button*)
+  btnIndex := dskPanel.AddButton('..', '..', 'Up', '');
+  dskPanel.Buttons[btnIndex].GroupIndex := 0;
+  (*home button*)
+  btnIndex := dskPanel.AddButton('~', '~', 'Home', '');
+  dskPanel.Buttons[btnIndex].GroupIndex := 0;
+end;
+
 procedure TfrmMain.CreateDiskPanel(dskPanel: TKASToolBar);
 var
-I, Count, btnIndex : Integer;
-Drive : PDrive;
-ButtonIcon : TBitMap;
+  I, Count : Integer;
+  Drive : PDrive;
 begin
 //dskPanel.InitBounds; // Update information
 
@@ -2444,17 +2454,9 @@ begin
       dskPanel.Buttons[I].Layout := blGlyphLeft;
     end; // with
   end; // for
-{Add special buttons}
-(*root button*)
-  btnIndex := dskPanel.AddButton('/', '/', 'root', '');
-  dskPanel.Buttons[btnIndex].GroupIndex := 0;
-(*up button*)
-  btnIndex := dskPanel.AddButton('..', '..', 'Up', '');
-  dskPanel.Buttons[btnIndex].GroupIndex := 0;
-(*home button*)
-  btnIndex := dskPanel.AddButton('~', '~', 'Home', '');
-  dskPanel.Buttons[btnIndex].GroupIndex := 0;
 
+  if not gDriveMenuButton then  {Add special buttons}
+    AddSpecialButtons(dskPanel);
 end;
 
 procedure TfrmMain.CreatePanel(AOwner: TWinControl; APanel:TFilePanelSelect; sPath : String);
@@ -2633,6 +2635,134 @@ begin
     Result := actionLst.ActionByName(Cmd).Execute
   else
     Result := (ExecCmdFork(Cmd) = 0);
+end;
+
+procedure TfrmMain.UpdateWindowView;
+var
+  I : Integer;
+begin
+  (* Disk Panels *)
+  if (dskRight.FlatButtons <> gDriveBarFlat) then  //  if change
+    begin
+      dskLeft.FlatButtons := gDriveBarFlat;
+      dskRight.FlatButtons := gDriveBarFlat;
+    end;
+  
+  if (dskLeft.Visible <> gDriveBar2) or (dskRight.Visible <> gDriveBar1) then  // if change
+    begin
+      if gDriveBar1 and gDriveBar2 then  // left visible only then right visible
+        begin
+          CreateDiskPanel(dskLeft);
+          dskLeft.Visible := gDriveBar2;
+        end
+      else
+        begin
+          dskLeft.Visible := gDriveBar2;
+          dskLeft.DeleteAllToolButtons;
+        end;
+
+    end;
+
+  if dskRight.Visible <> gDriveBar1 then  // if change
+    begin
+      if gDriveBar1 then
+        begin
+          CreateDiskPanel(dskRight);
+          dskRight.Visible := gDriveBar1;
+        end
+      else
+        begin
+          dskRight.Visible := gDriveBar1;
+          dskRight.DeleteAllToolButtons;
+        end;
+    end;
+
+  pnlSyncSize.Visible := gDriveBar1;
+  (*/ Disk Panels *)
+
+  (*Tool Bar*)
+  if MainToolBar.FlatButtons <> gToolBarFlat then
+    MainToolBar.FlatButtons := gToolBarFlat;
+  if MainToolBar.Visible <> gButtonBar then  // if change
+    begin
+      if gButtonBar then
+        begin
+          MainToolBar.ChangePath := gpExePath;
+          MainToolBar.EnvVar := '%commander_path%';
+          MainToolBar.LoadFromFile(gpIniDir + 'default.bar');
+          MainToolBar.Visible := gButtonBar;
+        end
+      else
+        begin
+          MainToolBar.Visible := gButtonBar;
+          MainToolBar.DeleteAllToolButtons;
+        end;
+    end;
+  (*Tool Bar*)
+
+  {Load some options from layout page}
+  if btnLeftDrive.Visible <> gDriveMenuButton then
+    if gDriveMenuButton then
+      begin
+        if gDriveBar1 and gDriveBar2 then // left visible only then right visible
+          for I := 1 to 3 do
+            dskLeft.RemoveButton(dskLeft.ButtonCount - 1);
+        if gDriveBar1 then
+          for I := 1 to 3 do
+            dskRight.RemoveButton(dskRight.ButtonCount - 1);
+      end
+    else
+      begin
+        if gDriveBar1 and gDriveBar2 then  // left visible only then right visible
+          AddSpecialButtons(dskLeft);
+        if gDriveBar1 then
+          AddSpecialButtons(dskRight);
+      end;
+  if btnLeftDrive.Flat <> gInterfaceFlat then
+    begin
+      btnLeftDrive.Flat := gInterfaceFlat;
+      btnLeftRoot.Flat := gInterfaceFlat;
+      btnLeftUp.Flat := gInterfaceFlat;
+      btnLeftHome.Flat := gInterfaceFlat;
+      
+      btnRightDrive.Flat := gInterfaceFlat;
+      btnRightRoot.Flat := gInterfaceFlat;
+      btnRightUp.Flat := gInterfaceFlat;
+      btnRightHome.Flat := gInterfaceFlat;
+    end;
+
+  for I := 0 to nbLeft.PageCount - 1 do  //  change on all tabs
+    with nbLeft.Page[I].Controls[0] as TFrameFilePanel do
+    begin
+      pnlHeader.Visible := gCurDir;  // Current directory
+      pnlFooter.Visible := gStatusBar;  // Status bar
+    end;
+
+  for I := 0 to nbRight.PageCount - 1 do  //  change on all tabs
+    with nbRight.Page[I].Controls[0] as TFrameFilePanel do
+    begin
+      pnlHeader.Visible := gCurDir;  // Current directory
+      pnlFooter.Visible := gStatusBar;  // Status bar
+    end;
+
+  for I := 0 to pnlKeys.ControlCount - 1 do  // function keys
+    if pnlKeys.Controls[I] is TSpeedButton then
+      (pnlKeys.Controls[I] as TSpeedButton).Flat := gInterfaceFlat;
+        
+  btnLeftDrive.Visible := gDriveMenuButton;
+  btnLeftRoot.Visible := gDriveMenuButton;
+  btnLeftUp.Visible := gDriveMenuButton;
+  btnLeftHome.Visible := gDriveMenuButton;
+
+  btnRightDrive.Visible := gDriveMenuButton;
+  btnRightRoot.Visible := gDriveMenuButton;
+  btnRightUp.Visible := gDriveMenuButton;
+  btnRightHome.Visible := gDriveMenuButton;
+
+  pnlCommand.Visible := gCmdLine;
+  pnlKeys.Visible := gKeyButtons;
+  nbLeft.ShowTabs := gDirectoryTabs;
+  nbRight.ShowTabs := gDirectoryTabs;
 end;
 
 procedure TfrmMain.edtCommandKeyDown(Sender: TObject; var Key: Word;

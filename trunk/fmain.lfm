@@ -1,15 +1,15 @@
 inherited frmMain: TfrmMain
-  Left = 290
+  Left = 261
   Height = 336
-  Top = 146
-  Width = 525
-  HorzScrollBar.Page = 524
+  Top = 81
+  Width = 540
+  HorzScrollBar.Page = 539
   VertScrollBar.Page = 316
   VertScrollBar.Range = 79
   ActiveControl = pnlNotebooks
   Caption = 'Double Commander'
   ClientHeight = 317
-  ClientWidth = 525
+  ClientWidth = 540
   Font.Color = clBlack
   Font.Height = 13
   Font.Name = 'Helvetica'
@@ -29,14 +29,15 @@ inherited frmMain: TfrmMain
   object pnlSyncSize: TPanel
     Height = 26
     Top = 23
-    Width = 525
+    Width = 540
     Align = alTop
     BevelOuter = bvNone
     ClientHeight = 26
-    ClientWidth = 525
+    ClientWidth = 540
     FullRepaint = False
     TabOrder = 0
     object pnlDisk: TPanel
+      Left = 15
       Height = 26
       Width = 525
       Align = alRight
@@ -77,167 +78,36 @@ inherited frmMain: TfrmMain
       end
     end
   end
-  object pnlCommand: TPanel
-    Height = 62
-    Top = 255
-    Width = 525
-    Align = alBottom
-    Anchors = [akLeft, akRight]
-    BevelOuter = bvLowered
-    ClientHeight = 62
-    ClientWidth = 525
-    FullRepaint = False
-    ParentColor = False
-    TabOrder = 1
-    object lblCommandPath: TLabel
-      Left = 1
-      Height = 14
-      Top = 8
-      Width = 23
-      Alignment = taRightJustify
-      Caption = 'Path'
-      ParentColor = False
-      ShowAccelChar = False
-    end
-    object pnlKeys: TPanel
-      Left = 1
-      Height = 27
-      Top = 34
-      Width = 523
-      Align = alBottom
-      Anchors = [akLeft, akRight]
-      BevelOuter = bvLowered
-      ClientHeight = 27
-      ClientWidth = 523
-      FullRepaint = False
-      TabOrder = 0
-      OnResize = pnlKeysResize
-      object btnF3: TSpeedButton
-        Left = 1
-        Height = 23
-        Top = 4
-        Width = 75
-        Action = actView
-        Color = clBtnFace
-        Flat = True
-        NumGlyphs = 0
-      end
-      object btnF4: TSpeedButton
-        Left = 76
-        Height = 23
-        Top = 4
-        Width = 75
-        Action = actEdit
-        Color = clBtnFace
-        Flat = True
-        NumGlyphs = 0
-      end
-      object btnF5: TSpeedButton
-        Left = 151
-        Height = 23
-        Top = 4
-        Width = 75
-        Action = actCopy
-        Color = clBtnFace
-        Flat = True
-        NumGlyphs = 0
-      end
-      object btnF6: TSpeedButton
-        Left = 226
-        Height = 23
-        Top = 4
-        Width = 75
-        Action = actRename
-        Color = clBtnFace
-        Flat = True
-        NumGlyphs = 0
-      end
-      object btnF7: TSpeedButton
-        Left = 301
-        Height = 23
-        Top = 4
-        Width = 75
-        Action = actMakeDir
-        Color = clBtnFace
-        Flat = True
-        NumGlyphs = 0
-      end
-      object btnF8: TSpeedButton
-        Left = 376
-        Height = 23
-        Top = 4
-        Width = 75
-        Action = actDelete
-        Color = clBtnFace
-        Flat = True
-        NumGlyphs = 0
-      end
-      object btnF10: TSpeedButton
-        Left = 539
-        Height = 23
-        Top = 4
-        Width = 75
-        Action = actExit
-        Color = clBtnFace
-        Flat = True
-        NumGlyphs = 0
-      end
-      object btnF9: TSpeedButton
-        Left = 448
-        Height = 22
-        Top = 4
-        Width = 89
-        Action = actShowMenu
-        Color = clBtnFace
-        Flat = True
-        NumGlyphs = 0
-      end
-    end
-    object edtCommand: TComboBox
-      Left = 56
-      Height = 21
-      Top = 8
-      Width = 688
-      TabStop = False
-      AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-      ItemHeight = 13
-      MaxLength = 0
-      OnKeyDown = edtCommandKeyDown
-      OnKeyUp = edtCommandKeyUp
-      ParentCtl3D = False
-      TabOrder = 1
-    end
-  end
   object pnlNotebooks: TPanel
-    Height = 206
+    Height = 241
     Top = 49
-    Width = 525
+    Width = 540
     Align = alClient
-    ClientHeight = 206
-    ClientWidth = 525
+    ClientHeight = 241
+    ClientWidth = 540
     FullRepaint = False
-    TabOrder = 2
+    TabOrder = 1
     TabStop = True
     object MainSplitter: TSplitter
       Left = 171
-      Height = 204
+      Height = 201
       Top = 1
       Width = 4
       ResizeStyle = rsLine
     end
     object pnlLeft: TPanel
       Left = 1
-      Height = 204
+      Height = 201
       Top = 1
       Width = 170
       Align = alLeft
       BevelOuter = bvNone
       Caption = 'pnlLeft'
-      ClientHeight = 204
+      ClientHeight = 201
       ClientWidth = 170
       TabOrder = 0
       object nbLeft: TNotebook
-        Height = 180
+        Height = 177
         Hint = 'Left'
         Top = 24
         Width = 170
@@ -305,20 +175,20 @@ inherited frmMain: TfrmMain
     end
     object pnlRight: TPanel
       Left = 175
-      Height = 204
+      Height = 201
       Top = 1
-      Width = 349
+      Width = 364
       Align = alClient
       BevelOuter = bvNone
       Caption = 'pnlRight'
-      ClientHeight = 204
-      ClientWidth = 349
+      ClientHeight = 201
+      ClientWidth = 364
       TabOrder = 1
       object nbRight: TNotebook
-        Height = 180
+        Height = 177
         Hint = 'Right'
         Top = 24
-        Width = 349
+        Width = 364
         Align = alClient
         OnCloseTabClicked = NoteBookCloseTabClicked
         OnPageChanged = nbPageChanged
@@ -327,11 +197,11 @@ inherited frmMain: TfrmMain
       end
       object pnlRightTools: TPanel
         Height = 24
-        Width = 349
+        Width = 364
         Align = alTop
         BevelOuter = bvNone
         ClientHeight = 24
-        ClientWidth = 349
+        ClientWidth = 364
         TabOrder = 1
         object btnRightDrive: TSpeedButton
           Height = 24
@@ -342,7 +212,7 @@ inherited frmMain: TfrmMain
           NumGlyphs = 0
         end
         object btnRightHome: TSpeedButton
-          Left = 326
+          Left = 341
           Height = 24
           Width = 23
           Align = alRight
@@ -352,7 +222,7 @@ inherited frmMain: TfrmMain
           OnClick = btnRightClick
         end
         object btnRightUp: TSpeedButton
-          Left = 303
+          Left = 318
           Height = 24
           Width = 23
           Align = alRight
@@ -362,7 +232,7 @@ inherited frmMain: TfrmMain
           OnClick = btnRightClick
         end
         object btnRightRoot: TSpeedButton
-          Left = 280
+          Left = 295
           Height = 24
           Width = 23
           Align = alRight
@@ -374,23 +244,154 @@ inherited frmMain: TfrmMain
         object lblRightDriveInfo: TLabel
           Left = 48
           Height = 24
-          Width = 232
+          Width = 247
           Align = alClient
           Alignment = taCenter
           ParentColor = False
         end
       end
     end
+    object pnlCommand: TPanel
+      Left = 1
+      Height = 38
+      Top = 202
+      Width = 538
+      Align = alBottom
+      Anchors = [akLeft, akRight]
+      BevelOuter = bvLowered
+      ClientHeight = 38
+      ClientWidth = 538
+      FullRepaint = False
+      ParentColor = False
+      TabOrder = 2
+      object lblCommandPath: TLabel
+        Left = 1
+        Height = 14
+        Top = 8
+        Width = 23
+        Alignment = taRightJustify
+        Caption = 'Path'
+        ParentColor = False
+        ShowAccelChar = False
+      end
+      object edtCommand: TComboBox
+        Left = 56
+        Height = 21
+        Top = 8
+        Width = 688
+        TabStop = False
+        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        ItemHeight = 13
+        MaxLength = 0
+        OnKeyDown = edtCommandKeyDown
+        OnKeyUp = edtCommandKeyUp
+        ParentCtl3D = False
+        TabOrder = 0
+      end
+    end
   end
   object MainToolBar: TKAStoolBar
     Height = 23
-    Width = 525
+    Width = 540
     Align = alTop
-    TabOrder = 3
+    TabOrder = 2
     OnMouseDown = MainToolBarMouseDown
     OnToolButtonClick = MainToolBarToolButtonClick
     FlatButtons = True
     EnvVar = '%commander_path%'
+  end
+  object pnlKeys: TPanel
+    Height = 27
+    Top = 290
+    Width = 540
+    Align = alBottom
+    Anchors = [akLeft, akRight]
+    BevelOuter = bvLowered
+    ClientHeight = 27
+    ClientWidth = 540
+    FullRepaint = False
+    TabOrder = 3
+    OnResize = pnlKeysResize
+    object btnF3: TSpeedButton
+      Left = 1
+      Height = 23
+      Top = 4
+      Width = 75
+      Action = actView
+      Color = clBtnFace
+      Flat = True
+      NumGlyphs = 0
+    end
+    object btnF4: TSpeedButton
+      Left = 76
+      Height = 23
+      Top = 4
+      Width = 75
+      Action = actEdit
+      Color = clBtnFace
+      Flat = True
+      NumGlyphs = 0
+    end
+    object btnF5: TSpeedButton
+      Left = 151
+      Height = 23
+      Top = 4
+      Width = 75
+      Action = actCopy
+      Color = clBtnFace
+      Flat = True
+      NumGlyphs = 0
+    end
+    object btnF6: TSpeedButton
+      Left = 226
+      Height = 23
+      Top = 4
+      Width = 75
+      Action = actRename
+      Color = clBtnFace
+      Flat = True
+      NumGlyphs = 0
+    end
+    object btnF7: TSpeedButton
+      Left = 301
+      Height = 23
+      Top = 4
+      Width = 75
+      Action = actMakeDir
+      Color = clBtnFace
+      Flat = True
+      NumGlyphs = 0
+    end
+    object btnF8: TSpeedButton
+      Left = 376
+      Height = 23
+      Top = 4
+      Width = 75
+      Action = actDelete
+      Color = clBtnFace
+      Flat = True
+      NumGlyphs = 0
+    end
+    object btnF10: TSpeedButton
+      Left = 539
+      Height = 23
+      Top = 4
+      Width = 75
+      Action = actExit
+      Color = clBtnFace
+      Flat = True
+      NumGlyphs = 0
+    end
+    object btnF9: TSpeedButton
+      Left = 448
+      Height = 22
+      Top = 4
+      Width = 89
+      Action = actShowMenu
+      Color = clBtnFace
+      Flat = True
+      NumGlyphs = 0
+    end
   end
   object mnuMain: TMainMenu
     left = 283
@@ -583,6 +584,7 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExitExecute
+      ShortCut = 32856
     end
     object actView: TAction
       Category = 'Classic'
@@ -667,6 +669,7 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actShowMenuExecute
+      ShortCut = 120
     end
     object actRefresh: TAction
       Category = 'Show'
@@ -713,20 +716,6 @@ inherited frmMain: TfrmMain
       HelpType = htKeyword
       OnExecute = actMarkUnmarkAllExecute
     end
-    object actDelete2: TAction
-      Category = 'Classic'
-      Caption = 'actDelete2'
-      DisableIfNoHandler = True
-      HelpType = htKeyword
-      OnExecute = actDelete2Execute
-    end
-    object actPathToCmdLine: TAction
-      Caption = 'actPathToCmdLine'
-      DisableIfNoHandler = True
-      HelpType = htKeyword
-      OnExecute = actPathToCmdLineExecute
-      ShortCut = 16464
-    end
     object actMarkPlus: TAction
       Category = 'Mark'
       Caption = 'Select a group'
@@ -740,12 +729,6 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actMarkMinusExecute
-    end
-    object actChMod: TAction
-      Category = 'File'
-      Caption = 'Change Attributes'
-      DisableIfNoHandler = True
-      HelpType = htKeyword
     end
     object actSymLink: TAction
       Category = 'File'
@@ -810,21 +793,21 @@ inherited frmMain: TfrmMain
       HelpType = htKeyword
       OnExecute = actMultiRenameExecute
     end
-    object actShiftF5: TAction
+    object actCopySamePanel: TAction
       Category = 'Commands'
-      Caption = 'actShiftF5'
+      Caption = 'actCopySamePanel'
       DisableIfNoHandler = True
       HelpType = htKeyword
-      OnExecute = actShiftF5Execute
-      ShortCut = 12340
+      OnExecute = actCopySamePanelExecute
+      ShortCut = 8308
     end
-    object actShiftF6: TAction
+    object actRenameOnly: TAction
       Category = 'Commands'
-      Caption = 'actShiftF6'
+      Caption = 'actRenameOnly'
       DisableIfNoHandler = True
       HelpType = htKeyword
-      OnExecute = actShiftF6Execute
-      ShortCut = 12341
+      OnExecute = actRenameOnlyExecute
+      ShortCut = 8309
     end
     object actShiftF4: TAction
       Category = 'Commands'
@@ -855,7 +838,7 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actRunTermExecute
-      ShortCut = 16468
+      ShortCut = 16472
     end
     object actCalculateSpace: TAction
       Category = 'File'
@@ -870,12 +853,6 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actFilePropertiesExecute
-    end
-    object actChown: TAction
-      Category = 'File'
-      Caption = 'Chown'
-      DisableIfNoHandler = True
-      HelpType = htKeyword
     end
     object actFileLinker: TAction
       Category = 'File'
@@ -897,6 +874,7 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actNewTabExecute
+      ShortCut = 16468
     end
     object actRemoveTab: TAction
       Category = 'Tabs'
@@ -904,6 +882,7 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actRemoveTabExecute
+      ShortCut = 16471
     end
     object actPackFiles: TAction
       Category = 'File'
@@ -936,6 +915,40 @@ inherited frmMain: TfrmMain
       DisableIfNoHandler = True
       OnExecute = actRightOpenDrivesExecute
       ShortCut = 32881
+    end
+    object actAddPathToCmdLine: TAction
+      Category = 'Commands'
+      Caption = 'actAddPathToCmdLine'
+      DisableIfNoHandler = True
+      OnExecute = actAddPathToCmdLineExecute
+      ShortCut = 16464
+    end
+    object actFocusCmdLine: TAction
+      Category = 'Commands'
+      Caption = 'actFocusCmdLine'
+      DisableIfNoHandler = True
+      OnExecute = actFocusCmdLineExecute
+      ShortCut = 8305
+    end
+    object actTransferLeft: TAction
+      Category = 'Commands'
+      Caption = 'actTransferLeft'
+      DisableIfNoHandler = True
+      OnExecute = actTransferLeftExecute
+      ShortCut = 16421
+    end
+    object actTransferRight: TAction
+      Category = 'Commands'
+      Caption = 'actTransferRight'
+      DisableIfNoHandler = True
+      OnExecute = actTransferRightExecute
+      ShortCut = 16423
+    end
+    object actContextMenu: TAction
+      Category = 'Commands'
+      Caption = 'actContextMenu'
+      DisableIfNoHandler = True
+      OnExecute = actContextMenuExecute
     end
   end
   object pmHotList: TPopupMenu

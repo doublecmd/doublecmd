@@ -8,6 +8,8 @@ del /Q *.~*
 del /Q doublecmd*.exe
 del /Q doublecmd.compiled
 
+del /Q doc\help\*.*
+
 del /Q plugins\wcx\cpio\bin\*.*
 del /Q plugins\wcx\rpm\bin\*.*
 del /Q plugins\wcx\deb\bin\*.*

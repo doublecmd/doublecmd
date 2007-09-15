@@ -6,19 +6,20 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, fLngForm,
-  ComCtrls, Buttons, SynEdit;
+  ComCtrls, Buttons, SynEdit, EditBtn;
 
 type
+
+  { TfrmCompareFiles }
+
   TfrmCompareFiles = class(TFrmLng)
-    Panel1: TPanel;
+    edtFileNameLeft: TFileNameEdit;
+    edtFileNameRight: TFileNameEdit;
+    pnlLeft: TPanel;
     Splitter1: TSplitter;
-    Panel2: TPanel;
+    pnlRight: TPanel;
     pnlLeftBox: TPanel;
     pnlRightBox: TPanel;
-    edtFileNameLeft: TEdit;
-    btnFileNameLeft: TButton;
-    edtFileNameRight: TEdit;
-    btnFileNameRight: TButton;
     lstRight: TSynEdit;
     lstLeft: TSynEdit;
     pnlStatusBar: TStatusBar;
@@ -36,8 +37,6 @@ type
     procedure lstRightSpecialLineColors(Sender: TObject; Line: Integer;
       var Special: Boolean; var FG, BG: TColor);
     procedure lstRightStatusChange(Sender: TObject; Changes: TSynStatusChanges);
-    procedure pnlLeftBoxResize(Sender: TObject);
-    procedure pnlRightBoxResize(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
   private
     { Private declarations }
@@ -148,20 +147,6 @@ begin
       lstLeft.TopLine := lstRight.TopLine;
       lstRight.Invalidate;
     end;
-end;
-
-procedure TfrmCompareFiles.pnlLeftBoxResize(Sender: TObject);
-begin
-  inherited;
-  edtFileNameLeft.Width := pnlLeftBox.Width - btnFileNameLeft.Width;
-  btnFileNameLeft.Left := pnlLeftBox.Width - btnFileNameLeft.Width;
-end;
-
-procedure TfrmCompareFiles.pnlRightBoxResize(Sender: TObject);
-begin
-  inherited;
-  edtFileNameRight.Width := pnlRightBox.Width - btnFileNameRight.Width;
-  btnFileNameRight.Left := pnlRightBox.Width - btnFileNameRight.Width;
 end;
 
 procedure TfrmCompareFiles.btnCloseClick(Sender: TObject);

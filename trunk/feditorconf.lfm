@@ -1,35 +1,44 @@
 inherited frmEditorConf: TfrmEditorConf
-  Left = 324
-  Height = 295
-  Top = 201
-  Width = 483
-  AutoScroll = True
+  Left = 259
+  Height = 353
+  Top = 76
+  Width = 473
+  HorzScrollBar.Page = 472
+  HorzScrollBar.Range = 457
+  VertScrollBar.Page = 352
+  VertScrollBar.Range = 343
   ActiveControl = grColor
   Caption = 'Editor configuration'
+  ClientHeight = 353
+  ClientWidth = 473
   Position = poScreenCenter
   object lbSample: TLabel
+    AnchorSideTop.Control = cmbPredefined
+    AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 14
-    Top = 184
+    Top = 185
     Width = 35
+    BorderSpacing.Top = 6
     Caption = 'Sample'
-    Color = clNone
     ParentColor = False
   end
   object lbPredefined: TLabel
+    AnchorSideTop.Control = grColor
+    AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 14
-    Top = 136
+    Top = 138
     Width = 53
+    BorderSpacing.Top = 6
     Caption = 'Predefined'
-    Color = clNone
     ParentColor = False
   end
   object grColor: TDrawGrid
     Left = 8
-    Height = 128
+    Height = 124
     Top = 8
-    Width = 128
+    Width = 124
     AutoAdvance = aaDown
     Color = clWhite
     ColCount = 4
@@ -49,18 +58,23 @@ inherited frmEditorConf: TfrmEditorConf
     OnMouseDown = grColorMouseDown
   end
   object lbNames: TListBox
-    Left = 240
-    Height = 192
-    Width = 201
+    Left = 280
+    Height = 250
+    Top = 8
+    Width = 187
+    Anchors = [akTop, akLeft, akRight, akBottom]
     OnClick = lbNamesClick
     TabOrder = 1
   end
   object cbBold: TCheckBox
+    AnchorSideTop.Control = cbItalic
+    AnchorSideTop.Side = asrBottom
     Left = 137
     Height = 13
     Top = 56
     Width = 53
     AllowGrayed = True
+    BorderSpacing.Top = 3
     Caption = 'cbBold'
     OnClick = cbBoldClick
     TabOrder = 2
@@ -76,32 +90,41 @@ inherited frmEditorConf: TfrmEditorConf
     TabOrder = 3
   end
   object cbStrikeOut: TCheckBox
+    AnchorSideTop.Control = cbUnderline
+    AnchorSideTop.Side = asrBottom
     Left = 136
     Height = 13
     Top = 24
     Width = 76
     AllowGrayed = True
+    BorderSpacing.Top = 3
     Caption = 'cbStrikeOut'
     OnClick = cbBoldClick
     TabOrder = 4
   end
   object cbItalic: TCheckBox
+    AnchorSideTop.Control = cbStrikeOut
+    AnchorSideTop.Side = asrBottom
     Left = 136
     Height = 13
     Top = 40
     Width = 54
     AllowGrayed = True
+    BorderSpacing.Top = 3
     Caption = 'cbItalic'
     OnClick = cbBoldClick
     TabOrder = 5
   end
   object cmbPredefined: TComboBox
+    AnchorSideTop.Control = lbPredefined
+    AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 21
-    Top = 152
+    Top = 158
     Width = 208
     AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-    ItemHeight = 18
+    BorderSpacing.Top = 6
+    ItemHeight = 13
     MaxLength = 0
     OnChange = cmbPredefinedChange
     ParentCtl3D = False
@@ -109,10 +132,11 @@ inherited frmEditorConf: TfrmEditorConf
     TabOrder = 6
   end
   object btnCancel: TBitBtn
-    Left = 366
-    Height = 25
-    Top = 240
-    Width = 75
+    Left = 377
+    Height = 32
+    Top = 312
+    Width = 82
+    Anchors = [akRight, akBottom]
     BorderSpacing.InnerBorder = 2
     Caption = 'Cancel'
     Kind = bkCancel
@@ -122,10 +146,11 @@ inherited frmEditorConf: TfrmEditorConf
     TabOrder = 9
   end
   object btnOK: TBitBtn
-    Left = 272
-    Height = 25
-    Top = 240
-    Width = 75
+    Left = 260
+    Height = 32
+    Top = 312
+    Width = 82
+    Anchors = [akRight, akBottom]
     BorderSpacing.InnerBorder = 2
     Caption = '&OK'
     Default = True
@@ -136,15 +161,21 @@ inherited frmEditorConf: TfrmEditorConf
     TabOrder = 7
   end
   object edtSample: TSynEdit
+    AnchorSideTop.Control = lbSample
+    AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 56
-    Top = 209
+    Height = 97
+    Top = 205
     Width = 232
+    BorderSpacing.Top = 6
+    Anchors = [akTop, akLeft, akBottom]
     Font.Height = -12
     Font.Name = 'courier'
     ParentColor = False
     ParentCtl3D = False
     TabOrder = 8
+    BookMarkOptions.OnChange = nil
+    Gutter.OnChange = nil
     Gutter.CodeFoldingWidth = 14
     Keystrokes = <    
       item
@@ -471,5 +502,6 @@ inherited frmEditorConf: TfrmEditorConf
       'bla bla ble ble blu blu'
       'blu blu ble ble bla bla'
     )
+    SelectedColor.OnChange = nil
   end
 end

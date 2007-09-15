@@ -1,7 +1,7 @@
 object ButtonChangeDlg: TButtonChangeDlg
-  Left = 17
+  Left = 218
   Height = 304
-  Top = 251
+  Top = 132
   Width = 578
   HelpContext = 270
   HorzScrollBar.Page = 577
@@ -169,10 +169,13 @@ object ButtonChangeDlg: TButtonChangeDlg
     TabOrder = 6
   end
   object kedtParams: TKASEdit
+    AnchorSideTop.Control = cbCommand
+    AnchorSideTop.Side = asrBottom
     Left = 120
     Height = 21
-    Top = 111
+    Top = 113
     Width = 298
+    BorderSpacing.Top = 6
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
     MaxLength = 259
@@ -249,10 +252,13 @@ object ButtonChangeDlg: TButtonChangeDlg
     TabOrder = 15
   end
   object btnCancel: TButton
+    AnchorSideTop.Control = btnOK
+    AnchorSideTop.Side = asrBottom
     Left = 455
     Height = 32
     Top = 224
     Width = 109
+    BorderSpacing.Top = 6
     BorderSpacing.InnerBorder = 4
     Cancel = True
     Caption = 'Cancel'
@@ -260,10 +266,13 @@ object ButtonChangeDlg: TButtonChangeDlg
     TabOrder = 17
   end
   object btnHelp: TButton
+    AnchorSideTop.Control = btnCancel
+    AnchorSideTop.Side = asrBottom
     Left = 455
     Height = 32
     Top = 262
     Width = 109
+    BorderSpacing.Top = 6
     BorderSpacing.InnerBorder = 4
     Caption = '&Help'
     TabOrder = 16
@@ -287,7 +296,6 @@ object ButtonChangeDlg: TButtonChangeDlg
     object lblSize: TLabel
       Left = 6
       Height = 14
-      Top = 7
       Width = 55
       AutoSize = False
       Caption = 'S&ize:'
@@ -304,20 +312,27 @@ object ButtonChangeDlg: TButtonChangeDlg
       Text = '0'
     end
     object cbFlatIcons: TCheckBox
+      AnchorSideTop.Control = lblSize
+      AnchorSideTop.Side = asrBottom
       Left = 6
       Height = 13
-      Top = 18
+      Top = 22
       Width = 65
+      BorderSpacing.Top = 8
       Caption = 'F&lat icons'
       Checked = True
+      OnChange = cbFlatIconsChange
       State = cbChecked
       TabOrder = 1
     end
     object cbSmallIcons: TCheckBox
+      AnchorSideTop.Control = cbFlatIcons
+      AnchorSideTop.Side = asrBottom
       Left = 6
       Height = 13
-      Top = 38
+      Top = 41
       Width = 73
+      BorderSpacing.Top = 6
       Caption = 'S&mall icons'
       TabOrder = 2
     end
