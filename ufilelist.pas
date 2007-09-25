@@ -155,6 +155,7 @@ begin
   p^.fTimeI := fi^.fTimeI;
   p^.sTime := fi^.sTime;
   p^.iMode := fi^.iMode;
+  p^.bSysFile := fi^.bSysFile;
   p^.bExecutable := fi^.bExecutable;
   p^.sModeStr := fi^.sModeStr;
   p^.iIconID:= fi^.iIconID;

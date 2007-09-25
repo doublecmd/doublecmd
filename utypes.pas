@@ -34,6 +34,7 @@ type
       bExecutable : Boolean;
       sModeStr    : String[11];
       iMode       : Cardinal; // from stats
+      bSysFile    : Boolean;
       iIconID     : Integer; // index ICO in imagelist
       sOwner      : AnsiString;
       sGroup      : AnsiString;

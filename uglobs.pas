@@ -96,6 +96,7 @@ var
   gCursorColor, //Cursor color
   gCursorText : TColor; //text color under cursor
   
+  gShowIcons : Boolean;
   gIconsSize : Integer;
   gDirTabOptions,
   gDirTabLimit : Integer;
@@ -265,6 +266,7 @@ begin
   gCursorColor := gIni.ReadInteger('Colors', 'CursorColor', clHighlight);
   gCursorText := gIni.ReadInteger('Colors', 'CursorText', clHighlightedText);
   
+  gShowIcons := gIni.ReadBool('Configuration', 'ShowIcons', True);
   gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
 
   gpPixmapPath := gpPixmapPath + IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize) + PathDelim;
@@ -382,7 +384,7 @@ begin
   gIni.WriteInteger('Colors', 'CursorText', gCursorText);
 
   
-  
+  gIni.WriteBool('Configuration', 'ShowIcons', gShowIcons);
   gIni.WriteInteger('Configuration', 'IconsSize', gIconsSize);
 
   gIni.WriteBool('Configuration', 'UseMmapInSearch', gUseMmapInSearch);

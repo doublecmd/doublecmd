@@ -503,7 +503,7 @@ begin
         end;
       end;
     0:begin
-      if iIconID>=0 then
+      if (iIconID >= 0) and gShowIcons then
         begin
           PixMapManager.DrawBitmap(iIconID, Canvas, Rect);
         end;
@@ -511,8 +511,11 @@ begin
           s:=sNameNoExt
         else
           s:=sName;
-        Canvas.TextOut(Rect.Left + gIconsSize + 2 ,iTextTop,s);
-      end;
+        if gShowIcons then
+          Canvas.TextOut(Rect.Left + gIconsSize + 2 ,iTextTop,s)
+        else
+          Canvas.TextOut(Rect.Left + 2 ,iTextTop,s);
+      end;  // 0:
     end; //case
   end;   //with
 end;
