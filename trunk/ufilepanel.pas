@@ -166,7 +166,7 @@ begin
     pfri:=fFileList.GetItem(i);
     with pfri^ do
     begin
-      if not gShowSystemFiles and (sName[1]='.') and (sName<>'..') then Continue;
+      if (not gShowSystemFiles) and bSysFile then Continue;
       fRefList.Add(pfri);
     end;
   end;
@@ -296,7 +296,8 @@ begin
            end;
            fActiveDir := fVFS.ArcFullName + DirectorySeparator;
        end;
-    fFileList.UpdateFileInformation(fPanelMode);
+    if gShowIcons then
+      fFileList.UpdateFileInformation(fPanelMode);
     Sort;
     Exit;
   end;
@@ -308,7 +309,8 @@ begin
     begin
       fPanelMode := pmDirectory;
       fActiveDir := PathDelim;
-      fFileList.UpdateFileInformation(PanelMode);
+      if gShowIcons then
+        fFileList.UpdateFileInformation(PanelMode);
       Sort;
     end;
 end;
@@ -337,7 +339,8 @@ begin
       LoadFilesbyDir(fActiveDir, fFileList);
     end;
   end; // case
-  fFileList.UpdateFileInformation(fPanelMode);
+  if gShowIcons then
+    fFileList.UpdateFileInformation(fPanelMode);
   Sort; // and Update panel
   fPanel.Invalidate;
 //  writeln('TFilePanel.LoadPanel DONE');
@@ -369,7 +372,7 @@ end;
 
 procedure TFilePanel.InvertFileSection(frp:PFileRecItem);
 begin
-  if not gShowSystemFiles and (frp^.sName[1]='.') then Exit;
+  if not gShowSystemFiles and (frp^.bSysFile) then Exit;
   frp^.bSelected:=not frp^.bSelected;
 end;
 
@@ -462,7 +465,7 @@ begin
   for i:=0 to fFileList.Count-1 do
   begin
     fr:=fFileList.GetItem(i);
-    if not gShowSystemFiles and (fr^.sName[1]='.') then
+    if not gShowSystemFiles and (fr^.bSysFile) then
 // system files is always not selected if not showed
       fr^.bSelected:=False
     else

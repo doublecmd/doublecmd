@@ -1258,7 +1258,7 @@ begin
       Exit;
     end;
     // handle ctrl+left
-    if (Key=VK_Right) then
+    if (Key=VK_Left) then
     begin
       if (PanelSelected = fpRight) then
         SetNotActFrmByActFrm;
@@ -2736,6 +2736,8 @@ begin
     begin
       pnlHeader.Visible := gCurDir;  // Current directory
       pnlFooter.Visible := gStatusBar;  // Status bar
+      if gShowIcons then
+        pnlFile.FileList.UpdateFileInformation(pnlFile.PanelMode);
     end;
 
   for I := 0 to nbRight.PageCount - 1 do  //  change on all tabs
@@ -2743,6 +2745,8 @@ begin
     begin
       pnlHeader.Visible := gCurDir;  // Current directory
       pnlFooter.Visible := gStatusBar;  // Status bar
+      if gShowIcons then
+        pnlFile.FileList.UpdateFileInformation(pnlFile.PanelMode);
     end;
 
   for I := 0 to pnlKeys.ControlCount - 1 do  // function keys

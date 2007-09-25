@@ -80,6 +80,7 @@ begin
       fr.iDirSize:=0;
       fr.iMode:=0;
       fr.bExecutable:=False;
+      fr.bSysFile := False;
       fr.bIsLink:=False;
       fr.sLinkTo:='';
       fr.bLinkIsDir:=False;
@@ -106,10 +107,12 @@ begin
     fr.sGroup:=GIDToStr(fr.iGroup);
 {/mate}
     fr.iMode:=sb.st_mode;
+    fr.bSysFile := (sr.Name[1] = '.') and (sr.Name <> '..');
     fr.fTimeI:= FileStampToDateTime(sb.st_mtime); // EncodeDate (1970, 1, 1) + (sr.Time / 86400.0);
     {$ELSE}  // Windows
      fr.iSize:= sr.Size;
      fr.iMode:= sr.Attr;
+     fr.bSysFile := Boolean(sr.Attr and faSysFile) or Boolean(sr.Attr and faHidden);
      fr.fTimeI:= FileDateToDateTime(sr.Time);
     {$ENDIF}
     

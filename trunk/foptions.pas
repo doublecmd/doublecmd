@@ -82,6 +82,7 @@ type
     cbDropReadOnlyFlag: TCheckBox;
     cbFlatInterface: TCheckBox;
     cbFlatToolBar: TCheckBox;
+    cbShowIcons: TCheckBox;
     clbWFXList: TCheckListBox;
     clbWCXList: TCheckListBox;
     cbBackColor2: TColorBox;
@@ -188,6 +189,7 @@ type
     procedure cbColorBoxChange(Sender: TObject);
     procedure cbExtChange(Sender: TObject);
     procedure cbShowDiskPanelChange(Sender: TObject);
+    procedure cbShowIconsChange(Sender: TObject);
     procedure clbWCXListClick(Sender: TObject);
     procedure cbTextColorChange(Sender: TObject);
     procedure cbColorBoxDropDown(Sender: TObject);
@@ -209,6 +211,7 @@ type
     procedure edHotKeyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
       );
     procedure lbCategoriesClick(Sender: TObject);
+    procedure nbNotebookPageChanged(Sender: TObject);
     procedure pbExamplePaint(Sender: TObject);
     procedure tsWCXShow(Sender: TObject);
     procedure tsWFXShow(Sender: TObject);
@@ -321,6 +324,11 @@ procedure TfrmOptions.cbShowDiskPanelChange(Sender: TObject);
 begin
   cbTwoDiskPanels.Enabled := cbShowDiskPanel.Checked;
   cbFlatDiskPanel.Enabled := cbShowDiskPanel.Checked;
+end;
+
+procedure TfrmOptions.cbShowIconsChange(Sender: TObject);
+begin
+  cbIconsSize.Enabled := cbShowIcons.Checked;
 end;
 
 procedure TfrmOptions.clbWCXListClick(Sender: TObject);
@@ -437,6 +445,8 @@ begin
   cbCursorText.Selection := gCursorText;
   cbCursorText.Color := gCursorText;
 
+  cbShowIcons.Checked := gShowIcons;
+
   { Icons sizes in file panels }
   cbIconsSize.Text := IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize);
   // ToDo lang to tsColor tsHotKey
@@ -524,6 +534,8 @@ begin
   gMarkColor := cbMarkColor.Color;
   gCursorColor := cbCursorColor.Color;
   gCursorText := cbCursorText.Color;
+  
+  gShowIcons := cbShowIcons.Checked;
   
   frmMain.UpdateWindowView;
   frmMain.Repaint; // for panels repaint
@@ -954,6 +966,13 @@ begin
       cbCategoryColor.Color := clWindow;
       cbCategoryColor.Selection := cbCategoryColor.Color;
     end;
+end;
+
+procedure TfrmOptions.nbNotebookPageChanged(Sender: TObject);
+begin 
+  // temporally this is hack for bug http://www.freepascal.org/mantis/view.php?id=9635
+  nbNotebook.Page[nbNotebook.PageIndex].Height := nbNotebook.Height - 8;
+  nbNotebook.Page[nbNotebook.PageIndex].Height := nbNotebook.Height - 8;
 end;
 
 procedure TfrmOptions.bbtnAddCategoryClick(Sender: TObject);

@@ -120,6 +120,7 @@ begin
   fi.sNameNoExt:=fi.sName;
   fi.bSelected:=False;
   fi.bExecutable:=False;
+  fi.bSysFile := False;
   fi.sModeStr:='drwxr-xr-x';
   fi.iMode:=ModeStr2Mode(fi.sModeStr); //!!!!
   fi.iDirSize:=0;
