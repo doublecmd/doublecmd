@@ -20,12 +20,9 @@ uses
   Classes, uFileList, fFileOpDlg, uTypes, fMsg, uShowMsg {$IFNDEF NOFAKETHREAD}, uFakeThread{$ENDIF};
 
 type
-
-{$IFDEF NOFAKETHREAD}
-
   { TFileOpThread }
-
-  TFileOpThread = class(TThread)          //check compilation
+{$IFDEF NOFAKETHREAD}
+  TFileOpThread = class(TThread)
 {$ELSE}
   TFileOpThread = class(TFakeThread)
 {$ENDIF}
@@ -44,12 +41,9 @@ type
     FDstNameMask:String;
     FDstExtMask:String;
     FAppend: Boolean; // used mainly for pass information between move and copy
-    FDlgFileExist : TfrmMsg; //Alexx2000
-    FMsg : String; //Alexx2000
     FSymLinkAll, // process all symlinks
     FNotSymLinkAll : Boolean; // process all real files/folders
 
-    
     procedure Execute; override;
     procedure MainExecute; virtual; abstract; // main loop for copy /delete ...
     procedure FillAndCount;
@@ -59,10 +53,6 @@ type
     procedure CorrectMask;
     Function  CorrectDstName(const sName:String):String;
     Function  CorrectDstExt(const sExt:String):String;
-    procedure ShowDlgFileExist; //Alexx2000
-    procedure FileOpDlgEnabled;
-    procedure ShowDlgProcessSymLink;
-    procedure msgErrorForThread;
 
   public
     FFileOpDlg: TfrmFileOp; // progress window
@@ -302,36 +292,12 @@ begin
   end;
 end;
 
-
-procedure TFileOpThread.FileOpDlgEnabled;
-begin
-  FFileOpDlg.Enabled := not FFileOpDlg.Enabled;
-end;
-
-
-procedure  TFileOpThread.ShowDlgFileExist;
-begin
-FDlgFileExist := MsgBoxModal(FMsg, FMyMsgButtons, msmbYes, msmbNo);
-end;
-
-
 function TFileOpThread.DlgFileExist(const sMsg:String):Boolean; // result=true > rewrite file
-var
-    DlgResult : TMyMsgResult;
 begin
   FAppend:=False;
   Result:=False;
-  FMsg := sMsg;
 
-  {For pseudo modal window}
-  Synchronize(@ShowDlgFileExist);
-  Synchronize(@FileOpDlgEnabled);
-  while (FDlgFileExist.iSelected) < 0 do Sleep(10);
-  Synchronize(@FileOpDlgEnabled);
-  {/For pseudo modal window}
-  
-  DlgResult:=TMyMsgResult(FMyMsgButtons[FDlgFileExist.iSelected]);
-  case DlgResult of
+  case MsgBoxForThread(Self,sMsg, FMyMsgButtons, msmbYes, msmbNo) of
     mmrNo, mmrSkip:;
     mmrRewrite:
       begin
@@ -358,28 +324,12 @@ end;
 
 {Dialog for process symlink or real file/folder}
 
-procedure  TFileOpThread.ShowDlgProcessSymLink;
-begin
-  FDlgFileExist := MsgBoxModal(FMsg, FSymLinkBtns, msmbYes, msmbNo);
-end;
-
-function TFileOpThread.DlgProcessSymLink(const sMsg:String):Boolean; // result=true > rewrite file
-var
-    DlgResult : TMyMsgResult;
+function TFileOpThread.DlgProcessSymLink(const sMsg:String):Boolean; // result=true > process symlink
 begin
   FAppend:=False;
   Result:=False;
-  FMsg := sMsg;
 
-  {For pseudo modal window}
-  Synchronize(@ShowDlgProcessSymLink);
-  Synchronize(@FileOpDlgEnabled);
-  while (FDlgFileExist.iSelected) < 0 do Sleep(10);
-  Synchronize(@FileOpDlgEnabled);
-  {/For pseudo modal window}
-
-  DlgResult:=TMyMsgResult(FSymLinkBtns[FDlgFileExist.iSelected]);
-  case DlgResult of
+  case MsgBoxForThread(Self, sMsg, FSymLinkBtns, msmbYes, msmbNo) of
     mmrNo:;
     
     mmrYes:
@@ -452,14 +402,10 @@ begin
 end;
 
 (* Error message show in threads *)
-procedure TFileOpThread.msgErrorForThread;
-begin
-  msgError(FMsg);
-end;
 
 function TFileOpThread.ShowMsgError(const sMsg:String) : Boolean;
 begin
-  FMsg := sMsg;
-  Synchronize(@msgErrorForThread);
+  MsgBoxForThread(Self,sMsg,[msmbOK],msmbOK, msmbOK);
 end;
+
 end.

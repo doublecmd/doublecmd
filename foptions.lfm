@@ -1,7 +1,7 @@
 inherited frmOptions: TfrmOptions
-  Left = 179
+  Left = 203
   Height = 409
-  Top = 85
+  Top = 83
   Width = 577
   HorzScrollBar.Page = 576
   VertScrollBar.Page = 408
@@ -117,7 +117,7 @@ inherited frmOptions: TfrmOptions
       Width = 454
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 1
+      PageIndex = 8
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
@@ -125,16 +125,17 @@ inherited frmOptions: TfrmOptions
         ClientWidth = 446
         ClientHeight = 315
         object lngList: TListBox
-          Height = 300
-          Width = 446
+          Height = 341
+          Width = 454
           Align = alClient
           TabOrder = 0
+          TopIndex = -1
         end
       end
       object pgBehav: TPage
         Caption = 'pgBehav'
         ClientWidth = 446
-        ClientHeight = 315
+        ClientHeight = 333
         object lblTerm: TLabel
           Left = 8
           Height = 14
@@ -906,16 +907,14 @@ inherited frmOptions: TfrmOptions
         ClientWidth = 446
         ClientHeight = 315
         object pcPluginsTypes: TPageControl
-          Height = 315
-          Width = 446
+          Height = 341
+          Width = 454
           ActivePage = tsWCX
           Align = alClient
           TabIndex = 0
           TabOrder = 0
           object tsWCX: TTabSheet
             Caption = 'Packer plugins (.WCX)'
-            ClientHeight = 289
-            ClientWidth = 438
             OnShow = tsWCXShow
             object lblAbout: TLabel
               Left = 14
@@ -1020,6 +1019,7 @@ inherited frmOptions: TfrmOptions
               Top = 30
               Width = 424
               TabOrder = 0
+              TopIndex = -1
             end
             object bbtnWFXAdd: TBitBtn
               Left = 94
@@ -1187,6 +1187,7 @@ inherited frmOptions: TfrmOptions
             Width = 396
             OnClick = lbCategoriesClick
             TabOrder = 6
+            TopIndex = -1
           end
           object bbtnApplyCategory: TBitBtn
             Left = 335
@@ -1203,14 +1204,14 @@ inherited frmOptions: TfrmOptions
       object pgLayout: TPage
         Caption = 'Layout'
         ClientWidth = 446
-        ClientHeight = 333
+        ClientHeight = 315
         object gbScreenLayout: TGroupBox
           Left = 11
-          Height = 312
+          Height = 304
           Top = 4
           Width = 389
           Caption = ' Screen layout '
-          ClientHeight = 294
+          ClientHeight = 286
           ClientWidth = 385
           TabOrder = 0
           object cbShowMainToolBar: TCheckBox
@@ -1222,137 +1223,101 @@ inherited frmOptions: TfrmOptions
             TabOrder = 0
           end
           object cbShowDiskPanel: TCheckBox
-            AnchorSideTop.Control = cbFlatToolBar
-            AnchorSideTop.Side = asrBottom
             Left = 10
             Height = 13
             Top = 50
             Width = 111
-            BorderSpacing.Top = 8
             Caption = 'Show &drive buttons'
             OnChange = cbShowDiskPanelChange
             TabOrder = 1
           end
           object cbShowDriveMenuButton: TCheckBox
-            AnchorSideTop.Control = cbFlatDiskPanel
-            AnchorSideTop.Side = asrBottom
             Left = 10
             Height = 13
             Top = 113
             Width = 135
-            BorderSpacing.Top = 8
             Caption = 'Show d&rive menu button'
             TabOrder = 4
           end
           object cbShowCurDir: TCheckBox
-            AnchorSideTop.Control = cbShowTabs
-            AnchorSideTop.Side = asrBottom
             Left = 10
             Height = 13
             Top = 155
             Width = 126
-            BorderSpacing.Top = 8
             Caption = 'Show &current directory'
             TabOrder = 6
           end
           object cbShowTabHeader: TCheckBox
-            AnchorSideTop.Control = cbShowCurDir
-            AnchorSideTop.Side = asrBottom
             Left = 10
             Height = 13
             Top = 176
             Width = 121
-            BorderSpacing.Top = 8
             Caption = 'Show &tabstop header'
             TabOrder = 7
           end
           object cbShowStatusBar: TCheckBox
-            AnchorSideTop.Control = cbShowTabHeader
-            AnchorSideTop.Side = asrBottom
             Left = 10
             Height = 13
             Top = 197
             Width = 96
-            BorderSpacing.Top = 8
             Caption = 'Show &status bar'
             TabOrder = 8
           end
           object cbShowCmdLine: TCheckBox
-            AnchorSideTop.Control = cbShowStatusBar
-            AnchorSideTop.Side = asrBottom
             Left = 10
             Height = 13
             Top = 218
             Width = 115
-            BorderSpacing.Top = 8
             Caption = 'Show command &line'
             TabOrder = 9
           end
           object cbShowKeysPanel: TCheckBox
-            AnchorSideTop.Control = cbShowCmdLine
-            AnchorSideTop.Side = asrBottom
             Left = 10
             Height = 13
             Top = 239
             Width = 146
-            BorderSpacing.Top = 8
             Caption = 'Show &function key buttons'
             TabOrder = 10
           end
           object cbFlatDiskPanel: TCheckBox
-            AnchorSideTop.Control = cbTwoDiskPanels
-            AnchorSideTop.Side = asrBottom
             Left = 26
             Height = 13
             Top = 92
             Width = 75
-            BorderSpacing.Top = 8
             Caption = 'Flat buttons'
             Enabled = False
             TabOrder = 3
           end
           object cbTwoDiskPanels: TCheckBox
-            AnchorSideTop.Control = cbShowDiskPanel
-            AnchorSideTop.Side = asrBottom
             Left = 26
             Height = 13
             Top = 71
             Width = 304
-            BorderSpacing.Top = 8
             Caption = 'Show two drive button bars (fixed width, above file windows)'
             Enabled = False
             TabOrder = 2
           end
           object cbShowTabs: TCheckBox
-            AnchorSideTop.Control = cbShowDriveMenuButton
-            AnchorSideTop.Side = asrBottom
             Left = 10
             Height = 13
             Top = 134
             Width = 99
-            BorderSpacing.Top = 8
             Caption = 'Sho&w folder tabs'
             TabOrder = 5
           end
           object cbFlatInterface: TCheckBox
-            AnchorSideTop.Control = cbShowKeysPanel
-            AnchorSideTop.Side = asrBottom
             Left = 10
             Height = 13
             Top = 260
             Width = 81
-            BorderSpacing.Top = 8
             Caption = 'Flat interface'
             TabOrder = 11
           end
           object cbFlatToolBar: TCheckBox
-            AnchorSideTop.Control = cbShowMainToolBar
-            AnchorSideTop.Side = asrBottom
             Left = 26
             Height = 13
             Top = 29
             Width = 75
-            BorderSpacing.Top = 8
             Caption = 'Flat buttons'
             TabOrder = 12
           end

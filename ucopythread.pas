@@ -39,6 +39,8 @@ var
   pr:PFileRecItem;
   xIndex:Integer;
   iCoped:Int64;
+  iTotalDiskSize,
+  iFreeDiskSize : Int64;
 begin
   CorrectMask;
   FReplaceAll:=False;
@@ -51,6 +53,19 @@ begin
     pr:=NewFileList.GetItem(xIndex);
 //    writeln(pr^.sname,' ',pr^.sNameNoExt);
     EstimateTime(iCoped);
+
+    {Check disk free space}
+    GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
+    if pr^.iSize > iFreeDiskSize then
+      begin
+        case MsgBoxForThread(Self, 'No enough free space on target drive, Continue?', [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of // TODO: Localize
+          mmrNo:
+            Exit;
+          mmrSkip:
+            Continue;
+        end;
+      end;
+
     CpFile(pr,sDstPath, True);
     if not FPS_ISDIR(pr^.iMode) then
       inc(iCoped,pr^.iSize);
@@ -133,6 +148,9 @@ var
 //  bAppend:Boolean;
   iDstBeg:Int64; // in the append mode we store original size
   Buffer:PChar;
+  iTotalDiskSize,
+  iFreeDiskSize : Int64;
+  bRetry : Boolean;
 begin
   Result:=False;
 
@@ -164,14 +182,57 @@ begin
         if Terminated then
           Exit;
         Src.ReadBuffer(Buffer^, cBlockSize);
-        dst.WriteBuffer(Buffer^, cBlockSize);
+
+        repeat
+          try
+            bRetry := False;
+            dst.WriteBuffer(Buffer^, cBlockSize);
+          except
+            on EWriteError do
+              begin
+                {Check disk free space}
+                GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
+                if cBlockSize > iFreeDiskSize then
+                  case MsgBoxForThread(Self, 'No enough free space on target drive, Retry?', [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of // TODO: Localize
+                    mmrYes:
+                      bRetry := True;
+                    mmrNo:
+                      Terminate;
+                    mmrSkip:
+                      Exit;
+                  end; // case
+              end; // on do
+          end; // except
+        until not bRetry;
+        
         FFileOpDlg.iProgress1Pos:=dst.Size;
         Synchronize(@FFileOpDlg.UpdateDlg);
       end;
       if (iDstBeg+src.Size)>dst.Size then
       begin
         src.ReadBuffer(Buffer^, src.Size+iDstBeg-dst.size);
-        dst.WriteBuffer(Buffer^, src.Size+iDstBeg-dst.size);
+
+        repeat
+          try
+            bRetry := False;
+            dst.WriteBuffer(Buffer^, src.Size+iDstBeg-dst.size);
+          except
+            on EWriteError do
+              begin
+                {Check disk free space}
+                GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
+                if (src.Size+iDstBeg-dst.size) > iFreeDiskSize then
+                  case MsgBoxForThread(Self, 'No enough free space on target drive, Retry?', [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of // TODO: Localize
+                    mmrYes:
+                      bRetry := True;
+                    mmrNo:
+                      Terminate;
+                    mmrSkip:
+                      Exit;
+                  end; // case
+              end; // on do
+          end; // except
+        until not bRetry;
       end;
       FFileOpDlg.iProgress1Pos:=dst.Size;
       Synchronize(@FFileOpDlg.UpdateDlg);

@@ -18,7 +18,33 @@ unit uShowMsg;
 
 interface
 uses
-  Forms, fMsg;
+  Forms, Classes;
+
+type
+  TMyMsgResult=(mmrOK, mmrNo, mmrYes, mmrCancel, mmrNone,
+                mmrAppend, mmrRewrite, mmrRewriteAll, mmrSkip, mmrSkipAll, mmrAll );
+
+  TMyMsgButton=(msmbOK, msmbNO, msmbYes, msmbCancel, msmbNone,
+                msmbAppend, msmbRewrite, msmbRewriteAll, msmbSkip, msmbSkipAll, msmbAll);
+
+
+  { TDlgOpThread }
+
+  TDlgOpThread = class
+  private
+    procedure ShowInTheThread;
+  protected
+    FThread : TThread;
+    FMsg : String;
+    FButtons: array of TMyMsgButton;
+    FButDefault,
+    FButEscape : TMyMsgButton;
+    FDlgResult : TMyMsgResult;
+  public
+    constructor Create(Thread : TThread);
+    destructor Destroy;override;
+    function Show(const sMsg:String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton) : TMyMsgResult;
+  end;
 
 function msgYesNo(const sMsg:String):Boolean;
 function msgYesNoCancel(const sMsg:String):TMyMsgResult;
@@ -28,24 +54,59 @@ function msgWarning(const sMsg:String):Boolean;
 procedure msgError(const sMsg:String);
 
 function MsgBox(const sMsg:String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton):TMyMsgResult;
-function MsgBoxModal(const sMsg:String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton):TfrmMsg;
+function MsgBoxForThread(Thread : TThread;const sMsg:String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton):TMyMsgResult;
 
-Function MsgTest:TMyMsgResult;
+function MsgTest:TMyMsgResult;
 procedure msgLoadLng;
 
 
 implementation
 uses
-  SysUtils, StdCtrls, Graphics, uLng, Buttons, Controls, Classes;
+  SysUtils, StdCtrls, Graphics, fMsg, uLng, Buttons, Controls;
 
 const
   cMsgName='Double Commander';
 
 var
-
   cLngButton:Array[TMyMsgButton] of String;
-{  TMessageButton = (smbOK, smbCancel, smbYes, smbNo, smbAbort, smbRetry,
-    smbIgnore);}
+
+{ TDlgOpThread }
+
+procedure TDlgOpThread.ShowInTheThread;
+begin
+  FDlgResult := MsgBox(FMsg, FButtons, FButDefault, FButEscape);
+end;
+
+constructor TDlgOpThread.Create(Thread : TThread);
+begin
+  FThread := Thread;
+end;
+
+destructor TDlgOpThread.Destroy;
+begin
+  FButtons := nil;
+  inherited Destroy;
+end;
+
+function TDlgOpThread.Show(const sMsg: String;
+                           const Buttons: array of TMyMsgButton; ButDefault,
+                           ButEscape: TMyMsgButton) : TMyMsgResult;
+var
+  I : Integer;
+begin
+  FMsg := sMsg;
+
+  SetLength(FButtons, SizeOf(Buttons));
+  for I := Low(Buttons) to High(Buttons) do
+    FButtons[I] := Buttons[I];
+
+  FButDefault := ButDefault;
+  FButEscape := ButEscape;
+
+  FThread.Synchronize(FThread, ShowInTheThread);
+
+  Result := FDlgResult;
+end;
 
 { This is workaround for autosize}
 function MeasureText(Canvas:TCanvas; const sText:String):Integer;
@@ -133,23 +194,20 @@ begin
   end;
 end;
 
-{****************************************************}
-(*function for show pseudo modal Message Box. It used in Threads*)
-function MsgBoxModal(const sMsg:String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton):TfrmMsg;
+function MsgBoxForThread(Thread: TThread; const sMsg: String;
+                         const Buttons: array of TMyMsgButton; ButDefault,
+                         ButEscape: TMyMsgButton): TMyMsgResult;
+var
+  DlgOpThread : TDlgOpThread;
 begin
+  Result := mmrNone;
   try
-  Result:=TfrmMsg.Create(Application);
-  SetMsgBoxParams(Result, sMsg, Buttons, ButDefault, ButEscape);
-    
-    Result.Show;
-  except
-    FreeAndNil(Result);
-
+    DlgOpThread := TDlgOpThread.Create(Thread);
+    Result := DlgOpThread.Show(sMsg, Buttons, ButDefault, ButEscape);
+  finally
+    DlgOpThread.Free;
   end;
 end;
-{****************************************************}
-
-
 
 Function MsgTest:TMyMsgResult;
 begin

@@ -1,4 +1,10 @@
 object frmMsg: TfrmMsg
+  Left = 324
+  Height = 254
+  Top = 342
+  Width = 426
+  HorzScrollBar.Page = 425
+  VertScrollBar.Page = 253
   Caption = 'frmMsg'
   ClientHeight = 254
   ClientWidth = 426
@@ -6,21 +12,12 @@ object frmMsg: TfrmMsg
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   OnShow = frmMsgShow
-  PixelsPerInch = 96
-  TextHeight = 16
-  HorzScrollBar.Page = 425
-  VertScrollBar.Page = 253
-  Left = 324
-  Height = 254
-  Top = 342
-  Width = 426
   object lblMsg: TLabel
-    Caption = 'lblMsg'
-    Color = clNone
-    ParentColor = False
     Left = 32
     Height = 14
     Top = 16
     Width = 30
+    Caption = 'lblMsg'
+    ParentColor = False
   end
 end

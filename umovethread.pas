@@ -27,7 +27,7 @@ type
 
 implementation
 uses
-  uFileProcs, SysUtils, uLng, uDCUtils, uOSUtils;
+  uFileProcs, SysUtils, uShowMsg, uLng, uDCUtils, uOSUtils;
 
 
 procedure TMoveThread.MainExecute;
@@ -38,6 +38,8 @@ var
   sDstExt:String;
   sDstName:String;
   sDstNew:String;
+  iTotalDiskSize,
+  iFreeDiskSize : Int64;
 begin
   CorrectMask;
   FReplaceAll:=False;
@@ -60,6 +62,19 @@ begin
     pr:=NewFileList.GetItem(xIndex);
 
     EstimateTime(iCoped);
+
+    {Check disk free space}
+    GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
+    if pr^.iSize > iFreeDiskSize then
+      begin
+        case MsgBoxForThread(Self, 'No enough free space on target drive, Continue?', [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of // TODO: Localize
+          mmrNo:
+            Exit;
+          mmrSkip:
+            Continue;
+        end;
+      end;
+
     if FPS_ISDIR(pr^.iMode) then
     begin
       RmDir(pr^.sName);
@@ -92,8 +107,8 @@ begin
       begin
       // rename failed, maybe not the same filesystem (or we want append)
       // OK, copy standard way and delete src file
-        cpFile(pr, sDstPath, False); // False >> not show confirmation dialog
-        sysutils.DeleteFile(pr^.sName);
+        if cpFile(pr, sDstPath, False) then // False >> not show confirmation dialog
+          sysutils.DeleteFile(pr^.sName);
       end;
     end;
     FFileOpDlg.iProgress2Pos:=iCoped;
