@@ -12,13 +12,6 @@ const
   cButtonSpace=15;
 
 type
-  TMyMsgResult=(mmrOK, mmrNo, mmrYes, mmrCancel, mmrNone,
-                mmrAppend, mmrRewrite, mmrRewriteAll, mmrSkip, mmrSkipAll, mmrAll );
-
-  TMyMsgButton=(msmbOK, msmbNO, msmbYes, msmbCancel, msmbNone,
-                msmbAppend, msmbRewrite, msmbRewriteAll, msmbSkip, msmbSkipAll, msmbAll);
-
-
   TfrmMsg = class(TForm)
     lblMsg: TLabel;
     procedure FormCreate(Sender: TObject);

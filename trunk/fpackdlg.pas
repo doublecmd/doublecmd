@@ -29,30 +29,31 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Buttons, uFileList, uVFS, EditBtn;
+  Buttons, uFileList, uVFS, EditBtn, ExtCtrls;
 
 type
 
   { TPackDlg }
 
   TPackDlg = class(TForm)
+    btnConfig: TButton;
     btnHelp: TButton;
     btnCancel: TButton;
-    btnConfig: TButton;
     cbCreateSeparateArchives: TCheckBox;
     cbCreateSFX: TCheckBox;
     cbEncrypt: TCheckBox;
     cbMoveToArchive: TCheckBox;
     cbMultivolume: TCheckBox;
     btnOk: TButton;
-    edtPackCmd: TDirectoryEdit;
-    gbPacker: TGroupBox;
     cbPackerList: TComboBox;
+    cbOtherPlugins: TCheckBox;
+    edtPackCmd: TDirectoryEdit;
     lblPrompt: TLabel;
     cbRecurse: TCheckBox;
     cbStoredir: TCheckBox;
-    rbOtherPlugins: TRadioButton;
+    rgPacker: TRadioGroup;
     procedure btnConfigClick(Sender: TObject);
+    procedure cbOtherPluginsChange(Sender: TObject);
     procedure edtPackCmdAcceptDirectory(Sender: TObject; var Value: String);
     procedure FormShow(Sender: TObject);
     procedure arbChange(Sender: TObject);
@@ -63,9 +64,6 @@ type
     { public declarations }
   end; 
 procedure ShowPackFilesForm(VFS : TVFS; var fl : TFileList; sDestPath:String);
-
-var
-  arbRadioButtonArray : array [0..8] of TRadioButton;
 
 implementation
 uses
@@ -118,7 +116,7 @@ begin
   Count := 0;
   with CurrentVFS do
     begin
-      for I:=0 to WCXPlugins.Count -1 do
+      for I:=0 to WCXPlugins.Count - 1 do
         begin
         if Pos('#', WCXPlugins.Names[I]) <> 0 then Continue;
           sCurrentPlugin := WCXPlugins.ValueFromIndex[i];
@@ -128,17 +126,8 @@ begin
               (* First 9 plugins we display as  RadioButtons *)
               if J < 9 then
                 begin
-                  arbRadioButtonArray[J] := TRadioButton.Create(gbPacker);
-                  arbRadioButtonArray[J].Parent := gbPacker;
-                  arbRadioButtonArray[J].Left := 5 + 45 * (J div 3);
-                  arbRadioButtonArray[J].Top := Count * (arbRadioButtonArray[J].Height + 4);
-                  arbRadioButtonArray[J].Visible := True;
-                  arbRadioButtonArray[J].Caption := WCXPlugins.Names[I];
-                  arbRadioButtonArray[J].OnChange := @arbChange;
+                  rgPacker.Items.Add(WCXPlugins.Names[I]);
                   J := J + 1;
-                  Count := Count + 1;
-                  if Count > 2 then
-                    Count := 0;
                 end
               else
                 (* Other plugins we add in ComboBox *)
@@ -147,13 +136,18 @@ begin
                 end;
             end;
         end; //for
-        if arbRadioButtonArray[0] <> nil then
-          arbRadioButtonArray[0].Checked := True;
+        if rgPacker.Items.Count > 0 then
+          rgPacker.ItemIndex := 0;
         if cbPackerList.Items.Count > 0 then
           begin
-            rbOtherPlugins.Enabled := True;
+            cbOtherPlugins.Visible := True;
+            cbPackerList.Visible := True;
+            cbOtherPlugins.Enabled := True;
+            cbOtherPlugins.Enabled := True;
             cbPackerList.ItemIndex := 0;
-          end;
+          end
+        else
+          btnConfig.AnchorToCompanion(akTop, 6, rgPacker);
     end;
 end;
 
@@ -161,6 +155,21 @@ procedure TPackDlg.btnConfigClick(Sender: TObject);
 begin
    if CurrentVFS.FindModule(edtPackCmd.Text) then
      CurrentVFS.VFSmodule.VFSConfigure(Handle);
+end;
+
+procedure TPackDlg.cbOtherPluginsChange(Sender: TObject);
+begin
+  if cbOtherPlugins.Checked then
+    begin
+      edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.' + cbPackerList.Text);
+      rgPacker.ItemIndex := -1;
+    end
+  else
+    begin
+      if rgPacker.ItemIndex = -1 then
+        rgPacker.ItemIndex := 0;
+    end;
+  cbPackerList.Enabled := cbOtherPlugins.Checked;
 end;
 
 procedure TPackDlg.edtPackCmdAcceptDirectory(Sender: TObject; var Value: String
@@ -171,11 +180,11 @@ end;
 
 procedure TPackDlg.arbChange(Sender: TObject);
 begin
-  cbPackerList.Enabled := rbOtherPlugins.Checked;
-  if rbOtherPlugins.Checked then
-    edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.' + cbPackerList.Text)
-  else
-    edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.' + TRadioButton(Sender).Caption);
+  if rgPacker.ItemIndex >= 0 then
+    begin
+      edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.' + rgPacker.Items[rgPacker.ItemIndex]);
+      cbOtherPlugins.Checked := False;
+    end;
 end;
 
 
