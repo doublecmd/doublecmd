@@ -1,68 +1,75 @@
-object frmHotDir: TfrmHotDir
+inherited frmHotDir: TfrmHotDir
+  Left = 277
+  Height = 423
+  Top = 87
+  Width = 411
+  HorzScrollBar.Page = 410
+  HorzScrollBar.Range = 403
+  VertScrollBar.Page = 422
+  VertScrollBar.Range = 417
   ActiveControl = lsHotDir
   Caption = 'frmHotDir'
   ClientHeight = 423
   ClientWidth = 411
-  Color = clBackground
-  TextHeight = 16
-  HorzScrollBar.Page = 412
-  HorzScrollBar.Range = 403
-  VertScrollBar.Page = 424
-  VertScrollBar.Range = 417
-  Left = 277
-  Height = 423
-  Top = 211
-  Width = 411
+  Position = poMainFormCenter
   object lsHotDir: TListBox
-    TabOrder = 0
-    TopIndex = -1
     Left = 8
     Height = 409
     Top = 8
     Width = 305
+    TabOrder = 0
+    TopIndex = -1
   end
   object btnOK: TBitBtn
-    Kind = bkOK
-    ModalResult = 1
-    OnClick = btnOKClick
-    ModalResult = 1
-    Caption = '&OK'
-    TabOrder = 1
-    OnClick = btnOKClick
     Left = 328
-    Height = 25
+    Height = 32
     Top = 8
     Width = 75
+    Caption = '&OK'
+    Kind = bkOK
+    ModalResult = 1
+    NumGlyphs = 0
+    OnClick = btnOKClick
+    TabOrder = 1
   end
   object btnCancel: TBitBtn
-    Kind = bkCancel
-    ModalResult = 2
-    ModalResult = 2
-    Caption = 'Cancel'
-    TabOrder = 2
+    AnchorSideTop.Control = btnDelete
+    AnchorSideTop.Side = asrBottom
     Left = 328
-    Height = 25
+    Height = 32
     Top = 128
     Width = 75
+    BorderSpacing.Top = 8
+    Caption = 'Cancel'
+    Kind = bkCancel
+    ModalResult = 2
+    NumGlyphs = 0
+    TabOrder = 2
   end
   object btnADD: TBitBtn
-    OnClick = btnADDClick
-    Caption = 'Add'
-    TabOrder = 3
-    OnClick = btnADDClick
+    AnchorSideTop.Control = btnOK
+    AnchorSideTop.Side = asrBottom
     Left = 328
-    Height = 25
+    Height = 32
     Top = 48
     Width = 75
+    BorderSpacing.Top = 8
+    Caption = 'Add'
+    NumGlyphs = 0
+    OnClick = btnADDClick
+    TabOrder = 3
   end
   object btnDelete: TBitBtn
-    OnClick = btnDeleteClick
-    Caption = 'Delete'
-    TabOrder = 4
-    OnClick = btnDeleteClick
+    AnchorSideTop.Control = btnADD
+    AnchorSideTop.Side = asrBottom
     Left = 328
-    Height = 25
+    Height = 32
     Top = 88
     Width = 75
+    BorderSpacing.Top = 8
+    Caption = 'Delete'
+    NumGlyphs = 0
+    OnClick = btnDeleteClick
+    TabOrder = 4
   end
 end

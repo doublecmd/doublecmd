@@ -1,54 +1,56 @@
-object frmHardLink: TfrmHardLink
+inherited frmHardLink: TfrmHardLink
+  Left = 292
+  Height = 156
+  Top = 224
+  Width = 417
+  HorzScrollBar.Page = 416
+  HorzScrollBar.Range = 411
+  VertScrollBar.Page = 155
+  VertScrollBar.Range = 145
   ActiveControl = edtNew
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
   Caption = 'frmHardLink'
-  ClientHeight = 148
+  ClientHeight = 156
   ClientWidth = 417
   KeyPreview = True
   OnKeyPress = frmHardLinkKeyPress
-  PixelsPerInch = 96
   Position = poMainFormCenter
-  TextHeight = 16
-  HorzScrollBar.Page = 416
-  HorzScrollBar.Range = 411
-  VertScrollBar.Page = 147
-  VertScrollBar.Range = 145
-  Left = 292
-  Height = 148
-  Top = 224
-  Width = 417
   object lblNew: TLabel
-    Caption = 'lblNew'
-    Color = clNone
-    ParentColor = False
     Left = 8
-    Height = 14
+    Height = 13
     Top = 64
-    Width = 32
+    Width = 39
+    Caption = 'lblNew'
+    ParentColor = False
   end
   object lblDst: TLabel
-    Caption = 'lblDst'
-    Color = clNone
-    ParentColor = False
     Left = 8
-    Height = 14
+    Height = 13
     Top = 8
-    Width = 27
+    Width = 32
+    Caption = 'lblDst'
+    ParentColor = False
   end
   object edtNew: TEdit
-    TabOrder = 1
     Left = 8
     Height = 24
     Top = 88
     Width = 401
+    TabOrder = 1
   end
   object edtDst: TEdit
-    TabOrder = 3
     Left = 8
     Height = 24
     Top = 32
     Width = 401
+    TabOrder = 3
   end
   object btnOK: TBitBtn
+    Left = 248
+    Height = 32
+    Top = 120
+    Width = 75
     BorderSpacing.InnerBorder = 2
     Caption = '&OK'
     Default = True
@@ -57,21 +59,17 @@ object frmHardLink: TfrmHardLink
     NumGlyphs = 0
     OnClick = btnOKClick
     TabOrder = 0
-    Left = 248
-    Height = 23
-    Top = 120
-    Width = 75
   end
   object btnCancel: TBitBtn
+    Left = 336
+    Height = 32
+    Top = 120
+    Width = 75
     BorderSpacing.InnerBorder = 2
     Caption = 'Cancel'
     Kind = bkCancel
     ModalResult = 2
     NumGlyphs = 0
     TabOrder = 2
-    Left = 336
-    Height = 23
-    Top = 120
-    Width = 75
   end
 end
