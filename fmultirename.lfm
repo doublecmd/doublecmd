@@ -1,7 +1,7 @@
 inherited frmMultiRename: TfrmMultiRename
-  Left = 278
+  Left = 79
   Height = 354
-  Top = 176
+  Top = 233
   Width = 608
   HorzScrollBar.Page = 607
   HorzScrollBar.Range = 603
@@ -9,29 +9,31 @@ inherited frmMultiRename: TfrmMultiRename
   VertScrollBar.Range = 345
   ActiveControl = edName
   Caption = 'MultiRename'
+  ClientHeight = 354
+  ClientWidth = 608
   Position = poMainFormCenter
   object gbMaska: TGroupBox
     Height = 105
     Top = 208
     Width = 176
     Caption = 'Mask'
+    ClientHeight = 88
+    ClientWidth = 172
     ParentCtl3D = False
     TabOrder = 0
     object lbName: TLabel
       Left = 6
-      Height = 14
-      Width = 47
+      Height = 13
+      Width = 58
       Caption = 'File Name'
-      Color = clNone
       ParentColor = False
     end
     object lbExt: TLabel
       Left = 6
-      Height = 14
+      Height = 13
       Top = 41
-      Width = 48
+      Width = 55
       Caption = 'Extension'
-      Color = clNone
       ParentColor = False
     end
     object edName: TEdit
@@ -56,6 +58,7 @@ inherited frmMultiRename: TfrmMultiRename
       Height = 19
       Top = 17
       Width = 16
+      BorderSpacing.InnerBorder = 4
       Caption = '...'
       OnClick = btnNameMenuClick
       TabOrder = 1
@@ -65,6 +68,7 @@ inherited frmMultiRename: TfrmMultiRename
       Height = 20
       Top = 57
       Width = 16
+      BorderSpacing.InnerBorder = 4
       Caption = '...'
       OnClick = btnExtMenuClick
       TabOrder = 3
@@ -76,23 +80,23 @@ inherited frmMultiRename: TfrmMultiRename
     Top = 208
     Width = 137
     Caption = 'Find && Replace'
+    ClientHeight = 88
+    ClientWidth = 133
     ParentCtl3D = False
     TabOrder = 1
     object lbFind: TLabel
       Left = 6
-      Height = 14
-      Width = 33
+      Height = 13
+      Width = 35
       Caption = 'Find...'
-      Color = clNone
       ParentColor = False
     end
     object lbReplace: TLabel
       Left = 6
-      Height = 14
+      Height = 13
       Top = 41
-      Width = 51
+      Width = 56
       Caption = 'Replace...'
-      Color = clNone
       ParentColor = False
     end
     object edFind: TEdit
@@ -118,6 +122,8 @@ inherited frmMultiRename: TfrmMultiRename
     Top = 208
     Width = 137
     Caption = 'File Name Style'
+    ClientHeight = 32
+    ClientWidth = 133
     ParentCtl3D = False
     TabOrder = 2
     object cmbxFont: TComboBox
@@ -126,7 +132,6 @@ inherited frmMultiRename: TfrmMultiRename
       Top = 1
       Width = 120
       AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-      ItemHeight = 18
       ItemIndex = 0
       Items.Strings = (
         'no change'
@@ -148,33 +153,32 @@ inherited frmMultiRename: TfrmMultiRename
     Top = 208
     Width = 137
     Caption = 'Counter'
+    ClientHeight = 88
+    ClientWidth = 133
     ParentCtl3D = False
     TabOrder = 3
     object lbStNb: TLabel
       Left = 6
-      Height = 14
+      Height = 13
       Top = 1
-      Width = 65
+      Width = 73
       Caption = 'Start Number'
-      Color = clNone
       ParentColor = False
     end
     object lbInterval: TLabel
       Left = 6
-      Height = 14
+      Height = 13
       Top = 57
-      Width = 39
+      Width = 42
       Caption = 'Interval'
-      Color = clNone
       ParentColor = False
     end
     object lbWidth: TLabel
       Left = 6
-      Height = 14
+      Height = 13
       Top = 28
-      Width = 29
+      Width = 32
       Caption = 'Width'
-      Color = clNone
       ParentColor = False
     end
     object edPoc: TEdit
@@ -203,7 +207,6 @@ inherited frmMultiRename: TfrmMultiRename
       Top = 25
       Width = 50
       AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-      ItemHeight = 18
       ItemIndex = 0
       Items.Strings = (
         '01'
@@ -227,18 +230,20 @@ inherited frmMultiRename: TfrmMultiRename
   end
   object btnOK: TButton
     Left = 320
-    Height = 25
+    Height = 32
     Top = 320
     Width = 65
+    BorderSpacing.InnerBorder = 4
     Caption = 'OK'
     OnClick = btnOKClick
     TabOrder = 4
   end
   object btnCancel: TButton
     Left = 392
-    Height = 25
+    Height = 32
     Top = 320
     Width = 65
+    BorderSpacing.InnerBorder = 4
     Caption = 'Cancel'
     ModalResult = 2
     TabOrder = 5
@@ -249,6 +254,8 @@ inherited frmMultiRename: TfrmMultiRename
     Top = 263
     Width = 137
     Caption = 'Log Result'
+    ClientHeight = 65
+    ClientWidth = 133
     ParentCtl3D = False
     TabOrder = 6
     object edFile: TEdit
@@ -260,9 +267,9 @@ inherited frmMultiRename: TfrmMultiRename
     end
     object cbLog: TCheckBox
       Left = 8
-      Height = 13
+      Height = 20
       Top = 40
-      Width = 38
+      Width = 48
       AllowGrayed = True
       Caption = 'Log'
       OnClick = cbLogClick
@@ -271,9 +278,10 @@ inherited frmMultiRename: TfrmMultiRename
   end
   object btnRestore: TButton
     Left = 8
-    Height = 25
+    Height = 32
     Top = 318
     Width = 136
+    BorderSpacing.InnerBorder = 4
     Caption = 'Restore All'
     OnClick = btnRestoreClick
     TabOrder = 7
@@ -287,17 +295,17 @@ inherited frmMultiRename: TfrmMultiRename
       item
         AutoSize = True
         Caption = 'Old File Name'
-        Width = 190
+        Width = 80
       end    
       item
         AutoSize = True
         Caption = 'New File Name'
-        Width = 190
+        Width = 85
       end    
       item
         AutoSize = True
         Caption = 'File Path'
-        Width = 190
+        Width = 49
       end>
     TabOrder = 8
     ViewStyle = vsReport

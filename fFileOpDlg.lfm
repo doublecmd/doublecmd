@@ -19,7 +19,7 @@ inherited frmFileOp: TfrmFileOp
   ShowInTaskBar = stAlways
   object lblFileName: TLabel
     Height = 13
-    Width = 59
+    Width = 68
     Caption = 'lblFileName'
     Font.Color = clBlack
     Font.Height = 13
@@ -29,9 +29,9 @@ inherited frmFileOp: TfrmFileOp
     ParentColor = False
   end
   object lblEstimated: TLabel
-    Height = 14
+    Height = 13
     Top = 96
-    Width = 58
+    Width = 67
     Caption = 'lblEstimated'
     ParentColor = False
   end
@@ -56,7 +56,7 @@ inherited frmFileOp: TfrmFileOp
   end
   object btnCancel: TBitBtn
     Left = 160
-    Height = 25
+    Height = 32
     Top = 96
     Width = 89
     BorderSpacing.InnerBorder = 2

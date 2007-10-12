@@ -263,7 +263,10 @@ end;
 
 procedure TfrmEditSearch.CreateDialog(AOwner: TForm);
 begin
-  SetInitialBounds(367, 203, 332, 167);
+  SetInitialBounds(367, 203, 332, 170);
+
+  BorderStyle := bsDialog;
+  Position := poMainFormCenter;
 
   lblSearchFor:= TLabel.Create(AOwner);
   lblSearchFor.Parent:=AOwner;
@@ -304,6 +307,7 @@ begin
   btnOK.Parent:=AOwner;
   btnOK.Left:=170;
   btnOK.Top:=136;
+  btnOK.Height := 32;
   btnOK.Caption:='OK'; // TODO: change this
   btnOK.OnClick:=@btnOKClick;
 
@@ -311,6 +315,7 @@ begin
   btnCancel.Parent:=AOwner;
   btnCancel.Top:=136;
   btnCancel.Left:=249;
+  btnCancel.Height := 32;
   btnCancel.Cancel:=True;
   btnCancel.ModalResult:=mrCancel;
   btnCancel.Caption:='Cancel'; // TODO: change this
@@ -393,8 +398,11 @@ end;
 procedure TfrmEditSearchReplace.CreateDialog(AOwner: TForm);
 begin
   inherited CreateDialog(AOwner); // create search dialog
-  
-  Height:=Height+30;
+
+  BorderStyle := bsDialog;
+  Position := poMainFormCenter;
+
+  Height:=Height+40;
   gbSearchOptions.Top:=gbSearchOptions.Top+30;
   rgSearchDirection.Top:=rgSearchDirection.Top+30;
   lblReplaceWith:= TLabel.Create(AOwner);
@@ -406,7 +414,9 @@ begin
   cbReplaceText.SetBounds(112, 35, 208, 24 );
 
   btnOK.Top:=btnOK.Top+30;
+  btnOK.Height := 32;
   btnCancel.Top:=btnCancel.Top+30;
+  btnCancel.Height := 32;
 
   Caption:=cEditSearchReplace;
   lblReplaceWith.Caption:=cEditSearchReplaceWith;

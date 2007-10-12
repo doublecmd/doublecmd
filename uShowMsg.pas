@@ -134,7 +134,7 @@ begin
     frmMsg.Width:=(cButtonWith+cButtonSpace)*3+cButtonSpace
   else
     frmMsg.Width:=(cButtonWith+cButtonSpace)*(High(Buttons)+1)+cButtonSpace;
-  frmMsg.Height:=(High(Buttons) div 3)*30+80;
+  frmMsg.Height:=(High(Buttons) div 3)*40+80;
 
 
     frmMsg.Caption:=cMsgName;
@@ -157,6 +157,7 @@ begin
         Caption:=cLngButton[Buttons[iIndex]];
         Parent:=frmMsg;
         Width:=cButtonWith;
+        Height := 32;
         Tag:=iIndex;
         OnCLick:=frmMsg.ButtonClick;
         if (High(Buttons)+1)>=3 then

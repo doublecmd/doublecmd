@@ -311,7 +311,7 @@ end;
 
 procedure TfrmOptions.cbColorBoxChange(Sender: TObject);
 begin
-  (Sender as TColorBox).Color := (Sender as TColorBox).Selection;
+  (Sender as TColorBox).Color := (Sender as TColorBox).Selected;
   pbExample.Repaint;
 end;
 
@@ -338,7 +338,7 @@ end;
 
 procedure TfrmOptions.cbTextColorChange(Sender: TObject);
 begin
-  cbTextColor.Color := cbTextColor.Selection;
+  cbTextColor.Color := cbTextColor.Selected;
 end;
 
 procedure TfrmOptions.cbColorBoxDropDown(Sender: TObject);
@@ -427,22 +427,22 @@ begin
   lblViewerFont.Caption:= lngGetString(clngDlgOptViewerFont);
 
   { Colors }
-  cbTextColor.Selection := gForeColor;
+  cbTextColor.Selected := gForeColor;
   cbTextColor.Color := gForeColor;
   
-  cbBackColor.Selection := gBackColor;
+  cbBackColor.Selected := gBackColor;
   cbBackColor.Color := gBackColor;
 
-  cbBackColor2.Selection := gBackColor2;
+  cbBackColor2.Selected := gBackColor2;
   cbBackColor2.Color := gBackColor2;
 
-  cbMarkColor.Selection := gMarkColor;
+  cbMarkColor.Selected := gMarkColor;
   cbMarkColor.Color := gMarkColor;
 
-  cbCursorColor.Selection := gCursorColor;
+  cbCursorColor.Selected := gCursorColor;
   cbCursorColor.Color := gCursorColor;
 
-  cbCursorText.Selection := gCursorText;
+  cbCursorText.Selected := gCursorText;
   cbCursorText.Color := gCursorText;
 
   cbShowIcons.Checked := gShowIcons;
@@ -938,7 +938,7 @@ end;
 
 procedure TfrmOptions.cbCategoryColorChange(Sender: TObject);
 begin
-  (Sender as TColorBox).Color := (Sender as TColorBox).Selection;
+  (Sender as TColorBox).Color := (Sender as TColorBox).Selected;
 end;
 
 procedure TfrmOptions.lbCategoriesClick(Sender: TObject);
@@ -953,7 +953,7 @@ begin
 
       edtCategoryMask.Text := ColorFileMask^.sFileMask;
       cbCategoryColor.Color := ColorFileMask^.clMaskColor;
-      cbCategoryColor.Selection := cbCategoryColor.Color;
+      cbCategoryColor.Selected := cbCategoryColor.Color;
     end
   else
     begin
@@ -964,7 +964,7 @@ begin
       edtCategoryMask.Text := '';
       cbCategoryColor.ItemIndex := -1;
       cbCategoryColor.Color := clWindow;
-      cbCategoryColor.Selection := cbCategoryColor.Color;
+      cbCategoryColor.Selected := cbCategoryColor.Color;
     end;
 end;
 
