@@ -213,6 +213,7 @@ type
     procedure dskToolButtonClick(Sender: TObject; NumberOfButton: Integer);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure lblDriveInfoDblClick(Sender: TObject);
     procedure MainToolBarMouseDown(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure MainToolBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
@@ -268,7 +269,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormActivate(Sender: TObject);
-    procedure FrameRightedtRenameExit(Sender: TObject);
+    procedure FrameEditExit(Sender: TObject);
     procedure FrameedtSearchExit(Sender: TObject);
 
     procedure actCalculateSpaceExecute(Sender: TObject);
@@ -276,8 +277,8 @@ type
     procedure FramedgPanelEnter(Sender: TObject);
     procedure framedgPanelMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure ShowPathEdit;
     procedure FramelblLPathClick(Sender: TObject);
-    procedure FrameHeaderDblClick(Sender: TObject);
     procedure FramelblLPathMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FramepnlFileChangeDirectory(Sender: TObject; const NewDir : String);
@@ -508,6 +509,15 @@ begin
   {*Tool Bar*}
   MainToolBar.SaveToFile(gpIniDir + 'default.bar');
   {*Tool Bar*}
+end;
+
+procedure TfrmMain.lblDriveInfoDblClick(Sender: TObject);
+begin
+  if (Sender as TLabel).Name = 'lblRightDriveInfo' then
+      SetActiveFrame(fpRight)
+  else if (Sender as TLabel).Name = 'lblLeftDriveInfo' then
+      SetActiveFrame(fpLeft);
+  actDirHotList.Execute;
 end;
 
 procedure TfrmMain.DeleteClick(Sender: TObject);
@@ -1658,18 +1668,15 @@ begin
     with ActiveFrame do
     begin
       SelectFileIfNoSelected(GetActiveItem);
-      sFile1:=ActiveDir+pnlFile.GetActiveItem^.sName;
+      sFile2 := pnlFile.GetActiveItem^.sName;
+      sFile1 := ActiveDir + sFile2;
+      sFile2 := NotActiveFrame.ActiveDir + sFile2;
     end;
 
-    with NotActiveFrame do
-    begin
-      SelectFileIfNoSelected(GetActiveItem);
-      sFile2:=ActiveDir+pnlFile.GetActiveItem^.sName;
-    end;
     ShowSymLinkForm(sFile1, sFile2);
 
   finally
-    frameLeft.RefreshPanel;
+    FrameLeft.RefreshPanel;
     FrameRight.RefreshPanel;
     ActiveFrame.SetFocus;
   end;
@@ -1684,14 +1691,11 @@ begin
     with ActiveFrame do
     begin
       SelectFileIfNoSelected(GetActiveItem);
-      sFile1:=ActiveDir+pnlFile.GetActiveItem^.sName;
+      sFile2 := pnlFile.GetActiveItem^.sName;
+      sFile1 := ActiveDir + sFile2;
+      sFile2 := NotActiveFrame.ActiveDir + sFile2;
     end;
-
-    with NotActiveFrame do
-    begin
-      SelectFileIfNoSelected(GetActiveItem);
-      sFile2:=ActiveDir+pnlFile.GetActiveItem^.sName;
-    end;
+    
     ShowHardLinkForm(sFile1, sFile2);
 
   finally
@@ -2137,12 +2141,12 @@ begin
 //  DebugLn('Activate');
 end;
 
-procedure TfrmMain.FrameRightedtRenameExit(Sender: TObject);
+procedure TfrmMain.FrameEditExit(Sender: TObject);
 begin
 // handler for both edits
 //  DebugLn('On exit');
   KeyPreview:=True;
-  ActiveFrame.edtRename.Visible:=False;
+  (Sender as TEdit).Visible:=False;
 end;
 
 procedure TfrmMain.FrameedtSearchExit(Sender: TObject);
@@ -2157,7 +2161,7 @@ begin
   KeyPreview:=False;
   With ActiveFrame do
   begin
-    edtRename.OnExit:=@FrameRightedtRenameExit;
+    edtRename.OnExit:=@FrameEditExit;
     edtRename.Width:=dgPanel.ColWidths[0]+dgPanel.ColWidths[1]-16;
     edtRename.Top:= (dgPanel.CellRect(0,dgPanel.Row).Top-2);
     edtRename.Left:=16;
@@ -2243,6 +2247,19 @@ begin
     end;
 end;
 
+procedure TfrmMain.ShowPathEdit;
+begin
+  KeyPreview:=False;
+  with ActiveFrame do
+  begin
+    edtPath.OnExit:=@FrameEditExit;
+    with lblLPath do
+      edtPath.SetBounds(Left, Top, Width, Height);
+    edtPath.Text := ActiveDir;
+    edtPath.Visible := True;
+    edtPath.SetFocus;
+  end;
+end;
 
 procedure TfrmMain.FramelblLPathClick(Sender: TObject);
 begin
@@ -2251,20 +2268,21 @@ begin
   actDirHistory.Execute;
 end;
 
-procedure TfrmMain.FrameHeaderDblClick(Sender: TObject);
-begin
-  SetActiveFrame(TFrameFilePanel(TControl(Sender).Parent).PanelSelect);
-  actDirHotList.Execute;
-end;
-
 procedure TfrmMain.FramelblLPathMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  if Button = mbMiddle  then
+  case Button of
+  mbMiddle:
     begin
       SetActiveFrame(TFrameFilePanel(TControl(Sender).Parent.Parent).PanelSelect);
       actDirHotList.Execute;
     end;
+  mbRight:
+    begin
+      SetActiveFrame(TFrameFilePanel(TControl(Sender).Parent.Parent).PanelSelect);
+      ShowPathEdit;
+    end;
+  end;
 end;
 
 procedure TfrmMain.FramepnlFileChangeDirectory(Sender: TObject; const NewDir: String);
@@ -2323,12 +2341,14 @@ begin
               begin
                 btnLeftDrive.Glyph := PixMapManager.GetStretchBitmap(DriveIcon, btnLeftDrive.Color, btnLeftDrive.Height - 4);
                 btnLeftDrive.Caption := Name;
+                btnLeftDrive.Width := btnLeftDrive.Glyph.Width + btnLeftDrive.Canvas.TextWidth(btnLeftDrive.Caption) + 16;
                 dskLeft.Tag := I;
               end;
             if Pos(Path, FrameRight.pnlFile.ActiveDir) = 1 then
               begin
                 btnRightDrive.Glyph := PixMapManager.GetStretchBitmap(DriveIcon, btnRightDrive.Color, btnRightDrive.Height - 4);
                 btnRightDrive.Caption := Name;
+                btnRightDrive.Width := btnRightDrive.Glyph.Width + btnRightDrive.Canvas.TextWidth(btnRightDrive.Caption) + 16;
                 dskRight.Tag := I;
               end;
           end;
@@ -2368,6 +2388,7 @@ begin
              iIconIndex := PDrive(DrivesList[Tag])^.DriveIcon;
              btnLeftDrive.Glyph := PixMapManager.GetStretchBitmap(iIconIndex, btnLeftDrive.Color, btnLeftDrive.Height - 4);
              btnLeftDrive.Caption := Caption;
+             btnLeftDrive.Width := btnLeftDrive.Glyph.Width + btnLeftDrive.Canvas.TextWidth(btnLeftDrive.Caption) + 16;
            end;
          1:
            begin
@@ -2380,6 +2401,7 @@ begin
              iIconIndex := PDrive(DrivesList[Tag])^.DriveIcon;
              btnRightDrive.Glyph := PixMapManager.GetStretchBitmap(iIconIndex, btnRightDrive.Color, btnRightDrive.Height - 4);
              btnRightDrive.Caption := Caption;
+             btnRightDrive.Width := btnRightDrive.Glyph.Width + btnRightDrive.Canvas.TextWidth(btnRightDrive.Caption) + 16;
            end;
          end;  // case
        end
@@ -2487,13 +2509,12 @@ begin
     pnlFooter.Visible := gStatusBar;
     lblLPath.OnClick:=@FramelblLPathClick;
     lblLPath.OnMouseDown := @FramelblLPathMouseDown;
-    edtRename.OnExit:=@FrameRightedtRenameExit;
+    edtPath.OnExit:=@FrameEditExit;
+    edtRename.OnExit:=@FrameEditExit;
     edtSearch.OnExit:=@FrameedtSearchExit;
-    
     
     dgPanel.OnEnter:=@framedgPanelEnter;
     dgPanel.OnMouseDown := @framedgPanelMouseDown;
-    pnlHeader.OnDblClick := @FrameHeaderDblClick;
 
   end;
 

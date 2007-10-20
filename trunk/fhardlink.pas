@@ -16,7 +16,6 @@ type
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
     procedure btnOKClick(Sender: TObject);
-    procedure frmHardLinkKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
 
@@ -66,17 +65,6 @@ begin
   else
   begin
     MsgError(lngGetString(clngHardErrCreate));
-  end;
-end;
-
-procedure TfrmHardLink.frmHardLinkKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key=#27 then
-    ModalResult:=mrCancel;
-  if Key=#13 then
-  begin
-    ModalResult:=mrOK;
-    Key:=#0;
   end;
 end;
 

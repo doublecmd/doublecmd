@@ -1,20 +1,19 @@
 inherited frmSymLink: TfrmSymLink
-  Left = 291
+  Left = 305
   Height = 136
-  Top = 233
+  Top = 140
   Width = 362
   HorzScrollBar.Page = 361
   HorzScrollBar.Range = 344
   VertScrollBar.Page = 135
   VertScrollBar.Range = 128
-  ActiveControl = btnOK
+  ActiveControl = edtDst
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'frmSymLink'
   ClientHeight = 136
   ClientWidth = 362
   KeyPreview = True
-  OnKeyPress = frmSymLinkKeyPress
   Position = poScreenCenter
   object lblNew: TLabel
     Height = 13
@@ -61,6 +60,7 @@ inherited frmSymLink: TfrmSymLink
     Top = 96
     Width = 75
     BorderSpacing.InnerBorder = 2
+    Cancel = True
     Caption = 'Cancel'
     Kind = bkCancel
     ModalResult = 2

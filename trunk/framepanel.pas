@@ -35,12 +35,14 @@ type
     lblLInfo: TLabel;
     pnlHeader: TPanel;
     lblLPath: TLabel;
+    edtPath,
     edtRename: TEdit;
     dgPanel: TDrawGrid;
     pnAltSearch: TPanel;
     edtSearch: TEdit;
 
     procedure edSearchChange(Sender: TObject);
+    procedure edtPathKeyPress(Sender: TObject; var Key: Char);
     procedure edtRenameKeyPress(Sender: TObject; var Key: Char);
     procedure dgPanelDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
@@ -378,6 +380,27 @@ begin
 //  pnlFile.UpdatePanel;
 end;
 
+procedure TFrameFilePanel.edtPathKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key=#27 then
+  begin
+    edtPath.Visible:=False;
+    SetFocus;
+  end;
+  if Key=#13 then
+  begin
+    Key:=#0; // catch the enter
+    //if DirectoryExists(edtPath.Text) then
+      begin
+        pnlFile.ActiveDir:=edtPath.Text;
+        LoadPanel;
+        edtPath.Visible:=False;
+        RefreshPanel;
+        SetFocus;
+      end;
+  end;
+end;
 
 procedure TFrameFilePanel.edtRenameKeyPress(Sender: TObject;
   var Key: Char);
@@ -694,6 +717,10 @@ begin
   lblLPath.Width:=pnlHeader.Width - 4;
   lblLPath.Color:=clActiveCaption;
 
+  edtPath:=TEdit.Create(lblLPath);
+  edtPath.Parent:=pnlHeader;
+  edtPath.Visible:=False;
+
   pnlFooter:=TPanel.Create(Self);
   pnlFooter.Parent:=Self;
   pnlFooter.Align:=alBottom;
@@ -764,7 +791,7 @@ begin
   {/Alexx2000}
   edtSearch.OnChange:=@edSearchChange;
   edtSearch.OnKeyPress:=@edSearchKeyPress;
-  
+  edtPath.OnKeyPress:=@edtPathKeyPress;
   edtRename.OnKeyPress:=@edtRenameKeyPress;
 
   pnlHeader.OnResize := @pnlHeaderResize;
