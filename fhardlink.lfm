@@ -7,14 +7,13 @@ inherited frmHardLink: TfrmHardLink
   HorzScrollBar.Range = 411
   VertScrollBar.Page = 155
   VertScrollBar.Range = 145
-  ActiveControl = edtNew
+  ActiveControl = edtDst
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'frmHardLink'
   ClientHeight = 156
   ClientWidth = 417
   KeyPreview = True
-  OnKeyPress = frmHardLinkKeyPress
   Position = poMainFormCenter
   object lblNew: TLabel
     Left = 8
@@ -66,6 +65,7 @@ inherited frmHardLink: TfrmHardLink
     Top = 120
     Width = 75
     BorderSpacing.InnerBorder = 2
+    Cancel = True
     Caption = 'Cancel'
     Kind = bkCancel
     ModalResult = 2

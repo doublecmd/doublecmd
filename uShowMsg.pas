@@ -134,7 +134,7 @@ begin
     frmMsg.Width:=(cButtonWith+cButtonSpace)*3+cButtonSpace
   else
     frmMsg.Width:=(cButtonWith+cButtonSpace)*(High(Buttons)+1)+cButtonSpace;
-  frmMsg.Height:=(High(Buttons) div 3)*40+80;
+  frmMsg.Height:=(High(Buttons) div 3)*40+90;
 
 
     frmMsg.Caption:=cMsgName;
