@@ -18,13 +18,18 @@ uses
   SysUtils, Classes, lcltype;
 
 type
+
+  { TfrmAbout }
+
   TfrmAbout = class(TForm)
+    lblTitle: TLabel;
+    lblLazarusVer: TLabel;
+    lblBuild: TLabel;
     lblVersion: TLabel;
     OKButton: TButton;
     Panel1: TPanel;
     imgLogo: TImage;
     memInfo: TMemo;
-    lblTitle: TStaticText;
     procedure OKButtonClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -38,10 +43,15 @@ type
 
 procedure ShowAboutBox;
 
+var
+  buildDate : String;
+  
 implementation
 {uses
   uConstants;}
+
 const
+  LazarusVersionStr = {$I version.inc};
   cAboutMsg =
     'This program is free software under GNU GPL 2 license, see COPYING file'+#13+
     'Authors: '+ #13 +
@@ -59,8 +69,6 @@ const
     'In program used icons from:'+#13+
     '-Tango Icon Library (http://tango.freedesktop.org/Tango_Icon_Library)'+#13+#13+
     'Big thanks to Lazarus and FreePascal Team';
-
-
 
 procedure ShowAboutBox;
 begin
@@ -87,7 +95,9 @@ end;
 procedure TfrmAbout.frmAboutShow(Sender: TObject);
 begin
   //imgLogo.Picture.Bitmap.LoadFromLazarusResource('logo');
-  memInfo.Lines.Text:=cAboutMsg;
+  memInfo.Lines.Text := cAboutMsg;
+  lblBuild.Caption := lblBuild.Caption + buildDate;
+  lblLazarusVer.Caption := lblLazarusVer.Caption + LazarusVersionStr;
 end;
 
 initialization

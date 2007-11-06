@@ -1,15 +1,15 @@
 object frmAbout: TfrmAbout
   Left = 256
   Height = 324
-  Top = 178
+  Top = 135
   Width = 532
   HorzScrollBar.Page = 531
   HorzScrollBar.Range = 521
   VertScrollBar.Page = 323
   VertScrollBar.Range = 281
   ActiveControl = OKButton
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
   Caption = 'About'
   ClientHeight = 324
   ClientWidth = 532
@@ -19,18 +19,53 @@ object frmAbout: TfrmAbout
   Position = poScreenCenter
   object imgLogo: TImage
     Left = 8
-    Height = 148
-    Top = 8
+    Height = 100
+    Top = 168
     Width = 135
     AutoSize = True
     Center = True
   end
   object lblVersion: TLabel
+    AnchorSideTop.Control = lblTitle
+    AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 17
-    Top = 224
-    Width = 123
-    Caption = 'version 0.2 alpha'
+    Height = 14
+    Top = 30
+    Width = 84
+    BorderSpacing.Top = 8
+    Caption = 'Version 0.2 alpha'
+    ParentColor = False
+  end
+  object lblBuild: TLabel
+    AnchorSideTop.Control = lblVersion
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 14
+    Top = 52
+    Width = 30
+    BorderSpacing.Top = 8
+    Caption = 'Build: '
+    ParentColor = False
+  end
+  object lblLazarusVer: TLabel
+    AnchorSideTop.Control = lblBuild
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 14
+    Top = 74
+    Width = 41
+    BorderSpacing.Top = 8
+    Caption = 'Lazarus '
+    ParentColor = False
+  end
+  object lblTitle: TLabel
+    Left = 8
+    Height = 14
+    Top = 8
+    Width = 112
+    Caption = 'Double Commander'
+    Font.Color = clRed
+    Font.Style = [fsBold]
     ParentColor = False
   end
   object OKButton: TButton
@@ -62,15 +97,5 @@ object frmAbout: TfrmAbout
       ReadOnly = True
       TabOrder = 0
     end
-  end
-  object lblTitle: TStaticText
-    Left = 8
-    Height = 36
-    Top = 176
-    Width = 90
-    AutoSize = True
-    Caption = 'Double Commander'
-    Color = clBtnFace
-    Font.Color = 3485410
   end
 end

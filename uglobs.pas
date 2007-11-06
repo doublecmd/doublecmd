@@ -101,7 +101,7 @@ var
   gDirTabOptions,
   gDirTabLimit : Integer;
   gUseMmapInSearch : Boolean;
-
+  gCustomDriveIcons : Boolean; // for use custom drive icons under windows
 const
   { Tabs options }
   tb_always_visible = 1;
@@ -269,7 +269,7 @@ begin
   gShowIcons := gIni.ReadBool('Configuration', 'ShowIcons', True);
   gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
 
-  gpPixmapPath := gpPixmapPath + IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize) + PathDelim;
+  gCustomDriveIcons := gIni.ReadBool('Configuration', 'CustomDriveIcons', False);
 
   gUseMmapInSearch := gIni.ReadBool('Configuration', 'UseMmapInSearch', False);
 

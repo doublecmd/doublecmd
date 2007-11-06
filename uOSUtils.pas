@@ -44,15 +44,14 @@ const
   {$ENDIF}
 
 type
-   TDriveType = (dtUnknown, dtNoDrive, dtFloppy, dtFixed, dtNetwork, dtCDROM,
-                 dtRAM);
+   TDriveType = (dtUnknown, dtNoDrive, dtRemovable, dtFixed, dtNetwork, dtCDROM,
+                 dtRAM, dtFloppy, dtFlash);
     
   TDrive = record
     Name,
     Path,
     DriveLabel :String;
     DriveType : TDriveType;
-    DriveIcon : Integer;
   end;
   PDrive = ^TDrive;
 
@@ -465,16 +464,6 @@ begin
   mciSendCommand(OpenParms.wDeviceID, MCI_CLOSE, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, Longint(@OpenParms));
 end;
 
-(* Drive icon *)
-
-function DriveIconSysIdx(const Path: string): Integer;
-var
-  SFI: TSHFileInfo;
-begin
-  SFI.iIcon := 0;
-  SHGetFileInfo(PChar(Path), 0, SFI, SizeOf(SFI), SHGFI_SYSICONINDEX);
-  Result := SFI.iIcon + $1000;
-end;
 {$ENDIF}
 
 
@@ -542,9 +531,15 @@ begin
      Name := Char(DriveNum + Ord('a')) + ':\';
      Path := Name;
      DriveType := TDriveType(GetDriveType(PChar(Name)));
+     if DriveType = dtRemovable then
+       begin
+         if (Path[1] in ['a'..'b']) or (Path[1] in ['A'..'B']) then
+           DriveType := dtFloppy
+         else
+           DriveType := dtFlash;
+       end;
      if DriveType <> dtFloppy then
-     DriveLabel := GetLabelDisk(Name[1], True);
-     DriveIcon := DriveIconSysIdx(Path);
+       DriveLabel := GetLabelDisk(Name[1], True);
     end;
   Result.Add(Drive);
   end;
@@ -570,8 +565,15 @@ begin
          begin
            Name := ExtractFileName(pme.mnt_dir);
            Path := pme.mnt_dir;
-           DriveIcon := 0;
-           // TODO drive icons on Linux
+           // TODO more correct detect icons by drive type on Linux
+           if (Pos('ISO9660', UpperCase(pme.mnt_type)) > 0) or (Pos('CDROM', UpperCase(pme.mnt_dir)) > 0) or
+              (Pos('CDRW', UpperCase(pme.mnt_dir)) > 0) or (Pos('DVD', UpperCase(pme.mnt_dir)) > 0) then DriveType := dtCDROM else
+           if (Pos('FLOPPY', UpperCase(pme.mnt_dir)) > 0) then DriveType := dtFloppy else
+           if (Pos('ZIP', UpperCase(pme.mnt_type)) > 0) or (Pos('USB', UpperCase(pme.mnt_dir)) > 0) or
+              (Pos('CAMERA', UpperCase(pme.mnt_dir)) > 0) then DriveType := dtFlash else
+           if (Pos('NFS', UpperCase(pme.mnt_type)) > 0) or (Pos('SMB', UpperCase(pme.mnt_type)) > 0) or
+              (Pos('NETW', UpperCase(pme.mnt_dir)) > 0) then DriveType := dtNetwork else
+            DriveType := dtFixed;
          end;
          Result.Add(Drive);
        end;

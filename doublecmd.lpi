@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <CONFIG>
   <ProjectOptions>
-    <PathDelim Value="\"/>
+    <PathDelim Value="/"/>
     <Version Value="5"/>
     <General>
       <Flags>
@@ -9,14 +9,14 @@
         <MainUnitHasUsesSectionForAllUnits Value="False"/>
       </Flags>
       <MainUnit Value="0"/>
-      <IconPath Value=".\"/>
+      <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="Double Commander"/>
       <ActiveEditorIndexAtStart Value="0"/>
     </General>
     <PublishOptions>
       <Version Value="2"/>
-      <DestinationDirectory Value="\mnt\X\linux\sccmd\scfpc\"/>
+      <DestinationDirectory Value="/mnt/X/linux/sccmd/scfpc/"/>
       <IgnoreBinaries Value="False"/>
       <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
       <UseExcludeFileFilter Value="True"/>
@@ -25,7 +25,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
+        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
     <RequiredPackages Count="5">
@@ -48,13 +48,13 @@
         <PackageName Value="JPEGForLazarus"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="31">
+    <Units Count="30">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="doublecmd"/>
-        <CursorPos X="6" Y="19"/>
-        <TopLine Value="56"/>
+        <CursorPos X="18" Y="91"/>
+        <TopLine Value="83"/>
         <UsageCount Value="200"/>
       </Unit0>
       <Unit1>
@@ -64,7 +64,7 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="fbtnchangedlg.lrs"/>
         <UnitName Value="fbtnchangedlg"/>
-        <CursorPos X="22" Y="32"/>
+        <CursorPos X="30" Y="30"/>
         <TopLine Value="11"/>
         <UsageCount Value="200"/>
       </Unit1>
@@ -75,8 +75,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="fconfigtoolbar.lrs"/>
         <UnitName Value="fconfigtoolbar"/>
-        <CursorPos X="1" Y="7"/>
-        <TopLine Value="34"/>
+        <CursorPos X="23" Y="78"/>
+        <TopLine Value="68"/>
         <UsageCount Value="200"/>
       </Unit2>
       <Unit3>
@@ -86,19 +86,19 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="fmain.lrs"/>
         <UnitName Value="fMain"/>
-        <CursorPos X="12" Y="10"/>
+        <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="104"/>
+        <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="uwcxprototypes.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWCXprototypes"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="5"/>
-        <UsageCount Value="172"/>
+        <CursorPos X="30" Y="10"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="200"/>
       </Unit4>
       <Unit5>
         <Filename Value="fviewer.pas"/>
@@ -107,9 +107,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="fviewer.lrs"/>
         <UnitName Value="fViewer"/>
-        <CursorPos X="3" Y="37"/>
-        <TopLine Value="45"/>
-        <UsageCount Value="29"/>
+        <CursorPos X="1" Y="508"/>
+        <TopLine Value="19"/>
+        <UsageCount Value="200"/>
         <Bookmarks Count="1">
           <Item0 X="3" Y="167" ID="0"/>
         </Bookmarks>
@@ -121,9 +121,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="feditor.lrs"/>
         <UnitName Value="fEditor"/>
-        <CursorPos X="20" Y="183"/>
-        <TopLine Value="292"/>
-        <UsageCount Value="29"/>
+        <CursorPos X="13" Y="47"/>
+        <TopLine Value="46"/>
+        <UsageCount Value="200"/>
       </Unit6>
       <Unit7>
         <Filename Value="fLngForm.pas"/>
@@ -134,7 +134,7 @@
         <UnitName Value="fLngForm"/>
         <CursorPos X="31" Y="18"/>
         <TopLine Value="13"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="200"/>
       </Unit7>
       <Unit8>
         <Filename Value="fMsg.pas"/>
@@ -143,9 +143,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="fMsg.lrs"/>
         <UnitName Value="fMsg"/>
-        <CursorPos X="18" Y="57"/>
-        <TopLine Value="55"/>
-        <UsageCount Value="30"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="200"/>
       </Unit8>
       <Unit9>
         <Filename Value="dmdialogs.pas"/>
@@ -154,9 +154,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="dmdialogs.lrs"/>
         <UnitName Value="dmDialogs"/>
-        <CursorPos X="27" Y="12"/>
-        <TopLine Value="5"/>
-        <UsageCount Value="29"/>
+        <CursorPos X="31" Y="22"/>
+        <TopLine Value="7"/>
+        <UsageCount Value="200"/>
       </Unit9>
       <Unit10>
         <Filename Value="dmhigh.pas"/>
@@ -165,9 +165,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="dmhigh.lrs"/>
         <UnitName Value="dmHigh"/>
-        <CursorPos X="31" Y="51"/>
-        <TopLine Value="44"/>
-        <UsageCount Value="29"/>
+        <CursorPos X="33" Y="61"/>
+        <TopLine Value="35"/>
+        <UsageCount Value="200"/>
       </Unit10>
       <Unit11>
         <Filename Value="feditorconf.pas"/>
@@ -176,9 +176,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="feditorconf.lrs"/>
         <UnitName Value="fEditorConf"/>
-        <CursorPos X="47" Y="89"/>
-        <TopLine Value="82"/>
-        <UsageCount Value="29"/>
+        <CursorPos X="1" Y="72"/>
+        <TopLine Value="70"/>
+        <UsageCount Value="200"/>
       </Unit11>
       <Unit12>
         <Filename Value="ffindview.pas"/>
@@ -189,7 +189,7 @@
         <UnitName Value="fFindView"/>
         <CursorPos X="32" Y="72"/>
         <TopLine Value="67"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="200"/>
       </Unit12>
       <Unit13>
         <Filename Value="fAbout.pas"/>
@@ -198,9 +198,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="fAbout.lrs"/>
         <UnitName Value="fAbout"/>
-        <CursorPos X="34" Y="77"/>
-        <TopLine Value="70"/>
-        <UsageCount Value="29"/>
+        <CursorPos X="39" Y="25"/>
+        <TopLine Value="24"/>
+        <UsageCount Value="200"/>
       </Unit13>
       <Unit14>
         <Filename Value="foptions.pas"/>
@@ -209,9 +209,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="foptions.lrs"/>
         <UnitName Value="fOptions"/>
-        <CursorPos X="25" Y="265"/>
-        <TopLine Value="252"/>
-        <UsageCount Value="29"/>
+        <CursorPos X="39" Y="965"/>
+        <TopLine Value="959"/>
+        <UsageCount Value="200"/>
       </Unit14>
       <Unit15>
         <Filename Value="fFileOpDlg.pas"/>
@@ -220,9 +220,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="fFileOpDlg.lrs"/>
         <UnitName Value="fFileOpDlg"/>
-        <CursorPos X="35" Y="133"/>
-        <TopLine Value="123"/>
-        <UsageCount Value="29"/>
+        <CursorPos X="36" Y="56"/>
+        <TopLine Value="53"/>
+        <UsageCount Value="200"/>
       </Unit15>
       <Unit16>
         <Filename Value="fmkdir.pas"/>
@@ -233,7 +233,7 @@
         <UnitName Value="fMkDir"/>
         <CursorPos X="33" Y="48"/>
         <TopLine Value="41"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="200"/>
       </Unit16>
       <Unit17>
         <Filename Value="fCopyDlg.pas"/>
@@ -242,9 +242,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="fCopyDlg.lrs"/>
         <UnitName Value="fCopyDlg"/>
-        <CursorPos X="33" Y="41"/>
-        <TopLine Value="36"/>
-        <UsageCount Value="29"/>
+        <CursorPos X="37" Y="11"/>
+        <TopLine Value="9"/>
+        <UsageCount Value="200"/>
       </Unit17>
       <Unit18>
         <Filename Value="fcomparefiles.pas"/>
@@ -253,9 +253,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="fcomparefiles.lrs"/>
         <UnitName Value="fCompareFiles"/>
-        <CursorPos X="35" Y="161"/>
-        <TopLine Value="152"/>
-        <UsageCount Value="29"/>
+        <CursorPos X="28" Y="24"/>
+        <TopLine Value="120"/>
+        <UsageCount Value="200"/>
       </Unit18>
       <Unit19>
         <Filename Value="fmovedlg.pas"/>
@@ -266,7 +266,7 @@
         <UnitName Value="fMoveDlg"/>
         <CursorPos X="37" Y="48"/>
         <TopLine Value="37"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="200"/>
       </Unit19>
       <Unit20>
         <Filename Value="fFindDlg.pas"/>
@@ -275,9 +275,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="fFindDlg.lrs"/>
         <UnitName Value="fFindDlg"/>
-        <CursorPos X="34" Y="514"/>
-        <TopLine Value="506"/>
-        <UsageCount Value="29"/>
+        <CursorPos X="27" Y="500"/>
+        <TopLine Value="487"/>
+        <UsageCount Value="200"/>
       </Unit20>
       <Unit21>
         <Filename Value="fhotdir.pas"/>
@@ -288,7 +288,7 @@
         <UnitName Value="fHotDir"/>
         <CursorPos X="43" Y="66"/>
         <TopLine Value="62"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="200"/>
       </Unit21>
       <Unit22>
         <Filename Value="fsymlink.pas"/>
@@ -297,9 +297,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="fsymlink.lrs"/>
         <UnitName Value="fSymLink"/>
-        <CursorPos X="41" Y="67"/>
-        <TopLine Value="58"/>
-        <UsageCount Value="29"/>
+        <CursorPos X="20" Y="20"/>
+        <TopLine Value="31"/>
+        <UsageCount Value="200"/>
       </Unit22>
       <Unit23>
         <Filename Value="fhardlink.pas"/>
@@ -308,9 +308,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="fhardlink.lrs"/>
         <UnitName Value="fHardLink"/>
-        <CursorPos X="37" Y="65"/>
-        <TopLine Value="61"/>
-        <UsageCount Value="29"/>
+        <CursorPos X="21" Y="58"/>
+        <TopLine Value="11"/>
+        <UsageCount Value="200"/>
       </Unit23>
       <Unit24>
         <Filename Value="fmultirename.pas"/>
@@ -321,7 +321,7 @@
         <UnitName Value="fMultiRename"/>
         <CursorPos X="35" Y="464"/>
         <TopLine Value="458"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="200"/>
       </Unit24>
       <Unit25>
         <Filename Value="fpackdlg.pas"/>
@@ -330,9 +330,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="fpackdlg.lrs"/>
         <UnitName Value="fPackDlg"/>
-        <CursorPos X="4" Y="6"/>
-        <TopLine Value="1"/>
-        <UsageCount Value="29"/>
+        <CursorPos X="1" Y="195"/>
+        <TopLine Value="151"/>
+        <UsageCount Value="200"/>
       </Unit25>
       <Unit26>
         <Filename Value="flinker.pas"/>
@@ -341,9 +341,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="flinker.lrs"/>
         <UnitName Value="fLinker"/>
-        <CursorPos X="44" Y="168"/>
+        <CursorPos X="49" Y="165"/>
         <TopLine Value="162"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="200"/>
       </Unit26>
       <Unit27>
         <Filename Value="fsplitter.pas"/>
@@ -352,61 +352,57 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="fsplitter.lrs"/>
         <UnitName Value="fSplitter"/>
-        <CursorPos X="44" Y="191"/>
-        <TopLine Value="187"/>
-        <UsageCount Value="29"/>
+        <CursorPos X="18" Y="93"/>
+        <TopLine Value="80"/>
+        <UsageCount Value="200"/>
       </Unit27>
       <Unit28>
-        <Filename Value="fattrib.pas"/>
-        <ComponentName Value="frmAttrib"/>
-        <HasResources Value="True"/>
-        <IsPartOfProject Value="True"/>
-        <ResourceFilename Value="fattrib.lrs"/>
-        <UnitName Value="fAttrib"/>
-        <CursorPos X="9" Y="64"/>
-        <TopLine Value="52"/>
-        <UsageCount Value="29"/>
-      </Unit28>
-      <Unit29>
         <Filename Value="ffileproperties.pas"/>
         <ComponentName Value="frmFileProperties"/>
         <HasResources Value="True"/>
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="ffileproperties.lrs"/>
         <UnitName Value="fFileProperties"/>
-        <CursorPos X="18" Y="264"/>
-        <TopLine Value="253"/>
-        <UsageCount Value="29"/>
-      </Unit29>
-      <Unit30>
-        <Filename Value="fchown.pas"/>
-        <ComponentName Value="frmChown"/>
+        <CursorPos X="11" Y="238"/>
+        <TopLine Value="227"/>
+        <UsageCount Value="200"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="fextractdlg.pas"/>
+        <ComponentName Value="ExtractDlg"/>
         <HasResources Value="True"/>
         <IsPartOfProject Value="True"/>
-        <ResourceFilename Value="fchown.lrs"/>
-        <UnitName Value="fChown"/>
-        <CursorPos X="51" Y="178"/>
-        <TopLine Value="160"/>
-        <UsageCount Value="29"/>
-      </Unit30>
+        <ResourceFilename Value="fextractdlg.lrs"/>
+        <UnitName Value="fExtractDlg"/>
+        <CursorPos X="46" Y="90"/>
+        <TopLine Value="81"/>
+        <UsageCount Value="172"/>
+      </Unit29>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="1" HistoryIndex="0">
+      <Position1>
+        <Filename Value="fmain.pas"/>
+        <Caret Line="444" Column="17" TopLine="442"/>
+      </Position1>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
-    <PathDelim Value="\"/>
     <SearchPaths>
-      <SrcPath Value="$(LazarusDir)\lcl\;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType)\"/>
+      <IncludeFiles Value="$(LazarusDir)/ide/"/>
+      <SrcPath Value="$(LazarusDir)/lcl/;$(LazarusDir)/lcl/interfaces/$(LCLWidgetType)/"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
+        <IncludeAssertionCode Value="True"/>
         <DelphiCompat Value="True"/>
+        <UseAnsiStrings Value="True"/>
       </SyntaxOptions>
     </Parsing>
     <CodeGeneration>
       <Generate Value="Faster"/>
       <Optimizations>
-        <OptimizationLevel Value="3"/>
+        <OptimizationLevel Value="2"/>
       </Optimizations>
     </CodeGeneration>
     <Linking>
@@ -419,27 +415,43 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <BreakPoints Count="5">
+    <BreakPoints Count="9">
       <Item1>
-        <Source Value="mnt\X\linux\lazarus\lcl\include\imglist.inc"/>
+        <Source Value="mnt/X/linux/lazarus/lcl/include/imglist.inc"/>
         <Line Value="435"/>
       </Item1>
       <Item2>
-        <Source Value="ufilepanel.pas"/>
-        <Line Value="197"/>
+        <Source Value="uvfsutil.pas"/>
+        <Line Value="98"/>
       </Item2>
       <Item3>
-        <Source Value="ucopythread.pas"/>
-        <Line Value="42"/>
+        <Source Value="uarcthread.pas"/>
+        <Line Value="97"/>
       </Item3>
       <Item4>
-        <Source Value="uFilePanel.pas"/>
-        <Line Value="300"/>
+        <Source Value="feditor.pas"/>
+        <Line Value="337"/>
       </Item4>
       <Item5>
-        <Source Value="uFilePanel.pas"/>
-        <Line Value="324"/>
+        <Source Value="ufindex.pas"/>
+        <Line Value="281"/>
       </Item5>
+      <Item6>
+        <Source Value="uwcxmodule.pas"/>
+        <Line Value="465"/>
+      </Item6>
+      <Item7>
+        <Source Value="ucopythread.pas"/>
+        <Line Value="182"/>
+      </Item7>
+      <Item8>
+        <Source Value="ucopythread.pas"/>
+        <Line Value="194"/>
+      </Item8>
+      <Item9>
+        <Source Value="ucopythread.pas"/>
+        <Line Value="217"/>
+      </Item9>
     </BreakPoints>
   </Debugging>
 </CONFIG>
