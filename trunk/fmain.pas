@@ -578,7 +578,7 @@ begin
          dskPanel.Tag := NumberOfButton;
          if gDriveMenuButton then  //  if show drive button
            begin
-             btnDrive.Glyph := dskRight.Buttons[NumberOfButton].Glyph;
+             btnDrive.Glyph := PixMapManager.GetDriveIcon(PDrive(DrivesList[NumberOfButton]), btnDrive.Height - 4, btnDrive.Color);
              btnDrive.Caption := dskRight.Buttons[NumberOfButton].Caption;
            end;
        end
@@ -2339,14 +2339,14 @@ begin
           begin
             if Pos(Path, FrameLeft.pnlFile.ActiveDir) = 1 then
               begin
-                btnLeftDrive.Glyph := PixMapManager.GetStretchBitmap(DriveIcon, btnLeftDrive.Color, btnLeftDrive.Height - 4);
+                btnLeftDrive.Glyph := PixMapManager.GetDriveIcon(Drive, btnLeftDrive.Height - 4, btnLeftDrive.Color);
                 btnLeftDrive.Caption := Name;
                 btnLeftDrive.Width := btnLeftDrive.Glyph.Width + btnLeftDrive.Canvas.TextWidth(btnLeftDrive.Caption) + 16;
                 dskLeft.Tag := I;
               end;
             if Pos(Path, FrameRight.pnlFile.ActiveDir) = 1 then
               begin
-                btnRightDrive.Glyph := PixMapManager.GetStretchBitmap(DriveIcon, btnRightDrive.Color, btnRightDrive.Height - 4);
+                btnRightDrive.Glyph := PixMapManager.GetDriveIcon(Drive, btnRightDrive.Height - 4, btnRightDrive.Color);
                 btnRightDrive.Caption := Name;
                 btnRightDrive.Width := btnRightDrive.Glyph.Width + btnRightDrive.Canvas.TextWidth(btnRightDrive.Caption) + 16;
                 dskRight.Tag := I;
@@ -2354,11 +2354,7 @@ begin
           end;
         
         // get disk icon
-        if gIconsSize > 16 then
-          miTmp.Bitmap := PixMapManager.GetStretchBitmap(DriveIcon, clMenu, 16)
-        else
-          miTmp.Bitmap := PixMapManager.GetBitmap(DriveIcon, clMenu);
-
+        miTmp.Bitmap := PixMapManager.GetDriveIcon(Drive, 16, clMenu);
         miTmp.RadioItem := True;
         miTmp.AutoCheck := True;
         miTmp.GroupIndex := 1;
@@ -2369,8 +2365,6 @@ begin
 end;
 
 procedure TfrmMain.DrivesMenuClick(Sender: TObject);
-var
-  iIconIndex : Integer;
 begin
   with Sender as TMenuItem do
   begin
@@ -2385,8 +2379,7 @@ begin
              dskLeft.Tag := Tag;
              FrameLeft.pnlFile.LoadPanel;
              SetActiveFrame(fpLeft);
-             iIconIndex := PDrive(DrivesList[Tag])^.DriveIcon;
-             btnLeftDrive.Glyph := PixMapManager.GetStretchBitmap(iIconIndex, btnLeftDrive.Color, btnLeftDrive.Height - 4);
+             btnLeftDrive.Glyph := PixMapManager.GetDriveIcon(PDrive(DrivesList[Tag]), btnLeftDrive.Height - 4, btnLeftDrive.Color);
              btnLeftDrive.Caption := Caption;
              btnLeftDrive.Width := btnLeftDrive.Glyph.Width + btnLeftDrive.Canvas.TextWidth(btnLeftDrive.Caption) + 16;
            end;
@@ -2398,8 +2391,7 @@ begin
              dskRight.Tag := Tag;
              FrameRight.pnlFile.LoadPanel;
              SetActiveFrame(fpRight);
-             iIconIndex := PDrive(DrivesList[Tag])^.DriveIcon;
-             btnRightDrive.Glyph := PixMapManager.GetStretchBitmap(iIconIndex, btnRightDrive.Color, btnRightDrive.Height - 4);
+             btnRightDrive.Glyph := PixMapManager.GetDriveIcon(PDrive(DrivesList[Tag]), btnRightDrive.Height - 4, btnRightDrive.Color);
              btnRightDrive.Caption := Caption;
              btnRightDrive.Width := btnRightDrive.Glyph.Width + btnRightDrive.Canvas.TextWidth(btnRightDrive.Caption) + 16;
            end;
@@ -2464,11 +2456,7 @@ begin
       {/Set chosen drive}
 
       // get drive icon
-      if gIconsSize > 16 then
-        dskPanel.Buttons[I].Glyph := PixMapManager.GetStretchBitmap(DriveIcon, dskPanel.Buttons[I].Color, dskPanel.Buttons[I].Height - 4)
-      else
-        dskPanel.Buttons[I].Glyph := PixMapManager.GetBitmap(DriveIcon, dskPanel.Buttons[I].Color);
-
+      dskPanel.Buttons[I].Glyph := PixMapManager.GetDriveIcon(Drive, 16, dskPanel.Buttons[I].Color);
       {Set Buttons Transparent. Is need? }
       dskPanel.Buttons[I].Glyph.Transparent := True;
       dskPanel.Buttons[I].Transparent := True;

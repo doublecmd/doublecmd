@@ -34,11 +34,17 @@ unit uPixMapManager;
 
 interface
 uses
-  Classes, SysUtils, uTypes, contnrs, Graphics;
+  Classes, SysUtils, uTypes, contnrs, Graphics, uOSUtils;
 
 
 type
-
+  TDriveIcons = record
+    bmMediaFloppy,
+    bmDriveHardDisk,
+    bmMediaFlash,
+    bmMediaOptical : TBitmap;
+  end;
+  PDriveIcons = ^TDriveIcons;
   { TPixMapManager }
 
   TPixMapManager=class
@@ -53,10 +59,15 @@ type
     FiUpDirIconID: Integer;
     FiDefaultIconID: Integer;
     FiArcIconID : Integer;
+    FFirstIconSize,
+    FSecondIconSize,
+    FThirdIconSize : TDriveIcons;
+    FPixmapSize : String;
     {$IFDEF WIN32}
     SysImgList : Cardinal;
     {$ENDIF}
   protected
+    function CheckLoadPixmap(const sName:String) : TBitmap;
     function CheckAddPixmap(const sName:String):Integer;
   public
     constructor Create;
@@ -66,6 +77,7 @@ type
     function GetStretchBitmap(iIndex: Integer; BkColor : TColor; iSize : Integer): TBitmap;
     function DrawBitmap(iIndex: Integer; Canvas : TCanvas; Rect : TRect) : Boolean;
     Function GetIconByFile(fi:PFileRecItem; PanelMode: TPanelMode):Integer;
+    function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
   end;
   
 var
@@ -76,7 +88,7 @@ procedure LoadPixMapManager;
 
 implementation
 uses
-  uGlobsPaths, uOSUtils, uWCXhead, uGlobs{$IFDEF WIN32}, ShellAPI, Windows{$ENDIF};
+  uGlobsPaths, uWCXhead, uGlobs{$IFDEF WIN32}, ShellAPI, Windows, uIcoFiles{$ENDIF};
 { TPixMapManager }
 
 {$IFDEF WIN32}
@@ -90,12 +102,28 @@ begin
 end;
 {$ENDIF}
 
+function TPixMapManager.CheckLoadPixmap(const sName: String): Graphics.TBitmap;
+var
+  png : TPortableNetworkGraphic;
+begin
+  Result:= nil;
+  if not FileExists(gpPixmapPath+FPixmapSize+sName) then
+  begin
+    writeln(Format('Warning: pixmap [%s] not exists!',[gpPixmapPath+FPixmapSize+sName]));
+    Exit;
+  end;
+  png:=TPortableNetworkGraphic.Create;
+  png.LoadFromFile(gpPixmapPath + FPixmapSize+ sName);
+  png.Transparent:=True;
+  Result := Graphics.TBitmap(png);
+end;
+
 function TPixMapManager.CheckAddPixmap(const sName: String): Integer;
 begin
   Result:=-1;
-  if not FileExists(gpPixmapPath+sName) then
+  if not FileExists(gpPixmapPath+FPixmapSize+sName) then
   begin
-    writeln(Format('Warning: pixmap [%s] not exists!',[gpPixmapPath+sName]));
+    writeln(Format('Warning: pixmap [%s] not exists!',[gpPixmapPath+FPixmapSize+sName]));
     Exit;
   end;
   // determine: known this file?
@@ -136,6 +164,27 @@ begin
     FreeAndNil(FimgList);
   if assigned(FExtList) then
     FreeAndNil(FExtList);
+  with FFirstIconSize do
+  begin
+    if Assigned(bmMediaFloppy) then FreeAndNil(bmMediaFloppy);
+    if Assigned(bmDriveHardDisk) then FreeAndNil(bmDriveHardDisk);
+    if Assigned(bmMediaFlash) then FreeAndNil(bmMediaFlash);
+    if Assigned(bmMediaOptical) then FreeAndNil(bmMediaOptical);
+  end;
+  with FSecondIconSize do
+  begin
+    if Assigned(bmMediaFloppy) then FreeAndNil(bmMediaFloppy);
+    if Assigned(bmDriveHardDisk) then FreeAndNil(bmDriveHardDisk);
+    if Assigned(bmMediaFlash) then FreeAndNil(bmMediaFlash);
+    if Assigned(bmMediaOptical) then FreeAndNil(bmMediaOptical);
+  end;
+  with FThirdIconSize do
+  begin
+    if Assigned(bmMediaFloppy) then FreeAndNil(bmMediaFloppy);
+    if Assigned(bmDriveHardDisk) then FreeAndNil(bmDriveHardDisk);
+    if Assigned(bmMediaFlash) then FreeAndNil(bmMediaFlash);
+    if Assigned(bmMediaOptical) then FreeAndNil(bmMediaOptical);
+  end;
   {$IFDEF WIN32}
    ImageList_Destroy(SysImgList);
   {$ENDIF}
@@ -149,12 +198,40 @@ var
   sExt, sPixMap:String;
   iekv:integer;
   iPixMap:Integer;
+  sPixMapSize : String;
   I : Integer;
   png:TPortableNetworkGraphic;
   Plugins : TStringList;
   sCurrentPlugin : String;
   iCurPlugCaps : Integer;
 begin
+  //  load all drive icons
+  sPixMapSize := FPixmapSize;  // save icon size path
+  FPixmapSize := '16x16' + PathDelim;
+  with FFirstIconSize do
+  begin
+    bmMediaFloppy := CheckLoadPixmap('devices' + PathDelim + 'media-floppy.png');
+    bmDriveHardDisk := CheckLoadPixmap('devices' + PathDelim + 'drive-harddisk.png');
+    bmMediaFlash := CheckLoadPixmap('devices' + PathDelim + 'media-flash.png');
+    bmMediaOptical := CheckLoadPixmap('devices' + PathDelim + 'media-optical.png');
+  end;
+  FPixmapSize := '22x22' + PathDelim;
+  with FSecondIconSize do
+  begin
+    bmMediaFloppy := CheckLoadPixmap('devices' + PathDelim + 'media-floppy.png');
+    bmDriveHardDisk := CheckLoadPixmap('devices' + PathDelim + 'drive-harddisk.png');
+    bmMediaFlash := CheckLoadPixmap('devices' + PathDelim + 'media-flash.png');
+    bmMediaOptical := CheckLoadPixmap('devices' + PathDelim + 'media-optical.png');
+  end;
+  FPixmapSize := '32x32' + PathDelim;
+  with FThirdIconSize do
+  begin
+    bmMediaFloppy := CheckLoadPixmap('devices' + PathDelim + 'media-floppy.png');
+    bmDriveHardDisk := CheckLoadPixmap('devices' + PathDelim + 'drive-harddisk.png');
+    bmMediaFlash := CheckLoadPixmap('devices' + PathDelim + 'media-flash.png');
+    bmMediaOptical := CheckLoadPixmap('devices' + PathDelim + 'media-optical.png');
+  end;
+    FPixmapSize := sPixMapSize;  // restore icon size path
   // add some standard icons
   FiDefaultIconID:=CheckAddPixmap('mimetypes' + PathDelim + 'empty.png');
   FiDirIconID:=CheckAddPixmap('filesystems' + PathDelim + 'folder.png');
@@ -212,9 +289,9 @@ begin
 
   for I := 0 to FPixmapName.Count - 1 do
   begin
-//    writeln('Loading:',I,' ',FExtList[I],': ',gpPixmapPath+FPixmapName[I]);
+//    writeln('Loading:',I,' ',FExtList[I],': ',gpPixmapPath+ FPixmapSize+FPixmapName[I]);
     png:=TPortableNetworkGraphic.Create;
-    png.LoadFromFile(gpPixmapPath+FPixmapName[I]);
+    png.LoadFromFile(gpPixmapPath+FPixmapSize+FPixmapName[I]);
     png.Transparent:=True;
 //    bmp.TransparentMode:=tmFixed;
 //    writeln(bmp.Width,' ',bmp.Height);
@@ -397,9 +474,124 @@ begin
   end;
 end;
 
+function TPixMapManager.GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
+var
+  DriveIcons : PDriveIcons;
+  StretchIcon : Graphics.TBitmap;
+  memstream: TMemoryStream;
+{$IFDEF MSWINDOWS}
+  SFI: TSHFileInfo;
+{$ENDIF}
+begin
+{$IFDEF MSWINDOWS}
+  if not gCustomDriveIcons then
+    begin
+      SFI.hIcon := 0;
+      case IconSize of
+      16: // Standart icon size
+        begin
+          SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON or SHGFI_SMALLICON);
+          Result := CreateIconFromHandle(SFI.hIcon);
+        end;
+      32:  // Standart icon size
+        begin
+          SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON or SHGFI_LARGEICON);
+          Result := CreateIconFromHandle(SFI.hIcon);
+        end;
+      else  // for non standart icon size we Convert HIcon to TBitMap
+        begin
+          SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON);
+          Result := Graphics.TBitMap.Create;
+          Result.Width := GetSystemMetrics(SM_CXICON);
+          Result.Height := GetSystemMetrics(SM_CYICON);
+          Result.Canvas.Brush.Color := clBackColor;
+          Result.Canvas.FillRect(Result.Canvas.ClipRect);
+          Windows.DrawIcon(Result.Canvas.Handle,0,0,SFI.hIcon);
+
+          StretchIcon:= Graphics.TBitMap.Create;
+          with StretchIcon do
+          begin
+            Width := IconSize;
+            Height := IconSize;
+
+            Canvas.Brush.Color := clBackColor;
+            Canvas.FillRect(Canvas.ClipRect);
+            Canvas.StretchDraw(Canvas.ClipRect, Result);
+            { For drawing color transparent bitmaps }
+            memstream := TMemoryStream.Create;
+            try
+              SaveToStream(memstream);
+              memstream.position := 0;
+              LoadFromStream(memstream);
+            finally
+              memstream.free;
+            end;
+            Transparent := True;
+            TransparentColor := clBackColor;
+            Result.Free;
+            Result := StretchIcon;
+          end; //  with
+        end;
+      end;  //  case
+    end // not gCustomDriveIcons
+  else
+{$ENDIF}
+    begin
+      case IconSize of
+      16: // Standart 16x16 icon size
+        DriveIcons := @FFirstIconSize;
+      22:  // Standart 22x22 icon size
+        DriveIcons := @FSecondIconSize;
+      32:  // Standart 32x32 icon size
+        DriveIcons := @FThirdIconSize;
+      else  // for non standart icon size use more large icon for stretch
+        DriveIcons := @FThirdIconSize;
+      end;
+      case Drive^.DriveType of
+      dtFloppy:
+        Result :=  DriveIcons^.bmMediaFloppy;
+      dtFixed:
+        Result :=  DriveIcons^.bmDriveHardDisk;
+      dtFlash:
+        Result :=  DriveIcons^.bmMediaFlash;
+      dtCDROM:
+        Result :=  DriveIcons^.bmMediaOptical;
+      else
+        Result :=  DriveIcons^.bmDriveHardDisk;
+      end;
+      //  if need stretch icon
+      if (IconSize <> 16) and (IconSize <> 22) and (IconSize <> 32) then
+        begin
+          StretchIcon:= Graphics.TBitMap.Create;
+          with StretchIcon do
+          begin
+            Width := IconSize;
+            Height := IconSize;
+
+            Canvas.Brush.Color := clBackColor;
+            Canvas.FillRect(Canvas.ClipRect);
+            Canvas.StretchDraw(Canvas.ClipRect, Result);
+            { For drawing color transparent bitmaps }
+            memstream := TMemoryStream.Create;
+            try
+              SaveToStream(memstream);
+              memstream.position := 0;
+              LoadFromStream(memstream);
+            finally
+              memstream.free;
+            end;
+            Transparent := True;
+            TransparentColor := clBackColor;
+            Result := StretchIcon;
+            end; //  with
+        end;
+    end;  //
+end;
+
 procedure LoadPixMapManager;
 begin
   PixMapManager:=TPixMapManager.Create;
+  PixMapManager.FPixmapSize:= IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize) + PathDelim;
   PixMapManager.Load(gpExePath+'pixmaps.txt');
 end;
 
