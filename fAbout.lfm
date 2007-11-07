@@ -1,18 +1,18 @@
 object frmAbout: TfrmAbout
   Left = 256
-  Height = 324
+  Height = 310
   Top = 135
-  Width = 532
-  HorzScrollBar.Page = 531
+  Width = 563
+  HorzScrollBar.Page = 562
   HorzScrollBar.Range = 521
-  VertScrollBar.Page = 323
+  VertScrollBar.Page = 309
   VertScrollBar.Range = 281
   ActiveControl = OKButton
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'About'
-  ClientHeight = 324
-  ClientWidth = 532
+  ClientHeight = 310
+  ClientWidth = 563
   KeyPreview = True
   OnKeyDown = FormKeyDown
   OnShow = frmAboutShow
@@ -24,6 +24,7 @@ object frmAbout: TfrmAbout
     Width = 135
     AutoSize = True
     Center = True
+    Transparent = False
   end
   object lblVersion: TLabel
     AnchorSideTop.Control = lblTitle
@@ -71,7 +72,7 @@ object frmAbout: TfrmAbout
   object OKButton: TButton
     Left = 24
     Height = 32
-    Top = 281
+    Top = 272
     Width = 100
     BorderSpacing.InnerBorder = 4
     Caption = 'OK'
@@ -80,20 +81,22 @@ object frmAbout: TfrmAbout
   end
   object Panel1: TPanel
     Left = 152
-    Height = 305
+    Height = 295
     Top = 8
-    Width = 369
+    Width = 404
+    Anchors = [akTop, akLeft, akRight, akBottom]
     BevelInner = bvRaised
     BevelOuter = bvLowered
-    ClientHeight = 305
-    ClientWidth = 369
+    ClientHeight = 295
+    ClientWidth = 404
     FullRepaint = False
     TabOrder = 1
     object memInfo: TMemo
       Left = 8
-      Height = 289
+      Height = 279
       Top = 8
-      Width = 353
+      Width = 389
+      Anchors = [akTop, akLeft, akRight, akBottom]
       ReadOnly = True
       TabOrder = 0
     end
