@@ -113,9 +113,6 @@ implementation
 uses
   SysUtils, LCLProc, LCLType, uVFSutil, uFileOp, uOSUtils, uFileProcs, uLng, Dialogs, Forms, Controls;
 
-var
-  WFXModule : TWFXModule;
-
 { TWFXModule }
 
 procedure TWFXModule.FsFillAndCount(var fl: TFileList; out FilesSize: Int64);
@@ -192,7 +189,6 @@ constructor TWFXModule.Create;
 begin
   FFilesSize := 0;
   FPercent := 0;
-  WFXModule := Self;
 end;
 
 destructor TWFXModule.Destroy;
@@ -248,7 +244,7 @@ begin
   Result := 0;
   DebugLN ('MainProgressProc ('+IntToStr(PluginNr)+','+SourceName+','+TargetName+','+inttostr(PercentDone)+')' ,inttostr(result));
 
-  with WFXModule do
+  with TWFXModule(Pointer(PluginNr + $80000000)) do
   begin
     if FFileOpDlg.ModalResult = mrCancel then // Cancel operation
       Result := 1;
@@ -398,7 +394,7 @@ end;
 
 function TWFXModule.VFSOpen(const sName: String; bCanYouHandleThisFile : Boolean = False): Boolean;
 begin
-  FsInit(Random(MaxInt), @MainProgressProc, @MainLogProc, @MainRequestProc);
+  FsInit(Cardinal(Self) - $80000000, @MainProgressProc, @MainLogProc, @MainRequestProc);
 end;
 
 function TWFXModule.VFSMkDir(const sDirName: String): Boolean;
