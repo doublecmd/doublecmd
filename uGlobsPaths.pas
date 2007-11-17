@@ -6,9 +6,9 @@ var
   gpExePath:String ='';
   gpIniDir:String =''; // local for user
   gpCfgDir:String =''; // global for all user
-  gpLngDir:String =''; // path to lng files
+  gpLngDir:String =''; // path to language *.po files
   gpPixmapPath:String ='';
-
+  
 procedure LoadPaths;
 
 implementation

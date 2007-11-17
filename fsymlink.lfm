@@ -1,7 +1,7 @@
-inherited frmSymLink: TfrmSymLink
-  Left = 305
+object frmSymLink: TfrmSymLink
+  Left = 355
   Height = 136
-  Top = 140
+  Top = 520
   Width = 362
   HorzScrollBar.Page = 361
   HorzScrollBar.Range = 344
@@ -10,31 +10,36 @@ inherited frmSymLink: TfrmSymLink
   ActiveControl = edtDst
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
-  Caption = 'frmSymLink'
+  Caption = 'Create symlink'
   ClientHeight = 136
   ClientWidth = 362
   KeyPreview = True
   Position = poScreenCenter
   object lblNew: TLabel
-    Height = 13
-    Width = 39
-    Caption = 'lblNew'
+    Left = 8
+    Height = 14
+    Top = 2
+    Width = 197
+    Caption = 'Existing destination (where will link point)'
     ParentColor = False
   end
   object lblDst: TLabel
-    Height = 13
-    Top = 40
-    Width = 32
-    Caption = 'lblDst'
+    Left = 8
+    Height = 14
+    Top = 44
+    Width = 48
+    Caption = 'Link name'
     ParentColor = False
   end
   object edtNew: TEdit
+    Left = 8
     Height = 23
-    Top = 16
+    Top = 18
     Width = 344
     TabOrder = 1
   end
   object edtDst: TEdit
+    Left = 8
     Height = 23
     Top = 64
     Width = 344

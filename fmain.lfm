@@ -1,7 +1,7 @@
-inherited frmMain: TfrmMain
-  Left = 228
+object frmMain: TfrmMain
+  Left = 361
   Height = 336
-  Top = 194
+  Top = 278
   Width = 540
   HorzScrollBar.Page = 539
   VertScrollBar.Page = 315
@@ -18,6 +18,7 @@ inherited frmMain: TfrmMain
   Menu = mnuMain
   OnActivate = FormActivate
   OnClose = frmMainClose
+  OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
@@ -41,7 +42,6 @@ inherited frmMain: TfrmMain
       Height = 26
       Width = 525
       Align = alRight
-      Caption = 'pnlDisk'
       ClientHeight = 26
       ClientWidth = 525
       FullRepaint = False
@@ -102,7 +102,6 @@ inherited frmMain: TfrmMain
       Width = 170
       Align = alLeft
       BevelOuter = bvNone
-      Caption = 'pnlLeft'
       ClientHeight = 200
       ClientWidth = 170
       TabOrder = 0
@@ -181,7 +180,6 @@ inherited frmMain: TfrmMain
       Width = 364
       Align = alClient
       BevelOuter = bvNone
-      Caption = 'pnlRight'
       ClientHeight = 200
       ClientWidth = 364
       TabOrder = 1
@@ -645,7 +643,7 @@ inherited frmMain: TfrmMain
     end
     object actShowSysFiles: TAction
       Category = 'File'
-      Caption = 'Show System Files'
+      Caption = 'Show hidden/system files'
       Checked = True
       DisableIfNoHandler = True
       HelpType = htKeyword
@@ -802,7 +800,7 @@ inherited frmMain: TfrmMain
     end
     object actCopySamePanel: TAction
       Category = 'Commands'
-      Caption = 'actCopySamePanel'
+      Caption = 'Copy to same panel'
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actCopySamePanelExecute
@@ -810,33 +808,34 @@ inherited frmMain: TfrmMain
     end
     object actRenameOnly: TAction
       Category = 'Commands'
-      Caption = 'actRenameOnly'
+      Caption = 'Rename only'
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actRenameOnlyExecute
       ShortCut = 8309
     end
-    object actShiftF4: TAction
+    object actEditNew: TAction
       Category = 'Commands'
-      Caption = 'actShiftF4'
+      Caption = 'Edit new file'
       DisableIfNoHandler = True
       HelpType = htKeyword
-      OnExecute = actShiftF4Execute
+      OnExecute = actEditNewExecute
+      ShortCut = 8307
     end
     object actDirHistory: TAction
       Category = 'Commands'
-      Caption = 'actDirHistory'
+      Caption = 'Directory history'
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actDirHistoryExecute
       ShortCut = 16456
     end
-    object actCtrlF8: TAction
+    object actShowCmdLineHistory: TAction
       Category = 'Commands'
-      Caption = 'actCtrlF8'
+      Caption = 'Show command line history'
       DisableIfNoHandler = True
       HelpType = htKeyword
-      OnExecute = actCtrlF8Execute
+      OnExecute = actShowCmdLineHistoryExecute
       ShortCut = 20535
     end
     object actRunTerm: TAction
@@ -857,7 +856,7 @@ inherited frmMain: TfrmMain
     end
     object actFileProperties: TAction
       Category = 'File'
-      Caption = 'Show File Properties'
+      Caption = 'Show file properties'
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actFilePropertiesExecute
@@ -865,21 +864,21 @@ inherited frmMain: TfrmMain
     end
     object actFileLinker: TAction
       Category = 'File'
-      Caption = 'Link Files'
+      Caption = 'Link files'
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actFileLinkerExecute
     end
     object actFileSpliter: TAction
       Category = 'File'
-      Caption = 'Split File'
+      Caption = 'Split file'
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actFileSpliterExecute
     end
     object actNewTab: TAction
       Category = 'Tabs'
-      Caption = 'actNewTab'
+      Caption = 'New tab'
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actNewTabExecute
@@ -887,7 +886,7 @@ inherited frmMain: TfrmMain
     end
     object actRemoveTab: TAction
       Category = 'Tabs'
-      Caption = 'actRemoveTab'
+      Caption = 'Remove tab'
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actRemoveTabExecute
@@ -915,47 +914,49 @@ inherited frmMain: TfrmMain
     end
     object actLeftOpenDrives: TAction
       Category = 'Commands'
+      Caption = 'Open left drive list'
       DisableIfNoHandler = True
       OnExecute = actLeftOpenDrivesExecute
       ShortCut = 32880
     end
     object actRightOpenDrives: TAction
       Category = 'Commands'
+      Caption = 'Open right drive list'
       DisableIfNoHandler = True
       OnExecute = actRightOpenDrivesExecute
       ShortCut = 32881
     end
     object actAddPathToCmdLine: TAction
       Category = 'Commands'
-      Caption = 'actAddPathToCmdLine'
+      Caption = 'Copy path to command line'
       DisableIfNoHandler = True
       OnExecute = actAddPathToCmdLineExecute
       ShortCut = 16464
     end
     object actFocusCmdLine: TAction
       Category = 'Commands'
-      Caption = 'actFocusCmdLine'
+      Caption = 'Focus command line'
       DisableIfNoHandler = True
       OnExecute = actFocusCmdLineExecute
       ShortCut = 8305
     end
     object actTransferLeft: TAction
       Category = 'Commands'
-      Caption = 'actTransferLeft'
+      Caption = 'Transfer dir under cursor to left window'
       DisableIfNoHandler = True
       OnExecute = actTransferLeftExecute
       ShortCut = 16421
     end
     object actTransferRight: TAction
       Category = 'Commands'
-      Caption = 'actTransferRight'
+      Caption = 'Transfer dir under cursor to right window'
       DisableIfNoHandler = True
       OnExecute = actTransferRightExecute
       ShortCut = 16423
     end
     object actContextMenu: TAction
       Category = 'Commands'
-      Caption = 'actContextMenu'
+      Caption = 'Show context menu'
       DisableIfNoHandler = True
       OnExecute = actContextMenuExecute
     end
@@ -963,17 +964,11 @@ inherited frmMain: TfrmMain
   object pmHotList: TPopupMenu
     left = 152
     top = 136
-    object MenuItem3: TMenuItem
-      Caption = 'New Item1'
-    end
   end
   object pmDirHistory: TPopupMenu
     AutoPopup = False
     left = 184
     top = 136
-    object MenuItem4: TMenuItem
-      Caption = 'New Item1'
-    end
   end
   object pmToolBar: TPopupMenu
     Tag = -1

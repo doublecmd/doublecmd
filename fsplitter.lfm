@@ -25,7 +25,7 @@ object frmSplitter: TfrmSplitter
     Height = 137
     Width = 185
     Caption = 'File name'
-    ClientHeight = 120
+    ClientHeight = 119
     ClientWidth = 181
     ParentCtl3D = False
     TabOrder = 0
@@ -75,16 +75,17 @@ object frmSplitter: TfrmSplitter
     Top = 144
     Width = 185
     Caption = 'File size'
-    ClientHeight = 56
+    ClientHeight = 55
     ClientWidth = 181
     ParentCtl3D = False
     TabOrder = 1
     object cmbxSize: TComboBox
       Left = 6
-      Height = 23
+      Height = 21
       Top = 12
       Width = 168
       AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+      ItemHeight = 13
       ItemIndex = 0
       Items.Strings = (
         '1457664B - 3.5"'
@@ -103,7 +104,7 @@ object frmSplitter: TfrmSplitter
     Height = 177
     Width = 177
     Caption = 'Watchtower'
-    ClientHeight = 160
+    ClientHeight = 159
     ClientWidth = 173
     ParentCtl3D = False
     TabOrder = 2

@@ -134,7 +134,7 @@ begin
           Result:=True;
           Exit;
         end;
-        if not DlgFileExist(Format(lngGetString(clngMsgFileExistsRwrt),[sDst+fr^.sPath+sDstNew, fr^.sName])) then
+        if not DlgFileExist(Format(rsMsgFileExistsRwrt,[sDst+fr^.sPath+sDstNew, fr^.sName])) then
           Exit;
       end;   
     end;
@@ -258,7 +258,7 @@ end;
 
 Function TCopyThread.GetCaptionLng:String;
 begin
-  Result:=lngGetString(clngDlgCp);
+  Result:=rsDlgCp;
 end;
 
 

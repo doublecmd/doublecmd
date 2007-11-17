@@ -178,7 +178,7 @@ end;
 
 procedure TFindThread.UpDateProgress;
 begin
-  FStatus.Caption:=Format(lngGetString(clngFindScaned),[FFilesScaned]);
+  FStatus.Caption:=Format(rsFindScaned,[FFilesScaned]);
   FCurrent.Caption:=FCurrentFile;
 end;
 

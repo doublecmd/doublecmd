@@ -19,14 +19,14 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, fLngForm, ActnList, Menus, SynEdit,
+  Dialogs, StdCtrls, ActnList, Menus, SynEdit,
   ComCtrls,  SynEditSearch;
 
 type
 
   { TfrmEditor }
 
-  TfrmEditor = class(TfrmLng)
+  TfrmEditor = class(TForm)
     actEditCut: TAction;
     actEditCopy: TAction;
     actEditSelectAll: TAction;
@@ -80,7 +80,6 @@ type
     miHighlight: TMenuItem;
     actEditFind: TAction;
     actEditRplc: TAction;
-    actSave2: TAction;
     actConfHigh: TAction;
     miDiv: TMenuItem;
     miConfHigh: TMenuItem;
@@ -98,6 +97,7 @@ type
     tbSeparator3: TToolButton;
     tbConfig: TToolButton;
     tbHelp: TToolButton;
+    procedure FormCreate(Sender: TObject);
     procedure actEditDeleteExecute(Sender: TObject);
     procedure actEditRedoExecute(Sender: TObject);
     procedure EditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -126,7 +126,6 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure actSave2Execute(Sender: TObject);
     procedure actConfHighExecute(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure frmEditorClose(Sender: TObject; var CloseAction: TCloseAction);
   private
     { Private declarations }
@@ -143,7 +142,6 @@ type
   public
     { Public declarations }
     SynEditSearch: TSynEditSearch;
-    procedure LoadLng; override;
     procedure LoadFromIni;
     procedure SaveToIni;
 {    Function CreateNewTab:Integer; // return tab number
@@ -165,48 +163,6 @@ uses
   SynEditHighlighter, uShowMsg, fMsg, fEditSearch,
   SynEditTypes, uGlobsPaths, uGlobs, fEditorConf, LCLType;
 
-procedure TfrmEditor.LoadLng;
-var
-  i:Integer;
-  mi:TMenuItem;
-begin
-// load language
-  Editor.Font.Name:=gEditorFontName;
-  Editor.Font.Size:=gEditorSize;
-  miFile.Caption:=   lngGetString(clngEditFile);
-  actFileExit.Caption:=  lngGetString(clngEditExit);
-  miHighlight.Caption:= lngGetString(clngEditSynt);
-  actFileNew.Caption:=  lngGetString(clngEditNew );
-  actFileOpen.Caption:=  lngGetString(clngEditOpen);
-  actFileSave.Caption:=  lngGetString(clngEditSave);
-  actFileSaveAs.Caption:=  lngGetString(clngEditSvAs);
-
-  miEdit.Caption:= lngGetString(clngEditEdit);
-  actEditUndo.Caption:=   lngGetString(clngEditUndo);
-  actEditCut.Caption:= lngGetString(clngEditCut );
-  actEditCopy.Caption:=   lngGetString(clngEditCopy);
-  actEditPaste.Caption:=   lngGetString(clngEditPast);
-  actEditFind.Caption:=   lngGetString(clngEditFind);
-  actEditRplc.Caption:=   lngGetString(clngEditRplc);
-  actConfHigh.Caption:= lngGetString(clngEditCfg);
-
-
-// update menu highlighting
-  miHighlight.Clear;
-  for i:=0 to dmHighl.ComponentCount -1 do
-    if dmHighl.Components[i] is TSynCustomHighlighter then
-    begin
-      mi:=TMenuItem.Create(miHighlight);
-      mi.Caption:=TSynCustomHighlighter(dmHighl.Components[i]).GetLanguageName;
-      mi.Tag:=i;
-//      mi.Name:='miHigh'+IntToStr(i);
-      mi.Enabled:=True;
-      mi.OnClick:=@SetHighLighter;
-      miHighlight.Add(mi);
-    end;
-
-end;
-
 procedure ShowEditor(const sFileName:String);
 var editor: TfrmEditor;
 begin
@@ -222,6 +178,31 @@ begin
   finally
     //editor.Free;
   end;
+end;
+
+procedure TfrmEditor.FormCreate(Sender: TObject);
+var
+  i:Integer;
+  mi:TMenuItem;
+begin
+  LoadFromIni;
+  Editor.Font.Name:=gEditorFontName;
+  Editor.Font.Size:=gEditorSize;
+
+// update menu highlighting
+  miHighlight.Clear;
+  for i:=0 to dmHighl.ComponentCount -1 do
+    if dmHighl.Components[i] is TSynCustomHighlighter then
+    begin
+      mi:=TMenuItem.Create(miHighlight);
+      mi.Caption:=TSynCustomHighlighter(dmHighl.Components[i]).GetLanguageName;
+      mi.Tag:=i;
+//      mi.Name:='miHigh'+IntToStr(i);
+      mi.Enabled:=True;
+      mi.OnClick:=@SetHighLighter;
+      miHighlight.Add(mi);
+    end;
+
 end;
 
 procedure TfrmEditor.OpenFile(const sFileName:String);
@@ -242,7 +223,7 @@ end;
 procedure TfrmEditor.actFileNewExecute(Sender: TObject);
 begin
   inherited;
-  Caption:=lngGetString(clngMsgNewFile);
+  Caption := rsMsgNewFile;
   Editor.Lines.Clear;
   bChanged:=False;
   bNoname:=True;
@@ -529,7 +510,7 @@ begin
   inherited;
   CanClose:=False;
   if bChanged then
-    case msgYesNoCancel(Format(lngGetString(clngMsgFileChangedSave),[Caption])) of
+    case msgYesNoCancel(Format(rsMsgFileChangedSave,[Caption])) of
       mmrYes: actFileSave.Execute;
       mmrNo: bChanged:=False;
     else
@@ -699,12 +680,6 @@ begin
       Free;
     end;
   end;
-end;
-
-procedure TfrmEditor.FormCreate(Sender: TObject);
-begin
-  inherited;
-  LoadFromIni;
 end;
 
 procedure TfrmEditor.frmEditorClose(Sender: TObject;

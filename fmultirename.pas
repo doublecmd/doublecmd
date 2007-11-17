@@ -17,10 +17,10 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ComCtrls, Menus,  fLngForm, Buttons;
+  StdCtrls, ComCtrls, Menus, Buttons;
 
 type
-  TfrmMultiRename = class(TfrmLng)
+  TfrmMultiRename = class(TForm)
     lsvwFile: TListView;
     gbMaska: TGroupBox;
     lbName: TLabel;
@@ -96,8 +96,7 @@ type
     {Main function for write into lsvwFile}
     procedure FreshText;
   public
-    {Language configuration}
-    procedure LoadLng; override;
+    { Public declarations }
   end;
 
 {initialization function}
@@ -107,52 +106,6 @@ implementation
 
 uses
   uLng, uFileProcs;
-
-procedure TfrmMultiRename.LoadLng;
-begin
-
-  lsvwfile.columns[0].caption:=lngGetString(clngMrnViewOldName);
-  lsvwFile.Columns[1].Caption:=lngGetString(clngMrnViewNewName);
-  lsvwFile.Columns[2].Caption:=lngGetString(clngMrnViewFilePath);
-  ppNameMenu.Items[0].Caption:=lngGetString(clngMrnPopupNameNext);
-  ppNameMenu.Items[0].Items[0].Caption:=lngGetString(clngMrnPopupName);
-  ppNameMenu.Items[0].Items[1].Caption:=lngGetString(clngMrnPopupNameX);
-  ppNameMenu.Items[0].Items[2].Caption:=lngGetString(clngMrnPopupNameXX);
-  ppNameMenu.Items[2].Caption:=lngGetString(clngMrnPopupExtenNext);
-  ppNameMenu.Items[2].Items[0].Caption:=lngGetString(clngMrnPopupExten);
-  ppNameMenu.Items[2].Items[1].Caption:=lngGetString(clngMrnPopupExtenX);
-  ppNameMenu.Items[2].Items[2].Caption:=lngGetString(clngMrnPopupExtenXX);
-  ppNameMenu.Items[4].Caption:=lngGetString(clngMrnPopupCounter);
-  ppNameMenu.Items[6].Caption:=lngGetString(clngMrnPopupTimeNext);
-  ppNameMenu.Items[6].Items[0].Caption:=lngGetString(clngMrnPopupYear);
-  ppNameMenu.Items[6].Items[1].Caption:=lngGetString(clngMrnPopupMonth);
-  ppNameMenu.Items[6].Items[2].Caption:=lngGetString(clngMrnPopupDay);
-  ppNameMenu.Items[6].Items[4].Caption:=lngGetString(clngMrnPopupHour);
-  ppNameMenu.Items[6].Items[5].Caption:=lngGetString(clngMrnPopupMinute);
-  ppNameMenu.Items[6].Items[6].Caption:=lngGetString(clngMrnPopupSecond);
-//  svdlLog.Title:=lngGetString(clngMrnSaveTitle);
-  gbMaska.Caption:=lngGetString(clngMrnMask);
-  lbName.Caption:=lngGetString(clngMrnLabelName);
-  lbExt.Caption:=lngGetString(clngMrnLabelExten);
-  gbFindReplace.Caption:=lngGetString(clngMrnFindReplace);
-  lbFind.Caption:=lngGetString(clngMrnLabelFind);
-  lbReplace.Caption:=lngGetString(clngMrnLabelReplace);
-  gbCounter.Caption:=lngGetString(clngMrnCounter);
-  lbStNb.Caption:=lngGetString(clngMrnLabelStartNb);
-  lbInterval.Caption:=lngGetString(clngMrnLabelInterval);
-  lbWidth.Caption:=lngGetString(clngMrnLabelWidth);
-  gbFontStyle.Caption:=lngGetString(clngMrnFileStyle);
-  cmbxFont.Items[0]:=lngGetString(clngMrnCmNoChange);
-  cmbxFont.Items[1]:=lngGetString(clngMrnCmUpperCase);
-  cmbxFont.Items[2]:=lngGetString(clngMrnCmLowerCase);
-  cmbxFont.Items[3]:=lngGetString(clngMrnCmFirstBig);
-  gbLog.Caption:=lngGetString(clngMrnLog);
-  cbLog.Caption:=lngGetString(clngMrnCheckLog);
-  btnRestore.Caption:=lngGetString(clngMrnBtnRestore);
-//  btnOK.Caption:=lngGetString(clngMrnBtnOK);
-  btnCancel.Caption:=lngGetString(clngbutCancel);
-  btnOk.Caption:=lngGetString(clngbutOK);
-end;
 
 function ShowMultiRenameForm(Var lsInFiles: TStringList):Boolean;
 var
@@ -170,7 +123,6 @@ begin
         item[c].SubItems.Add('');
         item[c].SubItems.Add(ExtractFileDir(lsInFiles[c]));
       end;
-      LoadLng;
       btnRestoreClick(nil);
       ShowModal;
     finally

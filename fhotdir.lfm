@@ -1,4 +1,4 @@
-inherited frmHotDir: TfrmHotDir
+object frmHotDir: TfrmHotDir
   Left = 277
   Height = 423
   Top = 87
@@ -8,7 +8,7 @@ inherited frmHotDir: TfrmHotDir
   VertScrollBar.Page = 422
   VertScrollBar.Range = 417
   ActiveControl = lsHotDir
-  Caption = 'frmHotDir'
+  Caption = 'Directory Hotlist'
   ClientHeight = 423
   ClientWidth = 411
   Position = poMainFormCenter
@@ -18,7 +18,6 @@ inherited frmHotDir: TfrmHotDir
     Top = 8
     Width = 305
     TabOrder = 0
-    TopIndex = -1
   end
   object btnOK: TBitBtn
     Left = 328

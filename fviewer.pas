@@ -27,11 +27,14 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, LCLProc, fLngForm, Menus,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, LCLProc, Menus,
   viewercontrol, fFindView;
 
 type
-  TfrmViewer = class(TfrmLng)
+
+  { TfrmViewer }
+
+  TfrmViewer = class(TForm)
     Image: TImage;
     miSeparator: TMenuItem;
     miSavePos: TMenuItem;
@@ -64,6 +67,7 @@ type
     miSelectAll: TMenuItem;
     miCopyToClipboard: TMenuItem;
     ViewerControl: TViewerControl;
+    procedure FormCreate(Sender : TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure ViewerControlMouseWheelDown(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
@@ -84,7 +88,6 @@ type
     procedure miWrapTextClick(Sender: TObject);
     procedure miAbout2Click(Sender: TObject);
     procedure miSearchClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure miProcessClick(Sender: TObject);
     procedure miGraphicsClick(Sender: TObject);
@@ -105,8 +108,6 @@ type
     procedure LoadGraphics(const sFileName:String);
     procedure DoSearch;
   public
-    procedure LoadLng; override;
-
     procedure LoadFile(iIndex:Integer);
     procedure ReMmapIfNeed;
   end;
@@ -129,36 +130,6 @@ begin
   viewer.LoadFile(0);
   viewer.Show;
   viewer.FDeleteAfterView := bDeleteAfterView;
-end;
-
-procedure TfrmViewer.LoadLng;
-begin
-// load language
-//  writeln('TfrmViewer.LoadLng');
-//  ViewerControl.Font.Assign(gViewerFont);
-  miFile.Caption:=   lngGetString(clngEditFile);
-  miSavePos.Caption:= lngGetString(clngSavePosition);
-  miPrev.Caption:=  lngGetString(clngEditPrev);
-  miNext.Caption:=    lngGetString(clngEditNext);
-  miExit.Caption:=   lngGetString(clngEditExit);
-  miImage.Caption:= lngGetString(clngEditImage);
-  miStretch.Caption:= lngGetString(clngEditStretch);
-
-  miView.Caption:= lngGetString(clngViewView);
-  miText.Caption:= lngGetString(clngViewText);
-  miBin.Caption:= lngGetString(clngViewBin);
-  miHex.Caption:= lngGetString(clngViewHex);
-  miWrapText.Caption:= lngGetString(clngViewWrap);
-  miAbout.Caption:= lngGetString(clngViewAbout);
-  miAbout2.Caption:= lngGetString(clngViewAbout);
-  miSearch.Caption:= lngGetString(clngViewSearch);
-//  miProcess.Caption:=lngGetString(clngViewProcFile);
-//  Image.Picture.RegisterFileFormat('jpeg', 'jpeg', TBitmap);
-  miEdit.Caption:=lngGetString(clngEditEdit);
-  miGraphics.Caption:=lngGetString(clngViewGraphics);
-  miCopyToClipboard.Caption:=lngGetString(clngViewCpClip);
-  miSelectAll.Caption:=lngGetString(clngViewSelectAll);
-  ViewerControl.Color:=clWindow;
 end;
 
 procedure TfrmViewer.LoadFile(iIndex:Integer);
@@ -314,7 +285,7 @@ procedure TfrmViewer.miSavePosClick(Sender: TObject);
 begin
   // TODO: It really need? may be better automtic save
   gViewerPos.Save(Self);
-  msgOK(lngGetString(clngPositionSaved));
+  msgOK(rsPositionSaved);
 end;
 
 procedure TfrmViewer.miStretchClick(Sender: TObject);
@@ -351,7 +322,7 @@ end;
 
 procedure TfrmViewer.miAbout2Click(Sender: TObject);
 begin
-  MsgOK(lngGetString(clngViewAboutText));
+  MsgOK(rsViewAboutText);
 end;
 
 procedure TfrmViewer.miSearchClick(Sender: TObject);
@@ -362,7 +333,7 @@ end;
 procedure TfrmViewer.FormCreate(Sender: TObject);
 begin
 //  writeln('TfrmViewer.FormCreate');
-  inherited;
+  ViewerControl.Color:=clWindow;
   FileList := TStringList.Create;
 
   FFindDialog:=nil; // dialog is created in first use

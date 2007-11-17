@@ -5,10 +5,10 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, fLngForm, Buttons;
+  Dialogs, StdCtrls, Buttons;
 
 type
-  TfrmSymLink = class(TfrmLng)
+  TfrmSymLink = class(TForm)
     lblNew: TLabel;
     lblDst: TLabel;
     edtNew: TEdit;
@@ -18,9 +18,8 @@ type
     procedure btnOKClick(Sender: TObject);
   private
     { Private declarations }
-
   public
-    procedure LoadLng; override;
+    { Public declarations }
   end;
 
 procedure ShowSymLinkForm(const sNew, sDst:String);
@@ -44,14 +43,6 @@ begin
   end;
 end;
 
-
-procedure TfrmSymLink.LoadLng;
-begin
-  Caption:=lngGetString(clngSymLink);
-  lblNew.Caption:=lngGetString(clngSymLinkDst);
-  lblDst.Caption:=lngGetString(clngSymLinkNew);
-end;
-
 procedure TfrmSymLink.btnOKClick(Sender: TObject);
 var
   sSrc,sDst:String;
@@ -63,7 +54,7 @@ begin
     Close
   else
   begin
-    MsgError(lngGetString(clngSymErrCreate));
+    MsgError(rsSymErrCreate);
   end;
 end;
 

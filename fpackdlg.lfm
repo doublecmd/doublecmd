@@ -1,7 +1,7 @@
-object PackDlg: TPackDlg
-  Left = 225
+object frmPackDlg: TfrmPackDlg
+  Left = 322
   Height = 232
-  Top = 194
+  Top = 547
   Width = 517
   HelpContext = 150
   HorzScrollBar.Page = 516
@@ -31,9 +31,9 @@ object PackDlg: TPackDlg
   end
   object cbStoredir: TCheckBox
     Left = 4
-    Height = 30
+    Height = 19
     Top = 43
-    Width = 301
+    Width = 203
     Caption = 'Also &pack path names (only recursed)'
     Checked = True
     State = cbChecked
@@ -41,9 +41,9 @@ object PackDlg: TPackDlg
   end
   object cbRecurse: TCheckBox
     Left = 4
-    Height = 26
+    Height = 19
     Top = 63
-    Width = 252
+    Width = 176
     Caption = 'Recursively pack &subdirectories'
     Checked = True
     Enabled = False
@@ -52,9 +52,9 @@ object PackDlg: TPackDlg
   end
   object cbMultivolume: TCheckBox
     Left = 4
-    Height = 26
+    Height = 19
     Top = 83
-    Width = 170
+    Width = 122
     Caption = '&Multiple disk archive'
     Enabled = False
     TabOrder = 2
@@ -87,17 +87,17 @@ object PackDlg: TPackDlg
   end
   object cbMoveToArchive: TCheckBox
     Left = 4
-    Height = 26
+    Height = 19
     Top = 103
-    Width = 141
+    Width = 103
     Caption = 'M&ove to archive'
     TabOrder = 3
   end
   object cbCreateSFX: TCheckBox
     Left = 4
-    Height = 26
+    Height = 19
     Top = 123
-    Width = 237
+    Width = 163
     Caption = 'Create self e&xtracting archive'
     Enabled = False
     TabOrder = 4
@@ -115,17 +115,17 @@ object PackDlg: TPackDlg
   end
   object cbEncrypt: TCheckBox
     Left = 4
-    Height = 29
+    Height = 19
     Top = 163
-    Width = 82
+    Width = 62
     Caption = 'Encr&ypt'
     TabOrder = 6
   end
   object cbCreateSeparateArchives: TCheckBox
     Left = 4
-    Height = 26
+    Height = 19
     Top = 143
-    Width = 384
+    Width = 261
     Caption = 'Create separate archives, o&ne per selected file/dir'
     Enabled = False
     TabOrder = 5
@@ -167,10 +167,10 @@ object PackDlg: TPackDlg
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = rgPacker
     AnchorSideRight.Side = asrBottom
-    Left = 405
+    Left = 396
     Height = 21
     Top = 122
-    Width = 89
+    Width = 98
     Anchors = [akTop, akLeft, akRight]
     AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
     BorderSpacing.Top = 6
@@ -178,6 +178,7 @@ object PackDlg: TPackDlg
     Enabled = False
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
+    ItemHeight = 13
     MaxLength = 0
     OnChange = cbOtherPluginsChange
     Style = csDropDownList
@@ -208,9 +209,9 @@ object PackDlg: TPackDlg
     AnchorSideTop.Control = rgPacker
     AnchorSideTop.Side = asrBottom
     Left = 358
-    Height = 24
+    Height = 19
     Top = 122
-    Width = 47
+    Width = 38
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
     Caption = '=>'

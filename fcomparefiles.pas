@@ -5,14 +5,14 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, fLngForm,
+  Dialogs, StdCtrls, ExtCtrls,
   ComCtrls, Buttons, SynEdit, EditBtn;
 
 type
 
   { TfrmCompareFiles }
 
-  TfrmCompareFiles = class(TFrmLng)
+  TfrmCompareFiles = class(TForm)
     edtFileNameLeft: TFileNameEdit;
     edtFileNameRight: TFileNameEdit;
     pnlLeft: TPanel;
@@ -31,6 +31,7 @@ type
     btnClose: TButton;
     chbKeepScrolling: TCheckBox;
     procedure btnCompareClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure lstLeftSpecialLineColors(Sender: TObject; Line: Integer;
       var Special: Boolean; var FG, BG: TColor);
     procedure lstLeftStatusChange(Sender: TObject; Changes: TSynStatusChanges);
@@ -41,7 +42,7 @@ type
   private
     { Private declarations }
   public
-    procedure LoadLng; override;
+    { Public declarations }
   end;
 
 procedure ShowCmpFiles(const sFile1, sFile2:String);
@@ -66,7 +67,7 @@ begin
   end;
 end;
 
-procedure TfrmCompareFiles.LoadLng;
+procedure TfrmCompareFiles.FormCreate(Sender: TObject);
 begin
   lstLeft.Font.Name:=gEditorFontName;
   lstLeft.Font.Style:=[];
@@ -88,7 +89,7 @@ begin
        lstLeft.Lines, lstRight.Lines, cmInternalText);
 {  CompareFiles(edtFileNameLeft.Text, edtFileNameRight.Text,
     lstLeft.Items, lstRight.Items, cmInternalText);}
-  pnlStatusBar.Panels[0].Text := lngGetString(clngCompareDiffs) + ' ' + IntToStr(iChanges);
+  pnlStatusBar.Panels[0].Text := rsCompareDiffs + ' ' + IntToStr(iChanges);
 end;
 
 procedure TfrmCompareFiles.lstLeftSpecialLineColors(Sender: TObject;

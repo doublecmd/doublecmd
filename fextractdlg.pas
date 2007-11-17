@@ -33,9 +33,9 @@ uses
 
 type
 
-{ TExtractDlg }
+{ TfrmExtractDlg }
 
-TExtractDlg = class(TForm)
+TfrmExtractDlg = class(TForm)
   edtExtractTo: TDirectoryEdit;
     lblExtractTo : TLabel;
     lblFileMask : TLabel;
@@ -53,7 +53,7 @@ TExtractDlg = class(TForm)
   end; 
 
 var
-  ExtractDlg: TExtractDlg;
+  frmExtractDlg: TfrmExtractDlg;
 
 procedure  ShowExtractDlg(ActiveFrame:TFrameFilePanel; var fl : TFileList; sDestPath:String);
 
@@ -69,7 +69,7 @@ var
   I : Integer;
   ExtractFileList : TFileList;
 begin
-  with TExtractDlg.Create(nil) do
+  with TfrmExtractDlg.Create(nil) do
     begin
       edtExtractTo.Text := sDestPath;
       CurrentVFS := ActiveFrame.pnlFile.VFS;

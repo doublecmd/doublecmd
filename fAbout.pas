@@ -22,14 +22,15 @@ type
   { TfrmAbout }
 
   TfrmAbout = class(TForm)
+    imgLogo: TImage;
     lblTitle: TLabel;
     lblLazarusVer: TLabel;
     lblBuild: TLabel;
     lblVersion: TLabel;
     OKButton: TButton;
     Panel1: TPanel;
-    imgLogo: TImage;
     memInfo: TMemo;
+    pnlLogo: TPanel;
     procedure OKButtonClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);

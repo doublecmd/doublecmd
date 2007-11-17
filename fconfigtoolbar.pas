@@ -20,9 +20,9 @@ uses
 
 type
 
-  { TButtonChangeDlg }
+  { TfrmButtonChangeDlg }
 
-  TButtonChangeDlg = class(TForm)
+  TfrmButtonChangeDlg = class(TForm)
     lblButtonBar: TLabel;
     btnCancel: TButton;
     lblCommand: TLabel;
@@ -30,7 +30,6 @@ type
     lblIconX: TLabel;
     lblIconfile: TLabel;
     btnAddButton: TButton;
-    cbRunMinimized: TCheckBox;
     ktbBar: TKASToolBar;
     btnOpenBarFile: TButton;
     kedtBarSize: TKASEdit;
@@ -42,7 +41,6 @@ type
     btnOpenIconFile: TButton;
     kedtIconFileName: TKASEdit;
     lblIconIndex: TLabel;
-    cbRunMaximized: TCheckBox;
     kedtParams: TKASEdit;
     kedtStartPath: TKASEdit;
     kedtToolTip: TKASEdit;
@@ -75,7 +73,7 @@ type
   procedure ShowConfigToolbar;
 
 var
-  ButtonChangeDlg: TButtonChangeDlg;
+  frmButtonChangeDlg: TfrmButtonChangeDlg;
   LastToolButton, NewToolButton : Integer;
 
 implementation
@@ -83,7 +81,7 @@ uses fMain, uGlobsPaths, uGlobs;
 
 procedure ShowConfigToolbar;
 begin
-    with TButtonChangeDlg.Create(Application) do
+    with TfrmButtonChangeDlg.Create(Application) do
   try
     LastToolButton := -1;
     NewToolButton := -1;
@@ -94,9 +92,9 @@ begin
   end;
 end;
 
-{ TButtonChangeDlg }
+{ TfrmButtonChangeDlg }
 
-procedure TButtonChangeDlg.FormShow(Sender: TObject);
+procedure TfrmButtonChangeDlg.FormShow(Sender: TObject);
 begin
   cbFlatIcons.Checked := gToolBarFlat;
   ktbBar.FlatButtons := gToolBarFlat;
@@ -105,12 +103,12 @@ begin
   ktbBar.LoadFromFile(gpIniDir + 'default.bar');
 end;
 
-procedure TButtonChangeDlg.cbFlatIconsChange(Sender: TObject);
+procedure TfrmButtonChangeDlg.cbFlatIconsChange(Sender: TObject);
 begin
   ktbBar.FlatButtons := cbFlatIcons.Checked;
 end;
 
-procedure TButtonChangeDlg.btnOKClick(Sender: TObject);
+procedure TfrmButtonChangeDlg.btnOKClick(Sender: TObject);
 begin
   Save;
   gToolBarFlat := cbFlatIcons.Checked;
@@ -123,7 +121,7 @@ begin
 end;
 
 (*Add new button on tool bar*)
-procedure TButtonChangeDlg.btnAddButtonClick(Sender: TObject);
+procedure TfrmButtonChangeDlg.btnAddButtonClick(Sender: TObject);
 begin
   Save;
   NewToolButton := ktbBar.AddButton('', '', '', '');
@@ -131,7 +129,7 @@ begin
 end;
 
 (*Select button on panel*)
-procedure TButtonChangeDlg.ktbBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
+procedure TfrmButtonChangeDlg.ktbBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
 begin
  Save;
  cbCommand.Text := ktbBar.Commands[NumberOfButton];
@@ -141,7 +139,7 @@ begin
 end;
 
 (*Save current button*)
-procedure TButtonChangeDlg.Save;
+procedure TfrmButtonChangeDlg.Save;
 begin
    if (LastToolButton >= 0) and (ktbBar.ButtonCount > 0) then
       begin
@@ -160,7 +158,7 @@ begin
 end;
 
 (*Remove current button*)
-procedure TButtonChangeDlg.btnDeleteButtonClick(Sender: TObject);
+procedure TfrmButtonChangeDlg.btnDeleteButtonClick(Sender: TObject);
 begin
    if (LastToolButton >= 0) and (ktbBar.ButtonCount > 0) then
       begin
@@ -173,13 +171,13 @@ begin
       end;
 end;
 
-procedure TButtonChangeDlg.btnOpenFileClick(Sender: TObject);
+procedure TfrmButtonChangeDlg.btnOpenFileClick(Sender: TObject);
 begin
   if OpenDialog.Execute then
      cbCommand.Text := OpenDialog.FileName;
 end;
 
-procedure TButtonChangeDlg.btnOpenIconFileClick(Sender: TObject);
+procedure TfrmButtonChangeDlg.btnOpenIconFileClick(Sender: TObject);
 var
   sDir: string;
 begin

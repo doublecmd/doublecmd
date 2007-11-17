@@ -1,20 +1,21 @@
-inherited frmViewer: TfrmViewer
-  Left = 349
-  Height = 100
-  Top = 287
-  Width = 200
-  HorzScrollBar.Page = 199
-  VertScrollBar.Page = 79
+object frmViewer: TfrmViewer
+  Left = 44
+  Height = 489
+  Top = 58
+  Width = 760
+  HorzScrollBar.Page = 759
+  VertScrollBar.Page = 468
   VertScrollBar.Range = 19
   ActiveControl = ScrollBarVert
-  Caption = 'frmViewer'
-  ClientHeight = 80
-  ClientWidth = 200
+  Caption = 'Viewer'
+  ClientHeight = 469
+  ClientWidth = 760
   Constraints.MinHeight = 100
   Constraints.MinWidth = 200
   KeyPreview = True
   Menu = MainMenu
   OnClose = frmViewerClose
+  OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyDown = frmViewerKeyDown
   OnKeyPress = FormKeyPress
@@ -23,8 +24,8 @@ inherited frmViewer: TfrmViewer
   ShowInTaskBar = stAlways
   object Status: TStatusBar
     Height = 23
-    Top = 57
-    Width = 200
+    Top = 446
+    Width = 760
     Panels = <    
       item
         Width = 200
@@ -41,19 +42,19 @@ inherited frmViewer: TfrmViewer
     SimplePanel = False
   end
   object nbPages: TNotebook
-    Height = 57
-    Width = 200
+    Height = 446
+    Width = 760
     Align = alClient
     PageIndex = 0
     ShowTabs = False
     TabOrder = 0
     object pgText: TPage
       Caption = 'pgText'
-      ClientWidth = 192
-      ClientHeight = 49
+      ClientWidth = 752
+      ClientHeight = 438
       object ScrollBarVert: TScrollBar
-        Left = 177
-        Height = 49
+        Left = 737
+        Height = 438
         Width = 15
         Align = alRight
         Anchors = [akTop, akRight]
@@ -67,8 +68,8 @@ inherited frmViewer: TfrmViewer
       end
       object ViewerControl: TViewerControl
         Cursor = crIBeam
-        Height = 49
-        Width = 177
+        Height = 438
+        Width = 737
         ViewerMode = vmText
         Font.Height = -14
         Font.Name = 'fixed'
@@ -80,8 +81,6 @@ inherited frmViewer: TfrmViewer
     end
     object pgImage: TPage
       Caption = 'pgImage'
-      ClientWidth = 192
-      ClientHeight = 49
       object ScrollBox: TScrollBox
         Height = 468
         Width = 788
@@ -95,6 +94,7 @@ inherited frmViewer: TfrmViewer
           Height = 468
           Width = 788
           Align = alClient
+          Transparent = False
         end
       end
     end
@@ -143,19 +143,19 @@ inherited frmViewer: TfrmViewer
     object miView: TMenuItem
       Caption = '&View'
       object miText: TMenuItem
-        Caption = 'Text'
+        Caption = 'Show as &Text'
         OnClick = miTextClick
       end
       object miBin: TMenuItem
-        Caption = 'Bin'
+        Caption = 'Show as &Bin'
         OnClick = miBinClick
       end
       object miHex: TMenuItem
-        Caption = 'Hex'
+        Caption = 'Show as &Hex'
         OnClick = miHexClick
       end
       object miWrapText: TMenuItem
-        Caption = 'Wrap Text'
+        Caption = 'Show as &Wrap text'
         OnClick = miWrapTextClick
       end
       object miDiv2: TMenuItem
@@ -185,7 +185,7 @@ inherited frmViewer: TfrmViewer
     object miAbout: TMenuItem
       Caption = 'About'
       object miAbout2: TMenuItem
-        Caption = 'About '
+        Caption = 'About Viewer...'
         OnClick = miAbout2Click
       end
     end

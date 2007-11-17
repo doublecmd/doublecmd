@@ -84,7 +84,7 @@ end;
 
 Function TDeleteThread.GetCaptionLng:String;
 begin
-  Result:=lngGetString(clngDlgDel);
+  Result:=rsDlgDel;
 end;
 
 end.

@@ -5,10 +5,10 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, fLngForm, Buttons;
+  Dialogs, StdCtrls, Buttons;
 
 type
-  TfrmMoveDlg = class(TfrmLng)
+  TfrmMoveDlg = class(TForm)
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
     edtDst: TEdit;
@@ -21,8 +21,6 @@ type
     { Private declarations }
   public
     { Public declarations }
-
-    procedure LoadLng; override;
   end;
 
 var
@@ -47,13 +45,6 @@ begin
     ModalResult:=mrOK;
     Key:=#0;
   end;
-end;
-
-procedure TfrmMoveDlg.LoadLng;
-begin
-  Caption:= lngGetString(clngDlgMv);
-//  lblCopySrc.Caption:= lngGetString(clngDlgMvSrc); //handle by MainForm
-  lblFileType.Caption:= lngGetString(clngDlgMvType);
 end;
 
 initialization

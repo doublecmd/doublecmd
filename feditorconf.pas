@@ -5,7 +5,7 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, fLngForm, SynEditHighlighter, SynEditStrConst,
+  Dialogs, StdCtrls, SynEditHighlighter, SynEditStrConst,
   Grids, Buttons, ComCtrls, uGlobsPaths, SynEdit, ButtonPanel;
 
 type
@@ -83,7 +83,7 @@ type
 
   { TfrmEditorConf }
 
-  TfrmEditorConf = class(TfrmLng)
+  TfrmEditorConf = class(TForm)
     grColor: TDrawGrid;
     lbNames: TListBox;
     lbSample: TLabel;
@@ -111,7 +111,6 @@ type
     fbUpdatingBoxes:Boolean;
   public
     { Public declarations }
-    procedure LoadLng; override;
     procedure FillComboPred;
   end;
   procedure LoadAttrFromFile(const sFileName:String);
@@ -251,19 +250,6 @@ begin
   end;
 end;
 
-procedure TfrmEditorConf.LoadLng;
-begin
-  Caption:=lngGetString(clngEditCfgForm);
-  cbBold.Caption:=lngGetString(clngEditCfgBold);
-  cbItalic.Caption:=lngGetString(clngEditCfgItalic);
-  cbUnderline.Caption:=lngGetString(clngEditCfgUline);
-  cbStrikeOut.Caption:=lngGetString(clngEditCfgStrike);
-
-  lbPredefined.Caption:=lngGetString(clngEditCfgDefined);
-  lbSample.Caption:=lngGetString(clngEditCfgSample);
-  grColor.ScrollBars:=ssNone;
-end;
-
 procedure TfrmEditorConf.grColorDrawCell(Sender: TObject; ACol,
   ARow: Integer; Rect: TRect; State: TGridDrawState);
 begin
@@ -279,7 +265,7 @@ procedure TfrmEditorConf.FormCreate(Sender: TObject);
 var
   i:Integer;
 begin
-  inherited;
+  grColor.ScrollBars:=ssNone;
   lbNames.Clear;
   for i:=0 to cCountSynAttrs-1 do
     lbNames.Items.Add(cSynAttrNames[i]);
