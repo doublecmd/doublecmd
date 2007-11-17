@@ -987,11 +987,7 @@ msgid "Packer plugins (.WCX)"
 msgstr ""
 
 #: TFRMOPTIONS.LBLABOUT.CAPTION
-msgid "Packer plugins are used to open archives not supported"
-msgstr ""
-
-#: 
-msgid "internally by Double Commander."
+msgid "Packer plugins are used to open archives not supported internally by Double Commander."
 msgstr ""
 
 #: TFRMOPTIONS.LBLEXT.CAPTION

@@ -116,7 +116,7 @@ msgstr "Переместить файл(ы)"
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
-msgstr ""
+msgstr "Внутренний просмоторщик Double Commander."
 
 #: ulng.rscolname
 msgid "Name"
@@ -140,35 +140,35 @@ msgstr "Атриб"
 
 #: ulng.rscomparediffs
 msgid "Number of changes:"
-msgstr ""
+msgstr "Число изменений:"
 
 #: ulng.rsfindscaned
 msgid "Scanned: \%d"
-msgstr ""
+msgstr "Просмотрено: %d"
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
-msgstr ""
+msgstr "Начинать у"
 
 #: ulng.rsfinddirnoex
 msgid "Directory \%s does not exist!"
-msgstr ""
+msgstr "Каталог %s не существует!"
 
 #: ulng.rssymerrcreate
 msgid "Error creating symlink."
-msgstr ""
+msgstr "Ошибка создания симв. ссылки."
 
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
-msgstr ""
+msgstr "Ошибка создания жёсткой ссылки."
 
 #: ulng.rslinkmsgok
 msgid "Linker complete"
-msgstr ""
+msgstr "Сборка завершена"
 
 #: ulng.rssplitseldir
 msgid "Select directory:"
-msgstr ""
+msgstr "Выберите каталог:"
 
 #: ulng.rsspliterrfilesize
 msgid "Incorrect file size format!"
@@ -208,11 +208,11 @@ msgstr "Распаковать файлы"
 
 #: TFRMEXTRACTDLG.LBLEXTRACTTO.CAPTION
 msgid "Unpack file to:"
-msgstr ""
+msgstr "Распаковать файлы по указанной ниже маске из архива в:"
 
 #: TFRMEXTRACTDLG.LBLFILEMASK.CAPTION
 msgid "&Files to unpack:"
-msgstr ""
+msgstr "&Маска для распаковки:"
 
 #: TFRMEXTRACTDLG.CBFILEMASK.TEXT
 msgid "*.*"
@@ -220,11 +220,11 @@ msgstr ""
 
 #: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
 msgid "&Unpack path names if stored with files"
-msgstr ""
+msgstr "&Учитывать подкаталоги"
 
 #: TFRMEXTRACTDLG.CBOVERWRITE.CAPTION
 msgid "&Overwrite existing files"
-msgstr ""
+msgstr "&Заменять существующие файлы"
 
 #: TFRMEXTRACTDLG.BTNOK.CAPTION
 msgid "OK"
@@ -240,7 +240,7 @@ msgstr "Помощь"
 
 #: TFRMEXTRACTDLG.CBINSEPARATEFOLDER.CAPTION
 msgid "Unpack each archive to a &separate subdir (name of the archive)"
-msgstr ""
+msgstr "Распаковать каждый архив в &отдельный каталог (с именем архива)"
 
 #: TFRMFILEPROPERTIES.CAPTION
 msgid "Properties"
@@ -276,51 +276,51 @@ msgstr "Размер:"
 
 #: TFRMFILEPROPERTIES.LBLLASTACCESSSTR.CAPTION
 msgid "Last access:"
-msgstr ""
+msgstr "Последний доступ:"
 
 #: TFRMFILEPROPERTIES.LBLLASTMODIFSTR.CAPTION
 msgid "Last modification:"
-msgstr ""
+msgstr "Последнее изменение:"
 
 #: TFRMFILEPROPERTIES.LBLLASTSTCHANGESTR.CAPTION
 msgid "Last status change:"
-msgstr ""
+msgstr "Последнее изменение статуса:"
 
 #: TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION
 msgid "Attributes"
-msgstr ""
+msgstr "Атрибуты"
 
 #: TFRMFILEPROPERTIES.LBLFILE.CAPTION
 msgid "File name"
-msgstr ""
+msgstr "Имя файла"
 
 #: TFRMFILEPROPERTIES.LBLATTROWNERSTR.CAPTION
 msgid "Owner"
-msgstr ""
+msgstr "Владелец"
 
 #: TFRMFILEPROPERTIES.LBLWRITE.CAPTION
 msgid "Write"
-msgstr ""
+msgstr "Запись"
 
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgid "Read"
-msgstr ""
+msgstr "Чтение"
 
 #: TFRMFILEPROPERTIES.LBLEXEC.CAPTION
 msgid "Execute"
-msgstr ""
+msgstr "Выполнение"
 
 #: TFRMFILEPROPERTIES.LBLATTRGROUPSTR.CAPTION
 msgid "Group"
-msgstr ""
+msgstr "Группа"
 
 #: TFRMFILEPROPERTIES.LBLATTROTHERSTR.CAPTION
 msgid "Other"
-msgstr ""
+msgstr "Другие"
 
 #: TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
 msgid "Representation in text:"
-msgstr ""
+msgstr "В виде текста:"
 
 #: TFRMFILEPROPERTIES.LBLATTRTEXT.CAPTION
 msgid "-----------"
@@ -328,7 +328,7 @@ msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLATTRBITSSTR.CAPTION
 msgid "Bits:"
-msgstr ""
+msgstr "Биты:"
 
 #: TFRMFILEPROPERTIES.CBSUID.CAPTION
 msgid "SUID"
@@ -344,7 +344,7 @@ msgstr ""
 
 #: TFRMFILEPROPERTIES.BTNALL.CAPTION
 msgid "&All"
-msgstr ""
+msgstr "Все"
 
 #: TFRMFILEPROPERTIES.BTNOK.CAPTION
 msgid "&OK"
@@ -352,19 +352,19 @@ msgstr ""
 
 #: TFRMFILEPROPERTIES.BTNSKIP.CAPTION
 msgid "Skip"
-msgstr ""
+msgstr "Пропустить"
 
 #: TFRMSPLITTER.CAPTION
 msgid "Splitter"
-msgstr ""
+msgstr "Разбиение"
 
 #: TFRMSPLITTER.LBFILESOURCE.CAPTION
 msgid "File source"
-msgstr ""
+msgstr "Исходный файл"
 
 #: TFRMSPLITTER.LBDIRTARGET.CAPTION
 msgid "Directory target"
-msgstr ""
+msgstr "Каталог назначения"
 
 #: TFRMSPLITTER.BTNFTCHOICE.CAPTION
 msgid "..."
@@ -372,7 +372,7 @@ msgstr ""
 
 #: TFRMSPLITTER.GRBXSIZE.CAPTION
 msgid "File size"
-msgstr ""
+msgstr "Размер файла"
 
 #: TFRMSPLITTER.CMBXSIZE.TEXT
 msgid "1457664B - 3.5\""
@@ -380,75 +380,75 @@ msgstr ""
 
 #: TFRMSPLITTER.GRBXWATCH.CAPTION
 msgid "Watchtower"
-msgstr ""
+msgstr "Протокол"
 
 #: TFRMSPLITTER.BTNCANCEL.CAPTION
 msgid "Exit"
-msgstr ""
+msgstr "Выход"
 
 #: TFRMLINKER.CAPTION
 msgid "Linker"
-msgstr ""
+msgstr "Сборка"
 
 #: TFRMLINKER.GBSAVETO.CAPTION
 msgid "Save to..."
-msgstr ""
+msgstr "Сохранить как..."
 
 #: TFRMLINKER.GRBXCONTROL.CAPTION
 msgid "Item"
-msgstr ""
+msgstr "Элемент"
 
 #: TFRMLINKER.SPBTNUP.HINT
 msgid "Up"
-msgstr ""
+msgstr "Вверх"
 
 #: TFRMLINKER.SPBTNDOWN.HINT
 msgid "Down"
-msgstr ""
+msgstr "Вниз"
 
 #: TFRMLINKER.SPBTNDEL.HINT
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #: TFRMPACKDLG.CAPTION
 msgid "Pack files"
-msgstr ""
+msgstr "Упаковка файлов"
 
 #: TFRMPACKDLG.LBLPROMPT.CAPTION
 msgid "Pack file(s) to the file:"
-msgstr ""
+msgstr "Имя архива:"
 
 #: TFRMPACKDLG.CBSTOREDIR.CAPTION
 msgid "Also &pack path names (only recursed)"
-msgstr ""
+msgstr "&Сохранять пути"
 
 #: TFRMPACKDLG.CBRECURSE.CAPTION
 msgid "Recursively pack &subdirectories"
-msgstr ""
+msgstr "&Учитывать подкаталоги"
 
 #: TFRMPACKDLG.CBMULTIVOLUME.CAPTION
 msgid "&Multiple disk archive"
-msgstr ""
+msgstr "&Многотомный архив"
 
 #: TFRMPACKDLG.CBMOVETOARCHIVE.CAPTION
 msgid "M&ove to archive"
-msgstr ""
+msgstr "У&далить исходные файлы после упаковки"
 
 #: TFRMPACKDLG.CBCREATESFX.CAPTION
 msgid "Create self e&xtracting archive"
-msgstr ""
+msgstr "Само&распаковывающийся архив"
 
 #: TFRMPACKDLG.CBENCRYPT.CAPTION
 msgid "Encr&ypt"
-msgstr ""
+msgstr "&Шифровать"
 
 #: TFRMPACKDLG.CBCREATESEPARATEARCHIVES.CAPTION
 msgid "Create separate archives, o&ne per selected file/dir"
-msgstr ""
+msgstr "Отдельные архивы для кажд&ого выбранного файла/каталога"
 
 #: TFRMPACKDLG.RGPACKER.CAPTION
 msgid "Packer"
-msgstr ""
+msgstr " Архиватор "
 
 #: TFRMPACKDLG.CBOTHERPLUGINS.CAPTION
 msgid "=>"
@@ -456,55 +456,55 @@ msgstr ""
 
 #: TFRMMULTIRENAME.CAPTION
 msgid "MultiRename"
-msgstr ""
+msgstr "Групповое переименование"
 
 #: TFRMMULTIRENAME.GBMASKA.CAPTION
 msgid "Mask"
-msgstr ""
+msgstr "Маска"
 
 #: TFRMMULTIRENAME.LBNAME.CAPTION
 msgid "File Name"
-msgstr ""
+msgstr "Имя файла"
 
 #: TFRMMULTIRENAME.LBEXT.CAPTION
 msgid "Extension"
-msgstr ""
+msgstr "Расширение"
 
 #: TFRMMULTIRENAME.GBFINDREPLACE.CAPTION
 msgid "Find && Replace"
-msgstr ""
+msgstr "Найти &и заменить"
 
 #: TFRMMULTIRENAME.LBFIND.CAPTION
 msgid "Find..."
-msgstr ""
+msgstr "Найти..."
 
 #: TFRMMULTIRENAME.LBREPLACE.CAPTION
 msgid "Replace..."
-msgstr ""
+msgstr "Заменить..."
 
 #: TFRMMULTIRENAME.GBFONTSTYLE.CAPTION
 msgid "File Name Style"
-msgstr ""
+msgstr "Стиль имени файла"
 
 #: TFRMMULTIRENAME.CMBXFONT.TEXT
 msgid "no change"
-msgstr ""
+msgstr "без изменения "
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
 msgid "Counter"
-msgstr ""
+msgstr "Счётчик"
 
 #: TFRMMULTIRENAME.LBSTNB.CAPTION
 msgid "Start Number"
-msgstr ""
+msgstr "Начальное значение"
 
 #: TFRMMULTIRENAME.LBINTERVAL.CAPTION
 msgid "Interval"
-msgstr ""
+msgstr "Интервал"
 
 #: TFRMMULTIRENAME.LBWIDTH.CAPTION
 msgid "Width"
-msgstr ""
+msgstr "Ширина"
 
 #: TFRMMULTIRENAME.EDPOC.TEXT
 msgid "1"
@@ -516,43 +516,43 @@ msgstr ""
 
 #: TFRMMULTIRENAME.GBLOG.CAPTION
 msgid "Log Result"
-msgstr ""
+msgstr "Результат - в протокол"
 
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 msgid "Log"
-msgstr ""
+msgstr "Протокол"
 
 #: TFRMMULTIRENAME.BTNRESTORE.CAPTION
 msgid "Restore All"
-msgstr ""
+msgstr "Восстановить всё"
 
 #: TFRMMULTIRENAME.LSVWFILE.COLUMNS.CAPTION
 msgid "Old File Name"
-msgstr ""
+msgstr "Старое имя файла"
 
 #: TFRMMULTIRENAME.LSVWFILE.COLUMNS.CAPTION
 msgid "New File Name"
-msgstr ""
+msgstr "Новое имя файла"
 
 #: TFRMMULTIRENAME.LSVWFILE.COLUMNS.CAPTION
 msgid "File Path"
-msgstr ""
+msgstr "Путь файла"
 
 #: TFRMMULTIRENAME.MINEXTNAME.CAPTION
 msgid "Name..."
-msgstr ""
+msgstr "Имя..."
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
 msgid "[N]ame"
-msgstr ""
+msgstr "[И]мя"
 
 #: TFRMMULTIRENAME.MINAMEX.CAPTION
 msgid "[Nx]ame"
-msgstr ""
+msgstr "[Иx]мя"
 
 #: TFRMMULTIRENAME.MINAMEXX.CAPTION
 msgid "[Nx:x]ame"
-msgstr ""
+msgstr "[Иx:x]мя"
 
 #: TFRMMULTIRENAME.N1.CAPTION
 msgid "-"
@@ -560,91 +560,91 @@ msgstr ""
 
 #: TFRMMULTIRENAME.MINEXTEXTENSION.CAPTION
 msgid "Extension..."
-msgstr ""
+msgstr "Расширение..."
 
 #: TFRMMULTIRENAME.EXTENSION.CAPTION
 msgid "[E]xtension"
-msgstr ""
+msgstr "[Р]асширение"
 
 #: TFRMMULTIRENAME.MIEXTENSIONX.CAPTION
 msgid "[Ex]xtension"
-msgstr ""
+msgstr "[Рx]асширение"
 
 #: TFRMMULTIRENAME.MIEXTENSIONXX.CAPTION
 msgid "[Ex:x]xtension"
-msgstr ""
+msgstr "[Рx:x]асширени"
 
 #: TFRMMULTIRENAME.MICOUNTER.CAPTION
 msgid "[C]ounter"
-msgstr ""
+msgstr "[С]чётчик"
 
 #: TFRMMULTIRENAME.MINEXT.CAPTION
 msgid "Time..."
-msgstr ""
+msgstr "Время..."
 
 #: TFRMMULTIRENAME.MIYEAR.CAPTION
 msgid "[Y]ear"
-msgstr ""
+msgstr "[Г]од"
 
 #: TFRMMULTIRENAME.MIMONTH.CAPTION
 msgid "[Mo]nth"
-msgstr ""
+msgstr "[Ме]сяц"
 
 #: TFRMMULTIRENAME.MIDAY.CAPTION
 msgid "[D]ay"
-msgstr ""
+msgstr "[Д]ень"
 
 #: TFRMMULTIRENAME.MIHOUR.CAPTION
 msgid "[H]our"
-msgstr ""
+msgstr "[Ч]ас"
 
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
 msgid "[Mi]nute"
-msgstr ""
+msgstr "[Ми]нута"
 
 #: TFRMMULTIRENAME.MISECOND.CAPTION
 msgid "[S]econd"
-msgstr ""
+msgstr "[С]екунда"
 
 #: TFRMHARDLINK.CAPTION
 msgid "Create hardlink"
-msgstr ""
+msgstr "Создать жёсткую ссылку"
 
 #: TFRMHARDLINK.LBLNEW.CAPTION
 msgid "Existing destination (where will link point)"
-msgstr ""
+msgstr "На что указывает"
 
 #: TFRMHARDLINK.LBLDST.CAPTION
 msgid "Link name"
-msgstr ""
+msgstr "Имя ссылки"
 
 #: TFRMSYMLINK.CAPTION
 msgid "Create symlink"
-msgstr ""
+msgstr "Создать симв. ссылку"
 
 #: TFRMHOTDIR.CAPTION
 msgid "Directory Hotlist"
-msgstr ""
+msgstr "Избранные каталоги"
 
 #: TFRMHOTDIR.BTNADD.CAPTION
 msgid "Add"
-msgstr ""
+msgstr "Добавить"
 
 #: TFRMFINDDLG.CAPTION
 msgid "Find files"
-msgstr ""
+msgstr "Поиск файлов"
 
 #: TFRMFINDDLG.TSSTANDARD.CAPTION
 msgid "Standard"
-msgstr ""
+msgstr "Стандартный"
 
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "FileDir"
-msgstr ""
+msgstr "В каталоге:"
 
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 msgid "FileMask"
-msgstr ""
+msgstr "&Искать файлы:"
 
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
 msgid "*"
@@ -652,63 +652,63 @@ msgstr ""
 
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
-msgstr ""
+msgstr "С текстом"
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sensitive"
-msgstr ""
+msgstr "С учетом регистра"
 
 #: TFRMFINDDLG.CBNOTHISTEXT.CAPTION
 msgid "Find files NOT containing the text"
-msgstr ""
+msgstr "Файлы, НЕ содержащие этот текст"
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
 msgid "Replace text"
-msgstr ""
+msgstr "Заменить текст"
 
 #: TFRMFINDDLG.CBFINDINFILE.CAPTION
 msgid "Find in file"
-msgstr ""
+msgstr "Искать в файле"
 
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
-msgstr ""
+msgstr "Расширенный"
 
 #: TFRMFINDDLG.CBDATEFROM.CAPTION
 msgid "Date From:"
-msgstr ""
+msgstr "Дата от:"
 
 #: TFRMFINDDLG.CBNOTOLDERTHAN.CAPTION
 msgid "Not older than:"
-msgstr ""
+msgstr "Не старше чем:"
 
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
-msgstr ""
+msgstr "День"
 
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 msgid "File Size From:"
-msgstr ""
+msgstr "Размер файла от:"
 
 #: TFRMFINDDLG.CBDATETO.CAPTION
 msgid "Date To:"
-msgstr ""
+msgstr "Дата до:"
 
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
 msgid "File Size To:"
-msgstr ""
+msgstr "Размер файла до:"
 
 #: TFRMFINDDLG.CBUNITOFMEASURE.TEXT
 msgid "Kbyte"
-msgstr ""
+msgstr "Килобайт"
 
 #: TFRMFINDDLG.CBTIMEFROM.CAPTION
 msgid "Time from:"
-msgstr ""
+msgstr "Врямя от:"
 
 #: TFRMFINDDLG.CBTIMETO.CAPTION
 msgid "Time to:"
-msgstr ""
+msgstr "Врямя до:"
 
 #: TFRMFINDDLG.LBLINFO.CAPTION
 msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
@@ -720,107 +720,107 @@ msgstr ""
 
 #: TFRMFINDDLG.CBDIRECTORY.CAPTION
 msgid "Directory"
-msgstr ""
+msgstr "Каталог"
 
 #: TFRMFINDDLG.CBSYMLINK.CAPTION
 msgid "SymLink"
-msgstr ""
+msgstr "Симв. ссылка"
 
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
-msgstr ""
+msgstr "Больше"
 
 #: TFRMFINDDLG.BTNCLOSE.CAPTION
 msgid "&Close"
-msgstr ""
+msgstr "Закрыть"
 
 #: TFRMFINDDLG.BTNSTART.CAPTION
 msgid "&Start"
-msgstr ""
+msgstr "&Старт"
 
 #: TFRMFINDDLG.LBLSTATUS.CAPTION
 msgid "Status"
-msgstr ""
+msgstr "Статус"
 
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
-msgstr ""
+msgstr "Текущий"
 
 #: TFRMFINDDLG.BTNVIEW.CAPTION
 msgid "&View"
-msgstr ""
+msgstr "&Просмотр"
 
 #: TFRMFINDDLG.BTNNEWSEARCH.CAPTION
 msgid "&New search"
-msgstr ""
+msgstr "Н&овый поиск"
 
 #: TFRMFINDDLG.BTNGOTOPATH.CAPTION
 msgid "&Go to file"
-msgstr ""
+msgstr "Пере&йти к файлу"
 
 #: TFRMFINDDLG.BTNWORKWITHFOUND.CAPTION
 msgid "Feed to &listbox"
-msgstr ""
+msgstr "Фай&лы на панель"
 
 #: TFRMFINDDLG.MISHOWINVIEWER.CAPTION
 msgid "Show In Viewer"
-msgstr ""
+msgstr "Просмотр"
 
 #: TFRMMOVEDLG.LBLMOVESRC.CAPTION
 msgid "Move \%s:"
-msgstr ""
+msgstr "Переместить %s:"
 
 #: TFRMMOVEDLG.LBLFILETYPE.CAPTION
 msgid "Only type:"
-msgstr ""
+msgstr "Только типа:"
 
 #: TFRMCOMPAREFILES.CAPTION
 msgid "Compare files"
-msgstr ""
+msgstr "Сравнить файлы"
 
 #: TFRMCOMPAREFILES.BTNNEXTDIFF.CAPTION
 msgid "Next difference"
-msgstr ""
+msgstr "Следующее"
 
 #: TFRMCOMPAREFILES.BTNPREVDIFF.CAPTION
 msgid "Previous difference"
-msgstr ""
+msgstr "Предыдущее"
 
 #: TFRMCOMPAREFILES.CHBBINMODE.CAPTION
 msgid "Binary mode"
-msgstr ""
+msgstr "Двоичный"
 
 #: TFRMCOMPAREFILES.CHBKEEPSCROLLING.CAPTION
 msgid "Keep scrolling"
-msgstr ""
+msgstr "Одновременная прокрутка"
 
 #: TFRMCOPYDLG.LBLCOPYSRC.CAPTION
 msgid "Copy \%s:"
-msgstr ""
+msgstr "Копировать %s:"
 
 #: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
 msgid "Drop readonly flag"
-msgstr ""
+msgstr "Сбросить флаг "Только для чтения""
 
 #: TFRMMKDIR.CAPTION
 msgid "Create new directory"
-msgstr ""
+msgstr "Создать новый каталог"
 
 #: TFRMMKDIR.LBLMAKEDIR.CAPTION
 msgid "Input new directory name:"
-msgstr ""
+msgstr "Введите имя каталога:"
 
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
-msgstr ""
+msgstr "Обработать файл(ы)"
 
 #: TFRMFILEOP.LBLESTIMATED.CAPTION
 msgid "Estimated"
-msgstr ""
+msgstr "Осталось"
 
 #: TFRMOPTIONS.CAPTION
 msgid "Options"
-msgstr ""
+msgstr "Настройка"
 
 #: TFRMOPTIONS.PGLNG.CAPTION
 msgid "pgLng"
@@ -832,11 +832,11 @@ msgstr ""
 
 #: TFRMOPTIONS.LBLTERM.CAPTION
 msgid "Terminal:"
-msgstr ""
+msgstr "Терминал:"
 
 #: TFRMOPTIONS.LBLRUNTERM.CAPTION
 msgid "Run terminal:"
-msgstr ""
+msgstr "Пуск терминала:"
 
 #: TFRMOPTIONS.EDTTERM.TEXT
 msgid "/usr/X11R6/bin/xterm -e bash -i -c \%s"
@@ -848,27 +848,27 @@ msgstr ""
 
 #: TFRMOPTIONS.CBDIRSELECT.CAPTION
 msgid "Select directory with keypad"
-msgstr ""
+msgstr "Выбрать кат-г на цифр. кл-ре"
 
 #: TFRMOPTIONS.CBCASESENSITIVESORT.CAPTION
 msgid "Case sensitive sorting"
-msgstr ""
+msgstr "Сортировка с учётом регистра"
 
 #: TFRMOPTIONS.CBLYNXLIKE.CAPTION
 msgid "Lynx like movement"
-msgstr ""
+msgstr "Навигация в стиле Lynx"
 
 #: TFRMOPTIONS.CBSHORTFILESIZEFORMAT.CAPTION
 msgid "Short Filesize format"
-msgstr ""
+msgstr "Короткий размер файла"
 
 #: TFRMOPTIONS.CBSEPARATEEXT.CAPTION
 msgid "Separate extension"
-msgstr ""
+msgstr "Отдельно расширение"
 
 #: TFRMOPTIONS.LBLICONSSIZE.CAPTION
 msgid "Icons Size:"
-msgstr ""
+msgstr "Размер:"
 
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
@@ -876,7 +876,7 @@ msgstr ""
 
 #: TFRMOPTIONS.CBSHOWICONS.CAPTION
 msgid "Show icons"
-msgstr ""
+msgstr "Показывать значки"
 
 #: TFRMOPTIONS.PGTOOLS.CAPTION
 msgid "pgTools"
@@ -884,7 +884,7 @@ msgstr ""
 
 #: TFRMOPTIONS.CBEXTEDITOR.CAPTION
 msgid "External editor"
-msgstr ""
+msgstr "Внешний редактор"
 
 #: TFRMOPTIONS.EDTEXTEDITOR.TEXT
 msgid "gEdit \"\%s\""
@@ -892,7 +892,7 @@ msgstr ""
 
 #: TFRMOPTIONS.CBEXTDIFFER.CAPTION
 msgid "External differ"
-msgstr ""
+msgstr "Внешний differ"
 
 #: TFRMOPTIONS.EDTEXTDIFFER.TEXT
 msgid "gtk-diff \"\%s\" \"\%s\""
@@ -900,7 +900,7 @@ msgstr ""
 
 #: TFRMOPTIONS.CBEXTVIEWER.CAPTION
 msgid "External viewer"
-msgstr ""
+msgstr "Внешний просмотрщик"
 
 #: TFRMOPTIONS.EDTEXTVIEWER.TEXT
 msgid "emacs \"\%s\""
@@ -912,15 +912,15 @@ msgstr ""
 
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
-msgstr ""
+msgstr "Главный"
 
 #: TFRMOPTIONS.LBLEDITORFONT.CAPTION
 msgid "Editor font"
-msgstr ""
+msgstr "Редактора"
 
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
-msgstr ""
+msgstr "Просмотрщика"
 
 #: TFRMOPTIONS.PGCOLOR.CAPTION
 msgid "pgColor"
@@ -928,27 +928,27 @@ msgstr ""
 
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
-msgstr ""
+msgstr "&Текст:"
 
 #: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
 msgid "BackGround:"
-msgstr ""
+msgstr "Фон &1"
 
 #: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
 msgid "Background 2:"
-msgstr ""
+msgstr "Фон &2"
 
 #: TFRMOPTIONS.LBLMARKCOLOR.CAPTION
 msgid "Mark Color:"
-msgstr ""
+msgstr "&Выделение"
 
 #: TFRMOPTIONS.LBLCURSORCOLOR.CAPTION
 msgid "Cursor Color:"
-msgstr ""
+msgstr "&Курсор"
 
 #: TFRMOPTIONS.LBLCURSORTEXT.CAPTION
 msgid "Cursor Text:"
-msgstr ""
+msgstr "Текст &под курсором"
 
 #: TFRMOPTIONS.BTNFORECOLOR.CAPTION
 msgid ">>"
@@ -956,7 +956,7 @@ msgstr ""
 
 #: TFRMOPTIONS.GBEXAMPLE.CAPTION
 msgid "Example"
-msgstr ""
+msgstr "Пример"
 
 #: TFRMOPTIONS.PGHOTKEY.CAPTION
 msgid "pgHotKey"
@@ -964,19 +964,19 @@ msgstr ""
 
 #: TFRMOPTIONS.LBLACTIONS.CAPTION
 msgid "Actions"
-msgstr ""
+msgstr "Команды"
 
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key"
-msgstr ""
+msgstr "Горячая клавиша"
 
 #: TFRMOPTIONS.BTSETHOTKEY.CAPTION
 msgid "Set HotKey"
-msgstr ""
+msgstr "Установить"
 
 #: TFRMOPTIONS.BTCLEARHOTKEY.CAPTION
 msgid "Clear HotKey"
-msgstr ""
+msgstr "Очистить"
 
 #: TFRMOPTIONS.PGPLUGINS.CAPTION
 msgid "pgPlugins"
@@ -984,43 +984,39 @@ msgstr ""
 
 #: TFRMOPTIONS.TSWCX.CAPTION
 msgid "Packer plugins (.WCX)"
-msgstr ""
+msgstr "Архиваторные плагины (.WCX)"
 
 #: TFRMOPTIONS.LBLABOUT.CAPTION
-msgid "Packer plugins are used to open archives not supported"
-msgstr ""
-
-#: 
-msgid "internally by Double Commander."
-msgstr ""
+msgid "Packer plugins are used to open archives not supported internally by Double Commander."
+msgstr "Позволяют работать с архивами, которые изначально не поддерживаются."
 
 #: TFRMOPTIONS.LBLEXT.CAPTION
 msgid "All files with e&xtension (ending with):"
-msgstr ""
+msgstr "&Файлы с расширением:"
 
 #: TFRMOPTIONS.LBLASSOCIATEWITH.CAPTION
 msgid "&Associate with:"
-msgstr ""
+msgstr "Открывать &с помощью:"
 
 #: TFRMOPTIONS.BTNOPEN.CAPTION
 msgid "Open with"
-msgstr ""
+msgstr "Обзор"
 
 #: TFRMOPTIONS.BBTNAPPLY.CAPTION
 msgid "Apply"
-msgstr ""
+msgstr "Применить"
 
 #: TFRMOPTIONS.TSWFX.CAPTION
 msgid "File system plugins (.WFX)"
-msgstr ""
+msgstr "Плагины файловой системы (.WFX)"
 
 #: TFRMOPTIONS.LBLINSTALLEDPLUGINS.CAPTION
 msgid "Installed Plugins:"
-msgstr ""
+msgstr "Установленные плагины:"
 
 #: TFRMOPTIONS.BBTNWFXRENAME.CAPTION
 msgid "Rename"
-msgstr ""
+msgstr "Переименовать"
 
 #: TFRMOPTIONS.PGFILETYPESCOLORS.CAPTION
 msgid "pgFileTypesColors"
@@ -1028,75 +1024,75 @@ msgstr ""
 
 #: TFRMOPTIONS.GBFILETYPESCOLORS.CAPTION
 msgid "File types colors"
-msgstr ""
+msgstr "Цвета по типу"
 
 #: TFRMOPTIONS.LBLCATEGORYNAME.CAPTION
 msgid "Category name:"
-msgstr ""
+msgstr "Наименование категории:"
 
 #: TFRMOPTIONS.LBLCATEGORYMASK.CAPTION
 msgid "Category mask:"
-msgstr ""
+msgstr "Маска:"
 
 #: TFRMOPTIONS.LBLCATEGORYCOLOR.CAPTION
 msgid "Category color:"
-msgstr ""
+msgstr "Цвет:"
 
 #: TFRMOPTIONS.PGLAYOUT.CAPTION
 msgid "Layout"
-msgstr ""
+msgstr "Вид окна"
 
 #: TFRMOPTIONS.GBSCREENLAYOUT.CAPTION
 msgid " Screen layout "
-msgstr ""
+msgstr " Компоненты основного окна "
 
 #: TFRMOPTIONS.CBSHOWMAINTOOLBAR.CAPTION
 msgid "Show &button bar"
-msgstr ""
+msgstr "&Панель инструментов"
 
 #: TFRMOPTIONS.CBSHOWDISKPANEL.CAPTION
 msgid "Show &drive buttons"
-msgstr ""
+msgstr "Кнопки &дисков"
 
 #: TFRMOPTIONS.CBSHOWDRIVEMENUBUTTON.CAPTION
 msgid "Show d&rive menu button"
-msgstr ""
+msgstr "Кнопка меню дисков"
 
 #: TFRMOPTIONS.CBSHOWCURDIR.CAPTION
 msgid "Show &current directory"
-msgstr ""
+msgstr "Имя &текущего каталога"
 
 #: TFRMOPTIONS.CBSHOWTABHEADER.CAPTION
 msgid "Show &tabstop header"
-msgstr ""
+msgstr "&Заголовки табуляторов"
 
 #: TFRMOPTIONS.CBSHOWSTATUSBAR.CAPTION
 msgid "Show &status bar"
-msgstr ""
+msgstr "&Строка состояния"
 
 #: TFRMOPTIONS.CBSHOWCMDLINE.CAPTION
 msgid "Show command &line"
-msgstr ""
+msgstr "&Командная строка"
 
 #: TFRMOPTIONS.CBSHOWKEYSPANEL.CAPTION
 msgid "Show &function key buttons"
-msgstr ""
+msgstr "Кнопки &функциональных клавиш"
 
 #: TFRMOPTIONS.CBFLATDISKPANEL.CAPTION
 msgid "Flat buttons"
-msgstr ""
+msgstr "Плоские"
 
 #: TFRMOPTIONS.CBTWODISKPANELS.CAPTION
 msgid "Show two drive button bars (fixed width, above file windows)"
-msgstr ""
+msgstr "Д&ве панели кнопок дисков (над файловыми панелями)"
 
 #: TFRMOPTIONS.CBSHOWTABS.CAPTION
 msgid "Sho&w folder tabs"
-msgstr ""
+msgstr "Вкл&адки папок"
 
 #: TFRMOPTIONS.CBFLATINTERFACE.CAPTION
 msgid "Flat interface"
-msgstr ""
+msgstr "Плоские"
 
 #: TFRMOPTIONS.PNLCAPTION.CAPTION
 msgid "Language"
@@ -1104,7 +1100,7 @@ msgstr ""
 
 #: TFRMABOUT.CAPTION
 msgid "About"
-msgstr ""
+msgstr "О программе..."
 
 #: TFRMABOUT.LBLVERSION.CAPTION
 msgid "Version 0.2 alpha"
@@ -1112,7 +1108,7 @@ msgstr ""
 
 #: TFRMABOUT.LBLBUILD.CAPTION
 msgid "Build: "
-msgstr ""
+msgstr "Сборка: "
 
 #: TFRMABOUT.LBLLAZARUSVER.CAPTION
 msgid "Lazarus "
@@ -1124,39 +1120,39 @@ msgstr ""
 
 #: TFRMFINDVIEW.CAPTION
 msgid "Find"
-msgstr ""
+msgstr "Найти"
 
 #: TFRMEDITORCONF.CAPTION
 msgid "Editor configuration"
-msgstr ""
+msgstr "Настройки редактора"
 
 #: TFRMEDITORCONF.LBSAMPLE.CAPTION
 msgid "Sample"
-msgstr ""
+msgstr "Образец"
 
 #: TFRMEDITORCONF.LBPREDEFINED.CAPTION
 msgid "Predefined"
-msgstr ""
+msgstr "Предопределенный"
 
 #: TFRMEDITORCONF.CBBOLD.CAPTION
 msgid "&Bold"
-msgstr ""
+msgstr "&Жирный"
 
 #: TFRMEDITORCONF.CBUNDERLINE.CAPTION
 msgid "&Underline"
-msgstr ""
+msgstr "&Подчёркнутый"
 
 #: TFRMEDITORCONF.CBSTRIKEOUT.CAPTION
 msgid "&StrikeOut"
-msgstr ""
+msgstr "&Зачёркнутый"
 
 #: TFRMEDITORCONF.CBITALIC.CAPTION
 msgid "&Italic"
-msgstr ""
+msgstr "&Курсив"
 
 #: TFRMEDITOR.CAPTION
 msgid "Editor"
-msgstr ""
+msgstr "Редактор"
 
 #: TFRMEDITOR.TBTOOLBAR.CAPTION
 msgid "tbToolBar"
@@ -1176,83 +1172,83 @@ msgstr ""
 
 #: TFRMEDITOR.MIFILE.CAPTION
 msgid "&File"
-msgstr ""
+msgstr "&Файл"
 
 #: TFRMEDITOR.MIEDIT.CAPTION
 msgid "&Edit"
-msgstr ""
+msgstr "&Правка"
 
 #: TFRMEDITOR.MIHIGHLIGHT.CAPTION
 msgid "Syntax highlight"
-msgstr ""
+msgstr "&Подсветка синтаксиса"
 
 #: TFRMEDITOR.HELP1.CAPTION
 msgid "&Help"
-msgstr ""
+msgstr "Помощь"
 
 #: TFRMEDITOR.ACTFILEOPEN.CAPTION
 msgid "&Open"
-msgstr ""
+msgstr "&Открыть"
 
 #: TFRMEDITOR.ACTFILESAVE.CAPTION
 msgid "&Save"
-msgstr ""
+msgstr "&Сохранить"
 
 #: TFRMEDITOR.ACTFILESAVEAS.CAPTION
 msgid "Save &As.."
-msgstr ""
+msgstr "Сохранить &как..."
 
 #: TFRMEDITOR.ACTFILENEW.CAPTION
 msgid "&New"
-msgstr ""
+msgstr "&Создать"
 
 #: TFRMEDITOR.ACTFILEEXIT.CAPTION
 msgid "E&xit"
-msgstr ""
+msgstr "Вы&ход"
 
 #: TFRMEDITOR.ACTSAVEALL.CAPTION
 msgid "Sa&ve All"
-msgstr ""
+msgstr "Сохранить все"
 
 #: TFRMEDITOR.ACTEDITFIND.CAPTION
 msgid "&Find"
-msgstr ""
+msgstr "&Найти..."
 
 #: TFRMEDITOR.ACTEDITRPLC.CAPTION
 msgid "&Replace"
-msgstr ""
+msgstr "&Заменить..."
 
 #: TFRMEDITOR.ACTCONFHIGH.CAPTION
 msgid "&Configuration"
-msgstr ""
+msgstr "Настройка"
 
 #: TFRMEDITOR.ACTEDITCUT.CAPTION
 msgid "Cut"
-msgstr ""
+msgstr "В&ырезать"
 
 #: TFRMEDITOR.ACTEDITCOPY.CAPTION
 msgid "Copy"
-msgstr ""
+msgstr "&Копировать"
 
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgid "Paste"
-msgstr ""
+msgstr "&Вставить"
 
 #: TFRMEDITOR.ACTEDITUNDO.CAPTION
 msgid "Undo"
-msgstr ""
+msgstr "Отменить"
 
 #: TFRMEDITOR.ACTEDITREDO.CAPTION
 msgid "Redo"
-msgstr ""
+msgstr "Повторить"
 
 #: TFRMEDITOR.ACTEDITSELECTALL.CAPTION
 msgid "Select&All"
-msgstr ""
+msgstr "Выделить &всё"
 
 #: TFRMVIEWER.CAPTION
 msgid "Viewer"
-msgstr ""
+msgstr "Просмоторщик"
 
 #: TFRMVIEWER.PGTEXT.CAPTION
 msgid "pgText"
@@ -1264,59 +1260,59 @@ msgstr ""
 
 #: TFRMVIEWER.MIPREV.CAPTION
 msgid "&Previous"
-msgstr ""
+msgstr "&Предыдущий"
 
 #: TFRMVIEWER.MINEXT.CAPTION
 msgid "&Next"
-msgstr ""
+msgstr "&Следующий"
 
 #: TFRMVIEWER.MISAVEPOS.CAPTION
 msgid "&Save Position"
-msgstr ""
+msgstr "Сохранить позицию"
 
 #: TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION
 msgid "Copy To Clipboard"
-msgstr ""
+msgstr "&Копировать в буфер"
 
 #: TFRMVIEWER.MISELECTALL.CAPTION
 msgid "Select All"
-msgstr ""
+msgstr "Выделить &всё"
 
 #: TFRMVIEWER.MITEXT.CAPTION
 msgid "Show as &Text"
-msgstr ""
+msgstr "В виде &текста"
 
 #: TFRMVIEWER.MIBIN.CAPTION
 msgid "Show as &Bin"
-msgstr ""
+msgstr "В виде дв. &кода"
 
 #: TFRMVIEWER.MIHEX.CAPTION
 msgid "Show as &Hex"
-msgstr ""
+msgstr "В &шестнадцатиричном виде"
 
 #: TFRMVIEWER.MIWRAPTEXT.CAPTION
 msgid "Show as &Wrap text"
-msgstr ""
+msgstr "В виде текста с &разрывами строк"
 
 #: TFRMVIEWER.MIGRAPHICS.CAPTION
 msgid "Graphics"
-msgstr ""
+msgstr "&Графика"
 
 #: TFRMVIEWER.MISEARCH.CAPTION
 msgid "Search"
-msgstr ""
+msgstr "&Найти..."
 
 #: TFRMVIEWER.MIIMAGE.CAPTION
 msgid "&Image"
-msgstr ""
+msgstr "&Рисунок"
 
 #: TFRMVIEWER.MISTRETCH.CAPTION
 msgid "Stretch"
-msgstr ""
+msgstr "&Растянуть"
 
 #: TFRMVIEWER.MIABOUT2.CAPTION
 msgid "About Viewer..."
-msgstr ""
+msgstr "О просмотрщике..."
 
 #: TFRMMAIN.NBLEFT.HINT
 msgid "Left"
@@ -1340,43 +1336,43 @@ msgstr ""
 
 #: TFRMMAIN.LBLCOMMANDPATH.CAPTION
 msgid "Path"
-msgstr ""
+msgstr "Путь"
 
 #: TFRMMAIN.MNUFILES.CAPTION
 msgid "Files"
-msgstr ""
+msgstr "&Файлы"
 
 #: TFRMMAIN.MNUFILESCOMBINE.CAPTION
 msgid "Combine Files"
-msgstr ""
+msgstr "&Собрать файлы..."
 
 #: TFRMMAIN.MNUMARK.CAPTION
 msgid "&Mark"
-msgstr ""
+msgstr "&Выделение"
 
 #: TFRMMAIN.MNUMARKCMPDIR.CAPTION
 msgid "&Compare Directories"
-msgstr ""
+msgstr "&Сравнить каталоги"
 
 #: TFRMMAIN.MNUCMD.CAPTION
 msgid "&Commands"
-msgstr ""
+msgstr "&Команды"
 
 #: TFRMMAIN.MNUCMDSWAPSOURCETARGET.CAPTION
 msgid "Source &<-> Target"
-msgstr ""
+msgstr "П&оменять панели местами"
 
 #: TFRMMAIN.MNUCMDTARGETISSOURCE.CAPTION
 msgid "Target &= Source"
-msgstr ""
+msgstr "&Две одинаковых панели"
 
 #: TFRMMAIN.MNUSHOW.CAPTION
 msgid "&Show"
-msgstr ""
+msgstr "Ви&д"
 
 #: TFRMMAIN.MNUCONFIG.CAPTION
 msgid "C&onfiguration"
-msgstr ""
+msgstr "&Настройка"
 
 #: TFRMMAIN.ACTVIEW.CAPTION
 msgid "View F3"
@@ -1396,7 +1392,7 @@ msgstr "Переимен F6"
 
 #: TFRMMAIN.ACTMAKEDIR.CAPTION
 msgid "MakeDir F7"
-msgstr "СздКат F7"
+msgstr "Каталог F7"
 
 #: TFRMMAIN.ACTDELETE.CAPTION
 msgid "Delete F8"
@@ -1472,7 +1468,7 @@ msgstr "Множественное &переименование"
 
 #: TFRMMAIN.ACTCOPYSAMEPANEL.CAPTION
 msgid "Copy to same panel"
-msgstr ""
+msgstr "Копировать в ту же панель"
 
 #: TFRMMAIN.ACTRENAMEONLY.CAPTION
 msgid "Rename only"
@@ -1480,15 +1476,15 @@ msgstr "Переименовать"
 
 #: TFRMMAIN.ACTEDITNEW.CAPTION
 msgid "Edit new file"
-msgstr ""
+msgstr "Редактировать новый"
 
 #: TFRMMAIN.ACTDIRHISTORY.CAPTION
 msgid "Directory history"
-msgstr ""
+msgstr "История каталогов"
 
 #: TFRMMAIN.ACTSHOWCMDLINEHISTORY.CAPTION
 msgid "Show command line history"
-msgstr ""
+msgstr "История командной строки"
 
 #: TFRMMAIN.ACTRUNTERM.CAPTION
 msgid "Run Term"
@@ -1512,11 +1508,11 @@ msgstr "&Разрезать файл..."
 
 #: TFRMMAIN.ACTNEWTAB.CAPTION
 msgid "New tab"
-msgstr ""
+msgstr "Новая вкладка"
 
 #: TFRMMAIN.ACTREMOVETAB.CAPTION
 msgid "Remove tab"
-msgstr ""
+msgstr "Удалить вкладку"
 
 #: TFRMMAIN.ACTPACKFILES.CAPTION
 msgid "Pack files..."
@@ -1528,67 +1524,67 @@ msgstr "Распаковать..."
 
 #: TFRMMAIN.ACTOPENVFSLIST.CAPTION
 msgid "Open VFS List"
-msgstr ""
+msgstr "Открыть список VFS"
 
 #: TFRMMAIN.ACTLEFTOPENDRIVES.CAPTION
 msgid "Open left drive list"
-msgstr ""
+msgstr "Открыть список дисков слева"
 
 #: TFRMMAIN.ACTRIGHTOPENDRIVES.CAPTION
 msgid "Open right drive list"
-msgstr ""
+msgstr "Открыть список дисков справа"
 
 #: TFRMMAIN.ACTADDPATHTOCMDLINE.CAPTION
 msgid "Copy path to command line"
-msgstr ""
+msgstr "Копировать путь в командную строку"
 
 #: TFRMMAIN.ACTFOCUSCMDLINE.CAPTION
 msgid "Focus command line"
-msgstr ""
+msgstr "Перейти к командной строке"
 
 #: TFRMMAIN.ACTTRANSFERLEFT.CAPTION
 msgid "Transfer dir under cursor to left window"
-msgstr ""
+msgstr "Открыть каталог под курсором на левой панели"
 
 #: TFRMMAIN.ACTTRANSFERRIGHT.CAPTION
 msgid "Transfer dir under cursor to right window"
-msgstr ""
+msgstr "Открыть каталог под курсором на правой панели"
 
 #: TFRMMAIN.ACTCONTEXTMENU.CAPTION
 msgid "Show context menu"
-msgstr ""
+msgstr "Показать контекстное меню"
 
 #: TFRMMAIN.TBEDIT.CAPTION
 msgid "Edit"
-msgstr ""
+msgstr "Редактировать"
 
 #: TFRMBUTTONCHANGEDLG.CAPTION
 msgid "Change button bar"
-msgstr ""
+msgstr "Настройка панели инструментов"
 
 #: TFRMBUTTONCHANGEDLG.LBLBUTTONBAR.CAPTION
 msgid "&Button bar:"
-msgstr ""
+msgstr "Панель:"
 
 #: TFRMBUTTONCHANGEDLG.LBLCOMMAND.CAPTION
 msgid "&Command:"
-msgstr ""
+msgstr "&Команда:"
 
 #: TFRMBUTTONCHANGEDLG.LBLPARAMETERS.CAPTION
 msgid "&Parameters:"
-msgstr ""
+msgstr "Параметры:"
 
 #: TFRMBUTTONCHANGEDLG.LBLSTARTPATH.CAPTION
 msgid "&Start path:"
-msgstr ""
+msgstr "Путь запуска:"
 
 #: TFRMBUTTONCHANGEDLG.LBLICONFILE.CAPTION
 msgid "Icon &file:"
-msgstr ""
+msgstr "&Файл значка"
 
 #: TFRMBUTTONCHANGEDLG.LBLICONX.CAPTION
 msgid "Ic&on:"
-msgstr ""
+msgstr "Зна&чок"
 
 #: TFRMBUTTONCHANGEDLG.LBLICONINDEX.CAPTION
 msgid "0"
@@ -1596,45 +1592,45 @@ msgstr ""
 
 #: TFRMBUTTONCHANGEDLG.LBLTOOLTIP.CAPTION
 msgid "&Tooltip:"
-msgstr ""
+msgstr "Подсказка"
 
 #: TFRMBUTTONCHANGEDLG.BTNDELETEBUTTON.CAPTION
 msgid "&Delete"
-msgstr ""
+msgstr "Удалить"
 
 #: TFRMBUTTONCHANGEDLG.BTNADDBUTTON.CAPTION
 msgid "&Append"
-msgstr ""
+msgstr "Добавить"
 
 #: TFRMBUTTONCHANGEDLG.BTNADDSUBBAR.CAPTION
-msgid "Add S&ubbar >>"
-msgstr ""
+msgid "Add Subbar >>"
+msgstr "Добавить панель..."
 
 #: TFRMBUTTONCHANGEDLG.GBGROUPBOX.CAPTION
 msgid "Appearance"
-msgstr ""
+msgstr "Вид кнопок"
 
 #: TFRMBUTTONCHANGEDLG.LBLSIZE.CAPTION
 msgid "S&ize:"
-msgstr ""
+msgstr "&Размер"
 
 #: TFRMBUTTONCHANGEDLG.CBFLATICONS.CAPTION
 msgid "F&lat icons"
-msgstr ""
+msgstr "Плоские"
 
 #: TFRMBUTTONCHANGEDLG.CBSMALLICONS.CAPTION
 msgid "S&mall icons"
-msgstr ""
+msgstr "Маленькие"
 
 #: TFRMONEBUTTONCHANGEDLG.CAPTION
 msgid "Change single button"
-msgstr ""
+msgstr "Настройка панели инструментов"
 
 #: TFRMONEBUTTONCHANGEDLG.LBLICONX.CAPTION
 msgid "&Icon:"
-msgstr ""
+msgstr "Зна&чок"
 
 #: TFRMONEBUTTONCHANGEDLG.BTNADDSUBBAR.CAPTION
 msgid "Add Subbar >>"
-msgstr ""
+msgstr "Добавить панель..."
 
