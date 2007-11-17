@@ -32,6 +32,8 @@ type
   end;
   
 var
+  {For localization}
+  gPOFileName : String;
   {Layout page}
   gButtonBar,
   gToolBarFlat,
@@ -50,7 +52,6 @@ var
   gDirSortFirst:Boolean=True; // want to show dir first in panels
   gDirHistoryCount:Integer=30; // how many history we remember
   gShowSystemFiles:Boolean=True;
-  gLng:String='english.lng';
   gTerm:String='/usr/X11R6/bin/xterm -e bash -i -c %s';
   gRunTerm:String='/usr/X11R6/bin/xterm';
   gCaseSensitiveSort:Boolean=True;
@@ -226,7 +227,7 @@ begin
   gInterfaceFlat := gIni.ReadBool('Layout', 'InterfaceFlat', True);
   
   gShowSystemFiles := gIni.ReadBool('Configuration', 'ShowSystemFiles', False);
-  gLng := gIni.ReadString('Configuration', 'Language', gLng);
+  gPOFileName := gIni.ReadString('Configuration', 'Language', '');
   gTerm := gIni.ReadString('Configuration', 'Term', gTerm);
   gCaseSensitiveSort := gIni.ReadBool('Configuration', 'CaseSensitiveSort', False);
   gLynxLike := gIni.ReadBool('Configuration', 'LynxLike', True);
@@ -293,15 +294,10 @@ begin
   writeln('Loading editor position...');
   LoadWindowPos(gEditorPos, 'Editor.');
 
-    if FileExists(gpLngDir + gLng) then
-      begin
-        DoLoadLng;
-        msgLoadLng;
-        Result := True;
-        WriteLn
-      end
-    else
-      msgError('File "' + gpLngDir + gLng + '" not found. Double Commander is closed.');
+  { Localization }
+  DoLoadLng;
+  msgLoadLng;
+  Result := True;
 end;
 
 function LoadStringsFromFile(var list:TStringList; const sFileName:String):boolean;
@@ -345,7 +341,7 @@ begin
   gIni.WriteBool('Layout', 'InterfaceFlat', gInterfaceFlat);
 
   gIni.WriteBool('Configuration', 'ShowSystemFiles', gShowSystemFiles);
-  gIni.WriteString('Configuration', 'Language', gLng);
+  gIni.WriteString('Configuration', 'Language', gPOFileName);
   gIni.WriteString('Configuration', 'Term', gTerm);
   gIni.WriteBool('Configuration', 'CaseSensitiveSort', gCaseSensitiveSort);
   gIni.WriteBool('Configuration', 'LynxLike', gLynxLike);

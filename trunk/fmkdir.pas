@@ -5,10 +5,10 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, fLngForm;
+  Dialogs, StdCtrls, Buttons;
 
 type
-  TfrmMkDir = class(TfrmLng)
+  TfrmMkDir = class(TForm)
     edtMkDir: TEdit;
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
@@ -17,7 +17,7 @@ type
   private
     { Private declarations }
   public
-    procedure LoadLng; override;
+    { Public declarations }
   end;
 
 Function ShowMkDir(var sPath:string):Boolean;
@@ -26,13 +26,6 @@ Function ShowMkDir(var sPath:string):Boolean;
 implementation
 uses
   uLng;
-
-
-procedure TfrmMkDir.LoadLng;
-begin
-  Caption:= lngGetString(clngDlgMkDir);
-  lblMakeDir.Caption:= lngGetString(clngDlgMkDirInput);
-end;
 
 procedure TfrmMkDir.FormKeyPress(Sender: TObject; var Key: Char);
 begin

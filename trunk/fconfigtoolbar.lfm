@@ -1,7 +1,7 @@
-object ButtonChangeDlg: TButtonChangeDlg
-  Left = 218
+object frmButtonChangeDlg: TfrmButtonChangeDlg
+  Left = 252
   Height = 304
-  Top = 132
+  Top = 537
   Width = 578
   HelpContext = 270
   HorzScrollBar.Page = 577
@@ -181,14 +181,6 @@ object ButtonChangeDlg: TButtonChangeDlg
     MaxLength = 259
     TabOrder = 7
   end
-  object cbRunMinimized: TCheckBox
-    Left = 422
-    Height = 13
-    Top = 110
-    Width = 88
-    Caption = 'Run mi&nimized'
-    TabOrder = 8
-  end
   object kedtStartPath: TKASEdit
     Left = 120
     Height = 21
@@ -197,7 +189,7 @@ object ButtonChangeDlg: TButtonChangeDlg
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
     MaxLength = 259
-    TabOrder = 10
+    TabOrder = 8
   end
   object kedtIconFileName: TKASEdit
     Left = 120
@@ -207,7 +199,7 @@ object ButtonChangeDlg: TButtonChangeDlg
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
     MaxLength = 259
-    TabOrder = 11
+    TabOrder = 9
   end
   object btnOpenIconFile: TButton
     Left = 419
@@ -217,7 +209,7 @@ object ButtonChangeDlg: TButtonChangeDlg
     BorderSpacing.InnerBorder = 4
     Caption = '>>'
     OnClick = btnOpenIconFileClick
-    TabOrder = 12
+    TabOrder = 10
   end
   object lbIcons: TListBox
     Left = 120
@@ -228,7 +220,7 @@ object ButtonChangeDlg: TButtonChangeDlg
     Font.Name = 'MS Sans Serif'
     ItemHeight = 36
     Style = lbOwnerDrawFixed
-    TabOrder = 13
+    TabOrder = 11
   end
   object kedtToolTip: TKASEdit
     Left = 120
@@ -238,7 +230,7 @@ object ButtonChangeDlg: TButtonChangeDlg
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
     MaxLength = 259
-    TabOrder = 14
+    TabOrder = 12
   end
   object btnOK: TButton
     Left = 455
@@ -249,41 +241,33 @@ object ButtonChangeDlg: TButtonChangeDlg
     Caption = 'OK'
     Default = True
     OnClick = btnOKClick
-    TabOrder = 15
+    TabOrder = 13
   end
   object btnCancel: TButton
     AnchorSideTop.Control = btnOK
     AnchorSideTop.Side = asrBottom
     Left = 455
     Height = 32
-    Top = 224
+    Top = 222
     Width = 109
-    BorderSpacing.Top = 6
+    BorderSpacing.Top = 4
     BorderSpacing.InnerBorder = 4
     Cancel = True
     Caption = 'Cancel'
     ModalResult = 2
-    TabOrder = 17
+    TabOrder = 15
   end
   object btnHelp: TButton
     AnchorSideTop.Control = btnCancel
     AnchorSideTop.Side = asrBottom
     Left = 455
     Height = 32
-    Top = 262
+    Top = 258
     Width = 109
-    BorderSpacing.Top = 6
+    BorderSpacing.Top = 4
     BorderSpacing.InnerBorder = 4
     Caption = '&Help'
-    TabOrder = 16
-  end
-  object cbRunMaximized: TCheckBox
-    Left = 422
-    Height = 13
-    Top = 130
-    Width = 91
-    Caption = 'Run ma&ximized'
-    TabOrder = 9
+    TabOrder = 14
   end
   object gbGroupBox: TGroupBox
     Left = 455
@@ -315,9 +299,9 @@ object ButtonChangeDlg: TButtonChangeDlg
       AnchorSideTop.Control = lblSize
       AnchorSideTop.Side = asrBottom
       Left = 6
-      Height = 13
+      Height = 19
       Top = 22
-      Width = 65
+      Width = 71
       BorderSpacing.Top = 8
       Caption = 'F&lat icons'
       Checked = True
@@ -329,10 +313,10 @@ object ButtonChangeDlg: TButtonChangeDlg
       AnchorSideTop.Control = cbFlatIcons
       AnchorSideTop.Side = asrBottom
       Left = 6
-      Height = 13
-      Top = 41
-      Width = 73
-      BorderSpacing.Top = 6
+      Height = 19
+      Top = 45
+      Width = 79
+      BorderSpacing.Top = 4
       Caption = 'S&mall icons'
       TabOrder = 2
     end
@@ -343,7 +327,7 @@ object ButtonChangeDlg: TButtonChangeDlg
     Top = 25
     Width = 330
     AutoScroll = True
-    TabOrder = 18
+    TabOrder = 16
     object ktbBar: TKAStoolBar
       Left = 1
       Height = 23

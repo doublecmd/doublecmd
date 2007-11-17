@@ -30,13 +30,13 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, fLngForm, uFileList, Buttons, ComCtrls;
+  Dialogs, StdCtrls, uFileList, Buttons, ComCtrls;
 
 type
 
   { TfrmFileProperties }
 
-  TfrmFileProperties = class(TfrmLng)
+  TfrmFileProperties = class(TForm)
     btnAll: TBitBtn;
     btnClose: TButton;
     btnOK: TBitBtn;
@@ -106,7 +106,6 @@ type
   public
     szPath:String;
 
-    procedure LoadLng; override;
     procedure ShowFile(iIndex:Integer);
     procedure StoreData(FileList:TFileList);
     function FindNextSelected:Boolean;
@@ -134,39 +133,6 @@ begin
   finally
     Free;
   end;
-end;
-
-procedure TfrmFileProperties.LoadLng;
-begin
-  Caption := lngGetString(clngPropsTitle);
-  tsProperties.Caption := lngGetString(clngPropsTitle);
-  tsAttributes.Caption := lngGetString(clngPropsStrAttrs);
-  btnClose.Caption := lngGetString(clngPropsClose);
-  btnSkip.Caption:=lngGetString(clngbutSkip);
-  btnAll.Caption:=lngGetString(clngbutAll);
-  
-  lblRead.Caption:=lngGetString(clngAttrRead);
-  lblWrite.Caption:=lngGetString(clngAttrWrite);
-  lblExec.Caption:=lngGetString(clngAttrExec);
-
-  lblFile.Caption := lngGetString(clngPropsStrName);
-  lblFileNameStr.Caption := lngGetString(clngPropsStrName);
-  lblSizeStr.Caption := lngGetString(clngPropsStrSize);
-  lblFolderStr.Caption := lngGetString(clngPropsStrPath);
-
-  lblAttrOwnerStr.Caption := lngGetString(clngPropsStrOwner);
-  lblAttrGroupStr.Caption := lngGetString(clngPropsStrGroup);
-  lblAttrOtherStr.Caption := lngGetString(clngPropsStrOther);
-  lblLastAccessStr.Caption := lngGetString(clngPropsStrLastAccess);
-  lblSymlinkStr.Caption := lngGetString(clngPropsStrSymlink);
-  gbOwner.Caption := lngGetString(clngPropsStrOwner);
-  lblOwnerStr.Caption := lngGetString(clngPropsStrOwner);
-  lblGroupStr.Caption := lngGetString(clngPropsStrGroup);
-  lblAttrTextStr.Caption := lngGetString(clngAttrTextRep);
-  lblAttrBitsStr.Caption := lngGetString(clngPropsStrBits);
-  lblLastModifStr.Caption := lngGetString(clngPropsStrLastChange);
-  lblLastStChangeStr.Caption := lngGetString(clngPropsStrLastStatus);
-  lblTypeStr.Caption := lngGetString(clngPropsStrType);
 end;
 
 function TfrmFileProperties.GetModeFromForm:Integer;

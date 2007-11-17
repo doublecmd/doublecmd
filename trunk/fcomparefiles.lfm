@@ -1,7 +1,7 @@
-inherited frmCompareFiles: TfrmCompareFiles
-  Left = 24
+object frmCompareFiles: TfrmCompareFiles
+  Left = 213
   Height = 530
-  Top = 255
+  Top = 133
   Width = 783
   HorzScrollBar.Page = 782
   HorzScrollBar.Range = 365
@@ -11,20 +11,21 @@ inherited frmCompareFiles: TfrmCompareFiles
   Caption = 'Compare files'
   ClientHeight = 530
   ClientWidth = 783
+  OnCreate = FormCreate
   Position = poScreenCenter
   object Splitter1: TSplitter
     Left = 361
-    Height = 462
+    Height = 459
     Top = 48
     Width = 5
   end
   object pnlLeft: TPanel
-    Height = 462
+    Height = 459
     Top = 48
     Width = 361
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 462
+    ClientHeight = 459
     ClientWidth = 361
     FullRepaint = False
     TabOrder = 0
@@ -48,7 +49,7 @@ inherited frmCompareFiles: TfrmCompareFiles
       end
     end
     object lstLeft: TSynEdit
-      Height = 437
+      Height = 434
       Top = 25
       Width = 361
       Align = alClient
@@ -60,12 +61,10 @@ inherited frmCompareFiles: TfrmCompareFiles
       ParentCtl3D = False
       TabOrder = 1
       BookMarkOptions.Xoffset = -18
-      BookMarkOptions.OnChange = nil
       Gutter.DigitCount = 2
       Gutter.LeftOffset = 0
       Gutter.Visible = False
       Gutter.Width = 15
-      Gutter.OnChange = nil
       Gutter.CodeFoldingWidth = 14
       Keystrokes = <      
         item
@@ -389,19 +388,18 @@ inherited frmCompareFiles: TfrmCompareFiles
           ShortCut = 24642
         end>
       ReadOnly = True
-      SelectedColor.OnChange = nil
       OnSpecialLineColors = lstLeftSpecialLineColors
       OnStatusChange = lstLeftStatusChange
     end
   end
   object pnlRight: TPanel
     Left = 366
-    Height = 462
+    Height = 459
     Top = 48
     Width = 417
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 462
+    ClientHeight = 459
     ClientWidth = 417
     FullRepaint = False
     TabOrder = 1
@@ -425,7 +423,7 @@ inherited frmCompareFiles: TfrmCompareFiles
       end
     end
     object lstRight: TSynEdit
-      Height = 437
+      Height = 434
       Top = 25
       Width = 417
       Align = alClient
@@ -437,9 +435,7 @@ inherited frmCompareFiles: TfrmCompareFiles
       ParentCtl3D = False
       TabOrder = 1
       BookMarkOptions.Xoffset = -18
-      BookMarkOptions.OnChange = nil
       Gutter.Visible = False
-      Gutter.OnChange = nil
       Gutter.CodeFoldingWidth = 14
       Keystrokes = <      
         item
@@ -763,14 +759,13 @@ inherited frmCompareFiles: TfrmCompareFiles
           ShortCut = 24642
         end>
       ReadOnly = True
-      SelectedColor.OnChange = nil
       OnSpecialLineColors = lstRightSpecialLineColors
       OnStatusChange = lstRightStatusChange
     end
   end
   object pnlStatusBar: TStatusBar
-    Height = 20
-    Top = 510
+    Height = 23
+    Top = 507
     Width = 783
     Panels = <    
       item
@@ -817,9 +812,9 @@ inherited frmCompareFiles: TfrmCompareFiles
     end
     object chbBinMode: TCheckBox
       Left = 424
-      Height = 20
+      Height = 19
       Top = 8
-      Width = 97
+      Width = 84
       AllowGrayed = True
       Caption = 'Binary mode'
       TabOrder = 3
@@ -836,9 +831,9 @@ inherited frmCompareFiles: TfrmCompareFiles
     end
     object chbKeepScrolling: TCheckBox
       Left = 528
-      Height = 20
+      Height = 19
       Top = 8
-      Width = 107
+      Width = 92
       AllowGrayed = True
       Caption = 'Keep scrolling'
       TabOrder = 5

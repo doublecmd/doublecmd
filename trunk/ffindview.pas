@@ -18,10 +18,10 @@ interface
 uses
   LResources, LClType,
   SysUtils, Types, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, fLngForm, Buttons;
+  Dialogs, StdCtrls, Buttons;
 
 type
-  TfrmFindView = class(TfrmLng)
+  TfrmFindView = class(TForm)
     cbDataToFind: TComboBox;
     btnFind: TBitBtn;
     btnClose: TBitBtn;
@@ -34,7 +34,6 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure LoadLng; override;
   end;
 
 
@@ -42,14 +41,6 @@ implementation
 
 uses
   uLng;
-  
-procedure TfrmFindView.LoadLng;
-begin
-  Caption:=   lngGetString(clngViewFnd);
-  btnFind.Caption:= lngGetString(clngbutFind);
-  cbCaseSens.Caption:= lngGetString(clngViewFndCase);
-  btnClose.Caption:= lngGetString(clngbutClose);
-end;
 
 procedure TfrmFindView.FormShow(Sender: TObject);
 begin

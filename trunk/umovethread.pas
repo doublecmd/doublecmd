@@ -99,7 +99,7 @@ begin
       begin
         if FSkipAll then
           Exit;
-        if not DlgFileExist(Format(lngGetString(clngMsgFileExistsRwrt),[sDstPath+pr^.sPath+sDstNew, pr^.sName])) then
+        if not DlgFileExist(Format(rsMsgFileExistsRwrt,[sDstPath+pr^.sPath+sDstNew, pr^.sName])) then
           Continue;
       end;
 
@@ -118,7 +118,7 @@ end;
 
 Function TMoveThread.GetCaptionLng:String;
 begin
-  Result:=lngGetString(clngDlgMv);
+  Result:=rsDlgMv;
 end;
 
 

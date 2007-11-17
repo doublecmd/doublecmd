@@ -1,7 +1,7 @@
-object ExtractDlg: TExtractDlg
-  Left = 309
+object frmExtractDlg: TfrmExtractDlg
+  Left = 401
   Height = 183
-  Top = 176
+  Top = 495
   Width = 400
   HelpContext = 160
   HorzScrollBar.Page = 399
@@ -43,15 +43,16 @@ object ExtractDlg: TExtractDlg
     AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
+    ItemHeight = 13
     MaxLength = 0
     TabOrder = 0
     Text = '*.*'
   end
   object cbExtractPath: TCheckBox
     Left = 4
-    Height = 26
+    Height = 19
     Top = 73
-    Width = 303
+    Width = 205
     Caption = '&Unpack path names if stored with files'
     Checked = True
     Enabled = False
@@ -60,9 +61,9 @@ object ExtractDlg: TExtractDlg
   end
   object cbOverwrite: TCheckBox
     Left = 4
-    Height = 26
+    Height = 19
     Top = 95
-    Width = 188
+    Width = 130
     Caption = '&Overwrite existing files'
     Checked = True
     Enabled = False
@@ -102,9 +103,9 @@ object ExtractDlg: TExtractDlg
   end
   object cbInSeparateFolder: TCheckBox
     Left = 4
-    Height = 26
+    Height = 19
     Top = 117
-    Width = 488
+    Width = 328
     Caption = 'Unpack each archive to a &separate subdir (name of the archive)'
     TabOrder = 3
   end

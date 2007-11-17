@@ -27,16 +27,16 @@ object frmLinker: TfrmLinker
     Top = 256
     Width = 217
     Caption = 'Save to...'
-    ClientHeight = 59
+    ClientHeight = 58
     ClientWidth = 213
     ParentCtl3D = False
     TabOrder = 1
     object lblFileName: TLabel
       Left = 6
-      Height = 13
+      Height = 14
       Top = 1
-      Width = 67
-      Caption = 'lblFileName'
+      Width = 46
+      Caption = 'File name'
       ParentColor = False
     end
     object edSave: TEdit
@@ -62,8 +62,8 @@ object frmLinker: TfrmLinker
     Height = 249
     Width = 88
     Caption = 'Item'
-    ClientHeight = 249
-    ClientWidth = 88
+    ClientHeight = 231
+    ClientWidth = 84
     ParentCtl3D = False
     TabOrder = 2
     object spbtnUp: TButton
@@ -137,7 +137,6 @@ object frmLinker: TfrmLinker
     Top = 8
     Width = 212
     TabOrder = 5
-    TopIndex = -1
   end
   object dlgSaveAll: TSaveDialog
     Title = 'Сохранить файл как'

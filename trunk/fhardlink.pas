@@ -5,10 +5,10 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, fLngForm, Buttons;
+  Dialogs, StdCtrls, Buttons;
 
 type
-  TfrmHardLink = class(TfrmLng)
+  TfrmHardLink = class(TForm)
     lblNew: TLabel;
     lblDst: TLabel;
     edtNew: TEdit;
@@ -20,7 +20,7 @@ type
     { Private declarations }
 
   public
-    procedure LoadLng; override;
+    { Public declarations }
   end;
 
 procedure ShowHardLinkForm(const sNew, sDst:String);
@@ -45,14 +45,6 @@ begin
   end;
 end;
 
-
-procedure TfrmHardLink.LoadLng;
-begin
-  Caption:=lngGetString(clngHardLink);
-  lblNew.Caption:=lngGetString(clngHardLinkDst);
-  lblDst.Caption:=lngGetString(clngHardLinkNew);
-end;
-
 procedure TfrmHardLink.btnOKClick(Sender: TObject);
 var
   sSrc,sDst:String;
@@ -64,7 +56,7 @@ begin
     Close
   else
   begin
-    MsgError(lngGetString(clngHardErrCreate));
+    MsgError(rsHardErrCreate);
   end;
 end;
 

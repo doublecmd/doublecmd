@@ -20,14 +20,13 @@ uses
 
 type
 
-  { TOneButtonChangeDlg }
+  { TfrmOneButtonChangeDlg }
 
-  TOneButtonChangeDlg = class(TForm)
+  TfrmOneButtonChangeDlg = class(TForm)
     btnCancel: TButton;
     lblCommand: TLabel;
     IconX: TLabel;
     lblIconfile: TLabel;
-    lblRunMinimized: TCheckBox;
     cbCommand: TComboBox;
     btnOpenFile: TButton;
     btnAddSubBar: TButton;
@@ -35,7 +34,6 @@ type
     btnOpenIconFile: TButton;
     kedtIconFileName: TKASEdit;
     lblIconIndex: TLabel;
-    lblRunMaximized: TCheckBox;
     kedtParams: TKASEdit;
     kedtStartpath: TKASEdit;
     kedtToolTip: TKASEdit;
@@ -59,16 +57,16 @@ type
   procedure ShowOneBtnChangeDlg(NumberOfButton : Integer);
 
 var
-  OneButtonChangeDlg: TOneButtonChangeDlg;
+  frmOneButtonChangeDlg: TfrmOneButtonChangeDlg;
   LastToolButton : Integer;
 implementation
  uses fMain, uGlobsPaths;
-{ TOneButtonChangeDlg }
+{ TfrmOneButtonChangeDlg }
 
 
 procedure ShowOneBtnChangeDlg(NumberOfButton : Integer);
 begin
-  with TOneButtonChangeDlg.Create(Application) do
+  with TfrmOneButtonChangeDlg.Create(Application) do
   try
     cbCommand.Text := frmMain.MainToolBar.Commands[NumberOfButton];
     kedtIconFileName.Text := frmMain.MainToolBar.Icons[NumberOfButton];
@@ -80,12 +78,12 @@ begin
   end;
 end;
 
-procedure TOneButtonChangeDlg.btnCancelClick(Sender: TObject);
+procedure TfrmOneButtonChangeDlg.btnCancelClick(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TOneButtonChangeDlg.btnOKClick(Sender: TObject);
+procedure TfrmOneButtonChangeDlg.btnOKClick(Sender: TObject);
 begin
   frmMain.MainToolBar.Commands[LastToolButton] := cbCommand.Text;
   frmMain.MainToolBar.Icons[LastToolButton] :=  kedtIconFileName.Text;
@@ -94,13 +92,13 @@ begin
   Close;
 end;
 
-procedure TOneButtonChangeDlg.btnOpenFileClick(Sender: TObject);
+procedure TfrmOneButtonChangeDlg.btnOpenFileClick(Sender: TObject);
 begin
   if OpenDialog.Execute then
      cbCommand.Text := OpenDialog.FileName;
 end;
 
-procedure TOneButtonChangeDlg.btnOpenIconFileClick(Sender: TObject);
+procedure TfrmOneButtonChangeDlg.btnOpenIconFileClick(Sender: TObject);
 begin
   if OpenDialog.Execute then
      kedtIconFileName.Text := OpenDialog.FileName;

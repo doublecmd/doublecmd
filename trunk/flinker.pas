@@ -58,17 +58,8 @@ uses
 
 procedure TfrmLinker.LoadLng;
 begin
-  Caption:= StringReplace(lngGetString(clngMnuFileCombine),'&','',[rfReplaceAll]);
-  lblFileName.Caption:=lngGetString(clngLinkColumnNameFile);
-  btnExit.Caption:=lngGetString(clngLinkBtnExit);
-  btnOK.Caption:=lngGetString(clngButOk);
-  grbxControl.Caption:=lngGetString(clngLinkControlItem);
-
-  spbtnDel.Caption:=lngGetString(clngLinkHintDel);
-  spbtnDown.Caption:=lngGetString(clngLinkHintDown);
-  spbtnUp.Caption:=lngGetString(clngLinkHintUp);
-  gbSaveTo.Caption:=lngGetString(clngLinkSaveTo);
-  dlgSaveAll.Title:=lngGetString(clngLinkDialogSave);
+  //Caption:= StringReplace(lngGetString(clngMnuFileCombine),'&','',[rfReplaceAll]);
+  //dlgSaveAll.Title:=lngGetString(clngLinkDialogSave);
 end;
 
 function ShowLinkerFilesForm(var lsFiles:TStringList):Boolean;
@@ -173,7 +164,7 @@ begin
           FreeAndNil(fSource);
         end;
       end;
-      ShowMessage(lngGetString(clngLinkMsgOK));
+      ShowMessage(rsLinkMsgOK);
     finally
       FreeAndNil(fTarget);
       prbrWork.Position:=0;

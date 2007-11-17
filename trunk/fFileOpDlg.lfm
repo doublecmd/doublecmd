@@ -1,4 +1,4 @@
-inherited frmFileOp: TfrmFileOp
+object frmFileOp: TfrmFileOp
   Left = 278
   Height = 144
   Top = 234
@@ -10,17 +10,20 @@ inherited frmFileOp: TfrmFileOp
   ActiveControl = btnCancel
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  Caption = 'frmFileOp'
+  Caption = 'Process file(s)'
   ClientHeight = 144
   ClientWidth = 402
   OnClose = FormClose
+  OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
   ShowInTaskBar = stAlways
   object lblFileName: TLabel
+    Left = 8
     Height = 13
-    Width = 68
-    Caption = 'lblFileName'
+    Top = 8
+    Width = 49
+    Caption = 'File name'
     Font.Color = clBlack
     Font.Height = 13
     Font.Name = 'adobe-helvetica'
@@ -29,22 +32,25 @@ inherited frmFileOp: TfrmFileOp
     ParentColor = False
   end
   object lblEstimated: TLabel
-    Height = 13
+    Left = 8
+    Height = 14
     Top = 96
-    Width = 67
-    Caption = 'lblEstimated'
+    Width = 48
+    Caption = 'Estimated'
     ParentColor = False
   end
   object pbSecond: TProgressBar
+    Left = 8
     Height = 22
     Top = 64
-    Width = 384
+    Width = 385
     Max = 100
     Smooth = True
     TabOrder = 0
     BarShowText = True
   end
   object pbFirst: TProgressBar
+    Left = 8
     Height = 22
     Top = 32
     Width = 385

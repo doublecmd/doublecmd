@@ -40,8 +40,6 @@ type
     { Private declarations }
     function StrConvert(str:string):int64;
     //test for correct file size format;
-    procedure LoadLng;
-    //multilanguage
   public
     { Public declarations }
 
@@ -55,24 +53,12 @@ implementation
 uses
   uLng;
 
-procedure TfrmSplitter.LoadLng;
-begin
-  btnCancel.Caption:=lngGetString(clngSplitBtnCancel);
-  btnOK.Caption:=lngGetString(clngSplitBtnOK);
-  grbxFile.Caption:=lngGetString(clngSplitGrBxFile);
-  lbDirTarget.Caption:=lngGetString(clngSplitLbDir);
-  lbFileSource.Caption:=lngGetString(clngSplitLbFile);
-  grbxSize.Caption:=lngGetString(clngSplitGrBxSize);
-  grbxWatch.Caption:=lngGetString(clngSplitGrBxWatch);
-end;
-
 function ShowSplitterFileForm(var sFile:TStringList):boolean;
 begin
   with TfrmSplitter.Create(Application) do
   begin
     try
       edFileSource.Text:=sFile[0];
-      LoadLng;
       ShowModal;
       Result:=True;
     finally
@@ -85,7 +71,7 @@ procedure TfrmSplitter.btnFTChoiceClick(Sender: TObject);
 var
   sDir: string;
 begin
-  if SelectDirectory(lngGetString(clngSplitSelDir),'',sDir) then
+  if SelectDirectory(rsSplitSelDir,'',sDir) then
   // Select directory:
   // must change on linux!!!
   begin
@@ -129,7 +115,7 @@ begin
   iFileSize:=StrConvert(cmbxSize.Text);
   if iFileSize<=0 then
   begin
-    memWatch.Append(lngGetString(clngSplitErrFileSize));
+    memWatch.Append(rsSplitErrFileSize);
     //Incorrect file size format!
     exit;
   end;
@@ -137,7 +123,7 @@ begin
   begin
     if not CreateDir(edDirTarget.Text) then
     begin
-      memWatch.Append(lngGetString(clngSplitErrDirectory));
+      memWatch.Append(rsSplitErrDirectory);
       //Unable to create target directory!
       exit;
     end;
@@ -150,7 +136,7 @@ begin
     prgbrDoIt.Max:=(fSource.Size div iFileSize);
     if prgbrDoIt.Max=0 then
     begin
-      memWatch.Append(lngGetString(clngSplitErrSplitFile));
+      memWatch.Append(rsSplitErrSplitFile);
       //Unable to split the file!
       exit;
     end;
@@ -171,10 +157,10 @@ begin
       try
         fSource.Seek(iFileSize*i,soFromBeginning);
         fDest.CopyFrom(fSource,iFileSize);
-        memWatch.Append(lngGetString(clngSplitMsgCreated)+' '+
+        memWatch.Append(rsSplitMsgCreated+' '+
         edDirTarget.Text+ExtractFileName(edFileSource.Text)+
         '.'+Format('%.*d',[num+1,i])+'.split'+
-        ' ... '+lngGetString(clngSplitMsgSize)+' '+
+        ' ... '+rsSplitMsgSize+' '+
         IntToStr(iFileSize)+'b');
         prgbrDoIt.Position:=prgbrDoIt.Position+1;
       finally
@@ -190,10 +176,10 @@ begin
         ,fmCreate);
       try
         fDest.CopyFrom(fSource,fSource.Size-fSource.Position);
-        memWatch.Append(lngGetString(clngSplitMsgCreated)+' '+
+        memWatch.Append(rsSplitMsgCreated+' '+
         edDirTarget.Text+ExtractFileName(edFileSource.Text)+
         '.'+Format('%.*d',[num+1,i])+'.split ... '+
-        lngGetString(clngSplitMsgSize)+' '+
+        rsSplitMsgSize+' '+
         IntToStr(fSource.Size-(iFileSize*i))+'b');
         prgbrDoIt.Position:=prgbrDoIt.Position+1;
       finally

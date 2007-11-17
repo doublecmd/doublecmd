@@ -5,10 +5,10 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, fLngForm, Buttons;
+  Dialogs, StdCtrls, Buttons;
 
 type
-  TfrmHotDir = class(TfrmLng)
+  TfrmHotDir = class(TForm)
     lsHotDir: TListBox;
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
@@ -21,7 +21,6 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure LoadLng; override;
     procedure LoadFromGlob;
     procedure SaveToGlob;
   end;
@@ -31,10 +30,6 @@ implementation
 
 uses
   uGlobs, uLng;
-
-procedure TfrmHotDir.LoadLng;
-begin
-end;
 
 procedure TfrmHotDir.LoadFromGlob;
 begin
@@ -76,7 +71,7 @@ var
   sDir:String;
 begin
   inherited;
-  if SelectDirectory(lngGetString(clngSelectDir),'',sDir,False) then
+  if SelectDirectory(rsSelectDir,'',sDir,False) then
     lsHotDir.ItemIndex:=lsHotDir.Items.Add(sDir+DirectorySeparator);
   btnDelete.Enabled:= (lsHotDir.Items.Count>0);
 end;

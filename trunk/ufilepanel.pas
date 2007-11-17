@@ -598,11 +598,11 @@ begin
   if fPanelMode=pmDirectory then
   begin
     GetDiskFreeSpace(fActiveDir, FreeSize, TotalSize);
-    flblFree.Caption := Format(lngGetString(clngFreeMsg),[cnvFormatFileSize(FreeSize),cnvFormatFileSize(TotalSize)]);
+    flblFree.Caption := Format(rsFreeMsg,[cnvFormatFileSize(FreeSize),cnvFormatFileSize(TotalSize)]);
   end
   else
   //TODO
-    flblFree.Caption:=Format(lngGetString(clngFreeMsg),[cnvFormatFileSize(0),cnvFormatFileSize(0)]);
+    flblFree.Caption:=Format(rsFreeMsg,[cnvFormatFileSize(0),cnvFormatFileSize(0)]);
 end;
 
 procedure TFilePanel.ReplaceExtCommand(var sCmd:String; pfr:PFileRecItem);

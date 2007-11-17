@@ -32,13 +32,13 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, Buttons, uFindThread, Menus,
-  fLngForm, Calendar, EditBtn, Spin, MaskEdit;
+  Calendar, EditBtn, Spin, MaskEdit;
 
 type
 
   { TfrmFindDlg }
 
-  TfrmFindDlg = class(TfrmLng)
+  TfrmFindDlg = class(TForm)
     btnClose: TButton;
     btnStart: TButton;
     btnStop: TButton;
@@ -93,6 +93,7 @@ type
     lblCurrent: TLabel;
     PopupMenuFind: TPopupMenu;
     miShowInViewer: TMenuItem;
+    procedure FormCreate(Sender: TObject);
     procedure btnGoToPathClick(Sender: TObject);
     procedure btnNewSearchClick(Sender: TObject);
     procedure btnSelDirClick(Sender: TObject);
@@ -111,7 +112,6 @@ type
     procedure cbSymLinkChange(Sender: TObject);
     procedure cbTimeFromChange(Sender: TObject);
     procedure cbTimeToChange(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure btnStopClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure btnCloseClick(Sender: TObject);
@@ -128,7 +128,6 @@ type
   public
     { Public declarations }
     procedure ThreadTerminate(Sender:TObject);
-    procedure LoadLng; override;
   end;
 
 var
@@ -152,21 +151,17 @@ begin
 
 end;
 
-procedure TfrmFindDlg.LoadLng;
+procedure TfrmFindDlg.FormCreate(Sender: TObject);
 begin
-// load language
-
-  Caption:=lngGetString(clngFindFile);
-  tsStandard.Caption:=  lngGetString(clngFindStandard);
-  tsAdvanced.Caption:=  lngGetString(clngFindAdvanced);
-  lblFindPathStart.Caption:= lngGetString(clngFindFileDir);
-  lblFindFileMask.Caption:= lngGetString (clngFindFileMask);
-  cbFindInFile.Caption:= lngGetString(clngFindFndInFl);
-  gbFindData.Caption:= lngGetString(clngFindData);
-  cbCaseSens.Caption:= lngGetString(clngFindCase);
-  miShowInViewer.Caption:=lngGetString(clngFindShowView);
-  edtFindPathStart.DialogTitle := lngGetString(clngFindWhereBeg);
-
+  // load language
+  edtFindPathStart.DialogTitle := rsFindWhereBeg;
+  FFindThread:=nil;
+  edtFindPathStart.Text:=GetCurrentDir;
+  lblCurrent.Caption:='';
+  lblStatus.Caption:='';
+  Panel1.Visible := False;
+  Splitter1.Visible := False;
+  Height := Panel2.Height;
 end;
 
 
@@ -176,7 +171,7 @@ var
 begin
   s:=edtFindPathStart.Text;
   if not DirectoryExists(s) then s:='';
-  SelectDirectory(lngGetString(clngFindWhereBeg),'',s, False);
+  SelectDirectory(rsFindWhereBeg,'',s, False);
   edtFindPathStart.Text:=s;
 end;
 
@@ -201,7 +196,7 @@ var
 begin
   if not DirectoryExists(edtFindPathStart.Text) then
   begin
-    ShowMessage(Format(lngGetString(clngFindDirNoEx),[edtFindPathStart.Text]));
+    ShowMessage(Format(rsFindDirNoEx,[edtFindPathStart.Text]));
     Exit;
   end;
   
@@ -484,20 +479,6 @@ begin
   btnStart.Enabled:=True;
   btnClose.Enabled:=True;  
   FFindThread:=nil;
-end;
-
-procedure TfrmFindDlg.FormCreate(Sender: TObject);
-{ar
-  s:String;}
-begin
-  inherited;
-  FFindThread:=nil;
-  edtFindPathStart.Text:=GetCurrentDir;
-  lblCurrent.Caption:='';
-  lblStatus.Caption:='';
-  Panel1.Visible := False;
-  Splitter1.Visible := False;
-  Height := Panel2.Height;
 end;
 
 procedure TfrmFindDlg.btnStopClick(Sender: TObject);

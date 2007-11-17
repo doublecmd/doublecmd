@@ -32,14 +32,14 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, Buttons, fLngForm, Spin, ColorBox,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, Buttons, Spin, ColorBox,
   CheckLst;
 
 type
 
   { TfrmOptions }
 
-  TfrmOptions = class(TfrmLng)
+  TfrmOptions = class(TForm)
     bbtnApply: TBitBtn;
     bbtnHelp: TBitBtn;
     bbtnAddCategory: TBitBtn;
@@ -222,7 +222,6 @@ type
   public
     { Public declarations }
     procedure FillLngListBox;
-    procedure LoadLng; override;
     procedure FillFontLists;
     procedure FillActionLists;
     procedure FillFileColorsList;
@@ -241,7 +240,72 @@ uses
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
-  inherited;
+
+  pnlCaption.Caption := tvTreeView.Items.Item[0].Text;
+
+  {Layout page}
+  cbShowMainToolBar.Checked := gButtonBar;
+  cbFlatToolBar.Checked := gToolBarFlat;
+  cbShowDiskPanel.Checked := gDriveBar1;
+  cbTwoDiskPanels.Checked := gDriveBar2;
+  cbFlatDiskPanel.Checked := gDriveBarFlat;
+  cbShowDriveMenuButton.Checked := gDriveMenuButton;
+  cbShowTabs.Checked := gDirectoryTabs;
+  cbShowCurDir.Checked := gCurDir;
+  cbShowTabHeader.Checked := gTabHeader;
+  cbShowStatusBar.Checked := gStatusBar;
+  cbShowCmdLine.Checked := gCmdLine;
+  cbShowKeysPanel.Checked := gKeyButtons;
+  cbFlatInterface.Checked := gInterfaceFlat;
+
+
+  cbDirSelect.Checked:=gDirSelect;
+  cbCaseSensitiveSort.Checked:=gCaseSensitiveSort;
+  cbLynxLike.Checked:=gLynxLike;
+  cbShortFileSizeFormat.Checked:=gShortFileSizeFormat;
+
+  cbExtEditor.Checked:=gUseExtEdit;
+  cbExtViewer.Checked:=gUseExtView;
+  cbExtDiffer.Checked:=gUseExtDiff;
+  cbSeparateExt.Checked:=gSeparateExt;
+  cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
+
+  edtExtEditor.Text:= gExtEdit;
+  edtExtViewer.Text:=gExtView;
+  edtExtDiffer.Text:=gExtDiff;
+
+  edtExtEditor.Enabled:= cbExtEditor.Checked;
+  edtExtDiffer.Enabled:= cbExtDiffer.Checked;
+  edtExtViewer.Enabled:= cbExtViewer.Checked;
+
+  edtRunTerm.Text:=gRunTerm;
+
+  //tvTreeView.Items.Item[3].Text := lngGetString(clngDlgOptFonts);
+
+  { Colors }
+  cbTextColor.Selected := gForeColor;
+  cbTextColor.Color := gForeColor;
+
+  cbBackColor.Selected := gBackColor;
+  cbBackColor.Color := gBackColor;
+
+  cbBackColor2.Selected := gBackColor2;
+  cbBackColor2.Color := gBackColor2;
+
+  cbMarkColor.Selected := gMarkColor;
+  cbMarkColor.Color := gMarkColor;
+
+  cbCursorColor.Selected := gCursorColor;
+  cbCursorColor.Color := gCursorColor;
+
+  cbCursorText.Selected := gCursorText;
+  cbCursorText.Color := gCursorText;
+
+  cbShowIcons.Checked := gShowIcons;
+
+  { Icons sizes in file panels }
+  cbIconsSize.Text := IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize);
+  // ToDo lang to tsColor tsHotKey
   FillActionLists;
   FillLngListBox;
   FillFontLists;
@@ -361,105 +425,14 @@ begin
   edtTest3.Font.Size := edtViewerSize.Value;
 end;
 
-procedure TfrmOptions.LoadLng;
-begin
-  btnCancel.Caption:= lngGetString(clngbutCancel);
-//  btnOK.Caption:= lngGetString(clngbutOK);
-
-  Caption:=lngGetString(clngDlgOpt);
-  tvTreeView.Items.Item[0].Text := lngGetString(clngDlgOptSelLng);
-  pnlCaption.Caption := tvTreeView.Items.Item[0].Text;
-  lblTerm.Caption:=lngGetString(clngDlgOptTerm);
-  cbDirSelect.Caption:=lngGetString(clngDlgOptSelDir);
-  cbCaseSensitiveSort.Caption:=lngGetString(clngDlgOptCaseSens);
-  cbLynxLike.Caption:=lngGetString(clngDlgOptLynx);
-
-  cbShortFileSizeFormat.Caption:=lngGetString(clngDlgOptShortFileSize);
-  tvTreeView.Items.Item[1].Text := lngGetString(clngDlgOptBehaviourTab);
-  tvTreeView.Items.Item[2].Text := lngGetString(clngDlgOptToolsTab);
-
-  cbExtEditor.Caption:=lngGetString(clngDlgOptExtEdit);
-  cbExtViewer.Caption:=lngGetString(clngDlgOptExtView);
-  cbExtDiffer.Caption:=lngGetString(clngDlgOptExtDiff);
-  cbSeparateExt.Caption:=lngGetString(clngDlgOptSeparateExt);
-
-  {Layout page}
-  cbShowMainToolBar.Checked := gButtonBar;
-  cbFlatToolBar.Checked := gToolBarFlat;
-  cbShowDiskPanel.Checked := gDriveBar1;
-  cbTwoDiskPanels.Checked := gDriveBar2;
-  cbFlatDiskPanel.Checked := gDriveBarFlat;
-  cbShowDriveMenuButton.Checked := gDriveMenuButton;
-  cbShowTabs.Checked := gDirectoryTabs;
-  cbShowCurDir.Checked := gCurDir;
-  cbShowTabHeader.Checked := gTabHeader;
-  cbShowStatusBar.Checked := gStatusBar;
-  cbShowCmdLine.Checked := gCmdLine;
-  cbShowKeysPanel.Checked := gKeyButtons;
-  cbFlatInterface.Checked := gInterfaceFlat;
-
-
-  cbDirSelect.Checked:=gDirSelect;
-  cbCaseSensitiveSort.Checked:=gCaseSensitiveSort;
-  cbLynxLike.Checked:=gLynxLike;
-  cbShortFileSizeFormat.Checked:=gShortFileSizeFormat;
-
-  cbExtEditor.Checked:=gUseExtEdit;
-  cbExtViewer.Checked:=gUseExtView;
-  cbExtDiffer.Checked:=gUseExtDiff;
-  cbSeparateExt.Checked:=gSeparateExt;
-  cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
-
-  edtExtEditor.Text:= gExtEdit;
-  edtExtViewer.Text:=gExtView;
-  edtExtDiffer.Text:=gExtDiff;
-  
-  edtExtEditor.Enabled:= cbExtEditor.Checked;
-  edtExtDiffer.Enabled:= cbExtDiffer.Checked;
-  edtExtViewer.Enabled:= cbExtViewer.Checked;
-
-  edtRunTerm.Text:=gRunTerm;
-  lblRunTerm.Caption:=lngGetString(clngDlgOptRunTerm);
-
-  tvTreeView.Items.Item[3].Text := lngGetString(clngDlgOptFonts);
-  lblMainFont.Caption:= lngGetString(clngDlgOptMainFont);
-  lblEditorFont.Caption:= lngGetString(clngDlgOptEditorFont);
-  lblViewerFont.Caption:= lngGetString(clngDlgOptViewerFont);
-
-  { Colors }
-  cbTextColor.Selected := gForeColor;
-  cbTextColor.Color := gForeColor;
-  
-  cbBackColor.Selected := gBackColor;
-  cbBackColor.Color := gBackColor;
-
-  cbBackColor2.Selected := gBackColor2;
-  cbBackColor2.Color := gBackColor2;
-
-  cbMarkColor.Selected := gMarkColor;
-  cbMarkColor.Color := gMarkColor;
-
-  cbCursorColor.Selected := gCursorColor;
-  cbCursorColor.Color := gCursorColor;
-
-  cbCursorText.Selected := gCursorText;
-  cbCursorText.Color := gCursorText;
-
-  cbShowIcons.Checked := gShowIcons;
-
-  { Icons sizes in file panels }
-  cbIconsSize.Text := IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize);
-  // ToDo lang to tsColor tsHotKey
-end;
-
 procedure TfrmOptions.FillLngListBox;
 var
   fr:TSearchRec;
   iIndex:Integer;
 begin
   lngList.Clear;
-  DebugLn('Language dir:'+gpLngDir);
-  if FindFirst(gpLngDir+'*.lng', faAnyFile, fr)<>0 then
+  DebugLn('Language dir: ' + gpLngDir);
+  if FindFirst(gpLngDir+'*.po', faAnyFile, fr)<>0 then
   begin
     FindClose(fr);
     Exit;
@@ -470,7 +443,7 @@ begin
   
   FindClose(fr);
 
-  iIndex:=lngList.Items.IndexOf(gLng);
+  iIndex:=lngList.Items.IndexOf(gPOFileName);
   if iIndex>=0 then
     lngList.Selected[iIndex]:=True;
 end;
@@ -496,7 +469,7 @@ begin
   
   gTerm:=edtTerm.Text;
   if lngList.ItemIndex>-1 then
-    gLng:=lngList.Items[lngList.ItemIndex];
+    gPOFileName := lngList.Items[lngList.ItemIndex];
   gDirSelect:=cbDirSelect.Checked;
   gCaseSensitiveSort:=cbCaseSensitiveSort.Checked;
   gLynxLike:=cbLynxLike.Checked;

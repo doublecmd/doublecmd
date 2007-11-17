@@ -1,7 +1,7 @@
-inherited frmMultiRename: TfrmMultiRename
-  Left = 79
+object frmMultiRename: TfrmMultiRename
+  Left = 368
   Height = 354
-  Top = 233
+  Top = 160
   Width = 608
   HorzScrollBar.Page = 607
   HorzScrollBar.Range = 603
@@ -17,7 +17,7 @@ inherited frmMultiRename: TfrmMultiRename
     Top = 208
     Width = 176
     Caption = 'Mask'
-    ClientHeight = 88
+    ClientHeight = 87
     ClientWidth = 172
     ParentCtl3D = False
     TabOrder = 0
@@ -80,7 +80,7 @@ inherited frmMultiRename: TfrmMultiRename
     Top = 208
     Width = 137
     Caption = 'Find && Replace'
-    ClientHeight = 88
+    ClientHeight = 87
     ClientWidth = 133
     ParentCtl3D = False
     TabOrder = 1
@@ -122,7 +122,7 @@ inherited frmMultiRename: TfrmMultiRename
     Top = 208
     Width = 137
     Caption = 'File Name Style'
-    ClientHeight = 32
+    ClientHeight = 31
     ClientWidth = 133
     ParentCtl3D = False
     TabOrder = 2
@@ -132,6 +132,7 @@ inherited frmMultiRename: TfrmMultiRename
       Top = 1
       Width = 120
       AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+      ItemHeight = 13
       ItemIndex = 0
       Items.Strings = (
         'no change'
@@ -153,7 +154,7 @@ inherited frmMultiRename: TfrmMultiRename
     Top = 208
     Width = 137
     Caption = 'Counter'
-    ClientHeight = 88
+    ClientHeight = 87
     ClientWidth = 133
     ParentCtl3D = False
     TabOrder = 3
@@ -207,6 +208,7 @@ inherited frmMultiRename: TfrmMultiRename
       Top = 25
       Width = 50
       AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+      ItemHeight = 13
       ItemIndex = 0
       Items.Strings = (
         '01'
@@ -254,7 +256,7 @@ inherited frmMultiRename: TfrmMultiRename
     Top = 263
     Width = 137
     Caption = 'Log Result'
-    ClientHeight = 65
+    ClientHeight = 64
     ClientWidth = 133
     ParentCtl3D = False
     TabOrder = 6
@@ -267,9 +269,9 @@ inherited frmMultiRename: TfrmMultiRename
     end
     object cbLog: TCheckBox
       Left = 8
-      Height = 20
+      Height = 19
       Top = 40
-      Width = 48
+      Width = 44
       AllowGrayed = True
       Caption = 'Log'
       OnClick = cbLogClick
@@ -295,17 +297,17 @@ inherited frmMultiRename: TfrmMultiRename
       item
         AutoSize = True
         Caption = 'Old File Name'
-        Width = 80
+        Width = 90
       end    
       item
         AutoSize = True
         Caption = 'New File Name'
-        Width = 85
+        Width = 90
       end    
       item
         AutoSize = True
         Caption = 'File Path'
-        Width = 49
+        Width = 70
       end>
     TabOrder = 8
     ViewStyle = vsReport

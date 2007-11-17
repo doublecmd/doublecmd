@@ -1,7 +1,7 @@
-inherited frmOptions: TfrmOptions
-  Left = 203
+object frmOptions: TfrmOptions
+  Left = 289
   Height = 409
-  Top = 83
+  Top = 110
   Width = 577
   HorzScrollBar.Page = 576
   VertScrollBar.Page = 408
@@ -40,6 +40,7 @@ inherited frmOptions: TfrmOptions
     FF858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
   }
+  OnCreate = FormCreate
   Position = poMainFormCenter
   object Panel1: TPanel
     Height = 43
@@ -106,7 +107,6 @@ inherited frmOptions: TfrmOptions
     Height = 366
     Width = 456
     Align = alClient
-    Caption = 'Panel3'
     ClientHeight = 366
     ClientWidth = 456
     TabOrder = 2
@@ -117,25 +117,24 @@ inherited frmOptions: TfrmOptions
       Width = 454
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 5
+      PageIndex = 0
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
         Caption = 'pgLng'
-        ClientWidth = 454
-        ClientHeight = 341
+        ClientWidth = 446
+        ClientHeight = 315
         object lngList: TListBox
-          Height = 341
-          Width = 454
+          Height = 315
+          Width = 446
           Align = alClient
           TabOrder = 0
-          TopIndex = -1
         end
       end
       object pgBehav: TPage
         Caption = 'pgBehav'
-        ClientWidth = 454
-        ClientHeight = 341
+        ClientWidth = 446
+        ClientHeight = 315
         object lblTerm: TLabel
           Left = 8
           Height = 14
@@ -169,57 +168,57 @@ inherited frmOptions: TfrmOptions
           Text = '/usr/X11R6/bin/xterm'
         end
         object gb: TGroupBox
-          Left = 8
+          Left = 10
           Height = 164
           Top = 66
           Width = 202
-          ClientHeight = 164
-          ClientWidth = 202
+          ClientHeight = 146
+          ClientWidth = 198
           ParentCtl3D = False
           TabOrder = 2
           object cbDirSelect: TCheckBox
             Left = 8
-            Height = 13
+            Height = 19
             Top = -3
-            Width = 75
+            Width = 159
             AllowGrayed = True
-            Caption = 'cbDirSelect'
+            Caption = 'Select directory with keypad'
             TabOrder = 0
           end
           object cbCaseSensitiveSort: TCheckBox
             Left = 8
-            Height = 13
+            Height = 19
             Top = 55
-            Width = 118
+            Width = 128
             AllowGrayed = True
-            Caption = 'cbCaseSensitiveSort'
+            Caption = 'Case sensitive sorting'
             TabOrder = 1
           end
           object cbLynxLike: TCheckBox
             Left = 8
-            Height = 13
+            Height = 19
             Top = 26
-            Width = 74
+            Width = 119
             AllowGrayed = True
-            Caption = 'cbLynxLike'
+            Caption = 'Lynx like movement'
             TabOrder = 2
           end
           object cbShortFileSizeFormat: TCheckBox
             Left = 8
-            Height = 13
-            Top = 84
-            Width = 125
+            Height = 19
+            Top = 82
+            Width = 120
             AllowGrayed = True
-            Caption = 'cbShortFileSizeFormat'
+            Caption = 'Short Filesize format'
             TabOrder = 3
           end
           object cbSeparateExt: TCheckBox
             Left = 8
-            Height = 13
+            Height = 19
             Top = 113
-            Width = 90
+            Width = 117
             AllowGrayed = True
-            Caption = 'cbSeparateExt'
+            Caption = 'Separate extension'
             TabOrder = 4
           end
         end
@@ -228,8 +227,8 @@ inherited frmOptions: TfrmOptions
           Height = 162
           Top = 66
           Width = 188
-          ClientHeight = 162
-          ClientWidth = 188
+          ClientHeight = 144
+          ClientWidth = 184
           TabOrder = 3
           object lblIconsSize: TLabel
             Left = 14
@@ -246,6 +245,7 @@ inherited frmOptions: TfrmOptions
             Width = 91
             AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
             Enabled = False
+            ItemHeight = 13
             ItemIndex = 0
             Items.Strings = (
               '16x16'
@@ -259,17 +259,17 @@ inherited frmOptions: TfrmOptions
           end
           object cbDropReadOnlyFlag: TCheckBox
             Left = 6
-            Height = 13
+            Height = 19
             Top = -3
-            Width = 106
+            Width = 112
             Caption = 'Drop readonly flag'
             TabOrder = 1
           end
           object cbShowIcons: TCheckBox
             Left = 6
-            Height = 13
+            Height = 19
             Top = 84
-            Width = 75
+            Width = 81
             Caption = 'Show icons'
             OnChange = cbShowIconsChange
             TabOrder = 2
@@ -278,14 +278,12 @@ inherited frmOptions: TfrmOptions
       end
       object pgTools: TPage
         Caption = 'pgTools'
-        ClientWidth = 454
-        ClientHeight = 341
         object cbExtEditor: TCheckBox
           Left = 3
-          Height = 13
+          Height = 19
           Top = 13
-          Width = 74
-          Caption = 'cbExtEditor'
+          Width = 93
+          Caption = 'External editor'
           OnClick = cbExtEditorClick
           TabOrder = 0
         end
@@ -300,10 +298,10 @@ inherited frmOptions: TfrmOptions
         end
         object cbExtDiffer: TCheckBox
           Left = 3
-          Height = 13
+          Height = 19
           Top = 78
-          Width = 72
-          Caption = 'cbExtDiffer'
+          Width = 90
+          Caption = 'External differ'
           OnClick = cbExtDifferClick
           TabOrder = 2
         end
@@ -318,10 +316,10 @@ inherited frmOptions: TfrmOptions
         end
         object cbExtViewer: TCheckBox
           Left = 3
-          Height = 13
+          Height = 19
           Top = 143
-          Width = 79
-          Caption = 'cbExtViewer'
+          Width = 98
+          Caption = 'External viewer'
           OnClick = cbExtViewerClick
           TabOrder = 4
         end
@@ -337,8 +335,6 @@ inherited frmOptions: TfrmOptions
       end
       object pgFonts: TPage
         Caption = 'pgFonts'
-        ClientWidth = 454
-        ClientHeight = 341
         object lblMainFont: TLabel
           Left = 6
           Height = 14
@@ -370,6 +366,7 @@ inherited frmOptions: TfrmOptions
           Width = 368
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
           MaxLength = 0
           OnChange = cbMainFontChange
           ParentCtl3D = False
@@ -413,6 +410,7 @@ inherited frmOptions: TfrmOptions
           Width = 367
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
           MaxLength = 0
           OnChange = cbEditorFontChange
           ParentCtl3D = False
@@ -456,6 +454,7 @@ inherited frmOptions: TfrmOptions
           Width = 367
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
           MaxLength = 0
           OnChange = cbViewerFontChange
           ParentCtl3D = False
@@ -495,8 +494,6 @@ inherited frmOptions: TfrmOptions
       end
       object pgColor: TPage
         Caption = 'pgColor'
-        ClientWidth = 454
-        ClientHeight = 341
         object cTextLabel: TLabel
           Left = 25
           Height = 14
@@ -835,21 +832,19 @@ inherited frmOptions: TfrmOptions
       end
       object pgHotKey: TPage
         Caption = 'pgHotKey'
-        ClientWidth = 450
-        ClientHeight = 337
         object lblActions: TLabel
           Left = 6
-          Height = 13
+          Height = 14
           Top = 13
-          Width = 43
+          Width = 36
           Caption = 'Actions'
           ParentColor = False
         end
         object lblHotKey: TLabel
           Left = 6
-          Height = 13
+          Height = 14
           Top = 68
-          Width = 46
+          Width = 39
           Caption = 'Hot Key'
           ParentColor = False
         end
@@ -860,6 +855,7 @@ inherited frmOptions: TfrmOptions
           Width = 310
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
           MaxLength = 0
           Sorted = True
           Style = csDropDownList
@@ -899,19 +895,13 @@ inherited frmOptions: TfrmOptions
       end
       object pgPlugins: TPage
         Caption = 'pgPlugins'
-        ClientWidth = 454
-        ClientHeight = 341
         object pcPluginsTypes: TPageControl
-          Height = 341
-          Width = 454
           ActivePage = tsWCX
           Align = alClient
           TabIndex = 0
           TabOrder = 0
           object tsWCX: TTabSheet
             Caption = 'Packer plugins (.WCX)'
-            ClientHeight = 341
-            ClientWidth = 454
             OnShow = tsWCXShow
             object lblAbout: TLabel
               Left = 14
@@ -943,6 +933,7 @@ inherited frmOptions: TfrmOptions
               Top = 46
               Width = 100
               AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+              ItemHeight = 13
               MaxLength = 0
               OnChange = cbExtChange
               TabOrder = 0
@@ -953,6 +944,7 @@ inherited frmOptions: TfrmOptions
               Top = 98
               Width = 200
               AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+              ItemHeight = 13
               MaxLength = 0
               TabOrder = 1
             end
@@ -992,14 +984,11 @@ inherited frmOptions: TfrmOptions
               Width = 200
               OnClick = clbWCXListClick
               TabOrder = 5
-              TopIndex = -1
             end
           end
           object tsWFX: TTabSheet
             Caption = 'File system plugins (.WFX)'
             ChildSizing.LeftRightSpacing = 239
-            ClientHeight = 341
-            ClientWidth = 454
             OnShow = tsWFXShow
             object lblInstalledPlugins: TLabel
               Left = 21
@@ -1062,8 +1051,6 @@ inherited frmOptions: TfrmOptions
       end
       object pgFileTypesColors: TPage
         Caption = 'pgFileTypesColors'
-        ClientWidth = 454
-        ClientHeight = 341
         object gbFileTypesColors: TGroupBox
           Left = 10
           Height = 274
@@ -1183,7 +1170,6 @@ inherited frmOptions: TfrmOptions
             Width = 396
             OnClick = lbCategoriesClick
             TabOrder = 6
-            TopIndex = -1
           end
           object bbtnApplyCategory: TBitBtn
             Left = 335
@@ -1199,121 +1185,119 @@ inherited frmOptions: TfrmOptions
       end
       object pgLayout: TPage
         Caption = 'Layout'
-        ClientWidth = 450
-        ClientHeight = 337
         object gbScreenLayout: TGroupBox
           Left = 11
           Height = 304
           Top = 4
           Width = 389
           Caption = ' Screen layout '
-          ClientHeight = 287
-          ClientWidth = 385
+          ClientHeight = 304
+          ClientWidth = 389
           TabOrder = 0
           object cbShowMainToolBar: TCheckBox
             Left = 10
-            Height = 22
+            Height = 19
             Top = 8
-            Width = 118
+            Width = 104
             Caption = 'Show &button bar'
             TabOrder = 0
           end
           object cbShowDiskPanel: TCheckBox
             Left = 10
-            Height = 22
+            Height = 19
             Top = 50
-            Width = 134
+            Width = 117
             Caption = 'Show &drive buttons'
             OnChange = cbShowDiskPanelChange
             TabOrder = 1
           end
           object cbShowDriveMenuButton: TCheckBox
             Left = 10
-            Height = 22
+            Height = 19
             Top = 113
-            Width = 162
+            Width = 141
             Caption = 'Show d&rive menu button'
             TabOrder = 4
           end
           object cbShowCurDir: TCheckBox
             Left = 10
-            Height = 22
+            Height = 19
             Top = 155
-            Width = 154
+            Width = 132
             Caption = 'Show &current directory'
             TabOrder = 6
           end
           object cbShowTabHeader: TCheckBox
             Left = 10
-            Height = 22
+            Height = 19
             Top = 176
-            Width = 145
+            Width = 127
             Caption = 'Show &tabstop header'
             TabOrder = 7
           end
           object cbShowStatusBar: TCheckBox
             Left = 10
-            Height = 22
+            Height = 19
             Top = 197
-            Width = 116
+            Width = 102
             Caption = 'Show &status bar'
             TabOrder = 8
           end
           object cbShowCmdLine: TCheckBox
             Left = 10
-            Height = 22
+            Height = 19
             Top = 218
-            Width = 139
+            Width = 121
             Caption = 'Show command &line'
             TabOrder = 9
           end
           object cbShowKeysPanel: TCheckBox
             Left = 10
-            Height = 22
+            Height = 19
             Top = 239
-            Width = 174
+            Width = 152
             Caption = 'Show &function key buttons'
             TabOrder = 10
           end
           object cbFlatDiskPanel: TCheckBox
             Left = 26
-            Height = 20
+            Height = 19
             Top = 92
-            Width = 92
+            Width = 81
             Caption = 'Flat buttons'
             Enabled = False
             TabOrder = 3
           end
           object cbTwoDiskPanels: TCheckBox
             Left = 26
-            Height = 20
+            Height = 19
             Top = 71
-            Width = 365
+            Width = 310
             Caption = 'Show two drive button bars (fixed width, above file windows)'
             Enabled = False
             TabOrder = 2
           end
           object cbShowTabs: TCheckBox
             Left = 10
-            Height = 22
+            Height = 19
             Top = 134
-            Width = 120
+            Width = 105
             Caption = 'Sho&w folder tabs'
             TabOrder = 5
           end
           object cbFlatInterface: TCheckBox
             Left = 10
-            Height = 20
+            Height = 19
             Top = 260
-            Width = 100
+            Width = 87
             Caption = 'Flat interface'
             TabOrder = 11
           end
           object cbFlatToolBar: TCheckBox
             Left = 26
-            Height = 20
+            Height = 19
             Top = 29
-            Width = 92
+            Width = 81
             Caption = 'Flat buttons'
             TabOrder = 12
           end

@@ -248,7 +248,7 @@ var
   xPos:Integer;
 
 begin
-  s:=lngGetString(clngDlgButtons);
+  s := rsDlgButtons;
   for i:= Low(TMyMsgButton) to High(TMyMsgButton) do
   begin
     xPos:=Pos(';',s);

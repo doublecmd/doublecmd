@@ -130,13 +130,13 @@ Function DelFile(const sSrc:String):Boolean;
 begin
   Result:=SysUtils.DeleteFile(sSrc);
   if not Result then
-    msgError(Format(lngGetString(clngMsgNotDelete),[sSrc]));
+    msgError(Format(rsMsgNotDelete,[sSrc]));
 end;
 
 Function RenFile(const sSrc, sDst:String):Boolean;
 begin
   Result:=False;
-  if FileExists(sDst) and not MsgYesNo(lngGetString(clngMsgFileExistsRwrt)) then
+  if FileExists(sDst) and not MsgYesNo(rsMsgFileExistsRwrt) then
     Exit;
   Result:=SysUtils.RenameFile(sSrc, sDst);
 end;

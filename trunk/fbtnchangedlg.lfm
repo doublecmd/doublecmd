@@ -1,8 +1,8 @@
-object OneButtonChangeDlg: TOneButtonChangeDlg
+object frmOneButtonChangeDlg: TfrmOneButtonChangeDlg
   Tag = 1
-  Left = 147
+  Left = 213
   Height = 240
-  Top = 155
+  Top = 186
   Width = 550
   HelpContext = 270
   HorzScrollBar.Page = 549
@@ -97,6 +97,7 @@ object OneButtonChangeDlg: TOneButtonChangeDlg
     DropDownCount = 20
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
+    ItemHeight = 13
     MaxLength = 0
     TabOrder = 0
   end
@@ -129,14 +130,6 @@ object OneButtonChangeDlg: TOneButtonChangeDlg
     MaxLength = 259
     TabOrder = 3
   end
-  object lblRunMinimized: TCheckBox
-    Left = 406
-    Height = 26
-    Top = 32
-    Width = 134
-    Caption = 'Run mi&nimized'
-    TabOrder = 4
-  end
   object kedtStartpath: TKASEdit
     Left = 104
     Height = 21
@@ -145,7 +138,7 @@ object OneButtonChangeDlg: TOneButtonChangeDlg
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
     MaxLength = 259
-    TabOrder = 6
+    TabOrder = 4
   end
   object kedtIconFileName: TKASEdit
     Left = 104
@@ -155,7 +148,7 @@ object OneButtonChangeDlg: TOneButtonChangeDlg
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
     MaxLength = 259
-    TabOrder = 7
+    TabOrder = 5
   end
   object btnOpenIconFile: TButton
     Left = 403
@@ -165,7 +158,7 @@ object OneButtonChangeDlg: TOneButtonChangeDlg
     BorderSpacing.InnerBorder = 4
     Caption = '>>'
     OnClick = btnOpenIconFileClick
-    TabOrder = 8
+    TabOrder = 6
   end
   object lblIcons: TListBox
     Left = 104
@@ -176,8 +169,7 @@ object OneButtonChangeDlg: TOneButtonChangeDlg
     Font.Name = 'MS Sans Serif'
     ItemHeight = 36
     Style = lbOwnerDrawFixed
-    TabOrder = 9
-    TopIndex = -1
+    TabOrder = 7
   end
   object kedtToolTip: TKASEdit
     Left = 104
@@ -187,7 +179,7 @@ object OneButtonChangeDlg: TOneButtonChangeDlg
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
     MaxLength = 259
-    TabOrder = 10
+    TabOrder = 8
   end
   object btnOK: TButton
     Left = 443
@@ -198,36 +190,34 @@ object OneButtonChangeDlg: TOneButtonChangeDlg
     Caption = 'OK'
     Default = True
     OnClick = btnOKClick
-    TabOrder = 11
+    TabOrder = 9
   end
   object btnCancel: TButton
+    AnchorSideTop.Control = btnOK
+    AnchorSideTop.Side = asrBottom
     Left = 443
     Height = 32
-    Top = 144
+    Top = 140
     Width = 100
+    BorderSpacing.Top = 4
     BorderSpacing.InnerBorder = 4
     Cancel = True
     Caption = 'Cancel'
     ModalResult = 2
     OnClick = btnCancelClick
-    TabOrder = 12
+    TabOrder = 10
   end
   object btnHelp: TButton
+    AnchorSideTop.Control = btnCancel
+    AnchorSideTop.Side = asrBottom
     Left = 443
     Height = 32
-    Top = 184
+    Top = 176
     Width = 100
+    BorderSpacing.Top = 4
     BorderSpacing.InnerBorder = 4
     Caption = '&Help'
-    TabOrder = 13
-  end
-  object lblRunMaximized: TCheckBox
-    Left = 406
-    Height = 26
-    Top = 52
-    Width = 139
-    Caption = 'Run ma&ximized'
-    TabOrder = 5
+    TabOrder = 11
   end
   object OpenDialog: TOpenDialog
     Title = 'Открыть существующий файл'

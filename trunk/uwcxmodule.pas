@@ -804,7 +804,7 @@ begin
     FFileOpDlg.Show;
     FFileOpDlg.iProgress1Max:=100;
     FFileOpDlg.iProgress2Max:=100;
-    FFileOpDlg.Caption := lngGetString(clngDlgDel);
+    FFileOpDlg.Caption := rsDlgDel;
 
     CT := nil;
 

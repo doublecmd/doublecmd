@@ -33,9 +33,9 @@ uses
 
 type
 
-  { TPackDlg }
+  { TfrmPackDlg }
 
-  TPackDlg = class(TForm)
+  TfrmPackDlg = class(TForm)
     btnConfig: TButton;
     btnHelp: TButton;
     btnCancel: TButton;
@@ -76,7 +76,7 @@ procedure ShowPackFilesForm(VFS : TVFS; var fl: TFileList; sDestPath:String);
 var
   Flags : LongInt;
 begin
-  with TPackDlg.Create(nil) do
+  with TfrmPackDlg.Create(nil) do
     begin
       (* if one file selected *)
       if fl.Count = 1 then
@@ -103,9 +103,9 @@ begin
     end;
 end;
 
-{ TPackDlg }
+{ TfrmPackDlg }
 
-procedure TPackDlg.FormShow(Sender: TObject);
+procedure TfrmPackDlg.FormShow(Sender: TObject);
 var
  I, J : Integer;
  sCurrentPlugin : String;
@@ -151,13 +151,13 @@ begin
     end;
 end;
 
-procedure TPackDlg.btnConfigClick(Sender: TObject);
+procedure TfrmPackDlg.btnConfigClick(Sender: TObject);
 begin
    if CurrentVFS.FindModule(edtPackCmd.Text) then
      CurrentVFS.VFSmodule.VFSConfigure(Handle);
 end;
 
-procedure TPackDlg.cbOtherPluginsChange(Sender: TObject);
+procedure TfrmPackDlg.cbOtherPluginsChange(Sender: TObject);
 begin
   if cbOtherPlugins.Checked then
     begin
@@ -172,13 +172,13 @@ begin
   cbPackerList.Enabled := cbOtherPlugins.Checked;
 end;
 
-procedure TPackDlg.edtPackCmdAcceptDirectory(Sender: TObject; var Value: String
+procedure TfrmPackDlg.edtPackCmdAcceptDirectory(Sender: TObject; var Value: String
   );
 begin
   Value := IncludeTrailingPathDelimiter(Value) + ExtractFileName(edtPackCmd.Text);
 end;
 
-procedure TPackDlg.arbChange(Sender: TObject);
+procedure TfrmPackDlg.arbChange(Sender: TObject);
 begin
   if rgPacker.ItemIndex >= 0 then
     begin

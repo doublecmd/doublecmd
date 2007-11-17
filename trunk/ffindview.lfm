@@ -1,62 +1,61 @@
 object frmFindView: TfrmFindView
+  Left = 347
+  Height = 94
+  Top = 550
+  Width = 339
+  HorzScrollBar.Page = 338
+  HorzScrollBar.Range = 331
+  VertScrollBar.Page = 93
+  VertScrollBar.Range = 86
   ActiveControl = cbDataToFind
-  Caption = 'frmFindView'
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Find'
   ClientHeight = 94
   ClientWidth = 339
   OnShow = FormShow
   Position = poOwnerFormCenter
-  TextHeight = 16
-  HorzScrollBar.Page = 340
-  HorzScrollBar.Range = 331
-  VertScrollBar.Page = 95
-  VertScrollBar.Range = 86
-  Left = 445
-  Height = 94
-  Top = 348
-  Width = 339
   object cbDataToFind: TComboBox
-    ItemHeight = 18
+    Left = 16
+    Height = 21
+    Top = 16
+    Width = 312
+    AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+    ItemHeight = 13
     MaxLength = 0
     OnKeyUp = cbDataToFindKeyUp
     ParentCtl3D = False
     TabOrder = 0
-    Left = 16
-    Height = 23
-    Top = 16
-    Width = 312
   end
   object btnFind: TBitBtn
-    Default = True
-    OnClick = btnFindClick
-    Default = True
-    Caption = 'Find'
-    TabOrder = 1
-    OnClick = btnFindClick
     Left = 176
-    Height = 25
+    Height = 32
     Top = 56
     Width = 75
+    Caption = 'Find'
+    Default = True
+    NumGlyphs = 0
+    OnClick = btnFindClick
+    TabOrder = 1
   end
   object btnClose: TBitBtn
-    Kind = bkCancel
-    ModalResult = 2
-    ModalResult = 2
-    Caption = 'Cancel'
-    TabOrder = 2
     Left = 256
-    Height = 25
+    Height = 32
     Top = 56
     Width = 75
+    Caption = 'Cancel'
+    Kind = bkCancel
+    ModalResult = 2
+    NumGlyphs = 0
+    TabOrder = 2
   end
   object cbCaseSens: TCheckBox
-    AllowGrayed = True
-    AutoSize = True
-    Caption = 'cbCaseSens'
-    DragCursor = 65524
-    TabOrder = 3
     Left = 16
-    Height = 30
+    Height = 19
     Top = 56
-    Width = 153
+    Width = 94
+    AllowGrayed = True
+    Caption = 'Case sensitive'
+    TabOrder = 3
   end
 end

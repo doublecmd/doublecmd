@@ -16,13 +16,13 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, fLngForm, ComCtrls, Buttons;
+  Dialogs, StdCtrls, ComCtrls, Buttons;
 
 type
 
   { TfrmFileOp }
 
-  TfrmFileOp = class(TfrmLng)
+  TfrmFileOp = class(TForm)
     pbSecond: TProgressBar;
     pbFirst: TProgressBar;
     lblFileName: TLabel;
@@ -30,6 +30,7 @@ type
     btnCancel: TBitBtn;
     procedure btnCancelClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
     { Private declarations }
@@ -44,7 +45,6 @@ type
     sFileName:String;
     Thread : TThread;
     procedure UpdateDlg;
-    procedure LoadLng; override;
   end;
 
 var
@@ -53,13 +53,6 @@ var
 implementation
 uses fMain;
 //uses uFileOpThread;
-
-
-procedure TfrmFileOp.LoadLng;
-begin
-  Thread := nil;
-end;
-
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
 begin
@@ -73,6 +66,11 @@ begin
    frmMain.frameLeft.RefreshPanel;
    frmMain.frameRight.RefreshPanel;
    frmMain.ActiveFrame.SetFocus;
+end;
+
+procedure TfrmFileOp.FormCreate(Sender: TObject);
+begin
+  Thread := nil;
 end;
 
 procedure TfrmFileOp.FormShow(Sender: TObject);

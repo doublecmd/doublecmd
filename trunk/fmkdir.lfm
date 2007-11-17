@@ -1,16 +1,18 @@
-inherited frmMkDir: TfrmMkDir
-  Left = 308
-  Height = 91
-  Top = 219
+object frmMkDir: TfrmMkDir
+  Left = 366
+  Height = 98
+  Top = 546
   Width = 336
   HorzScrollBar.Page = 335
   HorzScrollBar.Range = 329
-  VertScrollBar.Page = 90
+  VertScrollBar.Page = 97
   VertScrollBar.Range = 89
   ActiveControl = edtMkDir
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
-  Caption = 'frmMkDir'
+  Caption = 'Create new directory'
+  ClientHeight = 98
+  ClientWidth = 336
   KeyPreview = True
   OnKeyPress = FormKeyPress
   Position = poScreenCenter
@@ -18,9 +20,8 @@ inherited frmMkDir: TfrmMkDir
     Left = 8
     Height = 14
     Top = 8
-    Width = 49
-    Caption = 'lblMakeDir'
-    Color = clNone
+    Width = 129
+    Caption = 'Input new directory name:'
     ParentColor = False
   end
   object edtMkDir: TEdit
@@ -32,7 +33,7 @@ inherited frmMkDir: TfrmMkDir
   end
   object btnOK: TBitBtn
     Left = 167
-    Height = 23
+    Height = 32
     Top = 64
     Width = 75
     BorderSpacing.InnerBorder = 2
@@ -45,7 +46,7 @@ inherited frmMkDir: TfrmMkDir
   end
   object btnCancel: TBitBtn
     Left = 255
-    Height = 23
+    Height = 32
     Top = 64
     Width = 75
     BorderSpacing.InnerBorder = 2

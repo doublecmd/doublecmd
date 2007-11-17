@@ -5,13 +5,13 @@ interface
 uses
   LResources,
   SysUtils, Types, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, fLngForm, Buttons;
+  Dialogs, StdCtrls, Buttons;
 
 type
 
   { TfrmCopyDlg }
 
-  TfrmCopyDlg = class(TfrmLng)
+  TfrmCopyDlg = class(TForm)
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
     cbDropReadOnlyFlag: TCheckBox;
@@ -25,7 +25,6 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure LoadLng; override;
   end;
 
 var
@@ -50,13 +49,6 @@ begin
     ModalResult:=mrOK;
     Key:=#0;
   end;
-end;
-
-procedure TfrmCopyDlg.LoadLng;
-begin
-  Caption:= lngGetString(clngDlgCp);
-//  lblCopySrc.Caption:= lngGetString(clngDlgCpSrc); handle by MainForm
-  lblFileType.Caption:= lngGetString(clngDlgCpType);
 end;
 
 initialization

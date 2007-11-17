@@ -180,11 +180,11 @@ var
 
 begin
   // load column captions
-  FHeaderString[0]:=  lngGetString(clngColName);
-  FHeaderString[1]:=  lngGetString(clngColExt);
-  FHeaderString[2]:=  lngGetString(clngColSize);
-  FHeaderString[3]:=  lngGetString(clngColDate);
-  FHeaderString[4]:=  lngGetString(clngColAttr);
+  FHeaderString[0]:=  rsColName;
+  FHeaderString[1]:=  rsColExt;
+  FHeaderString[2]:=  rsColSize;
+  FHeaderString[3]:=  rsColDate;
+  FHeaderString[4]:=  rsColAttr;
 
   
   ClearCmdLine;
@@ -320,7 +320,7 @@ begin
   with pnlFile do
   begin
     UpdateCountStatus;
-    lblLInfo.Caption:=Format(lngGetString(clngMsgSelected),
+    lblLInfo.Caption:=Format(rsMsgSelected,
       [cnvFormatFileSize(SizeSelected), cnvFormatFileSize(SizeInDir) ,FilesSelected, FilesInDir ]);
   end;
 end;
@@ -344,7 +344,7 @@ var
   s:String;
 begin
   s:=FLastMark;
-  if not InputQuery(lngGetString(clngMarkPlus),lngGetString(clngMaskInput),s) then Exit;
+  if not InputQuery(rsMarkPlus, rsMaskInput, s) then Exit;
   FLastMark:=s;
   pnlFile.MarkGroup(s,True);
   dgPanel.Invalidate;
@@ -373,7 +373,7 @@ var
   s:String;
 begin
   s:=FLastMark;
-  if not InputQuery(lngGetString(clngMarkMinus),lngGetString(clngMaskInput),s) then Exit;
+  if not InputQuery(rsMarkMinus, rsMaskInput, s) then Exit;
   FLastMark:=s;
   pnlFile.MarkGroup(s,False);
   dgPanel.Invalidate;

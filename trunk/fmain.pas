@@ -41,7 +41,7 @@ uses
   LResources,
   Graphics, Forms, Menus, Controls, Dialogs, ComCtrls,
   StdCtrls, ExtCtrls,ActnList,Buttons,
-  SysUtils, Classes,  {uFilePanel,} fLngForm, framePanel, {FileCtrl,} Grids,
+  SysUtils, Classes,  {uFilePanel,} framePanel, {FileCtrl,} Grids,
   KASToolBar, IniFiles;
 
 const
@@ -51,7 +51,7 @@ type
 
   { TfrmMain }
 
-  TfrmMain = class(TfrmLng)
+  TfrmMain = class(TForm)
     actExtractFiles: TAction;
     actAddPathToCmdLine: TAction;
     actFocusCmdLine: TAction;
@@ -98,8 +98,6 @@ type
     pmDrivesMenu: TPopupMenu;
     tbDelete: TMenuItem;
     tbEdit: TMenuItem;
-    MenuItem3: TMenuItem;
-    MenuItem4: TMenuItem;
     mnuMain: TMainMenu;
     pnlNotebooks: TPanel;
     pnlSyncSize: TPanel;
@@ -183,10 +181,10 @@ type
     miMultiRename: TMenuItem;
     actCopySamePanel: TAction;
     actRenameOnly: TAction;
-    actShiftF4: TAction;
+    actEditNew: TAction;
     actDirHistory: TAction;
     pmDirHistory: TPopupMenu;
-    actCtrlF8: TAction;
+    actShowCmdLineHistory: TAction;
     actRunTerm: TAction;
     miLine9: TMenuItem;
     miRunTerm: TMenuItem;
@@ -262,9 +260,9 @@ type
     procedure actMultiRenameExecute(Sender: TObject);
     procedure actCopySamePanelExecute(Sender: TObject);
     procedure actRenameOnlyExecute(Sender: TObject);
-    procedure actShiftF4Execute(Sender: TObject);
+    procedure actEditNewExecute(Sender: TObject);
     procedure actDirHistoryExecute(Sender: TObject);
-    procedure actCtrlF8Execute(Sender: TObject);
+    procedure actShowCmdLineHistoryExecute(Sender: TObject);
     procedure actRunTermExecute(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -299,8 +297,6 @@ type
   public
 //    frameLeft, frameRight:TFrameFilePanel;
     
-    procedure LoadLng; override;
-    
     function HandleActionHotKeys(var Key: Word; Shift: TShiftState):Boolean; // handled
     
     Function ActiveFrame:TFrameFilePanel;  // get Active frame
@@ -310,7 +306,7 @@ type
     Function IsAltPanel:Boolean;
     procedure AppException(Sender: TObject; E: Exception);
     //check selected count and generate correct msg, parameters is lng indexs
-    Function GetFileDlgStr(iLngOne, iLngMulti:Integer):String;
+    Function GetFileDlgStr(sLngOne, sLngMulti : String):String;
     procedure HotDirSelected(Sender:TObject);
     procedure CreatePopUpHotDir;
     procedure CreatePopUpDirHistory;
@@ -585,7 +581,7 @@ begin
      else
        begin
          dskPanel.Buttons[dskPanel.Tag].Down := True;
-         msgOK(lngGetString(clngMsgDiskNotAvail));
+         msgOK(rsMsgDiskNotAvail);
        end;
   end;
   FrameFilePanel.pnlFile.LoadPanel;
@@ -948,14 +944,14 @@ begin
 
       if (DirectoryExists(ActiveDir+sPath)) then
       begin
-        msgError(Format(lngGetString(clngMsgErrDirExists),[ActiveDir+sPath]));
+        msgError(Format(rsMsgErrDirExists,[ActiveDir+sPath]));
         pnlFile.LastActive:=sPath;
         pnlFile.LoadPanel;
       end
       else
       begin
         if not ForceDirectory(ActiveDir+sPath) then
-          msgError(Format(lngGetString(clngMsgErrForceDir),[ActiveDir+sPath]))
+          msgError(Format(rsMsgErrForceDir,[ActiveDir+sPath]))
         else
         begin
           pnlFile.LastActive:=sPath;
@@ -976,7 +972,7 @@ begin
   with ActiveFrame do
     SelectFileIfNoSelected(GetActiveItem);
 
-  case msgYesNoCancel(GetFileDlgStr(clngMsgDelSel,clngMsgDelFlDr)) of
+  case msgYesNoCancel(GetFileDlgStr(rsMsgDelSel,rsMsgDelFlDr)) of
     mmrNo:
       begin
         ActiveFrame.UnMarkAll;
@@ -1059,76 +1055,6 @@ begin
 //repaint both panels
   FrameLeft.pnlFile.UpdatePanel;
   FrameRight.pnlFile.UpdatePanel;
-end;
-
-procedure TfrmMain.LoadLng;
-begin
-//actions
-  actExit.Caption:= lngGetString(clngActExit);
-  actView.Caption:=  lngGetString(clngActView);
-  actEdit.Caption:=  lngGetString(clngActEdit);
-  actCopy.Caption:=  lngGetString(clngActCopy);
-  actRename.Caption:=  lngGetString(clngActRename);
-  actMakeDir.Caption:=  lngGetString(clngActMkDir);
-  actDelete.Caption:=  lngGetString(clngActDelte);
-  actOptions.Caption:=   lngGetString(clngMnuCnfOpt);
-  actCompareContents.Caption:= lngGetString(clngMnuFileCmpCnt);
-  actShowMenu.Caption:=  lngGetString(clngActMenu);
-  actRefresh.Caption:=  lngGetString(clngMnuShwReRead);
-  actSearch.Caption:= lngGetString(clngMnuCmdSearch);
-  actDirHotList.Caption:= lngGetString(clngMnuCmdHotDir);
-  actMarkMarkAll.Caption:=     lngGetString(clngMnuMarkSelAll);
-  actMarkUnmarkAll.Caption :=lngGetString(clngMnuMarkUnSelAll);
-  actShowSysFiles.Caption:=     lngGetString(clngMnuFileShowSys);
-  actCalculateSpace.Caption:=     lngGetString(clngMnuFileCalc);
-
-  actMarkInvert.Caption:=     lngGetString(clngMnuMarkInvSel);
-  actMarkPlus.Caption:=   lngGetString(clngMnuMarkSelGr);
-  actMarkMinus.Caption:=  lngGetString(clngMnuMarkUnSelGr);
-
-  actHardLink.Caption:=     lngGetString(clngMnuFileLink);
-  actSymLink.Caption:=     lngGetString(clngMnuFileSymLink);
-  actReverseOrder.Caption:= lngGetString(clngMnuShwRevOrd);
-  actMultiRename.Caption:= lngGetString(clngActMultiRename);
-
-  actRunTerm.Caption:= lngGetString(clngActRunTerm);
-
-  actFileProperties.Caption:=     lngGetString(clngMnuFileProp);
-  
-// Menu
-// File
-  mnuFiles.Caption:=   lngGetString(clngMnuFile);
-  mnuPackFiles.Caption:= 'Pack Files...'; //TODO localize
-  mnuFilesSplit.Caption:=     lngGetString(clngMnuFileSplit);
-  mnuFilesCombine.Caption:=     lngGetString(clngMnuFileCombine);
-
-
-//Mark
-  mnuMark.Caption:=   lngGetString(clngMnuMark);
-  mnuMarkCmpDir.Caption:=     lngGetString(clngMnuMarkCmpDir);
-
-//Commands
-  mnuCmd.Caption:=        lngGetString(clngMnuCmd);
-
-  mnuCmdSwapSourceTarget.Caption:=    lngGetString(clngMnuCmdSrcTrg);
-  mnuCmdTargetIsSource.Caption:=   lngGetString(clngMnuCmdSrcEkvTrg);
-
-//Show
-  mnuShow.Caption:=      lngGetString(clngMnuShw);
-  mnuShowName.Caption:=  lngGetString(clngMnuShwName);
-  mnuShowExtension.Caption:=  lngGetString(clngMnuShwExt);
-  mnuShowSize.Caption:=  lngGetString(clngMnuShwSize);
-  mnuShowTime.Caption:=  lngGetString(clngMnuShwDate);
-  mnuShowAttrib.Caption:=  lngGetString(clngMnuShwAttr);
-
-//Configuration
-  mnuConfig.Caption:=  lngGetString(clngMnuCnf);
-
-//Help
-
-  mnuHelp.Caption:=lngGetString(clngMnuHlp);
-  mnuHelpAbout.Caption:=  lngGetString(clngMnuHlpAbout);
-// Other
 end;
 
 function TfrmMain.HandleActionHotKeys(var Key: Word; Shift: TShiftState):Boolean; // handled
@@ -1241,7 +1167,7 @@ begin
     }
     if ((Key=VK_F4) {or (Key=VK_F14)}) then
     begin
-      actShiftF4.Execute;
+      actEditNew.Execute;
       Exit;
     end;
 
@@ -1418,7 +1344,7 @@ begin
   ActiveFrame.RefreshPanel;
 end;
 
-Function TfrmMain.GetFileDlgStr(iLngOne, iLngMulti:Integer):String;
+Function TfrmMain.GetFileDlgStr(sLngOne, sLngMulti:String):String;
 var
   iSelCnt:Integer;
 begin
@@ -1428,9 +1354,9 @@ begin
     iSelCnt:=pnlFile.GetSelectedCount;
     if iSelCnt=0 then Abort;
     if iSelCnt >1 then
-      Result:=Format(lngGetString(iLngMulti),[iSelCnt])
+      Result:=Format(sLngMulti, [iSelCnt])
     else
-      Result:=Format(lngGetString(iLngOne),[pnlFile.GetActiveItem^.sName])
+      Result:=Format(sLngOne, [pnlFile.GetActiveItem^.sName])
   end;
 end;
 
@@ -1546,19 +1472,19 @@ begin
   mi:=TMenuItem.Create(pmHotList);
   if glsHotDir.IndexOf(ActiveFrame.ActiveDir)>0 then
   begin
-    mi.Caption:=Format(lngGetString(clngMsgPopUpHotDelete),[ActiveFrame.ActiveDir]);
+    mi.Caption:=Format(rsMsgPopUpHotDelete,[ActiveFrame.ActiveDir]);
     mi.OnClick:=@miHotDeleteClick;
   end
   else
   begin
-    mi.Caption:=Format(lngGetString(clngMsgPopUpHotAdd),[ActiveFrame.ActiveDir]);
+    mi.Caption:=Format(rsMsgPopUpHotAdd,[ActiveFrame.ActiveDir]);
     mi.OnClick:=@miHotAddClick;
   end;
   pmHotList.Items.Add(mi);
 
   // now add configure item
   mi:=TMenuItem.Create(pmHotList);
-  mi.Caption:=lngGetString(clngMsgPopUpHotCnf);
+  mi.Caption:=rsMsgPopUpHotCnf;
   mi.OnClick:=@miHotConfClick;
   pmHotList.Items.Add(mi);
 //  KeyPreview:=False;
@@ -1627,7 +1553,7 @@ begin
       Screen.Cursor:=crDefault;
 
       if (bDisplayMessage = True) then
-        ShowMessage(Format(lngGetString(clngSpaceMsg),[FilesCount, DirCount, FilesSize]));
+        ShowMessage(Format(rsSpaceMsg,[FilesCount, DirCount, FilesSize]));
 
       with ActiveFrame.GetActiveItem^ do
       begin
@@ -1793,7 +1719,7 @@ var
   MT : TMoveThread;
 begin
   fl:=TFileList.Create; // free at Thread end by thread
-  sCopyQuest:=GetFileDlgStr(clngMsgRenSel,clngMsgRenFlDr);
+  sCopyQuest:=GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr);
   CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
 
 
@@ -1862,7 +1788,7 @@ var
   blDropReadOnlyFlag : Boolean;
 begin
   fl:=TFileList.Create; // free at Thread end by thread
-  sCopyQuest:=GetFileDlgStr(clngMsgCpSel,clngMsgCpFlDr);
+  sCopyQuest:=GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr);
 
   CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
 
@@ -1957,13 +1883,13 @@ begin
   RenameFile('');
 end;
 
-procedure TfrmMain.actShiftF4Execute(Sender: TObject);
+procedure TfrmMain.actEditNewExecute(Sender: TObject);
 var
   sNewFile:String;
   f:TextFile;
 begin
-  sNewFile:=ActiveFrame.ActiveDir+lngGetString(clngShiftF4file);
-  if not InputQuery(lngGetString(clngShiftF4Open),lngGetString(clngShiftF4FileName),sNewFile) then Exit;
+  sNewFile:=ActiveFrame.ActiveDir + rsEditNewFile;
+  if not InputQuery(rsEditNewOpen, rsEditNewFileName, sNewFile) then Exit;
   if not FileExists(sNewFile) then
   begin
     assignFile(f,sNewFile);
@@ -1991,7 +1917,7 @@ begin
   pmDirHistory.Popup(p.X,p.Y);
 end;
 
-procedure TfrmMain.actCtrlF8Execute(Sender: TObject);
+procedure TfrmMain.actShowCmdLineHistoryExecute(Sender: TObject);
 begin
   inherited;
   if (edtCommand.Items.Count>0) then
@@ -2099,7 +2025,7 @@ begin
   if (shift=[ssCtrl]) and (Key=VK_Down) then
   begin
     Key:=0;
-    actCtrlF8.Execute;
+    actShowCmdLineHistory.Execute;
     Exit;
   end;
 
@@ -2400,7 +2326,7 @@ begin
      else
        begin
          pmDrivesMenu.Items[dskLeft.Tag].Checked := True;
-         msgOK(lngGetString(clngMsgDiskNotAvail));
+         msgOK(rsMsgDiskNotAvail);
        end;
   end;
 end;

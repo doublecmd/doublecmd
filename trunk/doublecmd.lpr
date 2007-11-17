@@ -55,7 +55,7 @@ uses
   dmHigh,
   uPixMapManager, uVFS,
   KASComp, fbtnchangedlg, fconfigtoolbar, uWCXprototypes, uDCUtils,
-  fLngForm, dmDialogs, fViewer, fOptions, fCopyDlg, fMoveDlg, fFindDlg,
+  dmDialogs, fViewer, fOptions, fCopyDlg, fMoveDlg, fFindDlg,
   fSymLink, fMultiRename, fSplitter, fPackDlg, fExtractDlg;
   
 {$IFDEF WIN32}
