@@ -67,6 +67,17 @@ resourcestring
   rsColSize = 'Size';
   rsColDate = 'Date';
   rsColAttr = 'Attr';
+  // File properties dialog
+  rsPropsYes = 'Yes (%s)';
+  rsPropsNo = 'No';
+  rsPropsFolder = 'Directory';
+  rsPropsFile = 'File';
+  rsPropsSpChrDev = 'Special character device';
+  rsPropsSpBlkDev = 'Special block device';
+  rsPropsNmdPipe = 'Named pipe';
+  rsPropsSymLink = 'Symbolic link';
+  rsPropsSocket = 'Socket';
+  rsPropsUnknownType = 'Unknown type';
   //Compare by content Dialog
   rsCompareDiffs = 'Number of changes:';
   // Find files dialog

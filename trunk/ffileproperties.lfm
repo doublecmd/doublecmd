@@ -33,8 +33,8 @@ object frmFileProperties: TfrmFileProperties
     TabOrder = 1
     object tsProperties: TTabSheet
       Caption = 'Properties'
-      ClientHeight = 237
-      ClientWidth = 432
+      ClientHeight = 263
+      ClientWidth = 440
       object lblFileNameStr: TLabel
         Left = 16
         Height = 14
@@ -175,86 +175,86 @@ object frmFileProperties: TfrmFileProperties
     end
     object tsAttributes: TTabSheet
       Caption = 'Attributes'
-      ClientHeight = 237
-      ClientWidth = 432
+      ClientHeight = 263
+      ClientWidth = 440
       object lblFile: TLabel
         Left = 8
-        Height = 14
+        Height = 13
         Top = 11
-        Width = 46
+        Width = 56
         Caption = 'File name'
         ParentColor = False
       end
       object lblFileName1: TLabel
         Left = 104
-        Height = 14
+        Height = 13
         Top = 11
-        Width = 46
+        Width = 56
         Caption = 'File name'
         Font.Color = clBlack
         ParentColor = False
       end
       object lblAttrOwnerStr: TLabel
         Left = 8
-        Height = 14
+        Height = 13
         Top = 54
-        Width = 33
+        Width = 38
         Caption = 'Owner'
         ParentColor = False
       end
       object lblWrite: TLabel
         Left = 176
-        Height = 14
+        Height = 13
         Top = 32
-        Width = 27
+        Width = 29
         Caption = 'Write'
         ParentColor = False
       end
       object lblRead: TLabel
         Left = 104
-        Height = 14
+        Height = 13
         Top = 32
-        Width = 26
+        Width = 30
         Caption = 'Read'
         ParentColor = False
       end
       object lblExec: TLabel
         Left = 240
-        Height = 14
+        Height = 13
         Top = 32
-        Width = 40
+        Width = 46
         Caption = 'Execute'
         ParentColor = False
       end
       object lblAttrGroupStr: TLabel
         Left = 8
-        Height = 14
+        Height = 13
         Top = 94
-        Width = 30
+        Width = 35
         Caption = 'Group'
         ParentColor = False
       end
       object lblAttrOtherStr: TLabel
         Left = 8
-        Height = 14
+        Height = 13
         Top = 134
-        Width = 29
+        Width = 32
         Caption = 'Other'
         ParentColor = False
       end
       object lblAttrTextStr: TLabel
         Left = 8
-        Height = 14
+        Height = 13
         Top = 203
-        Width = 113
+        Width = 124
         Caption = 'Representation in text:'
         ParentColor = False
       end
       object lblAttrText: TLabel
         Left = 160
-        Height = 14
+        Height = 13
         Top = 203
-        Width = 45
+        Width = 56
         Caption = '-----------'
         Font.Color = clBlack
         Font.Height = 13
@@ -262,107 +262,107 @@ object frmFileProperties: TfrmFileProperties
       end
       object lblAttrBitsStr: TLabel
         Left = 8
-        Height = 14
+        Height = 13
         Top = 175
-        Width = 22
+        Width = 24
         Caption = 'Bits:'
         ParentColor = False
       end
       object cbReadOwner: TCheckBox
         Left = 112
-        Height = 19
+        Height = 20
         Top = 48
-        Width = 26
+        Width = 27
         AllowGrayed = True
         TabOrder = 0
       end
       object cbWriteOwner: TCheckBox
         Left = 184
-        Height = 19
+        Height = 20
         Top = 48
-        Width = 26
+        Width = 27
         AllowGrayed = True
         TabOrder = 1
       end
       object cbExecOwner: TCheckBox
         Left = 256
-        Height = 19
+        Height = 20
         Top = 48
-        Width = 26
+        Width = 27
         AllowGrayed = True
         TabOrder = 2
       end
       object cbReadGroup: TCheckBox
         Left = 112
-        Height = 19
+        Height = 20
         Top = 88
-        Width = 26
+        Width = 27
         AllowGrayed = True
         TabOrder = 3
       end
       object cbWriteGroup: TCheckBox
         Left = 184
-        Height = 19
+        Height = 20
         Top = 88
-        Width = 26
+        Width = 27
         AllowGrayed = True
         TabOrder = 4
       end
       object cbExecGroup: TCheckBox
         Left = 256
-        Height = 19
+        Height = 20
         Top = 88
-        Width = 26
+        Width = 27
         AllowGrayed = True
         TabOrder = 5
       end
       object cbReadOther: TCheckBox
         Left = 112
-        Height = 19
+        Height = 20
         Top = 128
-        Width = 26
+        Width = 27
         AllowGrayed = True
         TabOrder = 6
       end
       object cbWriteOther: TCheckBox
         Left = 184
-        Height = 19
+        Height = 20
         Top = 128
-        Width = 26
+        Width = 27
         AllowGrayed = True
         TabOrder = 7
       end
       object cbExecOther: TCheckBox
         Left = 256
-        Height = 19
+        Height = 20
         Top = 128
-        Width = 26
+        Width = 27
         AllowGrayed = True
         TabOrder = 8
       end
       object cbSuid: TCheckBox
         Left = 112
-        Height = 19
+        Height = 20
         Top = 168
-        Width = 52
+        Width = 55
         AllowGrayed = True
         Caption = 'SUID'
         TabOrder = 9
       end
       object cbSgid: TCheckBox
         Left = 184
-        Height = 19
+        Height = 20
         Top = 168
-        Width = 52
+        Width = 56
         AllowGrayed = True
         Caption = 'SGID'
         TabOrder = 10
       end
       object cbSticky: TCheckBox
         Left = 256
-        Height = 19
+        Height = 20
         Top = 168
-        Width = 55
+        Width = 61
         AllowGrayed = True
         Caption = 'Sticky'
         TabOrder = 11
@@ -407,8 +407,8 @@ object frmFileProperties: TfrmFileProperties
     Top = 280
     Width = 440
     Caption = 'Owner'
-    ClientHeight = 87
-    ClientWidth = 436
+    ClientHeight = 105
+    ClientWidth = 440
     TabOrder = 5
     object lblOwnerStr: TLabel
       Left = 22
@@ -432,7 +432,6 @@ object frmFileProperties: TfrmFileProperties
       Top = 9
       Width = 227
       AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-      ItemHeight = 13
       MaxLength = 0
       ParentCtl3D = False
       Sorted = True
@@ -444,7 +443,6 @@ object frmFileProperties: TfrmFileProperties
       Top = 41
       Width = 227
       AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-      ItemHeight = 13
       MaxLength = 0
       ParentCtl3D = False
       Sorted = True

@@ -58,6 +58,42 @@ msgstr "&Настроить"
 msgid "&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &All;&Skip;S&kip All;All;"
 msgstr "&OK;&Нет;&Да;&Отмена;&Ни одного;&Добавить;&Переписать;Переписать &все;&Пропустить;Проп&устить Все;Все;"
 
+#: ulng.rspropsyes
+msgid "Yes (\%s)"
+msgstr "Да (%s)"
+
+#: ulng.rspropsno
+msgid "No"
+msgstr "Нет"
+
+#: ulng.rspropsfile
+msgid "File"
+msgstr "Файл"
+
+#: ulng.rspropsspchrdev
+msgid "Special character device"
+msgstr ""
+
+#: ulng.rspropsspblkdev
+msgid "Special block device"
+msgstr ""
+
+#: ulng.rspropsnmdpipe
+msgid "Named pipe"
+msgstr ""
+
+#: ulng.rspropssymlink
+msgid "Symbolic link"
+msgstr "Символьная ссылка"
+
+#: ulng.rspropssocket
+msgid "Socket"
+msgstr "Сокет"
+
+#: ulng.rspropsunknowntype
+msgid "Unknown type"
+msgstr "Неизвестный тип"
+
 #: ulng.rsspacemsg
 msgid "Files:\%d, Dirs:\%d, Size: \%d bytes"
 msgstr "Файлов:%d, Каталогов:%d, Размер: %d байт"

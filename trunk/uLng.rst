@@ -140,6 +140,46 @@ ulng.rscoldate='Date'
 ulng.rscolattr='Attr'
 
 
+# hash value = 206743977
+ulng.rspropsyes='Yes (%s)'
+
+
+# hash value = 1359
+ulng.rspropsno='No'
+
+
+# hash value = 146472345
+ulng.rspropsfolder='Directory'
+
+
+# hash value = 315429
+ulng.rspropsfile='File'
+
+
+# hash value = 211174565
+ulng.rspropsspchrdev='Special character device'
+
+
+# hash value = 115368965
+ulng.rspropsspblkdev='Special block device'
+
+
+# hash value = 190986325
+ulng.rspropsnmdpipe='Named pipe'
+
+
+# hash value = 72792635
+ulng.rspropssymlink='Symbolic link'
+
+
+# hash value = 94740932
+ulng.rspropssocket='Socket'
+
+
+# hash value = 163751173
+ulng.rspropsunknowntype='Unknown type'
+
+
 # hash value = 256729658
 ulng.rscomparediffs='Number of changes:'
 

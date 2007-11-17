@@ -223,9 +223,9 @@ begin
       lblLastStChange.Caption:=DateTimeToStr(dtFileDates);
       
       if (bIsLink = True) then
-        lblSymlink.Caption:=Format(lngGetString(clngPropsYes), [sLinkTo])
+        lblSymlink.Caption:=Format(rsPropsYes, [sLinkTo])
       else
-        lblSymlink.Caption:=lngGetString(clngPropsNo);
+        lblSymlink.Caption:=rsPropsNo;
         
       // Chown
 
@@ -248,21 +248,21 @@ begin
       lblAttrText.Caption:=sModeStr; // + 666 like
 
       if FPS_ISDIR(iMode) then
-        lblType.Caption:=lngGetString(clngPropsFolder)
+        lblType.Caption:=rsPropsFolder
       else if FPS_ISREG(iMode) then
-        lblType.Caption:=lngGetString(clngPropsFile)
+        lblType.Caption:=rsPropsFile
       else if FPS_ISCHR(iMode) then
-        lblType.Caption:=lngGetString(clngPropsSpChrDev)
+        lblType.Caption:=rsPropsSpChrDev
       else if FPS_ISBLK(iMode) then
-        lblType.Caption:=lngGetString(clngPropsSpBlkDev)
+        lblType.Caption:=rsPropsSpBlkDev
       else if FPS_ISFIFO(iMode) then
-        lblType.Caption:=lngGetString(clngPropsNmdPipe)
+        lblType.Caption:=rsPropsNmdPipe
       else if FPS_ISLNK(iMode) then
-        lblType.Caption:=lngGetString(clngPropsSymLink)
+        lblType.Caption:=rsPropsSymLink
       else if FPS_ISSOCK(iMode) then
-        lblType.Caption:=lngGetString(clngPropsSocket)
+        lblType.Caption:=rsPropsSocket
       else
-        lblType.Caption:=lngGetString(clngPropsUnknownType);
+        lblType.Caption:=rsPropsUnknownType;
     end;
   finally
   end;

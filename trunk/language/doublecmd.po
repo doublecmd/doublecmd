@@ -1642,3 +1642,39 @@ msgstr ""
 msgid "ll;&Skip;S&kip All;All;"
 msgstr ""
 
+#: ulng.rspropsyes
+msgid "Yes (\%s)"
+msgstr ""
+
+#: ulng.rspropsno
+msgid "No"
+msgstr ""
+
+#: ulng.rspropsfile
+msgid "File"
+msgstr ""
+
+#: ulng.rspropsspchrdev
+msgid "Special character device"
+msgstr ""
+
+#: ulng.rspropsspblkdev
+msgid "Special block device"
+msgstr ""
+
+#: ulng.rspropsnmdpipe
+msgid "Named pipe"
+msgstr ""
+
+#: ulng.rspropssymlink
+msgid "Symbolic link"
+msgstr ""
+
+#: ulng.rspropssocket
+msgid "Socket"
+msgstr ""
+
+#: ulng.rspropsunknowntype
+msgid "Unknown type"
+msgstr ""
+
