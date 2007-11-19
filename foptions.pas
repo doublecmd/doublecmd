@@ -236,7 +236,8 @@ type
 implementation
 
 uses
-  uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc, menus, uWCXModule, uWFXmodule, uOSUtils;
+  uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc, menus,
+  uWCXModule, uWFXmodule, uDCUtils, uOSUtils;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
@@ -356,9 +357,9 @@ begin
   begin
     WCXmodule := TWCXmodule.Create;
     if WCXmodule.LoadModule(odOpenDialog.FileName)then
-      cbWCXPath.Text := IntToStr(WCXmodule.VFSCaps) + ',' + odOpenDialog.FileName
+      cbWCXPath.Text := IntToStr(WCXmodule.VFSCaps) + ',' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
     else
-      cbWCXPath.Text := '0,' + odOpenDialog.FileName;
+      cbWCXPath.Text := '0,' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
   WCXModule.UnloadModule;
   WCXmodule.Free;
   end;
@@ -449,6 +450,8 @@ begin
 end;
 
 procedure TfrmOptions.btnOKClick(Sender: TObject);
+var
+  FS : TFontStyles;
 begin
   inherited;
   
@@ -487,10 +490,9 @@ begin
   gRunTerm:= edtRunTerm.Text;
   
   gFontName:=cbMainFont.Text;
-  if (fsBold in EdtTest1.Font.Style) then
-    gFontWeight := 700
-  else
-    gFontWeight := 400;
+  FS := EdtTest1.Font.Style;
+  Move(FS, gFontWeight, 1);
+
   gEditorFontName:=cbEditorFont.Text;
   gViewerFontName:=cbViewerFont.Text;
   
@@ -576,13 +578,15 @@ begin
 end;
 
 procedure TfrmOptions.FillFontLists;
+var
+  FS : TFontStyles;
 begin
   cbMainFont.Text := gFontName;
   cbViewerFont.Text := gViewerFontName;
   cbEditorFont.Text := gEditorFontName;
 
-  if gFontWeight = 700 then
-    EdtTest1.Font.Style := [fsBold];
+  Move(gFontWeight, FS, 1);
+  EdtTest1.Font.Style := FS;
     
   edtEditorSize.Value:=gEditorSize;
   edtViewerSize.Value:=gViewerSize;
@@ -827,9 +831,9 @@ begin
   begin
     WFXmodule := TWFXmodule.Create;
     if WFXmodule.LoadModule(odOpenDialog.FileName)then
-      sPluginName := PChar(Pointer(WFXmodule.VFSCaps)) + '=' + odOpenDialog.FileName
+      sPluginName := PChar(Pointer(WFXmodule.VFSCaps)) + '=' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
     else
-      sPluginName := ExtractFileName(odOpenDialog.FileName) +'=' + odOpenDialog.FileName;
+      sPluginName := ExtractFileName(odOpenDialog.FileName) +'=' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
 
   clbWFXList.Items.Add(sPluginName);
   WFXModule.UnloadModule;

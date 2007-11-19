@@ -1,7 +1,7 @@
 object frmOptions: TfrmOptions
   Left = 289
   Height = 409
-  Top = 110
+  Top = 131
   Width = 577
   HorzScrollBar.Page = 576
   VertScrollBar.Page = 408
@@ -133,8 +133,6 @@ object frmOptions: TfrmOptions
       end
       object pgBehav: TPage
         Caption = 'pgBehav'
-        ClientWidth = 446
-        ClientHeight = 315
         object lblTerm: TLabel
           Left = 8
           Height = 14
@@ -495,7 +493,7 @@ object frmOptions: TfrmOptions
       object pgColor: TPage
         Caption = 'pgColor'
         object cTextLabel: TLabel
-          Left = 25
+          Left = 6
           Height = 14
           Top = 34
           Width = 55
@@ -503,7 +501,7 @@ object frmOptions: TfrmOptions
           ParentColor = False
         end
         object cBackGrndLabel: TLabel
-          Left = 25
+          Left = 6
           Height = 14
           Top = 64
           Width = 62
@@ -511,7 +509,7 @@ object frmOptions: TfrmOptions
           ParentColor = False
         end
         object lblBackground2: TLabel
-          Left = 25
+          Left = 6
           Height = 14
           Top = 94
           Width = 70
@@ -519,7 +517,7 @@ object frmOptions: TfrmOptions
           ParentColor = False
         end
         object lblMarkColor: TLabel
-          Left = 25
+          Left = 6
           Height = 14
           Top = 124
           Width = 56
@@ -527,7 +525,7 @@ object frmOptions: TfrmOptions
           ParentColor = False
         end
         object lblCursorColor: TLabel
-          Left = 25
+          Left = 6
           Height = 14
           Top = 154
           Width = 65
@@ -535,7 +533,7 @@ object frmOptions: TfrmOptions
           ParentColor = False
         end
         object lblCursorText: TLabel
-          Left = 25
+          Left = 6
           Height = 14
           Top = 184
           Width = 62
@@ -1004,43 +1002,42 @@ object frmOptions: TfrmOptions
               Top = 30
               Width = 424
               TabOrder = 0
-              TopIndex = -1
             end
             object bbtnWFXAdd: TBitBtn
-              Left = 94
+              Left = 6
               Height = 32
               Top = 198
-              Width = 75
+              Width = 90
               Caption = 'Add'
               NumGlyphs = 0
               OnClick = bbtnWFXAddClick
               TabOrder = 1
             end
             object bbtnWFXDelete: TBitBtn
-              Left = 182
+              Left = 118
               Height = 32
               Top = 198
-              Width = 75
+              Width = 90
               Caption = 'Delete'
               NumGlyphs = 0
               OnClick = bbtnWFXDeleteClick
               TabOrder = 2
             end
             object bbtnWFXRename: TBitBtn
-              Left = 270
+              Left = 230
               Height = 32
               Top = 198
-              Width = 75
+              Width = 90
               Caption = 'Rename'
               NumGlyphs = 0
               OnClick = bbtnWFXRenameClick
               TabOrder = 3
             end
             object bbtnWFXApply: TBitBtn
-              Left = 355
+              Left = 340
               Height = 32
               Top = 198
-              Width = 75
+              Width = 90
               Caption = 'Apply'
               NumGlyphs = 0
               OnClick = bbtnWFXApplyClick

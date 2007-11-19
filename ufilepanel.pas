@@ -511,7 +511,7 @@ begin
         fSizeInDir:=Cardinal(fSizeInDir)+iSize
       else
         if iDirSize<>0 then
-          fSizeSelected:=Cardinal(fSizeSelected)+iDirSize;
+          fSizeInDir:=Cardinal(fSizeInDir)+iDirSize;
     end;
   end;
 end;

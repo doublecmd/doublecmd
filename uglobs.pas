@@ -79,7 +79,7 @@ var
 
   gFontName:String;
   gFontSize:Integer;
-  gFontWeight : Integer;
+  gFontWeight : Byte;
   gEditorFontName:String;
   gEditorSize:Integer;
   gViewerFontName:String;
@@ -250,7 +250,7 @@ begin
   gRunTerm := gIni.ReadString('Configuration', 'RunTerm', gRunTerm);
 
   gFontName:=gIni.ReadString('Configuration', 'FontName', '');
-  gFontWeight := gIni.ReadInteger('Configuration', 'FontWeight', 700);
+  gFontWeight := gIni.ReadInteger('Configuration', 'FontWeight', 1);
   writeln('gFontName:',gFontName);
   gEditorFontName:=gIni.ReadString('Configuration', 'FontEditorName', '');
   writeln('gEditorFontName:',gEditorFontName);

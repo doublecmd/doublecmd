@@ -62,7 +62,7 @@ type
 implementation
 
 uses
-  SysUtils, uGlobsPaths, uFindEx, uOSUtils, LCLProc;
+  SysUtils, uGlobsPaths, uFindEx, uDCUtils, uOSUtils, LCLProc;
 
 { TVFS }
 
@@ -141,7 +141,7 @@ begin
   if tmp <> '' then
     begin
       Index := Pos(',', tmp) + 1;
-      FCurrentPlugin := Copy(tmp, Index, Length(tmp));
+      FCurrentPlugin := GetCmdDirFromEnvVar(Copy(tmp, Index, Length(tmp)));
 
       //DebugLN('FCurrentPlugin = ', FCurrentPlugin);
 
@@ -158,7 +158,7 @@ begin
   else    // WFX Support
     if FWFXPlugins.IndexOfName(sFileName) >=0 then
       begin
-        FCurrentPlugin := FWFXPlugins.Values[sFileName];
+        FCurrentPlugin := GetCmdDirFromEnvVar(FWFXPlugins.Values[sFileName]);
 
         FVFSType := vtWFX;
         Result := True;
