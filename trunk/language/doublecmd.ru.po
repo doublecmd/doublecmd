@@ -72,15 +72,15 @@ msgstr "Файл"
 
 #: ulng.rspropsspchrdev
 msgid "Special character device"
-msgstr ""
+msgstr "Особое символьное устройство"
 
 #: ulng.rspropsspblkdev
 msgid "Special block device"
-msgstr ""
+msgstr "Особое блочное устройство"
 
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"
-msgstr ""
+msgstr "Именованый канал"
 
 #: ulng.rspropssymlink
 msgid "Symbolic link"
@@ -376,7 +376,7 @@ msgstr ""
 
 #: TFRMFILEPROPERTIES.CBSTICKY.CAPTION
 msgid "Sticky"
-msgstr ""
+msgstr "Закрепляющий бит"
 
 #: TFRMFILEPROPERTIES.BTNALL.CAPTION
 msgid "&All"
