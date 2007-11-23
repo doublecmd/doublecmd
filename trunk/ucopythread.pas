@@ -159,7 +159,7 @@ begin
   dst:=nil; // for safety exception handling
   try
     try
-      src:=TFileStream.Create(sSrc,fmOpenRead);
+      src:=TFileStream.Create(sSrc,fmOpenRead or fmShareDenyNone);
       writeln(sDst);
       if bAppend then
       begin

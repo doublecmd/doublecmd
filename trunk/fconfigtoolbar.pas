@@ -9,26 +9,27 @@ Author   : Alexander Koblov (Alexx2000@mail.ru)
 contributors:
 }
 
-unit fconfigtoolbar;
+unit fConfigToolBar;
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons, KASToolBar, KASEdit;
+  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons, KASToolBar, KASEdit,
+  ExtCtrls;
 
 type
 
-  { TfrmButtonChangeDlg }
+  { TfrmConfigToolBar }
 
-  TfrmButtonChangeDlg = class(TForm)
+  TfrmConfigToolBar = class(TForm)
     lblButtonBar: TLabel;
-    btnCancel: TButton;
     lblCommand: TLabel;
+    btnCancel: TButton;
     gbGroupBox: TGroupBox;
-    lblIconX: TLabel;
-    lblIconfile: TLabel;
+    lblIcon: TLabel;
+    lblIconFile: TLabel;
     btnAddButton: TButton;
     ktbBar: TKASToolBar;
     btnOpenBarFile: TButton;
@@ -37,10 +38,8 @@ type
     btnDeleteButton: TButton;
     btnOpenFile: TButton;
     btnAddSubBar: TButton;
-    lbIcons: TListBox;
     btnOpenIconFile: TButton;
     kedtIconFileName: TKASEdit;
-    lblIconIndex: TLabel;
     kedtParams: TKASEdit;
     kedtStartPath: TKASEdit;
     kedtToolTip: TKASEdit;
@@ -51,10 +50,14 @@ type
     btnOK: TButton;
     OpenDialog: TOpenDialog;
     lblParameters: TLabel;
+    sbIconExample: TSpeedButton;
+    stToolBarFileName: TStaticText;
     tbScrollBox: TScrollBox;
     lblSize: TLabel;
-    lblStartpath: TLabel;
-    lblTooltip: TLabel;
+    lblStartPath: TLabel;
+    lblToolTip: TLabel;
+    procedure btnOpenBarFileClick(Sender: TObject);
+    procedure cbCommandSelect(Sender: TObject);
     procedure cbFlatIconsChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
@@ -66,62 +69,102 @@ type
     procedure btnOpenIconFileClick(Sender: TObject);
   private
     { private declarations }
+    procedure FillActionLists;
   public
     { public declarations }
   end; 
 
-  procedure ShowConfigToolbar;
+  procedure ShowConfigToolbar(iButtonIndex : Integer = -1);
 
 var
-  frmButtonChangeDlg: TfrmButtonChangeDlg;
   LastToolButton, NewToolButton : Integer;
 
 implementation
-uses fMain, uGlobsPaths, uGlobs;
+uses ActnList, LCLProc, fMain, uOSForms, uPixMapManager, uGlobsPaths, uGlobs;
 
-procedure ShowConfigToolbar;
+procedure ShowConfigToolbar(iButtonIndex : Integer = -1);
 begin
-    with TfrmButtonChangeDlg.Create(Application) do
+  with TfrmConfigToolBar.Create(Application) do
   try
     LastToolButton := -1;
     NewToolButton := -1;
     ktbBar.InitBounds;
+    ktbBar.Tag := iButtonIndex; // Selected button index
     ShowModal;
   finally
     Free;
   end;
 end;
 
-{ TfrmButtonChangeDlg }
+{ TfrmConfigToolBar }
 
-procedure TfrmButtonChangeDlg.FormShow(Sender: TObject);
+procedure TfrmConfigToolBar.FillActionLists;
+var
+  vNum: integer;
+  vActions: TAction;
 begin
+  for vNum := 0 to frmMain.actionLst.ActionCount -1 do
+  begin
+    vActions := frmMain.actionLst.Actions[vNum] as TAction;
+    cbCommand.Items.AddObject(vActions.Name, vActions);
+  end;
+end;
+
+procedure TfrmConfigToolBar.FormShow(Sender: TObject);
+begin
+  FillActionLists;
   cbFlatIcons.Checked := gToolBarFlat;
+  sbIconExample.Flat:= gToolBarFlat;
   ktbBar.FlatButtons := gToolBarFlat;
   ktbBar.ChangePath := gpExePath;
   ktbBar.EnvVar := '%commander_path%';
   ktbBar.LoadFromFile(gpIniDir + 'default.bar');
+  stToolBarFileName.Caption := gpIniDir + 'default.bar';
+  if ktbBar.Tag >= 0 then
+    begin
+      ktbBar.Buttons[ktbBar.Tag].Click;
+      ktbBar.Buttons[ktbBar.Tag].Down := True;
+    end;
 end;
 
-procedure TfrmButtonChangeDlg.cbFlatIconsChange(Sender: TObject);
+procedure TfrmConfigToolBar.cbFlatIconsChange(Sender: TObject);
 begin
   ktbBar.FlatButtons := cbFlatIcons.Checked;
+  sbIconExample.Flat := cbFlatIcons.Checked;
 end;
 
-procedure TfrmButtonChangeDlg.btnOKClick(Sender: TObject);
+procedure TfrmConfigToolBar.btnOpenBarFileClick(Sender: TObject);
+begin
+  OpenDialog.FileName := stToolBarFileName.Caption;
+  OpenDialog.Filter:= '*.bar|*.bar';
+  if OpenDialog.Execute then
+    begin
+      ktbBar.LoadFromFile(OpenDialog.FileName);
+      stToolBarFileName.Caption := OpenDialog.FileName;
+    end;
+end;
+
+procedure TfrmConfigToolBar.cbCommandSelect(Sender: TObject);
+var
+  vActions: TAction;
+begin
+   vActions := cbCommand.Items.Objects[cbCommand.ItemIndex] as TAction;
+   kedtToolTip.Text := StringReplace(vActions.Caption, '&', '', [rfReplaceAll]);
+end;
+
+procedure TfrmConfigToolBar.btnOKClick(Sender: TObject);
 begin
   Save;
   gToolBarFlat := cbFlatIcons.Checked;
   ktbBar.SaveToFile(gpIniDir + 'default.bar');
   frmMain.MainToolBar.DeleteAllToolButtons;
   frmMain.MainToolBar.FlatButtons := gToolBarFlat;
-  //frmMain.MainToolBar.CreateWnd;
   frmMain.MainToolBar.LoadFromFile(gpIniDir + 'default.bar');
   Close;
 end;
 
 (*Add new button on tool bar*)
-procedure TfrmButtonChangeDlg.btnAddButtonClick(Sender: TObject);
+procedure TfrmConfigToolBar.btnAddButtonClick(Sender: TObject);
 begin
   Save;
   NewToolButton := ktbBar.AddButton('', '', '', '');
@@ -129,17 +172,18 @@ begin
 end;
 
 (*Select button on panel*)
-procedure TfrmButtonChangeDlg.ktbBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
+procedure TfrmConfigToolBar.ktbBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
 begin
  Save;
  cbCommand.Text := ktbBar.Commands[NumberOfButton];
  kedtIconFileName.Text := ktbBar.Icons[NumberOfButton];
  kedtToolTip.Text := ktbBar.Buttons[NumberOfButton].Hint;
+ sbIconExample.Glyph := ktbBar.Buttons[NumberOfButton].Glyph;
  LastToolButton := NumberOfButton;
 end;
 
 (*Save current button*)
-procedure TfrmButtonChangeDlg.Save;
+procedure TfrmConfigToolBar.Save;
 begin
    if (LastToolButton >= 0) and (ktbBar.ButtonCount > 0) then
       begin
@@ -158,7 +202,7 @@ begin
 end;
 
 (*Remove current button*)
-procedure TfrmButtonChangeDlg.btnDeleteButtonClick(Sender: TObject);
+procedure TfrmConfigToolBar.btnDeleteButtonClick(Sender: TObject);
 begin
    if (LastToolButton >= 0) and (ktbBar.ButtonCount > 0) then
       begin
@@ -171,18 +215,23 @@ begin
       end;
 end;
 
-procedure TfrmButtonChangeDlg.btnOpenFileClick(Sender: TObject);
+procedure TfrmConfigToolBar.btnOpenFileClick(Sender: TObject);
 begin
+  OpenDialog.Filter:= '';
   if OpenDialog.Execute then
      cbCommand.Text := OpenDialog.FileName;
 end;
 
-procedure TfrmButtonChangeDlg.btnOpenIconFileClick(Sender: TObject);
+procedure TfrmConfigToolBar.btnOpenIconFileClick(Sender: TObject);
 var
-  sDir: string;
+  sFileName: String;
 begin
-  if OpenDialog.Execute then
-     kedtIconFileName.Text := OpenDialog.FileName;
+  sFileName := kedtIconFileName.Text;
+  if ShowOpenIconDialog(Self, sFileName) then
+    begin
+      kedtIconFileName.Text := sFileName;
+      sbIconExample.Glyph := LoadBitmapFromFile(kedtIconFileName.Text, 32, Color);
+    end;
 end;
 
 initialization

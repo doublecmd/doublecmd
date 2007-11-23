@@ -79,6 +79,10 @@ type
     Function GetIconByFile(fi:PFileRecItem; PanelMode: TPanelMode):Integer;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
   end;
+
+function StretchBitmap(bmBitmap : Graphics.TBitmap; iIconSize : Integer;
+                       clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
+function LoadBitmapFromFile(sFileName : String; iIconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
   
 var
   PixMapManager:TPixMapManager = nil;
@@ -88,10 +92,9 @@ procedure LoadPixMapManager;
 
 implementation
 uses
-  uGlobsPaths, uWCXhead, uGlobs{$IFDEF WIN32}, ShellAPI, Windows, uIcoFiles{$ENDIF};
-{ TPixMapManager }
+  FileUtil, uGlobsPaths, uWCXhead, uGlobs{$IFDEF MSWINDOWS}, ShellAPI, Windows, uIcoFiles{$ENDIF};
 
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
 function GetRGBColor(Value: TColor): DWORD;
 begin
   Result := ColorToRGB(Value);
@@ -101,6 +104,121 @@ begin
   end;
 end;
 {$ENDIF}
+
+function StretchBitmap(bmBitmap : Graphics.TBitmap; iIconSize : Integer;
+                       clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
+var
+  bmStretchBitmap : Graphics.TBitMap;
+  memstream: TMemoryStream;
+begin
+  bmStretchBitmap:= Graphics.TBitMap.Create;
+    with bmStretchBitmap do
+      begin
+        Width := iIconSize;
+        Height := iIconSize;
+
+        Canvas.Brush.Color := clBackColor;
+        Canvas.FillRect(Canvas.ClipRect);
+        Canvas.StretchDraw(Canvas.ClipRect, bmBitmap);
+        { For drawing color transparent bitmaps }
+        memstream := TMemoryStream.Create;
+        try
+          SaveToStream(memstream);
+          memstream.position := 0;
+          LoadFromStream(memstream);
+        finally
+          memstream.free;
+        end;
+        Transparent := True;
+        TransparentColor := clBackColor;
+        if bFreeAtEnd then bmBitmap.Free;
+        Result := bmStretchBitmap;
+      end; //  with
+end;
+
+function LoadBitmapFromFile(sFileName : String; iIconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
+var
+{$IFDEF MSWINDOWS}
+  iPos,
+  iIconIndex : Integer;
+  phicon,
+  phiconLarge,
+  phiconSmall : HIcon;
+{$ENDIF}
+  bmStandartBitmap : Graphics.TBitMap;
+  PNG : TPortableNetworkGraphic;
+begin
+{$IFDEF MSWINDOWS}
+  iIconIndex := -1;
+  iPos :=Pos(',', sFileName);
+  if iPos <> 0 then
+    begin
+      iIconIndex := StrToIntDef(Copy(sFileName, iPos + 1, Length(sFileName) - iPos), 0);
+      sFileName := Copy(sFileName, 1, iPos - 1);
+    end;
+
+  if FileIsExeLib(sFileName) then
+    begin
+      if iIconIndex < 0 then iIconIndex := 0;
+      ExtractIconEx(PChar(sFileName), iIconIndex, phiconLarge, phiconSmall, 1);
+      case iIconSize of
+        16:  // Small icon
+          Result := CreateIconFromHandle(phiconSmall);
+        32:  // Large icon
+          Result := CreateIconFromHandle(phiconLarge);
+        else
+          begin
+            { Convert TIcon to TBitMap  }
+            bmStandartBitmap := Graphics.TBitMap.Create;
+            if iIconSize > 16 then  // Large icon
+              begin
+                bmStandartBitmap.Width := GetSystemMetrics(SM_CXICON);
+                bmStandartBitmap.Height := GetSystemMetrics(SM_CYICON);
+                phicon := phiconLarge;
+              end
+            else  // Small icon
+              begin
+                bmStandartBitmap.Width := GetSystemMetrics(SM_CXSMICON);
+                bmStandartBitmap.Height := GetSystemMetrics(SM_CYSMICON);
+                phicon := phiconSmall;
+              end;
+
+            bmStandartBitmap.Canvas.Brush.Color := clBackColor;
+            bmStandartBitmap.Canvas.FillRect(bmStandartBitmap.Canvas.ClipRect);
+            Windows.DrawIcon(bmStandartBitmap.Canvas.Handle, 0, 0, phicon);
+            Result := StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, True);
+        end;  // non standart size
+      end;  // case
+    end  // IsExecutable
+  else
+{$ENDIF}
+    begin
+      if FileExists(sFileName) then
+        begin
+          if CompareFileExt(sFileName, 'png', false) = 0 then
+            begin
+              PNG := TPortableNetworkGraphic.Create;
+              PNG.LoadFromFile(sFileName);
+              bmStandartBitmap := Graphics.TBitMap(PNG);
+            end
+          else
+            begin
+              bmStandartBitmap := Graphics.TBitMap.Create;
+              bmStandartBitmap.LoadFromFile(sFileName);
+            end;
+
+          // if need stretch icon
+          if  (iIconSize <> bmStandartBitmap.Height) or (iIconSize <> bmStandartBitmap.Width) then
+            Result := StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, True)
+          else
+            Result := bmStandartBitmap;
+        end  // FileExists
+      else
+        Result := nil;  // file not found
+    end;  // IsExecutable else
+end;
+
+{ TPixMapManager }
 
 function TPixMapManager.CheckLoadPixmap(const sName: String): Graphics.TBitmap;
 var
@@ -477,8 +595,6 @@ end;
 function TPixMapManager.GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
 var
   DriveIcons : PDriveIcons;
-  StretchIcon : Graphics.TBitmap;
-  memstream: TMemoryStream;
 {$IFDEF MSWINDOWS}
   SFI: TSHFileInfo;
 {$ENDIF}
@@ -508,29 +624,7 @@ begin
           Result.Canvas.FillRect(Result.Canvas.ClipRect);
           Windows.DrawIcon(Result.Canvas.Handle,0,0,SFI.hIcon);
 
-          StretchIcon:= Graphics.TBitMap.Create;
-          with StretchIcon do
-          begin
-            Width := IconSize;
-            Height := IconSize;
-
-            Canvas.Brush.Color := clBackColor;
-            Canvas.FillRect(Canvas.ClipRect);
-            Canvas.StretchDraw(Canvas.ClipRect, Result);
-            { For drawing color transparent bitmaps }
-            memstream := TMemoryStream.Create;
-            try
-              SaveToStream(memstream);
-              memstream.position := 0;
-              LoadFromStream(memstream);
-            finally
-              memstream.free;
-            end;
-            Transparent := True;
-            TransparentColor := clBackColor;
-            Result.Free;
-            Result := StretchIcon;
-          end; //  with
+          Result := StretchBitmap(Result, IconSize, clBackColor, True);
         end;
       end;  //  case
     end // not gCustomDriveIcons
@@ -562,28 +656,7 @@ begin
       //  if need stretch icon
       if (IconSize <> 16) and (IconSize <> 22) and (IconSize <> 32) then
         begin
-          StretchIcon:= Graphics.TBitMap.Create;
-          with StretchIcon do
-          begin
-            Width := IconSize;
-            Height := IconSize;
-
-            Canvas.Brush.Color := clBackColor;
-            Canvas.FillRect(Canvas.ClipRect);
-            Canvas.StretchDraw(Canvas.ClipRect, Result);
-            { For drawing color transparent bitmaps }
-            memstream := TMemoryStream.Create;
-            try
-              SaveToStream(memstream);
-              memstream.position := 0;
-              LoadFromStream(memstream);
-            finally
-              memstream.free;
-            end;
-            Transparent := True;
-            TransparentColor := clBackColor;
-            Result := StretchIcon;
-            end; //  with
+          Result := StretchBitmap(Result, IconSize, clBackColor);
         end;
     end;  //
 end;

@@ -1,16 +1,16 @@
-object frmButtonChangeDlg: TfrmButtonChangeDlg
-  Left = 252
-  Height = 304
-  Top = 537
+object frmConfigToolBar: TfrmConfigToolBar
+  Left = 276
+  Height = 272
+  Top = 256
   Width = 578
   HelpContext = 270
   HorzScrollBar.Page = 577
-  VertScrollBar.Page = 303
+  VertScrollBar.Page = 271
   ActiveControl = btnOpenBarFile
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Change button bar'
-  ClientHeight = 304
+  ClientHeight = 272
   ClientWidth = 578
   Font.Color = clBtnText
   Font.Height = -11
@@ -20,139 +20,149 @@ object frmButtonChangeDlg: TfrmButtonChangeDlg
   object lblButtonBar: TLabel
     Left = 6
     Height = 13
-    Top = 5
+    Top = 4
     Width = 75
     AutoSize = False
     Caption = '&Button bar:'
     ParentColor = False
   end
-  object lblLabel: TLabel
-    Left = -5
-    Height = 2
-    Top = 80
-    Width = 562
-    AutoSize = False
-    Color = clWindowFrame
-    ParentColor = False
-    Transparent = False
-  end
   object lblCommand: TLabel
     Left = 4
-    Height = 13
-    Top = 87
-    Width = 81
-    AutoSize = False
+    Height = 14
+    Top = 98
+    Width = 52
     Caption = '&Command:'
     FocusControl = cbCommand
     ParentColor = False
   end
+  object lblLabel: TLabel
+    AnchorSideTop.Control = tbScrollBox
+    AnchorSideTop.Side = asrBottom
+    Left = -5
+    Height = 2
+    Top = 83
+    Width = 590
+    AutoSize = False
+    BorderSpacing.Top = 8
+    Color = clWindowFrame
+    ParentColor = False
+    Transparent = False
+  end
   object lblParameters: TLabel
     Left = 4
-    Height = 13
-    Top = 115
-    Width = 108
-    AutoSize = False
+    Height = 14
+    Top = 120
+    Width = 60
     Caption = '&Parameters:'
     FocusControl = kedtParams
     ParentColor = False
   end
-  object lblStartpath: TLabel
+  object lblStartPath: TLabel
     Left = 4
-    Height = 13
-    Top = 140
-    Width = 81
-    AutoSize = False
+    Height = 14
+    Top = 147
+    Width = 54
     Caption = '&Start path:'
     FocusControl = kedtStartPath
     ParentColor = False
   end
-  object lblIconfile: TLabel
+  object lblIconFile: TLabel
     Left = 4
-    Height = 13
-    Top = 165
-    Width = 81
-    AutoSize = False
+    Height = 14
+    Top = 171
+    Width = 43
     Caption = 'Icon &file:'
     FocusControl = kedtIconFileName
     ParentColor = False
   end
-  object lblIconX: TLabel
+  object lblIcon: TLabel
     Left = 4
-    Height = 13
-    Top = 190
-    Width = 49
-    AutoSize = False
+    Height = 14
+    Top = 197
+    Width = 26
     Caption = 'Ic&on:'
-    FocusControl = lbIcons
     ParentColor = False
     WordWrap = True
   end
-  object lblIconIndex: TLabel
-    Left = 54
-    Height = 14
-    Top = 190
-    Width = 25
-    AutoSize = False
-    Caption = '0'
-    ParentColor = False
-    WordWrap = True
-  end
-  object lblTooltip: TLabel
+  object lblToolTip: TLabel
     Left = 4
     Height = 14
-    Top = 248
-    Width = 81
-    AutoSize = False
+    Top = 238
+    Width = 37
     Caption = '&Tooltip:'
     FocusControl = kedtToolTip
     ParentColor = False
   end
+  object sbIconExample: TSpeedButton
+    AnchorSideTop.Control = kedtIconFileName
+    AnchorSideTop.Side = asrBottom
+    Left = 120
+    Height = 38
+    Top = 194
+    Width = 38
+    BorderSpacing.Top = 6
+    Color = clBtnFace
+    NumGlyphs = 0
+  end
   object btnOpenBarFile: TButton
-    Left = 427
+    AnchorSideLeft.Control = stToolBarFileName
+    AnchorSideLeft.Side = asrBottom
+    Left = 425
     Height = 21
     Top = 2
     Width = 26
     BorderSpacing.InnerBorder = 4
     Caption = '>>'
+    OnClick = btnOpenBarFileClick
     TabOrder = 0
   end
   object btnDeleteButton: TButton
+    AnchorSideTop.Control = btnAddButton
+    AnchorSideTop.Side = asrBottom
     Left = 4
     Height = 23
     Top = 52
     Width = 77
+    BorderSpacing.Top = 6
     BorderSpacing.InnerBorder = 4
     Caption = '&Delete'
     OnClick = btnDeleteButtonClick
     TabOrder = 2
   end
   object btnAddButton: TButton
+    AnchorSideTop.Control = lblButtonBar
+    AnchorSideTop.Side = asrBottom
     Left = 4
     Height = 23
-    Top = 25
+    Top = 23
     Width = 77
+    BorderSpacing.Top = 6
     BorderSpacing.InnerBorder = 4
     Caption = '&Append'
     OnClick = btnAddButtonClick
     TabOrder = 1
   end
   object cbCommand: TComboBox
+    AnchorSideTop.Control = lblLabel
+    AnchorSideTop.Side = asrBottom
     Left = 120
     Height = 21
-    Top = 86
+    Top = 91
     Width = 298
     AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+    BorderSpacing.Top = 6
     DropDownCount = 20
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
     ItemHeight = 13
     MaxLength = 0
+    OnSelect = cbCommandSelect
     TabOrder = 4
   end
   object btnOpenFile: TButton
     Left = 419
-    Height = 22
-    Top = 85
+    Height = 21
+    Top = 91
     Width = 24
     BorderSpacing.InnerBorder = 4
     Caption = '>>'
@@ -160,10 +170,15 @@ object frmButtonChangeDlg: TfrmButtonChangeDlg
     TabOrder = 5
   end
   object btnAddSubBar: TButton
-    Left = 420
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = lblLabel
+    AnchorSideTop.Side = asrBottom
+    Left = 455
     Height = 23
-    Top = 84
-    Width = 132
+    Top = 91
+    Width = 109
+    BorderSpacing.Top = 6
+    BorderSpacing.Bottom = 21
     BorderSpacing.InnerBorder = 4
     Caption = 'Add S&ubbar >>'
     TabOrder = 6
@@ -173,7 +188,7 @@ object frmButtonChangeDlg: TfrmButtonChangeDlg
     AnchorSideTop.Side = asrBottom
     Left = 120
     Height = 21
-    Top = 113
+    Top = 118
     Width = 298
     BorderSpacing.Top = 6
     Font.Height = -11
@@ -182,92 +197,92 @@ object frmButtonChangeDlg: TfrmButtonChangeDlg
     TabOrder = 7
   end
   object kedtStartPath: TKASEdit
+    AnchorSideTop.Control = lblParameters
+    AnchorSideTop.Side = asrBottom
     Left = 120
     Height = 21
-    Top = 136
+    Top = 140
     Width = 298
+    BorderSpacing.Top = 6
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
     MaxLength = 259
     TabOrder = 8
   end
   object kedtIconFileName: TKASEdit
+    AnchorSideTop.Control = lblStartPath
+    AnchorSideTop.Side = asrBottom
     Left = 120
     Height = 21
-    Top = 161
+    Top = 167
     Width = 298
+    BorderSpacing.Top = 6
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
     MaxLength = 259
     TabOrder = 9
   end
   object btnOpenIconFile: TButton
-    Left = 419
+    AnchorSideLeft.Control = kedtIconFileName
+    AnchorSideLeft.Side = asrBottom
+    Left = 418
     Height = 21
-    Top = 160
+    Top = 167
     Width = 26
     BorderSpacing.InnerBorder = 4
     Caption = '>>'
     OnClick = btnOpenIconFileClick
     TabOrder = 10
   end
-  object lbIcons: TListBox
-    Left = 120
-    Height = 54
-    Top = 186
-    Width = 298
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    ItemHeight = 36
-    Style = lbOwnerDrawFixed
-    TabOrder = 11
-  end
   object kedtToolTip: TKASEdit
+    AnchorSideTop.Control = sbIconExample
+    AnchorSideTop.Side = asrBottom
     Left = 120
     Height = 21
-    Top = 245
+    Top = 238
     Width = 298
+    BorderSpacing.Top = 6
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
     MaxLength = 259
-    TabOrder = 12
+    TabOrder = 11
   end
   object btnOK: TButton
     Left = 455
     Height = 32
-    Top = 186
+    Top = 161
     Width = 109
     BorderSpacing.InnerBorder = 4
     Caption = 'OK'
     Default = True
     OnClick = btnOKClick
-    TabOrder = 13
+    TabOrder = 12
   end
   object btnCancel: TButton
     AnchorSideTop.Control = btnOK
     AnchorSideTop.Side = asrBottom
     Left = 455
     Height = 32
-    Top = 222
+    Top = 197
     Width = 109
     BorderSpacing.Top = 4
     BorderSpacing.InnerBorder = 4
     Cancel = True
     Caption = 'Cancel'
     ModalResult = 2
-    TabOrder = 15
+    TabOrder = 14
   end
   object btnHelp: TButton
     AnchorSideTop.Control = btnCancel
     AnchorSideTop.Side = asrBottom
     Left = 455
     Height = 32
-    Top = 258
+    Top = 233
     Width = 109
     BorderSpacing.Top = 4
     BorderSpacing.InnerBorder = 4
     Caption = '&Help'
-    TabOrder = 14
+    TabOrder = 13
   end
   object gbGroupBox: TGroupBox
     Left = 455
@@ -290,10 +305,10 @@ object frmButtonChangeDlg: TfrmButtonChangeDlg
       Left = 62
       Height = 21
       Width = 43
+      Enabled = False
       Font.Height = -11
       Font.Name = 'MS Sans Serif'
       TabOrder = 0
-      Text = '0'
     end
     object cbFlatIcons: TCheckBox
       AnchorSideTop.Control = lblSize
@@ -318,16 +333,20 @@ object frmButtonChangeDlg: TfrmButtonChangeDlg
       Width = 79
       BorderSpacing.Top = 4
       Caption = 'S&mall icons'
+      Enabled = False
       TabOrder = 2
     end
   end
   object tbScrollBox: TScrollBox
-    Left = 121
+    AnchorSideTop.Control = stToolBarFileName
+    AnchorSideTop.Side = asrBottom
+    Left = 120
     Height = 50
     Top = 25
     Width = 330
     AutoScroll = True
-    TabOrder = 16
+    BorderSpacing.Top = 2
+    TabOrder = 15
     object ktbBar: TKAStoolBar
       Left = 1
       Height = 23
@@ -338,10 +357,17 @@ object frmButtonChangeDlg: TfrmButtonChangeDlg
       CheckToolButton = True
     end
   end
+  object stToolBarFileName: TStaticText
+    Left = 120
+    Height = 21
+    Top = 2
+    Width = 305
+    BorderStyle = sbsSunken
+  end
   object OpenDialog: TOpenDialog
     Title = 'Открыть существующий файл'
     FilterIndex = 0
-    left = 8
-    top = 277
+    left = 496
+    top = 120
   end
 end

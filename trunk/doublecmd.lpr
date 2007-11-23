@@ -54,7 +54,7 @@ uses
   fCompareFiles,
   dmHigh,
   uPixMapManager, uVFS,
-  KASComp, fbtnchangedlg, fconfigtoolbar, uWCXprototypes, uDCUtils,
+  KASComp, fconfigtoolbar, uWCXprototypes, uDCUtils,
   dmDialogs, fViewer, fOptions, fCopyDlg, fMoveDlg, fFindDlg,
   fSymLink, fMultiRename, fSplitter, fPackDlg, fExtractDlg;
   
