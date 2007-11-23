@@ -1594,79 +1594,63 @@ msgstr "Показать контекстное меню"
 msgid "Edit"
 msgstr "Редактировать"
 
-#: TFRMBUTTONCHANGEDLG.CAPTION
+#: TFRMCONFIGTOOLBAR.CAPTION
 msgid "Change button bar"
 msgstr "Настройка панели инструментов"
 
-#: TFRMBUTTONCHANGEDLG.LBLBUTTONBAR.CAPTION
+#: TFRMCONFIGTOOLBAR.LBLBUTTONBAR.CAPTION
 msgid "&Button bar:"
 msgstr "Панель:"
 
-#: TFRMBUTTONCHANGEDLG.LBLCOMMAND.CAPTION
+#: TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION
 msgid "&Command:"
 msgstr "&Команда:"
 
-#: TFRMBUTTONCHANGEDLG.LBLPARAMETERS.CAPTION
+#: TFRMCONFIGTOOLBAR.LBLPARAMETERS.CAPTION
 msgid "&Parameters:"
 msgstr "Параметры:"
 
-#: TFRMBUTTONCHANGEDLG.LBLSTARTPATH.CAPTION
+#: TFRMCONFIGTOOLBAR.LBLSTARTPATH.CAPTION
 msgid "&Start path:"
 msgstr "Путь запуска:"
 
-#: TFRMBUTTONCHANGEDLG.LBLICONFILE.CAPTION
+#: TFRMCONFIGTOOLBAR.LBLICONFILE.CAPTION
 msgid "Icon &file:"
-msgstr "&Файл значка"
+msgstr "&Файл значка:"
 
-#: TFRMBUTTONCHANGEDLG.LBLICONX.CAPTION
+#: TFRMCONFIGTOOLBAR.LBLICON.CAPTION
 msgid "Ic&on:"
-msgstr "Зна&чок"
+msgstr "Зна&чок:"
 
-#: TFRMBUTTONCHANGEDLG.LBLICONINDEX.CAPTION
-msgid "0"
-msgstr ""
-
-#: TFRMBUTTONCHANGEDLG.LBLTOOLTIP.CAPTION
+#: TFRMCONFIGTOOLBAR.LBLTOOLTIP.CAPTION
 msgid "&Tooltip:"
-msgstr "Подсказка"
+msgstr "Подсказка:"
 
-#: TFRMBUTTONCHANGEDLG.BTNDELETEBUTTON.CAPTION
+#: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
 msgid "&Delete"
 msgstr "Удалить"
 
-#: TFRMBUTTONCHANGEDLG.BTNADDBUTTON.CAPTION
+#: TFRMCONFIGTOOLBAR.BTNADDBUTTON.CAPTION
 msgid "&Append"
 msgstr "Добавить"
 
-#: TFRMBUTTONCHANGEDLG.BTNADDSUBBAR.CAPTION
-msgid "Add Subbar >>"
+#: TFRMCONFIGTOOLBAR.BTNADDSUBBAR.CAPTION
+msgid "Add S&ubbar >>"
 msgstr "Добавить панель..."
 
-#: TFRMBUTTONCHANGEDLG.GBGROUPBOX.CAPTION
+#: TFRMCONFIGTOOLBAR.GBGROUPBOX.CAPTION
 msgid "Appearance"
 msgstr "Вид кнопок"
 
-#: TFRMBUTTONCHANGEDLG.LBLSIZE.CAPTION
+#: TFRMCONFIGTOOLBAR.LBLSIZE.CAPTION
 msgid "S&ize:"
-msgstr "&Размер"
+msgstr "&Размер:"
 
-#: TFRMBUTTONCHANGEDLG.CBFLATICONS.CAPTION
+#: TFRMCONFIGTOOLBAR.CBFLATICONS.CAPTION
 msgid "F&lat icons"
 msgstr "Плоские"
 
-#: TFRMBUTTONCHANGEDLG.CBSMALLICONS.CAPTION
+#: TFRMCONFIGTOOLBAR.CBSMALLICONS.CAPTION
 msgid "S&mall icons"
 msgstr "Маленькие"
-
-#: TFRMONEBUTTONCHANGEDLG.CAPTION
-msgid "Change single button"
-msgstr "Настройка панели инструментов"
-
-#: TFRMONEBUTTONCHANGEDLG.LBLICONX.CAPTION
-msgid "&Icon:"
-msgstr "Зна&чок"
-
-#: TFRMONEBUTTONCHANGEDLG.BTNADDSUBBAR.CAPTION
-msgid "Add Subbar >>"
-msgstr "Добавить панель..."
 

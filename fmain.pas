@@ -340,7 +340,7 @@ var
 implementation
 
 uses
-  uTypes, fAbout, uGlobs, uLng, fOptions,{ fViewer,}fbtnchangedlg, fconfigtoolbar,
+  uTypes, fAbout, uGlobs, uLng, fOptions,{ fViewer,}fconfigtoolbar,
   uCopyThread, uFileList, uDeleteThread, uVFSUtil,
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg,
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink,
@@ -2767,14 +2767,7 @@ end;
 
 procedure TfrmMain.tbEditClick(Sender: TObject);
 begin
-if pmToolBar.Tag >= 0 then
-  begin
-    ShowOneBtnChangeDlg(pmToolBar.Tag);
-  end
-else
-  begin
-    ShowConfigToolbar;
-  end;
+  ShowConfigToolbar(pmToolBar.Tag);
 end;
 
 

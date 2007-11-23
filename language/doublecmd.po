@@ -55,7 +55,11 @@ msgid "&Configure"
 msgstr ""
 
 #: ulng.rsdlgbuttons
-msgid "&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &All;&Skip;S&kip All;All;"
+msgid "&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &A'"
+msgstr ""
+
+#: 
+msgid "ll;&Skip;S&kip All;All;"
 msgstr ""
 
 #: ulng.rsspacemsg
@@ -136,6 +140,46 @@ msgstr ""
 
 #: ulng.rscolattr
 msgid "Attr"
+msgstr ""
+
+#: ulng.rspropsyes
+msgid "Yes (\%s)"
+msgstr ""
+
+#: ulng.rspropsno
+msgid "No"
+msgstr ""
+
+#: ulng.rspropsfolder
+msgid "Directory"
+msgstr ""
+
+#: ulng.rspropsfile
+msgid "File"
+msgstr ""
+
+#: ulng.rspropsspchrdev
+msgid "Special character device"
+msgstr ""
+
+#: ulng.rspropsspblkdev
+msgid "Special block device"
+msgstr ""
+
+#: ulng.rspropsnmdpipe
+msgid "Named pipe"
+msgstr ""
+
+#: ulng.rspropssymlink
+msgid "Symbolic link"
+msgstr ""
+
+#: ulng.rspropssocket
+msgid "Socket"
+msgstr ""
+
+#: ulng.rspropsunknowntype
+msgid "Unknown type"
 msgstr ""
 
 #: ulng.rscomparediffs
@@ -718,10 +762,6 @@ msgstr ""
 msgid "Use '-' to off attribute and '?' to any"
 msgstr ""
 
-#: TFRMFINDDLG.CBDIRECTORY.CAPTION
-msgid "Directory"
-msgstr ""
-
 #: TFRMFINDDLG.CBSYMLINK.CAPTION
 msgid "SymLink"
 msgstr ""
@@ -987,7 +1027,11 @@ msgid "Packer plugins (.WCX)"
 msgstr ""
 
 #: TFRMOPTIONS.LBLABOUT.CAPTION
-msgid "Packer plugins are used to open archives not supported internally by Double Commander."
+msgid "Packer plugins are used to open archives not supported"
+msgstr ""
+
+#: 
+msgid "internally by Double Commander."
 msgstr ""
 
 #: TFRMOPTIONS.LBLEXT.CAPTION
@@ -1558,123 +1602,63 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: TFRMBUTTONCHANGEDLG.CAPTION
+#: TFRMCONFIGTOOLBAR.CAPTION
 msgid "Change button bar"
 msgstr ""
 
-#: TFRMBUTTONCHANGEDLG.LBLBUTTONBAR.CAPTION
+#: TFRMCONFIGTOOLBAR.LBLBUTTONBAR.CAPTION
 msgid "&Button bar:"
 msgstr ""
 
-#: TFRMBUTTONCHANGEDLG.LBLCOMMAND.CAPTION
+#: TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION
 msgid "&Command:"
 msgstr ""
 
-#: TFRMBUTTONCHANGEDLG.LBLPARAMETERS.CAPTION
+#: TFRMCONFIGTOOLBAR.LBLPARAMETERS.CAPTION
 msgid "&Parameters:"
 msgstr ""
 
-#: TFRMBUTTONCHANGEDLG.LBLSTARTPATH.CAPTION
+#: TFRMCONFIGTOOLBAR.LBLSTARTPATH.CAPTION
 msgid "&Start path:"
 msgstr ""
 
-#: TFRMBUTTONCHANGEDLG.LBLICONFILE.CAPTION
+#: TFRMCONFIGTOOLBAR.LBLICONFILE.CAPTION
 msgid "Icon &file:"
 msgstr ""
 
-#: TFRMBUTTONCHANGEDLG.LBLICONX.CAPTION
+#: TFRMCONFIGTOOLBAR.LBLICON.CAPTION
 msgid "Ic&on:"
 msgstr ""
 
-#: TFRMBUTTONCHANGEDLG.LBLICONINDEX.CAPTION
-msgid "0"
-msgstr ""
-
-#: TFRMBUTTONCHANGEDLG.LBLTOOLTIP.CAPTION
+#: TFRMCONFIGTOOLBAR.LBLTOOLTIP.CAPTION
 msgid "&Tooltip:"
 msgstr ""
 
-#: TFRMBUTTONCHANGEDLG.BTNDELETEBUTTON.CAPTION
+#: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
 msgid "&Delete"
 msgstr ""
 
-#: TFRMBUTTONCHANGEDLG.BTNADDBUTTON.CAPTION
+#: TFRMCONFIGTOOLBAR.BTNADDBUTTON.CAPTION
 msgid "&Append"
 msgstr ""
 
-#: TFRMBUTTONCHANGEDLG.BTNADDSUBBAR.CAPTION
+#: TFRMCONFIGTOOLBAR.BTNADDSUBBAR.CAPTION
 msgid "Add S&ubbar >>"
 msgstr ""
 
-#: TFRMBUTTONCHANGEDLG.GBGROUPBOX.CAPTION
+#: TFRMCONFIGTOOLBAR.GBGROUPBOX.CAPTION
 msgid "Appearance"
 msgstr ""
 
-#: TFRMBUTTONCHANGEDLG.LBLSIZE.CAPTION
+#: TFRMCONFIGTOOLBAR.LBLSIZE.CAPTION
 msgid "S&ize:"
 msgstr ""
 
-#: TFRMBUTTONCHANGEDLG.CBFLATICONS.CAPTION
+#: TFRMCONFIGTOOLBAR.CBFLATICONS.CAPTION
 msgid "F&lat icons"
 msgstr ""
 
-#: TFRMBUTTONCHANGEDLG.CBSMALLICONS.CAPTION
+#: TFRMCONFIGTOOLBAR.CBSMALLICONS.CAPTION
 msgid "S&mall icons"
-msgstr ""
-
-#: TFRMONEBUTTONCHANGEDLG.CAPTION
-msgid "Change single button"
-msgstr ""
-
-#: TFRMONEBUTTONCHANGEDLG.LBLICONX.CAPTION
-msgid "&Icon:"
-msgstr ""
-
-#: TFRMONEBUTTONCHANGEDLG.BTNADDSUBBAR.CAPTION
-msgid "Add Subbar >>"
-msgstr ""
-
-#: ulng.rsdlgbuttons
-msgid "&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &A'"
-msgstr ""
-
-#: 
-msgid "ll;&Skip;S&kip All;All;"
-msgstr ""
-
-#: ulng.rspropsyes
-msgid "Yes (\%s)"
-msgstr ""
-
-#: ulng.rspropsno
-msgid "No"
-msgstr ""
-
-#: ulng.rspropsfile
-msgid "File"
-msgstr ""
-
-#: ulng.rspropsspchrdev
-msgid "Special character device"
-msgstr ""
-
-#: ulng.rspropsspblkdev
-msgid "Special block device"
-msgstr ""
-
-#: ulng.rspropsnmdpipe
-msgid "Named pipe"
-msgstr ""
-
-#: ulng.rspropssymlink
-msgid "Symbolic link"
-msgstr ""
-
-#: ulng.rspropssocket
-msgid "Socket"
-msgstr ""
-
-#: ulng.rspropsunknowntype
-msgid "Unknown type"
 msgstr ""
 

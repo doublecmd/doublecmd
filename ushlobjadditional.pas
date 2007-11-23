@@ -1789,12 +1789,13 @@ function SoftwareUpdateMessageBox(hWndOwner : HWND; szDistUnit : PWideChar; dwFl
 function SHGetMalloc(var ppMalloc: IMalloc): HResult; stdcall;
 function SHGetDesktopFolder(var ppshf: IShellFolder): HResult; stdcall;
 
+function SHChangeIconDialog(hOwner: THandle; var FileName: String; var IconIndex: Integer): Boolean;
 procedure OleError(ErrorCode: HResult);
 procedure OleCheck(Result: HResult);
 
 implementation
 uses
-  ComObj;
+  SysUtils, ComObj;
 
 const
    shell32 = 'Shell32.dll'; //from ShellAPI, ShlObj
@@ -1823,6 +1824,68 @@ function SoftwareUpdateMessageBox; external shell32 name 'SoftwareUpdateMessageB
 
 function SHGetMalloc;                   external shell32 name 'SHGetMalloc';
 function SHGetDesktopFolder;            external shell32 name 'SHGetDesktopFolder';
+
+{ **** UBPFD *********** by delphibase.endimus.com ****
+>> Вызывает диалог выбора иконки. Доработанная
+
+Функция вызова диалогового окно "Изменение иконки"
+
+Зависимости: Windows, SysUtils
+Автор:       Alex Sal'nikov, alex-co@narod.ru, Москва
+Copyright:   Доработка библиотеки JVCL
+Дата:        15 июля 2003 г.
+***************************************************** }
+
+function SHChangeIconDialog(hOwner: THandle; var FileName: String; var IconIndex: Integer): Boolean;
+type
+  TSHChangeIconProc = function(Wnd: HWND; szFileName: PChar; Reserved: Integer;
+                               var lpIconIndex: Integer): DWORD; stdcall;
+  TSHChangeIconProcW = function(Wnd: HWND; szFileName: PWideChar;Reserved: Integer;
+                                var lpIconIndex: Integer): DWORD; stdcall;
+var
+  ShellHandle: THandle;
+  SHChangeIcon: TSHChangeIconProc;
+  SHChangeIconW: TSHChangeIconProcW;
+  Buf: array[0..MAX_PATH] of Char;
+  BufW: array[0..MAX_PATH] of WideChar;
+begin
+  Result := False;
+  SHChangeIcon := nil;
+  SHChangeIconW := nil;
+  ShellHandle := Windows.LoadLibrary(PChar(Shell32));
+  try
+    if ShellHandle <> 0 then
+    begin
+      if Win32Platform = VER_PLATFORM_WIN32_NT then
+        SHChangeIconW := TSHChangeIconProcW(Windows.GetProcAddress(ShellHandle, PChar(62)))
+      else
+        SHChangeIcon := TSHChangeIconProc(Windows.GetProcAddress(ShellHandle, PChar(62)));
+    end;
+
+    if Assigned(SHChangeIconW) then
+    begin
+      StringToWideChar(FileName, BufW, SizeOf(BufW));
+      Result := SHChangeIconW(hOwner, BufW, SizeOf(BufW), IconIndex) = 1;
+      if Result then
+        FileName := BufW;
+    end
+    else if Assigned(SHChangeIcon) then
+    begin
+      StrPCopy(Buf, FileName);
+      Result := SHChangeIcon(hOwner, Buf, SizeOf(Buf), IconIndex) = 1;
+      if Result then
+        FileName := Buf;
+    end
+    else
+      begin
+        IconIndex := 0;
+        Result := True;
+      end;
+  finally
+    if ShellHandle <> 0 then
+      FreeLibrary(ShellHandle);
+  end;
+end;
 
 procedure OleError(ErrorCode: HResult);
 begin

@@ -27,11 +27,11 @@ unit uOSForms;
 interface
 
 uses
-  Classes, SysUtils, uTypes, uFileList, Menus,
+  Classes, SysUtils, uTypes, uFileList, Menus, Controls, Graphics, ExtDlgs,
   {$IFDEF UNIX}
   fFileProperties;
   {$ELSE}
-  Windows, Messages, ShellApi, ShlObj, ActiveX, uShlObjAdditional, JwaShlGuid, JwaDbt;
+  FileUtil, Windows, Messages, ShellApi, ShlObj, ActiveX, uShlObjAdditional, JwaShlGuid, JwaDbt;
   {$ENDIF}
 const
   sCmdVerbOpen = 'open';
@@ -48,6 +48,7 @@ procedure SetMyWndProc(Handle : THandle);
   
 procedure ShowFilePropertiesDialog(FileList:TFileList; const aPath:String);
 procedure ShowContextMenu(Handle : THandle; pfri : PFileRecItem; X, Y : Integer);
+function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boolean;
 
 implementation
 
@@ -381,6 +382,59 @@ begin
     end;
 end;
 {$ENDIF}
+
+function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boolean;
+var
+  opdDialog : TOpenPictureDialog;
+{$IFDEF MSWINDOWS}
+  sFilter : String;
+  iPos,
+  iIconIndex: Integer;
+  bAlreadyOpen : Boolean;
+{$ENDIF}
+begin
+  opdDialog := nil;
+{$IFDEF MSWINDOWS}
+  sFilter := GraphicFilter(TGraphic)+'|'+ 'Binary with icons(*.exe;*.dll)|*.exe;*.dll'+'|'+
+                       Format('All files (%s)',[GetAllFilesMask]);
+  bAlreadyOpen := False;
+  iPos :=Pos(',', sFileName);
+  if iPos <> 0 then
+    begin
+      iIconIndex := StrToIntDef(Copy(sFileName, iPos + 1, Length(sFileName) - iPos), 0);
+      sFileName := Copy(sFileName, 1, iPos - 1);
+    end
+  else
+    begin
+      opdDialog := TOpenPictureDialog.Create(Owner);
+      opdDialog.Filter:= sFilter;;
+      Result:= opdDialog.Execute;
+      sFileName := opdDialog.FileName;
+      bAlreadyOpen := True;
+    end;
+
+  if FileIsExeLib(sFileName) then
+    begin
+      Result := SHChangeIconDialog(Owner.Handle, sFileName, iIconIndex);
+      if Result then
+        sFileName := sFileName + ',' + IntToStr(iIconIndex);
+    end
+  else if not bAlreadyOpen then
+{$ENDIF}
+    begin
+      opdDialog := TOpenPictureDialog.Create(Owner);
+{$IFDEF MSWINDOWS}
+      opdDialog.Filter:= sFilter;
+{$ENDIF}
+      Result:= opdDialog.Execute;
+      sFileName := opdDialog.FileName;
+{$IFDEF MSWINDOWS}
+      bAlreadyOpen := True;
+{$ENDIF}
+    end;
+  if Assigned(opdDialog) then
+    FreeAndNil(opdDialog);
+end;
 
 end.
 
