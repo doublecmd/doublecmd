@@ -87,6 +87,12 @@ function FPS_ISDIR(iAttr:Cardinal) : Boolean;
    @returns(@true if file is a symbolic link, @false otherwise)
 }
 function FPS_ISLNK(iAttr:Cardinal) : Boolean;
+{en
+   Is file executable
+   @param(sFileName File name)
+   @returns(@true if file is executable, @false otherwise)
+}
+function FileIsExeLib(const sFileName : String) : Boolean;
 function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Boolean;
 function ExecCmdFork(const sCmd:String):Integer;
 function GetDiskFreeSpace(Path : String; var FreeSize, TotalSize : Int64) : Boolean;
@@ -168,7 +174,6 @@ function DateTimeToFileTime(dt : TDateTime) : TFileTime;
 
 
 implementation
-
    
 (*Is Directory*)
 
@@ -195,6 +200,30 @@ begin
   Result := BaseUnix.FPS_ISLNK(iAttr);
 end;
 {$ENDIF}
+
+function FileIsExeLib(const sFileName : String) : Boolean;
+var
+  fsExeLib : TFileStream;
+{$IFDEF MSWINDOWS}
+  wSign : Word;
+{$ELSE}
+  dwSign : DWord;
+{$ENDIF}
+begin
+  Result := False;
+  if FileExists(sFileName) then
+    begin
+      fsExeLib := TFileStream.Create(sFileName, fmOpenRead or fmShareDenyNone);
+      {$IFDEF MSWINDOWS}
+      wSign := fsExeLib.ReadWord;
+      Result := (wSign = $5A4D);
+      {$ELSE}
+      dwSign := fsExeLib.ReadDWord;
+      Result := (dwSign = $464C457F);
+      {$ENDIF}
+      fsExeLib.Free;
+    end;
+end;
 
 (* Copy file attributes *)
 
