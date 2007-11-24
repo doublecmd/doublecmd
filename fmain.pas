@@ -212,6 +212,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure lblDriveInfoDblClick(Sender: TObject);
+    function MainToolBarLoadButtonGlyph(sIconFileName: String;
+      iIconSize: Integer; clBackColor: TColor): TBitmap;
     procedure MainToolBarMouseDown(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure MainToolBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
@@ -516,6 +518,12 @@ begin
   actDirHotList.Execute;
 end;
 
+function TfrmMain.MainToolBarLoadButtonGlyph(sIconFileName: String;
+  iIconSize: Integer; clBackColor: TColor): TBitmap;
+begin
+  Result := LoadBitmapFromFile(sIconFileName, iIconSize, clBackColor);
+end;
+
 procedure TfrmMain.DeleteClick(Sender: TObject);
 begin
 if pmToolBar.Tag >= 0 then
@@ -726,6 +734,7 @@ begin
   if gButtonBar then
     begin
       MainToolBar.FlatButtons := gToolBarFlat;
+      MainToolBar.ButtonGlyphSize := gToolBarIconSize;
       MainToolBar.ChangePath := gpExePath;
       MainToolBar.EnvVar := '%commander_path%';
       MainToolBar.LoadFromFile(gpIniDir + 'default.bar');
@@ -2382,7 +2391,7 @@ begin
       {/Set chosen drive}
 
       // get drive icon
-      dskPanel.Buttons[I].Glyph := PixMapManager.GetDriveIcon(Drive, 16, dskPanel.Buttons[I].Color);
+      dskPanel.Buttons[I].Glyph := PixMapManager.GetDriveIcon(Drive, dskPanel.ButtonGlyphSize, dskPanel.Buttons[I].Color);
       {Set Buttons Transparent. Is need? }
       dskPanel.Buttons[I].Glyph.Transparent := True;
       dskPanel.Buttons[I].Transparent := True;

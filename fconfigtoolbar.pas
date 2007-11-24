@@ -62,6 +62,8 @@ type
     procedure FormShow(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnAddButtonClick(Sender: TObject);
+    function ktbBarLoadButtonGlyph(sIconFileName: String; iIconSize: Integer;
+      clBackColor: TColor): TBitmap;
     procedure ktbBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
     procedure Save;
     procedure btnDeleteButtonClick(Sender: TObject);
@@ -113,6 +115,7 @@ end;
 procedure TfrmConfigToolBar.FormShow(Sender: TObject);
 begin
   FillActionLists;
+  kedtBarSize.Text := IntToStr(gToolBarIconSize);
   cbFlatIcons.Checked := gToolBarFlat;
   sbIconExample.Flat:= gToolBarFlat;
   ktbBar.FlatButtons := gToolBarFlat;
@@ -155,8 +158,10 @@ end;
 procedure TfrmConfigToolBar.btnOKClick(Sender: TObject);
 begin
   Save;
+  gToolBarIconSize := StrToIntDef(kedtBarSize.Text, 16);
   gToolBarFlat := cbFlatIcons.Checked;
   ktbBar.SaveToFile(gpIniDir + 'default.bar');
+  frmMain.MainToolBar.ButtonGlyphSize := gToolBarIconSize;
   frmMain.MainToolBar.DeleteAllToolButtons;
   frmMain.MainToolBar.FlatButtons := gToolBarFlat;
   frmMain.MainToolBar.LoadFromFile(gpIniDir + 'default.bar');
@@ -169,6 +174,12 @@ begin
   Save;
   NewToolButton := ktbBar.AddButton('', '', '', '');
   //ShowMessage(IntToStr(NewToolButton));
+end;
+
+function TfrmConfigToolBar.ktbBarLoadButtonGlyph(sIconFileName: String;
+  iIconSize: Integer; clBackColor: TColor): TBitmap;
+begin
+  Result := LoadBitmapFromFile(sIconFileName, iIconSize, clBackColor);
 end;
 
 (*Select button on panel*)
@@ -206,12 +217,12 @@ procedure TfrmConfigToolBar.btnDeleteButtonClick(Sender: TObject);
 begin
    if (LastToolButton >= 0) and (ktbBar.ButtonCount > 0) then
       begin
-      ktbBar.RemoveButton(LastToolButton);
-      cbCommand.Text := '';
-      kedtIconFileName.Text := '';
-      kedtToolTip.Text := '';
-      LastToolButton := -1;
-      NewToolButton := -1;
+        ktbBar.RemoveButton(LastToolButton);
+        cbCommand.Text := '';
+        kedtIconFileName.Text := '';
+        kedtToolTip.Text := '';
+        LastToolButton := -1;
+        NewToolButton := -1;
       end;
 end;
 

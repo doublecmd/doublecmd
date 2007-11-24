@@ -305,7 +305,6 @@ object frmConfigToolBar: TfrmConfigToolBar
       Left = 62
       Height = 21
       Width = 43
-      Enabled = False
       Font.Height = -11
       Font.Name = 'MS Sans Serif'
       TabOrder = 0
@@ -349,12 +348,14 @@ object frmConfigToolBar: TfrmConfigToolBar
     TabOrder = 15
     object ktbBar: TKAStoolBar
       Left = 1
-      Height = 23
+      Height = 24
       Width = 296
       BevelOuter = bvNone
       TabOrder = 0
       OnToolButtonClick = ktbBarToolButtonClick
+      OnLoadButtonGlyph = ktbBarLoadButtonGlyph
       CheckToolButton = True
+      ButtonGlyphSize = 16
     end
   end
   object stToolBarFileName: TStaticText
