@@ -39,6 +39,7 @@ type
 
   TOnToolButtonClick = procedure (Sender: TObject; NumberOfButton : Integer) of object;
   TChangeLineCount   = procedure (AddSize : Integer) of object;
+  TOnLoadButtonGlyph   = function (sIconFileName : String; iIconSize : Integer; clBackColor : TColor) : TBitmap of object;
 
   { TKAStoolBar }
 
@@ -49,10 +50,12 @@ type
     FIconList : TStringList;
     FPositionX : Integer;
     FPositionY : Integer;
+    FIconSize,
     FButtonSize : Integer;
     FNeedMore : Boolean;
     FOnToolButtonClick : TOnToolButtonClick;
     FChangeLineCount : TChangeLineCount;
+    FOnLoadButtonGlyph : TOnLoadButtonGlyph;
     FTotalBevelWidth : Integer;
     FCheckToolButton : Boolean;
     FFlatButtons: Boolean;
@@ -100,9 +103,11 @@ type
     { Published declarations }
     property OnToolButtonClick: TOnToolButtonClick read FOnToolButtonClick write FOnToolButtonClick;
     property OnChangeLineCount : TChangeLineCount read FChangeLineCount write FChangeLineCount;
+    property OnLoadButtonGlyph : TOnLoadButtonGlyph read FOnLoadButtonGlyph write FOnLoadButtonGlyph;
     property CheckToolButton : Boolean read FCheckToolButton write FCheckToolButton default False;
     property FlatButtons : Boolean read FFlatButtons write SetFlatButtons default False;
     property IsDiskPanel : Boolean read FDiskPanel write FDiskPanel default False;
+    property ButtonGlyphSize : Integer read FIconSize write FIconSize;
 
     property ChangePath : String read FChangePath write FChangePath;
     property EnvVar : String read FEnvVar write FEnvVar;
@@ -145,6 +150,12 @@ begin
   FTotalBevelWidth := BevelWidth * 2
   else
   FTotalBevelWidth := BevelWidth;
+
+  // change panel size
+  FLockResize := True;
+  Height := FIconSize + (FTotalBevelWidth * 2) + 6;
+  FLockResize := False;
+
 
   FButtonSize := Height - FTotalBevelWidth * 2;
 //  writeln('FButtonSize = ' + IntToStr(FButtonSize));
@@ -229,6 +240,7 @@ function TKAStoolBar.LoadBtnIcon(IconPath: String): TBitMap;
 var
   PNG : TPortableNetworkGraphic;
 begin
+  Result := nil;
   if IconPath <> '' then
   if FileExists(IconPath) then
    begin
@@ -266,10 +278,11 @@ var
   PNG : TPortableNetworkGraphic;
 begin
   FIconList[Index] := AValue;
-  if FileExists(AValue) then
-    TSpeedButton(FButtonsList.Items[Index]).Glyph := LoadBtnIcon(AValue)
+  with TSpeedButton(FButtonsList.Items[Index]) do
+  if Assigned(FOnLoadButtonGlyph) then
+    Glyph := FOnLoadButtonGlyph(AValue, FIconSize, Color)
   else
-    ShowMessage('File "' + AValue + '" not found!' );
+    Glyph := LoadBtnIcon(AValue);
 end;
 
 procedure TKAStoolBar.SetFlatButtons(const AValue: Boolean);
@@ -356,6 +369,7 @@ begin
   FOldWidth := Width;
   FMustResize := False;
   FLockResize := False;
+  FIconSize := 16; // default
 end;
 
 destructor TKAStoolBar.Destroy;
@@ -460,10 +474,11 @@ begin
 
   ToolButton.Flat := FFlatButtons;
 
-  if FileExists(IconPath) then
-    ToolButton.Glyph := LoadBtnIcon(IconPath);
-
-
+  with ToolButton do
+  if Assigned(FOnLoadButtonGlyph) then
+    Glyph := FOnLoadButtonGlyph(IconPath, FIconSize, Color)
+  else
+    Glyph := LoadBtnIcon(IconPath);
 
   ToolButton.OnClick:=TNotifyEvent(@ToolButtonClick);
 
