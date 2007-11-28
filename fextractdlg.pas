@@ -52,9 +52,6 @@ TfrmExtractDlg = class(TForm)
     { public declarations }
   end; 
 
-var
-  frmExtractDlg: TfrmExtractDlg;
-
 procedure  ShowExtractDlg(ActiveFrame:TFrameFilePanel; var fl : TFileList; sDestPath:String);
 
 implementation
