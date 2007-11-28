@@ -4,11 +4,11 @@ object frmMain: TfrmMain
   Top = 278
   Width = 540
   HorzScrollBar.Page = 539
-  VertScrollBar.Page = 315
+  VertScrollBar.Page = 316
   VertScrollBar.Range = 79
   ActiveControl = pnlNotebooks
   Caption = 'Double Commander'
-  ClientHeight = 316
+  ClientHeight = 317
   ClientWidth = 540
   Font.Color = clBlack
   Font.Height = 13
@@ -29,7 +29,7 @@ object frmMain: TfrmMain
   ShowHint = True
   object pnlSyncSize: TPanel
     Height = 26
-    Top = 23
+    Top = 24
     Width = 540
     Align = alTop
     BevelOuter = bvNone
@@ -60,6 +60,7 @@ object frmMain: TfrmMain
         CheckToolButton = True
         FlatButtons = True
         IsDiskPanel = True
+        ButtonGlyphSize = 16
       end
       object dskRight: TKAStoolBar
         Left = 143
@@ -75,12 +76,13 @@ object frmMain: TfrmMain
         CheckToolButton = True
         FlatButtons = True
         IsDiskPanel = True
+        ButtonGlyphSize = 16
       end
     end
   end
   object pnlNotebooks: TPanel
     Height = 240
-    Top = 49
+    Top = 50
     Width = 540
     Align = alClient
     ClientHeight = 240
@@ -291,7 +293,7 @@ object frmMain: TfrmMain
     end
   end
   object MainToolBar: TKAStoolBar
-    Height = 23
+    Height = 24
     Width = 540
     Align = alTop
     TabOrder = 2
@@ -299,11 +301,12 @@ object frmMain: TfrmMain
     OnToolButtonClick = MainToolBarToolButtonClick
     OnLoadButtonGlyph = MainToolBarLoadButtonGlyph
     FlatButtons = True
+    ButtonGlyphSize = 16
     EnvVar = '%commander_path%'
   end
   object pnlKeys: TPanel
     Height = 27
-    Top = 289
+    Top = 290
     Width = 540
     Align = alBottom
     Anchors = [akLeft, akRight]

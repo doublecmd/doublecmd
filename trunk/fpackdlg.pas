@@ -63,7 +63,7 @@ type
   public
     { public declarations }
   end; 
-procedure ShowPackFilesForm(VFS : TVFS; var fl : TFileList; sDestPath:String);
+procedure ShowPackDlg(VFS : TVFS; var fl : TFileList; sDestPath:String; bNewArchive : Boolean = True);
 
 implementation
 uses
@@ -72,23 +72,27 @@ uses
 var
   CurrentVFS : TVFS;
 
-procedure ShowPackFilesForm(VFS : TVFS; var fl: TFileList; sDestPath:String);
+procedure ShowPackDlg(VFS : TVFS; var fl: TFileList; sDestPath:String; bNewArchive : Boolean = True);
 var
   Flags : LongInt;
 begin
   with TfrmPackDlg.Create(nil) do
     begin
-      (* if one file selected *)
-      if fl.Count = 1 then
-        begin
-          edtPackCmd.Text := sDestPath + ExtractFileName(fl.GetFileName(0));
-          edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.none');
-        end
-      else
-      (* if some files selected *)
-        begin
-          edtPackCmd.Text := sDestPath + ExtractFileName(ExcludeTrailingPathDelimiter(fl.CurrentDirectory)) + '.none';
-        end;
+      if bNewArchive then  // create new archive
+        (* if one file selected *)
+        if fl.Count = 1 then
+          begin
+            edtPackCmd.Text := sDestPath + ExtractFileName(fl.GetFileName(0));
+            edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.none');
+          end
+        else
+        (* if some files selected *)
+          begin
+            edtPackCmd.Text := sDestPath + ExtractFileName(ExcludeTrailingPathDelimiter(fl.CurrentDirectory)) + '.none';
+          end
+      else  // pack in exsists archive
+        edtPackCmd.Text := VFS.ArcFullName;
+        
       CurrentVFS := VFS;
       if (ShowModal = mrOK) then
           if VFS.FindModule(edtPackCmd.Text) then
@@ -97,7 +101,10 @@ begin
               if cbMoveToArchive.Checked then Flags := Flags or PK_PACK_MOVE_FILES;
               if cbStoredir.Checked then Flags := Flags or PK_PACK_SAVE_PATHS;
               if cbEncrypt.Checked then Flags := Flags or PK_PACK_ENCRYPT;
-              VFS.VFSmodule.VFSCopyIn(fl, '', Flags);
+              if bNewArchive then
+                VFS.VFSmodule.VFSCopyIn(fl, '', Flags)
+              else
+                VFS.VFSmodule.VFSCopyIn(fl, sDestPath, Flags)
             end;
       Free;
     end;
@@ -107,13 +114,19 @@ end;
 
 procedure TfrmPackDlg.FormShow(Sender: TObject);
 var
+ iIndex,
  I, J : Integer;
+ bExsistArchive : Boolean;
+ sExt,
  sCurrentPlugin : String;
  iCurPlugCaps : Integer;
  Count : Integer;
 begin
   J := 0;
   Count := 0;
+  sExt := ExtractFileExt(edtPackCmd.Text);
+  Delete(sExt, 1, 1);  // delete a dot
+  bExsistArchive := (sExt <> 'none');
   with CurrentVFS do
     begin
       for I:=0 to WCXPlugins.Count - 1 do
@@ -126,25 +139,38 @@ begin
               (* First 9 plugins we display as  RadioButtons *)
               if J < 9 then
                 begin
-                  rgPacker.Items.Add(WCXPlugins.Names[I]);
+                  iIndex := rgPacker.Items.Add(WCXPlugins.Names[I]);
+                  if bExsistArchive then
+                    if (sExt = WCXPlugins.Names[I]) then
+                      rgPacker.ItemIndex := iIndex
+                    else
+                      rgPacker.Controls[iIndex + 1].Enabled := False;
                   J := J + 1;
                 end
               else
                 (* Other plugins we add in ComboBox *)
                 begin
-                  cbPackerList.Items.Add(WCXPlugins.Names[I]);
+                  iIndex := cbPackerList.Items.Add(WCXPlugins.Names[I]);
+                  if bExsistArchive and (sExt = WCXPlugins.Names[I]) then
+                    cbPackerList.ItemIndex := iIndex;
                 end;
             end;
         end; //for
-        if rgPacker.Items.Count > 0 then
+        
+        if (rgPacker.Items.Count > 0) and (rgPacker.ItemIndex < 0) then
           rgPacker.ItemIndex := 0;
         if cbPackerList.Items.Count > 0 then
           begin
             cbOtherPlugins.Visible := True;
             cbPackerList.Visible := True;
-            cbOtherPlugins.Enabled := True;
-            cbOtherPlugins.Enabled := True;
-            cbPackerList.ItemIndex := 0;
+
+            if bExsistArchive then
+              cbPackerList.Enabled:= False
+            else
+              cbOtherPlugins.Enabled := True;
+              
+            if cbPackerList.ItemIndex < 0 then
+              cbPackerList.ItemIndex := 0;
           end
         else
           btnConfig.AnchorToCompanion(akTop, 6, rgPacker);

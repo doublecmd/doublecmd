@@ -119,18 +119,19 @@ Type
     function VFSList(const sDir:String; var fl:TFileList ):Boolean;override;{Return the filelist of archive}
   end;
 
+function IsBlocked : Boolean;
+
 implementation
 uses Forms, SysUtils, uFileOp, uOSUtils, LCLProc, uFileProcs, uDCUtils, uLng, Controls;
 
 var
-  WCXModule : TWCXModule;
+  WCXModule : TWCXModule;  // used in ProcessDataProc
   iResult : Integer;
 
 constructor TWCXModule.Create;
 begin
   FFilesSize:= 0;
   FPercent := 0;
-  WCXModule := Self;
 end;
 
 destructor TWCXModule.Destroy;
@@ -359,11 +360,11 @@ begin
       Result := False;
       Exit;
     end;
-
-
+  {
+  WCXModule := Self;  // set WCXModule variable to current module
   SetChangeVolProc(ArcHandle, ChangeVolProc);
   SetProcessDataProc(ArcHandle, ProcessDataProc);
-
+  }
 
   DebugLN('Get File List');
   (*Get File List*)
@@ -496,6 +497,7 @@ begin
     Exit;
    end;
 
+  WCXModule := Self;  // set WCXModule variable to current module
   SetChangeVolProc(ArcHandle, ChangeVolProc);
   SetProcessDataProc(ArcHandle, ProcessDataProc);
 
@@ -567,6 +569,7 @@ begin
   (* Convert TFileList into PChar *)
   FileList := PChar(GetFileList(FFileList));
 
+  WCXModule := Self;  // set WCXModule variable to current module
   SetChangeVolProc(0, ChangeVolProc);
   SetProcessDataProc(0, ProcessDataProc);
 
@@ -696,8 +699,9 @@ begin
     WCXCopyOut;
     FFileOpDlg.Close;
     FFileOpDlg.Free;
-
+    FFileOpDlg := nil;
   except
+    FFileOpDlg := nil;
     Result := False;
   end;
 end;
@@ -723,9 +727,10 @@ begin
     WCXCopyIn;
     FFileOpDlg.Close;
     FFileOpDlg.Free;
-
+    FFileOpDlg := nil;
   except
-    Result := False
+    FFileOpDlg := nil;
+    Result := False;
   end;
 end;
 
@@ -752,6 +757,7 @@ begin
     FFileOpDlg.Thread := TThread(CT);
     CT.Resume;
   except
+    FFileOpDlg := nil;
     Result := False;
   end;
 end;
@@ -780,7 +786,8 @@ begin
     FFileOpDlg.Thread := TThread(CT);
     CT.Resume;
   except
-    Result := False
+    FFileOpDlg := nil;
+    Result := False;
   end;
 end;
 
@@ -808,6 +815,7 @@ begin
 
     CT := nil;
 
+    WCXModule := Self;  // set WCXModule variable to current module
     SetChangeVolProc(0, ChangeVolProc);
     SetProcessDataProc(0, ProcessDataProc);
 
@@ -817,8 +825,10 @@ begin
     
     FFileOpDlg.Close;
     FFileOpDlg.Free;
+    FFileOpDlg := nil;
   except
-    Result := False
+    FFileOpDlg := nil;
+    Result := False;
   end;
 end;
 
@@ -887,9 +897,27 @@ begin
           end;
       end; //case
         Synchronize(FFileOpDlg.Close);
+        Synchronize(FFileOpDlg.Free);
+        FFileOpDlg := nil;
       end; //with
   except
     DebugLN('Error in "WCXCopyThread.Execute"');
   end;
-  end;
+end;
+
+function IsBlocked : Boolean;
+begin
+  Result := Assigned(WCXModule);
+  if Result then
+    with WCXModule do
+      begin
+        Result := Assigned(FFileOpDlg);
+        if Result then
+          if Assigned(CT) then
+            CT.Synchronize(FFileOpDlg.ShowOnTop)
+          else
+            FFileOpDlg.ShowOnTop;
+      end;  // with
+end;
+
 end.
