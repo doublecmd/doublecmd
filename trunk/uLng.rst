@@ -96,6 +96,87 @@ ulng.rsmsgpopuphotdelete='&Delete %s'
 ulng.rsmsgdisknotavail='Disk is not available'
 
 
+# hash value = 44601553
+ulng.rsmsgchdirfailed='ChDir to [%s] failed!'
+
+
+# hash value = 184740991
+ulng.rsmsgnofreespacecont='No enough free space on target drive, Continue'+
+'?'
+
+
+# hash value = 175592239
+ulng.rsmsgnofreespaceretry='No enough free space on target drive, Retry?'
+
+
+# hash value = 61082373
+ulng.rsmsgsellocnextvol='Please select location of next volume'
+
+
+# hash value = 235022180
+ulng.rsmsgnextvolunpack='Next volume will be unpacked'
+
+
+# hash value = 167300325
+ulng.rsmsgerrendarchive='No more files in archive'
+
+
+# hash value = 186252633
+ulng.rsmsgerrnomemory='Not enough memory'
+
+
+# hash value = 122675780
+ulng.rsmsgerrbaddata='Data is bad'
+
+
+# hash value = 201274225
+ulng.rsmsgerrbadarchive='CRC error in archive data'
+
+
+# hash value = 65752782
+ulng.rsmsgerrunknownformat='Archive format unknown'
+
+
+# hash value = 142972053
+ulng.rsmsgerreopen='Cannot open existing file'
+
+
+# hash value = 142873285
+ulng.rsmsgerrecreate='Cannot create file'
+
+
+# hash value = 117060069
+ulng.rsmsgerreclose='Error closing file'
+
+
+# hash value = 160140661
+ulng.rsmsgerreread='Error reading from file'
+
+
+# hash value = 81442165
+ulng.rsmsgerrewrite='Error writing to file'
+
+
+# hash value = 230348428
+ulng.rsmsgerrsmallbuf='Buffer too small'
+
+
+# hash value = 61952658
+ulng.rsmsgerreaborted='Function aborted by user'
+
+
+# hash value = 67268052
+ulng.rsmsgerrnofiles='No files found'
+
+
+# hash value = 46550939
+ulng.rsmsgerrtoomanyfiles='Too many files to pack'
+
+
+# hash value = 197641441
+ulng.rsmsgerrnotsupported='Function not supported!'
+
+
 # hash value = 254598078
 ulng.rssaveposition='&Save position'
 
@@ -114,6 +195,14 @@ ulng.rsdlgcp='Copy file(s)'
 
 # hash value = 163887161
 ulng.rsdlgmv='Move file(s)'
+
+
+# hash value = 33687726
+ulng.rsdlgpack='Packing...'
+
+
+# hash value = 102705390
+ulng.rsdlgextract='Extracting...'
 
 
 # hash value = 83818318
