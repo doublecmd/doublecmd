@@ -98,6 +98,86 @@ msgstr ""
 msgid "Disk is not available"
 msgstr ""
 
+#: ulng.rsmsgchdirfailed
+msgid "ChDir to [\%s] failed!"
+msgstr ""
+
+#: ulng.rsmsgnofreespacecont
+msgid "No enough free space on target drive, Continue?"
+msgstr ""
+
+#: ulng.rsmsgnofreespaceretry
+msgid "No enough free space on target drive, Retry?"
+msgstr ""
+
+#: ulng.rsmsgsellocnextvol
+msgid "Please select location of next volume"
+msgstr ""
+
+#: ulng.rsmsgnextvolunpack
+msgid "Next volume will be unpacked"
+msgstr ""
+
+#: ulng.rsmsgerrendarchive
+msgid "No more files in archive"
+msgstr ""
+
+#: ulng.rsmsgerrnomemory
+msgid "Not enough memory"
+msgstr ""
+
+#: ulng.rsmsgerrbaddata
+msgid "Data is bad"
+msgstr ""
+
+#: ulng.rsmsgerrbadarchive
+msgid "CRC error in archive data"
+msgstr ""
+
+#: ulng.rsmsgerrunknownformat
+msgid "Archive format unknown"
+msgstr ""
+
+#: ulng.rsmsgerreopen
+msgid "Cannot open existing file"
+msgstr ""
+
+#: ulng.rsmsgerrecreate
+msgid "Cannot create file"
+msgstr ""
+
+#: ulng.rsmsgerreclose
+msgid "Error closing file"
+msgstr ""
+
+#: ulng.rsmsgerreread
+msgid "Error reading from file"
+msgstr ""
+
+#: ulng.rsmsgerrewrite
+msgid "Error writing to file"
+msgstr ""
+
+#: ulng.rsmsgerrsmallbuf
+msgid "Buffer too small"
+msgstr ""
+
+#: ulng.rsmsgerreaborted
+msgid "Function aborted by user"
+msgstr ""
+
+#: ulng.rsmsgerrnofiles
+msgid "No files found"
+msgstr ""
+
+#: ulng.rsmsgerrtoomanyfiles
+msgid "Too many files to pack"
+msgstr ""
+
+#: ulng.rsmsgerrnotsupported
+msgid "Function not supported!"
+msgstr ""
+
 #: ulng.rssaveposition
 msgid "&Save position"
 msgstr ""
@@ -116,6 +196,14 @@ msgstr ""
 
 #: ulng.rsdlgmv
 msgid "Move file(s)"
+msgstr ""
+
+#: ulng.rsdlgpack
+msgid "Packing..."
+msgstr ""
+
+#: ulng.rsdlgextract
+msgid "Extracting..."
 msgstr ""
 
 #: ulng.rsviewabouttext
@@ -1660,5 +1748,13 @@ msgstr ""
 
 #: TFRMCONFIGTOOLBAR.CBSMALLICONS.CAPTION
 msgid "S&mall icons"
+msgstr ""
+
+#: ulng.rsmsgnofreespacecont
+msgid "No enough free space on target drive, Continue'"
+msgstr ""
+
+#: 
+msgid "?"
 msgstr ""
 

@@ -130,6 +130,86 @@ msgstr "Удалить \%s"
 msgid "Disk is not available"
 msgstr "Диск не доступен"
 
+#: ulng.rsmsgchdirfailed
+msgid "ChDir to [\%s] failed!"
+msgstr "Переход в каталог [\%s] не удался!"
+
+#: ulng.rsmsgnofreespacecont
+msgid "No enough free space on target drive, Continue?"
+msgstr "Недостаточно места на получателе. Продолжить?"
+
+#: ulng.rsmsgnofreespaceretry
+msgid "No enough free space on target drive, Retry?"
+msgstr "Недостаточно места на получателе. Повторить?"
+
+#: ulng.rsmsgsellocnextvol
+msgid "Please select location of next volume"
+msgstr "Укажите путь к следующему тому"
+
+#: ulng.rsmsgnextvolunpack
+msgid "Next volume will be unpacked"
+msgstr "Следующий том будет распакован"
+
+#: ulng.rsmsgerrendarchive
+msgid "No more files in archive"
+msgstr "В архиве нет больше файлов"
+
+#: ulng.rsmsgerrnomemory
+msgid "Not enough memory"
+msgstr "Не достаточно памяти"
+
+#: ulng.rsmsgerrbaddata
+msgid "Data is bad"
+msgstr "Данные повреждены"
+
+#: ulng.rsmsgerrbadarchive
+msgid "CRC error in archive data"
+msgstr "Контрольная сумма не совпадает, архив повреждён."
+
+#: ulng.rsmsgerrunknownformat
+msgid "Archive format unknown"
+msgstr "Архив повреждён или имеет неизвестный формат."
+
+#: ulng.rsmsgerreopen
+msgid "Cannot open existing file"
+msgstr "Не могу открыть файл"
+
+#: ulng.rsmsgerrecreate
+msgid "Cannot create file"
+msgstr "Не могу создать файл"
+
+#: ulng.rsmsgerreclose
+msgid "Error closing file"
+msgstr "Не могу закрыть файл"
+
+#: ulng.rsmsgerreread
+msgid "Error reading from file"
+msgstr "Ошибка чтения из файла"
+
+#: ulng.rsmsgerrewrite
+msgid "Error writing to file"
+msgstr "Ошибка записи в файл"
+
+#: ulng.rsmsgerrsmallbuf
+msgid "Buffer too small"
+msgstr "Буфер слишком маленький"
+
+#: ulng.rsmsgerreaborted
+msgid "Function aborted by user"
+msgstr "Прервано пользователем."
+
+#: ulng.rsmsgerrnofiles
+msgid "No files found"
+msgstr "Файлы не найдены"
+
+#: ulng.rsmsgerrtoomanyfiles
+msgid "Too many files to pack"
+msgstr "Слишком много файлов"
+
+#: ulng.rsmsgerrnotsupported
+msgid "Function not supported!"
+msgstr "Функция не поддерживается!"
+
 #: ulng.rssaveposition
 msgid "&Save position"
 msgstr "Сохранить позицию"
@@ -149,6 +229,14 @@ msgstr "Копировать файл(ы)"
 #: ulng.rsdlgmv
 msgid "Move file(s)"
 msgstr "Переместить файл(ы)"
+
+#: ulng.rsdlgpack
+msgid "Packing..."
+msgstr "Упаковка..."
+
+#: ulng.rsdlgextract
+msgid "Extracting..."
+msgstr "Распаковка..."
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."

@@ -51,6 +51,28 @@ resourcestring
   rsMsgErrDirExists = 'Directory %s exists!';
   rsMsgPopUpHotDelete = '&Delete %s';
   rsMsgDiskNotAvail = 'Disk is not available';
+  rsMsgChDirFailed = 'ChDir to [%s] failed!';
+  rsMsgNoFreeSpaceCont = 'No enough free space on target drive, Continue?';
+  rsMsgNoFreeSpaceRetry = 'No enough free space on target drive, Retry?';
+  // wcx module messages
+  rsMsgSelLocNextVol = 'Please select location of next volume';
+  rsMsgNextVolUnpack = 'Next volume will be unpacked';
+  // wcx module errors messages
+  rsMsgErrEndArchive = 'No more files in archive';
+  rsMsgErrNoMemory = 'Not enough memory';
+  rsMsgErrBadData = 'Data is bad';
+  rsMsgErrBadArchive = 'CRC error in archive data';
+  rsMsgErrUnknownFormat = 'Archive format unknown';
+  rsMsgErrEOpen = 'Cannot open existing file';
+  rsMsgErrECreate = 'Cannot create file';
+  rsMsgErrEClose = 'Error closing file';
+  rsMsgErrERead = 'Error reading from file';
+  rsMsgErrEWrite = 'Error writing to file';
+  rsMsgErrSmallBuf = 'Buffer too small';
+  rsMsgErrEAborted = 'Function aborted by user';
+  rsMsgErrNoFiles = 'No files found';
+  rsMsgErrTooManyFiles = 'Too many files to pack';
+  rsMsgErrNotSupported = 'Function not supported!';
 
   rsSavePosition = '&Save position';
   rsPositionSaved = 'Position saved.';
@@ -58,6 +80,8 @@ resourcestring
   rsDlgDel = 'Delete file(s)';
   rsDlgCp = 'Copy file(s)';
   rsDlgMv = 'Move file(s)';
+  rsDlgPack = 'Packing...';
+  rsDlgExtract = 'Extracting...';
   // Viewer
   rsViewAboutText = 'Internal Viewer of Double Commander.';
   

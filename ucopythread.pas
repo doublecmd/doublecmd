@@ -58,7 +58,7 @@ begin
     GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
     if pr^.iSize > iFreeDiskSize then
       begin
-        case MsgBoxForThread(Self, 'No enough free space on target drive, Continue?', [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of // TODO: Localize
+        case MsgBoxForThread(Self, rsMsgNoFreeSpaceCont, [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of
           mmrNo:
             Exit;
           mmrSkip:
@@ -193,7 +193,7 @@ begin
                 {Check disk free space}
                 GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
                 if cBlockSize > iFreeDiskSize then
-                  case MsgBoxForThread(Self, 'No enough free space on target drive, Retry?', [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of // TODO: Localize
+                  case MsgBoxForThread(Self, rsMsgNoFreeSpaceRetry, [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of
                     mmrYes:
                       bRetry := True;
                     mmrNo:
@@ -222,7 +222,7 @@ begin
                 {Check disk free space}
                 GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
                 if (src.Size+iDstBeg-dst.size) > iFreeDiskSize then
-                  case MsgBoxForThread(Self, 'No enough free space on target drive, Retry?', [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of // TODO: Localize
+                  case MsgBoxForThread(Self, rsMsgNoFreeSpaceRetry, [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of
                     mmrYes:
                       bRetry := True;
                     mmrNo:

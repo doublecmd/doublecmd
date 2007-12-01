@@ -1804,7 +1804,7 @@ begin
   if (ActiveFrame.pnlFile.PanelMode in [pmVFS, pmArchive]) and
      (NotActiveFrame.pnlFile.PanelMode in [pmVFS, pmArchive]) then
     begin
-      ShowMessage('Function not supported!');
+      ShowMessage(rsMsgErrNotSupported);
       Exit;
     end;
 
@@ -2817,7 +2817,7 @@ begin
     DebugLn('Chdir to:',sDir);
     if not SetCurrentDir(sDir) then
     begin
-      msgError(Format('ChDir to [%s] failed!',[sDir]));
+      msgError(Format(rsMsgChDirFailed, [sDir]));
     end
     else
     begin

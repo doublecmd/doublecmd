@@ -213,21 +213,21 @@ var
   sErrorMsg : String;
 begin
   case iErrorMsg of
-  E_END_ARCHIVE    :   sErrorMsg := 'No more files in archive';
-  E_NO_MEMORY      :   sErrorMsg := 'Not enough memory';
-  E_BAD_DATA       :   sErrorMsg := 'Data is bad';
-  E_BAD_ARCHIVE    :   sErrorMsg := 'CRC error in archive data';
-  E_UNKNOWN_FORMAT :   sErrorMsg := 'Archive format unknown';
-  E_EOPEN          :   sErrorMsg := 'Cannot open existing file';
-  E_ECREATE        :   sErrorMsg := 'Cannot create file';
-  E_ECLOSE         :   sErrorMsg := 'Error closing file';
-  E_EREAD          :   sErrorMsg := 'Error reading from file';
-  E_EWRITE         :   sErrorMsg := 'Error writing to file';
-  E_SMALL_BUF      :   sErrorMsg := 'Buffer too small';
-  E_EABORTED       :   sErrorMsg := 'Function aborted by user';
-  E_NO_FILES       :   sErrorMsg := 'No files found';
-  E_TOO_MANY_FILES :   sErrorMsg := 'Too many files to pack';
-  E_NOT_SUPPORTED  :   sErrorMsg := 'Function not supported';
+  E_END_ARCHIVE    :   sErrorMsg := rsMsgErrEndArchive;
+  E_NO_MEMORY      :   sErrorMsg := rsMsgErrNoMemory;
+  E_BAD_DATA       :   sErrorMsg := rsMsgErrBadData;
+  E_BAD_ARCHIVE    :   sErrorMsg := rsMsgErrBadArchive;
+  E_UNKNOWN_FORMAT :   sErrorMsg := rsMsgErrUnknownFormat;
+  E_EOPEN          :   sErrorMsg := rsMsgErrEOpen;
+  E_ECREATE        :   sErrorMsg := rsMsgErrECreate;
+  E_ECLOSE         :   sErrorMsg := rsMsgErrEClose;
+  E_EREAD          :   sErrorMsg := rsMsgErrERead;
+  E_EWRITE         :   sErrorMsg := rsMsgErrEWrite;
+  E_SMALL_BUF      :   sErrorMsg := rsMsgErrSmallBuf;
+  E_EABORTED       :   sErrorMsg := rsMsgErrEAborted;
+  E_NO_FILES       :   sErrorMsg := rsMsgErrNoFiles;
+  E_TOO_MANY_FILES :   sErrorMsg := rsMsgErrTooManyFiles;
+  E_NOT_SUPPORTED  :   sErrorMsg := rsMsgErrNotSupported;
   end;
   ShowMessage(sErrorMsg);
 end;
@@ -236,9 +236,9 @@ function ChangeVolProc(ArcName : Pchar; Mode:Longint):Longint; stdcall;
 begin
   case Mode of
   PK_VOL_ASK:
-    ArcName := PChar(InputBox ('Double Commander', 'Please select location of next volume', ArcName));  // TODO: localize
+    ArcName := PChar(InputBox ('Double Commander', rsMsgSelLocNextVol, ArcName));
   PK_VOL_NOTIFY:
-    ShowMessage('Next volume will be unpacked');   // TODO: localize
+    ShowMessage(rsMsgNextVolUnpack);
   end;
 end;
 
@@ -689,7 +689,7 @@ begin
     FFileOpDlg.Show;
     FFileOpDlg.iProgress1Max:=100;
     FFileOpDlg.iProgress2Max:=100;
-    FFileOpDlg.Caption := 'Extracting...'; //TODO: Localize
+    FFileOpDlg.Caption := rsDlgExtract;
 
     FFileList := flSrcList;
     FDstPath := sDstPath;
@@ -717,7 +717,7 @@ begin
     FFileOpDlg.Show;
     FFileOpDlg.iProgress1Max:=100;
     FFileOpDlg.iProgress2Max:=100;
-    FFileOpDlg.Caption := 'Packing...'; //TODO: Localize
+    FFileOpDlg.Caption := rsDlgPack;
 
     FFileList := flSrcList;
     FDstPath := sDstName;
@@ -745,7 +745,7 @@ begin
     FFileOpDlg.Show;
     FFileOpDlg.iProgress1Max:=100;
     FFileOpDlg.iProgress2Max:=100;
-    FFileOpDlg.Caption := 'Extracting...'; //TODO: Localize
+    FFileOpDlg.Caption := rsDlgExtract;
   
     FFileList := flSrcList;
     FDstPath := sDstPath;
@@ -773,7 +773,7 @@ begin
     FFileOpDlg.Show;
     FFileOpDlg.iProgress1Max:=100;
     FFileOpDlg.iProgress2Max:=100;
-    FFileOpDlg.Caption := 'Packing...'; //TODO: Localize
+    FFileOpDlg.Caption := rsDlgPack;
     
     FFileList := flSrcList;
     FDstPath := sDstName;
