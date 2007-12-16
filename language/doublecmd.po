@@ -1230,6 +1230,22 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
+#: TFRMOPTIONS.PGFILEOP.CAPTION
+msgid "pgFileOp"
+msgstr ""
+
+#: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
+msgid "&Buffer size for files:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLCOPYBUFFERSIZE.CAPTION
+msgid "Buffer size (Kb):"
+msgstr ""
+
+#: TFRMOPTIONS.GBGENERALOPTIONS.CAPTION
+msgid "General options"
+msgstr ""
+
 #: TFRMABOUT.CAPTION
 msgid "About"
 msgstr ""
