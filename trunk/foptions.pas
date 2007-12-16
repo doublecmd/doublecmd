@@ -67,6 +67,7 @@ type
     cbActions: TComboBox;
     cbCaseSensitiveSort: TCheckBox;
     cbDirSelect: TCheckBox;
+    cbDropReadOnlyFlag: TCheckBox;
     cbEditorFont: TComboBox;
     cbExtDiffer: TCheckBox;
     cbExtEditor: TCheckBox;
@@ -79,7 +80,6 @@ type
     cbViewerFont: TComboBox;
     cbExt: TComboBox;
     cbWCXPath: TComboBox;
-    cbDropReadOnlyFlag: TCheckBox;
     cbFlatInterface: TCheckBox;
     cbFlatToolBar: TCheckBox;
     cbShowIcons: TCheckBox;
@@ -94,6 +94,7 @@ type
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
+    edtCopyBufferSize: TEdit;
     edtCategoryName: TEdit;
     edtCategoryMask: TEdit;
     edtEditorSize: TSpinEdit;
@@ -123,7 +124,10 @@ type
     cbShowTabHeader: TCheckBox;
     cbShowTabs: TCheckBox;
     cbTwoDiskPanels: TCheckBox;
+    gbCopyBufferSize: TGroupBox;
+    gbGeneralOptions: TGroupBox;
     ilTreeView: TImageList;
+    lblCopyBufferSize: TLabel;
     lblIconsSize: TLabel;
     lblInstalledPlugins: TLabel;
     lblCategoryColor: TLabel;
@@ -148,6 +152,7 @@ type
     nbNotebook: TNotebook;
     odOpenDialog: TOpenDialog;
     optColorDialog: TColorDialog;
+    pgFileOp: TPage;
     pbExample: TPaintBox;
     pcPluginsTypes: TPageControl;
     pcPluginsType: TPageControl;
@@ -269,7 +274,6 @@ begin
   cbExtViewer.Checked:=gUseExtView;
   cbExtDiffer.Checked:=gUseExtDiff;
   cbSeparateExt.Checked:=gSeparateExt;
-  cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
 
   edtExtEditor.Text:= gExtEdit;
   edtExtViewer.Text:=gExtView;
@@ -303,6 +307,10 @@ begin
   cbCursorText.Color := gCursorText;
 
   cbShowIcons.Checked := gShowIcons;
+
+  { File operations }
+  edtCopyBufferSize.Text:= IntToStr(gCopyBlockSize div 1024);
+  cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
 
   { Icons sizes in file panels }
   cbIconsSize.Text := IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize);
@@ -482,7 +490,6 @@ begin
   gUseExtView:=cbExtViewer.Checked;
   gUseExtDiff:=cbExtDiffer.Checked;
   gSeparateExt:=cbSeparateExt.Checked;
-  gDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
 
   gExtEdit:= edtExtEditor.Text;
   gExtView:= edtExtViewer.Text;
@@ -511,6 +518,10 @@ begin
   gCursorText := cbCursorText.Color;
   
   gShowIcons := cbShowIcons.Checked;
+
+  { File operations }
+  gCopyBlockSize := StrToIntDef(edtCopyBufferSize.Text, gCopyBlockSize) * 1024;
+  gDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
   
   frmMain.UpdateWindowView;
   frmMain.Repaint; // for panels repaint

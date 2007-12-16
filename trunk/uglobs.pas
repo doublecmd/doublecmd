@@ -65,7 +65,6 @@ var
 
   gShortFileSizeFormat:Boolean=True;
   gSeparateExt:Boolean=False;    // draw filename and extension separate
-  gDropReadOnlyFlag : Boolean = True;
 
   {Tools page}
 
@@ -105,6 +104,12 @@ var
   gDirTabLimit : Integer;
   gUseMmapInSearch : Boolean;
   gCustomDriveIcons : Boolean; // for use custom drive icons under windows
+  
+  {File operations page}
+
+  gCopyBlockSize : Integer;
+  gDropReadOnlyFlag : Boolean = True;
+    
 const
   { Tabs options }
   tb_always_visible = 1;
@@ -245,7 +250,6 @@ begin
   gUseExtView := gIni.ReadBool('Configuration', 'UseExtView', False);
   gUseExtDiff := gIni.ReadBool('Configuration', 'UseExtDiff', False);
   gSeparateExt := gIni.ReadBool('Configuration', 'SeparateExt', True);
-  gDropReadOnlyFlag := gIni.ReadBool('Configuration', 'DropReadOnlyFlag', True);
 
   gExtEdit := gIni.ReadString('Configuration', 'ExtEdit', '');
   gExtView := gIni.ReadString('Configuration', 'ExtView', '');
@@ -270,6 +274,9 @@ begin
   gCursorColor := gIni.ReadInteger('Colors', 'CursorColor', clHighlight);
   gCursorText := gIni.ReadInteger('Colors', 'CursorText', clHighlightedText);
   
+  gCopyBlockSize := gIni.ReadInteger('Configuration', 'CopyBlockSize', 16384);
+  gDropReadOnlyFlag := gIni.ReadBool('Configuration', 'DropReadOnlyFlag', True);
+    
   gShowIcons := gIni.ReadBool('Configuration', 'ShowIcons', True);
   gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
 
@@ -360,7 +367,6 @@ begin
   gIni.WriteBool('Configuration', 'UseExtView', gUseExtView);
   gIni.WriteBool('Configuration', 'UseExtDiff', gUseExtDiff);
   gIni.WriteBool('Configuration', 'SeparateExt', gSeparateExt);
-  gIni.WriteBool('Configuration', 'DropReadOnlyFlag', gDropReadOnlyFlag);
 
   gIni.WriteString('Configuration', 'ExtEdit', gExtEdit);
   gIni.WriteString('Configuration', 'ExtView', gExtView);
@@ -383,6 +389,8 @@ begin
   gIni.WriteInteger('Colors', 'CursorColor', gCursorColor);
   gIni.WriteInteger('Colors', 'CursorText', gCursorText);
 
+  gIni.WriteInteger('Configuration', 'CopyBlockSize', gCopyBlockSize);
+  gIni.WriteBool('Configuration', 'DropReadOnlyFlag', gDropReadOnlyFlag);
   
   gIni.WriteBool('Configuration', 'ShowIcons', gShowIcons);
   gIni.WriteInteger('Configuration', 'IconsSize', gIconsSize);

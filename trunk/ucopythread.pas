@@ -31,9 +31,6 @@ implementation
 uses
   SysUtils, Classes, uLng, uGlobs, uShowMsg, uFileProcs, uFindEx, uDCUtils, uOSUtils;
 
-const
-  cBlockSize=16384; // size of block if copyfile
-
 procedure TCopyThread.MainExecute;
 var
   pr:PFileRecItem;
@@ -155,7 +152,7 @@ begin
   Result:=False;
 
   writeln('CopyFile:',sSrc,' ',sDst);
-  GetMem(Buffer, cBlockSize+1);
+  GetMem(Buffer, gCopyBlockSize+1);
   dst:=nil; // for safety exception handling
   try
     try
@@ -177,22 +174,22 @@ begin
 //      writeln(FFileOpDlg.iProgress1Max);
       Synchronize(@FFileOpDlg.UpdateDlg);
 
-      while (dst.Size+cBlockSize)<= (src.Size+iDstBeg) do
+      while (dst.Size+gCopyBlockSize)<= (src.Size+iDstBeg) do
       begin
         if Terminated then
           Exit;
-        Src.ReadBuffer(Buffer^, cBlockSize);
+        Src.ReadBuffer(Buffer^, gCopyBlockSize);
 
         repeat
           try
             bRetry := False;
-            dst.WriteBuffer(Buffer^, cBlockSize);
+            dst.WriteBuffer(Buffer^, gCopyBlockSize);
           except
             on EWriteError do
               begin
                 {Check disk free space}
                 GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
-                if cBlockSize > iFreeDiskSize then
+                if gCopyBlockSize > iFreeDiskSize then
                   case MsgBoxForThread(Self, rsMsgNoFreeSpaceRetry, [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of
                     mmrYes:
                       bRetry := True;

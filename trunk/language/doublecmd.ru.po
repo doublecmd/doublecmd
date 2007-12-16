@@ -1,4 +1,4 @@
-#: ulng.rsmsgnotdelete
+﻿#: ulng.rsmsgnotdelete
 msgid "Can not delete file \%s"
 msgstr "Не могу удалить файл %s"
 
@@ -1221,6 +1221,22 @@ msgstr "Плоские"
 #: TFRMOPTIONS.PNLCAPTION.CAPTION
 msgid "Language"
 msgstr ""
+
+#: TFRMOPTIONS.PGFILEOP.CAPTION
+msgid "pgFileOp"
+msgstr ""
+
+#: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
+msgid "&Buffer size for files:"
+msgstr "&Размер буфера для файлов:"
+
+#: TFRMOPTIONS.LBLCOPYBUFFERSIZE.CAPTION
+msgid "Buffer size (Kb):"
+msgstr "Размер буфера (Кб):"
+
+#: TFRMOPTIONS.GBGENERALOPTIONS.CAPTION
+msgid "General options"
+msgstr "Основные настройки"
 
 #: TFRMABOUT.CAPTION
 msgid "About"
