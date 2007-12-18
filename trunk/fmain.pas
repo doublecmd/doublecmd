@@ -2265,8 +2265,8 @@ procedure TfrmMain.UpdateDiskCount;
 begin
   DrivesList.Clear;
   DrivesList := GetAllDrives;
-  if gDriveMenuButton then
-    CreateDrivesMenu;
+  // create drives drop down menu
+  CreateDrivesMenu;
   // delete all disk buttons
   dskRight.DeleteAllToolButtons;
   dskLeft.DeleteAllToolButtons;
