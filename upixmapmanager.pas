@@ -599,20 +599,24 @@ var
   SFI: TSHFileInfo;
 {$ENDIF}
 begin
+  Result := nil;
 {$IFDEF MSWINDOWS}
   if not gCustomDriveIcons then
     begin
+      SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON);
       SFI.hIcon := 0;
       case IconSize of
       16: // Standart icon size
         begin
           SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON or SHGFI_SMALLICON);
-          Result := CreateIconFromHandle(SFI.hIcon);
+          if SFI.hIcon <> 0 then
+            Result := CreateIconFromHandle(SFI.hIcon);
         end;
       32:  // Standart icon size
         begin
           SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON or SHGFI_LARGEICON);
-          Result := CreateIconFromHandle(SFI.hIcon);
+          if SFI.hIcon <> 0 then
+            Result := CreateIconFromHandle(SFI.hIcon);
         end;
       else  // for non standart icon size we Convert HIcon to TBitMap
         begin
