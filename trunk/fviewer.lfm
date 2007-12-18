@@ -1,7 +1,7 @@
 object frmViewer: TfrmViewer
-  Left = 44
+  Left = 66
   Height = 489
-  Top = 58
+  Top = 87
   Width = 760
   HorzScrollBar.Page = 759
   VertScrollBar.Page = 468

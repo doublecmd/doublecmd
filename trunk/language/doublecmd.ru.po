@@ -1238,6 +1238,38 @@ msgstr "Размер буфера (Кб):"
 msgid "General options"
 msgstr "Основные настройки"
 
+#: TFRMOPTIONS.GBDATETIMEFORMAT.CAPTION
+msgid "Date and time"
+msgstr "Дата и время"
+
+#: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
+msgid "Date and time format:"
+msgstr "Формат даты и времени:"
+
+#: TFRMOPTIONS.PGTABS.CAPTION
+msgid "pgTabs"
+msgstr ""
+
+#: TFRMOPTIONS.GBTABS.CAPTION
+msgid "Folder tabs headers"
+msgstr "Заголовки вкладок"
+
+#: TFRMOPTIONS.LBLCHAR.CAPTION
+msgid "characters"
+msgstr "символов"
+
+#: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION
+msgid "&Show tab header also when there is only one tab"
+msgstr "Показывать заголовок вкладки, даже если она одна"
+
+#: TFRMOPTIONS.CBTABSMULTILINES.CAPTION
+msgid "&Tabs on multiple lines"
+msgstr "Размещать вкладки в несколько рядов"
+
+#: TFRMOPTIONS.CBTABSLIMITOPTION.CAPTION
+msgid "&Limit tab title length to:"
+msgstr "Ограничить размер заголовка до:"
+
 #: TFRMABOUT.CAPTION
 msgid "About"
 msgstr "О программе..."

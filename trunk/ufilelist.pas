@@ -71,12 +71,12 @@ Type
   function ICompareByDate(item1, item2:Pointer):Integer;
   function ICompareByAttr(item1, item2:Pointer):Integer;
 
-  procedure CopyListSelectedExpandNames(srcFileList, dstFileList:TFileList; const sPath:String);
+  procedure CopyListSelectedExpandNames(srcFileList, dstFileList:TFileList; sPath:String; bFullName : Boolean = True);
 
 implementation
 
 uses
-  uGlobs, uPixmapManager, uOSUtils;
+  uGlobs, uPixmapManager, uDCUtils, uOSUtils;
 
 var
   bSortNegative : Boolean; // because implementation of TList.Sort
@@ -405,7 +405,7 @@ begin
   end;
 end;
 
-procedure CopyListSelectedExpandNames(srcFileList, dstFileList:TFileList; const sPath:String);
+procedure CopyListSelectedExpandNames(srcFileList, dstFileList:TFileList; sPath:String; bFullName : Boolean = True);
 var
   xIndex:Integer;
   p:TFileRecItem;
@@ -417,9 +417,17 @@ begin
   begin
     p:=srcFileList.GetItem(xIndex)^;
     if (not p.bSelected) or (p.sName = '..') then Continue;
-    p.sNameNoExt:=p.sName; //dstname
-    p.sName:=sPath+p.sName;
-    p.sPath:='';
+    if bFullName then
+      begin
+        p.sNameNoExt:=p.sName; //dstname
+        p.sName := GetSplitFileName(p.sNameNoExt, sPath);
+        p.sPath:='';
+      end
+    else
+      begin
+        GetSplitFileName(p.sName, sPath);
+        p.sPath := sPath;
+      end;
     writeln(p.sName);
     dstFileList.AddItem(@p);
   end;

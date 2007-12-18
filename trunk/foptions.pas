@@ -83,6 +83,9 @@ type
     cbFlatInterface: TCheckBox;
     cbFlatToolBar: TCheckBox;
     cbShowIcons: TCheckBox;
+    cbTabsAlwaysVisible: TCheckBox;
+    cbTabsMultiLines: TCheckBox;
+    cbTabsLimitOption: TCheckBox;
     clbWFXList: TCheckListBox;
     clbWCXList: TCheckListBox;
     cbBackColor2: TColorBox;
@@ -91,9 +94,11 @@ type
     cbCursorText: TColorBox;
     cbTextColor: TColorBox;
     cbCategoryColor: TColorBox;
+    cbDateTimeFormat: TComboBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
+    edtTabsLimitLength: TEdit;
     edtCopyBufferSize: TEdit;
     edtCategoryName: TEdit;
     edtCategoryMask: TEdit;
@@ -126,7 +131,12 @@ type
     cbTwoDiskPanels: TCheckBox;
     gbCopyBufferSize: TGroupBox;
     gbGeneralOptions: TGroupBox;
+    gbDateTimeFormat: TGroupBox;
+    gbTabs: TGroupBox;
     ilTreeView: TImageList;
+    lblChar: TLabel;
+    lblDateTimeExample: TLabel;
+    lblDateTimeFormat: TLabel;
     lblCopyBufferSize: TLabel;
     lblIconsSize: TLabel;
     lblInstalledPlugins: TLabel;
@@ -152,6 +162,7 @@ type
     nbNotebook: TNotebook;
     odOpenDialog: TOpenDialog;
     optColorDialog: TColorDialog;
+    pgTabs: TPage;
     pgFileOp: TPage;
     pbExample: TPaintBox;
     pcPluginsTypes: TPageControl;
@@ -192,6 +203,7 @@ type
     procedure btnBackColorClick(Sender: TObject);
     procedure cbCategoryColorChange(Sender: TObject);
     procedure cbColorBoxChange(Sender: TObject);
+    procedure cbDateTimeFormatChange(Sender: TObject);
     procedure cbExtChange(Sender: TObject);
     procedure cbShowDiskPanelChange(Sender: TObject);
     procedure cbShowIconsChange(Sender: TObject);
@@ -275,6 +287,9 @@ begin
   cbExtDiffer.Checked:=gUseExtDiff;
   cbSeparateExt.Checked:=gSeparateExt;
 
+  cbDateTimeFormat.Text:= gDateTimeFormat;
+  lblDateTimeExample.Caption:= FormatDateTime(gDateTimeFormat, Now);
+
   edtExtEditor.Text:= gExtEdit;
   edtExtViewer.Text:=gExtView;
   edtExtDiffer.Text:=gExtDiff;
@@ -312,9 +327,15 @@ begin
   edtCopyBufferSize.Text:= IntToStr(gCopyBlockSize div 1024);
   cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
 
+  {Folder tabs}
+  cbTabsAlwaysVisible.Checked := Boolean(gDirTabOptions and tb_always_visible) and gDirectoryTabs;
+  cbTabsMultiLines.Checked :=  Boolean(gDirTabOptions and tb_multiple_lines);
+  cbTabsLimitOption.Checked := Boolean(gDirTabOptions and tb_text_length_limit);
+  edtTabsLimitLength.Text := IntToStr(gDirTabLimit);
+  
   { Icons sizes in file panels }
   cbIconsSize.Text := IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize);
-  // ToDo lang to tsColor tsHotKey
+
   FillActionLists;
   FillLngListBox;
   FillFontLists;
@@ -386,6 +407,11 @@ procedure TfrmOptions.cbColorBoxChange(Sender: TObject);
 begin
   (Sender as TColorBox).Color := (Sender as TColorBox).Selected;
   pbExample.Repaint;
+end;
+
+procedure TfrmOptions.cbDateTimeFormatChange(Sender: TObject);
+begin
+  lblDateTimeExample.Caption:= FormatDateTime(cbDateTimeFormat.Text, Now);
 end;
 
 procedure TfrmOptions.cbExtChange(Sender: TObject);
@@ -485,6 +511,7 @@ begin
   gCaseSensitiveSort:=cbCaseSensitiveSort.Checked;
   gLynxLike:=cbLynxLike.Checked;
   gShortFileSizeFormat:=cbShortFileSizeFormat.Checked;
+  gDateTimeFormat := cbDateTimeFormat.Text;
 
   gUseExtEdit:=cbExtEditor.Checked;
   gUseExtView:=cbExtViewer.Checked;
@@ -522,6 +549,18 @@ begin
   { File operations }
   gCopyBlockSize := StrToIntDef(edtCopyBufferSize.Text, gCopyBlockSize) * 1024;
   gDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
+  
+  {Folder tabs}
+  gDirTabOptions := 0;  // Reset tab options
+  if cbTabsAlwaysVisible.Checked then
+    gDirTabOptions :=  (gDirTabOptions or tb_always_visible);
+  if cbTabsMultiLines.Checked then
+    gDirTabOptions := (gDirTabOptions or tb_multiple_lines);
+    
+  if cbTabsLimitOption.Checked then
+    gDirTabOptions := (gDirTabOptions or tb_text_length_limit);
+    
+  gDirTabLimit := StrToIntDef(edtTabsLimitLength.Text, 32);
   
   frmMain.UpdateWindowView;
   frmMain.Repaint; // for panels repaint

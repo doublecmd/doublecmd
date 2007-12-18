@@ -24,6 +24,7 @@ uses
 
 function GetCmdDirFromEnvVar(sPath : String) : String;
 function SetCmdDirAsEnvVar(sPath : String) : String;
+function GetSplitFileName(var sFileName, sPath : String) : String;
 function GetDirs (DirName : String; var Dirs : TStringList) : Longint;
 function GetAbsoluteFileName(sPath, sRelativeFileName : String) : String;
 function ExtractOnlyFileName(const FileName: string): string;
@@ -57,6 +58,18 @@ begin
     Result := StringReplace(sPath, ExcludeTrailingPathDelimiter(gpExePath), '%commander_path%', [rfIgnoreCase])
   else
     Result := sPath;
+end;
+
+function GetSplitFileName(var sFileName, sPath : String) : String;
+begin
+  if Pos(PathDelim, sFileName) <> 0 then
+    begin
+      Result := sFileName;
+      sPath := ExtractFilePath(sFileName);
+      sFileName := ExtractFileName(sFileName);
+    end
+  else
+    Result := sPath + sFileName;
 end;
 
 {

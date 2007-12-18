@@ -66,6 +66,8 @@ var
   gShortFileSizeFormat:Boolean=True;
   gSeparateExt:Boolean=False;    // draw filename and extension separate
 
+  gDateTimeFormat : String;
+
   {Tools page}
 
   gUseExtEdit:Boolean=False;
@@ -100,8 +102,6 @@ var
   
   gShowIcons : Boolean;
   gIconsSize : Integer;
-  gDirTabOptions,
-  gDirTabLimit : Integer;
   gUseMmapInSearch : Boolean;
   gCustomDriveIcons : Boolean; // for use custom drive icons under windows
   
@@ -109,7 +109,12 @@ var
 
   gCopyBlockSize : Integer;
   gDropReadOnlyFlag : Boolean = True;
-    
+
+  {Folder tabs page}
+
+  gDirTabOptions,
+  gDirTabLimit : Integer;
+  
 const
   { Tabs options }
   tb_always_visible = 1;
@@ -242,6 +247,7 @@ begin
   gDirSelect := gIni.ReadBool('Configuration', 'DirSelect', True);
   glsHotDir.CommaText := gIni.ReadString('Configuration', 'HotDir', '');
   gShortFileSizeFormat := gIni.ReadBool('Configuration', 'ShortFileSizeFormat', True);
+  gDateTimeFormat := gIni.ReadString('Configuration', 'DateTimeFormat', 'dd.mm.yy');
 
   gDirTabOptions := gIni.ReadInteger('Configuration', 'DirTabOptions', 0);
   gDirTabLimit :=  gIni.ReadInteger('Configuration', 'DirTabLimit', 32);
@@ -359,6 +365,7 @@ begin
   gIni.WriteBool('Configuration', 'DirSelect', gDirSelect);
   gIni.WriteString('Configuration', 'HotDir', glsHotDir.CommaText);
   gIni.WriteBool('Configuration', 'ShortFileSizeFormat', gShortFileSizeFormat);
+  gIni.WriteString('Configuration', 'DateTimeFormat', gDateTimeFormat);
 
   gIni.WriteInteger('Configuration', 'DirTabOptions', gDirTabOptions);
   gIni.WriteInteger('Configuration', 'DirTabLimit', gDirTabLimit);
