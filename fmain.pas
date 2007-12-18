@@ -1746,9 +1746,9 @@ begin
     else
     begin
       if FPS_ISDIR(ActiveFrame.pnlFile.GetActiveItem^.iMode) then
-        sDestPath:=sDestPath+'*.*'
+        sDestPath:=sDestPath + '*.*'
       else
-        sDestPath:=sDestPath+ActiveFrame.pnlFile.GetActiveItem^.sName;
+        sDestPath:=sDestPath + ExtractFileName(ActiveFrame.pnlFile.GetActiveItem^.sName);
     end;
   end
   else
@@ -1816,9 +1816,9 @@ begin
   CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
 
   if (ActiveFrame.pnlFile.GetSelectedCount=1) and not (FPS_ISDIR(ActiveFrame.pnlFile.GetActiveItem^.iMode) or ActiveFrame.pnlFile.GetActiveItem^.bLinkIsDir) then
-    sDestPath:=sDestPath+ActiveFrame.pnlFile.GetActiveItem^.sName
+    sDestPath:=sDestPath + ExtractFileName(ActiveFrame.pnlFile.GetActiveItem^.sName)
   else
-    sDestPath:=sDestPath+'*.*';
+    sDestPath:=sDestPath + '*.*';
 
   (* Copy files between archive and real file system *)
   
@@ -2246,11 +2246,16 @@ end;
 procedure TfrmMain.FramepnlFileChangeDirectory(Sender: TObject; const NewDir: String);
 var
   ANoteBook : TNoteBook;
+  sCaption : String;
 begin
   if Sender is TPage then
     begin
       ANoteBook := (Sender as TPage).Parent as TNoteBook;
-      ANoteBook.Page[ANoteBook.PageIndex].Caption := GetLastDir(ExcludeTrailingPathDelimiter(NewDir));
+      sCaption := GetLastDir(ExcludeTrailingPathDelimiter(NewDir));
+      if Boolean(gDirTabOptions and tb_text_length_limit) and (Length(sCaption) > gDirTabLimit) then
+        ANoteBook.Page[ANoteBook.PageIndex].Caption:= Copy(sCaption, 1, gDirTabLimit) + '...'
+      else
+        ANoteBook.Page[ANoteBook.PageIndex].Caption := sCaption;
     end;
 end;
 
@@ -2532,14 +2537,20 @@ begin
           sPath := gIni.ReadString(Section, 'path', '');
           CreatePanel(AddPage(ANoteBook), fpsPanel, sPath);
           if sActiveCaption <> '' then
-            ANoteBook.Page[ANoteBook.PageCount - 1].Caption := sActiveCaption;
+            if Boolean(gDirTabOptions and tb_text_length_limit) and (Length(sActiveCaption) > gDirTabLimit) then
+              ANoteBook.Page[ANoteBook.PageCount - 1].Caption := Copy(sActiveCaption, 1, gDirTabLimit) + '...'
+            else
+              ANoteBook.Page[ANoteBook.PageCount - 1].Caption := sActiveCaption;
         end;
       sPath := gIni.ReadString(TabsSection, sIndex + '_path', '');
       if sPath = '' then Break;
       sCaption := gIni.ReadString(TabsSection, sIndex + '_caption', '');
       CreatePanel(AddPage(ANoteBook), fpsPanel, sPath);
       if sCaption <> '' then
-        ANoteBook.Page[ANoteBook.PageCount - 1].Caption := sCaption;
+        if Boolean(gDirTabOptions and tb_text_length_limit) and (Length(sCaption) > gDirTabLimit) then
+          ANoteBook.Page[ANoteBook.PageCount - 1].Caption := Copy(sCaption, 1, gDirTabLimit) + '...'
+        else
+          ANoteBook.Page[ANoteBook.PageCount - 1].Caption := sCaption;
       inc(I);
       sIndex := IntToStr(I);
     end;

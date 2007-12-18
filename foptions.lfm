@@ -1,16 +1,16 @@
 object frmOptions: TfrmOptions
-  Left = 357
-  Height = 409
-  Top = 252
+  Left = 320
+  Height = 415
+  Top = 158
   Width = 577
   HorzScrollBar.Page = 576
-  VertScrollBar.Page = 408
+  VertScrollBar.Page = 414
   VertScrollBar.Range = 41
   ActiveControl = btnOK
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Options'
-  ClientHeight = 409
+  ClientHeight = 415
   ClientWidth = 577
   Icon.Data = {
     36030000424D3603000000000000360000002800000010000000100000000100
@@ -44,7 +44,7 @@ object frmOptions: TfrmOptions
   Position = poMainFormCenter
   object Panel1: TPanel
     Height = 43
-    Top = 366
+    Top = 372
     Width = 577
     Align = alBottom
     ClientHeight = 43
@@ -78,7 +78,7 @@ object frmOptions: TfrmOptions
     end
   end
   object tvTreeView: TTreeView
-    Height = 366
+    Height = 372
     Width = 121
     Align = alLeft
     DefaultItemHeight = 16
@@ -87,12 +87,12 @@ object frmOptions: TfrmOptions
     TabOrder = 1
     OnChange = tvTreeViewChange
     Items.Data = {
-      F9FFFFFF0100090000000000000000000000FFFFFFFFFFFFFFFF000000000000
+      F9FFFFFF01000A0000000000000000000000FFFFFFFFFFFFFFFF000000000000
       00000000000000080000004C616E67756167650100000001000000FFFFFFFFFF
       FFFFFF00000000000000000000000000090000004265686176696F7273020000
       0002000000FFFFFFFFFFFFFFFF0000000000000000000000000005000000546F
       6F6C730300000003000000FFFFFFFFFFFFFFFF00000000000000000000000000
-      05000000466F6E74730A0000000A00000000000000FFFFFFFF00000000020000
+      05000000466F6E74730B0000000B00000000000000FFFFFFFF00000000020000
       00000000000106000000436F6C6F72730400000004000000FFFFFFFFFFFFFFFF
       000000000000000000000000000B00000046696C652070616E656C7307000000
       07000000FFFFFFFFFFFFFFFF000000000000000000000000000A00000046696C
@@ -101,25 +101,26 @@ object frmOptions: TfrmOptions
       0000000000000000000000000007000000506C7567696E730800000008000000
       FFFFFFFFFFFFFFFF00000000000000000000000000060000004C61796F757409
       0000000900000009000000FFFFFFFF000000000000000000000000000F000000
-      46696C65206F7065726174696F6E73
+      46696C65206F7065726174696F6E730A0000000A000000FFFFFFFFFFFFFFFF00
+      0000000000000000000000000B000000466F6C6465722074616273
     }
   end
   object Panel3: TPanel
     Left = 121
-    Height = 366
+    Height = 372
     Width = 456
     Align = alClient
-    ClientHeight = 366
+    ClientHeight = 372
     ClientWidth = 456
     TabOrder = 2
     object nbNotebook: TNotebook
       Left = 1
-      Height = 341
+      Height = 347
       Top = 24
       Width = 454
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 9
+      PageIndex = 10
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
@@ -136,7 +137,7 @@ object frmOptions: TfrmOptions
       object pgBehav: TPage
         Caption = 'pgBehav'
         ClientWidth = 446
-        ClientHeight = 315
+        ClientHeight = 321
         object lblTerm: TLabel
           Left = 8
           Height = 14
@@ -171,10 +172,10 @@ object frmOptions: TfrmOptions
         end
         object gb: TGroupBox
           Left = 10
-          Height = 164
+          Height = 156
           Top = 66
           Width = 202
-          ClientHeight = 164
+          ClientHeight = 156
           ClientWidth = 202
           ParentCtl3D = False
           TabOrder = 2
@@ -226,10 +227,10 @@ object frmOptions: TfrmOptions
         end
         object gbMisc: TGroupBox
           Left = 218
-          Height = 162
+          Height = 156
           Top = 66
           Width = 188
-          ClientHeight = 162
+          ClientHeight = 156
           ClientWidth = 188
           TabOrder = 3
           object lblIconsSize: TLabel
@@ -267,6 +268,57 @@ object frmOptions: TfrmOptions
             Caption = 'Show icons'
             OnChange = cbShowIconsChange
             TabOrder = 1
+          end
+        end
+        object gbDateTimeFormat: TGroupBox
+          AnchorSideTop.Control = gb
+          AnchorSideTop.Side = asrBottom
+          Left = 10
+          Height = 89
+          Top = 228
+          Width = 201
+          BorderSpacing.Top = 6
+          Caption = 'Date and time'
+          ClientHeight = 89
+          ClientWidth = 201
+          TabOrder = 4
+          object lblDateTimeFormat: TLabel
+            Left = 8
+            Height = 14
+            Top = 2
+            Width = 107
+            Caption = 'Date and time format:'
+            ParentColor = False
+          end
+          object lblDateTimeExample: TLabel
+            AnchorSideTop.Control = cbDateTimeFormat
+            AnchorSideTop.Side = asrBottom
+            Left = 8
+            Height = 15
+            Top = 49
+            Width = 97
+            BorderSpacing.Top = 6
+            Font.Style = [fsBold]
+            ParentColor = False
+          end
+          object cbDateTimeFormat: TComboBox
+            AnchorSideTop.Control = lblDateTimeFormat
+            AnchorSideTop.Side = asrBottom
+            Left = 8
+            Height = 21
+            Top = 22
+            Width = 184
+            AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+            BorderSpacing.Top = 6
+            ItemHeight = 13
+            Items.Strings = (
+              'dd.mm.yyyy hh:mm:ss'
+              'dd.mm.yy hh:mm'
+              'dd.mm.yyyy'
+              'dd.mm.yy'
+            )
+            OnChange = cbDateTimeFormatChange
+            TabOrder = 0
           end
         end
       end
@@ -1178,14 +1230,16 @@ object frmOptions: TfrmOptions
       end
       object pgLayout: TPage
         Caption = 'Layout'
+        ClientWidth = 446
+        ClientHeight = 339
         object gbScreenLayout: TGroupBox
           Left = 11
           Height = 304
           Top = 4
           Width = 389
           Caption = ' Screen layout '
-          ClientHeight = 304
-          ClientWidth = 389
+          ClientHeight = 286
+          ClientWidth = 385
           TabOrder = 0
           object cbShowMainToolBar: TCheckBox
             Left = 10
@@ -1299,15 +1353,15 @@ object frmOptions: TfrmOptions
       object pgFileOp: TPage
         Caption = 'pgFileOp'
         ClientWidth = 446
-        ClientHeight = 315
+        ClientHeight = 333
         object gbCopyBufferSize: TGroupBox
           Left = 10
           Height = 105
           Top = 6
           Width = 424
           Caption = '&Buffer size for files:'
-          ClientHeight = 87
-          ClientWidth = 420
+          ClientHeight = 105
+          ClientWidth = 424
           TabOrder = 0
           object lblCopyBufferSize: TLabel
             AnchorSideTop.Side = asrBottom
@@ -1339,8 +1393,8 @@ object frmOptions: TfrmOptions
           Width = 424
           BorderSpacing.Top = 6
           Caption = 'General options'
-          ClientHeight = 87
-          ClientWidth = 420
+          ClientHeight = 105
+          ClientWidth = 424
           TabOrder = 1
           object cbDropReadOnlyFlag: TCheckBox
             Left = 14
@@ -1349,6 +1403,67 @@ object frmOptions: TfrmOptions
             Width = 112
             Caption = 'Drop readonly flag'
             TabOrder = 0
+          end
+        end
+      end
+      object pgTabs: TPage
+        Caption = 'pgTabs'
+        ClientWidth = 446
+        ClientHeight = 339
+        object gbTabs: TGroupBox
+          Left = 12
+          Height = 304
+          Top = 6
+          Width = 422
+          Caption = 'Folder tabs headers'
+          ClientHeight = 286
+          ClientWidth = 418
+          TabOrder = 0
+          object lblChar: TLabel
+            AnchorSideLeft.Control = edtTabsLimitLength
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = edtTabsLimitLength
+            AnchorSideTop.Side = asrCenter
+            Left = 341
+            Height = 14
+            Top = 58
+            Width = 52
+            BorderSpacing.Left = 6
+            Caption = 'characters'
+            ParentColor = False
+          end
+          object cbTabsAlwaysVisible: TCheckBox
+            Left = 12
+            Height = 19
+            Top = 6
+            Width = 256
+            Caption = '&Show tab header also when there is only one tab'
+            TabOrder = 0
+          end
+          object cbTabsMultiLines: TCheckBox
+            Left = 12
+            Height = 19
+            Top = 31
+            Width = 127
+            Caption = '&Tabs on multiple lines'
+            TabOrder = 1
+          end
+          object cbTabsLimitOption: TCheckBox
+            Left = 12
+            Height = 19
+            Top = 56
+            Width = 131
+            Caption = '&Limit tab title length to:'
+            TabOrder = 2
+          end
+          object edtTabsLimitLength: TEdit
+            AnchorSideTop.Control = cbTabsLimitOption
+            AnchorSideTop.Side = asrCenter
+            Left = 294
+            Height = 23
+            Top = 54
+            Width = 41
+            TabOrder = 3
           end
         end
       end
@@ -1369,17 +1484,17 @@ object frmOptions: TfrmOptions
   end
   object dlgFnt: TFontDialog
     left = 48
-    top = 320
+    top = 368
   end
   object optColorDialog: TColorDialog
-    left = 83
-    top = 320
+    left = 80
+    top = 368
   end
   object ilTreeView: TImageList
     left = 16
-    top = 320
+    top = 368
     Bitmap = {
-      4C690B000000100000001000000066355CFF66355CFF66355CFF66355CFF6635
+      4C690C000000100000001000000066355CFF66355CFF66355CFF66355CFF6635
       5CFF66355CFF66355CFF66355CFF66355CFF66355CFF66355CFF66355CFF6635
       5CFF00000000000000000000000066355CFFB395AFFFC6ACC3FFD3BED0FFD1C0
       CEFFC9BBC7FFAA97A7FF877184FF755871FF6A4565FF744B6FFF7E5278FF6635
@@ -1699,7 +1814,39 @@ object frmOptions: TfrmOptions
       F6FF8EDEF5FF89DCF5FF85DAF4FF80D9F4FF7AD7F3FF74D5F3FF70D3F2FFC2EA
       F8FF3594DAFFFFFFFF00FFFFFF002C86D8D12D88D8F72D87D8F72D88D8F72D88
       D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D87D8F72D88
-      D8F72C86D8D1FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF000DD8000304D0
+      D8F72C86D8D1FFFFFF00FFFFFF00000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000008F3FF3F10F4
+      FF7310F4FF760AF3FF4900000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000007F3FF3716F4FFA126F5
+      FFE42CF5FFE518F4FFAE0AF3FF36000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000EF3FF6722F5FFE490FA
+      FFF19BFAFFF333F5FFE611F4FF730000000000000000858A888F888D8BFC888D
+      8BFC868B89FC868B89FD868B89FD858A88FD858A88FD51B7BBFE36EAF2FFA8F6
+      F9FFB8F7FAFF46ECF5FD12F4FF6D00000000858A889AA5AAA8FFFDFDFDFFFDFD
+      FDFFFDFDFDFFFDFDFDFFFDFDFDFFFDFDFDFFFDFDFDFFB4FAFDFF53F6FEFF5CF7
+      FEFF61F7FEFF31DFE7FF0FF1FC2D00000000858A88FFFDFDFDFFDBDFDFFFD1D5
+      D5FFCFD3D3FFCFD3D3FFCFD3D3FFCFD3D3FFCFD3D3FFCFD3D3FFC6E4E5FFB7E4
+      E6FF6AF6FDFF65A7A9FF59ADAF0300000000858A88FFFDFDFDFFD1D5D5FFCFD3
+      D3FFCFD3D3FFCFD3D3FFCFD3D3FFCFD3D3FFCFD3D3FFCFD3D3FFCFD3D3FFCFD3
+      D3FFF6FBFCFF868B89FE858A880300000000858A88FFF0F2F2FFD1D5D5FFD2D6
+      D6FFD2D6D6FFD2D6D6FFD2D6D6FFD2D6D6FFD1D5D5FFD1D5D5FFD1D5D5FFD1D5
+      D5FFF7F7F7FF868B89FD858A880400000000858A88FFEFF0F0FFD4D8D8FFD4D8
+      D8FFD4D8D8FFD4D8D8FFD4D8D8FFD4D8D8FFD4D8D8FFD4D8D8FFD4D8D8FFD4D8
+      D8FFEFF0F0FF878C8AFD858A8806858A8844858A88FFEBEDEDFFD5D9D9FFD5D9
+      D9FFD5D9D9FFD5D9D9FFD5D9D9FFD5D9D9FFD5D9D9FFD5D9D9FFD5D9D9FFD5D9
+      D9FFEFF0F0FF878C8AFC858A8835858A88A48E9391F7E9EBEBFFDADEDEFFDBDF
+      DFFFDBDFDFFFDBDFDFFFDBDFDFFFDBDFDFFFDBDFDFFFDBDFDFFFDBDFDFFFDBDF
+      DFFFECEDEDFF919694F6858A889A858A88FEC9CBCAFFECEDEDFFDBDFDFFFDBDF
+      DFFFDBDFDFFFDBDFDFFFDBDFDFFFDBDFDFFFDBDFDFFFDBDFDFFFDBDFDFFFDBDF
+      DFFFECEDEDFFD1D3D2FF858A88FF858A88FDECEDEDFFD9DDDDFFDADEDEFFDADE
+      DEFFDADEDEFFDADEDEFFDADEDEFFDADEDEFFDBDFDFFFDBDFDFFFDBDFDFFFDBDF
+      DFFFDBDFDFFFEFF0F0FF858A88FF858A88FCEFF0F0FFE9EAEAFFECEDEDFFECED
+      EDFFECEDEDFFECEDEDFFECEDEDFFE9EAEAFFE9EAEAFFE9EAEAFFE9EAEAFFE9EA
+      EAFFE9EAEAFFE9EAEAFF858A88FF888D8BE5868B89FC868B89FC868B89FC868B
+      89FC868B89FC868B89FC868B89FC868B89FC868B89FC868B89FC868B89FC868B
+      89FC868B89FC868B89FC888D8BEAFFFFFF00FFFFFF00FFFFFF000DD8000304D0
       13540CD135AF15D255DA18D474F418D68CF113D8A2D40DDBB9A206E4D945FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF003AD5042220D009AF3AD7
       3DFF6AE67CFF88F3AAFF96F9C4FF97FBD3FF87F7DBFF68EFE0FF1AE7E5FA0AD5
@@ -1736,7 +1883,7 @@ object frmOptions: TfrmOptions
   end
   object odOpenDialog: TOpenDialog
     FilterIndex = 0
-    left = 120
-    top = 320
+    left = 112
+    top = 368
   end
 end

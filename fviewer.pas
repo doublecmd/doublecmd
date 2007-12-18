@@ -118,7 +118,7 @@ procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
 implementation
 
 uses
-  uLng, uShowMsg, uGlobs, lcltype, lazjpeg, uFindMmap;
+  uLng, uShowMsg, uGlobs, lcltype, lazjpg, uFindMmap;
 
 procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
 var viewer: TfrmViewer;
