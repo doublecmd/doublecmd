@@ -120,7 +120,7 @@ object frmOptions: TfrmOptions
       Width = 454
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 10
+      PageIndex = 5
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
@@ -540,50 +540,64 @@ object frmOptions: TfrmOptions
       end
       object pgColor: TPage
         Caption = 'pgColor'
+        ClientWidth = 446
+        ClientHeight = 339
         object cTextLabel: TLabel
+          AnchorSideTop.Control = cbTextColor
+          AnchorSideTop.Side = asrCenter
           Left = 6
           Height = 14
-          Top = 34
+          Top = 30
           Width = 55
           Caption = 'Text Color:'
           ParentColor = False
         end
         object cBackGrndLabel: TLabel
+          AnchorSideTop.Control = cbBackColor
+          AnchorSideTop.Side = asrCenter
           Left = 6
           Height = 14
-          Top = 64
+          Top = 60
           Width = 62
           Caption = 'BackGround:'
           ParentColor = False
         end
         object lblBackground2: TLabel
+          AnchorSideTop.Control = cbBackColor2
+          AnchorSideTop.Side = asrCenter
           Left = 6
           Height = 14
-          Top = 94
+          Top = 90
           Width = 70
           Caption = 'Background 2:'
           ParentColor = False
         end
         object lblMarkColor: TLabel
+          AnchorSideTop.Control = cbMarkColor
+          AnchorSideTop.Side = asrCenter
           Left = 6
           Height = 14
-          Top = 124
+          Top = 120
           Width = 56
           Caption = 'Mark Color:'
           ParentColor = False
         end
         object lblCursorColor: TLabel
+          AnchorSideTop.Control = cbCursorColor
+          AnchorSideTop.Side = asrCenter
           Left = 6
           Height = 14
-          Top = 154
+          Top = 150
           Width = 65
           Caption = 'Cursor Color:'
           ParentColor = False
         end
         object lblCursorText: TLabel
+          AnchorSideTop.Control = cbCursorText
+          AnchorSideTop.Side = asrCenter
           Left = 6
           Height = 14
-          Top = 184
+          Top = 180
           Width = 62
           Caption = 'Cursor Text:'
           ParentColor = False
@@ -624,11 +638,14 @@ object frmOptions: TfrmOptions
           OnDropDown = cbColorBoxDropDown
         end
         object cbBackColor: TColorBox
+          AnchorSideTop.Control = cbTextColor
+          AnchorSideTop.Side = asrBottom
           Left = 108
           Height = 22
           Top = 56
           Width = 100
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          BorderSpacing.Top = 8
           ItemHeight = 16
           Items.Strings = (
             'clBlack'
@@ -659,6 +676,8 @@ object frmOptions: TfrmOptions
           OnDropDown = cbColorBoxDropDown
         end
         object btnForeColor: TButton
+          AnchorSideTop.Control = cbTextColor
+          AnchorSideTop.Side = asrCenter
           Left = 210
           Height = 22
           Top = 26
@@ -669,6 +688,8 @@ object frmOptions: TfrmOptions
           TabOrder = 2
         end
         object btnBackColor: TButton
+          AnchorSideTop.Control = cbBackColor
+          AnchorSideTop.Side = asrCenter
           Left = 210
           Height = 22
           Top = 56
@@ -679,11 +700,14 @@ object frmOptions: TfrmOptions
           TabOrder = 3
         end
         object cbBackColor2: TColorBox
+          AnchorSideTop.Control = cbBackColor
+          AnchorSideTop.Side = asrBottom
           Left = 108
           Height = 22
           Top = 86
           Width = 100
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          BorderSpacing.Top = 8
           ItemHeight = 16
           Items.Strings = (
             'clBlack'
@@ -714,11 +738,14 @@ object frmOptions: TfrmOptions
           OnDropDown = cbColorBoxDropDown
         end
         object cbMarkColor: TColorBox
+          AnchorSideTop.Control = cbBackColor2
+          AnchorSideTop.Side = asrBottom
           Left = 108
           Height = 22
           Top = 116
           Width = 100
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          BorderSpacing.Top = 8
           ItemHeight = 16
           Items.Strings = (
             'clBlack'
@@ -749,11 +776,14 @@ object frmOptions: TfrmOptions
           OnDropDown = cbColorBoxDropDown
         end
         object cbCursorColor: TColorBox
+          AnchorSideTop.Control = cbMarkColor
+          AnchorSideTop.Side = asrBottom
           Left = 108
           Height = 22
           Top = 146
           Width = 100
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          BorderSpacing.Top = 8
           ItemHeight = 16
           Items.Strings = (
             'clBlack'
@@ -784,11 +814,14 @@ object frmOptions: TfrmOptions
           OnDropDown = cbColorBoxDropDown
         end
         object cbCursorText: TColorBox
+          AnchorSideTop.Control = cbCursorColor
+          AnchorSideTop.Side = asrBottom
           Left = 108
           Height = 22
           Top = 176
           Width = 100
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          BorderSpacing.Top = 8
           ItemHeight = 16
           Items.Strings = (
             'clBlack'
@@ -819,6 +852,8 @@ object frmOptions: TfrmOptions
           OnDropDown = cbColorBoxDropDown
         end
         object btnMarkColor: TButton
+          AnchorSideTop.Control = cbMarkColor
+          AnchorSideTop.Side = asrCenter
           Left = 210
           Height = 22
           Top = 116
@@ -829,6 +864,8 @@ object frmOptions: TfrmOptions
           TabOrder = 8
         end
         object btnCursorColor: TButton
+          AnchorSideTop.Control = cbCursorColor
+          AnchorSideTop.Side = asrCenter
           Left = 210
           Height = 22
           Top = 146
@@ -839,6 +876,8 @@ object frmOptions: TfrmOptions
           TabOrder = 9
         end
         object btnCursorText: TButton
+          AnchorSideTop.Control = cbCursorText
+          AnchorSideTop.Side = asrCenter
           Left = 210
           Height = 22
           Top = 176
@@ -849,6 +888,8 @@ object frmOptions: TfrmOptions
           TabOrder = 10
         end
         object btnBackColor2: TButton
+          AnchorSideTop.Control = cbBackColor2
+          AnchorSideTop.Side = asrCenter
           Left = 210
           Height = 22
           Top = 86
@@ -878,6 +919,8 @@ object frmOptions: TfrmOptions
       end
       object pgHotKey: TPage
         Caption = 'pgHotKey'
+        ClientWidth = 446
+        ClientHeight = 321
         object lblActions: TLabel
           Left = 6
           Height = 14
@@ -898,7 +941,7 @@ object frmOptions: TfrmOptions
           Left = 4
           Height = 21
           Top = 33
-          Width = 310
+          Width = 302
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           ItemHeight = 13
@@ -911,7 +954,7 @@ object frmOptions: TfrmOptions
           Left = 6
           Height = 23
           Top = 88
-          Width = 308
+          Width = 300
           Anchors = [akTop, akLeft, akRight]
           OnKeyDown = edHotKeyKeyDown
           TabOrder = 1
@@ -1096,59 +1139,76 @@ object frmOptions: TfrmOptions
       end
       object pgFileTypesColors: TPage
         Caption = 'pgFileTypesColors'
+        ClientWidth = 446
+        ClientHeight = 321
         object gbFileTypesColors: TGroupBox
           Left = 10
           Height = 274
           Top = 2
           Width = 425
           Caption = 'File types colors'
-          ClientHeight = 274
-          ClientWidth = 425
+          ClientHeight = 256
+          ClientWidth = 421
           TabOrder = 0
           object lblCategoryName: TLabel
-            Left = 45
+            AnchorSideTop.Control = edtCategoryName
+            AnchorSideTop.Side = asrCenter
+            Left = 12
             Height = 14
-            Top = 129
+            Top = 122
             Width = 79
             Caption = 'Category name:'
             ParentColor = False
           end
           object lblCategoryMask: TLabel
-            Left = 45
+            AnchorSideTop.Control = edtCategoryMask
+            AnchorSideTop.Side = asrCenter
+            Left = 12
             Height = 14
-            Top = 161
+            Top = 153
             Width = 77
             Caption = 'Category mask:'
             ParentColor = False
           end
           object lblCategoryColor: TLabel
-            Left = 46
+            AnchorSideTop.Control = cbCategoryColor
+            AnchorSideTop.Side = asrCenter
+            Left = 12
             Height = 14
-            Top = 192
+            Top = 184
             Width = 76
             Caption = 'Category color:'
             ParentColor = False
           end
           object edtCategoryName: TEdit
+            AnchorSideTop.Control = lbCategories
+            AnchorSideTop.Side = asrBottom
             Left = 174
             Height = 23
-            Top = 120
+            Top = 118
             Width = 236
+            BorderSpacing.Top = 12
             TabOrder = 0
           end
           object edtCategoryMask: TEdit
+            AnchorSideTop.Control = edtCategoryName
+            AnchorSideTop.Side = asrBottom
             Left = 174
             Height = 23
-            Top = 152
+            Top = 149
             Width = 236
+            BorderSpacing.Top = 8
             TabOrder = 1
           end
           object cbCategoryColor: TColorBox
+            AnchorSideTop.Control = edtCategoryMask
+            AnchorSideTop.Side = asrBottom
             Left = 174
             Height = 22
-            Top = 184
+            Top = 180
             Width = 100
             AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+            BorderSpacing.Top = 8
             ItemHeight = 16
             Items.Strings = (
               'clBlack'
@@ -1179,29 +1239,37 @@ object frmOptions: TfrmOptions
             OnDropDown = cbColorBoxDropDown
           end
           object bbtnAddCategory: TBitBtn
+            AnchorSideTop.Control = cbCategoryColor
+            AnchorSideTop.Side = asrBottom
             Left = 159
             Height = 32
-            Top = 218
+            Top = 214
             Width = 75
+            BorderSpacing.Top = 12
             Caption = 'Add'
             NumGlyphs = 0
             OnClick = bbtnAddCategoryClick
             TabOrder = 3
           end
           object bbtnDeleteCategory: TBitBtn
+            AnchorSideTop.Control = cbCategoryColor
+            AnchorSideTop.Side = asrBottom
             Left = 246
             Height = 32
-            Top = 218
+            Top = 214
             Width = 75
+            BorderSpacing.Top = 12
             Caption = 'Delete'
             NumGlyphs = 0
             OnClick = bbtnDeleteCategoryClick
             TabOrder = 4
           end
           object btnCategoryColor: TButton
+            AnchorSideTop.Control = cbCategoryColor
+            AnchorSideTop.Side = asrCenter
             Left = 278
             Height = 22
-            Top = 184
+            Top = 180
             Width = 28
             BorderSpacing.InnerBorder = 4
             Caption = '>>'
@@ -1209,18 +1277,21 @@ object frmOptions: TfrmOptions
             TabOrder = 5
           end
           object lbCategories: TListBox
-            Left = 14
+            Left = 12
             Height = 96
             Top = 10
-            Width = 396
+            Width = 398
             OnClick = lbCategoriesClick
             TabOrder = 6
           end
           object bbtnApplyCategory: TBitBtn
+            AnchorSideTop.Control = cbCategoryColor
+            AnchorSideTop.Side = asrBottom
             Left = 335
             Height = 32
-            Top = 218
+            Top = 214
             Width = 75
+            BorderSpacing.Top = 12
             Caption = 'Apply'
             NumGlyphs = 0
             OnClick = bbtnApplyCategoryClick
@@ -1238,8 +1309,8 @@ object frmOptions: TfrmOptions
           Top = 4
           Width = 389
           Caption = ' Screen layout '
-          ClientHeight = 286
-          ClientWidth = 385
+          ClientHeight = 304
+          ClientWidth = 389
           TabOrder = 0
           object cbShowMainToolBar: TCheckBox
             Left = 10
@@ -1409,15 +1480,15 @@ object frmOptions: TfrmOptions
       object pgTabs: TPage
         Caption = 'pgTabs'
         ClientWidth = 446
-        ClientHeight = 339
+        ClientHeight = 321
         object gbTabs: TGroupBox
           Left = 12
           Height = 304
           Top = 6
           Width = 422
           Caption = 'Folder tabs headers'
-          ClientHeight = 286
-          ClientWidth = 418
+          ClientHeight = 304
+          ClientWidth = 422
           TabOrder = 0
           object lblChar: TLabel
             AnchorSideLeft.Control = edtTabsLimitLength
