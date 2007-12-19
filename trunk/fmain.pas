@@ -481,11 +481,15 @@ end;
 
 procedure TfrmMain.actContextMenuExecute(Sender: TObject);
 var
-  pfri : PFileRecItem;
+  fl : TFileList;
 begin
-  pfri := ActiveFrame.GetActiveItem;
-  pfri^.sPath := ActiveFrame.ActiveDir;
-  ShowContextMenu(Handle, pfri, Mouse.CursorPos.x, Mouse.CursorPos.y);
+  fl := TFileList.Create;
+  with ActiveFrame do
+    begin
+      SelectFileIfNoSelected(GetActiveItem);
+      CopyListSelectedExpandNames(pnlFile.FileList, fl, ActiveDir, False);
+    end;
+  ShowContextMenu(Handle, fl, Mouse.CursorPos.x, Mouse.CursorPos.y);
 end;
 
 procedure TfrmMain.actLeftOpenDrivesExecute(Sender: TObject);
@@ -2192,14 +2196,10 @@ end;
 { Show context menu on right click }
 procedure TfrmMain.framedgPanelMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
-var
-  pfri : PFileRecItem;
 begin
   if Button = mbRight then
     begin
-     pfri := ActiveFrame.GetActiveItem;
-     pfri^.sPath := ActiveFrame.ActiveDir;
-     ShowContextMenu(Handle, pfri, Mouse.CursorPos.x, Mouse.CursorPos.y);
+      actContextMenu.Execute;
     end;
 end;
 
