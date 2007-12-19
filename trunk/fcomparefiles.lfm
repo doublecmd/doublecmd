@@ -1,7 +1,7 @@
 object frmCompareFiles: TfrmCompareFiles
-  Left = 213
+  Left = 314
   Height = 530
-  Top = 133
+  Top = 440
   Width = 783
   HorzScrollBar.Page = 782
   HorzScrollBar.Range = 365
@@ -61,10 +61,12 @@ object frmCompareFiles: TfrmCompareFiles
       ParentCtl3D = False
       TabOrder = 1
       BookMarkOptions.Xoffset = -18
+      BookMarkOptions.OnChange = nil
       Gutter.DigitCount = 2
       Gutter.LeftOffset = 0
       Gutter.Visible = False
       Gutter.Width = 15
+      Gutter.OnChange = nil
       Gutter.CodeFoldingWidth = 14
       Keystrokes = <      
         item
@@ -388,6 +390,7 @@ object frmCompareFiles: TfrmCompareFiles
           ShortCut = 24642
         end>
       ReadOnly = True
+      SelectedColor.OnChange = nil
       OnSpecialLineColors = lstLeftSpecialLineColors
       OnStatusChange = lstLeftStatusChange
     end
@@ -435,7 +438,9 @@ object frmCompareFiles: TfrmCompareFiles
       ParentCtl3D = False
       TabOrder = 1
       BookMarkOptions.Xoffset = -18
+      BookMarkOptions.OnChange = nil
       Gutter.Visible = False
+      Gutter.OnChange = nil
       Gutter.CodeFoldingWidth = 14
       Keystrokes = <      
         item
@@ -759,6 +764,7 @@ object frmCompareFiles: TfrmCompareFiles
           ShortCut = 24642
         end>
       ReadOnly = True
+      SelectedColor.OnChange = nil
       OnSpecialLineColors = lstRightSpecialLineColors
       OnStatusChange = lstRightStatusChange
     end
@@ -793,6 +799,8 @@ object frmCompareFiles: TfrmCompareFiles
       TabOrder = 0
     end
     object btnNextDiff: TButton
+      AnchorSideTop.Control = btnCompare
+      AnchorSideTop.Side = asrCenter
       Left = 120
       Height = 32
       Top = 8
@@ -802,6 +810,8 @@ object frmCompareFiles: TfrmCompareFiles
       TabOrder = 1
     end
     object btnPrevDiff: TButton
+      AnchorSideTop.Control = btnNextDiff
+      AnchorSideTop.Side = asrCenter
       Left = 256
       Height = 32
       Top = 8
@@ -811,30 +821,42 @@ object frmCompareFiles: TfrmCompareFiles
       TabOrder = 2
     end
     object chbBinMode: TCheckBox
+      AnchorSideTop.Control = btnPrevDiff
+      AnchorSideTop.Side = asrCenter
       Left = 424
       Height = 19
-      Top = 8
+      Top = 15
       Width = 84
       AllowGrayed = True
       Caption = 'Binary mode'
       TabOrder = 3
     end
     object btnClose: TButton
-      Left = 648
+      AnchorSideLeft.Control = chbKeepScrolling
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = btnPrevDiff
+      AnchorSideTop.Side = asrCenter
+      Left = 612
       Height = 32
       Top = 8
-      Width = 50
+      Width = 96
+      BorderSpacing.Left = 6
       BorderSpacing.InnerBorder = 4
       Caption = 'Close'
       OnClick = btnCloseClick
       TabOrder = 4
     end
     object chbKeepScrolling: TCheckBox
-      Left = 528
+      AnchorSideLeft.Control = chbBinMode
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = btnPrevDiff
+      AnchorSideTop.Side = asrCenter
+      Left = 514
       Height = 19
-      Top = 8
+      Top = 15
       Width = 92
       AllowGrayed = True
+      BorderSpacing.Left = 6
       Caption = 'Keep scrolling'
       TabOrder = 5
     end
