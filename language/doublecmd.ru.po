@@ -1560,7 +1560,7 @@ msgstr "Копир F5"
 
 #: TFRMMAIN.ACTRENAME.CAPTION
 msgid "Rename F6"
-msgstr "Переимен F6"
+msgstr "Переместить F6"
 
 #: TFRMMAIN.ACTMAKEDIR.CAPTION
 msgid "MakeDir F7"
