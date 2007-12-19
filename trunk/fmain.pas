@@ -775,9 +775,7 @@ begin
 
   pnlCommand.Visible := gCmdLine;
   pnlKeys.Visible := gKeyButtons;
-  nbLeft.ShowTabs := gDirectoryTabs;
-  nbRight.ShowTabs := gDirectoryTabs;
-  
+
   IsPanelsCreated := True;
 end;
 
@@ -2743,8 +2741,8 @@ begin
 
   pnlCommand.Visible := gCmdLine;
   pnlKeys.Visible := gKeyButtons;
-  nbLeft.ShowTabs := gDirectoryTabs;
-  nbRight.ShowTabs := gDirectoryTabs;
+  nbLeft.ShowTabs := ((nbLeft.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
+  nbRight.ShowTabs := ((nbRight.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
 end;
 
 procedure TfrmMain.edtCommandKeyDown(Sender: TObject; var Key: Word;
