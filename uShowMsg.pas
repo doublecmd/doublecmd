@@ -57,12 +57,14 @@ function MsgBox(const sMsg:String; const Buttons: array of TMyMsgButton; ButDefa
 function MsgBoxForThread(Thread : TThread;const sMsg:String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton):TMyMsgResult;
 
 function MsgTest:TMyMsgResult;
+function ShowInputComboBox(const sCaption, sPrompt : String; var slValueList : TStringList;
+                           var sValue : String) : Boolean;
 procedure msgLoadLng;
 
 
 implementation
 uses
-  SysUtils, StdCtrls, Graphics, fMsg, uLng, Buttons, Controls;
+  SysUtils, StdCtrls, Graphics, math, fMsg, uLng, Buttons, Controls;
 
 const
   cMsgName='Double Commander';
@@ -239,6 +241,78 @@ end;
 function msgWarning(const sMsg:String):Boolean;
 begin
   Raise Exception.Create('Not implemented yet!');
+end;
+
+function ShowInputComboBox(const sCaption, sPrompt : String; var slValueList : TStringList;
+                           var sValue : String) : Boolean;
+var
+  frmDialog : TForm;
+  lblPrompt : TLabel;
+  cbValue : TComboBox;
+  bbtnOK,
+  bbtnCancel : TBitBtn;
+begin
+  Result := False;
+  frmDialog := TForm.CreateNew(nil, 0);
+  with frmDialog do
+    begin
+      BorderStyle := bsDialog;
+      Position := poScreenCenter;
+      AutoSize := True;
+      Height := 120;
+      ChildSizing.TopBottomSpacing := 8;
+      ChildSizing.LeftRightSpacing := 8;
+      Caption := sCaption;
+      lblPrompt := TLabel.Create(frmDialog);
+      with lblPrompt do
+        begin
+          Parent := frmDialog;
+          Caption := sPrompt;
+          Top := 6;
+          Left := 6;
+        end;
+      cbValue := TComboBox.Create(frmDialog);
+      with cbValue do
+        begin
+          Parent := frmDialog;
+          Items.Assign(slValueList);
+          Text := sValue;
+          Left := 6;
+          AnchorToNeighbour(akTop, 6, lblPrompt);
+          Constraints.MinWidth := max(280, Screen.Width div 5);;
+        end;
+      bbtnCancel := TBitBtn.Create(frmDialog);
+      with bbtnCancel do
+        begin
+          Parent := frmDialog;
+          Kind := bkCancel;
+          Cancel := True;
+          Left := 6;
+          Anchors := [akTop, akRight];
+          AnchorToNeighbour(akTop, 18, cbValue);
+          AnchorSide[akRight].Control := cbValue;
+          AnchorSide[akRight].Side := asrRight;
+        end;
+      bbtnOK := TBitBtn.Create(frmDialog);
+      with bbtnOK do
+        begin
+          Parent := frmDialog;
+          Kind := bkOk;
+          Default := True;
+          Anchors := [akTop, akRight];
+          AnchorToNeighbour(akTop, 18, cbValue);
+          AnchorToNeighbour(akRight, 6, bbtnCancel);
+        end;
+      ShowModal;
+      if ModalResult = mrOK then
+        begin
+          if slValueList.IndexOf(cbValue.Text) < 0 then
+            slValueList.Add(cbValue.Text);
+          sValue := cbValue.Text;
+          Result := True;
+        end;
+      Free;
+    end; // with frmDialog
 end;
 
 procedure msgLoadLng;

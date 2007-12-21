@@ -61,6 +61,7 @@ var
   gDirSelect:Boolean=True;
   glsHotDir:TStringList;
   glsDirHistory:TStringList;
+  glsMaskHistory : TStringList;
   gColumnSize:Array[0..4] of Integer;
 
   gShortFileSizeFormat:Boolean=True;
@@ -196,10 +197,11 @@ begin
       gIni.Free;
       gIni:=TIniFile.Create(GetHomeDir + 'doublecmd.ini');
     end;
-  gExts:=TExts.Create;
-  gColorExt:=TColorExt.Create;
-  glsHotDir:=TStringList.Create;
-  glsDirHistory:=TStringList.Create;
+  gExts := TExts.Create;
+  gColorExt := TColorExt.Create;
+  glsHotDir := TStringList.Create;
+  glsDirHistory := TStringList.Create;
+  glsMaskHistory := TStringList.Create;
 end;
 
 procedure DeInitGlobs;
@@ -210,6 +212,8 @@ begin
     FreeAndNil(glsDirHistory);
   if assigned(glsHotDir) then
     FreeAndNil(glsHotDir);
+  if Assigned(glsMaskHistory) then
+    FreeAndNil(glsMaskHistory);
   if Assigned(gExts) then
     FreeAndNil(gExts);
   if Assigned(gIni) then
@@ -290,11 +294,14 @@ begin
 
   gUseMmapInSearch := gIni.ReadBool('Configuration', 'UseMmapInSearch', False);
 
-  if FileExists(gpCfgDir+'doublecmd.ext') then
-    gExts.LoadFromFile(gpCfgDir+'doublecmd.ext');
+  if FileExists(gpCfgDir + 'doublecmd.ext') then
+    gExts.LoadFromFile(gpCfgDir + 'doublecmd.ext');
 
-  if FileExists(gpIniDir+'dirhistory.txt') then
-    LoadStringsFromFile(glsDirHistory,gpIniDir+'dirhistory.txt');
+  if FileExists(gpIniDir + 'dirhistory.txt') then
+    LoadStringsFromFile(glsDirHistory,gpIniDir + 'dirhistory.txt');
+
+  if FileExists(gpIniDir + 'maskhistory.txt') then
+    LoadStringsFromFile(glsMaskHistory, gpIniDir + 'maskhistory.txt');
 
   gColorExt.Load;
 
@@ -338,7 +345,8 @@ procedure SaveGlobs;
 var
   x:Integer;
 begin
-  glsDirHistory.SaveToFile(gpIniDir+'dirhistory.txt');
+  glsDirHistory.SaveToFile(gpIniDir + 'dirhistory.txt');
+  glsMaskHistory.SaveToFile(gpIniDir + 'maskhistory.txt');
 
   {Layout page}
 
