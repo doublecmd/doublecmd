@@ -1,15 +1,14 @@
 {
-Double Commander
-----------------------------
-Licence  : GNU GPL v 2.0
-Author   : Alexander Koblov (Alexx2000@mail.ru)
+   Double Commander
+   ----------------------------
+   Licence  : GNU GPL v 2.0
+   Author   : Alexander Koblov (Alexx2000@mail.ru)
 
-Several useful functions
+   Several useful functions
 
-contributors:
-Radek Cervinka  <radek.cervinka@centrum.cz>
-
-Part of this code based on code from http://www.delphirus.com.ru
+   contributors:
+   
+   Radek Cervinka  <radek.cervinka@centrum.cz>
 
 }
 
@@ -29,12 +28,10 @@ function GetDirs (DirName : String; var Dirs : TStringList) : Longint;
 function GetAbsoluteFileName(sPath, sRelativeFileName : String) : String;
 function ExtractOnlyFileName(const FileName: string): string;
 procedure Split(const sFileNameWithParams : String; var sFileName, sParams : String);
-Function cnvFormatFileSize(iSize:Int64):String;
-Function MinimizeFilePath(const PathToMince: String; Canvas: TCanvas;
+function cnvFormatFileSize(iSize:Int64):String;
+function MinimizeFilePath(const PathToMince: String; Canvas: TCanvas;
                                            MaxLen: Integer): String;
-function CharPos(C: Char; const S: string; StartPos: Integer = 1): Integer; overload;
-function G_ValidateWildText(const S, Mask: string; bCaseSens : Boolean = False; MaskChar: Char = '?';
-                             WildCard: Char = '*'): Boolean;
+function CharPos(C: Char; const S: string; StartPos: Integer = 1): Integer;
 procedure DivFileName(const sFileName:String; var n,e:String);
 
 implementation
@@ -170,7 +167,7 @@ begin
     sParams := Copy(sFileNameWithParams, iSpacePos + 1, iLength - iSpacePos);
 end;
 
-Function cnvFormatFileSize(iSize:Int64):String;
+function cnvFormatFileSize(iSize:Int64):String;
 var
   d:double;
 begin
@@ -198,9 +195,13 @@ begin
 
   end;
 end;
+
+{
+  This function based on code from http://www.delphirus.com.ru
+}
    
 {=========================================================}
-Function MinimizeFilePath(const PathToMince: String; Canvas: TCanvas;
+function MinimizeFilePath(const PathToMince: String; Canvas: TCanvas;
                                                       MaxLen: Integer): String;
 {=========================================================}
 // "C:\Program Files\Delphi\DDropTargetDemo\main.pas"
@@ -293,7 +294,7 @@ begin
 end;
 
 
-function CharPos(C: Char; const S: string; StartPos: Integer = 1): Integer; overload;
+function CharPos(C: Char; const S: string; StartPos: Integer = 1): Integer;
 var
  sNewStr : String;
 begin
@@ -307,118 +308,6 @@ if StartPos <> 1 then
 else
   Result := Pos(C, S);
 end;
-
-{
-  This function based on G_ValidateWildText from AcedUtils
-  http://acedutils.narod.ru/AcedUtils.zip
-}
-
-function G_ValidateWildText(const S, Mask: string; bCaseSens : Boolean = False; MaskChar: Char = '?';
-                             WildCard: Char = '*'): Boolean;
-label
-  99;
-var
-  L, X, X0, Q: Integer;
-  P, P1, B: PChar;
-  C: Char;
-  sUpperS,
-  sUpperMask : String;
-begin
-  if not bCaseSens then
-    begin
-    sUpperS := UpperCase(S);
-    sUpperMask := UpperCase(Mask);
-    end
-  else
-    begin
-      sUpperS := S;
-      sUpperMask := Mask;
-    end;
-
-  X := Pos(WildCard, sUpperMask);
-  Result := False;
-  if X = 0 then
-  begin
-    L := Length(sUpperMask);
-    if (L > 0) and (L = Length(sUpperS)) then
-    begin
-      P := Pointer(sUpperS);
-      B := Pointer(sUpperMask);
-      repeat
-        C := B^;
-        if (C <> MaskChar) and (C <> P^) then
-          Exit;
-        Dec(L);
-        Inc(B);
-        Inc(P);
-      until L = 0;
-      Result := True;
-    end;
-    Exit;
-  end;
-  L := Length(sUpperS);
-  P := Pointer(sUpperS);
-  B := Pointer(sUpperMask);
-  Q := X - 1;
-  if L < Q then
-    Exit;
-  while Q > 0 do
-  begin
-    C := B^;
-    if (C <> MaskChar) and (C <> P^) then
-      Exit;
-    Dec(Q);
-    Inc(B);
-    Inc(P);
-  end;
-  Dec(L, X - 1);
-  repeat
-    X0 := X;
-    P1 := P;
-    while sUpperMask[X0] = WildCard do
-      Inc(X0);
-    X := CharPos(WildCard, sUpperMask, X0);
-    if X = 0 then
-      Break;
-  99:
-    P := P1;
-    B := @sUpperMask[X0];
-    Q := X - X0;
-    if L < Q then
-      Exit;
-    while Q > 0 do
-    begin
-      C := B^;
-      if (C <> MaskChar) and (C <> P^) then
-      begin
-        Inc(P1);
-        Dec(L);
-        goto 99;
-      end;
-      Dec(Q);
-      Inc(B);
-      Inc(P);
-    end;
-    Dec(L, X - X0);
-  until False;
-  X := Length(sUpperMask);
-  if L >= X - X0 + 1 then
-  begin
-    P := Pointer(sUpperS);
-    Inc(P, Length(sUpperS) - 1);
-    while X >= X0 do
-    begin
-      C := sUpperMask[X];
-      if (C <> MaskChar) and (C <> P^) then
-        Exit;
-      Dec(X);
-      Dec(P);
-    end;
-    Result := True;
-  end;
-end;
-
-
 
 end.
 

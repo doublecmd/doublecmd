@@ -101,7 +101,7 @@ type
 implementation
 
 uses
-  SysUtils, uFileOp, uGlobs, uVFSutil,
+  SysUtils, Masks, uFileOp, uGlobs, uVFSutil,
   uShowMsg, Controls, uLng, uShowForm, uVFSmodule, uDCUtils,
   uOSUtils;
 
@@ -575,7 +575,7 @@ begin
     begin
       frp:=fFileList.GetItem(i);
       if (frp^.sName='..') then Continue;
-      if G_ValidateWildText(frp^.sName, sMask) then
+      if MatchesMaskList(frp^.sName, sMask) then
         frp^.bSelected := bSelect;
     end;
 end;

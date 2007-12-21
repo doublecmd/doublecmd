@@ -122,7 +122,7 @@ Type
 function IsBlocked : Boolean;
 
 implementation
-uses Forms, SysUtils, uFileOp, uOSUtils, LCLProc, uFileProcs, uDCUtils, uLng, Controls;
+uses Forms, SysUtils, Masks, uFileOp, uOSUtils, LCLProc, uFileProcs, uDCUtils, uLng, Controls;
 
 var
   WCXModule : TWCXModule;  // used in ProcessDataProc
@@ -609,7 +609,7 @@ procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
 
        if (FFileMask <> '*.*') and (FFileMask <> '*') and
           not FPS_ISDIR(PHeaderData(FArcFileList.Items[I])^.FileAttr) and
-          not(G_ValidateWildText(CurrFileName, FFileMask)) then
+          not(MatchesMaskList(CurrFileName, FFileMask)) then
          Continue;
 
   //     DebugLN('In folder = ' + CurrFileName);
@@ -655,7 +655,7 @@ begin
     if fri.sName[1] = PathDelim then
       Delete(fri.sName, 1, 1);
 
-    if (FFileMask <> '*.*') and (FFileMask <> '*') and not(G_ValidateWildText(fri.sName, FFileMask) or FPS_ISDIR(fri.iMode)) then
+    if (FFileMask <> '*.*') and (FFileMask <> '*') and not(MatchesMaskList(fri.sName, FFileMask) or FPS_ISDIR(fri.iMode)) then
       Continue;
       
 
