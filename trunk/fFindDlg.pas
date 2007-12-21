@@ -194,8 +194,8 @@ procedure TfrmFindDlg.btnStartClick(Sender: TObject);
 var
   dtTime : TDateTime;
 begin
-  if glsMaskHistory.IndexOf(cmbFindFileMask.Text) < 0 then
-    glsMaskHistory.Add(cmbFindFileMask.Text);
+  if cmbFindFileMask.Items.IndexOf(cmbFindFileMask.Text) < 0 then
+    cmbFindFileMask.Items.Add(cmbFindFileMask.Text);
             
   if not DirectoryExists(edtFindPathStart.Text) then
   begin
@@ -514,6 +514,7 @@ begin
 //  CloseAction:=caFree;
   Panel1.Visible := False;
   Height := Panel2.Height;
+  glsMaskHistory.Assign(cmbFindFileMask.Items);
 end;
 
 procedure TfrmFindDlg.frmFindDlgShow(Sender: TObject);
