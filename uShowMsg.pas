@@ -279,7 +279,7 @@ begin
           Text := sValue;
           Left := 6;
           AnchorToNeighbour(akTop, 6, lblPrompt);
-          Constraints.MinWidth := max(280, Screen.Width div 5);;
+          Constraints.MinWidth := max(280, Screen.Width div 4);
         end;
       bbtnCancel := TBitBtn.Create(frmDialog);
       with bbtnCancel do
