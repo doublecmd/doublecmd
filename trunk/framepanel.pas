@@ -347,7 +347,7 @@ var
   s:String;
 begin
   s:=FLastMark;
-  if not InputQuery(rsMarkPlus, rsMaskInput, s) then Exit;
+  if not ShowInputComboBox(rsMarkPlus, rsMaskInput, glsMaskHistory, s) then Exit;
   FLastMark:=s;
   pnlFile.MarkGroup(s,True);
   dgPanel.Invalidate;
@@ -376,7 +376,7 @@ var
   s:String;
 begin
   s:=FLastMark;
-  if not InputQuery(rsMarkMinus, rsMaskInput, s) then Exit;
+  if not ShowInputComboBox(rsMarkMinus, rsMaskInput, glsMaskHistory, s) then Exit;
   FLastMark:=s;
   pnlFile.MarkGroup(s,False);
   dgPanel.Invalidate;

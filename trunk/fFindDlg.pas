@@ -138,7 +138,7 @@ procedure ShowFindDlg(const sActPath:String);
 implementation
 
 uses
-  fViewer, uLng, uShowForm, fMain, uTypes, uFileOp, uFindEx, uOSUtils;
+  fViewer, uLng, uGlobs, uShowForm, fMain, uTypes, uFileOp, uFindEx, uOSUtils;
   
 procedure ShowFindDlg(const sActPath:String);
 begin
@@ -194,6 +194,9 @@ procedure TfrmFindDlg.btnStartClick(Sender: TObject);
 var
   dtTime : TDateTime;
 begin
+  if glsMaskHistory.IndexOf(cmbFindFileMask.Text) < 0 then
+    glsMaskHistory.Add(cmbFindFileMask.Text);
+            
   if not DirectoryExists(edtFindPathStart.Text) then
   begin
     ShowMessage(Format(rsFindDirNoEx,[edtFindPathStart.Text]));
@@ -518,6 +521,7 @@ begin
   if cmbFindFileMask.Visible then
     cmbFindFileMask.SelectAll;
   //cmbFindFileMask.SetFocus;
+  cmbFindFileMask.Items.Assign(glsMaskHistory);
 end;
 
 procedure TfrmFindDlg.lsFoundedFilesDblClick(Sender: TObject);
