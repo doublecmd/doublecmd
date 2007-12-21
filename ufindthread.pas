@@ -117,7 +117,7 @@ TFindThread = class(TThread)
 implementation
 
 uses
-  Dialogs, uLng, uFindMmap, uFindEx, uGlobs;
+  Dialogs, Masks, uLng, uFindMmap, uFindEx, uGlobs;
 
 { TFindThread }
 
@@ -309,7 +309,7 @@ begin
 {$IFDEF WIN32}
 (* This is hack *)
 //WriteLN('File = ', sr.Name);
-if not G_ValidateWildText(sr.Name, FFileMask) then
+if not MatchesMaskList(sr.Name, FFileMask) then
    begin
      Result := False;
      Exit;
