@@ -1238,6 +1238,18 @@ msgstr "Размер буфера (Кб):"
 msgid "General options"
 msgstr "Основные настройки"
 
+#: TFRMOPTIONS.GBFILESEARCH.CAPTION
+msgid "File search"
+msgstr "Поиск файлов"
+
+#: TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION
+msgid "Use memory mapping for search text in files"
+msgstr "Использовать отображение в память, при поиске текста в файлах"
+
+#: TFRMOPTIONS.RBUSESTREAMINSEARCH.CAPTION
+msgid "Use stream for search text in files"
+msgstr "Использовать поток, при поиске текста в файлах"
+
 #: TFRMOPTIONS.GBDATETIMEFORMAT.CAPTION
 msgid "Date and time"
 msgstr "Дата и время"

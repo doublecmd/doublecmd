@@ -466,8 +466,8 @@ begin
 
   //WriteLN('ToolButton.Left == ' + IntToStr(ToolButton.Left));
 
-  if Assigned(OnMouseDown) then
-    ToolButton.OnMouseDown := OnMouseDown;
+  if Assigned(OnMouseUp) then
+    ToolButton.OnMouseUp := OnMouseUp;
 
   if FCheckToolButton then
     ToolButton.GroupIndex := 1;

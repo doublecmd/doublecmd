@@ -1,25 +1,31 @@
 object frmHardLink: TfrmHardLink
-  Left = 318
-  Height = 156
-  Top = 461
-  Width = 417
-  HorzScrollBar.Page = 416
-  HorzScrollBar.Range = 411
-  VertScrollBar.Page = 155
-  VertScrollBar.Range = 145
+  Left = 320
+  Height = 152
+  Top = 320
+  Width = 400
+  HorzScrollBar.Page = 399
+  HorzScrollBar.Range = 392
+  VertScrollBar.Page = 151
+  VertScrollBar.Range = 146
   ActiveControl = edtDst
+  AutoSize = True
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Create hardlink'
-  ClientHeight = 156
-  ClientWidth = 417
+  ChildSizing.LeftRightSpacing = 8
+  ChildSizing.TopBottomSpacing = 8
+  ClientHeight = 152
+  ClientWidth = 400
   KeyPreview = True
   Position = poMainFormCenter
   object lblNew: TLabel
+    AnchorSideTop.Control = edtDst
+    AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 14
-    Top = 64
+    Top = 58
     Width = 197
+    BorderSpacing.Top = 6
     Caption = 'Existing destination (where will link point)'
     ParentColor = False
   end
@@ -32,24 +38,36 @@ object frmHardLink: TfrmHardLink
     ParentColor = False
   end
   object edtNew: TEdit
+    AnchorSideTop.Control = lblNew
+    AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 24
-    Top = 88
-    Width = 401
+    Top = 78
+    Width = 384
+    BorderSpacing.Top = 6
     TabOrder = 1
   end
   object edtDst: TEdit
+    AnchorSideTop.Control = lblDst
+    AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 24
-    Top = 32
-    Width = 401
+    Top = 28
+    Width = 384
+    BorderSpacing.Top = 6
     TabOrder = 3
   end
   object btnOK: TBitBtn
-    Left = 248
+    AnchorSideTop.Control = edtNew
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnCancel
+    Left = 236
     Height = 32
-    Top = 120
+    Top = 114
     Width = 75
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 12
+    BorderSpacing.Right = 6
     BorderSpacing.InnerBorder = 2
     Caption = '&OK'
     Default = True
@@ -60,10 +78,16 @@ object frmHardLink: TfrmHardLink
     TabOrder = 0
   end
   object btnCancel: TBitBtn
-    Left = 336
+    AnchorSideTop.Control = edtNew
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = edtNew
+    AnchorSideRight.Side = asrBottom
+    Left = 317
     Height = 32
-    Top = 120
+    Top = 114
     Width = 75
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 12
     BorderSpacing.InnerBorder = 2
     Cancel = True
     Caption = 'Cancel'

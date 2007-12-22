@@ -161,7 +161,7 @@ begin
   lblStatus.Caption:='';
   Panel1.Visible := False;
   Splitter1.Visible := False;
-  Height := Panel2.Height;
+  Height := Panel2.Height + 22;
 end;
 
 
@@ -179,7 +179,7 @@ procedure TfrmFindDlg.btnNewSearchClick(Sender: TObject);
 begin
   Panel1.Visible := False;
   Splitter1.Visible := False;
-  Height := Panel2.Height;
+  Height := Panel2.Height + 22;
 end;
 
 procedure TfrmFindDlg.btnGoToPathClick(Sender: TObject);
@@ -513,7 +513,7 @@ procedure TfrmFindDlg.frmFindDlgClose(Sender: TObject;
 begin
 //  CloseAction:=caFree;
   Panel1.Visible := False;
-  Height := Panel2.Height;
+  Height := Panel2.Height + 22;
   glsMaskHistory.Assign(cmbFindFileMask.Items);
 end;
 

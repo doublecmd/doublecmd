@@ -1246,6 +1246,18 @@ msgstr ""
 msgid "General options"
 msgstr ""
 
+#: TFRMOPTIONS.GBFILESEARCH.CAPTION
+msgid "File search"
+msgstr ""
+
+#: TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION
+msgid "Use memory mapping for search text in files"
+msgstr ""
+
+#: TFRMOPTIONS.RBUSESTREAMINSEARCH.CAPTION
+msgid "Use stream for search text in files"
+msgstr ""
+
 #: TFRMOPTIONS.GBDATETIMEFORMAT.CAPTION
 msgid "Date and time"
 msgstr ""

@@ -373,8 +373,8 @@ object frmFindDlg: TfrmFindDlg
           Height = 165
           Top = 41
           Width = 270
-          ClientHeight = 147
-          ClientWidth = 266
+          ClientHeight = 165
+          ClientWidth = 270
           Enabled = False
           TabOrder = 16
           object lblInfo: TLabel

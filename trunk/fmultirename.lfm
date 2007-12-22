@@ -13,9 +13,11 @@ object frmMultiRename: TfrmMultiRename
   ClientWidth = 608
   Position = poMainFormCenter
   object gbMaska: TGroupBox
+    AnchorSideRight.Side = asrBottom
     Height = 105
     Top = 208
     Width = 176
+    Anchors = [akLeft, akBottom]
     Caption = 'Mask'
     ClientHeight = 87
     ClientWidth = 172
@@ -23,16 +25,16 @@ object frmMultiRename: TfrmMultiRename
     TabOrder = 0
     object lbName: TLabel
       Left = 6
-      Height = 13
-      Width = 58
+      Height = 14
+      Width = 47
       Caption = 'File Name'
       ParentColor = False
     end
     object lbExt: TLabel
       Left = 6
-      Height = 13
+      Height = 14
       Top = 41
-      Width = 55
+      Width = 48
       Caption = 'Extension'
       ParentColor = False
     end
@@ -75,27 +77,31 @@ object frmMultiRename: TfrmMultiRename
     end
   end
   object gbFindReplace: TGroupBox
-    Left = 176
+    AnchorSideLeft.Control = gbMaska
+    AnchorSideLeft.Side = asrBottom
+    Left = 182
     Height = 105
     Top = 208
-    Width = 137
+    Width = 132
+    Anchors = [akLeft, akBottom]
+    BorderSpacing.Left = 6
     Caption = 'Find && Replace'
     ClientHeight = 87
-    ClientWidth = 133
+    ClientWidth = 128
     ParentCtl3D = False
     TabOrder = 1
     object lbFind: TLabel
       Left = 6
-      Height = 13
-      Width = 35
+      Height = 14
+      Width = 33
       Caption = 'Find...'
       ParentColor = False
     end
     object lbReplace: TLabel
       Left = 6
-      Height = 13
+      Height = 14
       Top = 41
-      Width = 56
+      Width = 51
       Caption = 'Replace...'
       ParentColor = False
     end
@@ -117,10 +123,13 @@ object frmMultiRename: TfrmMultiRename
     end
   end
   object gbFontStyle: TGroupBox
+    AnchorSideBottom.Control = gbLog
     Left = 464
     Height = 49
     Top = 208
     Width = 137
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Bottom = 6
     Caption = 'File Name Style'
     ClientHeight = 31
     ClientWidth = 133
@@ -149,36 +158,40 @@ object frmMultiRename: TfrmMultiRename
     end
   end
   object gbCounter: TGroupBox
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideRight.Control = gbFontStyle
     Left = 320
     Height = 105
     Top = 208
-    Width = 137
+    Width = 138
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Right = 6
     Caption = 'Counter'
     ClientHeight = 87
-    ClientWidth = 133
+    ClientWidth = 134
     ParentCtl3D = False
     TabOrder = 3
     object lbStNb: TLabel
       Left = 6
-      Height = 13
+      Height = 14
       Top = 1
-      Width = 73
+      Width = 65
       Caption = 'Start Number'
       ParentColor = False
     end
     object lbInterval: TLabel
       Left = 6
-      Height = 13
+      Height = 14
       Top = 57
-      Width = 42
+      Width = 39
       Caption = 'Interval'
       ParentColor = False
     end
     object lbWidth: TLabel
       Left = 6
-      Height = 13
+      Height = 14
       Top = 28
-      Width = 32
+      Width = 29
       Caption = 'Width'
       ParentColor = False
     end
@@ -231,20 +244,26 @@ object frmMultiRename: TfrmMultiRename
     end
   end
   object btnOK: TButton
+    AnchorSideRight.Control = btnCancel
     Left = 320
     Height = 32
     Top = 320
-    Width = 65
+    Width = 66
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Right = 6
     BorderSpacing.InnerBorder = 4
     Caption = 'OK'
     OnClick = btnOKClick
     TabOrder = 4
   end
   object btnCancel: TButton
+    AnchorSideRight.Control = gbLog
     Left = 392
     Height = 32
     Top = 320
-    Width = 65
+    Width = 66
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Right = 6
     BorderSpacing.InnerBorder = 4
     Caption = 'Cancel'
     ModalResult = 2
@@ -255,6 +274,7 @@ object frmMultiRename: TfrmMultiRename
     Height = 82
     Top = 263
     Width = 137
+    Anchors = [akRight, akBottom]
     Caption = 'Log Result'
     ClientHeight = 64
     ClientWidth = 133
@@ -283,6 +303,7 @@ object frmMultiRename: TfrmMultiRename
     Height = 32
     Top = 318
     Width = 136
+    Anchors = [akLeft, akBottom]
     BorderSpacing.InnerBorder = 4
     Caption = 'Restore All'
     OnClick = btnRestoreClick
@@ -293,21 +314,22 @@ object frmMultiRename: TfrmMultiRename
     Height = 201
     Top = 2
     Width = 603
+    Anchors = [akTop, akLeft, akRight, akBottom]
     Columns = <    
       item
         AutoSize = True
         Caption = 'Old File Name'
-        Width = 90
+        Width = 120
       end    
       item
         AutoSize = True
         Caption = 'New File Name'
-        Width = 90
+        Width = 120
       end    
       item
         AutoSize = True
         Caption = 'File Path'
-        Width = 70
+        Width = 120
       end>
     TabOrder = 8
     ViewStyle = vsReport
@@ -315,8 +337,8 @@ object frmMultiRename: TfrmMultiRename
   object ppNameMenu: TPopupMenu
     AutoPopup = False
     OnPopup = ppNameMenuPopup
-    left = 320
-    top = 192
+    left = 264
+    top = 320
     object miNextName: TMenuItem
       Caption = 'Name...'
       object miName: TMenuItem
