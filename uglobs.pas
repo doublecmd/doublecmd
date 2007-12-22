@@ -265,7 +265,7 @@ begin
   gExtView := gIni.ReadString('Configuration', 'ExtView', '');
   gExtDiff := gIni.ReadString('Configuration', 'ExtDiff', '');
   gRunTerm := gIni.ReadString('Configuration', 'RunTerm', gRunTerm);
-
+  { Fonts }
   gFontName:=gIni.ReadString('Configuration', 'FontName', '');
   gFontWeight := gIni.ReadInteger('Configuration', 'FontWeight', 1);
   writeln('gFontName:',gFontName);
@@ -276,23 +276,22 @@ begin
   gFontSize:=gIni.ReadInteger('Configuration', 'FontSize', 10);
   gEditorSize:=gIni.ReadInteger('Configuration', 'EditorSize', 14);
   gViewerSize:=gIni.ReadInteger('Configuration', 'ViewerSize', 14);
-
+  { Colors }
   gForeColor  := gIni.ReadInteger('Colors', 'ForeColor', clBlack);
   gBackColor := gIni.ReadInteger('Colors', 'BackColor', clWhite);
   gBackColor2 := gIni.ReadInteger('Colors', 'BackColor2', clWhite);
   gMarkColor := gIni.ReadInteger('Colors', 'MarkColor', clRed);
   gCursorColor := gIni.ReadInteger('Colors', 'CursorColor', clHighlight);
   gCursorText := gIni.ReadInteger('Colors', 'CursorText', clHighlightedText);
-  
+  { File operations }
   gCopyBlockSize := gIni.ReadInteger('Configuration', 'CopyBlockSize', 16384);
   gDropReadOnlyFlag := gIni.ReadBool('Configuration', 'DropReadOnlyFlag', True);
+  gUseMmapInSearch := gIni.ReadBool('Configuration', 'UseMmapInSearch', False);
     
   gShowIcons := gIni.ReadBool('Configuration', 'ShowIcons', True);
   gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
 
   gCustomDriveIcons := gIni.ReadBool('Configuration', 'CustomDriveIcons', False);
-
-  gUseMmapInSearch := gIni.ReadBool('Configuration', 'UseMmapInSearch', False);
 
   if FileExists(gpCfgDir + 'doublecmd.ext') then
     gExts.LoadFromFile(gpCfgDir + 'doublecmd.ext');
@@ -387,7 +386,7 @@ begin
   gIni.WriteString('Configuration', 'ExtView', gExtView);
   gIni.WriteString('Configuration', 'ExtDiff', gExtDiff);
   gIni.WriteString('Configuration', 'RunTerm', gRunTerm);
-
+  { Fonts }
   gIni.WriteString('Configuration', 'FontName', gFontName);
   gIni.WriteInteger('Configuration', 'FontWeight', gFontWeight);
   gIni.WriteString('Configuration', 'FontEditorName', gEditorFontName);
@@ -396,21 +395,20 @@ begin
   gIni.WriteInteger('Configuration', 'FontSize', gFontSize);
   gIni.WriteInteger('Configuration', 'EditorSize', gEditorSize);
   gIni.WriteInteger('Configuration', 'ViewerSize', gViewerSize);
-
+  { Colors }
   gIni.WriteInteger('Colors', 'ForeColor', gForeColor);
   gIni.WriteInteger('Colors', 'BackColor', gBackColor);
   gIni.WriteInteger('Colors', 'BackColor2', gBackColor2);
   gIni.WriteInteger('Colors', 'MarkColor', gMarkColor);
   gIni.WriteInteger('Colors', 'CursorColor', gCursorColor);
   gIni.WriteInteger('Colors', 'CursorText', gCursorText);
-
+  { File operations }
   gIni.WriteInteger('Configuration', 'CopyBlockSize', gCopyBlockSize);
   gIni.WriteBool('Configuration', 'DropReadOnlyFlag', gDropReadOnlyFlag);
+  gIni.WriteBool('Configuration', 'UseMmapInSearch', gUseMmapInSearch);
   
   gIni.WriteBool('Configuration', 'ShowIcons', gShowIcons);
   gIni.WriteInteger('Configuration', 'IconsSize', gIconsSize);
-
-  gIni.WriteBool('Configuration', 'UseMmapInSearch', gUseMmapInSearch);
 
   for x:=0 to 4 do
     gIni.WriteInteger('Configuration', 'Col'+IntToStr(x), gColumnSize[x]);

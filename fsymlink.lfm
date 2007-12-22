@@ -1,55 +1,75 @@
 object frmSymLink: TfrmSymLink
-  Left = 355
-  Height = 136
-  Top = 520
-  Width = 362
-  HorzScrollBar.Page = 361
+  Left = 296
+  Height = 152
+  Top = 258
+  Width = 400
+  HorzScrollBar.Page = 399
   HorzScrollBar.Range = 344
-  VertScrollBar.Page = 135
+  VertScrollBar.Page = 151
   VertScrollBar.Range = 128
   ActiveControl = edtDst
+  AutoSize = True
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Create symlink'
-  ClientHeight = 136
-  ClientWidth = 362
+  ChildSizing.LeftRightSpacing = 8
+  ChildSizing.TopBottomSpacing = 8
+  ClientHeight = 152
+  ClientWidth = 400
   KeyPreview = True
   Position = poScreenCenter
   object lblNew: TLabel
+    AnchorSideTop.Control = edtDst
+    AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 14
-    Top = 2
+    Top = 57
     Width = 197
+    BorderSpacing.Top = 6
     Caption = 'Existing destination (where will link point)'
     ParentColor = False
   end
   object lblDst: TLabel
+    AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 14
-    Top = 44
+    Top = 8
     Width = 48
+    BorderSpacing.Top = 6
     Caption = 'Link name'
     ParentColor = False
   end
   object edtNew: TEdit
+    AnchorSideTop.Control = lblNew
+    AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 23
-    Top = 18
-    Width = 344
+    Top = 77
+    Width = 384
+    BorderSpacing.Top = 6
     TabOrder = 1
   end
   object edtDst: TEdit
+    AnchorSideTop.Control = lblDst
+    AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 23
-    Top = 64
-    Width = 344
+    Top = 28
+    Width = 384
+    BorderSpacing.Top = 6
     TabOrder = 3
   end
   object btnOK: TBitBtn
-    Left = 176
+    AnchorSideTop.Control = edtNew
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnCancel
+    Left = 236
     Height = 32
-    Top = 96
-    Width = 88
+    Top = 112
+    Width = 75
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 12
+    BorderSpacing.Right = 6
     BorderSpacing.InnerBorder = 2
     Caption = '&OK'
     Default = True
@@ -60,10 +80,16 @@ object frmSymLink: TfrmSymLink
     TabOrder = 0
   end
   object btnCancel: TBitBtn
-    Left = 269
+    AnchorSideTop.Control = edtNew
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = edtNew
+    AnchorSideRight.Side = asrBottom
+    Left = 317
     Height = 32
-    Top = 96
+    Top = 112
     Width = 75
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 12
     BorderSpacing.InnerBorder = 2
     Cancel = True
     Caption = 'Cancel'

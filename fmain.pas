@@ -214,7 +214,7 @@ type
     procedure lblDriveInfoDblClick(Sender: TObject);
     function MainToolBarLoadButtonGlyph(sIconFileName: String;
       iIconSize: Integer; clBackColor: TColor): TBitmap;
-    procedure MainToolBarMouseDown(Sender: TOBject; Button: TMouseButton;
+    procedure MainToolBarMouseUp(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure MainToolBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
     procedure actExitExecute(Sender: TObject);
@@ -275,11 +275,11 @@ type
     procedure actCalculateSpaceExecute(Sender: TObject);
     procedure actFilePropertiesExecute(Sender: TObject);
     procedure FramedgPanelEnter(Sender: TObject);
-    procedure framedgPanelMouseDown(Sender: TObject; Button: TMouseButton;
+    procedure framedgPanelMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure ShowPathEdit;
     procedure FramelblLPathClick(Sender: TObject);
-    procedure FramelblLPathMouseDown(Sender: TObject; Button: TMouseButton;
+    procedure FramelblLPathMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FramepnlFileChangeDirectory(Sender: TObject; const NewDir : String);
     procedure edtCommandKeyDown(Sender: TObject; var Key: Word;
@@ -606,7 +606,7 @@ begin
 end;
 
 
-procedure TfrmMain.MainToolBarMouseDown(Sender: TOBject; Button: TMouseButton;
+procedure TfrmMain.MainToolBarMouseUp(Sender: TOBject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
 Point : TPoint;
@@ -2194,7 +2194,7 @@ begin
 end;
 
 { Show context menu on right click }
-procedure TfrmMain.framedgPanelMouseDown(Sender: TObject; Button: TMouseButton;
+procedure TfrmMain.framedgPanelMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   if Button = mbRight then
@@ -2224,7 +2224,7 @@ begin
   actDirHistory.Execute;
 end;
 
-procedure TfrmMain.FramelblLPathMouseDown(Sender: TObject; Button: TMouseButton;
+procedure TfrmMain.FramelblLPathMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   case Button of
@@ -2457,13 +2457,13 @@ begin
     pnlHeader.Visible := gCurDir;
     pnlFooter.Visible := gStatusBar;
     lblLPath.OnClick:=@FramelblLPathClick;
-    lblLPath.OnMouseDown := @FramelblLPathMouseDown;
+    lblLPath.OnMouseUp := @FramelblLPathMouseUp;
     edtPath.OnExit:=@FrameEditExit;
     edtRename.OnExit:=@FrameEditExit;
     edtSearch.OnExit:=@FrameedtSearchExit;
     
     dgPanel.OnEnter:=@framedgPanelEnter;
-    dgPanel.OnMouseDown := @framedgPanelMouseDown;
+    dgPanel.OnMouseUp := @framedgPanelMouseUp;
 
   end;
 

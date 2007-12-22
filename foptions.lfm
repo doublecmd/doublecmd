@@ -120,7 +120,7 @@ object frmOptions: TfrmOptions
       Width = 454
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 5
+      PageIndex = 9
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
@@ -920,7 +920,7 @@ object frmOptions: TfrmOptions
       object pgHotKey: TPage
         Caption = 'pgHotKey'
         ClientWidth = 446
-        ClientHeight = 321
+        ClientHeight = 339
         object lblActions: TLabel
           Left = 6
           Height = 14
@@ -1147,8 +1147,8 @@ object frmOptions: TfrmOptions
           Top = 2
           Width = 425
           Caption = 'File types colors'
-          ClientHeight = 256
-          ClientWidth = 421
+          ClientHeight = 274
+          ClientWidth = 425
           TabOrder = 0
           object lblCategoryName: TLabel
             AnchorSideTop.Control = edtCategoryName
@@ -1424,15 +1424,15 @@ object frmOptions: TfrmOptions
       object pgFileOp: TPage
         Caption = 'pgFileOp'
         ClientWidth = 446
-        ClientHeight = 333
+        ClientHeight = 339
         object gbCopyBufferSize: TGroupBox
           Left = 10
-          Height = 105
+          Height = 100
           Top = 6
           Width = 424
           Caption = '&Buffer size for files:'
-          ClientHeight = 105
-          ClientWidth = 424
+          ClientHeight = 82
+          ClientWidth = 420
           TabOrder = 0
           object lblCopyBufferSize: TLabel
             AnchorSideTop.Side = asrBottom
@@ -1449,23 +1449,23 @@ object frmOptions: TfrmOptions
             AnchorSideBottom.Side = asrCenter
             Left = 326
             Height = 23
-            Top = 2
+            Top = -1
             Width = 80
             Anchors = [akLeft]
             TabOrder = 0
           end
         end
         object gbGeneralOptions: TGroupBox
-          AnchorSideTop.Control = gbCopyBufferSize
+          AnchorSideTop.Control = gbFileSearch
           AnchorSideTop.Side = asrBottom
           Left = 10
-          Height = 105
-          Top = 117
+          Height = 100
+          Top = 218
           Width = 424
           BorderSpacing.Top = 6
           Caption = 'General options'
-          ClientHeight = 105
-          ClientWidth = 424
+          ClientHeight = 82
+          ClientWidth = 420
           TabOrder = 1
           object cbDropReadOnlyFlag: TCheckBox
             Left = 14
@@ -1474,6 +1474,40 @@ object frmOptions: TfrmOptions
             Width = 112
             Caption = 'Drop readonly flag'
             TabOrder = 0
+          end
+        end
+        object gbFileSearch: TGroupBox
+          AnchorSideTop.Control = gbCopyBufferSize
+          AnchorSideTop.Side = asrBottom
+          Left = 10
+          Height = 100
+          Top = 112
+          Width = 424
+          BorderSpacing.Top = 6
+          Caption = 'File search'
+          ClientHeight = 82
+          ClientWidth = 420
+          TabOrder = 2
+          object rbUseMmapInSearch: TRadioButton
+            Left = 14
+            Height = 19
+            Top = 6
+            Width = 229
+            Caption = 'Use memory mapping for search text in files'
+            TabOrder = 0
+          end
+          object rbUseStreamInSearch: TRadioButton
+            AnchorSideTop.Control = rbUseMmapInSearch
+            AnchorSideTop.Side = asrBottom
+            Left = 14
+            Height = 19
+            Top = 31
+            Width = 181
+            BorderSpacing.Top = 6
+            Caption = 'Use stream for search text in files'
+            Checked = True
+            State = cbChecked
+            TabOrder = 1
           end
         end
       end

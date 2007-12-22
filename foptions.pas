@@ -133,6 +133,7 @@ type
     gbGeneralOptions: TGroupBox;
     gbDateTimeFormat: TGroupBox;
     gbTabs: TGroupBox;
+    gbFileSearch: TGroupBox;
     ilTreeView: TImageList;
     lblChar: TLabel;
     lblDateTimeExample: TLabel;
@@ -181,6 +182,8 @@ type
     pgHotKey: TPage;
     pgLng: TPage;
     pgTools: TPage;
+    rbUseMmapInSearch: TRadioButton;
+    rbUseStreamInSearch: TRadioButton;
     tsWCX: TTabSheet;
     tsWFX: TTabSheet;
     tvTreeView: TTreeView;
@@ -326,6 +329,7 @@ begin
   { File operations }
   edtCopyBufferSize.Text:= IntToStr(gCopyBlockSize div 1024);
   cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
+  rbUseMmapInSearch.Checked := gUseMmapInSearch;
 
   {Folder tabs}
   cbTabsAlwaysVisible.Checked := Boolean(gDirTabOptions and tb_always_visible) and gDirectoryTabs;
@@ -549,6 +553,7 @@ begin
   { File operations }
   gCopyBlockSize := StrToIntDef(edtCopyBufferSize.Text, gCopyBlockSize) * 1024;
   gDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
+  gUseMmapInSearch := rbUseMmapInSearch.Checked;
   
   {Folder tabs}
   gDirTabOptions := 0;  // Reset tab options
