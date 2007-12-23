@@ -51,7 +51,7 @@ function msgYesNoCancel(const sMsg:String):TMyMsgResult;
 procedure msgOK(const sMsg:String);
 
 function msgWarning(const sMsg:String):Boolean;
-procedure msgError(const sMsg:String);
+procedure msgError(const sMsg:String; Thread : TThread = nil);
 
 function MsgBox(const sMsg:String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton):TMyMsgResult;
 function MsgBoxForThread(Thread : TThread;const sMsg:String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton):TMyMsgResult;
@@ -233,9 +233,12 @@ begin
   MsgBox(sMsg,[msmbOK],msmbOK, msmbOK);
 end;
 
-procedure msgError(const sMsg:String);
+procedure msgError(const sMsg:String; Thread : TThread = nil);
 begin
-  MsgBox(sMsg,[msmbOK],msmbOK, msmbOK);
+  if Assigned(Thread) then
+    MsgBoxForThread(Thread, sMsg,[msmbOK],msmbOK, msmbOK)
+  else
+    MsgBox(sMsg,[msmbOK],msmbOK, msmbOK);
 end;
 
 function msgWarning(const sMsg:String):Boolean;

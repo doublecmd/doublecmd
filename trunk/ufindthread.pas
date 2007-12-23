@@ -117,7 +117,7 @@ TFindThread = class(TThread)
 implementation
 
 uses
-  LCLProc, Dialogs, Masks, uLng, uFindMmap, uFindEx, uGlobs;
+  LCLProc, Dialogs, Masks, uLng, uFindMmap, uFindEx, uGlobs, uShowMsg, uOSUtils;
 
 { TFindThread }
 
@@ -165,7 +165,7 @@ begin
 
   except
     on E:Exception do
-      ShowMessage(E.Message);
+      msgError(E.Message, Self);
   end;
 end;
 
@@ -326,6 +326,11 @@ if not MatchesMaskList(sr.Name, FFileMask) then
 
   if (FFindInFiles and Result) then
      begin
+       if FPS_ISDIR(sr.Attr) then
+         begin
+           Result := False;
+           Exit;
+         end;
        Result := FindInFile(Folder + PathDelim + sr.Name, FFindData, FCaseSens);
 
        if (FReplaceInFiles and Result) then

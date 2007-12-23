@@ -67,8 +67,8 @@ const
 
 begin
 {$IFDEF MSWINDOWS}
-  AssignFile(output, GetHomeDir + 'doublecmd.log');
-  Rewrite(output);
+  //AssignFile(output, GetHomeDir + 'doublecmd.log');
+  //Rewrite(output);
 {$ENDIF}
 
   Application.Title:='Double Commander';
