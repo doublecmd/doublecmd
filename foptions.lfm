@@ -120,7 +120,7 @@ object frmOptions: TfrmOptions
       Width = 454
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 9
+      PageIndex = 1
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
@@ -139,17 +139,21 @@ object frmOptions: TfrmOptions
         ClientWidth = 446
         ClientHeight = 321
         object lblTerm: TLabel
+          AnchorSideTop.Control = edtTerm
+          AnchorSideTop.Side = asrCenter
           Left = 8
           Height = 14
-          Top = 16
+          Top = 13
           Width = 45
           Caption = 'Terminal:'
           ParentColor = False
         end
         object lblRunTerm: TLabel
+          AnchorSideTop.Control = edtRunTerm
+          AnchorSideTop.Side = asrCenter
           Left = 8
           Height = 14
-          Top = 48
+          Top = 43
           Width = 65
           Caption = 'Run terminal:'
           ParentColor = False
@@ -163,20 +167,26 @@ object frmOptions: TfrmOptions
           Text = '/usr/X11R6/bin/xterm -e bash -i -c %s'
         end
         object edtRunTerm: TEdit
+          AnchorSideTop.Control = edtTerm
+          AnchorSideTop.Side = asrBottom
           Left = 96
           Height = 24
-          Top = 40
+          Top = 38
           Width = 313
+          BorderSpacing.Top = 6
           TabOrder = 1
           Text = '/usr/X11R6/bin/xterm'
         end
         object gb: TGroupBox
+          AnchorSideTop.Control = edtRunTerm
+          AnchorSideTop.Side = asrBottom
           Left = 10
           Height = 156
-          Top = 66
+          Top = 68
           Width = 202
-          ClientHeight = 156
-          ClientWidth = 202
+          BorderSpacing.Top = 6
+          ClientHeight = 138
+          ClientWidth = 198
           ParentCtl3D = False
           TabOrder = 2
           object cbDirSelect: TCheckBox
@@ -226,12 +236,15 @@ object frmOptions: TfrmOptions
           end
         end
         object gbMisc: TGroupBox
+          AnchorSideTop.Control = edtRunTerm
+          AnchorSideTop.Side = asrBottom
           Left = 218
           Height = 156
-          Top = 66
+          Top = 68
           Width = 188
-          ClientHeight = 156
-          ClientWidth = 188
+          BorderSpacing.Top = 6
+          ClientHeight = 138
+          ClientWidth = 184
           TabOrder = 3
           object lblIconsSize: TLabel
             Left = 14
@@ -275,12 +288,12 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Side = asrBottom
           Left = 10
           Height = 89
-          Top = 228
+          Top = 230
           Width = 201
           BorderSpacing.Top = 6
           Caption = 'Date and time'
-          ClientHeight = 89
-          ClientWidth = 201
+          ClientHeight = 71
+          ClientWidth = 197
           TabOrder = 4
           object lblDateTimeFormat: TLabel
             Left = 8
@@ -1424,7 +1437,7 @@ object frmOptions: TfrmOptions
       object pgFileOp: TPage
         Caption = 'pgFileOp'
         ClientWidth = 446
-        ClientHeight = 339
+        ClientHeight = 321
         object gbCopyBufferSize: TGroupBox
           Left = 10
           Height = 100

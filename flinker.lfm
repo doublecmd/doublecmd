@@ -139,7 +139,6 @@ object frmLinker: TfrmLinker
     TabOrder = 5
   end
   object dlgSaveAll: TSaveDialog
-    Title = 'Сохранить файл как'
     Filter = 'All files|*.*'
     FilterIndex = 0
     left = 160

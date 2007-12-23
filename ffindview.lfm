@@ -14,7 +14,7 @@ object frmFindView: TfrmFindView
   ClientHeight = 94
   ClientWidth = 339
   OnShow = FormShow
-  Position = poOwnerFormCenter
+  Position = poScreenCenter
   object cbDataToFind: TComboBox
     Left = 16
     Height = 21
