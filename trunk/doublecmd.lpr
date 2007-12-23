@@ -45,7 +45,7 @@ uses
   fEditSearch,
   uColorExt,
   fEditorConf,
-  {$IFNDEF WIN32}
+  {$IFNDEF MSWINDOWS}
   uFindMmap,
   fFileProperties,
   uUsersGroups,
@@ -54,11 +54,11 @@ uses
   fCompareFiles,
   dmHigh,
   uPixMapManager, uVFS,
-  KASComp, fconfigtoolbar, uWCXprototypes, uDCUtils,
+  KASComp, fconfigtoolbar, uWCXprototypes, uDCUtils, uOSUtils,
   dmDialogs, fViewer, fOptions, fCopyDlg, fMoveDlg, fFindDlg,
   fSymLink, fMultiRename, fSplitter, fPackDlg, fExtractDlg;
   
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
 {$R XP.res}
 {$ENDIF}
 
@@ -66,11 +66,12 @@ const
   buildDate = {$I %DATE%};
 
 begin
-  // AssignFile(output, 'c:\doublecmd.log');
-  // Rewrite(output);
+{$IFDEF MSWINDOWS}
+  AssignFile(output, GetHomeDir + 'doublecmd.log');
+  Rewrite(output);
+{$ENDIF}
 
   Application.Title:='Double Commander';
-  //  try
   Application.Initialize;
   ThousandSeparator:=' ';
   DebugLn('Double commander 0.2 alpha - Free Pascal');
@@ -90,9 +91,4 @@ begin
        Application.CreateForm(TdmDlg, dmDlg); // dialogs
        Application.Run;
      end;
-{  except
-  on E:Exception do
-    Writeln('Critical unhandled exception:', E.Message);
-end}
-
 end.

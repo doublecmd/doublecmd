@@ -3,28 +3,38 @@ unit uGlobsPaths;
 interface
 var
 
-  gpExePath:String ='';
-  gpIniDir:String =''; // local for user
-  gpCfgDir:String =''; // global for all user
-  gpLngDir:String =''; // path to language *.po files
-  gpPixmapPath:String ='';
+  gpExePath : String = '';  // executable directory
+  gpIniDir : String = '';  // config dir local for user
+  gpCfgDir : String = '';  // config dir global for all user
+  gpLngDir : String = '';  // path to language *.po files
+  gpPixmapPath : String = '';  // path to pixmaps
   
 procedure LoadPaths;
 
 implementation
 uses
-  SysUtils;
+  LCLProc, SysUtils;
+
+function GetAppName : String;
+begin
+  Result := '.doublecmd';  // hidden directory
+end;
 
 procedure LoadPaths;
 begin
-  gpExePath:=ExtractFilePath(ParamStr(0));
-  Writeln('executable directory:',gpExePath);
+  OnGetApplicationName := @GetAppName;  // for add a dot in directory name
+  gpIniDir := GetAppConfigDir(False);
+  if not DirectoryExists(gpIniDir) then
+    ForceDirectories(gpIniDir);
+  OnGetApplicationName := nil;
+  gpIniDir := IncludeTrailingPathDelimiter(gpIniDir);  // add if need path delimiter
+  
+  gpExePath := ExtractFilePath(ParamStr(0));
+  DebugLn('Executable directory: ', gpExePath);
 
-//  gpExePath:=gpExePath+DirectorySeparator;
-  gpIniDir:=gpExePath;
-  gpCfgDir:=gpExePath;
-  gpLngDir:=gpExePath + 'language' + DirectorySeparator;
-  gpPixmapPath:= gpExePath + 'pixmaps' + DirectorySeparator;
+  gpCfgDir := gpExePath;
+  gpLngDir := gpExePath + 'language' + DirectorySeparator;
+  gpPixmapPath := gpExePath + 'pixmaps' + DirectorySeparator;
 end;
 
 end.

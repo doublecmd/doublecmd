@@ -52,7 +52,7 @@ function ShowLinkerFilesForm(var lsFiles:TStringList):Boolean;
 implementation
 
 uses
-  uLng, uFileProcs;
+  LCLProc, uLng, uFileProcs;
 
 //var gDirectory:string;
 
@@ -73,7 +73,7 @@ begin
       for c:=0 to lsFiles.Count-1 do
       with lstFile.Items do
       begin
-        writeln(ExtractFileName(lsFiles[c]));
+        DebugLn(ExtractFileName(lsFiles[c]));
         Add(ExtractFileName(lsFiles[c]));
       end;
       LoadLng;

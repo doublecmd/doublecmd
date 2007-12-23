@@ -40,7 +40,7 @@ type
 implementation
 
 uses
-  uLng;
+  LCLProc, uLng;
 
 procedure TfrmFindView.FormShow(Sender: TObject);
 begin
@@ -61,7 +61,7 @@ begin
   inherited;
   if (Key=VK_Down) and (cbDataToFind.Items.Count>0) then
     cbDataToFind.DroppedDown:=True;
-  writeln(Key);
+  DebugLn(IntToStr(Key));
   if Key=13 then
   begin
     Key:=0;

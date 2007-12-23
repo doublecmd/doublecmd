@@ -106,7 +106,7 @@ type
 implementation
 
 uses
-  uLng, uShowMsg, uGlobs, GraphType, uPixmapManager, uDCUtils, uOSUtils;
+  LCLProc, uLng, uShowMsg, uGlobs, GraphType, uPixmapManager, uDCUtils, uOSUtils;
 
 
 procedure TFrameFilePanel.LoadPanel;
@@ -217,7 +217,7 @@ end;
 
 procedure TFrameFilePanel.dgPanelKeyPress(Sender: TObject; var Key: Char);
 begin
-  writeln(output, 'dgpanel:',Ord(Key))
+  DebugLn('dgpanel:' + Key)
 end;
 
 procedure TFrameFilePanel.dgPanelPrepareCanvas(sender: TObject; Col,
@@ -283,7 +283,7 @@ var
   i:Integer;
 begin
   if edtSearch.Text='' then Exit;
-//  writeln('edSearchChange:'+ edSearch.Text);
+//  DebugLn('edSearchChange:'+ edSearch.Text);
 
   for i:=1 to dgPanel.RowCount-1 do // first is header
   begin
@@ -561,7 +561,7 @@ end;
 
 procedure TFrameFilePanel.dgPanelExit(Sender: TObject);
 begin
-//  writeln(Self.Name+'.dgPanelExit');
+//  DebugLn(Self.Name+'.dgPanelExit');
 //  edtRename.OnExit(Sender);        // this is hack, because onExit is NOT called
 {  if pnAltSearch.Visible then
     CloseAltPanel;}
@@ -607,7 +607,7 @@ end;
 
 procedure TFrameFilePanel.dgPanelEnter(Sender: TObject);
 begin
-//  writeln(Self.Name+'.OnEnter');
+//  DebugLn(Self.Name+'.OnEnter');
   CloseAltPanel;
 //  edtRename.OnExit(Sender);        // this is hack, bacause onExit is NOT called
   SetFocus;
@@ -695,7 +695,7 @@ constructor TFrameFilePanel.Create(AOwner : TWinControl; lblDriveInfo : TLabel; 
 var
   x:Integer;
 begin
-  writeln(output, 'TFrameFilePanel.Create components');
+  DebugLn('TFrameFilePanel.Create components');
   inherited Create(AOwner);
   Parent:=AOwner;
   Align:=alClient;
@@ -746,7 +746,7 @@ begin
 
 
 //  dgPanel.Height:=Self.Height - pnlHeader.Height - pnlFooter.Height;
-//  writeln(Self.Height - pnlHeader.Height - pnlFooter.Height);
+//  DebugLn(Self.Height - pnlHeader.Height - pnlFooter.Height);
   dgPanel.Align:=alClient;
 //  dgPanel.DefaultDrawing:=False;
   dgPanel.ColCount:=5;

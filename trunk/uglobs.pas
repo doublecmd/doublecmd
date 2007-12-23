@@ -144,17 +144,17 @@ var
 
 implementation
 uses
-   SysUtils, uGlobsPaths, uLng, uShowMsg, uOSUtils;
+   LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uOSUtils;
 
 // for debugging only, can be removed
 procedure dbgShowWindowPos(const pos: TControlPosition);
 begin
-  writeln('TWindowPos');
-  writeln('Left: ', pos.Left);
-  writeln('Top:  ', pos.Top);
-  writeln('Width: ', pos.Width);
-  writeln('Height: ', pos.Height);
-  writeln('END');
+  DebugLn('TWindowPos');
+  WriteLN('Left: ', pos.Left);
+  WriteLN('Top:  ', pos.Top);
+  WriteLN('Width: ', pos.Width);
+  WriteLN('Height: ', pos.Height);
+  DebugLn('END');
 end;
 
 procedure TControlPosition.Save(Control: TControl);
@@ -191,11 +191,11 @@ end;
 
 procedure InitGlobs;
 begin
-  gIni:=TIniFile.Create(gpIniDir+'doublecmd.ini');
+  gIni:=TIniFile.Create(gpCfgDir + 'doublecmd.ini');
   if gIni.ReadInteger('Configuration', 'UseIniInProgramDir', 1)  = 0 then
     begin
       gIni.Free;
-      gIni:=TIniFile.Create(GetHomeDir + 'doublecmd.ini');
+      gIni:=TIniFile.Create(gpIniDir + 'doublecmd.ini');
     end;
   gExts := TExts.Create;
   gColorExt := TColorExt.Create;
@@ -223,7 +223,7 @@ end;
 function LoadGlobs : Boolean;
 begin
   Result := False;
-  writeln('Loading configuration...');
+  DebugLn('Loading configuration...');
   InitGlobs;
   
   {Layout page}
@@ -266,13 +266,13 @@ begin
   gExtDiff := gIni.ReadString('Configuration', 'ExtDiff', '');
   gRunTerm := gIni.ReadString('Configuration', 'RunTerm', gRunTerm);
   { Fonts }
-  gFontName:=gIni.ReadString('Configuration', 'FontName', '');
+  gFontName:=gIni.ReadString('Configuration', 'FontName', 'default');
   gFontWeight := gIni.ReadInteger('Configuration', 'FontWeight', 1);
-  writeln('gFontName:',gFontName);
-  gEditorFontName:=gIni.ReadString('Configuration', 'FontEditorName', '');
-  writeln('gEditorFontName:',gEditorFontName);
-  gViewerFontName:=gIni.ReadString('Configuration', 'FontViewerName', '');
-  writeln('gViewerEditorFontName:',gViewerFontName);
+  DebugLn('gFontName:',gFontName);
+  gEditorFontName:=gIni.ReadString('Configuration', 'FontEditorName', 'default');
+  DebugLn('gEditorFontName:',gEditorFontName);
+  gViewerFontName:=gIni.ReadString('Configuration', 'FontViewerName', 'default');
+  DebugLn('gViewerEditorFontName:',gViewerFontName);
   gFontSize:=gIni.ReadInteger('Configuration', 'FontSize', 10);
   gEditorSize:=gIni.ReadInteger('Configuration', 'EditorSize', 14);
   gViewerSize:=gIni.ReadInteger('Configuration', 'ViewerSize', 14);
@@ -311,9 +311,9 @@ begin
   gColumnSize[3] := gIni.ReadInteger('Configuration', 'Col3', 73);
   gColumnSize[4] := gIni.ReadInteger('Configuration', 'Col4', 59);
 
-  writeln('Loading viewer position...');
+  DebugLn('Loading viewer position...');
   LoadWindowPos(gViewerPos, 'Viewer.');
-  writeln('Loading editor position...');
+  DebugLn('Loading editor position...');
   LoadWindowPos(gEditorPos, 'Editor.');
 
   { Localization }

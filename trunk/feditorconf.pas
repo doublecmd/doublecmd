@@ -271,7 +271,7 @@ begin
     lbNames.Items.Add(cSynAttrNames[i]);
   lbNames.ItemIndex:=0;
   FillComboPred;
-  LoadAttrFromFile(gpIniDir+csDefaultName);
+  LoadAttrFromFile(gpCfgDir + csDefaultName);
   lbNamesClick(Sender);
 end;
 
@@ -320,7 +320,7 @@ var
   iIndex:Integer;
 begin
   cmbPredefined.Clear;
-  if FindFirst(gpIniDir+'*.col', faAnyFile, fr)<>0 then
+  if FindFirst(gpCfgDir+'*.col', faAnyFile, fr)<>0 then
   begin
     FindClose(fr);
     Exit;
@@ -340,7 +340,7 @@ end;
 
 procedure TfrmEditorConf.btnOKClick(Sender: TObject);
 begin
-  SaveAttrToFile(gpIniDir+csDefaultName);
+  SaveAttrToFile(gpCfgDir + csDefaultName);
   Close;
 end;
 

@@ -169,7 +169,7 @@ begin
   editor := TfrmEditor.Create(Application);
   gEditorPos.Restore(editor);
   try
-    LoadAttrFromFile(gpIniDir+csDefaultName);
+    LoadAttrFromFile(gpCfgDir + csDefaultName);
     if sFileName='' then
       editor.actFileNew.Execute
     else

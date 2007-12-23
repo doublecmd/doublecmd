@@ -117,20 +117,19 @@ TFindThread = class(TThread)
 implementation
 
 uses
-  Dialogs, Masks, uLng, uFindMmap, uFindEx, uGlobs;
+  LCLProc, Dialogs, Masks, uLng, uFindMmap, uFindEx, uGlobs;
 
 { TFindThread }
 
 constructor TFindThread.Create;
 begin
-  writeln('thread b');
+  DebugLn('thread b');
   inherited Create(True);
-  //FFilter:=TFilter.Create;
   FCaseSens:=True;
   FFilesScaned:=0;
   FilterMask:='*';
   GetDir(0, FPathStart);
-  FItems:=Nil;
+  FItems:=nil;
   FIsDateFrom := False;
   FIsDateTo := False;
   FIsFileSizeFrom := False;
@@ -141,8 +140,7 @@ end;
 
 destructor TFindThread.Destroy;
 begin
-  //if assigned(FFilter) then
-    //FreeAndNil(FFilter)
+
 end;
 
 procedure TFindThread.Execute;
@@ -150,20 +148,20 @@ var
   sCurrDir:String;
 begin
   try
-    writeln('thread b2');
+    DebugLn('thread b2');
     assert(Assigned(FItems),'assert:FItems is empty');
     Synchronize(@UpDateProgress);
     if FPathStart[length(FPathStart)] = PathDelim then
       Delete(FPathStart,length(FPathStart),1);
     sCurrDir:=GetCurrentDir;
     try
-        writeln('thread b',FPathStart);
+        DebugLn('thread b',FPathStart);
       WalkAdr(FPathStart);
     finally
       ChDir(sCurrDir);
     end;  
   //  MessageBeep(1000);
-    writeln('thread end');
+    DebugLn('thread end');
 
   except
     on E:Exception do
@@ -277,13 +275,13 @@ begin
    if (FIsTimeFrom and Result) then
       Result := ((Trunc(Frac(DateTime) * 10000000) / 10000000) >= (Trunc(Frac(FDateTimeFrom) * 1000) / 1000));
       
-      WriteLN('Time From = ', FloatToStr(FDateTimeFrom), ' File time = ', FloatToStr(DateTime), ' Result = ', BoolToStr(Result));
+      DebugLn('Time From = ', FloatToStr(FDateTimeFrom), ' File time = ', FloatToStr(DateTime), ' Result = ', BoolToStr(Result));
 
    (* Check time to *)
    if (FIsTimeTo and Result) then
       Result := ((Trunc(Frac(DateTime) * 10000000) / 10000000) <= (Trunc(Frac(FDateTimeTo) * 1000) / 1000));
 
-   //WriteLN('Time To = ', FloatToStr(FDateTimeTo), ' File time = ', FloatToStr(DateTime), ' Result = ', BoolToStr(Result));
+   //DebugLn('Time To = ', FloatToStr(FDateTimeTo), ' File time = ', FloatToStr(DateTime), ' Result = ', BoolToStr(Result));
 
 
 end;
@@ -294,11 +292,11 @@ begin
    if FIsFileSizeFrom then
       Result := (FileSize >= FFileSizeFrom);
       
-      //WriteLN('After From', FileSize, '-',  FFileSizeFrom, BoolToStr(Result));
+      //DebugLn('After From', FileSize, '-',  FFileSizeFrom, BoolToStr(Result));
       
    if (FIsFileSizeTo and Result) then
       Result := (FileSize <= FFileSizeTo);
-    //WriteLN('After To',  FileSize, '-',  FFileSizeTo, BoolToStr(Result));
+    //DebugLn('After To',  FileSize, '-',  FFileSizeTo, BoolToStr(Result));
 end;
 
 function TFindThread.CheckFile(const Folder : String; const sr : TSearchRec) : Boolean;
@@ -308,7 +306,7 @@ begin
   Result := True;
 {$IFDEF WIN32}
 (* This is hack *)
-//WriteLN('File = ', sr.Name);
+//DebugLn('File = ', sr.Name);
 if not MatchesMaskList(sr.Name, FFileMask) then
    begin
      Result := False;
@@ -343,19 +341,19 @@ var
   sr: TSearchRec;
   Path : String;
 begin
-  writeln(sNewDir);
+  DebugLn(sNewDir);
   if not SetCurrentDir(sNewDir) then Exit;
 
   Path := sNewDir + PathDelim + FFileMask;
-  //WriteLN('Path = ', Path);
+  //DebugLn('Path = ', Path);
 
-  WriteLN('FAttributes == ', FAttributes);
+  DebugLn('FAttributes == ' + IntToStr(FAttributes));
 
   if FindFirstEx(Path, FAttributes, sr) = 0 then
   repeat
     if (sr.Name='.') or (sr.Name='..') then Continue;
     inc(FFilesScaned);
-    //writeln(sr.Name);
+    //DebugLn(sr.Name);
 
       if CheckFile(sNewDir, sr) then
       begin
@@ -372,7 +370,7 @@ begin
     if not Terminated then
     begin
       Path := sNewDir + PathDelim + '*';
-      WriteLN('Search in sub folders = ', Path);
+      DebugLn('Search in sub folders = ', Path);
       if not Terminated and (FindFirstEx(Path, faDirectory, sr) = 0) then
         repeat
           if (sr.Name[1] <> '.') then

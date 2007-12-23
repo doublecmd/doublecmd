@@ -123,7 +123,7 @@ uses
 procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
 var viewer: TfrmViewer;
 begin
-  //writeln('ShowViewer - Using Internal');
+  //DebugLn('ShowViewer - Using Internal');
   viewer := TfrmViewer.Create(Application);
   gViewerPos.Restore(viewer);
   viewer.FileList.Assign(sl);
@@ -134,20 +134,20 @@ end;
 
 procedure TfrmViewer.LoadFile(iIndex:Integer);
 begin
-//  writeln('Viewer: LoadFile:',iIndex);
+//  DebugLn('Viewer: LoadFile:' + iIndex);
   iActiveFile:=iIndex;
   Caption:=FileList.Strings[iIndex];
   Screen.Cursor:=crHourGlass;
   try
-//    writeln('View: BeforeCheckGraphics:',iIndex);
+//    DebugLn('View: BeforeCheckGraphics:' + iIndex);
     if CheckGraphics(FileList.Strings[iIndex]) then
     begin
-//      writeln('View: LoadGraphics:',iIndex);
+//      DebugLn('View: LoadGraphics:' + iIndex);
       LoadGraphics(FileList.Strings[iIndex]);
     end
     else
     begin
-//      writeln('View: LoadIntoViewer:',iIndex);
+//      DebugLn('View: LoadIntoViewer:' + iIndex);
 
       miImage.Visible:=False;
       miEdit.Visible:=True;
@@ -332,7 +332,7 @@ end;
 
 procedure TfrmViewer.FormCreate(Sender: TObject);
 begin
-//  writeln('TfrmViewer.FormCreate');
+//  DebugLn('TfrmViewer.FormCreate');
   ViewerControl.Color:=clWindow;
   FileList := TStringList.Create;
 
@@ -340,7 +340,7 @@ begin
 {  Status.Panels[0].Width:=50;
   Status.Panels[1].Width:=50;}
 
-//  writeln('TfrmViewer.FormCreate done');
+//  DebugLn('TfrmViewer.FormCreate done');
 end;
 
 procedure TfrmViewer.FormDestroy(Sender: TObject);
@@ -356,7 +356,7 @@ var
   sViewCmd:String;
   sCurrName:String;
 begin
-{  writeln('TfrmViewer.miProcessClick');
+{  DebugLn('TfrmViewer.miProcessClick');
   inherited;
   miEdit.Visible:=True;
   if not miProcess.Checked then
@@ -388,7 +388,7 @@ end;
 
 procedure TfrmViewer.ReMmapIfNeed;
 begin
-//  writeln('TfrmViewer.RemmapIfneed');
+//  DebugLn('TfrmViewer.RemmapIfneed');
   if bImage then
   begin
     bImage:=False;
@@ -406,7 +406,7 @@ end;
 
 procedure TfrmViewer.UpDateScrollBar;
 begin
-//  writeln('TfrmViewer.Update scrollbar');
+//  DebugLn('TfrmViewer.Update scrollbar');
   if ScrollBarVert.Min<>0 then
     ScrollBarVert.Min:=0;
   if ScrollBarVert.Max<>ViewerControl.FileSize then
@@ -426,7 +426,7 @@ Function TfrmViewer.CheckGraphics(const sFileName:String):Boolean;
 var
   sExt:String;
 begin
-//  writeln('TfrmViewer.CheckGraphics');
+//  DebugLn('TfrmViewer.CheckGraphics');
   sExt:=Lowercase(ExtractFileExt(sFileName));
   Result:=(sExt='.bmp') or (sExt='.xpm') or (sExt='.png') or
        (sExt='.jpg') or (sExt='.jpeg') or (sExt='.ico') or
@@ -447,7 +447,7 @@ end;
 
 procedure TfrmViewer.LoadGraphics(const sFileName:String);
 begin
-//  writeln('TfrmViewer.Load graphics');
+//  DebugLn('TfrmViewer.Load graphics');
   Image.Stretch:=miStretch.Checked;
   Image.Picture.LoadFromFile(sFileName);
   with Image.Picture do AdjustViewerSize(Width, Height);

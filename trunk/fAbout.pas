@@ -60,7 +60,7 @@ const
     'Radek Cervinka (radek.cervinka@centrum.cz) - author of Seksi Commander'+#13+
     'Contributors:'+#13+
     'Tolstov Igor (attid@yandex.ru)'+#13+
-    'Zolotov Alexey'+#13+
+    'Zolotov Alex'+#13+
     'Peter Cernoch (pcernoch@volny.cz) - author PFM'+#13+
     'Pavel Letko (letcuv@centrum.cz) - multirename, split, linker'+#13+
     'Jiri Karasek (jkarasek@centrum.cz)'+#13+

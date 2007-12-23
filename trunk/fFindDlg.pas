@@ -138,7 +138,7 @@ procedure ShowFindDlg(const sActPath:String);
 implementation
 
 uses
-  fViewer, uLng, uGlobs, uShowForm, fMain, uTypes, uFileOp, uFindEx, uOSUtils;
+  LCLProc, fViewer, uLng, uGlobs, uShowForm, fMain, uTypes, uFileOp, uFindEx, uOSUtils;
   
 procedure ShowFindDlg(const sActPath:String);
 begin
@@ -327,7 +327,7 @@ begin
         if cbDirectory.Checked then
           Attributes := Attributes or faDirectory;
 
-        WriteLN('Attributes == ', Attributes);
+        DebugLn('Attributes == ' + IntToStr(Attributes));
 
         if cbSymLink.Checked then
           Attributes := Attributes or uOSUtils.faSymLink;
@@ -341,11 +341,11 @@ begin
       end;
     Status:=lblStatus;
     Current:=lblCurrent;
-    writeln('thread a');
+    DebugLn('thread a');
 {$IFDEF NOFAKETHREAD}
     FreeOnTerminate:=False;
     OnTerminate:=@ThreadTerminate; // napojime udalost na obsluhu tlacitka
-    writeln('thread a1');
+    DebugLn('thread a1');
     Resume;
   end;
 {$ELSE}
@@ -354,7 +354,7 @@ begin
   end;
   //ThreadTerminate(self); //remove if thread is Ok
 {$ENDIF}
-    writeln('thread a2');
+    DebugLn('thread a2');
 
 end;
 
@@ -475,7 +475,7 @@ end;
 
 procedure TfrmFindDlg.ThreadTerminate(Sender:TObject);
 begin
-  writeln('thread terminate end');
+  DebugLn('thread terminate end');
 {  FFindThread.Terminate;
   FFindThread.WaitFor;}
   btnStop.Enabled:=False;
