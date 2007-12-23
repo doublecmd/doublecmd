@@ -368,25 +368,28 @@ end;
 procedure TfrmFindDlg.btnWorkWithFoundClick(Sender: TObject);
 var
   I, Count : Integer;
-  fr:TFileRecItem;
+  pfri:PFileRecItem;
   sr : TSearchRec;
 begin
   Count := lsFoundedFiles.Items.Count - 1;
   frmMain.ActiveFrame.pnlFile.FileList.Clear;
+  New(pfri);
+  with pfri^ do
   for I := 0 to Count do
     begin
-      fr.sNameNoExt := lsFoundedFiles.Items[I];
-      fr.sName := fr.sNameNoExt;
-      FindFirstEx(fr.sNameNoExt, faAnyFile, sr);
-      fr.sExt := ExtractFileExt(fr.sNameNoExt);
-      fr.iSize := sr.Size;
-      fr.sTime := DateTimeToStr(Trunc(FileDateToDateTime(sr.Time)));
-      fr.iMode := sr.Attr;
-      fr.sModeStr := AttrToStr(sr.Attr);
-      fr.bLinkIsDir:=False;
-      fr.bSelected:=False;
-      frmMain.ActiveFrame.pnlFile.FileList.AddItem(@fr);
+      sNameNoExt := lsFoundedFiles.Items[I];
+      sName := sNameNoExt;
+      FindFirstEx(sNameNoExt, faAnyFile, sr);
+      sExt := ExtractFileExt(sNameNoExt);
+      iSize := sr.Size;
+      sTime := DateTimeToStr(Trunc(FileDateToDateTime(sr.Time)));
+      iMode := sr.Attr;
+      sModeStr := AttrToStr(sr.Attr);
+      bLinkIsDir:=False;
+      bSelected:=False;
+      frmMain.ActiveFrame.pnlFile.FileList.AddItem(pfri);
     end;
+  Dispose(pfri);
   frmMain.ActiveFrame.pnlFile.FileList.UpdateFileInformation(pmDirectory);
   frmMain.ActiveFrame.pnlFile.Sort;
   frmMain.ActiveFrame.pnlFile.ActiveDir := '';
