@@ -137,7 +137,7 @@ object frmOptions: TfrmOptions
       object pgBehav: TPage
         Caption = 'pgBehav'
         ClientWidth = 446
-        ClientHeight = 321
+        ClientHeight = 339
         object lblTerm: TLabel
           AnchorSideTop.Control = edtTerm
           AnchorSideTop.Side = asrCenter
@@ -287,18 +287,21 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = gb
           AnchorSideTop.Side = asrBottom
           Left = 10
-          Height = 89
+          Height = 93
           Top = 230
-          Width = 201
+          Width = 200
+          AutoSize = True
           BorderSpacing.Top = 6
           Caption = 'Date and time'
-          ClientHeight = 71
-          ClientWidth = 197
+          ChildSizing.LeftRightSpacing = 6
+          ChildSizing.TopBottomSpacing = 6
+          ClientHeight = 75
+          ClientWidth = 196
           TabOrder = 4
           object lblDateTimeFormat: TLabel
-            Left = 8
+            Left = 6
             Height = 14
-            Top = 2
+            Top = 6
             Width = 107
             Caption = 'Date and time format:'
             ParentColor = False
@@ -306,10 +309,10 @@ object frmOptions: TfrmOptions
           object lblDateTimeExample: TLabel
             AnchorSideTop.Control = cbDateTimeFormat
             AnchorSideTop.Side = asrBottom
-            Left = 8
-            Height = 15
-            Top = 49
-            Width = 97
+            Left = 6
+            Height = 16
+            Top = 53
+            Width = 98
             BorderSpacing.Top = 6
             Font.Style = [fsBold]
             ParentColor = False
@@ -317,9 +320,9 @@ object frmOptions: TfrmOptions
           object cbDateTimeFormat: TComboBox
             AnchorSideTop.Control = lblDateTimeFormat
             AnchorSideTop.Side = asrBottom
-            Left = 8
+            Left = 6
             Height = 21
-            Top = 22
+            Top = 26
             Width = 184
             AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
             BorderSpacing.Top = 6
@@ -1444,8 +1447,8 @@ object frmOptions: TfrmOptions
           Top = 6
           Width = 424
           Caption = '&Buffer size for files:'
-          ClientHeight = 82
-          ClientWidth = 420
+          ClientHeight = 100
+          ClientWidth = 424
           TabOrder = 0
           object lblCopyBufferSize: TLabel
             AnchorSideTop.Side = asrBottom
@@ -1477,8 +1480,8 @@ object frmOptions: TfrmOptions
           Width = 424
           BorderSpacing.Top = 6
           Caption = 'General options'
-          ClientHeight = 82
-          ClientWidth = 420
+          ClientHeight = 100
+          ClientWidth = 424
           TabOrder = 1
           object cbDropReadOnlyFlag: TCheckBox
             Left = 14
@@ -1498,8 +1501,8 @@ object frmOptions: TfrmOptions
           Width = 424
           BorderSpacing.Top = 6
           Caption = 'File search'
-          ClientHeight = 82
-          ClientWidth = 420
+          ClientHeight = 100
+          ClientWidth = 424
           TabOrder = 2
           object rbUseMmapInSearch: TRadioButton
             Left = 14

@@ -345,7 +345,7 @@ uses
   uTypes, fAbout, uGlobs, uLng, fOptions,{ fViewer,}fconfigtoolbar,
   uCopyThread, uFileList, uDeleteThread, uVFSUtil, uWCXModule,
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg,
-  fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink,
+  fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg, fExtractDlg,
   fLinker, fSplitter, uFileProcs, lclType, LCLProc, uOSUtils, uOSForms, uPixMapManager;
 
@@ -483,13 +483,21 @@ procedure TfrmMain.actContextMenuExecute(Sender: TObject);
 var
   fl : TFileList;
 begin
-  fl := TFileList.Create;
   with ActiveFrame do
     begin
+      if pnlFile.PanelMode in [pmArchive, pmVFS] then
+        begin
+          msgError(rsMsgErrNotSupported);
+          UnMarkAll;
+          Exit;
+        end;
+        
+      fl := TFileList.Create;
       SelectFileIfNoSelected(GetActiveItem);
       CopyListSelectedExpandNames(pnlFile.FileList, fl, ActiveDir, False);
     end;
   ShowContextMenu(Handle, fl, Mouse.CursorPos.x, Mouse.CursorPos.y);
+  ActiveFrame.UnMarkAll;
 end;
 
 procedure TfrmMain.actLeftOpenDrivesExecute(Sender: TObject);
@@ -844,6 +852,8 @@ var
   i:Integer;
   fr:PFileRecItem;
   VFSFileList : TFileList;
+  sFileName,
+  sFilePath,
   sTempDir : String;
 begin
   with ActiveFrame do
@@ -861,18 +871,23 @@ begin
             begin
               VFSFileList := TFileList.Create;
               VFSFileList.CurrentDirectory := ActiveDir;
-              fr^.sName := ActiveDir + fr^.sName;
+              sFileName := ActiveDir + fr^.sName;
+              New(fr);
+              fr^.sName := sFileName;
               VFSFileList.AddItem(fr);
               sTempDir := GetTempDir;
               {if }pnlFile.VFS.VFSmodule.VFSCopyOut(VFSFileList, sTempDir, 0);{ then}
                 begin
                  sl.Add(sTempDir + ExtractDirLevel(ActiveDir, fr^.sName));
                  ShowViewerByGlobList(sl, True);
+                 Dispose(fr);
                  Exit;
                 end;
             end;
-          sl.Add(ActiveDir+fr^.sName);
-          DebugLn('View.Add:',ActiveDir+fr^.sName);
+          sFileName := fr^.sName;
+          sFilePath := ActiveDir;
+          sl.Add(GetSplitFileName(sFileName, sFilePath));
+          DebugLn('View.Add: ', sFilePath + sFileName);
         end;
       end;
       if sl.Count>0 then
@@ -905,9 +920,17 @@ var
 //  sl:TStringList;
   i:Integer;
   fr:PFileRecItem;
+  sFileName,
+  sFilePath : String;
 begin
   with ActiveFrame do
   begin
+    if pnlFile.PanelMode in [pmArchive, pmVFS] then
+      begin
+        msgError(rsMsgErrNotSupported);
+        UnMarkAll;
+        Exit;
+      end;
     SelectFileIfNoSelected(GetActiveItem);
     try
     // in this time we only one file process
@@ -916,7 +939,9 @@ begin
       fr:=pnlFile.GetFileItemPtr(i);
       if fr^.bSelected and not (FPS_ISDIR(fr^.iMode)) then
         begin
-          ShowEditorByGlob(ActiveDir+fr^.sName);
+          sFileName := fr^.sName;
+          sFilePath := ActiveDir;
+          ShowEditorByGlob(GetSplitFileName(sFileName, sFilePath));
           Break;
         end;
       end;
