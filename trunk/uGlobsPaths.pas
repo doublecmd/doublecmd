@@ -17,12 +17,12 @@ uses
 
 function GetAppName : String;
 begin
-  Result := '.doublecmd';  // hidden directory
+  Result := 'doublecmd';
 end;
 
 procedure LoadPaths;
 begin
-  OnGetApplicationName := @GetAppName;  // for add a dot in directory name
+  OnGetApplicationName := @GetAppName;
   gpIniDir := GetAppConfigDir(False);
   if not DirectoryExists(gpIniDir) then
     ForceDirectories(gpIniDir);

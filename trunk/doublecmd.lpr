@@ -74,7 +74,7 @@ begin
   Application.Title:='Double Commander';
   Application.Initialize;
   ThousandSeparator:=' ';
-  DebugLn('Double commander 0.2 alpha - Free Pascal');
+  DebugLn('Double commander 0.3 alpha - Free Pascal');
   DebugLn('Build: ' + buildDate);
   DebugLn('This program is free software released under terms of GNU GPL 2');
   DebugLn('(C)opyright 2006-7 Koblov Alexander (Alexx2000@mail.ru)');

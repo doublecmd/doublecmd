@@ -1291,7 +1291,7 @@ msgid "About"
 msgstr "О программе..."
 
 #: TFRMABOUT.LBLVERSION.CAPTION
-msgid "Version 0.2 alpha"
+msgid "Version 0.3 alpha"
 msgstr ""
 
 #: TFRMABOUT.LBLBUILD.CAPTION
