@@ -13,10 +13,13 @@ object frmFileProperties: TfrmFileProperties
   ClientWidth = 458
   Position = poScreenCenter
   object btnClose: TButton
-    Left = 373
+    AnchorSideRight.Control = pcPageControl
+    AnchorSideRight.Side = asrBottom
+    Left = 358
     Height = 32
     Top = 392
-    Width = 75
+    Width = 90
+    Anchors = [akTop, akRight]
     BorderSpacing.InnerBorder = 4
     Cancel = True
     Caption = 'Close'
@@ -33,8 +36,8 @@ object frmFileProperties: TfrmFileProperties
     TabOrder = 1
     object tsProperties: TTabSheet
       Caption = 'Properties'
-      ClientHeight = 230
-      ClientWidth = 436
+      ClientHeight = 237
+      ClientWidth = 432
       object lblFileNameStr: TLabel
         Left = 16
         Height = 26
@@ -372,20 +375,26 @@ object frmFileProperties: TfrmFileProperties
     end
   end
   object btnAll: TBitBtn
-    Left = 213
+    AnchorSideRight.Control = btnSkip
+    Left = 166
     Height = 32
     Top = 392
-    Width = 75
+    Width = 90
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 6
     Caption = '&All'
     NumGlyphs = 0
     OnClick = btnAllClick
     TabOrder = 2
   end
   object btnOK: TBitBtn
-    Left = 133
+    AnchorSideRight.Control = btnAll
+    Left = 70
     Height = 32
     Top = 392
-    Width = 75
+    Width = 90
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 6
     Caption = '&OK'
     Default = True
     Kind = bkOK
@@ -394,10 +403,13 @@ object frmFileProperties: TfrmFileProperties
     TabOrder = 3
   end
   object btnSkip: TBitBtn
-    Left = 293
+    AnchorSideRight.Control = btnClose
+    Left = 262
     Height = 32
     Top = 392
-    Width = 75
+    Width = 90
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 6
     Caption = 'Skip'
     NumGlyphs = 0
     OnClick = btnSkipClick
@@ -409,7 +421,7 @@ object frmFileProperties: TfrmFileProperties
     Top = 280
     Width = 440
     Caption = 'Owner'
-    ClientHeight = 84
+    ClientHeight = 87
     ClientWidth = 436
     TabOrder = 5
     object lblOwnerStr: TLabel
@@ -434,6 +446,7 @@ object frmFileProperties: TfrmFileProperties
       Top = 9
       Width = 227
       AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+      ItemHeight = 13
       MaxLength = 0
       ParentCtl3D = False
       Sorted = True
@@ -445,6 +458,7 @@ object frmFileProperties: TfrmFileProperties
       Top = 41
       Width = 227
       AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+      ItemHeight = 13
       MaxLength = 0
       ParentCtl3D = False
       Sorted = True

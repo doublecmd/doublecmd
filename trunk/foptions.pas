@@ -261,8 +261,23 @@ uses
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
-
-  pnlCaption.Caption := tvTreeView.Items.Item[0].Text;
+  // tvTreeView localization
+  with tvTreeView.Items do
+    begin
+      Item[0].Text := rsOptLanguage;
+      Item[1].Text := rsOptBehav;
+      Item[2].Text := rsOptTools;
+      Item[3].Text := rsOptFonts;
+      Item[4].Text := rsOptColors;
+      Item[5].Text := rsOptFilePanels;
+      Item[6].Text := rsOptFileTypes;
+      Item[7].Text := rsOptHotKeys;
+      Item[8].Text := rsOptPlugins;
+      Item[9].Text := rsOptLayout;
+      Item[10].Text := rsOptFileOp;
+      Item[11].Text := rsOptFolderTabs;
+    end;
+  tvTreeView.Items.Item[0].Selected:= True;
 
   {Layout page}
   cbShowMainToolBar.Checked := gButtonBar;
