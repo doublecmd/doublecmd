@@ -326,6 +326,54 @@ msgstr "Открыть файл"
 msgid "Filename:"
 msgstr "Имя файла:"
 
+#: ulng.rsoptlanguage
+msgid "Language"
+msgstr "Язык"
+
+#: ulng.rsoptbehav
+msgid "Behaviors"
+msgstr "Поведение"
+
+#: ulng.rsopttools
+msgid "Tools"
+msgstr "Инструменты"
+
+#: ulng.rsoptfonts
+msgid "Fonts"
+msgstr "Шрифты"
+
+#: ulng.rsoptcolors
+msgid "Colors"
+msgstr "Цвета"
+
+#: ulng.rsoptfilepanels
+msgid "File panels"
+msgstr "Файловые панели"
+
+#: ulng.rsoptfiletypes
+msgid "File types"
+msgstr "Типы файлов"
+
+#: ulng.rsopthotkeys
+msgid "Hot keys"
+msgstr "Горячие клавишы"
+
+#: ulng.rsoptplugins
+msgid "Plugins"
+msgstr "Плагины"
+
+#: ulng.rsoptlayout
+msgid "Layout"
+msgstr "Вид окна"
+
+#: ulng.rsoptfileop
+msgid "File operations"
+msgstr "Файловые операции"
+
+#: ulng.rsoptfoldertabs
+msgid "Folder tabs"
+msgstr "Вкладки каталогов"
+
 #: TFRMEXTRACTDLG.CAPTION
 msgid "Unpack files"
 msgstr "Распаковать файлы"
@@ -946,14 +994,6 @@ msgstr "Осталось"
 msgid "Options"
 msgstr "Настройка"
 
-#: TFRMOPTIONS.PGLNG.CAPTION
-msgid "pgLng"
-msgstr ""
-
-#: TFRMOPTIONS.PGBEHAV.CAPTION
-msgid "pgBehav"
-msgstr ""
-
 #: TFRMOPTIONS.LBLTERM.CAPTION
 msgid "Terminal:"
 msgstr "Терминал:"
@@ -1002,10 +1042,6 @@ msgstr ""
 msgid "Show icons"
 msgstr "Показывать значки"
 
-#: TFRMOPTIONS.PGTOOLS.CAPTION
-msgid "pgTools"
-msgstr ""
-
 #: TFRMOPTIONS.CBEXTEDITOR.CAPTION
 msgid "External editor"
 msgstr "Внешний редактор"
@@ -1030,10 +1066,6 @@ msgstr "Внешний просмотрщик"
 msgid "emacs \"\%s\""
 msgstr ""
 
-#: TFRMOPTIONS.PGFONTS.CAPTION
-msgid "pgFonts"
-msgstr ""
-
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
 msgstr "Главный"
@@ -1045,10 +1077,6 @@ msgstr "Редактора"
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Просмотрщика"
-
-#: TFRMOPTIONS.PGCOLOR.CAPTION
-msgid "pgColor"
-msgstr ""
 
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
@@ -1082,10 +1110,6 @@ msgstr ""
 msgid "Example"
 msgstr "Пример"
 
-#: TFRMOPTIONS.PGHOTKEY.CAPTION
-msgid "pgHotKey"
-msgstr ""
-
 #: TFRMOPTIONS.LBLACTIONS.CAPTION
 msgid "Actions"
 msgstr "Команды"
@@ -1101,10 +1125,6 @@ msgstr "Установить"
 #: TFRMOPTIONS.BTCLEARHOTKEY.CAPTION
 msgid "Clear HotKey"
 msgstr "Очистить"
-
-#: TFRMOPTIONS.PGPLUGINS.CAPTION
-msgid "pgPlugins"
-msgstr ""
 
 #: TFRMOPTIONS.TSWCX.CAPTION
 msgid "Packer plugins (.WCX)"
@@ -1142,10 +1162,6 @@ msgstr "Установленные плагины:"
 msgid "Rename"
 msgstr "Переименовать"
 
-#: TFRMOPTIONS.PGFILETYPESCOLORS.CAPTION
-msgid "pgFileTypesColors"
-msgstr ""
-
 #: TFRMOPTIONS.GBFILETYPESCOLORS.CAPTION
 msgid "File types colors"
 msgstr "Цвета по типу"
@@ -1161,10 +1177,6 @@ msgstr "Маска:"
 #: TFRMOPTIONS.LBLCATEGORYCOLOR.CAPTION
 msgid "Category color:"
 msgstr "Цвет:"
-
-#: TFRMOPTIONS.PGLAYOUT.CAPTION
-msgid "Layout"
-msgstr "Вид окна"
 
 #: TFRMOPTIONS.GBSCREENLAYOUT.CAPTION
 msgid " Screen layout "
@@ -1222,10 +1234,6 @@ msgstr "Плоские"
 msgid "Language"
 msgstr ""
 
-#: TFRMOPTIONS.PGFILEOP.CAPTION
-msgid "pgFileOp"
-msgstr ""
-
 #: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
 msgid "&Buffer size for files:"
 msgstr "&Размер буфера для файлов:"
@@ -1257,10 +1265,6 @@ msgstr "Дата и время"
 #: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
 msgstr "Формат даты и времени:"
-
-#: TFRMOPTIONS.PGTABS.CAPTION
-msgid "pgTabs"
-msgstr ""
 
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"

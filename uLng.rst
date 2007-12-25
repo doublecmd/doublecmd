@@ -332,3 +332,51 @@ ulng.rseditnewopen='Open file'
 # hash value = 46419594
 ulng.rseditnewfilename='Filename:'
 
+
+# hash value = 139375349
+ulng.rsoptlanguage='Language'
+
+
+# hash value = 244108835
+ulng.rsoptbehav='Behaviors'
+
+
+# hash value = 5989939
+ulng.rsopttools='Tools'
+
+
+# hash value = 5072307
+ulng.rsoptfonts='Fonts'
+
+
+# hash value = 78001811
+ulng.rsoptcolors='Colors'
+
+
+# hash value = 120277571
+ulng.rsoptfilepanels='File panels'
+
+
+# hash value = 125884131
+ulng.rsoptfiletypes='File types'
+
+
+# hash value = 107420147
+ulng.rsopthotkeys='Hot keys'
+
+
+# hash value = 121364483
+ulng.rsoptplugins='Plugins'
+
+
+# hash value = 86574788
+ulng.rsoptlayout='Layout'
+
+
+# hash value = 184414099
+ulng.rsoptfileop='File operations'
+
+
+# hash value = 202032435
+ulng.rsoptfoldertabs='Folder tabs'
+

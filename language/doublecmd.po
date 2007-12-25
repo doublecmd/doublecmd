@@ -55,11 +55,7 @@ msgid "&Configure"
 msgstr ""
 
 #: ulng.rsdlgbuttons
-msgid "&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &A'"
-msgstr ""
-
-#: 
-msgid "ll;&Skip;S&kip All;All;"
+msgid "&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &All;&Skip;S&kip All;All;"
 msgstr ""
 
 #: ulng.rsspacemsg
@@ -332,6 +328,54 @@ msgstr ""
 
 #: ulng.rseditnewfilename
 msgid "Filename:"
+msgstr ""
+
+#: ulng.rsoptlanguage
+msgid "Language"
+msgstr ""
+
+#: ulng.rsoptbehav
+msgid "Behaviors"
+msgstr ""
+
+#: ulng.rsopttools
+msgid "Tools"
+msgstr ""
+
+#: ulng.rsoptfonts
+msgid "Fonts"
+msgstr ""
+
+#: ulng.rsoptcolors
+msgid "Colors"
+msgstr ""
+
+#: ulng.rsoptfilepanels
+msgid "File panels"
+msgstr ""
+
+#: ulng.rsoptfiletypes
+msgid "File types"
+msgstr ""
+
+#: ulng.rsopthotkeys
+msgid "Hot keys"
+msgstr ""
+
+#: ulng.rsoptplugins
+msgid "Plugins"
+msgstr ""
+
+#: ulng.rsoptlayout
+msgid "Layout"
+msgstr ""
+
+#: ulng.rsoptfileop
+msgid "File operations"
+msgstr ""
+
+#: ulng.rsoptfoldertabs
+msgid "Folder tabs"
 msgstr ""
 
 #: TFRMEXTRACTDLG.CAPTION
@@ -950,14 +994,6 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: TFRMOPTIONS.PGLNG.CAPTION
-msgid "pgLng"
-msgstr ""
-
-#: TFRMOPTIONS.PGBEHAV.CAPTION
-msgid "pgBehav"
-msgstr ""
-
 #: TFRMOPTIONS.LBLTERM.CAPTION
 msgid "Terminal:"
 msgstr ""
@@ -1006,8 +1042,12 @@ msgstr ""
 msgid "Show icons"
 msgstr ""
 
-#: TFRMOPTIONS.PGTOOLS.CAPTION
-msgid "pgTools"
+#: TFRMOPTIONS.GBDATETIMEFORMAT.CAPTION
+msgid "Date and time"
+msgstr ""
+
+#: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
+msgid "Date and time format:"
 msgstr ""
 
 #: TFRMOPTIONS.CBEXTEDITOR.CAPTION
@@ -1034,10 +1074,6 @@ msgstr ""
 msgid "emacs \"\%s\""
 msgstr ""
 
-#: TFRMOPTIONS.PGFONTS.CAPTION
-msgid "pgFonts"
-msgstr ""
-
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
 msgstr ""
@@ -1048,10 +1084,6 @@ msgstr ""
 
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
-msgstr ""
-
-#: TFRMOPTIONS.PGCOLOR.CAPTION
-msgid "pgColor"
 msgstr ""
 
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
@@ -1086,10 +1118,6 @@ msgstr ""
 msgid "Example"
 msgstr ""
 
-#: TFRMOPTIONS.PGHOTKEY.CAPTION
-msgid "pgHotKey"
-msgstr ""
-
 #: TFRMOPTIONS.LBLACTIONS.CAPTION
 msgid "Actions"
 msgstr ""
@@ -1104,10 +1132,6 @@ msgstr ""
 
 #: TFRMOPTIONS.BTCLEARHOTKEY.CAPTION
 msgid "Clear HotKey"
-msgstr ""
-
-#: TFRMOPTIONS.PGPLUGINS.CAPTION
-msgid "pgPlugins"
 msgstr ""
 
 #: TFRMOPTIONS.TSWCX.CAPTION
@@ -1150,10 +1174,6 @@ msgstr ""
 msgid "Rename"
 msgstr ""
 
-#: TFRMOPTIONS.PGFILETYPESCOLORS.CAPTION
-msgid "pgFileTypesColors"
-msgstr ""
-
 #: TFRMOPTIONS.GBFILETYPESCOLORS.CAPTION
 msgid "File types colors"
 msgstr ""
@@ -1168,10 +1188,6 @@ msgstr ""
 
 #: TFRMOPTIONS.LBLCATEGORYCOLOR.CAPTION
 msgid "Category color:"
-msgstr ""
-
-#: TFRMOPTIONS.PGLAYOUT.CAPTION
-msgid "Layout"
 msgstr ""
 
 #: TFRMOPTIONS.GBSCREENLAYOUT.CAPTION
@@ -1226,14 +1242,6 @@ msgstr ""
 msgid "Flat interface"
 msgstr ""
 
-#: TFRMOPTIONS.PNLCAPTION.CAPTION
-msgid "Language"
-msgstr ""
-
-#: TFRMOPTIONS.PGFILEOP.CAPTION
-msgid "pgFileOp"
-msgstr ""
-
 #: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
 msgid "&Buffer size for files:"
 msgstr ""
@@ -1256,18 +1264,6 @@ msgstr ""
 
 #: TFRMOPTIONS.RBUSESTREAMINSEARCH.CAPTION
 msgid "Use stream for search text in files"
-msgstr ""
-
-#: TFRMOPTIONS.GBDATETIMEFORMAT.CAPTION
-msgid "Date and time"
-msgstr ""
-
-#: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
-msgid "Date and time format:"
-msgstr ""
-
-#: TFRMOPTIONS.PGTABS.CAPTION
-msgid "pgTabs"
 msgstr ""
 
 #: TFRMOPTIONS.GBTABS.CAPTION
@@ -1808,6 +1804,14 @@ msgstr ""
 
 #: TFRMCONFIGTOOLBAR.CBSMALLICONS.CAPTION
 msgid "S&mall icons"
+msgstr ""
+
+#: ulng.rsdlgbuttons
+msgid "&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &A'"
+msgstr ""
+
+#: 
+msgid "ll;&Skip;S&kip All;All;"
 msgstr ""
 
 #: ulng.rsmsgnofreespacecont

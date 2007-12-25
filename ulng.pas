@@ -125,6 +125,19 @@ resourcestring
   rsEditNewFile = 'new.txt';
   rsEditNewOpen = 'Open file';
   rsEditNewFileName = 'Filename:';
+  // Options dialog
+  rsOptLanguage = 'Language';
+  rsOptBehav = 'Behaviors';
+  rsOptTools = 'Tools';
+  rsOptFonts = 'Fonts';
+  rsOptColors = 'Colors';
+  rsOptFilePanels = 'File panels';
+  rsOptFileTypes = 'File types';
+  rsOptHotKeys = 'Hot keys';
+  rsOptPlugins = 'Plugins';
+  rsOptLayout = 'Layout';
+  rsOptFileOp = 'File operations';
+  rsOptFolderTabs = 'Folder tabs';
 
 procedure lngLoadLng(const sFileName:String);
 procedure DoLoadLng;
