@@ -1,7 +1,7 @@
 object frmCompareFiles: TfrmCompareFiles
-  Left = 314
+  Left = 229
   Height = 530
-  Top = 440
+  Top = 168
   Width = 783
   HorzScrollBar.Page = 782
   HorzScrollBar.Range = 365
@@ -61,12 +61,10 @@ object frmCompareFiles: TfrmCompareFiles
       ParentCtl3D = False
       TabOrder = 1
       BookMarkOptions.Xoffset = -18
-      BookMarkOptions.OnChange = nil
       Gutter.DigitCount = 2
       Gutter.LeftOffset = 0
       Gutter.Visible = False
       Gutter.Width = 15
-      Gutter.OnChange = nil
       Gutter.CodeFoldingWidth = 14
       Keystrokes = <      
         item
@@ -390,7 +388,6 @@ object frmCompareFiles: TfrmCompareFiles
           ShortCut = 24642
         end>
       ReadOnly = True
-      SelectedColor.OnChange = nil
       OnSpecialLineColors = lstLeftSpecialLineColors
       OnStatusChange = lstLeftStatusChange
     end
@@ -438,9 +435,7 @@ object frmCompareFiles: TfrmCompareFiles
       ParentCtl3D = False
       TabOrder = 1
       BookMarkOptions.Xoffset = -18
-      BookMarkOptions.OnChange = nil
       Gutter.Visible = False
-      Gutter.OnChange = nil
       Gutter.CodeFoldingWidth = 14
       Keystrokes = <      
         item
@@ -764,7 +759,6 @@ object frmCompareFiles: TfrmCompareFiles
           ShortCut = 24642
         end>
       ReadOnly = True
-      SelectedColor.OnChange = nil
       OnSpecialLineColors = lstRightSpecialLineColors
       OnStatusChange = lstRightStatusChange
     end
@@ -789,45 +783,54 @@ object frmCompareFiles: TfrmCompareFiles
     FullRepaint = False
     TabOrder = 2
     object btnCompare: TButton
-      Left = 5
+      Left = 6
       Height = 32
       Top = 8
-      Width = 96
+      Width = 110
       BorderSpacing.InnerBorder = 4
       Caption = 'Compare files'
       OnClick = btnCompareClick
       TabOrder = 0
     end
     object btnNextDiff: TButton
+      AnchorSideLeft.Control = btnCompare
+      AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnCompare
       AnchorSideTop.Side = asrCenter
-      Left = 120
+      Left = 122
       Height = 32
       Top = 8
       Width = 122
+      BorderSpacing.Left = 6
       BorderSpacing.InnerBorder = 4
       Caption = 'Next difference'
       TabOrder = 1
     end
     object btnPrevDiff: TButton
+      AnchorSideLeft.Control = btnNextDiff
+      AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnNextDiff
       AnchorSideTop.Side = asrCenter
-      Left = 256
+      Left = 250
       Height = 32
       Top = 8
       Width = 147
+      BorderSpacing.Left = 6
       BorderSpacing.InnerBorder = 4
       Caption = 'Previous difference'
       TabOrder = 2
     end
     object chbBinMode: TCheckBox
+      AnchorSideLeft.Control = btnPrevDiff
+      AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnPrevDiff
       AnchorSideTop.Side = asrCenter
-      Left = 424
-      Height = 19
-      Top = 15
-      Width = 84
+      Left = 403
+      Height = 23
+      Top = 13
+      Width = 91
       AllowGrayed = True
+      BorderSpacing.Left = 6
       Caption = 'Binary mode'
       TabOrder = 3
     end
@@ -836,7 +839,7 @@ object frmCompareFiles: TfrmCompareFiles
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnPrevDiff
       AnchorSideTop.Side = asrCenter
-      Left = 612
+      Left = 606
       Height = 32
       Top = 8
       Width = 96
@@ -851,10 +854,10 @@ object frmCompareFiles: TfrmCompareFiles
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnPrevDiff
       AnchorSideTop.Side = asrCenter
-      Left = 514
-      Height = 19
-      Top = 15
-      Width = 92
+      Left = 500
+      Height = 23
+      Top = 13
+      Width = 100
       AllowGrayed = True
       BorderSpacing.Left = 6
       Caption = 'Keep scrolling'
