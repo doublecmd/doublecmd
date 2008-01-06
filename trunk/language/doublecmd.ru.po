@@ -1502,10 +1502,6 @@ msgstr "&Растянуть"
 msgid "About Viewer..."
 msgstr "О просмотрщике..."
 
-#: TFRMMAIN.NBLEFT.HINT
-msgid "Left"
-msgstr ""
-
 #: TFRMMAIN.BTNLEFTHOME.CAPTION
 msgid "~"
 msgstr ""
@@ -1516,10 +1512,6 @@ msgstr ""
 
 #: TFRMMAIN.BTNLEFTROOT.CAPTION
 msgid "/"
-msgstr ""
-
-#: TFRMMAIN.NBRIGHT.HINT
-msgid "Right"
 msgstr ""
 
 #: TFRMMAIN.LBLCOMMANDPATH.CAPTION

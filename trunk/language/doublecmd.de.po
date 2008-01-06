@@ -1502,10 +1502,6 @@ msgstr "Strecken"
 msgid "About Viewer..."
 msgstr "Über den Be&trachter"
 
-#: TFRMMAIN.NBLEFT.HINT
-msgid "Left"
-msgstr "Links"
-
 #: TFRMMAIN.BTNLEFTHOME.CAPTION
 msgid "~"
 msgstr "~"
@@ -1517,10 +1513,6 @@ msgstr ".."
 #: TFRMMAIN.BTNLEFTROOT.CAPTION
 msgid "/"
 msgstr "/"
-
-#: TFRMMAIN.NBRIGHT.HINT
-msgid "Right"
-msgstr "Rechts"
 
 #: TFRMMAIN.LBLCOMMANDPATH.CAPTION
 msgid "Path"

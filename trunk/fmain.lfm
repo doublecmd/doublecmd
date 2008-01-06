@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 361
+  Left = 254
   Height = 336
-  Top = 278
+  Top = 192
   Width = 540
   HorzScrollBar.Page = 539
   VertScrollBar.Page = 316
@@ -109,7 +109,6 @@ object frmMain: TfrmMain
       TabOrder = 0
       object nbLeft: TNotebook
         Height = 176
-        Hint = 'Left'
         Top = 24
         Width = 170
         Align = alClient
@@ -187,7 +186,6 @@ object frmMain: TfrmMain
       TabOrder = 1
       object nbRight: TNotebook
         Height = 176
-        Hint = 'Right'
         Top = 24
         Width = 364
         Align = alClient
