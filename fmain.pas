@@ -800,9 +800,9 @@ procedure TfrmMain.nbPageChanged(Sender: TObject);
 begin
   with Sender as TNoteBook do
   begin
-    if (Hint = 'Left') and (FrameLeft <> nil) then
+    if (Name = 'nbLeft') and (FrameLeft <> nil) then
       FrameLeft.pnlFile.UpdatePrompt;
-    if (Hint = 'Right') and (FrameRight <> nil) then
+    if (Name = 'nbRight') and (FrameRight <> nil) then
       FrameRight.pnlFile.UpdatePrompt;
   end;
 end;
@@ -2534,7 +2534,7 @@ var
   sCaption, sActiveCaption : String;
   iActiveTab : Integer;
 begin
-  if ANoteBook.Hint = 'Left' then
+  if ANoteBook.Name = 'nbLeft' then
     begin
       TabsSection := 'lefttabs';
       Section := 'left';
@@ -2588,7 +2588,7 @@ var
   TabsSection, Section : String;
   sPath : String;
 begin
-  if ANoteBook.Hint = 'Left' then
+  if ANoteBook.Name = 'nbLeft' then
     begin
       TabsSection := 'lefttabs';
       Section := 'left';

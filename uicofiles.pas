@@ -215,7 +215,6 @@ begin
           bmiHeader.biSizeImage := BytesPerScanLine(bmiHeader.biWidth,bmiHeader.biBitCount,32)*Abs(bmiHeader.biHeight);
 
 
-        Assert(bmiHeader.biBitCount<>16);
         Assert(bmiHeader.biCompression=0);
         if bmiHeader.biBitCount > 16 then
           iRgbTable := 0
