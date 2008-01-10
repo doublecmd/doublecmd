@@ -6,7 +6,7 @@ uses
   deb_def in 'deb_def.pas';
 
 {$E wcx}
-{$R *.RES}
+{$R *.res}
 
 exports
   CloseArchive       name 'CloseArchive',
