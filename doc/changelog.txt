@@ -1,19 +1,5 @@
-20.05.2006 Added PNG icons support to file panels
-26.05.2006 Create component TKASToolbar
-01.06.2006 Add toolbar to main window
-04.06.2006 Create component TKASEdit
+10.01.2008  FIX: Bug [ 1860271 ] Навигация lynx и архивы
+--------------------------------------------------------------------------------
+26.12.2007  Release Double Commander 0.3 alpha
 
-
-18.09.2006 Ported to Windows
-20.09.2006 Fixed problem with delete all files
-22.09.2006 Added Disk panel
-25.09.2006 Added associated icon
-27.09.2006 Begin work on Total commander archive plugins support
-14.10.2006 Begin work on zip plugin
-23.10.2006 Added transparent for icons in file panel
-07.12.2006 Change method of get associated icon
-10.12.2006 Add thread support (On Windows only, on Linux has some problems)
-10.12.2006 Add font configuration
-12.12.2006 Some change in threads (working with modal window)
-15.12.2006 Some changes in Mouse wheel
 

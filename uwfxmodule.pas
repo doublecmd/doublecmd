@@ -394,7 +394,7 @@ end;
 
 function TWFXModule.VFSOpen(const sName: String; bCanYouHandleThisFile : Boolean = False): Boolean;
 begin
-  FsInit(Cardinal(Self) - $80000000, @MainProgressProc, @MainLogProc, @MainRequestProc);
+  Result := (FsInit(Cardinal(Self) - $80000000, @MainProgressProc, @MainLogProc, @MainRequestProc) = 0);
 end;
 
 function TWFXModule.VFSMkDir(const sDirName: String): Boolean;

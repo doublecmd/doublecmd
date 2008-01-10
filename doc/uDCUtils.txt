@@ -1,4 +1,0 @@
-﻿$$$*** This is unit history file ***$$$ ###encoding="UTF-8"###
-27.05.2007 Добавил функции для поддержки указания пути
-                   в Toolbar через %commander_path%
-                   Сделал 4 кнопки на Toolbar по умолчанию 

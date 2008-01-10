@@ -1,2 +1,0 @@
-﻿$$$*** This is unit history file ***$$$ ###encoding="UTF-8"###
-19.08.2007 ADD: Панель инструментов

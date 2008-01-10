@@ -2055,16 +2055,6 @@ begin
     Exit;
   end;
 
-{  // this is hack for ShowModal bug
-  with ActiveFrame do
-  begin
-    if bDialogShowed then
-    begin
-      Key:=0;
-      bDialogShowed:=False;
-      Exit;
-    end;
-  end;}
 //  DebugLn(Key);
   if HandleActionHotKeys(Key, Shift) Then
   begin
@@ -2073,12 +2063,6 @@ begin
   end;
 //  DebugLn(Key);
 
-{  if bAltPress and (shift=[ssAlt]) and (key=VK_Alt) and not IsAltPanel then
-  begin
-//    qt.QMenuBar_activateItemAt(mnuMain.Handle, 0);
-    bAltPress:=False;
-    Exit;
-  end;}
   bAltPress:=False;
 
   if (shift=[ssCtrl]) and (Key=VK_Down) then

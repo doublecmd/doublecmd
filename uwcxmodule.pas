@@ -317,13 +317,13 @@ end;
 
 function TWCXModule.VFSOpen(const sName: String; bCanYouHandleThisFile : Boolean = False): Boolean;
 var
-ArcHandle : THandle;
-ArcFile : tOpenArchiveData;
-ArcHeader : THeaderData;
-HeaderData : PHeaderData;
-bHasDir : Boolean;
-sDirs : TStringList;
-I : Integer;
+  ArcHandle : THandle;
+  ArcFile : tOpenArchiveData;
+  ArcHeader : THeaderData;
+  HeaderData : PHeaderData;
+  bHasDir : Boolean;
+  sDirs : TStringList;
+  I : Integer;
 begin
   bHasDir := False;
   sDirs := TStringList.Create;
@@ -337,8 +337,6 @@ begin
       Exit;
     end;
 
-  try
-
   if bCanYouHandleThisFile and Assigned(CanYouHandleThisFile) then
     begin
       Result := CanYouHandleThisFile(PChar(sName));
@@ -351,8 +349,13 @@ begin
   FillChar(ArcFile, SizeOf(ArcFile), #0);
   ArcFile.ArcName := PChar(sName);
   ArcFile.OpenMode := PK_OM_LIST;
-  ArcHandle := OpenArchive(ArcFile);
 
+  try
+    ArcHandle := OpenArchive(ArcFile);
+  except
+    ArcHandle := 0;
+  end;
+  
   if ArcHandle = 0 then
     begin
       if not bCanYouHandleThisFile then
@@ -371,28 +374,29 @@ begin
   FillChar(ArcHeader, SizeOf(ArcHeader), #0);
   FArcFileList := TList.Create;
 
-  while (ReadHeader(ArcHandle, ArcHeader) = 0) do
-   begin
-     New(HeaderData);
-     HeaderData^ := ArcHeader;
-     FArcFileList.Add(HeaderData);
-     //****************************
-     (* if plugin is not list a list of folders *)
-     if not bHasDir then
-       begin
-         bHasDir := FPS_ISDIR(HeaderData^.FileAttr);
-         GetDirs(String(HeaderData^.FileName), sDirs);
-       end;
-     //****************************
-     FillChar(ArcHeader, SizeOf(ArcHeader), #0);
-     // get next file
-     iResult := ProcessFile(ArcHandle, PK_SKIP, nil, nil);
+  try
+    while (ReadHeader(ArcHandle, ArcHeader) = 0) do
+      begin
+        New(HeaderData);
+        HeaderData^ := ArcHeader;
+        FArcFileList.Add(HeaderData);
+        //****************************
+        (* if plugin is not list a list of folders *)
+        if not bHasDir then
+          begin
+            bHasDir := FPS_ISDIR(HeaderData^.FileAttr);
+            GetDirs(String(HeaderData^.FileName), sDirs);
+          end;
+        //****************************
+        FillChar(ArcHeader, SizeOf(ArcHeader), #0);
+        // get next file
+        iResult := ProcessFile(ArcHandle, PK_SKIP, nil, nil);
 
-     //Check for errors
-     if iResult <> 0 then
-       ShowErrorMessage;
-
-    end;
+        //Check for errors
+        if iResult <> 0 then
+          ShowErrorMessage;
+    end; // while
+    
     (* if plugin is not list a list of folders *)
     if not bHasDir then
       begin
@@ -408,8 +412,8 @@ begin
           end;
       end;
   finally
-  sDirs.Free;
-  CloseArchive(ArcHandle);
+    sDirs.Free;
+    CloseArchive(ArcHandle);
   end;
   Result := True;
 end;
