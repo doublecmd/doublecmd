@@ -23,7 +23,7 @@ uses
 
 {$E wcx}
 
-{$R *.RES}
+{$R *.res}
 
 exports
   CloseArchive       name 'CloseArchive',
