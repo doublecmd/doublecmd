@@ -1,69 +1,82 @@
-Lines with - are planed in future
-Due to porting maybe some of this (temporally) disabled (report please)
+List of Shortcuts
 
-F1 : show program About information
-Shift+F2 : Set focus to command line
-F3 : open file for view in internal viewer (multiple files is also OK)
--F3: on directory show information about directory
-F4 : open file in internal editor
-Shift+F4 - new file (or open existing) in internal editor
-F5 : copy items from source to target
-Shift+F5 - copy items ("inline")
-F6 : rename or move items
-Shift+F6 - move items ("inline")
-F7 : create new directory
-F8, Del : delete item
-F9: select main menu (hack)
+Key                 Action
+------------------------------------------------------------------------------
+Main window
+------------------------------------------------------------------------------
+F1                 Show program About information
+Shift+F2           Set focus to command line
+F3                 Open file for view in internal viewer (multiple files is also OK)
+F3                 On directory open this directory
+F4                 Open file in internal editor
+F5                 Copy items from source to target
+F6                 Rename or move items
+F7                 Create new directory
+F8, Del            Delete item
+F9                 Select main menu (not working)
 
-Ctrl + H: invoke dir history pop up menu
-Ctrl + D : directory hotlist
--Ctrl + K : combine splitted file (from Ctrl + S)
--Ctrl + L : calculate occupied space
--Ctrl + O : ????in future show terminal output ???
-Ctrl + R : refresh actual panel
--Ctrl + S : split file into smaller parts (then combine with Ctrl + K)
--Ctrl + U : swap source and target panel
+ALT+F1             Change left drive
+ALT+F2             Change right drive
+ALT+F4             Exit
+ALT+F5             Pack selected files
+ALT+F7             Find files
+ALT+F9             Unpack all files from archive under cursor
 
-Ctrl+Down,
-Ctrl + F8 : pull down commands combo box
- 
-CTRL+ENTER : append selected item to the command combo box text
-CRTL+Shift+Enter - like CTRL+P and Alt+Enter
-CTRL+P - put path to command line
-CTRL+X - run terminal in current dir
-CTRL+T - New tab in active panel
-CTRL+W - Close actual tab
-CTRL+PgDown - like Enter
-CTRL+PgUp - like backspace
-Ctrl+Q - Terminate Double Commander
-Shift+Enter: execute command in terminal (choose in Options..)
+ALT+Enter          Properties
+ALT+X              Exit
 
-NUM +  : expand selection
-NUM -  : shrink selection
-NUM *  : invert selection
+Shift+F4           New file (or open existing) in internal editor
+Shift+F5           Copy items ("inline")
+Shift+F6           Move items ("inline")
 
-Shift+NUM+ : tag all files in current directory with same extension as focused file
-Shift+NUM- : untag all files in current directory with same extension as focused file
+Shift+Enter        Execute command in terminal (choose in Options..)
 
-CTRL+NUM +  : select all
-CTRL+NUM -  : unselect all
+CTRL+F3            Sort by name
+CTRL+F4            Sort by extension
+CTRL+F5            Sort by date/time
+CTRL+F6            Sort by size
 
-TAB   : switch between panels
-LEFT  : go to upper directory
-RIGHT : go to selected directory
-ENTER : go to selected directory / open file with VFS /
-		try to run file / execute not empty command line
-INSERT: select file or directory
-BACKSPACE : goto to the upper directory
-SPACE : on file - select / deselcet item
-        on directory - select / deselect item and compute space occupied in dir
+Ctrl+H             Invoke dir history pop up menu
+Ctrl+D             Directory hotlist
+Ctrl+L             Calculate occupied space
+Ctrl+M             Multi rename tool
+Ctrl+R             Refresh actual panel
+Ctrl+Down          Pull down commands combo box
+CTRL+ENTER         Append selected item to the command combo box text
+CTRL+P             Put path to command line
+CRTL+Shift+Enter   Like CTRL+P and Alt+Enter
+CTRL+X             Run terminal in current dir
+CTRL+T             New tab in active panel
+CTRL+W             Close actual tab
+CTRL+PgDown        Like Enter
+CTRL+PgUp          Like backspace
+CTRL+NUM +         Select all
+CTRL+NUM -         Unselect all
 
-alfanumeric keys: write to command line
+NUM +              Expand selection
+NUM -              Shrink selection
+NUM *              Invert selection
+
+-Shift+NUM+        Tag all files in current directory with same extension as focused file
+-Shift+NUM-        Untag all files in current directory with same extension as focused file
+
+TAB                Switch between panels
+LEFT               Go to upper directory
+RIGHT              Go to selected directory
+ENTER              Go to selected directory / open file with VFS /
+		            try to run file / execute not empty command line
+INSERT             Select file or directory
+BACKSPACE          Goto to the upper directory
+SPACE              On file - select / deselcet item
+                    on directory - select / deselect item and compute space occupied in dir
+
+alfanumeric keys   Write to command line
 
 Right mouse button show popup menu with configurable commands (doublecmd.ext)
 
--------
+------------------------------------------------------------------------------
 Viewer
+------------------------------------------------------------------------------
 N - next file in multiple files
 P - previous file in multiple files
 Esc, Q ( or with any combination Ctrl, Shift, Alt) - Close
@@ -73,15 +86,9 @@ Esc, Q ( or with any combination Ctrl, Shift, Alt) - Close
 4 - show as wrapped text
 -5 - try process file by external command (currently disabled)
 
----
+------------------------------------------------------------------------------
 Editor
-
-many shortcuts similar to Borland IDE (80 shortcuts)
-(including bookmarks Ctrl+0-9,
- (un)indent Shift+Ctrl+I, U
- and ...
-)
-+
+------------------------------------------------------------------------------
 F2, CTRL+S - save
 ESC - quit
 ...

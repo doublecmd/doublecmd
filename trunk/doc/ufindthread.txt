@@ -1,2 +1,0 @@
-﻿$$$*** This is unit history file ***$$$ ###encoding="UTF-8"###
-20.08.2007 ADD: Поиск по атрибутам

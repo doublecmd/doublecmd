@@ -52,7 +52,7 @@ function GetPackerCaps : Integer;stdcall;
 
 
 implementation
-uses AbUtils, SysUtils, Classes;//, windows;
+uses AbUtils, AbExcept, SysUtils, Classes;//, windows;
 
 var
   ProcessDataProc : TProcessDataProc;
@@ -129,15 +129,23 @@ function OpenArchive (var ArchiveData : tOpenArchiveData) : THandle;
 var
   Arc : TAbZipKitEx;
 begin
+  Result := 0;
   Arc := TAbZipKitEx.Create(nil);
   //MessageBox(0,ArchiveData.ArcName,'OpenArchive',16);
   Arc.OnArchiveItemProgress := Arc.AbArchiveItemProgressEvent;
   Arc.OnArchiveProgress := Arc.AbArchiveProgressEvent;
 
-  Arc.OpenArchive(ArchiveData.ArcName);
-  Arc.Tag := 0;
-  //MessageBox(0,'OpenArchive','OpenArchive',16);
-  Result :=Cardinal(Arc);
+  try
+    Arc.OpenArchive(ArchiveData.ArcName);
+    Arc.Tag := 0;
+    //MessageBox(0,'OpenArchive','OpenArchive',16);
+    Result :=Cardinal(Arc);
+  except
+    on EAbUnhandledType do ArchiveData.OpenResult := E_UNKNOWN_FORMAT;
+  end;
+
+  if (Result = 0) and Assigned(Arc) then
+    Arc.Free;
 end;
 
 function ReadHeader (hArcData : THandle; var HeaderData : THeaderData) : Integer;
@@ -174,9 +182,13 @@ begin
       UnpSize := Arc.Items[Arc.Tag].UncompressedSize;
       FileCRC := Arc.Items[Arc.Tag].CRC32;
       {File date/time}
-      DecodeDate(Arc.Items[Arc.Tag].LastModTimeAsDateTime, Year, Month, Day);
-      DecodeTime(Arc.Items[Arc.Tag].LastModTimeAsDateTime, Hour, Min, Sec, MSec);
-      FileTime := (Year - 1980) shl 25 or (Month shl 21) or (Day shl 16) or (Hour shl 11) or (Min shl 5) or (Sec div 2);
+      try
+        DecodeDate(Arc.Items[Arc.Tag].LastModTimeAsDateTime, Year, Month, Day);
+        DecodeTime(Arc.Items[Arc.Tag].LastModTimeAsDateTime, Hour, Min, Sec, MSec);
+        FileTime := (Year - 1980) shl 25 or (Month shl 21) or (Day shl 16) or (Hour shl 11) or (Min shl 5) or (Sec div 2);
+      except
+        FileTime := FileAge(Arc.FileName);
+      end;
       FileAttr := Arc.Items[Arc.Tag].ExternalFileAttributes;
 
     end;

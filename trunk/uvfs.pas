@@ -184,8 +184,8 @@ begin
 
   DebugLN(Format('After Module %s Load', [FCurrentPlugin]));
 
-  FVFSModule.VFSOpen(sLastArchive);
-
+  if Result then
+    Result := FVFSModule.VFSOpen(sLastArchive);
 end;
 
 function TVFS.LoadVFSList(var fl: TFileList) : Boolean;

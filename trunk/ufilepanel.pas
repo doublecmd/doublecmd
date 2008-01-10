@@ -273,7 +273,7 @@ begin
               sTempDir := GetTempDir;
               {if }fVFS.VFSmodule.VFSCopyOut(VFSFileList, sTempDir, 0);{ then}
                 begin
-                 fVFS.LoadAndOpen(sTempDir + ExtractDirLevel(ActiveDir, sName));
+                 if not fVFS.LoadAndOpen(sTempDir + ExtractDirLevel(ActiveDir, sName)) then Exit;
 
                  //WriteLN('sTempDir + sName == ' + sTempDir + sName);
 
@@ -318,32 +318,26 @@ end;
 
 procedure TFilePanel.LoadPanel;
 begin
-//  writeln('TFilePanel.LoadPanel');
-  case fPanelMode of
-  pmArchive,
-  pmVFS:
-    ;
-    {VFS.VFSListItems(fPathHistory.GetLastPath,ActiveDir,fFileList);}
-  else
+//  DebugLN('TFilePanel.LoadPanel');
+  if fPanelMode in [pmArchive, pmVFS] then
+    fPanelMode := pmDirectory;
+
+  if not SetCurrentDir(ActiveDir) then
     begin
-      // classic filesystem
-      if not SetCurrentDir(ActiveDir) then
-      begin
-        GetDir(0,fActiveDir);
-        if fActiveDir<>DirectorySeparator then
-          fActiveDir:=fActiveDir+DirectorySeparator;
-        Exit;   // chdir failed
-      end;
-      if Assigned(FOnChangeDirectory) then
-        FOnChangeDirectory(fOwner, fActiveDir);
-      LoadFilesbyDir(fActiveDir, fFileList);
+      GetDir(0,fActiveDir);
+      if fActiveDir<>DirectorySeparator then
+        fActiveDir:=fActiveDir+DirectorySeparator;
+      Exit;   // chdir failed
     end;
-  end; // case
+  if Assigned(FOnChangeDirectory) then
+    FOnChangeDirectory(fOwner, fActiveDir);
+  LoadFilesbyDir(fActiveDir, fFileList);
+
   if gShowIcons then
     fFileList.UpdateFileInformation(fPanelMode);
   Sort; // and Update panel
   fPanel.Invalidate;
-//  writeln('TFilePanel.LoadPanel DONE');
+//  DebugLN('TFilePanel.LoadPanel DONE');
 end;
 
 
@@ -422,7 +416,6 @@ begin
       if Pos('{!VFS}',sOpenCmd)>0 then
       begin
         if fVFS.FindModule(sName) then
-//        if VFS.VFSGetScriptName(ExtractFileName(sName))<>'' then
         begin
           LoadPanelVFS(pfri);
           Exit;
@@ -521,38 +514,53 @@ var
   i:Integer;
   bPathFound:Boolean;
 begin
-  bPathFound:=False;
-  fActiveDir:=ExcludeTrailingPathDelimiter(fActiveDir);
-  for i:=length(fActiveDir) downto 1 do
+  if fPanelMode = pmDirectory then
     begin
-      if fActiveDir[i] = DirectorySeparator then
+      bPathFound:=False;
+      fActiveDir:=ExcludeTrailingPathDelimiter(fActiveDir);
+      for i:=length(fActiveDir) downto 1 do
         begin
-          LastActive:=Copy(fActiveDir,i+1,length(fActiveDir)-i+1);
-          fActiveDir:=Copy(fActiveDir,1, i);
-          bPathFound:=True;
-          Break;
+          if fActiveDir[i] = DirectorySeparator then
+            begin
+              LastActive:=Copy(fActiveDir,i+1,length(fActiveDir)-i+1);
+              fActiveDir:=Copy(fActiveDir,1, i);
+              bPathFound:=True;
+              Break;
+            end;
         end;
-    end;
     
-  if glsDirHistory.IndexOf(ActiveDir)=-1 then
-    glsDirHistory.Insert(0,ActiveDir);
+      if glsDirHistory.IndexOf(ActiveDir)=-1 then
+        glsDirHistory.Insert(0,ActiveDir);
 
-  LoadPanel;
+      LoadPanel;
+    end
+  else // if VFS
+    begin
+      LoadPanelVFS(fFileList.GetItem(0)); // get '..' item
+      fPanel.Invalidate;
+    end;
 end;
 
 
 procedure TFilePanel.cdDownLevel(frp:PFileRecItem);
-{var
-  i:Integer;}
 begin
-  with frp^ do
-  begin
-    ActiveDir:=ActiveDir+sName+DirectorySeparator;
-    LastActive:='';
-    if glsDirHistory.IndexOf(ActiveDir)=-1 then
-      glsDirHistory.Insert(0,ActiveDir);
-  end; // with frp^
-  LoadPanel;
+  if fPanelMode = pmDirectory then
+    begin
+      with frp^ do
+      begin
+        ActiveDir:=ActiveDir+sName+DirectorySeparator;
+        LastActive:='';
+        if glsDirHistory.IndexOf(ActiveDir)=-1 then
+          glsDirHistory.Insert(0,ActiveDir);
+      end; // with frp^
+      
+      LoadPanel;
+    end
+  else // if VFS
+    begin
+      LoadPanelVFS(frp);
+      fPanel.Invalidate;
+    end;
 end;
 
 function TFilePanel.GetActiveItem:PFileRecItem;
