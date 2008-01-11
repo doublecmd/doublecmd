@@ -1117,17 +1117,13 @@ begin
          end;
        end;
 
-
      VK_APPS:
        begin
          actContextMenu.Execute;
          Exit;
        end;
-     
-   end;
-  end;
-
-
+    end; // case
+  end; // Shift=[]
 
   if (Key=VK_Return) or (Key=VK_SELECT) then
   begin
@@ -1166,7 +1162,7 @@ begin
         pnlFile.ExecuteFile(pnlFile.GetActiveItem^.sName, True);
         Exit;
       end;
-      // alt enter
+      // ctrl enter
       if Shift=[ssCtrl] then
       begin
         edtCmdLine.Text:=edtCmdLine.Text+pnlFile.GetActiveItem^.sName+' ';
@@ -1188,44 +1184,8 @@ begin
     end;
   end;  // handle ENTER with some modifier
 
-
-
-  if Shift=[ssAlt] then
-  begin
-
-
-
-  end;
-
-  if Shift=[ssShift] then
-  begin
-
-    {Kylix:
-    this strange: KEY_15 is at real KEY_5
-     and KEY_16 is a KEY_6, Why?
-     it's a bug or feature? :-(
-    }
-    if ((Key=VK_F4) {or (Key=VK_F14)}) then
-    begin
-      actEditNew.Execute;
-      Exit;
-    end;
-
-
-
-  end;
-
   if Shift=[ssCtrl] then
   begin
-
-{
-   // handle Ctrl+Enter
-    if ((Key=VK_Return) or (Key=VK_SELECT)) and (edtCommand.Text='') then
-    begin
-      actCalculateSpace.Execute;
-      Exit;
-    end;
-}
     // handle ctrl+right
     if (Key=VK_Right) then
     begin
@@ -1241,7 +1201,6 @@ begin
       Exit;
     end;
 
-
     if (Key=VK_X) then
     begin
       if not edtCommand.Focused then
@@ -1250,8 +1209,7 @@ begin
         Exit;
       end;
     end;
-
-  end;
+  end; // Shift=[ssCtrl]
   
   // not handled
   Result:=False;
@@ -1986,7 +1944,10 @@ end;
 procedure TfrmMain.actRunTermExecute(Sender: TObject);
 begin
   if not edtCommand.Focused then
-    ExecCmdFork(gRunTerm);
+    begin
+      SetCurrentDir(ActiveFrame.ActiveDir);
+      ExecCmdFork(gRunTerm);
+    end;
 end;
 
 procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word;
@@ -2003,7 +1964,7 @@ begin
     Exit;
   end;
   
-  if Key=9 then
+  if Key=9 then  // TAB
   begin
     Key:=0;
     case PanelSelected of
@@ -2030,7 +1991,7 @@ begin
     with ActiveFrame do
     begin
       if pnlFile.GetActiveItem^.sName='..' then Exit;
-      pnlFile.cdDownLevel(pnlFile.GetActiveItem);
+        pnlFile.cdDownLevel(pnlFile.GetActiveItem);
     end;
     Key:=0;
     Exit;
@@ -2049,7 +2010,7 @@ begin
     with ActiveFrame do
     begin
       if pnlFile.GetActiveItem^.sName='..' then Exit;
-      pnlFile.cdDownLevel(pnlFile.GetActiveItem);
+        pnlFile.ChooseFile(pnlFile.GetActiveItem);
     end;
     Key:=0;
     Exit;
@@ -2097,10 +2058,6 @@ begin
     end;
     Exit;
   end;
-
-
-
-
 end;
 
 procedure TfrmMain.FormActivate(Sender: TObject);

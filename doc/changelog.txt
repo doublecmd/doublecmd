@@ -1,5 +1,8 @@
+﻿11.08.2008 FIX: Bug [ 1869243 ] Навигация lynx и вход в архивы.
+11.08.2008 FIX: Bug [ 1860652 ] "Run Term" Opens terminal in last accessed directory, not in current
+           panel's directory
 11.08.2008  FIX: Bug [ 1861911 ] must add version.inc
-10.01.2008  FIX: Bug [ 1860271 ] ��������� lynx � ������
+10.01.2008  FIX: Bug [ 1860271 ] Навигация lynx и архивы
 --------------------------------------------------------------------------------
 26.12.2007  Release Double Commander 0.3 alpha
 
