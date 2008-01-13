@@ -244,7 +244,7 @@ var
   mode : dword;
 begin
   fpstat64(PChar(sSrc),StatInfo);
-//  writeln(AttrToStr(stat.st_mode));  // file time
+//  DebugLN(AttrToStr(stat.st_mode));  // file time
   new(utb);
   utb^.actime:=StatInfo.st_atime;  //last access time // maybe now
   utb^.modtime:=StatInfo.st_mtime; // last modification time
@@ -256,7 +256,7 @@ begin
   if fpChown(PChar(sDst),StatInfo.st_uid, StatInfo.st_gid)=-1 then
   begin
     // development messages
-    writeln(Format('chown (%s) failed',[sSrc]));
+    DebugLN(Format('chown (%s) failed',[sSrc]));
   end;
 // mod
   mode := StatInfo.st_mode;
@@ -265,7 +265,7 @@ begin
   if fpChmod(PChar(sDst), mode) = -1 then
   begin
     // development messages
-    writeln(Format('chmod (%s) failed',[sSrc]));
+    DebugLN(Format('chmod (%s) failed',[sSrc]));
   end;
   Result:=True;
 end;
@@ -312,7 +312,6 @@ var
   sbfs:Tstatfs;
 begin
     statfs(PChar(Path),sbfs);
-//    writeln('Statfs:',sbfs.bavail,' ',sbfs.bsize,' ',sbfs.blocks,' ', sbfs.bfree);
     FreeSize := (Int64(sbfs.bavail)*sbfs.bsize);
     TotalSize := (Int64(sbfs.blocks)*sbfs.bsize);
 end;
