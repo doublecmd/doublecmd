@@ -1313,7 +1313,7 @@ begin
   end; // frameright;
   if gUseExtDiff then
     begin
-      ExecCmdFork(Format(gExtDiff,[sFile1, sFile2]));
+      ExecCmdFork(Format(gExtDiff + ' "%s" "%s"',[sFile1, sFile2]));
       Exit;
     end;
   try

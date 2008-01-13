@@ -33,7 +33,7 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Buttons, Spin, ColorBox,
-  CheckLst;
+  CheckLst, EditBtn;
 
 type
 
@@ -103,9 +103,6 @@ type
     edtCategoryName: TEdit;
     edtCategoryMask: TEdit;
     edtEditorSize: TSpinEdit;
-    edtExtDiffer: TEdit;
-    edtExtEditor: TEdit;
-    edtExtViewer: TEdit;
     edtMainSize: TSpinEdit;
     edtRunTerm: TEdit;
     edtTerm: TEdit;
@@ -113,6 +110,9 @@ type
     edtTest2: TEdit;
     edtTest3: TEdit;
     edtViewerSize: TSpinEdit;
+    fneExtViewer: TFileNameEdit;
+    fneExtDiffer: TFileNameEdit;
+    fneExtEditor: TFileNameEdit;
     gb: TGroupBox;
     gbExample: TGroupBox;
     gbFileTypesColors: TGroupBox;
@@ -308,13 +308,13 @@ begin
   cbDateTimeFormat.Text:= gDateTimeFormat;
   lblDateTimeExample.Caption:= FormatDateTime(gDateTimeFormat, Now);
 
-  edtExtEditor.Text:= gExtEdit;
-  edtExtViewer.Text:=gExtView;
-  edtExtDiffer.Text:=gExtDiff;
+  fneExtEditor.FileName := gExtEdit;
+  fneExtViewer.FileName := gExtView;
+  fneExtDiffer.FileName := gExtDiff;
 
-  edtExtEditor.Enabled:= cbExtEditor.Checked;
-  edtExtDiffer.Enabled:= cbExtDiffer.Checked;
-  edtExtViewer.Enabled:= cbExtViewer.Checked;
+  fneExtEditor.Enabled:= cbExtEditor.Checked;
+  fneExtDiffer.Enabled:= cbExtDiffer.Checked;
+  fneExtViewer.Enabled:= cbExtViewer.Checked;
 
   edtRunTerm.Text:=gRunTerm;
 
@@ -537,9 +537,9 @@ begin
   gUseExtDiff:=cbExtDiffer.Checked;
   gSeparateExt:=cbSeparateExt.Checked;
 
-  gExtEdit:= edtExtEditor.Text;
-  gExtView:= edtExtViewer.Text;
-  gExtDiff:= edtExtDiffer.Text;
+  gExtEdit:= fneExtEditor.FileName;
+  gExtView:= fneExtViewer.FileName;
+  gExtDiff:= fneExtDiffer.FileName;
   gRunTerm:= edtRunTerm.Text;
   
   gFontName:=cbMainFont.Text;
@@ -632,19 +632,19 @@ end;
 procedure TfrmOptions.cbExtEditorClick(Sender: TObject);
 begin
   inherited;
-  edtExtEditor.Enabled:=cbExtEditor.Checked
+  fneExtEditor.Enabled:=cbExtEditor.Checked
 end;
 
 procedure TfrmOptions.cbExtDifferClick(Sender: TObject);
 begin
   inherited;
-  edtExtDiffer.Enabled:=cbExtDiffer.Checked
+  fneExtDiffer.Enabled:=cbExtDiffer.Checked
 end;
 
 procedure TfrmOptions.cbExtViewerClick(Sender: TObject);
 begin
   inherited;
-  edtExtViewer.Enabled:=cbExtViewer.Checked
+  fneExtViewer.Enabled:=cbExtViewer.Checked
 end;
 
 procedure TfrmOptions.FillFontLists;
