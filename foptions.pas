@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -405,7 +405,7 @@ begin
   begin
     WCXmodule := TWCXmodule.Create;
     if WCXmodule.LoadModule(odOpenDialog.FileName)then
-      cbWCXPath.Text := IntToStr(WCXmodule.VFSCaps) + ',' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
+      cbWCXPath.Text := IntToStr(WCXmodule.VFSMisc) + ',' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
     else
       cbWCXPath.Text := '0,' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
   WCXModule.UnloadModule;
@@ -901,7 +901,7 @@ begin
   begin
     WFXmodule := TWFXmodule.Create;
     if WFXmodule.LoadModule(odOpenDialog.FileName)then
-      sPluginName := PChar(Pointer(WFXmodule.VFSCaps)) + '=' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
+      sPluginName := PChar(Pointer(WFXmodule.VFSMisc)) + '=' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
     else
       sPluginName := ExtractFileName(odOpenDialog.FileName) +'=' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
 

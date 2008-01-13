@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Virtual File System - class for manage WFX plugins (Version 1.3)
  
-   Copyright (C) 2007  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2008  Koblov Alexander (Alexx2000@mail.ru)
  
    Callback functions based on:
      Total Commander filesystem plugins debugger
@@ -29,7 +29,7 @@ unit uWFXmodule;
 
 interface
 uses
-  Classes, uFileList, uVFSModule, ufsplugin, uWFXprototypes, dynlibs, uTypes, fFileOpDlg;
+  Classes, uFileList, uVFSModule, uVFSTypes, ufsplugin, uWFXprototypes, dynlibs, uTypes, fFileOpDlg;
 
 {$mode delphi}{$H+}
 const
@@ -89,11 +89,12 @@ Type
     procedure UnloadModule;override;
     function VFSInit:Boolean;override;
     procedure VFSDestroy;override;
-    function VFSCaps : Integer;override;
+    function VFSCaps : TVFSCaps;override;
 
     function VFSConfigure(Parent: THandle):Boolean;override;
     function VFSOpen(const sName:String; bCanYouHandleThisFile : Boolean = False):Boolean;override;
     //function VFSClose:Boolean;override;
+    function VFSRefresh : Boolean;override;
     
     function VFSMkDir(const sDirName:String ):Boolean;override;
     function VFSRmDir(const sDirName:String):Boolean;override;
@@ -107,6 +108,7 @@ Type
     function VFSDelete(var flNameList:TFileList):Boolean;override;
     
     function VFSList(const sDir:String; var fl:TFileList):Boolean;override;
+    function VFSMisc: Cardinal;override;
   end;
 
 implementation
@@ -378,13 +380,17 @@ begin
 
 end;
 
-function TWFXModule.VFSCaps: Integer;
-var
-  pPlgName : PChar;
+function TWFXModule.VFSCaps: TVFSCaps;
 begin
-  New(pPlgName);
-  FsGetDefRootName(pPlgName, 256);
-  Result := Integer(pPlgName);
+  Result := [];
+  if Assigned(FsGetFile) then
+    Include(Result, VFS_CAPS_COPYOUT);
+  if Assigned(FsPutFile) then
+    Include(Result, VFS_CAPS_COPYIN);
+  if Assigned(FsDeleteFile) then
+    Include(Result, VFS_CAPS_DELETE);
+  if Assigned(FsMkDir) then
+    Include(Result, VFS_CAPS_MKDIR);
 end;
 
 function TWFXModule.VFSConfigure(Parent: THandle): Boolean;
@@ -395,6 +401,11 @@ end;
 function TWFXModule.VFSOpen(const sName: String; bCanYouHandleThisFile : Boolean = False): Boolean;
 begin
   Result := (FsInit(Cardinal(Self) - $80000000, @MainProgressProc, @MainLogProc, @MainRequestProc) = 0);
+end;
+
+function TWFXModule.VFSRefresh: Boolean;
+begin
+  Result := True;
 end;
 
 function TWFXModule.VFSMkDir(const sDirName: String): Boolean;
@@ -670,6 +681,15 @@ begin
   until not FsFindNext(Handle, FindData);
   FsFindClose(Handle);
   
+end;
+
+function TWFXModule.VFSMisc: Cardinal;
+var
+  pPlgName : PChar;
+begin
+  New(pPlgName);
+  FsGetDefRootName(pPlgName, 256);
+  Result := Cardinal(pPlgName);
 end;
 
 { TWFXCopyThread }

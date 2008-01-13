@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Implementation of Virtual File System
 
-   Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ type
     function cdDownLevel(frp:PFileRecItem; var flist: TFileList) : Boolean;
 
     function FindModule(const sFileName:String; bLoadModule : Boolean = True):Boolean;
-    function LoadAndOpen(const sFileName:String) : Boolean;
+    function LoadAndOpen(const sFileName:String; bOpen : Boolean = True) : Boolean;
     function LoadVFSList(var fl:TFileList) : Boolean;
     property VFSType : TVFSType read FVFSType;
     property VFSmodule : TVFSmodule read FVFSModule write SetVFSModule;
@@ -167,13 +167,13 @@ begin
             sLastArchive := '';
             Result := LoadAndOpen(sLastArchive);
             //*********************
-            DebugLn(PChar(Pointer(FVFSModule.VFSCaps)));
+            DebugLn(PChar(Pointer(FVFSModule.VFSMisc)));
             //*********************
           end;
       end;
 end;
 
-function TVFS.LoadAndOpen(const sFileName:String): Boolean;
+function TVFS.LoadAndOpen(const sFileName:String; bOpen : Boolean = True): Boolean;
 begin
   sLastArchive := sFileName;
   case FVFSType of
@@ -184,7 +184,7 @@ begin
 
   DebugLN(Format('After Module %s Load', [FCurrentPlugin]));
 
-  if Result then
+  if Result and bOpen then
     Result := FVFSModule.VFSOpen(sLastArchive);
 end;
 

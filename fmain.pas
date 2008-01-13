@@ -2,7 +2,7 @@
 Double Commander
 ----------------------------
 Licence  : GNU GPL v 2.0
-Copyright (C) 2006-2007 Alexander Koblov (Alexx2000@mail.ru)
+Copyright (C) 2006-2008 Alexander Koblov (Alexx2000@mail.ru)
 
 Main Dialog window
 
@@ -343,7 +343,7 @@ implementation
 
 uses
   uTypes, fAbout, uGlobs, uLng, fOptions,{ fViewer,}fconfigtoolbar,
-  uCopyThread, uFileList, uDeleteThread, uVFSUtil, uWCXModule,
+  uCopyThread, uFileList, uDeleteThread, uVFSUtil, uWCXModule, uVFSTypes,
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg,
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg, fExtractDlg,
@@ -968,6 +968,15 @@ begin
   with ActiveFrame do
   begin
     try
+      if  pnlFile.PanelMode in [pmArchive, pmVFS] then // if in VFS
+        begin
+          if not (VFS_CAPS_MKDIR in pnlFile.VFS.VFSModule.VFSCaps) then
+            begin
+              msgOK(rsMsgErrNotSupported);
+              Exit;
+            end;
+        end; // in VFS
+        
       sPath:=ActiveDir;
       if not ShowMkDir(sPath) then Exit;
       if (sPath='') then Exit;
@@ -978,9 +987,10 @@ begin
           DebugLN('+++ Create directory in VFS +++');
           ActiveFrame.pnlFile.VFS.VFSmodule.VFSMkDir(ActiveDir + sPath);
           ActiveFrame.RefreshPanel;
-        end
-      else
-      { /Create directory in VFS }
+          Exit;
+        end;
+
+      { Create directory }
 
       if (DirectoryExists(ActiveDir+sPath)) then
       begin
@@ -1010,8 +1020,19 @@ var
   DT : TDeleteThread;
 begin
   with ActiveFrame do
+  begin
+    if  pnlFile.PanelMode in [pmArchive, pmVFS] then // if in VFS
+      begin
+        if not (VFS_CAPS_DELETE in pnlFile.VFS.VFSModule.VFSCaps) then
+          begin
+            msgOK(rsMsgErrNotSupported);
+            Exit;
+          end;
+      end; // in VFS
+      
     SelectFileIfNoSelected(GetActiveItem);
-
+  end;
+  
   case msgYesNoCancel(GetFileDlgStr(rsMsgDelSel,rsMsgDelFlDr)) of
     mmrNo:
       begin
@@ -1029,13 +1050,14 @@ begin
     CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
     
     
-    (* Delete files from archive *)
-    if  ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then
+    (* Delete files from VFS *)
+    if  ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then // if in VFS
       begin
         DebugLN('+++ Delete files +++');
         ActiveFrame.pnlFile.VFS.VFSmodule.VFSDelete(fl);
-      end
-    else
+        Exit;
+      end;
+      
     (* Delete files *)
     begin
      if not Assigned(frmFileOp) then
@@ -1825,10 +1847,15 @@ begin
     begin
       if not IsBlocked then
         begin
-          DebugLN('+++ Pack files to archive +++');
-          fl.CurrentDirectory := ActiveFrame.ActiveDir;
-          sDestPath:=ExtractFilePath(sDestPath);
-          ShowPackDlg(NotActiveFrame.pnlFile.VFS, fl, sDestPath, False);
+          if  (VFS_CAPS_COPYIN in NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCaps) then
+            begin
+              DebugLN('+++ Pack files to archive +++');
+              fl.CurrentDirectory := ActiveFrame.ActiveDir;
+              sDestPath:=ExtractFilePath(sDestPath);
+              ShowPackDlg(NotActiveFrame.pnlFile.VFS, fl, sDestPath, False);
+            end
+          else
+            msgOK(rsMsgErrNotSupported);
         end;
       Exit;
     end;
@@ -1856,18 +1883,28 @@ begin
   (* Check not active panel *)
   if NotActiveFrame.pnlFile.PanelMode = pmVFS then
     begin
-      DebugLN('+++ Copy files to VFS +++');
-      fl.CurrentDirectory := ActiveFrame.ActiveDir;
-      NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyInEx(fl, sDestPath, 0);
+      if  (VFS_CAPS_COPYIN in NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCaps) then
+        begin
+          DebugLN('+++ Copy files to VFS +++');
+          fl.CurrentDirectory := ActiveFrame.ActiveDir;
+          NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyInEx(fl, sDestPath, 0);
+        end
+      else
+        msgOK(rsMsgErrNotSupported);
       Exit;
     end;
 
   (* Check active panel *)
   if  ActiveFrame.pnlFile.PanelMode = pmVFS then
     begin
-      DebugLN('+++ Copy files from VFS +++');
-      fl.CurrentDirectory := ActiveFrame.ActiveDir;
-      ActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyOutEx(fl, sDestPath, 0);
+      if  (VFS_CAPS_COPYOUT in ActiveFrame.pnlFile.VFS.VFSmodule.VFSCaps) then
+        begin
+          DebugLN('+++ Copy files from VFS +++');
+          fl.CurrentDirectory := ActiveFrame.ActiveDir;
+          ActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyOutEx(fl, sDestPath, 0);
+        end
+      else
+        msgOK(rsMsgErrNotSupported);
       Exit;
     end;
 
