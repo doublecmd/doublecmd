@@ -1,4 +1,6 @@
-﻿11.08.2008 FIX: Bug [ 1869243 ] Навигация lynx и вход в архивы.
+﻿13.08.2007 FIX: Bug [ 1869757 ] Внешний редактор
+13.08.2007 FIX: Bug [ 1869786 ] Внешний diff - дц не передает файлы.
+11.08.2008 FIX: Bug [ 1869243 ] Навигация lynx и вход в архивы.
 11.08.2008 FIX: Bug [ 1860652 ] "Run Term" Opens terminal in last accessed directory, not in current
            panel's directory
 11.08.2008  FIX: Bug [ 1861911 ] must add version.inc

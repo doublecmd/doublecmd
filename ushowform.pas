@@ -1,13 +1,13 @@
 {
-Seksi Commander
-----------------------------
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Seksi Commander
+   ----------------------------
+   Licence  : GNU GPL v 2.0
+   Author   : radek.cervinka@centrum.cz
 
-showing editor or viewer by configuration dialog
+   showing editor or viewer by configuration dialog
 
-contributors:
-
+   contributors:
+   Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 
@@ -38,10 +38,13 @@ uses
   SysUtils, Process, LCLProc,
   uGlobs, uOSUtils, fEditor, fViewer;
 
+const
+  sParam = ' "%s"';
+
 function ShowEditorByGlob(const sFileName:String):Boolean;
 begin
   if gUseExtEdit then
-    ExecCmdFork(Format(gExtEdit,[sFileName]))
+    ExecCmdFork(Format(gExtEdit + sParam,[sFileName]))
   else
     ShowEditor(sFileName);
   Result:=True;   
@@ -52,7 +55,7 @@ var
   sl:TStringList;
 begin
   if gUseExtView then
-    ExecCmdFork(Format(gExtView,[sFileName]))
+    ExecCmdFork(Format(gExtView + sParam,[sFileName]))
   else
   begin
     sl:=TStringList.Create;
@@ -83,7 +86,7 @@ begin
       end
     else
      for i:=0 to list.Count-1 do
-       ExecCmdFork(Format(gExtView,[List.Strings[i]]))
+       ExecCmdFork(Format(gExtView + sParam,[List.Strings[i]]))
   end // gUseExtView
   else
     ShowViewer(List, bDeleteAfterView);
@@ -98,7 +101,7 @@ var
   Process : TProcess;
 begin
   Process := TProcess.Create(nil);
-  Process.CommandLine := Format(gExtView,[FFileList.Strings[0]]);
+  Process.CommandLine := Format(gExtView + sParam,[FFileList.Strings[0]]);
   Process.Options := [poWaitOnExit];
   Process.Execute;
   Process.Free;

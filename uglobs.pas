@@ -75,9 +75,9 @@ var
   gUseExtView:Boolean=False;
   gUseExtDiff:Boolean=False;
 
-  gExtEdit:String='emacs "%s"';
-  gExtView:String='emacs "%s"';
-  gExtDiff:String='gtk-diff "%s" "%s"';
+  gExtEdit:String='emacs';
+  gExtView:String='emacs';
+  gExtDiff:String='gtk-diff';
   gExts:TExts;
   gColorExt:TColorExt;
 

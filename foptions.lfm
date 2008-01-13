@@ -13,31 +13,39 @@ object frmOptions: TfrmOptions
   ClientHeight = 415
   ClientWidth = 616
   Icon.Data = {
-    36030000424D3603000000000000360000002800000010000000100000000100
-    1800000000000003000064000000640000000000000000000000FFFFFF874A20
-    874A20874A20FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-    FFFFFFFFFFFFFFFFFFFF874A20BEA592B89C86B89C86874A20FFFFFFFFFFFFFF
-    FFFFFFFFFFFFFFFFFFFFFF858A88858A88858A88FFFFFFFFFFFF874A20CCBBAD
-    A7917DB5957AAE8B72874A20FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF858A889EA1
-    A0858A88FFFFFFFFFFFF874A20CCBBADA48D78A28A74B4957AB3937C874A20FF
-    FFFFFFFFFFFFFFFF858A88D2D3D4C2C3C4858A88FFFFFFFFFFFFFFFFFF874A20
-    D4C8BDA48D78A48D78BEA592874A20FFFFFFFFFFFF858A88E2E3E4C2C4C6858A
-    88858A88FFFFFFFFFFFFFFFFFFFFFFFF874A20CCBBADCCBBADB3937C874A2085
-    8A88858A88D3D3D4BDBEBF858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-    FFFFFF874A20874A20874A2085837DAAADADC8C9CABDBEBF858A88FFFFFFFFFF
-    FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB5B7B885
-    8A88B7B8B9858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-    858A88858A88858A88858A88D0D1D2A3A4A4858A88858A88FFFFFFFFFFFFFFFF
-    FFFFFFFFFFFFFFFFFFFFFFFFFF858A88F3F3F3EFF0F0EDEEEEEAECECB6B9BA85
-    8A88FFFFFF858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF858A88F5F6F6
-    A9ACAB858A88F7F7F7E2E3E5AAADADECEEEEFFFFFFFFFFFF858A88FFFFFFFFFF
-    FFFFFFFFFFFFFFFFFFFFFFFFFF858A88FFFFFFFFFFFF858A88FAFAFA858A88FF
-    FFFFFFFFFFFFFFFFFFFFFF858A88878C8AFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-    FFFFFFFFFFFF858A88EEF0F0858A88FFFFFFFFFFFFFFFFFFFFFFFF858A88F0F0
-    F0858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF858A88E9EBEC858A88FFFFFFFF
-    FFFFFFFFFFFFFFFFFFFFFFFFFFFF858A88EEEFEF858A88FFFFFFFFFFFFFFFFFF
-    FFFFFFFFFFFF858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-    FF858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    36040000424D3604000000000000360000002800000010000000100000000100
+    2000000000000004000064000000640000000000000000000000FFFFFFFF874A
+    20FF874A20FF874A20FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF874A20FFBEA5
+    92FFB89C86FFB89C86FF874A20FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFF858A88FF858A88FF858A88FFFFFFFFFFFFFFFFFF874A20FFCCBB
+    ADFFA7917DFFB5957AFFAE8B72FF874A20FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFF858A88FF9EA1A0FF858A88FFFFFFFFFFFFFFFFFF874A20FFCCBB
+    ADFFA48D78FFA28A74FFB4957AFFB3937CFF874A20FFFFFFFFFFFFFFFFFFFFFF
+    FFFF858A88FFD2D3D4FFC2C3C4FF858A88FFFFFFFFFFFFFFFFFFFFFFFFFF874A
+    20FFD4C8BDFFA48D78FFA48D78FFBEA592FF874A20FFFFFFFFFFFFFFFFFF858A
+    88FFE2E3E4FFC2C4C6FF858A88FF858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFF874A20FFCCBBADFFCCBBADFFB3937CFF874A20FF858A88FF858A88FFD3D3
+    D4FFBDBEBFFF858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFF874A20FF874A20FF874A20FF85837DFFAAADADFFC8C9CAFFBDBE
+    BFFF858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB5B7B8FF858A88FFB7B8B9FF858A
+    88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFF858A88FF858A88FF858A88FF858A88FFD0D1D2FFA3A4A4FF858A88FF858A
+    88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF858A
+    88FFF3F3F3FFEFF0F0FFEDEEEEFFEAECECFFB6B9BAFF858A88FFFFFFFFFF858A
+    88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF858A88FFF5F6
+    F6FFA9ACABFF858A88FFF7F7F7FFE2E3E5FFAAADADFFECEEEEFFFFFFFFFFFFFF
+    FFFF858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF858A
+    88FFFFFFFFFFFFFFFFFF858A88FFFAFAFAFF858A88FFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFF858A88FF878C8AFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFF858A88FFEEF0F0FF858A88FFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFF858A88FFF0F0F0FF858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFF858A88FFE9EBECFF858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFF858A88FFEEEFEFFF858A88FFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFF858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFF858A88FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
   }
   OnCreate = FormCreate
@@ -85,7 +93,7 @@ object frmOptions: TfrmOptions
     Height = 372
     Width = 150
     Align = alLeft
-    DefaultItemHeight = 21
+    DefaultItemHeight = 16
     Images = ilTreeView
     ScrollBars = ssNone
     TabOrder = 1
@@ -124,18 +132,17 @@ object frmOptions: TfrmOptions
       Width = 464
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 5
+      PageIndex = 2
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
-        ClientWidth = 460
-        ClientHeight = 314
+        ClientWidth = 456
+        ClientHeight = 339
         object lngList: TListBox
-          Height = 314
-          Width = 460
+          Height = 339
+          Width = 456
           Align = alClient
           TabOrder = 0
-          TopIndex = -1
         end
       end
       object pgBehav: TPage
@@ -188,8 +195,8 @@ object frmOptions: TfrmOptions
           Top = 68
           Width = 202
           BorderSpacing.Top = 6
-          ClientHeight = 152
-          ClientWidth = 198
+          ClientHeight = 156
+          ClientWidth = 202
           ParentCtl3D = False
           TabOrder = 2
           object cbDirSelect: TCheckBox
@@ -249,8 +256,8 @@ object frmOptions: TfrmOptions
           Width = 188
           Anchors = [akTop, akRight]
           BorderSpacing.Top = 6
-          ClientHeight = 152
-          ClientWidth = 184
+          ClientHeight = 156
+          ClientWidth = 188
           TabOrder = 3
           object lblIconsSize: TLabel
             Left = 14
@@ -300,8 +307,8 @@ object frmOptions: TfrmOptions
           Caption = 'Date and time'
           ChildSizing.LeftRightSpacing = 6
           ChildSizing.TopBottomSpacing = 6
-          ClientHeight = 89
-          ClientWidth = 196
+          ClientHeight = 110
+          ClientWidth = 200
           TabOrder = 4
           object lblDateTimeFormat: TLabel
             Left = 6
@@ -344,8 +351,8 @@ object frmOptions: TfrmOptions
         end
       end
       object pgTools: TPage
-        ClientWidth = 460
-        ClientHeight = 314
+        ClientWidth = 456
+        ClientHeight = 321
         object cbExtEditor: TCheckBox
           Left = 3
           Height = 19
@@ -355,15 +362,6 @@ object frmOptions: TfrmOptions
           OnClick = cbExtEditorClick
           TabOrder = 0
         end
-        object edtExtEditor: TEdit
-          Left = 2
-          Height = 24
-          Top = 33
-          Width = 448
-          Anchors = [akTop, akLeft, akRight]
-          TabOrder = 1
-          Text = 'gEdit "%s"'
-        end
         object cbExtDiffer: TCheckBox
           Left = 3
           Height = 19
@@ -371,16 +369,7 @@ object frmOptions: TfrmOptions
           Width = 90
           Caption = 'External differ'
           OnClick = cbExtDifferClick
-          TabOrder = 2
-        end
-        object edtExtDiffer: TEdit
-          Left = 2
-          Height = 24
-          Top = 98
-          Width = 450
-          Anchors = [akTop, akLeft, akRight]
-          TabOrder = 3
-          Text = 'gtk-diff "%s" "%s"'
+          TabOrder = 1
         end
         object cbExtViewer: TCheckBox
           Left = 3
@@ -389,16 +378,46 @@ object frmOptions: TfrmOptions
           Width = 98
           Caption = 'External viewer'
           OnClick = cbExtViewerClick
+          TabOrder = 2
+        end
+        object fneExtEditor: TFileNameEdit
+          AnchorSideTop.Control = cbExtEditor
+          AnchorSideTop.Side = asrBottom
+          Left = 2
+          Height = 23
+          Top = 38
+          Width = 424
+          ButtonWidth = 23
+          NumGlyphs = 1
+          BorderSpacing.Top = 6
+          ParentColor = False
+          TabOrder = 3
+        end
+        object fneExtDiffer: TFileNameEdit
+          AnchorSideTop.Control = cbExtDiffer
+          AnchorSideTop.Side = asrBottom
+          Left = 2
+          Height = 23
+          Top = 103
+          Width = 424
+          ButtonWidth = 23
+          NumGlyphs = 1
+          BorderSpacing.Top = 6
+          ParentColor = False
           TabOrder = 4
         end
-        object edtExtViewer: TEdit
+        object fneExtViewer: TFileNameEdit
+          AnchorSideTop.Control = cbExtViewer
+          AnchorSideTop.Side = asrBottom
           Left = 2
-          Height = 24
-          Top = 163
-          Width = 450
-          Anchors = [akTop, akLeft, akRight]
+          Height = 23
+          Top = 168
+          Width = 424
+          ButtonWidth = 23
+          NumGlyphs = 1
+          BorderSpacing.Top = 6
+          ParentColor = False
           TabOrder = 5
-          Text = 'emacs "%s"'
         end
       end
       object pgFonts: TPage
@@ -924,8 +943,8 @@ object frmOptions: TfrmOptions
           Top = 26
           Width = 185
           Caption = 'Example'
-          ClientHeight = 151
-          ClientWidth = 181
+          ClientHeight = 172
+          ClientWidth = 185
           TabOrder = 12
           object pbExample: TPaintBox
             Left = 8
@@ -937,8 +956,8 @@ object frmOptions: TfrmOptions
         end
       end
       object pgHotKey: TPage
-        ClientWidth = 460
-        ClientHeight = 343
+        ClientWidth = 456
+        ClientHeight = 339
         object lblActions: TLabel
           Left = 6
           Height = 26
@@ -959,9 +978,10 @@ object frmOptions: TfrmOptions
           Left = 4
           Height = 21
           Top = 33
-          Width = 316
+          Width = 312
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
           MaxLength = 0
           Sorted = True
           Style = csDropDownList
@@ -971,7 +991,7 @@ object frmOptions: TfrmOptions
           Left = 6
           Height = 23
           Top = 88
-          Width = 314
+          Width = 310
           Anchors = [akTop, akLeft, akRight]
           OnKeyDown = edHotKeyKeyDown
           TabOrder = 1
@@ -1182,8 +1202,8 @@ object frmOptions: TfrmOptions
           Top = 2
           Width = 425
           Caption = 'File types colors'
-          ClientHeight = 253
-          ClientWidth = 421
+          ClientHeight = 274
+          ClientWidth = 425
           TabOrder = 0
           object lblCategoryName: TLabel
             AnchorSideTop.Control = edtCategoryName
@@ -1353,8 +1373,8 @@ object frmOptions: TfrmOptions
           Top = 4
           Width = 389
           Caption = ' Screen layout '
-          ClientHeight = 283
-          ClientWidth = 385
+          ClientHeight = 304
+          ClientWidth = 389
           TabOrder = 0
           object cbShowMainToolBar: TCheckBox
             Left = 10
@@ -1474,8 +1494,8 @@ object frmOptions: TfrmOptions
           Top = 6
           Width = 424
           Caption = '&Buffer size for files:'
-          ClientHeight = 79
-          ClientWidth = 420
+          ClientHeight = 100
+          ClientWidth = 424
           TabOrder = 0
           object lblCopyBufferSize: TLabel
             AnchorSideTop.Side = asrBottom
@@ -1507,8 +1527,8 @@ object frmOptions: TfrmOptions
           Width = 424
           BorderSpacing.Top = 6
           Caption = 'General options'
-          ClientHeight = 79
-          ClientWidth = 420
+          ClientHeight = 100
+          ClientWidth = 424
           TabOrder = 1
           object cbDropReadOnlyFlag: TCheckBox
             Left = 14
@@ -1528,8 +1548,8 @@ object frmOptions: TfrmOptions
           Width = 424
           BorderSpacing.Top = 6
           Caption = 'File search'
-          ClientHeight = 79
-          ClientWidth = 420
+          ClientHeight = 100
+          ClientWidth = 424
           TabOrder = 2
           object rbUseMmapInSearch: TRadioButton
             Left = 14
@@ -1563,8 +1583,8 @@ object frmOptions: TfrmOptions
           Top = 6
           Width = 422
           Caption = 'Folder tabs headers'
-          ClientHeight = 283
-          ClientWidth = 418
+          ClientHeight = 304
+          ClientWidth = 422
           TabOrder = 0
           object lblChar: TLabel
             AnchorSideLeft.Control = edtTabsLimitLength
