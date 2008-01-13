@@ -149,12 +149,12 @@ uses
 // for debugging only, can be removed
 procedure dbgShowWindowPos(const pos: TControlPosition);
 begin
-  DebugLn('TWindowPos');
-  WriteLN('Left: ', pos.Left);
-  WriteLN('Top:  ', pos.Top);
-  WriteLN('Width: ', pos.Width);
-  WriteLN('Height: ', pos.Height);
-  DebugLn('END');
+  DebugLN('TWindowPos');
+  DebugLN('Left: ', IntToStr(pos.Left));
+  DebugLN('Top:  ', IntToStr(pos.Top));
+  DebugLN('Width: ', IntToStr(pos.Width));
+  DebugLN('Height: ', IntToStr(pos.Height));
+  DebugLN('END');
 end;
 
 procedure TControlPosition.Save(Control: TControl);

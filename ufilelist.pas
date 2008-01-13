@@ -1,23 +1,27 @@
-unit uFileList;
 {
-Seksi Commander
-----------------------------
+   Seksi Commander
+   ----------------------------
 
-  Class for storing list of files
+   Class for storing list of files
 
-  Licence   : GNU GPL 2
-  Copyright : (2003)Radek Cervinka, Peter Cernoch 
-  Contact   : pcernoch@volny.cz
+   Licence   : GNU GPL 2
+   Copyright : (2003)Radek Cervinka, Peter Cernoch
+   Contact   : pcernoch@volny.cz
               radek.cervinka@centrum.cz
 
-TODO:
-maybe protect Sort with TCriticalSection, because
-in multithreaded program global variable
-bSortNegative can be rewriten by other thread,
-but Sort is Called only from main thread and
-it is safe
+   contributors:
 
+   Copyright (C) 2006-2007 Alexander Koblov (Alexx2000@mail.ru)
+
+   TODO:
+   maybe protect Sort with TCriticalSection, because
+   in multithreaded program global variable
+   bSortNegative can be rewriten by other thread,
+   but Sort is Called only from main thread and
+   it is safe
 }
+
+unit uFileList;
 
 {$mode objfpc}{$H+}
 interface
@@ -29,13 +33,16 @@ const
   //sort by specific field
   //ToDo:
   //  in future may be using enumerated values {sf_ByName, sf_ByExt,...} ?
-  SF_BYNAME       = 0;
-  SF_BYEXT        = 1;
-  SF_BYSIZE       = 2;
-  SF_BYDATE       = 3;
-  SF_BYATTRIB     = 4;
+  SF_BYNAME       = 0; //en< Sorting by name
+  SF_BYEXT        = 1; //en< Sorting by extension
+  SF_BYSIZE       = 2; //en< Sorting by file size
+  SF_BYDATE       = 3; //en< Sorting by date
+  SF_BYATTRIB     = 4; //en< Sorting by attributes
 
 Type
+  {en
+     Class for storing list of files
+  }
   TFileList = class
   private
     sortIn          : Integer;      //column for sorting
@@ -43,23 +50,73 @@ Type
     fDir : String;
     function GetCount:Integer;
   protected
-    fList: TList;                   //store for file items
+    {en
+       Internal TList class for storing pointers
+       to TFileRecItem strucrures
+    }
+    fList: TList;
   public
+    {en
+       Create TFileList
+    }
     Constructor Create;
+    {en
+       Destroy TFileList
+    }
     Destructor  Destroy; override;
-
+    {en
+       Clear file list
+    }
     procedure   Clear;
-
+    {en
+       Add new item to file list
+       @param(fi Pointer to TFileRecItem strucrure)
+       @returns(Index of added item)
+    }
     function  AddItem(fi: PFileRecItem):Integer;
+    {en
+       Delete item from file list
+       @param(iIndex Index of deleting item)
+    }
     procedure DeleteItem(iIndex: Integer);
+    {en
+       Return item by index
+       @param(iIndex Item index)
+       @returns(Pointer to TFileRecItem strucrure)
+    }
     function  GetItem(iIndex: Integer) : PFileRecItem;
+    {en
+       Return full file name of item by index
+       @param(iIndex Item index)
+       @returns(File name)
+    }
     function  GetFileName(iIndex: Integer): String;
-    Function  CheckFileName(const sFileName:String):Integer;
+    {en
+       Return item index by file name
+       @param(sFileName File name)
+       @returns(Item index if item found, -1 otherwise)
+    }
+    function  CheckFileName(const sFileName:String):Integer;
+    {en
+       Update icon index information
+       @param(PanelMode Current panel mode)
+    }
     procedure  UpdateFileInformation(PanelMode: TPanelMode);
+    {en
+       Sort file list
+       @param(SortBy Field, see SF_* constants)
+       @param(bCaseSensitive Set @true for case sensitive sorting)
+    }
     procedure Sort(SortBy:Integer; bDirection, bCaseSensitive:Boolean); overload;
 
     property Count      : Integer read GetCount;
+    {en
+       Indicates the number of items in the file list
+    }
     property CurrentDirectory : String read fDir write fDir;
+    {en
+       Contain current file list directory
+    }
   end;
 
 { this function couldn't be a method > type of parametr TList.Sort
@@ -76,7 +133,7 @@ Type
 implementation
 
 uses
-  uGlobs, uPixmapManager, uDCUtils, uOSUtils;
+  LCLProc, uGlobs, uPixmapManager, uDCUtils, uOSUtils;
 
 var
   bSortNegative : Boolean; // because implementation of TList.Sort
@@ -124,7 +181,7 @@ begin
       Result:=i;
       Exit;
     end;
-    WriteLN('GetItem(i)^.sName = ', GetItem(i)^.sName);
+    DebugLN('GetItem(i)^.sName = ', GetItem(i)^.sName);
 end;
 
 procedure TFileList.DeleteItem(iIndex: Integer);
@@ -428,7 +485,7 @@ begin
         GetSplitFileName(p.sName, sPath);
         p.sPath := sPath;
       end;
-    writeln(p.sName);
+    DebugLN(p.sName);
     dstFileList.AddItem(@p);
   end;
 end;
