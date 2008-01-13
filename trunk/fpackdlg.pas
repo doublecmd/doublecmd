@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File packing window
 
-   Copyright (C) 2007  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2008  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ type
     procedure arbChange(Sender: TObject);
 
   private
-    { private declarations }
+    CurrentVFS : TVFS;
   public
     { public declarations }
   end; 
@@ -68,9 +68,6 @@ procedure ShowPackDlg(VFS : TVFS; var fl : TFileList; sDestPath:String; bNewArch
 implementation
 uses
   uWCXhead;
-
-var
-  CurrentVFS : TVFS;
 
 procedure ShowPackDlg(VFS : TVFS; var fl: TFileList; sDestPath:String; bNewArchive : Boolean = True);
 var
@@ -179,8 +176,9 @@ end;
 
 procedure TfrmPackDlg.btnConfigClick(Sender: TObject);
 begin
-   if CurrentVFS.FindModule(edtPackCmd.Text) then
-     CurrentVFS.VFSmodule.VFSConfigure(Handle);
+   with CurrentVFS do
+   if FindModule(edtPackCmd.Text, False) and LoadAndOpen(edtPackCmd.Text, False) then
+     VFSmodule.VFSConfigure(Handle);
 end;
 
 procedure TfrmPackDlg.cbOtherPluginsChange(Sender: TObject);

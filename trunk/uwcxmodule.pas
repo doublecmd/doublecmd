@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Archive File support - class for manage WCX plugins (Version 2.10)
 
-   Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ unit uWCXmodule;
 interface
 uses
   uWCXprototypes, uWCXhead, uFileList, uTypes, dynlibs, Classes, uVFSModule,
-  uVFSUtil, fFileOpDlg, Dialogs;
+  uVFSTypes, uVFSUtil, fFileOpDlg, Dialogs;
 
 {$H+}
 const
@@ -98,11 +98,12 @@ Type
 
     function VFSInit:Boolean;override;
     procedure VFSDestroy;override;
-    function VFSCaps :Integer;override;
+    function VFSCaps : TVFSCaps;override;
 
     function VFSConfigure(Parent: THandle):Boolean;override;
     function VFSOpen(const sName:String; bCanYouHandleThisFile : Boolean = False):Boolean;override;
     function VFSClose:Boolean;override;
+    function VFSRefresh : Boolean;override;
 
     function VFSMkDir(const sDirName:String ):Boolean;override;{Create a directory}
     function VFSRmDir(const sDirName:String):Boolean;override; {Remove a directory}
@@ -117,6 +118,7 @@ Type
     function VFSDelete(var flNameList:TFileList):Boolean;override;{Delete files from archive}
 
     function VFSList(const sDir:String; var fl:TFileList ):Boolean;override;{Return the filelist of archive}
+    function VFSMisc : Cardinal;override;
   end;
 
 function IsBlocked : Boolean;
@@ -300,12 +302,14 @@ begin
 
 end;
 
-function TWCXModule.VFSCaps : Integer;
+function TWCXModule.VFSCaps: TVFSCaps;
 begin
-  if Assigned(GetPackerCaps) then
-    Result := GetPackerCaps
-  else
-    Result := 0;
+  Result := [];
+  Include(Result, VFS_CAPS_COPYOUT);
+  if Assigned(PackFiles) then
+    Include(Result, VFS_CAPS_COPYIN);
+  if Assigned(DeleteFiles) then
+    Include(Result, VFS_CAPS_DELETE);
 end;
 
 function TWCXModule.VFSConfigure(Parent: THandle): Boolean;
@@ -421,6 +425,11 @@ end;
 function TWCXModule.VFSClose: Boolean;
 begin
 
+end;
+
+function TWCXModule.VFSRefresh: Boolean;
+begin
+  Result := VFSOpen(FArchiveName)
 end;
 
 function TWCXModule.VFSMkDir(const sDirName: String): Boolean;
@@ -879,6 +888,14 @@ begin
          end; //with
      fl.AddItem(fr);
    end;
+end;
+
+function TWCXModule.VFSMisc: Cardinal;
+begin
+  if Assigned(GetPackerCaps) then
+    Result := GetPackerCaps
+  else
+    Result := 0;
 end;
 
 { TWCXCopyThread }

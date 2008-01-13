@@ -8,7 +8,7 @@ Author   : radek.cervinka@centrum.cz
 
 contributors:
 
-Koblov Alexander (Alexx2000@mail.ru)
+Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit framePanel;
@@ -106,7 +106,7 @@ type
 implementation
 
 uses
-  LCLProc, uLng, uShowMsg, uGlobs, GraphType, uPixmapManager, uDCUtils, uOSUtils;
+  LCLProc, uLng, uShowMsg, uGlobs, GraphType, uPixmapManager, uVFSUtil, uDCUtils, uOSUtils;
 
 
 procedure TFrameFilePanel.LoadPanel;
@@ -166,7 +166,19 @@ begin
   begin
     pnlFile.LastActive:=pnlFile.GetActiveItem^.sName;
   end;
-  pnlFile.LoadPanel;
+  if pnlFile.PanelMode = pmDirectory then
+    pnlFile.LoadPanel
+  else // if in VFS
+    begin
+      if pnlFile.VFS.VFSmodule.VFSRefresh then
+        begin
+          pnlFile.VFS.VFSmodule.VFSList(ExtractDirLevel(pnlFile.VFS.ArcFullName, ActiveDir), pnlFile.FileList);
+          if gShowIcons then
+            pnlFile.FileList.UpdateFileInformation(pnlFile.PanelMode);
+          pnlFile.Sort; // and Update panel
+          dgPanel.Invalidate;
+        end;
+    end;
   if pnAltSearch.Visible then
     CloseAltPanel;
   UpDatelblInfo;

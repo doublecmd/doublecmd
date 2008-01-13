@@ -2,7 +2,7 @@
    Double Commander - Virtual File System support
    - virtual class for manage Shared Object
  
-   Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
  
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ unit uVFSmodule;
 
 interface
 uses
-  uFileList;
+  uVFSTypes, uFileList;
 
 {$mode objfpc}{$H+}
 Type
@@ -35,11 +35,12 @@ Type
     procedure UnloadModule;virtual;abstract;
     function VFSInit:Boolean;virtual;abstract;
     procedure VFSDestroy;virtual;abstract;
-    function VFSCaps : Integer;virtual;abstract;
+    function VFSCaps : TVFSCaps;virtual;abstract;
 
     function VFSConfigure(Parent: THandle):Boolean;virtual;abstract;
     function VFSOpen(const sName:String; bCanYouHandleThisFile : Boolean = False):Boolean;virtual;abstract;
     function VFSClose:Boolean;virtual;abstract;
+    function VFSRefresh : Boolean;virtual;abstract;
     
     function VFSMkDir(const sDirName:String ):Boolean;virtual;abstract;
     function VFSRmDir(const sDirName:String):Boolean;virtual;abstract;
@@ -51,8 +52,10 @@ Type
     function VFSRename(const sSrcName, sDstName:String):Boolean;virtual;abstract;
     function VFSRun(const sName:String):Boolean;virtual;abstract;
     function VFSDelete(var flNameList:TFileList):Boolean;virtual;abstract;
-    
+
     function VFSList(const sDir:String; var fl:TFileList):Boolean;virtual;abstract;
+
+    function VFSMisc : Cardinal;virtual;abstract;
   end;
 
 implementation
