@@ -27,7 +27,7 @@ function GetSplitFileName(var sFileName, sPath : String) : String;
 function GetDirs (DirName : String; var Dirs : TStringList) : Longint;
 function GetAbsoluteFileName(sPath, sRelativeFileName : String) : String;
 function ExtractOnlyFileName(const FileName: string): string;
-procedure Split(const sFileNameWithParams : String; var sFileName, sParams : String);
+function SplitCmdLine(sCmdLine : String; var sCmd, sParams : String) : Boolean;
 function cnvFormatFileSize(iSize:Int64):String;
 function MinimizeFilePath(const PathToMince: String; Canvas: TCanvas;
                                            MaxLen: Integer): String;
@@ -145,26 +145,31 @@ begin
   Result := Copy(FileName, I + 1, iDotIndex - I - 1);
 end;
 
-procedure Split(const sFileNameWithParams : String; var sFileName, sParams : String);
+function SplitCmdLine(sCmdLine : String; var sCmd, sParams : String) : Boolean;
 var
-  sr: TSearchRec;
-  iSpacePos : Integer;
-  sTempFileName : String;
-  iLength : Integer;
-  iSearchPos : Integer;
+  iPos : Integer;
 begin
-  iSearchPos := 1;
-  sFileName :=  sFileNameWithParams;
-  iLength := Length(sFileNameWithParams);
-  repeat
-    iSpacePos := CharPos(' ', sFileNameWithParams, iSearchPos);
-    iSearchPos := iSpacePos + 1;
-    sFileName := Copy(sFileNameWithParams, 1, iSpacePos - 1 );
-  until (iSpacePos = 0) or (FindFirst(sFileName, faAnyFile, sr) = 0);
-  if sFileName = '' then
-    sFileName := sFileNameWithParams
+  if Pos('"', sCmdLine) = 1 then
+    begin
+      iPos := CharPos('"', sCmdLine, 2);
+      sCmd := Copy(sCmdLine, 2, iPos - 2);
+      sParams := Copy(sCmdLine, iPos + 2, Length(sCmdLine) - iPos + 1)
+    end
   else
-    sParams := Copy(sFileNameWithParams, iSpacePos + 1, iLength - iSpacePos);
+    begin
+      iPos := Pos(#32, sCmdLine);
+      if iPos <> 0 then
+        begin
+	  sCmd := Copy(sCmdLine, 1, iPos - 1);
+	  sParams := Copy(sCmdLine, iPos + 1, Length(sCmdLine) - iPos + 1)
+        end
+      else
+        begin
+          sCmd := sCmdLine;
+          sParams := '';
+        end;
+    end;
+  Result := (sCmd <>'');
 end;
 
 function cnvFormatFileSize(iSize:Int64):String;

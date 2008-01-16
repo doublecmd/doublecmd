@@ -7,7 +7,7 @@
    showing editor or viewer by configuration dialog
 
    contributors:
-   Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 
@@ -39,12 +39,12 @@ uses
   uGlobs, uOSUtils, fEditor, fViewer;
 
 const
-  sParam = ' "%s"';
+  sCmdLine = '"%s" "%s"';
 
 function ShowEditorByGlob(const sFileName:String):Boolean;
 begin
   if gUseExtEdit then
-    ExecCmdFork(Format(gExtEdit + sParam,[sFileName]))
+    ExecCmdFork(Format(sCmdLine, [gExtEdit, sFileName]))
   else
     ShowEditor(sFileName);
   Result:=True;   
@@ -55,7 +55,7 @@ var
   sl:TStringList;
 begin
   if gUseExtView then
-    ExecCmdFork(Format(gExtView + sParam,[sFileName]))
+    ExecCmdFork(Format(sCmdLine, [gExtView, sFileName]))
   else
   begin
     sl:=TStringList.Create;
@@ -86,7 +86,7 @@ begin
       end
     else
      for i:=0 to list.Count-1 do
-       ExecCmdFork(Format(gExtView + sParam,[List.Strings[i]]))
+       ExecCmdFork(Format(sCmdLine, [gExtView, List.Strings[i]]))
   end // gUseExtView
   else
     ShowViewer(List, bDeleteAfterView);
@@ -101,7 +101,7 @@ var
   Process : TProcess;
 begin
   Process := TProcess.Create(nil);
-  Process.CommandLine := Format(gExtView + sParam,[FFileList.Strings[0]]);
+  Process.CommandLine := Format(sCmdLine, [gExtView, FFileList.Strings[0]]);
   Process.Options := [poWaitOnExit];
   Process.Execute;
   Process.Free;
