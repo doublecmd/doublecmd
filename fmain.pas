@@ -1335,7 +1335,7 @@ begin
   end; // frameright;
   if gUseExtDiff then
     begin
-      ExecCmdFork(Format(gExtDiff + ' "%s" "%s"',[sFile1, sFile2]));
+      ExecCmdFork(Format('"%s" "%s" "%s"', [gExtDiff, sFile1, sFile2]));
       Exit;
     end;
   try
@@ -2613,7 +2613,7 @@ begin
   if actionLst.ActionByName(Cmd) <> nil then
     Result := actionLst.ActionByName(Cmd).Execute
   else
-    Result := (ExecCmdFork(Cmd) = 0);
+    Result := ExecCmdFork(Format('"%s"', [Cmd]));
 end;
 
 procedure TfrmMain.UpdateWindowView;

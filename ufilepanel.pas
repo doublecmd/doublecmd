@@ -101,7 +101,7 @@ type
 implementation
 
 uses
-  SysUtils, Masks, uFileOp, uGlobs, uVFSutil,
+  LCLProc, SysUtils, Masks, uFileOp, uGlobs, uVFSutil,
   uShowMsg, Controls, uLng, uShowForm, uVFSmodule, uDCUtils,
   uOSUtils;
 
@@ -432,8 +432,8 @@ begin
       begin
         System.ChDir(ActiveDir);
         LastActive:=sName;
+
         ExecuteFile(sName, False);
-//        ExecCmdFork('./'+sName);
         LoadPanel;
         Exit;
       end;
@@ -443,10 +443,9 @@ end;
 procedure TFilePanel.ExecuteFile(const sName:String; bTerm:Boolean);
 begin
   if bTerm then
-//    ExecCmdFork(Format(gTerm,[sName+'|less']))
-    ExecCmdFork(Format(gTerm,[sName+';echo ''Press Enter'';read']))
+    ExecCmdFork(Format(fmtRunInTerm, [gTerm, sName]))
   else
-    ExecCmdFork(sName);
+    ExecCmdFork(Format(fmtRun, [sName]));
 end;
 
 procedure TFilePanel.MarkAllFiles(bMarked:Boolean);
@@ -647,6 +646,7 @@ begin
     Exit;
   end;
   System.ChDir(ActiveDir);
+  Result := ExecCmdFork(sCmd);
 end;
 
 procedure TFilePanel.SetActiveDir(const AValue:String);

@@ -38,9 +38,13 @@ const
   {$IFDEF MSWINDOWS}
   faFolder = faDirectory;
   faSymLink   = $00000400;
+  fmtRun = '"%s"';
+  fmtRunInTerm = '%s /K "%s"';
   {$ELSE}
   faFolder = S_IFDIR;
   faSymLink   = $00000040;
+  fmtRun = '"./%s"';
+  fmtRunInTerm = '%s "%s";echo "Press Enter";read';
   {$ENDIF}
 
 type
@@ -94,7 +98,7 @@ function FPS_ISLNK(iAttr:Cardinal) : Boolean;
 }
 function FileIsExeLib(const sFileName : String) : Boolean;
 function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Boolean;
-function ExecCmdFork(const sCmd:String):Integer;
+function ExecCmdFork(const sCmdLine:String):Boolean;
 function GetDiskFreeSpace(Path : String; var FreeSize, TotalSize : Int64) : Boolean;
 {en
    Create a hard link to a file
@@ -273,34 +277,41 @@ end;
 
 (* Execute external commands *)
 
-function ExecCmdFork(const sCmd:String):Integer;
+function ExecCmdFork(const sCmdLine:String):Boolean;
 {$IFDEF UNIX}
 var
+  sCmd,
+  sParams : String;
   pid    : longint;
 Begin
+  SplitCmdLine(sCmdLine, sCmd, sParams);
+
   pid := fpFork;
 
   if pid = 0 then
    begin
      {The child does the actual exec, and then exits}
-      Shell(sCmd);
+     FpExecLP(sCmd, [sParams]);
      { If the shell fails, we return an exitvalue of 127, to let it be known}
-      fpExit(127);
+     fpExit(127);
    end
   else
    if pid = -1 then         {Fork failed}
     begin
-      raise Exception.Create('Fork failed:'+sCmd);
+      raise Exception.Create('Fork failed: ' + sCmd);
     end;
-  Result:=0;
+  Result := (pid > 0);
 end;
 {$ELSE}
 var
   sFileName,
-  sParams : String;
+  sParams,
+  sWorkDir : String;
 begin
-  Split(sCmd, sFileName, sParams);
-  ShellExecute(0, 'open',PChar(sFileName), PChar(sParams), PChar(ExtractFilePath(sCmd)), SW_SHOW);
+  sWorkDir := GetCurrentDir;
+  SplitCmdLine(sCmdLine, sFileName, sParams);
+  DebugLN('File: ' + sFileName + ' Params: ' + sParams + ' WorkDir: ' + sWorkDir);
+  Result := (ShellExecute(0, 'open', PChar(sFileName), PChar(sParams), PChar(sWorkDir), SW_SHOW) > 32);
 end;
 {$ENDIF}
 
