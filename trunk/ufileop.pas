@@ -95,7 +95,7 @@ begin
   repeat
     if sr.Name='.' then Continue;
     if (sDir=DirectorySeparator) and (sr.Name='..') then Continue;
-//    if sr.Name='' then COntinue;
+    if sr.Name='' then Continue;
 
     {$IFNDEF WIN32}   // *nix
     Fplstat64(sr.Name,sb);
