@@ -1326,26 +1326,48 @@ var
 begin
   inherited;
 
-  with frameLeft do
+  with FrameLeft do
   begin
     SelectFileIfNoSelected(GetActiveItem);
-    sFile1:=ActiveDir+pnlFile.GetActiveItem^.sName;
-  end; // frameLeft;
-
-  with frameRight do
-  begin
-    SelectFileIfNoSelected(GetActiveItem);
-    sFile2:=ActiveDir+pnlFile.GetActiveItem^.sName;
-  end; // frameright;
-  if gUseExtDiff then
+    with pnlFile.GetActiveItem^ do
     begin
-      ExecCmdFork(Format('"%s" "%s" "%s"', [gExtDiff, sFile1, sFile2]));
-      Exit;
+      if not FPS_ISDIR(iMode) then
+        sFile1 := ActiveDir + sName
+      else
+        begin
+          MsgOk(rsMsgErrNoFiles);
+          FrameLeft.UnMarkAll;
+          Exit;
+        end;
     end;
+  end; // FrameLeft;
+
+  with FrameRight do
+  begin
+    SelectFileIfNoSelected(GetActiveItem);
+    with pnlFile.GetActiveItem^ do
+    begin
+      if not FPS_ISDIR(iMode) then
+        sFile2 := ActiveDir + sName
+      else
+        begin
+          MsgOk(rsMsgErrNoFiles);
+          FrameRight.UnMarkAll;
+          Exit;
+        end;
+    end;
+  end; // Frameright;
+
   try
+    if gUseExtDiff then
+      begin
+        ExecCmdFork(Format('"%s" "%s" "%s"', [gExtDiff, sFile1, sFile2]));
+        Exit;
+      end;
+
     ShowCmpFiles(sFile1, sFile2);
   finally
-    frameLeft.UnMarkAll;
+    FrameLeft.UnMarkAll;
     FrameRight.UnMarkAll;
   end;
 end;
