@@ -2050,8 +2050,7 @@ begin
   begin
     with ActiveFrame do
     begin
-      if pnlFile.GetActiveItem^.sName='..' then Exit;
-        pnlFile.ChooseFile(pnlFile.GetActiveItem);
+      pnlFile.ChooseFile(pnlFile.GetActiveItem);
     end;
     Key:=0;
     Exit;
