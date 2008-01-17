@@ -521,7 +521,7 @@ begin
   DebugLn('frmMain.Destroy');
   edtCommand.Items.SaveToFile(gpIniDir+cHistoryFile);
   {*Tool Bar*}
-  MainToolBar.SaveToFile(gpCfgDir + 'default.bar');
+  MainToolBar.SaveToFile(gpIniDir + 'default.bar');
   {*Tool Bar*}
 end;
 
@@ -547,7 +547,7 @@ if pmToolBar.Tag >= 0 then
    if msgYesNo('You really want delete button?') then
       begin
          MainToolBar.RemoveButton (pmToolBar.Tag);
-         MainToolBar.SaveToFile(gpCfgDir + 'default.bar');
+         MainToolBar.SaveToFile(gpIniDir + 'default.bar');
       end;
    end;
 end;
@@ -675,7 +675,8 @@ var
 begin
   for x:=0 to 4 do
     gColumnSize[x]:=FrameLeft.dgPanel.ColWidths[x];
-
+  
+  SaveGlobs; // must be first
   (* Save all tabs *)
   SaveTabs(nbLeft);
   SaveTabs(nbRight);
@@ -753,7 +754,10 @@ begin
       MainToolBar.ButtonGlyphSize := gToolBarIconSize;
       MainToolBar.ChangePath := gpExePath;
       MainToolBar.EnvVar := '%commander_path%';
-      MainToolBar.LoadFromFile(gpCfgDir + 'default.bar');
+	  if FileExists(gpIniDir + 'default.bar') then
+        MainToolBar.LoadFromFile(gpIniDir + 'default.bar')	  
+	  else
+        MainToolBar.LoadFromFile(gpCfgDir + 'default.bar');
     end;
   (*Tool Bar*)
   
@@ -2668,7 +2672,10 @@ begin
         begin
           MainToolBar.ChangePath := gpExePath;
           MainToolBar.EnvVar := '%commander_path%';
-          MainToolBar.LoadFromFile(gpCfgDir + 'default.bar');
+          if FileExists(gpIniDir + 'default.bar') then
+            MainToolBar.LoadFromFile(gpIniDir + 'default.bar')
+	      else
+            MainToolBar.LoadFromFile(gpCfgDir + 'default.bar');
           MainToolBar.Visible := gButtonBar;
         end
       else

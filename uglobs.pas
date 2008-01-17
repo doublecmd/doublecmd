@@ -10,7 +10,7 @@ Globals variables and some consts
 
 contributors:
 
-Copyright (C) 2006-2007 Alexander Koblov (Alexx2000@mail.ru)
+Copyright (C) 2006-2008 Alexander Koblov (Alexx2000@mail.ru)
 
 }
 
@@ -191,12 +191,11 @@ end;
 
 procedure InitGlobs;
 begin
-  gIni:=TIniFile.Create(gpCfgDir + 'doublecmd.ini');
-  if gIni.ReadInteger('Configuration', 'UseIniInProgramDir', 1)  = 0 then
-    begin
-      gIni.Free;
-      gIni:=TIniFile.Create(gpIniDir + 'doublecmd.ini');
-    end;
+  if FileExists(gpIniDir + 'doublecmd.ini') then 
+    gIni := TIniFile.Create(gpIniDir + 'doublecmd.ini')
+  else
+    gIni := TIniFile.Create(gpCfgDir + 'doublecmd.ini');
+	
   gExts := TExts.Create;
   gColorExt := TColorExt.Create;
   glsHotDir := TStringList.Create;
@@ -346,7 +345,13 @@ var
 begin
   glsDirHistory.SaveToFile(gpIniDir + 'dirhistory.txt');
   glsMaskHistory.SaveToFile(gpIniDir + 'maskhistory.txt');
-
+  
+  if gIni.FileName <> gpIniDir + 'doublecmd.ini' then
+    begin
+      gIni.Free;
+      gIni := TIniFile.Create(gpIniDir + 'doublecmd.ini');	  
+	end;
+	
   {Layout page}
 
   gIni.WriteBool('Layout', 'ButtonBar', gButtonBar);
@@ -420,5 +425,5 @@ end;
 initialization
 
 finalization
-  SaveGlobs;
+
 end.
