@@ -4,11 +4,11 @@ object frmMain: TfrmMain
   Top = 192
   Width = 540
   HorzScrollBar.Page = 539
-  VertScrollBar.Page = 316
+  VertScrollBar.Page = 315
   VertScrollBar.Range = 79
   ActiveControl = pnlNotebooks
   Caption = 'Double Commander'
-  ClientHeight = 317
+  ClientHeight = 316
   ClientWidth = 540
   Font.Color = clBlack
   Font.Height = 13
@@ -81,34 +81,34 @@ object frmMain: TfrmMain
     end
   end
   object pnlNotebooks: TPanel
-    Height = 240
+    Height = 174
     Top = 50
     Width = 540
     Align = alClient
-    ClientHeight = 240
+    ClientHeight = 174
     ClientWidth = 540
     FullRepaint = False
     TabOrder = 1
     TabStop = True
     object MainSplitter: TSplitter
       Left = 171
-      Height = 200
+      Height = 134
       Top = 1
       Width = 4
       ResizeStyle = rsLine
     end
     object pnlLeft: TPanel
       Left = 1
-      Height = 200
+      Height = 134
       Top = 1
       Width = 170
       Align = alLeft
       BevelOuter = bvNone
-      ClientHeight = 200
+      ClientHeight = 134
       ClientWidth = 170
       TabOrder = 0
       object nbLeft: TNotebook
-        Height = 176
+        Height = 110
         Top = 24
         Width = 170
         Align = alClient
@@ -176,16 +176,16 @@ object frmMain: TfrmMain
     end
     object pnlRight: TPanel
       Left = 175
-      Height = 200
+      Height = 134
       Top = 1
       Width = 364
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 200
+      ClientHeight = 134
       ClientWidth = 364
       TabOrder = 1
       object nbRight: TNotebook
-        Height = 176
+        Height = 110
         Top = 24
         Width = 364
         Align = alClient
@@ -254,7 +254,7 @@ object frmMain: TfrmMain
     object pnlCommand: TPanel
       Left = 1
       Height = 38
-      Top = 201
+      Top = 135
       Width = 538
       Align = alBottom
       Anchors = [akLeft, akRight]
@@ -265,10 +265,12 @@ object frmMain: TfrmMain
       ParentColor = False
       TabOrder = 2
       object lblCommandPath: TLabel
+        AnchorSideTop.Control = edtCommand
+        AnchorSideTop.Side = asrCenter
         Left = 1
-        Height = 13
-        Top = 8
-        Width = 26
+        Height = 14
+        Top = 11
+        Width = 23
         Alignment = taRightJustify
         Caption = 'Path'
         ParentColor = False
@@ -278,13 +280,12 @@ object frmMain: TfrmMain
         Left = 56
         Height = 21
         Top = 8
-        Width = 688
+        Width = 471
         TabStop = False
+        Anchors = [akTop, akLeft, akRight]
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemHeight = 13
         MaxLength = 0
-        OnKeyDown = edtCommandKeyDown
-        OnKeyUp = edtCommandKeyUp
         ParentCtl3D = False
         TabOrder = 0
       end
@@ -304,7 +305,7 @@ object frmMain: TfrmMain
   end
   object pnlKeys: TPanel
     Height = 27
-    Top = 290
+    Top = 289
     Width = 540
     Align = alBottom
     Anchors = [akLeft, akRight]
@@ -394,6 +395,354 @@ object frmMain: TfrmMain
       Flat = True
       NumGlyphs = 0
     end
+  end
+  object seLogWindow: TSynEdit
+    Height = 61
+    Top = 228
+    Width = 540
+    Align = alBottom
+    Font.Height = -16
+    Font.Name = 'courier'
+    ParentColor = False
+    TabOrder = 4
+    BookMarkOptions.OnChange = nil
+    Gutter.OnChange = nil
+    Gutter.CodeFoldingWidth = 14
+    Keystrokes = <    
+      item
+        Command = 3
+        ShortCut = 38
+      end    
+      item
+        Command = 103
+        ShortCut = 8230
+      end    
+      item
+        Command = 211
+        ShortCut = 16422
+      end    
+      item
+        Command = 4
+        ShortCut = 40
+      end    
+      item
+        Command = 104
+        ShortCut = 8232
+      end    
+      item
+        Command = 212
+        ShortCut = 16424
+      end    
+      item
+        Command = 1
+        ShortCut = 37
+      end    
+      item
+        Command = 101
+        ShortCut = 8229
+      end    
+      item
+        Command = 5
+        ShortCut = 16421
+      end    
+      item
+        Command = 105
+        ShortCut = 24613
+      end    
+      item
+        Command = 2
+        ShortCut = 39
+      end    
+      item
+        Command = 102
+        ShortCut = 8231
+      end    
+      item
+        Command = 6
+        ShortCut = 16423
+      end    
+      item
+        Command = 106
+        ShortCut = 24615
+      end    
+      item
+        Command = 10
+        ShortCut = 34
+      end    
+      item
+        Command = 110
+        ShortCut = 8226
+      end    
+      item
+        Command = 14
+        ShortCut = 16418
+      end    
+      item
+        Command = 114
+        ShortCut = 24610
+      end    
+      item
+        Command = 9
+        ShortCut = 33
+      end    
+      item
+        Command = 109
+        ShortCut = 8225
+      end    
+      item
+        Command = 13
+        ShortCut = 16417
+      end    
+      item
+        Command = 113
+        ShortCut = 24609
+      end    
+      item
+        Command = 7
+        ShortCut = 36
+      end    
+      item
+        Command = 107
+        ShortCut = 8228
+      end    
+      item
+        Command = 15
+        ShortCut = 16420
+      end    
+      item
+        Command = 115
+        ShortCut = 24612
+      end    
+      item
+        Command = 8
+        ShortCut = 35
+      end    
+      item
+        Command = 108
+        ShortCut = 8227
+      end    
+      item
+        Command = 16
+        ShortCut = 16419
+      end    
+      item
+        Command = 116
+        ShortCut = 24611
+      end    
+      item
+        Command = 223
+        ShortCut = 45
+      end    
+      item
+        Command = 201
+        ShortCut = 16429
+      end    
+      item
+        Command = 604
+        ShortCut = 8237
+      end    
+      item
+        Command = 502
+        ShortCut = 46
+      end    
+      item
+        Command = 603
+        ShortCut = 8238
+      end    
+      item
+        Command = 501
+        ShortCut = 8
+      end    
+      item
+        Command = 501
+        ShortCut = 8200
+      end    
+      item
+        Command = 504
+        ShortCut = 16392
+      end    
+      item
+        Command = 601
+        ShortCut = 32776
+      end    
+      item
+        Command = 602
+        ShortCut = 40968
+      end    
+      item
+        Command = 509
+        ShortCut = 13
+      end    
+      item
+        Command = 199
+        ShortCut = 16449
+      end    
+      item
+        Command = 201
+        ShortCut = 16451
+      end    
+      item
+        Command = 610
+        ShortCut = 24649
+      end    
+      item
+        Command = 509
+        ShortCut = 16461
+      end    
+      item
+        Command = 510
+        ShortCut = 16462
+      end    
+      item
+        Command = 503
+        ShortCut = 16468
+      end    
+      item
+        Command = 611
+        ShortCut = 24661
+      end    
+      item
+        Command = 604
+        ShortCut = 16470
+      end    
+      item
+        Command = 603
+        ShortCut = 16472
+      end    
+      item
+        Command = 507
+        ShortCut = 16473
+      end    
+      item
+        Command = 506
+        ShortCut = 24665
+      end    
+      item
+        Command = 601
+        ShortCut = 16474
+      end    
+      item
+        Command = 602
+        ShortCut = 24666
+      end    
+      item
+        Command = 301
+        ShortCut = 16432
+      end    
+      item
+        Command = 302
+        ShortCut = 16433
+      end    
+      item
+        Command = 303
+        ShortCut = 16434
+      end    
+      item
+        Command = 304
+        ShortCut = 16435
+      end    
+      item
+        Command = 305
+        ShortCut = 16436
+      end    
+      item
+        Command = 306
+        ShortCut = 16437
+      end    
+      item
+        Command = 307
+        ShortCut = 16438
+      end    
+      item
+        Command = 308
+        ShortCut = 16439
+      end    
+      item
+        Command = 309
+        ShortCut = 16440
+      end    
+      item
+        Command = 310
+        ShortCut = 16441
+      end    
+      item
+        Command = 351
+        ShortCut = 24624
+      end    
+      item
+        Command = 352
+        ShortCut = 24625
+      end    
+      item
+        Command = 353
+        ShortCut = 24626
+      end    
+      item
+        Command = 354
+        ShortCut = 24627
+      end    
+      item
+        Command = 355
+        ShortCut = 24628
+      end    
+      item
+        Command = 356
+        ShortCut = 24629
+      end    
+      item
+        Command = 357
+        ShortCut = 24630
+      end    
+      item
+        Command = 358
+        ShortCut = 24631
+      end    
+      item
+        Command = 359
+        ShortCut = 24632
+      end    
+      item
+        Command = 360
+        ShortCut = 24633
+      end    
+      item
+        Command = 231
+        ShortCut = 24654
+      end    
+      item
+        Command = 232
+        ShortCut = 24643
+      end    
+      item
+        Command = 233
+        ShortCut = 24652
+      end    
+      item
+        Command = 612
+        ShortCut = 9
+      end    
+      item
+        Command = 613
+        ShortCut = 8201
+      end    
+      item
+        Command = 250
+        ShortCut = 24642
+      end>
+    ReadOnly = True
+    RightEdge = 0
+    ScrollBars = ssVertical
+    SelectedColor.OnChange = nil
+    OnSpecialLineColors = seLogWindowSpecialLineColors
+  end
+  object LogSplitter: TSplitter
+    Cursor = crVSplit
+    Height = 4
+    Top = 224
+    Width = 540
+    Align = alBottom
+    ResizeStyle = rsLine
+    ResizeAnchor = akBottom
   end
   object mnuMain: TMainMenu
     left = 283

@@ -42,7 +42,7 @@ uses
   Graphics, Forms, Menus, Controls, Dialogs, ComCtrls,
   StdCtrls, ExtCtrls,ActnList,Buttons,
   SysUtils, Classes,  {uFilePanel,} framePanel, {FileCtrl,} Grids,
-  KASToolBar, IniFiles;
+  KASToolBar, IniFiles, SynEdit;
 
 const
   cHistoryFile='cmdhistory.txt';
@@ -74,6 +74,8 @@ type
     btnF9: TSpeedButton;
     dskLeft: TKAStoolBar;
     dskRight: TKAStoolBar;
+    edtCommand: TComboBox;
+    lblCommandPath: TLabel;
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     MainToolBar: TKASToolBar;
@@ -81,6 +83,7 @@ type
     mnuExtractFiles: TMenuItem;
     nbLeft: TNotebook;
     nbRight: TNotebook;
+    pnlCommand: TPanel;
     pnlKeys: TPanel;
     pnlLeftTools: TPanel;
     pnlRightTools: TPanel;
@@ -96,13 +99,13 @@ type
     btnRightUp: TSpeedButton;
     btnRightRoot: TSpeedButton;
     pmDrivesMenu: TPopupMenu;
+    LogSplitter: TSplitter;
+    seLogWindow: TSynEdit;
     tbDelete: TMenuItem;
     tbEdit: TMenuItem;
     mnuMain: TMainMenu;
     pnlNotebooks: TPanel;
     pnlSyncSize: TPanel;
-    pnlCommand: TPanel;
-    lblCommandPath: TLabel;
     mnuHelp: TMenuItem;
     mnuHelpAbout: TMenuItem;
     mnuShow: TMenuItem;
@@ -154,7 +157,6 @@ type
     actAbout: TAction;
     actShowSysFiles: TAction;
     actOptions: TAction;
-    edtCommand: TComboBox;
     mnuFilesCmpCnt: TMenuItem;
     actCompareContents: TAction;
     actShowMenu: TAction;
@@ -277,6 +279,8 @@ type
     procedure FramedgPanelEnter(Sender: TObject);
     procedure framedgPanelMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
+      var Special: boolean; var FG, BG: TColor);
     procedure ShowPathEdit;
     procedure FramelblLPathClick(Sender: TObject);
     procedure FramelblLPathMouseUp(Sender: TObject; Button: TMouseButton;
@@ -345,7 +349,7 @@ uses
   uTypes, fAbout, uGlobs, uLng, fOptions,{ fViewer,}fconfigtoolbar,
   uCopyThread, uFileList, uDeleteThread, uVFSUtil, uWCXModule, uVFSTypes,
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg,
-  fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils,
+  fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils, uLog,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg, fExtractDlg,
   fLinker, fSplitter, uFileProcs, lclType, LCLProc, uOSUtils, uOSForms, uPixMapManager;
 
@@ -791,6 +795,8 @@ begin
 
   pnlCommand.Visible := gCmdLine;
   pnlKeys.Visible := gKeyButtons;
+  LogSplitter.Visible := gLogWindow;
+  seLogWindow.Visible := gLogWindow;
 
   IsPanelsCreated := True;
 end;
@@ -891,7 +897,7 @@ begin
           sFileName := fr^.sName;
           sFilePath := ActiveDir;
           sl.Add(GetSplitFileName(sFileName, sFilePath));
-          DebugLn('View.Add: ', sFilePath + sFileName);
+          logWrite('View.Add: ' + sFilePath + sFileName, lmtInfo);
         end;
       end;
       if sl.Count>0 then
@@ -2231,6 +2237,25 @@ begin
     end;
 end;
 
+procedure TfrmMain.seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
+  var Special: boolean; var FG, BG: TColor);
+var
+  LogMsgType : TLogMsgType;
+begin
+  LogMsgType := TLogMsgType(seLogWindow.Lines.Objects[Line-1]);
+  Special := True;
+  case LogMsgType of
+  lmtInfo:
+    FG := clNavy;
+  lmtSuccess:
+    FG := clGreen;
+  lmtError:
+    FG := clRed
+  else
+    FG := clText;
+  end;
+end;
+
 procedure TfrmMain.ShowPathEdit;
 begin
   KeyPreview:=False;
@@ -2772,6 +2797,8 @@ begin
 
   pnlCommand.Visible := gCmdLine;
   pnlKeys.Visible := gKeyButtons;
+  LogSplitter.Visible := gLogWindow;
+  seLogWindow.Visible := gLogWindow;
   nbLeft.ShowTabs := ((nbLeft.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
   nbRight.ShowTabs := ((nbRight.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
 end;
@@ -2854,7 +2881,7 @@ begin
   begin
     sDir:=Trim(Copy(sCmd, iIndex+3, length(sCmd)));
     sDir:=IncludeTrailingBackslash(sDir);
-    DebugLn('Chdir to:',sDir);
+    logWrite('Chdir to: ' + sDir);
     if not SetCurrentDir(sDir) then
     begin
       msgError(Format(rsMsgChDirFailed, [sDir]));
