@@ -86,6 +86,7 @@ type
     cbTabsAlwaysVisible: TCheckBox;
     cbTabsMultiLines: TCheckBox;
     cbTabsLimitOption: TCheckBox;
+    cbLogWindow: TCheckBox;
     clbWFXList: TCheckListBox;
     clbWCXList: TCheckListBox;
     cbBackColor2: TColorBox;
@@ -293,7 +294,7 @@ begin
   cbShowCmdLine.Checked := gCmdLine;
   cbShowKeysPanel.Checked := gKeyButtons;
   cbFlatInterface.Checked := gInterfaceFlat;
-
+  cbLogWindow.Checked := gLogWindow;
 
   cbDirSelect.Checked:=gDirSelect;
   cbCaseSensitiveSort.Checked:=gCaseSensitiveSort;
@@ -522,6 +523,7 @@ begin
   gCmdLine := cbShowCmdLine.Checked;
   gKeyButtons := cbShowKeysPanel.Checked;
   gInterfaceFlat := cbFlatInterface.Checked;
+  gLogWindow := cbLogWindow.Checked;
   
   gTerm:=edtTerm.Text;
   if lngList.ItemIndex>-1 then

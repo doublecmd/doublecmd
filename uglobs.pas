@@ -46,6 +46,7 @@ var
   gTabHeader,
   gStatusBar,
   gCmdLine,
+  gLogWindow,
   gKeyButtons,
   gInterfaceFlat : Boolean;
   
@@ -115,6 +116,10 @@ var
 
   gDirTabOptions,
   gDirTabLimit : Integer;
+  
+  {Log page}
+  gLogFile : Boolean;
+  gLogFileName : String;
   
 const
   { Tabs options }
@@ -239,6 +244,7 @@ begin
   gTabHeader := gIni.ReadBool('Layout', 'TabHeader', True);
   gStatusBar := gIni.ReadBool('Layout', 'StatusBar', True);
   gCmdLine := gIni.ReadBool('Layout', 'CmdLine', True);
+  gLogWindow := gIni.ReadBool('Layout', 'LogWindow', True);
   gKeyButtons := gIni.ReadBool('Layout', 'KeyButtons', True);
   gInterfaceFlat := gIni.ReadBool('Layout', 'InterfaceFlat', True);
   
@@ -286,7 +292,10 @@ begin
   gCopyBlockSize := gIni.ReadInteger('Configuration', 'CopyBlockSize', 16384);
   gDropReadOnlyFlag := gIni.ReadBool('Configuration', 'DropReadOnlyFlag', True);
   gUseMmapInSearch := gIni.ReadBool('Configuration', 'UseMmapInSearch', False);
-    
+  { Log }
+  gLogFile := gIni.ReadBool('Configuration', 'LogFile', True);
+  gLogFileName := gIni.ReadString('Configuration', 'LogFileName', gpIniDir + 'doublecmd.log');
+        
   gShowIcons := gIni.ReadBool('Configuration', 'ShowIcons', True);
   gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
 
@@ -366,6 +375,7 @@ begin
   gIni.WriteBool('Layout', 'TabHeader', gTabHeader);
   gIni.WriteBool('Layout', 'StatusBar', gStatusBar);
   gIni.WriteBool('Layout', 'CmdLine', gCmdLine);
+  gIni.WriteBool('Layout', 'LogWindow', gLogWindow);
   gIni.WriteBool('Layout', 'KeyButtons', gKeyButtons);
   gIni.WriteBool('Layout', 'InterfaceFlat', gInterfaceFlat);
 
@@ -411,6 +421,9 @@ begin
   gIni.WriteInteger('Configuration', 'CopyBlockSize', gCopyBlockSize);
   gIni.WriteBool('Configuration', 'DropReadOnlyFlag', gDropReadOnlyFlag);
   gIni.WriteBool('Configuration', 'UseMmapInSearch', gUseMmapInSearch);
+  { Log }
+  gIni.WriteBool('Configuration', 'LogFile', gLogFile);
+  gIni.WriteString('Configuration', 'LogFileName', gLogFileName);
   
   gIni.WriteBool('Configuration', 'ShowIcons', gShowIcons);
   gIni.WriteInteger('Configuration', 'IconsSize', gIconsSize);

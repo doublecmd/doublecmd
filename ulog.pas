@@ -1,39 +1,47 @@
 unit uLog;
 
-interface
-{$DEFINE LOG} // this temporally
+{$mode objfpc}{$H+}
 
-procedure logWrite(const sText:String);
+interface
+
+type
+  TLogMsgType = (lmtInfo, lmtSuccess, lmtError);
+
+procedure logWrite(const sText:String; LogMsgType : TLogMsgType = lmtInfo);
 
 
 implementation
-{$IFDEF LOG}
 uses
-  SysUtils;
-const
-  cLogName='./sc.log';
-{$ENDIF}
+  SysUtils, LCLProc, fMain, uGlobs;
 
-procedure logWrite(const sText:String);
-{$IFDEF LOG}
+procedure logWrite(const sText:String; LogMsgType : TLogMsgType);
 var
-  lf:TextFile;
-{$ENDIF}
+  LogFile : TextFile;
 begin
-{$IFDEF LOG}
-  assignFile(lf,cLogName);
-  try
-    if FileExists(cLogName) then
-      Append(lf)
-    else
-      rewrite(lf);  
-    writeln(lf,Format('%s %s',[DateTimeToStr(now),sText]));
-    writeln(Format('%s %s',[DateTimeToStr(now),sText]));
-    CloseFile(lf);
-  except
-    on E:Exception do
-      writeln('error writing to log:'+E.Message);
-  end;
-{$ENDIF}
+  if Assigned(fMain.frmMain) and gLogWindow then // if write log to window
+  with fMain.frmMain.seLogWindow do
+    begin
+      CaretY := Lines.AddObject(sText, TObject(LogMsgType)) + 1;
+    end;
+
+  if gLogFile then // if write log to file
+    begin
+      AssignFile(LogFile, gLogFileName);
+      try
+        if FileExists(gLogFileName) then
+          Append(LogFile)
+        else
+          Rewrite(LogFile);
+        WriteLn(LogFile, Format('%s %s', [DateTimeToStr(Now), sText]));
+
+        DebugLn(Format('%s %s',[DateTimeToStr(Now), sText]));
+
+        CloseFile(LogFile);
+      except
+        on E:Exception do
+          DebugLn('Error writing to log: ' + E.Message);
+      end;
+  end; // gLogWriteFile
 end;
+
 end.

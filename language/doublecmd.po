@@ -1827,3 +1827,7 @@ msgstr ""
 msgid "?"
 msgstr ""
 
+#: TFRMOPTIONS.CBLOGWINDOW.CAPTION
+msgid "Log window"
+msgstr ""
+
