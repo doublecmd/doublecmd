@@ -979,7 +979,16 @@ begin
       Inc(I);
     end; // while gIni.ReadString();
     if lbCategories.Count > 0 then
-      lbCategories.ItemIndex := 0;
+      lbCategories.ItemIndex := 0
+    else
+      begin
+        edtCategoryName.Enabled := False;
+        edtCategoryMask.Enabled := False;
+        cbCategoryColor.Enabled := False;
+        btnCategoryColor.Enabled := False;
+        bbtnDeleteCategory.Enabled := False;
+        bbtnApplyCategory.Enabled := False;
+      end;
     lbCategoriesClick(lbCategories);
 end;
 
@@ -1026,6 +1035,15 @@ procedure TfrmOptions.bbtnAddCategoryClick(Sender: TObject);
 var
   iIndex : Integer;
 begin
+  if lbCategories.Count = 0 then
+    begin
+      edtCategoryName.Enabled := True;
+      edtCategoryMask.Enabled := True;
+      cbCategoryColor.Enabled := True;
+      btnCategoryColor.Enabled := True;
+      bbtnDeleteCategory.Enabled := True;
+      bbtnApplyCategory.Enabled := True;
+    end;
   iIndex := lbCategories.Items.AddObject('', nil);
   lbCategories.ItemIndex := iIndex;
   edtCategoryName.Text := '';
