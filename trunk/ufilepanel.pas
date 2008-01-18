@@ -167,6 +167,7 @@ begin
     with pfri^ do
     begin
       if (not gShowSystemFiles) and bSysFile then Continue;
+      if ((pfri^.sPath='') and (pfri^.sName='..') and (ActiveDir='/')) then  Continue;
       fRefList.Add(pfri);
     end;
   end;
