@@ -111,6 +111,11 @@ type
     edtTest2: TEdit;
     edtTest3: TEdit;
     edtViewerSize: TSpinEdit;
+    cbLogFile: TCheckBox;
+    fneLogFileName: TFileNameEdit;
+    gbLogFile: TGroupBox;
+    gbLogFileOp: TGroupBox;
+    gbLogFileStatus: TGroupBox;
     fneExtViewer: TFileNameEdit;
     fneExtDiffer: TFileNameEdit;
     fneExtEditor: TFileNameEdit;
@@ -161,9 +166,18 @@ type
     lblViewerFont: TLabel;
     lbCategories: TListBox;
     lngList: TListBox;
+    cbLogArcOp: TCheckBox;
+    cbLogCpMvLn: TCheckBox;
+    cbLogDelete: TCheckBox;
+    cbLogErrors: TCheckBox;
+    cbLogDirOp: TCheckBox;
+    cbLogVFS: TCheckBox;
+    cbLogInfo: TCheckBox;
+    cbLogSuccess: TCheckBox;
     nbNotebook: TNotebook;
     odOpenDialog: TOpenDialog;
     optColorDialog: TColorDialog;
+    pgLogFile: TPage;
     pgTabs: TPage;
     pgFileOp: TPage;
     pbExample: TPaintBox;
@@ -346,7 +360,17 @@ begin
   edtCopyBufferSize.Text:= IntToStr(gCopyBlockSize div 1024);
   cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
   rbUseMmapInSearch.Checked := gUseMmapInSearch;
-
+  { Log file }
+  cbLogFile.Checked := gLogFile;
+  fneLogFileName.FileName := gLogFileName;
+  cbLogCpMvLn.Checked := (log_cp_mv_ln in gLogOptions);
+  cbLogDelete.Checked := (log_delete in gLogOptions);
+  cbLogDirOp.Checked := (log_dir_op in gLogOptions);
+  cbLogArcOp.Checked := (log_arc_op in gLogOptions);
+  cbLogVFS.Checked := (log_vfs_op in gLogOptions);
+  cbLogSuccess.Checked := (log_success in gLogOptions);
+  cbLogErrors.Checked := (log_errors in gLogOptions);
+  cbLogInfo.Checked := (log_info in gLogOptions);
   {Folder tabs}
   cbTabsAlwaysVisible.Checked := Boolean(gDirTabOptions and tb_always_visible) and gDirectoryTabs;
   cbTabsMultiLines.Checked :=  Boolean(gDirTabOptions and tb_multiple_lines);
@@ -571,7 +595,26 @@ begin
   gCopyBlockSize := StrToIntDef(edtCopyBufferSize.Text, gCopyBlockSize) * 1024;
   gDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
   gUseMmapInSearch := rbUseMmapInSearch.Checked;
-  
+  { Log file }
+  gLogFile := cbLogFile.Checked;
+  gLogFileName := fneLogFileName.FileName;
+  gLogOptions := []; // Reset log options
+  if cbLogCpMvLn.Checked then
+    Include(gLogOptions, log_cp_mv_ln);
+  if cbLogDelete.Checked then
+    Include(gLogOptions, log_delete);
+  if cbLogDirOp.Checked then
+    Include(gLogOptions, log_dir_op);
+  if cbLogArcOp.Checked then
+    Include(gLogOptions, log_arc_op);
+  if cbLogVFS.Checked then
+    Include(gLogOptions, log_vfs_op);
+  if cbLogSuccess.Checked then
+    Include(gLogOptions, log_success);
+  if cbLogErrors.Checked then
+    Include(gLogOptions, log_errors);
+  if cbLogInfo.Checked then
+    Include(gLogOptions, log_info);
   {Folder tabs}
   gDirTabOptions := 0;  // Reset tab options
   if cbTabsAlwaysVisible.Checked then

@@ -405,8 +405,6 @@ object frmMain: TfrmMain
     Font.Name = 'courier'
     ParentColor = False
     TabOrder = 4
-    BookMarkOptions.OnChange = nil
-    Gutter.OnChange = nil
     Gutter.CodeFoldingWidth = 14
     Keystrokes = <    
       item
@@ -732,7 +730,6 @@ object frmMain: TfrmMain
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
-    SelectedColor.OnChange = nil
     OnSpecialLineColors = seLogWindowSpecialLineColors
   end
   object LogSplitter: TSplitter

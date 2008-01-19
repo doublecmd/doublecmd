@@ -1,7 +1,7 @@
 object frmOptions: TfrmOptions
-  Left = 298
+  Left = 276
   Height = 441
-  Top = 158
+  Top = 117
   Width = 616
   HorzScrollBar.Page = 615
   VertScrollBar.Page = 440
@@ -98,7 +98,7 @@ object frmOptions: TfrmOptions
     TabOrder = 1
     OnChange = tvTreeViewChange
     Items.Data = {
-      F9FFFFFF01000A0000000000000000000000FFFFFFFFFFFFFFFF000000000000
+      F9FFFFFF01000B0000000000000000000000FFFFFFFFFFFFFFFF000000000000
       00000000000000080000004C616E67756167650100000001000000FFFFFFFFFF
       FFFFFF00000000000000000000000000090000004265686176696F7273020000
       0002000000FFFFFFFFFFFFFFFF0000000000000000000000000005000000546F
@@ -113,7 +113,9 @@ object frmOptions: TfrmOptions
       FFFFFFFFFFFFFFFF00000000000000000000000000060000004C61796F757409
       0000000900000009000000FFFFFFFF000000000000000000000000000F000000
       46696C65206F7065726174696F6E730A0000000A000000FFFFFFFFFFFFFFFF00
-      0000000000000000000000000B000000466F6C6465722074616273
+      0000000000000000000000000B000000466F6C64657220746162730B0000000B
+      000000FFFFFFFFFFFFFFFF00000000000000000000000000080000004C6F6720
+      66696C65
     }
   end
   object Panel3: TPanel
@@ -131,12 +133,10 @@ object frmOptions: TfrmOptions
       Width = 464
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 8
+      PageIndex = 11
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
-        ClientWidth = 456
-        ClientHeight = 339
         object lngList: TListBox
           Height = 339
           Width = 456
@@ -145,8 +145,6 @@ object frmOptions: TfrmOptions
         end
       end
       object pgBehav: TPage
-        ClientWidth = 460
-        ClientHeight = 343
         object lblTerm: TLabel
           AnchorSideTop.Control = edtTerm
           AnchorSideTop.Side = asrCenter
@@ -194,8 +192,8 @@ object frmOptions: TfrmOptions
           Top = 68
           Width = 202
           BorderSpacing.Top = 6
-          ClientHeight = 156
-          ClientWidth = 202
+          ClientHeight = 138
+          ClientWidth = 198
           ParentCtl3D = False
           TabOrder = 2
           object cbDirSelect: TCheckBox
@@ -255,8 +253,8 @@ object frmOptions: TfrmOptions
           Width = 188
           Anchors = [akTop, akRight]
           BorderSpacing.Top = 6
-          ClientHeight = 156
-          ClientWidth = 188
+          ClientHeight = 138
+          ClientWidth = 184
           TabOrder = 3
           object lblIconsSize: TLabel
             Left = 14
@@ -273,6 +271,7 @@ object frmOptions: TfrmOptions
             Width = 91
             AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
             Enabled = False
+            ItemHeight = 13
             ItemIndex = 0
             Items.Strings = (
               '16x16'
@@ -306,8 +305,8 @@ object frmOptions: TfrmOptions
           Caption = 'Date and time'
           ChildSizing.LeftRightSpacing = 6
           ChildSizing.TopBottomSpacing = 6
-          ClientHeight = 110
-          ClientWidth = 200
+          ClientHeight = 92
+          ClientWidth = 196
           TabOrder = 4
           object lblDateTimeFormat: TLabel
             Left = 6
@@ -337,6 +336,7 @@ object frmOptions: TfrmOptions
             Width = 184
             AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
             BorderSpacing.Top = 6
+            ItemHeight = 13
             Items.Strings = (
               'dd.mm.yyyy hh:mm:ss'
               'dd.mm.yy hh:mm'
@@ -350,8 +350,6 @@ object frmOptions: TfrmOptions
         end
       end
       object pgTools: TPage
-        ClientWidth = 456
-        ClientHeight = 339
         object cbExtEditor: TCheckBox
           Left = 3
           Height = 19
@@ -420,8 +418,6 @@ object frmOptions: TfrmOptions
         end
       end
       object pgFonts: TPage
-        ClientWidth = 460
-        ClientHeight = 314
         object lblMainFont: TLabel
           Left = 6
           Height = 14
@@ -453,6 +449,7 @@ object frmOptions: TfrmOptions
           Width = 374
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
           MaxLength = 0
           OnChange = cbMainFontChange
           ParentCtl3D = False
@@ -496,6 +493,7 @@ object frmOptions: TfrmOptions
           Width = 373
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
           MaxLength = 0
           OnChange = cbEditorFontChange
           ParentCtl3D = False
@@ -539,6 +537,7 @@ object frmOptions: TfrmOptions
           Width = 373
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
           MaxLength = 0
           OnChange = cbViewerFontChange
           ParentCtl3D = False
@@ -577,8 +576,6 @@ object frmOptions: TfrmOptions
         end
       end
       object pgColor: TPage
-        ClientWidth = 460
-        ClientHeight = 314
         object cTextLabel: TLabel
           AnchorSideTop.Control = cbTextColor
           AnchorSideTop.Side = asrCenter
@@ -955,8 +952,6 @@ object frmOptions: TfrmOptions
         end
       end
       object pgHotKey: TPage
-        ClientWidth = 456
-        ClientHeight = 339
         object lblActions: TLabel
           Left = 6
           Height = 26
@@ -1021,19 +1016,13 @@ object frmOptions: TfrmOptions
         end
       end
       object pgPlugins: TPage
-        ClientWidth = 460
-        ClientHeight = 314
         object pcPluginsTypes: TPageControl
-          Height = 314
-          Width = 460
           ActivePage = tsWCX
           Align = alClient
           TabIndex = 0
           TabOrder = 0
           object tsWCX: TTabSheet
             Caption = 'Packer plugins (.WCX)'
-            ClientHeight = 310
-            ClientWidth = 456
             OnShow = tsWCXShow
             object lblAbout: TLabel
               Left = 14
@@ -1065,6 +1054,7 @@ object frmOptions: TfrmOptions
               Top = 46
               Width = 100
               AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+              ItemHeight = 13
               MaxLength = 0
               OnChange = cbExtChange
               TabOrder = 0
@@ -1075,6 +1065,7 @@ object frmOptions: TfrmOptions
               Top = 98
               Width = 200
               AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+              ItemHeight = 13
               MaxLength = 0
               TabOrder = 1
             end
@@ -1114,14 +1105,11 @@ object frmOptions: TfrmOptions
               Width = 200
               OnClick = clbWCXListClick
               TabOrder = 5
-              TopIndex = -1
             end
           end
           object tsWFX: TTabSheet
             Caption = 'File system plugins (.WFX)'
             ChildSizing.LeftRightSpacing = 239
-            ClientHeight = 306
-            ClientWidth = 452
             OnShow = tsWFXShow
             object lblInstalledPlugins: TLabel
               Left = 21
@@ -1193,8 +1181,6 @@ object frmOptions: TfrmOptions
         end
       end
       object pgFileTypesColors: TPage
-        ClientWidth = 460
-        ClientHeight = 314
         object gbFileTypesColors: TGroupBox
           Left = 10
           Height = 274
@@ -1364,16 +1350,14 @@ object frmOptions: TfrmOptions
         end
       end
       object pgLayout: TPage
-        ClientWidth = 456
-        ClientHeight = 365
         object gbScreenLayout: TGroupBox
           Left = 11
           Height = 328
           Top = 4
           Width = 389
           Caption = ' Screen layout '
-          ClientHeight = 310
-          ClientWidth = 385
+          ClientHeight = 328
+          ClientWidth = 389
           TabOrder = 0
           object cbShowMainToolBar: TCheckBox
             Left = 10
@@ -1493,8 +1477,6 @@ object frmOptions: TfrmOptions
         end
       end
       object pgFileOp: TPage
-        ClientWidth = 460
-        ClientHeight = 314
         object gbCopyBufferSize: TGroupBox
           Left = 10
           Height = 100
@@ -1582,8 +1564,6 @@ object frmOptions: TfrmOptions
         end
       end
       object pgTabs: TPage
-        ClientWidth = 460
-        ClientHeight = 343
         object gbTabs: TGroupBox
           Left = 12
           Height = 304
@@ -1641,6 +1621,130 @@ object frmOptions: TfrmOptions
           end
         end
       end
+      object pgLogFile: TPage
+        ClientWidth = 456
+        ClientHeight = 347
+        object gbLogFile: TGroupBox
+          Left = 12
+          Height = 50
+          Top = 8
+          Width = 389
+          Caption = 'File operation log file'
+          ClientHeight = 32
+          ClientWidth = 385
+          TabOrder = 0
+          object cbLogFile: TCheckBox
+            AnchorSideTop.Control = fneLogFileName
+            AnchorSideTop.Side = asrCenter
+            Left = 8
+            Height = 19
+            Top = 4
+            Width = 102
+            Caption = '&Create a log file:'
+            TabOrder = 0
+          end
+          object fneLogFileName: TFileNameEdit
+            Left = 135
+            Height = 23
+            Top = 2
+            Width = 216
+            ButtonWidth = 23
+            NumGlyphs = 1
+            ParentColor = False
+            TabOrder = 1
+          end
+        end
+        object gbLogFileOp: TGroupBox
+          AnchorSideTop.Control = gbLogFile
+          AnchorSideTop.Side = asrBottom
+          Left = 12
+          Height = 122
+          Top = 64
+          Width = 389
+          BorderSpacing.Top = 6
+          Caption = 'Log operations:'
+          ClientHeight = 104
+          ClientWidth = 385
+          TabOrder = 1
+          object cbLogCpMvLn: TCheckBox
+            Left = 8
+            Height = 19
+            Top = 2
+            Width = 176
+            Caption = 'Copy/Move/Create link/symlink'
+            TabOrder = 0
+          end
+          object cbLogDelete: TCheckBox
+            Left = 8
+            Height = 19
+            Top = 19
+            Width = 57
+            Caption = 'Delete'
+            TabOrder = 1
+          end
+          object cbLogDirOp: TCheckBox
+            Left = 8
+            Height = 19
+            Top = 38
+            Width = 144
+            Caption = 'Create/Delete directories'
+            TabOrder = 2
+          end
+          object cbLogArcOp: TCheckBox
+            Left = 8
+            Height = 19
+            Top = 57
+            Width = 94
+            Caption = 'Pack/Unpack'
+            TabOrder = 3
+          end
+          object cbLogVFS: TCheckBox
+            Left = 8
+            Height = 19
+            Top = 76
+            Width = 113
+            Caption = 'File system plugins'
+            TabOrder = 4
+          end
+        end
+        object gbLogFileStatus: TGroupBox
+          AnchorSideTop.Control = gbLogFileOp
+          AnchorSideTop.Side = asrBottom
+          Left = 12
+          Height = 87
+          Top = 192
+          Width = 389
+          BorderSpacing.Top = 6
+          Caption = 'Operation status:'
+          ClientHeight = 69
+          ClientWidth = 385
+          TabOrder = 2
+          object cbLogSuccess: TCheckBox
+            Left = 8
+            Height = 19
+            Top = 2
+            Width = 149
+            Caption = 'Log &successful operations'
+            TabOrder = 0
+          end
+          object cbLogErrors: TCheckBox
+            Left = 8
+            Height = 19
+            Top = 19
+            Width = 73
+            Caption = 'Log &errors'
+            TabOrder = 1
+          end
+          object cbLogInfo: TCheckBox
+            Left = 8
+            Height = 19
+            Top = 38
+            Width = 148
+            Caption = 'Log information messages'
+            TabOrder = 2
+          end
+        end
+      end
     end
     object pnlCaption: TPanel
       Left = 1
@@ -1656,10 +1760,12 @@ object frmOptions: TfrmOptions
     end
   end
   object dlgFnt: TFontDialog
+    Title = 'Выбрать шрифт'
     left = 48
     top = 368
   end
   object optColorDialog: TColorDialog
+    Title = 'Выбрать цвет'
     left = 80
     top = 368
   end
@@ -2055,6 +2161,7 @@ object frmOptions: TfrmOptions
     }
   end
   object odOpenDialog: TOpenDialog
+    Title = 'Открыть существующий файл'
     FilterIndex = 0
     left = 112
     top = 368
