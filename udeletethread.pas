@@ -29,7 +29,7 @@ type
 
 implementation
 uses
-  uLng, uOSUtils;
+  uLng, uGlobs, uLog, uOSUtils;
 
 constructor TDeleteThread.Create(aFileList: TFileList);
 begin
@@ -66,17 +66,29 @@ end;
 Function TDeleteThread.DeleteFile (fr:PFileRecItem):Boolean;
 begin
   try
-//  WriteLN(output, fr^.sName,'>',sDst+fr^.sName);
-  if FPS_ISDIR(fr^.iMode) then
-   begin
-     //WriteLN(output, 'rmdir:',fr^.sName);
-     Result := RemoveDir(fr^.sName);
-   end
-  else
-  begin // files and other stuff
-    Result := sysutils.DeleteFile(fr^.sName);
-//    WriteLN(output, 'del file not implemented:',fr^.sName);
-  end;
+    if FPS_ISDIR(fr^.iMode) then // directory
+      begin
+        Result := RemoveDir(fr^.sName);
+        // write log
+        if Result then
+          if (log_dir_op in gLogOptions) and (log_success in gLogOptions) then
+            logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogRmDir, [fr^.sName]), lmtSuccess)
+        else
+          if (log_dir_op in gLogOptions) and (log_errors in gLogOptions) then
+            logWrite(Self, Format(rsMsgLogError+rsMsgLogRmDir, [fr^.sName]), lmtError);
+      end
+    else
+      begin // files and other stuff
+        Result := sysutils.DeleteFile(fr^.sName);
+        // write log
+        if Result then
+          if (log_delete in gLogOptions) and (log_success in gLogOptions) then
+            logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogDelete, [fr^.sName]), lmtSuccess)
+        else
+          if (log_delete in gLogOptions) and (log_errors in gLogOptions) then
+            logWrite(Self, Format(rsMsgLogError+rsMsgLogDelete, [fr^.sName]), lmtError);
+
+      end;
   except
     DebugLN('Can not delete ', fr^.sName);
   end;

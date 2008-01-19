@@ -30,7 +30,11 @@ type
     procedure Save(Control: TControl);
     procedure Restore(Control: TControl);
   end;
-  
+
+type
+  { Log options }
+  TLogOptions = set of (log_cp_mv_ln, log_delete, log_dir_op, log_arc_op,
+                        log_vfs_op, log_success, log_errors, log_info);
 var
   {For localization}
   gPOFileName : String;
@@ -120,6 +124,8 @@ var
   {Log page}
   gLogFile : Boolean;
   gLogFileName : String;
+  gLogOptions : TLogOptions = [log_cp_mv_ln, log_delete, log_dir_op, log_arc_op,
+                               log_vfs_op, log_success, log_errors, log_info];
   
 const
   { Tabs options }
@@ -295,6 +301,7 @@ begin
   { Log }
   gLogFile := gIni.ReadBool('Configuration', 'LogFile', True);
   gLogFileName := gIni.ReadString('Configuration', 'LogFileName', gpIniDir + 'doublecmd.log');
+  gLogOptions := TLogOptions(gIni.ReadInteger('Configuration', 'LogOptions', Integer(gLogOptions)));
         
   gShowIcons := gIni.ReadBool('Configuration', 'ShowIcons', True);
   gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
@@ -424,6 +431,7 @@ begin
   { Log }
   gIni.WriteBool('Configuration', 'LogFile', gLogFile);
   gIni.WriteString('Configuration', 'LogFileName', gLogFileName);
+  gIni.WriteInteger('Configuration', 'LogOptions', Integer(gLogOptions));
   
   gIni.WriteBool('Configuration', 'ShowIcons', gShowIcons);
   gIni.WriteInteger('Configuration', 'IconsSize', gIconsSize);

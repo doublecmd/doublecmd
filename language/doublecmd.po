@@ -1811,23 +1811,99 @@ msgstr ""
 msgid "S&mall icons"
 msgstr ""
 
-#: ulng.rsdlgbuttons
-msgid "&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &A'"
-msgstr ""
-
-#: 
-msgid "ll;&Skip;S&kip All;All;"
-msgstr ""
-
-#: ulng.rsmsgnofreespacecont
-msgid "No enough free space on target drive, Continue'"
-msgstr ""
-
-#: 
-msgid "?"
-msgstr ""
-
 #: TFRMOPTIONS.CBLOGWINDOW.CAPTION
 msgid "Log window"
+msgstr ""
+
+#: TFRMOPTIONS.GBLOGFILE.CAPTION
+msgid "File operation log file"
+msgstr ""
+
+#: TFRMOPTIONS.CBLOGFILE.CAPTION
+msgid "&Create a log file:"
+msgstr ""
+
+#: TFRMOPTIONS.GBLOGFILEOP.CAPTION
+msgid "Log operations:"
+msgstr ""
+
+#: TFRMOPTIONS.CBLOGCPMVLN.CAPTION
+msgid "Copy/Move/Create link/symlink"
+msgstr ""
+
+#: TFRMOPTIONS.CBLOGDIROP.CAPTION
+msgid "Create/Delete directories"
+msgstr ""
+
+#: TFRMOPTIONS.CBLOGARCOP.CAPTION
+msgid "Pack/Unpack"
+msgstr ""
+
+#: TFRMOPTIONS.CBLOGVFS.CAPTION
+msgid "File system plugins"
+msgstr ""
+
+#: TFRMOPTIONS.GBLOGFILESTATUS.CAPTION
+msgid "Operation status:"
+msgstr ""
+
+#: TFRMOPTIONS.CBLOGSUCCESS.CAPTION
+msgid "Log &successful operations"
+msgstr ""
+
+#: TFRMOPTIONS.CBLOGERRORS.CAPTION
+msgid "Log &errors"
+msgstr ""
+
+#: TFRMOPTIONS.CBLOGINFO.CAPTION
+msgid "Log information messages"
+msgstr ""
+
+#: ulng.rsmsglogcopy
+msgid "Copy file \%s"
+msgstr ""
+
+#: ulng.rsmsglogmove
+msgid "Move file \%s"
+msgstr ""
+
+#: ulng.rsmsgloglink
+msgid "Create link \%s"
+msgstr ""
+
+#: ulng.rsmsglogsymlink
+msgid "Create symlink \%s"
+msgstr ""
+
+#: ulng.rsmsglogmkdir
+msgid "Create directory \%s"
+msgstr ""
+
+#: ulng.rsmsglogrmdir
+msgid "Remove directory \%s"
+msgstr ""
+
+#: ulng.rsmsglogpack
+msgid "Pack file \%s"
+msgstr ""
+
+#: ulng.rsmsglogextract
+msgid "Extract file \%s"
+msgstr ""
+
+#: ulng.rsmsglogsuccess
+msgid "Done: "
+msgstr ""
+
+#: ulng.rsmsglogerror
+msgid "Error: "
+msgstr ""
+
+#: ulng.rsmsgloginfo
+msgid "Info: "
+msgstr ""
+
+#: ulng.rsmsglogdelete
+msgid "Delete file \%s"
 msgstr ""
 

@@ -1011,9 +1011,20 @@ begin
       else
       begin
         if not ForceDirectory(ActiveDir+sPath) then
-          msgError(Format(rsMsgErrForceDir,[ActiveDir+sPath]))
+          begin
+            // write log
+            if (log_dir_op in gLogOptions) and (log_errors in gLogOptions) then
+              logWrite(Format(rsMsgLogError+rsMsgLogMkDir, [ActiveDir+sPath]), lmtError);
+
+            // Standart modal error dialog
+            msgError(Format(rsMsgErrForceDir,[ActiveDir+sPath]))
+          end
         else
         begin
+          // write log
+          if (log_dir_op in gLogOptions) and (log_success in gLogOptions) then
+            logWrite(Format(rsMsgLogSuccess+rsMsgLogMkDir,[ActiveDir+sPath]), lmtSuccess);
+
           pnlFile.LastActive:=sPath;
           pnlFile.LoadPanel;
         end;

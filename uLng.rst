@@ -177,6 +177,54 @@ ulng.rsmsgerrtoomanyfiles='Too many files to pack'
 ulng.rsmsgerrnotsupported='Function not supported!'
 
 
+# hash value = 79055040
+ulng.rsmsglogsuccess='Done: '
+
+
+# hash value = 211379584
+ulng.rsmsglogerror='Error: '
+
+
+# hash value = 84202176
+ulng.rsmsgloginfo='Info: '
+
+
+# hash value = 140773795
+ulng.rsmsglogcopy='Copy file %s'
+
+
+# hash value = 163886499
+ulng.rsmsglogmove='Move file %s'
+
+
+# hash value = 15651075
+ulng.rsmsglogdelete='Delete file %s'
+
+
+# hash value = 173830419
+ulng.rsmsgloglink='Create link %s'
+
+
+# hash value = 148502275
+ulng.rsmsglogsymlink='Create symlink %s'
+
+
+# hash value = 122860371
+ulng.rsmsglogmkdir='Create directory %s'
+
+
+# hash value = 85808451
+ulng.rsmsglogrmdir='Remove directory %s'
+
+
+# hash value = 161869731
+ulng.rsmsglogpack='Pack file %s'
+
+
+# hash value = 126195795
+ulng.rsmsglogextract='Extract file %s'
+
+
 # hash value = 254598078
 ulng.rssaveposition='&Save position'
 

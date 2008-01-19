@@ -73,6 +73,19 @@ resourcestring
   rsMsgErrNoFiles = 'No files found';
   rsMsgErrTooManyFiles = 'Too many files to pack';
   rsMsgErrNotSupported = 'Function not supported!';
+  // Log file
+  rsMsgLogSuccess = 'Done: ';
+  rsMsgLogError = 'Error: ';
+  rsMsgLogInfo = 'Info: ';
+  rsMsgLogCopy = 'Copy file %s';
+  rsMsgLogMove = 'Move file %s';
+  rsMsgLogDelete = 'Delete file %s';
+  rsMsgLogLink = 'Create link %s';
+  rsMsgLogSymLink = 'Create symlink %s';
+  rsMsgLogMkDir = 'Create directory %s';
+  rsMsgLogRmDir = 'Remove directory %s';
+  rsMsgLogPack = 'Pack file %s';
+  rsMsgLogExtract = 'Extract file %s';
 
   rsSavePosition = '&Save position';
   rsPositionSaved = 'Position saved.';
