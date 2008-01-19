@@ -31,9 +31,9 @@ begin
   
   Ini := TIniFile.Create(gpCfgDir + 'doublecmd.ini');
   if Ini.ReadInteger('Configuration', 'UseIniInProgramDir', 1)  = 1 then // use ini file from program dir
-	begin
-	  gpIniDir := gpCfgDir;
-	end
+    begin
+      gpIniDir := gpCfgDir;
+    end
   else  
     begin
       OnGetApplicationName := @GetAppName;

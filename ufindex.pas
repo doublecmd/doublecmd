@@ -14,10 +14,9 @@
    
    Warning Libc version is not much tested
 
-contributors:
+   contributors:
 
-Alexander Koblov (Alexx2000@mail.ru)
-   
+   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 
@@ -51,7 +50,7 @@ Type
 function FindFirstEx (Const Path : String; Attr : Longint; out Rslt : TSearchRec) : Longint;
 function FindNextEx (Var Rslt : TSearchRec) : Longint;
 function CheckAttrMask(DefaultAttr : Cardinal; sAttr : String; Attr : Cardinal) : Boolean;
-{$IFNDEF WIN32} //*nix systems
+{$IFDEF UNIX} //*nix systems
 
 {$IFNDEF FAKE_FIND}
 function FindStat (Var Rslt : TSearchRec) :TFindStatus;
@@ -68,7 +67,7 @@ function FindStat64 (Var Rslt : TSearchRec) :TFindStatus;
 {$ENDIF} //*nix systems
 implementation
 
-{$IFNDEF WIN32} //*nix systems
+{$IFDEF UNIX} //*nix systems
 
 {$IFNDEF FAKE_FIND}
 Function GlobToTSearchRec (Var Info : TSearchRec) : Boolean;

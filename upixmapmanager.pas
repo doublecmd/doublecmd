@@ -669,7 +669,7 @@ procedure LoadPixMapManager;
 begin
   PixMapManager:=TPixMapManager.Create;
   PixMapManager.FPixmapSize:= IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize) + PathDelim;
-  PixMapManager.Load(gpExePath+'pixmaps.txt');
+  PixMapManager.Load(gpIniDir+'pixmaps.txt');
 end;
 
 initialization

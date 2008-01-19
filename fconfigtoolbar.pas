@@ -132,8 +132,8 @@ begin
   ktbBar.FlatButtons := gToolBarFlat;
   ktbBar.ChangePath := gpExePath;
   ktbBar.EnvVar := '%commander_path%';
-  ktbBar.LoadFromFile(gpCfgDir + 'default.bar');
-  stToolBarFileName.Caption := gpCfgDir + 'default.bar';
+  ktbBar.LoadFromFile(gpIniDir + 'default.bar');
+  stToolBarFileName.Caption := gpIniDir + 'default.bar';
   if ktbBar.Tag >= 0 then
     begin
       ktbBar.Buttons[ktbBar.Tag].Click;
@@ -171,11 +171,11 @@ begin
   Save;
   gToolBarIconSize := StrToIntDef(kedtBarSize.Text, 16);
   gToolBarFlat := cbFlatIcons.Checked;
-  ktbBar.SaveToFile(gpCfgDir + 'default.bar');
+  ktbBar.SaveToFile(gpIniDir + 'default.bar');
   frmMain.MainToolBar.ButtonGlyphSize := gToolBarIconSize;
   frmMain.MainToolBar.DeleteAllToolButtons;
   frmMain.MainToolBar.FlatButtons := gToolBarFlat;
-  frmMain.MainToolBar.LoadFromFile(gpCfgDir + 'default.bar');
+  frmMain.MainToolBar.LoadFromFile(gpIniDir + 'default.bar');
   Close;
 end;
 
