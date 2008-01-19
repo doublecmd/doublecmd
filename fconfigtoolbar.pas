@@ -183,7 +183,10 @@ end;
 procedure TfrmConfigToolBar.btnAddButtonClick(Sender: TObject);
 begin
   Save;
+
   NewToolButton := ktbBar.AddButton('', '', '', '');
+  ktbBar.Buttons[ktbBar.ButtonCount-1].Down:=true;
+  ktbBarToolButtonClick(Sender,ktbBar.ButtonCount-1);
   //ShowMessage(IntToStr(NewToolButton));
 end;
 
@@ -234,6 +237,8 @@ begin
         kedtToolTip.Text := '';
         LastToolButton := -1;
         NewToolButton := -1;
+        ktbBar.Buttons[ktbBar.ButtonCount-1].Down:=true;
+        ktbBarToolButtonClick(Sender,ktbBar.ButtonCount-1);
       end;
 end;
 
