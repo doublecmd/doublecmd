@@ -155,10 +155,7 @@ begin
   else
     Raise Exception.Create('fix me:UpdatePanel:bad panelmode');
   end;
-  //flblPath.Height := 14;
-  //WriteLN('Path = ', flblPath.Caption);
-//  writeln('fPanel.Row:',fPanel.Row);
-//  writeln('TFilePanel:', fFileList.Count);
+
   bAnyRow:=fPanel.Row>=0;
   fRefList.Clear;
   for i:=0 to fFileList.Count-1 do
@@ -213,7 +210,7 @@ begin
         begin
           fActiveDir := fVFS.ArcFullName + sPath;
 
-          //WriteLN(output, 'UpDir = ' + sPath);
+          //DebugLn('UpDir = ' + sPath);
 
           if not fVFS.cdUpLevel(frp, fFileList) then
             begin
@@ -262,12 +259,12 @@ begin
             begin
               fVFSmoduleList.AddObject(fVFS.ArcFullName + '=' + sPath, fVFS.VFSmodule);
 
-              //WriteLN('sPath ==' + sPath);
+              //DebugLn('sPath ==' + sPath);
 
               VFSFileList := TFileList.Create;
               VFSFileList.CurrentDirectory := ActiveDir;
 
-              //WriteLN('ActiveDir == ' + ActiveDir);
+              //DebugLn('ActiveDir == ' + ActiveDir);
 
               sName := ActiveDir + sName;
               VFSFileList.AddItem(frp);
@@ -276,7 +273,7 @@ begin
                 begin
                  if not fVFS.LoadAndOpen(sTempDir + ExtractDirLevel(ActiveDir, sName)) then Exit;
 
-                 //WriteLN('sTempDir + sName == ' + sTempDir + sName);
+                 //DebugLn('sTempDir + sName == ' + sTempDir + sName);
 
                  fVFS.VFSmodule.VFSList(PathDelim, fFileList);
                  fPanelMode:=pmArchive;
@@ -385,7 +382,7 @@ var
   sOpenCmd:String;
 begin
 // main file input point for decision
-//  writeln(pfri^.sName);
+//  DebugLn(pfri^.sName);
 
   with pfri^ do
   begin
@@ -568,7 +565,7 @@ begin
   Result:=nil;
   if fPanel.Row<1 then
     SysUtils.Abort;
-//  writeln(fPanel.Row, ' ', fRefList.Count);
+//  DebugLn(fPanel.Row, ' ', fRefList.Count);
   if fPanel.Row>fRefList.Count then
     SysUtils.Abort;
   Result:=fRefList.Items[fPanel.Row-1]; // 1 is fixed header

@@ -215,11 +215,11 @@ begin
       lblFolder.Caption:=szPath;
       lblSize.Caption:=IntToStr(iSize);
       
-      dtFileDates := FileStampToDateTime(sb.st_atime);
+      dtFileDates := FileDateToDateTime(sb.st_atime);
       lblLastAccess.Caption:=DateTimeToStr(dtFileDates);
-      dtFileDates := FileStampToDateTime(sb.st_mtime);
+      dtFileDates := FileDateToDateTime(sb.st_mtime);
       lblLastModif.Caption:=DateTimeToStr(dtFileDates);
-      dtFileDates := FileStampToDateTime(sb.st_ctime);
+      dtFileDates := FileDateToDateTime(sb.st_ctime);
       lblLastStChange.Caption:=DateTimeToStr(dtFileDates);
       
       if (bIsLink = True) then

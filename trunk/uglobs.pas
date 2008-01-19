@@ -1,17 +1,16 @@
 {
-Double Commander
-------------------------------------------------------------
-Seksi Commander
-----------------------------
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Double Commander
+   ------------------------------------------------------------
+   Seksi Commander
+   ----------------------------
+   Licence  : GNU GPL v 2.0
+   Author   : radek.cervinka@centrum.cz
 
-Globals variables and some consts
+   Globals variables and some consts
 
-contributors:
+   contributors:
 
-Copyright (C) 2006-2008 Alexander Koblov (Alexx2000@mail.ru)
-
+   Copyright (C) 2006-2008 Alexander Koblov (Alexx2000@mail.ru)
 }
 
 unit uGlobs;
@@ -155,17 +154,17 @@ var
 
 implementation
 uses
-   LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uOSUtils;
+   LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils;
 
 // for debugging only, can be removed
 procedure dbgShowWindowPos(const pos: TControlPosition);
 begin
-  DebugLN('TWindowPos');
-  DebugLN('Left: ', IntToStr(pos.Left));
-  DebugLN('Top:  ', IntToStr(pos.Top));
-  DebugLN('Width: ', IntToStr(pos.Width));
-  DebugLN('Height: ', IntToStr(pos.Height));
-  DebugLN('END');
+  DebugLn('TWindowPos');
+  DebugLn('Left: ', IntToStr(pos.Left));
+  DebugLn('Top:  ', IntToStr(pos.Top));
+  DebugLn('Width: ', IntToStr(pos.Width));
+  DebugLn('Height: ', IntToStr(pos.Height));
+  DebugLn('END');
 end;
 
 procedure TControlPosition.Save(Control: TControl);
@@ -202,11 +201,27 @@ end;
 
 procedure InitGlobs;
 begin
-  if FileExists(gpIniDir + 'doublecmd.ini') then 
-    gIni := TIniFile.Create(gpIniDir + 'doublecmd.ini')
-  else
-    gIni := TIniFile.Create(gpCfgDir + 'doublecmd.ini');
+  { Create default configuration files if need }
+  // main ini file
+  if not FileExists(gpIniDir + 'doublecmd.ini') then
+    CopyFile(gpCfgDir + 'doublecmd.ini', gpIniDir + 'doublecmd.ini');
+  // toolbar file
+  if not FileExists(gpIniDir + 'default.bar') then
+    CopyFile(gpCfgDir + 'default.bar', gpIniDir + 'default.bar');
+  // extension file
+  if not FileExists(gpIniDir + 'doublecmd.ext') then
+    CopyFile(gpCfgDir + 'doublecmd.ext', gpIniDir + 'doublecmd.ext');
+  // pixmaps file
+  if not FileExists(gpIniDir + 'pixmaps.txt') then
+    CopyFile(gpCfgDir + 'pixmaps.txt', gpIniDir + 'pixmaps.txt');
+  // editor highlight file1
+  if not FileExists(gpIniDir + 'editor.col') then
+    CopyFile(gpCfgDir + 'editor.col', gpIniDir + 'editor.col');
+  // editor highlight file2
+  if not FileExists(gpIniDir + 'twilight.col') then
+    CopyFile(gpCfgDir + 'twilight.col', gpIniDir + 'twilight.col');
 	
+  gIni := TIniFile.Create(gpIniDir + 'doublecmd.ini');
   gExts := TExts.Create;
   gColorExt := TColorExt.Create;
   glsHotDir := TStringList.Create;
@@ -308,8 +323,8 @@ begin
 
   gCustomDriveIcons := gIni.ReadBool('Configuration', 'CustomDriveIcons', False);
 
-  if FileExists(gpCfgDir + 'doublecmd.ext') then
-    gExts.LoadFromFile(gpCfgDir + 'doublecmd.ext');
+  if FileExists(gpIniDir + 'doublecmd.ext') then
+    gExts.LoadFromFile(gpIniDir + 'doublecmd.ext');
 
   if FileExists(gpIniDir + 'dirhistory.txt') then
     LoadStringsFromFile(glsDirHistory,gpIniDir + 'dirhistory.txt');
@@ -361,12 +376,6 @@ var
 begin
   glsDirHistory.SaveToFile(gpIniDir + 'dirhistory.txt');
   glsMaskHistory.SaveToFile(gpIniDir + 'maskhistory.txt');
-  
-  if gIni.FileName <> gpIniDir + 'doublecmd.ini' then
-    begin
-      gIni.Free;
-      gIni := TIniFile.Create(gpIniDir + 'doublecmd.ini');	  
-	end;
 	
   {Layout page}
 

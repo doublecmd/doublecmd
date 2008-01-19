@@ -27,7 +27,7 @@ procedure ShowSymLinkForm(const sNew, sDst:String);
 implementation
 
 uses
-  uLng, uShowMsg, uOSUtils;
+  uLng, uGlobs, uLog, uShowMsg, uOSUtils;
 
 procedure ShowSymLinkForm(const sNew, sDst:String);
 begin
@@ -51,11 +51,22 @@ begin
   sSrc:=edtNew.Text;
   sDst:=edtDst.Text;
   if CreateSymLink(sSrc, sDst) then
-    Close
+    begin
+      // write log
+      if (log_cp_mv_ln in gLogOptions) and (log_success in gLogOptions) then
+        logWrite(Format(rsMsgLogSuccess+rsMsgLogSymLink,[sSrc+' -> '+sDst]), lmtSuccess);
+
+      Close;
+    end
   else
-  begin
-    MsgError(rsSymErrCreate);
-  end;
+    begin
+      // write log
+      if (log_cp_mv_ln in gLogOptions) and (log_errors in gLogOptions) then
+        logWrite(Format(rsMsgLogError+rsMsgLogSymLink,[sSrc+' -> '+sDst]), lmtError);
+
+      // Standart error modal dialog
+      MsgError(rsSymErrCreate);
+    end;
 end;
 
 initialization

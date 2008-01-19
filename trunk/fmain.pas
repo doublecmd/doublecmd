@@ -758,10 +758,7 @@ begin
       MainToolBar.ButtonGlyphSize := gToolBarIconSize;
       MainToolBar.ChangePath := gpExePath;
       MainToolBar.EnvVar := '%commander_path%';
-	  if FileExists(gpIniDir + 'default.bar') then
-        MainToolBar.LoadFromFile(gpIniDir + 'default.bar')	  
-	  else
-        MainToolBar.LoadFromFile(gpCfgDir + 'default.bar');
+      MainToolBar.LoadFromFile(gpIniDir + 'default.bar')
     end;
   (*Tool Bar*)
   
@@ -897,7 +894,8 @@ begin
           sFileName := fr^.sName;
           sFilePath := ActiveDir;
           sl.Add(GetSplitFileName(sFileName, sFilePath));
-          logWrite('View.Add: ' + sFilePath + sFileName, lmtInfo);
+          if (log_info in gLogOptions) then
+            logWrite('View.Add: ' + sFilePath + sFileName, lmtInfo);
         end;
       end;
       if sl.Count>0 then
@@ -1016,7 +1014,7 @@ begin
             if (log_dir_op in gLogOptions) and (log_errors in gLogOptions) then
               logWrite(Format(rsMsgLogError+rsMsgLogMkDir, [ActiveDir+sPath]), lmtError);
 
-            // Standart modal error dialog
+            // Standart error modal dialog
             msgError(Format(rsMsgErrForceDir,[ActiveDir+sPath]))
           end
         else
@@ -1391,8 +1389,8 @@ end;
 
 procedure TfrmMain.AppException(Sender: TObject; E: Exception);
 begin
-  WriteLN(stdErr,'Exception:',E.Message);
-  WriteLN(stdErr,'Func:',BackTraceStrFunc(get_caller_frame(get_frame)));
+  WriteLn(stdErr,'Exception:',E.Message);
+  WriteLn(stdErr,'Func:',BackTraceStrFunc(get_caller_frame(get_frame)));
   Dump_Stack(StdErr, get_caller_frame(get_frame));
 end;
 
@@ -2729,10 +2727,7 @@ begin
         begin
           MainToolBar.ChangePath := gpExePath;
           MainToolBar.EnvVar := '%commander_path%';
-          if FileExists(gpIniDir + 'default.bar') then
-            MainToolBar.LoadFromFile(gpIniDir + 'default.bar')
-	      else
-            MainToolBar.LoadFromFile(gpCfgDir + 'default.bar');
+          MainToolBar.LoadFromFile(gpIniDir + 'default.bar');
           MainToolBar.Visible := gButtonBar;
         end
       else

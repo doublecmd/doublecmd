@@ -9,7 +9,6 @@
    contributors:
    
    Radek Cervinka  <radek.cervinka@centrum.cz>
-
 }
 
 unit uDCUtils;

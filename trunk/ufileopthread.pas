@@ -1,15 +1,17 @@
 {
-Seksi Commander
-----------------------------
-Implementing of Generic File operation thread
-(copying, moving ... is inherited from this)
+   Seksi Commander
+   ----------------------------
+   Implementing of Generic File operation thread
+   (copying, moving ... is inherited from this)
 
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Licence  : GNU GPL v 2.0
+   Author   : radek.cervinka@centrum.cz
 
-contributors:
-Koblov Alexander (Alexx2000@mail.ru)
+   contributors:
+   
+   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
 }
+
 unit uFileOpThread;
 {$mode objfpc}{$H+}
 {$DEFINE NOFAKETHREAD}
@@ -106,7 +108,7 @@ var
   sb: stat64;
   
 begin
-  if FindFirst(srcPath+'*',faAnyFile,sr)<>0 then
+  if FindFirstEx(srcPath+'*',faAnyFile,sr)<>0 then
   begin
     FindClose(sr);
     Exit;
@@ -118,20 +120,12 @@ begin
     fr.sPath:=dstPath;
     fr.sNameNoExt:=sr.Name; // we use to save dstname
 //    writeln(sr.Name);
-    {$IFDEF WIN32}
+
     fr.iSize:= sr.Size;
     fr.iMode:= sr.Attr;
-    fr.fTimeI:= FileDateToDateTime(sr.Time);//EncodeDate (1970, 1, 1) + (sr.Time / 86400.0);
-    {$ELSE}
-    fpstat64(PChar(fr.sName),sb);
-    fr.iSize:=sb.st_size;
-    fr.fTimeI:=FileStampToDateTime(sb.st_mtime);
+    fr.fTimeI:= FileDateToDateTime(sr.Time);
+
     fr.sTime:='';   // not interested
-    fr.iMode:=sb.st_mode;
-//    writeln(sb.st_mode);
-    if FPS_ISDIR(sb.st_mode) then
-      writeln('ISDIR');
-    {$ENDIF}
     
     fr.bIsLink:=FPS_ISLNK(fr.iMode);
     fr.sLinkTo:='';
@@ -151,7 +145,7 @@ begin
       inc(FFilesSize, fr.iSize);
       inc(FFilesCount);
     end;
-  until FindNext(sr)<>0;
+  until FindNextEx(sr)<>0;
   FindClose(sr);
 end;
 

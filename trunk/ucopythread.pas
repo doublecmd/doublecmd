@@ -29,7 +29,7 @@ type
 
 implementation
 uses
-  SysUtils, Classes, uLng, uGlobs, uShowMsg, uFileProcs, uFindEx, uDCUtils, uOSUtils;
+  SysUtils, Classes, uLng, uGlobs, uLog, uShowMsg, uFileProcs, uFindEx, uDCUtils, uOSUtils;
 
 procedure TCopyThread.MainExecute;
 var
@@ -136,6 +136,15 @@ begin
       end;   
     end;
     Result:=CopyFile(fr^.sName, sDst+fr^.sPath+sDstNew, FAppend);
+
+    if Result then
+      // write log success
+      if (log_cp_mv_ln in gLogOptions) and (log_success in gLogOptions) then
+        logWrite(Format(rsMsgLogSuccess+rsMsgLogCopy, [fr^.sName+' -> '+sDst+fr^.sPath+sDstNew]), lmtSuccess)
+    else
+      // write log error
+      if (log_cp_mv_ln in gLogOptions) and (log_errors in gLogOptions) then
+        logWrite(Format(rsMsgLogError+rsMsgLogCopy, [fr^.sName+' -> '+sDst+fr^.sPath+sDstNew]), lmtError);
   end; // files and other stuff
 end;
 
@@ -151,7 +160,6 @@ var
 begin
   Result:=False;
 
-  writeln('CopyFile:',sSrc,' ',sDst);
   GetMem(Buffer, gCopyBlockSize+1);
   dst:=nil; // for safety exception handling
   try

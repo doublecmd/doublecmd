@@ -1,5 +1,5 @@
 rem the next line must be changed before run on your computer 
-set lazpath=X:\Prog\lazarus
+set lazpath=X:\Prog\FreePascal\Lazarus
  
 for %%f in (*.lfm) do %lazpath%\Tools\lazres %%~nf.lrs %%f
  

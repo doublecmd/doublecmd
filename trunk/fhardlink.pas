@@ -29,7 +29,7 @@ implementation
 
 
 uses
-  uLng, uShowMsg, uOSUtils;
+  uLng, uGlobs, uLog, uShowMsg, uOSUtils;
 
 procedure ShowHardLinkForm(const sNew, sDst:String);
 begin
@@ -53,13 +53,25 @@ begin
   sSrc:=edtNew.Text;
   sDst:=edtDst.Text;
   if CreateHardLink(sSrc, sDst) then
-    Close
+    begin
+      // write log
+      if (log_cp_mv_ln in gLogOptions) and (log_success in gLogOptions) then
+        logWrite(Format(rsMsgLogSuccess+rsMsgLogLink,[sSrc+' -> '+sDst]), lmtSuccess);
+
+      Close;
+    end
   else
-  begin
-    MsgError(rsHardErrCreate);
-  end;
+    begin
+      // write log
+      if (log_cp_mv_ln in gLogOptions) and (log_errors in gLogOptions) then
+        logWrite(Format(rsMsgLogError+rsMsgLogLink,[sSrc+' -> '+sDst]), lmtError);
+
+      // Standart error modal dialog
+      MsgError(rsHardErrCreate);
+    end;
 end;
 
 initialization
  {$I fhardlink.lrs}
+ 
 end.

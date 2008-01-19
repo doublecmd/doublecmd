@@ -45,8 +45,8 @@ uses
   fEditSearch,
   uColorExt,
   fEditorConf,
-  {$IFNDEF MSWINDOWS}
   uFindMmap,
+  {$IFDEF UNIX}
   fFileProperties,
   uUsersGroups,
   {$ENDIF}
@@ -66,23 +66,18 @@ const
   buildDate = {$I %DATE%};
 
 begin
-{$IFDEF MSWINDOWS}
-  //AssignFile(output, GetHomeDir + 'doublecmd.log');
-  //Rewrite(output);
-{$ENDIF}
-
   Application.Title:='Double Commander';
   Application.Initialize;
   ThousandSeparator:=' ';
   DebugLn('Double commander 0.3 alpha - Free Pascal');
   DebugLn('Build: ' + buildDate);
   DebugLn('This program is free software released under terms of GNU GPL 2');
-  DebugLn('(C)opyright 2006-7 Koblov Alexander (Alexx2000@mail.ru)');
+  DebugLn('(C)opyright 2006-2008 Koblov Alexander (Alexx2000@mail.ru)');
   DebugLn('  and contributors (see about dialog)');
 
   fAbout.buildDate := buildDate;
 
-  LoadPaths;
+  LoadPaths; // must be first
   if LoadGlobs then
      begin
        LoadPixMapManager;

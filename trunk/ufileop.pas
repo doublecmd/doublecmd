@@ -108,7 +108,7 @@ begin
 {/mate}
     fr.iMode:=sb.st_mode;
     fr.bSysFile := (sr.Name[1] = '.') and (sr.Name <> '..');
-    fr.fTimeI:= FileStampToDateTime(sb.st_mtime); // EncodeDate (1970, 1, 1) + (sr.Time / 86400.0);
+    fr.fTimeI:= FileDateToDateTime(sb.st_mtime); // EncodeDate (1970, 1, 1) + (sr.Time / 86400.0);
     {$ELSE}  // Windows
      fr.iSize:= sr.Size;
      fr.iMode:= sr.Attr;
