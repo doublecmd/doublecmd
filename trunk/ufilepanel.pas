@@ -1,17 +1,16 @@
 {
-Seksi Commander
-----------------------------
-Implementing of storing Files and main file operation
+   Seksi Commander
+   ----------------------------
+   Implementing of storing Files and main file operation
 
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Licence  : GNU GPL v 2.0
+   Author   : radek.cervinka@centrum.cz
 
-contributors:
+   contributors:
 
-Copyright (C) 2006-2007 Alexander Koblov (Alexx2000@mail.ru)
-
-
+   Copyright (C) 2006-2007 Alexander Koblov (Alexx2000@mail.ru)
 }
+
 unit uFilePanel;
 
 {$mode objfpc}{$H+}

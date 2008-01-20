@@ -1884,7 +1884,7 @@ msgid "Remove directory \%s"
 msgstr ""
 
 #: ulng.rsmsglogpack
-msgid "Pack file \%s"
+msgid "Pack to file \%s"
 msgstr ""
 
 #: ulng.rsmsglogextract

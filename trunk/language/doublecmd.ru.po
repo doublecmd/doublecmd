@@ -68,7 +68,7 @@ msgstr "&Настроить"
 
 #: TFRMOPTIONS.CBLOGFILE.CAPTION
 msgid "&Create a log file:"
-msgstr ""
+msgstr "Создать файл отчета:"
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
 msgid "&Delete"
@@ -488,7 +488,7 @@ msgstr "Копировать %s:"
 
 #: ulng.rsmsglogcopy
 msgid "Copy file \%s"
-msgstr ""
+msgstr "Копирование файла \%s"
 
 #: ulng.rsdlgcp
 msgid "Copy file(s)"
@@ -508,7 +508,7 @@ msgstr "Копировать в ту же панель"
 
 #: TFRMOPTIONS.CBLOGCPMVLN.CAPTION
 msgid "Copy/Move/Create link/symlink"
-msgstr ""
+msgstr "Копирование / Перемещение / Создание ссылок"
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
 msgid "Counter"
@@ -516,7 +516,7 @@ msgstr "Счётчик"
 
 #: ulng.rsmsglogmkdir
 msgid "Create directory \%s"
-msgstr ""
+msgstr "Создание каталога \%s"
 
 #: TFRMHARDLINK.CAPTION
 msgid "Create hardlink"
@@ -524,7 +524,7 @@ msgstr "Создать жёсткую ссылку"
 
 #: ulng.rsmsgloglink
 msgid "Create link \%s"
-msgstr ""
+msgstr "Создание ссылки \%s"
 
 #: TFRMMAIN.ACTHARDLINK.CAPTION
 msgid "Create link..."
@@ -548,7 +548,7 @@ msgstr "Создать симв. ссылку"
 
 #: ulng.rsmsglogsymlink
 msgid "Create symlink \%s"
-msgstr ""
+msgstr "Создание символьной ссылки \%s"
 
 #: TFRMMAIN.ACTSYMLINK.CAPTION
 msgid "Create symlink..."
@@ -556,7 +556,7 @@ msgstr "Создать символьную сс&ылку..."
 
 #: TFRMOPTIONS.CBLOGDIROP.CAPTION
 msgid "Create/Delete directories"
-msgstr ""
+msgstr "Создание / Удаление каталогов"
 
 #: ulng.rssplitmsgcreated
 msgid "Created:"
@@ -620,7 +620,7 @@ msgstr "Удалить %d выбранных файлов/каталогов?"
 
 #: ulng.rsmsglogdelete
 msgid "Delete file \%s"
-msgstr ""
+msgstr "Удаление файла \%s"
 
 #: ulng.rsdlgdel
 msgid "Delete file(s)"
@@ -664,7 +664,7 @@ msgstr "Диск не доступен"
 
 #: ulng.rsmsglogsuccess
 msgid "Done: "
-msgstr ""
+msgstr "Выполнено: "
 
 #: TFRMABOUT.LBLTITLE.CAPTION
 msgid "Double Commander"
@@ -732,7 +732,7 @@ msgstr "Ошибка записи в файл"
 
 #: ulng.rsmsglogerror
 msgid "Error: "
-msgstr ""
+msgstr "Ошибка: "
 
 #: TFRMFILEOP.LBLESTIMATED.CAPTION
 msgid "Estimated"
@@ -780,7 +780,7 @@ msgstr "Внешний просмотрщик"
 
 #: ulng.rsmsglogextract
 msgid "Extract file \%s"
-msgstr ""
+msgstr "Распаковка файла \%s"
 
 #: TFRMMAIN.ACTEXTRACTFILES.CAPTION
 msgid "Extract files..."
@@ -836,7 +836,7 @@ msgstr "Имя файла"
 
 #: TFRMOPTIONS.GBLOGFILE.CAPTION
 msgid "File operation log file"
-msgstr ""
+msgstr "Отчет о файловых операциях"
 
 #: ulng.rsoptfileop
 msgid "File operations"
@@ -860,7 +860,7 @@ msgstr "Исходный файл"
 
 #: TFRMOPTIONS.CBLOGVFS.CAPTION
 msgid "File system plugins"
-msgstr ""
+msgstr "Плагины файловой системы"
 
 #: TFRMOPTIONS.TSWFX.CAPTION
 msgid "File system plugins (.WFX)"
@@ -1000,7 +1000,7 @@ msgstr "Неправильный размер файла"
 
 #: ulng.rsmsgloginfo
 msgid "Info: "
-msgstr ""
+msgstr "Информация: "
 
 #: ulng.rsmaskinput
 msgid "Input mask:"
@@ -1084,11 +1084,11 @@ msgstr "Протокол"
 
 #: TFRMOPTIONS.CBLOGERRORS.CAPTION
 msgid "Log &errors"
-msgstr ""
+msgstr "Ошибки"
 
 #: TFRMOPTIONS.CBLOGSUCCESS.CAPTION
 msgid "Log &successful operations"
-msgstr ""
+msgstr "Успешные операции"
 
 #: TFRMMULTIRENAME.GBLOG.CAPTION
 msgid "Log Result"
@@ -1096,15 +1096,15 @@ msgstr "Результат - в протокол"
 
 #: TFRMOPTIONS.CBLOGINFO.CAPTION
 msgid "Log information messages"
-msgstr ""
+msgstr "Информационные сообщения"
 
 #: TFRMOPTIONS.GBLOGFILEOP.CAPTION
 msgid "Log operations:"
-msgstr ""
+msgstr "Протоколируемые действия:"
 
 #: TFRMOPTIONS.CBLOGWINDOW.CAPTION
 msgid "Log window"
-msgstr ""
+msgstr "Окно лога"
 
 #: TFRMOPTIONS.CBLYNXLIKE.CAPTION
 msgid "Lynx like movement"
@@ -1144,7 +1144,7 @@ msgstr "Переместить %s:"
 
 #: ulng.rsmsglogmove
 msgid "Move file \%s"
-msgstr ""
+msgstr "Перемещение файла \%s"
 
 #: ulng.rsdlgmv
 msgid "Move file(s)"
@@ -1260,7 +1260,7 @@ msgstr "Обзор"
 
 #: TFRMOPTIONS.GBLOGFILESTATUS.CAPTION
 msgid "Operation status:"
-msgstr ""
+msgstr "Протоколировать операции со статусом:"
 
 #: TFRMOPTIONS.CAPTION
 msgid "Options"
@@ -1278,10 +1278,6 @@ msgstr "Другие"
 msgid "Owner"
 msgstr "Владелец"
 
-#: ulng.rsmsglogpack
-msgid "Pack file \%s"
-msgstr ""
-
 #: TFRMPACKDLG.LBLPROMPT.CAPTION
 msgid "Pack file(s) to the file:"
 msgstr "Имя архива:"
@@ -1294,9 +1290,13 @@ msgstr "Упаковка файлов"
 msgid "Pack files..."
 msgstr "Упаковать..."
 
+#: ulng.rsmsglogpack
+msgid "Pack to file \%s"
+msgstr "Упаковка в файл \%s"
+
 #: TFRMOPTIONS.CBLOGARCOP.CAPTION
 msgid "Pack/Unpack"
-msgstr ""
+msgstr "Упаковка / Распаковка"
 
 #: TFRMPACKDLG.RGPACKER.CAPTION
 msgid "Packer"
@@ -1368,7 +1368,7 @@ msgstr "Повторить"
 
 #: ulng.rsmsglogrmdir
 msgid "Remove directory \%s"
-msgstr ""
+msgstr "Удаление каталога \%s"
 
 #: TFRMMAIN.ACTREMOVETAB.CAPTION
 msgid "Remove tab"

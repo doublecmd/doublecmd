@@ -1,19 +1,20 @@
 {
-Seksi Commander
-----------------------------
-Implementing of Copy files Thread
+   Seksi Commander
+   ----------------------------
+   Implementing of Copy files Thread
 
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Licence  : GNU GPL v 2.0
+   Author   : radek.cervinka@centrum.cz
 
-contributors:
+   contributors:
 
-Alexander Koblov (Alexx2000@mail.ru)
-
+   Copyright (C) 2007-2008  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit uCopyThread;
+
 {$mode objfpc}{$H+}
+
 interface
 uses
   uFileOpThread, uTypes;
@@ -140,11 +141,11 @@ begin
     if Result then
       // write log success
       if (log_cp_mv_ln in gLogOptions) and (log_success in gLogOptions) then
-        logWrite(Format(rsMsgLogSuccess+rsMsgLogCopy, [fr^.sName+' -> '+sDst+fr^.sPath+sDstNew]), lmtSuccess)
+        logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogCopy, [fr^.sName+' -> '+sDst+fr^.sPath+sDstNew]), lmtSuccess)
     else
       // write log error
       if (log_cp_mv_ln in gLogOptions) and (log_errors in gLogOptions) then
-        logWrite(Format(rsMsgLogError+rsMsgLogCopy, [fr^.sName+' -> '+sDst+fr^.sPath+sDstNew]), lmtError);
+        logWrite(Self, Format(rsMsgLogError+rsMsgLogCopy, [fr^.sName+' -> '+sDst+fr^.sPath+sDstNew]), lmtError);
   end; // files and other stuff
 end;
 
@@ -265,6 +266,5 @@ Function TCopyThread.GetCaptionLng:String;
 begin
   Result:=rsDlgCp;
 end;
-
 
 end.

@@ -124,7 +124,7 @@ Type
 function IsBlocked : Boolean;
 
 implementation
-uses Forms, SysUtils, Masks, uFileOp, uOSUtils, LCLProc, uFileProcs, uDCUtils, uLng, Controls;
+uses Forms, SysUtils, Masks, uFileOp, uGlobs, uLog, uOSUtils, LCLProc, uFileProcs, uDCUtils, uLng, Controls;
 
 var
   WCXModule : TWCXModule;  // used in ProcessDataProc
@@ -231,6 +231,12 @@ begin
   E_TOO_MANY_FILES :   sErrorMsg := rsMsgErrTooManyFiles;
   E_NOT_SUPPORTED  :   sErrorMsg := rsMsgErrNotSupported;
   end;
+
+  // write log error
+  if (log_arc_op in gLogOptions) and (log_errors in gLogOptions) then
+    logWrite(rsMsgLogError + sErrorMsg, lmtError);
+
+  // Standart error modal dialog
   ShowMessage(sErrorMsg);
 end;
 
@@ -530,12 +536,42 @@ begin
          iResult := ProcessFile(ArcHandle, PK_EXTRACT, nil, PChar(FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)));
 
          //Check for errors
-           if iResult <> 0 then
+         if iResult <> 0 then
+           begin
              if Assigned(CT) then
-               CT.Synchronize(ShowErrorMessage)
+               begin
+                 // write log error
+                 if (log_arc_op in gLogOptions) and (log_errors in gLogOptions) then
+                   logWrite(CT, Format(rsMsgLogError+rsMsgLogExtract, [FArchiveName + PathDelim + ArcHeader.FileName+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)]), lmtError);
+                 // Standart error modal dialog
+                 CT.Synchronize(ShowErrorMessage)
+               end
              else
-               ShowErrorMessage;
-       end
+               begin
+                 // write log error
+                 if (log_arc_op in gLogOptions) and (log_errors in gLogOptions) then
+                   logWrite(Format(rsMsgLogError+rsMsgLogExtract, [FArchiveName + PathDelim + ArcHeader.FileName+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)]), lmtError);
+                 // Standart error modal dialog
+                 ShowErrorMessage;
+               end;
+           end // Error
+         else
+           begin
+             if Assigned(CT) then
+               begin
+                 // write log success
+                 if (log_arc_op in gLogOptions) and (log_success in gLogOptions) then
+                   logWrite(CT, Format(rsMsgLogSuccess+rsMsgLogExtract, [FArchiveName + PathDelim + ArcHeader.FileName+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)]), lmtSuccess);
+               end
+             else
+               begin
+                 // write log success
+                 if (log_arc_op in gLogOptions) and (log_success in gLogOptions) then
+                   logWrite(Format(rsMsgLogSuccess+rsMsgLogExtract, [FArchiveName + PathDelim + ArcHeader.FileName+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)]), lmtSuccess);
+               end;
+           end; // Success
+           
+       end // CheckFileName
      else // Skip
        begin
          iResult := ProcessFile(ArcHandle, PK_SKIP, nil, nil);
@@ -588,12 +624,41 @@ begin
 
   iResult := PackFiles(PChar(FArchiveName), pDstPath, Folder, FileList, FFlags);
 
-  // Check for errors
+  //Check for errors
   if iResult <> 0 then
-    if Assigned(CT) then
-      CT.Synchronize(ShowErrorMessage)
-    else
-      ShowErrorMessage;
+    begin
+      if Assigned(CT) then
+        begin
+          // write log error
+          if (log_arc_op in gLogOptions) and (log_errors in gLogOptions) then
+            logWrite(CT, Format(rsMsgLogError+rsMsgLogPack, [FArchiveName]), lmtError);
+          // Standart error modal dialog
+          CT.Synchronize(ShowErrorMessage)
+        end
+      else
+        begin
+          // write log error
+            if (log_arc_op in gLogOptions) and (log_errors in gLogOptions) then
+              logWrite(Format(rsMsgLogError+rsMsgLogPack, [FArchiveName]), lmtError);
+            // Standart error modal dialog
+            ShowErrorMessage;
+        end;
+    end // Error
+  else
+    begin
+      if Assigned(CT) then
+        begin
+          // write log success
+          if (log_arc_op in gLogOptions) and (log_success in gLogOptions) then
+            logWrite(CT, Format(rsMsgLogSuccess+rsMsgLogPack, [FArchiveName]), lmtSuccess);
+        end
+      else
+        begin
+          // write log success
+          if (log_arc_op in gLogOptions) and (log_success in gLogOptions) then
+            logWrite(Format(rsMsgLogSuccess+rsMsgLogPack, [FArchiveName]), lmtSuccess);
+        end;
+    end; // Success
 end;
 
 procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
