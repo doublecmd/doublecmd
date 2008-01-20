@@ -1,33 +1,33 @@
 {
-Seksi Commander
-----------------------------
-Implementing of Move files thread
+   Seksi Commander
+   ----------------------------
+   Implementing of Move files thread
 
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Licence  : GNU GPL v 2.0
+   Author   : radek.cervinka@centrum.cz
 
-contributors:
+   contributors:
 
-Alexander Koblov (Alexx2000@mail.ru)
-
+   Copyright (C) 2007-2008  Koblov Alexander (Alexx2000@mail.ru)
 }
+
 unit uMoveThread;
+
 {$mode objfpc}{$H+}
+
 interface
 uses
    uTypes, uCopyThread;
 type
-  TMoveThread=Class(TCopyThread)
-
+  TMoveThread = class(TCopyThread)
   protected
-//    Function CpFile (fr:FileRecPtr; const sDst:String):Boolean;
     procedure MainExecute; override;
-    Function GetCaptionLng:String; override;
+    function GetCaptionLng:String; override;
   end;
 
 implementation
 uses
-  uFileProcs, SysUtils, uShowMsg, uLng, uDCUtils, uOSUtils;
+  uFileProcs, SysUtils, uShowMsg, uLng, uGlobs, uLog, uDCUtils, uOSUtils;
 
 
 procedure TMoveThread.MainExecute;
@@ -105,36 +105,32 @@ begin
 
       if FAppend or not RenameFile(pr^.sName, sDstPath+pr^.sPath+ sDstNew) then
       begin
-      // rename failed, maybe not the same filesystem (or we want append)
-      // OK, copy standard way and delete src file
+        // rename failed, maybe not the same filesystem (or we want append)
+        // OK, copy standard way and delete src file
         if cpFile(pr, sDstPath, False) then // False >> not show confirmation dialog
-          sysutils.DeleteFile(pr^.sName);
-      end;
+          begin
+            if SysUtils.DeleteFile(pr^.sName) then
+              if (log_delete in gLogOptions) and (log_success in gLogOptions) then
+                logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogDelete, [pr^.sName]), lmtSuccess)
+            else
+              if (log_delete in gLogOptions) and (log_errors in gLogOptions) then
+                logWrite(Self, Format(rsMsgLogError+rsMsgLogDelete, [pr^.sName]), lmtError);
+          end; // cpFile
+      end
+      else
+        begin // rename succes
+          if (log_cp_mv_ln in gLogOptions) and (log_success in gLogOptions) then
+            logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogMove, [pr^.sName+' -> '+sDstPath+pr^.sPath+ sDstNew]), lmtSuccess)
+        end;
     end;
     FFileOpDlg.iProgress2Pos:=iCoped;
     Synchronize(@FFileOpDlg.UpdateDlg);
   end;
 end;
 
-Function TMoveThread.GetCaptionLng:String;
+function TMoveThread.GetCaptionLng:String;
 begin
   Result:=rsDlgMv;
 end;
 
-
-{
-Function TMoveThread.CpFile (fr:FileRecPtr; const sDst:String):Boolean;
-begin
-//  writeln(fr^.sName,'>',sDst+fr^.sName);
-  if S_ISDIR(fr.fMode) then
-  begin
-    writeln('Error: mkdir:',sDst+fr^.sNameNoExt);
-    Result:=True;
-   end
-  else
-  begin // directory and other stuff
-    Result:=CopyFile(fr^.sName, sDst+fr^.sNameNoExt,False);
-    writeln('file:',fr^.sName,'>',sDst+fr^.sNameNoExt);
-  end;
-end;}
 end.

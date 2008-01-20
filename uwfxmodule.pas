@@ -113,7 +113,7 @@ Type
 
 implementation
 uses
-  SysUtils, LCLProc, LCLType, uVFSutil, uFileOp, uOSUtils, uFileProcs, uLng, Dialogs, Forms, Controls;
+  SysUtils, LCLProc, LCLType, uGlobs, uLog, uVFSutil, uFileOp, uOSUtils, uFileProcs, uLng, Dialogs, Forms, Controls;
 
 { TWFXModule }
 
@@ -288,7 +288,11 @@ Begin
     msgtype_importanterror: sMsg :='msgtype_importanterror';
     msgtype_operationcomplete: sMsg :='msgtype_operationcomplete';
   end;
-  DebugLN('MainLogProc ('+ sMsg + ',' + logString + ')');
+  // write log info
+  if (log_vfs_op in gLogOptions) and (log_info in gLogOptions) then
+    logWrite(rsMsgLogInfo + sMsg + ', ' + logString);
+    
+  //DebugLN('MainLogProc ('+ sMsg + ',' + logString + ')');
 End;
 
 function MainRequestProc (PluginNr,RequestType:integer;CustomTitle,CustomText,ReturnedText:pchar;maxlen:integer):longbool;stdcall;
@@ -361,7 +365,7 @@ Case RequestType of
   end;
  RT_MsgOKCancel:
   begin
-    sReq:='RT_MsgOKCancel=';
+    sReq:='RT_MsgOKCancel';
     Result:=(MessageBoxFunction(CustomText, CustomTitle, MB_OKCANCEL) = IDOK);
   end;
 end;
@@ -411,6 +415,17 @@ end;
 function TWFXModule.VFSMkDir(const sDirName: String): Boolean;
 begin
   Result := FsMkDir(PChar(sDirName));
+  
+  { Log messages }
+  if Result then
+    // write log success
+    if (log_vfs_op in gLogOptions) and (log_success in gLogOptions) then
+      logWrite(Format(rsMsgLogSuccess+rsMsgLogMkDir, [sDirName]), lmtSuccess)
+  else
+    // write log error
+    if (log_vfs_op in gLogOptions) and (log_errors in gLogOptions) then
+      logWrite(Format(rsMsgLogError+rsMsgLogMkDir, [sDirName]), lmtError);
+  {/ Log messages }
 end;
 
 function TWFXModule.VFSRmDir(const sDirName: String): Boolean;
@@ -460,6 +475,17 @@ begin
       if iResult = FS_FILE_USERABORT then Exit; //Copying was aborted by the user (through ProgressProc)
 
       Result := (iResult = FS_FILE_OK);
+
+      { Log messages }
+      if Result then
+        // write log success
+        if (log_vfs_op in gLogOptions) and (log_success in gLogOptions) then
+          logWrite(CT, Format(rsMsgLogSuccess+rsMsgLogCopy, [RemoteName+' -> '+LocalName]), lmtSuccess)
+      else
+        // write log error
+        if (log_vfs_op in gLogOptions) and (log_errors in gLogOptions) then
+          logWrite(CT, Format(rsMsgLogError+rsMsgLogCopy, [RemoteName+' -> '+LocalName]), lmtError);
+      {/ Log messages }
     end;
     Dispose(ri);
     FreeAndNil(FFileList);
@@ -495,6 +521,17 @@ begin
       if iResult = FS_FILE_USERABORT then Exit; //Copying was aborted by the user (through ProgressProc)
 
       Result := (iResult = FS_FILE_OK);
+      
+      { Log messages }
+      if Result then
+        // write log success
+        if (log_vfs_op in gLogOptions) and (log_success in gLogOptions) then
+          logWrite(CT, Format(rsMsgLogSuccess+rsMsgLogCopy, [LocalName+' -> '+RemoteName]), lmtSuccess)
+      else
+        // write log error
+        if (log_vfs_op in gLogOptions) and (log_errors in gLogOptions) then
+          logWrite(CT, Format(rsMsgLogError+rsMsgLogCopy, [LocalName+' -> '+RemoteName]), lmtError);
+      {/ Log messages }
     end;
 end;
 
@@ -614,6 +651,7 @@ end;
 function TWFXModule.VFSDelete(var flNameList: TFileList): Boolean;
 var
   Count, I : Integer;
+  sLogMsg : String;
 begin
   try
     FFileOpDlg:= TfrmFileOp.Create(nil);
@@ -630,9 +668,26 @@ begin
         DebugLN('Delete name == ' + flNameList.GetFileName(I));
       
         if FPS_ISDIR(flNameList.GetItem(I)^.iMode) then
-          Result := FsRemoveDir(PChar(flNameList.GetFileName(I)))
-       else
-          Result := FsDeleteFile(PChar(flNameList.GetFileName(I)));
+          begin
+            sLogMsg := rsMsgLogRmDir;
+            Result := FsRemoveDir(PChar(flNameList.GetFileName(I)))
+          end
+        else
+          begin
+            sLogMsg := rsMsgLogDelete;
+            Result := FsDeleteFile(PChar(flNameList.GetFileName(I)));
+          end;
+          
+        { Log messages }
+        if Result then
+          // write log success
+          if (log_vfs_op in gLogOptions) and (log_success in gLogOptions) then
+            logWrite(Format(rsMsgLogSuccess+sLogMsg, [flNameList.GetFileName(I)]), lmtSuccess)
+        else
+          // write log error
+          if (log_vfs_op in gLogOptions) and (log_errors in gLogOptions) then
+            logWrite(Format(rsMsgLogError+sLogMsg, [flNameList.GetFileName(I)]), lmtError);
+        {/ Log messages }
       end;
     FFileOpDlg.Close;
     FFileOpDlg.Free;

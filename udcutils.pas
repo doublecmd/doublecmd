@@ -70,7 +70,7 @@ end;
 
 {
   DirName is split in a list of directory names,
-  Dirs is an TStrings.
+  Dirs is an TStringsList.
   The function returns the number of directories found, or -1
   if none were found.
   DirName must contain only PathDelim as Directory separator chars.
@@ -78,7 +78,7 @@ end;
 
 function GetDirs (DirName : String; var Dirs : TStringList) : Longint;
 
-Var
+var
   I : Longint;
   len : Integer;
   sDir : String;
@@ -86,9 +86,9 @@ begin
   I:= 1;
   Result:= -1;
   len := Length(DirName);
-  While I <= len do
+  while I <= len do
     begin
-    If DirName[I]=PathDelim then
+    if DirName[I]=PathDelim then
       begin
       Inc(Result);
       sDir := Copy(DirName, 1, len - (len - I + 1));
@@ -97,7 +97,7 @@ begin
       end;
     Inc(I);
     end;
-  If Result > -1 then inc(Result);
+  if Result > -1 then inc(Result);
 end;
 
 function GetAbsoluteFileName(sPath, sRelativeFileName : String) : String;
@@ -175,13 +175,16 @@ function cnvFormatFileSize(iSize:Int64):String;
 var
   d:double;
 begin
-//   DebugLn( iSize);
+  //DebugLn(IntToStr(iSize));
   if gShortFileSizeFormat then
   begin
-  // TODo  Giga
+    if iSize div (1024*1024*1024) > 0 then
+    begin
+      Result:=FloatToStrF((iSize*16 div (1024*1024*1024))/16, ffFixed, 15, 1)+'G'
+    end
+    else
     if iSize div (1024*1024) >0 then
     begin
-//      DebugLn( 'Div:',Trunc(iSize*10 /(1024*1024))/10);
       Result:=FloatToStrF((iSize*10 div (1024*1024))/10, ffFixed, 15, 1)+'M'
     end
     else

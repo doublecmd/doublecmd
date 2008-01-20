@@ -51,7 +51,7 @@ type
     function cdDownLevel(frp:PFileRecItem; var flist: TFileList) : Boolean;
 
     function FindModule(const sFileName:String; bLoadModule : Boolean = True):Boolean;
-    function LoadAndOpen(const sFileName:String; bOpen : Boolean = True) : Boolean;
+    function LoadAndOpen(const sFileName:String; bGetOpenResult : Boolean = True) : Boolean;
     function LoadVFSList(var fl:TFileList) : Boolean;
     property VFSType : TVFSType read FVFSType;
     property VFSmodule : TVFSmodule read FVFSModule write SetVFSModule;
@@ -173,7 +173,7 @@ begin
       end;
 end;
 
-function TVFS.LoadAndOpen(const sFileName:String; bOpen : Boolean = True): Boolean;
+function TVFS.LoadAndOpen(const sFileName:String; bGetOpenResult : Boolean = True): Boolean;
 begin
   sLastArchive := sFileName;
   case FVFSType of
@@ -184,8 +184,13 @@ begin
 
   DebugLN(Format('After Module %s Load', [FCurrentPlugin]));
 
-  if Result and bOpen then
-    Result := FVFSModule.VFSOpen(sLastArchive);
+  if Result then
+    begin
+      if bGetOpenResult then
+        Result := FVFSModule.VFSOpen(sLastArchive)
+      else
+        FVFSModule.VFSOpen(sLastArchive);
+    end;
 end;
 
 function TVFS.LoadVFSList(var fl: TFileList) : Boolean;

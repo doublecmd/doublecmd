@@ -1279,10 +1279,6 @@ msgstr "Ander"
 msgid "Owner"
 msgstr "Eigenaar"
 
-#: ulng.rsmsglogpack
-msgid "Pack file \%s"
-msgstr ""
-
 #: TFRMPACKDLG.LBLPROMPT.CAPTION
 msgid "Pack file(s) to the file:"
 msgstr "Inpakken bestand(en) naar bestand:"
@@ -1294,6 +1290,10 @@ msgstr "Bestanden inpakken"
 #: TFRMMAIN.ACTPACKFILES.CAPTION
 msgid "Pack files..."
 msgstr "Inpakken bestanden..."
+
+#: ulng.rsmsglogpack
+msgid "Pack to file \%s"
+msgstr ""
 
 #: TFRMOPTIONS.CBLOGARCOP.CAPTION
 msgid "Pack/Unpack"

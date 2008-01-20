@@ -84,7 +84,7 @@ resourcestring
   rsMsgLogSymLink = 'Create symlink %s';
   rsMsgLogMkDir = 'Create directory %s';
   rsMsgLogRmDir = 'Remove directory %s';
-  rsMsgLogPack = 'Pack file %s';
+  rsMsgLogPack = 'Pack to file %s';
   rsMsgLogExtract = 'Extract file %s';
 
   rsSavePosition = '&Save position';

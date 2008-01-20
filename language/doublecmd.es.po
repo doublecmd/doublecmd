@@ -1279,10 +1279,6 @@ msgstr "Otros"
 msgid "Owner"
 msgstr "Propietario"
 
-#: ulng.rsmsglogpack
-msgid "Pack file \%s"
-msgstr ""
-
 #: TFRMPACKDLG.LBLPROMPT.CAPTION
 msgid "Pack file(s) to the file:"
 msgstr "Comprimir fichero(s) en el archivo:"
@@ -1294,6 +1290,10 @@ msgstr "Comprimir ficheros"
 #: TFRMMAIN.ACTPACKFILES.CAPTION
 msgid "Pack files..."
 msgstr "Comprimir ficheros"
+
+#: ulng.rsmsglogpack
+msgid "Pack to file \%s"
+msgstr ""
 
 #: TFRMOPTIONS.CBLOGARCOP.CAPTION
 msgid "Pack/Unpack"

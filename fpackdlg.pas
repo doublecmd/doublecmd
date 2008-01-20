@@ -92,16 +92,22 @@ begin
         
       CurrentVFS := VFS;
       if (ShowModal = mrOK) then
-          if VFS.FindModule(edtPackCmd.Text) then
+          if VFS.FindModule(edtPackCmd.Text, False) then
             begin
               Flags := 0;
               if cbMoveToArchive.Checked then Flags := Flags or PK_PACK_MOVE_FILES;
               if cbStoredir.Checked then Flags := Flags or PK_PACK_SAVE_PATHS;
               if cbEncrypt.Checked then Flags := Flags or PK_PACK_ENCRYPT;
               if bNewArchive then
-                VFS.VFSmodule.VFSCopyIn(fl, '', Flags)
+                begin
+                  VFS.LoadAndOpen(edtPackCmd.Text, False);
+                  VFS.VFSmodule.VFSCopyIn(fl, '', Flags)
+                end
               else
-                VFS.VFSmodule.VFSCopyIn(fl, sDestPath, Flags)
+                begin
+                  VFS.LoadAndOpen(edtPackCmd.Text, True);
+                  VFS.VFSmodule.VFSCopyIn(fl, sDestPath, Flags)
+                end;
             end;
       Free;
     end;

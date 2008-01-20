@@ -93,12 +93,15 @@ procedure logWrite(Thread: TThread; const sText: String; LogMsgType: TLogMsgType
 var
   LogWriteThread : TLogWriteThread;
 begin
-  try
-    LogWriteThread := TLogWriteThread.Create(Thread);
-    LogWriteThread.WriteLog(sText, LogMsgType);
-  finally
-    LogWriteThread.Free;
-  end;
+  if Assigned (Thread) then
+    try
+      LogWriteThread := TLogWriteThread.Create(Thread);
+      LogWriteThread.WriteLog(sText, LogMsgType);
+    finally
+      LogWriteThread.Free;
+    end
+  else
+    logWrite(sText, LogMsgType);
 end;
 
 { TLogWriteThread }
