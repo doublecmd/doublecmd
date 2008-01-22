@@ -152,12 +152,44 @@ resourcestring
   rsOptFileOp = 'File operations';
   rsOptFolderTabs = 'Folder tabs';
 
+function GetLanguageName(poFileName : String) : String;
 procedure lngLoadLng(const sFileName:String);
 procedure DoLoadLng;
 
 implementation
 uses
   Classes, SysUtils, GetText, Translations, uGlobs, uGlobsPaths, uTranslator, LCLProc;
+
+function GetLanguageName(poFileName : String) : String;
+var
+  poFile : TextFile;
+  sLine : String;
+  iPos1,
+  iPos2 : Integer;
+begin
+  AssignFile(poFile, poFileName);
+  Reset(poFile);
+  // find first msgid line
+  ReadLn(poFile, sLine);
+  while Pos('msgid', sLine) = 0 do
+    ReadLn(poFile, sLine);
+  // read msgstr line
+  ReadLn(poFile, sLine);
+  repeat
+    ReadLn(poFile, sLine);
+    // find language name line
+    if Pos('X-Poedit-Language:', sLine) <> 0 then
+      begin
+        iPos1 := Pos(':', sLine) + 2;
+        iPos2 := Pos('\n', sLine) - 1;
+        Result := Copy(sLine, iPos1,  (iPos2 - iPos1) + 1);
+        CloseFile(poFile);
+        Exit;
+      end;
+  until Pos('msgid', sLine) = 1;
+  CloseFile(poFile);
+  Result := 'Language name not found';
+end;
 
 procedure lngLoadLng(const sFileName:String);
 var
