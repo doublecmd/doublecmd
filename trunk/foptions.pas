@@ -508,6 +508,7 @@ procedure TfrmOptions.FillLngListBox;
 var
   fr:TSearchRec;
   iIndex:Integer;
+  sLangName : String;
 begin
   lngList.Clear;
   DebugLn('Language dir: ' + gpLngDir);
@@ -517,12 +518,13 @@ begin
     Exit;
   end;
   repeat
-    lngList.Items.Add(fr.Name);
+    sLangName := GetLanguageName(gpLngDir + fr.Name);
+    lngList.Items.Add(Format('%s = (%s)', [fr.Name, sLangName]));
   until FindNext(fr)<>0;
   
   FindClose(fr);
 
-  iIndex:=lngList.Items.IndexOf(gPOFileName);
+  iIndex:=lngList.Items.IndexOfName(gPOFileName + #32);
   if iIndex>=0 then
     lngList.Selected[iIndex]:=True;
 end;
@@ -551,7 +553,7 @@ begin
   
   gTerm:=edtTerm.Text;
   if lngList.ItemIndex>-1 then
-    gPOFileName := lngList.Items[lngList.ItemIndex];
+    gPOFileName := lngList.Items.Names[lngList.ItemIndex];
   gDirSelect:=cbDirSelect.Checked;
   gCaseSensitiveSort:=cbCaseSensitiveSort.Checked;
   gLynxLike:=cbLynxLike.Checked;
