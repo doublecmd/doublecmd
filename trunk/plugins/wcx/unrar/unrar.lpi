@@ -2,12 +2,12 @@
 <CONFIG>
   <ProjectOptions>
     <PathDelim Value="\"/>
-    <Version Value="5"/>
+    <Version Value="6"/>
     <General>
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
       <TargetFileExt Value=".exe"/>
-      <ActiveEditorIndexAtStart Value="1"/>
+      <ActiveEditorIndexAtStart Value="0"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
@@ -26,11 +26,11 @@
         <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <Units Count="2">
+    <Units Count="4">
       <Unit0>
         <Filename Value="unrar.dpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="1" Y="7"/>
+        <CursorPos X="6" Y="3"/>
         <TopLine Value="1"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="20"/>
@@ -41,17 +41,53 @@
         <UnitName Value="UnRARDLL"/>
         <CursorPos X="19" Y="8"/>
         <TopLine Value="1"/>
+        <UsageCount Value="10"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="unrarfunc.pas"/>
+        <UnitName Value="UnRARFunc"/>
+        <CursorPos X="38" Y="7"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
-      </Unit1>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\..\..\uWCXhead.pas"/>
+        <UnitName Value="uWCXhead"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="10"/>
+      </Unit3>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="5" HistoryIndex="4">
+      <Position1>
+        <Filename Value="unrarfunc.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position1>
+      <Position2>
+        <Filename Value="unrarfunc.pas"/>
+        <Caret Line="29" Column="12" TopLine="8"/>
+      </Position2>
+      <Position3>
+        <Filename Value="unrarfunc.pas"/>
+        <Caret Line="7" Column="22" TopLine="1"/>
+      </Position3>
+      <Position4>
+        <Filename Value="unrarfunc.pas"/>
+        <Caret Line="136" Column="30" TopLine="117"/>
+      </Position4>
+      <Position5>
+        <Filename Value="unrarfunc.pas"/>
+        <Caret Line="29" Column="12" TopLine="9"/>
+      </Position5>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
     <PathDelim Value="\"/>
     <SearchPaths>
+      <OtherUnitFiles Value="..\..\..\"/>
       <UnitOutputDirectory Value="bin"/>
     </SearchPaths>
     <Parsing>
