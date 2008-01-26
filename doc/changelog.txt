@@ -1,4 +1,5 @@
-﻿26.01.2008 ADD: Feature Request [ 1869250 ] Try to open archive by Ctrl+PageDown
+﻿26.01.2008 ADD: UnRAR plugin (now it working under Windows and Linux)
+26.01.2008 ADD: Feature Request [ 1869250 ] Try to open archive by Ctrl+PageDown
 18.01.2008 FIX: Bug [ 1869790 ] Опции -> цвета файлов - нелогичность
 17.01.2007 FIX: Bug [ 1869784 ] Папки и diff
 17.01.2007 FIX: Bug [ 1870772 ] Навигация lynx, "вправо" на "уровень выше"
