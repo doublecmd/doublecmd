@@ -49,8 +49,25 @@ type
     
     function cdUpLevel(frp:PFileRecItem; var flist: TFileList) : Boolean;
     function cdDownLevel(frp:PFileRecItem; var flist: TFileList) : Boolean;
-
+    {en
+       Tries to find plugin for archive by content
+       @param(sFileName Archive file name)
+       @returns(@true if plugin found, @false otherwise)
+    }
+    function TryFindModule(const sFileName:String):Boolean;
+    {en
+       Tries to find plugin by file name
+       @param(sFileName File name)
+       @param(bLoadModule Load plugin module if found)
+       @returns(@true if plugin found, @false otherwise)
+    }
     function FindModule(const sFileName:String; bLoadModule : Boolean = True):Boolean;
+    {en
+       Load plugin module and open VFS
+       @param(sFileName File name)
+       @param(bGetOpenResult if @true then return VFSOpen result)
+       @returns(@true if plugin module load, @false otherwise)
+    }
     function LoadAndOpen(const sFileName:String; bGetOpenResult : Boolean = True) : Boolean;
     function LoadVFSList(var fl:TFileList) : Boolean;
     property VFSType : TVFSType read FVFSType;
@@ -113,6 +130,40 @@ begin
   Folder := IncludeTrailingPathDelimiter(frp^.sPath + frp^.sName);
   FVFSModule.VFSList(Folder, flist);
   Result := True;
+end;
+
+function TVFS.TryFindModule(const sFileName: String): Boolean;
+var
+  I, iCount,
+  Index : Integer;
+  sPlugin : String;
+begin
+  if not FileExists(sFileName) then Exit(False);
+  iCount := FWCXPlugins.Count - 1;
+  for I := 0 to iCount do
+    begin
+      sPlugin := FWCXPlugins.ValueFromIndex[I];
+      Index := Pos(',', sPlugin) + 1;
+      FCurrentPlugin := GetCmdDirFromEnvVar(Copy(sPlugin, Index, Length(sPlugin)));
+
+      FVFSModule := TWCXModule.Create;
+      Result := FVFSModule.LoadModule(FCurrentPlugin);
+      if Result then
+        begin
+          try
+            Result := False;
+            if FVFSModule.VFSOpen(sFileName, True) then // found
+              begin
+                sLastArchive := sFileName;
+                Exit(True);
+              end
+            else
+              FVFSModule.UnloadModule;
+          except
+            FVFSModule.UnloadModule;
+          end;
+        end;
+    end; // for
 end;
 
 

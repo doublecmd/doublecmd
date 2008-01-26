@@ -1308,6 +1308,13 @@ object frmMain: TfrmMain
       DisableIfNoHandler = True
       OnExecute = actContextMenuExecute
     end
+    object actOpenArchive: TAction
+      Category = 'File'
+      Caption = 'Try open archive'
+      DisableIfNoHandler = True
+      OnExecute = actOpenArchiveExecute
+      ShortCut = 16418
+    end
   end
   object pmHotList: TPopupMenu
     left = 152

@@ -1907,3 +1907,7 @@ msgstr ""
 msgid "Delete file \%s"
 msgstr ""
 
+#: TFRMMAIN.ACTOPENARCHIVE.CAPTION
+msgid "Try open archive"
+msgstr ""
+

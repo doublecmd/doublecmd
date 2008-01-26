@@ -62,6 +62,7 @@ type
     procedure Sort;
     procedure UpdatePanel;
 //    procedure ChDir(sDir:String);
+    procedure TryOpenArchive(pfri:PFileRecItem);
     procedure ChooseFile(pfri:PFileRecItem); // main input node
     procedure ExecuteFile(const sName:String; bTerm:Boolean);
     function GetFileItem(iIndex:Integer):TFileRecItem;
@@ -198,8 +199,9 @@ var
   sDir:String;
   sDummy:String;
   VFSFileList : TFileList;
-  sTempDir : String;
-  I : Integer;
+  sTempDir,
+  sFileName : String;
+  I, iIndex : Integer;
 begin
   with frp^ do
   begin
@@ -256,7 +258,7 @@ begin
         begin
           if fVFS.FindModule(sName, False) then // if archive
             begin
-              fVFSmoduleList.AddObject(fVFS.ArcFullName + '=' + sPath, fVFS.VFSmodule);
+              iIndex := fVFSmoduleList.AddObject(fVFS.ArcFullName + '=' + sPath, fVFS.VFSmodule);
 
               //DebugLn('sPath ==' + sPath);
 
@@ -266,12 +268,19 @@ begin
               //DebugLn('ActiveDir == ' + ActiveDir);
 
               sName := ActiveDir + sName;
+              sFileName := sName;
               VFSFileList.AddItem(frp);
               sTempDir := GetTempDir;
               {if }fVFS.VFSmodule.VFSCopyOut(VFSFileList, sTempDir, 0);{ then}
                 begin
-                 if not fVFS.LoadAndOpen(sTempDir + ExtractDirLevel(ActiveDir, sName)) then Exit;
-
+                 if not fVFS.LoadAndOpen(sTempDir + ExtractDirLevel(ActiveDir, sFileName)) then
+                   begin
+                     // restore old plugin module and delete it from list
+                     fVFS.VFSmodule := TVFSmodule(fVFSmoduleList.Objects[iIndex]);
+                     fVFS.ArcFullName := fVFSmoduleList.Names[iIndex];
+                     fVFSmoduleList.Delete(iIndex);
+                     Exit;
+                   end;
                  //DebugLn('sTempDir + sName == ' + sTempDir + sName);
 
                  fVFS.VFSmodule.VFSList(PathDelim, fFileList);
@@ -375,6 +384,61 @@ begin
     InvertFileSection(fFileList.GetItem(i));
 end;
 
+procedure TFilePanel.TryOpenArchive(pfri:PFileRecItem);
+var
+  VFSFileList : TFileList;
+  sTempDir,
+  sFileName : String;
+  iIndex : Integer;
+begin
+  with pfri^ do
+    if fPanelMode = pmDirectory then // in real file system
+      begin
+        if fVFS.TryFindModule(sPath + sName) then
+          begin
+            fVFS.VFSmodule.VFSList(PathDelim, fFileList);
+            fPanelMode := pmArchive;
+            fActiveDir := fVFS.ArcFullName + DirectorySeparator;
+          end;
+      end
+    else  // in Virtual File System
+      begin
+        iIndex := fVFSmoduleList.AddObject(fVFS.ArcFullName + '=' + sPath, fVFS.VFSmodule);
+
+        //DebugLn('sPath ==' + sPath);
+
+        VFSFileList := TFileList.Create;
+        VFSFileList.CurrentDirectory := ActiveDir;
+
+        //DebugLn('ActiveDir == ' + ActiveDir);
+
+        sName := ActiveDir + sName;
+        sFileName := sName;
+
+        //DebugLn('sFileName = ', sFileName);
+
+        VFSFileList.AddItem(pfri);
+        sTempDir := GetTempDir;
+        {if }fVFS.VFSmodule.VFSCopyOut(VFSFileList, sTempDir, 0);{ then}
+          begin
+            //DebugLn('sTempDir + sName == ' + sTempDir + ExtractDirLevel(ActiveDir, sFileName));
+            if not fVFS.TryFindModule(sTempDir + ExtractDirLevel(ActiveDir, sFileName)) then
+              begin
+                // restore old plugin module and delete it from list
+                fVFS.VFSmodule := TVFSmodule(fVFSmoduleList.Objects[iIndex]);
+                fVFSmoduleList.Delete(iIndex);
+                Exit;
+              end;
+
+            fVFS.VFSmodule.VFSList(PathDelim, fFileList);
+            fPanelMode:=pmArchive;
+            fActiveDir := fVFS.ArcFullName + DirectorySeparator;
+          end;
+      end; // in VFS
+  if gShowIcons then
+    fFileList.UpdateFileInformation(fPanelMode);
+  Sort;
+end;
 
 procedure TFilePanel.ChooseFile(pfri:PFileRecItem);
 var
