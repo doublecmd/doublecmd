@@ -56,6 +56,7 @@ type
     actAddPathToCmdLine: TAction;
     actFocusCmdLine: TAction;
     actContextMenu: TAction;
+    actOpenArchive: TAction;
     actTransferRight: TAction;
     actTransferLeft: TAction;
     actRightOpenDrives: TAction;
@@ -201,6 +202,7 @@ type
     procedure actExtractFilesExecute(Sender: TObject);
     procedure actFocusCmdLineExecute(Sender: TObject);
     procedure actLeftOpenDrivesExecute(Sender: TObject);
+    procedure actOpenArchiveExecute(Sender: TObject);
     procedure actOpenVFSListExecute(Sender: TObject);
     procedure actPackFilesExecute(Sender: TObject);
     procedure actRightOpenDrivesExecute(Sender: TObject);
@@ -513,6 +515,11 @@ begin
   p := pnlLeftTools.ClientToScreen(p);
   pmDrivesMenu.Items[dskLeft.Tag].Checked := True;
   pmDrivesMenu.PopUp(p.x, p.y);
+end;
+
+procedure TfrmMain.actOpenArchiveExecute(Sender: TObject);
+begin
+  ActiveFrame.pnlFile.TryOpenArchive(ActiveFrame.GetActiveItem);
 end;
 
 procedure TfrmMain.actOpenVFSListExecute(Sender: TObject);
@@ -2068,8 +2075,13 @@ begin
   begin
     with ActiveFrame do
     begin
-      if pnlFile.GetActiveItem^.sName='..' then Exit;
-        pnlFile.cdDownLevel(pnlFile.GetActiveItem);
+      if not (pnlFile.GetActiveItem^.sName='..') then
+        begin
+          if FPS_ISDIR(pnlFile.GetActiveItem^.iMode) or (pnlFile.GetActiveItem^.bLinkIsDir) then
+            pnlFile.cdDownLevel(pnlFile.GetActiveItem)
+          else
+            actOpenArchive.Execute;
+        end;
     end;
     Key:=0;
     Exit;
