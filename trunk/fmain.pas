@@ -1,34 +1,31 @@
 {
-Double Commander
-----------------------------
-Licence  : GNU GPL v 2.0
-Copyright (C) 2006-2008 Alexander Koblov (Alexx2000@mail.ru)
+   Double Commander
+   -------------------------------------------------------------------------
+   Licence  : GNU GPL v 2.0
+   Copyright (C) 2006-2008 Alexander Koblov (Alexx2000@mail.ru)
 
-Main Dialog window
+   Main Dialog window
 
-contributors:
+   based on:
 
-based on:
+   Seksi Commander (radekc.regnet.cz)
+   ----------------------------
+   Licence  : GNU GPL v 2.0
+   Author   : radek.cervinka@centrum.cz
 
-Seksi Commander (radekc.regnet.cz)
-----------------------------
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Main Dialog window and other stuff
 
-Main Dialog window and other stuff
-
-contributors:
+   contributors:
 
 
-based on (heavy rewriten):
+   based on (heavy rewriten):
 
-main Unit of PFM : Peter's File Manager
----------------------------------------
+   main Unit of PFM : Peter's File Manager
+   ---------------------------------------
 
-Copyright : Peter Cernoch 2002
-Contact   : pcernoch@volny.cz
-Licence   : GNU GPL v 2.0
-
+   Copyright : Peter Cernoch 2002
+   Contact   : pcernoch@volny.cz
+   Licence   : GNU GPL v 2.0
 }
 
 unit fMain;
@@ -530,7 +527,8 @@ end;
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
   DebugLn('frmMain.Destroy');
-  edtCommand.Items.SaveToFile(gpIniDir+cHistoryFile);
+  if gSaveCmdLineHistory then
+    edtCommand.Items.SaveToFile(gpIniDir+cHistoryFile);
   {*Tool Bar*}
   MainToolBar.SaveToFile(gpIniDir + 'default.bar');
   {*Tool Bar*}
@@ -687,7 +685,6 @@ begin
   for x:=0 to 4 do
     gColumnSize[x]:=FrameLeft.dgPanel.ColWidths[x];
   
-  SaveGlobs; // must be first
   (* Save all tabs *)
   SaveTabs(nbLeft);
   SaveTabs(nbRight);
@@ -697,6 +694,7 @@ begin
   gIni.WriteInteger('Configuration', 'Main.Width', Width);
   gIni.WriteInteger('Configuration', 'Main.Height', Height);
   gIni.WriteBool('Configuration', 'maximized', (WindowState = wsMaximized));
+  SaveGlobs; // must be last
 end;
 
 procedure TfrmMain.frmMainKeyUp(Sender: TObject; var Key: Word;
