@@ -458,6 +458,10 @@ msgstr "Цвета"
 msgid "Combine Files"
 msgstr "&Собрать файлы..."
 
+#: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
+msgid "Command line history"
+msgstr "История командной строки"
+
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
 msgstr "Сравнивать п&о содержимому"
@@ -830,6 +834,10 @@ msgstr "Файл %s изменён, сохранить?"
 msgid "File \%s exists, overwrite?"
 msgstr "Файл %s существует, переписать?"
 
+#: TFRMOPTIONS.CBFILEMASKHISTORY.CAPTION
+msgid "File mask history"
+msgstr "История масок файлов"
+
 #: TFRMFILEPROPERTIES.LBLFILE.CAPTION
 msgid "File name"
 msgstr "Имя файла"
@@ -1077,6 +1085,10 @@ msgstr "Сборка"
 #: ulng.rslinkmsgok
 msgid "Linker complete"
 msgstr "Сборка завершена"
+
+#: TFRMOPTIONS.GBLOCCONFIGFILES.CAPTION
+msgid "Location of configuration files"
+msgstr "Месторасположение файлов конфигурации"
 
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 msgid "Log"
@@ -1350,6 +1362,10 @@ msgstr "Предыдущее"
 msgid "Process file(s)"
 msgstr "Обработать файл(ы)"
 
+#: TFRMOPTIONS.RBPROGRAMDIR.CAPTION
+msgid "Program directory (portable version)"
+msgstr "Каталог программы (portable version)"
+
 #: TFRMFILEPROPERTIES.CAPTION
 msgid "Properties"
 msgstr "Свойства"
@@ -1449,6 +1465,10 @@ msgstr "Образец"
 #: TFRMEDITOR.ACTFILESAVEAS.CAPTION
 msgid "Save &As.."
 msgstr "Сохранить &как..."
+
+#: TFRMOPTIONS.GBSAVEONEXIT.CAPTION
+msgid "Save on exit"
+msgstr "Сохранять при выходе"
 
 #: TFRMLINKER.GBSAVETO.CAPTION
 msgid "Save to..."
@@ -1698,6 +1718,10 @@ msgstr "Открыть каталог под курсором на левой п
 msgid "Transfer dir under cursor to right window"
 msgstr "Открыть каталог под курсором на правой панели"
 
+#: TFRMMAIN.ACTOPENARCHIVE.CAPTION
+msgid "Try open archive"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
 msgid "Type:"
 msgstr "Тип:"
@@ -1757,6 +1781,10 @@ msgstr "Использовать отображение в память, при 
 #: TFRMOPTIONS.RBUSESTREAMINSEARCH.CAPTION
 msgid "Use stream for search text in files"
 msgstr "Использовать поток, при поиске текста в файлах"
+
+#: TFRMOPTIONS.RBUSERHOMEDIR.CAPTION
+msgid "User home directory"
+msgstr "Домашний каталог пользователя"
 
 #: TFRMABOUT.LBLVERSION.CAPTION
 msgid "Version 0.3 alpha"

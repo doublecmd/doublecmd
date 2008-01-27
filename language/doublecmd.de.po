@@ -459,6 +459,10 @@ msgstr "Farben"
 msgid "Combine Files"
 msgstr "Dateien &verschmelzen"
 
+#: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
+msgid "Command line history"
+msgstr ""
+
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
 msgstr "Anhand des Inhalts vergleichen"
@@ -831,6 +835,10 @@ msgstr "Datei \%s wurde geändert, speichern?"
 msgid "File \%s exists, overwrite?"
 msgstr "Datei \%s existiert bereits. Überschreiben?"
 
+#: TFRMOPTIONS.CBFILEMASKHISTORY.CAPTION
+msgid "File mask history"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLFILE.CAPTION
 msgid "File name"
 msgstr "Dateiname"
@@ -1078,6 +1086,10 @@ msgstr "Verschmelzer"
 #: ulng.rslinkmsgok
 msgid "Linker complete"
 msgstr "Verschmelzer ist fertig"
+
+#: TFRMOPTIONS.GBLOCCONFIGFILES.CAPTION
+msgid "Location of configuration files"
+msgstr ""
 
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 msgid "Log"
@@ -1351,6 +1363,10 @@ msgstr "Vorheriger Unterschied"
 msgid "Process file(s)"
 msgstr "Verarbeite Datei(en)"
 
+#: TFRMOPTIONS.RBPROGRAMDIR.CAPTION
+msgid "Program directory (portable version)"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.CAPTION
 msgid "Properties"
 msgstr "Eigenschaften"
@@ -1450,6 +1466,10 @@ msgstr "Beispiel"
 #: TFRMEDITOR.ACTFILESAVEAS.CAPTION
 msgid "Save &As.."
 msgstr "Speichern &unter..."
+
+#: TFRMOPTIONS.GBSAVEONEXIT.CAPTION
+msgid "Save on exit"
+msgstr ""
 
 #: TFRMLINKER.GBSAVETO.CAPTION
 msgid "Save to..."
@@ -1699,6 +1719,10 @@ msgstr "Bewege markierten &Ordner in das linke Fenster"
 msgid "Transfer dir under cursor to right window"
 msgstr "Bewege &markierten Ordner in das rechte Fenster"
 
+#: TFRMMAIN.ACTOPENARCHIVE.CAPTION
+msgid "Try open archive"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
 msgid "Type:"
 msgstr "Typ:"
@@ -1758,6 +1782,10 @@ msgstr "Nutze Memory-Mapping zur Textsuche in Dateien"
 #: TFRMOPTIONS.RBUSESTREAMINSEARCH.CAPTION
 msgid "Use stream for search text in files"
 msgstr "Nutze Stream zur textsuche in Dateien"
+
+#: TFRMOPTIONS.RBUSERHOMEDIR.CAPTION
+msgid "User home directory"
+msgstr ""
 
 #: TFRMABOUT.LBLVERSION.CAPTION
 msgid "Version 0.3 alpha"

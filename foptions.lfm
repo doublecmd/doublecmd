@@ -98,12 +98,12 @@ object frmOptions: TfrmOptions
     TabOrder = 1
     OnChange = tvTreeViewChange
     Items.Data = {
-      F9FFFFFF01000B0000000000000000000000FFFFFFFFFFFFFFFF000000000000
+      F9FFFFFF01000C0000000000000000000000FFFFFFFFFFFFFFFF000000000000
       00000000000000080000004C616E67756167650100000001000000FFFFFFFFFF
       FFFFFF00000000000000000000000000090000004265686176696F7273020000
       0002000000FFFFFFFFFFFFFFFF0000000000000000000000000005000000546F
       6F6C730300000003000000FFFFFFFFFFFFFFFF00000000000000000000000000
-      05000000466F6E74730C0000000C00000000000000FFFFFFFF00000000020000
+      05000000466F6E74730D0000000D00000000000000FFFFFFFF00000000020000
       00000000000106000000436F6C6F72730400000004000000FFFFFFFFFFFFFFFF
       000000000000000000000000000B00000046696C652070616E656C7307000000
       07000000FFFFFFFFFFFFFFFF000000000000000000000000000A00000046696C
@@ -115,7 +115,8 @@ object frmOptions: TfrmOptions
       46696C65206F7065726174696F6E730A0000000A000000FFFFFFFFFFFFFFFF00
       0000000000000000000000000B000000466F6C64657220746162730B0000000B
       000000FFFFFFFFFFFFFFFF00000000000000000000000000080000004C6F6720
-      66696C65
+      66696C650C0000000C000000FFFFFFFFFFFFFFFF000000000000000000000000
+      000D000000436F6E66696775726174696F6E
     }
   end
   object Panel3: TPanel
@@ -133,7 +134,7 @@ object frmOptions: TfrmOptions
       Width = 464
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 11
+      PageIndex = 12
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
@@ -954,17 +955,17 @@ object frmOptions: TfrmOptions
       object pgHotKey: TPage
         object lblActions: TLabel
           Left = 6
-          Height = 26
+          Height = 14
           Top = 13
-          Width = 41
+          Width = 36
           Caption = 'Actions'
           ParentColor = False
         end
         object lblHotKey: TLabel
           Left = 6
-          Height = 26
+          Height = 14
           Top = 68
-          Width = 44
+          Width = 39
           Caption = 'Hot Key'
           ParentColor = False
         end
@@ -1351,9 +1352,9 @@ object frmOptions: TfrmOptions
       end
       object pgLayout: TPage
         object gbScreenLayout: TGroupBox
-          Left = 11
+          Left = 6
           Height = 328
-          Top = 4
+          Top = 6
           Width = 389
           Caption = ' Screen layout '
           ClientHeight = 328
@@ -1622,16 +1623,14 @@ object frmOptions: TfrmOptions
         end
       end
       object pgLogFile: TPage
-        ClientWidth = 456
-        ClientHeight = 347
         object gbLogFile: TGroupBox
           Left = 12
           Height = 50
           Top = 8
           Width = 389
           Caption = 'File operation log file'
-          ClientHeight = 32
-          ClientWidth = 385
+          ClientHeight = 50
+          ClientWidth = 389
           TabOrder = 0
           object cbLogFile: TCheckBox
             AnchorSideTop.Control = fneLogFileName
@@ -1663,8 +1662,8 @@ object frmOptions: TfrmOptions
           Width = 389
           BorderSpacing.Top = 6
           Caption = 'Log operations:'
-          ClientHeight = 104
-          ClientWidth = 385
+          ClientHeight = 122
+          ClientWidth = 389
           TabOrder = 1
           object cbLogCpMvLn: TCheckBox
             Left = 8
@@ -1716,8 +1715,8 @@ object frmOptions: TfrmOptions
           Width = 389
           BorderSpacing.Top = 6
           Caption = 'Operation status:'
-          ClientHeight = 69
-          ClientWidth = 385
+          ClientHeight = 87
+          ClientWidth = 389
           TabOrder = 2
           object cbLogSuccess: TCheckBox
             Left = 8
@@ -1741,6 +1740,76 @@ object frmOptions: TfrmOptions
             Top = 38
             Width = 148
             Caption = 'Log information messages'
+            TabOrder = 2
+          end
+        end
+      end
+      object pgConfigStorage: TPage
+        ClientWidth = 456
+        ClientHeight = 347
+        object gbLocConfigFiles: TGroupBox
+          Left = 6
+          Height = 81
+          Top = 6
+          Width = 433
+          Caption = 'Location of configuration files'
+          ClientHeight = 63
+          ClientWidth = 429
+          TabOrder = 0
+          object rbProgramDir: TRadioButton
+            Left = 10
+            Height = 19
+            Top = 6
+            Width = 192
+            Caption = 'Program directory (portable version)'
+            TabOrder = 0
+          end
+          object rbUserHomeDir: TRadioButton
+            AnchorSideTop.Control = rbProgramDir
+            AnchorSideTop.Side = asrBottom
+            Left = 10
+            Height = 19
+            Top = 31
+            Width = 120
+            BorderSpacing.Top = 6
+            Caption = 'User home directory'
+            TabOrder = 1
+          end
+        end
+        object gbSaveOnExit: TGroupBox
+          AnchorSideTop.Control = gbLocConfigFiles
+          AnchorSideTop.Side = asrBottom
+          Left = 6
+          Height = 103
+          Top = 93
+          Width = 433
+          BorderSpacing.Top = 6
+          Caption = 'Save on exit'
+          ClientHeight = 85
+          ClientWidth = 429
+          TabOrder = 1
+          object cbDirHistory: TCheckBox
+            Left = 10
+            Height = 19
+            Top = 6
+            Width = 101
+            Caption = 'Directory history'
+            TabOrder = 0
+          end
+          object cbCmdLineHistory: TCheckBox
+            Left = 10
+            Height = 19
+            Top = 31
+            Width = 125
+            Caption = 'Command line history'
+            TabOrder = 1
+          end
+          object cbFileMaskHistory: TCheckBox
+            Left = 10
+            Height = 19
+            Top = 56
+            Width = 103
+            Caption = 'File mask history'
             TabOrder = 2
           end
         end
@@ -1773,7 +1842,7 @@ object frmOptions: TfrmOptions
     left = 16
     top = 368
     Bitmap = {
-      4C690D000000100000001000000066355CFF66355CFF66355CFF66355CFF6635
+      4C690E000000100000001000000066355CFF66355CFF66355CFF66355CFF6635
       5CFF66355CFF66355CFF66355CFF66355CFF66355CFF66355CFF66355CFF6635
       5CFF00000000000000000000000066355CFFB395AFFFC6ACC3FFD3BED0FFD1C0
       CEFFC9BBC7FFAA97A7FF877184FF755871FF6A4565FF744B6FFF7E5278FF6635
@@ -2157,7 +2226,39 @@ object frmOptions: TfrmOptions
       DEFFF6EADEFFF6EADCFFF6EADCFFFAF3EBFFFAF3EBFFFAF2EAFFFCF7F3FFFCF8
       F4FDFEFEFDF0B7602AD5FFFFFF00FFFFFF00BB6A346BBA6530BCBB6631EDBA66
       30F7BA6630F7BA6630F7BA6530F7BA652FF7B9652EF7B9652EF7B9642EF7B964
-      2EEFB7622CBDB7622E63FFFFFF00FFFFFF00FFFFFF00FFFFFF000DD8000304D0
+      2EEFB7622CBDB7622E63FFFFFF00C17D4460C88B4DBBC88C4FEEC88C4FFFC88C
+      4FF7C88D4FF7C98C4FF7C78B4FF7C5894BD4C4763B91B3683C06FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00C48549C3F7F2ECECF8F4EEFCF8F3EDFFF8F3
+      EDFFF8F3EDFFF8F2ECFFF7F2ECFFF2E6D7FFE2B27DFFDB9465F5B3683B07FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00C5884BEAFAF6F2FCFAE0C7FFFBE2C9FFFBE0
+      C8FFF9DFC5FFF8DBC1FFF4D6B8FFFFFBF8FFF6D8B4FFE1B07DFFDB9264F6B46B
+      3E07FFFFFF00FFFFFF00FFFFFF00C6894CF6F9F5F1FFFCE3CDFFFBE3CDFFFBE2
+      CBFFF9E0C8FFF8DCC2FFF5D6BAFFFDFBF8FFFCE6CDFFFAE5C9FFE2B684FFBF79
+      42A6FFFFFF00FFFFFF00FFFFFF00C6894BF7F9F5F1FFFCE3CFFFFCE4CFFFFCE3
+      CDFFFAE1CAFFF9DDC4FFF6D9BCFFF4E9DFFFF7F2ECFFFBF7F3FFF5EFE9FFC27E
+      45FBFFFFFF00FFFFFF00FFFFFF00C6894BF7F9F4F0FFFCE6D3FFFDE7D3FFFCE4
+      D1FFFBE3CDFFFAE0C8FFF8DCC2FFF5D6BBFFF3D4B5FFF1D2B3FFF8F4F0FFC482
+      46F7FFFFFF00FFFFFF00FFFFFF00C6884AF7F9F4EFFFFEE7D7FFFDE7D5FFFDE6
+      D4FFFCE6D2FFD4976EFFD49E7BFFD09871FFD6A482FFCD8E68FFCD9069FFD09A
+      75FFD19973FFC88B62FFAD5A2036C68849F7F9F4EDFFFEE8D8FFFEE8D7FFFEE7
+      D6FFFDE5D3FFCC8D65FFF3CDB0FFFFFFFFFFE3C7B3FFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFEABFA1FFC98960FFC68447F7F9F3ECFFFEE8D6FFFDE7D6FFFDE7
+      D6FFFDE7D5FFC7865BFFEFC09EFFFFFFFFFFCC936EFFFFFFFFFFFFFFFFFFFFFB
+      F7FFFFF8F1FFE4AF8CFFC78A61FFC58245FFF8F2EBFFFEE7D6FFFDE7D6FFFDE7
+      D6FFFDE6D5FFC8885DFFEFBFA1FFFDFCFAFFFEFCFBFFFEFDFDFFFEFDFCFFFDFB
+      FAFFFDFCFBFFDDA885FFC17F53FFC47C40F7F7F0E6FFF8B455FFF7B554FFF8B4
+      53FFF8B253FFCA8D65FFEAB899FFDDA57EFFDDA680FFDBA37CFFD9A07AFFD9A0
+      79FFD89F78FFD89E78FFBF845DFFC1783CF7F7EDE3FFFDC26EFFFFD79EFFFFD6
+      9BFFFFD798FFC98B61FFE6B592FFE2A781FFE1A781FFDEA37DFFDCA17BFFDB9F
+      79FFD99E77FFD49A73FFBB7E57FFBF7138F5F5EBDFFEFDBF68FFFBBE65FFFCBE
+      64FFFCBE64FFC48154FFEAB697FFF3F3EAFFEDF1E6FFEFF1E6FFEFF0E6FFEDF1
+      E5FFF3F5EDFFD59C79FFB07044FFBC6933DEF8F1EAF2F7ECDFFDF6EADEFFF6EA
+      DCFFF6EADCFFC37F51FFEFB69AFFEAF3E8FF51BF84FF6FC998FF71C999FF54BF
+      84FFE4F4E9FFDD9C7BFFAA693AFFBB6A346BBA6530BCBB6631EDBA6630FFBA66
+      30F7BA6530F7C68355FFEFCEBAFFDDFFFFFF87EEC7FFA2F4D7FFA2F6D7FF8CEE
+      C7FFE0FFFFFFDDA285FFAB6A3EFFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00BA6833C5C38458FFD38B68FFE18F70FFDC8D6CFFDA8B6DFFD78A
+      6EFFCD8B6CFFAB6D44FFA65F2EFFFFFFFF00FFFFFF00FFFFFF000DD8000304D0
       13540CD135AF15D255DA18D474F418D68CF113D8A2D40DDBB9A206E4D945FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF003AD5042220D009AF3AD7
       3DFF6AE67CFF88F3AAFF96F9C4FF97FBD3FF87F7DBFF68EFE0FF1AE7E5FA0AD5

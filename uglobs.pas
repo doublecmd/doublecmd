@@ -35,9 +35,9 @@ type
   TLogOptions = set of (log_cp_mv_ln, log_delete, log_dir_op, log_arc_op,
                         log_vfs_op, log_success, log_errors, log_info);
 var
-  {For localization}
+  { For localization }
   gPOFileName : String;
-  {Layout page}
+  { Layout page }
   gButtonBar,
   gToolBarFlat,
   gDriveBar1,
@@ -73,7 +73,7 @@ var
 
   gDateTimeFormat : String;
 
-  {Tools page}
+  { Tools page }
 
   gUseExtEdit:Boolean=False;
   gUseExtView:Boolean=False;
@@ -96,7 +96,7 @@ var
   gViewerPos:TControlPosition;
   gEditorPos:TControlPosition;
   
-  {File panels color page}
+  { File panels color page }
   
   gBackColor, //Background color
   gBackColor2, //Background color 2
@@ -110,21 +110,27 @@ var
   gUseMmapInSearch : Boolean;
   gCustomDriveIcons : Boolean; // for use custom drive icons under windows
   
-  {File operations page}
+  { File operations page }
 
   gCopyBlockSize : Integer;
   gDropReadOnlyFlag : Boolean = True;
 
-  {Folder tabs page}
+  { Folder tabs page }
 
   gDirTabOptions,
   gDirTabLimit : Integer;
   
-  {Log page}
+  { Log page }
   gLogFile : Boolean;
   gLogFileName : String;
   gLogOptions : TLogOptions = [log_cp_mv_ln, log_delete, log_dir_op, log_arc_op,
                                log_vfs_op, log_success, log_errors, log_info];
+
+  { Configuration page }
+  gUseIniInProgramDir,
+  gSaveDirHistory,
+  gSaveCmdLineHistory,
+  gSaveFileMaskHistory : Boolean;
   
 const
   { Tabs options }
@@ -201,6 +207,11 @@ end;
 
 procedure InitGlobs;
 begin
+  { Load location of configuration files }
+  gIni := TIniFile.Create(gpCfgDir + 'doublecmd.ini');
+  gUseIniInProgramDir := gIni.ReadBool('Configuration', 'UseIniInProgramDir', True);
+  gIni.Free;
+
   { Create default configuration files if need }
   // main ini file
   if not FileExists(gpIniDir + 'doublecmd.ini') then
@@ -243,6 +254,11 @@ begin
     FreeAndNil(gExts);
   if Assigned(gIni) then
     FreeAndNil(gIni);
+
+  { Save location of configuration files }
+  gIni := TIniFile.Create(gpCfgDir + 'doublecmd.ini');
+  gIni.WriteBool('Configuration', 'UseIniInProgramDir', gUseIniInProgramDir);
+  gIni.Free;
 end;
 
 function LoadGlobs : Boolean;
@@ -251,7 +267,7 @@ begin
   DebugLn('Loading configuration...');
   InitGlobs;
   
-  {Layout page}
+  { Layout page }
   
   gButtonBar := gIni.ReadBool('Layout', 'ButtonBar', True);
   gToolBarFlat := gIni.ReadBool('ButtonBar', 'FlatIcons', True);
@@ -317,6 +333,10 @@ begin
   gLogFile := gIni.ReadBool('Configuration', 'LogFile', True);
   gLogFileName := gIni.ReadString('Configuration', 'LogFileName', gpIniDir + 'doublecmd.log');
   gLogOptions := TLogOptions(gIni.ReadInteger('Configuration', 'LogOptions', Integer(gLogOptions)));
+  { Configuration page }
+  gSaveDirHistory := gIni.ReadBool('Configuration', 'SaveDirHistory', True);
+  gSaveCmdLineHistory := gIni.ReadBool('Configuration', 'SaveCmdLineHistory', True);
+  gSaveFileMaskHistory := gIni.ReadBool('Configuration', 'SaveFileMaskHistory', True);
         
   gShowIcons := gIni.ReadBool('Configuration', 'ShowIcons', True);
   gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
@@ -374,10 +394,12 @@ procedure SaveGlobs;
 var
   x:Integer;
 begin
-  glsDirHistory.SaveToFile(gpIniDir + 'dirhistory.txt');
-  glsMaskHistory.SaveToFile(gpIniDir + 'maskhistory.txt');
+  if gSaveDirHistory then
+    glsDirHistory.SaveToFile(gpIniDir + 'dirhistory.txt');
+  if gSaveFileMaskHistory then
+    glsMaskHistory.SaveToFile(gpIniDir + 'maskhistory.txt');
 	
-  {Layout page}
+  { Layout page }
 
   gIni.WriteBool('Layout', 'ButtonBar', gButtonBar);
   gIni.WriteBool('ButtonBar', 'FlatIcons', gToolBarFlat);
@@ -441,6 +463,10 @@ begin
   gIni.WriteBool('Configuration', 'LogFile', gLogFile);
   gIni.WriteString('Configuration', 'LogFileName', gLogFileName);
   gIni.WriteInteger('Configuration', 'LogOptions', Integer(gLogOptions));
+  { Configuration page }
+  gIni.WriteBool('Configuration', 'SaveDirHistory', gSaveDirHistory);
+  gIni.WriteBool('Configuration', 'SaveCmdLineHistory', gSaveCmdLineHistory);
+  gIni.WriteBool('Configuration', 'SaveFileMaskHistory', gSaveFileMaskHistory);
   
   gIni.WriteBool('Configuration', 'ShowIcons', gShowIcons);
   gIni.WriteInteger('Configuration', 'IconsSize', gIconsSize);
@@ -450,6 +476,8 @@ begin
     
   SaveWindowPos(gViewerPos, 'Viewer.');
   SaveWindowPos(gEditorPos, 'Editor.');
+  
+  DeInitGlobs;
 end;
 
 initialization

@@ -459,6 +459,10 @@ msgstr "Kleuren"
 msgid "Combine Files"
 msgstr "Kombineer bestanden"
 
+#: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
+msgid "Command line history"
+msgstr ""
+
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
 msgstr "Vergelijk met Inhoud"
@@ -831,6 +835,10 @@ msgstr "Bestand \%s gewijzigd, opslaan?"
 msgid "File \%s exists, overwrite?"
 msgstr "Bestand \%s bestaat, overschrijven?"
 
+#: TFRMOPTIONS.CBFILEMASKHISTORY.CAPTION
+msgid "File mask history"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLFILE.CAPTION
 msgid "File name"
 msgstr "Bestandsnaam"
@@ -1078,6 +1086,10 @@ msgstr "Linker"
 #: ulng.rslinkmsgok
 msgid "Linker complete"
 msgstr "Linker klaar"
+
+#: TFRMOPTIONS.GBLOCCONFIGFILES.CAPTION
+msgid "Location of configuration files"
+msgstr ""
 
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 msgid "Log"
@@ -1351,6 +1363,10 @@ msgstr "Vorig verschil"
 msgid "Process file(s)"
 msgstr "Proces besand(en)"
 
+#: TFRMOPTIONS.RBPROGRAMDIR.CAPTION
+msgid "Program directory (portable version)"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.CAPTION
 msgid "Properties"
 msgstr "Eigenschappen"
@@ -1450,6 +1466,10 @@ msgstr "Voorbeeld"
 #: TFRMEDITOR.ACTFILESAVEAS.CAPTION
 msgid "Save &As.."
 msgstr "Sla op &Als"
+
+#: TFRMOPTIONS.GBSAVEONEXIT.CAPTION
+msgid "Save on exit"
+msgstr ""
 
 #: TFRMLINKER.GBSAVETO.CAPTION
 msgid "Save to..."
@@ -1699,6 +1719,10 @@ msgstr "Verplaats dir onder de cursor naar linker paneel"
 msgid "Transfer dir under cursor to right window"
 msgstr "Verplaats dir onder de cursor naar rechter paneel"
 
+#: TFRMMAIN.ACTOPENARCHIVE.CAPTION
+msgid "Try open archive"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
 msgid "Type:"
 msgstr "Type:"
@@ -1758,6 +1782,10 @@ msgstr "Gebruik geheugen mapping voor zoeken tekst in bestanden"
 #: TFRMOPTIONS.RBUSESTREAMINSEARCH.CAPTION
 msgid "Use stream for search text in files"
 msgstr "Gebruik stream voor zoeken tekst in bestanden"
+
+#: TFRMOPTIONS.RBUSERHOMEDIR.CAPTION
+msgid "User home directory"
+msgstr ""
 
 #: TFRMABOUT.LBLVERSION.CAPTION
 msgid "Version 0.3 alpha"

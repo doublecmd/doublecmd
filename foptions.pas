@@ -1,14 +1,13 @@
 {
    Double Commander
-   ----------------------------
+   -------------------------------------------------------------------------
    Implementing of Options dialog
 
-   Licence  : GNU GPL v 2.0
-   Author   : radek.cervinka@centrum.cz
+   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
 
    contributors:
 
-   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Radek Cervinka  <radek.cervinka@centrum.cz>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -26,7 +25,9 @@
 }
 
 unit fOptions;
+
 {$mode objfpc}{$H+}
+
 interface
 
 uses
@@ -87,6 +88,9 @@ type
     cbTabsMultiLines: TCheckBox;
     cbTabsLimitOption: TCheckBox;
     cbLogWindow: TCheckBox;
+    cbDirHistory: TCheckBox;
+    cbCmdLineHistory: TCheckBox;
+    cbFileMaskHistory: TCheckBox;
     clbWFXList: TCheckListBox;
     clbWCXList: TCheckListBox;
     cbBackColor2: TColorBox;
@@ -140,6 +144,8 @@ type
     gbDateTimeFormat: TGroupBox;
     gbTabs: TGroupBox;
     gbFileSearch: TGroupBox;
+    gbLocConfigFiles: TGroupBox;
+    gbSaveOnExit: TGroupBox;
     ilTreeView: TImageList;
     lblChar: TLabel;
     lblDateTimeExample: TLabel;
@@ -177,6 +183,7 @@ type
     nbNotebook: TNotebook;
     odOpenDialog: TOpenDialog;
     optColorDialog: TColorDialog;
+    pgConfigStorage: TPage;
     pgLogFile: TPage;
     pgTabs: TPage;
     pgFileOp: TPage;
@@ -197,6 +204,8 @@ type
     pgHotKey: TPage;
     pgLng: TPage;
     pgTools: TPage;
+    rbProgramDir: TRadioButton;
+    rbUserHomeDir: TRadioButton;
     rbUseMmapInSearch: TRadioButton;
     rbUseStreamInSearch: TRadioButton;
     tsWCX: TTabSheet;
@@ -360,6 +369,7 @@ begin
   edtCopyBufferSize.Text:= IntToStr(gCopyBlockSize div 1024);
   cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
   rbUseMmapInSearch.Checked := gUseMmapInSearch;
+
   { Log file }
   cbLogFile.Checked := gLogFile;
   fneLogFileName.FileName := gLogFileName;
@@ -371,11 +381,21 @@ begin
   cbLogSuccess.Checked := (log_success in gLogOptions);
   cbLogErrors.Checked := (log_errors in gLogOptions);
   cbLogInfo.Checked := (log_info in gLogOptions);
+
   {Folder tabs}
   cbTabsAlwaysVisible.Checked := Boolean(gDirTabOptions and tb_always_visible) and gDirectoryTabs;
   cbTabsMultiLines.Checked :=  Boolean(gDirTabOptions and tb_multiple_lines);
   cbTabsLimitOption.Checked := Boolean(gDirTabOptions and tb_text_length_limit);
   edtTabsLimitLength.Text := IntToStr(gDirTabLimit);
+
+  {Configuration storage}
+  if gUseIniInProgramDir then
+    rbProgramDir.Checked := True
+  else
+    rbUserHomeDir.Checked := True;
+  cbDirHistory.Checked := gSaveDirHistory;
+  cbCmdLineHistory.Checked := gSaveCmdLineHistory;
+  cbFileMaskHistory.Checked := gSaveFileMaskHistory;
   
   { Icons sizes in file panels }
   cbIconsSize.Text := IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize);
@@ -597,6 +617,7 @@ begin
   gCopyBlockSize := StrToIntDef(edtCopyBufferSize.Text, gCopyBlockSize) * 1024;
   gDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
   gUseMmapInSearch := rbUseMmapInSearch.Checked;
+  
   { Log file }
   gLogFile := cbLogFile.Checked;
   gLogFileName := fneLogFileName.FileName;
@@ -617,7 +638,8 @@ begin
     Include(gLogOptions, log_errors);
   if cbLogInfo.Checked then
     Include(gLogOptions, log_info);
-  {Folder tabs}
+    
+  { Folder tabs }
   gDirTabOptions := 0;  // Reset tab options
   if cbTabsAlwaysVisible.Checked then
     gDirTabOptions :=  (gDirTabOptions or tb_always_visible);
@@ -628,6 +650,12 @@ begin
     gDirTabOptions := (gDirTabOptions or tb_text_length_limit);
     
   gDirTabLimit := StrToIntDef(edtTabsLimitLength.Text, 32);
+
+  { Configuration storage }
+  gUseIniInProgramDir := rbProgramDir.Checked;
+  gSaveDirHistory := cbDirHistory.Checked;
+  gSaveCmdLineHistory := cbCmdLineHistory.Checked;
+  gSaveFileMaskHistory := cbFileMaskHistory.Checked;
   
   frmMain.UpdateWindowView;
   frmMain.Repaint; // for panels repaint
@@ -913,7 +941,7 @@ begin
     end;
 end;
 
-{WFX plugins}
+{ WFX plugins }
 
 procedure TfrmOptions.tsWFXShow(Sender: TObject);
 var
@@ -1000,9 +1028,10 @@ begin
   clbWFXList.Checked[iItemIndex] := bChecked; // Restore state
 end;
 
-{/WFXPlugins}
+{/ WFX Plugins }
 
-{File types category color}
+{ File types category color }
+
 procedure TfrmOptions.FillFileColorsList;
 var
   sCategoryName,
@@ -1157,7 +1186,8 @@ begin
      cbCategoryColor.Color := optColorDialog.Color;
    end;
 end;
-{/File types category color}
+
+{/ File types category color }
 
 procedure TfrmOptions.btClearHotKeyClick(Sender: TObject);
 var vActions: TAction;
