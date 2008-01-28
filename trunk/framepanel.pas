@@ -1,18 +1,20 @@
 {
-Seksi Commander
-----------------------------
-Implementing of File Panel Components, created dynamically (replacing TFrame)
+   Seksi Commander
+   ----------------------------
+   Implementing of File Panel Components, created dynamically (replacing TFrame)
 
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Licence  : GNU GPL v 2.0
+   Author   : radek.cervinka@centrum.cz
 
-contributors:
+   contributors:
 
-Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit framePanel;
+
 {$mode objfpc}{$H+}
+
 interface
 
 uses
@@ -220,10 +222,10 @@ end;
 
 
 procedure TFrameFilePanel.dgPanelHeaderClick(Sender: TObject;
-  IsColumn: Boolean; index: Integer);
+  IsColumn: Boolean; Index: Integer);
 begin
   pnlFile.SortDirection:= not pnlFile.SortDirection;
-  pnlFile.SortByCol(index{Section.Index Column.Index});
+  pnlFile.SortByCol(Index);
   dgPanel.Invalidate;
 end;
 
@@ -470,7 +472,17 @@ begin
     with dgPanel do
     begin
       DefaultDrawCell(ACol, ARow, Rect, State);
-      Canvas.TextOut(Rect.Left + 4, iTextTop, FHeaderString[ACol]);
+      if ACol = pnlFile.SortColumn then
+        begin
+          if pnlFile.SortDirection then
+            s := ' <'
+          else
+            s := ' >';
+          Canvas.TextOut(Rect.Left + 4, iTextTop, FHeaderString[ACol] + s);
+          s := '';
+        end
+      else
+        Canvas.TextOut(Rect.Left + 4, iTextTop, FHeaderString[ACol]);
     end;
     Exit;
   end;
@@ -762,7 +774,8 @@ begin
   dgPanel.Align:=alClient;
 //  dgPanel.DefaultDrawing:=False;
   dgPanel.ColCount:=5;
-  dgPanel.Options:=[{goVertLine,} goTabs, goRowSelect{, goSmoothScroll}, goColSizing];
+  dgPanel.Options:=[goTabs, goRowSelect, goColSizing, goHeaderHotTracking, goHeaderPushedLook];
+  dgPanel.TitleStyle := tsStandard;
   dgPanel.TabStop:=False;
 
   lblLInfo:=TLabel.Create(pnlFooter);

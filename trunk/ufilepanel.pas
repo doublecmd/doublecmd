@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2006-2007 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2008 Alexander Koblov (Alexx2000@mail.ru)
 }
 
 unit uFilePanel;
@@ -86,6 +86,7 @@ type
 
   published
     property SortDirection:Boolean read fSortDirect write fSortDirect; // maybe write method
+    property SortColumn : Integer read fSortCol write SortByCol;
     property ActiveDir:String read GetActiveDir write SetActiveDir;
     property LastActive:String read fLastActive write fLastActive;
     property FileList: TFileList read fFileList write fFileList;
