@@ -67,6 +67,7 @@ type
     lblSize: TLabel;
     lblStartPath: TLabel;
     lblToolTip: TLabel;
+    procedure btnAddSubBarClick(Sender: TObject);
     procedure btnOpenBarFileClick(Sender: TObject);
     procedure cbCommandSelect(Sender: TObject);
     procedure cbFlatIconsChange(Sender: TObject);
@@ -138,6 +139,14 @@ begin
     begin
       ktbBar.Buttons[ktbBar.Tag].Click;
       ktbBar.Buttons[ktbBar.Tag].Down := True;
+    end
+  else
+    begin
+      if ktbBar.ButtonCount>0 then
+        begin
+          ktbBar.Buttons[ktbBar.ButtonCount-1].Down:=true;
+          ktbBarToolButtonClick(Sender,ktbBar.ButtonCount-1);
+        end;
     end;
 end;
 
@@ -156,6 +165,11 @@ begin
       ktbBar.LoadFromFile(OpenDialog.FileName);
       stToolBarFileName.Caption := OpenDialog.FileName;
     end;
+end;
+
+procedure TfrmConfigToolBar.btnAddSubBarClick(Sender: TObject);
+begin
+
 end;
 
 procedure TfrmConfigToolBar.cbCommandSelect(Sender: TObject);
@@ -183,8 +197,10 @@ end;
 procedure TfrmConfigToolBar.btnAddButtonClick(Sender: TObject);
 begin
   Save;
-
+ // WriteLn();
+  ktbBar.AddX('','','','','');
   NewToolButton := ktbBar.AddButton('', '', '', '');
+
   ktbBar.Buttons[ktbBar.ButtonCount-1].Down:=true;
   ktbBarToolButtonClick(Sender,ktbBar.ButtonCount-1);
   //ShowMessage(IntToStr(NewToolButton));
@@ -200,11 +216,21 @@ end;
 procedure TfrmConfigToolBar.ktbBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
 begin
  Save;
- cbCommand.Text := ktbBar.Commands[NumberOfButton];
- kedtIconFileName.Text := ktbBar.Icons[NumberOfButton];
- kedtToolTip.Text := ktbBar.Buttons[NumberOfButton].Hint;
+// cbCommand.Text := ktbBar.Commands[NumberOfButton];
+cbCommand.Text := ktbBar.GetButtonX(NumberOfButton,CmdX);
+// kedtIconFileName.Text := ktbBar.Icons[NumberOfButton];
+ kedtIconFileName.Text := ktbBar.GetButtonX(NumberOfButton,ButtonX);
+
+// kedtToolTip.Text := ktbBar.Buttons[NumberOfButton].Hint;
+ kedtToolTip.Text := ktbBar.GetButtonX(NumberOfButton,MenuX);
+
  sbIconExample.Glyph := ktbBar.Buttons[NumberOfButton].Glyph;
+ kedtParams.Text:= ktbBar.GetButtonX(NumberOfButton,ParamX);
+ kedtStartPath.Text:= ktbBar.GetButtonX(NumberOfButton,PathX);
+ 
  LastToolButton := NumberOfButton;
+
+
 end;
 
 (*Save current button*)
@@ -212,17 +238,32 @@ procedure TfrmConfigToolBar.Save;
 begin
    if (LastToolButton >= 0) and (ktbBar.ButtonCount > 0) then
       begin
-       ktbBar.Commands[LastToolButton] := cbCommand.Text;
-       ktbBar.Icons[LastToolButton] :=  kedtIconFileName.Text;
-       ktbBar.Buttons[LastToolButton].Hint := kedtToolTip.Text;
+       //---------------------
+       ktbBar.SetButtonX(LastToolButton,CmdX,cbCommand.Text);
+       ktbBar.SetButtonX(LastToolButton,ParamX,kedtParams.Text);
+       ktbBar.SetButtonX(LastToolButton,PathX,kedtStartPath.Text);
+       ktbBar.SetButtonX(LastToolButton,ButtonX,kedtIconFileName.Text);
+       ktbBar.SetButtonX(LastToolButton,MenuX,kedtToolTip.Text);
+       //---------------------
+//       ktbBar.Commands[LastToolButton] := cbCommand.Text;
+//       ktbBar.Icons[LastToolButton] :=  kedtIconFileName.Text;
+//       ktbBar.Buttons[LastToolButton].Hint := kedtToolTip.Text;
       end
    else   (*If only Append clicked*)
       if NewToolButton >= 0 then
          begin
             //ShowMessage(IntToStr(NewToolButton));
-            ktbBar.Commands[NewToolButton] := cbCommand.Text;
-            ktbBar.Icons[NewToolButton] :=  kedtIconFileName.Text;
-            ktbBar.Buttons[NewToolButton].Hint := kedtToolTip.Text;
+//            ktbBar.Commands[NewToolButton] := cbCommand.Text;
+//            ktbBar.Icons[NewToolButton] :=  kedtIconFileName.Text;
+//            ktbBar.Buttons[NewToolButton].Hint := kedtToolTip.Text;
+           //---------------------
+            ktbBar.SetButtonX(NewToolButton,CmdX,cbCommand.Text);
+            ktbBar.SetButtonX(NewToolButton,ButtonX,kedtIconFileName.Text);
+            ktbBar.SetButtonX(NewToolButton,MenuX,kedtToolTip.Text);
+            ktbBar.SetButtonX(NewToolButton,ParamX,kedtParams.Text);
+            ktbBar.SetButtonX(NewToolButton,PathX,kedtStartPath.Text);
+           //---------------------
+
          end;
 end;
 
