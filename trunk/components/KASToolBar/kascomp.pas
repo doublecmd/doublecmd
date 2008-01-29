@@ -1,5 +1,5 @@
-{ This file was automatically created by Lazarus. Do not edit!
-This source is only used to compile and install the package.
+{ Этот файл был автоматически создан Lazarus. Не редактировать!
+Исходный код используется только для компиляции и установки пакета.
  }
 
 unit KASComp; 
@@ -7,7 +7,7 @@ unit KASComp;
 interface
 
 uses
-  KASEdit, KAStoolBar, LazarusPackageIntf; 
+  KASEdit, KAStoolBar, KASBarMenu, KASBarFiles, LazarusPackageIntf; 
 
 implementation
 
@@ -15,6 +15,7 @@ procedure Register;
 begin
   RegisterUnit('KASEdit', @KASEdit.Register); 
   RegisterUnit('KAStoolBar', @KAStoolBar.Register); 
+  RegisterUnit('KASBarMenu', @KASBarMenu.Register); 
 end; 
 
 initialization

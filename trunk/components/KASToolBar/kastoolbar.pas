@@ -33,7 +33,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls,
-  Graphics, Dialogs, ExtCtrls, Buttons, IniFiles, FileUtil;
+  Graphics, Dialogs, ExtCtrls, Buttons, IniFiles, FileUtil,KASBarFiles;
 
 type
 
@@ -41,38 +41,11 @@ type
   TChangeLineCount   = procedure (AddSize : Integer) of object;
   TOnLoadButtonGlyph   = function (sIconFileName : String; iIconSize : Integer; clBackColor : TColor) : TBitmap of object;
 
-  //Button property's type
-  //------------------------------------------------------
-    TInfor=(ButtonX,
-            CmdX,
-            ParamX,
-            PathX,
-            MenuX,
-            IconicX
-           );
-  //------------------------------------------------------
-
- //Class of button
- //---------------------------------
- TKButton=class
-          //---------------
-          ButtonX:string; //Icon
-          CmdX:string;    //Command or path
-          ParamX:string;  //parameters
-          PathX:string;
-          MenuX:string;   //Description
-          IconicX:Integer; //-1 0 1 full default minimized ( as TC use)
-         end;
- //---------------------------------
-
-
   { TKAStoolBar }
 
   TKAStoolBar = class(TPanel)
   private
     FButtonsList: TList;
-//    FCmdList,
- //   FIconList : TStringList;
     FPositionX : Integer;
     FPositionY : Integer;
     FIconSize,
@@ -90,7 +63,6 @@ type
     FOldWidth : Integer;
     FMustResize,
     FLockResize : Boolean;
-    //---------------------
     XButtons:Tlist;
     CurrentBar:string;
     //---------------------
@@ -98,10 +70,8 @@ type
     function GetButton(Index: Integer): TSpeedButton;
     function GetButtonCount: Integer;
     function GetCommand(Index: Integer): String;
-//    function GetIconPath(Index: Integer): String;
     procedure SetButton(Index : Integer; Value : TSpeedButton);
     procedure SetCommand(Index: Integer; const AValue: String);
-//    procedure SetIconPath(Index: Integer; const AValue: String);
     procedure SetFlatButtons(const AValue : Boolean);
     procedure ToolButtonClick(Sender: TObject);
     procedure UpdateButtonsTag;
@@ -116,22 +86,19 @@ type
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
     procedure InitBounds;
-
-    //------------------------------------------------------
+    
     function AddX(ButtonX, CmdX, ParamX, PathX, MenuX:string ):integer;
-    procedure SetButtonX(Index:integer; What:Tinfor;Value: string);
+    function AddButton(sCaption, Cmd, BtnHint, IconPath : String) : Integer;
     function GetButtonX(Index:integer; What:TInfor):string;
-    //------------------------------------------------------
 
+    procedure SetButtonX(Index:integer; What:Tinfor;Value: string);
     procedure LoadFromFile(FileName : String);
     procedure SaveToFile(FileName : String);
-    function AddButton(sCaption, Cmd, BtnHint, IconPath : String) : Integer;
     procedure RemoveButton(Index: Integer);
     procedure DeleteAllToolButtons;
     property ButtonCount: Integer read GetButtonCount;
     property Buttons[Index: Integer]: TSpeedButton read GetButton write SetButton;
     property Commands[Index: Integer]: String read GetCommand write SetCommand;
-//    property Icons[Index: Integer]: String read GetIconPath write SetIconPath;
     property ButtonList: TList read FButtonsList;
 
   published
@@ -226,8 +193,8 @@ if (index>=XButtons.Count) or (Index<0) then Exit;
 end;
 
 procedure TKAStoolBar.SetButtonX(Index: integer; What: Tinfor; Value: string);
-var
-  PNG : TPortableNetworkGraphic;
+//var
+//  PNG : TPortableNetworkGraphic;
 begin
 //if Index<0 then Exit;
 
@@ -235,28 +202,25 @@ If Index>=XButtons.Count then XButtons.Add(TKButton.Create);
 
  case What of
   ButtonX: begin
-            // SetButtonX(Index,ButtonX,Value);
              with TSpeedButton(FButtonsList.Items[Index]) do
                if Assigned(FOnLoadButtonGlyph) then
                  Glyph := FOnLoadButtonGlyph(Value, FIconSize, Color)
                else
                  Glyph := LoadBtnIcon(Value);
              TKButton(XButtons.Items[Index]).ButtonX:=Value;
-//             ChangedIco:=True;
            end;
   cmdX:TKButton(XButtons.Items[Index]).cmdX:=Value;
   paramX:TKButton(XButtons.Items[Index]).paramX:=Value;
   pathX:TKButton(XButtons.Items[Index]).pathX:=Value;
   MenuX:TKButton(XButtons.Items[Index]).menuX:=Value;
-  {iconicX: begin
+  iconicX: begin
              if Value='' then
                TKButton(XButtons.Items[Index]).iconicX:=0
              else
                TKButton(XButtons.Items[Index]).iconicX:=StrToInt(Value);
-//             Exit;
-           end; }
+
+           end;
  end;
-// Changes:=True;
 
 end;
 
@@ -364,7 +328,6 @@ end;
 
 procedure TKAStoolBar.SetCommand(Index: Integer; const AValue: String);
 begin
-//  FCmdList[Index] := AValue;
 SetButtonX(Index,CmdX,AValue);
 end;
 
@@ -422,8 +385,6 @@ begin
 
      TKButton(XButtons[0]).Free;
      XButtons.Delete(0);
-//      FCmdList.Delete(0);
-//      FIconList.Delete(0);
   end;
   // Assign to BtnCount new toolbar height
   BtnCount := FButtonSize + FTotalBevelWidth * 2;
@@ -449,7 +410,6 @@ end;
 
 function TKAStoolBar.GetCommand(Index: Integer): String;
 begin
-//  Result := FCmdList[Index];
  Result := GetButtonX(Index,CmdX);
 end;
 
@@ -463,11 +423,7 @@ constructor TKAStoolBar.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
   FButtonsList := TList.Create;
-//---------------------
   XButtons := TList.Create;
-//---------------------
- // FCmdList := TStringList.Create;
-//  FIconList := TStringList.Create;
   FNeedMore := False;
   FOldWidth := Width;
   FMustResize := False;
@@ -483,7 +439,6 @@ begin
     if TControl(FButtonsList[I]) is TSpeedButton then
       TSpeedButton(FButtonsList.Items[I]).Free;
 
- //---------------------
   if Assigned(XButtons) then
     begin
       if XButtons.Count>0 then
@@ -491,11 +446,8 @@ begin
           TKButton(XButtons.Items[I]).Free;
       FreeAndNil(XButtons);
     end;
- //---------------------
 
   FreeAndNil(FButtonsList);
-//  FreeAndNil(FCmdList);
-//  FreeAndNil(FIconList);
   inherited Destroy;
 end;
 
@@ -515,24 +467,23 @@ begin
   FPositionY := FTotalBevelWidth;
   IniFile := Tinifile.Create(FileName);
   BtnCount := IniFile.ReadInteger('Buttonbar', 'Buttoncount', 0);
-  //---------------------
   CurrentBar:=FileName;
-  //---------------------
+
   for I := 1 to BtnCount do
     begin
       AddButton('', GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'cmd' + IntToStr(I), '')),
                 IniFile.ReadString('Buttonbar', 'menu' + IntToStr(I), ''),
                 GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'button' + IntToStr(I), '')));
-      //---------------------
+
        XButtons.Add(TKButton.Create);
            TKButton(XButtons[I-1]).ButtonX :=GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'button' + IntToStr(I), ''));
            TKButton(XButtons[I-1]).CmdX := IniFile.ReadString('Buttonbar', 'cmd' + IntToStr(I), '');
            TKButton(XButtons[I-1]).ParamX := IniFile.ReadString('Buttonbar', 'param' + IntToStr(I), '');
            TKButton(XButtons[I-1]).PathX := IniFile.ReadString('Buttonbar', 'path' + IntToStr(I), '');
-           TKButton(XButtons[I-1]).MenuX := IniFile.ReadString('Buttonbar', 'menu' + IntToStr(I), '')
-         //IconicX := IniFile.ReadInteger('Buttonbar', 'icon' + IntToStr(I),0);
+           TKButton(XButtons[I-1]).MenuX := IniFile.ReadString('Buttonbar', 'menu' + IntToStr(I), '');
+           TKButton(XButtons[I-1]).IconicX := IniFile.ReadInteger('Buttonbar', 'icon' + IntToStr(I),0);
 
-      //---------------------
+
     end;
   IniFile.Free;
 end;
@@ -542,26 +493,22 @@ var
   IniFile : Tinifile;
   I : Integer;
 begin
-//------------------------------------------------------
+
   //For cleaning. Without this saved file will contain removed buttons
-  DeleteFile(FileName);
-//------------------------------------------------------
+  If FileExists(FileName) then
+    DeleteFile(FileName);
+
 
   IniFile := Tinifile.Create(FileName);
   IniFile.WriteInteger('Buttonbar', 'Buttoncount', FButtonsList.Count);
 
   for I := 0 to FButtonsList.Count - 1 do
     begin
-//      IniFile.WriteString('Buttonbar', 'button' + IntToStr(I + 1), SetCmdDirAsEnvVar(FIconList[I]));
-//      IniFile.WriteString('Buttonbar', 'cmd' + IntToStr(I + 1), SetCmdDirAsEnvVar(FCmdList[I]));
-      //------------------------------------------------------
       IniFile.WriteString('Buttonbar', 'button' + IntToStr(I + 1), SetCmdDirAsEnvVar(GetButtonX(I,ButtonX)));
       IniFile.WriteString('Buttonbar', 'cmd' + IntToStr(I + 1), SetCmdDirAsEnvVar(GetButtonX(I,CmdX)));
       IniFile.WriteString('Buttonbar', 'param' + IntToStr(I + 1), GetButtonX(I,ParamX) );
       IniFile.WriteString('Buttonbar', 'path' + IntToStr(I + 1), GetButtonX(I,PathX) );
       IniFile.WriteString('Buttonbar', 'menu' + IntToStr(I + 1),GetButtonX(I,MenuX) );
-      //------------------------------------------------------
-//      IniFile.WriteString('Buttonbar', 'menu' + IntToStr(I + 1), TSpeedButton(FButtonsList.Items[I]).Hint);
     end;
   IniFile.Free;
 end;
@@ -625,12 +572,11 @@ begin
   FPositionX:= FPositionX + ToolButton.Width;
 
   ToolButton.Tag := FButtonsList.Add(ToolButton);
-//  FCmdList.Add(Cmd);
-//  FIconList.Add(IconPath);
   
+  // this is temporarly
   if FDiskPanel then
-    AddX(sCaption,Cmd,'','','');
-    
+    AddX(sCaption,Cmd,'','','');  
+  
   // unlock on resize handler
   FLockResize := False;
   
@@ -647,8 +593,6 @@ begin
     TSpeedButton(FButtonsList.Items[Index]).Free;
     FButtonsList.Delete(Index);
     UpdateButtonsTag;
-    //FCmdList.Delete(Index);
-    //FIconList.Delete(Index);
     //---------------------
     TKButton(XButtons[Index]).Free;
     XButtons.Delete(Index);

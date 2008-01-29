@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons, KASToolBar, KASEdit,
-  ExtCtrls;
+  KASBarFiles, ExtCtrls;
 
 type
 
