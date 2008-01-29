@@ -1,15 +1,15 @@
 object frmMain: TfrmMain
-  Left = 254
-  Height = 336
-  Top = 192
-  Width = 540
-  HorzScrollBar.Page = 539
-  VertScrollBar.Page = 315
+  Left = 263
+  Height = 695
+  Top = 96
+  Width = 1013
+  HorzScrollBar.Page = 1012
+  VertScrollBar.Page = 668
   VertScrollBar.Range = 79
-  ActiveControl = pnlNotebooks
+  ActiveControl = nbRight
   Caption = 'Double Commander'
-  ClientHeight = 316
-  ClientWidth = 540
+  ClientHeight = 669
+  ClientWidth = 1013
   Font.Color = clBlack
   Font.Height = 13
   Font.Name = 'Helvetica'
@@ -30,15 +30,15 @@ object frmMain: TfrmMain
   object pnlSyncSize: TPanel
     Height = 26
     Top = 24
-    Width = 540
+    Width = 1013
     Align = alTop
     BevelOuter = bvNone
     ClientHeight = 26
-    ClientWidth = 540
+    ClientWidth = 1013
     FullRepaint = False
     TabOrder = 0
     object pnlDisk: TPanel
-      Left = 15
+      Left = 488
       Height = 26
       Width = 525
       Align = alRight
@@ -81,34 +81,34 @@ object frmMain: TfrmMain
     end
   end
   object pnlNotebooks: TPanel
-    Height = 174
+    Height = 527
     Top = 50
-    Width = 540
+    Width = 1013
     Align = alClient
-    ClientHeight = 174
-    ClientWidth = 540
+    ClientHeight = 527
+    ClientWidth = 1013
     FullRepaint = False
     TabOrder = 1
     TabStop = True
     object MainSplitter: TSplitter
       Left = 171
-      Height = 134
+      Height = 487
       Top = 1
       Width = 4
       ResizeStyle = rsLine
     end
     object pnlLeft: TPanel
       Left = 1
-      Height = 134
+      Height = 487
       Top = 1
       Width = 170
       Align = alLeft
       BevelOuter = bvNone
-      ClientHeight = 134
+      ClientHeight = 487
       ClientWidth = 170
       TabOrder = 0
       object nbLeft: TNotebook
-        Height = 110
+        Height = 463
         Top = 24
         Width = 170
         Align = alClient
@@ -176,18 +176,18 @@ object frmMain: TfrmMain
     end
     object pnlRight: TPanel
       Left = 175
-      Height = 134
+      Height = 487
       Top = 1
-      Width = 364
+      Width = 837
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 134
-      ClientWidth = 364
+      ClientHeight = 487
+      ClientWidth = 837
       TabOrder = 1
       object nbRight: TNotebook
-        Height = 110
+        Height = 463
         Top = 24
-        Width = 364
+        Width = 837
         Align = alClient
         OnCloseTabClicked = NoteBookCloseTabClicked
         OnPageChanged = nbPageChanged
@@ -196,11 +196,11 @@ object frmMain: TfrmMain
       end
       object pnlRightTools: TPanel
         Height = 24
-        Width = 364
+        Width = 837
         Align = alTop
         BevelOuter = bvNone
         ClientHeight = 24
-        ClientWidth = 364
+        ClientWidth = 837
         TabOrder = 1
         object btnRightDrive: TSpeedButton
           Height = 24
@@ -211,7 +211,7 @@ object frmMain: TfrmMain
           NumGlyphs = 0
         end
         object btnRightHome: TSpeedButton
-          Left = 341
+          Left = 814
           Height = 24
           Width = 23
           Align = alRight
@@ -221,7 +221,7 @@ object frmMain: TfrmMain
           OnClick = btnRightClick
         end
         object btnRightUp: TSpeedButton
-          Left = 318
+          Left = 791
           Height = 24
           Width = 23
           Align = alRight
@@ -231,7 +231,7 @@ object frmMain: TfrmMain
           OnClick = btnRightClick
         end
         object btnRightRoot: TSpeedButton
-          Left = 295
+          Left = 768
           Height = 24
           Width = 23
           Align = alRight
@@ -243,7 +243,7 @@ object frmMain: TfrmMain
         object lblRightDriveInfo: TLabel
           Left = 48
           Height = 24
-          Width = 247
+          Width = 720
           Align = alClient
           Alignment = taCenter
           ParentColor = False
@@ -254,13 +254,13 @@ object frmMain: TfrmMain
     object pnlCommand: TPanel
       Left = 1
       Height = 38
-      Top = 135
-      Width = 538
+      Top = 488
+      Width = 1011
       Align = alBottom
       Anchors = [akLeft, akRight]
       BevelOuter = bvLowered
       ClientHeight = 38
-      ClientWidth = 538
+      ClientWidth = 1011
       FullRepaint = False
       ParentColor = False
       TabOrder = 2
@@ -268,9 +268,9 @@ object frmMain: TfrmMain
         AnchorSideTop.Control = edtCommand
         AnchorSideTop.Side = asrCenter
         Left = 1
-        Height = 14
-        Top = 11
-        Width = 23
+        Height = 13
+        Top = 12
+        Width = 33
         Alignment = taRightJustify
         Caption = 'Path'
         ParentColor = False
@@ -280,11 +280,10 @@ object frmMain: TfrmMain
         Left = 56
         Height = 21
         Top = 8
-        Width = 471
+        Width = 944
         TabStop = False
         Anchors = [akTop, akLeft, akRight]
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-        ItemHeight = 13
         MaxLength = 0
         ParentCtl3D = False
         TabOrder = 0
@@ -293,7 +292,7 @@ object frmMain: TfrmMain
   end
   object MainToolBar: TKAStoolBar
     Height = 24
-    Width = 540
+    Width = 1013
     Align = alTop
     TabOrder = 2
     OnMouseUp = MainToolBarMouseUp
@@ -305,13 +304,13 @@ object frmMain: TfrmMain
   end
   object pnlKeys: TPanel
     Height = 27
-    Top = 289
-    Width = 540
+    Top = 642
+    Width = 1013
     Align = alBottom
     Anchors = [akLeft, akRight]
     BevelOuter = bvLowered
     ClientHeight = 27
-    ClientWidth = 540
+    ClientWidth = 1013
     FullRepaint = False
     TabOrder = 3
     OnResize = pnlKeysResize
@@ -398,13 +397,15 @@ object frmMain: TfrmMain
   end
   object seLogWindow: TSynEdit
     Height = 61
-    Top = 228
-    Width = 540
+    Top = 581
+    Width = 1013
     Align = alBottom
     Font.Height = -16
     Font.Name = 'courier'
     ParentColor = False
     TabOrder = 4
+    BookMarkOptions.OnChange = nil
+    Gutter.OnChange = nil
     Gutter.CodeFoldingWidth = 14
     Keystrokes = <    
       item
@@ -730,13 +731,14 @@ object frmMain: TfrmMain
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
+    SelectedColor.OnChange = nil
     OnSpecialLineColors = seLogWindowSpecialLineColors
   end
   object LogSplitter: TSplitter
     Cursor = crVSplit
     Height = 4
-    Top = 224
-    Width = 540
+    Top = 577
+    Width = 1013
     Align = alBottom
     ResizeStyle = rsLine
     ResizeAnchor = akBottom
@@ -1315,6 +1317,12 @@ object frmMain: TfrmMain
       OnExecute = actOpenArchiveExecute
       ShortCut = 16418
     end
+    object actShowButtonMenu: TAction
+      Category = 'Commands'
+      Caption = 'actShowButtonMenu'
+      DisableIfNoHandler = True
+      OnExecute = actShowButtonMenuExecute
+    end
   end
   object pmHotList: TPopupMenu
     left = 152
@@ -1340,6 +1348,12 @@ object frmMain: TfrmMain
   end
   object pmDrivesMenu: TPopupMenu
     left = 80
+    top = 136
+  end
+  object pmButtonMenu: TKASBarMenu
+    OnLoadButtonGlyph = pmButtonMenuLoadButtonGlyph
+    OnMenuButtonClick = pmButtonMenuMenuButtonClick
+    left = 220
     top = 136
   end
 end
