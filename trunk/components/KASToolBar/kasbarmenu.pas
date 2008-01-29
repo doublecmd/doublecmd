@@ -47,7 +47,6 @@ TOnMenuButtonClick = procedure (Sender: TObject; NumberOfButton : Integer) of ob
   TKASBarMenu = class(TPopupMenu)
   private
    FBar:TBarClass;
-   FImages: TImageList;
    FOnLoadButtonGlyph : TOnLoadButtonGlyph;
    FOnMenuButtonClick : TOnMenuButtonClick;
 
@@ -57,7 +56,6 @@ TOnMenuButtonClick = procedure (Sender: TObject; NumberOfButton : Integer) of ob
   //------------------------------------------------------
 
   protected
-//   property Images;
   public
    constructor Create(TheOwner: TComponent); override;
    destructor Destroy; override;
@@ -120,14 +118,11 @@ end;
 constructor TKASBarMenu.Create(TheOwner: TComponent);
 begin
   FBar:=TBarClass.Create;
-  FImages:=TImageList.Create(nil);
   inherited Create(TheOwner);
 end;
 
 destructor TKASBarMenu.Destroy;
 begin
-  FImages.Clear;
-  FreeAndNil(FImages);
   FBar.DeleteAllButtons;
   FreeAndNil(FBar);
   inherited Destroy;
@@ -143,27 +138,21 @@ var I:Integer; Item:TMenuItem;
 begin
   FBar.DeleteAllButtons;
   Self.Items.Clear;
-  Self.Images:=FImages;
-  FImages.Clear;
 
   FBar.LoadFromFile(FileName);
   For I:=0 to Fbar.ButtonCount-1 do
     begin
-     Item:=TMenuItem.Create(Self);
-     Item.Caption:=Fbar.GetButtonX(I,MenuX);
-     if FileExists(Fbar.GetButtonX(I,ButtonX)) then
-       begin
-       //------------------------------------------------------
-        if Assigned(FOnLoadButtonGlyph) then
-           Item.ImageIndex:= FImages.Add(FOnLoadButtonGlyph(FBar.GetButtonX(I,ButtonX), 16, clFuchsia),nil)
-         else
-           Item.ImageIndex:= FImages.Add(LoadBtnIcon(FBar.GetButtonX(I,ButtonX)),nil);
-       //------------------------------------------------------
-       end;
-
-     Item.Tag:=I;
-     Item.OnClick:=TNotifyEvent(@MenuOnClick);
-     Self.Items.Insert(I,Item);
+      Item:=TMenuItem.Create(Self);
+      Item.Caption:=Fbar.GetButtonX(I,MenuX);
+      //------------------------------------------------------
+      if Assigned(FOnLoadButtonGlyph) then
+        Item.Bitmap:= FOnLoadButtonGlyph(FBar.GetButtonX(I,ButtonX), 16, clFuchsia)
+      else
+        Item.Bitmap:= LoadBtnIcon(FBar.GetButtonX(I,ButtonX));
+      //------------------------------------------------------
+      Item.Tag:=I;
+      Item.OnClick:=TNotifyEvent(@MenuOnClick);
+      Self.Items.Insert(I,Item);
     end;
 end;
 
