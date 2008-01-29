@@ -1,5 +1,5 @@
 [Buttonbar]
-Buttoncount=4
+Buttoncount=5
 button1=%commander_path%\pixmaps\16x16\actions\view-refresh.png
 cmd1=actRefresh
 menu1=Refresh
@@ -12,3 +12,7 @@ menu3=Select group...
 button4=%commander_path%\pixmaps\16x16\actions\list-remove.png
 cmd4=actMarkMinus
 menu4=Unselect group...
+button5=%commander_path%/pixmaps/16x16/actions/go-up.png
+cmd5=actShowButtonMenu
+param5=default.bar
+menu5=Example of ShowButtonMenu
