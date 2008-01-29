@@ -126,12 +126,12 @@ var
   iBeg:Integer;
   sDir: string;
 begin
-  DebugLn('ForceDirectory:',DirectoryName);
+  //DebugLn('ForceDirectory:',DirectoryName);
   i:=1;
   iBeg:=1;
   if DirectoryName[Length(DirectoryName)]<>PathDelim then
     DirectoryName:=DirectoryName+PathDelim;
-  DebugLn('ForceDirectory:',DirectoryName);
+  //DebugLn('ForceDirectory:',DirectoryName);
   while i<=length(DirectoryName) do
   begin
     if DirectoryName[i]=PathDelim then
@@ -140,10 +140,10 @@ begin
       if (sDir='') then
         GetDir(0, sDir);
 
-      DebugLn('Dir:'+sDir);
+      //DebugLn('Dir: ' + sDir);
       if not DirectoryExists(sDir) then
       begin
-        DebugLn(copy(DirectoryName,1,iBeg-1));
+        //DebugLn(copy(DirectoryName,1,iBeg-1));
         chdir(copy(DirectoryName,1,iBeg-1));
         Result:=CreateDir(Copy(DirectoryName, iBeg, i-iBeg));
         if not Result then exit;
@@ -153,7 +153,7 @@ begin
     end;
     inc(i);
   end;
-  Result:=true;
+  Result := True;
 end;
 
 end.

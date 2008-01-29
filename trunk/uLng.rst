@@ -217,8 +217,8 @@ ulng.rsmsglogmkdir='Create directory %s'
 ulng.rsmsglogrmdir='Remove directory %s'
 
 
-# hash value = 161869731
-ulng.rsmsglogpack='Pack file %s'
+# hash value = 87717331
+ulng.rsmsglogpack='Pack to file %s'
 
 
 # hash value = 126195795
