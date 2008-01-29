@@ -252,7 +252,7 @@ end;
 
 function ProcessDataProc(FileName: PChar; Size: Integer): Integer; stdcall;
 begin
-  DebugLN('Working ' + FileName + ' Size = ' + IntToStr(Size));
+  //DebugLn('Working ' + FileName + ' Size = ' + IntToStr(Size));
 
   Result := 1;
   with WCXModule do
@@ -265,7 +265,7 @@ begin
     if not (Size < 0) then
       begin
         FPercent := FPercent + ((Size * 100) / FFilesSize);
-        DebugLN('Percent = ' + IntToStr(Round(FPercent)));
+        //DebugLn('Percent = ' + IntToStr(Round(FPercent)));
 
         FFileOpDlg.iProgress1Pos := 100;
         FFileOpDlg.iProgress2Pos := Round(FPercent);
@@ -274,12 +274,12 @@ begin
       if (Size >= -100) and (Size <= -1) then // first percent bar
         begin
           FFileOpDlg.iProgress1Pos := (Size * -1);
-          DebugLN('Working ' + FileName + ' Percent1 = ' + IntToStr(FFileOpDlg.iProgress1Pos));
+          //DebugLn('Working ' + FileName + ' Percent1 = ' + IntToStr(FFileOpDlg.iProgress1Pos));
         end
       else if (Size >= -1100) and (Size <= -1000) then // second percent bar
         begin
           FFileOpDlg.iProgress2Pos := (Size * -1) - 1000;
-          DebugLN('Working ' + FileName + ' Percent2 = ' + IntToStr(FFileOpDlg.iProgress2Pos));
+          //DebugLn('Working ' + FileName + ' Percent2 = ' + IntToStr(FFileOpDlg.iProgress2Pos));
         end;
         
         
@@ -462,7 +462,7 @@ begin
       I := I + 1;
     end;
   FileList := FileList + #0#0;
-  DebugLN('FileList := ' + FileList);
+  //DebugLn('FileList := ' + FileList);
   Result := FileList;
 end;
 
@@ -527,7 +527,7 @@ begin
 
      if  FFileList.CheckFileName(ArcHeader.FileName) >= 0 then // Want To Extract This File
        begin
-         DebugLN(FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName));
+         //DebugLn(FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName));
 
          if (FFileMask <> '*.*') and (FFileMask <> '*') then
            ForceDirectory(ExtractFilePath(FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)));
@@ -554,6 +554,8 @@ begin
                  // Standart error modal dialog
                  ShowErrorMessage;
                end;
+             // user abort operation
+             if iResult = E_EABORTED then Break;
            end // Error
          else
            begin
@@ -737,7 +739,7 @@ begin
       Continue;
       
 
-    DebugLN('Curr File = ' + fri.sName);
+    //DebugLn('Curr File = ' + fri.sName);
 
     if FPS_ISDIR(fri.iMode) then
       begin
@@ -926,7 +928,7 @@ begin
    begin
      CurrFileName := PathDelim + PHeaderData(FArcFileList.Items[I])^.FileName;
      
-     DebugLN(CurrFileName);
+     //DebugLn(CurrFileName);
      
      if not IncludeFileInList(sDir, CurrFileName) then
        Continue;
