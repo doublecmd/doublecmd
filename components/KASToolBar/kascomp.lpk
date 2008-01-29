@@ -1,14 +1,12 @@
 <?xml version="1.0"?>
 <CONFIG>
   <Package Version="3">
-    <PathDelim Value="\"/>
     <Name Value="KASComp"/>
     <Author Value="Alexander Koblov"/>
     <CompilerOptions>
       <Version Value="5"/>
-      <PathDelim Value="\"/>
       <SearchPaths>
-        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
         <SyntaxOptions>
@@ -28,12 +26,13 @@
       </Other>
     </CompilerOptions>
     <Description Value="ToolBar that loading from *.ini file. Format of *.ini file 
-KASEdit include popup menu with operations such as cut, copy, paste, delete, etc.
+      KASEdit include popup menu with operations such as cut, copy, paste, delete, etc.
+      KASBarMenu is popupmenu read *.bar file and uses *.bar buttons as menu items.
 "/>
     <License Value="GNU GPL 2
 "/>
-    <Version Major="1" Release="3" Build="1"/>
-    <Files Count="2">
+    <Version Major="1" Release="4" Build="1"/>
+    <Files Count="4">
       <Item1>
         <Filename Value="kasedit.pas"/>
         <HasRegisterProc Value="True"/>
@@ -44,24 +43,32 @@ KASEdit include popup menu with operations such as cut, copy, paste, delete, etc
         <HasRegisterProc Value="True"/>
         <UnitName Value="KAStoolBar"/>
       </Item2>
+      <Item3>
+	<Filename Value="kasbarmenu.pas"/>
+	<HasRegisterProc Value="True"/>
+        <UnitName Value="KASBarMenu"/>
+      </Item3>
+      <Item4>
+	<Filename Value="kasbarfiles.pas"/>
+        <UnitName Value="KASBarFiles"/>
+      </Item4>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="2">
       <Item1>
-        <PackageName Value="FCL"/>
+        <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item1>
       <Item2>
-        <PackageName Value="LCL"/>
+        <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item2>
     </RequiredPkgs>
     <UsageOptions>
-      <UnitPath Value="$(PkgOutDir)\"/>
+      <UnitPath Value="$(PkgOutDir)/"/>
     </UsageOptions>
     <PublishOptions>
       <Version Value="2"/>
-      <DestinationDirectory Value="$(TestDir)\publishedpackage\"/>
       <IgnoreBinaries Value="False"/>
     </PublishOptions>
   </Package>
