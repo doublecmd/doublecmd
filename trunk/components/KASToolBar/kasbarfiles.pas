@@ -1,8 +1,8 @@
 {
-   File name: kasbarmenu.pas
+   File name: kasbarfiles.pas
 
    Author:    Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   Popup menu with *.bar's buttons as MenuItems
+   Class working with *.bar files.
 
    Based on KASToolBar functions
    Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
@@ -28,6 +28,7 @@
 }
 
 unit KASBarFiles;
+
 
 {$mode objfpc}{$H+}
 
@@ -65,21 +66,20 @@ type
 
  TBarClass=class
              CurrentBar:string;
-             FChangePath : String;
-           //------------------------------------------------------
              
            private
              XButtons:Tlist;
              FEnvVar : String;
+             FChangePath : String;
              function GetButton(Index: Integer): TKButton;
              function GetButtonCount: Integer;
              function GetCmdDirFromEnvVar(sPath: String): String;
-             procedure SetButton(Index:Integer; const AValue: TKButton);
              function SetCmdDirAsEnvVar(sPath: String): String;
+             procedure SetButton(Index:Integer; const AValue: TKButton);
            //------------------------------------------------------
 
            public
-             //---------------------
+
              Constructor Create;
              destructor Destroy; override;
              //---------------------

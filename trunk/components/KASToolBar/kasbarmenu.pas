@@ -50,13 +50,14 @@ TOnMenuButtonClick = procedure (Sender: TObject; NumberOfButton : Integer) of ob
    FImages: TImageList;
    FOnLoadButtonGlyph : TOnLoadButtonGlyph;
    FOnMenuButtonClick : TOnMenuButtonClick;
+
   //------------------------------------------------------
    procedure MenuOnClick(Sender: TObject);
    function LoadBtnIcon(IconPath: String): TBitMap;
   //------------------------------------------------------
 
   protected
-
+//   property Images;
   public
    constructor Create(TheOwner: TComponent); override;
    destructor Destroy; override;
@@ -140,12 +141,12 @@ end;
 procedure TKASBarMenu.LoadBarFile(FileName: string);
 var I:Integer; Item:TMenuItem;
 begin
-  Self.Items.Clear;
   FBar.DeleteAllButtons;
-  FBar.LoadFromFile(FileName);
+  Self.Items.Clear;
   Self.Images:=FImages;
   FImages.Clear;
 
+  FBar.LoadFromFile(FileName);
   For I:=0 to Fbar.ButtonCount-1 do
     begin
      Item:=TMenuItem.Create(Self);

@@ -39,7 +39,7 @@ uses
   Graphics, Forms, Menus, Controls, Dialogs, ComCtrls,
   StdCtrls, ExtCtrls,ActnList,Buttons,
   SysUtils, Classes,  {uFilePanel,} framePanel, {FileCtrl,} Grids,
-  KASToolBar, IniFiles, SynEdit;
+  KASToolBar, IniFiles, SynEdit, KASBarMenu,KASBarFiles;
 
 const
   cHistoryFile='cmdhistory.txt';
@@ -53,6 +53,7 @@ type
     actAddPathToCmdLine: TAction;
     actFocusCmdLine: TAction;
     actContextMenu: TAction;
+    actShowButtonMenu: TAction;
     actOpenArchive: TAction;
     actTransferRight: TAction;
     actTransferLeft: TAction;
@@ -73,6 +74,7 @@ type
     dskLeft: TKAStoolBar;
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
+    pmButtonMenu: TKASBarMenu;
     lblCommandPath: TLabel;
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
@@ -203,6 +205,7 @@ type
     procedure actOpenVFSListExecute(Sender: TObject);
     procedure actPackFilesExecute(Sender: TObject);
     procedure actRightOpenDrivesExecute(Sender: TObject);
+    procedure actShowButtonMenuExecute(Sender: TObject);
     procedure actTransferLeftExecute(Sender: TObject);
     procedure actTransferRightExecute(Sender: TObject);
     procedure btnLeftClick(Sender: TObject);
@@ -227,6 +230,10 @@ type
     procedure mnuHelpClick(Sender: TObject);
     procedure nbPageChanged(Sender: TObject);
     procedure NotebookCloseTabClicked(Sender: TObject);
+    function pmButtonMenuLoadButtonGlyph(sIconFileName: String;
+      iIconSize: Integer; clBackColor: TColor): TBitmap;
+    procedure pmButtonMenuMenuButtonClick(Sender: TObject;
+      NumberOfButton: Integer);
     procedure pnlKeysResize(Sender: TObject);
     procedure actViewExecute(Sender: TObject);
     procedure actEditExecute(Sender: TObject);
@@ -333,7 +340,8 @@ type
     procedure RemovePage(ANoteBook:TNoteBook; iPageIndex:Integer);
     procedure LoadTabs(ANoteBook:TNoteBook);
     procedure SaveTabs(ANoteBook:TNoteBook);
-    function ExecCmd(Cmd : String) : Boolean;
+    function ExecCmd(Cmd:string) : Boolean;
+    function ExecCmdEx(NumberOfButton:Integer) : Boolean;
     procedure UpdateWindowView;
     procedure SaveShortCuts;
     procedure LoadShortCuts;
@@ -400,6 +408,20 @@ begin
   p := pnlRightTools.ClientToScreen(p);
   pmDrivesMenu.Items[dskRight.Tag].Checked := True;
   pmDrivesMenu.PopUp(p.x, p.y);
+end;
+
+procedure TfrmMain.actShowButtonMenuExecute(Sender: TObject);
+var cmd:string; Point:TPoint;
+begin
+  cmd:=MainToolBar.GetButtonX((Sender as TAction).tag,CmdX);
+  pmButtonMenu.LoadBarFile(gpIniDir + MainToolBar.GetButtonX((Sender as TACtion).tag,ParamX));
+  Point:=MainToolBar.ClientToScreen(Classes.Point(0,0));
+  Point.Y:=Point.Y+MainToolbar.Height;
+  if MainToolbar.ButtonCount>0 then
+    Point.X:=Point.X+MainToolbar.Buttons[0].Width*((Sender as TAction).tag)-60
+  else
+    Point.X:=Point.X+MainToolbar.ButtonGlyphSize*((Sender as TAction).tag)+50; 
+  pmButtonMenu.PopUp(Point.x,Point.Y);
 end;
 
 procedure TfrmMain.actTransferLeftExecute(Sender: TObject);
@@ -648,7 +670,7 @@ end;
 
 procedure TfrmMain.MainToolBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
 begin
-  ExecCmd(MainToolBar.Commands[NumberOfButton]);
+  ExecCmdEx(NumberOfButton);
   DebugLn(MainToolBar.Commands[NumberOfButton]);
 end;
 
@@ -767,6 +789,9 @@ begin
     end;
   (*Tool Bar*)
   
+  pmButtonMenu.BarFile.ChangePath := gpExePath;
+  pmButtonMenu.BarFile.EnvVar := '%commander_path%';
+  
   LoadShortCuts;
   
   {Load some options from layout page}
@@ -825,6 +850,18 @@ begin
   begin
     RemovePage(Parent as TNoteBook, PageIndex);
   end;
+end;
+
+function TfrmMain.pmButtonMenuLoadButtonGlyph(sIconFileName: String;
+  iIconSize: Integer; clBackColor: TColor): TBitmap;
+begin
+  Result := LoadBitmapFromFile(sIconFileName, iIconSize, clBackColor);
+end;
+
+procedure TfrmMain.pmButtonMenuMenuButtonClick(Sender: TObject;
+  NumberOfButton: Integer);
+begin
+    ExecCmdEx(NumberOfButton);
 end;
 
 procedure TfrmMain.pnlKeysResize(Sender: TObject);
@@ -2675,15 +2712,29 @@ begin
   gIni.WriteString(Section, 'path', sPath);
 end;
 
-(* Execute internal or external command *)
-
-function TfrmMain.ExecCmd(Cmd: String): Boolean;
+function TfrmMain.ExecCmd(Cmd: string): Boolean;
 begin
   if actionLst.ActionByName(Cmd) <> nil then
     Result := actionLst.ActionByName(Cmd).Execute
   else
     Result := ExecCmdFork(Format('"%s"', [Cmd]));
 end;
+
+function TfrmMain.ExecCmdEx(NumberOfButton: Integer): Boolean;
+var Cmd:string;
+begin
+  Cmd:=MainToolBar.GetButtonX(NumberOfButton,CmdX);
+  if actionLst.ActionByName(Cmd) <> nil then
+   begin
+    actionLst.ActionByName(Cmd).Tag:=NumberOfButton;
+    Result := actionLst.ActionByName(Cmd).Execute;
+   end
+  else
+    Result := ExecCmdFork(Format('"%s"', [Cmd]));
+end;
+
+(* Execute internal or external command *)
+
 
 procedure TfrmMain.UpdateWindowView;
 var
