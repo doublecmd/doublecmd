@@ -46,7 +46,8 @@ type
             ParamX,
             PathX,
             MenuX,
-            IconicX
+            IconicX,
+            MiskX
            );
   //------------------------------------------------------
 
@@ -59,6 +60,7 @@ type
           PathX:string;
           MenuX:string;   //Description
           IconicX:Integer; //-1 0 1 full default minimized ( as TC use)
+          MiskX:string; //Aditional info (shortCut or extention or something else)
          end;
  //---------------------------------
 
@@ -84,12 +86,13 @@ type
              destructor Destroy; override;
              //---------------------
              function GetButtonX(Index:integer; What:TInfor):string;
-             function AddButtonX(ButtonX, CmdX, ParamX, PathX, MenuX:string ):integer;
+             function AddButtonX(ButtonX, CmdX, ParamX, PathX, MenuX, MiskX:string ):integer;
              //---------------------
              procedure RemoveButton(Index: Integer);
              procedure DeleteAllButtons;
              procedure SetButtonX(Index:integer; What:Tinfor;Value: string);
              procedure LoadFromFile(FileName : String);
+             procedure LoadFromStringList(List:TStringList);
              procedure SaveToFile(FileName : String);
              //---------------------
              property ButtonCount: Integer read GetButtonCount;
@@ -137,6 +140,7 @@ If Index>=XButtons.Count then XButtons.Add(TKButton.Create);
              else
                TKButton(XButtons.Items[Index]).iconicX:=StrToInt(Value);
            end;
+  MiskX:   TKButton(XButtons.Items[Index]).MiskX:=Value;
  end;
 
 end;
@@ -151,10 +155,11 @@ if (index>=XButtons.Count) or (Index<0) then Exit;
          pathX:   Result := TKButton(XButtons.Items[Index]).PathX;
          menuX:   Result := TKButton(XButtons.Items[Index]).MenuX;
          iconicX: Result := IntToStr(TKButton(XButtons.Items[Index]).IconicX);
+         MiskX:   Result := TKButton(XButtons.Items[Index]).MiskX;
       end;
 end;
 
-function TBarClass.AddButtonX(ButtonX, CmdX, ParamX, PathX, MenuX: string
+function TBarClass.AddButtonX(ButtonX, CmdX, ParamX, PathX, MenuX,MiskX: string
   ): integer;
 begin
   Result:=XButtons.Add(TKButton.Create);
@@ -163,6 +168,7 @@ begin
   TKButton(XButtons[Result]).ParamX:=ParamX;
   TKButton(XButtons[Result]).PathX:=PathX;
   TKButton(XButtons[Result]).MenuX:=MenuX;
+  TKButton(XButtons[Result]).MiskX:=MiskX;
 end;
 
 procedure TBarClass.LoadFromFile(FileName: String);
@@ -183,9 +189,42 @@ begin
            TKButton(XButtons[I-1]).PathX := IniFile.ReadString('Buttonbar', 'path' + IntToStr(I), '');
            TKButton(XButtons[I-1]).MenuX := IniFile.ReadString('Buttonbar', 'menu' + IntToStr(I), '');
            TKButton(XButtons[I-1]).IconicX := IniFile.ReadInteger('Buttonbar', 'icon' + IntToStr(I),0);
-
+           TKButton(XButtons[I-1]).MiskX := IniFile.ReadString('Buttonbar', 'misk' + IntToStr(I), '');
     end;
   IniFile.Free;
+end;
+
+
+procedure TBarClass.LoadFromStringList(List: TStringList);
+
+function ItemOfList(Item:string):string;
+begin
+if (List.IndexOfName(Item)>0) then
+  Result:=List.ValueFromIndex[List.IndexOfName(Item)]
+else
+  Result:='';
+end;
+
+var   BtnCount, I : Integer;
+begin
+  DeleteAllButtons;
+  if (List.IndexOfName('Buttoncount')<>0) then exit;
+   BtnCount:=StrToInt(List.ValueFromIndex[List.IndexOfName('Buttoncount')]);
+   
+   CurrentBar:='Virtual';
+  for I := 1 to BtnCount do
+    begin
+       XButtons.Add(TKButton.Create);
+           TKButton(XButtons[I-1]).ButtonX :=GetCmdDirFromEnvVar(ItemOfList('button' + IntToStr(I)));
+           TKButton(XButtons[I-1]).CmdX := ItemOfList('cmd' + IntToStr(I));
+           TKButton(XButtons[I-1]).ParamX :=ItemOfList('param' + IntToStr(I));
+           TKButton(XButtons[I-1]).PathX := ItemOfList('path' + IntToStr(I));
+           TKButton(XButtons[I-1]).MenuX := ItemOfList('menu' + IntToStr(I));
+           if (ItemOfList('icon' + IntToStr(I))<>'') then
+           TKButton(XButtons[I-1]).IconicX := StrToInt(ItemOfList('icon' + IntToStr(I)));
+           TKButton(XButtons[I-1]).MiskX := ItemOfList('misk' + IntToStr(I));
+    end;
+
 end;
 
 procedure TBarClass.SaveToFile(FileName: String);
@@ -206,6 +245,7 @@ if FileExists(FileName) then  DeleteFile(FileName);
       IniFile.WriteString('Buttonbar', 'param' + IntToStr(I + 1), GetButtonX(I,ParamX) );
       IniFile.WriteString('Buttonbar', 'path' + IntToStr(I + 1), GetButtonX(I,PathX) );
       IniFile.WriteString('Buttonbar', 'menu' + IntToStr(I + 1),GetButtonX(I,MenuX) );
+      IniFile.WriteString('Buttonbar', 'misk' + IntToStr(I + 1),GetButtonX(I,MiskX) );
     end;
   IniFile.Free;
 end;
