@@ -64,7 +64,6 @@ type
 //    procedure ChDir(sDir:String);
     procedure TryOpenArchive(pfri:PFileRecItem);
     procedure ChooseFile(pfri:PFileRecItem); // main input node
-    procedure ExecuteFile(const sName:String; bTerm:Boolean);
     function GetFileItem(iIndex:Integer):TFileRecItem;
     function GetFileItemPtr(iIndex:Integer):PFileRecItem;
     function GetReferenceItemPtr(iIndex:Integer):PFileRecItem;
@@ -495,19 +494,11 @@ begin
         System.ChDir(ActiveDir);
         LastActive:=sName;
 
-        ExecuteFile(sName, False);
+        ExecCmdFork(Format('"%s"', [sName]));
         LoadPanel;
         Exit;
       end;
   end;
-end;
-
-procedure TFilePanel.ExecuteFile(const sName:String; bTerm:Boolean);
-begin
-  if bTerm then
-    ExecCmdFork(Format(fmtRunInTerm, [gTerm, sName]))
-  else
-    ExecCmdFork(Format(fmtRun, [sName]));
 end;
 
 procedure TFilePanel.MarkAllFiles(bMarked:Boolean);

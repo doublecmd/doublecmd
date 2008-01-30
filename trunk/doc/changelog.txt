@@ -1,4 +1,5 @@
-﻿27.01.2008 ADD: Options page "Configuration storage" 
+﻿30.01.2008 FIX: Bug [ 1870808 ] Execute files under Linux
+27.01.2008 ADD: Options page "Configuration storage" 
 26.01.2008 ADD: UnRAR plugin (now it working under Windows and Linux)
 26.01.2008 ADD: Feature Request [ 1869250 ] Try to open archive by Ctrl+PageDown
 18.01.2008 FIX: Bug [ 1869790 ] Опции -> цвета файлов - нелогичность

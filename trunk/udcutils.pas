@@ -1,14 +1,31 @@
 {
    Double Commander
-   ----------------------------
-   Licence  : GNU GPL v 2.0
-   Author   : Alexander Koblov (Alexx2000@mail.ru)
-
+   -------------------------------------------------------------------------
    Several useful functions
+   
+   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
 
    contributors:
    
    Radek Cervinka  <radek.cervinka@centrum.cz>
+   (cnvFormatFileSize and DivFileName functions)
+
+   Tomas Bzatek <tbzatek@users.sourceforge.net>
+   (TrimQuotes, QuoteStr, RemoveQuotation and SplitArgs functions)
+   
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
 
 unit uDCUtils;
@@ -19,6 +36,12 @@ interface
 
 uses
   Classes, SysUtils, Graphics;
+
+const
+  QuotationCharacters = [' ', '"', '''', '(', ')', ':', '&'];
+
+type
+  TOpenStringArray = array of String;
 
 function GetCmdDirFromEnvVar(sPath : String) : String;
 function SetCmdDirAsEnvVar(sPath : String) : String;
@@ -33,9 +56,15 @@ function MinimizeFilePath(const PathToMince: String; Canvas: TCanvas;
 function CharPos(C: Char; const S: string; StartPos: Integer = 1): Integer;
 procedure DivFileName(const sFileName:String; var n,e:String);
 
+function NumCountChars(const Char: char; const S: String): Integer;
+procedure TrimQuotes(var s: String);
+function QuoteStr(const Str: String): String;
+function RemoveQuotation(const Str: String): String;
+procedure SplitArgs(var Args: TOpenStringArray; CmdLine: String);
+
 implementation
 uses
-   uGlobs, uGlobsPaths, uVFSUtil;
+   uOSUtils, uGlobs, uGlobsPaths, uVFSUtil;
 
 
 function GetCmdDirFromEnvVar(sPath: String): String;
@@ -314,6 +343,96 @@ if StartPos <> 1 then
   end
 else
   Result := Pos(C, S);
+end;
+
+function NumCountChars(const Char: char; const S: String): Integer;
+var
+  I : Integer;
+begin
+  Result := 0;
+  if Length(S) > 0 then
+    for I := 1 to Length(S) do
+      if S[I] = Char then Inc(Result);
+end;
+
+procedure TrimQuotes(var s: String);
+begin
+  while (Length(s) > 0) and (s[1] in ['"', '''']) do Delete(s, 1, 1);
+  while (Length(s) > 0) and (s[Length(s)] in ['"', '''']) do Delete(s, Length(s), 1);
+end;
+
+function QuoteStr(const Str: String): String;
+var
+  I : Integer;
+begin
+  Result := '';
+  if Length(Str) > 0 then
+    for I := 1 to Length(Str) do begin
+      if Str[I] in QuotationCharacters then Result := Result + ShieldChar;
+      Result := Result + Str[I];
+    end;
+end;
+
+function RemoveQuotation(const Str: String): String;
+var
+  b : boolean;
+  I : integer;
+begin
+  Result := Str;
+  if Length(Result) < 2 then Exit;
+  b := True;
+  for I := 2 to Length(Result) do
+    if (Result[I] in QuotationCharacters) and (Result[I - 1] <> ShieldChar) then b := False;
+  if b then for I := Length(Result) downto 2 do
+    if (Result[I] in QuotationCharacters) and (Result[I - 1] = ShieldChar) then Delete(Result, I - 1, 1);
+end;
+
+procedure SplitArgs(var Args: TOpenStringArray; CmdLine: String);
+var
+  InQuotes : Boolean;
+  I, Start : Integer;
+  QuoteChar : Char;
+  s : string;
+begin
+  SetLength(Args, 0);
+  InQuotes := False;
+  CMDLine := Trim(CmdLine);
+  if Length(CmdLine) = 0 then Exit;
+  Start := 1;
+  QuoteChar := #0;
+  for I := 1 to Length(CmdLine) do
+    case CmdLine[I] of
+      ' ': if (not InQuotes) and ((I = 1) or (CMDLine[I - 1] <> ShieldChar)) then begin
+             s := Trim(Copy(CmdLine, Start, I - Start));
+             TrimQuotes(s);
+             Start := I;
+             if s = '' then Continue;
+             SetLength(Args, Length(Args) + 1);
+             Args[Length(Args) - 1] := s;
+           end;
+      '"', '''': if (I = 1) or (CmdLine[I - 1] <> ShieldChar) then
+           if not InQuotes then begin
+             InQuotes := True;
+             QuoteChar := CmdLine[I];
+//             Start := i;
+           end else
+           if CMDLine[I] = QuoteChar then begin
+             InQuotes := False;
+             s := Trim(Copy(CmdLine, Start, I + 1 - Start));
+             TrimQuotes(s);
+             Start := I;
+             if s = '' then Continue;
+             if (Pos('"', s) > 1) and (Pos('"', s) < Length(s)) and (NumCountChars('"', s) mod 2 = 1) then s := s + '"';
+//             if (Pos('''', s) > 1) and (Pos('''', s) < Length(s)) and (NumCountChars('''', s) mod 2 = 1) then s := s + '''';
+             SetLength(Args, Length(Args) + 1);
+             Args[Length(Args) - 1] := s;
+           end;
+    end;
+  if (Start <> Length(CmdLine)) or (Start = 1) then begin
+    SetLength(Args, Length(Args) + 1);
+    Args[Length(Args) - 1] := Trim(Copy(CMDLine, Start, Length(CmdLine) + 1 - Start));
+    TrimQuotes(Args[Length(Args) - 1]);
+  end;
 end;
 
 end.

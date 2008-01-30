@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,13 +38,15 @@ const
   {$IFDEF MSWINDOWS}
   faFolder = faDirectory;
   faSymLink   = $00000400;
-  fmtRun = '"%s"';
   fmtRunInTerm = '%s /K "%s"';
+  Terminal = 'cmd.exe';  // default terminal
+  ShieldChar = '/';
   {$ELSE}
   faFolder = S_IFDIR;
   faSymLink   = $00000040;
-  fmtRun = '"./%s"';
-  fmtRunInTerm = '%s "%s";echo "Press Enter";read';
+  Terminal = 'xterm -e sh -c';  // default terminal
+  fmtRunInTerm = '%s ''%s ; echo -n Press ENTER to exit... ; read''';
+  ShieldChar = '\';
   {$ENDIF}
 
 type
@@ -98,7 +100,7 @@ function FPS_ISLNK(iAttr:Cardinal) : Boolean;
 }
 function FileIsExeLib(const sFileName : String) : Boolean;
 function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Boolean;
-function ExecCmdFork(const sCmdLine:String):Boolean;
+function ExecCmdFork(sCmdLine:String; bTerm : Boolean = False; sTerm : String = ''):Boolean;
 function GetDiskFreeSpace(Path : String; var FreeSize, TotalSize : Int64) : Boolean;
 {en
    Create a hard link to a file
@@ -262,7 +264,7 @@ begin
     // development messages
     DebugLN(Format('chown (%s) failed',[sSrc]));
   end;
-// mod
+  // mod
   mode := StatInfo.st_mode;
   if bDropReadOnlyFlag and ((mode AND S_IRUSR) = S_IRUSR) and ((mode AND S_IWUSR) <> S_IWUSR) then
     mode := (mode or S_IWUSR);
@@ -277,29 +279,54 @@ end;
 
 (* Execute external commands *)
 
-function ExecCmdFork(const sCmdLine:String):Boolean;
+function ExecCmdFork(sCmdLine:String; bTerm : Boolean; sTerm : String) : Boolean;
 {$IFDEF UNIX}
 var
-  sCmd,
-  sParams : String;
-  pid    : longint;
-Begin
-  SplitCmdLine(sCmdLine, sCmd, sParams);
+  sTempStr : String;
+  x, pid : LongInt;
+  Args : TOpenStringArray;
+  pArgs : PPCharArray;
+begin
+  sTempStr := Trim(sCmdLine);
+  SplitArgs(Args, sTempStr);
+  
+  if bTerm then
+    begin
+      x := 1;
+      while x <= Length(sTempStr) do begin
+        if (sTempStr[x] in [{'"',} '''']) and ((x = 1) or (sTempStr[x - 1] <> ShieldChar)) then
+          Insert(ShieldChar, sTempStr, x);
+        Inc(x);
+      end;
+      if sTerm = '' then sTerm := Terminal;
+      sTempStr := Format(fmtRunInTerm, [sTerm, sTempStr]);
+      SplitArgs(Args, sTempStr);
+    end;
+  if Length(Args) = 0 then Exit;
+    for x := 0 to Length(Args) - 1 do Args[x] := RemoveQuotation(Args[x]);
+
+  if Length(Args) > 0 then
+    begin
+      pArgs := AllocMem((Length(Args) + 1) * SizeOf(PChar));
+      for x := 0 to Length(Args) - 1 do
+        pArgs[x] := PChar(Args[x]);
+      pArgs[Length(Args)] := nil;
+    end;
 
   pid := fpFork;
 
   if pid = 0 then
-   begin
-     {The child does the actual exec, and then exits}
-     FpExecLP(sCmd, [sParams]);
-     { If the shell fails, we return an exitvalue of 127, to let it be known}
-     fpExit(127);
-   end
-  else
-   if pid = -1 then         {Fork failed}
     begin
-      raise Exception.Create('Fork failed: ' + sCmd);
-    end;
+      { The child does the actual exec, and then exits }
+      FpExecVP(Args[0], PPChar(@pArgs[0]));
+      { If the FpExecVP fails, we return an exitvalue of 127, to let it be known }
+      fpExit(127);
+    end
+  else
+    if pid = -1 then         { Fork failed }
+      begin
+        raise Exception.Create('Fork failed: ' + sCmdLine);
+      end;
   Result := (pid > 0);
 end;
 {$ELSE}
@@ -309,6 +336,13 @@ var
   sWorkDir : String;
 begin
   sWorkDir := GetCurrentDir;
+
+  if bTerm then
+    begin
+      if sTerm = '' then sTerm := Terminal;
+      sCmdLine := Format(fmtRunInTerm, [sTerm, sCmdLine]);
+    end;
+    
   SplitCmdLine(sCmdLine, sFileName, sParams);
   DebugLN('File: ' + sFileName + ' Params: ' + sParams + ' WorkDir: ' + sWorkDir);
   Result := (ShellExecute(0, 'open', PChar(sFileName), PChar(sParams), PChar(sWorkDir), SW_SHOW) > 32);
