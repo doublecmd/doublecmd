@@ -62,8 +62,11 @@ TOnMenuButtonClick = procedure (Sender: TObject; NumberOfButton : Integer) of ob
    //---------------------
 
    procedure Clear;
+   procedure LoadFromStringList(List: TStringList);
    procedure LoadBarFile(FileName:string);
    procedure SaveToFile(FileName : String);
+   
+   procedure MakeMenu;
   //------------------------------------------------------
 
   published
@@ -133,13 +136,9 @@ begin
   FBar.DeleteAllButtons;
 end;
 
-procedure TKASBarMenu.LoadBarFile(FileName: string);
+procedure TKASBarMenu.MakeMenu;
 var I:Integer; Item:TMenuItem;
 begin
-  FBar.DeleteAllButtons;
-  Self.Items.Clear;
-
-  FBar.LoadFromFile(FileName);
   For I:=0 to Fbar.ButtonCount-1 do
     begin
       Item:=TMenuItem.Create(Self);
@@ -154,6 +153,23 @@ begin
       Item.OnClick:=TNotifyEvent(@MenuOnClick);
       Self.Items.Insert(I,Item);
     end;
+end;
+
+procedure TKASBarMenu.LoadBarFile(FileName: string);
+begin
+  FBar.DeleteAllButtons;
+  Self.Items.Clear;
+  FBar.LoadFromFile(FileName);
+  MakeMenu;
+end;
+
+procedure TKASBarMenu.LoadFromStringList(List: TStringList);
+begin
+  FBar.DeleteAllButtons;
+  Self.Items.Clear;
+  FBar.LoadFromStringList(List);
+  MakeMenu;
+
 end;
 
 procedure TKASBarMenu.SaveToFile(FileName: String);
