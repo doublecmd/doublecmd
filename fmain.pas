@@ -1242,7 +1242,7 @@ begin
       if Shift=[ssShift] then
       begin
         Chdir(ActiveDir);
-        pnlFile.ExecuteFile(pnlFile.GetActiveItem^.sName, True);
+        ExecCmdFork(ActiveDir + pnlFile.GetActiveItem^.sName, True, gTerm);
         Exit;
       end;
       // ctrl enter
@@ -2967,7 +2967,7 @@ begin
   begin
     if edtCommand.Items.IndexOf(sCmd)=-1 then
       edtCommand.Items.Insert(0,sCmd);
-    ActiveFrame.pnlFile.ExecuteFile(sCmd, True);
+    ExecCmdFork(sCmd, True, gTerm);
     edtCommand.DroppedDown:=False;
     // only cMaxStringItems(see uGlobs.pas) is stored
     if edtCommand.Items.Count>cMaxStringItems then

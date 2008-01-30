@@ -27,9 +27,6 @@ Open={!EDITOR}%p
 Compile=cc -O -c %f
 #Link=cc -O -o %d/`basename %f .c` %f
 
-[exe]
-Open=%p
-
 # Fortran
 [f]
 Open={!EDITOR}%p
@@ -159,8 +156,8 @@ Open=xpdf '%f'
 View=pdftotext '%f'
 
 # html
-[html|htm]
-Open=X:\Alexx\Opera_8.5\Opera.exe %p
+[html|htm|mht]
+Open=opera '%p'
 #Open=mozilla %p
 View=lynx -dump -force_html %p
 
