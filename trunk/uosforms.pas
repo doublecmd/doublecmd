@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -44,10 +44,31 @@ type
     procedure ContextMenuSelect(Sender:TObject);
   end;
 
+{en
+   Replace window procedure
+   @param(Handle Window handle)
+}
 procedure SetMyWndProc(Handle : THandle);
-  
+{en
+   Show file/folder properties dialog
+   @param(FileList List of files)
+   @param(aPath Current file path)
+}  
 procedure ShowFilePropertiesDialog(FileList:TFileList; const aPath:String);
+{en
+   Show file/folder context menu
+   @param(Handle Parent window handle)
+   @param(FileList List of files)
+   @param(X X coordinate)
+   @param(Y Y coordinate)
+}
 procedure ShowContextMenu(Handle : THandle; FileList : TFileList; X, Y : Integer);
+{en
+   Show open icon dialog
+   @param(Owner Owner)
+   @param(sFileName Icon file name)
+   @returns(@true if is OK, @false otherwise)
+}
 function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boolean;
 
 implementation
