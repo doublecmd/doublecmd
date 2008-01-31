@@ -33,7 +33,7 @@ function RenFile(const sSrc, sDst:String):Boolean;
 
 implementation
 uses
-  LCLProc, SysUtils, uGlobs, uShowMsg, Classes, uLng, uFindEx, uOSUtils;
+  LCLProc, SysUtils, uGlobs, uShowMsg, Classes, uLng, uDCUtils, uFindEx, uOSUtils;
 
 const
   cBlockSize=16384; // size of block if copyfile
@@ -132,6 +132,13 @@ begin
   if DirectoryName[Length(DirectoryName)]<>PathDelim then
     DirectoryName:=DirectoryName+PathDelim;
   //DebugLn('ForceDirectory:',DirectoryName);
+  
+  if Pos('\\', DirectoryName) = 1 then // if network path
+    begin
+      i := CharPos(PathDelim, DirectoryName, 3); // index of the end of computer name
+      i := CharPos(PathDelim, DirectoryName, i + 1); // index of the end of first remote directory
+    end;  
+  
   while i<=length(DirectoryName) do
   begin
     if DirectoryName[i]=PathDelim then
