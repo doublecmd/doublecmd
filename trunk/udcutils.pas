@@ -46,20 +46,89 @@ type
 function GetCmdDirFromEnvVar(sPath : String) : String;
 function SetCmdDirAsEnvVar(sPath : String) : String;
 function GetSplitFileName(var sFileName, sPath : String) : String;
+{en
+   Split path into list of directories
+   @param(DirName Path)
+   @param(Dirs List of directories names)
+   @returns(The function returns the number of directories found, or -1
+   if none were found.)
+}
 function GetDirs (DirName : String; var Dirs : TStringList) : Longint;
+{en
+   Get absolute file name from relative file name
+   @param(sPath Current path)
+   @param(sRelativeFileName Relative file name)
+   @returns(Absolute file name)
+}
 function GetAbsoluteFileName(sPath, sRelativeFileName : String) : String;
+{en
+   Get file name without path and extension
+   @param(FileName File name)
+   @returns(File name without path and extension)
+}
 function ExtractOnlyFileName(const FileName: string): string;
+{en
+   Split command line on command and parameters
+   @param(sCmdLine Command line)
+   @param(sCmd Command)
+   @param(sParams Parameters)
+   @returns(The function returns @true if successful, @false otherwise)
+}
 function SplitCmdLine(sCmdLine : String; var sCmd, sParams : String) : Boolean;
+{en
+   Convert file size to string representation in floating format (Kb, Mb, Gb)
+   @param(iSize File size)
+   @returns(File size in string representation)
+}
 function cnvFormatFileSize(iSize:Int64):String;
+{en
+   Minimize file path
+   @param(PathToMince File path)
+   @param(Canvas Output canvas)
+   @param(MaxLen Max length of path in pixels)
+   @returns(Minimized file path)
+}
 function MinimizeFilePath(const PathToMince: String; Canvas: TCanvas;
-                                           MaxLen: Integer): String;
+                                            MaxLen: Integer): String;
+{en
+   Return position of character in string begun from start position
+   @param(C character)
+   @param(S String)
+   @param(StartPos Start position)
+   @returns(Position of character in string)
+}
 function CharPos(C: Char; const S: string; StartPos: Integer = 1): Integer;
+{en
+   Split file name on name and extension
+   @param(sFileName File name)
+   @param(n Name)
+   @param(e Extension)
+}
 procedure DivFileName(const sFileName:String; var n,e:String);
-
-function NumCountChars(const Char: char; const S: String): Integer;
+{en
+   Get count of character in string
+   @param(Char Character)
+   @param(S String)
+   @returns(Count of character)
+}
+function NumCountChars(const Char: Char; const S: String): Integer;
+{en
+   Delete quotes from string
+   @param(Str String)
+}
 procedure TrimQuotes(var s: String);
 function QuoteStr(const Str: String): String;
+{en
+   Delete quotation characters [' ', '"', '''', '(', ')', ':', '&'] from string
+   @param(Str String)
+   @returns(String without quotation characters)
+}
 function RemoveQuotation(const Str: String): String;
+{en
+   Split command line on list of arguments
+   @param(Args List of arguments)
+   @param(CmdLine Command line)
+}
 procedure SplitArgs(var Args: TOpenStringArray; CmdLine: String);
 
 implementation
@@ -96,14 +165,6 @@ begin
   else
     Result := sPath + sFileName;
 end;
-
-{
-  DirName is split in a list of directory names,
-  Dirs is an TStringsList.
-  The function returns the number of directories found, or -1
-  if none were found.
-  DirName must contain only PathDelim as Directory separator chars.
-}
 
 function GetDirs (DirName : String; var Dirs : TStringList) : Longint;
 
