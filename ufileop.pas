@@ -94,7 +94,7 @@ begin
   end;
   repeat
     if sr.Name='.' then Continue;
-    if (sDir=DirectorySeparator) and (sr.Name='..') then Continue;
+    if ((sDir=DirectorySeparator) or (sDir=(ExtractFileDrive(sDir)+PathDelim))) and (sr.Name='..') then Continue;
     if sr.Name='' then Continue;
 
     {$IFNDEF WIN32}   // *nix
