@@ -67,7 +67,7 @@ procedure ShowContextMenu(Handle : THandle; FileList : TFileList; X, Y : Integer
    Show open icon dialog
    @param(Owner Owner)
    @param(sFileName Icon file name)
-   @returns(@true if is OK, @false otherwise)
+   @returns(The function returns @true if successful, @false otherwise)
 }
 function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boolean;
 

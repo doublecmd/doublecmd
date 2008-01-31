@@ -108,15 +108,14 @@ Type
        @param(bCaseSensitive Set @true for case sensitive sorting)
     }
     procedure Sort(SortBy:Integer; bDirection, bCaseSensitive:Boolean); overload;
-
-    property Count      : Integer read GetCount;
     {en
        Indicates the number of items in the file list
     }
-    property CurrentDirectory : String read fDir write fDir;
+    property Count      : Integer read GetCount;
     {en
        Contain current file list directory
     }
+    property CurrentDirectory : String read fDir write fDir;
   end;
 
 { this function couldn't be a method > type of parametr TList.Sort
