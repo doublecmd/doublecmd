@@ -507,7 +507,7 @@ begin
       end;
     Canvas.FillRect(Rect);
     //Canvas.Font.Style:=[];
-    newColor:=gColorExt.ColorByExt(sExt);
+    newColor:=gColorExt.GetColorBy(sExt, sModeStr);
     if bSelected then
       Canvas.Font.Color:= gMarkColor
     else
