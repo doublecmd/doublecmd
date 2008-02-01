@@ -5,6 +5,7 @@
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
    Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,13 +29,28 @@ interface
 uses
   Classes, Graphics;
 type
+
+
+  TMaskItem=class
+    sExt:string;
+    sModeStr:string;
+    cColor:TColor;
+    sName:string;
+  end;
+
+  { TColorExt }
+
   TColorExt=Class
+  private
   protected
-    lsExts:TStringList;
+    lslist:TList;
   public
     constructor Create;
     destructor Destroy; override;
     function ColorByExt(const sExt:String):TColor;
+    function GetColorByExt(const sExt:String):TColor;
+    function GetColorByAttr(const sModeStr:String):TColor;
+    function GetColorBy(const sExt,sModeStr: String): TColor;
     procedure Load;
     procedure Save;
   end;
@@ -42,32 +58,75 @@ type
 implementation
 
 uses
-  SysUtils, uGlobs;
+  SysUtils, uGlobs, Masks;
+
 
 constructor TColorExt.Create;
 begin
   inherited;
-  lsExts:=TStringList.Create;
+  lslist:=TList.Create;
 end;
 
 destructor TColorExt.Destroy;
 begin
-  if assigned(lsExts) then
-    FreeAndNil(lsExts);
+  if assigned(lsList) then
+    begin
+      while lslist.Count>0 do
+       begin
+         TMaskItem(lslist[0]).Free;
+         lslist.Delete(0);
+       end;
+      FreeAndNil(lsList);
+    end;
 end;
 
 function TColorExt.ColorByExt(const sExt:String):TColor;
-var
-  iIndex:Integer;
 begin
-  Result:= gForeColor; //$0000ff00;
-  if sExt='' then Exit;
-  if sExt[1]='.' then
-    iIndex:= lsExts.IndexOf(UpperCase(Copy(sExt,2, Length(sExt)-1)))
-   else
-    iIndex:= lsExts.IndexOf(UpperCase(sExt));
-  if iIndex=-1 then Exit;
-  Result:=TColor(lsExts.Objects[iIndex]);
+Result:=GetColorByExt(sExt);
+end;
+
+function TColorExt.GetColorByExt(const sExt: String): TColor;
+var I:integer;
+begin
+ Result:= gForeColor; //$0000ff00;
+ for I:=0 to lslist.Count-1 do
+   begin
+     if MatchesMaskList(sExt,TMAskItem(lslist[I]).sExt,';') then
+       begin
+         Result:=TMAskItem(lslist[I]).cColor;
+         exit;
+       end;
+   end;
+end;
+
+function TColorExt.GetColorByAttr(const sModeStr: String): TColor;
+var I:Integer;
+begin
+ Result:= gForeColor; //$0000ff00;
+ for I:=0 to lslist.Count-1 do
+   begin
+     if MatchesMaskList(sModeStr,TMAskItem(lslist[I]).sModeStr,';') then
+       begin
+         Result:=TMAskItem(lslist[I]).cColor;
+         exit;
+       end;
+   end;
+end;
+
+function TColorExt.GetColorBy(const sExt, sModeStr: String): TColor;
+var I:Integer;
+begin
+ Result:= gForeColor; //$0000ff00;
+ for I:=0 to lslist.Count-1 do
+   begin
+     if ( MatchesMaskList(sExt,TMAskItem(lslist[I]).sExt,';') ) and
+      (MatchesMaskList(sModeStr,TMAskItem(lslist[I]).sModeStr,';') or (TMAskItem(lslist[I]).sModeStr='')) then
+       begin
+         Result:=TMAskItem(lslist[I]).cColor;
+         exit;
+       end;
+   end;
+
 end;
 
 (* Load colors of files from doublecmd.ini *)
@@ -80,67 +139,96 @@ end;
      ColorFilter2=*.pas
      ColorFilter2Color=16711000
    etc...
+
+Added Attributes:
+ ColorFilter1Attributes=-r*xr*xr*x     //all read/executable file
+ ColorFilter2Attributes=-*x*   //all executable
+ ColorFilter3Attributes=d*     //all directories
+ ColorFilter4Attributes=l*     //all links
+
+ Be careful with * expression. Functions return just first found value.
+ 
+ This is right demo of [Colors] section:
+ ColorFilter3=*
+ ColorFilter3Color=55758
+ ColorFilter3Attributes=-rwxrwxr*x
+ ColorFilter3Name=SomeName3
+ ColorFilter4=*
+ ColorFilter4Color=32768
+ ColorFilter4Attributes=-*x*
+ ColorFilter4Name=SomeName4
+
+ This IS WRONG because ColorFilter3Attributes=-*x* will be
+ found and ColorFilter3Color=32768 will be returned first:
+ ColorFilter3=*
+ ColorFilter3Color=32768
+ ColorFilter3Attributes=-*x*
+ ColorFilter3Name=SomeName3
+ ColorFilter4=*
+ ColorFilter4Color=55758
+ ColorFilter4Attributes=-rwxrwxr*x
+ ColorFilter4Name=SomeName4
+ 
+
+!!! The "?" and other regular expressions DOES NOT SUPPORTED
+
 }
 
 procedure TColorExt.Load;
 var
-  sExt,
-  sExtMask : String;
+  sExtMask,
+  sAttr,
+  sName: String;
+
   iColor,
-  iPos,
-  iBegin,
-  iCharCount,
   I : Integer;
+  
 begin
   I := 1;
-  lsExts.Clear;
+
+  if assigned(lsList) then
+    begin
+      while lslist.Count>0 do
+       begin
+         TMaskItem(lslist[0]).Free;
+         lslist.Delete(0);
+       end;
+    end;
+
 
   while gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I), '') <> '' do
     begin
-      iBegin := 1;
       sExtMask := gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I), '');
       iColor := gIni.ReadInteger('Colors', 'ColorFilter' + IntToStr(I) + 'Color', clText);
+      sName:=gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I)+'Name', '');
+      sAttr := gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I) + 'Attributes', '');
 
-      if pos(';', sExtMask) <> 0 then // if some extensions
-      begin
-      if sExtMask[Length(sExtMask)] <> ';' then
-        sExtMask := sExtMask + ';';
-      repeat
-        begin
-          iPos := pos(';', sExtMask);
-          //WriteLN('sExtMask=='+sExtMask+  ' iBegin==' + IntToStr(iBegin)+' Index=='+IntToStr(iPos));
-
-          Delete(sExtMask, iPos, 1);
-          Insert(' ', sExtMask, iPos); // change ';' to space
-
-          iCharCount := Length(sExtMask) - ((Length(sExtMask) - iPos )) - iBegin;
-          sExt := Copy(sExtMask, iBegin, iCharCount);
-
-          sExt := ExtractFileExt(sExt);
-          
-          //WriteLN('sExt==' + sExt);
-
-          if (sExt <> '') and (sExt[1] = '.') then
-            Delete(sExt,1,1);
-          lsExts.AddObject(sExt,TObject(iColor));
-          
-          iBegin := iPos + 1;
-        end
-      until pos(';', sExtMask) = 0;
-      end
-      else  // if one extension
-        begin
-          sExt := ExtractFileExt(sExtMask);
-          if (sExt <> '') and (sExt[1] = '.') then
-            Delete(sExt,1,1);
-          lsExts.AddObject(sExt,TObject(iColor));
-          end;
+      lsList.Add(TMaskItem.Create);
+      TMaskItem(lsList[lsList.Count-1]).sName:=sName;
+      TMaskItem(lsList[lsList.Count-1]).cColor:=iColor;
+      TMaskItem(lsList[lsList.Count-1]).sExt:=sExtMask;
+      TMaskItem(lsList[lsList.Count-1]).sModeStr:=sAttr;
+      
       Inc(I);
     end; // while gIni.ReadString();
 end;
 
 procedure TColorExt.Save;
+var I:Integer;
 begin
+//if (lslist.Count=0) then
+// TODO: list is empty. need to remove all "ColorFilter*" keys
+
+if (lslist.Count=0) then exit;
+if (not assigned(lslist))  then exit;
+
+for I:=0 to lslist.Count - 1 do
+  begin
+      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I), TMaskItem(lsList[I]).sExt);
+      gIni.WriteInteger('Colors', 'ColorFilter' + IntToStr(I) + 'Color', TMaskItem(lsList[I]).cColor);
+      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I)+'Name', TMaskItem(lsList[I]).sName);
+      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I) + 'Attributes', TMaskItem(lsList[I]).sModeStr);
+  end;
 
 
 end;
