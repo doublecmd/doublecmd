@@ -90,7 +90,7 @@ type
     procedure Init;
     procedure ClearCmdLine;
     procedure CloseAltPanel;
-    procedure ShowAltPanel;
+    procedure ShowAltPanel(Char : Char = #0);
     procedure UnMarkAll;
     procedure UpDatelblInfo;
     Function GetActiveDir:String;
@@ -294,14 +294,21 @@ end;
 
 procedure TFrameFilePanel.edSearchChange(Sender: TObject);
 var
-  i:Integer;
+  I:Integer;
+  Result : Boolean;
 begin
   if edtSearch.Text='' then Exit;
 //  DebugLn('edSearchChange:'+ edSearch.Text);
 
   for i:=1 to dgPanel.RowCount-1 do // first is header
   begin
-    if pos(lowercase(edtSearch.Text), lowercase(pnlFile.GetReferenceItemPtr(i-1)^.sName))=1 then
+
+    if gQuickSearchMatchBeginning then
+      Result := (Pos(lowercase(edtSearch.Text), lowercase(pnlFile.GetReferenceItemPtr(i-1)^.sName)) = 1)
+    else
+      Result := (Pos(lowercase(edtSearch.Text), lowercase(pnlFile.GetReferenceItemPtr(i-1)^.sName)) > 0);
+
+    if Result then
     begin
       dgPanel.Row:=i;
       MakeVisible(i);
@@ -316,13 +323,14 @@ begin
   edtSearch.Text:='';
 end;
 
-procedure TFrameFilePanel.ShowAltPanel;
+procedure TFrameFilePanel.ShowAltPanel(Char : Char);
 begin
-  pnAltSearch.Top:=dgPanel.Top+dgPanel.Height;
-  pnAltSearch.Left:=dgPanel.Left;
-  pnAltSearch.Visible:=True;
-  edtSearch.Text:='';
+  pnAltSearch.Top := dgPanel.Top + dgPanel.Height;
+  pnAltSearch.Left := dgPanel.Left;
+  pnAltSearch.Visible := True;
   edtSearch.SetFocus;
+  edtSearch.Text := Char;
+  edtSearch.SelStart := Length(edtSearch.Text) + 1;
 end;
 
 procedure TFrameFilePanel.UnMarkAll;

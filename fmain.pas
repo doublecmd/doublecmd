@@ -53,6 +53,7 @@ type
     actAddPathToCmdLine: TAction;
     actFocusCmdLine: TAction;
     actContextMenu: TAction;
+    actQuickSearch: TAction;
     actShowButtonMenu: TAction;
     actOpenArchive: TAction;
     actTransferRight: TAction;
@@ -204,6 +205,7 @@ type
     procedure actOpenArchiveExecute(Sender: TObject);
     procedure actOpenVFSListExecute(Sender: TObject);
     procedure actPackFilesExecute(Sender: TObject);
+    procedure actQuickSearchExecute(Sender: TObject);
     procedure actRightOpenDrivesExecute(Sender: TObject);
     procedure actShowButtonMenuExecute(Sender: TObject);
     procedure actTransferLeftExecute(Sender: TObject);
@@ -397,6 +399,12 @@ begin
         frameRight.RefreshPanel;
       end;
     end;  // IsBlocked
+end;
+
+procedure TfrmMain.actQuickSearchExecute(Sender: TObject);
+begin
+  ActiveFrame.ShowAltPanel;
+  KeyPreview := False;
 end;
 
 procedure TfrmMain.actRightOpenDrivesExecute(Sender: TObject);
@@ -2075,14 +2083,15 @@ procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word;
 begin
   inherited;
 
-//  DebugLn('Key down:',Key);
-  if Key=18 then // is the ALT?
-  begin
-    ActiveFrame.ShowAltPanel;
-    Key:=0;
-    KeyPreview:=False;
-    Exit;
-  end;
+  //DebugLn('Key down:',Key);
+  //if Key=18 then // is the ALT?
+  if gQuickSearch and (Shift = gQuickSearchMode) and (Key > 32) then
+    begin
+      ActiveFrame.ShowAltPanel(Char(Key));
+      Key:=0;
+      KeyPreview:=False;
+      Exit;
+    end;
   
   if Key=9 then  // TAB
   begin

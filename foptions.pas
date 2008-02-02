@@ -116,6 +116,7 @@ type
     edtTest3: TEdit;
     edtViewerSize: TSpinEdit;
     cbLogFile: TCheckBox;
+    gbExactNameMatch: TGroupBox;
     fneLogFileName: TFileNameEdit;
     gbLogFile: TGroupBox;
     gbLogFileOp: TGroupBox;
@@ -146,6 +147,12 @@ type
     gbFileSearch: TGroupBox;
     gbLocConfigFiles: TGroupBox;
     gbSaveOnExit: TGroupBox;
+    rbCtrlAltLetterQS: TRadioButton;
+    rbAltLetterQS: TRadioButton;
+    rbNoneQS: TRadioButton;
+    cbExactBeginning: TCheckBox;
+    cbExactEnding: TCheckBox;
+    rbLetterQS: TRadioButton;
     ilTreeView: TImageList;
     lblChar: TLabel;
     lblDateTimeExample: TLabel;
@@ -183,6 +190,7 @@ type
     nbNotebook: TNotebook;
     odOpenDialog: TOpenDialog;
     optColorDialog: TColorDialog;
+    pgQuickSearch: TPage;
     pgConfigStorage: TPage;
     pgLogFile: TPage;
     pgTabs: TPage;
@@ -204,6 +212,7 @@ type
     pgHotKey: TPage;
     pgLng: TPage;
     pgTools: TPage;
+    gbQuickSearch: TGroupBox;
     rbProgramDir: TRadioButton;
     rbUserHomeDir: TRadioButton;
     rbUseMmapInSearch: TRadioButton;
@@ -396,7 +405,21 @@ begin
   cbDirHistory.Checked := gSaveDirHistory;
   cbCmdLineHistory.Checked := gSaveCmdLineHistory;
   cbFileMaskHistory.Checked := gSaveFileMaskHistory;
-  
+  { Quick Search page}
+  if gQuickSearch then
+    begin
+      if (gQuickSearchMode = [ssCtrl, ssAlt]) then
+        rbCtrlAltLetterQS.Checked := True
+      else if (gQuickSearchMode = [ssAlt]) then
+        rbAltLetterQS.Checked := True
+      else if gQuickSearchMode = [] then
+        rbLetterQS.Checked := True;
+    end
+  else
+    rbNoneQS.Checked := True;
+
+  cbExactBeginning.Checked := gQuickSearchMatchBeginning;
+
   { Icons sizes in file panels }
   cbIconsSize.Text := IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize);
 
@@ -656,7 +679,19 @@ begin
   gSaveDirHistory := cbDirHistory.Checked;
   gSaveCmdLineHistory := cbCmdLineHistory.Checked;
   gSaveFileMaskHistory := cbFileMaskHistory.Checked;
+
+  { Quick Search page}
+  gQuickSearch := not rbNoneQS.Checked;
   
+  if rbCtrlAltLetterQS.Checked then
+    gQuickSearchMode := [ssCtrl, ssAlt];
+  if rbAltLetterQS.Checked then
+    gQuickSearchMode := [ssAlt];
+  if rbLetterQS.Checked then
+    gQuickSearchMode := [];
+
+  gQuickSearchMatchBeginning := cbExactBeginning.Checked;
+
   frmMain.UpdateWindowView;
   frmMain.Repaint; // for panels repaint
   frmMain.SaveShortCuts;

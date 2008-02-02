@@ -31,6 +31,10 @@ msgstr "添加(&A)"
 msgid "&Associate with:"
 msgstr "关联(&A)"
 
+#: TFRMOPTIONS.CBEXACTBEGINNING.CAPTION
+msgid "&Beginning (name must start with first typed character)"
+msgstr ""
+
 #: TFRMEDITORCONF.CBBOLD.CAPTION
 msgid "&Bold"
 msgstr "粗体(&B)"
@@ -69,6 +73,10 @@ msgstr "配置(&C)"
 
 #: TFRMOPTIONS.CBLOGFILE.CAPTION
 msgid "&Create a log file:"
+msgstr ""
+
+#: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
+msgid "&Ctrl+Alt+Letters"
 msgstr ""
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
@@ -314,6 +322,10 @@ msgstr "添加子栏"
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
 msgstr "高级"
+
+#: TFRMOPTIONS.RBALTLETTERQS.CAPTION
+msgid "Al&t+Letters"
+msgstr ""
 
 #: TFRMOPTIONS.LBLEXT.CAPTION
 msgid "All files with e&xtension (ending with):"
@@ -635,6 +647,10 @@ msgstr "删除文件"
 msgid "Delete selected \"\%s\"?"
 msgstr "删除选中的 \"\%s\"?"
 
+#: TFRMOPTIONS.RBNONEQS.CAPTION
+msgid "Di&sabled"
+msgstr ""
+
 #: ulng.rspropsfolder
 msgid "Directory"
 msgstr "目录"
@@ -711,6 +727,10 @@ msgstr "编辑器配置"
 msgid "Editor font"
 msgstr "编辑器字体"
 
+#: TFRMOPTIONS.CBEXACTENDING.CAPTION
+msgid "En&ding (last character before a typed dot . must match)"
+msgstr ""
+
 #: TFRMPACKDLG.CBENCRYPT.CAPTION
 msgid "Encr&ypt"
 msgstr "加密(&Y)"
@@ -742,6 +762,10 @@ msgstr ""
 #: TFRMFILEOP.LBLESTIMATED.CAPTION
 msgid "Estimated"
 msgstr "估计"
+
+#: TFRMOPTIONS.GBEXACTNAMEMATCH.CAPTION
+msgid "Exact &name match:"
+msgstr ""
 
 #: TFRMOPTIONS.GBEXAMPLE.CAPTION
 msgid "Example"
@@ -1046,6 +1070,10 @@ msgstr "Kbyte"
 #: TFRMCOMPAREFILES.CHBKEEPSCROLLING.CAPTION
 msgid "Keep scrolling"
 msgstr "保持滚动"
+
+#: TFRMOPTIONS.RBLETTERQS.CAPTION
+msgid "L&etter only"
+msgstr ""
 
 #: ulng.rsoptlanguage
 msgid "Language"
@@ -1370,6 +1398,10 @@ msgstr ""
 #: TFRMFILEPROPERTIES.CAPTION
 msgid "Properties"
 msgstr "属性"
+
+#: TFRMOPTIONS.GBQUICKSEARCH.CAPTION
+msgid "Quick search (current dir)"
+msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgid "Read"

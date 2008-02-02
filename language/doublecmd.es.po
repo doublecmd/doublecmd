@@ -31,6 +31,10 @@ msgstr "&Añadir"
 msgid "&Associate with:"
 msgstr "&Asociar con:"
 
+#: TFRMOPTIONS.CBEXACTBEGINNING.CAPTION
+msgid "&Beginning (name must start with first typed character)"
+msgstr ""
+
 #: TFRMEDITORCONF.CBBOLD.CAPTION
 msgid "&Bold"
 msgstr "&Negrita"
@@ -69,6 +73,10 @@ msgstr "&Configurar"
 
 #: TFRMOPTIONS.CBLOGFILE.CAPTION
 msgid "&Create a log file:"
+msgstr ""
+
+#: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
+msgid "&Ctrl+Alt+Letters"
 msgstr ""
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
@@ -314,6 +322,10 @@ msgstr "Añadir S&ubbarra >>"
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
 msgstr "Avanzado"
+
+#: TFRMOPTIONS.RBALTLETTERQS.CAPTION
+msgid "Al&t+Letters"
+msgstr ""
 
 #: TFRMOPTIONS.LBLEXT.CAPTION
 msgid "All files with e&xtension (ending with):"
@@ -635,6 +647,10 @@ msgstr "Borrar fichero(s)"
 msgid "Delete selected \"\%s\"?"
 msgstr "Borrar el seleccionado \"\%s\"?"
 
+#: TFRMOPTIONS.RBNONEQS.CAPTION
+msgid "Di&sabled"
+msgstr ""
+
 #: ulng.rspropsfolder
 msgid "Directory"
 msgstr "Directorio"
@@ -711,6 +727,10 @@ msgstr "Configuración del editor"
 msgid "Editor font"
 msgstr "Fuente del editor"
 
+#: TFRMOPTIONS.CBEXACTENDING.CAPTION
+msgid "En&ding (last character before a typed dot . must match)"
+msgstr ""
+
 #: TFRMPACKDLG.CBENCRYPT.CAPTION
 msgid "Encr&ypt"
 msgstr "Encr&iptar"
@@ -742,6 +762,10 @@ msgstr ""
 #: TFRMFILEOP.LBLESTIMATED.CAPTION
 msgid "Estimated"
 msgstr "Estimado"
+
+#: TFRMOPTIONS.GBEXACTNAMEMATCH.CAPTION
+msgid "Exact &name match:"
+msgstr ""
 
 #: TFRMOPTIONS.GBEXAMPLE.CAPTION
 msgid "Example"
@@ -1046,6 +1070,10 @@ msgstr "Kbyte"
 #: TFRMCOMPAREFILES.CHBKEEPSCROLLING.CAPTION
 msgid "Keep scrolling"
 msgstr "Continuar scroll"
+
+#: TFRMOPTIONS.RBLETTERQS.CAPTION
+msgid "L&etter only"
+msgstr ""
 
 #: ulng.rsoptlanguage
 msgid "Language"
@@ -1370,6 +1398,10 @@ msgstr ""
 #: TFRMFILEPROPERTIES.CAPTION
 msgid "Properties"
 msgstr "Propiedades"
+
+#: TFRMOPTIONS.GBQUICKSEARCH.CAPTION
+msgid "Quick search (current dir)"
+msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgid "Read"
