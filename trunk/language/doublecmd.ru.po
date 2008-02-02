@@ -30,6 +30,10 @@ msgstr "Добавить"
 msgid "&Associate with:"
 msgstr "Открывать &с помощью:"
 
+#: TFRMOPTIONS.CBEXACTBEGINNING.CAPTION
+msgid "&Beginning (name must start with first typed character)"
+msgstr "Начало (имя должно начинаться с набранных символов)"
+
 #: TFRMEDITORCONF.CBBOLD.CAPTION
 msgid "&Bold"
 msgstr "&Жирный"
@@ -69,6 +73,10 @@ msgstr "&Настроить"
 #: TFRMOPTIONS.CBLOGFILE.CAPTION
 msgid "&Create a log file:"
 msgstr "Создать файл отчета:"
+
+#: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
+msgid "&Ctrl+Alt+Letters"
+msgstr "&Ctrl+Alt+Буква"
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
 msgid "&Delete"
@@ -313,6 +321,10 @@ msgstr "Добавить панель..."
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
 msgstr "Расширенный"
+
+#: TFRMOPTIONS.RBALTLETTERQS.CAPTION
+msgid "Al&t+Letters"
+msgstr "Al&t+Буква"
 
 #: TFRMOPTIONS.LBLEXT.CAPTION
 msgid "All files with e&xtension (ending with):"
@@ -634,6 +646,10 @@ msgstr "Удалить файл(ы)"
 msgid "Delete selected \"\%s\"?"
 msgstr "Удалить выбранный "%s"?"
 
+#: TFRMOPTIONS.RBNONEQS.CAPTION
+msgid "Di&sabled"
+msgstr "Отключен"
+
 #: ulng.rspropsfolder
 msgid "Directory"
 msgstr "Каталог"
@@ -710,6 +726,10 @@ msgstr "Настройки редактора"
 msgid "Editor font"
 msgstr "Редактора"
 
+#: TFRMOPTIONS.CBEXACTENDING.CAPTION
+msgid "En&ding (last character before a typed dot . must match)"
+msgstr "Конец (последние символы до набранной точки '.' должны совпадать)"
+
 #: TFRMPACKDLG.CBENCRYPT.CAPTION
 msgid "Encr&ypt"
 msgstr "&Шифровать"
@@ -741,6 +761,10 @@ msgstr "Ошибка: "
 #: TFRMFILEOP.LBLESTIMATED.CAPTION
 msgid "Estimated"
 msgstr "Осталось"
+
+#: TFRMOPTIONS.GBEXACTNAMEMATCH.CAPTION
+msgid "Exact &name match:"
+msgstr "Точное соответствие имени:"
 
 #: TFRMOPTIONS.GBEXAMPLE.CAPTION
 msgid "Example"
@@ -1045,6 +1069,10 @@ msgstr "Килобайт"
 #: TFRMCOMPAREFILES.CHBKEEPSCROLLING.CAPTION
 msgid "Keep scrolling"
 msgstr "Одновременная прокрутка"
+
+#: TFRMOPTIONS.RBLETTERQS.CAPTION
+msgid "L&etter only"
+msgstr "Только буква"
 
 #: ulng.rsoptlanguage
 msgid "Language"
@@ -1369,6 +1397,10 @@ msgstr "Каталог программы (portable version)"
 #: TFRMFILEPROPERTIES.CAPTION
 msgid "Properties"
 msgstr "Свойства"
+
+#: TFRMOPTIONS.GBQUICKSEARCH.CAPTION
+msgid "Quick search (current dir)"
+msgstr "Поиск в текущем каталоге"
 
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgid "Read"

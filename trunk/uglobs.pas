@@ -34,6 +34,7 @@ type
   { Log options }
   TLogOptions = set of (log_cp_mv_ln, log_delete, log_dir_op, log_arc_op,
                         log_vfs_op, log_success, log_errors, log_info);
+                        
 var
   { For localization }
   gPOFileName : String;
@@ -72,7 +73,7 @@ var
   gSeparateExt:Boolean=False;    // draw filename and extension separate
 
   gDateTimeFormat : String;
-
+  
   { Tools page }
 
   gUseExtEdit:Boolean=False;
@@ -131,6 +132,11 @@ var
   gSaveDirHistory,
   gSaveCmdLineHistory,
   gSaveFileMaskHistory : Boolean;
+  
+  {  Quick Search page}
+  gQuickSearch : Boolean;
+  gQuickSearchMode : TShiftState = [ssCtrl, ssAlt];
+  gQuickSearchMatchBeginning : Boolean;
   
 const
   { Tabs options }
@@ -337,7 +343,11 @@ begin
   gSaveDirHistory := gIni.ReadBool('Configuration', 'SaveDirHistory', True);
   gSaveCmdLineHistory := gIni.ReadBool('Configuration', 'SaveCmdLineHistory', True);
   gSaveFileMaskHistory := gIni.ReadBool('Configuration', 'SaveFileMaskHistory', True);
-        
+  { Quick Search page}
+  gQuickSearch := gIni.ReadBool('Configuration', 'QuickSearch', True);
+  gQuickSearchMode := TShiftState(gIni.ReadInteger('Configuration', 'QuickSearchMode', Integer(gQuickSearchMode)));
+  gQuickSearchMatchBeginning := gIni.ReadBool('Configuration', 'QuickSearchMatchBeginning', True);
+  
   gShowIcons := gIni.ReadBool('Configuration', 'ShowIcons', True);
   gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
 
@@ -467,7 +477,11 @@ begin
   gIni.WriteBool('Configuration', 'SaveDirHistory', gSaveDirHistory);
   gIni.WriteBool('Configuration', 'SaveCmdLineHistory', gSaveCmdLineHistory);
   gIni.WriteBool('Configuration', 'SaveFileMaskHistory', gSaveFileMaskHistory);
-  
+  { Quick Search page}
+  gIni.WriteBool('Configuration', 'QuickSearch', gQuickSearch);
+  gIni.WriteInteger('Configuration', 'QuickSearchMode', Integer(gQuickSearchMode));
+  gIni.WriteBool('Configuration', 'QuickSearchMatchBeginning', gQuickSearchMatchBeginning);
+
   gIni.WriteBool('Configuration', 'ShowIcons', gShowIcons);
   gIni.WriteInteger('Configuration', 'IconsSize', gIconsSize);
 
