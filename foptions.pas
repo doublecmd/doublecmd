@@ -419,6 +419,7 @@ begin
     rbNoneQS.Checked := True;
 
   cbExactBeginning.Checked := gQuickSearchMatchBeginning;
+  cbExactEnding.Checked := gQuickSearchMatchEnding;
 
   { Icons sizes in file panels }
   cbIconsSize.Text := IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize);
@@ -691,6 +692,7 @@ begin
     gQuickSearchMode := [];
 
   gQuickSearchMatchBeginning := cbExactBeginning.Checked;
+  gQuickSearchMatchEnding := cbExactEnding.Checked;
 
   frmMain.UpdateWindowView;
   frmMain.Repaint; // for panels repaint

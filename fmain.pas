@@ -2082,14 +2082,13 @@ procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
+  //DebugLn('Key down: ', IntToStr(Key));
 
-  //DebugLn('Key down:',Key);
-  //if Key=18 then // is the ALT?
   if gQuickSearch and (Shift = gQuickSearchMode) and (Key > 32) then
     begin
-      ActiveFrame.ShowAltPanel(Char(Key));
-      Key:=0;
-      KeyPreview:=False;
+      ActiveFrame.ShowAltPanel(LowerCase(Chr(Key)));
+      Key := 0;
+      KeyPreview := False;
       Exit;
     end;
   

@@ -136,7 +136,8 @@ var
   {  Quick Search page}
   gQuickSearch : Boolean;
   gQuickSearchMode : TShiftState = [ssCtrl, ssAlt];
-  gQuickSearchMatchBeginning : Boolean;
+  gQuickSearchMatchBeginning,
+  gQuickSearchMatchEnding : Boolean;
   
 const
   { Tabs options }
@@ -347,6 +348,7 @@ begin
   gQuickSearch := gIni.ReadBool('Configuration', 'QuickSearch', True);
   gQuickSearchMode := TShiftState(gIni.ReadInteger('Configuration', 'QuickSearchMode', Integer(gQuickSearchMode)));
   gQuickSearchMatchBeginning := gIni.ReadBool('Configuration', 'QuickSearchMatchBeginning', True);
+  gQuickSearchMatchEnding := gIni.ReadBool('Configuration', 'QuickSearchMatchEnding', True);
   
   gShowIcons := gIni.ReadBool('Configuration', 'ShowIcons', True);
   gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
@@ -481,6 +483,7 @@ begin
   gIni.WriteBool('Configuration', 'QuickSearch', gQuickSearch);
   gIni.WriteInteger('Configuration', 'QuickSearchMode', Integer(gQuickSearchMode));
   gIni.WriteBool('Configuration', 'QuickSearchMatchBeginning', gQuickSearchMatchBeginning);
+  gIni.WriteBool('Configuration', 'QuickSearchMatchEnding', gQuickSearchMatchEnding);
 
   gIni.WriteBool('Configuration', 'ShowIcons', gShowIcons);
   gIni.WriteInteger('Configuration', 'IconsSize', gIconsSize);

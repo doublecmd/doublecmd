@@ -70,7 +70,8 @@ const
     'Radek Polak - some viewer fixes'+#13+
     'translators (see detail in lng files)  '+#13+#13+
     'In program used icons from:'+#13+
-    '-Tango Icon Library (http://tango.freedesktop.org/Tango_Icon_Library)'+#13+#13+
+    '- Tango Icon Library (http://tango.freedesktop.org/Tango_Icon_Library)'+#13+
+    '- Silk icon set 1.3 by Mark James (http://www.famfamfam.com/lab/icons/silk/)'+#13+#13+
     'Big thanks to Lazarus and FreePascal Team';
 
 procedure ShowAboutBox;
