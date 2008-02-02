@@ -1399,6 +1399,10 @@ msgstr ""
 msgid "Properties"
 msgstr "属性"
 
+#: TFRMMAIN.ACTQUICKSEARCH.CAPTION
+msgid "Quick search"
+msgstr ""
+
 #: TFRMOPTIONS.GBQUICKSEARCH.CAPTION
 msgid "Quick search (current dir)"
 msgstr ""

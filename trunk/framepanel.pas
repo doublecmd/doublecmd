@@ -30,7 +30,12 @@ type
   { TFrameFilePanel }
 
   TFrameFilePanel = class (TWinControl)
+  private
+    fSearchDirect,
+    fNext,
+    fPrevious : Boolean;
     procedure edSearchKeyPress(Sender: TObject; var Key: Char);
+    procedure edSearchKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   public
     pnlFooter: TPanel;
     pnPanel: TPanel;
@@ -108,7 +113,7 @@ type
 implementation
 
 uses
-  LCLProc, uLng, uShowMsg, uGlobs, GraphType, uPixmapManager, uVFSUtil, uDCUtils, uOSUtils;
+  LCLProc, Masks, uLng, uShowMsg, uGlobs, GraphType, uPixmapManager, uVFSUtil, uDCUtils, uOSUtils;
 
 
 procedure TFrameFilePanel.LoadPanel;
@@ -292,29 +297,92 @@ begin
   end;
 end;
 
+procedure TFrameFilePanel.edSearchKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = 40 then // Down
+    begin
+      fSearchDirect := True;
+      fNext := True;
+      Key := 0;
+      edSearchChange(Sender);
+    end;
+  if Key = 38 then // Up
+    begin
+      fSearchDirect := False;
+      fPrevious := True;
+      Key := 0;
+      edSearchChange(Sender);
+    end;
+end;
+
 procedure TFrameFilePanel.edSearchChange(Sender: TObject);
 var
-  I:Integer;
+  I, iEnd : Integer;
   Result : Boolean;
+  sSearchName,
+  sSearchNameNoExt,
+  sSearchExt : String;
 begin
   if edtSearch.Text='' then Exit;
-//  DebugLn('edSearchChange:'+ edSearch.Text);
+  //DebugLn('edSearchChange: '+ edSearch.Text);
 
-  for i:=1 to dgPanel.RowCount-1 do // first is header
-  begin
+  sSearchName := AnsiLowerCase(edtSearch.Text);
 
-    if gQuickSearchMatchBeginning then
-      Result := (Pos(lowercase(edtSearch.Text), lowercase(pnlFile.GetReferenceItemPtr(i-1)^.sName)) = 1)
-    else
-      Result := (Pos(lowercase(edtSearch.Text), lowercase(pnlFile.GetReferenceItemPtr(i-1)^.sName)) > 0);
-
-    if Result then
+  if Pos('.', sSearchName) <> 0 then
     begin
-      dgPanel.Row:=i;
-      MakeVisible(i);
-      Exit;
+      sSearchNameNoExt := ExtractOnlyFileName(sSearchName);
+      sSearchExt := ExtractFileExt(sSearchName);
+      if not gQuickSearchMatchBeginning then
+        sSearchNameNoExt := '*' + sSearchNameNoExt;
+      if not gQuickSearchMatchEnding then
+        sSearchNameNoExt := sSearchNameNoExt + '*';
+      sSearchName := sSearchNameNoExt + sSearchExt + '*';
+    end
+  else
+    begin
+      if not gQuickSearchMatchBeginning then
+        sSearchName := '*' + sSearchName;
+      sSearchName := sSearchName + '*';
     end;
-  end;
+
+  DebugLn('sSearchName = ', sSearchName);
+
+  I := 1;
+  if not (fNext or fPrevious) then fSearchDirect := True;
+  if fSearchDirect then
+    begin
+      if fNext then
+        I := edtSearch.Tag + 1; // begin search from next file
+      iEnd := dgPanel.RowCount;
+    end
+  else
+    begin
+      if fPrevious then
+        I := edtSearch.Tag - 1; // begin search from previous file
+      iEnd := dgPanel.FixedRows;
+    end;
+  if I < 1 then I := 1;
+  
+  fNext := False;
+  fPrevious := False;
+  
+  while I <> iEnd do
+    begin
+      Result := MatchesMask(AnsiLowerCase(pnlFile.GetReferenceItemPtr(I-1)^.sName), sSearchName);
+
+      if Result then
+        begin
+          dgPanel.Row := I;
+          MakeVisible(I);
+          edtSearch.Tag := I;
+          Exit;
+        end;
+      if fSearchDirect then
+        Inc(I)
+      else
+        Dec(I);
+    end; // while
 end;
 
 procedure TFrameFilePanel.CloseAltPanel;
@@ -329,6 +397,10 @@ begin
   pnAltSearch.Left := dgPanel.Left;
   pnAltSearch.Visible := True;
   edtSearch.SetFocus;
+  edtSearch.Tag := 0; // save current search position
+  fSearchDirect := True; // set search direction
+  fNext := False;
+  fPrevious := False;
   edtSearch.Text := Char;
   edtSearch.SelStart := Length(edtSearch.Text) + 1;
 end;
@@ -782,7 +854,7 @@ begin
   dgPanel.Align:=alClient;
 //  dgPanel.DefaultDrawing:=False;
   dgPanel.ColCount:=5;
-  dgPanel.Options:=[goTabs, goRowSelect, goColSizing, goHeaderHotTracking, goHeaderPushedLook];
+  dgPanel.Options:=[goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect, goColSizing, goHeaderHotTracking, goHeaderPushedLook];
   dgPanel.TitleStyle := tsStandard;
   dgPanel.TabStop:=False;
 
@@ -810,7 +882,7 @@ begin
   edtSearch.Top:=1;
   edtSearch.Height:=18;
 
-  pnAltSearch.Visible:=False;
+  pnAltSearch.Visible := False;
   
   // ---
   dgPanel.OnDblClick:=@dgPanelDblClick;
@@ -827,6 +899,7 @@ begin
   {/Alexx2000}
   edtSearch.OnChange:=@edSearchChange;
   edtSearch.OnKeyPress:=@edSearchKeyPress;
+  edtSearch.OnKeyDown:=@edSearchKeyDown;
   edtPath.OnKeyPress:=@edtPathKeyPress;
   edtRename.OnKeyPress:=@edtRenameKeyPress;
 

@@ -1967,3 +1967,6 @@ msgstr ""
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr ""
 
+#: TFRMMAIN.ACTQUICKSEARCH.CAPTION
+msgid "Quick search"
+msgstr ""

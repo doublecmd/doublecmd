@@ -1398,6 +1398,10 @@ msgstr "Каталог программы (portable version)"
 msgid "Properties"
 msgstr "Свойства"
 
+#: TFRMMAIN.ACTQUICKSEARCH.CAPTION
+msgid "Quick search"
+msgstr "Быстрый поиск"
+
 #: TFRMOPTIONS.GBQUICKSEARCH.CAPTION
 msgid "Quick search (current dir)"
 msgstr "Поиск в текущем каталоге"
