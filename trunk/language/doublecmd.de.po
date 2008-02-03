@@ -435,6 +435,10 @@ msgstr "Gross- Kleinschreibung beachten"
 msgid "Case sensitive sorting"
 msgstr "Sortieren nach Gross- Kleinschreibung"
 
+#: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
+msgid "Category attributes:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLCATEGORYCOLOR.CAPTION
 msgid "Category color:"
 msgstr "Kategoriefarbe"

@@ -434,6 +434,10 @@ msgstr "С учетом регистра"
 msgid "Case sensitive sorting"
 msgstr "Сортировка с учётом регистра"
 
+#: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
+msgid "Category attributes:"
+msgstr "Атрибуты"
+
 #: TFRMOPTIONS.LBLCATEGORYCOLOR.CAPTION
 msgid "Category color:"
 msgstr "Цвет:"

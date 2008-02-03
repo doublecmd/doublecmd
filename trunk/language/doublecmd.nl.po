@@ -435,6 +435,10 @@ msgstr "Hoofdletter gevoelig"
 msgid "Case sensitive sorting"
 msgstr "Hoofdletter gevoelige sortering"
 
+#: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
+msgid "Category attributes:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLCATEGORYCOLOR.CAPTION
 msgid "Category color:"
 msgstr "Categorie kleur:"

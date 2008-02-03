@@ -135,7 +135,7 @@ object frmOptions: TfrmOptions
       Width = 464
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 13
+      PageIndex = 7
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
@@ -1183,14 +1183,16 @@ object frmOptions: TfrmOptions
         end
       end
       object pgFileTypesColors: TPage
+        ClientWidth = 456
+        ClientHeight = 347
         object gbFileTypesColors: TGroupBox
           Left = 10
-          Height = 274
+          Height = 330
           Top = 2
           Width = 425
           Caption = 'File types colors'
-          ClientHeight = 274
-          ClientWidth = 425
+          ClientHeight = 312
+          ClientWidth = 421
           TabOrder = 0
           object lblCategoryName: TLabel
             AnchorSideTop.Control = edtCategoryName
@@ -1217,9 +1219,19 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrCenter
             Left = 12
             Height = 14
-            Top = 184
+            Top = 215
             Width = 76
             Caption = 'Category color:'
+            ParentColor = False
+          end
+          object lblCategoryAttr: TLabel
+            AnchorSideTop.Control = edtCategoryAttr
+            AnchorSideTop.Side = asrCenter
+            Left = 12
+            Height = 14
+            Top = 184
+            Width = 100
+            Caption = 'Category attributes:'
             ParentColor = False
           end
           object edtCategoryName: TEdit
@@ -1243,11 +1255,11 @@ object frmOptions: TfrmOptions
             TabOrder = 1
           end
           object cbCategoryColor: TColorBox
-            AnchorSideTop.Control = edtCategoryMask
+            AnchorSideTop.Control = edtCategoryAttr
             AnchorSideTop.Side = asrBottom
             Left = 174
             Height = 22
-            Top = 180
+            Top = 211
             Width = 100
             AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
             BorderSpacing.Top = 8
@@ -1286,7 +1298,7 @@ object frmOptions: TfrmOptions
             AnchorSideRight.Control = bbtnDeleteCategory
             Left = 128
             Height = 32
-            Top = 214
+            Top = 245
             Width = 90
             Anchors = [akTop, akRight]
             BorderSpacing.Top = 12
@@ -1302,7 +1314,7 @@ object frmOptions: TfrmOptions
             AnchorSideRight.Control = bbtnApplyCategory
             Left = 224
             Height = 32
-            Top = 214
+            Top = 245
             Width = 90
             Anchors = [akTop, akRight]
             BorderSpacing.Top = 12
@@ -1317,7 +1329,7 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrCenter
             Left = 278
             Height = 22
-            Top = 180
+            Top = 211
             Width = 28
             BorderSpacing.InnerBorder = 4
             Caption = '>>'
@@ -1331,7 +1343,6 @@ object frmOptions: TfrmOptions
             Width = 398
             OnClick = lbCategoriesClick
             TabOrder = 6
-            TopIndex = -1
           end
           object bbtnApplyCategory: TBitBtn
             AnchorSideTop.Control = cbCategoryColor
@@ -1340,7 +1351,7 @@ object frmOptions: TfrmOptions
             AnchorSideRight.Side = asrBottom
             Left = 320
             Height = 32
-            Top = 214
+            Top = 245
             Width = 90
             Anchors = [akTop, akRight]
             BorderSpacing.Top = 12
@@ -1348,6 +1359,16 @@ object frmOptions: TfrmOptions
             NumGlyphs = 0
             OnClick = bbtnApplyCategoryClick
             TabOrder = 7
+          end
+          object edtCategoryAttr: TEdit
+            AnchorSideTop.Control = edtCategoryMask
+            AnchorSideTop.Side = asrBottom
+            Left = 174
+            Height = 23
+            Top = 180
+            Width = 236
+            BorderSpacing.Top = 8
+            TabOrder = 8
           end
         end
       end
@@ -1814,16 +1835,14 @@ object frmOptions: TfrmOptions
         end
       end
       object pgQuickSearch: TPage
-        ClientWidth = 456
-        ClientHeight = 347
         object gbQuickSearch: TGroupBox
           Left = 6
           Height = 154
           Top = 4
           Width = 433
           Caption = 'Quick search (current dir)'
-          ClientHeight = 136
-          ClientWidth = 429
+          ClientHeight = 154
+          ClientWidth = 433
           TabOrder = 0
           object rbCtrlAltLetterQS: TRadioButton
             Left = 10
@@ -1876,8 +1895,8 @@ object frmOptions: TfrmOptions
           Width = 433
           BorderSpacing.Top = 6
           Caption = 'Exact &name match:'
-          ClientHeight = 70
-          ClientWidth = 429
+          ClientHeight = 88
+          ClientWidth = 433
           TabOrder = 1
           object cbExactBeginning: TCheckBox
             Left = 10

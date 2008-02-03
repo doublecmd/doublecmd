@@ -494,6 +494,8 @@ begin
   SaveWindowPos(gViewerPos, 'Viewer.');
   SaveWindowPos(gEditorPos, 'Editor.');
   
+  gColorExt.Save;
+  
   DeInitGlobs;
 end;
 
