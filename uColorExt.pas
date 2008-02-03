@@ -4,7 +4,7 @@
    Load colors of files in file panels
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
 
    This program is free software; you can redistribute it and/or modify
@@ -42,6 +42,7 @@ type
 
   TColorExt=Class
   private
+    fOldCount : Integer;
   protected
     lslist:TList;
   public
@@ -53,6 +54,7 @@ type
     function GetColorBy(const sExt,sModeStr: String): TColor;
     procedure Load;
     procedure Save;
+    property  MaskItemList : TList read lslist write lslist;
   end;
 
 implementation
@@ -179,10 +181,8 @@ var
   sExtMask,
   sAttr,
   sName: String;
-
   iColor,
   I : Integer;
-  
 begin
   I := 1;
 
@@ -208,29 +208,35 @@ begin
       TMaskItem(lsList[lsList.Count-1]).cColor:=iColor;
       TMaskItem(lsList[lsList.Count-1]).sExt:=sExtMask;
       TMaskItem(lsList[lsList.Count-1]).sModeStr:=sAttr;
-      
+
+      fOldCount := I;
       Inc(I);
     end; // while gIni.ReadString();
 end;
 
 procedure TColorExt.Save;
-var I:Integer;
+var
+  I : Integer;
 begin
-//if (lslist.Count=0) then
-// TODO: list is empty. need to remove all "ColorFilter*" keys
 
-if (lslist.Count=0) then exit;
-if (not assigned(lslist))  then exit;
+  if (not assigned(lslist))  then exit;
 
-for I:=0 to lslist.Count - 1 do
-  begin
-      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I), TMaskItem(lsList[I]).sExt);
-      gIni.WriteInteger('Colors', 'ColorFilter' + IntToStr(I) + 'Color', TMaskItem(lsList[I]).cColor);
-      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I)+'Name', TMaskItem(lsList[I]).sName);
-      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I) + 'Attributes', TMaskItem(lsList[I]).sModeStr);
-  end;
+  for I:=0 to lslist.Count - 1 do
+    begin
+      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I+1), TMaskItem(lsList[I]).sExt);
+      gIni.WriteInteger('Colors', 'ColorFilter' + IntToStr(I+1) + 'Color', TMaskItem(lsList[I]).cColor);
+      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I+1)+'Name', TMaskItem(lsList[I]).sName);
+      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I+1) + 'Attributes', TMaskItem(lsList[I]).sModeStr);
+    end;
 
-
+  // delete old not used filters
+  for I := lslist.Count + 1 to fOldCount do
+    begin
+      gIni.DeleteKey('Colors', 'ColorFilter' + IntToStr(I));
+      gIni.DeleteKey('Colors', 'ColorFilter' + IntToStr(I) + 'Color');
+      gIni.DeleteKey('Colors', 'ColorFilter' + IntToStr(I)+'Name');
+      gIni.DeleteKey('Colors', 'ColorFilter' + IntToStr(I) + 'Attributes');
+    end;
 end;
 
 end.

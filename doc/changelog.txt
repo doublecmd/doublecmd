@@ -1,4 +1,5 @@
-﻿03.02.2008 ADD: Feature Request [1880515] Enhanced quick search
+﻿03.02.2008 FIX: Bug [ 1869787 ] Options -> Colors -> File types and attributes
+03.02.2008 ADD: Feature Request [1880515] Enhanced quick search
 03.02.2008 FIX: Bug [ 1870552 ] Alt quick search
 30.01.2008 FIX: Bug [ 1870808 ] Execute files under Linux
 27.01.2008 ADD: Options page "Configuration storage" 

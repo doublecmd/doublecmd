@@ -435,6 +435,10 @@ msgstr "区分大小写"
 msgid "Case sensitive sorting"
 msgstr "大小写敏感排序"
 
+#: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
+msgid "Category attributes:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLCATEGORYCOLOR.CAPTION
 msgid "Category color:"
 msgstr "类别颜色:"

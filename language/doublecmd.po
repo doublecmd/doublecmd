@@ -1970,3 +1970,8 @@ msgstr ""
 #: TFRMMAIN.ACTQUICKSEARCH.CAPTION
 msgid "Quick search"
 msgstr ""
+
+#: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
+msgid "Category attributes:"
+msgstr ""
+

@@ -103,6 +103,7 @@ type
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
+    edtCategoryAttr: TEdit;
     edtTabsLimitLength: TEdit;
     edtCopyBufferSize: TEdit;
     edtCategoryName: TEdit;
@@ -147,6 +148,7 @@ type
     gbFileSearch: TGroupBox;
     gbLocConfigFiles: TGroupBox;
     gbSaveOnExit: TGroupBox;
+    lblCategoryAttr: TLabel;
     rbCtrlAltLetterQS: TRadioButton;
     rbAltLetterQS: TRadioButton;
     rbNoneQS: TRadioButton;
@@ -279,18 +281,12 @@ type
     procedure FillActionLists;
     procedure FillFileColorsList;
   end;
-type
-  TColorFileMask = record
-    sFileMask : String;
-    clMaskColor : TColor;
-  end;
-  PColorFileMask=^TColorFileMask;
 
 implementation
 
 uses
   uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc, menus,
-  uWCXModule, uWFXmodule, uDCUtils, uOSUtils;
+  uColorExt, uWCXModule, uWFXmodule, uDCUtils, uOSUtils;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
@@ -1071,32 +1067,24 @@ end;
 
 procedure TfrmOptions.FillFileColorsList;
 var
-  sCategoryName,
-  sFileMask : String;
-  iColor,
+  sCategoryName : String;
   I : Integer;
-  ColorFileMask : PColorFileMask;
 begin
-  I := 1;
 
-  while gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I), '') <> '' do
+  for I := 0 to gColorExt.MaskItemList.Count - 1 do
     begin
-      sFileMask := gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I), '');
-      sCategoryName := gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I) + 'Name', sFileMask);
-      iColor := gIni.ReadInteger('Colors', 'ColorFilter' + IntToStr(I) + 'Color', clText);
-      New(ColorFileMask);
-      ColorFileMask^.sFileMask := sFileMask;
-      ColorFileMask^.clMaskColor := iColor;
-      lbCategories.Items.AddObject(sCategoryName,TObject(ColorFileMask));
-
-      Inc(I);
-    end; // while gIni.ReadString();
+      sCategoryName := TMaskItem(gColorExt.MaskItemList.Items[I]).sName;
+      lbCategories.Items.AddObject(sCategoryName,TMaskItem(gColorExt.MaskItemList.Items[I]));
+    end; // for
+    
+    
     if lbCategories.Count > 0 then
       lbCategories.ItemIndex := 0
     else
       begin
         edtCategoryName.Enabled := False;
         edtCategoryMask.Enabled := False;
+        edtCategoryAttr.Enabled := False;
         cbCategoryColor.Enabled := False;
         btnCategoryColor.Enabled := False;
         bbtnDeleteCategory.Enabled := False;
@@ -1112,16 +1100,17 @@ end;
 
 procedure TfrmOptions.lbCategoriesClick(Sender: TObject);
 var
-  ColorFileMask : PColorFileMask;
+  MaskItem : TMaskItem;
 begin
 
   if (lbCategories.Count > 0) and (Assigned(lbCategories.Items.Objects[lbCategories.ItemIndex])) then
     begin
       edtCategoryName.Text := lbCategories.Items[lbCategories.ItemIndex];
-      ColorFileMask := PColorFileMask(lbCategories.Items.Objects[lbCategories.ItemIndex]);
+      MaskItem := TMaskItem(lbCategories.Items.Objects[lbCategories.ItemIndex]);
 
-      edtCategoryMask.Text := ColorFileMask^.sFileMask;
-      cbCategoryColor.Color := ColorFileMask^.clMaskColor;
+      edtCategoryMask.Text := MaskItem.sExt;
+      cbCategoryColor.Color := MaskItem.cColor;
+      edtCategoryAttr.Text := MaskItem.sModeStr;
       cbCategoryColor.Selected := cbCategoryColor.Color;
     end
   else
@@ -1130,7 +1119,8 @@ begin
         edtCategoryName.Text := ''
       else
         edtCategoryName.Text := lbCategories.Items[lbCategories.ItemIndex];
-      edtCategoryMask.Text := '';
+      edtCategoryMask.Text := '*';
+      edtCategoryAttr.Text := '';
       cbCategoryColor.ItemIndex := -1;
       cbCategoryColor.Color := clWindow;
       cbCategoryColor.Selected := cbCategoryColor.Color;
@@ -1152,6 +1142,7 @@ begin
     begin
       edtCategoryName.Enabled := True;
       edtCategoryMask.Enabled := True;
+      edtCategoryAttr.Enabled := True;
       cbCategoryColor.Enabled := True;
       btnCategoryColor.Enabled := True;
       bbtnDeleteCategory.Enabled := True;
@@ -1160,54 +1151,56 @@ begin
   iIndex := lbCategories.Items.AddObject('', nil);
   lbCategories.ItemIndex := iIndex;
   edtCategoryName.Text := '';
-  edtCategoryMask.Text := '';
+  edtCategoryMask.Text := '*';
+  edtCategoryAttr.Text := '';
   cbCategoryColor.ItemIndex := -1;
   cbCategoryColor.Color := clWindow;
 end;
 
 procedure TfrmOptions.bbtnApplyCategoryClick(Sender: TObject);
 var
-  ColorFileMask : PColorFileMask;
+  MaskItem : TMaskItem;
   I, iCount : Integer;
 begin
   if bbtnDeleteCategory.Tag = 0 then // if we add or change category
     begin
       lbCategories.Items[lbCategories.ItemIndex] := edtCategoryName.Text;
-      New(ColorFileMask);
-      ColorFileMask^.sFileMask := edtCategoryMask.Text;
-      ColorFileMask^.clMaskColor := cbCategoryColor.Color;
-      lbCategories.Items.Objects[lbCategories.ItemIndex] := TObject(ColorFileMask);
-      I := lbCategories.ItemIndex;
-      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I + 1), ColorFileMask^.sFileMask);
-      gIni.WriteInteger('Colors', 'ColorFilter' + IntToStr(I + 1) + 'Color', ColorFileMask^.clMaskColor);
-      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I + 1) + 'Name', lbCategories.Items[I]);
+      MaskItem := TMaskItem.Create;
+      MaskItem.sName := edtCategoryName.Text;
+      MaskItem.cColor := cbCategoryColor.Color;
+      if edtCategoryMask.Text = '' then
+        edtCategoryMask.Text := '*'; // because we load colors from ini by mask
+      MaskItem.sExt := edtCategoryMask.Text;
+      MaskItem.sModeStr := edtCategoryAttr.Text;
+      lbCategories.Items.Objects[lbCategories.ItemIndex] := MaskItem;
+      if lbCategories.ItemIndex >= gColorExt.MaskItemList.Count then
+        gColorExt.MaskItemList.Add(MaskItem)
+      else
+        begin
+          TMaskItem(gColorExt.MaskItemList.Items[lbCategories.ItemIndex]).Free;
+          gColorExt.MaskItemList.Items[lbCategories.ItemIndex] := MaskItem;
+        end;
+
     end
   else  // if we delete category
     begin
-      iCount := lbCategories.Tag;
-      for I := 1 to iCount do  // delete old categories
-    begin
-      gIni.DeleteKey('Colors', 'ColorFilter' + IntToStr(I));
-      gIni.DeleteKey('Colors', 'ColorFilter' + IntToStr(I) + 'Color');
-      gIni.DeleteKey('Colors', 'ColorFilter' + IntToStr(I) + 'Name');
-    end;
-  iCount := lbCategories.Count;
-  for I := 0 to iCount - 1 do  //write new categories
-    begin
-      ColorFileMask := PColorFileMask(lbCategories.Items.Objects[I]);
-      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I + 1), ColorFileMask^.sFileMask);
-      gIni.WriteInteger('Colors', 'ColorFilter' + IntToStr(I + 1) + 'Color', ColorFileMask^.clMaskColor);
-      gIni.WriteString('Colors', 'ColorFilter' + IntToStr(I + 1) + 'Name', lbCategories.Items[I]);
+      iCount := gColorExt.MaskItemList.Count - 1;
+      for I := iCount downto 0 do  // delete old categories
+        begin
+          gColorExt.MaskItemList.Delete(I);
+        end;
+      iCount := lbCategories.Count;
+      for I := 0 to iCount - 1 do  //write new categories
+        begin
+          gColorExt.MaskItemList.Add(lbCategories.Items.Objects[I]);
+        end;
+    end; // delete category
 
-    end;
-    end;
     bbtnDeleteCategory.Tag := 0;
 end;
 
 procedure TfrmOptions.bbtnDeleteCategoryClick(Sender: TObject);
 begin
-  if bbtnDeleteCategory.Tag = 0 then
-    lbCategories.Tag := lbCategories.Count; // old categories count
   lbCategories.Items.Delete(lbCategories.ItemIndex);
   bbtnDeleteCategory.Tag := 1; // show that we delete category
   if lbCategories.Count > 0 then

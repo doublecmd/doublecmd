@@ -435,6 +435,10 @@ msgstr "Sensible a mays/mins"
 msgid "Case sensitive sorting"
 msgstr "Orden sensible a mayúsculas"
 
+#: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
+msgid "Category attributes:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLCATEGORYCOLOR.CAPTION
 msgid "Category color:"
 msgstr "Color de categoría:"
