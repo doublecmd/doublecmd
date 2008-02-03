@@ -318,7 +318,7 @@ end;
 
 procedure TFrameFilePanel.edSearchChange(Sender: TObject);
 var
-  I, iEnd : Integer;
+  I, iPos, iEnd : Integer;
   Result : Boolean;
   sSearchName,
   sSearchNameNoExt,
@@ -348,7 +348,8 @@ begin
 
   DebugLn('sSearchName = ', sSearchName);
 
-  I := 1;
+  I := dgPanel.Row; // start search from current cursor position
+  iPos := I;        // save cursor position
   if not (fNext or fPrevious) then fSearchDirect := True;
   if fSearchDirect then
     begin
@@ -364,8 +365,7 @@ begin
     end;
   if I < 1 then I := 1;
   
-  fNext := False;
-  fPrevious := False;
+
   
   while I <> iEnd do
     begin
@@ -382,7 +382,16 @@ begin
         Inc(I)
       else
         Dec(I);
+      // if not Next or Previous then search from beginning of list
+      // to cursor position
+      if (not(fNext or fPrevious)) and (I = iEnd) then
+        begin
+          I := 1;
+          iEnd := iPos;
+        end;
     end; // while
+  fNext := False;
+  fPrevious := False;
 end;
 
 procedure TFrameFilePanel.CloseAltPanel;
