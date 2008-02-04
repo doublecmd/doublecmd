@@ -388,6 +388,7 @@ begin
         begin
           I := 1;
           iEnd := iPos;
+		  iPos := 1;
         end;
     end; // while
   fNext := False;
