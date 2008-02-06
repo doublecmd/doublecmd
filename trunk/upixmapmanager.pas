@@ -148,6 +148,7 @@ var
   iIndex : Integer;
   sExtFilter,
   sGraphicFilter : String;
+  bFreeAtEnd : Boolean;
   bmStandartBitmap : Graphics.TBitMap;
   PNG : TPortableNetworkGraphic;
 begin
@@ -196,6 +197,7 @@ begin
   else
 {$ENDIF}
     begin
+      bFreeAtEnd := True;
       sExtFilter := ExtractFileExt(sFileName) + ';';
       sGraphicFilter := GraphicFilter(TGraphic);
       // if file is graphic
@@ -226,6 +228,7 @@ begin
               iIndex := PixMapManager.GetIconByFile(pfri, pmDirectory);
               bmStandartBitmap := PixMapManager.GetBitmap(iIndex, clBackColor);
               Dispose(pfri);
+              bFreeAtEnd := False; // do not free Bitmap in StretchBitmap function
             end
           else  // file not found
             begin
@@ -234,7 +237,7 @@ begin
         end;
       // if need stretch icon
       if  (iIconSize <> bmStandartBitmap.Height) or (iIconSize <> bmStandartBitmap.Width) then
-        Result := StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, True)
+        Result := StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, bFreeAtEnd)
       else
         Result := bmStandartBitmap;
     end;  // IsExecutable else
