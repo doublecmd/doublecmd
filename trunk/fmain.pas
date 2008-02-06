@@ -218,6 +218,9 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure lblDriveInfoDblClick(Sender: TObject);
+    procedure MainToolBarDragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure MainToolBarDragOver(Sender, Source: TObject; X, Y: Integer;
+      State: TDragState; var Accept: Boolean);
     function MainToolBarLoadButtonGlyph(sIconFileName: String;
       iIconSize: Integer; clBackColor: TColor): TBitmap;
     procedure MainToolBarMouseUp(Sender: TOBject; Button: TMouseButton;
@@ -571,6 +574,25 @@ begin
   else if (Sender as TLabel).Name = 'lblLeftDriveInfo' then
       SetActiveFrame(fpLeft);
   actDirHotList.Execute;
+end;
+
+procedure TfrmMain.MainToolBarDragDrop(Sender, Source: TObject; X, Y: Integer);
+var
+  sFileName : String;
+begin
+  with ActiveFrame, ActiveFrame.GetActiveItem^ do
+    begin
+      sFileName := ActiveDir + sName;
+      MainToolBar.AddButton('', sFileName, ExtractOnlyFileName(sName), sFileName);
+      MainToolBar.AddX(sFileName, sFileName, '', sPath, ExtractOnlyFileName(sName));
+      MainToolBar.SaveToFile(gpIniDir + 'default.bar');
+    end;
+end;
+
+procedure TfrmMain.MainToolBarDragOver(Sender, Source: TObject; X, Y: Integer;
+  State: TDragState; var Accept: Boolean);
+begin
+  Accept := True;
 end;
 
 function TfrmMain.MainToolBarLoadButtonGlyph(sIconFileName: String;

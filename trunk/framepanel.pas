@@ -25,7 +25,7 @@ uses
 type
   TFilePanelSelect=(fpLeft, fpRight);
   {class cracer}
-  TdgPanel = class(TDrawGrid)
+  THackDrawGrid = class(TCustomDrawGrid)
   end;
   { TFrameFilePanel }
 
@@ -58,6 +58,10 @@ type
     procedure dgPanelEnter(Sender: TObject);
     procedure dgPanelKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+
+    procedure dgPanelStartDrag(Sender: TObject; var DragObject: TDragObject);
+    procedure dgPanelDragOver(Sender, Source: TObject; X, Y: Integer;
+                                               State: TDragState; var Accept: Boolean);
     procedure dgPanelHeaderClick(Sender: TObject;IsColumn: Boolean; index: Integer);
     procedure dgPanelKeyPress(Sender: TObject; var Key: Char);
     procedure dgPanelPrepareCanvas(sender: TObject; Col, Row: Integer; aState: TGridDrawState);
@@ -225,6 +229,16 @@ begin
 //  dgPanel.SetFocus;
 end;
 
+procedure TFrameFilePanel.dgPanelStartDrag(Sender: TObject; var DragObject: TDragObject);
+begin
+
+end;
+
+procedure TFrameFilePanel.dgPanelDragOver(Sender, Source: TObject; X, Y: Integer;
+  State: TDragState; var Accept: Boolean);
+begin
+  THackDrawGrid(dgPanel).FGridState := gsRowMoving;
+end;
 
 procedure TFrameFilePanel.dgPanelHeaderClick(Sender: TObject;
   IsColumn: Boolean; Index: Integer);
@@ -270,7 +284,7 @@ if dgPanel.TopRow > 0 then
      dgPanel.TopRow := 1
    else
      dgPanel.TopRow:=dgPanel.TopRow - 3;
-   TdgPanel(dgPanel).MoveExtend(true, 0, -2{dgPanel.VisibleRowCount});
+   THackDrawGrid(dgPanel).MoveExtend(true, 0, -2{dgPanel.VisibleRowCount});
   end
 else
 inherited;
@@ -281,7 +295,7 @@ procedure TFrameFilePanel.dgPanelMouseWheelDown(Sender: TObject;
 begin
 if dgPanel.TopRow <  dgPanel.RowCount - dgPanel.VisibleRowCount - 2 then
   begin
-    TdgPanel(dgPanel).MoveExtend(true, 0, 2{dgPanel.VisibleRowCount});
+    THackDrawGrid(dgPanel).MoveExtend(true, 0, 2{dgPanel.VisibleRowCount});
     dgPanel.TopRow:=dgPanel.TopRow + 3;
   end
 else
@@ -866,6 +880,7 @@ begin
   dgPanel.Options:=[goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect, goColSizing, goHeaderHotTracking, goHeaderPushedLook];
   dgPanel.TitleStyle := tsStandard;
   dgPanel.TabStop:=False;
+  dgPanel.DragMode := dmAutomatic;
 
   lblLInfo:=TLabel.Create(pnlFooter);
   lblLInfo.Parent:=pnlFooter;
@@ -894,6 +909,8 @@ begin
   pnAltSearch.Visible := False;
   
   // ---
+  dgPanel.OnStartDrag := @dgPanelStartDrag;
+  dgPanel.OnDragOver := @dgPanelDragOver;
   dgPanel.OnDblClick:=@dgPanelDblClick;
   dgPanel.OnDrawCell:=@dgPanelDrawCell;
   dgPanel.OnEnter:=@dgPanelEnter;

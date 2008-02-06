@@ -36,7 +36,6 @@ interface
 uses
   Classes, SysUtils, uTypes, contnrs, Graphics, uOSUtils;
 
-
 type
   TDriveIcons = record
     bmMediaFloppy,
@@ -145,6 +144,10 @@ var
   phiconLarge,
   phiconSmall : HIcon;
 {$ENDIF}
+  pfri : PFileRecItem;
+  iIndex : Integer;
+  sExtFilter,
+  sGraphicFilter : String;
   bmStandartBitmap : Graphics.TBitMap;
   PNG : TPortableNetworkGraphic;
 begin
@@ -193,28 +196,47 @@ begin
   else
 {$ENDIF}
     begin
-      if FileExists(sFileName) then
+      sExtFilter := ExtractFileExt(sFileName) + ';';
+      sGraphicFilter := GraphicFilter(TGraphic);
+      // if file is graphic
+      if (Pos(sExtFilter, sGraphicFilter) <> 0) and (FileExists(sFileName)) then
+        if CompareFileExt(sFileName, 'png', false) = 0 then
+          begin
+            PNG := TPortableNetworkGraphic.Create;
+            PNG.LoadFromFile(sFileName);
+            bmStandartBitmap := Graphics.TBitMap(PNG);
+          end
+        else
+          begin
+            bmStandartBitmap := Graphics.TBitMap.Create;
+            bmStandartBitmap.LoadFromFile(sFileName);
+          end
+      else // get file icon by ext
         begin
-          if CompareFileExt(sFileName, 'png', false) = 0 then
+          if FileExists(sFileName) or DirectoryExists(sFileName) then
             begin
-              PNG := TPortableNetworkGraphic.Create;
-              PNG.LoadFromFile(sFileName);
-              bmStandartBitmap := Graphics.TBitMap(PNG);
+              New(pfri);
+              with pfri^ do
+              begin
+                sName:= sFileName;
+                sExt := ExtractFileExt(sFileName);
+                iMode := FileGetAttr(sFileName);
+                bLinkIsDir := (FPS_ISLNK(iMode) and FPS_ISDIR(iMode));
+              end;
+              iIndex := PixMapManager.GetIconByFile(pfri, pmDirectory);
+              bmStandartBitmap := PixMapManager.GetBitmap(iIndex, clBackColor);
+              Dispose(pfri);
             end
-          else
+          else  // file not found
             begin
-              bmStandartBitmap := Graphics.TBitMap.Create;
-              bmStandartBitmap.LoadFromFile(sFileName);
+              Exit(nil);
             end;
-
-          // if need stretch icon
-          if  (iIconSize <> bmStandartBitmap.Height) or (iIconSize <> bmStandartBitmap.Width) then
-            Result := StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, True)
-          else
-            Result := bmStandartBitmap;
-        end  // FileExists
+        end;
+      // if need stretch icon
+      if  (iIconSize <> bmStandartBitmap.Height) or (iIconSize <> bmStandartBitmap.Width) then
+        Result := StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, True)
       else
-        Result := nil;  // file not found
+        Result := bmStandartBitmap;
     end;  // IsExecutable else
 end;
 
