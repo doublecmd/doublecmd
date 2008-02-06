@@ -561,7 +561,6 @@ begin
     if not (ACol in [0..4]) then Exit;
     with dgPanel do
     begin
-      DefaultDrawCell(ACol, ARow, Rect, State);
       if ACol = pnlFile.SortColumn then
         begin
           if pnlFile.SortDirection then
