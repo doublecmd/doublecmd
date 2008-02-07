@@ -59,6 +59,8 @@ type
     procedure dgPanelKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
 
+    procedure dgPanelMouseDown(Sender: TObject; Button: TMouseButton;
+                                    Shift: TShiftState; X, Y: Integer);
     procedure dgPanelStartDrag(Sender: TObject; var DragObject: TDragObject);
     procedure dgPanelDragOver(Sender, Source: TObject; X, Y: Integer;
                                                State: TDragState; var Accept: Boolean);
@@ -227,6 +229,16 @@ procedure TFrameFilePanel.ClearCmdLine;
 begin
   edtCmdLine.Text:='';
 //  dgPanel.SetFocus;
+end;
+
+procedure TFrameFilePanel.dgPanelMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  iRow, iCol : Integer;
+begin
+  dgPanel.MouseToCell(X, Y, iCol, iRow);
+  if iRow >= dgPanel.FixedRows then  // if not column header
+    dgPanel.BeginDrag(True);
 end;
 
 procedure TFrameFilePanel.dgPanelStartDrag(Sender: TObject; var DragObject: TDragObject);
@@ -575,17 +587,22 @@ begin
     if not (ACol in [0..4]) then Exit;
     with dgPanel do
     begin
+      tw := 0;
+      s := FHeaderString[ACol];
       if ACol = pnlFile.SortColumn then
         begin
+          tw := 1;
           if pnlFile.SortDirection then
-            s := ' <'
+            s := s + ' <'
           else
-            s := ' >';
-          Canvas.TextOut(Rect.Left + 4, iTextTop, FHeaderString[ACol] + s);
-          s := '';
-        end
-      else
-        Canvas.TextOut(Rect.Left + 4, iTextTop, FHeaderString[ACol]);
+            s := s + ' >';
+        end;
+      if gCutTextToColWidth then
+        begin
+          while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
+            Delete(s,Length(s)-tw,1);
+        end;
+      Canvas.TextOut(Rect.Left + 4, iTextTop, s);
     end;
     Exit;
   end;
@@ -623,11 +640,25 @@ begin
     1:
       begin
         if gSeparateExt then
-          Canvas.TextOut(Rect.Left,iTextTop,sExt);
+          begin
+            s := sExt;
+            if gCutTextToColWidth then
+              begin
+                while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
+                  Delete(s,Length(s),1);
+              end;
+          Canvas.TextOut(Rect.Left,iTextTop,s);
+          end;
       end;
     4:
       begin
-        Canvas.TextOut(Rect.Left + 2,iTextTop,sModeStr);
+        s := sModeStr;
+        if gCutTextToColWidth then
+          begin
+            while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
+              Delete(s,Length(s),1);
+          end;
+        Canvas.TextOut(Rect.Left + 2,iTextTop,s);
       end;
     2,3:    // filesize and date
       begin
@@ -636,6 +667,11 @@ begin
         begin
           // show counted dir size
           s:=cnvFormatFileSize(iDirSize);
+          if gCutTextToColWidth then
+            begin
+              while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
+                Delete(s,Length(s),1);
+            end;
           tw:=Canvas.TextWidth(s);
           Canvas.TextOut(Rect.Left+cw-tw,iTextTop,s);
         end
@@ -651,6 +687,11 @@ begin
           end
           else
             s:=sTime;
+          if gCutTextToColWidth then
+            begin
+              while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
+                Delete(s,Length(s),1);
+            end;
           tw:=Canvas.TextWidth(s);
           Canvas.TextOut(Rect.Left+cw-tw,iTextTop,s);
         end;
@@ -664,6 +705,11 @@ begin
           s:=sNameNoExt
         else
           s:=sName;
+        if gCutTextToColWidth then
+          begin
+            while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
+              Delete(s,Length(s),1);
+          end;
         if gShowIcons then
           Canvas.TextOut(Rect.Left + gIconsSize + 2 ,iTextTop,s)
         else
@@ -880,7 +926,6 @@ begin
   dgPanel.Options:=[goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect, goColSizing, goHeaderHotTracking, goHeaderPushedLook];
   dgPanel.TitleStyle := tsStandard;
   dgPanel.TabStop:=False;
-  dgPanel.DragMode := dmAutomatic;
 
   lblLInfo:=TLabel.Create(pnlFooter);
   lblLInfo.Parent:=pnlFooter;
@@ -909,6 +954,7 @@ begin
   pnAltSearch.Visible := False;
   
   // ---
+  dgPanel.OnMouseDown := @dgPanelMouseDown;
   dgPanel.OnStartDrag := @dgPanelStartDrag;
   dgPanel.OnDragOver := @dgPanelDragOver;
   dgPanel.OnDblClick:=@dgPanelDblClick;
