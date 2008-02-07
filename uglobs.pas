@@ -68,6 +68,7 @@ var
   glsDirHistory:TStringList;
   glsMaskHistory : TStringList;
   gColumnSize:Array[0..4] of Integer;
+  gCutTextToColWidth : Boolean;
 
   gShortFileSizeFormat:Boolean=True;
   gSeparateExt:Boolean=False;    // draw filename and extension separate
@@ -355,6 +356,8 @@ begin
 
   gCustomDriveIcons := gIni.ReadBool('Configuration', 'CustomDriveIcons', False);
 
+  gCutTextToColWidth := gIni.ReadBool('Configuration', 'CutTextToColWidth', False);
+
   if FileExists(gpIniDir + 'doublecmd.ext') then
     gExts.LoadFromFile(gpIniDir + 'doublecmd.ext');
 
@@ -487,6 +490,8 @@ begin
 
   gIni.WriteBool('Configuration', 'ShowIcons', gShowIcons);
   gIni.WriteInteger('Configuration', 'IconsSize', gIconsSize);
+  
+  gIni.WriteBool('Configuration', 'CutTextToColWidth', gCutTextToColWidth);
 
   for x:=0 to 4 do
     gIni.WriteInteger('Configuration', 'Col'+IntToStr(x), gColumnSize[x]);
