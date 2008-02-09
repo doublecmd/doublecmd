@@ -307,7 +307,6 @@ type
     PanelSelected:TFilePanelSelect;
     bAltPress:Boolean;
     DrivesList : TList;
-    IsPanelsCreated : Boolean;
     
     function ExecuteCommandFromEdit(sCmd:String):Boolean;
     procedure AddSpecialButtons(dskPanel: TKASToolBar);
@@ -367,16 +366,101 @@ uses
 
 
 procedure TfrmMain.FormCreate(Sender: TObject);
+var
+  I : Integer;
 begin
   inherited;
   SetMyWndProc(Handle);
   Application.OnException := @AppException;
 
-
   if FileExists(gpIniDir+cHistoryFile) then
     edtCommand.Items.LoadFromFile(gpIniDir+cHistoryFile);
-//  DebugLn('frmMain.FormCreate Done');
-  IsPanelsCreated := False;
+
+  Left := gIni.ReadInteger('Configuration', 'Main.Left', Left);
+  Top := gIni.ReadInteger('Configuration', 'Main.Top', Top);
+  Width :=  gIni.ReadInteger('Configuration', 'Main.Width', Width);
+  Height :=  gIni.ReadInteger('Configuration', 'Main.Height', Height);
+  if gIni.ReadBool('Configuration', 'maximized', True) then
+    Self.WindowState := wsMaximized;
+
+
+  LoadTabs(nbLeft);
+  LoadTabs(nbRight);
+
+  nbLeft.Options:=[nboShowCloseButtons];
+  nbRight.Options:=[nboShowCloseButtons];
+  actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
+
+  PanelSelected:=fpLeft;
+
+  pnlNotebooks.Width:=Width div 2;
+
+  //DebugLN('dskLeft.Width == ' + IntToStr(dskLeft.Width));
+  //DebugLN('dskRight.Width == ' + IntToStr(dskRight.Width));
+  DrivesList := GetAllDrives;
+
+  CreateDrivesMenu;
+
+  (*Create Disk Panels*)
+  dskLeft.Visible :=  gDriveBar2;
+  if gDriveBar2 then
+    CreateDiskPanel(dskLeft);
+
+  dskRight.Visible := gDriveBar1;
+  if gDriveBar1 then
+    CreateDiskPanel(dskRight);
+
+  pnlSyncSize.Visible := gDriveBar1;
+  (*/Create Disk Panels*)
+
+  (*Tool Bar*)
+  if gButtonBar then
+    begin
+      MainToolBar.FlatButtons := gToolBarFlat;
+      MainToolBar.ButtonGlyphSize := gToolBarIconSize;
+      MainToolBar.ChangePath := gpExePath;
+      MainToolBar.EnvVar := '%commander_path%';
+      MainToolBar.LoadFromFile(gpIniDir + 'default.bar')
+    end;
+  (*Tool Bar*)
+
+  pmButtonMenu.BarFile.ChangePath := gpExePath;
+  pmButtonMenu.BarFile.EnvVar := '%commander_path%';
+
+  LoadShortCuts;
+
+  {Load some options from layout page}
+
+  for I := 0 to pnlKeys.ControlCount - 1 do  // function keys
+    if pnlKeys.Controls[I] is TSpeedButton then
+      (pnlKeys.Controls[I] as TSpeedButton).Flat := gInterfaceFlat;
+
+  MainToolBar.Visible := gButtonBar;
+
+  btnLeftDrive.Visible := gDriveMenuButton;
+  btnLeftDrive.Flat := gInterfaceFlat;
+  btnLeftRoot.Visible := gDriveMenuButton;
+  btnLeftRoot.Flat := gInterfaceFlat;
+  btnLeftUp.Visible := gDriveMenuButton;
+  btnLeftUp.Flat := gInterfaceFlat;
+  btnLeftHome.Visible := gDriveMenuButton;
+  btnLeftHome.Flat := gInterfaceFlat;
+
+  btnRightDrive.Visible := gDriveMenuButton;
+  btnRightDrive.Flat := gInterfaceFlat;
+  btnRightRoot.Visible := gDriveMenuButton;
+  btnRightRoot.Flat := gInterfaceFlat;
+  btnRightUp.Visible := gDriveMenuButton;
+  btnRightUp.Flat := gInterfaceFlat;
+  btnRightHome.Visible := gDriveMenuButton;;
+  btnRightHome.Flat := gInterfaceFlat;
+
+  pnlCommand.Visible := gCmdLine;
+  pnlKeys.Visible := gKeyButtons;
+  LogSplitter.Visible := gLogWindow;
+  seLogWindow.Visible := gLogWindow;
+  
+  //DebugLn('frmMain.FormCreate Done');
 end;
 
 
@@ -756,106 +840,9 @@ begin
 end;
 
 procedure TfrmMain.frmMainShow(Sender: TObject);
-var
-  I : Integer;
 begin
-   DebugLn('frmMainShow');
-  (* If panels already created then refresh their and exit *)
-  if IsPanelsCreated then
-    begin
-      FrameLeft.RefreshPanel;
-      FrameRight.RefreshPanel;
-      Exit;
-    end;
-
-
-  Left := gIni.ReadInteger('Configuration', 'Main.Left', Left);
-  Top := gIni.ReadInteger('Configuration', 'Main.Top', Top);
-  Width :=  gIni.ReadInteger('Configuration', 'Main.Width', Width);
-  Height :=  gIni.ReadInteger('Configuration', 'Main.Height', Height);
-  if gIni.ReadBool('Configuration', 'maximized', True) then
-    Self.WindowState := wsMaximized;
-
-  
-  LoadTabs(nbLeft);
-  LoadTabs(nbRight);
-  
-  nbLeft.Options:=[nboShowCloseButtons];
-  nbRight.Options:=[nboShowCloseButtons];
-  actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
-  
-  PanelSelected:=fpLeft;
-
+  DebugLn('frmMain.frmMainShow');
   SetActiveFrame(fpLeft);
-
-  pnlNotebooks.Width:=Width div 2;
-
-  //DebugLN('dskLeft.Width == ' + IntToStr(dskLeft.Width));
-  //DebugLN('dskRight.Width == ' + IntToStr(dskRight.Width));
-  DrivesList := GetAllDrives;
-  
-  CreateDrivesMenu;
-  
-  (*Create Disk Panels*)
-  dskLeft.Visible :=  gDriveBar2;
-  if gDriveBar2 then
-    CreateDiskPanel(dskLeft);
-
-  dskRight.Visible := gDriveBar1;
-  if gDriveBar1 then
-    CreateDiskPanel(dskRight);
-
-  pnlSyncSize.Visible := gDriveBar1;
-  (*/Create Disk Panels*)
-
-  (*Tool Bar*)
-  if gButtonBar then
-    begin
-      MainToolBar.FlatButtons := gToolBarFlat;
-      MainToolBar.ButtonGlyphSize := gToolBarIconSize;
-      MainToolBar.ChangePath := gpExePath;
-      MainToolBar.EnvVar := '%commander_path%';
-      MainToolBar.LoadFromFile(gpIniDir + 'default.bar')
-    end;
-  (*Tool Bar*)
-  
-  pmButtonMenu.BarFile.ChangePath := gpExePath;
-  pmButtonMenu.BarFile.EnvVar := '%commander_path%';
-  
-  LoadShortCuts;
-  
-  {Load some options from layout page}
-
-  for I := 0 to pnlKeys.ControlCount - 1 do  // function keys
-    if pnlKeys.Controls[I] is TSpeedButton then
-      (pnlKeys.Controls[I] as TSpeedButton).Flat := gInterfaceFlat;
-
-  MainToolBar.Visible := gButtonBar;
-
-  btnLeftDrive.Visible := gDriveMenuButton;
-  btnLeftDrive.Flat := gInterfaceFlat;
-  btnLeftRoot.Visible := gDriveMenuButton;
-  btnLeftRoot.Flat := gInterfaceFlat;
-  btnLeftUp.Visible := gDriveMenuButton;
-  btnLeftUp.Flat := gInterfaceFlat;
-  btnLeftHome.Visible := gDriveMenuButton;
-  btnLeftHome.Flat := gInterfaceFlat;
-
-  btnRightDrive.Visible := gDriveMenuButton;
-  btnRightDrive.Flat := gInterfaceFlat;
-  btnRightRoot.Visible := gDriveMenuButton;
-  btnRightRoot.Flat := gInterfaceFlat;
-  btnRightUp.Visible := gDriveMenuButton;
-  btnRightUp.Flat := gInterfaceFlat;
-  btnRightHome.Visible := gDriveMenuButton;;
-  btnRightHome.Flat := gInterfaceFlat;
-
-  pnlCommand.Visible := gCmdLine;
-  pnlKeys.Visible := gKeyButtons;
-  LogSplitter.Visible := gLogWindow;
-  seLogWindow.Visible := gLogWindow;
-
-  IsPanelsCreated := True;
 end;
 
 procedure TfrmMain.mnuHelpClick(Sender: TObject);
