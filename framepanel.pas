@@ -20,7 +20,7 @@ interface
 uses
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, uFilePanel, Grids, uTypes,
-  Buttons, lcltype;
+  Buttons, uColumns, lcltype;
 
 type
   TFilePanelSelect=(fpLeft, fpRight);
@@ -44,7 +44,10 @@ type
     lblLPath: TLabel;
     edtPath,
     edtRename: TEdit;
+//---------------------
     dgPanel: TDrawGrid;
+    Colm:TPanelColumnsClass;
+//---------------------
     pnAltSearch: TPanel;
     edtSearch: TEdit;
 
@@ -79,7 +82,6 @@ type
     { Private declarations }
     FLastMark:String;
     FLastSelect:TGridRect;
-    FHeaderString:array[0..4] of String;
   protected
 
   public
@@ -200,18 +202,7 @@ end;
 
 
 procedure TFrameFilePanel.Init;
-var
-  iColWidth: Integer;
-
 begin
-  // load column captions
-  FHeaderString[0]:=  rsColName;
-  FHeaderString[1]:=  rsColExt;
-  FHeaderString[2]:=  rsColSize;
-  FHeaderString[3]:=  rsColDate;
-  FHeaderString[4]:=  rsColAttr;
-
-  
   ClearCmdLine;
   UpDatelblInfo;
   FLastMark:='*.*';
@@ -238,7 +229,7 @@ var
 begin
   dgPanel.MouseToCell(X, Y, iCol, iRow);
   if iRow >= dgPanel.FixedRows then  // if not column header
-    dgPanel.BeginDrag(True);
+    dgPanel.BeginDrag(False);
 end;
 
 procedure TFrameFilePanel.dgPanelStartDrag(Sender: TObject; var DragObject: TDragObject);
@@ -585,11 +576,11 @@ begin
   if (ARow = 0) and gTabHeader then
   begin
     // Draw fixed header
-    if not (ACol in [0..4]) then Exit;
+    if not (ACol in [0..Colm.ColumnsCount-1]) then Exit;
     with dgPanel do
     begin
       tw := 0;
-      s := FHeaderString[ACol];
+      s := Colm.GetColumnTitle(ACol);
       if ACol = pnlFile.SortColumn then
         begin
           tw := 1;
@@ -608,12 +599,11 @@ begin
     Exit;
   end;
 
-
   if (ARow>=dgPanel.RowCount)or (ARow<0) then Exit;
   if (ACol>=dgPanel.ColCount)or (ACol<0) then Exit;
   frp:=pnlFile.GetReferenceItemPtr(ARow - dgPanel.FixedRows); // substract fixed rows (header)
-  if not assigned(frp) then
-    Exit;
+  if not Assigned(frp) then Exit;
+
   with frp^, dgPanel do
   begin
     Canvas.Brush.Style:=bsSolid;
@@ -637,86 +627,42 @@ begin
     else
       Canvas.Font.Color:= NewColor;
 
-    case aCol of
-    1:
+    if ACol=0 then
       begin
-        if gSeparateExt then
+        if (iIconID >= 0) and gShowIcons then
           begin
-            s := sExt;
-            if gCutTextToColWidth then
-              begin
-                while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
-                  Delete(s,Length(s),1);
-              end;
-          Canvas.TextOut(Rect.Left,iTextTop,s);
+            PixMapManager.DrawBitmap(iIconID, Canvas, Rect);
           end;
-      end;
-    4:
-      begin
-        s := sModeStr;
-        if gCutTextToColWidth then
-          begin
-            while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
-              Delete(s,Length(s),1);
-          end;
-        Canvas.TextOut(Rect.Left + 2,iTextTop,s);
-      end;
-    2,3:    // filesize and date
-      begin
-        cw:=dgPanel.ColWidths[ACol];
-        if (ACol=2) and (FPS_ISDIR(iMode)) and (iDirSize<>0) then
-        begin
-          // show counted dir size
-          s:=cnvFormatFileSize(iDirSize);
+          s:=Colm.GetColumnItem(Acol).GetColumnResultString(frp);
           if gCutTextToColWidth then
             begin
               while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
                 Delete(s,Length(s),1);
             end;
-          tw:=Canvas.TextWidth(s);
-          Canvas.TextOut(Rect.Left+cw-tw,iTextTop,s);
-        end
-        else
-        begin
-          // show not-counted dir size and date
-          if ACol=2 then
-          begin
-            if FPS_ISDIR(iMode) then
-              s:= '<DIR>'
-            else
-              s:=cnvFormatFileSize(iSize);
-          end
+          if gShowIcons then
+            Canvas.TextOut(Rect.Left + gIconsSize + 2 ,iTextTop,s)
           else
-            s:=sTime;
-          if gCutTextToColWidth then
-            begin
-              while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
-                Delete(s,Length(s),1);
-            end;
-          tw:=Canvas.TextWidth(s);
-          Canvas.TextOut(Rect.Left+cw-tw,iTextTop,s);
-        end;
-      end;
-    0:begin
-      if (iIconID >= 0) and gShowIcons then
-        begin
-          PixMapManager.DrawBitmap(iIconID, Canvas, Rect);
-        end;
-        if gSeparateExt then
-          s:=sNameNoExt
-        else
-          s:=sName;
+            Canvas.TextOut(Rect.Left + 2 ,iTextTop,s);
+      end
+    else
+      begin
+        //------------------------------------------------------
+        s:=Colm.GetColumnItem(ACol).GetColumnResultString(frp);
         if gCutTextToColWidth then
           begin
             while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
               Delete(s,Length(s),1);
           end;
-        if gShowIcons then
-          Canvas.TextOut(Rect.Left + gIconsSize + 2 ,iTextTop,s)
+        if Colm.GetColumnAlign(ACol) = taRightJustify then
+          begin
+            cw:=Colm.GetColumnWidth(ACol);
+            tw:=Canvas.TextWidth(s);
+            Canvas.TextOut(Rect.Left+cw-tw,iTextTop,s);
+          end
         else
-          Canvas.TextOut(Rect.Left + 2 ,iTextTop,s);
-      end;  // 0:
-    end; //case
+          Canvas.TextOut(Rect.Left,iTextTop,s);
+        //------------------------------------------------------
+      end;
   end;   //with
 end;
 
@@ -923,7 +869,11 @@ begin
 //  DebugLn(Self.Height - pnlHeader.Height - pnlFooter.Height);
   dgPanel.Align:=alClient;
 //  dgPanel.DefaultDrawing:=False;
-  dgPanel.ColCount:=5;
+//------------------------------------------------------
+  Colm:=TPanelColumnsClass.Create;
+  Colm.Load(gIni);
+  dgPanel.ColCount:=Colm.ColumnsCount;
+//------------------------------------------------------
   dgPanel.Options:=[goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect, goColSizing, goHeaderHotTracking, goHeaderPushedLook];
   dgPanel.TitleStyle := tsStandard;
   dgPanel.TabStop:=False;
@@ -985,8 +935,9 @@ begin
   pnlFile:=TFilePanel.Create(AOwner, dgPanel,lblLPath,lblCommandPath, lblDriveInfo, cmbCommand);
   
 //  setup column widths
-  for x:=0 to 4 do
-    dgPanel.ColWidths[x]:=gColumnSize[x];
+ if Colm.ColumnsCount>0 then
+  for x:=0 to Colm.ColumnsCount-1 do
+    dgPanel.ColWidths[x]:=Colm.GetColumnWidth(x);
 
 end;
 
@@ -994,6 +945,11 @@ destructor TFrameFilePanel.Destroy;
 begin
   if assigned(pnlFile) then
     FreeAndNil(pnlFile);
+  //---------------------
+  if assigned(Colm) then
+     Colm.Free;
+  //---------------------
+    
   inherited Destroy;
 end;
 

@@ -67,7 +67,6 @@ var
   glsHotDir:TStringList;
   glsDirHistory:TStringList;
   glsMaskHistory : TStringList;
-  gColumnSize:Array[0..4] of Integer;
   gCutTextToColWidth : Boolean;
 
   gShortFileSizeFormat:Boolean=True;
@@ -369,13 +368,6 @@ begin
 
   gColorExt.Load;
 
-  // default column widths
-  gColumnSize[0] := gIni.ReadInteger('Configuration', 'Col0', 133);
-  gColumnSize[1] := gIni.ReadInteger('Configuration', 'Col1', 50);
-  gColumnSize[2] := gIni.ReadInteger('Configuration', 'Col2', 64);
-  gColumnSize[3] := gIni.ReadInteger('Configuration', 'Col3', 73);
-  gColumnSize[4] := gIni.ReadInteger('Configuration', 'Col4', 59);
-
   DebugLn('Loading viewer position...');
   LoadWindowPos(gViewerPos, 'Viewer.');
   DebugLn('Loading editor position...');
@@ -493,9 +485,6 @@ begin
   
   gIni.WriteBool('Configuration', 'CutTextToColWidth', gCutTextToColWidth);
 
-  for x:=0 to 4 do
-    gIni.WriteInteger('Configuration', 'Col'+IntToStr(x), gColumnSize[x]);
-    
   SaveWindowPos(gViewerPos, 'Viewer.');
   SaveWindowPos(gEditorPos, 'Editor.');
   

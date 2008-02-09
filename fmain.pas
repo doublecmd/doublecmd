@@ -818,8 +818,13 @@ procedure TfrmMain.frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
 var
   x:Integer;
 begin
-  for x:=0 to 4 do
-    gColumnSize[x]:=FrameLeft.dgPanel.ColWidths[x];
+  (* Save  columns widths *)
+  with FrameLeft do
+  begin
+    for x:=0 to Colm.ColumnsCount - 1 do
+      Colm.SetColumnWidth(x, dgPanel.ColWidths[x]);
+    Colm.Save(gIni);
+  end;
   
   (* Save all tabs *)
   SaveTabs(nbLeft);

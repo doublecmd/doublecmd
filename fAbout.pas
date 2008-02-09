@@ -59,6 +59,7 @@ const
     'Alexander Koblov (Alexx2000@mail.ru)' + #13 +
     'Radek Cervinka (radek.cervinka@centrum.cz) - author of Seksi Commander'+#13+
     'Contributors:'+#13+
+    'Dmitry Kolomiets (B4rr4cuda@rambler.ru)'+#13+
     'Tolstov Igor (attid@yandex.ru)'+#13+
     'Zolotov Alex (zolotov-alex@shamangrad.net)'+#13+
     'Peter Cernoch (pcernoch@volny.cz) - author PFM'+#13+
