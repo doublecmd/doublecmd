@@ -251,33 +251,11 @@ begin
 end;
 
 procedure TPanelColumnsClass.Load(FileName:string);
-var Count,I:Integer;
-    Ini:TIniFile;
+ var Ini:TIniFile;
 begin
   try
-    Self.Clear;
-    FCurrentColumnsFile:=FileName;
     Ini:=TIniFile.Create(FileName);
-    Count:=Ini.ReadInteger('Columns','ColumnCount',0);
-    //---------------------
-    if Count=0 then
-      begin
-        AddDefaultColumns;
-        Exit;
-      end;
-    //---------------------
-    For I:=0 to Count-1 do
-      begin
-        Flist.Add(TPanelColumn.Create);
-        TPanelColumn(FList[I]).Title:=Ini.ReadString('Columns','Column'+IntToStr(I+1)+'Title','');
-         //---------------------
-          TPanelColumn(FList[I]).FuncString:=Ini.ReadString('Columns','Column'+IntToStr(I+1)+'FuncsString','');
-          FillListFromString(TPanelColumn(FList[I]).FuncList,Ini.ReadString('Columns','Column'+IntToStr(I+1)+'FuncsString',''));
-          TPanelColumn(FList[I]).Width:=Ini.ReadInteger('Columns','Column'+IntToStr(I+1)+'Width',20);
-          TPanelColumn(FList[I]).Align:=TAlignment(Ini.ReadInteger('Columns','Column'+IntToStr(I+1)+'Align',0));
-         //---------------------
-      end;
-    //---------------------
+    Load(Ini);
   finally
     Ini.Free;
   end;
@@ -316,20 +294,11 @@ begin
 end;
 
 procedure TPanelColumnsClass.Save(FileName: string);
- var I:Integer;
-     Ini:TIniFile;
+ var Ini:TIniFile;
 begin
   try
     Ini:=TIniFile.Create(FileName);
-    Ini.WriteInteger('Columns','ColumnCount',FList.Count);
-    For I:=0 to FList.Count-1 do
-      begin
-        Ini.WriteString('Columns','Column'+IntToStr(I+1)+'Title',TPanelColumn(FList[I]).Title);
-        Ini.WriteString('Columns','Column'+IntToStr(I+1)+'FuncsString',TPanelColumn(FList[I]).FuncString);
-        Ini.WriteInteger('Columns','Column'+IntToStr(I+1)+'Width', TPanelColumn(FList[I]).Width);
-        Ini.WriteInteger('Columns','Column'+IntToStr(I+1)+'Align', Integer(TPanelColumn(FList[I]).Align));
-      end;
-
+    Save(Ini);
   finally
     Ini.Free;
   end;
