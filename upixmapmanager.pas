@@ -91,7 +91,7 @@ procedure LoadPixMapManager;
 
 implementation
 uses
-  FileUtil, uGlobsPaths, uWCXhead, uGlobs{$IFDEF MSWINDOWS}, ShellAPI, Windows, uIcoFiles{$ENDIF};
+  LCLProc, FileUtil, uGlobsPaths, uWCXhead, uGlobs{$IFDEF MSWINDOWS}, ShellAPI, Windows, uIcoFiles{$ENDIF};
 
 {$IFDEF MSWINDOWS}
 function GetRGBColor(Value: TColor): DWORD;
@@ -252,7 +252,7 @@ begin
   Result:= nil;
   if not FileExists(gpPixmapPath+FPixmapSize+sName) then
   begin
-    writeln(Format('Warning: pixmap [%s] not exists!',[gpPixmapPath+FPixmapSize+sName]));
+    DebugLn(Format('Warning: pixmap [%s] not exists!',[gpPixmapPath+FPixmapSize+sName]));
     Exit;
   end;
   png:=TPortableNetworkGraphic.Create;
@@ -266,7 +266,7 @@ begin
   Result:=-1;
   if not FileExists(gpPixmapPath+FPixmapSize+sName) then
   begin
-    writeln(Format('Warning: pixmap [%s] not exists!',[gpPixmapPath+FPixmapSize+sName]));
+    DebugLn(Format('Warning: pixmap [%s] not exists!',[gpPixmapPath+FPixmapSize+sName]));
     Exit;
   end;
   // determine: known this file?

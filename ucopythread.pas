@@ -30,7 +30,7 @@ type
 
 implementation
 uses
-  SysUtils, Classes, uLng, uGlobs, uLog, uShowMsg, uFileProcs, uFindEx, uDCUtils, uOSUtils;
+  LCLProc, SysUtils, Classes, uLng, uGlobs, uLog, uShowMsg, uFileProcs, uFindEx, uDCUtils, uOSUtils;
 
 procedure TCopyThread.MainExecute;
 var
@@ -81,11 +81,11 @@ var
   sDstNew:String;
 begin
 //  writeln(fr^.sName);
-  writeln('NameNoExt ==' +fr^.sNameNoExt);
+  DebugLn('NameNoExt ==' +fr^.sNameNoExt);
 
   DivFileName(fr^.sNameNoExt,sDstName, sDstExt);
   sDstName:=CorrectDstName(sDstName);
-  WriteLN('sDstName ==' + sDstName);
+  DebugLn('sDstName ==' + sDstName);
   sDstExt:=CorrectDstExt(sDstExt);
   sDstNew:='';
   if sDstName<>'' then
@@ -102,18 +102,18 @@ begin
       if sDstName<>'' then
             begin
               sDstName := GetAbsoluteFileName(ExtractFilePath(fr^.sName), sDstName);
-              WriteLN('ReadSymLink := ' + sDstName);
+              DebugLn('ReadSymLink := ' + sDstName);
               if not CreateSymlink(sDstName, sDst+fr^.sPath+sDstNew) then
-                writeln('Symlink error:');
+                DebugLn('Symlink error:');
             end
           else
-            writeln('Error reading link');
+            DebugLn('Error reading link');
           Result:=True;
     end
   else
   if FPS_ISDIR(fr^.iMode) then
    begin
-   WriteLN('Force =' + sDst+fr^.sPath+fr^.sNameNoExt);
+   DebugLn('Force =' + sDst+fr^.sPath+fr^.sNameNoExt);
     if not DirectoryExists(sDst+fr^.sPath+fr^.sNameNoExt) then
       uFileProcs.ForceDirectory(sDst+fr^.sPath+fr^.sNameNoExt);
     Result:=True;
@@ -166,7 +166,7 @@ begin
   try
     try
       src:=TFileStream.Create(sSrc,fmOpenRead or fmShareDenyNone);
-      writeln(sDst);
+      DebugLn(sDst);
       if bAppend then
       begin
         dst:=TFileStream.Create(sDst,fmOpenReadWrite);
@@ -179,7 +179,7 @@ begin
       // we dont't use CopyFrom, because it's alocate and free buffer every time is called
       FFileOpDlg.iProgress1Pos:=0;
       FFileOpDlg.iProgress1Max:=src.Size;
-      writeln('SrcSize:',src.Size);
+      DebugLn('SrcSize:',IntToStr(src.Size));
 //      writeln(FFileOpDlg.iProgress1Max);
       Synchronize(@FFileOpDlg.UpdateDlg);
 
@@ -244,7 +244,7 @@ begin
       Synchronize(@FFileOpDlg.UpdateDlg);
       Result := FileCopyAttr(sSrc, sDst, bDropReadOnlyFlag); // chmod, chgrp, udate a spol
     finally
-      WriteLN('finally');
+      DebugLn('finally');
       if assigned(src) then
         FreeAndNil(src);
       if assigned(dst) then

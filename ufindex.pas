@@ -279,10 +279,10 @@ begin
     begin
       if Boolean(DefaultAttr and faDirectory) then
         Result := Result and fpS_ISDIR(Attr);
-      WriteLN('Result do == ', BoolToStr(Result));
+      DebugLn('Result do == ', BoolToStr(Result));
       if Boolean(DefaultAttr and faSymLink) then
         Result := Result and ((Attr and S_IFLNK) = S_IFLNK);
-         WriteLN('Result after == ', BoolToStr(Result));
+         DebugLn('Result after == ', BoolToStr(Result));
     end;
   if Length(sAttr) < 9 then Exit;
 

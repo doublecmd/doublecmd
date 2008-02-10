@@ -186,7 +186,7 @@ begin
         ptr^.sNameNoExt := sr.Name;
         ptr^.sName := sRealName;
       end;
-      WriteLN('sNameNoExt ==' + ptr^.sNameNoExt);
+      DebugLn('sNameNoExt ==' + ptr^.sNameNoExt);
     //----------------------------------------
     
     
