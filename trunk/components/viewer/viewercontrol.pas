@@ -745,6 +745,10 @@ begin
 //    Canvas.TextRect(ARect, x+(iBegDrawIndex-pBegLine)*FTextWidth, y,Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex));
     Canvas.TextOut(x+(iBegDrawIndex-pBegLine)*FTextWidth, y,Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex));
   end;
+
+  // restore background color
+  Canvas.Brush.Color := Color;
+
   if (pEndLine-FBlockEnd)>0 then
   begin
 // end of line, not selected
