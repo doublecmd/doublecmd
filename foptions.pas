@@ -1002,20 +1002,42 @@ end;
 procedure TfrmOptions.bbtnWFXAddClick(Sender: TObject);
 var
   WFXmodule : TWFXmodule;
-  sPluginName : String;
+  s,sPluginName : String;
+  tmpPc:Cardinal;
 begin
   odOpenDialog.Filter := 'File system plugins (*.wfx)|*.wfx';
   if odOpenDialog.Execute then
   begin
+  DebugLn('Dialog executed');
     WFXmodule := TWFXmodule.Create;
-    if WFXmodule.LoadModule(odOpenDialog.FileName)then
-      sPluginName := PChar(Pointer(WFXmodule.VFSMisc)) + '=' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
+    DebugLn('TWFXmodule created');
+    if WFXmodule.LoadModule(odOpenDialog.FileName) then
+     begin
+       DebugLn('WFXModule Loaded');
+       tmpPc:=WFXmodule.VFSMisc;
+       if (tmpPc)>0 then
+        sPluginName := PChar(Pointer(tmpPc)) + '=' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
+       else
+         begin
+           DebugLn('WFX alternate name');
+           s:=ExtractFileName(odOpenDialog.FileName);
+           s:=copy(s,1,pos('.',s)-1);
+           sPluginName := s + '=' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
+         end;
+     end
     else
+    begin
+      DebugLn('Module not loaded');
       sPluginName := ExtractFileName(odOpenDialog.FileName) +'=' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
+    end;
 
+  DebugLn('WFX sPluginName='+sPluginName);
   clbWFXList.Items.Add(sPluginName);
+  DebugLn('WFX Item Added');
   WFXModule.UnloadModule;
+  DebugLn('WFX Module Unloaded');
   WFXmodule.Free;
+  DebugLn('WFX Freed');
   end;
 end;
 
