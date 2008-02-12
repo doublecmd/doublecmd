@@ -108,7 +108,7 @@ Type
     function VFSDelete(var flNameList:TFileList):Boolean;override;
     
     function VFSList(const sDir:String; var fl:TFileList):Boolean;override;
-    function VFSMisc: Cardinal;override;
+    function VFSMisc: Cardinal; override;
   end;
 
 implementation
@@ -399,12 +399,17 @@ end;
 
 function TWFXModule.VFSConfigure(Parent: THandle): Boolean;
 begin
-  FsStatusInfo('', 0, 0);
+  if Assigned(FsStatusInfo) then
+    FsStatusInfo('', 0, 0)
+  else
+    Result:=false;
 end;
 
 function TWFXModule.VFSOpen(const sName: String; bCanYouHandleThisFile : Boolean = False): Boolean;
 begin
+  Debugln('WFXVFSOpen entered');
   Result := (FsInit(Cardinal(Self) - $80000000, @MainProgressProc, @MainLogProc, @MainRequestProc) = 0);
+  Debugln('WFXVFSOpen Leaved');
 end;
 
 function TWFXModule.VFSRefresh: Boolean;
@@ -414,8 +419,10 @@ end;
 
 function TWFXModule.VFSMkDir(const sDirName: String): Boolean;
 begin
-  Result := FsMkDir(PChar(sDirName));
-  
+  if Assigned(FsMkDir) then
+    Result := FsMkDir(PChar(sDirName))
+  else
+    Result:=false;
   { Log messages }
   if Result then
     // write log success
@@ -430,7 +437,10 @@ end;
 
 function TWFXModule.VFSRmDir(const sDirName: String): Boolean;
 begin
-  Result := FsRemoveDir(PChar(sDirName));
+  if Assigned(FsRemoveDir) then
+    Result := FsRemoveDir(PChar(sDirName))
+  else
+    Result:=false;
 end;
 
 function TWFXModule.WFXCopyOut: Boolean;
@@ -645,7 +655,8 @@ end;
 
 function TWFXModule.VFSRun(const sName: String): Boolean;
 begin
-  FsExecuteFile(0, PChar(sName), 'open');
+  if Assigned(FsExecuteFile) then
+    FsExecuteFile(0, PChar(sName), 'open');
 end;
 
 function TWFXModule.VFSDelete(var flNameList: TFileList): Boolean;
@@ -670,12 +681,18 @@ begin
         if FPS_ISDIR(flNameList.GetItem(I)^.iMode) then
           begin
             sLogMsg := rsMsgLogRmDir;
-            Result := FsRemoveDir(PChar(flNameList.GetFileName(I)))
+            if Assigned(FsRemoveDir) then
+              Result := FsRemoveDir(PChar(flNameList.GetFileName(I)))
+            else
+              Result := false;
           end
         else
           begin
             sLogMsg := rsMsgLogDelete;
-            Result := FsDeleteFile(PChar(flNameList.GetFileName(I)));
+            if Assigned(FsDeleteFile) then
+              Result := FsDeleteFile(PChar(flNameList.GetFileName(I)))
+            else
+              Result:=false;
           end;
           
         { Log messages }
@@ -709,12 +726,13 @@ begin
   fl.CurrentDirectory := sDir;
   Handle := FsFindFirst(PChar(sDir), FindData);
   repeat
+  Debugln('Repeat in vfsList entered');
   New(fr);
   with fr^ do
     begin
       CurrFileName := FindData.cFileName;
       if (CurrFileName = '.') or  (CurrFileName = '..') then Continue;
-      
+      Debugln('ListItem filename= '+CurrFileName);
       sName := CurrFileName;
       //DebugLN('CurrFileName ==' + CurrFileName);
       iMode := FindData.dwFileAttributes;
@@ -733,7 +751,9 @@ begin
       sTime := DateToStr(fTimeI);
     end;
   fl.AddItem(fr);
-  until not FsFindNext(Handle, FindData);
+  if FsFindNext(Handle, FindData) then DebugLn('FsFindNex=true') else DebugLn('FsFindNex=false');
+  until (not FsFindNext(Handle, FindData));
+  
   FsFindClose(Handle);
   
 end;
@@ -743,8 +763,13 @@ var
   pPlgName : PChar;
 begin
   New(pPlgName);
-  FsGetDefRootName(pPlgName, 256);
-  Result := Cardinal(pPlgName);
+  if assigned(FsGetDefRootName) then
+    begin
+      FsGetDefRootName(pPlgName, 256);
+      Result := Cardinal(pPlgName);
+    end
+  else
+    Result:=0;
 end;
 
 { TWFXCopyThread }
