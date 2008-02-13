@@ -751,7 +751,7 @@ begin
       sTime := DateToStr(fTimeI);
     end;
   fl.AddItem(fr);
-  if FsFindNext(Handle, FindData) then DebugLn('FsFindNex=true') else DebugLn('FsFindNex=false');
+  // if FsFindNext(Handle, FindData) then DebugLn('FsFindNex=true') else DebugLn('FsFindNex=false');
   until (not FsFindNext(Handle, FindData));
   
   FsFindClose(Handle);
