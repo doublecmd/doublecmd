@@ -9,15 +9,15 @@ uses
 
 {$R *.res}
 exports
-{mandatory}
+{ Mandatory }
 OpenArchive,
 ReadHeader,
 ProcessFile,
 CloseArchive,
 SetChangeVolProc,
-SetProcessDataProc;
-{optional}
-
+SetProcessDataProc,
+{ Optional }
+CanYouHandleThisFile;
 
 begin
 {$IFNDEF WIN32}

@@ -31,18 +31,18 @@ unit bz2func;
 interface
 uses uWCXhead;
 
-{Mandatory functions}
+{ Mandatory functions }
 function OpenArchive (var ArchiveData : tOpenArchiveData) : THandle;stdcall;
 function ReadHeader (hArcData : THandle; var HeaderData : THeaderData) : Integer;stdcall;
 function ProcessFile (hArcData : THandle; Operation : Integer; DestPath, DestName : PChar) : Integer;stdcall;
 function CloseArchive (hArcData : THandle) : Integer;stdcall;
 procedure SetChangeVolProc (hArcData : THandle; pChangeVolProc : TChangeVolProc);stdcall;
 procedure SetProcessDataProc (hArcData : THandle; pProcessDataProc : TProcessDataProc);stdcall;
-{Optional functions}
-
+{ Optional functions }
+function CanYouHandleThisFile(FileName: PChar): Boolean;stdcall;
 
 implementation
-uses bzip2, SysUtils, objects;
+uses bzip2, SysUtils, Objects;
 
 var
   sArcName : String;
@@ -195,5 +195,18 @@ begin
     ProcessDataProc := nil;
 end;
 
+function CanYouHandleThisFile(FileName: PChar): Boolean;stdcall;
+var
+  bz2bs : TBufStream;
+  Buffer : array[1..5] of Char;
+begin
+  try
+    bz2bs.Init(FileName, stOpenRead, SizeOf(Buffer));
+    bz2bs.Read(Buffer, SizeOf(Buffer));
+  finally
+    bz2bs.Done;
+  end;
+  Result := (Buffer = 'BZh91');
+end;
 
 end.
