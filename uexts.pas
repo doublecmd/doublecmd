@@ -1,13 +1,14 @@
 {
-Seksi Commander
-----------------------------
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Seksi Commander
+   ----------------------------
+   Licence  : GNU GPL v 2.0
+   Author   : radek.cervinka@centrum.cz
 
-storing commands (by file extensions)
+   storing commands (by file extensions)
 
-contributors:
+   contributors:
 
+   Copyright (C) 2008  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit uExts;
@@ -16,50 +17,57 @@ interface
 uses
   Classes, Contnrs;
 type
-  TExtCommand=Class
-    sExtName:String;
-    ExtCommands:TStringList;
+  TExtAction = class
+    SectionName,   //en> Section name, for example "[htm|html|mht]"
+    Name,          //en> File type name, for example "Hyper text documents"
+    Icon : String; //en> Path to icon
+    Extensions,    //en> List of extensions
+    Actions : TStringList; //en> List of actions, for example "Open=opera '%f'"
   public
     constructor Create;
     destructor Destroy; override;
   end;
 
-  TExts=Class
+  TExts = class
   protected
     FExtList:TObjectList;
   public
     constructor Create;
     destructor Destroy; override;
     procedure LoadFromFile(const sName:String);
-    function GetExtCommand(iIndex:Integer):TExtCommand;
+    function GetExtCommand(iIndex:Integer):TExtAction;
     function GetCommandText(sExt:String; const sCmd:String):String;
-    Function GetExtCommands(sExt:String; var slCommands:TStringList):Boolean;
+    function GetExtCommands(sExt:String; var slCommands:TStringList):Boolean;
+    property ExtList : TObjectList read FExtList write FExtList;
   end;
 
 
 implementation
 uses
-  SysUtils, uLog;
+  LCLProc, SysUtils, uLog;
 
-constructor TExtCommand.Create;
+constructor TExtAction.Create;
 begin
-  ExtCommands:=TStringList.Create;
+  Extensions := TStringList.Create;
+  Actions := TStringList.Create;
 end;
 
-destructor TExtCommand.Destroy;
+destructor TExtAction.Destroy;
 begin
-  if assigned(ExtCommands) then
-    FreeAndNil(ExtCommands);
+  if Assigned(Extensions) then
+    FreeAndNil(Extensions);
+  if Assigned(Actions) then
+    FreeAndNil(Actions);
   inherited
 end;
 
 
 procedure TExts.LoadFromFile(const sName:String);
 var
-  extfile:TextFile;
-  sLine:String;
-  extcmd:TExtCommand;
-  iIndex:Integer;
+  extfile : TextFile;
+  sLine, s, sExt :String;
+  extcmd : TExtAction;
+  iIndex : Integer;
 begin
   assign(extfile, sName);
   reset(extfile);
@@ -75,12 +83,12 @@ begin
       if assigned(extCmd) then
       begin
         // check if any commands
-        if extcmd.ExtCommands.Count>0 then
+        if extcmd.Actions.Count>0 then
           FExtList.Add(extcmd) // add and NOT Free
         else // no commands, free command list
           FreeAndNil(FExtList);
       end;
-      extCmd:=TExtCommand.Create;
+      extCmd:=TExtAction.Create;
       Delete(sLine,1,1); // delete [
       iIndex:=pos(']', sLine);
       if iIndex>0 then
@@ -92,7 +100,17 @@ begin
        (now in second case i can't get correct result
        for bzip, zip and so
 }
-      extCmd.sExtName:='|'+LowerCase(sLine)+'|';
+      extCmd.SectionName:='|'+LowerCase(sLine)+'|';
+
+      // fill extensions list
+      s := LowerCase(sLine)+'|';
+      while Pos('|', s) <> 0 do
+        begin
+          iIndex := Pos('|',s);
+          sExt := Copy(s,1,iIndex-1);
+          Delete(s, 1, iIndex);
+          extCmd.Extensions.Add(sExt);
+        end;
     end // end if.. '['
     else
     begin // this must be a command
@@ -107,7 +125,13 @@ begin
           if sLine[iIndex]='=' then Break;
           sLine[iIndex]:=UpCase(sLine[iIndex]);
         end;
-      extCmd.ExtCommands.Add(sLine);
+      DebugLn(sLine);
+      if Pos('NAME', sLine) = 1 then // File type name
+        extCmd.Name := Copy(sLine, iIndex + 1, Length(sLine))
+      else if Pos('ICON', sLine) = 1 then // File type icon
+        extCmd.Icon := Copy(sLine, iIndex + 1, Length(sLine))
+      else // action
+        extCmd.Actions.Add(sLine);
     end;
   end;
   closefile(extfile);
@@ -124,9 +148,9 @@ begin
   for i:=0 to FExtList.Count-1 do
     with GetExtCommand(i) do
     begin
-      if Pos('|'+sExt+'|',sExtName)>0 then
+      if Pos('|'+sExt+'|',SectionName)>0 then
       begin
-        slCommands.Assign(ExtCommands);
+        slCommands.Assign(Actions);
         Result:=True;
         Break;
       end;
@@ -145,9 +169,9 @@ begin
   inherited
 end;
 
-function TExts.GetExtCommand(iIndex:Integer):TExtCommand;
+function TExts.GetExtCommand(iIndex:Integer):TExtAction;
 begin
-  Result:=TExtCommand(FExtList.Items[iIndex]);
+  Result:=TExtAction(FExtList.Items[iIndex]);
 end;
 
 function TExts.GetCommandText(sExt:String; const sCmd:String):String;
@@ -161,9 +185,9 @@ begin
   for i:=0 to FExtList.Count-1 do
     with GetExtCommand(i) do
     begin
-      if Pos('|'+sExt+'|',sExtName)>0 then
+      if Pos('|'+sExt+'|',SectionName)>0 then
       begin
-        Result:=ExtCommands.Values[UpperCase(sCmd)];
+        Result:=Actions.Values[UpperCase(sCmd)];
         Break;
       end;
     end;

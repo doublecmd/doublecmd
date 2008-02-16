@@ -918,6 +918,9 @@ object frmMain: TfrmMain
         Action = actOptions
         OnClick = actOptionsExecute
       end
+      object mnuFileAssoc: TMenuItem
+        Action = actFileAssoc
+      end
     end
     object mnuHelp: TMenuItem
       Caption = '&Help'
@@ -1332,6 +1335,12 @@ object frmMain: TfrmMain
       DisableIfNoHandler = True
       OnExecute = actQuickSearchExecute
       ShortCut = 16467
+    end
+    object actFileAssoc: TAction
+      Category = 'Config'
+      Caption = 'File associations...'
+      DisableIfNoHandler = True
+      OnExecute = actFileAssocExecute
     end
   end
   object pmHotList: TPopupMenu

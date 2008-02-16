@@ -75,6 +75,7 @@ type
     dskLeft: TKAStoolBar;
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
+    mnuFileAssoc: TMenuItem;
     pmButtonMenu: TKASBarMenu;
     lblCommandPath: TLabel;
     lblRightDriveInfo: TLabel;
@@ -200,6 +201,7 @@ type
     procedure actAddPathToCmdLineExecute(Sender: TObject);
     procedure actContextMenuExecute(Sender: TObject);
     procedure actExtractFilesExecute(Sender: TObject);
+    procedure actFileAssocExecute(Sender: TObject);
     procedure actFocusCmdLineExecute(Sender: TObject);
     procedure actLeftOpenDrivesExecute(Sender: TObject);
     procedure actOpenArchiveExecute(Sender: TObject);
@@ -357,7 +359,7 @@ var
 implementation
 
 uses
-  uTypes, fAbout, uGlobs, uLng, fOptions,{ fViewer,}fconfigtoolbar,
+  uTypes, fAbout, uGlobs, uLng, fOptions,{ fViewer,}fconfigtoolbar, fFileAssoc,
   uCopyThread, uFileList, uDeleteThread, uVFSUtil, uWCXModule, uVFSTypes,
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg,
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils, uLog,
@@ -584,6 +586,11 @@ begin
         frameRight.RefreshPanel;
       end;
     end;  // IsBlocked
+end;
+
+procedure TfrmMain.actFileAssocExecute(Sender: TObject);
+begin
+  TfrmFileAssoc.Create(nil).Show;
 end;
 
 procedure TfrmMain.actFocusCmdLineExecute(Sender: TObject);
