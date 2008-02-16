@@ -1,41 +1,37 @@
 object frmFileAssoc: TfrmFileAssoc
-  Left = 255
-  Height = 514
-  Top = 115
-  Width = 558
-  HorzScrollBar.Page = 557
-  VertScrollBar.Page = 513
+  Left = 269
+  Height = 582
+  Top = 33
+  Width = 554
+  HorzScrollBar.Page = 553
+  VertScrollBar.Page = 581
   ActiveControl = lbFileTypes
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'File associations'
-  ClientHeight = 514
-  ClientWidth = 558
+  ClientHeight = 582
+  ClientWidth = 554
   Font.Color = clBlack
   Font.Height = 13
-  Font.Name = 'Arial'
   Font.Pitch = fpVariable
   OnClose = FormClose
   OnCreate = FormCreate
   Position = poDesktopCenter
   object gbFileTypes: TGroupBox
-    Left = 8
-    Height = 454
-    Top = 8
+    Height = 528
     Width = 265
     Caption = 'File types'
-    ClientHeight = 436
+    ClientHeight = 510
     ClientWidth = 261
     TabOrder = 0
     object lbFileTypes: TListBox
       Left = 10
-      Height = 352
+      Height = 418
       Top = 6
       Width = 244
       Color = clWhite
       Font.Color = clBlack
       Font.Height = 13
-      Font.Name = 'Arial'
       Font.Pitch = fpVariable
       ItemHeight = 20
       OnSelectionChange = lbFileTypesSelectionChange
@@ -47,14 +43,14 @@ object frmFileAssoc: TfrmFileAssoc
       AnchorSideTop.Side = asrBottom
       Left = 10
       Height = 32
-      Top = 364
+      Top = 430
       Width = 244
       BorderSpacing.Top = 6
       Caption = 'Add'
       Font.Color = clBlack
       Font.Height = 13
-      Font.Name = 'Arial'
       Font.Pitch = fpVariable
+      OnClick = btnAddNewTypeClick
       TabOrder = 1
     end
     object btnRemoveType: TButton
@@ -62,14 +58,14 @@ object frmFileAssoc: TfrmFileAssoc
       AnchorSideTop.Side = asrBottom
       Left = 10
       Height = 32
-      Top = 402
+      Top = 468
       Width = 118
       BorderSpacing.Top = 6
       Caption = 'Remove'
       Font.Color = clBlack
       Font.Height = 13
-      Font.Name = 'Arial'
       Font.Pitch = fpVariable
+      OnClick = btnRemoveTypeClick
       TabOrder = 3
     end
     object btnRenameType: TButton
@@ -77,39 +73,37 @@ object frmFileAssoc: TfrmFileAssoc
       AnchorSideTop.Side = asrBottom
       Left = 136
       Height = 32
-      Top = 402
+      Top = 468
       Width = 118
       BorderSpacing.Top = 6
       Caption = 'Rename'
       Font.Color = clBlack
       Font.Height = 13
-      Font.Name = 'Arial'
       Font.Pitch = fpVariable
+      OnClick = btnRenameTypeClick
       TabOrder = 2
     end
   end
   object gbExts: TGroupBox
     AnchorSideLeft.Control = gbFileTypes
     AnchorSideLeft.Side = asrBottom
-    Left = 279
-    Height = 151
-    Top = 10
-    Width = 265
+    Left = 271
+    Height = 135
+    Top = 2
+    Width = 273
     BorderSpacing.Left = 6
     Caption = 'Extensions'
-    ClientHeight = 133
-    ClientWidth = 261
+    ClientHeight = 117
+    ClientWidth = 269
     TabOrder = 1
     object lbExts: TListBox
       Left = 10
-      Height = 120
+      Height = 102
       Top = 6
-      Width = 135
-      Anchors = [akTop, akLeft, akBottom]
+      Width = 145
       Color = clWhite
       Font.Color = clBlack
       Font.Height = 13
-      Font.Name = 'Arial'
       Font.Pitch = fpVariable
       ItemHeight = 20
       Style = lbOwnerDrawFixed
@@ -119,7 +113,7 @@ object frmFileAssoc: TfrmFileAssoc
     object btnAddExt: TButton
       AnchorSideLeft.Control = lbExts
       AnchorSideLeft.Side = asrBottom
-      Left = 151
+      Left = 161
       Height = 32
       Top = 6
       Width = 100
@@ -127,7 +121,6 @@ object frmFileAssoc: TfrmFileAssoc
       Caption = 'Add'
       Font.Color = clBlack
       Font.Height = 13
-      Font.Name = 'Arial'
       Font.Pitch = fpVariable
       OnClick = btnAddExtClick
       TabOrder = 1
@@ -137,7 +130,7 @@ object frmFileAssoc: TfrmFileAssoc
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnAddExt
       AnchorSideTop.Side = asrBottom
-      Left = 151
+      Left = 161
       Height = 32
       Top = 44
       Width = 100
@@ -146,8 +139,8 @@ object frmFileAssoc: TfrmFileAssoc
       Caption = 'Remove'
       Font.Color = clBlack
       Font.Height = 13
-      Font.Name = 'Arial'
       Font.Pitch = fpVariable
+      OnClick = btnRemoveExtClick
       TabOrder = 2
     end
   end
@@ -156,42 +149,52 @@ object frmFileAssoc: TfrmFileAssoc
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = gbExts
     AnchorSideTop.Side = asrBottom
-    Left = 279
-    Height = 217
-    Top = 167
-    Width = 265
+    Left = 271
+    Height = 305
+    Top = 143
+    Width = 273
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
     Caption = 'Actions'
-    ClientHeight = 199
-    ClientWidth = 261
+    ClientHeight = 287
+    ClientWidth = 269
     TabOrder = 2
+    object lblCommand: TLabel
+      AnchorSideTop.Control = ledAction
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 14
+      Top = 226
+      Width = 52
+      BorderSpacing.Top = 6
+      Caption = '&Command:'
+      ParentColor = False
+    end
     object lbActions: TListBox
       Left = 10
-      Height = 185
+      Height = 163
       Top = 6
-      Width = 135
+      Width = 145
       Color = clWhite
       Font.Color = clBlack
       Font.Height = 13
-      Font.Name = 'Arial'
       Font.Pitch = fpVariable
       ItemHeight = 20
+      OnSelectionChange = lbActionsSelectionChange
       Style = lbOwnerDrawFixed
       TabOrder = 0
     end
     object btnUpAct: TButton
       AnchorSideLeft.Control = lbActions
       AnchorSideLeft.Side = asrBottom
-      Left = 151
+      Left = 161
       Height = 32
-      Top = 7
+      Top = 6
       Width = 100
       BorderSpacing.Left = 6
       Caption = 'Up'
       Font.Color = clBlack
       Font.Height = 13
-      Font.Name = 'Arial'
       Font.Pitch = fpVariable
       OnClick = btnUpActClick
       TabOrder = 1
@@ -201,16 +204,15 @@ object frmFileAssoc: TfrmFileAssoc
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnUpAct
       AnchorSideTop.Side = asrBottom
-      Left = 151
+      Left = 161
       Height = 32
-      Top = 45
+      Top = 44
       Width = 100
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
       Caption = 'Down'
       Font.Color = clBlack
       Font.Height = 13
-      Font.Name = 'Arial'
       Font.Pitch = fpVariable
       OnClick = btnDownActClick
       TabOrder = 2
@@ -218,56 +220,72 @@ object frmFileAssoc: TfrmFileAssoc
     object btnAddAct: TButton
       AnchorSideLeft.Control = lbActions
       AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = btnModifyAct
+      AnchorSideTop.Control = btnDownAct
       AnchorSideTop.Side = asrBottom
-      Left = 151
+      AnchorSideRight.Side = asrBottom
+      Left = 161
       Height = 32
-      Top = 121
+      Top = 82
       Width = 100
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
       Caption = 'Add'
       Font.Color = clBlack
       Font.Height = 13
-      Font.Name = 'Arial'
       Font.Pitch = fpVariable
-      TabOrder = 4
+      OnClick = btnAddActClick
+      TabOrder = 3
     end
     object btnRemoveAct: TButton
       AnchorSideLeft.Control = lbActions
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnAddAct
       AnchorSideTop.Side = asrBottom
-      Left = 151
+      AnchorSideRight.Side = asrBottom
+      Left = 161
       Height = 32
-      Top = 159
+      Top = 120
       Width = 100
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
       Caption = 'Remove'
       Font.Color = clBlack
       Font.Height = 13
-      Font.Name = 'Arial'
       Font.Pitch = fpVariable
-      TabOrder = 5
+      OnClick = btnRemoveActClick
+      TabOrder = 4
     end
-    object btnModifyAct: TButton
-      AnchorSideLeft.Control = lbActions
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = btnDownAct
+    object ledAction: TLabeledEdit
+      AnchorSideTop.Control = lbActions
       AnchorSideTop.Side = asrBottom
-      Left = 151
-      Height = 32
-      Top = 83
-      Width = 100
-      BorderSpacing.Left = 6
+      Left = 10
+      Height = 23
+      Top = 197
+      Width = 251
+      BorderSpacing.Top = 28
+      EditLabel.Left = 10
+      EditLabel.Height = 14
+      EditLabel.Top = 180
+      EditLabel.Width = 35
+      EditLabel.Caption = 'Action:'
+      EditLabel.ParentColor = False
+      ParentColor = False
+      TabOrder = 5
+      OnChange = ledActionChange
+    end
+    object fneCommand: TFileNameEdit
+      AnchorSideTop.Control = lblCommand
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 23
+      Top = 246
+      Width = 229
+      ButtonWidth = 23
+      NumGlyphs = 1
       BorderSpacing.Top = 6
-      Caption = 'Modify'
-      Font.Color = clBlack
-      Font.Height = 13
-      Font.Name = 'Arial'
-      Font.Pitch = fpVariable
-      TabOrder = 3
+      ParentColor = False
+      TabOrder = 6
+      OnChange = fneCommandChange
     end
   end
   object gbIcon: TGroupBox
@@ -275,15 +293,15 @@ object frmFileAssoc: TfrmFileAssoc
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = gbActions
     AnchorSideTop.Side = asrBottom
-    Left = 279
+    Left = 271
     Height = 74
-    Top = 390
-    Width = 265
+    Top = 454
+    Width = 273
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
     Caption = 'Icon'
     ClientHeight = 56
-    ClientWidth = 261
+    ClientWidth = 269
     TabOrder = 3
     object sbtnIcon: TSpeedButton
       Left = 10
@@ -293,7 +311,6 @@ object frmFileAssoc: TfrmFileAssoc
       Color = clBtnFace
       Font.Color = clBlack
       Font.Height = 13
-      Font.Name = 'Arial'
       Font.Pitch = fpVariable
       NumGlyphs = 0
       OnClick = sbtnIconClick
@@ -301,23 +318,52 @@ object frmFileAssoc: TfrmFileAssoc
     object edtIconFileName: TEdit
       AnchorSideTop.Control = sbtnIcon
       AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Side = asrBottom
       Left = 55
       Height = 23
       Top = 14
       Width = 196
+      Anchors = [akTop, akLeft, akRight]
       TabOrder = 0
     end
   end
-  object bpButtonPanel: TButtonPanel
-    Left = 6
-    Height = 40
-    Top = 474
-    Width = 546
+  object pnlButtonPanel: TPanel
+    Height = 50
+    Top = 532
+    Width = 554
     Align = alBottom
-    AutoSize = True
-    ButtonOrder = boCloseOKCancel
+    BevelInner = bvLowered
+    ClientHeight = 50
+    ClientWidth = 554
     TabOrder = 4
-    ShowButtons = [pbOK, pbCancel, pbClose, pbHelp]
-    ShowGlyphs = [pbOK, pbCancel, pbClose, pbHelp]
+    object btnOK: TBitBtn
+      AnchorSideTop.Control = btnCancel
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = btnCancel
+      Left = 346
+      Height = 32
+      Top = 12
+      Width = 90
+      Anchors = [akTop, akRight]
+      BorderSpacing.Right = 6
+      Kind = bkOK
+      ModalResult = 1
+      NumGlyphs = 0
+      OnClick = btnOKClick
+      TabOrder = 0
+    end
+    object btnCancel: TBitBtn
+      Left = 442
+      Height = 32
+      Top = 12
+      Width = 90
+      Anchors = [akTop, akRight]
+      Cancel = True
+      Kind = bkCancel
+      ModalResult = 2
+      NumGlyphs = 0
+      OnClick = btnCancelClick
+      TabOrder = 1
+    end
   end
 end

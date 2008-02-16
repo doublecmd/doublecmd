@@ -920,6 +920,7 @@ object frmMain: TfrmMain
       end
       object mnuFileAssoc: TMenuItem
         Action = actFileAssoc
+        OnClick = actFileAssocExecute
       end
     end
     object mnuHelp: TMenuItem

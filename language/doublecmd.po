@@ -1975,3 +1975,27 @@ msgstr ""
 msgid "Category attributes:"
 msgstr ""
 
+#: TFRMFILEASSOC.CAPTION
+msgid "File associations"
+msgstr ""
+
+#: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
+msgid "Remove"
+msgstr ""
+
+#: TFRMFILEASSOC.GBEXTS.CAPTION
+msgid "Extensions"
+msgstr ""
+
+#: TFRMFILEASSOC.LEDACTION.EDITLABEL.CAPTION
+msgid "Action:"
+msgstr ""
+
+#: TFRMFILEASSOC.GBICON.CAPTION
+msgid "Icon"
+msgstr ""
+
+#: TFRMMAIN.ACTFILEASSOC.CAPTION
+msgid "File associations..."
+msgstr ""
+

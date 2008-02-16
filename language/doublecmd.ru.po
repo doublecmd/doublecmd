@@ -306,6 +306,10 @@ msgstr "О программе..."
 msgid "About Viewer..."
 msgstr "О просмотрщике..."
 
+#: TFRMFILEASSOC.LEDACTION.EDITLABEL.CAPTION
+msgid "Action:"
+msgstr "Действие:"
+
 #: TFRMOPTIONS.LBLACTIONS.CAPTION
 msgid "Actions"
 msgstr "Команды"
@@ -798,6 +802,10 @@ msgstr "Расширение"
 msgid "Extension..."
 msgstr "Расширение..."
 
+#: TFRMFILEASSOC.GBEXTS.CAPTION
+msgid "Extensions"
+msgstr "Расширения"
+
 #: TFRMOPTIONS.CBEXTDIFFER.CAPTION
 msgid "External differ"
 msgstr "Внешний differ"
@@ -861,6 +869,14 @@ msgstr "Файл %s изменён, сохранить?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File \%s exists, overwrite?"
 msgstr "Файл %s существует, переписать?"
+
+#: TFRMFILEASSOC.CAPTION
+msgid "File associations"
+msgstr "Файловые ассоциации"
+
+#: TFRMMAIN.ACTFILEASSOC.CAPTION
+msgid "File associations..."
+msgstr "Файловые ассоциации..."
 
 #: TFRMOPTIONS.CBFILEMASKHISTORY.CAPTION
 msgid "File mask history"
@@ -1021,6 +1037,10 @@ msgstr "Горячие клавишы"
 #: TFRMCONFIGTOOLBAR.LBLICON.CAPTION
 msgid "Ic&on:"
 msgstr "Зна&чок:"
+
+#: TFRMFILEASSOC.GBICON.CAPTION
+msgid "Icon"
+msgstr "Значок"
 
 #: TFRMCONFIGTOOLBAR.LBLICONFILE.CAPTION
 msgid "Icon &file:"
@@ -1421,6 +1441,10 @@ msgstr "&Учитывать подкаталоги"
 #: TFRMEDITOR.ACTEDITREDO.CAPTION
 msgid "Redo"
 msgstr "Повторить"
+
+#: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
+msgid "Remove"
+msgstr "Удалить"
 
 #: ulng.rsmsglogrmdir
 msgid "Remove directory \%s"
