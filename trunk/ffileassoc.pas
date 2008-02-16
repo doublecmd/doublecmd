@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs,
-  ButtonPanel, StdCtrls, Buttons;
+  StdCtrls, Buttons, ExtCtrls, EditBtn, uExts;
 
 type
 
@@ -38,39 +38,62 @@ type
     btnAddAct: TButton;
     btnAddExt: TButton;
     btnAddNewType: TButton;
+    btnCancel: TBitBtn;
     btnDownAct: TButton;
+    btnOK: TBitBtn;
     btnUpAct: TButton;
     btnRemoveAct: TButton;
     btnRemoveExt: TButton;
     btnRemoveType: TButton;
     btnRenameType: TButton;
-    btnModifyAct: TButton;
-    bpButtonPanel: TButtonPanel;
     edtIconFileName: TEdit;
+    fneCommand: TFileNameEdit;
     gbFileTypes: TGroupBox;
     gbIcon: TGroupBox;
     gbExts: TGroupBox;
     gbActions: TGroupBox;
+    lblCommand: TLabel;
+    ledAction: TLabeledEdit;
     lbActions: TListBox;
     lbExts: TListBox;
     lbFileTypes: TListBox;
+    pnlButtonPanel: TPanel;
     sbtnIcon: TSpeedButton;
+    procedure btnAddActClick(Sender: TObject);
     procedure btnAddExtClick(Sender: TObject);
+    procedure btnAddNewTypeClick(Sender: TObject);
+    procedure btnCancelClick(Sender: TObject);
     procedure btnDownActClick(Sender: TObject);
+    procedure btnOKClick(Sender: TObject);
+    procedure btnRemoveActClick(Sender: TObject);
+    procedure btnRemoveExtClick(Sender: TObject);
+    procedure btnRemoveTypeClick(Sender: TObject);
+    procedure btnRenameTypeClick(Sender: TObject);
     procedure btnUpActClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure lbActionsSelectionChange(Sender: TObject; User: boolean);
     procedure lbFileTypesSelectionChange(Sender: TObject; User: boolean);
+    procedure ledActionChange(Sender: TObject);
+    procedure fneCommandChange(Sender: TObject);
     procedure sbtnIconClick(Sender: TObject);
   private
     { private declarations }
+    Exts : TExts;
+    procedure UpdateEnabledButtons;
   public
     { public declarations }
   end; 
 
+procedure ShowFileAssocDlg;
 
 implementation
-uses uExts, uGlobs, uOSForms, uPixMapManager;
+uses uGlobsPaths, uGlobs, uOSForms, uPixMapManager;
+
+procedure ShowFileAssocDlg;
+begin
+  TfrmFileAssoc.Create(nil).Show;
+end;
 
 { TfrmFileAssoc }
 
@@ -79,14 +102,98 @@ var
   I, iCount : Integer;
   sName : String;
 begin
-  iCount := gExts.ExtList.Count - 1;
+  Exts := TExts.Create;
+  // load extension file
+  if FileExists(gpIniDir + 'doublecmd.ext') then
+    Exts.LoadFromFile(gpIniDir + 'doublecmd.ext');
+  // fill file types list box
+  iCount := Exts.ExtList.Count - 1;
   for I := 0 to iCount do
     begin
-      sName := TExtAction(gExts.ExtList.Items[I]).Name;
+      sName := Exts.GetExtCommand(I).Name;
       if sName = '' then
-        sName := TExtAction(gExts.ExtList.Items[I]).SectionName;
-      lbFileTypes.Items.AddObject(sName, gExts.ExtList.Items[I]);
+        sName := Exts.GetExtCommand(I).SectionName;
+      lbFileTypes.Items.AddObject(sName, Exts.GetExtCommand(I));
     end;
+  UpdateEnabledButtons;
+end;
+
+procedure TfrmFileAssoc.UpdateEnabledButtons;
+begin
+  if (lbExts.Items.Count = 0) or (lbExts.ItemIndex = -1) then
+    btnRemoveExt.Enabled := False
+  else
+    btnRemoveExt.Enabled := True;
+
+  if (lbActions.Items.Count = 0) or (lbActions.ItemIndex = -1) then
+    begin
+      btnRemoveAct.Enabled := False;
+      btnUpAct.Enabled := False;
+      btnDownAct.Enabled := False;
+    end
+  else
+    begin
+      btnRemoveAct.Enabled := True;
+      btnUpAct.Enabled := True;
+      btnDownAct.Enabled := True;
+    end;
+
+  if lbActions.ItemIndex = 0 then
+    btnUpAct.Enabled:= False;
+  if lbActions.ItemIndex = lbActions.Items.Count - 1 then
+    btnDownAct.Enabled:= False;
+end;
+
+procedure TfrmFileAssoc.btnAddNewTypeClick(Sender: TObject);
+var
+  ExtAction : TExtAction;
+begin
+  ExtAction := TExtAction.Create;
+  with lbFileTypes do
+  begin
+    ExtAction.Name := InputBox(Caption, 'Enter name:', '');
+    ItemIndex := Items.AddObject(ExtAction.Name, ExtAction);
+    // add file type to TExts object
+    Exts.ExtList.Add(ExtAction);
+  end;
+end;
+
+procedure TfrmFileAssoc.btnRemoveTypeClick(Sender: TObject);
+var
+  iIndex : Integer;
+begin
+  iIndex := lbFileTypes.ItemIndex;
+  if iIndex < 0 then Exit;
+  lbFileTypes.ItemIndex := iIndex - 1;
+  lbFileTypes.Items.Delete(iIndex);
+  // remove file type from TExts object
+  Exts.ExtList.Delete(iIndex);
+end;
+
+procedure TfrmFileAssoc.btnRenameTypeClick(Sender: TObject);
+var
+  iIndex : Integer;
+  sName : String;
+begin
+  iIndex := lbFileTypes.ItemIndex;
+  if iIndex < 0 then Exit;
+  sName := lbFileTypes.Items[iIndex];
+  sName := InputBox(Caption, 'Enter name:', sName);
+  lbFileTypes.Items[iIndex] := sName;
+  // rename file type in TExts object
+  Exts.GetExtCommand(iIndex).Name := sName;
+end;
+
+procedure TfrmFileAssoc.lbActionsSelectionChange(Sender: TObject; User: boolean);
+var
+  iIndex : Integer;
+  slActions : TStringList;
+begin
+  iIndex := lbActions.ItemIndex;
+  if (iIndex < 0) or (lbActions.Tag = 1) then Exit;
+  slActions := TStringList(lbActions.Items.Objects[iIndex]);
+  ledAction.Text := slActions.Names[iIndex];
+  fneCommand.FileName := slActions.ValueFromIndex[iIndex];
 end;
 
 procedure TfrmFileAssoc.lbFileTypesSelectionChange(Sender: TObject;
@@ -99,13 +206,39 @@ begin
     begin
       ExtCommand := TExtAction(Items.Objects[ItemIndex]);
       lbExts.Items.Assign(ExtCommand.Extensions);
+      lbExts.ItemIndex := lbExts.Count - 1;
       lbActions.Items.Clear;
       iCount := ExtCommand.Actions.Count - 1;
       for I := 0 to iCount do
         begin
           lbActions.Items.AddObject(ExtCommand.Actions.Names[I], ExtCommand.Actions);
         end;
+      lbActions.ItemIndex := iCount;
     end;
+  UpdateEnabledButtons;
+end;
+
+procedure TfrmFileAssoc.ledActionChange(Sender: TObject);
+var
+  iIndex : Integer;
+  slActions : TStringList;
+begin
+  iIndex := lbActions.ItemIndex;
+  if (iIndex < 0) or (ledAction.Text = '') then Exit;
+  slActions := TStringList(lbActions.Items.Objects[iIndex]);
+  slActions.Strings[iIndex] := ledAction.Text + '=' + slActions.ValueFromIndex[iIndex];
+  lbActions.Items[iIndex] := ledAction.Text;
+end;
+
+procedure TfrmFileAssoc.fneCommandChange(Sender: TObject);
+var
+  iIndex : Integer;
+  slActions : TStringList;
+begin
+  iIndex := lbActions.ItemIndex;
+  if (iIndex < 0) or (fneCommand.FileName = '') then Exit;
+  slActions := TStringList(lbActions.Items.Objects[iIndex]);
+  slActions.ValueFromIndex[iIndex] := fneCommand.FileName;
 end;
 
 procedure TfrmFileAssoc.sbtnIconClick(Sender: TObject);
@@ -125,32 +258,41 @@ var
 begin
   sExt := InputBox(Caption, 'Enter file extension:', '');
   if sExt <> '' then
-    lbExts.Items.Add(sExt);
+    begin
+      lbExts.ItemIndex := lbExts.Items.Add(sExt);
+      // add extension in TExts object
+      with lbFileTypes do
+        TExtAction(Items.Objects[ItemIndex]).Extensions.Add(sExt);
+    end;
+  UpdateEnabledButtons;
 end;
 
-procedure TfrmFileAssoc.btnDownActClick(Sender: TObject);
+procedure TfrmFileAssoc.btnRemoveExtClick(Sender: TObject);
 var
   I : Integer;
 begin
-  with lbActions do
+  // remove extension from extensions listbox
+  with lbExts do
   begin
     I := ItemIndex;
     if I = - 1 then exit;
-    if (I < Items.Count - 1) and (I > -1) then
-    begin
-      Items.Move(I, I + 1);
-      ItemIndex:= I + 1;
-    end;
+    Items.Delete(I);
+    ItemIndex := I - 1;
   end;
-
+  // remove extension from TExts object
+  with lbFileTypes do
+    TExtAction(Items.Objects[ItemIndex]).Extensions.Delete(I);
+  UpdateEnabledButtons;
 end;
 
 procedure TfrmFileAssoc.btnUpActClick(Sender: TObject);
 var
   I : Integer;
 begin
+  // move action in actions listbox
   with lbActions do
   begin
+    Tag := 1; // start moving
     I := ItemIndex;
     if I = - 1 then exit;
     if I > 0 then
@@ -159,7 +301,86 @@ begin
       ItemIndex:= I - 1;
     end;
   end;
+  // move action in TExts object
+  with lbFileTypes do
+  begin
+    TExtAction(Items.Objects[ItemIndex]).Actions.Move(I, I - 1);
+  end;
+  lbActions.Tag := 0; // end moving
+  UpdateEnabledButtons;
+end;
 
+procedure TfrmFileAssoc.btnDownActClick(Sender: TObject);
+var
+  I : Integer;
+begin
+  // move action in actions listbox
+  with lbActions do
+  begin
+    Tag := 1; // start moving
+    I := ItemIndex;
+    if I = - 1 then exit;
+    if (I < Items.Count - 1) and (I > -1) then
+    begin
+      Items.Move(I, I + 1);
+      ItemIndex:= I + 1;
+    end;
+  end;
+  // move action in TExts object
+  with lbFileTypes do
+  begin
+    TExtAction(Items.Objects[ItemIndex]).Actions.Move(I, I + 1);
+  end;
+  lbActions.Tag := 0; // end moving
+  UpdateEnabledButtons;
+end;
+
+procedure TfrmFileAssoc.btnAddActClick(Sender: TObject);
+var
+  I : Integer;
+  ExtAction : TExtAction;
+begin
+  with lbFileTypes do
+    ExtAction := TExtAction(Items.Objects[ItemIndex]);
+  // add action to TExts object
+  I := ExtAction.Actions.Add('=');
+  // add action to actions listbox
+  with lbActions do
+  begin
+    Items.AddObject('', ExtAction.Actions);
+    ItemIndex := I;
+  end;
+  UpdateEnabledButtons;
+end;
+
+procedure TfrmFileAssoc.btnRemoveActClick(Sender: TObject);
+var
+  I : Integer;
+begin
+  // remove action from actions listbox
+  with lbActions do
+  begin
+    I := ItemIndex;
+    if I = - 1 then exit;
+    Items.Delete(I);
+    ItemIndex := Count - 1;
+  end;
+  // remove action from TExts object
+  with lbFileTypes do
+    TExtAction(Items.Objects[ItemIndex]).Actions.Delete(I);
+  UpdateEnabledButtons;
+end;
+
+procedure TfrmFileAssoc.btnOKClick(Sender: TObject);
+begin
+  gExts.Free;
+  gExts := Exts;
+  Close;
+end;
+
+procedure TfrmFileAssoc.btnCancelClick(Sender: TObject);
+begin
+  Close;
 end;
 
 procedure TfrmFileAssoc.FormClose(Sender: TObject; var CloseAction: TCloseAction);

@@ -307,6 +307,10 @@ msgstr "&Über"
 msgid "About Viewer..."
 msgstr "Über den Be&trachter"
 
+#: TFRMFILEASSOC.LEDACTION.EDITLABEL.CAPTION
+msgid "Action:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLACTIONS.CAPTION
 msgid "Actions"
 msgstr "Aktionen"
@@ -799,6 +803,10 @@ msgstr "Endung"
 msgid "Extension..."
 msgstr "Endung..."
 
+#: TFRMFILEASSOC.GBEXTS.CAPTION
+msgid "Extensions"
+msgstr ""
+
 #: TFRMOPTIONS.CBEXTDIFFER.CAPTION
 msgid "External differ"
 msgstr "Externer Vergleicher"
@@ -862,6 +870,14 @@ msgstr "Datei \%s wurde geändert, speichern?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File \%s exists, overwrite?"
 msgstr "Datei \%s existiert bereits. Überschreiben?"
+
+#: TFRMFILEASSOC.CAPTION
+msgid "File associations"
+msgstr ""
+
+#: TFRMMAIN.ACTFILEASSOC.CAPTION
+msgid "File associations..."
+msgstr ""
 
 #: TFRMOPTIONS.CBFILEMASKHISTORY.CAPTION
 msgid "File mask history"
@@ -1022,6 +1038,10 @@ msgstr "Tastaurkürzel"
 #: TFRMCONFIGTOOLBAR.LBLICON.CAPTION
 msgid "Ic&on:"
 msgstr "I&con"
+
+#: TFRMFILEASSOC.GBICON.CAPTION
+msgid "Icon"
+msgstr ""
 
 #: TFRMCONFIGTOOLBAR.LBLICONFILE.CAPTION
 msgid "Icon &file:"
@@ -1422,6 +1442,10 @@ msgstr "Alle &Unterordner mit Dateien einschliessen"
 #: TFRMEDITOR.ACTEDITREDO.CAPTION
 msgid "Redo"
 msgstr "Wiederholen"
+
+#: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
+msgid "Remove"
+msgstr ""
 
 #: ulng.rsmsglogrmdir
 msgid "Remove directory \%s"

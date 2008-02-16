@@ -590,7 +590,7 @@ end;
 
 procedure TfrmMain.actFileAssocExecute(Sender: TObject);
 begin
-  TfrmFileAssoc.Create(nil).Show;
+  ShowFileAssocDlg;
 end;
 
 procedure TfrmMain.actFocusCmdLineExecute(Sender: TObject);

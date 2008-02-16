@@ -307,6 +307,10 @@ msgstr "关于"
 msgid "About Viewer..."
 msgstr "关于查看器"
 
+#: TFRMFILEASSOC.LEDACTION.EDITLABEL.CAPTION
+msgid "Action:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLACTIONS.CAPTION
 msgid "Actions"
 msgstr "动作"
@@ -799,6 +803,10 @@ msgstr "扩展名"
 msgid "Extension..."
 msgstr "扩展名..."
 
+#: TFRMFILEASSOC.GBEXTS.CAPTION
+msgid "Extensions"
+msgstr ""
+
 #: TFRMOPTIONS.CBEXTDIFFER.CAPTION
 msgid "External differ"
 msgstr "外部比较程序"
@@ -862,6 +870,14 @@ msgstr "文件 \%s 已修改, 是否保存?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File \%s exists, overwrite?"
 msgstr "文件 \%s 已存在, 是否覆盖?"
+
+#: TFRMFILEASSOC.CAPTION
+msgid "File associations"
+msgstr ""
+
+#: TFRMMAIN.ACTFILEASSOC.CAPTION
+msgid "File associations..."
+msgstr ""
 
 #: TFRMOPTIONS.CBFILEMASKHISTORY.CAPTION
 msgid "File mask history"
@@ -1022,6 +1038,10 @@ msgstr "快捷键"
 #: TFRMCONFIGTOOLBAR.LBLICON.CAPTION
 msgid "Ic&on:"
 msgstr "图标(&O)"
+
+#: TFRMFILEASSOC.GBICON.CAPTION
+msgid "Icon"
+msgstr ""
 
 #: TFRMCONFIGTOOLBAR.LBLICONFILE.CAPTION
 msgid "Icon &file:"
@@ -1422,6 +1442,10 @@ msgstr "递归打包子目录(&S)"
 #: TFRMEDITOR.ACTEDITREDO.CAPTION
 msgid "Redo"
 msgstr "重做"
+
+#: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
+msgid "Remove"
+msgstr ""
 
 #: ulng.rsmsglogrmdir
 msgid "Remove directory \%s"
