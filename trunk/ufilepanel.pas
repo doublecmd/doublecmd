@@ -471,7 +471,7 @@ begin
       Exit;
     end;
     //now test if exists Open command in doublecmd.ext :)
-    sOpenCmd:=gExts.GetCommandText(lowercase(ExtractFileExt(sName)),'open');
+    sOpenCmd:=gExts.GetExtActionCmd(lowercase(ExtractFileExt(sName)),'open');
     if (sOpenCmd<>'') then
     begin
       if Pos('{!VFS}',sOpenCmd)>0 then

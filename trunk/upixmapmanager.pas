@@ -50,8 +50,7 @@ type
   
   private
     FExtList:TStringList;
-    FPixmapName:TStringList;
-    FimgList: TObjectList;
+    FPixmapList:TStringList;
     FiDirIconID: Integer;
     FiDirLinkIconID: Integer;
     FiLinkIconID: Integer;
@@ -66,8 +65,8 @@ type
     SysImgList : Cardinal;
     {$ENDIF}
   protected
-    function CheckLoadPixmap(const sName:String) : TBitmap;
-    function CheckAddPixmap(const sName:String):Integer;
+    function CheckLoadPixmap(const sName:String; bUsePixmapPath : Boolean = True) : TBitmap;
+    function CheckAddPixmap(const sName:String; bUsePixmapPath : Boolean = True):Integer;
   public
     constructor Create;
     destructor Destroy; override;
@@ -91,7 +90,7 @@ procedure LoadPixMapManager;
 
 implementation
 uses
-  LCLProc, FileUtil, uGlobsPaths, uWCXhead, uGlobs{$IFDEF MSWINDOWS}, ShellAPI, Windows, uIcoFiles{$ENDIF};
+  LCLProc, FileUtil, uGlobsPaths, uWCXhead, uGlobs, uExts{$IFDEF MSWINDOWS}, ShellAPI, Windows, uIcoFiles{$ENDIF};
 
 {$IFDEF MSWINDOWS}
 function GetRGBColor(Value: TColor): DWORD;
@@ -245,34 +244,65 @@ end;
 
 { TPixMapManager }
 
-function TPixMapManager.CheckLoadPixmap(const sName: String): Graphics.TBitmap;
+function TPixMapManager.CheckLoadPixmap(const sName: String; bUsePixmapPath : Boolean = True): Graphics.TBitmap;
 var
   png : TPortableNetworkGraphic;
+  sFileName : String;
 begin
   Result:= nil;
-  if not FileExists(gpPixmapPath+FPixmapSize+sName) then
+
+  if bUsePixmapPath then
+    sFileName := gpPixmapPath+FPixmapSize+sName
+  else
+    sFileName := sName;
+    
+  if not FileExists(sFileName) then
   begin
-    DebugLn(Format('Warning: pixmap [%s] not exists!',[gpPixmapPath+FPixmapSize+sName]));
+    DebugLn(Format('Warning: pixmap [%s] not exists!',[sFileName]));
     Exit;
   end;
   png:=TPortableNetworkGraphic.Create;
-  png.LoadFromFile(gpPixmapPath + FPixmapSize+ sName);
+  png.LoadFromFile(sFileName);
   png.Transparent:=True;
   Result := Graphics.TBitmap(png);
 end;
 
-function TPixMapManager.CheckAddPixmap(const sName: String): Integer;
+function TPixMapManager.CheckAddPixmap(const sName: String; bUsePixmapPath : Boolean = True): Integer;
+var
+  bmp: Graphics.TBitmap;
+  png: TPortableNetworkGraphic;
+  sFileName : String;
 begin
   Result:=-1;
-  if not FileExists(gpPixmapPath+FPixmapSize+sName) then
+  
+  if bUsePixmapPath then
+    sFileName := gpPixmapPath+FPixmapSize+sName
+  else
+    sFileName := sName;
+  
+  if not FileExists(sFileName) then
   begin
-    DebugLn(Format('Warning: pixmap [%s] not exists!',[gpPixmapPath+FPixmapSize+sName]));
+    DebugLn(Format('Warning: pixmap [%s] not exists!',[sFileName]));
     Exit;
   end;
   // determine: known this file?
-  Result:=FPixmapName.IndexOf(sName);
-  if Result<0 then // no
-    Result:=FPixmapName.Add(sName); // add to list
+  Result:= FPixmapList.IndexOf(sName);
+  if Result < 0 then // no
+    begin
+      if CompareFileExt(sFileName, 'png', False) = 0 then
+        begin
+          png := TPortableNetworkGraphic.Create;
+          png.LoadFromFile(sFileName);
+          png.Transparent:=True;
+          bmp := Graphics.TBitMap(png);
+        end
+      else
+        begin
+          bmp := Graphics.TBitMap.Create;
+          bmp.LoadFromFile(sFileName);
+        end;
+      Result:= FPixmapList.AddObject(sName, bmp); // add to list
+    end;
 end;
 
 constructor TPixMapManager.Create;
@@ -283,8 +313,7 @@ var
 {$ENDIF}
 begin
   FExtList:=TStringList.Create;
-  FimgList:=TObjectList.Create;
-  FPixmapName:=TStringList.Create;
+  FPixmapList:=TStringList.Create;
   {$IFDEF WIN32}
     if gIconsSize < 32 then
       iIconSize := SHGFI_SMALLICON
@@ -301,10 +330,8 @@ end;
 
 destructor TPixMapManager.Destroy;
 begin
-  if assigned(FPixmapName) then
-    FreeAndNil(FPixmapName);
-  if assigned(FimgList) then
-    FreeAndNil(FimgList);
+  if assigned(FPixmapList) then
+    FreeAndNil(FPixmapList);
   if assigned(FExtList) then
     FreeAndNil(FExtList);
   with FFirstIconSize do
@@ -343,7 +370,6 @@ var
   iPixMap:Integer;
   sPixMapSize : String;
   I : Integer;
-  png:TPortableNetworkGraphic;
   Plugins : TStringList;
   sCurrentPlugin : String;
   iCurPlugCaps : Integer;
@@ -409,6 +435,28 @@ begin
     end;
   end;
 
+  { Load icons from doublecmd.ext }
+  for I := 0 to gExts.Count - 1 do
+    begin
+      sPixMap := gExts.Items[I].Icon;
+      if FileExists(sPixMap) then
+        begin
+          iPixMap:= CheckAddPixmap(sPixMap, False);
+          if iPixMap < 0 then Continue;
+          gExts.Items[I].IconIndex:= iPixMap;
+          //DebugLn('sPixMap = ',sPixMap, ' Index = ', IntToStr(iPixMap));
+
+          // set pixmap index for all extensions
+          for iekv := 0 to gExts.Items[I].Extensions.Count - 1 do
+            begin
+              sExt := gExts.Items[I].Extensions[iekv];
+              if FExtList.IndexOf(sExt) < 0 then
+                FExtList.AddObject(sExt, TObject(iPixMap));
+            end;
+        end;
+    end;
+  {/ Load icons from doublecmd.ext }
+
   (* Set archive icons *)
   
   Plugins := TStringList.Create;
@@ -427,20 +475,7 @@ begin
   Plugins.Free;
   
   (* /Set archive icons *)
-
-  // now fill imagelist by FPixMap
-
-  for I := 0 to FPixmapName.Count - 1 do
-  begin
-//    writeln('Loading:',I,' ',FExtList[I],': ',gpPixmapPath+ FPixmapSize+FPixmapName[I]);
-    png:=TPortableNetworkGraphic.Create;
-    png.LoadFromFile(gpPixmapPath+FPixmapSize+FPixmapName[I]);
-    png.Transparent:=True;
-//    bmp.TransparentMode:=tmFixed;
-//    writeln(bmp.Width,' ',bmp.Height);
-    FimgList.Add(png);
-  end;
-
+  
 end;
 
 function TPixMapManager.GetBitmap(iIndex: Integer; BkColor : TColor): Graphics.TBitmap;
@@ -449,8 +484,8 @@ var
   memstream: TMemoryStream;
 {$ENDIF}
 begin
-  if iIndex<FimgList.Count then
-    Result:=Graphics.TBitmap(FimgList.Items[iIndex])
+  if iIndex<FPixmapList.Count then
+    Result:=Graphics.TBitmap(FPixmapList.Objects[iIndex])
   else
 {$IFDEF MSWINDOWS}
   if iIndex >= $1000 then
@@ -511,8 +546,8 @@ end;
 function TPixMapManager.DrawBitmap(iIndex: Integer; Canvas: TCanvas; Rect: TRect): Boolean;
 begin
   Result := True;
-  if iIndex < FimgList.Count then
-    Canvas.Draw(Rect.Left, Rect.Top ,Graphics.TBitmap(FimgList.Items[iIndex]))
+  if iIndex < FPixmapList.Count then
+    Canvas.Draw(Rect.Left, Rect.Top ,Graphics.TBitmap(FPixmapList.Objects[iIndex]))
   else
 {$IFDEF MSWINDOWS}
   if iIndex >= $1000 then

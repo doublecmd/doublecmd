@@ -31,9 +31,9 @@ object frmFileAssoc: TfrmFileAssoc
       Width = 244
       Color = clWhite
       Font.Color = clBlack
-      Font.Height = 13
       Font.Pitch = fpVariable
       ItemHeight = 20
+      OnDrawItem = lbFileTypesDrawItem
       OnSelectionChange = lbFileTypesSelectionChange
       Style = lbOwnerDrawFixed
       TabOrder = 0
@@ -48,7 +48,6 @@ object frmFileAssoc: TfrmFileAssoc
       BorderSpacing.Top = 6
       Caption = 'Add'
       Font.Color = clBlack
-      Font.Height = 13
       Font.Pitch = fpVariable
       OnClick = btnAddNewTypeClick
       TabOrder = 1
@@ -63,7 +62,6 @@ object frmFileAssoc: TfrmFileAssoc
       BorderSpacing.Top = 6
       Caption = 'Remove'
       Font.Color = clBlack
-      Font.Height = 13
       Font.Pitch = fpVariable
       OnClick = btnRemoveTypeClick
       TabOrder = 3
@@ -78,7 +76,6 @@ object frmFileAssoc: TfrmFileAssoc
       BorderSpacing.Top = 6
       Caption = 'Rename'
       Font.Color = clBlack
-      Font.Height = 13
       Font.Pitch = fpVariable
       OnClick = btnRenameTypeClick
       TabOrder = 2
@@ -103,7 +100,6 @@ object frmFileAssoc: TfrmFileAssoc
       Width = 145
       Color = clWhite
       Font.Color = clBlack
-      Font.Height = 13
       Font.Pitch = fpVariable
       ItemHeight = 20
       Style = lbOwnerDrawFixed
@@ -120,7 +116,6 @@ object frmFileAssoc: TfrmFileAssoc
       BorderSpacing.Left = 6
       Caption = 'Add'
       Font.Color = clBlack
-      Font.Height = 13
       Font.Pitch = fpVariable
       OnClick = btnAddExtClick
       TabOrder = 1
@@ -138,7 +133,6 @@ object frmFileAssoc: TfrmFileAssoc
       BorderSpacing.Top = 6
       Caption = 'Remove'
       Font.Color = clBlack
-      Font.Height = 13
       Font.Pitch = fpVariable
       OnClick = btnRemoveExtClick
       TabOrder = 2
@@ -177,7 +171,6 @@ object frmFileAssoc: TfrmFileAssoc
       Width = 145
       Color = clWhite
       Font.Color = clBlack
-      Font.Height = 13
       Font.Pitch = fpVariable
       ItemHeight = 20
       OnSelectionChange = lbActionsSelectionChange
@@ -194,7 +187,6 @@ object frmFileAssoc: TfrmFileAssoc
       BorderSpacing.Left = 6
       Caption = 'Up'
       Font.Color = clBlack
-      Font.Height = 13
       Font.Pitch = fpVariable
       OnClick = btnUpActClick
       TabOrder = 1
@@ -212,7 +204,6 @@ object frmFileAssoc: TfrmFileAssoc
       BorderSpacing.Top = 6
       Caption = 'Down'
       Font.Color = clBlack
-      Font.Height = 13
       Font.Pitch = fpVariable
       OnClick = btnDownActClick
       TabOrder = 2
@@ -231,7 +222,6 @@ object frmFileAssoc: TfrmFileAssoc
       BorderSpacing.Top = 6
       Caption = 'Add'
       Font.Color = clBlack
-      Font.Height = 13
       Font.Pitch = fpVariable
       OnClick = btnAddActClick
       TabOrder = 3
@@ -250,7 +240,6 @@ object frmFileAssoc: TfrmFileAssoc
       BorderSpacing.Top = 6
       Caption = 'Remove'
       Font.Color = clBlack
-      Font.Height = 13
       Font.Pitch = fpVariable
       OnClick = btnRemoveActClick
       TabOrder = 4
@@ -322,7 +311,7 @@ object frmFileAssoc: TfrmFileAssoc
       Left = 55
       Height = 23
       Top = 14
-      Width = 196
+      Width = 188
       Anchors = [akTop, akLeft, akRight]
       TabOrder = 0
     end
@@ -346,6 +335,7 @@ object frmFileAssoc: TfrmFileAssoc
       Width = 90
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 6
+      Caption = '&OK'
       Kind = bkOK
       ModalResult = 1
       NumGlyphs = 0
@@ -359,6 +349,7 @@ object frmFileAssoc: TfrmFileAssoc
       Width = 90
       Anchors = [akTop, akRight]
       Cancel = True
+      Caption = 'Cancel'
       Kind = bkCancel
       ModalResult = 2
       NumGlyphs = 0
