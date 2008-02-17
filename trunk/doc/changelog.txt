@@ -1,4 +1,5 @@
-﻿04.02.2008 FIX: Bug [ 1886005 ] Быстрый поиск - завешивает.
+﻿17.02.2008 FIX: Bug [ 1880539 ] Контекстное меню каталога.
+04.02.2008 FIX: Bug [ 1886005 ] Быстрый поиск - завешивает.
 03.02.2008 FIX: Bug [ 1869787 ] Options -> Colors -> File types and attributes
 03.02.2008 ADD: Feature Request [1880515] Enhanced quick search
 03.02.2008 FIX: Bug [ 1870552 ] Alt quick search
