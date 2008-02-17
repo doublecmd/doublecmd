@@ -73,6 +73,8 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure lbActionsSelectionChange(Sender: TObject; User: boolean);
+    procedure lbFileTypesDrawItem(Control: TWinControl; Index: Integer;
+      ARect: TRect; State: TOwnerDrawState);
     procedure lbFileTypesSelectionChange(Sender: TObject; User: boolean);
     procedure ledActionChange(Sender: TObject);
     procedure fneCommandChange(Sender: TObject);
@@ -88,7 +90,7 @@ type
 procedure ShowFileAssocDlg;
 
 implementation
-uses uGlobsPaths, uGlobs, uOSForms, uPixMapManager;
+uses LCLType, uGlobsPaths, uGlobs, uOSForms, uPixMapManager;
 
 procedure ShowFileAssocDlg;
 begin
@@ -106,14 +108,17 @@ begin
   // load extension file
   if FileExists(gpIniDir + 'doublecmd.ext') then
     Exts.LoadFromFile(gpIniDir + 'doublecmd.ext');
+  lbFileTypes.ItemHeight := gIconsSize + 4;
   // fill file types list box
-  iCount := Exts.ExtList.Count - 1;
+  iCount := Exts.Count - 1;
   for I := 0 to iCount do
     begin
-      sName := Exts.GetExtCommand(I).Name;
+      // update icon index
+      Exts.Items[I].IconIndex := gExts.Items[I].IconIndex;
+      sName := Exts.Items[I].Name;
       if sName = '' then
-        sName := Exts.GetExtCommand(I).SectionName;
-      lbFileTypes.Items.AddObject(sName, Exts.GetExtCommand(I));
+        sName := Exts.Items[I].SectionName;
+      lbFileTypes.Items.AddObject(sName, Exts.Items[I]);
     end;
   UpdateEnabledButtons;
 end;
@@ -154,7 +159,7 @@ begin
     ExtAction.Name := InputBox(Caption, 'Enter name:', '');
     ItemIndex := Items.AddObject(ExtAction.Name, ExtAction);
     // add file type to TExts object
-    Exts.ExtList.Add(ExtAction);
+    Exts.AddItem(ExtAction);
   end;
 end;
 
@@ -167,7 +172,7 @@ begin
   lbFileTypes.ItemIndex := iIndex - 1;
   lbFileTypes.Items.Delete(iIndex);
   // remove file type from TExts object
-  Exts.ExtList.Delete(iIndex);
+  Exts.DeleteItem(iIndex);
 end;
 
 procedure TfrmFileAssoc.btnRenameTypeClick(Sender: TObject);
@@ -181,7 +186,7 @@ begin
   sName := InputBox(Caption, 'Enter name:', sName);
   lbFileTypes.Items[iIndex] := sName;
   // rename file type in TExts object
-  Exts.GetExtCommand(iIndex).Name := sName;
+  Exts.Items[iIndex].Name := sName;
 end;
 
 procedure TfrmFileAssoc.lbActionsSelectionChange(Sender: TObject; User: boolean);
@@ -194,6 +199,44 @@ begin
   slActions := TStringList(lbActions.Items.Objects[iIndex]);
   ledAction.Text := slActions.Names[iIndex];
   fneCommand.FileName := slActions.ValueFromIndex[iIndex];
+end;
+
+procedure TfrmFileAssoc.lbFileTypesDrawItem(Control: TWinControl;
+  Index: Integer; ARect: TRect; State: TOwnerDrawState);
+var
+  I, iTextTop: Integer;
+  ExtAction: TExtAction;
+  MR: TRect;
+begin
+  with (Control as TListBox) do
+  begin
+    MR.Left:= ARect.Left + 1;
+    MR.Top:= ARect.Top + 1;
+    MR.Right:= ARect.Right - 1;
+    MR.Bottom:= ARect.Bottom - 1;
+
+    ExtAction:= Exts.Items[Index];
+
+    if odSelected in State then
+      begin
+        Canvas.Font.Color := clText;
+        Canvas.Brush.Color:= clText;
+        Canvas.FillRect(ARect);
+        Canvas.Brush.Color:= Color;
+        Canvas.FillRect(MR);
+      end
+    else
+      begin
+        Canvas.Brush.Color:= Color;
+        Canvas.FillRect(ARect);
+      end ;
+
+    iTextTop := MR.Top + (gIconsSize div 2) - (Canvas.TextHeight(Items[Index]) div 2);
+    //Canvas.Draw(MR.Left + 2, MR.Top + 1, ExtAction.Bitmap);
+    PixMapManager.DrawBitmap(ExtAction.IconIndex, Canvas, MR);
+    Canvas.TextOut(MR.Left + gIconsSize + 6, iTextTop, Items[Index]);
+  end;
+
 end;
 
 procedure TfrmFileAssoc.lbFileTypesSelectionChange(Sender: TObject;
@@ -215,6 +258,8 @@ begin
         end;
       lbActions.ItemIndex := iCount;
     end;
+  sbtnIcon.Glyph := LoadBitmapFromFile(ExtCommand.Icon, 32, sbtnIcon.Color);
+  edtIconFileName.Text:= ExtCommand.Icon;
   UpdateEnabledButtons;
 end;
 
@@ -248,7 +293,9 @@ begin
   if ShowOpenIconDialog(Self, sFileName) then
     begin
       edtIconFileName.Text := sFileName;
-      sbtnIcon.Glyph := LoadBitmapFromFile(sFileName, 32, sbtnIcon.Color)
+      sbtnIcon.Glyph := LoadBitmapFromFile(sFileName, 32, sbtnIcon.Color);
+      with lbFileTypes do
+        TExtAction(Items.Objects[ItemIndex]).Icon:= sFileName;
     end;
 end;
 

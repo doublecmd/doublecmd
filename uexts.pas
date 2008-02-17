@@ -21,6 +21,7 @@ type
     SectionName,   //en> Section name, for example "[htm|html|mht]"
     Name,          //en> File type name, for example "Hyper text documents"
     Icon : String; //en> Path to icon
+    IconIndex : Integer;
     Extensions,    //en> List of extensions
     Actions : TStringList; //en> List of actions, for example "Open=opera '%f'"
   public
@@ -28,17 +29,25 @@ type
     destructor Destroy; override;
   end;
 
+  { TExts }
+
   TExts = class
+    function GetCount: Integer;
+  private
+    function GetItems(Index: Integer): TExtAction;
   protected
     FExtList:TObjectList;
   public
     constructor Create;
     destructor Destroy; override;
+    function AddItem(AExtAction: TExtAction): Integer;
+    procedure DeleteItem(Index: Integer);
     procedure LoadFromFile(const sName:String);
-    function GetExtCommand(iIndex:Integer):TExtAction;
-    function GetCommandText(sExt:String; const sCmd:String):String;
-    function GetExtCommands(sExt:String; var slCommands:TStringList):Boolean;
-    property ExtList : TObjectList read FExtList write FExtList;
+    procedure SaveToFile(const sName:String);
+    function GetExtActionCmd(sExt:String; const sActionName:String):String;
+    function GetExtActions(sExt:String; var slActions:TStringList):Boolean;
+    property Count: Integer read GetCount;
+    property Items[Index: Integer]: TExtAction read GetItems;
   end;
 
 
@@ -137,7 +146,12 @@ begin
   closefile(extfile);
 end;
 
-Function TExts.GetExtCommands(sExt:String; var slCommands:TStringList):Boolean;
+procedure TExts.SaveToFile(const sName: String);
+begin
+
+end;
+
+Function TExts.GetExtActions(sExt:String; var slActions:TStringList):Boolean;
 var
   i:Integer;
 begin
@@ -146,15 +160,25 @@ begin
   if sExt[1]='.' then
     Delete(sExt,1,1);
   for i:=0 to FExtList.Count-1 do
-    with GetExtCommand(i) do
+    with GetItems(i) do
     begin
       if Pos('|'+sExt+'|',SectionName)>0 then
       begin
-        slCommands.Assign(Actions);
+        slActions.Assign(Actions);
         Result:=True;
         Break;
       end;
     end;
+end;
+
+function TExts.GetCount: Integer;
+begin
+  Result := FExtList.Count;
+end;
+
+function TExts.GetItems(Index: Integer): TExtAction;
+begin
+  Result := TExtAction(FExtList.Items[Index]);
 end;
 
 constructor TExts.Create;
@@ -169,12 +193,17 @@ begin
   inherited
 end;
 
-function TExts.GetExtCommand(iIndex:Integer):TExtAction;
+function TExts.AddItem(AExtAction: TExtAction): Integer;
 begin
-  Result:=TExtAction(FExtList.Items[iIndex]);
+  Result := FExtList.Add(AExtAction);
 end;
 
-function TExts.GetCommandText(sExt:String; const sCmd:String):String;
+procedure TExts.DeleteItem(Index: Integer);
+begin
+  FExtList.Delete(Index);
+end;
+
+function TExts.GetExtActionCmd(sExt:String; const sActionName:String):String;
 var
   i:Integer;
 begin
@@ -183,11 +212,11 @@ begin
   if sExt[1]='.' then
     Delete(sExt,1,1);
   for i:=0 to FExtList.Count-1 do
-    with GetExtCommand(i) do
+    with GetItems(i) do
     begin
       if Pos('|'+sExt+'|',SectionName)>0 then
       begin
-        Result:=Actions.Values[UpperCase(sCmd)];
+        Result:=Actions.Values[UpperCase(sActionName)];
         Break;
       end;
     end;

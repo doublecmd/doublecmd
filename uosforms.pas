@@ -307,7 +307,7 @@ end;
       try
         fri := FileList.GetItem(0)^;
         if FPS_ISDIR(fri.iMode) or (fri.bIsLink) then Exit;
-        if gExts.GetExtCommands(lowercase(ExtractFileExt(fri.sName)),sl) then
+        if gExts.GetExtActions(lowercase(ExtractFileExt(fri.sName)),sl) then
           begin
           //founded any commands
             for i:=0 to sl.Count-1 do
