@@ -227,8 +227,13 @@ procedure TFrameFilePanel.dgPanelMouseDown(Sender: TObject;
 var
   iRow, iCol : Integer;
 begin
-  if Button<>mbLeft then Exit;
   dgPanel.MouseToCell(X, Y, iCol, iRow);
+  if Button<>mbLeft then
+    begin
+      dgPanel.Row := iRow;
+      SetFocus;
+      Exit;
+    end;
   if iRow >= dgPanel.FixedRows then  // if not column header
     dgPanel.BeginDrag(False);
 end;

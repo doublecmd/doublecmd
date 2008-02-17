@@ -294,8 +294,9 @@ end;
   mi:=TMenuItem.Create(CM);
   mi.Caption:='-';
   CM.Items.Add(mi);
-  
-  if FileList.Count = 1 then
+
+  fri := FileList.GetItem(0)^;
+  if (FileList.Count = 1) and not (FPS_ISDIR(fri.iMode) or (fri.bLinkIsDir)) then
     begin
       miActions:=TMenuItem.Create(CM);
       miActions.Caption:='Actions';
@@ -305,8 +306,6 @@ end;
       // Read actions from doublecmd.ext
       sl:=TStringList.Create;
       try
-        fri := FileList.GetItem(0)^;
-        if FPS_ISDIR(fri.iMode) or (fri.bIsLink) then Exit;
         if gExts.GetExtActions(lowercase(ExtractFileExt(fri.sName)),sl) then
           begin
           //founded any commands
