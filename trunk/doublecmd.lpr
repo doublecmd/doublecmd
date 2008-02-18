@@ -53,7 +53,7 @@ uses
   fLinker,
   fCompareFiles,
   dmHigh,
-  uPixMapManager, uVFS,
+  uPixMapManager, uVFS, fFileAssoc,
   KASComp, fconfigtoolbar, uWCXprototypes, uDCUtils, uOSUtils,
   dmDialogs, fViewer, fOptions, fCopyDlg, fMoveDlg, fFindDlg,
   fSymLink, fMultiRename, fSplitter, fPackDlg, fExtractDlg;
