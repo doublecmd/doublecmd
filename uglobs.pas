@@ -17,7 +17,7 @@ unit uGlobs;
 
 interface
 uses
-  Classes, Controls, uExts, uColorExt, Graphics, IniFiles;
+  Classes, Controls, uExts, uColorExt, Graphics, IniFiles, uWDXModule;
 
 type
   TControlPosition = object
@@ -38,6 +38,10 @@ type
 var
   { For localization }
   gPOFileName : String;
+  
+  {WDX plugins}
+  WdxPlugins:TWDXModuleList;
+  
   { Layout page }
   gButtonBar,
   gToolBarFlat,
@@ -245,6 +249,10 @@ begin
   glsHotDir := TStringList.Create;
   glsDirHistory := TStringList.Create;
   glsMaskHistory := TStringList.Create;
+  //---------------------
+  WdxPlugins:=TWDXModuleList.Create;
+  WdxPlugins.Load(gIni);
+  //---------------------
 end;
 
 procedure DeInitGlobs;
@@ -266,6 +274,8 @@ begin
   gIni := TIniFile.Create(gpCfgDir + 'doublecmd.ini');
   gIni.WriteBool('Configuration', 'UseIniInProgramDir', gUseIniInProgramDir);
   gIni.Free;
+  
+  WdxPlugins.Free;
 end;
 
 function LoadGlobs : Boolean;

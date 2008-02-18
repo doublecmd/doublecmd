@@ -29,20 +29,16 @@ unit uColumns;
 interface
 
 uses
-  Classes, SysUtils, Inifiles, LCLProc, strutils,uTypes,uGlobs,uOSUtils,uDCUtils;
+  Classes, SysUtils, Inifiles, LCLProc, strutils, uTypes, uGlobs, uOSUtils, uDCUtils;
 
   type
 
  { TPanelColumnsType }
   TPanelColumn=class
-
-    //---------------------
   private
-  //------------------------------------------------------
     function ActGetInfo(FuncS: string; ptr: PFileRecItem): string;
   //------------------------------------------------------
   public
-  //------------------------------------------------------
     Title:string;
     FuncString:string;
     FuncList:TStringList;
@@ -251,7 +247,7 @@ begin
 end;
 
 procedure TPanelColumnsClass.Load(FileName:string);
- var Ini:TIniFile;
+var Ini:TIniFile;
 begin
   try
     Ini:=TIniFile.Create(FileName);
@@ -294,11 +290,11 @@ begin
 end;
 
 procedure TPanelColumnsClass.Save(FileName: string);
- var Ini:TIniFile;
+ var  Ini:TIniFile;
 begin
   try
     Ini:=TIniFile.Create(FileName);
-    Save(Ini);
+     Save(Ini);
   finally
     Ini.Free;
   end;
@@ -307,6 +303,7 @@ end;
 procedure TPanelColumnsClass.Save(Ini: TIniFile);
  var I:Integer;
 begin
+    Ini.EraseSection('Columns');
     Ini.WriteInteger('Columns','ColumnCount',FList.Count);
     For I:=0 to FList.Count-1 do
       begin
@@ -353,9 +350,9 @@ begin
   if pos('(',S)>0 then
     delete(s,1,pos('(',S))
   else Exit;
-  
-  if pos(s,')')>0 then
-    Result:=Copy(s,1,pos(s,')')-1);
+
+  if pos(')',s)>0 then
+    Result:=Copy(s,1,pos(')',s)-1);
 end;
 
 //Return function name (ScriptFunction,PluginFunction etc)
@@ -399,8 +396,8 @@ function TPanelColumn.ActGetInfo(FuncS:string; ptr: PFileRecItem):string;
  //---------------------
  var AType,AName,AFunc,AParam:string;
 begin
-  //     DebugLn('Entered ActGetInfo');
-//       DebugLn('FuncS='+FuncS+'     ptr.sname='+ptr^.sname);
+       DebugLn('Entered ActGetInfo');
+       DebugLn('FuncS='+FuncS);
        //---------------------
        AType:=upcase(GetModType(FuncS));
        AName:=upcase(GetModName(FuncS));
@@ -438,6 +435,7 @@ begin
               9: Result:=ptr^.sNameNoExt;
         //     10: Result:=ptr^.
             end;
+            Exit;
           end;
         //------------------------------------------------------
 
@@ -445,6 +443,8 @@ begin
         //------------------------------------------------------
         if AType=Script then
           begin
+          
+          Exit;
           end;
         //------------------------------------------------------
 
@@ -452,6 +452,15 @@ begin
         //------------------------------------------------------
         if AType=Plugin then
           begin
+            if not WdxPlugins.IsLoaded(AName) then
+              if not WdxPlugins.LoadModule(AName) then Exit;
+
+//            DebugLN('AName:'+AName);
+//            DebugLn('ptrFileName: '+ptr^.sPath+ptr^.sName);
+//            DebugLn('AFunc:'+AFunc);
+            
+            Result:=WdxPlugins.GetWdxModule(AName).CallContentGetValue(ptr^.sPath+ptr^.sName,AFunc,0,0);
+            Exit;
           end;
         //------------------------------------------------------
     //   DebugLn('Leaved ActGetInfo');

@@ -160,6 +160,11 @@ type
         False : (Low,High : DWORD);
    end;
 
+   //---------------------
+   bool =type boolean;
+   HBITMAP = type LongWord;
+   //---------------------
+   
 type
   {$ifdef UNICODE}
      TBYTE = word;
@@ -185,6 +190,7 @@ type
        end;
   tWIN32FINDDATA = WIN32_FIND_DATA;
   HICON = THANDLE;
+
 
 type
 
