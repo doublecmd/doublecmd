@@ -247,6 +247,7 @@ var
 begin
   with Sender as TListBox do
     begin
+      if ItemIndex=-1 then ItemIndex:=0;
       ExtCommand := TExtAction(Items.Objects[ItemIndex]);
       lbExts.Items.Assign(ExtCommand.Extensions);
       lbExts.ItemIndex := lbExts.Count - 1;
