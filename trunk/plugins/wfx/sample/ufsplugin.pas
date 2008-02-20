@@ -160,6 +160,7 @@ type
         False : (Low,High : DWORD);
    end;
 
+bool = type boolean;
 type
 {$IFDEF MSWINDOWS}
   FILETIME = Windows.FILETIME;
