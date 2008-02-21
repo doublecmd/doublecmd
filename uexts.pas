@@ -158,7 +158,7 @@ begin
     iCount := Extensions.Count - 1;
     Result := Extensions[0];
     for I:= 1 to iCount do
-      Result := '|' + Extensions[I];
+      Result := Result + '|' + Extensions[I];
   end;
 end;
 
@@ -262,9 +262,10 @@ begin
       for I := 0 to iCount do
       with GetItems(I) do
         begin
-          extFile.Add(sNewName);
+          extFile.Add('['+GetNewSectionName(I)+']');
           for J:= 0 to Actions.Count - 1 do
             extFile.Add(Actions.Strings[J]);
+		  extFile.Add(''); // add empty line	
 	end;
     end;
   extFile.SaveToFile(sName);

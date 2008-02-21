@@ -154,12 +154,14 @@ var
   ExtAction : TExtAction;
 begin
   ExtAction := TExtAction.Create;
+  ExtAction.IsChanged := True;
   with lbFileTypes do
   begin
     ExtAction.Name := InputBox(Caption, 'Enter name:', '');
-    ItemIndex := Items.AddObject(ExtAction.Name, ExtAction);
+    Items.AddObject(ExtAction.Name, ExtAction);
     // add file type to TExts object
     Exts.AddItem(ExtAction);
+	ItemIndex := Items.Count - 1;
   end;
 end;
 
