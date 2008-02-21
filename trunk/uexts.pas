@@ -24,6 +24,7 @@ type
     IconIndex : Integer;
     Extensions,    //en> List of extensions
     Actions : TStringList; //en> List of actions, for example "Open=opera '%f'"
+    IsChanged : Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -37,6 +38,8 @@ type
     function GetItems(Index: Integer): TExtAction;
   protected
     FExtList:TObjectList;
+    function GetNewSectionName(Index: Integer): String;
+    procedure EraseSection(extFile : TStringList; SectionIndex: Integer; SkipComments : Boolean = False);
   public
     constructor Create;
     destructor Destroy; override;
@@ -146,12 +149,129 @@ begin
   closefile(extfile);
 end;
 
-procedure TExts.SaveToFile(const sName: String);
+function TExts.GetNewSectionName(Index: Integer): String;
+var
+  I, iCount: Integer;
 begin
-
+  with GetItems(Index) do
+  begin
+    iCount := Extensions.Count - 1;
+    Result := Extensions[0];
+    for I:= 1 to iCount do
+      Result := '|' + Extensions[I];
+  end;
 end;
 
-Function TExts.GetExtActions(sExt:String; var slActions:TStringList):Boolean;
+procedure TExts.EraseSection(extFile : TStringList; SectionIndex: Integer; SkipComments : Boolean = False);
+var
+  sLine : String;
+begin
+  repeat
+    if SkipComments and (Pos('#', Trim(extFile.Strings[SectionIndex]))=1) then
+	  Continue;
+	extFile.Delete(SectionIndex);
+    sLine := extFile.Strings[SectionIndex];
+  until ((Pos('[', sLine)<>0) and (Pos(']', sLine)<>0)) or
+        ((Pos('#', sLine)<>0) and (Pos('[', extFile.Strings[SectionIndex+1])<>0) and
+        (Pos(']', extFile.Strings[SectionIndex+1])<>0));
+end;
+
+procedure TExts.SaveToFile(const sName: String);
+var
+  I, J, iIndex,
+  iCount,
+  iBegin, iEnd : Integer;
+  extFile : TStringList;
+  sLine,
+  sNewName,
+  sSectionName: String;
+  bExists : Boolean;
+begin
+  extFile:= TStringList.Create;
+
+  if FileExists(sName) then
+    begin
+      extFile.LoadFromFile(sName);
+      // first rename sections if needed
+      iCount := Count - 1;
+      for I := 0 to iCount do
+        with GetItems(I) do
+        begin
+          sNewName := GetNewSectionName(I);
+          if SectionName <> sNewName then
+            begin
+              iIndex:= extFile.IndexOf(SectionName);
+              if iIndex >=0 then
+                extFile.Strings[iIndex] := sNewName;
+            end;
+        end;
+      // second delete old sections
+      iCount := extFile.Count - 1;
+      while I <= iCount do
+        with GetItems(I) do
+        begin
+          sLine := extFile.Strings[I];
+          iBegin:= Pos('[', sLine);
+          iEnd:=   Pos(']', sLine);
+          if (iBegin <> 0) and (iEnd <> 0) then
+            begin
+              sSectionName := Copy(extFile.Strings[I],iBegin + 1, iEnd - iBegin);
+              bExists:= False;
+              for J:= 0 to Count - 1 do
+                begin
+                  if sSectionName = SectionName then
+                    begin
+                      bExists := True;
+                      Break;
+                    end;
+                end;
+              if not bExists then // delete section
+                EraseSection(extFile, I);
+            end;
+        Inc(I);
+        end; // while
+
+        // third rewrite changed sections
+	iCount := Count - 1;
+        for I := 0 to iCount do
+        with GetItems(I) do
+        begin
+          if IsChanged then
+	    begin
+	      sNewName := GetNewSectionName(I);
+              iIndex:= extFile.IndexOf(sNewName);
+              if iIndex >= 0 then // if section exists then insert actions
+	        begin
+                  EraseSection(extFile, iIndex+1, True);
+                  for J:= 0 to Actions.Count - 1 do
+                    extFile.Insert(iIndex+1, Actions.Strings[J]);
+                end
+              else // else add new section
+                begin
+                  extFile.Add(sNewName);
+                  for J:= 0 to Actions.Count - 1 do
+                    extFile.Add(Actions.Strings[J]);
+                end;
+            end;
+	end;
+
+    end // FileExists
+  else
+    begin
+      iCount := Count - 1;
+      for I := 0 to iCount do
+      with GetItems(I) do
+        begin
+          extFile.Add(sNewName);
+          for J:= 0 to Actions.Count - 1 do
+            extFile.Add(Actions.Strings[J]);
+	end;
+    end;
+  extFile.SaveToFile(sName);
+  extFile.Free;
+end;
+
+function TExts.GetExtActions(sExt:String; var slActions:TStringList):Boolean;
 var
   i:Integer;
 begin
