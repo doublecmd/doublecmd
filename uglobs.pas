@@ -498,7 +498,7 @@ begin
   SaveWindowPos(gViewerPos, 'Viewer.');
   SaveWindowPos(gEditorPos, 'Editor.');
   
-  gExts.SaveToFile(gpIniDir + 'doublecmd.ext');
+//  gExts.SaveToFile(gpIniDir + 'doublecmd.ext');
   gColorExt.Save;
   
   DeInitGlobs;
