@@ -266,6 +266,8 @@ type
     procedure edHotKeyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
       );
     procedure lbCategoriesClick(Sender: TObject);
+    procedure lbCategoriesDrawItem(Control: TWinControl; Index: Integer;
+      ARect: TRect; State: TOwnerDrawState);
     procedure nbNotebookPageChanged(Sender: TObject);
     procedure pbExamplePaint(Sender: TObject);
     procedure tsWCXShow(Sender: TObject);
@@ -1147,6 +1149,21 @@ begin
       cbCategoryColor.Color := clWindow;
       cbCategoryColor.Selected := cbCategoryColor.Color;
     end;
+end;
+
+procedure TfrmOptions.lbCategoriesDrawItem(Control: TWinControl;
+  Index: Integer; ARect: TRect; State: TOwnerDrawState);
+begin
+  With (Control as TListBox) do
+   begin
+     Canvas.FillRect(ARect);
+     if not Selected[Index] then
+       Canvas.Font.Color:=TMaskItem(Items.Objects[Index]).cColor
+     else
+       Canvas.Font.Color:=gCursorText;
+       
+     Canvas.TextOut(ARect.Left+2,ARect.Top+1,Items[Index]);
+   end;
 end;
 
 procedure TfrmOptions.nbNotebookPageChanged(Sender: TObject);
