@@ -101,10 +101,9 @@ begin
           FreeAndNil(FExtList);
       end;
       extCmd:=TExtAction.Create;
-      Delete(sLine,1,1); // delete [
       iIndex:=pos(']', sLine);
       if iIndex>0 then
-        sLine:=Copy(sLine,1,iIndex-1)
+        sLine:=Copy(sLine,1,iIndex)
       else
         logWrite('] not found in line '+sLine);
 {      add | for easy searching in two and more extensions
@@ -112,7 +111,7 @@ begin
        (now in second case i can't get correct result
        for bzip, zip and so
 }
-      extCmd.SectionName:='|'+LowerCase(sLine)+'|';
+      extCmd.SectionName:=LowerCase(sLine);
 
       // fill extensions list
       s := LowerCase(sLine)+'|';
@@ -159,6 +158,7 @@ begin
     Result := Extensions[0];
     for I:= 1 to iCount do
       Result := Result + '|' + Extensions[I];
+    Result := '[' + Result + ']';
   end;
 end;
 
@@ -169,7 +169,10 @@ begin
   repeat
     if SkipComments and (Pos('#', Trim(extFile.Strings[SectionIndex]))=1) then
 	  Continue;
-	extFile.Delete(SectionIndex);
+    extFile.Delete(SectionIndex);
+
+    if SectionIndex >= extFile.Count then Exit;
+
     sLine := extFile.Strings[SectionIndex];
   until ((Pos('[', sLine)<>0) and (Pos(']', sLine)<>0)) or
         ((Pos('#', sLine)<>0) and (Pos('[', extFile.Strings[SectionIndex+1])<>0) and
@@ -206,27 +209,32 @@ begin
             end;
         end;
       // second delete old sections
+      I := 0;
       iCount := extFile.Count - 1;
       while I <= iCount do
-        with GetItems(I) do
         begin
-          sLine := extFile.Strings[I];
+          sLine := Trim(extFile.Strings[I]);
           iBegin:= Pos('[', sLine);
           iEnd:=   Pos(']', sLine);
-          if (iBegin <> 0) and (iEnd <> 0) then
+          if (iBegin = 1) and (iEnd <> 0) then
             begin
-              sSectionName := Copy(extFile.Strings[I],iBegin + 1, iEnd - iBegin);
+              sSectionName := Copy(extFile.Strings[I],iBegin, iEnd);
               bExists:= False;
               for J:= 0 to Count - 1 do
                 begin
-                  if sSectionName = SectionName then
+                  DebugLn('sSectionName = ', sSectionName);
+                  DebugLn('GetItems(J).SectionName = ', GetItems(J).SectionName);
+                  if sSectionName = GetItems(J).SectionName then
                     begin
                       bExists := True;
                       Break;
                     end;
                 end;
               if not bExists then // delete section
-                EraseSection(extFile, I);
+	        begin
+                  EraseSection(extFile, I);
+		  iCount := extFile.Count - 1;
+		end;
             end;
         Inc(I);
         end; // while
@@ -262,7 +270,7 @@ begin
       for I := 0 to iCount do
       with GetItems(I) do
         begin
-          extFile.Add('['+GetNewSectionName(I)+']');
+          extFile.Add(GetNewSectionName(I));
           for J:= 0 to Actions.Count - 1 do
             extFile.Add(Actions.Strings[J]);
 		  extFile.Add(''); // add empty line	
