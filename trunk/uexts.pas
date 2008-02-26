@@ -81,8 +81,8 @@ var
   extcmd : TExtAction;
   iIndex : Integer;
 begin
-  assign(extfile, sName);
-  reset(extfile);
+  Assign(extfile, sName);
+  Reset(extfile);
   extcmd:=nil;
   while not eof(extfile) do
   begin
@@ -92,15 +92,9 @@ begin
 //    writeln(sLine);
     if sLine[1]='[' then
     begin
-      if assigned(extCmd) then
-      begin
-        // check if any commands
-        if extcmd.Actions.Count>0 then
-          FExtList.Add(extcmd) // add and NOT Free
-        else // no commands, free command list
-          FreeAndNil(FExtList);
-      end;
-      extCmd:=TExtAction.Create;
+      extCmd:= TExtAction.Create;
+      FExtList.Add(extcmd);
+
       iIndex:=pos(']', sLine);
       if iIndex>0 then
         sLine:=Copy(sLine,1,iIndex)
@@ -108,13 +102,14 @@ begin
         logWrite('] not found in line '+sLine);
 {      add | for easy searching in two and more extensions
        now I can search for example |pas| or |z|
-       (now in second case i can't get correct result
-       for bzip, zip and so
 }
       extCmd.SectionName:=LowerCase(sLine);
 
       // fill extensions list
-      s := LowerCase(sLine)+'|';
+      s := LowerCase(sLine);
+      Delete(s, 1, 1); // Delete '['
+      Delete(s, Length(s), 1); // Delete ']'
+      s := s + '|';
       while Pos('|', s) <> 0 do
         begin
           iIndex := Pos('|',s);
@@ -136,7 +131,7 @@ begin
           if sLine[iIndex]='=' then Break;
           sLine[iIndex]:=UpCase(sLine[iIndex]);
         end;
-      DebugLn(sLine);
+      // DebugLn(sLine);
       if Pos('NAME', sLine) = 1 then // File type name
         extCmd.Name := Copy(sLine, iIndex + 1, Length(sLine))
       else if Pos('ICON', sLine) = 1 then // File type icon
@@ -158,8 +153,8 @@ begin
     Result := Extensions[0];
     for I:= 1 to iCount do
       Result := Result + '|' + Extensions[I];
-    Result := '[' + Result + ']';
   end;
+  Result := '[' + Result + ']';
 end;
 
 procedure TExts.EraseSection(extFile : TStringList; SectionIndex: Integer; SkipComments : Boolean = False);
@@ -195,6 +190,7 @@ begin
   if FileExists(sName) then
     begin
       extFile.LoadFromFile(sName);
+
       // first rename sections if needed
       iCount := Count - 1;
       for I := 0 to iCount do
@@ -204,10 +200,11 @@ begin
           if SectionName <> sNewName then
             begin
               iIndex:= extFile.IndexOf(SectionName);
-              if iIndex >=0 then
+              if iIndex >= 0 then
                 extFile.Strings[iIndex] := sNewName;
             end;
         end;
+
       // second delete old sections
       I := 0;
       iCount := extFile.Count - 1;
@@ -218,18 +215,19 @@ begin
           iEnd:=   Pos(']', sLine);
           if (iBegin = 1) and (iEnd <> 0) then
             begin
-              sSectionName := Copy(extFile.Strings[I],iBegin, iEnd);
+              sSectionName := LowerCase(Copy(extFile.Strings[I],iBegin, iEnd));
               bExists:= False;
               for J:= 0 to Count - 1 do
                 begin
-                  DebugLn('sSectionName = ', sSectionName);
-                  DebugLn('GetItems(J).SectionName = ', GetItems(J).SectionName);
+                  //DebugLn('sSectionName = ', sSectionName);
+                  //DebugLn('GetItems(J).SectionName = ', GetItems(J).SectionName);
+
                   if sSectionName = GetItems(J).SectionName then
                     begin
                       bExists := True;
                       Break;
                     end;
-                end;
+                end; // for
               if not bExists then // delete section
 	        begin
                   EraseSection(extFile, I);
@@ -251,14 +249,24 @@ begin
               if iIndex >= 0 then // if section exists then insert actions
 	        begin
                   EraseSection(extFile, iIndex+1, True);
-                  for J:= 0 to Actions.Count - 1 do
+                  if Name <> '' then
+		    extFile.Insert(iIndex+1, 'Name=' + Name);
+		  if Icon <> '' then
+		    extFile.Insert(iIndex+1, 'Icon=' + Icon);
+		  for J:= 0 to Actions.Count - 1 do
                     extFile.Insert(iIndex+1, Actions.Strings[J]);
+                  extFile.Add(''); // add empty line
                 end
               else // else add new section
                 begin
-                  extFile.Add(sNewName);
-                  for J:= 0 to Actions.Count - 1 do
+                  extFile.Add(sNewName); // section
+                  if Name <> '' then
+		    extFile.Add('Name=' + Name); // file type name
+		  if Icon <> '' then
+		    extFile.Add('Icon=' + Icon); // icon path
+		  for J:= 0 to Actions.Count - 1 do
                     extFile.Add(Actions.Strings[J]);
+                  extFile.Add(''); // add empty line
                 end;
             end;
 	end;
@@ -271,9 +279,13 @@ begin
       with GetItems(I) do
         begin
           extFile.Add(GetNewSectionName(I));
+          if Name <> '' then
+	    extFile.Add('Name=' + Name); // file type name
+	  if Icon <> '' then
+	    extFile.Add('Icon=' + Icon); // icon path
           for J:= 0 to Actions.Count - 1 do
             extFile.Add(Actions.Strings[J]);
-		  extFile.Add(''); // add empty line	
+	  extFile.Add(''); // add empty line
 	end;
     end;
   extFile.SaveToFile(sName);
@@ -291,7 +303,7 @@ begin
   for i:=0 to FExtList.Count-1 do
     with GetItems(i) do
     begin
-      if Pos('|'+sExt+'|',SectionName)>0 then
+      if Extensions.IndexOf(sExt) >= 0 then
       begin
         slActions.Assign(Actions);
         Result:=True;
@@ -343,7 +355,7 @@ begin
   for i:=0 to FExtList.Count-1 do
     with GetItems(i) do
     begin
-      if Pos('|'+sExt+'|',SectionName)>0 then
+      if Extensions.IndexOf(sExt) >= 0 then
       begin
         Result:=Actions.Values[UpperCase(sActionName)];
         Break;
