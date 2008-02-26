@@ -298,7 +298,10 @@ begin
       edtIconFileName.Text := sFileName;
       sbtnIcon.Glyph := LoadBitmapFromFile(sFileName, 32, sbtnIcon.Color);
       with lbFileTypes do
+      begin
         TExtAction(Items.Objects[ItemIndex]).Icon:= sFileName;
+        Exts.Items[ItemIndex].IsChanged:= True;
+      end;
     end;
 end;
 
@@ -312,7 +315,10 @@ begin
       lbExts.ItemIndex := lbExts.Items.Add(sExt);
       // add extension in TExts object
       with lbFileTypes do
+      begin
         TExtAction(Items.Objects[ItemIndex]).Extensions.Add(sExt);
+        Exts.Items[ItemIndex].IsChanged:= True;
+      end;
     end;
   UpdateEnabledButtons;
 end;
@@ -331,7 +337,10 @@ begin
   end;
   // remove extension from TExts object
   with lbFileTypes do
+  begin
     TExtAction(Items.Objects[ItemIndex]).Extensions.Delete(I);
+    Exts.Items[ItemIndex].IsChanged:= True;
+  end;
   UpdateEnabledButtons;
 end;
 
@@ -355,6 +364,7 @@ begin
   with lbFileTypes do
   begin
     TExtAction(Items.Objects[ItemIndex]).Actions.Move(I, I - 1);
+    Exts.Items[ItemIndex].IsChanged:= True;
   end;
   lbActions.Tag := 0; // end moving
   UpdateEnabledButtons;
@@ -380,6 +390,7 @@ begin
   with lbFileTypes do
   begin
     TExtAction(Items.Objects[ItemIndex]).Actions.Move(I, I + 1);
+    Exts.Items[ItemIndex].IsChanged:= True;
   end;
   lbActions.Tag := 0; // end moving
   UpdateEnabledButtons;
@@ -392,6 +403,7 @@ var
 begin
   with lbFileTypes do
     ExtAction := TExtAction(Items.Objects[ItemIndex]);
+    ExtAction.IsChanged:= True;
   // add action to TExts object
   I := ExtAction.Actions.Add('=');
   // add action to actions listbox
@@ -417,7 +429,10 @@ begin
   end;
   // remove action from TExts object
   with lbFileTypes do
+  begin
     TExtAction(Items.Objects[ItemIndex]).Actions.Delete(I);
+    Exts.Items[ItemIndex].IsChanged:= True;
+  end;
   UpdateEnabledButtons;
 end;
 
