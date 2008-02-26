@@ -31,25 +31,25 @@
     </RunParams>
     <RequiredPackages Count="5">
       <Item1>
-        <PackageName Value="imagesforlazarus"/>
+        <PackageName Value="KASComp"/>
+        <MinVersion Major="1" Release="1" Build="1" Valid="True"/>
       </Item1>
       <Item2>
-        <PackageName Value="viewerpackage"/>
+        <PackageName Value="LCL"/>
+        <MinVersion Major="1" Valid="True"/>
       </Item2>
       <Item3>
         <PackageName Value="SynEdit"/>
         <MinVersion Major="1" Valid="True"/>
       </Item3>
       <Item4>
-        <PackageName Value="LCL"/>
-        <MinVersion Major="1" Valid="True"/>
+        <PackageName Value="viewerpackage"/>
       </Item4>
       <Item5>
-        <PackageName Value="KASComp"/>
-        <MinVersion Major="1" Release="1" Build="1" Valid="True"/>
+        <PackageName Value="imagesforlazarus"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="29">
+    <Units Count="30">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -273,6 +273,14 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLng"/>
       </Unit28>
+      <Unit29>
+        <Filename Value="ffileassoc.pas"/>
+        <ComponentName Value="frmFileAssoc"/>
+        <HasResources Value="True"/>
+        <IsPartOfProject Value="True"/>
+        <ResourceFilename Value="ffileassoc.lrs"/>
+        <UnitName Value="fFileAssoc"/>
+      </Unit29>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
