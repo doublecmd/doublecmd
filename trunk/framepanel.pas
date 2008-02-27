@@ -720,7 +720,14 @@ begin
 end;
 
 procedure TFrameFilePanel.dgPanelDblClick(Sender: TObject);
+var
+  Point : TPoint;
+  iRow, iCol : Integer;
 begin
+  Point:= dgPanel.ScreenToClient(Mouse.CursorPos);
+  dgPanel.MouseToCell(Point.X, Point.Y, iCol, iRow);
+  if iRow < dgPanel.FixedRows then Exit;
+
   Screen.Cursor:=crHourGlass;
   try
     pnlFile.ChooseFile(pnlFile.GetActiveItem{(false)});
