@@ -237,11 +237,22 @@ function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Bool
 {$IFDEF MSWINDOWS}
 var
   iAttr : LongInt;
+  ft : TFileTime;
+  Handle: THandle;
 begin
   iAttr := FileGetAttr(sSrc);
+  //---------------------------------------------------------
+  Handle:= FileOpen(sSrc, fmOpenRead or fmShareDenyNone);
+  GetFileTime(Handle,nil,nil,@ft);
+  FileClose(Handle);
+  //---------------------------------------------------------
   if bDropReadOnlyFlag and Boolean(iAttr and faReadOnly) then
     iAttr := (iAttr and not faReadOnly);
   Result := (FileSetAttr(sDst, iAttr) = 0);
+  //---------------------------------------------------------
+  Handle:= FileOpen(sDst, fmOpenReadWrite or fmShareExclusive);
+  Result := SetFileTime(Handle, nil, nil, @ft);
+  FileClose(Handle);
 end;
 {$ELSE}  // *nix
 var
