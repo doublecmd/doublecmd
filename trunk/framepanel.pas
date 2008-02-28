@@ -18,7 +18,7 @@ unit framePanel;
 interface
 
 uses
-  SysUtils, Classes, Graphics, Controls, Forms,
+  SysUtils, Classes, Graphics, Controls, Forms, LMessages,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, uFilePanel, Grids, uTypes,
   Buttons, uColumns, lcltype;
 
@@ -287,29 +287,29 @@ end;
 procedure TFrameFilePanel.dgPanelMouseWheelUp(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 begin
-if dgPanel.TopRow > 0 then
-  begin
-
-   if dgPanel.TopRow <= 2 then
-     dgPanel.TopRow := 1
-   else
-     dgPanel.TopRow:=dgPanel.TopRow - 3;
-   THackDrawGrid(dgPanel).MoveExtend(true, 0, -2{dgPanel.VisibleRowCount});
-  end
-else
-inherited;
+  Handled:= True;
+  case gScrollMode of
+  1:
+    dgPanel.Perform(LM_VSCROLL, SB_LINEUP, 0);
+  2:
+    dgPanel.Perform(LM_VSCROLL, SB_PAGEUP, 0);
+  else
+    Handled:= False;
+  end;  
 end;
 
 procedure TFrameFilePanel.dgPanelMouseWheelDown(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 begin
-if dgPanel.TopRow <  dgPanel.RowCount - dgPanel.VisibleRowCount - 2 then
-  begin
-    THackDrawGrid(dgPanel).MoveExtend(true, 0, 2{dgPanel.VisibleRowCount});
-    dgPanel.TopRow:=dgPanel.TopRow + 3;
-  end
-else
-inherited;
+  Handled:= True;
+  case gScrollMode of
+  1:
+    dgPanel.Perform(LM_VSCROLL, SB_LINEDOWN, 0);
+  2:
+    dgPanel.Perform(LM_VSCROLL, SB_PAGEDOWN, 0);
+  else
+    Handled:= False;
+  end;
 end;
 
 procedure TFrameFilePanel.edSearchKeyPress(Sender: TObject; var Key: Char);
@@ -930,8 +930,8 @@ begin
   dgPanel.OnHeaderClick:=@dgPanelHeaderClick;
   dgPanel.OnPrepareCanvas:=@dgPanelPrepareCanvas;
   {Alexx2000}
-  //dgPanel.OnMouseWheelUp := @dgPanelMouseWheelUp;
-  //dgPanel.OnMouseWheelDown := @dgPanelMouseWheelDown;
+  dgPanel.OnMouseWheelUp := @dgPanelMouseWheelUp;
+  dgPanel.OnMouseWheelDown := @dgPanelMouseWheelDown;
   {/Alexx2000}
   edtSearch.OnChange:=@edSearchChange;
   edtSearch.OnKeyPress:=@edSearchKeyPress;

@@ -72,6 +72,7 @@ var
   glsDirHistory:TStringList;
   glsMaskHistory : TStringList;
   gCutTextToColWidth : Boolean;
+  gScrollMode: Integer;
 
   gShortFileSizeFormat:Boolean=True;
   gSeparateExt:Boolean=False;    // draw filename and extension separate
@@ -310,6 +311,7 @@ begin
   gDirSelect := gIni.ReadBool('Configuration', 'DirSelect', True);
   glsHotDir.CommaText := gIni.ReadString('Configuration', 'HotDir', '');
   gShortFileSizeFormat := gIni.ReadBool('Configuration', 'ShortFileSizeFormat', True);
+  gScrollMode := gIni.ReadInteger('Configuration', 'ScrollMode', 0);
   gDateTimeFormat := gIni.ReadString('Configuration', 'DateTimeFormat', 'dd.mm.yy');
 
   gDirTabOptions := gIni.ReadInteger('Configuration', 'DirTabOptions', 0);
@@ -442,6 +444,7 @@ begin
   gIni.WriteBool('Configuration', 'DirSelect', gDirSelect);
   gIni.WriteString('Configuration', 'HotDir', glsHotDir.CommaText);
   gIni.WriteBool('Configuration', 'ShortFileSizeFormat', gShortFileSizeFormat);
+  gIni.WriteInteger('Configuration', 'ScrollMode', gScrollMode);
   gIni.WriteString('Configuration', 'DateTimeFormat', gDateTimeFormat);
 
   gIni.WriteInteger('Configuration', 'DirTabOptions', gDirTabOptions);
