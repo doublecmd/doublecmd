@@ -396,8 +396,8 @@ function TPanelColumn.ActGetInfo(FuncS:string; ptr: PFileRecItem):string;
  //---------------------
  var AType,AName,AFunc,AParam:string;
 begin
-       DebugLn('Entered ActGetInfo');
-       DebugLn('FuncS='+FuncS);
+//       DebugLn('Entered ActGetInfo');
+//       DebugLn('FuncS='+FuncS);
        //---------------------
        AType:=upcase(GetModType(FuncS));
        AName:=upcase(GetModName(FuncS));

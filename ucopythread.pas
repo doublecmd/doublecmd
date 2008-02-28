@@ -241,8 +241,7 @@ begin
         until not bRetry;
       end;
       FFileOpDlg.iProgress1Pos:=dst.Size;
-      Synchronize(@FFileOpDlg.UpdateDlg);
-      Result := FileCopyAttr(sSrc, sDst, bDropReadOnlyFlag); // chmod, chgrp, udate a spol
+      Synchronize(@FFileOpDlg.UpdateDlg);      
     finally
       DebugLn('finally');
       if assigned(src) then
@@ -252,6 +251,7 @@ begin
       if assigned(Buffer) then
         FreeMem(Buffer);
     end;
+  Result := FileCopyAttr(sSrc, sDst, bDropReadOnlyFlag); // chmod, chgrp, udate a spol	
   except
     on EFCreateError do
        ShowMsgError('!!!!EFCreateError');
