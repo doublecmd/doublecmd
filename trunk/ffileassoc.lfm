@@ -311,7 +311,7 @@ object frmFileAssoc: TfrmFileAssoc
       Left = 55
       Height = 23
       Top = 14
-      Width = 188
+      Width = 184
       Anchors = [akTop, akLeft, akRight]
       TabOrder = 0
     end
@@ -356,5 +356,10 @@ object frmFileAssoc: TfrmFileAssoc
       OnClick = btnCancelClick
       TabOrder = 1
     end
+  end
+  object OpenPictureDialog: TOpenPictureDialog
+    Title = 'Открыть существующий файл'
+    left = 16
+    top = 544
   end
 end
