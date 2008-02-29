@@ -38,7 +38,8 @@ unit uDetectStr;
                     moles,  // <
                     momor,  // >
                     moand,  // &
-                    moor    // |
+                    moor,   // |
+                    monot   // NOT
                     );
 
  type
@@ -60,6 +61,7 @@ unit uDetectStr;
     input,output,stack:array of tmathchar;
     fmathstring:string;
     fptr:PFileRecItem;
+    fforce:boolean;
     function getresult:boolean;
     function calculate(operand1,operand2,Aoperator:Tmathchar):string;
     function getoperator(c:char):TMathOperatortype;
@@ -74,6 +76,7 @@ unit uDetectStr;
    protected
    published
     property DetectStr:string read fmathstring write fmathstring;
+    property IsForce:boolean read fforce write fforce;
    end;
 
  implementation
@@ -83,37 +86,40 @@ var tmp:string;
 begin
  result:='false';
 
-  if ((operand1.data='true') or (operand1.data='false')) and
-     ((operand2.data='true') or (operand2.data='false')) then
+ //Not
+ if (operand1.data='NOT') and ((operand2.data='true') or (operand2.data='false')) then
   begin
-    case Aoperator.op of
-      moand: result:= BooleanToStr((StrToBoolean(operand1.data)) and (StrToBoolean(operand2.data)));
-      moor: result:=BooleanToStr((StrToBoolean(operand1.data)) or (StrToBoolean(operand2.data)));
-    end;
-//    DebugLn(Result);
+    Result:=BooleanToStr(Not StrToBoolean(operand2.data));
   end;
 
+  // & |
+  if ((operand1.data='true') or (operand1.data='false')) and
+     ((operand2.data='true') or (operand2.data='false')) then
+    begin
+      case Aoperator.op of
+        moand: result:= BooleanToStr((StrToBoolean(operand1.data)) and (StrToBoolean(operand2.data)));
+        moor: result:=BooleanToStr((StrToBoolean(operand1.data)) or (StrToBoolean(operand2.data)));
+      end;
+    end;
+
+   //EXT= EXT!=
    if (operand1.data='EXT') then
      begin
-
+       //---------------------
        tmp:=fptr^.sExt;
-       if length(tmp)>0 then
-         delete(tmp,1,1);
+       if length(tmp)>0 then delete(tmp,1,1);
        tmp:=UpperCase(tmp);
        tmp:='"'+tmp+'"';
-//       DebugLn('"EXT"='+tmp);
-
+       //---------------------
        case Aoperator.op of
         moequ: Result:=BooleanToStr(tmp=operand2.data);
         moneq: Result:=BooleanToStr(tmp<>operand2.data);
        end;
-//           DebugLn(Result);
      end;
 
-     
+   //SIZE > < = !=
    if (operand1.data='SIZE') then
      begin
-
        tmp:=IntToStr(fptr^.iSize);
         case Aoperator.op of
            moequ: Result:= BooleanToStr(strtoint(tmp)=strtoint(operand2.data));
@@ -121,17 +127,18 @@ begin
            moles: Result:= BooleanToStr(strtoint(tmp)<strtoint(operand2.data));
            momor: Result:= BooleanToStr(strtoint(tmp)>strtoint(operand2.data));
         end;
-//            DebugLn(Result);
      end;
 
 
  
 { case Aoperator.op of
+   moneq: ;
    moequ: ;
    moles: ;
    momor: ;
    moor: ;
    moand: ;
+   monot: ;
  end;}
 end;
 
@@ -191,7 +198,9 @@ end;
  else if c='#' then
    result:=moneq
  else if c='|' then
-   result:=moor;
+   result:=moor
+else if c='!' then
+   result:=monot;
  end;
 
  function TParserControl.getoperand(mid:integer;var len:integer):string;
@@ -220,13 +229,31 @@ procedure TParserControl.processstring;
  i:integer;
  numlen:integer;
  begin
-
+ //---------------------
  while pos('!=',fmathstring)>0 do
    begin
      i:=pos('!=',fmathstring);
      delete(fmathstring,i,2);
      insert('#',fmathstring,i);
    end;
+ //---------------------
+ while pos('FORCE',fmathstring)>0 do
+   begin
+     i:=pos('FORCE',fmathstring);
+     delete(fmathstring,i,length('FORCE'));
+     insert(BooleanToStr(fforce),fmathstring,i);
+   end;
+ //---------------------
+ numlen:=1;
+ while numlen < length(fmathstring) do
+ if (fmathstring[numlen]='!') and (fmathstring[numlen+1]<>'=') then
+   begin
+     i:=numlen;
+     delete(fmathstring,i,1);
+     insert('NOT!',fmathstring,i);
+     inc(numlen,4);
+   end else inc(numlen);
+ //---------------------
 
  i:=0;
  numlen:=0;
@@ -269,6 +296,7 @@ procedure TParserControl.processstring;
  result:=false;
  if (c='=')
  or (c='#')
+ or (c='!')
  or (c='&')
  or (c='<')
  or (c='>')
@@ -294,6 +322,7 @@ function TParserControl.isdigit(c:char):boolean;
    moneq:result:=2;
    moles:result:=2;
    momor:result:=2;
+   monot:result:=2;
  end;
  end;
 
