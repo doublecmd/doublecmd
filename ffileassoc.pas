@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, Buttons, ExtCtrls, EditBtn, uExts;
+  StdCtrls, Buttons, ExtCtrls, EditBtn, uExts, ExtDlgs;
 
 type
 
@@ -57,6 +57,7 @@ type
     lbActions: TListBox;
     lbExts: TListBox;
     lbFileTypes: TListBox;
+    OpenPictureDialog: TOpenPictureDialog;
     pnlButtonPanel: TPanel;
     sbtnIcon: TSpeedButton;
     procedure btnAddActClick(Sender: TObject);
@@ -90,7 +91,7 @@ type
 procedure ShowFileAssocDlg;
 
 implementation
-uses LCLType, uGlobsPaths, uGlobs, uOSForms, uPixMapManager;
+uses LCLType, uGlobsPaths, uGlobs, uPixMapManager;
 
 procedure ShowFileAssocDlg;
 begin
@@ -118,7 +119,7 @@ begin
       sName := Exts.Items[I].Name;
       if sName = '' then
         sName := Exts.Items[I].SectionName;
-      lbFileTypes.Items.AddObject(sName, Exts.Items[I]);
+      lbFileTypes.Items.AddObject(sName, nil);
     end;
   UpdateEnabledButtons;
 end;
@@ -234,8 +235,10 @@ begin
       end ;
 
     iTextTop := MR.Top + (gIconsSize div 2) - (Canvas.TextHeight(Items[Index]) div 2);
-    //Canvas.Draw(MR.Left + 2, MR.Top + 1, ExtAction.Bitmap);
-    PixMapManager.DrawBitmap(ExtAction.IconIndex, Canvas, MR);
+    if ExtAction.IconIndex < 0 then
+      Canvas.Draw(MR.Left + 2, MR.Top + 1, TBitmap(Items.Objects[Index]))
+    else
+      PixMapManager.DrawBitmap(ExtAction.IconIndex, Canvas, MR);
     Canvas.TextOut(MR.Left + gIconsSize + 6, iTextTop, Items[Index]);
   end;
 
@@ -250,7 +253,7 @@ begin
   with Sender as TListBox do
     begin
       if ItemIndex=-1 then ItemIndex:=0;
-      ExtCommand := TExtAction(Items.Objects[ItemIndex]);
+      ExtCommand := Exts.Items[ItemIndex];
       lbExts.Items.Assign(ExtCommand.Extensions);
       lbExts.ItemIndex := lbExts.Count - 1;
       lbActions.Items.Clear;
@@ -261,6 +264,8 @@ begin
         end;
       lbActions.ItemIndex := iCount;
     end;
+  if Assigned(sbtnIcon.Glyph) then
+    sbtnIcon.Glyph.FreeImage;
   sbtnIcon.Glyph := LoadBitmapFromFile(ExtCommand.Icon, 32, sbtnIcon.Color);
   edtIconFileName.Text:= ExtCommand.Icon;
   UpdateEnabledButtons;
@@ -290,16 +295,19 @@ begin
 end;
 
 procedure TfrmFileAssoc.sbtnIconClick(Sender: TObject);
-var
-  sFileName : String;
 begin
-  if ShowOpenIconDialog(Self, sFileName) then
+  OpenPictureDialog.FileName:= edtIconFileName.Text;
+  if OpenPictureDialog.Execute then
     begin
-      edtIconFileName.Text := sFileName;
-      sbtnIcon.Glyph := LoadBitmapFromFile(sFileName, 32, sbtnIcon.Color);
+      edtIconFileName.Text := OpenPictureDialog.FileName;
+      sbtnIcon.Glyph := LoadBitmapFromFile(edtIconFileName.Text, 32, sbtnIcon.Color);
       with lbFileTypes do
       begin
-        TExtAction(Items.Objects[ItemIndex]).Icon:= sFileName;
+        // save icon for use in OnDrawItem procedure
+        Items.Objects[ItemIndex]:= LoadBitmapFromFile(edtIconFileName.Text, gIconsSize, Color);
+        Exts.Items[ItemIndex].Icon:= edtIconFileName.Text;
+        // and set IconIndex
+        Exts.Items[ItemIndex].IconIndex:= -1;
         Exts.Items[ItemIndex].IsChanged:= True;
       end;
     end;
@@ -316,7 +324,7 @@ begin
       // add extension in TExts object
       with lbFileTypes do
       begin
-        TExtAction(Items.Objects[ItemIndex]).Extensions.Add(sExt);
+        Exts.Items[ItemIndex].Extensions.Add(sExt);
         Exts.Items[ItemIndex].IsChanged:= True;
       end;
     end;
@@ -338,7 +346,7 @@ begin
   // remove extension from TExts object
   with lbFileTypes do
   begin
-    TExtAction(Items.Objects[ItemIndex]).Extensions.Delete(I);
+    Exts.Items[ItemIndex].Extensions.Delete(I);
     Exts.Items[ItemIndex].IsChanged:= True;
   end;
   UpdateEnabledButtons;
@@ -363,7 +371,7 @@ begin
   // move action in TExts object
   with lbFileTypes do
   begin
-    TExtAction(Items.Objects[ItemIndex]).Actions.Move(I, I - 1);
+    Exts.Items[ItemIndex].Actions.Move(I, I - 1);
     Exts.Items[ItemIndex].IsChanged:= True;
   end;
   lbActions.Tag := 0; // end moving
@@ -389,7 +397,7 @@ begin
   // move action in TExts object
   with lbFileTypes do
   begin
-    TExtAction(Items.Objects[ItemIndex]).Actions.Move(I, I + 1);
+    Exts.Items[ItemIndex].Actions.Move(I, I + 1);
     Exts.Items[ItemIndex].IsChanged:= True;
   end;
   lbActions.Tag := 0; // end moving
@@ -402,7 +410,7 @@ var
   ExtAction : TExtAction;
 begin
   with lbFileTypes do
-    ExtAction := TExtAction(Items.Objects[ItemIndex]);
+    ExtAction := Exts.Items[ItemIndex];
     ExtAction.IsChanged:= True;
   // add action to TExts object
   I := ExtAction.Actions.Add('=');
@@ -430,7 +438,7 @@ begin
   // remove action from TExts object
   with lbFileTypes do
   begin
-    TExtAction(Items.Objects[ItemIndex]).Actions.Delete(I);
+    Exts.Items[ItemIndex].Actions.Delete(I);
     Exts.Items[ItemIndex].IsChanged:= True;
   end;
   UpdateEnabledButtons;
