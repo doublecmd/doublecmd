@@ -1543,6 +1543,10 @@ msgstr "保存到..."
 msgid "Scanned: \%d"
 msgstr "已扫描: \%d"
 
+#: TFRMOPTIONS.RGSCROLLING.CAPTION
+msgid "Scrolling"
+msgstr ""
+
 #: TFRMVIEWER.MISEARCH.CAPTION
 msgid "Search"
 msgstr "搜索"

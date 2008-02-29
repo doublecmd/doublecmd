@@ -1542,6 +1542,10 @@ msgstr "Сохранить как..."
 msgid "Scanned: \%d"
 msgstr "Просмотрено: %d"
 
+#: TFRMOPTIONS.RGSCROLLING.CAPTION
+msgid "Scrolling"
+msgstr ""
+
 #: TFRMVIEWER.MISEARCH.CAPTION
 msgid "Search"
 msgstr "&Найти..."

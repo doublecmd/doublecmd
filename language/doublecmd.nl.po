@@ -1543,6 +1543,10 @@ msgstr "Opslaan in..."
 msgid "Scanned: \%d"
 msgstr "Gescand: \%d"
 
+#: TFRMOPTIONS.RGSCROLLING.CAPTION
+msgid "Scrolling"
+msgstr ""
+
 #: TFRMVIEWER.MISEARCH.CAPTION
 msgid "Search"
 msgstr "Zoek"
