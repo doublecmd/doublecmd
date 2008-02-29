@@ -1543,6 +1543,10 @@ msgstr "Speichern unter..."
 msgid "Scanned: \%d"
 msgstr "Gelesen: \%d"
 
+#: TFRMOPTIONS.RGSCROLLING.CAPTION
+msgid "Scrolling"
+msgstr ""
+
 #: TFRMVIEWER.MISEARCH.CAPTION
 msgid "Search"
 msgstr "Suchen"

@@ -135,7 +135,7 @@ object frmOptions: TfrmOptions
       Width = 464
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 7
+      PageIndex = 1
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
@@ -147,13 +147,15 @@ object frmOptions: TfrmOptions
         end
       end
       object pgBehav: TPage
+        ClientWidth = 456
+        ClientHeight = 347
         object lblTerm: TLabel
           AnchorSideTop.Control = edtTerm
           AnchorSideTop.Side = asrCenter
           Left = 8
-          Height = 26
-          Top = 7
-          Width = 52
+          Height = 14
+          Top = 13
+          Width = 45
           Caption = 'Terminal:'
           ParentColor = False
         end
@@ -161,9 +163,9 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = edtRunTerm
           AnchorSideTop.Side = asrCenter
           Left = 8
-          Height = 26
-          Top = 37
-          Width = 74
+          Height = 14
+          Top = 43
+          Width = 65
           Caption = 'Run terminal:'
           ParentColor = False
         end
@@ -200,45 +202,45 @@ object frmOptions: TfrmOptions
           TabOrder = 2
           object cbDirSelect: TCheckBox
             Left = 8
-            Height = 23
+            Height = 19
             Top = -3
-            Width = 174
+            Width = 159
             AllowGrayed = True
             Caption = 'Select directory with keypad'
             TabOrder = 0
           end
           object cbCaseSensitiveSort: TCheckBox
             Left = 8
-            Height = 23
+            Height = 19
             Top = 55
-            Width = 142
+            Width = 128
             AllowGrayed = True
             Caption = 'Case sensitive sorting'
             TabOrder = 1
           end
           object cbLynxLike: TCheckBox
             Left = 8
-            Height = 23
+            Height = 19
             Top = 26
-            Width = 130
+            Width = 119
             AllowGrayed = True
             Caption = 'Lynx like movement'
             TabOrder = 2
           end
           object cbShortFileSizeFormat: TCheckBox
             Left = 8
-            Height = 23
+            Height = 19
             Top = 82
-            Width = 133
+            Width = 120
             AllowGrayed = True
             Caption = 'Short Filesize format'
             TabOrder = 3
           end
           object cbSeparateExt: TCheckBox
             Left = 8
-            Height = 23
+            Height = 19
             Top = 113
-            Width = 128
+            Width = 117
             AllowGrayed = True
             Caption = 'Separate extension'
             TabOrder = 4
@@ -249,20 +251,20 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = edtRunTerm
           AnchorSideRight.Side = asrBottom
-          Left = 235
+          Left = 227
           Height = 156
           Top = 68
-          Width = 188
+          Width = 196
           Anchors = [akTop, akRight]
           BorderSpacing.Top = 6
           ClientHeight = 138
-          ClientWidth = 184
+          ClientWidth = 192
           TabOrder = 3
           object lblIconsSize: TLabel
             Left = 14
-            Height = 26
+            Height = 14
             Top = 118
-            Width = 60
+            Width = 53
             Caption = 'Icons Size:'
             ParentColor = False
           end
@@ -287,9 +289,9 @@ object frmOptions: TfrmOptions
           end
           object cbShowIcons: TCheckBox
             Left = 14
-            Height = 23
+            Height = 19
             Top = 82
-            Width = 85
+            Width = 81
             Caption = 'Show icons'
             OnChange = cbShowIconsChange
             TabOrder = 1
@@ -299,22 +301,21 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = gb
           AnchorSideTop.Side = asrBottom
           Left = 10
-          Height = 110
+          Height = 107
           Top = 230
           Width = 200
-          AutoSize = True
           BorderSpacing.Top = 6
           Caption = 'Date and time'
           ChildSizing.LeftRightSpacing = 6
           ChildSizing.TopBottomSpacing = 6
-          ClientHeight = 92
+          ClientHeight = 89
           ClientWidth = 196
           TabOrder = 4
           object lblDateTimeFormat: TLabel
             Left = 6
-            Height = 26
+            Height = 14
             Top = 6
-            Width = 117
+            Width = 107
             Caption = 'Date and time format:'
             ParentColor = False
           end
@@ -322,9 +323,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbDateTimeFormat
             AnchorSideTop.Side = asrBottom
             Left = 6
-            Height = 18
-            Top = 65
-            Width = 100
+            Height = 20
+            Top = 53
+            Width = 102
             BorderSpacing.Top = 6
             Font.Style = [fsBold]
             ParentColor = False
@@ -334,7 +335,7 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrBottom
             Left = 6
             Height = 21
-            Top = 38
+            Top = 26
             Width = 184
             AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
             BorderSpacing.Top = 6
@@ -349,6 +350,30 @@ object frmOptions: TfrmOptions
             OnChange = cbDateTimeFormatChange
             TabOrder = 0
           end
+        end
+        object rgScrolling: TRadioGroup
+          Left = 227
+          Height = 107
+          Top = 230
+          Width = 196
+          AutoFill = True
+          Caption = 'Scrolling'
+          ChildSizing.LeftRightSpacing = 6
+          ChildSizing.TopBottomSpacing = 6
+          ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+          ChildSizing.EnlargeVertical = crsHomogenousChildResize
+          ChildSizing.ShrinkHorizontal = crsScaleChilds
+          ChildSizing.ShrinkVertical = crsScaleChilds
+          ChildSizing.Layout = cclLeftToRightThenTopToBottom
+          ChildSizing.ControlsPerLine = 1
+          ClientHeight = 89
+          ClientWidth = 192
+          Items.Strings = (
+            'Line by line with cursor movement'
+            'Line by line'
+            'Page by page'
+          )
+          TabOrder = 5
         end
       end
       object pgTools: TPage

@@ -1999,3 +1999,7 @@ msgstr ""
 msgid "File associations..."
 msgstr ""
 
+#: TFRMOPTIONS.RGSCROLLING.CAPTION
+msgid "Scrolling"
+msgstr ""
+

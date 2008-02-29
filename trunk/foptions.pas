@@ -149,6 +149,7 @@ type
     gbLocConfigFiles: TGroupBox;
     gbSaveOnExit: TGroupBox;
     lblCategoryAttr: TLabel;
+    rgScrolling: TRadioGroup;
     rbCtrlAltLetterQS: TRadioButton;
     rbAltLetterQS: TRadioButton;
     rbNoneQS: TRadioButton;
@@ -335,7 +336,10 @@ begin
   cbExtViewer.Checked:=gUseExtView;
   cbExtDiffer.Checked:=gUseExtDiff;
   cbSeparateExt.Checked:=gSeparateExt;
-
+  if gScrollMode < rgScrolling.Items.Count then
+    rgScrolling.ItemIndex:=  gScrollMode
+  else
+    rgScrolling.ItemIndex:= 0;
   cbDateTimeFormat.Text:= gDateTimeFormat;
   lblDateTimeExample.Caption:= FormatDateTime(gDateTimeFormat, Now);
 
@@ -600,6 +604,7 @@ begin
   gCaseSensitiveSort:=cbCaseSensitiveSort.Checked;
   gLynxLike:=cbLynxLike.Checked;
   gShortFileSizeFormat:=cbShortFileSizeFormat.Checked;
+  gScrollMode := rgScrolling.ItemIndex;
   gDateTimeFormat := cbDateTimeFormat.Text;
 
   gUseExtEdit:=cbExtEditor.Checked;
