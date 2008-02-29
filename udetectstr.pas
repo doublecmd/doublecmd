@@ -25,19 +25,20 @@ unit uDetectStr;
  interface
 
  uses
- SysUtils, Classes,uTypes;
+ SysUtils, Classes, uTypes;//,LCLProc;
 
 
  type
  TMathtype=(mtnil,mtoperator,mtlbracket,mtrbracket,mtoperand);
 
  type
- TMathOperatortype=(monone,
-                    moequ,
-                    moles,
-                    momor,
-                    moand,
-                    moor
+ TMathOperatortype=(monone, // NULL
+                    moequ,  // =
+                    moneq,  // != replaced with #
+                    moles,  // <
+                    momor,  // >
+                    moand,  // &
+                    moor    // |
                     );
 
  type
@@ -104,6 +105,7 @@ begin
 
        case Aoperator.op of
         moequ: Result:=BooleanToStr(tmp=operand2.data);
+        moneq: Result:=BooleanToStr(tmp<>operand2.data);
        end;
 //           DebugLn(Result);
      end;
@@ -115,6 +117,7 @@ begin
        tmp:=IntToStr(fptr^.iSize);
         case Aoperator.op of
            moequ: Result:= BooleanToStr(strtoint(tmp)=strtoint(operand2.data));
+           moneq: Result:= BooleanToStr(strtoint(tmp)<>strtoint(operand2.data));
            moles: Result:= BooleanToStr(strtoint(tmp)<strtoint(operand2.data));
            momor: Result:= BooleanToStr(strtoint(tmp)>strtoint(operand2.data));
         end;
@@ -185,6 +188,8 @@ end;
    result:=moand
  else if c='=' then
    result:=moequ
+ else if c='#' then
+   result:=moneq
  else if c='|' then
    result:=moor;
  end;
@@ -210,16 +215,25 @@ end;
  len:=length(tmpnum);
  end;
 
- procedure TParserControl.processstring;
+procedure TParserControl.processstring;
  var
  i:integer;
  numlen:integer;
  begin
+
+ while pos('!=',fmathstring)>0 do
+   begin
+     i:=pos('!=',fmathstring);
+     delete(fmathstring,i,2);
+     insert('#',fmathstring,i);
+   end;
+
  i:=0;
  numlen:=0;
  setlength(output,0);
  setlength(input,0);
  setlength(stack,0);
+
  fmathstring:='('+fmathstring+')';
  setlength(input,length(fmathstring));
  while i<=length(fmathstring)-1 do
@@ -254,6 +268,7 @@ end;
  begin
  result:=false;
  if (c='=')
+ or (c='#')
  or (c='&')
  or (c='<')
  or (c='>')
@@ -276,6 +291,7 @@ function TParserControl.isdigit(c:char):boolean;
    moor:result:=1;
    moand:result:=1;
    moequ:result:=2;
+   moneq:result:=2;
    moles:result:=2;
    momor:result:=2;
  end;

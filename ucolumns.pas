@@ -380,11 +380,6 @@ s:=str;
     Result:=Copy(s,1,pos(s,'}')-1);
 end;
 
-
-//'ThisIsSimpleTest [DC(Panel).GetFileName] [DC(Panel).GetFileExt]
-//[Script(ScriptName).ScriptFunction{param1,param2...}]'
-//[Plugin(Pluginname).Function{param...}]
-
 function TPanelColumn.ActGetInfo(FuncS:string; ptr: PFileRecItem):string;
  //---------------------
   const
@@ -396,15 +391,13 @@ function TPanelColumn.ActGetInfo(FuncS:string; ptr: PFileRecItem):string;
  //---------------------
  var AType,AName,AFunc,AParam:string;
 begin
-//       DebugLn('Entered ActGetInfo');
-//       DebugLn('FuncS='+FuncS);
        //---------------------
        AType:=upcase(GetModType(FuncS));
        AName:=upcase(GetModName(FuncS));
        AFunc:=upcase(GetModFunctionName(FuncS));
        AParam:=upcase(GetModFunctionParams(FuncS));
        //---------------------
-      // DebugLn('AType='+AType+#13+#10+'AName='+AName+#13+#10+'AFunc='+AFunc+#13+#10+'AParam='+AParam);
+ // DebugLn('AType='+AType+#13+#10+'AName='+AName+#13+#10+'AFunc='+AFunc+#13+#10+'AParam='+AParam);
         //Internal doublecmd function
         //------------------------------------------------------
         if AType=DC then
@@ -424,7 +417,6 @@ begin
                         else
                           Result:=cnvFormatFileSize(iSize);
                       end;
-                  // end;
                  end;
               3: Result:=ptr^.sModeStr;
               4: Result:=ptr^.sPath;
@@ -454,7 +446,6 @@ begin
           begin
             if not WdxPlugins.IsLoaded(AName) then
               if not WdxPlugins.LoadModule(AName) then Exit;
-
 //            DebugLn('ptrFileName: '+ptr^.sPath+ptr^.sName);
             if WdxPlugins.GetWdxModule(AName).FileParamVSDetectStr(ptr) then
             begin
@@ -482,7 +473,6 @@ begin
        begin
          s:=s+ActGetInfo(FuncList[I],ptr);
        end;
-    // DebugLn('Iter:'+Inttostr(i)+'   Rez: '+s+'   ptr.sname: '+ptr^.sName);
    end;
    Result:=s;
 end;
