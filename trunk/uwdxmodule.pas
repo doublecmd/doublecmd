@@ -36,7 +36,10 @@ uses
   {$IFDEF MSWINDOWS}
     Windows,
   {$ENDIF}
-    Classes, SysUtils,inifiles,uwdxprototypes,ucontplugin, dynlibs, uDCUtils, uOSUtils;
+    Classes, SysUtils,inifiles,
+    uwdxprototypes,ucontplugin,
+    dynlibs, uDCUtils, uOSUtils,
+    uDetectStr, uTypes,LCLProc;
   
 type
 
@@ -54,6 +57,8 @@ type
       private
         FFieldsList:TStringList;
         FModuleHandle:TLibHandle;  // Handle to .DLL or .so
+        FForce:boolean;
+        FParser:TParserControl;
         function GIsLoaded:boolean;
       protected
         //a) Mandatory (must be implemented)
@@ -84,7 +89,7 @@ type
         function WdxFieldType(n: integer): string;
         function GetFieldIndex(FieldName:string):integer;
         //TODO: Detect string parser and useful functions
-        function FileParamVSDetectStr(FileName:string):boolean;
+        function FileParamVSDetectStr(ptr:PFileRecItem):boolean;
         //------------------------------------------------------
         procedure CallContentGetSupportedField;
         procedure CallContentSetDefaultParams;
@@ -102,6 +107,7 @@ type
         property ModuleHandle:TLibHandle read FModuleHandle write FModuleHandle;
         property FieldList:TStringlist read FFieldsList;
         property IsLoaded:boolean read GIsLoaded;
+        property Force:boolean read FForce write FForce;
         //---------------------
       end;
 
@@ -325,10 +331,14 @@ end;
 constructor TWDXModule.Create;
 begin
   FFieldsList:=TStringList.Create;
+  FParser:=TParserControl.Create;
 end;
 
 destructor TWDXModule.Destroy;
 begin
+  if assigned(FParser) then
+    FParser.Free;
+
   if assigned(FFieldsList) then
   while FFieldsList.Count>0 do
     begin
@@ -360,6 +370,8 @@ begin
 
     CallContentSetDefaultParams;
     CallContentGetSupportedField;
+    if Self.DetectStr='' then
+      Self.DetectStr:=CallContentGetDetectString;
 end;
 
 
@@ -455,9 +467,15 @@ begin
 end;
 
 function TWDXModule.CallContentGetDetectString: string;
+var pc:Pchar;
 begin
   if assigned(ContentGetDetectString) then
-    ContentGetDetectString(PChar(Result),MAX_PATH)
+   begin
+     GetMem(pc,MAX_PATH);
+     ContentGetDetectString(pc,MAX_PATH);
+     Result:=StrPas(pc);
+     FreeMem(pc);
+   end
   else
     Result:='';
 end;
@@ -465,7 +483,7 @@ end;
 function TWDXModule.CallContentGetValue(FileName: string; FieldName: String;
   UnitIndex: integer; flags: integer): string;
 begin
-result:=CallContentGetValue(FileName, GetFieldIndex(FieldName), UnitIndex,flags);
+  result:=CallContentGetValue(FileName, GetFieldIndex(FieldName), UnitIndex,flags);
 end;
 
 function TWDXModule.CallContentGetValue(FileName: string; FieldIndex, UnitIndex: integer; flags: integer): string;
@@ -549,9 +567,11 @@ begin
 end;
 
 
-function TWDXModule.FileParamVSDetectStr(FileName: string): boolean;
+function TWDXModule.FileParamVSDetectStr(ptr:PFileRecItem): boolean;
 begin
-
+//  DebugLn('DETECTSTR='+Self.DetectStr);
+  FParser.DetectStr:=Self.DetectStr;
+  Result:=FParser.TestFileResult(ptr);
 end;
 
 
