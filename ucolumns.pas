@@ -455,15 +455,14 @@ begin
             if not WdxPlugins.IsLoaded(AName) then
               if not WdxPlugins.LoadModule(AName) then Exit;
 
-//            DebugLN('AName:'+AName);
 //            DebugLn('ptrFileName: '+ptr^.sPath+ptr^.sName);
-//            DebugLn('AFunc:'+AFunc);
-            
-            Result:=WdxPlugins.GetWdxModule(AName).CallContentGetValue(ptr^.sPath+ptr^.sName,AFunc,0,0);
+            if WdxPlugins.GetWdxModule(AName).FileParamVSDetectStr(ptr) then
+            begin
+              Result:=WdxPlugins.GetWdxModule(AName).CallContentGetValue(ptr^.sPath+ptr^.sName,AFunc,0,0);
+            end;
             Exit;
           end;
         //------------------------------------------------------
-    //   DebugLn('Leaved ActGetInfo');
 end;
 
 
