@@ -88,7 +88,6 @@ type
         //---------------------
         function WdxFieldType(n: integer): string;
         function GetFieldIndex(FieldName:string):integer;
-        //TODO: Detect string parser and useful functions
         function FileParamVSDetectStr(ptr:PFileRecItem):boolean;
         //------------------------------------------------------
         procedure CallContentGetSupportedField;
@@ -204,11 +203,11 @@ begin
   
   For i:=0 to Count-1 do
     begin
-      tmp:=Ini.ReadString('Content Plugins','plugin'+IntToStr(I+1)+'Name','');
+      tmp:=Ini.ReadString('Content Plugins','Plugin'+IntToStr(I+1)+'Name','');
       Flist.AddObject(UpCase(tmp),TWDXModule.Create);
       TWDXModule(Flist.Objects[I]).Name:=tmp;
-      TWDXModule(Flist.Objects[I]).DetectStr:=Ini.ReadString('Content Plugins','plugin'+IntToStr(I+1)+'Detect','');
-      TWDXModule(Flist.Objects[I]).FileName:=GetCmdDirFromEnvVar(Ini.ReadString('Content Plugins','plugin'+IntToStr(I+1)+'Path',''));
+      TWDXModule(Flist.Objects[I]).DetectStr:=Ini.ReadString('Content Plugins','Plugin'+IntToStr(I+1)+'Detect','');
+      TWDXModule(Flist.Objects[I]).FileName:=GetCmdDirFromEnvVar(Ini.ReadString('Content Plugins','Plugin'+IntToStr(I+1)+'Path',''));
     end;
 
 end;
@@ -231,9 +230,9 @@ begin
  Ini.WriteInteger('Content Plugins','PluginCount',Flist.Count);
   For i:=0 to Flist.Count-1 do
     begin
-      Ini.WriteString('Content Plugins','plugin'+IntToStr(I+1)+'Name',TWDXModule(Flist.Objects[I]).Name);
-      Ini.WriteString('Content Plugins','plugin'+IntToStr(I+1)+'Detect',TWDXModule(Flist.Objects[I]).DetectStr);
-      Ini.WriteString('Content Plugins','plugin'+IntToStr(I+1)+'Path',SetCmdDirAsEnvVar(TWDXModule(Flist.Objects[I]).FileName));
+      Ini.WriteString('Content Plugins','Plugin'+IntToStr(I+1)+'Name',TWDXModule(Flist.Objects[I]).Name);
+      Ini.WriteString('Content Plugins','Plugin'+IntToStr(I+1)+'Detect',TWDXModule(Flist.Objects[I]).DetectStr);
+      Ini.WriteString('Content Plugins','Plugin'+IntToStr(I+1)+'Path',SetCmdDirAsEnvVar(TWDXModule(Flist.Objects[I]).FileName));
     end;
 end;
 
@@ -569,7 +568,6 @@ end;
 
 function TWDXModule.FileParamVSDetectStr(ptr:PFileRecItem): boolean;
 begin
-//  DebugLn('DETECTSTR='+Self.DetectStr);
   FParser.DetectStr:=Self.DetectStr;
   Result:=FParser.TestFileResult(ptr);
 end;

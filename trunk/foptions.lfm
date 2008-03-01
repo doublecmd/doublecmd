@@ -1367,7 +1367,10 @@ object frmOptions: TfrmOptions
             Top = 10
             Width = 398
             OnClick = lbCategoriesClick
+            OnDrawItem = lbCategoriesDrawItem
+            Style = lbOwnerDrawFixed
             TabOrder = 6
+            TopIndex = -1
           end
           object bbtnApplyCategory: TBitBtn
             AnchorSideTop.Control = cbCategoryColor
