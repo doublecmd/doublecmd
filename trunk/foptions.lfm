@@ -1205,6 +1205,76 @@ object frmOptions: TfrmOptions
               TabOrder = 4
             end
           end
+          object tsWDX: TTabSheet
+            Caption = 'Content plugins (.WDX)'
+            ClientHeight = 613
+            ClientWidth = 816
+            OnShow = tsWDXShow
+            object lblInstalledPlugins1: TLabel
+              Left = 21
+              Height = 13
+              Top = 9
+              Width = 145
+              Caption = 'Installed Plugins:'
+              ParentColor = False
+            end
+            object clbWDXList: TCheckListBox
+              Left = 6
+              Height = 160
+              Top = 30
+              Width = 424
+              TabOrder = 0
+              TopIndex = -1
+            end
+            object bbtnWDXAdd: TBitBtn
+              AnchorSideLeft.Control = clbWFXList
+              Left = 6
+              Height = 32
+              Top = 198
+              Width = 100
+              Caption = 'Add'
+              NumGlyphs = 0
+              OnClick = bbtnWDXAddClick
+              TabOrder = 1
+            end
+            object bbtnWDXDelete: TBitBtn
+              AnchorSideLeft.Control = bbtnWFXAdd
+              AnchorSideLeft.Side = asrBottom
+              Left = 112
+              Height = 32
+              Top = 198
+              Width = 100
+              BorderSpacing.Left = 6
+              Caption = 'Delete'
+              NumGlyphs = 0
+              OnClick = bbtnWDXDeleteClick
+              TabOrder = 2
+            end
+            object bbtnWDXRename: TBitBtn
+              AnchorSideRight.Control = bbtnWFXApply
+              Left = 224
+              Height = 32
+              Top = 198
+              Width = 100
+              BorderSpacing.Right = 6
+              Caption = 'Rename'
+              NumGlyphs = 0
+              OnClick = bbtnWDXRenameClick
+              TabOrder = 3
+            end
+            object bbtnWDXApply: TBitBtn
+              AnchorSideRight.Control = clbWFXList
+              AnchorSideRight.Side = asrBottom
+              Left = 330
+              Height = 32
+              Top = 198
+              Width = 100
+              Caption = 'Apply'
+              NumGlyphs = 0
+              OnClick = bbtnWDXApplyClick
+              TabOrder = 4
+            end
+          end
         end
       end
       object pgFileTypesColors: TPage
