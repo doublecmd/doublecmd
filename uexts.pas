@@ -39,7 +39,7 @@ type
   protected
     FExtList:TObjectList;
     function GetNewSectionName(Index: Integer): String;
-    procedure EraseSection(extFile : TStringList; SectionIndex: Integer; SkipComments : Boolean = False);
+    procedure EraseSection(extFile : TStringList; var SectionIndex: Integer; SkipComments : Boolean = False);
   public
     constructor Create;
     destructor Destroy; override;
@@ -125,22 +125,25 @@ begin
         logWrite('Command '+sLine+' have not defined extension - ignored.');
         Continue;
       end;
+
       // now set command to lowercase
-      for iIndex:=1 to length(sLine) do
+      s := sLine;
+      for iIndex:=1 to Length(s) do
         begin
-          if sLine[iIndex]='=' then Break;
-          sLine[iIndex]:=UpCase(sLine[iIndex]);
+          if s[iIndex]='=' then Break;
+          s[iIndex]:= LowerCase(s[iIndex]);
         end;
+
       // DebugLn(sLine);
-      if Pos('NAME', sLine) = 1 then // File type name
+      if Pos('name', s) = 1 then // File type name
         extCmd.Name := Copy(sLine, iIndex + 1, Length(sLine))
-      else if Pos('ICON', sLine) = 1 then // File type icon
+      else if Pos('icon', s) = 1 then // File type icon
         extCmd.Icon := Copy(sLine, iIndex + 1, Length(sLine))
       else // action
         extCmd.Actions.Add(sLine);
     end;
   end;
-  closefile(extfile);
+  CloseFile(extfile);
 end;
 
 function TExts.GetNewSectionName(Index: Integer): String;
@@ -157,18 +160,20 @@ begin
   Result := '[' + Result + ']';
 end;
 
-procedure TExts.EraseSection(extFile : TStringList; SectionIndex: Integer; SkipComments : Boolean = False);
+procedure TExts.EraseSection(extFile : TStringList; var SectionIndex: Integer; SkipComments : Boolean = False);
 var
   sLine : String;
 begin
   repeat
     if SkipComments and (Pos('#', Trim(extFile.Strings[SectionIndex]))=1) then
-	  Continue;
-    extFile.Delete(SectionIndex);
+      Inc(SectionIndex)
+    else
+      extFile.Delete(SectionIndex);
 
     if SectionIndex >= extFile.Count then Exit;
 
     sLine := extFile.Strings[SectionIndex];
+    //DebugLn('sLine = ', sLine);
   until ((Pos('[', sLine)<>0) and (Pos(']', sLine)<>0)) or
         ((Pos('#', sLine)<>0) and (Pos('[', extFile.Strings[SectionIndex+1])<>0) and
         (Pos(']', extFile.Strings[SectionIndex+1])<>0));
@@ -248,14 +253,24 @@ begin
               iIndex:= extFile.IndexOf(sNewName);
               if iIndex >= 0 then // if section exists then insert actions
 	        begin
-                  EraseSection(extFile, iIndex+1, True);
+                  Inc(iIndex); // skip section name
+                  EraseSection(extFile, iIndex, True);
                   if Name <> '' then
-		    extFile.Insert(iIndex+1, 'Name=' + Name);
+                    begin
+		      extFile.Insert(iIndex, 'Name=' + Name);
+                      Inc(iIndex);
+                    end;
 		  if Icon <> '' then
-		    extFile.Insert(iIndex+1, 'Icon=' + Icon);
+                    begin
+		      extFile.Insert(iIndex, 'Icon=' + Icon);
+                      Inc(iIndex);
+                    end;
 		  for J:= 0 to Actions.Count - 1 do
-                    extFile.Insert(iIndex+1, Actions.Strings[J]);
-                  extFile.Add(''); // add empty line
+                    begin
+                      extFile.Insert(iIndex, Actions.Strings[J]);
+                      Inc(iIndex);
+                    end;
+                  extFile.Insert(iIndex, ''); // add empty line
                 end
               else // else add new section
                 begin

@@ -121,6 +121,8 @@ begin
         sName := Exts.Items[I].SectionName;
       lbFileTypes.Items.AddObject(sName, nil);
     end;
+  if iCount > 0 then
+    lbFileTypes.ItemIndex:= 0;
   UpdateEnabledButtons;
 end;
 
@@ -136,12 +138,18 @@ begin
       btnRemoveAct.Enabled := False;
       btnUpAct.Enabled := False;
       btnDownAct.Enabled := False;
+      ledAction.Enabled:= False;
+      fneCommand.Enabled:= False;
+      ledAction.Text:= '';
+      fneCommand.FileName:= '';
     end
   else
     begin
       btnRemoveAct.Enabled := True;
       btnUpAct.Enabled := True;
       btnDownAct.Enabled := True;
+      ledAction.Enabled:= True;
+      fneCommand.Enabled:= True;
     end;
 
   if lbActions.ItemIndex = 0 then
@@ -158,11 +166,11 @@ begin
   ExtAction.IsChanged := True;
   with lbFileTypes do
   begin
-    ExtAction.Name := InputBox(Caption, 'Enter name:', '');
+    ExtAction.Name := InputBox(Caption, 'Enter name:', ''); // TODO: Localize
     Items.AddObject(ExtAction.Name, ExtAction);
     // add file type to TExts object
     Exts.AddItem(ExtAction);
-	ItemIndex := Items.Count - 1;
+    ItemIndex := Items.Count - 1;
   end;
 end;
 
@@ -186,10 +194,11 @@ begin
   iIndex := lbFileTypes.ItemIndex;
   if iIndex < 0 then Exit;
   sName := lbFileTypes.Items[iIndex];
-  sName := InputBox(Caption, 'Enter name:', sName);
+  sName := InputBox(Caption, 'Enter name:', sName); // TODO: Localize
   lbFileTypes.Items[iIndex] := sName;
   // rename file type in TExts object
   Exts.Items[iIndex].Name := sName;
+  Exts.Items[iIndex].IsChanged:= True;
 end;
 
 procedure TfrmFileAssoc.lbActionsSelectionChange(Sender: TObject; User: boolean);
@@ -281,6 +290,8 @@ begin
   slActions := TStringList(lbActions.Items.Objects[iIndex]);
   slActions.Strings[iIndex] := ledAction.Text + '=' + slActions.ValueFromIndex[iIndex];
   lbActions.Items[iIndex] := ledAction.Text;
+  if lbFileTypes.ItemIndex >= 0 then
+    Exts.Items[lbFileTypes.ItemIndex].IsChanged:= True;
 end;
 
 procedure TfrmFileAssoc.fneCommandChange(Sender: TObject);
@@ -292,6 +303,8 @@ begin
   if (iIndex < 0) or (fneCommand.FileName = '') then Exit;
   slActions := TStringList(lbActions.Items.Objects[iIndex]);
   slActions.ValueFromIndex[iIndex] := fneCommand.FileName;
+  if lbFileTypes.ItemIndex >= 0 then
+    Exts.Items[lbFileTypes.ItemIndex].IsChanged:= True;
 end;
 
 procedure TfrmFileAssoc.sbtnIconClick(Sender: TObject);
@@ -309,6 +322,7 @@ begin
         // and set IconIndex
         Exts.Items[ItemIndex].IconIndex:= -1;
         Exts.Items[ItemIndex].IsChanged:= True;
+        Repaint;
       end;
     end;
 end;
@@ -317,7 +331,7 @@ procedure TfrmFileAssoc.btnAddExtClick(Sender: TObject);
 var
   sExt : String;
 begin
-  sExt := InputBox(Caption, 'Enter file extension:', '');
+  sExt := InputBox(Caption, 'Enter file extension:', ''); // TODO: Localize
   if sExt <> '' then
     begin
       lbExts.ItemIndex := lbExts.Items.Add(sExt);
