@@ -52,7 +52,7 @@ unit uDetectStr;
 
  type
 
-   { TMathControl }
+   { TParserControl }
 
    TParserControl = class
    public
