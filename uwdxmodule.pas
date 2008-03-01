@@ -130,15 +130,15 @@ type
         //---------------------
         function Add(Item:TWDXModule):integer;overload;
         function Add(FileName:string):integer;overload;
-        function Add(Name,FileName,DetectStr:string):integer;overload;
+        function Add(AName,FileName,DetectStr:string):integer;overload;
 
-        function IsLoaded(Name:String):Boolean;overload;
+        function IsLoaded(AName:String):Boolean;overload;
         function IsLoaded(Index: integer):Boolean;overload;
-        function LoadModule(Name:String):Boolean; overload;
+        function LoadModule(AName:String):Boolean; overload;
         function LoadModule(Index: integer): Boolean; overload;
         
         function GetWdxModule(Index:integer):TWDXModule;overload;
-        function GetWdxModule(Name:string):TWDXModule;overload;
+        function GetWdxModule(AName:string):TWDXModule;overload;
         //---------------------
         //property WdxList:TStringList read Flist;
         property Count:integer read GetCount;
@@ -267,18 +267,18 @@ begin
 
 end;
 
-function TWDXModuleList.Add(Name, FileName, DetectStr: string): integer;
+function TWDXModuleList.Add(AName, FileName, DetectStr: string): integer;
 begin
-      Result:=Flist.AddObject(UpCase(Name),TWDXModule.Create);
-      TWDXModule(Flist.Objects[Result]).Name:=Name;
+      Result:=Flist.AddObject(UpCase(AName),TWDXModule.Create);
+      TWDXModule(Flist.Objects[Result]).Name:=AName;
       TWDXModule(Flist.Objects[Result]).DetectStr:=DetectStr;
       TWDXModule(Flist.Objects[Result]).FileName:=FileName;
 end;
 
-function TWDXModuleList.IsLoaded(Name: String): Boolean;
+function TWDXModuleList.IsLoaded(AName: String): Boolean;
 var x:integer;
 begin
-  x:=Flist.IndexOf(Name);
+  x:=Flist.IndexOf(AName);
   if x=-1 then Result:=false
   else
     begin
@@ -291,10 +291,10 @@ begin
    Result:=GetWdxModule(Index).IsLoaded;
 end;
 
-function TWDXModuleList.LoadModule(Name: String): Boolean;
+function TWDXModuleList.LoadModule(AName: String): Boolean;
 var x:integer;
 begin
-  x:=Flist.IndexOf(Name);
+  x:=Flist.IndexOf(UpCase(AName));
   if x=-1 then Result:=false
   else
     begin
@@ -312,10 +312,10 @@ begin
   Result:=TWDXModule(Flist.Objects[Index]);
 end;
 
-function TWDXModuleList.GetWdxModule(Name: string): TWDXModule;
+function TWDXModuleList.GetWdxModule(AName: string): TWDXModule;
 var tmp:integer;
 begin
-  tmp:=Flist.IndexOf(Name);
+  tmp:=Flist.IndexOf(upcase(AName));
   if tmp>-1 then
   Result:=TWDXModule(Flist.Objects[tmp]);
 end;
@@ -369,7 +369,7 @@ begin
 
     CallContentSetDefaultParams;
     CallContentGetSupportedField;
-    if Self.DetectStr='' then
+    if Length(Self.DetectStr)=0 then
       Self.DetectStr:=CallContentGetDetectString;
 end;
 

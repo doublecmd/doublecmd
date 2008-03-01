@@ -47,9 +47,13 @@ type
     bbtnDeleteCategory: TBitBtn;
     bbtnApplyCategory: TBitBtn;
     bbtnWFXAdd: TBitBtn;
+    bbtnWDXAdd: TBitBtn;
+    bbtnWDXApply: TBitBtn;
     bbtnWFXDelete: TBitBtn;
+    bbtnWDXDelete: TBitBtn;
     bbtnWFXRename: TBitBtn;
     bbtnWFXApply: TBitBtn;
+    bbtnWDXRename: TBitBtn;
     btnCategoryColor: TButton;
     btnOpen: TBitBtn;
     btnSelEditFnt: TButton;
@@ -100,6 +104,7 @@ type
     cbTextColor: TColorBox;
     cbCategoryColor: TColorBox;
     cbDateTimeFormat: TComboBox;
+    clbWDXList: TCheckListBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
@@ -149,6 +154,7 @@ type
     gbLocConfigFiles: TGroupBox;
     gbSaveOnExit: TGroupBox;
     lblCategoryAttr: TLabel;
+    lblInstalledPlugins1: TLabel;
     rgScrolling: TRadioGroup;
     rbCtrlAltLetterQS: TRadioButton;
     rbAltLetterQS: TRadioButton;
@@ -220,6 +226,7 @@ type
     rbUserHomeDir: TRadioButton;
     rbUseMmapInSearch: TRadioButton;
     rbUseStreamInSearch: TRadioButton;
+    tsWDX: TTabSheet;
     tsWCX: TTabSheet;
     tsWFX: TTabSheet;
     tvTreeView: TTreeView;
@@ -227,6 +234,10 @@ type
     procedure bbtnApplyCategoryClick(Sender: TObject);
     procedure bbtnApplyClick(Sender: TObject);
     procedure bbtnDeleteCategoryClick(Sender: TObject);
+    procedure bbtnWDXAddClick(Sender: TObject);
+    procedure bbtnWDXApplyClick(Sender: TObject);
+    procedure bbtnWDXDeleteClick(Sender: TObject);
+    procedure bbtnWDXRenameClick(Sender: TObject);
     procedure bbtnWFXAddClick(Sender: TObject);
     procedure bbtnWFXApplyClick(Sender: TObject);
     procedure bbtnWFXDeleteClick(Sender: TObject);
@@ -272,6 +283,7 @@ type
     procedure nbNotebookPageChanged(Sender: TObject);
     procedure pbExamplePaint(Sender: TObject);
     procedure tsWCXShow(Sender: TObject);
+    procedure tsWDXShow(Sender: TObject);
     procedure tsWFXShow(Sender: TObject);
     procedure tvTreeViewChange(Sender: TObject; Node: TTreeNode);
   private
@@ -928,6 +940,15 @@ begin
   end;
 end;
 
+procedure TfrmOptions.tsWDXShow(Sender: TObject);
+var i:integer;
+begin
+   clbWDXList.Clear;
+  if WdxPlugins.Count=0 then exit;
+  for i:=0 to WdxPlugins.Count-1 do
+    clbWDXList.Items.Add(WdxPlugins.GetWdxModule(i).Name+'='+SetCmdDirAsEnvVar(WdxPlugins.GetWdxModule(i).FileName));
+end;
+
 procedure TfrmOptions.bbtnApplyClick(Sender: TObject);
 var
  I,
@@ -1250,6 +1271,62 @@ begin
   if lbCategories.Count > 0 then
     lbCategories.ItemIndex := 0;
   lbCategoriesClick(lbCategories);
+end;
+
+procedure TfrmOptions.bbtnWDXAddClick(Sender: TObject);
+var
+  sPluginName : String;
+begin
+  odOpenDialog.Filter := 'Content plugins (*.wdx)|*.wdx';
+  if odOpenDialog.Execute then
+    begin
+      sPluginName := ExtractFileName(odOpenDialog.FileName);
+      delete(sPluginName,length(sPluginName)-4,4);
+      WdxPlugins.Add(sPluginName,odOpenDialog.FileName,'');
+
+      WdxPlugins.LoadModule(sPluginName);
+     // s:=WdxPlugins.GetWdxModule(sPluginName).CallContentGetDetectString;
+//      WdxPlugins.GetWdxModule(sPluginName).DetectStr:=s;
+      WdxPlugins.GetWdxModule(sPluginName).UnloadModule;
+      //WdxPlugins.GetWdxModule(sPluginName).LoadModule;
+      //WdxPlugins.GetWdxModule(sPluginName).UnloadModule;
+      //To get DetectStr uncoment these 2 lines and get value of WdxPlugins.GetWdxModule(sPluginName).DetectStr;
+
+      sPluginName:=sPluginName+'=' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
+      clbWDXList.Items.Add(sPluginName);
+    end;
+end;
+
+procedure TfrmOptions.bbtnWDXApplyClick(Sender: TObject);
+begin
+WdxPlugins.Save(gIni);
+end;
+
+procedure TfrmOptions.bbtnWDXDeleteClick(Sender: TObject);
+begin
+  if clbWDXList.SelCount > 0 then
+  begin
+    WdxPlugins.DeleteItem(clbWDXList.ItemIndex);
+    clbWDXList.Items.Delete(clbWDXList.ItemIndex);
+  end;
+end;
+
+procedure TfrmOptions.bbtnWDXRenameClick(Sender: TObject);
+var
+  iItemIndex : Integer;
+  sName,
+  sValue,s : String;
+  bChecked : Boolean;
+begin
+  iItemIndex := clbWDXList.ItemIndex;
+  if iItemIndex < 0 then exit;
+  sName := clbWDXList.Items.Names[iItemIndex];
+  sValue := clbWDXList.Items.ValueFromIndex[iItemIndex];
+  bChecked := clbWDXList.Checked[iItemIndex]; // Save state
+  s:= InputBox('Double Commander', 'Rename', sName);
+  clbWDXList.Items[iItemIndex] := s + '=' + sValue;
+  clbWDXList.Checked[iItemIndex] := bChecked; // Restore state
+  WdxPlugins.GetWdxModule(iItemIndex).Name:=s;
 end;
 
 procedure TfrmOptions.btnCategoryColorClick(Sender: TObject);
