@@ -71,7 +71,6 @@ type
     procedure btnRemoveTypeClick(Sender: TObject);
     procedure btnRenameTypeClick(Sender: TObject);
     procedure btnUpActClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure lbActionsSelectionChange(Sender: TObject; User: boolean);
     procedure lbFileTypesDrawItem(Control: TWinControl; Index: Integer;
@@ -95,7 +94,12 @@ uses LCLType, uGlobsPaths, uGlobs, uPixMapManager;
 
 procedure ShowFileAssocDlg;
 begin
-  TfrmFileAssoc.Create(nil).Show;
+  with TfrmFileAssoc.Create(Application) do
+  try
+    ShowModal;
+  finally
+    Free;
+  end;
 end;
 
 { TfrmFileAssoc }
@@ -211,6 +215,7 @@ begin
   slActions := TStringList(lbActions.Items.Objects[iIndex]);
   ledAction.Text := slActions.Names[iIndex];
   fneCommand.FileName := slActions.ValueFromIndex[iIndex];
+  UpdateEnabledButtons;
 end;
 
 procedure TfrmFileAssoc.lbFileTypesDrawItem(Control: TWinControl;
@@ -468,11 +473,6 @@ end;
 procedure TfrmFileAssoc.btnCancelClick(Sender: TObject);
 begin
   Close;
-end;
-
-procedure TfrmFileAssoc.FormClose(Sender: TObject; var CloseAction: TCloseAction);
-begin
-  CloseAction := caFree;
 end;
 
 initialization
