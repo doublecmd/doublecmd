@@ -14,7 +14,6 @@ object frmFileAssoc: TfrmFileAssoc
   Font.Color = clBlack
   Font.Height = 13
   Font.Pitch = fpVariable
-  OnClose = FormClose
   OnCreate = FormCreate
   Position = poDesktopCenter
   object gbFileTypes: TGroupBox
