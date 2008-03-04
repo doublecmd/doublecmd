@@ -39,7 +39,7 @@ uses
   Graphics, Forms, Menus, Controls, Dialogs, ComCtrls,
   StdCtrls, ExtCtrls,ActnList,Buttons,
   SysUtils, Classes,  {uFilePanel,} framePanel, {FileCtrl,} Grids,
-  KASToolBar, IniFiles, SynEdit, KASBarMenu,KASBarFiles;
+  KASToolBar, IniFiles, SynEdit, KASBarMenu,KASBarFiles,uColumns;
 
 const
   cHistoryFile='cmdhistory.txt';
@@ -51,6 +51,7 @@ type
   TfrmMain = class(TForm)
     actExtractFiles: TAction;
     actAddPathToCmdLine: TAction;
+    actFileAssoc: TAction;
     actFocusCmdLine: TAction;
     actContextMenu: TAction;
     actQuickSearch: TAction;
@@ -75,6 +76,8 @@ type
     dskLeft: TKAStoolBar;
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
+    MenuItem2: TMenuItem;
+    MenuItem4: TMenuItem;
     mnuFileAssoc: TMenuItem;
     pmButtonMenu: TKASBarMenu;
     lblCommandPath: TLabel;
@@ -102,6 +105,7 @@ type
     btnRightRoot: TSpeedButton;
     pmDrivesMenu: TPopupMenu;
     LogSplitter: TSplitter;
+    pmColumnsMenu: TPopupMenu;
     seLogWindow: TSynEdit;
     tbDelete: TMenuItem;
     tbEdit: TMenuItem;
@@ -310,6 +314,7 @@ type
     bAltPress:Boolean;
     DrivesList : TList;
     
+    procedure ColumnsMenuClick(Sender: TObject);
     function ExecuteCommandFromEdit(sCmd:String):Boolean;
     procedure AddSpecialButtons(dskPanel: TKASToolBar);
   public
@@ -355,7 +360,7 @@ type
 
 var
   frmMain: TfrmMain;
-
+  ColSet:TPanelColumnsList;
 implementation
 
 uses
@@ -462,6 +467,8 @@ begin
   LogSplitter.Visible := gLogWindow;
   seLogWindow.Visible := gLogWindow;
   
+  ColSet:=TPanelColumnsList.Create;
+  pmColumnsMenu.Items.Clear;
   //DebugLn('frmMain.FormCreate Done');
 end;
 
@@ -651,6 +658,9 @@ end;
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
   DebugLn('frmMain.Destroy');
+
+  ColSet.Free;
+
   if gSaveCmdLineHistory then
     edtCommand.Items.SaveToFile(gpIniDir+cHistoryFile);
   {*Tool Bar*}
@@ -2312,10 +2322,72 @@ begin
   end;
 end;
 
-{ Show context menu on right click }
+procedure TfrmMain.ColumnsMenuClick(Sender: TObject);
+begin
+  Case (Sender as TMenuItem).Tag of
+    1000: ShowMessage('Show THIS columns options');
+    1001: ShowMessage('Show columns options');
+  else
+    begin
+      ActiveFrame.Colm.Load(gIni,ColSet.Items[(Sender as TMenuItem).Tag]);
+      ActiveFrame.dgPanel.ColCount:=ActiveFrame.Colm.ColumnsCount;
+    end;
+
+  end;
+end;
+
+{ Show context or columns menu on right click }
 procedure TfrmMain.framedgPanelMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
+var  iRow, iCol, I : Integer; Point:TPoint; MI:TMenuItem;
 begin
+
+  if Sender is TDrawGrid then
+    begin
+      (Sender as TDrawGrid).MouseToCell(X, Y, iCol, iRow);
+      if (Button=mbRight) and (iRow < (Sender as TDrawGrid).FixedRows ) then
+        begin
+          //TODO: Load Columns into menu
+          ColSet.Clear;
+          ColSet.Load(Gini);
+          if ColSet.Items.Count>0 then
+            begin
+              pmColumnsMenu.Items.Clear;
+              For I:=0 to ColSet.Items.Count-1 do
+                begin
+                  MI:=TMenuItem.Create(pmColumnsMenu);
+                  MI.Tag:=I;
+                  MI.Caption:=ColSet.Items[I];
+                  MI.OnClick:=@ColumnsMenuClick;
+                  pmColumnsMenu.Items.Add(MI);
+                end;
+               {  //-
+                  MI:=TMenuItem.Create(pmColumnsMenu);
+                  MI.Caption:='-';
+                  pmColumnsMenu.Items.Add(MI);
+                 //Configure this custom columns
+                  MI:=TMenuItem.Create(pmColumnsMenu);
+                  MI.Tag:=1000;
+                  MI.Caption:=rsMenuConfigureThisCustomColumn;
+                  MI.OnClick:=@ColumnsMenuClick;
+                  pmColumnsMenu.Items.Add(MI);
+                 //Configure custom columns
+                  MI:=TMenuItem.Create(pmColumnsMenu);
+                  MI.Tag:=1001;
+                  MI.Caption:=rsMenuConfigureCustomColumns;
+                  MI.OnClick:=@ColumnsMenuClick;
+                  pmColumnsMenu.Items.Add(MI);
+                }
+            end;
+
+          Point:=(Sender as TDrawGrid).ClientToScreen(Classes.Point(0,0));
+          Point.Y:=Point.Y+(Sender as TDrawGrid).RowHeights[iRow];
+          Point.X:=Point.X+X-50;
+          pmColumnsMenu.PopUp(Point.X,Point.Y);
+          Exit;
+        end;
+    end;
+
   if Button = mbRight then
     begin
       actContextMenu.Execute;
@@ -2643,7 +2715,7 @@ var
   sIndex,
   TabsSection, Section: String;
   fpsPanel : TFilePanelSelect;
-  sPath,
+  sPath, sColumnSet,
   sCaption, sActiveCaption : String;
   iActiveTab : Integer;
 begin
@@ -2671,15 +2743,22 @@ begin
       if I = iActiveTab then
         begin
           sPath := gIni.ReadString(Section, 'path', '');
+
           CreatePanel(AddPage(ANoteBook), fpsPanel, sPath);
           if sActiveCaption <> '' then
             if Boolean(gDirTabOptions and tb_text_length_limit) and (Length(sActiveCaption) > gDirTabLimit) then
               ANoteBook.Page[ANoteBook.PageCount - 1].Caption := Copy(sActiveCaption, 1, gDirTabLimit) + '...'
             else
               ANoteBook.Page[ANoteBook.PageCount - 1].Caption := sActiveCaption;
+              
+          sColumnSet:=gIni.ReadString(Section, 'columnsset', '');
+          TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]).Colm.Load(gIni,sColumnSet);
+          TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]).dgPanel.ColCount:=TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]).Colm.ColumnsCount;
+
         end;
       sPath := gIni.ReadString(TabsSection, sIndex + '_path', '');
       if sPath = '' then Break;
+
       sCaption := gIni.ReadString(TabsSection, sIndex + '_caption', '');
       CreatePanel(AddPage(ANoteBook), fpsPanel, sPath);
       if sCaption <> '' then
@@ -2687,6 +2766,11 @@ begin
           ANoteBook.Page[ANoteBook.PageCount - 1].Caption := Copy(sCaption, 1, gDirTabLimit) + '...'
         else
           ANoteBook.Page[ANoteBook.PageCount - 1].Caption := sCaption;
+          
+      sColumnSet:=gIni.ReadString(TabsSection, sIndex + '_columnsset', '');
+      TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]).Colm.Load(gIni,sColumnSet);
+      TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]).dgPanel.ColCount:=TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]).Colm.ColumnsCount;
+
       inc(I);
       sIndex := IntToStr(I);
     end;
@@ -2699,7 +2783,7 @@ var
   I, Count, J : Integer;
   sIndex,
   TabsSection, Section : String;
-  sPath : String;
+  sPath,sColumnSet : String;
 begin
   if ANoteBook.Name = 'nbLeft' then
     begin
@@ -2735,10 +2819,18 @@ begin
     sPath := TFrameFilePanel(ANoteBook.Page[I].Components[0]).ActiveDir;
     gIni.WriteString(TabsSection, sIndex + '_path', sPath);
     gIni.WriteString(TabsSection, sIndex + '_caption', ANoteBook.Page[I].Caption);
+
+  sColumnSet:=TFrameFilePanel(ANoteBook.Page[I].Components[0]).Colm.CurrentColumnsSetName;
+  gIni.WriteString(TabsSection, sIndex + '_columnsset', sColumnSet);
+
     inc(I);
   until (I > Count);
   sPath := TFrameFilePanel(ANoteBook.ActivePageComponent.Components[0]).ActiveDir;
   gIni.WriteString(Section, 'path', sPath);
+
+  sColumnSet:=TFrameFilePanel(ANoteBook.ActivePageComponent.Components[0]).Colm.CurrentColumnsSetName;
+  gIni.WriteString(Section, 'columnsset', sColumnSet);
+  
 end;
 
 function TfrmMain.ExecCmd(Cmd: string): Boolean;

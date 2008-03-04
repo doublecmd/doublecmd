@@ -20,7 +20,7 @@ interface
 uses
   SysUtils, Classes, Graphics, Controls, Forms, LMessages,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, uFilePanel, Grids, uTypes,
-  Buttons, uColumns, lcltype;
+  Buttons, uColumns,lcltype,Menus;
 
 type
   TFilePanelSelect=(fpLeft, fpRight);
@@ -64,6 +64,7 @@ type
 
     procedure dgPanelMouseDown(Sender: TObject; Button: TMouseButton;
                                     Shift: TShiftState; X, Y: Integer);
+
     procedure dgPanelStartDrag(Sender: TObject; var DragObject: TDragObject);
     procedure dgPanelDragOver(Sender, Source: TObject; X, Y: Integer;
                                                State: TDragState; var Accept: Boolean);
@@ -228,6 +229,12 @@ var
   iRow, iCol : Integer;
 begin
   dgPanel.MouseToCell(X, Y, iCol, iRow);
+  
+{  if (Button=mbRight) and (iRow < dgPanel.FixedRows ) then
+    begin
+      pmFrColumnMenu.PopUp(X,Y);
+    end;}
+  
   if Button<>mbLeft then
     begin
       dgPanel.Row := iRow;
@@ -639,7 +646,7 @@ begin
           begin
             PixMapManager.DrawBitmap(iIconID, Canvas, Rect);
           end;
-          s:=Colm.GetColumnItem(Acol).GetColumnResultString(frp);
+          s:=Colm.GetColumnItemResultString(ACol,frp);
           if gCutTextToColWidth then
             begin
               while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
@@ -653,7 +660,7 @@ begin
     else
       begin
         //------------------------------------------------------
-        s:=Colm.GetColumnItem(ACol).GetColumnResultString(frp);
+        s:=Colm.GetColumnItemResultString(ACol,frp);
         if gCutTextToColWidth then
           begin
             while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
@@ -833,7 +840,6 @@ begin
   Parent:=AOwner;
   Align:=alClient;
   OnKeyPress:=@dgPanelKeyPress;
-
   pnlHeader:=TPanel.Create(Self);
   pnlHeader.Parent:=Self;
   pnlHeader.Height:=24;
