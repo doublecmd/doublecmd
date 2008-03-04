@@ -17,39 +17,113 @@ interface
 uses
   Classes, Contnrs;
 type
+  {en
+     Class for storage actions by file extensions
+  }
   TExtAction = class
-    SectionName,   //en> Section name, for example "[htm|html|mht]"
-    Name,          //en> File type name, for example "Hyper text documents"
-    Icon : String; //en> Path to icon
-    IconIndex : Integer;
-    Extensions,    //en> List of extensions
-    Actions : TStringList; //en> List of actions, for example "Open=opera '%f'"
-    IsChanged : Boolean;
+    SectionName: String;     //en< Section name, for example "[htm|html|mht]"
+    Name: String;            //en< File type name, for example "Hyper text documents"
+    Icon: String;            //en< Path to icon
+    IconIndex: Integer;      //en< Icon index (used in configuration dialog for paint icons)
+    Extensions: TStringList; //en< List of extensions
+    Actions: TStringList;    //en< List of actions, for example "Open=opera '%f'"
+    IsChanged: Boolean;      //en< True if item was changed
   public
+    {en
+       Constructs an object and initializes its data before the object is first used.
+    }
     constructor Create;
+    {en
+       Destroys an object and frees its memory.
+    }
     destructor Destroy; override;
   end;
 
-  { TExts }
-
+  {en
+     Main class for storage actions list by file extensions
+  }
   TExts = class
-    function GetCount: Integer;
   private
+    {en
+       Return the number of items
+       @returns(The number of items)
+    }
+    function GetCount: Integer;
+    {en
+       Get item by index
+       @param(Index Item index)
+       @returns(TExtAction item)
+    }
     function GetItems(Index: Integer): TExtAction;
   protected
+    {en
+       Internal ObjectList for storage items.
+    }
     FExtList:TObjectList;
+    {en
+       Return new section name for item by index
+       @param(Index Item index)
+       @returns(New section name)
+    }
     function GetNewSectionName(Index: Integer): String;
+    {en
+       Erase section from file by section line index
+       @param(extFile StringList with loaded extension file)
+       @param(SectionIndex Section line index)
+       @param(SkipComments If @true then don't delete comments)
+    }
     procedure EraseSection(extFile : TStringList; var SectionIndex: Integer; SkipComments : Boolean = False);
   public
+    {en
+       Constructs an object and initializes its data before the object is first used.
+    }
     constructor Create;
+    {en
+       Destroys an object and frees its memory.
+    }
     destructor Destroy; override;
+    {en
+       Inserts a new item at the end of the list
+       @param(AExtAction TExtAction item)
+       @returns(The index of the new item)
+    }
     function AddItem(AExtAction: TExtAction): Integer;
+    {en
+       Removes the item at the position given by the Index parameter
+       @param(Index Item index)
+    }
     procedure DeleteItem(Index: Integer);
+    {en
+       Fills the actions list from file
+       @param(sName File name)
+    }
     procedure LoadFromFile(const sName:String);
+    {en
+       Save the actions list to file
+       @param(sName File name)
+    }
     procedure SaveToFile(const sName:String);
+    {en
+       Return action command by extension and action name
+       @param(sExt File extension)
+       @param(sActionName Action name)
+       @returns(Action command)
+    }
     function GetExtActionCmd(sExt:String; const sActionName:String):String;
+    {en
+       Return list of actions by extension
+       @param(sExt File extension)
+       @param(slActions Actions list)
+       @returns(The function returns @true if successful, @false otherwise)
+    }
     function GetExtActions(sExt:String; var slActions:TStringList):Boolean;
+    {en
+       Indicates the number of items
+    }
     property Count: Integer read GetCount;
+    {en
+       Give access to items by index
+    }
     property Items[Index: Integer]: TExtAction read GetItems;
   end;
 
