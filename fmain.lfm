@@ -1369,11 +1369,21 @@ object frmMain: TfrmMain
   object pmDrivesMenu: TPopupMenu
     left = 80
     top = 136
+    object MenuItem4: TMenuItem
+      Caption = 'New Item1'
+    end
   end
   object pmButtonMenu: TKASBarMenu
     OnLoadButtonGlyph = pmButtonMenuLoadButtonGlyph
     OnMenuButtonClick = pmButtonMenuMenuButtonClick
     left = 220
     top = 136
+  end
+  object pmColumnsMenu: TPopupMenu
+    left = 256
+    top = 136
+    object MenuItem2: TMenuItem
+      Caption = '-'
+    end
   end
 end

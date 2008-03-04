@@ -151,7 +151,10 @@ resourcestring
   rsOptLayout = 'Layout';
   rsOptFileOp = 'File operations';
   rsOptFolderTabs = 'Folder tabs';
-
+  //Columns Menu
+  rsMenuConfigureCustomColumns= 'Configure custom columns';
+  rsMenuConfigureThisCustomColumn= 'Configure this custom columns view';
+  
 function GetLanguageName(poFileName : String) : String;
 procedure lngLoadLng(const sFileName:String);
 procedure DoLoadLng;

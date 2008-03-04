@@ -41,9 +41,11 @@ uses
   public
     Title:string;
     FuncString:string;
+
+    {String is function or simpletext;
+    TObject(integer)=indicator of function: 0 is simpletext; 1 is function;}
     FuncList:TStringList;
-    //String is function or simpletext;
-    //TObject(integer)=indicator of function: 0 is simpletext; 1 is function;
+
     Width:integer;
     Align : TAlignment;
     //---------------------
@@ -67,6 +69,7 @@ uses
   private
    FList:TList;
    FCurrentColumnsFile:string;
+   fSetName:string;
   //------------------------------------------------------
   public
     constructor Create;
@@ -78,6 +81,7 @@ uses
     function GetColumnAlign(Index:integer):TAlignment;
 
     function GetColumnItem(Index:integer):TPanelColumn;
+    function GetColumnItemResultString(Index:integer; ptr:PFileRecItem):string;
     function GetCount:Integer;
     function Add(Item:TPanelColumn):integer;
     function Add(Title, FuncString:string; Width:integer;Align: TAlignment=taLeftJustify):integer; overload;
@@ -90,18 +94,51 @@ uses
     procedure Delete(Index:Integer);
     procedure Clear;
     procedure AddDefaultColumns;
+    //---------------------
+    procedure Load(FileName,SetName:String);overload;
+    procedure Load(Ini:TIniFile; SetName:string);overload;
+    //---------------------
+
     procedure Load(FileName:String);
     procedure Load(Ini:TIniFile);overload;
+
+    //---------------------
+    procedure Save(FileName,SetName:string); overload;
+    procedure Save(Ini:TIniFile;SetName:string); overload;
+    //---------------------
+
     procedure Save;
     procedure Save(FileName:string); overload;
     procedure Save(Ini:TIniFile); overload;
     //---------------------
     property ColumnsCount:Integer read GetCount;
     property CurrentColumnsFile:string read FCurrentColumnsFile;
+    property CurrentColumnsSetName:string read fSetName write fSetName;
   //------------------------------------------------------
   end;
-  procedure FillListFromString(List: TStrings; FuncString: string);
 
+  { TPanelColumnsList }
+
+  TPanelColumnsList= class
+  private
+    fSet:TStringList;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    //---------------------
+    procedure Clear;
+    procedure Load(FileName:String);
+    procedure Load(Ini:TIniFile);overload;
+    procedure Save(FileName:string);
+    procedure Save(Ini:TIniFile); overload;
+    //---------------------
+  published
+    property Items:TStringList read fSet;
+  end;
+
+
+  procedure FillListFromString(List: TStrings; FuncString: string);
+  
   var IntList:TStringList;
 
 implementation
@@ -111,32 +148,40 @@ uses uLng;
 
 function TPanelColumnsClass.GetColumnTitle(Index: integer): string;
 begin
-  if Index>Flist.Count then exit;
+  if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]).Title;
 end;
 
 function TPanelColumnsClass.GetColumnFuncString(Index: integer): string;
 begin
-  if Index>Flist.Count then exit;
+  if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]).FuncString;
 end;
 
 function TPanelColumnsClass.GetColumnWidth(Index: integer): Integer;
 begin
-  if Index>Flist.Count then exit;
+  if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]).Width;
 end;
 
 function TPanelColumnsClass.GetColumnAlign(Index: integer): TAlignment;
 begin
-  if Index>Flist.Count then exit;
+  if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]).Align;
 end;
 
 function TPanelColumnsClass.GetColumnItem(Index: integer): TPanelColumn;
 begin
-  if Index>Flist.Count then exit;
+  if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]);
+end;
+
+function TPanelColumnsClass.GetColumnItemResultString(Index: integer;
+  ptr: PFileRecItem): string;
+begin
+  Result:='';
+  if Index>=Flist.Count then exit;
+  Result:=TPanelColumn(Flist[Index]).GetColumnResultString(ptr);
 end;
 
 constructor TPanelColumnsClass.Create;
@@ -246,6 +291,18 @@ begin
   Add(rsColAttr, '[DC().GETFILEATTR{}]', 200, taLeftJustify);
 end;
 
+procedure TPanelColumnsClass.Load(FileName, SetName: String);
+begin
+  fSetName:=SetName;
+  Load(FileName);
+end;
+
+procedure TPanelColumnsClass.Load(Ini: TIniFile; SetName: string);
+begin
+  fSetName:=SetName;
+  Load(Ini);
+end;
+
 procedure TPanelColumnsClass.Load(FileName:string);
 var Ini:TIniFile;
 begin
@@ -262,7 +319,7 @@ var Count,I:Integer;
 begin
     Self.Clear;
     FCurrentColumnsFile:=Ini.FileName;
-    Count:=Ini.ReadInteger('Columns','ColumnCount',0);
+    Count:=Ini.ReadInteger(fSetName,'ColumnCount',0);
     //---------------------
     if Count=0 then
       begin
@@ -273,15 +330,27 @@ begin
     For I:=0 to Count-1 do
       begin
         Flist.Add(TPanelColumn.Create);
-        TPanelColumn(FList[I]).Title:=Ini.ReadString('Columns','Column'+IntToStr(I+1)+'Title','');
+        TPanelColumn(FList[I]).Title:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'Title','');
          //---------------------
-          TPanelColumn(FList[I]).FuncString:=Ini.ReadString('Columns','Column'+IntToStr(I+1)+'FuncsString','');
-          FillListFromString(TPanelColumn(FList[I]).FuncList,Ini.ReadString('Columns','Column'+IntToStr(I+1)+'FuncsString',''));
-          TPanelColumn(FList[I]).Width:=Ini.ReadInteger('Columns','Column'+IntToStr(I+1)+'Width',20);
-          TPanelColumn(FList[I]).Align:=TAlignment(Ini.ReadInteger('Columns','Column'+IntToStr(I+1)+'Align',0));
+          TPanelColumn(FList[I]).FuncString:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FuncsString','');
+          FillListFromString(TPanelColumn(FList[I]).FuncList,Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FuncsString',''));
+          TPanelColumn(FList[I]).Width:=Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Width',20);
+          TPanelColumn(FList[I]).Align:=TAlignment(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Align',0));
          //---------------------
       end;
     //---------------------
+end;
+
+procedure TPanelColumnsClass.Save(FileName, SetName: string);
+begin
+  fSetName:=SetName;
+  Save(FileName);
+end;
+
+procedure TPanelColumnsClass.Save(Ini: TIniFile; SetName: string);
+begin
+  fSetName:=SetName;
+  Save(Ini);
 end;
 
 procedure TPanelColumnsClass.Save;
@@ -303,14 +372,15 @@ end;
 procedure TPanelColumnsClass.Save(Ini: TIniFile);
  var I:Integer;
 begin
-    Ini.EraseSection('Columns');
-    Ini.WriteInteger('Columns','ColumnCount',FList.Count);
+    if fSetName='' then Exit;
+    Ini.EraseSection(fSetName);
+    Ini.WriteInteger(fSetName,'ColumnCount',FList.Count);
     For I:=0 to FList.Count-1 do
       begin
-        Ini.WriteString('Columns','Column'+IntToStr(I+1)+'Title',TPanelColumn(FList[I]).Title);
-        Ini.WriteString('Columns','Column'+IntToStr(I+1)+'FuncsString',TPanelColumn(FList[I]).FuncString);
-        Ini.WriteInteger('Columns','Column'+IntToStr(I+1)+'Width', TPanelColumn(FList[I]).Width);
-        Ini.WriteInteger('Columns','Column'+IntToStr(I+1)+'Align', Integer(TPanelColumn(FList[I]).Align));
+        Ini.WriteString(fSetName,'Column'+IntToStr(I+1)+'Title',TPanelColumn(FList[I]).Title);
+        Ini.WriteString(fSetName,'Column'+IntToStr(I+1)+'FuncsString',TPanelColumn(FList[I]).FuncString);
+        Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'Width', TPanelColumn(FList[I]).Width);
+        Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'Align', Integer(TPanelColumn(FList[I]).Align));
       end;
 end;
 
@@ -462,6 +532,8 @@ var i:integer; s:String;
 begin
 
  s:='';
+ Result:='';
+ if not assigned(FuncList) then exit;
  if FuncList.Count=0 then exit;
  For i:=0 to FuncList.Count-1 do
    begin
@@ -476,6 +548,71 @@ begin
    end;
    Result:=s;
 end;
+
+{ TPanelColumnsList }
+
+constructor TPanelColumnsList.Create;
+begin
+  FSet:=TStringList.Create;
+end;
+
+destructor TPanelColumnsList.Destroy;
+begin
+  if assigned(FSet) then
+    FreeAndNil(FSet);
+    
+  inherited Destroy;
+end;
+
+procedure TPanelColumnsList.Clear;
+begin
+  Fset.Clear;
+end;
+
+procedure TPanelColumnsList.Load(FileName: String);
+var Ini:TIniFile;
+begin
+  try
+    Ini:=TIniFile.Create(FileName);
+    Load(Ini);
+  finally
+    Ini.Free;
+  end;
+end;
+
+procedure TPanelColumnsList.Load(Ini: TIniFile);
+var Count,I:Integer;
+begin
+    Self.Clear;
+    Count:=Ini.ReadInteger('ColumnsSet','ColumnsSetCount',0);
+    For I:=0 to Count-1 do
+      begin
+        fSet.Add(Ini.ReadString('ColumnsSet','ColumnsSet'+IntToStr(I+1)+'Name',''));
+      end;
+end;
+
+procedure TPanelColumnsList.Save(FileName: string);
+ var  Ini:TIniFile;
+begin
+  try
+    Ini:=TIniFile.Create(FileName);
+     Save(Ini);
+  finally
+    Ini.Free;
+  end;
+end;
+
+procedure TPanelColumnsList.Save(Ini: TIniFile);
+var I:integer;
+begin
+    Ini.EraseSection('ColumnsSet');
+    Ini.WriteInteger('ColumnsSet','ColumnsSetCount',FSet.Count);
+    For I:=0 to FSet.Count-1 do
+      begin
+        Ini.WriteString('ColumnsSet','ColumnsSet'+IntToStr(I+1)+'Name',FSet[i]);
+      end;
+end;
+
 
 initialization
  IntList:=TStringlist.Create;
