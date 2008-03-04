@@ -668,7 +668,7 @@ begin
           end;
         if Colm.GetColumnAlign(ACol) = taRightJustify then
           begin
-            cw:=Colm.GetColumnWidth(ACol);
+            cw:=ColWidths[ACol];
             tw:=Canvas.TextWidth(s);
             Canvas.TextOut(Rect.Left+cw-tw,iTextTop,s);
           end
