@@ -467,6 +467,7 @@ procedure TfrmFileAssoc.btnOKClick(Sender: TObject);
 begin
   gExts.Free;
   gExts := Exts;
+  gExts.SaveToFile(gpIniDir + 'doublecmd.ext');
   Close;
 end;
 
