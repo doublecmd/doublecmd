@@ -20,6 +20,9 @@ uses
   StdCtrls, ComCtrls, Menus, Buttons;
 
 type
+
+  { TfrmMultiRename }
+
   TfrmMultiRename = class(TForm)
     lsvwFile: TListView;
     gbMaska: TGroupBox;
@@ -76,6 +79,7 @@ type
     procedure btnOKClick(Sender: TObject);
     procedure btnRestoreClick(Sender: TObject);
     procedure btnNameMenuClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure NameClick(Sender: TObject);
     procedure NameXClick(Sender: TObject);
     procedure NameXXClick(Sender: TObject);
@@ -128,6 +132,22 @@ begin
     finally
       Free;
     end;
+  end;
+end;
+
+procedure TfrmMultiRename.FormCreate(Sender: TObject);
+var
+  I: Integer;
+  s: String;
+  xPos: Integer;
+begin
+  // Localize File name style ComboBox
+  s:= rsMulRenFileNameStyleList;
+  for I:= 0 to cmbxFont.Items.Count - 1 do
+  begin
+    xPos:= Pos(';',s);
+    cmbxFont.Items[I]:= Copy(s,1,xPos - 1);
+    Delete(s,1,xPos);
   end;
 end;
 

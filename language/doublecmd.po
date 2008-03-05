@@ -675,10 +675,6 @@ msgstr ""
 msgid "File Name Style"
 msgstr ""
 
-#: TFRMMULTIRENAME.CMBXFONT.TEXT
-msgid "no change"
-msgstr ""
-
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
 msgid "Counter"
 msgstr ""
@@ -2001,5 +1997,21 @@ msgstr ""
 
 #: TFRMOPTIONS.RGSCROLLING.CAPTION
 msgid "Scrolling"
+msgstr ""
+
+#: ulng.rsmulrenfilenamestylelist
+msgid "No change;UPPERCASE;lowercase;First Char Big;"
+msgstr ""
+
+#: ulng.rsmenuconfigurecustomcolumns
+msgid "Configure custom columns"
+msgstr ""
+
+#: ulng.rsmenuconfigurethiscustomcolumn
+msgid "Configure this custom columns view"
+msgstr ""
+
+#: TFRMOPTIONS.TSWDX.CAPTION
+msgid "Content plugins (.WDX)"
 msgstr ""
 

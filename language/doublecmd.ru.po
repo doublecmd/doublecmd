@@ -490,6 +490,18 @@ msgstr "Сравнивать п&о содержимому"
 msgid "Compare files"
 msgstr "Сравнить файлы"
 
+#: ulng.rsmenuconfigurecustomcolumns
+msgid "Configure custom columns"
+msgstr ""
+
+#: ulng.rsmenuconfigurethiscustomcolumn
+msgid "Configure this custom columns view"
+msgstr ""
+
+#: TFRMOPTIONS.TSWDX.CAPTION
+msgid "Content plugins (.WDX)"
+msgstr "Контентные плагины (.WDX)"
+
 #: TFRMEDITOR.ACTEDITCOPY.CAPTION
 msgid "Copy"
 msgstr "&Копировать"
@@ -1262,6 +1274,10 @@ msgstr "Следующий том будет распакован"
 msgid "No"
 msgstr "Нет"
 
+#: ulng.rsmulrenfilenamestylelist
+msgid "No change;UPPERCASE;lowercase;First Char Big;"
+msgstr "Без изменений;ПРОПИСНЫЕ;строчные;С Прописной;"
+
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
 msgstr "Недостаточно места на получателе. Продолжить?"
@@ -1965,10 +1981,6 @@ msgstr ""
 #: ulng.rseditnewfile
 msgid "new.txt"
 msgstr ""
-
-#: TFRMMULTIRENAME.CMBXFONT.TEXT
-msgid "no change"
-msgstr "без изменения "
 
 #: TFRMVIEWER.PGIMAGE.CAPTION
 msgid "pgImage"
