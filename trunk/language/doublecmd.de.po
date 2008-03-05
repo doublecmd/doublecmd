@@ -491,6 +491,18 @@ msgstr "Anhand des Inhalts vergleichen"
 msgid "Compare files"
 msgstr "Vergleiche Dateien"
 
+#: ulng.rsmenuconfigurecustomcolumns
+msgid "Configure custom columns"
+msgstr ""
+
+#: ulng.rsmenuconfigurethiscustomcolumn
+msgid "Configure this custom columns view"
+msgstr ""
+
+#: TFRMOPTIONS.TSWDX.CAPTION
+msgid "Content plugins (.WDX)"
+msgstr ""
+
 #: TFRMEDITOR.ACTEDITCOPY.CAPTION
 msgid "Copy"
 msgstr "Kopieren"
@@ -1263,6 +1275,10 @@ msgstr "Nächter Teil wird entpackt"
 msgid "No"
 msgstr "Nein"
 
+#: ulng.rsmulrenfilenamestylelist
+msgid "No change;UPPERCASE;lowercase;First Char Big;"
+msgstr ""
+
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
 msgstr "Nicht genügend Speicherplatz auf dem Ziellaufwerk. Trotzdem fortfahren?"
@@ -1966,10 +1982,6 @@ msgstr "Intern durch Double Commander"
 #: ulng.rseditnewfile
 msgid "new.txt"
 msgstr "Neu.txt"
-
-#: TFRMMULTIRENAME.CMBXFONT.TEXT
-msgid "no change"
-msgstr "Keine Änderung"
 
 #: TFRMVIEWER.PGIMAGE.CAPTION
 msgid "pgImage"

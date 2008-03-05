@@ -134,6 +134,8 @@ resourcestring
   rsSplitErrSplitFile = 'Unable to split the file!';
   rsSplitMsgCreated = 'Created:';
   rsSplitMsgSize = 'size:';
+  // MultiRename dialog
+  rsMulRenFileNameStyleList = 'No change;UPPERCASE;lowercase;First Char Big;';
   // Edit
   rsEditNewFile = 'new.txt';
   rsEditNewOpen = 'Open file';

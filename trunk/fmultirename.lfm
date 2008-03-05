@@ -11,6 +11,7 @@ object frmMultiRename: TfrmMultiRename
   Caption = 'MultiRename'
   ClientHeight = 354
   ClientWidth = 608
+  OnCreate = FormCreate
   Position = poMainFormCenter
   object gbMaska: TGroupBox
     AnchorSideRight.Side = asrBottom
@@ -154,7 +155,6 @@ object frmMultiRename: TfrmMultiRename
       ParentCtl3D = False
       Style = csDropDownList
       TabOrder = 0
-      Text = 'no change'
     end
   end
   object gbCounter: TGroupBox
