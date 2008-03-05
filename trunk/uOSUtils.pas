@@ -622,7 +622,7 @@ begin
          else
            DriveType := dtFlash;
        end;
-     if DriveType <> dtFloppy then
+     if (DriveType <> dtFloppy) and (DriveType <> dtNetwork) then
        DriveLabel := GetLabelDisk(Name[1], True);
     end;
   Result.Add(Drive);
