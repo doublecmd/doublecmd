@@ -1780,6 +1780,7 @@ begin
   begin
     pnlFile.SortDirection:= not pnlFile.SortDirection;
     pnlFile.Sort;
+	RefreshPanel;
   end;
 end;
 
@@ -1789,6 +1790,7 @@ begin
   with ActiveFrame do
   begin
     pnlFile.SortByCol(0);
+    RefreshPanel;
   end;
 end;
 
@@ -1798,6 +1800,7 @@ begin
   with ActiveFrame do
   begin
     pnlFile.SortByCol(1);
+    RefreshPanel;
   end;
 end;
 
@@ -1807,6 +1810,7 @@ begin
   with ActiveFrame do
   begin
     pnlFile.SortByCol(2);
+    RefreshPanel;
   end;
 end;
 
@@ -1816,6 +1820,7 @@ begin
   with ActiveFrame do
   begin
     pnlFile.SortByCol(3);
+    RefreshPanel;
   end;
 end;
 
@@ -1825,6 +1830,7 @@ begin
   with ActiveFrame do
   begin
     pnlFile.SortByCol(4);
+    RefreshPanel;
   end;
 end;
 

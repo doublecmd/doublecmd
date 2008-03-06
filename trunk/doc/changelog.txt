@@ -1,4 +1,5 @@
-﻿05.03.2008 FIX: Bug [ 1860660 ] Non-translatable strings
+﻿06.03.2008 FIX: Bug [ 1860836 ] "Show" does not refresh
+05.03.2008 FIX: Bug [ 1860660 ] Non-translatable strings
 28.02.2008 FIX: The filedate of the copied file is <> to original file date (Windows)
            unlike TotalCmd.
 17.02.2008 FIX: Bug [ 1880539 ] Контекстное меню каталога.

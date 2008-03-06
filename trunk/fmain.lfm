@@ -407,8 +407,6 @@ object frmMain: TfrmMain
     Font.Name = 'courier'
     ParentColor = False
     TabOrder = 4
-    BookMarkOptions.OnChange = nil
-    Gutter.OnChange = nil
     Gutter.CodeFoldingWidth = 14
     Keystrokes = <    
       item
@@ -734,7 +732,6 @@ object frmMain: TfrmMain
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
-    SelectedColor.OnChange = nil
     OnSpecialLineColors = seLogWindowSpecialLineColors
   end
   object LogSplitter: TSplitter
@@ -1110,7 +1107,7 @@ object frmMain: TfrmMain
     end
     object actSortByName: TAction
       Category = 'Show'
-      Caption = 'Name'
+      Caption = 'Sort by name'
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actSortByNameExecute
@@ -1118,7 +1115,7 @@ object frmMain: TfrmMain
     end
     object actSortByExt: TAction
       Category = 'Show'
-      Caption = 'Extension'
+      Caption = 'Sort by extension'
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actSortByExtExecute
@@ -1126,7 +1123,7 @@ object frmMain: TfrmMain
     end
     object actSortBySize: TAction
       Category = 'Show'
-      Caption = 'Size'
+      Caption = 'Sort by size'
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actSortBySizeExecute
@@ -1134,7 +1131,7 @@ object frmMain: TfrmMain
     end
     object actSortByDate: TAction
       Category = 'Show'
-      Caption = 'Date'
+      Caption = 'Sort by date'
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actSortByDateExecute
@@ -1142,7 +1139,7 @@ object frmMain: TfrmMain
     end
     object actSortByAttr: TAction
       Category = 'Show'
-      Caption = 'Attrib'
+      Caption = 'Sort by attrib'
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actSortByAttrExecute
