@@ -433,7 +433,7 @@ begin
 < 0 (negative)  Item1 is greater than Item2}
   Result:=0;
   if item1=item2 then Exit;
-  Result:= ICompareCheckDir(PFileRecItem(item1),PFileRecItem(item2), False);
+  Result:= ICompareCheckDir(PFileRecItem(item1),PFileRecItem(item2){, False});
   if Result<>0 then Exit;
 
   if PFileRecItem(item1)^.iSize = PFileRecItem(item2)^.iSize then

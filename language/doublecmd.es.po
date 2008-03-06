@@ -355,10 +355,6 @@ msgstr "Formato de archivo desconocido"
 msgid "Attr"
 msgstr "Atrib"
 
-#: TFRMMAIN.ACTSORTBYATTR.CAPTION
-msgid "Attrib"
-msgstr "Atrib"
-
 #: TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION
 msgid "Attributes"
 msgstr "Atributos"
@@ -1706,6 +1702,26 @@ msgstr "Saltar"
 #: ulng.rspropssocket
 msgid "Socket"
 msgstr "Socket"
+
+#: TFRMMAIN.ACTSORTBYATTR.CAPTION
+msgid "Sort by attrib"
+msgstr "Atrib"
+
+#: TFRMMAIN.ACTSORTBYDATE.CAPTION
+msgid "Sort by date"
+msgstr ""
+
+#: TFRMMAIN.ACTSORTBYEXT.CAPTION
+msgid "Sort by extension"
+msgstr ""
+
+#: TFRMMAIN.ACTSORTBYNAME.CAPTION
+msgid "Sort by name"
+msgstr ""
+
+#: TFRMMAIN.ACTSORTBYSIZE.CAPTION
+msgid "Sort by size"
+msgstr ""
 
 #: TFRMMAIN.MNUCMDSWAPSOURCETARGET.CAPTION
 msgid "Source &<-> Target"

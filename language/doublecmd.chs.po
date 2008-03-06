@@ -355,10 +355,6 @@ msgstr "位置的压缩格式"
 msgid "Attr"
 msgstr "属性"
 
-#: TFRMMAIN.ACTSORTBYATTR.CAPTION
-msgid "Attrib"
-msgstr "属性"
-
 #: TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION
 msgid "Attributes"
 msgstr "属性"
@@ -1706,6 +1702,26 @@ msgstr "跳过"
 #: ulng.rspropssocket
 msgid "Socket"
 msgstr "Socket"
+
+#: TFRMMAIN.ACTSORTBYATTR.CAPTION
+msgid "Sort by attrib"
+msgstr "属性"
+
+#: TFRMMAIN.ACTSORTBYDATE.CAPTION
+msgid "Sort by date"
+msgstr ""
+
+#: TFRMMAIN.ACTSORTBYEXT.CAPTION
+msgid "Sort by extension"
+msgstr ""
+
+#: TFRMMAIN.ACTSORTBYNAME.CAPTION
+msgid "Sort by name"
+msgstr ""
+
+#: TFRMMAIN.ACTSORTBYSIZE.CAPTION
+msgid "Sort by size"
+msgstr ""
 
 #: TFRMMAIN.MNUCMDSWAPSOURCETARGET.CAPTION
 msgid "Source &<-> Target"

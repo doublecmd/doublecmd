@@ -354,10 +354,6 @@ msgstr "Архив повреждён или имеет неизвестный �
 msgid "Attr"
 msgstr "Атриб"
 
-#: TFRMMAIN.ACTSORTBYATTR.CAPTION
-msgid "Attrib"
-msgstr "&Атрибуты"
-
 #: TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION
 msgid "Attributes"
 msgstr "Атрибуты"
@@ -1705,6 +1701,26 @@ msgstr "Пропустить"
 #: ulng.rspropssocket
 msgid "Socket"
 msgstr "Сокет"
+
+#: TFRMMAIN.ACTSORTBYATTR.CAPTION
+msgid "Sort by attrib"
+msgstr "&Атрибуты"
+
+#: TFRMMAIN.ACTSORTBYDATE.CAPTION
+msgid "Sort by date"
+msgstr "Дата"
+
+#: TFRMMAIN.ACTSORTBYEXT.CAPTION
+msgid "Sort by extension"
+msgstr "Расширение"
+
+#: TFRMMAIN.ACTSORTBYNAME.CAPTION
+msgid "Sort by name"
+msgstr "Имя"
+
+#: TFRMMAIN.ACTSORTBYSIZE.CAPTION
+msgid "Sort by size"
+msgstr "Размер"
 
 #: TFRMMAIN.MNUCMDSWAPSOURCETARGET.CAPTION
 msgid "Source &<-> Target"

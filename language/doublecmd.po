@@ -1648,7 +1648,7 @@ msgid "Reverse order"
 msgstr ""
 
 #: TFRMMAIN.ACTSORTBYATTR.CAPTION
-msgid "Attrib"
+msgid "Sort by attrib"
 msgstr ""
 
 #: TFRMMAIN.ACTMULTIRENAME.CAPTION
@@ -2013,5 +2013,21 @@ msgstr ""
 
 #: TFRMOPTIONS.TSWDX.CAPTION
 msgid "Content plugins (.WDX)"
+msgstr ""
+
+#: TFRMMAIN.ACTSORTBYNAME.CAPTION
+msgid "Sort by name"
+msgstr ""
+
+#: TFRMMAIN.ACTSORTBYEXT.CAPTION
+msgid "Sort by extension"
+msgstr ""
+
+#: TFRMMAIN.ACTSORTBYSIZE.CAPTION
+msgid "Sort by size"
+msgstr ""
+
+#: TFRMMAIN.ACTSORTBYDATE.CAPTION
+msgid "Sort by date"
 msgstr ""
 

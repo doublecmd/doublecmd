@@ -355,10 +355,6 @@ msgstr "Archivformat unbekannt"
 msgid "Attr"
 msgstr "Attribut"
 
-#: TFRMMAIN.ACTSORTBYATTR.CAPTION
-msgid "Attrib"
-msgstr "Attribute"
-
 #: TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION
 msgid "Attributes"
 msgstr "Attribute"
@@ -1706,6 +1702,26 @@ msgstr "Überspringen"
 #: ulng.rspropssocket
 msgid "Socket"
 msgstr "Socket"
+
+#: TFRMMAIN.ACTSORTBYATTR.CAPTION
+msgid "Sort by attrib"
+msgstr "Attribute"
+
+#: TFRMMAIN.ACTSORTBYDATE.CAPTION
+msgid "Sort by date"
+msgstr ""
+
+#: TFRMMAIN.ACTSORTBYEXT.CAPTION
+msgid "Sort by extension"
+msgstr ""
+
+#: TFRMMAIN.ACTSORTBYNAME.CAPTION
+msgid "Sort by name"
+msgstr ""
+
+#: TFRMMAIN.ACTSORTBYSIZE.CAPTION
+msgid "Sort by size"
+msgstr ""
 
 #: TFRMMAIN.MNUCMDSWAPSOURCETARGET.CAPTION
 msgid "Source &<-> Target"
