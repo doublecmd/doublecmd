@@ -83,6 +83,7 @@ type
     { Private declarations }
     FLastMark:String;
     FLastSelect:TGridRect;
+    FLastAutoSelect: Boolean;
   protected
 
   public
@@ -96,6 +97,7 @@ type
     procedure SetFocus;
     procedure SelectFile(frp:PFileRecItem);
     procedure SelectFileIfNoSelected(frp:PFileRecItem);
+    procedure UnSelectFileIfSelected(frp:PFileRecItem);
     procedure MakeVisible(iRow:Integer);
     procedure MakeSelectedVisible;
     procedure InvertAllFiles;
@@ -160,14 +162,25 @@ procedure TFrameFilePanel.SelectFileIfNoSelected(frp:PFileRecItem);
 var
   i:Integer;
 begin
+  FLastAutoSelect:= False;
   for i:=0 to pnlFile.FileList.Count-1 do
   begin
     if pnlFile.FileList.GetItem(i)^.bSelected then Exit;
   end;
   pnlFile.InvertFileSection(frp);
   UpDatelblInfo;
+  FLastAutoSelect:= True;
 end;
 
+procedure TFrameFilePanel.UnSelectFileIfSelected(frp:PFileRecItem);
+begin
+  if FLastAutoSelect and (frp^.bSelected) then
+    begin
+      pnlFile.InvertFileSection(frp);
+      UpDatelblInfo;
+    end;
+  FLastAutoSelect:= False;
+end;
 
 procedure TFrameFilePanel.InvertAllFiles;
 begin
@@ -207,6 +220,7 @@ begin
   ClearCmdLine;
   UpDatelblInfo;
   FLastMark:='*.*';
+  FLastAutoSelect:= False;
   dgPanel.DefaultRowHeight:=gIconsSize;
   with FLastSelect do
   begin
