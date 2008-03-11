@@ -1141,6 +1141,8 @@ begin
       end;
     mmrCancel:
       begin
+	with ActiveFrame do  
+	  UnSelectFileIfSelected(GetActiveItem);
         Exit;
       end;
   end;
@@ -1899,6 +1901,8 @@ begin
       sDestPath := ExtractFilePath(edtDst.Text);
       sDstMaskTemp:=ExtractFileName(edtDst.Text);
     finally
+      with ActiveFrame do
+	    UnSelectFileIfSelected(GetActiveItem);
       Free;
     end;
   end;
@@ -2002,6 +2006,8 @@ begin
       blDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
 
     finally
+      with ActiveFrame do
+	    UnSelectFileIfSelected(GetActiveItem);
       Free;
     end;
   end; //with
