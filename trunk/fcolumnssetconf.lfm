@@ -1,0 +1,157 @@
+object fColumnsSetConf: TfColumnsSetConf
+  Left = 297
+  Height = 716
+  Top = 96
+  Width = 979
+  HorzScrollBar.Page = 978
+  VertScrollBar.Page = 715
+  Caption = 'Configure Custom columns view'
+  ClientHeight = 716
+  ClientWidth = 979
+  OnClose = FormClose
+  object Panel1: TPanel
+    Height = 36
+    Width = 979
+    Align = alTop
+    ClientHeight = 36
+    ClientWidth = 979
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 8
+      Height = 13
+      Top = 11
+      Width = 145
+      Caption = 'Configure view nr:'
+      ParentColor = False
+    end
+    object lbNrOfColumnsSet: TLabel
+      Left = 168
+      Height = 13
+      Top = 11
+      Width = 9
+      Caption = '0'
+      ParentColor = False
+    end
+    object Label2: TLabel
+      Left = 216
+      Height = 13
+      Top = 10
+      Width = 41
+      Caption = 'Name:'
+      ParentColor = False
+    end
+    object edtNameofColumnsSet: TEdit
+      Left = 255
+      Height = 23
+      Top = 4
+      Width = 719
+      Anchors = [akTop, akLeft, akRight]
+      TabOrder = 0
+    end
+  end
+  object Panel2: TPanel
+    Height = 638
+    Top = 36
+    Width = 979
+    Align = alClient
+    ClientHeight = 638
+    ClientWidth = 979
+    TabOrder = 1
+    object stgColumns: TStringGrid
+      Left = 1
+      Height = 603
+      Top = 1
+      Width = 977
+      Align = alClient
+      ColCount = 5
+      FixedColor = clBtnFace
+      FixedCols = 0
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goEditing, goSmoothScroll]
+      PopupMenu = PopupMenu1
+      RowCount = 3
+      ScrollBars = ssAutoBoth
+      TabOrder = 0
+      TabStop = True
+      OnHeaderSized = stgColumnsHeaderSized
+      OnKeyDown = stgColumnsKeyDown
+      OnSelectEditor = stgColumnsSelectEditor
+      OnSetEditText = stgColumnsSetEditText
+      ColWidths = (
+        67
+        129
+        64
+        61
+        477
+      )
+      Cells = (
+        5
+        0
+        0
+        'Delete'
+        1
+        0
+        'Caption'
+        2
+        0
+        'Width'
+        3
+        0
+        'Align'
+        4
+        0
+        'Field contents'
+      )
+    end
+    object Panel4: TPanel
+      Left = 1
+      Height = 33
+      Top = 604
+      Width = 977
+      Align = alBottom
+      TabOrder = 1
+    end
+  end
+  object Panel3: TPanel
+    Height = 42
+    Top = 674
+    Width = 979
+    Align = alBottom
+    ClientHeight = 42
+    ClientWidth = 979
+    TabOrder = 2
+    object btnOk: TBitBtn
+      Left = 768
+      Height = 30
+      Top = 6
+      Width = 91
+      Anchors = [akTop, akRight]
+      Caption = '&ОК'
+      Default = True
+      Kind = bkOK
+      ModalResult = 1
+      NumGlyphs = 0
+      TabOrder = 0
+    end
+    object btnCancel: TBitBtn
+      Left = 872
+      Height = 30
+      Top = 6
+      Width = 99
+      Anchors = [akTop, akRight]
+      Caption = 'Отмена'
+      Kind = bkCancel
+      ModalResult = 2
+      NumGlyphs = 0
+      OnClick = btnCancelClick
+      TabOrder = 1
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    left = 8
+    top = 600
+    object MenuItem1: TMenuItem
+      Caption = 'Add column'
+      OnClick = MenuItem1Click
+    end
+  end
+end

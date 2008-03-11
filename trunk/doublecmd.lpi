@@ -49,7 +49,7 @@
         <PackageName Value="imagesforlazarus"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="30">
+    <Units Count="31">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -281,6 +281,13 @@
         <ResourceFilename Value="ffileassoc.lrs"/>
         <UnitName Value="fFileAssoc"/>
       </Unit29>
+      <Unit30>
+        <Filename Value="fcolumnssetconf.pas"/>
+        <ComponentName Value="fColumnsSetConf"/>
+        <IsPartOfProject Value="True"/>
+        <ResourceFilename Value="fcolumnssetconf.lrs"/>
+        <UnitName Value="fColumnsSetConf"/>
+      </Unit30>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
