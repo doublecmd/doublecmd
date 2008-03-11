@@ -34,7 +34,7 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Buttons, Spin, ColorBox,
-  CheckLst, EditBtn;
+  CheckLst, EditBtn,uColumns;
 
 type
 
@@ -67,6 +67,10 @@ type
     btnMarkColor: TButton;
     btnCursorColor: TButton;
     btnCursorText: TButton;
+    btnNewColumnsSet: TButton;
+    btnEditColumnsSet: TButton;
+    btnDelColumnsSet: TButton;
+    btnCopyColumnsSet: TButton;
     cbBackColor: TColorBox;
     cBackGrndLabel: TLabel;
     cbActions: TComboBox;
@@ -105,6 +109,7 @@ type
     cbCategoryColor: TColorBox;
     cbDateTimeFormat: TComboBox;
     clbWDXList: TCheckListBox;
+    cbbFileSystem: TComboBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
@@ -153,8 +158,12 @@ type
     gbFileSearch: TGroupBox;
     gbLocConfigFiles: TGroupBox;
     gbSaveOnExit: TGroupBox;
+    Label1: TLabel;
     lblCategoryAttr: TLabel;
     lblInstalledPlugins1: TLabel;
+    lstColumnsSets: TListBox;
+    Panel2: TPanel;
+    pgColumns: TPage;
     rgScrolling: TRadioGroup;
     rbCtrlAltLetterQS: TRadioButton;
     rbAltLetterQS: TRadioButton;
@@ -244,10 +253,12 @@ type
     procedure bbtnWFXRenameClick(Sender: TObject);
     procedure btClearHotKeyClick(Sender: TObject);
     procedure btnBackColor2Click(Sender: TObject);
+    procedure btnCancelClick(Sender: TObject);
     procedure btnCursorColorClick(Sender: TObject);
     procedure btnCursorTextClick(Sender: TObject);
     procedure btnCategoryColorClick(Sender: TObject);
     procedure btnMarkColorClick(Sender: TObject);
+    procedure btnNewColumnsSetClick(Sender: TObject);
     procedure btnOpenClick(Sender: TObject);
     procedure btnForeColorClick(Sender: TObject);
     procedure btnBackColorClick(Sender: TObject);
@@ -289,19 +300,22 @@ type
   private
     { Private declarations }
     vShortCut: TShortCut;
+    fColSet:TPanelColumnsList;
   public
     { Public declarations }
     procedure FillLngListBox;
     procedure FillFontLists;
     procedure FillActionLists;
     procedure FillFileColorsList;
+    procedure FillColumnsList;
+    
   end;
 
 implementation
 
 uses
   uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc, menus,
-  uColorExt, uWCXModule, uWFXmodule, uDCUtils, uOSUtils;
+  uColorExt, uWCXModule, uWFXmodule, uDCUtils, uOSUtils,fColumnsSetConf;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
@@ -445,6 +459,14 @@ begin
   DebugLn(gTerm);
   edtTerm.Text:=gTerm;
   nbNotebook.PageIndex := 0;//let not warning on which page save form
+  
+  { Columns Set}
+  fColSet:=TPanelColumnsList.Create;
+  fColSet.Clear;
+  fColSet.Load(gIni);
+  FillColumnsList;
+  
+  
 end;
 
 procedure TfrmOptions.btSetHotKeyClick(Sender: TObject);
@@ -1143,6 +1165,16 @@ begin
     lbCategoriesClick(lbCategories);
 end;
 
+procedure TfrmOptions.FillColumnsList;
+var i:Integer;
+begin
+ If fColSet.Items.Count>0 then
+   begin
+     lstColumnsSets.Items.AddStrings(fColSet.Items);
+   end;
+
+end;
+
 procedure TfrmOptions.cbCategoryColorChange(Sender: TObject);
 begin
   (Sender as TColorBox).Color := (Sender as TColorBox).Selected;
@@ -1358,6 +1390,11 @@ begin
    end;
 end;
 
+procedure TfrmOptions.btnCancelClick(Sender: TObject);
+begin
+
+end;
+
 procedure TfrmOptions.btnCursorColorClick(Sender: TObject);
 begin
    if optColorDialog.Execute then
@@ -1383,6 +1420,13 @@ begin
      cbMarkColor.Text := '';
      cbMarkColor.Color := optColorDialog.Color;
    end;
+end;
+
+procedure TfrmOptions.btnNewColumnsSetClick(Sender: TObject);
+begin
+  Application.CreateForm(TfColumnsSetConf, frmColumnsSetConf);
+  frmColumnsSetConf.ShowModal;
+  FreeAndNil(frmColumnsSetConf);
 end;
 
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
