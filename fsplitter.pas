@@ -59,8 +59,7 @@ begin
   begin
     try
       edFileSource.Text:=sFile[0];
-      ShowModal;
-      Result:=True;
+      Result:= (ShowModal = mrOK);
     finally
       Free;
     end;
