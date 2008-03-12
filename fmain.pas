@@ -1878,6 +1878,7 @@ procedure TfrmMain.actMultiRenameExecute(Sender: TObject);
 var
   sl:TStringList;
   i:Integer;
+  Result: Boolean;
 begin
   with ActiveFrame do
   begin
@@ -1889,11 +1890,18 @@ begin
         if pnlFile.GetFileItem(i).bSelected then
           sl.Add(ActiveDir+pnlFile.GetFileItem(i).sName);
       if sl.Count>0 then
-        ShowMultiRenameForm(sl);
+        Result:= ShowMultiRenameForm(sl);
     finally
       FreeAndNil(sl);
-      FrameLeft.RefreshPanel;
-      FrameRight.RefreshPanel;
+      if Result then
+        begin
+          frameLeft.RefreshPanel;
+          frameRight.RefreshPanel;
+        end
+      else
+        begin
+          UnSelectFileIfSelected(GetActiveItem);
+        end;
       ActiveFrame.SetFocus;
     end;
   end;

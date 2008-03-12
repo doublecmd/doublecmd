@@ -115,7 +115,7 @@ function ShowMultiRenameForm(Var lsInFiles: TStringList):Boolean;
 var
   c:integer;
 begin
-  Result:=True;
+  Result:= False;
   With TfrmMultiRename.Create(Application) do
   begin
     try
@@ -128,7 +128,7 @@ begin
         item[c].SubItems.Add(ExtractFileDir(lsInFiles[c]));
       end;
       btnRestoreClick(nil);
-      ShowModal;
+      Result:= (ShowModal = mrOK);
     finally
       Free;
     end;
