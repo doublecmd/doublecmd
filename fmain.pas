@@ -477,7 +477,9 @@ end;
 procedure TfrmMain.actPackFilesExecute(Sender: TObject);
 var
   fl : TFileList;
+  Result: Boolean;
 begin
+  Result:= False;
   if not IsBlocked then
     begin
       fl:=TFileList.Create;
@@ -489,10 +491,18 @@ begin
           fl.CurrentDirectory := ActiveDir;
         end;
       try
-        ShowPackDlg(NotActiveFrame.pnlFile.VFS, fl, NotActiveFrame.ActiveDir);
+        Result:= ShowPackDlg(NotActiveFrame.pnlFile.VFS, fl, NotActiveFrame.ActiveDir);
       finally
-        frameLeft.RefreshPanel;
-        frameRight.RefreshPanel;
+        if Result then
+          begin
+            frameLeft.RefreshPanel;
+            frameRight.RefreshPanel;
+          end
+        else
+          begin
+            with ActiveFrame do
+	      UnSelectFileIfSelected(GetActiveItem);
+          end;
       end;
     end;  // IsBlocked
 end;
@@ -575,7 +585,9 @@ end;
 procedure TfrmMain.actExtractFilesExecute(Sender: TObject);
 var
   fl : TFileList;
+  Result: Boolean;
 begin
+  Result:= False;
   if not IsBlocked then
     begin
       fl:=TFileList.Create;
@@ -587,10 +599,18 @@ begin
           fl.CurrentDirectory := ActiveDir;
         end;
       try
-        ShowExtractDlg(ActiveFrame, fl, NotActiveFrame.ActiveDir);
+        Result:= ShowExtractDlg(ActiveFrame, fl, NotActiveFrame.ActiveDir);
       finally
-        frameLeft.RefreshPanel;
-        frameRight.RefreshPanel;
+        if Result then
+          begin
+            frameLeft.RefreshPanel;
+            frameRight.RefreshPanel;
+          end
+        else
+          begin
+            with ActiveFrame do
+	      UnSelectFileIfSelected(GetActiveItem);
+          end;
       end;
     end;  // IsBlocked
 end;

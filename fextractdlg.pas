@@ -52,7 +52,7 @@ TfrmExtractDlg = class(TForm)
     { public declarations }
   end; 
 
-procedure  ShowExtractDlg(ActiveFrame:TFrameFilePanel; var fl : TFileList; sDestPath:String);
+function  ShowExtractDlg(ActiveFrame:TFrameFilePanel; var fl : TFileList; sDestPath:String): Boolean;
 
 implementation
 uses
@@ -61,7 +61,7 @@ uses
 var
   CurrentVFS : TVFS;
 
-procedure ShowExtractDlg(ActiveFrame:TFrameFilePanel; var fl: TFileList; sDestPath: String);
+function ShowExtractDlg(ActiveFrame:TFrameFilePanel; var fl: TFileList; sDestPath: String): Boolean;
 var
   I : Integer;
   ExtractFileList : TFileList;
@@ -74,7 +74,8 @@ begin
       if ActiveFrame.pnlFile.PanelMode = pmArchive then
         cbInSeparateFolder.Visible := False;
 
-      if (ShowModal = mrOK) then
+      Result:= (ShowModal = mrOK);
+      if Result then
         begin
           sDestPath := IncludeTrailingPathDelimiter(edtExtractTo.Text) + cbFileMask.Text;
           ExtractFileList := TFileList.Create;
@@ -104,7 +105,7 @@ begin
                   CurrentVFS.VFSmodule.VFSList(PathDelim, ExtractFileList);
                   CurrentVFS.VFSmodule.VFSCopyOut(ExtractFileList, sDestPath, 0);
                 end;
-        end; // ShowModal
+        end; // if Result
       Free;
     end;
 end;
