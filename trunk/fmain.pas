@@ -3081,6 +3081,7 @@ procedure TfrmMain.actFileSpliterExecute(Sender: TObject);
 var
   sl:TStringList;
   i:Integer;
+  Result: Boolean;
 begin
   with ActiveFrame do
   begin
@@ -3092,14 +3093,21 @@ begin
         if pnlFile.GetFileItem(i).bSelected then
           sl.Add(ActiveDir+pnlFile.GetFileItem(i).sName);
       if sl.Count>0 then
-        ShowSplitterFileForm(sl);
+        Result:= ShowSplitterFileForm(sl);
     finally
       FreeAndNil(sl);
-      FrameLeft.RefreshPanel;
-      FrameRight.RefreshPanel;
+      if Result then
+        begin
+          frameLeft.RefreshPanel;
+          frameRight.RefreshPanel;
+        end
+      else
+        begin
+          UnSelectFileIfSelected(GetActiveItem);
+        end;
       ActiveFrame.SetFocus;
     end;
-  end;
+  end; // with
 end;
 
 procedure TfrmMain.tbEditClick(Sender: TObject);
