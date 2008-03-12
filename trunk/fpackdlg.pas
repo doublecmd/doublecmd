@@ -63,13 +63,13 @@ type
   public
     { public declarations }
   end; 
-procedure ShowPackDlg(VFS : TVFS; var fl : TFileList; sDestPath:String; bNewArchive : Boolean = True);
+function ShowPackDlg(VFS : TVFS; var fl : TFileList; sDestPath:String; bNewArchive : Boolean = True): Boolean;
 
 implementation
 uses
   uWCXhead;
 
-procedure ShowPackDlg(VFS : TVFS; var fl: TFileList; sDestPath:String; bNewArchive : Boolean = True);
+function ShowPackDlg(VFS : TVFS; var fl: TFileList; sDestPath:String; bNewArchive : Boolean = True): Boolean;
 var
   Flags : LongInt;
 begin
@@ -91,7 +91,8 @@ begin
         edtPackCmd.Text := VFS.ArcFullName;
         
       CurrentVFS := VFS;
-      if (ShowModal = mrOK) then
+      Result:= (ShowModal = mrOK);
+      if Result then
           if VFS.FindModule(edtPackCmd.Text, False) then
             begin
               Flags := 0;
