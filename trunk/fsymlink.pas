@@ -55,8 +55,6 @@ begin
       // write log
       if (log_cp_mv_ln in gLogOptions) and (log_success in gLogOptions) then
         logWrite(Format(rsMsgLogSuccess+rsMsgLogSymLink,[sSrc+' -> '+sDst]), lmtSuccess);
-
-      Close;
     end
   else
     begin
