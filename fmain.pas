@@ -1752,6 +1752,7 @@ end;
 procedure TfrmMain.actSymLinkExecute(Sender: TObject);
 var
   sFile1, sFile2:String;
+  Result: Boolean;
 begin
   inherited;
   try
@@ -1763,11 +1764,19 @@ begin
       sFile2 := NotActiveFrame.ActiveDir + sFile2;
     end;
 
-    ShowSymLinkForm(sFile1, sFile2);
+    Result:= ShowSymLinkForm(sFile1, sFile2);
 
   finally
-    FrameLeft.RefreshPanel;
-    FrameRight.RefreshPanel;
+    if Result then
+      begin
+        frameLeft.RefreshPanel;
+        frameRight.RefreshPanel;
+      end
+    else
+      begin
+        with ActiveFrame do
+	  UnSelectFileIfSelected(GetActiveItem);
+      end;
     ActiveFrame.SetFocus;
   end;
 end;
@@ -1775,6 +1784,7 @@ end;
 procedure TfrmMain.actHardLinkExecute(Sender: TObject);
 var
   sFile1, sFile2:String;
+  Result: Boolean;
 begin
   inherited;
   try
@@ -1786,11 +1796,19 @@ begin
       sFile2 := NotActiveFrame.ActiveDir + sFile2;
     end;
     
-    ShowHardLinkForm(sFile1, sFile2);
+    Result:= ShowHardLinkForm(sFile1, sFile2);
 
   finally
-    frameLeft.RefreshPanel;
-    FrameRight.RefreshPanel;
+    if Result then
+      begin
+        frameLeft.RefreshPanel;
+        frameRight.RefreshPanel;
+      end
+    else
+      begin
+        with ActiveFrame do
+	  UnSelectFileIfSelected(GetActiveItem);
+      end;
     ActiveFrame.SetFocus;
   end;
 end;
@@ -1802,7 +1820,7 @@ begin
   begin
     pnlFile.SortDirection:= not pnlFile.SortDirection;
     pnlFile.Sort;
-	RefreshPanel;
+    RefreshPanel;
   end;
 end;
 

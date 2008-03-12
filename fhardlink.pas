@@ -23,7 +23,7 @@ type
     { Public declarations }
   end;
 
-procedure ShowHardLinkForm(const sNew, sDst:String);
+function ShowHardLinkForm(const sNew, sDst:String): Boolean;
 
 implementation
 
@@ -31,14 +31,14 @@ implementation
 uses
   uLng, uGlobs, uLog, uShowMsg, uOSUtils;
 
-procedure ShowHardLinkForm(const sNew, sDst:String);
+function ShowHardLinkForm(const sNew, sDst:String): Boolean;
 begin
   with TfrmHardLink.Create(Application) do
   begin
     try
       edtDst.Text:=sDst;
       edtNew.Text:=sNew;
-      ShowModal;
+      Result:= (ShowModal = mrOK);
     finally
       Free;
     end;

@@ -22,21 +22,21 @@ type
     { Public declarations }
   end;
 
-procedure ShowSymLinkForm(const sNew, sDst:String);
+function ShowSymLinkForm(const sNew, sDst:String): Boolean;
 
 implementation
 
 uses
   uLng, uGlobs, uLog, uShowMsg, uOSUtils;
 
-procedure ShowSymLinkForm(const sNew, sDst:String);
+function ShowSymLinkForm(const sNew, sDst:String): Boolean;
 begin
   with TfrmSymLink.Create(Application) do
   begin
     try
       edtDst.Text:=sDst;
       edtNew.Text:=sNew;
-      ShowModal;
+      Result:= (ShowModal = mrOK);
     finally
       Free;
     end;
