@@ -17,7 +17,7 @@ unit uGlobs;
 
 interface
 uses
-  Classes, Controls, uExts, uColorExt, Graphics, IniFiles, uWDXModule;
+  Classes, Controls, uExts, uColorExt, Graphics, IniFiles, uWDXModule, uColumns;
 
 type
   TControlPosition = object
@@ -39,8 +39,11 @@ var
   { For localization }
   gPOFileName : String;
   
-  {WDX plugins}
+  { WDX plugins }
   WdxPlugins:TWDXModuleList;
+  
+  { Columns Set }
+  ColSet:TPanelColumnsList;
   
   { Layout page }
   gButtonBar,

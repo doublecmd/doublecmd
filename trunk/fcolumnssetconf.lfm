@@ -1,20 +1,22 @@
 object fColumnsSetConf: TfColumnsSetConf
-  Left = 297
-  Height = 716
-  Top = 96
-  Width = 979
-  HorzScrollBar.Page = 978
-  VertScrollBar.Page = 715
+  Left = 289
+  Height = 726
+  Top = 91
+  Width = 987
+  HorzScrollBar.Page = 986
+  VertScrollBar.Page = 725
   Caption = 'Configure Custom columns view'
-  ClientHeight = 716
-  ClientWidth = 979
-  OnClose = FormClose
+  ClientHeight = 726
+  ClientWidth = 987
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
   object Panel1: TPanel
     Height = 36
-    Width = 979
+    Width = 987
     Align = alTop
     ClientHeight = 36
-    ClientWidth = 979
+    ClientWidth = 987
     TabOrder = 0
     object Label1: TLabel
       Left = 8
@@ -44,24 +46,24 @@ object fColumnsSetConf: TfColumnsSetConf
       Left = 255
       Height = 23
       Top = 4
-      Width = 719
+      Width = 727
       Anchors = [akTop, akLeft, akRight]
       TabOrder = 0
     end
   end
   object Panel2: TPanel
-    Height = 638
+    Height = 648
     Top = 36
-    Width = 979
+    Width = 987
     Align = alClient
-    ClientHeight = 638
-    ClientWidth = 979
+    ClientHeight = 648
+    ClientWidth = 987
     TabOrder = 1
     object stgColumns: TStringGrid
       Left = 1
-      Height = 603
+      Height = 613
       Top = 1
-      Width = 977
+      Width = 985
       Align = alClient
       ColCount = 5
       FixedColor = clBtnFace
@@ -75,7 +77,6 @@ object fColumnsSetConf: TfColumnsSetConf
       OnHeaderSized = stgColumnsHeaderSized
       OnKeyDown = stgColumnsKeyDown
       OnSelectEditor = stgColumnsSelectEditor
-      OnSetEditText = stgColumnsSetEditText
       ColWidths = (
         67
         129
@@ -105,22 +106,22 @@ object fColumnsSetConf: TfColumnsSetConf
     object Panel4: TPanel
       Left = 1
       Height = 33
-      Top = 604
-      Width = 977
+      Top = 614
+      Width = 985
       Align = alBottom
       TabOrder = 1
     end
   end
   object Panel3: TPanel
     Height = 42
-    Top = 674
-    Width = 979
+    Top = 684
+    Width = 987
     Align = alBottom
     ClientHeight = 42
-    ClientWidth = 979
+    ClientWidth = 987
     TabOrder = 2
     object btnOk: TBitBtn
-      Left = 768
+      Left = 776
       Height = 30
       Top = 6
       Width = 91
@@ -130,10 +131,11 @@ object fColumnsSetConf: TfColumnsSetConf
       Kind = bkOK
       ModalResult = 1
       NumGlyphs = 0
+      OnClick = btnOkClick
       TabOrder = 0
     end
     object btnCancel: TBitBtn
-      Left = 872
+      Left = 880
       Height = 30
       Top = 6
       Width = 99
@@ -142,7 +144,6 @@ object fColumnsSetConf: TfColumnsSetConf
       Kind = bkCancel
       ModalResult = 2
       NumGlyphs = 0
-      OnClick = btnCancelClick
       TabOrder = 1
     end
   end
@@ -153,5 +154,9 @@ object fColumnsSetConf: TfColumnsSetConf
       Caption = 'Add column'
       OnClick = MenuItem1Click
     end
+  end
+  object pmFields: TPopupMenu
+    left = 808
+    top = 40
   end
 end

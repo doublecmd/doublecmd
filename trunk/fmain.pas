@@ -256,6 +256,7 @@ type
     procedure actAboutExecute(Sender: TObject);
     procedure actShowSysFilesExecute(Sender: TObject);
     procedure actOptionsExecute(Sender: TObject);
+    procedure actOptionsExecute(Sender: TObject; Index:Integer);overload;
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure actCompareContentsExecute(Sender: TObject);
     procedure actShowMenuExecute(Sender: TObject);
@@ -360,7 +361,6 @@ type
 
 var
   frmMain: TfrmMain;
-  ColSet:TPanelColumnsList;
 implementation
 
 uses
@@ -369,7 +369,7 @@ uses
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg,
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils, uLog,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg, fExtractDlg,
-  fLinker, fSplitter, uFileProcs, lclType, LCLProc, uOSUtils, uOSForms, uPixMapManager;
+  fLinker, fSplitter, uFileProcs, lclType, LCLProc, uOSUtils, uOSForms, uPixMapManager,fColumnsSetConf;
 
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -1371,6 +1371,21 @@ begin
     end;  
   end;
 end;
+
+procedure TfrmMain.actOptionsExecute(Sender: TObject; Index:integer);
+begin
+  inherited;
+  with TfrmOptions.Create(Application) do
+  begin
+    try
+      Tag:=Index;
+      ShowModal;
+    finally
+      Free;
+    end;
+  end;
+end;
+
 
 procedure TfrmMain.FormKeyPress(Sender: TObject; var Key: Char);
 begin
@@ -2383,8 +2398,24 @@ end;
 procedure TfrmMain.ColumnsMenuClick(Sender: TObject);
 begin
   Case (Sender as TMenuItem).Tag of
-    1000: ShowMessage('Show THIS columns options');
-    1001: ShowMessage('Show columns options');
+    1000: //This
+          begin
+            Application.CreateForm(TfColumnsSetConf, frmColumnsSetConf);
+            {EDIT Set}
+            frmColumnsSetConf.edtNameofColumnsSet.Text:=ActiveFrame.Colm.CurrentColumnsSetName;
+            frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(1+ColSet.Items.IndexOf(ActiveFrame.Colm.CurrentColumnsSetName));
+            frmColumnsSetConf.Tag:=ColSet.Items.IndexOf(ActiveFrame.Colm.CurrentColumnsSetName);
+            frmColumnsSetConf.ColumnClass.Clear;
+            frmColumnsSetConf.ColumnClass.Load(gIni,ActiveFrame.Colm.CurrentColumnsSetName);
+            {EDIT Set}
+            frmColumnsSetConf.ShowModal;
+            FreeAndNil(frmColumnsSetConf);
+          end;
+    1001: //All columns
+          begin
+            actOptionsExecute(Sender,15);
+          end;
+
   else
     begin
       ActiveFrame.Colm.Load(gIni,ColSet.Items[(Sender as TMenuItem).Tag]);
@@ -2405,7 +2436,7 @@ begin
       (Sender as TDrawGrid).MouseToCell(X, Y, iCol, iRow);
       if (Button=mbRight) and (iRow < (Sender as TDrawGrid).FixedRows ) then
         begin
-          //TODO: Load Columns into menu
+          //Load Columns into menu
           ColSet.Clear;
           ColSet.Load(Gini);
           if ColSet.Items.Count>0 then
@@ -2419,7 +2450,7 @@ begin
                   MI.OnClick:=@ColumnsMenuClick;
                   pmColumnsMenu.Items.Add(MI);
                 end;
-               {  //-
+                 //-
                   MI:=TMenuItem.Create(pmColumnsMenu);
                   MI.Caption:='-';
                   pmColumnsMenu.Items.Add(MI);
@@ -2435,7 +2466,7 @@ begin
                   MI.Caption:=rsMenuConfigureCustomColumns;
                   MI.OnClick:=@ColumnsMenuClick;
                   pmColumnsMenu.Items.Add(MI);
-                }
+
             end;
 
           Point:=(Sender as TDrawGrid).ClientToScreen(Classes.Point(0,0));

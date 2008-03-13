@@ -48,6 +48,7 @@ object frmOptions: TfrmOptions
     2E2E2E2E2E2E2E2E227D0A
   }
   OnCreate = FormCreate
+  OnShow = FormShow
   Position = poMainFormCenter
   object Panel1: TPanel
     Height = 43
@@ -2033,7 +2034,12 @@ object frmOptions: TfrmOptions
           Width = 528
           Anchors = [akTop, akLeft, akRight]
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemIndex = 0
+          Items.Strings = (
+            'General'
+          )
           MaxLength = 65535
+          Style = csDropDownList
           TabOrder = 0
           Text = 'General'
         end
@@ -2070,6 +2076,7 @@ object frmOptions: TfrmOptions
             Top = 7
             Width = 116
             Caption = 'Edit'
+            OnClick = btnEditColumnsSetClick
             TabOrder = 1
           end
           object btnDelColumnsSet: TButton
@@ -2078,6 +2085,7 @@ object frmOptions: TfrmOptions
             Top = 7
             Width = 112
             Caption = 'Delete'
+            OnClick = btnDelColumnsSetClick
             TabOrder = 2
           end
           object btnCopyColumnsSet: TButton
@@ -2086,6 +2094,7 @@ object frmOptions: TfrmOptions
             Top = 7
             Width = 111
             Caption = 'Copy'
+            OnClick = btnCopyColumnsSetClick
             TabOrder = 3
           end
         end

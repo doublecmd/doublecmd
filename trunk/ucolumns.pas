@@ -29,7 +29,7 @@ unit uColumns;
 interface
 
 uses
-  Classes, SysUtils, Inifiles, LCLProc, strutils, uTypes, uGlobs, uOSUtils, uDCUtils;
+  Classes, SysUtils, Inifiles, LCLProc, strutils, uTypes, uOSUtils, uDCUtils;
 
   type
 
@@ -79,7 +79,7 @@ uses
     function GetColumnFuncString(Index:integer):string;
     function GetColumnWidth(Index:integer):Integer;
     function GetColumnAlign(Index:integer):TAlignment;
-
+    function GetColumnAlignString(Index:integer):string;
     function GetColumnItem(Index:integer):TPanelColumn;
     function GetColumnItemResultString(Index:integer; ptr:PFileRecItem):string;
     function GetCount:Integer;
@@ -114,6 +114,8 @@ uses
     property ColumnsCount:Integer read GetCount;
     property CurrentColumnsFile:string read FCurrentColumnsFile;
     property CurrentColumnsSetName:string read fSetName write fSetName;
+    property SetName:string read fSetName write fSetName;
+    property Name:string read fSetName write fSetName;
   //------------------------------------------------------
   end;
 
@@ -131,6 +133,10 @@ uses
     procedure Load(Ini:TIniFile);overload;
     procedure Save(FileName:string);
     procedure Save(Ini:TIniFile); overload;
+    procedure DeleteColumnSet(ini:TInifile; SetName:string);
+    procedure DeleteColumnSet(ini:TInifile; SetIndex:Integer); overload;
+    procedure CopyColumnSet(ini:TInifile; SetName,NewSetName:string);
+
     //---------------------
   published
     property Items:TStringList read fSet;
@@ -138,11 +144,24 @@ uses
 
 
   procedure FillListFromString(List: TStrings; FuncString: string);
-  
+  function StrToAlign(str:string):TAlignment;
+
   var IntList:TStringList;
 
 implementation
-uses uLng;
+uses uLng, uGlobs;
+
+function StrToAlign(str:string):TAlignment;
+begin
+if str='<-' then
+  Result:=taLeftJustify
+else
+if str='->' then
+  Result:=taRightJustify
+else
+if str='=' then
+  Result:=taCenter;
+end;
 
 { TPanelColumnsType }
 
@@ -168,6 +187,16 @@ function TPanelColumnsClass.GetColumnAlign(Index: integer): TAlignment;
 begin
   if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]).Align;
+end;
+
+function TPanelColumnsClass.GetColumnAlignString(Index: integer): string;
+begin
+  if Index>=Flist.Count then exit;
+  case TPanelColumn(Flist[Index]).Align of
+    taLeftJustify: Result:='<-';
+    taRightJustify: Result:='->';
+    taCenter :Result:='='
+  end;
 end;
 
 function TPanelColumnsClass.GetColumnItem(Index: integer): TPanelColumn;
@@ -611,6 +640,43 @@ begin
       begin
         Ini.WriteString('ColumnsSet','ColumnsSet'+IntToStr(I+1)+'Name',FSet[i]);
       end;
+end;
+
+
+procedure TPanelColumnsList.DeleteColumnSet(ini: TInifile; SetName: string);
+var x:integer;
+begin
+    x:=fSet.IndexOf(SetName);
+    if x<>-1 then
+      DeleteColumnSet(ini,x);
+end;
+
+procedure TPanelColumnsList.DeleteColumnSet(ini: TInifile; SetIndex: Integer);
+begin
+    Ini.EraseSection(FSet[SetIndex]);
+    fSet.Delete(SetIndex);
+end;
+
+procedure TPanelColumnsList.CopyColumnSet(ini: TInifile; SetName,
+  NewSetName: string);
+var x,i:integer; st:TStringList;
+begin
+  x:=fSet.IndexOf(SetName);
+  if x<>-1 then
+    begin
+      try
+        st:=TStringList.Create;
+        ini.ReadSectionValues(SetName,st);
+        for i:=0 to st.Count-1 do
+          begin
+            ini.WriteString(NewSetName,st.Names[i],st.Values[st.Names[i]]);
+          end;
+      finally
+        st.Free;
+      end;
+      fSet.Add(NewSetName);
+    end;
+
 end;
 
 

@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Buttons, Grids,  ComCtrls, Menus, LCLType;
+  ExtCtrls, Buttons, Grids,  ComCtrls, Menus, LCLType, uColumns,uGlobs, Spin;
 
 type
 
@@ -48,10 +48,14 @@ type
     Panel3: TPanel;
     Panel4: TPanel;
     PopupMenu1: TPopupMenu;
+    pmFields: TPopupMenu;
     stgColumns: TStringGrid;
-    procedure btnCancelClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure btnOkClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure MenuItem1Click(Sender: TObject);
+    procedure MenuFieldsClick(Sender: TObject);
     procedure stgColumnsHeaderSized(Sender: TObject; IsColumn: Boolean;
       Index: Integer);
     procedure stgColumnsKeyDown(Sender: TObject; var Key: Word;
@@ -59,30 +63,43 @@ type
 
     procedure stgColumnsSelectEditor(Sender: TObject; aCol, aRow: Integer;
       var Editor: TWinControl);
-    procedure stgColumnsSetEditText(Sender: TObject; ACol, ARow: Integer;
-      const Value: string);
+
     {Editors}
-    procedure UpDownXClick(Sender: TObject; Button: TUDBtnType);
+    procedure SpinEditExit(Sender: TObject);
     procedure BitBtnDeleteFieldClick(Sender: TObject);
     procedure ButtonAddClick(Sender: TObject);
     procedure ComboBoxXSelect(Sender: TObject);
-    procedure EditNameExit(Sender: TObject);
   private
+    procedure EditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     { private declarations }
   public
     { public declarations }
+    ColumnClass:TPanelColumnsClass;
+    procedure AddNewField;
   end; 
+
+  procedure EditorSaveResult(Sender: TObject);
 
 var
   frmColumnsSetConf: TfColumnsSetConf;
-  updWidth:TUpDown;
+  updWidth:TSpinEdit;
   cbbAlign:TComboBox;
-  edtName:TEdit;
   btnAdd:TButton;
   btnDel:TBitBtn;
+
 implementation
 
-uses uColumns;
+procedure EditorSaveResult(Sender: TObject);
+begin
+ with frmColumnsSetConf do
+   begin
+    if Sender is TSpinEdit then
+     stgColumns.Cells[2,(Sender as TSpinEdit).Tag]:=inttostr(updWidth.Value);
+    if Sender is TComboBox then
+     stgColumns.Cells[3,(Sender as TComboBox).Tag]:=(Sender as TComboBox).Text;
+   end;
+end;
+
 
 { TfColumnsSetConf }
 
@@ -95,7 +112,6 @@ var i:integer;
 begin
   if assigned(updWidth) then FreeAndNil(updWidth);
   if assigned(cbbAlign) then FreeAndNil(cbbAlign);
-  if assigned(edtName) then FreeAndNil(edtName);
   if assigned(btnAdd) then FreeAndNil(btnAdd);
   if assigned(btnDel) then FreeAndNil(btnDel);
 
@@ -118,35 +134,22 @@ begin
            end;
          Editor:=btnDel;
        end;
-    1:begin
-       edtName:=TEdit.Create(frmColumnsSetConf);
-       with edtName do
-         begin
-           Parent:=(Sender as TStringGrid);
-           Width:=(Sender as TStringGrid).ColWidths[aCol];;
-           Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Right-Width;
-           Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
-           Height:=(Sender as TStringGrid).RowHeights[aRow];
-           Tag:=aRow;
-           OnExit:=@EditNameExit;
-           Text:=(Sender as TStringGrid).Cells[aCol,aRow];
-           Visible:=false;
-         end;
-         Editor:=edtName;
-      end;
 
     2: begin
-         updWidth:=Tupdown.Create(frmColumnsSetConf);
+         updWidth:=TSpinEdit.Create(frmColumnsSetConf);
          with  updWidth do
            begin
              Parent:=(Sender as TStringGrid);
-             Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Right-Width;
+             Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Left;
              Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
              Height:=(Sender as TStringGrid).RowHeights[aRow];
+             Width:=(Sender as TStringGrid).ColWidths[aCol];
              Tag:=aRow;
              if ((Sender as TStringGrid).Cells[aCol,aRow])<>'' then
-              Position:=StrToInt((Sender as TStringGrid).Cells[aCol,aRow]);
-             OnClick:=@updownXClick;
+             MaxValue:=1000;
+             Value:=StrToInt((Sender as TStringGrid).Cells[aCol,aRow]);
+             OnKeyDown:=@EditorKeyDown;
+             OnExit:=@SpinEditExit;
              Visible:=false;
          end;
          Editor:=updWidth;
@@ -157,14 +160,17 @@ begin
            begin
              Parent:=(Sender as TStringGrid);
              Width:=(Sender as TStringGrid).ColWidths[aCol];
-             Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Right-Width;
+             Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Left;
              Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
              Height:=(Sender as TStringGrid).RowHeights[aRow];
              Tag:=aRow;
              Style:=csDropDownList;
              AddItem('<-',nil);
              AddItem('->',nil);
+           //TODO: center alignment
+           //AddItem('=',nil);
              OnSelect:=@ComboBoxXSelect;
+             OnKeyDown:=@EditorKeyDown;
              ItemIndex:=Items.IndexOf((Sender as TStringGrid).Cells[aCol,aRow]);
              Visible:=false;
            end;
@@ -204,56 +210,187 @@ procedure TfColumnsSetConf.stgColumnsKeyDown(Sender: TObject; var Key: Word;
 begin
     if (Key=vk_Down) and (stgColumns.Row=stgColumns.RowCount-1) then
     begin
-      stgColumns.RowCount:=stgColumns.RowCount+1;
+      AddNewField;
     end;
 end;
 
-procedure TfColumnsSetConf.EditNameExit(Sender: TObject);
+procedure TfColumnsSetConf.EditorKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
 begin
-stgColumns.Cells[1,(Sender as TEdit).Tag]:=(Sender as TEdit).Text;
+    if Key=VK_RETURN then
+      begin
+         stgColumns.EditorExit(Sender);
+         Key:=0;
+      end;
 end;
 
-procedure TfColumnsSetConf.FormClose(Sender: TObject;
-  var CloseAction: TCloseAction);
+procedure TfColumnsSetConf.AddNewField;
 begin
+  stgColumns.RowCount:=stgColumns.RowCount+1;
+  stgColumns.Cells[1,stgColumns.RowCount-1]:='Field N'+IntToStr(stgColumns.RowCount-1);
+  stgColumns.Cells[2,stgColumns.RowCount-1]:='25';
+  stgColumns.Cells[3,stgColumns.RowCount-1]:='<-';
+  stgColumns.Cells[4,stgColumns.RowCount-1]:='';
+end;
 
+procedure TfColumnsSetConf.FormCreate(Sender: TObject);
+begin
+  ColumnClass:=TPanelColumnsClass.Create;
+end;
+
+procedure TfColumnsSetConf.FormDestroy(Sender: TObject);
+begin
+  if assigned(updWidth) then FreeAndNil(updWidth);
+  if assigned(cbbAlign) then FreeAndNil(cbbAlign);
+  if assigned(btnAdd) then FreeAndNil(btnAdd);
+  if assigned(btnDel) then FreeAndNil(btnDel);
+  
+   ColumnClass.Free;
+end;
+
+procedure TfColumnsSetConf.FormShow(Sender: TObject);
+var i:integer;
+begin
+    if ColumnClass.ColumnsCount>0 then
+      begin
+        stgColumns.RowCount:=ColumnClass.ColumnsCount+1;
+        for i:=0 to ColumnClass.ColumnsCount-1 do
+          begin
+              stgColumns.Cells[1,i+1]:=ColumnClass.GetColumnTitle(i);
+              stgColumns.Cells[2,i+1]:=inttostr(ColumnClass.GetColumnWidth(i));
+              stgColumns.Cells[3,i+1]:=ColumnClass.GetColumnAlignString(i);
+              stgColumns.Cells[4,i+1]:=ColumnClass.GetColumnFuncString(i);
+          end;
+      end
+    else
+        begin
+            stgColumns.RowCount:=1;
+            frmColumnsSetConf.AddNewField;
+        end;
 end;
 
 
 procedure TfColumnsSetConf.MenuItem1Click(Sender: TObject);
 begin
-  stgColumns.RowCount:=stgColumns.RowCount+1;
+  AddNewField;
+end;
+
+procedure TfColumnsSetConf.SpinEditExit(Sender: TObject);
+begin
+  EditorSaveResult(Sender);
 end;
 
 procedure TfColumnsSetConf.ComboBoxXSelect(Sender: TObject);
 begin
-stgColumns.Cells[3,(Sender as TComboBox).Tag]:=(Sender as TComboBox).Text;
+  EditorSaveResult(Sender);
 end;
 
 procedure TfColumnsSetConf.BitBtnDeleteFieldClick(Sender: TObject);
 begin
-ShowMessage(IntTostr((Sender as TBitBtn).Tag));
+  ShowMessage(IntTostr((Sender as TBitBtn).Tag));
 end;
 
-procedure TfColumnsSetConf.btnCancelClick(Sender: TObject);
+procedure TfColumnsSetConf.btnOkClick(Sender: TObject);
+var i:integer;
+   Tit,
+   FuncString: string;
+   Wid: integer;
+   Ali: TAlignment;
 begin
+  // Save fields
+  ColumnClass.Clear;
+  for i:=1 to stgColumns.RowCount-1 do
+    begin
+      with stgColumns do
+        begin
+          Tit:=Cells[1,i];
+          Wid:=StrToInt(Cells[2,i]);
+          Ali:=StrToAlign(Cells[3,i]);
+          FuncString:=Cells[4,i];
+        end;
+      ColumnClass.Add(Tit,FuncString,Wid,Ali);
+    end;
+
+
+    case Self.Tag of
+    -1: ColSet.Items.Add(edtNameofColumnsSet.Text);
+    else
+      begin
+        ColSet.DeleteColumnSet(gIni,Self.Tag);
+        ColSet.Items.Add(edtNameofColumnsSet.Text);
+      end;
+    end;
+ColumnClass.Save(gIni,(edtNameofColumnsSet.Text));
+end;
+
+procedure TfColumnsSetConf.MenuFieldsClick(Sender: TObject);
+begin
+  case (Sender as TMenuItem).Tag of
+    0:  begin
+          stgColumns.Cells[4,btnAdd.Tag]:=stgColumns.Cells[4,btnAdd.Tag]+'[DC().'+(Sender as TMenuItem).Caption+'{}] ';
+        end;
+    1: begin
+          stgColumns.Cells[4,btnAdd.Tag]:=stgColumns.Cells[4,btnAdd.Tag]+'[Plugin('+(Sender as TMenuItem).Parent.Caption+').'+(Sender as TMenuItem).Caption+'{}] ';
+       end;
+    2: begin
+         //for WDX scripts
+       end;
+  end;
 
 end;
+
 
 procedure TfColumnsSetConf.ButtonAddClick(Sender: TObject);
+var Mi:TMenuItem; i,j:integer; point:TPoint;
 begin
-  //TODO: show column fields menu
-end;
+// show column fields menu
 
-procedure TfColumnsSetConf.stgColumnsSetEditText(Sender: TObject; ACol,
-  ARow: Integer; const Value: string);
-begin
+  pmFields.Items.Clear;
 
-end;
+  //DC commands
 
-procedure TfColumnsSetConf.updownXClick(Sender: TObject; Button: TUDBtnType);
-begin
-stgColumns.Cells[2,(Sender as Tupdown).Tag]:=IntToStr((Sender as Tupdown).Position);
+       MI:=TMenuItem.Create(pmFields);
+       MI.Caption:='DC';
+       pmFields.Items.Add(MI);
+       for i:= 0 to IntList.Count-1 do
+         begin
+           MI:=TMenuItem.Create(pmFields);
+           MI.Tag:=0;
+           MI.Caption:=IntList[i];
+           MI.OnClick:=@MenuFieldsClick;
+           pmFields.Items.Items[0].Add(MI);
+         end;
+  //Plugins
+       MI:=TMenuItem.Create(pmFields);
+       MI.Caption:='Plugins';
+       pmFields.Items.Add(MI);
+       for i:=0 to WdxPlugins.Count-1 do
+         begin
+           MI:=TMenuItem.Create(pmFields);
+           MI.Caption:=WdxPlugins.GetWdxModule(i).Name;
+           pmFields.Items.Items[1].Add(MI);
+           //Load fields list
+           if WdxPlugins.GetWdxModule(i).IsLoaded=false then
+             if not (WdxPlugins.GetWdxModule(i).LoadModule) then break;
+           for j:=0 to  WdxPlugins.GetWdxModule(i).FieldList.Count-1 do
+             begin
+               with WdxPlugins.GetWdxModule(i) do
+                 begin
+                   MI:=TMenuItem.Create(pmFields);
+                   MI.Tag:=1;
+                   MI.Caption:=FieldList[j];
+                   MI.OnClick:=@MenuFieldsClick;
+                   pmFields.Items.Items[1].Items[i].Add(MI);
+                 end;
+             end;
+         end;
+         
+         
+   point.x:=(Sender as TButton).Left-25;
+   point.y:=(Sender as TButton).top+(Sender as TButton).Height+40;;
+   point:=ClientToScreen(Point);
+   pmFields.PopUp(point.X,point.Y);
+  
 end;
 
 
