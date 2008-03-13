@@ -254,9 +254,12 @@ type
     procedure btClearHotKeyClick(Sender: TObject);
     procedure btnBackColor2Click(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
+    procedure btnCopyColumnsSetClick(Sender: TObject);
     procedure btnCursorColorClick(Sender: TObject);
     procedure btnCursorTextClick(Sender: TObject);
     procedure btnCategoryColorClick(Sender: TObject);
+    procedure btnDelColumnsSetClick(Sender: TObject);
+    procedure btnEditColumnsSetClick(Sender: TObject);
     procedure btnMarkColorClick(Sender: TObject);
     procedure btnNewColumnsSetClick(Sender: TObject);
     procedure btnOpenClick(Sender: TObject);
@@ -288,6 +291,7 @@ type
     procedure cbViewerFontChange(Sender: TObject);
     procedure edHotKeyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
       );
+    procedure FormShow(Sender: TObject);
     procedure lbCategoriesClick(Sender: TObject);
     procedure lbCategoriesDrawItem(Control: TWinControl; Index: Integer;
       ARect: TRect; State: TOwnerDrawState);
@@ -300,7 +304,6 @@ type
   private
     { Private declarations }
     vShortCut: TShortCut;
-    fColSet:TPanelColumnsList;
   public
     { Public declarations }
     procedure FillLngListBox;
@@ -458,14 +461,14 @@ begin
   FillFileColorsList;
   DebugLn(gTerm);
   edtTerm.Text:=gTerm;
-  nbNotebook.PageIndex := 0;//let not warning on which page save form
-  
+
+
   { Columns Set}
-  fColSet:=TPanelColumnsList.Create;
-  fColSet.Clear;
-  fColSet.Load(gIni);
+  ColSet.Clear;
+  ColSet.Load(gIni);
   FillColumnsList;
   
+   nbNotebook.PageIndex := 0;  //let not warning on which page save form
   
 end;
 
@@ -735,6 +738,9 @@ begin
   frmMain.Repaint; // for panels repaint
   frmMain.SaveShortCuts;
   
+  {Columns Set}
+  ColSet.Save(gIni);
+  
   if (gIconsSize <> StrToInt(Copy(cbIconsSize.Text, 1, 2))) then
     begin
       gIconsSize := StrToInt(Copy(cbIconsSize.Text, 1, 2)); //file panel icons size
@@ -863,6 +869,14 @@ begin
   TEdit(Sender).Text := ShortCutToText(vShortCut);
   Key := 0;
   btSetHotKey.Enabled := (edHotKey.Text <> '');
+end;
+
+procedure TfrmOptions.FormShow(Sender: TObject);
+begin
+//Load specified page or 0
+  tvTreeView.Items.Item[Self.Tag].Selected:=true;
+  nbNotebook.PageIndex := Self.Tag;
+
 end;
 
 procedure TfrmOptions.pbExamplePaint(Sender: TObject);
@@ -1168,9 +1182,10 @@ end;
 procedure TfrmOptions.FillColumnsList;
 var i:Integer;
 begin
- If fColSet.Items.Count>0 then
+ lstColumnsSets.Clear;
+ If ColSet.Items.Count>0 then
    begin
-     lstColumnsSets.Items.AddStrings(fColSet.Items);
+     lstColumnsSets.Items.AddStrings(ColSet.Items);
    end;
 
 end;
@@ -1370,6 +1385,31 @@ begin
    end;
 end;
 
+procedure TfrmOptions.btnDelColumnsSetClick(Sender: TObject);
+begin
+  if lstColumnsSets.ItemIndex=-1 then exit;
+  ColSet.DeleteColumnSet(gIni,lstColumnsSets.Items[lstColumnsSets.ItemIndex]);
+  FillColumnsList;
+end;
+
+procedure TfrmOptions.btnEditColumnsSetClick(Sender: TObject);
+begin
+  //TODO: may be it would be better to show error message?
+  if lstColumnsSets.ItemIndex=-1 then lstColumnsSets.ItemIndex:=0;
+  
+  Application.CreateForm(TfColumnsSetConf, frmColumnsSetConf);
+  {EDIT Set}
+  frmColumnsSetConf.edtNameofColumnsSet.Text:=lstColumnsSets.Items[lstColumnsSets.ItemIndex];
+  frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(lstColumnsSets.ItemIndex+1);
+  frmColumnsSetConf.Tag:=lstColumnsSets.ItemIndex;
+  frmColumnsSetConf.ColumnClass.Clear;
+  frmColumnsSetConf.ColumnClass.Load(gIni,lstColumnsSets.Items[lstColumnsSets.ItemIndex]);
+  {EDIT Set}
+  frmColumnsSetConf.ShowModal;
+  FreeAndNil(frmColumnsSetConf);
+  FillColumnsList;
+end;
+
 {/ File types category color }
 
 procedure TfrmOptions.btClearHotKeyClick(Sender: TObject);
@@ -1392,6 +1432,16 @@ end;
 
 procedure TfrmOptions.btnCancelClick(Sender: TObject);
 begin
+
+end;
+
+procedure TfrmOptions.btnCopyColumnsSetClick(Sender: TObject);
+var s:string;
+begin
+  if lstColumnsSets.ItemIndex=-1 then exit;
+  s:=lstColumnsSets.Items[lstColumnsSets.ItemIndex];
+  ColSet.CopyColumnSet(gIni,s,s+'_Copy');
+  FillColumnsList;
 
 end;
 
@@ -1425,8 +1475,14 @@ end;
 procedure TfrmOptions.btnNewColumnsSetClick(Sender: TObject);
 begin
   Application.CreateForm(TfColumnsSetConf, frmColumnsSetConf);
+   // Create new Set
+  frmColumnsSetConf.edtNameofColumnsSet.Text:='New Columns';
+  frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(lstColumnsSets.Count+1);
+  frmColumnsSetConf.Tag:=-1;
+  frmColumnsSetConf.ColumnClass.Clear;
   frmColumnsSetConf.ShowModal;
   FreeAndNil(frmColumnsSetConf);
+  FillColumnsList;
 end;
 
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
