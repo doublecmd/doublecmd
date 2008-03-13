@@ -2409,6 +2409,7 @@ begin
             frmColumnsSetConf.ColumnClass.Load(gIni,ActiveFrame.Colm.CurrentColumnsSetName);
             {EDIT Set}
             frmColumnsSetConf.ShowModal;
+            ColSet.Save(gIni);
             FreeAndNil(frmColumnsSetConf);
           end;
     1001: //All columns
