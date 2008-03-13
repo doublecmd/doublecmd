@@ -287,7 +287,7 @@ end;
 
 procedure TfColumnsSetConf.BitBtnDeleteFieldClick(Sender: TObject);
 begin
-  ShowMessage(IntTostr((Sender as TBitBtn).Tag));
+stgColumns.DeleteColRow(false,(Sender as TBitBtn).Tag);
 end;
 
 procedure TfColumnsSetConf.btnOkClick(Sender: TObject);
