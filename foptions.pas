@@ -1395,7 +1395,7 @@ end;
 procedure TfrmOptions.btnEditColumnsSetClick(Sender: TObject);
 begin
   //TODO: may be it would be better to show error message?
-  if lstColumnsSets.ItemIndex=-1 then lstColumnsSets.ItemIndex:=0;
+  if lstColumnsSets.ItemIndex=-1 then exit;
   
   Application.CreateForm(TfColumnsSetConf, frmColumnsSetConf);
   {EDIT Set}
