@@ -317,7 +317,7 @@ begin
     else
       begin
         ColSet.DeleteColumnSet(gIni,Self.Tag);
-        ColSet.Items.Add(edtNameofColumnsSet.Text);
+        ColSet.Items.Insert(Self.Tag,edtNameofColumnsSet.Text);
       end;
     end;
 ColumnClass.Save(gIni,(edtNameofColumnsSet.Text));

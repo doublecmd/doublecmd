@@ -2396,6 +2396,7 @@ begin
 end;
 
 procedure TfrmMain.ColumnsMenuClick(Sender: TObject);
+var Index:integer;
 begin
   Case (Sender as TMenuItem).Tag of
     1000: //This
@@ -2403,6 +2404,7 @@ begin
             Application.CreateForm(TfColumnsSetConf, frmColumnsSetConf);
             {EDIT Set}
             frmColumnsSetConf.edtNameofColumnsSet.Text:=ActiveFrame.Colm.CurrentColumnsSetName;
+            Index:=ColSet.Items.IndexOf(ActiveFrame.Colm.CurrentColumnsSetName);
             frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(1+ColSet.Items.IndexOf(ActiveFrame.Colm.CurrentColumnsSetName));
             frmColumnsSetConf.Tag:=ColSet.Items.IndexOf(ActiveFrame.Colm.CurrentColumnsSetName);
             frmColumnsSetConf.ColumnClass.Clear;
@@ -2411,6 +2413,7 @@ begin
             frmColumnsSetConf.ShowModal;
             ColSet.Save(gIni);
             FreeAndNil(frmColumnsSetConf);
+            //TODO: Reload current columns in panels
           end;
     1001: //All columns
           begin
@@ -2440,9 +2443,9 @@ begin
           //Load Columns into menu
           ColSet.Clear;
           ColSet.Load(Gini);
+          pmColumnsMenu.Items.Clear;
           if ColSet.Items.Count>0 then
             begin
-              pmColumnsMenu.Items.Clear;
               For I:=0 to ColSet.Items.Count-1 do
                 begin
                   MI:=TMenuItem.Create(pmColumnsMenu);
@@ -2451,25 +2454,25 @@ begin
                   MI.OnClick:=@ColumnsMenuClick;
                   pmColumnsMenu.Items.Add(MI);
                 end;
-                 //-
-                  MI:=TMenuItem.Create(pmColumnsMenu);
-                  MI.Caption:='-';
-                  pmColumnsMenu.Items.Add(MI);
-                 //Configure this custom columns
-                  MI:=TMenuItem.Create(pmColumnsMenu);
-                  MI.Tag:=1000;
-                  MI.Caption:=rsMenuConfigureThisCustomColumn;
-                  MI.OnClick:=@ColumnsMenuClick;
-                  pmColumnsMenu.Items.Add(MI);
-                 //Configure custom columns
-                  MI:=TMenuItem.Create(pmColumnsMenu);
-                  MI.Tag:=1001;
-                  MI.Caption:=rsMenuConfigureCustomColumns;
-                  MI.OnClick:=@ColumnsMenuClick;
-                  pmColumnsMenu.Items.Add(MI);
-
             end;
 
+           //-
+	    MI:=TMenuItem.Create(pmColumnsMenu);
+	    MI.Caption:='-';
+	    pmColumnsMenu.Items.Add(MI);
+	   //Configure this custom columns
+	    MI:=TMenuItem.Create(pmColumnsMenu);
+	    MI.Tag:=1000;
+	    MI.Caption:=rsMenuConfigureThisCustomColumn;
+	    MI.OnClick:=@ColumnsMenuClick;
+	    pmColumnsMenu.Items.Add(MI);
+	   //Configure custom columns
+	    MI:=TMenuItem.Create(pmColumnsMenu);
+	    MI.Tag:=1001;
+	    MI.Caption:=rsMenuConfigureCustomColumns;
+	    MI.OnClick:=@ColumnsMenuClick;
+	    pmColumnsMenu.Items.Add(MI);
+        
           Point:=(Sender as TDrawGrid).ClientToScreen(Classes.Point(0,0));
           Point.Y:=Point.Y+(Sender as TDrawGrid).RowHeights[iRow];
           Point.X:=Point.X+X-50;
