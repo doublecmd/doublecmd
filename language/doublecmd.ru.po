@@ -1234,6 +1234,10 @@ msgstr "Меню F9"
 msgid "More"
 msgstr "Больше"
 
+#: TFRMMAIN.ACTRENAME.CAPTION
+msgid "Move F6"
+msgstr "Переместить F6"
+
 #: TFRMMOVEDLG.LBLMOVESRC.CAPTION
 msgid "Move \%s:"
 msgstr "Переместить %s:"
@@ -1337,6 +1341,10 @@ msgstr "Старое имя файла"
 #: TFRMMOVEDLG.LBLFILETYPE.CAPTION
 msgid "Only type:"
 msgstr "Только типа:"
+
+#: TFRMMAIN.ACTOPEN.CAPTION
+msgid "Open"
+msgstr "Открыть"
 
 #: TFRMMAIN.ACTOPENVFSLIST.CAPTION
 msgid "Open VFS List"
@@ -1496,14 +1504,6 @@ msgstr "Удалить вкладку"
 
 #: TFRMOPTIONS.BBTNWFXRENAME.CAPTION
 msgid "Rename"
-msgstr "Переименовать"
-
-#: TFRMMAIN.ACTRENAME.CAPTION
-msgid "Rename F6"
-msgstr "Переместить F6"
-
-#: TFRMMAIN.ACTRENAMEONLY.CAPTION
-msgid "Rename only"
 msgstr "Переименовать"
 
 #: ulng.rsmsgrenfldr
@@ -1681,6 +1681,10 @@ msgstr "В виде &текста"
 #: TFRMVIEWER.MIWRAPTEXT.CAPTION
 msgid "Show as &Wrap text"
 msgstr "В виде текста с &разрывами строк"
+
+#: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
+msgid "Show button menu"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWCMDLINE.CAPTION
 msgid "Show command &line"

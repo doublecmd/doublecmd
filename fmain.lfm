@@ -4,11 +4,11 @@ object frmMain: TfrmMain
   Top = 166
   Width = 676
   HorzScrollBar.Page = 675
-  VertScrollBar.Page = 377
+  VertScrollBar.Page = 369
   VertScrollBar.Range = 79
   ActiveControl = nbRight
   Caption = 'Double Commander'
-  ClientHeight = 378
+  ClientHeight = 370
   ClientWidth = 676
   Font.Color = clBlack
   Font.Height = 13
@@ -81,34 +81,34 @@ object frmMain: TfrmMain
     end
   end
   object pnlNotebooks: TPanel
-    Height = 236
+    Height = 228
     Top = 50
     Width = 676
     Align = alClient
-    ClientHeight = 236
+    ClientHeight = 228
     ClientWidth = 676
     FullRepaint = False
     TabOrder = 1
     TabStop = True
     object MainSplitter: TSplitter
       Left = 171
-      Height = 196
+      Height = 188
       Top = 1
       Width = 4
       ResizeStyle = rsLine
     end
     object pnlLeft: TPanel
       Left = 1
-      Height = 196
+      Height = 188
       Top = 1
       Width = 170
       Align = alLeft
       BevelOuter = bvNone
-      ClientHeight = 196
+      ClientHeight = 188
       ClientWidth = 170
       TabOrder = 0
       object nbLeft: TNotebook
-        Height = 172
+        Height = 164
         Top = 24
         Width = 170
         Align = alClient
@@ -176,16 +176,16 @@ object frmMain: TfrmMain
     end
     object pnlRight: TPanel
       Left = 175
-      Height = 196
+      Height = 188
       Top = 1
       Width = 500
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 196
+      ClientHeight = 188
       ClientWidth = 500
       TabOrder = 1
       object nbRight: TNotebook
-        Height = 172
+        Height = 164
         Top = 24
         Width = 500
         Align = alClient
@@ -254,7 +254,7 @@ object frmMain: TfrmMain
     object pnlCommand: TPanel
       Left = 1
       Height = 38
-      Top = 197
+      Top = 189
       Width = 674
       Align = alBottom
       Anchors = [akLeft, akRight]
@@ -268,9 +268,9 @@ object frmMain: TfrmMain
         AnchorSideTop.Control = edtCommand
         AnchorSideTop.Side = asrCenter
         Left = 1
-        Height = 14
-        Top = 11
-        Width = 23
+        Height = 19
+        Top = 13
+        Width = 32
         Alignment = taRightJustify
         Caption = 'Path'
         ParentColor = False
@@ -278,13 +278,12 @@ object frmMain: TfrmMain
       end
       object edtCommand: TComboBox
         Left = 56
-        Height = 21
+        Height = 28
         Top = 8
         Width = 607
         TabStop = False
         Anchors = [akTop, akLeft, akRight]
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-        ItemHeight = 13
         MaxLength = 0
         ParentCtl3D = False
         TabOrder = 0
@@ -307,7 +306,7 @@ object frmMain: TfrmMain
   end
   object pnlKeys: TPanel
     Height = 27
-    Top = 351
+    Top = 343
     Width = 676
     Align = alBottom
     Anchors = [akLeft, akRight]
@@ -400,7 +399,7 @@ object frmMain: TfrmMain
   end
   object seLogWindow: TSynEdit
     Height = 61
-    Top = 290
+    Top = 282
     Width = 676
     Align = alBottom
     Font.Height = -16
@@ -737,7 +736,7 @@ object frmMain: TfrmMain
   object LogSplitter: TSplitter
     Cursor = crVSplit
     Height = 4
-    Top = 286
+    Top = 278
     Width = 676
     Align = alBottom
     ResizeStyle = rsLine
@@ -966,7 +965,7 @@ object frmMain: TfrmMain
     end
     object actRename: TAction
       Category = 'Classic'
-      Caption = 'Rename F6'
+      Caption = 'Move F6'
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actRenameExecute
@@ -1162,7 +1161,7 @@ object frmMain: TfrmMain
     end
     object actRenameOnly: TAction
       Category = 'Commands'
-      Caption = 'Rename only'
+      Caption = 'Rename'
       DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actRenameOnlyExecute
@@ -1323,7 +1322,7 @@ object frmMain: TfrmMain
     end
     object actShowButtonMenu: TAction
       Category = 'Commands'
-      Caption = 'actShowButtonMenu'
+      Caption = 'Show button menu'
       DisableIfNoHandler = True
       OnExecute = actShowButtonMenuExecute
     end
@@ -1339,6 +1338,12 @@ object frmMain: TfrmMain
       Caption = 'File associations...'
       DisableIfNoHandler = True
       OnExecute = actFileAssocExecute
+    end
+    object actOpen: TAction
+      Category = 'File'
+      Caption = 'Open'
+      DisableIfNoHandler = True
+      OnExecute = actOpenExecute
     end
   end
   object pmHotList: TPopupMenu

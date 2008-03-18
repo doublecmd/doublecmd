@@ -1235,6 +1235,10 @@ msgstr "菜单 F9"
 msgid "More"
 msgstr "更多"
 
+#: TFRMMAIN.ACTRENAME.CAPTION
+msgid "Move F6"
+msgstr "改名 F6"
+
 #: TFRMMOVEDLG.LBLMOVESRC.CAPTION
 msgid "Move \%s:"
 msgstr "移动 \%s:"
@@ -1338,6 +1342,10 @@ msgstr "旧文件名"
 #: TFRMMOVEDLG.LBLFILETYPE.CAPTION
 msgid "Only type:"
 msgstr "只有类型:"
+
+#: TFRMMAIN.ACTOPEN.CAPTION
+msgid "Open"
+msgstr ""
 
 #: TFRMMAIN.ACTOPENVFSLIST.CAPTION
 msgid "Open VFS List"
@@ -1498,14 +1506,6 @@ msgstr "删除标签页"
 #: TFRMOPTIONS.BBTNWFXRENAME.CAPTION
 msgid "Rename"
 msgstr "重命名"
-
-#: TFRMMAIN.ACTRENAME.CAPTION
-msgid "Rename F6"
-msgstr "改名 F6"
-
-#: TFRMMAIN.ACTRENAMEONLY.CAPTION
-msgid "Rename only"
-msgstr "仅改名"
 
 #: ulng.rsmsgrenfldr
 msgid "Rename/move \%d selected files/directories?"
@@ -1682,6 +1682,10 @@ msgstr "显示为文本"
 #: TFRMVIEWER.MIWRAPTEXT.CAPTION
 msgid "Show as &Wrap text"
 msgstr "显示为换行文本"
+
+#: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
+msgid "Show button menu"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWCMDLINE.CAPTION
 msgid "Show command &line"

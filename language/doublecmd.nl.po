@@ -1235,6 +1235,10 @@ msgstr "Menu F9"
 msgid "More"
 msgstr "Meer"
 
+#: TFRMMAIN.ACTRENAME.CAPTION
+msgid "Move F6"
+msgstr ""
+
 #: TFRMMOVEDLG.LBLMOVESRC.CAPTION
 msgid "Move \%s:"
 msgstr "Verplaats \%s:"
@@ -1338,6 +1342,10 @@ msgstr "Oude Bestandsnaam"
 #: TFRMMOVEDLG.LBLFILETYPE.CAPTION
 msgid "Only type:"
 msgstr "Alleen type:"
+
+#: TFRMMAIN.ACTOPEN.CAPTION
+msgid "Open"
+msgstr ""
 
 #: TFRMMAIN.ACTOPENVFSLIST.CAPTION
 msgid "Open VFS List"
@@ -1498,14 +1506,6 @@ msgstr "Verwijder tab"
 #: TFRMOPTIONS.BBTNWFXRENAME.CAPTION
 msgid "Rename"
 msgstr "Hernoem"
-
-#: TFRMMAIN.ACTRENAME.CAPTION
-msgid "Rename F6"
-msgstr ""
-
-#: TFRMMAIN.ACTRENAMEONLY.CAPTION
-msgid "Rename only"
-msgstr "Alleen hernoemen"
 
 #: ulng.rsmsgrenfldr
 msgid "Rename/move \%d selected files/directories?"
@@ -1682,6 +1682,10 @@ msgstr "Toon als &Tekst"
 #: TFRMVIEWER.MIWRAPTEXT.CAPTION
 msgid "Show as &Wrap text"
 msgstr "Toon als &Wrap tekst"
+
+#: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
+msgid "Show button menu"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWCMDLINE.CAPTION
 msgid "Show command &line"
