@@ -471,6 +471,10 @@ msgstr "Sluit"
 msgid "Colors"
 msgstr "Kleuren"
 
+#: ulng.rsoptcolumns
+msgid "Columns"
+msgstr ""
+
 #: TFRMMAIN.MNUFILESCOMBINE.CAPTION
 msgid "Combine Files"
 msgstr "Kombineer bestanden"
@@ -486,6 +490,14 @@ msgstr "Vergelijk met Inhoud"
 #: TFRMCOMPAREFILES.CAPTION
 msgid "Compare files"
 msgstr "Vergelijk bestanden"
+
+#: ulng.rsoptconfig
+msgid "Configuration"
+msgstr ""
+
+#: TFCOLUMNSSETCONF.CAPTION
+msgid "Configure Custom columns view"
+msgstr ""
 
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
@@ -1019,6 +1031,10 @@ msgstr "Functie afgebroken door gebruiker"
 msgid "Function not supported!"
 msgstr "Functie niet ondersteund"
 
+#: TFRMOPTIONS.CBBFILESYSTEM.TEXT
+msgid "General"
+msgstr ""
+
 #: TFRMOPTIONS.GBGENERALOPTIONS.CAPTION
 msgid "General options"
 msgstr "Algemene opties"
@@ -1130,6 +1146,14 @@ msgstr "Weergave"
 #: TFRMABOUT.LBLLAZARUSVER.CAPTION
 msgid "Lazarus "
 msgstr "Lazarus "
+
+#: ulng.rsoptlinebyline
+msgid "Line by line"
+msgstr ""
+
+#: ulng.rsoptlinebylinecursor
+msgid "Line by line with cursor movement"
+msgstr ""
 
 #: TFRMMAIN.ACTFILELINKER.CAPTION
 msgid "Link files"
@@ -1390,6 +1414,10 @@ msgstr "Inpak plugins worden gebruikt om niet ondersteunde archieven te openen"
 #: ulng.rsdlgpack
 msgid "Packing..."
 msgstr "Inpakken..."
+
+#: ulng.rsoptpagebypage
+msgid "Page by page"
+msgstr ""
 
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgid "Paste"

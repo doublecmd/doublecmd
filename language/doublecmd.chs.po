@@ -471,6 +471,10 @@ msgstr "关闭"
 msgid "Colors"
 msgstr "颜色"
 
+#: ulng.rsoptcolumns
+msgid "Columns"
+msgstr ""
+
 #: TFRMMAIN.MNUFILESCOMBINE.CAPTION
 msgid "Combine Files"
 msgstr "合并文件"
@@ -486,6 +490,14 @@ msgstr "比较内容"
 #: TFRMCOMPAREFILES.CAPTION
 msgid "Compare files"
 msgstr "比较文件"
+
+#: ulng.rsoptconfig
+msgid "Configuration"
+msgstr ""
+
+#: TFCOLUMNSSETCONF.CAPTION
+msgid "Configure Custom columns view"
+msgstr ""
 
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
@@ -1019,6 +1031,10 @@ msgstr "用户中止执行"
 msgid "Function not supported!"
 msgstr "不支持的功能!"
 
+#: TFRMOPTIONS.CBBFILESYSTEM.TEXT
+msgid "General"
+msgstr ""
+
 #: TFRMOPTIONS.GBGENERALOPTIONS.CAPTION
 msgid "General options"
 msgstr "一般选项"
@@ -1130,6 +1146,14 @@ msgstr "布局"
 #: TFRMABOUT.LBLLAZARUSVER.CAPTION
 msgid "Lazarus "
 msgstr "Lazarus "
+
+#: ulng.rsoptlinebyline
+msgid "Line by line"
+msgstr ""
+
+#: ulng.rsoptlinebylinecursor
+msgid "Line by line with cursor movement"
+msgstr ""
 
 #: TFRMMAIN.ACTFILELINKER.CAPTION
 msgid "Link files"
@@ -1390,6 +1414,10 @@ msgstr "打包插件不支持的文件"
 #: ulng.rsdlgpack
 msgid "Packing..."
 msgstr "打包..."
+
+#: ulng.rsoptpagebypage
+msgid "Page by page"
+msgstr ""
 
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgid "Paste"

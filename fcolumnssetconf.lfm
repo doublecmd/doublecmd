@@ -126,7 +126,6 @@ object fColumnsSetConf: TfColumnsSetConf
       Top = 6
       Width = 91
       Anchors = [akTop, akRight]
-      Caption = '&ОК'
       Default = True
       Kind = bkOK
       ModalResult = 1
@@ -140,7 +139,6 @@ object fColumnsSetConf: TfColumnsSetConf
       Top = 6
       Width = 99
       Anchors = [akTop, akRight]
-      Caption = 'Отмена'
       Kind = bkCancel
       ModalResult = 2
       NumGlyphs = 0

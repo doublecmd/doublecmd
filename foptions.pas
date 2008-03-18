@@ -322,6 +322,13 @@ uses
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
+  // Scrolling radio group localization
+  with rgScrolling do
+    begin
+      Items.Strings[0] := rsOptLineByLineCursor;
+      Items.Strings[1] := rsOptLineByLine;
+      Items.Strings[2] := rsOptPageByPage;
+    end;
   // tvTreeView localization
   with tvTreeView.Items do
     begin
@@ -337,6 +344,10 @@ begin
       Item[9].Text := rsOptLayout;
       Item[10].Text := rsOptFileOp;
       Item[11].Text := rsOptFolderTabs;
+      Item[12].Text := rsOptLog;
+      Item[13].Text := rsOptConfig;
+      Item[14].Text := rsOptQuickSearch;
+      Item[15].Text := rsOptColumns;
     end;
   tvTreeView.Items.Item[0].Selected:= True;
 
