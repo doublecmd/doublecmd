@@ -254,7 +254,13 @@ begin
       dgPanel.Row := iRow;
       SetFocus;
       Exit;
+    end
+  else  // left button
+    begin
+      if (dgPanel.Row < 0) or (dgPanel.Row >= dgPanel.RowCount) then
+        dgPanel.Row := iRow;
     end;
+    
   if iRow >= dgPanel.FixedRows then  // if not column header
     dgPanel.BeginDrag(False);
 end;
