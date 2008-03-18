@@ -89,7 +89,7 @@ resourcestring
 
   rsSavePosition = '&Save position';
   rsPositionSaved = 'Position saved.';
-  //File operations dialog
+  // File operations dialog
   rsDlgDel = 'Delete file(s)';
   rsDlgCp = 'Copy file(s)';
   rsDlgMv = 'Move file(s)';
@@ -98,7 +98,7 @@ resourcestring
   // Viewer
   rsViewAboutText = 'Internal Viewer of Double Commander.';
   
-  //Column in TListView
+  // Columns in file panel
   rsColName = 'Name';
   rsColExt = 'Ext';
   rsColSize = 'Size';
@@ -153,6 +153,14 @@ resourcestring
   rsOptLayout = 'Layout';
   rsOptFileOp = 'File operations';
   rsOptFolderTabs = 'Folder tabs';
+  rsOptLog = 'Log';
+  rsOptConfig = 'Configuration';
+  rsOptQuickSearch = 'Quick search';
+  rsOptColumns = 'Columns';
+  //-------------------------------
+  rsOptLineByLineCursor = 'Line by line with cursor movement';
+  rsOptLineByLine = 'Line by line';
+  rsOptPageByPage = 'Page by page';
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';
   rsMenuConfigureThisCustomColumn= 'Configure this custom columns view';

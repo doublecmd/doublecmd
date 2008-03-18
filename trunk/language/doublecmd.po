@@ -2031,3 +2031,31 @@ msgstr ""
 msgid "Sort by date"
 msgstr ""
 
+#: TFCOLUMNSSETCONF.CAPTION
+msgid "Configure Custom columns view"
+msgstr ""
+
+#: ulng.rsoptconfig
+msgid "Configuration"
+msgstr ""
+
+#: ulng.rsoptcolumns
+msgid "Columns"
+msgstr ""
+
+#: ulng.rsoptlinebylinecursor
+msgid "Line by line with cursor movement"
+msgstr ""
+
+#: ulng.rsoptlinebyline
+msgid "Line by line"
+msgstr ""
+
+#: ulng.rsoptpagebypage
+msgid "Page by page"
+msgstr ""
+
+#: TFRMOPTIONS.CBBFILESYSTEM.TEXT
+msgid "General"
+msgstr ""
+

@@ -470,6 +470,10 @@ msgstr "Закрыть"
 msgid "Colors"
 msgstr "Цвета"
 
+#: ulng.rsoptcolumns
+msgid "Columns"
+msgstr "Колонки"
+
 #: TFRMMAIN.MNUFILESCOMBINE.CAPTION
 msgid "Combine Files"
 msgstr "&Собрать файлы..."
@@ -486,13 +490,21 @@ msgstr "Сравнивать п&о содержимому"
 msgid "Compare files"
 msgstr "Сравнить файлы"
 
+#: ulng.rsoptconfig
+msgid "Configuration"
+msgstr "Конфигурация"
+
+#: TFCOLUMNSSETCONF.CAPTION
+msgid "Configure Custom columns view"
+msgstr ""
+
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
-msgstr ""
+msgstr "Настроить наборы колонок"
 
 #: ulng.rsmenuconfigurethiscustomcolumn
 msgid "Configure this custom columns view"
-msgstr ""
+msgstr "Настроить текущий набор колонок"
 
 #: TFRMOPTIONS.TSWDX.CAPTION
 msgid "Content plugins (.WDX)"
@@ -1018,6 +1030,10 @@ msgstr "Прервано пользователем."
 msgid "Function not supported!"
 msgstr "Функция не поддерживается!"
 
+#: TFRMOPTIONS.CBBFILESYSTEM.TEXT
+msgid "General"
+msgstr "Основные"
+
 #: TFRMOPTIONS.GBGENERALOPTIONS.CAPTION
 msgid "General options"
 msgstr "Основные настройки"
@@ -1129,6 +1145,14 @@ msgstr "Вид окна"
 #: TFRMABOUT.LBLLAZARUSVER.CAPTION
 msgid "Lazarus "
 msgstr ""
+
+#: ulng.rsoptlinebyline
+msgid "Line by line"
+msgstr "Построчно"
+
+#: ulng.rsoptlinebylinecursor
+msgid "Line by line with cursor movement"
+msgstr "Построчно с движением курсора"
 
 #: TFRMMAIN.ACTFILELINKER.CAPTION
 msgid "Link files"
@@ -1390,6 +1414,10 @@ msgstr ""
 msgid "Packing..."
 msgstr "Упаковка..."
 
+#: ulng.rsoptpagebypage
+msgid "Page by page"
+msgstr "Постранично"
+
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgid "Paste"
 msgstr "&Вставить"
@@ -1556,7 +1584,7 @@ msgstr "Просмотрено: %d"
 
 #: TFRMOPTIONS.RGSCROLLING.CAPTION
 msgid "Scrolling"
-msgstr ""
+msgstr "Прокрутка"
 
 #: TFRMVIEWER.MISEARCH.CAPTION
 msgid "Search"

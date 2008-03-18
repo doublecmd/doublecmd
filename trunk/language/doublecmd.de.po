@@ -471,6 +471,10 @@ msgstr "Schliessen"
 msgid "Colors"
 msgstr "Farben"
 
+#: ulng.rsoptcolumns
+msgid "Columns"
+msgstr ""
+
 #: TFRMMAIN.MNUFILESCOMBINE.CAPTION
 msgid "Combine Files"
 msgstr "Dateien &verschmelzen"
@@ -486,6 +490,14 @@ msgstr "Anhand des Inhalts vergleichen"
 #: TFRMCOMPAREFILES.CAPTION
 msgid "Compare files"
 msgstr "Vergleiche Dateien"
+
+#: ulng.rsoptconfig
+msgid "Configuration"
+msgstr ""
+
+#: TFCOLUMNSSETCONF.CAPTION
+msgid "Configure Custom columns view"
+msgstr ""
 
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
@@ -1019,6 +1031,10 @@ msgstr "Abbruch durch Benutzer"
 msgid "Function not supported!"
 msgstr "Funktion wird nicht unterstützt!"
 
+#: TFRMOPTIONS.CBBFILESYSTEM.TEXT
+msgid "General"
+msgstr ""
+
 #: TFRMOPTIONS.GBGENERALOPTIONS.CAPTION
 msgid "General options"
 msgstr "Generelle Optionen"
@@ -1130,6 +1146,14 @@ msgstr "Layout"
 #: TFRMABOUT.LBLLAZARUSVER.CAPTION
 msgid "Lazarus "
 msgstr "Lazarus"
+
+#: ulng.rsoptlinebyline
+msgid "Line by line"
+msgstr ""
+
+#: ulng.rsoptlinebylinecursor
+msgid "Line by line with cursor movement"
+msgstr ""
 
 #: TFRMMAIN.ACTFILELINKER.CAPTION
 msgid "Link files"
@@ -1390,6 +1414,10 @@ msgstr "Packer-Plugins werden benutzt falls Archive nicht intern behandelt werde
 #: ulng.rsdlgpack
 msgid "Packing..."
 msgstr "Packe..."
+
+#: ulng.rsoptpagebypage
+msgid "Page by page"
+msgstr ""
 
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgid "Paste"

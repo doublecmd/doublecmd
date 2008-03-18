@@ -431,6 +431,34 @@ ulng.rsoptfileop='File operations'
 ulng.rsoptfoldertabs='Folder tabs'
 
 
+# hash value = 21335
+ulng.rsoptlog='Log'
+
+
+# hash value = 116154878
+ulng.rsoptconfig='Configuration'
+
+
+# hash value = 34632008
+ulng.rsoptquicksearch='Quick search'
+
+
+# hash value = 174310419
+ulng.rsoptcolumns='Columns'
+
+
+# hash value = 158773252
+ulng.rsoptlinebylinecursor='Line by line with cursor movement'
+
+
+# hash value = 210200869
+ulng.rsoptlinebyline='Line by line'
+
+
+# hash value = 215003317
+ulng.rsoptpagebypage='Page by page'
+
+
 # hash value = 10938131
 ulng.rsmenuconfigurecustomcolumns='Configure custom columns'
 
