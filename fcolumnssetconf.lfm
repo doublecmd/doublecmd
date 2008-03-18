@@ -127,7 +127,8 @@ object fColumnsSetConf: TfColumnsSetConf
       Width = 91
       Anchors = [akTop, akRight]
       Default = True
-      Kind = bkOK
+      Caption = '&OK'
+	  Kind = bkOK
       ModalResult = 1
       NumGlyphs = 0
       OnClick = btnOkClick
@@ -139,6 +140,7 @@ object fColumnsSetConf: TfColumnsSetConf
       Top = 6
       Width = 99
       Anchors = [akTop, akRight]
+	  Caption = 'Cancel'
       Kind = bkCancel
       ModalResult = 2
       NumGlyphs = 0
