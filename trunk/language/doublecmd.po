@@ -1576,7 +1576,7 @@ msgid "Copy F5"
 msgstr ""
 
 #: TFRMMAIN.ACTRENAME.CAPTION
-msgid "Rename F6"
+msgid "Move F6"
 msgstr ""
 
 #: TFRMMAIN.ACTMAKEDIR.CAPTION
@@ -1660,7 +1660,7 @@ msgid "Copy to same panel"
 msgstr ""
 
 #: TFRMMAIN.ACTRENAMEONLY.CAPTION
-msgid "Rename only"
+msgid "Rename"
 msgstr ""
 
 #: TFRMMAIN.ACTEDITNEW.CAPTION
@@ -2059,3 +2059,10 @@ msgstr ""
 msgid "General"
 msgstr ""
 
+#: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
+msgid "Show button menu"
+msgstr ""
+
+#: TFRMMAIN.ACTOPEN.CAPTION
+msgid "Open"
+msgstr ""

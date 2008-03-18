@@ -54,6 +54,7 @@ type
     actFileAssoc: TAction;
     actFocusCmdLine: TAction;
     actContextMenu: TAction;
+    actOpen: TAction;
     actQuickSearch: TAction;
     actShowButtonMenu: TAction;
     actOpenArchive: TAction;
@@ -209,6 +210,7 @@ type
     procedure actFocusCmdLineExecute(Sender: TObject);
     procedure actLeftOpenDrivesExecute(Sender: TObject);
     procedure actOpenArchiveExecute(Sender: TObject);
+    procedure actOpenExecute(Sender: TObject);
     procedure actOpenVFSListExecute(Sender: TObject);
     procedure actPackFilesExecute(Sender: TObject);
     procedure actQuickSearchExecute(Sender: TObject);
@@ -668,6 +670,11 @@ end;
 procedure TfrmMain.actOpenArchiveExecute(Sender: TObject);
 begin
   ActiveFrame.pnlFile.TryOpenArchive(ActiveFrame.GetActiveItem);
+end;
+
+procedure TfrmMain.actOpenExecute(Sender: TObject);
+begin
+  ActiveFrame.pnlFile.ChooseFile(ActiveFrame.GetActiveItem);
 end;
 
 procedure TfrmMain.actOpenVFSListExecute(Sender: TObject);

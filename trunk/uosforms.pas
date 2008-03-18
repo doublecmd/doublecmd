@@ -287,8 +287,7 @@ end;
     CM.Items.Clear;
 
   mi:=TMenuItem.Create(CM);
-  mi.Caption:='Open...';
-  mi.Hint := 'open';
+  mi.Action := frmMain.actOpen;
   CM.Items.Add(mi);
 
   mi:=TMenuItem.Create(CM);

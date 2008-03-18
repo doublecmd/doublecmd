@@ -1235,6 +1235,10 @@ msgstr "Menú F9"
 msgid "More"
 msgstr "Más"
 
+#: TFRMMAIN.ACTRENAME.CAPTION
+msgid "Move F6"
+msgstr "Renombrar F6"
+
 #: TFRMMOVEDLG.LBLMOVESRC.CAPTION
 msgid "Move \%s:"
 msgstr "Mover \%s:"
@@ -1338,6 +1342,10 @@ msgstr "Antiguo nombre de fichero"
 #: TFRMMOVEDLG.LBLFILETYPE.CAPTION
 msgid "Only type:"
 msgstr "Sólo de tipo:"
+
+#: TFRMMAIN.ACTOPEN.CAPTION
+msgid "Open"
+msgstr ""
 
 #: TFRMMAIN.ACTOPENVFSLIST.CAPTION
 msgid "Open VFS List"
@@ -1498,14 +1506,6 @@ msgstr "Eliminar pestaña"
 #: TFRMOPTIONS.BBTNWFXRENAME.CAPTION
 msgid "Rename"
 msgstr "Renombrar"
-
-#: TFRMMAIN.ACTRENAME.CAPTION
-msgid "Rename F6"
-msgstr "Renombrar F6"
-
-#: TFRMMAIN.ACTRENAMEONLY.CAPTION
-msgid "Rename only"
-msgstr "Sólo renombrar"
 
 #: ulng.rsmsgrenfldr
 msgid "Rename/move \%d selected files/directories?"
@@ -1682,6 +1682,10 @@ msgstr "Mostrar como &Texto"
 #: TFRMVIEWER.MIWRAPTEXT.CAPTION
 msgid "Show as &Wrap text"
 msgstr "Ajustar líneas"
+
+#: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
+msgid "Show button menu"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWCMDLINE.CAPTION
 msgid "Show command &line"
