@@ -66,6 +66,7 @@ type
 
     {Editors}
     procedure SpinEditExit(Sender: TObject);
+    procedure EditExit(Sender: TObject);
     procedure BitBtnDeleteFieldClick(Sender: TObject);
     procedure ButtonAddClick(Sender: TObject);
     procedure ComboBoxXSelect(Sender: TObject);
@@ -84,6 +85,7 @@ var
   frmColumnsSetConf: TfColumnsSetConf;
   updWidth:TSpinEdit;
   cbbAlign:TComboBox;
+  edtField:TEdit;
   btnAdd:TButton;
   btnDel:TBitBtn;
 
@@ -97,6 +99,9 @@ begin
      stgColumns.Cells[2,(Sender as TSpinEdit).Tag]:=inttostr(updWidth.Value);
     if Sender is TComboBox then
      stgColumns.Cells[3,(Sender as TComboBox).Tag]:=(Sender as TComboBox).Text;
+    if Sender is TEdit then
+     stgColumns.Cells[4,(Sender as TEdit).Tag]:=(Sender as TEdit).Text;
+
    end;
 end;
 
@@ -114,7 +119,8 @@ begin
   if assigned(cbbAlign) then FreeAndNil(cbbAlign);
   if assigned(btnAdd) then FreeAndNil(btnAdd);
   if assigned(btnDel) then FreeAndNil(btnDel);
-
+  if assigned(edtField) then FreeAndNil(edtField);
+  
  try
   case aCol of
     0: begin
@@ -190,6 +196,21 @@ begin
              OnClick:=@ButtonAddClick;
              Visible:=true;
            end;
+         edtField:=TEdit.Create(frmColumnsSetConf);
+         with edtField do
+           begin
+             Parent:=(Sender as TStringGrid);
+             Width:=(Sender as TStringGrid).ColWidths[aCol];
+             Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Left;
+             Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
+             Height:=(Sender as TStringGrid).RowHeights[aRow];
+             Tag:=aRow;
+             OnExit:=@EditExit;
+             OnKeyDown:=@EditorKeyDown;
+             Visible:=false;
+             Text:=(Sender as TStringGrid).Cells[aCol,aRow];
+           end;
+         Editor:=edtField;
        end;
   end;
 
@@ -219,6 +240,7 @@ procedure TfColumnsSetConf.EditorKeyDown(Sender: TObject; var Key: Word;
 begin
     if Key=VK_RETURN then
       begin
+         EditorSaveResult(Sender);
          stgColumns.EditorExit(Sender);
          Key:=0;
       end;
@@ -244,6 +266,7 @@ begin
   if assigned(cbbAlign) then FreeAndNil(cbbAlign);
   if assigned(btnAdd) then FreeAndNil(btnAdd);
   if assigned(btnDel) then FreeAndNil(btnDel);
+  if assigned(edtField) then FreeAndNil(edtField);
   
    ColumnClass.Free;
 end;
@@ -278,6 +301,11 @@ end;
 procedure TfColumnsSetConf.SpinEditExit(Sender: TObject);
 begin
   EditorSaveResult(Sender);
+end;
+
+procedure TfColumnsSetConf.EditExit(Sender: TObject);
+begin
+EditorSaveResult(Sender);
 end;
 
 procedure TfColumnsSetConf.ComboBoxXSelect(Sender: TObject);
