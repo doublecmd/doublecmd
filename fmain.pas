@@ -979,7 +979,7 @@ begin
       for i:=0 to pnlFile.FileList.Count-1 do
       begin
         fr:=pnlFile.GetFileItemPtr(i);
-        if fr^.bSelected and not (FPS_ISDIR(fr^.iMode)) then
+        if fr^.bSelected and not (FPS_ISDIR(fr^.iMode) or fr^.bLinkIsDir) then
         begin
           (* If in Virtual File System *)
           if pnlFile.PanelMode in [pmArchive, pmVFS] then
@@ -1011,7 +1011,7 @@ begin
       else
         begin
           fr := pnlFile.GetActiveItem;
-          if FPS_ISDIR(fr^.iMode) then
+          if (FPS_ISDIR(fr^.iMode) or fr^.bLinkIsDir) then
             begin
               Screen.Cursor:=crHourGlass;
               try
