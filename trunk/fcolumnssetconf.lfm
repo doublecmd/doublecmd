@@ -1,44 +1,46 @@
 object fColumnsSetConf: TfColumnsSetConf
-  Left = 289
-  Height = 726
-  Top = 91
-  Width = 987
-  HorzScrollBar.Page = 986
-  VertScrollBar.Page = 725
-  Caption = 'Configure Custom columns view'
-  ClientHeight = 726
-  ClientWidth = 987
+  Left = 259
+  Height = 560
+  Top = 73
+  Width = 800
+  HorzScrollBar.Page = 799
+  VertScrollBar.Page = 559
+  ActiveControl = edtNameofColumnsSet
+  Caption = 'Configure custom columns view'
+  ClientHeight = 560
+  ClientWidth = 800
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
+  Position = poScreenCenter
   object Panel1: TPanel
     Height = 36
-    Width = 987
+    Width = 800
     Align = alTop
     ClientHeight = 36
-    ClientWidth = 987
+    ClientWidth = 800
     TabOrder = 0
-    object Label1: TLabel
+    object lblConfigViewNr: TLabel
       Left = 8
-      Height = 13
+      Height = 14
       Top = 11
-      Width = 145
+      Width = 90
       Caption = 'Configure view nr:'
       ParentColor = False
     end
     object lbNrOfColumnsSet: TLabel
       Left = 168
-      Height = 13
+      Height = 14
       Top = 11
-      Width = 9
+      Width = 7
       Caption = '0'
       ParentColor = False
     end
-    object Label2: TLabel
+    object lblName: TLabel
       Left = 216
-      Height = 13
+      Height = 14
       Top = 10
-      Width = 41
+      Width = 32
       Caption = 'Name:'
       ParentColor = False
     end
@@ -46,30 +48,30 @@ object fColumnsSetConf: TfColumnsSetConf
       Left = 255
       Height = 23
       Top = 4
-      Width = 727
+      Width = 540
       Anchors = [akTop, akLeft, akRight]
       TabOrder = 0
     end
   end
   object Panel2: TPanel
-    Height = 648
+    Height = 482
     Top = 36
-    Width = 987
+    Width = 800
     Align = alClient
-    ClientHeight = 648
-    ClientWidth = 987
+    ClientHeight = 482
+    ClientWidth = 800
     TabOrder = 1
     object stgColumns: TStringGrid
       Left = 1
-      Height = 613
+      Height = 447
       Top = 1
-      Width = 985
+      Width = 798
       Align = alClient
       ColCount = 5
       FixedColor = clBtnFace
       FixedCols = 0
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goEditing, goSmoothScroll]
-      PopupMenu = PopupMenu1
+      PopupMenu = pmStringGrid
       RowCount = 3
       ScrollBars = ssAutoBoth
       TabOrder = 0
@@ -82,7 +84,7 @@ object fColumnsSetConf: TfColumnsSetConf
         129
         64
         61
-        477
+        457
       )
       Cells = (
         5
@@ -106,57 +108,57 @@ object fColumnsSetConf: TfColumnsSetConf
     object Panel4: TPanel
       Left = 1
       Height = 33
-      Top = 614
-      Width = 985
+      Top = 448
+      Width = 798
       Align = alBottom
       TabOrder = 1
     end
   end
   object Panel3: TPanel
     Height = 42
-    Top = 684
-    Width = 987
+    Top = 518
+    Width = 800
     Align = alBottom
     ClientHeight = 42
-    ClientWidth = 987
+    ClientWidth = 800
     TabOrder = 2
     object btnOk: TBitBtn
-      Left = 776
+      Left = 589
       Height = 30
       Top = 6
       Width = 91
       Anchors = [akTop, akRight]
-      Default = True
       Caption = '&OK'
-	  Kind = bkOK
+      Default = True
+      Kind = bkOK
       ModalResult = 1
       NumGlyphs = 0
       OnClick = btnOkClick
       TabOrder = 0
     end
     object btnCancel: TBitBtn
-      Left = 880
+      Left = 693
       Height = 30
       Top = 6
       Width = 99
       Anchors = [akTop, akRight]
-	  Caption = 'Cancel'
+      Caption = 'Cancel'
       Kind = bkCancel
       ModalResult = 2
       NumGlyphs = 0
       TabOrder = 1
     end
   end
-  object PopupMenu1: TPopupMenu
+  object pmStringGrid: TPopupMenu
     left = 8
-    top = 600
-    object MenuItem1: TMenuItem
+    top = 528
+    object miAddColumn: TMenuItem
       Caption = 'Add column'
-      OnClick = MenuItem1Click
+      OnClick = miAddColumnClick
     end
   end
   object pmFields: TPopupMenu
-    left = 808
+    left = 773
     top = 40
   end
 end

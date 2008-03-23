@@ -158,11 +158,11 @@ type
     gbFileSearch: TGroupBox;
     gbLocConfigFiles: TGroupBox;
     gbSaveOnExit: TGroupBox;
-    Label1: TLabel;
+    lblConfigColumns: TLabel;
     lblCategoryAttr: TLabel;
     lblInstalledPlugins1: TLabel;
     lstColumnsSets: TListBox;
-    Panel2: TPanel;
+    pnlButtons: TPanel;
     pgColumns: TPage;
     rgScrolling: TRadioGroup;
     rbCtrlAltLetterQS: TRadioButton;

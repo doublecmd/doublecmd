@@ -2032,7 +2032,7 @@ msgid "Sort by date"
 msgstr ""
 
 #: TFCOLUMNSSETCONF.CAPTION
-msgid "Configure Custom columns view"
+msgid "Configure custom columns view"
 msgstr ""
 
 #: ulng.rsoptconfig
@@ -2066,3 +2066,20 @@ msgstr ""
 #: TFRMMAIN.ACTOPEN.CAPTION
 msgid "Open"
 msgstr ""
+
+#: TFRMOPTIONS.LBLCONFIGCOLUMNS.CAPTION
+msgid "Configure columns for file system:"
+msgstr ""
+
+#: TFCOLUMNSSETCONF.LBLCONFIGVIEWNR.CAPTION
+msgid "Configure view nr:"
+msgstr ""
+
+#: TFCOLUMNSSETCONF.LBNROFCOLUMNSSET.CAPTION
+msgid "0"
+msgstr ""
+
+#: TFCOLUMNSSETCONF.MIADDCOLUMN.CAPTION
+msgid "Add column"
+msgstr ""
+

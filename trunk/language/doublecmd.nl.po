@@ -271,6 +271,10 @@ msgstr "/usr/X11R6/bin/xterm"
 msgid "/usr/X11R6/bin/xterm -e bash -i -c \%s"
 msgstr "/usr/X11R6/bin/xterm -e bash -i -c \%s"
 
+#: TFCOLUMNSSETCONF.LBNROFCOLUMNSSET.CAPTION
+msgid "0"
+msgstr ""
+
 #: TFRMMULTIRENAME.CMBXWIDTH.TEXT
 msgid "01"
 msgstr "01"
@@ -322,6 +326,10 @@ msgstr "Voeg toe"
 #: TFRMCONFIGTOOLBAR.BTNADDSUBBAR.CAPTION
 msgid "Add S&ubbar >>"
 msgstr "Voeg S&ubbalk toe >>"
+
+#: TFCOLUMNSSETCONF.MIADDCOLUMN.CAPTION
+msgid "Add column"
+msgstr ""
 
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
@@ -495,16 +503,24 @@ msgstr "Vergelijk bestanden"
 msgid "Configuration"
 msgstr ""
 
-#: TFCOLUMNSSETCONF.CAPTION
-msgid "Configure Custom columns view"
+#: TFRMOPTIONS.LBLCONFIGCOLUMNS.CAPTION
+msgid "Configure columns for file system:"
 msgstr ""
 
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
 msgstr ""
 
+#: TFCOLUMNSSETCONF.CAPTION
+msgid "Configure custom columns view"
+msgstr ""
+
 #: ulng.rsmenuconfigurethiscustomcolumn
 msgid "Configure this custom columns view"
+msgstr ""
+
+#: TFCOLUMNSSETCONF.LBLCONFIGVIEWNR.CAPTION
+msgid "Configure view nr:"
 msgstr ""
 
 #: TFRMOPTIONS.TSWDX.CAPTION

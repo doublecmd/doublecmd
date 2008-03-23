@@ -270,6 +270,10 @@ msgstr ""
 msgid "/usr/X11R6/bin/xterm -e bash -i -c \%s"
 msgstr ""
 
+#: TFCOLUMNSSETCONF.LBNROFCOLUMNSSET.CAPTION
+msgid "0"
+msgstr ""
+
 #: TFRMMULTIRENAME.CMBXWIDTH.TEXT
 msgid "01"
 msgstr ""
@@ -321,6 +325,10 @@ msgstr "Добавить"
 #: TFRMCONFIGTOOLBAR.BTNADDSUBBAR.CAPTION
 msgid "Add S&ubbar >>"
 msgstr "Добавить панель..."
+
+#: TFCOLUMNSSETCONF.MIADDCOLUMN.CAPTION
+msgid "Add column"
+msgstr "Добавить колонку"
 
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
@@ -494,17 +502,25 @@ msgstr "Сравнить файлы"
 msgid "Configuration"
 msgstr "Конфигурация"
 
-#: TFCOLUMNSSETCONF.CAPTION
-msgid "Configure Custom columns view"
-msgstr ""
+#: TFRMOPTIONS.LBLCONFIGCOLUMNS.CAPTION
+msgid "Configure columns for file system:"
+msgstr "Настроить колонки для файловой системы:"
 
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
 msgstr "Настроить наборы колонок"
 
+#: TFCOLUMNSSETCONF.CAPTION
+msgid "Configure custom columns view"
+msgstr "Настройка набора колонок"
+
 #: ulng.rsmenuconfigurethiscustomcolumn
 msgid "Configure this custom columns view"
 msgstr "Настроить текущий набор колонок"
+
+#: TFCOLUMNSSETCONF.LBLCONFIGVIEWNR.CAPTION
+msgid "Configure view nr:"
+msgstr "Настройка набора номер:"
 
 #: TFRMOPTIONS.TSWDX.CAPTION
 msgid "Content plugins (.WDX)"

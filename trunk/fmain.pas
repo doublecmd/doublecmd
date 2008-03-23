@@ -2595,6 +2595,8 @@ var
   miTmp : TMenuItem;
 begin
   pmDrivesMenu.Items.Clear;
+  btnLeftDrive.Caption := '';
+  btnRightDrive.Caption := '';
   Count := DrivesList.Count - 1;
   for I := 0 to Count do
     begin
@@ -2608,14 +2610,14 @@ begin
         
         if gDriveMenuButton then
           begin
-            if Pos(Path, FrameLeft.pnlFile.ActiveDir) = 1 then
+            if Pos(LowerCase(Path), LowerCase(FrameLeft.pnlFile.ActiveDir)) = 1 then
               begin
                 btnLeftDrive.Glyph := PixMapManager.GetDriveIcon(Drive, btnLeftDrive.Height - 4, btnLeftDrive.Color);
                 btnLeftDrive.Caption := Name;
                 btnLeftDrive.Width := btnLeftDrive.Glyph.Width + btnLeftDrive.Canvas.TextWidth(btnLeftDrive.Caption) + 16;
                 dskLeft.Tag := I;
               end;
-            if Pos(Path, FrameRight.pnlFile.ActiveDir) = 1 then
+            if Pos(LowerCase(Path), LowerCase(FrameRight.pnlFile.ActiveDir)) = 1 then
               begin
                 btnRightDrive.Glyph := PixMapManager.GetDriveIcon(Drive, btnRightDrive.Height - 4, btnRightDrive.Color);
                 btnRightDrive.Caption := Name;
