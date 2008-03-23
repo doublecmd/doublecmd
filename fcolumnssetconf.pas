@@ -39,22 +39,22 @@ type
     btnOk: TBitBtn;
     btnCancel: TBitBtn;
     edtNameofColumnsSet: TEdit;
-    Label1: TLabel;
-    Label2: TLabel;
+    lblConfigViewNr: TLabel;
+    lblName: TLabel;
     lbNrOfColumnsSet: TLabel;
-    MenuItem1: TMenuItem;
+    miAddColumn: TMenuItem;
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
     Panel4: TPanel;
-    PopupMenu1: TPopupMenu;
+    pmStringGrid: TPopupMenu;
     pmFields: TPopupMenu;
     stgColumns: TStringGrid;
     procedure btnOkClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure MenuItem1Click(Sender: TObject);
+    procedure miAddColumnClick(Sender: TObject);
     procedure MenuFieldsClick(Sender: TObject);
     procedure stgColumnsHeaderSized(Sender: TObject; IsColumn: Boolean;
       Index: Integer);
@@ -293,7 +293,7 @@ begin
 end;
 
 
-procedure TfColumnsSetConf.MenuItem1Click(Sender: TObject);
+procedure TfColumnsSetConf.miAddColumnClick(Sender: TObject);
 begin
   AddNewField;
 end;
