@@ -1,4 +1,6 @@
-﻿12.03.2008 FIX: Bug [ 1888653 ] панель файлов и копирование/перемещение
+﻿23.03.2008 FIX: Bug [ 1870551 ] F3 на каталоге.
+23.03.2008 FIX: Bug [ 1921004 ] отображенее "писок диска"
+12.03.2008 FIX: Bug [ 1888653 ] панель файлов и копирование/перемещение
 06.03.2008 FIX: Bug [ 1860836 ] "Show" does not refresh
 05.03.2008 FIX: Bug [ 1860660 ] Non-translatable strings
 28.02.2008 FIX: The filedate of the copied file is <> to original file date (Windows)
