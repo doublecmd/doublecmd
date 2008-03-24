@@ -733,7 +733,7 @@ procedure TfrmMain.DeleteClick(Sender: TObject);
 begin
 if pmToolBar.Tag >= 0 then
    begin
-   if msgYesNo('You really want delete button?') then
+   if msgYesNo(Format(rsMsgDelSel, [MainToolBar.Buttons[pmToolBar.Tag].Hint])) then
       begin
          MainToolBar.RemoveButton (pmToolBar.Tag);
          MainToolBar.SaveToFile(gpIniDir + 'default.bar');
