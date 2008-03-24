@@ -339,6 +339,10 @@ msgstr "Uitgebreid"
 msgid "Al&t+Letters"
 msgstr ""
 
+#: ulng.rsconfcolalign
+msgid "Align"
+msgstr ""
+
 #: TFRMOPTIONS.LBLEXT.CAPTION
 msgid "All files with e&xtension (ending with):"
 msgstr "Alle bestanden met e&xtenties (eindigende op):"
@@ -434,6 +438,10 @@ msgstr "Kan bestand niet aanmaken"
 #: ulng.rsmsgerreopen
 msgid "Cannot open existing file"
 msgstr "Kan bestaand bestand niet openen"
+
+#: ulng.rsconfcolcaption
+msgid "Caption"
+msgstr ""
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sensitive"
@@ -874,6 +882,10 @@ msgstr "P&latte iconen"
 #: TFRMFINDDLG.BTNWORKWITHFOUND.CAPTION
 msgid "Feed to &listbox"
 msgstr "Voeg toe aan &listbox"
+
+#: ulng.rsconfcolfieldcont
+msgid "Field contents"
+msgstr ""
 
 #: ulng.rspropsfile
 msgid "File"

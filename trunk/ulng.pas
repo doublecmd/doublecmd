@@ -104,6 +104,12 @@ resourcestring
   rsColSize = 'Size';
   rsColDate = 'Date';
   rsColAttr = 'Attr';
+  // Configure custom columns dialog
+  rsConfColDelete = 'Delete';
+  rsConfColCaption = 'Caption';
+  rsConfColWidth = 'Width';
+  rsConfColAlign = 'Align';
+  rsConfColFieldCont = 'Field contents';
   // File properties dialog
   rsPropsYes = 'Yes (%s)';
   rsPropsNo = 'No';

@@ -339,6 +339,10 @@ msgstr "高级"
 msgid "Al&t+Letters"
 msgstr ""
 
+#: ulng.rsconfcolalign
+msgid "Align"
+msgstr ""
+
 #: TFRMOPTIONS.LBLEXT.CAPTION
 msgid "All files with e&xtension (ending with):"
 msgstr "所有扩展名是:"
@@ -434,6 +438,10 @@ msgstr "不能创建文件"
 #: ulng.rsmsgerreopen
 msgid "Cannot open existing file"
 msgstr "不能打开已存在的文件"
+
+#: ulng.rsconfcolcaption
+msgid "Caption"
+msgstr ""
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sensitive"
@@ -874,6 +882,10 @@ msgstr "扁平图标(&L)"
 #: TFRMFINDDLG.BTNWORKWITHFOUND.CAPTION
 msgid "Feed to &listbox"
 msgstr "发给列表框(&L)"
+
+#: ulng.rsconfcolfieldcont
+msgid "Field contents"
+msgstr ""
 
 #: ulng.rspropsfile
 msgid "File"
