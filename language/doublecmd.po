@@ -2083,3 +2083,15 @@ msgstr ""
 msgid "Add column"
 msgstr ""
 
+#: ulng.rsconfcolcaption
+msgid "Caption"
+msgstr ""
+
+#: ulng.rsconfcolalign
+msgid "Align"
+msgstr ""
+
+#: ulng.rsconfcolfieldcont
+msgid "Field contents"
+msgstr ""
+

@@ -275,6 +275,26 @@ ulng.rscoldate='Date'
 ulng.rscolattr='Attr'
 
 
+# hash value = 78392485
+ulng.rsconfcoldelete='Delete'
+
+
+# hash value = 159887390
+ulng.rsconfcolcaption='Caption'
+
+
+# hash value = 6159272
+ulng.rsconfcolwidth='Width'
+
+
+# hash value = 4730846
+ulng.rsconfcolalign='Align'
+
+
+# hash value = 194570195
+ulng.rsconfcolfieldcont='Field contents'
+
+
 # hash value = 206743977
 ulng.rspropsyes='Yes (%s)'
 

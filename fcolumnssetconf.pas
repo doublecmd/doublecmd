@@ -91,6 +91,8 @@ var
 
 implementation
 
+uses uLng;
+
 procedure EditorSaveResult(Sender: TObject);
 begin
  with frmColumnsSetConf do
@@ -290,6 +292,12 @@ begin
             stgColumns.RowCount:=1;
             frmColumnsSetConf.AddNewField;
         end;
+    // Localize StringGrid header
+    stgColumns.Cells[0,0]:= rsConfColDelete;
+    stgColumns.Cells[1,0]:= rsConfColCaption;
+    stgColumns.Cells[2,0]:= rsConfColWidth;
+    stgColumns.Cells[3,0]:= rsConfColAlign;
+    stgColumns.Cells[4,0]:= rsConfColFieldCont;
 end;
 
 

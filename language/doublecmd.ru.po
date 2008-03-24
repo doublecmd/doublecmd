@@ -338,6 +338,10 @@ msgstr "Расширенный"
 msgid "Al&t+Letters"
 msgstr "Al&t+Буква"
 
+#: ulng.rsconfcolalign
+msgid "Align"
+msgstr "Выравн."
+
 #: TFRMOPTIONS.LBLEXT.CAPTION
 msgid "All files with e&xtension (ending with):"
 msgstr "&Файлы с расширением:"
@@ -433,6 +437,10 @@ msgstr "Не могу создать файл"
 #: ulng.rsmsgerreopen
 msgid "Cannot open existing file"
 msgstr "Не могу открыть файл"
+
+#: ulng.rsconfcolcaption
+msgid "Caption"
+msgstr "Заголовок"
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sensitive"
@@ -873,6 +881,10 @@ msgstr "Плоские"
 #: TFRMFINDDLG.BTNWORKWITHFOUND.CAPTION
 msgid "Feed to &listbox"
 msgstr "Фай&лы на панель"
+
+#: ulng.rsconfcolfieldcont
+msgid "Field contents"
+msgstr "Содержимое поля данных"
 
 #: ulng.rspropsfile
 msgid "File"

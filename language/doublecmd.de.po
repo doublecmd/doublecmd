@@ -339,6 +339,10 @@ msgstr "Fortgeschritten"
 msgid "Al&t+Letters"
 msgstr ""
 
+#: ulng.rsconfcolalign
+msgid "Align"
+msgstr ""
+
 #: TFRMOPTIONS.LBLEXT.CAPTION
 msgid "All files with e&xtension (ending with):"
 msgstr "Alle Dateien mit der Endung:"
@@ -434,6 +438,10 @@ msgstr "Kann Datei nicht erstellen"
 #: ulng.rsmsgerreopen
 msgid "Cannot open existing file"
 msgstr "Kann bestehende Datei nicht öffnen"
+
+#: ulng.rsconfcolcaption
+msgid "Caption"
+msgstr ""
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sensitive"
@@ -874,6 +882,10 @@ msgstr "&Flache Schalter"
 #: TFRMFINDDLG.BTNWORKWITHFOUND.CAPTION
 msgid "Feed to &listbox"
 msgstr "Füge in Listbox ein"
+
+#: ulng.rsconfcolfieldcont
+msgid "Field contents"
+msgstr ""
 
 #: ulng.rspropsfile
 msgid "File"

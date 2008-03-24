@@ -339,6 +339,10 @@ msgstr "Avanzado"
 msgid "Al&t+Letters"
 msgstr ""
 
+#: ulng.rsconfcolalign
+msgid "Align"
+msgstr ""
+
 #: TFRMOPTIONS.LBLEXT.CAPTION
 msgid "All files with e&xtension (ending with):"
 msgstr "Ficheros con e&xtensión (acabados en):"
@@ -434,6 +438,10 @@ msgstr "Imposible crear el fichero"
 #: ulng.rsmsgerreopen
 msgid "Cannot open existing file"
 msgstr "Imposible abrir el fichero existente"
+
+#: ulng.rsconfcolcaption
+msgid "Caption"
+msgstr ""
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sensitive"
@@ -874,6 +882,10 @@ msgstr "Iconos p&lanos"
 #: TFRMFINDDLG.BTNWORKWITHFOUND.CAPTION
 msgid "Feed to &listbox"
 msgstr "Incluir en la lista"
+
+#: ulng.rsconfcolfieldcont
+msgid "Field contents"
+msgstr ""
 
 #: ulng.rspropsfile
 msgid "File"
