@@ -1,46 +1,46 @@
 object fColumnsSetConf: TfColumnsSetConf
-  Left = 259
-  Height = 560
-  Top = 73
-  Width = 800
-  HorzScrollBar.Page = 799
-  VertScrollBar.Page = 559
+  Left = 289
+  Height = 726
+  Top = 91
+  Width = 987
+  HorzScrollBar.Page = 986
+  VertScrollBar.Page = 725
   ActiveControl = edtNameofColumnsSet
   Caption = 'Configure custom columns view'
-  ClientHeight = 560
-  ClientWidth = 800
+  ClientHeight = 726
+  ClientWidth = 987
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
   object Panel1: TPanel
     Height = 36
-    Width = 800
+    Width = 987
     Align = alTop
     ClientHeight = 36
-    ClientWidth = 800
+    ClientWidth = 987
     TabOrder = 0
     object lblConfigViewNr: TLabel
       Left = 8
-      Height = 14
+      Height = 13
       Top = 11
-      Width = 90
+      Width = 145
       Caption = 'Configure view nr:'
       ParentColor = False
     end
     object lbNrOfColumnsSet: TLabel
       Left = 168
-      Height = 14
+      Height = 13
       Top = 11
-      Width = 7
+      Width = 9
       Caption = '0'
       ParentColor = False
     end
     object lblName: TLabel
       Left = 216
-      Height = 14
+      Height = 13
       Top = 10
-      Width = 32
+      Width = 41
       Caption = 'Name:'
       ParentColor = False
     end
@@ -48,26 +48,26 @@ object fColumnsSetConf: TfColumnsSetConf
       Left = 255
       Height = 23
       Top = 4
-      Width = 540
+      Width = 727
       Anchors = [akTop, akLeft, akRight]
       TabOrder = 0
     end
   end
   object Panel2: TPanel
-    Height = 482
+    Height = 648
     Top = 36
-    Width = 800
+    Width = 987
     Align = alClient
-    ClientHeight = 482
-    ClientWidth = 800
+    ClientHeight = 648
+    ClientWidth = 987
     TabOrder = 1
     object stgColumns: TStringGrid
       Left = 1
-      Height = 447
+      Height = 613
       Top = 1
-      Width = 798
+      Width = 985
       Align = alClient
-      ColCount = 5
+      ColCount = 6
       FixedColor = clBtnFace
       FixedCols = 0
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goEditing, goSmoothScroll]
@@ -85,9 +85,10 @@ object fColumnsSetConf: TfColumnsSetConf
         64
         61
         457
+        38
       )
       Cells = (
-        5
+        6
         0
         0
         'Delete'
@@ -103,27 +104,30 @@ object fColumnsSetConf: TfColumnsSetConf
         4
         0
         'Field contents'
+        5
+        0
+        'Move'
       )
     end
     object Panel4: TPanel
       Left = 1
       Height = 33
-      Top = 448
-      Width = 798
+      Top = 614
+      Width = 985
       Align = alBottom
       TabOrder = 1
     end
   end
   object Panel3: TPanel
     Height = 42
-    Top = 518
-    Width = 800
+    Top = 684
+    Width = 987
     Align = alBottom
     ClientHeight = 42
-    ClientWidth = 800
+    ClientWidth = 987
     TabOrder = 2
     object btnOk: TBitBtn
-      Left = 589
+      Left = 776
       Height = 30
       Top = 6
       Width = 91
@@ -137,7 +141,7 @@ object fColumnsSetConf: TfColumnsSetConf
       TabOrder = 0
     end
     object btnCancel: TBitBtn
-      Left = 693
+      Left = 880
       Height = 30
       Top = 6
       Width = 99
