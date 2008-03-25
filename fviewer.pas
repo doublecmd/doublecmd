@@ -112,6 +112,7 @@ type
     //---------------------
     WlxPlugins:TWLXModuleList;
     //---------------------
+    function CheckPlugins(Index:integer; Force: boolean=false):boolean;
     procedure UpDateScrollBar;
     Function CheckGraphics(const sFileName:String):Boolean;
     procedure AdjustViewerSize(ReqWidth, ReqHeight: Integer);
@@ -150,6 +151,7 @@ begin
   Caption:=FileList.Strings[iIndex];
   Screen.Cursor:=crHourGlass;
   try
+    if not CheckPlugins(iIndex) then
 //    DebugLn('View: BeforeCheckGraphics:' + iIndex);
     if CheckGraphics(FileList.Strings[iIndex]) then
     begin
@@ -196,22 +198,29 @@ begin
 
 end;
 
-procedure TfrmViewer.miPluginsClick(Sender: TObject);
+function TfrmViewer.CheckPlugins(Index:integer; Force:boolean=false):boolean;
 var i:integer;
 begin
   i:=0;
-  DebugLn('WlXPluginsCount = '+inttostr(WlxPlugins.Count));
+  DebugLn('WlXPlugins.Count = '+inttostr(WlxPlugins.Count));
   while (i<WlxPlugins.Count) do
-   if WlxPlugins.GetWLxModule(i).FileParamVSDetectStr(FileList[iActiveFile]) then
+   if WlxPlugins.GetWLxModule(i).FileParamVSDetectStr(FileList[Index]) then
      begin
+       Result:=true;
        DebugLn('I = '+Inttostr(I));
        nbPages.Hide;
        if not WlxPrepareContainer(pnlLister.Handle) then {TODO: ERROR and exit;};
        WlxPlugins.LoadModule(i);
-       WlxPlugins.GetWLxModule(i).CallListLoad(pnlLister.Handle,FileList[iActiveFile], {TODO: showFlags}0);
-       break;
+       WlxPlugins.GetWLxModule(i).CallListLoad(pnlLister.Handle,FileList[Index], {TODO: showFlags}0);
+       Exit;
      end
    else  i:=i+1;
+ Result:=false;
+end;
+
+procedure TfrmViewer.miPluginsClick(Sender: TObject);
+begin
+  CheckPlugins(iActiveFile,true);
 end;
 
 procedure TfrmViewer.ViewerControlMouseWheelDown(Sender: TObject;
@@ -581,6 +590,7 @@ begin
     end;
   end;
 end;
+
 
 initialization
  {$I fviewer.lrs}
