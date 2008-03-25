@@ -486,3 +486,5 @@ ulng.rsmenuconfigurecustomcolumns='Configure custom columns'
 # hash value = 38545767
 ulng.rsmenuconfigurethiscustomcolumn='Configure this custom columns view'
 
+# hash value = 128648723
+ulng.rsmnuactions='Actions'
