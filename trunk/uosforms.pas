@@ -74,7 +74,7 @@ function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boo
 implementation
 
 uses
-  LCLProc, fMain, uVFSutil, uOSUtils, uExts, uGlobs;
+  LCLProc, fMain, uVFSutil, uOSUtils, uExts, uGlobs, uLng;
 
 var
 {$IFDEF MSWINDOWS}
@@ -298,7 +298,7 @@ end;
   if (FileList.Count = 1) and not (FPS_ISDIR(fri.iMode) or (fri.bLinkIsDir)) then
     begin
       miActions:=TMenuItem.Create(CM);
-      miActions.Caption:='Actions';
+      miActions.Caption:= rsMnuActions;
       CM.Items.Add(miActions);
   
       { Actions submenu }
