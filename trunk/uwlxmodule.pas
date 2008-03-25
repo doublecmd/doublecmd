@@ -26,11 +26,16 @@
 unit uwlxmodule; 
 
 {$mode objfpc}{$H+}
-
+{$I interface.inc}
 interface
 
 uses
-  Classes, SysUtils,dynlibs,uDetectStr,uwlxprototypes,WLXPlugin,Inifiles,uDCUtils,uGlobs{,LCLProc};
+  Classes, SysUtils, dynlibs, uDetectStr, uwlxprototypes, WLXPlugin,
+  Inifiles, uDCUtils, uGlobs,LCLProc
+  {$IFDEF GTK}
+    ,gtk,glib,gdk
+  {$ENDIF}
+  ;
 
 type
 
@@ -81,6 +86,9 @@ type
         function CallListSearchText(SearchString: string; SearchParameter: integer): integer;
         function CallListSendCommand(Command, Parameter: integer): integer;
         //---------------------
+//        function FileParamVSDetectStr(ptr:PFileRecItem):boolean; overload;
+        function FileParamVSDetectStr(AFileName:String):boolean; //overload;
+        //---------------------
         property IsLoaded:boolean read GIsLoaded;
         property ModuleHandle:TLibHandle read FModuleHandle write FModuleHandle;
         property Force:boolean read FForce write FForce;
@@ -108,22 +116,41 @@ type
         function Add(Item:TWLXModule):integer;overload;
         function Add(FileName:string):integer;overload;
         function Add(AName,FileName,DetectStr:string):integer;overload;
-
+        //---------------------
         function IsLoaded(AName:String):Boolean;overload;
         function IsLoaded(Index: integer):Boolean;overload;
         function LoadModule(AName:String):Boolean; overload;
         function LoadModule(Index: integer): Boolean; overload;
-
+        //---------------------
         function GetWLxModule(Index:integer):TWLXModule;overload;
         function GetWlxModule(AName:string):TWLXModule;overload;
+        //---------------------
         //---------------------
         //property WlxList:TStringList read Flist;
         property Count:integer read GetCount;
       end;
 
-
+  Function WlxPrepareContainer(Ahandle:THandle):boolean;
 
 implementation
+
+function WlxPrepareContainer(Ahandle: THandle): boolean;
+{$IFDEF GTK}
+  var lst:PGList;
+{$ENDIF}
+begin
+{$IFDEF GTK}
+    //Hide controls from our gtk container
+    lst:=gtk_container_children(GTK_CONTAINER(PGtkwidget(AHandle)));
+    if lst<>nil then
+    begin
+      gtk_widget_hide(PGtkWidget(lst^.data));
+      Result:=true;
+    end else Result:=false;
+{$ENDIF}
+
+
+end;
 
 { TWLXModule }
 
@@ -260,6 +287,20 @@ begin
        Result:=ListSendCommand(FPluginWindow, Command, Parameter);
      end
    else Result:=LISTPLUGIN_ERROR;
+end;
+
+{function TWLXModule.FileParamVSDetectStr(ptr: PFileRecItem): boolean;
+begin
+  FParser.DetectStr:=Self.DetectStr;
+  Result:=FParser.TestFileResult(ptr);
+end;}
+
+function TWLXModule.FileParamVSDetectStr(AFileName: String): boolean;
+begin
+  FParser.DetectStr:=Self.DetectStr;
+  DebugLn('DetectStr = '+FParser.DetectStr);
+  DebugLn('AFileName = '+AFileName);
+  Result:=FParser.TestFileResult(AFileName);
 end;
 
 function TWLXModule.CallListPrint(FileToPrint,  DefPrinter: string; PrintFlags: integer; var Margins: trect): integer;
@@ -474,7 +515,6 @@ begin
   if tmp>-1 then
   Result:=TWLXModule(Flist.Objects[tmp]);
 end;
-
 
 end.
 

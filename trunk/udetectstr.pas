@@ -25,7 +25,7 @@ unit uDetectStr;
  interface
 
  uses
- SysUtils, Classes, uTypes;//,LCLProc;
+ SysUtils, Classes, uTypes,uFileOp,LCLProc;
 
 
  type
@@ -56,7 +56,8 @@ unit uDetectStr;
 
    TParserControl = class
    public
-    Function TestFileResult(ptr:PFileRecItem):boolean;
+    Function TestFileResult(ptr:PFileRecItem):boolean; overload;
+    function TestFileResult(AFileName: string): boolean; overload;
    private
     input,output,stack:array of tmathchar;
     fmathstring:string;
@@ -73,6 +74,7 @@ unit uDetectStr;
     function getprecedence(mop:TMathOperatortype):integer;
     function BooleanToStr(x:boolean):string;
     function StrToBoolean(s:string):boolean;
+
    protected
    published
     property DetectStr:string read fmathstring write fmathstring;
@@ -81,6 +83,8 @@ unit uDetectStr;
 
  implementation
 
+
+  
 function TParserControl.calculate(operand1,operand2,Aoperator:Tmathchar):string;
 var tmp:string;
 begin
@@ -142,17 +146,28 @@ begin
  end;}
 end;
 
-  function TParserControl.TestFileResult(ptr:PFileRecItem):boolean;
- begin
+function TParserControl.TestFileResult(ptr:PFileRecItem):boolean;
+begin
    fptr:=ptr;
    Result:=getresult;
- end;
+end;
 
- function TParserControl.getresult:boolean;
- var
+
+function TParserControl.TestFileResult(AFileName: string): boolean;
+var fr:TFileRecItem;
+begin
+   fr:=LoadFilebyName(AFileName);
+   fptr:=@fr;
+   DebugLn('fptr.sExt = '+fptr^.sExt);
+   DebugLn('fptr.sExt = '+fr.sExt);
+   Result:=getresult;
+end;
+
+function TParserControl.getresult:boolean;
+var
  i:integer;
  tmp1,tmp2,tmp3:tmathchar;
- begin
+begin
  if fmathstring='' then
    begin
      Result:=true;
