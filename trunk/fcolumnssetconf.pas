@@ -70,6 +70,8 @@ type
     procedure BitBtnDeleteFieldClick(Sender: TObject);
     procedure ButtonAddClick(Sender: TObject);
     procedure ComboBoxXSelect(Sender: TObject);
+    procedure UpDownXClick(Sender: TObject; Button: TUDBtnType);
+    procedure UpDownXChanging(Sender: TObject; var AllowChange: Boolean);
   private
     procedure EditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     { private declarations }
@@ -88,6 +90,7 @@ var
   edtField:TEdit;
   btnAdd:TButton;
   btnDel:TBitBtn;
+  updMove:TUpDown;
 
 implementation
 
@@ -122,7 +125,8 @@ begin
   if assigned(btnAdd) then FreeAndNil(btnAdd);
   if assigned(btnDel) then FreeAndNil(btnDel);
   if assigned(edtField) then FreeAndNil(edtField);
-  
+  if assigned(updMove) then FreeAndNil(updMove);
+
  try
   case aCol of
     0: begin
@@ -214,6 +218,26 @@ begin
            end;
          Editor:=edtField;
        end;
+    5: begin
+     updMove:=TUpDown.Create(frmColumnsSetConf);
+     with updMove do
+       begin
+         Parent:=stgColumns;
+         Height:=stgColumns.RowHeights[aRow];
+         Width:=stgColumns.ColWidths[aCol]-2;
+         Visible:=false;
+         Tag:=aRow;
+         Min:=-((Sender as TStringGrid).RowCount-1);
+         Max:=-1;
+         Position:=-aRow;
+         OnChanging:=@UpDownXChanging;
+         OnClick:=@UpDownXClick;
+         Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Right-Width;
+         Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
+       end;
+     Editor:=updMove;
+   end;
+
   end;
 
  finally
@@ -269,7 +293,7 @@ begin
   if assigned(btnAdd) then FreeAndNil(btnAdd);
   if assigned(btnDel) then FreeAndNil(btnDel);
   if assigned(edtField) then FreeAndNil(edtField);
-  
+  if assigned(updMove) then FreeAndNil(updMove);
    ColumnClass.Free;
 end;
 
@@ -313,12 +337,30 @@ end;
 
 procedure TfColumnsSetConf.EditExit(Sender: TObject);
 begin
-EditorSaveResult(Sender);
+  EditorSaveResult(Sender);
 end;
 
 procedure TfColumnsSetConf.ComboBoxXSelect(Sender: TObject);
 begin
   EditorSaveResult(Sender);
+end;
+
+procedure TfColumnsSetConf.UpDownXClick(Sender: TObject; Button: TUDBtnType);
+begin
+ stgColumns.ExchangeColRow(False,updMove.Tag,abs(updMove.Position));
+ with updMove do
+   begin
+     Left:=stgColumns.CellRect(5,abs(updMove.Position)).Right-Width;
+     Top:=stgColumns.CellRect(5,abs(updMove.Position)).Top;
+   end;
+
+
+end;
+
+procedure TfColumnsSetConf.UpDownXChanging(Sender: TObject;
+  var AllowChange: Boolean);
+begin
+  updMove.tag:=abs(updMove.Position);
 end;
 
 procedure TfColumnsSetConf.BitBtnDeleteFieldClick(Sender: TObject);
