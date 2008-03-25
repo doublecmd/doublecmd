@@ -1,15 +1,15 @@
 object frmViewer: TfrmViewer
-  Left = 66
-  Height = 489
-  Top = 87
-  Width = 760
-  HorzScrollBar.Page = 759
-  VertScrollBar.Page = 468
+  Left = 289
+  Height = 726
+  Top = 91
+  Width = 987
+  HorzScrollBar.Page = 986
+  VertScrollBar.Page = 699
   VertScrollBar.Range = 19
   ActiveControl = ScrollBarVert
   Caption = 'Viewer'
-  ClientHeight = 469
-  ClientWidth = 760
+  ClientHeight = 700
+  ClientWidth = 987
   Constraints.MinHeight = 100
   Constraints.MinWidth = 200
   KeyPreview = True
@@ -22,10 +22,16 @@ object frmViewer: TfrmViewer
   OnKeyUp = frmViewerKeyUp
   Position = poDefault
   ShowInTaskBar = stAlways
+  object pnlLister: TPanel
+    Height = 680
+    Width = 987
+    Align = alClient
+    TabOrder = 2
+  end
   object Status: TStatusBar
-    Height = 23
-    Top = 446
-    Width = 760
+    Height = 20
+    Top = 680
+    Width = 987
     Panels = <    
       item
         Width = 200
@@ -42,19 +48,19 @@ object frmViewer: TfrmViewer
     SimplePanel = False
   end
   object nbPages: TNotebook
-    Height = 446
-    Width = 760
+    Height = 680
+    Width = 987
     Align = alClient
-    PageIndex = 0
+    PageIndex = 1
     ShowTabs = False
     TabOrder = 0
     object pgText: TPage
       Caption = 'pgText'
-      ClientWidth = 752
-      ClientHeight = 438
+      ClientWidth = 987
+      ClientHeight = 680
       object ScrollBarVert: TScrollBar
-        Left = 737
-        Height = 438
+        Left = 972
+        Height = 680
         Width = 15
         Align = alRight
         Anchors = [akTop, akRight]
@@ -68,8 +74,8 @@ object frmViewer: TfrmViewer
       end
       object ViewerControl: TViewerControl
         Cursor = crIBeam
-        Height = 438
-        Width = 737
+        Height = 680
+        Width = 972
         ViewerMode = vmText
         Font.Height = -14
         Font.Name = 'fixed'
@@ -81,18 +87,20 @@ object frmViewer: TfrmViewer
     end
     object pgImage: TPage
       Caption = 'pgImage'
+      ClientWidth = 983
+      ClientHeight = 676
       object ScrollBox: TScrollBox
-        Height = 468
-        Width = 788
-        HorzScrollBar.Page = 787
-        VertScrollBar.Page = 467
+        Height = 676
+        Width = 983
+        HorzScrollBar.Page = 978
+        VertScrollBar.Page = 671
         Align = alClient
         ParentCtl3D = False
         TabOrder = 0
         TabStop = True
         object Image: TImage
-          Height = 468
-          Width = 788
+          Height = 672
+          Width = 979
           Align = alClient
           Transparent = False
         end
@@ -167,6 +175,14 @@ object frmViewer: TfrmViewer
         OnClick = miGraphicsClick
       end
       object miDiv1: TMenuItem
+        Caption = '-'
+      end
+      object miPlugins: TMenuItem
+        Caption = 'Plugins'
+        ShortCut = 55
+        OnClick = miPluginsClick
+      end
+      object MenuItem1: TMenuItem
         Caption = '-'
       end
       object miSearch: TMenuItem

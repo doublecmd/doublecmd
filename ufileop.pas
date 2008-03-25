@@ -18,10 +18,12 @@ unit uFileOp;
 {$mode objfpc}{$H+}
 interface
 uses
-  uFileList, uTypes;
-
+  uFileList, uTypes,lclproc;
+  
+Function LoadFilebyName(const sFileName:String):TFileRecItem;
 Function LoadFilesbyDir(const sDir:String; fl:TFileList):Boolean;
 Function AttrToStr(iAttr:Cardinal):String;
+
 //Function IsDirByName(const sName:String):Boolean;
 
 const
@@ -58,6 +60,96 @@ begin
   Result:=FPS_ISDIR(stat.st_mode);
 end;
 {$ENDIF}
+
+Function LoadFilebyName(const sFileName:String):TFileRecItem;
+var
+  fr:TFileRecItem;
+  sr:TSearchRec;
+  sb: stat64; //buffer for stat64
+
+begin
+//  writeln('Enter LoadFilesbyDir');
+  DebugLn('LoadFileByName SFileName = '+sFileName);
+  if FindFirst(sFileName,faAnyFile,sr)<>0 then
+  begin    DebugLn('FindFirst <> 0');
+    with fr do     // append "blank dir"
+    begin
+      fr.sName:='';
+      fr.sNameNoExt:='';
+      fr.sExt:='';
+      fr.iDirSize:=0;
+      fr.iMode:=0;
+      fr.bExecutable:=False;
+      fr.bSysFile := False;
+      fr.bIsLink:=False;
+      fr.sLinkTo:='';
+      fr.bLinkIsDir:=False;
+      fr.bSelected:=False;
+      fr.sModeStr:='';
+      fr.iSize:=0;
+      Result:=fr
+    end;
+    FindClose(sr);
+    Exit;
+  end;
+//  repeat
+
+    {$IFNDEF WIN32}   // *nix
+    Fplstat64(sr.Name,sb);
+    fr.iSize:=sb.st_size;
+
+    fr.iOwner:=sb.st_uid; //UID
+    fr.iGroup:=sb.st_gid; //GID
+    fr.sOwner:=UIDToStr(fr.iOwner);
+    fr.sGroup:=GIDToStr(fr.iGroup);
+{/mate}
+    fr.iMode:=sb.st_mode;
+    fr.bSysFile := (sr.Name[1] = '.') and (sr.Name <> '..');
+    fr.fTimeI:= FileDateToDateTime(sb.st_mtime); // EncodeDate (1970, 1, 1) + (sr.Time / 86400.0);
+    {$ELSE}  // Windows
+     fr.iSize:= sr.Size;
+     fr.iMode:= sr.Attr;
+     fr.bSysFile := Boolean(sr.Attr and faSysFile) or Boolean(sr.Attr and faHidden);
+     fr.fTimeI:= FileDateToDateTime(sr.Time);
+    {$ENDIF}
+
+    if FPS_ISDIR(fr.iMode) or (sr.Name[1]='.') then //!!!!!
+      fr.sExt:=''
+    else
+      fr.sExt:=ExtractFileExt(sr.Name);
+    fr.sNameNoExt:=Copy(sr.Name,1,length(sr.Name)-length(fr.sExt));
+    fr.sName:=sr.Name;
+
+    fr.sTime := FormatDateTime(gDateTimeFormat, fr.fTimeI);
+    fr.bIsLink:=FPS_ISLNK(fr.iMode);
+    fr.sLinkTo:='';
+    fr.iDirSize:=0;
+
+    if fr.bIsLink then
+    begin
+      fr.sLinkTo:=ReadSymLink(sr.Name);
+    end;
+    {$IFDEF UNIX}   // *nix
+    if fr.bIsLink then
+      fr.bLinkIsDir:=IsDirByName(fr.sLinkTo)
+    else
+      fr.bLinkIsDir:=False;
+    fr.bExecutable:=(not FPS_ISDIR(fr.iMode)) and (fr.iMode AND (S_IXUSR OR S_IXGRP OR S_IXOTH)>0);
+    {$ELSE}  // Windows for ShellExecute
+    fr.bExecutable:= not FPS_ISDIR(fr.iMode);
+    if fr.bIsLink then
+      fr.bLinkIsDir:=True //Because symbolic link works on Windows 2k/XP for directories only
+    else
+      fr.bLinkIsDir:=False;
+    {$ENDIF}
+    fr.bSelected:=False;
+    fr.sModeStr:=AttrToStr(fr.iMode);
+    fr.sPath := ExtractFilePath(fr.sName);
+    Result:=fr;
+//  until FindNext(sr)<>0;
+  FindClose(sr);
+end;
+
 
 Function LoadFilesbyDir(const sDir:String; fl:TFileList):Boolean;
 var

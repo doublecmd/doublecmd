@@ -8,27 +8,30 @@ Author   : radek.cervinka@centrum.cz
 
 contributors:
   Radek Polak
+    ported to lazarus:
+    changes:
+     23.7.
+        - fixed: scroll bar had wrong max value until user pressed key (by Radek Polak)
+        - fixed: wrong scrolling with scroll bar - now look at ScrollBarVertScroll (by Radek Polak)
 
+  Dmitry Kolomiets
+  15.03.08
+  changes:
+    - Added WLX api (TC WLX api v 1.8)
 
-ported to lazarus:
-
-
- changes:
- 23.7.
-   - fixed: scroll bar had wrong max value until user pressed key (by Radek Polak)
-   - fixed: wrong scrolling with scroll bar - now look at ScrollBarVertScroll (by Radek Polak) 
 }
 
 unit fViewer;
 {$mode objfpc}{$H+}
 
+//{$I interface.inc}
 interface
 
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, LCLProc, Menus,
-  viewercontrol, fFindView;
+  viewercontrol, fFindView,uwlxmodule;
 
 type
 
@@ -36,9 +39,12 @@ type
 
   TfrmViewer = class(TForm)
     Image: TImage;
+    MenuItem1: TMenuItem;
+    miPlugins: TMenuItem;
     miSeparator: TMenuItem;
     miSavePos: TMenuItem;
     nbPages: TNotebook;
+    pnlLister: TPanel;
     pgText: TPage;
     pgImage: TPage;
     ScrollBarVert: TScrollBar;
@@ -69,6 +75,7 @@ type
     ViewerControl: TViewerControl;
     procedure FormCreate(Sender : TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure miPluginsClick(Sender: TObject);
     procedure ViewerControlMouseWheelDown(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
     procedure ViewerControlMouseWheelUp(Sender: TObject; Shift: TShiftState;
@@ -102,6 +109,9 @@ type
     bImage:Boolean;
     FFindDialog:TfrmFindView;
     FDeleteAfterView : Boolean;
+    //---------------------
+    WlxPlugins:TWLXModuleList;
+    //---------------------
     procedure UpDateScrollBar;
     Function CheckGraphics(const sFileName:String):Boolean;
     procedure AdjustViewerSize(ReqWidth, ReqHeight: Integer);
@@ -119,6 +129,7 @@ implementation
 
 uses
   uLng, uShowMsg, uGlobs, lcltype, lazjpg, uFindMmap;
+
 
 procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
 var viewer: TfrmViewer;
@@ -185,6 +196,24 @@ begin
 
 end;
 
+procedure TfrmViewer.miPluginsClick(Sender: TObject);
+var i:integer;
+begin
+  i:=0;
+  DebugLn('WlXPluginsCount = '+inttostr(WlxPlugins.Count));
+  while (i<WlxPlugins.Count) do
+   if WlxPlugins.GetWLxModule(i).FileParamVSDetectStr(FileList[iActiveFile]) then
+     begin
+       DebugLn('I = '+Inttostr(I));
+       nbPages.Hide;
+       if not WlxPrepareContainer(pnlLister.Handle) then {TODO: ERROR and exit;};
+       WlxPlugins.LoadModule(i);
+       WlxPlugins.GetWLxModule(i).CallListLoad(pnlLister.Handle,FileList[iActiveFile], {TODO: showFlags}0);
+       break;
+     end
+   else  i:=i+1;
+end;
+
 procedure TfrmViewer.ViewerControlMouseWheelDown(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 begin
@@ -219,6 +248,11 @@ begin
       for I := 0 to Count do
         DeleteFile(FileList.Strings[I]);
     end;
+    if assigned(WlxPlugins) then
+     begin
+        WlxPlugins.Free;
+     end;
+
 end;
 
 procedure TfrmViewer.frmViewerKeyDown(Sender: TObject; var Key: Word;
@@ -296,12 +330,14 @@ end;
 
 procedure TfrmViewer.miTextClick(Sender: TObject);
 begin
+  nbPages.Show;
   ReMmapIfNeed;
   ViewerControl.ViewerMode:=vmText;
 end;
 
 procedure TfrmViewer.miBinClick(Sender: TObject);
 begin
+  nbPages.Show;
   ReMmapIfNeed;
   ViewerControl.ViewerMode:=vmBin;
 end;
@@ -309,6 +345,7 @@ end;
 procedure TfrmViewer.miHexClick(Sender: TObject);
 begin
   inherited;
+  nbPages.Show;
   ReMmapIfNeed;
   ViewerControl.ViewerMode:=vmHex;
 end;
@@ -316,6 +353,7 @@ end;
 procedure TfrmViewer.miWrapTextClick(Sender: TObject);
 begin
   inherited;
+  nbPages.Show;
   ReMmapIfNeed;
   ViewerControl.ViewerMode:=vmWrap;
 end;
@@ -331,17 +369,23 @@ begin
 end;
 
 procedure TfrmViewer.FormCreate(Sender: TObject);
+//var i:integer;
 begin
 //  DebugLn('TfrmViewer.FormCreate');
   ViewerControl.Color:=clWindow;
   FileList := TStringList.Create;
 
+  WlxPlugins:=TWLXModuleList.Create;
+  WlxPlugins.Load(gIni);
+  DebugLn('WLX: Load - OK');
+
   FFindDialog:=nil; // dialog is created in first use
+  
 {  Status.Panels[0].Width:=50;
   Status.Panels[1].Width:=50;}
 
-//  DebugLn('TfrmViewer.FormCreate done');
-end;
+ // DebugLn('TfrmViewer.FormCreate done');
+ end;
 
 procedure TfrmViewer.FormDestroy(Sender: TObject);
 begin
@@ -418,6 +462,7 @@ end;
 procedure TfrmViewer.miGraphicsClick(Sender: TObject);
 begin
   inherited;
+  nbPages.Show;
   if CheckGraphics(FileList.Strings[iActiveFile]) then
     LoadGraphics(FileList.Strings[iActiveFile]);
 end;
