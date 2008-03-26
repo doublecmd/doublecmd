@@ -781,7 +781,7 @@ msgstr "Schrift für Editor"
 
 #: TFRMOPTIONS.CBEXACTENDING.CAPTION
 msgid "En&ding (last character before a typed dot . must match)"
-msgstr "Endung (letzter Buchstabe vor einem . soll passen)"
+msgstr "Ende des Namens (letztes Zeichen vor einem . soll passen)"
 
 #: TFRMPACKDLG.CBENCRYPT.CAPTION
 msgid "Encr&ypt"
