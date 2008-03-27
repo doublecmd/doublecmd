@@ -130,7 +130,7 @@ begin
   sCmd:=(Sender as TMenuItem).Hint;
   with frmMain.ActiveFrame do
   begin
-    if Pos('{!VFS}',sCmd)>0 then
+    if (Pos('{!VFS}',sCmd)>0) and pnlFile.VFS.FindModule(ActiveDir + PFileRecItem(Sender as TMenuItem)^.sName) then
      begin
         pnlFile.LoadPanelVFS(PFileRecItem((Sender as TMenuItem).Tag));
         Exit;
@@ -344,13 +344,21 @@ begin
       sCmd:= sl.Strings[cmd - $1000];
       frmMain.ActiveFrame.pnlFile.ReplaceExtCommand(sCmd, @fri);
       sCmd:= Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
-      with frmMain.ActiveFrame do
-      begin
-        if not pnlFile.ProcessExtCommand(sCmd) then
-          frmMain.ExecCmd(sCmd);
+      try
+        with frmMain.ActiveFrame do
+        begin
+          if (Pos('{!VFS}',sCmd)>0) and pnlFile.VFS.FindModule(ActiveDir + fri.sName) then
+            begin
+              pnlFile.LoadPanelVFS(@fri);
+              Exit;
+            end;
+          if not pnlFile.ProcessExtCommand(sCmd) then
+            frmMain.ExecCmd(sCmd);
+        end;
+      finally
+        bHandled:= True;
+        FreeAndNil(sl);
       end;
-      bHandled:= True;
-      FreeAndNil(sl);
     end;
   FileList.Free;
 end;
