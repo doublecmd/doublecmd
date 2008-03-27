@@ -14,6 +14,9 @@ lazpath=/root/Prog/lazarus
 #widgetset gtk or gtk2
 lcl=gtk2
 
+rm interface.inc
+echo "{\$DEFINE $lcl}">interface.inc
+
 if [ "$1" = "all" ]
 then
   for LFM in `ls /at/project/doublecmd/*.lfm`
