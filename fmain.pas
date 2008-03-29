@@ -468,6 +468,8 @@ begin
   pnlKeys.Visible := gKeyButtons;
   LogSplitter.Visible := gLogWindow;
   seLogWindow.Visible := gLogWindow;
+
+  seLogWindow.Font.Name := gFontName;
   
   ColSet:=TPanelColumnsList.Create;
   pmColumnsMenu.Items.Clear;
