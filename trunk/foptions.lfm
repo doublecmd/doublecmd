@@ -43,7 +43,6 @@ object frmOptions: TfrmOptions
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '0.9.25'
   object Panel1: TPanel
     Height = 43
     Top = 398
@@ -1443,7 +1442,7 @@ object frmOptions: TfrmOptions
         ClientHeight = 369
         object gbFileTypesColors: TGroupBox
           Left = 10
-          Height = 358
+          Height = 338
           Top = 2
           Width = 489
           Anchors = [akTop, akLeft, akRight, akBottom]
