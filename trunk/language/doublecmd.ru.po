@@ -464,7 +464,7 @@ msgstr "Маска:"
 
 #: TFRMOPTIONS.LBLCATEGORYNAME.CAPTION
 msgid "Category name:"
-msgstr "Наименование категории:"
+msgstr "Наименование:"
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [\%s] failed!"
