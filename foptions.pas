@@ -84,7 +84,6 @@ type
     cbIconsSize: TComboBox;
     cbLynxLike: TCheckBox;
     cbMainFont: TComboBox;
-    cbSeparateExt: TCheckBox;
     cbShortFileSizeFormat: TCheckBox;
     cbViewerFont: TComboBox;
     cbExt: TComboBox;
@@ -297,6 +296,7 @@ type
       ARect: TRect; State: TOwnerDrawState);
     procedure nbNotebookPageChanged(Sender: TObject);
     procedure pbExamplePaint(Sender: TObject);
+    procedure pgBehavResize(Sender: TObject);
     procedure tsWCXShow(Sender: TObject);
     procedure tsWDXShow(Sender: TObject);
     procedure tsWFXShow(Sender: TObject);
@@ -375,7 +375,6 @@ begin
   cbExtEditor.Checked:=gUseExtEdit;
   cbExtViewer.Checked:=gUseExtView;
   cbExtDiffer.Checked:=gUseExtDiff;
-  cbSeparateExt.Checked:=gSeparateExt;
   if gScrollMode < rgScrolling.Items.Count then
     rgScrolling.ItemIndex:=  gScrollMode
   else
@@ -658,7 +657,6 @@ begin
   gUseExtEdit:=cbExtEditor.Checked;
   gUseExtView:=cbExtViewer.Checked;
   gUseExtDiff:=cbExtDiffer.Checked;
-  gSeparateExt:=cbSeparateExt.Checked;
 
   gExtEdit:= fneExtEditor.FileName;
   gExtView:= fneExtViewer.FileName;
@@ -956,6 +954,15 @@ begin
     Rect.Top := Rect.Bottom;
     Rect.Bottom := h * (I + 1);
   end; // for
+end;
+
+procedure TfrmOptions.pgBehavResize(Sender: TObject);
+var
+  iWidth: Integer;
+begin
+  iWidth:= (pgBehav.Width div 2) - 26;
+  gb.Width:= iWidth;
+  gbDateTimeFormat.Width:= iWidth;
 end;
 
 procedure TfrmOptions.tsWCXShow(Sender: TObject);
