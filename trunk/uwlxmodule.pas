@@ -35,6 +35,10 @@ uses
   {$IFDEF GTK}
     ,gtk,glib,gdk
   {$ENDIF}
+  {$IFDEF QT}
+    ,qt4,qtwidgets
+    // The Qt widgetset must be used to load plugins on qt
+  {$ENDIF}
   ;
 
 type
@@ -149,7 +153,6 @@ begin
     end else Result:=false;
 {$ENDIF}
 
-
 end;
 
 { TWLXModule }
@@ -221,8 +224,13 @@ function TWLXModule.CallListLoad(ParentWin: THandle; FileToLoad: string;
   ShowFlags: integer): THandle;
 begin
   if not assigned(ListLoad) then exit; //To prevent crash.
+  {$IFDEF QT}
+    FPluginWindow:=ListLoad(Integer(TQtWidget(ParentWin).GetContainerWidget), pChar(FileToLoad), ShowFlags);
+  {$ENDIF}
+  {$IFNDEF QT}
+    FPluginWindow:=ListLoad(ParentWin, pChar(FileToLoad), ShowFlags);
+  {$ENDIF}
 
-  FPluginWindow:=ListLoad(ParentWin, pChar(FileToLoad), ShowFlags);
   Result:=FPluginWindow;
 end;
 
@@ -230,7 +238,12 @@ function TWLXModule.CallListLoadNext(ParentWin: THandle;
   FileToLoad: string; ShowFlags: integer): integer;
 begin
   if assigned(ListLoadNext) then
-  Result:=ListLoadNext(ParentWin,FPluginWindow,PChar(FileToLoad),ShowFlags)
+  {$IFDEF QT}
+   Result:=ListLoadNext(Integer(TQtWidget(ParentWin).GetContainerWidget),FPluginWindow, pChar(FileToLoad), ShowFlags);
+  {$ENDIF}
+  {$IFNDEF QT}
+   Result:=ListLoadNext(ParentWin,FPluginWindow,PChar(FileToLoad),ShowFlags)
+  {$ENDIF}
   //else Result:=LISTPLUGIN_ERROR;
 end;
 
