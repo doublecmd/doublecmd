@@ -2403,7 +2403,7 @@ begin
 end;
 
 procedure TfrmMain.ColumnsMenuClick(Sender: TObject);
-var Index:integer;
+var Index,x:integer;
 begin
   Case (Sender as TMenuItem).Tag of
     1000: //This
@@ -2431,6 +2431,10 @@ begin
     begin
       ActiveFrame.Colm.Load(gIni,ColSet.Items[(Sender as TMenuItem).Tag]);
       ActiveFrame.dgPanel.ColCount:=ActiveFrame.Colm.ColumnsCount;
+
+      if ActiveFrame.Colm.ColumnsCount>0 then
+       for x:=0 to ActiveFrame.Colm.ColumnsCount-1 do
+        ActiveFrame.dgPanel.ColWidths[x]:=ActiveFrame.Colm.GetColumnWidth(x);
     end;
 
   end;
