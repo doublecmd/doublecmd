@@ -2819,7 +2819,7 @@ end;
 
 procedure TfrmMain.LoadTabs(ANoteBook: TNoteBook);
 var
-  I : Integer;
+  x, I : Integer;
   sIndex,
   TabsSection, Section: String;
   fpsPanel : TFilePanelSelect;
@@ -2860,8 +2860,16 @@ begin
               ANoteBook.Page[ANoteBook.PageCount - 1].Caption := sActiveCaption;
               
           sColumnSet:=gIni.ReadString(Section, 'columnsset', '');
-          TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]).Colm.Load(gIni,sColumnSet);
-          TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]).dgPanel.ColCount:=TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]).Colm.ColumnsCount;
+
+          with TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]) do
+           begin
+              Colm.Load(gIni,sColumnSet);
+              dgPanel.ColCount:=Colm.ColumnsCount;
+               //  setup column widths
+               if Colm.ColumnsCount>0 then
+                for x:=0 to Colm.ColumnsCount-1 do
+                  dgPanel.ColWidths[x]:=Colm.GetColumnWidth(x);
+           end;
 
         end;
       sPath := gIni.ReadString(TabsSection, sIndex + '_path', '');
@@ -2876,8 +2884,16 @@ begin
           ANoteBook.Page[ANoteBook.PageCount - 1].Caption := sCaption;
           
       sColumnSet:=gIni.ReadString(TabsSection, sIndex + '_columnsset', '');
-      TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]).Colm.Load(gIni,sColumnSet);
-      TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]).dgPanel.ColCount:=TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]).Colm.ColumnsCount;
+     with TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]) do
+       begin
+          Colm.Load(gIni,sColumnSet);
+          dgPanel.ColCount:=Colm.ColumnsCount;
+           //  setup column widths
+           if Colm.ColumnsCount>0 then
+            for x:=0 to Colm.ColumnsCount-1 do
+              dgPanel.ColWidths[x]:=Colm.GetColumnWidth(x);
+       end;
+
 
       inc(I);
       sIndex := IntToStr(I);
