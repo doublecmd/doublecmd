@@ -71,6 +71,7 @@ var
   gCaseSensitiveSort:Boolean=True;
   gLynxLike:Boolean=True;
   gDirSelect:Boolean=True;
+  gMouseSelectionEnabled:Boolean=True;
   glsHotDir:TStringList;
   glsDirHistory:TStringList;
   glsMaskHistory : TStringList;

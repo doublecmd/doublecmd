@@ -9,6 +9,8 @@
    contributors:
 
    Copyright (C) 2006-2008 Alexander Koblov (Alexx2000@mail.ru)
+   
+   Vitaly Zotov (vitalyzotov@mail.ru)
 }
 
 unit uFilePanel;
@@ -71,6 +73,7 @@ type
     function GetSelectedCount:Integer;
     procedure InvertFileSection(frp:PFileRecItem);
     procedure MarkAllFiles(bMarked:Boolean);
+    procedure MarkFile(frp:PFileRecItem; bMarked:Boolean);
     procedure InvertAllFiles;
     procedure UpdateCountStatus;
     procedure cdUpLevel;
@@ -516,6 +519,19 @@ begin
     else
       fr^.bSelected:=bMarked;
   end;
+end;
+
+procedure TFilePanel.MarkFile(frp:PFileRecItem; bMarked:Boolean);
+begin
+    if not gShowSystemFiles and (frp^.bSysFile) then
+      begin
+// system files is always not selected if not showed
+        frp^.bSelected:=False
+      end
+    else
+      begin
+        frp^.bSelected:=bMarked;
+      end;
 end;
 
 function TFilePanel.GetSelectedCount:Integer;
