@@ -2,7 +2,7 @@
 <CONFIG>
   <ProjectOptions>
     <PathDelim Value="/"/>
-    <Version Value="5"/>
+    <Version Value="6"/>
     <General>
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
@@ -59,48 +59,7 @@
         <Loaded Value="True"/>
       </Unit3>
     </Units>
-    <JumpHistory Count="10" HistoryIndex="9">
-      <Position1>
-        <Filename Value="cpio_archive.pas"/>
-        <Caret Line="63" Column="39" TopLine="262"/>
-      </Position1>
-      <Position2>
-        <Filename Value="cpio_io.pas"/>
-        <Caret Line="56" Column="22" TopLine="49"/>
-      </Position2>
-      <Position3>
-        <Filename Value="cpio_io.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position3>
-      <Position4>
-        <Filename Value="cpio_io.pas"/>
-        <Caret Line="34" Column="22" TopLine="17"/>
-      </Position4>
-      <Position5>
-        <Filename Value="cpio_io.pas"/>
-        <Caret Line="56" Column="22" TopLine="39"/>
-      </Position5>
-      <Position6>
-        <Filename Value="cpio_io.pas"/>
-        <Caret Line="181" Column="48" TopLine="130"/>
-      </Position6>
-      <Position7>
-        <Filename Value="cpio_io.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position7>
-      <Position8>
-        <Filename Value="cpio_io.pas"/>
-        <Caret Line="34" Column="46" TopLine="24"/>
-      </Position8>
-      <Position9>
-        <Filename Value="cpio_io.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position9>
-      <Position10>
-        <Filename Value="cpio_io.pas"/>
-        <Caret Line="33" Column="59" TopLine="17"/>
-      </Position10>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
