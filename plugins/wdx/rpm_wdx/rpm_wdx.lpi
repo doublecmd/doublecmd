@@ -107,6 +107,9 @@
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
+	   <SearchPaths>
+         <UnitOutputDirectory Value="lib"/>
+       </SearchPaths>
     <PathDelim Value="\"/>
     <Parsing>
       <SyntaxOptions>
@@ -116,6 +119,11 @@
     <CodeGeneration>
       <Generate Value="Faster"/>
     </CodeGeneration>
+	    <Linking>
+      <Options>
+        <ExecutableType Value="Library"/>
+      </Options>
+    </Linking>
     <Other>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
