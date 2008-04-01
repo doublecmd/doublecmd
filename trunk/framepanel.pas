@@ -9,6 +9,8 @@
    contributors:
 
    Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+   
+   Vitaly Zotov (vitalyzotov@mail.ru)
 }
 
 unit framePanel;
@@ -61,6 +63,8 @@ type
     procedure dgPanelEnter(Sender: TObject);
     procedure dgPanelKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure dgPanelKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
 
     procedure dgPanelMouseDown(Sender: TObject; Button: TMouseButton;
                                     Shift: TShiftState; X, Y: Integer);
@@ -84,6 +88,7 @@ type
     FLastMark:String;
     FLastSelect:TGridRect;
     FLastAutoSelect: Boolean;
+    FLastSelectionStartRow: Integer;
   protected
 
   public
@@ -124,7 +129,7 @@ type
 implementation
 
 uses
-  LCLProc, Masks, uLng, uShowMsg, uGlobs, GraphType, uPixmapManager, uVFSUtil, uDCUtils, uOSUtils;
+  LCLProc, Masks, uLng, uShowMsg, uGlobs, GraphType, uPixmapManager, uVFSUtil, uDCUtils, uOSUtils, math;
 
 
 procedure TFrameFilePanel.LoadPanel;
@@ -241,6 +246,8 @@ procedure TFrameFilePanel.dgPanelMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   iRow, iCol : Integer;
+  ARow, AFromRow, AToRow: Integer;
+  frp: PFileRecItem;
 begin
   dgPanel.MouseToCell(X, Y, iCol, iRow);
   
@@ -255,14 +262,57 @@ begin
       SetFocus;
       Exit;
     end
-  else  // left button
-    begin
+  else
+    begin // left button
       if (dgPanel.Row < 0) or (dgPanel.Row >= dgPanel.RowCount) then
-        dgPanel.Row := iRow;
+        begin
+          dgPanel.Row := iRow;
+        end
+      else if gMouseSelectionEnabled then
+      begin
+        if ssCtrl in Shift then
+          begin
+            frp := pnlFile.GetReferenceItemPtr(iRow - dgPanel.FixedRows); // substract fixed rows (header)
+            if Assigned(frp) then
+              begin
+                pnlFile.InvertFileSection(frp);
+                dgPanel.Invalidate;
+              end;
+          end
+        else if ssShift in Shift then
+          begin
+            if(FLastSelectionStartRow < 0) then
+              begin
+                AFromRow := Min(dgPanel.Row, iRow) - dgPanel.FixedRows;
+                AToRow := Max(dgPanel.Row, iRow) - dgPanel.FixedRows;
+                FLastSelectionStartRow := dgPanel.Row;
+              end
+            else
+              begin
+                AFromRow := Min(FLastSelectionStartRow, iRow) - dgPanel.FixedRows;
+                AToRow := Max(FLastSelectionStartRow, iRow) - dgPanel.FixedRows;
+              end;
+
+            pnlFile.MarkAllFiles(False);
+            for ARow := AFromRow to AToRow do
+            begin
+              frp := pnlFile.GetReferenceItemPtr(ARow); // substract fixed rows (header)
+              if not Assigned(frp) then Continue;
+              pnlFile.MarkFile(frp, True);
+            end;
+            dgPanel.Invalidate;
+          end
+        else
+          begin
+            pnlFile.MarkAllFiles(False);
+            dgPanel.Invalidate;
+          end;
+      end;//of mouse selection handler
     end;
     
-  if iRow >= dgPanel.FixedRows then  // if not column header
+  if iRow >= dgPanel.FixedRows then begin // if not column header
     dgPanel.BeginDrag(False);
+  end;
 end;
 
 procedure TFrameFilePanel.dgPanelStartDrag(Sender: TObject; var DragObject: TDragObject);
@@ -779,6 +829,16 @@ begin
   dgPanel.Invalidate;
 end;
 
+procedure TFrameFilePanel.dgPanelKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case Key of
+    VK_SHIFT: begin
+      FLastSelectionStartRow := -1;
+    end;
+  end;
+end;
+
 procedure TFrameFilePanel.dgPanelKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -895,6 +955,7 @@ begin
   pnlFooter.BevelInner:=bvNone;
   pnlFooter.BevelOuter:=bvNone;;
 
+  FLastSelectionStartRow:=-1;
 
   dgPanel:=TDrawGrid.Create(Self);
   dgPanel.Parent:=Self;
@@ -951,6 +1012,7 @@ begin
   dgPanel.OnDrawCell:=@dgPanelDrawCell;
   dgPanel.OnEnter:=@dgPanelEnter;
   dgPanel.OnExit:=@dgPanelExit;
+  dgPanel.OnKeyUp:=@dgPanelKeyUp;
   dgPanel.OnKeyDown:=@dgPanelKeyDown;
   dgPanel.OnKeyPress:=@dgPanelKeyPress;
   dgPanel.OnHeaderClick:=@dgPanelHeaderClick;
