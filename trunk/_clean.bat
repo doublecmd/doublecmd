@@ -10,12 +10,12 @@ del /Q doublecmd.compiled
 
 del /Q doc\help\*.*
 
-del /Q plugins\wcx\cpio\bin\*.*
-del /Q plugins\wcx\rpm\bin\*.*
-del /Q plugins\wcx\deb\bin\*.*
-del /Q plugins\wcx\zip\bin\*.*
-del /Q plugins\wcx\unbz2\bin\*.*
-del /Q plugins\wcx\unrar\bin\*.*
+del /Q plugins\wcx\cpio\lib\*.*
+del /Q plugins\wcx\rpm\lib\*.*
+del /Q plugins\wcx\deb\lib\*.*
+del /Q plugins\wcx\zip\lib\*.*
+del /Q plugins\wcx\unbz2\lib\*.*
+del /Q plugins\wcx\unrar\lib\*.*
 
 del /Q plugins\wcx\cpio\*.bak
 del /Q plugins\wcx\rpm\*.bak
