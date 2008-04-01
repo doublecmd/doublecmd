@@ -136,7 +136,7 @@
     <PathDelim Value="\"/>
     <SearchPaths>
       <OtherUnitFiles Value="bzip2\;..\..\..\"/>
-      <UnitOutputDirectory Value="bin"/>
+      <UnitOutputDirectory Value="lib"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
