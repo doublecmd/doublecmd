@@ -77,7 +77,7 @@
     <Version Value="5"/>
     <SearchPaths>
       <OtherUnitFiles Value="../../../"/>
-      <UnitOutputDirectory Value="bin"/>
+      <UnitOutputDirectory Value="lib"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>

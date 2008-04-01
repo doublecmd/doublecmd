@@ -104,7 +104,7 @@
     <Version Value="5"/>
     <SearchPaths>
       <OtherUnitFiles Value="fparchive/;../../../"/>
-      <UnitOutputDirectory Value="bin"/>
+      <UnitOutputDirectory Value="lib"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
