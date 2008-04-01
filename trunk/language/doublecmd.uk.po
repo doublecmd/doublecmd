@@ -1,0 +1,2092 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Double Commander 0.3 alpha\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2008-01-15 17:08+0300\n"
+"Last-Translator: Vadim Vitomsky <ViruZ@rusfaq.ru>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Ukrainian\n"
+
+#: TFRMOPTIONS.GBSCREENLAYOUT.CAPTION
+msgid " Screen layout "
+msgstr " Компоненти основного вікна "
+
+#: ulng.rsmsgpopuphotadd
+msgid "&Add \%s"
+msgstr "&Добавити %s"
+
+#: TFRMFILEPROPERTIES.BTNALL.CAPTION
+msgid "&All"
+msgstr "Все"
+
+#: TFRMCONFIGTOOLBAR.BTNADDBUTTON.CAPTION
+msgid "&Append"
+msgstr "Добавити"
+
+#: TFRMOPTIONS.LBLASSOCIATEWITH.CAPTION
+msgid "&Associate with:"
+msgstr "Відкривати &з допомогою:"
+
+#: TFRMOPTIONS.CBEXACTBEGINNING.CAPTION
+msgid "&Beginning (name must start with first typed character)"
+msgstr "Начало (ім'я має починатись з набраних символів)"
+
+#: TFRMEDITORCONF.CBBOLD.CAPTION
+msgid "&Bold"
+msgstr "&Жирний"
+
+#: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
+msgid "&Buffer size for files:"
+msgstr "&Розмір буфера для файлів:"
+
+#: TFRMCONFIGTOOLBAR.LBLBUTTONBAR.CAPTION
+msgid "&Button bar:"
+msgstr "Панель:"
+
+#: TFRMFINDDLG.BTNCLOSE.CAPTION
+msgid "&Close"
+msgstr "Закрити"
+
+#: TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION
+msgid "&Command:"
+msgstr "&Команда:"
+
+#: TFRMMAIN.MNUCMD.CAPTION
+msgid "&Commands"
+msgstr "&Команди"
+
+#: TFRMMAIN.MNUMARKCMPDIR.CAPTION
+msgid "&Compare Directories"
+msgstr "Порівняти каталоги"
+
+#: TFRMEDITOR.ACTCONFHIGH.CAPTION
+msgid "&Configuration"
+msgstr "Настройка"
+
+#: ulng.rsmsgpopuphotcnf
+msgid "&Configure"
+msgstr "&Настроїти"
+
+#: TFRMOPTIONS.CBLOGFILE.CAPTION
+msgid "&Create a log file:"
+msgstr "Створити файл звіту:"
+
+#: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
+msgid "&Ctrl+Alt+Letters"
+msgstr "&Ctrl+Alt+Буква"
+
+#: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
+msgid "&Delete"
+msgstr "Видалити"
+
+#: ulng.rsmsgpopuphotdelete
+msgid "&Delete \%s"
+msgstr "Видалити \%s"
+
+#: TFRMEDITOR.MIEDIT.CAPTION
+msgid "&Edit"
+msgstr "&Правка"
+
+#: TFRMEDITOR.MIFILE.CAPTION
+msgid "&File"
+msgstr "&Файл"
+
+#: TFRMEXTRACTDLG.LBLFILEMASK.CAPTION
+msgid "&Files to unpack:"
+msgstr "&Маска для розпаковки:"
+
+#: TFRMEDITOR.ACTEDITFIND.CAPTION
+msgid "&Find"
+msgstr "З&найти..."
+
+#: TFRMFINDDLG.BTNGOTOPATH.CAPTION
+msgid "&Go to file"
+msgstr "Пере&йти до файла"
+
+#: TFRMEDITOR.HELP1.CAPTION
+msgid "&Help"
+msgstr "Допомога"
+
+#: TFRMVIEWER.MIIMAGE.CAPTION
+msgid "&Image"
+msgstr "Малюнок"
+
+#: TFRMEDITORCONF.CBITALIC.CAPTION
+msgid "&Italic"
+msgstr "&Курсив"
+
+#: TFRMOPTIONS.CBTABSLIMITOPTION.CAPTION
+msgid "&Limit tab title length to:"
+msgstr "Обмежити размір заголовка до:"
+
+#: TFRMMAIN.MNUMARK.CAPTION
+msgid "&Mark"
+msgstr "&Виділення"
+
+#: TFRMPACKDLG.CBMULTIVOLUME.CAPTION
+msgid "&Multiple disk archive"
+msgstr "Багатото&мний архів"
+
+#: TFRMEDITOR.ACTFILENEW.CAPTION
+msgid "&New"
+msgstr "&Створити"
+
+#: TFRMFINDDLG.BTNNEWSEARCH.CAPTION
+msgid "&New search"
+msgstr "Н&овий пошук"
+
+#: TFRMVIEWER.MINEXT.CAPTION
+msgid "&Next"
+msgstr "На&ступний"
+
+#: TFRMFILEPROPERTIES.BTNOK.CAPTION
+msgid "&OK"
+msgstr ""
+
+#: ulng.rsdlgbuttons
+msgid "&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &All;&Skip;S&kip All;All;"
+msgstr "&OK;&Ні;&Так;&Відміна;Жод&ного;&Додати;&Переписати;Переписати &все;&Пропустити;Проп&устити Все;Все;"
+
+#: TFRMEDITOR.ACTFILEOPEN.CAPTION
+msgid "&Open"
+msgstr "Відкрити"
+
+#: TFRMEXTRACTDLG.CBOVERWRITE.CAPTION
+msgid "&Overwrite existing files"
+msgstr "&Заміняти існуючі файли"
+
+#: TFRMCONFIGTOOLBAR.LBLPARAMETERS.CAPTION
+msgid "&Parameters:"
+msgstr "Параметри:"
+
+#: TFRMVIEWER.MIPREV.CAPTION
+msgid "&Previous"
+msgstr "&Попередній"
+
+#: TFRMMAIN.ACTREFRESH.CAPTION
+msgid "&Refresh"
+msgstr "Обновити"
+
+#: TFRMEDITOR.ACTEDITRPLC.CAPTION
+msgid "&Replace"
+msgstr "&Замінити..."
+
+#: TFRMEDITOR.ACTFILESAVE.CAPTION
+msgid "&Save"
+msgstr "Зберегти"
+
+#: TFRMVIEWER.MISAVEPOS.CAPTION
+msgid "&Save Position"
+msgstr "Зберегти позицію"
+
+#: ulng.rssaveposition
+msgid "&Save position"
+msgstr "Зберегти позицію"
+
+#: TFRMMAIN.ACTSEARCH.CAPTION
+msgid "&Search"
+msgstr "&Пошук..."
+
+#: TFRMMAIN.ACTMARKMARKALL.CAPTION
+msgid "&Select All"
+msgstr "&Виділити все"
+
+#: TFRMMAIN.MNUSHOW.CAPTION
+msgid "&Show"
+msgstr "Ви&д"
+
+#: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION
+msgid "&Show tab header also when there is only one tab"
+msgstr "Показувати заголовок вкладки, навіть якщо вона одна"
+
+#: TFRMFINDDLG.BTNSTART.CAPTION
+msgid "&Start"
+msgstr "&Старт"
+
+#: TFRMCONFIGTOOLBAR.LBLSTARTPATH.CAPTION
+msgid "&Start path:"
+msgstr "Шлях запуску:"
+
+#: TFRMEDITORCONF.CBSTRIKEOUT.CAPTION
+msgid "&StrikeOut"
+msgstr "&Закреслений"
+
+#: TFRMOPTIONS.CBTABSMULTILINES.CAPTION
+msgid "&Tabs on multiple lines"
+msgstr "Розміщати вкладки в декілька рядів"
+
+#: TFRMCONFIGTOOLBAR.LBLTOOLTIP.CAPTION
+msgid "&Tooltip:"
+msgstr "Підказка:"
+
+#: TFRMEDITORCONF.CBUNDERLINE.CAPTION
+msgid "&Underline"
+msgstr "&Підкреслений"
+
+#: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
+msgid "&Unpack path names if stored with files"
+msgstr "Враховувати підкаталоги"
+
+#: TFRMFINDDLG.BTNVIEW.CAPTION
+msgid "&View"
+msgstr "&Перегляд"
+
+#: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
+msgid "*"
+msgstr ""
+
+#: TFRMEXTRACTDLG.CBFILEMASK.TEXT
+msgid "*.*"
+msgstr ""
+
+#: TFRMMULTIRENAME.N1.CAPTION
+msgid "-"
+msgstr ""
+
+#: TFRMFILEPROPERTIES.LBLATTRTEXT.CAPTION
+msgid "-----------"
+msgstr ""
+
+#: TFRMMAIN.BTNLEFTUP.CAPTION
+msgid ".."
+msgstr ""
+
+#: TFRMSPLITTER.BTNFTCHOICE.CAPTION
+msgid "..."
+msgstr ""
+
+#: TFRMMAIN.BTNLEFTROOT.CAPTION
+msgid "/"
+msgstr ""
+
+#: TFRMOPTIONS.EDTRUNTERM.TEXT
+msgid "/usr/X11R6/bin/xterm"
+msgstr ""
+
+#: TFRMOPTIONS.EDTTERM.TEXT
+msgid "/usr/X11R6/bin/xterm -e bash -i -c \%s"
+msgstr ""
+
+#: TFCOLUMNSSETCONF.LBNROFCOLUMNSSET.CAPTION
+msgid "0"
+msgstr ""
+
+#: TFRMMULTIRENAME.CMBXWIDTH.TEXT
+msgid "01"
+msgstr ""
+
+#: TFRMMULTIRENAME.EDPOC.TEXT
+msgid "1"
+msgstr ""
+
+#: TFRMSPLITTER.CMBXSIZE.TEXT
+msgid "1457664B - 3.5\""
+msgstr ""
+
+#: TFRMOPTIONS.CBICONSSIZE.TEXT
+msgid "16x16"
+msgstr ""
+
+#: TFRMPACKDLG.CBOTHERPLUGINS.CAPTION
+msgid "=>"
+msgstr ""
+
+#: TFRMOPTIONS.BTNFORECOLOR.CAPTION
+msgid ">>"
+msgstr ""
+
+#: TFRMFILEPROPERTIES.LBLFILENAME.CAPTION
+msgid "???"
+msgstr ""
+
+#: TFRMABOUT.CAPTION
+msgid "About"
+msgstr "Про програму..."
+
+#: TFRMVIEWER.MIABOUT2.CAPTION
+msgid "About Viewer..."
+msgstr "Про переглядач..."
+
+#: TFRMFILEASSOC.LEDACTION.EDITLABEL.CAPTION
+msgid "Action:"
+msgstr "Дія:"
+
+#: TFRMOPTIONS.LBLACTIONS.CAPTION
+msgid "Actions"
+msgstr "Команди"
+
+#: TFRMHOTDIR.BTNADD.CAPTION
+msgid "Add"
+msgstr "Добавити"
+
+#: TFRMCONFIGTOOLBAR.BTNADDSUBBAR.CAPTION
+msgid "Add S&ubbar >>"
+msgstr "Добавити панель..."
+
+#: TFCOLUMNSSETCONF.MIADDCOLUMN.CAPTION
+msgid "Add column"
+msgstr "Добавити колонку"
+
+#: TFRMFINDDLG.TSADVANCED.CAPTION
+msgid "Advanced"
+msgstr "Розширений"
+
+#: TFRMOPTIONS.RBALTLETTERQS.CAPTION
+msgid "Al&t+Letters"
+msgstr "Al&t+Буква"
+
+#: ulng.rsconfcolalign
+msgid "Align"
+msgstr "Вирівн."
+
+#: TFRMOPTIONS.LBLEXT.CAPTION
+msgid "All files with e&xtension (ending with):"
+msgstr "&Файли з розширенням:"
+
+#: TFRMPACKDLG.CBSTOREDIR.CAPTION
+msgid "Also &pack path names (only recursed)"
+msgstr "Зберігати шляхи"
+
+#: TFRMCONFIGTOOLBAR.GBGROUPBOX.CAPTION
+msgid "Appearance"
+msgstr "Вид кнопок"
+
+#: TFRMOPTIONS.BBTNAPPLY.CAPTION
+msgid "Apply"
+msgstr "Примінити"
+
+#: ulng.rsmsgerrunknownformat
+msgid "Archive format unknown"
+msgstr "Архів пошкоджено або має невідомий формат."
+
+#: ulng.rscolattr
+msgid "Attr"
+msgstr "Атриб"
+
+#: TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION
+msgid "Attributes"
+msgstr "Атрибути"
+
+#: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
+msgid "BackGround:"
+msgstr "Фон &1"
+
+#: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
+msgid "Background 2:"
+msgstr "Фон &2"
+
+#: ulng.rsfindwherebeg
+msgid "Begin at"
+msgstr "Починати з"
+
+#: ulng.rsoptbehav
+msgid "Behaviors"
+msgstr "Поведінка"
+
+#: TFRMCOMPAREFILES.CHBBINMODE.CAPTION
+msgid "Binary mode"
+msgstr "Двійковий"
+
+#: TFRMFILEPROPERTIES.LBLATTRBITSSTR.CAPTION
+msgid "Bits:"
+msgstr "Біти:"
+
+#: TFRMOPTIONS.LBLCOPYBUFFERSIZE.CAPTION
+msgid "Buffer size (Kb):"
+msgstr "Розмір буфера (Кб):"
+
+#: ulng.rsmsgerrsmallbuf
+msgid "Buffer too small"
+msgstr "Буфер надто малий"
+
+#: TFRMABOUT.LBLBUILD.CAPTION
+msgid "Build: "
+msgstr "Зборка: "
+
+#: TFRMMAIN.MNUCONFIG.CAPTION
+msgid "C&onfiguration"
+msgstr "&Настройка"
+
+#: ulng.rsmsgerrbadarchive
+msgid "CRC error in archive data"
+msgstr "Контрольна сума не співпадає, архів пошкоджено."
+
+#: TFRMMAIN.ACTCALCULATESPACE.CAPTION
+msgid "Calculate &Occupied Space..."
+msgstr "Розрахувати &займаєме місце..."
+
+#: ulng.rsmsgerrforcedir
+msgid "Can not create directory \%s!"
+msgstr "Не можу створити каталог %s!"
+
+#: ulng.rsmsgnotdelete
+msgid "Can not delete file \%s"
+msgstr "Не могу стерти файл %s"
+
+#: TFRMEXTRACTDLG.BTNCANCEL.CAPTION
+msgid "Cancel"
+msgstr "Відміна"
+
+#: ulng.rsmsgerrecreate
+msgid "Cannot create file"
+msgstr "Не можу створити файл"
+
+#: ulng.rsmsgerreopen
+msgid "Cannot open existing file"
+msgstr "Не можу відкрити файл"
+
+#: ulng.rsconfcolcaption
+msgid "Caption"
+msgstr "Заголовок"
+
+#: TFRMFINDDLG.CBCASESENS.CAPTION
+msgid "Case sensitive"
+msgstr "З врахуванням регістру"
+
+#: TFRMOPTIONS.CBCASESENSITIVESORT.CAPTION
+msgid "Case sensitive sorting"
+msgstr "Сортування з врахуванням регістра"
+
+#: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
+msgid "Category attributes:"
+msgstr "Атрибути"
+
+#: TFRMOPTIONS.LBLCATEGORYCOLOR.CAPTION
+msgid "Category color:"
+msgstr "Колір:"
+
+#: TFRMOPTIONS.LBLCATEGORYMASK.CAPTION
+msgid "Category mask:"
+msgstr "Маска:"
+
+#: TFRMOPTIONS.LBLCATEGORYNAME.CAPTION
+msgid "Category name:"
+msgstr "Найменування категорії:"
+
+#: ulng.rsmsgchdirfailed
+msgid "ChDir to [\%s] failed!"
+msgstr "Перехід в каталог [\%s] не вдався!"
+
+#: TFRMCONFIGTOOLBAR.CAPTION
+msgid "Change button bar"
+msgstr "Настройка панелі інструментів"
+
+#: TFRMOPTIONS.BTCLEARHOTKEY.CAPTION
+msgid "Clear HotKey"
+msgstr "Очистити"
+
+#: TFRMFILEPROPERTIES.BTNCLOSE.CAPTION
+msgid "Close"
+msgstr "Закрити"
+
+#: ulng.rsoptcolors
+msgid "Colors"
+msgstr "Кольори"
+
+#: ulng.rsoptcolumns
+msgid "Columns"
+msgstr "Колонки"
+
+#: TFRMMAIN.MNUFILESCOMBINE.CAPTION
+msgid "Combine Files"
+msgstr "Зібрати файли..."
+
+#: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
+msgid "Command line history"
+msgstr "Історія командного рядка"
+
+#: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
+msgid "Compare by &Contents"
+msgstr "Порівняти п&о вмісту"
+
+#: TFRMCOMPAREFILES.CAPTION
+msgid "Compare files"
+msgstr "Порівняти файли"
+
+#: ulng.rsoptconfig
+msgid "Configuration"
+msgstr "Конфігурація"
+
+#: TFRMOPTIONS.LBLCONFIGCOLUMNS.CAPTION
+msgid "Configure columns for file system:"
+msgstr "Настроїти колонки для файлової системи:"
+
+#: ulng.rsmenuconfigurecustomcolumns
+msgid "Configure custom columns"
+msgstr "Настроїти набори колонок"
+
+#: TFCOLUMNSSETCONF.CAPTION
+msgid "Configure custom columns view"
+msgstr "Настройка набору колонок"
+
+#: ulng.rsmenuconfigurethiscustomcolumn
+msgid "Configure this custom columns view"
+msgstr "Настроїть поточний набір колонок"
+
+#: TFCOLUMNSSETCONF.LBLCONFIGVIEWNR.CAPTION
+msgid "Configure view nr:"
+msgstr "Настройка набору номер:"
+
+#: TFRMOPTIONS.TSWDX.CAPTION
+msgid "Content plugins (.WDX)"
+msgstr "Контентні плагіни (.WDX)"
+
+#: TFRMEDITOR.ACTEDITCOPY.CAPTION
+msgid "Copy"
+msgstr "&Копиювати"
+
+#: TFRMMAIN.ACTCOPY.CAPTION
+msgid "Copy F5"
+msgstr "Копір F5"
+
+#: TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION
+msgid "Copy To Clipboard"
+msgstr "&Копіювати в буфер"
+
+#: ulng.rsmsgcpfldr
+msgid "Copy \%d selected files/directories?"
+msgstr "Копиювати %d вибраних файлів/каталогів?"
+
+#: TFRMCOPYDLG.LBLCOPYSRC.CAPTION
+msgid "Copy \%s:"
+msgstr "Копиювати %s:"
+
+#: ulng.rsmsglogcopy
+msgid "Copy file \%s"
+msgstr "Копиювання файла \%s"
+
+#: ulng.rsdlgcp
+msgid "Copy file(s)"
+msgstr "Копювати файл(и)"
+
+#: TFRMMAIN.ACTADDPATHTOCMDLINE.CAPTION
+msgid "Copy path to command line"
+msgstr "Копиювати шлях в командний рядок"
+
+#: ulng.rsmsgcpsel
+msgid "Copy selected \"\%s\"?"
+msgstr "Копиювати виділене "%s"?"
+
+#: TFRMMAIN.ACTCOPYSAMEPANEL.CAPTION
+msgid "Copy to same panel"
+msgstr "Копіювати в ту ж панель"
+
+#: TFRMOPTIONS.CBLOGCPMVLN.CAPTION
+msgid "Copy/Move/Create link/symlink"
+msgstr "Копіювання / Переміщення / Створення посилань"
+
+#: TFRMMULTIRENAME.GBCOUNTER.CAPTION
+msgid "Counter"
+msgstr "Лічильник"
+
+#: ulng.rsmsglogmkdir
+msgid "Create directory \%s"
+msgstr "Створення каталога \%s"
+
+#: TFRMHARDLINK.CAPTION
+msgid "Create hardlink"
+msgstr "Створити жорстке посилання"
+
+#: ulng.rsmsgloglink
+msgid "Create link \%s"
+msgstr "Створення посилання \%s"
+
+#: TFRMMAIN.ACTHARDLINK.CAPTION
+msgid "Create link..."
+msgstr "Створити по&силання..."
+
+#: TFRMMKDIR.CAPTION
+msgid "Create new directory"
+msgstr "Створити новий каталог"
+
+#: TFRMPACKDLG.CBCREATESFX.CAPTION
+msgid "Create self e&xtracting archive"
+msgstr "Само&розпаковуючий архів"
+
+#: TFRMPACKDLG.CBCREATESEPARATEARCHIVES.CAPTION
+msgid "Create separate archives, o&ne per selected file/dir"
+msgstr "Окремі архіви для кожн&ого вибраного файла/каталога"
+
+#: TFRMSYMLINK.CAPTION
+msgid "Create symlink"
+msgstr "Створити симв. посилання"
+
+#: ulng.rsmsglogsymlink
+msgid "Create symlink \%s"
+msgstr "Створення символьного посилання \%s"
+
+#: TFRMMAIN.ACTSYMLINK.CAPTION
+msgid "Create symlink..."
+msgstr "Створити символьне пос&илання..."
+
+#: TFRMOPTIONS.CBLOGDIROP.CAPTION
+msgid "Create/Delete directories"
+msgstr "Створення / Видалення каталогів"
+
+#: ulng.rssplitmsgcreated
+msgid "Created:"
+msgstr "Створено:"
+
+#: TFRMFINDDLG.LBLCURRENT.CAPTION
+msgid "Current"
+msgstr "Поточний"
+
+#: TFRMOPTIONS.LBLCURSORCOLOR.CAPTION
+msgid "Cursor Color:"
+msgstr "&Курсор"
+
+#: TFRMOPTIONS.LBLCURSORTEXT.CAPTION
+msgid "Cursor Text:"
+msgstr "Текст &під курсором"
+
+#: TFRMEDITOR.ACTEDITCUT.CAPTION
+msgid "Cut"
+msgstr "В&ирізати"
+
+#: ulng.rsmsgerrbaddata
+msgid "Data is bad"
+msgstr "Данні пошкоджено"
+
+#: ulng.rscoldate
+msgid "Date"
+msgstr "Дата"
+
+#: TFRMFINDDLG.CBDATEFROM.CAPTION
+msgid "Date From:"
+msgstr "Дата від:"
+
+#: TFRMFINDDLG.CBDATETO.CAPTION
+msgid "Date To:"
+msgstr "Дата до:"
+
+#: TFRMOPTIONS.GBDATETIMEFORMAT.CAPTION
+msgid "Date and time"
+msgstr "Дата і час"
+
+#: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
+msgid "Date and time format:"
+msgstr "Формат дати і часу:"
+
+#: TFRMFINDDLG.CBDELAYUNIT.TEXT
+msgid "Day(s)"
+msgstr "День"
+
+#: TFRMLINKER.SPBTNDEL.HINT
+msgid "Delete"
+msgstr "Видалити"
+
+#: TFRMMAIN.ACTDELETE.CAPTION
+msgid "Delete F8"
+msgstr "Видалити F8"
+
+#: ulng.rsmsgdelfldr
+msgid "Delete \%d selected files/directories?"
+msgstr "Видалити %d вибраних файлів/каталогів?"
+
+#: ulng.rsmsglogdelete
+msgid "Delete file \%s"
+msgstr "Видалення файла \%s"
+
+#: ulng.rsdlgdel
+msgid "Delete file(s)"
+msgstr "Видалити файл(и)"
+
+#: ulng.rsmsgdelsel
+msgid "Delete selected \"\%s\"?"
+msgstr "Видалити вибраний "%s"?"
+
+#: TFRMOPTIONS.RBNONEQS.CAPTION
+msgid "Di&sabled"
+msgstr "Відключено"
+
+#: ulng.rspropsfolder
+msgid "Directory"
+msgstr "Каталог"
+
+#: TFRMMAIN.ACTDIRHOTLIST.CAPTION
+msgid "Directory &hotlist"
+msgstr "Особистий спис&ок каталогів"
+
+#: TFRMHOTDIR.CAPTION
+msgid "Directory Hotlist"
+msgstr "Вибрані каталоги"
+
+#: ulng.rsfinddirnoex
+msgid "Directory \%s does not exist!"
+msgstr "Каталог %s не існує!"
+
+#: ulng.rsmsgerrdirexists
+msgid "Directory \%s exists!"
+msgstr "Каталог %s існує!"
+
+#: TFRMMAIN.ACTDIRHISTORY.CAPTION
+msgid "Directory history"
+msgstr "Історія каталогів"
+
+#: TFRMSPLITTER.LBDIRTARGET.CAPTION
+msgid "Directory target"
+msgstr "Каталог призначення"
+
+#: ulng.rsmsgdisknotavail
+msgid "Disk is not available"
+msgstr "Диск не доступний"
+
+#: ulng.rsmsglogsuccess
+msgid "Done: "
+msgstr "Виконано: "
+
+#: TFRMABOUT.LBLTITLE.CAPTION
+msgid "Double Commander"
+msgstr ""
+
+#: TFRMLINKER.SPBTNDOWN.HINT
+msgid "Down"
+msgstr "Вниз"
+
+#: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
+msgid "Drop readonly flag"
+msgstr "Зкинути позначку "Тільки для читання""
+
+#: TFRMEDITOR.ACTFILEEXIT.CAPTION
+msgid "E&xit"
+msgstr "Ви&хід"
+
+#: TFRMMAIN.TBEDIT.CAPTION
+msgid "Edit"
+msgstr "Редактувати"
+
+#: TFRMMAIN.ACTEDIT.CAPTION
+msgid "Edit F4"
+msgstr "Правка F4"
+
+#: TFRMMAIN.ACTEDITNEW.CAPTION
+msgid "Edit new file"
+msgstr "Редактувати новий"
+
+#: TFRMEDITOR.CAPTION
+msgid "Editor"
+msgstr "Редактор"
+
+#: TFRMEDITORCONF.CAPTION
+msgid "Editor configuration"
+msgstr "Настройки редактора"
+
+#: TFRMOPTIONS.LBLEDITORFONT.CAPTION
+msgid "Editor font"
+msgstr "Шрифт редактора"
+
+#: TFRMOPTIONS.CBEXACTENDING.CAPTION
+msgid "En&ding (last character before a typed dot . must match)"
+msgstr "Кінець (останні символи до набраної крапки '.' повинні співпадати)"
+
+#: TFRMPACKDLG.CBENCRYPT.CAPTION
+msgid "Encr&ypt"
+msgstr "&Шифровати"
+
+#: ulng.rsmsgerreclose
+msgid "Error closing file"
+msgstr "Не можу закрити файл"
+
+#: ulng.rsharderrcreate
+msgid "Error creating hardlink."
+msgstr "Помилка створення жорсткого посилання."
+
+#: ulng.rssymerrcreate
+msgid "Error creating symlink."
+msgstr "Помилка створення симв. посилання."
+
+#: ulng.rsmsgerreread
+msgid "Error reading from file"
+msgstr "Помилка читання з файла"
+
+#: ulng.rsmsgerrewrite
+msgid "Error writing to file"
+msgstr "Помилка запису в файл"
+
+#: ulng.rsmsglogerror
+msgid "Error: "
+msgstr "Помилка: "
+
+#: TFRMFILEOP.LBLESTIMATED.CAPTION
+msgid "Estimated"
+msgstr "Залишилось"
+
+#: TFRMOPTIONS.GBEXACTNAMEMATCH.CAPTION
+msgid "Exact &name match:"
+msgstr "Точне співпадання імені:"
+
+#: TFRMOPTIONS.GBEXAMPLE.CAPTION
+msgid "Example"
+msgstr "Приклад"
+
+#: TFRMFILEPROPERTIES.LBLEXEC.CAPTION
+msgid "Execute"
+msgstr "Виконання"
+
+#: TFRMHARDLINK.LBLNEW.CAPTION
+msgid "Existing destination (where will link point)"
+msgstr "На що вказує"
+
+#: TFRMSPLITTER.BTNCANCEL.CAPTION
+msgid "Exit"
+msgstr "Вихід"
+
+#: ulng.rscolext
+msgid "Ext"
+msgstr "Розш"
+
+#: TFRMMULTIRENAME.LBEXT.CAPTION
+msgid "Extension"
+msgstr "Розширення"
+
+#: TFRMMULTIRENAME.MINEXTEXTENSION.CAPTION
+msgid "Extension..."
+msgstr "Розширення..."
+
+#: TFRMFILEASSOC.GBEXTS.CAPTION
+msgid "Extensions"
+msgstr "Розширення"
+
+#: TFRMOPTIONS.CBEXTDIFFER.CAPTION
+msgid "External differ"
+msgstr "Зовнішній differ"
+
+#: TFRMOPTIONS.CBEXTEDITOR.CAPTION
+msgid "External editor"
+msgstr "Зовнішній редактор"
+
+#: TFRMOPTIONS.CBEXTVIEWER.CAPTION
+msgid "External viewer"
+msgstr "Зовнішній переглядач"
+
+#: ulng.rsmsglogextract
+msgid "Extract file \%s"
+msgstr "Розпаковка файла \%s"
+
+#: TFRMMAIN.ACTEXTRACTFILES.CAPTION
+msgid "Extract files..."
+msgstr "Розпакувати..."
+
+#: ulng.rsdlgextract
+msgid "Extracting..."
+msgstr "Розпаковка..."
+
+#: TFRMCONFIGTOOLBAR.CBFLATICONS.CAPTION
+msgid "F&lat icons"
+msgstr "Плоскі"
+
+#: TFRMFINDDLG.BTNWORKWITHFOUND.CAPTION
+msgid "Feed to &listbox"
+msgstr "Фай&ли на панель"
+
+#: ulng.rsconfcolfieldcont
+msgid "Field contents"
+msgstr "Вміст поля даних"
+
+#: ulng.rspropsfile
+msgid "File"
+msgstr "Файл"
+
+#: TFRMMULTIRENAME.LBNAME.CAPTION
+msgid "File Name"
+msgstr "Ім'я файла"
+
+#: TFRMMULTIRENAME.GBFONTSTYLE.CAPTION
+msgid "File Name Style"
+msgstr "Стиль імені файла"
+
+#: TFRMMULTIRENAME.LSVWFILE.COLUMNS.CAPTION
+msgid "File Path"
+msgstr "Шлях файла"
+
+#: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
+msgid "File Size From:"
+msgstr "Розмір файла від:"
+
+#: TFRMFINDDLG.CBFILESIZETO.CAPTION
+msgid "File Size To:"
+msgstr "Розмір файла до:"
+
+#: ulng.rsmsgfilechangedsave
+msgid "File \%s changed, save?"
+msgstr "Файл %s змінено, зберегти?"
+
+#: ulng.rsmsgfileexistsrwrt
+msgid "File \%s exists, overwrite?"
+msgstr "Файл %s існує, переписати?"
+
+#: TFRMFILEASSOC.CAPTION
+msgid "File associations"
+msgstr "Файлові асоціації"
+
+#: TFRMMAIN.ACTFILEASSOC.CAPTION
+msgid "File associations..."
+msgstr "Файлові асоціації..."
+
+#: TFRMOPTIONS.CBFILEMASKHISTORY.CAPTION
+msgid "File mask history"
+msgstr "Історія масок файлів"
+
+#: TFRMFILEPROPERTIES.LBLFILE.CAPTION
+msgid "File name"
+msgstr "Ім'я файла"
+
+#: TFRMOPTIONS.GBLOGFILE.CAPTION
+msgid "File operation log file"
+msgstr "Звіт про файлові операції"
+
+#: ulng.rsoptfileop
+msgid "File operations"
+msgstr "Файлові операції"
+
+#: ulng.rsoptfilepanels
+msgid "File panels"
+msgstr "Файлові панелі"
+
+#: TFRMOPTIONS.GBFILESEARCH.CAPTION
+msgid "File search"
+msgstr "Пошук файлів"
+
+#: TFRMSPLITTER.GRBXSIZE.CAPTION
+msgid "File size"
+msgstr "Розмір файла"
+
+#: TFRMSPLITTER.LBFILESOURCE.CAPTION
+msgid "File source"
+msgstr "Вихідний файл"
+
+#: TFRMOPTIONS.CBLOGVFS.CAPTION
+msgid "File system plugins"
+msgstr "Плагіни файлової системи"
+
+#: TFRMOPTIONS.TSWFX.CAPTION
+msgid "File system plugins (.WFX)"
+msgstr "Плагіни файлової системи (.WFX)"
+
+#: ulng.rsoptfiletypes
+msgid "File types"
+msgstr "Типи файлів"
+
+#: TFRMOPTIONS.GBFILETYPESCOLORS.CAPTION
+msgid "File types colors"
+msgstr "Кольори по типу"
+
+#: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
+msgid "FileDir"
+msgstr "В каталозі:"
+
+#: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
+msgid "FileMask"
+msgstr "Шукати файли:"
+
+#: ulng.rseditnewfilename
+msgid "Filename:"
+msgstr "Ім'я файла:"
+
+#: TFRMMAIN.MNUFILES.CAPTION
+msgid "Files"
+msgstr "&Файли"
+
+#: ulng.rsspacemsg
+msgid "Files:\%d, Dirs:\%d, Size: \%d bytes"
+msgstr "Файлів:%d, Каталогів:%d, Розмір: %d байт"
+
+#: TFRMFINDVIEW.CAPTION
+msgid "Find"
+msgstr "Знайти"
+
+#: TFRMMULTIRENAME.GBFINDREPLACE.CAPTION
+msgid "Find && Replace"
+msgstr "Знайти та замінити"
+
+#: TFRMFINDDLG.GBFINDDATA.CAPTION
+msgid "Find Data"
+msgstr "З текстом"
+
+#: TFRMFINDDLG.CAPTION
+msgid "Find files"
+msgstr "Пошук файлів"
+
+#: TFRMFINDDLG.CBNOTHISTEXT.CAPTION
+msgid "Find files NOT containing the text"
+msgstr "Файлы, що НЕ містять цей текст"
+
+#: TFRMFINDDLG.CBFINDINFILE.CAPTION
+msgid "Find in file"
+msgstr "Шукати в файлі"
+
+#: TFRMMULTIRENAME.LBFIND.CAPTION
+msgid "Find..."
+msgstr "Знайти..."
+
+#: TFRMOPTIONS.CBFLATDISKPANEL.CAPTION
+msgid "Flat buttons"
+msgstr "Плоскі"
+
+#: TFRMOPTIONS.CBFLATINTERFACE.CAPTION
+msgid "Flat interface"
+msgstr "Плоскі"
+
+#: TFRMMAIN.ACTFOCUSCMDLINE.CAPTION
+msgid "Focus command line"
+msgstr "Перейти в командний рядок"
+
+#: ulng.rsoptfoldertabs
+msgid "Folder tabs"
+msgstr "Вкладки каталогів"
+
+#: TFRMOPTIONS.GBTABS.CAPTION
+msgid "Folder tabs headers"
+msgstr "Заголовки вкладок"
+
+#: ulng.rsoptfonts
+msgid "Fonts"
+msgstr "Шрифти"
+
+#: ulng.rsfreemsg
+msgid "Free \%s from \%s bytes"
+msgstr "Вільно %s з %s байт"
+
+#: ulng.rsmsgerreaborted
+msgid "Function aborted by user"
+msgstr "Припинено користувачем."
+
+#: ulng.rsmsgerrnotsupported
+msgid "Function not supported!"
+msgstr "Функція не підтримується!"
+
+#: TFRMOPTIONS.CBBFILESYSTEM.TEXT
+msgid "General"
+msgstr "Основні"
+
+#: TFRMOPTIONS.GBGENERALOPTIONS.CAPTION
+msgid "General options"
+msgstr "Основні настройки"
+
+#: TFRMVIEWER.MIGRAPHICS.CAPTION
+msgid "Graphics"
+msgstr "&Графіка"
+
+#: TFRMFILEPROPERTIES.LBLATTRGROUPSTR.CAPTION
+msgid "Group"
+msgstr "Група"
+
+#: TFRMEXTRACTDLG.BTNHELP.CAPTION
+msgid "Help"
+msgstr "Допомога"
+
+#: TFRMOPTIONS.LBLHOTKEY.CAPTION
+msgid "Hot Key"
+msgstr "Гаряча клавіша"
+
+#: ulng.rsopthotkeys
+msgid "Hot keys"
+msgstr "Гарячі клавіші"
+
+#: TFRMCONFIGTOOLBAR.LBLICON.CAPTION
+msgid "Ic&on:"
+msgstr "Зна&чок:"
+
+#: TFRMFILEASSOC.GBICON.CAPTION
+msgid "Icon"
+msgstr "Значок"
+
+#: TFRMCONFIGTOOLBAR.LBLICONFILE.CAPTION
+msgid "Icon &file:"
+msgstr "&Файл значка:"
+
+#: TFRMOPTIONS.LBLICONSSIZE.CAPTION
+msgid "Icons Size:"
+msgstr "Розмір:"
+
+#: ulng.rsspliterrfilesize
+msgid "Incorrect file size format!"
+msgstr "Невірний розмір файла"
+
+#: ulng.rsmsgloginfo
+msgid "Info: "
+msgstr "Інформація: "
+
+#: ulng.rsmaskinput
+msgid "Input mask:"
+msgstr "Маска вводу:"
+
+#: TFRMMKDIR.LBLMAKEDIR.CAPTION
+msgid "Input new directory name:"
+msgstr "Введить ім'я каталога:"
+
+#: TFRMOPTIONS.LBLINSTALLEDPLUGINS.CAPTION
+msgid "Installed Plugins:"
+msgstr "Встановлені плагіни:"
+
+#: ulng.rsviewabouttext
+msgid "Internal Viewer of Double Commander."
+msgstr "Внутрішній переглядач Double Commander."
+
+#: TFRMMULTIRENAME.LBINTERVAL.CAPTION
+msgid "Interval"
+msgstr "Інтервал"
+
+#: TFRMMAIN.ACTMARKINVERT.CAPTION
+msgid "Invert Selections"
+msgstr "&Інверсія виділення"
+
+#: TFRMLINKER.GRBXCONTROL.CAPTION
+msgid "Item"
+msgstr "Елемент"
+
+#: TFRMFINDDLG.CBUNITOFMEASURE.TEXT
+msgid "Kbyte"
+msgstr "Кілобайт"
+
+#: TFRMCOMPAREFILES.CHBKEEPSCROLLING.CAPTION
+msgid "Keep scrolling"
+msgstr "Одночасна прокрутка"
+
+#: TFRMOPTIONS.RBLETTERQS.CAPTION
+msgid "L&etter only"
+msgstr "Тільки буква"
+
+#: ulng.rsoptlanguage
+msgid "Language"
+msgstr "Мова"
+
+#: TFRMFILEPROPERTIES.LBLLASTACCESSSTR.CAPTION
+msgid "Last access:"
+msgstr "Останній доступ:"
+
+#: TFRMFILEPROPERTIES.LBLLASTMODIFSTR.CAPTION
+msgid "Last modification:"
+msgstr "Остання зміна:"
+
+#: TFRMFILEPROPERTIES.LBLLASTSTCHANGESTR.CAPTION
+msgid "Last status change:"
+msgstr "Остання зміна статуса:"
+
+#: ulng.rsoptlayout
+msgid "Layout"
+msgstr "Вид вікна"
+
+#: TFRMABOUT.LBLLAZARUSVER.CAPTION
+msgid "Lazarus "
+msgstr ""
+
+#: ulng.rsoptlinebyline
+msgid "Line by line"
+msgstr "По рядках"
+
+#: ulng.rsoptlinebylinecursor
+msgid "Line by line with cursor movement"
+msgstr "По рядках з рухом курсора"
+
+#: TFRMMAIN.ACTFILELINKER.CAPTION
+msgid "Link files"
+msgstr "&Склеїти файли..."
+
+#: TFRMHARDLINK.LBLDST.CAPTION
+msgid "Link name"
+msgstr "Ім'я посилання"
+
+#: TFRMLINKER.CAPTION
+msgid "Linker"
+msgstr "Зборка"
+
+#: ulng.rslinkmsgok
+msgid "Linker complete"
+msgstr "Зборка завершена"
+
+#: TFRMOPTIONS.GBLOCCONFIGFILES.CAPTION
+msgid "Location of configuration files"
+msgstr "Місцерозміщення файлів конфігурації"
+
+#: TFRMMULTIRENAME.CBLOG.CAPTION
+msgid "Log"
+msgstr "Протокол"
+
+#: TFRMOPTIONS.CBLOGERRORS.CAPTION
+msgid "Log &errors"
+msgstr "Помилки"
+
+#: TFRMOPTIONS.CBLOGSUCCESS.CAPTION
+msgid "Log &successful operations"
+msgstr "Успішні операції"
+
+#: TFRMMULTIRENAME.GBLOG.CAPTION
+msgid "Log Result"
+msgstr "Результат - в протокол"
+
+#: TFRMOPTIONS.CBLOGINFO.CAPTION
+msgid "Log information messages"
+msgstr "Інформаційні повідомлення"
+
+#: TFRMOPTIONS.GBLOGFILEOP.CAPTION
+msgid "Log operations:"
+msgstr "Протоколюємі дії:"
+
+#: TFRMOPTIONS.CBLOGWINDOW.CAPTION
+msgid "Log window"
+msgstr "Вікно лога"
+
+#: TFRMOPTIONS.CBLYNXLIKE.CAPTION
+msgid "Lynx like movement"
+msgstr "Навігація в стилі Lynx"
+
+#: TFRMPACKDLG.CBMOVETOARCHIVE.CAPTION
+msgid "M&ove to archive"
+msgstr "Ви&далити вихідні файли після упаковки"
+
+#: TFRMOPTIONS.LBLMAINFONT.CAPTION
+msgid "Main font"
+msgstr "Головний"
+
+#: TFRMMAIN.ACTMAKEDIR.CAPTION
+msgid "MakeDir F7"
+msgstr "Каталог F7"
+
+#: TFRMOPTIONS.LBLMARKCOLOR.CAPTION
+msgid "Mark Color:"
+msgstr "&Виділення"
+
+#: TFRMMULTIRENAME.GBMASKA.CAPTION
+msgid "Mask"
+msgstr "Маска"
+
+#: TFRMMAIN.ACTSHOWMENU.CAPTION
+msgid "Menu F9"
+msgstr "Меню F9"
+
+#: TFRMFINDDLG.CBMORE.CAPTION
+msgid "More"
+msgstr "Більше"
+
+#: TFRMMAIN.ACTRENAME.CAPTION
+msgid "Move F6"
+msgstr "Перемістити F6"
+
+#: TFRMMOVEDLG.LBLMOVESRC.CAPTION
+msgid "Move \%s:"
+msgstr "Переместити %s:"
+
+#: ulng.rsmsglogmove
+msgid "Move file \%s"
+msgstr "Переміщення файла \%s"
+
+#: ulng.rsdlgmv
+msgid "Move file(s)"
+msgstr "Перемістити файл(и)"
+
+#: TFRMMAIN.ACTMULTIRENAME.CAPTION
+msgid "Multi Rename Tool"
+msgstr "Мульти&переіменування"
+
+#: TFRMMULTIRENAME.CAPTION
+msgid "MultiRename"
+msgstr "Групове переіменування"
+
+#: ulng.rscolname
+msgid "Name"
+msgstr "Ім'я"
+
+#: TFRMMULTIRENAME.MINEXTNAME.CAPTION
+msgid "Name..."
+msgstr "Ім'я..."
+
+#: TFRMFILEPROPERTIES.LBLFILENAMESTR.CAPTION
+msgid "Name:"
+msgstr "Ім'я"
+
+#: ulng.rspropsnmdpipe
+msgid "Named pipe"
+msgstr "Іменований канал"
+
+#: TFRMMULTIRENAME.LSVWFILE.COLUMNS.CAPTION
+msgid "New File Name"
+msgstr "Нове ім'я файла"
+
+#: ulng.rsmsgnewfile
+msgid "New file"
+msgstr "Новий файл"
+
+#: TFRMMAIN.ACTNEWTAB.CAPTION
+msgid "New tab"
+msgstr "Нова вкладка"
+
+#: TFRMCOMPAREFILES.BTNNEXTDIFF.CAPTION
+msgid "Next difference"
+msgstr "Наступне"
+
+#: ulng.rsmsgnextvolunpack
+msgid "Next volume will be unpacked"
+msgstr "Наступний том буде розпаковано"
+
+#: ulng.rspropsno
+msgid "No"
+msgstr "Ні"
+
+#: ulng.rsmulrenfilenamestylelist
+msgid "No change;UPPERCASE;lowercase;First Char Big;"
+msgstr "Без змін;ПРОПИСНІ;строчні;З Прописної;"
+
+#: ulng.rsmsgnofreespacecont
+msgid "No enough free space on target drive, Continue?"
+msgstr "Недостатньо місця на отримувачі. Продовжити?"
+
+#: ulng.rsmsgnofreespaceretry
+msgid "No enough free space on target drive, Retry?"
+msgstr "Недостатньо місця на отримувачі. Повторити?"
+
+#: ulng.rsmsgerrnofiles
+msgid "No files found"
+msgstr "Файли не знайдені"
+
+#: ulng.rsmsgerrendarchive
+msgid "No more files in archive"
+msgstr "В архіві немає більше файлів"
+
+#: ulng.rsmsgerrnomemory
+msgid "Not enough memory"
+msgstr "Не достатньо пам'яті"
+
+#: TFRMFINDDLG.CBNOTOLDERTHAN.CAPTION
+msgid "Not older than:"
+msgstr "Не старші ніж:"
+
+#: ulng.rscomparediffs
+msgid "Number of changes:"
+msgstr "Число змін:"
+
+#: TFRMEXTRACTDLG.BTNOK.CAPTION
+msgid "OK"
+msgstr ""
+
+#: TFRMMULTIRENAME.LSVWFILE.COLUMNS.CAPTION
+msgid "Old File Name"
+msgstr "Старе ім'я файла"
+
+#: TFRMMOVEDLG.LBLFILETYPE.CAPTION
+msgid "Only type:"
+msgstr "Тільки типу:"
+
+#: TFRMMAIN.ACTOPEN.CAPTION
+msgid "Open"
+msgstr "Відкрити"
+
+#: TFRMMAIN.ACTOPENVFSLIST.CAPTION
+msgid "Open VFS List"
+msgstr "Відкрити список VFS"
+
+#: ulng.rseditnewopen
+msgid "Open file"
+msgstr "Відкрити файл"
+
+#: TFRMMAIN.ACTLEFTOPENDRIVES.CAPTION
+msgid "Open left drive list"
+msgstr "Відкрити список дисків зліва"
+
+#: TFRMMAIN.ACTRIGHTOPENDRIVES.CAPTION
+msgid "Open right drive list"
+msgstr "Відкрити список дисків справа"
+
+#: TFRMOPTIONS.BTNOPEN.CAPTION
+msgid "Open with"
+msgstr "Обзор"
+
+#: TFRMOPTIONS.GBLOGFILESTATUS.CAPTION
+msgid "Operation status:"
+msgstr "Протоколювати операції зі статусом:"
+
+#: TFRMOPTIONS.CAPTION
+msgid "Options"
+msgstr "Настройка"
+
+#: TFRMMAIN.ACTOPTIONS.CAPTION
+msgid "Options..."
+msgstr "&Параметри..."
+
+#: TFRMFILEPROPERTIES.LBLATTROTHERSTR.CAPTION
+msgid "Other"
+msgstr "Інші"
+
+#: TFRMFILEPROPERTIES.LBLATTROWNERSTR.CAPTION
+msgid "Owner"
+msgstr "Власник"
+
+#: TFRMPACKDLG.LBLPROMPT.CAPTION
+msgid "Pack file(s) to the file:"
+msgstr "Ім'я архіва:"
+
+#: TFRMPACKDLG.CAPTION
+msgid "Pack files"
+msgstr "Упаковка файлів"
+
+#: TFRMMAIN.ACTPACKFILES.CAPTION
+msgid "Pack files..."
+msgstr "Упакувати..."
+
+#: ulng.rsmsglogpack
+msgid "Pack to file \%s"
+msgstr "Упаковка в файл \%s"
+
+#: TFRMOPTIONS.CBLOGARCOP.CAPTION
+msgid "Pack/Unpack"
+msgstr "Упаковка / Розпаковка"
+
+#: TFRMPACKDLG.RGPACKER.CAPTION
+msgid "Packer"
+msgstr " Архіватор "
+
+#: TFRMOPTIONS.TSWCX.CAPTION
+msgid "Packer plugins (.WCX)"
+msgstr "Архіваторні плагіни (.WCX)"
+
+#: TFRMOPTIONS.LBLABOUT.CAPTION
+msgid "Packer plugins are used to open archives not supported"
+msgstr ""
+
+#: ulng.rsdlgpack
+msgid "Packing..."
+msgstr "Упаковка..."
+
+#: ulng.rsoptpagebypage
+msgid "Page by page"
+msgstr "Посторінково"
+
+#: TFRMEDITOR.ACTEDITPASTE.CAPTION
+msgid "Paste"
+msgstr "&Вставити"
+
+#: TFRMMAIN.LBLCOMMANDPATH.CAPTION
+msgid "Path"
+msgstr "Шлях"
+
+#: TFRMFILEPROPERTIES.LBLFOLDERSTR.CAPTION
+msgid "Path:"
+msgstr "Шлях:"
+
+#: ulng.rsmsgsellocnextvol
+msgid "Please select location of next volume"
+msgstr "Вкажіть шлях до наступного тому"
+
+#: ulng.rsoptplugins
+msgid "Plugins"
+msgstr "Плагіни"
+
+#: ulng.rspositionsaved
+msgid "Position saved."
+msgstr "Позиція збережена"
+
+#: TFRMEDITORCONF.LBPREDEFINED.CAPTION
+msgid "Predefined"
+msgstr "Передвизначений"
+
+#: TFRMCOMPAREFILES.BTNPREVDIFF.CAPTION
+msgid "Previous difference"
+msgstr "Попереднє"
+
+#: TFRMFILEOP.CAPTION
+msgid "Process file(s)"
+msgstr "Обробити файл(и)"
+
+#: TFRMOPTIONS.RBPROGRAMDIR.CAPTION
+msgid "Program directory (portable version)"
+msgstr "Каталог програми (portable version)"
+
+#: TFRMFILEPROPERTIES.CAPTION
+msgid "Properties"
+msgstr "Властивості"
+
+#: TFRMMAIN.ACTQUICKSEARCH.CAPTION
+msgid "Quick search"
+msgstr "Швидкий пошук"
+
+#: TFRMOPTIONS.GBQUICKSEARCH.CAPTION
+msgid "Quick search (current dir)"
+msgstr "Пошук в поточному каталозі"
+
+#: TFRMFILEPROPERTIES.LBLREAD.CAPTION
+msgid "Read"
+msgstr "Читання"
+
+#: TFRMPACKDLG.CBRECURSE.CAPTION
+msgid "Recursively pack &subdirectories"
+msgstr "Враховувати підкаталоги"
+
+#: TFRMEDITOR.ACTEDITREDO.CAPTION
+msgid "Redo"
+msgstr "Повторити"
+
+#: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
+msgid "Remove"
+msgstr "Видалити"
+
+#: ulng.rsmsglogrmdir
+msgid "Remove directory \%s"
+msgstr "Видалення каталога \%s"
+
+#: TFRMMAIN.ACTREMOVETAB.CAPTION
+msgid "Remove tab"
+msgstr "Видалити вкладку"
+
+#: TFRMOPTIONS.BBTNWFXRENAME.CAPTION
+msgid "Rename"
+msgstr "Переіменувати"
+
+#: ulng.rsmsgrenfldr
+msgid "Rename/move \%d selected files/directories?"
+msgstr "Переіменувати/перемістити %d вибраних файлів/каталогів?"
+
+#: ulng.rsmsgrensel
+msgid "Rename/move selected \"\%s\"?"
+msgstr "Переіменувати/перемістити вибраний "%s"?"
+
+#: TFRMFINDDLG.CBREPLACETEXT.CAPTION
+msgid "Replace text"
+msgstr "Замінити текст"
+
+#: TFRMMULTIRENAME.LBREPLACE.CAPTION
+msgid "Replace..."
+msgstr "Замінити..."
+
+#: TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
+msgid "Representation in text:"
+msgstr "В виді тексту:"
+
+#: TFRMMULTIRENAME.BTNRESTORE.CAPTION
+msgid "Restore All"
+msgstr "Відновити все"
+
+#: TFRMMAIN.ACTREVERSEORDER.CAPTION
+msgid "Reverse order"
+msgstr "Обернений п&орядок"
+
+#: TFRMMAIN.ACTRUNTERM.CAPTION
+msgid "Run Term"
+msgstr "Пуск &термінала"
+
+#: TFRMOPTIONS.LBLRUNTERM.CAPTION
+msgid "Run terminal:"
+msgstr "Пуск термінала:"
+
+#: TFRMCONFIGTOOLBAR.LBLSIZE.CAPTION
+msgid "S&ize:"
+msgstr "&Розмір:"
+
+#: TFRMCONFIGTOOLBAR.CBSMALLICONS.CAPTION
+msgid "S&mall icons"
+msgstr "Маленькі"
+
+#: TFRMFILEPROPERTIES.CBSGID.CAPTION
+msgid "SGID"
+msgstr ""
+
+#: TFRMFILEPROPERTIES.CBSUID.CAPTION
+msgid "SUID"
+msgstr ""
+
+#: TFRMEDITOR.ACTSAVEALL.CAPTION
+msgid "Sa&ve All"
+msgstr "Зберегти все"
+
+#: TFRMEDITORCONF.LBSAMPLE.CAPTION
+msgid "Sample"
+msgstr "Зразок"
+
+#: TFRMEDITOR.ACTFILESAVEAS.CAPTION
+msgid "Save &As.."
+msgstr "Зберегти &як..."
+
+#: TFRMOPTIONS.GBSAVEONEXIT.CAPTION
+msgid "Save on exit"
+msgstr "Зберігати при виході"
+
+#: TFRMLINKER.GBSAVETO.CAPTION
+msgid "Save to..."
+msgstr "Зберегти як..."
+
+#: ulng.rsfindscaned
+msgid "Scanned: \%d"
+msgstr "Проглянуто: %d"
+
+#: TFRMOPTIONS.RGSCROLLING.CAPTION
+msgid "Scrolling"
+msgstr "Прокрутка"
+
+#: TFRMVIEWER.MISEARCH.CAPTION
+msgid "Search"
+msgstr "З&найти..."
+
+#: TFRMVIEWER.MISELECTALL.CAPTION
+msgid "Select All"
+msgstr "Виділити &все"
+
+#: ulng.rsselectdir
+msgid "Select a directory"
+msgstr "Виберіть каталог"
+
+#: TFRMMAIN.ACTMARKPLUS.CAPTION
+msgid "Select a group"
+msgstr "Виділіть &групу..."
+
+#: TFRMOPTIONS.CBDIRSELECT.CAPTION
+msgid "Select directory with keypad"
+msgstr "Вибрати кат-г на цифр. кл-рі"
+
+#: ulng.rssplitseldir
+msgid "Select directory:"
+msgstr "Виберіть каталог:"
+
+#: ulng.rsmarkplus
+msgid "Select mask"
+msgstr "Маска вибору"
+
+#: TFRMEDITOR.ACTEDITSELECTALL.CAPTION
+msgid "Select&All"
+msgstr "Виділити &все"
+
+#: ulng.rsmsgselected
+msgid "Selected \%s of \%s in \%d of \%d files"
+msgstr "Виділено %s з %s в %d з %d файлів"
+
+#: TFRMOPTIONS.CBSEPARATEEXT.CAPTION
+msgid "Separate extension"
+msgstr "Окремо розширення"
+
+#: TFRMOPTIONS.BTSETHOTKEY.CAPTION
+msgid "Set HotKey"
+msgstr "Встановити"
+
+#: TFRMOPTIONS.CBSHOWTABS.CAPTION
+msgid "Sho&w folder tabs"
+msgstr "Вкл&адки папок"
+
+#: TFRMOPTIONS.CBSHORTFILESIZEFORMAT.CAPTION
+msgid "Short Filesize format"
+msgstr "Короткий розмір файла"
+
+#: TFRMOPTIONS.CBSHOWMAINTOOLBAR.CAPTION
+msgid "Show &button bar"
+msgstr "&Панель інструментів"
+
+#: TFRMOPTIONS.CBSHOWCURDIR.CAPTION
+msgid "Show &current directory"
+msgstr "Ім'я по&точного каталога"
+
+#: TFRMOPTIONS.CBSHOWDISKPANEL.CAPTION
+msgid "Show &drive buttons"
+msgstr "Кнопки &дисків"
+
+#: TFRMOPTIONS.CBSHOWKEYSPANEL.CAPTION
+msgid "Show &function key buttons"
+msgstr "Кнопки &функціональних клавіш"
+
+#: TFRMOPTIONS.CBSHOWSTATUSBAR.CAPTION
+msgid "Show &status bar"
+msgstr "Рядок стану"
+
+#: TFRMOPTIONS.CBSHOWTABHEADER.CAPTION
+msgid "Show &tabstop header"
+msgstr "&Заголовки табуляторів"
+
+#: TFRMFINDDLG.MISHOWINVIEWER.CAPTION
+msgid "Show In Viewer"
+msgstr "Перегляд"
+
+#: TFRMVIEWER.MIBIN.CAPTION
+msgid "Show as &Bin"
+msgstr "В виді дв. &кода"
+
+#: TFRMVIEWER.MIHEX.CAPTION
+msgid "Show as &Hex"
+msgstr "В &шістнадцятеричному виді"
+
+#: TFRMVIEWER.MITEXT.CAPTION
+msgid "Show as &Text"
+msgstr "В виді &тексту"
+
+#: TFRMVIEWER.MIWRAPTEXT.CAPTION
+msgid "Show as &Wrap text"
+msgstr "В виде тексту з &розривами рядків"
+
+#: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
+msgid "Show button menu"
+msgstr ""
+
+#: TFRMOPTIONS.CBSHOWCMDLINE.CAPTION
+msgid "Show command &line"
+msgstr "&Командний рядок"
+
+#: TFRMMAIN.ACTSHOWCMDLINEHISTORY.CAPTION
+msgid "Show command line history"
+msgstr "Історія командного рядка"
+
+#: TFRMMAIN.ACTCONTEXTMENU.CAPTION
+msgid "Show context menu"
+msgstr "Показатb контекстне меню"
+
+#: TFRMOPTIONS.CBSHOWDRIVEMENUBUTTON.CAPTION
+msgid "Show d&rive menu button"
+msgstr "Кнопка меню дискsв"
+
+#: TFRMMAIN.ACTFILEPROPERTIES.CAPTION
+msgid "Show file properties"
+msgstr "Вла&стивості..."
+
+#: TFRMMAIN.ACTSHOWSYSFILES.CAPTION
+msgid "Show hidden/system files"
+msgstr "&Показувати системні файли"
+
+#: TFRMOPTIONS.CBSHOWICONS.CAPTION
+msgid "Show icons"
+msgstr "Показувати значки"
+
+#: TFRMOPTIONS.CBTWODISKPANELS.CAPTION
+msgid "Show two drive button bars (fixed width, above file windows)"
+msgstr "Д&ві панелі кнопок дисків (над файловими панелями)"
+
+#: ulng.rscolsize
+msgid "Size"
+msgstr "Розмір"
+
+#: TFRMFILEPROPERTIES.LBLSIZESTR.CAPTION
+msgid "Size:"
+msgstr "Розмір:"
+
+#: TFRMFILEPROPERTIES.BTNSKIP.CAPTION
+msgid "Skip"
+msgstr "Пропустити"
+
+#: ulng.rspropssocket
+msgid "Socket"
+msgstr "Сокет"
+
+#: TFRMMAIN.ACTSORTBYATTR.CAPTION
+msgid "Sort by attrib"
+msgstr "&Атрибути"
+
+#: TFRMMAIN.ACTSORTBYDATE.CAPTION
+msgid "Sort by date"
+msgstr "Дата"
+
+#: TFRMMAIN.ACTSORTBYEXT.CAPTION
+msgid "Sort by extension"
+msgstr "Розширення"
+
+#: TFRMMAIN.ACTSORTBYNAME.CAPTION
+msgid "Sort by name"
+msgstr "Ім'я"
+
+#: TFRMMAIN.ACTSORTBYSIZE.CAPTION
+msgid "Sort by size"
+msgstr "Розмір"
+
+#: TFRMMAIN.MNUCMDSWAPSOURCETARGET.CAPTION
+msgid "Source &<-> Target"
+msgstr "П&оміняти панелі місцями"
+
+#: ulng.rspropsspblkdev
+msgid "Special block device"
+msgstr "Особливий блочний пристрій"
+
+#: ulng.rspropsspchrdev
+msgid "Special character device"
+msgstr "Особливий символьний пристрій"
+
+#: TFRMMAIN.ACTFILESPLITER.CAPTION
+msgid "Split file"
+msgstr "&Розрізати файл..."
+
+#: TFRMSPLITTER.CAPTION
+msgid "Splitter"
+msgstr "Розбивка"
+
+#: TFRMFINDDLG.TSSTANDARD.CAPTION
+msgid "Standard"
+msgstr "Стандартний"
+
+#: TFRMMULTIRENAME.LBSTNB.CAPTION
+msgid "Start Number"
+msgstr "Початкове значення"
+
+#: TFRMFINDDLG.LBLSTATUS.CAPTION
+msgid "Status"
+msgstr "Статус"
+
+#: TFRMFILEPROPERTIES.CBSTICKY.CAPTION
+msgid "Sticky"
+msgstr "Закріпляючий біт"
+
+#: TFRMVIEWER.MISTRETCH.CAPTION
+msgid "Stretch"
+msgstr "&Розтягнути"
+
+#: TFRMFINDDLG.CBSYMLINK.CAPTION
+msgid "SymLink"
+msgstr "Симв. посилання"
+
+#: ulng.rspropssymlink
+msgid "Symbolic link"
+msgstr "Символьне посилання"
+
+#: TFRMFILEPROPERTIES.LBLSYMLINKSTR.CAPTION
+msgid "Symlink:"
+msgstr "Симв.посилання"
+
+#: TFRMEDITOR.MIHIGHLIGHT.CAPTION
+msgid "Syntax highlight"
+msgstr "&Підсвітка синтаксису"
+
+#: TFRMMAIN.MNUCMDTARGETISSOURCE.CAPTION
+msgid "Target &= Source"
+msgstr "&Дві однакових панелі"
+
+#: TFRMOPTIONS.LBLTERM.CAPTION
+msgid "Terminal:"
+msgstr "Термінал:"
+
+#: TFRMOPTIONS.CTEXTLABEL.CAPTION
+msgid "Text Color:"
+msgstr "&Текст:"
+
+#: TFRMFINDDLG.CBTIMEFROM.CAPTION
+msgid "Time from:"
+msgstr "Час від:"
+
+#: TFRMFINDDLG.CBTIMETO.CAPTION
+msgid "Time to:"
+msgstr "Час до:"
+
+#: TFRMMULTIRENAME.MINEXT.CAPTION
+msgid "Time..."
+msgstr "Час..."
+
+#: ulng.rsmsgerrtoomanyfiles
+msgid "Too many files to pack"
+msgstr "Надто багато файлів"
+
+#: ulng.rsopttools
+msgid "Tools"
+msgstr "Інструменти"
+
+#: TFRMMAIN.ACTTRANSFERLEFT.CAPTION
+msgid "Transfer dir under cursor to left window"
+msgstr "Відкрити каталог під курсором на ліві панелі"
+
+#: TFRMMAIN.ACTTRANSFERRIGHT.CAPTION
+msgid "Transfer dir under cursor to right window"
+msgstr "Відкрити каталог під курсором на праві панелі"
+
+#: TFRMMAIN.ACTOPENARCHIVE.CAPTION
+msgid "Try open archive"
+msgstr ""
+
+#: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
+msgid "Type:"
+msgstr "Тип:"
+
+#: ulng.rsspliterrdirectory
+msgid "Unable to create target directory!"
+msgstr "Не можу створити каталог призначення!"
+
+#: ulng.rsspliterrsplitfile
+msgid "Unable to split the file!"
+msgstr "Не можу розрізати файл!"
+
+#: TFRMEDITOR.ACTEDITUNDO.CAPTION
+msgid "Undo"
+msgstr "Вернути"
+
+#: ulng.rspropsunknowntype
+msgid "Unknown type"
+msgstr "Невідомий тип"
+
+#: TFRMEXTRACTDLG.CBINSEPARATEFOLDER.CAPTION
+msgid "Unpack each archive to a &separate subdir (name of the archive)"
+msgstr "Розпакувати кожен архів в &оремий каталог (з іменем архіва)"
+
+#: TFRMEXTRACTDLG.LBLEXTRACTTO.CAPTION
+msgid "Unpack file to:"
+msgstr "Розпакувати файли по вказані нижче масці з архіва в:"
+
+#: TFRMEXTRACTDLG.CAPTION
+msgid "Unpack files"
+msgstr "Розпакувати файли"
+
+#: TFRMMAIN.ACTMARKUNMARKALL.CAPTION
+msgid "Unselect All"
+msgstr "Зняти виділення зі всіх"
+
+#: TFRMMAIN.ACTMARKMINUS.CAPTION
+msgid "Unselect a group"
+msgstr "Зняти виділення з групи..."
+
+#: ulng.rsmarkminus
+msgid "Unselect mask"
+msgstr "Маска зняття вибору"
+
+#: TFRMLINKER.SPBTNUP.HINT
+msgid "Up"
+msgstr "Вгору"
+
+#: 
+msgid "Use '-' to off attribute and '?' to any"
+msgstr ""
+
+#: TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION
+msgid "Use memory mapping for search text in files"
+msgstr "Використати відображення в пам'ять, при пошуку тексту в файлах"
+
+#: TFRMOPTIONS.RBUSESTREAMINSEARCH.CAPTION
+msgid "Use stream for search text in files"
+msgstr "Використати поток, при пошуку тексту в файлах"
+
+#: TFRMOPTIONS.RBUSERHOMEDIR.CAPTION
+msgid "User home directory"
+msgstr "Домашній каталог користувача"
+
+#: TFRMABOUT.LBLVERSION.CAPTION
+msgid "Version 0.3 alpha"
+msgstr ""
+
+#: TFRMMAIN.ACTVIEW.CAPTION
+msgid "View F3"
+msgstr "Перегляд F3"
+
+#: TFRMVIEWER.CAPTION
+msgid "Viewer"
+msgstr "Переглядач"
+
+#: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
+msgid "Viewer font"
+msgstr "Шрифт переглядача"
+
+#: TFRMSPLITTER.GRBXWATCH.CAPTION
+msgid "Watchtower"
+msgstr "Протокол"
+
+#: TFRMMULTIRENAME.LBWIDTH.CAPTION
+msgid "Width"
+msgstr "Ширина"
+
+#: TFRMFINDDLG.LBLINFO.CAPTION
+msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
+msgstr ""
+
+#: TFRMFILEPROPERTIES.LBLWRITE.CAPTION
+msgid "Write"
+msgstr "Запис"
+
+#: ulng.rspropsyes
+msgid "Yes (\%s)"
+msgstr "Так (%s)"
+
+#: TFRMMULTIRENAME.MICOUNTER.CAPTION
+msgid "[C]ounter"
+msgstr "[Л]ічильник"
+
+#: TFRMMULTIRENAME.MIDAY.CAPTION
+msgid "[D]ay"
+msgstr "[Д]ень"
+
+#: TFRMMULTIRENAME.EXTENSION.CAPTION
+msgid "[E]xtension"
+msgstr "[Р]озширення"
+
+#: TFRMMULTIRENAME.MIEXTENSIONXX.CAPTION
+msgid "[Ex:x]xtension"
+msgstr "[Рx:x]озширення"
+
+#: TFRMMULTIRENAME.MIEXTENSIONX.CAPTION
+msgid "[Ex]xtension"
+msgstr "[Рx]озширення"
+
+#: TFRMMULTIRENAME.MIHOUR.CAPTION
+msgid "[H]our"
+msgstr "[Ч]ас"
+
+#: TFRMMULTIRENAME.MIMINUTE.CAPTION
+msgid "[Mi]nute"
+msgstr "[Хв]илина"
+
+#: TFRMMULTIRENAME.MIMONTH.CAPTION
+msgid "[Mo]nth"
+msgstr "[Мі]сяць"
+
+#: TFRMMULTIRENAME.MINAME.CAPTION
+msgid "[N]ame"
+msgstr "[І]м'я"
+
+#: TFRMMULTIRENAME.MINAMEXX.CAPTION
+msgid "[Nx:x]ame"
+msgstr "[Іx:x]м'я"
+
+#: TFRMMULTIRENAME.MINAMEX.CAPTION
+msgid "[Nx]ame"
+msgstr "[Іx]м'я"
+
+#: TFRMMULTIRENAME.MISECOND.CAPTION
+msgid "[S]econd"
+msgstr "[С]екунда"
+
+#: TFRMMULTIRENAME.MIYEAR.CAPTION
+msgid "[Y]ear"
+msgstr "[Р]ік"
+
+#: TFRMOPTIONS.LBLCHAR.CAPTION
+msgid "characters"
+msgstr "символів"
+
+#: TFRMOPTIONS.EDTEXTVIEWER.TEXT
+msgid "emacs \"\%s\""
+msgstr ""
+
+#: TFRMOPTIONS.EDTEXTEDITOR.TEXT
+msgid "gEdit \"\%s\""
+msgstr ""
+
+#: TFRMOPTIONS.EDTEXTDIFFER.TEXT
+msgid "gtk-diff \"\%s\" \"\%s\""
+msgstr ""
+
+#: 
+msgid "internally by Double Commander."
+msgstr ""
+
+#: ulng.rseditnewfile
+msgid "new.txt"
+msgstr ""
+
+#: TFRMVIEWER.PGIMAGE.CAPTION
+msgid "pgImage"
+msgstr ""
+
+#: TFRMVIEWER.PGTEXT.CAPTION
+msgid "pgText"
+msgstr ""
+
+#: ulng.rssplitmsgsize
+msgid "size:"
+msgstr "розмір:"
+
+#: TFRMEDITOR.TBSEPARATOR1.CAPTION
+msgid "tbSeparator1"
+msgstr ""
+
+#: TFRMEDITOR.TBSEPARATOR2.CAPTION
+msgid "tbSeparator2"
+msgstr ""
+
+#: TFRMEDITOR.TBSEPARATOR3.CAPTION
+msgid "tbSeparator3"
+msgstr ""
+
+#: TFRMEDITOR.TBTOOLBAR.CAPTION
+msgid "tbToolBar"
+msgstr ""
+
+#: TFRMMAIN.BTNLEFTHOME.CAPTION
+msgid "~"
+msgstr ""
+
