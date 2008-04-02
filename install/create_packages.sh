@@ -10,9 +10,8 @@ BUILD_DC_TMP_DIR=/var/tmp/doublecmd-$DC_VER
 rm -rf $BUILD_DC_TMP_DIR
 svn export ../ $BUILD_DC_TMP_DIR
 
-mkdir -p $BUILD_DC_TMP_DIR/install/linux
-cp linux/install.sh $BUILD_DC_TMP_DIR/install/linux 
-cp linux/doublecmd.desktop $BUILD_DC_TMP_DIR/install/linux
+# Copy package description file
+cp linux/description-pak $BUILD_DC_TMP_DIR/
 
 cd $BUILD_DC_TMP_DIR
 # Build all components of Double Commander
