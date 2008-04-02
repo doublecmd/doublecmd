@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Double Commander
+Comment=Double Commander is a cross platform open source file manager with two panels side by side.
+Exec=doublecmd
+Terminal=false
+Type=Application
+Icon=doublecmd.png
+Categories=Application;File Management;Utility;System;
