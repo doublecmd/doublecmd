@@ -136,6 +136,7 @@ begin
   Arc.OnArchiveProgress := Arc.AbArchiveProgressEvent;
 
   try
+    Arc.TarAutoHandle:=true;
     Arc.OpenArchive(ArchiveData.ArcName);
     Arc.Tag := 0;
     //MessageBox(0,'OpenArchive','OpenArchive',16);
