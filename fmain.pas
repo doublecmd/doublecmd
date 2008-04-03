@@ -1304,6 +1304,7 @@ begin
           ExecuteCommandFromEdit(edtCommand.Text);
           ClearCmdLine;
           RefreshPanel;
+          ActiveFrame.SetFocus;
           Exit;
         end;
       end; //Shift=[]
