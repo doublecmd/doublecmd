@@ -53,6 +53,7 @@ type
     procedure btnOkClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure miAddColumnClick(Sender: TObject);
     procedure MenuFieldsClick(Sender: TObject);
@@ -91,7 +92,7 @@ var
   btnAdd:TButton;
   btnDel:TBitBtn;
   updMove:TUpDown;
-
+  Showed:boolean;
 implementation
 
 uses uLng;
@@ -288,6 +289,7 @@ end;
 
 procedure TfColumnsSetConf.FormDestroy(Sender: TObject);
 begin
+  showed:=false;
   if assigned(updWidth) then FreeAndNil(updWidth);
   if assigned(cbbAlign) then FreeAndNil(cbbAlign);
   if assigned(btnAdd) then FreeAndNil(btnAdd);
@@ -295,6 +297,18 @@ begin
   if assigned(edtField) then FreeAndNil(edtField);
   if assigned(updMove) then FreeAndNil(updMove);
    ColumnClass.Free;
+end;
+
+procedure TfColumnsSetConf.FormResize(Sender: TObject);
+var z,i:integer;
+begin
+if not showed then exit;
+   //Size of content field
+    z:=stgColumns.Width;
+    for i:=0 to 3 do
+     z:=z-stgColumns.ColWidths[i];
+    z:=z-stgColumns.ColWidths[5];
+    stgColumns.ColWidths[4]:=z;
 end;
 
 procedure TfColumnsSetConf.FormShow(Sender: TObject);
@@ -316,12 +330,14 @@ begin
             stgColumns.RowCount:=1;
             frmColumnsSetConf.AddNewField;
         end;
+    Showed:=true;
     // Localize StringGrid header
     stgColumns.Cells[0,0]:= rsConfColDelete;
     stgColumns.Cells[1,0]:= rsConfColCaption;
     stgColumns.Cells[2,0]:= rsConfColWidth;
     stgColumns.Cells[3,0]:= rsConfColAlign;
     stgColumns.Cells[4,0]:= rsConfColFieldCont;
+
 end;
 
 
