@@ -1,6 +1,6 @@
 object frmHardLink: TfrmHardLink
   Left = 320
-  Height = 152
+  Height = 160
   Top = 320
   Width = 400
   HorzScrollBar.Page = 399
@@ -8,7 +8,6 @@ object frmHardLink: TfrmHardLink
   VertScrollBar.Page = 151
   VertScrollBar.Range = 146
   ActiveControl = edtDst
-  AutoSize = True
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Create hardlink'
@@ -16,6 +15,8 @@ object frmHardLink: TfrmHardLink
   ChildSizing.TopBottomSpacing = 8
   ClientHeight = 152
   ClientWidth = 400
+  Constraints.MaxHeight = 160
+  Constraints.MaxWidth = 400
   KeyPreview = True
   Position = poMainFormCenter
   object lblNew: TLabel

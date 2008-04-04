@@ -1,6 +1,6 @@
 object frmSymLink: TfrmSymLink
   Left = 296
-  Height = 152
+  Height = 160
   Top = 258
   Width = 400
   HorzScrollBar.Page = 399
@@ -8,7 +8,6 @@ object frmSymLink: TfrmSymLink
   VertScrollBar.Page = 151
   VertScrollBar.Range = 128
   ActiveControl = edtDst
-  AutoSize = True
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Create symlink'
@@ -16,6 +15,8 @@ object frmSymLink: TfrmSymLink
   ChildSizing.TopBottomSpacing = 8
   ClientHeight = 152
   ClientWidth = 400
+  Constraints.MaxHeight = 160
+  Constraints.MaxWidth = 400
   KeyPreview = True
   Position = poScreenCenter
   object lblNew: TLabel
