@@ -409,6 +409,28 @@ begin
   FiUpDirIconID:=CheckAddPixmap('actions' + PathDelim + 'go-up.png');
   FiArcIconID := CheckAddPixmap('filesystems' + PathDelim + 'archive.png');
 
+  { Load icons from doublecmd.ext }
+  for I := 0 to gExts.Count - 1 do
+    begin
+      sPixMap := gExts.Items[I].Icon;
+      if FileExists(sPixMap) then
+        begin
+          iPixMap:= CheckAddPixmap(sPixMap, False);
+          if iPixMap < 0 then Continue;
+          gExts.Items[I].IconIndex:= iPixMap;
+          //DebugLn('sPixMap = ',sPixMap, ' Index = ', IntToStr(iPixMap));
+
+          // set pixmap index for all extensions
+          for iekv := 0 to gExts.Items[I].Extensions.Count - 1 do
+            begin
+              sExt := gExts.Items[I].Extensions[iekv];
+              if FExtList.IndexOf(sExt) < 0 then
+                FExtList.AddObject(sExt, TObject(iPixMap));
+            end;
+        end;
+    end;
+  {/ Load icons from doublecmd.ext }  
+  
   if FileExists(sFileName) then
   begin
     assignFile(f,sFileName);
@@ -434,28 +456,6 @@ begin
       CloseFile(f);
     end;
   end;
-
-  { Load icons from doublecmd.ext }
-  for I := 0 to gExts.Count - 1 do
-    begin
-      sPixMap := gExts.Items[I].Icon;
-      if FileExists(sPixMap) then
-        begin
-          iPixMap:= CheckAddPixmap(sPixMap, False);
-          if iPixMap < 0 then Continue;
-          gExts.Items[I].IconIndex:= iPixMap;
-          //DebugLn('sPixMap = ',sPixMap, ' Index = ', IntToStr(iPixMap));
-
-          // set pixmap index for all extensions
-          for iekv := 0 to gExts.Items[I].Extensions.Count - 1 do
-            begin
-              sExt := gExts.Items[I].Extensions[iekv];
-              if FExtList.IndexOf(sExt) < 0 then
-                FExtList.AddObject(sExt, TObject(iPixMap));
-            end;
-        end;
-    end;
-  {/ Load icons from doublecmd.ext }
 
   (* Set archive icons *)
   
