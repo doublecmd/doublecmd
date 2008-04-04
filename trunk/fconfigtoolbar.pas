@@ -278,8 +278,11 @@ begin
         kedtToolTip.Text := '';
         LastToolButton := -1;
         NewToolButton := -1;
-        ktbBar.Buttons[ktbBar.ButtonCount-1].Down:=true;
-        ktbBarToolButtonClick(Sender,ktbBar.ButtonCount-1);
+        if ktbBar.ButtonCount>0 then
+        begin
+          ktbBar.Buttons[ktbBar.ButtonCount-1].Down:=true;
+          ktbBarToolButtonClick(Sender,ktbBar.ButtonCount-1);
+        end;
       end;
 end;
 

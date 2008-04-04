@@ -232,10 +232,9 @@ var
   IniFile : Tinifile;
   I : Integer;
 begin
-  //For cleaning. Without this saved file will contain removed buttons
-if FileExists(FileName) then  DeleteFile(FileName);
-
   IniFile := Tinifile.Create(FileName);
+  //For cleaning. Without this saved file will contain removed buttons
+  IniFile.EraseSection('Buttonbar');
   IniFile.WriteInteger('Buttonbar', 'Buttoncount', XButtons.Count);
 
   for I := 0 to XButtons.Count - 1 do
