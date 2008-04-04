@@ -308,6 +308,7 @@ end;
 
 procedure TPanelColumnsClass.AddDefaultColumns;
 begin
+  SetName:='Default';
   // file name
   Add(rsColName, '[DC().GETFILENAMENOEXT{}]', 225, taLeftJustify);
   // file ext

@@ -391,6 +391,9 @@ var i:integer;
    Wid: integer;
    Ali: TAlignment;
 begin
+if edtNameofColumnsSet.Text='' then
+   edtNameofColumnsSet.Text:=DateTimeToStr(now);
+
   // Save fields
   ColumnClass.Clear;
   for i:=1 to stgColumns.RowCount-1 do
