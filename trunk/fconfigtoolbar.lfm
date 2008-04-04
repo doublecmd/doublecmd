@@ -1,19 +1,20 @@
 object frmConfigToolBar: TfrmConfigToolBar
   Left = 276
-  Height = 281
+  Height = 285
   Top = 256
-  Width = 596
+  Width = 605
   HelpContext = 270
   HorzScrollBar.Page = 595
   VertScrollBar.Page = 280
   ActiveControl = btnOpenBarFile
-  AutoSize = True
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Change button bar'
   ChildSizing.TopBottomSpacing = 8
-  ClientHeight = 281
-  ClientWidth = 596
+  ClientHeight = 285
+  ClientWidth = 605
+  Constraints.MaxHeight = 285
+  Constraints.MaxWidth = 605
   Font.Color = clBtnText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
