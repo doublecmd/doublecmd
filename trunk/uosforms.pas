@@ -39,10 +39,12 @@ const
   sCmdVerbDelete = 'delete';
   sCmdVerbPaste = 'paste';
 
+{$IFDEF UNIX}
 type
   TContextMenu = class(TPopupMenu)
     procedure ContextMenuSelect(Sender:TObject);
   end;
+{$ENDIF}
 
 {en
    Replace window procedure
@@ -122,6 +124,7 @@ begin
 end;
 {$ENDIF}
 
+{$IFDEF UNIX}
 (* handling user commands from context menu *)
 procedure TContextMenu.ContextMenuSelect(Sender:TObject);
 var
@@ -140,6 +143,7 @@ begin
       frmMain.ExecCmd(sCmd);
   end;
 end;
+{$ENDIF}
 
 {$IFDEF MSWINDOWS}
 function InsertMenuItemEx(hMenu, SubMenu: HMENU; Caption: PChar;
