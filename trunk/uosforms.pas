@@ -83,6 +83,7 @@ var
   hActionsSubMenu: HMENU;
 {$ELSE}
   CM : TContextMenu = nil;
+  FileRecItem: TFileRecItem;
 {$ENDIF}
 
 {$IFDEF MSWINDOWS}
@@ -130,9 +131,9 @@ begin
   sCmd:=(Sender as TMenuItem).Hint;
   with frmMain.ActiveFrame do
   begin
-    if (Pos('{!VFS}',sCmd)>0) and pnlFile.VFS.FindModule(ActiveDir + PFileRecItem(Sender as TMenuItem)^.sName) then
+    if (Pos('{!VFS}',sCmd)>0) and pnlFile.VFS.FindModule(ActiveDir + FileRecItem.sName) then
      begin
-        pnlFile.LoadPanelVFS(PFileRecItem((Sender as TMenuItem).Tag));
+        pnlFile.LoadPanelVFS(@FileRecItem);
         Exit;
       end;
     if not pnlFile.ProcessExtCommand(sCmd) then
@@ -379,6 +380,7 @@ end;
   fri := FileList.GetItem(0)^;
   if (FileList.Count = 1) and not (FPS_ISDIR(fri.iMode) or (fri.bLinkIsDir)) then
     begin
+      FileRecItem:= fri;
       miActions:=TMenuItem.Create(CM);
       miActions.Caption:= rsMnuActions;
       CM.Items.Add(miActions);
@@ -400,7 +402,6 @@ end;
                 mi.Hint:=Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
                 // length is bad, but in Copy is corrected
                 mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
-                mi.Tag:=Integer(@fri);
                 miActions.Add(mi);
               end;
           end;
