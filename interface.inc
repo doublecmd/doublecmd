@@ -1,1 +1,0 @@
-{$DEFINE GTK}
