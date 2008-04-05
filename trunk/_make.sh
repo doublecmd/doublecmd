@@ -46,8 +46,6 @@ build_all()
   build_doublecmd
 }
 
-rm interface.inc
-echo "{\$DEFINE $lcl}">interface.inc
 
 case $1 in
   components)  components/build.sh;;

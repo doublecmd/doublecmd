@@ -26,16 +26,15 @@
 unit uwlxmodule; 
 
 {$mode objfpc}{$H+}
-{$I interface.inc}
 interface
 
 uses
   Classes, SysUtils, dynlibs, uDetectStr, uwlxprototypes, WLXPlugin,
   Inifiles, uDCUtils, uGlobs,LCLProc
-  {$IFDEF GTK}
+  {$IFDEF LCLGTK}
     ,gtk,glib,gdk
   {$ENDIF}
-  {$IFDEF QT}
+  {$IFDEF LCLQT}
     ,qt4,qtwidgets
     // The Qt widgetset must be used to load plugins on qt
   {$ENDIF}
@@ -139,11 +138,11 @@ type
 implementation
 
 function WlxPrepareContainer(Ahandle: THandle): boolean;
-{$IFDEF GTK}
+{$IFDEF LCLGTK}
   var lst:PGList;
 {$ENDIF}
 begin
-{$IFDEF GTK}
+{$IFDEF LCLGTK}
     //Hide controls from our gtk container
     lst:=gtk_container_children(GTK_CONTAINER(PGtkwidget(AHandle)));
     if lst<>nil then
@@ -224,10 +223,10 @@ function TWLXModule.CallListLoad(ParentWin: THandle; FileToLoad: string;
   ShowFlags: integer): THandle;
 begin
   if not assigned(ListLoad) then exit; //To prevent crash.
-  {$IFDEF QT}
+  {$IFDEF LCLQT}
     FPluginWindow:=ListLoad(Integer(TQtWidget(ParentWin).GetContainerWidget), pChar(FileToLoad), ShowFlags);
   {$ENDIF}
-  {$IFNDEF QT}
+  {$IFNDEF LCLQT}
     FPluginWindow:=ListLoad(ParentWin, pChar(FileToLoad), ShowFlags);
   {$ENDIF}
 
@@ -238,10 +237,10 @@ function TWLXModule.CallListLoadNext(ParentWin: THandle;
   FileToLoad: string; ShowFlags: integer): integer;
 begin
   if assigned(ListLoadNext) then
-  {$IFDEF QT}
+  {$IFDEF LCLQT}
    Result:=ListLoadNext(Integer(TQtWidget(ParentWin).GetContainerWidget),FPluginWindow, pChar(FileToLoad), ShowFlags);
   {$ENDIF}
-  {$IFNDEF QT}
+  {$IFNDEF LCLQT}
    Result:=ListLoadNext(ParentWin,FPluginWindow,PChar(FileToLoad),ShowFlags)
   {$ENDIF}
   //else Result:=LISTPLUGIN_ERROR;
