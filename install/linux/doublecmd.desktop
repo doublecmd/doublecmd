@@ -6,4 +6,4 @@ Exec=doublecmd
 Terminal=false
 Type=Application
 Icon=doublecmd.png
-Categories=Application;File Management;Utility;System;
+Categories=Application;File Management;Utility;
