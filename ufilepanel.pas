@@ -452,22 +452,25 @@ begin
 
   with pfri^ do
   begin
-    if (fPanelMode=pmVFS) or ((sModeStr = 'wfx') and fVFS.FindModule(sPath + sName)) then
-    begin
-      LoadPanelVFS(pfri);
-      Exit;
-    end;
-    if (fPanelMode=pmArchive) or (not FPS_ISDIR(iMode) and fVFS.FindModule(sPath + sName)) then
-    begin
-      LoadPanelVFS(pfri);
-      Exit;
-    end;
     if (sName='..') then
     begin
       cdUpLevel;
       Exit;
     end;
-    
+
+    if (fPanelMode=pmVFS) or ((sModeStr = 'wfx') and fVFS.FindModule(sPath + sName)) then
+    begin
+      LastActive:= '';
+      LoadPanelVFS(pfri);
+      Exit;
+    end;
+    if (fPanelMode=pmArchive) or (not FPS_ISDIR(iMode) and fVFS.FindModule(sPath + sName)) then
+    begin
+      LastActive:= '';
+      LoadPanelVFS(pfri);
+      Exit;
+    end;
+
     if FPS_ISDIR(iMode) or bLinkIsDir then // deeper and deeper
     begin
       cdDownLevel(pfri);
@@ -604,6 +607,7 @@ begin
     end
   else // if VFS
     begin
+      LastActive:= ExtractFileName(ExcludeTrailingPathDelimiter(fActiveDir));
       LoadPanelVFS(fFileList.GetItem(0)); // get '..' item
       fPanel.Invalidate;
     end;
@@ -626,6 +630,7 @@ begin
     end
   else // if VFS
     begin
+      LastActive:='';
       LoadPanelVFS(frp);
       fPanel.Invalidate;
     end;
