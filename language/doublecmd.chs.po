@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-01-04 16:37+0800\n"
+"PO-Revision-Date: 2008-04-07 13:56+0800\n"
 "Last-Translator: wwfifi <wwfifi@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr "关联(&A)"
 
 #: TFRMOPTIONS.CBEXACTBEGINNING.CAPTION
 msgid "&Beginning (name must start with first typed character)"
-msgstr ""
+msgstr "开始(&B)(名称必须是首次输入的字符)"
 
 #: TFRMEDITORCONF.CBBOLD.CAPTION
 msgid "&Bold"
@@ -73,11 +73,11 @@ msgstr "配置(&C)"
 
 #: TFRMOPTIONS.CBLOGFILE.CAPTION
 msgid "&Create a log file:"
-msgstr ""
+msgstr "创建日志文件(&C):"
 
 #: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
 msgid "&Ctrl+Alt+Letters"
-msgstr ""
+msgstr "Ctrl+Alt+字母(&C)"
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
 msgid "&Delete"
@@ -273,7 +273,7 @@ msgstr "/usr/X11R6/bin/xterm -e bash -i -c \%s"
 
 #: TFCOLUMNSSETCONF.LBNROFCOLUMNSSET.CAPTION
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: TFRMMULTIRENAME.CMBXWIDTH.TEXT
 msgid "01"
@@ -313,7 +313,7 @@ msgstr "关于查看器"
 
 #: TFRMFILEASSOC.LEDACTION.EDITLABEL.CAPTION
 msgid "Action:"
-msgstr ""
+msgstr "动作:"
 
 #: TFRMOPTIONS.LBLACTIONS.CAPTION
 msgid "Actions"
@@ -329,7 +329,7 @@ msgstr "添加子栏"
 
 #: TFCOLUMNSSETCONF.MIADDCOLUMN.CAPTION
 msgid "Add column"
-msgstr ""
+msgstr "添加列"
 
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
@@ -337,11 +337,11 @@ msgstr "高级"
 
 #: TFRMOPTIONS.RBALTLETTERQS.CAPTION
 msgid "Al&t+Letters"
-msgstr ""
+msgstr "Alt+字母(&T)"
 
 #: ulng.rsconfcolalign
 msgid "Align"
-msgstr ""
+msgstr "对齐"
 
 #: TFRMOPTIONS.LBLEXT.CAPTION
 msgid "All files with e&xtension (ending with):"
@@ -441,7 +441,7 @@ msgstr "不能打开已存在的文件"
 
 #: ulng.rsconfcolcaption
 msgid "Caption"
-msgstr ""
+msgstr "标题"
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sensitive"
@@ -453,7 +453,7 @@ msgstr "大小写敏感排序"
 
 #: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
 msgid "Category attributes:"
-msgstr ""
+msgstr "分类属性:"
 
 #: TFRMOPTIONS.LBLCATEGORYCOLOR.CAPTION
 msgid "Category color:"
@@ -489,7 +489,7 @@ msgstr "颜色"
 
 #: ulng.rsoptcolumns
 msgid "Columns"
-msgstr ""
+msgstr "列"
 
 #: TFRMMAIN.MNUFILESCOMBINE.CAPTION
 msgid "Combine Files"
@@ -497,7 +497,7 @@ msgstr "合并文件"
 
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
-msgstr ""
+msgstr "命令行历史"
 
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
@@ -509,31 +509,31 @@ msgstr "比较文件"
 
 #: ulng.rsoptconfig
 msgid "Configuration"
-msgstr ""
+msgstr "配置"
 
 #: TFRMOPTIONS.LBLCONFIGCOLUMNS.CAPTION
 msgid "Configure columns for file system:"
-msgstr ""
+msgstr "为文件系统配置列"
 
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
-msgstr ""
+msgstr "配置自定义列"
 
 #: TFCOLUMNSSETCONF.CAPTION
 msgid "Configure custom columns view"
-msgstr ""
+msgstr "配置自定义列视图"
 
 #: ulng.rsmenuconfigurethiscustomcolumn
 msgid "Configure this custom columns view"
-msgstr ""
+msgstr "配置这个自定义列视图"
 
 #: TFCOLUMNSSETCONF.LBLCONFIGVIEWNR.CAPTION
 msgid "Configure view nr:"
-msgstr ""
+msgstr "配置视图:"
 
 #: TFRMOPTIONS.TSWDX.CAPTION
 msgid "Content plugins (.WDX)"
-msgstr ""
+msgstr "内容插件(.WDX)"
 
 #: TFRMEDITOR.ACTEDITCOPY.CAPTION
 msgid "Copy"
@@ -557,7 +557,7 @@ msgstr "复制 \%s:"
 
 #: ulng.rsmsglogcopy
 msgid "Copy file \%s"
-msgstr ""
+msgstr "复制文件 \%s"
 
 #: ulng.rsdlgcp
 msgid "Copy file(s)"
@@ -577,7 +577,7 @@ msgstr "复制到同面板下"
 
 #: TFRMOPTIONS.CBLOGCPMVLN.CAPTION
 msgid "Copy/Move/Create link/symlink"
-msgstr ""
+msgstr "复制/移动/创建 硬/符号链接"
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
 msgid "Counter"
@@ -585,7 +585,7 @@ msgstr "数量"
 
 #: ulng.rsmsglogmkdir
 msgid "Create directory \%s"
-msgstr ""
+msgstr "创建目录 \%s"
 
 #: TFRMHARDLINK.CAPTION
 msgid "Create hardlink"
@@ -593,7 +593,7 @@ msgstr "创建硬链接"
 
 #: ulng.rsmsgloglink
 msgid "Create link \%s"
-msgstr ""
+msgstr "创建硬链接  \%s"
 
 #: TFRMMAIN.ACTHARDLINK.CAPTION
 msgid "Create link..."
@@ -617,7 +617,7 @@ msgstr "创建符号链接"
 
 #: ulng.rsmsglogsymlink
 msgid "Create symlink \%s"
-msgstr ""
+msgstr "创建符号链接 \%s"
 
 #: TFRMMAIN.ACTSYMLINK.CAPTION
 msgid "Create symlink..."
@@ -625,7 +625,7 @@ msgstr "创建符号链接"
 
 #: TFRMOPTIONS.CBLOGDIROP.CAPTION
 msgid "Create/Delete directories"
-msgstr ""
+msgstr "创建/删除目录"
 
 #: ulng.rssplitmsgcreated
 msgid "Created:"
@@ -689,7 +689,7 @@ msgstr "删除 \%d 选中的文件/目录吗?"
 
 #: ulng.rsmsglogdelete
 msgid "Delete file \%s"
-msgstr ""
+msgstr "删除文件 \%s"
 
 #: ulng.rsdlgdel
 msgid "Delete file(s)"
@@ -701,7 +701,7 @@ msgstr "删除选中的 \"\%s\"?"
 
 #: TFRMOPTIONS.RBNONEQS.CAPTION
 msgid "Di&sabled"
-msgstr ""
+msgstr "禁止(&S)"
 
 #: ulng.rspropsfolder
 msgid "Directory"
@@ -737,7 +737,7 @@ msgstr "无效的磁盘"
 
 #: ulng.rsmsglogsuccess
 msgid "Done: "
-msgstr ""
+msgstr "完成:"
 
 #: TFRMABOUT.LBLTITLE.CAPTION
 msgid "Double Commander"
@@ -781,7 +781,7 @@ msgstr "编辑器字体"
 
 #: TFRMOPTIONS.CBEXACTENDING.CAPTION
 msgid "En&ding (last character before a typed dot . must match)"
-msgstr ""
+msgstr "结束(&D)(匹配句点号前一字母)"
 
 #: TFRMPACKDLG.CBENCRYPT.CAPTION
 msgid "Encr&ypt"
@@ -809,7 +809,7 @@ msgstr "写文件出错"
 
 #: ulng.rsmsglogerror
 msgid "Error: "
-msgstr ""
+msgstr "错误:"
 
 #: TFRMFILEOP.LBLESTIMATED.CAPTION
 msgid "Estimated"
@@ -817,7 +817,7 @@ msgstr "估计"
 
 #: TFRMOPTIONS.GBEXACTNAMEMATCH.CAPTION
 msgid "Exact &name match:"
-msgstr ""
+msgstr "扩展名匹配(&N)"
 
 #: TFRMOPTIONS.GBEXAMPLE.CAPTION
 msgid "Example"
@@ -849,7 +849,7 @@ msgstr "扩展名..."
 
 #: TFRMFILEASSOC.GBEXTS.CAPTION
 msgid "Extensions"
-msgstr ""
+msgstr "扩展名"
 
 #: TFRMOPTIONS.CBEXTDIFFER.CAPTION
 msgid "External differ"
@@ -865,7 +865,7 @@ msgstr "外部查看器"
 
 #: ulng.rsmsglogextract
 msgid "Extract file \%s"
-msgstr ""
+msgstr "解开文件 \%s"
 
 #: TFRMMAIN.ACTEXTRACTFILES.CAPTION
 msgid "Extract files..."
@@ -885,7 +885,7 @@ msgstr "发给列表框(&L)"
 
 #: ulng.rsconfcolfieldcont
 msgid "Field contents"
-msgstr ""
+msgstr "域内容"
 
 #: ulng.rspropsfile
 msgid "File"
@@ -921,15 +921,15 @@ msgstr "文件 \%s 已存在, 是否覆盖?"
 
 #: TFRMFILEASSOC.CAPTION
 msgid "File associations"
-msgstr ""
+msgstr "文件关联"
 
 #: TFRMMAIN.ACTFILEASSOC.CAPTION
 msgid "File associations..."
-msgstr ""
+msgstr "文件关联..."
 
 #: TFRMOPTIONS.CBFILEMASKHISTORY.CAPTION
 msgid "File mask history"
-msgstr ""
+msgstr "文件掩码历史"
 
 #: TFRMFILEPROPERTIES.LBLFILE.CAPTION
 msgid "File name"
@@ -937,7 +937,7 @@ msgstr "文件名"
 
 #: TFRMOPTIONS.GBLOGFILE.CAPTION
 msgid "File operation log file"
-msgstr ""
+msgstr "文件操作日志"
 
 #: ulng.rsoptfileop
 msgid "File operations"
@@ -961,7 +961,7 @@ msgstr "源文件"
 
 #: TFRMOPTIONS.CBLOGVFS.CAPTION
 msgid "File system plugins"
-msgstr ""
+msgstr "文件系统插件"
 
 #: TFRMOPTIONS.TSWFX.CAPTION
 msgid "File system plugins (.WFX)"
@@ -1061,7 +1061,7 @@ msgstr "不支持的功能!"
 
 #: TFRMOPTIONS.CBBFILESYSTEM.TEXT
 msgid "General"
-msgstr ""
+msgstr "一般"
 
 #: TFRMOPTIONS.GBGENERALOPTIONS.CAPTION
 msgid "General options"
@@ -1093,7 +1093,7 @@ msgstr "图标(&O)"
 
 #: TFRMFILEASSOC.GBICON.CAPTION
 msgid "Icon"
-msgstr ""
+msgstr "图标"
 
 #: TFRMCONFIGTOOLBAR.LBLICONFILE.CAPTION
 msgid "Icon &file:"
@@ -1109,7 +1109,7 @@ msgstr "无效的文件大小格式!"
 
 #: ulng.rsmsgloginfo
 msgid "Info: "
-msgstr ""
+msgstr "信息:"
 
 #: ulng.rsmaskinput
 msgid "Input mask:"
@@ -1149,7 +1149,7 @@ msgstr "保持滚动"
 
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
 msgid "L&etter only"
-msgstr ""
+msgstr "仅字母(&E)"
 
 #: ulng.rsoptlanguage
 msgid "Language"
@@ -1177,11 +1177,11 @@ msgstr "Lazarus "
 
 #: ulng.rsoptlinebyline
 msgid "Line by line"
-msgstr ""
+msgstr "一行行"
 
 #: ulng.rsoptlinebylinecursor
 msgid "Line by line with cursor movement"
-msgstr ""
+msgstr "一行行移动"
 
 #: TFRMMAIN.ACTFILELINKER.CAPTION
 msgid "Link files"
@@ -1201,7 +1201,7 @@ msgstr "连接完成"
 
 #: TFRMOPTIONS.GBLOCCONFIGFILES.CAPTION
 msgid "Location of configuration files"
-msgstr ""
+msgstr "本地化配置文件"
 
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 msgid "Log"
@@ -1209,11 +1209,11 @@ msgstr "日志"
 
 #: TFRMOPTIONS.CBLOGERRORS.CAPTION
 msgid "Log &errors"
-msgstr ""
+msgstr "错误日志"
 
 #: TFRMOPTIONS.CBLOGSUCCESS.CAPTION
 msgid "Log &successful operations"
-msgstr ""
+msgstr "操作成功日志"
 
 #: TFRMMULTIRENAME.GBLOG.CAPTION
 msgid "Log Result"
@@ -1221,15 +1221,15 @@ msgstr "记录结果"
 
 #: TFRMOPTIONS.CBLOGINFO.CAPTION
 msgid "Log information messages"
-msgstr ""
+msgstr "日志信息"
 
 #: TFRMOPTIONS.GBLOGFILEOP.CAPTION
 msgid "Log operations:"
-msgstr ""
+msgstr "操作日志:"
 
 #: TFRMOPTIONS.CBLOGWINDOW.CAPTION
 msgid "Log window"
-msgstr ""
+msgstr "日志窗"
 
 #: TFRMOPTIONS.CBLYNXLIKE.CAPTION
 msgid "Lynx like movement"
@@ -1273,7 +1273,7 @@ msgstr "移动 \%s:"
 
 #: ulng.rsmsglogmove
 msgid "Move file \%s"
-msgstr ""
+msgstr "移动文件 \%s"
 
 #: ulng.rsdlgmv
 msgid "Move file(s)"
@@ -1329,7 +1329,7 @@ msgstr "否"
 
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First Char Big;"
-msgstr ""
+msgstr "不修改;大写;小写;首字大写;"
 
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
@@ -1373,7 +1373,7 @@ msgstr "只有类型:"
 
 #: TFRMMAIN.ACTOPEN.CAPTION
 msgid "Open"
-msgstr ""
+msgstr "打开"
 
 #: TFRMMAIN.ACTOPENVFSLIST.CAPTION
 msgid "Open VFS List"
@@ -1397,7 +1397,7 @@ msgstr "打开"
 
 #: TFRMOPTIONS.GBLOGFILESTATUS.CAPTION
 msgid "Operation status:"
-msgstr ""
+msgstr "操作状态"
 
 #: TFRMOPTIONS.CAPTION
 msgid "Options"
@@ -1429,11 +1429,11 @@ msgstr "打包文件"
 
 #: ulng.rsmsglogpack
 msgid "Pack to file \%s"
-msgstr ""
+msgstr "打包到 \%s"
 
 #: TFRMOPTIONS.CBLOGARCOP.CAPTION
 msgid "Pack/Unpack"
-msgstr ""
+msgstr "打包/解包"
 
 #: TFRMPACKDLG.RGPACKER.CAPTION
 msgid "Packer"
@@ -1453,7 +1453,7 @@ msgstr "打包..."
 
 #: ulng.rsoptpagebypage
 msgid "Page by page"
-msgstr ""
+msgstr "一页页"
 
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgid "Paste"
@@ -1493,7 +1493,7 @@ msgstr "处理文件:"
 
 #: TFRMOPTIONS.RBPROGRAMDIR.CAPTION
 msgid "Program directory (portable version)"
-msgstr ""
+msgstr "程序目录(便携版)"
 
 #: TFRMFILEPROPERTIES.CAPTION
 msgid "Properties"
@@ -1501,11 +1501,11 @@ msgstr "属性"
 
 #: TFRMMAIN.ACTQUICKSEARCH.CAPTION
 msgid "Quick search"
-msgstr ""
+msgstr "快速搜索"
 
 #: TFRMOPTIONS.GBQUICKSEARCH.CAPTION
 msgid "Quick search (current dir)"
-msgstr ""
+msgstr "快速搜索(当前目录)"
 
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgid "Read"
@@ -1521,11 +1521,11 @@ msgstr "重做"
 
 #: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
 msgid "Remove"
-msgstr ""
+msgstr "移除"
 
 #: ulng.rsmsglogrmdir
 msgid "Remove directory \%s"
-msgstr ""
+msgstr "移除目录 \%s"
 
 #: TFRMMAIN.ACTREMOVETAB.CAPTION
 msgid "Remove tab"
@@ -1601,7 +1601,7 @@ msgstr "另存为(A)..."
 
 #: TFRMOPTIONS.GBSAVEONEXIT.CAPTION
 msgid "Save on exit"
-msgstr ""
+msgstr "保存并退出"
 
 #: TFRMLINKER.GBSAVETO.CAPTION
 msgid "Save to..."
@@ -1613,7 +1613,7 @@ msgstr "已扫描: \%d"
 
 #: TFRMOPTIONS.RGSCROLLING.CAPTION
 msgid "Scrolling"
-msgstr ""
+msgstr "滚动"
 
 #: TFRMVIEWER.MISEARCH.CAPTION
 msgid "Search"
@@ -1713,7 +1713,7 @@ msgstr "显示为换行文本"
 
 #: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
 msgid "Show button menu"
-msgstr ""
+msgstr "显示底部按钮"
 
 #: TFRMOPTIONS.CBSHOWCMDLINE.CAPTION
 msgid "Show command &line"
@@ -1769,19 +1769,19 @@ msgstr "属性"
 
 #: TFRMMAIN.ACTSORTBYDATE.CAPTION
 msgid "Sort by date"
-msgstr ""
+msgstr "按日期"
 
 #: TFRMMAIN.ACTSORTBYEXT.CAPTION
 msgid "Sort by extension"
-msgstr ""
+msgstr "按扩展名"
 
 #: TFRMMAIN.ACTSORTBYNAME.CAPTION
 msgid "Sort by name"
-msgstr ""
+msgstr "按文件名"
 
 #: TFRMMAIN.ACTSORTBYSIZE.CAPTION
 msgid "Sort by size"
-msgstr ""
+msgstr "按大小"
 
 #: TFRMMAIN.MNUCMDSWAPSOURCETARGET.CAPTION
 msgid "Source &<-> Target"
@@ -1881,7 +1881,7 @@ msgstr "传输当前行到右窗口"
 
 #: TFRMMAIN.ACTOPENARCHIVE.CAPTION
 msgid "Try open archive"
-msgstr ""
+msgstr "尝试打开归档"
 
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
 msgid "Type:"
@@ -1931,7 +1931,6 @@ msgstr "不选择掩码"
 msgid "Up"
 msgstr "上"
 
-#: 
 msgid "Use '-' to off attribute and '?' to any"
 msgstr "用 '-' 关闭属性, '?' 表示任意"
 
@@ -1945,7 +1944,7 @@ msgstr "使用流搜索文本"
 
 #: TFRMOPTIONS.RBUSERHOMEDIR.CAPTION
 msgid "User home directory"
-msgstr ""
+msgstr "用户主目录"
 
 #: TFRMABOUT.LBLVERSION.CAPTION
 msgid "Version 0.3 alpha"
@@ -2051,7 +2050,6 @@ msgstr "gEdit \"\%s\""
 msgid "gtk-diff \"\%s\" \"\%s\""
 msgstr "gtk-diff \"\%s\" \"\%s\""
 
-#: 
 msgid "internally by Double Commander."
 msgstr "Double Commander内部."
 
