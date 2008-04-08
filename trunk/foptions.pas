@@ -553,7 +553,8 @@ end;
 
 procedure TfrmOptions.cbExtChange(Sender: TObject);
 begin
-  clbWCXList.ItemIndex := cbExt.ItemIndex;
+  clbWCXList.ItemIndex := cbExt.Items.IndexOf(cbExt.Text)+1;
+  cbWCXPath.Text:= clbWCXList.Items[clbWCXList.ItemIndex];
 end;
 
 procedure TfrmOptions.cbShowDiskPanelChange(Sender: TObject);
@@ -972,6 +973,8 @@ var
   sExt : String;
   PosEqual : Integer;
 begin
+  cbExt.Items.Clear;
+  cbWCXPath.Text:= '';
   gIni.ReadSectionRaw('PackerPlugins', clbWCXList.Items);
   for I := 0 to clbWCXList.Count - 1 do
   begin
@@ -992,6 +995,7 @@ begin
         clbWCXList.Checked[I] := False;
       end;
   end;
+  clbWCXList.Items.Insert(0, '(none)');
 end;
 
 procedure TfrmOptions.tsWDXShow(Sender: TObject);
@@ -1028,9 +1032,16 @@ begin
       iIndex := cbExt.Items.IndexOf(cbExt.Text);
       bChecked := clbWCXList.Checked[iIndex];
       
-      if cbWCXPath.Text = '' then
+      // Delete plugin for cbExt.Items[iIndex] extension
+      if cbWCXPath.Text = '(none)' then
         begin
           gIni.DeleteKey('PackerPlugins', cbExt.Items[iIndex]);
+          cbExt.Items.Delete(iIndex);
+          clbWCXList.Items.Delete(iIndex+1);
+          cbExt.Text:= '';
+          cbWCXPath.Text:= '';
+          cbExt.ItemIndex:= -1;
+          clbWCXList.ItemIndex:= -1;
           Exit;
         end;
         
@@ -1041,17 +1052,17 @@ begin
       clbWCXList.Checked[iIndex] := bChecked;
     end;
   
-  for I := 0 to clbWCXList.Count - 1 do
+  for I := 1 to clbWCXList.Count - 1 do
     begin
       if clbWCXList.Checked[I] then
         begin
-          gIni.DeleteKey('PackerPlugins', '#' + cbExt.Items[I]);
-          gIni.WriteString('PackerPlugins', cbExt.Items[I],  clbWCXList.Items[I])
+          gIni.DeleteKey('PackerPlugins', '#' + cbExt.Items[I-1]);
+          gIni.WriteString('PackerPlugins', cbExt.Items[I-1],  clbWCXList.Items[I])
         end
       else
         begin
-          gIni.DeleteKey('PackerPlugins', cbExt.Items[I]);
-          gIni.WriteString('PackerPlugins', '#' + cbExt.Items[I],  clbWCXList.Items[I]);
+          gIni.DeleteKey('PackerPlugins', cbExt.Items[I-1]);
+          gIni.WriteString('PackerPlugins', '#' + cbExt.Items[I-1],  clbWCXList.Items[I]);
         end;
     end;
 end;
