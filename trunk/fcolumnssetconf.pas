@@ -285,6 +285,8 @@ end;
 procedure TfColumnsSetConf.FormCreate(Sender: TObject);
 begin
   ColumnClass:=TPanelColumnsClass.Create;
+  // Resize window for screen size if need
+  ResizeToScreen(Self);
 end;
 
 procedure TfColumnsSetConf.FormDestroy(Sender: TObject);

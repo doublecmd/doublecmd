@@ -11,6 +11,8 @@
    contributors:
 
    Copyright (C) 2006-2008 Alexander Koblov (Alexx2000@mail.ru)
+   
+   Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
 }
 
 unit uGlobs;
@@ -164,6 +166,8 @@ function LoadGlobs : Boolean;
 procedure SaveGlobs;
 function LoadStringsFromFile(var list:TStringList; const sFileName:String):boolean;
 
+procedure ResizeToScreen(Control:TControl; Width:integer=1024; Height:integer=768);
+
 // for debugging only, can be removed
 procedure dbgShowWindowPos(const pos: TControlPosition);
 
@@ -175,7 +179,27 @@ var
 
 implementation
 uses
-   LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils;
+   Forms, LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils;
+
+procedure ResizeToScreen(Control:TControl; Width:integer=1024; Height:integer=768);
+var SWidth, SHeight,
+     PersW, PersH,
+     NewW, NewH :Integer;
+begin
+  SWidth:=Screen.DesktopWidth;
+  SHeight:=Screen.DesktopHeight;
+
+  if (SWidth=Width) and (SHeight=Height) then exit;
+
+  PersW:=round((SWidth*100)/Width);
+  PersH:=round((SHeight*100)/Height);
+
+  NewW:=round((Control.Width*PersW)/100);
+  NewH:=round((Control.Height*PersH)/100);
+
+  Control.Width:=NewW;
+  Control.Height:=NewH;
+end;
 
 // for debugging only, can be removed
 procedure dbgShowWindowPos(const pos: TControlPosition);
@@ -202,6 +226,8 @@ begin
   Control.Top := Top;
   Control.Width := Width;
   Control.Height := Height;
+  // Resize window for screen size if need
+  ResizeToScreen(Control);
 end;
 
 procedure LoadWindowPos(var pos:TControlPosition; sPrefix:String);

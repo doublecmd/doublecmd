@@ -1,13 +1,13 @@
 object fColumnsSetConf: TfColumnsSetConf
-  Left = 289
-  Height = 726
-  Top = 91
+  Left = 22
+  Height = 665
+  Top = 3
   Width = 987
   HorzScrollBar.Page = 986
-  VertScrollBar.Page = 725
+  VertScrollBar.Page = 664
   ActiveControl = edtNameofColumnsSet
   Caption = 'Configure custom columns view'
-  ClientHeight = 726
+  ClientHeight = 665
   ClientWidth = 987
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -54,16 +54,16 @@ object fColumnsSetConf: TfColumnsSetConf
     end
   end
   object Panel2: TPanel
-    Height = 648
+    Height = 587
     Top = 36
     Width = 987
     Align = alClient
-    ClientHeight = 648
+    ClientHeight = 587
     ClientWidth = 987
     TabOrder = 1
     object stgColumns: TStringGrid
       Left = 1
-      Height = 613
+      Height = 552
       Top = 1
       Width = 985
       Align = alClient
@@ -112,7 +112,7 @@ object fColumnsSetConf: TfColumnsSetConf
     object Panel4: TPanel
       Left = 1
       Height = 33
-      Top = 614
+      Top = 553
       Width = 985
       Align = alBottom
       TabOrder = 1
@@ -120,7 +120,7 @@ object fColumnsSetConf: TfColumnsSetConf
   end
   object Panel3: TPanel
     Height = 42
-    Top = 684
+    Top = 623
     Width = 987
     Align = alBottom
     ClientHeight = 42
