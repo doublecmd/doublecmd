@@ -13,6 +13,9 @@
    Copyright (C) 2006-2008 Alexander Koblov (Alexx2000@mail.ru)
    
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
+   
+   Copyright (C) 2008  Vitaly Zotov (vitalyzotov@mail.ru)
+   
 }
 
 unit uGlobs;
@@ -73,7 +76,10 @@ var
   gCaseSensitiveSort:Boolean=True;
   gLynxLike:Boolean=True;
   gDirSelect:Boolean=True;
-  gMouseSelectionEnabled:Boolean=True;
+
+  gMouseSelectionEnabled: Boolean = True;
+  gMouseSelectionButton: Integer = 0;
+  
   glsHotDir:TStringList;
   glsDirHistory:TStringList;
   glsMaskHistory : TStringList;
@@ -342,6 +348,9 @@ begin
   gShortFileSizeFormat := gIni.ReadBool('Configuration', 'ShortFileSizeFormat', True);
   gScrollMode := gIni.ReadInteger('Configuration', 'ScrollMode', 0);
   gDateTimeFormat := gIni.ReadString('Configuration', 'DateTimeFormat', 'dd.mm.yy');
+  
+  gMouseSelectionEnabled:= gIni.ReadBool('Configuration', 'MouseSelectionEnabled', True);
+  gMouseSelectionButton := gIni.ReadInteger('Configuration', 'MouseSelectionButton', 0);
 
   gDirTabOptions := gIni.ReadInteger('Configuration', 'DirTabOptions', 0);
   gDirTabLimit :=  gIni.ReadInteger('Configuration', 'DirTabLimit', 32);
@@ -474,6 +483,9 @@ begin
   gIni.WriteBool('Configuration', 'ShortFileSizeFormat', gShortFileSizeFormat);
   gIni.WriteInteger('Configuration', 'ScrollMode', gScrollMode);
   gIni.WriteString('Configuration', 'DateTimeFormat', gDateTimeFormat);
+  
+  gIni.WriteBool('Configuration', 'MouseSelectionEnabled', gMouseSelectionEnabled);
+  gIni.WriteInteger('Configuration', 'MouseSelectionButton', gMouseSelectionButton);
 
   gIni.WriteInteger('Configuration', 'DirTabOptions', gDirTabOptions);
   gIni.WriteInteger('Configuration', 'DirTabLimit', gDirTabLimit);
