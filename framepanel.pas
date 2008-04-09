@@ -10,7 +10,7 @@
 
    Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
    
-   Vitaly Zotov (vitalyzotov@mail.ru)
+   Copyright (C) 2008 Vitaly Zotov (vitalyzotov@mail.ru)
 }
 
 unit framePanel;
