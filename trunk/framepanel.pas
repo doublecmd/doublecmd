@@ -257,7 +257,7 @@ begin
     end;}
   case Button of
     mbRight: begin
-      if (gMouseSelectionEnabled) and (gMouseSelectionButton = 2) then
+      if (gMouseSelectionEnabled) and (gMouseSelectionButton = 1) then
       begin
         frp := pnlFile.GetReferenceItemPtr(iRow - dgPanel.FixedRows); // substract fixed rows (header)
         if Assigned(frp) then
@@ -307,7 +307,7 @@ begin
             end;
             dgPanel.Invalidate;
           end
-        else
+        else if (gMouseSelectionButton = 0) then
           begin
             pnlFile.MarkAllFiles(False);
             dgPanel.Invalidate;
