@@ -26,6 +26,11 @@
    Copyright : Peter Cernoch 2002
    Contact   : pcernoch@volny.cz
    Licence   : GNU GPL v 2.0
+   
+   contributors:
+
+   Copyright (C) 2008 Vitaly Zotov (vitalyzotov@mail.ru)
+
 }
 
 unit fMain;
@@ -2495,7 +2500,7 @@ begin
         end;
     end;
 
-  if Button = mbRight then
+  if (Button = mbRight) and ((gMouseSelectionButton<>1) or not gMouseSelectionEnabled) then
     begin
       actContextMenu.Execute;
     end;
