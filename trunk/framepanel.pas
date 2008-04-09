@@ -255,15 +255,20 @@ begin
     begin
       pmFrColumnMenu.PopUp(X,Y);
     end;}
-  
-  if Button<>mbLeft then
-    begin
-      dgPanel.Row := iRow;
-      SetFocus;
-      Exit;
-    end
-  else
-    begin // left button
+  case Button of
+    mbRight: begin
+      if (gMouseSelectionEnabled) and (gMouseSelectionButton = 2) then
+      begin
+        frp := pnlFile.GetReferenceItemPtr(iRow - dgPanel.FixedRows); // substract fixed rows (header)
+        if Assigned(frp) then
+        begin
+          pnlFile.InvertFileSection(frp);
+          dgPanel.Invalidate;
+        end;
+      end;
+    end;
+    
+    mbLeft: begin
       if (dgPanel.Row < 0) or (dgPanel.Row >= dgPanel.RowCount) then
         begin
           dgPanel.Row := iRow;
@@ -289,14 +294,14 @@ begin
               end
             else
               begin
-                AFromRow := Min(FLastSelectionStartRow, iRow) - dgPanel.FixedRows;
+                AFromRow := Min(FLastSelectionStartRow, iRow) - dgPanel.FixedRows; // substract fixed rows (header)
                 AToRow := Max(FLastSelectionStartRow, iRow) - dgPanel.FixedRows;
               end;
 
             pnlFile.MarkAllFiles(False);
             for ARow := AFromRow to AToRow do
             begin
-              frp := pnlFile.GetReferenceItemPtr(ARow); // substract fixed rows (header)
+              frp := pnlFile.GetReferenceItemPtr(ARow);
               if not Assigned(frp) then Continue;
               pnlFile.MarkFile(frp, True);
             end;
@@ -309,7 +314,12 @@ begin
           end;
       end;//of mouse selection handler
     end;
-    
+  else
+    dgPanel.Row := iRow;
+    SetFocus;
+    Exit;
+  end;
+  
   if iRow >= dgPanel.FixedRows then begin // if not column header
     dgPanel.BeginDrag(False);
   end;

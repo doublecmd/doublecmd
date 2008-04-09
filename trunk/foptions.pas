@@ -98,6 +98,7 @@ type
     cbDirHistory: TCheckBox;
     cbCmdLineHistory: TCheckBox;
     cbFileMaskHistory: TCheckBox;
+    cbSelectionByMouse: TCheckBox;
     clbWFXList: TCheckListBox;
     clbWCXList: TCheckListBox;
     cbBackColor2: TColorBox;
@@ -109,6 +110,7 @@ type
     cbDateTimeFormat: TComboBox;
     clbWDXList: TCheckListBox;
     cbbFileSystem: TComboBox;
+    cbMouseMode: TComboBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
@@ -157,6 +159,7 @@ type
     gbFileSearch: TGroupBox;
     gbLocConfigFiles: TGroupBox;
     gbSaveOnExit: TGroupBox;
+    lblMouseMode: TLabel;
     lblConfigColumns: TLabel;
     lblCategoryAttr: TLabel;
     lblInstalledPlugins1: TLabel;
@@ -371,6 +374,9 @@ begin
   cbCaseSensitiveSort.Checked:=gCaseSensitiveSort;
   cbLynxLike.Checked:=gLynxLike;
   cbShortFileSizeFormat.Checked:=gShortFileSizeFormat;
+  
+  cbSelectionByMouse.Checked:=gMouseSelectionEnabled;
+  cbMouseMode.ItemIndex := gMouseSelectionButton;
 
   cbExtEditor.Checked:=gUseExtEdit;
   cbExtViewer.Checked:=gUseExtView;
@@ -654,6 +660,9 @@ begin
   gShortFileSizeFormat:=cbShortFileSizeFormat.Checked;
   gScrollMode := rgScrolling.ItemIndex;
   gDateTimeFormat := cbDateTimeFormat.Text;
+  
+  gMouseSelectionEnabled := cbSelectionByMouse.Checked;
+  gMouseSelectionButton := cbMouseMode.ItemIndex;
 
   gUseExtEdit:=cbExtEditor.Checked;
   gUseExtView:=cbExtViewer.Checked;

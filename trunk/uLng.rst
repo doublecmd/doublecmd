@@ -56,7 +56,8 @@ ulng.rsmsgpopuphotcnf='&Configure'
 
 
 # hash value = 209920523
-ulng.rsdlgbuttons='&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &All;&Skip;S&kip All;All;'
+ulng.rsdlgbuttons='&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &A'+
+'ll;&Skip;S&kip All;All;'
 
 
 # hash value = 123445971
@@ -100,11 +101,16 @@ ulng.rsmsgchdirfailed='ChDir to [%s] failed!'
 
 
 # hash value = 184740991
-ulng.rsmsgnofreespacecont='No enough free space on target drive, Continue?'
+ulng.rsmsgnofreespacecont='No enough free space on target drive, Continue'+
+'?'
 
 
 # hash value = 175592239
 ulng.rsmsgnofreespaceretry='No enough free space on target drive, Retry?'
+
+
+# hash value = 128648723
+ulng.rsmnuactions='Actions'
 
 
 # hash value = 61082373
@@ -388,7 +394,8 @@ ulng.rssplitmsgsize='size:'
 
 
 # hash value = 100003163
-ulng.rsmulrenfilenamestylelist='No change;UPPERCASE;lowercase;First Char Big;'
+ulng.rsmulrenfilenamestylelist='No change;UPPERCASE;lowercase;First Char '+
+'Big;'
 
 
 # hash value = 80370564
@@ -486,5 +493,3 @@ ulng.rsmenuconfigurecustomcolumns='Configure custom columns'
 # hash value = 38545767
 ulng.rsmenuconfigurethiscustomcolumn='Configure this custom columns view'
 
-# hash value = 128648723
-ulng.rsmnuactions='Actions'
