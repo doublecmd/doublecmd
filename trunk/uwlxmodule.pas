@@ -151,7 +151,9 @@ begin
       Result:=true;
     end else Result:=false;
 {$ENDIF}
-
+{$IFNDEF LCLGTK}
+      Result:=true
+{$ENDIF}
 end;
 
 { TWLXModule }
