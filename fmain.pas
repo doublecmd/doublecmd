@@ -2618,6 +2618,7 @@ begin
         miTmp := TMenuItem.Create(pmDrivesMenu);
         miTmp.Tag := I;
         miTmp.Caption := Name;
+        miTmp.ShortCut:= TextToShortCut(Name[1]);
         miTmp.Hint := Path;
         
         if gDriveMenuButton then
