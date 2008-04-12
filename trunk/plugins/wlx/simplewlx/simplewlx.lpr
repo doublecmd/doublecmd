@@ -2,7 +2,7 @@ library SimpleWlx;
 
 {$mode objfpc}{$H+}
 
-{$DEFINE GTK}
+{$DEFINE GTK2}
 
 uses
   Classes,
@@ -61,10 +61,9 @@ function ListLoad(ParentWin:thandle;FileToLoad:pchar;ShowFlags:integer):thandle;
 var GFix,GButton1,Gbutton2:PGtkWidget;
 
 begin
-    {$IFDEF GTK}
 //     gFix:=gtk_fixed_new;
      gFix:=gtk_vbox_new(true,5);
-     gtk_container_add(GTK_CONTAINER(ParentWin),gFix);
+     gtk_container_add(GTK_CONTAINER(PGtkWidget(ParentWin)),gFix);
      gtk_widget_show(gFix);
 
      GButton1:=gtk_button_new_with_label('Yehoo1');
@@ -93,7 +92,6 @@ begin
      end;
 
 Result:=integer(GFix);
-    {$ENDIF}
 end;
 
 procedure ListCloseWindow(ListWin:thandle); stdcall;
