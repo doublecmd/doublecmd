@@ -382,7 +382,7 @@ begin
   gCursorColor := gIni.ReadInteger('Colors', 'CursorColor', clHighlight);
   gCursorText := gIni.ReadInteger('Colors', 'CursorText', clHighlightedText);
   { File operations }
-  gCopyBlockSize := gIni.ReadInteger('Configuration', 'CopyBlockSize', 16384);
+  gCopyBlockSize := gIni.ReadInteger('Configuration', 'CopyBlockSize', 65536);
   gDropReadOnlyFlag := gIni.ReadBool('Configuration', 'DropReadOnlyFlag', True);
   gUseMmapInSearch := gIni.ReadBool('Configuration', 'UseMmapInSearch', False);
   { Log }
