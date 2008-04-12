@@ -1,56 +1,87 @@
 object frmLinker: TfrmLinker
-  Left = 301
-  Height = 362
-  Top = 135
-  Width = 315
-  HorzScrollBar.Page = 314
+  Left = 323
+  Height = 364
+  Top = 176
+  Width = 360
+  HorzScrollBar.Page = 359
   HorzScrollBar.Range = 289
-  VertScrollBar.Page = 361
+  VertScrollBar.Page = 363
   VertScrollBar.Range = 331
   ActiveControl = edSave
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
   Caption = 'Linker'
-  ClientHeight = 362
-  ClientWidth = 315
+  ClientHeight = 364
+  ClientWidth = 360
   Position = poMainFormCenter
   object prbrWork: TProgressBar
-    Height = 19
-    Top = 343
-    Width = 315
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 24
+    Top = 334
+    Width = 348
     Align = alBottom
+    BorderSpacing.Left = 6
+    BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 6
     Max = 100
     TabOrder = 0
   end
   object gbSaveTo: TGroupBox
-    Height = 76
-    Top = 256
-    Width = 217
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = lstFile
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = prbrWork
+    Left = 6
+    Height = 80
+    Top = 248
+    Width = 242
+    Anchors = [akLeft, akRight, akBottom]
+    BorderSpacing.Left = 6
+    BorderSpacing.Bottom = 6
     Caption = 'Save to...'
-    ClientHeight = 58
-    ClientWidth = 213
+    ClientHeight = 62
+    ClientWidth = 238
     ParentCtl3D = False
     TabOrder = 1
     object lblFileName: TLabel
+      AnchorSideLeft.Control = gbSaveTo
+      AnchorSideTop.Control = gbSaveTo
       Left = 6
-      Height = 14
-      Top = 1
-      Width = 46
+      Height = 19
+      Top = 6
+      Width = 66
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
       Caption = 'File name'
       ParentColor = False
     end
     object edSave: TEdit
+      AnchorSideLeft.Control = gbSaveTo
+      AnchorSideTop.Control = lblFileName
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = btnSave
       Left = 6
       Height = 24
-      Top = 20
-      Width = 168
+      Top = 31
+      Width = 195
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      BorderSpacing.Right = 6
       TabOrder = 0
     end
     object btnSave: TButton
-      Left = 182
+      AnchorSideTop.Control = edSave
+      AnchorSideRight.Control = gbSaveTo
+      AnchorSideRight.Side = asrBottom
+      Left = 207
       Height = 25
-      Top = 20
+      Top = 31
       Width = 25
+      Anchors = [akTop, akRight]
+      BorderSpacing.Right = 6
       BorderSpacing.InnerBorder = 4
       Caption = '...'
       OnClick = btnSaveClick
@@ -58,20 +89,33 @@ object frmLinker: TfrmLinker
     end
   end
   object grbxControl: TGroupBox
-    Left = 224
-    Height = 249
-    Width = 88
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = lstFile
+    AnchorSideBottom.Side = asrBottom
+    Left = 254
+    Height = 242
+    Width = 100
+    Anchors = [akTop, akRight, akBottom]
+    BorderSpacing.Right = 6
     Caption = 'Item'
-    ClientHeight = 231
-    ClientWidth = 84
+    ClientHeight = 224
+    ClientWidth = 96
     ParentCtl3D = False
     TabOrder = 2
     object spbtnUp: TButton
-      Left = 6
+      AnchorSideLeft.Control = grbxControl
+      AnchorSideRight.Control = grbxControl
+      AnchorSideRight.Side = asrBottom
+      Left = 4
       Height = 32
       Hint = 'Up'
       Top = 1
-      Width = 75
+      Width = 88
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 4
+      BorderSpacing.Right = 4
       BorderSpacing.InnerBorder = 4
       Caption = 'Up'
       OnClick = spbtnUpClick
@@ -79,14 +123,20 @@ object frmLinker: TfrmLinker
       TabOrder = 0
     end
     object spbtnDown: TButton
+      AnchorSideLeft.Control = grbxControl
       AnchorSideTop.Control = spbtnUp
       AnchorSideTop.Side = asrBottom
-      Left = 6
+      AnchorSideRight.Control = grbxControl
+      AnchorSideRight.Side = asrBottom
+      Left = 4
       Height = 32
       Hint = 'Down'
       Top = 39
-      Width = 75
+      Width = 88
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 4
       BorderSpacing.Top = 6
+      BorderSpacing.Right = 4
       BorderSpacing.InnerBorder = 4
       Caption = 'Down'
       OnClick = spbtnDownClick
@@ -94,14 +144,20 @@ object frmLinker: TfrmLinker
       TabOrder = 1
     end
     object spbtnDel: TButton
+      AnchorSideLeft.Control = grbxControl
       AnchorSideTop.Control = spbtnDown
       AnchorSideTop.Side = asrBottom
-      Left = 6
+      AnchorSideRight.Control = grbxControl
+      AnchorSideRight.Side = asrBottom
+      Left = 4
       Height = 32
       Hint = 'Delete'
       Top = 77
-      Width = 75
+      Width = 88
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 4
       BorderSpacing.Top = 6
+      BorderSpacing.Right = 4
       BorderSpacing.InnerBorder = 4
       Caption = 'Delete'
       OnClick = spbtnDelClick
@@ -110,22 +166,31 @@ object frmLinker: TfrmLinker
     end
   end
   object btnOK: TButton
-    Left = 227
+    AnchorSideRight.Control = grbxControl
+    AnchorSideRight.Side = asrCenter
+    AnchorSideBottom.Control = btnExit
+    Left = 260
     Height = 32
-    Top = 262
+    Top = 258
     Width = 88
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Bottom = 6
     BorderSpacing.InnerBorder = 4
     Caption = 'OK'
     OnClick = btnOKClick
     TabOrder = 3
   end
   object btnExit: TButton
-    AnchorSideTop.Control = btnOK
     AnchorSideTop.Side = asrBottom
-    Left = 227
+    AnchorSideRight.Control = grbxControl
+    AnchorSideRight.Side = asrCenter
+    AnchorSideBottom.Control = gbSaveTo
+    AnchorSideBottom.Side = asrBottom
+    Left = 260
     Height = 32
-    Top = 300
+    Top = 296
     Width = 88
+    Anchors = [akRight, akBottom]
     BorderSpacing.Top = 6
     BorderSpacing.InnerBorder = 4
     Caption = 'Exit'
@@ -133,12 +198,23 @@ object frmLinker: TfrmLinker
     TabOrder = 4
   end
   object lstFile: TListBox
-    Height = 248
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = grbxControl
+    AnchorSideBottom.Control = gbSaveTo
+    Left = 6
+    Height = 234
     Top = 8
-    Width = 212
+    Width = 242
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 8
+    BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 6
     TabOrder = 5
   end
   object dlgSaveAll: TSaveDialog
+    Title = 'Сохранить файл как'
     Filter = 'All files|*.*'
     FilterIndex = 0
     left = 160
