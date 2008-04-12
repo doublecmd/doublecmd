@@ -111,8 +111,10 @@ type
     FDeleteAfterView : Boolean;
     //---------------------
     WlxPlugins:TWLXModuleList;
+    ActivePlugin:Integer;
     //---------------------
     function CheckPlugins(Index:integer; Force: boolean=false):boolean;
+    procedure ExitPluginMode;
     procedure UpDateScrollBar;
     Function CheckGraphics(const sFileName:String):Boolean;
     procedure AdjustViewerSize(ReqWidth, ReqHeight: Integer);
@@ -151,7 +153,7 @@ begin
   Caption:=FileList.Strings[iIndex];
   Screen.Cursor:=crHourGlass;
   try
-    if not CheckPlugins(iIndex) then
+    CheckPlugins(iIndex);
 //    DebugLn('View: BeforeCheckGraphics:' + iIndex);
     if CheckGraphics(FileList.Strings[iIndex]) then
     begin
@@ -212,10 +214,20 @@ begin
        if not WlxPrepareContainer(pnlLister.Handle) then {TODO: ERROR and exit;};
        WlxPlugins.LoadModule(i);
        WlxPlugins.GetWLxModule(i).CallListLoad(pnlLister.Handle,FileList[Index], {TODO: showFlags}0);
+       ActivePlugin:=I;
        Exit;
      end
    else  i:=i+1;
  Result:=false;
+end;
+
+procedure TfrmViewer.ExitPluginMode;
+begin
+  WlxPrepareContainer(pnlLister.Handle,true);
+  WlxPlugins.GetWLxModule(ActivePlugin).UnloadModule;
+//  pnlLister.Hide;
+  nbPages.Show;
+
 end;
 
 procedure TfrmViewer.miPluginsClick(Sender: TObject);
@@ -339,14 +351,14 @@ end;
 
 procedure TfrmViewer.miTextClick(Sender: TObject);
 begin
-  nbPages.Show;
+  ExitPluginMode;
   ReMmapIfNeed;
   ViewerControl.ViewerMode:=vmText;
 end;
 
 procedure TfrmViewer.miBinClick(Sender: TObject);
 begin
-  nbPages.Show;
+  ExitPluginMode;
   ReMmapIfNeed;
   ViewerControl.ViewerMode:=vmBin;
 end;
@@ -354,7 +366,7 @@ end;
 procedure TfrmViewer.miHexClick(Sender: TObject);
 begin
   inherited;
-  nbPages.Show;
+  ExitPluginMode;
   ReMmapIfNeed;
   ViewerControl.ViewerMode:=vmHex;
 end;
@@ -362,7 +374,7 @@ end;
 procedure TfrmViewer.miWrapTextClick(Sender: TObject);
 begin
   inherited;
-  nbPages.Show;
+  ExitPluginMode;
   ReMmapIfNeed;
   ViewerControl.ViewerMode:=vmWrap;
 end;
