@@ -141,10 +141,13 @@ type
 implementation
 
 function WlxPrepareContainer(Ahandle: THandle; revert:boolean=false): boolean;
+{$IFNDEF LCLWIN32}
 {$IFNDEF LCLQT}
   var lst:PGList;
 {$ENDIF}
+{$ENDIF}
 begin
+{$IFNDEF LCLWIN32}
 {$IFNDEF LCLQT}
     if not revert then
       begin
@@ -168,7 +171,7 @@ begin
          Exit;
         end;
 {$ENDIF}
-
+{$ENDIF}
      Result:=true
 
 end;

@@ -267,6 +267,7 @@ begin
 
   BorderStyle := bsDialog;
   Position := poMainFormCenter;
+  ShowInTaskBar:= stAlways;
 
   lblSearchFor:= TLabel.Create(AOwner);
   lblSearchFor.Parent:=AOwner;
@@ -401,6 +402,7 @@ begin
 
   BorderStyle := bsDialog;
   Position := poMainFormCenter;
+  ShowInTaskBar:= stAlways;
 
   Height:=Height+40;
   gbSearchOptions.Top:=gbSearchOptions.Top+30;

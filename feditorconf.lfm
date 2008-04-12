@@ -13,6 +13,7 @@ object frmEditorConf: TfrmEditorConf
   ClientWidth = 473
   OnCreate = FormCreate
   Position = poScreenCenter
+  ShowInTaskBar = stAlways
   object lbSample: TLabel
     AnchorSideTop.Control = cmbPredefined
     AnchorSideTop.Side = asrBottom
@@ -175,8 +176,6 @@ object frmEditorConf: TfrmEditorConf
     ParentColor = False
     ParentCtl3D = False
     TabOrder = 8
-    BookMarkOptions.OnChange = nil
-    Gutter.OnChange = nil
     Gutter.CodeFoldingWidth = 14
     Keystrokes = <    
       item
@@ -503,6 +502,5 @@ object frmEditorConf: TfrmEditorConf
       'bla bla ble ble blu blu'
       'blu blu ble ble bla bla'
     )
-    SelectedColor.OnChange = nil
   end
 end

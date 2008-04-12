@@ -1,7 +1,7 @@
 object frmFindView: TfrmFindView
-  Left = 347
+  Left = 365
   Height = 94
-  Top = 550
+  Top = 311
   Width = 339
   HorzScrollBar.Page = 338
   HorzScrollBar.Range = 331
@@ -15,6 +15,7 @@ object frmFindView: TfrmFindView
   ClientWidth = 339
   OnShow = FormShow
   Position = poScreenCenter
+  ShowInTaskBar = stAlways
   object cbDataToFind: TComboBox
     Left = 16
     Height = 21
