@@ -34,6 +34,9 @@ uses
   {$IFDEF LCLGTK}
     ,gtk,glib,gdk
   {$ENDIF}
+  {$IFDEF LCLGTK2}
+    ,gtk2,glib2,gdk2
+  {$ENDIF}
   {$IFDEF LCLQT}
     ,qt4,qtwidgets
     // The Qt widgetset must be used to load plugins on qt
@@ -138,11 +141,11 @@ type
 implementation
 
 function WlxPrepareContainer(Ahandle: THandle): boolean;
-{$IFDEF LCLGTK}
+{$IFNDEF LCLQT}
   var lst:PGList;
 {$ENDIF}
 begin
-{$IFDEF LCLGTK}
+{$IFNDEF LCLQT}
     //Hide controls from our gtk container
     lst:=gtk_container_children(GTK_CONTAINER(PGtkwidget(AHandle)));
     if lst<>nil then
