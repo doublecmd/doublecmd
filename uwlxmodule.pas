@@ -136,27 +136,41 @@ type
         property Count:integer read GetCount;
       end;
 
-  Function WlxPrepareContainer(Ahandle:THandle):boolean;
+  Function WlxPrepareContainer(Ahandle:THandle; revert:boolean=false):boolean;
 
 implementation
 
-function WlxPrepareContainer(Ahandle: THandle): boolean;
+function WlxPrepareContainer(Ahandle: THandle; revert:boolean=false): boolean;
 {$IFNDEF LCLQT}
   var lst:PGList;
 {$ENDIF}
 begin
 {$IFNDEF LCLQT}
-    //Hide controls from our gtk container
-    lst:=gtk_container_children(GTK_CONTAINER(PGtkwidget(AHandle)));
-    if lst<>nil then
-    begin
-      gtk_widget_hide(PGtkWidget(lst^.data));
-      Result:=true;
-    end else Result:=false;
+    if not revert then
+      begin
+        //Hide controls from our gtk container
+        lst:=gtk_container_children(GTK_CONTAINER(PGtkwidget(AHandle)));
+        if lst<>nil then
+        begin
+          gtk_widget_hide(PGtkWidget(lst^.data));
+          Result:=true;
+        end else Result:=false;
+       Exit;
+      end else
+        begin
+          //Show controls from our gtk container
+          lst:=gtk_container_children(GTK_CONTAINER(PGtkwidget(AHandle)));
+          if lst<>nil then
+          begin
+            gtk_widget_show(PGtkWidget(lst^.data));
+            Result:=true;
+          end else Result:=false;
+         Exit;
+        end;
 {$ENDIF}
-{$IFNDEF LCLGTK}
-      Result:=true
-{$ENDIF}
+
+     Result:=true
+
 end;
 
 { TWLXModule }
