@@ -48,11 +48,12 @@ type
     edtRename: TEdit;
 //---------------------
     dgPanel: TDrawGrid;
-    Colm:TPanelColumnsClass;
+   // Colm:TPanelColumnsClass;
+    ActiveColm:String;
 //---------------------
     pnAltSearch: TPanel;
     edtSearch: TEdit;
-
+    procedure SetColWidths;
     procedure edSearchChange(Sender: TObject);
     procedure edtPathKeyPress(Sender: TObject; var Key: Char);
     procedure edtRenameKeyPress(Sender: TObject; var Key: Char);
@@ -427,6 +428,16 @@ begin
     end;
 end;
 
+procedure TFrameFilePanel.SetColWidths;
+var x:integer;
+begin
+  //  setup column widths
+ dgPanel.ColCount:=ColSet.GetColumnSet(ActiveColm).ColumnsCount;
+ if ColSet.GetColumnSet(ActiveColm).ColumnsCount>0 then
+  for x:=0 to ColSet.GetColumnSet(ActiveColm).ColumnsCount-1 do
+    dgPanel.ColWidths[x]:=ColSet.GetColumnSet(ActiveColm).GetColumnWidth(x);
+end;
+
 procedure TFrameFilePanel.edSearchChange(Sender: TObject);
 var
   I, iPos, iEnd : Integer;
@@ -669,11 +680,11 @@ begin
   if (ARow = 0) and gTabHeader then
   begin
     // Draw fixed header
-    if not (ACol in [0..Colm.ColumnsCount-1]) then Exit;
+    if not (ACol in [0..ColSet.GetColumnSet(ActiveColm).ColumnsCount-1]) then Exit;
     with dgPanel do
     begin
       tw := 0;
-      s := Colm.GetColumnTitle(ACol);
+      s := ColSet.GetColumnSet(ActiveColm).GetColumnTitle(ACol);
       if ACol = pnlFile.SortColumn then
         begin
           tw := 1;
@@ -726,7 +737,7 @@ begin
           begin
             PixMapManager.DrawBitmap(iIconID, Canvas, Rect);
           end;
-          s:=Colm.GetColumnItemResultString(ACol,frp);
+          s:=ColSet.GetColumnSet(ActiveColm).GetColumnItemResultString(ACol,frp);
           if gCutTextToColWidth then
             begin
               while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
@@ -740,13 +751,13 @@ begin
     else
       begin
         //------------------------------------------------------
-        s:=Colm.GetColumnItemResultString(ACol,frp);
+        s:=ColSet.GetColumnSet(ActiveColm).GetColumnItemResultString(ACol,frp);
         if gCutTextToColWidth then
           begin
             while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
               Delete(s,Length(s),1);
           end;
-        if Colm.GetColumnAlign(ACol) = taRightJustify then
+        if ColSet.GetColumnSet(ActiveColm).GetColumnAlign(ACol) = taRightJustify then
           begin
             cw:=ColWidths[ACol];
             tw:=Canvas.TextWidth(s);
@@ -980,9 +991,9 @@ begin
   dgPanel.Align:=alClient;
 //  dgPanel.DefaultDrawing:=False;
 //------------------------------------------------------
-  Colm:=TPanelColumnsClass.Create;
-  Colm.Load(gIni);
-  dgPanel.ColCount:=Colm.ColumnsCount;
+//  Colm:=TPanelColumnsClass.Create;
+//  ColSet.GetColumnSet(ActiveColm).Load(gIni);
+//  dgPanel.ColCount:=ColSet.GetColumnSet(ActiveColm).ColumnsCount;
 //------------------------------------------------------
   dgPanel.Options:=[goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect, goColSizing, goHeaderHotTracking, goHeaderPushedLook];
   dgPanel.TitleStyle := tsStandard;
@@ -1046,10 +1057,11 @@ begin
   pnlFile:=TFilePanel.Create(AOwner, dgPanel,lblLPath,lblCommandPath, lblDriveInfo, cmbCommand);
   
 //  setup column widths
- if Colm.ColumnsCount>0 then
-  for x:=0 to Colm.ColumnsCount-1 do
-    dgPanel.ColWidths[x]:=Colm.GetColumnWidth(x);
-
+////  dgPanel.ColCount:=ColSet.GetColumnSet(ActiveColm).ColumnsCount;
+// if ColSet.GetColumnSet(ActiveColm).ColumnsCount>0 then
+//  for x:=0 to ColSet.GetColumnSet(ActiveColm).ColumnsCount-1 do
+//    dgPanel.ColWidths[x]:=ColSet.GetColumnSet(ActiveColm).GetColumnWidth(x);
+  SetColWidths;
 end;
 
 destructor TFrameFilePanel.Destroy;
@@ -1057,8 +1069,8 @@ begin
   if assigned(pnlFile) then
     FreeAndNil(pnlFile);
   //---------------------
-  if assigned(Colm) then
-     Colm.Free;
+//  if assigned(Colm) then
+//     Colm.Free;
   //---------------------
     
   inherited Destroy;

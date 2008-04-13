@@ -288,6 +288,8 @@ begin
   //---------------------
   WdxPlugins:=TWDXModuleList.Create;
   WdxPlugins.Load(gIni);
+  ColSet:=TPanelColumnsList.Create;
+  ColSet.Load(gIni);
   //---------------------
 end;
 
@@ -305,13 +307,16 @@ begin
     FreeAndNil(gExts);
   if Assigned(gIni) then
     FreeAndNil(gIni);
-
+  if Assigned(WdxPlugins) then
+    WdxPlugins.Free;
+  if Assigned(ColSet) then
+    ColSet.Free;
+  
   { Save location of configuration files }
   gIni := TIniFile.Create(gpCfgDir + 'doublecmd.ini');
   gIni.WriteBool('Configuration', 'UseIniInProgramDir', gUseIniInProgramDir);
   gIni.Free;
-  
-  WdxPlugins.Free;
+
 end;
 
 function LoadGlobs : Boolean;
@@ -382,7 +387,7 @@ begin
   gCursorColor := gIni.ReadInteger('Colors', 'CursorColor', clHighlight);
   gCursorText := gIni.ReadInteger('Colors', 'CursorText', clHighlightedText);
   { File operations }
-  gCopyBlockSize := gIni.ReadInteger('Configuration', 'CopyBlockSize', 65536);
+  gCopyBlockSize := gIni.ReadInteger('Configuration', 'CopyBlockSize', 16384);
   gDropReadOnlyFlag := gIni.ReadBool('Configuration', 'DropReadOnlyFlag', True);
   gUseMmapInSearch := gIni.ReadBool('Configuration', 'UseMmapInSearch', False);
   { Log }

@@ -94,6 +94,7 @@ uses
     procedure Delete(Index:Integer);
     procedure Clear;
     procedure AddDefaultColumns;
+
     //---------------------
     procedure Load(FileName,SetName:String);overload;
     procedure Load(Ini:TIniFile; SetName:string);overload;
@@ -103,8 +104,8 @@ uses
     procedure Load(Ini:TIniFile);overload;
 
     //---------------------
-    procedure Save(FileName,SetName:string); overload;
-    procedure Save(Ini:TIniFile;SetName:string); overload;
+    procedure Save(FileName,ASetName:string); overload;
+    procedure Save(Ini:TIniFile;ASetName:string); overload;
     //---------------------
 
     procedure Save;
@@ -133,10 +134,13 @@ uses
     procedure Load(Ini:TIniFile);overload;
     procedure Save(FileName:string);
     procedure Save(Ini:TIniFile); overload;
+    function Add(AName:string;Item:TPanelColumnsClass):integer;
+    procedure Insert(AIndex: integer; AName: string; Item: TPanelColumnsClass);
     procedure DeleteColumnSet(ini:TInifile; SetName:string);
     procedure DeleteColumnSet(ini:TInifile; SetIndex:Integer); overload;
     procedure CopyColumnSet(ini:TInifile; SetName,NewSetName:string);
-
+    function GetColumnSet(Index:Integer):TPanelColumnsClass;
+    function GetColumnSet(Setname:string):TPanelColumnsClass;
     //---------------------
   published
     property Items:TStringList read fSet;
@@ -321,6 +325,7 @@ begin
   Add(rsColAttr, '[DC().GETFILEATTR{}]', 200, taLeftJustify);
 end;
 
+
 procedure TPanelColumnsClass.Load(FileName, SetName: String);
 begin
   fSetName:=SetName;
@@ -371,15 +376,15 @@ begin
     //---------------------
 end;
 
-procedure TPanelColumnsClass.Save(FileName, SetName: string);
+procedure TPanelColumnsClass.Save(FileName, ASetName: string);
 begin
-  fSetName:=SetName;
+  fSetName:=ASetName;
   Save(FileName);
 end;
 
-procedure TPanelColumnsClass.Save(Ini: TIniFile; SetName: string);
+procedure TPanelColumnsClass.Save(Ini: TIniFile; ASetName: string);
 begin
-  fSetName:=SetName;
+  fSetName:=ASetName;
   Save(Ini);
 end;
 
@@ -587,15 +592,24 @@ begin
 end;
 
 destructor TPanelColumnsList.Destroy;
+var i:integer;
 begin
+
   if assigned(FSet) then
-    FreeAndNil(FSet);
-    
+    begin
+     for i:=0 to Fset.Count-1 do
+      TPanelColumnsClass(Fset.Objects[i]).Free;
+      FreeAndNil(FSet);
+    end;
+
   inherited Destroy;
 end;
 
 procedure TPanelColumnsList.Clear;
+var i:integer;
 begin
+  for i:=0 to Fset.Count-1 do
+    TPanelColumnsClass(Fset.Objects[i]).Free;
   Fset.Clear;
 end;
 
@@ -617,8 +631,11 @@ begin
     Count:=Ini.ReadInteger('ColumnsSet','ColumnsSetCount',0);
     For I:=0 to Count-1 do
       begin
-        fSet.Add(Ini.ReadString('ColumnsSet','ColumnsSet'+IntToStr(I+1)+'Name',''));
+        fSet.AddObject(Ini.ReadString('ColumnsSet','ColumnsSet'+IntToStr(I+1)+'Name',''),TPanelColumnsClass.Create);
+        TPanelColumnsClass(fSet.Objects[I]).Load(ini,fset[i]);
+        DebugLn('FsetName='+Fset[i]);
       end;
+      DebugLn('FsetCount='+inttostr(fset.Count));
 end;
 
 procedure TPanelColumnsList.Save(FileName: string);
@@ -640,7 +657,19 @@ begin
     For I:=0 to FSet.Count-1 do
       begin
         Ini.WriteString('ColumnsSet','ColumnsSet'+IntToStr(I+1)+'Name',FSet[i]);
+        TPanelColumnsClass(Fset.Objects[i]).Save(ini,FSet[i]);
       end;
+end;
+
+function TPanelColumnsList.Add(AName:string;Item: TPanelColumnsClass): integer;
+begin
+  Result:=Fset.AddObject(AName,Item);
+end;
+
+procedure TPanelColumnsList.Insert(AIndex: integer; AName: string;
+  Item: TPanelColumnsClass);
+begin
+  Fset.InsertObject(AIndex,AName,Item);
 end;
 
 
@@ -654,7 +683,9 @@ end;
 
 procedure TPanelColumnsList.DeleteColumnSet(ini: TInifile; SetIndex: Integer);
 begin
+    if (SetIndex>=Fset.Count) or (SetIndex<0) then exit;
     Ini.EraseSection(FSet[SetIndex]);
+    TPanelColumnsClass(fSet.Objects[SetIndex]).Free;
     fSet.Delete(SetIndex);
 end;
 
@@ -665,7 +696,7 @@ begin
   x:=fSet.IndexOf(SetName);
   if x<>-1 then
     begin
-      try
+{      try
         st:=TStringList.Create;
         ini.ReadSectionValues(SetName,st);
         for i:=0 to st.Count-1 do
@@ -674,10 +705,42 @@ begin
           end;
       finally
         st.Free;
-      end;
-      fSet.Add(NewSetName);
+      end;}
+      fSet.AddObject(NewSetName,fset.Objects[x]);
     end;
 
+end;
+
+function TPanelColumnsList.GetColumnSet(Index: Integer): TPanelColumnsClass;
+begin
+//DebugLn('FsetCount='+inttostr(fset.Count));
+ if (Index>-1) and (Index<Fset.Count) then
+  Result:=TPanelColumnsClass(Fset.Objects[Index])
+ else
+ begin
+  if fset.Count=0 then
+   begin
+    Fset.AddObject('Default',TPanelColumnsClass.Create);
+    TPanelColumnsClass(Fset.Objects[0]).AddDefaultColumns;
+   end;
+   Result:=TPanelColumnsClass(Fset.Objects[0]);
+ end;
+end;
+
+function TPanelColumnsList.GetColumnSet(Setname: string): TPanelColumnsClass;
+begin
+//DebugLn('FsetCount='+inttostr(fset.Count));
+if fset.IndexOf(Setname)>-1 then
+  Result:=TPanelColumnsClass(Fset.Objects[fset.IndexOf(Setname)])
+   else
+ begin
+  if fset.Count=0 then
+   begin
+    Fset.AddObject('Default',TPanelColumnsClass.Create);
+    TPanelColumnsClass(Fset.Objects[0]).AddDefaultColumns;
+   end;
+   Result:=TPanelColumnsClass(Fset.Objects[0]);
+ end;
 end;
 
 

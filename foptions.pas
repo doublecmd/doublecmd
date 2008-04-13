@@ -480,8 +480,8 @@ begin
 
 
   { Columns Set}
-  ColSet.Clear;
-  ColSet.Load(gIni);
+  //ColSet.Clear;
+ // ColSet.Load(gIni);
   FillColumnsList;
   
    nbNotebook.PageIndex := 0;  //let not warning on which page save form
@@ -1426,6 +1426,7 @@ end;
 procedure TfrmOptions.btnDelColumnsSetClick(Sender: TObject);
 begin
   if lstColumnsSets.ItemIndex=-1 then exit;
+  if lstColumnsSets.Count=1 then exit;
   ColSet.DeleteColumnSet(gIni,lstColumnsSets.Items[lstColumnsSets.ItemIndex]);
   FillColumnsList;
 end;
