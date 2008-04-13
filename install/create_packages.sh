@@ -5,6 +5,9 @@ DC_VER=0.3.5
 # The new package will be saved here
 PACK_DIR="`dirs`"/linux/release
 
+# Temp dir for creating *.tar.bz2 package
+BUILD_PACK_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)
+
 # Create temp dir for building
 BUILD_DC_TMP_DIR=/var/tmp/doublecmd-$DC_VER
 rm -rf $BUILD_DC_TMP_DIR
@@ -36,5 +39,13 @@ fi
 
 /usr/local/sbin/checkinstall -S --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --maintainer=Alexx2000@mail.ru --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
 
+# Create *.tar.bz2 package
+
+mkdir -p $BUILD_PACK_DIR
+install/linux/install.sh $BUILD_PACK_DIR
+cd $BUILD_PACK_DIR
+tar -cvjf $PACK_DIR/doublecmd-$DC_VER-1.$lcl.i386.tar.bz2 doublecmd
+
 # Clean DC build dir
 rm -rf $BUILD_DC_TMP_DIR
+rm -rf $BUILD_PACK_DIR
