@@ -1000,7 +1000,7 @@ msgstr "Найти"
 
 #: TFRMMULTIRENAME.GBFINDREPLACE.CAPTION
 msgid "Find && Replace"
-msgstr "Найти &и заменить"
+msgstr "Найти и заменить"
 
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
@@ -1216,7 +1216,7 @@ msgstr "Успешные операции"
 
 #: TFRMMULTIRENAME.GBLOG.CAPTION
 msgid "Log Result"
-msgstr "Результат - в протокол"
+msgstr "Результат"
 
 #: TFRMOPTIONS.CBLOGINFO.CAPTION
 msgid "Log information messages"
@@ -1808,7 +1808,7 @@ msgstr "Стандартный"
 
 #: TFRMMULTIRENAME.LBSTNB.CAPTION
 msgid "Start Number"
-msgstr "Начальное значение"
+msgstr "Нач. знач."
 
 #: TFRMFINDDLG.LBLSTATUS.CAPTION
 msgid "Status"
