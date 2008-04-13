@@ -1,5 +1,10 @@
 #!/bin/sh
-DC_INSTALL_DIR=/opt/doublecmd
+
+if [ -z $1 ]
+  then DC_INSTALL_DIR=/opt/doublecmd
+  else DC_INSTALL_DIR=$1/doublecmd
+fi
+
 mkdir -p $DC_INSTALL_DIR
 
 mkdir -p $DC_INSTALL_DIR/plugins
@@ -27,8 +32,6 @@ cp -a editor.col     $DC_INSTALL_DIR/
 cp -a twilight.col   $DC_INSTALL_DIR/
 cp -a pixmaps.txt    $DC_INSTALL_DIR/
 cp -a default.bar    $DC_INSTALL_DIR/
-# Copy libraries
-cp -a *.so           /usr/lib/
 
 # copy plugins
 # WCX
@@ -41,8 +44,18 @@ cp -a plugins/wcx/zip/lib/zip.wcx          $DC_INSTALL_DIR/plugins/wcx/zip/
 # WDX
 cp -a plugins/wdx/rpm_wdx/lib/rpm_wdx.wcx  $DC_INSTALL_DIR/plugins/wdx/rpm_wdx/
 
-# Create symlink and desktop files
-ln -sf $DC_INSTALL_DIR/doublecmd /usr/bin/doublecmd
-install -m 644 icon.png /usr/share/pixmaps/doublecmd.png
-install -m 644 install/linux/doublecmd.desktop /usr/share/applications/doublecmd.desktop
-
+if [ -z $1 ]
+  then
+    # Copy libraries
+    cp -a *.so           /usr/lib/
+    # Create symlink and desktop files
+    ln -sf $DC_INSTALL_DIR/doublecmd /usr/bin/doublecmd
+    install -m 644 icon.png /usr/share/pixmaps/doublecmd.png
+    install -m 644 install/linux/doublecmd.desktop /usr/share/applications/doublecmd.desktop
+  else
+    cp -a doublecmd.sh $DC_INSTALL_DIR/
+    # Copy libraries
+    cp -a *.so     $DC_INSTALL_DIR/
+    # Copy DC icon
+    cp -a icon.png $DC_INSTALL_DIR/doublecmd.png
+fi
