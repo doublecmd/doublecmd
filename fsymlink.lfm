@@ -67,7 +67,7 @@ object frmSymLink: TfrmSymLink
     Left = 236
     Height = 32
     Top = 112
-    Width = 75
+    Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 12
     BorderSpacing.Right = 6
@@ -88,7 +88,7 @@ object frmSymLink: TfrmSymLink
     Left = 317
     Height = 32
     Top = 112
-    Width = 75
+    Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 12
     BorderSpacing.InnerBorder = 2

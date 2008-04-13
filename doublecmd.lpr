@@ -64,18 +64,19 @@ uses
 
 const
   buildDate = {$I %DATE%};
-
+  Version = '0.3.5 alpha';
 begin
   Application.Title:='Double Commander';
   Application.Initialize;
   ThousandSeparator:=' ';
-  DebugLn('Double commander 0.3.5 alpha - Free Pascal');
+  DebugLn(Format('Double commander %s - Free Pascal', [Version]));
   DebugLn('Build: ' + buildDate);
   DebugLn('This program is free software released under terms of GNU GPL 2');
   DebugLn('(C)opyright 2006-2008 Koblov Alexander (Alexx2000@mail.ru)');
   DebugLn('  and contributors (see about dialog)');
 
   fAbout.buildDate := buildDate;
+  fAbout.Version:= Version;
 
   LoadPaths; // must be first
   if LoadGlobs then

@@ -1,6 +1,6 @@
 ﻿msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.35 alpha\n"
+"Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-03-25 21:14+0300\n"
 "PO-Revision-Date: \n"
@@ -1948,8 +1948,8 @@ msgid "User home directory"
 msgstr ""
 
 #: TFRMABOUT.LBLVERSION.CAPTION
-msgid "Version 0.3 alpha"
-msgstr "Version 0.3 alpha, deutsch by Vacon"
+msgid "Version \%s"
+msgstr "Version \%s, deutsch by Vacon"
 
 #: TFRMMAIN.ACTVIEW.CAPTION
 msgid "View F3"
