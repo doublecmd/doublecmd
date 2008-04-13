@@ -1947,8 +1947,8 @@ msgid "User home directory"
 msgstr "用户主目录"
 
 #: TFRMABOUT.LBLVERSION.CAPTION
-msgid "Version 0.3 alpha"
-msgstr "版本 0.3 alpha"
+msgid "Version \%s"
+msgstr "版本 \%s"
 
 #: TFRMMAIN.ACTVIEW.CAPTION
 msgid "View F3"

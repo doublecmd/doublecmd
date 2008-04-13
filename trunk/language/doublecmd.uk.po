@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.3 alpha\n"
+"Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: 2008-01-15 17:08+0300\n"
 "Last-Translator: Vadim Vitomsky <ViruZ@rusfaq.ru>\n"
@@ -1947,7 +1947,7 @@ msgid "User home directory"
 msgstr "Домашній каталог користувача"
 
 #: TFRMABOUT.LBLVERSION.CAPTION
-msgid "Version 0.3 alpha"
+msgid "Version \%s"
 msgstr ""
 
 #: TFRMMAIN.ACTVIEW.CAPTION

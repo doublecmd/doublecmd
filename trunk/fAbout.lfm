@@ -21,20 +21,20 @@ object frmAbout: TfrmAbout
     AnchorSideTop.Control = lblTitle
     AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 26
-    Top = 42
-    Width = 97
+    Height = 14
+    Top = 30
+    Width = 55
     BorderSpacing.Top = 8
-    Caption = 'Version 0.3 alpha'
+    Caption = 'Version %s'
     ParentColor = False
   end
   object lblBuild: TLabel
     AnchorSideTop.Control = lblVersion
     AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 26
-    Top = 76
-    Width = 35
+    Height = 14
+    Top = 52
+    Width = 30
     BorderSpacing.Top = 8
     Caption = 'Build: '
     ParentColor = False
@@ -43,16 +43,16 @@ object frmAbout: TfrmAbout
     AnchorSideTop.Control = lblBuild
     AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 26
-    Top = 110
-    Width = 48
+    Height = 14
+    Top = 74
+    Width = 41
     BorderSpacing.Top = 8
     Caption = 'Lazarus '
     ParentColor = False
   end
   object lblTitle: TLabel
     Left = 8
-    Height = 26
+    Height = 14
     Top = 8
     Width = 112
     Caption = 'Double Commander'

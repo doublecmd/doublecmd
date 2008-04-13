@@ -1300,7 +1300,7 @@ msgid "About"
 msgstr ""
 
 #: TFRMABOUT.LBLVERSION.CAPTION
-msgid "Version 0.3 alpha"
+msgid "Version \%s"
 msgstr ""
 
 #: TFRMABOUT.LBLBUILD.CAPTION

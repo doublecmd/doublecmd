@@ -65,7 +65,7 @@ object frmHardLink: TfrmHardLink
     Left = 236
     Height = 32
     Top = 114
-    Width = 75
+    Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 12
     BorderSpacing.Right = 6
@@ -86,7 +86,7 @@ object frmHardLink: TfrmHardLink
     Left = 317
     Height = 32
     Top = 114
-    Width = 75
+    Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 12
     BorderSpacing.InnerBorder = 2

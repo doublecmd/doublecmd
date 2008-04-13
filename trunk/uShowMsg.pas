@@ -291,6 +291,7 @@ begin
           Kind := bkCancel;
           Cancel := True;
           Left := 6;
+          Width:= 90;
           Anchors := [akTop, akRight];
           AnchorToNeighbour(akTop, 18, cbValue);
           AnchorSide[akRight].Control := cbValue;
@@ -302,6 +303,7 @@ begin
           Parent := frmDialog;
           Kind := bkOk;
           Default := True;
+          Width:= 90;
           Anchors := [akTop, akRight];
           AnchorToNeighbour(akTop, 18, cbValue);
           AnchorToNeighbour(akRight, 6, bbtnCancel);

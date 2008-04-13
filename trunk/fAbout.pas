@@ -45,7 +45,8 @@ type
 procedure ShowAboutBox;
 
 var
-  buildDate : String;
+  buildDate,
+  Version: String;
   
 implementation
 {uses
@@ -99,13 +100,13 @@ end;
 
 procedure TfrmAbout.frmAboutShow(Sender: TObject);
 begin
-  //imgLogo.Picture.Bitmap.LoadFromLazarusResource('logo');
   memInfo.Lines.Text := cAboutMsg;
-  lblBuild.Caption := lblBuild.Caption + buildDate;
-  lblLazarusVer.Caption := lblLazarusVer.Caption + LazarusVersionStr;
+  lblVersion.Caption:= Format(lblVersion.Caption, [Version]);
+  lblBuild.Caption := lblBuild.Caption + #32 + buildDate;
+  lblLazarusVer.Caption := lblLazarusVer.Caption + #32 + LazarusVersionStr;
 end;
 
 initialization
  {$I fAbout.lrs}
- {.$I logo.lrs}
+
 end.
