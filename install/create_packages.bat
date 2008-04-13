@@ -26,6 +26,9 @@ mkdir %BUILD_PACK_DIR%\release
 rem Copy package description file
 copy windows\doublecmd.iss %BUILD_PACK_DIR%\
 
+rem Copy libraries
+copy windows\lib\*.dll %BUILD_DC_TMP_DIR%\
+
 cd /D %BUILD_DC_TMP_DIR%
 rem Build all components of Double Commander
 call _make.bat all
