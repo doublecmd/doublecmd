@@ -31,6 +31,8 @@ copy editor.col     %DC_INSTALL_DIR%\
 copy twilight.col   %DC_INSTALL_DIR%\
 copy pixmaps.txt    %DC_INSTALL_DIR%\
 copy default.bar    %DC_INSTALL_DIR%\
+rem Copy libraries
+copy *.dll          %DC_INSTALL_DIR%\
 
 rem copy plugins
 rem WCX

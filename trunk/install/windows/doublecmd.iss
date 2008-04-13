@@ -54,6 +54,7 @@ Source: "doublecmd\language\*"; DestDir: "{app}\language"; Flags: ignoreversion 
 Source: "doublecmd\pixmaps\*"; DestDir: "{app}\pixmaps"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doublecmd\plugins\*"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+Source: "doublecmd\*.dll"; DestDir: "{app}"; Flags: skipifsourcedoesntexist
 
 [Icons]
 Name: "{group}\Double Commander"; Filename: "{app}\doublecmd.exe"

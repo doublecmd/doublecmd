@@ -27,6 +27,8 @@ cp -a editor.col     $DC_INSTALL_DIR/
 cp -a twilight.col   $DC_INSTALL_DIR/
 cp -a pixmaps.txt    $DC_INSTALL_DIR/
 cp -a default.bar    $DC_INSTALL_DIR/
+# Copy libraries
+cp -a *.so           /usr/lib/
 
 # copy plugins
 # WCX

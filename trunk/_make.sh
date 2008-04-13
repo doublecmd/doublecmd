@@ -19,7 +19,9 @@
 #path to lazarus
 export lazpath=/home/alexx/bin/lazarus
 #widgetset gtk or gtk2
-lcl=gtk2
+if [ -z $lcl ]
+  then export lcl=gtk2
+fi
 
 build_doublecmd()
 {
