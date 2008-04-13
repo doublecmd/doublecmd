@@ -50,6 +50,7 @@ type
     pmStringGrid: TPopupMenu;
     pmFields: TPopupMenu;
     stgColumns: TStringGrid;
+    procedure btnCancelClick(Sender: TObject);
     procedure btnOkClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -298,7 +299,7 @@ begin
   if assigned(btnDel) then FreeAndNil(btnDel);
   if assigned(edtField) then FreeAndNil(edtField);
   if assigned(updMove) then FreeAndNil(updMove);
-   ColumnClass.Free;
+  // ColumnClass.Free;
 end;
 
 procedure TfColumnsSetConf.FormResize(Sender: TObject);
@@ -412,14 +413,22 @@ if edtNameofColumnsSet.Text='' then
 
 
     case Self.Tag of
-    -1: ColSet.Items.Add(edtNameofColumnsSet.Text);
+    -1: ColSet.Add(edtNameofColumnsSet.Text,ColumnClass);//ColSet.Items.Add(edtNameofColumnsSet.Text);
     else
       begin
         ColSet.DeleteColumnSet(gIni,Self.Tag);
-        ColSet.Items.Insert(Self.Tag,edtNameofColumnsSet.Text);
+        Colset.Insert(Self.Tag,edtNameofColumnsSet.Text,ColumnClass);
+        //ColSet.Items.Insert(Self.Tag,edtNameofColumnsSet.Text);
       end;
     end;
-ColumnClass.Save(gIni,(edtNameofColumnsSet.Text));
+
+//ColumnClass.Save(gIni,(edtNameofColumnsSet.Text));
+ColSet.Save(gIni);
+end;
+
+procedure TfColumnsSetConf.btnCancelClick(Sender: TObject);
+begin
+  close;
 end;
 
 procedure TfColumnsSetConf.MenuFieldsClick(Sender: TObject);

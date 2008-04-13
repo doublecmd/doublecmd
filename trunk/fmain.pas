@@ -325,6 +325,7 @@ type
     procedure ColumnsMenuClick(Sender: TObject);
     function ExecuteCommandFromEdit(sCmd:String):Boolean;
     procedure AddSpecialButtons(dskPanel: TKASToolBar);
+    procedure ReLoadTabs(ANoteBook: TNoteBook);
   public
 //    frameLeft, frameRight:TFrameFilePanel;
     
@@ -476,7 +477,7 @@ begin
 
   seLogWindow.Font.Name := gFontName;
   
-  ColSet:=TPanelColumnsList.Create;
+  //ColSet:=TPanelColumnsList.Create;
   pmColumnsMenu.Items.Clear;
   //DebugLn('frmMain.FormCreate Done');
 end;
@@ -693,7 +694,7 @@ procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
   DebugLn('frmMain.Destroy');
 
-  ColSet.Free;
+  //ColSet.Free;
 
   if gSaveCmdLineHistory then
     edtCommand.Items.SaveToFile(gpIniDir+cHistoryFile);
@@ -872,9 +873,9 @@ begin
   (* Save  columns widths *)
   with FrameLeft do
   begin
-    for x:=0 to Colm.ColumnsCount - 1 do
-      Colm.SetColumnWidth(x, dgPanel.ColWidths[x]);
-    Colm.Save(gIni);
+    for x:=0 to ColSet.GetColumnSet(ActiveColm).ColumnsCount - 1 do
+      ColSet.GetColumnSet(ActiveColm).SetColumnWidth(x, dgPanel.ColWidths[x]);
+    ColSet.GetColumnSet(ActiveColm).Save(gIni);
   end;
   
   (* Save all tabs *)
@@ -2418,31 +2419,37 @@ begin
           begin
             Application.CreateForm(TfColumnsSetConf, frmColumnsSetConf);
             {EDIT Set}
-            frmColumnsSetConf.edtNameofColumnsSet.Text:=ActiveFrame.Colm.CurrentColumnsSetName;
-            Index:=ColSet.Items.IndexOf(ActiveFrame.Colm.CurrentColumnsSetName);
-            frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(1+ColSet.Items.IndexOf(ActiveFrame.Colm.CurrentColumnsSetName));
-            frmColumnsSetConf.Tag:=ColSet.Items.IndexOf(ActiveFrame.Colm.CurrentColumnsSetName);
+            frmColumnsSetConf.edtNameofColumnsSet.Text:=ColSet.GetColumnSet(ActiveFrame.ActiveColm).CurrentColumnsSetName;
+            Index:=ColSet.Items.IndexOf(ActiveFrame.ActiveColm);
+            frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(1+ColSet.Items.IndexOf(ActiveFrame.ActiveColm));
+            frmColumnsSetConf.Tag:=ColSet.Items.IndexOf(ActiveFrame.ActiveColm);
             frmColumnsSetConf.ColumnClass.Clear;
-            frmColumnsSetConf.ColumnClass.Load(gIni,ActiveFrame.Colm.CurrentColumnsSetName);
+            frmColumnsSetConf.ColumnClass.Load(gIni,ActiveFrame.ActiveColm);
             {EDIT Set}
             frmColumnsSetConf.ShowModal;
-            ColSet.Save(gIni);
+            //ColSet.Save(gIni);
+
             FreeAndNil(frmColumnsSetConf);
             //TODO: Reload current columns in panels
+            ReLoadTabs(nbLeft);
+            ReLoadTabs(nbRight);
           end;
     1001: //All columns
           begin
             actOptionsExecute(Sender,15);
+            ReLoadTabs(nbLeft);
+            ReLoadTabs(nbRight);
           end;
 
   else
     begin
-      ActiveFrame.Colm.Load(gIni,ColSet.Items[(Sender as TMenuItem).Tag]);
-      ActiveFrame.dgPanel.ColCount:=ActiveFrame.Colm.ColumnsCount;
+      ActiveFrame.ActiveColm:=ColSet.Items[(Sender as TMenuItem).Tag];
+      ActiveFrame.SetColWidths;
+//      ActiveFrame.dgPanel.ColCount:=ColSet.GetColumnSet(ActiveFrame.ActiveColm).ColumnsCount;
 
-      if ActiveFrame.Colm.ColumnsCount>0 then
-       for x:=0 to ActiveFrame.Colm.ColumnsCount-1 do
-        ActiveFrame.dgPanel.ColWidths[x]:=ActiveFrame.Colm.GetColumnWidth(x);
+//      if ColSet.GetColumnSet(ActiveFrame.ActiveColm).ColumnsCount>0 then
+ //      for x:=0 to ColSet.GetColumnSet(ActiveFrame.ActiveColm).ColumnsCount-1 do
+   //     ActiveFrame.dgPanel.ColWidths[x]:=ColSet.GetColumnSet(ActiveFrame.ActiveColm).GetColumnWidth(x);
     end;
 
   end;
@@ -2459,9 +2466,8 @@ begin
       (Sender as TDrawGrid).MouseToCell(X, Y, iCol, iRow);
       if (Button=mbRight) and (iRow < (Sender as TDrawGrid).FixedRows ) then
         begin
+
           //Load Columns into menu
-          ColSet.Clear;
-          ColSet.Load(Gini);
           pmColumnsMenu.Items.Clear;
           if ColSet.Items.Count>0 then
             begin
@@ -2824,6 +2830,29 @@ begin
   ANoteBook.ShowTabs:= ((ANoteBook.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
 end;
 
+procedure TfrmMain.ReLoadTabs(ANoteBook: TNoteBook);
+var
+  I : Integer;
+begin
+     DebugLn('FSetCol='+inttostr(colset.Items.Count));
+     
+     for i:=0 to ANoteBook.PageCount-1 do
+        begin
+          with TFrameFilePanel(ANoteBook.Page[I].Components[0]) do
+           begin
+           DebugLn('ActiveColmRET'+Inttostr(I)+'='+ActiveColm);
+              if ColSet.Items.IndexOf(ActiveColm)=-1 then
+                if ColSet.Items.Count>0 then
+                  ActiveColm:=ColSet.Items[0]
+                else
+                  ActiveColm:='Default';
+              Colset.GetColumnSet(ActiveColm).Load(gini,ActiveColm);
+              SetColWidths;
+           end;
+        end;
+end;
+
+
 procedure TfrmMain.LoadTabs(ANoteBook: TNoteBook);
 var
   x, I : Integer;
@@ -2870,12 +2899,8 @@ begin
 
           with TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]) do
            begin
-              Colm.Load(gIni,sColumnSet);
-              dgPanel.ColCount:=Colm.ColumnsCount;
-               //  setup column widths
-               if Colm.ColumnsCount>0 then
-                for x:=0 to Colm.ColumnsCount-1 do
-                  dgPanel.ColWidths[x]:=Colm.GetColumnWidth(x);
+              ActiveColm:=sColumnSet;
+              SetColWidths;
            end;
 
         end;
@@ -2893,12 +2918,8 @@ begin
       sColumnSet:=gIni.ReadString(TabsSection, sIndex + '_columnsset', '');
      with TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]) do
        begin
-          Colm.Load(gIni,sColumnSet);
-          dgPanel.ColCount:=Colm.ColumnsCount;
-           //  setup column widths
-           if Colm.ColumnsCount>0 then
-            for x:=0 to Colm.ColumnsCount-1 do
-              dgPanel.ColWidths[x]:=Colm.GetColumnWidth(x);
+          ActiveColm:=sColumnSet;
+          SetColWidths;
        end;
 
 
@@ -2951,7 +2972,7 @@ begin
     gIni.WriteString(TabsSection, sIndex + '_path', sPath);
     gIni.WriteString(TabsSection, sIndex + '_caption', ANoteBook.Page[I].Caption);
 
-  sColumnSet:=TFrameFilePanel(ANoteBook.Page[I].Components[0]).Colm.CurrentColumnsSetName;
+  sColumnSet:=TFrameFilePanel(ANoteBook.Page[I].Components[0]).ActiveColm;
   gIni.WriteString(TabsSection, sIndex + '_columnsset', sColumnSet);
 
     inc(I);
@@ -2959,7 +2980,7 @@ begin
   sPath := TFrameFilePanel(ANoteBook.ActivePageComponent.Components[0]).ActiveDir;
   gIni.WriteString(Section, 'path', sPath);
 
-  sColumnSet:=TFrameFilePanel(ANoteBook.ActivePageComponent.Components[0]).Colm.CurrentColumnsSetName;
+  sColumnSet:=TFrameFilePanel(ANoteBook.ActivePageComponent.Components[0]).ActiveColm;
   gIni.WriteString(Section, 'columnsset', sColumnSet);
   
 end;
