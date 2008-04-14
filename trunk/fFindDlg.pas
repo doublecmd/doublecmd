@@ -185,8 +185,8 @@ end;
 procedure TfrmFindDlg.btnGoToPathClick(Sender: TObject);
 begin
   frmMain.ActiveFrame.pnlFile.ActiveDir := ExtractFilePath(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
+  frmMain.ActiveFrame.pnlFile.LastActive:= ExtractFileName(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
   frmMain.ActiveFrame.pnlFile.LoadPanel;
-  frmMain.ActiveFrame.edtSearch.Text := ExtractFileName(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
   Close;
 end;
 
