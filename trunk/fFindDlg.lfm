@@ -18,7 +18,6 @@ object frmFindDlg: TfrmFindDlg
   OnShow = frmFindDlgShow
   Position = poScreenCenter
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.25'
   object Splitter1: TSplitter
     Cursor = crVSplit
     Height = 1
