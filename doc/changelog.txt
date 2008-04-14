@@ -1,14 +1,17 @@
-﻿12.04.2008 FIX: Bug [ 1938948 ] Drive chooser shortcuts missing
-08.04.2008 FIX: Bug [ 1870771 ] Удаление плагина.
-04.04.2008 FIX: Bug [ 1934290 ] Нельзя переназначить иконки для некоторых типов.
-23.03.2008 FIX: Bug [ 1870551 ] F3 на каталоге.
-23.03.2008 FIX: Bug [ 1921004 ] отображенее "писок диска"
-12.03.2008 FIX: Bug [ 1888653 ] панель файлов и копирование/перемещение
+﻿--------------------------------------------------------------------------------
+15.04.2008 Release Double Commander 0.3.5 alpha
+--------------------------------------------------------------------------------
+12.04.2008 FIX: Bug [ 1938948 ] Drive chooser shortcuts missing
+08.04.2008 FIX: Bug [ 1870771 ] Remove plugin.
+04.04.2008 FIX: Bug [ 1934290 ] It is impossible reassign icons for some types.
+23.03.2008 FIX: Bug [ 1870551 ] F3 on directory.
+23.03.2008 FIX: Bug [ 1921004 ] Error with display drive name on drive menu button.
+12.03.2008 FIX: Bug [ 1888653 ] file panel and copy/move
 06.03.2008 FIX: Bug [ 1860836 ] "Show" does not refresh
 05.03.2008 FIX: Bug [ 1860660 ] Non-translatable strings
 28.02.2008 FIX: The filedate of the copied file is <> to original file date (Windows)
            unlike TotalCmd.
-17.02.2008 FIX: Bug [ 1880539 ] Контекстное меню каталога.
+17.02.2008 FIX: Bug [ 1880539 ] Context menu for directory.
 04.02.2008 FIX: Bug [ 1886005 ] Быстрый поиск - завешивает.
 03.02.2008 FIX: Bug [ 1869787 ] Options -> Colors -> File types and attributes
 03.02.2008 ADD: Feature Request [1880515] Enhanced quick search
@@ -17,16 +20,16 @@
 27.01.2008 ADD: Options page "Configuration storage" 
 26.01.2008 ADD: UnRAR plugin (now it working under Windows and Linux)
 26.01.2008 ADD: Feature Request [ 1869250 ] Try to open archive by Ctrl+PageDown
-18.01.2008 FIX: Bug [ 1869790 ] Опции -> цвета файлов - нелогичность
-17.01.2007 FIX: Bug [ 1869784 ] Папки и diff
-17.01.2007 FIX: Bug [ 1870772 ] Навигация lynx, "вправо" на "уровень выше"
-13.01.2007 FIX: Bug [ 1869757 ] Внешний редактор
-13.01.2007 FIX: Bug [ 1869786 ] Внешний diff - дц не передает файлы.
-11.01.2008 FIX: Bug [ 1869243 ] Навигация lynx и вход в архивы.
+18.01.2008 FIX: Bug [ 1869790 ] Options -> File types colors - illogical
+17.01.2007 FIX: Bug [ 1869784 ] Directories and diff
+17.01.2007 FIX: Bug [ 1870772 ] lynx navigation, "right" for "up level"
+13.01.2007 FIX: Bug [ 1869757 ] External editor
+13.01.2007 FIX: Bug [ 1869786 ] External diff - DC not send file.
+11.01.2008 FIX: Bug [ 1869243 ] lynx navigation and enter in arhives.
 11.01.2008 FIX: Bug [ 1860652 ] "Run Term" Opens terminal in last accessed directory, not in current
            panel's directory
 11.01.2008  FIX: Bug [ 1861911 ] must add version.inc
-10.01.2008  FIX: Bug [ 1860271 ] Навигация lynx и архивы
+10.01.2008  FIX: Bug [ 1860271 ] lynx navigation and archives
 --------------------------------------------------------------------------------
 26.12.2007  Release Double Commander 0.3 alpha
 
