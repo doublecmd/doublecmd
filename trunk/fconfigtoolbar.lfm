@@ -20,7 +20,6 @@ object frmConfigToolBar: TfrmConfigToolBar
   Font.Name = 'MS Sans Serif'
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '0.9.25'
   object lblButtonBar: TLabel
     AnchorSideTop.Control = stToolBarFileName
     AnchorSideTop.Side = asrCenter
