@@ -148,6 +148,8 @@ begin
           ktbBarToolButtonClick(Sender,ktbBar.ButtonCount-1);
         end;
     end;
+  Update;
+  Height:= kedtToolTip.Top + kedtToolTip.Height + 18;
 end;
 
 procedure TfrmConfigToolBar.cbFlatIconsChange(Sender: TObject);
