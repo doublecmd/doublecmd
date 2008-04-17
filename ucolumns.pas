@@ -696,7 +696,7 @@ begin
   x:=fSet.IndexOf(SetName);
   if x<>-1 then
     begin
-{      try
+      try
         st:=TStringList.Create;
         ini.ReadSectionValues(SetName,st);
         for i:=0 to st.Count-1 do
@@ -705,8 +705,10 @@ begin
           end;
       finally
         st.Free;
-      end;}
-      fSet.AddObject(NewSetName,fset.Objects[x]);
+      end;
+      fSet.AddObject(NewSetName,TPanelColumnsClass.Create);
+      TPanelColumnsClass(fset.Objects[fset.Count-1]).Name:=NewSetName;
+      TPanelColumnsClass(fset.Objects[fset.Count-1]).Load(ini,NewSetName);
     end;
 
 end;
