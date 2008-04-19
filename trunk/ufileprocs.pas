@@ -55,7 +55,7 @@ begin
 
   try
     try
-      src:=TFileStream.Create(sSrc,fmOpenReadWrite);
+      src:=TFileStream.Create(sSrc,fmOpenRead or fmShareDenyNone);
       if bAppend then
       begin
         dst:=TFileStream.Create(sDst,fmOpenReadWrite);
