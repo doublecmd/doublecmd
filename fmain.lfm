@@ -842,6 +842,17 @@ object frmMain: TfrmMain
         Enabled = False
         ShortCut = 12337
       end
+      object miLine10: TMenuItem
+        Caption = '-'
+      end
+      object miCopyNamesToClip: TMenuItem
+        Action = actCopyNamesToClip
+        OnClick = actCopyNamesToClipExecute
+      end
+      object miCopyFullNamesToClip: TMenuItem
+        Action = actCopyFullNamesToClip
+        OnClick = actCopyFullNamesToClipExecute
+      end
     end
     object mnuCmd: TMenuItem
       Caption = '&Commands'
@@ -1347,6 +1358,20 @@ object frmMain: TfrmMain
       Caption = 'Open'
       DisableIfNoHandler = True
       OnExecute = actOpenExecute
+    end
+    object actCopyNamesToClip: TAction
+      Category = 'Mark'
+      Caption = 'Copy &Filename(s) to Clipboard'
+      DisableIfNoHandler = True
+      OnExecute = actCopyNamesToClipExecute
+      ShortCut = 49240
+    end
+    object actCopyFullNamesToClip: TAction
+      Category = 'Mark'
+      Caption = 'Copy Filename(s) with Full &Path'
+      DisableIfNoHandler = True
+      OnExecute = actCopyFullNamesToClipExecute
+      ShortCut = 49219
     end
   end
   object pmHotList: TPopupMenu

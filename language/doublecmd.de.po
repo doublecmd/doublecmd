@@ -539,9 +539,17 @@ msgstr "Inhalt Plugin (.WDX)"
 msgid "Copy"
 msgstr "Kopieren"
 
+#: TFRMMAIN.ACTCOPYNAMESTOCLIP.CAPTION
+msgid "Copy &Filename(s) to Clipboard"
+msgstr ""
+
 #: TFRMMAIN.ACTCOPY.CAPTION
 msgid "Copy F5"
 msgstr "Kopieren F5"
+
+#: TFRMMAIN.ACTCOPYFULLNAMESTOCLIP.CAPTION
+msgid "Copy Filename(s) with Full &Path"
+msgstr ""
 
 #: TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION
 msgid "Copy To Clipboard"
