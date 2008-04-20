@@ -923,6 +923,7 @@ procedure TfrmMain.frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
 var
   x:Integer;
 begin
+ try
   (* Save  columns widths *)
   with FrameLeft do
   begin
@@ -941,6 +942,8 @@ begin
   gIni.WriteInteger('Configuration', 'Main.Height', Height);
   gIni.WriteBool('Configuration', 'maximized', (WindowState = wsMaximized));
   SaveGlobs; // must be last
+ except
+ end; 
 end;
 
 procedure TfrmMain.frmMainKeyUp(Sender: TObject; var Key: Word;
