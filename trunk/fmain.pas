@@ -61,6 +61,7 @@ type
     actContextMenu: TAction;
     actCopyNamesToClip: TAction;
     actCopyFullNamesToClip: TAction;
+    actTargetEqualSource: TAction;
     actOpen: TAction;
     actQuickSearch: TAction;
     actShowButtonMenu: TAction;
@@ -221,6 +222,7 @@ type
     procedure actFileAssocExecute(Sender: TObject);
     procedure actFocusCmdLineExecute(Sender: TObject);
     procedure actLeftOpenDrivesExecute(Sender: TObject);
+    procedure actTargetEqualSourceExecute(Sender: TObject);
     procedure actOpenArchiveExecute(Sender: TObject);
     procedure actOpenExecute(Sender: TObject);
     procedure actOpenVFSListExecute(Sender: TObject);
@@ -718,6 +720,12 @@ begin
   p := pnlLeftTools.ClientToScreen(p);
   pmDrivesMenu.Items[dskLeft.Tag].Checked := True;
   pmDrivesMenu.PopUp(p.x, p.y);
+end;
+
+procedure TfrmMain.actTargetEqualSourceExecute(Sender: TObject);
+begin
+  NotActiveFrame.pnlFile.ActiveDir:= ActiveFrame.pnlFile.ActiveDir;
+  NotActiveFrame.RefreshPanel;
 end;
 
 procedure TfrmMain.actOpenArchiveExecute(Sender: TObject);
