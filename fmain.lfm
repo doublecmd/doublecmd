@@ -409,6 +409,8 @@ object frmMain: TfrmMain
     Font.Name = 'courier'
     ParentColor = False
     TabOrder = 4
+    BookMarkOptions.OnChange = nil
+    Gutter.OnChange = nil
     Gutter.CodeFoldingWidth = 14
     Keystrokes = <    
       item
@@ -734,6 +736,7 @@ object frmMain: TfrmMain
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
+    SelectedColor.OnChange = nil
     OnSpecialLineColors = seLogWindowSpecialLineColors
   end
   object LogSplitter: TSplitter
@@ -884,8 +887,8 @@ object frmMain: TfrmMain
         ShortCut = 16469
       end
       object mnuCmdTargetIsSource: TMenuItem
-        Caption = 'Target &= Source'
-        Enabled = False
+        Action = actTargetEqualSource
+        OnClick = actTargetEqualSourceExecute
       end
     end
     object mnuShow: TMenuItem
@@ -1372,6 +1375,13 @@ object frmMain: TfrmMain
       DisableIfNoHandler = True
       OnExecute = actCopyFullNamesToClipExecute
       ShortCut = 49219
+    end
+    object actTargetEqualSource: TAction
+      Category = 'Commands'
+      Caption = 'Target &= Source'
+      DisableIfNoHandler = True
+      OnExecute = actTargetEqualSourceExecute
+      ShortCut = 32858
     end
   end
   object pmHotList: TPopupMenu
