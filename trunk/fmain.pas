@@ -59,6 +59,8 @@ type
     actFileAssoc: TAction;
     actFocusCmdLine: TAction;
     actContextMenu: TAction;
+    actCopyNamesToClip: TAction;
+    actCopyFullNamesToClip: TAction;
     actOpen: TAction;
     actQuickSearch: TAction;
     actShowButtonMenu: TAction;
@@ -83,6 +85,9 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     MenuItem2: TMenuItem;
+    miCopyFullNamesToClip: TMenuItem;
+    miCopyNamesToClip: TMenuItem;
+    miLine10: TMenuItem;
     MenuItem4: TMenuItem;
     mnuFileAssoc: TMenuItem;
     pmButtonMenu: TKASBarMenu;
@@ -210,6 +215,8 @@ type
     MainSplitter: TSplitter;
     procedure actAddPathToCmdLineExecute(Sender: TObject);
     procedure actContextMenuExecute(Sender: TObject);
+    procedure actCopyFullNamesToClipExecute(Sender: TObject);
+    procedure actCopyNamesToClipExecute(Sender: TObject);
     procedure actExtractFilesExecute(Sender: TObject);
     procedure actFileAssocExecute(Sender: TObject);
     procedure actFocusCmdLineExecute(Sender: TObject);
@@ -372,7 +379,7 @@ var
 implementation
 
 uses
-  uTypes, fAbout, uGlobs, uLng, fOptions,{ fViewer,}fconfigtoolbar, fFileAssoc,
+  Clipbrd, uTypes, fAbout, uGlobs, uLng, fOptions,{ fViewer,}fconfigtoolbar, fFileAssoc,
   uCopyThread, uFileList, uDeleteThread, uVFSUtil, uWCXModule, uVFSTypes,
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg,
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils, uLog,
@@ -662,6 +669,44 @@ begin
     end;
   ShowContextMenu(Handle, fl, Mouse.CursorPos.x, Mouse.CursorPos.y);
   ActiveFrame.UnMarkAll;
+end;
+
+procedure TfrmMain.actCopyFullNamesToClipExecute(Sender: TObject);
+var
+  I: Integer;
+  sl: TStringList;
+begin
+  sl:= TStringList.Create;
+  with ActiveFrame do
+  begin
+    SelectFileIfNoSelected(GetActiveItem);
+    for I:=0 to pnlFile.FileList.Count - 1 do
+      if pnlFile.FileList.GetItem(I)^.bSelected then
+        sl.Add(ActiveDir + pnlFile.FileList.GetItem(I)^.sName);
+    Clipboard.Clear;   // prevent multiple formats in Clipboard (specially synedit)
+    Clipboard.AsText:= sl.Text;
+    UnMarkAll;
+  end;
+  FreeAndNil(sl);
+end;
+
+procedure TfrmMain.actCopyNamesToClipExecute(Sender: TObject);
+var
+  I: Integer;
+  sl: TStringList;
+begin
+  sl:= TStringList.Create;
+  with ActiveFrame do
+  begin
+    SelectFileIfNoSelected(GetActiveItem);
+    for I:=0 to pnlFile.FileList.Count - 1 do
+      if pnlFile.FileList.GetItem(I)^.bSelected then
+        sl.Add(pnlFile.FileList.GetItem(I)^.sName);
+    Clipboard.Clear;   // prevent multiple formats in Clipboard (specially synedit)
+    Clipboard.AsText:= sl.Text;
+    UnMarkAll;
+  end;
+  FreeAndNil(sl);
 end;
 
 procedure TfrmMain.actLeftOpenDrivesExecute(Sender: TObject);

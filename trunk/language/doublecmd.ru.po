@@ -538,9 +538,17 @@ msgstr "Контентные плагины (.WDX)"
 msgid "Copy"
 msgstr "&Копировать"
 
+#: TFRMMAIN.ACTCOPYNAMESTOCLIP.CAPTION
+msgid "Copy &Filename(s) to Clipboard"
+msgstr "Копировать имена &файлов в буфер"
+
 #: TFRMMAIN.ACTCOPY.CAPTION
 msgid "Copy F5"
 msgstr "Копир F5"
+
+#: TFRMMAIN.ACTCOPYFULLNAMESTOCLIP.CAPTION
+msgid "Copy Filename(s) with Full &Path"
+msgstr "Копировать по&лные имена файлов"
 
 #: TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION
 msgid "Copy To Clipboard"

@@ -539,9 +539,17 @@ msgstr "内容插件(.WDX)"
 msgid "Copy"
 msgstr "复制"
 
+#: TFRMMAIN.ACTCOPYNAMESTOCLIP.CAPTION
+msgid "Copy &Filename(s) to Clipboard"
+msgstr ""
+
 #: TFRMMAIN.ACTCOPY.CAPTION
 msgid "Copy F5"
 msgstr "复制 F5"
+
+#: TFRMMAIN.ACTCOPYFULLNAMESTOCLIP.CAPTION
+msgid "Copy Filename(s) with Full &Path"
+msgstr ""
 
 #: TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION
 msgid "Copy To Clipboard"
@@ -1931,6 +1939,7 @@ msgstr "不选择掩码"
 msgid "Up"
 msgstr "上"
 
+#: 
 msgid "Use '-' to off attribute and '?' to any"
 msgstr "用 '-' 关闭属性, '?' 表示任意"
 
@@ -2050,6 +2059,7 @@ msgstr "gEdit \"\%s\""
 msgid "gtk-diff \"\%s\" \"\%s\""
 msgstr "gtk-diff \"\%s\" \"\%s\""
 
+#: 
 msgid "internally by Double Commander."
 msgstr "Double Commander内部."
 
