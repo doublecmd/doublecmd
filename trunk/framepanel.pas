@@ -583,7 +583,7 @@ procedure TFrameFilePanel.MarkShiftPlus;
 begin
   with GetActiveItem^ do
   begin
-    pnlFile.MarkGroup('*.'+sExt, True);
+    pnlFile.MarkGroup('*'+sExt, True);
     dgPanel.Invalidate;
   end;
 end;
@@ -592,7 +592,7 @@ procedure TFrameFilePanel.MarkShiftMinus;
 begin
   with GetActiveItem^ do
   begin
-    pnlFile.MarkGroup('*.'+sExt ,False);
+    pnlFile.MarkGroup('*'+sExt ,False);
     dgPanel.Invalidate;
   end;
 end;
