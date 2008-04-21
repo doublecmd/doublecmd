@@ -2951,7 +2951,7 @@ begin
             else
               ANoteBook.Page[ANoteBook.PageCount - 1].Caption := sActiveCaption;
               
-          sColumnSet:=gIni.ReadString(Section, 'columnsset', '');
+          sColumnSet:=gIni.ReadString(Section, 'columnsset', 'Default');
 
           with TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]) do
            begin
@@ -2971,7 +2971,7 @@ begin
         else
           ANoteBook.Page[ANoteBook.PageCount - 1].Caption := sCaption;
           
-      sColumnSet:=gIni.ReadString(TabsSection, sIndex + '_columnsset', '');
+      sColumnSet:=gIni.ReadString(TabsSection, sIndex + '_columnsset', 'Default');
      with TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]) do
        begin
           ActiveColm:=sColumnSet;
