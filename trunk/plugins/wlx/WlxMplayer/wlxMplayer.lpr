@@ -54,8 +54,6 @@ type
     constructor Create(commandline: string);
     procedure Execute;
     destructor Destroy;
-
-
     procedure OnReadLn(str: string);
     property ExitStatus: integer read _GetExitStatus;
   end;
@@ -176,14 +174,13 @@ begin
    gtk_widget_realize(mySocket);
    gtk_widget_hide(AWidget);
     xid:=(PGdkWindowPrivate(widget^.window))^.xwindow;
+
 end;
 
 procedure TGtkPlayer.Execute;
 begin
    pr:=TProcess.Create(nil);
    pr.Options := Pr.Options + [poWaitOnExit,poNoConsole{,poUsePipes}]; //mplayer stops if poUsePipes used.
-//   pr.CommandLine:='/usr/local/bin/mplayer '+fileName+' -wid '+IntToStr(xid);
-
    pr.CommandLine:=pmplayer+fileName+' -wid '+IntToStr(xid);
    pr.Execute;
 end;
@@ -234,16 +231,10 @@ end;
  var List:TStringList;
 
 function ListLoad(ParentWin:thandle;FileToLoad:pchar;ShowFlags:integer):thandle; stdcall;
-var p:TGtkPlayer; GButton1,GFix:PGtkWidget;
+var p:TGtkPlayer;
 begin
-      gFix:=gtk_vbox_new(true,5);
-      gtk_container_add(GTK_CONTAINER(PGtkWidget(ParentWin)),gFix);
-      gtk_widget_show(gFix);
-
    p:=TGtkPlayer.Create(string(FileToLoad));
-
-   p.SetParentWidget(GFix);
-
+   p.SetParentWidget(PGtkWidget(ParentWin));
    
    //Create list if none
    if not assigned(List) then
