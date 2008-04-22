@@ -48,7 +48,6 @@ type
     edtRename: TEdit;
 //---------------------
     dgPanel: TDrawGrid;
-   // Colm:TPanelColumnsClass;
     ActiveColm:String;
 //---------------------
     pnAltSearch: TPanel;
@@ -990,11 +989,6 @@ begin
 //  DebugLn(Self.Height - pnlHeader.Height - pnlFooter.Height);
   dgPanel.Align:=alClient;
 //  dgPanel.DefaultDrawing:=False;
-//------------------------------------------------------
-//  Colm:=TPanelColumnsClass.Create;
-//  ColSet.GetColumnSet(ActiveColm).Load(gIni);
-//  dgPanel.ColCount:=ColSet.GetColumnSet(ActiveColm).ColumnsCount;
-//------------------------------------------------------
   dgPanel.Options:=[goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect, goColSizing, goHeaderHotTracking, goHeaderPushedLook];
   dgPanel.TitleStyle := tsStandard;
   dgPanel.TabStop:=False;
@@ -1057,10 +1051,6 @@ begin
   pnlFile:=TFilePanel.Create(AOwner, dgPanel,lblLPath,lblCommandPath, lblDriveInfo, cmbCommand);
   
 //  setup column widths
-////  dgPanel.ColCount:=ColSet.GetColumnSet(ActiveColm).ColumnsCount;
-// if ColSet.GetColumnSet(ActiveColm).ColumnsCount>0 then
-//  for x:=0 to ColSet.GetColumnSet(ActiveColm).ColumnsCount-1 do
-//    dgPanel.ColWidths[x]:=ColSet.GetColumnSet(ActiveColm).GetColumnWidth(x);
   SetColWidths;
 end;
 
@@ -1068,11 +1058,6 @@ destructor TFrameFilePanel.Destroy;
 begin
   if assigned(pnlFile) then
     FreeAndNil(pnlFile);
-  //---------------------
-//  if assigned(Colm) then
-//     Colm.Free;
-  //---------------------
-    
   inherited Destroy;
 end;
 
