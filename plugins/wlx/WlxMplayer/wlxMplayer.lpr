@@ -2,11 +2,10 @@
    WlxMplayer
    -------------------------------------------------------------------------
    This is WLX (Lister) plugin for Double Commander.
-   Work only on GTK widgeset of DC.
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   
    Class TExProcess used in plugin was written by Anton Rjeshevsky.
+   Gtk2 and Qt support were added by Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -48,7 +47,7 @@ uses
 type
 { TExProcess }
 
-  TExProcess = class
+   TExProcess = class
   protected
     p: TProcess;
     s: string;
@@ -90,7 +89,7 @@ begin
   repeat
     SetLength(buf, buf_len);
     SetLength(buf, p.output.Read(buf[1], length(buf))); //waits for the process output
-    // cut the incoming stream to lines:
+     // cut the incoming stream to lines:
     s:=s + buf; //add to the accumulator
     repeat //detect the line breaks and cut.
       i:=Pos(#13, s);
@@ -132,7 +131,7 @@ TMPlayer=class(TThread)
           pmplayer:string;        //path to mplayer
           //---------------------
           constructor Create(AFilename:String);
-          destructor destroy; override;
+           destructor destroy; override;
           procedure SetParentWidget(AWidget:thandle);
         protected
           procedure Execute; override;
@@ -174,7 +173,7 @@ var
    mySocket:PGtkWidget;	//the socket
 begin
   widget := gtk_vbox_new(FALSE,0);
-  mySocket := gtk_socket_new();
+   mySocket := gtk_socket_new();
   gtk_container_add (GTK_CONTAINER(widget), mySocket);
 
   gtk_widget_show(mySocket);
