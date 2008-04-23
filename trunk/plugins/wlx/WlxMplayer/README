@@ -1,11 +1,10 @@
     WlxMplayer
     -------------------------------------------------------------------------
     This is WLX (Lister) plugin for Double Commander.
-    Work only on GTK widgeset of DC.
 
     Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-
     Class TExProcess used in plugin was written by Anton Rjeshevsky.
+    Gtk2 and Qt support were added by Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
