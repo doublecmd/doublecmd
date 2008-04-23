@@ -27,6 +27,7 @@ library wlxMplayer;
 
 {$mode objfpc}{$H+}
 
+{$DEFINE LCLGTK}
 
 uses
    {$IFDEF UNIX}
@@ -34,7 +35,10 @@ uses
    {$ENDIF}
   Classes,
   sysutils,
-  gtk,gdk,glib,
+  x,
+  {$IFDEF LCLGTK} gtk, gdk, glib, {$ENDIF}
+  {$IFDEF LCLGTK2} gtk2, gdk2, glib2, gdk2x, {$ENDIF}
+  {$IFDEF LCLQT} qt4, {$ENDIF}
   process,
   math,
   WLXPlugin;
@@ -116,13 +120,12 @@ end;
 type
 
 //Class implementing mplayer control
-{ TGtkPlayer }
+{ TMPlayer }
 
-TGtkPlayer=class(TThread)
+TMPlayer=class(TThread)
         public
           //---------------------
-          widget:pGtkWidget;	//the integrable widget
-          mySocket:PGtkWidget;	//the socket
+          hWidget:THandle;	//the integrable widget
           fileName:string;        //filename
           xid:TWindow;		//X window handle
           pr:TProcess;            //mplayer's process
@@ -130,16 +133,16 @@ TGtkPlayer=class(TThread)
           //---------------------
           constructor Create(AFilename:String);
           destructor destroy; override;
-          procedure SetParentWidget(AWidget:PGtkWidget);
+          procedure SetParentWidget(AWidget:thandle);
         protected
           procedure Execute; override;
         private
 
      end;
 
-{ TGtkPlayer }
+{ TMPlayer }
 
-constructor TGtkPlayer.Create(AFilename:String);
+constructor TMPlayer.Create(AFilename:String);
 var pf:TExProcess;
 begin
   inherited Create(true);
@@ -151,7 +154,7 @@ begin
   writeln('PLUGIN : found mplayer in :' + pmplayer);
 end;
 
-destructor TGtkPlayer.destroy;
+destructor TMPlayer.destroy;
 begin
   if pr.Running then
     pr.Terminate(0);
@@ -159,25 +162,40 @@ begin
   inherited destroy;
 end;
 
-procedure TGtkPlayer.SetParentWidget(AWidget: PGtkWidget);
+procedure TMPlayer.SetParentWidget(AWidget: THandle);
+{$IFDEF LCLQT}
 begin
-
+  xid:= QWidget_winId(QWidgetH(AWidget));
+  hWidget:= AWidget;
+end;
+{$ELSE}
+var
+   widget,
+   mySocket:PGtkWidget;	//the socket
+begin
   widget := gtk_vbox_new(FALSE,0);
   mySocket := gtk_socket_new();
   gtk_container_add (GTK_CONTAINER(widget), mySocket);
 
   gtk_widget_show(mySocket);
   gtk_widget_show(widget);
-  
+
 //*****
-  gtk_container_add (GTK_CONTAINER (Awidget), widget);
-   gtk_widget_realize(mySocket);
-   gtk_widget_hide(AWidget);
-    xid:=(PGdkWindowPrivate(widget^.window))^.xwindow;
-
+  gtk_container_add (GTK_CONTAINER (PGtkWidget(Awidget)), widget);
+  gtk_widget_realize(mySocket);
+  gtk_widget_hide(PGtkWidget(AWidget));
+{$IFDEF LCLGTK}
+  xid:=(PGdkWindowPrivate(widget^.window))^.xwindow;
+{$ENDIF}
+{$IFDEF LCLGTK2}
+  xid:=GDK_WINDOW_XID(widget^.window);
+{$ENDIF}
+  hWidget:= THandle(widget);
 end;
+{$ENDIF}
 
-procedure TGtkPlayer.Execute;
+
+procedure TMPlayer.Execute;
 begin
    pr:=TProcess.Create(nil);
    pr.Options := Pr.Options + [poWaitOnExit,poNoConsole{,poUsePipes}]; //mplayer stops if poUsePipes used.
@@ -201,7 +219,7 @@ end;
         //etc
         constructor Create;
         destructor Destroy; override;
-        function AddControl(AItem: TGtkPlayer):integer;
+        function AddControl(AItem: TMPlayer):integer;
       end;
 
  { TPlugInfo }
@@ -215,13 +233,13 @@ destructor TPlugInfo.Destroy;
 begin
   while fControls.Count>0 do
   begin
-    TGtkPlayer(fControls.Objects[0]).Free;
+    TMPlayer(fControls.Objects[0]).Free;
     fControls.Delete(0);
   end;
   inherited Destroy;
 end;
 
-function TPlugInfo.AddControl(AItem: TGtkPlayer): integer;
+function TPlugInfo.AddControl(AItem: TMPlayer): integer;
 begin
   fControls.AddObject(inttostr(Integer(AItem)),TObject(AItem));
 end;
@@ -231,17 +249,17 @@ end;
  var List:TStringList;
 
 function ListLoad(ParentWin:thandle;FileToLoad:pchar;ShowFlags:integer):thandle; stdcall;
-var p:TGtkPlayer;
+var p:TMPlayer;
 begin
-   p:=TGtkPlayer.Create(string(FileToLoad));
-   p.SetParentWidget(PGtkWidget(ParentWin));
+   p:=TMPlayer.Create(string(FileToLoad));
+   p.SetParentWidget(ParentWin);
    
    //Create list if none
    if not assigned(List) then
        List:=TStringList.Create;
 
    //add to list new plugin window and it's info
-   List.AddObject(IntToStr(integer(p.widget)),TPlugInfo.Create);
+   List.AddObject(IntToStr(integer(p.hWidget)),TPlugInfo.Create);
    with TPlugInfo(List.Objects[List.Count-1]) do
      begin
        fFileToLoad:=FileToLoad;
@@ -249,7 +267,7 @@ begin
        AddControl(p);
      end;
      
-Result:=integer(p.widget);
+Result:=integer(p.hWidget);
 
 p.Resume;
 
