@@ -259,6 +259,9 @@ begin
        actFileSave.Execute;
        Key:=0;
      end;
+  // To prevent else one editor or viewer open on key F4 in viewer
+  VK_F4: Key:=0;
+  VK_F3: Key:=0;
    VK_N:
      begin
        if Shift=[ssCtrl] then
