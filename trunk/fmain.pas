@@ -61,6 +61,7 @@ type
     actContextMenu: TAction;
     actCopyNamesToClip: TAction;
     actCopyFullNamesToClip: TAction;
+    actExchange: TAction;
     actTargetEqualSource: TAction;
     actOpen: TAction;
     actQuickSearch: TAction;
@@ -218,6 +219,7 @@ type
     procedure actContextMenuExecute(Sender: TObject);
     procedure actCopyFullNamesToClipExecute(Sender: TObject);
     procedure actCopyNamesToClipExecute(Sender: TObject);
+    procedure actExchangeExecute(Sender: TObject);
     procedure actExtractFilesExecute(Sender: TObject);
     procedure actFileAssocExecute(Sender: TObject);
     procedure actFocusCmdLineExecute(Sender: TObject);
@@ -709,6 +711,17 @@ begin
     UnMarkAll;
   end;
   FreeAndNil(sl);
+end;
+
+procedure TfrmMain.actExchangeExecute(Sender: TObject);
+var
+  sDir: String;
+begin
+  sDir:= ActiveFrame.pnlFile.ActiveDir;
+  ActiveFrame.pnlFile.ActiveDir:= NotActiveFrame.pnlFile.ActiveDir;
+  NotActiveFrame.pnlFile.ActiveDir:= sDir;
+  ActiveFrame.RefreshPanel;
+  NotActiveFrame.RefreshPanel;
 end;
 
 procedure TfrmMain.actLeftOpenDrivesExecute(Sender: TObject);

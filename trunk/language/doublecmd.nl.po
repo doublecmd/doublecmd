@@ -1791,10 +1791,6 @@ msgstr "Sorteer op naam"
 msgid "Sort by size"
 msgstr "Sorteer op grootte"
 
-#: TFRMMAIN.MNUCMDSWAPSOURCETARGET.CAPTION
-msgid "Source &<-> Target"
-msgstr "Bron &<-> Doel"
-
 #: ulng.rspropsspblkdev
 msgid "Special block device"
 msgstr "Speciaal blok device"
@@ -1830,6 +1826,10 @@ msgstr "Sticky"
 #: TFRMVIEWER.MISTRETCH.CAPTION
 msgid "Stretch"
 msgstr "Passend maken"
+
+#: TFRMMAIN.ACTEXCHANGE.CAPTION
+msgid "Swap &Panels"
+msgstr ""
 
 #: TFRMFINDDLG.CBSYMLINK.CAPTION
 msgid "SymLink"

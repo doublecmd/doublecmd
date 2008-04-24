@@ -1547,10 +1547,6 @@ msgstr ""
 msgid "&Commands"
 msgstr ""
 
-#: TFRMMAIN.MNUCMDSWAPSOURCETARGET.CAPTION
-msgid "Source &<-> Target"
-msgstr ""
-
 #: TFRMMAIN.MNUCMDTARGETISSOURCE.CAPTION
 msgid "Target &= Source"
 msgstr ""
@@ -2101,5 +2097,9 @@ msgstr ""
 
 #: TFRMMAIN.ACTCOPYFULLNAMESTOCLIP.CAPTION
 msgid "Copy Filename(s) with Full &Path"
+msgstr ""
+
+#: TFRMMAIN.ACTEXCHANGE.CAPTION
+msgid "Swap &Panels"
 msgstr ""
 

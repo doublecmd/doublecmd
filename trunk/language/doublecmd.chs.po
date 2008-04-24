@@ -1791,10 +1791,6 @@ msgstr "按文件名"
 msgid "Sort by size"
 msgstr "按大小"
 
-#: TFRMMAIN.MNUCMDSWAPSOURCETARGET.CAPTION
-msgid "Source &<-> Target"
-msgstr "源目&<->标"
-
 #: ulng.rspropsspblkdev
 msgid "Special block device"
 msgstr "特殊块设备"
@@ -1830,6 +1826,10 @@ msgstr "固定"
 #: TFRMVIEWER.MISTRETCH.CAPTION
 msgid "Stretch"
 msgstr "展开"
+
+#: TFRMMAIN.ACTEXCHANGE.CAPTION
+msgid "Swap &Panels"
+msgstr ""
 
 #: TFRMFINDDLG.CBSYMLINK.CAPTION
 msgid "SymLink"
