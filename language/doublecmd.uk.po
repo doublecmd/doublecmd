@@ -1790,10 +1790,6 @@ msgstr "Ім'я"
 msgid "Sort by size"
 msgstr "Розмір"
 
-#: TFRMMAIN.MNUCMDSWAPSOURCETARGET.CAPTION
-msgid "Source &<-> Target"
-msgstr "П&оміняти панелі місцями"
-
 #: ulng.rspropsspblkdev
 msgid "Special block device"
 msgstr "Особливий блочний пристрій"
@@ -1829,6 +1825,10 @@ msgstr "Закріпляючий біт"
 #: TFRMVIEWER.MISTRETCH.CAPTION
 msgid "Stretch"
 msgstr "&Розтягнути"
+
+#: TFRMMAIN.ACTEXCHANGE.CAPTION
+msgid "Swap &Panels"
+msgstr ""
 
 #: TFRMFINDDLG.CBSYMLINK.CAPTION
 msgid "SymLink"
