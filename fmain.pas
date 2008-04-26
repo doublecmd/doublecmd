@@ -384,7 +384,7 @@ implementation
 
 uses
   Clipbrd, uTypes, fAbout, uGlobs, uLng, fOptions,{ fViewer,}fconfigtoolbar, fFileAssoc,
-  uCopyThread, uFileList, uDeleteThread, uVFSUtil, uWCXModule, uVFSTypes,
+  uCopyThread, uFileList, uDeleteThread, uVFSUtil, uWCXModule, uVFSTypes, Masks,
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg,
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils, uLog,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg, fExtractDlg,
@@ -424,6 +424,13 @@ begin
   //DebugLN('dskLeft.Width == ' + IntToStr(dskLeft.Width));
   //DebugLN('dskRight.Width == ' + IntToStr(dskRight.Width));
   DrivesList := GetAllDrives;
+
+  { Delete drives that in drives black list }
+  for I:= DrivesList.Count - 1 downto 0 do
+    begin
+      if MatchesMaskList(PDrive(DrivesList.Items[I])^.Name, gDriveBlackList) then
+        DrivesList.Delete(I);
+    end;
 
   CreateDrivesMenu;
 
