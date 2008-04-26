@@ -90,6 +90,8 @@ var
 
   gDateTimeFormat : String;
   
+  gDriveBlackList: String;
+  
   { Tools page }
 
   gUseExtEdit:Boolean=False;
@@ -353,6 +355,7 @@ begin
   gShortFileSizeFormat := gIni.ReadBool('Configuration', 'ShortFileSizeFormat', True);
   gScrollMode := gIni.ReadInteger('Configuration', 'ScrollMode', 0);
   gDateTimeFormat := gIni.ReadString('Configuration', 'DateTimeFormat', 'dd.mm.yy');
+  gDriveBlackList:= gIni.ReadString('Configuration', 'DriveBlackList', '');
   
   gMouseSelectionEnabled:= gIni.ReadBool('Configuration', 'MouseSelectionEnabled', True);
   gMouseSelectionButton := gIni.ReadInteger('Configuration', 'MouseSelectionButton', 0);
@@ -488,6 +491,7 @@ begin
   gIni.WriteBool('Configuration', 'ShortFileSizeFormat', gShortFileSizeFormat);
   gIni.WriteInteger('Configuration', 'ScrollMode', gScrollMode);
   gIni.WriteString('Configuration', 'DateTimeFormat', gDateTimeFormat);
+  gIni.WriteString('Configuration', 'DriveBlackList', gDriveBlackList);
   
   gIni.WriteBool('Configuration', 'MouseSelectionEnabled', gMouseSelectionEnabled);
   gIni.WriteInteger('Configuration', 'MouseSelectionButton', gMouseSelectionButton);
