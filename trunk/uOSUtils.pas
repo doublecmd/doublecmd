@@ -178,6 +178,21 @@ function FileTimeToDateTime(ft : TFileTime) : TDateTime;
 }
 function DateTimeToFileTime(dt : TDateTime) : TFileTime;
 
+{ File handling functions}
+function FileOpen(const FileName: UTF8String; Mode: Integer): THandle;
+function FileCreate(const FileName: UTF8String): THandle;overload;
+function FileCreate(const FileName: UTF8String; Mode: Integer): THandle;overload;
+function FileAge(const FileName: UTF8String): Longint;
+function FileExists(const FileName: UTF8String): Boolean;
+function DirectoryExists(const Directory : UTF8String) : Boolean;
+function FileGetAttr(const FileName: UTF8String): Longint;
+function DeleteFile(const FileName: UTF8String): Boolean;
+function RenameFile(const OldName, NewName : UTF8String): Boolean;
+{ Directory handling functions}
+function GetCurrentDir: UTF8String;
+function SetCurrentDir(const NewDir: UTF8String): Boolean;
+function CreateDir(const NewDir: UTF8String): Boolean;
+function RemoveDir(const Dir: UTF8String): Boolean;
 
 implementation
    
@@ -782,5 +797,260 @@ begin
   Int64(Result) := Round((dt + 109205.0) * 864000000000.0);
   LocalFileTimeToFileTimeEx(Result, Result);
 end;
+
+function FileOpen(const FileName: UTF8String; Mode: Integer): THandle;
+{$IFDEF MSWINDOWS}
+const
+  AccessMode: array[0..2] of DWORD  = (
+                GENERIC_READ,
+                GENERIC_WRITE,
+                GENERIC_READ or GENERIC_WRITE);
+  ShareMode: array[0..4] of DWORD = (
+               0,
+               0,
+               FILE_SHARE_READ,
+               FILE_SHARE_WRITE,
+               FILE_SHARE_READ or FILE_SHARE_WRITE);
+var
+  wFileName: WideString;
+begin
+  wFileName:= UTF8Decode(FileName);
+  Result:= CreateFileW(PWChar(wFileName), AccessMode[Mode and 3],
+                       ShareMode[(Mode and $F0) shr 4], nil, OPEN_EXISTING,
+                       FILE_ATTRIBUTE_NORMAL, 0);
+end;
+{$ELSE}
+var
+  AccessMode: array[0..2] of LongInt  = (
+                O_RdOnly,
+                O_WrOnly,
+                O_RdWr);
+begin
+  Result:= fpOpen(FileName, AccessMode[Mode and 3]);
+end;
+{$ENDIF}
+
+function FileCreate(const FileName: UTF8String): THandle;
+{$IFDEF MSWINDOWS}
+var
+  wFileName: WideString;
+begin
+  wFileName:= UTF8Decode(FileName);
+  Result:= CreateFileW(PWChar(wFileName), GENERIC_READ or GENERIC_WRITE,
+                       0, nil, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+end;
+{$ELSE}
+begin
+  Result:= fpOpen(FileName, O_Creat or O_RdWr or O_Trunc);
+end;
+{$ENDIF}
+
+function FileCreate(const FileName: UTF8String; Mode: Integer): THandle;
+{$IFDEF MSWINDOWS}
+begin
+  Result:= FileCreate(FileName);
+end;
+{$ELSE}
+begin
+  Result:= fpOpen(FileName, O_Creat or O_RdWr or O_Trunc, Mode);
+end;
+{$ENDIF}
+
+{$IFDEF MSWINDOWS}
+function WinToDosTime (var Wtime: TFileTime; var DTime: LongInt): LongBool;
+var
+  lft : TFileTime;
+begin
+  Result:= FileTimeToLocalFileTime(WTime,lft) and
+                FileTimeToDosDateTime(lft,Longrec(Dtime).Hi,LongRec(DTIME).lo);
+end;
+{$ELSE}
+function UnixToWinAge(UnixAge: time_t): LongInt;
+var
+  Y,M,D,hh,mm,ss : word;
+begin
+  EpochToLocal(UnixAge,y,m,d,hh,mm,ss);
+  Result:= DateTimeToFileDate(EncodeDate(y,m,d) + EncodeTime(hh,mm,ss,0));
+end;
+{$ENDIF}
+
+function FileAge(const FileName: UTF8String): Longint;
+{$IFDEF MSWINDOWS}
+var
+  Handle: THandle;
+  FindData: TWin32FindDataW;
+  wFileName: WideString;
+begin
+  wFileName:= UTF8Decode(FileName);
+  Handle := FindFirstFileW(PWChar(wFileName), FindData);
+  if Handle <> INVALID_HANDLE_VALUE then
+    begin
+      Windows.FindClose(Handle);
+      if (FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) = 0 then
+        If WinToDosTime(FindData.ftLastWriteTime,Result) then
+          Exit;
+    end;
+  Result:= -1;
+end;
+{$ELSE}
+var
+  Info: uFindEx.stat64;
+begin
+  Result:= -1;
+  if fpStat64(FileName, Info) >= 0 then
+    Result:=UnixToWinAge(Info.st_mtime);
+end;
+{$ENDIF}
+
+function FileExists(const FileName: UTF8String) : Boolean;
+{$IFDEF MSWINDOWS}
+var
+  Attr: Dword;
+  wFileName: WideString;
+begin
+  Result:=False;
+  wFileName:= UTF8Decode(FileName);
+  Attr:= GetFileAttributesW(PWChar(wFileName));
+  if Attr <> $ffffffff then
+    Result:= (Attr and FILE_ATTRIBUTE_DIRECTORY) = 0;
+end;
+{$ELSE}
+begin
+  Result:= fpAccess(FileName, F_OK) = 0;
+end;
+{$ENDIF}
+
+function DirectoryExists(const Directory: UTF8String) : Boolean;
+{$IFDEF MSWINDOWS}
+var
+  Attr:Dword;
+  wDirectory: WideString;
+begin
+  Result:= False;
+  wDirectory:= UTF8Decode(Directory);
+  Attr:= GetFileAttributesW(PWChar(wDirectory));
+  if Attr <> $ffffffff then
+    Result:= (Attr and FILE_ATTRIBUTE_DIRECTORY) > 0;
+end;
+{$ELSE}
+var
+  Info: uFindEx.stat64;
+begin
+  Result:= False;
+  if fpStat64(Directory, Info) >= 0 then
+    Result:= fpS_ISDIR(Info.st_mode);
+end;
+{$ENDIF}
+
+function FileGetAttr(const FileName: UTF8String): Longint;
+{$IFDEF MSWINDOWS}
+var
+  wFileName: WideString;
+begin
+  wFileName:= UTF8Decode(FileName);
+  Result:= GetFileAttributesW(PWChar(wFileName));
+end;
+{$ELSE}
+var
+  Info: uFindEx.stat64;
+begin
+  Result:= -1;
+  if fpStat64(FileName, Info) >= 0 then
+    Result:= Info.st_mode;
+end;
+{$ENDIF}
+
+function DeleteFile(const FileName: UTF8String): Boolean;
+{$IFDEF MSWINDOWS}
+var
+  wFileName: WideString;
+begin
+  wFileName:= UTF8Decode(FileName);
+  Result:= Windows.DeleteFileW(PWChar(wFileName));
+end;
+{$ELSE}
+begin
+  Result:= fpUnLink(FileName) >= 0;
+end;
+{$ENDIF}
+
+function RenameFile(const OldName, NewName: UTF8String): Boolean;
+{$IFDEF MSWINDOWS}
+var
+  wOldName,
+  wNewName: WideString;
+begin
+  wOldName:= UTF8Decode(OldName);
+  wNewName:= UTF8Decode(NewName);
+  Result:= MoveFileW(PWChar(wOldName), PWChar(wNewName));
+end;
+{$ELSE}
+begin
+  Result:= BaseUnix.FpRename(OldNAme, NewName) >= 0;
+end;
+{$ENDIF}
+
+function GetCurrentDir: UTF8String;
+{$IFDEF MSWINDOWS}
+var
+  Size: Integer;
+  wDir: WideString;
+begin
+  Result:= '';
+  Size:= GetCurrentDirectoryW(0, nil);
+  if Size > 0 then
+    begin
+      SetLength(Result, Size);
+      GetCurrentDirectoryW(Size, PWChar(wDir));
+      Result:= UTF8Encode(wDir);
+    end;
+end;
+{$ELSE}
+begin
+  GetDir(0, Result);
+end;
+{$ENDIF}
+
+function SetCurrentDir(const NewDir: UTF8String): Boolean;
+{$IFDEF MSWINDOWS}
+var
+  wNewDir: WideString;
+begin
+  wNewDir:= UTF8Decode(NewDir);
+  Result:= SetCurrentDirectoryW(PWChar(wNewDir));
+end;
+{$ELSE}
+begin
+  Result:= fpChDir(PChar(NewDir)) = 0;
+end;
+{$ENDIF}
+
+function CreateDir(const NewDir: UTF8String): Boolean;
+{$IFDEF MSWINDOWS}
+var
+  wNewDir: WideString;
+begin
+  wNewDir:= UTF8Decode(NewDir);
+  Result:= CreateDirectoryW(PWChar(wNewDir), nil);
+end;
+{$ELSE}
+begin
+  Result:= fpMkDir(PChar(NewDir), $FFF) = 0;
+end;
+{$ENDIF}
+
+function RemoveDir(const Dir: UTF8String): Boolean;
+{$IFDEF MSWINDOWS}
+var
+  wDir: WideString;
+begin
+  wDir:= UTF8Decode(Dir);
+  Result:= RemoveDirectoryW(PWChar(wDir));
+end;
+{$ELSE}
+begin
+  Result:= fpRmDir(PChar(Dir)) = 0;
+end;
+{$ENDIF}
 
 end.
