@@ -35,8 +35,9 @@ procedure TfrmHotDir.LoadFromGlob;
 begin
   lsHotDir.Clear;
   lsHotDir.Items.Assign(glsHotDir);
-  lsHotDir.ItemIndex:=0;
-  btnDelete.Enabled:= (lsHotDir.Items.Count>0);
+  if lsHotDir.Items.Count > 0 then
+    lsHotDir.ItemIndex:= 0;
+  btnDelete.Enabled:= (lsHotDir.Items.Count > 0);
 end;
 
 
