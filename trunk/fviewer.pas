@@ -268,11 +268,10 @@ begin
       for I := 0 to Count do
         DeleteFile(FileList.Strings[I]);
     end;
-    if assigned(WlxPlugins) then
+  if assigned(WlxPlugins) then
      begin
-        WlxPlugins.Free;
+       FreeAndNil(WlxPlugins);
      end;
-
 end;
 
 procedure TfrmViewer.frmViewerKeyDown(Sender: TObject; var Key: Word;
@@ -414,6 +413,10 @@ begin
 
 procedure TfrmViewer.FormDestroy(Sender: TObject);
 begin
+  if assigned(WlxPlugins) then
+     begin
+        FreeAndNil(WlxPlugins);
+     end;
   FileList.Free;
   if assigned(FFindDialog) then
      FreeAndNil(FFindDialog);
