@@ -152,6 +152,7 @@ begin
     DebugLn('thread b2');
     assert(Assigned(FItems),'assert:FItems is empty');
     Synchronize(@UpDateProgress);
+    if length(FPathStart)>1 then
     if FPathStart[length(FPathStart)] = PathDelim then
       Delete(FPathStart,length(FPathStart),1);
     sCurrDir:=GetCurrentDir;
