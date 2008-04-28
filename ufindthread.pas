@@ -28,7 +28,7 @@ unit uFindThread;
 interface
 
 uses
-  Classes, StdCtrls, uDCUtils, SysUtils;
+  Classes, StdCtrls, uDCUtils, SysUtils,udsxplugin;
 
 type
 
@@ -81,6 +81,7 @@ TFindThread = class(TThread)
     procedure AddFile;
     procedure WalkAdr(const sNewDir:String);
     procedure UpDateProgress;
+    procedure FillSearchRecord(var Srec:TSearchAttrRecord);
     property FilterMask:String read FFileMask write FFileMask;
     property PathStart:String read FPathStart write FPathStart;
     property Items:TStrings write FItems;
@@ -339,6 +340,40 @@ if not MatchesMaskList(sr.Name, FFileMask) then
        if FIsNoThisText then
          Result := not Result;
      end;
+end;
+
+procedure TFindThread.FillSearchRecord(var Srec:TSearchAttrRecord);
+
+begin
+  with Srec do
+  begin
+    rFileMask:=pchar(FFileMask);
+    rAttributes:=FAttributes;
+    rAttribStr:=pchar(FAttribStr);
+    rCaseSens:=FCaseSens;
+    {Date search}
+    rIsDateFrom:=FIsDateFrom;
+    rIsDateTo:=FIsDateTo;
+    rDateTimeFrom:=FDateTimeFrom;
+    rDateTimeTo:=FDateTimeTo;
+    {Time search}
+    rIsTimeFrom:=FIsTimeFrom;
+    rIsTimeTo:=FIsTimeTo;
+    (* File size search *)
+    rIsFileSizeFrom:=FIsFileSizeFrom;
+    rIsFileSizeTo:=FIsFileSizeTo;
+    rFileSizeFrom:=FFileSizeFrom;
+    rFileSizeTo:=FFileSizeTo;
+    (* Find text *)
+    rIsNoThisText:=FIsNoThisText;
+    rFindInFiles:=FFindInFiles;
+    rFindData:= pchar(FFindData);
+    (* Replace text *)
+    rReplaceInFiles:=FReplaceInFiles;
+    rReplaceData:=pchar(FReplaceData);
+  end;
+  
+  
 end;
 
 procedure TFindThread.WalkAdr(const sNewDir:String);

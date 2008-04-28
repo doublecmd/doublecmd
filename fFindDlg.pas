@@ -32,7 +32,7 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, Buttons, uFindThread, Menus,
-  Calendar, EditBtn, Spin, MaskEdit;
+  Calendar, EditBtn, Spin, MaskEdit,udsxmodule,udsxplugin;
 
 type
 
@@ -62,6 +62,8 @@ type
     cbSymLink: TCheckBox;
     cbMore: TCheckBox;
     cbAttrib: TCheckBox;
+    cbUsePlugin: TCheckBox;
+    cbbSPlugins: TComboBox;
     deDateFrom: TDateEdit;
     deDateTo: TDateEdit;
     edtFindPathStart: TDirectoryEdit;
@@ -93,6 +95,7 @@ type
     lblCurrent: TLabel;
     PopupMenuFind: TPopupMenu;
     miShowInViewer: TMenuItem;
+    procedure cbUsePluginChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGoToPathClick(Sender: TObject);
     procedure btnNewSearchClick(Sender: TObject);
@@ -116,6 +119,7 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure btnCloseClick(Sender: TObject);
     procedure cbFindInFileClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure frmFindDlgClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure frmFindDlgShow(Sender: TObject);
     procedure lsFoundedFilesDblClick(Sender: TObject);
@@ -127,6 +131,7 @@ type
     FFindThread:TFindThread;
   public
     { Public declarations }
+    DSL:TDSXModuleList;
     procedure ThreadTerminate(Sender:TObject);
   end;
 
@@ -139,7 +144,31 @@ implementation
 
 uses
   LCLProc, fViewer, uLng, uGlobs, uShowForm, fMain, uTypes, uFileOp, uFindEx, uOSUtils;
-  
+
+procedure SAddFileProc(PlugNr:integer; FoundFile:pchar); stdcall;
+var s:string;
+begin
+s:=string(FoundFile);
+  if s='' then
+    begin
+      frmFindDlg.ThreadTerminate(nil);
+    end
+  else
+    begin
+     frmFindDlg.lsFoundedFiles.Items.Add(s);
+     DebugLn('fFindLlg: '+S);
+     Application.ProcessMessages;
+    end;
+
+end;
+
+procedure SUpdateStatusProc(PlugNr:integer; CurrentFile:pchar; FilesScaned:integer); stdcall;
+begin
+  frmFindDlg.lblStatus.Caption:=Format(rsFindScaned,[FilesScaned]);
+  frmFindDlg.lblCurrent.Caption:=string(CurrentFile);
+  Application.ProcessMessages;
+end;
+
 procedure ShowFindDlg(const sActPath:String);
 begin
   if not assigned (frmFindDlg) then
@@ -162,6 +191,13 @@ begin
   Panel1.Visible := False;
   Splitter1.Visible := False;
   Height := Panel2.Height + 22;
+  DSL:=TDSXModuleList.Create;
+  DSL.Load(gini);
+end;
+
+procedure TfrmFindDlg.cbUsePluginChange(Sender: TObject);
+begin
+  cbbSPlugins.Enabled:=cbUsePlugin.Checked;
 end;
 
 
@@ -177,6 +213,7 @@ end;
 
 procedure TfrmFindDlg.btnNewSearchClick(Sender: TObject);
 begin
+  btnStopClick(Sender);
   Panel1.Visible := False;
   Splitter1.Visible := False;
   Height := Panel2.Height + 22;
@@ -193,6 +230,7 @@ end;
 procedure TfrmFindDlg.btnStartClick(Sender: TObject);
 var
   dtTime : TDateTime;
+  sr:TSearchAttrRecord;
 begin
   if cmbFindFileMask.Items.IndexOf(cmbFindFileMask.Text) < 0 then
     cmbFindFileMask.Items.Add(cmbFindFileMask.Text);
@@ -341,19 +379,39 @@ begin
       end;
     Status:=lblStatus;
     Current:=lblCurrent;
-    DebugLn('thread a');
-{$IFDEF NOFAKETHREAD}
-    FreeOnTerminate:=False;
-    OnTerminate:=@ThreadTerminate; // napojime udalost na obsluhu tlacitka
-    DebugLn('thread a1');
-    Resume;
-  end;
+
+     //---------------------
+     if (cbUsePlugin.Checked) and (cbbSPlugins.ItemIndex<>-1) then
+       begin
+         FillSearchRecord(sr);
+         DSL:=TDSXModuleList.Create;
+         DSL.Load(gini);
+         DSL.LoadModule(cbbSPlugins.ItemIndex);
+         FillSearchRecord(sr);
+         DSL.GetDSXModule(cbbSPlugins.ItemIndex).CallInit(@SAddFileProc,@SUpdateStatusProc);
+         DSL.GetDSXModule(cbbSPlugins.ItemIndex).CallStartSearch(PChar(edtFindPathStart.Text),sr);
+         
+       end
+    //end
+    else
+      begin
+
+
+
+      DebugLn('thread a');
+  {$IFDEF NOFAKETHREAD}
+      FreeOnTerminate:=False;
+      OnTerminate:=@ThreadTerminate; // napojime udalost na obsluhu tlacitka
+      DebugLn('thread a1');
+      Resume;
 {$ELSE}
     Resume;
     //WaitFor;      //remove
-  end;
   //ThreadTerminate(self); //remove if thread is Ok
 {$ENDIF}
+  end;
+end;
+
     DebugLn('thread a2');
 
 end;
@@ -489,6 +547,13 @@ end;
 
 procedure TfrmFindDlg.btnStopClick(Sender: TObject);
 begin
+  if (cbUsePlugin.Checked) and (cbbSPlugins.ItemIndex<>-1) then
+    begin
+      DSL.GetDSXModule(cbbSPlugins.ItemIndex).CallStopSearch;
+      DSL.GetDSXModule(cbbSPlugins.ItemIndex).CallFinalize;
+      ThreadTerminate(nil);
+    end;
+    
   if not assigned(FFindThread) then Exit;
   FFindThread.Terminate;
 //  FFindThread.WaitFor;
@@ -511,6 +576,11 @@ begin
   gbFindData.Enabled:=cbFindInFile.Checked;
 end;
 
+procedure TfrmFindDlg.FormDestroy(Sender: TObject);
+begin
+    FreeAndNil(DSL);
+end;
+
 procedure TfrmFindDlg.frmFindDlgClose(Sender: TObject;
   var CloseAction: TCloseAction);
 begin
@@ -521,11 +591,17 @@ begin
 end;
 
 procedure TfrmFindDlg.frmFindDlgShow(Sender: TObject);
+var i:integer;
 begin
   if cmbFindFileMask.Visible then
     cmbFindFileMask.SelectAll;
   //cmbFindFileMask.SetFocus;
   cmbFindFileMask.Items.Assign(glsMaskHistory);
+  for i:=0 to DSL.Count-1 do
+    begin
+      cbbSPlugins.AddItem(DSL.GetDSXModule(i).Name+' ('+DSL.GetDSXModule(i).Descr+' )',nil);
+    end;
+  if (cbbSPlugins.Items.Count>0) then cbbSPlugins.ItemIndex:=0;
 end;
 
 procedure TfrmFindDlg.lsFoundedFilesDblClick(Sender: TObject);

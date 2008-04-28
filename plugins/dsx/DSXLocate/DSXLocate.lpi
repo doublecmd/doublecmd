@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectOptions>
+    <PathDelim Value="/"/>
+    <Version Value="6"/>
+    <General>
+      <MainUnit Value="0"/>
+      <IconPath Value="./"/>
+      <TargetFileExt Value=""/>
+      <Title Value="DSXLocate"/>
+      <ActiveEditorIndexAtStart Value="0"/>
+    </General>
+    <VersionInfo>
+      <ProjectVersion Value=""/>
+      <Language Value=""/>
+      <CharSet Value=""/>
+    </VersionInfo>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+      </local>
+    </RunParams>
+    <Units Count="3">
+      <Unit0>
+        <Filename Value="DSXLocate.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="DSXLocate"/>
+        <CursorPos X="31" Y="78"/>
+        <TopLine Value="64"/>
+        <EditorIndex Value="0"/>
+        <UsageCount Value="25"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="udsxplugin.pas"/>
+        <UnitName Value="udsxplugin"/>
+        <CursorPos X="1" Y="37"/>
+        <TopLine Value="8"/>
+        <EditorIndex Value="2"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="un_process.pas"/>
+        <UnitName Value="un_process"/>
+        <CursorPos X="14" Y="27"/>
+        <TopLine Value="12"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit2>
+    </Units>
+    <JumpHistory Count="13" HistoryIndex="12">
+      <Position1>
+        <Filename Value="DSXLocate.lpr"/>
+        <Caret Line="48" Column="5" TopLine="19"/>
+      </Position1>
+      <Position2>
+        <Filename Value="DSXLocate.lpr"/>
+        <Caret Line="54" Column="7" TopLine="27"/>
+      </Position2>
+      <Position3>
+        <Filename Value="DSXLocate.lpr"/>
+        <Caret Line="64" Column="11" TopLine="36"/>
+      </Position3>
+      <Position4>
+        <Filename Value="DSXLocate.lpr"/>
+        <Caret Line="32" Column="19" TopLine="16"/>
+      </Position4>
+      <Position5>
+        <Filename Value="DSXLocate.lpr"/>
+        <Caret Line="38" Column="22" TopLine="23"/>
+      </Position5>
+      <Position6>
+        <Filename Value="DSXLocate.lpr"/>
+        <Caret Line="119" Column="14" TopLine="94"/>
+      </Position6>
+      <Position7>
+        <Filename Value="DSXLocate.lpr"/>
+        <Caret Line="38" Column="22" TopLine="23"/>
+      </Position7>
+      <Position8>
+        <Filename Value="DSXLocate.lpr"/>
+        <Caret Line="119" Column="14" TopLine="94"/>
+      </Position8>
+      <Position9>
+        <Filename Value="DSXLocate.lpr"/>
+        <Caret Line="126" Column="8" TopLine="98"/>
+      </Position9>
+      <Position10>
+        <Filename Value="DSXLocate.lpr"/>
+        <Caret Line="64" Column="5" TopLine="35"/>
+      </Position10>
+      <Position11>
+        <Filename Value="DSXLocate.lpr"/>
+        <Caret Line="52" Column="42" TopLine="45"/>
+      </Position11>
+      <Position12>
+        <Filename Value="DSXLocate.lpr"/>
+        <Caret Line="40" Column="15" TopLine="13"/>
+      </Position12>
+      <Position13>
+        <Filename Value="DSXLocate.lpr"/>
+        <Caret Line="77" Column="3" TopLine="62"/>
+      </Position13>
+    </JumpHistory>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="5"/>
+    <CodeGeneration>
+      <Generate Value="Faster"/>
+    </CodeGeneration>
+    <Linking>
+      <Options>
+        <ExecutableType Value="Library"/>
+      </Options>
+    </Linking>
+    <Other>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+</CONFIG>
