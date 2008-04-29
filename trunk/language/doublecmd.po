@@ -2103,3 +2103,7 @@ msgstr ""
 msgid "Swap &Panels"
 msgstr ""
 
+#: TFRMHOTDIR.BTNADDMAN.CAPTION
+msgid "Add manually"
+msgstr ""
+

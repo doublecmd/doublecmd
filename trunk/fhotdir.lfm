@@ -1,22 +1,22 @@
 object frmHotDir: TfrmHotDir
-  Left = 277
+  Left = 285
   Height = 423
-  Top = 87
-  Width = 411
-  HorzScrollBar.Page = 410
+  Top = 127
+  Width = 426
+  HorzScrollBar.Page = 425
   HorzScrollBar.Range = 403
   VertScrollBar.Page = 422
   VertScrollBar.Range = 417
   ActiveControl = lsHotDir
   Caption = 'Directory Hotlist'
   ClientHeight = 423
-  ClientWidth = 411
+  ClientWidth = 426
   Position = poMainFormCenter
   object lsHotDir: TListBox
-    Left = 8
+    Left = 12
     Height = 409
     Top = 8
-    Width = 305
+    Width = 304
     Anchors = [akTop, akLeft, akRight, akBottom]
     TabOrder = 0
   end
@@ -24,7 +24,7 @@ object frmHotDir: TfrmHotDir
     Left = 328
     Height = 32
     Top = 8
-    Width = 75
+    Width = 90
     Anchors = [akTop, akRight]
     Caption = '&OK'
     Kind = bkOK
@@ -39,7 +39,7 @@ object frmHotDir: TfrmHotDir
     Left = 328
     Height = 32
     Top = 128
-    Width = 75
+    Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 8
     Caption = 'Cancel'
@@ -54,7 +54,7 @@ object frmHotDir: TfrmHotDir
     Left = 328
     Height = 32
     Top = 48
-    Width = 75
+    Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 8
     Caption = 'Add'
@@ -68,12 +68,34 @@ object frmHotDir: TfrmHotDir
     Left = 328
     Height = 32
     Top = 88
-    Width = 75
+    Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 8
     Caption = 'Delete'
     NumGlyphs = 0
     OnClick = btnDeleteClick
+    TabOrder = 6
+  end
+  object btnAddMan: TBitBtn
+    Left = 328
+    Height = 32
+    Top = 168
+    Width = 90
+    Anchors = [akTop, akRight]
+    Caption = 'Add manually'
+    NumGlyphs = 0
+    OnClick = btnAddManClick
     TabOrder = 4
+  end
+  object btnEdit: TBitBtn
+    Left = 328
+    Height = 32
+    Top = 208
+    Width = 90
+    Anchors = [akTop, akRight]
+    Caption = 'Edit'
+    NumGlyphs = 0
+    OnClick = btnEditClick
+    TabOrder = 5
   end
 end
