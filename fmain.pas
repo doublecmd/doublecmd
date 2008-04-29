@@ -83,6 +83,8 @@ type
     btnF7: TSpeedButton;
     btnF8: TSpeedButton;
     btnF9: TSpeedButton;
+    btnLeftDirectoryHotlist: TSpeedButton;
+    btnRightDirectoryHotlist: TSpeedButton;
     dskLeft: TKAStoolBar;
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
@@ -235,7 +237,9 @@ type
     procedure actTransferLeftExecute(Sender: TObject);
     procedure actTransferRightExecute(Sender: TObject);
     procedure btnLeftClick(Sender: TObject);
+    procedure btnLeftDirectoryHotlistClick(Sender: TObject);
     procedure btnRightClick(Sender: TObject);
+    procedure btnRightDirectoryHotlistClick(Sender: TObject);
     procedure DeleteClick(Sender: TObject);
     procedure dskRightChangeLineCount(AddSize: Integer);
     procedure dskToolButtonClick(Sender: TObject; NumberOfButton: Integer);
@@ -478,6 +482,8 @@ begin
   btnLeftUp.Flat := gInterfaceFlat;
   btnLeftHome.Visible := gDriveMenuButton;
   btnLeftHome.Flat := gInterfaceFlat;
+  btnLeftDirectoryHotlist.Visible := gDriveMenuButton;
+  btnLeftDirectoryHotlist.Flat := gInterfaceFlat;
 
   btnRightDrive.Visible := gDriveMenuButton;
   btnRightDrive.Flat := gInterfaceFlat;
@@ -487,6 +493,8 @@ begin
   btnRightUp.Flat := gInterfaceFlat;
   btnRightHome.Visible := gDriveMenuButton;;
   btnRightHome.Flat := gInterfaceFlat;
+  btnRightDirectoryHotlist.Visible := gDriveMenuButton;
+  btnRightDirectoryHotlist.Flat := gInterfaceFlat;
 
   pnlCommand.Visible := gCmdLine;
   pnlKeys.Visible := gKeyButtons;
@@ -594,6 +602,17 @@ begin
   SetActiveFrame(fpLeft);
 end;
 
+procedure TfrmMain.btnLeftDirectoryHotlistClick(Sender: TObject);
+Var P:TPoint;
+begin
+  inherited;
+  SetActiveFrame(fpLeft);
+  CreatePopUpHotDir;// TODO: i thing in future this must call on create or change
+  p := Classes.Point(btnLeftDirectoryHotlist.Left,btnLeftDirectoryHotlist.Height);
+  p := pnlLeftTools.ClientToScreen(p);
+  pmHotList.PopUp(P.x,P.y);
+end;
+
 procedure TfrmMain.btnRightClick(Sender: TObject);
 begin
   with Sender as TSpeedButton do
@@ -608,6 +627,17 @@ begin
   FrameRight.pnlFile.LoadPanel;
 
   SetActiveFrame(fpRight);
+end;
+
+procedure TfrmMain.btnRightDirectoryHotlistClick(Sender: TObject);
+Var P:TPoint;
+begin
+  inherited;
+  SetActiveFrame(fpRight);
+  CreatePopUpHotDir;// TODO: i thing in future this must call on create or change
+  p := Classes.Point(btnRightDirectoryHotlist.Left,btnRightDirectoryHotlist.Height);
+  p := pnlRightTools.ClientToScreen(p);
+  pmHotList.PopUp(P.x,P.y);
 end;
 
 procedure TfrmMain.actExtractFilesExecute(Sender: TObject);
