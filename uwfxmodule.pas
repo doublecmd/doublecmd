@@ -483,10 +483,15 @@ end;
 
 function TWFXModule.VFSConfigure(Parent: THandle): Boolean;
 begin
-  if Assigned(FsStatusInfo) then
-    FsStatusInfo('', 0, 0)
-  else
-    Result:=false;
+  try
+    if Assigned(FsStatusInfo) then
+      FsStatusInfo(PathDelim, FS_STATUS_START, FS_STATUS_OP_EXEC);
+    Result:= (FsExecuteFile(Parent, PathDelim, 'properties') = FS_EXEC_OK);
+    if Assigned(FsStatusInfo) then
+      FsStatusInfo(PathDelim, FS_STATUS_END, FS_STATUS_OP_EXEC);
+  except
+    Result:= False;
+  end;	
 end;
 
 function TWFXModule.VFSOpen(const sName: String; bCanYouHandleThisFile : Boolean = False): Boolean;
