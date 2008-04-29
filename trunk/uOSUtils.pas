@@ -179,20 +179,20 @@ function FileTimeToDateTime(ft : TFileTime) : TDateTime;
 function DateTimeToFileTime(dt : TDateTime) : TFileTime;
 
 { File handling functions}
-function FileOpen(const FileName: UTF8String; Mode: Integer): THandle;
-function FileCreate(const FileName: UTF8String): THandle;overload;
-function FileCreate(const FileName: UTF8String; Mode: Integer): THandle;overload;
-function FileAge(const FileName: UTF8String): Longint;
-function FileExists(const FileName: UTF8String): Boolean;
-function DirectoryExists(const Directory : UTF8String) : Boolean;
-function FileGetAttr(const FileName: UTF8String): Longint;
-function DeleteFile(const FileName: UTF8String): Boolean;
-function RenameFile(const OldName, NewName : UTF8String): Boolean;
+function mbFileOpen(const FileName: UTF8String; Mode: Integer): THandle;
+function mbFileCreate(const FileName: UTF8String): THandle;overload;
+function mbFileCreate(const FileName: UTF8String; Mode: Integer): THandle;overload;
+function mbFileAge(const FileName: UTF8String): Longint;
+function mbFileExists(const FileName: UTF8String): Boolean;
+function mbDirectoryExists(const Directory : UTF8String) : Boolean;
+function mbFileGetAttr(const FileName: UTF8String): Longint;
+function mbDeleteFile(const FileName: UTF8String): Boolean;
+function mbRenameFile(const OldName, NewName : UTF8String): Boolean;
 { Directory handling functions}
-function GetCurrentDir: UTF8String;
-function SetCurrentDir(const NewDir: UTF8String): Boolean;
-function CreateDir(const NewDir: UTF8String): Boolean;
-function RemoveDir(const Dir: UTF8String): Boolean;
+function mbGetCurrentDir: UTF8String;
+function mbSetCurrentDir(const NewDir: UTF8String): Boolean;
+function mbCreateDir(const NewDir: UTF8String): Boolean;
+function mbRemoveDir(const Dir: UTF8String): Boolean;
 
 implementation
    
@@ -798,7 +798,7 @@ begin
   LocalFileTimeToFileTimeEx(Result, Result);
 end;
 
-function FileOpen(const FileName: UTF8String; Mode: Integer): THandle;
+function mbFileOpen(const FileName: UTF8String; Mode: Integer): THandle;
 {$IFDEF MSWINDOWS}
 const
   AccessMode: array[0..2] of DWORD  = (
@@ -830,7 +830,7 @@ begin
 end;
 {$ENDIF}
 
-function FileCreate(const FileName: UTF8String): THandle;
+function mbFileCreate(const FileName: UTF8String): THandle;
 {$IFDEF MSWINDOWS}
 var
   wFileName: WideString;
@@ -845,7 +845,7 @@ begin
 end;
 {$ENDIF}
 
-function FileCreate(const FileName: UTF8String; Mode: Integer): THandle;
+function mbFileCreate(const FileName: UTF8String; Mode: Integer): THandle;
 {$IFDEF MSWINDOWS}
 begin
   Result:= FileCreate(FileName);
@@ -874,7 +874,7 @@ begin
 end;
 {$ENDIF}
 
-function FileAge(const FileName: UTF8String): Longint;
+function mbFileAge(const FileName: UTF8String): Longint;
 {$IFDEF MSWINDOWS}
 var
   Handle: THandle;
@@ -902,7 +902,7 @@ begin
 end;
 {$ENDIF}
 
-function FileExists(const FileName: UTF8String) : Boolean;
+function mbFileExists(const FileName: UTF8String) : Boolean;
 {$IFDEF MSWINDOWS}
 var
   Attr: Dword;
@@ -920,7 +920,7 @@ begin
 end;
 {$ENDIF}
 
-function DirectoryExists(const Directory: UTF8String) : Boolean;
+function mbDirectoryExists(const Directory: UTF8String) : Boolean;
 {$IFDEF MSWINDOWS}
 var
   Attr:Dword;
@@ -942,7 +942,7 @@ begin
 end;
 {$ENDIF}
 
-function FileGetAttr(const FileName: UTF8String): Longint;
+function mbFileGetAttr(const FileName: UTF8String): Longint;
 {$IFDEF MSWINDOWS}
 var
   wFileName: WideString;
@@ -960,7 +960,7 @@ begin
 end;
 {$ENDIF}
 
-function DeleteFile(const FileName: UTF8String): Boolean;
+function mbDeleteFile(const FileName: UTF8String): Boolean;
 {$IFDEF MSWINDOWS}
 var
   wFileName: WideString;
@@ -974,7 +974,7 @@ begin
 end;
 {$ENDIF}
 
-function RenameFile(const OldName, NewName: UTF8String): Boolean;
+function mbRenameFile(const OldName, NewName: UTF8String): Boolean;
 {$IFDEF MSWINDOWS}
 var
   wOldName,
@@ -990,7 +990,7 @@ begin
 end;
 {$ENDIF}
 
-function GetCurrentDir: UTF8String;
+function mbGetCurrentDir: UTF8String;
 {$IFDEF MSWINDOWS}
 var
   Size: Integer;
@@ -1011,7 +1011,7 @@ begin
 end;
 {$ENDIF}
 
-function SetCurrentDir(const NewDir: UTF8String): Boolean;
+function mbSetCurrentDir(const NewDir: UTF8String): Boolean;
 {$IFDEF MSWINDOWS}
 var
   wNewDir: WideString;
@@ -1025,7 +1025,7 @@ begin
 end;
 {$ENDIF}
 
-function CreateDir(const NewDir: UTF8String): Boolean;
+function mbCreateDir(const NewDir: UTF8String): Boolean;
 {$IFDEF MSWINDOWS}
 var
   wNewDir: WideString;
@@ -1039,7 +1039,7 @@ begin
 end;
 {$ENDIF}
 
-function RemoveDir(const Dir: UTF8String): Boolean;
+function mbRemoveDir(const Dir: UTF8String): Boolean;
 {$IFDEF MSWINDOWS}
 var
   wDir: WideString;
