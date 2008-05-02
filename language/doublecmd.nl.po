@@ -331,6 +331,10 @@ msgstr "Voeg S&ubbalk toe >>"
 msgid "Add column"
 msgstr "Voeg kolom toe"
 
+#: TFRMHOTDIR.BTNADDMAN.CAPTION
+msgid "Add manually"
+msgstr ""
+
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
 msgstr "Uitgebreid"
@@ -638,6 +642,10 @@ msgstr "Maak/Verwijder directories"
 #: ulng.rssplitmsgcreated
 msgid "Created:"
 msgstr "Gemaakt:"
+
+#: TFRMOPTIONS.CBTABSOPENFOREGROUND.CAPTION
+msgid "Ctrl+&Up opens new tab in foreground"
+msgstr ""
 
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
@@ -1267,6 +1275,10 @@ msgstr "Masker"
 msgid "Menu F9"
 msgstr "Menu F9"
 
+#: TFRMOPTIONS.LBLMOUSEMODE.CAPTION
+msgid "Mode:"
+msgstr ""
+
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
 msgstr "Meer"
@@ -1390,6 +1402,10 @@ msgstr "Open VFS lijst"
 #: ulng.rseditnewopen
 msgid "Open file"
 msgstr "Open bestand"
+
+#: TFRMMAIN.ACTOPENDIRINNEWTAB.CAPTION
+msgid "Open folder in new tab"
+msgstr ""
 
 #: TFRMMAIN.ACTLEFTOPENDRIVES.CAPTION
 msgid "Open left drive list"
@@ -1658,6 +1674,10 @@ msgstr "Selecteer &Alles"
 #: ulng.rsmsgselected
 msgid "Selected \%s of \%s in \%d of \%d files"
 msgstr "Geselecteerd \%s van \%s in \%d van \%d bestanden"
+
+#: TFRMOPTIONS.CBSELECTIONBYMOUSE.CAPTION
+msgid "Selection by mouse"
+msgstr ""
 
 #: TFRMOPTIONS.CBSEPARATEEXT.CAPTION
 msgid "Separate extension"

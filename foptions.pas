@@ -99,6 +99,7 @@ type
     cbCmdLineHistory: TCheckBox;
     cbFileMaskHistory: TCheckBox;
     cbSelectionByMouse: TCheckBox;
+    cbTabsOpenForeground: TCheckBox;
     clbWFXList: TCheckListBox;
     clbWCXList: TCheckListBox;
     cbBackColor2: TColorBox;
@@ -442,6 +443,7 @@ begin
   cbTabsAlwaysVisible.Checked := Boolean(gDirTabOptions and tb_always_visible) and gDirectoryTabs;
   cbTabsMultiLines.Checked :=  Boolean(gDirTabOptions and tb_multiple_lines);
   cbTabsLimitOption.Checked := Boolean(gDirTabOptions and tb_text_length_limit);
+  cbTabsOpenForeground.Checked:= Boolean(gDirTabOptions and tb_open_new_in_foreground);
   edtTabsLimitLength.Text := IntToStr(gDirTabLimit);
 
   {Configuration storage}
@@ -732,6 +734,9 @@ begin
   if cbTabsLimitOption.Checked then
     gDirTabOptions := (gDirTabOptions or tb_text_length_limit);
     
+  if cbTabsOpenForeground.Checked then
+    gDirTabOptions := (gDirTabOptions or tb_open_new_in_foreground);
+
   gDirTabLimit := StrToIntDef(edtTabsLimitLength.Text, 32);
 
   { Configuration storage }

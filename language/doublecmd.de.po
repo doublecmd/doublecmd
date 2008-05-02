@@ -331,6 +331,10 @@ msgstr "Unter&leiste einfügen"
 msgid "Add column"
 msgstr "Spalte hinzufügen"
 
+#: TFRMHOTDIR.BTNADDMAN.CAPTION
+msgid "Add manually"
+msgstr ""
+
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
 msgstr "Fortgeschritten"
@@ -638,6 +642,10 @@ msgstr ""
 #: ulng.rssplitmsgcreated
 msgid "Created:"
 msgstr "Erstellt:"
+
+#: TFRMOPTIONS.CBTABSOPENFOREGROUND.CAPTION
+msgid "Ctrl+&Up opens new tab in foreground"
+msgstr ""
 
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
@@ -1267,6 +1275,10 @@ msgstr "Maske"
 msgid "Menu F9"
 msgstr "Menü F9"
 
+#: TFRMOPTIONS.LBLMOUSEMODE.CAPTION
+msgid "Mode:"
+msgstr ""
+
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
 msgstr "Mehr"
@@ -1390,6 +1402,10 @@ msgstr "Öffne &VFS-Liste"
 #: ulng.rseditnewopen
 msgid "Open file"
 msgstr "Öffne Datei"
+
+#: TFRMMAIN.ACTOPENDIRINNEWTAB.CAPTION
+msgid "Open folder in new tab"
+msgstr ""
 
 #: TFRMMAIN.ACTLEFTOPENDRIVES.CAPTION
 msgid "Open left drive list"
@@ -1658,6 +1674,10 @@ msgstr "&Alle markieren"
 #: ulng.rsmsgselected
 msgid "Selected \%s of \%s in \%d of \%d files"
 msgstr "Markierte \%s von \%s in \%d von \%d Dateien"
+
+#: TFRMOPTIONS.CBSELECTIONBYMOUSE.CAPTION
+msgid "Selection by mouse"
+msgstr ""
 
 #: TFRMOPTIONS.CBSEPARATEEXT.CAPTION
 msgid "Separate extension"

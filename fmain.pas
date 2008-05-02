@@ -62,6 +62,7 @@ type
     actCopyNamesToClip: TAction;
     actCopyFullNamesToClip: TAction;
     actExchange: TAction;
+    actOpenDirInNewTab: TAction;
     actTargetEqualSource: TAction;
     actOpen: TAction;
     actQuickSearch: TAction;
@@ -226,6 +227,7 @@ type
     procedure actFileAssocExecute(Sender: TObject);
     procedure actFocusCmdLineExecute(Sender: TObject);
     procedure actLeftOpenDrivesExecute(Sender: TObject);
+    procedure actOpenDirInNewTabExecute(Sender: TObject);
     procedure actTargetEqualSourceExecute(Sender: TObject);
     procedure actOpenArchiveExecute(Sender: TObject);
     procedure actOpenExecute(Sender: TObject);
@@ -371,7 +373,7 @@ type
     procedure DrivesMenuClick(Sender: TObject);
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
     procedure CreatePanel(AOwner:TWinControl; APanel:TFilePanelSelect; sPath : String);
-    function AddPage(ANoteBook:TNoteBook):TPage;
+    function AddPage(ANoteBook:TNoteBook; bSetActive: Boolean = True):TPage;
     procedure RemovePage(ANoteBook:TNoteBook; iPageIndex:Integer);
     procedure LoadTabs(ANoteBook:TNoteBook);
     procedure SaveTabs(ANoteBook:TNoteBook);
@@ -770,6 +772,29 @@ begin
   p := pnlLeftTools.ClientToScreen(p);
   pmDrivesMenu.Items[dskLeft.Tag].Checked := True;
   pmDrivesMenu.PopUp(p.x, p.y);
+end;
+
+procedure TfrmMain.actOpenDirInNewTabExecute(Sender: TObject);
+var
+  sDir: String;
+  bSetActive: Boolean;
+begin
+  with ActiveFrame do
+  begin
+    if fpS_ISDIR(pnlFile.GetActiveItem^.iMode) then
+      sDir:= ActiveFrame.ActiveDir + pnlFile.GetActiveItem^.sName
+    else
+      sDir:= ActiveFrame.ActiveDir;
+  end;
+
+  bSetActive:= Boolean(gDirTabOptions and tb_open_new_in_foreground);
+
+  case PanelSelected of
+  fpLeft:
+     CreatePanel(AddPage(nbLeft, bSetActive), fpLeft, sDir);
+  fpRight:
+     CreatePanel(AddPage(nbRight, bSetActive), fpRight, sDir);
+  end;
 end;
 
 procedure TfrmMain.actTargetEqualSourceExecute(Sender: TObject);
@@ -2384,6 +2409,13 @@ begin
 
   bAltPress:=False;
 
+  if (shift=[ssCtrl]) and (Key=VK_Up) then
+  begin
+    Key:=0;
+    actOpenDirInNewTab.Execute;
+    Exit;
+  end;
+
   if (shift=[ssCtrl]) and (Key=VK_Down) then
   begin
     Key:=0;
@@ -2685,9 +2717,9 @@ begin
       ANoteBook := (Sender as TPage).Parent as TNoteBook;
       sCaption := GetLastDir(ExcludeTrailingPathDelimiter(NewDir));
       if Boolean(gDirTabOptions and tb_text_length_limit) and (Length(sCaption) > gDirTabLimit) then
-        ANoteBook.Page[ANoteBook.PageIndex].Caption:= Copy(sCaption, 1, gDirTabLimit) + '...'
+        ANoteBook.Page[(Sender as TPage).PageIndex].Caption:= Copy(sCaption, 1, gDirTabLimit) + '...'
       else
-        ANoteBook.Page[ANoteBook.PageIndex].Caption := sCaption;
+        ANoteBook.Page[(Sender as TPage).PageIndex].Caption := sCaption;
     end;
 end;
 
@@ -2906,14 +2938,15 @@ begin
 
 end;
 
-function TfrmMain.AddPage(ANoteBook: TNoteBook):TPage;
+function TfrmMain.AddPage(ANoteBook: TNoteBook; bSetActive: Boolean):TPage;
 var
   x:Integer;
 begin
   x:=ANotebook.PageCount;
 
   ANoteBook.Pages.Add(IntToStr(x));
-  ANoteBook.ActivePage:= IntToStr(x);
+  if bSetActive then
+    ANoteBook.ActivePage:= IntToStr(x);
   Result:=ANoteBook.Page[x];
 
   ANoteBook.ShowTabs:= ((ANoteBook.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;

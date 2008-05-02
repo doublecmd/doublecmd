@@ -168,7 +168,7 @@ object frmMain: TfrmMain
         object lblLeftDriveInfo: TLabel
           Left = 48
           Height = 24
-          Width = 53
+          Width = 30
           Align = alClient
           Alignment = taCenter
           ParentColor = False
@@ -255,7 +255,7 @@ object frmMain: TfrmMain
         object lblRightDriveInfo: TLabel
           Left = 48
           Height = 24
-          Width = 383
+          Width = 360
           Align = alClient
           Alignment = taCenter
           ParentColor = False
@@ -429,6 +429,8 @@ object frmMain: TfrmMain
     Font.Name = 'courier'
     ParentColor = False
     TabOrder = 4
+    BookMarkOptions.OnChange = nil
+    Gutter.OnChange = nil
     Gutter.CodeFoldingWidth = 14
     Keystrokes = <    
       item
@@ -754,6 +756,7 @@ object frmMain: TfrmMain
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
+    SelectedColor.OnChange = nil
     OnSpecialLineColors = seLogWindowSpecialLineColors
   end
   object LogSplitter: TSplitter
@@ -1405,6 +1408,12 @@ object frmMain: TfrmMain
       DisableIfNoHandler = True
       OnExecute = actExchangeExecute
       ShortCut = 16469
+    end
+    object actOpenDirInNewTab: TAction
+      Category = 'Tabs'
+      Caption = 'Open folder in new tab'
+      DisableIfNoHandler = True
+      OnExecute = actOpenDirInNewTabExecute
     end
   end
   object pmHotList: TPopupMenu
