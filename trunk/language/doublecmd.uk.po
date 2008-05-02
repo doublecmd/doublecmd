@@ -330,6 +330,10 @@ msgstr "Добавити панель..."
 msgid "Add column"
 msgstr "Добавити колонку"
 
+#: TFRMHOTDIR.BTNADDMAN.CAPTION
+msgid "Add manually"
+msgstr ""
+
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
 msgstr "Розширений"
@@ -637,6 +641,10 @@ msgstr "Створення / Видалення каталогів"
 #: ulng.rssplitmsgcreated
 msgid "Created:"
 msgstr "Створено:"
+
+#: TFRMOPTIONS.CBTABSOPENFOREGROUND.CAPTION
+msgid "Ctrl+&Up opens new tab in foreground"
+msgstr ""
 
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
@@ -1266,6 +1274,10 @@ msgstr "Маска"
 msgid "Menu F9"
 msgstr "Меню F9"
 
+#: TFRMOPTIONS.LBLMOUSEMODE.CAPTION
+msgid "Mode:"
+msgstr ""
+
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
 msgstr "Більше"
@@ -1389,6 +1401,10 @@ msgstr "Відкрити список VFS"
 #: ulng.rseditnewopen
 msgid "Open file"
 msgstr "Відкрити файл"
+
+#: TFRMMAIN.ACTOPENDIRINNEWTAB.CAPTION
+msgid "Open folder in new tab"
+msgstr ""
 
 #: TFRMMAIN.ACTLEFTOPENDRIVES.CAPTION
 msgid "Open left drive list"
@@ -1657,6 +1673,10 @@ msgstr "Виділити &все"
 #: ulng.rsmsgselected
 msgid "Selected \%s of \%s in \%d of \%d files"
 msgstr "Виділено %s з %s в %d з %d файлів"
+
+#: TFRMOPTIONS.CBSELECTIONBYMOUSE.CAPTION
+msgid "Selection by mouse"
+msgstr ""
 
 #: TFRMOPTIONS.CBSEPARATEEXT.CAPTION
 msgid "Separate extension"

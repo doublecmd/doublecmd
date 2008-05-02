@@ -1,4 +1,5 @@
-﻿28.04.2008 FIX: Bug [ 1953396 ] Error if "Directory hotlist" (Ctrl+D) is empty
+﻿02.05.2008 ADD: Feature Request [ 1880894 ] вкладки
+28.04.2008 FIX: Bug [ 1953396 ] Error if "Directory hotlist" (Ctrl+D) is empty
 --------------------------------------------------------------------------------
 15.04.2008 Release Double Commander 0.3.5 alpha
 --------------------------------------------------------------------------------

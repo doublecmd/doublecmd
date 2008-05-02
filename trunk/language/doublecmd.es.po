@@ -331,6 +331,10 @@ msgstr "Añadir S&ubbarra >>"
 msgid "Add column"
 msgstr "Añadir columna"
 
+#: TFRMHOTDIR.BTNADDMAN.CAPTION
+msgid "Add manually"
+msgstr ""
+
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
 msgstr "Avanzado"
@@ -638,6 +642,10 @@ msgstr "Crear/Borrar directorios"
 #: ulng.rssplitmsgcreated
 msgid "Created:"
 msgstr "Creado:"
+
+#: TFRMOPTIONS.CBTABSOPENFOREGROUND.CAPTION
+msgid "Ctrl+&Up opens new tab in foreground"
+msgstr ""
 
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
@@ -1267,6 +1275,10 @@ msgstr "Máscara"
 msgid "Menu F9"
 msgstr "Menú F9"
 
+#: TFRMOPTIONS.LBLMOUSEMODE.CAPTION
+msgid "Mode:"
+msgstr ""
+
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
 msgstr "Más"
@@ -1390,6 +1402,10 @@ msgstr "Ver unidades de red"
 #: ulng.rseditnewopen
 msgid "Open file"
 msgstr "Abrir fichero"
+
+#: TFRMMAIN.ACTOPENDIRINNEWTAB.CAPTION
+msgid "Open folder in new tab"
+msgstr ""
 
 #: TFRMMAIN.ACTLEFTOPENDRIVES.CAPTION
 msgid "Open left drive list"
@@ -1658,6 +1674,10 @@ msgstr "Seleccionar &Todo"
 #: ulng.rsmsgselected
 msgid "Selected \%s of \%s in \%d of \%d files"
 msgstr "Seleccionado \%s de \%s en \%d de \%d ficheros"
+
+#: TFRMOPTIONS.CBSELECTIONBYMOUSE.CAPTION
+msgid "Selection by mouse"
+msgstr ""
 
 #: TFRMOPTIONS.CBSEPARATEEXT.CAPTION
 msgid "Separate extension"

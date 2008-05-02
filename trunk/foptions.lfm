@@ -1,7 +1,7 @@
 object frmOptions: TfrmOptions
-  Left = 124
+  Left = 289
   Height = 441
-  Top = 158
+  Top = 141
   Width = 685
   HorzScrollBar.Page = 684
   VertScrollBar.Page = 440
@@ -86,7 +86,7 @@ object frmOptions: TfrmOptions
     Height = 398
     Width = 170
     Align = alLeft
-    DefaultItemHeight = 17
+    DefaultItemHeight = 16
     Images = ilTreeView
     ScrollBars = ssNone
     TabOrder = 0
@@ -145,15 +145,15 @@ object frmOptions: TfrmOptions
       end
       object pgBehav: TPage
         ClientWidth = 505
-        ClientHeight = 365
+        ClientHeight = 347
         OnResize = pgBehavResize
         object lblTerm: TLabel
           AnchorSideTop.Control = edtTerm
           AnchorSideTop.Side = asrCenter
           Left = 8
-          Height = 16
-          Top = 12
-          Width = 51
+          Height = 14
+          Top = 13
+          Width = 45
           Caption = 'Terminal:'
           ParentColor = False
         end
@@ -161,9 +161,9 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = edtRunTerm
           AnchorSideTop.Side = asrCenter
           Left = 8
-          Height = 16
-          Top = 42
-          Width = 72
+          Height = 14
+          Top = 43
+          Width = 65
           Caption = 'Run terminal:'
           ParentColor = False
         end
@@ -203,9 +203,9 @@ object frmOptions: TfrmOptions
           object cbDirSelect: TCheckBox
             AnchorSideTop.Control = gb
             Left = 8
-            Height = 21
+            Height = 19
             Top = 6
-            Width = 161
+            Width = 159
             AllowGrayed = True
             BorderSpacing.Top = 6
             Caption = 'Select directory with keypad'
@@ -215,9 +215,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbLynxLike
             AnchorSideTop.Side = asrBottom
             Left = 8
-            Height = 21
-            Top = 60
-            Width = 130
+            Height = 19
+            Top = 56
+            Width = 128
             AllowGrayed = True
             BorderSpacing.Top = 6
             Caption = 'Case sensitive sorting'
@@ -227,9 +227,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbDirSelect
             AnchorSideTop.Side = asrBottom
             Left = 8
-            Height = 21
-            Top = 33
-            Width = 121
+            Height = 19
+            Top = 31
+            Width = 119
             AllowGrayed = True
             BorderSpacing.Top = 6
             Caption = 'Lynx like movement'
@@ -239,9 +239,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbCaseSensitiveSort
             AnchorSideTop.Side = asrBottom
             Left = 8
-            Height = 21
-            Top = 87
-            Width = 122
+            Height = 19
+            Top = 81
+            Width = 120
             AllowGrayed = True
             BorderSpacing.Top = 6
             Caption = 'Short Filesize format'
@@ -266,30 +266,35 @@ object frmOptions: TfrmOptions
           ClientWidth = 233
           TabOrder = 4
           object lblIconsSize: TLabel
+            AnchorSideTop.Control = cbIconsSize
+            AnchorSideTop.Side = asrCenter
             Left = 14
-            Height = 16
-            Top = 35
-            Width = 55
+            Height = 14
+            Top = 36
+            Width = 53
             Caption = 'Icons Size:'
             ParentColor = False
           end
           object lblMouseMode: TLabel
+            AnchorSideTop.Control = cbMouseMode
+            AnchorSideTop.Side = asrCenter
             Left = 14
-            Height = 16
-            Top = 89
-            Width = 35
+            Height = 14
+            Top = 90
+            Width = 31
             Caption = 'Mode:'
             ParentColor = False
           end
           object cbIconsSize: TComboBox
-            AnchorSideLeft.Control = lblIconsSize
-            AnchorSideLeft.Side = asrBottom
-            Left = 75
+            AnchorSideLeft.Control = cbShowIcons
+            AnchorSideRight.Side = asrBottom
+            Left = 93
             Height = 21
             Top = 33
             Width = 91
             AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-            BorderSpacing.Left = 6
+            BorderSpacing.Left = 80
+            BorderSpacing.Right = 10
             Enabled = False
             ItemHeight = 13
             ItemIndex = 0
@@ -305,28 +310,29 @@ object frmOptions: TfrmOptions
           end
           object cbShowIcons: TCheckBox
             Left = 13
-            Height = 21
+            Height = 19
             Top = 6
-            Width = 83
+            Width = 81
             Caption = 'Show icons'
             OnChange = cbShowIconsChange
             TabOrder = 0
           end
           object cbSelectionByMouse: TCheckBox
             Left = 13
-            Height = 21
+            Height = 19
             Top = 60
-            Width = 120
+            Width = 118
             Caption = 'Selection by mouse'
             TabOrder = 2
           end
           object cbMouseMode: TComboBox
-            Left = 75
+            AnchorSideLeft.Control = cbSelectionByMouse
+            Left = 93
             Height = 21
             Top = 87
             Width = 91
             AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-            BorderSpacing.Left = 6
+            BorderSpacing.Left = 80
             ItemHeight = 13
             Items.Strings = (
               'Left button'
@@ -1875,6 +1881,8 @@ object frmOptions: TfrmOptions
         end
       end
       object pgTabs: TPage
+        ClientWidth = 505
+        ClientHeight = 347
         object gbTabs: TGroupBox
           AnchorSideRight.Side = asrBottom
           Left = 10
@@ -1883,43 +1891,43 @@ object frmOptions: TfrmOptions
           Width = 489
           Anchors = [akTop, akLeft, akRight]
           Caption = 'Folder tabs headers'
-          ClientHeight = 340
-          ClientWidth = 489
+          ClientHeight = 322
+          ClientWidth = 485
           TabOrder = 0
           object lblChar: TLabel
             AnchorSideLeft.Control = edtTabsLimitLength
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = edtTabsLimitLength
             AnchorSideTop.Side = asrCenter
-            Left = 336
-            Height = 19
+            Left = 320
+            Height = 14
             Top = 58
-            Width = 71
+            Width = 52
             BorderSpacing.Left = 6
             Caption = 'characters'
             ParentColor = False
           end
           object cbTabsAlwaysVisible: TCheckBox
             Left = 12
-            Height = 22
+            Height = 19
             Top = 6
-            Width = 343
+            Width = 256
             Caption = '&Show tab header also when there is only one tab'
             TabOrder = 0
           end
           object cbTabsMultiLines: TCheckBox
             Left = 12
-            Height = 22
+            Height = 19
             Top = 31
-            Width = 166
+            Width = 127
             Caption = '&Tabs on multiple lines'
             TabOrder = 1
           end
           object cbTabsLimitOption: TCheckBox
             Left = 12
-            Height = 22
+            Height = 19
             Top = 56
-            Width = 170
+            Width = 131
             Caption = '&Limit tab title length to:'
             TabOrder = 2
           end
@@ -1927,12 +1935,20 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbTabsLimitOption
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Side = asrBottom
-            Left = 289
+            Left = 273
             Height = 23
-            Top = 56
+            Top = 54
             Width = 41
             Anchors = [akTop, akRight]
             TabOrder = 3
+          end
+          object cbTabsOpenForeground: TCheckBox
+            Left = 12
+            Height = 19
+            Top = 81
+            Width = 199
+            Caption = 'Ctrl+&Up opens new tab in foreground'
+            TabOrder = 4
           end
         end
       end
