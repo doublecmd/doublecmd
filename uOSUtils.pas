@@ -188,6 +188,7 @@ function mbDirectoryExists(const Directory : UTF8String) : Boolean;
 function mbFileGetAttr(const FileName: UTF8String): Longint;
 function mbDeleteFile(const FileName: UTF8String): Boolean;
 function mbRenameFile(const OldName, NewName : UTF8String): Boolean;
+function mbFileSize(const FileName: UTF8String): Int64;
 { Directory handling functions}
 function mbGetCurrentDir: UTF8String;
 function mbSetCurrentDir(const NewDir: UTF8String): Boolean;
@@ -987,6 +988,33 @@ end;
 {$ELSE}
 begin
   Result:= BaseUnix.FpRename(OldNAme, NewName) >= 0;
+end;
+{$ENDIF}
+
+function mbFileSize(const FileName: UTF8String): Int64;
+{$IFDEF MSWINDOWS}
+var
+  Handle: THandle;
+  FindData: TWin32FindDataW;
+  wFileName: WideString;
+begin
+  Result:= 0;
+  wFileName:= UTF8Decode({Delete>}AnsiToUTF8{<Delete}(FileName));
+  Handle := FindFirstFileW(PWChar(wFileName), FindData);
+  if Handle <> INVALID_HANDLE_VALUE then
+    begin
+      Windows.FindClose(Handle);
+      if (FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) = 0 then
+        Result:= (FindData.nFileSizeHigh * MAXDWORD)+FindData.nFileSizeLow;
+    end;
+end;
+{$ELSE}
+var
+  Info: uFindEx.stat64;
+begin
+  Result:= 0;
+  if fpStat64(FileName, Info) >= 0 then
+    Result:= Info.st_size;
 end;
 {$ENDIF}
 
