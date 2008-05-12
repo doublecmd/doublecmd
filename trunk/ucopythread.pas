@@ -30,7 +30,7 @@ type
 
 implementation
 uses
-  LCLProc, SysUtils, Classes, uLng, uGlobs, uLog, uShowMsg, uFileProcs, uFindEx, uDCUtils, uOSUtils;
+  LCLProc, SysUtils, Classes, uLng, uGlobs, uLog, uShowMsg, uFileProcs, uFindEx, uDCUtils, uOSUtils, uFileStreamEx;
 
 procedure TCopyThread.MainExecute;
 var
