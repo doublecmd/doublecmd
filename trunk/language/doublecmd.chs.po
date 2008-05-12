@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-04-07 13:56+0800\n"
+"PO-Revision-Date: 2008-05-09 13:55+0800\n"
 "Last-Translator: wwfifi <wwfifi@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -333,7 +333,7 @@ msgstr "添加列"
 
 #: TFRMHOTDIR.BTNADDMAN.CAPTION
 msgid "Add manually"
-msgstr ""
+msgstr "手动添加"
 
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
@@ -545,7 +545,7 @@ msgstr "复制"
 
 #: TFRMMAIN.ACTCOPYNAMESTOCLIP.CAPTION
 msgid "Copy &Filename(s) to Clipboard"
-msgstr ""
+msgstr "复制文件名到剪贴板"
 
 #: TFRMMAIN.ACTCOPY.CAPTION
 msgid "Copy F5"
@@ -553,7 +553,7 @@ msgstr "复制 F5"
 
 #: TFRMMAIN.ACTCOPYFULLNAMESTOCLIP.CAPTION
 msgid "Copy Filename(s) with Full &Path"
-msgstr ""
+msgstr "复制包含完整路径的文件名"
 
 #: TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION
 msgid "Copy To Clipboard"
@@ -645,7 +645,7 @@ msgstr "创建日期:"
 
 #: TFRMOPTIONS.CBTABSOPENFOREGROUND.CAPTION
 msgid "Ctrl+&Up opens new tab in foreground"
-msgstr ""
+msgstr "Ctrl+&Up 前台打开新标签页"
 
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
@@ -1277,7 +1277,7 @@ msgstr "菜单 F9"
 
 #: TFRMOPTIONS.LBLMOUSEMODE.CAPTION
 msgid "Mode:"
-msgstr ""
+msgstr "模式:"
 
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
@@ -1405,7 +1405,7 @@ msgstr "打开文件"
 
 #: TFRMMAIN.ACTOPENDIRINNEWTAB.CAPTION
 msgid "Open folder in new tab"
-msgstr ""
+msgstr "新标签页打开文件夹"
 
 #: TFRMMAIN.ACTLEFTOPENDRIVES.CAPTION
 msgid "Open left drive list"
@@ -1677,7 +1677,7 @@ msgstr "选中 \%s 总大小 \%s, 选中 \%d 总文件数 \%d files"
 
 #: TFRMOPTIONS.CBSELECTIONBYMOUSE.CAPTION
 msgid "Selection by mouse"
-msgstr ""
+msgstr "鼠标选择"
 
 #: TFRMOPTIONS.CBSEPARATEEXT.CAPTION
 msgid "Separate extension"
@@ -1849,7 +1849,7 @@ msgstr "展开"
 
 #: TFRMMAIN.ACTEXCHANGE.CAPTION
 msgid "Swap &Panels"
-msgstr ""
+msgstr "交换面板(&P)"
 
 #: TFRMFINDDLG.CBSYMLINK.CAPTION
 msgid "SymLink"
@@ -1959,7 +1959,6 @@ msgstr "不选择掩码"
 msgid "Up"
 msgstr "上"
 
-#: 
 msgid "Use '-' to off attribute and '?' to any"
 msgstr "用 '-' 关闭属性, '?' 表示任意"
 
@@ -2079,7 +2078,6 @@ msgstr "gEdit \"\%s\""
 msgid "gtk-diff \"\%s\" \"\%s\""
 msgstr "gtk-diff \"\%s\" \"\%s\""
 
-#: 
 msgid "internally by Double Commander."
 msgstr "Double Commander内部."
 
