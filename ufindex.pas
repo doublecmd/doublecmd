@@ -31,7 +31,7 @@ interface
 { $DEFINE USE_STAT64LIBC}    // libc version
 
 uses
-   SysUtils {$IFNDEF WIN32},BaseUnix, Unix, Libc{$IFDEF USE_STAT64LIBC}, Libc {$ELSE}, SysCall{$ENDIF}{$ENDIF};
+   SysUtils {$IFNDEF WIN32},BaseUnix, Unix, Libc{$IFDEF USE_STAT64LIBC}, Libc {$ELSE}, SysCall{$ENDIF}{$ELSE}, Windows{$ENDIF};
 
 Type
   TFindStatus = (fsOK, fsStatFailed, fsBadAttr);
@@ -47,8 +47,8 @@ Type
 {$ENDIF}
 
 
-function FindFirstEx (Const Path : String; Attr : Longint; out Rslt : TSearchRec) : Longint;
-function FindNextEx (Var Rslt : TSearchRec) : Longint;
+function FindFirstEx (const Path : UTF8String; Attr : Longint; out Rslt : TSearchRec) : Longint;
+function FindNextEx (var Rslt : TSearchRec) : Longint;
 function CheckAttrMask(DefaultAttr : Cardinal; sAttr : String; Attr : Cardinal) : Boolean;
 {$IFDEF UNIX} //*nix systems
 
@@ -230,27 +230,85 @@ end;
 
 {$ENDIF} //*nix systems
 
-function FindFirstEx (Const Path : String; Attr : Longint; out Rslt : TSearchRec) : Longint;
+{$IFDEF MSWINDOWS}
+function mbFindMatchingFile(var Rslt: TSearchRec): Integer;
+var
+  LocalFileTime: TFileTime;
+  wFindData: TWin32FindDataW; 
+  pwFindData: PWIN32FINDDATAW absolute Rslt.FindData; // for use PWin32FindDataW instead TWin32FindData   
 begin
-  {$IFDEF UNIX}
-  if (Attr and faSymLink) = faSymLink then
-    Attr := Attr or not faSymLink;
-  {$ENDIF}
-  Result := FindFirst(Path, Attr, Rslt);
-  {$IFDEF UNIX}
-  if Result = 0 then
-    Rslt.Attr := Rslt.Mode;
-  {$ENDIF}
+  with Rslt do
+  begin
+   wFindData:= pwFindData^;
+    while (wFindData.dwFileAttributes and ExcludeAttr) <> 0 do
+      if not FindNextFileW(FindHandle, wFindData) then Exit(GetLastError);
+    
+    pwFindData:= @wFindData;
+    FileTimeToLocalFileTime(wFindData.ftLastWriteTime, LocalFileTime);
+    FileTimeToDosDateTime(LocalFileTime, LongRec(Time).Hi, LongRec(Time).Lo);
+    Size:= (Int64(wFindData.nFileSizeHigh) shl 32) + wFindData.nFileSizeLow;
+    Attr:= wFindData.dwFileAttributes;
+    Name:= {TODO: Delete} UTF8ToAnsi {Delete} (UTF8Encode(wFindData.cFileName));
+  end;
+  Result:= 0;
 end;
+{$ENDIF}
 
-function FindNextEx (Var Rslt : TSearchRec) : Longint;
+function FindFirstEx (const Path : UTF8String; Attr : Longint; out Rslt : TSearchRec) : Longint;
+{$IFDEF MSWINDOWS}
+const
+  faSpecial = faHidden or faSysFile or faVolumeID or faDirectory;
+var
+  wPath: WideString;
+  wFindData: TWin32FindDataW;
+  pwFindData: PWIN32FINDDATAW absolute Rslt.FindData; // for use PWin32FindDataW instead TWin32FindData 
 begin
-  Result := FindNext(Rslt);
-  {$IFDEF UNIX}
-  if Result = 0 then
-    Rslt.Attr := Rslt.Mode;
-  {$ENDIF}
+  wPath:= UTF8Decode({TODO: Delete} AnsiToUTF8 {Delete} (Path));
+  Rslt.ExcludeAttr:= not Attr and faSpecial;
+  Rslt.FindHandle:= FindFirstFileW(PWideChar(wPath), wFindData);
+  // if error then exit
+  if Rslt.FindHandle = INVALID_HANDLE_VALUE then Exit(GetLastError);	
+  
+  pwFindData:= @wFindData;	
+  
+  Result:= mbFindMatchingFile(Rslt);
 end;
+{$ELSE}
+begin  
+  if (Attr and faSymLink) = faSymLink then
+    Attr:= Attr or not faSymLink;
+  // call standart FindFirst function
+  Result:= FindFirst(Path, Attr, Rslt);
+  // and replace Attr by Mode  
+  if Result = 0 then
+    Rslt.Attr:= Rslt.Mode;
+end;
+{$ENDIF}
+
+function FindNextEx (var Rslt : TSearchRec) : Longint;
+{$IFDEF MSWINDOWS}
+var  
+  wFindData: TWin32FindDataW;
+  pwFindData: PWIN32FINDDATAW absolute Rslt.FindData; // for use PWin32FindDataW instead TWin32FindData    
+begin
+  wFindData:= pwFindData^;
+  if FindNextFileW(Rslt.FindHandle, wFindData) then
+    begin
+      pwFindData:= @wFindData;
+      Result:= mbFindMatchingFile(Rslt);
+    end
+  else
+    Result:= GetLastError;
+end;
+{$ELSE}
+begin
+  // call standart FindNext function
+  Result:= FindNext(Rslt);
+  // and replace Attr by Mode
+  if Result = 0 then
+    Rslt.Attr:= Rslt.Mode;  
+end;
+{$ENDIF}
 
 function CheckAttrMask(DefaultAttr : Cardinal; sAttr : String; Attr : Cardinal) : Boolean;
 {$IFDEF WINDOWS}
