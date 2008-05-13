@@ -322,7 +322,7 @@ implementation
 
 uses
   uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc, menus,
-  uColorExt, uWCXModule, uWFXmodule, uDCUtils, uOSUtils,fColumnsSetConf;
+  uColorExt, uWCXModule, uWFXmodule, uDCUtils, uOSUtils,fColumnsSetConf, uFindEx;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
@@ -614,7 +614,7 @@ var
 begin
   lngList.Clear;
   DebugLn('Language dir: ' + gpLngDir);
-  if FindFirst(gpLngDir+'*.po', faAnyFile, fr)<>0 then
+  if FindFirstEx(gpLngDir+'*.po', faAnyFile, fr)<>0 then
   begin
     FindClose(fr);
     Exit;
@@ -622,7 +622,7 @@ begin
   repeat
     sLangName := GetLanguageName(gpLngDir + fr.Name);
     lngList.Items.Add(Format('%s = (%s)', [fr.Name, sLangName]));
-  until FindNext(fr)<>0;
+  until FindNextEx(fr)<>0;
   
   FindClose(fr);
 
