@@ -70,7 +70,7 @@ var
 begin
 //  writeln('Enter LoadFilesbyDir');
   DebugLn('LoadFileByName SFileName = '+sFileName);
-  if FindFirst(sFileName,faAnyFile,sr)<>0 then
+  if FindFirstEx(sFileName,faAnyFile,sr)<>0 then
   begin    DebugLn('FindFirst <> 0');
     with fr do     // append "blank dir"
     begin
@@ -162,7 +162,7 @@ begin
   Result:=True;
   fl.Clear;
   fl.CurrentDirectory := IncludeTrailingPathDelimiter(sDir);
-  if FindFirst('*',faAnyFile,sr)<>0 then
+  if FindFirstEx('*',faAnyFile,sr)<>0 then
   begin
     with fr do     // append "blank dir"
     begin
@@ -241,7 +241,7 @@ begin
     fr.sModeStr:=AttrToStr(fr.iMode);
     fr.sPath := sDir;
     fl.AddItem(@fr);
-  until FindNext(sr)<>0;
+  until FindNextEx(sr)<>0;
   FindClose(sr);
   Result:=True;
 end;

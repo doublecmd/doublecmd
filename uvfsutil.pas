@@ -53,7 +53,7 @@ var
   fr:TFileRecItem;
 
 begin
-  if FindFirst(srcPath+'*',faAnyFile,sr)<>0 then
+  if FindFirstEx(srcPath+'*',faAnyFile,sr)<>0 then
   begin
     FindClose(sr);
     Exit;
@@ -79,7 +79,7 @@ begin
       end
     else
       inc(FilesSize, fr.iSize);
-  until FindNext(sr)<>0;
+  until FindNextEx(sr)<>0;
   FindClose(sr);
 end;
 
