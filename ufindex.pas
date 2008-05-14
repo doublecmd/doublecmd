@@ -248,7 +248,7 @@ begin
     FileTimeToDosDateTime(LocalFileTime, LongRec(Time).Hi, LongRec(Time).Lo);
     Size:= (Int64(wFindData.nFileSizeHigh) shl 32) + wFindData.nFileSizeLow;
     Attr:= wFindData.dwFileAttributes;
-    Name:= {TODO: Delete} UTF8ToAnsi {Delete} (UTF8Encode(wFindData.cFileName));
+    Name:= UTF8Encode(wFindData.cFileName);
   end;
   Result:= 0;
 end;
@@ -263,7 +263,7 @@ var
   wFindData: TWin32FindDataW;
   pwFindData: PWIN32FINDDATAW absolute Rslt.FindData; // for use PWin32FindDataW instead TWin32FindData 
 begin
-  wPath:= UTF8Decode({TODO: Delete} AnsiToUTF8 {Delete} (Path));
+  wPath:= UTF8Decode(Path);
   Rslt.ExcludeAttr:= not Attr and faSpecial;
   Rslt.FindHandle:= FindFirstFileW(PWideChar(wPath), wFindData);
   // if error then exit

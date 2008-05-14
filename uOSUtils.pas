@@ -25,7 +25,7 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes, LCLProc, uDCUtils, uFindEx
+    SysUtils, Classes, LCLProc, uDCUtils, uFindEx, uFileStreamEx
     {$IFDEF MSWINDOWS}
     , Windows, ShellApi, MMSystem, uNTFSLinks
     {$ELSE}
@@ -225,7 +225,7 @@ end;
 
 function FileIsExeLib(const sFileName : String) : Boolean;
 var
-  fsExeLib : TFileStream;
+  fsExeLib : TFileStreamEx;
 {$IFDEF MSWINDOWS}
   wSign : Word;
 {$ELSE}
@@ -233,9 +233,9 @@ var
 {$ENDIF}
 begin
   Result := False;
-  if FileExists(sFileName) then
+  if mbFileExists(sFileName) then
     begin
-      fsExeLib := TFileStream.Create(sFileName, fmOpenRead or fmShareDenyNone);
+      fsExeLib := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
       {$IFDEF MSWINDOWS}
       wSign := fsExeLib.ReadWord;
       Result := (wSign = $5A4D);
@@ -359,10 +359,12 @@ end;
 {$ELSE}
 var
   sFileName,
-  sParams,
-  sWorkDir : String;
+  sParams: String;
+  wFileName,
+  wParams,
+  wWorkDir: WideString;  
 begin
-  sWorkDir := GetCurrentDir;
+  wWorkDir:= UTF8Decode(mbGetCurrentDir);
 
   if bTerm then
     begin
@@ -371,8 +373,10 @@ begin
     end;
     
   SplitCmdLine(sCmdLine, sFileName, sParams);
-  DebugLN('File: ' + sFileName + ' Params: ' + sParams + ' WorkDir: ' + sWorkDir);
-  Result := (ShellExecute(0, 'open', PChar(sFileName), PChar(sParams), PChar(sWorkDir), SW_SHOW) > 32);
+  DebugLN('File: ' + sFileName + ' Params: ' + sParams + ' WorkDir: ' + wWorkDir);
+  wFileName:= UTF8Decode(sFileName);
+  wParams:= UTF8Decode(sParams);
+  Result := (ShellExecuteW(0, 'open', PWChar(wFileName), PWChar(wParams), PWChar(wWorkDir), SW_SHOW) > 32);
 end;
 {$ENDIF}
 
@@ -689,7 +693,7 @@ begin
   Result := False;
   with FileMapRec do
     begin
-      FileHandle := FileOpen(sFileName, fmOpenRead);
+      FileHandle := mbFileOpen(sFileName, fmOpenRead);
       if FileHandle <= 0 then Exit;
       FileSize := GetFileSize(FileHandle, nil);
 
@@ -999,7 +1003,7 @@ var
   wFileName: WideString;
 begin
   Result:= 0;
-  wFileName:= UTF8Decode({Delete>}AnsiToUTF8{<Delete}(FileName));
+  wFileName:= UTF8Decode(FileName);
   Handle := FindFirstFileW(PWChar(wFileName), FindData);
   if Handle <> INVALID_HANDLE_VALUE then
     begin

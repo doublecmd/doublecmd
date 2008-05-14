@@ -108,7 +108,7 @@ begin
   (* Delete temp files after view *)
   Count := FFileList.Count - 1;
   for I := 0 to Count do
-    DeleteFile(FFileList.Strings[I]);
+    mbDeleteFile(FFileList.Strings[I]);
 end;
 
 end.

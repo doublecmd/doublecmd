@@ -28,7 +28,7 @@ unit uFileStreamEx;
 interface
 
 uses
-  Classes, RtlConsts, SysUtils, uOSUtils;
+  Classes, RtlConsts, SysUtils;
 
 type
   { TFileStreamEx class }
@@ -44,6 +44,8 @@ type
   end; 
 
 implementation
+
+uses uOSUtils;
 
 { TFileStreamEx}
 

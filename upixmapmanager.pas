@@ -200,7 +200,7 @@ begin
       sExtFilter := ExtractFileExt(sFileName) + ';';
       sGraphicFilter := GraphicFilter(TGraphic);
       // if file is graphic
-      if (Pos(sExtFilter, sGraphicFilter) <> 0) and (FileExists(sFileName)) then
+      if (Pos(sExtFilter, sGraphicFilter) <> 0) and (mbFileExists(sFileName)) then
         if CompareFileExt(sFileName, 'png', false) = 0 then
           begin
             PNG := TPortableNetworkGraphic.Create;
@@ -214,7 +214,7 @@ begin
           end
       else // get file icon by ext
         begin
-          if FileExists(sFileName) or DirectoryExists(sFileName) then
+          if mbFileExists(sFileName) or mbDirectoryExists(sFileName) then
             begin
               New(pfri);
               with pfri^ do
@@ -256,7 +256,7 @@ begin
   else
     sFileName := sName;
     
-  if not FileExists(sFileName) then
+  if not mbFileExists(sFileName) then
   begin
     DebugLn(Format('Warning: pixmap [%s] not exists!',[sFileName]));
     Exit;
@@ -280,7 +280,7 @@ begin
   else
     sFileName := sName;
   
-  if not FileExists(sFileName) then
+  if not mbFileExists(sFileName) then
   begin
     DebugLn(Format('Warning: pixmap [%s] not exists!',[sFileName]));
     Exit;
@@ -413,7 +413,7 @@ begin
   for I := 0 to gExts.Count - 1 do
     begin
       sPixMap := gExts.Items[I].Icon;
-      if FileExists(sPixMap) then
+      if mbFileExists(sPixMap) then
         begin
           iPixMap:= CheckAddPixmap(sPixMap, False);
           if iPixMap < 0 then Continue;
@@ -431,7 +431,7 @@ begin
     end;
   {/ Load icons from doublecmd.ext }  
   
-  if FileExists(sFileName) then
+  if mbFileExists(sFileName) then
   begin
     assignFile(f,sFileName);
     reset(f);
@@ -591,7 +591,7 @@ begin
     end;
     if FPS_ISDIR(iMode) then
       {$IFDEF MSWINDOWS}
-      if not FileExists(sName + '\desktop.ini') then
+      if not mbFileExists(sName + '\desktop.ini') then
       {$ENDIF}
     begin
       Result:=FiDirIconID;

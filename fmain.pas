@@ -1247,7 +1247,7 @@ begin
 
       { Create directory }
 
-      if (DirectoryExists(ActiveDir+sPath)) then
+      if (mbDirectoryExists(ActiveDir+sPath)) then
       begin
         msgError(Format(rsMsgErrDirExists,[ActiveDir+sPath]));
         pnlFile.LastActive:=sPath;
@@ -1437,7 +1437,7 @@ begin
         else
         begin
           // execute command line
-          ChDir(ActiveDir);
+          mbSetCurrentDir(ActiveDir);
           ExecuteCommandFromEdit(edtCommand.Text);
           ClearCmdLine;
           RefreshPanel;
@@ -1449,7 +1449,7 @@ begin
       // execute active file in terminal (Shift+Enter)
       if Shift=[ssShift] then
       begin
-        Chdir(ActiveDir);
+        mbSetCurrentDir(ActiveDir);
         ExecCmdFork(ActiveDir + pnlFile.GetActiveItem^.sName, True, gTerm);
         Exit;
       end;
@@ -2324,7 +2324,7 @@ procedure TfrmMain.actRunTermExecute(Sender: TObject);
 begin
   if not edtCommand.Focused then
     begin
-      SetCurrentDir(ActiveFrame.ActiveDir);
+      mbSetCurrentDir(ActiveFrame.ActiveDir);
       ExecCmdFork(gRunTerm);
     end;
 end;
@@ -2917,7 +2917,7 @@ begin
     Init;
     ReAlign;
     pnlFile.OnChangeDirectory := @FramepnlFileChangeDirectory;
-    if not DirectoryExists(sPath) then
+    if not mbDirectoryExists(sPath) then
       GetDir(0, sPath);
     pnlFile.ActiveDir := sPath;
     pnlFile.LoadPanel;
@@ -3369,7 +3369,7 @@ begin
     sDir:=Trim(Copy(sCmd, iIndex+3, length(sCmd)));
     sDir:=IncludeTrailingBackslash(sDir);
     logWrite('Chdir to: ' + sDir);
-    if not SetCurrentDir(sDir) then
+    if not mbSetCurrentDir(sDir) then
     begin
       msgError(Format(rsMsgChDirFailed, [sDir]));
     end

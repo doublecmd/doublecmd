@@ -51,7 +51,7 @@ type
 implementation
 
 uses
-  uLng;
+  uLng, uOSUtils;
 
 function ShowSplitterFileForm(var sFile:TStringList):boolean;
 begin
@@ -118,9 +118,9 @@ begin
     //Incorrect file size format!
     exit;
   end;
-  if not DirectoryExists(edDirTarget.Text) then
+  if not mbDirectoryExists(edDirTarget.Text) then
   begin
-    if not CreateDir(edDirTarget.Text) then
+    if not mbCreateDir(edDirTarget.Text) then
     begin
       memWatch.Append(rsSplitErrDirectory);
       //Unable to create target directory!

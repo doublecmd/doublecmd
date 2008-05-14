@@ -114,7 +114,7 @@ begin
   if FPS_ISDIR(fr^.iMode) then
    begin
    DebugLn('Force =' + sDst+fr^.sPath+fr^.sNameNoExt);
-    if not DirectoryExists(sDst+fr^.sPath+fr^.sNameNoExt) then
+    if not mbDirectoryExists(sDst+fr^.sPath+fr^.sNameNoExt) then
       uFileProcs.ForceDirectory(sDst+fr^.sPath+fr^.sNameNoExt);
     Result:=True;
    end
@@ -125,7 +125,7 @@ begin
     begin
       Result:=False;
 //      writeln('testing:'+sDst+fr^.sPath+sDstNew);
-      if FileExists(sDst+fr^.sPath+sDstNew) and not FReplaceAll then
+      if mbFileExists(sDst+fr^.sPath+sDstNew) and not FReplaceAll then
       begin
         if FSkipAll then
         begin
@@ -151,7 +151,7 @@ end;
 
 Function TCopyThread.CopyFile(const sSrc, sDst:String; bAppend:Boolean):Boolean;
 var
-  src, dst:TFileStream;
+  src, dst:TFileStreamEx;
 //  bAppend:Boolean;
   iDstBeg:Int64; // in the append mode we store original size
   Buffer:PChar;
@@ -165,16 +165,16 @@ begin
   dst:=nil; // for safety exception handling
   try
     try
-      src:=TFileStream.Create(sSrc,fmOpenRead or fmShareDenyNone);
+      src:=TFileStreamEx.Create(sSrc,fmOpenRead or fmShareDenyNone);
       DebugLn(sDst);
       if bAppend then
       begin
-        dst:=TFileStream.Create(sDst,fmOpenReadWrite);
+        dst:=TFileStreamEx.Create(sDst,fmOpenReadWrite);
         dst.Seek(0,soFromEnd); // seek to end
       end
       else
 
-         dst:=TFileStream.Create(sDst,fmCreate);
+         dst:=TFileStreamEx.Create(sDst,fmCreate);
       iDstBeg:=dst.Size;
       // we dont't use CopyFrom, because it's alocate and free buffer every time is called
       FFileOpDlg.iProgress1Pos:=0;
