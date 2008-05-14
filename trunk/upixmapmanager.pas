@@ -567,7 +567,7 @@ function TPixMapManager.GetIconByFile(fi: PFileRecItem; PanelMode: TPanelMode): 
 var
   Ext : String;
 {$IFDEF MSWINDOWS}
-    FileInfo : TSHFileInfo;
+    FileInfo : TSHFileInfoW;
     _para2 : DWORD;
     _para5 : UINT;
 {$ENDIF}
@@ -631,7 +631,7 @@ begin
 
     //WriteLN('Icon for file == ' + sName);
           
-    SHGetFileInfo(PCHar(sName),
+    SHGetFileInfoW(PWChar(UTF8Decode(sName)),
                            _para2,
                            FileInfo,
                            SizeOf(FileInfo),
