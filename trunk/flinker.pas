@@ -52,7 +52,7 @@ function ShowLinkerFilesForm(var lsFiles:TStringList):Boolean;
 implementation
 
 uses
-  LCLProc, uLng, uFileProcs;
+  LCLProc, uLng, uFileProcs, uFileStreamEx;
 
 //var gDirectory:string;
 
@@ -144,18 +144,18 @@ end;
 procedure TfrmLinker.btnOKClick(Sender: TObject);
 var
   c:integer;
-  fTarget,fSource:TFileStream;
+  fTarget,fSource:TFileStreamEx;
 
 begin
   if ForceDirectory(ExtractFileDir(edSave.Text)) then
   begin
-    fTarget:=TFileStream.Create(edSave.Text,fmCreate);
+    fTarget:=TFileStreamEx.Create(edSave.Text,fmCreate);
     try
       prbrWork.Max:=lstFile.Items.Count;
       prbrWork.Position:=0;
       for c:=0 to lstFile.Items.Count-1 do
       begin
-        fSource:=TFileStream.Create(sDirectory+PathDelim
+        fSource:=TFileStreamEx.Create(sDirectory+PathDelim
               +lstFile.Items[c],fmOpenRead);
         try
           fTarget.CopyFrom(fSource,fSource.Size);
