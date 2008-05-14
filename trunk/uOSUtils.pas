@@ -459,20 +459,21 @@ end;
 function GetHomeDir : String;
 {$IFDEF MSWINDOWS}
 var
-size : Integer;
+  iSize: Integer;
+  wHomeDir: WideString;
 begin
-  size := GetEnvironmentVariable('USERPROFILE', nil, 0);
-  if size > 0 then
+  iSize:= GetEnvironmentVariableW('USERPROFILE', nil, 0);
+  if iSize > 0 then
     begin
-      SetLength(Result, size);
-      GetEnvironmentVariable('USERPROFILE', PChar(Result), size);
+      SetLength(wHomeDir, iSize);
+      GetEnvironmentVariableW('USERPROFILE', PWChar(wHomeDir), iSize);
     end;
-  Delete(Result, size, 1);
-  Result := Result + DirectorySeparator;
+  Delete(wHomeDir, iSize, 1);
+  Result:= UTF8Encode(wHomeDir) + DirectorySeparator;
 end;
 {$ELSE}
 begin
-  Result := GetEnvironmentVariable('HOME')+DirectorySeparator;
+  Result:= GetEnvironmentVariable('HOME')+DirectorySeparator;
 end;
 {$ENDIF}
 
@@ -1025,15 +1026,15 @@ end;
 function mbGetCurrentDir: UTF8String;
 {$IFDEF MSWINDOWS}
 var
-  Size: Integer;
+  iSize: Integer;
   wDir: WideString;
 begin
   Result:= '';
-  Size:= GetCurrentDirectoryW(0, nil);
-  if Size > 0 then
+  iSize:= GetCurrentDirectoryW(0, nil);
+  if iSize > 0 then
     begin
-      SetLength(Result, Size);
-      GetCurrentDirectoryW(Size, PWChar(wDir));
+      SetLength(wDir, iSize);
+      GetCurrentDirectoryW(iSize, PWChar(wDir));
       Result:= UTF8Encode(wDir);
     end;
 end;
