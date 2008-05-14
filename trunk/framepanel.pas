@@ -642,7 +642,7 @@ begin
   if Key=#13 then
   begin
     Key:=#0; // catch the enter
-    RenameFile(edtRename.Hint, ExtractFilePath(edtRename.Hint)+edtRename.Text);
+    mbRenameFile(edtRename.Hint, ExtractFilePath(edtRename.Hint)+edtRename.Text);
     edtRename.Visible:=False;
     pnlFile.LastActive:=edtRename.Text;
     RefreshPanel;

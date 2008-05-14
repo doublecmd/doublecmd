@@ -109,7 +109,7 @@ type
 implementation
 
 uses
-  uLng, uFileProcs;
+  uLng, uFileProcs, uOSUtils;
 
 function ShowMultiRenameForm(Var lsInFiles: TStringList):Boolean;
 var
@@ -439,7 +439,7 @@ begin
     for c:=0 to lsvwFile.Items.Count-1 do
       with lsvwFile.Items do
       begin
-        RenameFile(Item[c].SubItems[1]+pathDelim+item[c].Caption,
+        mbRenameFile(Item[c].SubItems[1]+pathDelim+item[c].Caption,
             Item[c].SubItems[1]+pathdelim+Item[c].SubItems[0]);
         if cbLog.Checked then
           Writeln(F,item[c].Caption+';'+Item[c].SubItems[0]);
