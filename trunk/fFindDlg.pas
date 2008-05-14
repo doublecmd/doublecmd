@@ -185,7 +185,7 @@ begin
   // load language
   edtFindPathStart.DialogTitle := rsFindWhereBeg;
   FFindThread:=nil;
-  edtFindPathStart.Text:=GetCurrentDir;
+  edtFindPathStart.Text:=mbGetCurrentDir;
   lblCurrent.Caption:='';
   lblStatus.Caption:='';
   Panel1.Visible := False;
@@ -206,7 +206,7 @@ var
   s:String;
 begin
   s:=edtFindPathStart.Text;
-  if not DirectoryExists(s) then s:='';
+  if not mbDirectoryExists(s) then s:='';
   SelectDirectory(rsFindWhereBeg,'',s, False);
   edtFindPathStart.Text:=s;
 end;
@@ -235,7 +235,7 @@ begin
   if cmbFindFileMask.Items.IndexOf(cmbFindFileMask.Text) < 0 then
     cmbFindFileMask.Items.Add(cmbFindFileMask.Text);
             
-  if not DirectoryExists(edtFindPathStart.Text) then
+  if not mbDirectoryExists(edtFindPathStart.Text) then
   begin
     ShowMessage(Format(rsFindDirNoEx,[edtFindPathStart.Text]));
     Exit;

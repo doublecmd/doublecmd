@@ -220,7 +220,7 @@ begin
             begin
               if fVFSmoduleList.Count <> 0 then  // if in sub archive then return in parent VFS
                 begin
-                  DeleteFile(fVFS.ArcFullName);
+                  mbDeleteFile(fVFS.ArcFullName);
                   I := fVFSmoduleList.Count - 1;
                   fVFS.VFSmodule := TVFSmodule(fVFSmoduleList.Objects[I]); // load VFS module
                   fVFS.ArcFullName := fVFSmoduleList.Names[I]; // load archive name
@@ -242,7 +242,7 @@ begin
                     begin
                       fPanelMode := pmDirectory;
                       fActiveDir := ExtractFilePath(fVFS.ArcFullName);
-                      ChDir(fActiveDir);
+                      mbSetCurrentDir(fActiveDir);
                       if Assigned(FOnChangeDirectory) then
                         FOnChangeDirectory(fOwner, fActiveDir);
                       LoadFilesbyDir(fActiveDir, fFileList);
@@ -331,7 +331,7 @@ begin
   if fPanelMode in [pmArchive, pmVFS] then
     fPanelMode := pmDirectory;
 
-  if not SetCurrentDir(ActiveDir) then
+  if not mbSetCurrentDir(ActiveDir) then
     begin
       GetDir(0,fActiveDir);
       if fActiveDir<>DirectorySeparator then
@@ -497,7 +497,7 @@ begin
     // and at the end try if it is executable
     if bExecutable then
       begin
-        System.ChDir(ActiveDir);
+        mbSetCurrentDir(ActiveDir);
         LastActive:=sName;
 
         ExecCmdFork(Format('"%s"', [sName]));
@@ -719,7 +719,7 @@ begin
     Result := True;
     Exit;
   end;
-  System.ChDir(ActiveDir);
+  mbSetCurrentDir(ActiveDir);
   Result := ExecCmdFork(sCmd);
 end;
 

@@ -48,7 +48,7 @@ var
   Buffer: PChar;
 begin
   Result:=False;
-  if not FileExists(sSrc) then Exit;
+  if not mbFileExists(sSrc) then Exit;
   
   dst:=nil; // for safety exception handling
   GetMem(Buffer,cBlockSize+1);
@@ -106,7 +106,7 @@ end;
 // only wrapper for SysUtils.DeleteFile (raise Exception)
 function DelFile(const sSrc:String):Boolean;
 begin
-  Result:=SysUtils.DeleteFile(sSrc);
+  Result:= mbDeleteFile(sSrc);
   if not Result then
     msgError(Format(rsMsgNotDelete,[sSrc]));
 end;
@@ -114,7 +114,7 @@ end;
 function RenFile(const sSrc, sDst:String):Boolean;
 begin
   Result:=False;
-  if FileExists(sDst) and not MsgYesNo(rsMsgFileExistsRwrt) then
+  if mbFileExists(sDst) and not MsgYesNo(rsMsgFileExistsRwrt) then
     Exit;
   Result:=SysUtils.RenameFile(sSrc, sDst);
 end;
@@ -148,11 +148,11 @@ begin
         GetDir(0, sDir);
 
       //DebugLn('Dir: ' + sDir);
-      if not DirectoryExists(sDir) then
+      if not mbDirectoryExists(sDir) then
       begin
         //DebugLn(copy(DirectoryName,1,iBeg-1));
-        chdir(copy(DirectoryName,1,iBeg-1));
-        Result:=CreateDir(Copy(DirectoryName, iBeg, i-iBeg));
+        mbSetCurrentDir(copy(DirectoryName,1,iBeg-1));
+        Result:=mbCreateDir(Copy(DirectoryName, iBeg, i-iBeg));
         if not Result then exit;
       end;
       iBeg:=i+1;

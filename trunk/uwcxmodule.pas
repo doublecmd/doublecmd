@@ -341,7 +341,7 @@ begin
   FArchiveName := sName;
   DebugLN('FArchiveName = ' + FArchiveName);
 
-  if not FileExists(FArchiveName) then
+  if not mbFileExists(FArchiveName) then
     begin
       Result := False;
       Exit;

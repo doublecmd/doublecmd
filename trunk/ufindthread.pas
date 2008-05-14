@@ -155,12 +155,12 @@ begin
     if length(FPathStart)>1 then
     if FPathStart[length(FPathStart)] = PathDelim then
       Delete(FPathStart,length(FPathStart),1);
-    sCurrDir:=GetCurrentDir;
+    sCurrDir:= mbGetCurrentDir;
     try
         DebugLn('thread b',FPathStart);
       WalkAdr(FPathStart);
     finally
-      ChDir(sCurrDir);
+      mbSetCurrentDir(sCurrDir);
     end;  
   //  MessageBeep(1000);
     DebugLn('thread end');
@@ -383,7 +383,7 @@ var
   Path : String;
 begin
   DebugLn(sNewDir);
-  if not SetCurrentDir(sNewDir) then Exit;
+  if not mbSetCurrentDir(sNewDir) then Exit;
 
   Path := sNewDir + PathDelim + FFileMask;
   //DebugLn('Path = ', Path);

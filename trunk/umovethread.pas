@@ -51,7 +51,7 @@ begin
     pr:=NewFileList.GetItem(xIndex);
     if FPS_ISDIR(pr^.iMode) then
     begin
-      if not DirectoryExists(sDstPath+pr^.sPath+ pr^.sNameNoExt) then
+      if not mbDirectoryExists(sDstPath+pr^.sPath+ pr^.sNameNoExt) then
         ForceDirectory(sDstPath+pr^.sPath+pr^.sNameNoExt);
 //      writeln('move:mkdir:',sDstPath+pr^.sNameNoExt);
     end;
@@ -95,7 +95,7 @@ begin
       Synchronize(@FFileOpDlg.UpdateDlg);
 //  test if exists and show dialog
       FAppend:=False;
-      if FileExists(sDstPath+pr^.sPath+sDstNew) and not FReplaceAll then
+      if mbFileExists(sDstPath+pr^.sPath+sDstNew) and not FReplaceAll then
       begin
         if FSkipAll then
           Exit;
@@ -103,13 +103,13 @@ begin
           Continue;
       end;
 
-      if FAppend or not RenameFile(pr^.sName, sDstPath+pr^.sPath+ sDstNew) then
+      if FAppend or not mbRenameFile(pr^.sName, sDstPath+pr^.sPath+ sDstNew) then
       begin
         // rename failed, maybe not the same filesystem (or we want append)
         // OK, copy standard way and delete src file
         if cpFile(pr, sDstPath, False) then // False >> not show confirmation dialog
           begin
-            if SysUtils.DeleteFile(pr^.sName) then
+            if mbDeleteFile(pr^.sName) then
               if (log_delete in gLogOptions) and (log_success in gLogOptions) then
                 logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogDelete, [pr^.sName]), lmtSuccess)
             else

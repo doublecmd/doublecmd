@@ -130,7 +130,7 @@ procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
 implementation
 
 uses
-  uLng, uShowMsg, uGlobs, lcltype, lazjpg, uFindMmap;
+  uLng, uShowMsg, uGlobs, lcltype, lazjpg, uFindMmap, uOSUtils;
 
 
 procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
@@ -266,7 +266,7 @@ begin
       //DebugLN('DeleteFile == ' + FileList.Strings[0]);
 
       for I := 0 to Count do
-        DeleteFile(FileList.Strings[I]);
+        mbDeleteFile(FileList.Strings[I]);
     end;
   if assigned(WlxPlugins) then
      begin

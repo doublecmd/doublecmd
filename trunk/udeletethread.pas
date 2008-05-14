@@ -68,7 +68,7 @@ begin
   try
     if FPS_ISDIR(fr^.iMode) then // directory
       begin
-        Result := RemoveDir(fr^.sName);
+        Result := mbRemoveDir(fr^.sName);
         // write log
         if Result then
           if (log_dir_op in gLogOptions) and (log_success in gLogOptions) then
@@ -79,7 +79,7 @@ begin
       end
     else
       begin // files and other stuff
-        Result := sysutils.DeleteFile(fr^.sName);
+        Result := mbDeleteFile(fr^.sName);
         // write log
         if Result then
           if (log_delete in gLogOptions) and (log_success in gLogOptions) then

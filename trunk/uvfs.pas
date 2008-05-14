@@ -138,7 +138,7 @@ var
   Index : Integer;
   sPlugin : String;
 begin
-  if not FileExists(sFileName) then Exit(False);
+  if not mbFileExists(sFileName) then Exit(False);
   iCount := FWCXPlugins.Count - 1;
   for I := 0 to iCount do
     begin

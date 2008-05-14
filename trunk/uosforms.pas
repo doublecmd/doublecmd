@@ -192,7 +192,7 @@ begin
     for I := 0 to FileList.Count - 1 do
       begin
       //**********   if s <> sPath then
-        S := FileList.GetItem(I)^.sPath;
+        S := UTF8Decode(FileList.GetItem(I)^.sPath);
         
         OleCheck(DeskTopFolder.ParseDisplayName(Handle, nil, PWideChar(S), pchEaten, PathPIDL, dwAttributes));
         try
@@ -202,7 +202,7 @@ begin
         end;
       //*****************
 
-        S:=FileList.GetItem(I)^.sName;;
+        S:=UTF8Decode(FileList.GetItem(I)^.sName);
         OleCheck(Folder.ParseDisplayName(Handle, nil, PWideChar(S), pchEaten, tmpPIDL, dwAttributes));
         List^[i] := tmpPIDL;
       end;
