@@ -51,7 +51,7 @@ type
 implementation
 
 uses
-  uLng, uOSUtils;
+  uLng, uFileStreamEx, uOSUtils;
 
 function ShowSplitterFileForm(var sFile:TStringList):boolean;
 begin
@@ -130,7 +130,7 @@ begin
   if edDirTarget.Text[Length(edDirTarget.Text)]<>PathDelim then
      edDirTarget.Text:=edDirTarget.Text+PathDelim;
 
-  fSource:=TFileStream.Create(edFileSource.Text,fmOpenRead);
+  fSource:=TFileStreamEx.Create(edFileSource.Text,fmOpenRead);
   try
     prgbrDoIt.Max:=(fSource.Size div iFileSize);
     if prgbrDoIt.Max=0 then
@@ -149,7 +149,7 @@ begin
     i:=0;
     while i<=prgbrDoIt.Max-1 do
     begin
-      fDest:=TFileStream.Create(
+      fDest:=TFileStreamEx.Create(
         edDirTarget.Text+ExtractFileName(edFileSource.Text)+
         '.'+Format('%.*d',[num+1,i])+'.split'
         ,fmCreate);
@@ -169,7 +169,7 @@ begin
     end;
     if (fSource.Position)<fSource.Size then
     begin
-      fDest:=TFileStream.Create(
+      fDest:=TFileStreamEx.Create(
         edDirTarget.Text+ExtractFileName(edFileSource.Text)+
         '.'+Format('%.*d',[num+1,i])+'.split'
         ,fmCreate);
