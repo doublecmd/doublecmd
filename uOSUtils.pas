@@ -258,7 +258,7 @@ var
 begin
   iAttr := FileGetAttr(sSrc);
   //---------------------------------------------------------
-  Handle:= FileOpen(sSrc, fmOpenRead or fmShareDenyNone);
+  Handle:= mbFileOpen(sSrc, fmOpenRead or fmShareDenyNone);
   GetFileTime(Handle,nil,nil,@ft);
   FileClose(Handle);
   //---------------------------------------------------------
@@ -266,7 +266,7 @@ begin
     iAttr := (iAttr and not faReadOnly);
   Result := (FileSetAttr(sDst, iAttr) = 0);
   //---------------------------------------------------------
-  Handle:= FileOpen(sDst, fmOpenReadWrite or fmShareExclusive);
+  Handle:= mbFileOpen(sDst, fmOpenReadWrite or fmShareExclusive);
   Result := SetFileTime(Handle, nil, nil, @ft);
   FileClose(Handle);
 end;
@@ -392,8 +392,11 @@ begin
     TotalSize := (Int64(sbfs.blocks)*sbfs.bsize);
 end;
 {$ELSE}
+var
+  wPath: WideString;
 begin
-  Result:= GetDiskFreeSpaceEx(PChar(Path), FreeSize, TotalSize, nil);
+  wPath:= UTF8Decode(Path);
+  Result:= GetDiskFreeSpaceExW(PWChar(wPath), FreeSize, TotalSize, nil);
 end;
 {$ENDIF}
 
@@ -441,7 +444,7 @@ var
 begin
   try
     if uNTFSLinks.FGetSymlinkInfo(LinkName, Target, LinkType) then
-      Result := Target
+      Result := UTF8Encode(Target)
     else
       Result := '';
   except
