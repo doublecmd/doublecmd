@@ -84,18 +84,7 @@ function FDeleteSymlink(const fn: WideString): boolean;
 function FDriveSupportsSymlinks(const fn: WideString): boolean;
 
 implementation
-//=============================================================
-function isFileExists( const AFileName: String ): Boolean;
-var
-  h: THandle;
-  rFindData: TWin32FindData;
-begin
-  h := Windows.FindFirstFile( PChar(AFileName), rFindData );
-  Result := h<>INVALID_HANDLE_VALUE;
-  if not Result then Exit;
-  Windows.FindClose(h);
-  Result := ( rFindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY ) = 0;
-end;
+
 //-------------------------------------------------------------
 // warning: function assumes that it is correct directory name
 function isDirectoryEmpty( const ADirectoryName: String ): Boolean;
