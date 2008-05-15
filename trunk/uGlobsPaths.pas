@@ -13,7 +13,7 @@ procedure LoadPaths;
 
 implementation
 uses
-  LCLProc, SysUtils, IniFiles, uOSUtils;
+  LCLProc, SysUtils, IniFiles;
 
 function GetAppName : String;
 begin
@@ -38,7 +38,7 @@ begin
     begin
       OnGetApplicationName := @GetAppName;
       gpIniDir := GetAppConfigDir(False);
-      if not mbDirectoryExists(gpIniDir) then
+      if not DirectoryExists(gpIniDir) then
         ForceDirectories(gpIniDir);
       OnGetApplicationName := nil;
       gpIniDir := IncludeTrailingPathDelimiter(gpIniDir);  // add if need path delimiter

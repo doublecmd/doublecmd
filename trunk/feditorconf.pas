@@ -320,14 +320,14 @@ var
   iIndex:Integer;
 begin
   cmbPredefined.Clear;
-  if FindFirstEx(gpIniDir+'*.col', faAnyFile, fr)<>0 then
+  if FindFirst(gpIniDir+'*.col', faAnyFile, fr)<>0 then
   begin
     FindClose(fr);
     Exit;
   end;
   repeat
     cmbPredefined.Items.Add(fr.Name);
-  until FindNextEx(fr)<>0;
+  until FindNext(fr)<>0;
   FindClose(fr);
 
   if cmbPredefined.Items.Count>0 then

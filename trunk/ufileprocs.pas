@@ -48,7 +48,7 @@ var
   Buffer: PChar;
 begin
   Result:=False;
-  if not mbFileExists(sSrc) then Exit;
+  if not FileExists(sSrc) then Exit;
   
   dst:=nil; // for safety exception handling
   GetMem(Buffer,cBlockSize+1);

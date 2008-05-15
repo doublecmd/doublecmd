@@ -57,7 +57,7 @@ procedure logWrite(Thread : TThread; const sText:String; LogMsgType : TLogMsgTyp
 
 implementation
 uses
-  SysUtils, LCLProc, fMain, uGlobs, uOSUtils;
+  SysUtils, LCLProc, fMain, uGlobs;
 
 procedure logWrite(const sText:String; LogMsgType : TLogMsgType);
 var
@@ -73,7 +73,7 @@ begin
     begin
       AssignFile(LogFile, gLogFileName);
       try
-        if mbFileExists(gLogFileName) then
+        if FileExists(gLogFileName) then
           Append(LogFile)
         else
           Rewrite(LogFile);

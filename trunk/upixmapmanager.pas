@@ -431,7 +431,7 @@ begin
     end;
   {/ Load icons from doublecmd.ext }  
   
-  if mbFileExists(sFileName) then
+  if FileExists(sFileName) then
   begin
     assignFile(f,sFileName);
     reset(f);
