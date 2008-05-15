@@ -263,22 +263,22 @@ begin
 
   { Create default configuration files if need }
   // main ini file
-  if not mbFileExists(gpIniDir + 'doublecmd.ini') then
+  if not FileExists(gpIniDir + 'doublecmd.ini') then
     CopyFile(gpCfgDir + 'doublecmd.ini', gpIniDir + 'doublecmd.ini');
   // toolbar file
-  if not mbFileExists(gpIniDir + 'default.bar') then
+  if not FileExists(gpIniDir + 'default.bar') then
     CopyFile(gpCfgDir + 'default.bar', gpIniDir + 'default.bar');
   // extension file
-  if not mbFileExists(gpIniDir + 'doublecmd.ext') then
+  if not FileExists(gpIniDir + 'doublecmd.ext') then
     CopyFile(gpCfgDir + 'doublecmd.ext', gpIniDir + 'doublecmd.ext');
   // pixmaps file
-  if not mbFileExists(gpIniDir + 'pixmaps.txt') then
+  if not FileExists(gpIniDir + 'pixmaps.txt') then
     CopyFile(gpCfgDir + 'pixmaps.txt', gpIniDir + 'pixmaps.txt');
   // editor highlight file1
-  if not mbFileExists(gpIniDir + 'editor.col') then
+  if not FileExists(gpIniDir + 'editor.col') then
     CopyFile(gpCfgDir + 'editor.col', gpIniDir + 'editor.col');
   // editor highlight file2
-  if not mbFileExists(gpIniDir + 'twilight.col') then
+  if not FileExists(gpIniDir + 'twilight.col') then
     CopyFile(gpCfgDir + 'twilight.col', gpIniDir + 'twilight.col');
 	
   gIni := TIniFile.Create(gpIniDir + 'doublecmd.ini');
@@ -414,13 +414,13 @@ begin
 
   gCutTextToColWidth := gIni.ReadBool('Configuration', 'CutTextToColWidth', False);
 
-  if mbFileExists(gpIniDir + 'doublecmd.ext') then
+  if FileExists(gpIniDir + 'doublecmd.ext') then
     gExts.LoadFromFile(gpIniDir + 'doublecmd.ext');
 
-  if mbFileExists(gpIniDir + 'dirhistory.txt') then
+  if FileExists(gpIniDir + 'dirhistory.txt') then
     LoadStringsFromFile(glsDirHistory,gpIniDir + 'dirhistory.txt');
 
-  if mbFileExists(gpIniDir + 'maskhistory.txt') then
+  if FileExists(gpIniDir + 'maskhistory.txt') then
     LoadStringsFromFile(glsMaskHistory, gpIniDir + 'maskhistory.txt');
 
   gColorExt.Load;
@@ -443,7 +443,7 @@ begin
   Assert(list <> nil,'LoadStringsFromFile: list=nil');
   list.Clear;
   Result:=False;
-  if not mbFileExists(sFileName) then Exit;
+  if not FileExists(sFileName) then Exit;
   list.LoadFromFile(sFileName);
   for i:=list.Count-1 downto 0 do
     if i>cMaxStringItems then
