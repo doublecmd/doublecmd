@@ -177,6 +177,7 @@ begin
       end;
       FileFlush(fs.Handle);
     end;
+    FileTruncate(fs.Handle, 0);    
     fs.Free;
   except
     on E: Exception do
