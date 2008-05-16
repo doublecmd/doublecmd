@@ -179,9 +179,9 @@ function FileTimeToDateTime(ft : TFileTime) : TDateTime;
 function DateTimeToFileTime(dt : TDateTime) : TFileTime;
 
 { File handling functions}
-function mbFileOpen(const FileName: UTF8String; Mode: Integer): THandle;
-function mbFileCreate(const FileName: UTF8String): THandle;overload;
-function mbFileCreate(const FileName: UTF8String; Mode: Integer): THandle;overload;
+function mbFileOpen(const FileName: UTF8String; Mode: Integer): Integer;
+function mbFileCreate(const FileName: UTF8String): Integer;overload;
+function mbFileCreate(const FileName: UTF8String; Mode: Integer): Integer;overload;
 function mbFileAge(const FileName: UTF8String): Longint;
 function mbFileExists(const FileName: UTF8String): Boolean;
 function mbDirectoryExists(const Directory : UTF8String) : Boolean;
@@ -189,6 +189,7 @@ function mbFileGetAttr(const FileName: UTF8String): Longint;
 function mbDeleteFile(const FileName: UTF8String): Boolean;
 function mbRenameFile(const OldName, NewName : UTF8String): Boolean;
 function mbFileSize(const FileName: UTF8String): Int64;
+function FileFlush(Handle: Integer): Boolean;
 { Directory handling functions}
 function mbGetCurrentDir: UTF8String;
 function mbSetCurrentDir(const NewDir: UTF8String): Boolean;
@@ -807,7 +808,7 @@ begin
   LocalFileTimeToFileTimeEx(Result, Result);
 end;
 
-function mbFileOpen(const FileName: UTF8String; Mode: Integer): THandle;
+function mbFileOpen(const FileName: UTF8String; Mode: Integer): Integer;
 {$IFDEF MSWINDOWS}
 const
   AccessMode: array[0..2] of DWORD  = (
@@ -839,7 +840,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileCreate(const FileName: UTF8String): THandle;
+function mbFileCreate(const FileName: UTF8String): Integer;
 {$IFDEF MSWINDOWS}
 var
   wFileName: WideString;
@@ -854,7 +855,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileCreate(const FileName: UTF8String; Mode: Integer): THandle;
+function mbFileCreate(const FileName: UTF8String; Mode: Integer): Integer;
 {$IFDEF MSWINDOWS}
 begin
   Result:= FileCreate(FileName);
@@ -1026,6 +1027,17 @@ begin
 end;
 {$ENDIF}
 
+function FileFlush(Handle: Integer): Boolean;  
+{$IFDEF MSWINDOWS}
+begin
+  Result:= FlushFileBuffers(Handle);
+end;
+{$ELSE}  
+begin
+  Result:= (fpfsync(Handle) = 0);
+end;  
+{$ENDIF}
+  
 function mbGetCurrentDir: UTF8String;
 {$IFDEF MSWINDOWS}
 var
