@@ -2003,6 +2003,10 @@ msgstr "breedte"
 msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
 msgstr "Windows: 'rahs' Unix: 'rwxrwxrwx'"
 
+#: TFRMMAIN.ACTWIPE.CAPTION
+msgid "Wipe"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLWRITE.CAPTION
 msgid "Write"
 msgstr "Schrijf"

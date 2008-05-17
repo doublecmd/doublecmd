@@ -62,6 +62,7 @@ type
     actCopyNamesToClip: TAction;
     actCopyFullNamesToClip: TAction;
     actExchange: TAction;
+    actWipe: TAction;
     actOpenDirInNewTab: TAction;
     actTargetEqualSource: TAction;
     actOpen: TAction;
@@ -238,6 +239,7 @@ type
     procedure actShowButtonMenuExecute(Sender: TObject);
     procedure actTransferLeftExecute(Sender: TObject);
     procedure actTransferRightExecute(Sender: TObject);
+    procedure actWipeExecute(Sender: TObject);
     procedure btnLeftClick(Sender: TObject);
     procedure btnLeftDirectoryHotlistClick(Sender: TObject);
     procedure btnRightClick(Sender: TObject);
@@ -586,6 +588,60 @@ procedure TfrmMain.actTransferRightExecute(Sender: TObject);
 begin
   if (PanelSelected = fpLeft) then
     SetNotActFrmByActFrm;
+end;
+
+procedure TfrmMain.actWipeExecute(Sender: TObject);
+var
+  fl:TFileList;
+  WT : TWipeThread;
+begin
+  with ActiveFrame do
+  begin
+    if  pnlFile.PanelMode in [pmArchive, pmVFS] then // if in VFS
+      begin
+        msgOK(rsMsgErrNotSupported);
+        Exit;
+      end; // in VFS
+
+    SelectFileIfNoSelected(GetActiveItem);
+  end;
+
+  case msgYesNoCancel(GetFileDlgStr(rsMsgDelSel,rsMsgDelFlDr)) of
+    mmrNo:
+      begin
+        ActiveFrame.UnMarkAll;
+        Exit;
+      end;
+    mmrCancel:
+      begin
+	with ActiveFrame do
+	  UnSelectFileIfSelected(GetActiveItem);
+        Exit;
+      end;
+  end;
+
+  fl:=TFileList.Create; // free at Thread end by thread
+  try
+    CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
+
+    (* Wipe files *)
+     if not Assigned(frmFileOp) then
+       frmFileOp:= TfrmFileOp.Create(Application);
+     try
+       WT := TWipeThread.Create(fl);
+       WT.FFileOpDlg:= frmFileOp;
+       WT.sDstPath:= NotActiveFrame.ActiveDir;
+       //DT.sDstMask:=sDstMaskTemp;
+       frmFileOp.Thread:= TThread(WT);
+       frmFileOp.Show;
+       WT.Resume;
+     except
+       WT.Free;
+     end;
+
+  except
+    FreeAndNil(frmFileOp);
+  end;
 end;
 
 procedure TfrmMain.btnLeftClick(Sender: TObject);

@@ -275,7 +275,9 @@ procedure TWipeThread.WipeFile(filename: String);
 var
   Found: Integer;
   SRec: TSearchRec;
+  sPath: String;
 begin
+  sPath:= ExtractFilePath(filename);
   { Use FindFirst so we can specify wild cards in the filename }
   Found:= FindFirstEx(filename,faReadOnly or faSysFile or faArchive or faSysFile,SRec);
   if Found <> 0 then
@@ -288,20 +290,20 @@ begin
     begin
       //remove read-only attr
       try
-        if not FileCopyAttr(SRec.Name, SRec.Name, True) then
-          DebugLn('wp: FAILED when trying to remove read-only attr on '+SRec.Name);
+        if not FileCopyAttr(sPath + SRec.Name, sPath + SRec.Name, True) then
+          DebugLn('wp: FAILED when trying to remove read-only attr on '+ sPath + SRec.Name);
       except
-        DebugLn('wp: can''t wipe '+SRec.Name+', file might be in use.');
+        DebugLn('wp: can''t wipe '+ sPath + SRec.Name + ', file might be in use.');
         DebugLn('wipe stopped.');
         errors:= errors+1;
         everythingOK:= False;
         exit;        
       end;
 
-      DebugLn('wiping '+SRec.Name);
-      SecureDelete(strtoint(paramstr(1)),SRec.Name);
+      DebugLn('wiping ' + sPath + SRec.Name);
+      SecureDelete(1, sPath + SRec.Name);
       if not everythingOK then
-         DebugLn('wp: couldn''t wipe '+filename);
+         DebugLn('wp: couldn''t wipe ' + sPath + SRec.Name);
 
       Found:= FindNextEx(SRec);   { Find the next file }
     end;

@@ -2002,6 +2002,10 @@ msgstr "Ширина"
 msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
 msgstr ""
 
+#: TFRMMAIN.ACTWIPE.CAPTION
+msgid "Wipe"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLWRITE.CAPTION
 msgid "Write"
 msgstr "Запис"
