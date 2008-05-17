@@ -55,25 +55,25 @@ implementation
 const
   LazarusVersionStr = {$I version.inc};
   cAboutMsg =
-    'This program is free software under GNU GPL 2 license, see COPYING file'+#13+
-    'Authors: '+ #13 +
-    'Alexander Koblov (Alexx2000@mail.ru)' + #13 +
-    'Radek Cervinka (radek.cervinka@centrum.cz) - author of Seksi Commander'+#13+
-    'Contributors:'+#13+
-    'Dmitry Kolomiets (B4rr4cuda@rambler.ru)'+#13+
-    'Tolstov Igor (attid@yandex.ru)'+#13+
-    'Zolotov Alex (zolotov-alex@shamangrad.net)'+#13+
-    'Peter Cernoch (pcernoch@volny.cz) - author PFM'+#13+
-    'Pavel Letko (letcuv@centrum.cz) - multirename, split, linker'+#13+
-    'Jiri Karasek (jkarasek@centrum.cz)'+#13+
-    'Vladimir Pilny (vladimir@pilny.com)'+#13+
-    'Vaclav Juza (vaclavjuza@seznam.cz)'+#13+
-    'Martin Matusu (xmat@volny.cz) - chown, chgrp'+#13+
-    'Radek Polak - some viewer fixes'+#13+
-    'translators (see detail in lng files)  '+#13+#13+
-    'In program used icons from:'+#13+
-    '- Tango Icon Library (http://tango.freedesktop.org/Tango_Icon_Library)'+#13+
-    '- Silk icon set 1.3 by Mark James (http://www.famfamfam.com/lab/icons/silk/)'+#13+#13+
+    'This program is free software under GNU GPL 2 license, see COPYING file'+LineEnding+
+    'Authors: '+ LineEnding +
+    'Alexander Koblov (Alexx2000@mail.ru)' + LineEnding +
+    'Radek Cervinka (radek.cervinka@centrum.cz) - author of Seksi Commander'+LineEnding+
+    'Contributors:'+LineEnding+
+    'Dmitry Kolomiets (B4rr4cuda@rambler.ru)'+LineEnding+
+    'Tolstov Igor (attid@yandex.ru)'+LineEnding+
+    'Zolotov Alex (zolotov-alex@shamangrad.net)'+LineEnding+
+    'Peter Cernoch (pcernoch@volny.cz) - author PFM'+LineEnding+
+    'Pavel Letko (letcuv@centrum.cz) - multirename, split, linker'+LineEnding+
+    'Jiri Karasek (jkarasek@centrum.cz)'+LineEnding+
+    'Vladimir Pilny (vladimir@pilny.com)'+LineEnding+
+    'Vaclav Juza (vaclavjuza@seznam.cz)'+LineEnding+
+    'Martin Matusu (xmat@volny.cz) - chown, chgrp'+LineEnding+
+    'Radek Polak - some viewer fixes'+LineEnding+
+    'translators (see detail in lng files)  '+LineEnding+LineEnding+
+    'In program used icons from:'+LineEnding+
+    '- Tango Icon Library (http://tango.freedesktop.org/Tango_Icon_Library)'+LineEnding+
+    '- Silk icon set 1.3 by Mark James (http://www.famfamfam.com/lab/icons/silk/)'+LineEnding+LineEnding+
     'Big thanks to Lazarus and FreePascal Team';
 
 procedure ShowAboutBox;
