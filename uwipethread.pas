@@ -210,8 +210,10 @@ procedure TWipeThread.WipeDir(dir: string);
 var
   Search: TSearchRec;
   ok: Integer;
+  sPath: String;
 begin
-  ok:= FindFirstEx(dir + PathDelim + '*', faAnyFile, Search);
+  sPath:= IncludeTrailingPathDelimiter(dir);
+  ok:= FindFirstEx(sPath + '*', faAnyFile, Search);
   while ok = 0 do  begin
     if ((Search.Name <> '.' ) and (Search.Name <> '..')) then
       begin
@@ -219,25 +221,25 @@ begin
           begin
             //remove read-only attr
             try          
-              FileCopyAttr(Search.Name, Search.Name, True);
+              FileCopyAttr(sPath + Search.Name, sPath + Search.Name, True);
             except
-              DebugLn('wp: FAILED when trying to remove read-only attr on '+Search.Name);
+              DebugLn('wp: FAILED when trying to remove read-only attr on '+ sPath + Search.Name);
             end;
-            DebugLn('entering '+dir + PathDelim + Search.Name);
-            WipeDir(dir + PathDelim + Search.Name);
+            DebugLn('entering '+ sPath + Search.Name);
+            WipeDir(sPath + Search.Name);
           end
         else
           begin
           //remove read-only attr
             try
-              if not FileCopyAttr(Search.Name, Search.Name, True) then
-                DebugLn('wp: FAILED when trying to remove read-only attr on '+Search.Name);
+              if not FileCopyAttr(sPath + Search.Name, sPath + Search.Name, True) then
+                DebugLn('wp: FAILED when trying to remove read-only attr on '+ sPath + Search.Name);
             except
-              DebugLn('wp: FAILED when trying to remove read-only attr on '+Search.Name);
+              DebugLn('wp: FAILED when trying to remove read-only attr on '+ sPath + Search.Name);
             end;
             // do something with the file
-            DebugLn('wiping '+dir + PathDelim + Search.Name);
-            SecureDelete(1, dir + PathDelim + Search.Name);
+            DebugLn('wiping '+ sPath + Search.Name);
+            SecureDelete(gWipePassNumber, sPath + Search.Name);
           end;
       end;
     ok:= FindNextEx(Search);
@@ -246,11 +248,11 @@ begin
   try
     if everythingOK then
       begin
-        DebugLn('wiping '+dir);
+        DebugLn('wiping ' + dir);
             
         if not mbRemoveDir(dir) then
           begin
-            DebugLn('wp: error wiping directory '+dir);
+            DebugLn('wp: error wiping directory ' + dir);
             // write log -------------------------------------------------------------------
             if (log_dir_op in gLogOptions) and (log_errors in gLogOptions) then
               logWrite(Self, Format(rsMsgLogError+rsMsgLogRmDir, [dir]), lmtError);
@@ -282,7 +284,7 @@ begin
   Found:= FindFirstEx(filename,faReadOnly or faSysFile or faArchive or faSysFile,SRec);
   if Found <> 0 then
     begin
-      DebugLn('wp: file not found: ',filename);
+      DebugLn('wp: file not found: ', filename);
       errors:= errors+1;
       exit;
     end;
@@ -301,7 +303,7 @@ begin
       end;
 
       DebugLn('wiping ' + sPath + SRec.Name);
-      SecureDelete(1, sPath + SRec.Name);
+      SecureDelete(gWipePassNumber, sPath + SRec.Name);
       if not everythingOK then
          DebugLn('wp: couldn''t wipe ' + sPath + SRec.Name);
 
