@@ -34,7 +34,7 @@ unit uPixMapManager;
 
 interface
 uses
-  Classes, SysUtils, uTypes, contnrs, Graphics, uOSUtils;
+  Classes, SysUtils, uTypes, contnrs, Graphics, CommCtrl, uOSUtils;
 
 type
   TDriveIcons = record
@@ -166,9 +166,9 @@ begin
       ExtractIconEx(PChar(sFileName), iIconIndex, phiconLarge, phiconSmall, 1);
       case iIconSize of
         16:  // Small icon
-          Result := CreateIconFromHandle(phiconSmall);
+          Result := Graphics.TBitmap(CreateIconFromHandle(phiconSmall));
         32:  // Large icon
-          Result := CreateIconFromHandle(phiconLarge);
+          Result := Graphics.TBitmap(CreateIconFromHandle(phiconLarge));
         else
           begin
             { Convert TIcon to TBitMap  }
@@ -670,13 +670,13 @@ begin
         begin
           SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON or SHGFI_SMALLICON);
           if SFI.hIcon <> 0 then
-            Result := CreateIconFromHandle(SFI.hIcon);
+            Result := Graphics.TBitmap(CreateIconFromHandle(SFI.hIcon));
         end;
       32:  // Standart icon size
         begin
           SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON or SHGFI_LARGEICON);
           if SFI.hIcon <> 0 then
-            Result := CreateIconFromHandle(SFI.hIcon);
+            Result := Graphics.TBitmap(CreateIconFromHandle(SFI.hIcon));
         end;
       else  // for non standart icon size we Convert HIcon to TBitMap
         begin

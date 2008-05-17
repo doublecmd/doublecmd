@@ -228,7 +228,7 @@ var
   cmd: UINT;
   iCmd: Integer;
   HR: HResult;
-  cmici: CMINVOKECOMMANDINFO;
+  cmici: TCMINVOKECOMMANDINFO;
   bHandled : Boolean;
   ZVerb: array[0..255] of char;
   sVerb : String;
@@ -476,7 +476,7 @@ begin
 end;
 {$ELSE}
 var
-  cmici: CMINVOKECOMMANDINFO;
+  cmici: TCMINVOKECOMMANDINFO;
   contMenu: IContextMenu;
   fl : TFileList;
 begin
