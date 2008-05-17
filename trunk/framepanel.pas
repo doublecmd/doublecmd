@@ -129,7 +129,8 @@ type
 implementation
 
 uses
-  LCLProc, Masks, uLng, uShowMsg, uGlobs, GraphType, uPixmapManager, uVFSUtil, uDCUtils, uOSUtils, math;
+  LCLProc, Masks, uLng, uShowMsg, uGlobs, GraphType, uPixmapManager, uVFSUtil,
+  uDCUtils, uOSUtils, math, uFileList;
 
 
 procedure TFrameFilePanel.LoadPanel;
@@ -195,6 +196,8 @@ begin
 end;
 
 procedure TFrameFilePanel.RefreshPanel;
+var
+  aFileList: TFileList;
 begin
   if dgPanel.Row>=0 then
   begin
@@ -206,7 +209,9 @@ begin
     begin
       if pnlFile.VFS.VFSmodule.VFSRefresh then
         begin
-          pnlFile.VFS.VFSmodule.VFSList(ExtractDirLevel(pnlFile.VFS.ArcFullName, ActiveDir), pnlFile.FileList);
+          aFileList := pnlFile.FileList;
+          pnlFile.VFS.VFSmodule.VFSList(ExtractDirLevel(pnlFile.VFS.ArcFullName, ActiveDir), aFileList);
+          pnlFile.FileList := aFileList;
           if gShowIcons then
             pnlFile.FileList.UpdateFileInformation(pnlFile.PanelMode);
           pnlFile.Sort; // and Update panel
