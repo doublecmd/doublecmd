@@ -27,6 +27,7 @@ object frmMain: TfrmMain
   OnShow = frmMainShow
   Position = poDesktopCenter
   ShowHint = True
+  LCLVersion = '0.9.25'
   object pnlSyncSize: TPanel
     Height = 26
     Top = 24
@@ -429,8 +430,6 @@ object frmMain: TfrmMain
     Font.Name = 'courier'
     ParentColor = False
     TabOrder = 4
-    BookMarkOptions.OnChange = nil
-    Gutter.OnChange = nil
     Gutter.CodeFoldingWidth = 14
     Keystrokes = <    
       item
@@ -756,7 +755,6 @@ object frmMain: TfrmMain
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
-    SelectedColor.OnChange = nil
     OnSpecialLineColors = seLogWindowSpecialLineColors
   end
   object LogSplitter: TSplitter
@@ -765,8 +763,8 @@ object frmMain: TfrmMain
     Top = 286
     Width = 676
     Align = alBottom
-    ResizeStyle = rsLine
     ResizeAnchor = akBottom
+    ResizeStyle = rsLine
   end
   object mnuMain: TMainMenu
     left = 283
@@ -1414,6 +1412,13 @@ object frmMain: TfrmMain
       Caption = 'Open folder in new tab'
       DisableIfNoHandler = True
       OnExecute = actOpenDirInNewTabExecute
+    end
+    object actWipe: TAction
+      Category = 'Commands'
+      Caption = 'Wipe'
+      DisableIfNoHandler = True
+      OnExecute = actWipeExecute
+      ShortCut = 32814
     end
   end
   object pmHotList: TPopupMenu

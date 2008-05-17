@@ -68,6 +68,7 @@
         <ComponentName Value="frmMain"/>
         <HasResources Value="True"/>
         <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="fmain.lrs"/>
         <UnitName Value="fMain"/>
       </Unit2>
@@ -295,7 +296,7 @@
     <PathDelim Value="\"/>
     <SearchPaths>
       <IncludeFiles Value="$(LazarusDir)\ide\"/>
-      <SrcPath Value="$(LazarusDir)\lcl\;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType)\"/>
+      <SrcPath Value="$(LazarusDir)\lcl\;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType)\;$(fpcsrcdir)\packages\fcl-base\src\"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>

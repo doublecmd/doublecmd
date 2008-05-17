@@ -1959,6 +1959,7 @@ msgstr "不选择掩码"
 msgid "Up"
 msgstr "上"
 
+#: 
 msgid "Use '-' to off attribute and '?' to any"
 msgstr "用 '-' 关闭属性, '?' 表示任意"
 
@@ -2001,6 +2002,10 @@ msgstr "宽度"
 #: TFRMFINDDLG.LBLINFO.CAPTION
 msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
 msgstr "Windows: 'rahs' Unix: 'rwxrwxrwx'"
+
+#: TFRMMAIN.ACTWIPE.CAPTION
+msgid "Wipe"
+msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLWRITE.CAPTION
 msgid "Write"
@@ -2078,6 +2083,7 @@ msgstr "gEdit \"\%s\""
 msgid "gtk-diff \"\%s\" \"\%s\""
 msgstr "gtk-diff \"\%s\" \"\%s\""
 
+#: 
 msgid "internally by Double Commander."
 msgstr "Double Commander内部."
 
