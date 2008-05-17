@@ -133,6 +133,7 @@ var
 
   gCopyBlockSize : Integer;
   gDropReadOnlyFlag : Boolean = True;
+  gWipePassNumber: Integer;
 
   { Folder tabs page }
 
@@ -393,6 +394,7 @@ begin
   gCopyBlockSize := gIni.ReadInteger('Configuration', 'CopyBlockSize', 16384);
   gDropReadOnlyFlag := gIni.ReadBool('Configuration', 'DropReadOnlyFlag', True);
   gUseMmapInSearch := gIni.ReadBool('Configuration', 'UseMmapInSearch', False);
+  gWipePassNumber:= gIni.ReadInteger('Configuration', 'WipePassNumber', 1);
   { Log }
   gLogFile := gIni.ReadBool('Configuration', 'LogFile', True);
   gLogFileName := gIni.ReadString('Configuration', 'LogFileName', gpIniDir + 'doublecmd.log');
@@ -527,6 +529,7 @@ begin
   gIni.WriteInteger('Configuration', 'CopyBlockSize', gCopyBlockSize);
   gIni.WriteBool('Configuration', 'DropReadOnlyFlag', gDropReadOnlyFlag);
   gIni.WriteBool('Configuration', 'UseMmapInSearch', gUseMmapInSearch);
+  gIni.WriteInteger('Configuration', 'WipePassNumber', gWipePassNumber);
   { Log }
   gIni.WriteBool('Configuration', 'LogFile', gLogFile);
   gIni.WriteString('Configuration', 'LogFileName', gLogFileName);
