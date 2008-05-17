@@ -34,7 +34,7 @@ unit uPixMapManager;
 
 interface
 uses
-  Classes, SysUtils, uTypes, contnrs, Graphics, CommCtrl, uOSUtils;
+  Classes, SysUtils, uTypes, contnrs, Graphics, uOSUtils;
 
 type
   TDriveIcons = record
@@ -90,7 +90,7 @@ procedure LoadPixMapManager;
 
 implementation
 uses
-  LCLProc, FileUtil, uGlobsPaths, uWCXhead, uGlobs, uExts{$IFDEF MSWINDOWS}, ShellAPI, Windows, uIcoFiles{$ENDIF};
+  LCLProc, FileUtil, uGlobsPaths, uWCXhead, uGlobs, uExts{$IFDEF MSWINDOWS}, CommCtrl, ShellAPI, Windows, uIcoFiles{$ENDIF};
 
 {$IFDEF MSWINDOWS}
 function GetRGBColor(Value: TColor): DWORD;
