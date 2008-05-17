@@ -2127,3 +2127,6 @@ msgstr ""
 msgid "Wipe"
 msgstr ""
 
+#: TFRMOPTIONS.LBLWIPEPASSNUMBER.CAPTION
+msgid "Number of wipe pass:"
+msgstr ""

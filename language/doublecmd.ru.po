@@ -1378,6 +1378,10 @@ msgstr "Не старше чем:"
 msgid "Number of changes:"
 msgstr "Число изменений:"
 
+#: TFRMOPTIONS.LBLWIPEPASSNUMBER.CAPTION
+msgid "Number of wipe pass:"
+msgstr "Число перезаписей при стирании (Wipe):"
+
 #: TFRMEXTRACTDLG.BTNOK.CAPTION
 msgid "OK"
 msgstr ""
@@ -2004,7 +2008,7 @@ msgstr ""
 
 #: TFRMMAIN.ACTWIPE.CAPTION
 msgid "Wipe"
-msgstr ""
+msgstr "Стереть"
 
 #: TFRMFILEPROPERTIES.LBLWRITE.CAPTION
 msgid "Write"

@@ -160,6 +160,7 @@ type
     gbFileSearch: TGroupBox;
     gbLocConfigFiles: TGroupBox;
     gbSaveOnExit: TGroupBox;
+    lblWipePassNumber: TLabel;
     lblMouseMode: TLabel;
     lblConfigColumns: TLabel;
     lblCategoryAttr: TLabel;
@@ -238,6 +239,7 @@ type
     rbUserHomeDir: TRadioButton;
     rbUseMmapInSearch: TRadioButton;
     rbUseStreamInSearch: TRadioButton;
+    seWipePassNumber: TSpinEdit;
     tsWDX: TTabSheet;
     tsWCX: TTabSheet;
     tsWFX: TTabSheet;
@@ -426,6 +428,7 @@ begin
   edtCopyBufferSize.Text:= IntToStr(gCopyBlockSize div 1024);
   cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
   rbUseMmapInSearch.Checked := gUseMmapInSearch;
+  seWipePassNumber.Value:= gWipePassNumber;
 
   { Log file }
   cbLogFile.Checked := gLogFile;
@@ -702,6 +705,7 @@ begin
   gCopyBlockSize := StrToIntDef(edtCopyBufferSize.Text, gCopyBlockSize) * 1024;
   gDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
   gUseMmapInSearch := rbUseMmapInSearch.Checked;
+  gWipePassNumber:= seWipePassNumber.Value;
   
   { Log file }
   gLogFile := cbLogFile.Checked;
