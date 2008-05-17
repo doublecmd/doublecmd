@@ -109,8 +109,10 @@ end;
 
 procedure TWipeThread.SecureDelete(pass: Integer; FileName: String);
 var
-  max, n: LongInt;
-  i: Integer;
+  n, i: Integer;
+  max,
+  iPos,
+  iMax: Int64;
   fs: TFileStreamEx;
   rena: String;                   // renames file to delete
 begin
@@ -131,7 +133,14 @@ begin
   try
     for i := 1 to pass do
     begin
-      write('.');
+      //---------------Progress--------------
+      FFileOpDlg.iProgress1Max:= 100;
+      FFileOpDlg.iProgress1Pos:= 0;
+      Synchronize(@FFileOpDlg.UpdateDlg);
+      iMax:= fs.Size * 3;
+      iPos:= 0;
+      //-------------------------------------
+
       //with zeros
       fill(0);
       max := fs.Size;
@@ -144,6 +153,11 @@ begin
           n := max;
         fs.Write(Buffer, n);
         max := max - n;
+        //---------------Progress--------------
+        Inc(iPos, n);
+        FFileOpDlg.iProgress1Pos:= (iPos * 100) div iMax;
+        Synchronize(@FFileOpDlg.UpdateDlg);
+        //-------------------------------------
       end;
       FileFlush(fs.Handle);
 
@@ -159,6 +173,11 @@ begin
           n := max;
         fs.Write(Buffer, n);
         max := max - n;
+        //---------------Progress--------------
+        Inc(iPos, n);
+        FFileOpDlg.iProgress1Pos:= (iPos * 100) div iMax;
+        Synchronize(@FFileOpDlg.UpdateDlg);
+        //-------------------------------------
       end;
       FileFlush(fs.Handle);
 
@@ -174,6 +193,11 @@ begin
           n := max;
         fs.Write(Buffer, n);
         max := max - n;
+        //---------------Progress--------------
+        Inc(iPos, n);
+        FFileOpDlg.iProgress1Pos:= (iPos * 100) div iMax;
+        Synchronize(@FFileOpDlg.UpdateDlg);
+        //-------------------------------------
       end;
       FileFlush(fs.Handle);
     end;
@@ -319,8 +343,8 @@ var
   iCoped:Int64;
 begin
   iCoped:=0;
-  FFileOpDlg.iProgress1Max:=1;
-  FFileOpDlg.iProgress1Pos:=1; // in delete use only 1 progress
+  FFileOpDlg.iProgress1Max:= 100;
+  FFileOpDlg.iProgress1Pos:= 0;
 
   Synchronize(@FFileOpDlg.UpdateDlg);
 
