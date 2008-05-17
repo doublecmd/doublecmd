@@ -1379,6 +1379,10 @@ msgstr "Nicht älter als:"
 msgid "Number of changes:"
 msgstr "Anzahl der Änderungen:"
 
+#: TFRMOPTIONS.LBLWIPEPASSNUMBER.CAPTION
+msgid "Number of wipe pass:"
+msgstr ""
+
 #: TFRMEXTRACTDLG.BTNOK.CAPTION
 msgid "OK"
 msgstr "OK"
