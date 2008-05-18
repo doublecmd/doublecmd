@@ -43,6 +43,14 @@ type
     property FileName : UTF8String read FFileName;
   end; 
 
+  { TStringListEx }
+
+  TStringListEx = class(TStringList)
+  public
+    procedure LoadFromFile(const FileName: String); override;
+    procedure SaveToFile(const FileName: String); override;
+  end;   
+  
   { TIniFileEx }
 
   TIniFileEx = class(TIniFile)
@@ -81,6 +89,26 @@ destructor TFileStreamEx.Destroy;
 begin
   if FHandle >= 0 then FileClose(FHandle);
   inherited Destroy;
+end;
+
+{ TStringListEx }
+
+procedure TStringListEx.LoadFromFile(const FileName: String);
+var
+  fsFileStream: TFileStreamEx;
+begin
+  fsFileStream:= TFileStreamEx.Create(FileName, fmOpenRead);
+  LoadFromStream(fsFileStream);
+  fsFileStream.Free;
+end;
+
+procedure TStringListEx.SaveToFile(const FileName: String);
+var
+  fsFileStream: TFileStreamEx;
+begin
+  fsFileStream:= TFileStreamEx.Create(FileName, fmCreate);
+  SaveToStream(fsFileStream);
+  fsFileStream.Free;
 end;
 
 { TIniFileEx }
