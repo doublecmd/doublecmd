@@ -51,7 +51,7 @@ type
 implementation
 
 uses
-  uLng, uFileStreamEx, uOSUtils;
+  uLng, uClassesEx, uOSUtils;
 
 function ShowSplitterFileForm(var sFile:TStringList):boolean;
 begin
