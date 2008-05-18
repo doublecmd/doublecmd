@@ -52,7 +52,7 @@ function ShowLinkerFilesForm(var lsFiles:TStringList):Boolean;
 implementation
 
 uses
-  LCLProc, uLng, uFileProcs, uFileStreamEx;
+  LCLProc, uLng, uFileProcs, uClassesEx;
 
 //var gDirectory:string;
 

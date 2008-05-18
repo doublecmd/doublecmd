@@ -72,7 +72,7 @@ type
 
 implementation
 uses
-  uLng, uGlobs, uLog, uFindEx, uFileStreamEx, uOSUtils;
+  uLng, uGlobs, uLog, uFindEx, uClassesEx, uOSUtils;
 
 constructor TWipeThread.Create(aFileList: TFileList);
 begin

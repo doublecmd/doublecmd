@@ -25,7 +25,7 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes, LCLProc, uDCUtils, uFindEx, uFileStreamEx
+    SysUtils, Classes, LCLProc, uDCUtils, uFindEx, uClassesEx
     {$IFDEF MSWINDOWS}
     , Windows, ShellApi, MMSystem, uNTFSLinks
     {$ELSE}
