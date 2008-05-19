@@ -27,7 +27,6 @@ object frmMain: TfrmMain
   OnShow = frmMainShow
   Position = poDesktopCenter
   ShowHint = True
-  LCLVersion = '0.9.25'
   object pnlSyncSize: TPanel
     Height = 26
     Top = 24

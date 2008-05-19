@@ -150,18 +150,18 @@ end;
 
 procedure TExts.LoadFromFile(const sName:String);
 var
-  extfile : TextFile;
-  sLine, s, sExt :String;
-  extcmd : TExtAction;
-  iIndex : Integer;
+  extFile: TStringList;
+  sLine, s, sExt: String;
+  extcmd: TExtAction;
+  I, iIndex: Integer;
 begin
-  Assign(extfile, sName);
-  Reset(extfile);
+  extFile:= TStringList.Create;
+  extFile.LoadFromFile(sName);
   extcmd:=nil;
-  while not eof(extfile) do
+  for I:= 0 to extFile.Count - 1 do
   begin
-    readln(extfile,sLine);
-    sLine:=Trim(sLine);
+    sLine:= extFile.Strings[I];
+    sLine:= Trim(sLine);
     if (sLine='') or (sLine[1]='#') then Continue;
 //    writeln(sLine);
     if sLine[1]='[' then
@@ -217,7 +217,7 @@ begin
         extCmd.Actions.Add(sLine);
     end;
   end;
-  CloseFile(extfile);
+  extFile.Free;
 end;
 
 function TExts.GetNewSectionName(Index: Integer): String;

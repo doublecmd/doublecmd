@@ -2337,20 +2337,17 @@ end;
 
 procedure TfrmMain.actEditNewExecute(Sender: TObject);
 var
-  sNewFile:String;
-  f:TextFile;
+  sNewFile: String;
+  hFile: Integer;
 begin
   sNewFile:=ActiveFrame.ActiveDir + rsEditNewFile;
   if not InputQuery(rsEditNewOpen, rsEditNewFileName, sNewFile) then Exit;
-  if not FileExists(sNewFile) then
-  begin
-    assignFile(f,sNewFile);
+  if not mbFileExists(sNewFile) then
     try
-      rewrite(f);
+      hFile:= mbFileCreate(sNewFile);
     finally
-      CloseFile(f);
-    end;
-  end;
+      FileClose(hFile);
+    end;  
   try
     ShowEditorByGlob(sNewFile);
   finally
