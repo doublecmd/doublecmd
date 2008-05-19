@@ -118,7 +118,7 @@ TFindThread = class(TThread)
 implementation
 
 uses
-  LCLProc, Dialogs, Masks, uLng, uFindMmap, uFindEx, uGlobs, uShowMsg, uOSUtils;
+  LCLProc, Dialogs, Masks, uLng, uClassesEx, uFindMmap, uFindEx, uGlobs, uShowMsg, uOSUtils;
 
 { TFindThread }
 
@@ -187,7 +187,7 @@ function FindInFile(const sFileName:String; sData: String; bCase:Boolean): Boole
 const
   BufferSize = 4096;
 var
-    fs: TFileStream;
+    fs: TFileStreamEx;
     lastPos, sDataLength,
     OffsetPos: Cardinal;
     Buffer: array[0..BufferSize-1] of Char;
@@ -212,7 +212,7 @@ begin
   sDataLength := Length(sData);
 
   try
-    fs := TFileStream.Create(sFileName, fmOpenRead or fmShareDenyNone);
+    fs := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
     try
       repeat
         OffsetPos := fs.Read(Buffer, BufferSize) - sDataLength;
@@ -234,7 +234,7 @@ end;
 
 procedure FileReplaceString(const FileName, SearchString, ReplaceString: string; bCase:Boolean);
 var
-  fs: TFileStream;
+  fs: TFileStreamEx;
   S: string;
   Flags : TReplaceFlags;
 begin
@@ -242,7 +242,7 @@ begin
   if not bCase then
     Include(Flags, rfIgnoreCase);
     
-  fs := TFileStream.Create(FileName, fmOpenread or fmShareDenyNone);
+  fs := TFileStreamEx.Create(FileName, fmOpenread or fmShareDenyNone);
   try
     SetLength(S, fs.Size);
     fs.ReadBuffer(S[1], fs.Size);
@@ -250,7 +250,7 @@ begin
     fs.Free;
   end;
   S  := StringReplace(S, SearchString, replaceString, Flags);
-  fs := TFileStream.Create(FileName, fmCreate);
+  fs := TFileStreamEx.Create(FileName, fmCreate);
   try
     fs.WriteBuffer(S[1], Length(S));
   finally
