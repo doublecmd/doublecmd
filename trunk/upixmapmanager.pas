@@ -363,7 +363,7 @@ end;
 
 procedure TPixMapManager.Load(const sFileName: String);
 var
-  f:TextFile;
+  slPixmapList: TStringList;
   s:String;
   sExt, sPixMap:String;
   iekv:integer;
@@ -433,12 +433,12 @@ begin
   
   if FileExists(sFileName) then
   begin
-    assignFile(f,sFileName);
-    reset(f);
+    slPixmapList:= TStringList.Create;
+    slPixmapList.LoadFromFile(sFileName);
     try
-      while not eof(f) do
+      for I:= 0 to slPixmapList.Count - 1 do
       begin
-        readln(f,s);
+        s:= slPixmapList.Strings[I];
         s:=Trim(lowercase(s));
         iekv:=Pos('=',s);
         if iekv=0 then
@@ -453,7 +453,7 @@ begin
           FExtList.AddObject(sExt, TObject(iPixMap));
       end;
     finally
-      CloseFile(f);
+      slPixmapList.Free;
     end;
   end;
 
