@@ -15,7 +15,7 @@ function CompareFiles(const sLeftFileName, sRightFileName:String; {Var}
 
 implementation
 uses
-  SysUtils, uShowMsg, uTextCompare;
+  SysUtils, uClassesEx, uShowMsg, uTextCompare;
 
 function ConvertByte(b:Byte):Char;
 begin
@@ -48,7 +48,7 @@ function CompareFilesBin(const sLeftFileName, sRightFileName:String; {Var}
   lsLeft, lsRight:TStrings):Integer;
 
 var
-  fLeft, fRight:TFileStream;
+  fLeft, fRight:TFileStreamEx;
   bLeft:Byte;
   bRight:Byte;
   iColumnCount:Integer;
@@ -78,8 +78,8 @@ begin
 end;
 
 begin
-  fLeft:=TFileStream.Create(sLeftFileName,fmOpenRead);
-  fRight:=TFileStream.Create(sRightFileName,fmOpenRead);
+  fLeft:=TFileStreamEx.Create(sLeftFileName,fmOpenRead);
+  fRight:=TFileStreamEx.Create(sRightFileName,fmOpenRead);
   ClearLines;
   try
     iColumnCount:=0;
