@@ -424,7 +424,7 @@ end;
 
 procedure TfrmMultiRename.btnOKClick(Sender: TObject);
 var
-  F:TextFile;
+  hFile: Integer;
   c:integer;
 begin
   try
@@ -433,8 +433,16 @@ begin
       if edFile.Text='' then
         edFile.Text:=lsvwFile.Items.Item[0].SubItems[1]+ PathDelim+'default.log';
       ForceDirectory(ExtractFileDir(edFile.Text));
-      AssignFile(F,edFile.Text);
-      Rewrite(F);
+
+      if mbFileExists(edFile.Text) then
+        begin
+          hFile:= mbFileOpen(edFile.Text, fmOpenReadWrite);
+          FileTruncate(hFile, 0);
+        end
+      else
+        begin
+          hFile:= mbFileCreate(edFile.Text);
+        end;
     end;
     for c:=0 to lsvwFile.Items.Count-1 do
       with lsvwFile.Items do
@@ -442,11 +450,11 @@ begin
         mbRenameFile(Item[c].SubItems[1]+pathDelim+item[c].Caption,
             Item[c].SubItems[1]+pathdelim+Item[c].SubItems[0]);
         if cbLog.Checked then
-          Writeln(F,item[c].Caption+';'+Item[c].SubItems[0]);
+          FileWriteLn(hFile,item[c].Caption+' -> '+Item[c].SubItems[0]);
       end;
   finally
     if cbLog.Checked then
-      closefile(F);
+      FileClose(hFile);
   end;
   ModalResult:=mrOK;
 end;

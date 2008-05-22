@@ -21,15 +21,12 @@ interface
 uses
   uTypes, ComCtrls;
 
-type
-  TFileProc = function (fr:PFileRecItem; const sDst:String; pb:TProgressBar):Boolean;
-
 function ForceDirectory(DirectoryName: string): boolean;
 
 function CopyFile(const sSrc, sDst:String; bAppend:Boolean=False):Boolean;
-function MoveFile(const sSrc, sDst:String; pb:TProgressBar; iSrcRights:Integer):Boolean;
-function DelFile(const sSrc:String):Boolean;
-function RenFile(const sSrc, sDst:String):Boolean;
+
+procedure FileReadLn(hFile: Integer; var S: String);
+procedure FileWriteLn(hFile: Integer; S: String);
 
 implementation
 uses
@@ -96,29 +93,61 @@ begin
   end;
 end;
 
-function MoveFile(const sSrc, sDst:String; pb:TProgressBar; iSrcRights:Integer):Boolean;
+procedure FileReadLn(hFile: Integer; var S: String);
+const
+  cBufSize = 4096;
+var
+   Buf: array[1..cBufSize] of Char;
+   iNumRead,
+   iCounter,
+   iBufPos: Integer;
+   bEOLFound: Boolean;
+   iFilePos,
+   iFileSize: Int64;
 begin
-  Result:=False;
-  if CopyFile(sSrc, sDst,False) then
-    Result:=DelFile(sSrc);
+  S:='';
+  // get current position
+  iFilePos:= FileSeek(hFile, 0, soFromCurrent);
+  // get file size
+  iFileSize:= FileSeek(hFile, 0, soFromEnd);
+  // restore position
+  FileSeek(hFile, iFilePos, soFromBeginning);
+  bEOLFound:= False;
+
+  while (iFilePos < iFileSize) and not bEOLFound do
+    begin
+      iNumRead:= FileRead(hFile, Buf, SizeOf(Buf));
+
+      for iCounter:= 1 to iNumRead do
+          begin
+            if Buf[iCounter] in [#13, #10] then
+              begin
+                bEOLFound:=True;
+                iBufPos:=iCounter+1;
+                if ((iBufPos) <= iNumRead) and (Buf[iBufPos] in [#13, #10]) then
+                  Inc(iBufPos);
+                Buf[iCounter]:= #0;
+                S:= StrPas(@Buf);
+                FileSeek(hFile, iFilePos+iBufPos-1, soFromBeginning);
+                Break;
+              end;
+          end; // for
+
+      if (not bEOLFound) then
+         begin
+           if (iNumRead < cBufSize) then
+             Buf[iNumRead+1]:= #0;
+           S:= StrPas(@Buf);
+         end;
+      Inc(iFilePos, iNumRead);
+    end; // while
 end;
 
-// only wrapper for SysUtils.DeleteFile (raise Exception)
-function DelFile(const sSrc:String):Boolean;
+procedure FileWriteLn(hFile: Integer; S: String);
 begin
-  Result:= mbDeleteFile(sSrc);
-  if not Result then
-    msgError(Format(rsMsgNotDelete,[sSrc]));
+  S:= S + LineEnding;
+  FileWrite(hFile, PChar(S)[0], Length(S));
 end;
-
-function RenFile(const sSrc, sDst:String):Boolean;
-begin
-  Result:=False;
-  if mbFileExists(sDst) and not MsgYesNo(rsMsgFileExistsRwrt) then
-    Exit;
-  Result:=SysUtils.RenameFile(sSrc, sDst);
-end;
-
 
 function ForceDirectory(DirectoryName: string): boolean;
 var

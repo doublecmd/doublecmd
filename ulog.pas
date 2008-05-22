@@ -57,11 +57,11 @@ procedure logWrite(Thread : TThread; const sText:String; LogMsgType : TLogMsgTyp
 
 implementation
 uses
-  SysUtils, LCLProc, fMain, uGlobs;
+  SysUtils, LCLProc, fMain, uGlobs, uFileProcs, uOSUtils;
 
 procedure logWrite(const sText:String; LogMsgType : TLogMsgType);
 var
-  LogFile : TextFile;
+  hLogFile: Integer;
 begin
   if Assigned(fMain.frmMain) and gLogWindow then // if write log to window
   with fMain.frmMain.seLogWindow do
@@ -70,22 +70,21 @@ begin
     end;
 
   if gLogFile then // if write log to file
-    begin
-      AssignFile(LogFile, gLogFileName);
-      try
-        if FileExists(gLogFileName) then
-          Append(LogFile)
-        else
-          Rewrite(LogFile);
-        WriteLn(LogFile, Format('%s %s', [DateTimeToStr(Now), sText]));
+    try
+      if mbFileExists(gLogFileName) then
+        hLogFile:= mbFileOpen(gLogFileName, fmOpenReadWrite)
+      else
+        hLogFile:= mbFileCreate(gLogFileName);
 
-        DebugLn(Format('%s %s',[DateTimeToStr(Now), sText]));
+      FileSeek(hLogFile, 0, soFromEnd);
+      FileWriteLn(hLogFile, Format('%s %s', [DateTimeToStr(Now), sText]));
 
-        CloseFile(LogFile);
-      except
-        on E:Exception do
-          DebugLn('Error writing to log: ' + E.Message);
-      end;
+      DebugLn(Format('%s %s',[DateTimeToStr(Now), sText]));
+
+      FileClose(hLogFile);
+    except
+      on E:Exception do
+        DebugLn('Error writing to log: ' + E.Message);
     end; // gLogWriteFile
 end;
 
