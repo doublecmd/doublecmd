@@ -179,36 +179,36 @@ procedure DoLoadLng;
 
 implementation
 uses
-  Classes, SysUtils, GetText, Translations, uGlobs, uGlobsPaths, uTranslator, LCLProc;
+  Classes, SysUtils, GetText, Translations, uGlobs, uGlobsPaths, uTranslator,
+  LCLProc, uFileProcs, uOSUtils;
 
 function GetLanguageName(poFileName : String) : String;
 var
-  poFile : TextFile;
+  poFile : Integer;
   sLine : String;
   iPos1,
   iPos2 : Integer;
 begin
-  AssignFile(poFile, poFileName);
-  Reset(poFile);
+  poFile:= mbFileOpen(poFileName, fmOpenRead);
   // find first msgid line
-  ReadLn(poFile, sLine);
+  FileReadLn(poFile, sLine);
   while Pos('msgid', sLine) = 0 do
-    ReadLn(poFile, sLine);
+    FileReadLn(poFile, sLine);
   // read msgstr line
-  ReadLn(poFile, sLine);
+  FileReadLn(poFile, sLine);
   repeat
-    ReadLn(poFile, sLine);
+    FileReadLn(poFile, sLine);
     // find language name line
     if Pos('X-Poedit-Language:', sLine) <> 0 then
       begin
         iPos1 := Pos(':', sLine) + 2;
         iPos2 := Pos('\n', sLine) - 1;
         Result := Copy(sLine, iPos1,  (iPos2 - iPos1) + 1);
-        CloseFile(poFile);
+        FileClose(poFile);
         Exit;
       end;
   until Pos('msgid', sLine) = 1;
-  CloseFile(poFile);
+  FileClose(poFile);
   Result := 'Language name not found';
 end;
 

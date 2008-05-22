@@ -159,7 +159,7 @@ type
 implementation
 
 uses
-  dmDialogs, dmHigh, uLng,
+  dmDialogs, dmHigh, uLng, uFileProcs, uOSUtils,
   SynEditHighlighter, uShowMsg, fMsg, fEditSearch,
   SynEditTypes, uGlobsPaths, uGlobs, fEditorConf, LCLType;
 
@@ -623,17 +623,16 @@ end;
 
 procedure TfrmEditor.LoadFromIni;
 var
-  f:TextFile;
+  hFile: Integer;
 begin
-  if FileExists(gpIniDir+'edithistory.txt') then
+  if mbFileExists(gpIniDir+'edithistory.txt') then
   begin
-    assignFile(f,gpIniDir+'edithistory.txt');
-    reset(f);
+    hFile:= mbFileOpen(gpIniDir+'edithistory.txt', fmOpenRead);
     try
-      readln(f,sSearchTextHistory);
-      readln(f,sReplaceTextHistory);
+      FileReadLn(hFile, sSearchTextHistory);
+      FileReadLn(hFile, sReplaceTextHistory);
     finally
-      closefile(f);
+      FileClose(hFile);
     end;
   end
   else
@@ -645,15 +644,23 @@ end;
 
 procedure TfrmEditor.SaveToIni;
 var
-  f:TextFile;
+  hFile: Integer;
 begin
-  assignFile(f,gpIniDir+'edithistory.txt');
-  rewrite(f);
+  if mbFileExists(gpIniDir+'edithistory.txt') then
+    begin
+      hFile:= mbFileOpen(gpIniDir+'edithistory.txt', fmOpenReadWrite);
+      FileTruncate(hFile, 0);
+    end
+  else
+    begin
+      hFile:= mbFileCreate(gpIniDir+'edithistory.txt');
+    end;
+
   try
-    writeln(f,sSearchTextHistory);
-    writeln(f,sReplaceTextHistory);
+    FileWriteLn(hFile, sSearchTextHistory);
+    FileWriteLn(hFile, sReplaceTextHistory);
   finally
-    closefile(f);
+    FileClose(hFile);
   end;
   
   gEditorPos.Save(Self);
