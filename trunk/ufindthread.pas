@@ -205,9 +205,9 @@ begin
   if sData = '' then Exit;
 
   if bCase then
-    Compare := @StrLIComp
+    Compare := @StrLComp
   else
-    Compare := @StrLComp;
+    Compare := @StrLIComp;
 
   sDataLength := Length(sData);
 
