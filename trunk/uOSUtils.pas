@@ -127,6 +127,7 @@ function ReadSymLink(LinkName : String) : String;
    @returns(The user home directory)
 }
 function GetHomeDir : String;
+function GetAppConfigDir: String;
 {en
    Get last directory name in path
    @returns(Last directory name in path)
@@ -481,6 +482,26 @@ begin
 end;
 {$ENDIF}
 
+function GetAppConfigDir: String;
+{$IFDEF MSWINDOWS}
+var
+  iSize: Integer;
+  wDir: WideString;
+begin
+  iSize:= GetEnvironmentVariableW('APPDATA', nil, 0);
+  if iSize > 0 then
+    begin
+      SetLength(wDir, iSize);
+      GetEnvironmentVariableW('APPDATA', PWChar(wDir), iSize);
+    end;
+  Delete(wDir, iSize, 1);
+  Result:= UTF8Encode(wDir) + DirectorySeparator + ApplicationName;
+end;
+{$ELSE}
+begin
+  Result:= GetAppConfigDir(False);
+end;
+{$ENDIF}
 
 function GetLastDir(Path : String) : String;
 begin
