@@ -27,6 +27,7 @@ object frmMain: TfrmMain
   OnShow = frmMainShow
   Position = poDesktopCenter
   ShowHint = True
+  LCLVersion = '0.9.25'
   object pnlSyncSize: TPanel
     Height = 26
     Top = 24
@@ -100,6 +101,7 @@ object frmMain: TfrmMain
       OnCanResize = MainSplitterCanResize
       OnChangeBounds = MainSplitterChangeBounds
       OnMoved = MainSplitterMoved
+      PopupMenu = pmSplitterPercent
       ResizeStyle = rsLine
     end
     object pnlLeft: TPanel
@@ -431,8 +433,6 @@ object frmMain: TfrmMain
     Font.Name = 'courier'
     ParentColor = False
     TabOrder = 4
-    BookMarkOptions.OnChange = nil
-    Gutter.OnChange = nil
     Gutter.CodeFoldingWidth = 14
     Keystrokes = <    
       item
@@ -758,7 +758,6 @@ object frmMain: TfrmMain
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
-    SelectedColor.OnChange = nil
     OnSpecialLineColors = seLogWindowSpecialLineColors
   end
   object LogSplitter: TSplitter
@@ -1464,6 +1463,45 @@ object frmMain: TfrmMain
     top = 136
     object MenuItem2: TMenuItem
       Caption = '-'
+    end
+  end
+  object pmSplitterPercent: TPopupMenu
+    left = 296
+    top = 136
+    object mi2080: TMenuItem
+      Tag = 20
+      Caption = '&20/80'
+      OnClick = mnuSplitterPercentClick
+    end
+    object mi3070: TMenuItem
+      Tag = 30
+      Caption = '&30/70'
+      OnClick = mnuSplitterPercentClick
+    end
+    object mi4060: TMenuItem
+      Tag = 40
+      Caption = '&40/60'
+      OnClick = mnuSplitterPercentClick
+    end
+    object mi5050: TMenuItem
+      Tag = 50
+      Caption = '&50/50'
+      OnClick = mnuSplitterPercentClick
+    end
+    object mi6040: TMenuItem
+      Tag = 60
+      Caption = '&60/40'
+      OnClick = mnuSplitterPercentClick
+    end
+    object mi7030: TMenuItem
+      Tag = 70
+      Caption = '&70/30'
+      OnClick = mnuSplitterPercentClick
+    end
+    object mi8020: TMenuItem
+      Tag = 80
+      Caption = '&80/20'
+      OnClick = mnuSplitterPercentClick
     end
   end
 end
