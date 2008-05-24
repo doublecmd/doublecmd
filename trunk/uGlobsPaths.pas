@@ -13,7 +13,7 @@ procedure LoadPaths;
 
 implementation
 uses
-  LCLProc, SysUtils, uClassesEx, uOSUtils;
+  LCLProc, SysUtils, IniFiles;
 
 function GetAppName : String;
 begin
@@ -22,14 +22,14 @@ end;
 
 procedure LoadPaths;
 var
-  Ini : TIniFileEx;
+  Ini : TIniFile;
 begin
   gpExePath := ExtractFilePath(ParamStr(0));
   DebugLn('Executable directory: ', gpExePath);
   
   gpCfgDir := gpExePath;
   
-  Ini := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
+  Ini := TIniFile.Create(gpCfgDir + 'doublecmd.ini');
   if Ini.ReadInteger('Configuration', 'UseIniInProgramDir', 1)  = 1 then // use ini file from program dir
     begin
       gpIniDir := gpCfgDir;
@@ -37,12 +37,11 @@ begin
   else  
     begin
       OnGetApplicationName := @GetAppName;
-      gpIniDir := GetAppConfigDir;
-      if not mbDirectoryExists(gpIniDir) then
+      gpIniDir := GetAppConfigDir(False);
+      if not DirectoryExists(gpIniDir) then
         ForceDirectories(gpIniDir);
       OnGetApplicationName := nil;
       gpIniDir := IncludeTrailingPathDelimiter(gpIniDir);  // add if need path delimiter
-      DebugLn('Configuration directory: ', gpIniDir);
     end;
   Ini.Free;
 	

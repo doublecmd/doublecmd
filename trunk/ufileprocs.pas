@@ -50,7 +50,7 @@ procedure FileWriteLn(hFile: Integer; S: String);
 
 implementation
 uses
-  LCLProc, SysUtils, uGlobs, uShowMsg, Classes, uClassesEx, uLng, uDCUtils, uFindEx, uOSUtils;
+  LCLProc, SysUtils, uGlobs, uShowMsg, Classes, uLng, uDCUtils, uFindEx, uOSUtils;
 
 const
   cBlockSize=16384; // size of block if copyfile
@@ -59,27 +59,27 @@ const
 
 function CopyFile(const sSrc, sDst:String; bAppend:Boolean):Boolean;
 var
-  src, dst:TFileStreamEx;
+  src, dst:TFileStream;
   stat:stat64;
   iDstBeg:Integer; // in the append mode we store original size
   Buffer: PChar;
 begin
   Result:=False;
-  if not mbFileExists(sSrc) then Exit;
+  if not FileExists(sSrc) then Exit;
   
   dst:=nil; // for safety exception handling
   GetMem(Buffer,cBlockSize+1);
 
   try
     try
-      src:=TFileStreamEx.Create(sSrc,fmOpenRead or fmShareDenyNone);
+      src:=TFileStream.Create(sSrc,fmOpenRead or fmShareDenyNone);
       if bAppend then
       begin
-        dst:=TFileStreamEx.Create(sDst,fmOpenReadWrite);
+        dst:=TFileStream.Create(sDst,fmOpenReadWrite);
         dst.Seek(0,soFromEnd); // seek to end
       end
       else
-        dst:=TFileStreamEx.Create(sDst,fmCreate);
+        dst:=TFileStream.Create(sDst,fmCreate);
       iDstBeg:=dst.Size;
       // we dont't use CopyFrom, because it's alocate and free buffer every time is called
       while (dst.Size+cBlockSize)<= (src.Size+iDstBeg) do

@@ -22,7 +22,7 @@ unit uGlobs;
 
 interface
 uses
-  Classes, Controls, uExts, uColorExt, Graphics, uClassesEx, uWDXModule, uColumns;
+  Classes, Controls, uExts, uColorExt, Graphics, IniFiles, uWDXModule, uColumns;
 
 type
   TControlPosition = object
@@ -80,9 +80,9 @@ var
   gMouseSelectionEnabled: Boolean = True;
   gMouseSelectionButton: Integer = 0;
   
-  glsHotDir:TStringListEx;
-  glsDirHistory:TStringListEx;
-  glsMaskHistory : TStringListEx;
+  glsHotDir:TStringList;
+  glsDirHistory:TStringList;
+  glsMaskHistory : TStringList;
   gCutTextToColWidth : Boolean;
   gScrollMode: Integer;
 
@@ -173,7 +173,7 @@ const
 
 function LoadGlobs : Boolean;
 procedure SaveGlobs;
-function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boolean;
+function LoadStringsFromFile(var list:TStringList; const sFileName:String):boolean;
 
 procedure ResizeToScreen(Control:TControl; Width:integer=1024; Height:integer=768);
 
@@ -184,7 +184,7 @@ const
   cMaxStringItems=50;
   
 var
-  gIni:TIniFileEx = nil;
+  gIni:TIniFile = nil;
 
 implementation
 uses
@@ -258,36 +258,36 @@ end;
 procedure InitGlobs;
 begin
   { Load location of configuration files }
-  gIni := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
+  gIni := TIniFile.Create(gpCfgDir + 'doublecmd.ini');
   gUseIniInProgramDir := gIni.ReadBool('Configuration', 'UseIniInProgramDir', True);
   gIni.Free;
 
   { Create default configuration files if need }
   // main ini file
-  if not mbFileExists(gpIniDir + 'doublecmd.ini') then
+  if not FileExists(gpIniDir + 'doublecmd.ini') then
     CopyFile(gpCfgDir + 'doublecmd.ini', gpIniDir + 'doublecmd.ini');
   // toolbar file
-  if not mbFileExists(gpIniDir + 'default.bar') then
+  if not FileExists(gpIniDir + 'default.bar') then
     CopyFile(gpCfgDir + 'default.bar', gpIniDir + 'default.bar');
   // extension file
-  if not mbFileExists(gpIniDir + 'doublecmd.ext') then
+  if not FileExists(gpIniDir + 'doublecmd.ext') then
     CopyFile(gpCfgDir + 'doublecmd.ext', gpIniDir + 'doublecmd.ext');
   // pixmaps file
-  if not mbFileExists(gpIniDir + 'pixmaps.txt') then
+  if not FileExists(gpIniDir + 'pixmaps.txt') then
     CopyFile(gpCfgDir + 'pixmaps.txt', gpIniDir + 'pixmaps.txt');
   // editor highlight file1
-  if not mbFileExists(gpIniDir + 'editor.col') then
+  if not FileExists(gpIniDir + 'editor.col') then
     CopyFile(gpCfgDir + 'editor.col', gpIniDir + 'editor.col');
   // editor highlight file2
-  if not mbFileExists(gpIniDir + 'twilight.col') then
+  if not FileExists(gpIniDir + 'twilight.col') then
     CopyFile(gpCfgDir + 'twilight.col', gpIniDir + 'twilight.col');
 	
-  gIni := TIniFileEx.Create(gpIniDir + 'doublecmd.ini');
+  gIni := TIniFile.Create(gpIniDir + 'doublecmd.ini');
   gExts := TExts.Create;
   gColorExt := TColorExt.Create;
-  glsHotDir := TStringListEx.Create;
-  glsDirHistory := TStringListEx.Create;
-  glsMaskHistory := TStringListEx.Create;
+  glsHotDir := TStringList.Create;
+  glsDirHistory := TStringList.Create;
+  glsMaskHistory := TStringList.Create;
   //---------------------
   WdxPlugins:=TWDXModuleList.Create;
   WdxPlugins.Load(gIni);
@@ -316,7 +316,7 @@ begin
     ColSet.Free;
   
   { Save location of configuration files }
-  gIni := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
+  gIni := TIniFile.Create(gpCfgDir + 'doublecmd.ini');
   gIni.WriteBool('Configuration', 'UseIniInProgramDir', gUseIniInProgramDir);
   gIni.Free;
 
@@ -416,13 +416,13 @@ begin
 
   gCutTextToColWidth := gIni.ReadBool('Configuration', 'CutTextToColWidth', False);
 
-  if mbFileExists(gpIniDir + 'doublecmd.ext') then
+  if FileExists(gpIniDir + 'doublecmd.ext') then
     gExts.LoadFromFile(gpIniDir + 'doublecmd.ext');
 
-  if mbFileExists(gpIniDir + 'dirhistory.txt') then
+  if FileExists(gpIniDir + 'dirhistory.txt') then
     LoadStringsFromFile(glsDirHistory,gpIniDir + 'dirhistory.txt');
 
-  if mbFileExists(gpIniDir + 'maskhistory.txt') then
+  if FileExists(gpIniDir + 'maskhistory.txt') then
     LoadStringsFromFile(glsMaskHistory, gpIniDir + 'maskhistory.txt');
 
   gColorExt.Load;
@@ -438,14 +438,14 @@ begin
   Result := True;
 end;
 
-function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boolean;
+function LoadStringsFromFile(var list:TStringList; const sFileName:String):boolean;
 var
   i:Integer;
 begin
   Assert(list <> nil,'LoadStringsFromFile: list=nil');
   list.Clear;
   Result:=False;
-  if not mbFileExists(sFileName) then Exit;
+  if not FileExists(sFileName) then Exit;
   list.LoadFromFile(sFileName);
   for i:=list.Count-1 downto 0 do
     if i>cMaxStringItems then
