@@ -99,6 +99,13 @@ function FPS_ISLNK(iAttr:Cardinal) : Boolean;
    @returns(@true if file is executable, @false otherwise)
 }
 function FileIsExeLib(const sFileName : String) : Boolean;
+{en
+   Copies a file attributes (attributes, date/time, owner & group, permissions).
+   @param(sSrc String expression that specifies the name of the file to be copied)
+   @param(sDst String expression that specifies the target file name)
+   @param(bDropReadOnlyFlag Drop read only attribute if @true)
+   @returns(The function returns @true if successful, @false otherwise)
+}
 function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Boolean;
 function ExecCmdFork(sCmdLine:String; bTerm : Boolean = False; sTerm : String = ''):Boolean;
 function GetDiskFreeSpace(Path : String; var FreeSize, TotalSize : Int64) : Boolean;
@@ -127,6 +134,10 @@ function ReadSymLink(LinkName : String) : String;
    @returns(The user home directory)
 }
 function GetHomeDir : String;
+{en
+   Get the appropriate directory for the application's configuration files
+   @returns(The directory for the application's configuration files)
+}
 function GetAppConfigDir: String;
 {en
    Get last directory name in path

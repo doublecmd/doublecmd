@@ -21,11 +21,31 @@ interface
 uses
   uTypes, ComCtrls;
 
+{en
+   Create a chain of directories
+   @param(DirectoryName The full path to directory)
+   @returns(@true if DirectoryName already existed or was created succesfully.
+   If it failed to create any of the parts, @false is returned.)
+}
 function ForceDirectory(DirectoryName: string): boolean;
-
+{en
+   Copies a file.
+   @param(sSrc String expression that specifies the name of the file to be copied)
+   @param(sDst String expression that specifies the target file name)
+   @returns(The function returns @true if successful, @false otherwise)
+}
 function CopyFile(const sSrc, sDst:String; bAppend:Boolean=False):Boolean;
-
+{en
+   Read string from a text file into variable and goto next line
+   @param(hFile Handle of file)
+   @param(S Stores the result string)
+}
 procedure FileReadLn(hFile: Integer; var S: String);
+{en
+   Write string to a text file and append newline
+   @param(hFile Handle of file)
+   @param(S String for writing)
+}
 procedure FileWriteLn(hFile: Integer; S: String);
 
 implementation
