@@ -130,7 +130,7 @@ type
 
 implementation
 uses
-  LCLProc, SysUtils, uLog;
+  LCLProc, SysUtils, uLog, uClassesEx;
 
 constructor TExtAction.Create;
 begin
@@ -150,12 +150,12 @@ end;
 
 procedure TExts.LoadFromFile(const sName:String);
 var
-  extFile: TStringList;
+  extFile: TStringListEx;
   sLine, s, sExt: String;
   extcmd: TExtAction;
   I, iIndex: Integer;
 begin
-  extFile:= TStringList.Create;
+  extFile:= TStringListEx.Create;
   extFile.LoadFromFile(sName);
   extcmd:=nil;
   for I:= 0 to extFile.Count - 1 do
@@ -258,13 +258,13 @@ var
   I, J, iIndex,
   iCount,
   iBegin, iEnd : Integer;
-  extFile : TStringList;
+  extFile : TStringListEx;
   sLine,
   sNewName,
   sSectionName: String;
   bExists : Boolean;
 begin
-  extFile:= TStringList.Create;
+  extFile:= TStringListEx.Create;
 
   if FileExists(sName) then
     begin
