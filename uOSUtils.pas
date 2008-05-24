@@ -510,7 +510,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result:= GetAppConfigDir(False);
+  Result:= SysUtils.GetAppConfigDir(False);
 end;
 {$ENDIF}
 

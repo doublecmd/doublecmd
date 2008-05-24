@@ -250,6 +250,10 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure lblDriveInfoDblClick(Sender: TObject);
+    procedure MainSplitterCanResize(Sender: TObject; var NewSize: Integer;
+      var Accept: Boolean);
+    procedure MainSplitterChangeBounds(Sender: TObject);
+    procedure MainSplitterMoved(Sender: TObject);
     procedure MainToolBarDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure MainToolBarDragOver(Sender, Source: TObject; X, Y: Integer;
       State: TDragState; var Accept: Boolean);
@@ -340,6 +344,7 @@ type
     PanelSelected:TFilePanelSelect;
     bAltPress:Boolean;
     DrivesList : TList;
+    MainSplitterHintWnd: THintWindow;
     
     procedure ColumnsMenuClick(Sender: TObject);
     function ExecuteCommandFromEdit(sCmd:String):Boolean;
@@ -894,6 +899,45 @@ begin
   else if (Sender as TLabel).Name = 'lblLeftDriveInfo' then
       SetActiveFrame(fpLeft);
   actDirHotList.Execute;
+end;
+
+procedure TfrmMain.MainSplitterCanResize(Sender: TObject; var NewSize: Integer;
+  var Accept: Boolean);
+begin
+  if not Assigned(MainSplitterHintWnd) then
+    MainSplitterHintWnd:= THintWindow.Create(nil);
+  MainSplitterHintWnd.Color:= Application.HintColor;
+end;
+
+procedure TfrmMain.MainSplitterChangeBounds(Sender: TObject);
+var
+  APoint: TPoint;
+  Rect: TRect;
+  sHint: String;
+begin
+  if not Assigned(MainSplitterHintWnd) then Exit;
+  sHint:= FloatToStrF(MainSplitter.Left*100 / pnlNotebooks.Width, ffFixed, 15, 1) + '%';
+
+  Rect:= MainSplitterHintWnd.CalcHintRect(1000, sHint, nil);
+  APoint:= Mouse.CursorPos;
+  with Rect do
+  begin
+    Right:= APoint.X + 8 + Right;
+    Bottom:= APoint.Y + 12 + Bottom;
+    Left:= APoint.X + 8;
+    Top:= APoint.Y + 12;
+  end;
+
+  MainSplitterHintWnd.ActivateHint(Rect, sHint);
+end;
+
+procedure TfrmMain.MainSplitterMoved(Sender: TObject);
+begin
+  if Assigned(MainSplitterHintWnd) then
+    begin
+      MainSplitterHintWnd.Hide;
+      FreeAndNil(MainSplitterHintWnd);
+    end;
 end;
 
 procedure TfrmMain.MainToolBarDragDrop(Sender, Source: TObject; X, Y: Integer);
