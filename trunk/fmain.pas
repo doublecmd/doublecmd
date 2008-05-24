@@ -91,6 +91,13 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     MenuItem2: TMenuItem;
+    mi8020: TMenuItem;
+    mi7030: TMenuItem;
+    mi6040: TMenuItem;
+    mi5050: TMenuItem;
+    mi4060: TMenuItem;
+    mi3070: TMenuItem;
+    mi2080: TMenuItem;
     miCopyFullNamesToClip: TMenuItem;
     miCopyNamesToClip: TMenuItem;
     miLine10: TMenuItem;
@@ -105,6 +112,7 @@ type
     mnuExtractFiles: TMenuItem;
     nbLeft: TNotebook;
     nbRight: TNotebook;
+    pmSplitterPercent: TPopupMenu;
     pnlCommand: TPanel;
     pnlKeys: TPanel;
     pnlLeftTools: TPanel;
@@ -268,6 +276,7 @@ type
     procedure frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure frmMainKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure frmMainShow(Sender: TObject);
+    procedure mnuSplitterPercentClick(Sender: TObject);
     procedure mnuHelpClick(Sender: TObject);
     procedure nbPageChanged(Sender: TObject);
     procedure NotebookCloseTabClicked(Sender: TObject);
@@ -916,7 +925,7 @@ var
   sHint: String;
 begin
   if not Assigned(MainSplitterHintWnd) then Exit;
-  sHint:= FloatToStrF(MainSplitter.Left*100 / pnlNotebooks.Width, ffFixed, 15, 1) + '%';
+  sHint:= FloatToStrF(MainSplitter.Left*100 / (pnlNotebooks.Width-MainSplitter.Width), ffFixed, 15, 1) + '%';
 
   Rect:= MainSplitterHintWnd.CalcHintRect(1000, sHint, nil);
   APoint:= Mouse.CursorPos;
@@ -1131,6 +1140,14 @@ procedure TfrmMain.frmMainShow(Sender: TObject);
 begin
   DebugLn('frmMain.frmMainShow');
   SetActiveFrame(fpLeft);
+end;
+
+procedure TfrmMain.mnuSplitterPercentClick(Sender: TObject);
+begin
+  with (Sender as TMenuItem) do
+  begin
+    pnlLeft.Width:= (pnlNoteBooks.Width-MainSplitter.Width) * Tag div 100;
+  end;
 end;
 
 procedure TfrmMain.mnuHelpClick(Sender: TObject);
