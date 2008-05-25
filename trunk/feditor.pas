@@ -20,7 +20,7 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ActnList, Menus, SynEdit,
-  ComCtrls,  SynEditSearch;
+  ComCtrls,  SynEditSearch, uClassesEx;
 
 type
 
@@ -207,9 +207,15 @@ end;
 
 procedure TfrmEditor.OpenFile(const sFileName:String);
 var
-  h:TSynCustomHighlighter;
+  h: TSynCustomHighlighter;
+  fsFileStream: TFileStreamEx;
 begin
-  Editor.Lines.LoadFromFile(sFileName);
+  try
+    fsFileStream:= TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
+    Editor.Lines.LoadFromStream(fsFileStream);
+  finally
+    fsFileStream.Free;
+  end;
   h:= dmHighl.GetHighlighterByExt(ExtractFileExt(sFileName));
   SetupColorOfHighlighter(h);
   Editor.Highlighter:=h;
@@ -450,26 +456,39 @@ begin
 end;
 
 procedure TfrmEditor.actFileSaveExecute(Sender: TObject);
+var
+  fsFileStream: TFileStreamEx;
 begin
   inherited;
   if bNoname then
     actFileSaveAs.Execute
   else
   begin
-    Editor.Lines.SaveToFile(Caption);
+    try
+      fsFileStream:= TFileStreamEx.Create(Caption, fmCreate);
+      Editor.Lines.SaveToStream(fsFileStream);
+    finally
+      fsFileStream.Free;
+    end;
     bChanged:=False;
     UpdateStatus;
   end;
 end;
 
 procedure TfrmEditor.actFileSaveAsExecute(Sender: TObject);
+var
+  fsFileStream: TFileStreamEx;
 begin
   inherited;
   dmDlg.SaveDialog.FileName:=Caption;
   dmDlg.SaveDialog.Filter:='*.*'; // rewrite for highlighter
   if not dmDlg.SaveDialog.Execute then Exit;
-
-  Editor.Lines.SaveToFile(dmDlg.SaveDialog.FileName);
+  try
+    fsFileStream:= TFileStreamEx.Create(dmDlg.SaveDialog.FileName, fmCreate);
+    Editor.Lines.SaveToStream(fsFileStream);
+  finally
+    fsFileStream.Free;
+  end;
   bChanged:=False;
   bNoname:=False;
   Caption:=dmDlg.SaveDialog.FileName;
