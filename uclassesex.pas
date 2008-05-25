@@ -56,6 +56,7 @@ type
   TIniFileEx = class(TIniFile)
   public
     constructor Create(const AFileName: String; AEscapeLineFeeds : Boolean = False); override;
+    procedure UpdateFile; override;
   end;  
   
 implementation
@@ -124,5 +125,10 @@ begin
   inherited Create(fsIniFile, AEscapeLineFeeds);
 end; 
 
-end.
+procedure TIniFileEx.UpdateFile;
+begin
+  Stream.Size:= 0;
+  inherited UpdateFile;
+end; 
 
+end.
