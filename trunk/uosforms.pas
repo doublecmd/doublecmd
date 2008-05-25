@@ -31,7 +31,8 @@ uses
   {$IFDEF UNIX}
   fFileProperties;
   {$ELSE}
-  FileUtil, Windows, Messages, ShellApi, ShlObj, ActiveX, uShlObjAdditional, JwaShlGuid, JwaDbt;
+  FileUtil, Windows, Messages, ShellApi, ShlObj, ActiveX, uShlObjAdditional,
+  JwaShlGuid, JwaDbt, JwaWinUser;
   {$ENDIF}
 const
   sCmdVerbOpen = 'open';
@@ -146,10 +147,10 @@ end;
 {$ENDIF}
 
 {$IFDEF MSWINDOWS}
-function InsertMenuItemEx(hMenu, SubMenu: HMENU; Caption: PChar;
+function InsertMenuItemEx(hMenu, SubMenu: HMENU; Caption: PWChar;
                          Position, ItemID,  ItemType : UINT): boolean;
 var
-  mi: MENUITEMINFO;
+  mi: TMenuItemInfoW;
 begin
    with mi do
    begin
@@ -163,7 +164,7 @@ begin
       dwTypeData := Caption;
       cch := SizeOf(Caption);
    end;
-   Result := InsertMenuItem(hMenu, Position, false, mi);
+   Result := InsertMenuItemW(hMenu, Position, false, mi);
 end;
 
 function GetIContextMenu(Handle : THandle; FileList : TFileList): IContextMenu;
@@ -250,7 +251,7 @@ begin
     if (FileList.Count = 1) and not (FPS_ISDIR(fri.iMode) or (fri.bLinkIsDir)) then
       begin
 	hActionsSubMenu := CreatePopupMenu;
-	InsertMenuItemEx(menu, hActionsSubMenu, PChar(rsMnuActions), 0, 333, MFT_STRING);
+	InsertMenuItemEx(menu, hActionsSubMenu, PWChar(UTF8Decode(rsMnuActions)), 0, 333, MFT_STRING);
   
         // Read actions from doublecmd.ext
         sl:=TStringList.Create;
@@ -265,7 +266,7 @@ begin
                 frmMain.ActiveFrame.pnlFile.ReplaceExtCommand(sCmd, @fri);
                 
                 //mi.Hint:=Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
-                InsertMenuItemEx(hActionsSubMenu,0, PChar(sCmd), 0, I + $1000, MFT_STRING);
+                InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 0, I + $1000, MFT_STRING);
               end;
           end;
     
@@ -275,12 +276,12 @@ begin
         // now add VIEW item
 	sCmd:= '{!VIEWER}' + fri.sPath + fri.sName;
         I := sl.Add(sCmd);
-	InsertMenuItemEx(hActionsSubMenu,0, PChar(sCmd), 1, I + $1000, MFT_STRING);
+	InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 1, I + $1000, MFT_STRING);
        
         // now add EDITconfigure item
 	sCmd:= '{!EDITOR}' + fri.sPath + fri.sName;
         I := sl.Add(sCmd);
-	InsertMenuItemEx(hActionsSubMenu,0, PChar(sCmd), 1, I + $1000, MFT_STRING);
+	InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 1, I + $1000, MFT_STRING);
       end;
 { /Actions submenu }
 //------------------------------------------------------------------------------
