@@ -29,7 +29,7 @@ unit udsxmodule;
 interface
 
 uses
-  Classes, SysUtils, dynlibs,LCLProc,uGlobs,udsxplugin,IniFiles, uDCUtils;
+  Classes, SysUtils, dynlibs,LCLProc,uGlobs,udsxplugin,uClassesEx, uDCUtils;
 
 type
 
@@ -89,9 +89,9 @@ TDsxModule=class
         //---------------------
         procedure Clear;
         procedure Load(FileName:string);overload;
-        procedure Load(Ini:TiniFile); overload;
+        procedure Load(Ini:TIniFileEx); overload;
         procedure Save(FileName:string);overload;
-        procedure Save(Ini:TIniFile); overload;
+        procedure Save(Ini:TIniFileEx); overload;
         procedure DeleteItem(Index: integer);
         //---------------------
         function Add(Item:TDSXModule):integer;overload;
@@ -234,17 +234,17 @@ begin
 end;
 
 procedure TDSXModuleList.Load(FileName: string);
-var Ini:TIniFile;
+var Ini:TIniFileEx;
 begin
   try
-    Ini:=TIniFile.Create(FileName);
+    Ini:=TIniFileEx.Create(FileName);
     Load(Ini);
   finally
     Ini.Free;
   end;
 end;
 
-procedure TDSXModuleList.Load(Ini: TiniFile);
+procedure TDSXModuleList.Load(Ini: TIniFileEx);
 var xCount,I:integer;
     tmp:string;
 begin
@@ -263,17 +263,17 @@ begin
 end;
 
 procedure TDSXModuleList.Save(FileName: string);
- var  Ini:TIniFile;
+ var  Ini:TIniFileEx;
 begin
   try
-    Ini:=TIniFile.Create(FileName);
+    Ini:=TIniFileEx.Create(FileName);
      Save(Ini);
   finally
     Ini.Free;
   end;
 end;
 
-procedure TDSXModuleList.Save(Ini: TIniFile);
+procedure TDSXModuleList.Save(Ini: TIniFileEx);
 var i:integer;
 begin
  Ini.EraseSection('Search Plugins');

@@ -29,7 +29,7 @@ unit uColumns;
 interface
 
 uses
-  Classes, SysUtils, Inifiles, LCLProc, strutils, uTypes, uOSUtils, uDCUtils;
+  Classes, SysUtils, uClassesEx, LCLProc, strutils, uTypes, uOSUtils, uDCUtils;
 
   type
 
@@ -97,20 +97,20 @@ uses
 
     //---------------------
     procedure Load(FileName,SetName:String);overload;
-    procedure Load(Ini:TIniFile; SetName:string);overload;
+    procedure Load(Ini:TIniFileEx; SetName:string);overload;
     //---------------------
 
     procedure Load(FileName:String);
-    procedure Load(Ini:TIniFile);overload;
+    procedure Load(Ini:TIniFileEx);overload;
 
     //---------------------
     procedure Save(FileName,ASetName:string); overload;
-    procedure Save(Ini:TIniFile;ASetName:string); overload;
+    procedure Save(Ini:TIniFileEx;ASetName:string); overload;
     //---------------------
 
     procedure Save;
     procedure Save(FileName:string); overload;
-    procedure Save(Ini:TIniFile); overload;
+    procedure Save(Ini:TIniFileEx); overload;
     //---------------------
     property ColumnsCount:Integer read GetCount;
     property CurrentColumnsFile:string read FCurrentColumnsFile;
@@ -131,14 +131,14 @@ uses
     //---------------------
     procedure Clear;
     procedure Load(FileName:String);
-    procedure Load(Ini:TIniFile);overload;
+    procedure Load(Ini:TIniFileEx);overload;
     procedure Save(FileName:string);
-    procedure Save(Ini:TIniFile); overload;
+    procedure Save(Ini:TIniFileEx); overload;
     function Add(AName:string;Item:TPanelColumnsClass):integer;
     procedure Insert(AIndex: integer; AName: string; Item: TPanelColumnsClass);
-    procedure DeleteColumnSet(ini:TInifile; SetName:string);
-    procedure DeleteColumnSet(ini:TInifile; SetIndex:Integer); overload;
-    procedure CopyColumnSet(ini:TInifile; SetName,NewSetName:string);
+    procedure DeleteColumnSet(ini:TIniFileEx; SetName:string);
+    procedure DeleteColumnSet(ini:TIniFileEx; SetIndex:Integer); overload;
+    procedure CopyColumnSet(ini:TIniFileEx; SetName,NewSetName:string);
     function GetColumnSet(Index:Integer):TPanelColumnsClass;
     function GetColumnSet(Setname:string):TPanelColumnsClass;
     //---------------------
@@ -332,24 +332,24 @@ begin
   Load(FileName);
 end;
 
-procedure TPanelColumnsClass.Load(Ini: TIniFile; SetName: string);
+procedure TPanelColumnsClass.Load(Ini: TIniFileEx; SetName: string);
 begin
   fSetName:=SetName;
   Load(Ini);
 end;
 
 procedure TPanelColumnsClass.Load(FileName:string);
-var Ini:TIniFile;
+var Ini:TIniFileEx;
 begin
   try
-    Ini:=TIniFile.Create(FileName);
+    Ini:=TIniFileEx.Create(FileName);
     Load(Ini);
   finally
     Ini.Free;
   end;
 end;
 
-procedure TPanelColumnsClass.Load(Ini: TIniFile);
+procedure TPanelColumnsClass.Load(Ini: TIniFileEx);
 var Count,I:Integer;
 begin
     Self.Clear;
@@ -382,7 +382,7 @@ begin
   Save(FileName);
 end;
 
-procedure TPanelColumnsClass.Save(Ini: TIniFile; ASetName: string);
+procedure TPanelColumnsClass.Save(Ini: TIniFileEx; ASetName: string);
 begin
   fSetName:=ASetName;
   Save(Ini);
@@ -394,17 +394,17 @@ begin
 end;
 
 procedure TPanelColumnsClass.Save(FileName: string);
- var  Ini:TIniFile;
+ var  Ini:TIniFileEx;
 begin
   try
-    Ini:=TIniFile.Create(FileName);
+    Ini:=TIniFileEx.Create(FileName);
      Save(Ini);
   finally
     Ini.Free;
   end;
 end;
 
-procedure TPanelColumnsClass.Save(Ini: TIniFile);
+procedure TPanelColumnsClass.Save(Ini: TIniFileEx);
  var I:Integer;
 begin
     if fSetName='' then Exit;
@@ -614,17 +614,17 @@ begin
 end;
 
 procedure TPanelColumnsList.Load(FileName: String);
-var Ini:TIniFile;
+var Ini:TIniFileEx;
 begin
   try
-    Ini:=TIniFile.Create(FileName);
+    Ini:=TIniFileEx.Create(FileName);
     Load(Ini);
   finally
     Ini.Free;
   end;
 end;
 
-procedure TPanelColumnsList.Load(Ini: TIniFile);
+procedure TPanelColumnsList.Load(Ini: TIniFileEx);
 var Count,I:Integer;
 begin
     Self.Clear;
@@ -639,17 +639,17 @@ begin
 end;
 
 procedure TPanelColumnsList.Save(FileName: string);
- var  Ini:TIniFile;
+ var  Ini:TIniFileEx;
 begin
   try
-    Ini:=TIniFile.Create(FileName);
+    Ini:=TIniFileEx.Create(FileName);
      Save(Ini);
   finally
     Ini.Free;
   end;
 end;
 
-procedure TPanelColumnsList.Save(Ini: TIniFile);
+procedure TPanelColumnsList.Save(Ini: TIniFileEx);
 var I:integer;
 begin
     Ini.EraseSection('ColumnsSet');
@@ -673,7 +673,7 @@ begin
 end;
 
 
-procedure TPanelColumnsList.DeleteColumnSet(ini: TInifile; SetName: string);
+procedure TPanelColumnsList.DeleteColumnSet(ini: TIniFileEx; SetName: string);
 var x:integer;
 begin
     x:=fSet.IndexOf(SetName);
@@ -681,7 +681,7 @@ begin
       DeleteColumnSet(ini,x);
 end;
 
-procedure TPanelColumnsList.DeleteColumnSet(ini: TInifile; SetIndex: Integer);
+procedure TPanelColumnsList.DeleteColumnSet(ini: TIniFileEx; SetIndex: Integer);
 begin
     if (SetIndex>=Fset.Count) or (SetIndex<0) then exit;
     Ini.EraseSection(FSet[SetIndex]);
@@ -689,7 +689,7 @@ begin
     fSet.Delete(SetIndex);
 end;
 
-procedure TPanelColumnsList.CopyColumnSet(ini: TInifile; SetName,
+procedure TPanelColumnsList.CopyColumnSet(ini: TIniFileEx; SetName,
   NewSetName: string);
 var x,i:integer; st:TStringList;
 begin
