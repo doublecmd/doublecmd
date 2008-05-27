@@ -44,7 +44,7 @@ uses
   Graphics, Forms, Menus, Controls, Dialogs, ComCtrls,
   StdCtrls, ExtCtrls,ActnList,Buttons,
   SysUtils, Classes,  {uFilePanel,} framePanel, {FileCtrl,} Grids,
-  KASToolBar, IniFiles, SynEdit, KASBarMenu,KASBarFiles,uColumns;
+  KASToolBar, SynEdit, KASBarMenu,KASBarFiles,uColumns;
 
 const
   cHistoryFile='cmdhistory.txt';
@@ -407,7 +407,7 @@ implementation
 uses
   Clipbrd, uTypes, fAbout, uGlobs, uLng, fOptions,{ fViewer,}fconfigtoolbar, fFileAssoc,
   uCopyThread, uFileList, uDeleteThread, uVFSUtil, uWCXModule, uVFSTypes, Masks,
-  fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg,
+  fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg, uClassesEx,
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils, uLog, uWipeThread,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg, fExtractDlg,
   fLinker, fSplitter, uFileProcs, lclType, LCLProc, uOSUtils, uOSForms, uPixMapManager,fColumnsSetConf;
@@ -3513,9 +3513,9 @@ end;
 procedure TfrmMain.SaveShortCuts;
 var
   i, count: Integer;
-  ini: TIniFile;
+  ini: TIniFileEx;
 begin
-  ini:=TIniFile.Create(gpIniDir + 'shortcuts.ini');
+  ini:=TIniFileEx.Create(gpIniDir + 'shortcuts.ini');
   try
     count := actionLst.ActionCount;
     for i := 0 to count-1 do
@@ -3531,12 +3531,12 @@ end;
 procedure TfrmMain.LoadShortCuts;
 var
   i, j, count: Integer;
-  ini: TIniFile;
+  ini: TIniFileEx;
   vAction: TAction;
   vShortCut: TShortCut;
 begin
   // ToDo Black list HotKey which can't use
-  ini:=TIniFile.Create(gpIniDir + 'shortcuts.ini');
+  ini:=TIniFileEx.Create(gpIniDir + 'shortcuts.ini');
   try
     count := actionLst.ActionCount;
     for i := 0 to count-1 do

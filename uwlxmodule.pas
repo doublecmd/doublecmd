@@ -30,7 +30,7 @@ interface
 
 uses
   Classes, SysUtils, dynlibs, uDetectStr, uwlxprototypes, WLXPlugin,
-  Inifiles, uDCUtils, uGlobs,LCLProc
+  uClassesEx, uDCUtils, uGlobs,LCLProc
   {$IFDEF LCLGTK}
     ,gtk,glib,gdk
   {$ENDIF}
@@ -114,9 +114,9 @@ type
         //---------------------
         procedure Clear;
         procedure Load(FileName:string);overload;
-        procedure Load(Ini:TiniFile); overload;
+        procedure Load(Ini:TIniFileEx); overload;
         procedure Save(FileName:string);overload;
-        procedure Save(Ini:TIniFile); overload;
+        procedure Save(Ini:TIniFileEx); overload;
         procedure DeleteItem(Index: integer);
         //---------------------
         function Add(Item:TWLXModule):integer;overload;
@@ -412,17 +412,17 @@ begin
 end;
 
 procedure TWLXModuleList.Load(FileName: string);
-var Ini:TIniFile;
+var Ini:TIniFileEx;
 begin
   try
-    Ini:=TIniFile.Create(FileName);
+    Ini:=TIniFileEx.Create(FileName);
     Load(Ini);
   finally
     Ini.Free;
   end;
 end;
 
-procedure TWLXModuleList.Load(Ini: TiniFile);
+procedure TWLXModuleList.Load(Ini: TIniFileEx);
 var xCount,I:integer;
     tmp:string;
 begin
@@ -441,17 +441,17 @@ begin
 end;
 
 procedure TWLXModuleList.Save(FileName: string);
- var  Ini:TIniFile;
+ var  Ini:TIniFileEx;
 begin
   try
-    Ini:=TIniFile.Create(FileName);
+    Ini:=TIniFileEx.Create(FileName);
      Save(Ini);
   finally
     Ini.Free;
   end;
 end;
 
-procedure TWLXModuleList.Save(Ini: TIniFile);
+procedure TWLXModuleList.Save(Ini: TIniFileEx);
 var i:integer;
 begin
  Ini.EraseSection('Lister Plugins');
