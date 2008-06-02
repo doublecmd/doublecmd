@@ -101,6 +101,7 @@ var
   gExtEdit:String='emacs';
   gExtView:String='emacs';
   gExtDiff:String='gtk-diff';
+  gLuaLib:String='/usr/lib/liblua5.1.so';
   gExts:TExts;
   gColorExt:TColorExt;
 
@@ -288,12 +289,6 @@ begin
   glsHotDir := TStringListEx.Create;
   glsDirHistory := TStringListEx.Create;
   glsMaskHistory := TStringListEx.Create;
-  //---------------------
-  WdxPlugins:=TWDXModuleList.Create;
-  WdxPlugins.Load(gIni);
-  ColSet:=TPanelColumnsList.Create;
-  ColSet.Load(gIni);
-  //---------------------
 end;
 
 procedure DeInitGlobs;
@@ -372,6 +367,10 @@ begin
   gExtView := gIni.ReadString('Configuration', 'ExtView', '');
   gExtDiff := gIni.ReadString('Configuration', 'ExtDiff', '');
   gRunTerm := gIni.ReadString('Configuration', 'RunTerm', gRunTerm);
+
+  gLuaLib:=gIni.ReadString('Configuration', 'LuaLib', gLuaLib);
+
+  
   { Fonts }
   gFontName:=gIni.ReadString('Configuration', 'FontName', 'default');
   gFontWeight := gIni.ReadInteger('Configuration', 'FontWeight', 1);
@@ -436,6 +435,14 @@ begin
   DoLoadLng;
   msgLoadLng;
   Result := True;
+  
+  {Wdx Plugins and columns}
+  //---------------------
+  WdxPlugins:=TWDXModuleList.Create;
+  WdxPlugins.Load(gIni);
+  ColSet:=TPanelColumnsList.Create;
+  ColSet.Load(gIni);
+  //---------------------
 end;
 
 function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boolean;
@@ -509,6 +516,9 @@ begin
   gIni.WriteString('Configuration', 'ExtView', gExtView);
   gIni.WriteString('Configuration', 'ExtDiff', gExtDiff);
   gIni.WriteString('Configuration', 'RunTerm', gRunTerm);
+
+  gIni.WriteString('Configuration', 'LuaLib', gLuaLib);
+  
   { Fonts }
   gIni.WriteString('Configuration', 'FontName', gFontName);
   gIni.WriteInteger('Configuration', 'FontWeight', gFontWeight);

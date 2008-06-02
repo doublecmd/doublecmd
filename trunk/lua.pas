@@ -15,12 +15,9 @@ interface
 
 {$IFDEF UNIX}
 uses
-  dl
-  {$IFDEF DINAMIC}
-  ,dynlibs
-  {$ENDIF}
-  ;
+  dl;
 {$ENDIF}
+
 
 {$DEFINE LUA51}
 
@@ -63,6 +60,7 @@ const
 {$IFDEF DINAMIC}
   function LoadLuaLib(filename:string):boolean;
   procedure UnloadLuaLib;
+  function IsLuaLibLoaded:boolean;
 {$ENDIF}
 
 
@@ -991,6 +989,7 @@ procedure lua_getref(L : Plua_State; ref : Integer);
 (******************************************************************************)
 
 {$IFDEF DINAMIC}
+type TLibHandle = PtrInt;
     var
   lua_newstate:Tlua_newstate;
   lua_close:Tlua_close;
@@ -1121,20 +1120,33 @@ procedure lua_getref(L : Plua_State; ref : Integer);
 implementation
 
 uses
-  SysUtils;
+  SysUtils
+  {$IFDEF DINAMIC}
+   ,dynlibs
+  {$ENDIF}
+;
+
 
 {$IFDEF DINAMIC}
   procedure UnloadLuaLib;
   begin
-   FreeLibrary(LuaLibD);
+   if LuaLibD<>0 then
+     FreeLibrary(LuaLibD);
+  end;
+
+  function IsLuaLibLoaded: boolean;
+  begin
+    result:= (LuaLibD<>0);
   end;
 
  function LoadLuaLib(filename:string):boolean;
   begin
+   result:=false;
+   if not FileExists(FileName) then exit;
    LuaLibD:=LoadLibrary(FileName);
    result:= (LuaLibD<>0);
    if LuaLibD=0 then exit;
-                                                        //'));
+
   lua_newstate:=Tlua_newstate(GetProcAddress(LuaLibD,'lua_newstate'));
   lua_close:=Tlua_close(GetProcAddress(LuaLibD,'lua_close'));
   lua_newthread:=Tlua_newthread(GetProcAddress(LuaLibD,'lua_newthread'));

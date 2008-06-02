@@ -1371,7 +1371,7 @@ procedure TfrmOptions.bbtnWDXAddClick(Sender: TObject);
 var
   sPluginName : String;
 begin
-  odOpenDialog.Filter := 'Content plugins (*.wdx)|*.wdx';
+  odOpenDialog.Filter := 'Content plugins (*.wdx; *.lua)|*.wdx;*.lua';
   if odOpenDialog.Execute then
     begin
       sPluginName := ExtractFileName(odOpenDialog.FileName);
