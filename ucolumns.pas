@@ -490,7 +490,6 @@ function TPanelColumn.ActGetInfo(FuncS:string; ptr: PFileRecItem):string;
   const
      //---------------------
      DC ='DC';
-     Script='SCRIPT';
      Plugin='PLUGIN';
      //---------------------
  //---------------------
@@ -536,16 +535,7 @@ begin
           end;
         //------------------------------------------------------
 
-        //Script function (for future)
-        //------------------------------------------------------
-        if AType=Script then
-          begin
-          
-          Exit;
-          end;
-        //------------------------------------------------------
-
-        //Plugin function (for future)
+        //Plugin function
         //------------------------------------------------------
         if AType=Plugin then
           begin

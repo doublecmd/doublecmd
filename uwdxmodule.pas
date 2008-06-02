@@ -39,7 +39,7 @@ uses
     Classes, SysUtils,uClassesEx,
     uwdxprototypes,ucontplugin,
     dynlibs, uDCUtils, uOSUtils,
-    uDetectStr, uTypes,LCLProc;
+    uDetectStr, uTypes,lua,LCLProc;
   
 type
 
@@ -50,16 +50,67 @@ type
        FUnits:string;
        FType:integer;
       end;
-
-      { TWDXModule }
+      
+     { TWDXModule }
 
       TWDXModule = class
+      private
+        function GetAName:string;  virtual;abstract;
+        function GetAFileName:string;  virtual;abstract;
+        function GetADetectStr:string;  virtual;abstract;
+        procedure SetAName (AValue:string);  virtual;abstract;
+        procedure SetAFileName (AValue:string);  virtual;abstract;
+        procedure SetADetectStr(const AValue: string);  virtual;abstract;
+      public
+        //---------------------
+        function LoadModule:Boolean;  virtual;abstract;
+        procedure UnloadModule;  virtual;abstract;
+        function IsLoaded:boolean;  virtual;abstract;
+        //---------------------
+        function FieldList:TStringlist; virtual;abstract;
+        function WdxFieldType(n: integer): string;
+        function GetFieldIndex(FieldName:string):integer;  virtual;abstract;
+        function FileParamVSDetectStr(ptr:PFileRecItem):boolean;  virtual;abstract;
+        //------------------------------------------------------
+        procedure CallContentGetSupportedField; virtual;abstract;
+        procedure CallContentSetDefaultParams; virtual;abstract;
+        procedure CallContentStopGetValue(FileName:string); virtual;abstract;
+        //---------------------
+        function CallContentGetDefaultSortOrder(FieldIndex:integer):boolean;  virtual;abstract;
+        function CallContentGetDetectString:string; virtual;abstract;
+        function CallContentGetValue(FileName: string; FieldName:String; UnitIndex: integer; flags: integer):string; overload; virtual;abstract;
+        function CallContentGetValue(FileName: string; FieldIndex, UnitIndex: integer; flags: integer):string;overload; virtual;abstract;
+        function CallContentGetSupportedFieldFlags(FieldIndex:integer):integer; virtual;abstract;
+        {ContentSetValue
+         ContentEditValue
+         ContentSendStateInformation}
+        //------------------------------------------------------
+        property Name:string read GetAName write SetAName;
+        property FileName:string read GetAFileName write SetAFileName;
+        property DetectStr:string read GetADetectStr write SetADetectStr;
+        //---------------------
+      end;
+
+
+    { TPluginWDX }
+
+      TPluginWDX = class(TWDXModule)
       private
         FFieldsList:TStringList;
         FModuleHandle:TLibHandle;  // Handle to .DLL or .so
         FForce:boolean;
         FParser:TParserControl;
-        function GIsLoaded:boolean;
+        FName:string;
+        FFileName:string;
+        FDetectStr:string;
+
+        function GetAName:string;    override;
+        function GetAFileName:string; override;
+        function GetADetectStr: string;  override;
+        
+        procedure SetAName (AValue:string); override;
+        procedure SetAFileName (AValue:string); override;
+        procedure SetADetectStr(const AValue: string);override;
       protected
         //a) Mandatory (must be implemented)
         ContentGetSupportedField:TContentGetSupportedField;
@@ -76,39 +127,92 @@ type
         ContentSendStateInformation:TContentSendStateInformation;
       public
         //---------------------
-        Name:string;
-        FileName:string;
-        DetectStr:string;
-        //---------------------
         constructor Create;
         destructor Destroy; override;
         //---------------------
-        function LoadModule:Boolean;
-        procedure UnloadModule;
+        function LoadModule:Boolean;override;
+        procedure UnloadModule;override;
+        function IsLoaded:boolean; override;
         //---------------------
-        function WdxFieldType(n: integer): string;
-        function GetFieldIndex(FieldName:string):integer;
-        function FileParamVSDetectStr(ptr:PFileRecItem):boolean;
+        function FieldList:TStringlist;override;
+        function GetFieldIndex(FieldName:string):integer;override;
+        function FileParamVSDetectStr(ptr:PFileRecItem):boolean;override;
         //------------------------------------------------------
-        procedure CallContentGetSupportedField;
-        procedure CallContentSetDefaultParams;
-        procedure CallContentStopGetValue(FileName:string);
+        procedure CallContentGetSupportedField;override;
+        procedure CallContentSetDefaultParams;override;
+        procedure CallContentStopGetValue(FileName:string);override;
         //---------------------
-        function CallContentGetDefaultSortOrder(FieldIndex:integer):boolean;
-        function CallContentGetDetectString:string;
-        function CallContentGetValue(FileName: string; FieldName:String; UnitIndex: integer; flags: integer):string; overload;
-        function CallContentGetValue(FileName: string; FieldIndex, UnitIndex: integer; flags: integer):string;overload;
-        function CallContentGetSupportedFieldFlags(FieldIndex:integer):integer;
+        function CallContentGetDefaultSortOrder(FieldIndex:integer):boolean;override;
+        function CallContentGetDetectString:string;override;
+        function CallContentGetValue(FileName: string; FieldName:String; UnitIndex: integer; flags: integer):string; overload;override;
+        function CallContentGetValue(FileName: string; FieldIndex, UnitIndex: integer; flags: integer):string;overload;override;
+        function CallContentGetSupportedFieldFlags(FieldIndex:integer):integer;override;
         {ContentSetValue
          ContentEditValue
          ContentSendStateInformation}
         //------------------------------------------------------
         property ModuleHandle:TLibHandle read FModuleHandle write FModuleHandle;
-        property FieldList:TStringlist read FFieldsList;
-        property IsLoaded:boolean read GIsLoaded;
         property Force:boolean read FForce write FForce;
+        property Name:string read GetAName write SetAName;
+        property FileName:string read GetAFileName write SetAFileName;
+        property DetectStr:string read GetADetectStr write SetADetectStr;
+
         //---------------------
       end;
+      
+     { TLuaWdx }
+
+      TLuaWdx = class (TWdxModule)
+      private
+        L:Plua_State;
+        FFieldsList:TStringList;
+        FForce:boolean;
+        FParser:TParserControl;
+        FName:string;
+        FFileName:string;
+        FDetectStr:string;
+
+        function GetAName:string;    override;
+        function GetAFileName:string; override;
+        function GetADetectStr: string;  override;
+
+        procedure SetAName (AValue:string); override;
+        procedure SetAFileName (AValue:string); override;
+        procedure SetADetectStr(const AValue: string);override;
+
+        function DoScript(AName: string): integer;
+        function WdxLuaContentGetSupportedField(Index: integer; var xFieldName, xUnits: string): integer;
+        procedure WdxLuaContentPluginUnloading;
+      public
+        constructor Create;
+        destructor Destroy; override;
+        //---------------------
+        function LoadModule:Boolean; override;
+        procedure UnloadModule; override;
+        function IsLoaded:boolean; override;
+        //---------------------
+        function FieldList:TStringlist;override;
+        function GetFieldIndex(FieldName:string):integer; override;
+        function FileParamVSDetectStr(ptr:PFileRecItem):boolean;   override;
+        //------------------------------------------------------
+        procedure CallContentGetSupportedField;override;
+        procedure CallContentSetDefaultParams;override;
+        procedure CallContentStopGetValue(FileName:string);override;
+        //---------------------
+        function CallContentGetDefaultSortOrder(FieldIndex:integer):boolean;override;
+        function CallContentGetDetectString:string;override;
+        function CallContentGetValue(FileName: string; FieldName:String; UnitIndex: integer; flags: integer):string; overload;override;
+        function CallContentGetValue(FileName: string; FieldIndex, UnitIndex: integer; flags: integer):string;overload;override;
+        function CallContentGetSupportedFieldFlags(FieldIndex:integer):integer;override;
+        //---------------------
+        property Force:boolean read FForce write FForce;
+        property Name:string read GetAName write SetAName;
+        property FileName:string read GetAFileName write SetAFileName;
+        property DetectStr:string read GetADetectStr write SetADetectStr;
+
+
+      end;
+
 
       { TWDXModuleList }
 
@@ -195,7 +299,7 @@ end;
 
 procedure TWDXModuleList.Load(Ini: TIniFileEx);
 var Count,I:integer;
-    tmp:string;
+    tmp,tp:string;
 begin
   Self.Clear;
   Count:=Ini.ReadInteger('Content Plugins','PluginCount',0);
@@ -204,10 +308,18 @@ begin
   For i:=0 to Count-1 do
     begin
       tmp:=Ini.ReadString('Content Plugins','Plugin'+IntToStr(I+1)+'Name','');
-      Flist.AddObject(UpCase(tmp),TWDXModule.Create);
+      // читать FileName - читать расширение и создавать нужный обьект
+      tp:=GetCmdDirFromEnvVar(Ini.ReadString('Content Plugins','Plugin'+IntToStr(I+1)+'Path',''));
+      DebugLn('WDX:LOAD:'+tp);
+      if upcase(ExtractFileExt(tp))='.WDX' then
+        Flist.AddObject(UpCase(tmp),TPluginWDX.Create)
+      else {иначе проверка на скрипт}
+      if upcase(ExtractFileExt(tp))='.LUA' then
+        Flist.AddObject(UpCase(tmp),TLuaWdx.Create);
+        
       TWDXModule(Flist.Objects[I]).Name:=tmp;
       TWDXModule(Flist.Objects[I]).DetectStr:=Ini.ReadString('Content Plugins','Plugin'+IntToStr(I+1)+'Detect','');
-      TWDXModule(Flist.Objects[I]).FileName:=GetCmdDirFromEnvVar(Ini.ReadString('Content Plugins','Plugin'+IntToStr(I+1)+'Path',''));
+      TWDXModule(Flist.Objects[I]).FileName:=tp;//GetCmdDirFromEnvVar(Ini.ReadString('Content Plugins','Plugin'+IntToStr(I+1)+'Path',''));
     end;
 
 end;
@@ -309,7 +421,11 @@ end;
 
 function TWDXModuleList.GetWdxModule(Index: integer): TWDXModule;
 begin
-  Result:=TWDXModule(Flist.Objects[Index]);
+ if (Flist.Objects[Index] is TPluginWDX) then
+   Result:=TPluginWDX(Flist.Objects[Index])
+ else
+  if (Flist.Objects[Index] is TLuaWdx) then
+    Result:=TLuaWdx(Flist.Objects[Index]);
 end;
 
 function TWDXModuleList.GetWdxModule(AName: string): TWDXModule;
@@ -317,23 +433,65 @@ var tmp:integer;
 begin
   tmp:=Flist.IndexOf(upcase(AName));
   if tmp>-1 then
-  Result:=TWDXModule(Flist.Objects[tmp]);
+  begin
+     if (Flist.Objects[tmp] is TPluginWDX) then
+       Result:=TPluginWDX(Flist.Objects[tmp])
+     else
+      if (Flist.Objects[tmp] is TLuaWdx) then
+        Result:=TLuaWdx(Flist.Objects[tmp]);
+  end;
+
 end;
 
-{ TWDXModule }
+{ TPluginWDX }
 
-function TWDXModule.GIsLoaded: boolean;
+function TPluginWDX.IsLoaded: boolean;
 begin
   Result:=FModuleHandle<>0;
 end;
 
-constructor TWDXModule.Create;
+function TPluginWDX.FieldList: TStringlist;
+begin
+  Result:=FFieldsList;
+end;
+
+function TPluginWDX.GetADetectStr: string;
+begin
+  Result:=FDetectStr;
+end;
+
+function TPluginWDX.GetAName: string;
+begin
+  Result:=FName;
+end;
+
+function TPluginWDX.GetAFileName: string;
+begin
+  Result:=FFileName;
+end;
+
+procedure TPluginWDX.SetADetectStr(const AValue: string);
+begin
+FDetectStr:=AValue;
+end;
+
+procedure TPluginWDX.SetAName(AValue: string);
+begin
+  FName:=AValue;
+end;
+
+procedure TPluginWDX.SetAFileName(AValue: string);
+begin
+  FFileName:=AValue;
+end;
+
+constructor TPluginWDX.Create;
 begin
   FFieldsList:=TStringList.Create;
   FParser:=TParserControl.Create;
 end;
 
-destructor TWDXModule.Destroy;
+destructor TPluginWDX.Destroy;
 begin
   if assigned(FParser) then
     FParser.Free;
@@ -348,7 +506,7 @@ begin
   inherited Destroy;
 end;
 
-function TWDXModule.LoadModule: Boolean;
+function TPluginWDX.LoadModule: Boolean;
 begin
   FModuleHandle := LoadLibrary(Self.FileName);
   Result := (FModuleHandle <> 0);
@@ -374,7 +532,7 @@ begin
 end;
 
 
-procedure TWDXModule.CallContentSetDefaultParams;
+procedure TPluginWDX.CallContentSetDefaultParams;
 var dps:pContentDefaultParamStruct;
 begin
    if assigned(ContentSetDefaultParams) then
@@ -389,13 +547,13 @@ begin
    end;
 end;
 
-procedure TWDXModule.CallContentStopGetValue(FileName: string);
+procedure TPluginWDX.CallContentStopGetValue(FileName: string);
 begin
  if assigned(ContentStopGetValue) then
   ContentStopGetValue(PChar(FileName));
 end;
 
-function TWDXModule.CallContentGetDefaultSortOrder(FieldIndex: integer
+function TPluginWDX.CallContentGetDefaultSortOrder(FieldIndex: integer
   ): boolean;
 var x:integer;
 begin
@@ -410,7 +568,7 @@ begin
 
 end;
 
-procedure TWDXModule.UnloadModule;
+procedure TPluginWDX.UnloadModule;
 begin
   if assigned(ContentPluginUnloading) then ContentPluginUnloading;
 
@@ -433,7 +591,7 @@ begin
         ContentSendStateInformation := nil;
 end;
 
-procedure TWDXModule.CallContentGetSupportedField;
+procedure TPluginWDX.CallContentGetSupportedField;
 var Index,
     maxlen,
     tmp,
@@ -443,7 +601,6 @@ var Index,
     s:string;
 begin
  if not assigned(ContentGetSupportedField) then exit;
- 
  Index:=0;
  GetMem(xFieldName,MAX_PATH);
  GetMem(xUnits,MAX_PATH);
@@ -465,7 +622,7 @@ begin
  FreeMem(xUnits);
 end;
 
-function TWDXModule.CallContentGetDetectString: string;
+function TPluginWDX.CallContentGetDetectString: string;
 var pc:Pchar;
 begin
   if assigned(ContentGetDetectString) then
@@ -479,13 +636,13 @@ begin
     Result:='';
 end;
 
-function TWDXModule.CallContentGetValue(FileName: string; FieldName: String;
+function TPluginWDX.CallContentGetValue(FileName: string; FieldName: String;
   UnitIndex: integer; flags: integer): string;
 begin
   result:=CallContentGetValue(FileName, GetFieldIndex(FieldName), UnitIndex,flags);
 end;
 
-function TWDXModule.CallContentGetValue(FileName: string; FieldIndex, UnitIndex: integer; flags: integer): string;
+function TPluginWDX.CallContentGetValue(FileName: string; FieldIndex, UnitIndex: integer; flags: integer): string;
 var Rez:integer;
     Buf: array[0..2*1024] of char;
     fnval: integer absolute buf;
@@ -532,12 +689,282 @@ begin
 
 end;
 
-function TWDXModule.CallContentGetSupportedFieldFlags(FieldIndex: integer
+function TPluginWDX.CallContentGetSupportedFieldFlags(FieldIndex: integer
   ): integer;
 begin
   if assigned(ContentGetSupportedFieldFlags) then
   Result:=ContentGetSupportedFieldFlags(FieldIndex);
 end;
+
+
+function TPluginWDX.GetFieldIndex(FieldName: string): integer;
+begin
+  Result:= FFieldsList.IndexOf(FieldName);
+end;
+
+
+function TPluginWDX.FileParamVSDetectStr(ptr:PFileRecItem): boolean;
+begin
+  FParser.DetectStr:=Self.DetectStr;
+  Result:=FParser.TestFileResult(ptr);
+end;
+
+
+{ TLuaWdx }
+
+function TLuaWdx.GetAName: string;
+begin
+Result:=FName;
+end;
+
+function TLuaWdx.GetAFileName: string;
+begin
+  Result:=FFileName;
+end;
+
+function TLuaWdx.GetADetectStr: string;
+begin
+  Result:=FDetectStr;
+end;
+
+procedure TLuaWdx.SetAName(AValue: string);
+begin
+  FName:=AValue;
+end;
+
+procedure TLuaWdx.SetAFileName(AValue: string);
+begin
+ FFileName:= AValue;
+end;
+
+procedure TLuaWdx.SetADetectStr(const AValue: string);
+begin
+ FDetectStr:= AValue;
+end;
+
+function TLuaWdx.DoScript(AName: string): integer;
+begin
+  result:=LUA_ERRRUN;
+  if not assigned(L) then exit;
+  Result:=luaL_dofile(L,pchar(AName));
+end;
+
+constructor TLuaWdx.Create;
+begin
+ if not IsLuaLibLoaded then
+  LoadLuaLib(gLuaLib); //Todo вынести загрузку либы в VmClass
+  FFieldsList:=TStringList.Create;
+  FParser:=TParserControl.Create;
+end;
+
+destructor TLuaWdx.Destroy;
+begin
+  if assigned(FParser) then
+    FParser.Free;
+
+  if assigned(FFieldsList) then
+  while FFieldsList.Count>0 do
+    begin
+      TWdxField(FFieldsList.Objects[0]).Free;
+      FFieldsList.Delete(0);
+    end;
+
+  Self.UnloadModule;
+
+  UnloadLuaLib;           //Todo вынести выгрузку либы в VmClass
+
+  inherited Destroy;
+end;
+
+function TLuaWdx.LoadModule: Boolean;
+begin
+  result:=false;
+  if not IsLuaLibLoaded then exit;
+
+  L:=lua_open;
+  if not Assigned(L) then exit;
+
+  luaL_openlibs(L);
+
+  if DoScript(Self.FFileName)=0 then
+    result:=true
+  else
+    Result:=false;
+    
+    CallContentSetDefaultParams;
+    CallContentGetSupportedField;
+    if Length(Self.DetectStr)=0 then
+      Self.DetectStr:=CallContentGetDetectString;
+end;
+
+procedure TLuaWdx.UnloadModule;
+begin
+WdxLuaContentPluginUnloading;
+
+  if Assigned(L) then
+  begin
+    lua_close(L);
+    L:=nil;
+  end;
+end;
+
+function TLuaWdx.IsLoaded: boolean;
+begin
+  Result:={IsLuaLibLoaded and }Assigned(Self.L);
+end;
+
+function TLuaWdx.FieldList: TStringlist;
+begin
+  Result:=FFieldsList;
+end;
+
+function TLuaWdx.GetFieldIndex(FieldName: string): integer;
+begin
+   Result:= FFieldsList.IndexOf(FieldName);
+end;
+
+function TLuaWdx.FileParamVSDetectStr(ptr: PFileRecItem): boolean;
+begin
+  FParser.DetectStr:=Self.DetectStr;
+  Result:=FParser.TestFileResult(ptr);
+end;
+
+function TLuaWdx.WdxLuaContentGetSupportedField(Index:integer; var xFieldName, xUnits:string): integer;
+begin
+  result:=ft_nomorefields;
+  if not assigned(L) then exit;
+  lua_getglobal(L,'ContentGetSupportedField');
+  if not lua_isfunction(L,-1) then exit;
+  lua_pushinteger(L,Index);
+  lua_call(L,1,3);
+  xFieldName:=lua_tostring(L,-3);
+  xUnits:=lua_tostring(L,-2);
+  Result:=lua_tointeger(L,-1);
+  lua_pop(L,3);
+end;
+
+procedure TLuaWdx.WdxLuaContentPluginUnloading;
+begin
+if not assigned(L) then exit;
+  lua_getglobal(L,'ContentPluginUnloading');
+  if not lua_isfunction(L,-1) then exit;
+  lua_call(L,0,0);
+end;
+
+procedure TLuaWdx.CallContentGetSupportedField;
+var  Index,Rez,tmp:integer;
+     xFieldName, xUnits:string;
+begin
+ Index:=0;
+ repeat
+   Rez:= WdxLuaContentGetSupportedField(Index, xFieldName, xUnits);
+   DebugLn('WDX:CallGetSupFields:'+Inttostr(Rez));
+   if Rez<>ft_nomorefields then
+     begin
+       tmp:=FFieldsList.AddObject(xFieldName,TWdxField.Create);
+       TWdxField(FFieldsList.Objects[tmp]).FName:=xFieldName;
+       TWdxField(FFieldsList.Objects[tmp]).FUnits:=xUnits;
+       TWdxField(FFieldsList.Objects[tmp]).FType:=Rez;
+     end;
+   inc(Index);
+
+ until Rez=ft_nomorefields;
+end;
+
+procedure TLuaWdx.CallContentSetDefaultParams;
+begin
+  if not assigned(L) then exit;
+  lua_getglobal(L,'ContentSetDefaultParams');
+  if not lua_isfunction(L,-1) then exit;
+  lua_pushstring(L,pchar(gini.FileName));
+  lua_pushinteger(L,1);
+  lua_pushinteger(L,50);
+  lua_call(L,3,0);
+end;
+
+procedure TLuaWdx.CallContentStopGetValue(FileName: string);
+begin
+  if not assigned(L) then exit;
+  lua_getglobal(L,'ContentStopGetValue');
+  if not lua_isfunction(L,-1) then exit;
+  lua_pushstring(L,pchar(FileName));
+  lua_call(L,1,0);
+end;
+
+function TLuaWdx.CallContentGetDefaultSortOrder(FieldIndex: integer): boolean;
+var x:integer;
+begin
+ result:=false;
+ if not assigned(L) then exit;
+
+   lua_getglobal(L,'ContentGetDefaultSortOrder');
+  if not lua_isfunction(L,-1) then exit;
+  lua_pushinteger(L,FieldIndex);
+  lua_call(L,1,1);
+
+      x:=lua_tointeger(L,-1);
+      case x of
+       1: Result:= false; //a..z 1..9
+      -1: Result:= true;  //z..a 9..1
+      end;
+lua_pop(L,1);
+end;
+
+function TLuaWdx.CallContentGetDetectString: string;
+begin
+ result:='';
+ if not assigned(L) then exit;
+
+  lua_getglobal(L,'ContentGetDetectString');
+  if not lua_isfunction(L,-1) then exit;
+  lua_call(L,0,1);
+  Result:=lua_tostring(L,-1);
+  lua_pop(L,1);
+end;
+
+function TLuaWdx.CallContentGetValue(FileName: string; FieldName: String;
+  UnitIndex: integer; flags: integer): string;
+begin
+  result:=CallContentGetValue(FileName, GetFieldIndex(FieldName), UnitIndex,flags);
+end;
+
+function TLuaWdx.CallContentGetValue(FileName: string; FieldIndex,
+  UnitIndex: integer; flags: integer): string;
+begin
+ result:='';
+ if not assigned(L) then exit;
+
+  lua_getglobal(L,'ContentGetValue');
+  if not lua_isfunction(L,-1) then exit;
+  lua_pushstring(L,pchar(FileName));
+  lua_pushinteger(L,FieldIndex);
+  lua_pushinteger(L,UnitIndex);
+  lua_pushinteger(L,flags);
+
+  lua_call(L,4,1);
+  Result:=lua_tostring(L,-1);
+  lua_pop(L,1);
+
+end;
+
+function TLuaWdx.CallContentGetSupportedFieldFlags(FieldIndex: integer
+  ): integer;
+begin
+ result:=0;
+ if not assigned(L) then exit;
+
+  lua_getglobal(L,'ContentGetSupportedFieldFlags');
+  if not lua_isfunction(L,-1) then exit;
+  lua_pushinteger(L,FieldIndex);
+
+  lua_call(L,1,1);
+  Result:=lua_tointeger(L,-1);
+  lua_pop(L,1);
+
+end;
+
+
+{ TWDXModule }
 
 function TWDXModule.WdxFieldType(n: integer): string;
  begin
@@ -558,21 +985,7 @@ function TWDXModule.WdxFieldType(n: integer): string;
      FT_DELAYED:                 Result:= 'FT_DELAYED';
      else Result:= '?';
    end;
- end;
-
-function TWDXModule.GetFieldIndex(FieldName: string): integer;
-begin
-  Result:= FFieldsList.IndexOf(FieldName);
 end;
-
-
-function TWDXModule.FileParamVSDetectStr(ptr:PFileRecItem): boolean;
-begin
-  FParser.DetectStr:=Self.DetectStr;
-  Result:=FParser.TestFileResult(ptr);
-end;
-
-
 
 end.
 
