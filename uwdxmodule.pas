@@ -281,7 +281,7 @@ procedure TWDXModuleList.Clear;
 begin
   while Flist.Count>0 do
    begin
-     TWDXModule(Flist.Objects[0]).Free;
+    TWDXModule(Flist.Objects[0]).Free;
      Flist.Delete(0);
    end;
 end;
@@ -352,8 +352,8 @@ procedure TWDXModuleList.DeleteItem(Index: integer);
 begin
   if (Index>-1) and (Index<Flist.Count) then
    begin
-    TWDXModule(Flist.Objects[Index]).Free;
-    Flist.Delete(Index);
+   TWDXModule(Flist.Objects[Index]).Free;
+   Flist.Delete(Index);
    end;
 end;
 
@@ -368,7 +368,15 @@ begin
     s:=ExtractFileName(FileName);
     if pos('.',s)>0 then
       delete(s,pos('.',s),length(s));
-    Result:=Flist.AddObject(UpCase(s),TWDXModule.Create);
+
+      if upcase(ExtractFileExt(FileName))='.WDX' then
+        Flist.AddObject(UpCase(s),TPluginWDX.Create)
+      else {иначе проверка на скрипт}
+      if upcase(ExtractFileExt(FileName))='.LUA' then
+        Flist.AddObject(UpCase(s),TLuaWdx.Create);
+
+    //Result:=Flist.AddObject(UpCase(s),TWDXModule.Create);
+    
     TWDXModule(Flist.Objects[Result]).Name:=s;
     TWDXModule(Flist.Objects[Result]).FileName:=FileName;
     if TWDXModule(Flist.Objects[Result]).LoadModule then
@@ -381,7 +389,14 @@ end;
 
 function TWDXModuleList.Add(AName, FileName, DetectStr: string): integer;
 begin
-      Result:=Flist.AddObject(UpCase(AName),TWDXModule.Create);
+      if upcase(ExtractFileExt(FileName))='.WDX' then
+        Result:=Flist.AddObject(UpCase(AName),TPluginWDX.Create)
+      else {иначе проверка на скрипт}
+      if upcase(ExtractFileExt(FileName))='.LUA' then
+        Result:=Flist.AddObject(UpCase(AName),TLuaWdx.Create);
+
+//      Result:=Flist.AddObject(UpCase(AName),TWDXModule.Create);
+
       TWDXModule(Flist.Objects[Result]).Name:=AName;
       TWDXModule(Flist.Objects[Result]).DetectStr:=DetectStr;
       TWDXModule(Flist.Objects[Result]).FileName:=FileName;
@@ -771,7 +786,7 @@ begin
 
   Self.UnloadModule;
 
-  UnloadLuaLib;           //Todo вынести выгрузку либы в VmClass
+  //UnloadLuaLib;           //Todo вынести выгрузку либы в VmClass
 
   inherited Destroy;
 end;
@@ -810,7 +825,7 @@ end;
 
 function TLuaWdx.IsLoaded: boolean;
 begin
-  Result:={IsLuaLibLoaded and }Assigned(Self.L);
+  Result:=IsLuaLibLoaded and Assigned(Self.L);
 end;
 
 function TLuaWdx.FieldList: TStringlist;
