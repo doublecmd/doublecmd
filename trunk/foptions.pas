@@ -1378,13 +1378,11 @@ begin
       delete(sPluginName,length(sPluginName)-4,4);
       WdxPlugins.Add(sPluginName,odOpenDialog.FileName,'');
 
-      WdxPlugins.LoadModule(sPluginName);
-     // s:=WdxPlugins.GetWdxModule(sPluginName).CallContentGetDetectString;
-//      WdxPlugins.GetWdxModule(sPluginName).DetectStr:=s;
-      WdxPlugins.GetWdxModule(sPluginName).UnloadModule;
-      //WdxPlugins.GetWdxModule(sPluginName).LoadModule;
+      //WdxPlugins.LoadModule(sPluginName);
+      //s:=WdxPlugins.GetWdxModule(sPluginName).CallContentGetDetectString;
+      //WdxPlugins.GetWdxModule(sPluginName).DetectStr:=s;
       //WdxPlugins.GetWdxModule(sPluginName).UnloadModule;
-      //To get DetectStr uncoment these 2 lines and get value of WdxPlugins.GetWdxModule(sPluginName).DetectStr;
+      //To get DetectStr uncoment these lines and get value of WdxPlugins.GetWdxModule(sPluginName).DetectStr; in s.
 
       sPluginName:=sPluginName+'=' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
       clbWDXList.Items.Add(sPluginName);

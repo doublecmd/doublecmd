@@ -25,7 +25,7 @@ unit uDetectStr;
  interface
 
  uses
- SysUtils, Classes, uTypes,uFileOp,LCLProc;
+ SysUtils, Classes, uTypes,uFileOp,LCLProc,Masks;
 
 
  type
@@ -116,8 +116,8 @@ begin
        tmp:='"'+tmp+'"';
        //---------------------
        case Aoperator.op of
-        moequ: Result:=BooleanToStr(tmp=operand2.data);
-        moneq: Result:=BooleanToStr(tmp<>operand2.data);
+        moequ: Result:=BooleanToStr(MatchesMask(tmp,operand2.data));
+        moneq: Result:=BooleanToStr(not MatchesMask(tmp,operand2.data));
        end;
      end;
 
@@ -323,7 +323,7 @@ function TParserControl.isdigit(c:char):boolean;
  begin
  result:=false;
  if (integer(c)>64) or
- (c in ['1','2','3','4','5','6','7','8','9','0','"']) then
+ (c in ['1','2','3','4','5','6','7','8','9','0','"','*']) then
    result:=true;
  end;
 
