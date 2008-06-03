@@ -44,20 +44,15 @@ function GetDesc(Path,Name)
     return "";
    end
   
-    local CurrDesc={};
     for line in f:lines() do
-      table.insert(CurrDesc,line);
+       if string.find(line,Name..' ') then
+        f:close();
+	return string.sub(line,string.len(Name..' ')+1,-1);
+       end
     end  
 
-    for i,v in pairs(CurrDesc) do
-       if string.find(v,Name..' ') then
-	return string.sub(v,string.len(Name..' ')+1,-1);
-       end
-    end
-
-  CurrDesc=nil;
   f:close();
      
-  return ds;
+  return "";
 end
 
