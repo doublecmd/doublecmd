@@ -662,6 +662,7 @@ begin
 end;
 
 procedure TFilePanel.UpdatePrompt;
+const PTLen=40;
 var
   FreeSize,
   TotalSize : Int64;
@@ -669,6 +670,9 @@ begin
   with flblCurPath do
   begin
     AutoSize:=False;
+    if length(ActiveDir)>PTLen then
+      Caption:='['+copy(ActiveDir,length(ActiveDir)-PTLen,PTLen)+']$:'
+    else
     Caption:='['+ActiveDir+']$:';
     AutoSize:=True;
     Left:=1;
