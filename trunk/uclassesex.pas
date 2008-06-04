@@ -127,6 +127,7 @@ end;
 
 procedure TIniFileEx.UpdateFile;
 begin
+  Stream.Position:=0;
   Stream.Size:= 0;
   inherited UpdateFile;
 end; 
