@@ -522,6 +522,7 @@ begin
    begin
      cbTextColor.Text := '';
      cbTextColor.Color := optColorDialog.Color;
+     pbExample.Repaint;
    end;
 end;
 
@@ -548,6 +549,7 @@ begin
    begin
      cbBackColor.Text := '';
      cbBackColor.Color := optColorDialog.Color;
+     pbExample.Repaint;
    end;
 end;
 
@@ -1378,11 +1380,8 @@ begin
       delete(sPluginName,length(sPluginName)-4,4);
       WdxPlugins.Add(sPluginName,odOpenDialog.FileName,'');
 
-      //WdxPlugins.LoadModule(sPluginName);
-      //s:=WdxPlugins.GetWdxModule(sPluginName).CallContentGetDetectString;
-      //WdxPlugins.GetWdxModule(sPluginName).DetectStr:=s;
-      //WdxPlugins.GetWdxModule(sPluginName).UnloadModule;
-      //To get DetectStr uncoment these lines and get value of WdxPlugins.GetWdxModule(sPluginName).DetectStr; in s.
+      WdxPlugins.LoadModule(sPluginName);
+      WdxPlugins.GetWdxModule(sPluginName).DetectStr:=WdxPlugins.GetWdxModule(sPluginName).CallContentGetDetectString;
 
       sPluginName:=sPluginName+'=' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
       clbWDXList.Items.Add(sPluginName);
@@ -1473,6 +1472,7 @@ begin
    begin
      cbBackColor2.Text := '';
      cbBackColor2.Color := optColorDialog.Color;
+     pbExample.Repaint;
    end;
 end;
 
@@ -1497,6 +1497,7 @@ begin
    begin
      cbCursorColor.Text := '';
      cbCursorColor.Color := optColorDialog.Color;
+     pbExample.Repaint;
    end;
 end;
 
@@ -1506,6 +1507,7 @@ begin
    begin
      cbCursorText.Text := '';
      cbCursorText.Color := optColorDialog.Color;
+     pbExample.Repaint;
    end;
 end;
 
@@ -1515,6 +1517,7 @@ begin
    begin
      cbMarkColor.Text := '';
      cbMarkColor.Color := optColorDialog.Color;
+     pbExample.Repaint;
    end;
 end;
 
