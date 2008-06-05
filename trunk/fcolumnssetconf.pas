@@ -533,7 +533,7 @@ begin
           stgColumns.Cells[4,btnAdd.Tag]:=stgColumns.Cells[4,btnAdd.Tag]+'[Plugin('+(Sender as TMenuItem).Parent.Caption+').'+(Sender as TMenuItem).Caption+'{}] ';
        end;
   end;
-
+ EditorSaveResult(Sender);
 end;
 
 procedure TfColumnsSetConf.stgColumnsEditingDone(Sender: TObject);
