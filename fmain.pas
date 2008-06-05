@@ -1350,7 +1350,7 @@ begin
         end; // in VFS
         
       sPath:=ActiveDir;
-      if not ShowMkDir(sPath,GetActiveItem^.sNameNoExt) then Exit;
+      if not ShowMkDir(sPath) then Exit;
       if (sPath='') then Exit;
       
       { Create directory in VFS }
@@ -1616,8 +1616,8 @@ begin
         actRunTerm.Execute;
         Exit;
       end;
-    end;
-  end; // Shift=[ssCtrl]}
+    end;}
+  end; // Shift=[ssCtrl]
   
   // not handled
   Result:=False;
