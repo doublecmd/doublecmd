@@ -112,6 +112,8 @@ resourcestring
   rsConfColWidth = 'Width';
   rsConfColAlign = 'Align';
   rsConfColFieldCont = 'Field contents';
+  rsConfColMove='Move';
+  rsConfColConfig='Config';
   // File properties dialog
   rsPropsYes = 'Yes (%s)';
   rsPropsNo = 'No';

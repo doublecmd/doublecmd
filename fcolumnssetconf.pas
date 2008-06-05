@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Buttons, Grids,  ComCtrls, Menus, LCLType, uColumns,uGlobs, Spin;
+  ExtCtrls, Buttons, Grids,  ComCtrls, Menus, LCLType, uColumns,uGlobs, Spin,framePanel;
 
 type
 
@@ -38,7 +38,10 @@ type
   TfColumnsSetConf = class(TForm)
     btnOk: TBitBtn;
     btnCancel: TBitBtn;
+    ComboBox1: TComboBox;
     edtNameofColumnsSet: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
     lblConfigViewNr: TLabel;
     lblName: TLabel;
     lbNrOfColumnsSet: TLabel;
@@ -47,17 +50,22 @@ type
     Panel2: TPanel;
     Panel3: TPanel;
     Panel4: TPanel;
+    pnlPreview: TPanel;
+    Panel6: TPanel;
     pmStringGrid: TPopupMenu;
     pmFields: TPopupMenu;
+    Splitter1: TSplitter;
     stgColumns: TStringGrid;
     procedure btnCancelClick(Sender: TObject);
     procedure btnOkClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure miAddColumnClick(Sender: TObject);
     procedure MenuFieldsClick(Sender: TObject);
+    procedure stgColumnsEditingDone(Sender: TObject);
     procedure stgColumnsHeaderSized(Sender: TObject; IsColumn: Boolean;
       Index: Integer);
     procedure stgColumnsKeyDown(Sender: TObject; var Key: Word;
@@ -68,14 +76,18 @@ type
 
     {Editors}
     procedure SpinEditExit(Sender: TObject);
+    procedure SpinEditChange(Sender: TObject);
     procedure EditExit(Sender: TObject);
     procedure BitBtnDeleteFieldClick(Sender: TObject);
+    procedure BtnCfgClick(Sender: TObject);
     procedure ButtonAddClick(Sender: TObject);
     procedure ComboBoxXSelect(Sender: TObject);
     procedure UpDownXClick(Sender: TObject; Button: TUDBtnType);
     procedure UpDownXChanging(Sender: TObject; var AllowChange: Boolean);
   private
     procedure EditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure UpdateColumnClass;
+    procedure DGHeaderSized(Sender: TObject;IsColumn: Boolean; Index: Integer);
     { private declarations }
   public
     { public declarations }
@@ -86,6 +98,7 @@ type
   procedure EditorSaveResult(Sender: TObject);
 
 var
+  PreviewPan:TFrameFilePanel;
   frmColumnsSetConf: TfColumnsSetConf;
   updWidth:TSpinEdit;
   cbbAlign:TComboBox;
@@ -93,10 +106,11 @@ var
   btnAdd:TButton;
   btnDel:TBitBtn;
   updMove:TUpDown;
+  btnCfg:TButton;
   Showed:boolean;
 implementation
 
-uses uLng;
+uses uLng{,fcolumnsprops};
 
 procedure EditorSaveResult(Sender: TObject);
 begin
@@ -108,8 +122,12 @@ begin
      stgColumns.Cells[3,(Sender as TComboBox).Tag]:=(Sender as TComboBox).Text;
     if Sender is TEdit then
      stgColumns.Cells[4,(Sender as TEdit).Tag]:=(Sender as TEdit).Text;
-
    end;
+   
+  frmColumnsSetConf.UpdateColumnClass;
+  PreviewPan.ActiveColmSlave:=frmColumnsSetConf.ColumnClass;
+  PreviewPan.SetColWidths;
+  PreviewPan.Repaint;
 end;
 
 
@@ -163,6 +181,7 @@ begin
              MaxValue:=1000;
              Value:=StrToInt((Sender as TStringGrid).Cells[aCol,aRow]);
              OnKeyDown:=@EditorKeyDown;
+             OnChange:=@SpinEditChange;
              OnExit:=@SpinEditExit;
              Visible:=false;
          end;
@@ -239,6 +258,22 @@ begin
      Editor:=updMove;
    end;
 
+   6: begin
+     btnCfg:=TButton.Create(frmColumnsSetConf);
+     with btnCfg do
+       begin
+         Parent:=stgColumns;
+         Height:=stgColumns.RowHeights[aRow];
+         Width:=stgColumns.ColWidths[aCol]-2;
+         Visible:=false;
+         Tag:=aRow;
+         Caption:=rsConfColConfig;
+         OnClick:=@BtnCfgClick;
+         Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Right-Width;
+         Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
+       end;
+     Editor:=btnCfg;
+      end;
   end;
 
  finally
@@ -280,6 +315,10 @@ begin
   stgColumns.Cells[2,stgColumns.RowCount-1]:='25';
   stgColumns.Cells[3,stgColumns.RowCount-1]:='<-';
   stgColumns.Cells[4,stgColumns.RowCount-1]:='';
+  UpdateColumnClass;
+  PreviewPan.ActiveColmSlave:=ColumnClass;
+  PreviewPan.SetColWidths;
+
 end;
 
 procedure TfColumnsSetConf.FormCreate(Sender: TObject);
@@ -287,6 +326,7 @@ begin
   ColumnClass:=TPanelColumnsClass.Create;
   // Resize window for screen size if need
   ResizeToScreen(Self);
+  PreviewPan:=TFrameFilePanel.Create(pnlPreview, Label1, Label2, ComboBox1);
 end;
 
 procedure TfColumnsSetConf.FormDestroy(Sender: TObject);
@@ -298,6 +338,8 @@ begin
   if assigned(btnDel) then FreeAndNil(btnDel);
   if assigned(edtField) then FreeAndNil(edtField);
   if assigned(updMove) then FreeAndNil(updMove);
+  if assigned(btnCfg) then FreeAndNil(btnCfg);
+  if assigned(PreviewPan) then FreeAndNil(PreviewPan);
   // ColumnClass.Free;
 end;
 
@@ -309,13 +351,33 @@ if not showed then exit;
     z:=stgColumns.Width;
     for i:=0 to 3 do
      z:=z-stgColumns.ColWidths[i];
-    z:=z-stgColumns.ColWidths[5];
+    z:=z-stgColumns.ColWidths[5]*stgColumns.ColWidths[6];
     stgColumns.ColWidths[4]:=z;
 end;
 
 procedure TfColumnsSetConf.FormShow(Sender: TObject);
-var i:integer;
+var i:integer; sPath:string;
 begin
+
+  with PreviewPan do
+  begin
+    edtCmdLine:=ComboBox1;
+    ActiveColmSlave:=ColumnClass;
+    isSlave:=true;
+    SetColWidths;
+    dgPanel.OnHeaderSized:=@DGHeaderSized;
+    Init;
+    ReAlign;
+    GetDir(0, sPath);
+    pnlFile.ActiveDir := sPath;
+    pnlFile.LoadPanel;
+    UpDatelblInfo;
+    dgPanel.Color := gBackColor;
+    pnlHeader.Visible := gCurDir;
+    pnlFooter.Visible := gStatusBar;
+  end;
+
+
     if ColumnClass.ColumnsCount>0 then
       begin
         stgColumns.RowCount:=ColumnClass.ColumnsCount+1;
@@ -339,6 +401,8 @@ begin
     stgColumns.Cells[2,0]:= rsConfColWidth;
     stgColumns.Cells[3,0]:= rsConfColAlign;
     stgColumns.Cells[4,0]:= rsConfColFieldCont;
+    stgColumns.Cells[5,0]:= rsConfColMove;
+    stgColumns.Cells[6,0]:= rsConfColConfig;
 
 end;
 
@@ -351,6 +415,11 @@ end;
 procedure TfColumnsSetConf.SpinEditExit(Sender: TObject);
 begin
   EditorSaveResult(Sender);
+end;
+
+procedure TfColumnsSetConf.SpinEditChange(Sender: TObject);
+begin
+EditorSaveResult(Sender);
 end;
 
 procedure TfColumnsSetConf.EditExit(Sender: TObject);
@@ -371,8 +440,6 @@ begin
      Left:=stgColumns.CellRect(5,abs(updMove.Position)).Right-Width;
      Top:=stgColumns.CellRect(5,abs(updMove.Position)).Top;
    end;
-
-
 end;
 
 procedure TfColumnsSetConf.UpDownXChanging(Sender: TObject;
@@ -386,16 +453,24 @@ begin
 stgColumns.DeleteColRow(false,(Sender as TBitBtn).Tag);
 end;
 
-procedure TfColumnsSetConf.btnOkClick(Sender: TObject);
+procedure TfColumnsSetConf.BtnCfgClick(Sender: TObject);
+begin
+{  frmColumsProps:=TfrmColumsProps.Create(nil);
+  with frmColumsProps do
+  begin
+   if ShowModal =mrok then ShowMessage('Ok');
+    Free;
+  end;
+ }
+end;
+
+procedure TfColumnsSetConf.UpdateColumnClass;
 var i:integer;
    Tit,
    FuncString: string;
    Wid: integer;
    Ali: TAlignment;
 begin
-if edtNameofColumnsSet.Text='' then
-   edtNameofColumnsSet.Text:=DateTimeToStr(now);
-
   // Save fields
   ColumnClass.Clear;
   for i:=1 to stgColumns.RowCount-1 do
@@ -410,19 +485,37 @@ if edtNameofColumnsSet.Text='' then
       ColumnClass.Add(Tit,FuncString,Wid,Ali);
     end;
 
+end;
+
+procedure TfColumnsSetConf.DGHeaderSized(Sender: TObject; IsColumn: Boolean;
+  Index: Integer);
+begin
+  stgColumns.Cells[2,Index+1]:=inttostr(PreviewPan.dgPanel.ColWidths[index]);
+  ColumnClass.SetColumnWidth(Index,PreviewPan.dgPanel.ColWidths[index])
+end;
+
+procedure TfColumnsSetConf.btnOkClick(Sender: TObject);
+begin
+if edtNameofColumnsSet.Text='' then
+   edtNameofColumnsSet.Text:=DateTimeToStr(now);
+
+    UpdateColumnClass;
 
     case Self.Tag of
-    -1: ColSet.Add(edtNameofColumnsSet.Text,ColumnClass);//ColSet.Items.Add(edtNameofColumnsSet.Text);
+    -1: ColSet.Add(edtNameofColumnsSet.Text,ColumnClass);
     else
       begin
         ColSet.DeleteColumnSet(gIni,Self.Tag);
         Colset.Insert(Self.Tag,edtNameofColumnsSet.Text,ColumnClass);
-        //ColSet.Items.Insert(Self.Tag,edtNameofColumnsSet.Text);
       end;
     end;
 
-//ColumnClass.Save(gIni,(edtNameofColumnsSet.Text));
 ColSet.Save(gIni);
+end;
+
+procedure TfColumnsSetConf.Button1Click(Sender: TObject);
+begin
+
 end;
 
 procedure TfColumnsSetConf.btnCancelClick(Sender: TObject);
@@ -439,11 +532,13 @@ begin
     1: begin
           stgColumns.Cells[4,btnAdd.Tag]:=stgColumns.Cells[4,btnAdd.Tag]+'[Plugin('+(Sender as TMenuItem).Parent.Caption+').'+(Sender as TMenuItem).Caption+'{}] ';
        end;
-    2: begin
-         //for WDX scripts
-       end;
   end;
 
+end;
+
+procedure TfColumnsSetConf.stgColumnsEditingDone(Sender: TObject);
+begin
+  EditorSaveResult(sender);
 end;
 
 
