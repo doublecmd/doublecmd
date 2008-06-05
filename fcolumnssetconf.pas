@@ -181,8 +181,7 @@ begin
              Style:=csDropDownList;
              AddItem('<-',nil);
              AddItem('->',nil);
-           //TODO: center alignment
-           //AddItem('=',nil);
+             AddItem('=',nil);
              OnSelect:=@ComboBoxXSelect;
              OnKeyDown:=@EditorKeyDown;
              ItemIndex:=Items.IndexOf((Sender as TStringGrid).Cells[aCol,aRow]);

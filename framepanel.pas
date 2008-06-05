@@ -761,14 +761,20 @@ begin
             while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
               Delete(s,Length(s),1);
           end;
-        if ColSet.GetColumnSet(ActiveColm).GetColumnAlign(ACol) = taRightJustify then
-          begin
-            cw:=ColWidths[ACol];
-            tw:=Canvas.TextWidth(s);
-            Canvas.TextOut(Rect.Left+cw-tw,iTextTop,s);
-          end
-        else
-          Canvas.TextOut(Rect.Left,iTextTop,s);
+         case ColSet.GetColumnSet(ActiveColm).GetColumnAlign(ACol) of
+           taRightJustify:  begin
+                              cw:=ColWidths[ACol];
+                              tw:=Canvas.TextWidth(s);
+                              Canvas.TextOut(Rect.Left+cw-tw-3,iTextTop,s);
+                            end;
+           taLeftJustify:   Canvas.TextOut(Rect.Left+3,iTextTop,s);
+           taCenter:        begin
+                              cw:=ColWidths[ACol];
+                              tw:=Canvas.TextWidth(s);
+                              Canvas.TextOut(Rect.Left+((cw-tw-3) div 2),iTextTop,s);
+                            end;
+         end; //of case
+          
         //------------------------------------------------------
       end;
   end;   //with
