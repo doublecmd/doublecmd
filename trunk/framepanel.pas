@@ -671,6 +671,7 @@ var
   s:String;
   frp:PFileRecItem;
   bmp:TBitmap;
+  Tr:TRect;
   iTextTop : Integer;
 begin
 {  (Sender as TDrawGrid).Canvas.TextOut(Rect.Left, Rect.Top, IntToStr(ARow));
@@ -739,7 +740,9 @@ begin
       begin
         if (iIconID >= 0) and gShowIcons then
           begin
-            PixMapManager.DrawBitmap(iIconID, Canvas, Rect);
+          Tr:=Rect;
+          Tr.Left:=Tr.Left+1;
+            PixMapManager.DrawBitmap(iIconID, Canvas, Tr);
           end;
           s:=ColSet.GetColumnSet(ActiveColm).GetColumnItemResultString(ACol,frp);
           if gCutTextToColWidth then
@@ -748,7 +751,7 @@ begin
                 Delete(s,Length(s),1);
             end;
           if gShowIcons then
-            Canvas.TextOut(Rect.Left + gIconsSize + 2 ,iTextTop,s)
+            Canvas.TextOut(Rect.Left + gIconsSize + 3 ,iTextTop,s)
           else
             Canvas.TextOut(Rect.Left + 2 ,iTextTop,s);
       end
