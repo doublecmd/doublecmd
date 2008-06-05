@@ -1,24 +1,25 @@
 object fColumnsSetConf: TfColumnsSetConf
-  Left = 22
-  Height = 665
-  Top = 3
-  Width = 987
-  HorzScrollBar.Page = 986
-  VertScrollBar.Page = 664
+  Left = 287
+  Height = 712
+  Top = 91
+  Width = 989
+  HorzScrollBar.Page = 988
+  VertScrollBar.Page = 711
   ActiveControl = edtNameofColumnsSet
   Caption = 'Configure custom columns view'
-  ClientHeight = 665
-  ClientWidth = 987
+  ClientHeight = 712
+  ClientWidth = 989
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
+  LCLVersion = '0.9.25'
   object Panel1: TPanel
     Height = 36
-    Width = 987
+    Width = 989
     Align = alTop
     ClientHeight = 36
-    ClientWidth = 987
+    ClientWidth = 989
     TabOrder = 0
     object lblConfigViewNr: TLabel
       Left = 8
@@ -48,34 +49,33 @@ object fColumnsSetConf: TfColumnsSetConf
       Left = 255
       Height = 23
       Top = 4
-      Width = 727
+      Width = 729
       Anchors = [akTop, akLeft, akRight]
       TabOrder = 0
     end
   end
   object Panel2: TPanel
-    Height = 587
+    Height = 634
     Top = 36
-    Width = 987
+    Width = 989
     Align = alClient
-    ClientHeight = 587
-    ClientWidth = 987
+    ClientHeight = 634
+    ClientWidth = 989
     TabOrder = 1
     object stgColumns: TStringGrid
       Left = 1
-      Height = 552
+      Height = 447
       Top = 1
-      Width = 985
+      Width = 987
       Align = alClient
-      ColCount = 6
+      ColCount = 7
       FixedColor = clBtnFace
       FixedCols = 0
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goEditing, goSmoothScroll]
       PopupMenu = pmStringGrid
       RowCount = 3
-      ScrollBars = ssAutoBoth
       TabOrder = 0
-      TabStop = True
+      OnEditingDone = stgColumnsEditingDone
       OnHeaderSized = stgColumnsHeaderSized
       OnKeyDown = stgColumnsKeyDown
       OnSelectEditor = stgColumnsSelectEditor
@@ -86,9 +86,10 @@ object fColumnsSetConf: TfColumnsSetConf
         61
         457
         38
+        64
       )
       Cells = (
-        6
+        7
         0
         0
         'Delete'
@@ -107,27 +108,76 @@ object fColumnsSetConf: TfColumnsSetConf
         5
         0
         'Move'
+        6
+        0
+        'Config'
       )
     end
     object Panel4: TPanel
       Left = 1
-      Height = 33
-      Top = 553
-      Width = 985
+      Height = 180
+      Top = 453
+      Width = 987
       Align = alBottom
+      ClientHeight = 180
+      ClientWidth = 987
       TabOrder = 1
+      object pnlPreview: TPanel
+        Left = 1
+        Height = 159
+        Top = 20
+        Width = 985
+        Align = alClient
+        TabOrder = 0
+      end
+      object Panel6: TPanel
+        Left = 1
+        Height = 19
+        Top = 1
+        Width = 985
+        Align = alTop
+        Caption = 'Preview'
+        TabOrder = 1
+      end
+    end
+    object Splitter1: TSplitter
+      Cursor = crVSplit
+      Left = 1
+      Height = 5
+      Top = 448
+      Width = 987
+      Align = alBottom
+      ResizeAnchor = akBottom
     end
   end
   object Panel3: TPanel
     Height = 42
-    Top = 623
-    Width = 987
+    Top = 670
+    Width = 989
     Align = alBottom
     ClientHeight = 42
-    ClientWidth = 987
+    ClientWidth = 989
     TabOrder = 2
+    object Label2: TLabel
+      Left = 24
+      Height = 13
+      Top = 29
+      Width = 49
+      Caption = 'Label2'
+      ParentColor = False
+      Visible = False
+    end
+    object Label1: TLabel
+      Left = 24
+      Height = 13
+      Top = 18
+      Width = 49
+      Caption = 'Label1'
+      ParentColor = False
+      Visible = False
+    end
     object btnOk: TBitBtn
-      Left = 776
+      Left = 778
       Height = 30
       Top = 6
       Width = 91
@@ -141,7 +191,7 @@ object fColumnsSetConf: TfColumnsSetConf
       TabOrder = 0
     end
     object btnCancel: TBitBtn
-      Left = 880
+      Left = 882
       Height = 30
       Top = 6
       Width = 99
@@ -152,10 +202,21 @@ object fColumnsSetConf: TfColumnsSetConf
       NumGlyphs = 0
       TabOrder = 1
     end
+    object ComboBox1: TComboBox
+      Left = 16
+      Height = 25
+      Top = -6
+      Width = 100
+      AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+      MaxLength = 65535
+      TabOrder = 2
+      Text = 'ComboBox1'
+      Visible = False
+    end
   end
   object pmStringGrid: TPopupMenu
-    left = 8
-    top = 528
+    left = 16
+    top = 304
     object miAddColumn: TMenuItem
       Caption = 'Add column'
       OnClick = miAddColumnClick

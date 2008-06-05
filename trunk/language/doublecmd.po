@@ -2159,3 +2159,71 @@ msgstr ""
 msgid "&80/20"
 msgstr ""
 
+#: ulng.rsdlgbuttons
+msgid "&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &A'"
+msgstr ""
+
+#: 
+msgid "ll;&Skip;S&kip All;All;"
+msgstr ""
+
+#: ulng.rsmsgnofreespacecont
+msgid "No enough free space on target drive, Continue'"
+msgstr ""
+
+#: 
+msgid "?"
+msgstr ""
+
+#: ulng.rsmulrenfilenamestylelist
+msgid "No change;UPPERCASE;lowercase;First Char '"
+msgstr ""
+
+#: 
+msgid "Big;"
+msgstr ""
+
+#: ulng.rsconfcolmove
+msgid "Move"
+msgstr ""
+
+#: ulng.rsconfcolconfig
+msgid "Config"
+msgstr ""
+
+#: TFRMCOLUMSPROPS.CAPTION
+msgid "frmColumsProps"
+msgstr ""
+
+#: TFRMCOLUMSPROPS.BITBTN1.CAPTION
+msgid "&ОК"
+msgstr ""
+
+#: TFRMCOLUMSPROPS.GROUPBOX1.CAPTION
+msgid "GroupBox1"
+msgstr ""
+
+#: TFRMCOLUMSPROPS.GBOX1.CAPTION
+msgid "Gbox1"
+msgstr ""
+
+#: TFRMCOLUMSPROPS.LABEL1.CAPTION
+msgid "Label1"
+msgstr ""
+
+#: TFRMCOLUMSPROPS.LABEL2.CAPTION
+msgid "Label2"
+msgstr ""
+
+#: TFRMCOLUMSPROPS.COMBOBOX1.TEXT
+msgid "ComboBox1"
+msgstr ""
+
+#: TFCOLUMNSSETCONF.BUTTON1.CAPTION
+msgid "Button1"
+msgstr ""
+
+#: TFCOLUMNSSETCONF.PANEL6.CAPTION
+msgid "Preview"
+msgstr ""
+

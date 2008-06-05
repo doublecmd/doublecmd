@@ -49,6 +49,8 @@ type
 //---------------------
     dgPanel: TDrawGrid;
     ActiveColm:String;
+    ActiveColmSlave:TPanelColumnsClass;
+    isSlave:boolean;
 //---------------------
     pnAltSearch: TPanel;
     edtSearch: TEdit;
@@ -436,10 +438,20 @@ procedure TFrameFilePanel.SetColWidths;
 var x:integer;
 begin
   //  setup column widths
- dgPanel.ColCount:=ColSet.GetColumnSet(ActiveColm).ColumnsCount;
- if ColSet.GetColumnSet(ActiveColm).ColumnsCount>0 then
-  for x:=0 to ColSet.GetColumnSet(ActiveColm).ColumnsCount-1 do
-    dgPanel.ColWidths[x]:=ColSet.GetColumnSet(ActiveColm).GetColumnWidth(x);
+  //slave Colm has prioritet
+ if isSlave then
+ begin
+   dgPanel.ColCount:=ActiveColmSlave.ColumnsCount;
+   if ActiveColmSlave.ColumnsCount>0 then
+    for x:=0 to ActiveColmSlave.ColumnsCount-1 do
+      dgPanel.ColWidths[x]:=ActiveColmSlave.GetColumnWidth(x);
+ end else
+ begin
+   dgPanel.ColCount:=ColSet.GetColumnSet(ActiveColm).ColumnsCount;
+   if ColSet.GetColumnSet(ActiveColm).ColumnsCount>0 then
+     for x:=0 to ColSet.GetColumnSet(ActiveColm).ColumnsCount-1 do
+       dgPanel.ColWidths[x]:=ColSet.GetColumnSet(ActiveColm).GetColumnWidth(x);
+ end;
 end;
 
 procedure TFrameFilePanel.edSearchChange(Sender: TObject);
@@ -681,15 +693,19 @@ begin
 
   if dgPanel.FixedRows <> Integer(gTabHeader) then
     dgPanel.FixedRows := Integer(gTabHeader);
+   if not isSlave then
+   begin
+     ActiveColmSlave:=ColSet.GetColumnSet(ActiveColm);
+   end;
 
   if (ARow = 0) and gTabHeader then
   begin
     // Draw fixed header
-    if not (ACol in [0..ColSet.GetColumnSet(ActiveColm).ColumnsCount-1]) then Exit;
+    if not (ACol in [0..ActiveColmSlave.ColumnsCount-1]) then Exit;
     with dgPanel do
     begin
       tw := 0;
-      s := ColSet.GetColumnSet(ActiveColm).GetColumnTitle(ACol);
+      s := ActiveColmSlave.GetColumnTitle(ACol);
       if ACol = pnlFile.SortColumn then
         begin
           tw := 1;
@@ -744,7 +760,7 @@ begin
           Tr.Left:=Tr.Left+1;
             PixMapManager.DrawBitmap(iIconID, Canvas, Tr);
           end;
-          s:=ColSet.GetColumnSet(ActiveColm).GetColumnItemResultString(ACol,frp);
+          s:=ActiveColmSlave.GetColumnItemResultString(ACol,frp);
           if gCutTextToColWidth then
             begin
               while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
@@ -758,13 +774,13 @@ begin
     else
       begin
         //------------------------------------------------------
-        s:=ColSet.GetColumnSet(ActiveColm).GetColumnItemResultString(ACol,frp);
+        s:=ActiveColmSlave.GetColumnItemResultString(ACol,frp);
         if gCutTextToColWidth then
           begin
             while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
               Delete(s,Length(s),1);
           end;
-         case ColSet.GetColumnSet(ActiveColm).GetColumnAlign(ACol) of
+         case ActiveColmSlave.GetColumnAlign(ACol) of
            taRightJustify:  begin
                               cw:=ColWidths[ACol];
                               tw:=Canvas.TextWidth(s);
@@ -781,6 +797,7 @@ begin
         //------------------------------------------------------
       end;
   end;   //with
+
 end;
 
 procedure TFrameFilePanel.MakeVisible(iRow:Integer);
@@ -959,6 +976,8 @@ begin
   inherited Create(AOwner);
   Parent:=AOwner;
   Align:=alClient;
+  ActiveColmSlave:=nil;
+  isSlave:=false;
   OnKeyPress:=@dgPanelKeyPress;
   pnlHeader:=TPanel.Create(Self);
   pnlHeader.Parent:=Self;

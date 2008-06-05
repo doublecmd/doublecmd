@@ -2126,3 +2126,12 @@ msgstr ""
 msgid "~"
 msgstr ""
 
+
+#: ulng.rsconfcolmove
+msgid "Move"
+msgstr "Переместить"
+
+#: ulng.rsconfcolconfig
+msgid "Config"
+msgstr "Настройка"
+
