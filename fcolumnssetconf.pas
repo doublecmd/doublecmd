@@ -58,7 +58,6 @@ type
     stgColumns: TStringGrid;
     procedure btnCancelClick(Sender: TObject);
     procedure btnOkClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
@@ -440,17 +439,20 @@ begin
      Left:=stgColumns.CellRect(5,abs(updMove.Position)).Right-Width;
      Top:=stgColumns.CellRect(5,abs(updMove.Position)).Top;
    end;
+  EditorSaveResult(Sender);
 end;
 
 procedure TfColumnsSetConf.UpDownXChanging(Sender: TObject;
   var AllowChange: Boolean);
 begin
   updMove.tag:=abs(updMove.Position);
+   EditorSaveResult(Sender);
 end;
 
 procedure TfColumnsSetConf.BitBtnDeleteFieldClick(Sender: TObject);
 begin
 stgColumns.DeleteColRow(false,(Sender as TBitBtn).Tag);
+ EditorSaveResult(Sender);
 end;
 
 procedure TfColumnsSetConf.BtnCfgClick(Sender: TObject);
@@ -462,6 +464,7 @@ begin
     Free;
   end;
  }
+  EditorSaveResult(Sender);
 end;
 
 procedure TfColumnsSetConf.UpdateColumnClass;
@@ -513,10 +516,6 @@ if edtNameofColumnsSet.Text='' then
 ColSet.Save(gIni);
 end;
 
-procedure TfColumnsSetConf.Button1Click(Sender: TObject);
-begin
-
-end;
 
 procedure TfColumnsSetConf.btnCancelClick(Sender: TObject);
 begin
