@@ -907,6 +907,12 @@ begin
       MarkShiftMinus;
     Exit;
   end;
+  
+  {$IFDEF LCLGTK2}
+   if ((dgPanel.Row=dgPanel.RowCount-1) and (key=VK_DOWN))
+   or ((dgPanel.Row=1) and (key=VK_UP)) then
+    key:=0;
+  {$ENDIF}
 end;
 
 function TFrameFilePanel.GetActiveItem:PFileRecItem;
