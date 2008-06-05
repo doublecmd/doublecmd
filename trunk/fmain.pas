@@ -1350,7 +1350,7 @@ begin
         end; // in VFS
         
       sPath:=ActiveDir;
-      if not ShowMkDir(sPath) then Exit;
+      if not ShowMkDir(sPath,GetActiveItem^.sNameNoExt) then Exit;
       if (sPath='') then Exit;
       
       { Create directory in VFS }
@@ -1609,7 +1609,7 @@ begin
       Exit;
     end;
 
-    if (Key=VK_X) then
+{    if (Key=VK_X) then
     begin
       if not edtCommand.Focused then
       begin
@@ -1617,7 +1617,7 @@ begin
         Exit;
       end;
     end;
-  end; // Shift=[ssCtrl]
+  end; // Shift=[ssCtrl]}
   
   // not handled
   Result:=False;
@@ -2599,8 +2599,14 @@ begin
     edtRename.Hint:=sFileName;
     edtRename.Text:=ExtractFileName(sFileName);
     edtRename.Visible:=True;
-    edtRename.SelectAll;
-    edtRename.SetFocus;
+    if gRenameSelOnlyName then
+      begin
+        edtRename.SelStart:=1;
+        edtRename.SelLength:=length(edtRename.Text)-length(ExtractFileExt(edtRename.Text));
+        edtRename.SetFocus;
+      end
+    else
+      edtRename.SelectAll;
   end;
 end;
 
