@@ -58,7 +58,6 @@ object fColumnsSetConf: TfColumnsSetConf
       Width = 729
       Anchors = [akTop, akLeft, akRight]
       TabOrder = 0
-      Text = ':'
     end
   end
   object Panel2: TPanel
@@ -696,6 +695,84 @@ object fColumnsSetConf: TfColumnsSetConf
         Caption = 'Allow Overcolor'
         OnChange = cbOvercolorChange
         TabOrder = 21
+      end
+      object btnAllText: TButton
+        Tag = 1
+        AnchorSideLeft.Control = ResText
+        AnchorSideLeft.Side = asrBottom
+        Left = 380
+        Height = 22
+        Top = 36
+        Width = 40
+        BorderSpacing.Left = 6
+        Caption = 'All'
+        OnClick = btnAllTextClick
+        TabOrder = 22
+      end
+      object btnAllBack: TButton
+        Tag = 2
+        AnchorSideLeft.Control = ResText
+        AnchorSideLeft.Side = asrBottom
+        Left = 380
+        Height = 22
+        Top = 64
+        Width = 40
+        BorderSpacing.Left = 6
+        Caption = 'All'
+        OnClick = btnAllTextClick
+        TabOrder = 23
+      end
+      object btnAllBack2: TButton
+        Tag = 3
+        AnchorSideLeft.Control = ResText
+        AnchorSideLeft.Side = asrBottom
+        Left = 380
+        Height = 22
+        Top = 96
+        Width = 40
+        BorderSpacing.Left = 6
+        Caption = 'All'
+        OnClick = btnAllTextClick
+        TabOrder = 24
+      end
+      object btnAllCurCol: TButton
+        Tag = 5
+        AnchorSideLeft.Control = ResMark
+        AnchorSideLeft.Side = asrBottom
+        Left = 828
+        Height = 22
+        Top = 66
+        Width = 40
+        BorderSpacing.Left = 6
+        Caption = 'All'
+        OnClick = btnAllTextClick
+        TabOrder = 25
+      end
+      object btnAllCurText: TButton
+        Tag = 6
+        AnchorSideLeft.Control = ResMark
+        AnchorSideLeft.Side = asrBottom
+        Left = 828
+        Height = 22
+        Top = 96
+        Width = 40
+        BorderSpacing.Left = 6
+        Caption = 'All'
+        OnClick = btnAllTextClick
+        TabOrder = 26
+      end
+      object btnAllMarc: TButton
+        Tag = 4
+        AnchorSideLeft.Control = ResMark
+        AnchorSideLeft.Side = asrBottom
+        Left = 828
+        Height = 22
+        Top = 36
+        Width = 40
+        BorderSpacing.Left = 6
+        Caption = 'All'
+        OnClick = btnAllTextClick
+        TabOrder = 27
       end
     end
     object Splitter2: TSplitter

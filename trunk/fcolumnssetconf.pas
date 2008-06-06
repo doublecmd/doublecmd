@@ -91,10 +91,17 @@ type
     ResBack2: TButton;
     ResBack: TButton;
     ResText: TButton;
+    btnAllText: TButton;
+    btnAllBack: TButton;
+    btnAllBack2: TButton;
+    btnAllCurCol: TButton;
+    btnAllCurText: TButton;
+    btnAllMarc: TButton;
     sneFontSize: TSpinEdit;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
     stgColumns: TStringGrid;
+    procedure btnAllTextClick(Sender: TObject);
     procedure btnBackColor2Click(Sender: TObject);
     procedure btnBackColorClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
@@ -783,6 +790,33 @@ begin
       TColPrm(stgColumns.Objects[6,IndexRaw+1]).Background2:=cbBackColor2.Color;
       EditorSaveResult(nil);
     end;
+end;
+
+procedure TfColumnsSetConf.btnAllTextClick(Sender: TObject);
+var i:integer;
+begin
+for i:= 1 to stgColumns.RowCount-1 do
+  case (Sender as TButton).tag of
+    1:begin
+      TColPrm(stgColumns.Objects[6,i]).TextColor :=cbTextColor.Color;
+    end;
+    2:begin
+      TColPrm(stgColumns.Objects[6,i]).Background :=cbBackColor.Color;
+    end;
+    3:begin
+      TColPrm(stgColumns.Objects[6,i]).Background2 :=cbBackColor2.Color;
+    end;
+    4:begin
+      TColPrm(stgColumns.Objects[6,i]).MarkColor :=cbMarkColor.Color;
+    end;
+    5:begin
+      TColPrm(stgColumns.Objects[6,i]).CursorColor :=cbCursorColor.Color;
+    end;
+    6:begin
+      TColPrm(stgColumns.Objects[6,i]).CursorText :=cbCursorText.Color;
+    end;
+  end;
+UpdateColumnClass;
 end;
 
 procedure TfColumnsSetConf.btnFontSelectClick(Sender: TObject);
