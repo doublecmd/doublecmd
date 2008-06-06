@@ -101,48 +101,48 @@ uses
     constructor Create;
     destructor Destroy; override;
     //---------------------
-    function GetColumnTitle(Index:integer):string;
-    function GetColumnFuncString(Index:integer):string;
-    function GetColumnWidth(Index:integer):Integer;
-    function GetColumnAlign(Index:integer):TAlignment;
-    function GetColumnAlignString(Index:integer):string;
+    function GetColumnTitle(const Index:Integer):string;
+    function GetColumnFuncString(const Index:Integer):string;
+    function GetColumnWidth(const Index:Integer):Integer;
+    function GetColumnAlign(const Index:Integer):TAlignment;
+    function GetColumnAlignString(const Index:Integer):string;
     //---------------------
-    function GetColumnFontName(Index:integer):string;
-    function GetColumnFontSize(Index:integer):integer;
-    function GetColumnOvercolor(Index:integer):boolean;
-    function GetColumnTextColor(Index:integer):TColor;
-    function GetColumnBackground(Index:integer):TColor;
-    function GetColumnBackground2(Index:integer):TColor;
-    function GetColumnMarkColor(Index:integer):TColor;
-    function GetColumnCursorColor(Index:integer):TColor;
-    function GetColumnCursorText(Index:integer):TColor;
+    function GetColumnFontName(const Index:Integer):string;
+    function GetColumnFontSize(const Index:Integer):integer;
+    function GetColumnOvercolor(const Index:Integer):boolean;
+    function GetColumnTextColor(const Index:Integer):TColor;
+    function GetColumnBackground(const Index:Integer):TColor;
+    function GetColumnBackground2(const Index:Integer):TColor;
+    function GetColumnMarkColor(const Index:Integer):TColor;
+    function GetColumnCursorColor(const Index:Integer):TColor;
+    function GetColumnCursorText(const Index:Integer):TColor;
     //---------------------
-    function GetColumnPrm(Index:integer):TColPrm;
+    function GetColumnPrm(const Index:Integer):TColPrm;
 
     //---------------------
-    function GetColumnItem(Index:integer):TPanelColumn;
-    function GetColumnItemResultString(Index:integer; ptr:PFileRecItem):string;
+    function GetColumnItem(const Index:Integer):TPanelColumn;
+    function GetColumnItemResultString(const Index:Integer;const  ptr:PFileRecItem):string;
     function GetCount:Integer;
     function Add(Item:TPanelColumn):integer;
-    function Add(Title, FuncString:string; Width:integer;Align: TAlignment=taLeftJustify):integer; overload;
+    function Add(const Title, FuncString:string;const  Width:integer;const Align: TAlignment=taLeftJustify):integer; overload;
     //---------------------
-    procedure SetColumnTitle(Index:integer;Title:string);
-    procedure SetColumnFuncString(Index:integer;FuncString:string);
+    procedure SetColumnTitle(const Index:Integer; Title:string);
+    procedure SetColumnFuncString(const Index:Integer; FuncString:string);
     procedure SetColumnWidth(Index,Width:integer);
-    procedure SetColumnAlign(Index:Integer; Align: TAlignment);
+    procedure SetColumnAlign(const Index:Integer; Align: TAlignment);
     //---------------------
-    procedure SetColumnFontName(Index:integer; Value:string);
-    procedure SetColumnFontSize(Index:integer; Value:integer);
-    procedure SetColumnTextColor(Index:integer; Value:TColor);
-    procedure SetColumnBackground(Index:integer; Value:TColor);
-    procedure SetColumnBackground2(Index:integer; Value:TColor);
-    procedure SetColumnMarkColor(Index:integer; Value:TColor);
-    procedure SetColumnCursorColor(Index:integer; Value:TColor);
-    procedure SetColumnCursorText(Index:integer; Value:TColor);
-    procedure SetColumnOvercolor(Index:integer; Value:boolean);
-    Procedure SetColumnPrm(Index:integer; Value:TColPrm);
+    procedure SetColumnFontName(const Index:Integer; Value:string);
+    procedure SetColumnFontSize(const Index:Integer; Value:integer);
+    procedure SetColumnTextColor(const Index:Integer; Value:TColor);
+    procedure SetColumnBackground(const Index:Integer; Value:TColor);
+    procedure SetColumnBackground2(const Index:Integer; Value:TColor);
+    procedure SetColumnMarkColor(const Index:Integer; Value:TColor);
+    procedure SetColumnCursorColor(const Index:Integer; Value:TColor);
+    procedure SetColumnCursorText(const Index:Integer; Value:TColor);
+    procedure SetColumnOvercolor(const Index:Integer; Value:boolean);
+    Procedure SetColumnPrm(const Index:Integer; Value:TColPrm);
     //---------------------
-    procedure Delete(Index:Integer);
+    procedure Delete(const Index:Integer);
     procedure Clear;
     procedure AddDefaultColumns;
 
@@ -192,7 +192,7 @@ uses
     procedure DeleteColumnSet(ini:TIniFileEx; SetName:string);
     procedure DeleteColumnSet(ini:TIniFileEx; SetIndex:Integer); overload;
     procedure CopyColumnSet(ini:TIniFileEx; SetName,NewSetName:string);
-    function GetColumnSet(Index:Integer):TPanelColumnsClass;
+    function GetColumnSet(const Index:Integer):TPanelColumnsClass;
     function GetColumnSet(Setname:string):TPanelColumnsClass;
 
     //---------------------
@@ -224,31 +224,31 @@ end;
 
 { TPanelColumnsType }
 
-function TPanelColumnsClass.GetColumnTitle(Index: integer): string;
+function TPanelColumnsClass.GetColumnTitle(const Index: integer): string;
 begin
   if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]).Title;
 end;
 
-function TPanelColumnsClass.GetColumnFuncString(Index: integer): string;
+function TPanelColumnsClass.GetColumnFuncString(const Index: integer): string;
 begin
   if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]).FuncString;
 end;
 
-function TPanelColumnsClass.GetColumnWidth(Index: integer): Integer;
+function TPanelColumnsClass.GetColumnWidth(const Index: integer): Integer;
 begin
   if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]).Width;
 end;
 
-function TPanelColumnsClass.GetColumnAlign(Index: integer): TAlignment;
+function TPanelColumnsClass.GetColumnAlign(const Index: integer): TAlignment;
 begin
   if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]).Align;
 end;
 
-function TPanelColumnsClass.GetColumnAlignString(Index: integer): string;
+function TPanelColumnsClass.GetColumnAlignString(const Index: integer): string;
 begin
   if Index>=Flist.Count then exit;
   case TPanelColumn(Flist[Index]).Align of
@@ -258,19 +258,19 @@ begin
   end;
 end;
 
-function TPanelColumnsClass.GetColumnFontName(Index: integer): string;
+function TPanelColumnsClass.GetColumnFontName(const Index: integer): string;
 begin
 if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]).FontName;
 end;
 
-function TPanelColumnsClass.GetColumnFontSize(Index: integer): integer;
+function TPanelColumnsClass.GetColumnFontSize(const Index: integer): integer;
 begin
 if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]).FontSize;
 end;
 
-function TPanelColumnsClass.GetColumnOvercolor(Index: integer): boolean;
+function TPanelColumnsClass.GetColumnOvercolor(const Index: integer): boolean;
 begin
 if Index>=Flist.Count then
 begin
@@ -280,43 +280,43 @@ end;
   Result:=TPanelColumn(Flist[Index]).Overcolor;
 end;
 
-function TPanelColumnsClass.GetColumnTextColor(Index: integer): TColor;
+function TPanelColumnsClass.GetColumnTextColor(const Index: integer): TColor;
 begin
 if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]).TextColor;
 end;
 
-function TPanelColumnsClass.GetColumnBackground(Index: integer): TColor;
+function TPanelColumnsClass.GetColumnBackground(const Index: integer): TColor;
 begin
 if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]).Background;
 end;
 
-function TPanelColumnsClass.GetColumnBackground2(Index: integer): TColor;
+function TPanelColumnsClass.GetColumnBackground2(const Index: integer): TColor;
 begin
 if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]).Background2;
 end;
 
-function TPanelColumnsClass.GetColumnMarkColor(Index: integer): TColor;
+function TPanelColumnsClass.GetColumnMarkColor(const Index: integer): TColor;
 begin
 if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]).MarkColor;
 end;
 
-function TPanelColumnsClass.GetColumnCursorColor(Index: integer): TColor;
+function TPanelColumnsClass.GetColumnCursorColor(const Index: integer): TColor;
 begin
 if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]).CursorColor;
 end;
 
-function TPanelColumnsClass.GetColumnCursorText(Index: integer): TColor;
+function TPanelColumnsClass.GetColumnCursorText(const Index: integer): TColor;
 begin
 if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]).CursorText;
 end;
 
-function TPanelColumnsClass.GetColumnPrm(Index: integer): TColPrm;
+function TPanelColumnsClass.GetColumnPrm(const Index: integer): TColPrm;
 begin
 if Index>=Flist.Count then exit;
 Result:=TColPrm.Create;
@@ -331,14 +331,14 @@ Result.MarkColor:=GetColumnMarkColor(Index);
 Result.TextColor:=GetColumnTextColor(Index);
 end;
 
-function TPanelColumnsClass.GetColumnItem(Index: integer): TPanelColumn;
+function TPanelColumnsClass.GetColumnItem(const Index: integer): TPanelColumn;
 begin
   if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]);
 end;
 
-function TPanelColumnsClass.GetColumnItemResultString(Index: integer;
-  ptr: PFileRecItem): string;
+function TPanelColumnsClass.GetColumnItemResultString(const Index: integer;
+  const ptr: PFileRecItem): string;
 begin
   Result:='';
   if Index>=Flist.Count then exit;
@@ -378,7 +378,7 @@ begin
   Result:=FList.Add(Item);
 end;
 
-function TPanelColumnsClass.Add(Title, FuncString: string; Width:integer;Align: TAlignment): integer;
+function TPanelColumnsClass.Add(const Title, FuncString: string; const Width:integer;const Align: TAlignment): integer;
 begin
  Result:=Flist.Add(TPanelColumn.Create);
  TPanelColumn(FList[Result]).Title:=Title;
@@ -397,13 +397,13 @@ begin
   TPanelColumn(Flist[Result]).CursorText:=gCursorText;
 end;
 
-procedure TPanelColumnsClass.SetColumnTitle(Index: integer; Title: string);
+procedure TPanelColumnsClass.SetColumnTitle(const Index: integer; Title: string);
 begin
   if Index>Flist.Count then exit;
   TPanelColumn(Flist[Index]).Title:=Title;
 end;
 
-procedure TPanelColumnsClass.SetColumnFuncString(Index: integer;
+procedure TPanelColumnsClass.SetColumnFuncString(const Index: integer;
   FuncString: string);
 begin
   if Index>Flist.Count then exit;
@@ -416,71 +416,71 @@ begin
   TPanelColumn(Flist[Index]).Width:=Width;
 end;
 
-procedure TPanelColumnsClass.SetColumnAlign(Index: Integer; Align: TAlignment);
+procedure TPanelColumnsClass.SetColumnAlign(const Index: Integer; Align: TAlignment);
 begin
   if Index>Flist.Count then exit;
   TPanelColumn(Flist[Index]).Align:=Align;
 end;
 
-procedure TPanelColumnsClass.SetColumnFontName(Index: integer; Value: string);
+procedure TPanelColumnsClass.SetColumnFontName(const Index: integer; Value: string);
 begin
 if Index>Flist.Count then exit;
   TPanelColumn(Flist[Index]).FontName:=Value;
 end;
 
-procedure TPanelColumnsClass.SetColumnFontSize(Index: integer; Value: integer);
+procedure TPanelColumnsClass.SetColumnFontSize(const Index: integer; Value: integer);
 begin
 if Index>Flist.Count then exit;
   TPanelColumn(Flist[Index]).FontSize:=Value;
 end;
 
-procedure TPanelColumnsClass.SetColumnTextColor(Index: integer; Value: TColor);
+procedure TPanelColumnsClass.SetColumnTextColor(const Index: integer; Value: TColor);
 begin
 if Index>Flist.Count then exit;
   TPanelColumn(Flist[Index]).TextColor:=Value;
 end;
 
-procedure TPanelColumnsClass.SetColumnBackground(Index: integer; Value: TColor
+procedure TPanelColumnsClass.SetColumnBackground(const Index: integer; Value: TColor
   );
 begin
 if Index>Flist.Count then exit;
   TPanelColumn(Flist[Index]).Background:=Value;
 end;
 
-procedure TPanelColumnsClass.SetColumnBackground2(Index: integer; Value: TColor
+procedure TPanelColumnsClass.SetColumnBackground2(const Index: integer; Value: TColor
   );
 begin
 if Index>Flist.Count then exit;
   TPanelColumn(Flist[Index]).Background2:=Value;
 end;
 
-procedure TPanelColumnsClass.SetColumnMarkColor(Index: integer; Value: TColor);
+procedure TPanelColumnsClass.SetColumnMarkColor(const Index: integer; Value: TColor);
 begin
 if Index>Flist.Count then exit;
   TPanelColumn(Flist[Index]).MarkColor:=Value;
 end;
 
-procedure TPanelColumnsClass.SetColumnCursorColor(Index: integer; Value: TColor
+procedure TPanelColumnsClass.SetColumnCursorColor(const Index: integer; Value: TColor
   );
 begin
 if Index>Flist.Count then exit;
   TPanelColumn(Flist[Index]).CursorColor:=Value;
 end;
 
-procedure TPanelColumnsClass.SetColumnCursorText(Index: integer; Value: TColor
+procedure TPanelColumnsClass.SetColumnCursorText(const Index: integer; Value: TColor
   );
 begin
 if Index>Flist.Count then exit;
   TPanelColumn(Flist[Index]).CursorText:=Value;
 end;
 
-procedure TPanelColumnsClass.SetColumnOvercolor(Index: integer; Value: boolean);
+procedure TPanelColumnsClass.SetColumnOvercolor(const Index: integer; Value: boolean);
 begin
 if Index>Flist.Count then exit;
   TPanelColumn(Flist[Index]).Overcolor:=Value;
 end;
 
-procedure TPanelColumnsClass.SetColumnPrm(Index: integer; Value: TColPrm);
+procedure TPanelColumnsClass.SetColumnPrm(const Index: integer; Value: TColPrm);
 begin
  if Index>=Flist.Count then exit;
 SetColumnBackground(Index, Value.Background);
@@ -660,7 +660,7 @@ begin
       end;
 end;
 
-procedure TPanelColumnsClass.Delete(Index: Integer);
+procedure TPanelColumnsClass.Delete(const Index: Integer);
 begin
   if Index>Flist.Count then exit;
   TPanelColumn(Flist[Index]).Free;
@@ -949,7 +949,7 @@ begin
 
 end;
 
-function TPanelColumnsList.GetColumnSet(Index: Integer): TPanelColumnsClass;
+function TPanelColumnsList.GetColumnSet(const Index: Integer): TPanelColumnsClass;
 begin
 //DebugLn('FsetCount='+inttostr(fset.Count));
  if (Index>-1) and (Index<Fset.Count) then
