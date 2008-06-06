@@ -320,7 +320,7 @@ function TPanelColumnsClass.GetColumnPrm(const Index: integer): TColPrm;
 begin
 if Index>=Flist.Count then exit;
 Result:=TColPrm.Create;
-Result.Overcolor:=true;
+Result.Overcolor:=GetColumnOvercolor(Index);
 Result.Background:=GetColumnBackground(Index);
 Result.Background2:=GetColumnBackground2(Index);
 Result.CursorColor:=GetColumnCursorColor(Index);
