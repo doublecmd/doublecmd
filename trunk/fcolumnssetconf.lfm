@@ -717,8 +717,28 @@ object fColumnsSetConf: TfColumnsSetConf
       Width = 987
       Align = alBottom
       Caption = 'Customize column:'
+      ClientHeight = 18
+      ClientWidth = 987
       TabOrder = 6
       OnClick = pnlCustHeadClick
+      object btnNext: TButton
+        Left = 615
+        Height = 15
+        Top = 1
+        Width = 40
+        Caption = '->'
+        OnClick = btnNextClick
+        TabOrder = 0
+      end
+      object btnPrev: TButton
+        Left = 327
+        Height = 15
+        Top = 1
+        Width = 40
+        Caption = '<-'
+        OnClick = btnPrevClick
+        TabOrder = 1
+      end
     end
   end
   object Panel3: TPanel

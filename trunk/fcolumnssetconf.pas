@@ -47,6 +47,8 @@ type
     btnMarkColor: TButton;
     btnOk: TBitBtn;
     btnCancel: TBitBtn;
+    btnNext: TButton;
+    btnPrev: TButton;
     cbOvercolor: TCheckBox;
     ResCurText: TButton;
     cBackGrndLabel: TLabel;
@@ -101,7 +103,9 @@ type
     procedure btnFontSelectClick(Sender: TObject);
     procedure btnForeColorClick(Sender: TObject);
     procedure btnMarkColorClick(Sender: TObject);
+    procedure btnNextClick(Sender: TObject);
     procedure btnOkClick(Sender: TObject);
+    procedure btnPrevClick(Sender: TObject);
     procedure cbOvercolorChange(Sender: TObject);
     procedure ResBack2Click(Sender: TObject);
     procedure ResBackClick(Sender: TObject);
@@ -177,6 +181,31 @@ implementation
 
 uses uLng;
 
+procedure LoadCustColumn(const Index:integer);
+begin
+ with frmColumnsSetConf do
+ begin
+   if (Index>=stgColumns.RowCount-1) or (Index<0) then exit;
+   
+    IndexRaw:=Index;
+    pnlCustHead.Caption:=rsConfCustHeader+inttostr(IndexRaw);
+
+    edtFont.Text:=ColumnClass.GetColumnFontName(IndexRaw);
+    sneFontSize.Value:=ColumnClass.GetColumnFontSize(IndexRaw);
+    cbTextColor.Color:=ColumnClass.GetColumnTextColor(IndexRaw);
+    cbBackColor.Color:=ColumnClass.GetColumnBackground(IndexRaw);
+    cbBackColor2.Color:=ColumnClass.GetColumnBackground2(IndexRaw);
+    cbMarkColor.Color:=ColumnClass.GetColumnMarkColor(IndexRaw);
+    cbCursorColor.Color:=ColumnClass.GetColumnCursorColor(IndexRaw);
+    cbCursorText.Color:=ColumnClass.GetColumnCursorText(IndexRaw);
+     cbOvercolor.Checked:=ColumnClass.GetColumnOvercolor(IndexRaw);
+
+    //open pblCustCont if it is hidden
+    if Splitter2.Height+1>pnlCustCont.Height then
+    pnlCustHeadClick(nil);
+ end;
+end;
+
 procedure EditorSaveResult(Sender: TObject);
 begin
  with frmColumnsSetConf do
@@ -190,9 +219,6 @@ begin
    end;
    
   frmColumnsSetConf.UpdateColumnClass;
-{  PreviewPan.ActiveColmSlave:=frmColumnsSetConf.ColumnClass;
-  PreviewPan.SetColWidths;
-  PreviewPan.Repaint;}
 end;
 
 { TfColumnsSetConf }
@@ -507,7 +533,7 @@ begin
 
   IndexRaw:=0;
   pnlCustHead.Caption:=rsConfCustHeader+inttostr(IndexRaw);
-  //open pblCustCont if it is hidden
+
   edtFont.Text:=ColumnClass.GetColumnFontName(IndexRaw);
   sneFontSize.Value:=ColumnClass.GetColumnFontSize(IndexRaw);
   cbTextColor.Color:=ColumnClass.GetColumnTextColor(IndexRaw);
@@ -574,22 +600,7 @@ end;
 
 procedure TfColumnsSetConf.BtnCfgClick(Sender: TObject);
 begin
-
-  IndexRaw:=(Sender as TButton).Tag-1;
-    pnlCustHead.Caption:=rsConfCustHeader+inttostr(IndexRaw);
-  //open pblCustCont if it is hidden
-  edtFont.Text:=ColumnClass.GetColumnFontName(IndexRaw);
-  sneFontSize.Value:=ColumnClass.GetColumnFontSize(IndexRaw);
-  cbTextColor.Color:=ColumnClass.GetColumnTextColor(IndexRaw);
-  cbBackColor.Color:=ColumnClass.GetColumnBackground(IndexRaw);
-  cbBackColor2.Color:=ColumnClass.GetColumnBackground2(IndexRaw);
-  cbMarkColor.Color:=ColumnClass.GetColumnMarkColor(IndexRaw);
-  cbCursorColor.Color:=ColumnClass.GetColumnCursorColor(IndexRaw);
-  cbCursorText.Color:=ColumnClass.GetColumnCursorText(IndexRaw);
-   cbOvercolor.Checked:=ColumnClass.GetColumnOvercolor(IndexRaw);
-  if Splitter2.Height+1>pnlCustCont.Height then
-  pnlCustHeadClick(sender);
-
+  LoadCustColumn((Sender as TButton).Tag-1);
 end;
 
 procedure TfColumnsSetConf.DGHeaderSized(Sender: TObject; IsColumn: Boolean;
@@ -616,6 +627,11 @@ if edtNameofColumnsSet.Text='' then
     end;
 
 ColSet.Save(gIni);
+end;
+
+procedure TfColumnsSetConf.btnPrevClick(Sender: TObject);
+begin
+LoadCustColumn(IndexRaw-1);
 end;
 
 procedure TfColumnsSetConf.cbOvercolorChange(Sender: TObject);
@@ -801,6 +817,11 @@ begin
       TColPrm(stgColumns.Objects[6,IndexRaw+1]).MarkColor:=cbMarkColor.Color;
       EditorSaveResult(nil);
     end;
+end;
+
+procedure TfColumnsSetConf.btnNextClick(Sender: TObject);
+begin
+LoadCustColumn(IndexRaw+1);
 end;
 
 procedure TfColumnsSetConf.MenuFieldsClick(Sender: TObject);
