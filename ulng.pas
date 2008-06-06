@@ -114,6 +114,7 @@ resourcestring
   rsConfColFieldCont = 'Field contents';
   rsConfColMove='Move';
   rsConfColConfig='Config';
+  rsConfCustHeader='Customize column: ';
   // File properties dialog
   rsPropsYes = 'Yes (%s)';
   rsPropsNo = 'No';

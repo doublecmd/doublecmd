@@ -29,41 +29,102 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Buttons, Grids,  ComCtrls, Menus, LCLType, uColumns,uGlobs, Spin,framePanel;
+  ExtCtrls, Buttons, Grids,  ComCtrls, Menus, LCLType, uColumns,uGlobs, Spin,framePanel,
+  ColorBox;
 
 type
+
 
   { TfColumnsSetConf }
 
   TfColumnsSetConf = class(TForm)
+    btnBackColor: TButton;
+    btnBackColor2: TButton;
+    btnCursorColor: TButton;
+    btnCursorText: TButton;
+    btnFontSelect: TBitBtn;
+    btnForeColor: TButton;
+    btnMarkColor: TButton;
     btnOk: TBitBtn;
     btnCancel: TBitBtn;
+    ResCurText: TButton;
+    cBackGrndLabel: TLabel;
+    cbBackColor: TColorBox;
+    cbBackColor2: TColorBox;
+    cbCursorColor: TColorBox;
+    cbCursorText: TColorBox;
+    cbMarkColor: TColorBox;
+    cbTextColor: TColorBox;
+    dlgcolor: TColorDialog;
     ComboBox1: TComboBox;
+    cTextLabel: TLabel;
+    edtFont: TEdit;
     edtNameofColumnsSet: TEdit;
+    dlgfont: TFontDialog;
     Label1: TLabel;
     Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    lblBackground2: TLabel;
     lblConfigViewNr: TLabel;
+    lblCursorColor: TLabel;
+    lblCursorText: TLabel;
+    lblMarkColor: TLabel;
     lblName: TLabel;
     lbNrOfColumnsSet: TLabel;
     miAddColumn: TMenuItem;
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
-    Panel4: TPanel;
+    pnlCustCont: TPanel;
+    pnlCustHead: TPanel;
+    pnlPrevCont: TPanel;
+    pnlPreviewHead: TPanel;
     pnlPreview: TPanel;
-    Panel6: TPanel;
     pmStringGrid: TPopupMenu;
     pmFields: TPopupMenu;
+    ResCurCol: TButton;
+    ResMark: TButton;
+    ResBack2: TButton;
+    ResBack: TButton;
+    ResText: TButton;
+    sneFontSize: TSpinEdit;
     Splitter1: TSplitter;
+    Splitter2: TSplitter;
     stgColumns: TStringGrid;
+    procedure btnBackColor2Click(Sender: TObject);
+    procedure btnBackColorClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
+    procedure btnCursorColorClick(Sender: TObject);
+    procedure btnCursorTextClick(Sender: TObject);
+    procedure btnFontSelectClick(Sender: TObject);
+    procedure btnForeColorClick(Sender: TObject);
+    procedure btnMarkColorClick(Sender: TObject);
     procedure btnOkClick(Sender: TObject);
+    procedure ResBack2Click(Sender: TObject);
+    procedure ResBackClick(Sender: TObject);
+    procedure ResCurColClick(Sender: TObject);
+    procedure ResMarkClick(Sender: TObject);
+    procedure ResTextClick(Sender: TObject);
+    procedure ResCurTextClick(Sender: TObject);
+    procedure cbBackColor2Change(Sender: TObject);
+    procedure cbBackColorChange(Sender: TObject);
+    procedure cbCursorColorChange(Sender: TObject);
+    procedure cbCursorTextChange(Sender: TObject);
+    procedure cbMarkColorChange(Sender: TObject);
+    procedure cbTextColorChange(Sender: TObject);
+    procedure cbTextColorDropDown(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure miAddColumnClick(Sender: TObject);
     procedure MenuFieldsClick(Sender: TObject);
+    procedure pnlCustHeadClick(Sender: TObject);
+    procedure pnlPreviewHeadClick(Sender: TObject);
+    procedure sneFontSizeChange(Sender: TObject);
+    procedure Splitter2CanResize(Sender: TObject; var NewSize: Integer;
+      var Accept: Boolean);
     procedure stgColumnsEditingDone(Sender: TObject);
     procedure stgColumnsHeaderSized(Sender: TObject; IsColumn: Boolean;
       Index: Integer);
@@ -97,6 +158,9 @@ type
   procedure EditorSaveResult(Sender: TObject);
 
 var
+  IndexRaw:integer=0;
+  pnlCustHeight:integer=130;
+  PnlContHeight:integer=180;
   PreviewPan:TFrameFilePanel;
   frmColumnsSetConf: TfColumnsSetConf;
   updWidth:TSpinEdit;
@@ -109,7 +173,7 @@ var
   Showed:boolean;
 implementation
 
-uses uLng{,fcolumnsprops};
+uses uLng;
 
 procedure EditorSaveResult(Sender: TObject);
 begin
@@ -124,13 +188,42 @@ begin
    end;
    
   frmColumnsSetConf.UpdateColumnClass;
+{  PreviewPan.ActiveColmSlave:=frmColumnsSetConf.ColumnClass;
+  PreviewPan.SetColWidths;
+  PreviewPan.Repaint;}
+end;
+
+{ TfColumnsSetConf }
+
+procedure TfColumnsSetConf.UpdateColumnClass;
+var i,indx:integer;
+    Tit,
+    FuncString: string;
+    Wid: integer;
+    Ali: TAlignment;
+ begin
+   // Save fields
+   ColumnClass.Clear;
+   for i:=1 to stgColumns.RowCount-1 do
+     begin
+       with stgColumns do
+         begin
+           Tit:=Cells[1,i];
+           Wid:=StrToInt(Cells[2,i]);
+           Ali:=StrToAlign(Cells[3,i]);
+           FuncString:=Cells[4,i];
+         end;
+       indx:=ColumnClass.Add(Tit,FuncString,Wid,Ali);
+       if stgColumns.Objects[6,i]<>nil then
+       ColumnClass.SetColumnPrm(Indx,TColPrm(stgColumns.Objects[6,i]));
+     end;
+
   PreviewPan.ActiveColmSlave:=frmColumnsSetConf.ColumnClass;
   PreviewPan.SetColWidths;
   PreviewPan.Repaint;
+
 end;
 
-
-{ TfColumnsSetConf }
 
 
 procedure TfColumnsSetConf.stgColumnsSelectEditor(Sender: TObject; aCol,
@@ -145,6 +238,7 @@ begin
   if assigned(btnDel) then FreeAndNil(btnDel);
   if assigned(edtField) then FreeAndNil(edtField);
   if assigned(updMove) then FreeAndNil(updMove);
+  if assigned(btncfg) then FreeAndNil(btnCfg);
 
  try
   case aCol of
@@ -311,9 +405,11 @@ procedure TfColumnsSetConf.AddNewField;
 begin
   stgColumns.RowCount:=stgColumns.RowCount+1;
   stgColumns.Cells[1,stgColumns.RowCount-1]:='Field N'+IntToStr(stgColumns.RowCount-1);
-  stgColumns.Cells[2,stgColumns.RowCount-1]:='25';
+  stgColumns.Cells[2,stgColumns.RowCount-1]:='50';
   stgColumns.Cells[3,stgColumns.RowCount-1]:='<-';
   stgColumns.Cells[4,stgColumns.RowCount-1]:='';
+  stgColumns.Objects[6,stgColumns.RowCount-1]:=TColPrm.Create;
+
   UpdateColumnClass;
   PreviewPan.ActiveColmSlave:=ColumnClass;
   PreviewPan.SetColWidths;
@@ -358,6 +454,8 @@ procedure TfColumnsSetConf.FormShow(Sender: TObject);
 var i:integer; sPath:string;
 begin
 
+  pnlCustHeadClick(Sender);
+
   with PreviewPan do
   begin
     edtCmdLine:=ComboBox1;
@@ -386,6 +484,8 @@ begin
               stgColumns.Cells[2,i+1]:=inttostr(ColumnClass.GetColumnWidth(i));
               stgColumns.Cells[3,i+1]:=ColumnClass.GetColumnAlignString(i);
               stgColumns.Cells[4,i+1]:=ColumnClass.GetColumnFuncString(i);
+              stgColumns.Objects[6,i+1]:=ColumnClass.GetColumnPrm(i);
+              
           end;
       end
     else
@@ -401,7 +501,21 @@ begin
     stgColumns.Cells[3,0]:= rsConfColAlign;
     stgColumns.Cells[4,0]:= rsConfColFieldCont;
     stgColumns.Cells[5,0]:= rsConfColMove;
-    stgColumns.Cells[6,0]:= rsConfColConfig;
+    stgColumns.Cells[6,0]:= rsOptColors;
+
+  IndexRaw:=0;
+  pnlCustHead.Caption:=rsConfCustHeader+inttostr(IndexRaw);
+  //open pblCustCont if it is hidden
+  edtFont.Text:=ColumnClass.GetColumnFontName(IndexRaw);
+  sneFontSize.Value:=ColumnClass.GetColumnFontSize(IndexRaw);
+  cbTextColor.Color:=ColumnClass.GetColumnTextColor(IndexRaw);
+  cbBackColor.Color:=ColumnClass.GetColumnBackground(IndexRaw);
+  cbBackColor2.Color:=ColumnClass.GetColumnBackground2(IndexRaw);
+  cbMarkColor.Color:=ColumnClass.GetColumnMarkColor(IndexRaw);
+  cbCursorColor.Color:=ColumnClass.GetColumnCursorColor(IndexRaw);
+  cbCursorText.Color:=ColumnClass.GetColumnCursorText(IndexRaw);
+
+
 
 end;
 
@@ -457,36 +571,21 @@ end;
 
 procedure TfColumnsSetConf.BtnCfgClick(Sender: TObject);
 begin
-{  frmColumsProps:=TfrmColumsProps.Create(nil);
-  with frmColumsProps do
-  begin
-   if ShowModal =mrok then ShowMessage('Ok');
-    Free;
-  end;
- }
-  EditorSaveResult(Sender);
-end;
 
-procedure TfColumnsSetConf.UpdateColumnClass;
-var i:integer;
-   Tit,
-   FuncString: string;
-   Wid: integer;
-   Ali: TAlignment;
-begin
-  // Save fields
-  ColumnClass.Clear;
-  for i:=1 to stgColumns.RowCount-1 do
-    begin
-      with stgColumns do
-        begin
-          Tit:=Cells[1,i];
-          Wid:=StrToInt(Cells[2,i]);
-          Ali:=StrToAlign(Cells[3,i]);
-          FuncString:=Cells[4,i];
-        end;
-      ColumnClass.Add(Tit,FuncString,Wid,Ali);
-    end;
+  IndexRaw:=(Sender as TButton).Tag-1;
+    pnlCustHead.Caption:=rsConfCustHeader+inttostr(IndexRaw);
+  //open pblCustCont if it is hidden
+  edtFont.Text:=ColumnClass.GetColumnFontName(IndexRaw);
+  sneFontSize.Value:=ColumnClass.GetColumnFontSize(IndexRaw);
+  cbTextColor.Color:=ColumnClass.GetColumnTextColor(IndexRaw);
+  cbBackColor.Color:=ColumnClass.GetColumnBackground(IndexRaw);
+  cbBackColor2.Color:=ColumnClass.GetColumnBackground2(IndexRaw);
+  cbMarkColor.Color:=ColumnClass.GetColumnMarkColor(IndexRaw);
+  cbCursorColor.Color:=ColumnClass.GetColumnCursorColor(IndexRaw);
+  cbCursorText.Color:=ColumnClass.GetColumnCursorText(IndexRaw);
+
+  if Splitter2.Height+1>pnlCustCont.Height then
+  pnlCustHeadClick(sender);
 
 end;
 
@@ -516,10 +615,183 @@ if edtNameofColumnsSet.Text='' then
 ColSet.Save(gIni);
 end;
 
+procedure TfColumnsSetConf.ResBack2Click(Sender: TObject);
+begin
+  TColPrm(stgColumns.Objects[6,IndexRaw+1]).Background2:=gBackColor2;
+  cbBackColor2.Color:=gBackColor2;
+  cbBackColor2.Text:='';
+  EditorSaveResult(nil);
+end;
+
+procedure TfColumnsSetConf.ResBackClick(Sender: TObject);
+begin
+  TColPrm(stgColumns.Objects[6,IndexRaw+1]).Background:=gBackColor;
+  cbBackColor.Color:=gBackColor;
+  cbBackColor.Text:='';
+  EditorSaveResult(nil);
+end;
+
+procedure TfColumnsSetConf.ResCurColClick(Sender: TObject);
+begin
+  TColPrm(stgColumns.Objects[6,IndexRaw+1]).CursorColor:=gCursorColor;
+  cbCursorColor.Color:=gCursorColor;
+  cbCursorColor.Text:='';
+  EditorSaveResult(nil);
+end;
+
+procedure TfColumnsSetConf.ResMarkClick(Sender: TObject);
+begin
+  TColPrm(stgColumns.Objects[6,IndexRaw+1]).MarkColor:=gMarkColor;
+  cbMarkColor.Color:=gMarkColor;
+  cbMarkColor.Text:='';
+  EditorSaveResult(nil);
+end;
+
+procedure TfColumnsSetConf.ResTextClick(Sender: TObject);
+begin
+  TColPrm(stgColumns.Objects[6,IndexRaw+1]).TextColor:=gForeColor;
+  cbTextColor.Color:=gForeColor;
+  cbTextColor.Text:='';
+  EditorSaveResult(nil);
+end;
+
+procedure TfColumnsSetConf.ResCurTextClick(Sender: TObject);
+begin
+  TColPrm(stgColumns.Objects[6,IndexRaw+1]).CursorText:=gCursorText;
+  cbCursorText.Color:=gCursorText;
+  cbCursorText.Text:='';
+  EditorSaveResult(nil);
+end;
+
+procedure TfColumnsSetConf.cbBackColor2Change(Sender: TObject);
+begin
+      (Sender as TColorBox).Color := (Sender as TColorBox).Selected;
+      TColPrm(stgColumns.Objects[6,IndexRaw+1]).Background2:=(Sender as TColorBox).Color;
+      EditorSaveResult(nil);
+end;
+
+procedure TfColumnsSetConf.cbBackColorChange(Sender: TObject);
+begin
+      (Sender as TColorBox).Color := (Sender as TColorBox).Selected;
+      TColPrm(stgColumns.Objects[6,IndexRaw+1]).Background:=(Sender as TColorBox).Color;
+      EditorSaveResult(nil);
+end;
+
+procedure TfColumnsSetConf.cbCursorColorChange(Sender: TObject);
+begin
+      (Sender as TColorBox).Color := (Sender as TColorBox).Selected;
+      TColPrm(stgColumns.Objects[6,IndexRaw+1]).CursorColor:=(Sender as TColorBox).Color;
+      EditorSaveResult(nil);
+end;
+
+procedure TfColumnsSetConf.cbCursorTextChange(Sender: TObject);
+begin
+      (Sender as TColorBox).Color := (Sender as TColorBox).Selected;
+      TColPrm(stgColumns.Objects[6,IndexRaw+1]).CursorText:=(Sender as TColorBox).Color;
+      EditorSaveResult(nil);
+end;
+
+procedure TfColumnsSetConf.cbMarkColorChange(Sender: TObject);
+begin
+      (Sender as TColorBox).Color := (Sender as TColorBox).Selected;
+      TColPrm(stgColumns.Objects[6,IndexRaw+1]).MarkColor:=(Sender as TColorBox).Color;
+      EditorSaveResult(nil);
+end;
+
+procedure TfColumnsSetConf.cbTextColorChange(Sender: TObject);
+begin
+      (Sender as TColorBox).Color := (Sender as TColorBox).Selected;
+      TColPrm(stgColumns.Objects[6,IndexRaw+1]).TextColor:=(Sender as TColorBox).Color;
+      EditorSaveResult(nil);
+end;
+
+procedure TfColumnsSetConf.cbTextColorDropDown(Sender: TObject);
+begin
+    (Sender as TColorBox).Color := clWindow;
+end;
+
 
 procedure TfColumnsSetConf.btnCancelClick(Sender: TObject);
 begin
   close;
+end;
+
+procedure TfColumnsSetConf.btnCursorColorClick(Sender: TObject);
+begin
+  if dlgcolor.Execute then
+    begin
+      cbCursorColor.Color:=dlgcolor.Color;
+      cbCursorColor.Text := '';
+      TColPrm(stgColumns.Objects[6,IndexRaw+1]).CursorColor:=cbCursorColor.Color;
+      EditorSaveResult(nil);
+    end;
+end;
+
+procedure TfColumnsSetConf.btnCursorTextClick(Sender: TObject);
+begin
+  if dlgcolor.Execute then
+    begin
+      cbCursorText.Color:=dlgcolor.Color;
+      cbCursorText.Text := '';
+      TColPrm(stgColumns.Objects[6,IndexRaw+1]).CursorText:=cbCursorText.Color;
+      EditorSaveResult(nil);
+    end;
+end;
+
+procedure TfColumnsSetConf.btnBackColorClick(Sender: TObject);
+begin
+  if dlgcolor.Execute then
+    begin
+      cbBackColor.Color:=dlgcolor.Color;
+      cbBackColor.Text := '';
+      TColPrm(stgColumns.Objects[6,IndexRaw+1]).Background:=cbBackColor.Color;
+      EditorSaveResult(nil);
+    end;
+end;
+
+procedure TfColumnsSetConf.btnBackColor2Click(Sender: TObject);
+begin
+  if dlgcolor.Execute then
+    begin
+      cbBackColor2.Color:=dlgcolor.Color;
+      cbBackColor2.Text := '';
+      TColPrm(stgColumns.Objects[6,IndexRaw+1]).Background2:=cbBackColor2.Color;
+      EditorSaveResult(nil);
+    end;
+end;
+
+procedure TfColumnsSetConf.btnFontSelectClick(Sender: TObject);
+begin
+  if dlgfont.Execute then
+    begin
+      edtFont.Text:=dlgfont.Font.Name;
+      sneFontSize.Value:=dlgfont.Font.Size;
+      TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontSize:=dlgfont.Font.Size;
+      TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontName:=dlgfont.Font.Name;
+      EditorSaveResult(nil);
+    end;
+end;
+
+procedure TfColumnsSetConf.btnForeColorClick(Sender: TObject);
+begin
+  if dlgcolor.Execute then
+    begin
+      cbTextColor.Color:=dlgcolor.Color;
+      cbTextColor.Text := '';
+      TColPrm(stgColumns.Objects[6,IndexRaw+1]).TextColor:=cbTextColor.Color;
+      EditorSaveResult(nil);
+    end;
+end;
+
+procedure TfColumnsSetConf.btnMarkColorClick(Sender: TObject);
+begin
+  if dlgcolor.Execute then
+    begin
+      cbMarkColor.Color:=dlgcolor.Color;
+      cbMarkColor.Text := '';
+      TColPrm(stgColumns.Objects[6,IndexRaw+1]).MarkColor:=cbMarkColor.Color;
+      EditorSaveResult(nil);
+    end;
 end;
 
 procedure TfColumnsSetConf.MenuFieldsClick(Sender: TObject);
@@ -533,6 +805,54 @@ begin
        end;
   end;
  EditorSaveResult(Sender);
+end;
+
+procedure TfColumnsSetConf.pnlCustHeadClick(Sender: TObject);
+begin
+    if Splitter2.Height+1>pnlCustCont.Height then
+    begin
+     //open panel
+     if pnlCustHead.Top<250 then Splitter1.MoveSplitter(100);
+     pnlCustCont.Constraints.MinHeight:=pnlCustHeight;
+     pnlCustCont.Constraints.MaxHeight:=pnlCustHeight;
+     Splitter2.MoveSplitter(-pnlCustHeight);
+    end
+  else
+    begin
+      //Hide panel
+      pnlCustCont.Constraints.MinHeight:=1;
+      pnlCustCont.Constraints.MaxHeight:=1;
+      Splitter2.MoveSplitter(pnlCustCont.Height);
+    end;
+end;
+
+procedure TfColumnsSetConf.pnlPreviewHeadClick(Sender: TObject);
+begin
+  if Splitter1.Height>pnlPrevCont.Height then
+   //open panel
+   Splitter1.MoveSplitter(-PnlContHeight)
+  else
+    begin
+      //Hide panel
+      PnlContHeight:=pnlPrevCont.Height;
+      Splitter1.MoveSplitter(pnlPrevCont.Height);
+    end;
+end;
+
+procedure TfColumnsSetConf.sneFontSizeChange(Sender: TObject);
+begin
+//  edtFont.Font.Size:=sneFontSize.Value;
+  TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontSize:=sneFontSize.Value;
+UpdateColumnClass;
+end;
+
+procedure TfColumnsSetConf.Splitter2CanResize(Sender: TObject;
+  var NewSize: Integer; var Accept: Boolean);
+begin
+ { if NewSize=130 then
+  Accept:=true
+  else
+  Accept:=false; }
 end;
 
 procedure TfColumnsSetConf.stgColumnsEditingDone(Sender: TObject);

@@ -385,7 +385,7 @@ begin
   gEditorSize:=gIni.ReadInteger('Configuration', 'EditorSize', 14);
   gViewerSize:=gIni.ReadInteger('Configuration', 'ViewerSize', 14);
   { Colors }
-  gForeColor  := gIni.ReadInteger('Colors', 'ForeColor', clBlack);
+  gForeColor  := gIni.ReadInteger('Colors', 'ForeColor', clDefault);
   gBackColor := gIni.ReadInteger('Colors', 'BackColor', clWhite);
   gBackColor2 := gIni.ReadInteger('Colors', 'BackColor2', clWhite);
   gMarkColor := gIni.ReadInteger('Colors', 'MarkColor', clRed);
