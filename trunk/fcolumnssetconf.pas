@@ -47,6 +47,7 @@ type
     btnMarkColor: TButton;
     btnOk: TBitBtn;
     btnCancel: TBitBtn;
+    cbOvercolor: TCheckBox;
     ResCurText: TButton;
     cBackGrndLabel: TLabel;
     cbBackColor: TColorBox;
@@ -101,6 +102,7 @@ type
     procedure btnForeColorClick(Sender: TObject);
     procedure btnMarkColorClick(Sender: TObject);
     procedure btnOkClick(Sender: TObject);
+    procedure cbOvercolorChange(Sender: TObject);
     procedure ResBack2Click(Sender: TObject);
     procedure ResBackClick(Sender: TObject);
     procedure ResCurColClick(Sender: TObject);
@@ -514,6 +516,7 @@ begin
   cbMarkColor.Color:=ColumnClass.GetColumnMarkColor(IndexRaw);
   cbCursorColor.Color:=ColumnClass.GetColumnCursorColor(IndexRaw);
   cbCursorText.Color:=ColumnClass.GetColumnCursorText(IndexRaw);
+  cbOvercolor.Checked:=ColumnClass.GetColumnOvercolor(IndexRaw);
 
 
 
@@ -583,7 +586,7 @@ begin
   cbMarkColor.Color:=ColumnClass.GetColumnMarkColor(IndexRaw);
   cbCursorColor.Color:=ColumnClass.GetColumnCursorColor(IndexRaw);
   cbCursorText.Color:=ColumnClass.GetColumnCursorText(IndexRaw);
-
+   cbOvercolor.Checked:=ColumnClass.GetColumnOvercolor(IndexRaw);
   if Splitter2.Height+1>pnlCustCont.Height then
   pnlCustHeadClick(sender);
 
@@ -613,6 +616,12 @@ if edtNameofColumnsSet.Text='' then
     end;
 
 ColSet.Save(gIni);
+end;
+
+procedure TfColumnsSetConf.cbOvercolorChange(Sender: TObject);
+begin
+  TColPrm(stgColumns.Objects[6,IndexRaw+1]).Overcolor:=cbOvercolor.Checked;
+    EditorSaveResult(nil);
 end;
 
 procedure TfColumnsSetConf.ResBack2Click(Sender: TObject);
