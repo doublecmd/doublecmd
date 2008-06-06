@@ -803,6 +803,7 @@ object fColumnsSetConf: TfColumnsSetConf
         Height = 15
         Top = 1
         Width = 40
+        Anchors = [akTop]
         Caption = '->'
         OnClick = btnNextClick
         TabOrder = 0
@@ -812,6 +813,7 @@ object fColumnsSetConf: TfColumnsSetConf
         Height = 15
         Top = 1
         Width = 40
+        Anchors = [akTop]
         Caption = '<-'
         OnClick = btnPrevClick
         TabOrder = 1
