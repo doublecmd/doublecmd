@@ -90,7 +90,8 @@ end;
 function TColorExt.GetColorByExt(const sExt: String): TColor;
 var I:integer;
 begin
- Result:= gForeColor; //$0000ff00;
+ Result:= -1;
+// Result:= gForeColor; //$0000ff00;
  for I:=0 to lslist.Count-1 do
    begin
      if MatchesMaskList(sExt,TMAskItem(lslist[I]).sExt,';') then
@@ -104,7 +105,8 @@ end;
 function TColorExt.GetColorByAttr(const sModeStr: String): TColor;
 var I:Integer;
 begin
- Result:= gForeColor; //$0000ff00;
+  Result:= -1;
+// Result:= gForeColor; //$0000ff00;
  for I:=0 to lslist.Count-1 do
    begin
      if MatchesMaskList(sModeStr,TMAskItem(lslist[I]).sModeStr,';') then
@@ -118,7 +120,7 @@ end;
 function TColorExt.GetColorBy(const sExt, sModeStr: String): TColor;
 var I:Integer;
 begin
- Result:= gForeColor; //$0000ff00;
+ Result:= -1;//gForeColor; //$0000ff00;
  for I:=0 to lslist.Count-1 do
    begin
      if ( MatchesMaskList(sExt,TMAskItem(lslist[I]).sExt,';') ) and

@@ -38,6 +38,7 @@ uses
     TColPrm = class
       FontName:string;
       FontSize:integer;
+      Overcolor:boolean;
       TextColor,
       Background,
       Background2,
@@ -66,6 +67,7 @@ uses
     //---------------------
     FontName:string;
     FontSize:integer;
+    Overcolor:boolean;
     TextColor,
     Background,
     Background2,
@@ -107,6 +109,7 @@ uses
     //---------------------
     function GetColumnFontName(Index:integer):string;
     function GetColumnFontSize(Index:integer):integer;
+    function GetColumnOvercolor(Index:integer):boolean;
     function GetColumnTextColor(Index:integer):TColor;
     function GetColumnBackground(Index:integer):TColor;
     function GetColumnBackground2(Index:integer):TColor;
@@ -136,6 +139,7 @@ uses
     procedure SetColumnMarkColor(Index:integer; Value:TColor);
     procedure SetColumnCursorColor(Index:integer; Value:TColor);
     procedure SetColumnCursorText(Index:integer; Value:TColor);
+    procedure SetColumnOvercolor(Index:integer; Value:boolean);
     Procedure SetColumnPrm(Index:integer; Value:TColPrm);
     //---------------------
     procedure Delete(Index:Integer);
@@ -266,6 +270,16 @@ if Index>=Flist.Count then exit;
   Result:=TPanelColumn(Flist[Index]).FontSize;
 end;
 
+function TPanelColumnsClass.GetColumnOvercolor(Index: integer): boolean;
+begin
+if Index>=Flist.Count then
+begin
+  result:=true;
+  exit;
+end;
+  Result:=TPanelColumn(Flist[Index]).Overcolor;
+end;
+
 function TPanelColumnsClass.GetColumnTextColor(Index: integer): TColor;
 begin
 if Index>=Flist.Count then exit;
@@ -306,6 +320,7 @@ function TPanelColumnsClass.GetColumnPrm(Index: integer): TColPrm;
 begin
 if Index>=Flist.Count then exit;
 Result:=TColPrm.Create;
+Result.Overcolor:=true;
 Result.Background:=GetColumnBackground(Index);
 Result.Background2:=GetColumnBackground2(Index);
 Result.CursorColor:=GetColumnCursorColor(Index);
@@ -459,6 +474,12 @@ if Index>Flist.Count then exit;
   TPanelColumn(Flist[Index]).CursorText:=Value;
 end;
 
+procedure TPanelColumnsClass.SetColumnOvercolor(Index: integer; Value: boolean);
+begin
+if Index>Flist.Count then exit;
+  TPanelColumn(Flist[Index]).Overcolor:=Value;
+end;
+
 procedure TPanelColumnsClass.SetColumnPrm(Index: integer; Value: TColPrm);
 begin
  if Index>=Flist.Count then exit;
@@ -470,6 +491,7 @@ SetColumnFontName(Index, Value.FontName);
 SetColumnFontSize(Index, Value.FontSize);
 SetColumnMarkColor(Index, Value.MarkColor);
 SetColumnTextColor(Index, Value.TextColor);
+SetColumnOvercolor(Index,Value.Overcolor);
 
 end;
 
@@ -563,13 +585,15 @@ begin
 
           TPanelColumn(FList[I]).FontName:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FontName',gFontName);
           TPanelColumn(FList[I]).FontSize:=Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'FontSize',gFontSize);
-
+          TPanelColumn(FList[I]).Overcolor:=Ini.ReadBool(fSetName,'Column'+IntToStr(I+1)+'Overcolor',true );
+                    
           TPanelColumn(FList[I]).TextColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'TextColor',gForeColor));
           TPanelColumn(FList[I]).Background:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Background',gBackColor ));
           TPanelColumn(FList[I]).Background2:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Background2',gBackColor2 ));
           TPanelColumn(FList[I]).MarkColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'MarkColor',gMarkColor ));
           TPanelColumn(FList[I]).CursorColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'CursorColor',gCursorColor ));
           TPanelColumn(FList[I]).CursorText:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'CursorText',gCursorText ));
+
          //---------------------
       end;
     //---------------------
@@ -618,6 +642,7 @@ begin
         //---------------------
         Ini.WriteString(fSetName,'Column'+IntToStr(I+1)+'FontName',TPanelColumn(FList[I]).FontName);
         Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'FontSize', TPanelColumn(FList[I]).FontSize);
+        Ini.WriteBool(fSetName,'Column'+IntToStr(I+1)+'Overcolor', TPanelColumn(FList[I]).Overcolor);
 
         if TPanelColumn(FList[I]).TextColor <>clNone then
         Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'TextColor', TPanelColumn(FList[I]).TextColor);
@@ -961,6 +986,7 @@ end;
 
 constructor TColPrm.Create;
 begin
+Self.Overcolor:=true;
 Self.FontName:=gFontName;
 Self.FontSize:=gFontSize;
 Self.TextColor:=gForeColor;

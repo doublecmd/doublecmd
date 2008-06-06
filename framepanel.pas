@@ -784,39 +784,6 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
   //------------------------------------------------------
   
 
-  Procedure PrepareColors;
-  //------------------------------------------------------
-    var
-       newColor:TColor;
-   begin
-      with frp^, dgPanel do
-        begin
-
-          Canvas.Brush.Style:=bsSolid;
-          if gdSelected in State then
-            Canvas.Brush.Color:= gCursorColor
-          else
-            begin
-              if (ARow mod 2) = 0 then
-                Canvas.Brush.Color := gBackColor
-              else
-                Canvas.Brush.Color := gBackColor2;
-            end;
-
-          Canvas.FillRect(Rect);
-          //Canvas.Font.Style:=[];
-          newColor:=gColorExt.GetColorBy(sExt, sModeStr);
-          if bSelected then
-            Canvas.Font.Color:= gMarkColor
-          else
-          if (gdSelected in State) then
-            Canvas.Font.Color:=gCursorText
-          else
-            Canvas.Font.Color:= NewColor;
-        end;//of with
-   end;// of PrepareColors;
-//------------------------------------------------------
-
   Procedure NewPrepareColors;
   //------------------------------------------------------
     var
@@ -848,11 +815,13 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
           else
              begin
               tmp:=ActiveColmSlave.GetColumnTextColor(ACol);
-              if (tmp<>clBlack) and (tmp<>clNone) and (tmp<>clDefault) and (tmp<>newColor) then
-               Canvas.Font.Color:= tmp
-              else Canvas.Font.Color:=newColor;
+
+{*}          if (tmp<>newColor) and (newColor<>-1) and (ActiveColmSlave.GetColumnOvercolor(ACol)) then
+                Canvas.Font.Color:=newColor
+              else  Canvas.Font.Color:= tmp;
+              
              end;
-{*}
+
         end;//of with
    end;// of NewPrepareColors;
 //------------------------------------------------------
