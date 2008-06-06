@@ -124,6 +124,7 @@ var
   gMarkColor,  // Mark color
   gCursorColor, //Cursor color
   gCursorText : TColor; //text color under cursor
+  gUseInvertedSelection:boolean=false;
   
   gShowIcons : Boolean;
   gIconsSize : Integer;
@@ -391,6 +392,7 @@ begin
   gMarkColor := gIni.ReadInteger('Colors', 'MarkColor', clRed);
   gCursorColor := gIni.ReadInteger('Colors', 'CursorColor', clHighlight);
   gCursorText := gIni.ReadInteger('Colors', 'CursorText', clHighlightedText);
+  gUseInvertedSelection:= gIni.ReadBool('Colors', 'UseInvertedSelection', false);
   { File operations }
   gCopyBlockSize := gIni.ReadInteger('Configuration', 'CopyBlockSize', 16384);
   gDropReadOnlyFlag := gIni.ReadBool('Configuration', 'DropReadOnlyFlag', True);
@@ -538,6 +540,9 @@ begin
   gIni.WriteInteger('Colors', 'MarkColor', gMarkColor);
   gIni.WriteInteger('Colors', 'CursorColor', gCursorColor);
   gIni.WriteInteger('Colors', 'CursorText', gCursorText);
+  gIni.WriteBool('Colors', 'UseInvertedSelection', gUseInvertedSelection);
+  
+
   { File operations }
   gIni.WriteInteger('Configuration', 'CopyBlockSize', gCopyBlockSize);
   gIni.WriteBool('Configuration', 'DropReadOnlyFlag', gDropReadOnlyFlag);
