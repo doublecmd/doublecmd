@@ -788,6 +788,19 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
   //------------------------------------------------------
     var
        newColor,tmp:TColor;
+       procedure TextSelect;
+        //---------------------
+         begin
+           with frp^, dgPanel do
+             begin
+              tmp:=ActiveColmSlave.GetColumnTextColor(ACol);
+              if (tmp<>newColor) and (newColor<>-1) and (ActiveColmSlave.GetColumnOvercolor(ACol)) then
+                  Canvas.Font.Color:=newColor
+               else  Canvas.Font.Color:= tmp;
+
+             end;
+         end;
+        //---------------------
    begin
       with frp^, dgPanel do
         begin
@@ -807,19 +820,32 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
           Canvas.FillRect(Rect);
           //Canvas.Font.Style:=[];
           newColor:=gColorExt.GetColorBy(sExt, sModeStr);
-          if bSelected then
-{*}            Canvas.Font.Color:= ActiveColmSlave.GetColumnMarkColor(ACol)
+{*}       if bSelected then
+            begin
+              if gUseInvertedSelection then
+                begin
+                //------------------------------------------------------
+                  if (gdSelected in State) then
+                    begin
+                       Canvas.Brush.Color :=ActiveColmSlave.GetColumnCursorColor(ACol);
+                       Canvas.FillRect(Rect);
+                       Canvas.Font.Color:=InvertColor(ActiveColmSlave.GetColumnCursorText(ACol));
+                    end else
+                     begin
+                       Canvas.Brush.Color := ActiveColmSlave.GetColumnMarkColor(ACol);
+                       Canvas.FillRect(Rect);
+                       TextSelect;
+                     end;
+                //------------------------------------------------------
+                end else
+              Canvas.Font.Color:= ActiveColmSlave.GetColumnMarkColor(ACol)
+            end
           else
-          if (gdSelected in State) then
-{*}            Canvas.Font.Color:=ActiveColmSlave.GetColumnCursorText(ACol)
+           if (gdSelected in State) then
+{*}             Canvas.Font.Color:=ActiveColmSlave.GetColumnCursorText(ACol)
           else
              begin
-              tmp:=ActiveColmSlave.GetColumnTextColor(ACol);
-
-{*}          if (tmp<>newColor) and (newColor<>-1) and (ActiveColmSlave.GetColumnOvercolor(ACol)) then
-                Canvas.Font.Color:=newColor
-              else  Canvas.Font.Color:= tmp;
-              
+{*}            TextSelect;
              end;
 
         end;//of with

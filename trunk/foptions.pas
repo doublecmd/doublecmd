@@ -100,6 +100,7 @@ type
     cbFileMaskHistory: TCheckBox;
     cbSelectionByMouse: TCheckBox;
     cbTabsOpenForeground: TCheckBox;
+    cbbUseInvertedSelection: TCheckBox;
     clbWFXList: TCheckListBox;
     clbWCXList: TCheckListBox;
     cbBackColor2: TColorBox;
@@ -423,6 +424,7 @@ begin
   cbCursorText.Color := gCursorText;
 
   cbShowIcons.Checked := gShowIcons;
+  cbbUseInvertedSelection.Checked:=gUseInvertedSelection;
 
   { File operations }
   edtCopyBufferSize.Text:= IntToStr(gCopyBlockSize div 1024);
@@ -700,6 +702,7 @@ begin
   gMarkColor := cbMarkColor.Color;
   gCursorColor := cbCursorColor.Color;
   gCursorText := cbCursorText.Color;
+  gUseInvertedSelection:=cbbUseInvertedSelection.Checked;
   
   gShowIcons := cbShowIcons.Checked;
 
