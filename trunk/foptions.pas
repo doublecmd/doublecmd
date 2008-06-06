@@ -1525,7 +1525,7 @@ procedure TfrmOptions.btnNewColumnsSetClick(Sender: TObject);
 begin
   Application.CreateForm(TfColumnsSetConf, frmColumnsSetConf);
    // Create new Set
-  frmColumnsSetConf.edtNameofColumnsSet.Text:='New Columns';
+  frmColumnsSetConf.edtNameofColumnsSet.Text:='New Columns'+inttostr(ColSet.count);
   frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(lstColumnsSets.Count+1);
   frmColumnsSetConf.Tag:=-1;
   frmColumnsSetConf.ColumnClass.Clear;

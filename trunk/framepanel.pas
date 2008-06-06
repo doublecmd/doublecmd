@@ -677,103 +677,89 @@ end; *)
 
 procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
   ARow: Integer; Rect: TRect; State: TGridDrawState);
-var
-  tw, cw:Integer;
-  newColor:TColor;
+ var
+  //shared variables
   s:String;
   frp:PFileRecItem;
-  bmp:TBitmap;
-  Tr:TRect;
   iTextTop : Integer;
-begin
-{  (Sender as TDrawGrid).Canvas.TextOut(Rect.Left, Rect.Top, IntToStr(ARow));
-  Exit;}
 
-  iTextTop := Rect.Top + (gIconsSize div 2) - (dgPanel.Canvas.TextHeight('Pp') div 2);
+ //------------------------------------------------------
+ //begin subprocedures
+ //------------------------------------------------------
 
-  if dgPanel.FixedRows <> Integer(gTabHeader) then
-    dgPanel.FixedRows := Integer(gTabHeader);
-   if not isSlave then
+ function DrawFixed:boolean;
+ //------------------------------------------------------
+   var
+      tw:Integer;
    begin
-     ActiveColmSlave:=ColSet.GetColumnSet(ActiveColm);
-   end;
+     result:=false;
+       if dgPanel.FixedRows <> Integer(gTabHeader) then
+        dgPanel.FixedRows := Integer(gTabHeader);
 
-  if (ARow = 0) and gTabHeader then
-  begin
-    // Draw fixed header
-    if not (ACol in [0..ActiveColmSlave.ColumnsCount-1]) then Exit;
-    with dgPanel do
-    begin
-      tw := 0;
-      s := ActiveColmSlave.GetColumnTitle(ACol);
-      if ACol = pnlFile.SortColumn then
+        if (ARow = 0) and gTabHeader then
         begin
-          tw := 1;
-          if pnlFile.SortDirection then
-            s := s + ' <'
-          else
-            s := s + ' >';
-        end;
-      if gCutTextToColWidth then
-        begin
-          while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
-            Delete(s,Length(s)-tw,1);
-        end;
-      Canvas.TextOut(Rect.Left + 4, iTextTop, s);
-    end;
-    Exit;
-  end;
-
-  if (ARow>=dgPanel.RowCount)or (ARow<0) then Exit;
-  if (ACol>=dgPanel.ColCount)or (ACol<0) then Exit;
-  frp:=pnlFile.GetReferenceItemPtr(ARow - dgPanel.FixedRows); // substract fixed rows (header)
-  if not Assigned(frp) then Exit;
-
-  with frp^, dgPanel do
-  begin
-    Canvas.Brush.Style:=bsSolid;
-    if gdSelected in State then
-      Canvas.Brush.Color:= gCursorColor
-    else
-      begin
-        if (ARow mod 2) = 0 then
-          Canvas.Brush.Color := gBackColor
-        else
-          Canvas.Brush.Color := gBackColor2;
-      end;
-    Canvas.FillRect(Rect);
-    //Canvas.Font.Style:=[];
-    newColor:=gColorExt.GetColorBy(sExt, sModeStr);
-    if bSelected then
-      Canvas.Font.Color:= gMarkColor
-    else
-    if (gdSelected in State) then
-      Canvas.Font.Color:=gCursorText
-    else
-      Canvas.Font.Color:= NewColor;
-
-    if ACol=0 then
-      begin
-        if (iIconID >= 0) and gShowIcons then
+          // Draw fixed header
+          if not (ACol in [0..ActiveColmSlave.ColumnsCount-1]) then Exit;
+          with dgPanel do
           begin
-          Tr:=Rect;
-          Tr.Left:=Tr.Left+1;
-            PixMapManager.DrawBitmap(iIconID, Canvas, Tr);
+            tw := 0;
+            s := ActiveColmSlave.GetColumnTitle(ACol);
+            if ACol = pnlFile.SortColumn then
+              begin
+                tw := 1;
+                if pnlFile.SortDirection then
+                  s := s + ' <'
+                else
+                  s := s + ' >';
+              end;
+            if gCutTextToColWidth then
+              begin
+                while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
+                  Delete(s,Length(s)-tw,1);
+              end;
+            Canvas.TextOut(Rect.Left + 4, iTextTop, s);
           end;
-          s:=ActiveColmSlave.GetColumnItemResultString(ACol,frp);
-          if gCutTextToColWidth then
-            begin
-              while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
-                Delete(s,Length(s),1);
-            end;
-          if gShowIcons then
-            Canvas.TextOut(Rect.Left + gIconsSize + 3 ,iTextTop,s)
-          else
-            Canvas.TextOut(Rect.Left + 2 ,iTextTop,s);
-      end
-    else
-      begin
-        //------------------------------------------------------
+          Result:=true;
+        end;
+   end; // of DrawHeader
+  //------------------------------------------------------
+
+
+  procedure DrawIconRaw;
+  //------------------------------------------------------
+   var
+      Tr: TRect;
+  begin
+   with frp^, dgPanel do
+     begin
+     if (iIconID >= 0) and gShowIcons then
+       begin
+         Tr:=Rect;
+         Tr.Left:=Tr.Left+1;
+         PixMapManager.DrawBitmap(iIconID, Canvas, Tr);
+       end;
+
+       s:=ActiveColmSlave.GetColumnItemResultString(ACol,frp);
+       if gCutTextToColWidth then
+         begin
+           while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
+             Delete(s,Length(s),1);
+         end;
+       if gShowIcons then
+         Canvas.TextOut(Rect.Left + gIconsSize + 3 ,iTextTop,s)
+       else
+         Canvas.TextOut(Rect.Left + 2 ,iTextTop,s);
+     end;
+  end; //of DrawIconRaw
+  //------------------------------------------------------
+  
+  Procedure DrawOtherRow;
+  //------------------------------------------------------
+    var
+       tw, cw:Integer;
+  begin
+     with frp^, dgPanel do
+       begin
         s:=ActiveColmSlave.GetColumnItemResultString(ACol,frp);
         if gCutTextToColWidth then
           begin
@@ -793,11 +779,109 @@ begin
                               Canvas.TextOut(Rect.Left+((cw-tw-3) div 2),iTextTop,s);
                             end;
          end; //of case
-          
-        //------------------------------------------------------
-      end;
-  end;   //with
+       end;//of with
+  end; //of DrawOtherRow;
+  //------------------------------------------------------
+  
 
+  Procedure PrepareColors;
+  //------------------------------------------------------
+    var
+       newColor:TColor;
+   begin
+      with frp^, dgPanel do
+        begin
+
+          Canvas.Brush.Style:=bsSolid;
+          if gdSelected in State then
+            Canvas.Brush.Color:= gCursorColor
+          else
+            begin
+              if (ARow mod 2) = 0 then
+                Canvas.Brush.Color := gBackColor
+              else
+                Canvas.Brush.Color := gBackColor2;
+            end;
+
+          Canvas.FillRect(Rect);
+          //Canvas.Font.Style:=[];
+          newColor:=gColorExt.GetColorBy(sExt, sModeStr);
+          if bSelected then
+            Canvas.Font.Color:= gMarkColor
+          else
+          if (gdSelected in State) then
+            Canvas.Font.Color:=gCursorText
+          else
+            Canvas.Font.Color:= NewColor;
+        end;//of with
+   end;// of PrepareColors;
+//------------------------------------------------------
+
+  Procedure NewPrepareColors;
+  //------------------------------------------------------
+    var
+       newColor,tmp:TColor;
+   begin
+      with frp^, dgPanel do
+        begin
+          Canvas.Font.Name:=ActiveColmSlave.GetColumnFontName(ACol);
+          Canvas.Font.Size:=ActiveColmSlave.GetColumnFontSize(ACol);
+          Canvas.Brush.Style:=bsSolid;
+          if gdSelected in State then
+{*}            Canvas.Brush.Color:= ActiveColmSlave.GetColumnCursorColor(ACol)
+          else
+            begin
+              if (ARow mod 2) = 0 then
+{*}                Canvas.Brush.Color := ActiveColmSlave.GetColumnBackground(ACol)
+              else
+{*}                Canvas.Brush.Color := ActiveColmSlave.GetColumnBackground2(ACol);
+            end;
+
+          Canvas.FillRect(Rect);
+          //Canvas.Font.Style:=[];
+          newColor:=gColorExt.GetColorBy(sExt, sModeStr);
+          if bSelected then
+{*}            Canvas.Font.Color:= ActiveColmSlave.GetColumnMarkColor(ACol)
+          else
+          if (gdSelected in State) then
+{*}            Canvas.Font.Color:=ActiveColmSlave.GetColumnCursorText(ACol)
+          else
+             begin
+              tmp:=ActiveColmSlave.GetColumnTextColor(ACol);
+              if (tmp<>clBlack) and (tmp<>clNone) and (tmp<>clDefault) and (tmp<>newColor) then
+               Canvas.Font.Color:= tmp
+              else Canvas.Font.Color:=newColor;
+             end;
+{*}
+        end;//of with
+   end;// of NewPrepareColors;
+//------------------------------------------------------
+
+//------------------------------------------------------
+//end of subprocedures
+//------------------------------------------------------
+
+begin
+{  (Sender as TDrawGrid).Canvas.TextOut(Rect.Left, Rect.Top, IntToStr(ARow));
+  Exit;}
+
+  if not isSlave then  ActiveColmSlave:=ColSet.GetColumnSet(ActiveColm);
+
+  iTextTop := Rect.Top + (gIconsSize div 2) - (dgPanel.Canvas.TextHeight('Pp') div 2);
+
+  if DrawFixed then exit;
+
+  if (ARow>=dgPanel.RowCount)or (ARow<0) then Exit;
+  if (ACol>=dgPanel.ColCount)or (ACol<0) then Exit;
+  frp:=pnlFile.GetReferenceItemPtr(ARow - dgPanel.FixedRows); // substract fixed rows (header)
+  if not Assigned(frp) then Exit;
+
+  NewPrepareColors;
+
+  if ACol=0 then
+    DrawIconRaw
+  else
+    DrawOtherRow;
 end;
 
 procedure TFrameFilePanel.MakeVisible(iRow:Integer);
