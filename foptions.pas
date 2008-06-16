@@ -325,7 +325,7 @@ implementation
 
 uses
   uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc, menus,
-  uColorExt, uWCXModule, uWFXmodule, uDCUtils, uOSUtils,fColumnsSetConf;
+  uColorExt, uWCXModule, uWFXmodule, uDCUtils, uOSUtils,fColumnsSetConf,uhotkeymanger;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
@@ -486,35 +486,26 @@ begin
   edtTerm.Text:=gTerm;
 
 
-  { Columns Set}
-  //ColSet.Clear;
- // ColSet.Load(gIni);
-  FillColumnsList;
+   FillColumnsList;
   
    nbNotebook.PageIndex := 0;  //let not warning on which page save form
   
 end;
 
 procedure TfrmOptions.btSetHotKeyClick(Sender: TObject);
-var vNum: integer;
+var vNum,i: integer;
     vActions: TAction;
 begin
   // ToDo Black list HotKey which can't use
+//TODO: Realize full version of hotkey's using. Allow to bind hotkeys to any controls.
 
-  for vNum := 0 to cbActions.Items.Count - 1 do
-  begin
-    vActions := cbActions.Items.Objects[vNum] as TAction;
-    if vActions.ShortCut = vShortCut then
-    begin
-      ShowMessage('ShortCut used by '+vActions.Name);// ToDo lang
-      Exit;
-    end;
-  end;
-
-  vActions := cbActions.Items.Objects[cbActions.ItemIndex] as TAction;
-  vActions.ShortCut := vShortCut;
-  cbActions.Items[cbActions.ItemIndex] := vActions.Name+'('+ShortCutToText(vActions.ShortCut)+')';
-  cbActions.Text := vActions.Name+'('+ShortCutToText(vActions.ShortCut)+')';
+  i:=HotMan.GetHotKeyIndex(ShortCutToTextEx(vShortCut));
+  if i=-1 then
+    HotMan.AddHotKey(ShortCutToTextEx(vShortCut),cbActions.Text,'',frmMain)
+  else
+   begin
+     ShowMessage('ShortCut used by '+THotkeyInfoClass(TStringList(TStringList(HotMan.HotkeyList.Objects[i]).Objects[0]).Objects[0]).ACommand);
+   end;
 end;
 
 
@@ -873,11 +864,12 @@ procedure TfrmOptions.FillActionLists;
 var vNum: integer;
 var vActions: TAction;
 begin
-  for vNum := 0 to frmMain.actionLst.ActionCount -1 do
+{  for vNum := 0 to frmMain.actionLst.ActionCount -1 do
   begin
     vActions := frmMain.actionLst.Actions[vNum] as TAction;
     cbActions.Items.AddObject(vActions.Name+'('+ShortCutToText(vActions.ShortCut)+')',vActions);
-  end;
+  end;}
+cbActions.items.AddStrings(Actions.CommandList);
 end;
 
 procedure TfrmOptions.cbMainFontChange(Sender: TObject);
@@ -898,8 +890,8 @@ end;
 procedure TfrmOptions.edHotKeyKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  vShortCut := ShortCut(Key,Shift);
-  TEdit(Sender).Text := ShortCutToText(vShortCut);
+  vShortCut := ShortCutEx(Key,Shift);
+  TEdit(Sender).Text := ShortCutToTextEx(vShortCut);
   Key := 0;
   btSetHotKey.Enabled := (edHotKey.Text <> '');
 end;
@@ -1463,10 +1455,17 @@ end;
 procedure TfrmOptions.btClearHotKeyClick(Sender: TObject);
 var vActions: TAction;
 begin
-  vActions := cbActions.Items.Objects[cbActions.ItemIndex] as TAction;
+{  vActions := cbActions.Items.Objects[cbActions.ItemIndex] as TAction;
   vActions.ShortCut := TextToShortCut('');
   cbActions.Items[cbActions.ItemIndex] := vActions.Name+'('+ShortCutToText(vActions.ShortCut)+')';
-  cbActions.Text := vActions.Name+'('+ShortCutToText(vActions.ShortCut)+')';
+  cbActions.Text := vActions.Name+'('+ShortCutToText(vActions.ShortCut)+')';}
+{if cbActions.ItemIndex=-1 then exit;
+showmessage(cbActions.Items.Strings[cbActions.ItemIndex]);
+ HotMan.DeleteHotKey(HotMan.GetHotKeyIndex(cbActions.Items.Strings[cbActions.ItemIndex]));
+ edHotKey.Text:='';}
+ 
+ //TODO: delete hotkey.
+ //TODO:New interface for hotkeys
 end;
 
 procedure TfrmOptions.btnBackColor2Click(Sender: TObject);
