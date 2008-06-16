@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils,Dialogs,typinfo;
-
+  
+  
 const cf_Null=0;
       cf_Error=-1;
   
@@ -23,21 +24,17 @@ const cf_Null=0;
 
    function GetList:TStrings;
    function Methods(AClass:TClass) : TStringList;
-//---------------------
-
-//---------------------
   public
    constructor Create;
    destructor Destroy;override;
-//  function Methods(AClass:TClass) : TStringList;
    function Execute(Cmd: string; param:string =''): integer;
    function GetIndex(Cmd: string): integer;
+   function GetCategoriesList(var List:TStrings):integer;
+   function GetCommandsByCategory(Category:string; var List:TStrings):integer;
   published
+
   //Only published functions and procedures can by found by MethodAddress
-{   procedure SomeFunction (param:string; var Result:integer);
-   procedure SomeProcedure(param:string);
-   procedure Mess(param:string);}
-   //---------------------
+  //---------------------
    procedure cm_AddPathToCmdLine(param: string='');
    procedure cm_ContextMenu(param: string='');
    procedure cm_CopyFullNamesToClip(param: string='');
@@ -100,7 +97,11 @@ const cf_Null=0;
    procedure cm_FileProperties(param: string='');
    procedure cm_FileLinker(param: string='');
    procedure cm_FileSpliter(param: string='');
-   
+
+   //---------------------
+   {   procedure SomeFunction (param:string; var Result:integer);
+   procedure SomeProcedure(param:string);
+   procedure Mess(param:string);}
    //---------------------
    property CommandList:TStrings read FCmdList; //be careful with these list's objects.
   end;
@@ -168,8 +169,7 @@ begin
   inherited Destroy;
 end;
 
-
-function TActs.Execute(Cmd, param: string): integer;
+function TActs.Execute(Cmd: string; param:string =''): integer;
 var t:TMethod; ind:integer;
 begin
     Result:=cf_Error;
@@ -202,6 +202,60 @@ begin
   end;
 end;
 
+function TActs.GetCategoriesList(var List: TStrings): integer;
+var s:string; i,p:integer;
+begin
+  List.Clear;
+  for i:=0 to CommandList.Count-1 do
+    begin
+     s:=CommandList[i];
+     //find forms
+     if Pos('cm_',s)>0 then
+       begin
+         s:=copy(s,4,length(s)-3);
+         debugln('FillCommandsPage cmd- cm_: '+s);
+         p:=pos('_',s);
+         if p>0 then
+           begin
+             s:=copy(s,1,p-1);
+             if list.IndexOf(s)=-1 then
+               List.Add(s);
+           end
+         else
+           begin
+            if list.IndexOf('Main')=-1 then
+              List.Add('Main');
+           end;
+       end;
+    end;
+  result:=List.Count;
+end;
+
+function TActs.GetCommandsByCategory(Category: string; var List: TStrings
+  ): integer;
+var i:integer; s:string;
+begin
+  List.Clear;
+  if Category='Main' then
+    begin
+    for i:=0 to CommandList.Count-1 do
+      begin
+       s:=CommandList[i];
+       delete(s,1,3);
+       if pos('_',s)=0 then
+         List.Add(CommandList[i]);
+      end;
+    end
+  else
+    begin
+      s:='cm_'+Category+'_';
+      for i:=0 to CommandList.Count-1 do
+       if pos(s,CommandList[i])>0 then
+         List.Add(CommandList[i]);
+    end;
+
+  Result:=List.Count;
+end;
 
 //------------------------------------------------------
 //Published methods
@@ -1304,6 +1358,7 @@ begin
     end; // with
   end;
 end;
+
 
 
 end.
