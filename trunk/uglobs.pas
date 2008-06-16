@@ -22,7 +22,7 @@ unit uGlobs;
 
 interface
 uses
-  Classes, Controls, uExts, uColorExt, Graphics, uClassesEx, uWDXModule, uColumns;
+  Classes, Controls, uExts, uColorExt, Graphics, uClassesEx, uWDXModule, uColumns,uhotkeymanger,uActs;
 
 type
   TControlPosition = object
@@ -162,6 +162,12 @@ var
   gQuickSearchMatchBeginning,
   gQuickSearchMatchEnding : Boolean;
   
+  {HotKey Manager}
+  HotMan:THotKeyManager;
+  
+  {Actions}
+  Actions:TActs;
+  
 const
   { Tabs options }
   tb_always_visible = 1;
@@ -292,6 +298,9 @@ begin
   glsHotDir := TStringListEx.Create;
   glsDirHistory := TStringListEx.Create;
   glsMaskHistory := TStringListEx.Create;
+  
+  HotMan:=THotKeyManager.Create;
+  Actions:=TActs.Create;
 end;
 
 procedure DeInitGlobs;
@@ -312,6 +321,10 @@ begin
     WdxPlugins.Free;
   if Assigned(ColSet) then
     ColSet.Free;
+  if Assigned(HotMan) then
+    HotMan.Free;
+  if Assigned(Actions) then
+    Actions.Free;
   
   { Save location of configuration files }
   gIni := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
@@ -448,6 +461,9 @@ begin
   ColSet:=TPanelColumnsList.Create;
   ColSet.Load(gIni);
   //---------------------
+  
+  //TODO: Load hotkeys
+  //HotMan.Load();
 end;
 
 function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boolean;
@@ -573,6 +589,9 @@ begin
   
   gExts.SaveToFile(gpIniDir + 'doublecmd.ext');
   gColorExt.Save;
+  
+  //TODO: Save hotkeys
+  //HotMan.Save();
   
   DeInitGlobs;
 end;

@@ -102,17 +102,14 @@ type
     //Hotkey Handler
     procedure KeyDownHandler(Sender: TObject; var Key: Word; Shift: TShiftState);
     //---------------------
-    //Эта функция вызывается из KeyDownHandler и проверяет - зарегистрирован ли хоткей,
-    //и, если зарегистрирован - выполняет нужное действие.
+    //This function is called from KeyDownHandler to find registered hotkey and execute assigned action
     function HotKeyEvent(sShortcut:string; ObjInfo:TObjInfoClass):boolean;
-    //Индекс в FHotList по сочетанию клавиш
-    function GetHotKeyIndex(Hotkey:string; FromI:integer=0):integer;
    //---------------------
-    //Регистрация формы
+    //Form registration
     procedure RegisterManagerForF(AObject:TCustomForm);
-    //Рекистрация контрола
+    //TWinControl Registration
     procedure RegisterManagerForW(AObject: TWinControl);
-    //и соответственно обратные действия
+    //Unregistration procs
     procedure UnRegisterManagerForF(AObject:TCustomForm);
     procedure UnRegisterManagerForW(AObject: TWinControl);
    //---------------------
@@ -127,6 +124,9 @@ type
      function DeleteHotKey(AHotKey,AObjectName,AObjectFormName:string):boolean;
      function DeleteHotKey(AHotKey:string; AObject:TWinControl):boolean;
      function ReplaceHotkey(AOldHotkey,ANewHotKey:string):integer;
+     //---------------------
+     //Index of hotkey in FHotList
+     function GetHotKeyIndex(Hotkey:string; FromI:integer=0):integer;
      //---------------------
      procedure Save(FileName:string);
      procedure Load(FileName:string);
@@ -334,7 +334,7 @@ end;
 function THotKeyManager.AddHotKey(AHotKey,ACommand,AParams:string; AObject: TWinControl): integer;
 var par:TWinControl; TH:THotkeyInfoClass; i,j,k:integer; st:TStringList;
 begin
-   //Поиск формы родителя
+   //Find control's parent form
    par:=AObject;
    while assigned(Par) and (not (par is TCustomForm)) do
     Par:=Par.Parent;
@@ -347,7 +347,7 @@ begin
       result:=i;
       st:=TStringList(FHotList.Objects[i]); //form list
       //---------------------
-      //найти форму и добавить контрол в её список
+      //find form and add it in form list
       j:=st.IndexOf(par.Name);
       if j=-1 then
         j:=st.AddObject(par.Name,TStringList.Create);
@@ -378,7 +378,7 @@ begin
       if tmp=-1 then
         tmp:=FHotList.AddObject(th.AShortCut,TStringList.Create);
         
-  //найти форму и добавить контрол в её список
+      //find form and add it in form list
   k:=TStringList(FHotList.Objects[tmp]).IndexOf(th.AObjectFormName);
   if k=-1 then
    k:=TStringList(FHotList.Objects[tmp]).AddObject(th.AObjectFormName,TStringList.Create);
@@ -537,7 +537,7 @@ begin
         t.AKeyDownProc:=AObject.OnKeyDown;
       t.AChilds:=nil;
 
-      //Поиск формы родителя
+      //find component's parent form
        par:=AObject;
        while assigned(Par) and (not (par is TCustomForm)) do
         Par:=Par.Parent;
@@ -546,7 +546,7 @@ begin
            i:=FFormsList.IndexOf(par.Name);
            if i=-1 then
              begin
-               {Регистрация формы}
+               {register form}
                RegisterManagerForF(Par as TCustomForm);
                i:=FFormsList.IndexOf(par.Name);
                if i=-1 then exit;
@@ -579,7 +579,7 @@ procedure THotKeyManager.UnRegisterManagerForW(AObject: TWinControl);
 begin
   if Assigned(AObject.OnKeyDown) then
    begin
-       //Поиск формы родителя
+       //find parent form
        par:=AObject;
        while assigned(Par) and (not (par is TCustomForm)) do
         Par:=Par.Parent;
@@ -609,21 +609,21 @@ begin
  hi:=GetHotKeyIndex(sShortcut);
  if hi=-1 then exit;
  
-      //Поиск формы родителя
+      //find parent form
        par:=ObjInfo.AObject;
        while assigned(Par) and (not (par is TCustomForm)) do
         Par:=Par.Parent;
 
        if par is TCustomForm then
          begin
-           //лист форм
+           //form's list
            //---------------------
            if not assigned(FHotList.Objects[hi]) then exit;
            st:=TStringList(FHotList.Objects[hi]);
            tmp:=st.IndexOf(Par.Name);
            if tmp=-1 then exit;
 
-           //лист контролов
+           //control's list
            //---------------------
            if not assigned(st.Objects[tmp]) then exit;
            st:=TStringList(st.Objects[tmp]);
@@ -691,9 +691,9 @@ procedure THotKeyManager.KeyDownHandler(Sender: TObject; var Key: Word; Shift: T
 begin
 
  {предварительная проверка - зарегистрирован ли хоткей вообще,
- чтобы не тратить время на вычисления}
+ чтобы не тратить время на вычисления  и вызов оригинальных обработчиков}
  //if GetHotKeyIndex(KeyToText(Key))=-1 then exit;
- 
+
  Handled:=false;
 
  i:=FFormsList.IndexOf((Sender as TWinControl).Name);

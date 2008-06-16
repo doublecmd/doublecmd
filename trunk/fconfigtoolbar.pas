@@ -117,11 +117,14 @@ var
   vNum: integer;
   vActions: TAction;
 begin
-  for vNum := 0 to frmMain.actionLst.ActionCount -1 do
+{  for vNum := 0 to frmMain.actionLst.ActionCount -1 do
   begin
     vActions := frmMain.actionLst.Actions[vNum] as TAction;
     cbCommand.Items.AddObject(vActions.Name, vActions);
-  end;
+  end;}
+  
+  cbCommand.Items.AddStrings(Actions.CommandList);
+  cbCommand.Sorted:=true;
 end;
 
 procedure TfrmConfigToolBar.FormShow(Sender: TObject);
@@ -178,8 +181,9 @@ procedure TfrmConfigToolBar.cbCommandSelect(Sender: TObject);
 var
   vActions: TAction;
 begin
-   vActions := cbCommand.Items.Objects[cbCommand.ItemIndex] as TAction;
-   kedtToolTip.Text := StringReplace(vActions.Caption, '&', '', [rfReplaceAll]);
+ //  vActions := cbCommand.Items.Objects[cbCommand.ItemIndex] as TAction;
+ //  kedtToolTip.Text := StringReplace(vActions.Caption, '&', '', [rfReplaceAll]);
+  kedtToolTip.Text :=cbCommand.Items[cbCommand.ItemIndex];
 end;
 
 procedure TfrmConfigToolBar.btnOKClick(Sender: TObject);

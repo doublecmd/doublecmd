@@ -227,27 +227,8 @@ type
     actFileSpliter: TAction;
     pmToolBar: TPopupMenu;
     MainSplitter: TSplitter;
-    procedure actAddPathToCmdLineExecute(Sender: TObject);
-    procedure actContextMenuExecute(Sender: TObject);
-    procedure actCopyFullNamesToClipExecute(Sender: TObject);
-    procedure actCopyNamesToClipExecute(Sender: TObject);
-    procedure actExchangeExecute(Sender: TObject);
-    procedure actExtractFilesExecute(Sender: TObject);
-    procedure actFileAssocExecute(Sender: TObject);
-    procedure actFocusCmdLineExecute(Sender: TObject);
-    procedure actLeftOpenDrivesExecute(Sender: TObject);
-    procedure actOpenDirInNewTabExecute(Sender: TObject);
-    procedure actTargetEqualSourceExecute(Sender: TObject);
-    procedure actOpenArchiveExecute(Sender: TObject);
-    procedure actOpenExecute(Sender: TObject);
-    procedure actOpenVFSListExecute(Sender: TObject);
-    procedure actPackFilesExecute(Sender: TObject);
-    procedure actQuickSearchExecute(Sender: TObject);
-    procedure actRightOpenDrivesExecute(Sender: TObject);
-    procedure actShowButtonMenuExecute(Sender: TObject);
-    procedure actTransferLeftExecute(Sender: TObject);
-    procedure actTransferRightExecute(Sender: TObject);
-    procedure actWipeExecute(Sender: TObject);
+
+    procedure actExecute(Sender: TObject);
     procedure btnLeftClick(Sender: TObject);
     procedure btnLeftDirectoryHotlistClick(Sender: TObject);
     procedure btnRightClick(Sender: TObject);
@@ -270,9 +251,6 @@ type
     procedure MainToolBarMouseUp(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure MainToolBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
-    procedure actExitExecute(Sender: TObject);
-    procedure actNewTabExecute(Sender: TObject);
-    procedure actRemoveTabExecute(Sender: TObject);
     procedure frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure frmMainKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure frmMainShow(Sender: TObject);
@@ -285,54 +263,17 @@ type
     procedure pmButtonMenuMenuButtonClick(Sender: TObject;
       NumberOfButton: Integer);
     procedure pnlKeysResize(Sender: TObject);
-    procedure actViewExecute(Sender: TObject);
-    procedure actEditExecute(Sender: TObject);
-    procedure actCopyExecute(Sender: TObject);
-    procedure actRenameExecute(Sender: TObject);
-    procedure actMakeDirExecute(Sender: TObject);
-    procedure actDeleteExecute(Sender: TObject);
     procedure FormResize(Sender: TObject);
-    procedure actAboutExecute(Sender: TObject);
-    procedure actShowSysFilesExecute(Sender: TObject);
-    procedure actOptionsExecute(Sender: TObject);
-    procedure actOptionsExecute(Sender: TObject; Index:Integer);overload;
     procedure FormKeyPress(Sender: TObject; var Key: Char);
-    procedure actCompareContentsExecute(Sender: TObject);
-    procedure actShowMenuExecute(Sender: TObject);
-    procedure actRefreshExecute(Sender: TObject);
-    procedure actMarkInvertExecute(Sender: TObject);
-    procedure actMarkMarkAllExecute(Sender: TObject);
-    procedure actMarkUnmarkAllExecute(Sender: TObject);
-    procedure actDirHotListExecute(Sender: TObject);
-    procedure actSearchExecute(Sender: TObject);
-    procedure actDelete2Execute(Sender: TObject);
     procedure edtCommandKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure actMarkPlusExecute(Sender: TObject);
-    procedure actMarkMinusExecute(Sender: TObject);
-    procedure actSymLinkExecute(Sender: TObject);
-    procedure actHardLinkExecute(Sender: TObject);
-    procedure actReverseOrderExecute(Sender: TObject);
-    procedure actSortByNameExecute(Sender: TObject);
-    procedure actSortByExtExecute(Sender: TObject);
-    procedure actSortBySizeExecute(Sender: TObject);
-    procedure actSortByDateExecute(Sender: TObject);
-    procedure actSortByAttrExecute(Sender: TObject);
-    procedure actMultiRenameExecute(Sender: TObject);
-    procedure actCopySamePanelExecute(Sender: TObject);
-    procedure actRenameOnlyExecute(Sender: TObject);
-    procedure actEditNewExecute(Sender: TObject);
-    procedure actDirHistoryExecute(Sender: TObject);
-    procedure actShowCmdLineHistoryExecute(Sender: TObject);
-    procedure actRunTermExecute(Sender: TObject);
+
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormActivate(Sender: TObject);
     procedure FrameEditExit(Sender: TObject);
     procedure FrameedtSearchExit(Sender: TObject);
 
-    procedure actCalculateSpaceExecute(Sender: TObject);
-    procedure actFilePropertiesExecute(Sender: TObject);
     procedure FramedgPanelEnter(Sender: TObject);
     procedure framedgPanelMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -345,8 +286,6 @@ type
     procedure FramepnlFileChangeDirectory(Sender: TObject; const NewDir : String);
     procedure edtCommandKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure actFileLinkerExecute(Sender: TObject);
-    procedure actFileSpliterExecute(Sender: TObject);
     procedure tbEditClick(Sender: TObject);
   private
     { Private declarations }
@@ -393,11 +332,13 @@ type
     procedure RemovePage(ANoteBook:TNoteBook; iPageIndex:Integer);
     procedure LoadTabs(ANoteBook:TNoteBook);
     procedure SaveTabs(ANoteBook:TNoteBook);
-    function ExecCmd(Cmd:string) : Boolean;
+    function ExecCmd(Cmd:string; param:string='') : Boolean;
     function ExecCmdEx(NumberOfButton:Integer) : Boolean;
     procedure UpdateWindowView;
     procedure SaveShortCuts;
     procedure LoadShortCuts;
+    published
+    property SelectedPanel:TFilePanelSelect read PanelSelected;
   end;
 
 var
@@ -437,7 +378,7 @@ begin
 
   nbLeft.Options:=[nboShowCloseButtons];
   nbRight.Options:=[nboShowCloseButtons];
-  actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
+//  actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
 
   PanelSelected:=fpLeft;
 
@@ -520,143 +461,16 @@ begin
   seLogWindow.Visible := gLogWindow;
 
   seLogWindow.Font.Name := gFontName;
-  
-  //ColSet:=TPanelColumnsList.Create;
+
   pmColumnsMenu.Items.Clear;
   //DebugLn('frmMain.FormCreate Done');
+  
+  HotMan.RegisterHotkeyManager(Self);
+  //HotMan.AddHotKey('winkey+a','cm_ContextMenu','',self);
 end;
 
 
-(* Pack files in archive *)
-procedure TfrmMain.actPackFilesExecute(Sender: TObject);
-var
-  fl : TFileList;
-  Result: Boolean;
-begin
-  Result:= False;
-  if not IsBlocked then
-    begin
-      fl:=TFileList.Create;
-      with ActiveFrame do
-        begin
-          SelectFileIfNoSelected(GetActiveItem);
-          CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
 
-          fl.CurrentDirectory := ActiveDir;
-        end;
-      try
-        Result:= ShowPackDlg(NotActiveFrame.pnlFile.VFS, fl, NotActiveFrame.ActiveDir);
-      finally
-        if Result then
-          begin
-            frameLeft.RefreshPanel;
-            frameRight.RefreshPanel;
-          end
-        else
-          begin
-            with ActiveFrame do
-	      UnSelectFileIfSelected(GetActiveItem);
-          end;
-      end;
-    end;  // IsBlocked
-end;
-
-procedure TfrmMain.actQuickSearchExecute(Sender: TObject);
-begin
-  ActiveFrame.ShowAltPanel;
-  KeyPreview := False;
-end;
-
-procedure TfrmMain.actRightOpenDrivesExecute(Sender: TObject);
-var
-  p : TPoint;
-begin
-  pmDrivesMenu.Tag := 1;  // indicate that is right panel menu
-  p := Classes.Point(btnRightDrive.Left,btnRightDrive.Height);
-  p := pnlRightTools.ClientToScreen(p);
-  pmDrivesMenu.Items[dskRight.Tag].Checked := True;
-  pmDrivesMenu.PopUp(p.x, p.y);
-end;
-
-procedure TfrmMain.actShowButtonMenuExecute(Sender: TObject);
-var cmd:string; Point:TPoint;
-begin
-  cmd:=MainToolBar.GetButtonX((Sender as TAction).tag,CmdX);
-  pmButtonMenu.LoadBarFile(gpIniDir + MainToolBar.GetButtonX((Sender as TACtion).tag,ParamX));
-  Point:=MainToolBar.ClientToScreen(Classes.Point(0,0));
-  Point.Y:=Point.Y+MainToolbar.Height;
-  if MainToolbar.ButtonCount>0 then
-    Point.X:=Point.X+MainToolbar.Buttons[0].Width*((Sender as TAction).tag)-60
-  else
-    Point.X:=Point.X+MainToolbar.ButtonGlyphSize*((Sender as TAction).tag)+50; 
-  pmButtonMenu.PopUp(Point.x,Point.Y);
-end;
-
-procedure TfrmMain.actTransferLeftExecute(Sender: TObject);
-begin
-  if (PanelSelected = fpRight) then
-    SetNotActFrmByActFrm;
-end;
-
-procedure TfrmMain.actTransferRightExecute(Sender: TObject);
-begin
-  if (PanelSelected = fpLeft) then
-    SetNotActFrmByActFrm;
-end;
-
-procedure TfrmMain.actWipeExecute(Sender: TObject);
-var
-  fl:TFileList;
-  WT : TWipeThread;
-begin
-  with ActiveFrame do
-  begin
-    if  pnlFile.PanelMode in [pmArchive, pmVFS] then // if in VFS
-      begin
-        msgOK(rsMsgErrNotSupported);
-        Exit;
-      end; // in VFS
-
-    SelectFileIfNoSelected(GetActiveItem);
-  end;
-
-  case msgYesNoCancel(GetFileDlgStr(rsMsgDelSel,rsMsgDelFlDr)) of
-    mmrNo:
-      begin
-        ActiveFrame.UnMarkAll;
-        Exit;
-      end;
-    mmrCancel:
-      begin
-	with ActiveFrame do
-	  UnSelectFileIfSelected(GetActiveItem);
-        Exit;
-      end;
-  end;
-
-  fl:=TFileList.Create; // free at Thread end by thread
-  try
-    CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
-
-    (* Wipe files *)
-     if not Assigned(frmFileOp) then
-       frmFileOp:= TfrmFileOp.Create(Application);
-     try
-       WT := TWipeThread.Create(fl);
-       WT.FFileOpDlg:= frmFileOp;
-       WT.sDstPath:= NotActiveFrame.ActiveDir;
-       //DT.sDstMask:=sDstMaskTemp;
-       frmFileOp.Thread:= TThread(WT);
-       frmFileOp.Show;
-       WT.Resume;
-     except
-       WT.Free;
-     end;
-
-  except
-    FreeAndNil(frmFileOp);
-  end;
-end;
 
 procedure TfrmMain.btnLeftClick(Sender: TObject);
 begin
@@ -673,6 +487,15 @@ begin
 
   SetActiveFrame(fpLeft);
 end;
+
+procedure TfrmMain.actExecute(Sender: TObject);
+var cmd:string;
+begin
+cmd:=(Sender as TAction).Name;
+cmd:='cm_'+copy(cmd,4,length(cmd)-3);
+Actions.Execute(cmd);
+end;
+
 
 procedure TfrmMain.btnLeftDirectoryHotlistClick(Sender: TObject);
 Var P:TPoint;
@@ -712,181 +535,9 @@ begin
   pmHotList.PopUp(P.x,P.y);
 end;
 
-procedure TfrmMain.actExtractFilesExecute(Sender: TObject);
-var
-  fl : TFileList;
-  Result: Boolean;
-begin
-  Result:= False;
-  if not IsBlocked then
-    begin
-      fl:=TFileList.Create;
-      with ActiveFrame do
-        begin
-          SelectFileIfNoSelected(GetActiveItem);
-          CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
 
-          fl.CurrentDirectory := ActiveDir;
-        end;
-      try
-        Result:= ShowExtractDlg(ActiveFrame, fl, NotActiveFrame.ActiveDir);
-      finally
-        if Result then
-          begin
-            frameLeft.RefreshPanel;
-            frameRight.RefreshPanel;
-          end
-        else
-          begin
-            with ActiveFrame do
-	      UnSelectFileIfSelected(GetActiveItem);
-          end;
-      end;
-    end;  // IsBlocked
-end;
 
-procedure TfrmMain.actFileAssocExecute(Sender: TObject);
-begin
-  ShowFileAssocDlg;
-end;
 
-procedure TfrmMain.actFocusCmdLineExecute(Sender: TObject);
-begin
-  edtCommand.SetFocus;
-end;
-
-procedure TfrmMain.actAddPathToCmdLineExecute(Sender: TObject);
-begin
-  with ActiveFrame do
-    begin
-      edtCmdLine.Text := edtCmdLine.Text + (pnlFile.ActiveDir);
-    end;
-end;
-
-procedure TfrmMain.actContextMenuExecute(Sender: TObject);
-var
-  fl : TFileList;
-begin
-  with ActiveFrame do
-    begin
-      if pnlFile.PanelMode in [pmArchive, pmVFS] then
-        begin
-          msgError(rsMsgErrNotSupported);
-          UnMarkAll;
-          Exit;
-        end;
-        
-      fl := TFileList.Create;
-      SelectFileIfNoSelected(GetActiveItem);
-      CopyListSelectedExpandNames(pnlFile.FileList, fl, ActiveDir, False);
-    end;
-  ShowContextMenu(Handle, fl, Mouse.CursorPos.x, Mouse.CursorPos.y);
-  ActiveFrame.UnMarkAll;
-end;
-
-procedure TfrmMain.actCopyFullNamesToClipExecute(Sender: TObject);
-var
-  I: Integer;
-  sl: TStringList;
-begin
-  sl:= TStringList.Create;
-  with ActiveFrame do
-  begin
-    SelectFileIfNoSelected(GetActiveItem);
-    for I:=0 to pnlFile.FileList.Count - 1 do
-      if pnlFile.FileList.GetItem(I)^.bSelected then
-        sl.Add(ActiveDir + pnlFile.FileList.GetItem(I)^.sName);
-    Clipboard.Clear;   // prevent multiple formats in Clipboard (specially synedit)
-    Clipboard.AsText:= sl.Text;
-    UnMarkAll;
-  end;
-  FreeAndNil(sl);
-end;
-
-procedure TfrmMain.actCopyNamesToClipExecute(Sender: TObject);
-var
-  I: Integer;
-  sl: TStringList;
-begin
-  sl:= TStringList.Create;
-  with ActiveFrame do
-  begin
-    SelectFileIfNoSelected(GetActiveItem);
-    for I:=0 to pnlFile.FileList.Count - 1 do
-      if pnlFile.FileList.GetItem(I)^.bSelected then
-        sl.Add(pnlFile.FileList.GetItem(I)^.sName);
-    Clipboard.Clear;   // prevent multiple formats in Clipboard (specially synedit)
-    Clipboard.AsText:= sl.Text;
-    UnMarkAll;
-  end;
-  FreeAndNil(sl);
-end;
-
-procedure TfrmMain.actExchangeExecute(Sender: TObject);
-var
-  sDir: String;
-begin
-  sDir:= ActiveFrame.pnlFile.ActiveDir;
-  ActiveFrame.pnlFile.ActiveDir:= NotActiveFrame.pnlFile.ActiveDir;
-  NotActiveFrame.pnlFile.ActiveDir:= sDir;
-  ActiveFrame.RefreshPanel;
-  NotActiveFrame.RefreshPanel;
-end;
-
-procedure TfrmMain.actLeftOpenDrivesExecute(Sender: TObject);
-var
-  p : TPoint;
-begin
-  pmDrivesMenu.Tag := 0;  // indicate that is left panel menu
-  p := Classes.Point(btnLeftDrive.Left,btnLeftDrive.Height);
-  p := pnlLeftTools.ClientToScreen(p);
-  pmDrivesMenu.Items[dskLeft.Tag].Checked := True;
-  pmDrivesMenu.PopUp(p.x, p.y);
-end;
-
-procedure TfrmMain.actOpenDirInNewTabExecute(Sender: TObject);
-var
-  sDir: String;
-  bSetActive: Boolean;
-begin
-  with ActiveFrame do
-  begin
-    if fpS_ISDIR(pnlFile.GetActiveItem^.iMode) then
-      sDir:= ActiveFrame.ActiveDir + pnlFile.GetActiveItem^.sName
-    else
-      sDir:= ActiveFrame.ActiveDir;
-  end;
-
-  bSetActive:= Boolean(gDirTabOptions and tb_open_new_in_foreground);
-
-  case PanelSelected of
-  fpLeft:
-     CreatePanel(AddPage(nbLeft, bSetActive), fpLeft, sDir);
-  fpRight:
-     CreatePanel(AddPage(nbRight, bSetActive), fpRight, sDir);
-  end;
-end;
-
-procedure TfrmMain.actTargetEqualSourceExecute(Sender: TObject);
-begin
-  NotActiveFrame.pnlFile.ActiveDir:= ActiveFrame.pnlFile.ActiveDir;
-  NotActiveFrame.RefreshPanel;
-end;
-
-procedure TfrmMain.actOpenArchiveExecute(Sender: TObject);
-begin
-  ActiveFrame.pnlFile.TryOpenArchive(ActiveFrame.GetActiveItem);
-end;
-
-procedure TfrmMain.actOpenExecute(Sender: TObject);
-begin
-  ActiveFrame.pnlFile.ChooseFile(ActiveFrame.GetActiveItem);
-end;
-
-procedure TfrmMain.actOpenVFSListExecute(Sender: TObject);
-begin
-  ActiveFrame.pnlFile.LoadVFSListInPanel;
-end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
@@ -907,7 +558,8 @@ begin
       SetActiveFrame(fpRight)
   else if (Sender as TLabel).Name = 'lblLeftDriveInfo' then
       SetActiveFrame(fpLeft);
-  actDirHotList.Execute;
+  Actions.cm_DirHotList('');
+//  actDirHotList.Execute;
 end;
 
 procedure TfrmMain.MainSplitterCanResize(Sender: TObject; var NewSize: Integer;
@@ -1077,32 +729,6 @@ begin
   DebugLn(MainToolBar.Commands[NumberOfButton]);
 end;
 
-
-procedure TfrmMain.actExitExecute(Sender: TObject);
-begin
-  Close; // application.Terminate not save settings.
-end;
-
-procedure TfrmMain.actNewTabExecute(Sender: TObject);
-begin
-  case PanelSelected of
-  fpLeft:
-     CreatePanel(AddPage(nbLeft), fpLeft, ActiveFrame.ActiveDir);
-  fpRight:
-     CreatePanel(AddPage(nbRight), fpRight, ActiveFrame.ActiveDir);
-  end;
-end;
-
-procedure TfrmMain.actRemoveTabExecute(Sender: TObject);
-begin
-  case PanelSelected of
-  fpLeft:
-     RemovePage(nbLeft, nbLeft.PageIndex);
-  fpRight:
-     RemovePage(nbRight, nbRight.PageIndex);
-  end;
-end;
-
 procedure TfrmMain.frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
 var
   x:Integer;
@@ -1217,254 +843,6 @@ begin
 
 end;
 
-procedure TfrmMain.actViewExecute(Sender: TObject);
-var
-  sl:TStringList;
-  i:Integer;
-  fr:PFileRecItem;
-  VFSFileList : TFileList;
-  sFileName,
-  sFilePath,
-  sTempDir : String;
-begin
-  with ActiveFrame do
-  begin
-    SelectFileIfNoSelected(GetActiveItem);
-    sl:=TStringList.Create;
-    try
-      for i:=0 to pnlFile.FileList.Count-1 do
-      begin
-        fr:=pnlFile.GetFileItemPtr(i);
-        if fr^.bSelected and not (FPS_ISDIR(fr^.iMode) or fr^.bLinkIsDir) then
-        begin
-          (* If in Virtual File System *)
-          if pnlFile.PanelMode in [pmArchive, pmVFS] then
-            begin
-              VFSFileList := TFileList.Create;
-              VFSFileList.CurrentDirectory := ActiveDir;
-              sFileName := ActiveDir + fr^.sName;
-              New(fr);
-              fr^.sName := sFileName;
-              VFSFileList.AddItem(fr);
-              sTempDir := GetTempDir;
-              {if }pnlFile.VFS.VFSmodule.VFSCopyOut(VFSFileList, sTempDir, 0);{ then}
-                begin
-                 sl.Add(sTempDir + ExtractDirLevel(ActiveDir, fr^.sName));
-                 ShowViewerByGlobList(sl, True);
-                 Dispose(fr);
-                 Exit;
-                end;
-            end;
-          sFileName := fr^.sName;
-          sFilePath := ActiveDir;
-          sl.Add(GetSplitFileName(sFileName, sFilePath));
-          if (log_info in gLogOptions) then
-            logWrite('View.Add: ' + sFilePath + sFileName, lmtInfo);
-        end;
-      end;
-      if sl.Count>0 then
-        ShowViewerByGlobList(sl)
-      else
-        begin
-          fr := pnlFile.GetActiveItem;
-          if (FPS_ISDIR(fr^.iMode) or fr^.bLinkIsDir) then
-            begin
-              Screen.Cursor:=crHourGlass;
-              try
-                pnlFile.ChooseFile(fr);
-                UpDatelblInfo;
-              finally
-                dgPanel.Invalidate;
-                Screen.Cursor:=crDefault;
-              end;
-            end
-        end;
-    finally
-      if pnlFile.PanelMode = pmDirectory then
-        FreeAndNil(sl);
-      ActiveFrame.UnMarkAll;
-    end;
-  end;
-end;
-
-procedure TfrmMain.actEditExecute(Sender: TObject);
-var
-//  sl:TStringList;
-  i:Integer;
-  fr:PFileRecItem;
-  sFileName,
-  sFilePath : String;
-begin
-  with ActiveFrame do
-  begin
-    if pnlFile.PanelMode in [pmArchive, pmVFS] then
-      begin
-        msgError(rsMsgErrNotSupported);
-        UnMarkAll;
-        Exit;
-      end;
-    SelectFileIfNoSelected(GetActiveItem);
-    try
-    // in this time we only one file process
-      for i:=0 to pnlFile.FileList.Count-1 do
-      begin
-      fr:=pnlFile.GetFileItemPtr(i);
-      if fr^.bSelected and not (FPS_ISDIR(fr^.iMode)) then
-        begin
-          sFileName := fr^.sName;
-          sFilePath := ActiveDir;
-          ShowEditorByGlob(GetSplitFileName(sFileName, sFilePath));
-          Break;
-        end;
-      end;
-    finally
-      ActiveFrame.UnMarkAll;
-    end;
-  end;
-end;
-
-procedure TfrmMain.actCopyExecute(Sender: TObject);
-begin
-  CopyFile(NotActiveFrame.ActiveDir);
-end;
-
-procedure TfrmMain.actRenameExecute(Sender: TObject);
-begin
-  RenameFile(NotActiveFrame.ActiveDir);
-end;
-
-procedure TfrmMain.actMakeDirExecute(Sender: TObject);
-var
-  sPath:String;
-begin
-  with ActiveFrame do
-  begin
-    try
-      if  pnlFile.PanelMode in [pmArchive, pmVFS] then // if in VFS
-        begin
-          if not (VFS_CAPS_MKDIR in pnlFile.VFS.VFSModule.VFSCaps) then
-            begin
-              msgOK(rsMsgErrNotSupported);
-              Exit;
-            end;
-        end; // in VFS
-        
-      sPath:=ActiveDir;
-      if not ShowMkDir(sPath) then Exit;
-      if (sPath='') then Exit;
-      
-      { Create directory in VFS }
-        if  ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then
-        begin
-          DebugLN('+++ Create directory in VFS +++');
-          ActiveFrame.pnlFile.VFS.VFSmodule.VFSMkDir(ActiveDir + sPath);
-          ActiveFrame.RefreshPanel;
-          Exit;
-        end;
-
-      { Create directory }
-
-      if (mbDirectoryExists(ActiveDir+sPath)) then
-      begin
-        msgError(Format(rsMsgErrDirExists,[ActiveDir+sPath]));
-        pnlFile.LastActive:=sPath;
-        pnlFile.LoadPanel;
-      end
-      else
-      begin
-        if not ForceDirectory(ActiveDir+sPath) then
-          begin
-            // write log
-            if (log_dir_op in gLogOptions) and (log_errors in gLogOptions) then
-              logWrite(Format(rsMsgLogError+rsMsgLogMkDir, [ActiveDir+sPath]), lmtError);
-
-            // Standart error modal dialog
-            msgError(Format(rsMsgErrForceDir,[ActiveDir+sPath]))
-          end
-        else
-        begin
-          // write log
-          if (log_dir_op in gLogOptions) and (log_success in gLogOptions) then
-            logWrite(Format(rsMsgLogSuccess+rsMsgLogMkDir,[ActiveDir+sPath]), lmtSuccess);
-
-          pnlFile.LastActive:=sPath;
-          pnlFile.LoadPanel;
-        end;
-      end;
-    finally
-      ActiveFrame.SetFocus;
-    end;
-  end;
-end;
-
-procedure TfrmMain.actDeleteExecute(Sender: TObject);
-var
-  fl:TFileList;
-  DT : TDeleteThread;
-begin
-  with ActiveFrame do
-  begin
-    if  pnlFile.PanelMode in [pmArchive, pmVFS] then // if in VFS
-      begin
-        if not (VFS_CAPS_DELETE in pnlFile.VFS.VFSModule.VFSCaps) then
-          begin
-            msgOK(rsMsgErrNotSupported);
-            Exit;
-          end;
-      end; // in VFS
-      
-    SelectFileIfNoSelected(GetActiveItem);
-  end;
-  
-  case msgYesNoCancel(GetFileDlgStr(rsMsgDelSel,rsMsgDelFlDr)) of
-    mmrNo:
-      begin
-        ActiveFrame.UnMarkAll;
-        Exit;
-      end;
-    mmrCancel:
-      begin
-	with ActiveFrame do  
-	  UnSelectFileIfSelected(GetActiveItem);
-        Exit;
-      end;
-  end;
-
-  fl:=TFileList.Create; // free at Thread end by thread
-  try
-    CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
-    
-    
-    (* Delete files from VFS *)
-    if  ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then // if in VFS
-      begin
-        DebugLN('+++ Delete files +++');
-        ActiveFrame.pnlFile.VFS.VFSmodule.VFSDelete(fl);
-        Exit;
-      end;
-      
-    (* Delete files *)
-    begin
-     if not Assigned(frmFileOp) then
-       frmFileOp:= TfrmFileOp.Create(Application);
-     try
-       DT := TDeleteThread.Create(fl);
-       DT.FFileOpDlg := frmFileOp;
-       DT.sDstPath:=NotActiveFrame.ActiveDir;
-       //DT.sDstMask:=sDstMaskTemp;
-       frmFileOp.Thread := TThread(DT);
-       frmFileOp.Show;
-       DT.Resume;
-     except
-       DT.Free;
-     end;
-    end;
-
-  except
-    FreeAndNil(frmFileOp);
-  end;
-end;
-
 procedure TfrmMain.FormResize(Sender: TObject);
 begin
   pnlLeft.Width:= (frmMain.Width div 2) - (MainSplitter.Width div 2);
@@ -1484,25 +862,6 @@ begin
   dskRight.Repaint;
 End;
 
-procedure TfrmMain.actAboutExecute(Sender: TObject);
-begin
-  ShowAboutBox;
-end;
-
-procedure TfrmMain.actShowSysFilesExecute(Sender: TObject);
-begin
-  uGlobs.gShowSystemFiles:=not uGlobs.gShowSystemFiles;
-  actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
-// we don't want any not visited files selected
-  if not uGlobs.gShowSystemFiles then
-  begin
-    frameLeft.pnlFile.MarkAllFiles(False);
-    frameRight.pnlFile.MarkAllFiles(False);
-  end;
-//repaint both panels
-  FrameLeft.pnlFile.UpdatePanel;
-  FrameRight.pnlFile.UpdatePanel;
-end;
 
 function TfrmMain.HandleActionHotKeys(var Key: Word; Shift: TShiftState):Boolean; // handled
 var
@@ -1519,14 +878,16 @@ begin
 }
          if (not edtCommand.Focused) or (Key = VK_F8) then
          begin
-           actDelete.Execute;
+           Actions.cm_Delete('');
+           //actDelete.Execute;
            Exit;
          end;
        end;
 
      VK_APPS:
        begin
-         actContextMenu.Execute;
+         Actions.cm_ContextMenu('');
+         //actContextMenu.Execute;
          Exit;
        end;
     end; // case
@@ -1623,34 +984,6 @@ begin
   Result:=False;
 end;
 
-procedure TfrmMain.actOptionsExecute(Sender: TObject);
-begin
-  inherited;
-  with TfrmOptions.Create(Application) do
-  begin
-    try
-      ShowModal;
-    finally
-      Free;
-    end;  
-  end;
-end;
-
-procedure TfrmMain.actOptionsExecute(Sender: TObject; Index:integer);
-begin
-  inherited;
-  with TfrmOptions.Create(Application) do
-  begin
-    try
-      Tag:=Index;
-      ShowModal;
-    finally
-      Free;
-    end;
-  end;
-end;
-
-
 procedure TfrmMain.FormKeyPress(Sender: TObject; var Key: Char);
 begin
 //  DebugLn('KeyPress:',Key);
@@ -1717,57 +1050,6 @@ begin
            FrameRight.pnAltSearch.Visible;
 end;
 
-procedure TfrmMain.actCompareContentsExecute(Sender: TObject);
-var
-  sFile1, sFile2:String;
-begin
-  inherited;
-
-  with FrameLeft do
-  begin
-    SelectFileIfNoSelected(GetActiveItem);
-    with pnlFile.GetActiveItem^ do
-    begin
-      if not FPS_ISDIR(iMode) then
-        sFile1 := ActiveDir + sName
-      else
-        begin
-          MsgOk(rsMsgErrNoFiles);
-          FrameLeft.UnMarkAll;
-          Exit;
-        end;
-    end;
-  end; // FrameLeft;
-
-  with FrameRight do
-  begin
-    SelectFileIfNoSelected(GetActiveItem);
-    with pnlFile.GetActiveItem^ do
-    begin
-      if not FPS_ISDIR(iMode) then
-        sFile2 := ActiveDir + sName
-      else
-        begin
-          MsgOk(rsMsgErrNoFiles);
-          FrameRight.UnMarkAll;
-          Exit;
-        end;
-    end;
-  end; // Frameright;
-
-  try
-    if gUseExtDiff then
-      begin
-        ExecCmdFork(Format('"%s" "%s" "%s"', [gExtDiff, sFile1, sFile2]));
-        Exit;
-      end;
-
-    ShowCmpFiles(sFile1, sFile2);
-  finally
-    FrameLeft.UnMarkAll;
-    FrameRight.UnMarkAll;
-  end;
-end;
 
 procedure TfrmMain.AppException(Sender: TObject; E: Exception);
 begin
@@ -1776,16 +1058,6 @@ begin
   Dump_Stack(StdErr, get_caller_frame(get_frame));
 end;
 
-procedure TfrmMain.actShowMenuExecute(Sender: TObject);
-begin
-  //gtk_menu_item_select(PGtkMenuItem(mnuFiles.Handle));
-end;
-
-procedure TfrmMain.actRefreshExecute(Sender: TObject);
-begin
-  inherited;
-  ActiveFrame.RefreshPanel;
-end;
 
 Function TfrmMain.GetFileDlgStr(sLngOne, sLngMulti:String):String;
 var
@@ -1803,40 +1075,6 @@ begin
   end;
 end;
 
-procedure TfrmMain.actMarkInvertExecute(Sender: TObject);
-begin
-  inherited;
-  ActiveFrame.InvertAllFiles;
-end;
-
-procedure TfrmMain.actMarkMarkAllExecute(Sender: TObject);
-begin
-  inherited;
-  ActiveFrame.MarkAll;
-end;
-
-procedure TfrmMain.actMarkUnmarkAllExecute(Sender: TObject);
-begin
-  inherited;
-  ActiveFrame.UnMarkAll;
-end;
-
-procedure TfrmMain.actDirHotListExecute(Sender: TObject);
-var
-  p:TPoint;
-begin
-  inherited;
-  CreatePopUpHotDir;// TODO: i thing in future this must call on create or change
-  p:=ActiveFrame.dgPanel.ClientToScreen(Classes.Point(0,0));
-  pmHotList.Popup(p.X,p.Y);
-end;
-
-procedure TfrmMain.actSearchExecute(Sender: TObject);
-begin
-  inherited;
-  DebugLn('ShowFindDlg');
-  ShowFindDlg(ActiveFrame.ActiveDir);
-end;
 
 procedure TfrmMain.miHotAddClick(Sender: TObject);
 begin
@@ -1952,11 +1190,6 @@ begin
   end;
 end;
 
-procedure TfrmMain.actDelete2Execute(Sender: TObject);
-begin
-  inherited;
-  actDelete.Execute;
-end;
 
 procedure TfrmMain.edtCommandKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
@@ -2017,174 +1250,6 @@ begin
 end;
 
 
-procedure TfrmMain.actMarkPlusExecute(Sender: TObject);
-begin
-  ActiveFrame.MarkPlus;
-end;
-
-procedure TfrmMain.actMarkMinusExecute(Sender: TObject);
-begin
-  ActiveFrame.MarkMinus;
-end;
-
-
-procedure TfrmMain.actSymLinkExecute(Sender: TObject);
-var
-  sFile1, sFile2:String;
-  Result: Boolean;
-begin
-  inherited;
-  try
-    with ActiveFrame do
-    begin
-      SelectFileIfNoSelected(GetActiveItem);
-      sFile2 := pnlFile.GetActiveItem^.sName;
-      sFile1 := ActiveDir + sFile2;
-      sFile2 := NotActiveFrame.ActiveDir + sFile2;
-    end;
-
-    Result:= ShowSymLinkForm(sFile1, sFile2);
-
-  finally
-    if Result then
-      begin
-        frameLeft.RefreshPanel;
-        frameRight.RefreshPanel;
-      end
-    else
-      begin
-        with ActiveFrame do
-	  UnSelectFileIfSelected(GetActiveItem);
-      end;
-    ActiveFrame.SetFocus;
-  end;
-end;
-
-procedure TfrmMain.actHardLinkExecute(Sender: TObject);
-var
-  sFile1, sFile2:String;
-  Result: Boolean;
-begin
-  inherited;
-  try
-    with ActiveFrame do
-    begin
-      SelectFileIfNoSelected(GetActiveItem);
-      sFile2 := pnlFile.GetActiveItem^.sName;
-      sFile1 := ActiveDir + sFile2;
-      sFile2 := NotActiveFrame.ActiveDir + sFile2;
-    end;
-    
-    Result:= ShowHardLinkForm(sFile1, sFile2);
-
-  finally
-    if Result then
-      begin
-        frameLeft.RefreshPanel;
-        frameRight.RefreshPanel;
-      end
-    else
-      begin
-        with ActiveFrame do
-	  UnSelectFileIfSelected(GetActiveItem);
-      end;
-    ActiveFrame.SetFocus;
-  end;
-end;
-
-procedure TfrmMain.actReverseOrderExecute(Sender: TObject);
-begin
-  inherited;
-  with ActiveFrame do
-  begin
-    pnlFile.SortDirection:= not pnlFile.SortDirection;
-    pnlFile.Sort;
-    RefreshPanel;
-  end;
-end;
-
-procedure TfrmMain.actSortByNameExecute(Sender: TObject);
-begin
-  inherited;
-  with ActiveFrame do
-  begin
-    pnlFile.SortByCol(0);
-    RefreshPanel;
-  end;
-end;
-
-procedure TfrmMain.actSortByExtExecute(Sender: TObject);
-begin
-  inherited;
-  with ActiveFrame do
-  begin
-    pnlFile.SortByCol(1);
-    RefreshPanel;
-  end;
-end;
-
-procedure TfrmMain.actSortBySizeExecute(Sender: TObject);
-begin
-  inherited;
-  with ActiveFrame do
-  begin
-    pnlFile.SortByCol(2);
-    RefreshPanel;
-  end;
-end;
-
-procedure TfrmMain.actSortByDateExecute(Sender: TObject);
-begin
-  inherited;
-  with ActiveFrame do
-  begin
-    pnlFile.SortByCol(3);
-    RefreshPanel;
-  end;
-end;
-
-procedure TfrmMain.actSortByAttrExecute(Sender: TObject);
-begin
-  inherited;
-  with ActiveFrame do
-  begin
-    pnlFile.SortByCol(4);
-    RefreshPanel;
-  end;
-end;
-
-procedure TfrmMain.actMultiRenameExecute(Sender: TObject);
-var
-  sl:TStringList;
-  i:Integer;
-  Result: Boolean;
-begin
-  with ActiveFrame do
-  begin
-    SelectFileIfNoSelected(GetActiveItem);
-
-    sl:=TStringList.Create;
-    try
-      for i:=0 to pnlFile.FileList.Count-1 do
-        if pnlFile.GetFileItem(i).bSelected then
-          sl.Add(ActiveDir+pnlFile.GetFileItem(i).sName);
-      if sl.Count>0 then
-        Result:= ShowMultiRenameForm(sl);
-    finally
-      FreeAndNil(sl);
-      if Result then
-        begin
-          frameLeft.RefreshPanel;
-          frameRight.RefreshPanel;
-        end
-      else
-        begin
-          UnSelectFileIfSelected(GetActiveItem);
-        end;
-      ActiveFrame.SetFocus;
-    end;
-  end;
-end;
 
 procedure TfrmMain.RenameFile(sDestPath:String);
 var
@@ -2386,62 +1451,6 @@ begin
     end;
 end;
 
-procedure TfrmMain.actCopySamePanelExecute(Sender: TObject);
-begin
-  CopyFile('');
-end;
-
-procedure TfrmMain.actRenameOnlyExecute(Sender: TObject);
-begin
-  RenameFile('');
-end;
-
-procedure TfrmMain.actEditNewExecute(Sender: TObject);
-var
-  sNewFile: String;
-  hFile: Integer;
-begin
-  sNewFile:=ActiveFrame.ActiveDir + rsEditNewFile;
-  if not InputQuery(rsEditNewOpen, rsEditNewFileName, sNewFile) then Exit;
-  if not mbFileExists(sNewFile) then
-    try
-      hFile:= mbFileCreate(sNewFile);
-    finally
-      FileClose(hFile);
-    end;  
-  try
-    ShowEditorByGlob(sNewFile);
-  finally
-    frameLeft.RefreshPanel;
-    frameRight.RefreshPanel;
-  end;
-end;
-
-procedure TfrmMain.actDirHistoryExecute(Sender: TObject);
-var
-  p:TPoint;
-begin
-  inherited;
-  CreatePopUpDirHistory;
-  p:=ActiveFrame.dgPanel.ClientToScreen(Classes.Point(0,0));
-  pmDirHistory.Popup(p.X,p.Y);
-end;
-
-procedure TfrmMain.actShowCmdLineHistoryExecute(Sender: TObject);
-begin
-  inherited;
-  if (edtCommand.Items.Count>0) then
-    edtCommand.DroppedDown:=True;
-end;
-
-procedure TfrmMain.actRunTermExecute(Sender: TObject);
-begin
-  if not edtCommand.Focused then
-    begin
-      mbSetCurrentDir(ActiveFrame.ActiveDir);
-      ExecCmdFork(gRunTerm);
-    end;
-end;
 
 procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
@@ -2488,7 +1497,8 @@ begin
           if FPS_ISDIR(pnlFile.GetActiveItem^.iMode) or (pnlFile.GetActiveItem^.bLinkIsDir) then
             pnlFile.cdDownLevel(pnlFile.GetActiveItem)
           else
-            actOpenArchive.Execute;
+            Actions.cm_OpenArchive('');
+            //actOpenArchive.Execute;
         end;
     end;
     Key:=0;
@@ -2526,14 +1536,16 @@ begin
   if (shift=[ssCtrl]) and (Key=VK_Up) then
   begin
     Key:=0;
-    actOpenDirInNewTab.Execute;
+    Actions.cm_OpenDirInNewTab('');
+    //actOpenDirInNewTab.Execute;
     Exit;
   end;
 
   if (shift=[ssCtrl]) and (Key=VK_Down) then
   begin
     Key:=0;
-    actShowCmdLineHistory.Execute;
+    Actions.cm_ShowCmdLineHistory('');
+    //actShowCmdLineHistory.Execute;
     Exit;
   end;
 
@@ -2610,16 +1622,6 @@ begin
   end;
 end;
 
-procedure TfrmMain.actCalculateSpaceExecute(Sender: TObject);
-begin
-  inherited;
-  with ActiveFrame do
-  begin
-    if FPS_ISDIR(pnlFile.GetActiveItem^.iMode) then
-      CalculateSpace(True);
-    // I don't know what to do if the item is file or something else
-  end;
-end;
 
 procedure TfrmMain.SetNotActFrmByActFrm;
 var
@@ -2641,21 +1643,6 @@ begin
   end;
 end;
 
-procedure TfrmMain.actFilePropertiesExecute(Sender: TObject);
-begin
-  inherited;
-  try
-    with ActiveFrame do
-    begin
-      SelectFileIfNoSelected(GetActiveItem);
-      ShowFilePropertiesDialog(pnlFile.FileList, ActiveDir);
-    end;
-  finally
-    frameLeft.RefreshPanel;
-    frameRight.RefreshPanel;
-    ActiveFrame.SetFocus;
-  end
-end;
 
 procedure TfrmMain.FramedgPanelEnter(Sender: TObject);
 begin
@@ -2694,7 +1681,7 @@ begin
           end;
     1001: //All columns
           begin
-            actOptionsExecute(Sender,15);
+            Actions.cm_Options('15');
             ReLoadTabs(nbLeft);
             ReLoadTabs(nbRight);
           end;
@@ -2766,7 +1753,8 @@ begin
 
   if (Button = mbRight) and ((gMouseSelectionButton<>1) or not gMouseSelectionEnabled) then
     begin
-      actContextMenu.Execute;
+      Actions.cm_ContextMenu('');
+      //actContextMenu.Execute;
     end;
 end;
 
@@ -2807,7 +1795,8 @@ procedure TfrmMain.FramelblLPathClick(Sender: TObject);
 begin
 //  DebugLn(TControl(Sender).Parent.Parent.ClassName);
   SetActiveFrame(TFrameFilePanel(TControl(Sender).Parent.Parent).PanelSelect);
-  actDirHistory.Execute;
+  Actions.cm_DirHistory('');
+  //actDirHistory.Execute;
 end;
 
 procedure TfrmMain.FramelblLPathMouseUp(Sender: TObject; Button: TMouseButton;
@@ -2817,7 +1806,8 @@ begin
   mbMiddle:
     begin
       SetActiveFrame(TFrameFilePanel(TControl(Sender).Parent.Parent).PanelSelect);
-      actDirHotList.Execute;
+      Actions.cm_DirHotList('');
+      //actDirHotList.Execute;
     end;
   mbRight:
     begin
@@ -3244,23 +2234,21 @@ begin
   
 end;
 
-function TfrmMain.ExecCmd(Cmd: string): Boolean;
+function TfrmMain.ExecCmd(Cmd: string; param:string=''): Boolean;
 begin
-  if actionLst.ActionByName(Cmd) <> nil then
-    Result := actionLst.ActionByName(Cmd).Execute
+  if actions.Execute(Cmd,'')>-1 then
+    Result:=true
   else
     Result := ExecCmdFork(Format('"%s"', [Cmd]));
 end;
 
 function TfrmMain.ExecCmdEx(NumberOfButton: Integer): Boolean;
-var Cmd:string;
+var Cmd,Param:string;
 begin
   Cmd:=MainToolBar.GetButtonX(NumberOfButton,CmdX);
-  if actionLst.ActionByName(Cmd) <> nil then
-   begin
-    actionLst.ActionByName(Cmd).Tag:=NumberOfButton;
-    Result := actionLst.ActionByName(Cmd).Execute;
-   end
+  Param:=MainToolBar.GetButtonX(NumberOfButton,ParamX);
+  if Actions.Execute(cmd,Param)>-1 then
+    Result:=true
   else
     Result := ExecCmdFork(Format('"%s"', [Cmd]));
 end;
@@ -3413,63 +2401,6 @@ begin
 end;
 
 
-procedure TfrmMain.actFileLinkerExecute(Sender: TObject);
-var
-  sl:TStringList;
-  i:Integer;
-begin
-
-  with ActiveFrame do
-  begin
-    SelectFileIfNoSelected(GetActiveItem);
-    sl:=TStringList.Create;
-    try
-      for i:=0 to pnlFile.FileList.Count-1 do
-        if pnlFile.GetFileItem(i).bSelected then
-          sl.Add(ActiveDir+pnlFile.GetFileItem(i).sName);
-      if sl.Count>1 then
-        ShowLinkerFilesForm(sl);
-    finally
-      FreeAndNil(sl);
-      FrameLeft.RefreshPanel;
-      FrameRight.RefreshPanel;
-      ActiveFrame.SetFocus;
-    end;
-  end;
-end;
-
-procedure TfrmMain.actFileSpliterExecute(Sender: TObject);
-var
-  sl:TStringList;
-  i:Integer;
-  Result: Boolean;
-begin
-  with ActiveFrame do
-  begin
-    SelectFileIfNoSelected(GetActiveItem);
-
-    sl:=TStringList.Create;
-    try
-      for i:=0 to pnlFile.FileList.Count-1 do
-        if pnlFile.GetFileItem(i).bSelected then
-          sl.Add(ActiveDir+pnlFile.GetFileItem(i).sName);
-      if sl.Count>0 then
-        Result:= ShowSplitterFileForm(sl);
-    finally
-      FreeAndNil(sl);
-      if Result then
-        begin
-          frameLeft.RefreshPanel;
-          frameRight.RefreshPanel;
-        end
-      else
-        begin
-          UnSelectFileIfSelected(GetActiveItem);
-        end;
-      ActiveFrame.SetFocus;
-    end;
-  end; // with
-end;
 
 procedure TfrmMain.tbEditClick(Sender: TObject);
 begin
@@ -3519,9 +2450,9 @@ end;
 procedure TfrmMain.SaveShortCuts;
 var
   i, count: Integer;
-  ini: TIniFileEx;
+  //ini: TIniFileEx;
 begin
-  ini:=TIniFileEx.Create(gpIniDir + 'shortcuts.ini');
+{  ini:=TIniFileEx.Create(gpIniDir + 'shortcuts.ini');
   try
     count := actionLst.ActionCount;
     for i := 0 to count-1 do
@@ -3530,7 +2461,8 @@ begin
     ini.UpdateFile;
   finally
     ini.Free;
-  end;
+  end;}
+  HotMan.Save(gpIniDir + 'shortcuts.ini');
 end;
 
 // Load ShortCuts from config file
@@ -3542,7 +2474,7 @@ var
   vShortCut: TShortCut;
 begin
   // ToDo Black list HotKey which can't use
-  ini:=TIniFileEx.Create(gpIniDir + 'shortcuts.ini');
+{  ini:=TIniFileEx.Create(gpIniDir + 'shortcuts.ini');
   try
     count := actionLst.ActionCount;
     for i := 0 to count-1 do
@@ -3560,7 +2492,9 @@ begin
     end; // for i
   finally
     ini.Free;
-  end;
+  end;}
+  
+  HotMan.Load(gpIniDir + 'shortcuts.ini');
 end;
 
 initialization
