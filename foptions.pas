@@ -73,7 +73,6 @@ type
     btnCopyColumnsSet: TButton;
     cbBackColor: TColorBox;
     cBackGrndLabel: TLabel;
-    cbActions: TComboBox;
     cbCaseSensitiveSort: TCheckBox;
     cbDirSelect: TCheckBox;
     cbDropReadOnlyFlag: TCheckBox;
@@ -116,6 +115,7 @@ type
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
+    edtParam: TEdit;
     edtCategoryAttr: TEdit;
     edtTabsLimitLength: TEdit;
     edtCopyBufferSize: TEdit;
@@ -161,11 +161,17 @@ type
     gbFileSearch: TGroupBox;
     gbLocConfigFiles: TGroupBox;
     gbSaveOnExit: TGroupBox;
+    lbcategory: TLabel;
+    Label3: TLabel;
+    lblParam: TLabel;
     lblWipePassNumber: TLabel;
     lblMouseMode: TLabel;
     lblConfigColumns: TLabel;
     lblCategoryAttr: TLabel;
     lblInstalledPlugins1: TLabel;
+    lbtypes: TLabel;
+    lbxCategories: TListBox;
+    lbxCommands: TListBox;
     lstColumnsSets: TListBox;
     pnlButtons: TPanel;
     pgColumns: TPage;
@@ -193,7 +199,6 @@ type
     lblAssociateWith: TLabel;
     lblExt: TLabel;
     lblAbout: TLabel;
-    lblActions: TLabel;
     lblEditorFont: TLabel;
     lblHotKey: TLabel;
     lblMainFont: TLabel;
@@ -301,6 +306,7 @@ type
     procedure lbCategoriesClick(Sender: TObject);
     procedure lbCategoriesDrawItem(Control: TWinControl; Index: Integer;
       ARect: TRect; State: TOwnerDrawState);
+    procedure lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
     procedure nbNotebookPageChanged(Sender: TObject);
     procedure pbExamplePaint(Sender: TObject);
     procedure pgBehavResize(Sender: TObject);
@@ -315,10 +321,9 @@ type
     { Public declarations }
     procedure FillLngListBox;
     procedure FillFontLists;
-    procedure FillActionLists;
     procedure FillFileColorsList;
     procedure FillColumnsList;
-    
+    procedure FillCommandsPage;
   end;
 
 implementation
@@ -326,6 +331,8 @@ implementation
 uses
   uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc, menus,
   uColorExt, uWCXModule, uWFXmodule, uDCUtils, uOSUtils,fColumnsSetConf,uhotkeymanger;
+
+
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
@@ -478,7 +485,6 @@ begin
   { Icons sizes in file panels }
   cbIconsSize.Text := IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize);
 
-  FillActionLists;
   FillLngListBox;
   FillFontLists;
   FillFileColorsList;
@@ -487,25 +493,59 @@ begin
 
 
    FillColumnsList;
+   
+   FillCommandsPage;
   
    nbNotebook.PageIndex := 0;  //let not warning on which page save form
+   
+   
   
 end;
 
 procedure TfrmOptions.btSetHotKeyClick(Sender: TObject);
 var vNum,i: integer;
     vActions: TAction;
+    Cat:string;
+    st:TStringList;
 begin
   // ToDo Black list HotKey which can't use
 //TODO: Realize full version of hotkey's using. Allow to bind hotkeys to any controls.
 
+if lbxCategories.ItemIndex=-1 then exit;
+if lbxCommands.ItemIndex=-1 then exit;
+  cat:=lbxCategories.Items[lbxCategories.ItemIndex];
+ if cat='Main' then
+ begin
   i:=HotMan.GetHotKeyIndex(ShortCutToTextEx(vShortCut));
   if i=-1 then
-    HotMan.AddHotKey(ShortCutToTextEx(vShortCut),cbActions.Text,'',frmMain)
+    HotMan.AddHotKey(ShortCutToTextEx(vShortCut),lbxCommands.Items[lbxCommands.ItemIndex],edtParam.Text,frmMain)
   else
    begin
-     ShowMessage('ShortCut used by '+THotkeyInfoClass(TStringList(TStringList(HotMan.HotkeyList.Objects[i]).Objects[0]).Objects[0]).ACommand);
+     st:=TStringList.Create;
+     HotMan.GetControlsListBy(ShortCutToTextEx(vShortCut),st);
+     
+     if st.IndexOf('frmMain')>-1 then
+       begin
+          HotMan.GetCommandsListBy(ShortCutToTextEx(vShortCut),st);
+          ShowMessage('ShortCut used by '+st.Text);
+       end
+       else
+         begin
+            HotMan.AddHotKey(ShortCutToTextEx(vShortCut),lbxCommands.Items[lbxCommands.ItemIndex],edtParam.Text,frmMain);
+            edtParam.Text:='';
+            edHotKey.Text:='';
+         end;
+
+     st.free;
    end;
+ end else
+ if cat='Lister' then
+   begin
+
+   end;
+   
+
+   
 end;
 
 
@@ -860,18 +900,6 @@ begin
   end; // with
 end;
 
-procedure TfrmOptions.FillActionLists;
-var vNum: integer;
-var vActions: TAction;
-begin
-{  for vNum := 0 to frmMain.actionLst.ActionCount -1 do
-  begin
-    vActions := frmMain.actionLst.Actions[vNum] as TAction;
-    cbActions.Items.AddObject(vActions.Name+'('+ShortCutToText(vActions.ShortCut)+')',vActions);
-  end;}
-cbActions.items.AddStrings(Actions.CommandList);
-end;
-
 procedure TfrmOptions.cbMainFontChange(Sender: TObject);
 begin
 //  edtTest1.Font.Name:=cbMainFont.Text;
@@ -894,6 +922,7 @@ begin
   TEdit(Sender).Text := ShortCutToTextEx(vShortCut);
   Key := 0;
   btSetHotKey.Enabled := (edHotKey.Text <> '');
+  btClearHotKey.Enabled := (edHotKey.Text <> '');
 end;
 
 procedure TfrmOptions.FormShow(Sender: TObject);
@@ -1193,7 +1222,7 @@ end;
 
 {/ WFX Plugins }
 
-{ File types category color }
+{ File lbtypes category color }
 
 procedure TfrmOptions.FillFileColorsList;
 var
@@ -1232,6 +1261,18 @@ begin
      lstColumnsSets.Items.AddStrings(ColSet.Items);
    end;
 
+end;
+
+procedure TfrmOptions.FillCommandsPage;
+begin
+actions.GetCategoriesList(lbxCategories.Items);
+if lbxCategories.Items.Count>0 then
+begin
+  lbxCategories.ItemIndex:=0;
+  lbxCategoriesSelectionChange(nil,false);
+end;
+
+//lbxCommands.items.AddStrings(actions.CommandList);
 end;
 
 procedure TfrmOptions.cbCategoryColorChange(Sender: TObject);
@@ -1281,6 +1322,14 @@ begin
        
      Canvas.TextOut(ARect.Left+2,ARect.Top+1,Items[Index]);
    end;
+end;
+
+procedure TfrmOptions.lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
+begin
+if lbxCategories.ItemIndex=-1 then exit;
+ Actions.GetCommandsByCategory( lbxCategories.items.Strings[lbxCategories.ItemIndex],lbxCommands.items);
+ lbxCommands.Sorted:=true;
+ 
 end;
 
 procedure TfrmOptions.nbNotebookPageChanged(Sender: TObject);
@@ -1450,22 +1499,32 @@ begin
   FillColumnsList;
 end;
 
-{/ File types category color }
+{/ File lbtypes category color }
 
 procedure TfrmOptions.btClearHotKeyClick(Sender: TObject);
-var vActions: TAction;
+var vActions: TAction; st:TStringList; cat:string; i:integer;
 begin
-{  vActions := cbActions.Items.Objects[cbActions.ItemIndex] as TAction;
-  vActions.ShortCut := TextToShortCut('');
-  cbActions.Items[cbActions.ItemIndex] := vActions.Name+'('+ShortCutToText(vActions.ShortCut)+')';
-  cbActions.Text := vActions.Name+'('+ShortCutToText(vActions.ShortCut)+')';}
-{if cbActions.ItemIndex=-1 then exit;
-showmessage(cbActions.Items.Strings[cbActions.ItemIndex]);
- HotMan.DeleteHotKey(HotMan.GetHotKeyIndex(cbActions.Items.Strings[cbActions.ItemIndex]));
- edHotKey.Text:='';}
- 
+
  //TODO: delete hotkey.
  //TODO:New interface for hotkeys
+
+//       edtParam.Text:='';
+//       edHotKey.Text:='';
+
+       
+ if lbxCategories.ItemIndex=-1 then exit;
+  cat:=lbxCategories.Items[lbxCategories.ItemIndex];
+ if cat='Main' then
+ begin
+    i:=HotMan.GetHotKeyIndex(ShortCutToTextEx(vShortCut));
+    if i=-1 then exit;
+    st:=TStringList.Create;
+     if HotMan.GetControlsListBy(ShortCutToTextEx(vShortCut),st)>0 then
+       begin
+         HotMan.DeleteHotKey(ShortCutToTextEx(vShortCut),frmMain);
+       end;
+    st.free;
+ end;
 end;
 
 procedure TfrmOptions.btnBackColor2Click(Sender: TObject);

@@ -127,6 +127,9 @@ type
      //---------------------
      //Index of hotkey in FHotList
      function GetHotKeyIndex(Hotkey:string; FromI:integer=0):integer;
+     function GetFormsListBy(Hotkey: string; List: TStringList): integer;
+     function GetControlsListBy(Hotkey: string; List: TStringList): integer;
+     function GetCommandsListBy(Hotkey: string; List: TStringList): integer;
      //---------------------
      procedure Save(FileName:string);
      procedure Load(FileName:string);
@@ -657,6 +660,73 @@ begin
     While (Result<Count) and (DoCompareText(Strings[Result],Hotkey)<>0) do Result:=Result+1;
     if Result=Count then Result:=-1;
   end;
+end;
+
+function THotKeyManager.GetFormsListBy(Hotkey: string; List: TStringList):integer;
+var i:integer;
+begin
+  i:=GetHotKeyIndex(Hotkey);
+  if i=-1 then
+    begin
+      Result:=0;
+      Exit;
+    end
+  else
+    begin
+      List.Clear;
+      List.AddStrings(TStringList(FHotList.Objects[i]));
+      Result:=list.Count;
+    end;
+end;
+
+function THotKeyManager.GetControlsListBy(Hotkey: string; List: TStringList
+  ): integer;
+var i,j:integer; st:TStringList;
+begin
+  i:=GetHotKeyIndex(Hotkey);
+  if i=-1 then
+    begin
+      Result:=0;
+      Exit;
+    end
+  else
+    begin
+    List.Clear;
+      //List.AddStrings(TStringList(FHotList.Objects[i]));
+      st:=TStringList.Create;
+      for j:=0 to TStringList(FHotList.Objects[i]).Count-1 do
+        begin
+          st.AddStrings(TStringList(TStringList(FHotList.Objects[i]).Objects[j]));
+        end;
+      List.AddStrings(st);
+      st.free;
+      Result:=list.Count;
+    end;
+end;
+
+function THotKeyManager.GetCommandsListBy(Hotkey: string; List: TStringList
+  ): integer;
+var i,j:integer; st:TStringList;
+begin
+  i:=GetHotKeyIndex(Hotkey);
+  if i=-1 then
+    begin
+      Result:=0;
+      Exit;
+    end
+  else
+    begin
+      st:=TStringList.Create;
+      List.Clear;
+      if GetControlsListBy(Hotkey,st)>0 then
+        for j:=0 to st.Count-1 do
+          begin
+            if Assigned(st.Objects[j]) then
+             list.Add(st.Strings[j]+'='+THotkeyInfoClass(st.Objects[j]).ACommand);
+          end;
+       st.Free;
+       Result:=list.Count;
+    end;
 end;
 
 
