@@ -92,6 +92,8 @@ type
     function GetButtonX(Index:integer; What:TInfor):string;
 
     procedure SetButtonX(Index:integer; What:Tinfor;Value: string);
+    procedure LoadFromIniFile(IniFile : TIniFile);
+    procedure SaveToIniFile(IniFile : TIniFile);
     procedure LoadFromFile(FileName : String);
     procedure SaveToFile(FileName : String);
     procedure RemoveButton(Index: Integer);
@@ -457,18 +459,15 @@ begin
   InitBounds;
 end;
 
-procedure TKAStoolBar.LoadFromFile(FileName: String);
-var
-  IniFile : Tinifile;
+procedure TKAStoolBar.LoadFromIniFile(IniFile : TIniFile);
+var  
   BtnCount, I : Integer;
 begin
   DeleteAllToolButtons;
   FPositionX := FTotalBevelWidth;
   FPositionY := FTotalBevelWidth;
-  IniFile := Tinifile.Create(FileName);
   BtnCount := IniFile.ReadInteger('Buttonbar', 'Buttoncount', 0);
-  CurrentBar:=FileName;
-
+  
   for I := 1 to BtnCount do
     begin
       AddButton('', GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'cmd' + IntToStr(I), '')),
@@ -485,21 +484,12 @@ begin
 
 
     end;
-  IniFile.Free;
 end;
 
-procedure TKAStoolBar.SaveToFile(FileName: String);
+procedure TKAStoolBar.SaveToIniFile(IniFile : TIniFile);
 var
-  IniFile : Tinifile;
   I : Integer;
 begin
-
-  //For cleaning. Without this saved file will contain removed buttons
-  If FileExists(FileName) then
-    DeleteFile(FileName);
-
-
-  IniFile := Tinifile.Create(FileName);
   IniFile.WriteInteger('Buttonbar', 'Buttoncount', FButtonsList.Count);
 
   for I := 0 to FButtonsList.Count - 1 do
@@ -510,6 +500,28 @@ begin
       IniFile.WriteString('Buttonbar', 'path' + IntToStr(I + 1), GetButtonX(I,PathX) );
       IniFile.WriteString('Buttonbar', 'menu' + IntToStr(I + 1),GetButtonX(I,MenuX) );
     end;
+end;
+
+procedure TKAStoolBar.LoadFromFile(FileName: String);
+var
+  IniFile : Tinifile;
+begin
+  IniFile:= TIniFile.Create(FileName);
+  CurrentBar:= FileName;
+  LoadFromIniFile(IniFile);
+  IniFile.Free;
+end;
+
+procedure TKAStoolBar.SaveToFile(FileName: String);
+var
+  IniFile : Tinifile;
+begin
+  //For cleaning. Without this saved file will contain removed buttons
+  If FileExists(FileName) then
+    DeleteFile(FileName);
+
+  IniFile := TInifile.Create(FileName);
+  SaveToIniFile(IniFile);
   IniFile.Free;
 end;
 

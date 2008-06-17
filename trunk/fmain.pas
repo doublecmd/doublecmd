@@ -356,6 +356,7 @@ uses
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 var
+  IniBarFile: TIniFileEx;
   I : Integer;
 begin
   inherited;
@@ -416,7 +417,9 @@ begin
       MainToolBar.ButtonGlyphSize := gToolBarIconSize;
       MainToolBar.ChangePath := gpExePath;
       MainToolBar.EnvVar := '%commander_path%';
-      MainToolBar.LoadFromFile(gpIniDir + 'default.bar')
+      IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
+      MainToolBar.LoadFromIniFile(IniBarFile);
+      IniBarFile.Free;
     end;
   (*Tool Bar*)
 
@@ -535,11 +538,9 @@ begin
   pmHotList.PopUp(P.x,P.y);
 end;
 
-
-
-
-
 procedure TfrmMain.FormDestroy(Sender: TObject);
+var
+  IniBarFile: TIniFileEx;
 begin
   DebugLn('frmMain.Destroy');
 
@@ -548,7 +549,9 @@ begin
   if gSaveCmdLineHistory then
     edtCommand.Items.SaveToFile(gpIniDir+cHistoryFile);
   {*Tool Bar*}
-  MainToolBar.SaveToFile(gpIniDir + 'default.bar');
+  IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
+  MainToolBar.SaveToIniFile(IniBarFile);
+  IniBarFile.Free;
   {*Tool Bar*}
 end;
 
