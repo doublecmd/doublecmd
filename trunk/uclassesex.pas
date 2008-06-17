@@ -119,7 +119,7 @@ var
   fsIniFile: TFileStreamEx;
 begin
   if mbFileExists(AFileName) then
-    fsIniFile:= TFileStreamEx.Create(AFileName, fmOpenReadWrite)
+    fsIniFile:= TFileStreamEx.Create(AFileName, fmOpenReadWrite or fmShareDenyNone)
   else
     fsIniFile:= TFileStreamEx.Create(AFileName, fmCreate);
   inherited Create(fsIniFile, AEscapeLineFeeds);
