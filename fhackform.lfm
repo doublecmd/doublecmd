@@ -5,7 +5,6 @@ object frmHackForm: TfrmHackForm
   Width = 400
   HorzScrollBar.Page = 399
   VertScrollBar.Page = 299
-  Caption = 'frmHackForm'
   OnShow = FormShow
   ShowInTaskBar = stNever
   LCLVersion = '0.9.25'
