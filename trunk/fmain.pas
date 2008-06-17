@@ -277,6 +277,7 @@ type
     procedure FramedgPanelEnter(Sender: TObject);
     procedure framedgPanelMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure FramedgPanelDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
     procedure ShowPathEdit;
@@ -1761,6 +1762,23 @@ begin
     end;
 end;
 
+procedure TfrmMain.FramedgPanelDragDrop(Sender, Source: TObject; X, Y: Integer);
+var
+  iRow, iCol: Integer;
+  fri: PFileRecItem;
+begin
+  if (Sender is TDrawGrid) then
+    with Sender as TDrawGrid do
+    begin
+      MouseToCell(X, Y, iCol, iRow);
+      fri:= (Parent as TFrameFilePanel).pnlFile.GetReferenceItemPtr(iRow - FixedRows); // substract fixed rows (header)
+      if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) then
+        CopyFile((Parent as TFrameFilePanel).ActiveDir + fri^.sName + PathDelim)
+      else
+        CopyFile((Parent as TFrameFilePanel).ActiveDir);
+    end;
+end;
+
 procedure TfrmMain.seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
   var Special: boolean; var FG, BG: TColor);
 var
@@ -2046,6 +2064,7 @@ begin
     
     dgPanel.OnEnter:=@framedgPanelEnter;
     dgPanel.OnMouseUp := @framedgPanelMouseUp;
+    dgPanel.OnDragDrop:= @FramedgPanelDragDrop;
 
   end;
 

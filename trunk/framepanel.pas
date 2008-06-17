@@ -339,8 +339,26 @@ end;
 
 procedure TFrameFilePanel.dgPanelDragOver(Sender, Source: TObject; X, Y: Integer;
   State: TDragState; var Accept: Boolean);
+var
+  iRow, iCol: Integer;
+  fri: PFileRecItem;
 begin
-  THackDrawGrid(dgPanel).FGridState := gsRowMoving;
+  THackDrawGrid(dgPanel).FGridState:= gsRowMoving;
+  dgPanel.MouseToCell(X, Y, iCol, iRow);
+  Accept:= False;
+
+  if iRow < dgPanel.FixedRows then Exit;
+
+  fri:= pnlFile.GetReferenceItemPtr(iRow - dgPanel.FixedRows); // substract fixed rows (header)
+  if FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir then
+    begin
+      dgPanel.Row:= iRow;
+      Accept:= True;
+    end
+  else if (Sender <> Source) then
+    begin
+      Accept:= True;
+    end;
 end;
 
 procedure TFrameFilePanel.dgPanelHeaderClick(Sender: TObject;
