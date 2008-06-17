@@ -213,7 +213,6 @@ begin
      if Pos('cm_',s)>0 then
        begin
          s:=copy(s,4,length(s)-3);
-         debugln('FillCommandsPage cmd- cm_: '+s);
          p:=pos('_',s);
          if p>0 then
            begin
