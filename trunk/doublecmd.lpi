@@ -49,7 +49,7 @@
         <PackageName Value="imagesforlazarus"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="31">
+    <Units Count="32">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -90,6 +90,7 @@
         <ComponentName Value="frmEditor"/>
         <HasResources Value="True"/>
         <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="feditor.lrs"/>
         <UnitName Value="fEditor"/>
       </Unit5>
@@ -289,6 +290,14 @@
         <ResourceFilename Value="fcolumnssetconf.lrs"/>
         <UnitName Value="fColumnsSetConf"/>
       </Unit30>
+      <Unit31>
+        <Filename Value="fhackform.pas"/>
+        <ComponentName Value="frmHackForm"/>
+        <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <ResourceFilename Value="fhackform.lrs"/>
+        <UnitName Value="fHackForm"/>
+      </Unit31>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

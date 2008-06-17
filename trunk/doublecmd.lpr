@@ -16,6 +16,7 @@ uses
   uLng,
   SysUtils,
   Forms,
+  fHackForm,
   fMain,
   fAbout,
   uFileList,
@@ -82,6 +83,7 @@ begin
   if LoadGlobs then
      begin
        LoadPixMapManager;
+       Application.CreateForm(TfrmHackForm, frmHackForm);
        Application.CreateForm(TfrmMain, frmMain); // main form
        Application.CreateForm(TdmHighl, dmHighl); // highlighters
        Application.CreateForm(TdmDlg, dmDlg); // dialogs

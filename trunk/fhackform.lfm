@@ -1,0 +1,12 @@
+object frmHackForm: TfrmHackForm
+  Left = 455
+  Height = 300
+  Top = 236
+  Width = 400
+  HorzScrollBar.Page = 399
+  VertScrollBar.Page = 299
+  Caption = 'frmHackForm'
+  OnShow = FormShow
+  ShowInTaskBar = stNever
+  LCLVersion = '0.9.25'
+end

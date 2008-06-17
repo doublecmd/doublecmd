@@ -4,11 +4,11 @@ object frmMain: TfrmMain
   Top = 91
   Width = 989
   HorzScrollBar.Page = 988
-  VertScrollBar.Page = 690
+  VertScrollBar.Page = 696
   VertScrollBar.Range = 79
   ActiveControl = nbRight
   Caption = 'Double Commander'
-  ClientHeight = 691
+  ClientHeight = 697
   ClientWidth = 989
   Font.Color = clBlack
   Font.Height = 13
@@ -23,10 +23,12 @@ object frmMain: TfrmMain
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
   OnKeyUp = frmMainKeyUp
+  OnPaint = FormPaint
   OnResize = FormResize
   OnShow = frmMainShow
   Position = poDesktopCenter
   ShowHint = True
+  ShowInTaskBar = stAlways
   LCLVersion = '0.9.25'
   object pnlSyncSize: TPanel
     Height = 26
@@ -84,18 +86,18 @@ object frmMain: TfrmMain
     end
   end
   object pnlNotebooks: TPanel
-    Height = 549
+    Height = 555
     Top = 50
     Width = 989
     Align = alClient
-    ClientHeight = 549
+    ClientHeight = 555
     ClientWidth = 989
     FullRepaint = False
     TabOrder = 1
     TabStop = True
     object MainSplitter: TSplitter
       Left = 171
-      Height = 509
+      Height = 515
       Top = 1
       Width = 4
       OnCanResize = MainSplitterCanResize
@@ -106,16 +108,16 @@ object frmMain: TfrmMain
     end
     object pnlLeft: TPanel
       Left = 1
-      Height = 509
+      Height = 515
       Top = 1
       Width = 170
       Align = alLeft
       BevelOuter = bvNone
-      ClientHeight = 509
+      ClientHeight = 515
       ClientWidth = 170
       TabOrder = 0
       object nbLeft: TNotebook
-        Height = 485
+        Height = 491
         Top = 24
         Width = 170
         Align = alClient
@@ -193,16 +195,16 @@ object frmMain: TfrmMain
     end
     object pnlRight: TPanel
       Left = 175
-      Height = 509
+      Height = 515
       Top = 1
       Width = 813
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 509
+      ClientHeight = 515
       ClientWidth = 813
       TabOrder = 1
       object nbRight: TNotebook
-        Height = 485
+        Height = 491
         Top = 24
         Width = 813
         Align = alClient
@@ -281,7 +283,7 @@ object frmMain: TfrmMain
     object pnlCommand: TPanel
       Left = 1
       Height = 38
-      Top = 510
+      Top = 516
       Width = 987
       Align = alBottom
       Anchors = [akLeft, akRight]
@@ -296,7 +298,7 @@ object frmMain: TfrmMain
         AnchorSideTop.Side = asrCenter
         Left = 1
         Height = 13
-        Top = 17
+        Top = 12
         Width = 33
         Alignment = taRightJustify
         Caption = 'Path'
@@ -305,12 +307,13 @@ object frmMain: TfrmMain
       end
       object edtCommand: TComboBox
         Left = 56
-        Height = 30
+        Height = 21
         Top = 8
         Width = 920
         TabStop = False
         Anchors = [akTop, akLeft, akRight]
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        ItemHeight = 13
         MaxLength = 0
         ParentCtl3D = False
         TabOrder = 0
@@ -333,7 +336,7 @@ object frmMain: TfrmMain
   end
   object pnlKeys: TPanel
     Height = 27
-    Top = 664
+    Top = 670
     Width = 989
     Align = alBottom
     Anchors = [akLeft, akRight]
@@ -426,15 +429,13 @@ object frmMain: TfrmMain
   end
   object seLogWindow: TSynEdit
     Height = 61
-    Top = 603
+    Top = 609
     Width = 989
     Align = alBottom
     Font.Height = -16
     Font.Name = 'courier'
     ParentColor = False
     TabOrder = 4
-    BookMarkOptions.OnChange = nil
-    Gutter.OnChange = nil
     Gutter.CodeFoldingWidth = 14
     Keystrokes = <    
       item
@@ -760,13 +761,12 @@ object frmMain: TfrmMain
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
-    SelectedColor.OnChange = nil
     OnSpecialLineColors = seLogWindowSpecialLineColors
   end
   object LogSplitter: TSplitter
     Cursor = crVSplit
     Height = 4
-    Top = 599
+    Top = 605
     Width = 989
     Align = alBottom
     ResizeAnchor = akBottom
@@ -779,70 +779,87 @@ object frmMain: TfrmMain
       Caption = 'Files'
       object mnuFilesLink: TMenuItem
         Action = actHardLink
+        OnClick = actExecute
       end
       object mnuFilesSymLink: TMenuItem
         Action = actSymLink
+        OnClick = actExecute
       end
       object miLine1: TMenuItem
         Caption = '-'
       end
       object mnuFilesProperties: TMenuItem
         Action = actFileProperties
+        OnClick = actExecute
       end
       object mnuFilesSpace: TMenuItem
         Action = actCalculateSpace
+        OnClick = actExecute
       end
       object mnuFilesCmpCnt: TMenuItem
         Action = actCompareContents
+        OnClick = actExecute
       end
       object miMultiRename: TMenuItem
         Action = actMultiRename
+        OnClick = actExecute
       end
       object miLine2: TMenuItem
         Caption = '-'
       end
       object mnuPackFiles: TMenuItem
         Action = actPackFiles
+        OnClick = actExecute
       end
       object mnuExtractFiles: TMenuItem
         Action = actExtractFiles
+        OnClick = actExecute
       end
       object mnuFilesSplit: TMenuItem
         Action = actFileSpliter
+        OnClick = actExecute
       end
       object mnuFilesCombine: TMenuItem
         Action = actFileLinker
         Caption = 'Combine Files'
+        OnClick = actExecute
       end
       object miLine3: TMenuItem
         Caption = '-'
       end
       object mnuFilesShwSysFiles: TMenuItem
         Action = actShowSysFiles
+        OnClick = actExecute
       end
       object miLine4: TMenuItem
         Caption = '-'
       end
       object miExit: TMenuItem
         Action = actExit
+        OnClick = actExecute
       end
     end
     object mnuMark: TMenuItem
       Caption = '&Mark'
       object mnuMarkSGroup: TMenuItem
         Action = actMarkPlus
+        OnClick = actExecute
       end
       object mnuMarkUGroup: TMenuItem
         Action = actMarkMinus
+        OnClick = actExecute
       end
       object mnuMarkSAll: TMenuItem
         Action = actMarkMarkAll
+        OnClick = actExecute
       end
       object mnuMarkUAll: TMenuItem
         Action = actMarkUnmarkAll
+        OnClick = actExecute
       end
       object mnuMarkInvert: TMenuItem
         Action = actMarkInvert
+        OnClick = actExecute
       end
       object miLine5: TMenuItem
         Caption = '-'
@@ -857,72 +874,89 @@ object frmMain: TfrmMain
       end
       object miCopyNamesToClip: TMenuItem
         Action = actCopyNamesToClip
+        OnClick = actExecute
       end
       object miCopyFullNamesToClip: TMenuItem
         Action = actCopyFullNamesToClip
+        OnClick = actExecute
       end
     end
     object mnuCmd: TMenuItem
       Caption = '&Commands'
       object mnuCmdSearch: TMenuItem
         Action = actSearch
+        OnClick = actExecute
       end
       object mnuCmdDirHotlist: TMenuItem
         Action = actDirHotList
+        OnClick = actExecute
       end
       object miLine6: TMenuItem
         Caption = '-'
       end
       object miRunTerm: TMenuItem
         Action = actRunTerm
+        OnClick = actExecute
       end
       object miLine9: TMenuItem
         Caption = '-'
       end
       object MenuItem1: TMenuItem
         Action = actOpenVFSList
+        OnClick = actExecute
       end
       object mnuCmdSwapSourceTarget: TMenuItem
         Action = actExchange
+        OnClick = actExecute
       end
       object mnuCmdTargetIsSource: TMenuItem
         Action = actTargetEqualSource
+        OnClick = actExecute
       end
     end
     object mnuShow: TMenuItem
       Caption = '&Show'
       object mnuShowName: TMenuItem
         Action = actSortByName
+        OnClick = actExecute
       end
       object mnuShowExtension: TMenuItem
         Action = actSortByExt
+        OnClick = actExecute
       end
       object mnuShowSize: TMenuItem
         Action = actSortBySize
+        OnClick = actExecute
       end
       object mnuShowTime: TMenuItem
         Action = actSortByDate
+        OnClick = actExecute
       end
       object mnuShowAttrib: TMenuItem
         Action = actSortByAttr
+        OnClick = actExecute
       end
       object miLine7: TMenuItem
         Caption = '-'
       end
       object mnuShowReverse: TMenuItem
         Action = actReverseOrder
+        OnClick = actExecute
       end
       object mnuShowReread: TMenuItem
         Action = actRefresh
+        OnClick = actExecute
       end
     end
     object mnuConfig: TMenuItem
       Caption = 'C&onfiguration'
       object mnuConfigOptions: TMenuItem
         Action = actOptions
+        OnClick = actExecute
       end
       object mnuFileAssoc: TMenuItem
         Action = actFileAssoc
+        OnClick = actExecute
       end
     end
     object mnuHelp: TMenuItem
@@ -930,6 +964,7 @@ object frmMain: TfrmMain
       OnClick = mnuHelpClick
       object mnuHelpAbout: TMenuItem
         Action = actAbout
+        OnClick = actExecute
       end
     end
   end
