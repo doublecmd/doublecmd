@@ -94,7 +94,7 @@ var
   LastToolButton, NewToolButton : Integer;
 
 implementation
-uses ActnList, LCLProc, fMain, uOSForms, uPixMapManager, uGlobsPaths, uGlobs;
+uses ActnList, LCLProc, uClassesEx, fMain, uOSForms, uPixMapManager, uGlobsPaths, uGlobs;
 
 procedure ShowConfigToolbar(iButtonIndex : Integer = -1);
 begin
@@ -128,6 +128,8 @@ begin
 end;
 
 procedure TfrmConfigToolBar.FormShow(Sender: TObject);
+var
+  IniBarFile: TIniFileEx;
 begin
   FillActionLists;
   kedtBarSize.Text := IntToStr(gToolBarIconSize);
@@ -136,7 +138,9 @@ begin
   ktbBar.FlatButtons := gToolBarFlat;
   ktbBar.ChangePath := gpExePath;
   ktbBar.EnvVar := '%commander_path%';
-  ktbBar.LoadFromFile(gpIniDir + 'default.bar');
+  IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
+  ktbBar.LoadFromIniFile(IniBarFile);
+  IniBarFile.Free;
   stToolBarFileName.Caption := gpIniDir + 'default.bar';
   if ktbBar.Tag >= 0 then
     begin
@@ -162,12 +166,16 @@ begin
 end;
 
 procedure TfrmConfigToolBar.btnOpenBarFileClick(Sender: TObject);
+var
+  IniBarFile: TIniFileEx;
 begin
   OpenDialog.FileName := stToolBarFileName.Caption;
   OpenDialog.Filter:= '*.bar|*.bar';
   if OpenDialog.Execute then
     begin
-      ktbBar.LoadFromFile(OpenDialog.FileName);
+      IniBarFile:= TIniFileEx.Create(OpenDialog.FileName);
+      ktbBar.LoadFromIniFile(IniBarFile);
+      IniBarFile.Free;
       stToolBarFileName.Caption := OpenDialog.FileName;
     end;
 end;
@@ -187,15 +195,19 @@ begin
 end;
 
 procedure TfrmConfigToolBar.btnOKClick(Sender: TObject);
+var
+  IniBarFile: TIniFileEx;
 begin
   Save;
   gToolBarIconSize := StrToIntDef(kedtBarSize.Text, 16);
   gToolBarFlat := cbFlatIcons.Checked;
-  ktbBar.SaveToFile(gpIniDir + 'default.bar');
+  IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
+  ktbBar.SaveToIniFile(IniBarFile);
   frmMain.MainToolBar.ButtonGlyphSize := gToolBarIconSize;
   frmMain.MainToolBar.DeleteAllToolButtons;
   frmMain.MainToolBar.FlatButtons := gToolBarFlat;
-  frmMain.MainToolBar.LoadFromFile(gpIniDir + 'default.bar');
+  frmMain.MainToolBar.LoadFromIniFile(IniBarFile);
+  IniBarFile.Free;
   Close;
 end;
 
