@@ -238,6 +238,7 @@ type
     procedure dskToolButtonClick(Sender: TObject; NumberOfButton: Integer);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormPaint(Sender: TObject);
     procedure lblDriveInfoDblClick(Sender: TObject);
     procedure MainSplitterCanResize(Sender: TObject; var NewSize: Integer;
       var Accept: Boolean);
@@ -344,6 +345,7 @@ type
 
 var
   frmMain: TfrmMain;
+  
 implementation
 
 uses
@@ -556,6 +558,18 @@ begin
   {*Tool Bar*}
 end;
 
+var
+  bFirstPaint: Boolean = True;
+
+procedure TfrmMain.FormPaint(Sender: TObject);
+begin
+  if bFirstPaint then
+    begin
+      SetFocus;
+      bFirstPaint:= False;
+    end;
+end;
+
 procedure TfrmMain.lblDriveInfoDblClick(Sender: TObject);
 begin
   if (Sender as TLabel).Name = 'lblRightDriveInfo' then
@@ -757,7 +771,8 @@ begin
   gIni.WriteBool('Configuration', 'maximized', (WindowState = wsMaximized));
   SaveGlobs; // must be last
  except
- end; 
+ end;
+ Application.Terminate;
 end;
 
 procedure TfrmMain.frmMainKeyUp(Sender: TObject; var Key: Word;
