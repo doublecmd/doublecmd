@@ -349,7 +349,7 @@ var
 implementation
 
 uses
-  Clipbrd, uTypes, fAbout, uGlobs, uLng, fOptions,{ fViewer,}fconfigtoolbar, fFileAssoc,
+  Clipbrd, LCLIntf, uTypes, fAbout, uGlobs, uLng, fOptions,{ fViewer,}fconfigtoolbar, fFileAssoc,
   uCopyThread, uFileList, uDeleteThread, uVFSUtil, uWCXModule, uVFSTypes, Masks,
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg, uClassesEx,
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils, uLog, uWipeThread,
@@ -1789,10 +1789,28 @@ begin
     begin
       MouseToCell(X, Y, iCol, iRow);
       fri:= (Parent as TFrameFilePanel).pnlFile.GetReferenceItemPtr(iRow - FixedRows); // substract fixed rows (header)
-      if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) then
-        CopyFile((Parent as TFrameFilePanel).ActiveDir + fri^.sName + PathDelim)
-      else
-        CopyFile((Parent as TFrameFilePanel).ActiveDir);
+      
+      if (GetKeyState(VK_SHIFT) and $8000) <> 0 then // if Shift then move
+        begin
+          if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) then
+            if fri^.sName = '..' then
+              RenameFile(LowDirLevel((Parent as TFrameFilePanel).ActiveDir))
+            else
+              RenameFile((Parent as TFrameFilePanel).ActiveDir + fri^.sName + PathDelim)
+          else
+            RenameFile((Parent as TFrameFilePanel).ActiveDir);      
+        end
+      else // else copy
+        begin
+          if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) then
+            if fri^.sName = '..' then
+              CopyFile(LowDirLevel((Parent as TFrameFilePanel).ActiveDir))
+            else
+              CopyFile((Parent as TFrameFilePanel).ActiveDir + fri^.sName + PathDelim)
+          else
+            CopyFile((Parent as TFrameFilePanel).ActiveDir);
+        end;
+      
     end;
 end;
 
