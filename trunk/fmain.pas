@@ -472,6 +472,7 @@ begin
   //DebugLn('frmMain.FormCreate Done');
   
   HotMan.RegisterHotkeyManager(Self);
+  HotMan.RegisterHotkeyManager(edtCommand);
 
   if hotman.HotkeyList.Count=0 then LoadDefaultHotkeyBindings;
 end;
