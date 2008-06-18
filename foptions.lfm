@@ -1122,6 +1122,7 @@ object frmOptions: TfrmOptions
           Top = 214
           Width = 200
           Caption = 'Use Inverted Selection'
+          OnChange = cbbUseInvertedSelectionChange
           TabOrder = 13
         end
       end

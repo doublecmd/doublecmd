@@ -276,6 +276,7 @@ type
     procedure btnOpenClick(Sender: TObject);
     procedure btnForeColorClick(Sender: TObject);
     procedure btnBackColorClick(Sender: TObject);
+    procedure cbbUseInvertedSelectionChange(Sender: TObject);
     procedure cbCategoryColorChange(Sender: TObject);
     procedure cbColorBoxChange(Sender: TObject);
     procedure cbDateTimeFormatChange(Sender: TObject);
@@ -584,6 +585,11 @@ begin
      cbBackColor.Color := optColorDialog.Color;
      pbExample.Repaint;
    end;
+end;
+
+procedure TfrmOptions.cbbUseInvertedSelectionChange(Sender: TObject);
+begin
+pbExample.Repaint;
 end;
 
 procedure TfrmOptions.cbColorBoxChange(Sender: TObject);
@@ -952,15 +958,33 @@ begin
     case I of
     1:
       begin
-        Brush.Color := cbBackColor.Color;
-        Font.Color := cbMarkColor.Color;
-        sText := 'Mark';
+       if  cbbUseInvertedSelection.Checked then
+         begin
+            Brush.Color := cbMarkColor.Color;
+            Font.Color := cbTextColor.Color;
+            sText := 'Mark';
+         end
+       else
+         begin
+            Brush.Color := cbBackColor2.Color;
+            Font.Color := cbMarkColor.Color;
+            sText := 'Mark';
+         end;
       end;
     2:
       begin
-        Brush.Color := cbBackColor2.Color;
-        Font.Color := cbMarkColor.Color;
-        sText := 'Mark';
+       if  cbbUseInvertedSelection.Checked then
+         begin
+            Brush.Color := cbMarkColor.Color;
+            Font.Color := cbTextColor.Color;
+            sText := 'Mark';
+         end
+       else
+         begin
+            Brush.Color := cbBackColor2.Color;
+            Font.Color := cbMarkColor.Color;
+            sText := 'Mark';
+         end;
       end;
     3:
       begin
@@ -982,9 +1006,18 @@ begin
       end;
     6:
       begin
-        Brush.Color := cbCursorColor.Color;
-        Font.Color := cbMarkColor.Color;
-        sText := 'Mark + Cursor';
+       if  cbbUseInvertedSelection.Checked then
+         begin
+            Brush.Color := cbCursorColor.Color;
+            Font.Color :=InvertColor(cbCursorText.Color);
+            sText := 'Mark + Cursor';
+         end
+       else
+         begin
+            Brush.Color := cbCursorColor.Color;
+            Font.Color := cbMarkColor.Color;
+            sText := 'Mark + Cursor';
+         end;
       end;
     end; // case
     
