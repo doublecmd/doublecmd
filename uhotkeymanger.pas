@@ -29,7 +29,7 @@ unit uhotkeymanger;
 interface
 
 uses
-  Classes, SysUtils,Controls,LCLProc,LCLType,LCLIntf,forms,uActs,IniFiles;
+  Classes, SysUtils,Controls,LCLProc,LCLType,LCLIntf,forms,uActs,uClassesEx;
 
 const
   scWin=$1000;
@@ -380,11 +380,12 @@ begin
         tmp:=FHotList.IndexOf(th.AShortCut);
       if tmp=-1 then
         tmp:=FHotList.AddObject(th.AShortCut,TStringList.Create);
-        
+
       //find form and add it in form list
   k:=TStringList(FHotList.Objects[tmp]).IndexOf(th.AObjectFormName);
   if k=-1 then
    k:=TStringList(FHotList.Objects[tmp]).AddObject(th.AObjectFormName,TStringList.Create);
+
   TStringList(TStringList(FHotList.Objects[tmp]).Objects[k]).AddObject(th.AObjectName,th);
 result:=tmp;
 end;
@@ -436,12 +437,12 @@ begin
 end;
 
 procedure THotKeyManager.Save(FileName: string);
-var i,j,k:integer; ini:TIniFile; fst,cst:TStringList; TH:THotkeyInfoClass;
+var i,j,k:integer; ini:TIniFileEx; fst,cst:TStringList; TH:THotkeyInfoClass;
 begin
   if FHotList.Count>0 then
   begin
     if FileExists(FileName) then DeleteFile(FileName);
-    ini:=TIniFile.Create(FileName);
+    ini:=TIniFileEx.Create(FileName);
     for i:=0 to FHotList.Count-1 do
        begin
          fst:=TStringList(FHotList.Objects[i]);
@@ -470,7 +471,7 @@ end;
 
 procedure THotKeyManager.Load(FileName: string);
 var st:TStringList;
-    ini:TIniFile;
+    ini:TIniFileEx;
     i,j,k,tmp:integer;
     sec,s:string;
     Th:THotkeyInfoClass;
@@ -478,7 +479,7 @@ begin
   //первый элемент листа контролов - сама форма
   Self.ClearHotKeyS;
   st:=TStringList.Create;
-  ini:=TIniFile.Create(FileName);
+  ini:=TIniFileEx.Create(FileName);
   ini.ReadSections(st);
 
   if st.Count>0 then
@@ -605,6 +606,7 @@ var hi,tmp:integer;
     par:TWinControl;
     TH:THotkeyInfoClass;
     st:TStringList;
+
 begin
 
  Result:=false;
@@ -637,7 +639,7 @@ begin
            //---------------------
            {if (TH.AObjectName=ObjInfo.AObject.Name) and
            ((ObjInfo.AObject is TCustomForm) or (TH.AObjectFormName=Par.Name)) then}
-           if (TH.AObjectName=ObjInfo.AObject.Name) then
+           if (CompareText(TH.AObjectName,ObjInfo.AObject.Name)=0) then
              begin
                Result:=true;
                FActions.Execute(TH.ACommand,TH.AParams);

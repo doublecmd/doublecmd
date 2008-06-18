@@ -472,7 +472,8 @@ begin
   //DebugLn('frmMain.FormCreate Done');
   
   HotMan.RegisterHotkeyManager(Self);
-  //HotMan.AddHotKey('winkey+a','cm_ContextMenu','',self);
+
+  if hotman.HotkeyList.Count=0 then LoadDefaultHotkeyBindings;
 end;
 
 
@@ -2485,52 +2486,14 @@ end;
 
 // Save ShortCuts to config file
 procedure TfrmMain.SaveShortCuts;
-var
-  i, count: Integer;
-  //ini: TIniFileEx;
 begin
-{  ini:=TIniFileEx.Create(gpIniDir + 'shortcuts.ini');
-  try
-    count := actionLst.ActionCount;
-    for i := 0 to count-1 do
-      with actionLst.Actions[i] as TAction do
-        ini.WriteString('SHORTCUTS', Name, ShortCutToText(ShortCut));
-    ini.UpdateFile;
-  finally
-    ini.Free;
-  end;}
   HotMan.Save(gpIniDir + 'shortcuts.ini');
 end;
 
 // Load ShortCuts from config file
 procedure TfrmMain.LoadShortCuts;
-var
-  i, j, count: Integer;
-  ini: TIniFileEx;
-  vAction: TAction;
-  vShortCut: TShortCut;
 begin
   // ToDo Black list HotKey which can't use
-{  ini:=TIniFileEx.Create(gpIniDir + 'shortcuts.ini');
-  try
-    count := actionLst.ActionCount;
-    for i := 0 to count-1 do
-    begin
-      vAction := actionLst.Actions[i] as TAction;
-      vShortCut := TextToShortCut(ini.ReadString('SHORTCUTS',
-        vAction.Name, ShortCutToText(vAction.ShortCut)));
-      if (ShortCutToText(vShortCut) <> ShortCutToText(vAction.ShortCut)) and (ShortCutToText(vShortCut) <> '') then
-      begin
-        for j := 0 to count-1 do
-        if (ShortCutToText(TAction(actionLst.Actions[j]).ShortCut) = ShortCutToText(vShortCut)) then
-           TAction(actionLst.Actions[j]).ShortCut := TextToShortCut('');
-        vAction.ShortCut := vShortCut;
-      end; // if
-    end; // for i
-  finally
-    ini.Free;
-  end;}
-  
   HotMan.Load(gpIniDir + 'shortcuts.ini');
 end;
 
