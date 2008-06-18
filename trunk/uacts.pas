@@ -55,6 +55,8 @@ const cf_Null=0;
    procedure cm_Exit(param: string='');
    procedure cm_NewTab(param: string='');
    procedure cm_RemoveTab(param: string='');
+   procedure cm_NextTab(param: string='');
+   procedure cm_PrevTab(param: string='');
    procedure cm_Copy(param: string='');
    procedure cm_Delete(param: string='');
    procedure cm_Edit(param: string='');
@@ -569,6 +571,51 @@ begin
     end;
   end;
 end;
+
+procedure TActs.cm_NextTab(param: string);
+begin
+with frmMain do
+  begin
+    case SelectedPanel of
+    fpLeft: begin
+               if nbLeft.PageIndex=nbLeft.PageCount-1 then
+                 nbLeft.PageIndex:=0
+               else
+                 nbLeft.PageIndex:=nbLeft.PageIndex+1;
+            end;
+
+    fpRight: begin
+               if nbRight.PageIndex=nbRight.PageCount-1 then
+                 nbRight.PageIndex:=0
+               else
+                 nbRight.PageIndex:=nbRight.PageIndex+1;
+             end;
+    end;
+  end;
+end;
+
+procedure TActs.cm_PrevTab(param: string);
+begin
+with frmMain do
+  begin
+    case SelectedPanel of
+    fpLeft: begin
+               if nbLeft.PageIndex=0 then
+                 nbLeft.PageIndex:=nbLeft.PageCount-1
+               else
+                 nbLeft.PageIndex:=nbLeft.PageIndex-1;
+            end;
+
+    fpRight: begin
+               if nbRight.PageIndex=0 then
+                 nbRight.PageIndex:=nbRight.PageCount-1
+               else
+                 nbRight.PageIndex:=nbRight.PageIndex-1;
+             end;
+    end;
+  end;
+end;
+
 //------------------------------------------------------
 
 procedure TActs.cm_View(param:string);
@@ -985,7 +1032,7 @@ end;
 
   //------------------------------------------------------
   
-  procedure TActs.cm_MarkInvert(param:string);
+procedure TActs.cm_MarkInvert(param:string);
 begin
   inherited;
   frmMain.ActiveFrame.InvertAllFiles;
