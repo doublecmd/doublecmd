@@ -924,7 +924,7 @@ end;
 procedure TfrmOptions.edHotKeyKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  vShortCut := ShortCutEx(Key,Shift);
+  vShortCut := ShortCutEx(Key,GetKeyShiftStateEx);
   TEdit(Sender).Text := ShortCutToTextEx(vShortCut);
   Key := 0;
   btSetHotKey.Enabled := (edHotKey.Text <> '');

@@ -248,6 +248,8 @@ begin
       AddHotKey('Alt+Z','cm_TargetEqualSource','','FrmMain','FrmMain');
       AddHotKey('Ctrl+U','cm_Exchange','','FrmMain','FrmMain');
       AddHotKey('Alt+Del','cm_Wipe','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+Tab','cm_NextTab','','FrmMain','FrmMain');
+      AddHotKey('Shift+Ctrl+Tab','cm_PrevTab','','FrmMain','FrmMain');
 //      AddHotKey('','cm_','','FrmMain','FrmMain');
     end;
 end;
