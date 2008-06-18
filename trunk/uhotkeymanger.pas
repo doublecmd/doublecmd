@@ -81,7 +81,7 @@ type
    //TODO: Всю тягомотину Hot->Forms->Controls->HotInfo выгести в отдельные классы
    
    THotkeyInfoClass=class
-     AShortCut,
+     AShortCut:TShortCut;
      ACommand,
      AParams,
      AObjectName,
@@ -344,9 +344,9 @@ begin
     
    if par is TCustomForm then
      begin
-      i:=FHotList.IndexOf(AHotKey);
+      i:=FHotList.IndexOf(ShortCutToTextEx(TextToShortCutEx(AHotKey)));
       if i=-1 then
-        i:=FHotList.AddObject(AHotKey,TStringList.Create);
+        i:=FHotList.AddObject(ShortCutToTextEx(TextToShortCutEx(AHotKey)),TStringList.Create);
       result:=i;
       st:=TStringList(FHotList.Objects[i]); //form list
       //---------------------
@@ -371,15 +371,15 @@ function THotKeyManager.AddHotKey(AHotKey, ACommand, AParams, AObjectName,
 var tmp,k:integer; TH:THotkeyInfoClass;
 begin
   Th:=THotkeyInfoClass.Create;
-  th.AShortCut:=AHotKey;
+  th.AShortCut:=TextToShortCutEx(AHotKey);
   th.ACommand:=ACommand;
   th.AParams:=AParams;
   th.AObjectName:=AObjectName;
   th.AObjectFormName:=AObjectFormName;
 
-        tmp:=FHotList.IndexOf(th.AShortCut);
+        tmp:=FHotList.IndexOf(ShortCutToTextEx(th.AShortCut));
       if tmp=-1 then
-        tmp:=FHotList.AddObject(th.AShortCut,TStringList.Create);
+        tmp:=FHotList.AddObject(ShortCutToTextEx(th.AShortCut),TStringList.Create);
 
       //find form and add it in form list
   k:=TStringList(FHotList.Objects[tmp]).IndexOf(th.AObjectFormName);
@@ -395,7 +395,7 @@ function THotKeyManager.DeleteHotKey(AHotKey, AObjectName,
 var i,j,k:integer;
 begin
   result:=false;
-  i:=GetHotKeyIndex(AHotKey);
+  i:=GetHotKeyIndex(ShortCutToTextEx(TextToShortCutEx(AHotKey)));
   if i=-1 then exit;
   j:=TStringList(FHotList.Objects[i]).IndexOf(AObjectFormName);
   if j=-1 then exit;
@@ -418,7 +418,7 @@ begin
 
    if par is TCustomForm then
      begin
-      i:=GetHotKeyIndex(AHotKey);
+      i:=GetHotKeyIndex(ShortCutToTextEx(TextToShortCutEx(AHotKey)));
       if i=-1 then exit;
       j:=TStringList(FHotList.Objects[i]).IndexOf(par.Name);
       if j=-1 then exit;
@@ -432,8 +432,8 @@ end;
 
 function THotKeyManager.ReplaceHotkey(AOldHotkey, ANewHotKey: string): integer;
 begin
-  Result:=GetHotKeyIndex(AOldHotkey);
-  FHotList.Strings[Result]:=ANewHotKey;
+  Result:=GetHotKeyIndex(ShortCutToTextEx(TextToShortCutEx(AOldHotkey)));
+  FHotList.Strings[Result]:=ShortCutToTextEx(TextToShortCutEx(ANewHotKey));
 end;
 
 procedure THotKeyManager.Save(FileName: string);
@@ -490,16 +490,16 @@ begin
       while ini.ValueExists(sec,'Command'+inttostr(j)) do
         begin
          Th:=THotkeyInfoClass.Create;
-         th.AShortCut:=sec;
+         th.AShortCut:=TextToShortCutEx(sec);
          th.ACommand:=ini.ReadString(sec,'Command'+inttostr(j),'');
          th.AParams:=ini.ReadString(sec,'Param'+inttostr(j),'');
          th.AObjectName:=ini.ReadString(sec,'Object'+inttostr(j),'');
          th.AObjectFormName:=ini.ReadString(sec,'Form'+inttostr(j),'');
             if Assigned(th) then
              begin
-              tmp:=FHotList.IndexOf(th.AShortCut);
+              tmp:=FHotList.IndexOf(ShortCutToTextEx(th.AShortCut));
               if tmp=-1 then
-                tmp:=FHotList.AddObject(th.AShortCut,TStringList.Create);
+                tmp:=FHotList.AddObject(ShortCutToTextEx(th.AShortCut),TStringList.Create);
               k:=TStringList(FHotList.Objects[tmp]).IndexOf(th.AObjectFormName);
               if k=-1 then
                 k:=TStringList(FHotList.Objects[tmp]).AddObject(th.AObjectFormName,TStringList.Create);
