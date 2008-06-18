@@ -185,6 +185,8 @@ function LoadGlobs : Boolean;
 procedure SaveGlobs;
 function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boolean;
 
+procedure LoadDefaultHotkeyBindings;
+
 procedure ResizeToScreen(Control:TControl; Width:integer=1024; Height:integer=768);
 
 // for debugging only, can be removed
@@ -199,6 +201,56 @@ var
 implementation
 uses
    Forms, LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils;
+
+procedure LoadDefaultHotkeyBindings;
+begin
+//  if not assigned(HotMan) then exit;
+  With HotMan do
+    begin
+      AddHotKey('Alt+X','cm_Exit','','FrmMain','FrmMain');
+      AddHotKey('F3','cm_View','','FrmMain','FrmMain');
+      AddHotKey('F4','cm_Edit','','FrmMain','FrmMain');
+      AddHotKey('F5','cm_Copy','','FrmMain','FrmMain');
+      AddHotKey('F6','cm_Rename','','FrmMain','FrmMain');
+      AddHotKey('F7','cm_MakeDir','','FrmMain','FrmMain');
+      AddHotKey('F1','cm_About','','FrmMain','FrmMain');
+      AddHotKey('F9','cm_ShowMenu','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+R','cm_Refresh','','FrmMain','FrmMain');
+      AddHotKey('Alt+F7','cm_Search','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+D','cm_DirHotList','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+F3','cm_SortByName','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+F4','cm_SortByExt','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+F6','cm_SortBySize','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+F5','cm_SortByDate','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+M','cm_MultiRename','','FrmMain','FrmMain');
+      AddHotKey('Shift+F5','cm_CopySamePanel','','FrmMain','FrmMain');
+      AddHotKey('Shift+F6','cm_RenameOnly','','FrmMain','FrmMain');
+      AddHotKey('Shift+F4','cm_EditNew','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+H','cm_DirHistory','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+7','cm_ShowCmdLineHistory','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+X','cm_RunTerm','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+L','cm_CalculateSpace','','FrmMain','FrmMain');
+      AddHotKey('Alt+Enter','cm_FileProperties','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+T','cm_NewTab','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+W','cm_RemoveTab','','FrmMain','FrmMain');
+      AddHotKey('Alt+F5','cm_PackFiles','','FrmMain','FrmMain');
+      AddHotKey('Alt+F9','cm_ExtractFiles','','FrmMain','FrmMain');
+      AddHotKey('Alt+F1','cm_LeftOpenDrives','','FrmMain','FrmMain');
+      AddHotKey('Alt+F2','cm_RightOpenDrives','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+P','cm_AddPathToCmdLine','','FrmMain','FrmMain');
+      AddHotKey('Shift+F2','cm_FocusCmdLine','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+Left','cm_TransferLeft','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+Right','cm_TransferRight','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+PgDn','cm_OpenArchive','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+S','cm_QuickSearch','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+Alt+X','cm_CopyNamesToClip','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+Alt+C','cm_CopyFullNamesToClip','','FrmMain','FrmMain');
+      AddHotKey('Alt+Z','cm_TargetEqualSource','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+U','cm_Exchange','','FrmMain','FrmMain');
+      AddHotKey('Alt+Del','cm_Wipe','','FrmMain','FrmMain');
+//      AddHotKey('','cm_','','FrmMain','FrmMain');
+    end;
+end;
 
 procedure ResizeToScreen(Control:TControl; Width:integer=1024; Height:integer=768);
 var SWidth, SHeight,
@@ -461,9 +513,7 @@ begin
   ColSet:=TPanelColumnsList.Create;
   ColSet.Load(gIni);
   //---------------------
-  
-  //TODO: Load hotkeys
-  //HotMan.Load();
+
 end;
 
 function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boolean;
