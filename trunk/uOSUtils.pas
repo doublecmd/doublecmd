@@ -115,7 +115,7 @@ function GetDiskFreeSpace(Path : String; var FreeSize, TotalSize : Int64) : Bool
    @param(LinkName Name of hard link)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function CreateHardLink(Path, LinkName: string) : Boolean;
+function CreateHardLink(Path, LinkName: String) : Boolean;
 {en
    Create a symbolic link
    @param(Path Name of file)
@@ -415,14 +415,18 @@ end;
 
 
 
-function CreateHardLink(Path, LinkName: string) : Boolean;
+function CreateHardLink(Path, LinkName: String) : Boolean;
 {$IFDEF MSWINDOWS}
+var
+  wPath, wLinkName: WideString;
 begin
-  Result := True;
+  Result:= True;
   try
-    uNTFSLinks.CreateHardlink(Path, LinkName);
+    wPath:= UTF8Decode(Path);
+    wLinkName:= UTF8Decode(LinkName);
+    uNTFSLinks.CreateHardlink(wPath, wLinkName);
   except
-    Result := False;
+    Result:= False;
   end;
 end;
 {$ELSE}

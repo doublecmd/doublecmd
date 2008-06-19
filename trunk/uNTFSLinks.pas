@@ -76,7 +76,7 @@ const
 (* To create symbolic link (works on Windows 2k/XP for directories only) *)
 function CreateSymlink( ATargetName, ALinkName: String; const options: TOptions = []): Boolean;
 (* To create hardlink(s) (works only for files) *)
-procedure CreateHardlink( AFileName, ALinkName: String; options: TOptions = []);
+procedure CreateHardlink( AFileName, ALinkName: WideString; options: TOptions = []);
 
 function FCreateSymlink(const fnLink, fnTarget: WideString): boolean;
 function FGetSymlinkInfo(const fn: WideString; var Target: WideString; var LinkType: TReparsePointType): boolean;
@@ -116,20 +116,20 @@ begin
 end;
 
 //-------------------------------------------------------------
-procedure _CreateHardlink( AFileName : String; AFileWCName : PWideChar; ALinkName: String; overwrite: Boolean );
+procedure _CreateHardlink( AFileName : WideString; ALinkName: WideString; overwrite: Boolean );
 var
-  aLinkWCFileName, aLinkFullName: Array[0..MAX_PATH] of WChar;
+  aLinkFullName: Array[0..MAX_PATH] of WChar;
   pwFilePart: LPWSTR;
   hFileSource: THandle;
   rStreamId: WIN32_STREAM_ID;
   cbPathLen, dwStreamHeaderSize, dwBytesWritten: DWORD;
   lpContext: Pointer;
 begin
-  StringToWidechar( ALinkName, aLinkWCFileName, MAX_PATH );
+  
 
   hFileSource :=
-    Windows.CreateFile(
-      PChar(AFileName),
+    Windows.CreateFileW(
+      PWChar(AFileName),
       GENERIC_READ or GENERIC_WRITE,
       FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
       nil,
@@ -142,7 +142,7 @@ begin
     raise Exception.Create('Can''t open file "'+AFileName+'"');
 
   try
-    cbPathLen := Windows.GetFullPathNameW( aLinkWCFileName, MAX_PATH,
+    cbPathLen := Windows.GetFullPathNameW( PWChar(ALinkName), MAX_PATH,
       aLinkFullName, pwFilePart );
     if cbPathLen<=0 then 
       raise Exception.Create('Invalid link name "'+ALinkName+'"');
@@ -203,7 +203,6 @@ var
   sExistedFile, sLinkName : String;
   dwAttributes : DWORD;
   rFindData: TWin32FindData;
-  awcFileName : Array[0..MAX_PATH] of WChar;
 begin
   dwAttributes := GetFileAttributes( PChar(ADirForLinks) );
   if dwAttributes=FILE_DOES_NOT_EXIST then
@@ -226,14 +225,7 @@ begin
       sLinkName := ADirForLinks+'\'+rFindData.cFileName;
       if (rFindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY)=0 then
         begin
-
-          awcFileName[
-            Windows.MultiByteToWideChar( 0, 0, PChar(sExistedFile),
-              MAX_PATH,awcFileName,MAX_PATH)
-            ] := #0;
-
-          _CreateHardlink( sExistedFile, awcFileName, sLinkName, 
-            optOverwrite in options );
+          _CreateHardlink( sExistedFile, sLinkName, optOverwrite in options );
         end
       else if optRecursive in options then
         begin
@@ -247,19 +239,18 @@ begin
 end;
 
 //-------------------------------------------------------------
-procedure CreateHardlink( AFileName, ALinkName: String; options: TOptions );
+procedure CreateHardlink( AFileName, ALinkName: WideString; options: TOptions );
 var
   dwAttributes: DWORD;
-  aFileSource : Array[0..MAX_PATH] of WChar;
 begin
-  dwAttributes := Windows.GetFileAttributes(PChar(AFileName));
+  dwAttributes := Windows.GetFileAttributesW(PWChar(AFileName));
   if dwAttributes=FILE_DOES_NOT_EXIST then 
     raise Exception.Create('File "'+AFileName+'" does not exist.');
   if (dwAttributes and FILE_ATTRIBUTE_DIRECTORY)<>0 then 
     raise Exception.Create('Can''t create hardlink for directory (file "'
       +AFileName+'").');
 
-  dwAttributes := Windows.GetFileAttributes(PChar(ALinkName));
+  dwAttributes := Windows.GetFileAttributesW(PWChar(ALinkName));
   if dwAttributes<>FILE_DOES_NOT_EXIST then
   begin
     if not(optOverwrite in options) then 
@@ -268,8 +259,7 @@ begin
       raise Exception.Create('Can''t overwrite directory "'+AFileName+'".');
   end;
 
-  StringToWidechar( AFileName, aFileSource, MAX_PATH );
-  _CreateHardlink( AFileName, aFileSource, ALinkName, optOverwrite in options );
+  _CreateHardlink( AFileName, ALinkName, optOverwrite in options );
 
 end;
 
@@ -303,7 +293,6 @@ var
   dwAttributes: DWORD;
   len : Integer;
   sFileName, sDirForLinks, sLinkName : String;
-  aFileSource : Array[0..MAX_PATH] of WChar;
 begin
   dwAttributes := Windows.GetFileAttributes(PChar(AFileName));
   if dwAttributes=FILE_DOES_NOT_EXIST then 
@@ -320,10 +309,7 @@ begin
         if (dwAttributes and FILE_ATTRIBUTE_DIRECTORY)<>0 then 
           raise Exception.Create('Can''t overwrite directory "'+AFileName+'".');
       end;
-      StringToWidechar( AFileName, aFileSource, MAX_PATH );
-      _CreateHardlink( AFileName, aFileSource, sLinkName, 
-        optOverwrite in options );
-
+      _CreateHardlink( AFileName, sLinkName, optOverwrite in options );
     end
   else
     begin
