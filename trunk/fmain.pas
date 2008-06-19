@@ -360,14 +360,20 @@ uses
 procedure TfrmMain.FormCreate(Sender: TObject);
 var
   IniBarFile: TIniFileEx;
+  slCommandHistory: TStringListEx;
   I : Integer;
 begin
   inherited;
   SetMyWndProc(Handle);
   Application.OnException := @AppException;
 
-  if FileExists(gpIniDir+cHistoryFile) then
-    edtCommand.Items.LoadFromFile(gpIniDir+cHistoryFile);
+  if mbFileExists(gpIniDir+cHistoryFile) then
+    begin
+      slCommandHistory:= TStringListEx.Create;
+      slCommandHistory.LoadFromFile(gpIniDir+cHistoryFile);
+      edtCommand.Items.Assign(slCommandHistory);
+      slCommandHistory.Free;
+    end;
 
   Left := gIni.ReadInteger('Configuration', 'Main.Left', Left);
   Top := gIni.ReadInteger('Configuration', 'Main.Top', Top);
@@ -546,13 +552,19 @@ end;
 procedure TfrmMain.FormDestroy(Sender: TObject);
 var
   IniBarFile: TIniFileEx;
+  slCommandHistory: TStringListEx;
 begin
   DebugLn('frmMain.Destroy');
 
   //ColSet.Free;
 
   if gSaveCmdLineHistory then
-    edtCommand.Items.SaveToFile(gpIniDir+cHistoryFile);
+    begin
+      slCommandHistory:= TStringListEx.Create;
+      slCommandHistory.Assign(edtCommand.Items);
+      slCommandHistory.SaveToFile(gpIniDir+cHistoryFile);
+      slCommandHistory.Free;
+    end;  
   {*Tool Bar*}
   IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
   MainToolBar.SaveToIniFile(IniBarFile);
