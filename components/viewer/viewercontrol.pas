@@ -402,12 +402,16 @@ end;
 
 Function TViewerControl.MapFile(const sFileName:String):Boolean;
 {$IFDEF WIN32}
+var
+  wFileName: WideString;
 begin
   Result:=False;
   if assigned(FMappedFile) then
     UnMapFile; // if needed
 
-  FFileHandle := FileOpen(sFileName, fmOpenRead);
+  wFileName:= UTF8Decode(sFileName);
+  FFileHandle:= CreateFileW(PWChar(wFileName), GENERIC_READ, 0, nil, OPEN_EXISTING,
+                            FILE_ATTRIBUTE_NORMAL, 0);
   FFileSize := GetFileSize(FFileHandle, nil);
   
   FMappingHandle := CreateFileMapping(FFileHandle, nil, PAGE_READONLY, 0, 0, nil);
