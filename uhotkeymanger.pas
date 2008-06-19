@@ -81,7 +81,7 @@ type
    //TODO: Всю тягомотину Hot->Forms->Controls->HotInfo выгести в отдельные классы
    
    THotkeyInfoClass=class
-     AShortCut:TShortCut;
+//     AShortCut:TShortCut;
      ACommand,
      AParams,
      AObjectName,
@@ -185,7 +185,7 @@ begin
       Shift := Shift or scCtrl
     else if CompareFront(StartPos, MenuKeyCaps[mkcAlt]) then
       Shift := Shift or scAlt
-    else if CompareFront(StartPos, 'WinKey') then
+    else if CompareFront(StartPos, 'WinKey+') then
       Shift := Shift or scWin
     else
       Break;
@@ -359,6 +359,7 @@ begin
       //---------------------
       k:=st.AddObject(AObject.Name,THotkeyInfoClass.Create);
       TH:=THotkeyInfoClass(st.Objects[k]);
+     // th.AShortCut:=TextToShortCutEx(AHotKey);
       Th.ACommand:=ACommand;
       TH.AParams:=AParams;
       TH.AObjectName:=AObject.Name;
@@ -371,15 +372,16 @@ function THotKeyManager.AddHotKey(AHotKey, ACommand, AParams, AObjectName,
 var tmp,k:integer; TH:THotkeyInfoClass;
 begin
   Th:=THotkeyInfoClass.Create;
-  th.AShortCut:=TextToShortCutEx(AHotKey);
+ // th.AShortCut:=TextToShortCutEx(AHotKey);
   th.ACommand:=ACommand;
   th.AParams:=AParams;
   th.AObjectName:=AObjectName;
   th.AObjectFormName:=AObjectFormName;
 
-        tmp:=FHotList.IndexOf(ShortCutToTextEx(th.AShortCut));
+  
+        tmp:=FHotList.IndexOf(ShortCutToTextEx(TextToShortCutEx(AHotKey)));
       if tmp=-1 then
-        tmp:=FHotList.AddObject(ShortCutToTextEx(th.AShortCut),TStringList.Create);
+        tmp:=FHotList.AddObject(ShortCutToTextEx(TextToShortCutEx(AHotKey)),TStringList.Create);
 
       //find form and add it in form list
   k:=TStringList(FHotList.Objects[tmp]).IndexOf(th.AObjectFormName);
@@ -490,16 +492,16 @@ begin
       while ini.ValueExists(sec,'Command'+inttostr(j)) do
         begin
          Th:=THotkeyInfoClass.Create;
-         th.AShortCut:=TextToShortCutEx(sec);
+         //th.AShortCut:=TextToShortCutEx(sec);
          th.ACommand:=ini.ReadString(sec,'Command'+inttostr(j),'');
          th.AParams:=ini.ReadString(sec,'Param'+inttostr(j),'');
          th.AObjectName:=ini.ReadString(sec,'Object'+inttostr(j),'');
          th.AObjectFormName:=ini.ReadString(sec,'Form'+inttostr(j),'');
             if Assigned(th) then
              begin
-              tmp:=FHotList.IndexOf(ShortCutToTextEx(th.AShortCut));
+              tmp:=FHotList.IndexOf(ShortCutToTextEx(TextToShortCutEx(sec)));
               if tmp=-1 then
-                tmp:=FHotList.AddObject(ShortCutToTextEx(th.AShortCut),TStringList.Create);
+                tmp:=FHotList.AddObject(ShortCutToTextEx(TextToShortCutEx(sec)),TStringList.Create);
               k:=TStringList(FHotList.Objects[tmp]).IndexOf(th.AObjectFormName);
               if k=-1 then
                 k:=TStringList(FHotList.Objects[tmp]).AddObject(th.AObjectFormName,TStringList.Create);
@@ -759,7 +761,7 @@ procedure THotKeyManager.KeyDownHandler(Sender: TObject; var Key: Word; Shift: T
       Sinfo:TObjInfoClass;
       i,j:integer;
       Handled:boolean;
-
+      sk:string;
 begin
 
  {предварительная проверка - зарегистрирован ли хоткей вообще,
@@ -767,6 +769,7 @@ begin
  //if GetHotKeyIndex(KeyToText(Key))=-1 then exit;
 
  Handled:=false;
+ sk:=KeyToText(Key);
 
  i:=FFormsList.IndexOf((Sender as TWinControl).Name);
  if i=-1 then exit;
@@ -778,7 +781,7 @@ begin
       if Assigned(Sinfo.AChilds.Objects[j]) then
       if (TObjInfoClass(Sinfo.AChilds.Objects[j]).AObject as TWinControl).Focused then
         begin
-           Handled:=HotKeyEvent(KeyToText(Key),TObjInfoClass(Sinfo.AChilds.Objects[j]));
+           Handled:=HotKeyEvent(sk,TObjInfoClass(Sinfo.AChilds.Objects[j]));
            if Handled then key:=0
          else
            //Оригинальный onKeyDown контрола
@@ -787,7 +790,7 @@ begin
    end;
 
   //Наш глобальный хоткей
-  Handled:=HotKeyEvent(KeyToText(Key),Sinfo);
+  Handled:=HotKeyEvent(sk,Sinfo);
   //Оригинальный OnKeyDown
   if not Handled then
     Handled:=OrigFormKeyDown(Sinfo) else Key:=0;
