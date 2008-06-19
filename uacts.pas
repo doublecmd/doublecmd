@@ -591,6 +591,7 @@ with frmMain do
                  nbRight.PageIndex:=nbRight.PageIndex+1;
              end;
     end;
+   ActiveFrame.SetFocus;
   end;
 end;
 
@@ -613,6 +614,7 @@ with frmMain do
                  nbRight.PageIndex:=nbRight.PageIndex-1;
              end;
     end;
+  ActiveFrame.SetFocus;
   end;
 end;
 
