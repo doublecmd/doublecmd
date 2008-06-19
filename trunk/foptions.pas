@@ -966,7 +966,7 @@ begin
          end
        else
          begin
-            Brush.Color := cbBackColor1.Color;
+            Brush.Color := cbBackColor.Color;
             Font.Color := cbMarkColor.Color;
             sText := 'Mark';
          end;
