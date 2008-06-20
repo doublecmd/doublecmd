@@ -69,7 +69,7 @@ function FindStat64 (Var Rslt : TSearchRec) :TFindStatus;
 {$ENDIF} //*nix systems
 
 implementation
-uses LCLProc;
+uses LCLProc, uFileOp;
 
 {$IFDEF UNIX} //*nix systems
 
