@@ -99,6 +99,7 @@ const cf_Null=0;
    procedure cm_FileProperties(param: string='');
    procedure cm_FileLinker(param: string='');
    procedure cm_FileSpliter(param: string='');
+   procedure cm_PanelsSplitterPerPos(param: string='');
 
    //---------------------
    {   procedure SomeFunction (param:string; var Result:integer);
@@ -1404,6 +1405,18 @@ begin
         ActiveFrame.SetFocus;
       end;
     end; // with
+  end;
+end;
+
+procedure TActs.cm_PanelsSplitterPerPos(param: string);
+var i:integer;
+begin
+  with frmMain do
+  begin
+   if TryStrToInt(param,i) then
+     begin
+       pnlLeft.Width:= (pnlNoteBooks.Width-MainSplitter.Width) * i div 100;
+     end;
   end;
 end;
 

@@ -805,7 +805,7 @@ procedure TfrmMain.mnuSplitterPercentClick(Sender: TObject);
 begin
   with (Sender as TMenuItem) do
   begin
-    pnlLeft.Width:= (pnlNoteBooks.Width-MainSplitter.Width) * Tag div 100;
+    Actions.cm_PanelsSplitterPerPos(inttostr(Tag));
   end;
 end;
 
