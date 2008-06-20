@@ -1829,9 +1829,10 @@ end;
 procedure TfrmMain.seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
   var Special: boolean; var FG, BG: TColor);
 var
-  LogMsgType : TLogMsgType;
+  LogMsgTypeObject: TObject;
+  LogMsgType : TLogMsgType absolute LogMsgTypeObject;
 begin
-  LogMsgType := TLogMsgType(seLogWindow.Lines.Objects[Line-1]);
+  LogMsgTypeObject := seLogWindow.Lines.Objects[Line-1];
   Special := True;
   case LogMsgType of
   lmtInfo:

@@ -62,11 +62,12 @@ uses
 procedure logWrite(const sText:String; LogMsgType : TLogMsgType);
 var
   hLogFile: Integer;
+  LogMsgTypeObject: TObject absolute LogMsgType;
 begin
   if Assigned(fMain.frmMain) and gLogWindow then // if write log to window
   with fMain.frmMain.seLogWindow do
     begin
-      CaretY := Lines.AddObject(sText, TObject(LogMsgType)) + 1;
+      CaretY := Lines.AddObject(sText, LogMsgTypeObject) + 1;
     end;
 
   if gLogFile then // if write log to file

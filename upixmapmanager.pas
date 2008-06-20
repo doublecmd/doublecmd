@@ -51,12 +51,12 @@ type
   private
     FExtList:TStringList;
     FPixmapList:TStringList;
-    FiDirIconID: Integer;
-    FiDirLinkIconID: Integer;
-    FiLinkIconID: Integer;
-    FiUpDirIconID: Integer;
-    FiDefaultIconID: Integer;
-    FiArcIconID : Integer;
+    FiDirIconID: PtrInt;
+    FiDirLinkIconID: PtrInt;
+    FiLinkIconID: PtrInt;
+    FiUpDirIconID: PtrInt;
+    FiDefaultIconID: PtrInt;
+    FiArcIconID : PtrInt;
     FFirstIconSize,
     FSecondIconSize,
     FThirdIconSize : TDriveIcons;
@@ -74,7 +74,7 @@ type
     function GetBitmap(iIndex:Integer; BkColor : TColor):TBitmap;
     function GetStretchBitmap(iIndex: Integer; BkColor : TColor; iSize : Integer): TBitmap;
     function DrawBitmap(iIndex: Integer; Canvas : TCanvas; Rect : TRect) : Boolean;
-    Function GetIconByFile(fi:PFileRecItem; PanelMode: TPanelMode):Integer;
+    Function GetIconByFile(fi:PFileRecItem; PanelMode: TPanelMode):PtrInt;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
   end;
 
@@ -367,7 +367,7 @@ var
   s:String;
   sExt, sPixMap:String;
   iekv:integer;
-  iPixMap:Integer;
+  iPixMap:PtrInt;
   sPixMapSize : String;
   I : Integer;
   Plugins : TStringList;
@@ -563,7 +563,7 @@ begin
 {$ENDIF}
 end;
 
-function TPixMapManager.GetIconByFile(fi: PFileRecItem; PanelMode: TPanelMode): Integer;
+function TPixMapManager.GetIconByFile(fi: PFileRecItem; PanelMode: TPanelMode): PtrInt;
 var
   Ext : String;
 {$IFDEF MSWINDOWS}
@@ -647,7 +647,7 @@ begin
     {$ENDIF}
       Exit;
     end;
-    Result:=Integer(FExtList.Objects[Result]);
+    Result:=PtrInt(FExtList.Objects[Result]);
 //    writeln(Result);
   end;
 end;
