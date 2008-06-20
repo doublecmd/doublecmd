@@ -804,7 +804,7 @@ begin
  For i:=0 to FuncList.Count-1 do
    begin
      //Item is simpletext
-     if Integer(FuncList.Objects[i])=0 then
+     if PtrInt(FuncList.Objects[i])=0 then
        s:=s+FuncList[I]
      else
      //Item is function

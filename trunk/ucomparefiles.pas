@@ -56,7 +56,7 @@ var
   sLeftHexLine, sRightHexLine:String;
   iDif:Integer;
   iLineCount:Integer;
-  iDiffed:Integer;
+  iDiffed:PtrInt;
 
 procedure ClearLines;
 begin
