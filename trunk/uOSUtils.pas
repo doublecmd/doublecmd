@@ -402,7 +402,9 @@ var
 begin
     statfs(PChar(Path),sbfs);
     FreeSize := (Int64(sbfs.bavail)*sbfs.bsize);
+{$IFDEF CPU32}
     TotalSize := (Int64(sbfs.blocks)*sbfs.bsize);
+{$ENDIF}
 end;
 {$ELSE}
 var
