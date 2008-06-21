@@ -301,6 +301,18 @@ ulng.rsconfcolalign='Align'
 ulng.rsconfcolfieldcont='Field contents'
 
 
+# hash value = 345797
+ulng.rsconfcolmove='Move'
+
+
+# hash value = 78007543
+ulng.rsconfcolconfig='Config'
+
+
+# hash value = 243859392
+ulng.rsconfcustheader='Customize column: '
+
+
 # hash value = 206743977
 ulng.rspropsyes='Yes (%s)'
 
