@@ -138,6 +138,9 @@ implementation
 uses
   LCLProc, LCLType, uGlobs, uLog, uVFSutil, uFileOp, uOSUtils, uFileProcs, uLng, Dialogs, Forms, Controls;
 
+var
+  WFXModuleList: TList = nil;
+  
 { TWFXModule }
 
 procedure TWFXModule.FsFillAndCount(var fl: TFileList; out FilesSize: Int64);
@@ -318,7 +321,7 @@ begin
   Result := 0;
   DebugLN ('MainProgressProc ('+IntToStr(PluginNr)+','+SourceName+','+TargetName+','+inttostr(PercentDone)+')' ,inttostr(result));
 
-  with TWFXModule(Pointer(PluginNr + $80000000)) do
+  with TWFXModule(WFXModuleList.Items[PluginNr]) do
   begin
     if FFileOpDlg.ModalResult = mrCancel then // Cancel operation
       Result := 1;
@@ -498,7 +501,7 @@ function TWFXModule.VFSOpen(const sName: String; bCanYouHandleThisFile : Boolean
 var dps:pFsDefaultParamStruct;
 begin
   Debugln('WFXVFSOpen entered');
-  Result := (FsInit(Cardinal(Self) - $80000000, @MainProgressProc, @MainLogProc, @MainRequestProc) = 0);
+  Result := (FsInit(WFXModuleList.Add(Self), @MainProgressProc, @MainLogProc, @MainRequestProc) = 0);
 
 //TODO: remove this and implement VFSInit call.
 //------------------------------------------------------
@@ -902,4 +905,9 @@ begin
   end;
 end;
 
+initialization
+    WFXModuleList:= TList.Create
+finalization
+  if Assigned(WFXModuleList) then
+    FreeAndNil(WFXModuleList);
 end.
