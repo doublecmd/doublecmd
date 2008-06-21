@@ -484,7 +484,7 @@ begin
     Include(Result, VFS_CAPS_MKDIR);
 end;
 
-function TWFXModule.VFSConfigure(Parent: THandle): Boolean;
+function TWFXModule.VFSConfigure(Parent: System.THandle): Boolean;
 begin
   try
     if Assigned(FsStatusInfo) then
