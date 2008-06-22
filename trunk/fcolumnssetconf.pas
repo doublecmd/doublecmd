@@ -431,7 +431,7 @@ begin
     if Key=VK_RETURN then
       begin
          EditorSaveResult(Sender);
-         stgColumns.EditorExit(Sender);
+         stgColumns.Editor.Visible:= False;
          Key:=0;
       end;
 end;
