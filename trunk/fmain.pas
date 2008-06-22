@@ -238,6 +238,7 @@ type
     procedure dskToolButtonClick(Sender: TObject; NumberOfButton: Integer);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
     procedure FormPaint(Sender: TObject);
     procedure lblDriveInfoDblClick(Sender: TObject);
     procedure MainSplitterCanResize(Sender: TObject; var NewSize: Integer;
@@ -570,6 +571,20 @@ begin
   MainToolBar.SaveToIniFile(IniBarFile);
   IniBarFile.Free;
   {*Tool Bar*}
+end;
+
+procedure TfrmMain.FormDropFiles(Sender: TObject; const FileNames: array of String);
+begin
+  if FindLCLControl(Mouse.CursorPos) = FrameLeft.dgPanel then
+    begin
+      ShowMessage('Copy ' + IntToStr(High(FileNames)+1) + ' folder/files to ' + FrameLeft.ActiveDir);
+      Exit;
+    end;
+  if FindLCLControl(Mouse.CursorPos) = FrameRight.dgPanel then
+    begin
+      ShowMessage('Copy ' + IntToStr(High(FileNames)+1) + ' folder/files to ' + FrameRight.ActiveDir);
+      Exit;
+    end;
 end;
 
 var

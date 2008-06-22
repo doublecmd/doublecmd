@@ -3,10 +3,8 @@ object frmMain: TfrmMain
   Height = 717
   Top = 91
   Width = 989
-  HorzScrollBar.Page = 988
-  VertScrollBar.Page = 696
-  VertScrollBar.Range = 79
   ActiveControl = nbRight
+  AllowDropFiles = True
   Caption = 'Double Commander'
   ClientHeight = 697
   ClientWidth = 989
@@ -20,6 +18,7 @@ object frmMain: TfrmMain
   OnClose = frmMainClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnDropFiles = FormDropFiles
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
   OnKeyUp = frmMainKeyUp
@@ -436,6 +435,7 @@ object frmMain: TfrmMain
     Font.Name = 'courier'
     ParentColor = False
     TabOrder = 4
+    BookMarkOptions.OnChange = nil
     Gutter.CodeFoldingWidth = 14
     Keystrokes = <    
       item
@@ -761,6 +761,7 @@ object frmMain: TfrmMain
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
+    SelectedColor.OnChange = nil
     OnSpecialLineColors = seLogWindowSpecialLineColors
   end
   object LogSplitter: TSplitter
