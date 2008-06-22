@@ -2227,3 +2227,31 @@ msgstr ""
 msgid "Preview"
 msgstr ""
 
+#: TFCOLUMNSSETCONF.LABEL3.CAPTION
+msgid "Font:"
+msgstr ""
+
+#: TFCOLUMNSSETCONF.RESCURTEXT.CAPTION
+msgid "R"
+msgstr ""
+
+#: TFCOLUMNSSETCONF.CBOVERCOLOR.CAPTION
+msgid "Allow Overcolor"
+msgstr ""
+
+#: TFCOLUMNSSETCONF.BTNALLTEXT.CAPTION
+msgid "All"
+msgstr ""
+
+#: TFCOLUMNSSETCONF.PNLCUSTHEAD.CAPTION
+msgid "Customize column:"
+msgstr ""
+
+#: TFCOLUMNSSETCONF.BTNNEXT.CAPTION
+msgid "->"
+msgstr ""
+
+#: TFCOLUMNSSETCONF.BTNPREV.CAPTION
+msgid "<-"
+msgstr ""
+
