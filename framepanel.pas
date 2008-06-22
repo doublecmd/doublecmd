@@ -24,11 +24,23 @@ uses
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, uFilePanel, Grids, uTypes,
   Buttons, uColumns,lcltype,Menus;
 
+const
+  DG_MOUSE_ENTER = -2;
+  DG_MOUSE_LEAVE = -3;
+  
 type
   TFilePanelSelect=(fpLeft, fpRight);
-  {class cracer}
-  THackDrawGrid = class(TCustomDrawGrid)
+
+  { TDrawGridEx }
+
+  TDrawGridEx = class(TDrawGrid)
+  private
+    procedure CMMouseEnter(var Message :TLMessage); message CM_MouseEnter;
+    procedure CMMouseLeave(var Message :TLMessage); message CM_MouseLeave;
+  protected
+    DropRowIndex: Integer;
   end;
+
   { TFrameFilePanel }
 
   TFrameFilePanel = class (TWinControl)
@@ -47,7 +59,7 @@ type
     edtPath,
     edtRename: TEdit;
 //---------------------
-    dgPanel: TDrawGrid;
+    dgPanel: TDrawGridEx;
     ActiveColm:String;
     ActiveColmSlave:TPanelColumnsClass;
     isSlave:boolean;
@@ -343,7 +355,10 @@ var
   iRow, iCol: Integer;
   fri: PFileRecItem;
 begin
-  THackDrawGrid(dgPanel).FGridState:= gsRowMoving;
+  dgPanel.FGridState:= gsRowMoving;
+
+  if dgPanel.DropRowIndex = DG_MOUSE_LEAVE then Exit;
+
   dgPanel.MouseToCell(X, Y, iCol, iRow);
   Accept:= False;
 
@@ -352,12 +367,15 @@ begin
   fri:= pnlFile.GetReferenceItemPtr(iRow - dgPanel.FixedRows); // substract fixed rows (header)
   if FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir then
     begin
-      dgPanel.Row:= iRow;
+      dgPanel.DropRowIndex:= iRow;
       Accept:= True;
+      dgPanel.Invalidate;
     end
   else if (Sender <> Source) then
     begin
+      dgPanel.DropRowIndex:= -1;
       Accept:= True;
+      dgPanel.Invalidate;
     end;
 end;
 
@@ -825,7 +843,11 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
           Canvas.Font.Name:=ActiveColmSlave.GetColumnFontName(ACol);
           Canvas.Font.Size:=ActiveColmSlave.GetColumnFontSize(ACol);
           Canvas.Brush.Style:=bsSolid;
-          if gdSelected in State then
+          if ARow = DropRowIndex then
+            begin
+              Canvas.Brush.Color:= ActiveColmSlave.GetColumnCursorColor(ACol);
+            end
+          else if gdSelected in State then
 {*}            Canvas.Brush.Color:= ActiveColmSlave.GetColumnCursorColor(ACol)
           else
             begin
@@ -1113,7 +1135,7 @@ begin
 
   FLastSelectionStartRow:=-1;
 
-  dgPanel:=TDrawGrid.Create(Self);
+  dgPanel:=TDrawGridEx.Create(Self);
   dgPanel.Parent:=Self;
   dgPanel.FixedCols:=0;
   dgPanel.FixedRows:=0;
@@ -1184,7 +1206,7 @@ begin
   lblLPath.OnMouseLeave:=@lblLPathMouseLeave;
 
   
-  pnlFile:=TFilePanel.Create(AOwner, dgPanel,lblLPath,lblCommandPath, lblDriveInfo, cmbCommand);
+  pnlFile:=TFilePanel.Create(AOwner, TDrawGrid(dgPanel),lblLPath,lblCommandPath, lblDriveInfo, cmbCommand);
   
 //  setup column widths
   SetColWidths;
@@ -1197,5 +1219,18 @@ begin
   inherited Destroy;
 end;
 
+
+{ TDrawGridEx }
+
+procedure TDrawGridEx.CMMouseEnter(var Message: TLMessage);
+begin
+  DropRowIndex:= DG_MOUSE_ENTER; // indicate that mouse enter
+end;
+
+procedure TDrawGridEx.CMMouseLeave(var Message: TLMessage);
+begin
+  DropRowIndex:= DG_MOUSE_LEAVE; // indicate that mouse leave
+  Invalidate;
+end;
 
 end.
