@@ -352,30 +352,36 @@ end;
 procedure TFrameFilePanel.dgPanelDragOver(Sender, Source: TObject; X, Y: Integer;
   State: TDragState; var Accept: Boolean);
 var
-  iRow, iCol: Integer;
+  iRow, iOldRow: Integer;
   fri: PFileRecItem;
 begin
   dgPanel.FGridState:= gsRowMoving;
 
   if dgPanel.DropRowIndex = DG_MOUSE_LEAVE then Exit;
 
-  dgPanel.MouseToCell(X, Y, iCol, iRow);
+  dgPanel.MouseToCell(X, Y, iOldRow, iRow);
   Accept:= False;
 
   if iRow < dgPanel.FixedRows then Exit;
-
+  
+  iOldRow:= dgPanel.DropRowIndex; // save old row index
   fri:= pnlFile.GetReferenceItemPtr(iRow - dgPanel.FixedRows); // substract fixed rows (header)
   if FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir then
     begin
       dgPanel.DropRowIndex:= iRow;
       Accept:= True;
-      dgPanel.Invalidate;
+      if iOldRow = iRow then Exit; // if same row then exit
+      if iOldRow >= 0 then // invalidate old row if need
+        dgPanel.InvalidateRow(iOldRow);
+      dgPanel.InvalidateRow(iRow);
     end
   else if (Sender <> Source) then
     begin
       dgPanel.DropRowIndex:= -1;
       Accept:= True;
-      dgPanel.Invalidate;
+      if iOldRow = iRow then Exit; // if same row then exit  
+      if iOldRow >= 0 then // invalidate old row if need
+        dgPanel.InvalidateRow(iOldRow);
     end;
 end;
 
