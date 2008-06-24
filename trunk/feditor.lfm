@@ -61,7 +61,6 @@ object frmEditor: TfrmEditor
     Gutter.ShowCodeFolding = True
     Gutter.UseFontStyle = True
     Gutter.Width = 24
-    Gutter.OnChange = nil
     Gutter.CodeFoldingWidth = 14
     Keystrokes = <    
       item
