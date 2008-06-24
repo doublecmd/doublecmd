@@ -38,6 +38,7 @@ type
     procedure CMMouseEnter(var Message :TLMessage); message CM_MouseEnter;
     procedure CMMouseLeave(var Message :TLMessage); message CM_MouseLeave;
   protected
+    DragRowIndex,
     DropRowIndex: Integer;
   end;
 
@@ -345,8 +346,13 @@ begin
 end;
 
 procedure TFrameFilePanel.dgPanelStartDrag(Sender: TObject; var DragObject: TDragObject);
+var
+  iRow, iCol: Integer;
+  CursorPoint: TPoint;
 begin
-
+  CursorPoint:= dgPanel.ScreenToClient(Mouse.CursorPos);
+  dgPanel.MouseToCell(CursorPoint.X, CursorPoint.Y, iCol, iRow);
+  dgPanel.DragRowIndex:= iRow;
 end;
 
 procedure TFrameFilePanel.dgPanelDragOver(Sender, Source: TObject; X, Y: Integer;
@@ -369,7 +375,8 @@ begin
   if FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir then
     begin
       dgPanel.DropRowIndex:= iRow;
-      Accept:= True;
+      if (iRow <> dgPanel.DragRowIndex) or (Sender <> Source) then // if not same object then accept
+        Accept:= True;
       if iOldRow = iRow then Exit; // if same row then exit
       if iOldRow >= 0 then // invalidate old row if need
         dgPanel.InvalidateRow(iOldRow);
