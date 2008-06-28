@@ -1819,7 +1819,7 @@ begin
       
       if (GetKeyState(VK_SHIFT) and $8000) <> 0 then // if Shift then move
         begin
-          if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) then
+          if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and (Y <= GridHeight) then
             if fri^.sName = '..' then
               RenameFile(LowDirLevel((Parent as TFrameFilePanel).ActiveDir))
             else
@@ -1829,7 +1829,7 @@ begin
         end
       else // else copy
         begin
-          if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) then
+          if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and (Y <= GridHeight) then
             if fri^.sName = '..' then
               CopyFile(LowDirLevel((Parent as TFrameFilePanel).ActiveDir))
             else

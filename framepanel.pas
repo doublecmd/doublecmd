@@ -372,7 +372,7 @@ begin
   
   iOldRow:= dgPanel.DropRowIndex; // save old row index
   fri:= pnlFile.GetReferenceItemPtr(iRow - dgPanel.FixedRows); // substract fixed rows (header)
-  if FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir then
+  if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and not (Y > dgPanel.GridHeight) then
     begin
       dgPanel.DropRowIndex:= iRow;
       if not (((iRow = dgPanel.DragRowIndex) or (fri^.bSelected = True)) and (Sender = Source)) then // if not same object then accept
@@ -386,6 +386,8 @@ begin
     begin
       dgPanel.DropRowIndex:= -1;
       Accept:= True;
+      if Y > dgPanel.GridHeight then
+        iRow:= -1;
       if iOldRow = iRow then Exit; // if same row then exit  
       if iOldRow >= 0 then // invalidate old row if need
         dgPanel.InvalidateRow(iOldRow);
