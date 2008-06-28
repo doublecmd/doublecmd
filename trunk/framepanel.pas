@@ -87,6 +87,7 @@ type
     procedure dgPanelStartDrag(Sender: TObject; var DragObject: TDragObject);
     procedure dgPanelDragOver(Sender, Source: TObject; X, Y: Integer;
                                                State: TDragState; var Accept: Boolean);
+    procedure dgPanelEndDrag(Sender, Target: TObject; X, Y: Integer);
     procedure dgPanelHeaderClick(Sender: TObject;IsColumn: Boolean; index: Integer);
     procedure dgPanelKeyPress(Sender: TObject; var Key: Char);
     procedure dgPanelPrepareCanvas(sender: TObject; Col, Row: Integer; aState: TGridDrawState);
@@ -392,6 +393,16 @@ begin
       if iOldRow >= 0 then // invalidate old row if need
         dgPanel.InvalidateRow(iOldRow);
     end;
+end;
+
+procedure TFrameFilePanel.dgPanelEndDrag(Sender, Target: TObject; X, Y: Integer);
+var
+  iRow: Integer;
+begin
+  iRow:= dgPanel.DropRowIndex;
+  dgPanel.DropRowIndex:= -1;
+  if iRow >= 0 then
+    dgPanel.InvalidateRow(iRow);
 end;
 
 procedure TFrameFilePanel.dgPanelHeaderClick(Sender: TObject;
@@ -1196,6 +1207,7 @@ begin
   dgPanel.OnMouseDown := @dgPanelMouseDown;
   dgPanel.OnStartDrag := @dgPanelStartDrag;
   dgPanel.OnDragOver := @dgPanelDragOver;
+  dgPanel.OnEndDrag:= @dgPanelEndDrag;
   dgPanel.OnDblClick:=@dgPanelDblClick;
   dgPanel.OnDrawCell:=@dgPanelDrawCell;
   dgPanel.OnEnter:=@dgPanelEnter;
