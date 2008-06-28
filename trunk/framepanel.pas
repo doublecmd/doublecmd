@@ -375,7 +375,7 @@ begin
   if FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir then
     begin
       dgPanel.DropRowIndex:= iRow;
-      if (iRow <> dgPanel.DragRowIndex) or (Sender <> Source) then // if not same object then accept
+      if not (((iRow = dgPanel.DragRowIndex) or (fri^.bSelected = True)) and (Sender = Source)) then // if not same object then accept
         Accept:= True;
       if iOldRow = iRow then Exit; // if same row then exit
       if iOldRow >= 0 then // invalidate old row if need
