@@ -917,7 +917,7 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
           // draw drop selection
           if ARow = DropRowIndex then
             begin
-              Canvas.Pen.Color:= ActiveColmSlave.GetColumnCursorText(ACol);
+              Canvas.Pen.Color:= ActiveColmSlave.GetColumnTextColor(ACol);
               Canvas.Line(Rect.Left,Rect.Top, Rect.Right, Rect.Top);
               Canvas.Line(Rect.Left,Rect.Bottom-1, Rect.Right, Rect.Bottom-1);
             end;
