@@ -337,6 +337,8 @@ uses
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
+  // Resize window for screen size if need
+  ResizeToScreen(Self);
   // Scrolling radio group localization
   with rgScrolling do
     begin
