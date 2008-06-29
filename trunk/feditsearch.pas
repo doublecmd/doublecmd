@@ -113,7 +113,6 @@ type
       write SetSearchTextHistory;
     property SearchWholeWords: boolean read GetSearchWholeWords
       write SetSearchWholeWords;
-//    procedure LoadLng; override;
   end;
 
   TfrmEditSearchReplace = class(TfrmEditSearch)
@@ -151,41 +150,8 @@ type
 
 implementation
 
-
-
 uses
-{  uLng,} lclType;
-
-{procedure TfrmEditSearch.LoadLng;
-begin
-  Caption:=lngGetString(clngEditSearch);
-  lblSearchFor.Caption:= lngGetString(clngEditSearchFor);
-  rgSearchDirection.Items.Clear;
-  rgSearchDirection.Items.Add(lngGetString(clngEditSearchFrw));
-  rgSearchDirection.Items.Add(lngGetString(clngEditSearchBack));
-  cbSearchCaseSensitive.Caption:= lngGetString(clngEditSearchCase);
-  cbSearchWholeWords.Caption:= lngGetString(clngEditSearchWholeWord);
-  cbSearchFromCursor.Caption :=  lngGetString(clngEditSearchCaret);
-  cbSearchSelectedOnly.Caption:=  lngGetString(clngEditSearchSelect);
-end;
-
-
-}
-
-const
-
-  cEditSearchCaption='Search';
-  cEditSearchForLbl='&Search for:';
-  cEditSearchFrw='&Forward';
-  cEditSearchBack='&Backward';
-  cEditSearchCase='C&ase sensitivity';
-  cEditSearchWholeWord ='&Whole words only';
-  cEditSearchCaret ='Search from &caret';
-  cEditSearchSelect ='Selected &text only';
-  cEditSearchOptions ='Option';
-  cEditSearchDirection = 'Direction';
-  cEditSearchReplace ='Replace';
-  cEditSearchReplaceWith ='&Replace with:';
+  uLng, LCLType;
 
 function TfrmEditSearch.GetSearchBackwards: boolean;
 begin
@@ -285,20 +251,20 @@ begin
   cbSearchCaseSensitive := TCheckBox.Create(gbSearchOptions);
   cbSearchCaseSensitive.Parent:=gbSearchOptions;
   
-  cbSearchCaseSensitive.SetBounds(0,0 ,142, 20);
+  cbSearchCaseSensitive.SetBounds(6,0 ,142, 20);
   
   cbSearchWholeWords := TCheckBox.Create(gbSearchOptions);
   cbSearchWholeWords.Parent:=gbSearchOptions;
-  cbSearchWholeWords.SetBounds(0,20 ,142, 20);
+  cbSearchWholeWords.SetBounds(6,20 ,142, 20);
 
   
   cbSearchFromCursor := TCheckBox.Create(gbSearchOptions);
   cbSearchFromCursor.Parent:=gbSearchOptions;
-  cbSearchFromCursor.SetBounds(0,65 ,142, 20);
+  cbSearchFromCursor.SetBounds(6,65 ,142, 20);
   
   cbSearchSelectedOnly := TCheckBox.Create(gbSearchOptions);
   cbSearchSelectedOnly.Parent:=gbSearchOptions;
-  cbSearchSelectedOnly.SetBounds(0, 41 ,142, 20);
+  cbSearchSelectedOnly.SetBounds(6, 41 ,142, 20);
   
   rgSearchDirection := TRadioGroup.Create(AOwner);
   rgSearchDirection.Parent:=AOwner;
@@ -308,7 +274,8 @@ begin
   btnOK.Parent:=AOwner;
   btnOK.Left:=170;
   btnOK.Top:=136;
-  btnOK.Height := 32;
+  btnOK.Height:= 32;
+  btnOK.Default:= True;
   btnOK.Caption:='OK'; // TODO: change this
   btnOK.OnClick:=@btnOKClick;
 
@@ -322,18 +289,18 @@ begin
   btnCancel.Caption:='Cancel'; // TODO: change this
   
   
-  Caption:= cEditSearchCaption;
+  Caption:= rsEditSearchCaption;
   
-  lblSearchFor.Caption:= cEditSearchForLbl;
-  rgSearchDirection.Items.Add(cEditSearchFrw);
-  rgSearchDirection.Items.Add(cEditSearchBack);
-  cbSearchCaseSensitive.Caption:= cEditSearchCase;
-  cbSearchWholeWords.Caption:= cEditSearchWholeWord;
-  cbSearchFromCursor.Caption :=  cEditSearchCaret;
-  cbSearchSelectedOnly.Caption:=  cEditSearchSelect;
+  lblSearchFor.Caption:= rsEditSearchForLbl;
+  rgSearchDirection.Items.Add(rsEditSearchFrw);
+  rgSearchDirection.Items.Add(rsEditSearchBack);
+  cbSearchCaseSensitive.Caption:= rsEditSearchCase;
+  cbSearchWholeWords.Caption:= rsEditSearchWholeWord;
+  cbSearchFromCursor.Caption :=  rsEditSearchCaret;
+  cbSearchSelectedOnly.Caption:=  rsEditSearchSelect;
   
-  gbSearchOptions.Caption:=cEditSearchOptions;
-  rgSearchDirection.Caption:=CEditSearchDirection;
+  gbSearchOptions.Caption:=rsEditSearchOptions;
+  rgSearchDirection.Caption:=rsEditSearchDirection;
 end;
 
 constructor TfrmEditSearch.Create(AOwner: TComponent);
@@ -420,8 +387,8 @@ begin
   btnCancel.Top:=btnCancel.Top+30;
   btnCancel.Height := 32;
 
-  Caption:=cEditSearchReplace;
-  lblReplaceWith.Caption:=cEditSearchReplaceWith;
+  Caption:=rsEditSearchReplace;
+  lblReplaceWith.Caption:=rsEditSearchReplaceWith;
 end;
 
 function TfrmEditSearchReplace.GetReplaceText: string;

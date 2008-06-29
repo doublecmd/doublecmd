@@ -33,6 +33,10 @@ msgstr "&Připojit"
 msgid "&Associate with:"
 msgstr "&Associovat s:"
 
+#: ulng.rseditsearchback
+msgid "&Backward"
+msgstr ""
+
 #: TFRMOPTIONS.CBEXACTBEGINNING.CAPTION
 msgid "&Beginning (name must start with first typed character)"
 msgstr "&Začátek (jméno musí začínat zadaným znakem)"
@@ -104,6 +108,10 @@ msgstr "&Soubory pro rozbalení:"
 #: TFRMEDITOR.ACTEDITFIND.CAPTION
 msgid "&Find"
 msgstr "&Hledat"
+
+#: ulng.rseditsearchfrw
+msgid "&Forward"
+msgstr ""
 
 #: TFRMFINDDLG.BTNGOTOPATH.CAPTION
 msgid "&Go to file"
@@ -177,6 +185,10 @@ msgstr "&Obnovit"
 msgid "&Replace"
 msgstr "&Nahradit"
 
+#: ulng.rseditsearchreplacewith
+msgid "&Replace with:"
+msgstr ""
+
 #: TFRMEDITOR.ACTFILESAVE.CAPTION
 msgid "&Save"
 msgstr "&Uložit"
@@ -192,6 +204,10 @@ msgstr "&Uložit pozici"
 #: TFRMMAIN.ACTSEARCH.CAPTION
 msgid "&Search"
 msgstr "&Hledat"
+
+#: ulng.rseditsearchforlbl
+msgid "&Search for:"
+msgstr ""
 
 #: TFRMMAIN.ACTMARKMARKALL.CAPTION
 msgid "&Select All"
@@ -237,6 +253,14 @@ msgstr "&Rozbalit i s cestou, pokud je uložena"
 msgid "&View"
 msgstr "&Zobrazit"
 
+#: ulng.rseditsearchwholeword
+msgid "&Whole words only"
+msgstr ""
+
+#: TFRMCOLUMSPROPS.BITBTN1.CAPTION
+msgid "&ОК"
+msgstr ""
+
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
 msgid "*"
 msgstr "*"
@@ -252,6 +276,10 @@ msgstr "-"
 #: TFRMFILEPROPERTIES.LBLATTRTEXT.CAPTION
 msgid "-----------"
 msgstr "-----------"
+
+#: TFCOLUMNSSETCONF.BTNNEXT.CAPTION
+msgid "->"
+msgstr ""
 
 #: TFRMMAIN.BTNLEFTUP.CAPTION
 msgid ".."
@@ -292,6 +320,10 @@ msgstr "1457664B - 3.5\""
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr "16x16"
+
+#: TFCOLUMNSSETCONF.BTNPREV.CAPTION
+msgid "<-"
+msgstr ""
 
 #: TFRMPACKDLG.CBOTHERPLUGINS.CAPTION
 msgid "=>"
@@ -349,9 +381,17 @@ msgstr "Al&t+Písmenko"
 msgid "Align"
 msgstr "Zarovnat"
 
+#: TFCOLUMNSSETCONF.BTNALLTEXT.CAPTION
+msgid "All"
+msgstr ""
+
 #: TFRMOPTIONS.LBLEXT.CAPTION
 msgid "All files with e&xtension (ending with):"
 msgstr "Všechny soubory s přípo&nou (končící na):"
+
+#: TFCOLUMNSSETCONF.CBOVERCOLOR.CAPTION
+msgid "Allow Overcolor"
+msgstr ""
 
 #: TFRMPACKDLG.CBSTOREDIR.CAPTION
 msgid "Also &pack path names (only recursed)"
@@ -413,6 +453,14 @@ msgstr "Buffer je příliš malý"
 msgid "Build: "
 msgstr "Build: "
 
+#: TFCOLUMNSSETCONF.BUTTON1.CAPTION
+msgid "Button1"
+msgstr ""
+
+#: ulng.rseditsearchcase
+msgid "C&ase sensitivity"
+msgstr ""
+
 #: TFRMMAIN.MNUCONFIG.CAPTION
 msgid "C&onfiguration"
 msgstr "&Konfigurace"
@@ -456,6 +504,10 @@ msgstr "Rozlišovat velikost"
 #: TFRMOPTIONS.CBCASESENSITIVESORT.CAPTION
 msgid "Case sensitive sorting"
 msgstr "Třídění rozlišuje velká/malá"
+
+#: TFRMOPTIONS.LBTYPES.CAPTION
+msgid "Categories:"
+msgstr ""
 
 #: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
 msgid "Category attributes:"
@@ -501,9 +553,17 @@ msgstr "Sloupce"
 msgid "Combine Files"
 msgstr "Spojování souborů"
 
+#: TFRMCOLUMSPROPS.COMBOBOX1.TEXT
+msgid "ComboBox1"
+msgstr ""
+
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
 msgstr "Hystorie příkazového řádku"
+
+#: TFRMOPTIONS.LABEL3.CAPTION
+msgid "Commands:"
+msgstr ""
 
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
@@ -512,6 +572,10 @@ msgstr "Porovnat pod&le obsahu"
 #: TFRMCOMPAREFILES.CAPTION
 msgid "Compare files"
 msgstr "Porovnat soubory"
+
+#: ulng.rsconfcolconfig
+msgid "Config"
+msgstr ""
 
 #: ulng.rsoptconfig
 msgid "Configuration"
@@ -661,6 +725,14 @@ msgstr "Barva kursoru:"
 msgid "Cursor Text:"
 msgstr "Text kursoru:"
 
+#: TFCOLUMNSSETCONF.PNLCUSTHEAD.CAPTION
+msgid "Customize column:"
+msgstr ""
+
+#: ulng.rsconfcustheader
+msgid "Customize column: "
+msgstr ""
+
 #: TFRMEDITOR.ACTEDITCUT.CAPTION
 msgid "Cut"
 msgstr "Vyjmout"
@@ -720,6 +792,10 @@ msgstr "Vymazat vybrané \"\%s\"?"
 #: TFRMOPTIONS.RBNONEQS.CAPTION
 msgid "Di&sabled"
 msgstr "&Zakázáno"
+
+#: ulng.rseditsearchdirection
+msgid "Direction"
+msgstr ""
 
 #: ulng.rspropsfolder
 msgid "Directory"
@@ -1037,6 +1113,10 @@ msgstr "Hledat soubory NEobsahující text"
 msgid "Find in file"
 msgstr "Vyhledat soubor"
 
+#: TFRMEDITOR.ACTEDITFINDNEXT.CAPTION
+msgid "Find next"
+msgstr ""
+
 #: TFRMMULTIRENAME.LBFIND.CAPTION
 msgid "Find..."
 msgstr "Hledat..."
@@ -1061,6 +1141,10 @@ msgstr "Záložky adresářů"
 msgid "Folder tabs headers"
 msgstr "Záhlaví záložek"
 
+#: TFCOLUMNSSETCONF.LABEL3.CAPTION
+msgid "Font:"
+msgstr ""
+
 #: ulng.rsoptfonts
 msgid "Fonts"
 msgstr "Písma"
@@ -1076,6 +1160,10 @@ msgstr "7Operace přerušena uživatelem"
 #: ulng.rsmsgerrnotsupported
 msgid "Function not supported!"
 msgstr "Funkce není podporována!"
+
+#: TFRMCOLUMSPROPS.GBOX1.CAPTION
+msgid "Gbox1"
+msgstr ""
 
 #: TFRMOPTIONS.CBBFILESYSTEM.TEXT
 msgid "General"
@@ -1093,6 +1181,10 @@ msgstr "Grafika"
 msgid "Group"
 msgstr "Skupina"
 
+#: TFRMCOLUMSPROPS.GROUPBOX1.CAPTION
+msgid "GroupBox1"
+msgstr ""
+
 #: TFRMEXTRACTDLG.BTNHELP.CAPTION
 msgid "Help"
 msgstr "Nápověda"
@@ -1100,6 +1192,10 @@ msgstr "Nápověda"
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key"
 msgstr "Horké klávesy"
+
+#: TFRMOPTIONS.LBLHOTKEY.CAPTION
+msgid "Hot Key:"
+msgstr ""
 
 #: ulng.rsopthotkeys
 msgid "Hot keys"
@@ -1168,6 +1264,14 @@ msgstr "Zachovat skrolování"
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
 msgid "L&etter only"
 msgstr "&Pouze písmena"
+
+#: TFRMCOLUMSPROPS.LABEL1.CAPTION
+msgid "Label1"
+msgstr ""
+
+#: TFRMCOLUMSPROPS.LABEL2.CAPTION
+msgid "Label2"
+msgstr ""
 
 #: ulng.rsoptlanguage
 msgid "Language"
@@ -1284,6 +1388,10 @@ msgstr ""
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
 msgstr "Více"
+
+#: ulng.rsconfcolmove
+msgid "Move"
+msgstr ""
 
 #: TFRMMAIN.ACTRENAME.CAPTION
 msgid "Move F6"
@@ -1429,6 +1537,10 @@ msgstr "Otevřít čím"
 msgid "Operation status:"
 msgstr "Stav operace:"
 
+#: ulng.rseditsearchoptions
+msgid "Option"
+msgstr ""
+
 #: TFRMOPTIONS.CAPTION
 msgid "Options"
 msgstr "Nastavení"
@@ -1485,6 +1597,10 @@ msgstr "Komprese..."
 msgid "Page by page"
 msgstr "Stranu po straně"
 
+#: TFRMOPTIONS.LBLPARAM.CAPTION
+msgid "Param:"
+msgstr ""
+
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgid "Paste"
 msgstr "Vložiit"
@@ -1513,6 +1629,10 @@ msgstr "Pozice uložena."
 msgid "Predefined"
 msgstr "Předvoleno"
 
+#: TFCOLUMNSSETCONF.PANEL6.CAPTION
+msgid "Preview"
+msgstr ""
+
 #: TFRMCOMPAREFILES.BTNPREVDIFF.CAPTION
 msgid "Previous difference"
 msgstr "Předešlý rozdíl"
@@ -1536,6 +1656,10 @@ msgstr "Rychlé hledání"
 #: TFRMOPTIONS.GBQUICKSEARCH.CAPTION
 msgid "Quick search (current dir)"
 msgstr "Rychlé hledání (aktuální adr.)"
+
+#: TFCOLUMNSSETCONF.RESCURTEXT.CAPTION
+msgid "R"
+msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgid "Read"
@@ -1572,6 +1696,10 @@ msgstr "Přejmenovat/přesunout \%d vybraných souborů/adresářů?"
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"\%s\"?"
 msgstr "Přejmenovat/přesunout vybrané \"\%s\"?"
+
+#: ulng.rseditsearchreplace
+msgid "Replace"
+msgstr ""
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
 msgid "Replace text"
@@ -1649,6 +1777,10 @@ msgstr "Skrolování"
 msgid "Search"
 msgstr "Hledání"
 
+#: ulng.rseditsearchcaret
+msgid "Search from &caret"
+msgstr ""
+
 #: TFRMVIEWER.MISELECTALL.CAPTION
 msgid "Select All"
 msgstr "Vybrat vše"
@@ -1676,6 +1808,10 @@ msgstr "Maska výběru"
 #: TFRMEDITOR.ACTEDITSELECTALL.CAPTION
 msgid "Select&All"
 msgstr "Vybrat &vše"
+
+#: ulng.rseditsearchselect
+msgid "Selected &text only"
+msgstr ""
 
 #: ulng.rsmsgselected
 msgid "Selected \%s of \%s in \%d of \%d files"
@@ -1969,6 +2105,10 @@ msgstr "Nahoru"
 msgid "Use '-' to off attribute and '?' to any"
 msgstr "Použijte '-' pro VYP a '?' pro cokoliv"
 
+#: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
+msgid "Use Inverted Selection"
+msgstr ""
+
 #: TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION
 msgid "Use memory mapping for search text in files"
 msgstr "Použít mapování paměti pro hledání textu v souborech"
@@ -2080,6 +2220,10 @@ msgstr "znaky"
 #: TFRMOPTIONS.EDTEXTVIEWER.TEXT
 msgid "emacs \"\%s\""
 msgstr "emacs \"\%s\""
+
+#: TFRMCOLUMSPROPS.CAPTION
+msgid "frmColumsProps"
+msgstr ""
 
 #: TFRMOPTIONS.EDTEXTEDITOR.TEXT
 msgid "gEdit \"\%s\""

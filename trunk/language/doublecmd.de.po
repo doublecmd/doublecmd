@@ -31,6 +31,10 @@ msgstr "An&fügen"
 msgid "&Associate with:"
 msgstr "Verknüpfen mit..."
 
+#: ulng.rseditsearchback
+msgid "&Backward"
+msgstr ""
+
 #: TFRMOPTIONS.CBEXACTBEGINNING.CAPTION
 msgid "&Beginning (name must start with first typed character)"
 msgstr "&Beginn (Name soll mit dem ersten eingetippten Buchstaben beginnen)"
@@ -102,6 +106,10 @@ msgstr "&Datei(en) zum Entpacken:"
 #: TFRMEDITOR.ACTEDITFIND.CAPTION
 msgid "&Find"
 msgstr "&Suchen"
+
+#: ulng.rseditsearchfrw
+msgid "&Forward"
+msgstr ""
 
 #: TFRMFINDDLG.BTNGOTOPATH.CAPTION
 msgid "&Go to file"
@@ -175,6 +183,10 @@ msgstr "Aktualisieren"
 msgid "&Replace"
 msgstr "E&rsetzen"
 
+#: ulng.rseditsearchreplacewith
+msgid "&Replace with:"
+msgstr ""
+
 #: TFRMEDITOR.ACTFILESAVE.CAPTION
 msgid "&Save"
 msgstr "&Speichern"
@@ -190,6 +202,10 @@ msgstr "&Position speichern"
 #: TFRMMAIN.ACTSEARCH.CAPTION
 msgid "&Search"
 msgstr "Suchen"
+
+#: ulng.rseditsearchforlbl
+msgid "&Search for:"
+msgstr ""
 
 #: TFRMMAIN.ACTMARKMARKALL.CAPTION
 msgid "&Select All"
@@ -235,6 +251,14 @@ msgstr "&Pfad mit entpacken (falls gespeichert)"
 msgid "&View"
 msgstr "&Betrachten"
 
+#: ulng.rseditsearchwholeword
+msgid "&Whole words only"
+msgstr ""
+
+#: TFRMCOLUMSPROPS.BITBTN1.CAPTION
+msgid "&ОК"
+msgstr ""
+
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
 msgid "*"
 msgstr "*"
@@ -250,6 +274,10 @@ msgstr "-"
 #: TFRMFILEPROPERTIES.LBLATTRTEXT.CAPTION
 msgid "-----------"
 msgstr "-----------"
+
+#: TFCOLUMNSSETCONF.BTNNEXT.CAPTION
+msgid "->"
+msgstr ""
 
 #: TFRMMAIN.BTNLEFTUP.CAPTION
 msgid ".."
@@ -290,6 +318,10 @@ msgstr "1457664B - 3.5\""
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr "16x16"
+
+#: TFCOLUMNSSETCONF.BTNPREV.CAPTION
+msgid "<-"
+msgstr ""
 
 #: TFRMPACKDLG.CBOTHERPLUGINS.CAPTION
 msgid "=>"
@@ -347,9 +379,17 @@ msgstr "A&lt-Taste+Buchstabe"
 msgid "Align"
 msgstr "Ausrichten"
 
+#: TFCOLUMNSSETCONF.BTNALLTEXT.CAPTION
+msgid "All"
+msgstr ""
+
 #: TFRMOPTIONS.LBLEXT.CAPTION
 msgid "All files with e&xtension (ending with):"
 msgstr "Alle Dateien mit der Endung:"
+
+#: TFCOLUMNSSETCONF.CBOVERCOLOR.CAPTION
+msgid "Allow Overcolor"
+msgstr ""
 
 #: TFRMPACKDLG.CBSTOREDIR.CAPTION
 msgid "Also &pack path names (only recursed)"
@@ -411,6 +451,14 @@ msgstr "Puffer zu klein"
 msgid "Build: "
 msgstr "Build"
 
+#: TFCOLUMNSSETCONF.BUTTON1.CAPTION
+msgid "Button1"
+msgstr ""
+
+#: ulng.rseditsearchcase
+msgid "C&ase sensitivity"
+msgstr ""
+
 #: TFRMMAIN.MNUCONFIG.CAPTION
 msgid "C&onfiguration"
 msgstr "K&onfigurieren"
@@ -454,6 +502,10 @@ msgstr "Gross- Kleinschreibung beachten"
 #: TFRMOPTIONS.CBCASESENSITIVESORT.CAPTION
 msgid "Case sensitive sorting"
 msgstr "Sortieren nach Gross- / Kleinschreibung"
+
+#: TFRMOPTIONS.LBTYPES.CAPTION
+msgid "Categories:"
+msgstr ""
 
 #: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
 msgid "Category attributes:"
@@ -499,9 +551,17 @@ msgstr "Spalten"
 msgid "Combine Files"
 msgstr "Dateien &verschmelzen"
 
+#: TFRMCOLUMSPROPS.COMBOBOX1.TEXT
+msgid "ComboBox1"
+msgstr ""
+
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
 msgstr "Veraluf der Kommandozeile"
+
+#: TFRMOPTIONS.LABEL3.CAPTION
+msgid "Commands:"
+msgstr ""
 
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
@@ -510,6 +570,10 @@ msgstr "Anhand des Inhalts vergleichen"
 #: TFRMCOMPAREFILES.CAPTION
 msgid "Compare files"
 msgstr "Vergleiche Dateien"
+
+#: ulng.rsconfcolconfig
+msgid "Config"
+msgstr ""
 
 #: ulng.rsoptconfig
 msgid "Configuration"
@@ -659,6 +723,14 @@ msgstr "Cursorfarbe"
 msgid "Cursor Text:"
 msgstr "Cursortext"
 
+#: TFCOLUMNSSETCONF.PNLCUSTHEAD.CAPTION
+msgid "Customize column:"
+msgstr ""
+
+#: ulng.rsconfcustheader
+msgid "Customize column: "
+msgstr ""
+
 #: TFRMEDITOR.ACTEDITCUT.CAPTION
 msgid "Cut"
 msgstr "Ausschneiden"
@@ -718,6 +790,10 @@ msgstr "Markierte \"\%s\ löschen"?"
 #: TFRMOPTIONS.RBNONEQS.CAPTION
 msgid "Di&sabled"
 msgstr "Nicht verfügbar"
+
+#: ulng.rseditsearchdirection
+msgid "Direction"
+msgstr ""
 
 #: ulng.rspropsfolder
 msgid "Directory"
@@ -1035,6 +1111,10 @@ msgstr "Suche Datei die NICHT den Text enthalten"
 msgid "Find in file"
 msgstr "Suche in Datei"
 
+#: TFRMEDITOR.ACTEDITFINDNEXT.CAPTION
+msgid "Find next"
+msgstr ""
+
 #: TFRMMULTIRENAME.LBFIND.CAPTION
 msgid "Find..."
 msgstr "Suche"
@@ -1059,6 +1139,10 @@ msgstr "Ordnerreiter"
 msgid "Folder tabs headers"
 msgstr "Ordner-reiter-Titel"
 
+#: TFCOLUMNSSETCONF.LABEL3.CAPTION
+msgid "Font:"
+msgstr ""
+
 #: ulng.rsoptfonts
 msgid "Fonts"
 msgstr "Schriftart"
@@ -1074,6 +1158,10 @@ msgstr "Abbruch durch Benutzer"
 #: ulng.rsmsgerrnotsupported
 msgid "Function not supported!"
 msgstr "Funktion wird nicht unterstützt!"
+
+#: TFRMCOLUMSPROPS.GBOX1.CAPTION
+msgid "Gbox1"
+msgstr ""
 
 #: TFRMOPTIONS.CBBFILESYSTEM.TEXT
 msgid "General"
@@ -1091,6 +1179,10 @@ msgstr "Bilder"
 msgid "Group"
 msgstr "Gruppe"
 
+#: TFRMCOLUMSPROPS.GROUPBOX1.CAPTION
+msgid "GroupBox1"
+msgstr ""
+
 #: TFRMEXTRACTDLG.BTNHELP.CAPTION
 msgid "Help"
 msgstr "Hilfe"
@@ -1098,6 +1190,10 @@ msgstr "Hilfe"
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key"
 msgstr "Tastaturkürzel"
+
+#: TFRMOPTIONS.LBLHOTKEY.CAPTION
+msgid "Hot Key:"
+msgstr ""
 
 #: ulng.rsopthotkeys
 msgid "Hot keys"
@@ -1166,6 +1262,14 @@ msgstr "Scrollen fortsetzen"
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
 msgid "L&etter only"
 msgstr "Nur Buchstaben"
+
+#: TFRMCOLUMSPROPS.LABEL1.CAPTION
+msgid "Label1"
+msgstr ""
+
+#: TFRMCOLUMSPROPS.LABEL2.CAPTION
+msgid "Label2"
+msgstr ""
 
 #: ulng.rsoptlanguage
 msgid "Language"
@@ -1282,6 +1386,10 @@ msgstr ""
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
 msgstr "Mehr"
+
+#: ulng.rsconfcolmove
+msgid "Move"
+msgstr ""
 
 #: TFRMMAIN.ACTRENAME.CAPTION
 msgid "Move F6"
@@ -1427,6 +1535,10 @@ msgstr "Öffnen mit..."
 msgid "Operation status:"
 msgstr "Fortschritt des Vorgangs:"
 
+#: ulng.rseditsearchoptions
+msgid "Option"
+msgstr ""
+
 #: TFRMOPTIONS.CAPTION
 msgid "Options"
 msgstr "Optionen"
@@ -1483,6 +1595,10 @@ msgstr "Packe..."
 msgid "Page by page"
 msgstr "Seite für Seite"
 
+#: TFRMOPTIONS.LBLPARAM.CAPTION
+msgid "Param:"
+msgstr ""
+
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgid "Paste"
 msgstr "Einfügen"
@@ -1511,6 +1627,10 @@ msgstr "Position gespeichert"
 msgid "Predefined"
 msgstr "Vordefiniert"
 
+#: TFCOLUMNSSETCONF.PANEL6.CAPTION
+msgid "Preview"
+msgstr ""
+
 #: TFRMCOMPAREFILES.BTNPREVDIFF.CAPTION
 msgid "Previous difference"
 msgstr "Vorheriger Unterschied"
@@ -1534,6 +1654,10 @@ msgstr "Schnelle Suche"
 #: TFRMOPTIONS.GBQUICKSEARCH.CAPTION
 msgid "Quick search (current dir)"
 msgstr "Schnelle Suche (in diesem Ordner)"
+
+#: TFCOLUMNSSETCONF.RESCURTEXT.CAPTION
+msgid "R"
+msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgid "Read"
@@ -1570,6 +1694,10 @@ msgstr "\%d markierte Dateien / Ordner umbenennen / verschieben?"
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"\%s\"?"
 msgstr "Datei / Ordner \"\%s\ kopieren / verschieben"?"
+
+#: ulng.rseditsearchreplace
+msgid "Replace"
+msgstr ""
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
 msgid "Replace text"
@@ -1647,6 +1775,10 @@ msgstr "Scrollen"
 msgid "Search"
 msgstr "Suchen"
 
+#: ulng.rseditsearchcaret
+msgid "Search from &caret"
+msgstr ""
+
 #: TFRMVIEWER.MISELECTALL.CAPTION
 msgid "Select All"
 msgstr "Alle mar&kieren"
@@ -1674,6 +1806,10 @@ msgstr "Wähle Maske"
 #: TFRMEDITOR.ACTEDITSELECTALL.CAPTION
 msgid "Select&All"
 msgstr "&Alle markieren"
+
+#: ulng.rseditsearchselect
+msgid "Selected &text only"
+msgstr ""
 
 #: ulng.rsmsgselected
 msgid "Selected \%s of \%s in \%d of \%d files"
@@ -1967,6 +2103,10 @@ msgstr "Aufw&ärts"
 msgid "Use '-' to off attribute and '?' to any"
 msgstr "Benutze '-' um Attribut zu entfernen und '?' als Platzhalter"
 
+#: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
+msgid "Use Inverted Selection"
+msgstr ""
+
 #: TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION
 msgid "Use memory mapping for search text in files"
 msgstr "Nutze Memory-Mapping zur Textsuche in Dateien"
@@ -2078,6 +2218,10 @@ msgstr "Bu&chstaben"
 #: TFRMOPTIONS.EDTEXTVIEWER.TEXT
 msgid "emacs \"\%s\""
 msgstr "Emacs \"\%s""
+
+#: TFRMCOLUMSPROPS.CAPTION
+msgid "frmColumsProps"
+msgstr ""
 
 #: TFRMOPTIONS.EDTEXTEDITOR.TEXT
 msgid "gEdit \"\%s\""

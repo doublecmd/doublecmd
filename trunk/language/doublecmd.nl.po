@@ -31,6 +31,10 @@ msgstr "Voeg toe"
 msgid "&Associate with:"
 msgstr "&Associëer met:"
 
+#: ulng.rseditsearchback
+msgid "&Backward"
+msgstr ""
+
 #: TFRMOPTIONS.CBEXACTBEGINNING.CAPTION
 msgid "&Beginning (name must start with first typed character)"
 msgstr "Begin (naam moet beginnen met eerst getypte letter)"
@@ -102,6 +106,10 @@ msgstr "&Uit te pakken bestanden:"
 #: TFRMEDITOR.ACTEDITFIND.CAPTION
 msgid "&Find"
 msgstr "Zoek"
+
+#: ulng.rseditsearchfrw
+msgid "&Forward"
+msgstr ""
 
 #: TFRMFINDDLG.BTNGOTOPATH.CAPTION
 msgid "&Go to file"
@@ -175,6 +183,10 @@ msgstr "&Ververs"
 msgid "&Replace"
 msgstr "Vervang"
 
+#: ulng.rseditsearchreplacewith
+msgid "&Replace with:"
+msgstr ""
+
 #: TFRMEDITOR.ACTFILESAVE.CAPTION
 msgid "&Save"
 msgstr "Opslaan"
@@ -190,6 +202,10 @@ msgstr "&Sla positie op"
 #: TFRMMAIN.ACTSEARCH.CAPTION
 msgid "&Search"
 msgstr "&Zoeken"
+
+#: ulng.rseditsearchforlbl
+msgid "&Search for:"
+msgstr ""
 
 #: TFRMMAIN.ACTMARKMARKALL.CAPTION
 msgid "&Select All"
@@ -235,6 +251,14 @@ msgstr "&Pak paden uit indien opgeslagen met bestanden"
 msgid "&View"
 msgstr "Bekijk"
 
+#: ulng.rseditsearchwholeword
+msgid "&Whole words only"
+msgstr ""
+
+#: TFRMCOLUMSPROPS.BITBTN1.CAPTION
+msgid "&ОК"
+msgstr ""
+
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
 msgid "*"
 msgstr "*"
@@ -250,6 +274,10 @@ msgstr "-"
 #: TFRMFILEPROPERTIES.LBLATTRTEXT.CAPTION
 msgid "-----------"
 msgstr "-----------"
+
+#: TFCOLUMNSSETCONF.BTNNEXT.CAPTION
+msgid "->"
+msgstr ""
 
 #: TFRMMAIN.BTNLEFTUP.CAPTION
 msgid ".."
@@ -290,6 +318,10 @@ msgstr "1457664B - 3.5\""
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr "16x16"
+
+#: TFCOLUMNSSETCONF.BTNPREV.CAPTION
+msgid "<-"
+msgstr ""
 
 #: TFRMPACKDLG.CBOTHERPLUGINS.CAPTION
 msgid "=>"
@@ -347,9 +379,17 @@ msgstr "Al&t+Letters"
 msgid "Align"
 msgstr "Uitlijnen"
 
+#: TFCOLUMNSSETCONF.BTNALLTEXT.CAPTION
+msgid "All"
+msgstr ""
+
 #: TFRMOPTIONS.LBLEXT.CAPTION
 msgid "All files with e&xtension (ending with):"
 msgstr "Alle bestanden met e&xtenties (eindigende op):"
+
+#: TFCOLUMNSSETCONF.CBOVERCOLOR.CAPTION
+msgid "Allow Overcolor"
+msgstr ""
 
 #: TFRMPACKDLG.CBSTOREDIR.CAPTION
 msgid "Also &pack path names (only recursed)"
@@ -411,6 +451,14 @@ msgstr "Buffer te klein"
 msgid "Build: "
 msgstr "Build: "
 
+#: TFCOLUMNSSETCONF.BUTTON1.CAPTION
+msgid "Button1"
+msgstr ""
+
+#: ulng.rseditsearchcase
+msgid "C&ase sensitivity"
+msgstr ""
+
 #: TFRMMAIN.MNUCONFIG.CAPTION
 msgid "C&onfiguration"
 msgstr "C&onfiguratie"
@@ -454,6 +502,10 @@ msgstr "Hoofdletter gevoelig"
 #: TFRMOPTIONS.CBCASESENSITIVESORT.CAPTION
 msgid "Case sensitive sorting"
 msgstr "Hoofdletter gevoelige sortering"
+
+#: TFRMOPTIONS.LBTYPES.CAPTION
+msgid "Categories:"
+msgstr ""
 
 #: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
 msgid "Category attributes:"
@@ -499,9 +551,17 @@ msgstr "Kolommen"
 msgid "Combine Files"
 msgstr "Kombineer bestanden"
 
+#: TFRMCOLUMSPROPS.COMBOBOX1.TEXT
+msgid "ComboBox1"
+msgstr ""
+
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
 msgstr "Kommandoregel geschiedenis"
+
+#: TFRMOPTIONS.LABEL3.CAPTION
+msgid "Commands:"
+msgstr ""
 
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
@@ -510,6 +570,10 @@ msgstr "Vergelijk met Inhoud"
 #: TFRMCOMPAREFILES.CAPTION
 msgid "Compare files"
 msgstr "Vergelijk bestanden"
+
+#: ulng.rsconfcolconfig
+msgid "Config"
+msgstr ""
 
 #: ulng.rsoptconfig
 msgid "Configuration"
@@ -659,6 +723,14 @@ msgstr "Cursor kleur"
 msgid "Cursor Text:"
 msgstr "Cursor tekst:"
 
+#: TFCOLUMNSSETCONF.PNLCUSTHEAD.CAPTION
+msgid "Customize column:"
+msgstr ""
+
+#: ulng.rsconfcustheader
+msgid "Customize column: "
+msgstr ""
+
 #: TFRMEDITOR.ACTEDITCUT.CAPTION
 msgid "Cut"
 msgstr "Knip"
@@ -718,6 +790,10 @@ msgstr "Verwijder geselecteerde \"\%s\"?"
 #: TFRMOPTIONS.RBNONEQS.CAPTION
 msgid "Di&sabled"
 msgstr "Uitgeschakeld"
+
+#: ulng.rseditsearchdirection
+msgid "Direction"
+msgstr ""
 
 #: ulng.rspropsfolder
 msgid "Directory"
@@ -1035,6 +1111,10 @@ msgstr "Vindt bestanden die NIET de tekst bevatten"
 msgid "Find in file"
 msgstr "Zoek in bestand"
 
+#: TFRMEDITOR.ACTEDITFINDNEXT.CAPTION
+msgid "Find next"
+msgstr ""
+
 #: TFRMMULTIRENAME.LBFIND.CAPTION
 msgid "Find..."
 msgstr "Zoek..."
@@ -1059,6 +1139,10 @@ msgstr "Folder tabs"
 msgid "Folder tabs headers"
 msgstr "Folder tabs headers"
 
+#: TFCOLUMNSSETCONF.LABEL3.CAPTION
+msgid "Font:"
+msgstr ""
+
 #: ulng.rsoptfonts
 msgid "Fonts"
 msgstr "Lettertypes"
@@ -1074,6 +1158,10 @@ msgstr "Functie afgebroken door gebruiker"
 #: ulng.rsmsgerrnotsupported
 msgid "Function not supported!"
 msgstr "Functie niet ondersteund"
+
+#: TFRMCOLUMSPROPS.GBOX1.CAPTION
+msgid "Gbox1"
+msgstr ""
 
 #: TFRMOPTIONS.CBBFILESYSTEM.TEXT
 msgid "General"
@@ -1091,6 +1179,10 @@ msgstr "Plaatjes"
 msgid "Group"
 msgstr "Groep"
 
+#: TFRMCOLUMSPROPS.GROUPBOX1.CAPTION
+msgid "GroupBox1"
+msgstr ""
+
 #: TFRMEXTRACTDLG.BTNHELP.CAPTION
 msgid "Help"
 msgstr "Help"
@@ -1098,6 +1190,10 @@ msgstr "Help"
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key"
 msgstr "Hot key"
+
+#: TFRMOPTIONS.LBLHOTKEY.CAPTION
+msgid "Hot Key:"
+msgstr ""
 
 #: ulng.rsopthotkeys
 msgid "Hot keys"
@@ -1166,6 +1262,14 @@ msgstr "Blijf scrollen"
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
 msgid "L&etter only"
 msgstr "Alleen Letter"
+
+#: TFRMCOLUMSPROPS.LABEL1.CAPTION
+msgid "Label1"
+msgstr ""
+
+#: TFRMCOLUMSPROPS.LABEL2.CAPTION
+msgid "Label2"
+msgstr ""
 
 #: ulng.rsoptlanguage
 msgid "Language"
@@ -1282,6 +1386,10 @@ msgstr ""
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
 msgstr "Meer"
+
+#: ulng.rsconfcolmove
+msgid "Move"
+msgstr ""
 
 #: TFRMMAIN.ACTRENAME.CAPTION
 msgid "Move F6"
@@ -1427,6 +1535,10 @@ msgstr "Open met:"
 msgid "Operation status:"
 msgstr ""
 
+#: ulng.rseditsearchoptions
+msgid "Option"
+msgstr ""
+
 #: TFRMOPTIONS.CAPTION
 msgid "Options"
 msgstr "Opties"
@@ -1483,6 +1595,10 @@ msgstr "Inpakken..."
 msgid "Page by page"
 msgstr "Bladzijde voor bladzijde"
 
+#: TFRMOPTIONS.LBLPARAM.CAPTION
+msgid "Param:"
+msgstr ""
+
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgid "Paste"
 msgstr "Plak"
@@ -1511,6 +1627,10 @@ msgstr "Positie opgeslagen"
 msgid "Predefined"
 msgstr "Voorgedefinieerd"
 
+#: TFCOLUMNSSETCONF.PANEL6.CAPTION
+msgid "Preview"
+msgstr ""
+
 #: TFRMCOMPAREFILES.BTNPREVDIFF.CAPTION
 msgid "Previous difference"
 msgstr "Vorig verschil"
@@ -1534,6 +1654,10 @@ msgstr "Snel zoeken"
 #: TFRMOPTIONS.GBQUICKSEARCH.CAPTION
 msgid "Quick search (current dir)"
 msgstr "Snel zoeken (huidige dir)"
+
+#: TFCOLUMNSSETCONF.RESCURTEXT.CAPTION
+msgid "R"
+msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgid "Read"
@@ -1570,6 +1694,10 @@ msgstr "Verplaats/hernoem \%d geselecteerde bestanden/directories?"
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"\%s\"?"
 msgstr "Verplaats/hernoem geselecteerde \"\%s\"?"
+
+#: ulng.rseditsearchreplace
+msgid "Replace"
+msgstr ""
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
 msgid "Replace text"
@@ -1647,6 +1775,10 @@ msgstr "Schuiven"
 msgid "Search"
 msgstr "Zoek"
 
+#: ulng.rseditsearchcaret
+msgid "Search from &caret"
+msgstr ""
+
 #: TFRMVIEWER.MISELECTALL.CAPTION
 msgid "Select All"
 msgstr "Selecteer alles"
@@ -1674,6 +1806,10 @@ msgstr "Selectie masker"
 #: TFRMEDITOR.ACTEDITSELECTALL.CAPTION
 msgid "Select&All"
 msgstr "Selecteer &Alles"
+
+#: ulng.rseditsearchselect
+msgid "Selected &text only"
+msgstr ""
 
 #: ulng.rsmsgselected
 msgid "Selected \%s of \%s in \%d of \%d files"
@@ -1967,6 +2103,10 @@ msgstr "Omhoog"
 msgid "Use '-' to off attribute and '?' to any"
 msgstr "Gebruik '-' voor uitzetten attributen en '?' voor willekeurig welke"
 
+#: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
+msgid "Use Inverted Selection"
+msgstr ""
+
 #: TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION
 msgid "Use memory mapping for search text in files"
 msgstr "Gebruik geheugen mapping voor zoeken tekst in bestanden"
@@ -2078,6 +2218,10 @@ msgstr "tekens"
 #: TFRMOPTIONS.EDTEXTVIEWER.TEXT
 msgid "emacs \"\%s\""
 msgstr "emacs \"\%s\""
+
+#: TFRMCOLUMSPROPS.CAPTION
+msgid "frmColumsProps"
+msgstr ""
 
 #: TFRMOPTIONS.EDTEXTEDITOR.TEXT
 msgid "gEdit \"\%s\""
