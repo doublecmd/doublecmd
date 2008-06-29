@@ -869,12 +869,9 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
           Canvas.Font.Name:=ActiveColmSlave.GetColumnFontName(ACol);
           Canvas.Font.Size:=ActiveColmSlave.GetColumnFontSize(ACol);
           Canvas.Brush.Style:=bsSolid;
-          if ARow = DropRowIndex then
-            begin
-              Canvas.Brush.Color:= ActiveColmSlave.GetColumnCursorColor(ACol);
-            end
-          else if gdSelected in State then
-{*}            Canvas.Brush.Color:= ActiveColmSlave.GetColumnCursorColor(ACol)
+
+          if gdSelected in State then
+{*}         Canvas.Brush.Color:= ActiveColmSlave.GetColumnCursorColor(ACol)
           else
             begin
               if (ARow mod 2) = 0 then
@@ -913,7 +910,13 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
              begin
 {*}            TextSelect;
              end;
-
+          // draw drop selection
+          if ARow = DropRowIndex then
+            begin
+              Canvas.Pen.Color:= ActiveColmSlave.GetColumnCursorText(ACol);
+              Canvas.Line(Rect.Left,Rect.Top, Rect.Right, Rect.Top);
+              Canvas.Line(Rect.Left,Rect.Bottom-1, Rect.Right, Rect.Bottom-1);
+            end;
         end;//of with
    end;// of NewPrepareColors;
 //------------------------------------------------------
