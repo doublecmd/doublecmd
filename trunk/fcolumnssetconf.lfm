@@ -1,14 +1,14 @@
 object fColumnsSetConf: TfColumnsSetConf
   Left = 287
-  Height = 725
+  Height = 600
   Top = 91
-  Width = 989
+  Width = 900
   HorzScrollBar.Page = 988
   VertScrollBar.Page = 724
   ActiveControl = edtNameofColumnsSet
   Caption = 'Configure custom columns view'
-  ClientHeight = 725
-  ClientWidth = 989
+  ClientHeight = 600
+  ClientWidth = 900
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow

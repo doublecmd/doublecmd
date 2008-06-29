@@ -2159,30 +2159,6 @@ msgstr ""
 msgid "&80/20"
 msgstr ""
 
-#: ulng.rsdlgbuttons
-msgid "&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &A'"
-msgstr ""
-
-#: 
-msgid "ll;&Skip;S&kip All;All;"
-msgstr ""
-
-#: ulng.rsmsgnofreespacecont
-msgid "No enough free space on target drive, Continue'"
-msgstr ""
-
-#: 
-msgid "?"
-msgstr ""
-
-#: ulng.rsmulrenfilenamestylelist
-msgid "No change;UPPERCASE;lowercase;First Char '"
-msgstr ""
-
-#: 
-msgid "Big;"
-msgstr ""
-
 #: ulng.rsconfcolmove
 msgid "Move"
 msgstr ""
@@ -2253,5 +2229,29 @@ msgstr ""
 
 #: TFCOLUMNSSETCONF.BTNPREV.CAPTION
 msgid "<-"
+msgstr ""
+
+#: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
+msgid "Use Inverted Selection"
+msgstr ""
+
+#: TFRMOPTIONS.LBLHOTKEY.CAPTION
+msgid "Hot Key:"
+msgstr ""
+
+#: TFRMOPTIONS.LBTYPES.CAPTION
+msgid "Categories:"
+msgstr ""
+
+#: TFRMOPTIONS.LABEL3.CAPTION
+msgid "Commands:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLPARAM.CAPTION
+msgid "Param:"
+msgstr ""
+
+#: ulng.rsconfcustheader
+msgid "Customize column: "
 msgstr ""
 

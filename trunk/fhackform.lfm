@@ -7,5 +7,6 @@ object frmHackForm: TfrmHackForm
   VertScrollBar.Page = 299
   OnShow = FormShow
   ShowInTaskBar = stNever
+  Position = poDesktopCenter
   LCLVersion = '0.9.25'
 end

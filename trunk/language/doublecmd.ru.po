@@ -346,9 +346,17 @@ msgstr "Al&t+Буква"
 msgid "Align"
 msgstr "Выравн."
 
+#: TFCOLUMNSSETCONF.BTNALLTEXT.CAPTION
+msgid "All"
+msgstr "Все"
+
 #: TFRMOPTIONS.LBLEXT.CAPTION
 msgid "All files with e&xtension (ending with):"
 msgstr "&Файлы с расширением:"
+
+#: TFCOLUMNSSETCONF.CBOVERCOLOR.CAPTION
+msgid "Allow Overcolor"
+msgstr ""
 
 #: TFRMPACKDLG.CBSTOREDIR.CAPTION
 msgid "Also &pack path names (only recursed)"
@@ -454,6 +462,10 @@ msgstr "С учетом регистра"
 msgid "Case sensitive sorting"
 msgstr "Сортировка с учётом регистра"
 
+#: TFRMOPTIONS.LBTYPES.CAPTION
+msgid "Categories:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
 msgid "Category attributes:"
 msgstr "Атрибуты"
@@ -502,6 +514,10 @@ msgstr "&Собрать файлы..."
 msgid "Command line history"
 msgstr "История командной строки"
 
+#: TFRMOPTIONS.LABEL3.CAPTION
+msgid "Commands:"
+msgstr ""
+
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
 msgstr "Сравнивать п&о содержимому"
@@ -509,6 +525,10 @@ msgstr "Сравнивать п&о содержимому"
 #: TFRMCOMPAREFILES.CAPTION
 msgid "Compare files"
 msgstr "Сравнить файлы"
+
+#: ulng.rsconfcolconfig
+msgid "Config"
+msgstr "Настройка"
 
 #: ulng.rsoptconfig
 msgid "Configuration"
@@ -657,6 +677,14 @@ msgstr "&Курсор"
 #: TFRMOPTIONS.LBLCURSORTEXT.CAPTION
 msgid "Cursor Text:"
 msgstr "Текст &под курсором"
+
+#: TFCOLUMNSSETCONF.PNLCUSTHEAD.CAPTION
+msgid "Customize column:"
+msgstr ""
+
+#: ulng.rsconfcustheader
+msgid "Customize column: "
+msgstr ""
 
 #: TFRMEDITOR.ACTEDITCUT.CAPTION
 msgid "Cut"
@@ -1058,6 +1086,10 @@ msgstr "Вкладки каталогов"
 msgid "Folder tabs headers"
 msgstr "Заголовки вкладок"
 
+#: TFCOLUMNSSETCONF.LABEL3.CAPTION
+msgid "Font:"
+msgstr "Шрифт:"
+
 #: ulng.rsoptfonts
 msgid "Fonts"
 msgstr "Шрифты"
@@ -1097,6 +1129,10 @@ msgstr "Помощь"
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key"
 msgstr "Горячая клавиша"
+
+#: TFRMOPTIONS.LBLHOTKEY.CAPTION
+msgid "Hot Key:"
+msgstr "Горячая клавиша:"
 
 #: ulng.rsopthotkeys
 msgid "Hot keys"
@@ -1281,6 +1317,10 @@ msgstr "Режим:"
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
 msgstr "Больше"
+
+#: ulng.rsconfcolmove
+msgid "Move"
+msgstr "Переместить"
 
 #: TFRMMAIN.ACTRENAME.CAPTION
 msgid "Move F6"
@@ -1482,6 +1522,10 @@ msgstr "Упаковка..."
 msgid "Page by page"
 msgstr "Постранично"
 
+#: TFRMOPTIONS.LBLPARAM.CAPTION
+msgid "Param:"
+msgstr "Параметр:"
+
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgid "Paste"
 msgstr "&Вставить"
@@ -1510,6 +1554,10 @@ msgstr "Позиция сохранена"
 msgid "Predefined"
 msgstr "Предопределенный"
 
+#: TFCOLUMNSSETCONF.PANEL6.CAPTION
+msgid "Preview"
+msgstr ""
+
 #: TFRMCOMPAREFILES.BTNPREVDIFF.CAPTION
 msgid "Previous difference"
 msgstr "Предыдущее"
@@ -1533,6 +1581,10 @@ msgstr "Быстрый поиск"
 #: TFRMOPTIONS.GBQUICKSEARCH.CAPTION
 msgid "Quick search (current dir)"
 msgstr "Поиск в текущем каталоге"
+
+#: TFCOLUMNSSETCONF.RESCURTEXT.CAPTION
+msgid "R"
+msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgid "Read"
@@ -1966,6 +2018,10 @@ msgstr "Вверх"
 msgid "Use '-' to off attribute and '?' to any"
 msgstr ""
 
+#: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
+msgid "Use Inverted Selection"
+msgstr "Инверсное выделение"
+
 #: TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION
 msgid "Use memory mapping for search text in files"
 msgstr "Использовать отображение в память, при поиске текста в файлах"
@@ -2125,13 +2181,4 @@ msgstr ""
 #: TFRMMAIN.BTNLEFTHOME.CAPTION
 msgid "~"
 msgstr ""
-
-
-#: ulng.rsconfcolmove
-msgid "Move"
-msgstr "Переместить"
-
-#: ulng.rsconfcolconfig
-msgid "Config"
-msgstr "Настройка"
 
