@@ -807,10 +807,12 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
            while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
              Delete(s,Length(s),1);
          end;
+       Canvas.Brush.Style:= bsClear;
        if gShowIcons then
          Canvas.TextOut(Rect.Left + gIconsSize + 3 ,iTextTop,s)
        else
          Canvas.TextOut(Rect.Left + 2 ,iTextTop,s);
+       Canvas.Brush.Style:= bsSolid;
      end;
   end; //of DrawIconRaw
   //------------------------------------------------------
@@ -828,6 +830,7 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
             while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
               Delete(s,Length(s),1);
           end;
+         Canvas.Brush.Style:= bsClear;
          case ActiveColmSlave.GetColumnAlign(ACol) of
            taRightJustify:  begin
                               cw:=ColWidths[ACol];
@@ -841,6 +844,7 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
                               Canvas.TextOut(Rect.Left+((cw-tw-3) div 2),iTextTop,s);
                             end;
          end; //of case
+         Canvas.Brush.Style:= bsSolid;
        end;//of with
   end; //of DrawOtherRow;
   //------------------------------------------------------
