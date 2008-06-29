@@ -34,6 +34,7 @@ type
     actEditRedo: TAction;
     actEditPaste: TAction;
     actEditDelete: TAction;
+    actEditFindNext: TAction;
     ilImageList: TImageList;
     MainMenu1: TMainMenu;
     ActListEdit: TActionList;
@@ -44,6 +45,7 @@ type
     actFileSaveAs: TAction;
     actFileNew: TAction;
     actFileExit: TAction;
+    miFindNext: TMenuItem;
     miDelete: TMenuItem;
     miSelectAll: TMenuItem;
     miRedo: TMenuItem;
@@ -97,6 +99,7 @@ type
     tbSeparator3: TToolButton;
     tbConfig: TToolButton;
     tbHelp: TToolButton;
+    procedure actEditFindNextExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actEditDeleteExecute(Sender: TObject);
     procedure actEditRedoExecute(Sender: TObject);
@@ -203,6 +206,15 @@ begin
       miHighlight.Add(mi);
     end;
 
+end;
+
+procedure TfrmEditor.actEditFindNextExecute(Sender: TObject);
+begin
+  if sSearchText <> '' then
+    begin
+      DoSearchReplaceText(False, bSearchBackwards);
+      bSearchFromCaret:= True;
+  end;
 end;
 
 procedure TfrmEditor.OpenFile(const sFileName:String);

@@ -31,6 +31,10 @@ msgstr "&Довършване"
 msgid "&Associate with:"
 msgstr "&Обвързване с:"
 
+#: ulng.rseditsearchback
+msgid "&Backward"
+msgstr ""
+
 #: TFRMOPTIONS.CBEXACTBEGINNING.CAPTION
 msgid "&Beginning (name must start with first typed character)"
 msgstr "&Начало (името трябва да започва с първия набран знак)"
@@ -102,6 +106,10 @@ msgstr "&Файлове за разгъване:"
 #: TFRMEDITOR.ACTEDITFIND.CAPTION
 msgid "&Find"
 msgstr "&Търсене"
+
+#: ulng.rseditsearchfrw
+msgid "&Forward"
+msgstr ""
 
 #: TFRMFINDDLG.BTNGOTOPATH.CAPTION
 msgid "&Go to file"
@@ -175,6 +183,10 @@ msgstr "О&пресняване"
 msgid "&Replace"
 msgstr "&Замяна"
 
+#: ulng.rseditsearchreplacewith
+msgid "&Replace with:"
+msgstr ""
+
 #: TFRMEDITOR.ACTFILESAVE.CAPTION
 msgid "&Save"
 msgstr "&Съхраняване"
@@ -190,6 +202,10 @@ msgstr "&Запис на положението"
 #: TFRMMAIN.ACTSEARCH.CAPTION
 msgid "&Search"
 msgstr "&Търсене"
+
+#: ulng.rseditsearchforlbl
+msgid "&Search for:"
+msgstr ""
 
 #: TFRMMAIN.ACTMARKMARKALL.CAPTION
 msgid "&Select All"
@@ -235,6 +251,14 @@ msgstr "&Разгъване на имената на пътищата, ако с
 msgid "&View"
 msgstr "&Преглед"
 
+#: ulng.rseditsearchwholeword
+msgid "&Whole words only"
+msgstr ""
+
+#: TFRMCOLUMSPROPS.BITBTN1.CAPTION
+msgid "&ОК"
+msgstr ""
+
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
 msgid "*"
 msgstr "*"
@@ -250,6 +274,10 @@ msgstr "-"
 #: TFRMFILEPROPERTIES.LBLATTRTEXT.CAPTION
 msgid "-----------"
 msgstr "-----------"
+
+#: TFCOLUMNSSETCONF.BTNNEXT.CAPTION
+msgid "->"
+msgstr ""
 
 #: TFRMMAIN.BTNLEFTUP.CAPTION
 msgid ".."
@@ -290,6 +318,10 @@ msgstr "1457664B - 3.5\""
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr "16x16"
+
+#: TFCOLUMNSSETCONF.BTNPREV.CAPTION
+msgid "<-"
+msgstr ""
 
 #: TFRMPACKDLG.CBOTHERPLUGINS.CAPTION
 msgid "=>"
@@ -347,9 +379,17 @@ msgstr "Al&t+букви"
 msgid "Align"
 msgstr "Подравняване"
 
+#: TFCOLUMNSSETCONF.BTNALLTEXT.CAPTION
+msgid "All"
+msgstr ""
+
 #: TFRMOPTIONS.LBLEXT.CAPTION
 msgid "All files with e&xtension (ending with):"
 msgstr "Всички файлове с раз&ширение (свършващи на):"
+
+#: TFCOLUMNSSETCONF.CBOVERCOLOR.CAPTION
+msgid "Allow Overcolor"
+msgstr ""
 
 #: TFRMPACKDLG.CBSTOREDIR.CAPTION
 msgid "Also &pack path names (only recursed)"
@@ -411,6 +451,14 @@ msgstr "Буферът е много малък"
 msgid "Build: "
 msgstr "Постройка:"
 
+#: TFCOLUMNSSETCONF.BUTTON1.CAPTION
+msgid "Button1"
+msgstr ""
+
+#: ulng.rseditsearchcase
+msgid "C&ase sensitivity"
+msgstr ""
+
 #: TFRMMAIN.MNUCONFIG.CAPTION
 msgid "C&onfiguration"
 msgstr "&Настройка"
@@ -454,6 +502,10 @@ msgstr "Отчитане на глАВносТа"
 #: TFRMOPTIONS.CBCASESENSITIVESORT.CAPTION
 msgid "Case sensitive sorting"
 msgstr "Отчитане на глАВноСта при подреждане"
+
+#: TFRMOPTIONS.LBTYPES.CAPTION
+msgid "Categories:"
+msgstr ""
 
 #: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
 msgid "Category attributes:"
@@ -499,9 +551,17 @@ msgstr "Стълбове"
 msgid "Combine Files"
 msgstr "Сглобяване на файлове"
 
+#: TFRMCOLUMSPROPS.COMBOBOX1.TEXT
+msgid "ComboBox1"
+msgstr ""
+
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
 msgstr "Дневник на реда управление"
+
+#: TFRMOPTIONS.LABEL3.CAPTION
+msgid "Commands:"
+msgstr ""
 
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
@@ -510,6 +570,10 @@ msgstr "Сравняване по &съдържание"
 #: TFRMCOMPAREFILES.CAPTION
 msgid "Compare files"
 msgstr "Сравняване на файлове:"
+
+#: ulng.rsconfcolconfig
+msgid "Config"
+msgstr ""
 
 #: ulng.rsoptconfig
 msgid "Configuration"
@@ -659,6 +723,14 @@ msgstr "Цвят на показалеца:"
 msgid "Cursor Text:"
 msgstr "Текст на показалеца:"
 
+#: TFCOLUMNSSETCONF.PNLCUSTHEAD.CAPTION
+msgid "Customize column:"
+msgstr ""
+
+#: ulng.rsconfcustheader
+msgid "Customize column: "
+msgstr ""
+
 #: TFRMEDITOR.ACTEDITCUT.CAPTION
 msgid "Cut"
 msgstr "Изрязване"
@@ -718,6 +790,10 @@ msgstr "Изтриване на избрания \"\%s\"?"
 #: TFRMOPTIONS.RBNONEQS.CAPTION
 msgid "Di&sabled"
 msgstr "&Изключен"
+
+#: ulng.rseditsearchdirection
+msgid "Direction"
+msgstr ""
 
 #: ulng.rspropsfolder
 msgid "Directory"
@@ -1035,6 +1111,10 @@ msgstr "Намиране на файлове НЕсъдържащи текста
 msgid "Find in file"
 msgstr "Търсене във файл"
 
+#: TFRMEDITOR.ACTEDITFINDNEXT.CAPTION
+msgid "Find next"
+msgstr ""
+
 #: TFRMMULTIRENAME.LBFIND.CAPTION
 msgid "Find..."
 msgstr "Търсене..."
@@ -1059,6 +1139,10 @@ msgstr "Папкови подпрозорци"
 msgid "Folder tabs headers"
 msgstr "Заглавки на подстраниците на папките"
 
+#: TFCOLUMNSSETCONF.LABEL3.CAPTION
+msgid "Font:"
+msgstr ""
+
 #: ulng.rsoptfonts
 msgid "Fonts"
 msgstr "Шрифтове"
@@ -1074,6 +1158,10 @@ msgstr "Действието е прекъснато от потребителя
 #: ulng.rsmsgerrnotsupported
 msgid "Function not supported!"
 msgstr "Действието не се поддържа!"
+
+#: TFRMCOLUMSPROPS.GBOX1.CAPTION
+msgid "Gbox1"
+msgstr ""
 
 #: TFRMOPTIONS.CBBFILESYSTEM.TEXT
 msgid "General"
@@ -1091,6 +1179,10 @@ msgstr "Графики"
 msgid "Group"
 msgstr "Група"
 
+#: TFRMCOLUMSPROPS.GROUPBOX1.CAPTION
+msgid "GroupBox1"
+msgstr ""
+
 #: TFRMEXTRACTDLG.BTNHELP.CAPTION
 msgid "Help"
 msgstr "Помощ"
@@ -1098,6 +1190,10 @@ msgstr "Помощ"
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key"
 msgstr "Клавишно съчетание"
+
+#: TFRMOPTIONS.LBLHOTKEY.CAPTION
+msgid "Hot Key:"
+msgstr ""
 
 #: ulng.rsopthotkeys
 msgid "Hot keys"
@@ -1166,6 +1262,14 @@ msgstr ""
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
 msgid "L&etter only"
 msgstr "Само &буква"
+
+#: TFRMCOLUMSPROPS.LABEL1.CAPTION
+msgid "Label1"
+msgstr ""
+
+#: TFRMCOLUMSPROPS.LABEL2.CAPTION
+msgid "Label2"
+msgstr ""
 
 #: ulng.rsoptlanguage
 msgid "Language"
@@ -1282,6 +1386,10 @@ msgstr ""
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
 msgstr "Още"
+
+#: ulng.rsconfcolmove
+msgid "Move"
+msgstr ""
 
 #: TFRMMAIN.ACTRENAME.CAPTION
 msgid "Move F6"
@@ -1427,6 +1535,10 @@ msgstr "Отваряне с"
 msgid "Operation status:"
 msgstr "Ход на действието:"
 
+#: ulng.rseditsearchoptions
+msgid "Option"
+msgstr ""
+
 #: TFRMOPTIONS.CAPTION
 msgid "Options"
 msgstr "Възможности"
@@ -1483,6 +1595,10 @@ msgstr "Сбиване..."
 msgid "Page by page"
 msgstr "Страница по страница"
 
+#: TFRMOPTIONS.LBLPARAM.CAPTION
+msgid "Param:"
+msgstr ""
+
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgid "Paste"
 msgstr "Поставяне"
@@ -1511,6 +1627,10 @@ msgstr "Положението е записано"
 msgid "Predefined"
 msgstr "Предуказан"
 
+#: TFCOLUMNSSETCONF.PANEL6.CAPTION
+msgid "Preview"
+msgstr ""
+
 #: TFRMCOMPAREFILES.BTNPREVDIFF.CAPTION
 msgid "Previous difference"
 msgstr "Предишна разлика"
@@ -1534,6 +1654,10 @@ msgstr "Бързо търсене"
 #: TFRMOPTIONS.GBQUICKSEARCH.CAPTION
 msgid "Quick search (current dir)"
 msgstr "Бързо търсене (текуща папка)"
+
+#: TFCOLUMNSSETCONF.RESCURTEXT.CAPTION
+msgid "R"
+msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgid "Read"
@@ -1570,6 +1694,10 @@ msgstr "Преименуване/местене на \%d избраните па
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"\%s\"?"
 msgstr "Преименуване/местене на избрания \"\%s\"?"
+
+#: ulng.rseditsearchreplace
+msgid "Replace"
+msgstr ""
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
 msgid "Replace text"
@@ -1647,6 +1775,10 @@ msgstr "Превъртане"
 msgid "Search"
 msgstr "Търсене"
 
+#: ulng.rseditsearchcaret
+msgid "Search from &caret"
+msgstr ""
+
 #: TFRMVIEWER.MISELECTALL.CAPTION
 msgid "Select All"
 msgstr "Избор на всички"
@@ -1674,6 +1806,10 @@ msgstr ""
 #: TFRMEDITOR.ACTEDITSELECTALL.CAPTION
 msgid "Select&All"
 msgstr "Избор на вси&чки"
+
+#: ulng.rseditsearchselect
+msgid "Selected &text only"
+msgstr ""
 
 #: ulng.rsmsgselected
 msgid "Selected \%s of \%s in \%d of \%d files"
@@ -1967,6 +2103,10 @@ msgstr "Нагоре"
 msgid "Use '-' to off attribute and '?' to any"
 msgstr "Използвайте „-“ за изключване на принадлежност и „?“ за всякаква"
 
+#: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
+msgid "Use Inverted Selection"
+msgstr ""
+
 #: TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION
 msgid "Use memory mapping for search text in files"
 msgstr ""
@@ -2077,6 +2217,10 @@ msgstr "знаци"
 
 #: TFRMOPTIONS.EDTEXTVIEWER.TEXT
 msgid "emacs \"\%s\""
+msgstr ""
+
+#: TFRMCOLUMSPROPS.CAPTION
+msgid "frmColumsProps"
 msgstr ""
 
 #: TFRMOPTIONS.EDTEXTEDITOR.TEXT

@@ -151,6 +151,19 @@ resourcestring
   rsEditNewFile = 'new.txt';
   rsEditNewOpen = 'Open file';
   rsEditNewFileName = 'Filename:';
+  // Edit search
+  rsEditSearchCaption = 'Search';
+  rsEditSearchForLbl = '&Search for:';
+  rsEditSearchFrw = '&Forward';
+  rsEditSearchBack = '&Backward';
+  rsEditSearchCase = 'C&ase sensitivity';
+  rsEditSearchWholeWord ='&Whole words only';
+  rsEditSearchCaret ='Search from &caret';
+  rsEditSearchSelect ='Selected &text only';
+  rsEditSearchOptions ='Option';
+  rsEditSearchDirection = 'Direction';
+  rsEditSearchReplace ='Replace';
+  rsEditSearchReplaceWith ='&Replace with:';
   // Options dialog
   rsOptLanguage = 'Language';
   rsOptBehav = 'Behaviors';

@@ -55,7 +55,6 @@ object frmEditor: TfrmEditor
     OnKeyPress = EditorKeyPress
     OnKeyUp = EditorKeyUp
     BookMarkOptions.Xoffset = 48
-    BookMarkOptions.OnChange = nil
     Gutter.AutoSize = True
     Gutter.ShowLineNumbers = True
     Gutter.ShowCodeFolding = True
@@ -383,7 +382,6 @@ object frmEditor: TfrmEditor
         Command = 250
         ShortCut = 24642
       end>
-    SelectedColor.OnChange = nil
     OnChange = EditorChange
     OnReplaceText = EditorReplaceText
     OnStatusChange = EditorStatusChange
@@ -1048,6 +1046,10 @@ object frmEditor: TfrmEditor
         }
         OnClick = actEditFindExecute
       end
+      object miFindNext: TMenuItem
+        Action = actEditFindNext
+        OnClick = actEditFindNextExecute
+      end
       object miReplace: TMenuItem
         Action = actEditRplc
         Bitmap.Data = {
@@ -1295,6 +1297,13 @@ object frmEditor: TfrmEditor
       ImageIndex = 14
       OnExecute = actEditDeleteExecute
       ShortCut = 46
+    end
+    object actEditFindNext: TAction
+      Category = 'Edit'
+      Caption = 'Find next'
+      DisableIfNoHandler = True
+      OnExecute = actEditFindNextExecute
+      ShortCut = 114
     end
   end
   object pmContextMenu: TPopupMenu
