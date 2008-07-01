@@ -44,7 +44,7 @@ uses
   Graphics, Forms, Menus, Controls, Dialogs, ComCtrls,
   StdCtrls, ExtCtrls,ActnList,Buttons,
   SysUtils, Classes,  {uFilePanel,} framePanel, {FileCtrl,} Grids,
-  KASToolBar, SynEdit, KASBarMenu,KASBarFiles,uColumns;
+  KASToolBar, SynEdit, KASBarMenu,KASBarFiles,uColumns, uFileList;
 
 const
   cHistoryFile='cmdhistory.txt';
@@ -321,6 +321,8 @@ type
     procedure miHotDeleteClick(Sender: TObject);
     procedure miHotConfClick(Sender: TObject);
     procedure CalculateSpace(bDisplayMessage:Boolean);
+    procedure RenameFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel);
+    procedure CopyFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel);
     procedure RenameFile(sDestPath:String); // this is for F6 and Shift+F6
     procedure CopyFile(sDestPath:String); //  this is for F5 and Shift+F5
     procedure ShowRenameFileEdit(const sFileName:String);
@@ -351,7 +353,7 @@ implementation
 
 uses
   Clipbrd, LCLIntf, uTypes, fAbout, uGlobs, uLng, fOptions,{ fViewer,}fconfigtoolbar, fFileAssoc,
-  uCopyThread, uFileList, uDeleteThread, uVFSUtil, uWCXModule, uVFSTypes, Masks,
+  uCopyThread, uDeleteThread, uVFSUtil, uWCXModule, uVFSTypes, Masks, uFileOp,
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg, uClassesEx,
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils, uLog, uWipeThread,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg, fExtractDlg,
@@ -574,17 +576,35 @@ begin
 end;
 
 procedure TfrmMain.FormDropFiles(Sender: TObject; const FileNames: array of String);
+var
+  fr: TFileRecItem;
+  FrameFilePanel: TFrameFilePanel;
+  I: Integer;
+  FileList: TFileList;
 begin
+  FrameFilePanel:= nil;
+  // drop on left panel
   if FindLCLControl(Mouse.CursorPos) = FrameLeft.dgPanel then
-    begin
-      ShowMessage('Copy ' + IntToStr(High(FileNames)+1) + ' folder/files to ' + FrameLeft.ActiveDir);
-      Exit;
-    end;
+    FrameFilePanel:= FrameLeft;
+  // drop on right panel
   if FindLCLControl(Mouse.CursorPos) = FrameRight.dgPanel then
+    FrameFilePanel:= FrameRight;
+  if not Assigned(FrameFilePanel) then Exit;
+
+  // fill file list by files
+  FileList:= TFileList.Create;
+  FileList.CurrentDirectory:= ExtractFilePath(FileNames[0]);
+  for I:= Low(FileNames) to High(FileNames) do
     begin
-      ShowMessage('Copy ' + IntToStr(High(FileNames)+1) + ' folder/files to ' + FrameRight.ActiveDir);
-      Exit;
+      fr:= LoadFilebyName(FileNames[I]);
+      fr.sName:= FileNames[I];
+      FileList.AddItem(@fr);
     end;
+  // if Shift pressed then move else copy
+  if (GetKeyState(VK_SHIFT) and $8000) <> 0 then
+    RenameFile(FileList, FrameFilePanel)
+  else
+    CopyFile(FileList, FrameFilePanel);
 end;
 
 var
@@ -1297,7 +1317,149 @@ begin
   end;
 end;
 
+(* Used for drag&drop move from external application *)
+procedure TfrmMain.RenameFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel);
+var
+  sDestPath,
+  sDstMaskTemp: String;
+  sCopyQuest: String;
+  MT: TMoveThread;
+begin
+  if (srcFileList.Count=1) and not (FPS_ISDIR(srcFileList.GetItem(0)^.iMode) or srcFileList.GetItem(0)^.bLinkIsDir) then
+    begin
+      sCopyQuest:= Format(rsMsgRenSel, [srcFileList.GetItem(0)^.sName]);
+      sDestPath:= dstFramePanel.ActiveDir + ExtractFileName(srcFileList.GetItem(0)^.sName);
+    end
+  else
+    begin
+      sCopyQuest:= Format(rsMsgRenFlDr, [srcFileList.Count]);
+      sDestPath:= dstFramePanel.ActiveDir + '*.*';
+    end;
 
+  with TfrmMoveDlg.Create(Application) do
+  begin
+    try
+      edtDst.Text:= sDestPath;
+      lblMoveSrc.Caption:= sCopyQuest;
+      if ShowModal = mrCancel then   Exit ; // throught finally
+      sDestPath:= ExtractFilePath(edtDst.Text);
+      sDstMaskTemp:= ExtractFileName(edtDst.Text);
+    finally
+      Free;
+    end;
+  end;
+
+(* Move files *)
+
+try
+  begin
+   if not Assigned(frmFileOp) then
+     frmFileOp:= TfrmFileOp.Create(Application);
+   try
+     MT:= TMoveThread.Create(srcFileList);
+     MT.FFileOpDlg:= frmFileOp;
+     MT.sDstPath:= sDestPath;
+     MT.sDstMask:= sDstMaskTemp;
+     frmFileOp.Thread:= TThread(MT);
+     frmFileOp.Show;
+     MT.Resume;
+   except
+     MT.Free;
+   end;
+  end;
+
+except
+    //FreeAndNil(frmFileOp);
+end;
+end;
+
+(* Used for drag&drop copy from external application *)
+procedure TfrmMain.CopyFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel);
+var
+  sCopyQuest,
+  sDestPath,
+  sDstMaskTemp: String;
+  blDropReadOnlyFlag: Boolean;
+  CT: TCopyThread;
+begin
+  if (srcFileList.Count=1) and not (FPS_ISDIR(srcFileList.GetItem(0)^.iMode) or srcFileList.GetItem(0)^.bLinkIsDir) then
+    begin
+      sCopyQuest:= Format(rsMsgCpSel, [srcFileList.GetItem(0)^.sName]);
+      sDestPath:= dstFramePanel.ActiveDir + ExtractFileName(srcFileList.GetItem(0)^.sName);
+    end
+  else
+    begin
+      sCopyQuest:= Format(rsMsgCpFlDr, [srcFileList.Count]);
+      sDestPath:= dstFramePanel.ActiveDir + '*.*';
+    end;
+
+  (* Copy files between archive and real file system *)
+
+  if  dstFramePanel.pnlFile.PanelMode = pmArchive then
+    begin
+      if not IsBlocked then
+        begin
+          if  (VFS_CAPS_COPYIN in dstFramePanel.pnlFile.VFS.VFSmodule.VFSCaps) then
+            begin
+              DebugLn('+++ Pack files to archive +++');
+              sDestPath:=ExtractFilePath(sDestPath);
+              ShowPackDlg(dstFramePanel.pnlFile.VFS, srcFileList, sDestPath, False);
+            end
+          else
+            msgOK(rsMsgErrNotSupported);
+        end;
+      Exit;
+    end;
+
+  with TfrmCopyDlg.Create(Application) do
+  begin
+    try
+      edtDst.Text:=sDestPath;
+      lblCopySrc.Caption := sCopyQuest;
+      cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
+      cbDropReadOnlyFlag.Visible := (dstFramePanel.pnlFile.PanelMode = pmDirectory);
+      if ShowModal = mrCancel then
+        Exit ; // throught finally
+      sDestPath:=ExtractFilePath(edtDst.Text);
+      sDstMaskTemp:=ExtractFileName(edtDst.Text);
+      blDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
+    finally
+      Free;
+    end;
+  end; //with
+
+  (* Copy files between VFS and real file system *)
+
+  if dstFramePanel.pnlFile.PanelMode = pmVFS then
+    begin
+      if  (VFS_CAPS_COPYIN in dstFramePanel.pnlFile.VFS.VFSmodule.VFSCaps) then
+        begin
+          DebugLn('+++ Copy files to VFS +++');
+          dstFramePanel.pnlFile.VFS.VFSmodule.VFSCopyInEx(srcFileList, sDestPath, 0);
+        end
+      else
+        msgOK(rsMsgErrNotSupported);
+      Exit;
+    end;
+
+  (* Copy files between real file system *)
+
+  if not Assigned(frmFileOp) then
+    frmFileOp:= TfrmFileOp.Create(Application);
+    try
+      CT := TCopyThread.Create(srcFileList);
+      CT.FFileOpDlg := frmFileOp;
+      CT.sDstPath:=sDestPath;
+      CT.sDstMask:=sDstMaskTemp;
+      CT.bDropReadOnlyFlag := blDropReadOnlyFlag;
+
+      frmFileOp.Thread := TThread(CT);
+      frmFileOp.Show;
+      CT.Resume;
+    except
+      CT.Free;
+    end;
+end;
 
 procedure TfrmMain.RenameFile(sDestPath:String);
 var
@@ -1328,6 +1490,7 @@ begin
   end
   else
     sDestPath:=sDestPath+'*.*';
+
   with TfrmMoveDlg.Create(Application) do
   begin
     try
@@ -1345,7 +1508,7 @@ begin
     end;
   end;
   
-(*Move files*)
+(* Move files *)
 
 try
   begin
@@ -1404,7 +1567,7 @@ begin
     begin
       if not IsBlocked then
         begin
-          DebugLN('+++ Extract files from archive +++');
+          DebugLn('+++ Extract files from archive +++');
           fl.CurrentDirectory := ActiveFrame.ActiveDir;
           ShowExtractDlg(ActiveFrame, fl, ExtractFilePath(sDestPath));
           NotActiveFrame.RefreshPanel;
@@ -1419,7 +1582,7 @@ begin
         begin
           if  (VFS_CAPS_COPYIN in NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCaps) then
             begin
-              DebugLN('+++ Pack files to archive +++');
+              DebugLn('+++ Pack files to archive +++');
               fl.CurrentDirectory := ActiveFrame.ActiveDir;
               sDestPath:=ExtractFilePath(sDestPath);
               ShowPackDlg(NotActiveFrame.pnlFile.VFS, fl, sDestPath, False);
@@ -1457,7 +1620,7 @@ begin
     begin
       if  (VFS_CAPS_COPYIN in NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCaps) then
         begin
-          DebugLN('+++ Copy files to VFS +++');
+          DebugLn('+++ Copy files to VFS +++');
           fl.CurrentDirectory := ActiveFrame.ActiveDir;
           NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyInEx(fl, sDestPath, 0);
         end
@@ -1471,7 +1634,7 @@ begin
     begin
       if  (VFS_CAPS_COPYOUT in ActiveFrame.pnlFile.VFS.VFSmodule.VFSCaps) then
         begin
-          DebugLN('+++ Copy files from VFS +++');
+          DebugLn('+++ Copy files from VFS +++');
           fl.CurrentDirectory := ActiveFrame.ActiveDir;
           ActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyOutEx(fl, sDestPath, 0);
         end
