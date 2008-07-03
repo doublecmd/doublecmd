@@ -340,6 +340,8 @@ type
     function ExecCmd(Cmd:string; param:string='') : Boolean;
     function ExecCmdEx(NumberOfButton:Integer) : Boolean;
     procedure UpdateWindowView;
+    procedure LoadWindowState;
+    procedure SaveWindowState;
     procedure SaveShortCuts;
     procedure LoadShortCuts;
     published
@@ -378,16 +380,7 @@ begin
       slCommandHistory.Free;
     end;
 
-  Left := gIni.ReadInteger('Configuration', 'Main.Left', Left);
-  Top := gIni.ReadInteger('Configuration', 'Main.Top', Top);
-  Width :=  gIni.ReadInteger('Configuration', 'Main.Width', Width);
-  Height :=  gIni.ReadInteger('Configuration', 'Main.Height', Height);
-  if gIni.ReadBool('Configuration', 'maximized', True) then
-    Self.WindowState := wsMaximized;
-
-
-  LoadTabs(nbLeft);
-  LoadTabs(nbRight);
+  LoadWindowState;
 
   nbLeft.Options:=[nboShowCloseButtons];
   nbRight.Options:=[nboShowCloseButtons];
@@ -797,31 +790,13 @@ begin
 end;
 
 procedure TfrmMain.frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
-var
-  x:Integer;
 begin
- try
-  (* Save  columns widths *)
-  with FrameLeft do
-  begin
-    for x:=0 to ColSet.GetColumnSet(ActiveColm).ColumnsCount - 1 do
-      ColSet.GetColumnSet(ActiveColm).SetColumnWidth(x, dgPanel.ColWidths[x]);
-    ColSet.GetColumnSet(ActiveColm).Save(gIni);
+  try
+    SaveWindowState;
+    SaveGlobs;
+  except
   end;
-  
-  (* Save all tabs *)
-  SaveTabs(nbLeft);
-  SaveTabs(nbRight);
-  
-  gIni.WriteInteger('Configuration', 'Main.Left', Left);
-  gIni.WriteInteger('Configuration', 'Main.Top', Top);
-  gIni.WriteInteger('Configuration', 'Main.Width', Width);
-  gIni.WriteInteger('Configuration', 'Main.Height', Height);
-  gIni.WriteBool('Configuration', 'maximized', (WindowState = wsMaximized));
-  SaveGlobs; // must be last
- except
- end;
- Application.Terminate;
+  Application.Terminate;
 end;
 
 procedure TfrmMain.frmMainKeyUp(Sender: TObject; var Key: Word;
@@ -2691,6 +2666,47 @@ begin
     // only cMaxStringItems(see uGlobs.pas) is stored
     if edtCommand.Items.Count>cMaxStringItems then
       edtCommand.Items.Delete(edtCommand.Items.Count-1);
+  end;
+end;
+
+procedure TfrmMain.LoadWindowState;
+begin
+  (* Load window bounds and state*)
+  Left := gIni.ReadInteger('Configuration', 'Main.Left', Left);
+  Top := gIni.ReadInteger('Configuration', 'Main.Top', Top);
+  Width :=  gIni.ReadInteger('Configuration', 'Main.Width', Width);
+  Height :=  gIni.ReadInteger('Configuration', 'Main.Height', Height);
+  if gIni.ReadBool('Configuration', 'maximized', True) then
+    Self.WindowState := wsMaximized;
+
+  (* Load all tabs *)
+  LoadTabs(nbLeft);
+  LoadTabs(nbRight);
+end;
+
+procedure TfrmMain.SaveWindowState;
+var
+  x: Integer;
+begin
+  try
+    (* Save  columns widths *)
+    with FrameLeft do
+    begin
+      for x:=0 to ColSet.GetColumnSet(ActiveColm).ColumnsCount - 1 do
+        ColSet.GetColumnSet(ActiveColm).SetColumnWidth(x, dgPanel.ColWidths[x]);
+      ColSet.GetColumnSet(ActiveColm).Save(gIni);
+    end;
+  
+    (* Save all tabs *)
+    SaveTabs(nbLeft);
+    SaveTabs(nbRight);
+    (* Save window bounds and state*)
+    gIni.WriteInteger('Configuration', 'Main.Left', Left);
+    gIni.WriteInteger('Configuration', 'Main.Top', Top);
+    gIni.WriteInteger('Configuration', 'Main.Width', Width);
+    gIni.WriteInteger('Configuration', 'Main.Height', Height);
+    gIni.WriteBool('Configuration', 'maximized', (WindowState = wsMaximized));
+  except
   end;
 end;
 

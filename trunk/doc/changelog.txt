@@ -1,4 +1,5 @@
-﻿17.05.2008 ADD: Feature Request [ 1951507 ] Wipe file
+﻿03.07.2008 FIX: Bug [ 1945378 ] Crash on changing icon size
+17.05.2008 ADD: Feature Request [ 1951507 ] Wipe file
 02.05.2008 ADD: Feature Request [ 1880894 ]  Open in tab directory under cursor (Ctrl+Up)
 28.04.2008 FIX: Bug [ 1953396 ] Error if "Directory hotlist" (Ctrl+D) is empty
 --------------------------------------------------------------------------------
