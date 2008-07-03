@@ -63,7 +63,7 @@ object frmOptions: TfrmOptions
     TabOrder = 1
     object btnOK: TBitBtn
       AnchorSideRight.Control = btnCancel
-      Left = 573
+      Left = 475
       Height = 31
       Top = 5
       Width = 98
@@ -78,16 +78,30 @@ object frmOptions: TfrmOptions
       TabOrder = 0
     end
     object btnCancel: TBitBtn
+      AnchorSideRight.Control = btnApply
+      Left = 573
+      Height = 31
+      Top = 5
+      Width = 98
+      Anchors = [akTop, akRight]
+      BorderSpacing.Right = 8
+      BorderSpacing.InnerBorder = 2
+      Caption = 'Cancel'
+      Kind = bkCancel
+      ModalResult = 2
+      NumGlyphs = 0
+      TabOrder = 2
+    end
+    object btnApply: TBitBtn
       Left = 679
       Height = 31
       Top = 5
       Width = 98
       Anchors = [akTop, akRight]
       BorderSpacing.InnerBorder = 2
-      Caption = 'Cancel'
-      Kind = bkCancel
-      ModalResult = 2
+      Caption = 'Apply'
       NumGlyphs = 0
+      OnClick = btnApplyClick
       TabOrder = 1
     end
   end
