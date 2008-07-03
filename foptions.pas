@@ -233,6 +233,7 @@ type
     Panel3: TPanel;
     Panel1: TPanel;
     btnOK: TBitBtn;
+    btnApply: TBitBtn;
     btnCancel: TBitBtn;
     pgBehav: TPage;
     pgColor: TPage;
@@ -292,6 +293,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btSetHotKeyClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
+    procedure btnApplyClick(Sender: TObject);
     procedure btnSelEditFntClick(Sender: TObject);
     procedure btnSelMainFntClick(Sender: TObject);
     procedure btnSelViewFntClick(Sender: TObject);
@@ -325,6 +327,8 @@ type
     procedure FillFileColorsList;
     procedure FillColumnsList;
     procedure FillCommandsPage;
+    procedure LoadConfig;
+    procedure SaveConfig;
   end;
 
 implementation
@@ -367,142 +371,11 @@ begin
       Item[15].Text := rsOptColumns;
     end;
   tvTreeView.Items.Item[0].Selected:= True;
-
-  {Layout page}
-  cbShowMainToolBar.Checked := gButtonBar;
-  cbFlatToolBar.Checked := gToolBarFlat;
-  cbShowDiskPanel.Checked := gDriveBar1;
-  cbTwoDiskPanels.Checked := gDriveBar2;
-  cbFlatDiskPanel.Checked := gDriveBarFlat;
-  cbShowDriveMenuButton.Checked := gDriveMenuButton;
-  cbShowTabs.Checked := gDirectoryTabs;
-  cbShowCurDir.Checked := gCurDir;
-  cbShowTabHeader.Checked := gTabHeader;
-  cbShowStatusBar.Checked := gStatusBar;
-  cbShowCmdLine.Checked := gCmdLine;
-  cbShowKeysPanel.Checked := gKeyButtons;
-  cbFlatInterface.Checked := gInterfaceFlat;
-  cbLogWindow.Checked := gLogWindow;
-
-  cbDirSelect.Checked:=gDirSelect;
-  cbCaseSensitiveSort.Checked:=gCaseSensitiveSort;
-  cbLynxLike.Checked:=gLynxLike;
-  cbShortFileSizeFormat.Checked:=gShortFileSizeFormat;
   
-  cbSelectionByMouse.Checked:=gMouseSelectionEnabled;
-  cbMouseMode.ItemIndex := gMouseSelectionButton;
-
-  cbExtEditor.Checked:=gUseExtEdit;
-  cbExtViewer.Checked:=gUseExtView;
-  cbExtDiffer.Checked:=gUseExtDiff;
-  if gScrollMode < rgScrolling.Items.Count then
-    rgScrolling.ItemIndex:=  gScrollMode
-  else
-    rgScrolling.ItemIndex:= 0;
-  cbDateTimeFormat.Text:= gDateTimeFormat;
-  lblDateTimeExample.Caption:= FormatDateTime(gDateTimeFormat, Now);
-
-  fneExtEditor.FileName := gExtEdit;
-  fneExtViewer.FileName := gExtView;
-  fneExtDiffer.FileName := gExtDiff;
-
-  fneExtEditor.Enabled:= cbExtEditor.Checked;
-  fneExtDiffer.Enabled:= cbExtDiffer.Checked;
-  fneExtViewer.Enabled:= cbExtViewer.Checked;
-
-  edtRunTerm.Text:=gRunTerm;
-
-  //tvTreeView.Items.Item[3].Text := lngGetString(clngDlgOptFonts);
-
-  { Colors }
-  cbTextColor.Selected := gForeColor;
-  cbTextColor.Color := gForeColor;
-
-  cbBackColor.Selected := gBackColor;
-  cbBackColor.Color := gBackColor;
-
-  cbBackColor2.Selected := gBackColor2;
-  cbBackColor2.Color := gBackColor2;
-
-  cbMarkColor.Selected := gMarkColor;
-  cbMarkColor.Color := gMarkColor;
-
-  cbCursorColor.Selected := gCursorColor;
-  cbCursorColor.Color := gCursorColor;
-
-  cbCursorText.Selected := gCursorText;
-  cbCursorText.Color := gCursorText;
-
-  cbShowIcons.Checked := gShowIcons;
-  cbbUseInvertedSelection.Checked:=gUseInvertedSelection;
-
-  { File operations }
-  edtCopyBufferSize.Text:= IntToStr(gCopyBlockSize div 1024);
-  cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
-  rbUseMmapInSearch.Checked := gUseMmapInSearch;
-  seWipePassNumber.Value:= gWipePassNumber;
-
-  { Log file }
-  cbLogFile.Checked := gLogFile;
-  fneLogFileName.FileName := gLogFileName;
-  cbLogCpMvLn.Checked := (log_cp_mv_ln in gLogOptions);
-  cbLogDelete.Checked := (log_delete in gLogOptions);
-  cbLogDirOp.Checked := (log_dir_op in gLogOptions);
-  cbLogArcOp.Checked := (log_arc_op in gLogOptions);
-  cbLogVFS.Checked := (log_vfs_op in gLogOptions);
-  cbLogSuccess.Checked := (log_success in gLogOptions);
-  cbLogErrors.Checked := (log_errors in gLogOptions);
-  cbLogInfo.Checked := (log_info in gLogOptions);
-
-  {Folder tabs}
-  cbTabsAlwaysVisible.Checked := Boolean(gDirTabOptions and tb_always_visible) and gDirectoryTabs;
-  cbTabsMultiLines.Checked :=  Boolean(gDirTabOptions and tb_multiple_lines);
-  cbTabsLimitOption.Checked := Boolean(gDirTabOptions and tb_text_length_limit);
-  cbTabsOpenForeground.Checked:= Boolean(gDirTabOptions and tb_open_new_in_foreground);
-  edtTabsLimitLength.Text := IntToStr(gDirTabLimit);
-
-  {Configuration storage}
-  if gUseIniInProgramDir then
-    rbProgramDir.Checked := True
-  else
-    rbUserHomeDir.Checked := True;
-  cbDirHistory.Checked := gSaveDirHistory;
-  cbCmdLineHistory.Checked := gSaveCmdLineHistory;
-  cbFileMaskHistory.Checked := gSaveFileMaskHistory;
-  { Quick Search page}
-  if gQuickSearch then
-    begin
-      if (gQuickSearchMode = [ssCtrl, ssAlt]) then
-        rbCtrlAltLetterQS.Checked := True
-      else if (gQuickSearchMode = [ssAlt]) then
-        rbAltLetterQS.Checked := True
-      else if gQuickSearchMode = [] then
-        rbLetterQS.Checked := True;
-    end
-  else
-    rbNoneQS.Checked := True;
-
-  cbExactBeginning.Checked := gQuickSearchMatchBeginning;
-  cbExactEnding.Checked := gQuickSearchMatchEnding;
-
-  { Icons sizes in file panels }
-  cbIconsSize.Text := IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize);
-
-  FillLngListBox;
-  FillFontLists;
-  FillFileColorsList;
-  DebugLn(gTerm);
-  edtTerm.Text:=gTerm;
-
-
-   FillColumnsList;
-   
-   FillCommandsPage;
+  // load all configuration
+  LoadConfig;
   
-   nbNotebook.PageIndex := 0;  //let not warning on which page save form
-   
-   
-  
+  nbNotebook.PageIndex := 0;  //let not warning on which page save form
 end;
 
 procedure TfrmOptions.btSetHotKeyClick(Sender: TObject);
@@ -678,140 +551,9 @@ begin
 end;
 
 procedure TfrmOptions.btnOKClick(Sender: TObject);
-var
-  FS : TFontStyles;
 begin
-  inherited;
-  
-  {Layout page}
-  gButtonBar := cbShowMainToolBar.Checked;
-  gToolBarFlat := cbFlatToolBar.Checked;
-  gDriveBar1 := cbShowDiskPanel.Checked;
-  gDriveBar2 := cbTwoDiskPanels.Checked;
-  gDriveBarFlat := cbFlatDiskPanel.Checked;
-  gDriveMenuButton := cbShowDriveMenuButton.Checked;
-  gDirectoryTabs := cbShowTabs.Checked;
-  gCurDir := cbShowCurDir.Checked;
-  gTabHeader := cbShowTabHeader.Checked;
-  gStatusBar := cbShowStatusBar.Checked;
-  gCmdLine := cbShowCmdLine.Checked;
-  gKeyButtons := cbShowKeysPanel.Checked;
-  gInterfaceFlat := cbFlatInterface.Checked;
-  gLogWindow := cbLogWindow.Checked;
-  
-  gTerm:=edtTerm.Text;
-  if lngList.ItemIndex>-1 then
-    gPOFileName := lngList.Items.Names[lngList.ItemIndex];
-  gDirSelect:=cbDirSelect.Checked;
-  gCaseSensitiveSort:=cbCaseSensitiveSort.Checked;
-  gLynxLike:=cbLynxLike.Checked;
-  gShortFileSizeFormat:=cbShortFileSizeFormat.Checked;
-  gScrollMode := rgScrolling.ItemIndex;
-  gDateTimeFormat := cbDateTimeFormat.Text;
-  
-  gMouseSelectionEnabled := cbSelectionByMouse.Checked;
-  gMouseSelectionButton := cbMouseMode.ItemIndex;
-
-  gUseExtEdit:=cbExtEditor.Checked;
-  gUseExtView:=cbExtViewer.Checked;
-  gUseExtDiff:=cbExtDiffer.Checked;
-
-  gExtEdit:= fneExtEditor.FileName;
-  gExtView:= fneExtViewer.FileName;
-  gExtDiff:= fneExtDiffer.FileName;
-  gRunTerm:= edtRunTerm.Text;
-  
-  gFontName:=cbMainFont.Text;
-  FS := EdtTest1.Font.Style;
-  Move(FS, gFontWeight, 1);
-
-  gEditorFontName:=cbEditorFont.Text;
-  gViewerFontName:=cbViewerFont.Text;
-  
-  {$hints off}
-  gEditorSize:=Round(edtEditorSize.Value);
-  gViewerSize:=Round(edtViewerSize.Value);
-  gFontSize:=Round(edtMainSize.Value);
-  {$hints on}
-
-  { Colors }
-  gForeColor := cbTextColor.Color;
-  gBackColor := cbBackColor.Color; // background color
-  gBackColor2 := cbBackColor2.Color;
-  gMarkColor := cbMarkColor.Color;
-  gCursorColor := cbCursorColor.Color;
-  gCursorText := cbCursorText.Color;
-  gUseInvertedSelection:=cbbUseInvertedSelection.Checked;
-  
-  gShowIcons := cbShowIcons.Checked;
-
-  { File operations }
-  gCopyBlockSize := StrToIntDef(edtCopyBufferSize.Text, gCopyBlockSize) * 1024;
-  gDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
-  gUseMmapInSearch := rbUseMmapInSearch.Checked;
-  gWipePassNumber:= seWipePassNumber.Value;
-  
-  { Log file }
-  gLogFile := cbLogFile.Checked;
-  gLogFileName := fneLogFileName.FileName;
-  gLogOptions := []; // Reset log options
-  if cbLogCpMvLn.Checked then
-    Include(gLogOptions, log_cp_mv_ln);
-  if cbLogDelete.Checked then
-    Include(gLogOptions, log_delete);
-  if cbLogDirOp.Checked then
-    Include(gLogOptions, log_dir_op);
-  if cbLogArcOp.Checked then
-    Include(gLogOptions, log_arc_op);
-  if cbLogVFS.Checked then
-    Include(gLogOptions, log_vfs_op);
-  if cbLogSuccess.Checked then
-    Include(gLogOptions, log_success);
-  if cbLogErrors.Checked then
-    Include(gLogOptions, log_errors);
-  if cbLogInfo.Checked then
-    Include(gLogOptions, log_info);
-    
-  { Folder tabs }
-  gDirTabOptions := 0;  // Reset tab options
-  if cbTabsAlwaysVisible.Checked then
-    gDirTabOptions :=  (gDirTabOptions or tb_always_visible);
-  if cbTabsMultiLines.Checked then
-    gDirTabOptions := (gDirTabOptions or tb_multiple_lines);
-    
-  if cbTabsLimitOption.Checked then
-    gDirTabOptions := (gDirTabOptions or tb_text_length_limit);
-    
-  if cbTabsOpenForeground.Checked then
-    gDirTabOptions := (gDirTabOptions or tb_open_new_in_foreground);
-
-  gDirTabLimit := StrToIntDef(edtTabsLimitLength.Text, 32);
-
-  { Configuration storage }
-  gUseIniInProgramDir := rbProgramDir.Checked;
-  gSaveDirHistory := cbDirHistory.Checked;
-  gSaveCmdLineHistory := cbCmdLineHistory.Checked;
-  gSaveFileMaskHistory := cbFileMaskHistory.Checked;
-
-  { Quick Search page}
-  gQuickSearch := not rbNoneQS.Checked;
-  
-  if rbCtrlAltLetterQS.Checked then
-    gQuickSearchMode := [ssCtrl, ssAlt];
-  if rbAltLetterQS.Checked then
-    gQuickSearchMode := [ssAlt];
-  if rbLetterQS.Checked then
-    gQuickSearchMode := [];
-
-  gQuickSearchMatchBeginning := cbExactBeginning.Checked;
-  gQuickSearchMatchEnding := cbExactEnding.Checked;
-
-  frmMain.UpdateWindowView;
-  frmMain.Repaint; // for panels repaint
-  frmMain.SaveShortCuts;
-  
-  {Columns Set}
-  ColSet.Save(gIni);
+  // save all configuration
+  SaveConfig;
   
   if (gIconsSize <> StrToInt(Copy(cbIconsSize.Text, 1, 2))) then
     begin
@@ -821,6 +563,12 @@ begin
       ExecCmdFork(Application.ExeName);
       frmMain.Close;
     end;
+end;
+
+procedure TfrmOptions.btnApplyClick(Sender: TObject);
+begin
+  // save all configuration
+  SaveConfig;
 end;
 
 procedure TfrmOptions.btnSelEditFntClick(Sender: TObject);
@@ -1469,7 +1217,7 @@ end;
 
 procedure TfrmOptions.bbtnWDXApplyClick(Sender: TObject);
 begin
-WdxPlugins.Save(gIni);
+  WdxPlugins.Save(gIni);
 end;
 
 procedure TfrmOptions.bbtnWDXDeleteClick(Sender: TObject);
@@ -1637,6 +1385,274 @@ begin
   pnlCaption.Caption := tvTreeView.Selected.Text;
 end;
 
+procedure TfrmOptions.LoadConfig;
+begin
+  { Layout page }
+  cbShowMainToolBar.Checked := gButtonBar;
+  cbFlatToolBar.Checked := gToolBarFlat;
+  cbShowDiskPanel.Checked := gDriveBar1;
+  cbTwoDiskPanels.Checked := gDriveBar2;
+  cbFlatDiskPanel.Checked := gDriveBarFlat;
+  cbShowDriveMenuButton.Checked := gDriveMenuButton;
+  cbShowTabs.Checked := gDirectoryTabs;
+  cbShowCurDir.Checked := gCurDir;
+  cbShowTabHeader.Checked := gTabHeader;
+  cbShowStatusBar.Checked := gStatusBar;
+  cbShowCmdLine.Checked := gCmdLine;
+  cbShowKeysPanel.Checked := gKeyButtons;
+  cbFlatInterface.Checked := gInterfaceFlat;
+  cbLogWindow.Checked := gLogWindow;
+
+  cbDirSelect.Checked:=gDirSelect;
+  cbCaseSensitiveSort.Checked:=gCaseSensitiveSort;
+  cbLynxLike.Checked:=gLynxLike;
+  cbShortFileSizeFormat.Checked:=gShortFileSizeFormat;
+  
+  cbSelectionByMouse.Checked:=gMouseSelectionEnabled;
+  cbMouseMode.ItemIndex := gMouseSelectionButton;
+
+  cbExtEditor.Checked:=gUseExtEdit;
+  cbExtViewer.Checked:=gUseExtView;
+  cbExtDiffer.Checked:=gUseExtDiff;
+  if gScrollMode < rgScrolling.Items.Count then
+    rgScrolling.ItemIndex:=  gScrollMode
+  else
+    rgScrolling.ItemIndex:= 0;
+  cbDateTimeFormat.Text:= gDateTimeFormat;
+  lblDateTimeExample.Caption:= FormatDateTime(gDateTimeFormat, Now);
+
+  fneExtEditor.FileName := gExtEdit;
+  fneExtViewer.FileName := gExtView;
+  fneExtDiffer.FileName := gExtDiff;
+
+  fneExtEditor.Enabled:= cbExtEditor.Checked;
+  fneExtDiffer.Enabled:= cbExtDiffer.Checked;
+  fneExtViewer.Enabled:= cbExtViewer.Checked;
+
+  edtRunTerm.Text:=gRunTerm;
+
+  //tvTreeView.Items.Item[3].Text := lngGetString(clngDlgOptFonts);
+
+  { Colors }
+  cbTextColor.Selected := gForeColor;
+  cbTextColor.Color := gForeColor;
+
+  cbBackColor.Selected := gBackColor;
+  cbBackColor.Color := gBackColor;
+
+  cbBackColor2.Selected := gBackColor2;
+  cbBackColor2.Color := gBackColor2;
+
+  cbMarkColor.Selected := gMarkColor;
+  cbMarkColor.Color := gMarkColor;
+
+  cbCursorColor.Selected := gCursorColor;
+  cbCursorColor.Color := gCursorColor;
+
+  cbCursorText.Selected := gCursorText;
+  cbCursorText.Color := gCursorText;
+
+  cbShowIcons.Checked := gShowIcons;
+  cbbUseInvertedSelection.Checked:=gUseInvertedSelection;
+
+  { File operations }
+  edtCopyBufferSize.Text:= IntToStr(gCopyBlockSize div 1024);
+  cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
+  rbUseMmapInSearch.Checked := gUseMmapInSearch;
+  seWipePassNumber.Value:= gWipePassNumber;
+
+  { Log file }
+  cbLogFile.Checked := gLogFile;
+  fneLogFileName.FileName := gLogFileName;
+  cbLogCpMvLn.Checked := (log_cp_mv_ln in gLogOptions);
+  cbLogDelete.Checked := (log_delete in gLogOptions);
+  cbLogDirOp.Checked := (log_dir_op in gLogOptions);
+  cbLogArcOp.Checked := (log_arc_op in gLogOptions);
+  cbLogVFS.Checked := (log_vfs_op in gLogOptions);
+  cbLogSuccess.Checked := (log_success in gLogOptions);
+  cbLogErrors.Checked := (log_errors in gLogOptions);
+  cbLogInfo.Checked := (log_info in gLogOptions);
+
+  {Folder tabs}
+  cbTabsAlwaysVisible.Checked := Boolean(gDirTabOptions and tb_always_visible) and gDirectoryTabs;
+  cbTabsMultiLines.Checked :=  Boolean(gDirTabOptions and tb_multiple_lines);
+  cbTabsLimitOption.Checked := Boolean(gDirTabOptions and tb_text_length_limit);
+  cbTabsOpenForeground.Checked:= Boolean(gDirTabOptions and tb_open_new_in_foreground);
+  edtTabsLimitLength.Text := IntToStr(gDirTabLimit);
+
+  {Configuration storage}
+  if gUseIniInProgramDir then
+    rbProgramDir.Checked := True
+  else
+    rbUserHomeDir.Checked := True;
+  cbDirHistory.Checked := gSaveDirHistory;
+  cbCmdLineHistory.Checked := gSaveCmdLineHistory;
+  cbFileMaskHistory.Checked := gSaveFileMaskHistory;
+  { Quick Search page}
+  if gQuickSearch then
+    begin
+      if (gQuickSearchMode = [ssCtrl, ssAlt]) then
+        rbCtrlAltLetterQS.Checked := True
+      else if (gQuickSearchMode = [ssAlt]) then
+        rbAltLetterQS.Checked := True
+      else if gQuickSearchMode = [] then
+        rbLetterQS.Checked := True;
+    end
+  else
+    rbNoneQS.Checked := True;
+
+  cbExactBeginning.Checked := gQuickSearchMatchBeginning;
+  cbExactEnding.Checked := gQuickSearchMatchEnding;
+
+  { Icons sizes in file panels }
+  cbIconsSize.Text := IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize);
+
+  FillLngListBox;
+  FillFontLists;
+  FillFileColorsList;
+  DebugLn(gTerm);
+  edtTerm.Text:=gTerm;
+
+
+   FillColumnsList;
+   
+   FillCommandsPage;
+end;
+
+procedure TfrmOptions.SaveConfig;
+var
+  FS : TFontStyles;
+begin
+  { Layout page }
+  gButtonBar := cbShowMainToolBar.Checked;
+  gToolBarFlat := cbFlatToolBar.Checked;
+  gDriveBar1 := cbShowDiskPanel.Checked;
+  gDriveBar2 := cbTwoDiskPanels.Checked;
+  gDriveBarFlat := cbFlatDiskPanel.Checked;
+  gDriveMenuButton := cbShowDriveMenuButton.Checked;
+  gDirectoryTabs := cbShowTabs.Checked;
+  gCurDir := cbShowCurDir.Checked;
+  gTabHeader := cbShowTabHeader.Checked;
+  gStatusBar := cbShowStatusBar.Checked;
+  gCmdLine := cbShowCmdLine.Checked;
+  gKeyButtons := cbShowKeysPanel.Checked;
+  gInterfaceFlat := cbFlatInterface.Checked;
+  gLogWindow := cbLogWindow.Checked;
+  
+  gTerm:=edtTerm.Text;
+  if lngList.ItemIndex>-1 then
+    gPOFileName := lngList.Items.Names[lngList.ItemIndex];
+  gDirSelect:=cbDirSelect.Checked;
+  gCaseSensitiveSort:=cbCaseSensitiveSort.Checked;
+  gLynxLike:=cbLynxLike.Checked;
+  gShortFileSizeFormat:=cbShortFileSizeFormat.Checked;
+  gScrollMode := rgScrolling.ItemIndex;
+  gDateTimeFormat := cbDateTimeFormat.Text;
+  
+  gMouseSelectionEnabled := cbSelectionByMouse.Checked;
+  gMouseSelectionButton := cbMouseMode.ItemIndex;
+
+  gUseExtEdit:=cbExtEditor.Checked;
+  gUseExtView:=cbExtViewer.Checked;
+  gUseExtDiff:=cbExtDiffer.Checked;
+
+  gExtEdit:= fneExtEditor.FileName;
+  gExtView:= fneExtViewer.FileName;
+  gExtDiff:= fneExtDiffer.FileName;
+  gRunTerm:= edtRunTerm.Text;
+  
+  gFontName:=cbMainFont.Text;
+  FS := EdtTest1.Font.Style;
+  Move(FS, gFontWeight, 1);
+
+  gEditorFontName:=cbEditorFont.Text;
+  gViewerFontName:=cbViewerFont.Text;
+  
+  {$hints off}
+  gEditorSize:=Round(edtEditorSize.Value);
+  gViewerSize:=Round(edtViewerSize.Value);
+  gFontSize:=Round(edtMainSize.Value);
+  {$hints on}
+
+  { Colors }
+  gForeColor := cbTextColor.Color;
+  gBackColor := cbBackColor.Color; // background color
+  gBackColor2 := cbBackColor2.Color;
+  gMarkColor := cbMarkColor.Color;
+  gCursorColor := cbCursorColor.Color;
+  gCursorText := cbCursorText.Color;
+  gUseInvertedSelection:=cbbUseInvertedSelection.Checked;
+  
+  gShowIcons := cbShowIcons.Checked;
+
+  { File operations }
+  gCopyBlockSize := StrToIntDef(edtCopyBufferSize.Text, gCopyBlockSize) * 1024;
+  gDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
+  gUseMmapInSearch := rbUseMmapInSearch.Checked;
+  gWipePassNumber:= seWipePassNumber.Value;
+  
+  { Log file }
+  gLogFile := cbLogFile.Checked;
+  gLogFileName := fneLogFileName.FileName;
+  gLogOptions := []; // Reset log options
+  if cbLogCpMvLn.Checked then
+    Include(gLogOptions, log_cp_mv_ln);
+  if cbLogDelete.Checked then
+    Include(gLogOptions, log_delete);
+  if cbLogDirOp.Checked then
+    Include(gLogOptions, log_dir_op);
+  if cbLogArcOp.Checked then
+    Include(gLogOptions, log_arc_op);
+  if cbLogVFS.Checked then
+    Include(gLogOptions, log_vfs_op);
+  if cbLogSuccess.Checked then
+    Include(gLogOptions, log_success);
+  if cbLogErrors.Checked then
+    Include(gLogOptions, log_errors);
+  if cbLogInfo.Checked then
+    Include(gLogOptions, log_info);
+    
+  { Folder tabs }
+  gDirTabOptions := 0;  // Reset tab options
+  if cbTabsAlwaysVisible.Checked then
+    gDirTabOptions :=  (gDirTabOptions or tb_always_visible);
+  if cbTabsMultiLines.Checked then
+    gDirTabOptions := (gDirTabOptions or tb_multiple_lines);
+    
+  if cbTabsLimitOption.Checked then
+    gDirTabOptions := (gDirTabOptions or tb_text_length_limit);
+    
+  if cbTabsOpenForeground.Checked then
+    gDirTabOptions := (gDirTabOptions or tb_open_new_in_foreground);
+
+  gDirTabLimit := StrToIntDef(edtTabsLimitLength.Text, 32);
+
+  { Configuration storage }
+  gUseIniInProgramDir := rbProgramDir.Checked;
+  gSaveDirHistory := cbDirHistory.Checked;
+  gSaveCmdLineHistory := cbCmdLineHistory.Checked;
+  gSaveFileMaskHistory := cbFileMaskHistory.Checked;
+
+  { Quick Search page}
+  gQuickSearch := not rbNoneQS.Checked;
+  
+  if rbCtrlAltLetterQS.Checked then
+    gQuickSearchMode := [ssCtrl, ssAlt];
+  if rbAltLetterQS.Checked then
+    gQuickSearchMode := [ssAlt];
+  if rbLetterQS.Checked then
+    gQuickSearchMode := [];
+
+  gQuickSearchMatchBeginning := cbExactBeginning.Checked;
+  gQuickSearchMatchEnding := cbExactEnding.Checked;
+
+  frmMain.UpdateWindowView;
+  frmMain.Repaint; // for panels repaint
+  frmMain.SaveShortCuts;
+  
+  {Columns Set}
+  ColSet.Save(gIni);
+end;
 
 initialization
  {$I fOptions.lrs}
