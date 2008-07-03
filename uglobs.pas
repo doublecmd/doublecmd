@@ -321,11 +321,6 @@ end;
 
 procedure InitGlobs;
 begin
-  { Load location of configuration files }
-  gIni := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
-  gUseIniInProgramDir := gIni.ReadBool('Configuration', 'UseIniInProgramDir', True);
-  gIni.Free;
-
   { Create default configuration files if need }
   // main ini file
   if not mbFileExists(gpIniDir + 'doublecmd.ini') then
@@ -379,19 +374,20 @@ begin
     HotMan.Free;
   if Assigned(Actions) then
     Actions.Free;
-  
-  { Save location of configuration files }
-  gIni := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
-  gIni.WriteBool('Configuration', 'UseIniInProgramDir', gUseIniInProgramDir);
-  gIni.Free;
-
 end;
 
 function LoadGlobs : Boolean;
+var
+  Ini: TIniFileEx;
 begin
   Result := False;
   DebugLn('Loading configuration...');
   InitGlobs;
+
+  { Load location of configuration files }
+  Ini := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
+  gUseIniInProgramDir := Ini.ReadBool('Configuration', 'UseIniInProgramDir', True);
+  Ini.Free;
   
   { Layout page }
   
@@ -538,7 +534,7 @@ end;
 
 procedure SaveGlobs;
 var
-  x:Integer;
+  Ini: TIniFileEx;
 begin
   if gSaveDirHistory then
     glsDirHistory.SaveToFile(gpIniDir + 'dirhistory.txt');
@@ -645,11 +641,17 @@ begin
   //TODO: Save hotkeys
   //HotMan.Save();
   
-  DeInitGlobs;
+  { Save location of configuration files }
+  try
+    Ini:= TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
+    Ini.WriteBool('Configuration', 'UseIniInProgramDir', gUseIniInProgramDir);
+  finally
+    Ini.Free;
+  end;
 end;
 
 initialization
 
 finalization
-
+  DeInitGlobs;
 end.
