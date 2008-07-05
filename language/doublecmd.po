@@ -1031,6 +1031,10 @@ msgstr ""
 msgid "Lynx like movement"
 msgstr ""
 
+#: TFRMOPTIONS.CBMINIMIZETOTRAY.CAPTION
+msgid "Mo&ve icon to system tray when minimized"
+msgstr ""
+
 #: TFRMOPTIONS.CBSHORTFILESIZEFORMAT.CAPTION
 msgid "Short Filesize format"
 msgstr ""

@@ -1,11 +1,8 @@
 object frmOptions: TfrmOptions
-  Left = 230
+  Left = 239
   Height = 600
-  Top = 27
+  Top = 116
   Width = 800
-  HorzScrollBar.Page = 799
-  VertScrollBar.Page = 599
-  VertScrollBar.Range = 41
   ActiveControl = tvTreeView
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
@@ -27,7 +24,7 @@ object frmOptions: TfrmOptions
     TabOrder = 1
     object btnOK: TBitBtn
       AnchorSideRight.Control = btnCancel
-      Left = 475
+      Left = 467
       Height = 31
       Top = 5
       Width = 98
@@ -54,7 +51,7 @@ object frmOptions: TfrmOptions
       Kind = bkCancel
       ModalResult = 2
       NumGlyphs = 0
-      TabOrder = 2
+      TabOrder = 1
     end
     object btnApply: TBitBtn
       Left = 679
@@ -66,7 +63,7 @@ object frmOptions: TfrmOptions
       Caption = 'Apply'
       NumGlyphs = 0
       OnClick = btnApplyClick
-      TabOrder = 1
+      TabOrder = 2
     end
   end
   object tvTreeView: TTreeView
@@ -118,7 +115,7 @@ object frmOptions: TfrmOptions
       Width = 628
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 4
+      PageIndex = 1
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
@@ -134,7 +131,7 @@ object frmOptions: TfrmOptions
       end
       object pgBehav: TPage
         ClientWidth = 620
-        ClientHeight = 524
+        ClientHeight = 506
         OnResize = pgBehavResize
         object lblTerm: TLabel
           AnchorSideTop.Control = edtTerm
@@ -236,6 +233,17 @@ object frmOptions: TfrmOptions
             Caption = 'Short Filesize format'
             TabOrder = 3
           end
+          object cbMinimizeToTray: TCheckBox
+            AnchorSideTop.Control = cbShortFileSizeFormat
+            AnchorSideTop.Side = asrBottom
+            Left = 8
+            Height = 19
+            Top = 106
+            Width = 220
+            BorderSpacing.Top = 6
+            Caption = 'Mo&ve icon to system tray when minimized'
+            TabOrder = 4
+          end
         end
         object gbMisc: TGroupBox
           AnchorSideLeft.Control = gb
@@ -245,13 +253,13 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = edtRunTerm
           AnchorSideRight.Side = asrBottom
           Left = 258
-          Height = 156
+          Height = 138
           Top = 68
           Width = 352
           Anchors = [akTop, akLeft, akRight, akBottom]
           BorderSpacing.Left = 6
           BorderSpacing.Top = 6
-          ClientHeight = 138
+          ClientHeight = 120
           ClientWidth = 348
           TabOrder = 4
           object lblIconsSize: TLabel
@@ -686,7 +694,7 @@ object frmOptions: TfrmOptions
       end
       object pgColor: TPage
         ClientWidth = 620
-        ClientHeight = 524
+        ClientHeight = 506
         object cTextLabel: TLabel
           AnchorSideTop.Control = cbTextColor
           AnchorSideTop.Side = asrCenter

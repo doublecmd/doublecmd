@@ -100,6 +100,7 @@ type
     cbSelectionByMouse: TCheckBox;
     cbTabsOpenForeground: TCheckBox;
     cbbUseInvertedSelection: TCheckBox;
+    cbMinimizeToTray: TCheckBox;
     clbWFXList: TCheckListBox;
     clbWCXList: TCheckListBox;
     cbBackColor2: TColorBox;
@@ -1418,6 +1419,7 @@ begin
     rgScrolling.ItemIndex:=  gScrollMode
   else
     rgScrolling.ItemIndex:= 0;
+  cbMinimizeToTray.Checked:= gTrayIcon;
   cbDateTimeFormat.Text:= gDateTimeFormat;
   lblDateTimeExample.Caption:= FormatDateTime(gDateTimeFormat, Now);
 
@@ -1547,6 +1549,7 @@ begin
   gLynxLike:=cbLynxLike.Checked;
   gShortFileSizeFormat:=cbShortFileSizeFormat.Checked;
   gScrollMode := rgScrolling.ItemIndex;
+  gTrayIcon:= cbMinimizeToTray.Checked;
   gDateTimeFormat := cbDateTimeFormat.Text;
   
   gMouseSelectionEnabled := cbSelectionByMouse.Checked;
