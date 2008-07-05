@@ -232,6 +232,7 @@ type
     actFileSpliter: TAction;
     pmToolBar: TPopupMenu;
     MainSplitter: TSplitter;
+    MainTrayIcon: TTrayIcon;
 
     procedure actExecute(Sender: TObject);
     procedure btnLeftClick(Sender: TObject);
@@ -245,6 +246,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
     procedure FormPaint(Sender: TObject);
+    procedure FormWindowStateChange(Sender: TObject);
     procedure lblDriveInfoDblClick(Sender: TObject);
     procedure MainSplitterCanResize(Sender: TObject; var NewSize: Integer;
       var Accept: Boolean);
@@ -261,6 +263,7 @@ type
     procedure frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure frmMainKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure frmMainShow(Sender: TObject);
+    procedure MainTrayIconClick(Sender: TObject);
     procedure mnuDropClick(Sender: TObject);
     procedure mnuSplitterPercentClick(Sender: TObject);
     procedure mnuHelpClick(Sender: TObject);
@@ -618,6 +621,15 @@ begin
     end;
 end;
 
+procedure TfrmMain.FormWindowStateChange(Sender: TObject);
+begin
+  if gTrayIcon and (WindowState = wsMinimized) then
+    begin
+      Hide;
+      MainTrayIcon.Visible:= True;
+    end;
+end;
+
 procedure TfrmMain.lblDriveInfoDblClick(Sender: TObject);
 begin
   if (Sender as TLabel).Name = 'lblRightDriveInfo' then
@@ -815,6 +827,12 @@ procedure TfrmMain.frmMainShow(Sender: TObject);
 begin
   DebugLn('frmMain.frmMainShow');
   SetActiveFrame(fpLeft);
+end;
+
+procedure TfrmMain.MainTrayIconClick(Sender: TObject);
+begin
+  MainTrayIcon.Visible:= False;
+  ShowOnTop;
 end;
 
 procedure TfrmMain.mnuDropClick(Sender: TObject);
