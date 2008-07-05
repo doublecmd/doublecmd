@@ -1379,6 +1379,10 @@ msgstr "掩码"
 msgid "Menu F9"
 msgstr "菜单 F9"
 
+#: TFRMOPTIONS.CBMINIMIZETOTRAY.CAPTION
+msgid "Mo&ve icon to system tray when minimized"
+msgstr ""
+
 #: TFRMOPTIONS.LBLMOUSEMODE.CAPTION
 msgid "Mode:"
 msgstr "模式:"

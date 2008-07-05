@@ -1379,6 +1379,10 @@ msgstr "Maske"
 msgid "Menu F9"
 msgstr "Menü F9"
 
+#: TFRMOPTIONS.CBMINIMIZETOTRAY.CAPTION
+msgid "Mo&ve icon to system tray when minimized"
+msgstr ""
+
 #: TFRMOPTIONS.LBLMOUSEMODE.CAPTION
 msgid "Mode:"
 msgstr ""
