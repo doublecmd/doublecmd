@@ -38,6 +38,10 @@ type
     procedure CMMouseEnter(var Message :TLMessage); message CM_MouseEnter;
     procedure CMMouseLeave(var Message :TLMessage); message CM_MouseLeave;
   protected
+    procedure MouseMove(Shift: TShiftState; X,Y: Integer); override;
+    procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
+  protected
+    StartDrag: Boolean;
     DragRowIndex,
     DropRowIndex: Integer;
   end;
@@ -340,10 +344,8 @@ begin
     SetFocus;
     Exit;
   end;
-  
-  if iRow >= dgPanel.FixedRows then begin // if not column header
-    dgPanel.BeginDrag(False);
-  end;
+  // indicate that drag start at next mouse move event
+  dgPanel.StartDrag:= True;
 end;
 
 procedure TFrameFilePanel.dgPanelStartDrag(Sender: TObject; var DragObject: TDragObject);
@@ -1118,8 +1120,6 @@ begin
   lblLPath.Width:=pnlHeader.Width - 4;
 end;
 
-
-
 constructor TFrameFilePanel.Create(AOwner : TWinControl; lblDriveInfo : TLabel; lblCommandPath:TLabel; cmbCommand:TComboBox);
 var
   x:Integer;
@@ -1265,6 +1265,28 @@ procedure TDrawGridEx.CMMouseLeave(var Message: TLMessage);
 begin
   DropRowIndex:= DG_MOUSE_LEAVE; // indicate that mouse leave
   Invalidate;
+end;
+
+procedure TDrawGridEx.MouseMove(Shift: TShiftState; X, Y: Integer);
+var
+  iRow, iCol: Integer;
+begin
+  // if begin drag and not column header
+  if StartDrag then
+    begin
+      MouseToCell(X, Y, iCol, iRow);
+      if (iRow >= FixedRows) then
+        BeginDrag(False);
+      StartDrag:= False;
+    end;
+  inherited MouseMove(Shift, X, Y);
+end;
+
+procedure TDrawGridEx.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  StartDrag:= False;
+  inherited MouseUp(Button, Shift, X, Y);
 end;
 
 end.
