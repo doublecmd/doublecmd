@@ -150,6 +150,7 @@ var
   bFreeAtEnd : Boolean;
   bmStandartBitmap : Graphics.TBitMap;
   PNG : TPortableNetworkGraphic;
+  Icon : TIcon;
 begin
 {$IFDEF MSWINDOWS}
   iIconIndex := -1;
@@ -166,9 +167,21 @@ begin
       ExtractIconEx(PChar(sFileName), iIconIndex, phiconLarge, phiconSmall, 1);
       case iIconSize of
         16:  // Small icon
-          Result := Graphics.TBitmap(CreateIconFromHandle(phiconSmall));
+          try
+            Result:= Graphics.TBitMap.Create;
+            Icon:= CreateIconFromHandle(phiconSmall);
+            Result.LoadFromIntfImage(Icon.CreateIntfImage);
+          finally
+            Icon.Free;
+          end;
         32:  // Large icon
-          Result := Graphics.TBitmap(CreateIconFromHandle(phiconLarge));
+          try
+            Result:= Graphics.TBitMap.Create;
+            Icon:= CreateIconFromHandle(phiconLarge);
+            Result.LoadFromIntfImage(Icon.CreateIntfImage);
+          finally
+            Icon.Free;
+          end;
         else
           begin
             { Convert TIcon to TBitMap  }
@@ -206,6 +219,14 @@ begin
             PNG := TPortableNetworkGraphic.Create;
             PNG.LoadFromFile(sFileName);
             bmStandartBitmap := Graphics.TBitMap(PNG);
+          end
+        else if CompareFileExt(sFileName, 'ico', false) = 0 then
+          begin
+            { TODO: Load from *.ico
+            Icon := TIcon.Create;
+            Icon.LoadFromFile(sFileName);
+            bmStandartBitmap.LoadFromIntfImage(Icon.CreateIntfImage);
+            }
           end
         else
           begin
@@ -657,6 +678,7 @@ var
   DriveIcons : PDriveIcons;
 {$IFDEF MSWINDOWS}
   SFI: TSHFileInfo;
+  Icon: TIcon;
 {$ENDIF}
 begin
   Result := nil;
@@ -665,23 +687,33 @@ begin
     begin
       SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON);
       SFI.hIcon := 0;
+      Result := Graphics.TBitMap.Create;
       case IconSize of
       16: // Standart icon size
         begin
           SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON or SHGFI_SMALLICON);
           if SFI.hIcon <> 0 then
-            Result := Graphics.TBitmap(CreateIconFromHandle(SFI.hIcon));
+            try
+              Icon:= CreateIconFromHandle(SFI.hIcon);
+              Result.LoadFromIntfImage(Icon.CreateIntfImage);
+            finally
+              Icon.Free;
+            end;
         end;
       32:  // Standart icon size
         begin
           SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON or SHGFI_LARGEICON);
           if SFI.hIcon <> 0 then
-            Result := Graphics.TBitmap(CreateIconFromHandle(SFI.hIcon));
+            try
+              Icon:= CreateIconFromHandle(SFI.hIcon);
+              Result.LoadFromIntfImage(Icon.CreateIntfImage);
+            finally
+              Icon.Free;
+            end;
         end;
       else  // for non standart icon size we Convert HIcon to TBitMap
         begin
           SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON);
-          Result := Graphics.TBitMap.Create;
           Result.Width := GetSystemMetrics(SM_CXICON);
           Result.Height := GetSystemMetrics(SM_CYICON);
           Result.Canvas.Brush.Color := clBackColor;
