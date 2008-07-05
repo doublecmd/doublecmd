@@ -3,6 +3,8 @@ object frmMain: TfrmMain
   Height = 717
   Top = 91
   Width = 989
+  HorzScrollBar.Page = 988
+  VertScrollBar.Page = 696
   ActiveControl = nbRight
   AllowDropFiles = True
   Caption = 'Double Commander'
@@ -1465,6 +1467,25 @@ object frmMain: TfrmMain
       Tag = 80
       Caption = '&80/20'
       OnClick = mnuSplitterPercentClick
+    end
+  end
+  object pmDropMenu: TPopupMenu
+    left = 331
+    top = 136
+    object miCopy: TMenuItem
+      Caption = 'Copy...'
+      OnClick = mnuDropClick
+    end
+    object miMove: TMenuItem
+      Caption = 'Move...'
+      OnClick = mnuDropClick
+    end
+    object miLine12: TMenuItem
+      Caption = '-'
+    end
+    object miCancel: TMenuItem
+      Caption = 'Cancel'
+      OnClick = mnuDropClick
     end
   end
 end

@@ -91,6 +91,10 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     MenuItem2: TMenuItem;
+    miCancel: TMenuItem;
+    miLine12: TMenuItem;
+    miCopy: TMenuItem;
+    miMove: TMenuItem;
     mi8020: TMenuItem;
     mi7030: TMenuItem;
     mi6040: TMenuItem;
@@ -131,6 +135,7 @@ type
     pmDrivesMenu: TPopupMenu;
     LogSplitter: TSplitter;
     pmColumnsMenu: TPopupMenu;
+    pmDropMenu: TPopupMenu;
     seLogWindow: TSynEdit;
     tbDelete: TMenuItem;
     tbEdit: TMenuItem;
@@ -256,6 +261,7 @@ type
     procedure frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure frmMainKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure frmMainShow(Sender: TObject);
+    procedure mnuDropClick(Sender: TObject);
     procedure mnuSplitterPercentClick(Sender: TObject);
     procedure mnuHelpClick(Sender: TObject);
     procedure nbPageChanged(Sender: TObject);
@@ -809,6 +815,45 @@ procedure TfrmMain.frmMainShow(Sender: TObject);
 begin
   DebugLn('frmMain.frmMainShow');
   SetActiveFrame(fpLeft);
+end;
+
+procedure TfrmMain.mnuDropClick(Sender: TObject);
+var
+  iRow, iCol: Integer;
+  fri: PFileRecItem;
+begin
+  if (Sender is TMenuItem) and (pmDropMenu.Parent is TDrawGridEx)  then
+    with pmDropMenu.Parent as TDrawGridEx do
+    begin
+      MouseToCell(0, pmDropMenu.Tag, iCol, iRow);
+      fri:= (Parent as TFrameFilePanel).pnlFile.GetReferenceItemPtr(iRow - FixedRows); // substract fixed rows (header)
+
+      if (Sender as TMenuItem).Name = 'miMove' then
+        begin
+          if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and (pmDropMenu.Tag <= GridHeight) then
+            if fri^.sName = '..' then
+              RenameFile(LowDirLevel((Parent as TFrameFilePanel).ActiveDir))
+            else
+              RenameFile((Parent as TFrameFilePanel).ActiveDir + fri^.sName + PathDelim)
+          else
+            RenameFile((Parent as TFrameFilePanel).ActiveDir);
+        end
+      else if (Sender as TMenuItem).Name = 'miCopy' then
+        begin
+          if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and (pmDropMenu.Tag <= GridHeight) then
+            if fri^.sName = '..' then
+              CopyFile(LowDirLevel((Parent as TFrameFilePanel).ActiveDir))
+            else
+              CopyFile((Parent as TFrameFilePanel).ActiveDir + fri^.sName + PathDelim)
+          else
+            CopyFile((Parent as TFrameFilePanel).ActiveDir);
+        end
+      else if (Sender as TMenuItem).Name = 'miCancel' then
+        begin
+          DropRowIndex:= -1;
+          Invalidate;
+        end;
+    end; //with
 end;
 
 procedure TfrmMain.mnuSplitterPercentClick(Sender: TObject);
@@ -1948,34 +1993,47 @@ procedure TfrmMain.FramedgPanelDragDrop(Sender, Source: TObject; X, Y: Integer);
 var
   iRow, iCol: Integer;
   fri: PFileRecItem;
+  MousePoint: TPoint;
 begin
-  if (Sender is TDrawGrid) then
-    with Sender as TDrawGrid do
-    begin
-      MouseToCell(X, Y, iCol, iRow);
-      fri:= (Parent as TFrameFilePanel).pnlFile.GetReferenceItemPtr(iRow - FixedRows); // substract fixed rows (header)
+  if (Sender is TDrawGridEx) and (Source is TDrawGridEx) then
+    with Sender as TDrawGridEx do
+      case (Source as TDrawGridEx).LastMouseButton of
+      mbLeft:
+        begin
+          MouseToCell(X, Y, iCol, iRow);
+          fri:= (Parent as TFrameFilePanel).pnlFile.GetReferenceItemPtr(iRow - FixedRows); // substract fixed rows (header)
       
-      if (GetKeyState(VK_SHIFT) and $8000) <> 0 then // if Shift then move
-        begin
-          if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and (Y <= GridHeight) then
-            if fri^.sName = '..' then
-              RenameFile(LowDirLevel((Parent as TFrameFilePanel).ActiveDir))
-            else
-              RenameFile((Parent as TFrameFilePanel).ActiveDir + fri^.sName + PathDelim)
-          else
-            RenameFile((Parent as TFrameFilePanel).ActiveDir);      
-        end
-      else // else copy
-        begin
-          if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and (Y <= GridHeight) then
-            if fri^.sName = '..' then
-              CopyFile(LowDirLevel((Parent as TFrameFilePanel).ActiveDir))
-            else
-              CopyFile((Parent as TFrameFilePanel).ActiveDir + fri^.sName + PathDelim)
-          else
-            CopyFile((Parent as TFrameFilePanel).ActiveDir);
+          if (GetKeyState(VK_SHIFT) and $8000) <> 0 then // if Shift then move
+            begin
+              if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and (Y <= GridHeight) then
+                if fri^.sName = '..' then
+                  RenameFile(LowDirLevel((Parent as TFrameFilePanel).ActiveDir))
+                else
+                  RenameFile((Parent as TFrameFilePanel).ActiveDir + fri^.sName + PathDelim)
+              else
+                RenameFile((Parent as TFrameFilePanel).ActiveDir);
+            end
+          else // else copy
+            begin
+              if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and (Y <= GridHeight) then
+                if fri^.sName = '..' then
+                  CopyFile(LowDirLevel((Parent as TFrameFilePanel).ActiveDir))
+                else
+                  CopyFile((Parent as TFrameFilePanel).ActiveDir + fri^.sName + PathDelim)
+              else
+                CopyFile((Parent as TFrameFilePanel).ActiveDir);
+            end;
+      
         end;
-      
+    mbRight:
+      begin
+        // save in parent drop target
+        pmDropMenu.Parent:= (Sender as TDrawGridEx);
+        // save in tag Y coordinate
+        pmDropMenu.Tag:= Y;
+        MousePoint:= ClientToScreen(Classes.Point(X, Y));
+        pmDropMenu.PopUp(MousePoint.X, MousePoint.Y);
+      end;
     end;
 end;
 

@@ -40,10 +40,11 @@ type
   protected
     procedure MouseMove(Shift: TShiftState; X,Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
-  protected
+  public
     StartDrag: Boolean;
     DragRowIndex,
     DropRowIndex: Integer;
+    LastMouseButton: TMouseButton;
   end;
 
   { TFrameFilePanel }
@@ -346,6 +347,7 @@ begin
   end;
   // indicate that drag start at next mouse move event
   dgPanel.StartDrag:= True;
+  dgPanel.LastMouseButton:= Button;
 end;
 
 procedure TFrameFilePanel.dgPanelStartDrag(Sender: TObject; var DragObject: TDragObject);
