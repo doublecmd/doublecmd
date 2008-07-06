@@ -44,7 +44,7 @@ uses
   Graphics, Forms, Menus, Controls, Dialogs, ComCtrls,
   StdCtrls, ExtCtrls,ActnList,Buttons,
   SysUtils, Classes,  {uFilePanel,} framePanel, {FileCtrl,} Grids,
-  KASToolBar, SynEdit, KASBarMenu,KASBarFiles,uColumns, uFileList;
+  KASToolBar, SynEdit, KASBarMenu,KASBarFiles,uColumns, uFileList, LCLType;
 
 const
   cHistoryFile='cmdhistory.txt';
@@ -246,6 +246,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
     procedure FormPaint(Sender: TObject);
+    procedure FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
     procedure FormWindowStateChange(Sender: TObject);
     procedure lblDriveInfoDblClick(Sender: TObject);
     procedure MainSplitterCanResize(Sender: TObject; var NewSize: Integer;
@@ -368,7 +369,7 @@ uses
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg, uClassesEx,
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils, uLog, uWipeThread,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg, fExtractDlg,
-  fLinker, fSplitter, uFileProcs, lclType, LCLProc, uOSUtils, uOSForms, uPixMapManager,fColumnsSetConf;
+  fLinker, fSplitter, uFileProcs, LCLProc, uOSUtils, uOSForms, uPixMapManager,fColumnsSetConf;
 
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -618,6 +619,19 @@ begin
     begin
       SetFocus;
       bFirstPaint:= False;
+    end;
+end;
+
+procedure TfrmMain.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+begin
+  // quick search by Letter only
+  if (Length(UTF8Key) = 1) and ((Ord(UTF8Key[1]) < 32) or
+     (UTF8Key[1] in ['+','-','*','/','\'])) then Exit;
+  if gQuickSearch and (GetKeyShiftState = gQuickSearchMode) then
+    begin
+      ActiveFrame.ShowAltPanel(LowerCase(UTF8Key));
+      UTF8Key:= '';
+      KeyPreview:= False;
     end;
 end;
 
@@ -1706,8 +1720,8 @@ procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word;
 begin
   inherited;
   //DebugLn('Key down: ', IntToStr(Key));
-
-  if gQuickSearch and (Shift = gQuickSearchMode) and (Key > 32) then
+  // used for quick search by Ctrl+Alt+Letter and Alt+Letter
+  if gQuickSearch and (gQuickSearchMode <> []) and (Shift = gQuickSearchMode) and (Key > 32) then
     begin
       ActiveFrame.ShowAltPanel(LowerCase(Chr(Key)));
       Key := 0;
