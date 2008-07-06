@@ -653,6 +653,10 @@ msgstr "Kopírovat vybrané \"\%s\"?"
 msgid "Copy to same panel"
 msgstr "Kopírovat do stejného panelu"
 
+#: TFRMMAIN.MICOPY.CAPTION
+msgid "Copy..."
+msgstr ""
+
 #: TFRMOPTIONS.CBLOGCPMVLN.CAPTION
 msgid "Copy/Move/Create link/symlink"
 msgstr "Kopírování/přesun/Create link/symlink"
@@ -1412,6 +1416,10 @@ msgstr "Přesunout soubor \%s"
 #: ulng.rsdlgmv
 msgid "Move file(s)"
 msgstr "Přesunout soubor(y)"
+
+#: TFRMMAIN.MIMOVE.CAPTION
+msgid "Move..."
+msgstr ""
 
 #: TFRMMAIN.ACTMULTIRENAME.CAPTION
 msgid "Multi Rename Tool"

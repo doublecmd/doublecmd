@@ -91,6 +91,8 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     MenuItem2: TMenuItem;
+    miSymLink: TMenuItem;
+    miHardLink: TMenuItem;
     miCancel: TMenuItem;
     miLine12: TMenuItem;
     miCopy: TMenuItem;
@@ -853,6 +855,7 @@ procedure TfrmMain.mnuDropClick(Sender: TObject);
 var
   iRow, iCol: Integer;
   fri: PFileRecItem;
+  sDest: String;
 begin
   if (Sender is TMenuItem) and (pmDropMenu.Parent is TDrawGridEx)  then
     with pmDropMenu.Parent as TDrawGridEx do
@@ -860,25 +863,36 @@ begin
       MouseToCell(0, pmDropMenu.Tag, iCol, iRow);
       fri:= (Parent as TFrameFilePanel).pnlFile.GetReferenceItemPtr(iRow - FixedRows); // substract fixed rows (header)
 
+      //***************
+      ActiveFrame.dgPanel.Row:= ActiveFrame.dgPanel.DragRowIndex;
+      //***************
+
+      // get destination directory
+      if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and (pmDropMenu.Tag <= GridHeight) then
+        if fri^.sName = '..' then
+          sDest:= LowDirLevel((Parent as TFrameFilePanel).ActiveDir)
+        else
+          sDest:= (Parent as TFrameFilePanel).ActiveDir + fri^.sName + PathDelim
+      else
+        sDest:= (Parent as TFrameFilePanel).ActiveDir;
+      
       if (Sender as TMenuItem).Name = 'miMove' then
         begin
-          if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and (pmDropMenu.Tag <= GridHeight) then
-            if fri^.sName = '..' then
-              RenameFile(LowDirLevel((Parent as TFrameFilePanel).ActiveDir))
-            else
-              RenameFile((Parent as TFrameFilePanel).ActiveDir + fri^.sName + PathDelim)
-          else
-            RenameFile((Parent as TFrameFilePanel).ActiveDir);
+          RenameFile(sDest);
         end
       else if (Sender as TMenuItem).Name = 'miCopy' then
         begin
-          if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and (pmDropMenu.Tag <= GridHeight) then
-            if fri^.sName = '..' then
-              CopyFile(LowDirLevel((Parent as TFrameFilePanel).ActiveDir))
-            else
-              CopyFile((Parent as TFrameFilePanel).ActiveDir + fri^.sName + PathDelim)
-          else
-            CopyFile((Parent as TFrameFilePanel).ActiveDir);
+          CopyFile(sDest);
+        end
+      else if (Sender as TMenuItem).Name = 'miHardLink' then
+        begin
+          Actions.cm_HardLink(sDest);
+          DropRowIndex:= -1;
+        end
+      else if (Sender as TMenuItem).Name = 'miSymLink' then
+        begin
+          Actions.cm_SymLink(sDest);
+          DropRowIndex:= -1;
         end
       else if (Sender as TMenuItem).Name = 'miCancel' then
         begin
@@ -2026,6 +2040,7 @@ var
   iRow, iCol: Integer;
   fri: PFileRecItem;
   MousePoint: TPoint;
+  sDest: String;
 begin
   if (Sender is TDrawGridEx) and (Source is TDrawGridEx) then
     with Sender as TDrawGridEx do
@@ -2034,28 +2049,23 @@ begin
         begin
           MouseToCell(X, Y, iCol, iRow);
           fri:= (Parent as TFrameFilePanel).pnlFile.GetReferenceItemPtr(iRow - FixedRows); // substract fixed rows (header)
+
+          if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and (Y <= GridHeight) then
+            if fri^.sName = '..' then
+              sDest:= LowDirLevel((Parent as TFrameFilePanel).ActiveDir)
+            else
+              sDest:= (Parent as TFrameFilePanel).ActiveDir + fri^.sName + PathDelim
+          else
+            sDest:= (Parent as TFrameFilePanel).ActiveDir;
       
           if (GetKeyState(VK_SHIFT) and $8000) <> 0 then // if Shift then move
             begin
-              if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and (Y <= GridHeight) then
-                if fri^.sName = '..' then
-                  RenameFile(LowDirLevel((Parent as TFrameFilePanel).ActiveDir))
-                else
-                  RenameFile((Parent as TFrameFilePanel).ActiveDir + fri^.sName + PathDelim)
-              else
-                RenameFile((Parent as TFrameFilePanel).ActiveDir);
+              RenameFile(sDest);
             end
           else // else copy
             begin
-              if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and (Y <= GridHeight) then
-                if fri^.sName = '..' then
-                  CopyFile(LowDirLevel((Parent as TFrameFilePanel).ActiveDir))
-                else
-                  CopyFile((Parent as TFrameFilePanel).ActiveDir + fri^.sName + PathDelim)
-              else
-                CopyFile((Parent as TFrameFilePanel).ActiveDir);
+              CopyFile(sDest);
             end;
-      
         end;
     mbRight:
       begin

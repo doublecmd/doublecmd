@@ -1480,6 +1480,14 @@ object frmMain: TfrmMain
       Caption = 'Move...'
       OnClick = mnuDropClick
     end
+    object miHardLink: TMenuItem
+      Caption = 'Create link...'
+      OnClick = mnuDropClick
+    end
+    object miSymLink: TMenuItem
+      Caption = 'Create symlink...'
+      OnClick = mnuDropClick
+    end
     object miLine12: TMenuItem
       Caption = '-'
     end

@@ -1098,7 +1098,10 @@ begin
       SelectFileIfNoSelected(GetActiveItem);
       sFile2 := pnlFile.GetActiveItem^.sName;
       sFile1 := ActiveDir + sFile2;
-      sFile2 := NotActiveFrame.ActiveDir + sFile2;
+      if param <> '' then
+        sFile2 := param + sFile2
+      else
+        sFile2 := NotActiveFrame.ActiveDir + sFile2;
     end;
 
     Result:= ShowSymLinkForm(sFile1, sFile2);
@@ -1133,7 +1136,10 @@ begin
       SelectFileIfNoSelected(GetActiveItem);
       sFile2 := pnlFile.GetActiveItem^.sName;
       sFile1 := ActiveDir + sFile2;
-      sFile2 := NotActiveFrame.ActiveDir + sFile2;
+      if param <> '' then
+        sFile2 := param + sFile2
+      else
+        sFile2 := NotActiveFrame.ActiveDir + sFile2;
     end;
 
     Result:= ShowHardLinkForm(sFile1, sFile2);
