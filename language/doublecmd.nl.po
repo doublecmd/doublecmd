@@ -651,6 +651,10 @@ msgstr "Kopiëer geselecteerde \"\%s\"?"
 msgid "Copy to same panel"
 msgstr "Kopiëer naar zelfde paneel"
 
+#: TFRMMAIN.MICOPY.CAPTION
+msgid "Copy..."
+msgstr ""
+
 #: TFRMOPTIONS.CBLOGCPMVLN.CAPTION
 msgid "Copy/Move/Create link/symlink"
 msgstr "Kopiëer/Verplaats/Maak link/syslink"
@@ -1410,6 +1414,10 @@ msgstr "Verplaats bestand \%s"
 #: ulng.rsdlgmv
 msgid "Move file(s)"
 msgstr "Verplaats bestand(en)"
+
+#: TFRMMAIN.MIMOVE.CAPTION
+msgid "Move..."
+msgstr ""
 
 #: TFRMMAIN.ACTMULTIRENAME.CAPTION
 msgid "Multi Rename Tool"

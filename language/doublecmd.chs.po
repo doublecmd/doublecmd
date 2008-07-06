@@ -651,6 +651,10 @@ msgstr "复制选中的 \"\%s\" 吗?"
 msgid "Copy to same panel"
 msgstr "复制到同面板下"
 
+#: TFRMMAIN.MICOPY.CAPTION
+msgid "Copy..."
+msgstr ""
+
 #: TFRMOPTIONS.CBLOGCPMVLN.CAPTION
 msgid "Copy/Move/Create link/symlink"
 msgstr "复制/移动/创建 硬/符号链接"
@@ -1410,6 +1414,10 @@ msgstr "移动文件 \%s"
 #: ulng.rsdlgmv
 msgid "Move file(s)"
 msgstr "移动文件"
+
+#: TFRMMAIN.MIMOVE.CAPTION
+msgid "Move..."
+msgstr ""
 
 #: TFRMMAIN.ACTMULTIRENAME.CAPTION
 msgid "Multi Rename Tool"
