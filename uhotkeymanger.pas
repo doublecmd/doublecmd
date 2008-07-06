@@ -288,9 +288,13 @@ begin
  begin
    while FFormsList.Count>0 do
      begin
-     UnRegisterManagerForF(TObjInfoClass(FFormsList.Objects[0]).AObject as TCustomForm);
-     //  TObjInfoClass(FFormsList.Objects[0]).Free;
-      // FFormsList.Delete(0);
+      //ClearHotKeys;
+       UnRegisterHotkeyManager(TObjInfoClass(FFormsList.Objects[0]).AObject );
+       if Assigned(FFormsList.Objects[0]) then
+         begin
+           TObjInfoClass(FFormsList.Objects[0]).Free;
+           FFormsList.Delete(0);
+         end;
      end;
    FreeAndNil(FFormsList);
  end;
