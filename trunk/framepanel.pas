@@ -132,7 +132,7 @@ type
     procedure Init;
     procedure ClearCmdLine;
     procedure CloseAltPanel;
-    procedure ShowAltPanel(Char : Char = #0);
+    procedure ShowAltPanel(Char : TUTF8Char = #0);
     procedure UnMarkAll;
     procedure UpDatelblInfo;
     Function GetActiveDir:String;
@@ -605,7 +605,7 @@ begin
   edtSearch.Text:='';
 end;
 
-procedure TFrameFilePanel.ShowAltPanel(Char : Char);
+procedure TFrameFilePanel.ShowAltPanel(Char : TUTF8Char);
 begin
   pnAltSearch.Top := dgPanel.Top + dgPanel.Height;
   pnAltSearch.Left := dgPanel.Left;

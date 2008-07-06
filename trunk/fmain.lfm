@@ -25,6 +25,7 @@ object frmMain: TfrmMain
   OnPaint = FormPaint
   OnResize = FormResize
   OnShow = frmMainShow
+  OnUTF8KeyPress = FormUTF8KeyPress
   OnWindowStateChange = FormWindowStateChange
   Position = poDesktopCenter
   ShowHint = True
