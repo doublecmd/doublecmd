@@ -130,7 +130,7 @@ procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
 implementation
 
 uses
-  uLng, uShowMsg, uGlobs, lcltype, lazjpg, uFindMmap, uOSUtils;
+  uLng, uShowMsg, uGlobs, lcltype, lazjpg, uClassesEx, uFindMmap, uOSUtils;
 
 
 procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
@@ -519,10 +519,20 @@ begin
 end;
 
 procedure TfrmViewer.LoadGraphics(const sFileName:String);
+var
+  sExt: String;
+  fsFileStream: TFileStreamEx;  
 begin
 //  DebugLn('TfrmViewer.Load graphics');
   Image.Stretch:=miStretch.Checked;
-  Image.Picture.LoadFromFile(sFileName);
+  sExt:= ExtractFileExt(sFilename);
+  System.Delete(sExt, 1, 1); // delete a dot
+  fsFileStream:= TFileStreamEx.Create(sFileName, fmOpenRead);
+  try
+    Image.Picture.LoadFromStreamWithFileExt(fsFileStream, sExt);
+  finally
+    fsFileStream.Free;
+  end;
   with Image.Picture do AdjustViewerSize(Width, Height);
   nbPages.ActivePageComponent:=pgImage;
   miImage.Visible:=True;
