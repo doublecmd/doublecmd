@@ -37,6 +37,7 @@ const cf_Null=0;
   //---------------------
    procedure cm_AddPathToCmdLine(param: string='');
    procedure cm_ContextMenu(param: string='');
+   procedure cm_DriveContextMenu(param: string='');
    procedure cm_CopyFullNamesToClip(param: string='');
    procedure cm_Exchange(param:string='');
    procedure cm_LeftOpenDrives(param:string='');
@@ -293,6 +294,14 @@ with frmMain do
     ShowContextMenu(Handle, fl, Mouse.CursorPos.x, Mouse.CursorPos.y);
     ActiveFrame.UnMarkAll;
   end;
+end;
+
+procedure TActs.cm_DriveContextMenu(param: string);
+begin
+  if param <> '' then
+    begin
+      ShowDriveContextMenu(frmMain, param, Mouse.CursorPos.x, Mouse.CursorPos.y);
+    end;
 end;
 
 procedure TActs.cm_CopyFullNamesToClip(param:string);

@@ -66,6 +66,7 @@ procedure ShowFilePropertiesDialog(FileList:TFileList; const aPath:String);
    @param(Y Y coordinate)
 }
 procedure ShowContextMenu(Handle : THandle; FileList : TFileList; X, Y : Integer);
+procedure ShowDriveContextMenu(Owner: TWinControl; sPath: String; X, Y : Integer);
 {en
    Show open icon dialog
    @param(Owner Owner)
@@ -466,6 +467,23 @@ end;
   CM.PopUp(X, Y);
 
   FileList.Free;
+end;
+{$ENDIF}
+
+procedure ShowDriveContextMenu(Owner: TWinControl; sPath: String; X, Y : Integer);
+{$IFDEF MSWINDOWS}
+var
+  fri: TFileRecItem;
+  FileList: TFileList;
+begin
+  fri.sName:= sPath;
+  FileList:= TFileList.Create;
+  FileList.AddItem(@fri);
+  ShowContextMenu(Owner.Handle, FileList, X, Y);
+end;
+{$ELSE}
+begin
+
 end;
 {$ENDIF}
 

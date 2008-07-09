@@ -61,6 +61,7 @@ object frmMain: TfrmMain
         BevelOuter = bvNone
         ParentColor = False
         TabOrder = 0
+        OnMouseUp = dskToolBarMouseUp
         OnToolButtonClick = dskToolButtonClick
         CheckToolButton = True
         FlatButtons = True
@@ -77,6 +78,7 @@ object frmMain: TfrmMain
         Anchors = [akTop, akLeft, akBottom]
         BevelOuter = bvNone
         TabOrder = 1
+        OnMouseUp = dskToolBarMouseUp
         OnToolButtonClick = dskToolButtonClick
         OnChangeLineCount = dskRightChangeLineCount
         CheckToolButton = True
