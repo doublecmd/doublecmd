@@ -56,6 +56,9 @@ resourcestring
   rsMsgNoFreeSpaceRetry = 'No enough free space on target drive, Retry?';
   // for context menu
   rsMnuActions = 'Actions';
+  rsMnuMount = 'Mount';
+  rsMnuUmount = 'Umount';
+  rsMnuEject = 'Eject';
   // wcx module messages
   rsMsgSelLocNextVol = 'Please select location of next volume';
   rsMsgNextVolUnpack = 'Next volume will be unpacked';

@@ -2283,6 +2283,18 @@ msgstr ""
 msgid "&Replace with:"
 msgstr ""
 
+#: ulng.rsmnueject
+msgid "Eject"
+msgstr ""
+
+#: ulng.rsmnumount
+msgid "Mount"
+msgstr ""
+
+#: ulng.rsmnuumount
+msgid "Umount"
+msgstr ""
+
 #: TFRMEDITOR.ACTEDITFINDNEXT.CAPTION
 msgid "Find next"
 msgstr ""
