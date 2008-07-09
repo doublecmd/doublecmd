@@ -242,6 +242,8 @@ type
     procedure btnRightClick(Sender: TObject);
     procedure btnRightDirectoryHotlistClick(Sender: TObject);
     procedure DeleteClick(Sender: TObject);
+    procedure dskToolBarMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure dskRightChangeLineCount(AddSize: Integer);
     procedure dskToolButtonClick(Sender: TObject; NumberOfButton: Integer);
     procedure FormCreate(Sender: TObject);
@@ -730,6 +732,22 @@ if pmToolBar.Tag >= 0 then
          MainToolBar.SaveToFile(gpIniDir + 'default.bar');
       end;
    end;
+end;
+
+procedure TfrmMain.dskToolBarMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+var
+  sPath: String;
+begin
+  if Sender is TSpeedButton then
+    with Sender as TSpeedButton do
+    begin
+      if Tag < DrivesList.Count then
+        begin
+          sPath:= PDrive(DrivesList.Items[Tag])^.Path;
+          Actions.cm_DriveContextMenu(sPath);
+        end;
+    end;
 end;
 
 procedure TfrmMain.dskRightChangeLineCount(AddSize: Integer);
@@ -2324,6 +2342,8 @@ begin
       dskPanel.Buttons[I].Transparent := True;
       {/Set Buttons Transparent}
       dskPanel.Buttons[I].Layout := blGlyphLeft;
+      // save in tag button index
+      dskPanel.Buttons[I].Tag:= I;
     end; // with
   end; // for
 
