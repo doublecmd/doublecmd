@@ -29,7 +29,7 @@ interface
 uses
   Classes, SysUtils, uTypes, uFileList, Menus, Controls, Graphics, ExtDlgs,
   {$IFDEF UNIX}
-  fFileProperties;
+  Unix, fFileProperties;
   {$ELSE}
   FileUtil, Windows, Messages, ShellApi, ShlObj, ActiveX, uShlObjAdditional,
   JwaShlGuid, JwaDbt, JwaWinUser;
@@ -44,6 +44,7 @@ const
 type
   TContextMenu = class(TPopupMenu)
     procedure ContextMenuSelect(Sender:TObject);
+    procedure DriveContextMenuSelect(Sender:TObject);
   end;
 {$ENDIF}
 
@@ -66,6 +67,13 @@ procedure ShowFilePropertiesDialog(FileList:TFileList; const aPath:String);
    @param(Y Y coordinate)
 }
 procedure ShowContextMenu(Handle : THandle; FileList : TFileList; X, Y : Integer);
+{en
+   Show drive context menu
+   @param(Owner Parent window)
+   @param(sPath Path to drive)
+   @param(X X coordinate)
+   @param(Y Y coordinate)
+}
 procedure ShowDriveContextMenu(Owner: TWinControl; sPath: String; X, Y : Integer);
 {en
    Show open icon dialog
@@ -128,12 +136,12 @@ end;
 
 {$IFDEF UNIX}
 (* handling user commands from context menu *)
-procedure TContextMenu.ContextMenuSelect(Sender:TObject);
+procedure TContextMenu.ContextMenuSelect(Sender: TObject);
 var
-  sCmd:String;
+  sCmd: String;
 begin
-//  ShowMessage((Sender as TMenuItem).Hint);
-  sCmd:=(Sender as TMenuItem).Hint;
+  // ShowMessage((Sender as TMenuItem).Hint);
+  sCmd:= (Sender as TMenuItem).Hint;
   with frmMain.ActiveFrame do
   begin
     if (Pos('{!VFS}',sCmd)>0) and pnlFile.VFS.FindModule(ActiveDir + FileRecItem.sName) then
@@ -144,6 +152,36 @@ begin
     if not pnlFile.ProcessExtCommand(sCmd) then
       frmMain.ExecCmd(sCmd);
   end;
+end;
+
+(* handling user commands from drive context menu *)
+procedure TContextMenu.DriveContextMenuSelect(Sender:TObject);
+var
+  sExecCmd,
+  sCmd, sPath: String;
+  iPos: Integer;
+begin
+  // ShowMessage((Sender as TMenuItem).Hint);
+  sCmd:= (Sender as TMenuItem).Hint;
+  // mount drive
+  iPos:= Pos('{!MOUNT}', sCmd);
+  if iPos > 0 then
+    sExecCmd:= 'mount ';
+  // umount drive
+  iPos:= Pos('{!UMOUNT}', sCmd);
+  if iPos > 0 then
+    sExecCmd:= 'umount ';
+  // eject drive
+  iPos:= Pos('{!EJECT}', sCmd);
+  if iPos > 0 then
+    sExecCmd:= 'eject ';
+  // exit if command not found
+  if sExecCmd = '' then Exit;
+  // get path
+  iPos:= Pos('}', sCmd);
+  sPath:= Copy(sCmd, iPos + 1, Length(sCmd)-iPos);
+  // execute command
+  fpSystem(sExecCmd + sPath);
 end;
 {$ENDIF}
 
@@ -482,8 +520,48 @@ begin
   ShowContextMenu(Owner.Handle, FileList, X, Y);
 end;
 {$ELSE}
+var
+  mi: TMenuItem;
 begin
+  if not Assigned(CM) then
+    CM:= TContextMenu.Create(nil)
+  else
+    CM.Items.Clear;
 
+  mi:= TMenuItem.Create(CM);
+  mi.Caption := rsMnuMount;
+  if IsAvailable(sPath) then
+    begin
+      mi.Enabled:= False;
+    end
+  else
+    begin
+      mi.Hint:= '{!MOUNT}' + sPath;
+      mi.OnClick:= TContextMenu.DriveContextMenuSelect;
+    end;
+  CM.Items.Add(mi);
+
+  mi:=TMenuItem.Create(CM);
+  mi.Caption:= rsMnuUmount;
+  if not IsAvailable(sPath) then
+    begin
+      mi.Enabled:= False;
+    end
+  else
+    begin
+      mi.Hint:= '{!UMOUNT}' + sPath;
+      mi.OnClick:= TContextMenu.DriveContextMenuSelect;
+    end;
+  CM.Items.Add(mi);
+  
+  mi:=TMenuItem.Create(CM);
+  mi.Caption:= rsMnuEject;
+  mi.Hint:= '{!EJECT}' + sPath;
+  mi.OnClick:= TContextMenu.DriveContextMenuSelect;
+  CM.Items.Add(mi);
+
+  // show context menu
+  CM.PopUp(X, Y);
 end;
 {$ENDIF}
 

@@ -874,6 +874,10 @@ msgstr "Настройки редактора"
 msgid "Editor font"
 msgstr "Шрифт редактора"
 
+#: ulng.rsmnueject
+msgid "Eject"
+msgstr ""
+
 #: TFRMOPTIONS.CBEXACTENDING.CAPTION
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr "Кінець (останні символи до набраної крапки '.' повинні співпадати)"
@@ -1393,6 +1397,10 @@ msgstr ""
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
 msgstr "Більше"
+
+#: ulng.rsmnumount
+msgid "Mount"
+msgstr ""
 
 #: ulng.rsconfcolmove
 msgid "Move"
@@ -2065,6 +2073,10 @@ msgstr ""
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
 msgid "Type:"
 msgstr "Тип:"
+
+#: ulng.rsmnuumount
+msgid "Umount"
+msgstr ""
 
 #: ulng.rsspliterrdirectory
 msgid "Unable to create target directory!"

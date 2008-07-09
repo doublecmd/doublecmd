@@ -875,6 +875,10 @@ msgstr "Editor configuratie"
 msgid "Editor font"
 msgstr "Editor lettertype"
 
+#: ulng.rsmnueject
+msgid "Eject"
+msgstr ""
+
 #: TFRMOPTIONS.CBEXACTENDING.CAPTION
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr "Einde (laatste karakter voor een getypte punt . moet overeenkomene"
@@ -1394,6 +1398,10 @@ msgstr ""
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
 msgstr "Meer"
+
+#: ulng.rsmnumount
+msgid "Mount"
+msgstr ""
 
 #: ulng.rsconfcolmove
 msgid "Move"
@@ -2066,6 +2074,10 @@ msgstr "Probeer archief te openen"
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
 msgid "Type:"
 msgstr "Type:"
+
+#: ulng.rsmnuumount
+msgid "Umount"
+msgstr ""
 
 #: ulng.rsspliterrdirectory
 msgid "Unable to create target directory!"

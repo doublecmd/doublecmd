@@ -739,6 +739,7 @@ procedure TfrmMain.dskToolBarMouseUp(Sender: TObject; Button: TMouseButton;
 var
   sPath: String;
 begin
+  if Button <> mbRight then Exit;
   if Sender is TSpeedButton then
     with Sender as TSpeedButton do
     begin

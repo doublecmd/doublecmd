@@ -875,6 +875,10 @@ msgstr "编辑器配置"
 msgid "Editor font"
 msgstr "编辑器字体"
 
+#: ulng.rsmnueject
+msgid "Eject"
+msgstr ""
+
 #: TFRMOPTIONS.CBEXACTENDING.CAPTION
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr "结束(&D)(匹配句点号前一字母)"
@@ -1394,6 +1398,10 @@ msgstr "模式:"
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
 msgstr "更多"
+
+#: ulng.rsmnumount
+msgid "Mount"
+msgstr ""
 
 #: ulng.rsconfcolmove
 msgid "Move"
@@ -2066,6 +2074,10 @@ msgstr "尝试打开归档"
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
 msgid "Type:"
 msgstr "类型:"
+
+#: ulng.rsmnuumount
+msgid "Umount"
+msgstr ""
 
 #: ulng.rsspliterrdirectory
 msgid "Unable to create target directory!"

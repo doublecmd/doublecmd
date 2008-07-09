@@ -875,6 +875,10 @@ msgstr "Настройка на обработчика"
 msgid "Editor font"
 msgstr "Шрифт на обработчика"
 
+#: ulng.rsmnueject
+msgid "Eject"
+msgstr ""
+
 #: TFRMOPTIONS.CBEXACTENDING.CAPTION
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr "&Край (последният знак преди точката . трябва да съвпада)"
@@ -1394,6 +1398,10 @@ msgstr ""
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
 msgstr "Още"
+
+#: ulng.rsmnumount
+msgid "Mount"
+msgstr ""
 
 #: ulng.rsconfcolmove
 msgid "Move"
@@ -2066,6 +2074,10 @@ msgstr "Опит за отваряне на файл"
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
 msgid "Type:"
 msgstr "Вид:"
+
+#: ulng.rsmnuumount
+msgid "Umount"
+msgstr ""
 
 #: ulng.rsspliterrdirectory
 msgid "Unable to create target directory!"

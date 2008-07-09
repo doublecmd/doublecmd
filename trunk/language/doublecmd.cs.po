@@ -877,6 +877,10 @@ msgstr "Konfigurace editoru"
 msgid "Editor font"
 msgstr "Písmo editoru"
 
+#: ulng.rsmnueject
+msgid "Eject"
+msgstr ""
+
 #: TFRMOPTIONS.CBEXACTENDING.CAPTION
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr "&Konec (poslední znak před . musí odpovídat zadanému)"
@@ -1396,6 +1400,10 @@ msgstr ""
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
 msgstr "Více"
+
+#: ulng.rsmnumount
+msgid "Mount"
+msgstr ""
 
 #: ulng.rsconfcolmove
 msgid "Move"
@@ -2068,6 +2076,10 @@ msgstr "Zkusit otevřít archív"
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
 msgid "Type:"
 msgstr "Typ:"
+
+#: ulng.rsmnuumount
+msgid "Umount"
+msgstr ""
 
 #: ulng.rsspliterrdirectory
 msgid "Unable to create target directory!"

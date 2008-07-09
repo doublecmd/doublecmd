@@ -113,6 +113,18 @@ ulng.rsmsgnofreespaceretry='No enough free space on target drive, Retry?'
 ulng.rsmnuactions='Actions'
 
 
+# hash value = 5532756
+ulng.rsmnumount='Mount'
+
+
+# hash value = 96758868
+ulng.rsmnuumount='Umount'
+
+
+# hash value = 4983716
+ulng.rsmnueject='Eject'
+
+
 # hash value = 61082373
 ulng.rsmsgsellocnextvol='Please select location of next volume'
 
