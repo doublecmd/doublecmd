@@ -414,7 +414,7 @@ begin
   if FileList.Count = 0 then Exit;
 
   if not Assigned(CM) then
-    CM:= TContextMenu.Create(nil)
+    CM:= TContextMenu.Create(Owner)
   else
     CM.Items.Clear;
 
@@ -529,7 +529,7 @@ var
   mi: TMenuItem;
 begin
   if not Assigned(CM) then
-    CM:= TContextMenu.Create(nil)
+    CM:= TContextMenu.Create(Owner)
   else
     CM.Items.Clear;
 
