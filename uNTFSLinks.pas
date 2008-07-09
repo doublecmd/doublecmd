@@ -327,25 +327,25 @@ begin
 end;
 
 //-------------------------------------------------------------
-procedure DeleteDirectoryContent( const ADirName: String );
+procedure DeleteDirectoryContent( const ADirName: WideString );
 type
   PDirRef = ^TDirRef;
   PPDirRef = ^PDirRef;
   TDirRef = record
     Next : PDirRef;
-    DirName : String;
+    DirName : WideString;
   end;
 var
   h: THandle;
-  sFileName : String;
+  sFileName : WideString;
   pSubDirs : PDirRef;
   ppLast : PPDirRef;
   pDir : PDirRef;
-  rFindData: TWin32FindData;
+  rFindData: TWin32FindDataW;
 begin
   pSubDirs := nil;
   ppLast := @pSubDirs;
-  h := Windows.FindFirstFile( PChar(ADirName+'\*'), rFindData );
+  h := Windows.FindFirstFileW( PWChar(ADirName+'\*'), rFindData );
   if h=INVALID_HANDLE_VALUE then Exit;
   try
     try
@@ -365,10 +365,10 @@ begin
             ppLast^ := pDir;
             ppLast := @pDir^.Next;
           end
-        else if not DeleteFile(sFileName) then 
+        else if not DeleteFileW(PWChar(sFileName)) then 
           raise Exception.Create('Can''t delete file "'+sFileName+'".');
 
-      until not Windows.FindNextFile(h,rFindData);
+      until not Windows.FindNextFileW(h,rFindData);
     finally
       Windows.FindClose(h);
     end;
@@ -380,7 +380,7 @@ begin
         sFileName := pDir^.DirName;
         Dispose(pDir);
         DeleteDirectoryContent(sFileName);
-        if not RemoveDir(sFileName) then 
+        if not RemoveDirectoryW(PWChar(sFileName)) then 
           raise Exception.Create('Can''t delete directory "'+sFileName+'".');
       until pSubDirs=nil;
     end;
