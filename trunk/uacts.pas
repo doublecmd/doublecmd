@@ -291,7 +291,7 @@ with frmMain do
         SelectFileIfNoSelected(GetActiveItem);
         CopyListSelectedExpandNames(pnlFile.FileList, fl, ActiveDir, False);
       end;
-    ShowContextMenu(Handle, fl, Mouse.CursorPos.x, Mouse.CursorPos.y);
+    ShowContextMenu(frmMain, fl, Mouse.CursorPos.x, Mouse.CursorPos.y);
     ActiveFrame.UnMarkAll;
   end;
 end;

@@ -61,12 +61,12 @@ procedure SetMyWndProc(Handle : THandle);
 procedure ShowFilePropertiesDialog(FileList:TFileList; const aPath:String);
 {en
    Show file/folder context menu
-   @param(Handle Parent window handle)
+   @param(Owner Parent window)
    @param(FileList List of files)
    @param(X X coordinate)
    @param(Y Y coordinate)
 }
-procedure ShowContextMenu(Handle : THandle; FileList : TFileList; X, Y : Integer);
+procedure ShowContextMenu(Owner: TWinControl; FileList : TFileList; X, Y : Integer);
 {en
    Show drive context menu
    @param(Owner Parent window)
@@ -256,13 +256,13 @@ begin
 end;
 {$ENDIF}
 
-procedure ShowContextMenu(Handle : THandle; FileList : TFileList; X, Y : Integer);
+procedure ShowContextMenu(Owner: TWinControl; FileList : TFileList; X, Y : Integer);
+{$IFDEF MSWINDOWS}
 var
   fri : TFileRecItem;
   sl: TStringList;
   i:Integer;
   sCmd:String;  
-{$IFDEF MSWINDOWS}
   contMenu: IContextMenu;
   menu: HMENU;
   cmd: UINT;
@@ -272,14 +272,10 @@ var
   bHandled : Boolean;
   ZVerb: array[0..255] of char;
   sVerb : String;
-{$ELSE}
-  mi, miActions : TMenuItem;
-{$ENDIF}
 begin
   if FileList.Count = 0 then Exit;
 
-{$IFDEF MSWINDOWS}
-  contMenu := GetIContextMenu(Handle, FileList);
+  contMenu := GetIContextMenu(Owner.Handle, FileList);
   menu := CreatePopupMenu;
   try
     OleCheck( contMenu.QueryContextMenu(menu, 0, 1, $7FFF, CMF_EXPLORE or CMF_CANRENAME) );
@@ -324,7 +320,7 @@ begin
       end;
 { /Actions submenu }
 //------------------------------------------------------------------------------
-    cmd := UINT(TrackPopupMenu(menu, TPM_LEFTALIGN or TPM_LEFTBUTTON or TPM_RIGHTBUTTON or TPM_RETURNCMD, X, Y, 0, Handle, nil));
+    cmd := UINT(TrackPopupMenu(menu, TPM_LEFTALIGN or TPM_LEFTBUTTON or TPM_RIGHTBUTTON or TPM_RETURNCMD, X, Y, 0, Owner.Handle, nil));
   finally
     DestroyMenu(hActionsSubMenu);
     DestroyMenu(menu);
@@ -373,7 +369,7 @@ begin
           with cmici do
           begin
             cbSize := sizeof(cmici);
-            hwnd := Handle;
+            hwnd := Owner.Handle;
             lpVerb := PChar(cmd - 1);
             nShow := SW_NORMAL;
           end;
@@ -408,8 +404,17 @@ begin
   FileList.Free;
 end;
 {$ELSE}
+var
+  fri: TFileRecItem;
+  sl: TStringList;
+  i: Integer;
+  sCmd: String;
+  mi, miActions: TMenuItem;
+begin
+  if FileList.Count = 0 then Exit;
+
   if not Assigned(CM) then
-    CM := TContextMenu.Create(nil)
+    CM:= TContextMenu.Create(nil)
   else
     CM.Items.Clear;
 
@@ -515,9 +520,9 @@ var
   FileList: TFileList;
 begin
   fri.sName:= sPath;
-  FileList:= TFileList.Create;
+  FileList:= TFileList.Create; // free in ShowContextMenu
   FileList.AddItem(@fri);
-  ShowContextMenu(Owner.Handle, FileList, X, Y);
+  ShowContextMenu(Owner, FileList, X, Y);
 end;
 {$ELSE}
 var
