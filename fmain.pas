@@ -1911,10 +1911,10 @@ begin
       begin
         edtRename.SelStart:=1;
         edtRename.SelLength:=length(edtRename.Text)-length(ExtractFileExt(edtRename.Text));
-        edtRename.SetFocus;
       end
     else
       edtRename.SelectAll;
+    edtRename.SetFocus;
   end;
 end;
 
