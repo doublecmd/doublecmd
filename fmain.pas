@@ -1902,7 +1902,10 @@ begin
     edtRename.OnExit:=@FrameEditExit;
     edtRename.Width:=dgPanel.ColWidths[0]+dgPanel.ColWidths[1]-16;
     edtRename.Top:= (dgPanel.CellRect(0,dgPanel.Row).Top-2);
-    edtRename.Left:=16;
+    if gShowIcons then
+      edtRename.Left:= gIconsSize + 3
+    else
+      edtRename.Left:= 2;
     edtRename.Height:=dgpanel.DefaultRowHeight+4;
     edtRename.Hint:=sFileName;
     edtRename.Text:=ExtractFileName(sFileName);
