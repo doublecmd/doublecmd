@@ -441,6 +441,8 @@ begin
       Canvas.Brush.Color:= gCursorColor
     else
       Canvas.Brush.Color:=Color;
+    if Color <> gBackColor then
+      Color:= gBackColor;
   end;
 end;
 
