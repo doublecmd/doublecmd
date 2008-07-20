@@ -11,7 +11,7 @@ object DialogBox: TDialogBox
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 187
   ClientWidth = 334
-  LCLVersion = '0.9.25'
+  OnShow = DialogBoxShow
   object lblAbout: TLabel
     AnchorSideLeft.Control = gbCompression
     AnchorSideTop.Control = Owner
