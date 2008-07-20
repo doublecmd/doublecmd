@@ -27,7 +27,7 @@
 unit ZipFunc;
 
 interface
-uses uWCXhead, AbZipKit, AbArcTyp;
+uses uWCXhead, AbZipKit, AbArcTyp, AbZipTyp, DialogAPI, IniFiles;
 
 type
   TAbZipKitEx = class (TAbZipKit)
@@ -49,13 +49,19 @@ procedure SetProcessDataProc (hArcData : THandle; pProcessDataProc1 : TProcessDa
 function PackFiles(PackedFile: pchar;  SubPath: pchar;  SrcPath: pchar;  AddList: pchar;  Flags: integer): Integer;stdcall;
 function DeleteFiles (PackedFile, DeleteList : PChar) : Integer;stdcall;
 function GetPackerCaps : Integer;stdcall;
-
-
-implementation
-uses AbUtils, AbExcept, SysUtils, Classes;//, windows;
+procedure ConfigurePacker (Parent: THandle;  DllInstance: THandle);stdcall;
+{Dialog API function}
+procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);stdcall;
 
 var
-  ProcessDataProc : TProcessDataProc;
+  gProcessDataProc : TProcessDataProc;
+  gSetDlgProcInfo: TSetDlgProcInfo;
+  gCompressionMethodToUse : TAbZipSupportedMethod;
+  gDeflationOption : TAbZipDeflationOption;
+  gIni: TIniFile;
+  
+implementation
+uses AbUtils, AbExcept, SysUtils, Classes, ZipConfDlg;//, windows;
 
 {$IFNDEF FPC} // for compiling under Delphi
 Const
@@ -253,9 +259,9 @@ begin
    end
   else  // if archive is close
      if Assigned(pProcessDataProc1) then
-       ProcessDataProc := pProcessDataProc1
+       gProcessDataProc := pProcessDataProc1
      else
-       ProcessDataProc := nil;
+       gProcessDataProc := nil;
 end;
 
 {Optional functions}
@@ -266,7 +272,9 @@ var
 begin
   try
     Arc := TAbZipKitEx.Create(nil);
-    Arc.FProcessDataProc := ProcessDataProc;
+    Arc.CompressionMethodToUse:= gCompressionMethodToUse;
+    Arc.DeflationOption:= gDeflationOption;
+    Arc.FProcessDataProc := gProcessDataProc;
     Arc.OnArchiveItemProgress := Arc.AbArchiveItemProgressEvent;
     Arc.OnArchiveProgress := Arc.AbArchiveProgressEvent;
 
@@ -289,7 +297,7 @@ var
 begin
   try
     Arc := TAbZipKitEx.Create(nil);
-    Arc.FProcessDataProc := ProcessDataProc;
+    Arc.FProcessDataProc := gProcessDataProc;
     Arc.OnArchiveItemProgress := Arc.AbArchiveItemProgressEvent;
     Arc.OnArchiveProgress := Arc.AbArchiveProgressEvent;
     
@@ -309,6 +317,20 @@ begin
   Result := PK_CAPS_NEW or PK_CAPS_DELETE or PK_CAPS_MODIFY or PK_CAPS_MULTIPLE;
 end;
 
+procedure ConfigurePacker(Parent: THandle; DllInstance: THandle);
+begin
+  CreateZipConfDlg;
+end;
+
+procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);
+begin
+  gSetDlgProcInfo:= SetDlgProcInfo;
+  // load configuration from ini file
+  gIni:= TIniFile.Create(gSetDlgProcInfo.PluginConfDir + 'zip.ini');
+  gCompressionMethodToUse:= TAbZipSupportedMethod(gIni.ReadInteger('Configuration', 'CompressionMethodToUse', 0));
+  gDeflationOption:= TAbZipDeflationOption(gIni.ReadInteger('Configuration', 'DeflationOption', 0));
+end;
+
 
 { TAbZipKitEx }
 
@@ -321,13 +343,12 @@ begin
   except
     Abort := True;
   end;
-
 end;
 
 procedure TAbZipKitEx.AbArchiveProgressEvent(Sender: TObject;
   Progress: Byte; var Abort: Boolean);
 begin
- try
+  try
     if Assigned(FProcessDataProc) then
       Abort := (FProcessDataProc(nil, -(Progress + 1000)) = 0);
   except
@@ -335,4 +356,8 @@ begin
   end;
 end;
 
+finalization
+  gIni.WriteInteger('Configuration', 'CompressionMethodToUse', Integer(gCompressionMethodToUse));
+  gIni.WriteInteger('Configuration', 'DeflationOption', Integer(gDeflationOption));
+  gIni.Free;
 end.

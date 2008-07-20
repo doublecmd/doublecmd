@@ -41,7 +41,7 @@ type
     DialogLabel: TLabel;
     DialogListBox: TListBox;
     // Dialog events
-    procedure DialogBoxCreate(Sender: TObject);
+    procedure DialogBoxShow(Sender: TObject);
     // Button events
     procedure ButtonClick(Sender: TObject);
     procedure ButtonEnter(Sender: TObject);
@@ -437,7 +437,7 @@ end;
 
 { TDialog }
 
-procedure TDialogBox.DialogBoxCreate(Sender: TObject);
+procedure TDialogBox.DialogBoxShow(Sender: TObject);
 begin
   if Assigned(fDlgProc) then
     fDlgProc(PtrUInt(Pointer(Self)), PChar((Sender as TControl).Name), DN_INITDIALOG,0,0);
