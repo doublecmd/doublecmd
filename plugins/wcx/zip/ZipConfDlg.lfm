@@ -11,6 +11,7 @@ object DialogBox: TDialogBox
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 187
   ClientWidth = 334
+  Position = poScreenCenter
   OnShow = DialogBoxShow
   object lblAbout: TLabel
     AnchorSideLeft.Control = gbCompression
