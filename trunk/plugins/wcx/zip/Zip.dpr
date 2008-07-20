@@ -11,17 +11,20 @@ uses
 
 {$R *.res}
 exports
-{mandatory}
-OpenArchive,
-ReadHeader,
-ProcessFile,
-CloseArchive,
-SetChangeVolProc,
-SetProcessDataProc,
-{optional}
-PackFiles,
-DeleteFiles,
-GetPackerCaps;
+  { Mandatory }
+  OpenArchive,
+  ReadHeader,
+  ProcessFile,
+  CloseArchive,
+  SetChangeVolProc,
+  SetProcessDataProc,
+  { Optional }
+  PackFiles,
+  DeleteFiles,
+  GetPackerCaps,
+  ConfigurePacker,
+  { DialogAPI }
+  SetDlgProc;
 
 begin
 {$IFDEF UNIX}

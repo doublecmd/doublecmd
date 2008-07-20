@@ -1,0 +1,145 @@
+object DialogBox: TDialogBox
+  Left = 290
+  Height = 187
+  Top = 175
+  Width = 334
+  AutoSize = True
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Zip plugin configuration'
+  ChildSizing.LeftRightSpacing = 6
+  ChildSizing.TopBottomSpacing = 6
+  ClientHeight = 187
+  ClientWidth = 334
+  LCLVersion = '0.9.25'
+  object lblAbout: TLabel
+    AnchorSideLeft.Control = gbCompression
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = gbCompression
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 40
+    Top = 6
+    Width = 322
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    BorderSpacing.Top = 6
+    Caption = 'Zip plugin supports  PKZIP-compatible, TAR and GZip data compression and archiving.'#13#10'Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)'
+    ParentColor = False
+    WordWrap = True
+  end
+  object gbCompression: TGroupBox
+    AnchorSideTop.Control = lblAbout
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 129
+    Top = 52
+    Width = 322
+    Align = alBottom
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Top = 6
+    Caption = 'Compression'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 6
+    ClientHeight = 111
+    ClientWidth = 318
+    TabOrder = 0
+    object lblCompressionMethodToUse: TLabel
+      AnchorSideLeft.Control = gbCompression
+      AnchorSideTop.Control = gbCompression
+      Left = 6
+      Height = 14
+      Top = 6
+      Width = 138
+      Caption = 'Compression method to use:'
+      ParentColor = False
+    end
+    object lblDeflationOption: TLabel
+      AnchorSideLeft.Control = gbCompression
+      AnchorSideTop.Control = lblCompressionMethodToUse
+      AnchorSideTop.Side = asrBottom
+      Left = 6
+      Height = 14
+      Top = 38
+      Width = 81
+      BorderSpacing.Top = 18
+      Caption = 'Deflation option:'
+      ParentColor = False
+    end
+    object cbCompressionMethodToUse: TComboBox
+      AnchorSideTop.Control = lblCompressionMethodToUse
+      AnchorSideTop.Side = asrCenter
+      Left = 176
+      Height = 21
+      Top = 3
+      Width = 136
+      AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+      ItemHeight = 13
+      ItemIndex = 2
+      Items.Strings = (
+        'smStored'
+        'smDeflated'
+        'smBestMethod'
+      )
+      OnChange = ComboBoxChange
+      Style = csDropDownList
+      TabOrder = 0
+      Text = 'smBestMethod'
+    end
+    object cbDeflationOption: TComboBox
+      AnchorSideLeft.Control = cbCompressionMethodToUse
+      AnchorSideTop.Control = lblDeflationOption
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = cbCompressionMethodToUse
+      AnchorSideRight.Side = asrBottom
+      Left = 176
+      Height = 21
+      Top = 35
+      Width = 136
+      Anchors = [akTop, akLeft, akRight]
+      AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+      ItemHeight = 13
+      ItemIndex = 0
+      Items.Strings = (
+        'doNormal'
+        'doMaximum'
+        'doFast'
+        'doSuperFast'
+      )
+      OnChange = ComboBoxChange
+      Style = csDropDownList
+      TabOrder = 1
+      Text = 'doNormal'
+    end
+    object btnOK: TButton
+      AnchorSideTop.Control = btnCancel
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = btnCancel
+      Left = 148
+      Height = 25
+      Top = 80
+      Width = 75
+      Anchors = [akTop, akRight]
+      BorderSpacing.Right = 8
+      Caption = 'OK'
+      OnClick = ButtonClick
+      TabOrder = 2
+    end
+    object btnCancel: TButton
+      AnchorSideTop.Control = cbDeflationOption
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbCompression
+      AnchorSideRight.Side = asrBottom
+      Left = 231
+      Height = 25
+      Top = 80
+      Width = 75
+      Anchors = [akTop, akRight]
+      BorderSpacing.Top = 24
+      BorderSpacing.Right = 12
+      Caption = 'Отмена'
+      OnClick = ButtonClick
+      TabOrder = 3
+    end
+  end
+end

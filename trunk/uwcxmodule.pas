@@ -26,7 +26,7 @@ unit uWCXmodule;
 interface
 uses
   uWCXprototypes, uWCXhead, uFileList, uTypes, dynlibs, Classes, uVFSModule,
-  uVFSTypes, uVFSUtil, fFileOpDlg, Dialogs;
+  uVFSTypes, uVFSUtil, fFileOpDlg, Dialogs, DialogAPI;
 
 {$H+}
 const
@@ -87,6 +87,8 @@ Type
     DoneMemPack : TDoneMemPack;
     CanYouHandleThisFile : TCanYouHandleThisFile;
     PackSetDefaultParams : TPackSetDefaultParams;
+    // Dialog API
+    SetDlgProc: TSetDlgProc;
     FModuleHandle:TLibHandle;  // Handle to .DLL or .so
     FArchiveName : String;
   public
@@ -124,7 +126,8 @@ Type
 function IsBlocked : Boolean;
 
 implementation
-uses Forms, SysUtils, Masks, uFileOp, uGlobs, uLog, uOSUtils, LCLProc, uFileProcs, uDCUtils, uLng, Controls;
+uses Forms, SysUtils, Masks, uFileOp, uGlobs, uLog, uOSUtils, LCLProc, uFileProcs,
+     uDCUtils, uLng, Controls, fDialogBox, uGlobsPaths;
 
 var
   WCXModule : TWCXModule;  // used in ProcessDataProc
@@ -144,11 +147,13 @@ end;
 function TWCXModule.LoadModule(const sName:String):Boolean;
 var
   PackDefaultParamStruct : pPackDefaultParamStruct;
+  SetDlgProcInfo: TSetDlgProcInfo;
 begin
   FModuleHandle := LoadLibrary(sName);
   Result := (FModuleHandle <> 0);
   if  FModuleHandle = 0 then exit;
   //DebugLN('FModuleHandle =', FModuleHandle);
+  // mandatory functions
   OpenArchive:= TOpenArchive(GetProcAddress(FModuleHandle,'OpenArchive'));
   @ReadHeader:= GetProcAddress(FModuleHandle,'ReadHeader');
   @ProcessFile:= GetProcAddress(FModuleHandle,'ProcessFile');
@@ -163,6 +168,7 @@ begin
       Result := False;
       Exit;
     end;
+  // optional functions
   @PackFiles:= GetProcAddress(FModuleHandle,'PackFiles');
   @DeleteFiles:= GetProcAddress(FModuleHandle,'DeleteFiles');
   @GetPackerCaps:= GetProcAddress(FModuleHandle,'GetPackerCaps');
@@ -174,6 +180,8 @@ begin
   @DoneMemPack:= GetProcAddress(FModuleHandle,'DoneMemPack');
   @CanYouHandleThisFile:= GetProcAddress(FModuleHandle,'CanYouHandleThisFile');
   @PackSetDefaultParams:= GetProcAddress(FModuleHandle,'PackSetDefaultParams');
+  // Dialog API function
+  @SetDlgProc:= GetProcAddress(FModuleHandle,'SetDlgProc');
   
   if Assigned(PackSetDefaultParams) then
     begin
@@ -185,6 +193,22 @@ begin
           DefaultIniName := '';
         end;
       PackSetDefaultParams(PackDefaultParamStruct);
+    end;
+
+  // Dialog API
+  if Assigned(SetDlgProc) then
+    begin
+      with SetDlgProcInfo do
+      begin
+        PluginDir:= PWideChar(WideString(ExtractFilePath(sName)));
+        PluginConfDir:= PWideChar(UTF8Decode(gpIniDir));
+        InputBox:= @fDialogBox.InputBox;
+        MessageBox:= @fDialogBox.MessageBox;
+        DialogBox:= @fDialogBox.DialogBox;
+        DialogBoxEx:= @fDialogBox.DialogBoxEx;
+        SendDlgMsg:= @fDialogBox.SendDlgMsg;
+      end;
+      SetDlgProc(SetDlgProcInfo);
     end;
 end;
 
@@ -244,7 +268,7 @@ function ChangeVolProc(ArcName : Pchar; Mode:Longint):Longint; stdcall;
 begin
   case Mode of
   PK_VOL_ASK:
-    ArcName := PChar(InputBox ('Double Commander', rsMsgSelLocNextVol, ArcName));
+    ArcName := PChar(Dialogs.InputBox ('Double Commander', rsMsgSelLocNextVol, ArcName));
   PK_VOL_NOTIFY:
     ShowMessage(rsMsgNextVolUnpack);
   end;
