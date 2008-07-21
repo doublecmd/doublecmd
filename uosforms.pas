@@ -125,7 +125,7 @@ end;
 {$ENDIF}
 
 procedure SetMyWndProc(Handle : THandle);
-{$IFDEF MSWINDOWS}
+{$IFDEF WIN32}
 begin
   OldWProc := WNDPROC(SetWindowLong(Handle, GWL_WNDPROC, Integer(@MyWndProc)));
 end;
