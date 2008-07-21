@@ -33,7 +33,7 @@ function ModeStr2Mode(const sMode:String):Integer;
 implementation
 
 uses
-  SysUtils, uFileOp, uOSUtils, uFindEx, LCLProc {$IFNDEF WIN32}, BaseUnix{$ENDIF};
+  SysUtils, uFileOp, uOSUtils, uFindEx, LCLProc {$IFDEF UNIX}, BaseUnix{$ENDIF};
 
 { TFileList }
 

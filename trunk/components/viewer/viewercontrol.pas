@@ -128,7 +128,7 @@ procedure Register;
 
 implementation
 uses
-  Clipbrd{$IFNDEF WIN32}, Libc, unix{$ELSE}, Windows{$ENDIF};
+  Clipbrd{$IFDEF UNIX}, Libc, unix{$ELSE}, Windows{$ENDIF};
 
 const
   cTextWidth=80;  // wrap on 80 chars
@@ -401,7 +401,7 @@ end;
 
 
 Function TViewerControl.MapFile(const sFileName:String):Boolean;
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
 var
   wFileName: WideString;
 begin
@@ -469,7 +469,7 @@ end;
 {$ENDIF}
 
 procedure TViewerControl.UnMapFile;
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
 begin
   if Assigned(FMappedFile) then
     UnmapViewOfFile(FMappedFile);
@@ -670,7 +670,7 @@ begin
 end;
 
 Function TViewerControl.LoadFromStdin(const sCmd:String):Boolean;
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
 begin
 
 end;

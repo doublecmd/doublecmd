@@ -31,7 +31,7 @@ type
   Plua_State = ^lua_State;
 
 const
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
   LuaDLL = 'lua5.1.dll';
 {$ENDIF}
 {$IFDEF UNIX}
