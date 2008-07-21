@@ -61,7 +61,7 @@ type
     FSecondIconSize,
     FThirdIconSize : TDriveIcons;
     FPixmapSize : String;
-    {$IFDEF WIN32}
+    {$IFDEF MSWINDOWS}
     SysImgList : Cardinal;
     {$ENDIF}
   protected
@@ -327,7 +327,7 @@ begin
 end;
 
 constructor TPixMapManager.Create;
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
 var
   FileInfo : TSHFileInfo;
   iIconSize : Integer;
@@ -335,7 +335,7 @@ var
 begin
   FExtList:=TStringList.Create;
   FPixmapList:=TStringList.Create;
-  {$IFDEF WIN32}
+  {$IFDEF MSWINDOWS}
     if gIconsSize < 32 then
       iIconSize := SHGFI_SMALLICON
     else
@@ -376,7 +376,7 @@ begin
     if Assigned(bmMediaFlash) then FreeAndNil(bmMediaFlash);
     if Assigned(bmMediaOptical) then FreeAndNil(bmMediaOptical);
   end;
-  {$IFDEF WIN32}
+  {$IFDEF MSWINDOWS}
    ImageList_Destroy(SysImgList);
   {$ENDIF}
   inherited Destroy;

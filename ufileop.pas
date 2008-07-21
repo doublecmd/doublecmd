@@ -49,9 +49,9 @@ const
 
 implementation
 uses
-  SysUtils, uFileProcs, uFindEx, uGlobs, uOSUtils {$IFNDEF WIN32}, uUsersGroups, Unix, BaseUnix{$ENDIF};
+  SysUtils, uFileProcs, uFindEx, uGlobs, uOSUtils {$IFDEF UNIX}, uUsersGroups, Unix, BaseUnix{$ENDIF};
 
-{$IFNDEF WIN32}   // *nix
+{$IFDEF UNIX}   // *nix
 Function IsDirByName(const sName:String):Boolean;
 var
   stat:stat64;
@@ -94,7 +94,7 @@ begin
   end;
 //  repeat
 
-    {$IFNDEF WIN32}   // *nix
+    {$IFDEF UNIX}   // *nix
     Fplstat64(sr.Name,sb);
     fr.iSize:=sb.st_size;
 
@@ -189,7 +189,7 @@ begin
     if ((sDir=DirectorySeparator) or (sDir=(ExtractFileDrive(sDir)+PathDelim))) and (sr.Name='..') then Continue;
     if sr.Name='' then Continue;
 
-    {$IFNDEF WIN32}   // *nix
+    {$IFDEF UNIX}   // *nix
     Fplstat64(sr.Name,sb);
     fr.iSize:=sb.st_size;
 
@@ -250,7 +250,7 @@ Function AttrToStr(iAttr:Cardinal):String;
 begin
   Result     := '----------';
   
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
 
 if FPS_ISDIR(iAttr) then Result[1]:='d';
 if FPS_ISLNK(iAttr) then Result[1]:='l';

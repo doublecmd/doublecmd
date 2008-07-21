@@ -28,12 +28,14 @@ interface
 
 {$DEFINE FAKE_FIND}
 {$DEFINE USE_STAT64}
+{$IFDEF UNIX}
 {$IFDEF CPU64}
 {$DEFINE USE_STAT64LIBC}    // libc version
 {$ENDIF}
+{$ENDIF}
 
 uses
-   SysUtils {$IFNDEF WIN32},BaseUnix, Unix{$IFDEF USE_STAT64LIBC}, Libc {$ELSE}, SysCall{$ENDIF}{$ELSE}, Windows{$ENDIF};
+   SysUtils {$IFDEF UNIX},BaseUnix, Unix{$IFDEF USE_STAT64LIBC}, Libc {$ELSE}, SysCall{$ENDIF}{$ELSE}, Windows{$ENDIF};
 
 Type
   TFindStatus = (fsOK, fsStatFailed, fsBadAttr);

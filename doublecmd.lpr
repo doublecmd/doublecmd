@@ -59,7 +59,7 @@ uses
   dmDialogs, fViewer, fOptions, fCopyDlg, fMoveDlg, fFindDlg,
   fSymLink, fMultiRename, fSplitter, fPackDlg, fExtractDlg;
   
-{$IFDEF MSWINDOWS}
+{$IFDEF WIN32}
 {$R XP.res}
 {$ENDIF}
 
