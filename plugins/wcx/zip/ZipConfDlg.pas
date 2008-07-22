@@ -33,6 +33,8 @@ uses
   SysUtils, DialogAPI;
 
 procedure CreateZipConfDlg;
+procedure LoadConfig;
+procedure SaveConfig;
   
 implementation
 
@@ -89,6 +91,7 @@ begin
               3:
                 gDeflationOption:= doSuperFast;
             end; // case
+            SaveConfig;
             SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 0, 0);
           end
         else if DlgItemName = 'btnCancel' then
@@ -106,6 +109,18 @@ begin
     wFileName:= PluginDir + 'ZipConfDlg.lfm';
     DialogBoxEx(PWideChar(wFileName), @DlgProc);
   end;
+end;
+
+procedure LoadConfig;
+begin
+  gCompressionMethodToUse:= TAbZipSupportedMethod(gIni.ReadInteger('Configuration', 'CompressionMethodToUse', 2));
+  gDeflationOption:= TAbZipDeflationOption(gIni.ReadInteger('Configuration', 'DeflationOption', 0));
+end;
+
+procedure SaveConfig;
+begin
+  gIni.WriteInteger('Configuration', 'CompressionMethodToUse', Integer(gCompressionMethodToUse));
+  gIni.WriteInteger('Configuration', 'DeflationOption', Integer(gDeflationOption));
 end;
 
 end.

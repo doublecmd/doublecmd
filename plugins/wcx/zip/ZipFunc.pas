@@ -327,8 +327,7 @@ begin
   gSetDlgProcInfo:= SetDlgProcInfo;
   // load configuration from ini file
   gIni:= TIniFile.Create(gSetDlgProcInfo.PluginConfDir + 'zip.ini');
-  gCompressionMethodToUse:= TAbZipSupportedMethod(gIni.ReadInteger('Configuration', 'CompressionMethodToUse', 0));
-  gDeflationOption:= TAbZipDeflationOption(gIni.ReadInteger('Configuration', 'DeflationOption', 0));
+  LoadConfig;
 end;
 
 
@@ -357,7 +356,5 @@ begin
 end;
 
 finalization
-  gIni.WriteInteger('Configuration', 'CompressionMethodToUse', Integer(gCompressionMethodToUse));
-  gIni.WriteInteger('Configuration', 'DeflationOption', Integer(gDeflationOption));
   gIni.Free;
 end.
