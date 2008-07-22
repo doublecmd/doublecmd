@@ -98,10 +98,14 @@ var
   FileRecItem: TFileRecItem;
 {$ENDIF}
 
+{$IFDEF WIN64}
+function SetWindowLong(hWnd: HWND; nIndex: Integer; dwNewLong: LONG_PTR): LONG_PTR; stdcall; external 'user32' name 'SetWindowLongPtrW';
+{$ENDIF}
+
 {$IFDEF MSWINDOWS}
-function MyWndProc(hwnd: HWND; Msg, wParam, lParam: Cardinal): Cardinal; stdcall;
+function MyWndProc(hWnd: HWND; uiMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
 begin
-  case Msg of
+  case uiMsg of
     (* For working with submenu of contex menu *)
     WM_INITMENUPOPUP,
     WM_DRAWITEM,
@@ -109,25 +113,25 @@ begin
     WM_MEASUREITEM:
       if Assigned(ICM2) then
         begin
-          ICM2.HandleMenuMsg(Msg, wParam, lParam);
+          ICM2.HandleMenuMsg(uiMsg, wParam, lParam);
           Result := 0;
         end
       else
-        Result := CallWindowProc(OldWProc, hwnd, Msg, wParam, lParam);
+        Result := CallWindowProc(OldWProc, hWnd, uiMsg, wParam, lParam);
         
     WM_DEVICECHANGE:
       if (wParam = DBT_DEVICEARRIVAL) or (wParam = DBT_DEVICEREMOVECOMPLETE) then
         frmMain.UpdateDiskCount;
   else
-    Result := CallWindowProc(OldWProc, hwnd, Msg, wParam, lParam);
+    Result := CallWindowProc(OldWProc, hWnd, uiMsg, wParam, lParam);
   end; // case
 end;
 {$ENDIF}
 
 procedure SetMyWndProc(Handle : THandle);
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
 begin
-  OldWProc := WNDPROC(SetWindowLong(Handle, GWL_WNDPROC, Integer(@MyWndProc)));
+  OldWProc := WNDPROC(SetWindowLong(Handle, GWL_WNDPROC, LONG_PTR(@MyWndProc)));
 end;
 {$ELSE}
 begin
