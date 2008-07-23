@@ -117,7 +117,7 @@ procedure ShowFileProperties(FileList:TFileList; const aPath:String);
 implementation
 
 uses
-  uLng, uFileOp, uFileProcs, uFindEx, BaseUnix, Libc, uUsersGroups;
+  uLng, uFileOp, uFileProcs, uFindEx, BaseUnix, uUsersGroups;
 
 procedure ShowFileProperties(FileList:TFileList; const aPath:String);
 begin
@@ -201,14 +201,14 @@ end;
 
 procedure TfrmFileProperties.ShowFile(iIndex:Integer);
 var
-  sb: uFindEx.Stat64;
+  sb: BaseUnix.Stat;
   dtFileDates:TDateTime;
   iMyUID: Cardinal;
 begin
   try
     with fFileList.GetItem(iIndex)^ do
     begin
-      fpstat64(PChar(szPath + sName), sb);
+      fpStat(PChar(szPath + sName), sb);
 
       lblFileName.Caption:=sName;
       lblFileName1.Caption := sName;

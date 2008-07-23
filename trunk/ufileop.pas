@@ -54,10 +54,10 @@ uses
 {$IFDEF UNIX}   // *nix
 Function IsDirByName(const sName:String):Boolean;
 var
-  stat:stat64;
+  StatInfo: BaseUnix.Stat;
 begin
-  fpStat64(PChar(sName),stat);
-  Result:=FPS_ISDIR(stat.st_mode);
+  fpStat(PChar(sName),StatInfo);
+  Result:= FPS_ISDIR(StatInfo.st_mode);
 end;
 {$ENDIF}
 
@@ -65,8 +65,9 @@ Function LoadFilebyName(const sFileName:String):TFileRecItem;
 var
   fr:TFileRecItem;
   sr:TSearchRec;
-  sb: stat64; //buffer for stat64
-
+{$IFDEF UNIX}
+  sb: stat; //buffer for stat64
+{$ENDIF}
 begin
 //  writeln('Enter LoadFilesbyDir');
   DebugLn('LoadFileByName SFileName = '+sFileName);
@@ -95,7 +96,7 @@ begin
 //  repeat
 
     {$IFDEF UNIX}   // *nix
-    Fplstat64(sr.Name,sb);
+    Fplstat(sr.Name, @sb);
     fr.iSize:=sb.st_size;
 
     fr.iOwner:=sb.st_uid; //UID
@@ -155,8 +156,9 @@ Function LoadFilesbyDir(const sDir:String; fl:TFileList):Boolean;
 var
   fr:TFileRecItem;
   sr:TSearchRec;
-  sb: stat64; //buffer for stat64
-  
+{$IFDEF UNIX}
+  sb: BaseUnix.Stat; //buffer for stat64
+{$ENDIF}
 begin
 //  writeln('Enter LoadFilesbyDir');
   Result:=True;
@@ -190,7 +192,7 @@ begin
     if sr.Name='' then Continue;
 
     {$IFDEF UNIX}   // *nix
-    Fplstat64(sr.Name,sb);
+    FpLStat(sr.Name, @sb);
     fr.iSize:=sb.st_size;
 
     fr.iOwner:=sb.st_uid; //UID

@@ -285,11 +285,11 @@ begin
 end;
 {$ELSE}  // *nix
 var
-  StatInfo : uFindEx.Stat64;
+  StatInfo : BaseUnix.Stat;
   utb : BaseUnix.PUTimBuf;
   mode : dword;
 begin
-  fpstat64(PChar(sSrc),StatInfo);
+  fpStat(PChar(sSrc), StatInfo);
 //  DebugLN(AttrToStr(stat.st_mode));  // file time
   new(utb);
   utb^.actime:=StatInfo.st_atime;  //last access time // maybe now
@@ -398,11 +398,11 @@ end;
 function GetDiskFreeSpace(Path : String; var FreeSize, TotalSize : Int64) : Boolean;
 {$IFDEF UNIX}
 var
-  sbfs:Tstatfs;
+  sbfs: TStatFS;
 begin
-    statfs(PChar(Path),sbfs);
+    fpStatFS(PChar(Path), @sbfs);
     FreeSize := (Int64(sbfs.bavail)*sbfs.bsize);
-{$IFDEF CPU32}
+{$IFDEF CPU32} // TODO: Fix it
     TotalSize := (Int64(sbfs.blocks)*sbfs.bsize);
 {$ENDIF}
 end;
@@ -755,26 +755,26 @@ begin
 end;
 {$ELSE}
 var
-  stat : _stat64;
+  StatInfo: BaseUnix.Stat;
 begin
-  Result := False;
+  Result:= False;
   with FileMapRec do
     begin
-      FileHandle:=Libc.open(PChar(sFileName), O_RDONLY);
+      FileHandle:= fpOpen(PChar(sFileName), O_RDONLY);
 
       if FileHandle = -1 then Exit;
-      if fstat64(FileHandle, stat) <> 0 then
+      if fpfstat(FileHandle, StatInfo) <> 0 then
         begin
-          Libc.__close(FileHandle);
+          fpClose(FileHandle);
           Exit;
         end;
 
-      FileSize := stat.st_size;
-      MappedFile:=mmap(nil,FileSize,PROT_READ, MAP_PRIVATE{SHARED},FileHandle,0 );
-      if Integer(MappedFile) = -1 then
+      FileSize:= StatInfo.st_size;
+      MappedFile:= fpmmap(nil,FileSize,PROT_READ, MAP_PRIVATE{SHARED},FileHandle,0 );
+      if PtrInt(MappedFile) = -1 then
         begin
           MappedFile := nil;
-          Libc.__close(FileHandle);
+          fpClose(FileHandle);
           Exit;
         end;
     end;
@@ -802,10 +802,10 @@ begin
   with FileMapRec do
     begin
       if FileHandle >= 0 then
-        Libc.__close(FileHandle);
+        fpClose(FileHandle);
 
       if Assigned(MappedFile) then
-        munmap(MappedFile,FileSize);
+        fpmunmap(MappedFile,FileSize);
     end;
 end;
 {$ENDIF}  
@@ -942,10 +942,10 @@ begin
 end;
 {$ELSE}
 var
-  Info: uFindEx.stat64;
+  Info: BaseUnix.Stat;
 begin
   Result:= -1;
-  if fpStat64(FileName, Info) >= 0 then
+  if fpStat(FileName, Info) >= 0 then
     Result:=UnixToWinAge(Info.st_mtime);
 end;
 {$ENDIF}
@@ -982,10 +982,10 @@ begin
 end;
 {$ELSE}
 var
-  Info: uFindEx.stat64;
+  Info: BaseUnix.Stat;
 begin
   Result:= False;
-  if fpStat64(Directory, Info) >= 0 then
+  if fpStat(Directory, Info) >= 0 then
     Result:= fpS_ISDIR(Info.st_mode);
 end;
 {$ENDIF}
@@ -1000,10 +1000,10 @@ begin
 end;
 {$ELSE}
 var
-  Info: uFindEx.stat64;
+  Info: BaseUnix.Stat;
 begin
   Result:= -1;
-  if fpStat64(FileName, Info) >= 0 then
+  if fpStat(FileName, Info) >= 0 then
     Result:= Info.st_mode;
 end;
 {$ENDIF}
@@ -1057,10 +1057,10 @@ begin
 end;
 {$ELSE}
 var
-  Info: uFindEx.stat64;
+  Info: BaseUnix.Stat;
 begin
   Result:= 0;
-  if fpStat64(FileName, Info) >= 0 then
+  if fpStat(FileName, Info) >= 0 then
     Result:= Info.st_size;
 end;
 {$ENDIF}

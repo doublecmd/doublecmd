@@ -92,6 +92,7 @@
       </Options>
     </Linking>
     <Other>
+      <CustomOptions Value="-fPIC"/>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>

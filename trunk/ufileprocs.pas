@@ -60,7 +60,6 @@ const
 function CopyFile(const sSrc, sDst:String; bAppend:Boolean):Boolean;
 var
   src, dst:TFileStreamEx;
-  stat:stat64;
   iDstBeg:Integer; // in the append mode we store original size
   Buffer: PChar;
 begin
