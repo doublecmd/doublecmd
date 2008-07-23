@@ -105,8 +105,6 @@ procedure TFileOpThread.FillAndCountRec(const srcPath, dstPath:String);
 var
   sr:TSearchRec;
   fr:TFileRecItem;
-  sb: stat64;
-  
 begin
   if FindFirstEx(srcPath+'*',faAnyFile,sr)<>0 then
   begin

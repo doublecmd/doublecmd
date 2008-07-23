@@ -23,8 +23,6 @@ uses
 
 {$E wcx}
 
-{$R *.res}
-
 exports
   CloseArchive       name 'CloseArchive',
   GetPackerCaps      name 'GetPackerCaps',

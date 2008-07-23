@@ -37,7 +37,7 @@ unit viewercontrol;
 interface
 
 uses
-  SysUtils, Classes, controls, types, Graphics, LCLType;
+  SysUtils, Classes, Controls, Types, Graphics, LCLType;
 
 type
   TViewerMode=(vmBin, vmHex, vmText, vmWrap);
@@ -128,7 +128,7 @@ procedure Register;
 
 implementation
 uses
-  Clipbrd{$IFDEF UNIX}, Libc, unix{$ELSE}, Windows{$ENDIF};
+  Clipbrd{$IFDEF UNIX}, BaseUnix, Unix{$ELSE}, Windows{$ENDIF};
 
 const
   cTextWidth=80;  // wrap on 80 chars
@@ -431,26 +431,26 @@ begin
 end;
 {$ELSE}
 var
-  stat:TStatBuf;
+  StatBuf: Stat;
 begin
   Result:=False;
   if assigned(FMappedFile) then
     UnMapFile; // if needed
-  FFileHandle:=Libc.open(PChar(sFileName), O_RDONLY);
+  FFileHandle:=fpOpen(PChar(sFileName), O_RDONLY);
   writeln('Trying map:'+sFileName);
   if FFileHandle=-1 then Exit;
-  if fstat(FFileHandle, stat) <> 0 then
+  if fpFStat(FFileHandle, StatBuf) <> 0 then
   begin
-    Libc.__close(FFileHandle);
+    fpClose(FFileHandle);
     Exit;
   end;
 
-  FFileSize := stat.st_size;
-  FMappedFile:=mmap(nil,FFileSize,PROT_READ, MAP_PRIVATE{SHARED},FFileHandle,0 );
+  FFileSize := StatBuf.st_size;
+  FMappedFile:=fpmmap(nil,FFileSize,PROT_READ, MAP_PRIVATE{SHARED},FFileHandle,0 );
   if Integer(FMappedFile)=-1 then
   begin
     FMappedFile:=nil;
-    Libc.__close(FFileHandle);
+    fpClose(FFileHandle);
     writeln('failed > try throught cat+stdin');
     if FTempName<>'' then
     begin
@@ -491,8 +491,8 @@ begin
     FTempName:='';
   end;
   if not assigned(FMappedFile) then Exit;
-  Libc.__close(FFileHandle);
-  munmap(FMappedFile,FFileSize);
+  fpClose(FFileHandle);
+  fpmunmap(FMappedFile,FFileSize);
   FMappedFile:=nil;
   writeln('Unmap file done');
 end;
