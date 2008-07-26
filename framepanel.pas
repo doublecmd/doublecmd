@@ -37,7 +37,10 @@ type
   private
     procedure CMMouseEnter(var Message :TLMessage); message CM_MouseEnter;
     procedure CMMouseLeave(var Message :TLMessage); message CM_MouseLeave;
+    procedure UpdateColWidths;
   protected
+    procedure Resize; override;
+    procedure HeaderSized(IsColumn: Boolean; Index: Integer); override;
     procedure MouseMove(Shift: TShiftState; X,Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
   public
@@ -1184,6 +1187,7 @@ begin
 //  DebugLn(Self.Height - pnlHeader.Height - pnlFooter.Height);
   dgPanel.Align:=alClient;
 //  dgPanel.DefaultDrawing:=False;
+  dgPanel.ScrollBars:= ssAutoVertical;
   dgPanel.Options:=[goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect, goColSizing, goHeaderHotTracking, goHeaderPushedLook];
   dgPanel.TitleStyle := tsStandard;
   dgPanel.TabStop:=False;
@@ -1269,6 +1273,30 @@ procedure TDrawGridEx.CMMouseLeave(var Message: TLMessage);
 begin
   DropRowIndex:= DG_MOUSE_LEAVE; // indicate that mouse leave
   Invalidate;
+end;
+
+procedure TDrawGridEx.UpdateColWidths;
+var
+  I, iWidth: Integer;
+begin
+  if ColCount = 0 then Exit;
+  iWidth:= 0;
+  for I:= 0 to ColCount - 2 do
+    iWidth := iWidth + ColWidths[I];
+  ColWidths[ColCount-1]:= ClientWidth - iWidth;
+end;
+
+procedure TDrawGridEx.Resize;
+begin
+  inherited Resize;
+  UpdateColWidths;
+end;
+
+procedure TDrawGridEx.HeaderSized(IsColumn: Boolean; Index: Integer);
+begin
+  if IsColumn then
+    UpdateColWidths;
+  inherited HeaderSized(IsColumn, Index);
 end;
 
 procedure TDrawGridEx.MouseMove(Shift: TShiftState; X, Y: Integer);
