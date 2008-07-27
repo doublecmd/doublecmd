@@ -786,7 +786,11 @@ begin
       if (TObjInfoClass(Sinfo.AChilds.Objects[j]).AObject as TWinControl).Focused then
         begin
            Handled:=HotKeyEvent(sk,TObjInfoClass(Sinfo.AChilds.Objects[j]));
-           if Handled then key:=0
+           if Handled then
+            begin
+             key:=0;
+             exit;
+            end
          else
            //Оригинальный onKeyDown контрола
            OrigControlKeyDown(TObjInfoClass(Sinfo.AChilds.Objects[j]));
