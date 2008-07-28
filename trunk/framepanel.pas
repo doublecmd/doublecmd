@@ -1289,7 +1289,12 @@ end;
 procedure TDrawGridEx.Resize;
 begin
   inherited Resize;
-  UpdateColWidths;
+  if Visible and not (csLoading in ComponentState) then
+  begin
+    Include(ComponentState, csLoading);
+    UpdateColWidths;
+    Exclude(ComponentState, csLoading);
+  end;   
 end;
 
 procedure TDrawGridEx.HeaderSized(IsColumn: Boolean; Index: Integer);
