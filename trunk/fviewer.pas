@@ -238,6 +238,7 @@ procedure TfrmViewer.ViewerControlMouseWheelDown(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 begin
   ViewerControl.DownBy(3);
+  UpDateScrollBar;
   Handled:=True;
 end;
 
@@ -245,6 +246,7 @@ procedure TfrmViewer.ViewerControlMouseWheelUp(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 begin
   ViewerControl.UpBy(3);
+  UpDateScrollBar;
   Handled:=True;
 end;
 
