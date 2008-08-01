@@ -223,10 +223,10 @@ end;
 procedure TfrmViewer.ExitPluginMode;
 begin
   WlxPrepareContainer(pnlLister.Handle,true);
-  WlxPlugins.GetWLxModule(ActivePlugin).UnloadModule;
+  if WlxPlugins.Count > 0 then
+    WlxPlugins.GetWLxModule(ActivePlugin).UnloadModule;
 //  pnlLister.Hide;
   nbPages.Show;
-
 end;
 
 procedure TfrmViewer.miPluginsClick(Sender: TObject);
