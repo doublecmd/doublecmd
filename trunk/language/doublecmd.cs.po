@@ -245,6 +245,10 @@ msgstr "&Nápovědný text"
 msgid "&Underline"
 msgstr "&Podtržené"
 
+#: TFRMPACKINFODLG.BTNUNPACKANDEXEC.CAPTION
+msgid "&Unpack and execute"
+msgstr ""
+
 #: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
 msgid "&Unpack path names if stored with files"
 msgstr "&Rozbalit i s cestou, pokud je uložena"
@@ -417,6 +421,10 @@ msgstr "Atr."
 msgid "Attributes"
 msgstr "Atributy"
 
+#: TFRMPACKINFODLG.LBLATTRIBUTES.CAPTION
+msgid "Attributes:"
+msgstr ""
+
 #: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
 msgid "BackGround:"
 msgstr "Pozadí:"
@@ -572,6 +580,10 @@ msgstr "Porovnat pod&le obsahu"
 #: TFRMCOMPAREFILES.CAPTION
 msgid "Compare files"
 msgstr "Porovnat soubory"
+
+#: TFRMPACKINFODLG.LBLCOMPRESSIONRATIO.CAPTION
+msgid "Compression ratio:"
+msgstr ""
 
 #: ulng.rsconfcolconfig
 msgid "Config"
@@ -764,6 +776,10 @@ msgstr "Datum a čas"
 #: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
 msgstr "Formát data a času:"
+
+#: TFRMPACKINFODLG.LBLDATE.CAPTION
+msgid "Date:"
+msgstr ""
 
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
@@ -1077,6 +1093,10 @@ msgstr "Typy souborů"
 msgid "File types colors"
 msgstr "Obarvování souborů dle typu"
 
+#: TFRMPACKINFODLG.LBLPACKEDFILE.CAPTION
+msgid "File:"
+msgstr ""
+
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "FileDir"
 msgstr "Adresářová maska"
@@ -1389,6 +1409,10 @@ msgstr "Maska"
 msgid "Menu F9"
 msgstr "Menu F9"
 
+#: TFRMPACKINFODLG.LBLMETHOD.CAPTION
+msgid "Method:"
+msgstr ""
+
 #: TFRMOPTIONS.CBMINIMIZETOTRAY.CAPTION
 msgid "Mo&ve icon to system tray when minimized"
 msgstr ""
@@ -1569,6 +1593,10 @@ msgstr "Nastavení"
 msgid "Options..."
 msgstr "Nastavení..."
 
+#: TFRMPACKINFODLG.LBLORIGINALSIZE.CAPTION
+msgid "Original size:"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLATTROTHERSTR.CAPTION
 msgid "Other"
 msgstr "Ostatní"
@@ -1597,6 +1625,10 @@ msgstr "Komprimovat do souboru \%s"
 msgid "Pack/Unpack"
 msgstr "Komprese/Dekomprese"
 
+#: TFRMPACKINFODLG.LBLPACKEDSIZE.CAPTION
+msgid "Packed size:"
+msgstr ""
+
 #: TFRMPACKDLG.RGPACKER.CAPTION
 msgid "Packer"
 msgstr "Komprimátor"
@@ -1608,6 +1640,10 @@ msgstr "Komprimační pluginy (.WCX)"
 #: TFRMOPTIONS.LBLABOUT.CAPTION
 msgid "Packer plugins are used to open archives not supported"
 msgstr "Kompresní pluginy se používají k otevření nepodporovaných archívů"
+
+#: TFRMPACKINFODLG.LBLPACKER.CAPTION
+msgid "Packer:"
+msgstr ""
 
 #: ulng.rsdlgpack
 msgid "Packing..."
@@ -1668,6 +1704,10 @@ msgstr "Adresář programu (\"portable\" verze)"
 #: TFRMFILEPROPERTIES.CAPTION
 msgid "Properties"
 msgstr "Vlastnosti"
+
+#: TFRMPACKINFODLG.CAPTION
+msgid "Properties of packed file"
+msgstr ""
 
 #: TFRMMAIN.ACTQUICKSEARCH.CAPTION
 msgid "Quick search"
@@ -2053,6 +2093,10 @@ msgstr "Čas do:"
 msgid "Time..."
 msgstr "Čas..."
 
+#: TFRMPACKINFODLG.LBLTIME.CAPTION
+msgid "Time:"
+msgstr ""
+
 #: ulng.rsmsgerrtoomanyfiles
 msgid "Too many files to pack"
 msgstr "Příliš mnoho souborů pro kompresi"
@@ -2096,6 +2140,10 @@ msgstr "Zpět"
 #: ulng.rspropsunknowntype
 msgid "Unknown type"
 msgstr "Neznámý typ"
+
+#: TFRMPACKINFODLG.BTNUNPACKALLANDEXEC.CAPTION
+msgid "Unpack &all and execute"
+msgstr ""
 
 #: TFRMEXTRACTDLG.CBINSEPARATEFOLDER.CAPTION
 msgid "Unpack each archive to a &separate subdir (name of the archive)"

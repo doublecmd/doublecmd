@@ -49,7 +49,7 @@
         <PackageName Value="imagesforlazarus"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="32">
+    <Units Count="33">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -298,6 +298,15 @@
         <ResourceFilename Value="fhackform.lrs"/>
         <UnitName Value="fHackForm"/>
       </Unit31>
+      <Unit32>
+        <Filename Value="fpackinfodlg.pas"/>
+        <ComponentName Value="frmPackInfoDlg"/>
+        <HasResources Value="True"/>
+        <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <ResourceFilename Value="fpackinfodlg.lrs"/>
+        <UnitName Value="fPackInfoDlg"/>
+      </Unit32>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

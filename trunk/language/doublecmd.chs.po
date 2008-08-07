@@ -243,6 +243,10 @@ msgstr "工具提示(&T)"
 msgid "&Underline"
 msgstr "下划线(&U)"
 
+#: TFRMPACKINFODLG.BTNUNPACKANDEXEC.CAPTION
+msgid "&Unpack and execute"
+msgstr ""
+
 #: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
 msgid "&Unpack path names if stored with files"
 msgstr "如果目录包含文件就解包文件路径"
@@ -415,6 +419,10 @@ msgstr "属性"
 msgid "Attributes"
 msgstr "属性"
 
+#: TFRMPACKINFODLG.LBLATTRIBUTES.CAPTION
+msgid "Attributes:"
+msgstr ""
+
 #: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
 msgid "BackGround:"
 msgstr "背景色:"
@@ -570,6 +578,10 @@ msgstr "比较内容"
 #: TFRMCOMPAREFILES.CAPTION
 msgid "Compare files"
 msgstr "比较文件"
+
+#: TFRMPACKINFODLG.LBLCOMPRESSIONRATIO.CAPTION
+msgid "Compression ratio:"
+msgstr ""
 
 #: ulng.rsconfcolconfig
 msgid "Config"
@@ -762,6 +774,10 @@ msgstr "日期时间"
 #: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
 msgstr "日期时间格式:"
+
+#: TFRMPACKINFODLG.LBLDATE.CAPTION
+msgid "Date:"
+msgstr ""
 
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
@@ -1075,6 +1091,10 @@ msgstr "文件类型"
 msgid "File types colors"
 msgstr "文件类型颜色"
 
+#: TFRMPACKINFODLG.LBLPACKEDFILE.CAPTION
+msgid "File:"
+msgstr ""
+
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "FileDir"
 msgstr "文件所在目录"
@@ -1387,6 +1407,10 @@ msgstr "掩码"
 msgid "Menu F9"
 msgstr "菜单 F9"
 
+#: TFRMPACKINFODLG.LBLMETHOD.CAPTION
+msgid "Method:"
+msgstr ""
+
 #: TFRMOPTIONS.CBMINIMIZETOTRAY.CAPTION
 msgid "Mo&ve icon to system tray when minimized"
 msgstr ""
@@ -1567,6 +1591,10 @@ msgstr "选项"
 msgid "Options..."
 msgstr "选项..."
 
+#: TFRMPACKINFODLG.LBLORIGINALSIZE.CAPTION
+msgid "Original size:"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLATTROTHERSTR.CAPTION
 msgid "Other"
 msgstr "其他"
@@ -1595,6 +1623,10 @@ msgstr "打包到 \%s"
 msgid "Pack/Unpack"
 msgstr "打包/解包"
 
+#: TFRMPACKINFODLG.LBLPACKEDSIZE.CAPTION
+msgid "Packed size:"
+msgstr ""
+
 #: TFRMPACKDLG.RGPACKER.CAPTION
 msgid "Packer"
 msgstr "打包程序"
@@ -1606,6 +1638,10 @@ msgstr "打包工具插件(.WCX)"
 #: TFRMOPTIONS.LBLABOUT.CAPTION
 msgid "Packer plugins are used to open archives not supported"
 msgstr "打包插件不支持的文件"
+
+#: TFRMPACKINFODLG.LBLPACKER.CAPTION
+msgid "Packer:"
+msgstr ""
 
 #: ulng.rsdlgpack
 msgid "Packing..."
@@ -1666,6 +1702,10 @@ msgstr "程序目录(便携版)"
 #: TFRMFILEPROPERTIES.CAPTION
 msgid "Properties"
 msgstr "属性"
+
+#: TFRMPACKINFODLG.CAPTION
+msgid "Properties of packed file"
+msgstr ""
 
 #: TFRMMAIN.ACTQUICKSEARCH.CAPTION
 msgid "Quick search"
@@ -2051,6 +2091,10 @@ msgstr "结束时间"
 msgid "Time..."
 msgstr "时间..."
 
+#: TFRMPACKINFODLG.LBLTIME.CAPTION
+msgid "Time:"
+msgstr ""
+
 #: ulng.rsmsgerrtoomanyfiles
 msgid "Too many files to pack"
 msgstr "要打包的文件太多"
@@ -2094,6 +2138,10 @@ msgstr "撤销"
 #: ulng.rspropsunknowntype
 msgid "Unknown type"
 msgstr "未知类型"
+
+#: TFRMPACKINFODLG.BTNUNPACKALLANDEXEC.CAPTION
+msgid "Unpack &all and execute"
+msgstr ""
 
 #: TFRMEXTRACTDLG.CBINSEPARATEFOLDER.CAPTION
 msgid "Unpack each archive to a &separate subdir (name of the archive)"
