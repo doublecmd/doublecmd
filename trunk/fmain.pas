@@ -1055,7 +1055,8 @@ begin
       begin
         if (edtCommand.Text='') then
         begin
-          Screen.Cursor:=crHourGlass;
+          if pnlFile.PanelMode = pmDirectory then
+            Screen.Cursor:=crHourGlass;
           try
             pnlFile.ChooseFile(pnlFile.GetActiveItem);
             UpDatelblInfo;
