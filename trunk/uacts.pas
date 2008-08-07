@@ -661,7 +661,7 @@ begin
               New(fr);
               fr^.sName := sFileName;
               VFSFileList.AddItem(fr);
-              sTempDir := GetTempDir;
+              sTempDir := GetTempFolder;
               {if }pnlFile.VFS.VFSmodule.VFSCopyOut(VFSFileList, sTempDir, 0);{ then}
                 begin
                  sl.Add(sTempDir + ExtractDirLevel(ActiveDir, fr^.sName));
