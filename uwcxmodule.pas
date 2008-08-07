@@ -127,7 +127,7 @@ function IsBlocked : Boolean;
 
 implementation
 uses Forms, SysUtils, Masks, uFileOp, uGlobs, uLog, uOSUtils, LCLProc, uFileProcs,
-     uDCUtils, uLng, Controls, fDialogBox, uGlobsPaths;
+     uDCUtils, uLng, Controls, fPackInfoDlg, fDialogBox, uGlobsPaths;
 
 var
   WCXModule : TWCXModule;  // used in ProcessDataProc
@@ -901,8 +901,19 @@ begin
 end;
 
 function TWCXModule.VFSRun(const sName: String): Boolean;
+var
+  iCount, I: Integer;
 begin
+  //DebugLn(fFolder + sName);
 
+  iCount := FArcFileList.Count - 1;
+  for I := 0 to  iCount do
+   begin
+     //DebugLn(PHeaderData(FArcFileList.Items[I])^.FileName);
+     if (PathDelim + PHeaderData(FArcFileList.Items[I])^.FileName) = (fFolder + sName) then
+       Break;
+   end;
+   Result:= ShowPackInfoDlg(Self, PHeaderData(FArcFileList.Items[I])^);
 end;
 
 function TWCXModule.VFSDelete(var flNameList: TFileList): Boolean;
@@ -943,6 +954,7 @@ var
   CurrFileName : String;  // Current file name
 begin
   fl.Clear;
+  fFolder:= sDir; // save current folder
   AddUpLevel(LowDirLevel(sDir), fl);
   
   DebugLN('LowDirLevel(sDir) = ' + LowDirLevel(sDir));

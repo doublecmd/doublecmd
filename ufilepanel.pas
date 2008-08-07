@@ -273,7 +273,7 @@ begin
               sName := ActiveDir + sName;
               sFileName := sName;
               VFSFileList.AddItem(frp);
-              sTempDir := GetTempDir;
+              sTempDir := GetTempFolder;
               {if }fVFS.VFSmodule.VFSCopyOut(VFSFileList, sTempDir, 0);{ then}
                 begin
                  if not fVFS.LoadAndOpen(sTempDir + ExtractDirLevel(ActiveDir, sFileName)) then
@@ -421,7 +421,7 @@ begin
         //DebugLn('sFileName = ', sFileName);
 
         VFSFileList.AddItem(pfri);
-        sTempDir := GetTempDir;
+        sTempDir := GetTempFolder;
         {if }fVFS.VFSmodule.VFSCopyOut(VFSFileList, sTempDir, 0);{ then}
           begin
             //DebugLn('sTempDir + sName == ' + sTempDir + ExtractDirLevel(ActiveDir, sFileName));

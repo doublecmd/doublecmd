@@ -1,0 +1,260 @@
+object frmPackInfoDlg: TfrmPackInfoDlg
+  Left = 263
+  Height = 350
+  Top = 135
+  Width = 335
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Properties of packed file'
+  ClientHeight = 350
+  ClientWidth = 335
+  Font.Color = clBtnText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Position = poScreenCenter
+  LCLVersion = '0.9.25'
+  object btnClose: TButton
+    Left = 104
+    Height = 23
+    Top = 297
+    Width = 85
+    Cancel = True
+    Caption = 'Close'
+    Default = True
+    ModalResult = 2
+    TabOrder = 0
+  end
+  object btnUnpackAndExec: TButton
+    Left = 192
+    Height = 23
+    Top = 297
+    Width = 140
+    Caption = '&Unpack and execute'
+    OnClick = btnUnpackAndExecClick
+    TabOrder = 1
+  end
+  object nbProperties: TNotebook
+    Left = 4
+    Height = 289
+    Top = 4
+    Width = 329
+    PageIndex = 0
+    TabOrder = 3
+    object pgGeneral: TPage
+      Caption = 'General'
+      ClientWidth = 321
+      ClientHeight = 263
+      object lblPackedFile: TLabel
+        Left = 10
+        Height = 16
+        Top = 10
+        Width = 50
+        AutoSize = False
+        Caption = 'File:'
+        ParentColor = False
+      end
+      object lblPacker: TLabel
+        Left = 10
+        Height = 16
+        Top = 49
+        Width = 130
+        AutoSize = False
+        Caption = 'Packer:'
+        ParentColor = False
+      end
+      object lblOriginalSize: TLabel
+        Left = 10
+        Height = 16
+        Top = 73
+        Width = 130
+        AutoSize = False
+        Caption = 'Original size:'
+        ParentColor = False
+      end
+      object lblPackedSize: TLabel
+        Left = 10
+        Height = 16
+        Top = 96
+        Width = 130
+        AutoSize = False
+        Caption = 'Packed size:'
+        ParentColor = False
+      end
+      object lblCompressionRatio: TLabel
+        Left = 10
+        Height = 16
+        Top = 120
+        Width = 130
+        AutoSize = False
+        Caption = 'Compression ratio:'
+        ParentColor = False
+      end
+      object lblMethod: TLabel
+        Left = 10
+        Height = 16
+        Top = 143
+        Width = 130
+        AutoSize = False
+        Caption = 'Method:'
+        ParentColor = False
+      end
+      object lblDate: TLabel
+        Left = 10
+        Height = 16
+        Top = 183
+        Width = 130
+        AutoSize = False
+        Caption = 'Date:'
+        ParentColor = False
+      end
+      object lblTime: TLabel
+        Left = 10
+        Height = 16
+        Top = 206
+        Width = 130
+        AutoSize = False
+        Caption = 'Time:'
+        ParentColor = False
+      end
+      object lblAttributes: TLabel
+        Left = 10
+        Height = 16
+        Top = 230
+        Width = 130
+        AutoSize = False
+        Caption = 'Attributes:'
+        ParentColor = False
+      end
+      object Bevel1: TBevel
+        Left = 10
+        Height = 9
+        Top = 36
+        Width = 300
+        Shape = bsTopLine
+      end
+      object Bevel2: TBevel
+        Left = 10
+        Height = 9
+        Top = 169
+        Width = 300
+        Shape = bsTopLine
+      end
+      object lblPackedPacker: TLabel
+        Left = 141
+        Height = 16
+        Top = 49
+        Width = 175
+        AutoSize = False
+        Caption = '?'
+        Color = clBtnFace
+        ParentColor = False
+        ShowAccelChar = False
+        Transparent = False
+      end
+      object lblPackedOrgSize: TLabel
+        Left = 141
+        Height = 16
+        Top = 73
+        Width = 175
+        AutoSize = False
+        Caption = '?'
+        Color = clBtnFace
+        ParentColor = False
+        ShowAccelChar = False
+        Transparent = False
+      end
+      object lblPackedPackedSize: TLabel
+        Left = 141
+        Height = 16
+        Top = 96
+        Width = 175
+        AutoSize = False
+        Caption = '?'
+        Color = clBtnFace
+        ParentColor = False
+        ShowAccelChar = False
+        Transparent = False
+      end
+      object lblPackedCompression: TLabel
+        Left = 141
+        Height = 16
+        Top = 120
+        Width = 175
+        AutoSize = False
+        Caption = '?'
+        Color = clBtnFace
+        ParentColor = False
+        ShowAccelChar = False
+        Transparent = False
+      end
+      object lblPackedMethod: TLabel
+        Left = 141
+        Height = 16
+        Top = 143
+        Width = 175
+        AutoSize = False
+        Caption = '?'
+        Color = clBtnFace
+        ParentColor = False
+        ShowAccelChar = False
+        Transparent = False
+      end
+      object lblPackedDate: TLabel
+        Left = 141
+        Height = 16
+        Top = 183
+        Width = 175
+        AutoSize = False
+        Caption = '?'
+        Color = clBtnFace
+        ParentColor = False
+        ShowAccelChar = False
+        Transparent = False
+      end
+      object lblPackedTime: TLabel
+        Left = 141
+        Height = 16
+        Top = 206
+        Width = 175
+        AutoSize = False
+        Caption = '?'
+        Color = clBtnFace
+        ParentColor = False
+        ShowAccelChar = False
+        Transparent = False
+      end
+      object lblPackedAttr: TLabel
+        Left = 141
+        Height = 16
+        Top = 230
+        Width = 175
+        AutoSize = False
+        Caption = '?'
+        Color = clBtnFace
+        ParentColor = False
+        ShowAccelChar = False
+        Transparent = False
+      end
+      object edtPackedFile: TEdit
+        Left = 60
+        Height = 16
+        Top = 10
+        Width = 259
+        Color = clBtnFace
+        ReadOnly = True
+        TabStop = False
+        TabOrder = 0
+        Text = '?'
+      end
+    end
+  end
+  object btnUnpackAllAndExec: TButton
+    Left = 104
+    Height = 23
+    Top = 324
+    Width = 229
+    Caption = 'Unpack &all and execute'
+    OnClick = btnUnpackAllAndExecClick
+    TabOrder = 2
+  end
+end
