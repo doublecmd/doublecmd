@@ -243,6 +243,10 @@ msgstr "&Tooltip:"
 msgid "&Underline"
 msgstr "Onderstreept"
 
+#: TFRMPACKINFODLG.BTNUNPACKANDEXEC.CAPTION
+msgid "&Unpack and execute"
+msgstr ""
+
 #: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
 msgid "&Unpack path names if stored with files"
 msgstr "&Pak paden uit indien opgeslagen met bestanden"
@@ -415,6 +419,10 @@ msgstr "Attr"
 msgid "Attributes"
 msgstr "Attributen"
 
+#: TFRMPACKINFODLG.LBLATTRIBUTES.CAPTION
+msgid "Attributes:"
+msgstr ""
+
 #: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
 msgid "BackGround:"
 msgstr "Achtergrond"
@@ -570,6 +578,10 @@ msgstr "Vergelijk met Inhoud"
 #: TFRMCOMPAREFILES.CAPTION
 msgid "Compare files"
 msgstr "Vergelijk bestanden"
+
+#: TFRMPACKINFODLG.LBLCOMPRESSIONRATIO.CAPTION
+msgid "Compression ratio:"
+msgstr ""
 
 #: ulng.rsconfcolconfig
 msgid "Config"
@@ -762,6 +774,10 @@ msgstr "Datum en tijd"
 #: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
 msgstr "Datum en tijd formaat:"
+
+#: TFRMPACKINFODLG.LBLDATE.CAPTION
+msgid "Date:"
+msgstr ""
 
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
@@ -1075,6 +1091,10 @@ msgstr "Bestandstypes"
 msgid "File types colors"
 msgstr "Bestandstype kleuren"
 
+#: TFRMPACKINFODLG.LBLPACKEDFILE.CAPTION
+msgid "File:"
+msgstr ""
+
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "FileDir"
 msgstr "BestandDir"
@@ -1387,6 +1407,10 @@ msgstr "Masker"
 msgid "Menu F9"
 msgstr "Menu F9"
 
+#: TFRMPACKINFODLG.LBLMETHOD.CAPTION
+msgid "Method:"
+msgstr ""
+
 #: TFRMOPTIONS.CBMINIMIZETOTRAY.CAPTION
 msgid "Mo&ve icon to system tray when minimized"
 msgstr ""
@@ -1567,6 +1591,10 @@ msgstr "Opties"
 msgid "Options..."
 msgstr "Opties..."
 
+#: TFRMPACKINFODLG.LBLORIGINALSIZE.CAPTION
+msgid "Original size:"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLATTROTHERSTR.CAPTION
 msgid "Other"
 msgstr "Ander"
@@ -1595,6 +1623,10 @@ msgstr "Inpakken naar bestand \%s"
 msgid "Pack/Unpack"
 msgstr "Inpakke/Uitpakken"
 
+#: TFRMPACKINFODLG.LBLPACKEDSIZE.CAPTION
+msgid "Packed size:"
+msgstr ""
+
 #: TFRMPACKDLG.RGPACKER.CAPTION
 msgid "Packer"
 msgstr "Inpakker"
@@ -1606,6 +1638,10 @@ msgstr "Inpak plugins (.WCX)"
 #: TFRMOPTIONS.LBLABOUT.CAPTION
 msgid "Packer plugins are used to open archives not supported"
 msgstr "Inpak plugins worden gebruikt om niet ondersteunde archieven te openen"
+
+#: TFRMPACKINFODLG.LBLPACKER.CAPTION
+msgid "Packer:"
+msgstr ""
 
 #: ulng.rsdlgpack
 msgid "Packing..."
@@ -1666,6 +1702,10 @@ msgstr "Programma directorie (draagbare versie)"
 #: TFRMFILEPROPERTIES.CAPTION
 msgid "Properties"
 msgstr "Eigenschappen"
+
+#: TFRMPACKINFODLG.CAPTION
+msgid "Properties of packed file"
+msgstr ""
 
 #: TFRMMAIN.ACTQUICKSEARCH.CAPTION
 msgid "Quick search"
@@ -2051,6 +2091,10 @@ msgstr "Tijd tot:"
 msgid "Time..."
 msgstr "Tijd..."
 
+#: TFRMPACKINFODLG.LBLTIME.CAPTION
+msgid "Time:"
+msgstr ""
+
 #: ulng.rsmsgerrtoomanyfiles
 msgid "Too many files to pack"
 msgstr "Te veel bestanden om in te pakken"
@@ -2094,6 +2138,10 @@ msgstr "Ongedaan maken"
 #: ulng.rspropsunknowntype
 msgid "Unknown type"
 msgstr "Onbekend type"
+
+#: TFRMPACKINFODLG.BTNUNPACKALLANDEXEC.CAPTION
+msgid "Unpack &all and execute"
+msgstr ""
 
 #: TFRMEXTRACTDLG.CBINSEPARATEFOLDER.CAPTION
 msgid "Unpack each archive to a &separate subdir (name of the archive)"

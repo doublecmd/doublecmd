@@ -243,6 +243,10 @@ msgstr "A&yuda"
 msgid "&Underline"
 msgstr "&Subrayado"
 
+#: TFRMPACKINFODLG.BTNUNPACKANDEXEC.CAPTION
+msgid "&Unpack and execute"
+msgstr ""
+
 #: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
 msgid "&Unpack path names if stored with files"
 msgstr "&Descomprimir carpetas si se almacenaron"
@@ -415,6 +419,10 @@ msgstr "Atrib"
 msgid "Attributes"
 msgstr "Atributos"
 
+#: TFRMPACKINFODLG.LBLATTRIBUTES.CAPTION
+msgid "Attributes:"
+msgstr ""
+
 #: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
 msgid "BackGround:"
 msgstr "Fondo:"
@@ -570,6 +578,10 @@ msgstr "Comparar por &Contenido"
 #: TFRMCOMPAREFILES.CAPTION
 msgid "Compare files"
 msgstr "Comparar ficheros"
+
+#: TFRMPACKINFODLG.LBLCOMPRESSIONRATIO.CAPTION
+msgid "Compression ratio:"
+msgstr ""
 
 #: ulng.rsconfcolconfig
 msgid "Config"
@@ -762,6 +774,10 @@ msgstr "Fecha y hora"
 #: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
 msgstr "Formato de fecha y hora:"
+
+#: TFRMPACKINFODLG.LBLDATE.CAPTION
+msgid "Date:"
+msgstr ""
 
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
@@ -1075,6 +1091,10 @@ msgstr "Tipos de ficheros"
 msgid "File types colors"
 msgstr "Colores de tipos de ficheros"
 
+#: TFRMPACKINFODLG.LBLPACKEDFILE.CAPTION
+msgid "File:"
+msgstr ""
+
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "FileDir"
 msgstr "Directorio de fichero"
@@ -1387,6 +1407,10 @@ msgstr "Máscara"
 msgid "Menu F9"
 msgstr "Menú F9"
 
+#: TFRMPACKINFODLG.LBLMETHOD.CAPTION
+msgid "Method:"
+msgstr ""
+
 #: TFRMOPTIONS.CBMINIMIZETOTRAY.CAPTION
 msgid "Mo&ve icon to system tray when minimized"
 msgstr ""
@@ -1567,6 +1591,10 @@ msgstr "Opciones"
 msgid "Options..."
 msgstr "Opciones..."
 
+#: TFRMPACKINFODLG.LBLORIGINALSIZE.CAPTION
+msgid "Original size:"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLATTROTHERSTR.CAPTION
 msgid "Other"
 msgstr "Otros"
@@ -1595,6 +1623,10 @@ msgstr "Comprimir en fichero \%s"
 msgid "Pack/Unpack"
 msgstr "Comprimir/Descomprimir"
 
+#: TFRMPACKINFODLG.LBLPACKEDSIZE.CAPTION
+msgid "Packed size:"
+msgstr ""
+
 #: TFRMPACKDLG.RGPACKER.CAPTION
 msgid "Packer"
 msgstr "Compresor"
@@ -1606,6 +1638,10 @@ msgstr "Plugins de compresores (.WCX)"
 #: TFRMOPTIONS.LBLABOUT.CAPTION
 msgid "Packer plugins are used to open archives not supported"
 msgstr "Los plugin de compresores se usan para abrir archivos comprimidos no soportados"
+
+#: TFRMPACKINFODLG.LBLPACKER.CAPTION
+msgid "Packer:"
+msgstr ""
 
 #: ulng.rsdlgpack
 msgid "Packing..."
@@ -1666,6 +1702,10 @@ msgstr "Directorio de programa (versión portable)"
 #: TFRMFILEPROPERTIES.CAPTION
 msgid "Properties"
 msgstr "Propiedades"
+
+#: TFRMPACKINFODLG.CAPTION
+msgid "Properties of packed file"
+msgstr ""
 
 #: TFRMMAIN.ACTQUICKSEARCH.CAPTION
 msgid "Quick search"
@@ -2051,6 +2091,10 @@ msgstr "Hora final:"
 msgid "Time..."
 msgstr "Hora..."
 
+#: TFRMPACKINFODLG.LBLTIME.CAPTION
+msgid "Time:"
+msgstr ""
+
 #: ulng.rsmsgerrtoomanyfiles
 msgid "Too many files to pack"
 msgstr "Demasiados ficheros a comprimir!"
@@ -2094,6 +2138,10 @@ msgstr "Deshacer"
 #: ulng.rspropsunknowntype
 msgid "Unknown type"
 msgstr "Tipo desconocido"
+
+#: TFRMPACKINFODLG.BTNUNPACKALLANDEXEC.CAPTION
+msgid "Unpack &all and execute"
+msgstr ""
 
 #: TFRMEXTRACTDLG.CBINSEPARATEFOLDER.CAPTION
 msgid "Unpack each archive to a &separate subdir (name of the archive)"

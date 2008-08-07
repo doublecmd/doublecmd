@@ -242,6 +242,10 @@ msgstr "Підказка:"
 msgid "&Underline"
 msgstr "&Підкреслений"
 
+#: TFRMPACKINFODLG.BTNUNPACKANDEXEC.CAPTION
+msgid "&Unpack and execute"
+msgstr ""
+
 #: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
 msgid "&Unpack path names if stored with files"
 msgstr "Враховувати підкаталоги"
@@ -414,6 +418,10 @@ msgstr "Атриб"
 msgid "Attributes"
 msgstr "Атрибути"
 
+#: TFRMPACKINFODLG.LBLATTRIBUTES.CAPTION
+msgid "Attributes:"
+msgstr ""
+
 #: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
 msgid "BackGround:"
 msgstr "Фон &1"
@@ -569,6 +577,10 @@ msgstr "Порівняти п&о вмісту"
 #: TFRMCOMPAREFILES.CAPTION
 msgid "Compare files"
 msgstr "Порівняти файли"
+
+#: TFRMPACKINFODLG.LBLCOMPRESSIONRATIO.CAPTION
+msgid "Compression ratio:"
+msgstr ""
 
 #: ulng.rsconfcolconfig
 msgid "Config"
@@ -761,6 +773,10 @@ msgstr "Дата і час"
 #: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
 msgstr "Формат дати і часу:"
+
+#: TFRMPACKINFODLG.LBLDATE.CAPTION
+msgid "Date:"
+msgstr ""
 
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
@@ -1074,6 +1090,10 @@ msgstr "Типи файлів"
 msgid "File types colors"
 msgstr "Кольори по типу"
 
+#: TFRMPACKINFODLG.LBLPACKEDFILE.CAPTION
+msgid "File:"
+msgstr ""
+
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "FileDir"
 msgstr "В каталозі:"
@@ -1386,6 +1406,10 @@ msgstr "Маска"
 msgid "Menu F9"
 msgstr "Меню F9"
 
+#: TFRMPACKINFODLG.LBLMETHOD.CAPTION
+msgid "Method:"
+msgstr ""
+
 #: TFRMOPTIONS.CBMINIMIZETOTRAY.CAPTION
 msgid "Mo&ve icon to system tray when minimized"
 msgstr ""
@@ -1566,6 +1590,10 @@ msgstr "Настройка"
 msgid "Options..."
 msgstr "&Параметри..."
 
+#: TFRMPACKINFODLG.LBLORIGINALSIZE.CAPTION
+msgid "Original size:"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLATTROTHERSTR.CAPTION
 msgid "Other"
 msgstr "Інші"
@@ -1594,6 +1622,10 @@ msgstr "Упаковка в файл \%s"
 msgid "Pack/Unpack"
 msgstr "Упаковка / Розпаковка"
 
+#: TFRMPACKINFODLG.LBLPACKEDSIZE.CAPTION
+msgid "Packed size:"
+msgstr ""
+
 #: TFRMPACKDLG.RGPACKER.CAPTION
 msgid "Packer"
 msgstr " Архіватор "
@@ -1604,6 +1636,10 @@ msgstr "Архіваторні плагіни (.WCX)"
 
 #: TFRMOPTIONS.LBLABOUT.CAPTION
 msgid "Packer plugins are used to open archives not supported"
+msgstr ""
+
+#: TFRMPACKINFODLG.LBLPACKER.CAPTION
+msgid "Packer:"
 msgstr ""
 
 #: ulng.rsdlgpack
@@ -1665,6 +1701,10 @@ msgstr "Каталог програми (portable version)"
 #: TFRMFILEPROPERTIES.CAPTION
 msgid "Properties"
 msgstr "Властивості"
+
+#: TFRMPACKINFODLG.CAPTION
+msgid "Properties of packed file"
+msgstr ""
 
 #: TFRMMAIN.ACTQUICKSEARCH.CAPTION
 msgid "Quick search"
@@ -2050,6 +2090,10 @@ msgstr "Час до:"
 msgid "Time..."
 msgstr "Час..."
 
+#: TFRMPACKINFODLG.LBLTIME.CAPTION
+msgid "Time:"
+msgstr ""
+
 #: ulng.rsmsgerrtoomanyfiles
 msgid "Too many files to pack"
 msgstr "Надто багато файлів"
@@ -2093,6 +2137,10 @@ msgstr "Вернути"
 #: ulng.rspropsunknowntype
 msgid "Unknown type"
 msgstr "Невідомий тип"
+
+#: TFRMPACKINFODLG.BTNUNPACKALLANDEXEC.CAPTION
+msgid "Unpack &all and execute"
+msgstr ""
 
 #: TFRMEXTRACTDLG.CBINSEPARATEFOLDER.CAPTION
 msgid "Unpack each archive to a &separate subdir (name of the archive)"

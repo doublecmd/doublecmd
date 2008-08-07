@@ -243,6 +243,10 @@ msgstr "&Подсказка:"
 msgid "&Underline"
 msgstr "&Подчертан"
 
+#: TFRMPACKINFODLG.BTNUNPACKANDEXEC.CAPTION
+msgid "&Unpack and execute"
+msgstr ""
+
 #: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
 msgid "&Unpack path names if stored with files"
 msgstr "&Разгъване на имената на пътищата, ако са съхранени във файловете"
@@ -415,6 +419,10 @@ msgstr "Принад"
 msgid "Attributes"
 msgstr "Принадлежности"
 
+#: TFRMPACKINFODLG.LBLATTRIBUTES.CAPTION
+msgid "Attributes:"
+msgstr ""
+
 #: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
 msgid "BackGround:"
 msgstr "Подцветка:"
@@ -570,6 +578,10 @@ msgstr "Сравняване по &съдържание"
 #: TFRMCOMPAREFILES.CAPTION
 msgid "Compare files"
 msgstr "Сравняване на файлове:"
+
+#: TFRMPACKINFODLG.LBLCOMPRESSIONRATIO.CAPTION
+msgid "Compression ratio:"
+msgstr ""
 
 #: ulng.rsconfcolconfig
 msgid "Config"
@@ -762,6 +774,10 @@ msgstr "Дата и време"
 #: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
 msgstr "Изписване на датата и времето:"
+
+#: TFRMPACKINFODLG.LBLDATE.CAPTION
+msgid "Date:"
+msgstr ""
 
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
@@ -1075,6 +1091,10 @@ msgstr "Видове файлове"
 msgid "File types colors"
 msgstr "Оцветяване на файловете според вида им"
 
+#: TFRMPACKINFODLG.LBLPACKEDFILE.CAPTION
+msgid "File:"
+msgstr ""
+
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "FileDir"
 msgstr ""
@@ -1387,6 +1407,10 @@ msgstr ""
 msgid "Menu F9"
 msgstr "Изборник F9"
 
+#: TFRMPACKINFODLG.LBLMETHOD.CAPTION
+msgid "Method:"
+msgstr ""
+
 #: TFRMOPTIONS.CBMINIMIZETOTRAY.CAPTION
 msgid "Mo&ve icon to system tray when minimized"
 msgstr ""
@@ -1567,6 +1591,10 @@ msgstr "Възможности"
 msgid "Options..."
 msgstr "Възможности..."
 
+#: TFRMPACKINFODLG.LBLORIGINALSIZE.CAPTION
+msgid "Original size:"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLATTROTHERSTR.CAPTION
 msgid "Other"
 msgstr "Друго:"
@@ -1595,6 +1623,10 @@ msgstr "Сбиване във файл \%s"
 msgid "Pack/Unpack"
 msgstr "Сгъване/ разгъване"
 
+#: TFRMPACKINFODLG.LBLPACKEDSIZE.CAPTION
+msgid "Packed size:"
+msgstr ""
+
 #: TFRMPACKDLG.RGPACKER.CAPTION
 msgid "Packer"
 msgstr ""
@@ -1606,6 +1638,10 @@ msgstr "Приставки за сбиване (.WCX)"
 #: TFRMOPTIONS.LBLABOUT.CAPTION
 msgid "Packer plugins are used to open archives not supported"
 msgstr "Приставките за сбиване се използват за отваряне на неподдържани архиви"
+
+#: TFRMPACKINFODLG.LBLPACKER.CAPTION
+msgid "Packer:"
+msgstr ""
 
 #: ulng.rsdlgpack
 msgid "Packing..."
@@ -1666,6 +1702,10 @@ msgstr "Паката на приложението (преносима верс�
 #: TFRMFILEPROPERTIES.CAPTION
 msgid "Properties"
 msgstr "Свойства"
+
+#: TFRMPACKINFODLG.CAPTION
+msgid "Properties of packed file"
+msgstr ""
 
 #: TFRMMAIN.ACTQUICKSEARCH.CAPTION
 msgid "Quick search"
@@ -2051,6 +2091,10 @@ msgstr "Време до:"
 msgid "Time..."
 msgstr "Време..."
 
+#: TFRMPACKINFODLG.LBLTIME.CAPTION
+msgid "Time:"
+msgstr ""
+
 #: ulng.rsmsgerrtoomanyfiles
 msgid "Too many files to pack"
 msgstr "Твърде много файлове за сбиване"
@@ -2094,6 +2138,10 @@ msgstr "Отмяна"
 #: ulng.rspropsunknowntype
 msgid "Unknown type"
 msgstr "Неизвестен вид"
+
+#: TFRMPACKINFODLG.BTNUNPACKALLANDEXEC.CAPTION
+msgid "Unpack &all and execute"
+msgstr ""
 
 #: TFRMEXTRACTDLG.CBINSEPARATEFOLDER.CAPTION
 msgid "Unpack each archive to a &separate subdir (name of the archive)"
