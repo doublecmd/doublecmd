@@ -45,6 +45,7 @@ type
 
 function GetCmdDirFromEnvVar(sPath : String) : String;
 function SetCmdDirAsEnvVar(sPath : String) : String;
+function GetTempFolder: String;
 function GetSplitFileName(var sFileName, sPath : String) : String;
 {en
    Split path into list of directories
@@ -152,6 +153,14 @@ begin
     Result := StringReplace(sPath, ExcludeTrailingPathDelimiter(gpExePath), '%commander_path%', [rfIgnoreCase])
   else
     Result := sPath;
+end;
+
+function GetTempFolder: String;
+begin
+  Result:= GetTempDir + '_dc';
+  if not mbDirectoryExists(Result) then
+    mbCreateDir(Result);
+  Result:= Result + PathDelim;
 end;
 
 function GetSplitFileName(var sFileName, sPath : String) : String;

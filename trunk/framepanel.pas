@@ -1013,11 +1013,13 @@ var
   Point : TPoint;
   iRow, iCol : Integer;
 begin
+  dgPanel.StartDrag:= False; // don't start drag on double click
   Point:= dgPanel.ScreenToClient(Mouse.CursorPos);
   dgPanel.MouseToCell(Point.X, Point.Y, iCol, iRow);
   if iRow < dgPanel.FixedRows then Exit;
 
-  Screen.Cursor:=crHourGlass;
+  if pnlFile.PanelMode = pmDirectory then
+    Screen.Cursor:=crHourGlass;
   try
     pnlFile.ChooseFile(pnlFile.GetActiveItem{(false)});
     UpDatelblInfo;
