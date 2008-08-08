@@ -56,7 +56,7 @@ function  ShowExtractDlg(ActiveFrame:TFrameFilePanel; var fl : TFileList; sDestP
 
 implementation
 uses
-  uTypes, uDCUtils;
+  uTypes, uGlobs, uDCUtils;
   
 var
   CurrentVFS : TVFS;
@@ -73,10 +73,13 @@ begin
 
       if ActiveFrame.pnlFile.PanelMode = pmArchive then
         cbInSeparateFolder.Visible := False;
-
+      cbFileMask.Items.Assign(glsMaskHistory);
+      
       Result:= (ShowModal = mrOK);
       if Result then
         begin
+          if glsMaskHistory.IndexOf(cbFileMask.Text) < 0 then
+            glsMaskHistory.Add(cbFileMask.Text);
           sDestPath := IncludeTrailingPathDelimiter(edtExtractTo.Text) + cbFileMask.Text;
           ExtractFileList := TFileList.Create;
           ExtractFileList.CurrentDirectory := PathDelim;
