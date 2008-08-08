@@ -24,6 +24,8 @@ Please do not contact Julian about this Pascal library, he didn't wrote it.
 ****************************************************************************}
 interface
 
+{$goto on}
+
 uses objects;
 
 const max_groups=6;
@@ -91,10 +93,10 @@ type  Tcardinal_array=array [0..899999] of cardinal;
         procedure receive_mtf_values;
         procedure detransform;
         function decode_block:boolean;
-        procedure read(var buf;count:sw_word);virtual;
+        procedure read(var buf;count:Longint);virtual;
         procedure new_block;
         procedure consume_rle;inline;
-        procedure rle_read(bufptr:Pbyte;var count:sw_word);
+        procedure rle_read(bufptr:Pbyte;var count:Longint);
         destructor done;virtual;
       end;
 
@@ -645,7 +647,7 @@ begin
     new_block;
 end;
 
-procedure Tbzip2_decode_stream.rle_read(bufptr:Pbyte;var count:sw_word);
+procedure Tbzip2_decode_stream.rle_read(bufptr:Pbyte;var count:Longint);
 
 var rle_len:cardinal;
     data:byte;
@@ -700,7 +702,7 @@ rle_write:
   rle_run_left:=rle_len;
 end;
 
-procedure Tbzip2_decode_stream.read(var buf;count:sw_word);
+procedure Tbzip2_decode_stream.read(var buf;count:Longint);
 
 var bufptr:Pbyte;
 
