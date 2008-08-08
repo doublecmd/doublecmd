@@ -105,7 +105,8 @@ type
     { Private declarations }
     FileList: TStringList;
     iActiveFile:Integer;
-    bImage:Boolean;
+    bImage,
+    bPlugin: Boolean;
     FFindDialog:TfrmFindView;
     FDeleteAfterView : Boolean;
     //---------------------
@@ -152,7 +153,7 @@ begin
   Caption:=FileList.Strings[iIndex];
   Screen.Cursor:=crHourGlass;
   try
-    CheckPlugins(iIndex);
+    bPlugin:= CheckPlugins(iIndex);
 //    DebugLn('View: BeforeCheckGraphics:' + iIndex);
     if CheckGraphics(FileList.Strings[iIndex]) then
     begin
@@ -231,7 +232,7 @@ end;
 
 procedure TfrmViewer.miPluginsClick(Sender: TObject);
 begin
-  CheckPlugins(iActiveFile,true);
+  bPlugin:= CheckPlugins(iActiveFile,true);
 end;
 
 procedure TfrmViewer.ViewerControlMouseWheelDown(Sender: TObject;
@@ -463,9 +464,10 @@ end;
 procedure TfrmViewer.ReMmapIfNeed;
 begin
 //  DebugLn('TfrmViewer.RemmapIfneed');
-  if bImage then
+  if bImage or bPlugin then
   begin
     bImage:=False;
+    bPlugin:= False;
     ViewerControl.MapFile(FileList.Strings[iActiveFile]);
     miImage.Visible:=False;
     miEdit.Visible:=True;
@@ -483,9 +485,9 @@ begin
 //  DebugLn('TfrmViewer.Update scrollbar');
   if ScrollBarVert.Min<>0 then
     ScrollBarVert.Min:=0;
-  if ScrollBarVert.Max<>ViewerControl.FileSize then
+  if (ScrollBarVert.Max<>ViewerControl.FileSize) and (ViewerControl.FileSize >= 0) then
     ScrollBarVert.Max:=ViewerControl.FileSize;
-  if ScrollBarVert.Position<> ViewerControl.Position then
+  if (ScrollBarVert.Position<> ViewerControl.Position) and (ViewerControl.Position >= 0) then
     ScrollBarVert.Position:=ViewerControl.Position;
 end;
 
