@@ -78,6 +78,7 @@ uses
 function ShowPackInfoDlg(WCXModule: TWCXModule; HeaderData: THeaderData): Boolean;
 var
   dtDateTime: TDateTime;
+  sArcType: String;
 begin
   with TfrmPackInfoDlg.Create(Application) do
   begin
@@ -85,7 +86,9 @@ begin
     fWCXModule:= WCXModule;
 
     edtPackedFile.Text:= HeaderData.FileName;
-    lblPackedPacker.Caption:= ExtractFileExt(HeaderData.ArcName);
+    sArcType:= ExtractFileExt(HeaderData.ArcName);
+    Delete(sArcType, 1, 1);
+    lblPackedPacker.Caption:= sArcType;
     lblPackedOrgSize.Caption:=  IntToStr(HeaderData.UnpSize);
     lblPackedPackedSize.Caption:= IntToStr(HeaderData.PackSize);
     lblPackedCompression.Caption:= IntToStr(100 - (HeaderData.PackSize*100 div HeaderData.UnpSize))+'%';
