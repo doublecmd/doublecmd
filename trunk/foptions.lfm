@@ -1250,7 +1250,7 @@ object frmOptions: TfrmOptions
       end
       object pgPlugins: TPage
         ClientWidth = 620
-        ClientHeight = 506
+        ClientHeight = 524
         object pcPluginsTypes: TPageControl
           Height = 108
           Width = 620
@@ -1366,31 +1366,33 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = pcPluginsTypes
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = btnAddPlugin
-          Height = 348
+          Height = 366
           Top = 108
           Width = 620
           Anchors = [akTop, akLeft, akRight, akBottom]
           AutoAdvance = aaRightDown
+          AutoFillColumns = True
           BorderSpacing.Bottom = 12
           ColCount = 4
           Columns = <          
             item
               Alignment = taCenter
               MaxSize = 60
+              SizePriority = 0
               Title.Caption = 'Active'
               Width = 40
             end          
             item
               Title.Caption = 'Plugin'
-              Width = 146
+              Width = 192
             end          
             item
               Title.Caption = 'Registered for'
-              Width = 146
+              Width = 192
             end          
             item
               Title.Caption = 'File name'
-              Width = 300
+              Width = 192
             end>
           ExtendedSelect = True
           FixedColor = clBtnFace
@@ -1406,7 +1408,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 38
           Height = 30
-          Top = 468
+          Top = 486
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1421,7 +1423,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 154
           Height = 30
-          Top = 468
+          Top = 486
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1436,7 +1438,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 270
           Height = 30
-          Top = 468
+          Top = 486
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1452,7 +1454,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 386
           Height = 30
-          Top = 468
+          Top = 486
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1469,7 +1471,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 502
           Height = 30
-          Top = 468
+          Top = 486
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 8
