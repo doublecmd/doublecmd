@@ -37,8 +37,6 @@ type
   private
     procedure SetVFSModule(Value : TVFSmodule);
   protected
-    FWCXPlugins,
-    FWFXPlugins : TStringList;
     FCurrentPlugin : String;
     sLastArchive : String;
     FVFSType : TVFSType;
@@ -73,7 +71,6 @@ type
     property VFSType : TVFSType read FVFSType;
     property VFSmodule : TVFSmodule read FVFSModule write SetVFSModule;
     property ArcFullName : String read sLastArchive write sLastArchive;
-    property WCXPlugins : TStringList read FWCXPlugins;
   end; //class TVFS
 
 implementation
@@ -94,9 +91,6 @@ end;
 
 constructor TVFS.Create;
 begin
-  FWCXPlugins := TStringList.Create;
-  FWFXPlugins := TStringList.Create;
-  gIni.ReadSectionRaw('PackerPlugins', FWCXPlugins);
   sLastArchive:='';  // nothing
 end;
 
@@ -105,8 +99,6 @@ begin
   if Assigned(FVFSModule) then
      FVFSModule.Destroy;
   FVFSModule := nil;
-  FreeAndNil(FWCXPlugins);
-  FreeAndNil(FWFXPlugins);
   inherited
 end;
 
@@ -139,10 +131,10 @@ var
   sPlugin : String;
 begin
   if not mbFileExists(sFileName) then Exit(False);
-  iCount := FWCXPlugins.Count - 1;
+  iCount := gWCXPlugins.Count - 1;
   for I := 0 to iCount do
     begin
-      sPlugin := FWCXPlugins.ValueFromIndex[I];
+      sPlugin := gWCXPlugins.ValueFromIndex[I];
       Index := Pos(',', sPlugin) + 1;
       FCurrentPlugin := GetCmdDirFromEnvVar(Copy(sPlugin, Index, Length(sPlugin)));
 
@@ -178,13 +170,13 @@ begin
   sExt := LowerCase(ExtractFileExt(sFileName));
   sExt := copy(sExt,2,length(sExt));
   DebugLN('sExt = ', sExt);
-  tmp := FWCXPlugins.Values[sExt];
+  tmp := gWCXPlugins.Values[sExt];
   
 
   //**************** Debug
      //DebugLN(FPlugins.Text);
-     for i:=0 to FWCXPlugins.Count -1 do
-     DebugLN(FWCXPlugins.ValueFromIndex[i]);
+     for i:=0 to gWCXPlugins.Count -1 do
+     DebugLN(gWCXPlugins.ValueFromIndex[i]);
   //***************
 
 
@@ -207,9 +199,9 @@ begin
         end;
     end
   else    // WFX Support
-    if FWFXPlugins.IndexOfName(sFileName) >=0 then
+    if gWFXPlugins.IndexOfName(sFileName) >=0 then
       begin
-        FCurrentPlugin := GetCmdDirFromEnvVar(FWFXPlugins.Values[sFileName]);
+        FCurrentPlugin := GetCmdDirFromEnvVar(gWFXPlugins.Values[sFileName]);
 
         FVFSType := vtWFX;
         Result := True;
@@ -251,8 +243,7 @@ var
   pfri : PFileRecItem;
 begin
   Result := True;
-  gIni.ReadSectionRaw('FileSystemPlugins', FWFXPlugins);
-  Count := FWFXPlugins.Count;
+  Count := gWFXPlugins.Count;
   if Count = 0 then
     begin
       Result := False;
@@ -262,12 +253,12 @@ begin
   fl.Clear;
   for I := 0 to Count do
     begin
-      if Pos('#', FWFXPlugins.Names[I]) = 0 then
+      if Pos('#', gWFXPlugins.Names[I]) = 0 then
         begin
           New(pfri);
           with pfri^ do
             begin
-              sName := FWFXPlugins.Names[I];
+              sName := gWFXPlugins.Names[I];
               sNameNoExt := sName;
               iMode := faFolder;
               sModeStr := 'wfx';
