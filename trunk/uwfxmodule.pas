@@ -29,7 +29,8 @@ unit uWFXmodule;
 
 interface
 uses
- sysutils, Classes, uFileList, uVFSModule, uVFSTypes, ufsplugin, uWFXprototypes, dynlibs, uTypes, fFileOpDlg;
+ sysutils, Classes, uFileList, uVFSModule, uVFSTypes, ufsplugin, uWFXprototypes,
+ dynlibs, uTypes, fFileOpDlg, uClassesEx;
 
 {$mode delphi}{$H+}
 const
@@ -132,6 +133,24 @@ Type
     
     function VFSList(const sDir:String; var fl:TFileList):Boolean;override;
     function VFSMisc: Cardinal; override;
+  end;
+
+  { TWFXModuleList }
+
+  TWFXModuleList = class(TStringList)
+  private
+    function GetAEnabled(Index: Integer): Boolean;
+    function GetAFileName(Index: Integer): String;
+    function GetAName(Index: Integer): String;
+    procedure SetAEnabled(Index: Integer; const AValue: Boolean);
+    procedure SetAFileName(Index: Integer; const AValue: String);
+    procedure SetAName(Index: Integer; const AValue: String);
+  public
+    procedure Load(Ini: TIniFileEx); overload;
+    procedure Save(Ini: TIniFileEx); overload;
+    property Name[Index: Integer]: String read GetAName write SetAName;
+    property FileName[Index: Integer]: String read GetAFileName write SetAFileName;
+    property Enabled[Index: Integer]: Boolean read GetAEnabled write SetAEnabled;
   end;
 
 implementation
@@ -903,6 +922,78 @@ begin
   except
     DebugLN('Error in "WFXCopyThread.Execute"');
   end;
+end;
+
+{ TWFXModuleList }
+
+function TWFXModuleList.GetAEnabled(Index: Integer): Boolean;
+begin
+  Result:= Boolean(Objects[Index])
+end;
+
+function TWFXModuleList.GetAFileName(Index: Integer): String;
+begin
+  Result:= ValueFromIndex[Index];
+end;
+
+function TWFXModuleList.GetAName(Index: Integer): String;
+begin
+  Result:= Names[Index];
+end;
+
+procedure TWFXModuleList.SetAEnabled(Index: Integer; const AValue: Boolean);
+begin
+  Objects[Index]:= TObject(AValue);
+end;
+
+procedure TWFXModuleList.SetAFileName(Index: Integer; const AValue: String);
+begin
+  ValueFromIndex[Index]:= AValue;
+end;
+
+procedure TWFXModuleList.SetAName(Index: Integer; const AValue: String);
+var
+  sValue : String;
+begin
+  sValue:= ValueFromIndex[Index];
+  Self[Index]:= AValue + '=' + sValue;
+end;
+
+procedure TWFXModuleList.Load(Ini: TIniFileEx);
+var
+  I: Integer;
+  sCurrPlugin: String;
+begin
+  Ini.ReadSectionRaw('FileSystemPlugins', Self);
+  for I:= 0 to Count - 1 do
+    if Pos('#', Name[I]) = 0 then
+      begin
+        Enabled[I]:= True;
+      end
+    else
+      begin
+        sCurrPlugin:= Name[I];
+        Name[I]:= Copy(sCurrPlugin, 2, Length(sCurrPlugin) - 1);
+        Enabled[I]:= False;
+      end;
+end;
+
+procedure TWFXModuleList.Save(Ini: TIniFileEx);
+var
+ I: Integer;
+begin
+  Ini.EraseSection('FileSystemPlugins');
+  for I := 0 to Count - 1 do
+    begin
+      if Boolean(Objects[I]) then
+        begin
+          Ini.WriteString('FileSystemPlugins', Name[I], FileName[I])
+        end
+      else
+        begin
+          Ini.WriteString('FileSystemPlugins', '#' + Name[I], FileName[I]);
+        end;
+    end;
 end;
 
 initialization

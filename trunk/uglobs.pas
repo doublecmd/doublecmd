@@ -22,7 +22,8 @@ unit uGlobs;
 
 interface
 uses
-  Classes, Controls, uExts, uColorExt, Graphics, uClassesEx, uWDXModule, uColumns,uhotkeymanger,uActs;
+  Classes, Controls, uExts, uColorExt, Graphics, uClassesEx, uWDXModule,
+  uColumns,uhotkeymanger,uActs, uWFXModule;
 
 type
   TControlPosition = object
@@ -46,6 +47,10 @@ var
   
   { WDX plugins }
   WdxPlugins:TWDXModuleList;
+  { WCX plugins }
+  gWCXPlugins: TStringList;
+  { WFX plugins }
+  gWFXPlugins: TWFXModuleList;
   
   { Columns Set }
   ColSet:TPanelColumnsList;
@@ -368,6 +373,10 @@ begin
     FreeAndNil(gIni);
   if Assigned(WdxPlugins) then
     WdxPlugins.Free;
+  if Assigned(gWCXPlugins) then
+    FreeAndNil(gWCXPlugins);
+  if Assigned(gWFXPlugins) then
+    FreeAndNil(gWFXPlugins);
   if Assigned(ColSet) then
     ColSet.Free;
   if Assigned(HotMan) then
@@ -512,7 +521,12 @@ begin
   ColSet:=TPanelColumnsList.Create;
   ColSet.Load(gIni);
   //---------------------
-
+  { WCX plugins }
+  gWCXPlugins:= TStringList.Create;
+  gIni.ReadSectionRaw('PackerPlugins', gWCXPlugins);
+  { WFX plugins }
+  gWFXPlugins:= TWFXModuleList.Create;
+  gWFXPlugins.Load(gIni);
 end;
 
 function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boolean;

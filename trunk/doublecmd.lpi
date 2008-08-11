@@ -49,7 +49,7 @@
         <PackageName Value="imagesforlazarus"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="33">
+    <Units Count="35">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -82,6 +82,7 @@
         <ComponentName Value="frmViewer"/>
         <HasResources Value="True"/>
         <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="fviewer.lrs"/>
         <UnitName Value="fViewer"/>
       </Unit4>
@@ -147,6 +148,7 @@
         <ComponentName Value="frmOptions"/>
         <HasResources Value="True"/>
         <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="foptions.lrs"/>
         <UnitName Value="fOptions"/>
       </Unit12>
@@ -307,6 +309,15 @@
         <ResourceFilename Value="fpackinfodlg.lrs"/>
         <UnitName Value="fPackInfoDlg"/>
       </Unit32>
+      <Unit33>
+        <Filename Value="ftweakplugin.pas"/>
+        <ComponentName Value="frmTweakPlugin"/>
+        <HasResources Value="True"/>
+        <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <ResourceFilename Value="ftweakplugin.lrs"/>
+        <UnitName Value="fTweakPlugin"/>
+      </Unit33>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

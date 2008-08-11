@@ -67,7 +67,7 @@ function ShowPackDlg(VFS : TVFS; var fl : TFileList; sDestPath:String; bNewArchi
 
 implementation
 uses
-  uWCXhead;
+  uWCXhead, uGlobs;
 
 function ShowPackDlg(VFS : TVFS; var fl: TFileList; sDestPath:String; bNewArchive : Boolean = True): Boolean;
 var
@@ -133,19 +133,19 @@ begin
   bExsistArchive := (sExt <> 'none');
   with CurrentVFS do
     begin
-      for I:=0 to WCXPlugins.Count - 1 do
+      for I:=0 to gWCXPlugins.Count - 1 do
         begin
-        if Pos('#', WCXPlugins.Names[I]) <> 0 then Continue;
-          sCurrentPlugin := WCXPlugins.ValueFromIndex[i];
+        if Pos('#', gWCXPlugins.Names[I]) <> 0 then Continue;
+          sCurrentPlugin := gWCXPlugins.ValueFromIndex[i];
           iCurPlugCaps := StrToInt(Copy(sCurrentPlugin, 1, Pos(',',sCurrentPlugin) - 1));
           if (iCurPlugCaps and PK_CAPS_NEW) = PK_CAPS_NEW then
             begin
               (* First 9 plugins we display as  RadioButtons *)
               if J < 9 then
                 begin
-                  iIndex := rgPacker.Items.Add(WCXPlugins.Names[I]);
+                  iIndex := rgPacker.Items.Add(gWCXPlugins.Names[I]);
                   if bExsistArchive then
-                    if (sExt = WCXPlugins.Names[I]) then
+                    if (sExt = gWCXPlugins.Names[I]) then
                       rgPacker.ItemIndex := iIndex
                     else
                       rgPacker.Controls[iIndex + 1].Enabled := False;
@@ -154,8 +154,8 @@ begin
               else
                 (* Other plugins we add in ComboBox *)
                 begin
-                  iIndex := cbPackerList.Items.Add(WCXPlugins.Names[I]);
-                  if bExsistArchive and (sExt = WCXPlugins.Names[I]) then
+                  iIndex := cbPackerList.Items.Add(gWCXPlugins.Names[I]);
+                  if bExsistArchive and (sExt = gWCXPlugins.Names[I]) then
                     cbPackerList.ItemIndex := iIndex;
                 end;
             end;

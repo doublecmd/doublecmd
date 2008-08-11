@@ -34,7 +34,7 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Buttons, Spin, ColorBox,
-  CheckLst, EditBtn,uColumns;
+  CheckLst, EditBtn,uColumns, Grids;
 
 type
 
@@ -42,20 +42,15 @@ type
 
   TfrmOptions = class(TForm)
     bbtnApply: TBitBtn;
-    bbtnHelp: TBitBtn;
     bbtnAddCategory: TBitBtn;
     bbtnDeleteCategory: TBitBtn;
     bbtnApplyCategory: TBitBtn;
-    bbtnWFXAdd: TBitBtn;
-    bbtnWDXAdd: TBitBtn;
-    bbtnWDXApply: TBitBtn;
-    bbtnWFXDelete: TBitBtn;
-    bbtnWDXDelete: TBitBtn;
-    bbtnWFXRename: TBitBtn;
-    bbtnWFXApply: TBitBtn;
-    bbtnWDXRename: TBitBtn;
+    btnConfigPlugin: TBitBtn;
+    btnTweakPlugin: TBitBtn;
+    btnRemovePlugin: TBitBtn;
+    btnEnablePlugin: TBitBtn;
+    btnAddPlugin: TBitBtn;
     btnCategoryColor: TButton;
-    btnOpen: TBitBtn;
     btnSelEditFnt: TButton;
     btnSelMainFnt: TButton;
     btnSelViewFnt: TButton;
@@ -101,8 +96,8 @@ type
     cbTabsOpenForeground: TCheckBox;
     cbbUseInvertedSelection: TCheckBox;
     cbMinimizeToTray: TCheckBox;
-    clbWFXList: TCheckListBox;
     clbWCXList: TCheckListBox;
+    clbWFXList: TCheckListBox;
     cbBackColor2: TColorBox;
     cbMarkColor: TColorBox;
     cbCursorColor: TColorBox;
@@ -197,9 +192,6 @@ type
     lblMarkColor: TLabel;
     lblCursorColor: TLabel;
     lblCursorText: TLabel;
-    lblAssociateWith: TLabel;
-    lblExt: TLabel;
-    lblAbout: TLabel;
     lblEditorFont: TLabel;
     lblHotKey: TLabel;
     lblMainFont: TLabel;
@@ -248,6 +240,7 @@ type
     rbUseMmapInSearch: TRadioButton;
     rbUseStreamInSearch: TRadioButton;
     seWipePassNumber: TSpinEdit;
+    stgPlugins: TStringGrid;
     tsWDX: TTabSheet;
     tsWCX: TTabSheet;
     tsWFX: TTabSheet;
@@ -256,14 +249,8 @@ type
     procedure bbtnApplyCategoryClick(Sender: TObject);
     procedure bbtnApplyClick(Sender: TObject);
     procedure bbtnDeleteCategoryClick(Sender: TObject);
-    procedure bbtnWDXAddClick(Sender: TObject);
-    procedure bbtnWDXApplyClick(Sender: TObject);
-    procedure bbtnWDXDeleteClick(Sender: TObject);
-    procedure bbtnWDXRenameClick(Sender: TObject);
-    procedure bbtnWFXAddClick(Sender: TObject);
-    procedure bbtnWFXApplyClick(Sender: TObject);
-    procedure bbtnWFXDeleteClick(Sender: TObject);
-    procedure bbtnWFXRenameClick(Sender: TObject);
+    procedure btnWDXAddClick(Sender: TObject);
+    procedure btnWFXAddClick(Sender: TObject);
     procedure btClearHotKeyClick(Sender: TObject);
     procedure btnBackColor2Click(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
@@ -275,9 +262,11 @@ type
     procedure btnEditColumnsSetClick(Sender: TObject);
     procedure btnMarkColorClick(Sender: TObject);
     procedure btnNewColumnsSetClick(Sender: TObject);
-    procedure btnOpenClick(Sender: TObject);
+    procedure btnWCXAddClick(Sender: TObject);
     procedure btnForeColorClick(Sender: TObject);
     procedure btnBackColorClick(Sender: TObject);
+    procedure btnRemovePluginClick(Sender: TObject);
+    procedure btnTweakPluginClick(Sender: TObject);
     procedure cbbUseInvertedSelectionChange(Sender: TObject);
     procedure cbCategoryColorChange(Sender: TObject);
     procedure cbColorBoxChange(Sender: TObject);
@@ -336,7 +325,8 @@ implementation
 
 uses
   uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc, menus,
-  uColorExt, uWCXModule, uWFXmodule, uDCUtils, uOSUtils,fColumnsSetConf,uhotkeymanger;
+  uColorExt, uWCXModule, uWFXmodule, uDCUtils, uOSUtils,fColumnsSetConf,
+  fTweakPlugin, uhotkeymanger, uTypes;
 
 
 
@@ -436,21 +426,23 @@ begin
    end;
 end;
 
-procedure TfrmOptions.btnOpenClick(Sender: TObject);
+procedure TfrmOptions.btnWCXAddClick(Sender: TObject);
 var
+  I, J: Integer;
+  sPluginName : String;
   WCXmodule : TWCXmodule;
 begin
   odOpenDialog.Filter := 'Archive plugins (*.wcx)|*.wcx';
   if odOpenDialog.Execute then
-  begin
-    WCXmodule := TWCXmodule.Create;
-    if WCXmodule.LoadModule(odOpenDialog.FileName)then
-      cbWCXPath.Text := IntToStr(WCXmodule.VFSMisc) + ',' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
-    else
-      cbWCXPath.Text := '0,' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
-  WCXModule.UnloadModule;
-  WCXmodule.Free;
-  end;
+    begin
+      WCXmodule := TWCXmodule.Create;
+      if WCXmodule.LoadModule(odOpenDialog.FileName)then
+        cbWCXPath.Text := IntToStr(WCXmodule.VFSMisc) + ',' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
+      else
+        cbWCXPath.Text := '0,' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
+      WCXModule.UnloadModule;
+      WCXmodule.Free;
+    end;
 end;
 
 procedure TfrmOptions.btnBackColorClick(Sender: TObject);
@@ -461,6 +453,37 @@ begin
      cbBackColor.Color := optColorDialog.Color;
      pbExample.Repaint;
    end;
+end;
+
+procedure TfrmOptions.btnRemovePluginClick(Sender: TObject);
+begin
+  if stgPlugins.Row <= 0 then Exit; // no plugins
+
+  if pcPluginsTypes.ActivePage.Name = 'tsWDX' then
+    begin
+      WdxPlugins.DeleteItem(stgPlugins.Row - 1);
+      stgPlugins.DeleteColRow(False, stgPlugins.Row);
+    end
+  else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
+    begin
+      gWFXPlugins.Delete(stgPlugins.Row - 1);
+      stgPlugins.DeleteColRow(False, stgPlugins.Row);
+    end;
+end;
+
+procedure TfrmOptions.btnTweakPluginClick(Sender: TObject);
+var
+  ptPluginType: TPluginType;
+begin
+  if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
+    ptPluginType:= ptWCX
+  else if pcPluginsTypes.ActivePage.Name = 'tsWDX' then
+    ptPluginType:= ptWDX
+  else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
+    ptPluginType:= ptWFX;
+
+  if ShowTweakPluginDlg(ptPluginType, stgPlugins.Row - 1) then
+    pcPluginsTypes.ActivePage.OnShow(pcPluginsTypes.ActivePage); // update info in plugin list
 end;
 
 procedure TfrmOptions.cbbUseInvertedSelectionChange(Sender: TObject);
@@ -481,8 +504,8 @@ end;
 
 procedure TfrmOptions.cbExtChange(Sender: TObject);
 begin
-  clbWCXList.ItemIndex := cbExt.Items.IndexOf(cbExt.Text)+1;
-  cbWCXPath.Text:= clbWCXList.Items[clbWCXList.ItemIndex];
+//  clbWCXList.ItemIndex := cbExt.Items.IndexOf(cbExt.Text)+1;
+//  cbWCXPath.Text:= clbWCXList.Items[clbWCXList.ItemIndex];
 end;
 
 procedure TfrmOptions.cbShowDiskPanelChange(Sender: TObject);
@@ -498,7 +521,7 @@ end;
 
 procedure TfrmOptions.clbWCXListClick(Sender: TObject);
 begin
-  cbWCXPath.Text := clbWCXList.Items[clbWCXList.ItemIndex];
+//  cbWCXPath.Text := clbWCXList.Items[clbWCXList.ItemIndex];
 end;
 
 procedure TfrmOptions.cbTextColorChange(Sender: TObject);
@@ -796,43 +819,76 @@ end;
 
 procedure TfrmOptions.tsWCXShow(Sender: TObject);
 var
-  I : Integer;
+  I, iFlags,
+  iIndex: Integer;
   sCurrPlugin,
-  sExt : String;
-  PosEqual : Integer;
+  sFileName,
+  sExt: String;
+  iRow,
+  iLength,
+  PosEqual,
+  PosComma : Integer;
 begin
-  cbExt.Items.Clear;
-  cbWCXPath.Text:= '';
-  gIni.ReadSectionRaw('PackerPlugins', clbWCXList.Items);
-  for I := 0 to clbWCXList.Count - 1 do
+  iRow:= 0;
+  for I := 0 to gWCXPlugins.Count - 1 do
   begin
-    sCurrPlugin := clbWCXList.Items[I];
+    sCurrPlugin := gWCXPlugins[I];
+    iLength:= Length(sCurrPlugin);
+    // get associated extension
     PosEqual := Pos('=', sCurrPlugin);
     sExt := Copy(sCurrPlugin, 1, PosEqual - 1);
+    // get packer flags
+    PosComma:= Pos(',', sCurrPlugin);
+    iFlags:= StrToInt(Copy(sCurrPlugin, PosEqual + 1, PosComma-PosEqual-1));
+    //get file name
+    sFileName:= Copy(sCurrPlugin, PosComma + 1, iLength - PosComma);
+
     if sExt[1] = '#' then
       Delete(sExt, 1, 1);
-    cbExt.Items.Add(sExt);
-    if Pos('#', clbWCXList.Items[I]) = 0 then
+
+    iIndex:= stgPlugins.Cols[3].IndexOf(sFileName);
+    if iIndex < 0 then
       begin
-        clbWCXList.Items[I] := Copy(sCurrPlugin, PosEqual + 1, Length(sCurrPlugin) - PosEqual);
-        clbWCXList.Checked[I] := True
+        Inc(iRow);
+        stgPlugins.RowCount:= iRow+1;
+        stgPlugins.Cells[1, iRow]:= ExtractOnlyFileName(sFileName);
+        stgPlugins.Cells[2, iRow]:= sExt + #32;
       end
     else
       begin
-        clbWCXList.Items[I] := Copy(sCurrPlugin, PosEqual + 1, Length(sCurrPlugin) - PosEqual);
-        clbWCXList.Checked[I] := False;
+        stgPlugins.Cells[2, iIndex]:= stgPlugins.Cells[2, iIndex] + sExt + #32;
+        Continue;
+      end;
+
+
+    if Pos('#', gWCXPlugins[I]) = 0 then // enabled
+      begin
+        stgPlugins.Cells[3, iRow]:= sFileName;
+        stgPlugins.Cells[0, iRow]:= '+';
+      end
+    else // disabled
+      begin
+        stgPlugins.Cells[3, iRow]:= sFileName;
+        stgPlugins.Cells[0, iRow]:= '-';
       end;
   end;
-  clbWCXList.Items.Insert(0, '(none)');
+  btnAddPlugin.OnClick:= @btnWCXAddClick;
 end;
 
 procedure TfrmOptions.tsWDXShow(Sender: TObject);
 var i:integer;
 begin
-   clbWDXList.Clear;
+  btnAddPlugin.OnClick:= @btnWDXAddClick;
+  stgPlugins.RowCount:= WdxPlugins.Count+1;
   if WdxPlugins.Count=0 then exit;
+
   for i:=0 to WdxPlugins.Count-1 do
+    begin
     clbWDXList.Items.Add(WdxPlugins.GetWdxModule(i).Name+'='+SetCmdDirAsEnvVar(WdxPlugins.GetWdxModule(i).FileName));
+    stgPlugins.Cells[1, I+1]:= WdxPlugins.GetWdxModule(i).Name;
+    stgPlugins.Cells[2, I+1]:= WdxPlugins.GetWdxModule(i).DetectStr;
+    stgPlugins.Cells[3, I+1]:= SetCmdDirAsEnvVar(WdxPlugins.GetWdxModule(i).FileName);
+    end;
 end;
 
 procedure TfrmOptions.bbtnApplyClick(Sender: TObject);
@@ -899,29 +955,30 @@ end;
 
 procedure TfrmOptions.tsWFXShow(Sender: TObject);
 var
-  I : Integer;
-  sCurrPlugin : String;
+  I: Integer;
 begin
-  gIni.ReadSectionRaw('FileSystemPlugins', clbWFXList.Items);
-  for I := 0 to clbWFXList.Count - 1 do
+  stgPlugins.RowCount:= gWFXPlugins.Count + 1;
+  for I:= 0 to gWFXPlugins.Count - 1 do
   begin
-    sCurrPlugin := clbWFXList.Items[I];
-
-    if Pos('#', clbWFXList.Items[I]) = 0 then
+    if gWFXPlugins.Enabled[I] then
       begin
-        clbWFXList.Items[I] := Copy(sCurrPlugin, 1, Length(sCurrPlugin));
-        clbWFXList.Checked[I] := True
+        stgPlugins.Cells[1, I+1]:= gWFXPlugins.Name[I];
+        stgPlugins.Cells[3, I+1]:= gWFXPlugins.FileName[I];
+        stgPlugins.Cells[0, I+1]:= '+';
       end
     else
       begin
-        clbWFXList.Items[I] := Copy(sCurrPlugin, 2, Length(sCurrPlugin) - 1);
-        clbWFXList.Checked[I] := False;
+        stgPlugins.Cells[1, I+1]:= gWFXPlugins.Name[I];
+        stgPlugins.Cells[3, I+1]:= gWFXPlugins.FileName[I];
+        stgPlugins.Cells[0, I+1]:= '-';
       end;
   end;
+  btnAddPlugin.OnClick:= @btnWFXAddClick;
 end;
 
-procedure TfrmOptions.bbtnWFXAddClick(Sender: TObject);
+procedure TfrmOptions.btnWFXAddClick(Sender: TObject);
 var
+  I: Integer;
   WFXmodule : TWFXmodule;
   s,sPluginName : String;
   tmpPc:Cardinal;
@@ -953,55 +1010,14 @@ begin
     end;
 
   DebugLn('WFX sPluginName='+sPluginName);
-  clbWFXList.Items.Add(sPluginName);
+  gWFXPlugins.Add(sPluginName);
+  stgPlugins.RowCount:= gWFXPlugins.Count + 1;
   DebugLn('WFX Item Added');
   WFXModule.UnloadModule;
   DebugLn('WFX Module Unloaded');
   WFXmodule.Free;
   DebugLn('WFX Freed');
   end;
-end;
-
-procedure TfrmOptions.bbtnWFXApplyClick(Sender: TObject);
-var
- I,
- iIndex : Integer;
- bChecked : Boolean;
-begin
-  gIni.EraseSection('FileSystemPlugins');
-  for I := 0 to clbWFXList.Count - 1 do
-    begin
-      if clbWFXList.Checked[I] then
-        begin
-          gIni.WriteString('FileSystemPlugins', clbWFXList.Items.Names[I],  clbWFXList.Items.ValueFromIndex[I])
-        end
-      else
-        begin
-          gIni.WriteString('FileSystemPlugins', '#' + clbWFXList.Items.Names[I],  clbWFXList.Items.ValueFromIndex[I]);
-        end;
-    end;
-end;
-
-procedure TfrmOptions.bbtnWFXDeleteClick(Sender: TObject);
-begin
- if clbWFXList.SelCount > 0 then
-   clbWFXList.Items.Delete(clbWFXList.ItemIndex);
-end;
-
-procedure TfrmOptions.bbtnWFXRenameClick(Sender: TObject);
-var
-  iItemIndex : Integer;
-  sName,
-  sValue : String;
-  bChecked : Boolean;
-begin
-  iItemIndex := clbWFXList.ItemIndex;
-  if iItemIndex < 0 then exit;
-  sName := clbWFXList.Items.Names[iItemIndex];
-  sValue := clbWFXList.Items.ValueFromIndex[iItemIndex];
-  bChecked := clbWFXList.Checked[iItemIndex]; // Save state
-  clbWFXList.Items[iItemIndex] := InputBox('Double Commander', 'Rename', sName) + '=' + sValue;
-  clbWFXList.Checked[iItemIndex] := bChecked; // Restore state
 end;
 
 {/ WFX Plugins }
@@ -1197,8 +1213,9 @@ begin
   lbCategoriesClick(lbCategories);
 end;
 
-procedure TfrmOptions.bbtnWDXAddClick(Sender: TObject);
+procedure TfrmOptions.btnWDXAddClick(Sender: TObject);
 var
+  I, J: Integer;
   sPluginName : String;
 begin
   odOpenDialog.Filter := 'Content plugins (*.wdx; *.lua)|*.wdx;*.lua';
@@ -1206,46 +1223,17 @@ begin
     begin
       sPluginName := ExtractFileName(odOpenDialog.FileName);
       delete(sPluginName,length(sPluginName)-4,4);
-      WdxPlugins.Add(sPluginName,odOpenDialog.FileName,'');
+      I:= WdxPlugins.Add(sPluginName,odOpenDialog.FileName,'');
 
       WdxPlugins.LoadModule(sPluginName);
       WdxPlugins.GetWdxModule(sPluginName).DetectStr:=WdxPlugins.GetWdxModule(sPluginName).CallContentGetDetectString;
 
-      sPluginName:=sPluginName+'=' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
-      clbWDXList.Items.Add(sPluginName);
+      stgPlugins.RowCount:= stgPlugins.RowCount + 1;
+      J:= stgPlugins.RowCount-1;
+      stgPlugins.Cells[1, J]:= WdxPlugins.GetWdxModule(I).Name;
+      stgPlugins.Cells[2, J]:= WdxPlugins.GetWdxModule(I).DetectStr;
+      stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(WdxPlugins.GetWdxModule(I).FileName);
     end;
-end;
-
-procedure TfrmOptions.bbtnWDXApplyClick(Sender: TObject);
-begin
-  WdxPlugins.Save(gIni);
-end;
-
-procedure TfrmOptions.bbtnWDXDeleteClick(Sender: TObject);
-begin
-  if clbWDXList.SelCount > 0 then
-  begin
-    WdxPlugins.DeleteItem(clbWDXList.ItemIndex);
-    clbWDXList.Items.Delete(clbWDXList.ItemIndex);
-  end;
-end;
-
-procedure TfrmOptions.bbtnWDXRenameClick(Sender: TObject);
-var
-  iItemIndex : Integer;
-  sName,
-  sValue,s : String;
-  bChecked : Boolean;
-begin
-  iItemIndex := clbWDXList.ItemIndex;
-  if iItemIndex < 0 then exit;
-  sName := clbWDXList.Items.Names[iItemIndex];
-  sValue := clbWDXList.Items.ValueFromIndex[iItemIndex];
-  bChecked := clbWDXList.Checked[iItemIndex]; // Save state
-  s:= InputBox('Double Commander', 'Rename', sName);
-  clbWDXList.Items[iItemIndex] := s + '=' + sValue;
-  clbWDXList.Checked[iItemIndex] := bChecked; // Restore state
-  WdxPlugins.GetWdxModule(iItemIndex).Name:=s;
 end;
 
 procedure TfrmOptions.btnCategoryColorClick(Sender: TObject);
@@ -1655,6 +1643,10 @@ begin
   
   {Columns Set}
   ColSet.Save(gIni);
+
+  {Plugins}
+  WdxPlugins.Save(gIni);
+  gWFXPlugins.Save(gIni);
 end;
 
 initialization

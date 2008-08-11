@@ -19,6 +19,9 @@ type
 // what is showed in panel
   TPanelMode= (pmDirectory, pmArchive, pmVFS);
 
+// plugin types
+  TPluginType = (ptDSX, ptWCX, ptWDX, ptWFX, ptWLX);
+
   //base structure for storing file informations
   TFileRecItem = record
 //      iType       : Integer;
