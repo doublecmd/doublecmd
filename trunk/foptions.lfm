@@ -1250,7 +1250,7 @@ object frmOptions: TfrmOptions
       end
       object pgPlugins: TPage
         ClientWidth = 620
-        ClientHeight = 524
+        ClientHeight = 506
         object pcPluginsTypes: TPageControl
           Height = 108
           Width = 620
@@ -1366,7 +1366,7 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = pcPluginsTypes
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = btnAddPlugin
-          Height = 366
+          Height = 348
           Top = 108
           Width = 620
           Anchors = [akTop, akLeft, akRight, akBottom]
@@ -1408,7 +1408,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 38
           Height = 30
-          Top = 486
+          Top = 468
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1423,7 +1423,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 154
           Height = 30
-          Top = 486
+          Top = 468
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1438,7 +1438,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 270
           Height = 30
-          Top = 486
+          Top = 468
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1454,7 +1454,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 386
           Height = 30
-          Top = 486
+          Top = 468
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1471,13 +1471,14 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 502
           Height = 30
-          Top = 486
+          Top = 468
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 8
           BorderSpacing.Bottom = 8
           Caption = 'Configure'
           NumGlyphs = 0
+          OnClick = btnConfigPluginClick
           TabOrder = 6
         end
       end

@@ -249,6 +249,7 @@ type
     procedure bbtnApplyCategoryClick(Sender: TObject);
     procedure bbtnApplyClick(Sender: TObject);
     procedure bbtnDeleteCategoryClick(Sender: TObject);
+    procedure btnConfigPluginClick(Sender: TObject);
     procedure btnWDXAddClick(Sender: TObject);
     procedure btnWFXAddClick(Sender: TObject);
     procedure btClearHotKeyClick(Sender: TObject);
@@ -1211,6 +1212,29 @@ begin
   if lbCategories.Count > 0 then
     lbCategories.ItemIndex := 0;
   lbCategoriesClick(lbCategories);
+end;
+
+procedure TfrmOptions.btnConfigPluginClick(Sender: TObject);
+var
+  WFXmodule: TWFXmodule;
+begin
+  if stgPlugins.Row <= 0 then Exit; // no plugins
+
+  if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
+    begin
+      WFXmodule := TWFXmodule.Create;
+      DebugLn('TWFXmodule created');
+      if WFXmodule.LoadModule(gWFXPlugins.FileName[stgPlugins.Row - 1]) then
+       begin
+         DebugLn('WFXModule Loaded');
+         WFXmodule.VFSConfigure(Handle);
+         DebugLn('Dialog executed');
+         WFXModule.UnloadModule;
+         DebugLn('WFX Module Unloaded');
+         WFXmodule.Free;
+         DebugLn('WFX Freed');
+       end;
+    end;
 end;
 
 procedure TfrmOptions.btnWDXAddClick(Sender: TObject);
