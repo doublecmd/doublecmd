@@ -41,7 +41,6 @@ type
   { TfrmOptions }
 
   TfrmOptions = class(TForm)
-    bbtnApply: TBitBtn;
     bbtnAddCategory: TBitBtn;
     bbtnDeleteCategory: TBitBtn;
     bbtnApplyCategory: TBitBtn;
@@ -80,8 +79,6 @@ type
     cbMainFont: TComboBox;
     cbShortFileSizeFormat: TCheckBox;
     cbViewerFont: TComboBox;
-    cbExt: TComboBox;
-    cbWCXPath: TComboBox;
     cbFlatInterface: TCheckBox;
     cbFlatToolBar: TCheckBox;
     cbShowIcons: TCheckBox;
@@ -96,7 +93,6 @@ type
     cbTabsOpenForeground: TCheckBox;
     cbbUseInvertedSelection: TCheckBox;
     cbMinimizeToTray: TCheckBox;
-    clbWCXList: TCheckListBox;
     clbWFXList: TCheckListBox;
     cbBackColor2: TColorBox;
     cbMarkColor: TColorBox;
@@ -247,7 +243,6 @@ type
     tvTreeView: TTreeView;
     procedure bbtnAddCategoryClick(Sender: TObject);
     procedure bbtnApplyCategoryClick(Sender: TObject);
-    procedure bbtnApplyClick(Sender: TObject);
     procedure bbtnDeleteCategoryClick(Sender: TObject);
     procedure btnConfigPluginClick(Sender: TObject);
     procedure btnWDXAddClick(Sender: TObject);
@@ -272,10 +267,8 @@ type
     procedure cbCategoryColorChange(Sender: TObject);
     procedure cbColorBoxChange(Sender: TObject);
     procedure cbDateTimeFormatChange(Sender: TObject);
-    procedure cbExtChange(Sender: TObject);
     procedure cbShowDiskPanelChange(Sender: TObject);
     procedure cbShowIconsChange(Sender: TObject);
-    procedure clbWCXListClick(Sender: TObject);
     procedure cbTextColorChange(Sender: TObject);
     procedure cbColorBoxDropDown(Sender: TObject);
     procedure edtEditorSizeChange(Sender: TObject);
@@ -427,25 +420,6 @@ begin
    end;
 end;
 
-procedure TfrmOptions.btnWCXAddClick(Sender: TObject);
-var
-  I, J: Integer;
-  sPluginName : String;
-  WCXmodule : TWCXmodule;
-begin
-  odOpenDialog.Filter := 'Archive plugins (*.wcx)|*.wcx';
-  if odOpenDialog.Execute then
-    begin
-      WCXmodule := TWCXmodule.Create;
-      if WCXmodule.LoadModule(odOpenDialog.FileName)then
-        cbWCXPath.Text := IntToStr(WCXmodule.VFSMisc) + ',' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
-      else
-        cbWCXPath.Text := '0,' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
-      WCXModule.UnloadModule;
-      WCXmodule.Free;
-    end;
-end;
-
 procedure TfrmOptions.btnBackColorClick(Sender: TObject);
 begin
    if optColorDialog.Execute then
@@ -509,12 +483,6 @@ begin
   lblDateTimeExample.Caption:= FormatDateTime(cbDateTimeFormat.Text, Now);
 end;
 
-procedure TfrmOptions.cbExtChange(Sender: TObject);
-begin
-//  clbWCXList.ItemIndex := cbExt.Items.IndexOf(cbExt.Text)+1;
-//  cbWCXPath.Text:= clbWCXList.Items[clbWCXList.ItemIndex];
-end;
-
 procedure TfrmOptions.cbShowDiskPanelChange(Sender: TObject);
 begin
   cbTwoDiskPanels.Enabled := cbShowDiskPanel.Checked;
@@ -524,11 +492,6 @@ end;
 procedure TfrmOptions.cbShowIconsChange(Sender: TObject);
 begin
   cbIconsSize.Enabled := cbShowIcons.Checked;
-end;
-
-procedure TfrmOptions.clbWCXListClick(Sender: TObject);
-begin
-//  cbWCXPath.Text := clbWCXList.Items[clbWCXList.ItemIndex];
 end;
 
 procedure TfrmOptions.cbTextColorChange(Sender: TObject);
@@ -824,6 +787,40 @@ begin
   gbDateTimeFormat.Width:= iWidth;
 end;
 
+{ WCX plugins }
+
+procedure TfrmOptions.btnWCXAddClick(Sender: TObject);
+var
+  I, J: Integer;
+  sExt,
+  sPluginName : String;
+  WCXmodule : TWCXmodule;
+begin
+  odOpenDialog.Filter := 'Archive plugins (*.wcx)|*.wcx';
+  if odOpenDialog.Execute then
+    begin
+      WCXmodule := TWCXmodule.Create;
+      if WCXmodule.LoadModule(odOpenDialog.FileName)then
+        sPluginName := IntToStr(WCXmodule.VFSMisc) + ',' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
+      else
+        sPluginName := '0,' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
+
+      sExt:= InputBox('Enter extension','For "' + odOpenDialog.FileName + '" plugin','');
+
+      I:= gWCXPlugins.AddObject(sExt + '=' + sPluginName, TObject(True));
+
+      stgPlugins.RowCount:= stgPlugins.RowCount + 1;
+      J:= stgPlugins.RowCount-1;
+      stgPlugins.Cells[0, J]:= '+';
+      stgPlugins.Cells[1, J]:= ExtractOnlyFileName(gWCXPlugins.FileName[I]);
+      stgPlugins.Cells[2, J]:= gWCXPlugins.Ext[I];
+      stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(gWCXPlugins.FileName[I]);
+
+      WCXModule.UnloadModule;
+      WCXmodule.Free;
+    end;
+end;
+
 procedure TfrmOptions.tsWCXShow(Sender: TObject);
 var
   I,
@@ -870,6 +867,31 @@ begin
   end;
 end;
 
+{ WDX plugins }
+
+procedure TfrmOptions.btnWDXAddClick(Sender: TObject);
+var
+  I, J: Integer;
+  sPluginName : String;
+begin
+  odOpenDialog.Filter := 'Content plugins (*.wdx; *.lua)|*.wdx;*.lua';
+  if odOpenDialog.Execute then
+    begin
+      sPluginName := ExtractFileName(odOpenDialog.FileName);
+      delete(sPluginName,length(sPluginName)-4,4);
+      I:= WdxPlugins.Add(sPluginName,odOpenDialog.FileName,'');
+
+      WdxPlugins.LoadModule(sPluginName);
+      WdxPlugins.GetWdxModule(sPluginName).DetectStr:=WdxPlugins.GetWdxModule(sPluginName).CallContentGetDetectString;
+
+      stgPlugins.RowCount:= stgPlugins.RowCount + 1;
+      J:= stgPlugins.RowCount-1;
+      stgPlugins.Cells[1, J]:= WdxPlugins.GetWdxModule(I).Name;
+      stgPlugins.Cells[2, J]:= WdxPlugins.GetWdxModule(I).DetectStr;
+      stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(WdxPlugins.GetWdxModule(I).FileName);
+    end;
+end;
+
 procedure TfrmOptions.tsWDXShow(Sender: TObject);
 var i:integer;
 begin
@@ -886,95 +908,11 @@ begin
     end;
 end;
 
-procedure TfrmOptions.bbtnApplyClick(Sender: TObject);
-var
- I,
- iIndex : Integer;
- bChecked : Boolean;
-begin
-  if cbExt.Text <> '' then
-  if cbExt.Items.IndexOf(cbExt.Text) < 0 then
-    begin
-    
-      if cbWCXPath.Text = '' then
-        Exit;
-        
-      if Pos(',', cbWCXPath.Text) = 0 then
-        iIndex := clbWCXList.Items.Add('0,' + cbWCXPath.Text)
-      else
-        iIndex := clbWCXList.Items.Add(cbWCXPath.Text);
-      clbWCXList.Checked[iIndex] := True;
-      cbExt.Items.Add(cbExt.Text);
-    end
-  else
-    begin
-      iIndex := cbExt.Items.IndexOf(cbExt.Text);
-      bChecked := clbWCXList.Checked[iIndex];
-      
-      // Delete plugin for cbExt.Items[iIndex] extension
-      if cbWCXPath.Text = '(none)' then
-        begin
-          gIni.DeleteKey('PackerPlugins', cbExt.Items[iIndex]);
-          cbExt.Items.Delete(iIndex);
-          clbWCXList.Items.Delete(iIndex+1);
-          cbExt.Text:= '';
-          cbWCXPath.Text:= '';
-          cbExt.ItemIndex:= -1;
-          clbWCXList.ItemIndex:= -1;
-          Exit;
-        end;
-        
-      if Pos(',', cbWCXPath.Text) = 0 then
-        clbWCXList.Items[iIndex] := '0,' + cbWCXPath.Text
-      else
-        clbWCXList.Items[iIndex] := cbWCXPath.Text;
-      clbWCXList.Checked[iIndex] := bChecked;
-    end;
-  
-  for I := 1 to clbWCXList.Count - 1 do
-    begin
-      if clbWCXList.Checked[I] then
-        begin
-          gIni.DeleteKey('PackerPlugins', '#' + cbExt.Items[I-1]);
-          gIni.WriteString('PackerPlugins', cbExt.Items[I-1],  clbWCXList.Items[I])
-        end
-      else
-        begin
-          gIni.DeleteKey('PackerPlugins', cbExt.Items[I-1]);
-          gIni.WriteString('PackerPlugins', '#' + cbExt.Items[I-1],  clbWCXList.Items[I]);
-        end;
-    end;
-end;
-
 { WFX plugins }
-
-procedure TfrmOptions.tsWFXShow(Sender: TObject);
-var
-  I: Integer;
-begin
-  btnAddPlugin.OnClick:= @btnWFXAddClick;
-  stgPlugins.RowCount:= gWFXPlugins.Count + 1;
-  for I:= 0 to gWFXPlugins.Count - 1 do
-  begin
-    if gWFXPlugins.Enabled[I] then
-      begin
-        stgPlugins.Cells[1, I+1]:= gWFXPlugins.Name[I];
-        stgPlugins.Cells[3, I+1]:= gWFXPlugins.FileName[I];
-        stgPlugins.Cells[0, I+1]:= '+';
-      end
-    else
-      begin
-        stgPlugins.Cells[1, I+1]:= gWFXPlugins.Name[I];
-        stgPlugins.Cells[3, I+1]:= gWFXPlugins.FileName[I];
-        stgPlugins.Cells[0, I+1]:= '-';
-      end;
-    stgPlugins.Cells[2, I+1]:= '';
-  end;
-end;
 
 procedure TfrmOptions.btnWFXAddClick(Sender: TObject);
 var
-  I: Integer;
+  I, J: Integer;
   WFXmodule : TWFXmodule;
   s,sPluginName : String;
   tmpPc:Cardinal;
@@ -1006,13 +944,42 @@ begin
     end;
 
   DebugLn('WFX sPluginName='+sPluginName);
-  gWFXPlugins.Add(sPluginName);
+  I:= gWFXPlugins.AddObject(sPluginName, TObject(True));
   stgPlugins.RowCount:= gWFXPlugins.Count + 1;
+  J:= stgPlugins.RowCount-1;
+  stgPlugins.Cells[0, J]:= '+';
+  stgPlugins.Cells[1, J]:= gWFXPlugins.Name[I];
+  stgPlugins.Cells[2, J]:= '';
+  stgPlugins.Cells[3, J]:= gWFXPlugins.FileName[I];
   DebugLn('WFX Item Added');
   WFXModule.UnloadModule;
   DebugLn('WFX Module Unloaded');
   WFXmodule.Free;
   DebugLn('WFX Freed');
+  end;
+end;
+
+procedure TfrmOptions.tsWFXShow(Sender: TObject);
+var
+  I: Integer;
+begin
+  btnAddPlugin.OnClick:= @btnWFXAddClick;
+  stgPlugins.RowCount:= gWFXPlugins.Count + 1;
+  for I:= 0 to gWFXPlugins.Count - 1 do
+  begin
+    if gWFXPlugins.Enabled[I] then
+      begin
+        stgPlugins.Cells[1, I+1]:= gWFXPlugins.Name[I];
+        stgPlugins.Cells[3, I+1]:= gWFXPlugins.FileName[I];
+        stgPlugins.Cells[0, I+1]:= '+';
+      end
+    else
+      begin
+        stgPlugins.Cells[1, I+1]:= gWFXPlugins.Name[I];
+        stgPlugins.Cells[3, I+1]:= gWFXPlugins.FileName[I];
+        stgPlugins.Cells[0, I+1]:= '-';
+      end;
+    stgPlugins.Cells[2, I+1]:= '';
   end;
 end;
 
@@ -1229,29 +1196,6 @@ begin
          WFXmodule.Free;
          DebugLn('WFX Freed');
        end;
-    end;
-end;
-
-procedure TfrmOptions.btnWDXAddClick(Sender: TObject);
-var
-  I, J: Integer;
-  sPluginName : String;
-begin
-  odOpenDialog.Filter := 'Content plugins (*.wdx; *.lua)|*.wdx;*.lua';
-  if odOpenDialog.Execute then
-    begin
-      sPluginName := ExtractFileName(odOpenDialog.FileName);
-      delete(sPluginName,length(sPluginName)-4,4);
-      I:= WdxPlugins.Add(sPluginName,odOpenDialog.FileName,'');
-
-      WdxPlugins.LoadModule(sPluginName);
-      WdxPlugins.GetWdxModule(sPluginName).DetectStr:=WdxPlugins.GetWdxModule(sPluginName).CallContentGetDetectString;
-
-      stgPlugins.RowCount:= stgPlugins.RowCount + 1;
-      J:= stgPlugins.RowCount-1;
-      stgPlugins.Cells[1, J]:= WdxPlugins.GetWdxModule(I).Name;
-      stgPlugins.Cells[2, J]:= WdxPlugins.GetWdxModule(I).DetectStr;
-      stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(WdxPlugins.GetWdxModule(I).FileName);
     end;
 end;
 

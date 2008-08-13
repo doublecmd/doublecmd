@@ -1250,7 +1250,7 @@ object frmOptions: TfrmOptions
       end
       object pgPlugins: TPage
         ClientWidth = 620
-        ClientHeight = 506
+        ClientHeight = 524
         object pcPluginsTypes: TPageControl
           Height = 108
           Width = 620
@@ -1260,53 +1260,7 @@ object frmOptions: TfrmOptions
           TabOrder = 0
           object tsWCX: TTabSheet
             Caption = 'Packer plugins (.WCX)'
-            ClientHeight = 82
-            ClientWidth = 612
             OnShow = tsWCXShow
-            object cbExt: TComboBox
-              Left = 429
-              Height = 21
-              Top = 6
-              Width = 100
-              Anchors = [akTop, akRight]
-              AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-              ItemHeight = 13
-              MaxLength = 0
-              OnChange = cbExtChange
-              TabOrder = 0
-            end
-            object cbWCXPath: TComboBox
-              Left = 14
-              Height = 21
-              Top = 40
-              Width = 397
-              Anchors = [akTop, akLeft, akRight]
-              AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-              ItemHeight = 13
-              MaxLength = 0
-              TabOrder = 1
-            end
-            object bbtnApply: TBitBtn
-              AnchorSideTop.Side = asrBottom
-              Left = 429
-              Height = 32
-              Top = 30
-              Width = 100
-              Anchors = [akTop, akRight]
-              BorderSpacing.Top = 8
-              Caption = 'Apply'
-              NumGlyphs = 0
-              OnClick = bbtnApplyClick
-              TabOrder = 2
-            end
-            object clbWCXList: TCheckListBox
-              Left = 68
-              Height = 80
-              Top = 16
-              Width = 100
-              ItemHeight = 13
-              TabOrder = 3
-            end
           end
           object tsWFX: TTabSheet
             Caption = 'File system plugins (.WFX)'
@@ -1366,7 +1320,7 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = pcPluginsTypes
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = btnAddPlugin
-          Height = 348
+          Height = 366
           Top = 108
           Width = 620
           Anchors = [akTop, akLeft, akRight, akBottom]
@@ -1408,7 +1362,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 38
           Height = 30
-          Top = 468
+          Top = 486
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1423,7 +1377,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 154
           Height = 30
-          Top = 468
+          Top = 486
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1438,7 +1392,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 270
           Height = 30
-          Top = 468
+          Top = 486
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1454,7 +1408,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 386
           Height = 30
-          Top = 468
+          Top = 486
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1471,7 +1425,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 502
           Height = 30
-          Top = 468
+          Top = 486
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 8
