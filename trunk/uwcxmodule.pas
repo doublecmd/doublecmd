@@ -138,6 +138,7 @@ Type
   public
     procedure Load(Ini: TIniFileEx); overload;
     procedure Save(Ini: TIniFileEx); overload;
+    function Add(Ext: String; Flags: PtrInt; FileName: String): Integer;
     property FileName[Index: Integer]: String read GetAFileName write SetAFileName;
     property Flags[Index: Integer]: PtrInt read GetAFlags write SetAFlags;
     property Ext[Index: Integer]: String read GetAExt write SetExt;
@@ -1159,6 +1160,11 @@ begin
           Ini.WriteString('PackerPlugins', '#' + Names[I], ValueFromIndex[I]);
         end;
     end;
+end;
+
+function TWCXModuleList.Add(Ext: String; Flags: PtrInt; FileName: String): Integer;
+begin
+  Result:= AddObject(Ext + '=' + IntToStr(Flags) + #44 + FileName, TObject(True));
 end;
 
 end.
