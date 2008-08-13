@@ -23,7 +23,7 @@ unit uGlobs;
 interface
 uses
   Classes, Controls, uExts, uColorExt, Graphics, uClassesEx, uWDXModule,
-  uColumns,uhotkeymanger,uActs, uWFXModule;
+  uColumns,uhotkeymanger,uActs, uWFXModule, uWCXModule;
 
 type
   TControlPosition = object
@@ -48,7 +48,7 @@ var
   { WDX plugins }
   WdxPlugins:TWDXModuleList;
   { WCX plugins }
-  gWCXPlugins: TStringList;
+  gWCXPlugins: TWCXModuleList;
   { WFX plugins }
   gWFXPlugins: TWFXModuleList;
   
@@ -522,8 +522,8 @@ begin
   ColSet.Load(gIni);
   //---------------------
   { WCX plugins }
-  gWCXPlugins:= TStringList.Create;
-  gIni.ReadSectionRaw('PackerPlugins', gWCXPlugins);
+  gWCXPlugins:= TWCXModuleList.Create;
+  gWCXPlugins.Load(gIni);
   { WFX plugins }
   gWFXPlugins:= TWFXModuleList.Create;
   gWFXPlugins.Load(gIni);

@@ -25,6 +25,7 @@ object frmTweakPlugin: TfrmTweakPlugin
     Caption = 'OK'
     Default = True
     ModalResult = 1
+    OnClick = cbExtChange
     TabOrder = 0
   end
   object btnCancel: TButton
@@ -48,7 +49,7 @@ object frmTweakPlugin: TfrmTweakPlugin
     Left = 8
     Height = 336
     Width = 462
-    PageIndex = 1
+    PageIndex = 0
     ShowTabs = False
     TabOrder = 2
     object pgTweakPacker: TPage
@@ -68,8 +69,8 @@ object frmTweakPlugin: TfrmTweakPlugin
         BorderSpacing.Right = 6
         ChildSizing.LeftRightSpacing = 6
         ChildSizing.TopBottomSpacing = 6
-        ClientHeight = 322
-        ClientWidth = 442
+        ClientHeight = 304
+        ClientWidth = 438
         TabOrder = 0
         object lblFlagsValue: TLabel
           AnchorSideLeft.Control = lblFlags
@@ -120,24 +121,23 @@ object frmTweakPlugin: TfrmTweakPlugin
         object edtPlugin: TEdit
           AnchorSideTop.Control = lblPlugin
           AnchorSideTop.Side = asrCenter
-          Left = 74
+          Left = 75
           Height = 21
           Top = 9
           Width = 345
-          Color = clBtnFace
-          ReadOnly = True
           TabOrder = 0
         end
         object cbExt: TComboBox
           AnchorSideLeft.Control = edtPlugin
           AnchorSideTop.Control = lblExtension
           AnchorSideTop.Side = asrCenter
-          Left = 74
+          Left = 75
           Height = 21
           Top = 41
           Width = 73
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           ItemHeight = 13
+          OnChange = cbExtChange
           Style = csDropDownList
           TabOrder = 1
         end
@@ -285,12 +285,12 @@ object frmTweakPlugin: TfrmTweakPlugin
     end
     object pgTweakOther: TPage
       ClientWidth = 454
-      ClientHeight = 328
+      ClientHeight = 310
       object GroupBox1: TGroupBox
-        Height = 328
+        Height = 310
         Width = 454
         Align = alClient
-        ClientHeight = 310
+        ClientHeight = 292
         ClientWidth = 450
         TabOrder = 0
         object lblName: TLabel

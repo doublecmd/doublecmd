@@ -928,7 +928,7 @@ end;
 
 function TWFXModuleList.GetAEnabled(Index: Integer): Boolean;
 begin
-  Result:= Boolean(Objects[Index])
+  Result:= Boolean(Objects[Index]);
 end;
 
 function TWFXModuleList.GetAFileName(Index: Integer): String;
