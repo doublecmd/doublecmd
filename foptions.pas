@@ -93,7 +93,6 @@ type
     cbTabsOpenForeground: TCheckBox;
     cbbUseInvertedSelection: TCheckBox;
     cbMinimizeToTray: TCheckBox;
-    clbWFXList: TCheckListBox;
     cbBackColor2: TColorBox;
     cbMarkColor: TColorBox;
     cbCursorColor: TColorBox;
@@ -101,7 +100,6 @@ type
     cbTextColor: TColorBox;
     cbCategoryColor: TColorBox;
     cbDateTimeFormat: TComboBox;
-    clbWDXList: TCheckListBox;
     cbbFileSystem: TComboBox;
     cbMouseMode: TComboBox;
     cTextLabel: TLabel;
@@ -153,6 +151,7 @@ type
     gbFileSearch: TGroupBox;
     gbLocConfigFiles: TGroupBox;
     gbSaveOnExit: TGroupBox;
+    lblWCXDescription: TLabel;
     lbcategory: TLabel;
     Label3: TLabel;
     lblParam: TLabel;
@@ -160,7 +159,7 @@ type
     lblMouseMode: TLabel;
     lblConfigColumns: TLabel;
     lblCategoryAttr: TLabel;
-    lblInstalledPlugins1: TLabel;
+    lblWDXDescription: TLabel;
     lbtypes: TLabel;
     lbxCategories: TListBox;
     lbxCommands: TListBox;
@@ -180,7 +179,7 @@ type
     lblDateTimeFormat: TLabel;
     lblCopyBufferSize: TLabel;
     lblIconsSize: TLabel;
-    lblInstalledPlugins: TLabel;
+    lblWFXDescription: TLabel;
     lblCategoryColor: TLabel;
     lblCategoryName: TLabel;
     lblCategoryMask: TLabel;
@@ -901,7 +900,6 @@ begin
 
   for i:=0 to WdxPlugins.Count-1 do
     begin
-    clbWDXList.Items.Add(WdxPlugins.GetWdxModule(i).Name+'='+SetCmdDirAsEnvVar(WdxPlugins.GetWdxModule(i).FileName));
     stgPlugins.Cells[1, I+1]:= WdxPlugins.GetWdxModule(i).Name;
     stgPlugins.Cells[2, I+1]:= WdxPlugins.GetWdxModule(i).DetectStr;
     stgPlugins.Cells[3, I+1]:= SetCmdDirAsEnvVar(WdxPlugins.GetWdxModule(i).FileName);
