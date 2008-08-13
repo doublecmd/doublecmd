@@ -327,7 +327,7 @@ implementation
 uses
   uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc, menus,
   uColorExt, uWCXModule, uWFXmodule, uDCUtils, uOSUtils,fColumnsSetConf,
-  fTweakPlugin, uhotkeymanger, uTypes;
+  fTweakPlugin, uhotkeymanger, uTypes, StrUtils;
 
 
 
@@ -475,21 +475,27 @@ end;
 procedure TfrmOptions.btnTweakPluginClick(Sender: TObject);
 var
   ptPluginType: TPluginType;
+  iPluginIndex: Integer;
 begin
+  iPluginIndex:= stgPlugins.Row - 1;
   if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
-    ptPluginType:= ptWCX
+    begin
+      ptPluginType:= ptWCX;
+      // get plugin index
+      iPluginIndex:= gWCXPlugins.IndexOfName(Copy2Space(stgPlugins.Cells[2, stgPlugins.Row]));
+    end
   else if pcPluginsTypes.ActivePage.Name = 'tsWDX' then
     ptPluginType:= ptWDX
   else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
     ptPluginType:= ptWFX;
 
-  if ShowTweakPluginDlg(ptPluginType, stgPlugins.Row - 1) then
+  if ShowTweakPluginDlg(ptPluginType, iPluginIndex) then
     pcPluginsTypes.ActivePage.OnShow(pcPluginsTypes.ActivePage); // update info in plugin list
 end;
 
 procedure TfrmOptions.cbbUseInvertedSelectionChange(Sender: TObject);
 begin
-pbExample.Repaint;
+  pbExample.Repaint;
 end;
 
 procedure TfrmOptions.cbColorBoxChange(Sender: TObject);
@@ -820,32 +826,21 @@ end;
 
 procedure TfrmOptions.tsWCXShow(Sender: TObject);
 var
-  I, iFlags,
+  I,
   iIndex: Integer;
-  sCurrPlugin,
   sFileName,
   sExt: String;
-  iRow,
-  iLength,
-  PosEqual,
-  PosComma : Integer;
+  iRow: Integer;
 begin
+  btnAddPlugin.OnClick:= @btnWCXAddClick;
   iRow:= 0;
   for I := 0 to gWCXPlugins.Count - 1 do
   begin
-    sCurrPlugin := gWCXPlugins[I];
-    iLength:= Length(sCurrPlugin);
     // get associated extension
-    PosEqual := Pos('=', sCurrPlugin);
-    sExt := Copy(sCurrPlugin, 1, PosEqual - 1);
-    // get packer flags
-    PosComma:= Pos(',', sCurrPlugin);
-    iFlags:= StrToInt(Copy(sCurrPlugin, PosEqual + 1, PosComma-PosEqual-1));
-    //get file name
-    sFileName:= Copy(sCurrPlugin, PosComma + 1, iLength - PosComma);
+    sExt := gWCXPlugins.Ext[I];
 
-    if sExt[1] = '#' then
-      Delete(sExt, 1, 1);
+    //get file name
+    sFileName:= gWCXPlugins.FileName[I];
 
     iIndex:= stgPlugins.Cols[3].IndexOf(sFileName);
     if iIndex < 0 then
@@ -862,7 +857,7 @@ begin
       end;
 
 
-    if Pos('#', gWCXPlugins[I]) = 0 then // enabled
+    if gWCXPlugins.Enabled[I] then // enabled
       begin
         stgPlugins.Cells[3, iRow]:= sFileName;
         stgPlugins.Cells[0, iRow]:= '+';
@@ -873,7 +868,6 @@ begin
         stgPlugins.Cells[0, iRow]:= '-';
       end;
   end;
-  btnAddPlugin.OnClick:= @btnWCXAddClick;
 end;
 
 procedure TfrmOptions.tsWDXShow(Sender: TObject);
@@ -958,6 +952,7 @@ procedure TfrmOptions.tsWFXShow(Sender: TObject);
 var
   I: Integer;
 begin
+  btnAddPlugin.OnClick:= @btnWFXAddClick;
   stgPlugins.RowCount:= gWFXPlugins.Count + 1;
   for I:= 0 to gWFXPlugins.Count - 1 do
   begin
@@ -973,8 +968,8 @@ begin
         stgPlugins.Cells[3, I+1]:= gWFXPlugins.FileName[I];
         stgPlugins.Cells[0, I+1]:= '-';
       end;
+    stgPlugins.Cells[2, I+1]:= '';
   end;
-  btnAddPlugin.OnClick:= @btnWFXAddClick;
 end;
 
 procedure TfrmOptions.btnWFXAddClick(Sender: TObject);
@@ -1671,6 +1666,7 @@ begin
   {Plugins}
   WdxPlugins.Save(gIni);
   gWFXPlugins.Save(gIni);
+  gWCXPlugins.Save(gIni);
 end;
 
 initialization

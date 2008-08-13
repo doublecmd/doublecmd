@@ -26,7 +26,7 @@ unit uWCXmodule;
 interface
 uses
   uWCXprototypes, uWCXhead, uFileList, uTypes, dynlibs, Classes, uVFSModule,
-  uVFSTypes, uVFSUtil, fFileOpDlg, Dialogs, DialogAPI;
+  uVFSTypes, uVFSUtil, fFileOpDlg, Dialogs, DialogAPI, uClassesEx;
 
 {$H+}
 const
@@ -121,6 +121,27 @@ Type
 
     function VFSList(const sDir:String; var fl:TFileList ):Boolean;override;{Return the filelist of archive}
     function VFSMisc : Cardinal;override;
+  end;
+
+  { TWCXModuleList }
+
+  TWCXModuleList = class(TStringList)
+  private
+    function GetAEnabled(Index: Integer): Boolean;
+    function GetAExt(Index: Integer): String;
+    function GetAFileName(Index: Integer): String;
+    function GetAFlags(Index: Integer): PtrInt;
+    procedure SetAEnabled(Index: Integer; const AValue: Boolean);
+    procedure SetAFileName(Index: Integer; const AValue: String);
+    procedure SetAFlags(Index: Integer; const AValue: PtrInt);
+    procedure SetExt(Index: Integer; const AValue: String);
+  public
+    procedure Load(Ini: TIniFileEx); overload;
+    procedure Save(Ini: TIniFileEx); overload;
+    property FileName[Index: Integer]: String read GetAFileName write SetAFileName;
+    property Flags[Index: Integer]: PtrInt read GetAFlags write SetAFlags;
+    property Ext[Index: Integer]: String read GetAExt write SetExt;
+    property Enabled[Index: Integer]: Boolean read GetAEnabled write SetAEnabled;
   end;
 
 function IsBlocked : Boolean;
@@ -1042,6 +1063,102 @@ begin
           else
             FFileOpDlg.ShowOnTop;
       end;  // with
+end;
+
+{ TWCXModuleList }
+
+function TWCXModuleList.GetAEnabled(Index: Integer): Boolean;
+begin
+  Result:= Boolean(Objects[Index]);
+end;
+
+function TWCXModuleList.GetAExt(Index: Integer): String;
+begin
+  Result:= Names[Index];
+end;
+
+function TWCXModuleList.GetAFileName(Index: Integer): String;
+var
+  sCurrPlugin: String;
+  iPosComma : Integer;
+begin
+  sCurrPlugin:= ValueFromIndex[Index];
+  iPosComma:= Pos(',', sCurrPlugin);
+    //get file name
+  Result:= Copy(sCurrPlugin, iPosComma + 1, Length(sCurrPlugin) - iPosComma);
+end;
+
+function TWCXModuleList.GetAFlags(Index: Integer): PtrInt;
+var
+  sCurrPlugin: String;
+  iPosComma : Integer;
+begin
+  sCurrPlugin:= ValueFromIndex[Index];
+  iPosComma:= Pos(',', sCurrPlugin);
+  // get packer flags
+  Result:= StrToInt(Copy(sCurrPlugin, 1, iPosComma-1));
+end;
+
+procedure TWCXModuleList.SetAEnabled(Index: Integer; const AValue: Boolean);
+begin
+  Objects[Index]:= TObject(AValue);
+end;
+
+procedure TWCXModuleList.SetAFileName(Index: Integer; const AValue: String);
+begin
+  ValueFromIndex[Index]:= IntToStr(GetAFlags(Index)) + #44 + AValue;
+end;
+
+procedure TWCXModuleList.SetAFlags(Index: Integer; const AValue: PtrInt);
+begin
+  ValueFromIndex[Index]:= IntToStr(AValue) + #44 + GetAFileName(Index);
+end;
+
+procedure TWCXModuleList.SetExt(Index: Integer; const AValue: String);
+var
+  sValue : String;
+begin
+  sValue:= ValueFromIndex[Index];
+  Self[Index]:= AValue + '=' + sValue;
+end;
+
+procedure TWCXModuleList.Load(Ini: TIniFileEx);
+var
+  I: Integer;
+  sCurrPlugin,
+  sValue: String;
+begin
+  Ini.ReadSectionRaw('PackerPlugins', gWCXPlugins);
+  for I:= 0 to Count - 1 do
+    if Pos('#', Names[I]) = 0 then
+      begin
+        Enabled[I]:= True;
+      end
+    else
+      begin
+        sCurrPlugin:= Names[I];
+        sValue:= ValueFromIndex[I];
+        Self[I]:= Copy(sCurrPlugin, 2, Length(sCurrPlugin) - 1) + '=' + sValue;
+        Enabled[I]:= False;
+      end;
+end;
+
+procedure TWCXModuleList.Save(Ini: TIniFileEx);
+var
+ I: Integer;
+begin
+  Ini.EraseSection('PackerPlugins');
+  for I := 0 to Count - 1 do
+    begin
+      if Boolean(Objects[I]) then
+        begin
+          Ini.WriteString('PackerPlugins', Names[I], ValueFromIndex[I])
+        end
+      else
+        begin
+          Ini.WriteString('PackerPlugins', '#' + Names[I], ValueFromIndex[I]);
+        end;
+    end;
 end;
 
 end.
