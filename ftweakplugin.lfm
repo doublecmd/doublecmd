@@ -238,6 +238,7 @@ object frmTweakPlugin: TfrmTweakPlugin
           Top = 35
           Width = 89
           Caption = 'Add new'
+          OnClick = btnAddClick
           TabOrder = 3
         end
         object btnRemove: TButton
@@ -248,6 +249,7 @@ object frmTweakPlugin: TfrmTweakPlugin
           Top = 35
           Width = 89
           Caption = 'Remove'
+          OnClick = btnRemoveClick
           TabOrder = 2
         end
         object btnDefault: TButton
@@ -259,6 +261,7 @@ object frmTweakPlugin: TfrmTweakPlugin
           Width = 105
           BorderSpacing.Top = 6
           Caption = 'Default'
+          OnClick = btnDefaultClick
           TabOrder = 15
         end
         object btnChange: TButton
@@ -269,6 +272,7 @@ object frmTweakPlugin: TfrmTweakPlugin
           Top = 35
           Width = 89
           Caption = 'Change'
+          OnClick = btnChangeClick
           TabOrder = 4
         end
         object cbPK_CAPS_ENCRYPT: TCheckBox
@@ -290,8 +294,8 @@ object frmTweakPlugin: TfrmTweakPlugin
         Height = 310
         Width = 454
         Align = alClient
-        ClientHeight = 292
-        ClientWidth = 450
+        ClientHeight = 310
+        ClientWidth = 454
         TabOrder = 0
         object lblName: TLabel
           AnchorSideLeft.Control = GroupBox1
