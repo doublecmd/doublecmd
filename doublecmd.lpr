@@ -51,6 +51,9 @@ uses
   fFileProperties,
   uUsersGroups,
   {$ENDIF}
+  {$IFDEF MSWINDOWS}
+  Windows,
+  {$ENDIF}
   fLinker,
   fCompareFiles,
   dmHigh,
@@ -67,6 +70,9 @@ const
   buildDate = {$I %DATE%};
   Version = '0.3.5 alpha';
 begin
+  {$IFDEF MSWINDOWS}
+  Application.Icon.Handle:= LoadIcon(hInstance, 'DOUBLECMD');
+  {$ENDIF}
   Application.Title:='Double Commander';
   Application.Initialize;
   ThousandSeparator:=' ';
