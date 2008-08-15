@@ -190,7 +190,8 @@ var
 begin
   LoadFromIni;
   Editor.Font.Name:=gEditorFontName;
-  Editor.Font.Size:=gEditorSize;
+  Editor.Font.Size:=gEditorFontSize;
+  Editor.Font.Style:=gEditorFontStyle;
 
 // update menu highlighting
   miHighlight.Clear;

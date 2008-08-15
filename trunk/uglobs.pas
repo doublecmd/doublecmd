@@ -110,13 +110,15 @@ var
   gExts:TExts;
   gColorExt:TColorExt;
 
-  gFontName:String;
-  gFontSize:Integer;
-  gFontWeight : Byte;
-  gEditorFontName:String;
-  gEditorSize:Integer;
-  gViewerFontName:String;
-  gViewerSize:Integer;
+  gFontName: String;
+  gFontSize: Integer;
+  gFontStyle: TFontStyles;
+  gEditorFontName: String;
+  gEditorFontSize: Integer;
+  gEditorFontStyle: TFontStyles;
+  gViewerFontName: String;
+  gViewerFontSize: Integer;
+  gViewerFontStyle: TFontStyles;
 
   gViewerPos:TControlPosition;
   gEditorPos:TControlPosition;
@@ -448,16 +450,18 @@ begin
 
   
   { Fonts }
-  gFontName:=gIni.ReadString('Configuration', 'FontName', 'default');
-  gFontWeight := gIni.ReadInteger('Configuration', 'FontWeight', 1);
+  gFontName:=gIni.ReadString('Configuration', 'Font.Name', 'default');
   DebugLn('gFontName:',gFontName);
-  gEditorFontName:=gIni.ReadString('Configuration', 'FontEditorName', 'default');
+  gEditorFontName:=gIni.ReadString('Configuration', 'Editor.Font.Name', 'default');
   DebugLn('gEditorFontName:',gEditorFontName);
-  gViewerFontName:=gIni.ReadString('Configuration', 'FontViewerName', 'default');
+  gViewerFontName:=gIni.ReadString('Configuration', 'Viewer.Font.Name', 'default');
   DebugLn('gViewerEditorFontName:',gViewerFontName);
-  gFontSize:=gIni.ReadInteger('Configuration', 'FontSize', 10);
-  gEditorSize:=gIni.ReadInteger('Configuration', 'EditorSize', 14);
-  gViewerSize:=gIni.ReadInteger('Configuration', 'ViewerSize', 14);
+  gFontSize:=gIni.ReadInteger('Configuration', 'Font.Size', 10);
+  gEditorFontSize:=gIni.ReadInteger('Configuration', 'Editor.Font.Size', 14);
+  gViewerFontSize:=gIni.ReadInteger('Configuration', 'Viewer.Font.Size', 14);
+  gFontStyle := TFontStyles(gIni.ReadInteger('Configuration', 'Font.Style', 1));
+  gEditorFontStyle:= TFontStyles(gIni.ReadInteger('Configuration', 'Editor.Font.Style', 0));
+  gViewerFontStyle:= TFontStyles(gIni.ReadInteger('Configuration', 'Viewer.Font.Style', 0));
   { Colors }
   gForeColor  := gIni.ReadInteger('Colors', 'ForeColor', clDefault);
   gBackColor := gIni.ReadInteger('Colors', 'BackColor', clWhite);
@@ -605,14 +609,17 @@ begin
   gIni.WriteString('Configuration', 'LuaLib', gLuaLib);
   
   { Fonts }
-  gIni.WriteString('Configuration', 'FontName', gFontName);
-  gIni.WriteInteger('Configuration', 'FontWeight', gFontWeight);
-  gIni.WriteString('Configuration', 'FontEditorName', gEditorFontName);
-  gIni.WriteString('Configuration', 'FontViewerName', gViewerFontName);
+  gIni.WriteString('Configuration', 'Font.Name', gFontName);
+  gIni.WriteString('Configuration', 'Editor.Font.Name', gEditorFontName);
+  gIni.WriteString('Configuration', 'Viewer.Font.Name', gViewerFontName);
 
-  gIni.WriteInteger('Configuration', 'FontSize', gFontSize);
-  gIni.WriteInteger('Configuration', 'EditorSize', gEditorSize);
-  gIni.WriteInteger('Configuration', 'ViewerSize', gViewerSize);
+  gIni.WriteInteger('Configuration', 'Font.Size', gFontSize);
+  gIni.WriteInteger('Configuration', 'Editor.Font.Size', gEditorFontSize);
+  gIni.WriteInteger('Configuration', 'Viewer.Font.Size', gViewerFontSize);
+
+  gIni.WriteInteger('Configuration', 'Font.Style', Integer(gFontStyle));
+  gIni.WriteInteger('Configuration', 'Editor.Font.Style', Integer(gEditorFontStyle));
+  gIni.WriteInteger('Configuration', 'Viewer.Font.Style', Integer(gViewerFontStyle));
   { Colors }
   gIni.WriteInteger('Colors', 'ForeColor', gForeColor);
   gIni.WriteInteger('Colors', 'BackColor', gBackColor);

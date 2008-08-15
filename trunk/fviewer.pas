@@ -399,7 +399,10 @@ procedure TfrmViewer.FormCreate(Sender: TObject);
 //var i:integer;
 begin
 //  DebugLn('TfrmViewer.FormCreate');
-  ViewerControl.Color:=clWindow;
+  ViewerControl.Color:= clWindow;
+  ViewerControl.Font.Name:= gViewerFontName;
+  ViewerControl.Font.Size:= gViewerFontSize;
+  ViewerControl.Font.Style:= gViewerFontStyle;
   FileList := TStringList.Create;
 
   WlxPlugins:=TWLXModuleList.Create;

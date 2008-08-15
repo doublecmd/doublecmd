@@ -428,8 +428,6 @@ end;
 
 procedure TFrameFilePanel.dgPanelPrepareCanvas(sender: TObject; Col,
   Row: Integer; aState: TGridDrawState);
-var
-  FS : TFontStyles;
 begin
   if Row=0 then Exit;
   with dgPanel do
@@ -437,8 +435,7 @@ begin
     Canvas.Brush.Style:=bsSolid;
     Canvas.Font.Name := gFontName;
     Canvas.Font.Size := gFontSize;
-    Move(gFontWeight, FS, 1);
-    Canvas.Font.Style := FS;
+    Canvas.Font.Style := gFontStyle;
 
     if gdSelected in aState then
       Canvas.Brush.Color:= gCursorColor
