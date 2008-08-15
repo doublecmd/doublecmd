@@ -616,36 +616,34 @@ begin
 end;
 
 procedure TfrmOptions.FillFontLists;
-var
-  FS : TFontStyles;
 begin
   cbMainFont.Text := gFontName;
   cbViewerFont.Text := gViewerFontName;
   cbEditorFont.Text := gEditorFontName;
-
-  Move(gFontWeight, FS, 1);
-  EdtTest1.Font.Style := FS;
     
-  edtEditorSize.Value:=gEditorSize;
-  edtViewerSize.Value:=gViewerSize;
+  edtEditorSize.Value:=gEditorFontSize;
+  edtViewerSize.Value:=gViewerFontSize;
   edtMainSize.Value:=gFontSize;
   
   with edtTest1.Font do
   begin
     Name := gFontName;
     Size := gFontSize;
+    Style:= gFontStyle;
   end; // with
   
   with edtTest2.Font do
   begin
     Name := gEditorFontName;
-    Size := gEditorSize;
+    Size := gEditorFontSize;
+    Style:= gEditorFontStyle;
   end; // with
   
   with edtTest3.Font do
   begin
     Name := gViewerFontName;
-    Size := gViewerSize;
+    Size := gViewerFontSize;
+    Style:= gViewerFontStyle;
   end; // with
 end;
 
@@ -1471,8 +1469,6 @@ begin
 end;
 
 procedure TfrmOptions.SaveConfig;
-var
-  FS : TFontStyles;
 begin
   { Layout page }
   gButtonBar := cbShowMainToolBar.Checked;
@@ -1514,17 +1510,19 @@ begin
   gRunTerm:= edtRunTerm.Text;
   
   gFontName:=cbMainFont.Text;
-  FS := EdtTest1.Font.Style;
-  Move(FS, gFontWeight, 1);
 
   gEditorFontName:=cbEditorFont.Text;
   gViewerFontName:=cbViewerFont.Text;
   
   {$hints off}
-  gEditorSize:=Round(edtEditorSize.Value);
-  gViewerSize:=Round(edtViewerSize.Value);
+  gEditorFontSize:=Round(edtEditorSize.Value);
+  gViewerFontSize:=Round(edtViewerSize.Value);
   gFontSize:=Round(edtMainSize.Value);
   {$hints on}
+
+  gFontStyle:= EdtTest1.Font.Style;
+  gEditorFontStyle:= EdtTest2.Font.Style;
+  gViewerFontStyle:= EdtTest3.Font.Style;
 
   { Colors }
   gForeColor := cbTextColor.Color;

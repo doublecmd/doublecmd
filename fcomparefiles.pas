@@ -69,12 +69,12 @@ end;
 
 procedure TfrmCompareFiles.FormCreate(Sender: TObject);
 begin
-  lstLeft.Font.Name:=gEditorFontName;
-  lstLeft.Font.Style:=[];
-  lstRight.Font.Name:=gEditorFontName;
-  lstLeft.Font.Size:=gEditorSize;
-  lstRight.Font.Size:=gEditorSize;
-  lstRight.Font.Style:=[];
+  lstLeft.Font.Name:= gEditorFontName;
+  lstLeft.Font.Style:= gEditorFontStyle;
+  lstLeft.Font.Size:= gEditorFontSize;
+  lstRight.Font.Name:= gEditorFontName;
+  lstRight.Font.Size:= gEditorFontSize;
+  lstRight.Font.Style:= gEditorFontStyle;
 end;
 
 procedure TfrmCompareFiles.btnCompareClick(Sender: TObject);
