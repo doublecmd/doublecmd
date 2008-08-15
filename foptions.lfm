@@ -10,6 +10,7 @@ object frmOptions: TfrmOptions
   ClientHeight = 600
   ClientWidth = 800
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poMainFormCenter
   LCLVersion = '0.9.25'
@@ -1264,32 +1265,42 @@ object frmOptions: TfrmOptions
             object lblWCXDescription: TLabel
               AnchorSideLeft.Control = tsWCX
               AnchorSideTop.Control = tsWCX
+              AnchorSideRight.Control = tsWCX
+              AnchorSideRight.Side = asrBottom
               Left = 10
               Height = 14
               Top = 12
-              Width = 223
+              Width = 592
+              Anchors = [akTop, akLeft, akRight]
               BorderSpacing.Left = 10
               BorderSpacing.Top = 12
+              BorderSpacing.Right = 10
               Caption = '&Packer plugins are used to work with archives.'
               ParentColor = False
+              WordWrap = True
             end
           end
           object tsWFX: TTabSheet
             Caption = 'File system plugins (.WFX)'
             ChildSizing.LeftRightSpacing = 239
-            ClientHeight = 82
+            ClientHeight = 58
             ClientWidth = 612
             OnShow = tsWFXShow
             object lblWFXDescription: TLabel
               AnchorSideTop.Control = tsWFX
+              AnchorSideRight.Control = tsWFX
+              AnchorSideRight.Side = asrBottom
               Left = 10
               Height = 27
               Top = 12
-              Width = 354
+              Width = 363
+              Anchors = [akTop, akLeft, akRight]
               BorderSpacing.Left = 10
               BorderSpacing.Top = 12
-              Caption = '&File system plugins allow access to disks inaccessible by operating system '#13#10'or to external devices like Palm/PocketPC.'
+              BorderSpacing.Right = 10
+              Caption = '&File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC.'
               ParentColor = False
+              WordWrap = True
             end
           end
           object tsWDX: TTabSheet
@@ -1300,14 +1311,65 @@ object frmOptions: TfrmOptions
             object lblWDXDescription: TLabel
               AnchorSideLeft.Control = tsWDX
               AnchorSideTop.Control = tsWDX
+              AnchorSideRight.Control = tsWDX
+              AnchorSideRight.Side = asrBottom
               Left = 10
-              Height = 40
+              Height = 27
               Top = 12
-              Width = 299
+              Width = 592
+              Anchors = [akTop, akLeft, akRight]
               BorderSpacing.Left = 10
               BorderSpacing.Top = 12
-              Caption = '&Content plugins allow to display extended file details like mp3'#13#10'tags or image attributes in file lists, or use them in search and '#13#10'multi-rename tool'
+              BorderSpacing.Right = 10
+              Caption = '&Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool'
               ParentColor = False
+              WordWrap = True
+            end
+          end
+          object tsDSX: TTabSheet
+            Caption = 'Search plugins (.DSX)'
+            ClientHeight = 58
+            ClientWidth = 612
+            OnShow = tsDSXShow
+            object lblDSXDescription: TLabel
+              AnchorSideLeft.Control = tsDSX
+              AnchorSideTop.Control = tsDSX
+              AnchorSideRight.Control = tsDSX
+              AnchorSideRight.Side = asrBottom
+              Left = 10
+              Height = 14
+              Top = 12
+              Width = 592
+              Anchors = [akTop, akLeft, akRight]
+              BorderSpacing.Left = 10
+              BorderSpacing.Top = 12
+              BorderSpacing.Right = 10
+              Caption = 'lblDSXDescription'
+              ParentColor = False
+              WordWrap = True
+            end
+          end
+          object tsWLX: TTabSheet
+            Caption = 'Viewer plugins (.WLX)'
+            ClientHeight = 58
+            ClientWidth = 612
+            OnShow = tsWLXShow
+            object lblWLXDescription: TLabel
+              AnchorSideLeft.Control = tsWLX
+              AnchorSideTop.Control = tsWLX
+              AnchorSideRight.Control = tsWLX
+              AnchorSideRight.Side = asrBottom
+              Left = 10
+              Height = 14
+              Top = 12
+              Width = 592
+              Anchors = [akTop, akLeft, akRight]
+              BorderSpacing.Left = 10
+              BorderSpacing.Top = 12
+              BorderSpacing.Right = 10
+              Caption = 'Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)'
+              ParentColor = False
+              WordWrap = True
             end
           end
         end

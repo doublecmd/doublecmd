@@ -663,7 +663,12 @@ begin
   
   //TODO: Save hotkeys
   //HotMan.Save();
-  
+
+  { Plugins }
+  WdxPlugins.Save(gIni);
+  gWFXPlugins.Save(gIni);
+  gWCXPlugins.Save(gIni);
+
   { Save location of configuration files }
   try
     Ini:= TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');

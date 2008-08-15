@@ -53,10 +53,12 @@ type
     cbPK_CAPS_NEW: TCheckBox;
     cbPK_CAPS_OPTIONS: TCheckBox;
     cbPK_CAPS_SEARCHTEXT: TCheckBox;
+    edtDescription: TEdit;
     edtDetectStr: TEdit;
     edtName: TEdit;
     edtPlugin: TEdit;
     GroupBox1: TGroupBox;
+    lblDescription: TLabel;
     lblDetectStr: TLabel;
     lblName: TLabel;
     ledPlugin: TLabeledEdit;
@@ -86,7 +88,7 @@ function ShowTweakPluginDlg(PluginType: TPluginType; PluginIndex: Integer): Bool
 
 implementation
 uses
-  uGlobs, uWCXHead, uDCUtils;
+  fOptions, uWCXHead, uDCUtils;
 
 function ShowTweakPluginDlg(PluginType: TPluginType; PluginIndex: Integer): Boolean;
 var
@@ -95,11 +97,20 @@ begin
   with TfrmTweakPlugin.Create(Application) do
   try
     case PluginType of
+    ptDSX:
+      begin
+        nbTweakAll.PageIndex:= 1;
+        ledPlugin.Text:= tmpDSXPlugins.GetDsxModule(PluginIndex).FileName;
+        edtDescription.Text:= tmpDSXPlugins.GetDsxModule(PluginIndex).Descr;
+        edtName.Text:= tmpDSXPlugins.GetDsxModule(PluginIndex).Name;
+        lblDetectStr.Visible:= False;
+        edtDetectStr.Visible:= False;
+      end;
     ptWCX:
       begin
         nbTweakAll.PageIndex:= 0;
         FWCXPlugins:= TWCXModuleList.Create;
-        FWCXPlugins.Assign(gWCXPlugins);
+        FWCXPlugins.Assign(tmpWCXPlugins);
         edtPlugin.Text:= FWCXPlugins.FileName[PluginIndex];
         for I:= 0 to FWCXPlugins.Count - 1 do
           if FWCXPlugins.FileName[I] = edtPlugin.Text then
@@ -112,22 +123,41 @@ begin
     ptWDX:
       begin
         nbTweakAll.PageIndex:= 1;
-        ledPlugin.Text:= WDXPlugins.GetWdxModule(PluginIndex).FileName;
-        edtDetectStr.Text:= WDXPlugins.GetWdxModule(PluginIndex).DetectStr;
-        edtName.Text:= WDXPlugins.GetWdxModule(PluginIndex).Name;
+        ledPlugin.Text:= tmpWDXPlugins.GetWdxModule(PluginIndex).FileName;
+        edtDetectStr.Text:= tmpWDXPlugins.GetWdxModule(PluginIndex).DetectStr;
+        edtName.Text:= tmpWDXPlugins.GetWdxModule(PluginIndex).Name;
+        lblDescription.Visible:= False;
+        edtDescription.Visible:= False;
       end;
     ptWFX:
       begin
         nbTweakAll.PageIndex:= 1;
-        ledPlugin.Text:= gWFXPlugins.FileName[PluginIndex];
+        ledPlugin.Text:= tmpWFXPlugins.FileName[PluginIndex];
+        edtName.Text:= tmpWFXPlugins.Name[PluginIndex];
         lblDetectStr.Visible:= False;
         edtDetectStr.Visible:= False;
-        edtName.Text:= gWFXPlugins.Name[PluginIndex];
+        lblDescription.Visible:= False;
+        edtDescription.Visible:= False;
+      end;
+    ptWLX:
+      begin
+        nbTweakAll.PageIndex:= 1;
+        ledPlugin.Text:= tmpWLXPlugins.GetWlxModule(PluginIndex).FileName;
+        edtDetectStr.Text:= tmpWLXPlugins.GetWlxModule(PluginIndex).DetectStr;
+        edtName.Text:= tmpWLXPlugins.GetWlxModule(PluginIndex).Name;
+        lblDescription.Visible:= False;
+        edtDescription.Visible:= False;
       end;
     end;
     Result:= (ShowModal = mrOK);
     if Result then
       case PluginType of
+      ptDSX:
+        begin
+          tmpDSXPlugins.GetDsxModule(PluginIndex).FileName:= ledPlugin.Text;
+          tmpDSXPlugins.GetDsxModule(PluginIndex).Descr := edtDescription.Text;
+          tmpDSXPlugins.GetDsxModule(PluginIndex).Name:= edtName.Text;
+        end;
       ptWCX:
         begin
           for I:= 0 to cbExt.Items.Count - 1 do
@@ -139,19 +169,25 @@ begin
                   FWCXPlugins.Flags[iIndex]:= PtrInt(cbExt.Items.Objects[I]);
                 end;
             end;
-          gWCXPlugins.Assign(FWCXPlugins);
+          tmpWCXPlugins.Assign(FWCXPlugins);
           FWCXPlugins.Free;
         end;
       ptWDX:
         begin
-          WDXPlugins.GetWdxModule(PluginIndex).FileName:= ledPlugin.Text;
-          WDXPlugins.GetWdxModule(PluginIndex).DetectStr:= edtDetectStr.Text;
-          WDXPlugins.GetWdxModule(PluginIndex).Name:= edtName.Text;
+          tmpWDXPlugins.GetWdxModule(PluginIndex).FileName:= ledPlugin.Text;
+          tmpWDXPlugins.GetWdxModule(PluginIndex).DetectStr:= edtDetectStr.Text;
+          tmpWDXPlugins.GetWdxModule(PluginIndex).Name:= edtName.Text;
         end;
       ptWFX:
         begin
-          gWFXPlugins.FileName[PluginIndex]:= ledPlugin.Text;
-          gWFXPlugins.Name[PluginIndex]:= edtName.Text;
+          tmpWFXPlugins.FileName[PluginIndex]:= ledPlugin.Text;
+          tmpWFXPlugins.Name[PluginIndex]:= edtName.Text;
+        end;
+      ptWLX:
+        begin
+          tmpWLXPlugins.GetWlxModule(PluginIndex).FileName:= ledPlugin.Text;
+          tmpWLXPlugins.GetWlxModule(PluginIndex).DetectStr:= edtDetectStr.Text;
+          tmpWLXPlugins.GetWlxModule(PluginIndex).Name:= edtName.Text;
         end;
       end;
   finally

@@ -49,12 +49,12 @@ object frmTweakPlugin: TfrmTweakPlugin
     Left = 8
     Height = 336
     Width = 462
-    PageIndex = 0
+    PageIndex = 1
     ShowTabs = False
     TabOrder = 2
     object pgTweakPacker: TPage
       ClientWidth = 454
-      ClientHeight = 310
+      ClientHeight = 328
       object pnlTweak: TGroupBox
         AnchorSideLeft.Control = pgTweakPacker
         AnchorSideTop.Control = pgTweakPacker
@@ -289,13 +289,13 @@ object frmTweakPlugin: TfrmTweakPlugin
     end
     object pgTweakOther: TPage
       ClientWidth = 454
-      ClientHeight = 310
+      ClientHeight = 328
       object GroupBox1: TGroupBox
-        Height = 310
+        Height = 328
         Width = 454
         Align = alClient
         ClientHeight = 310
-        ClientWidth = 454
+        ClientWidth = 450
         TabOrder = 0
         object lblName: TLabel
           AnchorSideLeft.Control = GroupBox1
@@ -321,6 +321,19 @@ object frmTweakPlugin: TfrmTweakPlugin
           BorderSpacing.Left = 10
           BorderSpacing.Top = 8
           Caption = 'Detect string:'
+          ParentColor = False
+        end
+        object lblDescription: TLabel
+          AnchorSideLeft.Control = GroupBox1
+          AnchorSideTop.Control = edtDetectStr
+          AnchorSideTop.Side = asrBottom
+          Left = 10
+          Height = 14
+          Top = 145
+          Width = 58
+          BorderSpacing.Left = 10
+          BorderSpacing.Top = 8
+          Caption = 'Description:'
           ParentColor = False
         end
         object ledPlugin: TLabeledEdit
@@ -360,7 +373,6 @@ object frmTweakPlugin: TfrmTweakPlugin
           BorderSpacing.Top = 6
           BorderSpacing.Right = 10
           TabOrder = 1
-          Text = 'edtName'
         end
         object edtDetectStr: TEdit
           AnchorSideLeft.Control = GroupBox1
@@ -377,7 +389,22 @@ object frmTweakPlugin: TfrmTweakPlugin
           BorderSpacing.Top = 6
           BorderSpacing.Right = 10
           TabOrder = 2
-          Text = 'edtDetectStr'
+        end
+        object edtDescription: TEdit
+          AnchorSideLeft.Control = GroupBox1
+          AnchorSideTop.Control = lblDescription
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = GroupBox1
+          AnchorSideRight.Side = asrBottom
+          Left = 10
+          Height = 23
+          Top = 167
+          Width = 430
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Left = 10
+          BorderSpacing.Top = 8
+          BorderSpacing.Right = 10
+          TabOrder = 3
         end
       end
     end
