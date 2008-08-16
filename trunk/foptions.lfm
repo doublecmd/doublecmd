@@ -1249,7 +1249,7 @@ object frmOptions: TfrmOptions
       end
       object pgPlugins: TPage
         ClientWidth = 620
-        ClientHeight = 506
+        ClientHeight = 524
         object pcPluginsTypes: TPageControl
           Height = 84
           Width = 620
@@ -1257,6 +1257,8 @@ object frmOptions: TfrmOptions
           Align = alTop
           TabIndex = 0
           TabOrder = 0
+          OnChange = pcPluginsTypesChange
+          OnPageChanged = pcPluginsTypesChange
           object tsWCX: TTabSheet
             Caption = 'Packer plugins (.WCX)'
             ClientHeight = 58
@@ -1380,7 +1382,7 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = pcPluginsTypes
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = btnAddPlugin
-          Height = 372
+          Height = 390
           Top = 84
           Width = 620
           Anchors = [akTop, akLeft, akRight, akBottom]
@@ -1415,6 +1417,7 @@ object frmOptions: TfrmOptions
           RowCount = 5
           TabOrder = 1
           TitleStyle = tsNative
+          OnBeforeSelection = stgPluginsBeforeSelection
         end
         object btnAddPlugin: TBitBtn
           AnchorSideRight.Control = btnEnablePlugin
@@ -1422,7 +1425,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 38
           Height = 30
-          Top = 468
+          Top = 486
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1473,13 +1476,14 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 154
           Height = 30
-          Top = 468
+          Top = 486
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
           BorderSpacing.Bottom = 8
           Caption = 'Enable'
           NumGlyphs = 0
+          OnClick = btnEnablePluginClick
           TabOrder = 3
         end
         object btnRemovePlugin: TBitBtn
@@ -1488,7 +1492,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 270
           Height = 30
-          Top = 468
+          Top = 486
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1540,7 +1544,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 386
           Height = 30
-          Top = 468
+          Top = 486
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1593,7 +1597,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 502
           Height = 30
-          Top = 468
+          Top = 486
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 8
