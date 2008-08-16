@@ -5,7 +5,7 @@ object frmTweakPlugin: TfrmTweakPlugin
   Width = 478
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
-  Caption = 'Tweak Packer plugin'
+  Caption = 'Tweak plugin'
   ClientHeight = 384
   ClientWidth = 478
   Font.Height = -11

@@ -262,6 +262,10 @@ msgstr "Только слово &целиком"
 msgid "&ОК"
 msgstr ""
 
+#: TFRMTWEAKPLUGIN.LBLFLAGSVALUE.CAPTION
+msgid "(000)"
+msgstr ""
+
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
 msgid "*"
 msgstr ""
@@ -370,6 +374,10 @@ msgstr "Добавить колонку"
 msgid "Add manually"
 msgstr ""
 
+#: TFRMTWEAKPLUGIN.BTNADD.CAPTION
+msgid "Add new"
+msgstr "Добавить"
+
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
 msgstr "Расширенный"
@@ -394,6 +402,10 @@ msgstr "&Файлы с расширением:"
 msgid "Allow Overcolor"
 msgstr ""
 
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_SEARCHTEXT.CAPTION
+msgid "Allow searching for text in archives"
+msgstr "Позволяет искать в архивах"
+
 #: TFRMPACKDLG.CBSTOREDIR.CAPTION
 msgid "Also &pack path names (only recursed)"
 msgstr "&Сохранять пути"
@@ -405,6 +417,10 @@ msgstr "Вид кнопок"
 #: TFRMOPTIONS.BBTNAPPLY.CAPTION
 msgid "Apply"
 msgstr "Применить"
+
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_MULTIPLE.CAPTION
+msgid "Archive can contain multiple files"
+msgstr "Архив может содержать несколько файлов"
 
 #: ulng.rsmsgerrunknownformat
 msgid "Archive format unknown"
@@ -478,6 +494,18 @@ msgstr "Контрольная сумма не совпадает, архив п
 msgid "Calculate &Occupied Space..."
 msgstr "Рассчитать &занимаемое место..."
 
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_NEW.CAPTION
+msgid "Can create new archives"
+msgstr "Может создавать архивы"
+
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_DELETE.CAPTION
+msgid "Can delete files"
+msgstr "Может удалять из архива"
+
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_MODIFY.CAPTION
+msgid "Can modify exisiting archives"
+msgstr "Может модифицировать архивы"
+
 #: ulng.rsmsgerrforcedir
 msgid "Can not create directory \%s!"
 msgstr "Не могу создать каталог %s!"
@@ -533,6 +561,10 @@ msgstr "Наименование:"
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [\%s] failed!"
 msgstr "Переход в каталог [\%s] не удался!"
+
+#: TFRMTWEAKPLUGIN.BTNCHANGE.CAPTION
+msgid "Change"
+msgstr "Изменить"
 
 #: TFRMCONFIGTOOLBAR.CAPTION
 msgid "Change button bar"
@@ -782,6 +814,10 @@ msgstr "Дата:"
 msgid "Day(s)"
 msgstr "День"
 
+#: TFRMTWEAKPLUGIN.BTNDEFAULT.CAPTION
+msgid "Default"
+msgstr "По умолчанию"
+
 #: TFRMLINKER.SPBTNDEL.HINT
 msgid "Delete"
 msgstr "Удалить"
@@ -805,6 +841,18 @@ msgstr "Удалить файл(ы)"
 #: ulng.rsmsgdelsel
 msgid "Delete selected \"\%s\"?"
 msgstr "Удалить выбранный "%s"?"
+
+#: TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION
+msgid "Description:"
+msgstr "Описание:"
+
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_BY_CONTENT.CAPTION
+msgid "Detect archive type by content"
+msgstr "Определяет тип архива по содержимому"
+
+#: TFRMTWEAKPLUGIN.LBLDETECTSTR.CAPTION
+msgid "Detect string:"
+msgstr "Детект строка:"
 
 #: TFRMOPTIONS.RBNONEQS.CAPTION
 msgid "Di&sabled"
@@ -961,6 +1009,10 @@ msgstr "Расширение"
 #: TFRMMULTIRENAME.MINEXTEXTENSION.CAPTION
 msgid "Extension..."
 msgstr "Расширение..."
+
+#: TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION
+msgid "Extension:"
+msgstr "Расширение:"
 
 #: TFRMFILEASSOC.GBEXTS.CAPTION
 msgid "Extensions"
@@ -1145,6 +1197,10 @@ msgstr "Найти далее"
 #: TFRMMULTIRENAME.LBFIND.CAPTION
 msgid "Find..."
 msgstr "Найти..."
+
+#: TFRMTWEAKPLUGIN.LBLFLAGS.CAPTION
+msgid "Flags:"
+msgstr "Флаги:"
 
 #: TFRMOPTIONS.CBFLATDISKPANEL.CAPTION
 msgid "Flat buttons"
@@ -1468,7 +1524,7 @@ msgstr "Имя..."
 
 #: TFRMFILEPROPERTIES.LBLFILENAMESTR.CAPTION
 msgid "Name:"
-msgstr "Имя"
+msgstr "Имя:"
 
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"
@@ -1670,6 +1726,10 @@ msgstr "Путь:"
 msgid "Please select location of next volume"
 msgstr "Укажите путь к следующему тому"
 
+#: TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION
+msgid "Plugin:"
+msgstr "Плагин:"
+
 #: ulng.rsoptplugins
 msgid "Plugins"
 msgstr "Плагины"
@@ -1730,7 +1790,7 @@ msgstr "&Учитывать подкаталоги"
 msgid "Redo"
 msgstr "Повторить"
 
-#: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
+#: TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION
 msgid "Remove"
 msgstr "Удалить"
 
@@ -1938,6 +1998,10 @@ msgstr "В виде &текста"
 msgid "Show as &Wrap text"
 msgstr "В виде текста с &разрывами строк"
 
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_HIDE.CAPTION
+msgid "Show as normal files (hide packer icon)"
+msgstr "Запрещен вызов по Enter, но разрешен по Ctrl+PgDn"
+
 #: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
 msgid "Show button menu"
 msgstr ""
@@ -2046,6 +2110,18 @@ msgstr "Закрепляющий бит"
 msgid "Stretch"
 msgstr "&Растянуть"
 
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_ENCRYPT.CAPTION
+msgid "Supports encryption"
+msgstr "Поддерживает шифрование"
+
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_MEMPACK.CAPTION
+msgid "Supports packing in memory"
+msgstr "Поддерживает упаковку в памяти"
+
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_OPTIONS.CAPTION
+msgid "Supports the options dialogbox"
+msgstr "Имеет диалог настроек"
+
 #: TFRMMAIN.ACTEXCHANGE.CAPTION
 msgid "Swap &Panels"
 msgstr "П&оменять панели местами"
@@ -2113,6 +2189,10 @@ msgstr "Открыть каталог под курсором на правой 
 #: TFRMMAIN.ACTOPENARCHIVE.CAPTION
 msgid "Try open archive"
 msgstr ""
+
+#: TFRMTWEAKPLUGIN.CAPTION
+msgid "Tweak plugin"
+msgstr "Настройка плагина"
 
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
 msgid "Type:"
