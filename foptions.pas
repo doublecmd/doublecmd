@@ -853,9 +853,9 @@ procedure TfrmOptions.stgPluginsBeforeSelection(Sender: TObject; aCol,
   aRow: Integer);
 begin
   if stgPlugins.Cells[0, aRow] = '+' then
-    btnEnablePlugin.Caption:= 'Disable'
+    btnEnablePlugin.Caption:= rsOptDisable
   else if stgPlugins.Cells[0, aRow] = '-' then
-    btnEnablePlugin.Caption:= 'Enable';
+    btnEnablePlugin.Caption:= rsOptEnable;
 
   btnEnablePlugin.Enabled:= (stgPlugins.Cells[0, aRow] <> '');
 end;
@@ -889,6 +889,7 @@ var
   iPluginIndex: Integer;
   bEnabled: Boolean;
 begin
+  if stgPlugins.RowCount <= 1 then Exit;
   if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
     begin
       bEnabled:= not tmpWCXPlugins.Enabled[stgPlugins.Row - 1];
@@ -901,14 +902,14 @@ begin
         sExt:= Copy2SpaceDel(sExts);
       until sExt = '';
       stgPlugins.Cells[0, stgPlugins.Row]:= IfThen(bEnabled, '+', '-');
-      btnEnablePlugin.Caption:= IfThen(bEnabled, 'Disable', 'Enable');
+      btnEnablePlugin.Caption:= IfThen(bEnabled, rsOptDisable, rsOptEnable);
     end
   else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
     begin
       bEnabled:= not tmpWFXPlugins.Enabled[stgPlugins.Row - 1];
       stgPlugins.Cells[0, stgPlugins.Row]:= IfThen(bEnabled, '+', '-');
       tmpWFXPlugins.Enabled[stgPlugins.Row - 1]:= bEnabled;
-      btnEnablePlugin.Caption:= IfThen(bEnabled, 'Disable', 'Enable');
+      btnEnablePlugin.Caption:= IfThen(bEnabled, rsOptDisable, rsOptEnable);
     end;
 end;
 
@@ -945,16 +946,17 @@ begin
       else
         sPluginName := '0,' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
 
-      sExt:= InputBox('Enter extension','For "' + odOpenDialog.FileName + '" plugin','');
+      if InputQuery(rsOptEnterExt, Format(rsOptAssocPluginWith, [odOpenDialog.FileName]), sExt) then
+        begin
+          I:= tmpWCXPlugins.AddObject(sExt + '=' + sPluginName, TObject(True));
 
-      I:= tmpWCXPlugins.AddObject(sExt + '=' + sPluginName, TObject(True));
-
-      stgPlugins.RowCount:= stgPlugins.RowCount + 1;
-      J:= stgPlugins.RowCount-1;
-      stgPlugins.Cells[0, J]:= '+';
-      stgPlugins.Cells[1, J]:= ExtractOnlyFileName(tmpWCXPlugins.FileName[I]);
-      stgPlugins.Cells[2, J]:= tmpWCXPlugins.Ext[I];
-      stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpWCXPlugins.FileName[I]);
+          stgPlugins.RowCount:= stgPlugins.RowCount + 1;
+          J:= stgPlugins.RowCount-1;
+          stgPlugins.Cells[0, J]:= '+';
+          stgPlugins.Cells[1, J]:= ExtractOnlyFileName(tmpWCXPlugins.FileName[I]);
+          stgPlugins.Cells[2, J]:= tmpWCXPlugins.Ext[I];
+          stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpWCXPlugins.FileName[I]);
+        end;
 
       WCXModule.UnloadModule;
       WCXmodule.Free;
@@ -1807,6 +1809,7 @@ begin
   
   {Columns Set}
   ColSet.Save(gIni);
+
   DebugLn('Save plugins');
   { Save plugins lists }
   tmpDSXPlugins.Save(gIni);

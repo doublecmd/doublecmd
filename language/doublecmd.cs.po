@@ -265,6 +265,10 @@ msgstr ""
 msgid "&ОК"
 msgstr ""
 
+#: TFRMTWEAKPLUGIN.LBLFLAGSVALUE.CAPTION
+msgid "(000)"
+msgstr ""
+
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
 msgid "*"
 msgstr "*"
@@ -373,6 +377,10 @@ msgstr "Přidat sloupec"
 msgid "Add manually"
 msgstr ""
 
+#: TFRMTWEAKPLUGIN.BTNADD.CAPTION
+msgid "Add new"
+msgstr ""
+
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
 msgstr "Rozžířené"
@@ -397,6 +405,10 @@ msgstr "Všechny soubory s přípo&nou (končící na):"
 msgid "Allow Overcolor"
 msgstr ""
 
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_SEARCHTEXT.CAPTION
+msgid "Allow searching for text in archives"
+msgstr ""
+
 #: TFRMPACKDLG.CBSTOREDIR.CAPTION
 msgid "Also &pack path names (only recursed)"
 msgstr "Kom&primovat s cestou (only recursed)"
@@ -408,6 +420,10 @@ msgstr ""
 #: TFRMOPTIONS.BBTNAPPLY.CAPTION
 msgid "Apply"
 msgstr "Použít"
+
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_MULTIPLE.CAPTION
+msgid "Archive can contain multiple files"
+msgstr ""
 
 #: ulng.rsmsgerrunknownformat
 msgid "Archive format unknown"
@@ -481,6 +497,18 @@ msgstr "CRC chyba (kontrolní součet nesouhlasí)"
 msgid "Calculate &Occupied Space..."
 msgstr "Vypočítat &obsazené místo..."
 
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_NEW.CAPTION
+msgid "Can create new archives"
+msgstr ""
+
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_DELETE.CAPTION
+msgid "Can delete files"
+msgstr ""
+
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_MODIFY.CAPTION
+msgid "Can modify exisiting archives"
+msgstr ""
+
 #: ulng.rsmsgerrforcedir
 msgid "Can not create directory \%s!"
 msgstr "Nelze vytvořit adresář \%s!"
@@ -536,6 +564,10 @@ msgstr "Název kategore:"
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [\%s] failed!"
 msgstr "Změna adresáře na [\%s] selhala!"
+
+#: TFRMTWEAKPLUGIN.BTNCHANGE.CAPTION
+msgid "Change"
+msgstr ""
 
 #: TFRMCONFIGTOOLBAR.CAPTION
 msgid "Change button bar"
@@ -785,6 +817,10 @@ msgstr ""
 msgid "Day(s)"
 msgstr "Dnů(í)"
 
+#: TFRMTWEAKPLUGIN.BTNDEFAULT.CAPTION
+msgid "Default"
+msgstr ""
+
 #: TFRMLINKER.SPBTNDEL.HINT
 msgid "Delete"
 msgstr "Vymazat"
@@ -808,6 +844,18 @@ msgstr "Smazat soubor(y)"
 #: ulng.rsmsgdelsel
 msgid "Delete selected \"\%s\"?"
 msgstr "Vymazat vybrané \"\%s\"?"
+
+#: TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION
+msgid "Description:"
+msgstr ""
+
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_BY_CONTENT.CAPTION
+msgid "Detect archive type by content"
+msgstr ""
+
+#: TFRMTWEAKPLUGIN.LBLDETECTSTR.CAPTION
+msgid "Detect string:"
+msgstr ""
 
 #: TFRMOPTIONS.RBNONEQS.CAPTION
 msgid "Di&sabled"
@@ -964,6 +1012,10 @@ msgstr "Přípona"
 #: TFRMMULTIRENAME.MINEXTEXTENSION.CAPTION
 msgid "Extension..."
 msgstr "Přípona..."
+
+#: TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION
+msgid "Extension:"
+msgstr ""
 
 #: TFRMFILEASSOC.GBEXTS.CAPTION
 msgid "Extensions"
@@ -1148,6 +1200,10 @@ msgstr ""
 #: TFRMMULTIRENAME.LBFIND.CAPTION
 msgid "Find..."
 msgstr "Hledat..."
+
+#: TFRMTWEAKPLUGIN.LBLFLAGS.CAPTION
+msgid "Flags:"
+msgstr ""
 
 #: TFRMOPTIONS.CBFLATDISKPANEL.CAPTION
 msgid "Flat buttons"
@@ -1673,6 +1729,10 @@ msgstr "Cesta:"
 msgid "Please select location of next volume"
 msgstr "Prosím vyberte umístění další části"
 
+#: TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION
+msgid "Plugin:"
+msgstr ""
+
 #: ulng.rsoptplugins
 msgid "Plugins"
 msgstr "Zásuvné moduly"
@@ -1733,7 +1793,7 @@ msgstr "Recursively pack &podadresáře"
 msgid "Redo"
 msgstr "Opakovat"
 
-#: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
+#: TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION
 msgid "Remove"
 msgstr "Vymazat"
 
@@ -1941,6 +2001,10 @@ msgstr "Zobrazit jako &text"
 msgid "Show as &Wrap text"
 msgstr "Zobrazit &jako zalamovaný text"
 
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_HIDE.CAPTION
+msgid "Show as normal files (hide packer icon)"
+msgstr ""
+
 #: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
 msgid "Show button menu"
 msgstr "Zobrazit menu tlačítek"
@@ -2049,6 +2113,18 @@ msgstr "Sticky"
 msgid "Stretch"
 msgstr "Přizpůsobit"
 
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_ENCRYPT.CAPTION
+msgid "Supports encryption"
+msgstr ""
+
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_MEMPACK.CAPTION
+msgid "Supports packing in memory"
+msgstr ""
+
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_OPTIONS.CAPTION
+msgid "Supports the options dialogbox"
+msgstr ""
+
 #: TFRMMAIN.ACTEXCHANGE.CAPTION
 msgid "Swap &Panels"
 msgstr ""
@@ -2116,6 +2192,10 @@ msgstr "Přenést adresář pod kursorem do pravého okna"
 #: TFRMMAIN.ACTOPENARCHIVE.CAPTION
 msgid "Try open archive"
 msgstr "Zkusit otevřít archív"
+
+#: TFRMTWEAKPLUGIN.CAPTION
+msgid "Tweak Packer plugin"
+msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
 msgid "Type:"

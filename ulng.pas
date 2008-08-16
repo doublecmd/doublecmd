@@ -188,6 +188,11 @@ resourcestring
   rsOptLineByLineCursor = 'Line by line with cursor movement';
   rsOptLineByLine = 'Line by line';
   rsOptPageByPage = 'Page by page';
+  //-------------------------------
+  rsOptEnterExt = 'Enter extension';
+  rsOptAssocPluginWith = 'Associate plugin "%s" with:';
+  rsOptEnable = 'Enable';
+  rsOptDisable = 'Disable';
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';
   rsMenuConfigureThisCustomColumn= 'Configure this custom columns view';

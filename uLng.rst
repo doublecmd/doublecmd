@@ -558,6 +558,22 @@ ulng.rsoptlinebyline='Line by line'
 ulng.rsoptpagebypage='Page by page'
 
 
+# hash value = 8503550
+ulng.rsoptenterext='Enter extension'
+
+
+# hash value = 122735930
+ulng.rsoptassocpluginwith='Associate plugin "%s" with:'
+
+
+# hash value = 79984933
+ulng.rsoptenable='Enable'
+
+
+# hash value = 185170277
+ulng.rsoptdisable='Disable'
+
+
 # hash value = 10938131
 ulng.rsmenuconfigurecustomcolumns='Configure custom columns'
 

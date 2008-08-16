@@ -88,7 +88,7 @@ function ShowTweakPluginDlg(PluginType: TPluginType; PluginIndex: Integer): Bool
 
 implementation
 uses
-  fOptions, uWCXHead, uDCUtils;
+  fOptions, uWCXHead, uDCUtils, uLng;
 
 function ShowTweakPluginDlg(PluginType: TPluginType; PluginIndex: Integer): Boolean;
 var
@@ -267,7 +267,7 @@ var
   sExt: String;
   iFlags: PtrInt;
 begin
-  if InputQuery('Enter extension','For "' + GetCmdDirFromEnvVar(edtPlugin.Text) + '" plugin', sExt) then
+  if InputQuery(rsOptEnterExt,Format(rsOptAssocPluginWith, [GetCmdDirFromEnvVar(edtPlugin.Text)]), sExt) then
     begin
       iFlags:= GetDefaultFlags(edtPlugin.Text);
       cbExt.ItemIndex:= cbExt.Items.AddObject(sExt, TObject(iFlags));
@@ -284,7 +284,7 @@ var
 begin
   sExt:= cbExt.Items[cbExt.ItemIndex];
   I:= FWCXPlugins.IndexOfName(sExt);
-  if InputQuery('Enter extension','For "' + GetCmdDirFromEnvVar(edtPlugin.Text) + '" plugin', sExt) then
+  if InputQuery(rsOptEnterExt,Format(rsOptAssocPluginWith, [GetCmdDirFromEnvVar(edtPlugin.Text)]), sExt) then
     begin
       FWCXPlugins.Ext[I]:= sExt;
       cbExt.Items[cbExt.ItemIndex]:= sExt;

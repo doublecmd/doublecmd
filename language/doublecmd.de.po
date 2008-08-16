@@ -263,6 +263,10 @@ msgstr ""
 msgid "&ОК"
 msgstr ""
 
+#: TFRMTWEAKPLUGIN.LBLFLAGSVALUE.CAPTION
+msgid "(000)"
+msgstr ""
+
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
 msgid "*"
 msgstr "*"
@@ -371,6 +375,10 @@ msgstr "Spalte hinzufügen"
 msgid "Add manually"
 msgstr ""
 
+#: TFRMTWEAKPLUGIN.BTNADD.CAPTION
+msgid "Add new"
+msgstr ""
+
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
 msgstr "Fortgeschritten"
@@ -395,6 +403,10 @@ msgstr "Alle Dateien mit der Endung:"
 msgid "Allow Overcolor"
 msgstr ""
 
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_SEARCHTEXT.CAPTION
+msgid "Allow searching for text in archives"
+msgstr ""
+
 #: TFRMPACKDLG.CBSTOREDIR.CAPTION
 msgid "Also &pack path names (only recursed)"
 msgstr "Pfadnamen &mitspeichern (nur abwärts)"
@@ -406,6 +418,10 @@ msgstr "A&ussehen"
 #: TFRMOPTIONS.BBTNAPPLY.CAPTION
 msgid "Apply"
 msgstr "Übernehmen"
+
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_MULTIPLE.CAPTION
+msgid "Archive can contain multiple files"
+msgstr ""
 
 #: ulng.rsmsgerrunknownformat
 msgid "Archive format unknown"
@@ -479,6 +495,18 @@ msgstr "CRC-Fehler in der Archivdatei"
 msgid "Calculate &Occupied Space..."
 msgstr "Berechne belegten Platz"
 
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_NEW.CAPTION
+msgid "Can create new archives"
+msgstr ""
+
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_DELETE.CAPTION
+msgid "Can delete files"
+msgstr ""
+
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_MODIFY.CAPTION
+msgid "Can modify exisiting archives"
+msgstr ""
+
 #: ulng.rsmsgerrforcedir
 msgid "Can not create directory \%s!"
 msgstr "Ordner \%s kann nicht erstellt werden!"
@@ -534,6 +562,10 @@ msgstr "Kategoriename"
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [\%s] failed!"
 msgstr "Wechseln nach [\%s] fehlgeschlagen!"
+
+#: TFRMTWEAKPLUGIN.BTNCHANGE.CAPTION
+msgid "Change"
+msgstr ""
 
 #: TFRMCONFIGTOOLBAR.CAPTION
 msgid "Change button bar"
@@ -783,6 +815,10 @@ msgstr ""
 msgid "Day(s)"
 msgstr "Tag(e)"
 
+#: TFRMTWEAKPLUGIN.BTNDEFAULT.CAPTION
+msgid "Default"
+msgstr ""
+
 #: TFRMLINKER.SPBTNDEL.HINT
 msgid "Delete"
 msgstr "&Löschen"
@@ -806,6 +842,18 @@ msgstr "Datei(en) löschen"
 #: ulng.rsmsgdelsel
 msgid "Delete selected \"\%s\"?"
 msgstr "Markierte \"\%s\ löschen"?"
+
+#: TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION
+msgid "Description:"
+msgstr ""
+
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_BY_CONTENT.CAPTION
+msgid "Detect archive type by content"
+msgstr ""
+
+#: TFRMTWEAKPLUGIN.LBLDETECTSTR.CAPTION
+msgid "Detect string:"
+msgstr ""
 
 #: TFRMOPTIONS.RBNONEQS.CAPTION
 msgid "Di&sabled"
@@ -962,6 +1010,10 @@ msgstr "Endung"
 #: TFRMMULTIRENAME.MINEXTEXTENSION.CAPTION
 msgid "Extension..."
 msgstr "Endung..."
+
+#: TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION
+msgid "Extension:"
+msgstr ""
 
 #: TFRMFILEASSOC.GBEXTS.CAPTION
 msgid "Extensions"
@@ -1146,6 +1198,10 @@ msgstr ""
 #: TFRMMULTIRENAME.LBFIND.CAPTION
 msgid "Find..."
 msgstr "Suche"
+
+#: TFRMTWEAKPLUGIN.LBLFLAGS.CAPTION
+msgid "Flags:"
+msgstr ""
 
 #: TFRMOPTIONS.CBFLATDISKPANEL.CAPTION
 msgid "Flat buttons"
@@ -1671,6 +1727,10 @@ msgstr "Pfad:"
 msgid "Please select location of next volume"
 msgstr "Speicherort des nächsten Teils angeben"
 
+#: TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION
+msgid "Plugin:"
+msgstr ""
+
 #: ulng.rsoptplugins
 msgid "Plugins"
 msgstr "Plugins"
@@ -1731,7 +1791,7 @@ msgstr "Alle &Unterordner mit Dateien einschliessen"
 msgid "Redo"
 msgstr "Wiederholen"
 
-#: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
+#: TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -1939,6 +1999,10 @@ msgstr "A&ls Text anzeigen"
 msgid "Show as &Wrap text"
 msgstr "&Zeilenumbruch"
 
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_HIDE.CAPTION
+msgid "Show as normal files (hide packer icon)"
+msgstr ""
+
 #: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
 msgid "Show button menu"
 msgstr "Button-Leiste anzeigen"
@@ -2047,6 +2111,18 @@ msgstr "Dauerhaft"
 msgid "Stretch"
 msgstr "Strecken"
 
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_ENCRYPT.CAPTION
+msgid "Supports encryption"
+msgstr ""
+
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_MEMPACK.CAPTION
+msgid "Supports packing in memory"
+msgstr ""
+
+#: TFRMTWEAKPLUGIN.CBPK_CAPS_OPTIONS.CAPTION
+msgid "Supports the options dialogbox"
+msgstr ""
+
 #: TFRMMAIN.ACTEXCHANGE.CAPTION
 msgid "Swap &Panels"
 msgstr ""
@@ -2113,6 +2189,10 @@ msgstr "Bewege &markierten Ordner in das rechte Fenster"
 
 #: TFRMMAIN.ACTOPENARCHIVE.CAPTION
 msgid "Try open archive"
+msgstr ""
+
+#: TFRMTWEAKPLUGIN.CAPTION
+msgid "Tweak Packer plugin"
 msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
