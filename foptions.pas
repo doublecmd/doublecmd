@@ -249,7 +249,8 @@ type
     procedure bbtnApplyCategoryClick(Sender: TObject);
     procedure bbtnDeleteCategoryClick(Sender: TObject);
     procedure btnConfigPluginClick(Sender: TObject);
-    procedure btnDSXAddClick(Sender: TObject);    
+    procedure btnDSXAddClick(Sender: TObject);
+    procedure btnEnablePluginClick(Sender: TObject);
     procedure btnWDXAddClick(Sender: TObject);
     procedure btnWFXAddClick(Sender: TObject);
     procedure btnWLXAddClick(Sender: TObject);
@@ -303,7 +304,9 @@ type
     procedure lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
     procedure nbNotebookPageChanged(Sender: TObject);
     procedure pbExamplePaint(Sender: TObject);
+    procedure pcPluginsTypesChange(Sender: TObject);
     procedure pgBehavResize(Sender: TObject);
+    procedure stgPluginsBeforeSelection(Sender: TObject; aCol, aRow: Integer);
     procedure tsDSXShow(Sender: TObject);
     procedure tsWCXShow(Sender: TObject);
     procedure tsWDXShow(Sender: TObject);
@@ -831,6 +834,12 @@ begin
   end; // for
 end;
 
+procedure TfrmOptions.pcPluginsTypesChange(Sender: TObject);
+begin
+  if stgPlugins.RowCount > 1 then
+    stgPluginsBeforeSelection(stgPlugins, 0, 1);
+end;
+
 procedure TfrmOptions.pgBehavResize(Sender: TObject);
 var
   iWidth: Integer;
@@ -838,6 +847,17 @@ begin
   iWidth:= (pgBehav.Width div 2) - 26;
   gb.Width:= iWidth;
   gbDateTimeFormat.Width:= iWidth;
+end;
+
+procedure TfrmOptions.stgPluginsBeforeSelection(Sender: TObject; aCol,
+  aRow: Integer);
+begin
+  if stgPlugins.Cells[0, aRow] = '+' then
+    btnEnablePlugin.Caption:= 'Disable'
+  else if stgPlugins.Cells[0, aRow] = '-' then
+    btnEnablePlugin.Caption:= 'Enable';
+
+  btnEnablePlugin.Enabled:= (stgPlugins.Cells[0, aRow] <> '');
 end;
 
 { DSX plugins }
@@ -859,6 +879,36 @@ begin
       stgPlugins.Cells[1, J]:= tmpDSXPlugins.GetDsxModule(I).Name;
       stgPlugins.Cells[2, J]:= tmpDSXPlugins.GetDsxModule(I).Descr;
       stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpDSXPlugins.GetDsxModule(I).FileName);
+    end;
+end;
+
+procedure TfrmOptions.btnEnablePluginClick(Sender: TObject);
+var
+  sExt,
+  sExts: String;
+  iPluginIndex: Integer;
+  bEnabled: Boolean;
+begin
+  if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
+    begin
+      bEnabled:= not tmpWCXPlugins.Enabled[stgPlugins.Row - 1];
+      sExts:= stgPlugins.Cells[2, stgPlugins.Row];
+      sExt:= Copy2SpaceDel(sExts);
+      repeat
+        //DebugLn('Extension = ', sExt);
+        iPluginIndex:= tmpWCXPlugins.IndexOfName(sExt);
+        tmpWCXPlugins.Enabled[iPluginIndex]:= bEnabled;
+        sExt:= Copy2SpaceDel(sExts);
+      until sExt = '';
+      stgPlugins.Cells[0, stgPlugins.Row]:= IfThen(bEnabled, '+', '-');
+      btnEnablePlugin.Caption:= IfThen(bEnabled, 'Disable', 'Enable');
+    end
+  else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
+    begin
+      bEnabled:= not tmpWFXPlugins.Enabled[stgPlugins.Row - 1];
+      stgPlugins.Cells[0, stgPlugins.Row]:= IfThen(bEnabled, '+', '-');
+      tmpWFXPlugins.Enabled[stgPlugins.Row - 1]:= bEnabled;
+      btnEnablePlugin.Caption:= IfThen(bEnabled, 'Disable', 'Enable');
     end;
 end;
 
@@ -955,6 +1005,8 @@ begin
         stgPlugins.Cells[0, iRow]:= '-';
       end;
   end;
+  if stgPlugins.RowCount > 1 then
+    stgPluginsBeforeSelection(stgPlugins, 0, 1);
 end;
 
 { WDX plugins }
@@ -1755,12 +1807,12 @@ begin
   
   {Columns Set}
   ColSet.Save(gIni);
-
+  DebugLn('Save plugins');
   { Save plugins lists }
   tmpDSXPlugins.Save(gIni);
-//  tmpWCXPlugins.AssignTo(gWCXPlugins);
+  gWCXPlugins.Assign(tmpWCXPlugins);
   tmpWDXPlugins.Save(gIni);
-//  tmpWFXPlugins.AssignTo(gWFXPlugins);
+  gWFXPlugins.Assign(tmpWFXPlugins);
   tmpWLXPlugins.Save(gIni);
 end;
 
