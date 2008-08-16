@@ -2449,3 +2449,18 @@ msgstr ""
 msgid "Find next"
 msgstr ""
 
+#: ulng.rsoptassocpluginwith
+msgid "Associate plugin \"%s\" with:"
+msgstr ""
+
+#: ulng.rsoptdisable
+msgid "Disable"
+msgstr ""
+
+#: ulng.rsoptenable
+msgid "Enable"
+msgstr ""
+
+#: ulng.rsoptenterext
+msgid "Enter extension"
+msgstr ""
