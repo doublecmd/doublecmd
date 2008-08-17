@@ -1,13 +1,14 @@
 {
-Seksi Commander
-----------------------------
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Seksi Commander
+   ----------------------------
+   Licence  : GNU GPL v 2.0
+   Author   : radek.cervinka@centrum.cz
 
-thread for counting files a dir (if Space pressed)
+   thread for counting files a dir (if Space pressed)
 
-contributors:
+   contributors:
 
+   Copyright (C) 2008  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 
@@ -16,15 +17,16 @@ unit uSpaceThread;
 interface
 
 uses
-  Classes, uFileOpThread;
+  Classes, uFileOpThread, uFileList;
 
 type
   TSpaceThread = class(TFileOpThread)
   private
-    { Private declarations }
+    FDisplayMessage: Boolean;
   protected
     procedure MainExecute; override;
   public
+    constructor Create(aFileList:TFileList; bDisplayMessage: Boolean);
     function UseForm:Boolean; override;
     function FreeAtEnd:Boolean; override;
     property DirCount:Integer read FDirCount;
@@ -33,23 +35,31 @@ type
   end;
 
 implementation
+uses
+  SysUtils, uLng, uShowMsg;
 
 { TSpaceThread }
 
 procedure TSpaceThread.MainExecute;
 begin
-  { Place thread code here }
+  if FDisplayMessage then
+    msgOK(Self, Format(rsSpaceMsg,[FilesCount, DirCount, FilesSize]));
+end;
+
+constructor TSpaceThread.Create(aFileList: TFileList; bDisplayMessage: Boolean);
+begin
+  FDisplayMessage:= bDisplayMessage;
+  inherited Create(aFileList);
 end;
 
 function TSpaceThread.UseForm:Boolean;
 begin
-  Result:=False;
+  Result:= False;
 end;
 
 function TSpaceThread.FreeAtEnd:Boolean;
 begin
-  Result:=False;
+  Result:= FDisplayMessage;
 end;
-
 
 end.

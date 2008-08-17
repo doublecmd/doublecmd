@@ -1361,15 +1361,15 @@ var
   fl:TFileList;
   p:TFileRecItem;
 begin
-  fl:=TFileList.Create; // free at Thread end by thread
+  fl:= TFileList.Create; // free at Thread end by thread
   with ActiveFrame do
   begin
     if not bDisplayMessage then  // Calculate by <Space> key
       begin
-        p:=GetActiveItem^;
-        p.sNameNoExt:=p.sName; //dstname
-        p.sName:=ActiveDir+p.sName;
-        p.sPath:='';
+        p:= GetActiveItem^;
+        p.sNameNoExt:= p.sName; //dstname
+        p.sName:= ActiveDir+p.sName;
+        p.sPath:= '';
 
         fl.AddItem(@p);
       end
@@ -1379,30 +1379,36 @@ begin
         CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
       end;
   end;
-//  sDstPathTemp:=NotActiveFrame.ActiveDir;
-  try
-  with TSpaceThread.Create(fl) do
-    begin
-      Screen.Cursor:=crHourGlass;
-      Resume;
-      WaitFor;
-      Screen.Cursor:=crDefault;
 
-      if (bDisplayMessage = True) then
-        ShowMessage(Format(rsSpaceMsg,[FilesCount, DirCount, FilesSize]));
+  try
+  with TSpaceThread.Create(fl, bDisplayMessage) do
+    begin
+      if not bDisplayMessage then
+        Screen.Cursor:= crHourGlass;
+
+      // start thread
+      Resume;
+
+      if not bDisplayMessage then
+        begin
+          WaitFor;
+          Screen.Cursor:= crDefault;
+        end;
 
       with ActiveFrame.GetActiveItem^ do
       begin
         if (bDisplayMessage = False) then
-          iDirSize:=FilesSize;
-        ActiveFrame.pnlFile.LastActive:=sName;
+          iDirSize:= FilesSize;
+        ActiveFrame.pnlFile.LastActive:= sName;
       end;
-      Free;
+
+      if not bDisplayMessage then
+        Free;
     end;
   finally
     with ActiveFrame do
     begin
-      Screen.Cursor:=crDefault;
+      Screen.Cursor:= crDefault;
 //      UnMarkAll;
       pnlFile.UpdatePanel;
     end;
