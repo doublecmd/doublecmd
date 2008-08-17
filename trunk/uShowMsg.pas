@@ -1,15 +1,14 @@
 {
-Seksi Commander
-----------------------------
-Implementing of Showing messages with lokalization
+   Seksi Commander
+   ----------------------------
+   Implementing of Showing messages with lokalization
 
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Licence  : GNU GPL v 2.0
+   Author   : radek.cervinka@centrum.cz
 
-contributors:
+   contributors:
 
-Koblov Alexander (Alexx2000@mail.ru)
-
+   Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit uShowMsg;
@@ -46,15 +45,22 @@ type
     function Show(const sMsg:String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton) : TMyMsgResult;
   end;
 
-function msgYesNo(const sMsg:String):Boolean;
-function msgYesNoCancel(const sMsg:String):TMyMsgResult;
-procedure msgOK(const sMsg:String);
+function msgYesNo(const sMsg:String):Boolean; overload;
+function msgYesNo(Thread: TThread; const sMsg:String):Boolean; overload;
+
+function msgYesNoCancel(const sMsg:String):TMyMsgResult; overload;
+function msgYesNoCancel(Thread: TThread; const sMsg:String):TMyMsgResult; overload;
+
+procedure msgOK(const sMsg:String); overload;
+procedure msgOK(Thread: TThread; const sMsg: String); overload;
 
 function msgWarning(const sMsg:String):Boolean;
-procedure msgError(const sMsg:String; Thread : TThread = nil);
 
-function MsgBox(const sMsg:String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton):TMyMsgResult;
-function MsgBoxForThread(Thread : TThread;const sMsg:String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton):TMyMsgResult;
+procedure msgError(const sMsg: String); overload;
+procedure msgError(Thread: TThread; const sMsg: String); overload;
+
+function MsgBox(const sMsg: String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape: TMyMsgButton): TMyMsgResult; overload;
+function MsgBox(Thread: TThread;const sMsg: String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape: TMyMsgButton): TMyMsgResult; overload;
 
 function MsgTest:TMyMsgResult;
 function ShowInputComboBox(const sCaption, sPrompt : String; var slValueList : TStringList;
@@ -197,7 +203,7 @@ begin
   end;
 end;
 
-function MsgBoxForThread(Thread: TThread; const sMsg: String;
+function MsgBox(Thread: TThread; const sMsg: String;
                          const Buttons: array of TMyMsgButton; ButDefault,
                          ButEscape: TMyMsgButton): TMyMsgResult;
 var
@@ -223,9 +229,19 @@ begin
   Result:= MsgBox(sMsg,[msmbYes, msmbNo], msmbYes, msmbNo )= mmrYes;
 end;
 
+function msgYesNo(Thread: TThread; const sMsg: String): Boolean;
+begin
+  Result:= MsgBox(Thread, sMsg,[msmbYes, msmbNo], msmbYes, msmbNo )= mmrYes;
+end;
+
 function msgYesNoCancel(const sMsg:String):TMyMsgResult;
 begin
   Result:= MsgBox(sMsg,[msmbYes, msmbNo, msmbCancel], msmbYes, msmbNo);
+end;
+
+function msgYesNoCancel(Thread: TThread; const sMsg: String): TMyMsgResult;
+begin
+  Result:= MsgBox(Thread, sMsg,[msmbYes, msmbNo, msmbCancel], msmbYes, msmbNo);
 end;
 
 procedure msgOK(const sMsg:String);
@@ -233,12 +249,19 @@ begin
   MsgBox(sMsg,[msmbOK],msmbOK, msmbOK);
 end;
 
-procedure msgError(const sMsg:String; Thread : TThread = nil);
+procedure msgOK(Thread: TThread; const sMsg: String);
 begin
-  if Assigned(Thread) then
-    MsgBoxForThread(Thread, sMsg,[msmbOK],msmbOK, msmbOK)
-  else
-    MsgBox(sMsg,[msmbOK],msmbOK, msmbOK);
+  MsgBox(Thread, sMsg,[msmbOK],msmbOK, msmbOK);
+end;
+
+procedure msgError(const sMsg: String);
+begin
+  MsgBox(sMsg,[msmbOK],msmbOK, msmbOK);
+end;
+
+procedure msgError(Thread: TThread; const sMsg: String);
+begin
+  MsgBox(Thread, sMsg,[msmbOK],msmbOK, msmbOK)
 end;
 
 function msgWarning(const sMsg:String):Boolean;

@@ -67,7 +67,7 @@ begin
     GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
     if pr^.iSize > iFreeDiskSize then
       begin
-        case MsgBoxForThread(Self, rsMsgNoFreeSpaceCont, [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of
+        case MsgBox(Self, rsMsgNoFreeSpaceCont, [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of
           mmrNo:
             Exit;
           mmrSkip:

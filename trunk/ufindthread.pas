@@ -167,7 +167,7 @@ begin
 
   except
     on E:Exception do
-      msgError(E.Message, Self);
+      msgError(Self, E.Message);
   end;
 end;
 
