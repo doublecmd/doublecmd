@@ -67,8 +67,6 @@ type
     function FreeAtEnd:Boolean; virtual;
     function DlgFileExist(const sMsg:String):Boolean; // result=true > rewrite file
     function DlgProcessSymLink(const sMsg:String):Boolean;
-    function ShowMsgError(const sMsg:String) : Boolean;
-
   end;
   
 const
@@ -244,7 +242,7 @@ try
   end;
 except
   on E:Exception do
-    ShowMsgError(E.Message);
+    msgOK(Self, E.Message);
 end;
 end;
 
@@ -289,7 +287,7 @@ begin
   FAppend:=False;
   Result:=False;
 
-  case MsgBoxForThread(Self,sMsg, FMyMsgButtons, msmbYes, msmbNo) of
+  case MsgBox(Self,sMsg, FMyMsgButtons, msmbYes, msmbNo) of
     mmrNo, mmrSkip:;
     mmrRewrite:
       begin
@@ -321,7 +319,7 @@ begin
   FAppend:=False;
   Result:=False;
 
-  case MsgBoxForThread(Self, sMsg, FSymLinkBtns, msmbYes, msmbNo) of
+  case MsgBox(Self, sMsg, FSymLinkBtns, msmbYes, msmbNo) of
     mmrNo:;
     
     mmrYes:
@@ -391,13 +389,6 @@ begin
     else
       Result:=Result+FDstExtMask[i];
   end;
-end;
-
-(* Error message show in threads *)
-
-function TFileOpThread.ShowMsgError(const sMsg:String) : Boolean;
-begin
-  MsgBoxForThread(Self,sMsg,[msmbOK],msmbOK, msmbOK);
 end;
 
 end.

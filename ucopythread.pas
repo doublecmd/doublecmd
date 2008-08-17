@@ -19,7 +19,7 @@ interface
 uses
   uFileOpThread, uTypes;
 type
-  TCopyThread=Class(TFileOpThread)
+  TCopyThread = class(TFileOpThread)
 
   protected
     Function CpFile (fr:PFileRecItem; const sDst:String; bShowDlg:Boolean):Boolean;
@@ -56,7 +56,7 @@ begin
     GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
     if pr^.iSize > iFreeDiskSize then
       begin
-        case MsgBoxForThread(Self, rsMsgNoFreeSpaceCont, [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of
+        case MsgBox(Self, rsMsgNoFreeSpaceCont, [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of
           mmrNo:
             Exit;
           mmrSkip:
@@ -199,7 +199,7 @@ begin
                 {Check disk free space}
                 GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
                 if gCopyBlockSize > iFreeDiskSize then
-                  case MsgBoxForThread(Self, rsMsgNoFreeSpaceRetry, [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of
+                  case MsgBox(Self, rsMsgNoFreeSpaceRetry, [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of
                     mmrYes:
                       bRetry := True;
                     mmrNo:
@@ -228,7 +228,7 @@ begin
                 {Check disk free space}
                 GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
                 if (src.Size+iDstBeg-dst.size) > iFreeDiskSize then
-                  case MsgBoxForThread(Self, rsMsgNoFreeSpaceRetry, [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of
+                  case MsgBox(Self, rsMsgNoFreeSpaceRetry, [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of
                     mmrYes:
                       bRetry := True;
                     mmrNo:
@@ -254,11 +254,11 @@ begin
   Result := FileCopyAttr(sSrc, sDst, bDropReadOnlyFlag); // chmod, chgrp, udate a spol	
   except
     on EFCreateError do
-       ShowMsgError('!!!!EFCreateError');
+       msgError(Self, '!!!!EFCreateError');
     on EFOpenError do
-      ShowMsgError('!!!!EFOpenError');
+      msgError(Self, '!!!!EFOpenError');
     on EWriteError do
-      ShowMsgError('!!!!EFWriteError');
+      msgError(Self, '!!!!EFWriteError');
   end;
 end;
 

@@ -1364,14 +1364,20 @@ begin
   fl:=TFileList.Create; // free at Thread end by thread
   with ActiveFrame do
   begin
-    p:=GetActiveItem^;
-    p.sNameNoExt:=p.sName; //dstname
-    p.sName:=ActiveDir+p.sName;
-    p.sPath:='';
+    if not bDisplayMessage then  // Calculate by <Space> key
+      begin
+        p:=GetActiveItem^;
+        p.sNameNoExt:=p.sName; //dstname
+        p.sName:=ActiveDir+p.sName;
+        p.sPath:='';
 
-    fl.AddItem(@p);
-
-//    CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
+        fl.AddItem(@p);
+      end
+    else
+      begin
+        SelectFileIfNoSelected(GetActiveItem);
+        CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
+      end;
   end;
 //  sDstPathTemp:=NotActiveFrame.ActiveDir;
   try
