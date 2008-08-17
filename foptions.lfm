@@ -1277,7 +1277,7 @@ object frmOptions: TfrmOptions
               BorderSpacing.Left = 10
               BorderSpacing.Top = 12
               BorderSpacing.Right = 10
-              Caption = '&Packer plugins are used to work with archives.'
+              Caption = 'Packer plugins are used to work with archives.'
               ParentColor = False
               WordWrap = True
             end
@@ -1300,7 +1300,7 @@ object frmOptions: TfrmOptions
               BorderSpacing.Left = 10
               BorderSpacing.Top = 12
               BorderSpacing.Right = 10
-              Caption = '&File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC.'
+              Caption = 'File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC.'
               ParentColor = False
               WordWrap = True
             end
@@ -1323,7 +1323,7 @@ object frmOptions: TfrmOptions
               BorderSpacing.Left = 10
               BorderSpacing.Top = 12
               BorderSpacing.Right = 10
-              Caption = '&Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool'
+              Caption = 'Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool'
               ParentColor = False
               WordWrap = True
             end
