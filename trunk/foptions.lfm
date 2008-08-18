@@ -1346,7 +1346,7 @@ object frmOptions: TfrmOptions
               BorderSpacing.Left = 10
               BorderSpacing.Top = 12
               BorderSpacing.Right = 10
-              Caption = 'lblDSXDescription'
+              Caption = 'Search plugins allow to use in search alternative search algorithms or external tools (like "locate", etc.)'
               ParentColor = False
               WordWrap = True
             end

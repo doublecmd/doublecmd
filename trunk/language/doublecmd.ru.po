@@ -1938,6 +1938,10 @@ msgstr "Искать от курсора"
 msgid "Search plugins (.DSX)"
 msgstr "Поисковые плагины (.DSX)"
 
+#: TFRMOPTIONS.LBLDSXDESCRIPTION.CAPTION
+msgid "Search plugins allow to use in search alternative search algorithms or external tools (like "locate", etc.)"
+msgstr "Позволяют использовать в поиске альтернативные алгоритмы или внешние инструменты (например "locate", и т.п.)"
+
 #: TFRMVIEWER.MISELECTALL.CAPTION
 msgid "Select All"
 msgstr "Выделить &всё"
