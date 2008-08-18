@@ -1,7 +1,7 @@
 {
    Seksi Commander
    ----------------------------
-   Implementing of Showing messages with lokalization
+   Implementing of Showing messages with localization
 
    Licence  : GNU GPL v 2.0
    Author   : radek.cervinka@centrum.cz
@@ -54,7 +54,8 @@ function msgYesNoCancel(Thread: TThread; const sMsg:String):TMyMsgResult; overlo
 procedure msgOK(const sMsg:String); overload;
 procedure msgOK(Thread: TThread; const sMsg: String); overload;
 
-function msgWarning(const sMsg:String):Boolean;
+function msgWarning(const sMsg: String): Boolean; overload;
+function msgWarning(Thread: TThread; const sMsg: String): Boolean; overload;
 
 procedure msgError(const sMsg: String); overload;
 procedure msgError(Thread: TThread; const sMsg: String); overload;
@@ -70,7 +71,7 @@ procedure msgLoadLng;
 
 implementation
 uses
-  SysUtils, StdCtrls, Graphics, math, fMsg, uLng, Buttons, Controls;
+  SysUtils, StdCtrls, Graphics, math, fMsg, uLng, Buttons, Controls, uLog, uGlobs;
 
 const
   cMsgName='Double Commander';
@@ -264,9 +265,30 @@ begin
   MsgBox(Thread, sMsg,[msmbOK],msmbOK, msmbOK)
 end;
 
-function msgWarning(const sMsg:String):Boolean;
+function msgWarning(const sMsg: String): Boolean;
 begin
-  Raise Exception.Create('Not implemented yet!');
+  if gShowWarningMessages then
+    MsgBox(sMsg,[msmbOK],msmbOK, msmbOK)
+  else
+    begin
+      if gLogWindow then // if log window enabled then write error to it
+        logWrite(sMsg, lmtError)
+      else
+        Beep;
+    end;
+end;
+
+function msgWarning(Thread: TThread; const sMsg: String): Boolean;
+begin
+  if gShowWarningMessages then
+    MsgBox(Thread, sMsg,[msmbOK],msmbOK, msmbOK)
+  else
+    begin
+      if gLogWindow then // if log window enabled then write error to it
+        logWrite(Thread, sMsg, lmtError)
+      else
+        Beep;
+    end;
 end;
 
 function ShowInputComboBox(const sCaption, sPrompt : String; var slValueList : TStringList;

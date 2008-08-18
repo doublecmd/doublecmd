@@ -1642,7 +1642,7 @@ begin
   if (ActiveFrame.pnlFile.PanelMode in [pmVFS, pmArchive]) and
      (NotActiveFrame.pnlFile.PanelMode in [pmVFS, pmArchive]) then
     begin
-      ShowMessage(rsMsgErrNotSupported);
+      msgWarning(rsMsgErrNotSupported);
       Exit;
     end;
 
@@ -1686,7 +1686,7 @@ begin
               ShowPackDlg(NotActiveFrame.pnlFile.VFS, fl, sDestPath, False);
             end
           else
-            msgOK(rsMsgErrNotSupported);
+            msgWarning(rsMsgErrNotSupported);
         end;
       Exit;
     end;
@@ -2782,7 +2782,7 @@ begin
     logWrite('Chdir to: ' + sDir);
     if not mbSetCurrentDir(sDir) then
     begin
-      msgError(Format(rsMsgChDirFailed, [sDir]));
+      msgWarning(Format(rsMsgChDirFailed, [sDir]));
     end
     else
     begin
