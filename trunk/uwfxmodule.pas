@@ -875,7 +875,7 @@ begin
 
       iSize := (FindData.nFileSizeHigh * MAXDWORD)+FindData.nFileSizeLow;
       fTimeI := FileTimeToDateTime(FindData.ftLastWriteTime);
-      sTime := DateToStr(fTimeI);
+      sTime := FormatDateTime(gDateTimeFormat, fTimeI);
     end;
   fl.AddItem(fr);
 //  if FsFindNext(Handle, FindData) then DebugLn('FsFindNex=true') else DebugLn('FsFindNex=false');
