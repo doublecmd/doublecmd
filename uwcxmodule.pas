@@ -1007,8 +1007,12 @@ begin
               sExt:=ExtractFileExt(CurrFileName);
             sNameNoExt:=Copy(CurrFileName,1,length(CurrFileName)-length(sExt));
             sPath := sDir;
-            fTimeI := FileDateToDateTime(FileTime);
-            sTime := DateToStr(fTimeI);
+            try
+              fTimeI := FileDateToDateTime(FileTime);
+            except
+              fTimeI := 0;
+            end;
+            sTime := FormatDateTime(gDateTimeFormat, fTimeI);
             iSize := UnpSize;
          end; //with
      fl.AddItem(fr);
