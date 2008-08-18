@@ -1346,10 +1346,6 @@ msgstr "Маска вводу:"
 msgid "Input new directory name:"
 msgstr "Введить ім'я каталога:"
 
-#: TFRMOPTIONS.LBLINSTALLEDPLUGINS.CAPTION
-msgid "Installed Plugins:"
-msgstr "Встановлені плагіни:"
-
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
 msgstr "Внутрішній переглядач Double Commander."
@@ -1722,10 +1718,6 @@ msgstr " Архіватор "
 msgid "Packer plugins (.WCX)"
 msgstr "Архіваторні плагіни (.WCX)"
 
-#: TFRMOPTIONS.LBLABOUT.CAPTION
-msgid "Packer plugins are used to open archives not supported"
-msgstr ""
-
 #: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
 msgid "Packer plugins are used to work with archives."
 msgstr ""
@@ -1940,6 +1932,10 @@ msgstr "З&найти..."
 
 #: ulng.rseditsearchcaret
 msgid "Search from &caret"
+msgstr ""
+
+#: TFRMOPTIONS.TSDSX.CAPTION
+msgid "Search plugins (.DSX)"
 msgstr ""
 
 #: TFRMVIEWER.MISELECTALL.CAPTION
@@ -2334,6 +2330,10 @@ msgstr "Переглядач"
 msgid "Viewer font"
 msgstr "Шрифт переглядача"
 
+#: TFRMOPTIONS.TSWLX.CAPTION
+msgid "Viewer plugins (.WLX)"
+msgstr ""
+
 #: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr ""
@@ -2432,10 +2432,6 @@ msgstr ""
 
 #: TFRMOPTIONS.EDTEXTDIFFER.TEXT
 msgid "gtk-diff \"\%s\" \"\%s\""
-msgstr ""
-
-#: 
-msgid "internally by Double Commander."
 msgstr ""
 
 #: ulng.rseditnewfile

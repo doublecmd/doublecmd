@@ -1349,10 +1349,6 @@ msgstr "Vstupní maska:"
 msgid "Input new directory name:"
 msgstr "Zadejte nový název adresáře:"
 
-#: TFRMOPTIONS.LBLINSTALLEDPLUGINS.CAPTION
-msgid "Installed Plugins:"
-msgstr "Instalované pluginy:"
-
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
 msgstr "Interní prohlížeč Double COmmanderu."
@@ -1725,10 +1721,6 @@ msgstr "Komprimátor"
 msgid "Packer plugins (.WCX)"
 msgstr "Komprimační pluginy (.WCX)"
 
-#: TFRMOPTIONS.LBLABOUT.CAPTION
-msgid "Packer plugins are used to open archives not supported"
-msgstr "Kompresní pluginy se používají k otevření nepodporovaných archívů"
-
 #: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
 msgid "Packer plugins are used to work with archives."
 msgstr ""
@@ -1943,6 +1935,10 @@ msgstr "Hledání"
 
 #: ulng.rseditsearchcaret
 msgid "Search from &caret"
+msgstr ""
+
+#: TFRMOPTIONS.TSDSX.CAPTION
+msgid "Search plugins (.DSX)"
 msgstr ""
 
 #: TFRMVIEWER.MISELECTALL.CAPTION
@@ -2337,6 +2333,10 @@ msgstr "Prohlížeč"
 msgid "Viewer font"
 msgstr "Písmo prohlížeče"
 
+#: TFRMOPTIONS.TSWLX.CAPTION
+msgid "Viewer plugins (.WLX)"
+msgstr ""
+
 #: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr ""
@@ -2436,10 +2436,6 @@ msgstr "gEdit \"\%s\""
 #: TFRMOPTIONS.EDTEXTDIFFER.TEXT
 msgid "gtk-diff \"\%s\" \"\%s\""
 msgstr "gtk-diff \"\%s\" \"\%s\""
-
-#: 
-msgid "internally by Double Commander."
-msgstr "interně Double Commander."
 
 #: ulng.rseditnewfile
 msgid "new.txt"

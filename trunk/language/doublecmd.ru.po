@@ -14,22 +14,6 @@ msgstr ""
 msgid " Screen layout "
 msgstr " Компоненты основного окна "
 
-#: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
-msgid "Active"
-msgstr "Состояние"
-
-#: TFRMOPTIONS.TGRIDCOLUM2NTITLE.CAPTION
-msgid "Plugin"
-msgstr "Плагин"
-
-#: TFRMOPTIONS.TGRIDCOLUMN3TITLE.CAPTION
-msgid "Registered for"
-msgstr "Ассоциация"
-
-#: TFRMOPTIONS.TGRIDCOLUMN4TITLE.CAPTION
-msgid "File name"
-msgstr "Имя файла"
-
 #: ulng.rsmsgpopuphotadd
 msgid "&Add \%s"
 msgstr "&Добавить %s"
@@ -373,6 +357,10 @@ msgstr "Действие:"
 #: TFRMOPTIONS.LBLACTIONS.CAPTION
 msgid "Actions"
 msgstr "Команды"
+
+#: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
+msgid "Active"
+msgstr "Состояние"
 
 #: TFRMHOTDIR.BTNADD.CAPTION
 msgid "Add"
@@ -1358,10 +1346,6 @@ msgstr "Маска ввода:"
 msgid "Input new directory name:"
 msgstr "Введите имя каталога:"
 
-#: TFRMOPTIONS.LBLINSTALLEDPLUGINS.CAPTION
-msgid "Installed Plugins:"
-msgstr "Установленные плагины:"
-
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
 msgstr "Внутренний просмоторщик Double Commander."
@@ -1734,10 +1718,6 @@ msgstr " Архиватор "
 msgid "Packer plugins (.WCX)"
 msgstr "Архиваторные плагины (.WCX)"
 
-#: TFRMOPTIONS.LBLABOUT.CAPTION
-msgid "Packer plugins are used to open archives not supported"
-msgstr ""
-
 #: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
 msgid "Packer plugins are used to work with archives."
 msgstr "Позволяют работать с архивами."
@@ -1773,6 +1753,10 @@ msgstr "Путь:"
 #: ulng.rsmsgsellocnextvol
 msgid "Please select location of next volume"
 msgstr "Укажите путь к следующему тому"
+
+#: TFRMOPTIONS.TGRIDCOLUMN2TITLE.CAPTION
+msgid "Plugin"
+msgstr "Плагин"
 
 #: TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION
 msgid "Plugin:"
@@ -1837,6 +1821,10 @@ msgstr "&Учитывать подкаталоги"
 #: TFRMEDITOR.ACTEDITREDO.CAPTION
 msgid "Redo"
 msgstr "Повторить"
+
+#: TFRMOPTIONS.TGRIDCOLUMN3TITLE.CAPTION
+msgid "Registered for"
+msgstr "Ассоциация"
 
 #: TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION
 msgid "Remove"
@@ -1945,6 +1933,10 @@ msgstr "&Найти..."
 #: ulng.rseditsearchcaret
 msgid "Search from &caret"
 msgstr "Искать от курсора"
+
+#: TFRMOPTIONS.TSDSX.CAPTION
+msgid "Search plugins (.DSX)"
+msgstr "Поисковые плагины (.DSX)"
 
 #: TFRMVIEWER.MISELECTALL.CAPTION
 msgid "Select All"
@@ -2338,6 +2330,10 @@ msgstr "Просмоторщик"
 msgid "Viewer font"
 msgstr "Просмотрщика"
 
+#: TFRMOPTIONS.TSWLX.CAPTION
+msgid "Viewer plugins (.WLX)"
+msgstr "Плагины просмотрщика (.WLX)"
+
 #: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Позволяют отображать во внутреннем просмотрщике (F3, Ctrl+Q) файлы различных форматов, таких как рисунки, таблицы, базы данных и т.д."
@@ -2438,10 +2434,6 @@ msgstr ""
 msgid "gtk-diff \"\%s\" \"\%s\""
 msgstr ""
 
-#: 
-msgid "internally by Double Commander."
-msgstr ""
-
 #: ulng.rseditnewfile
 msgid "new.txt"
 msgstr ""
@@ -2477,3 +2469,4 @@ msgstr ""
 #: TFRMMAIN.BTNLEFTHOME.CAPTION
 msgid "~"
 msgstr ""
+

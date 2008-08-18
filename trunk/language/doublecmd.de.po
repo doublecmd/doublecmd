@@ -1347,10 +1347,6 @@ msgstr "Eingabemaske:"
 msgid "Input new directory name:"
 msgstr "Namen für neuen Ordner eingeben"
 
-#: TFRMOPTIONS.LBLINSTALLEDPLUGINS.CAPTION
-msgid "Installed Plugins:"
-msgstr "Installierte Plugins"
-
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
 msgstr "Interner Betrachter des Double Commander"
@@ -1723,10 +1719,6 @@ msgstr "Packer"
 msgid "Packer plugins (.WCX)"
 msgstr "Packer plugins (.WCX)"
 
-#: TFRMOPTIONS.LBLABOUT.CAPTION
-msgid "Packer plugins are used to open archives not supported"
-msgstr "Packer-Plugins werden benutzt falls Archive nicht intern behandelt werden"
-
 #: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
 msgid "Packer plugins are used to work with archives."
 msgstr ""
@@ -1941,6 +1933,10 @@ msgstr "Suchen"
 
 #: ulng.rseditsearchcaret
 msgid "Search from &caret"
+msgstr ""
+
+#: TFRMOPTIONS.TSDSX.CAPTION
+msgid "Search plugins (.DSX)"
 msgstr ""
 
 #: TFRMVIEWER.MISELECTALL.CAPTION
@@ -2335,6 +2331,10 @@ msgstr "Betrachter"
 msgid "Viewer font"
 msgstr "Schrift für Betrachter"
 
+#: TFRMOPTIONS.TSWLX.CAPTION
+msgid "Viewer plugins (.WLX)"
+msgstr ""
+
 #: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr ""
@@ -2434,10 +2434,6 @@ msgstr "gEdit \"\%s\""
 #: TFRMOPTIONS.EDTEXTDIFFER.TEXT
 msgid "gtk-diff \"\%s\" \"\%s\""
 msgstr "gtk-diff \"\%s\" \"\%s\""
-
-#: 
-msgid "internally by Double Commander."
-msgstr "Intern durch Double Commander"
 
 #: ulng.rseditnewfile
 msgid "new.txt"

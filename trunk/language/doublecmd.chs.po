@@ -1347,10 +1347,6 @@ msgstr "输入掩码"
 msgid "Input new directory name:"
 msgstr "熟路新目录名:"
 
-#: TFRMOPTIONS.LBLINSTALLEDPLUGINS.CAPTION
-msgid "Installed Plugins:"
-msgstr "已安装的插件:"
-
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
 msgstr "Double Commander查看器"
@@ -1723,10 +1719,6 @@ msgstr "打包程序"
 msgid "Packer plugins (.WCX)"
 msgstr "打包工具插件(.WCX)"
 
-#: TFRMOPTIONS.LBLABOUT.CAPTION
-msgid "Packer plugins are used to open archives not supported"
-msgstr "打包插件不支持的文件"
-
 #: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
 msgid "Packer plugins are used to work with archives."
 msgstr ""
@@ -1941,6 +1933,10 @@ msgstr "搜索"
 
 #: ulng.rseditsearchcaret
 msgid "Search from &caret"
+msgstr ""
+
+#: TFRMOPTIONS.TSDSX.CAPTION
+msgid "Search plugins (.DSX)"
 msgstr ""
 
 #: TFRMVIEWER.MISELECTALL.CAPTION
@@ -2335,6 +2331,10 @@ msgstr "查看器"
 msgid "Viewer font"
 msgstr "查看器字体"
 
+#: TFRMOPTIONS.TSWLX.CAPTION
+msgid "Viewer plugins (.WLX)"
+msgstr ""
+
 #: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr ""
@@ -2434,10 +2434,6 @@ msgstr "gEdit \"\%s\""
 #: TFRMOPTIONS.EDTEXTDIFFER.TEXT
 msgid "gtk-diff \"\%s\" \"\%s\""
 msgstr "gtk-diff \"\%s\" \"\%s\""
-
-#: 
-msgid "internally by Double Commander."
-msgstr "Double Commander内部."
 
 #: ulng.rseditnewfile
 msgid "new.txt"
