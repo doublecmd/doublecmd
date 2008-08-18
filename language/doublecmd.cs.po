@@ -361,6 +361,10 @@ msgstr "Akce:"
 msgid "Actions"
 msgstr "Akce"
 
+#: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
+msgid "Active"
+msgstr ""
+
 #: TFRMHOTDIR.BTNADD.CAPTION
 msgid "Add"
 msgstr "Přidat"
@@ -428,6 +432,10 @@ msgstr ""
 #: ulng.rsmsgerrunknownformat
 msgid "Archive format unknown"
 msgstr "Neznámý formát archívu"
+
+#: ulng.rsoptassocpluginwith
+msgid "Associate plugin \"%s\" with:"
+msgstr ""
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -625,6 +633,10 @@ msgstr ""
 msgid "Configuration"
 msgstr "Konfigurace"
 
+#: TFRMOPTIONS.BTNCONFIGPLUGIN.CAPTION
+msgid "Configure"
+msgstr ""
+
 #: TFRMOPTIONS.LBLCONFIGCOLUMNS.CAPTION
 msgid "Configure columns for file system:"
 msgstr "Konfigurace sloupců pro systém souborů:"
@@ -648,6 +660,10 @@ msgstr "Konfigurace pohledu č.:"
 #: TFRMOPTIONS.TSWDX.CAPTION
 msgid "Content plugins (.WDX)"
 msgstr "Content plugins (.WDX)"
+
+#: TFRMOPTIONS.LBLWDXDESCRIPTION.CAPTION
+msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgstr ""
 
 #: TFRMEDITOR.ACTEDITCOPY.CAPTION
 msgid "Copy"
@@ -893,6 +909,10 @@ msgstr "Hystorie adresářů"
 msgid "Directory target"
 msgstr "Cílový adresář"
 
+#: ulng.rsoptdisable
+msgid "Disable"
+msgstr ""
+
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
 msgstr "Disk není dostupný"
@@ -949,9 +969,17 @@ msgstr ""
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr "&Konec (poslední znak před . musí odpovídat zadanému)"
 
+#: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
+msgid "Enable"
+msgstr ""
+
 #: TFRMPACKDLG.CBENCRYPT.CAPTION
 msgid "Encr&ypt"
 msgstr "&Zakódovat"
+
+#: ulng.rsoptenterext
+msgid "Enter extension"
+msgstr ""
 
 #: ulng.rsmsgerreclose
 msgid "Error closing file"
@@ -1136,6 +1164,10 @@ msgstr "Pluginy souborového systému"
 #: TFRMOPTIONS.TSWFX.CAPTION
 msgid "File system plugins (.WFX)"
 msgstr "Pluginy souborových systémů (.WFX)"
+
+#: TFRMOPTIONS.LBLWFXDESCRIPTION.CAPTION
+msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgstr ""
 
 #: ulng.rsoptfiletypes
 msgid "File types"
@@ -1697,6 +1729,10 @@ msgstr "Komprimační pluginy (.WCX)"
 msgid "Packer plugins are used to open archives not supported"
 msgstr "Kompresní pluginy se používají k otevření nepodporovaných archívů"
 
+#: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
+msgid "Packer plugins are used to work with archives."
+msgstr ""
+
 #: TFRMPACKINFODLG.LBLPACKER.CAPTION
 msgid "Packer:"
 msgstr ""
@@ -1728,6 +1764,10 @@ msgstr "Cesta:"
 #: ulng.rsmsgsellocnextvol
 msgid "Please select location of next volume"
 msgstr "Prosím vyberte umístění další části"
+
+#: TFRMOPTIONS.TGRIDCOLUMN2TITLE.CAPTION
+msgid "Plugin"
+msgstr ""
 
 #: TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION
 msgid "Plugin:"
@@ -1792,6 +1832,10 @@ msgstr "Recursively pack &podadresáře"
 #: TFRMEDITOR.ACTEDITREDO.CAPTION
 msgid "Redo"
 msgstr "Opakovat"
+
+#: TFRMOPTIONS.TGRIDCOLUMN3TITLE.CAPTION
+msgid "Registered for"
+msgstr ""
 
 #: TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION
 msgid "Remove"
@@ -2193,8 +2237,12 @@ msgstr "Přenést adresář pod kursorem do pravého okna"
 msgid "Try open archive"
 msgstr "Zkusit otevřít archív"
 
+#: TFRMOPTIONS.BTNTWEAKPLUGIN.CAPTION
+msgid "Tweak"
+msgstr ""
+
 #: TFRMTWEAKPLUGIN.CAPTION
-msgid "Tweak Packer plugin"
+msgid "Tweak plugin"
 msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
@@ -2288,6 +2336,10 @@ msgstr "Prohlížeč"
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Písmo prohlížeče"
+
+#: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
+msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr ""
 
 #: TFRMSPLITTER.GRBXWATCH.CAPTION
 msgid "Watchtower"

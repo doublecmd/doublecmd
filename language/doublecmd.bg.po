@@ -359,6 +359,10 @@ msgstr "Действие:"
 msgid "Actions"
 msgstr "Действия"
 
+#: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
+msgid "Active"
+msgstr ""
+
 #: TFRMHOTDIR.BTNADD.CAPTION
 msgid "Add"
 msgstr "Добавяне"
@@ -426,6 +430,10 @@ msgstr ""
 #: ulng.rsmsgerrunknownformat
 msgid "Archive format unknown"
 msgstr "Форматът на сбивката е непознат"
+
+#: ulng.rsoptassocpluginwith
+msgid "Associate plugin \"%s\" with:"
+msgstr ""
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -623,6 +631,10 @@ msgstr ""
 msgid "Configuration"
 msgstr "Настройка"
 
+#: TFRMOPTIONS.BTNCONFIGPLUGIN.CAPTION
+msgid "Configure"
+msgstr ""
+
 #: TFRMOPTIONS.LBLCONFIGCOLUMNS.CAPTION
 msgid "Configure columns for file system:"
 msgstr "Настройка на стълбовете за файлова уредба:"
@@ -646,6 +658,10 @@ msgstr "Настройка на изглед №"
 #: TFRMOPTIONS.TSWDX.CAPTION
 msgid "Content plugins (.WDX)"
 msgstr "Приставки за съдържание (.WDX)"
+
+#: TFRMOPTIONS.LBLWDXDESCRIPTION.CAPTION
+msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgstr ""
 
 #: TFRMEDITOR.ACTEDITCOPY.CAPTION
 msgid "Copy"
@@ -891,6 +907,10 @@ msgstr "Дневник на папката"
 msgid "Directory target"
 msgstr "Целева папка"
 
+#: ulng.rsoptdisable
+msgid "Disable"
+msgstr ""
+
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
 msgstr "Дискът не е на разположение"
@@ -947,9 +967,17 @@ msgstr ""
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr "&Край (последният знак преди точката . трябва да съвпада)"
 
+#: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
+msgid "Enable"
+msgstr ""
+
 #: TFRMPACKDLG.CBENCRYPT.CAPTION
 msgid "Encr&ypt"
 msgstr "&Криптиране"
+
+#: ulng.rsoptenterext
+msgid "Enter extension"
+msgstr ""
 
 #: ulng.rsmsgerreclose
 msgid "Error closing file"
@@ -1134,6 +1162,10 @@ msgstr "Приставки за файлови уредби"
 #: TFRMOPTIONS.TSWFX.CAPTION
 msgid "File system plugins (.WFX)"
 msgstr "Приставки за файлови уредби (.WFX)"
+
+#: TFRMOPTIONS.LBLWFXDESCRIPTION.CAPTION
+msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgstr ""
 
 #: ulng.rsoptfiletypes
 msgid "File types"
@@ -1695,6 +1727,10 @@ msgstr "Приставки за сбиване (.WCX)"
 msgid "Packer plugins are used to open archives not supported"
 msgstr "Приставките за сбиване се използват за отваряне на неподдържани архиви"
 
+#: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
+msgid "Packer plugins are used to work with archives."
+msgstr ""
+
 #: TFRMPACKINFODLG.LBLPACKER.CAPTION
 msgid "Packer:"
 msgstr ""
@@ -1726,6 +1762,10 @@ msgstr "Път:"
 #: ulng.rsmsgsellocnextvol
 msgid "Please select location of next volume"
 msgstr "Посочете местоположението на следващия том"
+
+#: TFRMOPTIONS.TGRIDCOLUMN2TITLE.CAPTION
+msgid "Plugin"
+msgstr ""
 
 #: TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION
 msgid "Plugin:"
@@ -1790,6 +1830,10 @@ msgstr "Вложено &сбиване на папките"
 #: TFRMEDITOR.ACTEDITREDO.CAPTION
 msgid "Redo"
 msgstr "Връщане"
+
+#: TFRMOPTIONS.TGRIDCOLUMN3TITLE.CAPTION
+msgid "Registered for"
+msgstr ""
 
 #: TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION
 msgid "Remove"
@@ -2191,8 +2235,12 @@ msgstr "Прехвърляне на папката под показалеца �
 msgid "Try open archive"
 msgstr "Опит за отваряне на файл"
 
+#: TFRMOPTIONS.BTNTWEAKPLUGIN.CAPTION
+msgid "Tweak"
+msgstr ""
+
 #: TFRMTWEAKPLUGIN.CAPTION
-msgid "Tweak Packer plugin"
+msgid "Tweak plugin"
 msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
@@ -2286,6 +2334,10 @@ msgstr "Преглед"
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Шрифт на прегледа"
+
+#: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
+msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr ""
 
 #: TFRMSPLITTER.GRBXWATCH.CAPTION
 msgid "Watchtower"
