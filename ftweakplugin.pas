@@ -229,6 +229,7 @@ begin
 
   iPrevIndex:= cbExt.ItemIndex;
   iFlags:= PtrInt(cbExt.Items.Objects[cbExt.ItemIndex]);
+  lblFlagsValue.Caption:= '('+IntToStr(iFlags)+')';
 
   cbPK_CAPS_NEW.Checked:= Boolean(iFlags and PK_CAPS_NEW);
   cbPK_CAPS_MODIFY.Checked:= Boolean(iFlags and PK_CAPS_MODIFY);
