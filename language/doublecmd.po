@@ -2349,6 +2349,10 @@ msgstr ""
 msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgstr ""
 
+#: TFRMOPTIONS.LBLDSXDESCRIPTION.CAPTION
+msgid "Search plugins allow to use in search alternative search algorithms or external tools (like "locate", etc.)"
+msgstr ""
+
 #: TFRMOPTIONS.BTNADDPLUGIN.CAPTION
 msgctxt "TFRMOPTIONS.BTNADDPLUGIN.CAPTION"
 msgid "Add"

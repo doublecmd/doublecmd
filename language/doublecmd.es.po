@@ -1939,6 +1939,10 @@ msgstr ""
 msgid "Search plugins (.DSX)"
 msgstr ""
 
+#: TFRMOPTIONS.LBLDSXDESCRIPTION.CAPTION
+msgid "Search plugins allow to use in search alternative search algorithms or external tools (like "locate", etc.)"
+msgstr ""
+
 #: TFRMVIEWER.MISELECTALL.CAPTION
 msgid "Select All"
 msgstr "Seleccionar todo"
