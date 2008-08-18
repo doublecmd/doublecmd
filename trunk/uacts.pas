@@ -282,7 +282,7 @@ with frmMain do
       begin
         if pnlFile.PanelMode in [pmArchive, pmVFS] then
           begin
-            msgError(rsMsgErrNotSupported);
+            msgWarning(rsMsgErrNotSupported);
             UnMarkAll;
             Exit;
           end;
@@ -506,7 +506,7 @@ begin
   begin
     if  pnlFile.PanelMode in [pmArchive, pmVFS] then // if in VFS
       begin
-        msgOK(rsMsgErrNotSupported);
+        msgWarning(rsMsgErrNotSupported);
         Exit;
       end; // in VFS
 
@@ -717,7 +717,7 @@ begin
     begin
       if pnlFile.PanelMode in [pmArchive, pmVFS] then
         begin
-          msgError(rsMsgErrNotSupported);
+          msgWarning(rsMsgErrNotSupported);
           UnMarkAll;
           Exit;
         end;
@@ -765,7 +765,7 @@ begin
         begin
           if not (VFS_CAPS_MKDIR in pnlFile.VFS.VFSModule.VFSCaps) then
             begin
-              msgOK(rsMsgErrNotSupported);
+              msgWarning(rsMsgErrNotSupported);
               Exit;
             end;
         end; // in VFS
@@ -832,7 +832,7 @@ begin
       begin
         if not (VFS_CAPS_DELETE in pnlFile.VFS.VFSModule.VFSCaps) then
           begin
-            msgOK(rsMsgErrNotSupported);
+            msgWarning(rsMsgErrNotSupported);
             Exit;
           end;
       end; // in VFS
