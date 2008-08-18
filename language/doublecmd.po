@@ -1253,14 +1253,6 @@ msgstr ""
 msgid "Packer plugins (.WCX)"
 msgstr ""
 
-#: TFRMOPTIONS.LBLABOUT.CAPTION
-msgid "Packer plugins are used to open archives not supported"
-msgstr ""
-
-#: 
-msgid "internally by Double Commander."
-msgstr ""
-
 #: TFRMOPTIONS.LBLEXT.CAPTION
 msgid "All files with e&xtension (ending with):"
 msgstr ""
@@ -1281,8 +1273,12 @@ msgstr ""
 msgid "File system plugins (.WFX)"
 msgstr ""
 
-#: TFRMOPTIONS.LBLINSTALLEDPLUGINS.CAPTION
-msgid "Installed Plugins:"
+#: TFRMOPTIONS.TSWLX.CAPTION
+msgid "Viewer plugins (.WLX)"
+msgstr ""
+
+#: TFRMOPTIONS.TSDSX.CAPTION
+msgid "Search plugins (.DSX)"
 msgstr ""
 
 #: TFRMOPTIONS.BBTNWFXRENAME.CAPTION
