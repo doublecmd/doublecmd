@@ -2374,6 +2374,22 @@ msgstr ""
 msgid "Tweak"
 msgstr ""
 
+#: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
+msgid "Active"
+msgstr ""
+
+#: TFRMOPTIONS.TGRIDCOLUMN2TITLE.CAPTION
+msgid "Plugin"
+msgstr ""
+
+#: TFRMOPTIONS.TGRIDCOLUMN3TITLE.CAPTION
+msgid "Registered for"
+msgstr ""
+
+#: TFRMOPTIONS.TGRIDCOLUMN4TITLE.CAPTION
+msgid "File name"
+msgstr ""
+
 #: TFRMPACKINFODLG.BTNUNPACKALLANDEXEC.CAPTION
 msgid "Unpack &all and execute"
 msgstr ""

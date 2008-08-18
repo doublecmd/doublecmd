@@ -14,6 +14,22 @@ msgstr ""
 msgid " Screen layout "
 msgstr " Компоненты основного окна "
 
+#: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
+msgid "Active"
+msgstr "Состояние"
+
+#: TFRMOPTIONS.TGRIDCOLUM2NTITLE.CAPTION
+msgid "Plugin"
+msgstr "Плагин"
+
+#: TFRMOPTIONS.TGRIDCOLUMN3TITLE.CAPTION
+msgid "Registered for"
+msgstr "Ассоциация"
+
+#: TFRMOPTIONS.TGRIDCOLUMN4TITLE.CAPTION
+msgid "File name"
+msgstr "Имя файла"
+
 #: ulng.rsmsgpopuphotadd
 msgid "&Add \%s"
 msgstr "&Добавить %s"
@@ -426,6 +442,10 @@ msgstr "Архив может содержать несколько файлов
 msgid "Archive format unknown"
 msgstr "Архив повреждён или имеет неизвестный формат."
 
+#: ulng.rsoptassocpluginwith
+msgid "Associate plugin \"%s\" with:"
+msgstr "Связать плагин \"%s\" с расширением:"
+
 #: ulng.rscolattr
 msgid "Attr"
 msgstr "Атриб"
@@ -622,6 +642,10 @@ msgstr "Настройка"
 msgid "Configuration"
 msgstr "Конфигурация"
 
+#: TFRMOPTIONS.BTNCONFIGPLUGIN.CAPTION
+msgid "Configure"
+msgstr "Настроить"
+
 #: TFRMOPTIONS.LBLCONFIGCOLUMNS.CAPTION
 msgid "Configure columns for file system:"
 msgstr "Настроить колонки для файловой системы:"
@@ -645,6 +669,10 @@ msgstr "Настройка набора номер:"
 #: TFRMOPTIONS.TSWDX.CAPTION
 msgid "Content plugins (.WDX)"
 msgstr "Контентные плагины (.WDX)"
+
+#: TFRMOPTIONS.LBLWDXDESCRIPTION.CAPTION
+msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgstr "Позволяют использовать расширенные сведения о файлах (теги mp3, атрибуты изображений и т.д.) в панелях или при поиске/переименовании."
 
 #: TFRMEDITOR.ACTEDITCOPY.CAPTION
 msgid "Copy"
@@ -890,6 +918,10 @@ msgstr "История каталогов"
 msgid "Directory target"
 msgstr "Каталог назначения"
 
+#: ulng.rsoptdisable
+msgid "Disable"
+msgstr "Отключить"
+
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
 msgstr "Диск не доступен"
@@ -946,9 +978,17 @@ msgstr "Извлечь"
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr "Конец (последние символы до набранной точки '.' должны совпадать)"
 
+#: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
+msgid "Enable"
+msgstr "Включить"
+
 #: TFRMPACKDLG.CBENCRYPT.CAPTION
 msgid "Encr&ypt"
 msgstr "&Шифровать"
+
+#: ulng.rsoptenterext
+msgid "Enter extension"
+msgstr "Введите расширение"
 
 #: ulng.rsmsgerreclose
 msgid "Error closing file"
@@ -1133,6 +1173,10 @@ msgstr "Плагины файловой системы"
 #: TFRMOPTIONS.TSWFX.CAPTION
 msgid "File system plugins (.WFX)"
 msgstr "Плагины файловой системы (.WFX)"
+
+#: TFRMOPTIONS.LBLWFXDESCRIPTION.CAPTION
+msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgstr "Позволяют обращаться к дискам, недоступным из ОС или к внешним устройствам, типа Palm/PocketPC, и т.д."
 
 #: ulng.rsoptfiletypes
 msgid "File types"
@@ -1694,6 +1738,10 @@ msgstr "Архиваторные плагины (.WCX)"
 msgid "Packer plugins are used to open archives not supported"
 msgstr ""
 
+#: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
+msgid "Packer plugins are used to work with archives."
+msgstr "Позволяют работать с архивами."
+
 #: TFRMPACKINFODLG.LBLPACKER.CAPTION
 msgid "Packer:"
 msgstr "Архиватор:"
@@ -2190,6 +2238,10 @@ msgstr "Открыть каталог под курсором на правой 
 msgid "Try open archive"
 msgstr ""
 
+#: TFRMOPTIONS.BTNTWEAKPLUGIN.CAPTION
+msgid "Tweak"
+msgstr "Параметры"
+
 #: TFRMTWEAKPLUGIN.CAPTION
 msgid "Tweak plugin"
 msgstr "Настройка плагина"
@@ -2285,6 +2337,10 @@ msgstr "Просмоторщик"
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Просмотрщика"
+
+#: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
+msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr "Позволяют отображать во внутреннем просмотрщике (F3, Ctrl+Q) файлы различных форматов, таких как рисунки, таблицы, базы данных и т.д."
 
 #: TFRMSPLITTER.GRBXWATCH.CAPTION
 msgid "Watchtower"
@@ -2421,4 +2477,3 @@ msgstr ""
 #: TFRMMAIN.BTNLEFTHOME.CAPTION
 msgid "~"
 msgstr ""
-
