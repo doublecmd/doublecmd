@@ -321,7 +321,7 @@
     </Units>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="5"/>
+    <Version Value="6"/>
     <PathDelim Value="\"/>
     <SearchPaths>
       <IncludeFiles Value="$(LazarusDir)\ide\"/>
@@ -329,8 +329,8 @@
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
         <IncludeAssertionCode Value="True"/>
-        <DelphiCompat Value="True"/>
         <UseAnsiStrings Value="True"/>
       </SyntaxOptions>
     </Parsing>

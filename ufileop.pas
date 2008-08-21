@@ -1,30 +1,33 @@
 {
-Seksi Commander
-----------------------------
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Seksi Commander
+   ----------------------------
+   Licence  : GNU GPL v 2.0
+   Author   : radek.cervinka@centrum.cz
 
-contributors:
+   contributors:
 
-Peter Cernoch 2002, pcernoch@volny.cz
+   Peter Cernoch 2002, pcernoch@volny.cz
 
-Martin Matusu, xmat@volny.cz
+   Martin Matusu, xmat@volny.cz
 
-Alexander Koblov (Alexx2000@mail.ru)
+   Alexander Koblov (Alexx2000@mail.ru)
 
 }
 
 unit uFileOp;
+
 {$mode objfpc}{$H+}
+
 interface
 uses
-  uFileList, uTypes,lclproc;
+  SysUtils, uFileList, uTypes,lclproc;
   
-Function LoadFilebyName(const sFileName:String):TFileRecItem;
-Function LoadFilesbyDir(const sDir:String; fl:TFileList):Boolean;
-Function AttrToStr(iAttr:Cardinal):String;
+function LoadFileInfoBySearchRec(Path: String; SearchRec: TSearchRec): TFileRecItem;
+function LoadFilebyName(const sFileName: String): TFileRecItem;
+function LoadFilesbyDir(const sDir: String; fl: TFileList): Boolean;
+function AttrToStr(iAttr: Cardinal): String;
 
-//Function IsDirByName(const sName:String):Boolean;
+//function IsDirByName(const sName:String):Boolean;
 
 const
   __S_IFMT        = $F000;
@@ -49,10 +52,10 @@ const
 
 implementation
 uses
-  SysUtils, uFileProcs, uFindEx, uGlobs, uOSUtils {$IFDEF UNIX}, uUsersGroups, Unix, BaseUnix{$ENDIF};
+  uFileProcs, uFindEx, uGlobs, uOSUtils {$IFDEF UNIX}, uUsersGroups, Unix, BaseUnix{$ENDIF};
 
 {$IFDEF UNIX}   // *nix
-Function IsDirByName(const sName:String):Boolean;
+function IsDirByName(const sName:String):Boolean;
 var
   StatInfo: BaseUnix.Stat;
 begin
@@ -61,16 +64,101 @@ begin
 end;
 {$ENDIF}
 
-Function LoadFilebyName(const sFileName:String):TFileRecItem;
+function LoadFileInfoBySearchRec(Path: String; SearchRec: TSearchRec): TFileRecItem;
+{$IFDEF MSWINDOWS}
+begin
+  with Result do
+  begin
+    iSize:= SearchRec.Size;
+    iMode:= SearchRec.Attr;
+    bSysFile:= Boolean(SearchRec.Attr and faSysFile) or Boolean(SearchRec.Attr and faHidden);
+    fTimeI:= FileDateToDateTime(SearchRec.Time);
+
+    if FPS_ISDIR(iMode) or (SearchRec.Name[1]='.') then //!!!!!
+      sExt:= ''
+    else
+      sExt:= ExtractFileExt(SearchRec.Name);
+    sNameNoExt:= Copy(SearchRec.Name,1,Length(SearchRec.Name)-Length(sExt));
+    sName:= SearchRec.Name;
+
+    sTime:= FormatDateTime(gDateTimeFormat, fTimeI);
+    bIsLink:= FPS_ISLNK(iMode);
+    sLinkTo:= '';
+    iDirSize:= 0;
+
+    if bIsLink then
+    begin
+      sLinkTo:= ReadSymLink(SearchRec.Name);
+    end;
+
+    bExecutable:= not FPS_ISDIR(iMode); // for ShellExecute
+    if bIsLink then
+      bLinkIsDir:= True //Because symbolic link works on Windows 2k/XP for directories only
+    else
+      bLinkIsDir:= False;
+
+    bSelected:= False;
+    sModeStr:= AttrToStr(iMode);
+    sPath:= Path;
+  end; // with
+end;
+{$ENDIF}
+{$IFDEF UNIX}
+var
+  sb: BaseUnix.Stat; //buffer for stat64
+begin
+  with Result do
+  begin
+    fpLStat(SearchRec.Name, @sb);
+    iSize:=sb.st_size;
+
+    iOwner:=sb.st_uid; //UID
+    iGroup:=sb.st_gid; //GID
+    sOwner:=UIDToStr(iOwner);
+    sGroup:=GIDToStr(iGroup);
+{/mate}
+    iMode:=sb.st_mode;
+    bSysFile := (SearchRec.Name[1] = '.') and (SearchRec.Name <> '..');
+    fTimeI:= FileDateToDateTime(sb.st_mtime); // EncodeDate (1970, 1, 1) + (SearchRec.Time / 86400.0);
+
+
+    if FPS_ISDIR(iMode) or (SearchRec.Name[1]='.') then //!!!!!
+      sExt:= ''
+    else
+      sExt:= ExtractFileExt(SearchRec.Name);
+    sNameNoExt:= Copy(SearchRec.Name,1,Length(SearchRec.Name)-Length(sExt));
+    sName:= SearchRec.Name;
+
+    sTime:= FormatDateTime(gDateTimeFormat, fTimeI);
+    bIsLink:= FPS_ISLNK(iMode);
+    sLinkTo:= '';
+    iDirSize:= 0;
+
+    if bIsLink then
+    begin
+      sLinkTo:= ReadSymLink(SearchRec.Name);
+    end;
+
+    if bIsLink then
+      bLinkIsDir:= IsDirByName(sLinkTo)
+    else
+      bLinkIsDir:= False;
+    bExecutable:= (not FPS_ISDIR(iMode)) and (iMode AND (S_IXUSR OR S_IXGRP OR S_IXOTH)>0);
+
+    bSelected:= False;
+    sModeStr:= AttrToStr(iMode);
+    sPath:= Path;
+  end; // with
+end;
+{$ENDIF}
+
+function LoadFilebyName(const sFileName: String): TFileRecItem;
 var
   fr:TFileRecItem;
   sr:TSearchRec;
-{$IFDEF UNIX}
-  sb: stat; //buffer for stat64
-{$ENDIF}
 begin
 //  writeln('Enter LoadFilesbyDir');
-  DebugLn('LoadFileByName SFileName = '+sFileName);
+  DebugLn('LoadFileByName sFileName = '+sFileName);
   if FindFirstEx(sFileName,faAnyFile,sr)<>0 then
   begin    DebugLn('FindFirst <> 0');
     with fr do     // append "blank dir"
@@ -95,73 +183,22 @@ begin
   end;
 //  repeat
 
-    {$IFDEF UNIX}   // *nix
-    Fplstat(sr.Name, @sb);
-    fr.iSize:=sb.st_size;
+    // get TFileRecItem structure by SearchRec
+    fr:= LoadFileInfoBySearchRec(ExtractFilePath(sr.Name), sr);
 
-    fr.iOwner:=sb.st_uid; //UID
-    fr.iGroup:=sb.st_gid; //GID
-    fr.sOwner:=UIDToStr(fr.iOwner);
-    fr.sGroup:=GIDToStr(fr.iGroup);
-{/mate}
-    fr.iMode:=sb.st_mode;
-    fr.bSysFile := (sr.Name[1] = '.') and (sr.Name <> '..');
-    fr.fTimeI:= FileDateToDateTime(sb.st_mtime); // EncodeDate (1970, 1, 1) + (sr.Time / 86400.0);
-    {$ELSE}  // Windows
-     fr.iSize:= sr.Size;
-     fr.iMode:= sr.Attr;
-     fr.bSysFile := Boolean(sr.Attr and faSysFile) or Boolean(sr.Attr and faHidden);
-     fr.fTimeI:= FileDateToDateTime(sr.Time);
-    {$ENDIF}
-
-    if FPS_ISDIR(fr.iMode) or (sr.Name[1]='.') then //!!!!!
-      fr.sExt:=''
-    else
-      fr.sExt:=ExtractFileExt(sr.Name);
-    fr.sNameNoExt:=Copy(sr.Name,1,length(sr.Name)-length(fr.sExt));
-    fr.sName:=sr.Name;
-
-    fr.sTime := FormatDateTime(gDateTimeFormat, fr.fTimeI);
-    fr.bIsLink:=FPS_ISLNK(fr.iMode);
-    fr.sLinkTo:='';
-    fr.iDirSize:=0;
-
-    if fr.bIsLink then
-    begin
-      fr.sLinkTo:=ReadSymLink(sr.Name);
-    end;
-    {$IFDEF UNIX}   // *nix
-    if fr.bIsLink then
-      fr.bLinkIsDir:=IsDirByName(fr.sLinkTo)
-    else
-      fr.bLinkIsDir:=False;
-    fr.bExecutable:=(not FPS_ISDIR(fr.iMode)) and (fr.iMode AND (S_IXUSR OR S_IXGRP OR S_IXOTH)>0);
-    {$ELSE}  // Windows for ShellExecute
-    fr.bExecutable:= not FPS_ISDIR(fr.iMode);
-    if fr.bIsLink then
-      fr.bLinkIsDir:=True //Because symbolic link works on Windows 2k/XP for directories only
-    else
-      fr.bLinkIsDir:=False;
-    {$ENDIF}
-    fr.bSelected:=False;
-    fr.sModeStr:=AttrToStr(fr.iMode);
-    fr.sPath := ExtractFilePath(fr.sName);
     Result:=fr;
 //  until FindNext(sr)<>0;
   FindClose(sr);
 end;
 
 
-Function LoadFilesbyDir(const sDir:String; fl:TFileList):Boolean;
+function LoadFilesbyDir(const sDir: String; fl: TFileList): Boolean;
 var
-  fr:TFileRecItem;
-  sr:TSearchRec;
-{$IFDEF UNIX}
-  sb: BaseUnix.Stat; //buffer for stat64
-{$ENDIF}
+  fr: TFileRecItem;
+  sr: TSearchRec;
 begin
-//  writeln('Enter LoadFilesbyDir');
-  Result:=True;
+//  DebugLn('Enter LoadFilesbyDir');
+  Result:= True;
   fl.Clear;
   fl.CurrentDirectory := IncludeTrailingPathDelimiter(sDir);
   if FindFirstEx('*',faAnyFile,sr)<>0 then
@@ -191,79 +228,33 @@ begin
     if ((sDir=DirectorySeparator) or (sDir=(ExtractFileDrive(sDir)+PathDelim))) and (sr.Name='..') then Continue;
     if sr.Name='' then Continue;
 
-    {$IFDEF UNIX}   // *nix
-    FpLStat(sr.Name, @sb);
-    fr.iSize:=sb.st_size;
+    // get TFileRecItem structure by SearchRec
+    fr:= LoadFileInfoBySearchRec(sDir, sr);
 
-    fr.iOwner:=sb.st_uid; //UID
-    fr.iGroup:=sb.st_gid; //GID
-    fr.sOwner:=UIDToStr(fr.iOwner);
-    fr.sGroup:=GIDToStr(fr.iGroup);
-{/mate}
-    fr.iMode:=sb.st_mode;
-    fr.bSysFile := (sr.Name[1] = '.') and (sr.Name <> '..');
-    fr.fTimeI:= FileDateToDateTime(sb.st_mtime); // EncodeDate (1970, 1, 1) + (sr.Time / 86400.0);
-    {$ELSE}  // Windows
-     fr.iSize:= sr.Size;
-     fr.iMode:= sr.Attr;
-     fr.bSysFile := Boolean(sr.Attr and faSysFile) or Boolean(sr.Attr and faHidden);
-     fr.fTimeI:= FileDateToDateTime(sr.Time);
-    {$ENDIF}
-    
-    if FPS_ISDIR(fr.iMode) or (sr.Name[1]='.') then //!!!!!
-      fr.sExt:=''
-    else
-      fr.sExt:=ExtractFileExt(sr.Name);
-    fr.sNameNoExt:=Copy(sr.Name,1,length(sr.Name)-length(fr.sExt));
-    fr.sName:=sr.Name;
-
-    fr.sTime := FormatDateTime(gDateTimeFormat, fr.fTimeI);
-    fr.bIsLink:=FPS_ISLNK(fr.iMode);
-    fr.sLinkTo:='';
-    fr.iDirSize:=0;
-
-    if fr.bIsLink then
-    begin
-      fr.sLinkTo:=ReadSymLink(sr.Name);
-    end;
-    {$IFDEF UNIX}   // *nix
-    if fr.bIsLink then
-      fr.bLinkIsDir:=IsDirByName(fr.sLinkTo)
-    else
-      fr.bLinkIsDir:=False;
-    fr.bExecutable:=(not FPS_ISDIR(fr.iMode)) and (fr.iMode AND (S_IXUSR OR S_IXGRP OR S_IXOTH)>0);
-    {$ELSE}  // Windows for ShellExecute
-    fr.bExecutable:= not FPS_ISDIR(fr.iMode);
-    if fr.bIsLink then
-      fr.bLinkIsDir:=True //Because symbolic link works on Windows 2k/XP for directories only
-    else
-      fr.bLinkIsDir:=False;
-    {$ENDIF}
-    fr.bSelected:=False;
-    fr.sModeStr:=AttrToStr(fr.iMode);
-    fr.sPath := sDir;
     fl.AddItem(@fr);
   until FindNextEx(sr)<>0;
   FindClose(sr);
-  Result:=True;
+  Result:= True;
 end;
 
-Function AttrToStr(iAttr:Cardinal):String;
-begin
-  Result     := '----------';
-  
+function AttrToStr(iAttr: Cardinal): String;
 {$IFDEF MSWINDOWS}
+begin
+  Result:= '------';
+  
+  if FPS_ISDIR(iAttr) then Result[1]:='d';
+  if FPS_ISLNK(iAttr) then Result[1]:='l';
 
-if FPS_ISDIR(iAttr) then Result[1]:='d';
-if FPS_ISLNK(iAttr) then Result[1]:='l';
-
-if Boolean(iAttr and $01) then Result[2] := 'r';
-if Boolean(iAttr and $20) then Result[3] := 'a';
-if Boolean(iAttr and $02) then Result[4] := 'h';
-if Boolean(iAttr and $04) then Result[5] := 's';
-if Boolean(iAttr and $08) then Result[6] := 'v';
-
+  if Boolean(iAttr and $01) then Result[2] := 'r';
+  if Boolean(iAttr and $20) then Result[3] := 'a';
+  if Boolean(iAttr and $02) then Result[4] := 'h';
+  if Boolean(iAttr and $04) then Result[5] := 's';
+  if Boolean(iAttr and $08) then Result[6] := 'v';
+end;
 {$ELSE}
+begin
+  Result:= '----------';
+
   if FPS_ISDIR(iAttr) then Result[1]:='d';
   if FPS_ISLNK(iAttr) then Result[1]:='l';
   if FPS_ISSOCK(iAttr) then Result[1]:='s';
@@ -283,7 +274,7 @@ if Boolean(iAttr and $08) then Result[6] := 'v';
 
   if ((iAttr AND S_ISUID) = S_ISUID) then Result[4]  := 's';
   if ((iAttr AND S_ISGID) = S_ISGID) then Result[7]  := 's';
-{$ENDIF}
 end;
+{$ENDIF}
 
 end.
