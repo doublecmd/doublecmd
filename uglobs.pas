@@ -474,7 +474,7 @@ begin
   gCursorText := gIni.ReadInteger('Colors', 'CursorText', clHighlightedText);
   gUseInvertedSelection:= gIni.ReadBool('Colors', 'UseInvertedSelection', false);
   { File operations }
-  gCopyBlockSize := gIni.ReadInteger('Configuration', 'CopyBlockSize', 16384);
+  gCopyBlockSize := gIni.ReadInteger('Configuration', 'CopyBlockSize', 65536);
   gDropReadOnlyFlag := gIni.ReadBool('Configuration', 'DropReadOnlyFlag', True);
   gUseMmapInSearch := gIni.ReadBool('Configuration', 'UseMmapInSearch', False);
   gWipePassNumber:= gIni.ReadInteger('Configuration', 'WipePassNumber', 1);
