@@ -63,11 +63,7 @@ begin
     fr.sName:=ExtractDirLevel(fl.CurrentDirectory, srcPath+sr.Name);
     fr.sPath:=dstPath;
     fr.sNameNoExt:=sr.Name; // we use to save dstname
-    {$IFDEF UNIX}
-    fr.iMode := sr.Mode;
-    {$ELSE}
     fr.iMode := sr.Attr;
-    {$ENDIF}
     fr.bSelected:=False;
     fr.iSize := sr.Size;
 
