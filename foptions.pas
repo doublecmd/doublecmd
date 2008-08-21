@@ -455,62 +455,6 @@ begin
    end;
 end;
 
-procedure TfrmOptions.btnRemovePluginClick(Sender: TObject);
-begin
-  if stgPlugins.Row <= 0 then Exit; // no plugins
-
-  if pcPluginsTypes.ActivePage.Name = 'tsDSX' then
-    begin
-      tmpDSXPlugins.DeleteItem(stgPlugins.Row - 1);
-      stgPlugins.DeleteColRow(False, stgPlugins.Row);
-    end
-  else if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
-    begin
-      tmpWCXPlugins.Delete(stgPlugins.Row - 1);
-      stgPlugins.DeleteColRow(False, stgPlugins.Row);
-    end
-  else if pcPluginsTypes.ActivePage.Name = 'tsWDX' then
-    begin
-      tmpWDXPlugins.DeleteItem(stgPlugins.Row - 1);
-      stgPlugins.DeleteColRow(False, stgPlugins.Row);
-    end
-  else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
-    begin
-      tmpWFXPlugins.Delete(stgPlugins.Row - 1);
-      stgPlugins.DeleteColRow(False, stgPlugins.Row);
-    end
-  else if pcPluginsTypes.ActivePage.Name = 'tsWLX' then
-    begin
-      tmpWLXPlugins.DeleteItem(stgPlugins.Row - 1);
-      stgPlugins.DeleteColRow(False, stgPlugins.Row);
-    end
-end;
-
-procedure TfrmOptions.btnTweakPluginClick(Sender: TObject);
-var
-  ptPluginType: TPluginType;
-  iPluginIndex: Integer;
-begin
-  iPluginIndex:= stgPlugins.Row - 1;
-  if pcPluginsTypes.ActivePage.Name = 'tsDSX' then
-    ptPluginType:= ptDSX
-  else if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
-    begin
-      ptPluginType:= ptWCX;
-      // get plugin index
-      iPluginIndex:= tmpWCXPlugins.IndexOfName(Copy2Space(stgPlugins.Cells[2, stgPlugins.Row]));
-    end
-  else if pcPluginsTypes.ActivePage.Name = 'tsWDX' then
-    ptPluginType:= ptWDX
-  else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
-    ptPluginType:= ptWFX
-  else if pcPluginsTypes.ActivePage.Name = 'tsWLX' then
-    ptPluginType:= ptWLX;
-
-  if ShowTweakPluginDlg(ptPluginType, iPluginIndex) then
-    pcPluginsTypes.ActivePage.OnShow(pcPluginsTypes.ActivePage); // update info in plugin list
-end;
-
 procedure TfrmOptions.cbbUseInvertedSelectionChange(Sender: TObject);
 begin
   pbExample.Repaint;
@@ -849,6 +793,8 @@ begin
   gbDateTimeFormat.Width:= iWidth;
 end;
 
+{ Plugins }
+
 procedure TfrmOptions.stgPluginsBeforeSelection(Sender: TObject; aCol,
   aRow: Integer);
 begin
@@ -858,28 +804,6 @@ begin
     btnEnablePlugin.Caption:= rsOptEnable;
 
   btnEnablePlugin.Enabled:= (stgPlugins.Cells[0, aRow] <> '');
-end;
-
-{ DSX plugins }
-
-procedure TfrmOptions.btnDSXAddClick(Sender: TObject);
-var
-  I, J: Integer;
-  sPluginName : String;
-begin
-  odOpenDialog.Filter := 'Search plugins (*.dsx)|*.dsx';
-  if odOpenDialog.Execute then
-    begin
-      sPluginName := ExtractFileName(odOpenDialog.FileName);
-      Delete(sPluginName,length(sPluginName)-4,4);
-      I:= tmpDSXPlugins.Add(sPluginName,odOpenDialog.FileName,'');
-
-      stgPlugins.RowCount:= stgPlugins.RowCount + 1;
-      J:= stgPlugins.RowCount-1;
-      stgPlugins.Cells[1, J]:= tmpDSXPlugins.GetDsxModule(I).Name;
-      stgPlugins.Cells[2, J]:= tmpDSXPlugins.GetDsxModule(I).Descr;
-      stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpDSXPlugins.GetDsxModule(I).FileName);
-    end;
 end;
 
 procedure TfrmOptions.btnEnablePluginClick(Sender: TObject);
@@ -910,6 +834,123 @@ begin
       stgPlugins.Cells[0, stgPlugins.Row]:= IfThen(bEnabled, '+', '-');
       tmpWFXPlugins.Enabled[stgPlugins.Row - 1]:= bEnabled;
       btnEnablePlugin.Caption:= IfThen(bEnabled, rsOptDisable, rsOptEnable);
+    end;
+end;
+
+procedure TfrmOptions.btnRemovePluginClick(Sender: TObject);
+begin
+  if stgPlugins.Row <= 0 then Exit; // no plugins
+
+  if pcPluginsTypes.ActivePage.Name = 'tsDSX' then
+    begin
+      tmpDSXPlugins.DeleteItem(stgPlugins.Row - 1);
+      stgPlugins.DeleteColRow(False, stgPlugins.Row);
+    end
+  else if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
+    begin
+      tmpWCXPlugins.Delete(stgPlugins.Row - 1);
+      stgPlugins.DeleteColRow(False, stgPlugins.Row);
+    end
+  else if pcPluginsTypes.ActivePage.Name = 'tsWDX' then
+    begin
+      tmpWDXPlugins.DeleteItem(stgPlugins.Row - 1);
+      stgPlugins.DeleteColRow(False, stgPlugins.Row);
+    end
+  else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
+    begin
+      tmpWFXPlugins.Delete(stgPlugins.Row - 1);
+      stgPlugins.DeleteColRow(False, stgPlugins.Row);
+    end
+  else if pcPluginsTypes.ActivePage.Name = 'tsWLX' then
+    begin
+      tmpWLXPlugins.DeleteItem(stgPlugins.Row - 1);
+      stgPlugins.DeleteColRow(False, stgPlugins.Row);
+    end
+end;
+
+procedure TfrmOptions.btnTweakPluginClick(Sender: TObject);
+var
+  ptPluginType: TPluginType;
+  iPluginIndex: Integer;
+begin
+  iPluginIndex:= stgPlugins.Row - 1;
+  if pcPluginsTypes.ActivePage.Name = 'tsDSX' then
+    ptPluginType:= ptDSX
+  else if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
+    begin
+      ptPluginType:= ptWCX;
+      // get plugin index
+      iPluginIndex:= tmpWCXPlugins.IndexOfName(Copy2Space(stgPlugins.Cells[2, stgPlugins.Row]));
+    end
+  else if pcPluginsTypes.ActivePage.Name = 'tsWDX' then
+    ptPluginType:= ptWDX
+  else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
+    ptPluginType:= ptWFX
+  else if pcPluginsTypes.ActivePage.Name = 'tsWLX' then
+    ptPluginType:= ptWLX;
+
+  if ShowTweakPluginDlg(ptPluginType, iPluginIndex) then
+    pcPluginsTypes.ActivePage.OnShow(pcPluginsTypes.ActivePage); // update info in plugin list
+end;
+
+procedure TfrmOptions.btnConfigPluginClick(Sender: TObject);
+var
+  WCXmodule: TWCXmodule;
+  WFXmodule: TWFXmodule;
+begin
+  if stgPlugins.Row <= 0 then Exit; // no plugins
+
+  if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
+    begin
+      WCXmodule := TWCXmodule.Create;
+      DebugLn('TWCXmodule created');
+      if WCXmodule.LoadModule(GetCmdDirFromEnvVar(tmpWCXPlugins.FileName[stgPlugins.Row - 1])) then
+       begin
+         DebugLn('WCXModule Loaded');
+         WCXmodule.VFSConfigure(Handle);
+         DebugLn('Dialog executed');
+         WCXModule.UnloadModule;
+         DebugLn('WCX Module Unloaded');
+         WCXmodule.Free;
+         DebugLn('WCX Freed');
+       end;
+    end
+  else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
+    begin
+      WFXmodule := TWFXmodule.Create;
+      DebugLn('TWFXmodule created');
+      if WFXmodule.LoadModule(GetCmdDirFromEnvVar(tmpWFXPlugins.FileName[stgPlugins.Row - 1])) then
+       begin
+         DebugLn('WFXModule Loaded');
+         WFXmodule.VFSConfigure(Handle);
+         DebugLn('Dialog executed');
+         WFXModule.UnloadModule;
+         DebugLn('WFX Module Unloaded');
+         WFXmodule.Free;
+         DebugLn('WFX Freed');
+       end;
+    end;
+end;
+
+{ DSX plugins }
+
+procedure TfrmOptions.btnDSXAddClick(Sender: TObject);
+var
+  I, J: Integer;
+  sPluginName : String;
+begin
+  odOpenDialog.Filter := 'Search plugins (*.dsx)|*.dsx';
+  if odOpenDialog.Execute then
+    begin
+      sPluginName := ExtractFileName(odOpenDialog.FileName);
+      Delete(sPluginName,length(sPluginName)-4,4);
+      I:= tmpDSXPlugins.Add(sPluginName,odOpenDialog.FileName,'');
+
+      stgPlugins.RowCount:= stgPlugins.RowCount + 1;
+      J:= stgPlugins.RowCount-1;
+      stgPlugins.Cells[1, J]:= tmpDSXPlugins.GetDsxModule(I).Name;
+      stgPlugins.Cells[2, J]:= tmpDSXPlugins.GetDsxModule(I).Descr;
+      stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpDSXPlugins.GetDsxModule(I).FileName);
     end;
 end;
 
@@ -1270,10 +1311,9 @@ end;
 
 procedure TfrmOptions.lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
 begin
-if lbxCategories.ItemIndex=-1 then exit;
- Actions.GetCommandsByCategory( lbxCategories.items.Strings[lbxCategories.ItemIndex],lbxCommands.items);
- lbxCommands.Sorted:=true;
- 
+  if lbxCategories.ItemIndex=-1 then exit;
+  Actions.GetCommandsByCategory( lbxCategories.items.Strings[lbxCategories.ItemIndex],lbxCommands.items);
+  lbxCommands.Sorted:= True;
 end;
 
 procedure TfrmOptions.nbNotebookPageChanged(Sender: TObject);
@@ -1355,45 +1395,6 @@ begin
   if lbCategories.Count > 0 then
     lbCategories.ItemIndex := 0;
   lbCategoriesClick(lbCategories);
-end;
-
-procedure TfrmOptions.btnConfigPluginClick(Sender: TObject);
-var
-  WCXmodule: TWCXmodule;
-  WFXmodule: TWFXmodule;
-begin
-  if stgPlugins.Row <= 0 then Exit; // no plugins
-
-  if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
-    begin
-      WCXmodule := TWCXmodule.Create;
-      DebugLn('TWCXmodule created');
-      if WCXmodule.LoadModule(GetCmdDirFromEnvVar(tmpWCXPlugins.FileName[stgPlugins.Row - 1])) then
-       begin
-         DebugLn('WCXModule Loaded');
-         WCXmodule.VFSConfigure(Handle);
-         DebugLn('Dialog executed');
-         WCXModule.UnloadModule;
-         DebugLn('WCX Module Unloaded');
-         WCXmodule.Free;
-         DebugLn('WCX Freed');
-       end;
-    end
-  else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
-    begin
-      WFXmodule := TWFXmodule.Create;
-      DebugLn('TWFXmodule created');
-      if WFXmodule.LoadModule(GetCmdDirFromEnvVar(tmpWFXPlugins.FileName[stgPlugins.Row - 1])) then
-       begin
-         DebugLn('WFXModule Loaded');
-         WFXmodule.VFSConfigure(Handle);
-         DebugLn('Dialog executed');
-         WFXModule.UnloadModule;
-         DebugLn('WFX Module Unloaded');
-         WFXmodule.Free;
-         DebugLn('WFX Freed');
-       end;
-    end;
 end;
 
 procedure TfrmOptions.btnCategoryColorClick(Sender: TObject);
@@ -1581,7 +1582,6 @@ begin
 
   edtRunTerm.Text:=gRunTerm;
 
-  //tvTreeView.Items.Item[3].Text := lngGetString(clngDlgOptFonts);
 
   { Colors }
   cbTextColor.Selected := gForeColor;

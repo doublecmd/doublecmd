@@ -1393,10 +1393,10 @@ object frmOptions: TfrmOptions
           Columns = <          
             item
               Alignment = taCenter
-              MaxSize = 60
+              MaxSize = 80
               SizePriority = 0
               Title.Caption = 'Active'
-              Width = 40
+              Width = 70
             end          
             item
               Title.Caption = 'Plugin'

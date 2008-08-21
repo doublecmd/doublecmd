@@ -76,8 +76,8 @@ var
   gDirSortFirst:Boolean=True; // want to show dir first in panels
   gDirHistoryCount:Integer=30; // how many history we remember
   gShowSystemFiles:Boolean=True;
-  gTerm:String='/usr/X11R6/bin/xterm -e bash -i -c %s';
-  gRunTerm:String='/usr/X11R6/bin/xterm';
+  gTerm: String;
+  gRunTerm: String;
   gCaseSensitiveSort:Boolean=True;
   gLynxLike:Boolean=True;
   gDirSelect:Boolean=True;
@@ -422,7 +422,7 @@ begin
   
   gShowSystemFiles := gIni.ReadBool('Configuration', 'ShowSystemFiles', False);
   gPOFileName := gIni.ReadString('Configuration', 'Language', '');
-  gTerm := gIni.ReadString('Configuration', 'Term', gTerm);
+  gTerm := gIni.ReadString('Configuration', 'Term', Terminal);
   gCaseSensitiveSort := gIni.ReadBool('Configuration', 'CaseSensitiveSort', False);
   gLynxLike := gIni.ReadBool('Configuration', 'LynxLike', True);
   gDirSelect := gIni.ReadBool('Configuration', 'DirSelect', True);
@@ -447,7 +447,7 @@ begin
   gExtEdit := gIni.ReadString('Configuration', 'ExtEdit', '');
   gExtView := gIni.ReadString('Configuration', 'ExtView', '');
   gExtDiff := gIni.ReadString('Configuration', 'ExtDiff', '');
-  gRunTerm := gIni.ReadString('Configuration', 'RunTerm', gRunTerm);
+  gRunTerm := gIni.ReadString('Configuration', 'RunTerm', Terminal);
 
   gLuaLib:=gIni.ReadString('Configuration', 'LuaLib', gLuaLib);
 
