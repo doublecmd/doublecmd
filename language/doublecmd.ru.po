@@ -798,6 +798,10 @@ msgstr ""
 msgid "Cut"
 msgstr "В&ырезать"
 
+#: TFRMOPTIONS.CBCUTTEXTTOCOLWIDTH.CAPTION
+msgid "Cut text to column width"
+msgstr "Обрезать текст по ширине колонки"
+
 #: ulng.rsmsgerrbaddata
 msgid "Data is bad"
 msgstr "Данные повреждены"
@@ -925,6 +929,10 @@ msgstr ""
 #: TFRMLINKER.SPBTNDOWN.HINT
 msgid "Down"
 msgstr "Вниз"
+
+#: TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION
+msgid "Drive black list:"
+msgstr "Черный список дисков:"
 
 #: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
 msgid "Drop readonly flag"
@@ -1301,6 +1309,10 @@ msgstr ""
 #: TFRMEXTRACTDLG.BTNHELP.CAPTION
 msgid "Help"
 msgstr "Помощь"
+
+#: TFRMOPTIONS.LEDDRIVEBLACKLIST.HINT
+msgid "Here you can enter one or more drives, separated by \";\"."
+msgstr "Здесь вы можете ввести один или несколько дисков, разделенных \";\"."
 
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key"
@@ -1965,6 +1977,10 @@ msgstr "Выберите каталог:"
 #: ulng.rsmarkplus
 msgid "Select mask"
 msgstr "Маска выбора"
+
+#: TFRMOPTIONS.CBRENAMESELONLYNAME.CAPTION
+msgid "Select only the file name then renaming (not the extension)"
+msgstr "При переименовании выделять имя файла без расширения"
 
 #: TFRMEDITOR.ACTEDITSELECTALL.CAPTION
 msgid "Select&All"
