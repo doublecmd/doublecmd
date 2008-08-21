@@ -103,6 +103,8 @@ type
     cbDateTimeFormat: TComboBox;
     cbbFileSystem: TComboBox;
     cbMouseMode: TComboBox;
+    cbRenameSelOnlyName: TCheckBox;
+    cbCutTextToColWidth: TCheckBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
@@ -129,10 +131,10 @@ type
     fneExtViewer: TFileNameEdit;
     fneExtDiffer: TFileNameEdit;
     fneExtEditor: TFileNameEdit;
-    gb: TGroupBox;
+    gbMisc1: TGroupBox;
     gbExample: TGroupBox;
     gbFileTypesColors: TGroupBox;
-    gbMisc: TGroupBox;
+    gbMisc2: TGroupBox;
     gbScreenLayout: TGroupBox;
     cbFlatDiskPanel: TCheckBox;
     cbShowMainToolBar: TCheckBox;
@@ -152,6 +154,9 @@ type
     gbFileSearch: TGroupBox;
     gbLocConfigFiles: TGroupBox;
     gbSaveOnExit: TGroupBox;
+    gbMisc3: TGroupBox;
+    gbMisc4: TGroupBox;
+    ledDriveBlackList: TLabeledEdit;
     lblDSXDescription: TLabel;
     lblWLXDescription: TLabel;
     lblWCXDescription: TLabel;
@@ -789,7 +794,7 @@ var
   iWidth: Integer;
 begin
   iWidth:= (pgBehav.Width div 2) - 26;
-  gb.Width:= iWidth;
+  gbMisc1.Width:= iWidth;
   gbDateTimeFormat.Width:= iWidth;
 end;
 
@@ -1571,6 +1576,9 @@ begin
   cbMinimizeToTray.Checked:= gTrayIcon;
   cbDateTimeFormat.Text:= gDateTimeFormat;
   lblDateTimeExample.Caption:= FormatDateTime(gDateTimeFormat, Now);
+  cbRenameSelOnlyName.Checked:= gRenameSelOnlyName;
+  cbCutTextToColWidth.Checked:= gCutTextToColWidth;
+  ledDriveBlackList.Text:= gDriveBlackList;
 
   fneExtEditor.FileName := gExtEdit;
   fneExtViewer.FileName := gExtView;
@@ -1703,6 +1711,9 @@ begin
   gScrollMode := rgScrolling.ItemIndex;
   gTrayIcon:= cbMinimizeToTray.Checked;
   gDateTimeFormat := cbDateTimeFormat.Text;
+  gRenameSelOnlyName:= cbRenameSelOnlyName.Checked;
+  gCutTextToColWidth:= cbCutTextToColWidth.Checked;
+  gDriveBlackList:= ledDriveBlackList.Text;
   
   gMouseSelectionEnabled := cbSelectionByMouse.Checked;
   gMouseSelectionButton := cbMouseMode.ItemIndex;

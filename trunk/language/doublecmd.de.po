@@ -799,6 +799,10 @@ msgstr ""
 msgid "Cut"
 msgstr "Ausschneiden"
 
+#: TFRMOPTIONS.CBCUTTEXTTOCOLWIDTH.CAPTION
+msgid "Cut text to column width"
+msgstr ""
+
 #: ulng.rsmsgerrbaddata
 msgid "Data is bad"
 msgstr "Datenfehler"
@@ -926,6 +930,10 @@ msgstr "Double Commander"
 #: TFRMLINKER.SPBTNDOWN.HINT
 msgid "Down"
 msgstr "A&bwärts"
+
+#: TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION
+msgid "Drive black list:"
+msgstr ""
 
 #: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
 msgid "Drop readonly flag"
@@ -1302,6 +1310,10 @@ msgstr ""
 #: TFRMEXTRACTDLG.BTNHELP.CAPTION
 msgid "Help"
 msgstr "Hilfe"
+
+#: TFRMOPTIONS.LEDDRIVEBLACKLIST.HINT
+msgid "Here you can enter one or more drives, separated by \";\"."
+msgstr ""
 
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key"
@@ -1966,6 +1978,10 @@ msgstr "Wähle Ordner:"
 #: ulng.rsmarkplus
 msgid "Select mask"
 msgstr "Wähle Maske"
+
+#: TFRMOPTIONS.CBRENAMESELONLYNAME.CAPTION
+msgid "Select only the file name then renaming (not the extension)"
+msgstr ""
 
 #: TFRMEDITOR.ACTEDITSELECTALL.CAPTION
 msgid "Select&All"
