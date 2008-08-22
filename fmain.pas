@@ -62,6 +62,8 @@ type
     actCopyNamesToClip: TAction;
     actCopyFullNamesToClip: TAction;
     actExchange: TAction;
+    actUnmarkCurrentExtension: TAction;
+    actMarkCurrentExtension: TAction;
     actWipe: TAction;
     actOpenDirInNewTab: TAction;
     actTargetEqualSource: TAction;
@@ -91,6 +93,8 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     MenuItem2: TMenuItem;
+    mnuMarkCurrentExtension: TMenuItem;
+    mnuUnmarkCurrentExtension: TMenuItem;
     miSymLink: TMenuItem;
     miHardLink: TMenuItem;
     miCancel: TMenuItem;

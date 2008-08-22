@@ -82,6 +82,8 @@ const cf_Null=0;
    procedure cm_HardLink(param: string='');
    procedure cm_MarkMinus(param: string='');
    procedure cm_MarkPlus(param: string='');
+   procedure cm_MarkCurrentExtension(param: string='');
+   procedure cm_UnmarkCurrentExtension(param: string='');
    procedure cm_MultiRename(param: string='');
    procedure cm_ReverseOrder(param: string='');
    procedure cm_SortByAttr(param: string='');
@@ -1089,6 +1091,16 @@ end;
 procedure TActs.cm_MarkPlus(param:string);
 begin
   frmMain.ActiveFrame.MarkPlus;
+end;
+
+procedure TActs.cm_MarkCurrentExtension(param: string);
+begin
+  frmMain.ActiveFrame.MarkShiftPlus;
+end;
+
+procedure TActs.cm_UnmarkCurrentExtension(param: string);
+begin
+  frmMain.ActiveFrame.MarkShiftMinus;
 end;
 
 procedure TActs.cm_MarkMinus(param:string);
