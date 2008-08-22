@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 287
+  Left = 490
   Height = 717
-  Top = 91
+  Top = 328
   Width = 989
   ActiveControl = nbRight
   AllowDropFiles = True
@@ -437,10 +437,9 @@ object frmMain: TfrmMain
     Align = alBottom
     Font.Height = -16
     Font.Name = 'courier'
+    Font.Pitch = fpFixed
     ParentColor = False
     TabOrder = 4
-    BookMarkOptions.OnChange = nil
-    Gutter.CodeFoldingWidth = 14
     Keystrokes = <    
       item
         Command = 3
@@ -765,7 +764,6 @@ object frmMain: TfrmMain
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
-    SelectedColor.OnChange = nil
     OnSpecialLineColors = seLogWindowSpecialLineColors
   end
   object LogSplitter: TSplitter
@@ -864,6 +862,14 @@ object frmMain: TfrmMain
       end
       object mnuMarkInvert: TMenuItem
         Action = actMarkInvert
+        OnClick = actExecute
+      end
+      object mnuMarkCurrentExtension: TMenuItem
+        Action = actMarkCurrentExtension
+        OnClick = actExecute
+      end
+      object mnuUnmarkCurrentExtension: TMenuItem
+        Action = actUnmarkCurrentExtension
         OnClick = actExecute
       end
       object miLine5: TMenuItem
@@ -1387,6 +1393,18 @@ object frmMain: TfrmMain
     object actWipe: TAction
       Category = 'Commands'
       Caption = 'Wipe'
+      DisableIfNoHandler = True
+      OnExecute = actExecute
+    end
+    object actMarkCurrentExtension: TAction
+      Category = 'Mark'
+      Caption = 'Select all with same extension'
+      DisableIfNoHandler = True
+      OnExecute = actExecute
+    end
+    object actUnmarkCurrentExtension: TAction
+      Category = 'Mark'
+      Caption = 'Unselect all with same extension'
       DisableIfNoHandler = True
       OnExecute = actExecute
     end
