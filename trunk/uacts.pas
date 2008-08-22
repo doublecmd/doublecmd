@@ -852,7 +852,7 @@ begin
         ActiveFrame.UnMarkAll;
         Exit;
       end;
-    mmrCancel:
+    mmrCancel, mmrNone:
       begin
 	with ActiveFrame do
 	  UnSelectFileIfSelected(GetActiveItem);

@@ -1508,7 +1508,7 @@ begin
               ShowPackDlg(dstFramePanel.pnlFile.VFS, srcFileList, sDestPath, False);
             end
           else
-            msgOK(rsMsgErrNotSupported);
+            msgWarning(rsMsgErrNotSupported);
         end;
       Exit;
     end;
