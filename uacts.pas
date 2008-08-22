@@ -117,7 +117,7 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
      uFileOpThread,fFileOpDlg,forms,uVFSutil,uShowForm,uDCUtils,uLog,uVFSTypes,
      fMkDir,LCLProc,uFileProcs,uDeleteThread,fFileAssoc,fExtractDlg,fAbout,
      fOptions,fCompareFiles,fFindDlg,fSymLink,fHardLink,fMultiRename,
-     uSpaceThread,fLinker,fSplitter,uGlobsPaths ;
+     uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx;
 
 { TActs }
 
@@ -473,11 +473,15 @@ begin
 end;
 
 procedure TActs.cm_ShowButtonMenu(param:string);
-var  Point:TPoint;
+var
+  Point:TPoint;
+  IniFile: TIniFileEx;
 begin
   with frmMain do
   begin
-    pmButtonMenu.LoadBarFile(gpIniDir + param);
+    IniFile:= TIniFileEx.Create(gpIniDir + param);
+    pmButtonMenu.LoadFromIniFile(IniFile);
+    IniFile.Free;
     Point:=MainToolBar.ClientToScreen(Classes.Point(0,0));
     Point.Y:=Point.Y+MainToolbar.Height;
     Point.X:=mouse.CursorPos.X-60;

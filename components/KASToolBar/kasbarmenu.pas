@@ -35,7 +35,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, Menus, KASBarFiles, ImgList,FileUtil;
+  StdCtrls, Menus, KASBarFiles, ImgList,FileUtil, IniFiles;
   
 type
 
@@ -63,6 +63,8 @@ TOnMenuButtonClick = procedure (Sender: TObject; NumberOfButton : Integer) of ob
 
    procedure Clear;
    procedure LoadFromStringList(List: TStringList);
+   procedure LoadFromIniFile(IniFile : TIniFile);
+   procedure SaveToIniFile(IniFile : TIniFile);
    procedure LoadBarFile(FileName:string);
    procedure SaveToFile(FileName : String);
    
@@ -169,7 +171,19 @@ begin
   Self.Items.Clear;
   FBar.LoadFromStringList(List);
   MakeMenu;
+end;
 
+procedure TKASBarMenu.LoadFromIniFile(IniFile: TIniFile);
+begin
+  FBar.DeleteAllButtons;
+  Self.Items.Clear;
+  FBar.LoadFromIniFile(IniFile);
+  MakeMenu;
+end;
+
+procedure TKASBarMenu.SaveToIniFile(IniFile: TIniFile);
+begin
+  FBar.SaveToIniFile(IniFile);
 end;
 
 procedure TKASBarMenu.SaveToFile(FileName: String);
