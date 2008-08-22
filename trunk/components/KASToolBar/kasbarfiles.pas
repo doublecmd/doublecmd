@@ -91,6 +91,8 @@ type
              procedure RemoveButton(Index: Integer);
              procedure DeleteAllButtons;
              procedure SetButtonX(Index:integer; What:Tinfor;Value: string);
+             procedure LoadFromIniFile(IniFile : TIniFile);
+             procedure SaveToIniFile(IniFile : TIniFile);
              procedure LoadFromFile(FileName : String);
              procedure LoadFromStringList(List:TStringList);
              procedure SaveToFile(FileName : String);
@@ -145,6 +147,44 @@ If Index>=XButtons.Count then XButtons.Add(TKButton.Create);
 
 end;
 
+procedure TBarClass.LoadFromIniFile(IniFile: TIniFile);
+var
+  BtnCount, I : Integer;
+begin
+  BtnCount := IniFile.ReadInteger('Buttonbar', 'Buttoncount', 0);
+  CurrentBar:= IniFile.FileName;
+  for I := 1 to BtnCount do
+    begin
+       XButtons.Add(TKButton.Create);
+           TKButton(XButtons[I-1]).ButtonX :=GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'button' + IntToStr(I), ''));
+           TKButton(XButtons[I-1]).CmdX := IniFile.ReadString('Buttonbar', 'cmd' + IntToStr(I), '');
+           TKButton(XButtons[I-1]).ParamX := IniFile.ReadString('Buttonbar', 'param' + IntToStr(I), '');
+           TKButton(XButtons[I-1]).PathX := IniFile.ReadString('Buttonbar', 'path' + IntToStr(I), '');
+           TKButton(XButtons[I-1]).MenuX := IniFile.ReadString('Buttonbar', 'menu' + IntToStr(I), '');
+           TKButton(XButtons[I-1]).IconicX := IniFile.ReadInteger('Buttonbar', 'icon' + IntToStr(I),0);
+           TKButton(XButtons[I-1]).MiskX := IniFile.ReadString('Buttonbar', 'misk' + IntToStr(I), '');
+    end;
+end;
+
+procedure TBarClass.SaveToIniFile(IniFile: TIniFile);
+var
+  I : Integer;
+begin
+  //For cleaning. Without this saved file will contain removed buttons
+  IniFile.EraseSection('Buttonbar');
+  IniFile.WriteInteger('Buttonbar', 'Buttoncount', XButtons.Count);
+
+  for I := 0 to XButtons.Count - 1 do
+    begin
+      IniFile.WriteString('Buttonbar', 'button' + IntToStr(I + 1), SetCmdDirAsEnvVar(GetButtonX(I,ButtonX)));
+      IniFile.WriteString('Buttonbar', 'cmd' + IntToStr(I + 1), SetCmdDirAsEnvVar(GetButtonX(I,CmdX)));
+      IniFile.WriteString('Buttonbar', 'param' + IntToStr(I + 1), GetButtonX(I,ParamX) );
+      IniFile.WriteString('Buttonbar', 'path' + IntToStr(I + 1), GetButtonX(I,PathX) );
+      IniFile.WriteString('Buttonbar', 'menu' + IntToStr(I + 1),GetButtonX(I,MenuX) );
+      IniFile.WriteString('Buttonbar', 'misk' + IntToStr(I + 1),GetButtonX(I,MiskX) );
+    end;
+end;
+
 function TBarClass.GetButtonX(Index: integer; What: TInfor): string;
 begin
 if (index>=XButtons.Count) or (Index<0) then Exit;
@@ -174,23 +214,10 @@ end;
 procedure TBarClass.LoadFromFile(FileName: String);
 var
   IniFile : Tinifile;
-  BtnCount, I : Integer;
 begin
   DeleteAllButtons;
   IniFile := Tinifile.Create(FileName);
-  BtnCount := IniFile.ReadInteger('Buttonbar', 'Buttoncount', 0);
-  CurrentBar:=FileName;
-  for I := 1 to BtnCount do
-    begin
-       XButtons.Add(TKButton.Create);
-           TKButton(XButtons[I-1]).ButtonX :=GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'button' + IntToStr(I), ''));
-           TKButton(XButtons[I-1]).CmdX := IniFile.ReadString('Buttonbar', 'cmd' + IntToStr(I), '');
-           TKButton(XButtons[I-1]).ParamX := IniFile.ReadString('Buttonbar', 'param' + IntToStr(I), '');
-           TKButton(XButtons[I-1]).PathX := IniFile.ReadString('Buttonbar', 'path' + IntToStr(I), '');
-           TKButton(XButtons[I-1]).MenuX := IniFile.ReadString('Buttonbar', 'menu' + IntToStr(I), '');
-           TKButton(XButtons[I-1]).IconicX := IniFile.ReadInteger('Buttonbar', 'icon' + IntToStr(I),0);
-           TKButton(XButtons[I-1]).MiskX := IniFile.ReadString('Buttonbar', 'misk' + IntToStr(I), '');
-    end;
+  LoadFromIniFile(IniFile);
   IniFile.Free;
 end;
 
@@ -230,22 +257,9 @@ end;
 procedure TBarClass.SaveToFile(FileName: String);
 var
   IniFile : Tinifile;
-  I : Integer;
 begin
   IniFile := Tinifile.Create(FileName);
-  //For cleaning. Without this saved file will contain removed buttons
-  IniFile.EraseSection('Buttonbar');
-  IniFile.WriteInteger('Buttonbar', 'Buttoncount', XButtons.Count);
-
-  for I := 0 to XButtons.Count - 1 do
-    begin
-      IniFile.WriteString('Buttonbar', 'button' + IntToStr(I + 1), SetCmdDirAsEnvVar(GetButtonX(I,ButtonX)));
-      IniFile.WriteString('Buttonbar', 'cmd' + IntToStr(I + 1), SetCmdDirAsEnvVar(GetButtonX(I,CmdX)));
-      IniFile.WriteString('Buttonbar', 'param' + IntToStr(I + 1), GetButtonX(I,ParamX) );
-      IniFile.WriteString('Buttonbar', 'path' + IntToStr(I + 1), GetButtonX(I,PathX) );
-      IniFile.WriteString('Buttonbar', 'menu' + IntToStr(I + 1),GetButtonX(I,MenuX) );
-      IniFile.WriteString('Buttonbar', 'misk' + IntToStr(I + 1),GetButtonX(I,MiskX) );
-    end;
+  SaveToIniFile(IniFile);
   IniFile.Free;
 end;
 
