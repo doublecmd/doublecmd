@@ -970,6 +970,10 @@ msgstr "Редактора"
 msgid "Eject"
 msgstr "Извлечь"
 
+#: TFRMEDITOR.MIENCODING.CAPTION
+msgid "En&coding"
+msgstr "&Кодировка"
+
 #: TFRMOPTIONS.CBEXACTENDING.CAPTION
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr "Конец (последние символы до набранной точки '.' должны совпадать)"

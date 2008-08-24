@@ -45,6 +45,7 @@ type
     actFileSaveAs: TAction;
     actFileNew: TAction;
     actFileExit: TAction;
+    miEncoding: TMenuItem;
     miFindNext: TMenuItem;
     miDelete: TMenuItem;
     miSelectAll: TMenuItem;
@@ -141,7 +142,9 @@ type
     bSearchSelectionOnly:Boolean;
     bSearchWholeWords:Boolean;
     sSearchText, sReplaceText:String;
-    sReplaceTextHistory, sSearchTextHistory:String;    
+    sReplaceTextHistory, sSearchTextHistory:String;
+    sEncoding,
+    sOriginalText: String;
   public
     { Public declarations }
     SynEditSearch: TSynEditSearch;
@@ -151,6 +154,7 @@ type
     Function OpenFileNewTab(const sFileName:String):Integer;}
     procedure OpenFile(const sFileName:String);
     procedure UpdateStatus;
+    procedure SetEncoding(Sender:TObject);
     procedure SetHighLighter(Sender:TObject);
     procedure UpdateHighlighterStatus;
     procedure DoSearchReplaceText(AReplace: boolean; ABackwards: boolean);
@@ -164,7 +168,7 @@ implementation
 uses
   dmDialogs, dmHigh, uLng, uFileProcs, uOSUtils,
   SynEditHighlighter, uShowMsg, fMsg, fEditSearch,
-  SynEditTypes, uGlobsPaths, uGlobs, fEditorConf, LCLType;
+  SynEditTypes, uGlobsPaths, uGlobs, fEditorConf, LCLType, LConvEncoding;
 
 procedure ShowEditor(const sFileName:String);
 var editor: TfrmEditor;
@@ -187,6 +191,7 @@ procedure TfrmEditor.FormCreate(Sender: TObject);
 var
   i:Integer;
   mi:TMenuItem;
+  EncodingsList: TStringList;
 begin
   LoadFromIni;
   Editor.Font.Name:=gEditorFontName;
@@ -206,7 +211,19 @@ begin
       mi.OnClick:=@SetHighLighter;
       miHighlight.Add(mi);
     end;
-
+// update menu encoding
+  miEncoding.Clear;
+  EncodingsList:= TStringList.Create;
+  GetSupportedEncodings(EncodingsList);
+  for I:=0 to EncodingsList.Count - 1 do
+    begin
+      mi:= TMenuItem.Create(miEncoding);
+      mi.Caption:= EncodingsList[I];
+      mi.Enabled:= True;
+      mi.OnClick:= @SetEncoding;
+      miEncoding.Add(mi);
+    end;
+  EncodingsList.Free;
 end;
 
 procedure TfrmEditor.actEditFindNextExecute(Sender: TObject);
@@ -229,6 +246,12 @@ begin
   finally
     fsFileStream.Free;
   end;
+  // set up text encoding
+  sOriginalText:= Editor.Lines.Text; // save original text
+  sEncoding:= GuessEncoding(sOriginalText); // try to guess encoding
+  if sEncoding <> EncodingUTF8 then
+    Editor.Lines.Text:= ConvertEncoding(sOriginalText, sEncoding, EncodingUTF8);
+  // set up highlighter
   h:= dmHighl.GetHighlighterByExt(ExtractFileExt(sFileName));
   SetupColorOfHighlighter(h);
   Editor.Highlighter:=h;
@@ -471,6 +494,7 @@ end;
 procedure TfrmEditor.actFileSaveExecute(Sender: TObject);
 var
   fsFileStream: TFileStreamEx;
+  slStringList: TStringList;
 begin
   inherited;
   if bNoname then
@@ -479,8 +503,13 @@ begin
   begin
     try
       fsFileStream:= TFileStreamEx.Create(Caption, fmCreate);
-      Editor.Lines.SaveToStream(fsFileStream);
+      // restore encoding
+      slStringList:= TStringList.Create;
+      slStringList.Text:= ConvertEncoding(Editor.Lines.Text, EncodingUTF8, sEncoding);
+      // save to file
+      slStringList.SaveToStream(fsFileStream);
     finally
+      slStringList.Free;
       fsFileStream.Free;
     end;
     bChanged:=False;
@@ -491,6 +520,7 @@ end;
 procedure TfrmEditor.actFileSaveAsExecute(Sender: TObject);
 var
   fsFileStream: TFileStreamEx;
+  slStringList: TStringList;
 begin
   inherited;
   dmDlg.SaveDialog.FileName:=Caption;
@@ -498,8 +528,13 @@ begin
   if not dmDlg.SaveDialog.Execute then Exit;
   try
     fsFileStream:= TFileStreamEx.Create(dmDlg.SaveDialog.FileName, fmCreate);
-    Editor.Lines.SaveToStream(fsFileStream);
+    // restore encoding
+    slStringList:= TStringList.Create;
+    slStringList.Text:= ConvertEncoding(Editor.Lines.Text, EncodingUTF8, sEncoding);
+    // save to file
+    slStringList.SaveToStream(fsFileStream);
   finally
+    slStringList.Free;
     fsFileStream.Free;
   end;
   bChanged:=False;
@@ -519,6 +554,12 @@ begin
     StatusBar.Panels[0].Text:='';
   StatusBar.Panels[1].Text:=Format('%d:%d',[Editor.CaretX, Editor.CaretY]);
 //  StatusBar.Panels[2].Text:=IntToStr(Length(Editor.Lines.Text));
+end;
+
+procedure TfrmEditor.SetEncoding(Sender: TObject);
+begin
+  sEncoding:= (Sender as TMenuItem).Caption;
+  Editor.Lines.Text:= ConvertEncoding(sOriginalText, sEncoding, EncodingUTF8);
 end;
 
 procedure TfrmEditor.EditorStatusChange(Sender: TObject;

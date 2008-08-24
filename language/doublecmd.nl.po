@@ -971,6 +971,10 @@ msgstr "Editor lettertype"
 msgid "Eject"
 msgstr ""
 
+#: TFRMEDITOR.MIENCODING.CAPTION
+msgid "En&coding"
+msgstr ""
+
 #: TFRMOPTIONS.CBEXACTENDING.CAPTION
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr "Einde (laatste karakter voor een getypte punt . moet overeenkomene"

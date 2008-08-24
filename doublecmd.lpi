@@ -49,7 +49,7 @@
         <PackageName Value="imagesforlazarus"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="35">
+    <Units Count="34">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -197,6 +197,7 @@
         <ComponentName Value="frmFindDlg"/>
         <HasResources Value="True"/>
         <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="fFindDlg.lrs"/>
         <UnitName Value="fFindDlg"/>
       </Unit18>
@@ -321,7 +322,7 @@
     </Units>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="6"/>
+    <Version Value="8"/>
     <PathDelim Value="\"/>
     <SearchPaths>
       <IncludeFiles Value="$(LazarusDir)\ide\"/>
@@ -335,7 +336,6 @@
       </SyntaxOptions>
     </Parsing>
     <CodeGeneration>
-      <Generate Value="Faster"/>
       <Optimizations>
         <OptimizationLevel Value="2"/>
       </Optimizations>

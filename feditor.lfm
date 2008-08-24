@@ -3,9 +3,6 @@ object frmEditor: TfrmEditor
   Height = 220
   Top = 169
   Width = 342
-  HorzScrollBar.Page = 341
-  VertScrollBar.Page = 199
-  VertScrollBar.Range = 19
   ActiveControl = Editor
   Caption = 'Editor'
   ClientHeight = 200
@@ -18,6 +15,7 @@ object frmEditor: TfrmEditor
   OnDestroy = FormDestroy
   Position = poScreenCenter
   ShowInTaskBar = stAlways
+  LCLVersion = '0.9.25'
   object StatusBar: TStatusBar
     Height = 23
     Top = 177
@@ -57,10 +55,9 @@ object frmEditor: TfrmEditor
     BookMarkOptions.Xoffset = 48
     Gutter.AutoSize = True
     Gutter.ShowLineNumbers = True
-    Gutter.ShowCodeFolding = True
     Gutter.UseFontStyle = True
     Gutter.Width = 24
-    Gutter.CodeFoldingWidth = 14
+    Gutter.ShowCodeFolding = True
     Keystrokes = <    
       item
         Command = 3
@@ -1090,6 +1087,9 @@ object frmEditor: TfrmEditor
         }
         OnClick = actEditRplcExecute
       end
+    end
+    object miEncoding: TMenuItem
+      Caption = 'En&coding'
     end
     object miHighlight: TMenuItem
       Caption = 'Syntax highlight'

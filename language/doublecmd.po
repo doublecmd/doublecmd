@@ -1477,6 +1477,10 @@ msgstr ""
 msgid "&Edit"
 msgstr ""
 
+#: TFRMEDITOR.MIENCODING.CAPTION
+msgid "En&coding"
+msgstr ""
+
 #: TFRMEDITOR.MIHIGHLIGHT.CAPTION
 msgid "Syntax highlight"
 msgstr ""
