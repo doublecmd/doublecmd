@@ -971,6 +971,10 @@ msgstr "Шрифт на обработчика"
 msgid "Eject"
 msgstr ""
 
+#: TFRMEDITOR.MIENCODING.CAPTION
+msgid "En&coding"
+msgstr ""
+
 #: TFRMOPTIONS.CBEXACTENDING.CAPTION
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr "&Край (последният знак преди точката . трябва да съвпада)"

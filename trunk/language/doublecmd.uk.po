@@ -970,6 +970,10 @@ msgstr "Шрифт редактора"
 msgid "Eject"
 msgstr ""
 
+#: TFRMEDITOR.MIENCODING.CAPTION
+msgid "En&coding"
+msgstr ""
+
 #: TFRMOPTIONS.CBEXACTENDING.CAPTION
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr "Кінець (останні символи до набраної крапки '.' повинні співпадати)"
