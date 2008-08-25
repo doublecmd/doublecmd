@@ -1,15 +1,12 @@
 object frmViewer: TfrmViewer
-  Left = 289
-  Height = 726
-  Top = 91
-  Width = 987
-  HorzScrollBar.Page = 986
-  VertScrollBar.Page = 699
-  VertScrollBar.Range = 19
+  Left = 66
+  Height = 520
+  Top = 87
+  Width = 952
   ActiveControl = ScrollBarVert
   Caption = 'Viewer'
-  ClientHeight = 700
-  ClientWidth = 987
+  ClientHeight = 500
+  ClientWidth = 952
   Constraints.MinHeight = 100
   Constraints.MinWidth = 200
   KeyPreview = True
@@ -22,16 +19,17 @@ object frmViewer: TfrmViewer
   OnKeyUp = frmViewerKeyUp
   Position = poDefault
   ShowInTaskBar = stAlways
+  LCLVersion = '0.9.25'
   object pnlLister: TPanel
-    Height = 680
-    Width = 987
+    Height = 477
+    Width = 952
     Align = alClient
     TabOrder = 2
   end
   object Status: TStatusBar
-    Height = 20
-    Top = 680
-    Width = 987
+    Height = 23
+    Top = 477
+    Width = 952
     Panels = <    
       item
         Width = 200
@@ -48,8 +46,8 @@ object frmViewer: TfrmViewer
     SimplePanel = False
   end
   object nbPages: TNotebook
-    Height = 680
-    Width = 987
+    Height = 477
+    Width = 952
     Align = alClient
     PageIndex = 1
     ShowTabs = False
@@ -87,22 +85,19 @@ object frmViewer: TfrmViewer
     end
     object pgImage: TPage
       Caption = 'pgImage'
-      ClientWidth = 983
-      ClientHeight = 676
+      ClientWidth = 944
+      ClientHeight = 469
       object ScrollBox: TScrollBox
-        Height = 676
-        Width = 983
-        HorzScrollBar.Page = 978
-        VertScrollBar.Page = 671
+        Height = 469
+        Width = 944
         Align = alClient
         ParentCtl3D = False
         TabOrder = 0
         TabStop = True
         object Image: TImage
-          Height = 672
-          Width = 979
+          Height = 465
+          Width = 940
           Align = alClient
-          Transparent = False
         end
       end
     end
@@ -182,7 +177,13 @@ object frmViewer: TfrmViewer
         ShortCut = 55
         OnClick = miPluginsClick
       end
-      object MenuItem1: TMenuItem
+      object miDiv3: TMenuItem
+        Caption = '-'
+      end
+      object miEncoding: TMenuItem
+        Caption = 'En&coding'
+      end
+      object miDiv4: TMenuItem
         Caption = '-'
       end
       object miSearch: TMenuItem

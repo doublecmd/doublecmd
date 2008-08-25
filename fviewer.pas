@@ -38,7 +38,9 @@ type
 
   TfrmViewer = class(TForm)
     Image: TImage;
-    MenuItem1: TMenuItem;
+    miDiv3: TMenuItem;
+    miEncoding: TMenuItem;
+    miDiv4: TMenuItem;
     miPlugins: TMenuItem;
     miSeparator: TMenuItem;
     miSavePos: TMenuItem;
@@ -99,6 +101,7 @@ type
     procedure miGraphicsClick(Sender: TObject);
     procedure miCopyToClipboardClick(Sender: TObject);
     procedure miSelectAllClick(Sender: TObject);
+    procedure miChangeEncodingClick(Sender:TObject);
     procedure ScrollBarVertScroll(Sender: TObject; ScrollCode: TScrollCode;
       var ScrollPos: Integer);
   private
@@ -131,7 +134,7 @@ procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
 implementation
 
 uses
-  uLng, uShowMsg, uGlobs, lcltype, lazjpg, uClassesEx, uFindMmap, uOSUtils;
+  uLng, uShowMsg, uGlobs, lcltype, lazjpg, LConvEncoding, uClassesEx, uFindMmap, uOSUtils;
 
 
 procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
@@ -396,7 +399,10 @@ begin
 end;
 
 procedure TfrmViewer.FormCreate(Sender: TObject);
-//var i:integer;
+var
+  I: Integer;
+  mi: TMenuItem;
+  EncodingsList: TStringList;
 begin
 //  DebugLn('TfrmViewer.FormCreate');
   ViewerControl.Color:= clWindow;
@@ -414,8 +420,21 @@ begin
 {  Status.Panels[0].Width:=50;
   Status.Panels[1].Width:=50;}
 
+// update menu encoding
+  miEncoding.Clear;
+  EncodingsList:= TStringList.Create;
+  GetSupportedEncodings(EncodingsList);
+  for I:= 0 to EncodingsList.Count - 1 do
+    begin
+      mi:= TMenuItem.Create(miEncoding);
+      mi.Caption:= EncodingsList[I];
+      mi.Enabled:= True;
+      mi.OnClick:= @miChangeEncodingClick;
+      miEncoding.Add(mi);
+    end;
+  EncodingsList.Free;
  // DebugLn('TfrmViewer.FormCreate done');
- end;
+end;
 
 procedure TfrmViewer.FormDestroy(Sender: TObject);
 begin
@@ -588,6 +607,12 @@ procedure TfrmViewer.miSelectAllClick(Sender: TObject);
 begin
   inherited;
   ViewerControl.SelectAll;
+end;
+
+procedure TfrmViewer.miChangeEncodingClick(Sender: TObject);
+begin
+  ViewerControl.Encoding:= (Sender as TMenuItem).Caption;
+  ViewerControl.Repaint;
 end;
 
 procedure TfrmViewer.ScrollBarVertScroll(Sender: TObject;

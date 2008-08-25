@@ -50,7 +50,7 @@ type
   protected
     { Protected declarations }
     FTempName: String;
-    
+    FEncoding: String;
     FViewerMode:TViewerMode;
     FFileHandle:Integer;
     FFileSize:Integer;
@@ -65,7 +65,7 @@ type
     // this is broken ..., using constant
     FTextHeight, FTextWidth:Integer; // measured values of font, rec calc at font changed
 //    FBitmap:TBitmap;
-    procedure OutText(ARect:TRect; x,y:Integer; const sText:String);
+    procedure OutText(ARect:TRect; x,y:Integer; sText:String);
     procedure WriteText(bWrap:Boolean);
     procedure WriteHex;
     procedure WriteBin;
@@ -109,6 +109,7 @@ type
     procedure CopyToClipboard;
   published
     { Published declarations }
+    property Encoding: String read FEncoding write FEncoding;
     property ViewerMode:TViewerMode read FViewerMode write SetViewerMode;
     property Position:Integer read FPosition write SetPosition;
     property FileSize:Integer read FFileSize;
@@ -128,7 +129,7 @@ procedure Register;
 
 implementation
 uses
-  Clipbrd{$IFDEF UNIX}, BaseUnix, Unix{$ELSE}, Windows{$ENDIF};
+  Clipbrd, LConvEncoding{$IFDEF UNIX}, BaseUnix, Unix{$ELSE}, Windows{$ENDIF};
 
 const
   cTextWidth=80;  // wrap on 80 chars
@@ -141,6 +142,7 @@ begin
   inherited Create(AOwner);
   Color:=clWindow;
 //  FBitmap:=TBitmap.Create;
+  FEncoding:= EncodingAnsi;
   FViewerMode:=vmBin;
   FMappedFile:=nil;
   FPosition:=0;
@@ -690,13 +692,16 @@ begin
 end;
 {$ENDIF}
 
-procedure TViewerControl.OutText(aRect:TRect; x,y:Integer; const sText:String);
+procedure TViewerControl.OutText(aRect:TRect; x,y:Integer; sText:String);
 var
   pBegLine, pEndLine:Integer;
   iBegDrawIndex:Integer;
   iEndDrawIndex:Integer;
 
 begin
+  if FEncoding <> EncodingUTF8 then
+    sText:= ConvertEncoding(sText, FEncoding, EncodingUTF8);
+
   pBegLine:=Integer(FLineList.Items[y div FTextHeight]);
   pEndLine:=pBegLine+length(sText);
   if ((FBlockEnd-FBlockBeg)=0) or
