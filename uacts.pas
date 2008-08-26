@@ -103,6 +103,7 @@ const cf_Null=0;
    procedure cm_FileLinker(param: string='');
    procedure cm_FileSpliter(param: string='');
    procedure cm_PanelsSplitterPerPos(param: string='');
+   procedure cm_EditComment(param: string='');
 
    //---------------------
    {   procedure SomeFunction (param:string; var Result:integer);
@@ -119,7 +120,7 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
      uFileOpThread,fFileOpDlg,forms,uVFSutil,uShowForm,uDCUtils,uLog,uVFSTypes,
      fMkDir,LCLProc,uFileProcs,uDeleteThread,fFileAssoc,fExtractDlg,fAbout,
      fOptions,fCompareFiles,fFindDlg,fSymLink,fHardLink,fMultiRename,
-     uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx;
+     uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit;
 
 { TActs }
 
@@ -1451,6 +1452,13 @@ begin
   end;
 end;
 
+procedure TActs.cm_EditComment(param: string);
+begin
+  with frmMain.ActiveFrame do
+  begin
+    ShowDescrEditDlg(ActiveDir + pnlFile.GetActiveItem^.sName);
+  end;
+end;
 
 
 end.

@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 490
+  Left = 283
   Height = 717
-  Top = 328
+  Top = 19
   Width = 989
   ActiveControl = nbRight
   AllowDropFiles = True
@@ -440,6 +440,7 @@ object frmMain: TfrmMain
     Font.Pitch = fpFixed
     ParentColor = False
     TabOrder = 4
+    BookMarkOptions.OnChange = nil
     Keystrokes = <    
       item
         Command = 3
@@ -764,6 +765,7 @@ object frmMain: TfrmMain
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
+    SelectedColor.OnChange = nil
     OnSpecialLineColors = seLogWindowSpecialLineColors
   end
   object LogSplitter: TSplitter
@@ -794,6 +796,9 @@ object frmMain: TfrmMain
       object mnuFilesProperties: TMenuItem
         Action = actFileProperties
         OnClick = actExecute
+      end
+      object miEditComment: TMenuItem
+        Action = actEditComment
       end
       object mnuFilesSpace: TMenuItem
         Action = actCalculateSpace
@@ -1405,6 +1410,12 @@ object frmMain: TfrmMain
     object actUnmarkCurrentExtension: TAction
       Category = 'Mark'
       Caption = 'Unselect all with same extension'
+      DisableIfNoHandler = True
+      OnExecute = actExecute
+    end
+    object actEditComment: TAction
+      Category = 'File'
+      Caption = 'Edit comment...'
       DisableIfNoHandler = True
       OnExecute = actExecute
     end

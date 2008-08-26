@@ -953,6 +953,14 @@ msgstr "Upravit"
 msgid "Edit F4"
 msgstr "Uprav F4"
 
+#: TFRMDESCREDIT.LBLEDITCOMMENTFOR.CAPTION
+msgid "Edit comment for:"
+msgstr ""
+
+#: TFRMMAIN.ACTEDITCOMMENT.CAPTION
+msgid "Edit comment..."
+msgstr ""
+
 #: TFRMMAIN.ACTEDITNEW.CAPTION
 msgid "Edit new file"
 msgstr "Editovat nový soubor"
@@ -983,6 +991,10 @@ msgstr "&Konec (poslední znak před . musí odpovídat zadanému)"
 
 #: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
 msgid "Enable"
+msgstr ""
+
+#: TFRMDESCREDIT.LBLENCODING.CAPTION
+msgid "Encoding:"
 msgstr ""
 
 #: TFRMPACKDLG.CBENCRYPT.CAPTION
@@ -1188,6 +1200,10 @@ msgstr "Typy souborů"
 #: TFRMOPTIONS.GBFILETYPESCOLORS.CAPTION
 msgid "File types colors"
 msgstr "Obarvování souborů dle typu"
+
+#: TFRMDESCREDIT.CAPTION
+msgid "File/folder comment"
+msgstr ""
 
 #: TFRMPACKINFODLG.LBLPACKEDFILE.CAPTION
 msgid "File:"
@@ -1800,6 +1816,10 @@ msgstr ""
 #: TFRMCOMPAREFILES.BTNPREVDIFF.CAPTION
 msgid "Previous difference"
 msgstr "Předešlý rozdíl"
+
+#: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
+msgid "Process comments with files/folders"
+msgstr ""
 
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"

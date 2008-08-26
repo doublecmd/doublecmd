@@ -49,7 +49,7 @@
         <PackageName Value="imagesforlazarus"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="35">
+    <Units Count="36">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -324,6 +324,14 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDescr"/>
       </Unit34>
+      <Unit35>
+        <Filename Value="fdescredit.pas"/>
+        <ComponentName Value="frmDescrEdit"/>
+        <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <ResourceFilename Value="fdescredit.lrs"/>
+        <UnitName Value="fDescrEdit"/>
+      </Unit35>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

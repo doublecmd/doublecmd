@@ -951,6 +951,14 @@ msgstr "编辑"
 msgid "Edit F4"
 msgstr "编辑 F4"
 
+#: TFRMDESCREDIT.LBLEDITCOMMENTFOR.CAPTION
+msgid "Edit comment for:"
+msgstr ""
+
+#: TFRMMAIN.ACTEDITCOMMENT.CAPTION
+msgid "Edit comment..."
+msgstr ""
+
 #: TFRMMAIN.ACTEDITNEW.CAPTION
 msgid "Edit new file"
 msgstr "编辑新文件"
@@ -981,6 +989,10 @@ msgstr "结束(&D)(匹配句点号前一字母)"
 
 #: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
 msgid "Enable"
+msgstr ""
+
+#: TFRMDESCREDIT.LBLENCODING.CAPTION
+msgid "Encoding:"
 msgstr ""
 
 #: TFRMPACKDLG.CBENCRYPT.CAPTION
@@ -1186,6 +1198,10 @@ msgstr "文件类型"
 #: TFRMOPTIONS.GBFILETYPESCOLORS.CAPTION
 msgid "File types colors"
 msgstr "文件类型颜色"
+
+#: TFRMDESCREDIT.CAPTION
+msgid "File/folder comment"
+msgstr ""
 
 #: TFRMPACKINFODLG.LBLPACKEDFILE.CAPTION
 msgid "File:"
@@ -1798,6 +1814,10 @@ msgstr ""
 #: TFRMCOMPAREFILES.BTNPREVDIFF.CAPTION
 msgid "Previous difference"
 msgstr "上一处不同"
+
+#: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
+msgid "Process comments with files/folders"
+msgstr ""
 
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"

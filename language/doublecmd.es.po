@@ -951,6 +951,14 @@ msgstr "Editar"
 msgid "Edit F4"
 msgstr "Editar F4"
 
+#: TFRMDESCREDIT.LBLEDITCOMMENTFOR.CAPTION
+msgid "Edit comment for:"
+msgstr ""
+
+#: TFRMMAIN.ACTEDITCOMMENT.CAPTION
+msgid "Edit comment..."
+msgstr ""
+
 #: TFRMMAIN.ACTEDITNEW.CAPTION
 msgid "Edit new file"
 msgstr "Editar nuevo fichero"
@@ -981,6 +989,10 @@ msgstr "Fi&nal (debe coincidir el último caracter antes de un punto . )"
 
 #: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
 msgid "Enable"
+msgstr ""
+
+#: TFRMDESCREDIT.LBLENCODING.CAPTION
+msgid "Encoding:"
 msgstr ""
 
 #: TFRMPACKDLG.CBENCRYPT.CAPTION
@@ -1186,6 +1198,10 @@ msgstr "Tipos de ficheros"
 #: TFRMOPTIONS.GBFILETYPESCOLORS.CAPTION
 msgid "File types colors"
 msgstr "Colores de tipos de ficheros"
+
+#: TFRMDESCREDIT.CAPTION
+msgid "File/folder comment"
+msgstr ""
 
 #: TFRMPACKINFODLG.LBLPACKEDFILE.CAPTION
 msgid "File:"
@@ -1798,6 +1814,10 @@ msgstr ""
 #: TFRMCOMPAREFILES.BTNPREVDIFF.CAPTION
 msgid "Previous difference"
 msgstr "Diferencia anterior"
+
+#: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
+msgid "Process comments with files/folders"
+msgstr ""
 
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"

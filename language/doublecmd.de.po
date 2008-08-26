@@ -951,6 +951,14 @@ msgstr "Bea&rbeiten"
 msgid "Edit F4"
 msgstr "Bearbeiten F4"
 
+#: TFRMDESCREDIT.LBLEDITCOMMENTFOR.CAPTION
+msgid "Edit comment for:"
+msgstr ""
+
+#: TFRMMAIN.ACTEDITCOMMENT.CAPTION
+msgid "Edit comment..."
+msgstr ""
+
 #: TFRMMAIN.ACTEDITNEW.CAPTION
 msgid "Edit new file"
 msgstr "Datei erstellen und bearbeiten"
@@ -981,6 +989,10 @@ msgstr "Ende des Namens (letztes Zeichen vor einem . soll passen)"
 
 #: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
 msgid "Enable"
+msgstr ""
+
+#: TFRMDESCREDIT.LBLENCODING.CAPTION
+msgid "Encoding:"
 msgstr ""
 
 #: TFRMPACKDLG.CBENCRYPT.CAPTION
@@ -1186,6 +1198,10 @@ msgstr "Dateitypen"
 #: TFRMOPTIONS.GBFILETYPESCOLORS.CAPTION
 msgid "File types colors"
 msgstr "Dateitypfarben"
+
+#: TFRMDESCREDIT.CAPTION
+msgid "File/folder comment"
+msgstr ""
 
 #: TFRMPACKINFODLG.LBLPACKEDFILE.CAPTION
 msgid "File:"
@@ -1798,6 +1814,10 @@ msgstr ""
 #: TFRMCOMPAREFILES.BTNPREVDIFF.CAPTION
 msgid "Previous difference"
 msgstr "Vorheriger Unterschied"
+
+#: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
+msgid "Process comments with files/folders"
+msgstr ""
 
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"

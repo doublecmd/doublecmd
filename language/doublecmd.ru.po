@@ -950,6 +950,14 @@ msgstr "Редактировать"
 msgid "Edit F4"
 msgstr "Правка F4"
 
+#: TFRMDESCREDIT.LBLEDITCOMMENTFOR.CAPTION
+msgid "Edit comment for:"
+msgstr "Правка комментария к:"
+
+#: TFRMMAIN.ACTEDITCOMMENT.CAPTION
+msgid "Edit comment..."
+msgstr "Редактировать комментарий..."
+
 #: TFRMMAIN.ACTEDITNEW.CAPTION
 msgid "Edit new file"
 msgstr "Редактировать новый"
@@ -981,6 +989,10 @@ msgstr "Конец (последние символы до набранной т
 #: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
 msgid "Enable"
 msgstr "Включить"
+
+#: TFRMDESCREDIT.LBLENCODING.CAPTION
+msgid "Encoding:"
+msgstr "Кодировка:"
 
 #: TFRMPACKDLG.CBENCRYPT.CAPTION
 msgid "Encr&ypt"
@@ -1185,6 +1197,10 @@ msgstr "Типы файлов"
 #: TFRMOPTIONS.GBFILETYPESCOLORS.CAPTION
 msgid "File types colors"
 msgstr "Цвета по типу"
+
+#: TFRMDESCREDIT.CAPTION
+msgid "File/folder comment"
+msgstr "Комментприй к файлу/папке"
 
 #: TFRMPACKINFODLG.LBLPACKEDFILE.CAPTION
 msgid "File:"
@@ -1797,6 +1813,10 @@ msgstr ""
 #: TFRMCOMPAREFILES.BTNPREVDIFF.CAPTION
 msgid "Previous difference"
 msgstr "Предыдущее"
+
+#: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
+msgid "Process comments with files/folders"
+msgstr "Обрабатывать комментарии с файлами/папками"
 
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
