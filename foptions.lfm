@@ -114,7 +114,7 @@ object frmOptions: TfrmOptions
       Width = 628
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 1
+      PageIndex = 9
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
@@ -130,7 +130,7 @@ object frmOptions: TfrmOptions
       end
       object pgBehav: TPage
         ClientWidth = 620
-        ClientHeight = 506
+        ClientHeight = 524
         OnResize = pgBehavResize
         object lblTerm: TLabel
           AnchorSideTop.Control = edtTerm
@@ -1484,15 +1484,15 @@ object frmOptions: TfrmOptions
             end          
             item
               Title.Caption = 'Plugin'
-              Width = 182
+              Width = 183
             end          
             item
               Title.Caption = 'Registered for'
-              Width = 182
+              Width = 183
             end          
             item
               Title.Caption = 'File name'
-              Width = 182
+              Width = 184
             end>
           ExtendedSelect = True
           FixedColor = clBtnFace
@@ -2023,24 +2023,24 @@ object frmOptions: TfrmOptions
         end
       end
       object pgFileOp: TPage
-        ClientWidth = 817
-        ClientHeight = 648
+        ClientWidth = 620
+        ClientHeight = 524
         object gbCopyBufferSize: TGroupBox
           Left = 10
           Height = 100
           Top = 6
-          Width = 793
+          Width = 596
           Anchors = [akTop, akLeft, akRight]
           Caption = '&Buffer size for files:'
-          ClientHeight = 100
-          ClientWidth = 793
+          ClientHeight = 82
+          ClientWidth = 592
           TabOrder = 0
           object lblCopyBufferSize: TLabel
             AnchorSideTop.Side = asrBottom
             Left = 14
-            Height = 13
+            Height = 14
             Top = 10
-            Width = 137
+            Width = 79
             Caption = 'Buffer size (Kb):'
             ParentColor = False
           end
@@ -2050,9 +2050,9 @@ object frmOptions: TfrmOptions
             AnchorSideRight.Control = gbCopyBufferSize
             AnchorSideRight.Side = asrBottom
             AnchorSideBottom.Side = asrCenter
-            Left = 683
+            Left = 486
             Height = 23
-            Top = 5
+            Top = 6
             Width = 80
             Anchors = [akTop, akRight]
             BorderSpacing.Right = 26
@@ -2065,21 +2065,21 @@ object frmOptions: TfrmOptions
           Left = 10
           Height = 100
           Top = 218
-          Width = 793
+          Width = 596
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           Caption = 'General options'
-          ClientHeight = 100
-          ClientWidth = 793
+          ClientHeight = 82
+          ClientWidth = 592
           TabOrder = 1
           object lblWipePassNumber: TLabel
             AnchorSideLeft.Control = gbGeneralOptions
             AnchorSideTop.Control = cbDropReadOnlyFlag
             AnchorSideTop.Side = asrBottom
             Left = 14
-            Height = 13
-            Top = 32
-            Width = 161
+            Height = 14
+            Top = 31
+            Width = 105
             BorderSpacing.Left = 14
             BorderSpacing.Top = 6
             Caption = 'Number of wipe pass:'
@@ -2087,9 +2087,9 @@ object frmOptions: TfrmOptions
           end
           object cbDropReadOnlyFlag: TCheckBox
             Left = 14
-            Height = 20
+            Height = 19
             Top = 6
-            Width = 168
+            Width = 115
             Caption = 'Drop readonly flag'
             TabOrder = 0
           end
@@ -2098,13 +2098,26 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Control = gbGeneralOptions
             AnchorSideRight.Side = asrBottom
-            Left = 713
+            Left = 516
             Height = 23
             Top = 27
             Width = 50
             Anchors = [akTop, akRight]
             BorderSpacing.Right = 26
             TabOrder = 1
+          end
+          object cbProcessComments: TCheckBox
+            AnchorSideLeft.Control = gbGeneralOptions
+            AnchorSideTop.Control = lblWipePassNumber
+            AnchorSideTop.Side = asrBottom
+            Left = 14
+            Height = 19
+            Top = 51
+            Width = 196
+            BorderSpacing.Left = 14
+            BorderSpacing.Top = 6
+            Caption = 'Process comments with files/folders'
+            TabOrder = 2
           end
         end
         object gbFileSearch: TGroupBox
@@ -2113,18 +2126,18 @@ object frmOptions: TfrmOptions
           Left = 10
           Height = 100
           Top = 112
-          Width = 793
+          Width = 596
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           Caption = 'File search'
-          ClientHeight = 100
-          ClientWidth = 793
+          ClientHeight = 82
+          ClientWidth = 592
           TabOrder = 2
           object rbUseMmapInSearch: TRadioButton
             Left = 14
-            Height = 20
+            Height = 19
             Top = 6
-            Width = 368
+            Width = 236
             Caption = 'Use memory mapping for search text in files'
             TabOrder = 0
           end
@@ -2132,9 +2145,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = rbUseMmapInSearch
             AnchorSideTop.Side = asrBottom
             Left = 14
-            Height = 20
-            Top = 32
-            Width = 304
+            Height = 19
+            Top = 31
+            Width = 188
             BorderSpacing.Top = 6
             Caption = 'Use stream for search text in files'
             Checked = True

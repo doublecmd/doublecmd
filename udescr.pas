@@ -284,7 +284,10 @@ end;
 
 procedure TDescription.SaveDescription;
 begin
-  SaveToFile(FLastDescrFile);
+  if Count > 0 then
+    SaveToFile(FLastDescrFile)
+  else
+    mbDeleteFile(FLastDescrFile);
   if Assigned(FDestDescr) then
     FDestDescr.SaveDescription;
 end;

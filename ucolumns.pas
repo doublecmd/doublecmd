@@ -524,7 +524,7 @@ procedure TPanelColumnsClass.AddDefaultColumns;
 begin
   SetName:='Default';
   // file name
-  Add(rsColName, '[DC().GETFILENAMENOEXT{}]', 225, taLeftJustify);
+  Add(rsColName, '[DC().GETFILENAMENOEXT{}]', 250, taLeftJustify);
   // file ext
   Add(rsColExt, '[DC().GETFILEEXT{}]', 50, taLeftJustify);
   // file size
@@ -532,7 +532,7 @@ begin
   // file date/time
   Add(rsColDate, '[DC().GETFILETIME{}]', 70, taRightJustify);
   // file attributes
-  Add(rsColAttr, '[DC().GETFILEATTR{}]', 200, taLeftJustify);
+  Add(rsColAttr, '[DC().GETFILEATTR{}]', 175, taLeftJustify);
 end;
 
 

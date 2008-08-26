@@ -237,15 +237,15 @@ try
     MainExecute; // main executive (virtual)
 
   finally
-    if UseForm then
-      begin
-        Synchronize(@FFileOpDlg.Close);
-        DebugLN('TFileOpThread finally');
-      end;
     if gProcessComments and Assigned(FDescr) then
       begin
         FDescr.SaveDescription;
         FreeAndNil(FDescr);
+      end;
+    if UseForm then
+      begin
+        Synchronize(@FFileOpDlg.Close);
+        DebugLN('TFileOpThread finally');
       end;
     if Assigned(NewFileList) then
       FreeAndNil(NewFileList);

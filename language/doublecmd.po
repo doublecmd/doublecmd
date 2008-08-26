@@ -2410,6 +2410,10 @@ msgstr ""
 msgid "Here you can enter one or more drives, separated by \";\"."
 msgstr ""
 
+#: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
+msgid "Process comments with files/folders"
+msgstr ""
+
 #: TFRMPACKINFODLG.BTNUNPACKALLANDEXEC.CAPTION
 msgid "Unpack &all and execute"
 msgstr ""
