@@ -89,6 +89,9 @@ begin
             logWrite(Self, Format(rsMsgLogError+rsMsgLogDelete, [fr^.sName]), lmtError);
 
       end;
+    // process comments if need
+    if Result and gProcessComments and Assigned(FDescr) then
+      FDescr.DeleteDescription(fr^.sName);
   except
     DebugLN('Can not delete ', fr^.sName);
   end;

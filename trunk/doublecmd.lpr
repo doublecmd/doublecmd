@@ -60,7 +60,7 @@ uses
   uPixMapManager, uVFS, fFileAssoc,
   KASComp, fconfigtoolbar, uWCXprototypes, uDCUtils, uOSUtils,
   dmDialogs, fViewer, fOptions, fCopyDlg, fMoveDlg, fFindDlg,
-  fSymLink, fMultiRename, fSplitter, fPackDlg, fExtractDlg;
+  fSymLink, fMultiRename, fSplitter, fPackDlg, fExtractDlg, uDescr;
   
 {$IFDEF MSWINDOWS}
 {$R XP.res}

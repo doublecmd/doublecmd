@@ -145,6 +145,7 @@ var
   gCopyBlockSize : Integer;
   gDropReadOnlyFlag : Boolean = True;
   gWipePassNumber: Integer;
+  gProcessComments: Boolean;
   
   gRenameSelOnlyName:boolean;
 
@@ -478,6 +479,7 @@ begin
   gDropReadOnlyFlag := gIni.ReadBool('Configuration', 'DropReadOnlyFlag', True);
   gUseMmapInSearch := gIni.ReadBool('Configuration', 'UseMmapInSearch', False);
   gWipePassNumber:= gIni.ReadInteger('Configuration', 'WipePassNumber', 1);
+  gProcessComments := gIni.ReadBool('Configuration', 'ProcessComments', True);
   gRenameSelOnlyName:= gIni.ReadBool('Configuration', 'RenameSelOnlyName', false);
   { Log }
   gLogFile := gIni.ReadBool('Configuration', 'LogFile', True);
@@ -639,6 +641,7 @@ begin
   gIni.WriteBool('Configuration', 'DropReadOnlyFlag', gDropReadOnlyFlag);
   gIni.WriteBool('Configuration', 'UseMmapInSearch', gUseMmapInSearch);
   gIni.WriteInteger('Configuration', 'WipePassNumber', gWipePassNumber);
+  gIni.WriteBool('Configuration', 'ProcessComments', gProcessComments);
   gIni.WriteBool('Configuration', 'RenameSelOnlyName', gRenameSelOnlyName);
   { Log }
   gIni.WriteBool('Configuration', 'LogFile', gLogFile);

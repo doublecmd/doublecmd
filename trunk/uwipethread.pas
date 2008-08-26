@@ -368,6 +368,10 @@ begin
       WipeDir(fr^.sName)
     else // files
       WipeFile(fr^.sName);
+
+    // process comments if need
+    if gProcessComments and Assigned(FDescr) then
+      FDescr.DeleteDescription(fr^.sName);
   except
     DebugLn('Can not wipe ', fr^.sName);
   end;
