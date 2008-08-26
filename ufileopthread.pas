@@ -19,7 +19,7 @@ unit uFileOpThread;
 interface
 
 uses
-  Classes, uFileList, fFileOpDlg, uTypes, fMsg, uShowMsg {$IFNDEF NOFAKETHREAD}, uFakeThread{$ENDIF};
+  Classes, uFileList, fFileOpDlg, uTypes, uDescr, fMsg, uShowMsg {$IFNDEF NOFAKETHREAD}, uFakeThread{$ENDIF};
 
 type
   { TFileOpThread }
@@ -45,6 +45,7 @@ type
     FAppend: Boolean; // used mainly for pass information between move and copy
     FSymLinkAll, // process all symlinks
     FNotSymLinkAll : Boolean; // process all real files/folders
+    FDescr: TDescription;
 
     procedure Execute; override;
     procedure MainExecute; virtual; abstract; // main loop for copy /delete ...
@@ -76,7 +77,8 @@ const
 implementation
 
 uses
-  SysUtils, uLng, uFileProcs, uFileOp, Forms, uFindEx, uDCUtils, uOSUtils, LCLProc;
+  SysUtils, uLng, uFileProcs, uFileOp, Forms, uFindEx, uDCUtils, uOSUtils,
+  LCLProc, uGlobs;
 
 { TFileOpThread }
 
@@ -212,6 +214,9 @@ try
   try
     FillAndCount; // gets full list of files (rekursive)
 
+    if gProcessComments then
+      FDescr:= TDescription.Create(True);
+
     if UseForm then
     begin
       //FFileOpDlg:=TfrmFileOp.Create(Application);
@@ -233,11 +238,16 @@ try
 
   finally
     if UseForm then
-    begin
-       Synchronize(@FFileOpDlg.Close);
-       DebugLN('TFileOpThread finally');
-    end;
-    if assigned(NewFileList) then
+      begin
+        Synchronize(@FFileOpDlg.Close);
+        DebugLN('TFileOpThread finally');
+      end;
+    if gProcessComments and Assigned(FDescr) then
+      begin
+        FDescr.SaveDescription;
+        FreeAndNil(FDescr);
+      end;
+    if Assigned(NewFileList) then
       FreeAndNil(NewFileList);
   end;
 except

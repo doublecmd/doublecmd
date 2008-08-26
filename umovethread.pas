@@ -119,6 +119,10 @@ begin
       end
       else
         begin // rename succes
+          // process comments if need
+          if gProcessComments and Assigned(FDescr) then
+            FDescr.MoveDescription(pr^.sName, sDstPath+pr^.sPath+ sDstNew);
+          // write log
           if (log_cp_mv_ln in gLogOptions) and (log_success in gLogOptions) then
             logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogMove, [pr^.sName+' -> '+sDstPath+pr^.sPath+ sDstNew]), lmtSuccess)
         end;

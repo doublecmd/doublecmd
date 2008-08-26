@@ -30,7 +30,8 @@ type
 
 implementation
 uses
-  LCLProc, SysUtils, Classes, uLng, uGlobs, uLog, uShowMsg, uFileProcs, uFindEx, uDCUtils, uOSUtils, uClassesEx;
+  LCLProc, SysUtils, Classes, uLng, uGlobs, uLog, uShowMsg, uFileProcs, uFindEx,
+  uDCUtils, uOSUtils, uClassesEx, uDescr;
 
 procedure TCopyThread.MainExecute;
 var
@@ -44,6 +45,7 @@ begin
   FReplaceAll:=False;
   FSkipAll:=False;
   iCoped:=0;
+
   for xIndex:=0 to NewFileList.Count-1 do // copy
   begin
     if Terminated then
@@ -70,6 +72,7 @@ begin
     FFileOpDlg.iProgress2Pos:=iCoped;
     Synchronize(@FFileOpDlg.UpdateDlg);
   end;
+
 //  writeln('iCoped:',iCoped,' FFileSize', FFilesSize);
 end;
 
@@ -137,6 +140,10 @@ begin
       end;   
     end;
     Result:=CopyFile(fr^.sName, sDst+fr^.sPath+sDstNew, FAppend);
+
+    // process comments if need
+    if Result and gProcessComments and Assigned(FDescr) then
+      FDescr.CopyDescription(fr^.sName, sDst+fr^.sPath+sDstNew);
 
     if Result then
       // write log success

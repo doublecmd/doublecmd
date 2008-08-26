@@ -5,3 +5,4 @@ uosforms.pas
 uvfs.pas
 uexts.pas
 ufileprocs.pas
+udescr.pas
