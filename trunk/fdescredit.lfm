@@ -1,0 +1,120 @@
+object frmDescrEdit: TfrmDescrEdit
+  Left = 290
+  Height = 300
+  Top = 175
+  Width = 400
+  Caption = 'File/folder comment'
+  ClientHeight = 300
+  ClientWidth = 400
+  OnCreate = FormCreate
+  Position = poMainFormCenter
+  LCLVersion = '0.9.25'
+  object lblEditCommentFor: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 12
+    Height = 14
+    Top = 12
+    Width = 86
+    BorderSpacing.Left = 12
+    BorderSpacing.Top = 12
+    Caption = 'Edit comment for:'
+    ParentColor = False
+  end
+  object lblEncoding: TLabel
+    AnchorSideTop.Control = cbEncoding
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = cbEncoding
+    Left = 228
+    Height = 14
+    Top = 222
+    Width = 48
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 12
+    Caption = 'Encoding:'
+    ParentColor = False
+  end
+  object lblFileName: TLabel
+    AnchorSideLeft.Control = lblEditCommentFor
+    AnchorSideTop.Control = lblEditCommentFor
+    AnchorSideTop.Side = asrBottom
+    Left = 12
+    Height = 14
+    Top = 32
+    Width = 19
+    BorderSpacing.Top = 6
+    Caption = '???'
+    Font.Style = [fsBold]
+    ParentColor = False
+  end
+  object memDescr: TMemo
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblFileName
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = cbEncoding
+    Left = 12
+    Height = 153
+    Top = 54
+    Width = 376
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 12
+    BorderSpacing.Top = 8
+    BorderSpacing.Right = 12
+    BorderSpacing.Bottom = 12
+    TabOrder = 0
+  end
+  object cbEncoding: TComboBox
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = memDescr
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = btnCancel
+    Left = 288
+    Height = 21
+    Top = 219
+    Width = 100
+    Anchors = [akRight, akBottom]
+    AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+    BorderSpacing.Bottom = 12
+    ItemHeight = 13
+    OnChange = cbEncodingChange
+    TabOrder = 1
+  end
+  object btnOK: TBitBtn
+    AnchorSideTop.Control = btnCancel
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = btnCancel
+    Left = 232
+    Height = 30
+    Top = 252
+    Width = 75
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 6
+    Caption = '&ОК'
+    Default = True
+    Kind = bkOK
+    ModalResult = 1
+    NumGlyphs = 0
+    TabOrder = 2
+  end
+  object btnCancel: TBitBtn
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = cbEncoding
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 313
+    Height = 30
+    Top = 252
+    Width = 75
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Bottom = 18
+    Cancel = True
+    Caption = 'Отмена'
+    Kind = bkCancel
+    ModalResult = 2
+    NumGlyphs = 0
+    TabOrder = 3
+  end
+end

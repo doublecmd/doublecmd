@@ -950,6 +950,14 @@ msgstr "Редактувати"
 msgid "Edit F4"
 msgstr "Правка F4"
 
+#: TFRMDESCREDIT.LBLEDITCOMMENTFOR.CAPTION
+msgid "Edit comment for:"
+msgstr ""
+
+#: TFRMMAIN.ACTEDITCOMMENT.CAPTION
+msgid "Edit comment..."
+msgstr ""
+
 #: TFRMMAIN.ACTEDITNEW.CAPTION
 msgid "Edit new file"
 msgstr "Редактувати новий"
@@ -980,6 +988,10 @@ msgstr "Кінець (останні символи до набраної кра
 
 #: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
 msgid "Enable"
+msgstr ""
+
+#: TFRMDESCREDIT.LBLENCODING.CAPTION
+msgid "Encoding:"
 msgstr ""
 
 #: TFRMPACKDLG.CBENCRYPT.CAPTION
@@ -1185,6 +1197,10 @@ msgstr "Типи файлів"
 #: TFRMOPTIONS.GBFILETYPESCOLORS.CAPTION
 msgid "File types colors"
 msgstr "Кольори по типу"
+
+#: TFRMDESCREDIT.CAPTION
+msgid "File/folder comment"
+msgstr ""
 
 #: TFRMPACKINFODLG.LBLPACKEDFILE.CAPTION
 msgid "File:"
@@ -1797,6 +1813,10 @@ msgstr ""
 #: TFRMCOMPAREFILES.BTNPREVDIFF.CAPTION
 msgid "Previous difference"
 msgstr "Попереднє"
+
+#: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
+msgid "Process comments with files/folders"
+msgstr ""
 
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"

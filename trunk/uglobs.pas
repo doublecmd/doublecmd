@@ -243,6 +243,7 @@ begin
       AddHotKey('Alt+Enter','cm_FileProperties','','FrmMain','FrmMain');
       AddHotKey('Ctrl+T','cm_NewTab','','FrmMain','FrmMain');
       AddHotKey('Ctrl+W','cm_RemoveTab','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+Z','cm_EditComment','','FrmMain','FrmMain');
       AddHotKey('Alt+F5','cm_PackFiles','','FrmMain','FrmMain');
       AddHotKey('Alt+F9','cm_ExtractFiles','','FrmMain','FrmMain');
       AddHotKey('Alt+F1','cm_LeftOpenDrives','','FrmMain','FrmMain');

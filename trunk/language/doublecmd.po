@@ -1085,6 +1085,18 @@ msgstr ""
 msgid "Drop readonly flag"
 msgstr ""
 
+#: TFRMDESCREDIT.CAPTION
+msgid "File/folder comment"
+msgstr ""
+
+#: TFRMDESCREDIT.LBLEDITCOMMENTFOR.CAPTION
+msgid "Edit comment for:"
+msgstr ""
+
+#: TFRMDESCREDIT.LBLENCODING.CAPTION
+msgid "Encoding:"
+msgstr ""
+
 #: TFRMMKDIR.CAPTION
 msgid "Create new directory"
 msgstr ""
@@ -1687,6 +1699,10 @@ msgstr ""
 
 #: TFRMMAIN.ACTDELETE.CAPTION
 msgid "Delete F8"
+msgstr ""
+
+#: TFRMMAIN.ACTEDITCOMMENT.CAPTION
+msgid "Edit comment..."
 msgstr ""
 
 #: TFRMMAIN.ACTSHOWSYSFILES.CAPTION
