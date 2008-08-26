@@ -105,6 +105,7 @@ type
     cbMouseMode: TComboBox;
     cbRenameSelOnlyName: TCheckBox;
     cbCutTextToColWidth: TCheckBox;
+    cbProcessComments: TCheckBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
@@ -1618,6 +1619,7 @@ begin
   cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
   rbUseMmapInSearch.Checked := gUseMmapInSearch;
   seWipePassNumber.Value:= gWipePassNumber;
+  cbProcessComments.Checked:= gProcessComments;
 
   { Log file }
   cbLogFile.Checked := gLogFile;
@@ -1758,6 +1760,7 @@ begin
   gDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
   gUseMmapInSearch := rbUseMmapInSearch.Checked;
   gWipePassNumber:= seWipePassNumber.Value;
+  gProcessComments:= cbProcessComments.Checked;
   
   { Log file }
   gLogFile := cbLogFile.Checked;
