@@ -157,7 +157,8 @@ Type
 
 implementation
 uses
-  LCLProc, LCLType, uGlobs, uLog, uVFSutil, uFileOp, uOSUtils, uFileProcs, uLng, Dialogs, Forms, Controls;
+  LCLProc, LCLType, uGlobs, uLog, uVFSutil, uFileOp, uOSUtils, uFileProcs, uLng,
+  Dialogs, Forms, Controls, FileUtil;
 
 var
   WFXModuleList: TList = nil;
@@ -595,8 +596,8 @@ begin
   New(ri);
   for I := 0 to Count do
     begin
-      RemoteName := FFileList.CurrentDirectory + FFileList.GetFileName(I);
-      LocalName := ExtractFilePath(FDstPath) +  FFileList.GetFileName(I);
+      RemoteName := UTF8ToSys(FFileList.CurrentDirectory + FFileList.GetFileName(I));
+      LocalName := UTF8ToSys(ExtractFilePath(FDstPath) +  FFileList.GetFileName(I));
 
       DebugLN('Remote name == ' + RemoteName);
       DebugLN('Local name == ' + LocalName);
@@ -650,8 +651,8 @@ begin
   Count := FFileList.Count - 1;
   for I := 0 to Count do
     begin
-      LocalName := FFileList.CurrentDirectory + FFileList.GetFileName(I);
-      RemoteName := ExtractFilePath(FDstPath) +  FFileList.GetFileName(I);
+      LocalName := UTF8ToSys(FFileList.CurrentDirectory + FFileList.GetFileName(I));
+      RemoteName := UTF8ToSys(ExtractFilePath(FDstPath) +  FFileList.GetFileName(I));
 
       DebugLN('Local name == ' + LocalName);
       DebugLN('Remote name == ' + RemoteName);
@@ -874,7 +875,7 @@ begin
   New(fr);
   with fr^ do
     begin
-      CurrFileName := FindData.cFileName;
+      CurrFileName := SysToUTF8(FindData.cFileName);
       if (CurrFileName = '.') or  (CurrFileName = '..') then Continue;
 //      Debugln('ListItem filename= '+CurrFileName);
       sName := CurrFileName;
