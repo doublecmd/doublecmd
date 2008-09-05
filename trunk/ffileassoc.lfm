@@ -101,7 +101,7 @@ object frmFileAssoc: TfrmFileAssoc
       Font.Color = clBlack
       Font.Pitch = fpVariable
       ItemHeight = 20
-      Style = lbOwnerDrawFixed
+      Style = lbStandard
       TabOrder = 0
       TabStop = False
     end
@@ -173,7 +173,7 @@ object frmFileAssoc: TfrmFileAssoc
       Font.Pitch = fpVariable
       ItemHeight = 20
       OnSelectionChange = lbActionsSelectionChange
-      Style = lbOwnerDrawFixed
+      Style = lbStandard
       TabOrder = 0
     end
     object btnUpAct: TButton
