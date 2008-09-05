@@ -55,7 +55,7 @@ Type
 
     function VFSList(const sDir:String; var fl:TFileList):Boolean;virtual;abstract;
 
-    function VFSMisc : Cardinal;virtual;abstract;
+    function VFSMisc : PtrUInt;virtual;abstract;
   end;
 
 implementation
