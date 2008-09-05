@@ -134,7 +134,7 @@ Type
     function VFSDelete(var flNameList:TFileList):Boolean;override;
     
     function VFSList(const sDir:String; var fl:TFileList):Boolean;override;
-    function VFSMisc: Cardinal; override;
+    function VFSMisc: PtrUInt; override;
   end;
 
   { TWFXModuleList }
@@ -651,21 +651,21 @@ begin
   Count := FFileList.Count - 1;
   for I := 0 to Count do
     begin
-      LocalName := UTF8ToSys(FFileList.CurrentDirectory + FFileList.GetFileName(I));
-      RemoteName := UTF8ToSys(ExtractFilePath(FDstPath) +  FFileList.GetFileName(I));
+      LocalName := FFileList.CurrentDirectory + FFileList.GetFileName(I);
+      RemoteName := ExtractFilePath(FDstPath) +  FFileList.GetFileName(I);
 
       DebugLN('Local name == ' + LocalName);
       DebugLN('Remote name == ' + RemoteName);
 
       if FPS_ISDIR(FFileList.GetItem(I)^.iMode) then
         begin
-          FsMkDir(PChar(RemoteName));
+          FsMkDir(PChar(UTF8ToSys(RemoteName)));
           Continue;
         end;
 
       FLastFileSize := FFileList.GetItem(I)^.iSize;
 
-      iResult := FsPutFile(PChar(LocalName), PChar(RemoteName), FFlags);
+      iResult := FsPutFile(PChar(UTF8ToSys(LocalName)), PChar(UTF8ToSys(RemoteName)), FFlags);
 
       if iResult = FS_FILE_USERABORT then Exit; //Copying was aborted by the user (through ProgressProc)
 
@@ -903,15 +903,15 @@ begin
   WFXStatusInfo(sDir, FS_STATUS_END, FS_STATUS_OP_LIST);
 end;
 
-function TWFXModule.VFSMisc: Cardinal;
+function TWFXModule.VFSMisc: PtrUInt;
 var
   pPlgName : PChar;
 begin
   New(pPlgName);
-  if assigned(FsGetDefRootName) then
+  if Assigned(FsGetDefRootName) then
     begin
       FsGetDefRootName(pPlgName, 256);
-      Result := Cardinal(pPlgName);
+      Result := PtrUInt(pPlgName);
     end
   else
     Result:=0;
