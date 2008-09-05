@@ -107,7 +107,7 @@ Type
 
     //---------------------
     procedure FsFillAndCount(var fl:TFileList; out FilesSize : Int64);
-    procedure WFXStatusInfo(RemoteDir: PChar; InfoStartEnd, InfoOperation: Integer);
+    procedure WFXStatusInfo(RemoteDir: String; InfoStartEnd, InfoOperation: Integer);
   public
     constructor Create;
     destructor Destroy; override;
@@ -179,7 +179,7 @@ var
   fr:TFileRecItem;
 
 begin
-  Handle := FsFindFirst(PChar(srcPath), FindData);
+  Handle := FsFindFirst(PChar(UTF8ToSys(srcPath)), FindData);
   if Handle < 0 then
   begin
     FsFindClose(Handle);
@@ -187,9 +187,9 @@ begin
   end;
   repeat
     if (FindData.cFileName='.') or (FindData.cFileName='..') then Continue;
-    fr.sName:=ExtractDirLevel(fl.CurrentDirectory, srcPath+FindData.cFileName);
+    fr.sName:=ExtractDirLevel(fl.CurrentDirectory, srcPath+SysToUTF8(FindData.cFileName));
     fr.sPath:=dstPath;
-    fr.sNameNoExt:=FindData.cFileName; // we use to save dstname
+    fr.sNameNoExt:=SysToUTF8(FindData.cFileName); // we use to save dstname
 
     fr.iMode := FindData.dwFileAttributes;
 
@@ -200,7 +200,7 @@ begin
 
     if FPS_ISDIR(fr.iMode) then
       begin
-        FillAndCountRec(srcPath+FindData.cFileName+DirectorySeparator, dstPath+FindData.cFileName+DirectorySeparator);
+        FillAndCountRec(srcPath+SysToUTF8(FindData.cFileName)+DirectorySeparator, dstPath+SysToUTF8(FindData.cFileName)+DirectorySeparator);
       end
     else
       inc(FilesSize, fr.iSize);
@@ -235,10 +235,10 @@ begin
   fl := NewFileList;
 end;
 
-procedure TWFXModule.WFXStatusInfo(RemoteDir: PChar; InfoStartEnd, InfoOperation: Integer);
+procedure TWFXModule.WFXStatusInfo(RemoteDir: String; InfoStartEnd, InfoOperation: Integer);
 begin
   if Assigned(FsStatusInfo) then
-    FsStatusInfo(RemoteDir, InfoStartEnd, InfoOperation);
+    FsStatusInfo(PChar(UTF8ToSys(RemoteDir)), InfoStartEnd, InfoOperation);
 end;
 
 constructor TWFXModule.Create;
@@ -366,7 +366,7 @@ begin
       FFileOpDlg.iProgress2Pos := Round(FPercent);
     end;
 
-    FFileOpDlg.sFileName := SourceName + ' -> ' + TargetName;
+    FFileOpDlg.sFileName := SysToUTF8(SourceName + ' -> ' + TargetName);
 
     if Assigned(CT) then
       CT.Synchronize(FFileOpDlg.UpdateDlg)
@@ -553,12 +553,12 @@ end;
 
 function TWFXModule.VFSMkDir(const sDirName: String): Boolean;
 begin
-  WFXStatusInfo(PChar(FFolder), FS_STATUS_START, FS_STATUS_OP_MKDIR);
+  WFXStatusInfo(FFolder, FS_STATUS_START, FS_STATUS_OP_MKDIR);
   if Assigned(FsMkDir) then
-    Result:= FsMkDir(PChar(sDirName))
+    Result:= FsMkDir(PChar(UTF8ToSys(sDirName)))
   else
     Result:= False;
-  WFXStatusInfo(PChar(FFolder), FS_STATUS_END, FS_STATUS_OP_MKDIR);
+  WFXStatusInfo(FFolder, FS_STATUS_END, FS_STATUS_OP_MKDIR);
 
   { Log messages }
   if Result then
@@ -574,12 +574,12 @@ end;
 
 function TWFXModule.VFSRmDir(const sDirName: String): Boolean;
 begin
-  WFXStatusInfo(PChar(FFolder), FS_STATUS_START, FS_STATUS_OP_DELETE);
+  WFXStatusInfo(FFolder, FS_STATUS_START, FS_STATUS_OP_DELETE);
   if Assigned(FsRemoveDir) then
-    Result := FsRemoveDir(PChar(sDirName))
+    Result := FsRemoveDir(PChar(UTF8ToSys(sDirName)))
   else
     Result:=false;
-  WFXStatusInfo(PChar(FFolder), FS_STATUS_END, FS_STATUS_OP_DELETE);
+  WFXStatusInfo(FFolder, FS_STATUS_END, FS_STATUS_OP_DELETE);
 end;
 
 function TWFXModule.WFXCopyOut: Boolean;
@@ -596,8 +596,8 @@ begin
   New(ri);
   for I := 0 to Count do
     begin
-      RemoteName := UTF8ToSys(FFileList.CurrentDirectory + FFileList.GetFileName(I));
-      LocalName := UTF8ToSys(ExtractFilePath(FDstPath) +  FFileList.GetFileName(I));
+      RemoteName := FFileList.CurrentDirectory + FFileList.GetFileName(I);
+      LocalName := ExtractFilePath(FDstPath) +  FFileList.GetFileName(I);
 
       DebugLN('Remote name == ' + RemoteName);
       DebugLN('Local name == ' + LocalName);
@@ -619,7 +619,7 @@ begin
 
       FLastFileSize := FFileList.GetItem(I)^.iSize;
 
-      iResult := FsGetFile(PChar(RemoteName), PChar(LocalName), FFlags, ri);
+      iResult := FsGetFile(PChar(UTF8ToSys(RemoteName)), PChar(UTF8ToSys(LocalName)), FFlags, ri);
 
       if iResult = FS_FILE_USERABORT then Exit; //Copying was aborted by the user (through ProgressProc)
 
@@ -794,10 +794,10 @@ end;
 
 function TWFXModule.VFSRun(const sName: String): Boolean;
 begin
-  WFXStatusInfo(PChar(FFolder), FS_STATUS_START, FS_STATUS_OP_EXEC);
+  WFXStatusInfo(FFolder, FS_STATUS_START, FS_STATUS_OP_EXEC);
   if Assigned(FsExecuteFile) then
-    FsExecuteFile(0, PChar(sName), 'open');
-  WFXStatusInfo(PChar(FFolder), FS_STATUS_END, FS_STATUS_OP_EXEC);
+    FsExecuteFile(0, PChar(UTF8ToSys(sName)), 'open');
+  WFXStatusInfo(FFolder, FS_STATUS_END, FS_STATUS_OP_EXEC);
 end;
 
 function TWFXModule.VFSDelete(var flNameList: TFileList): Boolean;
@@ -805,7 +805,7 @@ var
   Count, I : Integer;
   sLogMsg : String;
 begin
-  WFXStatusInfo(PChar(FFolder), FS_STATUS_START, FS_STATUS_OP_DELETE);
+  WFXStatusInfo(FFolder, FS_STATUS_START, FS_STATUS_OP_DELETE);
   try
     FFileOpDlg:= TfrmFileOp.Create(nil);
     FFileOpDlg.Show;
@@ -824,7 +824,7 @@ begin
           begin
             sLogMsg := rsMsgLogRmDir;
             if Assigned(FsRemoveDir) then
-              Result := FsRemoveDir(PChar(flNameList.GetFileName(I)))
+              Result := FsRemoveDir(PChar(UTF8ToSys(flNameList.GetFileName(I))))
             else
               Result := false;
           end
@@ -832,7 +832,7 @@ begin
           begin
             sLogMsg := rsMsgLogDelete;
             if Assigned(FsDeleteFile) then
-              Result := FsDeleteFile(PChar(flNameList.GetFileName(I)))
+              Result := FsDeleteFile(PChar(UTF8ToSys(flNameList.GetFileName(I))))
             else
               Result:=false;
           end;
@@ -853,7 +853,7 @@ begin
   except
     Result := False;
   end;
-  WFXStatusInfo(PChar(FFolder), FS_STATUS_END, FS_STATUS_OP_DELETE);
+  WFXStatusInfo(FFolder, FS_STATUS_END, FS_STATUS_OP_DELETE);
 end;
 
 function TWFXModule.VFSList(const sDir: String; var fl: TFileList): Boolean;
@@ -863,13 +863,13 @@ var
   fr : PFileRecItem;
   CurrFileName : String;  // Current file name
 begin
-  WFXStatusInfo(PChar(sDir), FS_STATUS_START, FS_STATUS_OP_LIST);
+  WFXStatusInfo(sDir, FS_STATUS_START, FS_STATUS_OP_LIST);
   fl.Clear;
   FFolder:= sDir; // save current folder
   AddUpLevel(LowDirLevel(sDir), fl);
   
   fl.CurrentDirectory := sDir;
-  Handle := FsFindFirst(PChar(sDir), FindData);
+  Handle := FsFindFirst(PChar(UTF8ToSys(sDir)), FindData);
   repeat
 //  Debugln('Repeat in vfsList entered');
   New(fr);
@@ -900,7 +900,7 @@ begin
   until (not FsFindNext(Handle, FindData));
   
   FsFindClose(Handle);
-  WFXStatusInfo(PChar(sDir), FS_STATUS_END, FS_STATUS_OP_LIST);
+  WFXStatusInfo(sDir, FS_STATUS_END, FS_STATUS_OP_LIST);
 end;
 
 function TWFXModule.VFSMisc: Cardinal;
