@@ -73,7 +73,7 @@ function ShowPackInfoDlg(WCXModule: TWCXModule; HeaderData: THeaderData): Boolea
 
 implementation
 uses
-  LCLProc, uTypes, uFileOp, uFileList, uDCUtils, uOSUtils;
+  LCLProc, FileUtil,  uTypes, uFileOp, uFileList, uDCUtils, uOSUtils;
 
 function ShowPackInfoDlg(WCXModule: TWCXModule; HeaderData: THeaderData): Boolean;
 var
@@ -85,8 +85,8 @@ begin
     // save current VFS module
     fWCXModule:= WCXModule;
 
-    edtPackedFile.Text:= HeaderData.FileName;
-    sArcType:= ExtractFileExt(HeaderData.ArcName);
+    edtPackedFile.Text:= SysToUTF8(HeaderData.FileName);
+    sArcType:= SysToUTF8(ExtractFileExt(HeaderData.ArcName));
     Delete(sArcType, 1, 1);
     lblPackedPacker.Caption:= sArcType;
     lblPackedOrgSize.Caption:=  IntToStr(HeaderData.UnpSize);
