@@ -439,10 +439,14 @@ end;
 
 function CreateSymLink(Path, LinkName: string) : Boolean;
 {$IFDEF MSWINDOWS}
+var
+  wPath, wLinkName: WideString;
 begin
   Result := True;
   try
-    uNTFSLinks.CreateSymlink(Path, LinkName);
+    wPath:= UTF8Decode(Path);
+    wLinkName:= UTF8Decode(LinkName);
+    uNTFSLinks.CreateSymlink(wPath, wLinkName);
   except
     Result := False;
   end;
@@ -458,12 +462,14 @@ end;
 function ReadSymLink(LinkName : String) : String;
 {$IFDEF MSWINDOWS}
 var
-  Target: WideString;
+  wLinkName,
+  wTarget: WideString;
   LinkType: TReparsePointType;
 begin
   try
-    if uNTFSLinks.FGetSymlinkInfo(LinkName, Target, LinkType) then
-      Result := UTF8Encode(Target)
+    wLinkName:= UTF8Decode(LinkName);
+    if uNTFSLinks.FGetSymlinkInfo(wLinkName, wTarget, LinkType) then
+      Result := UTF8Encode(wTarget)
     else
       Result := '';
   except

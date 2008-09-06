@@ -74,30 +74,32 @@ const
     );
 
 (* To create symbolic link (works on Windows 2k/XP for directories only) *)
-function CreateSymlink( ATargetName, ALinkName: String; const options: TOptions = []): Boolean;
+function CreateSymlink( ATargetName, ALinkName: WideString; const options: TOptions = []): Boolean;
 (* To create hardlink(s) (works only for files) *)
 procedure CreateHardlink( AFileName, ALinkName: WideString; options: TOptions = []);
 
-function FCreateSymlink(const fnLink, fnTarget: WideString): boolean;
 function FGetSymlinkInfo(const fn: WideString; var Target: WideString; var LinkType: TReparsePointType): boolean;
-function FDeleteSymlink(const fn: WideString): boolean;
 function FDriveSupportsSymlinks(const fn: WideString): boolean;
 
 implementation
+uses
+  LCLProc;
 
 //-------------------------------------------------------------
 // warning: function assumes that it is correct directory name
-function isDirectoryEmpty( const ADirectoryName: String ): Boolean;
+function isDirectoryEmpty( const ADirectoryName: WideString ): Boolean;
 var
   h: THandle;
   len : Integer;
-  rFindData: TWin32FindData;
-  sSeachMask : String;
+  wFindData: TWin32FindDataW;
+  wSeachMask : WideString;
 begin
   len := Length(ADirectoryName);
-  if (PChar(ADirectoryName)+len-1)^='\' then sSeachMask := ADirectoryName+'*'
-  else sSeachMask := ADirectoryName+'\*';
-  h := Windows.FindFirstFile( PChar(sSeachMask), rFindData );
+  if (PWideChar(ADirectoryName)+len-1)^='\' then
+    wSeachMask:= ADirectoryName+'*'
+  else
+    wSeachMask:= ADirectoryName+'\*';
+  h:= Windows.FindFirstFileW( PWideChar(wSeachMask), wFindData );
   Result := (h=INVALID_HANDLE_VALUE);
   Windows.FindClose(h);
 end;
@@ -125,7 +127,6 @@ var
   cbPathLen, dwStreamHeaderSize, dwBytesWritten: DWORD;
   lpContext: Pointer;
 begin
-  
 
   hFileSource :=
     Windows.CreateFileW(
@@ -197,42 +198,42 @@ end;
 
 //-------------------------------------------------------------
 // ADirName and ADirForLinks must not end with backslach
-procedure _CreateHardlinksForSubDirectory( const ADirName, ADirForLinks: String; options: TOptions );
+procedure _CreateHardlinksForSubDirectory( const ADirName, ADirForLinks: WideString; options: TOptions );
 var
   h: THandle;
-  sExistedFile, sLinkName : String;
+  wExistedFile, wLinkName : WideString;
   dwAttributes : DWORD;
-  rFindData: TWin32FindData;
+  rFindData: TWin32FindDataW;
 begin
-  dwAttributes := GetFileAttributes( PChar(ADirForLinks) );
+  dwAttributes := GetFileAttributesW( PWideChar(ADirForLinks) );
   if dwAttributes=FILE_DOES_NOT_EXIST then
     begin
 // WriteLN(output, 'Create Directory ',ADirForLinks);
-      if not CreateDir(ADirForLinks) then 
+      if not CreateDirectoryW(PWideChar(ADirForLinks), nil) then
         raise Exception.Create('Can''t create directory "'+ADirForLinks+'".');
     end
   else if (dwAttributes and FILE_ATTRIBUTE_DIRECTORY)=0 then 
     raise Exception.Create('File "'+ADirName
       +'" already exists and it is not a directory.');
-  h := Windows.FindFirstFile( PChar(ADirName+'\*'), rFindData );
+  h := Windows.FindFirstFileW( PWideChar(ADirName+'\*'), rFindData );
   if h=INVALID_HANDLE_VALUE then Exit;
   try
     repeat
       if (rFindData.cFileName[0]='.') and 
          ( (rFindData.cFileName[1]=#0) or ((rFindData.cFileName[1]='.') and
            (rFindData.cFileName[2]=#0))) then Continue;
-      sExistedFile := ADirName+'\'+rFindData.cFileName;
-      sLinkName := ADirForLinks+'\'+rFindData.cFileName;
+      wExistedFile := ADirName+'\'+rFindData.cFileName;
+      wLinkName := ADirForLinks+'\'+rFindData.cFileName;
       if (rFindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY)=0 then
         begin
-          _CreateHardlink( sExistedFile, sLinkName, optOverwrite in options );
+          _CreateHardlink( wExistedFile, wLinkName, optOverwrite in options );
         end
       else if optRecursive in options then
         begin
-          _CreateHardlinksForSubDirectory(sExistedFile,sLinkName,options);
+          _CreateHardlinksForSubDirectory(wExistedFile,wLinkName,options);
         end;
 
-    until not Windows.FindNextFile(h,rFindData);
+    until not Windows.FindNextFileW(h,rFindData);
   finally
     Windows.FindClose(h);
   end;
@@ -264,65 +265,65 @@ begin
 end;
 
 //-------------------------------------------------------------
-procedure CreateHardlinksForDirectory( const ADirName, ADirForLinks: String; options: TOptions );
+procedure CreateHardlinksForDirectory( const ADirName, ADirForLinks: WideString; options: TOptions );
 var
   dwAttributes: DWORD;
   len : Integer;
-  sDirName, sDirForLinks : String;
+  wDirName, wDirForLinks : WideString;
 begin
-  dwAttributes := Windows.GetFileAttributes(PChar(ADirName));
+  dwAttributes := Windows.GetFileAttributesW(PWChar(ADirName));
   if dwAttributes=FILE_DOES_NOT_EXIST then 
     raise Exception.Create('Directory "'+ADirName+'" does not exist.');
   if (dwAttributes and FILE_ATTRIBUTE_DIRECTORY)=0 then 
     raise Exception.Create('File "'+ADirName+'" is not a directory.');
   len := Length(ADirName);
-  if (PChar(ADirName)+len-1)^='\' then 
-    sDirName := Copy(ADirName,1,len-1) 
+  if (PWChar(ADirName)+len-1)^='\' then
+    wDirName := Copy(ADirName,1,len-1)
   else 
-    sDirName := ADirName;
-  if (PChar(ADirForLinks)+Length(ADirForLinks)-1)^<>'\' then 
-    sDirForLinks := ADirForLinks
+    wDirName := ADirName;
+  if (PWChar(ADirForLinks)+Length(ADirForLinks)-1)^<>'\' then
+    wDirForLinks := ADirForLinks
   else 
-    sDirForLinks := Copy(ADirForLinks,1,Length(ADirForLinks)-1);
-  _CreateHardlinksForSubDirectory(sDirName,sDirForLinks,options);
+    wDirForLinks := Copy(ADirForLinks,1,Length(ADirForLinks)-1);
+  _CreateHardlinksForSubDirectory(wDirName,wDirForLinks,options);
 end;
 
 //-------------------------------------------------------------
-procedure CreateHardlinksInDirectory( const AFileName, ADirForLinks: String; options: TOptions );
+procedure CreateHardlinksInDirectory( const AFileName, ADirForLinks: WideString; options: TOptions );
 var
   dwAttributes: DWORD;
   len : Integer;
-  sFileName, sDirForLinks, sLinkName : String;
+  wFileName, wDirForLinks, wLinkName : WideString;
 begin
-  dwAttributes := Windows.GetFileAttributes(PChar(AFileName));
+  dwAttributes := Windows.GetFileAttributesW(PWChar(AFileName));
   if dwAttributes=FILE_DOES_NOT_EXIST then 
     raise Exception.Create('File or directory "'+AFileName+'" does not exist.');
   if (dwAttributes and FILE_ATTRIBUTE_DIRECTORY)=0 then
     begin
 
-      sLinkName := ADirForLinks+'\'+SysUtils.ExpandFileName(AFileName);
-      dwAttributes := Windows.GetFileAttributes(PChar(sLinkName));
+      wLinkName := ADirForLinks+'\'+SysUtils.ExpandFileName(AFileName);
+      dwAttributes := Windows.GetFileAttributesW(PWChar(wLinkName));
       if dwAttributes<>FILE_DOES_NOT_EXIST then
       begin
         if not(optOverwrite in options) then 
-          raise Exception.Create('File "'+sLinkName+'" already exists.');
+          raise Exception.Create('File "'+wLinkName+'" already exists.');
         if (dwAttributes and FILE_ATTRIBUTE_DIRECTORY)<>0 then 
           raise Exception.Create('Can''t overwrite directory "'+AFileName+'".');
       end;
-      _CreateHardlink( AFileName, sLinkName, optOverwrite in options );
+      _CreateHardlink( AFileName, wLinkName, optOverwrite in options );
     end
   else
     begin
       len := Length(AFileName);
-      if (PChar(AFileName)+len-1)^='\' then 
-        sFileName := Copy(AFileName,1,len-1) 
+      if (PWChar(AFileName)+len-1)^='\' then
+        wFileName := Copy(AFileName,1,len-1)
       else 
-        sFileName := AFileName;
-      if (PChar(ADirForLinks)+Length(ADirForLinks)-1)^<>'\' then
-        sDirForLinks := ADirForLinks
+        wFileName := AFileName;
+      if (PWChar(ADirForLinks)+Length(ADirForLinks)-1)^<>'\' then
+        wDirForLinks := ADirForLinks
       else 
-        sDirForLinks := Copy(ADirForLinks,1,Length(ADirForLinks)-1);
-      _CreateHardlinksForSubDirectory(sFileName,sDirForLinks,options);
+        wDirForLinks := Copy(ADirForLinks,1,Length(ADirForLinks)-1);
+      _CreateHardlinksForSubDirectory(wFileName,wDirForLinks,options);
     end;
 end;
 
@@ -467,43 +468,26 @@ type
   PReparseDataBuffer = ^TReparseDataBuffer;
 
 //-------------------------------------------------------------
-function CreateSymlink( ATargetName, ALinkName: String; const options: TOptions ): Boolean;
+function CreateSymlink( ATargetName, ALinkName: WideString; const options: TOptions ): Boolean;
 const
-  pwcNativeFileNamePrefix : PWideChar = '\??\';
-  nNativeFileNamePrefixWCharLength = 4;
-  nNativeFileNamePrefixByteLength = nNativeFileNamePrefixWCharLength*2;
+  wNativeFileNamePrefix : WideString = '\??\';
 var
   hLink : THandle;
-  pReparseInfo : PReparseMountpointDataBuffer;
-  len, size : Integer;
+  pReparseInfo : PReparseMountPointDataBuffer;
+  BufSize : Integer;
   pwcLinkFileName : PWideChar;
-  pwcTargetNativeFileName : PWideChar;
-  pwcTargetFileName : PWideChar;
-  pwc : PWideChar;
-  pc : PChar;
+  wTargetNativeFileName : WideString;
   dwBytesReturned : DWORD;
   dwAttributes : DWORD;
   bDirectoryCreated : Boolean;
-  aTargetFullName : Array [0..MAX_PATH] of Char;
 begin
   Result := False;
   pReparseInfo := nil;
   hLink := INVALID_HANDLE_VALUE;
   bDirectoryCreated := False;
 
-  len := Length(ALinkName);
-  if ((PChar(ALinkName)+len-1)^='\') and ((PChar(ALinkName)+len-2)^<>':') then
-  begin
-    Dec(len);
-    SetLength(ALinkName,len);
-  end;
-
-  System.GetMem( pwcLinkFileName, len+len+2 );
   try
-    pwcLinkFileName[
-      Windows.MultiByteToWideChar(0,0,PChar(ALinkName),len,pwcLinkFileName,len)
-    ] := #0;
-
+    pwcLinkFileName:= PWideChar(ALinkName);
     dwAttributes := Windows.getFileAttributesW( pwcLinkFileName );
     if dwAttributes<>FILE_DOES_NOT_EXIST then
     begin
@@ -518,7 +502,7 @@ begin
         end
       else if ((dwAttributes and FILE_ATTRIBUTE_DIRECTORY)=0) then
         begin
-          if not DeleteFile(ALinkName) then
+          if not DeleteFileW(pwcLinkFileName) then
             raise Exception.Create('Can''t overwrite file "'+ALinkName+'"');
           dwAttributes := FILE_DOES_NOT_EXIST;
         end
@@ -545,39 +529,21 @@ begin
 
       if hLink=INVALID_HANDLE_VALUE then RaiseLastOSError;
 
-
-      len := Length(ATargetName);
-      if ((PChar(ATargetName)+len-1)^='\') 
-        and ((PChar(ATargetName)+len-2)^<>':') then
-      begin
-        Dec(len);
-        SetLength(ATargetName,len);
-      end;
-
-      len := Windows.GetFullPathName( PChar(ATargetName), MAX_PATH,
-        aTargetFullName, pc );
-
-      size := len+len+2
-        +nNativeFileNamePrefixByteLength+REPARSE_MOUNTPOINT_HEADER_SIZE+12;
-      System.GetMem( pReparseInfo, size );
-      FillChar( pReparseInfo^, size, #0 );
-
-      pwcTargetNativeFileName := @pReparseInfo^.ReparseTarget;
-      System.Move( pwcNativeFileNamePrefix^, pwcTargetNativeFileName^,
-        nNativeFileNamePrefixByteLength+2 );
-      pwcTargetFileName := pwcTargetNativeFileName +
-        nNativeFileNamePrefixWCharLength;
-      pwc := pwcTargetFileName + Windows.MultiByteToWideChar(0,0,
-        aTargetFullName, len, pwcTargetFileName,len);
-      pwc^ := #0;
+      //--------------------------------------------------------
+      wTargetNativeFileName:= wNativeFileNamePrefix+ATargetName;
+      BufSize:= (Length(wNativeFileNamePrefix)+Length(ATargetName)+1)*2+REPARSE_MOUNTPOINT_HEADER_SIZE+12;
+      GetMem(pReparseInfo, BufSize);
+      FillChar(pReparseInfo^, BufSize, 0);
 
       with pReparseInfo^ do
       begin
-        ReparseTag := IO_REPARSE_TAG_MOUNT_POINT;
-        ReparseTargetLength := PChar(pwc)-PChar(pwcTargetNativeFileName);
-        ReparseTargetMaximumLength := ReparseTargetLength+2;
-        ReparseDataLength := ReparseTargetLength + 12;
+        Move(wTargetNativeFileName[1], ReparseTarget, (Length(wTargetNativeFileName)+1)*2);
+        ReparseTag:= IO_REPARSE_TAG_MOUNT_POINT;
+        ReparseTargetLength:= Length(wTargetNativeFileName)*2;
+        ReparseTargetMaximumLength:= ReparseTargetLength+2;
+        ReparseDataLength:= ReparseTargetLength+12;
       end;
+      //--------------------------------------------------------
 
       dwBytesReturned := 0;
       if not DeviceIoControl( hLink, FSCTL_SET_REPARSE_POINT, pReparseInfo,
@@ -589,11 +555,10 @@ begin
       raise;
     end;
 
-    Result := true;
+    Result := True;
 
   finally
     if hLink<>INVALID_HANDLE_VALUE then Windows.CloseHandle(hLink);
-    if pwcLinkFileName<>nil then System.FreeMem(pwcLinkFileName);
     if pReparseInfo<>nil then System.FreeMem(pReparseInfo);
   end;
 
@@ -687,81 +652,8 @@ end;
 
 
 //-------------------------------------------------------------
-procedure Log(const msg: string);
-begin
-  //WriteLN(output, msg);
-end;
-
-//-------------------------------------------------------------
 const
   Prefix: WideString = '\??\';
-
-function FCreateSymlink(const fnLink, fnTarget: WideString): boolean;
-var
-  h: THandle;
-  Buffer: PReparseMountPointDataBuffer;
-  BufSize: integer;
-  TargetName: WideString;
-  BytesRead: DWORD;
-begin
-  Result:= false;
-  if FileExists(fnLink) then
-    begin
-    Log('Target already exists');
-    Exit
-    end;
-  if not CreateDirectoryW(PWChar(fnLink), nil) then
-    begin
-    Log('CreateDirectoryW failed');
-    Exit
-    end;
-
-  h:= CreateFileW(PWChar(fnLink), GENERIC_WRITE, 0, nil, OPEN_EXISTING,
-    FILE_FLAG_OPEN_REPARSE_POINT or FILE_FLAG_BACKUP_SEMANTICS, 0);
-  if h=INVALID_HANDLE_VALUE then
-    begin
-    Log('CreateFileW failed');
-    RemoveDirectoryW(PWChar(fnLink));
-    Exit
-    end;
-
-  TargetName:= Prefix+fnTarget;
-  BufSize:= (Length(Prefix)+Length(fnTarget)+1)*2+REPARSE_MOUNTPOINT_HEADER_SIZE+12;
-  GetMem(Buffer, BufSize);
-  FillChar(Buffer^, BufSize, 0);
-
-  with Buffer^ do
-    begin
-    Move(TargetName[1], ReparseTarget, (Length(TargetName)+1)*2);
-    ReparseTag:= IO_REPARSE_TAG_MOUNT_POINT;
-    ReparseTargetLength:= Length(TargetName)*2;
-    ReparseTargetMaximumLength:= ReparseTargetLength+2;
-    ReparseDataLength:= ReparseTargetLength+12;
-    end;
-
-  {
-  with Buffer^ do
-    begin
-    WriteLN(output, 'Reparse info:');
-    WriteLN(output, 'ReparseTargetLength: ', ReparseTargetLength);
-    WriteLN(output, 'ReparseTarget: "', string(ReparseTarget), '"');
-    end;
-    }
-
-  BytesRead:= 0;
-  Result:= DeviceIoControl(h, FSCTL_SET_REPARSE_POINT,
-    Buffer, Buffer^.ReparseDataLength+REPARSE_MOUNTPOINT_HEADER_SIZE, nil, 0,
-    BytesRead, nil);
-  if not Result then
-    begin
-    Log('DeviceIoControl failed');
-    Sleep(500); //for RemoveDirectoryW to work
-    RemoveDirectoryW(PWChar(fnLink));
-    end;
-
-  FreeMem(Buffer);
-  CloseHandle(h);
-end;
 
 //-------------------------------------------------------------
 function FGetSymlinkInfo(const fn: WideString; var Target: WideString; var LinkType: TReparsePointType): boolean;
@@ -798,7 +690,7 @@ begin
 
   if h=INVALID_HANDLE_VALUE then
     begin
-    Log('CreateFileW failed');
+    DebugLn('CreateFileW failed');
     Exit
     end;
 
@@ -809,7 +701,7 @@ begin
   CloseHandle(h);
   if not control then
     begin
-    Log('DeviceIoControl failed');
+    DebugLn('DeviceIoControl failed');
     Exit
     end;
 
@@ -876,12 +768,6 @@ begin
       Result:= true;
       end;
   end;
-end;
-
-//-------------------------------------------------------------
-function FDeleteSymlink(const fn: WideString): boolean;
-begin
-  Result:= RemoveDirectoryW(PWChar(fn));
 end;
 
 //-------------------------------------------------------------
