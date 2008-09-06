@@ -120,7 +120,7 @@ Type
     function VFSDelete(var flNameList:TFileList):Boolean;override;{Delete files from archive}
 
     function VFSList(const sDir:String; var fl:TFileList ):Boolean;override;{Return the filelist of archive}
-    function VFSMisc : Cardinal;override;
+    function VFSMisc : PtrUInt;override;
   end;
 
   { TWCXModuleList }
@@ -149,7 +149,7 @@ function IsBlocked : Boolean;
 
 implementation
 uses Forms, SysUtils, Masks, uFileOp, uGlobs, uLog, uOSUtils, LCLProc, uFileProcs,
-     uDCUtils, uLng, Controls, fPackInfoDlg, fDialogBox, uGlobsPaths;
+     uDCUtils, uLng, Controls, fPackInfoDlg, fDialogBox, uGlobsPaths, FileUtil;
 
 var
   WCXModule : TWCXModule;  // used in ProcessDataProc
@@ -290,7 +290,7 @@ function ChangeVolProc(ArcName : Pchar; Mode:Longint):Longint; stdcall;
 begin
   case Mode of
   PK_VOL_ASK:
-    ArcName := PChar(Dialogs.InputBox ('Double Commander', rsMsgSelLocNextVol, ArcName));
+    ArcName := PChar(UTF8ToSys(Dialogs.InputBox ('Double Commander', rsMsgSelLocNextVol, SysToUTF8(ArcName))));
   PK_VOL_NOTIFY:
     ShowMessage(rsMsgNextVolUnpack);
   end;
@@ -306,7 +306,7 @@ begin
     if FFileOpDlg.ModalResult = mrCancel then // Cancel operation
       Result := 0;
 
-    FFileOpDlg.sFileName := FileName;
+    FFileOpDlg.sFileName := SysToUTF8(FileName);
 
     if not (Size < 0) then
       begin
@@ -395,7 +395,7 @@ begin
 
   if bCanYouHandleThisFile and Assigned(CanYouHandleThisFile) then
     begin
-      Result := CanYouHandleThisFile(PChar(sName));
+      Result := CanYouHandleThisFile(PChar(UTF8ToSys(sName)));
       if not Result then Exit;
     end;
 
@@ -403,7 +403,7 @@ begin
 
   (*Open Archive*)
   FillChar(ArcFile, SizeOf(ArcFile), #0);
-  ArcFile.ArcName := PChar(sName);
+  ArcFile.ArcName := PChar(UTF8ToSys(sName));
   ArcFile.OpenMode := PK_OM_LIST;
 
   try
@@ -461,7 +461,7 @@ begin
             FillChar(ArcHeader, SizeOf(ArcHeader), #0);
             ArcHeader.FileName := sDirs.Strings[I];
             ArcHeader.FileAttr := faFolder;
-            ArcHeader.FileTime := FileAge(FArchiveName);
+            ArcHeader.FileTime := mbFileAge(FArchiveName);
             New(HeaderData);
             HeaderData^ := ArcHeader;
             FArcFileList.Add(HeaderData);
@@ -545,7 +545,7 @@ begin
 
   Count := FFileList.Count;
   FillChar(ArcFile, SizeOf(ArcFile), #0);
-  ArcFile.ArcName := PChar(FArchiveName);
+  ArcFile.ArcName := PChar(UTF8ToSys(FArchiveName));
   ArcFile.OpenMode := PK_OM_EXTRACT;
   ArcHandle := OpenArchive(ArcFile);
 
@@ -571,15 +571,15 @@ begin
   while (ReadHeader(ArcHandle, ArcHeader) = 0) do
    begin
 
-     if  FFileList.CheckFileName(ArcHeader.FileName) >= 0 then // Want To Extract This File
+     if  FFileList.CheckFileName(SysToUTF8(ArcHeader.FileName)) >= 0 then // Want To Extract This File
        begin
          //DebugLn(FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName));
 
          if (FFileMask <> '*.*') and (FFileMask <> '*') then
-           ForceDirectory(ExtractFilePath(FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)));
+           ForceDirectory(ExtractFilePath(FDstPath + ExtractDirLevel(Folder, PathDelim + SysToUTF8(ArcHeader.FileName))));
 
 
-         iResult := ProcessFile(ArcHandle, PK_EXTRACT, nil, PChar(FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)));
+         iResult := ProcessFile(ArcHandle, PK_EXTRACT, nil, PChar(UTF8ToSys(FDstPath) + ExtractDirLevel(UTF8ToSys(Folder), PathDelim + ArcHeader.FileName)));
 
          //Check for errors
          if iResult <> 0 then
@@ -588,7 +588,7 @@ begin
                begin
                  // write log error
                  if (log_arc_op in gLogOptions) and (log_errors in gLogOptions) then
-                   logWrite(CT, Format(rsMsgLogError+rsMsgLogExtract, [FArchiveName + PathDelim + ArcHeader.FileName+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)]), lmtError);
+                   logWrite(CT, Format(rsMsgLogError+rsMsgLogExtract, [SysToUTF8(FArchiveName + PathDelim + ArcHeader.FileName+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName))]), lmtError);
                  // Standart error modal dialog
                  CT.Synchronize(ShowErrorMessage)
                end
@@ -596,7 +596,7 @@ begin
                begin
                  // write log error
                  if (log_arc_op in gLogOptions) and (log_errors in gLogOptions) then
-                   logWrite(Format(rsMsgLogError+rsMsgLogExtract, [FArchiveName + PathDelim + ArcHeader.FileName+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)]), lmtError);
+                   logWrite(Format(rsMsgLogError+rsMsgLogExtract, [SysToUTF8(FArchiveName + PathDelim + ArcHeader.FileName+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName))]), lmtError);
                  // Standart error modal dialog
                  ShowErrorMessage;
                end;
@@ -609,13 +609,13 @@ begin
                begin
                  // write log success
                  if (log_arc_op in gLogOptions) and (log_success in gLogOptions) then
-                   logWrite(CT, Format(rsMsgLogSuccess+rsMsgLogExtract, [FArchiveName + PathDelim + ArcHeader.FileName+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)]), lmtSuccess);
+                   logWrite(CT, Format(rsMsgLogSuccess+rsMsgLogExtract, [SysToUTF8(FArchiveName + PathDelim + ArcHeader.FileName+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName))]), lmtSuccess);
                end
              else
                begin
                  // write log success
                  if (log_arc_op in gLogOptions) and (log_success in gLogOptions) then
-                   logWrite(Format(rsMsgLogSuccess+rsMsgLogExtract, [FArchiveName + PathDelim + ArcHeader.FileName+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName)]), lmtSuccess);
+                   logWrite(Format(rsMsgLogSuccess+rsMsgLogExtract, [SysToUTF8(FArchiveName + PathDelim + ArcHeader.FileName+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName))]), lmtSuccess);
                end;
            end; // Success
            
@@ -652,7 +652,7 @@ begin
   if FDstPath = '' then
     pDstPath := nil
   else
-    pDstPath := PChar(FDstPath);
+    pDstPath := PChar(UTF8ToSys(FDstPath));
     
   DebugLN('sDstPath == ' + FDstPath);
 
@@ -660,17 +660,17 @@ begin
   FillAndCount(FFileList, FFilesSize);
 
   DebugLN('Curr Dir := ' + FFileList.CurrentDirectory);
-  Folder := PChar(FFileList.CurrentDirectory);
+  Folder := PChar(UTF8ToSys(FFileList.CurrentDirectory));
   
 
   (* Convert TFileList into PChar *)
-  FileList := PChar(GetFileList(FFileList));
+  FileList := PChar(UTF8ToSys(GetFileList(FFileList)));
 
   WCXModule := Self;  // set WCXModule variable to current module
   SetChangeVolProc(0, ChangeVolProc);
   SetProcessDataProc(0, ProcessDataProc);
 
-  iResult := PackFiles(PChar(FArchiveName), pDstPath, Folder, FileList, FFlags);
+  iResult := PackFiles(PChar(UTF8ToSys(FArchiveName)), pDstPath, Folder, FileList, FFlags);
 
   //Check for errors
   if iResult <> 0 then
@@ -725,7 +725,7 @@ procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
     Count := FArcFileList.Count - 1;
     for I := 0 to  Count do
      begin
-       CurrFileName := PathDelim + PHeaderData(FArcFileList.Items[I])^.FileName;
+       CurrFileName := SysToUTF8(PathDelim + PHeaderData(FArcFileList.Items[I])^.FileName);
 
        //DebugLN('sDir = ', sDir);
        //DebugLN('In folder = ' + CurrFileName);
@@ -743,7 +743,7 @@ procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
        New(fr);
        with fr^, PHeaderData(FArcFileList.Items[I])^  do
            begin
-             sName := {FArchiveName + PathDelim +} FileName;
+             sName := {FArchiveName + PathDelim +} SysToUTF8(FileName);
              iMode := FileAttr;
              if FPS_ISDIR(iMode) then
                begin
@@ -751,7 +751,7 @@ procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
                  //DebugLN('SelectFilesInSubfolders = ' + FileName);
                  if (FFileMask = '*.*') or (FFileMask = '*') then
                    fl.AddItem(fr);
-                 SelectFilesInSubfolders(fl, FileName);
+                 SelectFilesInSubfolders(fl, SysToUTF8(FileName));
                end
              else
                begin
@@ -932,7 +932,7 @@ begin
   for I := 0 to  iCount do
    begin
      //DebugLn(PHeaderData(FArcFileList.Items[I])^.FileName);
-     if (PathDelim + PHeaderData(FArcFileList.Items[I])^.FileName) = (fFolder + sName) then
+     if (PathDelim + PHeaderData(FArcFileList.Items[I])^.FileName) = UTF8ToSys(fFolder + sName) then
        Break;
    end;
    Result:= ShowPackInfoDlg(Self, PHeaderData(FArcFileList.Items[I])^);
@@ -958,7 +958,7 @@ begin
 
     CopySelectedWithSubFolders(flNameList);
    
-    DeleteFiles(PChar(FArchiveName), PChar(GetFileList(flNameList)));
+    DeleteFiles(PChar(UTF8ToSys(FArchiveName)), PChar(UTF8ToSys(GetFileList(flNameList))));
     
     FFileOpDlg.Close;
     FFileOpDlg.Free;
@@ -984,7 +984,7 @@ begin
   Count := FArcFileList.Count - 1;
   for I := 0 to  Count do
    begin
-     CurrFileName := PathDelim + PHeaderData(FArcFileList.Items[I])^.FileName;
+     CurrFileName := SysToUTF8(PathDelim + PHeaderData(FArcFileList.Items[I])^.FileName);
      
      //DebugLn(CurrFileName);
      
@@ -1019,7 +1019,7 @@ begin
    end;
 end;
 
-function TWCXModule.VFSMisc: Cardinal;
+function TWCXModule.VFSMisc: PtrUInt;
 begin
   if Assigned(GetPackerCaps) then
     Result := GetPackerCaps
