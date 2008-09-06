@@ -119,7 +119,7 @@ begin
   sDescrFile:= ExtractFilePath(FileName) + 'descript.ion';
   if sDescrFile <> FLastDescrFile then
     begin
-      if FLastDescrFile <> '' then
+      if (FLastDescrFile <> '') and (Count > 0) then
         SaveToFile(FLastDescrFile);
       FLastDescrFile:= sDescrFile;
       if mbFileExists(FLastDescrFile) then
