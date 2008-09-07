@@ -48,11 +48,12 @@ uses
   fEditorConf,
   uFindMmap,
   {$IFDEF UNIX}
+  LResources,  // for LazarusResources.Add
   fFileProperties,
   uUsersGroups,
   {$ENDIF}
   {$IFDEF MSWINDOWS}
-  Windows,
+  Windows,  // for LoadIcon function
   {$ENDIF}
   fLinker,
   fCompareFiles,
@@ -68,10 +69,13 @@ uses
 
 const
   buildDate = {$I %DATE%};
-  Version = '0.3.5 alpha';
+  Version = '0.4 alpha';
 begin
   {$IFDEF MSWINDOWS}
   Application.Icon.Handle:= LoadIcon(hInstance, 'DOUBLECMD');
+  {$ELSE}
+  {$I doublecmd.lrs}
+  Application.Icon.LoadFromLazarusResource('DOUBLECMD');
   {$ENDIF}
   Application.Title:='Double Commander';
   Application.Initialize;
