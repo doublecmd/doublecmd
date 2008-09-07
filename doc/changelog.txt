@@ -1,4 +1,5 @@
-﻿21.08.2008 ADD: Feature Request [ 1938593 ] More suitable and powerful plugin configuration
+﻿07.09.2008 FIX: Bug [ 1934572 ] Zip plugin is down on open read only archive
+21.08.2008 ADD: Feature Request [ 1938593 ] More suitable and powerful plugin configuration
 18.08.2008 ADD: Feature Request [ 1870517 ] Don't show not critical error messages
 09.07.2008 ADD: Feature Request [ 2014247 ] Drive context menu
 06.07.2008 ADD: Feature Request [ 1996336 ] Drag&Drop support

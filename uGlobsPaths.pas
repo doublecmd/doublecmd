@@ -30,7 +30,7 @@ begin
   gpCfgDir := gpExePath;
   
   Ini := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
-  if Ini.ReadInteger('Configuration', 'UseIniInProgramDir', 1)  = 1 then // use ini file from program dir
+  if Ini.ReadInteger('Configuration', 'UseIniInProgramDir', 0)  = 1 then // use ini file from program dir
     begin
       gpIniDir := gpCfgDir;
     end

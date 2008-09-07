@@ -419,19 +419,19 @@ begin
         end;
 
         atTar : begin
-          FArchive := TAbTarArchive.Create(FileName, fmOpenReadWrite or fmShareDenyNone);
+          FArchive := TAbTarArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
           inherited InitArchive;
         end;
 
         atGZip : begin
-          FArchive := TAbGzipArchive.Create(FileName, fmOpenReadWrite or fmShareDenyNone);
+          FArchive := TAbGzipArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
           TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
           TAbGzipArchive(FArchive).IsGzippedTar := False;
           inherited InitArchive;
         end;
 
         atGZippedTar : begin
-          FArchive := TAbGzipArchive.Create(FileName, fmOpenReadWrite or fmShareDenyNone);
+          FArchive := TAbGzipArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
           TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
           TAbGzipArchive(FArchive).IsGzippedTar := True;
           inherited InitArchive;

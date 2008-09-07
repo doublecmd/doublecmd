@@ -401,7 +401,7 @@ begin
 
   { Load location of configuration files }
   Ini := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
-  gUseIniInProgramDir := Ini.ReadBool('Configuration', 'UseIniInProgramDir', True);
+  gUseIniInProgramDir := Ini.ReadBool('Configuration', 'UseIniInProgramDir', False);
   Ini.Free;
   
   { Layout page }
