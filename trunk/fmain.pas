@@ -2600,27 +2600,26 @@ begin
   
 end;
 
+(* Execute internal or external command *)
+
 function TfrmMain.ExecCmd(Cmd: string; param:string=''): Boolean;
 begin
-  if actions.Execute(Cmd,'')>-1 then
-    Result:=true
+  if Actions.Execute(Cmd, Param)>-1 then
+    Result:= True
   else
-    Result := ExecCmdFork(Format('"%s"', [Cmd]));
+    Result:= ExecCmdFork(Format('"%s" %s', [Cmd, Param]));
 end;
 
 function TfrmMain.ExecCmdEx(NumberOfButton: Integer): Boolean;
-var Cmd,Param:string;
+var Cmd,Param: String;
 begin
-  Cmd:=MainToolBar.GetButtonX(NumberOfButton,CmdX);
-  Param:=MainToolBar.GetButtonX(NumberOfButton,ParamX);
-  if Actions.Execute(cmd,Param)>-1 then
-    Result:=true
+  Cmd:= MainToolBar.GetButtonX(NumberOfButton,CmdX);
+  Param:= MainToolBar.GetButtonX(NumberOfButton,ParamX);
+  if Actions.Execute(Cmd,Param)>-1 then
+    Result:= True
   else
-    Result := ExecCmdFork(Format('"%s"', [Cmd]));
+    Result:= ExecCmdFork(Format('"%s" %s', [Cmd, Param]));
 end;
-
-(* Execute internal or external command *)
-
 
 procedure TfrmMain.UpdateWindowView;
 var
