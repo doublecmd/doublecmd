@@ -345,7 +345,7 @@ function TAbDfInputWindow.FindLongestMatch(aAmpleLength : integer;
        time sink for compression. There are two versions, one written
        in Pascal for understanding, one in assembler for speed.
        Activate one and only one of the following compiler defines.}
-{$DEFINE UseGreedyAsm}
+{.$DEFINE UseGreedyAsm}
 {.$DEFINE UseGreedyPascal}
 
 {Check to see that all is correct}

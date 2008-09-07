@@ -298,6 +298,7 @@ begin
     else begin
       {calculate *reversed* code}
       Code := NextCode[CodeLen];
+      {$IFDEF UseGreedyAsm}
       asm
         push esi
         mov eax, Code
@@ -314,6 +315,14 @@ begin
         shr eax, cl
         mov Code, eax
       end;
+      {$ENDIF}
+
+      {$IFDEF UseGreedyPascal}
+      CodeData:= Code;
+      LongRec(Code).Bytes[1]:= ByteRevTable[LongRec(CodeData).Bytes[0]];
+      LongRec(Code).Bytes[0]:= ByteRevTable[LongRec(CodeData).Bytes[1]];
+      Code:= Code shr (16-CodeLen);
+      {$ENDIF}
 
       {set the code data (bit count, extra bits required, symbol),
        everywhere the reversed code would appear in the decoder array;
@@ -351,6 +360,7 @@ begin
       code in the loop is the big time sink in this routine so it was
       best to replace it.}
       if (FUsage <> huEncoding) then begin
+        {$IFDEF UseGreedyAsm}
         CodeIncr := PowerOfTwo[CodeLen] * sizeof(longint);
         asm
           push edi                { save edi}
@@ -369,6 +379,15 @@ begin
           jl @@1                  { ..go back for the next one}
           pop edi                 { retrieve edi}
         end;
+        {$ENDIF}
+
+        {$IFDEF UseGreedyPascal}
+        CodeIncr := PowerOfTwo[CodeLen];
+        while Code < DecoderLen do begin
+          Decodes^[Code] := CodeData;
+          inc(Code, CodeIncr);
+        end;
+        {$ENDIF}
       end;
 
       {we've used this code up for this symbol, so increment for the

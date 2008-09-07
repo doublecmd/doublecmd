@@ -198,7 +198,7 @@ uses
   SysUtils;
 
 { -------------------------------------------------------------------------- }
-procedure AbReverseBits(var W : Word);assembler;
+procedure AbReverseBits(var W : Word);{$IFDEF UseGreedyAsm}assembler;{$ENDIF}
   {-Reverse the order of the bits in W}
 register;
 const
@@ -221,6 +221,7 @@ const
    $9B, $5B, $DB, $3B, $BB, $7B, $FB, $07, $87, $47, $C7, $27, $A7, $67,
    $E7, $17, $97, $57, $D7, $37, $B7, $77, $F7, $0F, $8F, $4F, $CF, $2F,
    $AF, $6F, $EF, $1F, $9F, $5F, $DF, $3F, $BF, $7F, $FF);
+{$IFDEF UseGreedyAsm}
 asm
   push eax                 // save EAX
   mov  eax, [eax]          // read value into EAX
@@ -234,7 +235,17 @@ asm
   pop  edx                 // restore address to W
   mov  [edx], eax          // move value to W
 end;
+{$ENDIF}
 
+{$IFDEF UseGreedyPascal}
+var
+  X: Word;
+begin
+  X:= W;
+  WordRec(W).Lo:= RevTable[WordRec(X).Hi];
+  WordRec(W).Hi:= RevTable[WordRec(X).Lo];
+end;
+{$ENDIF}
 
 { TAbUnzipHelper implementation ============================================ }
 
