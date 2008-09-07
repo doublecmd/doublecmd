@@ -38,6 +38,11 @@
 {$IFDEF FPC}
 {$MODE DELPHI}
 {$ASMMODE INTEL}
+{$IFDEF CPU32}
+{$DEFINE UseGreedyAsm}
+{$ELSE}
+{$DEFINE UseGreedyPascal}
+{$ENDIF}
 {$DEFINE BuildingStub}
 {$DEFINE NOQT}
 {$IFDEF WIN32}
