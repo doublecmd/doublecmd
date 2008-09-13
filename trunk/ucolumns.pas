@@ -780,12 +780,12 @@ begin
         //------------------------------------------------------
         if AType=Plugin then
           begin
-            if not WdxPlugins.IsLoaded(AName) then
-              if not WdxPlugins.LoadModule(AName) then Exit;
+            if not gWdxPlugins.IsLoaded(AName) then
+              if not gWdxPlugins.LoadModule(AName) then Exit;
 //            DebugLn('ptrFileName: '+ptr^.sPath+ptr^.sName);
-            if WdxPlugins.GetWdxModule(AName).FileParamVSDetectStr(ptr) then
+            if gWdxPlugins.GetWdxModule(AName).FileParamVSDetectStr(ptr) then
             begin
-              Result:=WdxPlugins.GetWdxModule(AName).CallContentGetValue(ptr^.sPath+ptr^.sName,AFunc,0,0);
+              Result:=gWdxPlugins.GetWdxModule(AName).CallContentGetValue(ptr^.sPath+ptr^.sName,AFunc,0,0);
             end;
             Exit;
           end;

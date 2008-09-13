@@ -46,7 +46,7 @@ var
   gPOFileName : String;
   
   { WDX plugins }
-  WdxPlugins:TWDXModuleList;
+  gWdxPlugins:TWDXModuleList;
   { WCX plugins }
   gWCXPlugins: TWCXModuleList;
   { WFX plugins }
@@ -377,8 +377,8 @@ begin
     FreeAndNil(gExts);
   if Assigned(gIni) then
     FreeAndNil(gIni);
-  if Assigned(WdxPlugins) then
-    WdxPlugins.Free;
+  if Assigned(gWdxPlugins) then
+    gWdxPlugins.Free;
   if Assigned(gWCXPlugins) then
     FreeAndNil(gWCXPlugins);
   if Assigned(gWFXPlugins) then
@@ -526,8 +526,8 @@ begin
   
   {Wdx Plugins and columns}
   //---------------------
-  WdxPlugins:=TWDXModuleList.Create;
-  WdxPlugins.Load(gIni);
+  gWdxPlugins:=TWDXModuleList.Create;
+  gWdxPlugins.Load(gIni);
   ColSet:=TPanelColumnsList.Create;
   ColSet.Load(gIni);
   //---------------------
@@ -673,7 +673,7 @@ begin
   //HotMan.Save();
 
   { Plugins }
-  WdxPlugins.Save(gIni);
+  gWdxPlugins.Save(gIni);
   gWFXPlugins.Save(gIni);
   gWCXPlugins.Save(gIni);
 

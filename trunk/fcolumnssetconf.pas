@@ -949,17 +949,17 @@ begin
        MI:=TMenuItem.Create(pmFields);
        MI.Caption:='Plugins';
        pmFields.Items.Add(MI);
-       for i:=0 to WdxPlugins.Count-1 do
+       for i:=0 to gWdxPlugins.Count-1 do
          begin
            MI:=TMenuItem.Create(pmFields);
-           MI.Caption:=WdxPlugins.GetWdxModule(i).Name;
+           MI.Caption:=gWdxPlugins.GetWdxModule(i).Name;
            pmFields.Items.Items[1].Add(MI);
            //Load fields list
-           if WdxPlugins.GetWdxModule(i).IsLoaded=false then
-             if not (WdxPlugins.GetWdxModule(i).LoadModule) then break;
-           for j:=0 to  WdxPlugins.GetWdxModule(i).FieldList.Count-1 do
+           if gWdxPlugins.GetWdxModule(i).IsLoaded=false then
+             if not (gWdxPlugins.GetWdxModule(i).LoadModule) then break;
+           for j:=0 to  gWdxPlugins.GetWdxModule(i).FieldList.Count-1 do
              begin
-               with WdxPlugins.GetWdxModule(i) do
+               with gWdxPlugins.GetWdxModule(i) do
                  begin
                    MI:=TMenuItem.Create(pmFields);
                    MI.Tag:=1;

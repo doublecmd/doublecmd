@@ -225,6 +225,7 @@ type
         constructor Create;
         destructor Destroy; override;
         //---------------------
+        procedure Assign(Source: TWDXModuleList);
         procedure Clear;
         procedure Load(FileName:string);overload;
         procedure Load(Ini:TIniFileEx); overload;
@@ -276,6 +277,16 @@ begin
    FreeAndNil(Flist);
    
   inherited Destroy;
+end;
+
+procedure TWDXModuleList.Assign(Source: TWDXModuleList);
+begin
+  if Assigned(Source) then
+    begin
+      Clear;
+      FList.Assign(Source.FList);
+      Source.FList.Clear;
+    end;
 end;
 
 procedure TWDXModuleList.Clear;
