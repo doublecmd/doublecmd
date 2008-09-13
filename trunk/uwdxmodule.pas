@@ -250,7 +250,8 @@ type
 
 implementation
 
-uses uGlobs;
+uses uGlobs, FileUtil;
+
 { TWDXModuleList }
 
 function TWDXModuleList.GetCount: integer;
@@ -564,8 +565,8 @@ end;
 
 procedure TPluginWDX.CallContentStopGetValue(FileName: string);
 begin
- if assigned(ContentStopGetValue) then
-  ContentStopGetValue(PChar(FileName));
+ if Assigned(ContentStopGetValue) then
+  ContentStopGetValue(PChar(UTF8ToSys(FileName)));
 end;
 
 function TPluginWDX.CallContentGetDefaultSortOrder(FieldIndex: integer
@@ -670,7 +671,7 @@ var Rez:integer;
     dtime: TDateTime absolute buf;
 begin
 
-  Rez:=ContentGetValue(PChar(FileName),FieldIndex,UnitIndex,@Buf,SizeOf(buf),flags);
+  Rez:=ContentGetValue(PChar(UTF8ToSys(FileName)),FieldIndex,UnitIndex,@Buf,SizeOf(buf),flags);
   case Rez of
     ft_fieldempty:       Result:='';
     ft_numeric_32:       Result:= IntToStr(fnval);
@@ -697,7 +698,7 @@ begin
 
     ft_multiplechoice,
     ft_string,
-    ft_fulltext:         Result:= StrPas(Buf);
+    ft_fulltext:         Result:= SysToUTF8(StrPas(Buf));
  //TODO: FT_DELAYED,ft_ondemand
   else Result:='';
   end;
