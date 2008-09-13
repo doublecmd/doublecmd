@@ -1828,7 +1828,7 @@ begin
   { Save plugins lists }
   tmpDSXPlugins.Save(gIni);
   gWCXPlugins.Assign(tmpWCXPlugins);
-  tmpWDXPlugins.Save(gIni);
+  gWDXPlugins.Assign(tmpWDXPlugins);
   gWFXPlugins.Assign(tmpWFXPlugins);
   tmpWLXPlugins.Save(gIni);
 end;
