@@ -139,6 +139,8 @@ type
   Function WlxPrepareContainer(Ahandle:THandle; revert:boolean=false):boolean;
 
 implementation
+uses
+  FileUtil;
 
 function WlxPrepareContainer(Ahandle: THandle; revert:boolean=false): boolean;
 {$IFNDEF LCLWIN32}
@@ -246,10 +248,10 @@ function TWLXModule.CallListLoad(ParentWin: THandle; FileToLoad: string;
 begin
   if not assigned(ListLoad) then exit; //To prevent crash.
   {$IFDEF LCLQT}
-    FPluginWindow:=ListLoad(Integer(TQtWidget(ParentWin).GetContainerWidget), pChar(FileToLoad), ShowFlags);
+    FPluginWindow:=ListLoad(Integer(TQtWidget(ParentWin).GetContainerWidget), pChar(UTF8ToSys(FileToLoad)), ShowFlags);
   {$ENDIF}
   {$IFNDEF LCLQT}
-    FPluginWindow:=ListLoad(ParentWin, pChar(FileToLoad), ShowFlags);
+    FPluginWindow:=ListLoad(ParentWin, pChar(UTF8ToSys(FileToLoad)), ShowFlags);
   {$ENDIF}
 
   Result:=FPluginWindow;
@@ -260,10 +262,10 @@ function TWLXModule.CallListLoadNext(ParentWin: THandle;
 begin
   if assigned(ListLoadNext) then
   {$IFDEF LCLQT}
-   Result:=ListLoadNext(Integer(TQtWidget(ParentWin).GetContainerWidget),FPluginWindow, pChar(FileToLoad), ShowFlags);
+   Result:=ListLoadNext(Integer(TQtWidget(ParentWin).GetContainerWidget),FPluginWindow, pChar(UTF8ToSys(FileToLoad)), ShowFlags);
   {$ENDIF}
   {$IFNDEF LCLQT}
-   Result:=ListLoadNext(ParentWin,FPluginWindow,PChar(FileToLoad),ShowFlags)
+   Result:=ListLoadNext(ParentWin,FPluginWindow,PChar(UTF8ToSys(FileToLoad)),ShowFlags)
   {$ENDIF}
   //else Result:=LISTPLUGIN_ERROR;
 end;
@@ -299,7 +301,7 @@ function TWLXModule.CallListSearchText(SearchString: string;
 begin
     if Assigned(ListSearchText) then
       begin
-        Result:=ListSearchText(FPluginWindow, PChar(SearchString), SearchParameter);
+        Result:=ListSearchText(FPluginWindow, PChar(UTF8ToSys(SearchString)), SearchParameter);
       end
     else Result:=LISTPLUGIN_ERROR;
 end;
@@ -341,7 +343,7 @@ function TWLXModule.CallListPrint(FileToPrint,  DefPrinter: string; PrintFlags: 
 begin
   if Assigned(ListPrint) then
     begin
-      Result:=ListPrint(FPluginWindow, PChar(FileToPrint), PChar(DefPrinter), PrintFlags, Margins);
+      Result:=ListPrint(FPluginWindow, PChar(UTF8ToSys(FileToPrint)), PChar(DefPrinter), PrintFlags, Margins);
     end
   else Result:=LISTPLUGIN_ERROR;
 end;
@@ -372,7 +374,7 @@ function TWLXModule.CallListGetPreviewBitmap(FileToLoad: string; width,
   height: integer; contentbuf: string): hbitmap;
 begin
   if Assigned(ListGetPreviewBitmap) then
-      Result:=ListGetPreviewBitmap(PChar(FileToLoad), width, height, PChar(contentbuf), length(contentbuf));
+      Result:=ListGetPreviewBitmap(PChar(UTF8ToSys(FileToLoad)), width, height, PChar(contentbuf), length(contentbuf));
 end;
 
 { TWLXModuleList }
