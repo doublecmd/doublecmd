@@ -8,10 +8,6 @@ object frmMain: TfrmMain
   Caption = 'Double Commander'
   ClientHeight = 697
   ClientWidth = 989
-  Font.Color = clBlack
-  Font.Height = 13
-  Font.Name = 'Helvetica'
-  Font.Pitch = fpVariable
   KeyPreview = True
   Menu = mnuMain
   OnActivate = FormActivate
