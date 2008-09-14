@@ -588,7 +588,7 @@ begin
                begin
                  // write log error
                  if (log_arc_op in gLogOptions) and (log_errors in gLogOptions) then
-                   logWrite(CT, Format(rsMsgLogError+rsMsgLogExtract, [SysToUTF8(FArchiveName + PathDelim + ArcHeader.FileName+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName))]), lmtError);
+                   logWrite(CT, Format(rsMsgLogError+rsMsgLogExtract, [FArchiveName + PathDelim + SysToUTF8(ArcHeader.FileName)+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + SysToUTF8(ArcHeader.FileName))]), lmtError);
                  // Standart error modal dialog
                  CT.Synchronize(ShowErrorMessage)
                end
@@ -596,7 +596,7 @@ begin
                begin
                  // write log error
                  if (log_arc_op in gLogOptions) and (log_errors in gLogOptions) then
-                   logWrite(Format(rsMsgLogError+rsMsgLogExtract, [SysToUTF8(FArchiveName + PathDelim + ArcHeader.FileName+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName))]), lmtError);
+                   logWrite(Format(rsMsgLogError+rsMsgLogExtract, [FArchiveName + PathDelim + SysToUTF8(ArcHeader.FileName)+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + SysToUTF8(ArcHeader.FileName))]), lmtError);
                  // Standart error modal dialog
                  ShowErrorMessage;
                end;
@@ -609,13 +609,13 @@ begin
                begin
                  // write log success
                  if (log_arc_op in gLogOptions) and (log_success in gLogOptions) then
-                   logWrite(CT, Format(rsMsgLogSuccess+rsMsgLogExtract, [SysToUTF8(FArchiveName + PathDelim + ArcHeader.FileName+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName))]), lmtSuccess);
+                   logWrite(CT, Format(rsMsgLogSuccess+rsMsgLogExtract, [FArchiveName + PathDelim + SysToUTF8(ArcHeader.FileName)+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + SysToUTF8(ArcHeader.FileName))]), lmtSuccess);
                end
              else
                begin
                  // write log success
                  if (log_arc_op in gLogOptions) and (log_success in gLogOptions) then
-                   logWrite(Format(rsMsgLogSuccess+rsMsgLogExtract, [SysToUTF8(FArchiveName + PathDelim + ArcHeader.FileName+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName))]), lmtSuccess);
+                   logWrite(Format(rsMsgLogSuccess+rsMsgLogExtract, [FArchiveName + PathDelim + SysToUTF8(ArcHeader.FileName)+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + SysToUTF8(ArcHeader.FileName))]), lmtSuccess);
                end;
            end; // Success
            
