@@ -49,6 +49,7 @@ type
 
     procedure Execute; override;
     procedure MainExecute; virtual; abstract; // main loop for copy /delete ...
+    procedure CreateForm;
     procedure FillAndCount;
     procedure FillAndCountRec(const srcPath, dstPath:String); // rekursive called
     procedure EstimateTime(iSizeCoped:Int64);
@@ -217,18 +218,10 @@ try
     if gProcessComments then
       FDescr:= TDescription.Create(True);
 
-    if UseForm then
-    begin
-      //FFileOpDlg:=TfrmFileOp.Create(Application);
-      //FFileOpDlg.Thread := TThread(Self);
-      FFileOpDlg.Caption:=GetCaptionLng;
-      //FFileOpDlg.Show;
-      FFileOpDlg.Update;
-    end;
-
     FBeginTime:=Now;
     if UseForm then
     begin
+      Synchronize(@CreateForm);  // create progress form in main thread
       FFileOpDlg.iProgress2Pos:=0;
       FFileOpDlg.iProgress2Max:=FFilesSize;
       Synchronize(@FFileOpDlg.UpdateDlg);
@@ -254,6 +247,16 @@ except
   on E:Exception do
     msgOK(Self, E.Message);
 end;
+end;
+
+procedure TFileOpThread.CreateForm;
+begin
+  DebugLn('TFileOpThread.CreateForm');
+  FFileOpDlg:= TfrmFileOp.Create(Application);
+  FFileOpDlg.Thread:= TThread(Self);
+  FFileOpDlg.Caption:= GetCaptionLng;
+  FFileOpDlg.Show;
+  FFileOpDlg.Update;
 end;
 
 function TFileOpThread.UseForm:Boolean;
