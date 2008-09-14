@@ -23,8 +23,8 @@ type
   protected
     constructor Create(aFileList:TFileList);override;
     procedure MainExecute; override;
-    Function DeleteFile(fr:PFileRecItem):Boolean;
-    Function GetCaptionLng:String;override;
+    function DeleteFile(fr:PFileRecItem):Boolean;
+    function GetCaptionLng:String;override;
   end;
 
 implementation
@@ -63,7 +63,7 @@ begin
 end;
 
 
-Function TDeleteThread.DeleteFile (fr:PFileRecItem):Boolean;
+function TDeleteThread.DeleteFile (fr:PFileRecItem):Boolean;
 begin
   try
     if FPS_ISDIR(fr^.iMode) then // directory
@@ -97,9 +97,9 @@ begin
   end;
 end;
 
-Function TDeleteThread.GetCaptionLng:String;
+function TDeleteThread.GetCaptionLng:String;
 begin
-  Result:=rsDlgDel;
+  Result:= rsDlgDel;
 end;
 
 end.
