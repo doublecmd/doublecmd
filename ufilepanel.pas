@@ -638,13 +638,13 @@ end;
 
 function TFilePanel.GetActiveItem:PFileRecItem;
 begin
-  Result:=nil;
-  if fPanel.Row<1 then
-    SysUtils.Abort;
+  Result:= nil;
+  if fPanel.Row < fPanel.FixedRows then
+    fPanel.Row:= fPanel.FixedRows;
 //  DebugLn(fPanel.Row, ' ', fRefList.Count);
-  if fPanel.Row>fRefList.Count then
-    SysUtils.Abort;
-  Result:=fRefList.Items[fPanel.Row-1]; // 1 is fixed header
+  if fPanel.Row > fRefList.Count then
+     fPanel.Row:= fPanel.FixedRows;
+  Result:= fRefList.Items[fPanel.Row-fPanel.FixedRows]; // minus fixed header
 end;
 
 procedure TFilePanel.MarkGroup(const sMask:String; bSelect:Boolean);

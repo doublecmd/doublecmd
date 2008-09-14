@@ -77,7 +77,7 @@ begin
 end;
 
 // bShowDlg is only for Rename
-Function TCopyThread.CpFile (fr:PFileRecItem; const sDst:String; bShowDlg:Boolean):Boolean;
+function TCopyThread.CpFile (fr:PFileRecItem; const sDst:String; bShowDlg:Boolean):Boolean;
 var
   sDstExt:String;
   sDstName:String;
@@ -156,7 +156,7 @@ begin
   end; // files and other stuff
 end;
 
-Function TCopyThread.CopyFile(const sSrc, sDst:String; bAppend:Boolean):Boolean;
+function TCopyThread.CopyFile(const sSrc, sDst:String; bAppend:Boolean):Boolean;
 var
   src, dst:TFileStreamEx;
 //  bAppend:Boolean;
@@ -269,7 +269,7 @@ begin
   end;
 end;
 
-Function TCopyThread.GetCaptionLng:String;
+function TCopyThread.GetCaptionLng:String;
 begin
   Result:= rsDlgCp;
 end;
