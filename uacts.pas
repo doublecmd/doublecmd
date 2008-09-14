@@ -534,27 +534,22 @@ begin
       end;
   end;
 
-  fl:=TFileList.Create; // free at Thread end by thread
+  fl:= TFileList.Create; // free at Thread end by thread
   try
     CopyListSelectedExpandNames(FrmMain.ActiveFrame.pnlFile.FileList,fl,FrmMain.ActiveFrame.ActiveDir);
 
     (* Wipe files *)
-     if not Assigned(frmFileOp) then
-       frmFileOp:= TfrmFileOp.Create(Application);
-     try
-       WT := TWipeThread.Create(fl);
-       WT.FFileOpDlg:= frmFileOp;
-       WT.sDstPath:= FrmMain.NotActiveFrame.ActiveDir;
-       //DT.sDstMask:=sDstMaskTemp;
-       frmFileOp.Thread:= TThread(WT);
-       frmFileOp.Show;
-       WT.Resume;
-     except
-       WT.Free;
-     end;
+    try
+      WT:= TWipeThread.Create(fl);
+      WT.sDstPath:= FrmMain.NotActiveFrame.ActiveDir;
+      //DT.sDstMask:=sDstMaskTemp;
+      WT.Resume;
+    except
+      WT.Free;
+    end;
 
   except
-    FreeAndNil(frmFileOp);
+    FreeAndNil(fl);
   end;
 end;
 
@@ -862,7 +857,7 @@ begin
       end;
   end;
 
-  fl:=TFileList.Create; // free at Thread end by thread
+  fl:= TFileList.Create; // free at Thread end by thread
   try
     CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
 
@@ -876,24 +871,17 @@ begin
       end;
 
     (* Delete files *)
-    begin
-     if not Assigned(frmFileOp) then
-       frmFileOp:= TfrmFileOp.Create(Application);
-     try
-       DT := TDeleteThread.Create(fl);
-       DT.FFileOpDlg := frmFileOp;
-       DT.sDstPath:=NotActiveFrame.ActiveDir;
-       //DT.sDstMask:=sDstMaskTemp;
-       frmFileOp.Thread := TThread(DT);
-       frmFileOp.Show;
-       DT.Resume;
-     except
-       DT.Free;
-     end;
+    try
+      DT := TDeleteThread.Create(fl);
+      DT.sDstPath:= NotActiveFrame.ActiveDir;
+      //DT.sDstMask:=sDstMaskTemp;
+      DT.Resume;
+    except
+      DT.Free;
     end;
 
   except
-    FreeAndNil(frmFileOp);
+    FreeAndNil(fl);
   end;
 end;
 end;

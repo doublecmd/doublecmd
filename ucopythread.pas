@@ -22,10 +22,10 @@ type
   TCopyThread = class(TFileOpThread)
 
   protected
-    Function CpFile (fr:PFileRecItem; const sDst:String; bShowDlg:Boolean):Boolean;
-    Function CopyFile(const sSrc, sDst:String; bAppend:Boolean):Boolean;
+    function CpFile (fr:PFileRecItem; const sDst:String; bShowDlg:Boolean):Boolean;
+    function CopyFile(const sSrc, sDst:String; bAppend:Boolean):Boolean;
     procedure MainExecute; override;
-    Function GetCaptionLng:String; override;
+    function GetCaptionLng:String; override;
   end;
 
 implementation
@@ -175,13 +175,13 @@ begin
       src:=TFileStreamEx.Create(sSrc,fmOpenRead or fmShareDenyNone);
       DebugLn(sDst);
       if bAppend then
-      begin
-        dst:=TFileStreamEx.Create(sDst,fmOpenReadWrite);
-        dst.Seek(0,soFromEnd); // seek to end
-      end
+        begin
+          dst:=TFileStreamEx.Create(sDst,fmOpenReadWrite);
+          dst.Seek(0,soFromEnd); // seek to end
+        end
       else
-
          dst:=TFileStreamEx.Create(sDst,fmCreate);
+
       iDstBeg:=dst.Size;
       // we dont't use CopyFrom, because it's alocate and free buffer every time is called
       FFileOpDlg.iProgress1Pos:=0;
@@ -271,7 +271,7 @@ end;
 
 Function TCopyThread.GetCaptionLng:String;
 begin
-  Result:=rsDlgCp;
+  Result:= rsDlgCp;
 end;
 
 end.

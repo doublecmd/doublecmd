@@ -47,9 +47,6 @@ type
     procedure UpdateDlg;
   end;
 
-var
-  frmFileOp : TfrmFileOp;
-
 implementation
 uses fMain;
 //uses uFileOpThread;
@@ -63,6 +60,7 @@ end;
 
 procedure TfrmFileOp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
+   CloseAction:= caFree;
    frmMain.frameLeft.RefreshPanel;
    frmMain.frameRight.RefreshPanel;
    frmMain.ActiveFrame.SetFocus;
