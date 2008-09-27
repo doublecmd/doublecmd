@@ -2166,6 +2166,10 @@ msgstr "Особливий блочний пристрій"
 msgid "Special character device"
 msgstr "Особливий символьний пристрій"
 
+#: ulng.rsdlgspeedtime
+msgid "Speed %s/s, remained time %s"
+msgstr ""
+
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
 msgid "Split file"
 msgstr "&Розрізати файл..."

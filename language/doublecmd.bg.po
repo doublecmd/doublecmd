@@ -951,6 +951,14 @@ msgstr "Обработка"
 msgid "Edit F4"
 msgstr "Обработка F4"
 
+#: TFRMDESCREDIT.LBLEDITCOMMENTFOR.CAPTION
+msgid "Edit comment for:"
+msgstr ""
+
+#: TFRMMAIN.ACTEDITCOMMENT.CAPTION
+msgid "Edit comment..."
+msgstr ""
+
 #: TFRMMAIN.ACTEDITNEW.CAPTION
 msgid "Edit new file"
 msgstr "Обработка на нов файл"
@@ -982,6 +990,10 @@ msgstr "&Край (последният знак преди точката . т�
 #: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
 msgid "Enable"
 msgstr "Разрешаване"
+
+#: TFRMDESCREDIT.LBLENCODING.CAPTION
+msgid "Encoding:"
+msgstr ""
 
 #: TFRMPACKDLG.CBENCRYPT.CAPTION
 msgid "Encr&ypt"
@@ -1186,6 +1198,10 @@ msgstr "Видове файлове"
 #: TFRMOPTIONS.GBFILETYPESCOLORS.CAPTION
 msgid "File types colors"
 msgstr "Оцветяване на файловете според вида им"
+
+#: TFRMDESCREDIT.CAPTION
+msgid "File/folder comment"
+msgstr ""
 
 #: TFRMPACKINFODLG.LBLPACKEDFILE.CAPTION
 msgid "File:"
@@ -1799,6 +1815,10 @@ msgstr "Преглед"
 msgid "Previous difference"
 msgstr "Предишна разлика"
 
+#: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
+msgid "Process comments with files/folders"
+msgstr ""
+
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
 msgstr "Обработка на файл(ове)"
@@ -2147,6 +2167,10 @@ msgstr ""
 msgid "Special character device"
 msgstr "Нарочно знаково устройство"
 
+#: ulng.rsdlgspeedtime
+msgid "Speed %s/s, remained time %s"
+msgstr ""
+
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
 msgid "Split file"
 msgstr "Раздробяване на файл"
@@ -2319,6 +2343,7 @@ msgstr "Признак за смяна на избора"
 msgid "Up"
 msgstr "Нагоре"
 
+#: 
 msgid "Use '-' to off attribute and '?' to any"
 msgstr "Използвайте „-“ за изключване на принадлежност и „?“ за всякаква"
 

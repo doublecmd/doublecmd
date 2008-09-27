@@ -249,6 +249,10 @@ ulng.rssaveposition='&Save position'
 ulng.rspositionsaved='Position saved.'
 
 
+# hash value = 59192403
+ulng.rsdlgspeedtime='Speed %s/s, remained time %s'
+
+
 # hash value = 15654041
 ulng.rsdlgdel='Delete file(s)'
 

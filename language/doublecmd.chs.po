@@ -2167,6 +2167,10 @@ msgstr "特殊块设备"
 msgid "Special character device"
 msgstr "特殊字符设备"
 
+#: ulng.rsdlgspeedtime
+msgid "Speed %s/s, remained time %s"
+msgstr ""
+
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
 msgid "Split file"
 msgstr "分割文件"

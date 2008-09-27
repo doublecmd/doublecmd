@@ -2167,6 +2167,10 @@ msgstr "Spezielles Block-device"
 msgid "Special character device"
 msgstr "Spezielles Buchstaben-device"
 
+#: ulng.rsdlgspeedtime
+msgid "Speed %s/s, remained time %s"
+msgstr ""
+
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
 msgid "Split file"
 msgstr "Tei&le Datei"

@@ -20,7 +20,8 @@ uses
   uFileOpThread, uTypes;
 type
   TCopyThread = class(TFileOpThread)
-
+  private
+    FCopied: Int64;
   protected
     function CpFile (fr:PFileRecItem; const sDst:String; bShowDlg:Boolean):Boolean;
     function CopyFile(const sSrc, sDst:String; bAppend:Boolean):Boolean;
@@ -37,14 +38,13 @@ procedure TCopyThread.MainExecute;
 var
   pr:PFileRecItem;
   xIndex:Integer;
-  iCoped:Int64;
   iTotalDiskSize,
   iFreeDiskSize : Int64;
 begin
   CorrectMask;
   FReplaceAll:=False;
   FSkipAll:=False;
-  iCoped:=0;
+  FCopied:=0;
 
   for xIndex:=0 to NewFileList.Count-1 do // copy
   begin
@@ -52,7 +52,7 @@ begin
        Exit;
     pr:=NewFileList.GetItem(xIndex);
 //    writeln(pr^.sname,' ',pr^.sNameNoExt);
-    EstimateTime(iCoped);
+    EstimateTime(FCopied);
 
     {Check disk free space}
     GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
@@ -68,8 +68,8 @@ begin
 
     CpFile(pr,sDstPath, True);
     if not FPS_ISDIR(pr^.iMode) then
-      inc(iCoped,pr^.iSize);
-    FFileOpDlg.iProgress2Pos:=iCoped;
+      inc(FCopied,pr^.iSize);
+    FFileOpDlg.iProgress2Pos:=FCopied;
     Synchronize(@FFileOpDlg.UpdateDlg);
   end;
 
@@ -219,6 +219,7 @@ begin
         until not bRetry;
         
         FFileOpDlg.iProgress1Pos:=dst.Size;
+        EstimateTime(FCopied + dst.Size);
         Synchronize(@FFileOpDlg.UpdateDlg);
       end;
       if (iDstBeg+src.Size)>dst.Size then

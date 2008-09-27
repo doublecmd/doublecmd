@@ -331,6 +331,10 @@ msgstr ""
 msgid "size:"
 msgstr ""
 
+#: ulng.rsdlgspeedtime
+msgid "Speed %s/s, remained time %s"
+msgstr ""
+
 #: ulng.rseditnewfile
 msgid "new.txt"
 msgstr ""
