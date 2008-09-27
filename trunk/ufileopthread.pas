@@ -78,7 +78,7 @@ const
 implementation
 
 uses
-  SysUtils, uLng, uFileProcs, uFileOp, Forms, uFindEx, uDCUtils, uOSUtils,
+  SysUtils, DateUtils, uLng, uFileProcs, uFileOp, Forms, uFindEx, uDCUtils, uOSUtils,
   LCLProc, uGlobs;
 
 { TFileOpThread }
@@ -273,24 +273,34 @@ begin
  // Result:=False;
 end;
 
-procedure TFileOpThread.EstimateTime(iSizeCoped:Int64);
+procedure TFileOpThread.EstimateTime(iSizeCoped: Int64);
+var
+  iSec: Integer; // passed seconds
+  iSpeed: Integer;  // operation speed
+  dtEstimatedTime: TDateTime; // remained time
 begin
   if not UseForm then Exit;
 
+  iSec:= 0;
+  iSpeed:= 0;
+
   with FFileOpDlg do
   begin
-
-    if iSizeCoped=0 then
-      sEstimated:='????'
+    if iSizeCoped = 0 then
+      sEstimated:= '????'
     else
-      sEstimated:=FormatDateTime('HH:MM:SS',(Now-FBeginTime)*FFilesSize/iSizeCoped);
+      begin
+        iSec:= SecondsBetween(FBeginTime, Now);
 
+        if iSec > 0 then
+          iSpeed:= iSizeCoped div iSec;
+        if iSpeed > 0 then
+          dtEstimatedTime:= ((FFilesSize-iSizeCoped) div iSpeed) / SecsPerDay;
 
-      // This is BAD ..., fixed in near future
-//      TimeToStr((Now-FBeginTime)*FFilesSize/iSizeCoped);
+        sEstimated:= FormatDateTime('HH:MM:SS', dtEstimatedTime);
+        sEstimated:= Format(rsDlgSpeedTime, [cnvFormatFileSize(iSpeed), sEstimated]);
+      end;
 
-{    writeln(FloatToStr(Now));
-    writeln(sEstimated);}
     Synchronize(@FFileOpDlg.UpdateDlg);
   end;
 end;

@@ -2169,6 +2169,10 @@ msgstr ""
 msgid "Special character device"
 msgstr ""
 
+#: ulng.rsdlgspeedtime
+msgid "Speed %s/s, remained time %s"
+msgstr ""
+
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
 msgid "Split file"
 msgstr "Dělení souborů"

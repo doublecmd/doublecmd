@@ -95,6 +95,7 @@ resourcestring
   rsSavePosition = '&Save position';
   rsPositionSaved = 'Position saved.';
   // File operations dialog
+  rsDlgSpeedTime = 'Speed %s/s, remained time %s';
   rsDlgDel = 'Delete file(s)';
   rsDlgCp = 'Copy file(s)';
   rsDlgMv = 'Move file(s)';

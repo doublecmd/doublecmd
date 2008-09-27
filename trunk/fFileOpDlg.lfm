@@ -3,10 +3,6 @@ object frmFileOp: TfrmFileOp
   Height = 144
   Top = 234
   Width = 402
-  HorzScrollBar.Page = 401
-  HorzScrollBar.Range = 337
-  VertScrollBar.Page = 143
-  VertScrollBar.Range = 137
   ActiveControl = btnCancel
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
@@ -16,44 +12,80 @@ object frmFileOp: TfrmFileOp
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
+  ParentFont = False
   Position = poScreenCenter
   ShowInTaskBar = stAlways
+  LCLVersion = '0.9.25'
   object lblFileName: TLabel
-    Left = 8
-    Height = 13
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 12
+    Height = 14
     Top = 8
-    Width = 49
+    Width = 378
+    Alignment = taCenter
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 12
+    BorderSpacing.Top = 8
+    BorderSpacing.Right = 12
     Caption = 'File name'
     Font.Color = clBlack
     Font.Height = 13
-    Font.Name = 'adobe-helvetica'
-    Font.Pitch = fpVariable
-    Font.Style = [fsBold]
     ParentColor = False
+    ParentFont = False
   end
   object lblEstimated: TLabel
-    Left = 8
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = pbSecond
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
     Height = 14
-    Top = 96
-    Width = 48
+    Top = 84
+    Width = 390
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
     Caption = 'Estimated'
     ParentColor = False
   end
   object pbSecond: TProgressBar
-    Left = 8
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = pbFirst
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
     Height = 22
-    Top = 64
-    Width = 385
+    Top = 56
+    Width = 390
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
     Max = 100
     Smooth = True
     TabOrder = 0
     BarShowText = True
   end
   object pbFirst: TProgressBar
-    Left = 8
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblFileName
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
     Height = 22
-    Top = 32
-    Width = 385
+    Top = 28
+    Width = 390
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
     Max = 100
     Position = 20
     Smooth = True
@@ -61,10 +93,13 @@ object frmFileOp: TfrmFileOp
     BarShowText = True
   end
   object btnCancel: TBitBtn
+    AnchorSideTop.Control = lblEstimated
+    AnchorSideTop.Side = asrBottom
     Left = 160
     Height = 32
-    Top = 96
+    Top = 104
     Width = 89
+    BorderSpacing.Top = 6
     BorderSpacing.InnerBorder = 2
     Cancel = True
     Caption = 'Cancel'

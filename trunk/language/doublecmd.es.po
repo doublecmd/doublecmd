@@ -2167,6 +2167,10 @@ msgstr "Fichero de bloques especial"
 msgid "Special character device"
 msgstr "Fichero de carácter especial"
 
+#: ulng.rsdlgspeedtime
+msgid "Speed %s/s, remained time %s"
+msgstr ""
+
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
 msgid "Split file"
 msgstr "Partir fichero"

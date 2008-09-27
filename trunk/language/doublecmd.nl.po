@@ -2167,6 +2167,10 @@ msgstr "Speciaal blok device"
 msgid "Special character device"
 msgstr "Speciaal karakter device"
 
+#: ulng.rsdlgspeedtime
+msgid "Speed %s/s, remained time %s"
+msgstr ""
+
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
 msgid "Split file"
 msgstr "Splits bestand"

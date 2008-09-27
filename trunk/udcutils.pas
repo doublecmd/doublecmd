@@ -279,17 +279,17 @@ begin
   begin
     if iSize div (1024*1024*1024) > 0 then
     begin
-      Result:=FloatToStrF((iSize*16 div (1024*1024*1024))/16, ffFixed, 15, 1)+'G'
+      Result:=FloatToStrF((iSize*16 div (1024*1024*1024))/16, ffFixed, 15, 1)+' G'
     end
     else
     if iSize div (1024*1024) >0 then
     begin
-      Result:=FloatToStrF((iSize*10 div (1024*1024))/10, ffFixed, 15, 1)+'M'
+      Result:=FloatToStrF((iSize*10 div (1024*1024))/10, ffFixed, 15, 1)+' M'
     end
     else
     if iSize div 1024 >0 then
     begin
-      Result:=FloatToStrF((iSize*10 div 1024)/10, ffFixed, 15, 1)+'K'
+      Result:=FloatToStrF((iSize*10 div 1024)/10, ffFixed, 15, 1)+' K'
     end
     else
       Result:=IntToStr(iSize);
