@@ -1468,11 +1468,11 @@ msgstr "Месторасположение файлов конфигурации
 
 #: TFRMMAIN.ACTTOGGLELOCKTAB.CAPTION
 msgid "Lock this tab"
-msgstr ""
+msgstr "Заблокировать вкладку"
 
 #: TFRMMAIN.ACTTOGGLELOCKDCATAB.CAPTION
 msgid "Locked, but directory changes allowed"
-msgstr ""
+msgstr "Заблокировать с возможностью смены каталога"
 
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 msgid "Log"
