@@ -306,7 +306,8 @@ type
     procedure FramelblLPathClick(Sender: TObject);
     procedure FramelblLPathMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure FramepnlFileChangeDirectory(Sender: TObject; const NewDir : String);
+    function FramepnlFileBeforeChangeDirectory(Sender: TObject; const NewDir : String): Boolean;
+    procedure FramepnlFileAfterChangeDirectory(Sender: TObject; const NewDir : String);
     procedure edtCommandKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure tbEditClick(Sender: TObject);
@@ -2153,7 +2154,19 @@ begin
   end;
 end;
 
-procedure TfrmMain.FramepnlFileChangeDirectory(Sender: TObject; const NewDir: String);
+function TfrmMain.FramepnlFileBeforeChangeDirectory(Sender: TObject; const NewDir: String): Boolean;
+begin
+  Result:= True;
+  if Sender is TNoteBook then
+    with Sender as TNoteBook do
+      if Tag = 1 then
+        begin
+          CreatePanel(AddPage(Sender as TNoteBook), ActiveFrame.PanelSelect, NewDir);
+          Result:= False;
+        end;
+end;
+
+procedure TfrmMain.FramepnlFileAfterChangeDirectory(Sender: TObject; const NewDir: String);
 var
   ANoteBook : TNoteBook;
   sCaption : String;
@@ -2364,7 +2377,8 @@ begin
     PanelSelect:=APanel;
     Init;
     ReAlign;
-    pnlFile.OnChangeDirectory := @FramepnlFileChangeDirectory;
+    pnlFile.OnBeforeChangeDirectory := @FramepnlFileBeforeChangeDirectory;
+    pnlFile.OnAfterChangeDirectory := @FramepnlFileAfterChangeDirectory;
     if not mbDirectoryExists(sPath) then
       GetDir(0, sPath);
     pnlFile.ActiveDir := sPath;

@@ -22,7 +22,8 @@ uses
   StdCtrls, Grids, uFileList, uTypes, uPathHistory, Classes, uVFS;
 
 type
-  TOnChangeDirectory = procedure (Sender: TObject; const NewDir : String) of object;
+  TOnBeforeChangeDirectory = function (Sender: TObject; const NewDir : String): Boolean of object;
+  TOnAfterChangeDirectory = procedure (Sender: TObject; const NewDir : String) of object;
 
   { TFilePanel }
 
@@ -35,6 +36,7 @@ type
     fPanel:TDrawGrid;
     fSortCol:Integer;
     fSortDirect:Boolean;
+    fPrevActiveDir: String;
     fActiveDir:String;
     fLastActive:String;
 
@@ -51,7 +53,8 @@ type
     flblCurPath:TLabel; // label before Command line
     flblFree:TLabel;
     fedtCommand:TComboBox; // only for place correction after Chdir
-    FOnChangeDirectory : TOnChangeDirectory;
+    FOnBeforeChangeDirectory : TOnBeforeChangeDirectory;
+    FOnAfterChangeDirectory : TOnAfterChangeDirectory;
   public
 //    iLastDrawnIndex  :Integer; // fucking dirty hack (OnDrawItem
 
@@ -84,7 +87,8 @@ type
     procedure ReplaceExtCommand(var sCmd:String; pfr:PFileRecItem);
     procedure SetActiveDir(const AValue:String);
     function GetActiveDir:String;
-    property OnChangeDirectory : TOnChangeDirectory read FOnChangeDirectory write FOnChangeDirectory;
+    property OnBeforeChangeDirectory : TOnBeforeChangeDirectory read FOnBeforeChangeDirectory write FOnBeforeChangeDirectory;
+    property OnAfterChangeDirectory : TOnAfterChangeDirectory read FOnAfterChangeDirectory write FOnAfterChangeDirectory;
 
   published
     property SortDirection:Boolean read fSortDirect write fSortDirect; // maybe write method
@@ -243,8 +247,8 @@ begin
                       fPanelMode := pmDirectory;
                       fActiveDir := ExtractFilePath(fVFS.ArcFullName);
                       mbSetCurrentDir(fActiveDir);
-                      if Assigned(FOnChangeDirectory) then
-                        FOnChangeDirectory(fOwner, fActiveDir);
+                      if Assigned(FOnAfterChangeDirectory) then
+                        FOnAfterChangeDirectory(fOwner, fActiveDir);
                       LoadFilesbyDir(fActiveDir, fFileList);
                     end;
                   end; // case
@@ -327,26 +331,32 @@ end;
 
 procedure TFilePanel.LoadPanel;
 begin
-//  DebugLN('TFilePanel.LoadPanel');
+//  DebugLn('TFilePanel.LoadPanel');
   if fPanelMode in [pmArchive, pmVFS] then
     fPanelMode := pmDirectory;
+
+  if Assigned(FOnBeforeChangeDirectory) then
+    if not FOnBeforeChangeDirectory(fOwner, ActiveDir) then
+      begin
+        fActiveDir:= fPrevActiveDir;
+        Exit;
+      end;
 
   if not mbSetCurrentDir(ActiveDir) then
     begin
       GetDir(0,fActiveDir);
-      if fActiveDir<>DirectorySeparator then
-        fActiveDir:=fActiveDir+DirectorySeparator;
+      IncludeTrailingBackslash(fActiveDir);
       Exit;   // chdir failed
     end;
-  if Assigned(FOnChangeDirectory) then
-    FOnChangeDirectory(fOwner, fActiveDir);
+  if Assigned(FOnAfterChangeDirectory) then
+    FOnAfterChangeDirectory(fOwner, fActiveDir);
   LoadFilesbyDir(fActiveDir, fFileList);
 
   if gShowIcons then
     fFileList.UpdateFileInformation(fPanelMode);
   Sort; // and Update panel
   fPanel.Invalidate;
-//  DebugLN('TFilePanel.LoadPanel DONE');
+//  DebugLn('TFilePanel.LoadPanel DONE');
 end;
 
 
@@ -729,6 +739,7 @@ end;
 
 procedure TFilePanel.SetActiveDir(const AValue:String);
 begin
+  fPrevActiveDir:= fActiveDir;
   fActiveDir := IncludeTrailingBackslash(AValue);
 end;
 
