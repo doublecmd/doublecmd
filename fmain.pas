@@ -2544,6 +2544,8 @@ begin
       CreatePanel(AddPage(ANoteBook), fpsPanel, sPath);
 
       ANoteBook.Page[ANoteBook.PageCount - 1].Tag:= gIni.ReadInteger(TabsSection, sIndex + '_options', 0);
+      if ANoteBook.Page[ANoteBook.PageCount - 1].Tag = 2 then // if locked tab with directory change
+        ANoteBook.Page[ANoteBook.PageCount - 1].Hint:= sPath; // save in hint real path
 
       if sCaption <> '' then
         if Boolean(gDirTabOptions and tb_text_length_limit) and (Length(sCaption) > gDirTabLimit) then
@@ -2604,7 +2606,10 @@ begin
         else
           Break;
       end;
-    sPath := TFrameFilePanel(ANoteBook.Page[I].Components[0]).ActiveDir;
+    if ANoteBook.Page[I].Tag = 2 then // if locked tab with directory change
+      sPath := ANoteBook.Page[I].Hint // get path from hint
+    else
+      sPath := TFrameFilePanel(ANoteBook.Page[I].Components[0]).ActiveDir;
     gIni.WriteString(TabsSection, sIndex + '_path', sPath);
     gIni.WriteString(TabsSection, sIndex + '_caption', ANoteBook.Page[I].Caption);
     gIni.WriteInteger(TabsSection, sIndex + '_options', ANoteBook.Page[I].Tag);
