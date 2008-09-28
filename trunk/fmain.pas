@@ -2598,6 +2598,7 @@ begin
     sPath := TFrameFilePanel(ANoteBook.Page[I].Components[0]).ActiveDir;
     gIni.WriteString(TabsSection, sIndex + '_path', sPath);
     gIni.WriteString(TabsSection, sIndex + '_caption', ANoteBook.Page[I].Caption);
+    gIni.WriteInteger(TabsSection, sIndex + '_options', ANoteBook.Page[I].Tag);
 
   sColumnSet:=TFrameFilePanel(ANoteBook.Page[I].Components[0]).ActiveColm;
   gIni.WriteString(TabsSection, sIndex + '_columnsset', sColumnSet);

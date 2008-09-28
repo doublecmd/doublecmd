@@ -647,10 +647,11 @@ begin
     end;
 
     I:= nbNoteBook.PageIndex;
-    if nbNoteBook.Page[I].Tag <> 2 then  // lock
+    if nbNoteBook.Page[I].Tag <> 1 then  // lock
       begin
-        nbNoteBook.Page[I].Tag:= 2;
-        nbNoteBook.Page[I].Caption:= '*'+nbNoteBook.Page[I].Caption;
+        if nbNoteBook.Page[I].Tag = 0 then
+          nbNoteBook.Page[I].Caption:= '*'+nbNoteBook.Page[I].Caption;
+        nbNoteBook.Page[I].Tag:= 1;
       end
     else // unlock
       begin
@@ -676,11 +677,12 @@ begin
     end;
 
     I:= nbNoteBook.PageIndex;
-    if nbNoteBook.Page[I].Tag <> 1 then // lock
+    if nbNoteBook.Page[I].Tag <> 2 then // lock
       begin
-        nbNoteBook.Page[I].Tag:= 1;
         nbNoteBook.Page[I].Hint:= ActiveFrame.ActiveDir;
-        nbNoteBook.Page[I].Caption:= '*'+nbNoteBook.Page[I].Caption;
+        if nbNoteBook.Page[I].Tag = 0 then
+          nbNoteBook.Page[I].Caption:= '*'+nbNoteBook.Page[I].Caption;
+        nbNoteBook.Page[I].Tag:= 2;
       end
     else  // unlock
       begin
