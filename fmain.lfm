@@ -315,6 +315,7 @@ object frmMain: TfrmMain
         TabStop = False
         Anchors = [akTop, akLeft, akRight]
         ItemHeight = 13
+        MaxLength = -1
         ParentCtl3D = False
         TabOrder = 0
       end
@@ -438,6 +439,7 @@ object frmMain: TfrmMain
     ParentColor = False
     ParentFont = False
     TabOrder = 4
+    BookMarkOptions.OnChange = nil
     Keystrokes = <    
       item
         Command = 3
@@ -762,6 +764,7 @@ object frmMain: TfrmMain
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
+    SelectedColor.OnChange = nil
     OnSpecialLineColors = seLogWindowSpecialLineColors
   end
   object LogSplitter: TSplitter
@@ -1416,6 +1419,18 @@ object frmMain: TfrmMain
       DisableIfNoHandler = True
       OnExecute = actExecute
     end
+    object actToggleLockTab: TAction
+      Category = 'Tabs'
+      Caption = 'Lock this tab'
+      DisableIfNoHandler = True
+      OnExecute = actExecute
+    end
+    object actToggleLockDcaTab: TAction
+      Category = 'Tabs'
+      Caption = 'Locked, but directory changes allowed'
+      DisableIfNoHandler = True
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     left = 152
@@ -1639,6 +1654,16 @@ object frmMain: TfrmMain
     top = 136
     object miNewTab: TMenuItem
       Action = actNewTab
+      OnClick = actExecute
+    end
+    object miToggleLockTab: TMenuItem
+      Action = actToggleLockTab
+      RadioItem = True
+      OnClick = actExecute
+    end
+    object miToggleLockDcaTab: TMenuItem
+      Action = actToggleLockDcaTab
+      RadioItem = True
       OnClick = actExecute
     end
     object miLine14: TMenuItem

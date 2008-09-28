@@ -1467,6 +1467,14 @@ msgstr "Linker klaar"
 msgid "Location of configuration files"
 msgstr "Locatie van configuratiebestanden"
 
+#: TFRMMAIN.ACTTOGGLELOCKTAB.CAPTION
+msgid "Lock this tab"
+msgstr ""
+
+#: TFRMMAIN.ACTTOGGLELOCKDCATAB.CAPTION
+msgid "Locked, but directory changes allowed"
+msgstr ""
+
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 msgid "Log"
 msgstr "Log"

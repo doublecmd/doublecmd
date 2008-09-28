@@ -58,6 +58,8 @@ const cf_Null=0;
    procedure cm_RemoveTab(param: string='');
    procedure cm_NextTab(param: string='');
    procedure cm_PrevTab(param: string='');
+   procedure cm_ToggleLockTab(param: string='');
+   procedure cm_ToggleLockDcaTab(param: string='');
    procedure cm_Copy(param: string='');
    procedure cm_Delete(param: string='');
    procedure cm_Edit(param: string='');
@@ -115,7 +117,7 @@ const cf_Null=0;
 
 implementation
 
-uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
+uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls, ExtCtrls,
      Clipbrd,uOSUtils,framePanel,uWCXmodule,fPackDlg,uWipeThread,uFileOp,
      uFileOpThread,fFileOpDlg,forms,uVFSutil,uShowForm,uDCUtils,uLog,uVFSTypes,
      fMkDir,LCLProc,uFileProcs,uDeleteThread,fFileAssoc,fExtractDlg,fAbout,
@@ -627,6 +629,66 @@ with frmMain do
              end;
     end;
   ActiveFrame.SetFocus;
+  end;
+end;
+
+procedure TActs.cm_ToggleLockTab(param: string);
+var
+  I: Integer;
+  nbNoteBook: TNoteBook;
+begin
+  with frmMain do
+  begin
+    case SelectedPanel of
+    fpLeft:
+      nbNoteBook:= nbLeft;
+    fpRight:
+      nbNoteBook:= nbRight;
+    end;
+
+    I:= nbNoteBook.PageIndex;
+    if nbNoteBook.Page[I].Tag <> 2 then  // lock
+      begin
+        nbNoteBook.Page[I].Tag:= 2;
+        nbNoteBook.Page[I].Caption:= '*'+nbNoteBook.Page[I].Caption;
+      end
+    else // unlock
+      begin
+        nbNoteBook.Page[I].Tag:= 0;
+        nbNoteBook.Page[I].Caption:= Copy(nbNoteBook.Page[I].Caption, 2, Length(nbNoteBook.Page[I].Caption)-1);
+      end;
+    ActiveFrame.SetFocus;
+  end;
+end;
+
+procedure TActs.cm_ToggleLockDcaTab(param: string);
+var
+  I: Integer;
+  nbNoteBook: TNoteBook;
+begin
+  with frmMain do
+  begin
+    case SelectedPanel of
+    fpLeft:
+      nbNoteBook:= nbLeft;
+    fpRight:
+      nbNoteBook:= nbRight;
+    end;
+
+    I:= nbNoteBook.PageIndex;
+    if nbNoteBook.Page[I].Tag <> 1 then // lock
+      begin
+        nbNoteBook.Page[I].Tag:= 1;
+        nbNoteBook.Page[I].Hint:= ActiveFrame.ActiveDir;
+        nbNoteBook.Page[I].Caption:= '*'+nbNoteBook.Page[I].Caption;
+      end
+    else  // unlock
+      begin
+        nbNoteBook.Page[I].Tag:= 0;
+        nbNoteBook.Page[I].Hint:= '';
+        nbNoteBook.Page[I].Caption:= Copy(nbNoteBook.Page[I].Caption, 2, Length(nbNoteBook.Page[I].Caption)-1);
+      end;
+    ActiveFrame.SetFocus;
   end;
 end;
 

@@ -1467,6 +1467,14 @@ msgstr "连接完成"
 msgid "Location of configuration files"
 msgstr "本地化配置文件"
 
+#: TFRMMAIN.ACTTOGGLELOCKTAB.CAPTION
+msgid "Lock this tab"
+msgstr ""
+
+#: TFRMMAIN.ACTTOGGLELOCKDCATAB.CAPTION
+msgid "Locked, but directory changes allowed"
+msgstr ""
+
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 msgid "Log"
 msgstr "日志"

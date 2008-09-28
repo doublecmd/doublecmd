@@ -63,6 +63,8 @@ type
     actCopyFullNamesToClip: TAction;
     actExchange: TAction;
     actEditComment: TAction;
+    actToggleLockDcaTab: TAction;
+    actToggleLockTab: TAction;
     actUnmarkCurrentExtension: TAction;
     actMarkCurrentExtension: TAction;
     actWipe: TAction;
@@ -94,6 +96,8 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     MenuItem2: TMenuItem;
+    miToggleLockDcaTab: TMenuItem;
+    miToggleLockTab: TMenuItem;
     miRemoveTab: TMenuItem;
     miLine14: TMenuItem;
     miNewTab: TMenuItem;
@@ -2175,11 +2179,11 @@ end;
 function TfrmMain.FramepnlFileBeforeChangeDirectory(Sender: TObject; const NewDir: String): Boolean;
 begin
   Result:= True;
-  if Sender is TNoteBook then
-    with Sender as TNoteBook do
+  if Sender is TPage then
+    with Sender as TPage do
       if Tag = 1 then
         begin
-          CreatePanel(AddPage(Sender as TNoteBook), ActiveFrame.PanelSelect, NewDir);
+          CreatePanel(AddPage(TNoteBook((Sender as TPage).Parent)), ActiveFrame.PanelSelect, NewDir);
           Result:= False;
         end;
 end;
@@ -2529,6 +2533,9 @@ begin
 
       sCaption := gIni.ReadString(TabsSection, sIndex + '_caption', '');
       CreatePanel(AddPage(ANoteBook), fpsPanel, sPath);
+
+      ANoteBook.Page[ANoteBook.PageCount - 1].Tag:= gIni.ReadInteger(TabsSection, sIndex + '_options', 0);
+
       if sCaption <> '' then
         if Boolean(gDirTabOptions and tb_text_length_limit) and (Length(sCaption) > gDirTabLimit) then
           ANoteBook.Page[ANoteBook.PageCount - 1].Caption := Copy(sCaption, 1, gDirTabLimit) + '...'

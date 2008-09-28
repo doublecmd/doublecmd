@@ -1467,6 +1467,14 @@ msgstr "Verschmelzer ist fertig"
 msgid "Location of configuration files"
 msgstr "Speicherort der Konfigurationsdatei"
 
+#: TFRMMAIN.ACTTOGGLELOCKTAB.CAPTION
+msgid "Lock this tab"
+msgstr ""
+
+#: TFRMMAIN.ACTTOGGLELOCKDCATAB.CAPTION
+msgid "Locked, but directory changes allowed"
+msgstr ""
+
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 msgid "Log"
 msgstr "Log"
