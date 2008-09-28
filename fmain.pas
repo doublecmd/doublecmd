@@ -959,6 +959,12 @@ begin
       FrameLeft.pnlFile.UpdatePrompt;
     if (Name = 'nbRight') and (FrameRight <> nil) then
       FrameRight.pnlFile.UpdatePrompt;
+
+    if Page[PageIndex].Tag = 2 then // if locked with directory change
+      begin
+        ActiveFrame.pnlFile.ActiveDir:= Page[PageIndex].Hint;
+        ActiveFrame.LoadPanel;
+      end;
   end;
 end;
 
@@ -2196,11 +2202,14 @@ begin
   if Sender is TPage then
     begin
       ANoteBook := (Sender as TPage).Parent as TNoteBook;
-      sCaption := GetLastDir(ExcludeTrailingPathDelimiter(NewDir));
-      if Boolean(gDirTabOptions and tb_text_length_limit) and (Length(sCaption) > gDirTabLimit) then
-        ANoteBook.Page[(Sender as TPage).PageIndex].Caption:= Copy(sCaption, 1, gDirTabLimit) + '...'
-      else
-        ANoteBook.Page[(Sender as TPage).PageIndex].Caption := sCaption;
+      if (Sender as TPage).Tag = 0 then // if not locked tab
+        begin
+          sCaption := GetLastDir(ExcludeTrailingPathDelimiter(NewDir));
+          if Boolean(gDirTabOptions and tb_text_length_limit) and (Length(sCaption) > gDirTabLimit) then
+            ANoteBook.Page[(Sender as TPage).PageIndex].Caption:= Copy(sCaption, 1, gDirTabLimit) + '...'
+          else
+            ANoteBook.Page[(Sender as TPage).PageIndex].Caption := sCaption;
+        end;
     end;
 end;
 
