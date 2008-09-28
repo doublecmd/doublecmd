@@ -23,6 +23,7 @@ object frmMain: TfrmMain
   OnShow = frmMainShow
   OnUTF8KeyPress = FormUTF8KeyPress
   OnWindowStateChange = FormWindowStateChange
+  ParentFont = False
   Position = poDesktopCenter
   ShowHint = True
   ShowInTaskBar = stAlways
@@ -121,6 +122,7 @@ object frmMain: TfrmMain
         Width = 170
         Align = alClient
         OnCloseTabClicked = NoteBookCloseTabClicked
+        OnMouseUp = nbPageMouseUp
         OnPageChanged = nbPageChanged
         Options = [nboShowCloseButtons]
         TabOrder = 0
@@ -208,6 +210,7 @@ object frmMain: TfrmMain
         Width = 813
         Align = alClient
         OnCloseTabClicked = NoteBookCloseTabClicked
+        OnMouseUp = nbPageMouseUp
         OnPageChanged = nbPageChanged
         Options = [nboShowCloseButtons]
         TabOrder = 0
@@ -311,9 +314,7 @@ object frmMain: TfrmMain
         Width = 920
         TabStop = False
         Anchors = [akTop, akLeft, akRight]
-        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemHeight = 13
-        MaxLength = 0
         ParentCtl3D = False
         TabOrder = 0
       end
@@ -435,8 +436,8 @@ object frmMain: TfrmMain
     Font.Name = 'courier'
     Font.Pitch = fpFixed
     ParentColor = False
+    ParentFont = False
     TabOrder = 4
-    BookMarkOptions.OnChange = nil
     Keystrokes = <    
       item
         Command = 3
@@ -761,7 +762,6 @@ object frmMain: TfrmMain
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
-    SelectedColor.OnChange = nil
     OnSpecialLineColors = seLogWindowSpecialLineColors
   end
   object LogSplitter: TSplitter
@@ -795,6 +795,7 @@ object frmMain: TfrmMain
       end
       object miEditComment: TMenuItem
         Action = actEditComment
+        OnClick = actExecute
       end
       object mnuFilesSpace: TMenuItem
         Action = actCalculateSpace
@@ -1632,5 +1633,20 @@ object frmMain: TfrmMain
     OnClick = MainTrayIconClick
     left = 220
     top = 168
+  end
+  object pmTabMenu: TPopupMenu
+    left = 374
+    top = 136
+    object miNewTab: TMenuItem
+      Action = actNewTab
+      OnClick = actExecute
+    end
+    object miLine14: TMenuItem
+      Caption = '-'
+    end
+    object miRemoveTab: TMenuItem
+      Action = actRemoveTab
+      OnClick = actExecute
+    end
   end
 end

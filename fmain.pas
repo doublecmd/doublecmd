@@ -94,6 +94,9 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     MenuItem2: TMenuItem;
+    miRemoveTab: TMenuItem;
+    miLine14: TMenuItem;
+    miNewTab: TMenuItem;
     miEditComment: TMenuItem;
     mnuMarkCurrentExtension: TMenuItem;
     mnuUnmarkCurrentExtension: TMenuItem;
@@ -144,6 +147,7 @@ type
     LogSplitter: TSplitter;
     pmColumnsMenu: TPopupMenu;
     pmDropMenu: TPopupMenu;
+    pmTabMenu: TPopupMenu;
     seLogWindow: TSynEdit;
     tbDelete: TMenuItem;
     tbEdit: TMenuItem;
@@ -279,6 +283,8 @@ type
     procedure mnuSplitterPercentClick(Sender: TObject);
     procedure mnuHelpClick(Sender: TObject);
     procedure nbPageChanged(Sender: TObject);
+    procedure nbPageMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure NotebookCloseTabClicked(Sender: TObject);
     function pmButtonMenuLoadButtonGlyph(sIconFileName: String;
       iIconSize: Integer; clBackColor: TColor): TBitmap;
@@ -950,6 +956,18 @@ begin
     if (Name = 'nbRight') and (FrameRight <> nil) then
       FrameRight.pnlFile.UpdatePrompt;
   end;
+end;
+
+procedure TfrmMain.nbPageMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+var
+  PopUpPoint: TPoint;
+begin
+  if Button = mbRight then
+    begin
+      PopUpPoint:= (Sender as TNoteBook).ClientToScreen(Point(X, Y));
+      pmTabMenu.PopUp(PopUpPoint.x, PopUpPoint.y);
+    end;
 end;
 
 procedure TfrmMain.NoteBookCloseTabClicked(Sender: TObject);
