@@ -1467,6 +1467,14 @@ msgstr "Enlazado completo"
 msgid "Location of configuration files"
 msgstr "Situación de ficheros de configuración"
 
+#: TFRMMAIN.ACTTOGGLELOCKTAB.CAPTION
+msgid "Lock this tab"
+msgstr ""
+
+#: TFRMMAIN.ACTTOGGLELOCKDCATAB.CAPTION
+msgid "Locked, but directory changes allowed"
+msgstr ""
+
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 msgid "Log"
 msgstr "Registro"

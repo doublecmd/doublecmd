@@ -1853,6 +1853,14 @@ msgstr ""
 msgid "Focus command line"
 msgstr ""
 
+#: TFRMMAIN.ACTTOGGLELOCKDCATAB.CAPTION
+msgid "Locked, but directory changes allowed"
+msgstr ""
+
+#: TFRMMAIN.ACTTOGGLELOCKTAB.CAPTION
+msgid "Lock this tab"
+msgstr ""
+
 #: TFRMMAIN.ACTTRANSFERLEFT.CAPTION
 msgid "Transfer dir under cursor to left window"
 msgstr ""
