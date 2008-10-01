@@ -2488,65 +2488,32 @@ end;
 
 procedure TfrmMain.LoadTabs(ANoteBook: TNoteBook);
 var
-  x, I : Integer;
+  I: Integer;
   sIndex,
-  TabsSection, Section: String;
-  fpsPanel : TFilePanelSelect;
+  TabsSection: String;
+  fpsPanel: TFilePanelSelect;
   sPath, sColumnSet,
-  sCaption, sActiveCaption : String;
-  iActiveTab : Integer;
+  sCaption: String;
+  iActiveTab: Integer;
 begin
   if ANoteBook.Name = 'nbLeft' then
     begin
-      TabsSection := 'lefttabs';
-      Section := 'left';
-      fpsPanel := fpLeft;
+      TabsSection:= 'lefttabs';
+      fpsPanel:= fpLeft;
     end
   else
     begin
-      TabsSection := 'righttabs';
-      Section := 'right';
-      fpsPanel := fpRight;
+      TabsSection:= 'righttabs';
+      fpsPanel:= fpRight;
     end;
-  I := 0;
-  sIndex := '0';
-
-  { Read active tab index and caption }
-  iActiveTab := gIni.ReadInteger(TabsSection, 'activetab', 0);
-  sActiveCaption := gIni.ReadString(TabsSection, 'activecaption', '');
-
+  I:= 0;
+  sIndex:= '0';
+  // create one tab in any way
+  GetDir(0, sPath); // default path
+  sPath:= gIni.ReadString(TabsSection, sIndex + '_path', sPath);
    while True do
     begin
-      if I = iActiveTab then
-        begin
-          sPath := gIni.ReadString(Section, 'path', '');
-
-          CreatePanel(AddPage(ANoteBook), fpsPanel, sPath);
-
-          ANoteBook.Page[ANoteBook.PageCount - 1].Tag:= gIni.ReadInteger(Section, 'options', 0);
-          if ANoteBook.Page[ANoteBook.PageCount - 1].Tag = 2 then // if locked tab with directory change
-            ANoteBook.Page[ANoteBook.PageCount - 1].Hint:= sPath; // save in hint real path
-
-
-          if sActiveCaption <> '' then
-            if Boolean(gDirTabOptions and tb_text_length_limit) and (Length(sActiveCaption) > gDirTabLimit) then
-              ANoteBook.Page[ANoteBook.PageCount - 1].Caption := Copy(sActiveCaption, 1, gDirTabLimit) + '...'
-            else
-              ANoteBook.Page[ANoteBook.PageCount - 1].Caption := sActiveCaption;
-              
-          sColumnSet:=gIni.ReadString(Section, 'columnsset', 'Default');
-
-          with TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]) do
-           begin
-              ActiveColm:=sColumnSet;
-              SetColWidths;
-           end;
-
-        end;
-      sPath := gIni.ReadString(TabsSection, sIndex + '_path', '');
-      if sPath = '' then Break;
-
-      sCaption := gIni.ReadString(TabsSection, sIndex + '_caption', '');
+      sCaption:= gIni.ReadString(TabsSection, sIndex + '_caption', '');
       CreatePanel(AddPage(ANoteBook), fpsPanel, sPath);
 
       ANoteBook.Page[ANoteBook.PageCount - 1].Tag:= gIni.ReadInteger(TabsSection, sIndex + '_options', 0);
@@ -2555,85 +2522,65 @@ begin
 
       if sCaption <> '' then
         if Boolean(gDirTabOptions and tb_text_length_limit) and (Length(sCaption) > gDirTabLimit) then
-          ANoteBook.Page[ANoteBook.PageCount - 1].Caption := Copy(sCaption, 1, gDirTabLimit) + '...'
+          ANoteBook.Page[ANoteBook.PageCount - 1].Caption:= Copy(sCaption, 1, gDirTabLimit) + '...'
         else
-          ANoteBook.Page[ANoteBook.PageCount - 1].Caption := sCaption;
+          ANoteBook.Page[ANoteBook.PageCount - 1].Caption:= sCaption;
           
-      sColumnSet:=gIni.ReadString(TabsSection, sIndex + '_columnsset', 'Default');
+      sColumnSet:= gIni.ReadString(TabsSection, sIndex + '_columnsset', 'Default');
       with TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]) do
         begin
-          ActiveColm:=sColumnSet;
+          ActiveColm:= sColumnSet;
           SetColWidths;
         end;
 
-
       Inc(I);
-      sIndex := IntToStr(I);
+      // get page index in string representation
+      sIndex:= IntToStr(I);
+      // get path of next tab
+      sPath:= gIni.ReadString(TabsSection, sIndex + '_path', '');
+      // if not found then break
+      if sPath = '' then Break;
     end;
+    // read active tab index
+    iActiveTab:= gIni.ReadInteger(TabsSection, 'activetab', 0);
     // set active tab
-    ANoteBook.PageIndex := iActiveTab;
+    if iActiveTab < ANoteBook.PageCount then
+      ANoteBook.PageIndex := iActiveTab;
 end;
 
 procedure TfrmMain.SaveTabs(ANoteBook: TNoteBook);
 var
-  I, Count, J : Integer;
+  I, Count: Integer;
   sIndex,
-  TabsSection, Section : String;
+  TabsSection: String;
   sPath,sColumnSet : String;
 begin
   if ANoteBook.Name = 'nbLeft' then
-    begin
-      TabsSection := 'lefttabs';
-      Section := 'left';
-    end
+    TabsSection := 'lefttabs'
   else
-    begin
-      TabsSection := 'righttabs';
-      Section := 'right';
-    end;
+    TabsSection := 'righttabs';
 
+  // delete tabs section
   gIni.EraseSection(TabsSection);
-  
-  I := 0;
-  J := 0;
-  Count := ANoteBook.PageCount - 1;
-  repeat
-    sIndex := IntToStr(I - J);
+  // get page count
+  Count:= ANoteBook.PageCount - 1;
+  for I:= 0 to Count do
+    begin
+      // get page index in string representation
+      sIndex:= IntToStr(I);
 
-    if I = ANoteBook.PageIndex then
-      begin
-        gIni.WriteInteger(TabsSection, 'activetab', I);
-        gIni.WriteString(TabsSection, 'activecaption', ANoteBook.ActivePage);
-        gIni.WriteInteger(Section, 'options', ANoteBook.Page[ANoteBook.PageIndex].Tag);
-        if I < Count then
-          begin
-            inc(I);
-            J := 1;
-          end
-        else
-          Break;
-      end;
-    if ANoteBook.Page[I].Tag = 2 then // if locked tab with directory change
-      sPath := ANoteBook.Page[I].Hint // get path from hint
-    else
-      sPath := TFrameFilePanel(ANoteBook.Page[I].Components[0]).ActiveDir;
-    gIni.WriteString(TabsSection, sIndex + '_path', sPath);
-    gIni.WriteString(TabsSection, sIndex + '_caption', ANoteBook.Page[I].Caption);
-    gIni.WriteInteger(TabsSection, sIndex + '_options', ANoteBook.Page[I].Tag);
+      if ANoteBook.Page[I].Tag = 2 then // if locked tab with directory change
+        sPath:= ANoteBook.Page[I].Hint // get path from hint
+      else
+        sPath:= TFrameFilePanel(ANoteBook.Page[I].Components[0]).ActiveDir;
+      gIni.WriteString(TabsSection, sIndex + '_path', sPath);
+      gIni.WriteString(TabsSection, sIndex + '_caption', ANoteBook.Page[I].Caption);
+      gIni.WriteInteger(TabsSection, sIndex + '_options', ANoteBook.Page[I].Tag);
 
-    sColumnSet:=TFrameFilePanel(ANoteBook.Page[I].Components[0]).ActiveColm;
-    gIni.WriteString(TabsSection, sIndex + '_columnsset', sColumnSet);
-
-    Inc(I);
-  until (I > Count);
-  if ANoteBook.Page[ANoteBook.PageIndex].Tag = 2 then // if locked tab with directory change
-    sPath := ANoteBook.Page[ANoteBook.PageIndex].Hint // get path from hint
-  else
-    sPath := TFrameFilePanel(ANoteBook.ActivePageComponent.Components[0]).ActiveDir;
-  gIni.WriteString(Section, 'path', sPath);
-
-  sColumnSet:=TFrameFilePanel(ANoteBook.ActivePageComponent.Components[0]).ActiveColm;
-  gIni.WriteString(Section, 'columnsset', sColumnSet);
+      sColumnSet:= TFrameFilePanel(ANoteBook.Page[I].Components[0]).ActiveColm;
+      gIni.WriteString(TabsSection, sIndex + '_columnsset', sColumnSet);
+    end;
+  gIni.WriteInteger(TabsSection, 'activetab', ANoteBook.PageIndex);
 end;
 
 (* Execute internal or external command *)
