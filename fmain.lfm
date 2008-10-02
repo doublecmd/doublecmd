@@ -27,7 +27,7 @@ object frmMain: TfrmMain
   Position = poDesktopCenter
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.25'
+  LCLVersion = '0.9.27'
   object pnlSyncSize: TPanel
     Height = 26
     Top = 24
@@ -315,7 +315,6 @@ object frmMain: TfrmMain
         TabStop = False
         Anchors = [akTop, akLeft, akRight]
         ItemHeight = 13
-        MaxLength = -1
         ParentCtl3D = False
         TabOrder = 0
       end
@@ -439,7 +438,6 @@ object frmMain: TfrmMain
     ParentColor = False
     ParentFont = False
     TabOrder = 4
-    BookMarkOptions.OnChange = nil
     Keystrokes = <    
       item
         Command = 3
@@ -764,7 +762,6 @@ object frmMain: TfrmMain
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
-    SelectedColor.OnChange = nil
     OnSpecialLineColors = seLogWindowSpecialLineColors
   end
   object LogSplitter: TSplitter
@@ -1431,6 +1428,12 @@ object frmMain: TfrmMain
       DisableIfNoHandler = True
       OnExecute = actExecute
     end
+    object actRemoveAllTabs: TAction
+      Category = 'Tabs'
+      Caption = 'Remove all tabs'
+      DisableIfNoHandler = True
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     left = 152
@@ -1672,6 +1675,9 @@ object frmMain: TfrmMain
     object miRemoveTab: TMenuItem
       Action = actRemoveTab
       OnClick = actExecute
+    end
+    object miRemoveAllTabs: TMenuItem
+      Action = actRemoveAllTabs
     end
   end
 end
