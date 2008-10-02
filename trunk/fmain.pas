@@ -63,6 +63,7 @@ type
     actCopyFullNamesToClip: TAction;
     actExchange: TAction;
     actEditComment: TAction;
+    actRemoveAllTabs: TAction;
     actToggleLockDcaTab: TAction;
     actToggleLockTab: TAction;
     actUnmarkCurrentExtension: TAction;
@@ -96,6 +97,7 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     MenuItem2: TMenuItem;
+    miRemoveAllTabs: TMenuItem;
     miToggleLockDcaTab: TMenuItem;
     miToggleLockTab: TMenuItem;
     miRemoveTab: TMenuItem;

@@ -56,6 +56,7 @@ const cf_Null=0;
    procedure cm_Exit(param: string='');
    procedure cm_NewTab(param: string='');
    procedure cm_RemoveTab(param: string='');
+   procedure cm_RemoveAllTabs(param: string='');
    procedure cm_NextTab(param: string='');
    procedure cm_PrevTab(param: string='');
    procedure cm_ToggleLockTab(param: string='');
@@ -582,6 +583,25 @@ begin
        RemovePage(nbLeft, nbLeft.PageIndex);
     fpRight:
        RemovePage(nbRight, nbRight.PageIndex);
+    end;
+  end;
+end;
+
+procedure TActs.cm_RemoveAllTabs(param: string);
+var
+  I: Integer;
+begin
+  with frmMain do
+  begin
+    case SelectedPanel of
+    fpLeft:
+       for I:= nbLeft.PageCount - 1 downto 0 do
+         if I <> nbLeft.PageIndex then
+           RemovePage(nbLeft, I);
+    fpRight:
+       for I:= nbRight.PageCount - 1 downto 0 do
+         if I <> nbRight.PageIndex then
+           RemovePage(nbRight, I);
     end;
   end;
 end;
