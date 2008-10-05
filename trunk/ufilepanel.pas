@@ -176,7 +176,7 @@ begin
     end;
   end;
 
-  fPanel.RowCount:=fRefList.Count+1; // one is header
+  fPanel.RowCount:=fRefList.Count+fPanel.FixedRows; // one is header
   UpdatePrompt;
   if bAnyRow then
   begin
