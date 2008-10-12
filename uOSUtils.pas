@@ -197,7 +197,8 @@ function mbFileCreate(const FileName: UTF8String; Mode: Integer): Integer;overlo
 function mbFileAge(const FileName: UTF8String): Longint;
 function mbFileExists(const FileName: UTF8String): Boolean;
 function mbDirectoryExists(const Directory : UTF8String) : Boolean;
-function mbFileGetAttr(const FileName: UTF8String): Longint;
+function mbFileGetAttr(const FileName: UTF8String): LongInt;
+function mbFileSetAttr (const FileName: UTF8String; Attr: LongInt) : LongInt;
 function mbDeleteFile(const FileName: UTF8String): Boolean;
 function mbRenameFile(const OldName, NewName : UTF8String): Boolean;
 function mbFileSize(const FileName: UTF8String): Int64;
@@ -269,7 +270,7 @@ var
   ft : TFileTime;
   Handle: THandle;
 begin
-  iAttr := FileGetAttr(sSrc);
+  iAttr := mbFileGetAttr(sSrc);
   //---------------------------------------------------------
   Handle:= mbFileOpen(sSrc, fmOpenRead or fmShareDenyNone);
   GetFileTime(Handle,nil,nil,@ft);
@@ -277,7 +278,7 @@ begin
   //---------------------------------------------------------
   if bDropReadOnlyFlag and Boolean(iAttr and faReadOnly) then
     iAttr := (iAttr and not faReadOnly);
-  Result := (FileSetAttr(sDst, iAttr) = 0);
+  Result := (mbFileSetAttr(sDst, iAttr) = 0);
   //---------------------------------------------------------
   Handle:= mbFileOpen(sDst, fmOpenReadWrite or fmShareExclusive);
   Result := SetFileTime(Handle, nil, nil, @ft);
@@ -1011,6 +1012,22 @@ begin
   Result:= -1;
   if fpStat(FileName, Info) >= 0 then
     Result:= Info.st_mode;
+end;
+{$ENDIF}
+
+function mbFileSetAttr(const FileName: UTF8String; Attr: LongInt): LongInt;
+{$IFDEF MSWINDOWS}
+var
+  wFileName: WideString;
+begin
+  Result:= 0;
+  wFileName:= UTF8Decode(FileName);
+  if not SetFileAttributesW(PWChar(wFileName), Attr) then
+    Result:= GetLastError;
+end;
+{$ELSE}
+begin
+  Result:= -1;
 end;
 {$ENDIF}
 
