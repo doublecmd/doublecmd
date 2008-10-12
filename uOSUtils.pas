@@ -106,6 +106,7 @@ function FileIsExeLib(const sFileName : String) : Boolean;
    @param(bDropReadOnlyFlag Drop read only attribute if @true)
    @returns(The function returns @true if successful, @false otherwise)
 }
+function FileIsReadOnly(iAttr:Cardinal): Boolean;
 function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Boolean;
 function ExecCmdFork(sCmdLine:String; bTerm : Boolean = False; sTerm : String = ''):Boolean;
 function GetDiskFreeSpace(Path : String; var FreeSize, TotalSize : Int64) : Boolean;
@@ -199,6 +200,7 @@ function mbFileExists(const FileName: UTF8String): Boolean;
 function mbDirectoryExists(const Directory : UTF8String) : Boolean;
 function mbFileGetAttr(const FileName: UTF8String): LongInt;
 function mbFileSetAttr (const FileName: UTF8String; Attr: LongInt) : LongInt;
+function mbFileSetReadOnly(const FileName: UTF8String; ReadOnly: Boolean): Boolean;
 function mbDeleteFile(const FileName: UTF8String): Boolean;
 function mbRenameFile(const OldName, NewName : UTF8String): Boolean;
 function mbFileSize(const FileName: UTF8String): Int64;
@@ -261,7 +263,16 @@ begin
     end;
 end;
 
-(* Copy file attributes *)
+function FileIsReadOnly(iAttr: Cardinal): Boolean;
+{$IFDEF MSWINDOWS}
+begin
+  Result:= Boolean(iAttr and faReadOnly);
+end;
+{$ELSE}
+begin
+  Result:= (((iAttr AND S_IRUSR) = S_IRUSR) and ((iAttr AND S_IWUSR) <> S_IWUSR));
+end;
+{$ENDIF}
 
 function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Boolean;
 {$IFDEF MSWINDOWS}
@@ -1027,7 +1038,35 @@ begin
 end;
 {$ELSE}
 begin
-  Result:= -1;
+  Result:= fpchmod(PChar(FileName), Attr);
+end;
+{$ENDIF}
+
+function mbFileSetReadOnly(const FileName: UTF8String; ReadOnly: Boolean): Boolean;
+{$IFDEF MSWINDOWS}
+var
+  iAttr: LongInt;
+begin
+  iAttr:= mbFileGetAttr(FileName);
+  if iAttr = -1 then Exit(False);
+  if ReadOnly then
+    iAttr:= iAttr and faReadOnly
+  else
+    iAttr:= iAttr and not faReadOnly;
+  Result:= mbFileSetAttr(FileName, iAttr) = 0;
+end;
+{$ELSE}
+var
+  StatInfo: BaseUnix.Stat;
+  mode: dword;
+begin
+  if fpStat(PChar(FileName), StatInfo) <> 0 then Exit(False);
+  mode:= StatInfo.st_mode;
+  if ReadOnly then
+    mode := mode and not (S_IWUSR or S_IWGRP or S_IWOTH)
+  else
+    mode:=  mode or (S_IWUSR or S_IWGRP or S_IWOTH);
+  Result:= fpchmod(PChar(FileName), mode) = 0;
 end;
 {$ENDIF}
 

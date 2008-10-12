@@ -1,30 +1,36 @@
 {
-Seksi Commander
-----------------------------
-Implementing of Delete thread
+   Seksi Commander
+   ----------------------------
+   Implementing of Delete thread
 
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Licence  : GNU GPL v 2.0
+   Author   : radek.cervinka@centrum.cz
 
-contributors:
+   contributors:
 
+   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
 }
+
 unit uDeleteThread;
+
 {$mode objfpc}{$H+}
+
 interface
+
 uses
   uFileOpThread, uFileList, uTypes, SysUtils, LCLProc;
+
 type
 
   { TDeleteThread }
 
-  TDeleteThread=Class(TFileOpThread)
-
+  TDeleteThread = class(TFileOpThread)
   protected
-    constructor Create(aFileList:TFileList);override;
+    constructor Create(aFileList:TFileList); override;
     procedure MainExecute; override;
     function DeleteFile(fr:PFileRecItem):Boolean;
     function GetCaptionLng:String;override;
+    procedure CheckFile(FileRecItem: PFileRecItem); override;
   end;
 
 implementation
@@ -100,6 +106,13 @@ end;
 function TDeleteThread.GetCaptionLng:String;
 begin
   Result:= rsDlgDel;
+end;
+
+procedure TDeleteThread.CheckFile(FileRecItem: PFileRecItem);
+begin
+  inherited CheckFile(FileRecItem);
+  if FileIsReadOnly(FileRecItem^.iMode) then
+    mbFileSetReadOnly(FileRecItem^.sName, False);
 end;
 
 end.
