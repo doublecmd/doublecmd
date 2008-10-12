@@ -1,7 +1,7 @@
 object frmOptions: TfrmOptions
-  Left = 333
+  Left = 416
   Height = 600
-  Top = 92
+  Top = 58
   Width = 800
   ActiveControl = tvTreeView
   BorderIcons = [biSystemMenu, biMinimize]
@@ -12,8 +12,9 @@ object frmOptions: TfrmOptions
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
+  ParentFont = False
   Position = poMainFormCenter
-  LCLVersion = '0.9.25'
+  LCLVersion = '0.9.27'
   object Panel1: TPanel
     Height = 43
     Top = 557
@@ -114,7 +115,7 @@ object frmOptions: TfrmOptions
       Width = 628
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 9
+      PageIndex = 10
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
@@ -181,8 +182,8 @@ object frmOptions: TfrmOptions
           Top = 68
           Width = 242
           BorderSpacing.Top = 6
-          ClientHeight = 138
-          ClientWidth = 238
+          ClientHeight = 156
+          ClientWidth = 242
           ParentCtl3D = False
           TabOrder = 3
           object cbDirSelect: TCheckBox
@@ -260,8 +261,8 @@ object frmOptions: TfrmOptions
           Anchors = [akTop, akLeft, akRight, akBottom]
           BorderSpacing.Left = 6
           BorderSpacing.Top = 6
-          ClientHeight = 138
-          ClientWidth = 348
+          ClientHeight = 156
+          ClientWidth = 352
           TabOrder = 4
           object lblIconsSize: TLabel
             AnchorSideTop.Control = cbIconsSize
@@ -290,7 +291,6 @@ object frmOptions: TfrmOptions
             Height = 21
             Top = 33
             Width = 131
-            AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
             BorderSpacing.Left = 80
             BorderSpacing.Right = 10
             Enabled = False
@@ -301,7 +301,6 @@ object frmOptions: TfrmOptions
               '22x22'
               '32x32'
             )
-            MaxLength = 0
             Style = csDropDownList
             TabOrder = 1
             Text = '16x16'
@@ -329,14 +328,12 @@ object frmOptions: TfrmOptions
             Height = 21
             Top = 87
             Width = 131
-            AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
             BorderSpacing.Left = 80
             ItemHeight = 13
             Items.Strings = (
               'Left button'
               'Right button'
             )
-            MaxLength = 0
             Style = csDropDownList
             TabOrder = 3
           end
@@ -352,8 +349,8 @@ object frmOptions: TfrmOptions
           Caption = 'Date and time'
           ChildSizing.LeftRightSpacing = 6
           ChildSizing.TopBottomSpacing = 6
-          ClientHeight = 91
-          ClientWidth = 238
+          ClientHeight = 109
+          ClientWidth = 242
           TabOrder = 5
           object lblDateTimeFormat: TLabel
             Left = 6
@@ -373,6 +370,7 @@ object frmOptions: TfrmOptions
             BorderSpacing.Top = 6
             Font.Style = [fsBold]
             ParentColor = False
+            ParentFont = False
           end
           object cbDateTimeFormat: TComboBox
             AnchorSideTop.Control = lblDateTimeFormat
@@ -381,7 +379,6 @@ object frmOptions: TfrmOptions
             Height = 21
             Top = 25
             Width = 184
-            AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
             BorderSpacing.Top = 6
             ItemHeight = 13
             Items.Strings = (
@@ -390,7 +387,6 @@ object frmOptions: TfrmOptions
               'dd.mm.yyyy'
               'dd.mm.yy'
             )
-            MaxLength = 0
             OnChange = cbDateTimeFormatChange
             TabOrder = 0
           end
@@ -417,8 +413,8 @@ object frmOptions: TfrmOptions
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 1
-          ClientHeight = 91
-          ClientWidth = 348
+          ClientHeight = 109
+          ClientWidth = 352
           Items.Strings = (
             'Line by line with cursor movement'
             'Line by line'
@@ -438,8 +434,8 @@ object frmOptions: TfrmOptions
           Width = 242
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
-          ClientHeight = 87
-          ClientWidth = 238
+          ClientHeight = 105
+          ClientWidth = 242
           TabOrder = 6
           object cbRenameSelOnlyName: TCheckBox
             AnchorSideLeft.Control = gbMisc3
@@ -479,8 +475,8 @@ object frmOptions: TfrmOptions
           Width = 352
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
-          ClientHeight = 87
-          ClientWidth = 348
+          ClientHeight = 105
+          ClientWidth = 352
           TabOrder = 7
           object ledDriveBlackList: TLabeledEdit
             AnchorSideLeft.Control = gbMisc4
@@ -621,8 +617,6 @@ object frmOptions: TfrmOptions
           Top = 26
           Width = 724
           Anchors = [akTop, akLeft, akRight]
-          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-          MaxLength = 0
           OnChange = cbMainFontChange
           ParentCtl3D = False
           TabOrder = 0
@@ -674,9 +668,7 @@ object frmOptions: TfrmOptions
           Top = 103
           Width = 724
           Anchors = [akTop, akLeft, akRight]
-          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           BorderSpacing.Top = 6
-          MaxLength = 0
           OnChange = cbEditorFontChange
           ParentCtl3D = False
           TabOrder = 4
@@ -728,9 +720,7 @@ object frmOptions: TfrmOptions
           Top = 180
           Width = 724
           Anchors = [akTop, akLeft, akRight]
-          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           BorderSpacing.Top = 6
-          MaxLength = 0
           OnChange = cbViewerFontChange
           ParentCtl3D = False
           TabOrder = 8
@@ -843,7 +833,6 @@ object frmOptions: TfrmOptions
           Height = 22
           Top = 26
           Width = 100
-          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           ItemHeight = 16
           Items.Strings = (
             'clBlack'
@@ -868,7 +857,6 @@ object frmOptions: TfrmOptions
             'clNone'
             'clDefault'
           )
-          MaxLength = 0
           TabOrder = 0
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -880,7 +868,6 @@ object frmOptions: TfrmOptions
           Height = 22
           Top = 56
           Width = 100
-          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           BorderSpacing.Top = 8
           ItemHeight = 16
           Items.Strings = (
@@ -906,7 +893,6 @@ object frmOptions: TfrmOptions
             'clNone'
             'clDefault'
           )
-          MaxLength = 0
           TabOrder = 1
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -952,7 +938,6 @@ object frmOptions: TfrmOptions
           Height = 22
           Top = 86
           Width = 100
-          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           BorderSpacing.Top = 8
           ItemHeight = 16
           Items.Strings = (
@@ -978,7 +963,6 @@ object frmOptions: TfrmOptions
             'clNone'
             'clDefault'
           )
-          MaxLength = 0
           TabOrder = 4
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -990,7 +974,6 @@ object frmOptions: TfrmOptions
           Height = 22
           Top = 116
           Width = 100
-          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           BorderSpacing.Top = 8
           ItemHeight = 16
           Items.Strings = (
@@ -1016,7 +999,6 @@ object frmOptions: TfrmOptions
             'clNone'
             'clDefault'
           )
-          MaxLength = 0
           TabOrder = 5
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -1028,7 +1010,6 @@ object frmOptions: TfrmOptions
           Height = 22
           Top = 146
           Width = 100
-          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           BorderSpacing.Top = 8
           ItemHeight = 16
           Items.Strings = (
@@ -1054,7 +1035,6 @@ object frmOptions: TfrmOptions
             'clNone'
             'clDefault'
           )
-          MaxLength = 0
           TabOrder = 6
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -1066,7 +1046,6 @@ object frmOptions: TfrmOptions
           Height = 22
           Top = 176
           Width = 100
-          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           BorderSpacing.Top = 8
           ItemHeight = 16
           Items.Strings = (
@@ -1092,7 +1071,6 @@ object frmOptions: TfrmOptions
             'clNone'
             'clDefault'
           )
-          MaxLength = 0
           TabOrder = 7
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -1498,6 +1476,7 @@ object frmOptions: TfrmOptions
           FixedColor = clBtnFace
           FixedCols = 0
           Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook]
+          ParentColor = False
           RowCount = 5
           TabOrder = 1
           TitleStyle = tsNative
@@ -1774,7 +1753,6 @@ object frmOptions: TfrmOptions
             Height = 22
             Top = 479
             Width = 100
-            AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
             BorderSpacing.Top = 8
             ItemHeight = 16
             Items.Strings = (
@@ -1800,7 +1778,6 @@ object frmOptions: TfrmOptions
               'clNone'
               'clDefault'
             )
-            MaxLength = 0
             TabOrder = 2
             OnChange = cbCategoryColorChange
             OnDropDown = cbColorBoxDropDown
@@ -1893,21 +1870,21 @@ object frmOptions: TfrmOptions
         end
       end
       object pgLayout: TPage
-        ClientWidth = 817
-        ClientHeight = 648
+        ClientWidth = 620
+        ClientHeight = 506
         object gbScreenLayout: TGroupBox
           Left = 10
           Height = 328
           Top = 6
-          Width = 793
+          Width = 596
           Anchors = [akTop, akLeft, akRight]
           Caption = ' Screen layout '
-          ClientHeight = 328
-          ClientWidth = 793
+          ClientHeight = 310
+          ClientWidth = 592
           TabOrder = 0
           object cbShowMainToolBar: TCheckBox
             Left = 10
-            Height = 21
+            Height = 19
             Top = 8
             Width = 106
             Caption = 'Show &button bar'
@@ -1915,7 +1892,7 @@ object frmOptions: TfrmOptions
           end
           object cbShowDiskPanel: TCheckBox
             Left = 10
-            Height = 21
+            Height = 19
             Top = 50
             Width = 119
             Caption = 'Show &drive buttons'
@@ -1924,7 +1901,7 @@ object frmOptions: TfrmOptions
           end
           object cbShowDriveMenuButton: TCheckBox
             Left = 10
-            Height = 21
+            Height = 19
             Top = 113
             Width = 143
             Caption = 'Show d&rive menu button'
@@ -1932,15 +1909,15 @@ object frmOptions: TfrmOptions
           end
           object cbShowCurDir: TCheckBox
             Left = 10
-            Height = 21
+            Height = 19
             Top = 155
-            Width = 134
+            Width = 136
             Caption = 'Show &current directory'
             TabOrder = 6
           end
           object cbShowTabHeader: TCheckBox
             Left = 10
-            Height = 21
+            Height = 19
             Top = 176
             Width = 129
             Caption = 'Show &tabstop header'
@@ -1948,7 +1925,7 @@ object frmOptions: TfrmOptions
           end
           object cbShowStatusBar: TCheckBox
             Left = 10
-            Height = 21
+            Height = 19
             Top = 197
             Width = 104
             Caption = 'Show &status bar'
@@ -1956,15 +1933,15 @@ object frmOptions: TfrmOptions
           end
           object cbShowCmdLine: TCheckBox
             Left = 10
-            Height = 21
+            Height = 19
             Top = 218
-            Width = 123
+            Width = 119
             Caption = 'Show command &line'
             TabOrder = 9
           end
           object cbShowKeysPanel: TCheckBox
             Left = 10
-            Height = 21
+            Height = 19
             Top = 239
             Width = 154
             Caption = 'Show &function key buttons'
@@ -1972,25 +1949,25 @@ object frmOptions: TfrmOptions
           end
           object cbFlatDiskPanel: TCheckBox
             Left = 26
-            Height = 21
+            Height = 19
             Top = 92
-            Width = 83
+            Width = 84
             Caption = 'Flat buttons'
             Enabled = False
             TabOrder = 3
           end
           object cbTwoDiskPanels: TCheckBox
             Left = 26
-            Height = 21
+            Height = 19
             Top = 71
-            Width = 312
+            Width = 321
             Caption = 'Show two drive button bars (fixed width, above file windows)'
             Enabled = False
             TabOrder = 2
           end
           object cbShowTabs: TCheckBox
             Left = 10
-            Height = 21
+            Height = 19
             Top = 134
             Width = 107
             Caption = 'Sho&w folder tabs'
@@ -1998,25 +1975,25 @@ object frmOptions: TfrmOptions
           end
           object cbFlatInterface: TCheckBox
             Left = 10
-            Height = 21
+            Height = 19
             Top = 260
-            Width = 89
+            Width = 90
             Caption = 'Flat interface'
             TabOrder = 11
           end
           object cbFlatToolBar: TCheckBox
             Left = 26
-            Height = 21
+            Height = 19
             Top = 29
-            Width = 83
+            Width = 84
             Caption = 'Flat buttons'
             TabOrder = 12
           end
           object cbLogWindow: TCheckBox
             Left = 10
-            Height = 21
+            Height = 19
             Top = 280
-            Width = 85
+            Width = 82
             Caption = 'Log window'
             TabOrder = 13
           end
@@ -2024,7 +2001,7 @@ object frmOptions: TfrmOptions
       end
       object pgFileOp: TPage
         ClientWidth = 620
-        ClientHeight = 524
+        ClientHeight = 506
         object gbCopyBufferSize: TGroupBox
           Left = 10
           Height = 100
@@ -2157,25 +2134,25 @@ object frmOptions: TfrmOptions
         end
       end
       object pgTabs: TPage
-        ClientWidth = 817
-        ClientHeight = 648
+        ClientWidth = 620
+        ClientHeight = 506
         object gbTabs: TGroupBox
           AnchorSideRight.Side = asrBottom
           Left = 10
           Height = 340
           Top = 6
-          Width = 801
+          Width = 604
           Anchors = [akTop, akLeft, akRight]
           Caption = 'Folder tabs headers'
-          ClientHeight = 340
-          ClientWidth = 801
+          ClientHeight = 322
+          ClientWidth = 600
           TabOrder = 0
           object lblChar: TLabel
             AnchorSideLeft.Control = edtTabsLimitLength
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = edtTabsLimitLength
             AnchorSideTop.Side = asrCenter
-            Left = 628
+            Left = 427
             Height = 14
             Top = 58
             Width = 52
@@ -2187,7 +2164,7 @@ object frmOptions: TfrmOptions
             Left = 12
             Height = 19
             Top = 6
-            Width = 256
+            Width = 261
             Caption = '&Show tab header also when there is only one tab'
             TabOrder = 0
           end
@@ -2203,7 +2180,7 @@ object frmOptions: TfrmOptions
             Left = 12
             Height = 19
             Top = 56
-            Width = 131
+            Width = 137
             Caption = '&Limit tab title length to:'
             TabOrder = 2
           end
@@ -2211,7 +2188,7 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbTabsLimitOption
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Side = asrBottom
-            Left = 581
+            Left = 380
             Height = 23
             Top = 54
             Width = 41
@@ -2221,10 +2198,26 @@ object frmOptions: TfrmOptions
           object cbTabsOpenForeground: TCheckBox
             Left = 12
             Height = 19
-            Top = 81
-            Width = 199
+            Top = 106
+            Width = 206
             Caption = 'Ctrl+&Up opens new tab in foreground'
             TabOrder = 4
+          end
+          object cbTabsConfirmCloseAll: TCheckBox
+            Left = 12
+            Height = 19
+            Top = 81
+            Width = 127
+            Caption = '&Confirm close all tabs'
+            TabOrder = 5
+          end
+          object cbTabsLockedAsterisk: TCheckBox
+            Left = 12
+            Height = 19
+            Top = 131
+            Width = 196
+            Caption = 'Show locked tabs &with an asterisk *'
+            TabOrder = 6
           end
         end
       end
@@ -2537,7 +2530,6 @@ object frmOptions: TfrmOptions
           Height = 21
           Width = 508
           Anchors = [akTop, akLeft, akRight]
-          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
           ItemIndex = 0
           Items.Strings = (
             'General'
@@ -2631,6 +2623,7 @@ object frmOptions: TfrmOptions
       Font.Color = clCaptionText
       Font.Style = [fsBold]
       ParentColor = False
+      ParentFont = False
       TabOrder = 1
     end
   end

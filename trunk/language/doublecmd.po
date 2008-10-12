@@ -1409,8 +1409,16 @@ msgstr ""
 msgid "&Tabs on multiple lines"
 msgstr ""
 
+#: TFRMOPTIONS.CBTABSCONFIRMCLOSEALL.CAPTION
+msgid "&Confirm close all tabs"
+msgstr ""
+
 #: TFRMOPTIONS.CBTABSLIMITOPTION.CAPTION
 msgid "&Limit tab title length to:"
+msgstr ""
+
+#: TFRMOPTIONS.CBTABSLOCKEDASTERISK.CAPTION
+msgid "Show locked tabs &with an asterisk *"
 msgstr ""
 
 #: TFRMABOUT.CAPTION

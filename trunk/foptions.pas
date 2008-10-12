@@ -106,6 +106,8 @@ type
     cbRenameSelOnlyName: TCheckBox;
     cbCutTextToColWidth: TCheckBox;
     cbProcessComments: TCheckBox;
+    cbTabsConfirmCloseAll: TCheckBox;
+    cbTabsLockedAsterisk: TCheckBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
@@ -1637,7 +1639,9 @@ begin
   cbTabsAlwaysVisible.Checked := Boolean(gDirTabOptions and tb_always_visible) and gDirectoryTabs;
   cbTabsMultiLines.Checked :=  Boolean(gDirTabOptions and tb_multiple_lines);
   cbTabsLimitOption.Checked := Boolean(gDirTabOptions and tb_text_length_limit);
+  cbTabsConfirmCloseAll.Checked:= Boolean(gDirTabOptions and tb_confirm_close_all);
   cbTabsOpenForeground.Checked:= Boolean(gDirTabOptions and tb_open_new_in_foreground);
+  cbTabsLockedAsterisk.Checked:= Boolean(gDirTabOptions and tb_show_asterisk_for_locked);
   edtTabsLimitLength.Text := IntToStr(gDirTabLimit);
 
   {Configuration storage}
@@ -1789,12 +1793,14 @@ begin
     gDirTabOptions :=  (gDirTabOptions or tb_always_visible);
   if cbTabsMultiLines.Checked then
     gDirTabOptions := (gDirTabOptions or tb_multiple_lines);
-    
   if cbTabsLimitOption.Checked then
     gDirTabOptions := (gDirTabOptions or tb_text_length_limit);
-    
+  if cbTabsConfirmCloseAll.Checked then
+    gDirTabOptions := (gDirTabOptions or tb_confirm_close_all);
   if cbTabsOpenForeground.Checked then
     gDirTabOptions := (gDirTabOptions or tb_open_new_in_foreground);
+  if cbTabsLockedAsterisk.Checked then
+    gDirTabOptions := (gDirTabOptions or tb_show_asterisk_for_locked);
 
   gDirTabLimit := StrToIntDef(edtTabsLimitLength.Text, 32);
 
