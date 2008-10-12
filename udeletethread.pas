@@ -77,23 +77,30 @@ begin
         Result := mbRemoveDir(fr^.sName);
         // write log
         if Result then
-          if (log_dir_op in gLogOptions) and (log_success in gLogOptions) then
-            logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogRmDir, [fr^.sName]), lmtSuccess)
+          begin
+            if (log_dir_op in gLogOptions) and (log_success in gLogOptions) then
+              logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogRmDir, [fr^.sName]), lmtSuccess);
+          end
         else
-          if (log_dir_op in gLogOptions) and (log_errors in gLogOptions) then
-            logWrite(Self, Format(rsMsgLogError+rsMsgLogRmDir, [fr^.sName]), lmtError);
+          begin
+            if (log_dir_op in gLogOptions) and (log_errors in gLogOptions) then
+              logWrite(Self, Format(rsMsgLogError+rsMsgLogRmDir, [fr^.sName]), lmtError);
+          end;
       end
     else
       begin // files and other stuff
         Result := mbDeleteFile(fr^.sName);
         // write log
         if Result then
-          if (log_delete in gLogOptions) and (log_success in gLogOptions) then
-            logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogDelete, [fr^.sName]), lmtSuccess)
+          begin
+            if (log_delete in gLogOptions) and (log_success in gLogOptions) then
+              logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogDelete, [fr^.sName]), lmtSuccess);
+          end
         else
-          if (log_delete in gLogOptions) and (log_errors in gLogOptions) then
-            logWrite(Self, Format(rsMsgLogError+rsMsgLogDelete, [fr^.sName]), lmtError);
-
+          begin
+            if (log_delete in gLogOptions) and (log_errors in gLogOptions) then
+              logWrite(Self, Format(rsMsgLogError+rsMsgLogDelete, [fr^.sName]), lmtError);
+          end;
       end;
     // process comments if need
     if Result and gProcessComments and Assigned(FDescr) then

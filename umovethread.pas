@@ -22,7 +22,7 @@ type
   TMoveThread = class(TCopyThread)
   protected
     procedure MainExecute; override;
-    function GetCaptionLng:String; override;
+    function GetCaptionLng: String; override;
   end;
 
 implementation
@@ -53,7 +53,7 @@ begin
     begin
       if not mbDirectoryExists(sDstPath+pr^.sPath+ pr^.sNameNoExt) then
         ForceDirectory(sDstPath+pr^.sPath+pr^.sNameNoExt);
-//      writeln('move:mkdir:',sDstPath+pr^.sNameNoExt);
+//      DebugLn('move:mkdir:',sDstPath+pr^.sNameNoExt);
     end;
   end;
   iCoped:=0;
@@ -132,9 +132,9 @@ begin
   end;
 end;
 
-function TMoveThread.GetCaptionLng:String;
+function TMoveThread.GetCaptionLng: String;
 begin
-  Result:=rsDlgMv;
+  Result:= rsDlgMv;
 end;
 
 end.
