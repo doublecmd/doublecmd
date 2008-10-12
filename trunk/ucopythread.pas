@@ -146,13 +146,17 @@ begin
       FDescr.CopyDescription(fr^.sName, sDst+fr^.sPath+sDstNew);
 
     if Result then
-      // write log success
-      if (log_cp_mv_ln in gLogOptions) and (log_success in gLogOptions) then
-        logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogCopy, [fr^.sName+' -> '+sDst+fr^.sPath+sDstNew]), lmtSuccess)
+      begin
+        // write log success
+        if (log_cp_mv_ln in gLogOptions) and (log_success in gLogOptions) then
+          logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogCopy, [fr^.sName+' -> '+sDst+fr^.sPath+sDstNew]), lmtSuccess);
+      end
     else
-      // write log error
-      if (log_cp_mv_ln in gLogOptions) and (log_errors in gLogOptions) then
-        logWrite(Self, Format(rsMsgLogError+rsMsgLogCopy, [fr^.sName+' -> '+sDst+fr^.sPath+sDstNew]), lmtError);
+      begin
+        // write log error
+        if (log_cp_mv_ln in gLogOptions) and (log_errors in gLogOptions) then
+          logWrite(Self, Format(rsMsgLogError+rsMsgLogCopy, [fr^.sName+' -> '+sDst+fr^.sPath+sDstNew]), lmtError);
+      end;
   end; // files and other stuff
 end;
 
