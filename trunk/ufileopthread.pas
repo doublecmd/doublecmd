@@ -54,6 +54,7 @@ type
     procedure FillAndCountRec(const srcPath, dstPath:String); // rekursive called
     procedure EstimateTime(iSizeCoped:Int64);
     Function  GetCaptionLng:String; virtual;
+    procedure CheckFile(FileRecItem: PFileRecItem); virtual;
     procedure CorrectMask;
     Function  CorrectDstName(const sName:String):String;
     Function  CorrectDstExt(const sExt:String):String;
@@ -150,45 +151,20 @@ end;
 
 procedure TFileOpThread.FillAndCount;
 var
-  i:Integer;
-  ptr:PFileRecItem;
-  sRealName : String;
-  sr : TSearchRec;
+  I: Integer;
+  ptr: PFileRecItem;
 begin
   NewFileList.Clear;
-  FFilesCount:=0;
-  FFilesSize:=0;
-  FDirCount:=0;
-  for i:=0 to FFileList.Count-1 do
+  FFilesCount:= 0;
+  FFilesSize:= 0;
+  FDirCount:= 0;
+  for I:= 0 to FFileList.Count-1 do
   begin
-    ptr:=FFileList.GetItem(i);
-    //----------------------------------------
-    (* For process symlink or real file/folder *)
-    if FPS_ISLNK(ptr^.iMode) then
-    if (not FSymLinkAll) and (FNotSymLinkAll  or not DlgProcessSymLink('Process SymLink "' + ptr^.sName +'"? Press "Yes" to copy or "No" for copy real file/folder')) then //TODO: Localize message
-      begin
-        sRealName:=ReadSymLink(ptr^.sName);
+    ptr:= FFileList.GetItem(I);
 
-        sRealName := GetAbsoluteFileName(ExtractFilePath(ptr^.sName), sRealName);
+    // For process symlinks, read only files etc.
+    CheckFile(ptr);
 
-       FindFirstEx(sRealName, faAnyFile, sr);
-        with ptr^ do
-        begin
-          iSize := sr.Size;
-          sTime := DateTimeToStr(Trunc(FileDateToDateTime(sr.Time)));
-          iMode := sr.Attr;
-          sModeStr := AttrToStr(sr.Attr);
-          bLinkIsDir:=False;
-          bSelected:=False;
-        end;
-        DivFileName(sRealName, ptr^.sNameNoExt, ptr^.sExt);
-        ptr^.sNameNoExt := sr.Name;
-        ptr^.sName := sRealName;
-      end;
-      DebugLn('sNameNoExt ==' + ptr^.sNameNoExt);
-    //----------------------------------------
-    
-    
     if FPS_ISDIR(ptr^.iMode) and (not ptr^.bLinkIsDir) then
     begin
       inc(FDirCount);
@@ -207,7 +183,6 @@ end;
 procedure TFileOpThread.Execute;
 begin
 // main thread code started here
-
 try
   FReplaceAll:=False;
   FSkipAll:=False;
@@ -261,12 +236,12 @@ end;
 
 function TFileOpThread.UseForm:Boolean;
 begin
-  Result:=True;
+  Result:= True;
 end;
 
 function TFileOpThread.FreeAtEnd:Boolean;
 begin
-  Result:=True;
+  Result:= True;
 { if we use WaitFor, we don't use FreeOnTerminate
   possible SIGSEV!!!!!!!!!!
 }
@@ -307,40 +282,40 @@ end;
 
 function TFileOpThread.DlgFileExist(const sMsg:String):Boolean; // result=true > rewrite file
 begin
-  FAppend:=False;
-  Result:=False;
+  FAppend:= False;
+  Result:= False;
 
   case MsgBox(Self,sMsg, FMyMsgButtons, msmbYes, msmbNo) of
     mmrNo, mmrSkip:;
     mmrRewrite:
       begin
-        Result:=True;
+        Result:= True;
       end;
     mmrRewriteAll:
       begin
         FReplaceAll:=True;
-        Result:=True;
+        Result:= True;
       end;
     mmrAppend:
       begin
-        FAppend:=True;
-        Result:=True;
+        FAppend:= True;
+        Result:= True;
       end;
     mmrSkipAll:
       begin
-        FSkipAll:=True;
+        FSkipAll:= True;
       end;
     else
       Raise Exception.Create('bad handling msg result');
   end; //case
 end;
 
-{Dialog for process symlink or real file/folder}
+{ Dialog for process symlink or real file/folder }
 
 function TFileOpThread.DlgProcessSymLink(const sMsg:String):Boolean; // result=true > process symlink
 begin
-  FAppend:=False;
-  Result:=False;
+  FAppend:= False;
+  Result:= False;
 
   case MsgBox(Self, sMsg, FSymLinkBtns, msmbYes, msmbNo) of
     mmrNo:;
@@ -364,11 +339,39 @@ begin
   end; //case
 end;
 
-{/Dialog for process symlink or real file/folder}
-
-Function TFileOpThread.GetCaptionLng:String;
+function TFileOpThread.GetCaptionLng:String;
 begin
-  Result:='';
+  Result:= '';
+end;
+
+procedure TFileOpThread.CheckFile(FileRecItem: PFileRecItem);
+var
+  sRealName: String;
+  sr: TSearchRec;
+begin
+  // For process symlink or real file/folder
+  if FPS_ISLNK(FileRecItem^.iMode) then
+  if (not FSymLinkAll) and (FNotSymLinkAll  or not DlgProcessSymLink('Process SymLink "' + FileRecItem^.sName +'"? Press "Yes" to copy or "No" for copy real file/folder')) then //TODO: Localize message
+    begin
+      sRealName:=ReadSymLink(FileRecItem^.sName);
+
+      sRealName := GetAbsoluteFileName(ExtractFilePath(FileRecItem^.sName), sRealName);
+
+      FindFirstEx(sRealName, faAnyFile, sr);
+      with FileRecItem^ do
+      begin
+        iSize := sr.Size;
+        sTime := DateTimeToStr(Trunc(FileDateToDateTime(sr.Time)));
+        iMode := sr.Attr;
+        sModeStr := AttrToStr(sr.Attr);
+        bLinkIsDir:=False;
+        bSelected:=False;
+      end;
+      DivFileName(sRealName, FileRecItem^.sNameNoExt, FileRecItem^.sExt);
+      FileRecItem^.sNameNoExt := sr.Name;
+      FileRecItem^.sName := sRealName;
+    end;
+  DebugLn('sNameNoExt == ' + FileRecItem^.sNameNoExt);
 end;
 
 procedure TFileOpThread.CorrectMask;
