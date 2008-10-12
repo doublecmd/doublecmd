@@ -29,8 +29,8 @@ type
     constructor Create(aFileList:TFileList); override;
     procedure MainExecute; override;
     function DeleteFile(fr:PFileRecItem):Boolean;
-    function GetCaptionLng:String;override;
-    procedure CheckFile(FileRecItem: PFileRecItem); override;
+    function GetCaptionLng: String; override;
+    function CheckFile(FileRecItem: PFileRecItem): Boolean; override;
   end;
 
 implementation
@@ -40,7 +40,7 @@ uses
 constructor TDeleteThread.Create(aFileList: TFileList);
 begin
   inherited Create(aFileList);
-  FSymLinkAll := True;
+  FSymLinkAll:= True;
 end;
 
 procedure TDeleteThread.MainExecute;
@@ -108,9 +108,9 @@ begin
   Result:= rsDlgDel;
 end;
 
-procedure TDeleteThread.CheckFile(FileRecItem: PFileRecItem);
+function TDeleteThread.CheckFile(FileRecItem: PFileRecItem): Boolean;
 begin
-  inherited CheckFile(FileRecItem);
+  Result:= inherited CheckFile(FileRecItem);
   if FileIsReadOnly(FileRecItem^.iMode) then
     mbFileSetReadOnly(FileRecItem^.sName, False);
 end;

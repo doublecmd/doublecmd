@@ -53,11 +53,11 @@ type
     procedure FillAndCount;
     procedure FillAndCountRec(const srcPath, dstPath:String); // rekursive called
     procedure EstimateTime(iSizeCoped:Int64);
-    Function  GetCaptionLng:String; virtual;
-    procedure CheckFile(FileRecItem: PFileRecItem); virtual;
+    function  GetCaptionLng:String; virtual;
+    function CheckFile(FileRecItem: PFileRecItem): Boolean; virtual;
     procedure CorrectMask;
-    Function  CorrectDstName(const sName:String):String;
-    Function  CorrectDstExt(const sExt:String):String;
+    function  CorrectDstName(const sName:String):String;
+    function  CorrectDstExt(const sExt:String):String;
 
   public
     FFileOpDlg: TfrmFileOp; // progress window
@@ -83,9 +83,6 @@ uses
   LCLProc, uGlobs;
 
 { TFileOpThread }
-
-{if we use WaitFor, we don't use FreeOnTerminate
-possible SIGSEV}
 
 constructor TFileOpThread.Create(aFileList:TFileList);
 begin
@@ -119,7 +116,7 @@ begin
     //    write(fr.sName,': ');
     fr.sPath:=dstPath;
     fr.sNameNoExt:=sr.Name; // we use to save dstname
-//    writeln(sr.Name);
+//    DebugLn(sr.Name);
 
     fr.iSize:= sr.Size;
     fr.iMode:= sr.Attr;
@@ -132,6 +129,10 @@ begin
     fr.bSelected:=False;
     fr.sModeStr:=''; // not interested
 //    fr.sPath:=srcPath;
+
+    // For process symlinks, read only files etc.
+    CheckFile(@fr);
+
     NewFileList.AddItem(@fr);
     if fr.bIsLink then
       Continue;
@@ -344,11 +345,12 @@ begin
   Result:= '';
 end;
 
-procedure TFileOpThread.CheckFile(FileRecItem: PFileRecItem);
+function TFileOpThread.CheckFile(FileRecItem: PFileRecItem): Boolean;
 var
   sRealName: String;
   sr: TSearchRec;
 begin
+  Result:= True;
   // For process symlink or real file/folder
   if FPS_ISLNK(FileRecItem^.iMode) then
   if (not FSymLinkAll) and (FNotSymLinkAll  or not DlgProcessSymLink('Process SymLink "' + FileRecItem^.sName +'"? Press "Yes" to copy or "No" for copy real file/folder')) then //TODO: Localize message
@@ -383,7 +385,7 @@ begin
     FDstExtMask:='.*';
 end;
 
-Function TFileOpThread.CorrectDstName(const sName:String):String;
+function TFileOpThread.CorrectDstName(const sName:String):String;
 var
   i:Integer;
 begin
@@ -400,7 +402,7 @@ begin
   end;
 end;
 
-Function TFileOpThread.CorrectDstExt(const sExt:String):String;
+function TFileOpThread.CorrectDstExt(const sExt:String):String;
 var
   i:Integer;
 begin
