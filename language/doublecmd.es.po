@@ -75,6 +75,10 @@ msgstr "&Configuración"
 msgid "&Configure"
 msgstr "&Configurar"
 
+#: TFRMOPTIONS.CBTABSCONFIRMCLOSEALL.CAPTION
+msgid "&Confirm close all tabs"
+msgstr ""
+
 #: TFRMOPTIONS.CBLOGFILE.CAPTION
 msgid "&Create a log file:"
 msgstr "Crear un fichero de registro:"
@@ -2126,6 +2130,10 @@ msgstr "Mostrar ocultos/sistema"
 #: TFRMOPTIONS.CBSHOWICONS.CAPTION
 msgid "Show icons"
 msgstr "Mostrar iconos"
+
+#: TFRMOPTIONS.CBTABSLOCKEDASTERISK.CAPTION
+msgid "Show locked tabs &with an asterisk *"
+msgstr ""
 
 #: TFRMOPTIONS.CBTWODISKPANELS.CAPTION
 msgid "Show two drive button bars (fixed width, above file windows)"

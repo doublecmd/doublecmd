@@ -74,6 +74,10 @@ msgstr "Настройка"
 msgid "&Configure"
 msgstr "&Настроїти"
 
+#: TFRMOPTIONS.CBTABSCONFIRMCLOSEALL.CAPTION
+msgid "&Confirm close all tabs"
+msgstr ""
+
 #: TFRMOPTIONS.CBLOGFILE.CAPTION
 msgid "&Create a log file:"
 msgstr "Створити файл звіту:"
@@ -2125,6 +2129,10 @@ msgstr "&Показувати системні файли"
 #: TFRMOPTIONS.CBSHOWICONS.CAPTION
 msgid "Show icons"
 msgstr "Показувати значки"
+
+#: TFRMOPTIONS.CBTABSLOCKEDASTERISK.CAPTION
+msgid "Show locked tabs &with an asterisk *"
+msgstr ""
 
 #: TFRMOPTIONS.CBTWODISKPANELS.CAPTION
 msgid "Show two drive button bars (fixed width, above file windows)"

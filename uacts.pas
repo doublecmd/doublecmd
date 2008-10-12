@@ -593,6 +593,8 @@ var
 begin
   with frmMain do
   begin
+    if Boolean(gDirTabOptions and tb_confirm_close_all) then
+      if not msgYesNo('Remove all inactive tabs?') then Exit;
     case SelectedPanel of
     fpLeft:
        for I:= nbLeft.PageCount - 1 downto 0 do
@@ -669,14 +671,15 @@ begin
     I:= nbNoteBook.PageIndex;
     if nbNoteBook.Page[I].Tag <> 1 then  // lock
       begin
-        if nbNoteBook.Page[I].Tag = 0 then
+        if (nbNoteBook.Page[I].Tag = 0) and Boolean(gDirTabOptions and tb_show_asterisk_for_locked) then
           nbNoteBook.Page[I].Caption:= '*'+nbNoteBook.Page[I].Caption;
         nbNoteBook.Page[I].Tag:= 1;
       end
     else // unlock
       begin
         nbNoteBook.Page[I].Tag:= 0;
-        nbNoteBook.Page[I].Caption:= Copy(nbNoteBook.Page[I].Caption, 2, Length(nbNoteBook.Page[I].Caption)-1);
+        if Boolean(gDirTabOptions and tb_show_asterisk_for_locked) then
+          nbNoteBook.Page[I].Caption:= Copy(nbNoteBook.Page[I].Caption, 2, Length(nbNoteBook.Page[I].Caption)-1);
       end;
     ActiveFrame.SetFocus;
   end;
@@ -700,7 +703,7 @@ begin
     if nbNoteBook.Page[I].Tag <> 2 then // lock
       begin
         nbNoteBook.Page[I].Hint:= ActiveFrame.ActiveDir;
-        if nbNoteBook.Page[I].Tag = 0 then
+        if (nbNoteBook.Page[I].Tag = 0) and Boolean(gDirTabOptions and tb_show_asterisk_for_locked) then
           nbNoteBook.Page[I].Caption:= '*'+nbNoteBook.Page[I].Caption;
         nbNoteBook.Page[I].Tag:= 2;
       end
@@ -708,7 +711,8 @@ begin
       begin
         nbNoteBook.Page[I].Tag:= 0;
         nbNoteBook.Page[I].Hint:= '';
-        nbNoteBook.Page[I].Caption:= Copy(nbNoteBook.Page[I].Caption, 2, Length(nbNoteBook.Page[I].Caption)-1);
+        if Boolean(gDirTabOptions and tb_show_asterisk_for_locked) then
+          nbNoteBook.Page[I].Caption:= Copy(nbNoteBook.Page[I].Caption, 2, Length(nbNoteBook.Page[I].Caption)-1);
       end;
     ActiveFrame.SetFocus;
   end;

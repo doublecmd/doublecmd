@@ -75,6 +75,10 @@ msgstr "配置(&C)"
 msgid "&Configure"
 msgstr "配置(&C)"
 
+#: TFRMOPTIONS.CBTABSCONFIRMCLOSEALL.CAPTION
+msgid "&Confirm close all tabs"
+msgstr ""
+
 #: TFRMOPTIONS.CBLOGFILE.CAPTION
 msgid "&Create a log file:"
 msgstr "创建日志文件(&C):"
@@ -2126,6 +2130,10 @@ msgstr "显示隐藏/系统文件"
 #: TFRMOPTIONS.CBSHOWICONS.CAPTION
 msgid "Show icons"
 msgstr "显示图标"
+
+#: TFRMOPTIONS.CBTABSLOCKEDASTERISK.CAPTION
+msgid "Show locked tabs &with an asterisk *"
+msgstr ""
 
 #: TFRMOPTIONS.CBTWODISKPANELS.CAPTION
 msgid "Show two drive button bars (fixed width, above file windows)"
