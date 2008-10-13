@@ -266,11 +266,14 @@ begin
   Result := FileCopyAttr(sSrc, sDst, bDropReadOnlyFlag); // chmod, chgrp, udate a spol	
   except
     on EFCreateError do
-       msgError(Self, '!!!!EFCreateError');
+      if MsgBox(Self, rsMsgErrECreate, [msmbSkip, msmbCancel], msmbSkip, msmbCancel) = mmrCancel then
+        Terminate;
     on EFOpenError do
-      msgError(Self, '!!!!EFOpenError');
+      if MsgBox(Self, rsMsgErrEOpen, [msmbSkip, msmbCancel], msmbSkip, msmbCancel) = mmrCancel then
+        Terminate;
     on EWriteError do
-      msgError(Self, '!!!!EFWriteError');
+      if MsgBox(Self, rsMsgErrEWrite, [msmbSkip, msmbCancel], msmbSkip, msmbCancel) = mmrCancel then
+        Terminate;
   end;
 end;
 
