@@ -253,15 +253,16 @@ procedure TFrameFilePanel.Init;
 begin
   ClearCmdLine;
   UpDatelblInfo;
-  FLastMark:='*.*';
+  FLastMark:= '*.*';
   FLastAutoSelect:= False;
-  dgPanel.DefaultRowHeight:=gIconsSize;
+  dgPanel.FixedRows:= Integer(gTabHeader);
+  dgPanel.DefaultRowHeight:= gIconsSize;
   with FLastSelect do
   begin
-    Left:=0;
-    Top:=0;
-    Bottom:=0;
-    Right:=dgPanel.ColCount-1;
+    Left:= 0;
+    Top:= 0;
+    Bottom:= 0;
+    Right:= dgPanel.ColCount-1;
   end;
 end;
 
