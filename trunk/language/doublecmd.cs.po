@@ -1881,6 +1881,10 @@ msgstr ""
 msgid "Remove"
 msgstr "Vymazat"
 
+#: TFRMMAIN.ACTREMOVEALLTABS.CAPTION
+msgid "Remove all tabs"
+msgstr ""
+
 #: ulng.rsmsglogrmdir
 msgid "Remove directory \%s"
 msgstr "Odstranit adresář \%s"

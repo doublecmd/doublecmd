@@ -2707,6 +2707,7 @@ begin
       pnlFooter.Visible := gStatusBar;  // Status bar
       if gShowIcons then
         pnlFile.FileList.UpdateFileInformation(pnlFile.PanelMode);
+      pnlFile.UpdatePanel;
     end;
 
   for I := 0 to nbRight.PageCount - 1 do  //  change on all tabs
@@ -2716,6 +2717,7 @@ begin
       pnlFooter.Visible := gStatusBar;  // Status bar
       if gShowIcons then
         pnlFile.FileList.UpdateFileInformation(pnlFile.PanelMode);
+      pnlFile.UpdatePanel;
     end;
 
   for I := 0 to pnlKeys.ControlCount - 1 do  // function keys

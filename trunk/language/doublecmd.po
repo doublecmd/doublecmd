@@ -1833,6 +1833,10 @@ msgstr ""
 msgid "Remove tab"
 msgstr ""
 
+#: TFRMMAIN.ACTREMOVEALLTABS.CAPTION
+msgid "Remove all tabs"
+msgstr ""
+
 #: TFRMMAIN.ACTPACKFILES.CAPTION
 msgid "Pack files..."
 msgstr ""

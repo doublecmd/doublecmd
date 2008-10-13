@@ -761,11 +761,9 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
    var
       tw:Integer;
    begin
-     result:=false;
-       if dgPanel.FixedRows <> Integer(gTabHeader) then
-        dgPanel.FixedRows := Integer(gTabHeader);
+     Result:= False;
 
-        if (ARow = 0) and gTabHeader then
+      if (ARow = 0) and gTabHeader then
         begin
           // Draw fixed header
           if not (ACol in [0..ActiveColmSlave.ColumnsCount-1]) then Exit;
@@ -788,7 +786,7 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
               end;
             Canvas.TextOut(Rect.Left + 4, iTextTop, s);
           end;
-          Result:=true;
+          Result:= True;
         end;
    end; // of DrawHeader
   //------------------------------------------------------

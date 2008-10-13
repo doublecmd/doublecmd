@@ -1878,6 +1878,10 @@ msgstr "Ассоциация"
 msgid "Remove"
 msgstr "Удалить"
 
+#: TFRMMAIN.ACTREMOVEALLTABS.CAPTION
+msgid "Remove all tabs"
+msgstr "Удалить все вкладки"
+
 #: ulng.rsmsglogrmdir
 msgid "Remove directory \%s"
 msgstr "Удаление каталога \%s"

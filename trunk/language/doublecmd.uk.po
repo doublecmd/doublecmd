@@ -1878,6 +1878,10 @@ msgstr ""
 msgid "Remove"
 msgstr "Видалити"
 
+#: TFRMMAIN.ACTREMOVEALLTABS.CAPTION
+msgid "Remove all tabs"
+msgstr ""
+
 #: ulng.rsmsglogrmdir
 msgid "Remove directory \%s"
 msgstr "Видалення каталога \%s"
