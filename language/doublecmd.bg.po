@@ -1879,6 +1879,10 @@ msgstr "Записано на"
 msgid "Remove"
 msgstr "Премахване"
 
+#: TFRMMAIN.ACTREMOVEALLTABS.CAPTION
+msgid "Remove all tabs"
+msgstr ""
+
 #: ulng.rsmsglogrmdir
 msgid "Remove directory \%s"
 msgstr "Изтриване на папка \%s"

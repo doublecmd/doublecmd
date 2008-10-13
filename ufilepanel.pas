@@ -163,6 +163,9 @@ begin
     Raise Exception.Create('fix me:UpdatePanel:bad panelmode');
   end;
 
+  if fPanel.FixedRows <> Integer(gTabHeader) then
+    fPanel.FixedRows:= Integer(gTabHeader);
+
   bAnyRow:=fPanel.Row>=0;
   fRefList.Clear;
   for i:=0 to fFileList.Count-1 do
