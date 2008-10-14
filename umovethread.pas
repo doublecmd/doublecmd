@@ -77,7 +77,7 @@ begin
 
     if FPS_ISDIR(pr^.iMode) then
     begin
-      RmDir(pr^.sName);
+      mbRemoveDir(pr^.sName);
     end
     else
     begin
@@ -110,11 +110,15 @@ begin
         if cpFile(pr, sDstPath, False) then // False >> not show confirmation dialog
           begin
             if mbDeleteFile(pr^.sName) then
-              if (log_delete in gLogOptions) and (log_success in gLogOptions) then
-                logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogDelete, [pr^.sName]), lmtSuccess)
+              begin
+                if (log_delete in gLogOptions) and (log_success in gLogOptions) then
+                  logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogDelete, [pr^.sName]), lmtSuccess);
+              end
             else
-              if (log_delete in gLogOptions) and (log_errors in gLogOptions) then
-                logWrite(Self, Format(rsMsgLogError+rsMsgLogDelete, [pr^.sName]), lmtError);
+              begin
+                if (log_delete in gLogOptions) and (log_errors in gLogOptions) then
+                  logWrite(Self, Format(rsMsgLogError+rsMsgLogDelete, [pr^.sName]), lmtError);
+              end;
           end; // cpFile
       end
       else
