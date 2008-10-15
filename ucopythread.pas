@@ -39,22 +39,22 @@ var
   pr:PFileRecItem;
   xIndex:Integer;
   iTotalDiskSize,
-  iFreeDiskSize : Int64;
+  iFreeDiskSize: Int64;
 begin
   CorrectMask;
-  FReplaceAll:=False;
-  FSkipAll:=False;
-  FCopied:=0;
+  FReplaceAll:= False;
+  FSkipAll:= False;
+  FCopied:= 0;
 
   for xIndex:=0 to NewFileList.Count-1 do // copy
   begin
     if Terminated then
        Exit;
     pr:=NewFileList.GetItem(xIndex);
-//    writeln(pr^.sname,' ',pr^.sNameNoExt);
+//    DebugLn(pr^.sname,' ',pr^.sNameNoExt);
     EstimateTime(FCopied);
 
-    {Check disk free space}
+    { Check disk free space }
     GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
     if pr^.iSize > iFreeDiskSize then
       begin
@@ -69,7 +69,7 @@ begin
     CpFile(pr,sDstPath, True);
     if not FPS_ISDIR(pr^.iMode) then
       inc(FCopied,pr^.iSize);
-    FFileOpDlg.iProgress2Pos:=FCopied;
+    FFileOpDlg.iProgress2Pos:= (FCopied * 100) div FFilesSize;
     Synchronize(@FFileOpDlg.UpdateDlg);
   end;
 
@@ -79,11 +79,11 @@ end;
 // bShowDlg is only for Rename
 function TCopyThread.CpFile (fr:PFileRecItem; const sDst:String; bShowDlg:Boolean):Boolean;
 var
-  sDstExt:String;
-  sDstName:String;
-  sDstNew:String;
+  sDstExt: String;
+  sDstName: String;
+  sDstNew: String;
 begin
-//  writeln(fr^.sName);
+//  DebugLn(fr^.sName);
   DebugLn('NameNoExt ==' +fr^.sNameNoExt);
 
   DivFileName(fr^.sNameNoExt,sDstName, sDstExt);
@@ -95,51 +95,51 @@ begin
     sDstNew:=sDstName;
   if sDstExt<>'.' then
     sDstNew:=sDstNew+sDstExt;
-//  writeln(sDstNew);
+//  DebugLn(sDstNew);
   FFileOpDlg.sFileName:=ExtractFileName(fr^.sName)+' -> '+fr^.sPath+sDstNew;
   Synchronize(@FFileOpDlg.UpdateDlg);
   if FPS_ISLNK(fr^.iMode) then
     begin
       // use sDstName as link target
-      sDstName:=ReadSymLink(fr^.sName);
+      sDstName:= ReadSymLink(fr^.sName);
       if sDstName<>'' then
-            begin
-              sDstName := GetAbsoluteFileName(ExtractFilePath(fr^.sName), sDstName);
-              DebugLn('ReadSymLink := ' + sDstName);
-              if not CreateSymlink(sDstName, sDst+fr^.sPath+sDstNew) then
-                DebugLn('Symlink error:');
-            end
-          else
-            DebugLn('Error reading link');
-          Result:=True;
+        begin
+          sDstName:= GetAbsoluteFileName(ExtractFilePath(fr^.sName), sDstName);
+          DebugLn('ReadSymLink := ' + sDstName);
+          if not CreateSymlink(sDstName, sDst+fr^.sPath+sDstNew) then
+            DebugLn('Symlink error:');
+        end
+      else
+        DebugLn('Error reading link');
+      Result:= True;
     end
   else
   if FPS_ISDIR(fr^.iMode) then
    begin
-   DebugLn('Force =' + sDst+fr^.sPath+fr^.sNameNoExt);
+   DebugLn('Force = ' + sDst+fr^.sPath+fr^.sNameNoExt);
     if not mbDirectoryExists(sDst+fr^.sPath+fr^.sNameNoExt) then
       uFileProcs.ForceDirectory(sDst+fr^.sPath+fr^.sNameNoExt);
     Result:=True;
    end
   else
   begin // files and other stuff
-//    writeln('fr^.sPath:'+fr^.sPath);
+//    DebugLn('fr^.sPath:'+fr^.sPath);
     if bShowDlg then
     begin
-      Result:=False;
-//      writeln('testing:'+sDst+fr^.sPath+sDstNew);
+      Result:= False;
+//      DebugLn('testing:'+sDst+fr^.sPath+sDstNew);
       if mbFileExists(sDst+fr^.sPath+sDstNew) and not FReplaceAll then
       begin
         if FSkipAll then
         begin
-          Result:=True;
+          Result:= True;
           Exit;
         end;
         if not DlgFileExist(Format(rsMsgFileExistsRwrt,[sDst+fr^.sPath+sDstNew, fr^.sName])) then
           Exit;
       end;   
     end;
-    Result:=CopyFile(fr^.sName, sDst+fr^.sPath+sDstNew, FAppend);
+    Result:= CopyFile(fr^.sName, sDst+fr^.sPath+sDstNew, FAppend);
 
     // process comments if need
     if Result and gProcessComments and Assigned(FDescr) then
@@ -162,57 +162,57 @@ end;
 
 function TCopyThread.CopyFile(const sSrc, sDst:String; bAppend:Boolean):Boolean;
 var
-  src, dst:TFileStreamEx;
+  src, dst: TFileStreamEx;
 //  bAppend:Boolean;
-  iDstBeg:Int64; // in the append mode we store original size
-  Buffer:PChar;
+  iDstSize: Int64; // in the append mode we store new destination size
+  Buffer: PChar;
   iTotalDiskSize,
-  iFreeDiskSize : Int64;
-  bRetry : Boolean;
+  iFreeDiskSize: Int64;
+  bRetry: Boolean;
+  iCopyBlockSize: Integer;
 begin
-  Result:=False;
-
-  GetMem(Buffer, gCopyBlockSize+1);
-  dst:=nil; // for safety exception handling
+  Result:= False;
+  iCopyBlockSize:= gCopyBlockSize;
+  GetMem(Buffer, iCopyBlockSize+1);
+  dst:= nil; // for safety exception handling
   try
     try
-      src:=TFileStreamEx.Create(sSrc,fmOpenRead or fmShareDenyNone);
+      src:= TFileStreamEx.Create(sSrc,fmOpenRead or fmShareDenyNone);
       DebugLn(sDst);
       if bAppend then
         begin
-          dst:=TFileStreamEx.Create(sDst,fmOpenReadWrite);
+          dst:= TFileStreamEx.Create(sDst,fmOpenReadWrite);
           dst.Seek(0,soFromEnd); // seek to end
         end
       else
-         dst:=TFileStreamEx.Create(sDst,fmCreate);
+         dst:= TFileStreamEx.Create(sDst,fmCreate);
 
-      iDstBeg:=dst.Size;
+      iDstSize:= src.Size + dst.Size;
       // we dont't use CopyFrom, because it's alocate and free buffer every time is called
-      FFileOpDlg.iProgress1Pos:=0;
-      FFileOpDlg.iProgress1Max:=src.Size;
-      DebugLn('SrcSize:',IntToStr(src.Size));
-//      writeln(FFileOpDlg.iProgress1Max);
+      FFileOpDlg.iProgress1Pos:= 0;
+      FFileOpDlg.iProgress1Max:= 100;
+      DebugLn('SrcSize: ',IntToStr(src.Size));
       Synchronize(@FFileOpDlg.UpdateDlg);
 
-      while (dst.Size+gCopyBlockSize)<= (src.Size+iDstBeg) do
+      while (dst.Size+iCopyBlockSize) <= iDstSize do
       begin
         if Terminated then
           Exit;
-        Src.ReadBuffer(Buffer^, gCopyBlockSize);
+        src.ReadBuffer(Buffer^, iCopyBlockSize);
 
         repeat
           try
-            bRetry := False;
-            dst.WriteBuffer(Buffer^, gCopyBlockSize);
+            bRetry:= False;
+            dst.WriteBuffer(Buffer^, iCopyBlockSize);
           except
             on EWriteError do
               begin
-                {Check disk free space}
+                { Check disk free space }
                 GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
-                if gCopyBlockSize > iFreeDiskSize then
+                if iCopyBlockSize > iFreeDiskSize then
                   case MsgBox(Self, rsMsgNoFreeSpaceRetry, [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of
                     mmrYes:
-                      bRetry := True;
+                      bRetry:= True;
                     mmrNo:
                       Terminate;
                     mmrSkip:
@@ -222,27 +222,27 @@ begin
           end; // except
         until not bRetry;
         
-        FFileOpDlg.iProgress1Pos:=dst.Size;
+        FFileOpDlg.iProgress1Pos:= (dst.Size * 100) div iDstSize;
         EstimateTime(FCopied + dst.Size);
         Synchronize(@FFileOpDlg.UpdateDlg);
       end;
-      if (iDstBeg+src.Size)>dst.Size then
+      if iDstSize > dst.Size then
       begin
-        src.ReadBuffer(Buffer^, src.Size+iDstBeg-dst.size);
+        src.ReadBuffer(Buffer^, iDstSize-dst.size);
 
         repeat
           try
-            bRetry := False;
-            dst.WriteBuffer(Buffer^, src.Size+iDstBeg-dst.size);
+            bRetry:= False;
+            dst.WriteBuffer(Buffer^, iDstSize-dst.size);
           except
             on EWriteError do
               begin
-                {Check disk free space}
+                { Check disk free space }
                 GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
-                if (src.Size+iDstBeg-dst.size) > iFreeDiskSize then
+                if (iDstSize-dst.size) > iFreeDiskSize then
                   case MsgBox(Self, rsMsgNoFreeSpaceRetry, [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of
                     mmrYes:
-                      bRetry := True;
+                      bRetry:= True;
                     mmrNo:
                       Terminate;
                     mmrSkip:
@@ -252,7 +252,7 @@ begin
           end; // except
         until not bRetry;
       end;
-      FFileOpDlg.iProgress1Pos:=dst.Size;
+      FFileOpDlg.iProgress1Pos:= (dst.Size * 100) div iDstSize;
       Synchronize(@FFileOpDlg.UpdateDlg);      
     finally
       DebugLn('finally');
@@ -263,7 +263,8 @@ begin
       if assigned(Buffer) then
         FreeMem(Buffer);
     end;
-  Result := FileCopyAttr(sSrc, sDst, bDropReadOnlyFlag); // chmod, chgrp, udate a spol	
+  // copy file attributes
+  Result:= FileCopyAttr(sSrc, sDst, bDropReadOnlyFlag);
   except
     on EFCreateError do
       if MsgBox(Self, rsMsgErrECreate, [msmbSkip, msmbCancel], msmbSkip, msmbCancel) = mmrCancel then

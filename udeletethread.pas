@@ -47,11 +47,11 @@ procedure TDeleteThread.MainExecute;
 var
   pr:PFileRecItem;
   xIndex:Integer;
-  iCoped:Int64;
+  iCopied:Int64;
 begin
-  iCoped:=0;
-  FFileOpDlg.iProgress1Max:=1;
-  FFileOpDlg.iProgress1Pos:=1; // in delete use only 1 progress
+  iCopied:=0;
+  FFileOpDlg.iProgress1Max:= 1;
+  FFileOpDlg.iProgress1Pos:= 1; // in delete use only 1 progress
 
   Synchronize(@FFileOpDlg.UpdateDlg);
 
@@ -60,10 +60,10 @@ begin
     pr:=NewFileList.GetItem(xIndex);
     FFileOpDlg.sFileName:=pr^.sName;
     Synchronize(@FFileOpDlg.UpdateDlg);
-    inc(iCoped,pr^.iSize);
-    EstimateTime(iCoped);
+    inc(iCopied,pr^.iSize);
+    EstimateTime(iCopied);
     DeleteFile(pr);
-    FFileOpDlg.iProgress2Pos:=iCoped;
+    FFileOpDlg.iProgress2Pos:= (iCopied * 100) div FFilesSize;
     Synchronize(@FFileOpDlg.UpdateDlg);
   end;
 end;

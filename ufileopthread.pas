@@ -198,8 +198,8 @@ try
     if UseForm then
     begin
       Synchronize(@CreateForm);  // create progress form in main thread
-      FFileOpDlg.iProgress2Pos:=0;
-      FFileOpDlg.iProgress2Max:=FFilesSize;
+      FFileOpDlg.iProgress2Pos:= 0;
+      FFileOpDlg.iProgress2Max:= 100;
       Synchronize(@FFileOpDlg.UpdateDlg);
     end;
 
