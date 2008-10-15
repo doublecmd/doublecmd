@@ -1,7 +1,7 @@
 Компиляция Double commander
 
 Для компиляции вам понадобится компилятор FreePascal 2.2.2 (www.freepascal.org)
-и среда разработки Lazarus 0.9.25 (lazarus.freepascal.org)
+и среда разработки Lazarus 0.9.26 (lazarus.freepascal.org)
 
 Компиляцию можно осуществить 2 способами:
 
