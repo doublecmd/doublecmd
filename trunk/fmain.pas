@@ -63,6 +63,8 @@ type
     actCopyFullNamesToClip: TAction;
     actExchange: TAction;
     actEditComment: TAction;
+    actPrevTab: TAction;
+    actNextTab: TAction;
     actRemoveAllTabs: TAction;
     actToggleLockDcaTab: TAction;
     actToggleLockTab: TAction;
@@ -97,6 +99,17 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     MenuItem2: TMenuItem;
+    mnuPrevTab: TMenuItem;
+    mnuNextTab: TMenuItem;
+    miLine17: TMenuItem;
+    miLine16: TMenuItem;
+    mnuToggleLockTab: TMenuItem;
+    mnuToggleLockDcaTab: TMenuItem;
+    mnuRemoveAllTabs: TMenuItem;
+    mnuRemoveTab: TMenuItem;
+    miLine15: TMenuItem;
+    mnuOpenDirInNewTab: TMenuItem;
+    mnuNewTab: TMenuItem;
     miRemoveAllTabs: TMenuItem;
     miToggleLockDcaTab: TMenuItem;
     miToggleLockTab: TMenuItem;
@@ -105,6 +118,7 @@ type
     miNewTab: TMenuItem;
     miEditComment: TMenuItem;
     mnuMarkCurrentExtension: TMenuItem;
+    mnuTabs: TMenuItem;
     mnuUnmarkCurrentExtension: TMenuItem;
     miSymLink: TMenuItem;
     miHardLink: TMenuItem;
@@ -129,7 +143,7 @@ type
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     MainToolBar: TKASToolBar;
-    MenuItem1: TMenuItem;
+    mnuOpenVFSList: TMenuItem;
     mnuExtractFiles: TMenuItem;
     nbLeft: TNotebook;
     nbRight: TNotebook;
