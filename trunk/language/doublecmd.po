@@ -1790,11 +1790,11 @@ msgid "All files with e&xtension (ending with):"
 msgstr ""
 
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
-msgid "Hot Key"
+msgid "Hot Key:"
 msgstr ""
 
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
-msgid "Hot Key:"
+msgid "Hot Key"
 msgstr ""
 
 #: TFRMOPTIONS.LBLICONSSIZE.CAPTION
