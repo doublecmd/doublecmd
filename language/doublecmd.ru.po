@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-10-16 22:55+0300\n"
+"PO-Revision-Date: 2008-10-16 23:05+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1310,9 +1310,17 @@ msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
 msgid "Width"
 msgstr "Ширина"
 
-#: TFRMMULTIRENAME.LSVWFILE.COLUMNS.CAPTION
+#: TFRMMULTIRENAME.LSVWFILE.COLUMN1TITLE.CAPTION
+msgid "Old File Name"
+msgstr "Старое имя"
+
+#: TFRMMULTIRENAME.LSVWFILE.COLUMN2TITLE.CAPTION
+msgid "New File Name"
+msgstr "Новое имя"
+
+#: TFRMMULTIRENAME.LSVWFILE.COLUMN3TITLE.CAPTION
 msgid "File Path"
-msgstr "Новое имя файла"
+msgstr "Путь файла"
 
 #: TFRMMULTIRENAME.MICOUNTER.CAPTION
 msgid "[C]ounter"
@@ -1781,7 +1789,7 @@ msgid "All files with e&xtension (ending with):"
 msgstr "&Файлы с расширением:"
 
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
-msgid "Hot Key"
+msgid "Hot Key:"
 msgstr "Горячая клавиша:"
 
 #: TFRMOPTIONS.LBLICONSSIZE.CAPTION
