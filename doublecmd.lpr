@@ -48,12 +48,8 @@ uses
   fEditorConf,
   uFindMmap,
   {$IFDEF UNIX}
-  LResources,  // for LazarusResources.Add
   fFileProperties,
   uUsersGroups,
-  {$ENDIF}
-  {$IFDEF MSWINDOWS}
-  Windows,  // for LoadIcon function
   {$ENDIF}
   fLinker,
   fCompareFiles,
@@ -61,22 +57,17 @@ uses
   uPixMapManager, uVFS, fFileAssoc,
   KASComp, fconfigtoolbar, uWCXprototypes, uDCUtils, uOSUtils,
   dmDialogs, fViewer, fOptions, fCopyDlg, fMoveDlg, fFindDlg,
-  fSymLink, fMultiRename, fSplitter, fPackDlg, fExtractDlg, uDescr, fDescrEdit;
+  fSymLink, fMultiRename, fSplitter, fPackDlg, fExtractDlg, uDescr, fDescrEdit,
+  LResources;
   
-{$IFDEF MSWINDOWS}
-{$R XP.res}
-{$ENDIF}
-
 const
   buildDate = {$I %DATE%};
   Version = '0.4 alpha';
+
+{$IFDEF WINDOWS}{$R doublecmd.rc}{$ENDIF}
+
 begin
-  {$IFDEF MSWINDOWS}
-  Application.Icon.Handle:= LoadIcon(hInstance, 'DOUBLECMD');
-  {$ELSE}
   {$I doublecmd.lrs}
-  Application.Icon.LoadFromLazarusResource('DOUBLECMD');
-  {$ENDIF}
   Application.Title:='Double Commander';
   Application.Initialize;
   ThousandSeparator:=' ';

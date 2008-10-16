@@ -218,6 +218,7 @@ begin
   With HotMan do
     begin
       AddHotKey('Alt+X','cm_Exit','','FrmMain','FrmMain');
+      AddHotKey('F2','cm_RenameOnly','','FrmMain','FrmMain');
       AddHotKey('F3','cm_View','','FrmMain','FrmMain');
       AddHotKey('F4','cm_Edit','','FrmMain','FrmMain');
       AddHotKey('F5','cm_Copy','','FrmMain','FrmMain');
