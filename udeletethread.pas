@@ -63,7 +63,8 @@ begin
     inc(iCopied,pr^.iSize);
     EstimateTime(iCopied);
     DeleteFile(pr);
-    FFileOpDlg.iProgress2Pos:= (iCopied * 100) div FFilesSize;
+    if FFilesSize <> 0 then
+      FFileOpDlg.iProgress2Pos:= (iCopied * 100) div FFilesSize;
     Synchronize(@FFileOpDlg.UpdateDlg);
   end;
 end;
