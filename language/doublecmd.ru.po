@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-01-15 17:08+0300\n"
+"PO-Revision-Date: 2008-10-16 22:55+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -52,11 +52,11 @@ msgstr "Добавить колонку"
 
 #: TFCOLUMNSSETCONF.PANEL6.CAPTION
 msgid "Preview"
-msgstr ""
+msgstr "Предварительный просмотр"
 
 #: TFCOLUMNSSETCONF.PNLCUSTHEAD.CAPTION
 msgid "Customize column:"
-msgstr ""
+msgstr "Настроить колонку: "
 
 #: TFCOLUMNSSETCONF.RESCURTEXT.CAPTION
 msgid "R"
@@ -390,7 +390,7 @@ msgstr "&Маска для распаковки:"
 #: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
 msgid "Remove"
-msgstr ""
+msgstr "Удалить"
 
 #: TFRMFILEASSOC.CAPTION
 msgid "File associations"
@@ -682,7 +682,7 @@ msgstr "Добавить"
 
 #: TFRMHOTDIR.BTNADDMAN.CAPTION
 msgid "Add manually"
-msgstr ""
+msgstr "Добавить вручную"
 
 #: TFRMHOTDIR.CAPTION
 msgid "Directory Hotlist"
@@ -781,7 +781,7 @@ msgstr "П&оменять панели местами"
 #: TFRMMAIN.ACTEXIT.CAPTION
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "Exit"
-msgstr ""
+msgstr "Выход"
 
 #: TFRMMAIN.ACTEXTRACTFILES.CAPTION
 msgid "Extract files..."
@@ -908,7 +908,7 @@ msgstr "Переместить F6"
 #: TFRMMAIN.ACTRENAMEONLY.CAPTION
 msgctxt "TFRMMAIN.ACTRENAMEONLY.CAPTION"
 msgid "Rename"
-msgstr ""
+msgstr "Переименовать"
 
 #: TFRMMAIN.ACTREVERSEORDER.CAPTION
 msgid "Reverse order"
@@ -969,7 +969,7 @@ msgstr "Создать символьную сс&ылку..."
 
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
 msgid "Target &= Source"
-msgstr ""
+msgstr "&Две одинаковых панели"
 
 #: TFRMMAIN.ACTTOGGLELOCKDCATAB.CAPTION
 msgid "Locked, but directory changes allowed"
@@ -1417,7 +1417,7 @@ msgstr "Обзор"
 #: TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION
 msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
 msgid "Remove"
-msgstr ""
+msgstr "Удалить"
 
 #: TFRMOPTIONS.BTNTWEAKPLUGIN.CAPTION
 msgid "Tweak"
@@ -1713,7 +1713,7 @@ msgstr "Заголовки вкладок"
 
 #: TFRMOPTIONS.LABEL3.CAPTION
 msgid "Commands:"
-msgstr ""
+msgstr "Команды:"
 
 #: TFRMOPTIONS.LBLACTIONS.CAPTION
 msgctxt "TFRMOPTIONS.LBLACTIONS.CAPTION"
@@ -1838,7 +1838,7 @@ msgstr "Позволяют отображать во внутреннем про
 
 #: TFRMOPTIONS.LBTYPES.CAPTION
 msgid "Categories:"
-msgstr ""
+msgstr "Категории:"
 
 #: TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION
 msgid "Drive black list:"
@@ -2281,7 +2281,7 @@ msgstr "Ширина"
 
 #: ulng.rsconfcustheader
 msgid "Customize column: "
-msgstr ""
+msgstr "Настроить колонку: "
 
 #: ulng.rsdlgbuttons
 msgid "&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &All;&Skip;S&kip All;All;"
