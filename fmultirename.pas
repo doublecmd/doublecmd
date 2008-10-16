@@ -239,7 +239,7 @@ begin
   cmbxWidth.ItemIndex:=0;
   cbLog.Checked:=False;
   edFile.Enabled:=cbLog.Checked;
-  edFile.Text:=lsvwFile.Items.Item[0].SubItems[1]+PathDelim+'default.log';
+  edFile.Text:=IncludeTrailingBackslash(lsvwFile.Items.Item[0].SubItems[1])+'default.log';
   edFile.SelStart:=length(edFile.Text);
 end;
 
