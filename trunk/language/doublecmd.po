@@ -1793,10 +1793,6 @@ msgstr ""
 msgid "Hot Key:"
 msgstr ""
 
-#: TFRMOPTIONS.LBLHOTKEY.CAPTION
-msgid "Hot Key"
-msgstr ""
-
 #: TFRMOPTIONS.LBLICONSSIZE.CAPTION
 msgid "Icons Size:"
 msgstr ""

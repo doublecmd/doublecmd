@@ -1792,7 +1792,7 @@ msgid "All files with e&xtension (ending with):"
 msgstr "Všechny soubory s přípo&nou (končící na):"
 
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
-msgid "Hot Key"
+msgid "Hot Key:"
 msgstr ""
 
 #: TFRMOPTIONS.LBLICONSSIZE.CAPTION
