@@ -34,7 +34,7 @@ procedure TMoveThread.MainExecute;
 var
   pr:PFileRecItem;
   xIndex:Integer;
-  iCoped:Int64;
+  iCopied:Int64;
   sDstExt:String;
   sDstName:String;
   sDstNew:String;
@@ -56,12 +56,12 @@ begin
 //      DebugLn('move:mkdir:',sDstPath+pr^.sNameNoExt);
     end;
   end;
-  iCoped:=0;
+  iCopied:=0;
   for xIndex:=NewFileList.Count-1 downto 0 do // copy and delete
   begin
     pr:=NewFileList.GetItem(xIndex);
 
-    EstimateTime(iCoped);
+    EstimateTime(iCopied);
 
     {Check disk free space}
     GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
@@ -81,7 +81,7 @@ begin
     end
     else
     begin
-      inc(iCoped,pr^.iSize);
+      inc(iCopied,pr^.iSize);
       // change dst name by mask
       DivFileName(pr^.sNameNoExt,sDstName, sDstExt);
       sDstName:=CorrectDstName(sDstName);
@@ -131,7 +131,8 @@ begin
             logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogMove, [pr^.sName+' -> '+sDstPath+pr^.sPath+ sDstNew]), lmtSuccess)
         end;
     end;
-    FFileOpDlg.iProgress2Pos:=iCoped;
+    if FFilesSize <> 0 then
+      FFileOpDlg.iProgress2Pos:= (iCopied * 100) div FFilesSize;
     Synchronize(@FFileOpDlg.UpdateDlg);
   end;
 end;

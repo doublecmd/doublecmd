@@ -69,7 +69,8 @@ begin
     CpFile(pr,sDstPath, True);
     if not FPS_ISDIR(pr^.iMode) then
       inc(FCopied,pr^.iSize);
-    FFileOpDlg.iProgress2Pos:= (FCopied * 100) div FFilesSize;
+    if FFilesSize <> 0 then
+      FFileOpDlg.iProgress2Pos:= (FCopied * 100) div FFilesSize;
     Synchronize(@FFileOpDlg.UpdateDlg);
   end;
 
@@ -222,7 +223,8 @@ begin
           end; // except
         until not bRetry;
         
-        FFileOpDlg.iProgress1Pos:= (dst.Size * 100) div iDstSize;
+        if iDstSize <> 0 then
+          FFileOpDlg.iProgress1Pos:= (dst.Size * 100) div iDstSize;
         EstimateTime(FCopied + dst.Size);
         Synchronize(@FFileOpDlg.UpdateDlg);
       end;
@@ -252,7 +254,8 @@ begin
           end; // except
         until not bRetry;
       end;
-      FFileOpDlg.iProgress1Pos:= (dst.Size * 100) div iDstSize;
+      if iDstSize <> 0 then
+        FFileOpDlg.iProgress1Pos:= (dst.Size * 100) div iDstSize;
       Synchronize(@FFileOpDlg.UpdateDlg);      
     finally
       DebugLn('finally');
