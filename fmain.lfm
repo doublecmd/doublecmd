@@ -315,6 +315,7 @@ object frmMain: TfrmMain
         TabStop = False
         Anchors = [akTop, akLeft, akRight]
         ItemHeight = 13
+        MaxLength = -1
         ParentCtl3D = False
         TabOrder = 0
       end
@@ -914,7 +915,7 @@ object frmMain: TfrmMain
       object miLine9: TMenuItem
         Caption = '-'
       end
-      object MenuItem1: TMenuItem
+      object mnuOpenVFSList: TMenuItem
         Action = actOpenVFSList
         OnClick = actExecute
       end
@@ -925,6 +926,48 @@ object frmMain: TfrmMain
       object mnuCmdTargetIsSource: TMenuItem
         Action = actTargetEqualSource
         OnClick = actExecute
+      end
+    end
+    object mnuTabs: TMenuItem
+      Caption = '&Tabs'
+      object mnuNewTab: TMenuItem
+        Action = actNewTab
+        OnClick = actExecute
+      end
+      object mnuOpenDirInNewTab: TMenuItem
+        Action = actOpenDirInNewTab
+        OnClick = actExecute
+      end
+      object miLine15: TMenuItem
+        Caption = '-'
+      end
+      object mnuRemoveTab: TMenuItem
+        Action = actRemoveTab
+        OnClick = actExecute
+      end
+      object mnuRemoveAllTabs: TMenuItem
+        Action = actRemoveAllTabs
+        OnClick = actExecute
+      end
+      object miLine16: TMenuItem
+        Caption = '-'
+      end
+      object mnuToggleLockDcaTab: TMenuItem
+        Action = actToggleLockDcaTab
+        OnClick = actExecute
+      end
+      object mnuToggleLockTab: TMenuItem
+        Action = actToggleLockTab
+        OnClick = actExecute
+      end
+      object miLine17: TMenuItem
+        Caption = '-'
+      end
+      object mnuNextTab: TMenuItem
+        Action = actNextTab
+      end
+      object mnuPrevTab: TMenuItem
+        Action = actPrevTab
       end
     end
     object mnuShow: TMenuItem
@@ -1434,6 +1477,18 @@ object frmMain: TfrmMain
       DisableIfNoHandler = True
       OnExecute = actExecute
     end
+    object actNextTab: TAction
+      Category = 'Tabs'
+      Caption = 'Switch to next tab'
+      DisableIfNoHandler = True
+      OnExecute = actExecute
+    end
+    object actPrevTab: TAction
+      Category = 'Tabs'
+      Caption = 'Switch to previous tab'
+      DisableIfNoHandler = True
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     left = 152
@@ -1678,6 +1733,7 @@ object frmMain: TfrmMain
     end
     object miRemoveAllTabs: TMenuItem
       Action = actRemoveAllTabs
+      OnClick = actExecute
     end
   end
 end
