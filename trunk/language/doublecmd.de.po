@@ -1311,9 +1311,17 @@ msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
 msgid "Width"
 msgstr "Weite"
 
-#: TFRMMULTIRENAME.LSVWFILE.COLUMNS.CAPTION
+#: TFRMMULTIRENAME.LSVWFILE.COLUMN1TITLE.CAPTION
+msgid "Old File Name"
+msgstr ""
+
+#: TFRMMULTIRENAME.LSVWFILE.COLUMN2TITLE.CAPTION
+msgid "New File Name"
+msgstr ""
+
+#: TFRMMULTIRENAME.LSVWFILE.COLUMN3TITLE.CAPTION
 msgid "File Path"
-msgstr "Neuer Dateiname"
+msgstr ""
 
 #: TFRMMULTIRENAME.MICOUNTER.CAPTION
 msgid "[C]ounter"
@@ -1782,7 +1790,7 @@ msgid "All files with e&xtension (ending with):"
 msgstr "Alle Dateien mit der Endung:"
 
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
-msgid "Hot Key"
+msgid "Hot Key:"
 msgstr ""
 
 #: TFRMOPTIONS.LBLICONSSIZE.CAPTION
