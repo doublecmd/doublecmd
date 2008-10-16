@@ -417,7 +417,7 @@ begin
 
   nbLeft.Options:=[nboShowCloseButtons];
   nbRight.Options:=[nboShowCloseButtons];
-//  actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
+  actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
 
   PanelSelected:=fpLeft;
 
