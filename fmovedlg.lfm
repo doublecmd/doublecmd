@@ -3,10 +3,6 @@ object frmMoveDlg: TfrmMoveDlg
   Height = 154
   Top = 194
   Width = 345
-  HorzScrollBar.Page = 344
-  HorzScrollBar.Range = 337
-  VertScrollBar.Page = 153
-  VertScrollBar.Range = 145
   ActiveControl = btnOK
   Caption = 'Move file(s)'
   ClientHeight = 154
@@ -14,12 +10,21 @@ object frmMoveDlg: TfrmMoveDlg
   KeyPreview = True
   OnKeyPress = frmMoveDlgKeyPress
   OnShow = frmMoveDlgShow
+  ParentFont = False
   Position = poScreenCenter
+  LCLVersion = '0.9.27'
   object lblMoveSrc: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     Left = 8
     Height = 14
     Top = 8
-    Width = 50
+    Width = 329
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    BorderSpacing.Left = 8
+    BorderSpacing.Right = 8
     Caption = 'Move %s:'
     ParentColor = False
   end
@@ -71,10 +76,8 @@ object frmMoveDlg: TfrmMoveDlg
     Height = 21
     Top = 88
     Width = 329
-    AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
     Enabled = False
     ItemHeight = 13
-    MaxLength = 0
     ParentCtl3D = False
     TabOrder = 3
   end
