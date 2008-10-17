@@ -30,6 +30,7 @@
     </VersionInfo>
     <PublishOptions>
       <Version Value="2"/>
+      <DestinationDirectory Value="$(TestDir)\publishedproject\"/>
       <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
       <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
     </PublishOptions>
@@ -59,7 +60,7 @@
         <PackageName Value="imagesforlazarus"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="36">
+    <Units Count="37">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -342,6 +343,11 @@
         <ResourceFilename Value="fdescredit.lrs"/>
         <UnitName Value="fDescrEdit"/>
       </Unit35>
+      <Unit36>
+        <Filename Value="ugdiplus.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uGdiPlus"/>
+      </Unit36>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
