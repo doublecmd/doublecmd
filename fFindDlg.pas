@@ -64,6 +64,7 @@ type
     cbAttrib: TCheckBox;
     cbUsePlugin: TCheckBox;
     cbbSPlugins: TComboBox;
+    cbEncoding: TComboBox;
     deDateFrom: TDateEdit;
     deDateTo: TDateEdit;
     edtFindPathStart: TDirectoryEdit;
@@ -72,6 +73,7 @@ type
     edtTimeTo: TEdit;
     edtReplaceText: TEdit;
     gbAttributes: TGroupBox;
+    lblEncoding: TLabel;
     lblInfo: TLabel;
     Panel4: TPanel;
     seNotOlderThan: TSpinEdit;
@@ -143,7 +145,7 @@ procedure ShowFindDlg(const sActPath:String);
 implementation
 
 uses
-  LCLProc, fViewer, uLng, uGlobs, uShowForm, fMain, uTypes, uFileOp, uFindEx, uOSUtils;
+  LCLProc, LConvEncoding, fViewer, uLng, uGlobs, uShowForm, fMain, uTypes, uFileOp, uFindEx, uOSUtils;
 
 procedure SAddFileProc(PlugNr:integer; FoundFile:pchar); stdcall;
 var s:string;
@@ -183,16 +185,20 @@ end;
 procedure TfrmFindDlg.FormCreate(Sender: TObject);
 begin
   // load language
-  edtFindPathStart.DialogTitle := rsFindWhereBeg;
-  FFindThread:=nil;
-  edtFindPathStart.Text:=mbGetCurrentDir;
-  lblCurrent.Caption:='';
-  lblStatus.Caption:='';
-  Panel1.Visible := False;
-  Splitter1.Visible := False;
-  Height := Panel2.Height + 22;
-  DSL:=TDSXModuleList.Create;
+  edtFindPathStart.DialogTitle:= rsFindWhereBeg;
+  FFindThread:= nil;
+  edtFindPathStart.Text:= mbGetCurrentDir;
+  lblCurrent.Caption:= '';
+  lblStatus.Caption:= '';
+  Panel1.Visible:= False;
+  Splitter1.Visible:= False;
+  Height:= Panel2.Height + 22;
+  DSL:= TDSXModuleList.Create;
   DSL.Load(gini);
+  // fill encoding combobox
+  cbEncoding.Clear;
+  GetSupportedEncodings(cbEncoding.Items);
+  cbEncoding.ItemIndex:= cbEncoding.Items.IndexOf(EncodingAnsi);
 end;
 
 procedure TfrmFindDlg.cbUsePluginChange(Sender: TObject);
@@ -252,15 +258,15 @@ begin
   FFindThread:=TFindThread.Create;
   with FFindThread do
   begin
-    FilterMask:=cmbFindFileMask.Text;
-    PathStart:=edtFindPathStart.Text;
-    Items:=lsFoundedFiles.Items;
-    IsNoThisText := cbNoThisText.Checked;
-    FindInFiles:=cbFindInFile.Checked;
-    FindData:=edtFindText.Text;
-    CaseSensitive:=cbCaseSens.Checked;
-    ReplaceInFiles := cbReplaceText.Checked;
-    ReplaceData := edtReplaceText.Text;
+    FilterMask:= cmbFindFileMask.Text;
+    PathStart:= edtFindPathStart.Text;
+    Items:= lsFoundedFiles.Items;
+    IsNoThisText:= cbNoThisText.Checked;
+    FindInFiles:= cbFindInFile.Checked;
+    FindData:= ConvertEncoding(edtFindText.Text, EncodingUTF8, cbEncoding.Text);
+    CaseSensitive:= cbCaseSens.Checked;
+    ReplaceInFiles:= cbReplaceText.Checked;
+    ReplaceData:= edtReplaceText.Text;
     (* Date search *)
     if cbDateFrom.Checked then
        begin
