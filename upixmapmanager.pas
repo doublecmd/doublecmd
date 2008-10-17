@@ -90,7 +90,7 @@ procedure LoadPixMapManager;
 
 implementation
 uses
-  LCLProc, FileUtil, uGlobsPaths, uWCXhead, uGlobs, uExts{$IFDEF MSWINDOWS}, CommCtrl, ShellAPI, Windows, uIcoFiles{$ENDIF};
+  LCLProc, FileUtil, uGlobsPaths, uWCXhead, uGlobs, uExts{$IFDEF MSWINDOWS}, CommCtrl, ShellAPI, Windows, uIcoFiles, uGdiPlus{$ENDIF};
 
 {$IFDEF MSWINDOWS}
 function GetRGBColor(Value: TColor): DWORD;
@@ -336,7 +336,7 @@ begin
   FExtList:=TStringList.Create;
   FPixmapList:=TStringList.Create;
   {$IFDEF MSWINDOWS}
-    if gIconsSize < 32 then
+    if gIconsSize = 16 then
       iIconSize := SHGFI_SMALLICON
     else
       iIconSize := SHGFI_LARGEICON;
@@ -565,6 +565,10 @@ end;
 
 
 function TPixMapManager.DrawBitmap(iIndex: Integer; Canvas: TCanvas; Rect: TRect): Boolean;
+{$IFDEF MSWINDOWS}
+var
+  hicn: HICON;
+{$ENDIF}
 begin
   Result := True;
   if iIndex < FPixmapList.Count then
@@ -573,8 +577,19 @@ begin
 {$IFDEF MSWINDOWS}
   if iIndex >= $1000 then
     try
-      (*For transparent*)
-      ImageList_Draw(SysImgList, iIndex - $1000, Canvas.Handle, Rect.Left, Rect.Top, ILD_TRANSPARENT);
+      if gIconsSize in [16, 32] then
+        // for transparent
+        ImageList_Draw(SysImgList, iIndex - $1000, Canvas.Handle, Rect.Left, Rect.Top, ILD_TRANSPARENT)
+      else
+        try
+          hicn:= ImageList_ExtractIcon(0, SysImgList, iIndex - $1000);
+          if IsGdiPlusLoaded then
+            Result:= GdiPlusStretchDraw(hicn, Canvas.Handle, Rect.Left, Rect.Top, gIconsSize, gIconsSize)
+          else
+            Result:= DrawIconEx(Canvas.Handle, Rect.Left, Rect.Top, hicn, gIconsSize, gIconsSize, 0, 0, DI_NORMAL);
+        finally
+          DestroyIcon(hicn);
+        end;
     except
       Result:= False;
     end;
@@ -645,7 +660,7 @@ begin
         _para5 := SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES;
       end;
 
-    if gIconsSize < 32 then
+    if gIconsSize = 16 then
       _para5 := _para5 or SHGFI_SMALLICON
     else
       _para5 := _para5 or SHGFI_LARGEICON;
