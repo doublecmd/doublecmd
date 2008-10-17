@@ -84,8 +84,6 @@ end;
 { TfrmDescrEdit }
 
 procedure TfrmDescrEdit.FormCreate(Sender: TObject);
-var
-  I: Integer;
 begin
 // fill encoding combobox
   cbEncoding.Clear;
