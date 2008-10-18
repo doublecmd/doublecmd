@@ -548,21 +548,21 @@ end;
 function IsAvailable(Path: String): Boolean;
 {$IFDEF MSWINDOWS}
 var
-  Drv: Char;
+  Drv: String;
   DriveLabel: string;
 begin
-  Drv := ExtractFileDrive(Path)[1];
+  Drv:= ExtractFileDrive(Path) + PathDelim;
 
   { Close CD/DVD }
-  if (GetDriveType(PChar(Drv + drive_root)) = DRIVE_CDROM) and
-     (not DriveReady(Drv)) then
+  if (GetDriveType(PChar(Drv)) = DRIVE_CDROM) and
+     (not mbDriveReady(Drv)) then
     begin
        DriveLabel:= mbGetVolumeLabel(Drv, False);
        mbCloseCD(Drv);
-       if DriveReady(Drv) then
+       if mbDriveReady(Drv) then
          mbWaitLabelChange(Drv, DriveLabel);
     end;
-  Result:=  DriveReady(Drv);
+  Result:= mbDriveReady(Drv);
 end;
 {$ELSE}
 var
