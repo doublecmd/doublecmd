@@ -993,7 +993,11 @@ procedure TfrmMain.nbPageMouseUp(Sender: TObject; Button: TMouseButton;
 var
   PopUpPoint: TPoint;
 begin
+  {$IFDEF LCLGTK2}
+  if Button = mbMiddle then
+  {$ELSE}
   if Button = mbRight then
+  {$ENDIF}
     begin
       PopUpPoint:= (Sender as TNoteBook).ClientToScreen(Point(X, Y));
       pmTabMenu.PopUp(PopUpPoint.x, PopUpPoint.y);
@@ -1002,7 +1006,7 @@ end;
 
 procedure TfrmMain.NoteBookCloseTabClicked(Sender: TObject);
 begin
-  With (Sender As TPage) do
+  with (Sender As TPage) do
   begin
     RemovePage(Parent as TNoteBook, PageIndex);
   end;

@@ -55,7 +55,7 @@ uses
 
 procedure TdmHelpManager.DataModuleCreate(Sender: TObject);
 begin
-  HTMLHelpDatabase.BaseURL:= gpExePath + 'doc'
+  HTMLHelpDatabase.BaseURL:= 'file://' + gpExePath + 'doc';
 end;
 
 initialization
