@@ -63,6 +63,8 @@ type
     actCopyFullNamesToClip: TAction;
     actExchange: TAction;
     actEditComment: TAction;
+    actVisitHomePage: TAction;
+    actKeyboard: TAction;
     actPrevTab: TAction;
     actNextTab: TAction;
     actRemoveAllTabs: TAction;
@@ -98,6 +100,8 @@ type
     dskLeft: TKAStoolBar;
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
+    mnuHelpVisitHomePage: TMenuItem;
+    mnuHelpKeyboard: TMenuItem;
     MenuItem2: TMenuItem;
     mnuPrevTab: TMenuItem;
     mnuNextTab: TMenuItem;

@@ -53,7 +53,7 @@ uses
   {$ENDIF}
   fLinker,
   fCompareFiles,
-  dmHigh,
+  dmHigh, dmHelpManager,
   uPixMapManager, uVFS, fFileAssoc,
   KASComp, fconfigtoolbar, uWCXprototypes, uDCUtils, uOSUtils,
   dmDialogs, fViewer, fOptions, fCopyDlg, fMoveDlg, fFindDlg,
@@ -88,6 +88,7 @@ begin
        Application.CreateForm(TfrmMain, frmMain); // main form
        Application.CreateForm(TdmHighl, dmHighl); // highlighters
        Application.CreateForm(TdmDlg, dmDlg); // dialogs
+       Application.CreateForm(TdmHelpManager, dmHelpMgr); // help manager
        Application.Run;
      end;
 end.

@@ -71,6 +71,8 @@ const cf_Null=0;
    procedure cm_FocusCmdLine(param: string='');
    procedure cm_FileAssoc(param: string='');
    procedure cm_ExtractFiles(param: string='');
+   procedure cm_Keyboard(param: string='');
+   procedure cm_VisitHomePage(param: string='');
    procedure cm_About(param: string='');
    procedure cm_ShowSysFiles(param: string='');
    procedure cm_Options(param: string='');
@@ -123,7 +125,8 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls, ExtCtrls,
      uFileOpThread,fFileOpDlg,forms,uVFSutil,uShowForm,uDCUtils,uLog,uVFSTypes,
      fMkDir,LCLProc,uFileProcs,uDeleteThread,fFileAssoc,fExtractDlg,fAbout,
      fOptions,fCompareFiles,fFindDlg,fSymLink,fHardLink,fMultiRename,
-     uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit;
+     uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit,
+     HelpIntfs, dmHelpManager;
 
 { TActs }
 
@@ -1020,6 +1023,17 @@ begin
 end;
 end;
 
+procedure TActs.cm_Keyboard(param: string='');
+begin
+  ShowHelpOrErrorForKeyword('','doc/shortcuts.html');
+end;
+
+procedure TActs.cm_VisitHomePage(param: string='');
+var
+  ErrMsg: String;
+begin
+  dmHelpMgr.HTMLHelpDatabase.ShowURL('http://doublecmd.sourceforge.net','Double Commander Web Site', ErrMsg);
+end;
 
 procedure TActs.cm_About(param:string);
 begin

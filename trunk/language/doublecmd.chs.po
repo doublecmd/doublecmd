@@ -842,6 +842,10 @@ msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
 msgid "Create link..."
 msgstr "创建硬链接"
 
+#: TFRMMAIN.ACTKEYBOARD.CAPTION
+msgid "Keyboard"
+msgstr ""
+
 #: TFRMMAIN.ACTLEFTOPENDRIVES.CAPTION
 msgid "Open left drive list"
 msgstr "左驱动器列表"
@@ -1024,6 +1028,10 @@ msgstr ""
 #: TFRMMAIN.ACTVIEW.CAPTION
 msgid "View F3"
 msgstr "查看 F3"
+
+#: TFRMMAIN.ACTVISITHOMEPAGE.CAPTION
+msgid "Visit Double Commander Web Site"
+msgstr ""
 
 #: TFRMMAIN.ACTWIPE.CAPTION
 msgid "Wipe"
