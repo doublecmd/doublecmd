@@ -193,6 +193,21 @@ msgstr "&Startpfad"
 msgid "&Tooltip:"
 msgstr "&Tooltip"
 
+#: TFRMCOPYDLG.BTNCANCEL.CAPTION
+msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr ""
+
+#: TFRMCOPYDLG.BTNOK.CAPTION
+msgctxt "TFRMCOPYDLG.BTNOK.CAPTION"
+msgid "&OK"
+msgstr ""
+
+#: TFRMCOPYDLG.CAPTION
+msgctxt "TFRMCOPYDLG.CAPTION"
+msgid "Copy file(s)"
+msgstr ""
+
 #: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
 msgid "Drop readonly flag"
 msgstr "Schreibschutz-Attribut entfernen"
@@ -200,6 +215,11 @@ msgstr "Schreibschutz-Attribut entfernen"
 #: TFRMCOPYDLG.LBLCOPYSRC.CAPTION
 msgid "Copy %s:"
 msgstr "Kopiere %s"
+
+#: TFRMCOPYDLG.LBLFILETYPE.CAPTION
+msgctxt "TFRMCOPYDLG.LBLFILETYPE.CAPTION"
+msgid "Only type:"
+msgstr ""
 
 #: TFRMDESCREDIT.CAPTION
 msgid "File/folder comment"
@@ -426,6 +446,7 @@ msgid "Close"
 msgstr "Schliessen"
 
 #: TFRMFILEPROPERTIES.BTNOK.CAPTION
+msgctxt "TFRMFILEPROPERTIES.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&OK"
 
@@ -619,6 +640,10 @@ msgstr "Älter als:"
 msgid "Kbyte"
 msgstr "kByte"
 
+#: TFRMFINDDLG.CBUSEPLUGIN.CAPTION
+msgid "Use search plugin:"
+msgstr ""
+
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
@@ -643,6 +668,10 @@ msgstr "DateiDir"
 #: TFRMFINDDLG.LBLINFO.CAPTION
 msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
 msgstr "Windows: 'rahs' Unix: 'rwxrwxrwx'"
+
+#: TFRMFINDDLG.LBLSEARCHDEPTH.CAPTION
+msgid "Search su&bdirectories:"
+msgstr ""
 
 #: TFRMFINDDLG.LBLSTATUS.CAPTION
 msgid "Status"
@@ -1230,6 +1259,7 @@ msgid "Input new directory name:"
 msgstr "Namen für neuen Ordner eingeben"
 
 #: TFRMMOVEDLG.LBLFILETYPE.CAPTION
+msgctxt "TFRMMOVEDLG.LBLFILETYPE.CAPTION"
 msgid "Only type:"
 msgstr "Nur diese Typen"
 
@@ -2297,6 +2327,7 @@ msgid "&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &All;&Skip;S&kip All;
 msgstr "&OK;&Nein;&Ja;&Abbruch;&Keine;&Anhängen;&Überschreiben;Überschreibe &alle;&Überspringen;Übers&pringe alle;Alle;"
 
 #: ulng.rsdlgcp
+msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
 msgstr "Datei(en) kopieren"
 
@@ -2379,6 +2410,18 @@ msgstr ""
 
 #: ulng.rseditsearchwholeword
 msgid "&Whole words only"
+msgstr ""
+
+#: ulng.rsfinddepth
+msgid "%s level(s)"
+msgstr ""
+
+#: ulng.rsfinddepthall
+msgid "all (unlimited depth)"
+msgstr ""
+
+#: ulng.rsfinddepthcurdir
+msgid "current dir only"
 msgstr ""
 
 #: ulng.rsfinddirnoex

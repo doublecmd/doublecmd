@@ -4,7 +4,7 @@
    Find dialog, with searching in thread
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -65,6 +65,7 @@ type
     cbUsePlugin: TCheckBox;
     cbbSPlugins: TComboBox;
     cbEncoding: TComboBox;
+    cbSearchDepth: TComboBox;
     deDateFrom: TDateEdit;
     deDateTo: TDateEdit;
     edtFindPathStart: TDirectoryEdit;
@@ -73,6 +74,7 @@ type
     edtTimeTo: TEdit;
     edtReplaceText: TEdit;
     gbAttributes: TGroupBox;
+    lblSearchDepth: TLabel;
     lblEncoding: TLabel;
     lblInfo: TLabel;
     Panel4: TPanel;
@@ -97,6 +99,7 @@ type
     lblCurrent: TLabel;
     PopupMenuFind: TPopupMenu;
     miShowInViewer: TMenuItem;
+    procedure cbEncodingSelect(Sender: TObject);
     procedure cbUsePluginChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGoToPathClick(Sender: TObject);
@@ -183,6 +186,8 @@ begin
 end;
 
 procedure TfrmFindDlg.FormCreate(Sender: TObject);
+var
+  I: Integer;
 begin
   // load language
   edtFindPathStart.DialogTitle:= rsFindWhereBeg;
@@ -195,6 +200,12 @@ begin
   Height:= Panel2.Height + 22;
   DSL:= TDSXModuleList.Create;
   DSL.Load(gini);
+  // fill search depth combobox
+  cbSearchDepth.Items.Add(rsFindDepthAll);
+  cbSearchDepth.Items.Add(rsFindDepthCurDir);
+  for I:= 1 to 100 do
+    cbSearchDepth.Items.Add(Format(rsFindDepth, [IntToStr(I)]));
+  cbSearchDepth.ItemIndex:= 0;
   // fill encoding combobox
   cbEncoding.Clear;
   GetSupportedEncodings(cbEncoding.Items);
@@ -206,6 +217,20 @@ begin
   cbbSPlugins.Enabled:=cbUsePlugin.Checked;
 end;
 
+procedure TfrmFindDlg.cbEncodingSelect(Sender: TObject);
+begin
+  if cbEncoding.ItemIndex <> cbEncoding.Items.IndexOf(EncodingAnsi) then
+    begin
+      cbCaseSens.Tag:= Integer(cbCaseSens.Checked);
+      cbCaseSens.Checked:= True;
+      cbCaseSens.Enabled:= False;
+    end
+  else
+    begin
+      cbCaseSens.Checked:= Boolean(cbCaseSens.Tag);
+      cbCaseSens.Enabled:= True;
+    end;
+end;
 
 procedure TfrmFindDlg.btnSelDirClick(Sender: TObject);
 var
@@ -261,6 +286,7 @@ begin
     FilterMask:= cmbFindFileMask.Text;
     PathStart:= edtFindPathStart.Text;
     Items:= lsFoundedFiles.Items;
+    SearchDepth:= cbSearchDepth.ItemIndex - 1;
     IsNoThisText:= cbNoThisText.Checked;
     FindInFiles:= cbFindInFile.Checked;
     FindData:= ConvertEncoding(edtFindText.Text, EncodingUTF8, cbEncoding.Text);

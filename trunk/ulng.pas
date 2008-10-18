@@ -136,6 +136,9 @@ resourcestring
   rsFindScaned = 'Scanned: %d';
   rsFindWhereBeg = 'Begin at';
   rsFindDirNoEx = 'Directory %s does not exist!';
+  rsFindDepthAll = 'all (unlimited depth)';
+  rsFindDepthCurDir = 'current dir only';
+  rsFindDepth = '%s level(s)';
   // Symlink dialog
   rsSymErrCreate = 'Error creating symlink.';
   // Hardlink dialog

@@ -385,6 +385,18 @@ ulng.rsfindwherebeg='Begin at'
 ulng.rsfinddirnoex='Directory %s does not exist!'
 
 
+# hash value = 75709641
+ulng.rsfinddepthall='all (unlimited depth)'
+
+
+# hash value = 143044473
+ulng.rsfinddepthcurdir='current dir only'
+
+
+# hash value = 216512633
+ulng.rsfinddepth='%s level(s)'
+
+
 # hash value = 48267678
 ulng.rssymerrcreate='Error creating symlink.'
 
