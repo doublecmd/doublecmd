@@ -57,7 +57,7 @@
         <PackageName Value="viewerpackage"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="37">
+    <Units Count="39">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -181,6 +181,7 @@
         <ComponentName Value="frmCopyDlg"/>
         <HasResources Value="True"/>
         <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="fCopyDlg.lrs"/>
         <UnitName Value="fCopyDlg"/>
       </Unit15>
@@ -345,6 +346,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uGdiPlus"/>
       </Unit36>
+      <Unit37>
+        <Filename Value="umywindows.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uMyWindows"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="umyunix.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uMyUnix"/>
+      </Unit38>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

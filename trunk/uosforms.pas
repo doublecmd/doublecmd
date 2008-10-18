@@ -27,12 +27,12 @@ unit uOSForms;
 interface
 
 uses
-  Classes, SysUtils, uTypes, uFileList, Menus, Controls, Graphics, ExtDlgs,
+  Classes, SysUtils, uTypes, uFileList, Menus, Controls, Graphics, ExtDlgs, Dialogs,
   {$IFDEF UNIX}
   Unix, fFileProperties;
   {$ELSE}
   FileUtil, Windows, Messages, ShellApi, ShlObj, ActiveX, uShlObjAdditional,
-  JwaShlGuid, JwaDbt, JwaWinUser;
+  uMyWindows, JwaShlGuid, JwaDbt, JwaWinUser;
   {$ENDIF}
 const
   sCmdVerbOpen = 'open';
@@ -346,7 +346,19 @@ begin
       else if SameText(sVerb, sCmdVerbRename) then
         begin
           if FileList.Count = 1 then
-            frmMain.RenameFile('')
+            with FileList.GetItem(0)^ do
+              begin
+                DebugLn(sNAme);
+                DebugLn(ExtractFileDrive(sName));
+                if sName <> (ExtractFileDrive(sName)+PathDelim) then
+                  frmMain.RenameFile('')
+                else  // change drive label
+                  begin
+                    sCmd:= mbGetVolumeLabel(sName, True);
+                    if InputQuery('','', sCmd) then
+                      mbSetVolumeLabel(sName, sCmd);
+                  end;
+              end
           else
             frmMain.actRename.Execute;
           bHandled := True;
