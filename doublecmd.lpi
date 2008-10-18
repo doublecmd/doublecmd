@@ -40,7 +40,7 @@
         <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="5">
+    <RequiredPackages Count="4">
       <Item1>
         <PackageName Value="KASComp"/>
         <MinVersion Major="1" Release="1" Build="1" Valid="True"/>
@@ -56,9 +56,6 @@
       <Item4>
         <PackageName Value="viewerpackage"/>
       </Item4>
-      <Item5>
-        <PackageName Value="imagesforlazarus"/>
-      </Item5>
     </RequiredPackages>
     <Units Count="37">
       <Unit0>

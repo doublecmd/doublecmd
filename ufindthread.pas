@@ -48,6 +48,8 @@ TFindThread = class(TThread)
     FAttributes: Cardinal;
     FAttribStr : String;
     FCaseSens:Boolean;
+    FCurrentDepth,
+    FSearchDepth: Integer;
     {Date search}
     FIsDateFrom,
     FIsDateTo : Boolean;
@@ -85,6 +87,7 @@ TFindThread = class(TThread)
     property FilterMask:String read FFileMask write FFileMask;
     property PathStart:String read FPathStart write FPathStart;
     property Items:TStrings write FItems;
+    property SearchDepth: Integer read FSearchDepth write FSearchDepth;
     (* Find text *)
     property FindInFiles:Boolean write FFindInFiles;
     property IsNoThisText:Boolean write FIsNoThisText default False;
@@ -137,6 +140,7 @@ begin
   FIsFileSizeTo := False;
   FAttributes := faAnyFile;
   FAttribStr := '?????????';
+  FSearchDepth:= MaxInt;
 end;
 
 destructor TFindThread.Destroy;
@@ -155,9 +159,10 @@ begin
     if length(FPathStart)>1 then
     if FPathStart[length(FPathStart)] = PathDelim then
       Delete(FPathStart,length(FPathStart),1);
+    FCurrentDepth:= -1;
     sCurrDir:= mbGetCurrentDir;
     try
-        DebugLn('thread b',FPathStart);
+      DebugLn('thread b',FPathStart);
       WalkAdr(FPathStart);
     finally
       mbSetCurrentDir(sCurrDir);
@@ -383,7 +388,12 @@ var
   Path : String;
 begin
   DebugLn(sNewDir);
-  if not mbSetCurrentDir(sNewDir) then Exit;
+  Inc(FCurrentDepth);
+  if not mbSetCurrentDir(sNewDir) then
+    begin
+      Dec(FCurrentDepth);
+      Exit;
+    end;
 
   Path := sNewDir + PathDelim + FFileMask;
   //DebugLn('Path = ', Path);
@@ -407,8 +417,8 @@ begin
   until (FindNextEx(sr)<>0)or terminated;
   FindClose(sr);
 
-    {Search in sub folders}
-    if not Terminated then
+    { Search in sub folders }
+    if (not Terminated) and (FCurrentDepth < FSearchDepth) then
     begin
       Path := sNewDir + PathDelim + '*';
       DebugLn('Search in sub folders = ', Path);
@@ -419,7 +429,7 @@ begin
         until Terminated or (FindNextEx(sr) <> 0);
       FindClose(sr);
     end;
-
+  Dec(FCurrentDepth);
 end;
 
 end.

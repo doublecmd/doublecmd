@@ -134,7 +134,7 @@ procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
 implementation
 
 uses
-  uLng, uShowMsg, uGlobs, lcltype, lazjpg, LConvEncoding, uClassesEx, uFindMmap, uOSUtils;
+  uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx, uFindMmap, uOSUtils;
 
 
 procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
