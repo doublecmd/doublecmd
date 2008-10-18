@@ -841,6 +841,10 @@ msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
 msgid "Create link..."
 msgstr "Створити по&силання..."
 
+#: TFRMMAIN.ACTKEYBOARD.CAPTION
+msgid "Keyboard"
+msgstr ""
+
 #: TFRMMAIN.ACTLEFTOPENDRIVES.CAPTION
 msgid "Open left drive list"
 msgstr "Відкрити список дисків зліва"
@@ -1023,6 +1027,10 @@ msgstr ""
 #: TFRMMAIN.ACTVIEW.CAPTION
 msgid "View F3"
 msgstr "Перегляд F3"
+
+#: TFRMMAIN.ACTVISITHOMEPAGE.CAPTION
+msgid "Visit Double Commander Web Site"
+msgstr ""
 
 #: TFRMMAIN.ACTWIPE.CAPTION
 msgid "Wipe"

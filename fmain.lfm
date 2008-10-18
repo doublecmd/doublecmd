@@ -315,7 +315,6 @@ object frmMain: TfrmMain
         TabStop = False
         Anchors = [akTop, akLeft, akRight]
         ItemHeight = 13
-        MaxLength = -1
         ParentCtl3D = False
         TabOrder = 0
       end
@@ -436,9 +435,11 @@ object frmMain: TfrmMain
     Font.Height = -16
     Font.Name = 'courier'
     Font.Pitch = fpFixed
+    Font.Quality = fqNonAntialiased
     ParentColor = False
     ParentFont = False
     TabOrder = 4
+    BookMarkOptions.OnChange = nil
     Keystrokes = <    
       item
         Command = 3
@@ -763,6 +764,7 @@ object frmMain: TfrmMain
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
+    SelectedColor.OnChange = nil
     OnSpecialLineColors = seLogWindowSpecialLineColors
   end
   object LogSplitter: TSplitter
@@ -965,9 +967,11 @@ object frmMain: TfrmMain
       end
       object mnuNextTab: TMenuItem
         Action = actNextTab
+        OnClick = actExecute
       end
       object mnuPrevTab: TMenuItem
         Action = actPrevTab
+        OnClick = actExecute
       end
     end
     object mnuShow: TMenuItem
@@ -1018,6 +1022,14 @@ object frmMain: TfrmMain
     object mnuHelp: TMenuItem
       Caption = '&Help'
       OnClick = mnuHelpClick
+      object mnuHelpKeyboard: TMenuItem
+        Action = actKeyboard
+        OnClick = actExecute
+      end
+      object mnuHelpVisitHomePage: TMenuItem
+        Action = actVisitHomePage
+        OnClick = actExecute
+      end
       object mnuHelpAbout: TMenuItem
         Action = actAbout
         OnClick = actExecute
@@ -1486,6 +1498,18 @@ object frmMain: TfrmMain
     object actPrevTab: TAction
       Category = 'Tabs'
       Caption = 'Switch to previous tab'
+      DisableIfNoHandler = True
+      OnExecute = actExecute
+    end
+    object actKeyboard: TAction
+      Category = 'Help'
+      Caption = 'Keyboard'
+      DisableIfNoHandler = True
+      OnExecute = actExecute
+    end
+    object actVisitHomePage: TAction
+      Category = 'Help'
+      Caption = 'Visit Double Commander Web Site'
       DisableIfNoHandler = True
       OnExecute = actExecute
     end
