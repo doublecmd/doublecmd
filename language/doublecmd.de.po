@@ -2681,6 +2681,14 @@ msgstr "Markierte %s von %s in %d von %d Dateien"
 msgid "Please select location of next volume"
 msgstr "Speicherort des nächsten Teils angeben"
 
+#: ulng.rsmsgsetvolumelabel
+msgid "Set volume label"
+msgstr ""
+
+#: ulng.rsmsgvolumelabel
+msgid "Volume label:"
+msgstr ""
+
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First Char Big;"
 msgstr "Keine Änderung;GROSSBUCHSTABEN;alles klein;Erster Buchstabe Gross"

@@ -54,6 +54,8 @@ resourcestring
   rsMsgChDirFailed = 'ChDir to [%s] failed!';
   rsMsgNoFreeSpaceCont = 'No enough free space on target drive, Continue?';
   rsMsgNoFreeSpaceRetry = 'No enough free space on target drive, Retry?';
+  rsMsgSetVolumeLabel = 'Set volume label';
+  rsMsgVolumeLabel = 'Volume label:';
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuMount = 'Mount';

@@ -2681,6 +2681,14 @@ msgstr ""
 msgid "Please select location of next volume"
 msgstr ""
 
+#: ulng.rsmsgsetvolumelabel
+msgid "Set volume label"
+msgstr ""
+
+#: ulng.rsmsgvolumelabel
+msgid "Volume label:"
+msgstr ""
+
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First Char Big;"
 msgstr ""
