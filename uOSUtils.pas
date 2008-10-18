@@ -27,9 +27,9 @@ interface
 uses
     SysUtils, Classes, LCLProc, uDCUtils, uFindEx, uClassesEx
     {$IFDEF MSWINDOWS}
-    , Windows, ShellApi, MMSystem, uNTFSLinks
+    , Windows, ShellApi, uNTFSLinks, uMyWindows
     {$ELSE}
-    , BaseUnix, Libc, Unix, UnixType, UnixUtil
+    , BaseUnix, Libc, Unix, UnixType, UnixUtil, uMyUnix
     {$ENDIF};
     
 {$mode delphi}{$H+}
@@ -545,112 +545,24 @@ if Result = '' then
   Result := ExtractFileDrive(Path);
 end;
 
-
-{$IFDEF MSWINDOWS}
-(* Drive ready *)
-
-const drive_root: AnsiString = ':\';
-
-function DriveReady(const Drv: Char): Boolean;
-var
-  NotUsed: DWORD;
-begin
-  Result := GetVolumeInformation(PChar(Drv + drive_root), nil, 0, nil,
-    NotUsed, NotUsed, nil, 0);
-end;
-
-(* Disk label *)
-
-function GetLabelDisk(const Drv: Char; const VolReal: Boolean): string;
-
-  function DisplayName(const Drv: Char): string;
-  var
-    SFI: TSHFileInfo;
-  begin
-    FillChar(SFI, SizeOf(SFI), 0);
-    SHGetFileInfo(PChar(Drv + drive_root), 0, SFI, SizeOf(SFI), SHGFI_DISPLAYNAME);
-    Result := SFI.szDisplayName;
-
-
-    if Pos('(', Result) <> 0 then
-      SetLength(Result, Pos('(', Result) - 2);
-  end;
-
-var
-  WinVer: Byte;
-  DriveType, NotUsed: DWORD;
-  Buf: array [0..MAX_PATH - 1] of Char;
-begin
-  Result := '';
-  WinVer := LOBYTE(LOWORD(GetVersion));
-  DriveType := GetDriveType(PChar(Drv + drive_root));
-
-  if (WinVer <= 4) and (DriveType <> DRIVE_REMOVABLE) or VolReal then
-  begin // Win9x, Me, NT <= 4.0
-    Buf[0] := #0;
-    GetVolumeInformation(PChar(Drv + drive_root), Buf, DWORD(SizeOf(Buf)), nil,
-      NotUsed, NotUsed, nil, 0);
-    Result := Buf;
-
-    if VolReal and (WinVer >= 5) and (Result <> '') and
-       (DriveType <> DRIVE_REMOVABLE) then // Win2k, XP and higher
-      Result := DisplayName(Drv)
-    else if (Result = '') and (not VolReal) then
-      Result := '<none>';
-  end else
-    Result := DisplayName(Drv);
-end;
-
-(* Wait for change disk label *)
-
-procedure WaitLabelChange(const Drv: Char; const Str: string);
-var
-  st1, st2: string;
-begin
-  if GetLabelDisk(Drv, True) = '' then
-    Exit;
-  st1 := TrimLeft(Str);
-  st2 := st1;
-  while st1 = st2 do
-    st2 := GetLabelDisk(Drv, FALSE);
-end;
-
-(* Close CD/DVD *)
-
-procedure CloseCD(const Drive: string);
-var
-  OpenParms: MCI_OPEN_PARMS;
-begin
-  FillChar(OpenParms, SizeOf(OpenParms), 0);
-  OpenParms.lpstrDeviceType := 'CDAudio';
-  OpenParms.lpstrElementName := PChar(Drive + ':');
-  mciSendCommand(0, MCI_OPEN, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, Longint(@OpenParms));
-  mciSendCommand(OpenParms.wDeviceID, MCI_SET, MCI_SET_DOOR_CLOSED, 0);
-  mciSendCommand(OpenParms.wDeviceID, MCI_CLOSE, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, Longint(@OpenParms));
-end;
-
-{$ENDIF}
-
-
 function IsAvailable(Path: String): Boolean;
 {$IFDEF MSWINDOWS}
 var
   Drv: Char;
   DriveLabel: string;
 begin
-
   Drv := ExtractFileDrive(Path)[1];
 
   { Close CD/DVD }
   if (GetDriveType(PChar(Drv + drive_root)) = DRIVE_CDROM) and
      (not DriveReady(Drv)) then
     begin
-       DriveLabel:= GetLabelDisk(Drv, False);
-       CloseCD(Drv);
+       DriveLabel:= mbGetVolumeLabel(Drv, False);
+       mbCloseCD(Drv);
        if DriveReady(Drv) then
-         WaitLabelChange(Drv, DriveLabel);
+         mbWaitLabelChange(Drv, DriveLabel);
     end;
-  Result :=  DriveReady(Drv);
+  Result:=  DriveReady(Drv);
 end;
 {$ELSE}
 var
@@ -704,7 +616,7 @@ begin
            DriveType := dtFlash;
        end;
      if (DriveType <> dtFloppy) and (DriveType <> dtNetwork) then
-       DriveLabel := GetLabelDisk(Name[1], True);
+       DriveLabel := mbGetVolumeLabel(Name, True);
     end;
   Result.Add(Drive);
   end;
