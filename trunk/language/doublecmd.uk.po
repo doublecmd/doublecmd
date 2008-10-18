@@ -2680,6 +2680,14 @@ msgstr "Виділено %s з %s в %d з %d файлів"
 msgid "Please select location of next volume"
 msgstr "Вкажіть шлях до наступного тому"
 
+#: ulng.rsmsgsetvolumelabel
+msgid "Set volume label"
+msgstr ""
+
+#: ulng.rsmsgvolumelabel
+msgid "Volume label:"
+msgstr ""
+
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First Char Big;"
 msgstr "Без змін;ПРОПИСНІ;строчні;З Прописної;"

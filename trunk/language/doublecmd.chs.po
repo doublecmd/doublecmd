@@ -2681,6 +2681,14 @@ msgstr "选中 %s 总大小 %s, 选中 %d 总文件数 %d files"
 msgid "Please select location of next volume"
 msgstr "选择下一卷位置"
 
+#: ulng.rsmsgsetvolumelabel
+msgid "Set volume label"
+msgstr ""
+
+#: ulng.rsmsgvolumelabel
+msgid "Volume label:"
+msgstr ""
+
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First Char Big;"
 msgstr "不修改;大写;小写;首字大写;"

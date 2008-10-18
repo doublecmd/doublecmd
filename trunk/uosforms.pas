@@ -355,7 +355,7 @@ begin
                 else  // change drive label
                   begin
                     sCmd:= mbGetVolumeLabel(sName, True);
-                    if InputQuery('','', sCmd) then
+                    if InputQuery(rsMsgSetVolumeLabel, rsMsgVolumeLabel, sCmd) then
                       mbSetVolumeLabel(sName, sCmd);
                   end;
               end

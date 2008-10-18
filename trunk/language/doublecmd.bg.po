@@ -2681,6 +2681,14 @@ msgstr "Избрани %s от %s в %d от %d файла"
 msgid "Please select location of next volume"
 msgstr "Посочете местоположението на следващия том"
 
+#: ulng.rsmsgsetvolumelabel
+msgid "Set volume label"
+msgstr ""
+
+#: ulng.rsmsgvolumelabel
+msgid "Volume label:"
+msgstr ""
+
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First Char Big;"
 msgstr "Без промяна; ВИСША; нисша; Пъритв Знаци Главни;"

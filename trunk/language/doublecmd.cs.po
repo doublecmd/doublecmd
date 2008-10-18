@@ -2683,6 +2683,14 @@ msgstr "Vybráno %s z %s v %d z %d souborů"
 msgid "Please select location of next volume"
 msgstr "Prosím vyberte umístění další části"
 
+#: ulng.rsmsgsetvolumelabel
+msgid "Set volume label"
+msgstr ""
+
+#: ulng.rsmsgvolumelabel
+msgid "Volume label:"
+msgstr ""
+
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First Char Big;"
 msgstr "Neměnit;VELKÁ;malá;1. znak velký;"

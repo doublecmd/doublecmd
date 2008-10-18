@@ -109,6 +109,14 @@ ulng.rsmsgnofreespacecont='No enough free space on target drive, Continue'+
 ulng.rsmsgnofreespaceretry='No enough free space on target drive, Retry?'
 
 
+# hash value = 12833004
+ulng.rsmsgsetvolumelabel='Set volume label'
+
+
+# hash value = 205801690
+ulng.rsmsgvolumelabel='Volume label:'
+
+
 # hash value = 128648723
 ulng.rsmnuactions='Actions'
 
