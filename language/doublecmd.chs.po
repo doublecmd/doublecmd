@@ -193,6 +193,21 @@ msgstr "开始路径(&S)"
 msgid "&Tooltip:"
 msgstr "工具提示(&T)"
 
+#: TFRMCOPYDLG.BTNCANCEL.CAPTION
+msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr ""
+
+#: TFRMCOPYDLG.BTNOK.CAPTION
+msgctxt "TFRMCOPYDLG.BTNOK.CAPTION"
+msgid "&OK"
+msgstr ""
+
+#: TFRMCOPYDLG.CAPTION
+msgctxt "TFRMCOPYDLG.CAPTION"
+msgid "Copy file(s)"
+msgstr ""
+
 #: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
 msgid "Drop readonly flag"
 msgstr "丢弃只读标志"
@@ -200,6 +215,11 @@ msgstr "丢弃只读标志"
 #: TFRMCOPYDLG.LBLCOPYSRC.CAPTION
 msgid "Copy %s:"
 msgstr "复制 %s:"
+
+#: TFRMCOPYDLG.LBLFILETYPE.CAPTION
+msgctxt "TFRMCOPYDLG.LBLFILETYPE.CAPTION"
+msgid "Only type:"
+msgstr ""
 
 #: TFRMDESCREDIT.CAPTION
 msgid "File/folder comment"
@@ -426,6 +446,7 @@ msgid "Close"
 msgstr "关闭"
 
 #: TFRMFILEPROPERTIES.BTNOK.CAPTION
+msgctxt "TFRMFILEPROPERTIES.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "确定(&O)"
 
@@ -619,6 +640,10 @@ msgstr "结束时间"
 msgid "Kbyte"
 msgstr "Kbyte"
 
+#: TFRMFINDDLG.CBUSEPLUGIN.CAPTION
+msgid "Use search plugin:"
+msgstr ""
+
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
@@ -643,6 +668,10 @@ msgstr "文件所在目录"
 #: TFRMFINDDLG.LBLINFO.CAPTION
 msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
 msgstr "Windows: 'rahs' Unix: 'rwxrwxrwx'"
+
+#: TFRMFINDDLG.LBLSEARCHDEPTH.CAPTION
+msgid "Search su&bdirectories:"
+msgstr ""
 
 #: TFRMFINDDLG.LBLSTATUS.CAPTION
 msgid "Status"
@@ -1230,6 +1259,7 @@ msgid "Input new directory name:"
 msgstr "熟路新目录名:"
 
 #: TFRMMOVEDLG.LBLFILETYPE.CAPTION
+msgctxt "TFRMMOVEDLG.LBLFILETYPE.CAPTION"
 msgid "Only type:"
 msgstr "只有类型:"
 
@@ -2297,6 +2327,7 @@ msgid "&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &All;&Skip;S&kip All;
 msgstr "确定(&O);否(&N);是(&Y);取消(&C);无(&N);添加(&A);覆盖(&R);覆盖全部(&A);略过(&S);略过全部(&K);全部;"
 
 #: ulng.rsdlgcp
+msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
 msgstr "复制文件"
 
@@ -2379,6 +2410,18 @@ msgstr ""
 
 #: ulng.rseditsearchwholeword
 msgid "&Whole words only"
+msgstr ""
+
+#: ulng.rsfinddepth
+msgid "%s level(s)"
+msgstr ""
+
+#: ulng.rsfinddepthall
+msgid "all (unlimited depth)"
+msgstr ""
+
+#: ulng.rsfinddepthcurdir
+msgid "current dir only"
 msgstr ""
 
 #: ulng.rsfinddirnoex

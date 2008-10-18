@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-10-16 23:05+0300\n"
+"PO-Revision-Date: 2008-10-18 12:21+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -192,6 +192,21 @@ msgstr "Путь запуска:"
 msgid "&Tooltip:"
 msgstr "Подсказка:"
 
+#: TFRMCOPYDLG.BTNCANCEL.CAPTION
+msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr ""
+
+#: TFRMCOPYDLG.BTNOK.CAPTION
+msgctxt "TFRMCOPYDLG.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&ОК"
+
+#: TFRMCOPYDLG.CAPTION
+msgctxt "TFRMCOPYDLG.CAPTION"
+msgid "Copy file(s)"
+msgstr "Копировать файл(ы)"
+
 #: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
 msgid "Drop readonly flag"
 msgstr "Сбросить флаг \"Только для чтения\""
@@ -199,6 +214,11 @@ msgstr "Сбросить флаг \"Только для чтения\""
 #: TFRMCOPYDLG.LBLCOPYSRC.CAPTION
 msgid "Copy %s:"
 msgstr "Копировать %s:"
+
+#: TFRMCOPYDLG.LBLFILETYPE.CAPTION
+msgctxt "TFRMCOPYDLG.LBLFILETYPE.CAPTION"
+msgid "Only type:"
+msgstr "Только типа:"
 
 #: TFRMDESCREDIT.CAPTION
 msgid "File/folder comment"
@@ -425,8 +445,9 @@ msgid "Close"
 msgstr "Закрыть"
 
 #: TFRMFILEPROPERTIES.BTNOK.CAPTION
+msgctxt "TFRMFILEPROPERTIES.BTNOK.CAPTION"
 msgid "&OK"
-msgstr ""
+msgstr "&ОК"
 
 #: TFRMFILEPROPERTIES.BTNSKIP.CAPTION
 msgid "Skip"
@@ -618,6 +639,10 @@ msgstr "Врямя до:"
 msgid "Kbyte"
 msgstr "Килобайт"
 
+#: TFRMFINDDLG.CBUSEPLUGIN.CAPTION
+msgid "Use search plugin:"
+msgstr "Использовать поисковый плагин:"
+
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
@@ -642,6 +667,10 @@ msgstr "В каталоге:"
 #: TFRMFINDDLG.LBLINFO.CAPTION
 msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
 msgstr ""
+
+#: TFRMFINDDLG.LBLSEARCHDEPTH.CAPTION
+msgid "Search su&bdirectories:"
+msgstr "&Глубина вложенности подкаталогов:"
 
 #: TFRMFINDDLG.LBLSTATUS.CAPTION
 msgid "Status"
@@ -1229,6 +1258,7 @@ msgid "Input new directory name:"
 msgstr "Введите имя каталога:"
 
 #: TFRMMOVEDLG.LBLFILETYPE.CAPTION
+msgctxt "TFRMMOVEDLG.LBLFILETYPE.CAPTION"
 msgid "Only type:"
 msgstr "Только типа:"
 
@@ -2296,6 +2326,7 @@ msgid "&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &All;&Skip;S&kip All;
 msgstr "&OK;&Нет;&Да;&Отмена;&Ни одного;&Добавить;&Переписать;Переписать &все;&Пропустить;Проп&устить Все;Все;"
 
 #: ulng.rsdlgcp
+msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
 msgstr "Копировать файл(ы)"
 
@@ -2379,6 +2410,18 @@ msgstr "В выделенном тексте"
 #: ulng.rseditsearchwholeword
 msgid "&Whole words only"
 msgstr "Только слово &целиком"
+
+#: ulng.rsfinddepth
+msgid "%s level(s)"
+msgstr "Число уровней: %s"
+
+#: ulng.rsfinddepthall
+msgid "all (unlimited depth)"
+msgstr "Все (неограниченная)"
+
+#: ulng.rsfinddepthcurdir
+msgid "current dir only"
+msgstr "Только текущий"
 
 #: ulng.rsfinddirnoex
 msgid "Directory %s does not exist!"

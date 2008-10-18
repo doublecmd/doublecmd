@@ -4,7 +4,7 @@
    Thread for search files (called from frmSearchDlg)
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -71,7 +71,7 @@ TFindThread = class(TThread)
     FReplaceInFiles : Boolean;
     FReplaceData : String;
 
-
+    procedure SetSearchDepth(const AValue: Integer);
     function CheckFileDate(DT : LongInt) : Boolean;
     function CheckFileSize(FileSize : Int64) : Boolean;
     function CheckFile(const Folder : String; const sr : TSearchRec) : Boolean;
@@ -87,7 +87,7 @@ TFindThread = class(TThread)
     property FilterMask:String read FFileMask write FFileMask;
     property PathStart:String read FPathStart write FPathStart;
     property Items:TStrings write FItems;
-    property SearchDepth: Integer read FSearchDepth write FSearchDepth;
+    property SearchDepth: Integer read FSearchDepth write SetSearchDepth;
     (* Find text *)
     property FindInFiles:Boolean write FFindInFiles;
     property IsNoThisText:Boolean write FIsNoThisText default False;
@@ -174,6 +174,14 @@ begin
     on E:Exception do
       msgError(Self, E.Message);
   end;
+end;
+
+procedure TFindThread.SetSearchDepth(const AValue: Integer);
+begin
+  if AValue < 0 then
+    FSearchDepth:= MaxInt
+  else
+    FSearchDepth:= AValue;
 end;
 
 procedure TFindThread.AddFile;
@@ -278,7 +286,7 @@ begin
    if (FIsDateTo and Result) then
       Result := (Int(DateTime) <= Int(FDateTimeTo));
 
-   (* Check time from *)         //TODO Сделать секунды
+   (* Check time from *)         //TODO seconds
    if (FIsTimeFrom and Result) then
       Result := ((Trunc(Frac(DateTime) * 10000000) / 10000000) >= (Trunc(Frac(FDateTimeFrom) * 1000) / 1000));
       
@@ -311,7 +319,7 @@ var
   Attrib : Cardinal;
 begin
   Result := True;
-{$IFDEF WIN32}
+{$IFDEF MSWINDOWS}
 (* This is hack *)
 //DebugLn('File = ', sr.Name);
 if not MatchesMaskList(sr.Name, FFileMask) then
@@ -414,7 +422,7 @@ begin
       
     FCurrentFile:=sNewDir + PathDelim + sr.Name;
     Synchronize(@UpDateProgress);
-  until (FindNextEx(sr)<>0)or terminated;
+  until (FindNextEx(sr)<>0) or Terminated;
   FindClose(sr);
 
     { Search in sub folders }
