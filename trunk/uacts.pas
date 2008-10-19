@@ -1025,7 +1025,7 @@ end;
 
 procedure TActs.cm_Keyboard(param: string='');
 begin
-  ShowHelpOrErrorForKeyword('','doc/shortcuts.html');
+  ShowHelpOrErrorForKeyword('', gHelpLang+'/shortcuts.html');
 end;
 
 procedure TActs.cm_VisitHomePage(param: string='');

@@ -49,13 +49,23 @@ var
 implementation
 
 uses
-  uGlobsPaths;
+  uGlobsPaths, uGlobs, uDCUtils, uOSUtils, StrUtils;
 
 { TdmHelpManager }
 
 procedure TdmHelpManager.DataModuleCreate(Sender: TObject);
 begin
-  HTMLHelpDatabase.BaseURL:= 'file://' + gpExePath + 'doc';
+  if NumCountChars('.', gPOFileName) < 2 then
+    gHelpLang:= 'en'
+  else
+    begin
+      gHelpLang:= ExtractDelimited(2, gPOFileName, ['.']);
+      if not mbDirectoryExists(gpExePath + 'doc' + PathDelim + gHelpLang) then
+        gHelpLang:= 'en';
+    end;
+
+  HTMLHelpDatabase.BaseURL:= 'file://' + gpExePath + 'doc' + PathDelim + gHelpLang;
+  HTMLHelpDatabase.KeywordPrefix:= gHelpLang + '/';
 end;
 
 initialization

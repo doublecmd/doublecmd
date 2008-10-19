@@ -43,7 +43,8 @@ type
                         
 var
   { For localization }
-  gPOFileName : String;
+  gPOFileName,
+  gHelpLang: String;
   
   { WDX plugins }
   gWdxPlugins:TWDXModuleList;
