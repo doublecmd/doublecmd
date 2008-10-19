@@ -5,9 +5,9 @@ object dmHelpManager: TdmHelpManager
   VerticalOffset = 200
   Width = 400
   object HTMLHelpDatabase: THTMLHelpDatabase
-    BaseURL = 'file://doc/'
+    BaseURL = 'file://doc/en/'
     AutoRegister = True
-    KeywordPrefix = 'doc/'
+    KeywordPrefix = 'en/'
     left = 64
     top = 48
   end
