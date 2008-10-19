@@ -69,7 +69,7 @@ begin
 end;
 
 initialization
-  {$I dmCmd.lrs}
+  {$I dmhelpmanager.lrs}
 
 end.
 

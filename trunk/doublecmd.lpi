@@ -57,7 +57,7 @@
         <PackageName Value="viewerpackage"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="39">
+    <Units Count="40">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -356,6 +356,15 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMyUnix"/>
       </Unit38>
+      <Unit39>
+        <Filename Value="dmhelpmanager.pas"/>
+        <ComponentName Value="dmHelpManager"/>
+        <HasResources Value="True"/>
+        <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <ResourceFilename Value="dmhelpmanager.lrs"/>
+        <UnitName Value="dmHelpManager"/>
+      </Unit39>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
