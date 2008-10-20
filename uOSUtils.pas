@@ -27,7 +27,7 @@ interface
 uses
     SysUtils, Classes, LCLProc, uDCUtils, uFindEx, uClassesEx
     {$IFDEF MSWINDOWS}
-    , Windows, ShellApi, uNTFSLinks, uMyWindows
+    , Windows, ShellApi, uNTFSLinks, uMyWindows, JwaWinNetWk
     {$ELSE}
     , BaseUnix, Libc, Unix, UnixType, UnixUtil, uMyUnix
     {$ENDIF};
@@ -1075,8 +1075,17 @@ function mbSetCurrentDir(const NewDir: UTF8String): Boolean;
 {$IFDEF MSWINDOWS}
 var
   wNewDir: WideString;
+  NetResource: TNetResourceW;
 begin
   wNewDir:= UTF8Decode(NewDir);
+  if Pos('\\', wNewDir) = 1 then
+    begin
+      wNewDir:= ExcludeTrailingBackslash(wNewDir);
+      FillChar(NetResource, SizeOf(NetResource), #0);
+      NetResource.dwType:= RESOURCETYPE_ANY;
+      NetResource.lpRemoteName:= PWideChar(wNewDir);
+      WNetAddConnection2W(NetResource, nil, nil, CONNECT_INTERACTIVE);
+    end;
   Result:= SetCurrentDirectoryW(PWChar(wNewDir));
 end;
 {$ELSE}
