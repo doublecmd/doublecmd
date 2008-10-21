@@ -3,19 +3,21 @@ object frmDescrEdit: TfrmDescrEdit
   Height = 300
   Top = 175
   Width = 400
+  ActiveControl = memDescr
   Caption = 'File/folder comment'
   ClientHeight = 300
   ClientWidth = 400
   OnCreate = FormCreate
+  ParentFont = False
   Position = poMainFormCenter
-  LCLVersion = '0.9.25'
+  LCLVersion = '0.9.27'
   object lblEditCommentFor: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     Left = 12
-    Height = 14
+    Height = 19
     Top = 12
-    Width = 86
+    Width = 120
     BorderSpacing.Left = 12
     BorderSpacing.Top = 12
     Caption = 'Edit comment for:'
@@ -25,10 +27,10 @@ object frmDescrEdit: TfrmDescrEdit
     AnchorSideTop.Control = cbEncoding
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = cbEncoding
-    Left = 228
-    Height = 14
-    Top = 222
-    Width = 48
+    Left = 209
+    Height = 19
+    Top = 217
+    Width = 67
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 12
     Caption = 'Encoding:'
@@ -39,13 +41,14 @@ object frmDescrEdit: TfrmDescrEdit
     AnchorSideTop.Control = lblEditCommentFor
     AnchorSideTop.Side = asrBottom
     Left = 12
-    Height = 14
-    Top = 32
-    Width = 19
+    Height = 19
+    Top = 37
+    Width = 25
     BorderSpacing.Top = 6
     Caption = '???'
     Font.Style = [fsBold]
     ParentColor = False
+    ParentFont = False
   end
   object memDescr: TMemo
     AnchorSideLeft.Control = Owner
@@ -55,8 +58,8 @@ object frmDescrEdit: TfrmDescrEdit
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = cbEncoding
     Left = 12
-    Height = 153
-    Top = 54
+    Height = 136
+    Top = 64
     Width = 376
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 12
@@ -71,13 +74,11 @@ object frmDescrEdit: TfrmDescrEdit
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = btnCancel
     Left = 288
-    Height = 21
-    Top = 219
+    Height = 28
+    Top = 212
     Width = 100
     Anchors = [akRight, akBottom]
-    AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
     BorderSpacing.Bottom = 12
-    ItemHeight = 13
     OnChange = cbEncodingChange
     TabOrder = 1
   end
@@ -85,10 +86,10 @@ object frmDescrEdit: TfrmDescrEdit
     AnchorSideTop.Control = btnCancel
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnCancel
-    Left = 232
+    Left = 202
     Height = 30
     Top = 252
-    Width = 75
+    Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 6
     Caption = '&ОК'
@@ -104,10 +105,10 @@ object frmDescrEdit: TfrmDescrEdit
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 313
+    Left = 298
     Height = 30
     Top = 252
-    Width = 75
+    Width = 90
     Anchors = [akRight, akBottom]
     BorderSpacing.Bottom = 18
     Cancel = True

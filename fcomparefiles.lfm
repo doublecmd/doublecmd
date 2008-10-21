@@ -1,46 +1,44 @@
 object frmCompareFiles: TfrmCompareFiles
-  Left = 229
+  Left = 195
   Height = 530
   Top = 168
-  Width = 783
-  HorzScrollBar.Page = 782
-  HorzScrollBar.Range = 365
-  VertScrollBar.Page = 529
-  VertScrollBar.Range = 52
+  Width = 820
   ActiveControl = edtFileNameLeft
   Caption = 'Compare files'
   ClientHeight = 530
-  ClientWidth = 783
+  ClientWidth = 820
   OnCreate = FormCreate
+  ParentFont = False
   Position = poScreenCenter
+  LCLVersion = '0.9.27'
   object Splitter1: TSplitter
     Left = 361
-    Height = 459
+    Height = 460
     Top = 48
     Width = 5
   end
   object pnlLeft: TPanel
-    Height = 459
+    Height = 460
     Top = 48
     Width = 361
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 459
-    ClientWidth = 361
+    ClientHeight = 456
+    ClientWidth = 357
     FullRepaint = False
     TabOrder = 0
     object pnlLeftBox: TPanel
       Height = 25
-      Width = 361
+      Width = 357
       Align = alTop
       BevelOuter = bvNone
-      ClientHeight = 25
-      ClientWidth = 361
+      ClientHeight = 21
+      ClientWidth = 353
       FullRepaint = False
       TabOrder = 0
       object edtFileNameLeft: TFileNameEdit
         Height = 23
-        Width = 336
+        Width = 328
         ButtonWidth = 23
         NumGlyphs = 1
         Anchors = [akTop, akLeft, akRight]
@@ -49,23 +47,25 @@ object frmCompareFiles: TfrmCompareFiles
       end
     end
     object lstLeft: TSynEdit
-      Height = 434
+      Height = 431
       Top = 25
-      Width = 361
+      Width = 357
       Align = alClient
       Font.Color = clBlack
       Font.Height = 13
       Font.Name = 'adobe-courier'
       Font.Pitch = fpVariable
+      Font.Quality = fqNonAntialiased
       ParentColor = False
       ParentCtl3D = False
+      ParentFont = False
       TabOrder = 1
       BookMarkOptions.Xoffset = -18
+      BookMarkOptions.OnChange = nil
       Gutter.DigitCount = 2
       Gutter.LeftOffset = 0
       Gutter.Visible = False
       Gutter.Width = 15
-      Gutter.CodeFoldingWidth = 14
       Keystrokes = <      
         item
           Command = 3
@@ -388,33 +388,34 @@ object frmCompareFiles: TfrmCompareFiles
           ShortCut = 24642
         end>
       ReadOnly = True
+      SelectedColor.OnChange = nil
       OnSpecialLineColors = lstLeftSpecialLineColors
       OnStatusChange = lstLeftStatusChange
     end
   end
   object pnlRight: TPanel
     Left = 366
-    Height = 459
+    Height = 460
     Top = 48
-    Width = 417
+    Width = 434
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 459
-    ClientWidth = 417
+    ClientHeight = 456
+    ClientWidth = 430
     FullRepaint = False
     TabOrder = 1
     object pnlRightBox: TPanel
       Height = 25
-      Width = 417
+      Width = 430
       Align = alTop
       BevelOuter = bvNone
-      ClientHeight = 25
-      ClientWidth = 417
+      ClientHeight = 21
+      ClientWidth = 426
       FullRepaint = False
       TabOrder = 0
       object edtFileNameRight: TFileNameEdit
         Height = 23
-        Width = 392
+        Width = 401
         ButtonWidth = 23
         NumGlyphs = 1
         Anchors = [akTop, akLeft, akRight]
@@ -423,20 +424,22 @@ object frmCompareFiles: TfrmCompareFiles
       end
     end
     object lstRight: TSynEdit
-      Height = 434
+      Height = 431
       Top = 25
-      Width = 417
+      Width = 430
       Align = alClient
       Font.Color = clBlack
       Font.Height = 13
       Font.Name = 'adobe-courier'
       Font.Pitch = fpVariable
+      Font.Quality = fqNonAntialiased
       ParentColor = False
       ParentCtl3D = False
+      ParentFont = False
       TabOrder = 1
       BookMarkOptions.Xoffset = -18
+      BookMarkOptions.OnChange = nil
       Gutter.Visible = False
-      Gutter.CodeFoldingWidth = 14
       Keystrokes = <      
         item
           Command = 3
@@ -759,14 +762,15 @@ object frmCompareFiles: TfrmCompareFiles
           ShortCut = 24642
         end>
       ReadOnly = True
+      SelectedColor.OnChange = nil
       OnSpecialLineColors = lstRightSpecialLineColors
       OnStatusChange = lstRightStatusChange
     end
   end
   object pnlStatusBar: TStatusBar
-    Height = 23
-    Top = 507
-    Width = 783
+    Height = 22
+    Top = 508
+    Width = 800
     Panels = <    
       item
         Text = 'Number of changes: '
@@ -775,11 +779,11 @@ object frmCompareFiles: TfrmCompareFiles
   end
   object pnlButtons: TPanel
     Height = 48
-    Width = 783
+    Width = 800
     Align = alTop
     BevelOuter = bvNone
-    ClientHeight = 48
-    ClientWidth = 783
+    ClientHeight = 44
+    ClientWidth = 796
     FullRepaint = False
     TabOrder = 2
     object btnCompare: TButton
@@ -826,9 +830,9 @@ object frmCompareFiles: TfrmCompareFiles
       AnchorSideTop.Control = btnPrevDiff
       AnchorSideTop.Side = asrCenter
       Left = 403
-      Height = 23
+      Height = 22
       Top = 13
-      Width = 91
+      Width = 108
       AllowGrayed = True
       BorderSpacing.Left = 6
       Caption = 'Binary mode'
@@ -839,7 +843,7 @@ object frmCompareFiles: TfrmCompareFiles
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnPrevDiff
       AnchorSideTop.Side = asrCenter
-      Left = 606
+      Left = 639
       Height = 32
       Top = 8
       Width = 96
@@ -854,10 +858,10 @@ object frmCompareFiles: TfrmCompareFiles
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnPrevDiff
       AnchorSideTop.Side = asrCenter
-      Left = 500
-      Height = 23
+      Left = 517
+      Height = 22
       Top = 13
-      Width = 100
+      Width = 116
       AllowGrayed = True
       BorderSpacing.Left = 6
       Caption = 'Keep scrolling'
