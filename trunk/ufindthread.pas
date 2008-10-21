@@ -396,12 +396,10 @@ var
   Path : String;
 begin
   DebugLn(sNewDir);
+
+  if not mbSetCurrentDir(sNewDir) then Exit;
+
   Inc(FCurrentDepth);
-  if not mbSetCurrentDir(sNewDir) then
-    begin
-      Dec(FCurrentDepth);
-      Exit;
-    end;
 
   Path := sNewDir + PathDelim + FFileMask;
   //DebugLn('Path = ', Path);

@@ -101,6 +101,7 @@ end;
 procedure TfrmAbout.frmAboutShow(Sender: TObject);
 begin
   memInfo.Lines.Text := cAboutMsg;
+  memInfo.CaretPos:= Classes.Point(0, 0);
   lblVersion.Caption:= Format(lblVersion.Caption, [Version]);
   lblBuild.Caption := lblBuild.Caption + #32 + buildDate;
   lblLazarusVer.Caption := lblLazarusVer.Caption + #32 + LazarusVersionStr;

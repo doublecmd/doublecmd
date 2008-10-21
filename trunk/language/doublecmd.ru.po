@@ -1246,7 +1246,7 @@ msgstr "Ви&д"
 
 #: TFRMMAIN.MNUTABS.CAPTION
 msgid "&Tabs"
-msgstr "В&кладки"
+msgstr "Вк&ладки"
 
 #: TFRMMAIN.TBDELETE.CAPTION
 msgctxt "TFRMMAIN.TBDELETE.CAPTION"

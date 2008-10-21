@@ -1,21 +1,26 @@
 object frmExtractDlg: TfrmExtractDlg
-  Left = 401
+  Left = 371
   Height = 183
-  Top = 495
-  Width = 400
+  Top = 326
+  Width = 447
   HelpContext = 160
-  HorzScrollBar.Page = 399
+  HorzScrollBar.Page = 446
+  HorzScrollBar.Range = 437
   VertScrollBar.Page = 182
+  VertScrollBar.Range = 177
   ActiveControl = cbFileMask
+  AutoScroll = False
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Unpack files'
   ClientHeight = 183
-  ClientWidth = 400
+  ClientWidth = 447
   Font.Color = clBtnText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
+  ParentFont = False
   Position = poScreenCenter
+  LCLVersion = '0.9.27'
   object lblExtractTo: TLabel
     Left = 4
     Height = 16
@@ -37,22 +42,20 @@ object frmExtractDlg: TfrmExtractDlg
   end
   object cbFileMask: TComboBox
     Left = 134
-    Height = 21
+    Height = 25
     Top = 49
-    Width = 255
-    AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+    Width = 302
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
-    ItemHeight = 13
-    MaxLength = 0
+    ParentFont = False
     TabOrder = 0
     Text = '*.*'
   end
   object cbExtractPath: TCheckBox
     Left = 4
-    Height = 19
+    Height = 21
     Top = 73
-    Width = 205
+    Width = 266
     Caption = '&Unpack path names if stored with files'
     Checked = True
     Enabled = False
@@ -61,9 +64,9 @@ object frmExtractDlg: TfrmExtractDlg
   end
   object cbOverwrite: TCheckBox
     Left = 4
-    Height = 19
+    Height = 21
     Top = 95
-    Width = 130
+    Width = 167
     Caption = '&Overwrite existing files'
     Checked = True
     Enabled = False
@@ -71,10 +74,13 @@ object frmExtractDlg: TfrmExtractDlg
     TabOrder = 2
   end
   object btnOK: TButton
-    Left = 128
+    AnchorSideRight.Control = btnCancel
+    Left = 168
     Height = 32
     Top = 145
     Width = 85
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 6
     BorderSpacing.InnerBorder = 4
     Caption = 'OK'
     Default = True
@@ -82,10 +88,13 @@ object frmExtractDlg: TfrmExtractDlg
     TabOrder = 4
   end
   object btnCancel: TButton
-    Left = 216
+    AnchorSideRight.Control = btnHelp
+    Left = 259
     Height = 32
     Top = 145
     Width = 85
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 6
     BorderSpacing.InnerBorder = 4
     Cancel = True
     Caption = 'Cancel'
@@ -93,19 +102,23 @@ object frmExtractDlg: TfrmExtractDlg
     TabOrder = 5
   end
   object btnHelp: TButton
-    Left = 305
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 350
     Height = 32
     Top = 145
     Width = 85
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 12
     BorderSpacing.InnerBorder = 4
     Caption = 'Help'
     TabOrder = 6
   end
   object cbInSeparateFolder: TCheckBox
     Left = 4
-    Height = 19
+    Height = 21
     Top = 117
-    Width = 328
+    Width = 429
     Caption = 'Unpack each archive to a &separate subdir (name of the archive)'
     TabOrder = 3
   end
@@ -113,7 +126,7 @@ object frmExtractDlg: TfrmExtractDlg
     Left = 4
     Height = 23
     Top = 24
-    Width = 364
+    Width = 410
     ButtonWidth = 23
     NumGlyphs = 1
     ParentColor = False
