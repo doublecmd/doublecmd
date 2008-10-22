@@ -44,7 +44,7 @@ uses
   Graphics, Forms, Menus, Controls, Dialogs, ComCtrls,
   StdCtrls, ExtCtrls,ActnList,Buttons,
   SysUtils, Classes,  {uFilePanel,} framePanel, {FileCtrl,} Grids,
-  KASToolBar, SynEdit, KASBarMenu,KASBarFiles,uColumns, uFileList, LCLType;
+  KASToolBar, SynEdit, KASBarMenu,KASBarFiles,uColumns, uFileList, LCLType,uCmdBox,uterm;
 
 const
   cHistoryFile='cmdhistory.txt';
@@ -97,9 +97,11 @@ type
     btnF9: TSpeedButton;
     btnLeftDirectoryHotlist: TSpeedButton;
     btnRightDirectoryHotlist: TSpeedButton;
+    CmdBox1: TCmdBox;
     dskLeft: TKAStoolBar;
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
+    lblCommandPath: TLabel;
     mnuHelpVisitHomePage: TMenuItem;
     mnuHelpKeyboard: TMenuItem;
     MenuItem2: TMenuItem;
@@ -142,8 +144,10 @@ type
     miLine10: TMenuItem;
     MenuItem4: TMenuItem;
     mnuFileAssoc: TMenuItem;
+    Notebook1: TNotebook;
+    Page1: TPage;
+    Panel1: TPanel;
     pmButtonMenu: TKASBarMenu;
-    lblCommandPath: TLabel;
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
     MainToolBar: TKASToolBar;
@@ -173,6 +177,7 @@ type
     pmDropMenu: TPopupMenu;
     pmTabMenu: TPopupMenu;
     seLogWindow: TSynEdit;
+    Splitter1: TSplitter;
     tbDelete: TMenuItem;
     tbEdit: TMenuItem;
     mnuMain: TMainMenu;
@@ -398,10 +403,10 @@ type
     published
     property SelectedPanel:TFilePanelSelect read PanelSelected;
   end;
-
 var
   frmMain: TfrmMain;
-  
+  Cons:TConThread;
+
 implementation
 
 uses
@@ -528,6 +533,13 @@ begin
   HotMan.RegisterHotkeyManager(edtCommand);
 
   if hotman.HotkeyList.Count=0 then LoadDefaultHotkeyBindings;
+  {$IFDEF unix}
+  Cons:=TConThread.Create;
+  Cons.ColsCount:=80;
+  Cons.RowsCount:=CmdBox1.LineCount;
+  Cons.CmdBox:=CmdBox1;
+  Cons.Resume;
+  {$ENDIF}
 end;
 
 
@@ -886,6 +898,9 @@ begin
     SaveGlobs;
   except
   end;
+
+ if assigned(Cons) then
+  Cons.Free;
   Application.Terminate;
 end;
 
@@ -2242,6 +2257,10 @@ begin
   PanelSelected:=panel;
   ActiveFrame.SetFocus;
   NotActiveFrame.dgPanelExit(self);
+  {$IFDEF unix}
+    Cons.Terminal.Write_pty('cd "'+ActiveFrame.ActiveDir+'"'+#13+#10);
+  {$ENDIF}
+
 end;
 
 procedure TfrmMain.UpdateDiskCount;
@@ -2805,6 +2824,7 @@ begin
         GetDir(0,sDir);
         ActiveDir:=sDir;
         DebugLn(sDir);
+        Cons.Terminal.Write_pty('cd "'+sDir+'"'+#13#10);
       end;
     end;
   end
@@ -2812,7 +2832,16 @@ begin
   begin
     if edtCommand.Items.IndexOf(sCmd)=-1 then
       edtCommand.Items.Insert(0,sCmd);
+
+    {$IFDEF MSWINDOWS}
     ExecCmdFork(sCmd, True, gTerm);
+    {$ENDIF}
+
+    {$IFDEF unix}
+    Cons.Terminal.Write_pty(sCmd+#13#10);
+    {$ENDIF}
+
+
     edtCommand.DroppedDown:=False;
     // only cMaxStringItems(see uGlobs.pas) is stored
     if edtCommand.Items.Count>cMaxStringItems then

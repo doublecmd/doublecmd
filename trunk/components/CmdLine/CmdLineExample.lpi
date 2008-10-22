@@ -1,0 +1,201 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectOptions>
+    <PathDelim Value="\"/>
+    <Version Value="6"/>
+    <General>
+      <MainUnit Value="0"/>
+      <IconPath Value="./"/>
+      <TargetFileExt Value=".exe"/>
+      <ActiveEditorIndexAtStart Value="1"/>
+    </General>
+    <VersionInfo>
+      <ProjectVersion Value=""/>
+      <Language Value=""/>
+      <CharSet Value=""/>
+    </VersionInfo>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="1">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+    </RequiredPackages>
+    <Units Count="8">
+      <Unit0>
+        <Filename Value="CmdLineExample.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="CmdLineExample"/>
+        <CursorPos X="27" Y="11"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="148"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="wnmainform.pas"/>
+        <ComponentName Value="WMainForm"/>
+        <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <ResourceFilename Value="wnmainform.lrs"/>
+        <UnitName Value="wnmainform"/>
+        <CursorPos X="63" Y="113"/>
+        <TopLine Value="63"/>
+        <EditorIndex Value="0"/>
+        <UsageCount Value="148"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\ucmdline.pas"/>
+        <UnitName Value="ucmdline"/>
+        <CursorPos X="48" Y="1083"/>
+        <TopLine Value="146"/>
+        <UsageCount Value="4"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="wnmainform.lfm"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="46"/>
+        <SyntaxHighlighter Value="LFM"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="tcmdbox.lrs"/>
+        <CursorPos X="17" Y="1"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="13"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="ucmdline.pas"/>
+        <UnitName Value="ucmdline"/>
+        <CursorPos X="8" Y="30"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="30"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\uflowcharteditor.pas"/>
+        <UnitName Value="uflowcharteditor"/>
+        <CursorPos X="25" Y="1039"/>
+        <TopLine Value="1015"/>
+        <UsageCount Value="16"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="ucmdbox.pas"/>
+        <UnitName Value="uCmdBox"/>
+        <CursorPos X="45" Y="1488"/>
+        <TopLine Value="1448"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="48"/>
+        <Loaded Value="True"/>
+      </Unit7>
+    </Units>
+    <JumpHistory Count="17" HistoryIndex="16">
+      <Position1>
+        <Filename Value="ucmdbox.pas"/>
+        <Caret Line="994" Column="6" TopLine="964"/>
+      </Position1>
+      <Position2>
+        <Filename Value="ucmdbox.pas"/>
+        <Caret Line="309" Column="26" TopLine="278"/>
+      </Position2>
+      <Position3>
+        <Filename Value="ucmdbox.pas"/>
+        <Caret Line="229" Column="66" TopLine="203"/>
+      </Position3>
+      <Position4>
+        <Filename Value="ucmdbox.pas"/>
+        <Caret Line="1349" Column="47" TopLine="1312"/>
+      </Position4>
+      <Position5>
+        <Filename Value="ucmdbox.pas"/>
+        <Caret Line="1532" Column="69" TopLine="1495"/>
+      </Position5>
+      <Position6>
+        <Filename Value="ucmdbox.pas"/>
+        <Caret Line="1557" Column="68" TopLine="1520"/>
+      </Position6>
+      <Position7>
+        <Filename Value="ucmdbox.pas"/>
+        <Caret Line="2159" Column="45" TopLine="2122"/>
+      </Position7>
+      <Position8>
+        <Filename Value="ucmdbox.pas"/>
+        <Caret Line="2160" Column="48" TopLine="2123"/>
+      </Position8>
+      <Position9>
+        <Filename Value="ucmdbox.pas"/>
+        <Caret Line="2162" Column="50" TopLine="2125"/>
+      </Position9>
+      <Position10>
+        <Filename Value="ucmdbox.pas"/>
+        <Caret Line="2174" Column="31" TopLine="2144"/>
+      </Position10>
+      <Position11>
+        <Filename Value="ucmdbox.pas"/>
+        <Caret Line="2181" Column="34" TopLine="2144"/>
+      </Position11>
+      <Position12>
+        <Filename Value="ucmdbox.pas"/>
+        <Caret Line="308" Column="1" TopLine="271"/>
+      </Position12>
+      <Position13>
+        <Filename Value="ucmdbox.pas"/>
+        <Caret Line="174" Column="93" TopLine="159"/>
+      </Position13>
+      <Position14>
+        <Filename Value="ucmdbox.pas"/>
+        <Caret Line="1491" Column="34" TopLine="1454"/>
+      </Position14>
+      <Position15>
+        <Filename Value="ucmdbox.pas"/>
+        <Caret Line="86" Column="1" TopLine="49"/>
+      </Position15>
+      <Position16>
+        <Filename Value="ucmdbox.pas"/>
+        <Caret Line="165" Column="32" TopLine="128"/>
+      </Position16>
+      <Position17>
+        <Filename Value="ucmdbox.pas"/>
+        <Caret Line="850" Column="20" TopLine="829"/>
+      </Position17>
+    </JumpHistory>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="5"/>
+    <PathDelim Value="\"/>
+    <CodeGeneration>
+      <Checks>
+        <RangeChecks Value="True"/>
+        <OverflowChecks Value="True"/>
+      </Checks>
+      <Generate Value="Faster"/>
+    </CodeGeneration>
+    <Linking>
+      <Debugging>
+        <StripSymbols Value="True"/>
+      </Debugging>
+      <LinkSmart Value="True"/>
+    </Linking>
+    <Other>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="2">
+      <Item1>
+        <Name Value="ECodetoolError"/>
+      </Item1>
+      <Item2>
+        <Name Value="EFOpenError"/>
+      </Item2>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

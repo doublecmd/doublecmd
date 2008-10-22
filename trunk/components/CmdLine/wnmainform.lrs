@@ -1,0 +1,81 @@
+{ Das ist eine automatisch erzeugte Lazarus-Ressourcendatei }
+
+LazarusResources.Add('TWMainForm','FORMDATA',[
+  'TPF0'#10'TWMainForm'#9'WMainForm'#4'Left'#3'?'#1#6'Height'#3#224#1#3'Top'#3
+  +'Q'#1#5'Width'#3#208#2#13'ActiveControl'#7#6'CmdBox'#7'Caption'#6#27'TCmdBox'
+  +' Example Application'#12'ClientHeight'#3#224#1#11'ClientWidth'#3#208#2#8'On'
+  +'Create'#7#10'FormCreate'#9'OnDestroy'#7#11'FormDestroy'#8'Position'#7#14'po'
+  +'ScreenCenter'#10'LCLVersion'#6#6'0.9.25'#0#6'TPanel'#10'RightPanel'#4'Left'
+  +#3'C'#2#6'Height'#3#224#1#5'Width'#3#141#0#5'Align'#7#7'alRight'#12'ClientHe'
+  +'ight'#3#224#1#11'ClientWidth'#3#141#0#8'TabOrder'#2#0#0#6'TLabel'#6'Label1'
+  +#4'Left'#2#16#6'Height'#2#14#3'Top'#2#8#5'Width'#2'#'#7'Caption'#6#7'History'
+  +#11'ParentColor'#8#0#0#7'TButton'#7'Button1'#4'Left'#2#16#6'Height'#2#25#3'T'
+  +'op'#3#184#1#5'Width'#2'm'#7'Anchors'#11#6'akLeft'#7'akRight'#8'akBottom'#0
+  +#25'BorderSpacing.InnerBorder'#2#4#7'Caption'#6#12'End Programm'#7'OnClick'#7
+  +#12'Button1Click'#8'TabOrder'#2#0#0#0#8'TListBox'#11'HistoryList'#4'Left'#2
+  +#16#6'Height'#3#29#1#3'Top'#2#24#5'Width'#2'm'#7'Anchors'#11#5'akTop'#6'akLe'
+  +'ft'#7'akRight'#8'akBottom'#0#8'TabOrder'#2#1#0#0#7'TButton'#7'Button2'#4'Le'
+  +'ft'#2#16#6'Height'#2#25#3'Top'#3';'#1#5'Width'#2'm'#7'Anchors'#11#6'akLeft'
+  +#7'akRight'#8'akBottom'#0#25'BorderSpacing.InnerBorder'#2#4#7'Caption'#6#5'C'
+  +'lear'#7'OnClick'#7#12'Button2Click'#8'TabOrder'#2#2#0#0#9'TComboBox'#10'CbS'
+  +'etCaret'#4'Left'#2#16#6'Height'#2#21#3'Top'#3#141#1#5'Width'#2'm'#7'Anchors'
+  +#11#6'akLeft'#7'akRight'#8'akBottom'#0#16'AutoCompleteText'#11#22'cbactEndOf'
+  +'LineComplete'#20'cbactSearchAscending'#0#10'ItemHeight'#2#13#9'ItemIndex'#2
+  +#0#13'Items.Strings'#1#6#10'Caret-Line'#6#13'Caret-Sub-Bar'#6#13'Caret-Big-B'
+  +'ar'#0#8'OnChange'#7#16'CbSetCaretChange'#5'Style'#7#14'csDropDownList'#8'Ta'
+  +'bOrder'#2#3#4'Text'#6#10'Caret-Line'#0#0#7'TButton'#7'Button3'#4'Left'#2#16
+  +#6'Height'#2#25#3'Top'#3'a'#1#5'Width'#2'm'#7'Anchors'#11#6'akLeft'#7'akRigh'
+  +'t'#8'akBottom'#0#7'Caption'#6#7'Process'#7'OnClick'#7#12'Button3Click'#8'Ta'
+  +'bOrder'#2#4#0#0#0#9'TSplitter'#9'Splitter1'#4'Left'#3'>'#2#6'Height'#3#224#1
+  +#5'Width'#2#5#5'Align'#7#7'alRight'#7'Beveled'#9#12'ResizeAnchor'#7#7'akRigh'
+  +'t'#0#0#7'TCmdBox'#6'CmdBox'#6'Height'#3#224#1#5'Width'#3'>'#2#5'Align'#7#8
+  +'alClient'#10'CaretColor'#4#255#128#0#0#9'CaretType'#7#8'cartUser'#10'CaretW'
+  +'idth'#2#1#11'CaretHeight'#2#13#11'CaretYShift'#2#3#7'OnInput'#7#11'CmdBoxIn'
+  +'put'#9'LineCount'#3#232#3#12'Font.CharSet'#7#12'ANSI_CHARSET'#10'Font.Color'
+  +#7#8'clSilver'#11'Font.Height'#2#240#9'Font.Name'#6#5'Arial'#10'Font.Pitch'#7
+  +#10'fpVariable'#15'BackGroundColor'#7#6'clNavy'#8'TabWidth'#2'<'#12'PassWord'
+  +'Char'#6#1'*'#10'HistoryMax'#2#10#13'InputSelColor'#7#8'clPurple'#18'InputSe'
+  +'lBackGround'#7#8'clSilver'#13'CaretInterval'#3#244#1#23'GraphicalCharacterW'
+  +'idth'#2#10#10'AutoFollow'#9#0#0#6'TTimer'#11'ReaderTimer'#8'Interval'#3#188
+  +#2#7'OnTimer'#7#16'ReaderTimerTimer'#4'left'#2'B'#3'top'#2'K'#0#0#6'TTimer'
+  +#12'ProcessTimer'#7'Enabled'#8#8'Interval'#2'd'#7'OnTimer'#7#17'ProcessTimer'
+  +'Timer'#4'left'#2'h'#3'top'#2'K'#0#0#0#10'TWMainForm'#9'WMainForm'#4'Left'#3
+  +'?'#1#6'Height'#3#224#1#3'Top'#3'Q'#1#5'Width'#3#208#2#13'ActiveControl'#7#6
+  +'CmdBox'#7'Caption'#6#27'TCmdBox Example Application'#12'ClientHeight'#3#224
+  +#1#11'ClientWidth'#3#208#2#8'OnCreate'#7#10'FormCreate'#9'OnDestroy'#7#11'Fo'
+  +'rmDestroy'#8'Position'#7#14'poScreenCenter'#10'LCLVersion'#6#6'0.9.25'#0#6
+  +'TPanel'#10'RightPanel'#4'Left'#3'C'#2#6'Height'#3#224#1#5'Width'#3#141#0#5
+  +'Align'#7#7'alRight'#12'ClientHeight'#3#224#1#11'ClientWidth'#3#141#0#8'TabO'
+  +'rder'#2#0#0#6'TLabel'#6'Label1'#4'Left'#2#16#6'Height'#2#14#3'Top'#2#8#5'Wi'
+  +'dth'#2'#'#7'Caption'#6#7'History'#11'ParentColor'#8#0#0#7'TButton'#7'Button'
+  +'1'#4'Left'#2#16#6'Height'#2#25#3'Top'#3#184#1#5'Width'#2'm'#7'Anchors'#11#6
+  +'akLeft'#7'akRight'#8'akBottom'#0#25'BorderSpacing.InnerBorder'#2#4#7'Captio'
+  +'n'#6#12'End Programm'#7'OnClick'#7#12'Button1Click'#8'TabOrder'#2#0#0#0#8'T'
+  +'ListBox'#11'HistoryList'#4'Left'#2#16#6'Height'#3#29#1#3'Top'#2#24#5'Width'
+  +#2'm'#7'Anchors'#11#5'akTop'#6'akLeft'#7'akRight'#8'akBottom'#0#8'TabOrder'#2
+  +#1#0#0#7'TButton'#7'Button2'#4'Left'#2#16#6'Height'#2#25#3'Top'#3';'#1#5'Wid'
+  +'th'#2'm'#7'Anchors'#11#6'akLeft'#7'akRight'#8'akBottom'#0#25'BorderSpacing.'
+  +'InnerBorder'#2#4#7'Caption'#6#5'Clear'#7'OnClick'#7#12'Button2Click'#8'TabO'
+  +'rder'#2#2#0#0#9'TComboBox'#10'CbSetCaret'#4'Left'#2#16#6'Height'#2#21#3'Top'
+  +#3#141#1#5'Width'#2'm'#7'Anchors'#11#6'akLeft'#7'akRight'#8'akBottom'#0#16'A'
+  +'utoCompleteText'#11#22'cbactEndOfLineComplete'#20'cbactSearchAscending'#0#10
+  +'ItemHeight'#2#13#9'ItemIndex'#2#0#13'Items.Strings'#1#6#10'Caret-Line'#6#13
+  +'Caret-Sub-Bar'#6#13'Caret-Big-Bar'#0#8'OnChange'#7#16'CbSetCaretChange'#5'S'
+  +'tyle'#7#14'csDropDownList'#8'TabOrder'#2#3#4'Text'#6#10'Caret-Line'#0#0#7'T'
+  +'Button'#7'Button3'#4'Left'#2#16#6'Height'#2#25#3'Top'#3'a'#1#5'Width'#2'm'#7
+  +'Anchors'#11#6'akLeft'#7'akRight'#8'akBottom'#0#7'Caption'#6#7'Process'#7'On'
+  +'Click'#7#12'Button3Click'#8'TabOrder'#2#4#0#0#0#9'TSplitter'#9'Splitter1'#4
+  ,'Left'#3'>'#2#6'Height'#3#224#1#5'Width'#2#5#5'Align'#7#7'alRight'#7'Beveled'
+  +#9#12'ResizeAnchor'#7#7'akRight'#0#0#7'TCmdBox'#6'CmdBox'#6'Height'#3#224#1#5
+  +'Width'#3'>'#2#5'Align'#7#8'alClient'#10'CaretColor'#4#255#128#0#0#9'CaretTy'
+  +'pe'#7#8'cartUser'#10'CaretWidth'#2#1#11'CaretHeight'#2#13#11'CaretYShift'#2
+  +#3#7'OnInput'#7#11'CmdBoxInput'#9'LineCount'#3#232#3#12'Font.CharSet'#7#12'A'
+  +'NSI_CHARSET'#10'Font.Color'#7#8'clSilver'#11'Font.Height'#2#240#9'Font.Name'
+  +#6#5'Arial'#10'Font.Pitch'#7#10'fpVariable'#15'BackGroundColor'#7#6'clNavy'#8
+  +'TabWidth'#2'<'#12'PassWordChar'#6#1'*'#10'HistoryMax'#2#10#13'InputSelColor'
+  +#7#8'clPurple'#18'InputSelBackGround'#7#8'clSilver'#13'CaretInterval'#3#244#1
+  +#23'GraphicalCharacterWidth'#2#10#10'AutoFollow'#9#0#0#6'TTimer'#11'ReaderTi'
+  +'mer'#8'Interval'#3#188#2#7'OnTimer'#7#16'ReaderTimerTimer'#4'left'#2'B'#3't'
+  +'op'#2'K'#0#0#6'TTimer'#12'ProcessTimer'#7'Enabled'#8#8'Interval'#2'd'#7'OnT'
+  +'imer'#7#17'ProcessTimerTimer'#4'left'#2'h'#3'top'#2'K'#0#0#0
+]);
