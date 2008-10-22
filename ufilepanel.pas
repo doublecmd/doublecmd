@@ -110,7 +110,7 @@ implementation
 uses
   LCLProc, SysUtils, Masks, uFileOp, uGlobs, uVFSutil,
   uShowMsg, Controls, uLng, uShowForm, uVFSmodule, uDCUtils,
-  uOSUtils;
+  uOSUtils,fMain;
 
 constructor TFilePanel.Create(AOwner : TObject; APanel:TDrawGrid; AlblPath: TLabel; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
 begin
@@ -608,6 +608,9 @@ begin
             begin
               LastActive:=Copy(fActiveDir,i+1,length(fActiveDir)-i+1);
               fActiveDir:=Copy(fActiveDir,1, i);
+              {$IFDEF unix}
+              Cons.Terminal.Write_pty('cd "'+fActiveDir+'"'+#13#10);
+              {$ENDIF}
               bPathFound:=True;
               Break;
             end;
@@ -634,6 +637,9 @@ begin
       with frp^ do
       begin
         ActiveDir:=ActiveDir+sName+DirectorySeparator;
+        {$IFDEF unix}
+        Cons.Terminal.Write_pty('cd "'+ActiveDir+'"'+#13#10);
+        {$ENDIF}
         LastActive:='';
         if glsDirHistory.IndexOf(ActiveDir)=-1 then
           glsDirHistory.Insert(0,ActiveDir);
