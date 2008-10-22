@@ -1,12 +1,17 @@
 object frmMoveDlg: TfrmMoveDlg
   Left = 303
-  Height = 154
+  Height = 180
   Top = 194
-  Width = 345
+  Width = 350
+  HorzScrollBar.Page = 349
+  HorzScrollBar.Range = 337
+  VertScrollBar.Page = 179
+  VertScrollBar.Range = 160
   ActiveControl = btnOK
+  AutoScroll = False
   Caption = 'Move file(s)'
-  ClientHeight = 154
-  ClientWidth = 345
+  ClientHeight = 180
+  ClientWidth = 350
   KeyPreview = True
   OnKeyPress = frmMoveDlgKeyPress
   OnShow = frmMoveDlgShow
@@ -15,33 +20,45 @@ object frmMoveDlg: TfrmMoveDlg
   LCLVersion = '0.9.27'
   object lblMoveSrc: TLabel
     AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 14
+    Height = 20
     Top = 8
-    Width = 329
+    Width = 334
     Anchors = [akTop, akLeft, akRight]
     AutoSize = False
     BorderSpacing.Left = 8
+    BorderSpacing.Top = 8
     BorderSpacing.Right = 8
     Caption = 'Move %s:'
     ParentColor = False
   end
   object lblFileType: TLabel
-    Left = 8
-    Height = 14
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = edtDst
+    AnchorSideTop.Side = asrBottom
+    Left = 12
+    Height = 19
     Top = 64
-    Width = 52
+    Width = 68
+    BorderSpacing.Left = 12
+    BorderSpacing.Top = 6
     Caption = 'Only type:'
     ParentColor = False
   end
   object btnOK: TBitBtn
-    Left = 170
+    AnchorSideTop.Control = cmbFileType
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnCancel
+    Left = 156
     Height = 32
-    Top = 120
-    Width = 75
+    Top = 129
+    Width = 90
     Anchors = [akTop, akRight]
+    BorderSpacing.Top = 12
+    BorderSpacing.Right = 6
     BorderSpacing.InnerBorder = 2
     Caption = '&OK'
     Default = True
@@ -51,11 +68,17 @@ object frmMoveDlg: TfrmMoveDlg
     TabOrder = 0
   end
   object btnCancel: TBitBtn
-    Left = 260
+    AnchorSideTop.Control = cmbFileType
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 252
     Height = 32
-    Top = 120
-    Width = 75
+    Top = 129
+    Width = 90
     Anchors = [akTop, akRight]
+    BorderSpacing.Top = 12
+    BorderSpacing.Right = 8
     BorderSpacing.InnerBorder = 2
     Cancel = True
     Caption = 'Cancel'
@@ -65,19 +88,36 @@ object frmMoveDlg: TfrmMoveDlg
     TabOrder = 1
   end
   object edtDst: TEdit
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblMoveSrc
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     Left = 8
     Height = 24
-    Top = 32
-    Width = 329
+    Top = 34
+    Width = 334
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 8
     TabOrder = 2
   end
   object cmbFileType: TComboBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblFileType
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 21
-    Top = 88
-    Width = 329
+    Height = 28
+    Top = 89
+    Width = 334
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 8
     Enabled = False
-    ItemHeight = 13
     ParentCtl3D = False
     TabOrder = 3
   end
