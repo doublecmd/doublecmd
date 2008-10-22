@@ -1,14 +1,19 @@
 object frmCopyDlg: TfrmCopyDlg
   Left = 286
-  Height = 187
+  Height = 206
   Top = 169
-  Width = 345
+  Width = 350
+  HorzScrollBar.Page = 349
+  HorzScrollBar.Range = 337
+  VertScrollBar.Page = 205
+  VertScrollBar.Range = 186
   ActiveControl = btnOK
+  AutoScroll = False
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Copy file(s)'
-  ClientHeight = 187
-  ClientWidth = 345
+  ClientHeight = 206
+  ClientWidth = 350
   OnKeyPress = frmCopyDlgKeyPress
   OnShow = frmCopyDlgShow
   ParentFont = False
@@ -16,32 +21,45 @@ object frmCopyDlg: TfrmCopyDlg
   LCLVersion = '0.9.27'
   object lblCopySrc: TLabel
     AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 14
+    Height = 20
     Top = 8
-    Width = 329
+    Width = 334
     Anchors = [akTop, akLeft, akRight]
     AutoSize = False
     BorderSpacing.Left = 8
+    BorderSpacing.Top = 8
     BorderSpacing.Right = 8
     Caption = 'Copy %s:'
     ParentColor = False
   end
   object lblFileType: TLabel
-    Left = 8
-    Height = 14
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = edtDst
+    AnchorSideTop.Side = asrBottom
+    Left = 12
+    Height = 19
     Top = 64
-    Width = 52
+    Width = 68
+    BorderSpacing.Left = 12
+    BorderSpacing.Top = 6
     Caption = 'Only type:'
     ParentColor = False
   end
   object btnOK: TBitBtn
-    Left = 176
+    AnchorSideTop.Control = cbDropReadOnlyFlag
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnCancel
+    Left = 164
     Height = 32
-    Top = 144
-    Width = 75
+    Top = 157
+    Width = 82
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 12
+    BorderSpacing.Right = 6
     BorderSpacing.InnerBorder = 2
     Caption = '&OK'
     Default = True
@@ -51,10 +69,17 @@ object frmCopyDlg: TfrmCopyDlg
     TabOrder = 0
   end
   object btnCancel: TBitBtn
-    Left = 262
+    AnchorSideTop.Control = cbDropReadOnlyFlag
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 252
     Height = 32
-    Top = 144
-    Width = 75
+    Top = 157
+    Width = 90
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 12
+    BorderSpacing.Right = 8
     BorderSpacing.InnerBorder = 2
     Cancel = True
     Caption = 'Cancel'
@@ -64,27 +89,49 @@ object frmCopyDlg: TfrmCopyDlg
     TabOrder = 1
   end
   object edtDst: TEdit
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblCopySrc
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     Left = 8
     Height = 24
-    Top = 32
-    Width = 329
+    Top = 34
+    Width = 334
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 8
     TabOrder = 2
   end
   object cmbFileType: TComboBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblFileType
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 21
-    Top = 88
-    Width = 329
+    Height = 28
+    Top = 89
+    Width = 334
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 8
     Enabled = False
-    ItemHeight = 13
     ParentCtl3D = False
     TabOrder = 3
   end
   object cbDropReadOnlyFlag: TCheckBox
-    Left = 8
-    Height = 19
-    Top = 120
-    Width = 115
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = cmbFileType
+    AnchorSideTop.Side = asrBottom
+    Left = 12
+    Height = 22
+    Top = 123
+    Width = 145
+    BorderSpacing.Left = 12
+    BorderSpacing.Top = 6
     Caption = 'Drop readonly flag'
     TabOrder = 4
   end
