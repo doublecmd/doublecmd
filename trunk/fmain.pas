@@ -44,7 +44,7 @@ uses
   Graphics, Forms, Menus, Controls, Dialogs, ComCtrls,
   StdCtrls, ExtCtrls,ActnList,Buttons,
   SysUtils, Classes,  {uFilePanel,} framePanel, {FileCtrl,} Grids,
-  KASToolBar, SynEdit, KASBarMenu,KASBarFiles,uColumns, uFileList, LCLType,uCmdBox,uterm;
+  KASToolBar, SynEdit, KASBarMenu,KASBarFiles,uColumns, uFileList, LCLType,uCmdBox{$IFDEF UNIX},uterm{$ENDIF};
 
 const
   cHistoryFile='cmdhistory.txt';
@@ -405,7 +405,9 @@ type
   end;
 var
   frmMain: TfrmMain;
+{$IFDEF UNIX}
   Cons:TConThread;
+{$ENDIF}
 
 implementation
 
@@ -899,8 +901,10 @@ begin
   except
   end;
 
+{$IFDEF UNIX}
  if assigned(Cons) then
   Cons.Free;
+{$ENDIF}
   Application.Terminate;
 end;
 
@@ -2824,7 +2828,9 @@ begin
         GetDir(0,sDir);
         ActiveDir:=sDir;
         DebugLn(sDir);
+{$IFDEF UNIX}
         Cons.Terminal.Write_pty('cd "'+sDir+'"'+#13#10);
+{$ENDIF}
       end;
     end;
   end
