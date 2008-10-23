@@ -46,6 +46,11 @@ type
 function GetCmdDirFromEnvVar(sPath : String) : String;
 function SetCmdDirAsEnvVar(sPath : String) : String;
 function GetTempFolder: String;
+{en
+   Get last directory name in path
+   @returns(Last directory name in path)
+}
+function GetLastDir(Path : String) : String;
 function GetSplitFileName(var sFileName, sPath : String) : String;
 {en
    Split path into list of directories
@@ -161,6 +166,15 @@ begin
   if not mbDirectoryExists(Result) then
     mbCreateDir(Result);
   Result:= Result + PathDelim;
+end;
+
+function GetLastDir(Path : String) : String;
+begin
+  Result:= ExtractFileName(ExcludeTrailingPathDelimiter(Path));
+  if Result = '' then
+    Result:= ExtractFileDrive(Path);
+  if Result = '' then
+    Result:= PathDelim;
 end;
 
 function GetSplitFileName(var sFileName, sPath : String) : String;

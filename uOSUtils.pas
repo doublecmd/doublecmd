@@ -140,11 +140,6 @@ function GetHomeDir : String;
    @returns(The directory for the application's configuration files)
 }
 function GetAppConfigDir: String;
-{en
-   Get last directory name in path
-   @returns(Last directory name in path)
-}
-function GetLastDir(Path : String) : String;
 
 function IsAvailable(Path : String) : Boolean;
 function GetAllDrives : TList;
@@ -537,13 +532,6 @@ begin
   Result:= SysUtils.GetAppConfigDir(False);
 end;
 {$ENDIF}
-
-function GetLastDir(Path : String) : String;
-begin
-Result := ExtractFileName(ExcludeTrailingPathDelimiter(Path));
-if Result = '' then
-  Result := ExtractFileDrive(Path);
-end;
 
 function IsAvailable(Path: String): Boolean;
 {$IFDEF MSWINDOWS}

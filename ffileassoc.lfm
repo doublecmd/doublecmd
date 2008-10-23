@@ -3,11 +3,7 @@ object frmFileAssoc: TfrmFileAssoc
   Height = 582
   Top = 33
   Width = 554
-  HorzScrollBar.Page = 553
-  VertScrollBar.Page = 581
   ActiveControl = lbFileTypes
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
   Caption = 'File associations'
   ClientHeight = 582
   ClientWidth = 554
@@ -15,32 +11,52 @@ object frmFileAssoc: TfrmFileAssoc
   Font.Height = 13
   Font.Pitch = fpVariable
   OnCreate = FormCreate
+  ParentFont = False
   Position = poDesktopCenter
+  LCLVersion = '0.9.27'
   object gbFileTypes: TGroupBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = gbExts
+    Left = 6
     Height = 528
-    Width = 265
+    Width = 259
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 6
+    BorderSpacing.Right = 6
     Caption = 'File types'
     ClientHeight = 510
-    ClientWidth = 261
+    ClientWidth = 255
     TabOrder = 0
     object lbFileTypes: TListBox
-      Left = 10
+      AnchorSideLeft.Control = gbFileTypes
+      AnchorSideTop.Control = gbFileTypes
+      AnchorSideRight.Control = gbFileTypes
+      AnchorSideRight.Side = asrBottom
+      Left = 6
       Height = 418
       Top = 6
-      Width = 244
+      Width = 243
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      BorderSpacing.Right = 6
       Color = clWhite
       Font.Color = clBlack
       Font.Pitch = fpVariable
       ItemHeight = 20
       OnDrawItem = lbFileTypesDrawItem
       OnSelectionChange = lbFileTypesSelectionChange
+      ParentFont = False
       Style = lbOwnerDrawFixed
       TabOrder = 0
     end
     object btnAddNewType: TButton
+      AnchorSideLeft.Control = lbFileTypes
+      AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = lbFileTypes
       AnchorSideTop.Side = asrBottom
-      Left = 10
+      Left = 5
       Height = 32
       Top = 430
       Width = 244
@@ -49,12 +65,14 @@ object frmFileAssoc: TfrmFileAssoc
       Font.Color = clBlack
       Font.Pitch = fpVariable
       OnClick = btnAddNewTypeClick
+      ParentFont = False
       TabOrder = 1
     end
     object btnRemoveType: TButton
+      AnchorSideLeft.Control = btnAddNewType
       AnchorSideTop.Control = btnAddNewType
       AnchorSideTop.Side = asrBottom
-      Left = 10
+      Left = 5
       Height = 32
       Top = 468
       Width = 118
@@ -63,31 +81,38 @@ object frmFileAssoc: TfrmFileAssoc
       Font.Color = clBlack
       Font.Pitch = fpVariable
       OnClick = btnRemoveTypeClick
+      ParentFont = False
       TabOrder = 3
     end
     object btnRenameType: TButton
       AnchorSideTop.Control = btnAddNewType
       AnchorSideTop.Side = asrBottom
-      Left = 136
+      AnchorSideRight.Control = btnAddNewType
+      AnchorSideRight.Side = asrBottom
+      Left = 131
       Height = 32
       Top = 468
       Width = 118
+      Anchors = [akTop, akRight]
       BorderSpacing.Top = 6
       Caption = 'Rename'
       Font.Color = clBlack
       Font.Pitch = fpVariable
       OnClick = btnRenameTypeClick
+      ParentFont = False
       TabOrder = 2
     end
   end
   object gbExts: TGroupBox
-    AnchorSideLeft.Control = gbFileTypes
     AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     Left = 271
     Height = 135
-    Top = 2
     Width = 273
-    BorderSpacing.Left = 6
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 10
     Caption = 'Extensions'
     ClientHeight = 117
     ClientWidth = 269
@@ -101,7 +126,7 @@ object frmFileAssoc: TfrmFileAssoc
       Font.Color = clBlack
       Font.Pitch = fpVariable
       ItemHeight = 20
-      Style = lbStandard
+      ParentFont = False
       TabOrder = 0
       TabStop = False
     end
@@ -117,6 +142,7 @@ object frmFileAssoc: TfrmFileAssoc
       Font.Color = clBlack
       Font.Pitch = fpVariable
       OnClick = btnAddExtClick
+      ParentFont = False
       TabOrder = 1
     end
     object btnRemoveExt: TButton
@@ -134,20 +160,23 @@ object frmFileAssoc: TfrmFileAssoc
       Font.Color = clBlack
       Font.Pitch = fpVariable
       OnClick = btnRemoveExtClick
+      ParentFont = False
       TabOrder = 2
     end
   end
   object gbActions: TGroupBox
-    AnchorSideLeft.Control = gbFileTypes
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = gbExts
     AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     Left = 271
     Height = 305
-    Top = 143
+    Top = 141
     Width = 273
-    BorderSpacing.Left = 6
+    Anchors = [akTop, akRight]
     BorderSpacing.Top = 6
+    BorderSpacing.Right = 10
     Caption = 'Actions'
     ClientHeight = 287
     ClientWidth = 269
@@ -173,7 +202,7 @@ object frmFileAssoc: TfrmFileAssoc
       Font.Pitch = fpVariable
       ItemHeight = 20
       OnSelectionChange = lbActionsSelectionChange
-      Style = lbStandard
+      ParentFont = False
       TabOrder = 0
     end
     object btnUpAct: TButton
@@ -188,6 +217,7 @@ object frmFileAssoc: TfrmFileAssoc
       Font.Color = clBlack
       Font.Pitch = fpVariable
       OnClick = btnUpActClick
+      ParentFont = False
       TabOrder = 1
     end
     object btnDownAct: TButton
@@ -205,6 +235,7 @@ object frmFileAssoc: TfrmFileAssoc
       Font.Color = clBlack
       Font.Pitch = fpVariable
       OnClick = btnDownActClick
+      ParentFont = False
       TabOrder = 2
     end
     object btnAddAct: TButton
@@ -223,6 +254,7 @@ object frmFileAssoc: TfrmFileAssoc
       Font.Color = clBlack
       Font.Pitch = fpVariable
       OnClick = btnAddActClick
+      ParentFont = False
       TabOrder = 3
     end
     object btnRemoveAct: TButton
@@ -241,6 +273,7 @@ object frmFileAssoc: TfrmFileAssoc
       Font.Color = clBlack
       Font.Pitch = fpVariable
       OnClick = btnRemoveActClick
+      ParentFont = False
       TabOrder = 4
     end
     object ledAction: TLabeledEdit
@@ -251,9 +284,11 @@ object frmFileAssoc: TfrmFileAssoc
       Top = 197
       Width = 251
       BorderSpacing.Top = 28
+      EditLabel.AnchorSideLeft.Control = ledAction
+      EditLabel.AnchorSideBottom.Control = ledAction
       EditLabel.Left = 10
       EditLabel.Height = 14
-      EditLabel.Top = 180
+      EditLabel.Top = 155
       EditLabel.Width = 35
       EditLabel.Caption = 'Action:'
       EditLabel.ParentColor = False
@@ -277,16 +312,18 @@ object frmFileAssoc: TfrmFileAssoc
     end
   end
   object gbIcon: TGroupBox
-    AnchorSideLeft.Control = gbFileTypes
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = gbActions
     AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     Left = 271
     Height = 74
-    Top = 454
+    Top = 452
     Width = 273
-    BorderSpacing.Left = 6
+    Anchors = [akTop, akRight]
     BorderSpacing.Top = 6
+    BorderSpacing.Right = 10
     Caption = 'Icon'
     ClientHeight = 56
     ClientWidth = 269
@@ -302,6 +339,7 @@ object frmFileAssoc: TfrmFileAssoc
       Font.Pitch = fpVariable
       NumGlyphs = 0
       OnClick = sbtnIconClick
+      ParentFont = False
     end
     object edtIconFileName: TEdit
       AnchorSideTop.Control = sbtnIcon
@@ -328,10 +366,10 @@ object frmFileAssoc: TfrmFileAssoc
       AnchorSideTop.Control = btnCancel
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = btnCancel
-      Left = 346
+      Left = 336
       Height = 32
-      Top = 12
-      Width = 90
+      Top = 8
+      Width = 100
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 6
       Caption = '&OK'
@@ -342,11 +380,16 @@ object frmFileAssoc: TfrmFileAssoc
       TabOrder = 0
     end
     object btnCancel: TBitBtn
+      AnchorSideTop.Control = pnlButtonPanel
+      AnchorSideRight.Control = pnlButtonPanel
+      AnchorSideRight.Side = asrBottom
       Left = 442
       Height = 32
-      Top = 12
-      Width = 90
+      Top = 8
+      Width = 100
       Anchors = [akTop, akRight]
+      BorderSpacing.Top = 8
+      BorderSpacing.Right = 12
       Cancel = True
       Caption = 'Cancel'
       Kind = bkCancel
@@ -357,7 +400,6 @@ object frmFileAssoc: TfrmFileAssoc
     end
   end
   object OpenPictureDialog: TOpenPictureDialog
-    Title = 'Открыть существующий файл'
     left = 16
     top = 544
   end
