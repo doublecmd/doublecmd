@@ -186,6 +186,8 @@ function FileTimeToDateTime(ft : TFileTime) : TDateTime;
 }
 function DateTimeToFileTime(dt : TDateTime) : TFileTime;
 
+function GetShell : String;
+
 { File handling functions}
 function mbFileOpen(const FileName: UTF8String; Mode: Integer): Integer;
 function mbFileCreate(const FileName: UTF8String): Integer;overload;
@@ -509,6 +511,17 @@ end;
 {$ELSE}
 begin
   Result:= GetEnvironmentVariable('HOME')+DirectorySeparator;
+end;
+{$ENDIF}
+
+function GetShell : String;
+{$IFDEF MSWINDOWS}
+begin
+//TODO: get shell env
+end;
+{$ELSE}
+begin
+  Result:= GetEnvironmentVariable('SHELL');
 end;
 {$ENDIF}
 

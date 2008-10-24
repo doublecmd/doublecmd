@@ -30,7 +30,7 @@ interface
 uses
    Classes, SysUtils, BaseUnix, errors,
    {libc,}ExtCtrls, LCLProc, cwstring,
-   LCLType, uCmdBox, Graphics, TermInfo, termio;
+   LCLType, uCmdBox, Graphics, TermInfo, termio, uOSUtils;
 
 //линковка с либой libutil.a содержащей функции forkpty и тд.
 {$L libutil.a}
@@ -272,6 +272,7 @@ end;
 procedure TConThread.Execute;
 var x:TUTF8char;
 begin
+  FShell:=GetShell;
   if length(FShell)=0 then FShell:='/bin/bash';
   if Assigned(fterm) then  Fterm.Fork_pty(FRowsCount,FColsCount,FShell);
   while true do
