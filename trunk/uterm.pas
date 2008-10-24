@@ -1,3 +1,26 @@
+{
+   Double Commander
+   -------------------------------------------------------------------------
+   Terminal emulator implementation.
+
+   Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+}
+
 unit uterm;
 
 {$mode objfpc}{$H+}
@@ -5,16 +28,19 @@ unit uterm;
 interface
 
 uses
-   Classes, SysUtils, BaseUnix, unix, errors, //libc,
-   ExtCtrls,LCLProc,LCLType,termio,uCmdBox,Graphics,cwstring;
+   Classes, SysUtils, BaseUnix, errors,
+   {libc,}ExtCtrls, LCLProc, cwstring,
+   LCLType, uCmdBox, Graphics, TermInfo, termio;
 
+//линковка с либой libutil.a содержащей функции forkpty и тд.
 {$L libutil.a}
 const clib = 'c';
       C_stdin   = 0;
       C_stdout  = 1;
       C_stderr  = 2;
-  
-     CSIList=
+
+   
+const CSIList=
                 '@'+ // Вставить N  пустых символов.
                 'A'+ //Переместить курсор вверх на N рядов.
                 'B'+ //Переместить курсор вниз на N рядов.
@@ -47,6 +73,7 @@ const clib = 'c';
               //'`'+ //Переместить курсор в указанный столбец текущего ряда.
 
 
+
 const
    NCCS = 32;
 
@@ -62,7 +89,7 @@ type
 
 
    __pid_t = longint;
-     
+
    Pcc_t = ^cc_t;
    cc_t = char;
 
@@ -84,7 +111,6 @@ type
         c_ospeed : speed_t;
      end;
 
-
 type
    { Tterm }
 
@@ -92,7 +118,6 @@ type
    private
     FChildPid:THandle;
     Fpty:Longint;
-
     //---------------------
     //---------------------
    public
@@ -103,15 +128,17 @@ type
       function Read_Pty(var str:UTF8String; const timeout: longint=10): longint; // Read info from pty
       function Fork_pty(const rows,cols:integer; const cmd:UTF8string; const params:UTF8string=''):THandle; //Create new pty and start cmd
       function Write_pty(const str:UTF8string):boolean; //write str to pty
+     // function Event_pty():boolean;
       function KillShell:LongInt;
       function CSI_GetTaskId(const buf:UTF8string):integer; //get index of sequence in CSILast list
 {    //---------------------}
      property ShellPid:THandle read FChildPid;
      property PtyPid:LongInt read Fpty;
+
      
    end;
-
-  { TConThread }
+   
+     { TConThread }
 
   TConThread=class (TThread)
    private
@@ -120,20 +147,25 @@ type
      fbuf:  UTF8String;
      FRowsCount,
      FColsCount:integer;
+     FOut:TCmdBox;
+     FShell:string;
+     //---------------------
      procedure AddSymbol;
+     procedure CSIProc(NCode, Param: integer; ExParam: integer=0);
+     procedure CSI_CaretTo(Y, X: integer);
      procedure CSI_Colors(const Param: integer);
      procedure WriteS(const s: UTF8String);
    protected
      procedure Execute; override;
    public
-     CmdBox:TCmdBox;
      constructor Create;
      destructor Destroy; override;
      property Terminal:TTerm read fterm;
      property RowsCount:integer read FRowsCount write FRowsCount;
      property ColsCount:integer read FColsCount write FColsCount;
+     property CmdBox:TCmdBox read FOut write FOut;
+     property Shell:string read FShell write FShell;
   end;
-
 
 function forkpty(__amaster:Plongint; __name:Pchar; __termp:Ptermios; __winp:Pwinsize):longint;cdecl;external clib name 'forkpty';
 function setenv(__name:Pchar; __value:Pchar; __replace:longint):longint;cdecl;external clib name 'setenv';
@@ -141,19 +173,23 @@ function execl(__path:Pchar; __arg:Pchar):longint;cdecl;varargs;external clib na
 
 implementation
 
+{$L libutil.a}
+
 { TConThread }
 
 procedure TConThread.WriteS(const s:UTF8String);
 begin
+if not assigned(FOut) then exit;
 //Form1.CmdBox1.StopRead;
-CmdBox.Write(s);
+FOut.Write(s);
 //Form1.CmdBox1.StartRead(clWhite,clBlack,'',clWhite,clBlack);
-//Form1.CmdBox1.Refresh;
 end;
+
 
 procedure TConThread.CSI_Colors(const Param:integer);
 begin
-with CmdBox do
+if not assigned(FOut) then exit;
+with FOut do
 begin
   case Param of
 0: TextColors(clWhite,clBlack);//	сбросить все атрибуты в их значения по умолчанию
@@ -178,7 +214,7 @@ begin
 25: ;//	выключить мерцание
 27: ;//	выключить инвертированное видео
 30:TextColor(clGray) ;//	установить черный цвет символов
-31:TextColor(clRed) ;//	установить красный цвет символов
+31:TextColor(clRed) ;//	        установить красный цвет символов
 32:TextColor($0024F947) ;//	установить зеленый цвет символов
 33:TextColor($003A85CF) ;//	установить коричневый цвет символов
 34:TextColor(clBlue) ;//	установить синий цвет символов
@@ -200,6 +236,54 @@ begin
 end;
 end;
 
+procedure TConThread.CSI_CaretTo(Y,X:integer); //хз x y или y x. Надо проверить.
+begin
+debugln('  Y: '+inttostr(Y)+'  X: '+inttostr(X));
+//Fout.OutY:=Y;
+//Fout.OutX:=X;
+end;
+
+procedure TConThread.CSIProc(NCode, Param:integer; ExParam:integer=0);
+begin
+  //debugln('Code:'+Inttostr(NCode)+'  Param: '+inttostr(Param));
+  case NCode of
+  9:CSI_CaretTo(Param,ExParam);
+  24:CSI_Colors(Param);
+  end;
+end;
+
+constructor TConThread.Create;
+begin
+  inherited Create(true);
+  System.InitCriticalSection(FLock);
+  Fterm:=Tterm.Create;
+  FRowsCount:=50;
+  FColsCount:=100;
+end;
+
+destructor TConThread.Destroy;
+begin
+  FreeAndNil(fTerm);
+  System.DoneCriticalSection(FLock);
+  inherited Destroy;
+end;
+
+
+procedure TConThread.Execute;
+var x:TUTF8char;
+begin
+  if length(FShell)=0 then FShell:='/bin/bash';
+  if Assigned(fterm) then  Fterm.Fork_pty(FRowsCount,FColsCount,FShell);
+  while true do
+    begin
+     if Assigned(fterm) then
+       begin
+         if Fterm.Read_Pty(fbuf,0)>0 then
+          Synchronize(@AddSymbol);
+       end else break;
+    end;
+end;
+
 //------------------------------------------------------
 var bufer:UTF8string;
 
@@ -218,15 +302,6 @@ CSInow:=false;
     begin
     //разбор
     //------------------------------------------------------
-if fbuf[i]=#13 then
-   begin
-     { Form1.CmdBox1.StopRead;
-      Form1.CmdBox1. Writeln('');
-      Form1.CmdBox1.StartRead(clWhite,clBlack,'',clWhite,clBlack);}
-//      WriteS(#13);
-   end;
-
-
      if esnow then
        begin
          //------------------------------------------------------
@@ -237,50 +312,35 @@ if fbuf[i]=#13 then
               if SeqCode>0 then
                 begin
                   //разбор управляющей последовательности.
-                  //разбор следует проводить на этой стороне,
-                  //ввиду большой вариабельности параметров
-                  //---------------------
-                  //Form1.escseqlist.Items.Add(es); //debug only
-
-                   case SeqCode of
                    //------------------------------------------------------
-
-                   //Установка атрибутов
-                   24:begin
-                        WriteS(s);
-                        s:='';
-                        delete(es,1,1);
-                        delete(es,length(es),1);
-                        x:=pos(';',es);
-                        while x>0 do
+                    WriteS(s);
+                    s:='';
+                    delete(es,1,1);
+                    delete(es,length(es),1);
+                    x:=pos(';',es);
+                    while x>0 do
+                    begin
+                      if tryStrToInt(copy(es,1,x-1),SeqPrm) then
                         begin
-                          if TryStrToInt(copy(es,1,x-1),SeqPrm) then
-                            begin
-                             //SeqPrm:=StrToInt(copy(es,1,x-1));
-                              CSI_Colors(SeqPrm);
-                              delete(es,1,x);
-                              x:=pos(';',es);
-                            end
-                          else
-                            begin
-                             WriteS(copy(es,1,x));
-                             delete(es,1,x);
-                             x:=pos(';',es);
-                            end;
-                        end;
-                        if es<>'' then
+                          CSIProc(SeqCode,SeqPrm);
+                          delete(es,1,x);
+                          x:=pos(';',es);
+                        end
+                      else
                         begin
-                         if TryStrToInt(es,SeqPrm) then
-                       //  SeqPrm:=StrToInt(es);
-                         CSI_Colors(SeqPrm)
-                         else
-                           writes(es);
+                          WriteS(copy(es,1,x-1));
+                          delete(es,1,x);
+                          x:=pos(';',es);
                         end;
-                      end;
-
-                   end; //case
+                    end;
+                    if es<>'' then
+                    begin
+                      if tryStrToInt(es,SeqPrm) then
+                       CSIProc(SeqCode,SeqPrm)
+                      else
+                        WriteS(es);
+                    end;
                    //------------------------------------------------------
-
 
                   es:='';
                   esnow:=false;
@@ -289,8 +349,6 @@ if fbuf[i]=#13 then
               else
               es:=es+fbuf[i];
            end
-//          esnow:=false;
-//          es:='';
          else
            es:=es+fbuf[i];
            //------------------------------------------------------
@@ -303,7 +361,6 @@ if fbuf[i]=#13 then
        //Начало CSI последовательности
        if (i<length(fbuf)) and (fbuf[i+1]='[') then
          CSINow:=true;
-//       es:=es+buf[i];
       end;
 
 
@@ -320,13 +377,15 @@ if fbuf[i]=#13 then
      begin
        if fbuf[i]=#10 then
          begin
-         //Form1.CmdBox1.StopRead;
-         if s<>'' then
-           CmdBox.Writeln(s);
-           s:='';
-           continue;
-         //form1.CmdBox1.StartRead(clWhite,clBlack,'',clWhite,clBlack);
-         end else
+          if s<>'' then
+            if Assigned(FOut) then
+            FOut.Write(s+#10);
+            s:='';
+
+            continue;
+         end;
+       if (fbuf[i]=#13) then
+         if Assigned(FOut) then FOut.Write(#13);
 
        s:=s+fbuf[i];
      end;
@@ -334,50 +393,16 @@ if fbuf[i]=#13 then
 
     //------------------------------------------------------
     end;
-if s<>'' then
-  begin
-   CmdBox.Write(s);
-   s:='';
-//   Form1.CmdBox1.CaretX:=10;
-  end;
 
 
+  if s<>'' then
+    begin
+     if Assigned(FOut) then FOut.Write(s);
+    end;
 
-//debug
-//for i:=1 to length(fbuf) do
-// form1.escnotcsi.Items.Add(fbuf[i]+' = '+inttostr(ord(fbuf[i])));
 end;
 //------------------------------------------------------
 
-procedure TConThread.Execute;
-var x:TUTF8char;
-begin
-  if Assigned(fterm) then  Fterm.Fork_pty(FRowsCount,FColsCount,'/bin/zsh');
-  while true do
-    begin
-     if Assigned(fterm) then
-       begin
-         if Fterm.Read_Pty(fbuf,0)>0 then
-          Synchronize(@AddSymbol);
-       end else break;
-    end;
-end;
-
-constructor TConThread.Create;
-begin
-  inherited Create(true);
-  System.InitCriticalSection(FLock);
-  Fterm:=Tterm.Create;
-  FRowsCount:=50;
-  FColsCount:=100;
-end;
-
-destructor TConThread.Destroy;
-begin
-  FreeAndNil(fTerm);
-  System.DoneCriticalSection(FLock);
-  inherited Destroy;
-end;
 
 
 { Tterm }
@@ -439,7 +464,7 @@ begin
     //Child
     
     setenv('TERM', 'linux', 1);
-    execl(Pchar(cmd), Pchar(params),nil);
+    execl(pchar(cmd), pchar(params), nil);
     
     //если execl не сработал и новый процесс не подменил форкнутый, то ошибка
     fpWrite(C_stderr, pchar('execl() failed. Command: '+ cmd),length('execl() failed. Command: '+ cmd));
@@ -483,6 +508,10 @@ begin
   end;
 end;
 
+{function Tterm.Event_pty(): boolean;
+begin
+end;}
+
 function Tterm.KillShell: LongInt;
 begin
   //FchildPid must be >0 in other case all processes in this group will be killed
@@ -500,9 +529,11 @@ end;
 destructor Tterm.Destroy;
 begin
   KillShell;
-
   inherited Destroy;
 end;
 
 end.
-
+{//  thr.Terminal.Write_pty(#27+'[21~'); //F10
+//  thr.Terminal.Write_pty(#27+'[D'); //Left
+//  thr.Terminal.Write_pty(#27+'[3~'); //delete
+}
