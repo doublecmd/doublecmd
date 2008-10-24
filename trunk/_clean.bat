@@ -35,8 +35,10 @@ del /Q plugins\wcx\zip\*.*~
 del /Q plugins\wcx\unbz2\*.*~
 del /Q plugins\wcx\unrar\*.*~
 
+del /Q components\CmdLine\lib\i386-win32\*.*
 del /Q components\KASToolBar\lib\i386-win32\*.*
 del /Q components\viewer\lib\i386-win32\*.*
 
+del /Q components\CmdLine\lib\i386-linux\*.*
 del /Q components\KASToolBar\lib\i386-linux\*.*
 del /Q components\viewer\lib\i386-linux\*.*
