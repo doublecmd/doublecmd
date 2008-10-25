@@ -71,6 +71,7 @@ const cf_Null=0;
    procedure cm_FocusCmdLine(param: string='');
    procedure cm_FileAssoc(param: string='');
    procedure cm_ExtractFiles(param: string='');
+   procedure cm_HelpIndex(param: string='');
    procedure cm_Keyboard(param: string='');
    procedure cm_VisitHomePage(param: string='');
    procedure cm_About(param: string='');
@@ -1021,6 +1022,11 @@ begin
       end;
     end;  // IsBlocked
 end;
+end;
+
+procedure TActs.cm_HelpIndex(param: string='');
+begin
+  ShowHelpOrErrorForKeyword('', gHelpLang+'/index.html');
 end;
 
 procedure TActs.cm_Keyboard(param: string='');

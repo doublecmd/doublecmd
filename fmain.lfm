@@ -1,13 +1,13 @@
 object frmMain: TfrmMain
   Left = 299
-  Height = 886
+  Height = 746
   Top = 112
-  Width = 1297
+  Width = 1028
   ActiveControl = nbRight
   AllowDropFiles = True
   Caption = 'Double Commander'
-  ClientHeight = 860
-  ClientWidth = 1297
+  ClientHeight = 726
+  ClientWidth = 1028
   KeyPreview = True
   Menu = mnuMain
   OnActivate = FormActivate
@@ -27,19 +27,19 @@ object frmMain: TfrmMain
   Position = poDesktopCenter
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.26'
+  LCLVersion = '0.9.27'
   object pnlSyncSize: TPanel
     Height = 26
     Top = 24
-    Width = 1297
+    Width = 1028
     Align = alTop
     BevelOuter = bvNone
     ClientHeight = 26
-    ClientWidth = 1297
+    ClientWidth = 1028
     FullRepaint = False
     TabOrder = 0
     object pnlDisk: TPanel
-      Left = 772
+      Left = 503
       Height = 26
       Width = 525
       Align = alRight
@@ -86,18 +86,18 @@ object frmMain: TfrmMain
     end
   end
   object pnlNotebooks: TPanel
-    Height = 718
+    Height = 584
     Top = 50
-    Width = 1297
+    Width = 1028
     Align = alClient
-    ClientHeight = 718
-    ClientWidth = 1297
+    ClientHeight = 584
+    ClientWidth = 1028
     FullRepaint = False
     TabOrder = 1
     TabStop = True
     object MainSplitter: TSplitter
       Left = 171
-      Height = 542
+      Height = 408
       Top = 1
       Width = 4
       OnCanResize = MainSplitterCanResize
@@ -108,16 +108,16 @@ object frmMain: TfrmMain
     end
     object pnlLeft: TPanel
       Left = 1
-      Height = 542
+      Height = 408
       Top = 1
       Width = 170
       Align = alLeft
       BevelOuter = bvNone
-      ClientHeight = 542
+      ClientHeight = 408
       ClientWidth = 170
       TabOrder = 0
       object nbLeft: TNotebook
-        Height = 518
+        Height = 384
         Top = 24
         Width = 170
         Align = alClient
@@ -196,18 +196,18 @@ object frmMain: TfrmMain
     end
     object pnlRight: TPanel
       Left = 175
-      Height = 542
+      Height = 408
       Top = 1
-      Width = 1121
+      Width = 852
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 542
-      ClientWidth = 1121
+      ClientHeight = 408
+      ClientWidth = 852
       TabOrder = 1
       object nbRight: TNotebook
-        Height = 518
+        Height = 384
         Top = 24
-        Width = 1121
+        Width = 852
         Align = alClient
         OnCloseTabClicked = NoteBookCloseTabClicked
         OnMouseUp = nbPageMouseUp
@@ -217,11 +217,11 @@ object frmMain: TfrmMain
       end
       object pnlRightTools: TPanel
         Height = 24
-        Width = 1121
+        Width = 852
         Align = alTop
         BevelOuter = bvNone
         ClientHeight = 24
-        ClientWidth = 1121
+        ClientWidth = 852
         TabOrder = 1
         object btnRightDrive: TSpeedButton
           Height = 24
@@ -232,7 +232,7 @@ object frmMain: TfrmMain
           NumGlyphs = 0
         end
         object btnRightHome: TSpeedButton
-          Left = 1098
+          Left = 829
           Height = 24
           Width = 23
           Align = alRight
@@ -242,7 +242,7 @@ object frmMain: TfrmMain
           OnClick = btnRightClick
         end
         object btnRightUp: TSpeedButton
-          Left = 1075
+          Left = 806
           Height = 24
           Width = 23
           Align = alRight
@@ -252,7 +252,7 @@ object frmMain: TfrmMain
           OnClick = btnRightClick
         end
         object btnRightRoot: TSpeedButton
-          Left = 1052
+          Left = 783
           Height = 24
           Width = 23
           Align = alRight
@@ -264,14 +264,14 @@ object frmMain: TfrmMain
         object lblRightDriveInfo: TLabel
           Left = 48
           Height = 24
-          Width = 981
+          Width = 712
           Align = alClient
           Alignment = taCenter
           ParentColor = False
           OnDblClick = lblDriveInfoDblClick
         end
         object btnRightDirectoryHotlist: TSpeedButton
-          Left = 1029
+          Left = 760
           Height = 24
           Width = 23
           Align = alRight
@@ -285,13 +285,13 @@ object frmMain: TfrmMain
     object pnlCommand: TPanel
       Left = 1
       Height = 169
-      Top = 548
-      Width = 1295
+      Top = 414
+      Width = 1026
       Align = alBottom
       Anchors = [akLeft, akRight]
       BevelOuter = bvLowered
       ClientHeight = 169
-      ClientWidth = 1295
+      ClientWidth = 1026
       FullRepaint = False
       ParentColor = False
       TabOrder = 2
@@ -299,18 +299,18 @@ object frmMain: TfrmMain
         Left = 1
         Height = 28
         Top = 140
-        Width = 1293
+        Width = 1024
         Align = alBottom
         BevelOuter = bvNone
         ClientHeight = 28
-        ClientWidth = 1293
+        ClientWidth = 1024
         TabOrder = 0
         object lblCommandPath: TLabel
           AnchorSideTop.Side = asrCenter
           Left = 1
-          Height = 17
+          Height = 14
           Top = 5
-          Width = 33
+          Width = 23
           Alignment = taRightJustify
           Caption = 'Path'
           ParentColor = False
@@ -318,10 +318,11 @@ object frmMain: TfrmMain
         end
         object edtCommand: TComboBox
           Left = 56
-          Height = 25
-          Width = 1228
+          Height = 21
+          Width = 959
           TabStop = False
           Anchors = [akTop, akLeft, akRight]
+          ItemHeight = 13
           ParentCtl3D = False
           TabOrder = 0
         end
@@ -330,18 +331,17 @@ object frmMain: TfrmMain
         Left = 1
         Height = 139
         Top = 1
-        Width = 1293
+        Width = 1024
         Align = alClient
         PageIndex = 0
         ShowTabs = False
         TabOrder = 1
         object Page1: TPage
-          Caption = 'Page1'
-          ClientWidth = 1289
-          ClientHeight = 135
+          ClientWidth = 1016
+          ClientHeight = 113
           object CmdBox1: TCmdBox
-            Height = 135
-            Width = 1289
+            Height = 113
+            Width = 1016
             Align = alClient
             CaretColor = clWhite
             CaretType = cartUser
@@ -365,15 +365,15 @@ object frmMain: TfrmMain
       Cursor = crVSplit
       Left = 1
       Height = 5
-      Top = 543
-      Width = 1295
+      Top = 409
+      Width = 1026
       Align = alBottom
       ResizeAnchor = akBottom
     end
   end
   object MainToolBar: TKAStoolBar
     Height = 24
-    Width = 1297
+    Width = 1028
     Align = alTop
     TabOrder = 2
     OnDragDrop = MainToolBarDragDrop
@@ -387,13 +387,13 @@ object frmMain: TfrmMain
   end
   object pnlKeys: TPanel
     Height = 27
-    Top = 833
-    Width = 1297
+    Top = 699
+    Width = 1028
     Align = alBottom
     Anchors = [akLeft, akRight]
     BevelOuter = bvLowered
     ClientHeight = 27
-    ClientWidth = 1297
+    ClientWidth = 1028
     FullRepaint = False
     TabOrder = 3
     OnResize = pnlKeysResize
@@ -480,12 +480,13 @@ object frmMain: TfrmMain
   end
   object seLogWindow: TSynEdit
     Height = 61
-    Top = 772
-    Width = 1297
+    Top = 638
+    Width = 1028
     Align = alBottom
     Font.Height = -16
     Font.Name = 'courier'
     Font.Pitch = fpFixed
+    Font.Quality = fqNonAntialiased
     ParentColor = False
     ParentFont = False
     TabOrder = 4
@@ -820,8 +821,8 @@ object frmMain: TfrmMain
   object LogSplitter: TSplitter
     Cursor = crVSplit
     Height = 4
-    Top = 768
-    Width = 1297
+    Top = 634
+    Width = 1028
     Align = alBottom
     ResizeAnchor = akBottom
     ResizeStyle = rsLine
@@ -1072,6 +1073,10 @@ object frmMain: TfrmMain
     object mnuHelp: TMenuItem
       Caption = '&Help'
       OnClick = mnuHelpClick
+      object mnuHelpIndex: TMenuItem
+        Action = actHelpIndex
+        OnClick = actExecute
+      end
       object mnuHelpKeyboard: TMenuItem
         Action = actKeyboard
         OnClick = actExecute
@@ -1079,6 +1084,9 @@ object frmMain: TfrmMain
       object mnuHelpVisitHomePage: TMenuItem
         Action = actVisitHomePage
         OnClick = actExecute
+      end
+      object miLine18: TMenuItem
+        Caption = '-'
       end
       object mnuHelpAbout: TMenuItem
         Action = actAbout
@@ -1560,6 +1568,12 @@ object frmMain: TfrmMain
     object actVisitHomePage: TAction
       Category = 'Help'
       Caption = 'Visit Double Commander Web Site'
+      DisableIfNoHandler = True
+      OnExecute = actExecute
+    end
+    object actHelpIndex: TAction
+      Category = 'Help'
+      Caption = 'Contents'
       DisableIfNoHandler = True
       OnExecute = actExecute
     end

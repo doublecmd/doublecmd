@@ -842,6 +842,10 @@ msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
 msgid "Create link..."
 msgstr "Crear enlace"
 
+#: TFRMMAIN.ACTHELPINDEX.CAPTION
+msgid "Contents"
+msgstr ""
+
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
 msgid "Keyboard"
 msgstr ""
@@ -1165,6 +1169,10 @@ msgstr ""
 
 #: TFRMMAIN.MILINE17.CAPTION
 msgctxt "TFRMMAIN.MILINE17.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMAIN.MILINE18.CAPTION
 msgid "-"
 msgstr ""
 

@@ -841,9 +841,13 @@ msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
 msgid "Create link..."
 msgstr "Создать &ссылку..."
 
+#: TFRMMAIN.ACTHELPINDEX.CAPTION
+msgid "Contents"
+msgstr "Содержание"
+
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
 msgid "Keyboard"
-msgstr "Горячие клавишы"
+msgstr "Горячие клавиши"
 
 #: TFRMMAIN.ACTLEFTOPENDRIVES.CAPTION
 msgid "Open left drive list"
@@ -1164,6 +1168,10 @@ msgstr ""
 
 #: TFRMMAIN.MILINE17.CAPTION
 msgctxt "TFRMMAIN.MILINE17.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMAIN.MILINE18.CAPTION
 msgid "-"
 msgstr ""
 
