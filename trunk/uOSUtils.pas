@@ -194,7 +194,7 @@ function mbFileCreate(const FileName: UTF8String): Integer;overload;
 function mbFileCreate(const FileName: UTF8String; Mode: Integer): Integer;overload;
 function mbFileAge(const FileName: UTF8String): Longint;
 function mbFileExists(const FileName: UTF8String): Boolean;
-function mbDirectoryExists(const Directory : UTF8String) : Boolean;
+function mbFileAccess(const FileName: UTF8String; Mode: Integer): Boolean;
 function mbFileGetAttr(const FileName: UTF8String): LongInt;
 function mbFileSetAttr (const FileName: UTF8String; Attr: LongInt) : LongInt;
 function mbFileSetReadOnly(const FileName: UTF8String; ReadOnly: Boolean): Boolean;
@@ -205,6 +205,7 @@ function FileFlush(Handle: Integer): Boolean;
 { Directory handling functions}
 function mbGetCurrentDir: UTF8String;
 function mbSetCurrentDir(const NewDir: UTF8String): Boolean;
+function mbDirectoryExists(const Directory : UTF8String) : Boolean;
 function mbCreateDir(const NewDir: UTF8String): Boolean;
 function mbRemoveDir(const Dir: UTF8String): Boolean;
 
@@ -516,8 +517,18 @@ end;
 
 function GetShell : String;
 {$IFDEF MSWINDOWS}
+var
+  iSize: Integer;
+  wShell: WideString;
 begin
-//TODO: get shell env
+  iSize:= GetEnvironmentVariableW('ComSpec', nil, 0);
+  if iSize > 0 then
+    begin
+      SetLength(wShell, iSize);
+      GetEnvironmentVariableW('ComSpec', PWChar(wShell), iSize);
+    end;
+  Delete(wShell, iSize, 1);
+  Result:= UTF8Encode(wShell);
 end;
 {$ELSE}
 begin
@@ -799,7 +810,7 @@ begin
                        FILE_ATTRIBUTE_NORMAL, 0);
 end;
 {$ELSE}
-var
+const
   AccessMode: array[0..2] of LongInt  = (
                 O_RdOnly,
                 O_WrOnly,
@@ -899,25 +910,28 @@ begin
 end;
 {$ENDIF}
 
-function mbDirectoryExists(const Directory: UTF8String) : Boolean;
+function mbFileAccess(const FileName: UTF8String; Mode: Integer): Boolean;
 {$IFDEF MSWINDOWS}
+const
+  AccessMode: array[0..2] of DWORD  = (
+                GENERIC_READ,
+                GENERIC_WRITE,
+                GENERIC_READ or GENERIC_WRITE);
 var
-  Attr:Dword;
-  wDirectory: WideString;
+  wFileName: WideString;
 begin
-  Result:= False;
-  wDirectory:= UTF8Decode(Directory);
-  Attr:= GetFileAttributesW(PWChar(wDirectory));
-  if Attr <> $ffffffff then
-    Result:= (Attr and FILE_ATTRIBUTE_DIRECTORY) > 0;
+  wFileName:= UTF8Decode(FileName);
+  Result:= CreateFileW(PWChar(wFileName), AccessMode[Mode and 3],
+                       0, nil, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0) <> 0;
 end;
 {$ELSE}
-var
-  Info: BaseUnix.Stat;
+const
+  AccessMode: array[0..2] of LongInt  = (
+                R_OK,
+                W_OK,
+                R_OK or W_OK);
 begin
-  Result:= False;
-  if fpStat(Directory, Info) >= 0 then
-    Result:= fpS_ISDIR(Info.st_mode);
+  Result:= fpAccess(FileName, AccessMode[Mode and 3]) = 0;
 end;
 {$ENDIF}
 
@@ -1092,6 +1106,28 @@ end;
 {$ELSE}
 begin
   Result:= fpChDir(PChar(NewDir)) = 0;
+end;
+{$ENDIF}
+
+function mbDirectoryExists(const Directory: UTF8String) : Boolean;
+{$IFDEF MSWINDOWS}
+var
+  Attr:Dword;
+  wDirectory: WideString;
+begin
+  Result:= False;
+  wDirectory:= UTF8Decode(Directory);
+  Attr:= GetFileAttributesW(PWChar(wDirectory));
+  if Attr <> $ffffffff then
+    Result:= (Attr and FILE_ATTRIBUTE_DIRECTORY) > 0;
+end;
+{$ELSE}
+var
+  Info: BaseUnix.Stat;
+begin
+  Result:= False;
+  if fpStat(Directory, Info) >= 0 then
+    Result:= fpS_ISDIR(Info.st_mode);
 end;
 {$ENDIF}
 

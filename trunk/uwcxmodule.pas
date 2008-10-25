@@ -387,7 +387,7 @@ begin
   FArchiveName := sName;
   DebugLN('FArchiveName = ' + FArchiveName);
 
-  if not mbFileExists(FArchiveName) then
+  if not mbFileAccess(FArchiveName, fmOpenRead) then
     begin
       Result := False;
       Exit;
