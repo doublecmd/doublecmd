@@ -955,7 +955,7 @@ var
   Info: BaseUnix.Stat;
 begin
   Result:= -1;
-  if fpStat(FileName, Info) >= 0 then
+  if fpLStat(FileName, @Info) >= 0 then
     Result:= Info.st_mode;
 end;
 {$ENDIF}

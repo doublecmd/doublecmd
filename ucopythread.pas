@@ -23,8 +23,8 @@ type
   private
     FCopied: Int64;
   protected
-    function CpFile (fr:PFileRecItem; const sDst:String; bShowDlg:Boolean):Boolean;
-    function CopyFile(const sSrc, sDst:String; bAppend:Boolean):Boolean;
+    function CpFile(fr: PFileRecItem; const sDst: String; bShowDlg: Boolean): Boolean;
+    function CopyFile(const sSrc, sDst: String; bAppend: Boolean): Boolean;
     procedure MainExecute; override;
     function GetCaptionLng:String; override;
   end;
@@ -50,7 +50,7 @@ begin
   begin
     if Terminated then
        Exit;
-    pr:=NewFileList.GetItem(xIndex);
+    pr:= NewFileList.GetItem(xIndex);
 //    DebugLn(pr^.sname,' ',pr^.sNameNoExt);
     EstimateTime(FCopied);
 
@@ -78,35 +78,47 @@ begin
 end;
 
 // bShowDlg is only for Rename
-function TCopyThread.CpFile (fr:PFileRecItem; const sDst:String; bShowDlg:Boolean):Boolean;
+function TCopyThread.CpFile(fr: PFileRecItem; const sDst: String; bShowDlg: Boolean): Boolean;
 var
   sDstExt: String;
   sDstName: String;
   sDstNew: String;
 begin
 //  DebugLn(fr^.sName);
-  DebugLn('NameNoExt ==' +fr^.sNameNoExt);
+//  DebugLn('NameNoExt ==' +fr^.sNameNoExt);
 
   DivFileName(fr^.sNameNoExt,sDstName, sDstExt);
-  sDstName:=CorrectDstName(sDstName);
-  DebugLn('sDstName ==' + sDstName);
-  sDstExt:=CorrectDstExt(sDstExt);
-  sDstNew:='';
+  sDstName:= CorrectDstName(sDstName);
+//  DebugLn('sDstName ==' + sDstName);
+  sDstExt:= CorrectDstExt(sDstExt);
+  sDstNew:= '';
   if sDstName<>'' then
-    sDstNew:=sDstName;
+    sDstNew:= sDstName;
   if sDstExt<>'.' then
-    sDstNew:=sDstNew+sDstExt;
+    sDstNew:= sDstNew+sDstExt;
 //  DebugLn(sDstNew);
-  FFileOpDlg.sFileName:=ExtractFileName(fr^.sName)+' -> '+fr^.sPath+sDstNew;
+  FFileOpDlg.sFileName:= ExtractFileName(fr^.sName)+' -> '+fr^.sPath+sDstNew;
   Synchronize(@FFileOpDlg.UpdateDlg);
   if FPS_ISLNK(fr^.iMode) then
     begin
       // use sDstName as link target
       sDstName:= ReadSymLink(fr^.sName);
-      if sDstName<>'' then
+      if sDstName <> '' then
         begin
           sDstName:= GetAbsoluteFileName(ExtractFilePath(fr^.sName), sDstName);
-          DebugLn('ReadSymLink := ' + sDstName);
+//          DebugLn('ReadSymLink := ' + sDstName);
+
+          if mbFileExists(sDst+fr^.sPath+sDstNew) then
+            begin
+              if not FReplaceAll then
+                begin
+                  if FSkipAll then Exit(True);
+                  if not DlgFileExist(Format(rsMsgFileExistsRwrt,[sDst+fr^.sPath+sDstNew, fr^.sName])) then
+                    Exit(False);
+                end; // replace all
+              mbDeleteFile(sDst+fr^.sPath+sDstNew);
+            end; // mbFileExists
+
           if not CreateSymlink(sDstName, sDst+fr^.sPath+sDstNew) then
             DebugLn('Symlink error:');
         end
@@ -114,54 +126,58 @@ begin
         DebugLn('Error reading link');
       Result:= True;
     end
-  else
-  if FPS_ISDIR(fr^.iMode) then
-   begin
-   DebugLn('Force = ' + sDst+fr^.sPath+fr^.sNameNoExt);
-    if not mbDirectoryExists(sDst+fr^.sPath+fr^.sNameNoExt) then
-      uFileProcs.ForceDirectory(sDst+fr^.sPath+fr^.sNameNoExt);
-    Result:=True;
-   end
-  else
-  begin // files and other stuff
-//    DebugLn('fr^.sPath:'+fr^.sPath);
-    if bShowDlg then
+  else if FPS_ISDIR(fr^.iMode) then
     begin
-      Result:= False;
-//      DebugLn('testing:'+sDst+fr^.sPath+sDstNew);
-      if mbFileExists(sDst+fr^.sPath+sDstNew) and not FReplaceAll then
-      begin
-        if FSkipAll then
+      DebugLn('Force = ' + sDst+fr^.sPath+fr^.sNameNoExt);
+      if not mbDirectoryExists(sDst+fr^.sPath+fr^.sNameNoExt) then
+        uFileProcs.ForceDirectory(sDst+fr^.sPath+fr^.sNameNoExt);
+      Result:= True;
+    end
+  else
+    begin // files and other stuff
+//    DebugLn('fr^.sPath:'+fr^.sPath);
+      if bShowDlg then
         begin
-          Result:= True;
-          Exit;
+          Result:= False;
+//      DebugLn('testing:'+sDst+fr^.sPath+sDstNew);
+          if mbFileExists(sDst+fr^.sPath+sDstNew) then
+            begin
+              if not FReplaceAll then
+                begin
+                  if FSkipAll then Exit(True);
+                  if not DlgFileExist(Format(rsMsgFileExistsRwrt,[sDst+fr^.sPath+sDstNew, fr^.sName])) then
+                    Exit;
+                end; // replace all
+              if FPS_ISLNK(mbFileGetAttr(sDst+fr^.sPath+sDstNew)) then
+                begin
+                  mbDeleteFile(sDst+fr^.sPath+sDstNew);
+                  FAppend:= False; // we can not append to symlink
+                end;
+            end; // mbFileExists
+        end; // bShowDlg
+
+      Result:= CopyFile(fr^.sName, sDst+fr^.sPath+sDstNew, FAppend);
+
+      // process comments if need
+      if Result and gProcessComments and Assigned(FDescr) then
+        FDescr.CopyDescription(fr^.sName, sDst+fr^.sPath+sDstNew);
+
+      if Result then
+        begin
+          // write log success
+          if (log_cp_mv_ln in gLogOptions) and (log_success in gLogOptions) then
+            logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogCopy, [fr^.sName+' -> '+sDst+fr^.sPath+sDstNew]), lmtSuccess);
+        end
+      else
+        begin
+          // write log error
+          if (log_cp_mv_ln in gLogOptions) and (log_errors in gLogOptions) then
+            logWrite(Self, Format(rsMsgLogError+rsMsgLogCopy, [fr^.sName+' -> '+sDst+fr^.sPath+sDstNew]), lmtError);
         end;
-        if not DlgFileExist(Format(rsMsgFileExistsRwrt,[sDst+fr^.sPath+sDstNew, fr^.sName])) then
-          Exit;
-      end;   
-    end;
-    Result:= CopyFile(fr^.sName, sDst+fr^.sPath+sDstNew, FAppend);
-
-    // process comments if need
-    if Result and gProcessComments and Assigned(FDescr) then
-      FDescr.CopyDescription(fr^.sName, sDst+fr^.sPath+sDstNew);
-
-    if Result then
-      begin
-        // write log success
-        if (log_cp_mv_ln in gLogOptions) and (log_success in gLogOptions) then
-          logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogCopy, [fr^.sName+' -> '+sDst+fr^.sPath+sDstNew]), lmtSuccess);
-      end
-    else
-      begin
-        // write log error
-        if (log_cp_mv_ln in gLogOptions) and (log_errors in gLogOptions) then
-          logWrite(Self, Format(rsMsgLogError+rsMsgLogCopy, [fr^.sName+' -> '+sDst+fr^.sPath+sDstNew]), lmtError);
-      end;
-  end; // files and other stuff
+    end; // files and other stuff
 end;
 
-function TCopyThread.CopyFile(const sSrc, sDst:String; bAppend:Boolean):Boolean;
+function TCopyThread.CopyFile(const sSrc, sDst: String; bAppend: Boolean): Boolean;
 var
   src, dst: TFileStreamEx;
 //  bAppend:Boolean;
