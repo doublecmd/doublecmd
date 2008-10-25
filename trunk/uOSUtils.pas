@@ -918,11 +918,18 @@ const
                 GENERIC_WRITE,
                 GENERIC_READ or GENERIC_WRITE);
 var
+  hFile: THandle;
   wFileName: WideString;
 begin
+  Result:= False;
   wFileName:= UTF8Decode(FileName);
-  Result:= CreateFileW(PWChar(wFileName), AccessMode[Mode and 3],
-                       0, nil, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0) <> 0;
+  hFile:= CreateFileW(PWChar(wFileName), AccessMode[Mode and 3],
+                       0, nil, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+  if hFile <> 0 then
+    begin
+      Result:= True;
+      FileClose(hFile);
+    end;
 end;
 {$ELSE}
 const
