@@ -1173,6 +1173,7 @@ msgid "-"
 msgstr ""
 
 #: TFRMMAIN.MILINE18.CAPTION
+msgctxt "TFRMMAIN.MILINE18.CAPTION"
 msgid "-"
 msgstr ""
 
@@ -1434,13 +1435,18 @@ msgctxt "TFRMMULTIRENAME.N1.CAPTION"
 msgid "-"
 msgstr ""
 
-#: TFRMOPTIONS.BBTNAPPLY.CAPTION
+#: TFRMOPTIONS.BBTNADDCATEGORY.CAPTION
+msgid "Add"
+msgstr ""
+
+#: TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION
+msgctxt "TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION"
 msgid "Apply"
 msgstr ""
 
-#: TFRMOPTIONS.BBTNWFXRENAME.CAPTION
-msgctxt "TFRMOPTIONS.BBTNWFXRENAME.CAPTION"
-msgid "Rename"
+#: TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION
+msgctxt "TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION"
+msgid "Delete"
 msgstr ""
 
 #: TFRMOPTIONS.BTCLEARHOTKEY.CAPTION
@@ -1452,8 +1458,55 @@ msgctxt "TFRMOPTIONS.BTNADDPLUGIN.CAPTION"
 msgid "Add"
 msgstr ""
 
+#: TFRMOPTIONS.BTNAPPLY.CAPTION
+msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
+msgid "Apply"
+msgstr ""
+
+#: TFRMOPTIONS.BTNBACKCOLOR.CAPTION
+msgctxt "TFRMOPTIONS.BTNBACKCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONS.BTNBACKCOLOR2.CAPTION
+msgctxt "TFRMOPTIONS.BTNBACKCOLOR2.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCANCEL.CAPTION
+msgid "Cancel"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION
+msgctxt "TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
 #: TFRMOPTIONS.BTNCONFIGPLUGIN.CAPTION
 msgid "Configure"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION
+msgid "Copy"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCURSORCOLOR.CAPTION
+msgctxt "TFRMOPTIONS.BTNCURSORCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCURSORTEXT.CAPTION
+msgctxt "TFRMOPTIONS.BTNCURSORTEXT.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION"
+msgid "Delete"
+msgstr ""
+
+#: TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION
+msgid "Edit"
 msgstr ""
 
 #: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
@@ -1465,13 +1518,37 @@ msgstr ""
 msgid ">>"
 msgstr ""
 
-#: TFRMOPTIONS.BTNOPEN.CAPTION
-msgid "Open with"
+#: TFRMOPTIONS.BTNMARKCOLOR.CAPTION
+msgctxt "TFRMOPTIONS.BTNMARKCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION
+msgid "&New"
+msgstr ""
+
+#: TFRMOPTIONS.BTNOK.CAPTION
+msgid "&OK"
 msgstr ""
 
 #: TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION
 msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
 msgid "Remove"
+msgstr ""
+
+#: TFRMOPTIONS.BTNSELEDITFNT.CAPTION
+msgctxt "TFRMOPTIONS.BTNSELEDITFNT.CAPTION"
+msgid "..."
+msgstr ""
+
+#: TFRMOPTIONS.BTNSELMAINFNT.CAPTION
+msgctxt "TFRMOPTIONS.BTNSELMAINFNT.CAPTION"
+msgid "..."
+msgstr ""
+
+#: TFRMOPTIONS.BTNSELVIEWFNT.CAPTION
+msgctxt "TFRMOPTIONS.BTNSELVIEWFNT.CAPTION"
+msgid "..."
 msgstr ""
 
 #: TFRMOPTIONS.BTNTWEAKPLUGIN.CAPTION
@@ -1510,8 +1587,16 @@ msgstr ""
 msgid "Cut text to column width"
 msgstr ""
 
+#: TFRMOPTIONS.CBDIRHISTORY.CAPTION
+msgid "Directory history"
+msgstr ""
+
 #: TFRMOPTIONS.CBDIRSELECT.CAPTION
 msgid "Select directory with keypad"
+msgstr ""
+
+#: TFRMOPTIONS.CBDROPREADONLYFLAG.CAPTION
+msgid "Drop readonly flag"
 msgstr ""
 
 #: TFRMOPTIONS.CBEXACTBEGINNING.CAPTION
@@ -1546,6 +1631,10 @@ msgstr ""
 msgid "Flat interface"
 msgstr ""
 
+#: TFRMOPTIONS.CBFLATTOOLBAR.CAPTION
+msgid "Flat buttons"
+msgstr ""
+
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr ""
@@ -1556,6 +1645,11 @@ msgstr ""
 
 #: TFRMOPTIONS.CBLOGCPMVLN.CAPTION
 msgid "Copy/Move/Create link/symlink"
+msgstr ""
+
+#: TFRMOPTIONS.CBLOGDELETE.CAPTION
+msgctxt "TFRMOPTIONS.CBLOGDELETE.CAPTION"
+msgid "Delete"
 msgstr ""
 
 #: TFRMOPTIONS.CBLOGDIROP.CAPTION
@@ -1604,10 +1698,6 @@ msgstr ""
 
 #: TFRMOPTIONS.CBSELECTIONBYMOUSE.CAPTION
 msgid "Selection by mouse"
-msgstr ""
-
-#: TFRMOPTIONS.CBSEPARATEEXT.CAPTION
-msgid "Separate extension"
 msgstr ""
 
 #: TFRMOPTIONS.CBSHORTFILESIZEFORMAT.CAPTION
@@ -1686,18 +1776,6 @@ msgstr ""
 msgid "Text Color:"
 msgstr ""
 
-#: TFRMOPTIONS.EDTEXTDIFFER.TEXT
-msgid "gtk-diff \"%s\" \"%s\""
-msgstr ""
-
-#: TFRMOPTIONS.EDTEXTEDITOR.TEXT
-msgid "gEdit \"%s\""
-msgstr ""
-
-#: TFRMOPTIONS.EDTEXTVIEWER.TEXT
-msgid "emacs \"%s\""
-msgstr ""
-
 #: TFRMOPTIONS.EDTRUNTERM.TEXT
 msgid "/usr/X11R6/bin/xterm"
 msgstr ""
@@ -1770,15 +1848,6 @@ msgstr ""
 msgid "Commands:"
 msgstr ""
 
-#: TFRMOPTIONS.LBLACTIONS.CAPTION
-msgctxt "TFRMOPTIONS.LBLACTIONS.CAPTION"
-msgid "Actions"
-msgstr ""
-
-#: TFRMOPTIONS.LBLASSOCIATEWITH.CAPTION
-msgid "&Associate with:"
-msgstr ""
-
 #: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
 msgid "Background 2:"
 msgstr ""
@@ -1829,10 +1898,6 @@ msgstr ""
 
 #: TFRMOPTIONS.LBLEDITORFONT.CAPTION
 msgid "Editor font"
-msgstr ""
-
-#: TFRMOPTIONS.LBLEXT.CAPTION
-msgid "All files with e&xtension (ending with):"
 msgstr ""
 
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
@@ -2687,6 +2752,10 @@ msgstr ""
 
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"%s\"?"
+msgstr ""
+
+#: ulng.rsmsgrestartforapplychanges
+msgid "Please, restart Double Commander for apply changes"
 msgstr ""
 
 #: ulng.rsmsgselected

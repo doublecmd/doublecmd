@@ -1173,6 +1173,7 @@ msgid "-"
 msgstr ""
 
 #: TFRMMAIN.MILINE18.CAPTION
+msgctxt "TFRMMAIN.MILINE18.CAPTION"
 msgid "-"
 msgstr ""
 
@@ -1434,14 +1435,19 @@ msgctxt "TFRMMULTIRENAME.N1.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: TFRMOPTIONS.BBTNAPPLY.CAPTION
-msgid "Apply"
-msgstr "Прилагане"
+#: TFRMOPTIONS.BBTNADDCATEGORY.CAPTION
+msgid "Add"
+msgstr ""
 
-#: TFRMOPTIONS.BBTNWFXRENAME.CAPTION
-msgctxt "TFRMOPTIONS.BBTNWFXRENAME.CAPTION"
-msgid "Rename"
-msgstr "Преименуване"
+#: TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION
+msgctxt "TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION"
+msgid "Apply"
+msgstr ""
+
+#: TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION
+msgctxt "TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION"
+msgid "Delete"
+msgstr ""
 
 #: TFRMOPTIONS.BTCLEARHOTKEY.CAPTION
 msgid "Clear HotKey"
@@ -1452,9 +1458,56 @@ msgctxt "TFRMOPTIONS.BTNADDPLUGIN.CAPTION"
 msgid "Add"
 msgstr "Добавяне"
 
+#: TFRMOPTIONS.BTNAPPLY.CAPTION
+msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
+msgid "Apply"
+msgstr ""
+
+#: TFRMOPTIONS.BTNBACKCOLOR.CAPTION
+msgctxt "TFRMOPTIONS.BTNBACKCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONS.BTNBACKCOLOR2.CAPTION
+msgctxt "TFRMOPTIONS.BTNBACKCOLOR2.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCANCEL.CAPTION
+msgid "Cancel"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION
+msgctxt "TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
 #: TFRMOPTIONS.BTNCONFIGPLUGIN.CAPTION
 msgid "Configure"
 msgstr "Настройка"
+
+#: TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION
+msgid "Copy"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCURSORCOLOR.CAPTION
+msgctxt "TFRMOPTIONS.BTNCURSORCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCURSORTEXT.CAPTION
+msgctxt "TFRMOPTIONS.BTNCURSORTEXT.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION"
+msgid "Delete"
+msgstr ""
+
+#: TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION
+msgid "Edit"
+msgstr ""
 
 #: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
 msgctxt "TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION"
@@ -1465,13 +1518,37 @@ msgstr "Разрешаване"
 msgid ">>"
 msgstr ">>"
 
-#: TFRMOPTIONS.BTNOPEN.CAPTION
-msgid "Open with"
-msgstr "Отваряне с"
+#: TFRMOPTIONS.BTNMARKCOLOR.CAPTION
+msgctxt "TFRMOPTIONS.BTNMARKCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION
+msgid "&New"
+msgstr ""
+
+#: TFRMOPTIONS.BTNOK.CAPTION
+msgid "&OK"
+msgstr ""
 
 #: TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION
 msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
 msgid "Remove"
+msgstr ""
+
+#: TFRMOPTIONS.BTNSELEDITFNT.CAPTION
+msgctxt "TFRMOPTIONS.BTNSELEDITFNT.CAPTION"
+msgid "..."
+msgstr ""
+
+#: TFRMOPTIONS.BTNSELMAINFNT.CAPTION
+msgctxt "TFRMOPTIONS.BTNSELMAINFNT.CAPTION"
+msgid "..."
+msgstr ""
+
+#: TFRMOPTIONS.BTNSELVIEWFNT.CAPTION
+msgctxt "TFRMOPTIONS.BTNSELVIEWFNT.CAPTION"
+msgid "..."
 msgstr ""
 
 #: TFRMOPTIONS.BTNTWEAKPLUGIN.CAPTION
@@ -1510,9 +1587,17 @@ msgstr "Дневник на реда управление"
 msgid "Cut text to column width"
 msgstr ""
 
+#: TFRMOPTIONS.CBDIRHISTORY.CAPTION
+msgid "Directory history"
+msgstr ""
+
 #: TFRMOPTIONS.CBDIRSELECT.CAPTION
 msgid "Select directory with keypad"
 msgstr "Избор на папка с цифровата клавиатура"
+
+#: TFRMOPTIONS.CBDROPREADONLYFLAG.CAPTION
+msgid "Drop readonly flag"
+msgstr ""
 
 #: TFRMOPTIONS.CBEXACTBEGINNING.CAPTION
 msgid "&Beginning (name must start with first typed character)"
@@ -1546,6 +1631,10 @@ msgstr "Плоски бутони"
 msgid "Flat interface"
 msgstr "Плосък облик"
 
+#: TFRMOPTIONS.CBFLATTOOLBAR.CAPTION
+msgid "Flat buttons"
+msgstr ""
+
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr "16x16"
@@ -1557,6 +1646,11 @@ msgstr "Сгъване/ разгъване"
 #: TFRMOPTIONS.CBLOGCPMVLN.CAPTION
 msgid "Copy/Move/Create link/symlink"
 msgstr "Презапис/Преместване/Създаване на връзка/мека връзка"
+
+#: TFRMOPTIONS.CBLOGDELETE.CAPTION
+msgctxt "TFRMOPTIONS.CBLOGDELETE.CAPTION"
+msgid "Delete"
+msgstr ""
 
 #: TFRMOPTIONS.CBLOGDIROP.CAPTION
 msgid "Create/Delete directories"
@@ -1605,10 +1699,6 @@ msgstr ""
 #: TFRMOPTIONS.CBSELECTIONBYMOUSE.CAPTION
 msgid "Selection by mouse"
 msgstr "Избиране с мишката"
-
-#: TFRMOPTIONS.CBSEPARATEEXT.CAPTION
-msgid "Separate extension"
-msgstr "Отделяне на разпиренията"
 
 #: TFRMOPTIONS.CBSHORTFILESIZEFORMAT.CAPTION
 msgid "Short Filesize format"
@@ -1686,18 +1776,6 @@ msgstr "Показване на две ленти с устройствата (�
 msgid "Text Color:"
 msgstr "Цявят на текста:"
 
-#: TFRMOPTIONS.EDTEXTDIFFER.TEXT
-msgid "gtk-diff \"%s\" \"%s\""
-msgstr ""
-
-#: TFRMOPTIONS.EDTEXTEDITOR.TEXT
-msgid "gEdit \"%s\""
-msgstr ""
-
-#: TFRMOPTIONS.EDTEXTVIEWER.TEXT
-msgid "emacs \"%s\""
-msgstr ""
-
 #: TFRMOPTIONS.EDTRUNTERM.TEXT
 msgid "/usr/X11R6/bin/xterm"
 msgstr "/usr/X11R6/bin/xterm"
@@ -1770,15 +1848,6 @@ msgstr "Заглавки на подстраниците на папките"
 msgid "Commands:"
 msgstr "Заповеди:"
 
-#: TFRMOPTIONS.LBLACTIONS.CAPTION
-msgctxt "TFRMOPTIONS.LBLACTIONS.CAPTION"
-msgid "Actions"
-msgstr "Действия"
-
-#: TFRMOPTIONS.LBLASSOCIATEWITH.CAPTION
-msgid "&Associate with:"
-msgstr "&Обвързване с:"
-
 #: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
 msgid "Background 2:"
 msgstr "Подцвяетка 2:"
@@ -1830,10 +1899,6 @@ msgstr ""
 #: TFRMOPTIONS.LBLEDITORFONT.CAPTION
 msgid "Editor font"
 msgstr "Шрифт на обработчика"
-
-#: TFRMOPTIONS.LBLEXT.CAPTION
-msgid "All files with e&xtension (ending with):"
-msgstr "Всички файлове с раз&ширение (свършващи на):"
 
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key:"
@@ -2688,6 +2753,10 @@ msgstr "Преименуване/местене на %d избраните па�
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"%s\"?"
 msgstr "Преименуване/местене на избрания \"%s\"?"
+
+#: ulng.rsmsgrestartforapplychanges
+msgid "Please, restart Double Commander for apply changes"
+msgstr ""
 
 #: ulng.rsmsgselected
 msgid "Selected %s of %s in %d of %d files"

@@ -137,7 +137,8 @@ var
   gUseInvertedSelection:boolean=false;
   
   gShowIcons : Boolean;
-  gIconsSize : Integer;
+  gIconsSize,
+  gNewIconsSize : Integer;
   gUseMmapInSearch : Boolean;
   gCustomDriveIcons : Boolean; // for use custom drive icons under windows
   
@@ -500,7 +501,7 @@ begin
   
   gShowIcons := gIni.ReadBool('Configuration', 'ShowIcons', True);
   gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
-
+  gNewIconsSize:= gIconsSize;
   gCustomDriveIcons := gIni.ReadBool('Configuration', 'CustomDriveIcons', False);
 
   gCutTextToColWidth := gIni.ReadBool('Configuration', 'CutTextToColWidth', False);
@@ -661,7 +662,7 @@ begin
   gIni.WriteBool('Configuration', 'QuickSearchMatchEnding', gQuickSearchMatchEnding);
 
   gIni.WriteBool('Configuration', 'ShowIcons', gShowIcons);
-  gIni.WriteInteger('Configuration', 'IconsSize', gIconsSize);
+  gIni.WriteInteger('Configuration', 'IconsSize', gNewIconsSize);
   
   gIni.WriteBool('Configuration', 'CutTextToColWidth', gCutTextToColWidth);
 

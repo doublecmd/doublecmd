@@ -346,7 +346,7 @@ implementation
 
 uses
   uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc, menus,
-  uColorExt, uDCUtils, uOSUtils,fColumnsSetConf,
+  uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg,
   fTweakPlugin, uhotkeymanger, uTypes, StrUtils;
 
 
@@ -544,21 +544,14 @@ procedure TfrmOptions.btnOKClick(Sender: TObject);
 begin
   // save all configuration
   SaveConfig;
-  
-  if (gIconsSize <> StrToInt(Copy(cbIconsSize.Text, 1, 2))) then
-    begin
-      gIconsSize := StrToInt(Copy(cbIconsSize.Text, 1, 2)); //file panel icons size
-      SaveGlobs;
-      ShowMessage('Double Commander will restart for apply changes');
-      ExecCmdFork(Application.ExeName);
-      frmMain.Close;
-    end;
 end;
 
 procedure TfrmOptions.btnApplyClick(Sender: TObject);
 begin
   // save all configuration
   SaveConfig;
+  // write to ini file
+  SaveGlobs;
 end;
 
 procedure TfrmOptions.btnSelEditFntClick(Sender: TObject);
@@ -1669,7 +1662,7 @@ begin
   cbExactEnding.Checked := gQuickSearchMatchEnding;
 
   { Icons sizes in file panels }
-  cbIconsSize.Text := IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize);
+  cbIconsSize.Text := IntToStr(gNewIconsSize) + 'x' + IntToStr(gNewIconsSize);
 
   FillLngListBox;
   FillFontLists;
@@ -1708,8 +1701,6 @@ begin
   gLogWindow := cbLogWindow.Checked;
   
   gTerm:=edtTerm.Text;
-  if lngList.ItemIndex>-1 then
-    gPOFileName := lngList.Items.Names[lngList.ItemIndex];
   gDirSelect:=cbDirSelect.Checked;
   gCaseSensitiveSort:=cbCaseSensitiveSort.Checked;
   gLynxLike:=cbLynxLike.Checked;
@@ -1822,6 +1813,17 @@ begin
 
   gQuickSearchMatchBeginning := cbExactBeginning.Checked;
   gQuickSearchMatchEnding := cbExactEnding.Checked;
+
+//-------------------------------------------------
+  if (gNewIconsSize <> StrToInt(Copy(cbIconsSize.Text, 1, 2))) or ((lngList.ItemIndex>-1) and
+    (gPOFileName <> lngList.Items.Names[lngList.ItemIndex])) then
+    begin
+      gNewIconsSize:= StrToInt(Copy(cbIconsSize.Text, 1, 2)); // new file panel icons size
+      if lngList.ItemIndex > -1 then
+        gPOFileName:= lngList.Items.Names[lngList.ItemIndex]; // new language file
+      msgOk(rsMsgRestartForApplyChanges);
+    end;
+//-------------------------------------------------
 
   frmMain.UpdateWindowView;
   frmMain.Repaint; // for panels repaint

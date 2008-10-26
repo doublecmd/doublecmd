@@ -1173,6 +1173,7 @@ msgid "-"
 msgstr ""
 
 #: TFRMMAIN.MILINE18.CAPTION
+msgctxt "TFRMMAIN.MILINE18.CAPTION"
 msgid "-"
 msgstr ""
 
@@ -1434,14 +1435,19 @@ msgctxt "TFRMMULTIRENAME.N1.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: TFRMOPTIONS.BBTNAPPLY.CAPTION
-msgid "Apply"
-msgstr "应用"
+#: TFRMOPTIONS.BBTNADDCATEGORY.CAPTION
+msgid "Add"
+msgstr ""
 
-#: TFRMOPTIONS.BBTNWFXRENAME.CAPTION
-msgctxt "TFRMOPTIONS.BBTNWFXRENAME.CAPTION"
-msgid "Rename"
-msgstr "重命名"
+#: TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION
+msgctxt "TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION"
+msgid "Apply"
+msgstr ""
+
+#: TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION
+msgctxt "TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION"
+msgid "Delete"
+msgstr ""
 
 #: TFRMOPTIONS.BTCLEARHOTKEY.CAPTION
 msgid "Clear HotKey"
@@ -1452,8 +1458,55 @@ msgctxt "TFRMOPTIONS.BTNADDPLUGIN.CAPTION"
 msgid "Add"
 msgstr "添加"
 
+#: TFRMOPTIONS.BTNAPPLY.CAPTION
+msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
+msgid "Apply"
+msgstr ""
+
+#: TFRMOPTIONS.BTNBACKCOLOR.CAPTION
+msgctxt "TFRMOPTIONS.BTNBACKCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONS.BTNBACKCOLOR2.CAPTION
+msgctxt "TFRMOPTIONS.BTNBACKCOLOR2.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCANCEL.CAPTION
+msgid "Cancel"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION
+msgctxt "TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
 #: TFRMOPTIONS.BTNCONFIGPLUGIN.CAPTION
 msgid "Configure"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION
+msgid "Copy"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCURSORCOLOR.CAPTION
+msgctxt "TFRMOPTIONS.BTNCURSORCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCURSORTEXT.CAPTION
+msgctxt "TFRMOPTIONS.BTNCURSORTEXT.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION"
+msgid "Delete"
+msgstr ""
+
+#: TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION
+msgid "Edit"
 msgstr ""
 
 #: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
@@ -1465,13 +1518,37 @@ msgstr ""
 msgid ">>"
 msgstr ">>"
 
-#: TFRMOPTIONS.BTNOPEN.CAPTION
-msgid "Open with"
-msgstr "打开"
+#: TFRMOPTIONS.BTNMARKCOLOR.CAPTION
+msgctxt "TFRMOPTIONS.BTNMARKCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION
+msgid "&New"
+msgstr ""
+
+#: TFRMOPTIONS.BTNOK.CAPTION
+msgid "&OK"
+msgstr ""
 
 #: TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION
 msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
 msgid "Remove"
+msgstr ""
+
+#: TFRMOPTIONS.BTNSELEDITFNT.CAPTION
+msgctxt "TFRMOPTIONS.BTNSELEDITFNT.CAPTION"
+msgid "..."
+msgstr ""
+
+#: TFRMOPTIONS.BTNSELMAINFNT.CAPTION
+msgctxt "TFRMOPTIONS.BTNSELMAINFNT.CAPTION"
+msgid "..."
+msgstr ""
+
+#: TFRMOPTIONS.BTNSELVIEWFNT.CAPTION
+msgctxt "TFRMOPTIONS.BTNSELVIEWFNT.CAPTION"
+msgid "..."
 msgstr ""
 
 #: TFRMOPTIONS.BTNTWEAKPLUGIN.CAPTION
@@ -1510,9 +1587,17 @@ msgstr "命令行历史"
 msgid "Cut text to column width"
 msgstr ""
 
+#: TFRMOPTIONS.CBDIRHISTORY.CAPTION
+msgid "Directory history"
+msgstr ""
+
 #: TFRMOPTIONS.CBDIRSELECT.CAPTION
 msgid "Select directory with keypad"
 msgstr "用小键盘选择目录"
+
+#: TFRMOPTIONS.CBDROPREADONLYFLAG.CAPTION
+msgid "Drop readonly flag"
+msgstr ""
 
 #: TFRMOPTIONS.CBEXACTBEGINNING.CAPTION
 msgid "&Beginning (name must start with first typed character)"
@@ -1546,6 +1631,10 @@ msgstr "扁平按钮"
 msgid "Flat interface"
 msgstr "扁平界面"
 
+#: TFRMOPTIONS.CBFLATTOOLBAR.CAPTION
+msgid "Flat buttons"
+msgstr ""
+
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr "16x16"
@@ -1557,6 +1646,11 @@ msgstr "打包/解包"
 #: TFRMOPTIONS.CBLOGCPMVLN.CAPTION
 msgid "Copy/Move/Create link/symlink"
 msgstr "复制/移动/创建 硬/符号链接"
+
+#: TFRMOPTIONS.CBLOGDELETE.CAPTION
+msgctxt "TFRMOPTIONS.CBLOGDELETE.CAPTION"
+msgid "Delete"
+msgstr ""
 
 #: TFRMOPTIONS.CBLOGDIROP.CAPTION
 msgid "Create/Delete directories"
@@ -1605,10 +1699,6 @@ msgstr ""
 #: TFRMOPTIONS.CBSELECTIONBYMOUSE.CAPTION
 msgid "Selection by mouse"
 msgstr "鼠标选择"
-
-#: TFRMOPTIONS.CBSEPARATEEXT.CAPTION
-msgid "Separate extension"
-msgstr "单独显示扩展名"
 
 #: TFRMOPTIONS.CBSHORTFILESIZEFORMAT.CAPTION
 msgid "Short Filesize format"
@@ -1686,18 +1776,6 @@ msgstr "显示2个驱动按钮栏"
 msgid "Text Color:"
 msgstr "文本颜色:"
 
-#: TFRMOPTIONS.EDTEXTDIFFER.TEXT
-msgid "gtk-diff \"%s\" \"%s\""
-msgstr "gtk-diff \"%s\" \"%s\""
-
-#: TFRMOPTIONS.EDTEXTEDITOR.TEXT
-msgid "gEdit \"%s\""
-msgstr "gEdit \"%s\""
-
-#: TFRMOPTIONS.EDTEXTVIEWER.TEXT
-msgid "emacs \"%s\""
-msgstr "emacs \"%s\""
-
 #: TFRMOPTIONS.EDTRUNTERM.TEXT
 msgid "/usr/X11R6/bin/xterm"
 msgstr "/usr/X11R6/bin/xterm"
@@ -1770,15 +1848,6 @@ msgstr "文件夹标签页头"
 msgid "Commands:"
 msgstr ""
 
-#: TFRMOPTIONS.LBLACTIONS.CAPTION
-msgctxt "TFRMOPTIONS.LBLACTIONS.CAPTION"
-msgid "Actions"
-msgstr "动作"
-
-#: TFRMOPTIONS.LBLASSOCIATEWITH.CAPTION
-msgid "&Associate with:"
-msgstr "关联(&A)"
-
 #: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
 msgid "Background 2:"
 msgstr "背景色2:"
@@ -1830,10 +1899,6 @@ msgstr ""
 #: TFRMOPTIONS.LBLEDITORFONT.CAPTION
 msgid "Editor font"
 msgstr "编辑器字体"
-
-#: TFRMOPTIONS.LBLEXT.CAPTION
-msgid "All files with e&xtension (ending with):"
-msgstr "所有扩展名是:"
 
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key:"
@@ -2688,6 +2753,10 @@ msgstr "重命名/移动 %d 选中的文件/目录吗?"
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"%s\"?"
 msgstr "重命名/移动选中的 \"%s\" 吗?"
+
+#: ulng.rsmsgrestartforapplychanges
+msgid "Please, restart Double Commander for apply changes"
+msgstr ""
 
 #: ulng.rsmsgselected
 msgid "Selected %s of %s in %d of %d files"
