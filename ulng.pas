@@ -56,6 +56,7 @@ resourcestring
   rsMsgNoFreeSpaceRetry = 'No enough free space on target drive, Retry?';
   rsMsgSetVolumeLabel = 'Set volume label';
   rsMsgVolumeLabel = 'Volume label:';
+  rsMsgRestartForApplyChanges = 'Please, restart Double Commander for apply changes';
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuMount = 'Mount';

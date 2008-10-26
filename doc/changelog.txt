@@ -1,4 +1,5 @@
-﻿15.10.2008 FIX: Bug [ 1741043 ] Copying
+﻿26.10.2008 FIX: Bug [ 1989488 ] Don't change interface language
+15.10.2008 FIX: Bug [ 1741043 ] Copying
 13.10.2008 FIX: Bug [ 1874281 ] "No enough free space" instead "Permition denied"
 07.09.2009 FIX: Bug [ 1971187 ] Don't work with user rights
 07.09.2008 FIX: Bug [ 1934572 ] Zip plugin is down on open read only archive
