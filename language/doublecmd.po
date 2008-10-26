@@ -69,11 +69,23 @@ msgid "About"
 msgstr ""
 
 #: TFRMABOUT.LBLBUILD.CAPTION
-msgid "Build: "
+msgid "Build"
+msgstr ""
+
+#: TFRMABOUT.LBLFREEPASCALVER.CAPTION
+msgid "Free Pascal"
+msgstr ""
+
+#: TFRMABOUT.LBLHOMEPAGE.CAPTION
+msgid "Home Page:"
+msgstr ""
+
+#: TFRMABOUT.LBLHOMEPAGEADDRESS.CAPTION
+msgid "http://doublecmd.sourceforge.net"
 msgstr ""
 
 #: TFRMABOUT.LBLLAZARUSVER.CAPTION
-msgid "Lazarus "
+msgid "Lazarus"
 msgstr ""
 
 #: TFRMABOUT.LBLTITLE.CAPTION
@@ -83,6 +95,11 @@ msgstr ""
 
 #: TFRMABOUT.LBLVERSION.CAPTION
 msgid "Version %s"
+msgstr ""
+
+#: TFRMABOUT.OKBUTTON.CAPTION
+msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
+msgid "OK"
 msgstr ""
 
 #: TFRMCOLUMSPROPS.BITBTN1.CAPTION
@@ -209,6 +226,7 @@ msgid "Copy file(s)"
 msgstr ""
 
 #: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
+msgctxt "TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
 msgstr ""
 
@@ -238,6 +256,7 @@ msgid "&Configuration"
 msgstr ""
 
 #: TFRMEDITOR.ACTEDITCOPY.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITCOPY.CAPTION"
 msgid "Copy"
 msgstr ""
 
@@ -278,6 +297,7 @@ msgid "E&xit"
 msgstr ""
 
 #: TFRMEDITOR.ACTFILENEW.CAPTION
+msgctxt "TFRMEDITOR.ACTFILENEW.CAPTION"
 msgid "&New"
 msgstr ""
 
@@ -785,6 +805,7 @@ msgid "Delete F8"
 msgstr ""
 
 #: TFRMMAIN.ACTDIRHISTORY.CAPTION
+msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
 msgid "Directory history"
 msgstr ""
 
@@ -1264,6 +1285,7 @@ msgid "Delete"
 msgstr ""
 
 #: TFRMMAIN.TBEDIT.CAPTION
+msgctxt "TFRMMAIN.TBEDIT.CAPTION"
 msgid "Edit"
 msgstr ""
 
@@ -1436,6 +1458,7 @@ msgid "-"
 msgstr ""
 
 #: TFRMOPTIONS.BBTNADDCATEGORY.CAPTION
+msgctxt "TFRMOPTIONS.BBTNADDCATEGORY.CAPTION"
 msgid "Add"
 msgstr ""
 
@@ -1474,6 +1497,7 @@ msgid ">>"
 msgstr ""
 
 #: TFRMOPTIONS.BTNCANCEL.CAPTION
+msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr ""
 
@@ -1487,6 +1511,7 @@ msgid "Configure"
 msgstr ""
 
 #: TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION"
 msgid "Copy"
 msgstr ""
 
@@ -1506,6 +1531,7 @@ msgid "Delete"
 msgstr ""
 
 #: TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION"
 msgid "Edit"
 msgstr ""
 
@@ -1515,6 +1541,7 @@ msgid "Enable"
 msgstr ""
 
 #: TFRMOPTIONS.BTNFORECOLOR.CAPTION
+msgctxt "TFRMOPTIONS.BTNFORECOLOR.CAPTION"
 msgid ">>"
 msgstr ""
 
@@ -1524,10 +1551,12 @@ msgid ">>"
 msgstr ""
 
 #: TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION"
 msgid "&New"
 msgstr ""
 
 #: TFRMOPTIONS.BTNOK.CAPTION
+msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr ""
 
@@ -1588,6 +1617,7 @@ msgid "Cut text to column width"
 msgstr ""
 
 #: TFRMOPTIONS.CBDIRHISTORY.CAPTION
+msgctxt "TFRMOPTIONS.CBDIRHISTORY.CAPTION"
 msgid "Directory history"
 msgstr ""
 
@@ -1596,6 +1626,7 @@ msgid "Select directory with keypad"
 msgstr ""
 
 #: TFRMOPTIONS.CBDROPREADONLYFLAG.CAPTION
+msgctxt "TFRMOPTIONS.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
 msgstr ""
 
@@ -1624,6 +1655,7 @@ msgid "File mask history"
 msgstr ""
 
 #: TFRMOPTIONS.CBFLATDISKPANEL.CAPTION
+msgctxt "TFRMOPTIONS.CBFLATDISKPANEL.CAPTION"
 msgid "Flat buttons"
 msgstr ""
 
@@ -1632,6 +1664,7 @@ msgid "Flat interface"
 msgstr ""
 
 #: TFRMOPTIONS.CBFLATTOOLBAR.CAPTION
+msgctxt "TFRMOPTIONS.CBFLATTOOLBAR.CAPTION"
 msgid "Flat buttons"
 msgstr ""
 
@@ -2139,6 +2172,7 @@ msgid "Exit"
 msgstr ""
 
 #: TFRMSPLITTER.BTNFTCHOICE.CAPTION
+msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
 msgid "..."
 msgstr ""
 

@@ -1,11 +1,17 @@
 {
-Seksi Commander
-----------------------------
-Implementing of About dialog
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Seksi Commander
+   ----------------------------
+   Implementing of About dialog
+
+   Licence  : GNU GPL v 2.0
+   Author   : radek.cervinka@centrum.cz
+
+   contributors:
+
+   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
 
 }
+
 unit fAbout;
 
 {$mode objfpc}{$H+}
@@ -23,6 +29,9 @@ type
 
   TfrmAbout = class(TForm)
     imgLogo: TImage;
+    lblHomePageAddress: TLabel;
+    lblHomePage: TLabel;
+    lblFreePascalVer: TLabel;
     lblTitle: TLabel;
     lblLazarusVer: TLabel;
     lblBuild: TLabel;
@@ -31,6 +40,9 @@ type
     Panel1: TPanel;
     memInfo: TMemo;
     pnlLogo: TPanel;
+    procedure lblHomePageAddressClick(Sender: TObject);
+    procedure lblHomePageAddressMouseEnter(Sender: TObject);
+    procedure lblHomePageAddressMouseLeave(Sender: TObject);
     procedure OKButtonClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -45,15 +57,16 @@ type
 procedure ShowAboutBox;
 
 var
-  buildDate,
-  Version: String;
+  dcBuildDate,
+  dcVersion,
+  fpcVersion: String;
   
 implementation
-{uses
-  uConstants;}
+
+uses
+  LCLVersion, dmHelpManager;
 
 const
-  LazarusVersionStr = {$I version.inc};
   cAboutMsg =
     'This program is free software under GNU GPL 2 license, see COPYING file'+LineEnding+
     'Authors: '+ LineEnding +
@@ -91,6 +104,33 @@ begin
   Close;
 end;
 
+procedure TfrmAbout.lblHomePageAddressMouseLeave(Sender: TObject);
+begin
+  with Sender as TLabel do
+  begin
+    Font.Style:= [];
+    Font.Color:= clBlue;
+    Cursor:= crDefault;
+  end;
+end;
+
+procedure TfrmAbout.lblHomePageAddressMouseEnter(Sender: TObject);
+begin
+  with Sender as TLabel do
+  begin
+    Font.Style:= [fsUnderLine];
+    Font.Color:= clRed;
+    Cursor:= crHandPoint;
+  end;
+end;
+
+procedure TfrmAbout.lblHomePageAddressClick(Sender: TObject);
+var
+  ErrMsg: String;
+begin
+  dmHelpMgr.HTMLHelpDatabase.ShowURL('http://doublecmd.sourceforge.net','Double Commander Web Site', ErrMsg);
+end;
+
 procedure TfrmAbout.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -102,9 +142,10 @@ procedure TfrmAbout.frmAboutShow(Sender: TObject);
 begin
   memInfo.Lines.Text := cAboutMsg;
   memInfo.CaretPos:= Classes.Point(0, 0);
-  lblVersion.Caption:= Format(lblVersion.Caption, [Version]);
-  lblBuild.Caption := lblBuild.Caption + #32 + buildDate;
-  lblLazarusVer.Caption := lblLazarusVer.Caption + #32 + LazarusVersionStr;
+  lblVersion.Caption:= Format(lblVersion.Caption, [dcVersion]);
+  lblBuild.Caption := lblBuild.Caption + #32 + dcBuildDate;
+  lblLazarusVer.Caption := lblLazarusVer.Caption + #32 + lcl_version;
+  lblFreePascalVer.Caption:= lblFreePascalVer.Caption + #32 + fpcVersion;
 end;
 
 initialization

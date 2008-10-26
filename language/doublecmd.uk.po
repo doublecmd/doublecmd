@@ -68,11 +68,23 @@ msgid "About"
 msgstr "Про програму..."
 
 #: TFRMABOUT.LBLBUILD.CAPTION
-msgid "Build: "
-msgstr "Зборка: "
+msgid "Build"
+msgstr "Зборка"
+
+#: TFRMABOUT.LBLFREEPASCALVER.CAPTION
+msgid "Free Pascal"
+msgstr ""
+
+#: TFRMABOUT.LBLHOMEPAGE.CAPTION
+msgid "Home Page:"
+msgstr ""
+
+#: TFRMABOUT.LBLHOMEPAGEADDRESS.CAPTION
+msgid "http://doublecmd.sourceforge.net"
+msgstr ""
 
 #: TFRMABOUT.LBLLAZARUSVER.CAPTION
-msgid "Lazarus "
+msgid "Lazarus"
 msgstr ""
 
 #: TFRMABOUT.LBLTITLE.CAPTION
@@ -82,6 +94,11 @@ msgstr ""
 
 #: TFRMABOUT.LBLVERSION.CAPTION
 msgid "Version %s"
+msgstr ""
+
+#: TFRMABOUT.OKBUTTON.CAPTION
+msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
+msgid "OK"
 msgstr ""
 
 #: TFRMCOLUMSPROPS.BITBTN1.CAPTION
@@ -208,6 +225,7 @@ msgid "Copy file(s)"
 msgstr ""
 
 #: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
+msgctxt "TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
 msgstr "Зкинути позначку \"Тільки для читання\""
 
@@ -237,6 +255,7 @@ msgid "&Configuration"
 msgstr "Настройка"
 
 #: TFRMEDITOR.ACTEDITCOPY.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITCOPY.CAPTION"
 msgid "Copy"
 msgstr "&Копиювати"
 
@@ -277,6 +296,7 @@ msgid "E&xit"
 msgstr "Ви&хід"
 
 #: TFRMEDITOR.ACTFILENEW.CAPTION
+msgctxt "TFRMEDITOR.ACTFILENEW.CAPTION"
 msgid "&New"
 msgstr "&Створити"
 
@@ -784,6 +804,7 @@ msgid "Delete F8"
 msgstr "Видалити F8"
 
 #: TFRMMAIN.ACTDIRHISTORY.CAPTION
+msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
 msgid "Directory history"
 msgstr "Історія каталогів"
 
@@ -1263,6 +1284,7 @@ msgid "Delete"
 msgstr "Видалити"
 
 #: TFRMMAIN.TBEDIT.CAPTION
+msgctxt "TFRMMAIN.TBEDIT.CAPTION"
 msgid "Edit"
 msgstr "Редактувати"
 
@@ -1435,8 +1457,9 @@ msgid "-"
 msgstr ""
 
 #: TFRMOPTIONS.BBTNADDCATEGORY.CAPTION
+msgctxt "TFRMOPTIONS.BBTNADDCATEGORY.CAPTION"
 msgid "Add"
-msgstr ""
+msgstr "Добавити"
 
 #: TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION
 msgctxt "TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION"
@@ -1446,7 +1469,7 @@ msgstr ""
 #: TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION
 msgctxt "TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION"
 msgid "Delete"
-msgstr ""
+msgstr "Видалити"
 
 #: TFRMOPTIONS.BTCLEARHOTKEY.CAPTION
 msgid "Clear HotKey"
@@ -1473,8 +1496,9 @@ msgid ">>"
 msgstr ""
 
 #: TFRMOPTIONS.BTNCANCEL.CAPTION
+msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "Відміна"
 
 #: TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION"
@@ -1486,8 +1510,9 @@ msgid "Configure"
 msgstr ""
 
 #: TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION"
 msgid "Copy"
-msgstr ""
+msgstr "&Копиювати"
 
 #: TFRMOPTIONS.BTNCURSORCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNCURSORCOLOR.CAPTION"
@@ -1502,11 +1527,12 @@ msgstr ""
 #: TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION
 msgctxt "TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION"
 msgid "Delete"
-msgstr ""
+msgstr "Видалити"
 
 #: TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION"
 msgid "Edit"
-msgstr ""
+msgstr "Редактувати"
 
 #: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
 msgctxt "TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION"
@@ -1514,6 +1540,7 @@ msgid "Enable"
 msgstr ""
 
 #: TFRMOPTIONS.BTNFORECOLOR.CAPTION
+msgctxt "TFRMOPTIONS.BTNFORECOLOR.CAPTION"
 msgid ">>"
 msgstr ""
 
@@ -1523,10 +1550,12 @@ msgid ">>"
 msgstr ""
 
 #: TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION"
 msgid "&New"
-msgstr ""
+msgstr "&Створити"
 
 #: TFRMOPTIONS.BTNOK.CAPTION
+msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr ""
 
@@ -1587,16 +1616,18 @@ msgid "Cut text to column width"
 msgstr ""
 
 #: TFRMOPTIONS.CBDIRHISTORY.CAPTION
+msgctxt "TFRMOPTIONS.CBDIRHISTORY.CAPTION"
 msgid "Directory history"
-msgstr ""
+msgstr "Історія каталогів"
 
 #: TFRMOPTIONS.CBDIRSELECT.CAPTION
 msgid "Select directory with keypad"
 msgstr "Вибрати кат-г на цифр. кл-рі"
 
 #: TFRMOPTIONS.CBDROPREADONLYFLAG.CAPTION
+msgctxt "TFRMOPTIONS.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
-msgstr ""
+msgstr "Зкинути позначку \"Тільки для читання\""
 
 #: TFRMOPTIONS.CBEXACTBEGINNING.CAPTION
 msgid "&Beginning (name must start with first typed character)"
@@ -1623,6 +1654,7 @@ msgid "File mask history"
 msgstr "Історія масок файлів"
 
 #: TFRMOPTIONS.CBFLATDISKPANEL.CAPTION
+msgctxt "TFRMOPTIONS.CBFLATDISKPANEL.CAPTION"
 msgid "Flat buttons"
 msgstr "Плоскі"
 
@@ -1631,8 +1663,9 @@ msgid "Flat interface"
 msgstr "Плоскі"
 
 #: TFRMOPTIONS.CBFLATTOOLBAR.CAPTION
+msgctxt "TFRMOPTIONS.CBFLATTOOLBAR.CAPTION"
 msgid "Flat buttons"
-msgstr ""
+msgstr "Плоскі"
 
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
@@ -1649,7 +1682,7 @@ msgstr "Копіювання / Переміщення / Створення по�
 #: TFRMOPTIONS.CBLOGDELETE.CAPTION
 msgctxt "TFRMOPTIONS.CBLOGDELETE.CAPTION"
 msgid "Delete"
-msgstr ""
+msgstr "Видалити"
 
 #: TFRMOPTIONS.CBLOGDIROP.CAPTION
 msgid "Create/Delete directories"
@@ -2138,6 +2171,7 @@ msgid "Exit"
 msgstr "Вихід"
 
 #: TFRMSPLITTER.BTNFTCHOICE.CAPTION
+msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
 msgid "..."
 msgstr ""
 

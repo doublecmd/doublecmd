@@ -69,12 +69,24 @@ msgid "About"
 msgstr "Over"
 
 #: TFRMABOUT.LBLBUILD.CAPTION
-msgid "Build: "
-msgstr "Build: "
+msgid "Build"
+msgstr "Build"
+
+#: TFRMABOUT.LBLFREEPASCALVER.CAPTION
+msgid "Free Pascal"
+msgstr ""
+
+#: TFRMABOUT.LBLHOMEPAGE.CAPTION
+msgid "Home Page:"
+msgstr ""
+
+#: TFRMABOUT.LBLHOMEPAGEADDRESS.CAPTION
+msgid "http://doublecmd.sourceforge.net"
+msgstr ""
 
 #: TFRMABOUT.LBLLAZARUSVER.CAPTION
-msgid "Lazarus "
-msgstr "Lazarus "
+msgid "Lazarus"
+msgstr "Lazarus"
 
 #: TFRMABOUT.LBLTITLE.CAPTION
 msgctxt "TFRMABOUT.LBLTITLE.CAPTION"
@@ -84,6 +96,11 @@ msgstr "Double Commander"
 #: TFRMABOUT.LBLVERSION.CAPTION
 msgid "Version %s"
 msgstr "Versie %s"
+
+#: TFRMABOUT.OKBUTTON.CAPTION
+msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
+msgid "OK"
+msgstr ""
 
 #: TFRMCOLUMSPROPS.BITBTN1.CAPTION
 msgid "&ОК"
@@ -209,6 +226,7 @@ msgid "Copy file(s)"
 msgstr ""
 
 #: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
+msgctxt "TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
 msgstr "Verwijder alleen lezen attribuut"
 
@@ -238,6 +256,7 @@ msgid "&Configuration"
 msgstr "&Configuratie"
 
 #: TFRMEDITOR.ACTEDITCOPY.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITCOPY.CAPTION"
 msgid "Copy"
 msgstr "Kopiëer"
 
@@ -278,6 +297,7 @@ msgid "E&xit"
 msgstr "Einde"
 
 #: TFRMEDITOR.ACTFILENEW.CAPTION
+msgctxt "TFRMEDITOR.ACTFILENEW.CAPTION"
 msgid "&New"
 msgstr "&Nieuw"
 
@@ -785,6 +805,7 @@ msgid "Delete F8"
 msgstr "Verwijder F8"
 
 #: TFRMMAIN.ACTDIRHISTORY.CAPTION
+msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
 msgid "Directory history"
 msgstr "Directorie historie"
 
@@ -1264,6 +1285,7 @@ msgid "Delete"
 msgstr "Verwijder"
 
 #: TFRMMAIN.TBEDIT.CAPTION
+msgctxt "TFRMMAIN.TBEDIT.CAPTION"
 msgid "Edit"
 msgstr "Edit"
 
@@ -1436,8 +1458,9 @@ msgid "-"
 msgstr "-"
 
 #: TFRMOPTIONS.BBTNADDCATEGORY.CAPTION
+msgctxt "TFRMOPTIONS.BBTNADDCATEGORY.CAPTION"
 msgid "Add"
-msgstr ""
+msgstr "Voeg toe"
 
 #: TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION
 msgctxt "TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION"
@@ -1447,7 +1470,7 @@ msgstr ""
 #: TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION
 msgctxt "TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION"
 msgid "Delete"
-msgstr ""
+msgstr "Verwijder"
 
 #: TFRMOPTIONS.BTCLEARHOTKEY.CAPTION
 msgid "Clear HotKey"
@@ -1474,8 +1497,9 @@ msgid ">>"
 msgstr ""
 
 #: TFRMOPTIONS.BTNCANCEL.CAPTION
+msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "Afbreken"
 
 #: TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION"
@@ -1487,8 +1511,9 @@ msgid "Configure"
 msgstr ""
 
 #: TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION"
 msgid "Copy"
-msgstr ""
+msgstr "Kopiëer"
 
 #: TFRMOPTIONS.BTNCURSORCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNCURSORCOLOR.CAPTION"
@@ -1503,11 +1528,12 @@ msgstr ""
 #: TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION
 msgctxt "TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION"
 msgid "Delete"
-msgstr ""
+msgstr "Verwijder"
 
 #: TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION"
 msgid "Edit"
-msgstr ""
+msgstr "Edit"
 
 #: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
 msgctxt "TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION"
@@ -1515,21 +1541,24 @@ msgid "Enable"
 msgstr ""
 
 #: TFRMOPTIONS.BTNFORECOLOR.CAPTION
+msgctxt "TFRMOPTIONS.BTNFORECOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
 #: TFRMOPTIONS.BTNMARKCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNMARKCOLOR.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION"
 msgid "&New"
-msgstr ""
+msgstr "&Nieuw"
 
 #: TFRMOPTIONS.BTNOK.CAPTION
+msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
-msgstr ""
+msgstr "&OK"
 
 #: TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION
 msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
@@ -1588,16 +1617,18 @@ msgid "Cut text to column width"
 msgstr ""
 
 #: TFRMOPTIONS.CBDIRHISTORY.CAPTION
+msgctxt "TFRMOPTIONS.CBDIRHISTORY.CAPTION"
 msgid "Directory history"
-msgstr ""
+msgstr "Directorie historie"
 
 #: TFRMOPTIONS.CBDIRSELECT.CAPTION
 msgid "Select directory with keypad"
 msgstr "Selecteer directorie met keypad"
 
 #: TFRMOPTIONS.CBDROPREADONLYFLAG.CAPTION
+msgctxt "TFRMOPTIONS.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
-msgstr ""
+msgstr "Verwijder alleen lezen attribuut"
 
 #: TFRMOPTIONS.CBEXACTBEGINNING.CAPTION
 msgid "&Beginning (name must start with first typed character)"
@@ -1624,6 +1655,7 @@ msgid "File mask history"
 msgstr "Bestandsmasker geschiedenis"
 
 #: TFRMOPTIONS.CBFLATDISKPANEL.CAPTION
+msgctxt "TFRMOPTIONS.CBFLATDISKPANEL.CAPTION"
 msgid "Flat buttons"
 msgstr "Platte knoppen"
 
@@ -1632,8 +1664,9 @@ msgid "Flat interface"
 msgstr "Platte interface"
 
 #: TFRMOPTIONS.CBFLATTOOLBAR.CAPTION
+msgctxt "TFRMOPTIONS.CBFLATTOOLBAR.CAPTION"
 msgid "Flat buttons"
-msgstr ""
+msgstr "Platte knoppen"
 
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
@@ -1650,7 +1683,7 @@ msgstr "Kopiëer/Verplaats/Maak link/syslink"
 #: TFRMOPTIONS.CBLOGDELETE.CAPTION
 msgctxt "TFRMOPTIONS.CBLOGDELETE.CAPTION"
 msgid "Delete"
-msgstr ""
+msgstr "Verwijder"
 
 #: TFRMOPTIONS.CBLOGDIROP.CAPTION
 msgid "Create/Delete directories"
@@ -2139,6 +2172,7 @@ msgid "Exit"
 msgstr "Einde"
 
 #: TFRMSPLITTER.BTNFTCHOICE.CAPTION
+msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
 msgid "..."
 msgstr "..."
 

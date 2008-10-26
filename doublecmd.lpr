@@ -61,8 +61,9 @@ uses
   LResources;
   
 const
-  buildDate = {$I %DATE%};
-  Version = '0.4 alpha';
+  dcBuildDate = {$I %DATE%};
+  dcVersion = '0.4 alpha';
+  fpcVersion = {$I %FPCVERSION%};
 
 {$IFDEF WINDOWS}{$R doublecmd.rc}{$ENDIF}
 
@@ -71,14 +72,15 @@ begin
   Application.Title:='Double Commander';
   Application.Initialize;
   ThousandSeparator:=' ';
-  DebugLn(Format('Double commander %s - Free Pascal', [Version]));
-  DebugLn('Build: ' + buildDate);
+  DebugLn(Format('Double commander %s - Free Pascal', [dcVersion]));
+  DebugLn('Build: ' + dcBuildDate);
   DebugLn('This program is free software released under terms of GNU GPL 2');
   DebugLn('(C)opyright 2006-2008 Koblov Alexander (Alexx2000@mail.ru)');
   DebugLn('  and contributors (see about dialog)');
 
-  fAbout.buildDate := buildDate;
-  fAbout.Version:= Version;
+  fAbout.dcBuildDate := dcBuildDate;
+  fAbout.dcVersion:= dcVersion;
+  fAbout.fpcVersion:= fpcVersion;
 
   LoadPaths; // must be first
   if LoadGlobs then
