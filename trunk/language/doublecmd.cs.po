@@ -71,12 +71,24 @@ msgid "About"
 msgstr "O programu"
 
 #: TFRMABOUT.LBLBUILD.CAPTION
-msgid "Build: "
-msgstr "Build: "
+msgid "Build"
+msgstr "Build"
+
+#: TFRMABOUT.LBLFREEPASCALVER.CAPTION
+msgid "Free Pascal"
+msgstr ""
+
+#: TFRMABOUT.LBLHOMEPAGE.CAPTION
+msgid "Home Page:"
+msgstr ""
+
+#: TFRMABOUT.LBLHOMEPAGEADDRESS.CAPTION
+msgid "http://doublecmd.sourceforge.net"
+msgstr ""
 
 #: TFRMABOUT.LBLLAZARUSVER.CAPTION
-msgid "Lazarus "
-msgstr "Lazarus "
+msgid "Lazarus"
+msgstr "Lazarus"
 
 #: TFRMABOUT.LBLTITLE.CAPTION
 msgctxt "TFRMABOUT.LBLTITLE.CAPTION"
@@ -86,6 +98,11 @@ msgstr "Double Commander"
 #: TFRMABOUT.LBLVERSION.CAPTION
 msgid "Version %s"
 msgstr "Verze %s"
+
+#: TFRMABOUT.OKBUTTON.CAPTION
+msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
+msgid "OK"
+msgstr ""
 
 #: TFRMCOLUMSPROPS.BITBTN1.CAPTION
 msgid "&ОК"
@@ -211,6 +228,7 @@ msgid "Copy file(s)"
 msgstr ""
 
 #: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
+msgctxt "TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
 msgstr "Zrušit příznak jen pro čtení"
 
@@ -240,6 +258,7 @@ msgid "&Configuration"
 msgstr "&Konfigurace"
 
 #: TFRMEDITOR.ACTEDITCOPY.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITCOPY.CAPTION"
 msgid "Copy"
 msgstr "Kopírovat"
 
@@ -280,6 +299,7 @@ msgid "E&xit"
 msgstr "&Konec"
 
 #: TFRMEDITOR.ACTFILENEW.CAPTION
+msgctxt "TFRMEDITOR.ACTFILENEW.CAPTION"
 msgid "&New"
 msgstr "&Nový"
 
@@ -787,6 +807,7 @@ msgid "Delete F8"
 msgstr "Vymazat F8"
 
 #: TFRMMAIN.ACTDIRHISTORY.CAPTION
+msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
 msgid "Directory history"
 msgstr "Hystorie adresářů"
 
@@ -1266,6 +1287,7 @@ msgid "Delete"
 msgstr "Vymazat"
 
 #: TFRMMAIN.TBEDIT.CAPTION
+msgctxt "TFRMMAIN.TBEDIT.CAPTION"
 msgid "Edit"
 msgstr "Upravit"
 
@@ -1438,8 +1460,9 @@ msgid "-"
 msgstr "-"
 
 #: TFRMOPTIONS.BBTNADDCATEGORY.CAPTION
+msgctxt "TFRMOPTIONS.BBTNADDCATEGORY.CAPTION"
 msgid "Add"
-msgstr ""
+msgstr "Přidat"
 
 #: TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION
 msgctxt "TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION"
@@ -1449,7 +1472,7 @@ msgstr ""
 #: TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION
 msgctxt "TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION"
 msgid "Delete"
-msgstr ""
+msgstr "Vymazat"
 
 #: TFRMOPTIONS.BTCLEARHOTKEY.CAPTION
 msgid "Clear HotKey"
@@ -1476,8 +1499,9 @@ msgid ">>"
 msgstr ""
 
 #: TFRMOPTIONS.BTNCANCEL.CAPTION
+msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušit"
 
 #: TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION"
@@ -1489,8 +1513,9 @@ msgid "Configure"
 msgstr ""
 
 #: TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION"
 msgid "Copy"
-msgstr ""
+msgstr "Kopírovat"
 
 #: TFRMOPTIONS.BTNCURSORCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNCURSORCOLOR.CAPTION"
@@ -1505,11 +1530,12 @@ msgstr ""
 #: TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION
 msgctxt "TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION"
 msgid "Delete"
-msgstr ""
+msgstr "Vymazat"
 
 #: TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION"
 msgid "Edit"
-msgstr ""
+msgstr "Upravit"
 
 #: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
 msgctxt "TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION"
@@ -1517,21 +1543,24 @@ msgid "Enable"
 msgstr ""
 
 #: TFRMOPTIONS.BTNFORECOLOR.CAPTION
+msgctxt "TFRMOPTIONS.BTNFORECOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
 #: TFRMOPTIONS.BTNMARKCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNMARKCOLOR.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION"
 msgid "&New"
-msgstr ""
+msgstr "&Nový"
 
 #: TFRMOPTIONS.BTNOK.CAPTION
+msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
-msgstr ""
+msgstr "&OK"
 
 #: TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION
 msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
@@ -1590,16 +1619,18 @@ msgid "Cut text to column width"
 msgstr ""
 
 #: TFRMOPTIONS.CBDIRHISTORY.CAPTION
+msgctxt "TFRMOPTIONS.CBDIRHISTORY.CAPTION"
 msgid "Directory history"
-msgstr ""
+msgstr "Hystorie adresářů"
 
 #: TFRMOPTIONS.CBDIRSELECT.CAPTION
 msgid "Select directory with keypad"
 msgstr "Vyberte adresář s  keypadem"
 
 #: TFRMOPTIONS.CBDROPREADONLYFLAG.CAPTION
+msgctxt "TFRMOPTIONS.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
-msgstr ""
+msgstr "Zrušit příznak jen pro čtení"
 
 #: TFRMOPTIONS.CBEXACTBEGINNING.CAPTION
 msgid "&Beginning (name must start with first typed character)"
@@ -1626,6 +1657,7 @@ msgid "File mask history"
 msgstr "Hystorie použitých masek"
 
 #: TFRMOPTIONS.CBFLATDISKPANEL.CAPTION
+msgctxt "TFRMOPTIONS.CBFLATDISKPANEL.CAPTION"
 msgid "Flat buttons"
 msgstr "Plochá tlačítka"
 
@@ -1634,8 +1666,9 @@ msgid "Flat interface"
 msgstr "Ploché rozhraní"
 
 #: TFRMOPTIONS.CBFLATTOOLBAR.CAPTION
+msgctxt "TFRMOPTIONS.CBFLATTOOLBAR.CAPTION"
 msgid "Flat buttons"
-msgstr ""
+msgstr "Plochá tlačítka"
 
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
@@ -1652,7 +1685,7 @@ msgstr "Kopírování/přesun/Create link/symlink"
 #: TFRMOPTIONS.CBLOGDELETE.CAPTION
 msgctxt "TFRMOPTIONS.CBLOGDELETE.CAPTION"
 msgid "Delete"
-msgstr ""
+msgstr "Vymazat"
 
 #: TFRMOPTIONS.CBLOGDIROP.CAPTION
 msgid "Create/Delete directories"
@@ -2141,6 +2174,7 @@ msgid "Exit"
 msgstr "Konec"
 
 #: TFRMSPLITTER.BTNFTCHOICE.CAPTION
+msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
 msgid "..."
 msgstr "..."
 

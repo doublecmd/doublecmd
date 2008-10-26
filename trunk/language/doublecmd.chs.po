@@ -69,12 +69,24 @@ msgid "About"
 msgstr "关于"
 
 #: TFRMABOUT.LBLBUILD.CAPTION
-msgid "Build: "
-msgstr "构建:"
+msgid "Build"
+msgstr "构建"
+
+#: TFRMABOUT.LBLFREEPASCALVER.CAPTION
+msgid "Free Pascal"
+msgstr ""
+
+#: TFRMABOUT.LBLHOMEPAGE.CAPTION
+msgid "Home Page:"
+msgstr ""
+
+#: TFRMABOUT.LBLHOMEPAGEADDRESS.CAPTION
+msgid "http://doublecmd.sourceforge.net"
+msgstr ""
 
 #: TFRMABOUT.LBLLAZARUSVER.CAPTION
-msgid "Lazarus "
-msgstr "Lazarus "
+msgid "Lazarus"
+msgstr "Lazarus"
 
 #: TFRMABOUT.LBLTITLE.CAPTION
 msgctxt "TFRMABOUT.LBLTITLE.CAPTION"
@@ -84,6 +96,11 @@ msgstr "Double Commander"
 #: TFRMABOUT.LBLVERSION.CAPTION
 msgid "Version %s"
 msgstr "版本 %s"
+
+#: TFRMABOUT.OKBUTTON.CAPTION
+msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
+msgid "OK"
+msgstr ""
 
 #: TFRMCOLUMSPROPS.BITBTN1.CAPTION
 msgid "&ОК"
@@ -209,6 +226,7 @@ msgid "Copy file(s)"
 msgstr ""
 
 #: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
+msgctxt "TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
 msgstr "丢弃只读标志"
 
@@ -238,6 +256,7 @@ msgid "&Configuration"
 msgstr "配置(&C)"
 
 #: TFRMEDITOR.ACTEDITCOPY.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITCOPY.CAPTION"
 msgid "Copy"
 msgstr "复制"
 
@@ -278,6 +297,7 @@ msgid "E&xit"
 msgstr "退出(&X)"
 
 #: TFRMEDITOR.ACTFILENEW.CAPTION
+msgctxt "TFRMEDITOR.ACTFILENEW.CAPTION"
 msgid "&New"
 msgstr "新建(&N)"
 
@@ -785,6 +805,7 @@ msgid "Delete F8"
 msgstr "删除 F8"
 
 #: TFRMMAIN.ACTDIRHISTORY.CAPTION
+msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
 msgid "Directory history"
 msgstr "历史浏览目录"
 
@@ -1264,6 +1285,7 @@ msgid "Delete"
 msgstr "删除"
 
 #: TFRMMAIN.TBEDIT.CAPTION
+msgctxt "TFRMMAIN.TBEDIT.CAPTION"
 msgid "Edit"
 msgstr "编辑"
 
@@ -1436,8 +1458,9 @@ msgid "-"
 msgstr "-"
 
 #: TFRMOPTIONS.BBTNADDCATEGORY.CAPTION
+msgctxt "TFRMOPTIONS.BBTNADDCATEGORY.CAPTION"
 msgid "Add"
-msgstr ""
+msgstr "添加"
 
 #: TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION
 msgctxt "TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION"
@@ -1447,7 +1470,7 @@ msgstr ""
 #: TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION
 msgctxt "TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION"
 msgid "Delete"
-msgstr ""
+msgstr "删除"
 
 #: TFRMOPTIONS.BTCLEARHOTKEY.CAPTION
 msgid "Clear HotKey"
@@ -1474,8 +1497,9 @@ msgid ">>"
 msgstr ""
 
 #: TFRMOPTIONS.BTNCANCEL.CAPTION
+msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION"
@@ -1487,8 +1511,9 @@ msgid "Configure"
 msgstr ""
 
 #: TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION"
 msgid "Copy"
-msgstr ""
+msgstr "复制"
 
 #: TFRMOPTIONS.BTNCURSORCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNCURSORCOLOR.CAPTION"
@@ -1503,11 +1528,12 @@ msgstr ""
 #: TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION
 msgctxt "TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION"
 msgid "Delete"
-msgstr ""
+msgstr "删除"
 
 #: TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION"
 msgid "Edit"
-msgstr ""
+msgstr "编辑"
 
 #: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
 msgctxt "TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION"
@@ -1515,21 +1541,24 @@ msgid "Enable"
 msgstr ""
 
 #: TFRMOPTIONS.BTNFORECOLOR.CAPTION
+msgctxt "TFRMOPTIONS.BTNFORECOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
 #: TFRMOPTIONS.BTNMARKCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNMARKCOLOR.CAPTION"
 msgid ">>"
-msgstr ""
+msgstr ">>"
 
 #: TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION"
 msgid "&New"
-msgstr ""
+msgstr "新建(&N)"
 
 #: TFRMOPTIONS.BTNOK.CAPTION
+msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
-msgstr ""
+msgstr "确定(&O)"
 
 #: TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION
 msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
@@ -1588,16 +1617,18 @@ msgid "Cut text to column width"
 msgstr ""
 
 #: TFRMOPTIONS.CBDIRHISTORY.CAPTION
+msgctxt "TFRMOPTIONS.CBDIRHISTORY.CAPTION"
 msgid "Directory history"
-msgstr ""
+msgstr "历史浏览目录"
 
 #: TFRMOPTIONS.CBDIRSELECT.CAPTION
 msgid "Select directory with keypad"
 msgstr "用小键盘选择目录"
 
 #: TFRMOPTIONS.CBDROPREADONLYFLAG.CAPTION
+msgctxt "TFRMOPTIONS.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
-msgstr ""
+msgstr "丢弃只读标志"
 
 #: TFRMOPTIONS.CBEXACTBEGINNING.CAPTION
 msgid "&Beginning (name must start with first typed character)"
@@ -1624,6 +1655,7 @@ msgid "File mask history"
 msgstr "文件掩码历史"
 
 #: TFRMOPTIONS.CBFLATDISKPANEL.CAPTION
+msgctxt "TFRMOPTIONS.CBFLATDISKPANEL.CAPTION"
 msgid "Flat buttons"
 msgstr "扁平按钮"
 
@@ -1632,8 +1664,9 @@ msgid "Flat interface"
 msgstr "扁平界面"
 
 #: TFRMOPTIONS.CBFLATTOOLBAR.CAPTION
+msgctxt "TFRMOPTIONS.CBFLATTOOLBAR.CAPTION"
 msgid "Flat buttons"
-msgstr ""
+msgstr "扁平按钮"
 
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
@@ -1650,7 +1683,7 @@ msgstr "复制/移动/创建 硬/符号链接"
 #: TFRMOPTIONS.CBLOGDELETE.CAPTION
 msgctxt "TFRMOPTIONS.CBLOGDELETE.CAPTION"
 msgid "Delete"
-msgstr ""
+msgstr "删除"
 
 #: TFRMOPTIONS.CBLOGDIROP.CAPTION
 msgid "Create/Delete directories"
@@ -2139,6 +2172,7 @@ msgid "Exit"
 msgstr "退出"
 
 #: TFRMSPLITTER.BTNFTCHOICE.CAPTION
+msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
 msgid "..."
 msgstr "..."
 
