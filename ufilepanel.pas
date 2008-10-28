@@ -720,30 +720,33 @@ begin
 end;
 
 function TFilePanel.ProcessExtCommand(sCmd:String{; pfr:PFileRecItem}) : Boolean;
+var
+  bTerm: Boolean;
 begin
-  Result := False;
-  if Pos('{!SHELL}', sCmd)>0 then
+  Result:= False;
+  bTerm:= False;
+  if Pos('{!SHELL}', sCmd) > 0 then
   begin
-    sCmd:=StringReplace(sCmd,'{!SHELL}','',[rfReplaceAll]);
-    sCmd:=Format(gTerm,[sCmd]);
-    Result := True;
+    sCmd:= StringReplace(sCmd,'{!SHELL}','',[rfReplaceAll]);
+    sCmd:= Format(gTerm,[sCmd]);
+    bTerm:= True;
   end;
-  if Pos('{!EDITOR}',sCmd)>0 then
+  if Pos('{!EDITOR}',sCmd) > 0 then
   begin
-    sCmd:=StringReplace(sCmd,'{!EDITOR}','',[rfReplaceAll]);
+    sCmd:= StringReplace(sCmd,'{!EDITOR}','',[rfReplaceAll]);
     uShowForm.ShowEditorByGlob(sCmd);
-    Result := True;
+    Result:= True;
     Exit;
   end;
-  if Pos('{!VIEWER}',sCmd)>0 then
+  if Pos('{!VIEWER}',sCmd) > 0 then
   begin
-    sCmd:=StringReplace(sCmd,'{!VIEWER}','',[rfReplaceAll]);
+    sCmd:= StringReplace(sCmd,'{!VIEWER}','',[rfReplaceAll]);
     uShowForm.ShowViewerByGlob(sCmd);
-    Result := True;
+    Result:= True;
     Exit;
   end;
   mbSetCurrentDir(ActiveDir);
-  Result := ExecCmdFork(sCmd);
+  Result:= ExecCmdFork(sCmd, bTerm);
 end;
 
 procedure TFilePanel.SetActiveDir(const AValue:String);
