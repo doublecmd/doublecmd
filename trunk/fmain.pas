@@ -1163,7 +1163,7 @@ begin
       if Shift=[ssShift] then
       begin
         mbSetCurrentDir(ActiveDir);
-        ExecCmdFork(ActiveDir + pnlFile.GetActiveItem^.sName, True, gTerm);
+        ExecCmdFork(ActiveDir + pnlFile.GetActiveItem^.sName, True, gRunInTerm);
         Exit;
       end;
       // ctrl enter
@@ -2843,7 +2843,7 @@ begin
       edtCommand.Items.Insert(0,sCmd);
 
     {$IFDEF MSWINDOWS}
-    ExecCmdFork(sCmd, True, gTerm);
+    ExecCmdFork(sCmd, True, gRunInTerm);
     {$ENDIF}
 
     {$IFDEF unix}

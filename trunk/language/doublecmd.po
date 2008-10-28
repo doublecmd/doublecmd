@@ -1809,14 +1809,6 @@ msgstr ""
 msgid "Text Color:"
 msgstr ""
 
-#: TFRMOPTIONS.EDTRUNTERM.TEXT
-msgid "/usr/X11R6/bin/xterm"
-msgstr ""
-
-#: TFRMOPTIONS.EDTTERM.TEXT
-msgid "/usr/X11R6/bin/xterm -e bash -i -c %s"
-msgstr ""
-
 #: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
 msgid "&Buffer size for files:"
 msgstr ""
@@ -1957,12 +1949,12 @@ msgstr ""
 msgid "Param:"
 msgstr ""
 
-#: TFRMOPTIONS.LBLRUNTERM.CAPTION
-msgid "Run terminal:"
+#: TFRMOPTIONS.LBLRUNINTERM.CAPTION
+msgid "Run in terminal:"
 msgstr ""
 
-#: TFRMOPTIONS.LBLTERM.CAPTION
-msgid "Terminal:"
+#: TFRMOPTIONS.LBLRUNTERM.CAPTION
+msgid "Run terminal:"
 msgstr ""
 
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION

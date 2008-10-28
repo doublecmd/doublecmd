@@ -38,13 +38,15 @@ const
   {$IFDEF MSWINDOWS}
   faFolder = faDirectory;
   faSymLink   = $00000400;
-  fmtRunInTerm = '%s /K "%s"';
-  Terminal = 'cmd.exe';  // default terminal
+  RunTerm = 'cmd.exe';  // default terminal
+  RunInTerm = 'cmd.exe /K'; // default run in terminal command
+  fmtRunInTerm = '%s "%s"';
   ShieldChar = '/';
   {$ELSE}
   faFolder = S_IFDIR;
   faSymLink   = $00000040;
-  Terminal = 'xterm -e sh -c';  // default terminal
+  RunTerm = 'xterm';  // default terminal
+  RunInTerm = 'xterm -e sh -c'; // default run in terminal command
   fmtRunInTerm = '%s ''%s ; echo -n Press ENTER to exit... ; read''';
   ShieldChar = '\';
   {$ENDIF}
@@ -348,7 +350,7 @@ begin
           Insert(ShieldChar, sTempStr, x);
         Inc(x);
       end;
-      if sTerm = '' then sTerm := Terminal;
+      if sTerm = '' then sTerm := RunInTerm;
       sTempStr := Format(fmtRunInTerm, [sTerm, sTempStr]);
       SplitArgs(Args, sTempStr);
     end;
@@ -391,7 +393,7 @@ begin
 
   if bTerm then
     begin
-      if sTerm = '' then sTerm := Terminal;
+      if sTerm = '' then sTerm := RunInTerm;
       sCmdLine := Format(fmtRunInTerm, [sTerm, sCmdLine]);
     end;
     
