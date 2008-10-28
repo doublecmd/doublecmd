@@ -728,7 +728,6 @@ begin
   if Pos('{!SHELL}', sCmd) > 0 then
   begin
     sCmd:= StringReplace(sCmd,'{!SHELL}','',[rfReplaceAll]);
-    sCmd:= Format(gTerm,[sCmd]);
     bTerm:= True;
   end;
   if Pos('{!EDITOR}',sCmd) > 0 then
