@@ -435,10 +435,9 @@ begin
       begin
         New(HeaderData);
         HeaderData^ := ArcHeader;
-        FArcFileList.Add(HeaderData);
         //****************************
-        (* if plugin is not list a list of folders *)
-        if not bHasDir then
+        (* if plugin is not give a list of folders *)
+        if (sDirs.Count > 0) or not bHasDir then
           begin
             bHasDir := FPS_ISDIR(HeaderData^.FileAttr);
             GetDirs(String(HeaderData^.FileName), sDirs);
@@ -451,9 +450,14 @@ begin
         //Check for errors
         if iResult <> 0 then
           ShowErrorMessage;
-    end; // while
+
+        (* if archive keeps some folders, but some do not keep *)
+        if (sDirs.Count > 0) and (bHasDir) then
+          Continue;
+        FArcFileList.Add(HeaderData);
+      end; // while
     
-    (* if plugin is not list a list of folders *)
+    (* if plugin is not give a list of folders *)
     if not bHasDir then
       begin
         for I := 0 to sDirs.Count - 1 do
