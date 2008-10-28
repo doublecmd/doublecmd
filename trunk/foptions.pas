@@ -1816,7 +1816,7 @@ begin
 
 //-------------------------------------------------
   if (gNewIconsSize <> StrToInt(Copy(cbIconsSize.Text, 1, 2))) or ((lngList.ItemIndex>-1) and
-    (gPOFileName <> lngList.Items.Names[lngList.ItemIndex])) then
+    (Trim(gPOFileName) <> Trim(lngList.Items.Names[lngList.ItemIndex]))) then
     begin
       gNewIconsSize:= StrToInt(Copy(cbIconsSize.Text, 1, 2)); // new file panel icons size
       if lngList.ItemIndex > -1 then
