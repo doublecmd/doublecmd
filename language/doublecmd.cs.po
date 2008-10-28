@@ -1811,14 +1811,6 @@ msgstr "Zobrazit 2 seznamy disků (fixed width, above file windows)"
 msgid "Text Color:"
 msgstr "Barva písma:"
 
-#: TFRMOPTIONS.EDTRUNTERM.TEXT
-msgid "/usr/X11R6/bin/xterm"
-msgstr "/usr/X11R6/bin/xterm"
-
-#: TFRMOPTIONS.EDTTERM.TEXT
-msgid "/usr/X11R6/bin/xterm -e bash -i -c %s"
-msgstr "/usr/X11R6/bin/xterm -e bash -i -c %s"
-
 #: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
 msgid "&Buffer size for files:"
 msgstr "&Velikost buferu pro soubory:"
@@ -1959,13 +1951,13 @@ msgstr ""
 msgid "Param:"
 msgstr ""
 
+#: TFRMOPTIONS.LBLRUNINTERM.CAPTION
+msgid "Run in terminal:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLRUNTERM.CAPTION
 msgid "Run terminal:"
 msgstr "Spustit terminál:"
-
-#: TFRMOPTIONS.LBLTERM.CAPTION
-msgid "Terminal:"
-msgstr "Terminál:"
 
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"

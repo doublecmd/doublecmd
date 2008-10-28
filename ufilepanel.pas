@@ -745,25 +745,26 @@ begin
     Exit;
   end;
   mbSetCurrentDir(ActiveDir);
-  Result:= ExecCmdFork(sCmd, bTerm);
+  Result:= ExecCmdFork(sCmd, bTerm, gRunInTerm);
 end;
 
 procedure TFilePanel.SetActiveDir(const AValue:String);
 begin
   fPrevActiveDir:= fActiveDir;
-  fActiveDir := IncludeTrailingBackslash(AValue);
+  fActiveDir:= IncludeTrailingBackslash(AValue);
 end;
 
 function TFilePanel.GetActiveDir:String;
 begin
-  Result := IncludeTrailingBackslash(fActiveDir);
+  Result:= IncludeTrailingBackslash(fActiveDir);
 end;
 
 function TFilePanel.GetReferenceItemPtr(iIndex:Integer):PFileRecItem;
 begin
-  Result:=nil;
-  if iIndex>=fRefList.Count then Exit;
-  Result:=PFileRecItem(fRefList.Items[iIndex]);
+  Result:= nil;
+  if iIndex >= fRefList.Count then Exit;
+  Result:= PFileRecItem(fRefList.Items[iIndex]);
 end;
+
 end.
 

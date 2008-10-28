@@ -77,7 +77,7 @@ var
   gDirSortFirst:Boolean=True; // want to show dir first in panels
   gDirHistoryCount:Integer=30; // how many history we remember
   gShowSystemFiles:Boolean=True;
-  gTerm: String;
+  gRunInTerm: String;
   gRunTerm: String;
   gCaseSensitiveSort:Boolean=True;
   gLynxLike:Boolean=True;
@@ -427,7 +427,7 @@ begin
   
   gShowSystemFiles := gIni.ReadBool('Configuration', 'ShowSystemFiles', False);
   gPOFileName := gIni.ReadString('Configuration', 'Language', '');
-  gTerm := gIni.ReadString('Configuration', 'Term', Terminal);
+  gRunInTerm := gIni.ReadString('Configuration', 'RunInTerm', RunInTerm);
   gCaseSensitiveSort := gIni.ReadBool('Configuration', 'CaseSensitiveSort', False);
   gLynxLike := gIni.ReadBool('Configuration', 'LynxLike', True);
   gDirSelect := gIni.ReadBool('Configuration', 'DirSelect', True);
@@ -452,7 +452,7 @@ begin
   gExtEdit := gIni.ReadString('Configuration', 'ExtEdit', '');
   gExtView := gIni.ReadString('Configuration', 'ExtView', '');
   gExtDiff := gIni.ReadString('Configuration', 'ExtDiff', '');
-  gRunTerm := gIni.ReadString('Configuration', 'RunTerm', Terminal);
+  gRunTerm := gIni.ReadString('Configuration', 'RunTerm', RunTerm);
 
   gLuaLib:=gIni.ReadString('Configuration', 'LuaLib', gLuaLib);
 
@@ -589,7 +589,7 @@ begin
 
   gIni.WriteBool('Configuration', 'ShowSystemFiles', gShowSystemFiles);
   gIni.WriteString('Configuration', 'Language', gPOFileName);
-  gIni.WriteString('Configuration', 'Term', gTerm);
+  gIni.WriteString('Configuration', 'RunInTerm', gRunInTerm);
   gIni.WriteBool('Configuration', 'CaseSensitiveSort', gCaseSensitiveSort);
   gIni.WriteBool('Configuration', 'LynxLike', gLynxLike);
   gIni.WriteBool('Configuration', 'DirSelect', gDirSelect);

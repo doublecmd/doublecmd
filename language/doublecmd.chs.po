@@ -1809,14 +1809,6 @@ msgstr "显示2个驱动按钮栏"
 msgid "Text Color:"
 msgstr "文本颜色:"
 
-#: TFRMOPTIONS.EDTRUNTERM.TEXT
-msgid "/usr/X11R6/bin/xterm"
-msgstr "/usr/X11R6/bin/xterm"
-
-#: TFRMOPTIONS.EDTTERM.TEXT
-msgid "/usr/X11R6/bin/xterm -e bash -i -c %s"
-msgstr "/usr/X11R6/bin/xterm -e bash -i -c %s"
-
 #: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
 msgid "&Buffer size for files:"
 msgstr "文件缓冲区大小(Kb):"
@@ -1957,13 +1949,13 @@ msgstr "模式:"
 msgid "Param:"
 msgstr ""
 
+#: TFRMOPTIONS.LBLRUNINTERM.CAPTION
+msgid "Run in terminal:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLRUNTERM.CAPTION
 msgid "Run terminal:"
 msgstr "开启终端:"
-
-#: TFRMOPTIONS.LBLTERM.CAPTION
-msgid "Terminal:"
-msgstr "终端:"
 
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"

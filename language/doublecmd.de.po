@@ -1809,14 +1809,6 @@ msgstr "Zeige zwei Laufwerksleisten (feste Breite, über den Dateifenstern)"
 msgid "Text Color:"
 msgstr "Textfarbe"
 
-#: TFRMOPTIONS.EDTRUNTERM.TEXT
-msgid "/usr/X11R6/bin/xterm"
-msgstr "/usr/X11R6/bin/xterm"
-
-#: TFRMOPTIONS.EDTTERM.TEXT
-msgid "/usr/X11R6/bin/xterm -e bash -i -c %s"
-msgstr "/usr/X11R6/bin/xterm -e bash -i -c %s"
-
 #: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
 msgid "&Buffer size for files:"
 msgstr "&Puffergrösse für Dateien"
@@ -1957,13 +1949,13 @@ msgstr ""
 msgid "Param:"
 msgstr ""
 
+#: TFRMOPTIONS.LBLRUNINTERM.CAPTION
+msgid "Run in terminal:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLRUNTERM.CAPTION
 msgid "Run terminal:"
 msgstr "Konsolenfenster"
-
-#: TFRMOPTIONS.LBLTERM.CAPTION
-msgid "Terminal:"
-msgstr "Kommandointerpreter"
 
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"

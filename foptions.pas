@@ -120,7 +120,7 @@ type
     edtEditorSize: TSpinEdit;
     edtMainSize: TSpinEdit;
     edtRunTerm: TEdit;
-    edtTerm: TEdit;
+    edtRunInTerm: TEdit;
     edtTest1: TEdit;
     edtTest2: TEdit;
     edtTest3: TEdit;
@@ -202,7 +202,7 @@ type
     lblHotKey: TLabel;
     lblMainFont: TLabel;
     lblRunTerm: TLabel;
-    lblTerm: TLabel;
+    lblRunInTerm: TLabel;
     lblViewerFont: TLabel;
     lbCategories: TListBox;
     lngList: TListBox;
@@ -1667,8 +1667,8 @@ begin
   FillLngListBox;
   FillFontLists;
   FillFileColorsList;
-  DebugLn(gTerm);
-  edtTerm.Text:=gTerm;
+  DebugLn(gRunInTerm);
+  edtRunInTerm.Text:= gRunInTerm;
 
 
    FillColumnsList;
@@ -1700,7 +1700,7 @@ begin
   gInterfaceFlat := cbFlatInterface.Checked;
   gLogWindow := cbLogWindow.Checked;
   
-  gTerm:=edtTerm.Text;
+  gRunInTerm:=edtRunInTerm.Text;
   gDirSelect:=cbDirSelect.Checked;
   gCaseSensitiveSort:=cbCaseSensitiveSort.Checked;
   gLynxLike:=cbLynxLike.Checked;
