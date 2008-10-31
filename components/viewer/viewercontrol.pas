@@ -722,7 +722,7 @@ begin
 //    Canvas.Font.Color:=clBlue; // test
     Canvas.Font.Color:=clText;
 //    Canvas.TextRect(ARect, x, y,UTF8Copy(sText,1,FBlockBeg-pBegLine-1)); //!!!
-    Canvas.TextOut(x, y,UTF8Copy(sText,1,FBlockBeg-pBegLine-1));
+    Canvas.TextOut(x, y,UTF8Copy(sText,1,FBlockBeg-pBegLine));
   end;
 
   // selected ?
@@ -740,11 +740,11 @@ begin
   if iBegDrawIndex<>pBegLine then
   begin
 
-    Canvas.FillRect(Types.Rect(x+(iBegDrawIndex-pBegLine-1)*FTextWidth, y, x+(iEndDrawIndex-pBegLine)*FTextWidth, y+FTextHeight));
+    Canvas.FillRect(Types.Rect(x+(iBegDrawIndex-pBegLine)*FTextWidth, y, x+(iEndDrawIndex-pBegLine)*FTextWidth, y+FTextHeight));
 //   Canvas.Font.Color:=clRed; // test
     Canvas.Font.Color:=clLight;
 //    Canvas.TextRect(ARect, x+(iBegDrawIndex-pBegLine-1)*FTextWidth, y,UTF8Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex+1));!!!
-    Canvas.TextOut(x+(iBegDrawIndex-pBegLine-1)*FTextWidth, y,UTF8Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex+1));
+    Canvas.TextOut(x+(iBegDrawIndex-pBegLine)*FTextWidth, y,UTF8Copy(sText,iBegDrawIndex-pBegLine+1,iEndDrawIndex-iBegDrawIndex+1));
   end
   else
   begin
