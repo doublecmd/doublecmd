@@ -129,7 +129,7 @@ procedure Register;
 
 implementation
 uses
-  Clipbrd, LConvEncoding{$IFDEF UNIX}, BaseUnix, Unix{$ELSE}, Windows{$ENDIF};
+  LCLProc, Clipbrd, LConvEncoding{$IFDEF UNIX}, BaseUnix, Unix{$ELSE}, Windows{$ENDIF};
 
 const
   cTextWidth=80;  // wrap on 80 chars
@@ -721,8 +721,8 @@ begin
 // begin line, not selected
 //    Canvas.Font.Color:=clBlue; // test
     Canvas.Font.Color:=clText;
-//    Canvas.TextRect(ARect, x, y,Copy(sText,1,FBlockBeg-pBegLine-1)); //!!!
-    Canvas.TextOut(x, y,Copy(sText,1,FBlockBeg-pBegLine-1));
+//    Canvas.TextRect(ARect, x, y,UTF8Copy(sText,1,FBlockBeg-pBegLine-1)); //!!!
+    Canvas.TextOut(x, y,UTF8Copy(sText,1,FBlockBeg-pBegLine-1));
   end;
 
   // selected ?
@@ -743,16 +743,16 @@ begin
     Canvas.FillRect(Types.Rect(x+(iBegDrawIndex-pBegLine-1)*FTextWidth, y, x+(iEndDrawIndex-pBegLine)*FTextWidth, y+FTextHeight));
 //   Canvas.Font.Color:=clRed; // test
     Canvas.Font.Color:=clLight;
-//    Canvas.TextRect(ARect, x+(iBegDrawIndex-pBegLine-1)*FTextWidth, y,Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex+1));!!!
-    Canvas.TextOut(x+(iBegDrawIndex-pBegLine-1)*FTextWidth, y,Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex+1));
+//    Canvas.TextRect(ARect, x+(iBegDrawIndex-pBegLine-1)*FTextWidth, y,UTF8Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex+1));!!!
+    Canvas.TextOut(x+(iBegDrawIndex-pBegLine-1)*FTextWidth, y,UTF8Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex+1));
   end
   else
   begin
     Canvas.FillRect(Types.Rect(x+(iBegDrawIndex-pBegLine)*FTextWidth, y, x+(iEndDrawIndex-pBegLine)*FTextWidth, y+FTextHeight));
 //    Canvas.Font.Color:=clMaroon; // test
     Canvas.Font.Color:=clLight;
-//    Canvas.TextRect(ARect, x+(iBegDrawIndex-pBegLine)*FTextWidth, y,Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex));
-    Canvas.TextOut(x+(iBegDrawIndex-pBegLine)*FTextWidth, y,Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex));
+//    Canvas.TextRect(ARect, x+(iBegDrawIndex-pBegLine)*FTextWidth, y,UTF8Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex));
+    Canvas.TextOut(x+(iBegDrawIndex-pBegLine)*FTextWidth, y,UTF8Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex));
   end;
 
   // restore background color
@@ -763,8 +763,8 @@ begin
 // end of line, not selected
 //    Canvas.Font.Color:=clGreen; // test
     Canvas.Font.Color:=clText;
-//    Canvas.TextRect(ARect, x+(FBlockEnd-pBegLine)*FTextWidth, y,Copy(sText,FBlockEnd-pBegLine+1,pEndLine-FBlockEnd));
-    Canvas.TextOut(x+(FBlockEnd-pBegLine)*FTextWidth, y,Copy(sText,FBlockEnd-pBegLine+1,pEndLine-FBlockEnd));
+//    Canvas.TextRect(ARect, x+(FBlockEnd-pBegLine)*FTextWidth, y,UTF8Copy(sText,FBlockEnd-pBegLine+1,pEndLine-FBlockEnd));
+    Canvas.TextOut(x+(FBlockEnd-pBegLine)*FTextWidth, y,UTF8Copy(sText,FBlockEnd-pBegLine+1,pEndLine-FBlockEnd));
 
   end;
 end;
