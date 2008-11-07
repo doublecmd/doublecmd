@@ -29,7 +29,7 @@ uses
     {$IFDEF MSWINDOWS}
     , Windows, ShellApi, uNTFSLinks, uMyWindows, JwaWinNetWk
     {$ELSE}
-    , BaseUnix, Libc, Unix, UnixType, UnixUtil, uMyUnix
+    , BaseUnix, Unix, UnixType, UnixUtil, uMyUnix
     {$ENDIF};
     
 {$mode delphi}{$H+}
