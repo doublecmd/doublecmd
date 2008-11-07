@@ -25,13 +25,15 @@
 unit uUsersGroups;
 
 {$mode objfpc}{$H+}
+
 interface
+
 uses
-  Libc, Classes;
+  Classes, uMyUnix;
 
 const
-  groupInfo='/etc/group';
-  userInfo='/etc/passwd';
+  groupInfo = '/etc/group';
+  userInfo = '/etc/passwd';
 
 function uidToStr(uid: Cardinal): String;
 function gidToStr(gid: Cardinal): String;
@@ -39,61 +41,60 @@ function gidToStr(gid: Cardinal): String;
 function strToUID(uname: AnsiString): Cardinal;
 function strToGID(gname: AnsiString): Cardinal;
 
-procedure getUsrGroups(uid:Cardinal;  List: TStrings);
+procedure getUsrGroups(uid: Cardinal;  List: TStrings);
 procedure getUsers(List: TStrings);
 procedure getGroups(List: TStrings);
 
 implementation
+
 uses
   SysUtils;
   
 function uidToStr(uid: Cardinal): String;
 var
-  uinfo: ppasswd;
+  uinfo: PPasswordRecord;
 begin
-  uinfo:=libc.getpwuid(uid);
-  if(uinfo=nil) then
-    result:=''
+  uinfo:= getpwuid(uid);
+  if (uinfo = nil) then
+    Result:= ''
   else
-    result:=String(uinfo^.pw_name);
-
+    Result:= String(uinfo^.pw_name);
 end;
 
 function gidToStr(gid: Cardinal): String;
 var
-  ginfo: Pgroup;
+  ginfo: PGroupRecord;
 begin
-  ginfo:=libc.getgrgid(gid);
-  if(ginfo=nil) then
-    result:=''
+  ginfo:= getgrgid(gid);
+  if (ginfo = nil) then
+    Result:= ''
   else
-    result:=String(ginfo^.gr_name);
+    Result:= String(ginfo^.gr_name);
 end;
 
-procedure getUsrGroups(uid:Cardinal;  List: TStrings);
+procedure getUsrGroups(uid: Cardinal;  List: TStrings);
 var
   groups: TStrings;
   iC,iD: integer;
   sT: string;
 begin
-    //parse groups records
-  groups:=TStringlist.Create;
+  // parse groups records
+  groups:= TStringlist.Create;
   try
     List.Clear;
-  //    try
+
     groups.LoadFromFile(groupInfo);
-  {    except
-       exit;
-    end;
-  }
-     for ic:=0 to (groups.Count-1) do begin
-        st:=groups.Strings[ic]; //get one record to parse
-        id:=Pos(UIDtoStr(uid),st); //get position of uname
-        if ((id<>0) or (uid=0)) then begin
-            st:=copy(st,1,Pos(':',st)-1);
+
+    for ic:= 0 to (groups.Count - 1) do
+      begin
+        st:= groups.Strings[ic]; //get one record to parse
+        id:= Pos(UIDtoStr(uid), st); //get position of uname
+        if ((id<>0) or (uid=0)) then
+          begin
+            st:= Copy(st, 1, Pos(':',st) - 1);
             List.Append(st);
-        end; //if
-     end; //for
+          end; // if
+      end; // for
    finally
      FreeAndNil(groups);
    end;
@@ -101,7 +102,7 @@ end;
 
 procedure getGroups(List: TStrings);
 begin
-  getUsrGroups(0,List);
+  getUsrGroups(0, List);
 end;
 
 procedure GetUsers(List: TStrings);
@@ -110,16 +111,17 @@ var
   iC: integer;
   sT: string;
 begin
-  users:=TStringList.Create;
+  users:= TStringList.Create;
   try
     users.LoadFromFile(userInfo);
 
     List.Clear;
-    for ic:=0 to (users.Count-1) do begin
-      st:=users.Strings[ic]; //get one record (line)
-      st:=copy(st,1,Pos(':',st)-1); //extract username
-      List.Append(st); //append to the list
-    end;
+    for ic:= 0 to (users.Count - 1) do
+      begin
+        st:= users.Strings[ic]; //get one record (line)
+        st:= copy(st, 1, Pos(':',st) - 1); //extract username
+        List.Append(st); //append to the list
+      end;
   finally
     FreeAndNil(users);
   end;  
@@ -130,22 +132,22 @@ function strToUID(uname: AnsiString): Cardinal;
 var
   uinfo: PPasswordRecord;
 begin
-  uinfo:=libc.getpwnam(PChar(uname));
-  if(uinfo=nil) then
-    result:=high(Cardinal)
+  uinfo:= getpwnam(PChar(uname));
+  if (uinfo = nil) then
+    Result:= High(Cardinal)
   else
-    result:=uinfo^.pw_uid;
+    Result:= uinfo^.pw_uid;
 end;
 
 function strToGID(gname: AnsiString): Cardinal;
 var
-  ginfo: Pgroup;
+  ginfo: PGroupRecord;
 begin
-  ginfo:=libc.getgrnam(pChar(gname));
-  if(ginfo=nil) then
-    result:=high(Cardinal)
+  ginfo:= getgrnam(PChar(gname));
+  if (ginfo = nil) then
+    Result:= High(Cardinal)
   else
-    result:=ginfo^.gr_gid;
+    Result:= ginfo^.gr_gid;
 end;
 {/mate}
 end.
