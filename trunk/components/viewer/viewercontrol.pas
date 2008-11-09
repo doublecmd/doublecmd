@@ -109,7 +109,7 @@ type
     Function LoadFromStdin(const sCmd:String):Boolean;
     Function GetDataAdr:PChar;
 
-    procedure SetPosition(Value:Integer);
+    procedure SetPosition(Value:PtrInt);
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure SelectAll;
@@ -118,8 +118,8 @@ type
     { Published declarations }
     property Encoding: String read FEncoding write FEncoding;
     property ViewerMode:TViewerMode read FViewerMode write SetViewerMode;
-    property Position:Integer read FPosition write SetPosition;
-    property FileSize:Integer read FFileSize;
+    property Position:PtrInt read FPosition write SetPosition;
+    property FileSize:PtrInt read FFileSize;
     property OnMouseMove;
     property OnClick;
     property OnMouseDown;
@@ -664,7 +664,7 @@ begin
   Result:=FMappedFile;
 end;
 
-procedure TViewerControl.SetPosition(Value:Integer);
+procedure TViewerControl.SetPosition(Value:PtrInt);
 begin
   if not assigned(FMappedFile) then Exit;
   if (Value<FFileSize) and (Value>=0) then
