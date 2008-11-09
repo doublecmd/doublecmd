@@ -1,27 +1,29 @@
 {
-Seksi Commander
-----------------------------
-Integrated viewer form
+   Seksi Commander
+   ----------------------------
+   Integrated viewer form
 
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Licence  : GNU GPL v 2.0
+   Author   : radek.cervinka@centrum.cz
 
-contributors:
-  Radek Polak
+   contributors:
+
+   Radek Polak
     ported to lazarus:
     changes:
      23.7.
         - fixed: scroll bar had wrong max value until user pressed key (by Radek Polak)
         - fixed: wrong scrolling with scroll bar - now look at ScrollBarVertScroll (by Radek Polak)
 
-  Dmitry Kolomiets
-  15.03.08
-  changes:
-    - Added WLX api support (TC WLX api v 1.8)
+   Dmitry Kolomiets
+   15.03.08
+   changes:
+     - Added WLX api support (TC WLX api v 1.8)
 
 }
 
 unit fViewer;
+
 {$mode objfpc}{$H+}
 
 interface
@@ -134,8 +136,8 @@ procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
 implementation
 
 uses
-  uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx, uFindMmap, uOSUtils;
-
+  uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx, uFindMmap, uDCUtils,
+  uOSUtils;
 
 procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
 var viewer: TfrmViewer;
@@ -178,6 +180,7 @@ begin
     end;
     Status.Panels[0].Text:=FileList.Strings[iIndex];
     Status.Panels[1].Text:=Format('%d/%d',[iIndex+1,FileList.Count]);
+    Status.Panels[3].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
   finally
     Screen.Cursor:=crDefault;
   end;
@@ -485,7 +488,7 @@ end;
 
 procedure TfrmViewer.ReMmapIfNeed;
 begin
-//  DebugLn('TfrmViewer.RemmapIfneed');
+//  DebugLn('TfrmViewer.ReMmapIfNeed');
   if bImage or bPlugin then
   begin
     bImage:=False;
@@ -497,20 +500,29 @@ begin
     nbPages.ActivePageComponent:=pgText;
     image.Picture:=nil;
   end;
-  Status.Panels[2].Text:=IntToStr(ViewerControl.FileSize);
-  Status.Panels[3].Text:='';
+  Status.Panels[3].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
   UpDateScrollBar;
 end;
 
 procedure TfrmViewer.UpDateScrollBar;
+var
+  iPercent: Integer;
 begin
-//  DebugLn('TfrmViewer.Update scrollbar');
-  if ScrollBarVert.Min<>0 then
-    ScrollBarVert.Min:=0;
-  if (ScrollBarVert.Max<>ViewerControl.FileSize) and (ViewerControl.FileSize >= 0) then
-    ScrollBarVert.Max:=ViewerControl.FileSize;
-  if (ScrollBarVert.Position<> ViewerControl.Position) and (ViewerControl.Position >= 0) then
-    ScrollBarVert.Position:=ViewerControl.Position;
+//  DebugLn('TfrmViewer.UpDateScrollBar');
+  if ScrollBarVert.Min <> 0 then
+    ScrollBarVert.Min:= 0;
+  if ScrollBarVert.Max <> 100 then
+    ScrollBarVert.Max:= 100;
+
+  if ViewerControl.FileSize > 0 then
+    begin
+      iPercent:= (ViewerControl.Position * 100) div ViewerControl.FileSize;
+      if (ScrollBarVert.Position <> iPercent) then
+        begin
+          ScrollBarVert.Position:= iPercent;
+          Status.Panels[2].Text:= cnvFormatFileSize(ViewerControl.Position)+' ('+IntToStr(iPercent)+' %)';
+        end;
+    end;
 end;
 
 procedure TfrmViewer.miGraphicsClick(Sender: TObject);
