@@ -170,7 +170,7 @@ begin
     //join
     sTmpAll:=sTmpName+'.'+sTmpExt;
     //find and replace
-    if cbRegExp.Checked then
+    if cbRegExp.Checked and (edFind.Text <> '') then
       sTmpAll:= ReplaceRegExpr(edFind.Text, sTmpAll, edReplace.Text, cbUseSubs.Checked)
     else
       sTmpAll:=StringReplace(sTmpAll,edFind.Text,edReplace.Text,[rfReplaceAll,rfIgnoreCase]);
