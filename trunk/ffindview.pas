@@ -1,17 +1,19 @@
 {
-Seksi Commander
-----------------------------
-Find dialog for Viewer
+   Seksi Commander
+   ----------------------------
+   Find dialog for Viewer
 
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Licence  : GNU GPL v 2.0
+   Author   : radek.cervinka@centrum.cz
 
-contributors:
+   contributors:
 
 
 }
-{$mode objfpc}{$H+}
+
 unit fFindView;
+
+{$mode objfpc}{$H+}
 
 interface
 
@@ -52,29 +54,28 @@ procedure TfrmFindView.btnFindClick(Sender: TObject);
 begin
   inherited;
   cbDataToFind.Items.Add(cbDataToFind.Text);
-  ModalResult:=mrOk;
+  ModalResult:= mrOk;
 end;
 
 procedure TfrmFindView.cbDataToFindKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
-  if (Key=VK_Down) and (cbDataToFind.Items.Count>0) then
-    cbDataToFind.DroppedDown:=True;
+  if (Key = VK_Down) and (cbDataToFind.Items.Count > 0) then
+    cbDataToFind.DroppedDown:= True;
   DebugLn(IntToStr(Key));
-  if Key=13 then
+  if Key = 13 then
   begin
-    Key:=0;
+    Key:= 0;
     btnFind.Click;
   end;
-  if Key=27 then
+  if Key = 27 then
   begin
-    Key:=0;
-    ModalResult:=mrCancel;
+    Key:= 0;
+    ModalResult:= mrCancel;
   end;
 
 end;
-
 
 initialization
  {$I ffindview.lrs}

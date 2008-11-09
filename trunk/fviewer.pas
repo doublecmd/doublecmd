@@ -596,13 +596,13 @@ begin
   if FFindDialog.ShowModal <> mrOK then Exit;
   if FFindDialog.cbDataToFind.Text='' then Exit;
 
-  PAdr:=PosMem(PAdr, iSizeData, FFindDialog.cbDataToFind.Text, FFindDialog.cbCaseSens.Checked);
+  PAdr:= PosMem(PAdr, iSizeData, FFindDialog.cbDataToFind.Text, FFindDialog.cbCaseSens.Checked);
 
-  if (Integer(PAdr)<>-1) then
+  if (PtrInt(PAdr)<>-1) then
   begin
 // founded, set position to ViewerControl
-    ViewerControl.Position:=Integer(PAdr)-Integer(ViewerControl.GetDataAdr);
-//    ViewerControl.Up;
+    ViewerControl.Position:= PtrInt(PAdr)-PtrInt(ViewerControl.GetDataAdr);
+    ViewerControl.Up;
 // position is property and have write method  (repaint widget)
      UpDateScrollBar;
   end;
