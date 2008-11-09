@@ -1,29 +1,34 @@
 {
-Seksi Commander
-----------------------------
-Licence  : GNU GPL v 2.0
-Author   : Pavel Letko (letcuv@centrum.cz)
+   Seksi Commander
+   ----------------------------
+   Licence  : GNU GPL v 2.0
+   Author   : Pavel Letko (letcuv@centrum.cz)
 
-Advanced multi rename tool
+   Advanced multi rename tool
 
-contributors:
+   contributors:
 
+   Copyright (C) 2007-2008  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit fMultiRename;
+
 {$mode objfpc}{$H+}
+
 interface
 
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ComCtrls, Menus, Buttons;
+  StdCtrls, ComCtrls, Menus, Buttons, SynRegExpr;
 
 type
 
   { TfrmMultiRename }
 
   TfrmMultiRename = class(TForm)
+    cbRegExp: TCheckBox;
+    cbUseSubs: TCheckBox;
     lsvwFile: TListView;
     gbMaska: TGroupBox;
     lbName: TLabel;
@@ -73,6 +78,7 @@ type
     miHour: TMenuItem;
     miMinute: TMenuItem;
     miSecond: TMenuItem;
+    procedure cbRegExpChange(Sender: TObject);
     procedure cmbxFontChange(Sender: TObject);
     procedure edPocChange(Sender: TObject);
     procedure edIntervalChange(Sender: TObject);
@@ -152,8 +158,9 @@ begin
 end;
 
 procedure TfrmMultiRename.FreshText;
-var c:integer;
-    sTmpAll,sTmpName,sTmpExt:string;
+var
+  c:integer;
+  sTmpAll,sTmpName,sTmpExt:string;
 begin
   for c:=0 to lsvwFile.Items.Count-1 do
   begin
@@ -163,7 +170,10 @@ begin
     //join
     sTmpAll:=sTmpName+'.'+sTmpExt;
     //find and replace
-    sTmpAll:=StringReplace(sTmpAll,edFind.Text,edReplace.Text,[rfReplaceAll,rfIgnoreCase]);
+    if cbRegExp.Checked then
+      sTmpAll:= ReplaceRegExpr(edFind.Text, sTmpAll, edReplace.Text, cbUseSubs.Checked)
+    else
+      sTmpAll:=StringReplace(sTmpAll,edFind.Text,edReplace.Text,[rfReplaceAll,rfIgnoreCase]);
     //file name style
     case cmbxFont.ItemIndex of
       1: sTmpAll:=UpperCase(sTmpAll);
@@ -184,8 +194,22 @@ begin
   FreshText;
 end;
 
+procedure TfrmMultiRename.cbRegExpChange(Sender: TObject);
+begin
+  if cbRegExp.Checked then
+    cbUseSubs.Checked:= Boolean(cbUseSubs.Tag)
+  else
+    begin
+      cbUseSubs.Tag:= Integer(cbUseSubs.Checked);
+      cbUseSubs.Checked:= False;
+    end;
+  cbUseSubs.Enabled:= cbRegExp.Checked;
+  FreshText;
+end;
+
 procedure TfrmMultiRename.edPocChange(Sender: TObject);
-var c:integer;
+var
+  c:integer;
 begin
   c:=StrToIntDef(edPoc.Text,maxint);
   if c=MaxInt then
@@ -198,7 +222,8 @@ begin
 end;
 
 procedure TfrmMultiRename.edIntervalChange(Sender: TObject);
-var c:integer;
+var
+  c:integer;
 begin
   c:=StrToIntDef(edInterval.Text,maxint);
   if c=MaxInt then
@@ -244,9 +269,9 @@ begin
 end;
 
 function TfrmMultiRename.sReplace(sMask:string;count:integer):string;
-var sNew,sTmp,sOrigName,sOrigExt:string;
-    i:integer;
-
+var
+  sNew,sTmp,sOrigName,sOrigExt:string;
+  i:integer;
 begin
   sOrigName:=ChangeFileExt(lsvwFile.Items[count].Caption,'');
   sOrigExt:=ExtractFileExt(lsvwFile.Items[count].Caption);
@@ -358,7 +383,8 @@ begin
 end;
 
 procedure TfrmMultiRename.NameXXClick(Sender: TObject);
-var c,i:integer;
+var
+  c,i:integer;
 begin
   i:=0;
   for c:=0 to lsvwFile.Items.Count-1 do
@@ -387,8 +413,9 @@ begin
 end;
 
 procedure TfrmMultiRename.ExtensionXXClick(Sender: TObject);
-var c,i:integer;
-    sTmp:string;
+var
+  c,i:integer;
+  sTmp:string;
 begin
   i:=0;
   for c:=0 to lsvwFile.Items.Count-1 do
