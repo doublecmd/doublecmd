@@ -7,6 +7,7 @@
    showing editor or viewer by configuration dialog
 
    contributors:
+
    Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
 }
 

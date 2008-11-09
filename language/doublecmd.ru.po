@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-11-09 20:03+0300\n"
+"PO-Revision-Date: 2008-11-09 22:57+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1305,6 +1305,14 @@ msgstr "Только типа:"
 msgid "Move %s:"
 msgstr "Переместить %s:"
 
+#: TFRMMULTIRENAME.BTNCANCEL.CAPTION
+msgid "Cancel"
+msgstr "Отмена"
+
+#: TFRMMULTIRENAME.BTNOK.CAPTION
+msgid "OK"
+msgstr ""
+
 #: TFRMMULTIRENAME.BTNRESTORE.CAPTION
 msgid "Restore All"
 msgstr "Восстановить всё"
@@ -1317,6 +1325,14 @@ msgstr "Групповое переименование"
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
 msgid "Log"
 msgstr "Протокол"
+
+#: TFRMMULTIRENAME.CBREGEXP.CAPTION
+msgid "&Regular expressions"
+msgstr "&Регулярные выражения"
+
+#: TFRMMULTIRENAME.CBUSESUBS.CAPTION
+msgid "Use substitution"
+msgstr "Подстановка"
 
 #: TFRMMULTIRENAME.CMBXWIDTH.TEXT
 msgid "01"

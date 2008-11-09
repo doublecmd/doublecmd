@@ -1306,6 +1306,14 @@ msgstr "Само на файлове от вид:"
 msgid "Move %s:"
 msgstr "Преместване на %s:"
 
+#: TFRMMULTIRENAME.BTNCANCEL.CAPTION
+msgid "Cancel"
+msgstr ""
+
+#: TFRMMULTIRENAME.BTNOK.CAPTION
+msgid "OK"
+msgstr ""
+
 #: TFRMMULTIRENAME.BTNRESTORE.CAPTION
 msgid "Restore All"
 msgstr "Връщане на всички"
@@ -1318,6 +1326,14 @@ msgstr "Множествено преименуване"
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
 msgid "Log"
 msgstr "Дневник"
+
+#: TFRMMULTIRENAME.CBREGEXP.CAPTION
+msgid "&Regular expressions"
+msgstr ""
+
+#: TFRMMULTIRENAME.CBUSESUBS.CAPTION
+msgid "Use substitution"
+msgstr ""
 
 #: TFRMMULTIRENAME.CMBXWIDTH.TEXT
 msgid "01"

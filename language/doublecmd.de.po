@@ -1306,6 +1306,14 @@ msgstr "Nur diese Typen"
 msgid "Move %s:"
 msgstr "Verschiebe %s"
 
+#: TFRMMULTIRENAME.BTNCANCEL.CAPTION
+msgid "Cancel"
+msgstr ""
+
+#: TFRMMULTIRENAME.BTNOK.CAPTION
+msgid "OK"
+msgstr ""
+
 #: TFRMMULTIRENAME.BTNRESTORE.CAPTION
 msgid "Restore All"
 msgstr "Alle wieder herstellen"
@@ -1318,6 +1326,14 @@ msgstr "Mehrfaches Umbenennen"
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
 msgid "Log"
 msgstr "Log"
+
+#: TFRMMULTIRENAME.CBREGEXP.CAPTION
+msgid "&Regular expressions"
+msgstr ""
+
+#: TFRMMULTIRENAME.CBUSESUBS.CAPTION
+msgid "Use substitution"
+msgstr ""
 
 #: TFRMMULTIRENAME.CMBXWIDTH.TEXT
 msgid "01"

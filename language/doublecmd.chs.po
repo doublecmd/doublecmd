@@ -1306,6 +1306,14 @@ msgstr "只有类型:"
 msgid "Move %s:"
 msgstr "移动 %s:"
 
+#: TFRMMULTIRENAME.BTNCANCEL.CAPTION
+msgid "Cancel"
+msgstr ""
+
+#: TFRMMULTIRENAME.BTNOK.CAPTION
+msgid "OK"
+msgstr ""
+
 #: TFRMMULTIRENAME.BTNRESTORE.CAPTION
 msgid "Restore All"
 msgstr "全部回滚"
@@ -1318,6 +1326,14 @@ msgstr "多文件改名"
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
 msgid "Log"
 msgstr "日志"
+
+#: TFRMMULTIRENAME.CBREGEXP.CAPTION
+msgid "&Regular expressions"
+msgstr ""
+
+#: TFRMMULTIRENAME.CBUSESUBS.CAPTION
+msgid "Use substitution"
+msgstr ""
 
 #: TFRMMULTIRENAME.CMBXWIDTH.TEXT
 msgid "01"
