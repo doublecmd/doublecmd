@@ -2503,6 +2503,10 @@ msgstr ""
 msgid "Option"
 msgstr ""
 
+#: ulng.rseditsearchregexp
+msgid "&Regular expressions"
+msgstr ""
+
 #: ulng.rseditsearchreplace
 msgid "Replace"
 msgstr ""

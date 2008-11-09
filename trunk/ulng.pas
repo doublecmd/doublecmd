@@ -168,6 +168,7 @@ resourcestring
   rsEditSearchBack = '&Backward';
   rsEditSearchCase = 'C&ase sensitivity';
   rsEditSearchWholeWord ='&Whole words only';
+  rsEditSearchRegExp = '&Regular expressions';
   rsEditSearchCaret ='Search from &caret';
   rsEditSearchSelect ='Selected &text only';
   rsEditSearchOptions ='Option';

@@ -141,6 +141,7 @@ type
     bSearchFromCaret:Boolean;
     bSearchSelectionOnly:Boolean;
     bSearchWholeWords:Boolean;
+    bSearchRegExp:Boolean;
     sSearchText, sReplaceText:String;
     sReplaceTextHistory, sSearchTextHistory:String;
     sEncoding,
@@ -620,6 +621,8 @@ begin
     Include(Options, ssoSelectedOnly);
   if bSearchWholeWords then
     Include(Options, ssoWholeWord);
+  if bSearchRegExp then
+    Include(Options, ssoRegExpr);
   if Editor.SearchReplace(sSearchText, sReplaceText, Options) = 0 then
   begin
     if ssoBackwards in Options then
@@ -667,6 +670,7 @@ begin
       bSearchFromCaret := SearchFromCursor;
       bSearchSelectionOnly := SearchInSelectionOnly;
       bSearchWholeWords := SearchWholeWords;
+      bSearchRegExp := SearchRegExp;
       sSearchText := SearchText;
       sSearchTextHistory := SearchTextHistory;
       if AReplace then with dlg as TfrmEditSearchReplace do begin
