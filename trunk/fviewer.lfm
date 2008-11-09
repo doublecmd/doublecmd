@@ -92,7 +92,6 @@ object frmViewer: TfrmViewer
     ShowTabs = False
     TabOrder = 0
     object pgText: TPage
-      Caption = 'pgText'
       ClientWidth = 987
       ClientHeight = 680
       object ScrollBarVert: TScrollBar
@@ -102,7 +101,7 @@ object frmViewer: TfrmViewer
         Align = alRight
         Anchors = [akTop, akRight]
         Kind = sbVertical
-        Max = 1000
+        Max = 100
         PageSize = 1
         ParentCtl3D = False
         Position = 50
