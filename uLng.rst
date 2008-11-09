@@ -487,6 +487,10 @@ ulng.rseditsearchcase='C&ase sensitivity'
 ulng.rseditsearchwholeword='&Whole words only'
 
 
+# hash value = 8115171
+ulng.rseditsearchregexp='&Regular expressions'
+
+
 # hash value = 222270884
 ulng.rseditsearchcaret='Search from &caret'
 

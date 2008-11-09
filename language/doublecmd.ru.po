@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-10-29 00:10+0300\n"
+"PO-Revision-Date: 2008-11-09 20:03+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2501,6 +2501,10 @@ msgstr "&Вперед"
 #: ulng.rseditsearchoptions
 msgid "Option"
 msgstr "Опции"
+
+#: ulng.rseditsearchregexp
+msgid "&Regular expressions"
+msgstr "&Регулярные выражения"
 
 #: ulng.rseditsearchreplace
 msgid "Replace"

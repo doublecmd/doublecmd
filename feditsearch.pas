@@ -64,6 +64,8 @@ uses
 
 type
 
+  { TfrmEditSearch }
+
   TfrmEditSearch = class(TForm)
   protected
     lblSearchFor: TLabel;
@@ -73,6 +75,7 @@ type
     cbSearchWholeWords: TCheckBox;
     cbSearchFromCursor: TCheckBox;
     cbSearchSelectedOnly: TCheckBox;
+    cbSearchRegExp: TCheckBox;
     rgSearchDirection: TRadioGroup;
     btnOK: TButton;
     btnCancel: TButton;
@@ -87,6 +90,7 @@ type
     function GetSearchText: string;
     function GetSearchTextHistory: string;
     function GetSearchWholeWords: boolean;
+    function GetSearchRegExp: boolean;
     procedure SetSearchBackwards(Value: boolean);
     procedure SetSearchCaseSensitive(Value: boolean);
     procedure SetSearchFromCursor(Value: boolean);
@@ -94,6 +98,7 @@ type
     procedure SetSearchText(Value: string);
     procedure SetSearchTextHistory(Value: string);
     procedure SetSearchWholeWords(Value: boolean);
+    procedure SetSearchRegExp(Value: boolean);
     
     procedure CreateDialog(AOwner: TForm); virtual;
     
@@ -113,6 +118,8 @@ type
       write SetSearchTextHistory;
     property SearchWholeWords: boolean read GetSearchWholeWords
       write SetSearchWholeWords;
+    property SearchRegExp: boolean read GetSearchRegExp
+      write SetSearchRegExp;
   end;
 
   TfrmEditSearchReplace = class(TfrmEditSearch)
@@ -192,6 +199,11 @@ begin
   Result := cbSearchWholeWords.Checked;
 end;
 
+function TfrmEditSearch.GetSearchRegExp: boolean;
+begin
+  Result:= cbSearchRegExp.Checked;
+end;
+
 procedure TfrmEditSearch.SetSearchBackwards(Value: boolean);
 begin
   rgSearchDirection.ItemIndex := Ord(Value);
@@ -227,6 +239,11 @@ begin
   cbSearchWholeWords.Checked := Value;
 end;
 
+procedure TfrmEditSearch.SetSearchRegExp(Value: boolean);
+begin
+  cbSearchRegExp.Checked:= Value;
+end;
+
 procedure TfrmEditSearch.CreateDialog(AOwner: TForm);
 begin
   SetInitialBounds(367, 203, 332, 170);
@@ -260,11 +277,15 @@ begin
   
   cbSearchFromCursor := TCheckBox.Create(gbSearchOptions);
   cbSearchFromCursor.Parent:=gbSearchOptions;
-  cbSearchFromCursor.SetBounds(6,65 ,142, 20);
+  cbSearchFromCursor.SetBounds(6,60 ,142, 20);
   
   cbSearchSelectedOnly := TCheckBox.Create(gbSearchOptions);
   cbSearchSelectedOnly.Parent:=gbSearchOptions;
-  cbSearchSelectedOnly.SetBounds(6, 41 ,142, 20);
+  cbSearchSelectedOnly.SetBounds(6, 40 ,142, 20);
+
+  cbSearchRegExp := TCheckBox.Create(gbSearchOptions);
+  cbSearchRegExp.Parent:=gbSearchOptions;
+  cbSearchRegExp.SetBounds(6, 80 ,142, 20);
   
   rgSearchDirection := TRadioGroup.Create(AOwner);
   rgSearchDirection.Parent:=AOwner;
@@ -296,6 +317,7 @@ begin
   rgSearchDirection.Items.Add(rsEditSearchBack);
   cbSearchCaseSensitive.Caption:= rsEditSearchCase;
   cbSearchWholeWords.Caption:= rsEditSearchWholeWord;
+  cbSearchRegExp.Caption:= rsEditSearchRegExp;
   cbSearchFromCursor.Caption :=  rsEditSearchCaret;
   cbSearchSelectedOnly.Caption:=  rsEditSearchSelect;
   
@@ -308,7 +330,6 @@ begin
   inherited Create(AOwner);
   CreateDialog(Self);
 end;
-
 
 procedure TfrmEditSearch.btnOKClick(Sender: TObject);
 var
