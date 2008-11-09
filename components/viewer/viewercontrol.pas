@@ -1,39 +1,43 @@
 {
- Component ViewerControl (Free Pascal)
- show file in text (wraped or not) or bin or hex mode
+   Component ViewerControl (Free Pascal)
+   show file in text (wraped or not) or bin or hex mode
 
- This is part of Seksi Commander
+   This is part of Seksi Commander
 
- To searching use uFindMmap,
- to movement call Upxxxx, Downxxxx, or set Position
+   To searching use uFindMmap,
+   to movement call Upxxxx, Downxxxx, or set Position
 
- Realised under GNU GPL 2
- author Radek Cervinka (radek.cervinka@centrum.cz)
+   Realised under GNU GPL 2
+   author Radek Cervinka (radek.cervinka@centrum.cz)
 
- changes:
- 5.7. (RC)
-   - selecting text with mouse
-   - CopyToclipBoard, SelectAll
- ?.6. - LoadFromStdIn and loading first 64Kb of files with size=0 :) (/proc fs ..)  
- 17.6. (RC)
-   - mapfile (in error set FMappedFile=nil)
-   - writetext TABs fixed (tab is replaced by 9 spaces)
-   - set correct position for modes hex, bin (SetPosition)
- 21.7
-   - wrap text on 80 character lines works better now (by Radek Polak)
-   - problems with function UpLine for specific lines:
-     (lines of 80(=cTextWidth) character ended with ENTER (=#10)
- 6.2. (RC)
-   - ported to fpc for linux (CustomControl and gtk)
- 7.2. (RC)
-   - use temp to new implementation of LoadFromStdIn (and mmap temp file)
-   - faster drawing of text (I hope)
+   changes:
+   5.7. (RC)
+     - selecting text with mouse
+     - CopyToclipBoard, SelectAll
+   ?.6. - LoadFromStdIn and loading first 64Kb of files with size=0 :) (/proc fs ..)
+   17.6. (RC)
+     - mapfile (in error set FMappedFile=nil)
+     - writetext TABs fixed (tab is replaced by 9 spaces)
+     - set correct position for modes hex, bin (SetPosition)
+   21.7
+     - wrap text on 80 character lines works better now (by Radek Polak)
+     - problems with function UpLine for specific lines:
+       (lines of 80(=cTextWidth) character ended with ENTER (=#10)
+   6.2. (RC)
+     - ported to fpc for linux (CustomControl and gtk)
+   7.2. (RC)
+     - use temp to new implementation of LoadFromStdIn (and mmap temp file)
+     - faster drawing of text (I hope)
    
+   contributors:
 
+   Copyright (C) 2006-2008 Alexander Koblov (Alexx2000@mail.ru)
 }
 
 unit viewercontrol;
+
 {$mode objfpc}{$H+}
+
 interface
 
 uses
@@ -42,6 +46,8 @@ uses
 type
   TViewerMode=(vmBin, vmHex, vmText, vmWrap);
   TDataAccess=(dtMmap, dtNothing);
+
+  { TViewerControl }
 
   TViewerControl = class(TCustomControl)
 //  TViewerControl = class(TGraphicControl)
@@ -53,14 +59,14 @@ type
     FEncoding: String;
     FViewerMode:TViewerMode;
     FFileHandle:Integer;
-    FFileSize:Integer;
+    FFileSize:PtrInt;
     FMappingHandle : THandle;
     FMappedFile:PChar;
-    FPosition: Integer;
+    FPosition: PtrInt;
     FLineList:TList;
-    FBlockBeg:Integer;
-    FBlockEnd:Integer;
-    FMouseBlockBeg:Integer;
+    FBlockBeg:PtrInt;
+    FBlockEnd:PtrInt;
+    FMouseBlockBeg:PtrInt;
     FSelecting:Boolean;
     // this is broken ..., using constant
     FTextHeight, FTextWidth:Integer; // measured values of font, rec calc at font changed
@@ -76,6 +82,7 @@ type
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState;
       X, Y: Integer); override;
     function XYPos2Adr(x,y:Integer):Integer;
+    procedure DblClick; override;
   public
     { Public declarations }
 //    procedure EraseBackground(DC: HDC); override;
@@ -865,20 +872,75 @@ begin
 //  writeln(Format('%d %d %d %d %d',[x,y,Integer(FLineList.Items[yIndex]),yIndex,Result]));
 end;
 
+function PosMem(pAdr: PChar; iPos, iLength: PtrInt; bGoBack: Boolean): PtrInt;
+var
+  xIndex: Integer;
+  sData: String = ' !"#$%&''()*+,-./:;<=>?@[\]^`{|}~'#13#10#9;
+
+   function sPos2(pAdr: PChar; const sData: String): Boolean;
+   var
+     i:Integer;
+   begin
+     Result:= False;
+     for i:=1 to Length(sData) do
+       begin
+   //      DebugLn(Format('pAdr[%s] == %s', [IntToStr(iPos), pAdr[iPos]]));
+         if pAdr[iPos] = sData[i] then Exit(True);
+       end;
+   end;
+
+begin
+  Result:= iPos;
+  for xIndex:= 0 to iLength - Length(sData) do
+  begin
+    if sPos2(pAdr, sData) then
+    begin
+      Result:= iPos;
+      Exit;
+    end;
+    if bGoBack then
+      if iPos = 0 then
+        Exit(iPos-1)
+      else
+        Dec(iPos)
+    else
+      Inc(iPos);
+  end;
+  Result:= iPos;
+end;
+
+procedure TViewerControl.DblClick;
+begin
+//  DebugLn('FBlockBeg == ', IntToStr(FBlockBeg));
+//  DebugLn('FBlockEnd == ', IntToStr(FBlockEnd));
+
+  FBlockBeg:= PosMem(FMappedFile, FBlockBeg, cMaxTextWidth, True) + 1;
+
+  FBlockEnd:= PosMem(FMappedFile, FBlockEnd, cMaxTextWidth, False);
+
+  FSelecting:= False;
+  Invalidate;
+
+//  DebugLn('FBlockBeg == ', IntToStr(FBlockBeg));
+//  DebugLn('FBlockEnd == ', IntToStr(FBlockEnd));
+
+  inherited DblClick;
+end;
+
 
 procedure TViewerControl.SelectAll;
 begin
-  FBlockBeg:=0;
-  FBlockEnd:=FFileSize;
+  FBlockBeg:= 0;
+  FBlockEnd:= FFileSize;
   Invalidate;
 end;
 
 procedure TViewerControl.CopyToClipboard;
 begin
-  if (FBlockEnd-FBlockBeg)=0 then Exit;
+  if (FBlockEnd - FBlockBeg) = 0 then Exit;
   Clipboard.Clear;   // prevent multiple formats in Clipboard (specially synedit)
-  Clipboard.AsText:=Copy(FMappedFile,FBlockBeg,FBlockEnd-FBlockBeg+1);
-//  writeln(Clipboard.AsText);
+  Clipboard.AsText:= Copy(FMappedFile,FBlockBeg+1,FBlockEnd-FBlockBeg);
+//  DebugLn(Clipboard.AsText);
 end;
 
 procedure Register;
