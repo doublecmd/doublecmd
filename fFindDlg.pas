@@ -66,6 +66,7 @@ type
     cbbSPlugins: TComboBox;
     cbEncoding: TComboBox;
     cbSearchDepth: TComboBox;
+    cbRegExp: TCheckBox;
     deDateFrom: TDateEdit;
     deDateTo: TDateEdit;
     edtFindPathStart: TDirectoryEdit;
@@ -286,6 +287,7 @@ begin
     FilterMask:= cmbFindFileMask.Text;
     PathStart:= edtFindPathStart.Text;
     Items:= lsFoundedFiles.Items;
+    RegularExpressions:= cbRegExp.Checked;
     SearchDepth:= cbSearchDepth.ItemIndex - 1;
     IsNoThisText:= cbNoThisText.Checked;
     FindInFiles:= cbFindInFile.Checked;

@@ -28,7 +28,7 @@ unit uFindThread;
 interface
 
 uses
-  Classes, StdCtrls, uDCUtils, SysUtils,udsxplugin;
+  Classes, StdCtrls, uDCUtils, SysUtils, udsxplugin;
 
 type
 
@@ -47,7 +47,8 @@ TFindThread = class(TThread)
     FFileMask : String;
     FAttributes: Cardinal;
     FAttribStr : String;
-    FCaseSens:Boolean;
+    FCaseSens: Boolean;
+    FRegExp: Boolean;
     FCurrentDepth,
     FSearchDepth: Integer;
     {Date search}
@@ -87,6 +88,7 @@ TFindThread = class(TThread)
     property FilterMask:String read FFileMask write FFileMask;
     property PathStart:String read FPathStart write FPathStart;
     property Items:TStrings write FItems;
+    property RegularExpressions: Boolean read FRegExp write FRegExp;
     property SearchDepth: Integer read FSearchDepth write SetSearchDepth;
     (* Find text *)
     property FindInFiles:Boolean write FFindInFiles;
@@ -121,7 +123,8 @@ TFindThread = class(TThread)
 implementation
 
 uses
-  LCLProc, Dialogs, Masks, uLng, uClassesEx, uFindMmap, uFindEx, uGlobs, uShowMsg, uOSUtils;
+  LCLProc, Dialogs, Masks, SynRegExpr, uLng, uClassesEx, uFindMmap, uFindEx,
+  uGlobs, uShowMsg, uOSUtils;
 
 { TFindThread }
 
@@ -319,15 +322,18 @@ var
   Attrib : Cardinal;
 begin
   Result := True;
+
+  // check regular expression
+  if FRegExp and not ExecRegExpr(FFileMask, sr.Name) then
+    Exit(False);
+
 {$IFDEF MSWINDOWS}
-(* This is hack *)
-//DebugLn('File = ', sr.Name);
-if not MatchesMaskList(sr.Name, FFileMask) then
-   begin
-     Result := False;
-     Exit;
-   end;
+  (* This is hack *)
+  //DebugLn('File = ', sr.Name);
+  if (not FRegExp) and (not MatchesMaskList(sr.Name, FFileMask)) then
+    Exit(False);
 {$ENDIF}
+
   if (FIsDateFrom or FIsDateTo or FIsTimeFrom or FIsTimeTo) then
       Result := CheckFileDate(sr.Time);
 
@@ -401,7 +407,11 @@ begin
 
   Inc(FCurrentDepth);
 
-  Path := sNewDir + PathDelim + FFileMask;
+  // if regular expression then search all files
+  if FRegExp then
+    Path := sNewDir + PathDelim + '*'
+  else
+    Path := sNewDir + PathDelim + FFileMask;
   //DebugLn('Path = ', Path);
 
   DebugLn('FAttributes == ' + IntToStr(FAttributes));
