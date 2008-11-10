@@ -1,7 +1,7 @@
 object frmFindDlg: TfrmFindDlg
-  Left = 151
+  Left = 124
   Height = 555
-  Top = 49
+  Top = 131
   Width = 768
   Caption = 'Find files'
   ClientHeight = 555
@@ -87,6 +87,7 @@ object frmFindDlg: TfrmFindDlg
           Width = 645
           Anchors = [akTop, akLeft, akRight]
           ItemHeight = 13
+          MaxLength = -1
           ParentCtl3D = False
           TabOrder = 0
           Text = '*'
@@ -203,7 +204,6 @@ object frmFindDlg: TfrmFindDlg
             BorderSpacing.Left = 6
             BorderSpacing.Top = 6
             ItemHeight = 13
-            MaxLength = -1
             OnSelect = cbEncodingSelect
             Style = csDropDownList
             TabOrder = 5
@@ -283,8 +283,22 @@ object frmFindDlg: TfrmFindDlg
           BorderSpacing.Left = 6
           BorderSpacing.Top = 6
           ItemHeight = 13
+          MaxLength = -1
           Style = csDropDownList
           TabOrder = 6
+        end
+        object cbRegExp: TCheckBox
+          AnchorSideLeft.Control = cbSearchDepth
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbSearchDepth
+          AnchorSideTop.Side = asrCenter
+          Left = 318
+          Height = 19
+          Top = 100
+          Width = 123
+          BorderSpacing.Left = 12
+          Caption = '&Regular expressions'
+          TabOrder = 7
         end
       end
       object tsAdvanced: TTabSheet
@@ -440,6 +454,7 @@ object frmFindDlg: TfrmFindDlg
             'Month(s)'
             'Year(s)'
           )
+          MaxLength = -1
           TabOrder = 5
           Text = 'Day(s)'
         end
@@ -526,6 +541,7 @@ object frmFindDlg: TfrmFindDlg
             'Mbyte'
             'Gbyte'
           )
+          MaxLength = -1
           Style = csDropDownList
           TabOrder = 11
           Text = 'Kbyte'
@@ -595,8 +611,8 @@ object frmFindDlg: TfrmFindDlg
           BorderSpacing.Right = 6
           ChildSizing.LeftRightSpacing = 6
           ChildSizing.TopBottomSpacing = 6
-          ClientHeight = 147
-          ClientWidth = 140
+          ClientHeight = 165
+          ClientWidth = 144
           Enabled = False
           TabOrder = 16
           object lblInfo: TLabel
