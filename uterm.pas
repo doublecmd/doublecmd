@@ -280,7 +280,9 @@ begin
      if Assigned(fterm) then
        begin
          if Fterm.Read_Pty(fbuf,0)>0 then
-          Synchronize(@AddSymbol);
+           Synchronize(@AddSymbol)
+         else
+           Sleep(1);
        end else break;
     end;
 end;
