@@ -27,7 +27,7 @@ unit uMyUnix;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, BaseUnix, UnixUtil;
 
 const
   libc = 'c';
@@ -123,7 +123,17 @@ function getgrgid(gid: __gid_t): PGroupRecord; cdecl; external libc name 'getgrg
 }
 function getgrnam(name: PChar): PGroupRecord; cdecl; external libc name 'getgrnam';
 
+function UnixToWinAge(UnixAge: time_t): LongInt;
+
 implementation
+
+function UnixToWinAge(UnixAge: time_t): LongInt;
+var
+  Y,M,D,hh,mm,ss : word;
+begin
+  EpochToLocal(UnixAge,y,m,d,hh,mm,ss);
+  Result:= DateTimeToFileDate(EncodeDate(y,m,d) + EncodeTime(hh,mm,ss,0));
+end;
 
 end.
 
