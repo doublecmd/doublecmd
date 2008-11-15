@@ -848,24 +848,6 @@ begin
 end;
 {$ENDIF}
 
-{$IFDEF MSWINDOWS}
-function WinToDosTime (var Wtime: TFileTime; var DTime: LongInt): LongBool;
-var
-  lft : TFileTime;
-begin
-  Result:= FileTimeToLocalFileTime(WTime,lft) and
-                FileTimeToDosDateTime(lft,Longrec(Dtime).Hi,LongRec(DTIME).lo);
-end;
-{$ELSE}
-function UnixToWinAge(UnixAge: time_t): LongInt;
-var
-  Y,M,D,hh,mm,ss : word;
-begin
-  EpochToLocal(UnixAge,y,m,d,hh,mm,ss);
-  Result:= DateTimeToFileDate(EncodeDate(y,m,d) + EncodeTime(hh,mm,ss,0));
-end;
-{$ENDIF}
-
 function mbFileAge(const FileName: UTF8String): Longint;
 {$IFDEF MSWINDOWS}
 var
