@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-11-09 22:57+0300\n"
+"PO-Revision-Date: 2008-11-16 20:19+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1306,10 +1306,12 @@ msgid "Move %s:"
 msgstr "Переместить %s:"
 
 #: TFRMMULTIRENAME.BTNCANCEL.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Отмена"
 
 #: TFRMMULTIRENAME.BTNOK.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNOK.CAPTION"
 msgid "OK"
 msgstr ""
 
@@ -1327,6 +1329,7 @@ msgid "Log"
 msgstr "Протокол"
 
 #: TFRMMULTIRENAME.CBREGEXP.CAPTION
+msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
 msgstr "&Регулярные выражения"
 
@@ -2519,6 +2522,7 @@ msgid "Option"
 msgstr "Опции"
 
 #: ulng.rseditsearchregexp
+msgctxt "ulng.rseditsearchregexp"
 msgid "&Regular expressions"
 msgstr "&Регулярные выражения"
 
@@ -2710,6 +2714,10 @@ msgstr "Файл %s изменён, сохранить?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Файл %s существует, переписать?"
+
+#: ulng.rsmsgfolderexistsrwrt
+msgid "Folder %s exists, overwrite?"
+msgstr "Каталог %s существует, переписать?"
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"

@@ -1307,12 +1307,14 @@ msgid "Move %s:"
 msgstr "Verplaats %s:"
 
 #: TFRMMULTIRENAME.BTNCANCEL.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNCANCEL.CAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "Afbreken"
 
 #: TFRMMULTIRENAME.BTNOK.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNOK.CAPTION"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: TFRMMULTIRENAME.BTNRESTORE.CAPTION
 msgid "Restore All"
@@ -1328,6 +1330,7 @@ msgid "Log"
 msgstr "Log"
 
 #: TFRMMULTIRENAME.CBREGEXP.CAPTION
+msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
 msgstr ""
 
@@ -2520,6 +2523,7 @@ msgid "Option"
 msgstr ""
 
 #: ulng.rseditsearchregexp
+msgctxt "ulng.rseditsearchregexp"
 msgid "&Regular expressions"
 msgstr ""
 
@@ -2711,6 +2715,10 @@ msgstr "Bestand %s gewijzigd, opslaan?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Bestand %s bestaat, overschrijven?"
+
+#: ulng.rsmsgfolderexistsrwrt
+msgid "Folder %s exists, overwrite?"
+msgstr ""
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"

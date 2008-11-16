@@ -1309,12 +1309,14 @@ msgid "Move %s:"
 msgstr "Přesun %s:"
 
 #: TFRMMULTIRENAME.BTNCANCEL.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNCANCEL.CAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušit"
 
 #: TFRMMULTIRENAME.BTNOK.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNOK.CAPTION"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: TFRMMULTIRENAME.BTNRESTORE.CAPTION
 msgid "Restore All"
@@ -1330,6 +1332,7 @@ msgid "Log"
 msgstr "Log"
 
 #: TFRMMULTIRENAME.CBREGEXP.CAPTION
+msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
 msgstr ""
 
@@ -2522,6 +2525,7 @@ msgid "Option"
 msgstr ""
 
 #: ulng.rseditsearchregexp
+msgctxt "ulng.rseditsearchregexp"
 msgid "&Regular expressions"
 msgstr ""
 
@@ -2713,6 +2717,10 @@ msgstr "Soubor %s byl změněn, uložit?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Soubor %s existuje, přepsat?"
+
+#: ulng.rsmsgfolderexistsrwrt
+msgid "Folder %s exists, overwrite?"
+msgstr ""
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"

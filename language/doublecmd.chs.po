@@ -1307,12 +1307,14 @@ msgid "Move %s:"
 msgstr "移动 %s:"
 
 #: TFRMMULTIRENAME.BTNCANCEL.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNCANCEL.CAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: TFRMMULTIRENAME.BTNOK.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNOK.CAPTION"
 msgid "OK"
-msgstr ""
+msgstr "确定"
 
 #: TFRMMULTIRENAME.BTNRESTORE.CAPTION
 msgid "Restore All"
@@ -1328,6 +1330,7 @@ msgid "Log"
 msgstr "日志"
 
 #: TFRMMULTIRENAME.CBREGEXP.CAPTION
+msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
 msgstr ""
 
@@ -2520,6 +2523,7 @@ msgid "Option"
 msgstr ""
 
 #: ulng.rseditsearchregexp
+msgctxt "ulng.rseditsearchregexp"
 msgid "&Regular expressions"
 msgstr ""
 
@@ -2711,6 +2715,10 @@ msgstr "文件 %s 已修改, 是否保存?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "文件 %s 已存在, 是否覆盖?"
+
+#: ulng.rsmsgfolderexistsrwrt
+msgid "Folder %s exists, overwrite?"
+msgstr ""
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"

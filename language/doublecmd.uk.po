@@ -1306,10 +1306,12 @@ msgid "Move %s:"
 msgstr "Переместити %s:"
 
 #: TFRMMULTIRENAME.BTNCANCEL.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNCANCEL.CAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "Відміна"
 
 #: TFRMMULTIRENAME.BTNOK.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNOK.CAPTION"
 msgid "OK"
 msgstr ""
 
@@ -1327,6 +1329,7 @@ msgid "Log"
 msgstr "Протокол"
 
 #: TFRMMULTIRENAME.CBREGEXP.CAPTION
+msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
 msgstr ""
 
@@ -2519,6 +2522,7 @@ msgid "Option"
 msgstr ""
 
 #: ulng.rseditsearchregexp
+msgctxt "ulng.rseditsearchregexp"
 msgid "&Regular expressions"
 msgstr ""
 
@@ -2710,6 +2714,10 @@ msgstr "Файл %s змінено, зберегти?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Файл %s існує, переписати?"
+
+#: ulng.rsmsgfolderexistsrwrt
+msgid "Folder %s exists, overwrite?"
+msgstr ""
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"

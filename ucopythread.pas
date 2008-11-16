@@ -31,7 +31,7 @@ type
 
 implementation
 uses
-  LCLProc, SysUtils, Classes, uLng, uGlobs, uLog, uShowMsg, uFileProcs, uFindEx,
+  LCLProc, SysUtils, Classes, StrUtils, uLng, uGlobs, uLog, uShowMsg, uFileProcs, uFindEx,
   uDCUtils, uOSUtils, uClassesEx, uDescr;
 
 procedure TCopyThread.MainExecute;
@@ -83,6 +83,10 @@ var
   sDstExt: String;
   sDstName: String;
   sDstNew: String;
+  bIsFolder,
+  bIsSymLink: Boolean;
+  iAttr: LongInt;
+  sMsg: String;
 begin
 //  DebugLn(fr^.sName);
 //  DebugLn('NameNoExt ==' +fr^.sNameNoExt);
@@ -108,17 +112,23 @@ begin
           sDstName:= GetAbsoluteFileName(ExtractFilePath(fr^.sName), sDstName);
 //          DebugLn('ReadSymLink := ' + sDstName);
 
-          if mbFileExists(sDst+fr^.sPath+sDstNew) then
+          if mbFileExists(sDst+fr^.sPath+sDstNew) or mbDirectoryExists(sDst+fr^.sPath+sDstNew) then
             begin
+              iAttr:= mbFileGetAttr(sDst+fr^.sPath+sDstNew);
+              bIsFolder:= FPS_ISDIR(iAttr);
+              bIsSymLink:= FPS_ISLNK(iAttr);
               if not FReplaceAll then
                 begin
                   if FSkipAll then Exit(True);
-                  if not DlgFileExist(Format(rsMsgFileExistsRwrt,[sDst+fr^.sPath+sDstNew, fr^.sName])) then
+                  sMsg:= IfThen(bIsFolder and not bIsSymLink, rsMsgFolderExistsRwrt, rsMsgFileExistsRwrt);
+                  if not DlgFileExist(Format(sMsg, [sDst+fr^.sPath+sDstNew, fr^.sName])) then
                     Exit(False);
                 end; // replace all
-              if FPS_ISDIR(mbFileGetAttr(sDst+fr^.sPath+sDstNew)) then
+              if bIsFolder and bIsSymLink then // symlink to folder
+                mbRemoveDir(sDst+fr^.sPath+sDstNew)
+              else if bIsFolder then // folder
                 DelTree(sDst+fr^.sPath+sDstNew)
-              else
+              else // file
                 mbDeleteFile(sDst+fr^.sPath+sDstNew);
             end; // mbFileExists
 
