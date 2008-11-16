@@ -30,6 +30,7 @@ resourcestring
   rsMsgNotDelete = 'Can not delete file %s';
   rsMsgFileExistsRwrt = 'File %s exists, overwrite?';
   rsMsgFileChangedSave = 'File %s changed, save?';
+  rsMsgFolderExistsRwrt = 'Folder %s exists, overwrite?';
   rsMsgNewFile = 'New file';
   rsMsgDelFlDr = 'Delete %d selected files/directories?';
   rsMsgDelSel = 'Delete selected "%s"?';

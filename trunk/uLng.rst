@@ -11,6 +11,10 @@ ulng.rsmsgfileexistsrwrt='File %s exists, overwrite?'
 ulng.rsmsgfilechangedsave='File %s changed, save?'
 
 
+# hash value = 235151
+ulng.rsmsgfolderexistsrwrt='Folder %s exists, overwrite?'
+
+
 # hash value = 211209061
 ulng.rsmsgnewfile='New file'
 

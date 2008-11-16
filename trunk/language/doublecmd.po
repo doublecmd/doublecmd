@@ -2716,6 +2716,10 @@ msgstr ""
 msgid "File %s exists, overwrite?"
 msgstr ""
 
+#: ulng.rsmsgfolderexistsrwrt
+msgid "Folder %s exists, overwrite?"
+msgstr ""
+
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
 msgstr ""
