@@ -116,7 +116,10 @@ begin
                   if not DlgFileExist(Format(rsMsgFileExistsRwrt,[sDst+fr^.sPath+sDstNew, fr^.sName])) then
                     Exit(False);
                 end; // replace all
-              mbDeleteFile(sDst+fr^.sPath+sDstNew);
+              if FPS_ISDIR(mbFileGetAttr(sDst+fr^.sPath+sDstNew)) then
+                DelTree(sDst+fr^.sPath+sDstNew)
+              else
+                mbDeleteFile(sDst+fr^.sPath+sDstNew);
             end; // mbFileExists
 
           if not CreateSymlink(sDstName, sDst+fr^.sPath+sDstNew) then

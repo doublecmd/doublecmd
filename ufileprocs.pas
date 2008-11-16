@@ -34,7 +34,12 @@ function ForceDirectory(DirectoryName: string): boolean;
    @param(sDst String expression that specifies the target file name)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function CopyFile(const sSrc, sDst:String; bAppend:Boolean=False):Boolean;
+function CopyFile(const sSrc, sDst: String; bAppend: Boolean = False): Boolean;
+{en
+   Remove the contents of directory recursively
+   @param(sFolderName String expression that specifies the name of the folder to be removed)
+}
+procedure DelTree(const sFolderName: String);
 {en
    Read string from a text file into variable and goto next line
    @param(hFile Handle of file)
@@ -50,14 +55,15 @@ procedure FileWriteLn(hFile: Integer; S: String);
 
 implementation
 uses
-  LCLProc, SysUtils, uGlobs, uShowMsg, Classes, uClassesEx, uLng, uDCUtils, uFindEx, uOSUtils;
+  LCLProc, SysUtils, uGlobs, uShowMsg, Classes, uClassesEx, uLng, uDCUtils,
+  uFindEx, uOSUtils, uDeleteThread, uFileList;
 
 const
   cBlockSize=16384; // size of block if copyfile
 // if pb is assigned > use, else work without pb :-)
 
 
-function CopyFile(const sSrc, sDst:String; bAppend:Boolean):Boolean;
+function CopyFile(const sSrc, sDst: String; bAppend: Boolean): Boolean;
 var
   src, dst:TFileStreamEx;
   iDstBeg:Integer; // in the append mode we store original size
@@ -109,6 +115,32 @@ begin
       msgError('!!!!EFOpenError');
     on EWriteError do
       msgError('!!!!EFWriteError');
+  end;
+end;
+
+procedure DelTree(const sFolderName: String);
+var
+  fl: TFileList;
+  DT: TDeleteThread;
+  pfri: PFileRecItem;
+begin
+  fl:= TFileList.Create; // free at Thread end by thread
+  try
+    New(pfri);
+    pfri^.sName:= sFolderName;
+    pfri^.iMode:= faFolder;
+    pfri^.bLinkIsDir:= False;
+    fl.AddItem(pfri);
+    try
+      DT:= TDeleteThread.Create(fl);
+      //DT.sDstMask:=sDstMaskTemp;
+      DT.Resume;
+      DT.WaitFor;
+    except
+      DT.Free;
+    end;
+  except
+    FreeAndNil(fl);
   end;
 end;
 
