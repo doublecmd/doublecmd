@@ -204,6 +204,7 @@ begin
   Result:= False;
   iCopyBlockSize:= gCopyBlockSize;
   GetMem(Buffer, iCopyBlockSize+1);
+  src:= nil;
   dst:= nil; // for safety exception handling
   try
     try
