@@ -357,7 +357,7 @@ type
     MainSplitterHintWnd: THintWindow;
     
     procedure ColumnsMenuClick(Sender: TObject);
-    function ExecuteCommandFromEdit(sCmd:String):Boolean;
+    function ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
     procedure AddSpecialButtons(dskPanel: TKASToolBar);
     procedure ReLoadTabs(ANoteBook: TNoteBook);
   public
@@ -1151,7 +1151,7 @@ begin
         begin
           // execute command line
           mbSetCurrentDir(ActiveDir);
-          ExecuteCommandFromEdit(edtCommand.Text);
+          ExecuteCommandFromEdit(edtCommand.Text, False);
           ClearCmdLine;
           RefreshPanel;
           ActiveFrame.SetFocus;
@@ -1159,11 +1159,20 @@ begin
         end;
       end; //Shift=[]
 
-      // execute active file in terminal (Shift+Enter)
+      // execute active file or command line in terminal (Shift+Enter)
       if Shift=[ssShift] then
       begin
         mbSetCurrentDir(ActiveDir);
-        ExecCmdFork(ActiveDir + pnlFile.GetActiveItem^.sName, True, gRunInTerm);
+        if not edtCommand.Focused then
+          ExecCmdFork(ActiveDir + pnlFile.GetActiveItem^.sName, True, gRunInTerm)
+        else
+          begin
+            // execute command line
+            ExecuteCommandFromEdit(edtCommand.Text, True);
+            ClearCmdLine;
+            RefreshPanel;
+            ActiveFrame.SetFocus;
+          end;
         Exit;
       end;
       // ctrl enter
@@ -2808,7 +2817,7 @@ begin
 end;
 
 
-function TfrmMain.ExecuteCommandFromEdit(sCmd: String): Boolean;
+function TfrmMain.ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
 var
   iIndex:Integer;
   sDir:String;
@@ -2843,7 +2852,10 @@ begin
       edtCommand.Items.Insert(0,sCmd);
 
     {$IFDEF MSWINDOWS}
-    ExecCmdFork(sCmd, True, gRunInTerm);
+    if bRunInTerm then
+      ExecCmdFork(sCmd, True, gRunInTerm)
+    else
+      ExecCmdFork(sCmd);
     {$ENDIF}
 
     {$IFDEF unix}
