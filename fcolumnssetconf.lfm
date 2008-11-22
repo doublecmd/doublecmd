@@ -301,30 +301,6 @@ object fColumnsSetConf: TfColumnsSetConf
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         BorderSpacing.Top = 8
         ItemHeight = 16
-        Items.Strings = (
-          'clBlack'
-          'clMaroon'
-          'clGreen'
-          'clOlive'
-          'clNavy'
-          'clPurple'
-          'clTeal'
-          'clGray'
-          'clSilver'
-          'clRed'
-          'clLime'
-          'clYellow'
-          'clBlue'
-          'clFuchsia'
-          'clAqua'
-          'clSilver'
-          'clGray'
-          'clWhite'
-          'clCream'
-          'clNone'
-          'clDefault'
-        )
-        MaxLength = 0
         TabOrder = 3
         OnChange = cbCursorTextChange
         OnDropDown = cbTextColorDropDown
@@ -338,30 +314,6 @@ object fColumnsSetConf: TfColumnsSetConf
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         BorderSpacing.Top = 8
         ItemHeight = 16
-        Items.Strings = (
-          'clBlack'
-          'clMaroon'
-          'clGreen'
-          'clOlive'
-          'clNavy'
-          'clPurple'
-          'clTeal'
-          'clGray'
-          'clSilver'
-          'clRed'
-          'clLime'
-          'clYellow'
-          'clBlue'
-          'clFuchsia'
-          'clAqua'
-          'clSilver'
-          'clGray'
-          'clWhite'
-          'clCream'
-          'clNone'
-          'clDefault'
-        )
-        MaxLength = 0
         TabOrder = 4
         OnChange = cbCursorColorChange
         OnDropDown = cbTextColorDropDown
@@ -375,30 +327,6 @@ object fColumnsSetConf: TfColumnsSetConf
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         BorderSpacing.Top = 8
         ItemHeight = 16
-        Items.Strings = (
-          'clBlack'
-          'clMaroon'
-          'clGreen'
-          'clOlive'
-          'clNavy'
-          'clPurple'
-          'clTeal'
-          'clGray'
-          'clSilver'
-          'clRed'
-          'clLime'
-          'clYellow'
-          'clBlue'
-          'clFuchsia'
-          'clAqua'
-          'clSilver'
-          'clGray'
-          'clWhite'
-          'clCream'
-          'clNone'
-          'clDefault'
-        )
-        MaxLength = 0
         TabOrder = 5
         OnChange = cbMarkColorChange
         OnDropDown = cbTextColorDropDown
@@ -412,30 +340,6 @@ object fColumnsSetConf: TfColumnsSetConf
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         BorderSpacing.Top = 8
         ItemHeight = 16
-        Items.Strings = (
-          'clBlack'
-          'clMaroon'
-          'clGreen'
-          'clOlive'
-          'clNavy'
-          'clPurple'
-          'clTeal'
-          'clGray'
-          'clSilver'
-          'clRed'
-          'clLime'
-          'clYellow'
-          'clBlue'
-          'clFuchsia'
-          'clAqua'
-          'clSilver'
-          'clGray'
-          'clWhite'
-          'clCream'
-          'clNone'
-          'clDefault'
-        )
-        MaxLength = 0
         TabOrder = 6
         OnChange = cbBackColor2Change
         OnDropDown = cbTextColorDropDown
@@ -449,30 +353,6 @@ object fColumnsSetConf: TfColumnsSetConf
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         BorderSpacing.Top = 8
         ItemHeight = 16
-        Items.Strings = (
-          'clBlack'
-          'clMaroon'
-          'clGreen'
-          'clOlive'
-          'clNavy'
-          'clPurple'
-          'clTeal'
-          'clGray'
-          'clSilver'
-          'clRed'
-          'clLime'
-          'clYellow'
-          'clBlue'
-          'clFuchsia'
-          'clAqua'
-          'clSilver'
-          'clGray'
-          'clWhite'
-          'clCream'
-          'clNone'
-          'clDefault'
-        )
-        MaxLength = 0
         TabOrder = 7
         OnChange = cbBackColorChange
         OnDropDown = cbTextColorDropDown
@@ -484,30 +364,6 @@ object fColumnsSetConf: TfColumnsSetConf
         Width = 144
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemHeight = 16
-        Items.Strings = (
-          'clBlack'
-          'clMaroon'
-          'clGreen'
-          'clOlive'
-          'clNavy'
-          'clPurple'
-          'clTeal'
-          'clGray'
-          'clSilver'
-          'clRed'
-          'clLime'
-          'clYellow'
-          'clBlue'
-          'clFuchsia'
-          'clAqua'
-          'clSilver'
-          'clGray'
-          'clWhite'
-          'clCream'
-          'clNone'
-          'clDefault'
-        )
-        MaxLength = 0
         TabOrder = 8
         OnChange = cbTextColorChange
         OnDropDown = cbTextColorDropDown

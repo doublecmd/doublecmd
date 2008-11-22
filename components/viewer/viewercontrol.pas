@@ -717,7 +717,7 @@ begin
   begin
     // out of selection, draw normal
 //    Canvas.Font.Color:=clYellow; // test
-    Canvas.Font.Color:=clText;
+    Canvas.Font.Color:=clWindowText;
 //    Canvas.TextRect(ARect, x, y,sText); //!!!
     Canvas.TextOut(x, y,sText);
     Exit;
@@ -727,7 +727,7 @@ begin
   begin
 // begin line, not selected
 //    Canvas.Font.Color:=clBlue; // test
-    Canvas.Font.Color:=clText;
+    Canvas.Font.Color:=clWindowText;
 //    Canvas.TextRect(ARect, x, y,UTF8Copy(sText,1,FBlockBeg-pBegLine-1)); //!!!
     Canvas.TextOut(x, y,UTF8Copy(sText,1,FBlockBeg-pBegLine));
   end;
@@ -749,7 +749,7 @@ begin
 
     Canvas.FillRect(Types.Rect(x+(iBegDrawIndex-pBegLine)*FTextWidth, y, x+(iEndDrawIndex-pBegLine)*FTextWidth, y+FTextHeight));
 //   Canvas.Font.Color:=clRed; // test
-    Canvas.Font.Color:=clLight;
+    Canvas.Font.Color:=clHighlight;
 //    Canvas.TextRect(ARect, x+(iBegDrawIndex-pBegLine-1)*FTextWidth, y,UTF8Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex+1));!!!
     Canvas.TextOut(x+(iBegDrawIndex-pBegLine)*FTextWidth, y,UTF8Copy(sText,iBegDrawIndex-pBegLine+1,iEndDrawIndex-iBegDrawIndex+1));
   end
@@ -757,7 +757,7 @@ begin
   begin
     Canvas.FillRect(Types.Rect(x+(iBegDrawIndex-pBegLine)*FTextWidth, y, x+(iEndDrawIndex-pBegLine)*FTextWidth, y+FTextHeight));
 //    Canvas.Font.Color:=clMaroon; // test
-    Canvas.Font.Color:=clLight;
+    Canvas.Font.Color:=clHighlight;
 //    Canvas.TextRect(ARect, x+(iBegDrawIndex-pBegLine)*FTextWidth, y,UTF8Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex));
     Canvas.TextOut(x+(iBegDrawIndex-pBegLine)*FTextWidth, y,UTF8Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex));
   end;
@@ -769,7 +769,7 @@ begin
   begin
 // end of line, not selected
 //    Canvas.Font.Color:=clGreen; // test
-    Canvas.Font.Color:=clText;
+    Canvas.Font.Color:=clWindowText;
 //    Canvas.TextRect(ARect, x+(FBlockEnd-pBegLine)*FTextWidth, y,UTF8Copy(sText,FBlockEnd-pBegLine+1,pEndLine-FBlockEnd));
     Canvas.TextOut(x+(FBlockEnd-pBegLine)*FTextWidth, y,UTF8Copy(sText,FBlockEnd-pBegLine+1,pEndLine-FBlockEnd));
 

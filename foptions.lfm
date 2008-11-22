@@ -832,29 +832,6 @@ object frmOptions: TfrmOptions
           Top = 26
           Width = 100
           ItemHeight = 16
-          Items.Strings = (
-            'clBlack'
-            'clMaroon'
-            'clGreen'
-            'clOlive'
-            'clNavy'
-            'clPurple'
-            'clTeal'
-            'clGray'
-            'clSilver'
-            'clRed'
-            'clLime'
-            'clYellow'
-            'clBlue'
-            'clFuchsia'
-            'clAqua'
-            'clSilver'
-            'clGray'
-            'clWhite'
-            'clCream'
-            'clNone'
-            'clDefault'
-          )
           TabOrder = 0
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -868,29 +845,6 @@ object frmOptions: TfrmOptions
           Width = 100
           BorderSpacing.Top = 8
           ItemHeight = 16
-          Items.Strings = (
-            'clBlack'
-            'clMaroon'
-            'clGreen'
-            'clOlive'
-            'clNavy'
-            'clPurple'
-            'clTeal'
-            'clGray'
-            'clSilver'
-            'clRed'
-            'clLime'
-            'clYellow'
-            'clBlue'
-            'clFuchsia'
-            'clAqua'
-            'clSilver'
-            'clGray'
-            'clWhite'
-            'clCream'
-            'clNone'
-            'clDefault'
-          )
           TabOrder = 1
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -938,29 +892,6 @@ object frmOptions: TfrmOptions
           Width = 100
           BorderSpacing.Top = 8
           ItemHeight = 16
-          Items.Strings = (
-            'clBlack'
-            'clMaroon'
-            'clGreen'
-            'clOlive'
-            'clNavy'
-            'clPurple'
-            'clTeal'
-            'clGray'
-            'clSilver'
-            'clRed'
-            'clLime'
-            'clYellow'
-            'clBlue'
-            'clFuchsia'
-            'clAqua'
-            'clSilver'
-            'clGray'
-            'clWhite'
-            'clCream'
-            'clNone'
-            'clDefault'
-          )
           TabOrder = 4
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -974,29 +905,6 @@ object frmOptions: TfrmOptions
           Width = 100
           BorderSpacing.Top = 8
           ItemHeight = 16
-          Items.Strings = (
-            'clBlack'
-            'clMaroon'
-            'clGreen'
-            'clOlive'
-            'clNavy'
-            'clPurple'
-            'clTeal'
-            'clGray'
-            'clSilver'
-            'clRed'
-            'clLime'
-            'clYellow'
-            'clBlue'
-            'clFuchsia'
-            'clAqua'
-            'clSilver'
-            'clGray'
-            'clWhite'
-            'clCream'
-            'clNone'
-            'clDefault'
-          )
           TabOrder = 5
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -1010,29 +918,6 @@ object frmOptions: TfrmOptions
           Width = 100
           BorderSpacing.Top = 8
           ItemHeight = 16
-          Items.Strings = (
-            'clBlack'
-            'clMaroon'
-            'clGreen'
-            'clOlive'
-            'clNavy'
-            'clPurple'
-            'clTeal'
-            'clGray'
-            'clSilver'
-            'clRed'
-            'clLime'
-            'clYellow'
-            'clBlue'
-            'clFuchsia'
-            'clAqua'
-            'clSilver'
-            'clGray'
-            'clWhite'
-            'clCream'
-            'clNone'
-            'clDefault'
-          )
           TabOrder = 6
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -1046,29 +931,6 @@ object frmOptions: TfrmOptions
           Width = 100
           BorderSpacing.Top = 8
           ItemHeight = 16
-          Items.Strings = (
-            'clBlack'
-            'clMaroon'
-            'clGreen'
-            'clOlive'
-            'clNavy'
-            'clPurple'
-            'clTeal'
-            'clGray'
-            'clSilver'
-            'clRed'
-            'clLime'
-            'clYellow'
-            'clBlue'
-            'clFuchsia'
-            'clAqua'
-            'clSilver'
-            'clGray'
-            'clWhite'
-            'clCream'
-            'clNone'
-            'clDefault'
-          )
           TabOrder = 7
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -1753,29 +1615,6 @@ object frmOptions: TfrmOptions
             Width = 100
             BorderSpacing.Top = 8
             ItemHeight = 16
-            Items.Strings = (
-              'clBlack'
-              'clMaroon'
-              'clGreen'
-              'clOlive'
-              'clNavy'
-              'clPurple'
-              'clTeal'
-              'clGray'
-              'clSilver'
-              'clRed'
-              'clLime'
-              'clYellow'
-              'clBlue'
-              'clFuchsia'
-              'clAqua'
-              'clSilver'
-              'clGray'
-              'clWhite'
-              'clCream'
-              'clNone'
-              'clDefault'
-            )
             TabOrder = 2
             OnChange = cbCategoryColorChange
             OnDropDown = cbColorBoxDropDown

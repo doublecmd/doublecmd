@@ -239,8 +239,8 @@ begin
 
     if odSelected in State then
       begin
-        Canvas.Font.Color := clText;
-        Canvas.Brush.Color:= clText;
+        Canvas.Font.Color := clWindowText;
+        Canvas.Brush.Color:= clWindowText;
         Canvas.FillRect(ARect);
         Canvas.Brush.Color:= Color;
         Canvas.FillRect(MR);
