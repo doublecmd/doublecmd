@@ -39,6 +39,33 @@ const clib = 'c';
       C_stdout  = 1;
       C_stderr  = 2;
 
+
+const
+  {c_cc characters}
+  CDISABLE = 255;
+
+           //key // xterm default bindings
+  CINTR    = 003; // ^C
+  CQUIT    = 034; // ^\
+  CERASE   = 177; // ^?
+  CKILL    = 025; // ^U
+  CEOF     = 004; // ^D
+  CSTART   = 021; // ^Q
+  CSTOP    = 023; // ^S
+  CSUSP    = 032; // ^Z
+  CREPRINT = 022; // ^R
+  CWERASE  = 027; // ^W
+  CLNEXT   = 026; // ^V
+  CDISCARD = 017; // ^O
+
+  //disabled
+  CTIME    = 0;
+  CMIN     = 1;
+  CSWTC    = CDISABLE;
+  CEOL     = CDISABLE;
+  CEOL2    = CDISABLE;
+
+
    
 const CSIList=
                 '@'+ // Вставить N  пустых символов.
@@ -128,7 +155,10 @@ type
       function Read_Pty(var str:UTF8String; const timeout: longint=10): longint; // Read info from pty
       function Fork_pty(const rows,cols:integer; const cmd:UTF8string; const params:UTF8string=''):THandle; //Create new pty and start cmd
       function Write_pty(const str:UTF8string):boolean; //write str to pty
-     // function Event_pty():boolean;
+      //---------------------
+      function SendBreak_pty():boolean;  // ^C
+      function SendSignal_pty(Sig:Cint):boolean;
+      //---------------------
       function KillShell:LongInt;
       function CSI_GetTaskId(const buf:UTF8string):integer; //get index of sequence in CSILast list
 {    //---------------------}
@@ -172,8 +202,6 @@ function setenv(__name:Pchar; __value:Pchar; __replace:longint):longint;cdecl;ex
 function execl(__path:Pchar; __arg:Pchar):longint;cdecl;varargs;external clib name 'execl';
 
 implementation
-
-{$L libutil.a}
 
 { TConThread }
 
@@ -465,7 +493,6 @@ begin
   if ChildPid=0 then
   begin
     //Child
-    
     setenv('TERM', 'linux', 1);
     execl(pchar(cmd), pchar(params), nil);
     
@@ -511,9 +538,18 @@ begin
   end;
 end;
 
-{function Tterm.Event_pty(): boolean;
+function Tterm.SendBreak_pty(): boolean;
 begin
-end;}
+   result:=SendSignal_pty(CINTR);
+end;
+
+function Tterm.SendSignal_pty(Sig: Cint): boolean;
+var BytesWritten:TSize;
+begin
+  BytesWritten:=fpwrite(Fpty,Sig,sizeof(sig));
+  result:=result and (BytesWritten>0);
+end;
+
 
 function Tterm.KillShell: LongInt;
 begin
@@ -525,8 +561,33 @@ begin
 end;
 
 constructor Tterm.Create;
+var tio:termio.termios;
 begin
+ TCGetAttr(Fpty,tio);
+ tio.c_iflag:=BRKINT or IGNPAR or ICRNL or IXON;
+ tio.c_oflag:=OPOST or ONLCR;
+ tio.c_cflag:=CS8 or CREAD;
+ tio.c_lflag:=ISIG or ICANON or IEXTEN or ECHO or ECHOE or ECHOK or ECHOKE or ECHOCTL;
 
+ tio.c_cc[VINTR]:=CINTR;
+ tio.c_cc[VQUIT]:=CQUIT;
+ tio.c_cc[VERASE]:=CERASE;
+ tio.c_cc[VKILL]:=CKILL;
+ tio.c_cc[VSTART]:=CSTART;
+ tio.c_cc[VSTOP]:=CSTOP;
+ tio.c_cc[VSUSP]:=CSUSP;
+ tio.c_cc[VREPRINT]:=CREPRINT;
+ tio.c_cc[VDISCARD]:=CDISCARD;
+ tio.c_cc[VWERASE]:=CWERASE;
+ tio.c_cc[VLNEXT]:=CLNEXT;
+ tio.c_cc[VEOF]:=CEOF;
+ tio.c_cc[VEOL]:=CEOL;
+ tio.c_cc[VEOL2]:=CEOL2;
+ tio.c_cc[VSWTC]:=CSWTC;
+ tio.c_cc[VMIN]:=CMIN;
+ tio.c_cc[VTIME]:=CTIME;
+
+ TCSetAttr(Fpty,TCSANOW,tio);
 end;
 
 destructor Tterm.Destroy;
