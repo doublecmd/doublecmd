@@ -544,6 +544,9 @@ begin
   Cons.RowsCount:=CmdBox1.LineCount;
   Cons.CmdBox:=CmdBox1;
   Cons.Resume;
+  {$ELSE} // temporarily
+  Notebook1.Visible:= False;
+  Splitter1.Visible:= False;
   {$ENDIF}
 end;
 
