@@ -289,6 +289,7 @@ object frmMain: TfrmMain
       Width = 1026
       Align = alBottom
       Anchors = [akLeft, akRight]
+      AutoSize = True
       BevelOuter = bvLowered
       ClientHeight = 169
       ClientWidth = 1026
@@ -302,6 +303,7 @@ object frmMain: TfrmMain
         Width = 1024
         Align = alBottom
         BevelOuter = bvNone
+        ChildSizing.TopBottomSpacing = 2
         ClientHeight = 28
         ClientWidth = 1024
         TabOrder = 0
@@ -317,14 +319,17 @@ object frmMain: TfrmMain
           ShowAccelChar = False
         end
         object edtCommand: TComboBox
+          AnchorSideTop.Control = Panel1
           Left = 56
           Height = 21
+          Top = 2
           Width = 959
           TabStop = False
           Anchors = [akTop, akLeft, akRight]
           ItemHeight = 13
           ParentCtl3D = False
           TabOrder = 0
+          TabStop = False
         end
       end
       object Notebook1: TNotebook
