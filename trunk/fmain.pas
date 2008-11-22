@@ -2193,7 +2193,7 @@ begin
   lmtError:
     FG := clRed
   else
-    FG := clText;
+    FG := clWindowText;
   end;
 end;
 

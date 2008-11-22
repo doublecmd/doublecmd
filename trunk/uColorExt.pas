@@ -201,7 +201,7 @@ begin
   while gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I), '') <> '' do
     begin
       sExtMask := gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I), '');
-      iColor := gIni.ReadInteger('Colors', 'ColorFilter' + IntToStr(I) + 'Color', clText);
+      iColor := gIni.ReadInteger('Colors', 'ColorFilter' + IntToStr(I) + 'Color', clWindowText);
       sName:=gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I)+'Name', '');
       sAttr := gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I) + 'Attributes', '');
 

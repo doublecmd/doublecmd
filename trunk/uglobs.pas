@@ -476,7 +476,7 @@ begin
   gBackColor2 := gIni.ReadInteger('Colors', 'BackColor2', clWhite);
   gMarkColor := gIni.ReadInteger('Colors', 'MarkColor', clRed);
   gCursorColor := gIni.ReadInteger('Colors', 'CursorColor', clHighlight);
-  gCursorText := gIni.ReadInteger('Colors', 'CursorText', clHighlightedText);
+  gCursorText := gIni.ReadInteger('Colors', 'CursorText', clHighlightText);
   gUseInvertedSelection:= gIni.ReadBool('Colors', 'UseInvertedSelection', false);
   { File operations }
   gCopyBlockSize := gIni.ReadInteger('Configuration', 'CopyBlockSize', 65536);
