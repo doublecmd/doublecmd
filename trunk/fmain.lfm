@@ -486,7 +486,6 @@ object frmMain: TfrmMain
     Font.Height = -16
     Font.Name = 'courier'
     Font.Pitch = fpFixed
-    Font.Quality = fqNonAntialiased
     ParentColor = False
     ParentFont = False
     TabOrder = 4

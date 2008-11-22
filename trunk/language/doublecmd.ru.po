@@ -2886,7 +2886,7 @@ msgstr "Шрифты"
 
 #: ulng.rsopthotkeys
 msgid "Hot keys"
-msgstr "Горячие клавишы"
+msgstr "Горячие клавиши"
 
 #: ulng.rsoptlanguage
 msgid "Language"
