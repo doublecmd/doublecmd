@@ -147,7 +147,7 @@ type
     miLine10: TMenuItem;
     MenuItem4: TMenuItem;
     mnuFileAssoc: TMenuItem;
-    Notebook1: TNotebook;
+    nbConsole: TNotebook;
     Page1: TPage;
     Panel1: TPanel;
     pmButtonMenu: TKASBarMenu;
@@ -545,7 +545,8 @@ begin
   Cons.CmdBox:=CmdBox1;
   Cons.Resume;
   {$ELSE} // temporarily
-  Notebook1.Visible:= False;
+  pnlCommand.AutoSize:= True;
+  nbConsole.Visible:= False;
   Splitter1.Visible:= False;
   {$ENDIF}
 end;

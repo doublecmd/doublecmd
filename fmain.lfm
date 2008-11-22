@@ -23,7 +23,6 @@ object frmMain: TfrmMain
   OnShow = frmMainShow
   OnUTF8KeyPress = FormUTF8KeyPress
   OnWindowStateChange = FormWindowStateChange
-  ParentFont = False
   Position = poDesktopCenter
   ShowHint = True
   ShowInTaskBar = stAlways
@@ -289,7 +288,6 @@ object frmMain: TfrmMain
       Width = 1026
       Align = alBottom
       Anchors = [akLeft, akRight]
-      AutoSize = True
       BevelOuter = bvLowered
       ClientHeight = 169
       ClientWidth = 1026
@@ -324,7 +322,6 @@ object frmMain: TfrmMain
           Height = 21
           Top = 2
           Width = 959
-          TabStop = False
           Anchors = [akTop, akLeft, akRight]
           ItemHeight = 13
           ParentCtl3D = False
@@ -332,7 +329,7 @@ object frmMain: TfrmMain
           TabStop = False
         end
       end
-      object Notebook1: TNotebook
+      object nbConsole: TNotebook
         Left = 1
         Height = 139
         Top = 1
@@ -343,9 +340,9 @@ object frmMain: TfrmMain
         TabOrder = 1
         object Page1: TPage
           ClientWidth = 1016
-          ClientHeight = 113
+          ClientHeight = 131
           object CmdBox1: TCmdBox
-            Height = 113
+            Height = 131
             Width = 1016
             Align = alClient
             CaretColor = clWhite
@@ -494,7 +491,6 @@ object frmMain: TfrmMain
     ParentColor = False
     ParentFont = False
     TabOrder = 4
-    BookMarkOptions.OnChange = nil
     Keystrokes = <    
       item
         Command = 3
@@ -819,7 +815,6 @@ object frmMain: TfrmMain
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
-    SelectedColor.OnChange = nil
     OnSpecialLineColors = seLogWindowSpecialLineColors
   end
   object LogSplitter: TSplitter
