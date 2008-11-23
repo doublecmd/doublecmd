@@ -41,6 +41,7 @@ const
   RunTerm = 'cmd.exe';  // default terminal
   RunInTerm = 'cmd.exe /K'; // default run in terminal command
   fmtRunInTerm = '%s "%s"';
+  fmtRunInShell = '%s /C "%s"';
   ShieldChar = '/';
   {$ELSE}
   faFolder = S_IFDIR;
@@ -48,6 +49,7 @@ const
   RunTerm = 'xterm';  // default terminal
   RunInTerm = 'xterm -e sh -c'; // default run in terminal command
   fmtRunInTerm = '%s ''%s ; echo -n Press ENTER to exit... ; read''';
+  fmtRunInShell = '%s -c ''%s''';
   ShieldChar = '\';
   {$ENDIF}
 

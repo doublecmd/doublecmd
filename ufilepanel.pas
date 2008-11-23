@@ -729,12 +729,12 @@ begin
         iCount:= Pos('?>', sCmd) - iStart;
         sDir:= GetTempFolder + ExtractFileName(sName) + '.tmp';
         Process:= TProcessUTF8.Create(nil);
-        Process.CommandLine:= Copy(sCmd, iStart, iCount) + ' > ' + sDir;
+        Process.CommandLine:= Format(fmtRunInShell, [GetShell, Copy(sCmd, iStart, iCount) + ' > ' + sDir]);
         Process.Options:= [poNoConsole, poWaitOnExit];
         Process.Execute;
         Process.Free;
         sCmd:= Copy(sCmd, 1, iStart-3) + sDir;
-        DebugLn('"'+sCmd+'"');
+//        DebugLn('"'+sCmd+'"');
       end;
   end;
 end;
