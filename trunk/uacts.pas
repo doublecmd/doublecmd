@@ -730,50 +730,76 @@ var
   i:Integer;
   fr:PFileRecItem;
   VFSFileList : TFileList;
+  sViewCmd,
   sFileName,
-  sFilePath,
-  sTempDir : String;
+  sFilePath: String;
+  bDeleteAfterView: Boolean;
 begin
 with frmMain do
 begin
   with ActiveFrame do
   begin
     SelectFileIfNoSelected(GetActiveItem);
-    sl:=TStringList.Create;
+    sl:= TStringList.Create;
     try
       for i:=0 to pnlFile.FileList.Count-1 do
       begin
         fr:=pnlFile.GetFileItemPtr(i);
         if fr^.bSelected and not (FPS_ISDIR(fr^.iMode) or fr^.bLinkIsDir) then
         begin
-          (* If in Virtual File System *)
-          if pnlFile.PanelMode in [pmArchive, pmVFS] then
+          if (log_info in gLogOptions) then
+            logWrite('View.Add: ' + ActiveDir + fr^.sName, lmtInfo);
+
+          //now test if exists View command in doublecmd.ext :)
+          sViewCmd:= gExts.GetExtActionCmd(LowerCase(ExtractFileExt(fr^.sName)),'view');
+
+          case pnlFile.PanelMode of
+          pmArchive, pmVFS: // if in Virtual File System
             begin
-              VFSFileList := TFileList.Create;
+              VFSFileList:= TFileList.Create;
               VFSFileList.CurrentDirectory := ActiveDir;
-              sFileName := ActiveDir + fr^.sName;
+              sFileName:= ActiveDir + fr^.sName;
               New(fr);
-              fr^.sName := sFileName;
+              fr^.sName:= sFileName;
               fr^.iMode:= 0;
+              fr^.sPath:= GetTempFolder;
               VFSFileList.AddItem(fr);
-              sTempDir := GetTempFolder;
-              {if }pnlFile.VFS.VFSmodule.VFSCopyOut(VFSFileList, sTempDir, 0);{ then}
+              {if }pnlFile.VFS.VFSmodule.VFSCopyOut(VFSFileList, fr^.sPath, 0);{ then}
                 begin
-                 sl.Add(sTempDir + ExtractDirLevel(ActiveDir, fr^.sName));
-                 ShowViewerByGlobList(sl, True);
+                  if (sViewCmd<>'') then
+                    begin
+                      pnlFile.ReplaceExtCommand(sViewCmd, fr);
+                      pnlFile.ProcessExtCommand(sViewCmd);
+                    end
+                  else
+                    begin
+                      sl.Add(fr^.sPath + ExtractDirLevel(ActiveDir, fr^.sName));
+                      bDeleteAfterView:= True;
+                    end;
                  Dispose(fr);
-                 Exit;
                 end;
             end;
-          sFileName := fr^.sName;
-          sFilePath := ActiveDir;
-          sl.Add(GetSplitFileName(sFileName, sFilePath));
-          if (log_info in gLogOptions) then
-            logWrite('View.Add: ' + sFilePath + sFileName, lmtInfo);
-        end;
-      end;
-      if sl.Count>0 then
-        ShowViewerByGlobList(sl)
+          pmDirectory:
+            begin
+              if (sViewCmd<>'') then
+                begin
+                  pnlFile.ReplaceExtCommand(sViewCmd, fr);
+                  pnlFile.ProcessExtCommand(sViewCmd);
+                end
+              else
+                begin
+                  sFileName := fr^.sName;
+                  sFilePath := ActiveDir;
+                  sl.Add(GetSplitFileName(sFileName, sFilePath));
+                  bDeleteAfterView:= False;
+                end;
+            end;
+          end; // case
+        end; // if selected
+      end; // for
+      // if sl has files then view it
+      if sl.Count > 0 then
+        ShowViewerByGlobList(sl, bDeleteAfterView)
       else
         begin
           fr := pnlFile.GetActiveItem;

@@ -108,7 +108,7 @@ type
 implementation
 
 uses
-  LCLProc, SysUtils, Masks, uFileOp, uGlobs, uVFSutil,
+  LCLProc, SysUtils, Masks, StrUtils, Process, AsyncProcess, uFileOp, uGlobs, uVFSutil,
   uShowMsg, Controls, uLng, uShowForm, uVFSmodule, uDCUtils,
   uOSUtils,fMain;
 
@@ -710,12 +710,32 @@ begin
 end;
 
 procedure TFilePanel.ReplaceExtCommand(var sCmd:String; pfr:PFileRecItem);
+var
+  sDir: String;
+  iStart,
+  iCount: Integer;
+  Process: TProcessUTF8;
 begin
   with pfr^ do
   begin
+    sDir:= IfThen(sPath<>'', sPath, ActiveDir);
     sCmd:=StringReplace(sCmd,'%f',ExtractFileName(sName),[rfReplaceAll]);
-    sCmd:=StringReplace(sCmd,'%d',ActiveDir,[rfReplaceAll]);
-    sCmd:=Trim(StringReplace(sCmd,'%p',ActiveDir+ExtractFileName(sName),[rfReplaceAll]));
+    sCmd:=StringReplace(sCmd,'%d',sDir,[rfReplaceAll]);
+    sCmd:=Trim(StringReplace(sCmd,'%p',sDir+ExtractFileName(sName),[rfReplaceAll]));
+    // get output from command between '<?' and '?>'
+    if Pos('<?', sCmd) <> 0 then
+      begin
+        iStart:= Pos('<?', sCmd) + 2;
+        iCount:= Pos('?>', sCmd) - iStart;
+        sDir:= GetTempFolder + ExtractFileName(sName) + '.tmp';
+        Process:= TProcessUTF8.Create(nil);
+        Process.CommandLine:= Copy(sCmd, iStart, iCount) + ' > ' + sDir;
+        Process.Options:= [poNoConsole, poWaitOnExit];
+        Process.Execute;
+        Process.Free;
+        sCmd:= Copy(sCmd, 1, iStart-3) + sDir;
+        DebugLn('"'+sCmd+'"');
+      end;
   end;
 end;
 
@@ -732,14 +752,14 @@ begin
   end;
   if Pos('{!EDITOR}',sCmd) > 0 then
   begin
-    sCmd:= StringReplace(sCmd,'{!EDITOR}','',[rfReplaceAll]);
+    sCmd:= Trim(StringReplace(sCmd,'{!EDITOR}','',[rfReplaceAll]));
     uShowForm.ShowEditorByGlob(sCmd);
     Result:= True;
     Exit;
   end;
   if Pos('{!VIEWER}',sCmd) > 0 then
   begin
-    sCmd:= StringReplace(sCmd,'{!VIEWER}','',[rfReplaceAll]);
+    sCmd:= Trim(StringReplace(sCmd,'{!VIEWER}','',[rfReplaceAll]));
     uShowForm.ShowViewerByGlob(sCmd);
     Result:= True;
     Exit;
