@@ -97,7 +97,6 @@ object frmEditor: TfrmEditor
     BookMarkOptions.OnChange = nil
     Gutter.AutoSize = True
     Gutter.ShowLineNumbers = True
-    Gutter.UseFontStyle = True
     Gutter.Width = 24
     Gutter.ShowCodeFolding = True
     Keystrokes = <    
