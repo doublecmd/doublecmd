@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, Buttons, ExtCtrls, EditBtn, uExts, ExtDlgs;
+  StdCtrls, Buttons, ExtCtrls, EditBtn, uExts, ExtDlgs, Menus;
 
 type
 
@@ -46,24 +46,41 @@ type
     btnRemoveExt: TButton;
     btnRemoveType: TButton;
     btnRenameType: TButton;
+    edbAction: TEditButton;
     edtIconFileName: TEdit;
     fneCommand: TFileNameEdit;
     gbFileTypes: TGroupBox;
     gbIcon: TGroupBox;
     gbExts: TGroupBox;
     gbActions: TGroupBox;
+    lblAction: TLabel;
     lblCommand: TLabel;
-    ledAction: TLabeledEdit;
     lbActions: TListBox;
     lbExts: TListBox;
     lbFileTypes: TListBox;
+    miFullPath: TMenuItem;
+    miFilePath: TMenuItem;
+    miFileName: TMenuItem;
+    miGetOutputFromCommand: TMenuItem;
+    miShell: TMenuItem;
+    miViewer: TMenuItem;
+    miVfs: TMenuItem;
+    miEditor: TMenuItem;
+    miEdit: TMenuItem;
+    miView: TMenuItem;
+    miOpen: TMenuItem;
     OpenPictureDialog: TOpenPictureDialog;
     pnlButtonPanel: TPanel;
+    pmActions: TPopupMenu;
+    pmCommands: TPopupMenu;
     sbtnIcon: TSpeedButton;
+    btnCommands: TSpeedButton;
+    procedure btnActionsClick(Sender: TObject);
     procedure btnAddActClick(Sender: TObject);
     procedure btnAddExtClick(Sender: TObject);
     procedure btnAddNewTypeClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
+    procedure btnCommandsClick(Sender: TObject);
     procedure btnDownActClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnRemoveActClick(Sender: TObject);
@@ -76,8 +93,10 @@ type
     procedure lbFileTypesDrawItem(Control: TWinControl; Index: Integer;
       ARect: TRect; State: TOwnerDrawState);
     procedure lbFileTypesSelectionChange(Sender: TObject; User: boolean);
-    procedure ledActionChange(Sender: TObject);
+    procedure edtActionChange(Sender: TObject);
     procedure fneCommandChange(Sender: TObject);
+    procedure miActionsClick(Sender: TObject);
+    procedure miCommandsClick(Sender: TObject);
     procedure sbtnIconClick(Sender: TObject);
   private
     { private declarations }
@@ -142,9 +161,9 @@ begin
       btnRemoveAct.Enabled := False;
       btnUpAct.Enabled := False;
       btnDownAct.Enabled := False;
-      ledAction.Enabled:= False;
+      edbAction.Enabled:= False;
       fneCommand.Enabled:= False;
-      ledAction.Text:= '';
+      edbAction.Text:= '';
       fneCommand.FileName:= '';
     end
   else
@@ -152,7 +171,7 @@ begin
       btnRemoveAct.Enabled := True;
       btnUpAct.Enabled := True;
       btnDownAct.Enabled := True;
-      ledAction.Enabled:= True;
+      edbAction.Enabled:= True;
       fneCommand.Enabled:= True;
     end;
 
@@ -216,7 +235,7 @@ begin
   iIndex := lbActions.ItemIndex;
   if (iIndex < 0) or (lbActions.Tag = 1) then Exit;
   slActions := TStringList(lbActions.Items.Objects[iIndex]);
-  ledAction.Text := slActions.Names[iIndex];
+  edbAction.Text := slActions.Names[iIndex];
   fneCommand.FileName := slActions.ValueFromIndex[iIndex];
   UpdateEnabledButtons;
 end;
@@ -288,16 +307,16 @@ begin
   UpdateEnabledButtons;
 end;
 
-procedure TfrmFileAssoc.ledActionChange(Sender: TObject);
+procedure TfrmFileAssoc.edtActionChange(Sender: TObject);
 var
   iIndex : Integer;
   slActions : TStringList;
 begin
   iIndex := lbActions.ItemIndex;
-  if (iIndex < 0) or (ledAction.Text = '') then Exit;
+  if (iIndex < 0) or (edbAction.Text = '') then Exit;
   slActions := TStringList(lbActions.Items.Objects[iIndex]);
-  slActions.Strings[iIndex] := ledAction.Text + '=' + slActions.ValueFromIndex[iIndex];
-  lbActions.Items[iIndex] := ledAction.Text;
+  slActions.Strings[iIndex] := edbAction.Text + '=' + slActions.ValueFromIndex[iIndex];
+  lbActions.Items[iIndex] := edbAction.Text;
   if lbFileTypes.ItemIndex >= 0 then
     Exts.Items[lbFileTypes.ItemIndex].IsChanged:= True;
 end;
@@ -313,6 +332,44 @@ begin
   slActions.ValueFromIndex[iIndex] := fneCommand.FileName;
   if lbFileTypes.ItemIndex >= 0 then
     Exts.Items[lbFileTypes.ItemIndex].IsChanged:= True;
+end;
+
+procedure TfrmFileAssoc.miActionsClick(Sender: TObject);
+var
+  miMenuItem: TMenuItem absolute Sender;
+begin
+  if miMenuItem.Name = 'miOpen' then
+    edbAction.Text:= 'Open'
+  else if miMenuItem.Name = 'miView' then
+    edbAction.Text:= 'View'
+  else if miMenuItem.Name = 'miEdit' then
+    edbAction.Text:= 'Edit';
+end;
+
+procedure TfrmFileAssoc.miCommandsClick(Sender: TObject);
+var
+  miMenuItem: TMenuItem absolute Sender;
+begin
+  if miMenuItem.Name = 'miVfs' then
+    fneCommand.Text:= fneCommand.Text + '{!VFS} '
+  else if miMenuItem.Name = 'miViewer' then
+    fneCommand.Text:= fneCommand.Text + '{!VIEWER} '
+  else if miMenuItem.Name = 'miEditor' then
+    fneCommand.Text:= fneCommand.Text + '{!EDITOR} '
+  else if miMenuItem.Name = 'miShell' then
+    fneCommand.Text:= fneCommand.Text + '{!SHELL} '
+  else if miMenuItem.Name = 'miGetOutputFromCommand' then
+    begin
+      fneCommand.Text:= fneCommand.Text + '<??>';
+      fneCommand.SetFocus;
+      fneCommand.SelStart:= Pos('?>', fneCommand.Text) - 1;
+    end
+  else if miMenuItem.Name = 'miFileName' then
+    fneCommand.Text:= fneCommand.Text + '''%f'''
+  else if miMenuItem.Name = 'miFilePath' then
+    fneCommand.Text:= fneCommand.Text + '''%d'''
+  else if miMenuItem.Name = 'miFullPath' then
+    fneCommand.Text:= fneCommand.Text + '''%p''';
 end;
 
 procedure TfrmFileAssoc.sbtnIconClick(Sender: TObject);
@@ -445,6 +502,11 @@ begin
   UpdateEnabledButtons;
 end;
 
+procedure TfrmFileAssoc.btnActionsClick(Sender: TObject);
+begin
+  pmActions.PopUp();
+end;
+
 procedure TfrmFileAssoc.btnRemoveActClick(Sender: TObject);
 var
   I : Integer;
@@ -477,6 +539,11 @@ end;
 procedure TfrmFileAssoc.btnCancelClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TfrmFileAssoc.btnCommandsClick(Sender: TObject);
+begin
+  pmCommands.PopUp();
 end;
 
 initialization
