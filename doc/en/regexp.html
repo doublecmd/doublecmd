@@ -1,0 +1,1726 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+
+
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+
+
+  
+  <meta name="Content-Language" content="english" />
+
+  
+  <title>Syntax of Regular Expressions</title>
+</head>
+
+
+<body leftmargin="0" topmargin="0" style="background-color: rgb(255, 255, 255);" marginheight="0" marginwidth="0">
+
+
+<table bgcolor="white" border="0" cellpadding="0" cellspacing="14" width="779">
+
+
+  <tbody>
+
+
+    <tr>
+
+
+      <td height="100%" valign="top" width="769"><span style="font-family: Arial; font-size: 12pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 12pt; color: rgb(0, 0, 255);"><b>Syntax
+of Regular Expressions</b></span><span style="font-family: Arial; font-size: 14pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 14pt; color: rgb(0, 0, 255);"><b>
+      <br />
+
+
+      </b></span></span></span> <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Introduction</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      <br />
+
+
+Regular Expressions are a widely-used method of specifying patterns of
+text to search for. Special <b>metacharacters</b>
+allow You to specify, for instance, that a particular string You are
+looking for occurs at the beginning or end of a line, or contains <b>n</b>
+recurrences of a certain character. <br />
+
+
+      <br />
+
+
+Regular expressions are mainly meant for professionals, but can also be
+useful in the office for finding certain documents (see examples below).<br />
+
+
+      <br />
+
+
+Double Commander supports regular expressions in the following
+functions:<br />
+
+
+      </span>
+      
+      <ul>
+
+
+        <li><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Commands
+-&gt; Search (in file name)</span></li>
+
+
+        <li><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">In
+internal Editor</span></li>
+
+
+        <li><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">In
+the Multi-Rename tool</span></li>
+
+
+      
+      </ul>
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Simple
+matches <br />
+
+
+      <br />
+
+
+      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Any
+single character matches itself, unless it is a <b>metacharacter</b>
+with a special meaning described below. <br />
+
+
+      <br />
+
+
+A series of characters matches that series of characters in the
+target string, so the pattern "bluh" would match "bluh'' in the target
+string. Quite simple, eh ? <br />
+
+
+      <br />
+
+
+You can cause characters that normally function as <b>metacharacters</b>
+or <b>escape sequences</b>
+to be interpreted literally by 'escaping' them by preceding them with a
+backslash "\", for instance: metacharacter "^" match beginning of
+string, but "\^" match character "^", "\\" match "\" and so on. <br />
+
+
+      <br />
+
+
+      <b>Examples:</b> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foobar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+string 'foobar' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\^FooBarPtr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+'^FooBarPtr' </i><br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Escape
+sequences</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      <br />
+
+
+Characters may be specified using a <b>escape sequences</b>
+syntax much like that used in C and Perl: "\n'' matches a newline,
+"\t'' a tab, etc. More generally, \xnn, where nn is a string of
+hexadecimal digits, matches the character whose ASCII value is nn. If
+You need wide (Unicode) character code, You can use '\x{nnnn}', where
+'nnnn' - one or more hexadecimal digits. <br />
+
+
+      <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\xnn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>char
+with hex code nn</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\x{nnnn}&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>char
+with hex code nnnn (one byte for plain text and two bytes for </i><i><a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode</a></i><i>)
+      <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>tab
+(HT/TAB), same as \x09</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>newline
+(NL), same as \x0a</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>car.return
+(CR), same as \x0d <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\f&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>form
+feed (FF), same as \x0c <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>alarm
+(bell) (BEL), same as \x07</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\e&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>escape
+(ESC), same as \x1b <br />
+
+
+      </i> <br />
+
+
+      <b>Examples:</b> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foo\x20bar&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+'foo bar' (note space in the middle) <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\tfoobar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+'foobar' predefined by tab <br />
+
+
+      </i> <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Character
+classes <br />
+
+
+      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+You can specify a <b>character class</b>, by enclosing a
+list of characters in [], which will match any <b>one</b>
+character from the list. <br />
+
+
+      <br />
+
+
+If the first character after the "['' is "^'', the class matches any
+character <b>not</b> in the list. <br />
+
+
+      <br />
+
+
+      <b>Examples:</b> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob[aeiou]r&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>finds
+strings 'foobar', 'foober' etc. but not 'foobbr', 'foobcr' etc.</i>
+      <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob[^aeiou]r&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>find
+strings 'foobbr', 'foobcr' etc. but not 'foobar', 'foober' etc.</i>
+      <br />
+
+
+      <br />
+
+
+Within a list, the "-'' character is used to specify a <b>range</b>,
+so that a-z represents all characters between "a'' and "z'', inclusive.
+      <br />
+
+
+      <br />
+
+
+If You want "-'' itself to be a member of a class, put it at the
+start or end of the list, or escape it with a backslash. If You want
+']' you may place it at the start of list or escape it with a
+backslash. <br />
+
+
+      <br />
+
+
+      <b>Examples: <br />
+
+
+      </b></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[-az]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+'a', 'z' and '-' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[az-]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+'a', 'z' and '-' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[a\-z]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+'a', 'z' and '-' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[a-z]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+all twenty six small characters from 'a' to 'z'</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[\n-\x0D]&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+any of #10,#11,#12,#13. <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[\d-t]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+any digit, '-' or 't'.</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[]-a]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+any char from ']'..'a'.</i> <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Metacharacters
+      <br />
+
+
+      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+Metacharacters are special characters which are the essence of
+Regular Expressions. There are different types of metacharacters,
+described below. <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b><a name="syntax_line_separators"></a>Metacharacters -
+line separators</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
+      <br />
+
+
+      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;^&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>start
+of line</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>end
+of line <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>start
+of text</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\Z&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>end
+of text <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>any
+character</i><i> in line</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      </span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><b>Examples:
+      <br />
+
+
+      </b></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;^foobar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+string 'foobar' only if it's at the beginning of line</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foobar$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+string 'foobar' only if it's at the end of line</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;^foobar$&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+string 'foobar' only if it's the only string in line</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob.r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+strings like 'foobar', 'foobbr', 'foob1r' and so on <br />
+
+
+      </i> <br />
+
+
+The "^" metacharacter by default is only guaranteed to match at the
+beginning of the input string/text, the "$" metacharacter only at the
+end. Embedded line separators will not be matched by "^'' or "$''. <br />
+
+
+You may, however, wish to treat a string as a multi-line buffer,
+such that the "^'' will match after any line separator within the
+string, and "$'' will match before any line separator. You can do this
+by switching On the <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_m">modifier
+/m</a>. <br />
+
+
+The \A and \Z are just like "^'' and "$'', except that they won't match
+multiple times when the <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_m">modifier
+/m</a> is used, while "^'' and "$'' will match at every internal
+line separator. </span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      </span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+The ".'' metacharacter by default matches any character, but if You
+switch Off the <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_s">modifier
+/s</a>, then '.' won't match embedded line separators. <br />
+
+
+      <br />
+
+
+TRegExpr works with line separators as recommended at www.unicode.org (
+http://www.unicode.org/unicode/reports/tr18/ ): <br />
+
+
+      <br />
+
+
+"^" is at the beginning of a input string, and, if <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_m">modifier
+/m</a> is On, also immediately following any occurrence of
+\x0D\x0A or \x0A or \x0D (if You are using <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode
+version</a>
+of TRegExpr, then also \x2028 or \x2029 or \x0B or \x0C or \x85). Note
+that there is no empty line within the sequence \x0D\x0A. <br />
+
+
+      <br />
+
+
+"$" is at the end of a input string, and, if <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_m">modifier
+/m</a> is On, also immediately preceding any occurrence of
+\x0D\x0A or \x0A or \x0D (if You are using <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode
+version</a>
+of TRegExpr, then also \x2028 or \x2029 or \x0B or \x0C or \x85). Note
+that there is no empty line within the sequence \x0D\x0A. <br />
+
+
+      <br />
+
+
+"." matchs any character, but if You switch Off <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_s">modifier
+/s</a> then "." doesn't match \x0D\x0A and \x0A and \x0D (if You
+are using <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode
+version</a> of TRegExpr, then also \x2028 and \x2029 and \x0B and
+\x0C and \x85). <br />
+
+
+      <br />
+
+
+Note that "^.*$" (an empty line pattern) doesnot match the empty
+string within the sequence \x0D\x0A, but matchs the empty string within
+the sequence \x0A\x0D. <br />
+
+
+      <br />
+
+
+Multiline processing can be easely tuned for Your own purpose with help
+of TRegExpr properties <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#lineseparators">LineSeparators</a>
+and <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#linepairedseparator">LinePairedSeparator</a>,
+You can use only Unix style separators \n or only DOS/Windows style
+\r\n or mix them together (as described above and used by default) or
+define Your own line separators! <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b><a name="syntax_predefined_classes"></a>Metacharacters -
+predefined classes</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
+      <br />
+
+
+      <br />
+
+
+      </b></span></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\w&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>an
+alphanumeric character (including "_") <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\W&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>a
+nonalphanumeric</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>a
+      </i><i>numeric character <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>a</i><i>
+non-numeric</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>any
+space (same as [ \t\n\r\f]) <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\S&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>a
+non space</i> <br />
+
+
+      <br />
+
+
+You may use \w, \d and \s within custom <b>character classes</b>.
+      <br />
+
+
+      <br />
+
+
+      <b>Examples: <br />
+
+
+      </b></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob\dr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+strings like 'foob1r', ''foob6r' and so on but not 'foobar', 'foobbr'
+and so on</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob[\w\s]r&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+strings like 'foobar', 'foob r', 'foobbr' and so on but not 'foob1r',
+'foob=r' and so on</i> <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b><a name="syntax_word_boundaries"></a>Metacharacters -
+word boundaries</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
+      <br />
+
+
+      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>Match
+a word boundary</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>Match
+a non-(word boundary) <br />
+
+
+      </i></span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      </span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">A
+word boundary (\b) is a spot between two characters that has a \w on
+one side of it and a \W on the other side of it (in either order),
+counting the imaginary characters off the beginning and end of the
+string as matching a \W. <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b><a name="metacharacters_iterators"></a>Metacharacters -
+iterators</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
+      <br />
+
+
+      <br />
+
+
+      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Any
+item of a regular expression may be followed by another type of
+metacharacters - <b>iterators</b>. Using this
+metacharacters You can specify number of occurences of previous
+character, <b>metacharacter</b> or <b>subexpression</b>.
+      <br />
+
+
+      <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>zero
+or more</i><i> ("greedy"), similar to {0,}</i><i>
+      <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Courier; font-size: 12pt; color: rgb(0, 0, 0);">&nbsp;</span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>one
+or more</i><i> ("greedy"), similar to {1,}</i><i>
+      <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;?&nbsp;&nbsp;&nbsp;</span><span style="font-family: Courier; font-size: 12pt; color: rgb(0, 0, 0);">&nbsp;</span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>zero
+or one ("greedy"), similar to {0,1}</i><i> <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;{n}&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>exactly
+n times ("greedy")</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;{n,}&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>at
+least n times ("greedy") <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;{n,m}&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>at
+least n but not more than m times ("greedy") <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;*?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>zero
+or more</i><i> ("non-greedy"), similar to {0,}?</i><i>
+      <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;+?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>one
+or more</i><i> ("non-greedy"), similar to {1,}?</i><i>
+      <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;??&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>zero
+or one ("non-greedy"), similar to {0,1}?</i><i> <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;{n}?&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>exactly
+n times ("non-greedy")</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;{n,}?&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>at
+least n times ("non-greedy") <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;{n,m}?&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>at
+least n but not more than m times ("non-greedy") <br />
+
+
+      </i> <br />
+
+
+So, digits in curly brackets of the form {n,m}, specify the minimum
+number of times to match the item n and the maximum m. The form {n} is
+equivalent to {n,n} and matches exactly n times. The form {n,} matches
+n or more times. There is no limit to the size of n or m, but large
+numbers will chew up more memory and slow down r.e. execution. <br />
+
+
+      <br />
+
+
+If a curly bracket occurs in any other context, it is treated as a
+regular character. <br />
+
+
+      <br />
+
+
+      <b>Examples: <br />
+
+
+      </b></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob.*r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+strings like 'foobar', 'foobalkjdflkj9r' and 'foobr'</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob.+r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+strings like 'foobar', 'foobalkjdflkj9r' but not 'foobr' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob.?r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+strings like 'foobar', 'foobbr' and 'foobr' but not 'foobalkj9r' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;fooba{2}r&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+the string 'foobaar' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;fooba{2,}r&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">m<i>atchs
+strings like 'foobaar', 'foobaaar', 'foobaaaar' etc. <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;fooba{2,3}r&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+strings like 'foobaar', or 'foobaaar' but not 'foobaaaar' <br />
+
+
+      </i> <br />
+
+
+A little explanation about "greediness". "Greedy" takes as many as
+possible, "non-greedy" takes as few as possible. For example, 'b+' and
+'b*' applied to string 'abbbbc' return 'bbbb', 'b+?' returns 'b', 'b*?'
+returns empty string, 'b{2,3}?' returns 'bb', 'b{2,3}' returns 'bbb'. <br />
+
+
+      <br />
+
+
+You can switch all iterators into "non-greedy" mode (see the <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_g">modifier
+/g</a>). <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Metacharacters
+- alternatives <br />
+
+
+      <br />
+
+
+      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">You
+can specify a series of <b>alternatives</b>
+for a pattern using "|'' to separate them, so that fee|fie|foe will
+match any of "fee'', "fie'', or "foe'' in the target string (as would
+f(e|i|o)e). The first alternative includes everything from the last
+pattern delimiter ("('', "['', or the beginning of the pattern) up to
+the first "|'', and the last alternative contains everything from the
+last "|'' to the next pattern delimiter. For this reason, it's common
+practice to include alternatives in parentheses, to minimize confusion
+about where they start and end. <br />
+
+
+Alternatives are tried from left to right, so the first
+alternative found for which the entire expression matches, is the one
+that is chosen. This means that alternatives are not necessarily
+greedy. For example: when matching foo|foot against "barefoot'', only
+the "foo'' part will match, as that is the first alternative tried, and
+it successfully matches the target string. (This might not seem
+important, but it is important when you are capturing matched text
+using parentheses.) <br />
+
+
+Also remember that "|'' is interpreted as a literal within square
+brackets, so if You write [fee|fie|foe] You're really only matching
+[feio|]. <br />
+
+
+      <br />
+
+
+      <b>Examples: <br />
+
+
+      </b></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foo(bar|foo)&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+strings 'foobar' or 'foofoo'.</i> <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Metacharacters
+- subexpressions <br />
+
+
+      <br />
+
+
+      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">The
+bracketing construct ( ... ) may also be used for define r.e.
+subexpressions. <br />
+
+
+      <br />
+
+
+Subexpressions are numbered based on the left to right order of their
+opening parenthesis. <br />
+
+
+First subexpression has number '1' (whole r.e. match has number '0' -
+You can substitute it in <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#tregexpr.substitute">TRegExpr.Substitute</a>
+as '$0' or '$&amp;'). <br />
+
+
+      <br />
+
+
+      <b>Examples: <br />
+
+
+      </b></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;(foobar){8,10}&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+strings which contain 8, 9 or 10 instances of the 'foobar' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob([0-9]|a+)r&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+'foob0r', 'foob1r' , 'foobar', 'foobaar', 'foobaar' etc.</i> <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Metacharacters
+- backreferences <br />
+
+
+      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      <b>Metacharacters</b> \1 through \9 are interpreted
+as backreferences. \&lt;n&gt; matches previously matched <b>subexpression</b>
+#&lt;n&gt;. <br />
+
+
+      <br />
+
+
+      <b>Examples: <br />
+
+
+      </b></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;(.)\1+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+'aaaa' and 'cc'. <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;(.+)\1+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>also
+match 'abab' and '123123' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"><i>&nbsp;&nbsp;(['"]?)(\d+)\1&nbsp;</i></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+'"13"</i><i> (in double quotes)</i><i>, or '4'</i><i>
+(in single quotes)</i><i> or 77</i><i> (without
+quotes)</i><i> etc <br />
+
+
+      </i> <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b><a name="about_modifiers"></a>Modifiers</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Modifiers
+are for changing behaviour of regular expressions. <br />
+
+
+      <br />
+Any of these modifiers may be embedded within the regular expression
+itself using the <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#inline_modifiers">(?...)</a>
+construct.<br />
+
+
+      <br />
+
+
+      <b><a name="modifier_i"></a>i</b> <br />
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Do
+case-insensitive pattern matching (using installed in you system locale
+settings), see also <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#invertcase">InvertCase</a>.
+&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><b><a name="modifier_m"></a>m</b><b> </b></span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);"></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Treat
+string as multiple lines. That is, change "^'' and "$'' from matching
+at only the very start or end of the string to the start or end of any
+line anywhere within the string, see also <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#syntax_line_separators">Line
+separators</a>.
+&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><b><a name="modifier_s"></a>s</b><b> </b></span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);"></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Treat
+string as single line. That is, change ".'' to match any character
+whatsoever, even a line separators (see also <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#syntax_line_separators">Line
+separators</a>), which it normally would not match.
+&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><b><a name="modifier_g"></a>g</b><b> </b></span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);"></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Non
+standard modifier. Switching it Off You'll switch all following
+operators into non-greedy mode (by default this modifier is On). So, if
+modifier /g is Off then '+' works as '+?', '*' as '*?' and so on
+&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><b><a name="modifier_x"></a>x </b></span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);"></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Extend
+your pattern's legibility by permitting whitespace and comments (see
+explanation below)</span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);">.
+&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);"></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      <span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);"></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><b><a name="modifier_r"></a>r</b><span style="font-family: Arial; font-size: 10pt; color: rgb(127, 0, 0);"><b>
+      <br />
+
+
+      </b>
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(127, 0, 0);"></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Non-standard
+modifier. If is set then range &agrave;-&yuml; additional
+include russian letter
+'&cedil;', &Agrave;-&szlig; additional include '&uml;',
+and &agrave;-&szlig; include all russian symbols.
+&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Sorry
+for foreign users, but it's set by default. If you want switch if off
+by default - set false to global variable <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#modifier_defs">RegExprModifierR</a>.
+&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">The
+      <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_x">modifier
+/x</a>
+itself needs a little more explanation. It tells to ignore
+whitespace that is neither backslashed nor within a character class.
+You can use this to break up your regular expression into (slightly)
+more readable parts. The # character is also treated as a metacharacter
+introducing a comment, for example: <br />
+
+
+      <br />
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="19"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"><i>(&nbsp;
+&nbsp;<br />
+
+
+            </i></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="19"></td>
+
+
+            <td><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"><i>(abc)&nbsp;#&nbsp;comment&nbsp;1
+&nbsp;<br />
+
+
+            </i></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="19"></td>
+
+
+            <td><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"><i>&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;#&nbsp;You&nbsp;can&nbsp;use&nbsp;spaces&nbsp;to&nbsp;format&nbsp;r.e.&nbsp;-&nbsp;TRegExpr&nbsp;ignores&nbsp;it
+&nbsp;<br />
+
+
+            </i></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="19"></td>
+
+
+            <td><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"><i>(efg)&nbsp;#&nbsp;comment&nbsp;2
+&nbsp;<br />
+
+
+            </i></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="19"></td>
+
+
+            <td><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"><i>)
+&nbsp;<br />
+
+
+            </i></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="19"></td>
+
+
+            <td><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      <span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><br />
+
+
+This also means that if you want real whitespace or # characters in the
+pattern (outside a character class, where they are unaffected by /x),
+that you'll either have to escape them or encode them using octal or
+hex escapes. Taken together, these features go a long way towards
+making regular expressions text more readable. <br />
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Perl
+extensions <br />
+
+
+      </b></span></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      </span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);"><b><a name="inline_modifiers"></a>(?imsxr-imsxr)</b> <br />
+
+
+      </span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">You
+may use it into r.e. for modifying modifiers by the fly. If this
+construction inlined into subexpression, then it effects only into this
+subexpression</span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      <br />
+
+
+      </span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><b>Examples:
+      <br />
+
+
+      </b></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;(?i)Saint-Petersburg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+'Saint-petersburg' and 'Saint-Petersburg' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;(?i)Saint-(?-i)Petersburg&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+'Saint-Petersburg' but not 'Saint-petersburg'</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;(?i)(Saint-)?Petersburg&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+'Saint-petersburg' and 'saint-petersburg'</i> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;((?i)Saint-)?Petersburg&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>matchs
+'saint-Petersburg', but not 'saint-petersburg' <br />
+
+
+      <br />
+
+
+      </i></span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      <b><a name="inline_comment"></a>(?#text)</b>
+      <br />
+
+
+      </span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">A
+comment, the text is ignored. Note that TRegExpr closes the comment as
+soon as it sees a ")", so there is no way to put a literal ")" in the
+comment. </span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      </span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+Double Commander uses the free Delphi library TRegExpr by Andrey V.
+Sorokin: <a href="http://www.regexpstudio.com/">http://www.regexpstudio.com/</a><br />
+
+
+Most of the above explanations are from the help file for this library.<br />
+
+
+      </span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></span></span>
+      </span></span></span></span></span></span></td>
+
+
+    </tr>
+
+
+  
+  </tbody>
+</table>
+
+
+<br />
+
+
+<br />
+
+
+</body>
+</html>

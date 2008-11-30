@@ -17,7 +17,7 @@
 #
 # [extension] or [extension1|extension2 ...] - list of extensions (case insensitive !!no regular expression!!)
 #
-# Name - Name of this category (showed if file association manager)
+# Name - Name of this category (showed in file association manager)
 #
 # Icon - Path to icon that displays for this file types in file panel
 #

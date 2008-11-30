@@ -1,0 +1,1696 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+
+
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+
+
+  
+  <meta name="Content-Language" content="russian" />
+
+  
+  <title>Синтаксис регулярных выражений</title>
+</head>
+
+
+<body leftmargin="0" topmargin="0" style="background-color: rgb(255, 255, 255);" marginheight="0" marginwidth="0">
+
+
+<table bgcolor="white" border="0" cellpadding="0" cellspacing="14" width="779">
+
+
+  <tbody>
+
+
+    <tr>
+
+
+      <td height="100%" valign="top" width="769"><span style="font-family: Arial; font-size: 12pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 12pt; color: rgb(0, 0, 255);"><b>Синтаксис
+регулярных выражений</b></span><span style="font-family: Arial; font-size: 14pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 14pt; color: rgb(0, 0, 255);"><b>
+      <br />
+
+
+      <br />
+
+
+      </b></span></span></span> <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Введение</b></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      <br />
+
+
+Регулярные выражения - это широкоиспользуемый способ описания шаблонов
+для поиска текста и проверки соответствия текста шаблону. Специальные <b>метасимволы</b>
+позволяют определять, например, что Вы ищете подстроку в начале входной
+строки или определенное число повторений подстроки. <br />
+
+
+      <br />
+
+
+Регулярные выражения предназначены главным образом для профессионалов,
+однако могут быть полезны и при работе в офисе для поиска определённых
+документов (см. примеры ниже). <br />
+
+
+      <br />
+
+
+Double Commander поддерживает регулярные выражения в следующих
+функциях:
+      
+      <ul>
+
+
+        <li>Команды -&gt; Поиск файлов (в имени файла).</li>
+
+
+        <li>Во встроенном редакторе.</li>
+
+
+        <li>В инструменте группового переименования.</li>
+
+
+      
+      </ul>
+
+
+      <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Простое
+сравнение</b></span></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
+      <br />
+
+
+      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+Любой символ совпадает с самим собой, если он не относится к
+специальным метасимволам описанным чуть ниже. <br />
+
+
+      <br />
+
+
+Последовательность символов совпадает с такой же
+последовательностью во входной строке, так что шаблон "bluh" совпадет с
+подстрокой "bluh'' во входной строке. Пока все просто, не так ли ? <br />
+
+
+      <br />
+
+
+Если необходимо, чтобы метасимволы или <b>escape-последовательности</b>
+воспринимались как обычные символы, их нужно предварять символом "\",
+например, метасимвол "^" обычно совпадает с началом строк, однако, если
+записать его как "\^", то он будет совпадать с символом "^", "\\"
+совпадает с "\" и т.д. <br />
+
+
+      <br />
+
+
+      <b>Примеры</b><b>:</b> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foobar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foobar' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\^FooBarPtr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'^FooBarPtr' <br />
+
+
+      </i> <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Escape-последовательности</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      <br />
+
+
+Любой символ может быть определен с помощью escape
+последовательности, так же как это делается в языках C или Perl: "\n''
+означает начало строки, "\t'' - табуляцию и т.д.. Вообще, \xnn, где nn
+это последовательность шестнадцатеричных цифр, означает символ с
+ASCII-кодом nn. Если необходимо определить двухбайтный (Unicode)
+символ, используйте формат '\x{nnnn}', где 'nnnn' - одна или более
+шестнадцатеричных цифр. <br />
+
+
+      <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\xnn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>символ
+с шестнадцатеричным кодом nn <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\x{nnnn}&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>символ
+с шестнадцатеричным кодом nnnn (более одного байта можно задавать
+только в режиме </i><i><a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode</a></i><i>)
+      <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>табуляция
+(HT/TAB), можно также \x09 <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>новая
+строка (NL), можно также \x0a <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>возврат
+каретки (CR), можно также \x0d <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\f&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>перевод
+формата (FF), можно также \x0c <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>звонок
+(BEL), можно также \x07 <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\e&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>escape
+(ESC), можно также \x1b <br />
+
+
+      </i> <br />
+
+
+      <b>Примеры</b><b>:</b> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foo\x20bar&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foo bar' (обратите внимание на пробел посередине) <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\tfoobar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foobar' предшествуемый табуляцией <br />
+
+
+      </i> <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Перечни
+символов</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
+      <br />
+
+
+      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+Вы можете определить перечень, заключив символы в []. Перечень будет
+совпадать с любым <b>одним</b> символом перечисленным в
+нем. <br />
+
+
+      <br />
+
+
+Если первый символ перечня (сразу после "['') - "^'', то такой перечень
+совпадает с любым символом <b>не</b> перечисленным в
+перечне. <br />
+
+
+      <br />
+
+
+      <b>Примеры</b><b>:</b> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob[aeiou]r&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foobar', 'foober' и т.д. но не 'foobbr', 'foobcr' и т.д. <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob[^aeiou]r&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foobbr', 'foobcr' и т.д.. но не 'foobar', 'foober' и т.д. <br />
+
+
+      </i> <br />
+
+
+Внутри перечня символ "-'' может быть использован для определения <b>диапазонов</b>
+символов, например a-z представляет все символы между "a'' и "z'',
+включительно. <br />
+
+
+      <br />
+
+
+Если Вам необходимо включить в перечень сам символ "-'', поместите
+его в начало или конец перечня или предварите '\'. Если Вам необходимо
+поместить в перечень сам символ ']', поместите его в самое начало или
+предварите '\'. <br />
+
+
+      <br />
+
+
+      <b>Примеры</b><b>:</b> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[-az]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>'a',
+'z' </i><i>и </i><i>'-' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[az-]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>'a',
+'z' </i><i>и </i><i>'-' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[a\-z]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>'a',
+'z' </i><i>и </i><i>'-' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[a-z]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>все
+26 малых латинских букв от 'a' до 'z' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[\n-\x0D]&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>#10,
+#11, #12, #13. <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[\d-t]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>цифра,
+'-' или 't'. <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[]-a]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>символ
+из диапазона ']'..'a'. <br />
+
+
+      </i> <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Метасимволы</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
+      <br />
+
+
+      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+Метасимволы - это специальные символы, являющиеся важнейшим
+понятием в регулярных выражениях. Существует несколько групп
+метасимволов. <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <a name="syntax_line_separators"></a>Метасимволы
+- разделители строк<span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
+      <br />
+
+
+      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;^&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>начало
+строки <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>конец
+строки <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>начало
+текста <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\Z&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>конец
+текста <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>любой
+символ в строке <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      </span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><b>Примеры</b><b>:</b>
+      <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;^foobar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foobar' только если он в начале строки <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foobar$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foobar' только если он в конце строки <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;^foobar$&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foobar' только если это единственное слово в строке <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob.r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foobar', 'foobbr', 'foob1r' и т.д. <br />
+
+
+      </i> <br />
+
+
+Метасимвол "^" по умолчанию совпадает только в начале входного
+текста, а метасимвол "$" - только в конце текста. Внутренние
+разделители строк, имеющиеся в тексте, не будут совпадать с "^'' и
+"$''. <br />
+
+
+Однако, если Вам необходимо работать с текстом как с
+многострочным, чтобы "^'' совпадал после каждого разделителя строки
+внутри текста, а "$'' - перед каждым разделителем, то Вы можете
+включить <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_m">модификатор
+/m</a>. <br />
+
+
+      <br />
+
+
+Метасимволы \A и \Z аналогичны "^'' и "$'', но на них не действует <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_m">модификатор
+/m</a>, т.е. они всегда совпадают только с началом и концом всего
+входного текста. <br />
+
+
+      <br />
+
+
+Метасимвол ".'' по умолчанию совпадает с любым символом, однако, если
+Вы выключите <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_s">модификатор
+/s</a>, то '.' не будет совпадать с разделителями строк. <br />
+
+
+      <br />
+
+
+TRegExpr интерпретирует разделители строк так, как это рекомендовано на
+www.unicode.org ( http://www.unicode.org/unicode/reports/tr18/ ): <br />
+
+
+      <br />
+
+
+"^" совпадает с началом входного текста, а также, если включен <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_m">модификатор
+/m</a>, с точкой непосредственно следующей после \x0D\x0A, \x0A
+или \x0D (если Вы используете <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode-версию</a>
+TRegExpr, то также \x2028 или \x2029 или \x0B или \x0C или \x85).
+Обратите внимание, что он не совпадает в промежутке внутри
+последовательности \x0D\x0A. <br />
+
+
+      <br />
+
+
+"$" совпадает с концом входного текста, а также, если включен <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_m">модификатор
+/m</a>, с точкой непосредственно предшествующей \x0D\x0A, \x0A
+или \x0D (если Вы используете <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode-версию</a>
+TRegExpr, то также \x2028 или \x2029 или \x0B или \x0C или \x85).
+Обратите внимание, что он не совпадает в промежутке внутри
+последовательности \x0D\x0A. <br />
+
+
+      <br />
+
+
+"." совпадает с любым символом, но если выключен <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_s">модификаторr
+/s</a>, то "." не совпадает с \x0D\x0A и \x0A и \x0D (если Вы
+используете <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode-версию</a>
+TRegExpr, то не совпадает также с \x2028 и \x2029 и \x0B и \x0C и
+\x85). <br />
+
+
+      <br />
+
+
+Обратите внимание, что "^.*$" (шаблон для пустой строки) не совпадает с
+пустой строкой вида \x0D\x0A, но совпадает с \x0A\x0D. <br />
+
+
+      <br />
+
+
+Вы можете перенастроить вышеописанное поведение при обработке
+многострочных текстов - см. описания свойств <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#lineseparators">LineSeparators</a>
+и <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#linepairedseparator">LinePairedSeparator</a>,
+скажем, Вы можете перенастроиться на использование только
+Unix-разделителей строк \n или только DOS/Windows-разделителей \r\n или
+же смешанных разделителей (так и настроено по умолчанию) или вообще
+определить свои собственные разделители строк! <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b><a name="syntax_predefined_classes"></a>Метасимволы -
+стандартные перечни символов</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
+      <br />
+
+
+      <br />
+
+
+      </b></span></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\w&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>буквенно-цифровой
+символ или "_" <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\W&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>не
+\w <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>цифровой
+символ <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>не
+\d <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>любой&nbsp;"пробельный"&nbsp;символ&nbsp;</i></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>(</i><i>по
+умолчанию -</i><i> [ \t\n\r\f]) <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\S&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>не
+\s <br />
+
+
+      </i> <br />
+
+
+Стандартные перечни \w, \d и \s можно использовать и внутри <b>перечней
+символов</b>. <br />
+
+
+      <br />
+
+
+      <b>Примеры</b><b>:</b> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob\dr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foob1r', ''foob6r' и т.д. но не 'foobar', 'foobbr' и т.д. <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob[\w\s]r&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foobar', 'foob r', 'foobbr' и т.д. но не 'foob1r', 'foob=r' и т.д. <br />
+
+
+      </i> <br />
+
+
+TRegExpr использует свойства <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.spacechars">SpaceChars</a>
+и <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.wordchars">WordChars</a>
+для того, чтобы определять стандартные перечни \w, \W, \s, \S, т.е. Вы
+легко можете переопределить состав этих перечней. <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b><a name="syntax_word_boundaries"></a>Метасимволы -
+границы слов</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
+      <br />
+
+
+      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>Совпадает
+на границе слова <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>Совпадает
+не на границе слова <br />
+
+
+      </i> <br />
+
+
+Граница слова (\b) это точка между двумя символами, один из которых
+удовлетворяет \w, а другой - \W (в любом порядке), при этом перед
+началом и после конца строки подразумевается \W. <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b><a name="metacharacters_iterators"></a>Метасимволы -
+повторения</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
+      <br />
+
+
+      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+После любого элемента регулярного выражения может следовать очень
+важный тип метасимвола - <b>повторитель</b>. Используя их
+Вы можете определить число допустимых повторений предшествующего
+символа, метасимвола или подвыражения. <br />
+
+
+      <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>ноль
+или более раз ("жадный"), то же что {0,} <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Courier; font-size: 12pt; color: rgb(0, 0, 0);">&nbsp;</span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>один
+или более раз ("жадный"), то же что {1,} <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;?&nbsp;&nbsp;&nbsp;</span><span style="font-family: Courier; font-size: 12pt; color: rgb(0, 0, 0);">&nbsp;</span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>ноль
+или один раз ("жадный"), то же что {0,1} <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;{n}&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>точно
+n раз ("жадный") <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;{n,}&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>не
+менее n раз ("жадный") <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;{n,m}&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>не
+менее n но не более m раз ("жадный") <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;*?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>ноль
+или более раз ("не жадный"), то же что {0,}? <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;+?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>один
+или более раз ("не жадный"), то же что {1,}? <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;??&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>ноль
+или один раз ("не жадный"), то же что {0,1}? <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;{n}?&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>точно
+n раз ("не жадный") <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;{n,}?&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>не
+менее n раз ("не жадный") <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;{n,m}?&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>не
+менее n но не более m раз ("не жадный") <br />
+
+
+      </i> <br />
+
+
+Т.о. {n,m} задает <b>минимум</b> n повторов и <b>максимум</b>
+-
+m. Повторитель {n} эквивалентен {n,n} и задает точно n повторов.
+Повторитель {n,} задает минимум n повторов. Теоретически величина
+параметров n и m не ограничена, но рекомендуется не задавать большие
+значения, поскольку в некоторых ситуациях это может потребовать
+существенных затрат времени и ОЗУ при обработке такого повторителя в
+связи с рекурсивным характером работы. <br />
+
+
+      <br />
+
+
+Если фигурные скобки встречаются в "неправильном" месте, где они не
+могут быть восприняты как повторитель, то они вопринимаются просто как
+символы. <br />
+
+
+      <br />
+
+
+      <b>Примеры</b><b>:</b> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob.*r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foobar', 'foobalkjdflkj9r' и 'foobr' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob.+r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foobar', 'foobalkjdflkj9r' но не 'foobr' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob.?r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foobar', 'foobbr' и 'foobr' но не 'foobalkj9r' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;fooba{2}r&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foobaar' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;fooba{2,}r&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foobaar', 'foobaaar', 'foobaaaar' и т.д. <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;fooba{2,3}r&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foobaar', или 'foobaaar' но не 'foobaaaar' <br />
+
+
+      </i> <br />
+
+
+Небольшое пояснение по поводу "жадности". "Жадные" варианты
+повторителей пытаются захватить как можно большую часть входного
+текста, в то время как "не жадные" - как можно меньшую. Например, 'b+'
+как и 'b*' примененные к входной строке 'abbbbc' найдут 'bbbb', в то
+время как 'b+?' найдет только 'b', а 'b*?' - вообще - пустую строку;
+'b{2,3}?' найдет 'bb', в то время как 'b{2,3}' найдет 'bbb'. <br />
+
+
+      <br />
+
+
+Вы можете переключить все повторители в выражении в "не жадный" режим,
+воспользовавшись <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_g">модификатором
+/g</a>. <br />
+
+
+      <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Метасимволы</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
+- </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>варианты</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
+      <br />
+
+
+      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+Вы можете определить перечень <b>вариантов</b>, используя
+метасимвол "|'' для их разделения, например "fee|fie|foe" найдет "fee''
+или "fie'' или "foe'', (так же как "f(e|i|o)e"). В качестве первого
+варианта воспринимается все от предыдущего метасимвола "('' или "[''
+или от начала выражения до первого метасимвола "|'', в качестве
+последнего - все от последнего "|'' до конца выражения или до
+ближайшего метасимвола ")''. Обычно, чтобы не запутаться, набор
+вариантов всегда заключают в скобки, даже если без этого можно было бы
+обойтись. <br />
+
+
+Варианты пробуются начиная с первого и попытки завершаются сразу
+же как удастся подобрать такой при котором совпадет вся последующая
+часть выражения (подробнее см.<a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#mechanism">Механизм
+работы</a>).
+Это означает, что варианты не обязательно обеспечат "жадное" поведение.
+Например, если применить выражение "foo|foot" ко входной строке
+"barefoot'', то будет найдено "foo'' так это первый вариант который
+позволил совпасть всему выражению. <br />
+
+
+Обратите внимание, что метасимвол "|'' воспринимается как обычный
+символ внутри перечней символов, например, [fee|fie|foe] означает ровно
+то же самое что и [feio|]. <br />
+
+
+      <br />
+
+
+      <b>Примеры</b><b>:</b> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foo(bar|foo)&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foobar' или 'foofoo'. <br />
+
+
+      </i> <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Метасимволы</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
+- </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>подвыражения</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
+      <br />
+
+
+      <br />
+
+
+      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Метасимволы
+( ... ) могут также использоваться для задания подвыражений - по
+завершении поиска выражения Вы можете обратиться к любому подвыражению
+используя свойства MatchPos, MatchLen и <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.match">Match</a>,
+а также подставлять подвыражения в некий шаблон, используя метод <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.substitute">Substitute</a>).
+      <br />
+
+
+      <br />
+
+
+Подвыражения нумеруются слева направо, в порядке появления открывающих
+скобок. <br />
+
+
+Первое подвыражение имеет номер '1' (выражение в целом - '0', к нему
+можно обращаться в <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.substitute">Substitute</a>
+как '$0' так и '$&amp;'). <br />
+
+
+      <br />
+
+
+      <b>Примеры</b><b>:</b> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;(foobar){8,10}&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+строку содержащую 8, 9 или 10 копий 'foobar' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob([0-9]|a+)r&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'foob0r', 'foob1r' , 'foobar', 'foobaar', 'foobaar' и т.д. <br />
+
+
+      </i> <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Метасимволы</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
+- </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>обратные
+ссылки</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
+      <br />
+
+
+      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+Метасимволы от \1 до \9 воспринимаются как обратные ссылки.
+\&lt;n&gt; совпадает с ранее найденным подвыражением
+#&lt;n&gt;. <br />
+
+
+      <br />
+
+
+      <b>Примеры</b><b>:</b> <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;(.)\1+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'aaaa' и 'cc'. <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;(.+)\1+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>также
+находит 'abab' и '123123' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"><i>&nbsp;&nbsp;</i>(['"]?)(\d+)\1&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+"13" (в дв.кавычках), или '4' (в один.кавычках) или 77 (без кавычек) и
+т.д. <br />
+
+
+      </i> <br />
+
+
+      <br />
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b><a name="about_modifiers"></a>Модификаторы</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Модификаторы
+служат для изменения режимов работы регулярных выражений. <br />
+
+
+      <br />
+
+
+Любой модификатор может меняться с помощью специальной конструкции <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#inline_modifiers">(?...)</a>
+внутри регулярного выражения.<br />
+
+
+      <br />
+
+
+      <a name="modifier_i"></a>i <br />
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Регистро-независимый
+режим (по умолчанию использует выбранный в ОС язык по умолчанию), (см.
+также <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#invertcase">InvertCase</a>)
+&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><a name="modifier_m"></a>m</span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);">
+      </span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><br />
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Воспринимать
+входной текст как многострочный, при этом метасимволы "^'' и "$'' будут
+совпадать не только в начале и конце текста в целом, но и в начале и в
+конце всех имеющихся в тексте строк (см. также <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#syntax_line_separators">Разделители
+строк</a>)
+&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><a name="modifier_s"></a>s <br />
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Воспринимать
+входной текст как одну строку. При этом метасимвол ".'' совпадает с
+любым символом, если же этот модификатор выключен, то он не совпадает с
+разделителями строк (см.также <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#syntax_line_separators">Разделители
+строк</a>). &nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><a name="modifier_g"></a>g<b> </b> <br />
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Не
+стандартный модификатор. Выключая его Вы переключаете все повторители в
+"не жадный" режим (по умолчанию этот модификатор включен). Т.е. если
+его отключить, то все '+' работают как '+?', '*' как '*?' и т.д.
+&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><a name="modifier_x"></a>x <br />
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Позволяет
+форматировать шаблон чтобы обеспечить более легкую читаемость (см.
+описание ниже). &nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><a name="modifier_r"></a>r <br />
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Не
+стандартный модификатор. Если включен, то диапазоны вида а-я включают
+также букву 'ё', А-Я включают 'Ё', а а-Я включает вообще все русские
+буквы.
+&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_x">Модификатор
+/x</a>
+заставляет&nbsp;игнорировать пробелы, табуляции и разделители
+строк, что позволяет форматировать текст выражения. Кроме того, если
+встречается символ #, то все последующие символы до конца строки
+воспринимаются как комментарий, например: <br />
+
+
+      <br />
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="19"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"><i>(&nbsp;
+&nbsp;<br />
+
+
+            </i></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="19"></td>
+
+
+            <td><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"><i>(abc)&nbsp;#&nbsp;Комментарий&nbsp;1
+&nbsp;<br />
+
+
+            </i></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="19"></td>
+
+
+            <td><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"><i>&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;#&nbsp;Пробелы&nbsp;внутри&nbsp;выражения&nbsp;также&nbsp;игнорируются
+&nbsp;<br />
+
+
+            </i></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="19"></td>
+
+
+            <td><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"><i>(efg)&nbsp;#&nbsp;Комментарий&nbsp;2
+&nbsp;<br />
+
+
+            </i></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="19"></td>
+
+
+            <td><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"><i>)
+&nbsp;<br />
+
+
+            </i></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="19"></td>
+
+
+            <td><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      <span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><br />
+
+
+Естественно, это означает что, если Вам нужно вставить в выражение
+пробел, табуляцию или разделитель строки или #, то в расширенном (/x)
+режиме это можно сделать только предваряя их '/' или используя /xnn
+(внутри перечней символов все эти символы воспринимаются как обычно) <br />
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;<br />
+
+
+            </span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+        <tbody>
+
+
+          <tr valign="top">
+
+
+            <td width="25"></td>
+
+
+            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
+
+
+          </tr>
+
+
+        
+        </tbody>
+      
+      </table>
+
+
+      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Расширения
+      </b></span></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Perl
+      <br />
+
+
+      </b></span></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      </span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);"><b><a name="inline_modifiers"></a>(?imsxr-imsxr)</b> <br />
+
+
+      </span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Позволяет
+изменять значения модификаторов</span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      <br />
+
+
+      </span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><b>Примеры</b><b>:</b>
+      <br />
+
+
+      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;(?i)Saint-Petersburg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'Saint-petersburg' и 'Saint-Petersburg' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;(?i)Saint-(?-i)Petersburg&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'Saint-Petersburg' но не 'Saint-petersburg' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;(?i)(Saint-)?Petersburg&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'Saint-petersburg' и 'saint-petersburg' <br />
+
+
+      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;((?i)Saint-)?Petersburg&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
+'saint-Petersburg', но не 'saint-petersburg' <br />
+
+
+      </i><i> <br />
+
+
+      </i></span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);">
+      <br />
+
+
+      <b><a name="inline_comment"></a>(?#text)</b>
+      <br />
+
+
+      </span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Комментарий,
+просто игнорируется. Обратите внимание, что в комментарии такого вида
+невозможно поместить символ ")", поскольку он воспринимается как конец
+комментария. <br />
+
+
+      <br />
+
+
+Double Commander использует свободную Delphi-библиотеку TRegExpr Андрея
+В. Сорокина: <a href="http://www.regexpstudio.com/">http://www.regexpstudio.com/</a>
+      <br />
+
+
+Большинство из приведённых выше объяснений и примеров позаимствована из
+справочного файла к этой библиотеке. </span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><br />
+
+
+      </span></span></span> </span></span></span></span></td>
+
+
+    </tr>
+
+
+  
+  </tbody>
+</table>
+
+
+<br />
+
+
+<br />
+
+
+</body>
+</html>
