@@ -347,7 +347,7 @@ implementation
 uses
   uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc, menus,
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg,
-  fTweakPlugin, uhotkeymanger, uTypes, StrUtils;
+  fTweakPlugin, uhotkeymanger, uTypes, StrUtils, uFindEx;
 
 
 
@@ -523,7 +523,7 @@ var
 begin
   lngList.Clear;
   DebugLn('Language dir: ' + gpLngDir);
-  if FindFirst(gpLngDir+'*.po', faAnyFile, fr)<>0 then
+  if FindFirstEx(gpLngDir+'*.po', faAnyFile, fr)<>0 then
   begin
     FindClose(fr);
     Exit;
@@ -531,7 +531,7 @@ begin
   repeat
     sLangName := GetLanguageName(gpLngDir + fr.Name);
     lngList.Items.Add(Format('%s = (%s)', [fr.Name, sLangName]));
-  until FindNext(fr)<>0;
+  until FindNextEx(fr)<>0;
   
   FindClose(fr);
 
