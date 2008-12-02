@@ -535,7 +535,7 @@ end;
 
 function TPluginWDX.LoadModule: Boolean;
 begin
-  FModuleHandle := LoadLibrary(Self.FileName);
+  FModuleHandle := mbLoadLibrary(Self.FileName);
   Result := (FModuleHandle <> 0);
   if  FModuleHandle = 0 then exit;
         {Mandatory}

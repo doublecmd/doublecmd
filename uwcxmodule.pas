@@ -171,7 +171,7 @@ var
   PackDefaultParamStruct : pPackDefaultParamStruct;
   SetDlgProcInfo: TSetDlgProcInfo;
 begin
-  FModuleHandle := LoadLibrary(sName);
+  FModuleHandle := mbLoadLibrary(sName);
   Result := (FModuleHandle <> 0);
   if  FModuleHandle = 0 then exit;
   //DebugLN('FModuleHandle =', FModuleHandle);

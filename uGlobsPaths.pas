@@ -13,7 +13,7 @@ procedure LoadPaths;
 
 implementation
 uses
-  LCLProc, SysUtils, uClassesEx, uFileProcs, uOSUtils;
+  LCLProc, SysUtils, FileUtil, uClassesEx, uFileProcs, uOSUtils;
 
 function GetAppName : String;
 begin
@@ -24,7 +24,7 @@ procedure LoadPaths;
 var
   Ini : TIniFileEx;
 begin
-  gpExePath := ExtractFilePath(ParamStr(0));
+  gpExePath := ExtractFilePath(SysToUTF8(ParamStr(0)));
   DebugLn('Executable directory: ', gpExePath);
   
   gpCfgDir := gpExePath;
