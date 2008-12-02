@@ -25,11 +25,11 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes, LCLProc, dynlibs, uDCUtils, uFindEx, uClassesEx
+    SysUtils, Classes, LCLProc, uDCUtils, uFindEx, uClassesEx
     {$IFDEF MSWINDOWS}
     , Windows, ShellApi, uNTFSLinks, uMyWindows, JwaWinNetWk
     {$ELSE}
-    , BaseUnix, Unix, UnixType, UnixUtil, uMyUnix
+    , BaseUnix, Unix, UnixType, UnixUtil, dl, uMyUnix
     {$ENDIF};
     
 {$mode delphi}{$H+}
@@ -85,6 +85,9 @@ type
     MappingHandle : THandle;
     MappedFile : PChar;
   end;
+
+  TLibHandle = PtrInt;
+
 {en
    Is file a directory
    @param(iAttr File attributes)
@@ -1163,7 +1166,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result:= LoadLibrary(Name);
+  Result:= TLibHandle(dlopen(PChar(Name), RTLD_LAZY));
 end;
 {$ENDIF}
 
