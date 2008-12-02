@@ -140,7 +140,7 @@ type
 
 implementation
 uses
-  FileUtil;
+  FileUtil, uOSUtils;
 
 function WlxPrepareContainer(Ahandle: THandle; revert:boolean=false): boolean;
 {$IFNDEF LCLWIN32}
@@ -202,7 +202,7 @@ end;
 function TWLXModule.LoadModule: Boolean;
 begin
 //  DebugLn('WLXM LoadModule entered');
-  FModuleHandle := LoadLibrary(Self.FileName);
+  FModuleHandle := mbLoadLibrary(Self.FileName);
   Result := (FModuleHandle <> 0);
   if  FModuleHandle = 0 then exit;
 

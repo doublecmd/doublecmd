@@ -259,7 +259,7 @@ end;
 
 function TWFXModule.LoadModule(const sName: String): Boolean;
 begin
-  FModuleHandle := LoadLibrary(sName);
+  FModuleHandle := mbLoadLibrary(sName);
   Result := (FModuleHandle <> 0);
   if  FModuleHandle = 0 then exit;
 {Mandatory}

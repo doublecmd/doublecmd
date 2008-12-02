@@ -255,17 +255,17 @@ begin
   DebugLn('Loading lng file: ' + gpLngDir + sFileName);
 
   gPOFileName := sFileName;
-  if not FileExists(gpLngDir + gPOFileName) then
+  if not mbFileExists(gpLngDir + gPOFileName) then
     begin
       gPOFileName := 'doublecmd.%s.po';
       GetLanguageIDs(Lang, FallbackLang);
       gPOFileName := Format(gPOFileName,[FallbackLang]);
     end;
-  if not FileExists(gpLngDir + gPOFileName) then
+  if not mbFileExists(gpLngDir + gPOFileName) then
     begin
       gPOFileName := Format(gPOFileName,[Lang]);
     end;
-  if FileExists(gpLngDir + gPOFileName) then
+  if mbFileExists(gpLngDir + gPOFileName) then
     begin
       Translations.TranslateUnitResourceStrings('uLng', gpLngDir + gPOFileName);
       LRSTranslator := TTranslator.Create(gpLngDir + gPOFileName);

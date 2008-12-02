@@ -25,7 +25,7 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes, LCLProc, uDCUtils, uFindEx, uClassesEx
+    SysUtils, Classes, LCLProc, dynlibs, uDCUtils, uFindEx, uClassesEx
     {$IFDEF MSWINDOWS}
     , Windows, ShellApi, uNTFSLinks, uMyWindows, JwaWinNetWk
     {$ELSE}
@@ -212,6 +212,7 @@ function mbSetCurrentDir(const NewDir: UTF8String): Boolean;
 function mbDirectoryExists(const Directory : UTF8String) : Boolean;
 function mbCreateDir(const NewDir: UTF8String): Boolean;
 function mbRemoveDir(const Dir: UTF8String): Boolean;
+function mbLoadLibrary(Name: UTF8String): TLibHandle;
 
 implementation
    
@@ -1149,6 +1150,20 @@ end;
 {$ELSE}
 begin
   Result:= fpRmDir(PChar(Dir)) = 0;
+end;
+{$ENDIF}
+
+function mbLoadLibrary(Name: UTF8String): TLibHandle;
+{$IFDEF MSWINDOWS}
+var
+  wsName: WideString;
+begin
+  wsName:= UTF8Decode(Name);
+  Result:= LoadLibraryW(PWideChar(wsName));
+end;
+{$ELSE}
+begin
+  Result:= LoadLibrary(Name);
 end;
 {$ENDIF}
 

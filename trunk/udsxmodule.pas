@@ -29,7 +29,7 @@ unit udsxmodule;
 interface
 
 uses
-  Classes, SysUtils, dynlibs,LCLProc,uGlobs,udsxplugin,uClassesEx, uDCUtils;
+  Classes, SysUtils, dynlibs,LCLProc,uGlobs,udsxplugin,uClassesEx, uDCUtils, uOSUtils;
 
 type
 
@@ -133,7 +133,7 @@ end;
 
 function TDsxModule.LoadModule: Boolean;
 begin
-  FModuleHandle := LoadLibrary(Self.FileName);
+  FModuleHandle := mbLoadLibrary(Self.FileName);
   Result := (FModuleHandle <> 0);
   if  FModuleHandle = 0 then exit;
 
