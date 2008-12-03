@@ -190,7 +190,7 @@ begin
         with GetReferenceItemPtr(i)^ do
           if pos(LastActive, sName)=1 then
           begin
-            fPanel.Row:=i+1;
+            fPanel.Row:= i+Integer(gTabHeader);
             Break;
           end;
       end;
