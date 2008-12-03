@@ -430,7 +430,7 @@ end;
 procedure TFrameFilePanel.dgPanelPrepareCanvas(sender: TObject; Col,
   Row: Integer; aState: TGridDrawState);
 begin
-  if Row=0 then Exit;
+  if (Row = 0) and gTabHeader then Exit;
   with dgPanel do
   begin
     Canvas.Brush.Style:=bsSolid;
