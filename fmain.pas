@@ -466,7 +466,7 @@ begin
 
   (*Create Disk Panels*)
   dskLeft.Visible :=  gDriveBar2;
-  if gDriveBar2 then
+  if gDriveBar2 and gDriveBar1 then
     CreateDiskPanel(dskLeft);
 
   dskRight.Visible := gDriveBar1;
