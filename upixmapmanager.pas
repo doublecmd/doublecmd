@@ -9,7 +9,7 @@
    
    contributors:
    
-   Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -90,7 +90,7 @@ procedure LoadPixMapManager;
 
 implementation
 uses
-  LCLProc, FileUtil, uGlobsPaths, uWCXhead, uGlobs, uExts{$IFDEF MSWINDOWS}, CommCtrl, ShellAPI, Windows, uIcoFiles, uGdiPlus{$ENDIF};
+  LCLProc, Forms, FileUtil, uGlobsPaths, uWCXhead, uGlobs, uExts{$IFDEF MSWINDOWS}, CommCtrl, ShellAPI, Windows, uIcoFiles, uGdiPlus{$ENDIF};
 
 {$IFDEF MSWINDOWS}
 function GetRGBColor(Value: TColor): DWORD;
@@ -698,7 +698,7 @@ var
 begin
   Result := nil;
 {$IFDEF MSWINDOWS}
-  if not gCustomDriveIcons then
+  if (not gCustomDriveIcons) and (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16) then
     begin
       SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON);
       SFI.hIcon := 0;
