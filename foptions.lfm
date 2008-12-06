@@ -12,7 +12,6 @@ object frmOptions: TfrmOptions
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  ParentFont = False
   Position = poMainFormCenter
   LCLVersion = '0.9.27'
   object Panel1: TPanel
@@ -154,20 +153,29 @@ object frmOptions: TfrmOptions
           ParentColor = False
         end
         object edtRunInTerm: TEdit
-          Left = 120
+          AnchorSideLeft.Control = lblRunInTerm
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideRight.Control = pgBehav
+          AnchorSideRight.Side = asrBottom
+          Left = 90
           Height = 24
           Top = 8
-          Width = 490
+          Width = 520
           Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Left = 6
+          BorderSpacing.Right = 10
           TabOrder = 0
         end
         object edtRunTerm: TEdit
+          AnchorSideLeft.Control = edtRunInTerm
           AnchorSideTop.Control = edtRunInTerm
           AnchorSideTop.Side = asrBottom
-          Left = 120
+          AnchorSideRight.Control = edtRunInTerm
+          AnchorSideRight.Side = asrBottom
+          Left = 90
           Height = 24
           Top = 38
-          Width = 490
+          Width = 520
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           TabOrder = 1

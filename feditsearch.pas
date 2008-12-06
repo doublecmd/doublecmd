@@ -77,8 +77,8 @@ type
     cbSearchSelectedOnly: TCheckBox;
     cbSearchRegExp: TCheckBox;
     rgSearchDirection: TRadioGroup;
-    btnOK: TButton;
-    btnCancel: TButton;
+    btnOK: TBitBtn;
+    btnCancel: TBitBtn;
     procedure btnOKClick(Sender: TObject);
 {    procedure cbSearchTextKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);}
@@ -246,7 +246,7 @@ end;
 
 procedure TfrmEditSearch.CreateDialog(AOwner: TForm);
 begin
-  SetInitialBounds(367, 203, 332, 170);
+  SetInitialBounds(367, 203, 372, 170);
 
   BorderStyle := bsDialog;
   Position := poMainFormCenter;
@@ -254,15 +254,20 @@ begin
 
   lblSearchFor:= TLabel.Create(AOwner);
   lblSearchFor.Parent:=AOwner;
-  lblSearchFor.SetBounds(16, 8, 90, 17);
+  lblSearchFor.SetBounds(16, 10, 90, 17);
+  lblSearchFor.AnchorSide[akTop].Control:= cbSearchText;
+  lblSearchFor.AnchorSide[akTop].Side:= asrCenter;
 
   cbSearchText:= TComboBox.Create(AOwner);
   cbSearchText.Parent:=AOwner;
   cbSearchText.SetBounds(112, 8, 208, 24 );
+  cbSearchText.AnchorToNeighbour(akLeft, 6, lblSearchFor);
+  cbSearchText.AnchorToNeighbour(akRight, 10, AOwner);
+  cbSearchText.AnchorSide[akRight].Side:= asrRight;
 
   gbSearchOptions :=TGroupBox.Create(AOwner);
   gbSearchOptions.Parent:=AOwner;
-  gbSearchOptions.SetBounds(8, 32, 154, 127);
+  gbSearchOptions.SetBounds(8, 32, 194, 127);
 
   
   cbSearchCaseSensitive := TCheckBox.Create(gbSearchOptions);
@@ -290,24 +295,25 @@ begin
   rgSearchDirection := TRadioGroup.Create(AOwner);
   rgSearchDirection.Parent:=AOwner;
   rgSearchDirection.SetBounds(170, 32, 154, 72);
+  rgSearchDirection.AnchorToNeighbour(akLeft, 6, gbSearchOptions);
   
-  btnOK := TButton.Create(AOwner);
+  btnOK := TBitBtn.Create(AOwner);
   btnOK.Parent:=AOwner;
-  btnOK.Left:=170;
+  btnOK.Left:=210;
   btnOK.Top:=136;
   btnOK.Height:= 32;
   btnOK.Default:= True;
-  btnOK.Caption:='OK'; // TODO: change this
+  btnOK.Kind:= bkOK;
   btnOK.OnClick:=@btnOKClick;
 
-  btnCancel:= TButton.Create(AOwner);
+  btnCancel:= TBitBtn.Create(AOwner);
   btnCancel.Parent:=AOwner;
   btnCancel.Top:=136;
-  btnCancel.Left:=249;
+  btnCancel.Left:=289;
   btnCancel.Height := 32;
   btnCancel.Cancel:=True;
   btnCancel.ModalResult:=mrCancel;
-  btnCancel.Caption:='Cancel'; // TODO: change this
+  btnCancel.Kind:= bkCancel;
   
   
   Caption:= rsEditSearchCaption;
