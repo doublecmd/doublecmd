@@ -393,7 +393,12 @@ begin
   tmpWLXPlugins:= TWLXModuleList.Create;
   // load all configuration
   LoadConfig;
-  
+
+{$IFDEF MSWINDOWS} // temporarily while console not implemented under Windows
+  cbTermWindow.Checked:= False;
+  cbTermWindow.Enabled:= False;
+{$ENDIF}
+
   nbNotebook.PageIndex := 0;  //let not warning on which page save form
 end;
 

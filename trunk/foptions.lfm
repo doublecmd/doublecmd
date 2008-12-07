@@ -1719,12 +1719,12 @@ object frmOptions: TfrmOptions
         ClientHeight = 506
         object gbScreenLayout: TGroupBox
           Left = 10
-          Height = 328
+          Height = 358
           Top = 6
           Width = 596
           Anchors = [akTop, akLeft, akRight]
           Caption = ' Screen layout '
-          ClientHeight = 328
+          ClientHeight = 348
           ClientWidth = 596
           TabOrder = 0
           object cbShowMainToolBar: TCheckBox
