@@ -2682,7 +2682,7 @@ begin
   nbConsole.Visible:= gTermWindow;
   Splitter1.Visible:= gTermWindow;
   pnlCommand.AutoSize:= not gTermWindow;
-{$ELSE}
+{$ELSE} // temporarily while console not implemented under Windows
   pnlCommand.AutoSize:= True;
   nbConsole.Visible:= False;
   Splitter1.Visible:= False;
