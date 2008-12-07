@@ -246,7 +246,7 @@ end;
 
 procedure TfrmEditSearch.CreateDialog(AOwner: TForm);
 begin
-  SetInitialBounds(367, 203, 372, 170);
+  SetInitialBounds(367, 203, 400, 170);
 
   BorderStyle := bsDialog;
   Position := poMainFormCenter;
@@ -267,7 +267,7 @@ begin
 
   gbSearchOptions :=TGroupBox.Create(AOwner);
   gbSearchOptions.Parent:=AOwner;
-  gbSearchOptions.SetBounds(8, 32, 194, 127);
+  gbSearchOptions.SetBounds(8, 36, 198, 127);
 
   
   cbSearchCaseSensitive := TCheckBox.Create(gbSearchOptions);
@@ -294,7 +294,7 @@ begin
   
   rgSearchDirection := TRadioGroup.Create(AOwner);
   rgSearchDirection.Parent:=AOwner;
-  rgSearchDirection.SetBounds(170, 32, 154, 72);
+  rgSearchDirection.SetBounds(170, 36, 154, 72);
   rgSearchDirection.AnchorToNeighbour(akLeft, 6, gbSearchOptions);
   
   btnOK := TBitBtn.Create(AOwner);
@@ -302,6 +302,7 @@ begin
   btnOK.Left:=210;
   btnOK.Top:=136;
   btnOK.Height:= 32;
+  btnOK.Width:= 90;
   btnOK.Default:= True;
   btnOK.Kind:= bkOK;
   btnOK.OnClick:=@btnOKClick;
@@ -309,8 +310,9 @@ begin
   btnCancel:= TBitBtn.Create(AOwner);
   btnCancel.Parent:=AOwner;
   btnCancel.Top:=136;
-  btnCancel.Left:=289;
+  btnCancel.Left:=306;
   btnCancel.Height := 32;
+  btnCancel.Width:= 90;
   btnCancel.Cancel:=True;
   btnCancel.ModalResult:=mrCancel;
   btnCancel.Kind:= bkCancel;
