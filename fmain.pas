@@ -2676,10 +2676,12 @@ begin
   else
     begin
       if Assigned(Cons) then
-        Cons.Free;
+        FreeAndNil(Cons);
     end;
+  pnlCommand.AutoSize:= True;
   nbConsole.Visible:= gTermWindow;
   Splitter1.Visible:= gTermWindow;
+  pnlCommand.AutoSize:= not gTermWindow;
 {$ELSE}
   pnlCommand.AutoSize:= True;
   nbConsole.Visible:= False;
