@@ -141,6 +141,7 @@ object frmMain: TfrmMain
           Align = alLeft
           Color = clBtnFace
           NumGlyphs = 0
+          OnMouseUp = dskToolBarMouseUp
         end
         object btnLeftHome: TSpeedButton
           Left = 147
@@ -229,6 +230,7 @@ object frmMain: TfrmMain
           Align = alLeft
           Color = clBtnFace
           NumGlyphs = 0
+          OnMouseUp = dskToolBarMouseUp
         end
         object btnRightHome: TSpeedButton
           Left = 829
