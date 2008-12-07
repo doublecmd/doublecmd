@@ -2371,24 +2371,29 @@ object frmOptions: TfrmOptions
         end
       end
       object pgColumns: TPage
-        ClientWidth = 817
-        ClientHeight = 648
+        ClientWidth = 620
+        ClientHeight = 524
         object lblConfigColumns: TLabel
+          AnchorSideTop.Control = cbbFileSystem
+          AnchorSideTop.Side = asrCenter
           Left = 7
-          Height = 19
-          Top = 6
-          Width = 230
+          Height = 16
+          Top = 2
+          Width = 183
           Caption = 'Configure columns for file system:'
           ParentColor = False
         end
         object cbbFileSystem: TComboBox
           AnchorSideLeft.Control = lblConfigColumns
           AnchorSideLeft.Side = asrBottom
-          Left = 241
-          Height = 30
-          Width = 373
+          AnchorSideRight.Control = lstColumnsSets
+          AnchorSideRight.Side = asrBottom
+          Left = 194
+          Height = 21
+          Width = 414
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 4
+          ItemHeight = 13
           ItemIndex = 0
           Items.Strings = (
             'General'
