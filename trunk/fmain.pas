@@ -845,11 +845,10 @@ begin
        begin
          FrameFilePanel.pnlFile.ActiveDir := dskPanel.Commands[NumberOfButton];
          dskPanel.Tag := NumberOfButton;
-         if gDriveMenuButton then  //  if show drive button
-           begin
-             btnDrive.Glyph := PixMapManager.GetDriveIcon(PDrive(DrivesList[NumberOfButton]), btnDrive.Height - 4, btnDrive.Color);
-             btnDrive.Caption := dskRight.Buttons[NumberOfButton].Caption;
-           end;
+         btnDrive.Tag:= NumberOfButton;
+
+         btnDrive.Glyph := PixMapManager.GetDriveIcon(PDrive(DrivesList[NumberOfButton]), btnDrive.Height - 4, btnDrive.Color);
+         btnDrive.Caption := dskRight.Buttons[NumberOfButton].Caption;
        end
      else
        begin
@@ -2317,6 +2316,7 @@ begin
                 btnLeftDrive.Glyph := PixMapManager.GetDriveIcon(Drive, btnLeftDrive.Height - 4, btnLeftDrive.Color);
                 btnLeftDrive.Caption := Name;
                 btnLeftDrive.Width := btnLeftDrive.Glyph.Width + btnLeftDrive.Canvas.TextWidth(btnLeftDrive.Caption) + 16;
+                btnLeftDrive.Tag:= I;
                 dskLeft.Tag := I;
               end;
             if Pos(LowerCase(Path), LowerCase(FrameRight.pnlFile.ActiveDir)) = 1 then
@@ -2324,6 +2324,7 @@ begin
                 btnRightDrive.Glyph := PixMapManager.GetDriveIcon(Drive, btnRightDrive.Height - 4, btnRightDrive.Color);
                 btnRightDrive.Caption := Name;
                 btnRightDrive.Width := btnRightDrive.Glyph.Width + btnRightDrive.Canvas.TextWidth(btnRightDrive.Caption) + 16;
+                btnRightDrive.Tag:= I;
                 dskRight.Tag := I;
               end;
           end;
@@ -2349,7 +2350,7 @@ begin
          0:
            begin
              FrameLeft.pnlFile.ActiveDir := Hint;
-             if gDriveBar2 then
+             if gDriveBar2 and gDriveBar1 then
                dskLeft.Buttons[Tag].Down := True;
              dskLeft.Tag := Tag;
              FrameLeft.pnlFile.LoadPanel;
@@ -2357,6 +2358,7 @@ begin
              btnLeftDrive.Glyph := PixMapManager.GetDriveIcon(PDrive(DrivesList[Tag]), btnLeftDrive.Height - 4, btnLeftDrive.Color);
              btnLeftDrive.Caption := Caption;
              btnLeftDrive.Width := btnLeftDrive.Glyph.Width + btnLeftDrive.Canvas.TextWidth(btnLeftDrive.Caption) + 16;
+             btnLeftDrive.Tag:= Tag;
            end;
          1:
            begin
@@ -2369,6 +2371,7 @@ begin
              btnRightDrive.Glyph := PixMapManager.GetDriveIcon(PDrive(DrivesList[Tag]), btnRightDrive.Height - 4, btnRightDrive.Color);
              btnRightDrive.Caption := Caption;
              btnRightDrive.Width := btnRightDrive.Glyph.Width + btnRightDrive.Canvas.TextWidth(btnRightDrive.Caption) + 16;
+             btnRightDrive.Tag:= Tag;
            end;
          end;  // case
        end
