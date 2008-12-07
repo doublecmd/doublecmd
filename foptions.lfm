@@ -2386,7 +2386,7 @@ object frmOptions: TfrmOptions
         object cbbFileSystem: TComboBox
           AnchorSideLeft.Control = lblConfigColumns
           AnchorSideLeft.Side = asrBottom
-          AnchorSideRight.Control = lstColumnsSets
+          AnchorSideRight.Control = pgColumns
           AnchorSideRight.Side = asrBottom
           Left = 194
           Height = 21
