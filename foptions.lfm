@@ -2382,10 +2382,13 @@ object frmOptions: TfrmOptions
           ParentColor = False
         end
         object cbbFileSystem: TComboBox
-          Left = 297
-          Height = 21
-          Width = 508
+          AnchorSideLeft.Control = lblConfigColumns
+          AnchorSideLeft.Side = asrBottom
+          Left = 241
+          Height = 30
+          Width = 373
           Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Left = 4
           ItemIndex = 0
           Items.Strings = (
             'General'
