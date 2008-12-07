@@ -1839,8 +1839,16 @@ object frmOptions: TfrmOptions
             Height = 19
             Top = 280
             Width = 82
-            Caption = 'Log window'
+            Caption = 'Show log window'
             TabOrder = 13
+          end
+          object cbTermWindow: TCheckBox
+            Left = 10
+            Height = 21
+            Top = 302
+            Width = 149
+            Caption = 'Show terminal window'
+            TabOrder = 14
           end
         end
       end

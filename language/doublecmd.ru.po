@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-11-16 20:19+0300\n"
+"PO-Revision-Date: 2008-12-07 17:57+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -427,26 +427,127 @@ msgstr "Распаковать файлы по указанной ниже ма�
 msgid "&Files to unpack:"
 msgstr "&Маска для распаковки:"
 
+#: TFRMFILEASSOC.BTNADDACT.CAPTION
+msgctxt "TFRMFILEASSOC.BTNADDACT.CAPTION"
+msgid "Add"
+msgstr ""
+
+#: TFRMFILEASSOC.BTNADDEXT.CAPTION
+msgctxt "TFRMFILEASSOC.BTNADDEXT.CAPTION"
+msgid "Add"
+msgstr ""
+
+#: TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION
+msgctxt "TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION"
+msgid "Add"
+msgstr ""
+
+#: TFRMFILEASSOC.BTNCANCEL.CAPTION
+msgid "Cancel"
+msgstr "Отмена"
+
+#: TFRMFILEASSOC.BTNDOWNACT.CAPTION
+msgid "Down"
+msgstr "Вниз"
+
+#: TFRMFILEASSOC.BTNOK.CAPTION
+msgid "&OK"
+msgstr ""
+
+#: TFRMFILEASSOC.BTNREMOVEACT.CAPTION
+msgctxt "TFRMFILEASSOC.BTNREMOVEACT.CAPTION"
+msgid "Remove"
+msgstr ""
+
+#: TFRMFILEASSOC.BTNREMOVEEXT.CAPTION
+msgctxt "TFRMFILEASSOC.BTNREMOVEEXT.CAPTION"
+msgid "Remove"
+msgstr ""
+
 #: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
 msgid "Remove"
 msgstr "Удалить"
 
+#: TFRMFILEASSOC.BTNRENAMETYPE.CAPTION
+msgid "Rename"
+msgstr "Переименовать"
+
+#: TFRMFILEASSOC.BTNUPACT.CAPTION
+msgid "Up"
+msgstr "Вверх"
+
 #: TFRMFILEASSOC.CAPTION
 msgid "File associations"
 msgstr "Файловые ассоциации"
+
+#: TFRMFILEASSOC.GBACTIONS.CAPTION
+msgid "Actions"
+msgstr ""
 
 #: TFRMFILEASSOC.GBEXTS.CAPTION
 msgid "Extensions"
 msgstr "Расширения"
 
+#: TFRMFILEASSOC.GBFILETYPES.CAPTION
+msgid "File types"
+msgstr ""
+
 #: TFRMFILEASSOC.GBICON.CAPTION
 msgid "Icon"
 msgstr "Значок"
 
-#: TFRMFILEASSOC.LEDACTION.EDITLABEL.CAPTION
+#: TFRMFILEASSOC.LBLACTION.CAPTION
 msgid "Action:"
 msgstr "Действие:"
+
+#: TFRMFILEASSOC.LBLCOMMAND.CAPTION
+msgid "&Command:"
+msgstr ""
+
+#: TFRMFILEASSOC.MIEDIT.CAPTION
+msgid "Edit"
+msgstr "Редактировать"
+
+#: TFRMFILEASSOC.MIEDITOR.CAPTION
+msgid "Open in Editor"
+msgstr "Открыть в редакторе"
+
+#: TFRMFILEASSOC.MIFILENAME.CAPTION
+msgid "File name"
+msgstr "Имя файла"
+
+#: TFRMFILEASSOC.MIFILEPATH.CAPTION
+msgid "File path"
+msgstr "Путь к файлу"
+
+#: TFRMFILEASSOC.MIFULLPATH.CAPTION
+msgid "Full path"
+msgstr "Полный путь"
+
+#: TFRMFILEASSOC.MIGETOUTPUTFROMCOMMAND.CAPTION
+msgid "Get output from command"
+msgstr "Получить вывод команды"
+
+#: TFRMFILEASSOC.MIOPEN.CAPTION
+msgid "Open"
+msgstr "Открыть"
+
+#: TFRMFILEASSOC.MISHELL.CAPTION
+msgid "Run in terminal"
+msgstr "Запустить в терминале"
+
+#: TFRMFILEASSOC.MIVFS.CAPTION
+msgid "Open in VFS"
+msgstr "Открыть в VFS"
+
+#: TFRMFILEASSOC.MIVIEW.CAPTION
+msgid "View"
+msgstr "Просмотреть"
+
+#: TFRMFILEASSOC.MIVIEWER.CAPTION
+msgid "Open in Viewer"
+msgstr "Открыть в просмоторщике"
 
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
@@ -1728,7 +1829,7 @@ msgid "File system plugins"
 msgstr "Плагины файловой системы"
 
 #: TFRMOPTIONS.CBLOGWINDOW.CAPTION
-msgid "Log window"
+msgid "Show log window"
 msgstr "Окно лога"
 
 #: TFRMOPTIONS.CBLYNXLIKE.CAPTION
@@ -1818,6 +1919,10 @@ msgstr "Размещать вкладки в несколько рядов"
 #: TFRMOPTIONS.CBTABSOPENFOREGROUND.CAPTION
 msgid "Ctrl+&Up opens new tab in foreground"
 msgstr "Ctrl+вверх делает новую вкладку активной"
+
+#: TFRMOPTIONS.CBTERMWINDOW.CAPTION
+msgid "Show terminal window"
+msgstr "Консоль"
 
 #: TFRMOPTIONS.CBTWODISKPANELS.CAPTION
 msgid "Show two drive button bars (fixed width, above file windows)"

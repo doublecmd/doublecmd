@@ -428,26 +428,127 @@ msgstr "Pak bestand uit naar:"
 msgid "&Files to unpack:"
 msgstr "&Uit te pakken bestanden:"
 
+#: TFRMFILEASSOC.BTNADDACT.CAPTION
+msgctxt "TFRMFILEASSOC.BTNADDACT.CAPTION"
+msgid "Add"
+msgstr ""
+
+#: TFRMFILEASSOC.BTNADDEXT.CAPTION
+msgctxt "TFRMFILEASSOC.BTNADDEXT.CAPTION"
+msgid "Add"
+msgstr ""
+
+#: TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION
+msgctxt "TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION"
+msgid "Add"
+msgstr ""
+
+#: TFRMFILEASSOC.BTNCANCEL.CAPTION
+msgid "Cancel"
+msgstr ""
+
+#: TFRMFILEASSOC.BTNDOWNACT.CAPTION
+msgid "Down"
+msgstr ""
+
+#: TFRMFILEASSOC.BTNOK.CAPTION
+msgid "&OK"
+msgstr ""
+
+#: TFRMFILEASSOC.BTNREMOVEACT.CAPTION
+msgctxt "TFRMFILEASSOC.BTNREMOVEACT.CAPTION"
+msgid "Remove"
+msgstr ""
+
+#: TFRMFILEASSOC.BTNREMOVEEXT.CAPTION
+msgctxt "TFRMFILEASSOC.BTNREMOVEEXT.CAPTION"
+msgid "Remove"
+msgstr ""
+
 #: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
 msgid "Remove"
+msgstr ""
+
+#: TFRMFILEASSOC.BTNRENAMETYPE.CAPTION
+msgid "Rename"
+msgstr ""
+
+#: TFRMFILEASSOC.BTNUPACT.CAPTION
+msgid "Up"
 msgstr ""
 
 #: TFRMFILEASSOC.CAPTION
 msgid "File associations"
 msgstr "Bestand verwantschappen"
 
+#: TFRMFILEASSOC.GBACTIONS.CAPTION
+msgid "Actions"
+msgstr ""
+
 #: TFRMFILEASSOC.GBEXTS.CAPTION
 msgid "Extensions"
 msgstr "Extenties"
+
+#: TFRMFILEASSOC.GBFILETYPES.CAPTION
+msgid "File types"
+msgstr ""
 
 #: TFRMFILEASSOC.GBICON.CAPTION
 msgid "Icon"
 msgstr "Icoon"
 
-#: TFRMFILEASSOC.LEDACTION.EDITLABEL.CAPTION
+#: TFRMFILEASSOC.LBLACTION.CAPTION
 msgid "Action:"
-msgstr "Actie:"
+msgstr ""
+
+#: TFRMFILEASSOC.LBLCOMMAND.CAPTION
+msgid "&Command:"
+msgstr ""
+
+#: TFRMFILEASSOC.MIEDIT.CAPTION
+msgid "Edit"
+msgstr ""
+
+#: TFRMFILEASSOC.MIEDITOR.CAPTION
+msgid "Open in Editor"
+msgstr ""
+
+#: TFRMFILEASSOC.MIFILENAME.CAPTION
+msgid "File name"
+msgstr ""
+
+#: TFRMFILEASSOC.MIFILEPATH.CAPTION
+msgid "File path"
+msgstr ""
+
+#: TFRMFILEASSOC.MIFULLPATH.CAPTION
+msgid "Full path"
+msgstr ""
+
+#: TFRMFILEASSOC.MIGETOUTPUTFROMCOMMAND.CAPTION
+msgid "Get output from command"
+msgstr ""
+
+#: TFRMFILEASSOC.MIOPEN.CAPTION
+msgid "Open"
+msgstr ""
+
+#: TFRMFILEASSOC.MISHELL.CAPTION
+msgid "Run in terminal"
+msgstr ""
+
+#: TFRMFILEASSOC.MIVFS.CAPTION
+msgid "Open in VFS"
+msgstr ""
+
+#: TFRMFILEASSOC.MIVIEW.CAPTION
+msgid "View"
+msgstr ""
+
+#: TFRMFILEASSOC.MIVIEWER.CAPTION
+msgid "Open in Viewer"
+msgstr ""
 
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
@@ -1729,7 +1830,7 @@ msgid "File system plugins"
 msgstr "Bestandsysteem plugins"
 
 #: TFRMOPTIONS.CBLOGWINDOW.CAPTION
-msgid "Log window"
+msgid "Show log window"
 msgstr "Log venster"
 
 #: TFRMOPTIONS.CBLYNXLIKE.CAPTION
@@ -1818,6 +1919,10 @@ msgstr "&Tabs op meerdere regels"
 
 #: TFRMOPTIONS.CBTABSOPENFOREGROUND.CAPTION
 msgid "Ctrl+&Up opens new tab in foreground"
+msgstr ""
+
+#: TFRMOPTIONS.CBTERMWINDOW.CAPTION
+msgid "Show terminal window"
 msgstr ""
 
 #: TFRMOPTIONS.CBTWODISKPANELS.CAPTION

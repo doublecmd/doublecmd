@@ -69,6 +69,7 @@ var
   gStatusBar,
   gCmdLine,
   gLogWindow,
+  gTermWindow,
   gKeyButtons,
   gInterfaceFlat : Boolean;
   
@@ -422,6 +423,7 @@ begin
   gStatusBar := gIni.ReadBool('Layout', 'StatusBar', True);
   gCmdLine := gIni.ReadBool('Layout', 'CmdLine', True);
   gLogWindow := gIni.ReadBool('Layout', 'LogWindow', True);
+  gTermWindow := gIni.ReadBool('Layout', 'TermWindow', True);
   gKeyButtons := gIni.ReadBool('Layout', 'KeyButtons', True);
   gInterfaceFlat := gIni.ReadBool('Layout', 'InterfaceFlat', True);
   
@@ -584,6 +586,7 @@ begin
   gIni.WriteBool('Layout', 'StatusBar', gStatusBar);
   gIni.WriteBool('Layout', 'CmdLine', gCmdLine);
   gIni.WriteBool('Layout', 'LogWindow', gLogWindow);
+  gIni.WriteBool('Layout', 'TermWindow', gTermWindow);
   gIni.WriteBool('Layout', 'KeyButtons', gKeyButtons);
   gIni.WriteBool('Layout', 'InterfaceFlat', gInterfaceFlat);
 
