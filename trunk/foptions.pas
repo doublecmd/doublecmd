@@ -108,6 +108,7 @@ type
     cbProcessComments: TCheckBox;
     cbTabsConfirmCloseAll: TCheckBox;
     cbTabsLockedAsterisk: TCheckBox;
+    cbTermWindow: TCheckBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
@@ -1553,6 +1554,7 @@ begin
   cbShowKeysPanel.Checked := gKeyButtons;
   cbFlatInterface.Checked := gInterfaceFlat;
   cbLogWindow.Checked := gLogWindow;
+  cbTermWindow.Checked := gTermWindow;
 
   cbDirSelect.Checked:=gDirSelect;
   cbCaseSensitiveSort.Checked:=gCaseSensitiveSort;
@@ -1699,6 +1701,7 @@ begin
   gKeyButtons := cbShowKeysPanel.Checked;
   gInterfaceFlat := cbFlatInterface.Checked;
   gLogWindow := cbLogWindow.Checked;
+  gTermWindow := cbTermWindow.Checked;
   
   gRunInTerm:=edtRunInTerm.Text;
   gDirSelect:=cbDirSelect.Checked;

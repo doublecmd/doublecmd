@@ -398,6 +398,7 @@ type
     procedure SaveTabs(ANoteBook:TNoteBook);
     function ExecCmd(Cmd:string; param:string='') : Boolean;
     function ExecCmdEx(NumberOfButton:Integer) : Boolean;
+    procedure ToggleConsole;
     procedure UpdateWindowView;
     procedure LoadWindowState;
     procedure SaveWindowState;
@@ -409,7 +410,7 @@ type
 var
   frmMain: TfrmMain;
 {$IFDEF UNIX}
-  Cons:TConThread;
+  Cons: TConThread = nil;
 {$ENDIF}
 
 implementation
@@ -538,17 +539,8 @@ begin
   HotMan.RegisterHotkeyManager(edtCommand);
 
   if hotman.HotkeyList.Count=0 then LoadDefaultHotkeyBindings;
-  {$IFDEF unix}
-  Cons:=TConThread.Create;
-  Cons.ColsCount:=80;
-  Cons.RowsCount:=CmdBox1.LineCount;
-  Cons.CmdBox:=CmdBox1;
-  Cons.Resume;
-  {$ELSE} // temporarily
-  pnlCommand.AutoSize:= True;
-  nbConsole.Visible:= False;
-  Splitter1.Visible:= False;
-  {$ENDIF}
+
+  ToggleConsole;
 end;
 
 
@@ -2278,9 +2270,9 @@ begin
   ActiveFrame.SetFocus;
   NotActiveFrame.dgPanelExit(self);
   {$IFDEF unix}
+  if gTermWindow and Assigned(Cons) then
     Cons.Terminal.Write_pty('cd "'+ActiveFrame.ActiveDir+'"'+#13+#10);
   {$ENDIF}
-
 end;
 
 procedure TfrmMain.UpdateDiskCount;
@@ -2667,6 +2659,34 @@ begin
     Result:= ExecCmdFork(Format('"%s" %s', [Cmd, Param]));
 end;
 
+procedure TfrmMain.ToggleConsole;
+begin
+{$IFDEF UNIX}
+  if gTermWindow then
+    begin
+      if not Assigned(Cons) then
+        begin
+          Cons:= TConThread.Create;
+          Cons.ColsCount:= 80;
+          Cons.RowsCount:= CmdBox1.LineCount;
+          Cons.CmdBox:= CmdBox1;
+          Cons.Resume;
+        end;
+    end
+  else
+    begin
+      if Assigned(Cons) then
+        Cons.Free;
+    end;
+  nbConsole.Visible:= gTermWindow;
+  Splitter1.Visible:= gTermWindow;
+{$ELSE}
+  pnlCommand.AutoSize:= True;
+  nbConsole.Visible:= False;
+  Splitter1.Visible:= False;
+{$ENDIF}
+end;
+
 procedure TfrmMain.UpdateWindowView;
 var
   I : Integer;
@@ -2799,6 +2819,7 @@ begin
   pnlKeys.Visible := gKeyButtons;
   LogSplitter.Visible := gLogWindow;
   seLogWindow.Visible := gLogWindow;
+  ToggleConsole;
   nbLeft.ShowTabs := ((nbLeft.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
   nbRight.ShowTabs := ((nbRight.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
 end;
@@ -2845,7 +2866,8 @@ begin
         ActiveDir:=sDir;
         DebugLn(sDir);
 {$IFDEF UNIX}
-        Cons.Terminal.Write_pty('cd "'+sDir+'"'+#13#10);
+        if gTermWindow and Assigned(Cons) then
+          Cons.Terminal.Write_pty('cd "'+sDir+'"'+#13#10);
 {$ENDIF}
       end;
     end;
@@ -2855,17 +2877,15 @@ begin
     if edtCommand.Items.IndexOf(sCmd)=-1 then
       edtCommand.Items.Insert(0,sCmd);
 
-    {$IFDEF MSWINDOWS}
+{$IFDEF unix}
+    if gTermWindow and Assigned(Cons) then
+      Cons.Terminal.Write_pty(sCmd+#13#10)
+    else
+{$ENDIF}
     if bRunInTerm then
       ExecCmdFork(sCmd, True, gRunInTerm)
     else
       ExecCmdFork(sCmd);
-    {$ENDIF}
-
-    {$IFDEF unix}
-    Cons.Terminal.Write_pty(sCmd+#13#10);
-    {$ENDIF}
-
 
     edtCommand.DroppedDown:=False;
     // only cMaxStringItems(see uGlobs.pas) is stored
