@@ -130,15 +130,15 @@ object frmOptions: TfrmOptions
       end
       object pgBehav: TPage
         ClientWidth = 620
-        ClientHeight = 506
+        ClientHeight = 524
         OnResize = pgBehavResize
         object lblRunInTerm: TLabel
           AnchorSideTop.Control = edtRunInTerm
           AnchorSideTop.Side = asrCenter
           Left = 8
-          Height = 14
-          Top = 13
-          Width = 76
+          Height = 16
+          Top = 12
+          Width = 85
           Caption = 'Run in terminal:'
           ParentColor = False
         end
@@ -146,9 +146,9 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = edtRunTerm
           AnchorSideTop.Side = asrCenter
           Left = 8
-          Height = 14
-          Top = 43
-          Width = 65
+          Height = 16
+          Top = 42
+          Width = 72
           Caption = 'Run terminal:'
           ParentColor = False
         end
@@ -157,10 +157,10 @@ object frmOptions: TfrmOptions
           AnchorSideLeft.Side = asrBottom
           AnchorSideRight.Control = pgBehav
           AnchorSideRight.Side = asrBottom
-          Left = 90
+          Left = 99
           Height = 24
           Top = 8
-          Width = 520
+          Width = 511
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 6
           BorderSpacing.Right = 10
@@ -172,10 +172,10 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = edtRunInTerm
           AnchorSideRight.Side = asrBottom
-          Left = 90
+          Left = 99
           Height = 24
           Top = 38
-          Width = 520
+          Width = 511
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           TabOrder = 1
@@ -195,9 +195,9 @@ object frmOptions: TfrmOptions
           object cbDirSelect: TCheckBox
             AnchorSideTop.Control = gbMisc1
             Left = 8
-            Height = 19
+            Height = 21
             Top = 6
-            Width = 162
+            Width = 176
             AllowGrayed = True
             BorderSpacing.Top = 6
             Caption = 'Select directory with keypad'
@@ -207,9 +207,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbLynxLike
             AnchorSideTop.Side = asrBottom
             Left = 8
-            Height = 19
-            Top = 56
-            Width = 131
+            Height = 21
+            Top = 60
+            Width = 141
             AllowGrayed = True
             BorderSpacing.Top = 6
             Caption = 'Case sensitive sorting'
@@ -219,9 +219,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbDirSelect
             AnchorSideTop.Side = asrBottom
             Left = 8
-            Height = 19
-            Top = 31
-            Width = 120
+            Height = 21
+            Top = 33
+            Width = 134
             AllowGrayed = True
             BorderSpacing.Top = 6
             Caption = 'Lynx like movement'
@@ -231,9 +231,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbCaseSensitiveSort
             AnchorSideTop.Side = asrBottom
             Left = 8
-            Height = 19
-            Top = 81
-            Width = 124
+            Height = 21
+            Top = 87
+            Width = 135
             AllowGrayed = True
             BorderSpacing.Top = 6
             Caption = 'Short Filesize format'
@@ -243,9 +243,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbShortFileSizeFormat
             AnchorSideTop.Side = asrBottom
             Left = 8
-            Height = 19
-            Top = 106
-            Width = 224
+            Height = 21
+            Top = 114
+            Width = 252
             BorderSpacing.Top = 6
             Caption = 'Mo&ve icon to system tray when minimized'
             TabOrder = 4
@@ -274,9 +274,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbIconsSize
             AnchorSideTop.Side = asrCenter
             Left = 14
-            Height = 14
-            Top = 36
-            Width = 53
+            Height = 16
+            Top = 35
+            Width = 55
             Caption = 'Icons Size:'
             ParentColor = False
           end
@@ -284,9 +284,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbMouseMode
             AnchorSideTop.Side = asrCenter
             Left = 14
-            Height = 14
-            Top = 90
-            Width = 31
+            Height = 16
+            Top = 89
+            Width = 35
             Caption = 'Mode:'
             ParentColor = False
           end
@@ -307,24 +307,25 @@ object frmOptions: TfrmOptions
               '22x22'
               '32x32'
             )
+            MaxLength = -1
             Style = csDropDownList
             TabOrder = 1
             Text = '16x16'
           end
           object cbShowIcons: TCheckBox
             Left = 13
-            Height = 19
+            Height = 21
             Top = 6
-            Width = 79
+            Width = 88
             Caption = 'Show icons'
             OnChange = cbShowIconsChange
             TabOrder = 0
           end
           object cbSelectionByMouse: TCheckBox
             Left = 13
-            Height = 19
+            Height = 21
             Top = 60
-            Width = 118
+            Width = 131
             Caption = 'Selection by mouse'
             TabOrder = 2
           end
@@ -340,6 +341,7 @@ object frmOptions: TfrmOptions
               'Left button'
               'Right button'
             )
+            MaxLength = -1
             Style = csDropDownList
             TabOrder = 3
           end
@@ -393,6 +395,7 @@ object frmOptions: TfrmOptions
               'dd.mm.yyyy'
               'dd.mm.yy'
             )
+            MaxLength = -1
             OnChange = cbDateTimeFormatChange
             TabOrder = 0
           end
@@ -435,38 +438,25 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = gbDateTimeFormat
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 105
+          Height = 83
           Top = 345
           Width = 242
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
-          ClientHeight = 87
+          ClientHeight = 65
           ClientWidth = 238
           TabOrder = 6
-          object cbRenameSelOnlyName: TCheckBox
+          object cbCutTextToColWidth: TCheckBox
             AnchorSideLeft.Control = gbMisc3
             AnchorSideTop.Control = gbMisc3
             Left = 10
-            Height = 19
-            Top = 8
-            Width = 311
-            BorderSpacing.Left = 10
-            BorderSpacing.Top = 8
-            Caption = 'Select only the file name then renaming (not the extension)'
-            TabOrder = 0
-          end
-          object cbCutTextToColWidth: TCheckBox
-            AnchorSideLeft.Control = gbMisc3
-            AnchorSideTop.Control = cbRenameSelOnlyName
-            AnchorSideTop.Side = asrBottom
-            Left = 10
-            Height = 19
-            Top = 33
-            Width = 144
+            Height = 21
+            Top = 6
+            Width = 160
             BorderSpacing.Left = 10
             BorderSpacing.Top = 6
             Caption = 'Cut text to column width'
-            TabOrder = 1
+            TabOrder = 0
           end
         end
         object gbMisc4: TGroupBox
@@ -476,12 +466,12 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = rgScrolling
           AnchorSideRight.Side = asrBottom
           Left = 258
-          Height = 105
+          Height = 83
           Top = 345
           Width = 352
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
-          ClientHeight = 87
+          ClientHeight = 65
           ClientWidth = 348
           TabOrder = 7
           object ledDriveBlackList: TLabeledEdit
@@ -491,7 +481,7 @@ object frmOptions: TfrmOptions
             Left = 10
             Height = 23
             Hint = 'Here you can enter one or more drives, separated by ";".'
-            Top = 27
+            Top = 24
             Width = 328
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Left = 10
@@ -499,9 +489,9 @@ object frmOptions: TfrmOptions
             EditLabel.AnchorSideLeft.Control = ledDriveBlackList
             EditLabel.AnchorSideBottom.Control = ledDriveBlackList
             EditLabel.Left = 10
-            EditLabel.Height = 14
-            EditLabel.Top = 10
-            EditLabel.Width = 73
+            EditLabel.Height = 16
+            EditLabel.Top = 5
+            EditLabel.Width = 80
             EditLabel.Caption = 'Drive black list:'
             EditLabel.ParentColor = False
             ParentColor = False
@@ -623,6 +613,7 @@ object frmOptions: TfrmOptions
           Top = 26
           Width = 724
           Anchors = [akTop, akLeft, akRight]
+          MaxLength = -1
           OnChange = cbMainFontChange
           ParentCtl3D = False
           TabOrder = 0
@@ -675,6 +666,7 @@ object frmOptions: TfrmOptions
           Width = 724
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
+          MaxLength = -1
           OnChange = cbEditorFontChange
           ParentCtl3D = False
           TabOrder = 4
@@ -727,6 +719,7 @@ object frmOptions: TfrmOptions
           Width = 724
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
+          MaxLength = -1
           OnChange = cbViewerFontChange
           ParentCtl3D = False
           TabOrder = 8
@@ -1724,7 +1717,7 @@ object frmOptions: TfrmOptions
           Width = 596
           Anchors = [akTop, akLeft, akRight]
           Caption = ' Screen layout '
-          ClientHeight = 348
+          ClientHeight = 358
           ClientWidth = 596
           TabOrder = 0
           object cbShowMainToolBar: TCheckBox
@@ -1854,7 +1847,7 @@ object frmOptions: TfrmOptions
       end
       object pgFileOp: TPage
         ClientWidth = 620
-        ClientHeight = 506
+        ClientHeight = 524
         object gbCopyBufferSize: TGroupBox
           Left = 10
           Height = 100
@@ -1862,8 +1855,8 @@ object frmOptions: TfrmOptions
           Width = 596
           Anchors = [akTop, akLeft, akRight]
           Caption = '&Buffer size for files:'
-          ClientHeight = 100
-          ClientWidth = 596
+          ClientHeight = 82
+          ClientWidth = 592
           TabOrder = 0
           object lblCopyBufferSize: TLabel
             AnchorSideTop.Side = asrBottom
@@ -1893,33 +1886,37 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = gbFileSearch
           AnchorSideTop.Side = asrBottom
           Left = 10
-          Height = 100
+          Height = 138
           Top = 218
           Width = 596
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           Caption = 'General options'
-          ClientHeight = 100
-          ClientWidth = 596
+          ClientHeight = 120
+          ClientWidth = 592
           TabOrder = 1
           object lblWipePassNumber: TLabel
             AnchorSideLeft.Control = gbGeneralOptions
-            AnchorSideTop.Control = cbDropReadOnlyFlag
-            AnchorSideTop.Side = asrBottom
+            AnchorSideTop.Control = gbGeneralOptions
             Left = 14
-            Height = 14
-            Top = 31
-            Width = 105
+            Height = 16
+            Top = 6
+            Width = 116
             BorderSpacing.Left = 14
             BorderSpacing.Top = 6
             Caption = 'Number of wipe pass:'
             ParentColor = False
           end
           object cbDropReadOnlyFlag: TCheckBox
+            AnchorSideLeft.Control = gbGeneralOptions
+            AnchorSideTop.Control = lblWipePassNumber
+            AnchorSideTop.Side = asrBottom
             Left = 14
-            Height = 19
-            Top = 6
-            Width = 115
+            Height = 21
+            Top = 28
+            Width = 126
+            BorderSpacing.Left = 14
+            BorderSpacing.Top = 6
             Caption = 'Drop readonly flag'
             TabOrder = 0
           end
@@ -1930,7 +1927,7 @@ object frmOptions: TfrmOptions
             AnchorSideRight.Side = asrBottom
             Left = 516
             Height = 23
-            Top = 27
+            Top = 3
             Width = 50
             Anchors = [akTop, akRight]
             BorderSpacing.Right = 26
@@ -1938,16 +1935,29 @@ object frmOptions: TfrmOptions
           end
           object cbProcessComments: TCheckBox
             AnchorSideLeft.Control = gbGeneralOptions
-            AnchorSideTop.Control = lblWipePassNumber
+            AnchorSideTop.Control = cbDropReadOnlyFlag
             AnchorSideTop.Side = asrBottom
             Left = 14
-            Height = 19
-            Top = 51
-            Width = 196
+            Height = 21
+            Top = 55
+            Width = 219
             BorderSpacing.Left = 14
             BorderSpacing.Top = 6
             Caption = 'Process comments with files/folders'
             TabOrder = 2
+          end
+          object cbRenameSelOnlyName: TCheckBox
+            AnchorSideLeft.Control = gbMisc3
+            AnchorSideTop.Control = cbProcessComments
+            AnchorSideTop.Side = asrBottom
+            Left = 13
+            Height = 21
+            Top = 82
+            Width = 340
+            BorderSpacing.Left = 14
+            BorderSpacing.Top = 6
+            Caption = 'Select only the file name then renaming (not the extension)'
+            TabOrder = 3
           end
         end
         object gbFileSearch: TGroupBox
@@ -1960,14 +1970,14 @@ object frmOptions: TfrmOptions
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           Caption = 'File search'
-          ClientHeight = 100
-          ClientWidth = 596
+          ClientHeight = 82
+          ClientWidth = 592
           TabOrder = 2
           object rbUseMmapInSearch: TRadioButton
             Left = 14
-            Height = 19
+            Height = 21
             Top = 6
-            Width = 236
+            Width = 260
             Caption = 'Use memory mapping for search text in files'
             TabOrder = 0
           end
@@ -1975,9 +1985,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = rbUseMmapInSearch
             AnchorSideTop.Side = asrBottom
             Left = 14
-            Height = 19
-            Top = 31
-            Width = 188
+            Height = 21
+            Top = 33
+            Width = 200
             BorderSpacing.Top = 6
             Caption = 'Use stream for search text in files'
             Checked = True
@@ -2085,8 +2095,8 @@ object frmOptions: TfrmOptions
           Width = 596
           Anchors = [akTop, akLeft, akRight]
           Caption = 'File operation log file'
-          ClientHeight = 32
-          ClientWidth = 592
+          ClientHeight = 50
+          ClientWidth = 596
           TabOrder = 0
           object cbLogFile: TCheckBox
             AnchorSideTop.Control = fneLogFileName
@@ -2124,8 +2134,8 @@ object frmOptions: TfrmOptions
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           Caption = 'Log operations:'
-          ClientHeight = 104
-          ClientWidth = 592
+          ClientHeight = 122
+          ClientWidth = 596
           TabOrder = 1
           object cbLogCpMvLn: TCheckBox
             Left = 8
@@ -2179,8 +2189,8 @@ object frmOptions: TfrmOptions
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           Caption = 'Operation status:'
-          ClientHeight = 69
-          ClientWidth = 592
+          ClientHeight = 87
+          ClientWidth = 596
           TabOrder = 2
           object cbLogSuccess: TCheckBox
             Left = 8

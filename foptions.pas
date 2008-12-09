@@ -78,6 +78,7 @@ type
     cbIconsSize: TComboBox;
     cbLynxLike: TCheckBox;
     cbMainFont: TComboBox;
+    cbRenameSelOnlyName: TCheckBox;
     cbShortFileSizeFormat: TCheckBox;
     cbViewerFont: TComboBox;
     cbFlatInterface: TCheckBox;
@@ -103,7 +104,6 @@ type
     cbDateTimeFormat: TComboBox;
     cbbFileSystem: TComboBox;
     cbMouseMode: TComboBox;
-    cbRenameSelOnlyName: TCheckBox;
     cbCutTextToColWidth: TCheckBox;
     cbProcessComments: TCheckBox;
     cbTabsConfirmCloseAll: TCheckBox;
