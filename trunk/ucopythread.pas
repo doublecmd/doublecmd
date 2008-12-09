@@ -228,7 +228,15 @@ begin
       while (dst.Size+iCopyBlockSize) <= iDstSize do
       begin
         if Terminated then
-          Exit;
+          begin
+            if dst.Size < iDstSize then
+              begin
+                FreeAndNil(dst);
+                mbDeleteFile(sDst);
+              end;
+            Exit;
+          end;
+
         src.ReadBuffer(Buffer^, iCopyBlockSize);
 
         repeat

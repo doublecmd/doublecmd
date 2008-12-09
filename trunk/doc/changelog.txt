@@ -1,4 +1,5 @@
-﻿07.12.2008 ADD: Feature Request [ 2404017 ] context menu for Drive button menu 
+﻿09.12.2008 FIX: Bug [ 2403863 ] rubbish after copying
+07.12.2008 ADD: Feature Request [ 2404017 ] context menu for Drive button menu 
 05.12.2008 FIX: Bug [ 2383944 ] drive buttons
 03.12.2008 FIX: Bug [ 2379193 ] font at first line
 16.11.2008 FIX: Bug [ 1696012 ] Copying in Linux
