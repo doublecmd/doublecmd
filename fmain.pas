@@ -1046,7 +1046,7 @@ var
   iWidth:Integer;
 begin
   iWidth:=pnlKeys.Width div 8;
-  btnF3.Left:=1;
+  btnF3.Left:=(pnlKeys.Width mod 8) div 2;
   btnF3.Width:=iWidth;
 
   btnF4.Left:=btnF3.Left+btnF3.Width;
