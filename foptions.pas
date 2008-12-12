@@ -531,7 +531,7 @@ begin
   DebugLn('Language dir: ' + gpLngDir);
   if FindFirstEx(gpLngDir+'*.po', faAnyFile, fr)<>0 then
   begin
-    FindClose(fr);
+    FindCloseEx(fr);
     Exit;
   end;
   repeat
@@ -539,7 +539,7 @@ begin
     lngList.Items.Add(Format('%s = (%s)', [fr.Name, sLangName]));
   until FindNextEx(fr)<>0;
   
-  FindClose(fr);
+  FindCloseEx(fr);
 
   iIndex:=lngList.Items.IndexOfName(gPOFileName + #32);
   if iIndex>=0 then

@@ -178,7 +178,7 @@ begin
       fr.iSize:=0;
       Result:=fr
     end;
-    FindClose(sr);
+    FindCloseEx(sr);
     Exit;
   end;
 //  repeat
@@ -188,7 +188,7 @@ begin
 
     Result:=fr;
 //  until FindNext(sr)<>0;
-  FindClose(sr);
+  FindCloseEx(sr);
 end;
 
 
@@ -220,7 +220,7 @@ begin
       fr.iSize:=0;
       fl.AddItem(@fr);
     end;
-    FindClose(sr);
+    FindCloseEx(sr);
     Exit;
   end;
   repeat
@@ -233,7 +233,7 @@ begin
 
     fl.AddItem(@fr);
   until FindNextEx(sr)<>0;
-  FindClose(sr);
+  FindCloseEx(sr);
   Result:= True;
 end;
 

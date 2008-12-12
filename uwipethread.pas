@@ -271,7 +271,7 @@ begin
       end;
     ok:= FindNextEx(Search);
   end;
-  FindClose(Search);
+  FindCloseEx(Search);
   try
     if everythingOK then
       begin
@@ -336,7 +336,7 @@ begin
 
       Found:= FindNextEx(SRec);   { Find the next file }
     end;
-    FindClose(SRec);
+    FindCloseEx(SRec);
 end;
             
 procedure TWipeThread.MainExecute;
