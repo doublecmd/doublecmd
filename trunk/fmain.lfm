@@ -390,7 +390,7 @@ object frmMain: TfrmMain
     EnvVar = '%commander_path%'
   end
   object pnlKeys: TPanel
-    Height = 27
+    Height = 25
     Top = 699
     Width = 1028
     Align = alBottom
@@ -404,7 +404,7 @@ object frmMain: TfrmMain
     object btnF3: TSpeedButton
       Left = 1
       Height = 23
-      Top = 4
+      Top = 1
       Width = 75
       Action = actView
       Color = clBtnFace
@@ -414,7 +414,7 @@ object frmMain: TfrmMain
     object btnF4: TSpeedButton
       Left = 76
       Height = 23
-      Top = 4
+      Top = 1
       Width = 75
       Action = actEdit
       Color = clBtnFace
@@ -424,7 +424,7 @@ object frmMain: TfrmMain
     object btnF5: TSpeedButton
       Left = 151
       Height = 23
-      Top = 4
+      Top = 1
       Width = 75
       Action = actCopy
       Color = clBtnFace
@@ -434,7 +434,7 @@ object frmMain: TfrmMain
     object btnF6: TSpeedButton
       Left = 226
       Height = 23
-      Top = 4
+      Top = 1
       Width = 75
       Action = actRename
       Color = clBtnFace
@@ -444,7 +444,7 @@ object frmMain: TfrmMain
     object btnF7: TSpeedButton
       Left = 301
       Height = 23
-      Top = 4
+      Top = 1
       Width = 75
       Action = actMakeDir
       Color = clBtnFace
@@ -454,7 +454,7 @@ object frmMain: TfrmMain
     object btnF8: TSpeedButton
       Left = 376
       Height = 23
-      Top = 4
+      Top = 1
       Width = 75
       Action = actDelete
       Color = clBtnFace
@@ -464,7 +464,7 @@ object frmMain: TfrmMain
     object btnF10: TSpeedButton
       Left = 539
       Height = 23
-      Top = 4
+      Top = 1
       Width = 75
       Action = actExit
       Color = clBtnFace
@@ -473,8 +473,8 @@ object frmMain: TfrmMain
     end
     object btnF9: TSpeedButton
       Left = 448
-      Height = 22
-      Top = 4
+      Height = 23
+      Top = 1
       Width = 89
       Action = actShowMenu
       Color = clBtnFace
