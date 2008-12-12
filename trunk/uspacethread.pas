@@ -50,6 +50,7 @@ constructor TSpaceThread.Create(aFileList: TFileList; bDisplayMessage: Boolean);
 begin
   FDisplayMessage:= bDisplayMessage;
   inherited Create(aFileList);
+  FNotSymLinkAll:= not bDisplayMessage; // temporarily to fix bug under Linux
 end;
 
 function TSpaceThread.UseForm:Boolean;

@@ -431,7 +431,7 @@ begin
     FCurrentFile:=sNewDir + PathDelim + sr.Name;
     Synchronize(@UpDateProgress);
   until (FindNextEx(sr)<>0) or Terminated;
-  FindClose(sr);
+  FindCloseEx(sr);
 
     { Search in sub folders }
     if (not Terminated) and (FCurrentDepth < FSearchDepth) then
@@ -443,7 +443,7 @@ begin
           if (sr.Name[1] <> '.') then
             WalkAdr(sNewDir + PathDelim + sr.Name);
         until Terminated or (FindNextEx(sr) <> 0);
-      FindClose(sr);
+      FindCloseEx(sr);
     end;
   Dec(FCurrentDepth);
 end;

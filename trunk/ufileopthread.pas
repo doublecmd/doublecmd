@@ -107,7 +107,7 @@ var
 begin
   if FindFirstEx(srcPath+'*',faAnyFile,sr)<>0 then
   begin
-    FindClose(sr);
+    FindCloseEx(sr);
     Exit;
   end;
   repeat
@@ -147,7 +147,7 @@ begin
       inc(FFilesCount);
     end;
   until FindNextEx(sr)<>0;
-  FindClose(sr);
+  FindCloseEx(sr);
 end;
 
 procedure TFileOpThread.FillAndCount;

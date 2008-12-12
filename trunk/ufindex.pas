@@ -31,6 +31,7 @@ uses
 
 function FindFirstEx (const Path : UTF8String; Attr : Longint; out Rslt : TSearchRec) : Longint;
 function FindNextEx (var Rslt : TSearchRec) : Longint;
+procedure FindCloseEx(var Rslt: TSearchRec);
 function CheckAttrMask(DefaultAttr : Cardinal; sAttr : String; Attr : Cardinal) : Boolean;
 
 implementation
@@ -113,6 +114,18 @@ begin
   // and replace Attr by Mode
   if Result = 0 then
     Rslt.Attr:= Rslt.Mode;  
+end;
+{$ENDIF}
+
+procedure FindCloseEx(var Rslt: TSearchRec);
+{$IFDEF MSWINDOWS}
+begin
+   if Rslt.FindHandle <> INVALID_HANDLE_VALUE then
+    Windows.FindClose(Rslt.FindHandle);
+end;
+{$ELSE}
+begin
+  FindClose(Rslt);
 end;
 {$ENDIF}
 
