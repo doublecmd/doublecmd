@@ -1538,8 +1538,16 @@ end;
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
 begin
   //DebugLN('Page index == ' + IntToStr(Node.Index));
-  nbNotebook.PageIndex := tvTreeView.Selected.ImageIndex; // temporally image index
-  pnlCaption.Caption := tvTreeView.Selected.Text;
+  if tvTreeView.Selected.ImageIndex = 15 then // special for "Colors" item
+    begin
+      nbNotebook.PageIndex := 4;
+      pnlCaption.Caption := tvTreeView.Items.Item[5].Text;
+    end
+  else
+    begin
+      nbNotebook.PageIndex := tvTreeView.Selected.ImageIndex; // temporally image index
+      pnlCaption.Caption := tvTreeView.Selected.Text;
+    end;
 end;
 
 procedure TfrmOptions.LoadConfig;
