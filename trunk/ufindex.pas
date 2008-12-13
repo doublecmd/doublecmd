@@ -27,7 +27,19 @@ unit uFindEx;
 interface
 
 uses
-   SysUtils {$IFDEF UNIX}, BaseUnix{$ELSE}, Windows{$ENDIF};
+   SysUtils {$IFDEF UNIX}, BaseUnix, UnixUtil{$ELSE}, Windows{$ENDIF};
+
+{$IFDEF UNIX}
+type
+  TUnixFindData = record
+    DirPtr: PDir;   //en> directory pointer for reading directory
+    sPath: String;  //en> file name path
+    sMask: String;  //en> file name mask
+    iAttr: LongInt; //en> attribute we are searching for
+    StatRec: Stat;
+  end;
+  PUnixFindData = ^TUnixFindData;
+{$ENDIF}
 
 function FindFirstEx (const Path : UTF8String; Attr : Longint; out Rslt : TSearchRec) : Longint;
 function FindNextEx (var Rslt : TSearchRec) : Longint;
@@ -37,8 +49,8 @@ function CheckAttrMask(DefaultAttr : Cardinal; sAttr : String; Attr : Cardinal) 
 implementation
 uses LCLProc, uFileOp;
 
-{$IFDEF MSWINDOWS}
 function mbFindMatchingFile(var Rslt: TSearchRec): Integer;
+{$IFDEF MSWINDOWS}
 var
   LocalFileTime: TFileTime;
   wFindData: TWin32FindDataW; 
@@ -58,6 +70,28 @@ begin
     Name:= UTF8Encode(wFindData.cFileName);
   end;
   Result:= 0;
+end;
+{$ELSE}
+var
+  UnixFindData: PUnixFindData;
+begin
+  Result:= -1;
+  UnixFindData:= PUnixFindData(Rslt.FindHandle);
+  if UnixFindData = nil then Exit;
+ // if FNMatch(UnixFindData^.sMask, Rslt.Name) then
+    begin
+//      WriteLn('UnixFindData^.sPath + Rslt.Name == ', UnixFindData^.sPath + Rslt.Name);
+
+      if fpLStat(UnixFindData^.sPath + Rslt.Name, @UnixFindData^.StatRec) >= 0 then
+        with Rslt, UnixFindData^.StatRec do
+        begin
+          Size:= st_size + Random(10);
+          WriteLn('Size == ', Size);
+          Time:= st_mtime;
+          Attr:= st_mode;
+        end;
+      Result:= 0;
+    end;
 end;
 {$ENDIF}
 
@@ -81,14 +115,37 @@ begin
   Result:= mbFindMatchingFile(Rslt);
 end;
 {$ELSE}
-begin  
-  if (Attr and faSymLink) = faSymLink then
-    Attr:= Attr or not faSymLink;
-  // call standart FindFirst function
-  Result:= FindFirst(Path, Attr, Rslt);
-  // and replace Attr by Mode  
-  if Result = 0 then
-    Rslt.Attr:= Rslt.Mode;
+var
+  UnixFindData: PUnixFindData;
+begin
+  WriteLn('Path == ', Path);
+  { Allocate UnixFindData }
+  New(UnixFindData);
+  FillChar(UnixFindData^, SizeOf(UnixFindData^), 0);
+  Rslt.FindHandle:= UnixFindData;
+
+  WriteLn(Path);
+  with UnixFindData^ do
+  begin
+    iAttr:= Attr;
+    sPath:= ExtractFileDir(Path);
+    sMask:= ExtractFileName(Path);
+    if sPath = '' then
+      GetDir(0, sPath);
+    if sMask = '' then
+      sMask:= '*';
+    sPath:= IncludeTrailingBackSlash(sPath);
+
+    if (Pos('?', sMask) = 0) and (Pos('*', sMask) = 0) and FileExists(Path) then
+      begin
+        Rslt.Name:= sMask;
+        if mbFindMatchingFile(Rslt) = 0 then
+          Exit(0);
+      end;
+
+    DirPtr:= fpOpenDir(sPath);
+  end;
+  Result:= FindNextEx(Rslt);
 end;
 {$ENDIF}
 
@@ -108,12 +165,26 @@ begin
     Result:= GetLastError;
 end;
 {$ELSE}
+var
+  UnixFindData: PUnixFindData;
+  PtrDirEnt: pDirent;
 begin
-  // call standart FindNext function
-  Result:= FindNext(Rslt);
-  // and replace Attr by Mode
-  if Result = 0 then
-    Rslt.Attr:= Rslt.Mode;  
+  Result:= -1;
+  UnixFindData:= PUnixFindData(Rslt.FindHandle);
+
+  if UnixFindData = nil then Exit;
+  if UnixFindData^.DirPtr = nil then Exit;
+  PtrDirEnt:= fpReadDir(UnixFindData^.DirPtr^);
+//  WriteLn('UnixFindData^.sPath+UnixFindData^.sMask == ', UnixFindData^.sPath+UnixFindData^.sMask);
+  while PtrDirEnt <> nil do
+  begin
+    Rslt.Name:= PtrDirEnt^.d_name;
+    Result:= mbFindMatchingFile(Rslt);
+    if Result = 0 then // if found then exit
+      Exit
+    else // else read next
+      PtrDirEnt:= fpReadDir(UnixFindData^.DirPtr^);
+  end;
 end;
 {$ENDIF}
 
@@ -124,8 +195,15 @@ begin
     Windows.FindClose(Rslt.FindHandle);
 end;
 {$ELSE}
+var
+  UnixFindData: PUnixFindData;
 begin
-  FindClose(Rslt);
+  UnixFindData:= PUnixFindData(Rslt.FindHandle);
+  if UnixFindData = nil then Exit;
+  if UnixFindData^.DirPtr <> nil then
+    fpCloseDir(UnixFindData^.DirPtr^);
+  Dispose(UnixFindData);
+  Rslt.FindHandle:= nil;
 end;
 {$ENDIF}
 
