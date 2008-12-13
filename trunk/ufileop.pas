@@ -105,11 +105,11 @@ end;
 {$ENDIF}
 {$IFDEF UNIX}
 var
-  sb: BaseUnix.Stat; //buffer for stat64
+  sb: BaseUnix.Stat; //buffer for stat info
 begin
   with Result do
   begin
-    fpLStat(SearchRec.Name, @sb);
+    sb:= PUnixFindData(SearchRec.FindHandle)^.StatRec;
     iSize:=sb.st_size;
 
     iOwner:=sb.st_uid; //UID
