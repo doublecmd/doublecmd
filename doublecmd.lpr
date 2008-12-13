@@ -63,23 +63,33 @@ uses
 const
   dcBuildDate = {$I %DATE%};
   dcVersion = '0.4 alpha';
+  lazVersion = {$I version.inc};
   fpcVersion = {$I %FPCVERSION%};
+
+{$I revision.inc} // Lazarus revision number
+{$I dcrevision.inc} // Double Commander revision number
 
 {$IFDEF WINDOWS}{$R doublecmd.rc}{$ENDIF}
 
 begin
   {$I doublecmd.lrs}
-  Application.Title:='Double Commander';
+  Application.Title:= 'Double Commander';
   Application.Initialize;
-  ThousandSeparator:=' ';
-  DebugLn(Format('Double commander %s - Free Pascal', [dcVersion]));
+  ThousandSeparator:= ' ';
+  DebugLn('Double Commander ' + dcVersion);
+  DebugLn('Revision: ' + dcRevision);
   DebugLn('Build: ' + dcBuildDate);
+  DebugLn('Lazarus: ' + lazVersion);
+  DebugLn('Revision: ' + RevisionStr);
+  DebugLn('Free Pascal: ' + fpcVersion);
   DebugLn('This program is free software released under terms of GNU GPL 2');
   DebugLn('(C)opyright 2006-2008 Koblov Alexander (Alexx2000@mail.ru)');
-  DebugLn('  and contributors (see about dialog)');
+  DebugLn('   and contributors (see about dialog)');
 
   fAbout.dcBuildDate := dcBuildDate;
   fAbout.dcVersion:= dcVersion;
+  fAbout.dcRevision:= dcRevision;
+  fAbout.lazRevision:= RevisionStr;
   fAbout.fpcVersion:= fpcVersion;
 
   LoadPaths; // must be first

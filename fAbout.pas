@@ -29,9 +29,11 @@ type
 
   TfrmAbout = class(TForm)
     imgLogo: TImage;
+    lblRevision: TLabel;
     lblHomePageAddress: TLabel;
     lblHomePage: TLabel;
     lblFreePascalVer: TLabel;
+    lblLazarusRev: TLabel;
     lblTitle: TLabel;
     lblLazarusVer: TLabel;
     lblBuild: TLabel;
@@ -59,6 +61,8 @@ procedure ShowAboutBox;
 var
   dcBuildDate,
   dcVersion,
+  dcRevision,
+  lazRevision,
   fpcVersion: String;
   
 implementation
@@ -143,8 +147,10 @@ begin
   memInfo.Lines.Text := cAboutMsg;
   memInfo.CaretPos:= Classes.Point(0, 0);
   lblVersion.Caption:= Format(lblVersion.Caption, [dcVersion]);
+  lblRevision.Caption:= lblRevision.Caption + #32 + dcRevision;
   lblBuild.Caption := lblBuild.Caption + #32 + dcBuildDate;
   lblLazarusVer.Caption := lblLazarusVer.Caption + #32 + lcl_version;
+  lblLazarusRev.Caption:= lblLazarusRev.Caption + #32 + lazRevision;
   lblFreePascalVer.Caption:= lblFreePascalVer.Caption + #32 + fpcVersion;
 end;
 

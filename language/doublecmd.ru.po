@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-12-07 17:57+0300\n"
+"PO-Revision-Date: 2008-12-13 23:42+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -83,9 +83,19 @@ msgstr "Домашняя страница:"
 msgid "http://doublecmd.sourceforge.net"
 msgstr ""
 
+#: TFRMABOUT.LBLLAZARUSREV.CAPTION
+msgctxt "TFRMABOUT.LBLLAZARUSREV.CAPTION"
+msgid "Revision"
+msgstr "Ревизия"
+
 #: TFRMABOUT.LBLLAZARUSVER.CAPTION
 msgid "Lazarus"
 msgstr ""
+
+#: TFRMABOUT.LBLREVISION.CAPTION
+msgctxt "TFRMABOUT.LBLREVISION.CAPTION"
+msgid "Revision"
+msgstr "Ревизия"
 
 #: TFRMABOUT.LBLTITLE.CAPTION
 msgctxt "TFRMABOUT.LBLTITLE.CAPTION"
@@ -182,6 +192,7 @@ msgid "&Button bar:"
 msgstr "Панель:"
 
 #: TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION"
 msgid "&Command:"
 msgstr "&Команда:"
 
@@ -443,16 +454,19 @@ msgid "Add"
 msgstr ""
 
 #: TFRMFILEASSOC.BTNCANCEL.CAPTION
+msgctxt "TFRMFILEASSOC.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Отмена"
 
 #: TFRMFILEASSOC.BTNDOWNACT.CAPTION
+msgctxt "TFRMFILEASSOC.BTNDOWNACT.CAPTION"
 msgid "Down"
 msgstr "Вниз"
 
 #: TFRMFILEASSOC.BTNOK.CAPTION
+msgctxt "TFRMFILEASSOC.BTNOK.CAPTION"
 msgid "&OK"
-msgstr ""
+msgstr "&ОК"
 
 #: TFRMFILEASSOC.BTNREMOVEACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVEACT.CAPTION"
@@ -470,10 +484,12 @@ msgid "Remove"
 msgstr "Удалить"
 
 #: TFRMFILEASSOC.BTNRENAMETYPE.CAPTION
+msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
 msgid "Rename"
 msgstr "Переименовать"
 
 #: TFRMFILEASSOC.BTNUPACT.CAPTION
+msgctxt "TFRMFILEASSOC.BTNUPACT.CAPTION"
 msgid "Up"
 msgstr "Вверх"
 
@@ -482,6 +498,7 @@ msgid "File associations"
 msgstr "Файловые ассоциации"
 
 #: TFRMFILEASSOC.GBACTIONS.CAPTION
+msgctxt "TFRMFILEASSOC.GBACTIONS.CAPTION"
 msgid "Actions"
 msgstr ""
 
@@ -490,6 +507,7 @@ msgid "Extensions"
 msgstr "Расширения"
 
 #: TFRMFILEASSOC.GBFILETYPES.CAPTION
+msgctxt "TFRMFILEASSOC.GBFILETYPES.CAPTION"
 msgid "File types"
 msgstr ""
 
@@ -502,10 +520,12 @@ msgid "Action:"
 msgstr "Действие:"
 
 #: TFRMFILEASSOC.LBLCOMMAND.CAPTION
+msgctxt "TFRMFILEASSOC.LBLCOMMAND.CAPTION"
 msgid "&Command:"
-msgstr ""
+msgstr "&Команда:"
 
 #: TFRMFILEASSOC.MIEDIT.CAPTION
+msgctxt "TFRMFILEASSOC.MIEDIT.CAPTION"
 msgid "Edit"
 msgstr "Редактировать"
 
@@ -514,6 +534,7 @@ msgid "Open in Editor"
 msgstr "Открыть в редакторе"
 
 #: TFRMFILEASSOC.MIFILENAME.CAPTION
+msgctxt "TFRMFILEASSOC.MIFILENAME.CAPTION"
 msgid "File name"
 msgstr "Имя файла"
 
@@ -530,6 +551,7 @@ msgid "Get output from command"
 msgstr "Получить вывод команды"
 
 #: TFRMFILEASSOC.MIOPEN.CAPTION
+msgctxt "TFRMFILEASSOC.MIOPEN.CAPTION"
 msgid "Open"
 msgstr "Открыть"
 
@@ -856,10 +878,12 @@ msgid "Delete"
 msgstr "Удалить"
 
 #: TFRMLINKER.SPBTNDOWN.HINT
+msgctxt "TFRMLINKER.SPBTNDOWN.HINT"
 msgid "Down"
 msgstr "Вниз"
 
 #: TFRMLINKER.SPBTNUP.HINT
+msgctxt "TFRMLINKER.SPBTNUP.HINT"
 msgid "Up"
 msgstr "Вверх"
 
@@ -1016,6 +1040,7 @@ msgid "Switch to next tab"
 msgstr "Переключиться на следующую вкладку"
 
 #: TFRMMAIN.ACTOPEN.CAPTION
+msgctxt "TFRMMAIN.ACTOPEN.CAPTION"
 msgid "Open"
 msgstr "Открыть"
 
@@ -2978,6 +3003,7 @@ msgid "File panels"
 msgstr "Файловые панели"
 
 #: ulng.rsoptfiletypes
+msgctxt "ulng.rsoptfiletypes"
 msgid "File types"
 msgstr "Типы файлов"
 

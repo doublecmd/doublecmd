@@ -86,9 +86,19 @@ msgstr ""
 msgid "http://doublecmd.sourceforge.net"
 msgstr ""
 
+#: TFRMABOUT.LBLLAZARUSREV.CAPTION
+msgctxt "TFRMABOUT.LBLLAZARUSREV.CAPTION"
+msgid "Revision"
+msgstr ""
+
 #: TFRMABOUT.LBLLAZARUSVER.CAPTION
 msgid "Lazarus"
 msgstr "Lazarus"
+
+#: TFRMABOUT.LBLREVISION.CAPTION
+msgctxt "TFRMABOUT.LBLREVISION.CAPTION"
+msgid "Revision"
+msgstr ""
 
 #: TFRMABOUT.LBLTITLE.CAPTION
 msgctxt "TFRMABOUT.LBLTITLE.CAPTION"
@@ -185,6 +195,7 @@ msgid "&Button bar:"
 msgstr "&Tlačítková lišta:"
 
 #: TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION"
 msgid "&Command:"
 msgstr "&Příkaz:"
 
@@ -446,14 +457,17 @@ msgid "Add"
 msgstr ""
 
 #: TFRMFILEASSOC.BTNCANCEL.CAPTION
+msgctxt "TFRMFILEASSOC.BTNCANCEL.CAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušit"
 
 #: TFRMFILEASSOC.BTNDOWNACT.CAPTION
+msgctxt "TFRMFILEASSOC.BTNDOWNACT.CAPTION"
 msgid "Down"
 msgstr ""
 
 #: TFRMFILEASSOC.BTNOK.CAPTION
+msgctxt "TFRMFILEASSOC.BTNOK.CAPTION"
 msgid "&OK"
 msgstr ""
 
@@ -473,10 +487,12 @@ msgid "Remove"
 msgstr ""
 
 #: TFRMFILEASSOC.BTNRENAMETYPE.CAPTION
+msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
 msgid "Rename"
 msgstr ""
 
 #: TFRMFILEASSOC.BTNUPACT.CAPTION
+msgctxt "TFRMFILEASSOC.BTNUPACT.CAPTION"
 msgid "Up"
 msgstr ""
 
@@ -485,6 +501,7 @@ msgid "File associations"
 msgstr "Asociace souborů"
 
 #: TFRMFILEASSOC.GBACTIONS.CAPTION
+msgctxt "TFRMFILEASSOC.GBACTIONS.CAPTION"
 msgid "Actions"
 msgstr ""
 
@@ -493,6 +510,7 @@ msgid "Extensions"
 msgstr "Přípony"
 
 #: TFRMFILEASSOC.GBFILETYPES.CAPTION
+msgctxt "TFRMFILEASSOC.GBFILETYPES.CAPTION"
 msgid "File types"
 msgstr ""
 
@@ -505,10 +523,12 @@ msgid "Action:"
 msgstr ""
 
 #: TFRMFILEASSOC.LBLCOMMAND.CAPTION
+msgctxt "TFRMFILEASSOC.LBLCOMMAND.CAPTION"
 msgid "&Command:"
-msgstr ""
+msgstr "&Příkaz:"
 
 #: TFRMFILEASSOC.MIEDIT.CAPTION
+msgctxt "TFRMFILEASSOC.MIEDIT.CAPTION"
 msgid "Edit"
 msgstr ""
 
@@ -517,6 +537,7 @@ msgid "Open in Editor"
 msgstr ""
 
 #: TFRMFILEASSOC.MIFILENAME.CAPTION
+msgctxt "TFRMFILEASSOC.MIFILENAME.CAPTION"
 msgid "File name"
 msgstr ""
 
@@ -533,6 +554,7 @@ msgid "Get output from command"
 msgstr ""
 
 #: TFRMFILEASSOC.MIOPEN.CAPTION
+msgctxt "TFRMFILEASSOC.MIOPEN.CAPTION"
 msgid "Open"
 msgstr ""
 
@@ -859,10 +881,12 @@ msgid "Delete"
 msgstr "Vymazat"
 
 #: TFRMLINKER.SPBTNDOWN.HINT
+msgctxt "TFRMLINKER.SPBTNDOWN.HINT"
 msgid "Down"
 msgstr "Dolů"
 
 #: TFRMLINKER.SPBTNUP.HINT
+msgctxt "TFRMLINKER.SPBTNUP.HINT"
 msgid "Up"
 msgstr "Nahoru"
 
@@ -1019,6 +1043,7 @@ msgid "Switch to next tab"
 msgstr ""
 
 #: TFRMMAIN.ACTOPEN.CAPTION
+msgctxt "TFRMMAIN.ACTOPEN.CAPTION"
 msgid "Open"
 msgstr "Otevřít"
 
@@ -2981,6 +3006,7 @@ msgid "File panels"
 msgstr "Panely souborů"
 
 #: ulng.rsoptfiletypes
+msgctxt "ulng.rsoptfiletypes"
 msgid "File types"
 msgstr "Typy souborů"
 

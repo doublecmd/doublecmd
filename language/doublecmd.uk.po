@@ -83,8 +83,18 @@ msgstr ""
 msgid "http://doublecmd.sourceforge.net"
 msgstr ""
 
+#: TFRMABOUT.LBLLAZARUSREV.CAPTION
+msgctxt "TFRMABOUT.LBLLAZARUSREV.CAPTION"
+msgid "Revision"
+msgstr ""
+
 #: TFRMABOUT.LBLLAZARUSVER.CAPTION
 msgid "Lazarus"
+msgstr ""
+
+#: TFRMABOUT.LBLREVISION.CAPTION
+msgctxt "TFRMABOUT.LBLREVISION.CAPTION"
+msgid "Revision"
 msgstr ""
 
 #: TFRMABOUT.LBLTITLE.CAPTION
@@ -182,6 +192,7 @@ msgid "&Button bar:"
 msgstr "Панель:"
 
 #: TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION"
 msgid "&Command:"
 msgstr "&Команда:"
 
@@ -443,14 +454,17 @@ msgid "Add"
 msgstr ""
 
 #: TFRMFILEASSOC.BTNCANCEL.CAPTION
+msgctxt "TFRMFILEASSOC.BTNCANCEL.CAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "Відміна"
 
 #: TFRMFILEASSOC.BTNDOWNACT.CAPTION
+msgctxt "TFRMFILEASSOC.BTNDOWNACT.CAPTION"
 msgid "Down"
 msgstr ""
 
 #: TFRMFILEASSOC.BTNOK.CAPTION
+msgctxt "TFRMFILEASSOC.BTNOK.CAPTION"
 msgid "&OK"
 msgstr ""
 
@@ -470,10 +484,12 @@ msgid "Remove"
 msgstr ""
 
 #: TFRMFILEASSOC.BTNRENAMETYPE.CAPTION
+msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
 msgid "Rename"
 msgstr ""
 
 #: TFRMFILEASSOC.BTNUPACT.CAPTION
+msgctxt "TFRMFILEASSOC.BTNUPACT.CAPTION"
 msgid "Up"
 msgstr ""
 
@@ -482,6 +498,7 @@ msgid "File associations"
 msgstr "Файлові асоціації"
 
 #: TFRMFILEASSOC.GBACTIONS.CAPTION
+msgctxt "TFRMFILEASSOC.GBACTIONS.CAPTION"
 msgid "Actions"
 msgstr ""
 
@@ -490,6 +507,7 @@ msgid "Extensions"
 msgstr "Розширення"
 
 #: TFRMFILEASSOC.GBFILETYPES.CAPTION
+msgctxt "TFRMFILEASSOC.GBFILETYPES.CAPTION"
 msgid "File types"
 msgstr ""
 
@@ -502,10 +520,12 @@ msgid "Action:"
 msgstr ""
 
 #: TFRMFILEASSOC.LBLCOMMAND.CAPTION
+msgctxt "TFRMFILEASSOC.LBLCOMMAND.CAPTION"
 msgid "&Command:"
-msgstr ""
+msgstr "&Команда:"
 
 #: TFRMFILEASSOC.MIEDIT.CAPTION
+msgctxt "TFRMFILEASSOC.MIEDIT.CAPTION"
 msgid "Edit"
 msgstr ""
 
@@ -514,6 +534,7 @@ msgid "Open in Editor"
 msgstr ""
 
 #: TFRMFILEASSOC.MIFILENAME.CAPTION
+msgctxt "TFRMFILEASSOC.MIFILENAME.CAPTION"
 msgid "File name"
 msgstr ""
 
@@ -530,6 +551,7 @@ msgid "Get output from command"
 msgstr ""
 
 #: TFRMFILEASSOC.MIOPEN.CAPTION
+msgctxt "TFRMFILEASSOC.MIOPEN.CAPTION"
 msgid "Open"
 msgstr ""
 
@@ -856,10 +878,12 @@ msgid "Delete"
 msgstr "Видалити"
 
 #: TFRMLINKER.SPBTNDOWN.HINT
+msgctxt "TFRMLINKER.SPBTNDOWN.HINT"
 msgid "Down"
 msgstr "Вниз"
 
 #: TFRMLINKER.SPBTNUP.HINT
+msgctxt "TFRMLINKER.SPBTNUP.HINT"
 msgid "Up"
 msgstr "Вгору"
 
@@ -1016,6 +1040,7 @@ msgid "Switch to next tab"
 msgstr ""
 
 #: TFRMMAIN.ACTOPEN.CAPTION
+msgctxt "TFRMMAIN.ACTOPEN.CAPTION"
 msgid "Open"
 msgstr "Відкрити"
 
@@ -2978,6 +3003,7 @@ msgid "File panels"
 msgstr "Файлові панелі"
 
 #: ulng.rsoptfiletypes
+msgctxt "ulng.rsoptfiletypes"
 msgid "File types"
 msgstr "Типи файлів"
 

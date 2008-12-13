@@ -84,9 +84,19 @@ msgstr "Homepage"
 msgid "http://doublecmd.sourceforge.net"
 msgstr ""
 
+#: TFRMABOUT.LBLLAZARUSREV.CAPTION
+msgctxt "TFRMABOUT.LBLLAZARUSREV.CAPTION"
+msgid "Revision"
+msgstr ""
+
 #: TFRMABOUT.LBLLAZARUSVER.CAPTION
 msgid "Lazarus"
 msgstr "Lazarus"
+
+#: TFRMABOUT.LBLREVISION.CAPTION
+msgctxt "TFRMABOUT.LBLREVISION.CAPTION"
+msgid "Revision"
+msgstr ""
 
 #: TFRMABOUT.LBLTITLE.CAPTION
 msgctxt "TFRMABOUT.LBLTITLE.CAPTION"
@@ -183,6 +193,7 @@ msgid "&Button bar:"
 msgstr "&Schalterleiste"
 
 #: TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION"
 msgid "&Command:"
 msgstr "&Befehl"
 
@@ -444,16 +455,19 @@ msgid "Add"
 msgstr ""
 
 #: TFRMFILEASSOC.BTNCANCEL.CAPTION
+msgctxt "TFRMFILEASSOC.BTNCANCEL.CAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "Abbruch"
 
 #: TFRMFILEASSOC.BTNDOWNACT.CAPTION
+msgctxt "TFRMFILEASSOC.BTNDOWNACT.CAPTION"
 msgid "Down"
 msgstr ""
 
 #: TFRMFILEASSOC.BTNOK.CAPTION
+msgctxt "TFRMFILEASSOC.BTNOK.CAPTION"
 msgid "&OK"
-msgstr ""
+msgstr "&OK"
 
 #: TFRMFILEASSOC.BTNREMOVEACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVEACT.CAPTION"
@@ -471,10 +485,12 @@ msgid "Remove"
 msgstr "Entfernen"
 
 #: TFRMFILEASSOC.BTNRENAMETYPE.CAPTION
+msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
 msgid "Rename"
 msgstr ""
 
 #: TFRMFILEASSOC.BTNUPACT.CAPTION
+msgctxt "TFRMFILEASSOC.BTNUPACT.CAPTION"
 msgid "Up"
 msgstr ""
 
@@ -483,6 +499,7 @@ msgid "File associations"
 msgstr "Dateiverknüpfungen"
 
 #: TFRMFILEASSOC.GBACTIONS.CAPTION
+msgctxt "TFRMFILEASSOC.GBACTIONS.CAPTION"
 msgid "Actions"
 msgstr ""
 
@@ -491,6 +508,7 @@ msgid "Extensions"
 msgstr "Endungen"
 
 #: TFRMFILEASSOC.GBFILETYPES.CAPTION
+msgctxt "TFRMFILEASSOC.GBFILETYPES.CAPTION"
 msgid "File types"
 msgstr ""
 
@@ -503,10 +521,12 @@ msgid "Action:"
 msgstr ""
 
 #: TFRMFILEASSOC.LBLCOMMAND.CAPTION
+msgctxt "TFRMFILEASSOC.LBLCOMMAND.CAPTION"
 msgid "&Command:"
-msgstr ""
+msgstr "&Befehl"
 
 #: TFRMFILEASSOC.MIEDIT.CAPTION
+msgctxt "TFRMFILEASSOC.MIEDIT.CAPTION"
 msgid "Edit"
 msgstr ""
 
@@ -515,6 +535,7 @@ msgid "Open in Editor"
 msgstr ""
 
 #: TFRMFILEASSOC.MIFILENAME.CAPTION
+msgctxt "TFRMFILEASSOC.MIFILENAME.CAPTION"
 msgid "File name"
 msgstr ""
 
@@ -531,6 +552,7 @@ msgid "Get output from command"
 msgstr ""
 
 #: TFRMFILEASSOC.MIOPEN.CAPTION
+msgctxt "TFRMFILEASSOC.MIOPEN.CAPTION"
 msgid "Open"
 msgstr ""
 
@@ -857,10 +879,12 @@ msgid "Delete"
 msgstr "&Löschen"
 
 #: TFRMLINKER.SPBTNDOWN.HINT
+msgctxt "TFRMLINKER.SPBTNDOWN.HINT"
 msgid "Down"
 msgstr "A&bwärts"
 
 #: TFRMLINKER.SPBTNUP.HINT
+msgctxt "TFRMLINKER.SPBTNUP.HINT"
 msgid "Up"
 msgstr "Aufw&ärts"
 
@@ -1017,6 +1041,7 @@ msgid "Switch to next tab"
 msgstr "Zum nächsten Tab wechseln"
 
 #: TFRMMAIN.ACTOPEN.CAPTION
+msgctxt "TFRMMAIN.ACTOPEN.CAPTION"
 msgid "Open"
 msgstr "Öffne"
 
@@ -2979,6 +3004,7 @@ msgid "File panels"
 msgstr "Dateifenster"
 
 #: ulng.rsoptfiletypes
+msgctxt "ulng.rsoptfiletypes"
 msgid "File types"
 msgstr "Dateitypen"
 
