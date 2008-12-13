@@ -11,6 +11,8 @@ Linux:
    $ cd unrar
    make symlink makefile.unix -> makefile:
    $ ln -s makefile.unix makefile
+   set CXX environment variable to "g++ -DSILENT"
+   $export CXX="g++ -DSILENT"
    and build library: 
    $ make lib
    After compiling, copy "libunrar.so" in "/usr/lib" directory:

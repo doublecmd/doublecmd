@@ -98,7 +98,7 @@ type
     Reserved: packed array [0..31] of LongInt;
   end;
 
-  TUnrarCallback = function (Msg: LongInt; UserData, P1, P2: Integer) : Integer; stdcall;
+  TUnrarCallback = function (Msg: LongInt; UserData, P1, P2: Integer) : Integer;{$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
   TRAROpenArchive = function(var ArchiveData: RAROpenArchiveData) : THandle;stdcall;
   TRAROpenArchiveEx = function(var ArchiveData: RAROpenArchiveDataEx) : THandle;stdcall;
@@ -130,7 +130,7 @@ var
   ProcessDataProc : TProcessDataProc;
   gHeaderData : RARHeaderData;
 
-function UnrarCallback(Msg: LongInt; UserData, P1, P2: Integer) : Integer; stdcall;
+function UnrarCallback(Msg: LongInt; UserData, P1, P2: Integer) : Integer;{$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 begin
   Result := 0;
   case Msg of
