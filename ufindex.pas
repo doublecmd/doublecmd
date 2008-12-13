@@ -27,7 +27,7 @@ unit uFindEx;
 interface
 
 uses
-   SysUtils {$IFDEF UNIX}, BaseUnix, UnixUtil{$ELSE}, Windows{$ENDIF};
+   SysUtils {$IFDEF UNIX}, BaseUnix, UnixUtil, uMyUnix{$ELSE}, Windows{$ENDIF};
 
 {$IFDEF UNIX}
 type
@@ -74,20 +74,20 @@ end;
 {$ELSE}
 var
   UnixFindData: PUnixFindData;
+  WinAttr: LongInt;
 begin
   Result:= -1;
   UnixFindData:= PUnixFindData(Rslt.FindHandle);
   if UnixFindData = nil then Exit;
- // if FNMatch(UnixFindData^.sMask, Rslt.Name) then
+  if FNMatch(UnixFindData^.sMask, Rslt.Name) then
     begin
-//      WriteLn('UnixFindData^.sPath + Rslt.Name == ', UnixFindData^.sPath + Rslt.Name);
-
       if fpLStat(UnixFindData^.sPath + Rslt.Name, @UnixFindData^.StatRec) >= 0 then
         with Rslt, UnixFindData^.StatRec do
         begin
-          Size:= st_size + Random(10);
-          WriteLn('Size == ', Size);
-          Time:= st_mtime;
+          WinAttr:= LinuxToWinAttr(PChar(Rslt.Name), UnixFindData^.StatRec);
+          if (WinAttr and UnixFindData^.iAttr) = 0 then Exit;
+          Size:= st_size;
+          Time:= UnixToWinAge(st_mtime);
           Attr:= st_mode;
         end;
       Result:= 0;
@@ -118,13 +118,12 @@ end;
 var
   UnixFindData: PUnixFindData;
 begin
-  WriteLn('Path == ', Path);
+  DebugLn('FindFirstEx with Path == ', Path);
   { Allocate UnixFindData }
   New(UnixFindData);
   FillChar(UnixFindData^, SizeOf(UnixFindData^), 0);
   Rslt.FindHandle:= UnixFindData;
 
-  WriteLn(Path);
   with UnixFindData^ do
   begin
     iAttr:= Attr;
@@ -166,16 +165,13 @@ begin
 end;
 {$ELSE}
 var
-  UnixFindData: PUnixFindData;
+  UnixFindData: PUnixFindData absolute Rslt.FindHandle;
   PtrDirEnt: pDirent;
 begin
   Result:= -1;
-  UnixFindData:= PUnixFindData(Rslt.FindHandle);
-
   if UnixFindData = nil then Exit;
   if UnixFindData^.DirPtr = nil then Exit;
   PtrDirEnt:= fpReadDir(UnixFindData^.DirPtr^);
-//  WriteLn('UnixFindData^.sPath+UnixFindData^.sMask == ', UnixFindData^.sPath+UnixFindData^.sMask);
   while PtrDirEnt <> nil do
   begin
     Rslt.Name:= PtrDirEnt^.d_name;
@@ -196,9 +192,8 @@ begin
 end;
 {$ELSE}
 var
-  UnixFindData: PUnixFindData;
+  UnixFindData: PUnixFindData absolute Rslt.FindHandle;
 begin
-  UnixFindData:= PUnixFindData(Rslt.FindHandle);
   if UnixFindData = nil then Exit;
   if UnixFindData^.DirPtr <> nil then
     fpCloseDir(UnixFindData^.DirPtr^);

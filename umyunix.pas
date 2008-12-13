@@ -124,6 +124,7 @@ function getgrgid(gid: __gid_t): PGroupRecord; cdecl; external libc name 'getgrg
 function getgrnam(name: PChar): PGroupRecord; cdecl; external libc name 'getgrnam';
 
 function UnixToWinAge(UnixAge: time_t): LongInt;
+function LinuxToWinAttr(pFileName: PChar; const srInfo: BaseUnix.Stat): Longint;
 
 implementation
 
@@ -133,6 +134,19 @@ var
 begin
   EpochToLocal(UnixAge,y,m,d,hh,mm,ss);
   Result:= DateTimeToFileDate(EncodeDate(y,m,d) + EncodeTime(hh,mm,ss,0));
+end;
+
+function LinuxToWinAttr(pFileName: PChar; const srInfo: BaseUnix.Stat): Longint;
+begin
+  Result:= faArchive;
+  if fpS_ISDIR(srInfo.st_mode) then
+    Result:= Result or faDirectory;
+  if (pFileName[0]='.') and (not (pFileName[1] in [#0,'.']))  then
+    Result:= Result or faHidden;
+  if (srInfo.st_Mode and S_IWUSR) = 0 Then
+     Result:= Result or faReadOnly;
+  if fpS_ISSOCK(srInfo.st_mode) or fpS_ISBLK(srInfo.st_mode) or fpS_ISCHR(srInfo.st_mode) or fpS_ISFIFO(srInfo.st_mode) Then
+     Result:= Result or faSysFile;
 end;
 
 end.
