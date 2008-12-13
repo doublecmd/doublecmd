@@ -1,7 +1,7 @@
 object frmAbout: TfrmAbout
-  Left = 301
+  Left = 312
   Height = 310
-  Top = 185
+  Top = 181
   Width = 563
   ActiveControl = OKButton
   BorderIcons = [biSystemMenu]
@@ -12,7 +12,6 @@ object frmAbout: TfrmAbout
   KeyPreview = True
   OnKeyDown = FormKeyDown
   OnShow = frmAboutShow
-  ParentFont = False
   Position = poScreenCenter
   LCLVersion = '0.9.27'
   object lblVersion: TLabel
@@ -29,11 +28,11 @@ object frmAbout: TfrmAbout
   end
   object lblBuild: TLabel
     AnchorSideLeft.Control = lblVersion
-    AnchorSideTop.Control = lblVersion
+    AnchorSideTop.Control = lblRevision
     AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 14
-    Top = 133
+    Top = 155
     Width = 23
     BorderSpacing.Top = 8
     Caption = 'Build'
@@ -45,7 +44,7 @@ object frmAbout: TfrmAbout
     AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 14
-    Top = 155
+    Top = 177
     Width = 38
     BorderSpacing.Top = 8
     Caption = 'Lazarus'
@@ -68,15 +67,39 @@ object frmAbout: TfrmAbout
     ParentFont = False
   end
   object lblFreePascalVer: TLabel
+    AnchorSideLeft.Control = lblLazarusRev
+    AnchorSideTop.Control = lblLazarusRev
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 14
+    Top = 221
+    Width = 56
+    BorderSpacing.Top = 8
+    Caption = 'Free Pascal'
+    ParentColor = False
+  end
+  object lblRevision: TLabel
+    AnchorSideLeft.Control = lblTitle
+    AnchorSideTop.Control = lblVersion
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 14
+    Top = 133
+    Width = 41
+    BorderSpacing.Top = 8
+    Caption = 'Revision'
+    ParentColor = False
+  end
+  object lblLazarusRev: TLabel
     AnchorSideLeft.Control = lblLazarusVer
     AnchorSideTop.Control = lblLazarusVer
     AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 14
-    Top = 177
-    Width = 56
+    Top = 199
+    Width = 41
     BorderSpacing.Top = 8
-    Caption = 'Free Pascal'
+    Caption = 'Revision'
     ParentColor = False
   end
   object OKButton: TButton
