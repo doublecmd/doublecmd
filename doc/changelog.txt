@@ -1,4 +1,5 @@
-﻿12.12.2008 FIX: Bug [ 2421607 ] different fonts
+﻿13.12.2008 FIX: Bug [ 2423750 ] scrollbar in about window
+12.12.2008 FIX: Bug [ 2421607 ] different fonts
 12.12.2008 FIX: Bug [ 2421601 ] border
 09.12.2008 FIX: Bug [ 2403863 ] rubbish after copying
 07.12.2008 ADD: Feature Request [ 2404017 ] context menu for Drive button menu 
