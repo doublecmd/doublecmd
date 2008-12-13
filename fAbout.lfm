@@ -22,7 +22,7 @@ object frmAbout: TfrmAbout
     Height = 14
     Top = 111
     Width = 55
-    BorderSpacing.Top = 8
+    BorderSpacing.Top = 6
     Caption = 'Version %s'
     ParentColor = False
   end
@@ -34,7 +34,7 @@ object frmAbout: TfrmAbout
     Height = 14
     Top = 155
     Width = 23
-    BorderSpacing.Top = 8
+    BorderSpacing.Top = 4
     Caption = 'Build'
     ParentColor = False
   end
@@ -46,7 +46,7 @@ object frmAbout: TfrmAbout
     Height = 14
     Top = 177
     Width = 38
-    BorderSpacing.Top = 8
+    BorderSpacing.Top = 4
     Caption = 'Lazarus'
     ParentColor = False
   end
@@ -74,7 +74,7 @@ object frmAbout: TfrmAbout
     Height = 14
     Top = 221
     Width = 56
-    BorderSpacing.Top = 8
+    BorderSpacing.Top = 4
     Caption = 'Free Pascal'
     ParentColor = False
   end
@@ -86,7 +86,7 @@ object frmAbout: TfrmAbout
     Height = 14
     Top = 133
     Width = 41
-    BorderSpacing.Top = 8
+    BorderSpacing.Top = 4
     Caption = 'Revision'
     ParentColor = False
   end
@@ -98,7 +98,7 @@ object frmAbout: TfrmAbout
     Height = 14
     Top = 199
     Width = 41
-    BorderSpacing.Top = 8
+    BorderSpacing.Top = 4
     Caption = 'Revision'
     ParentColor = False
   end
