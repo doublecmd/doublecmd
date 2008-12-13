@@ -82,13 +82,13 @@ begin
   if FNMatch(UnixFindData^.sMask, Rslt.Name) then
     begin
       if fpLStat(UnixFindData^.sPath + Rslt.Name, @UnixFindData^.StatRec) >= 0 then
-        with Rslt, UnixFindData^.StatRec do
+        with UnixFindData^.StatRec do
         begin
           WinAttr:= LinuxToWinAttr(PChar(Rslt.Name), UnixFindData^.StatRec);
           if (WinAttr and UnixFindData^.iAttr) = 0 then Exit;
           Rslt.Size:= st_size;
-          Time:= UnixToWinAge(st_mtime);
-          Attr:= st_mode;
+          Rslt.Time:= UnixToWinAge(st_mtime);
+          Rslt.Attr:= st_mode;
         end;
       Result:= 0;
     end;
