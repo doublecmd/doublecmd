@@ -86,7 +86,7 @@ begin
         begin
           WinAttr:= LinuxToWinAttr(PChar(Rslt.Name), UnixFindData^.StatRec);
           if (WinAttr and UnixFindData^.iAttr) = 0 then Exit;
-          Size:= st_size;
+          Rslt.Size:= st_size;
           Time:= UnixToWinAge(st_mtime);
           Attr:= st_mode;
         end;
