@@ -139,6 +139,7 @@ object frmAbout: TfrmAbout
       Width = 389
       Anchors = [akTop, akLeft, akRight, akBottom]
       ReadOnly = True
+      ScrollBars = ssAutoBoth
       TabOrder = 0
     end
   end
