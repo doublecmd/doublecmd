@@ -396,6 +396,10 @@
     </Linking>
     <Other>
       <CompilerPath Value="$(CompPath)"/>
+      <ExecuteBefore>
+        <Command Value="_getsvnrev.cmd $(LazarusDir)"/>
+        <CompileReasons Run="False"/>
+      </ExecuteBefore>
     </Other>
   </CompilerOptions>
 </CONFIG>
