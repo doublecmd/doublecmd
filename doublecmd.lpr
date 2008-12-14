@@ -79,8 +79,7 @@ begin
   DebugLn('Double Commander ' + dcVersion);
   DebugLn('Revision: ' + dcRevision);
   DebugLn('Build: ' + dcBuildDate);
-  DebugLn('Lazarus: ' + lazVersion);
-  DebugLn('Revision: ' + RevisionStr);
+  DebugLn('Lazarus: ' + lazVersion + '-' + RevisionStr);
   DebugLn('Free Pascal: ' + fpcVersion);
   DebugLn('This program is free software released under terms of GNU GPL 2');
   DebugLn('(C)opyright 2006-2008 Koblov Alexander (Alexx2000@mail.ru)');

@@ -84,11 +84,6 @@ msgstr "Homepage"
 msgid "http://doublecmd.sourceforge.net"
 msgstr ""
 
-#: TFRMABOUT.LBLLAZARUSREV.CAPTION
-msgctxt "TFRMABOUT.LBLLAZARUSREV.CAPTION"
-msgid "Revision"
-msgstr ""
-
 #: TFRMABOUT.LBLLAZARUSVER.CAPTION
 msgid "Lazarus"
 msgstr "Lazarus"

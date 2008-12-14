@@ -20,7 +20,7 @@ object frmAbout: TfrmAbout
     AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 14
-    Top = 111
+    Top = 109
     Width = 55
     BorderSpacing.Top = 6
     Caption = 'Version %s'
@@ -32,7 +32,7 @@ object frmAbout: TfrmAbout
     AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 14
-    Top = 155
+    Top = 145
     Width = 23
     BorderSpacing.Top = 4
     Caption = 'Build'
@@ -44,7 +44,7 @@ object frmAbout: TfrmAbout
     AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 14
-    Top = 177
+    Top = 163
     Width = 38
     BorderSpacing.Top = 4
     Caption = 'Lazarus'
@@ -67,12 +67,12 @@ object frmAbout: TfrmAbout
     ParentFont = False
   end
   object lblFreePascalVer: TLabel
-    AnchorSideLeft.Control = lblLazarusRev
-    AnchorSideTop.Control = lblLazarusRev
+    AnchorSideLeft.Control = lblLazarusVer
+    AnchorSideTop.Control = lblLazarusVer
     AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 14
-    Top = 221
+    Top = 181
     Width = 56
     BorderSpacing.Top = 4
     Caption = 'Free Pascal'
@@ -84,19 +84,7 @@ object frmAbout: TfrmAbout
     AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 14
-    Top = 133
-    Width = 41
-    BorderSpacing.Top = 4
-    Caption = 'Revision'
-    ParentColor = False
-  end
-  object lblLazarusRev: TLabel
-    AnchorSideLeft.Control = lblLazarusVer
-    AnchorSideTop.Control = lblLazarusVer
-    AnchorSideTop.Side = asrBottom
-    Left = 8
-    Height = 14
-    Top = 199
+    Top = 127
     Width = 41
     BorderSpacing.Top = 4
     Caption = 'Revision'
