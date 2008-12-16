@@ -2620,7 +2620,7 @@ msgstr "&Назад"
 #: ulng.rseditsearchcaption
 msgctxt "ulng.rseditsearchcaption"
 msgid "Search"
-msgstr "&Найти..."
+msgstr "Найти..."
 
 #: ulng.rseditsearchcaret
 msgid "Search from &caret"
