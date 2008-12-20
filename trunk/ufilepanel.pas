@@ -504,8 +504,8 @@ begin
       LastActive:=sName;
 
       ReplaceExtCommand(sOpenCmd, pfri);
-      ProcessExtCommand(sOpenCmd{, frp});
-      Exit;
+      if ProcessExtCommand(sOpenCmd{, frp}) then
+        Exit;
     end;
     // and at the end try if it is executable
     if bExecutable then

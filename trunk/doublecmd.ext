@@ -16,6 +16,7 @@
 # Where:
 #
 # [extension] or [extension1|extension2 ...] - list of extensions (case insensitive !!no regular expression!!)
+# You can also use "default" for matches with any file.
 #
 # Name - Name of this category (showed in file association manager)
 #
@@ -39,6 +40,9 @@
 #   %d - directory
 #   %p - path(directory+filename)
 
+# Default commands
+[default]
+Open=xdg-open '%p'
 
 ### Sources ###
 
