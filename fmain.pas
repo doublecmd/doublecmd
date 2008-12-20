@@ -293,7 +293,9 @@ type
     procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
     procedure FormPaint(Sender: TObject);
     procedure FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+    procedure FormDataEvent(Data: PtrInt);
     procedure FormWindowStateChange(Sender: TObject);
+    procedure MainTrayIconClick(Sender: TObject);
     procedure lblDriveInfoDblClick(Sender: TObject);
     procedure MainSplitterCanResize(Sender: TObject; var NewSize: Integer;
       var Accept: Boolean);
@@ -310,7 +312,6 @@ type
     procedure frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure frmMainKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure frmMainShow(Sender: TObject);
-    procedure MainTrayIconClick(Sender: TObject);
     procedure mnuDropClick(Sender: TObject);
     procedure mnuSplitterPercentClick(Sender: TObject);
     procedure mnuHelpClick(Sender: TObject);
@@ -689,13 +690,24 @@ begin
     end;
 end;
 
+procedure TfrmMain.FormDataEvent(Data: PtrInt);
+begin
+  MainTrayIcon.Visible:= False;
+end;
+
 procedure TfrmMain.FormWindowStateChange(Sender: TObject);
 begin
-  if gTrayIcon and (WindowState = wsMinimized) then
+  if gTrayIcon and (WindowState = wsMinimized) and (not MainTrayIcon.Visible) then
     begin
       Hide;
       MainTrayIcon.Visible:= True;
     end;
+end;
+
+procedure TfrmMain.MainTrayIconClick(Sender: TObject);
+begin
+  ShowOnTop;
+  Application.QueueAsyncCall(@FormDataEvent, 0);
 end;
 
 procedure TfrmMain.lblDriveInfoDblClick(Sender: TObject);
@@ -916,12 +928,6 @@ procedure TfrmMain.frmMainShow(Sender: TObject);
 begin
   DebugLn('frmMain.frmMainShow');
   SetActiveFrame(fpLeft);
-end;
-
-procedure TfrmMain.MainTrayIconClick(Sender: TObject);
-begin
-  MainTrayIcon.Visible:= False;
-  ShowOnTop;
 end;
 
 procedure TfrmMain.mnuDropClick(Sender: TObject);
