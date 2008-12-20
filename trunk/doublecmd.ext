@@ -16,7 +16,8 @@
 # Where:
 #
 # [extension] or [extension1|extension2 ...] - list of extensions (case insensitive !!no regular expression!!)
-# You can also use "default" for matches with any file.
+# Also you can use "default" keyword as extension. In this case, if command had not found for sought file type,
+# then will be used command from this section.
 #
 # Name - Name of this category (showed in file association manager)
 #

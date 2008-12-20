@@ -1,51 +1,100 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+
+  
   <meta content="text/html; charset=Windows-1251" http-equiv="content-type">
+
+  
   <title>Structure of doublecmd.ext</title>
 </head>
+
+
 <body>
+
 Double Commander extension file<br>
+
 Based on Midnight Commander 3.0 extension file<br>
+
 <br>
+
 All lines starting with # or empty lines are thrown away.<br>
+
 All actions for file is showed in "Actions" submenu of file context popup menu<br>
+
 <br>
+
 File format:<br>
+
 <br>
+
 [extension1|extension2|...|extensionX]<br>
+
 Name=Category name<br>
+
 Icon=Path to icon<br>
+
 action1=command1<br>
+
 action2=command2<br>
+
 actionX=commandX<br>
+
 <br>
+
 Where:<br>
+
 <br>
+
 [extension] or [extension1|extension2 ...] - list of extensions (case insensitive !!no regular expression!!)<br>
+Also you can use "default" keyword as extension. In this case, if
+command had not found for sought file type, then will be used command
+from this section.<br>
+
 <br>
+
 Name - Name of this category (showed in file association manager)<br>
+
 <br>
+
 Icon - Path to icon that displays for this file types in file panel<br>
+
 <br>
+
 Action can be:<br>
+
 &nbsp; Open - used with tap on Enter or DblClick<br>
+
 &nbsp; View - used with tap on F3<br>
+
 &nbsp; Edit - used with tap on F4<br>
+
 &nbsp; other actions only is showed in "Actions" submenu of file context popup menu<br>
+
 <br>
+
 Command is any one-line shell command, with the simple macro substitution.<br>
+
 <br>
+
 Macros should be (case sensitive):<br>
+
 &nbsp; {!VFS}&nbsp;&nbsp;&nbsp; - for archives - use virtual file system<br>
+
 &nbsp; {!EDITOR} - call editor (internal or external by configuration}<br>
+
 &nbsp; {!VIEWER} - call viewer (the same) <br>
+
 &nbsp; {!SHELL}&nbsp; - use shell from configuration to execute program (see mplayer)<br>
+
 &nbsp; &lt;?command?&gt; - execute 'command' in system shell and save
 stdout output to file and transfer it as parameter to previous command
 (see rpm for example...)<br>
+
 &nbsp; %f - filename<br>
+
 &nbsp; %d - directory<br>
+
 &nbsp; %p - path(directory+filename)
 </body>
 </html>
