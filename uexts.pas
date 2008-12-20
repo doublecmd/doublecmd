@@ -450,6 +450,16 @@ begin
         Break;
       end;
     end;
+  // if command not found then try to find default command
+  for i:=0 to FExtList.Count-1 do
+    with GetItems(i) do
+    begin
+      if Extensions.IndexOf('default') >= 0 then
+      begin
+        Result:=Actions.Values[UpperCase(sActionName)];
+        Break;
+      end;
+    end;
 end;
 
 end.
