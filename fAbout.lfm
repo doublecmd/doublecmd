@@ -90,6 +90,18 @@ object frmAbout: TfrmAbout
     Caption = 'Revision'
     ParentColor = False
   end
+  object lblPlatform: TLabel
+    AnchorSideLeft.Control = lblFreePascalVer
+    AnchorSideTop.Control = lblFreePascalVer
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 14
+    Top = 199
+    Width = 128
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 4
+    ParentColor = False
+  end
   object OKButton: TButton
     Left = 24
     Height = 32
@@ -101,40 +113,48 @@ object frmAbout: TfrmAbout
     TabOrder = 0
   end
   object Panel1: TPanel
-    Left = 152
+    AnchorSideLeft.Control = lblTitle
+    AnchorSideLeft.Side = asrBottom
+    Left = 144
     Height = 295
     Top = 8
-    Width = 404
+    Width = 412
     Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 24
     BevelInner = bvRaised
     BevelOuter = bvLowered
     ClientHeight = 295
-    ClientWidth = 404
+    ClientWidth = 412
     FullRepaint = False
     TabOrder = 1
     object lblHomePage: TLabel
       AnchorSideLeft.Control = memInfo
-      AnchorSideTop.Control = memInfo
       AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Control = Panel1
+      AnchorSideBottom.Side = asrBottom
       Left = 8
       Height = 14
       Top = 266
       Width = 59
-      BorderSpacing.Top = 8
+      Anchors = [akLeft, akBottom]
+      BorderSpacing.Bottom = 15
       Caption = 'Home Page:'
       ParentColor = False
     end
     object lblHomePageAddress: TLabel
       AnchorSideLeft.Control = lblHomePage
       AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = memInfo
       AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Control = Panel1
+      AnchorSideBottom.Side = asrBottom
       Left = 73
       Height = 14
       Top = 266
       Width = 166
+      Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 6
       BorderSpacing.Top = 8
+      BorderSpacing.Bottom = 15
       Caption = 'http://doublecmd.sourceforge.net'
       Font.Color = clBlue
       ParentColor = False
@@ -144,11 +164,20 @@ object frmAbout: TfrmAbout
       OnMouseLeave = lblHomePageAddressMouseLeave
     end
     object memInfo: TMemo
+      AnchorSideLeft.Control = Panel1
+      AnchorSideTop.Control = Panel1
+      AnchorSideRight.Control = Panel1
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = lblHomePage
       Left = 8
       Height = 250
       Top = 8
-      Width = 389
+      Width = 396
       Anchors = [akTop, akLeft, akRight, akBottom]
+      BorderSpacing.Left = 8
+      BorderSpacing.Top = 8
+      BorderSpacing.Right = 8
+      BorderSpacing.Bottom = 8
       ReadOnly = True
       ScrollBars = ssAutoBoth
       TabOrder = 0
