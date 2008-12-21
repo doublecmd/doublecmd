@@ -10,6 +10,7 @@ uses
   //cwstring,
   {$ENDIF}
   Interfaces,
+  InterfaceBase,
   LCLProc,
   uGlobsPaths,
   uGlobs,
@@ -65,6 +66,8 @@ const
   dcVersion = '0.4 alpha';
   lazVersion = {$I version.inc};
   fpcVersion = {$I %FPCVERSION%};
+  TargetCPU = {$I %FPCTARGETCPU%};
+  TargetOS = {$I %FPCTARGETOS%};
 
 {$I revision.inc} // Lazarus revision number
 {$I dcrevision.inc} // Double Commander revision number
@@ -81,6 +84,7 @@ begin
   DebugLn('Build: ' + dcBuildDate);
   DebugLn('Lazarus: ' + lazVersion + '-' + RevisionStr);
   DebugLn('Free Pascal: ' + fpcVersion);
+  DebugLn('Platform: ' + TargetCPU + '-' + TargetOS + '-' + LCLPlatform[WidgetSet.LCLPlatform]);
   DebugLn('This program is free software released under terms of GNU GPL 2');
   DebugLn('(C)opyright 2006-2008 Koblov Alexander (Alexx2000@mail.ru)');
   DebugLn('   and contributors (see about dialog)');
@@ -90,6 +94,8 @@ begin
   fAbout.dcRevision:= dcRevision;
   fAbout.lazRevision:= RevisionStr;
   fAbout.fpcVersion:= fpcVersion;
+  fAbout.TargetCPU:= TargetCPU;
+  fAbout.TargetOS:= TargetOS;
 
   LoadPaths; // must be first
   if LoadGlobs then

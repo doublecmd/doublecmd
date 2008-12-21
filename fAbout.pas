@@ -59,7 +59,7 @@ type
 procedure ShowAboutBox;
 
 const
-  LCLPlatformDisplayNames: array[TLCLPlatform] of string = (
+  LCLPlatform: array[TLCLPlatform] of string = (
       'gtk1',
       'gtk2',
       'win32/win64',
@@ -76,7 +76,9 @@ var
   dcVersion,
   dcRevision,
   lazRevision,
-  fpcVersion: String;
+  fpcVersion,
+  TargetCPU,
+  TargetOS: String;
   
 implementation
 
@@ -164,7 +166,7 @@ begin
   lblBuild.Caption:= lblBuild.Caption+#32+dcBuildDate;
   lblLazarusVer.Caption:= lblLazarusVer.Caption+#32+lcl_version+'-'+lazRevision;
   lblFreePascalVer.Caption:= lblFreePascalVer.Caption+#32+fpcVersion;
-  lblPlatform.Caption:= {$I %FPCTARGETCPU%}+'-'+{$I %FPCTARGETOS%}+'-'+LCLPlatformDisplayNames[WidgetSet.LCLPlatform];
+  lblPlatform.Caption:= TargetCPU+'-'+TargetOS+'-'+LCLPlatform[WidgetSet.LCLPlatform];
 end;
 
 initialization
