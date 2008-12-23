@@ -164,7 +164,13 @@ begin
   end;
 
   if fPanel.FixedRows <> Integer(gTabHeader) then
-    fPanel.FixedRows:= Integer(gTabHeader);
+    begin
+      fPanel.FixedRows:= Integer(gTabHeader);
+      if gTabHeader then
+        fPanel.RowHeights[0]:= fPanel.Tag
+      else
+        fPanel.RowHeights[0]:= gIconsSize;
+    end;
 
   bAnyRow:=fPanel.Row>=0;
   fRefList.Clear;
