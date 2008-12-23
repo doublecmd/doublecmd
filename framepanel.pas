@@ -248,18 +248,16 @@ end;
 
 
 procedure TFrameFilePanel.Init;
-var
-  HeaderHeight: Integer;
 begin
   ClearCmdLine;
   UpDatelblInfo;
   FLastMark:= '*.*';
   FLastAutoSelect:= False;
   dgPanel.FixedRows:= Integer(gTabHeader);
-  HeaderHeight:= dgPanel.DefaultRowHeight;
+  dgPanel.Tag:= dgPanel.DefaultRowHeight;
   dgPanel.DefaultRowHeight:= gIconsSize;
   if gTabHeader then
-    dgPanel.RowHeights[0]:= HeaderHeight;
+    dgPanel.RowHeights[0]:= dgPanel.Tag;
   with FLastSelect do
   begin
     Left:= 0;
