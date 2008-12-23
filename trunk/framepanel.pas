@@ -37,10 +37,7 @@ type
   private
     procedure CMMouseEnter(var Message :TLMessage); message CM_MouseEnter;
     procedure CMMouseLeave(var Message :TLMessage); message CM_MouseLeave;
-    procedure UpdateColWidths;
   protected
-    procedure Resize; override;
-    procedure HeaderSized(IsColumn: Boolean; Index: Integer); override;
     procedure MouseMove(Shift: TShiftState; X,Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
   public
@@ -75,6 +72,7 @@ type
 //---------------------
     pnAltSearch: TPanel;
     edtSearch: TEdit;
+    procedure UpdateColCount(NewColCount: Integer);
     procedure SetColWidths;
     procedure edSearchChange(Sender: TObject);
     procedure edtPathKeyPress(Sender: TObject; var Key: Char);
@@ -250,13 +248,18 @@ end;
 
 
 procedure TFrameFilePanel.Init;
+var
+  HeaderHeight: Integer;
 begin
   ClearCmdLine;
   UpDatelblInfo;
   FLastMark:= '*.*';
   FLastAutoSelect:= False;
   dgPanel.FixedRows:= Integer(gTabHeader);
+  HeaderHeight:= dgPanel.DefaultRowHeight;
   dgPanel.DefaultRowHeight:= gIconsSize;
+  if gTabHeader then
+    dgPanel.RowHeights[0]:= HeaderHeight;
   with FLastSelect do
   begin
     Left:= 0;
@@ -503,23 +506,41 @@ begin
     end;
 end;
 
+procedure TFrameFilePanel.UpdateColCount(NewColCount: Integer);
+begin
+  while dgPanel.ColCount < NewColCount do
+    dgPanel.Columns.Add;
+  while dgPanel.ColCount > NewColCount do
+    dgPanel.Columns.Delete(0);
+end;
+
 procedure TFrameFilePanel.SetColWidths;
-var x:integer;
+var
+  x: Integer;
 begin
   //  setup column widths
   //slave Colm has prioritet
  if isSlave then
  begin
-   dgPanel.ColCount:=ActiveColmSlave.ColumnsCount;
+   UpdateColCount(ActiveColmSlave.ColumnsCount);
    if ActiveColmSlave.ColumnsCount>0 then
     for x:=0 to ActiveColmSlave.ColumnsCount-1 do
-      dgPanel.ColWidths[x]:=ActiveColmSlave.GetColumnWidth(x);
- end else
+      begin
+        dgPanel.Columns.Items[x].SizePriority:= 0;
+        dgPanel.ColWidths[x]:= ActiveColmSlave.GetColumnWidth(x);
+        dgPanel.Columns.Items[x].Title.Caption:= ActiveColmSlave.GetColumnTitle(x);
+      end;
+ end
+ else
  begin
-   dgPanel.ColCount:=ColSet.GetColumnSet(ActiveColm).ColumnsCount;
+   UpdateColCount(ColSet.GetColumnSet(ActiveColm).ColumnsCount);
    if ColSet.GetColumnSet(ActiveColm).ColumnsCount>0 then
      for x:=0 to ColSet.GetColumnSet(ActiveColm).ColumnsCount-1 do
-       dgPanel.ColWidths[x]:=ColSet.GetColumnSet(ActiveColm).GetColumnWidth(x);
+       begin
+         dgPanel.Columns.Items[x].SizePriority:= 0;
+         dgPanel.ColWidths[x]:= ColSet.GetColumnSet(ActiveColm).GetColumnWidth(x);
+         dgPanel.Columns.Items[x].Title.Caption:= ColSet.GetColumnSet(ActiveColm).GetColumnTitle(x);
+       end;
  end;
 end;
 
@@ -767,6 +788,7 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
         begin
           // Draw fixed header
           if not (ACol in [0..ActiveColmSlave.ColumnsCount-1]) then Exit;
+          iTextTop := Rect.Top + (dgPanel.RowHeights[0] div 2) - (dgPanel.Canvas.TextHeight('Pp') div 2);
           with dgPanel do
           begin
             tw := 0;
@@ -1179,7 +1201,8 @@ begin
   dgPanel.FixedRows:=0;
   dgPanel.DefaultDrawing:=True;
   dgPanel.Width:=Self.Width;
-
+  dgPanel.ColCount:= 0;
+  dgPanel.AutoFillColumns:= True;
 
 //  dgPanel.Height:=Self.Height - pnlHeader.Height - pnlFooter.Height;
 //  DebugLn(Self.Height - pnlHeader.Height - pnlFooter.Height);
@@ -1204,7 +1227,7 @@ begin
   pnAltSearch.Parent:=Self;
   pnAltSearch.Height:=20;
   pnAltSearch.Width:=185;
-  pnAltSearch.Caption:='Find:'; //localize
+  pnAltSearch.Caption:='Find:'; //TODO: localize
   pnAltSearch.Alignment:=taLeftJustify;
   
   edtSearch:=TEdit.Create(pnAltSearch);
@@ -1264,42 +1287,15 @@ end;
 
 procedure TDrawGridEx.CMMouseEnter(var Message: TLMessage);
 begin
+  inherited;
   DropRowIndex:= DG_MOUSE_ENTER; // indicate that mouse enter
 end;
 
 procedure TDrawGridEx.CMMouseLeave(var Message: TLMessage);
 begin
+  inherited;
   DropRowIndex:= DG_MOUSE_LEAVE; // indicate that mouse leave
   Invalidate;
-end;
-
-procedure TDrawGridEx.UpdateColWidths;
-var
-  I, iWidth: Integer;
-begin
-  if ColCount = 0 then Exit;
-  iWidth:= 0;
-  for I:= 0 to ColCount - 2 do
-    iWidth := iWidth + ColWidths[I];
-  ColWidths[ColCount-1]:= ClientWidth - iWidth;
-end;
-
-procedure TDrawGridEx.Resize;
-begin
-  inherited Resize;
-  if Visible and not (csLoading in ComponentState) then
-  begin
-    Include(ComponentState, csLoading);
-    UpdateColWidths;
-    Exclude(ComponentState, csLoading);
-  end;   
-end;
-
-procedure TDrawGridEx.HeaderSized(IsColumn: Boolean; Index: Integer);
-begin
-  if IsColumn then
-    UpdateColWidths;
-  inherited HeaderSized(IsColumn, Index);
 end;
 
 procedure TDrawGridEx.MouseMove(Shift: TShiftState; X, Y: Integer);
