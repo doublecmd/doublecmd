@@ -727,9 +727,10 @@ begin
   with pfr^ do
   begin
     sDir:= IfThen(sPath<>'', sPath, ActiveDir);
-    sCmd:=StringReplace(sCmd,'%f',ExtractFileName(sName),[rfReplaceAll]);
-    sCmd:=StringReplace(sCmd,'%d',sDir,[rfReplaceAll]);
-    sCmd:=Trim(StringReplace(sCmd,'%p',sDir+ExtractFileName(sName),[rfReplaceAll]));
+    sCmd:=StringReplace(sCmd,'%f',QuoteStr(ExtractFileName(sName)),[rfReplaceAll]);
+    sCmd:=StringReplace(sCmd,'%d',QuoteStr(sDir),[rfReplaceAll]);
+    sCmd:=StringReplace(sCmd,'%p',QuoteStr(sDir+ExtractFileName(sName)),[rfReplaceAll]);
+    sCmd:=Trim(sCmd);
     // get output from command between '<?' and '?>'
     if Pos('<?', sCmd) <> 0 then
       begin
@@ -761,14 +762,14 @@ begin
   if Pos('{!EDITOR}',sCmd) > 0 then
   begin
     sCmd:= Trim(StringReplace(sCmd,'{!EDITOR}','',[rfReplaceAll]));
-    uShowForm.ShowEditorByGlob(sCmd);
+    uShowForm.ShowEditorByGlob(RemoveQuotation(sCmd));
     Result:= True;
     Exit;
   end;
   if Pos('{!VIEWER}',sCmd) > 0 then
   begin
     sCmd:= Trim(StringReplace(sCmd,'{!VIEWER}','',[rfReplaceAll]));
-    uShowForm.ShowViewerByGlob(sCmd);
+    uShowForm.ShowViewerByGlob(RemoveQuotation(sCmd));
     Result:= True;
     Exit;
   end;
