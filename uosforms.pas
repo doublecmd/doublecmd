@@ -86,7 +86,7 @@ function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boo
 implementation
 
 uses
-  LCLProc, fMain, uVFSutil, uOSUtils, uExts, uGlobs, uLng;
+  LCLProc, fMain, uVFSutil, uOSUtils, uExts, uGlobs, uLng, uDCUtils;
 
 var
 {$IFDEF MSWINDOWS}
@@ -304,7 +304,7 @@ begin
                 if pos('VIEW=',sCmd)>0 then Continue;  // view command is only for viewer
                 frmMain.ActiveFrame.pnlFile.ReplaceExtCommand(sCmd, @fri);
                 
-                //mi.Hint:=Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
+                sCmd:= RemoveQuotation(sCmd);
                 InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 0, I + $1000, MFT_STRING);
               end;
           end;
@@ -463,7 +463,7 @@ begin
                 if pos('VIEW=',sCmd)>0 then Continue;  // view command is only for viewer
                 frmMain.ActiveFrame.pnlFile.ReplaceExtCommand(sCmd, @fri);
                 mi:=TMenuItem.Create(miActions);
-                mi.Caption:=sCmd;
+                mi.Caption:=RemoveQuotation(sCmd);
                 mi.Hint:=Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
                 // length is bad, but in Copy is corrected
                 mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
