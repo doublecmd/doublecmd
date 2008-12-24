@@ -281,6 +281,7 @@ begin
           sParams := '';
         end;
     end;
+  sParams:= RemoveQuotation(sParams);
   Result := (sCmd <>'');
 end;
 
@@ -464,10 +465,10 @@ var
 begin
   Result := Str;
   if Length(Result) < 2 then Exit;
-  b := True;
+  {b := True;
   for I := 2 to Length(Result) do
     if (Result[I] in QuotationCharacters) and (Result[I - 1] <> ShieldChar) then b := False;
-  if b then for I := Length(Result) downto 2 do
+  if b then} for I := Length(Result) downto 2 do
     if (Result[I] in QuotationCharacters) and (Result[I - 1] = ShieldChar) then Delete(Result, I - 1, 1);
 end;
 
@@ -506,7 +507,7 @@ begin
              TrimQuotes(s);
              Start := I;
              if s = '' then Continue;
-             if (Pos('"', s) > 1) and (Pos('"', s) < Length(s)) and (NumCountChars('"', s) mod 2 = 1) then s := s + '"';
+//             if (Pos('"', s) > 1) and (Pos('"', s) < Length(s)) and (NumCountChars('"', s) mod 2 = 1) then s := s + '"';
 //             if (Pos('''', s) > 1) and (Pos('''', s) < Length(s)) and (NumCountChars('''', s) mod 2 = 1) then s := s + '''';
              SetLength(Args, Length(Args) + 1);
              Args[Length(Args) - 1] := s;

@@ -29,21 +29,21 @@ type
     procedure Execute; override;
   end;
 
-Function ShowEditorByGlob(const sFileName:String):Boolean;
-Function ShowViewerByGlob(const sFileName:String):Boolean;
+Function ShowEditorByGlob(sFileName:String):Boolean;
+Function ShowViewerByGlob(sFileName:String):Boolean;
 Function ShowViewerByGlobList(list:TStringList; bDeleteAfterView : Boolean = False):Boolean;
 
 
 implementation
 uses
-  SysUtils, Process, LCLProc,
-  uGlobs, uOSUtils, fEditor, fViewer;
+  SysUtils, Process, LCLProc, uGlobs, uOSUtils, fEditor, fViewer, uDCUtils;
 
 const
   sCmdLine = '"%s" "%s"';
 
-function ShowEditorByGlob(const sFileName:String):Boolean;
+function ShowEditorByGlob(sFileName:String):Boolean;
 begin
+  TrimQuotes(sFileName);
   if gUseExtEdit then
     ExecCmdFork(Format(sCmdLine, [gExtEdit, sFileName]))
   else
@@ -51,10 +51,11 @@ begin
   Result:=True;   
 end;
 
-function ShowViewerByGlob(const sFileName:String):Boolean;
+function ShowViewerByGlob(sFileName:String):Boolean;
 var
   sl:TStringList;
 begin
+  TrimQuotes(sFileName);
   if gUseExtView then
     ExecCmdFork(Format(sCmdLine, [gExtView, sFileName]))
   else
