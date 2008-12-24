@@ -2382,14 +2382,14 @@ object frmOptions: TfrmOptions
       end
       object pgColumns: TPage
         ClientWidth = 620
-        ClientHeight = 524
+        ClientHeight = 506
         object lblConfigColumns: TLabel
           AnchorSideTop.Control = cbbFileSystem
           AnchorSideTop.Side = asrCenter
           Left = 7
-          Height = 16
-          Top = 2
-          Width = 183
+          Height = 14
+          Top = 3
+          Width = 164
           Caption = 'Configure columns for file system:'
           ParentColor = False
         end
@@ -2398,11 +2398,12 @@ object frmOptions: TfrmOptions
           AnchorSideLeft.Side = asrBottom
           AnchorSideRight.Control = pgColumns
           AnchorSideRight.Side = asrBottom
-          Left = 194
+          Left = 175
           Height = 21
-          Width = 414
+          Width = 439
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 4
+          BorderSpacing.Right = 6
           ItemHeight = 13
           ItemIndex = 0
           Items.Strings = (
@@ -2414,30 +2415,37 @@ object frmOptions: TfrmOptions
           Text = 'General'
         end
         object lstColumnsSets: TListBox
+          AnchorSideLeft.Control = pgColumns
           AnchorSideTop.Control = cbbFileSystem
           AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = pgColumns
+          AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = pnlButtons
-          Left = 7
-          Height = 530
+          Left = 6
+          Height = 421
           Top = 27
-          Width = 798
+          Width = 608
           Anchors = [akTop, akLeft, akRight, akBottom]
+          BorderSpacing.Left = 6
           BorderSpacing.Top = 6
+          BorderSpacing.Right = 6
           BorderSpacing.Bottom = 6
           TabOrder = 1
-          TopIndex = -1
         end
         object pnlButtons: TPanel
+          AnchorSideRight.Control = pgColumns
+          AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = pgColumns
           AnchorSideBottom.Side = asrBottom
           Left = 7
           Height = 46
           Top = 454
-          Width = 798
+          Width = 607
           Anchors = [akLeft, akRight, akBottom]
+          BorderSpacing.Right = 6
           BorderSpacing.Bottom = 6
           ClientHeight = 46
-          ClientWidth = 798
+          ClientWidth = 607
           TabOrder = 2
           object btnNewColumnsSet: TButton
             AnchorSideLeft.Control = pnlButtons
@@ -2464,7 +2472,7 @@ object frmOptions: TfrmOptions
           end
           object btnDelColumnsSet: TButton
             AnchorSideRight.Control = btnCopyColumnsSet
-            Left = 563
+            Left = 372
             Height = 32
             Top = 7
             Width = 112
@@ -2477,7 +2485,7 @@ object frmOptions: TfrmOptions
           object btnCopyColumnsSet: TButton
             AnchorSideRight.Control = pnlButtons
             AnchorSideRight.Side = asrBottom
-            Left = 681
+            Left = 490
             Height = 32
             Top = 7
             Width = 111
