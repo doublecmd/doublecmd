@@ -2428,11 +2428,14 @@ object frmOptions: TfrmOptions
           TopIndex = -1
         end
         object pnlButtons: TPanel
+          AnchorSideBottom.Control = pgColumns
+          AnchorSideBottom.Side = asrBottom
           Left = 7
           Height = 46
-          Top = 563
+          Top = 454
           Width = 798
           Anchors = [akLeft, akRight, akBottom]
+          BorderSpacing.Bottom = 6
           ClientHeight = 46
           ClientWidth = 798
           TabOrder = 2
