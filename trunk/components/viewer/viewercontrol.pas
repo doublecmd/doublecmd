@@ -749,7 +749,7 @@ begin
 
     Canvas.FillRect(Types.Rect(x+(iBegDrawIndex-pBegLine)*FTextWidth, y, x+(iEndDrawIndex-pBegLine)*FTextWidth, y+FTextHeight));
 //   Canvas.Font.Color:=clRed; // test
-    Canvas.Font.Color:=clHighlight;
+    Canvas.Font.Color:=clHighlightText;
 //    Canvas.TextRect(ARect, x+(iBegDrawIndex-pBegLine-1)*FTextWidth, y,UTF8Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex+1));!!!
     Canvas.TextOut(x+(iBegDrawIndex-pBegLine)*FTextWidth, y,UTF8Copy(sText,iBegDrawIndex-pBegLine+1,iEndDrawIndex-iBegDrawIndex+1));
   end
@@ -757,7 +757,7 @@ begin
   begin
     Canvas.FillRect(Types.Rect(x+(iBegDrawIndex-pBegLine)*FTextWidth, y, x+(iEndDrawIndex-pBegLine)*FTextWidth, y+FTextHeight));
 //    Canvas.Font.Color:=clMaroon; // test
-    Canvas.Font.Color:=clHighlight;
+    Canvas.Font.Color:=clHighlightText;
 //    Canvas.TextRect(ARect, x+(iBegDrawIndex-pBegLine)*FTextWidth, y,UTF8Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex));
     Canvas.TextOut(x+(iBegDrawIndex-pBegLine)*FTextWidth, y,UTF8Copy(sText,iBegDrawIndex-pBegLine,iEndDrawIndex-iBegDrawIndex));
   end;
