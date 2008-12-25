@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-12-13 23:42+0300\n"
+"PO-Revision-Date: 2008-12-25 23:47+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1181,6 +1181,10 @@ msgstr "Посетить сайт Double Commander"
 #: TFRMMAIN.ACTWIPE.CAPTION
 msgid "Wipe"
 msgstr "Стереть"
+
+#: TFRMMAIN.BTNF9.CAPTION
+msgid "Terminal F9"
+msgstr "Терминал F9"
 
 #: TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION"
@@ -3034,6 +3038,10 @@ msgstr "Построчно с движением курсора"
 msgctxt "ulng.rsoptlog"
 msgid "Log"
 msgstr "Протокол"
+
+#: ulng.rsoptmouseselectionbutton
+msgid "Left button;Right button;"
+msgstr "Левая клавиша;Правая клавиша;"
 
 #: ulng.rsoptpagebypage
 msgid "Page by page"

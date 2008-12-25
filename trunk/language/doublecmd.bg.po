@@ -1183,6 +1183,10 @@ msgstr ""
 msgid "Wipe"
 msgstr "Унищожаване"
 
+#: TFRMMAIN.BTNF9.CAPTION
+msgid "Terminal F9"
+msgstr ""
+
 #: TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION"
 msgid "*"
@@ -3035,6 +3039,10 @@ msgstr "Ред по ред с движение на показалеца"
 msgctxt "ulng.rsoptlog"
 msgid "Log"
 msgstr "Дневник"
+
+#: ulng.rsoptmouseselectionbutton
+msgid "Left button;Right button;"
+msgstr ""
 
 #: ulng.rsoptpagebypage
 msgid "Page by page"
