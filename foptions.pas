@@ -356,6 +356,8 @@ procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
   // Resize window for screen size if need
   ResizeToScreen(Self);
+  // Localize Mouse selection mode ComboBox
+  ParseLineToList(rsOptMouseSelectionButton, cbMouseMode.Items);
   // Scrolling radio group localization
   with rgScrolling do
     begin

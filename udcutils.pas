@@ -137,6 +137,8 @@ function RemoveQuotation(const Str: String): String;
 }
 procedure SplitArgs(var Args: TOpenStringArray; CmdLine: String);
 
+procedure ParseLineToList(sLine: String; var ssItems: TStrings);
+
 implementation
 uses
    uOSUtils, uGlobs, uGlobsPaths, uVFSUtil;
@@ -518,6 +520,19 @@ begin
     Args[Length(Args) - 1] := Trim(Copy(CMDLine, Start, Length(CmdLine) + 1 - Start));
     TrimQuotes(Args[Length(Args) - 1]);
   end;
+end;
+
+procedure ParseLineToList(sLine: String; var ssItems: TStrings);
+var
+  I: Integer;
+  xPos: Integer;
+begin
+  for I:= 0 to ssItems.Count - 1 do
+    begin
+      xPos:= Pos(';', sLine);
+      ssItems[I]:= Copy(sLine, 1, xPos - 1);
+      Delete(sLine, 1, xPos);
+    end;
 end;
 
 end.

@@ -228,7 +228,7 @@ begin
       AddHotKey('F6','cm_Rename','','FrmMain','FrmMain');
       AddHotKey('F7','cm_MakeDir','','FrmMain','FrmMain');
       AddHotKey('F1','cm_About','','FrmMain','FrmMain');
-      AddHotKey('F9','cm_ShowMenu','','FrmMain','FrmMain');
+      AddHotKey('F9','cm_RunTerm','','FrmMain','FrmMain');
       AddHotKey('Ctrl+R','cm_Refresh','','FrmMain','FrmMain');
       AddHotKey('Alt+F7','cm_Search','','FrmMain','FrmMain');
       AddHotKey('Ctrl+D','cm_DirHotList','','FrmMain','FrmMain');
@@ -242,7 +242,6 @@ begin
       AddHotKey('Shift+F4','cm_EditNew','','FrmMain','FrmMain');
       AddHotKey('Ctrl+H','cm_DirHistory','','FrmMain','FrmMain');
       AddHotKey('Ctrl+7','cm_ShowCmdLineHistory','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+X','cm_RunTerm','','FrmMain','FrmMain');
       AddHotKey('Ctrl+L','cm_CalculateSpace','','FrmMain','FrmMain');
       AddHotKey('Alt+Enter','cm_FileProperties','','FrmMain','FrmMain');
       AddHotKey('Ctrl+T','cm_NewTab','','FrmMain','FrmMain');

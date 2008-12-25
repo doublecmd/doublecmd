@@ -115,7 +115,7 @@ type
 implementation
 
 uses
-  uLng, uFileProcs, uOSUtils;
+  uLng, uFileProcs, uDCUtils, uOSUtils;
 
 function ShowMultiRenameForm(Var lsInFiles: TStringList):Boolean;
 var
@@ -142,19 +142,9 @@ begin
 end;
 
 procedure TfrmMultiRename.FormCreate(Sender: TObject);
-var
-  I: Integer;
-  s: String;
-  xPos: Integer;
 begin
   // Localize File name style ComboBox
-  s:= rsMulRenFileNameStyleList;
-  for I:= 0 to cmbxFont.Items.Count - 1 do
-  begin
-    xPos:= Pos(';',s);
-    cmbxFont.Items[I]:= Copy(s,1,xPos - 1);
-    Delete(s,1,xPos);
-  end;
+  ParseLineToList(rsMulRenFileNameStyleList, cmbxFont.Items);
 end;
 
 procedure TfrmMultiRename.FreshText;
