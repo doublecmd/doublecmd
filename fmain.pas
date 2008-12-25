@@ -1989,7 +1989,7 @@ begin
     edtRename.Visible:=True;
     if gRenameSelOnlyName then
       begin
-        edtRename.SelStart:=1;
+        edtRename.SelStart:=0;
         edtRename.SelLength:=length(edtRename.Text)-length(ExtractFileExt(edtRename.Text));
       end
     else
