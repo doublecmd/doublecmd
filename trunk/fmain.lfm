@@ -476,7 +476,8 @@ object frmMain: TfrmMain
       Height = 23
       Top = 1
       Width = 89
-      Action = actShowMenu
+      Action = actRunTerm
+      Caption = 'Terminal F9'
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0

@@ -611,6 +611,10 @@ ulng.rsoptenable='Enable'
 ulng.rsoptdisable='Disable'
 
 
+# hash value = 255732923
+ulng.rsoptmouseselectionbutton='Left button;Right button;'
+
+
 # hash value = 10938131
 ulng.rsmenuconfigurecustomcolumns='Configure custom columns'
 

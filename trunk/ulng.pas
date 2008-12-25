@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Localization core unit
 
-   Copyright (C) 2007  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2008  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -202,6 +202,7 @@ resourcestring
   rsOptAssocPluginWith = 'Associate plugin "%s" with:';
   rsOptEnable = 'Enable';
   rsOptDisable = 'Disable';
+  rsOptMouseSelectionButton = 'Left button;Right button;';
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';
   rsMenuConfigureThisCustomColumn= 'Configure this custom columns view';
@@ -212,8 +213,8 @@ procedure DoLoadLng;
 
 implementation
 uses
-  Classes, SysUtils, GetText, Translations, uGlobs, uGlobsPaths, uTranslator,
-  LCLProc, uFileProcs, uOSUtils;
+  Classes, SysUtils, StrUtils, GetText, Translations, uGlobs, uGlobsPaths, uTranslator,
+  LCLProc, uFileProcs, uDCUtils, uOSUtils;
 
 function GetLanguageName(poFileName : String) : String;
 var
@@ -245,6 +246,28 @@ begin
   Result := 'Language name not found';
 end;
 
+procedure TranslateLCL(poFileName: String);
+var
+  UserLang, LCLLngDir: String;
+  Lang, FallbackLang: String;
+begin
+  LCLLngDir:= gpLngDir + PathDelim + 'lcl' + PathDelim;
+  if NumCountChars('.', poFileName) >= 2 then
+    begin
+      UserLang:= ExtractDelimited(2, poFileName, ['.']);
+      poFileName:= LCLLngDir + Format('lclstrconsts.%s.po', [UserLang]);
+      if not mbFileExists(poFileName) then
+        begin
+          GetLanguageIDs(Lang,FallbackLang);
+          poFileName:= LCLLngDir + Format('lclstrconsts.%s.po', [Lang]);
+        end;
+      if not mbFileExists(poFileName) then
+        poFileName:= LCLLngDir + Format('lclstrconsts.%s.po', [FallbackLang]);
+      if mbFileExists(poFileName) then
+          Translations.TranslateUnitResourceStrings('LCLStrConsts', poFileName);
+    end;
+end;
+
 procedure lngLoadLng(const sFileName:String);
 var
   Lang, FallbackLang : String;
@@ -267,6 +290,7 @@ begin
     end;
   if mbFileExists(gpLngDir + gPOFileName) then
     begin
+      TranslateLCL(gPOFileName);
       Translations.TranslateUnitResourceStrings('uLng', gpLngDir + gPOFileName);
       LRSTranslator := TTranslator.Create(gpLngDir + gPOFileName);
     end;
