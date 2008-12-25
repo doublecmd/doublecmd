@@ -1183,6 +1183,10 @@ msgstr ""
 msgid "Wipe"
 msgstr ""
 
+#: TFRMMAIN.BTNF9.CAPTION
+msgid "Terminal F9"
+msgstr ""
+
 #: TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION"
 msgid "*"
@@ -3034,6 +3038,10 @@ msgstr ""
 #: ulng.rsoptlog
 msgctxt "ulng.rsoptlog"
 msgid "Log"
+msgstr ""
+
+#: ulng.rsoptmouseselectionbutton
+msgid "Left button;Right button;"
 msgstr ""
 
 #: ulng.rsoptpagebypage
