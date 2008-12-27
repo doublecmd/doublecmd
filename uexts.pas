@@ -447,7 +447,7 @@ begin
       if Extensions.IndexOf(sExt) >= 0 then
       begin
         Result:=Actions.Values[UpperCase(sActionName)];
-        Break;
+        Exit;
       end;
     end;
   // if command not found then try to find default command
