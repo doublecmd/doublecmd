@@ -583,6 +583,10 @@ ulng.rsoptquicksearch='Quick search'
 ulng.rsoptcolumns='Columns'
 
 
+# hash value = 109918787
+ulng.rsoptmiscellaneous='Miscellaneous'
+
+
 # hash value = 158773252
 ulng.rsoptlinebylinecursor='Line by line with cursor movement'
 

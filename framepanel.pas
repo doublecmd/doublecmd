@@ -51,6 +51,8 @@ type
 
   TFrameFilePanel = class (TWinControl)
   private
+    fGridVertLine,
+    fGridHorzLine,
     fSearchDirect,
     fNext,
     fPrevious : Boolean;
@@ -111,6 +113,8 @@ type
     FLastSelect:TGridRect;
     FLastAutoSelect: Boolean;
     FLastSelectionStartRow: Integer;
+    procedure SetGridHorzLine(const AValue: Boolean);
+    procedure SetGridVertLine(const AValue: Boolean);
   protected
 
   public
@@ -146,6 +150,8 @@ type
     procedure RedrawGrid;
     function GetActiveItem:PFileRecItem;
     property ActiveDir:String read GetActiveDir;
+    property GridVertLine: Boolean read fGridVertLine write SetGridVertLine;
+    property GridHorzLine: Boolean read fGridHorzLine write SetGridHorzLine;
   end;
 
 implementation
@@ -1143,6 +1149,22 @@ end;
 procedure TFrameFilePanel.pnlHeaderResize(Sender: TObject);
 begin
   lblLPath.Width:=pnlHeader.Width - 4;
+end;
+
+procedure TFrameFilePanel.SetGridHorzLine(const AValue: Boolean);
+begin
+  if AValue then
+    Include(dgPanel.Options, goHorzLine)
+  else
+    Exclude(dgPanel.Options, goHorzLine);
+end;
+
+procedure TFrameFilePanel.SetGridVertLine(const AValue: Boolean);
+begin
+  if AValue then
+    Include(dgPanel.Options, goVertLine)
+  else
+    Exclude(dgPanel.Options, goVertLine);
 end;
 
 constructor TFrameFilePanel.Create(AOwner : TWinControl; lblDriveInfo : TLabel; lblCommandPath:TLabel; cmbCommand:TComboBox);

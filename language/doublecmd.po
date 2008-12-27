@@ -1812,6 +1812,14 @@ msgctxt "TFRMOPTIONS.CBFLATTOOLBAR.CAPTION"
 msgid "Flat buttons"
 msgstr ""
 
+#: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
+msgid "Horizontal lines"
+msgstr ""
+
+#: TFRMOPTIONS.CBGRIDVERTLINE.CAPTION
+msgid "Vertical lines"
+msgstr ""
+
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr ""
@@ -1921,6 +1929,10 @@ msgstr ""
 msgid "Sho&w folder tabs"
 msgstr ""
 
+#: TFRMOPTIONS.CBSHOWWARNINGMESSAGES.CAPTION
+msgid "Show warning messages (\"OK\" button only)"
+msgstr ""
+
 #: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION
 msgid "&Show tab header also when there is only one tab"
 msgstr ""
@@ -2011,6 +2023,10 @@ msgstr ""
 
 #: TFRMOPTIONS.GBSCREENLAYOUT.CAPTION
 msgid " Screen layout "
+msgstr ""
+
+#: TFRMOPTIONS.GBSHOWGRID.CAPTION
+msgid "Show grid in file panel"
 msgstr ""
 
 #: TFRMOPTIONS.GBTABS.CAPTION
@@ -3038,6 +3054,10 @@ msgstr ""
 #: ulng.rsoptlog
 msgctxt "ulng.rsoptlog"
 msgid "Log"
+msgstr ""
+
+#: ulng.rsoptmiscellaneous
+msgid "Miscellaneous"
 msgstr ""
 
 #: ulng.rsoptmouseselectionbutton

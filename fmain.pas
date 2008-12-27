@@ -2478,6 +2478,8 @@ begin
       GetDir(0, sPath);
     pnlFile.ActiveDir := sPath;
     pnlFile.LoadPanel;
+    GridVertLine:= gGridVertLine;
+    GridHorzLine:= gGridHorzLine;
     UpDatelblInfo;
     dgPanel.Color := gBackColor;
     pnlHeader.Visible := gCurDir;
@@ -2797,6 +2799,8 @@ begin
     begin
       pnlHeader.Visible := gCurDir;  // Current directory
       pnlFooter.Visible := gStatusBar;  // Status bar
+      GridVertLine:= gGridVertLine;
+      GridHorzLine:= gGridHorzLine;
       if gShowIcons then
         pnlFile.FileList.UpdateFileInformation(pnlFile.PanelMode);
       pnlFile.UpdatePanel;
@@ -2807,6 +2811,8 @@ begin
     begin
       pnlHeader.Visible := gCurDir;  // Current directory
       pnlFooter.Visible := gStatusBar;  // Status bar
+      GridVertLine:= gGridVertLine;
+      GridHorzLine:= gGridHorzLine;
       if gShowIcons then
         pnlFile.FileList.UpdateFileInformation(pnlFile.PanelMode);
       pnlFile.UpdatePanel;

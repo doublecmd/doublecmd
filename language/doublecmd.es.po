@@ -1812,6 +1812,14 @@ msgctxt "TFRMOPTIONS.CBFLATTOOLBAR.CAPTION"
 msgid "Flat buttons"
 msgstr "Botones planos"
 
+#: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
+msgid "Horizontal lines"
+msgstr ""
+
+#: TFRMOPTIONS.CBGRIDVERTLINE.CAPTION
+msgid "Vertical lines"
+msgstr ""
+
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr "16x16"
@@ -1921,6 +1929,10 @@ msgstr "Mostrar saltos de tabulación"
 msgid "Sho&w folder tabs"
 msgstr "Mostrar &pestañas de carpetas"
 
+#: TFRMOPTIONS.CBSHOWWARNINGMESSAGES.CAPTION
+msgid "Show warning messages (\"OK\" button only)"
+msgstr ""
+
 #: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION
 msgid "&Show tab header also when there is only one tab"
 msgstr "&Mostrar pestañas también si hay sólo una"
@@ -2012,6 +2024,10 @@ msgstr "Guardar al salir"
 #: TFRMOPTIONS.GBSCREENLAYOUT.CAPTION
 msgid " Screen layout "
 msgstr " Distribución de pantalla"
+
+#: TFRMOPTIONS.GBSHOWGRID.CAPTION
+msgid "Show grid in file panel"
+msgstr ""
 
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
@@ -3039,6 +3055,10 @@ msgstr "Línea a línea con movimiento de cursor"
 msgctxt "ulng.rsoptlog"
 msgid "Log"
 msgstr "Registro"
+
+#: ulng.rsoptmiscellaneous
+msgid "Miscellaneous"
+msgstr ""
 
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"
