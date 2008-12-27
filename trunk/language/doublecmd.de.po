@@ -1812,6 +1812,14 @@ msgctxt "TFRMOPTIONS.CBFLATTOOLBAR.CAPTION"
 msgid "Flat buttons"
 msgstr "Flache Schalter"
 
+#: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
+msgid "Horizontal lines"
+msgstr ""
+
+#: TFRMOPTIONS.CBGRIDVERTLINE.CAPTION
+msgid "Vertical lines"
+msgstr ""
+
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr "16x16"
@@ -1921,6 +1929,10 @@ msgstr "Zeige Tabstop-Zeile"
 msgid "Sho&w folder tabs"
 msgstr "&Zeige Ordnerreiter"
 
+#: TFRMOPTIONS.CBSHOWWARNINGMESSAGES.CAPTION
+msgid "Show warning messages (\"OK\" button only)"
+msgstr ""
+
 #: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION
 msgid "&Show tab header also when there is only one tab"
 msgstr "&Reiter-Titel auch zeigen wenn nur einer vorhanden"
@@ -2012,6 +2024,10 @@ msgstr "Beim Beenden speichern"
 #: TFRMOPTIONS.GBSCREENLAYOUT.CAPTION
 msgid " Screen layout "
 msgstr "Layout"
+
+#: TFRMOPTIONS.GBSHOWGRID.CAPTION
+msgid "Show grid in file panel"
+msgstr ""
 
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
@@ -3039,6 +3055,10 @@ msgstr "Zeile für Zeile beim Navigieren mit Cursor-Taste"
 msgctxt "ulng.rsoptlog"
 msgid "Log"
 msgstr "Log"
+
+#: ulng.rsoptmiscellaneous
+msgid "Miscellaneous"
+msgstr ""
 
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"

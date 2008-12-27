@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-12-25 23:47+0300\n"
+"PO-Revision-Date: 2008-12-27 13:50+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1811,6 +1811,14 @@ msgctxt "TFRMOPTIONS.CBFLATTOOLBAR.CAPTION"
 msgid "Flat buttons"
 msgstr "Плоские"
 
+#: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
+msgid "Horizontal lines"
+msgstr "Горизонтальные линии"
+
+#: TFRMOPTIONS.CBGRIDVERTLINE.CAPTION
+msgid "Vertical lines"
+msgstr "Вертикальные линии"
+
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr ""
@@ -1920,6 +1928,10 @@ msgstr "&Заголовки табуляторов"
 msgid "Sho&w folder tabs"
 msgstr "Вкл&адки папок"
 
+#: TFRMOPTIONS.CBSHOWWARNINGMESSAGES.CAPTION
+msgid "Show warning messages (\"OK\" button only)"
+msgstr "Показывать не критические сообщения об ошибках (с одной кнопкой \"ОК\")"
+
 #: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION
 msgid "&Show tab header also when there is only one tab"
 msgstr "Показывать заголовок вкладки, даже если она одна"
@@ -2011,6 +2023,10 @@ msgstr "Сохранять при выходе"
 #: TFRMOPTIONS.GBSCREENLAYOUT.CAPTION
 msgid " Screen layout "
 msgstr " Компоненты основного окна "
+
+#: TFRMOPTIONS.GBSHOWGRID.CAPTION
+msgid "Show grid in file panel"
+msgstr "Показывать сетку в файловой панели"
 
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
@@ -3038,6 +3054,10 @@ msgstr "Построчно с движением курсора"
 msgctxt "ulng.rsoptlog"
 msgid "Log"
 msgstr "Протокол"
+
+#: ulng.rsoptmiscellaneous
+msgid "Miscellaneous"
+msgstr "Разное"
 
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"

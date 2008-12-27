@@ -1811,6 +1811,14 @@ msgctxt "TFRMOPTIONS.CBFLATTOOLBAR.CAPTION"
 msgid "Flat buttons"
 msgstr "Плоскі"
 
+#: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
+msgid "Horizontal lines"
+msgstr ""
+
+#: TFRMOPTIONS.CBGRIDVERTLINE.CAPTION
+msgid "Vertical lines"
+msgstr ""
+
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr ""
@@ -1920,6 +1928,10 @@ msgstr "&Заголовки табуляторів"
 msgid "Sho&w folder tabs"
 msgstr "Вкл&адки папок"
 
+#: TFRMOPTIONS.CBSHOWWARNINGMESSAGES.CAPTION
+msgid "Show warning messages (\"OK\" button only)"
+msgstr ""
+
 #: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION
 msgid "&Show tab header also when there is only one tab"
 msgstr "Показувати заголовок вкладки, навіть якщо вона одна"
@@ -2011,6 +2023,10 @@ msgstr "Зберігати при виході"
 #: TFRMOPTIONS.GBSCREENLAYOUT.CAPTION
 msgid " Screen layout "
 msgstr " Компоненти основного вікна "
+
+#: TFRMOPTIONS.GBSHOWGRID.CAPTION
+msgid "Show grid in file panel"
+msgstr ""
 
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
@@ -3038,6 +3054,10 @@ msgstr "По рядках з рухом курсора"
 msgctxt "ulng.rsoptlog"
 msgid "Log"
 msgstr "Протокол"
+
+#: ulng.rsoptmiscellaneous
+msgid "Miscellaneous"
+msgstr ""
 
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"

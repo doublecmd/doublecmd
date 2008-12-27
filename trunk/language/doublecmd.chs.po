@@ -1812,6 +1812,14 @@ msgctxt "TFRMOPTIONS.CBFLATTOOLBAR.CAPTION"
 msgid "Flat buttons"
 msgstr "扁平按钮"
 
+#: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
+msgid "Horizontal lines"
+msgstr ""
+
+#: TFRMOPTIONS.CBGRIDVERTLINE.CAPTION
+msgid "Vertical lines"
+msgstr ""
+
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr "16x16"
@@ -1921,6 +1929,10 @@ msgstr "显示标签页头"
 msgid "Sho&w folder tabs"
 msgstr "显示文件夹标签页(&W)"
 
+#: TFRMOPTIONS.CBSHOWWARNINGMESSAGES.CAPTION
+msgid "Show warning messages (\"OK\" button only)"
+msgstr ""
+
 #: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION
 msgid "&Show tab header also when there is only one tab"
 msgstr "总是显示标签页"
@@ -2012,6 +2024,10 @@ msgstr "保存并退出"
 #: TFRMOPTIONS.GBSCREENLAYOUT.CAPTION
 msgid " Screen layout "
 msgstr "屏幕布局"
+
+#: TFRMOPTIONS.GBSHOWGRID.CAPTION
+msgid "Show grid in file panel"
+msgstr ""
 
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
@@ -3039,6 +3055,10 @@ msgstr "一行行移动"
 msgctxt "ulng.rsoptlog"
 msgid "Log"
 msgstr "日志"
+
+#: ulng.rsoptmiscellaneous
+msgid "Miscellaneous"
+msgstr ""
 
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"

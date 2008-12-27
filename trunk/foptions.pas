@@ -109,6 +109,9 @@ type
     cbTabsConfirmCloseAll: TCheckBox;
     cbTabsLockedAsterisk: TCheckBox;
     cbTermWindow: TCheckBox;
+    cbGridVertLine: TCheckBox;
+    cbGridHorzLine: TCheckBox;
+    cbShowWarningMessages: TCheckBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
@@ -160,6 +163,8 @@ type
     gbSaveOnExit: TGroupBox;
     gbMisc3: TGroupBox;
     gbMisc4: TGroupBox;
+    gbShowGrid: TGroupBox;
+    gbExtended: TGroupBox;
     ledDriveBlackList: TLabeledEdit;
     lblDSXDescription: TLabel;
     lblWLXDescription: TLabel;
@@ -176,6 +181,7 @@ type
     lbxCategories: TListBox;
     lbxCommands: TListBox;
     lstColumnsSets: TListBox;
+    pgMisc: TPage;
     pnlButtons: TPanel;
     pgColumns: TPage;
     rgScrolling: TRadioGroup;
@@ -384,6 +390,7 @@ begin
       Item[13].Text := rsOptConfig;
       Item[14].Text := rsOptQuickSearch;
       Item[15].Text := rsOptColumns;
+      Item[16].Text := rsOptMiscellaneous;
     end;
   tvTreeView.Items.Item[0].Selected:= True;
 
@@ -1540,7 +1547,7 @@ end;
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
 begin
   //DebugLN('Page index == ' + IntToStr(Node.Index));
-  if tvTreeView.Selected.ImageIndex = 15 then // special for "Colors" item
+  if tvTreeView.Selected.ImageIndex = 16 then // special for "Colors" item
     begin
       nbNotebook.PageIndex := 4;
       pnlCaption.Caption := tvTreeView.Items.Item[5].Text;
@@ -1677,7 +1684,10 @@ begin
 
   cbExactBeginning.Checked := gQuickSearchMatchBeginning;
   cbExactEnding.Checked := gQuickSearchMatchEnding;
-
+  { Misc page }
+  cbGridVertLine.Checked:= gGridVertLine;
+  cbGridHorzLine.Checked:= gGridHorzLine;
+  cbShowWarningMessages.Checked:= gShowWarningMessages;
   { Icons sizes in file panels }
   cbIconsSize.Text := IntToStr(gNewIconsSize) + 'x' + IntToStr(gNewIconsSize);
 
@@ -1831,6 +1841,11 @@ begin
 
   gQuickSearchMatchBeginning := cbExactBeginning.Checked;
   gQuickSearchMatchEnding := cbExactEnding.Checked;
+
+  { Misc page }
+  gGridVertLine:= cbGridVertLine.Checked;
+  gGridHorzLine:= cbGridHorzLine.Checked;
+  gShowWarningMessages:= cbShowWarningMessages.Checked;
 
 //-------------------------------------------------
   if (gNewIconsSize <> StrToInt(Copy(cbIconsSize.Text, 1, 2))) or ((lngList.ItemIndex>-1) and

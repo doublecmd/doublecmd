@@ -193,6 +193,7 @@ resourcestring
   rsOptConfig = 'Configuration';
   rsOptQuickSearch = 'Quick search';
   rsOptColumns = 'Columns';
+  rsOptMiscellaneous = 'Miscellaneous';
   //-------------------------------
   rsOptLineByLineCursor = 'Line by line with cursor movement';
   rsOptLineByLine = 'Line by line';

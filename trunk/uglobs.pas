@@ -98,8 +98,6 @@ var
   gDateTimeFormat : String;
   
   gDriveBlackList: String;
-
-  gShowWarningMessages: Boolean;
   
   { Tools page }
 
@@ -174,6 +172,11 @@ var
   gQuickSearchMode : TShiftState = [ssCtrl, ssAlt];
   gQuickSearchMatchBeginning,
   gQuickSearchMatchEnding : Boolean;
+
+  { Misc page }
+  gGridVertLine,
+  gGridHorzLine,
+  gShowWarningMessages: Boolean;
   
   {HotKey Manager}
   HotMan:THotKeyManager;
@@ -438,7 +441,6 @@ begin
   gTrayIcon := gIni.ReadBool('Configuration', 'TrayIcon', False);
   gDateTimeFormat := gIni.ReadString('Configuration', 'DateTimeFormat', 'dd.mm.yy');
   gDriveBlackList:= gIni.ReadString('Configuration', 'DriveBlackList', '');
-  gShowWarningMessages := gIni.ReadBool('Configuration', 'ShowWarningMessages', True);
 
   gMouseSelectionEnabled:= gIni.ReadBool('Configuration', 'MouseSelectionEnabled', True);
   gMouseSelectionButton := gIni.ReadInteger('Configuration', 'MouseSelectionButton', 0);
@@ -499,7 +501,11 @@ begin
   gQuickSearchMode := TShiftState(gIni.ReadInteger('Configuration', 'QuickSearchMode', Integer(gQuickSearchMode)));
   gQuickSearchMatchBeginning := gIni.ReadBool('Configuration', 'QuickSearchMatchBeginning', True);
   gQuickSearchMatchEnding := gIni.ReadBool('Configuration', 'QuickSearchMatchEnding', True);
-  
+  { Misc page }
+  gGridVertLine:= gIni.ReadBool('Configuration', 'GridVertLine', False);
+  gGridHorzLine:= gIni.ReadBool('Configuration', 'GridHorzLine', False);
+  gShowWarningMessages := gIni.ReadBool('Configuration', 'ShowWarningMessages', True);
+
   gShowIcons := gIni.ReadBool('Configuration', 'ShowIcons', True);
   gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
   gNewIconsSize:= gIconsSize;
@@ -601,7 +607,6 @@ begin
   gIni.WriteBool('Configuration', 'TrayIcon', gTrayIcon);
   gIni.WriteString('Configuration', 'DateTimeFormat', gDateTimeFormat);
   gIni.WriteString('Configuration', 'DriveBlackList', gDriveBlackList);
-  gIni.WriteBool('Configuration', 'ShowWarningMessages', gShowWarningMessages);
   
   gIni.WriteBool('Configuration', 'MouseSelectionEnabled', gMouseSelectionEnabled);
   gIni.WriteInteger('Configuration', 'MouseSelectionButton', gMouseSelectionButton);
@@ -662,6 +667,10 @@ begin
   gIni.WriteInteger('Configuration', 'QuickSearchMode', Integer(gQuickSearchMode));
   gIni.WriteBool('Configuration', 'QuickSearchMatchBeginning', gQuickSearchMatchBeginning);
   gIni.WriteBool('Configuration', 'QuickSearchMatchEnding', gQuickSearchMatchEnding);
+  { Misc page }
+  gIni.WriteBool('Configuration', 'GridVertLine', gGridVertLine);
+  gIni.WriteBool('Configuration', 'GridHorzLine', gGridHorzLine);
+  gIni.WriteBool('Configuration', 'ShowWarningMessages', gShowWarningMessages);
 
   gIni.WriteBool('Configuration', 'ShowIcons', gShowIcons);
   gIni.WriteInteger('Configuration', 'IconsSize', gNewIconsSize);
