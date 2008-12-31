@@ -1016,7 +1016,7 @@ var
 begin
   wOldName:= UTF8Decode(OldName);
   wNewName:= UTF8Decode(NewName);
-  Result:= MoveFileW(PWChar(wOldName), PWChar(wNewName));
+  Result:= MoveFileExW(PWChar(wOldName), PWChar(wNewName), MOVEFILE_REPLACE_EXISTING);
 end;
 {$ELSE}
 begin
