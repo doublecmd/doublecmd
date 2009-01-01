@@ -22,7 +22,9 @@
 }
 
 unit uLng;
+
 {$mode objfpc}{$H+}
+
 interface
 uses
   LResources;
@@ -164,18 +166,9 @@ resourcestring
   rsEditNewFileName = 'Filename:';
   // Edit search
   rsEditSearchCaption = 'Search';
-  rsEditSearchForLbl = '&Search for:';
+  rsEditSearchReplace ='Replace';
   rsEditSearchFrw = '&Forward';
   rsEditSearchBack = '&Backward';
-  rsEditSearchCase = 'C&ase sensitivity';
-  rsEditSearchWholeWord ='&Whole words only';
-  rsEditSearchRegExp = '&Regular expressions';
-  rsEditSearchCaret ='Search from &caret';
-  rsEditSearchSelect ='Selected &text only';
-  rsEditSearchOptions ='Option';
-  rsEditSearchDirection = 'Direction';
-  rsEditSearchReplace ='Replace';
-  rsEditSearchReplaceWith ='&Replace with:';
   // Options dialog
   rsOptLanguage = 'Language';
   rsOptBehav = 'Behaviors';

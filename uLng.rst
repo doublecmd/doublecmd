@@ -471,8 +471,8 @@ ulng.rseditnewfilename='Filename:'
 ulng.rseditsearchcaption='Search'
 
 
-# hash value = 186617562
-ulng.rseditsearchforlbl='&Search for:'
+# hash value = 147269573
+ulng.rseditsearchreplace='Replace'
 
 
 # hash value = 225040932
@@ -481,42 +481,6 @@ ulng.rseditsearchfrw='&Forward'
 
 # hash value = 128119300
 ulng.rseditsearchback='&Backward'
-
-
-# hash value = 128736681
-ulng.rseditsearchcase='C&ase sensitivity'
-
-
-# hash value = 151740121
-ulng.rseditsearchwholeword='&Whole words only'
-
-
-# hash value = 8115171
-ulng.rseditsearchregexp='&Regular expressions'
-
-
-# hash value = 222270884
-ulng.rseditsearchcaret='Search from &caret'
-
-
-# hash value = 231163145
-ulng.rseditsearchselect='Selected &text only'
-
-
-# hash value = 90681438
-ulng.rseditsearchoptions='Option'
-
-
-# hash value = 146466142
-ulng.rseditsearchdirection='Direction'
-
-
-# hash value = 147269573
-ulng.rseditsearchreplace='Replace'
-
-
-# hash value = 263925658
-ulng.rseditsearchreplacewith='&Replace with:'
 
 
 # hash value = 139375349
