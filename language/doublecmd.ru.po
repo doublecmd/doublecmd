@@ -1859,7 +1859,7 @@ msgstr "Плоские"
 
 #: TFRMOPTIONS.CBFLATINTERFACE.CAPTION
 msgid "Flat interface"
-msgstr "Плоские"
+msgstr "Плоский интерфейс"
 
 #: TFRMOPTIONS.CBFLATTOOLBAR.CAPTION
 msgctxt "TFRMOPTIONS.CBFLATTOOLBAR.CAPTION"
