@@ -1,0 +1,226 @@
+object frmEditSearchReplace: TfrmEditSearchReplace
+  Left = 526
+  Height = 222
+  Top = 190
+  Width = 409
+  AutoSize = True
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'frmEditSearchReplace'
+  ChildSizing.TopBottomSpacing = 6
+  ClientHeight = 222
+  ClientWidth = 409
+  OnCloseQuery = FormCloseQuery
+  Position = poOwnerFormCenter
+  ShowInTaskBar = stAlways
+  LCLVersion = '0.9.27'
+  object lblSearchFor: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = cbSearchText
+    AnchorSideTop.Side = asrCenter
+    Left = 12
+    Height = 14
+    Top = 15
+    Width = 55
+    BorderSpacing.Left = 12
+    Caption = '&Search for:'
+    ParentColor = False
+  end
+  object lblReplaceWith: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = cbReplaceText
+    AnchorSideTop.Side = asrCenter
+    Left = 12
+    Height = 14
+    Top = 42
+    Width = 66
+    BorderSpacing.Left = 12
+    Caption = '&Replace with:'
+    ParentColor = False
+  end
+  object cbSearchText: TComboBox
+    AnchorSideLeft.Control = lblSearchFor
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 73
+    Height = 21
+    Top = 12
+    Width = 328
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 12
+    BorderSpacing.Right = 8
+    ItemHeight = 13
+    TabOrder = 0
+  end
+  object gbSearchOptions: TGroupBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = cbReplaceText
+    AnchorSideTop.Side = asrBottom
+    Left = 12
+    Height = 144
+    Top = 72
+    Width = 185
+    BorderSpacing.Left = 12
+    BorderSpacing.Top = 12
+    Caption = 'Option'
+    ClientHeight = 126
+    ClientWidth = 181
+    TabOrder = 1
+    object cbSearchCaseSensitive: TCheckBox
+      AnchorSideLeft.Control = gbSearchOptions
+      AnchorSideTop.Control = gbSearchOptions
+      Left = 8
+      Height = 19
+      Top = 2
+      Width = 101
+      BorderSpacing.Left = 8
+      BorderSpacing.Top = 2
+      Caption = 'C&ase sensitivity'
+      TabOrder = 0
+    end
+    object cbSearchWholeWords: TCheckBox
+      AnchorSideLeft.Control = gbSearchOptions
+      AnchorSideTop.Control = cbSearchCaseSensitive
+      AnchorSideTop.Side = asrBottom
+      Left = 8
+      Height = 19
+      Top = 23
+      Width = 111
+      BorderSpacing.Left = 8
+      BorderSpacing.Top = 2
+      Caption = '&Whole words only'
+      TabOrder = 1
+    end
+    object cbSearchSelectedOnly: TCheckBox
+      AnchorSideLeft.Control = gbSearchOptions
+      AnchorSideTop.Control = cbSearchWholeWords
+      AnchorSideTop.Side = asrBottom
+      Left = 8
+      Height = 19
+      Top = 44
+      Width = 113
+      BorderSpacing.Left = 8
+      BorderSpacing.Top = 2
+      Caption = 'Selected &text only'
+      TabOrder = 2
+    end
+    object cbSearchFromCursor: TCheckBox
+      AnchorSideLeft.Control = gbSearchOptions
+      AnchorSideTop.Control = cbSearchSelectedOnly
+      AnchorSideTop.Side = asrBottom
+      Left = 8
+      Height = 19
+      Top = 65
+      Width = 112
+      BorderSpacing.Left = 8
+      BorderSpacing.Top = 2
+      Caption = 'Search from &caret'
+      TabOrder = 3
+    end
+    object cbSearchRegExp: TCheckBox
+      AnchorSideLeft.Control = gbSearchOptions
+      AnchorSideTop.Control = cbSearchFromCursor
+      AnchorSideTop.Side = asrBottom
+      Left = 8
+      Height = 19
+      Top = 86
+      Width = 123
+      BorderSpacing.Left = 8
+      BorderSpacing.Top = 2
+      Caption = '&Regular expressions'
+      TabOrder = 4
+    end
+  end
+  object rgSearchDirection: TRadioGroup
+    AnchorSideLeft.Control = gbSearchOptions
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = cbReplaceText
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 203
+    Height = 88
+    Top = 72
+    Width = 198
+    Anchors = [akTop, akLeft, akRight]
+    AutoFill = True
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 12
+    BorderSpacing.Right = 8
+    Caption = 'Direction'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 70
+    ClientWidth = 194
+    Items.Strings = (
+      '&Forward'
+      '&Backward'
+    )
+    TabOrder = 2
+  end
+  object cbReplaceText: TComboBox
+    AnchorSideLeft.Control = lblReplaceWith
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = cbSearchText
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 84
+    Height = 21
+    Top = 39
+    Width = 317
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 8
+    ItemHeight = 13
+    TabOrder = 3
+  end
+  object btnOK: TBitBtn
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnCancel
+    AnchorSideBottom.Control = gbSearchOptions
+    AnchorSideBottom.Side = asrBottom
+    Left = 215
+    Height = 32
+    Top = 184
+    Width = 90
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Right = 6
+    Caption = '&OK'
+    Default = True
+    Kind = bkOK
+    ModalResult = 1
+    NumGlyphs = 0
+    OnClick = btnOKClick
+    TabOrder = 4
+  end
+  object btnCancel: TBitBtn
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = gbSearchOptions
+    AnchorSideBottom.Side = asrBottom
+    Left = 311
+    Height = 32
+    Top = 184
+    Width = 90
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Right = 8
+    Cancel = True
+    Caption = 'Cancel'
+    Kind = bkCancel
+    ModalResult = 2
+    NumGlyphs = 0
+    TabOrder = 5
+  end
+end

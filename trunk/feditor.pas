@@ -635,13 +635,10 @@ end;
 
 procedure TfrmEditor.ShowSearchReplaceDialog(AReplace: boolean);
 var
-  dlg: TfrmEditSearch;
+  dlg: TfrmEditSearchReplace;
 begin
 //  Statusbar.SimpleText := '';
-  if AReplace then
-    dlg := TfrmEditSearchReplace.Create(Self)
-  else
-    dlg := TfrmEditSearch.Create(Self);
+  dlg := TfrmEditSearchReplace.Create(Self, AReplace);
   with dlg do try
     // assign search options
     SearchBackwards := bSearchBackwards;

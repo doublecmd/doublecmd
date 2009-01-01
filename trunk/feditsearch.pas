@@ -1,5 +1,5 @@
 {
-  Search & Replace dialogs
+  Search & Replace dialog
   for lazarus converted from SynEdit by
   Radek Cervinka, radek.cervinka@centrum.cz
 
@@ -52,6 +52,7 @@ located at http://SynEdit.SourceForge.net
 
 Known Issues:
 -------------------------------------------------------------------------------}
+
 unit fEditSearch;
 
 {$mode objfpc}{$H+}
@@ -59,30 +60,30 @@ unit fEditSearch;
 interface
 
 uses
-  LResources,
-  SysUtils, Classes, Controls, Forms, StdCtrls, ExtCtrls, Buttons;
+  Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
+  StdCtrls, ExtCtrls, Buttons;
 
 type
 
-  { TfrmEditSearch }
+  { TfrmEditSearchReplace }
 
-  TfrmEditSearch = class(TForm)
-  protected
-    lblSearchFor: TLabel;
-    cbSearchText: TComboBox;
-    gbSearchOptions: TGroupBox;
-    cbSearchCaseSensitive: TCheckBox;
-    cbSearchWholeWords: TCheckBox;
-    cbSearchFromCursor: TCheckBox;
-    cbSearchSelectedOnly: TCheckBox;
-    cbSearchRegExp: TCheckBox;
-    rgSearchDirection: TRadioGroup;
+  TfrmEditSearchReplace = class(TForm)
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
+    cbSearchText: TComboBox;
+    cbSearchCaseSensitive: TCheckBox;
+    cbSearchWholeWords: TCheckBox;
+    cbSearchSelectedOnly: TCheckBox;
+    cbSearchFromCursor: TCheckBox;
+    cbSearchRegExp: TCheckBox;
+    cbReplaceText: TComboBox;
+    gbSearchOptions: TGroupBox;
+    lblReplaceWith: TLabel;
+    lblSearchFor: TLabel;
+    rgSearchDirection: TRadioGroup;
     procedure btnOKClick(Sender: TObject);
-{    procedure cbSearchTextKeyUp(Sender: TObject; var Key: Word;
-      Shift: TShiftState);}
-  protected
+    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
+  private
     function GetSearchBackwards: boolean;
     function GetSearchCaseSensitive: boolean;
     function GetSearchFromCursor: boolean;
@@ -91,6 +92,8 @@ type
     function GetSearchTextHistory: string;
     function GetSearchWholeWords: boolean;
     function GetSearchRegExp: boolean;
+    function GetReplaceText: string;
+    function GetReplaceTextHistory: string;
     procedure SetSearchBackwards(Value: boolean);
     procedure SetSearchCaseSensitive(Value: boolean);
     procedure SetSearchFromCursor(Value: boolean);
@@ -99,12 +102,10 @@ type
     procedure SetSearchTextHistory(Value: string);
     procedure SetSearchWholeWords(Value: boolean);
     procedure SetSearchRegExp(Value: boolean);
-    
-    procedure CreateDialog(AOwner: TForm); virtual;
-    
+    procedure SetReplaceText(Value: string);
+    procedure SetReplaceTextHistory(Value: string);
   public
-    constructor Create(AOwner:TComponent);  override;
-  
+    constructor Create(AOwner: TComponent; AReplace: Boolean);
     property SearchBackwards: boolean read GetSearchBackwards
       write SetSearchBackwards;
     property SearchCaseSensitive: boolean read GetSearchCaseSensitive
@@ -120,226 +121,19 @@ type
       write SetSearchWholeWords;
     property SearchRegExp: boolean read GetSearchRegExp
       write SetSearchRegExp;
-  end;
-
-  TfrmEditSearchReplace = class(TfrmEditSearch)
-  protected
-    lblReplaceWith: TLabel;
-    cbReplaceText: TComboBox;
-  protected
-    procedure CreateDialog(AOwner: TForm); override;
-    function GetReplaceText: string;
-    function GetReplaceTextHistory: string;
-    procedure SetReplaceText(Value: string);
-    procedure SetReplaceTextHistory(Value: string);
-  public
     property ReplaceText: string read GetReplaceText write SetReplaceText;
     property ReplaceTextHistory: string read GetReplaceTextHistory
       write SetReplaceTextHistory;
-    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
   end;
-
-{  TSearchDialog= Class(TCommonDialog)
-  protected
-    Ffrm: TfrmEditSearch;
-  public
-    constructor Create(AOwner:TComponent); override;
-    destructor Destroy; override;
-    function Execute:Boolean; override;
-  end;
-  
-  TReplaceDialog = Class (TSearchDialog)
-  public
-    function Execute:Boolean; override;
-  end;}
-  
-
 
 implementation
 
 uses
-  uLng, LCLType;
+  uLng;
 
-function TfrmEditSearch.GetSearchBackwards: boolean;
-begin
-  Result := rgSearchDirection.ItemIndex = 1;
-end;
+{ TfrmEditSearchReplace }
 
-function TfrmEditSearch.GetSearchCaseSensitive: boolean;
-begin
-  Result := cbSearchCaseSensitive.Checked;
-end;
-
-function TfrmEditSearch.GetSearchFromCursor: boolean;
-begin
-  Result := cbSearchFromCursor.Checked;
-end;
-
-function TfrmEditSearch.GetSearchInSelection: boolean;
-begin
-  Result := cbSearchSelectedOnly.Checked;
-end;
-
-function TfrmEditSearch.GetSearchText: string;
-begin
-  Result := cbSearchText.Text;
-end;
-
-function TfrmEditSearch.GetSearchTextHistory: string;
-var
-  i: integer;
-begin
-  for i:= cbSearchText.Items.Count - 1 downto 25 do
-    cbSearchText.Items.Delete(i);
-  Result:=cbSearchText.Items.CommaText;
-end;
-
-function TfrmEditSearch.GetSearchWholeWords: boolean;
-begin
-  Result := cbSearchWholeWords.Checked;
-end;
-
-function TfrmEditSearch.GetSearchRegExp: boolean;
-begin
-  Result:= cbSearchRegExp.Checked;
-end;
-
-procedure TfrmEditSearch.SetSearchBackwards(Value: boolean);
-begin
-  rgSearchDirection.ItemIndex := Ord(Value);
-end;
-
-procedure TfrmEditSearch.SetSearchCaseSensitive(Value: boolean);
-begin
-  cbSearchCaseSensitive.Checked := Value;
-end;
-
-procedure TfrmEditSearch.SetSearchFromCursor(Value: boolean);
-begin
-  cbSearchFromCursor.Checked := Value;
-end;
-
-procedure TfrmEditSearch.SetSearchInSelection(Value: boolean);
-begin
-  cbSearchSelectedOnly.Checked := Value;
-end;
-
-procedure TfrmEditSearch.SetSearchText(Value: string);
-begin
-  cbSearchText.Text := Value;
-end;
-
-procedure TfrmEditSearch.SetSearchTextHistory(Value: string);
-begin
-  cbSearchText.Items.CommaText := Value;
-end;
-
-procedure TfrmEditSearch.SetSearchWholeWords(Value: boolean);
-begin
-  cbSearchWholeWords.Checked := Value;
-end;
-
-procedure TfrmEditSearch.SetSearchRegExp(Value: boolean);
-begin
-  cbSearchRegExp.Checked:= Value;
-end;
-
-procedure TfrmEditSearch.CreateDialog(AOwner: TForm);
-begin
-  SetInitialBounds(367, 203, 400, 170);
-
-  BorderStyle := bsDialog;
-  Position := poMainFormCenter;
-  ShowInTaskBar:= stAlways;
-
-  lblSearchFor:= TLabel.Create(AOwner);
-  lblSearchFor.Parent:=AOwner;
-  lblSearchFor.SetBounds(16, 10, 90, 17);
-  lblSearchFor.AnchorSide[akTop].Control:= cbSearchText;
-  lblSearchFor.AnchorSide[akTop].Side:= asrCenter;
-
-  cbSearchText:= TComboBox.Create(AOwner);
-  cbSearchText.Parent:=AOwner;
-  cbSearchText.SetBounds(112, 8, 208, 24 );
-  cbSearchText.AnchorToNeighbour(akLeft, 6, lblSearchFor);
-  cbSearchText.AnchorToNeighbour(akRight, 10, AOwner);
-  cbSearchText.AnchorSide[akRight].Side:= asrRight;
-
-  gbSearchOptions :=TGroupBox.Create(AOwner);
-  gbSearchOptions.Parent:=AOwner;
-  gbSearchOptions.SetBounds(8, 36, 198, 127);
-
-  
-  cbSearchCaseSensitive := TCheckBox.Create(gbSearchOptions);
-  cbSearchCaseSensitive.Parent:=gbSearchOptions;
-  
-  cbSearchCaseSensitive.SetBounds(6,0 ,142, 20);
-  
-  cbSearchWholeWords := TCheckBox.Create(gbSearchOptions);
-  cbSearchWholeWords.Parent:=gbSearchOptions;
-  cbSearchWholeWords.SetBounds(6,20 ,142, 20);
-
-  
-  cbSearchFromCursor := TCheckBox.Create(gbSearchOptions);
-  cbSearchFromCursor.Parent:=gbSearchOptions;
-  cbSearchFromCursor.SetBounds(6,60 ,142, 20);
-  
-  cbSearchSelectedOnly := TCheckBox.Create(gbSearchOptions);
-  cbSearchSelectedOnly.Parent:=gbSearchOptions;
-  cbSearchSelectedOnly.SetBounds(6, 40 ,142, 20);
-
-  cbSearchRegExp := TCheckBox.Create(gbSearchOptions);
-  cbSearchRegExp.Parent:=gbSearchOptions;
-  cbSearchRegExp.SetBounds(6, 80 ,142, 20);
-  
-  rgSearchDirection := TRadioGroup.Create(AOwner);
-  rgSearchDirection.Parent:=AOwner;
-  rgSearchDirection.SetBounds(170, 36, 154, 72);
-  rgSearchDirection.AnchorToNeighbour(akLeft, 6, gbSearchOptions);
-  
-  btnOK := TBitBtn.Create(AOwner);
-  btnOK.Parent:=AOwner;
-  btnOK.Left:=210;
-  btnOK.Top:=136;
-  btnOK.Height:= 32;
-  btnOK.Width:= 90;
-  btnOK.Default:= True;
-  btnOK.Kind:= bkOK;
-  btnOK.OnClick:=@btnOKClick;
-
-  btnCancel:= TBitBtn.Create(AOwner);
-  btnCancel.Parent:=AOwner;
-  btnCancel.Top:=136;
-  btnCancel.Left:=306;
-  btnCancel.Height := 32;
-  btnCancel.Width:= 90;
-  btnCancel.Cancel:=True;
-  btnCancel.ModalResult:=mrCancel;
-  btnCancel.Kind:= bkCancel;
-  
-  
-  Caption:= rsEditSearchCaption;
-  
-  lblSearchFor.Caption:= rsEditSearchForLbl;
-  rgSearchDirection.Items.Add(rsEditSearchFrw);
-  rgSearchDirection.Items.Add(rsEditSearchBack);
-  cbSearchCaseSensitive.Caption:= rsEditSearchCase;
-  cbSearchWholeWords.Caption:= rsEditSearchWholeWord;
-  cbSearchRegExp.Caption:= rsEditSearchRegExp;
-  cbSearchFromCursor.Caption :=  rsEditSearchCaret;
-  cbSearchSelectedOnly.Caption:=  rsEditSearchSelect;
-  
-  gbSearchOptions.Caption:=rsEditSearchOptions;
-  rgSearchDirection.Caption:=rsEditSearchDirection;
-end;
-
-constructor TfrmEditSearch.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  CreateDialog(Self);
-end;
-
-procedure TfrmEditSearch.btnOKClick(Sender: TObject);
+procedure TfrmEditSearchReplace.btnOKClick(Sender: TObject);
 var
   s: string;
   i: integer;
@@ -356,97 +150,9 @@ begin
   end;
   ModalResult := mrOK
 end;
-{
-procedure TfrmEditSearch.cbSearchTextKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if (Key=VK_Down) and (cbSearchText.Items.Count>0) then
-  begin
-    cbSearchText.DroppedDown:=True;
-  end;
-end;
-}
-{ TSearchDialog }
-{
-constructor TSearchDialog.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  Ffrm:=nil;
-end;
-
-destructor TSearchDialog.Destroy;
-begin
-  if assigned(Ffrm) then
-    FreeAndNil(Ffrm);
-  inherited Destroy;
-end;
-
-function TSearchDialog.Execute:Boolean;
-begin
-  if not assigned(Ffrm) then
-    Ffrm:=TfrmEditSearch.Create(Self);
-  if assigned(FDialogCreated) then
-    FDialogCreated(Ffrm);
-  Result:=Ffrm.ShowModal=mrOK;
-end;
-}
-{ TfrmEditSearchReplace }
-
-procedure TfrmEditSearchReplace.CreateDialog(AOwner: TForm);
-begin
-  inherited CreateDialog(AOwner); // create search dialog
-
-  BorderStyle := bsDialog;
-  Position := poMainFormCenter;
-  ShowInTaskBar:= stAlways;
-
-  Height:=Height+40;
-  gbSearchOptions.Top:=gbSearchOptions.Top+30;
-  rgSearchDirection.Top:=rgSearchDirection.Top+30;
-  lblReplaceWith:= TLabel.Create(AOwner);
-  lblReplaceWith.Parent:=AOwner;
-  lblReplaceWith.SetBounds(16, 35, 90, 17);
-
-  cbReplaceText:= TComboBox.Create(AOwner);
-  cbReplaceText.Parent:=AOwner;
-  cbReplaceText.SetBounds(112, 35, 208, 24 );
-
-  btnOK.Top:=btnOK.Top+30;
-  btnOK.Height := 32;
-  btnCancel.Top:=btnCancel.Top+30;
-  btnCancel.Height := 32;
-
-  Caption:=rsEditSearchReplace;
-  lblReplaceWith.Caption:=rsEditSearchReplaceWith;
-end;
-
-function TfrmEditSearchReplace.GetReplaceText: string;
-begin
-  Result := cbReplaceText.Text;
-end;
-
-function TfrmEditSearchReplace.GetReplaceTextHistory: string;
-var
-  i: integer;
-begin
-  for i:= cbSearchText.Items.Count - 1 downto 25 do
-    cbReplaceText.Items.Delete(i);
-  Result:=cbReplaceText.Items.CommaText;
-end;
-
-procedure TfrmEditSearchReplace.SetReplaceText(Value: string);
-begin
-  cbReplaceText.Items.CommaText := Value;
-end;
-
-procedure TfrmEditSearchReplace.SetReplaceTextHistory(Value: string);
-begin
-  cbReplaceText.Items.Text := Value;
-
-end;
 
 procedure TfrmEditSearchReplace.FormCloseQuery(Sender: TObject;
-  var CanClose: Boolean);
+  var CanClose: boolean);
 var
   s: string;
   i: integer;
@@ -466,15 +172,136 @@ begin
   end;
 end;
 
-{ TReplaceDialog }
-{
-function TReplaceDialog.Execute: Boolean;
+function TfrmEditSearchReplace.GetSearchBackwards: boolean;
 begin
-  if not assigned(Ffrm) then
-    Ffrm:=TfrmEditSearchReplace.Create(Self);
-  if assigned(FDialogCreated) then
-    FDialogCreated(Ffrm);
-  Result:=Ffrm.ShowModal=mrOK;
+  Result := rgSearchDirection.ItemIndex = 1;
 end;
-}
+
+function TfrmEditSearchReplace.GetSearchCaseSensitive: boolean;
+begin
+  Result := cbSearchCaseSensitive.Checked;
+end;
+
+function TfrmEditSearchReplace.GetSearchFromCursor: boolean;
+begin
+  Result := cbSearchFromCursor.Checked;
+end;
+
+function TfrmEditSearchReplace.GetSearchInSelection: boolean;
+begin
+  Result := cbSearchSelectedOnly.Checked;
+end;
+
+function TfrmEditSearchReplace.GetSearchText: string;
+begin
+  Result := cbSearchText.Text;
+end;
+
+function TfrmEditSearchReplace.GetSearchTextHistory: string;
+var
+  i: integer;
+begin
+  for i:= cbSearchText.Items.Count - 1 downto 25 do
+    cbSearchText.Items.Delete(i);
+  Result:=cbSearchText.Items.CommaText;
+end;
+
+function TfrmEditSearchReplace.GetSearchWholeWords: boolean;
+begin
+  Result := cbSearchWholeWords.Checked;
+end;
+
+function TfrmEditSearchReplace.GetSearchRegExp: boolean;
+begin
+  Result:= cbSearchRegExp.Checked;
+end;
+
+function TfrmEditSearchReplace.GetReplaceText: string;
+begin
+  Result := cbReplaceText.Text;
+end;
+
+function TfrmEditSearchReplace.GetReplaceTextHistory: string;
+var
+  i: integer;
+begin
+  for i:= cbSearchText.Items.Count - 1 downto 25 do
+    cbReplaceText.Items.Delete(i);
+  Result:=cbReplaceText.Items.CommaText;
+end;
+
+procedure TfrmEditSearchReplace.SetSearchBackwards(Value: boolean);
+begin
+  rgSearchDirection.ItemIndex := Ord(Value);
+end;
+
+procedure TfrmEditSearchReplace.SetSearchCaseSensitive(Value: boolean);
+begin
+  cbSearchCaseSensitive.Checked := Value;
+end;
+
+procedure TfrmEditSearchReplace.SetSearchFromCursor(Value: boolean);
+begin
+  cbSearchFromCursor.Checked := Value;
+end;
+
+procedure TfrmEditSearchReplace.SetSearchInSelection(Value: boolean);
+begin
+  cbSearchSelectedOnly.Checked := Value;
+end;
+
+procedure TfrmEditSearchReplace.SetSearchText(Value: string);
+begin
+  cbSearchText.Text := Value;
+end;
+
+procedure TfrmEditSearchReplace.SetSearchTextHistory(Value: string);
+begin
+  cbSearchText.Items.CommaText := Value;
+end;
+
+procedure TfrmEditSearchReplace.SetSearchWholeWords(Value: boolean);
+begin
+  cbSearchWholeWords.Checked := Value;
+end;
+
+procedure TfrmEditSearchReplace.SetSearchRegExp(Value: boolean);
+begin
+  cbSearchRegExp.Checked:= Value;
+end;
+
+procedure TfrmEditSearchReplace.SetReplaceText(Value: string);
+begin
+  cbReplaceText.Items.CommaText := Value;
+end;
+
+procedure TfrmEditSearchReplace.SetReplaceTextHistory(Value: string);
+begin
+  cbReplaceText.Items.Text := Value;
+end;
+
+constructor TfrmEditSearchReplace.Create(AOwner: TComponent; AReplace: Boolean);
+begin
+  inherited Create(AOwner);
+  if AReplace then
+    begin
+      Caption:= rsEditSearchReplace;
+      lblReplaceWith.Visible:= True;
+      cbReplaceText.Visible:= True;
+    end
+  else
+    begin
+      Caption:= rsEditSearchCaption;
+      lblReplaceWith.Visible:= False;
+      cbReplaceText.Visible:= False;
+      Height:= Height - cbReplaceText.Height;
+    end;
+  rgSearchDirection.Items.Strings[0]:= rsEditSearchFrw;
+  rgSearchDirection.Items.Strings[1]:= rsEditSearchBack;
+end;
+
+initialization
+  {$I feditsearch.lrs}
+
 end.
+
