@@ -122,7 +122,7 @@ implementation
 
 
 uses
-  uShowMsg, uLng, uFindEx;
+  FileUtil, uShowMsg, uLng, uFindEx, uOSUtils;
 
 procedure SetupColorOfHighlighter(var h: TSynCustomHighlighter);
 var
@@ -191,8 +191,8 @@ var
   f:TextFile;
   s, sValue:String;
 begin
-  if Not FileExists(sFileName) Then Exit;
-  assign(f,sFileName);
+  if not mbFileExists(sFileName) then Exit;
+  assign(f, UTF8ToSys(sFileName));
   reset(f);
   try
     while not eof(f) do
@@ -234,7 +234,7 @@ var
   i:Integer;
   f:TextFile;
 begin
-  assign(f,sFileName);
+  assign(f, UTF8ToSys(sFileName));
   rewrite(f);
   try
     writeln(f,'# color is $00bbggrr (in hex)');
