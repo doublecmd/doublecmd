@@ -291,6 +291,7 @@ type
     procedure cbDateTimeFormatChange(Sender: TObject);
     procedure cbShowDiskPanelChange(Sender: TObject);
     procedure cbShowIconsChange(Sender: TObject);
+    procedure cbTermWindowChange(Sender: TObject);
     procedure cbTextColorChange(Sender: TObject);
     procedure cbColorBoxDropDown(Sender: TObject);
     procedure edtEditorSizeChange(Sender: TObject);
@@ -503,6 +504,21 @@ end;
 procedure TfrmOptions.cbShowIconsChange(Sender: TObject);
 begin
   cbIconsSize.Enabled := cbShowIcons.Checked;
+end;
+
+procedure TfrmOptions.cbTermWindowChange(Sender: TObject);
+begin
+  if cbTermWindow.Checked then
+    begin
+      cbShowCmdLine.Tag:= Integer(cbShowCmdLine.Checked);
+      cbShowCmdLine.Checked:= True;
+      cbShowCmdLine.Enabled:= False;
+    end
+  else
+    begin
+      cbShowCmdLine.Checked:= Boolean(cbShowCmdLine.Tag);
+      cbShowCmdLine.Enabled:= True;
+    end;
 end;
 
 procedure TfrmOptions.cbTextColorChange(Sender: TObject);
@@ -1572,7 +1588,8 @@ begin
   cbShowCurDir.Checked := gCurDir;
   cbShowTabHeader.Checked := gTabHeader;
   cbShowStatusBar.Checked := gStatusBar;
-  cbShowCmdLine.Checked := gCmdLine;
+  cbShowCmdLine.Checked := gCmdLine or gTermWindow;
+  cbShowCmdLine.Enabled:= not gTermWindow;
   cbShowKeysPanel.Checked := gKeyButtons;
   cbFlatInterface.Checked := gInterfaceFlat;
   cbLogWindow.Checked := gLogWindow;
