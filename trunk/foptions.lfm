@@ -131,7 +131,7 @@ object frmOptions: TfrmOptions
       end
       object pgBehav: TPage
         ClientWidth = 620
-        ClientHeight = 524
+        ClientHeight = 506
         OnResize = pgBehavResize
         object lblRunInTerm: TLabel
           AnchorSideTop.Control = edtRunInTerm
@@ -1709,8 +1709,8 @@ object frmOptions: TfrmOptions
           Width = 596
           Anchors = [akTop, akLeft, akRight]
           Caption = ' Screen layout '
-          ClientHeight = 358
-          ClientWidth = 596
+          ClientHeight = 340
+          ClientWidth = 592
           TabOrder = 0
           object cbShowMainToolBar: TCheckBox
             Left = 10
@@ -1823,16 +1823,17 @@ object frmOptions: TfrmOptions
             Left = 10
             Height = 19
             Top = 280
-            Width = 82
+            Width = 108
             Caption = 'Show log window'
             TabOrder = 13
           end
           object cbTermWindow: TCheckBox
             Left = 10
-            Height = 21
+            Height = 19
             Top = 302
-            Width = 149
+            Width = 132
             Caption = 'Show terminal window'
+            OnChange = cbTermWindowChange
             TabOrder = 14
           end
         end
