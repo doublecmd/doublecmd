@@ -392,6 +392,61 @@ msgstr "Vordefiniert"
 msgid "Sample"
 msgstr "Beispiel"
 
+#: TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION
+msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Abbruch"
+
+#: TFRMEDITSEARCHREPLACE.BTNOK.CAPTION
+msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&OK"
+
+#: TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION
+msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
+msgid "C&ase sensitivity"
+msgstr "Strikt nach Schreibweise"
+
+#: TFRMEDITSEARCHREPLACE.CBSEARCHFROMCURSOR.CAPTION
+msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHFROMCURSOR.CAPTION"
+msgid "Search from &caret"
+msgstr "Suche von &caret"
+
+#: TFRMEDITSEARCHREPLACE.CBSEARCHREGEXP.CAPTION
+msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHREGEXP.CAPTION"
+msgid "&Regular expressions"
+msgstr "&Reguläre Ausdrücke"
+
+#: TFRMEDITSEARCHREPLACE.CBSEARCHSELECTEDONLY.CAPTION
+msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHSELECTEDONLY.CAPTION"
+msgid "Selected &text only"
+msgstr "Nur den markierten Text"
+
+#: TFRMEDITSEARCHREPLACE.CBSEARCHWHOLEWORDS.CAPTION
+msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHWHOLEWORDS.CAPTION"
+msgid "&Whole words only"
+msgstr "Nur ganze Wörter"
+
+#: TFRMEDITSEARCHREPLACE.GBSEARCHOPTIONS.CAPTION
+msgctxt "TFRMEDITSEARCHREPLACE.GBSEARCHOPTIONS.CAPTION"
+msgid "Option"
+msgstr "Option"
+
+#: TFRMEDITSEARCHREPLACE.LBLREPLACEWITH.CAPTION
+msgctxt "TFRMEDITSEARCHREPLACE.LBLREPLACEWITH.CAPTION"
+msgid "&Replace with:"
+msgstr "&Erstezen mit:"
+
+#: TFRMEDITSEARCHREPLACE.LBLSEARCHFOR.CAPTION
+msgctxt "TFRMEDITSEARCHREPLACE.LBLSEARCHFOR.CAPTION"
+msgid "&Search for:"
+msgstr "&Suche nach:"
+
+#: TFRMEDITSEARCHREPLACE.RGSEARCHDIRECTION.CAPTION
+msgctxt "TFRMEDITSEARCHREPLACE.RGSEARCHDIRECTION.CAPTION"
+msgid "Direction"
+msgstr "Richtung"
+
 #: TFRMEXTRACTDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -2643,50 +2698,13 @@ msgctxt "ulng.rseditsearchcaption"
 msgid "Search"
 msgstr "Suchen"
 
-#: ulng.rseditsearchcaret
-msgid "Search from &caret"
-msgstr "Suche von &caret"
-
-#: ulng.rseditsearchcase
-msgid "C&ase sensitivity"
-msgstr "Strikt nach Schreibweise"
-
-#: ulng.rseditsearchdirection
-msgid "Direction"
-msgstr "Richtung"
-
-#: ulng.rseditsearchforlbl
-msgid "&Search for:"
-msgstr "&Suche nach:"
-
 #: ulng.rseditsearchfrw
 msgid "&Forward"
 msgstr "&Vorwärts"
 
-#: ulng.rseditsearchoptions
-msgid "Option"
-msgstr "Option"
-
-#: ulng.rseditsearchregexp
-msgctxt "ulng.rseditsearchregexp"
-msgid "&Regular expressions"
-msgstr "&Reguläre Ausdrücke"
-
 #: ulng.rseditsearchreplace
 msgid "Replace"
 msgstr "Ersetzen"
-
-#: ulng.rseditsearchreplacewith
-msgid "&Replace with:"
-msgstr "&Erstezen mit:"
-
-#: ulng.rseditsearchselect
-msgid "Selected &text only"
-msgstr "Nur den markierten Text"
-
-#: ulng.rseditsearchwholeword
-msgid "&Whole words only"
-msgstr "Nur ganze Wörter"
 
 #: ulng.rsfinddepth
 msgid "%s level(s)"
