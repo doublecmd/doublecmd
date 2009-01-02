@@ -259,6 +259,8 @@ begin
   UpDatelblInfo;
   FLastMark:= '*.*';
   FLastAutoSelect:= False;
+  if dgPanel.RowCount < Integer(gTabHeader) then
+    dgPanel.RowCount:= Integer(gTabHeader);
   dgPanel.FixedRows:= Integer(gTabHeader);
   dgPanel.Tag:= dgPanel.DefaultRowHeight;
   dgPanel.DefaultRowHeight:= gIconsSize;
@@ -512,9 +514,9 @@ end;
 
 procedure TFrameFilePanel.UpdateColCount(NewColCount: Integer);
 begin
-  while dgPanel.ColCount < NewColCount do
+  while dgPanel.Columns.Count < NewColCount do
     dgPanel.Columns.Add;
-  while dgPanel.ColCount > NewColCount do
+  while dgPanel.Columns.Count > NewColCount do
     dgPanel.Columns.Delete(0);
 end;
 
