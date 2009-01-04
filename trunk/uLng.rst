@@ -126,6 +126,14 @@ ulng.rsmsgrestartforapplychanges='Please, restart Double Commander for ap'+
 'ply changes'
 
 
+# hash value = 70793546
+ulng.rsmsgentername='Enter name:'
+
+
+# hash value = 82520842
+ulng.rsmsgenterfileext='Enter file extension:'
+
+
 # hash value = 128648723
 ulng.rsmnuactions='Actions'
 

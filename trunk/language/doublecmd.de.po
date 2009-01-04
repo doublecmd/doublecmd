@@ -2803,6 +2803,14 @@ msgstr "Markierte \"%s löschen\"?"
 msgid "Disk is not available"
 msgstr "Laufwerk nicht verfügbar"
 
+#: ulng.rsmsgenterfileext
+msgid "Enter file extension:"
+msgstr ""
+
+#: ulng.rsmsgentername
+msgid "Enter name:"
+msgstr ""
+
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
 msgstr "CRC-Fehler in der Archivdatei"
