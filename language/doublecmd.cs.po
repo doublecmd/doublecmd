@@ -2805,6 +2805,14 @@ msgstr "Vymazat vybrané \"%s\"?"
 msgid "Disk is not available"
 msgstr "Disk není dostupný"
 
+#: ulng.rsmsgenterfileext
+msgid "Enter file extension:"
+msgstr ""
+
+#: ulng.rsmsgentername
+msgid "Enter name:"
+msgstr ""
+
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
 msgstr "CRC chyba (kontrolní součet nesouhlasí)"

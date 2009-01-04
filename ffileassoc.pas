@@ -109,7 +109,9 @@ type
 procedure ShowFileAssocDlg;
 
 implementation
-uses LCLType, uGlobsPaths, uGlobs, uPixMapManager;
+
+uses
+  LCLType, uGlobsPaths, uGlobs, uPixMapManager, uLng;
 
 procedure ShowFileAssocDlg;
 begin
@@ -186,7 +188,7 @@ var
   ExtAction : TExtAction;
   s:string;
 begin
-  s:=InputBox(Caption, 'Enter name:', ''); // TODO: Localize
+  s:=InputBox(Caption, rsMsgEnterName, '');
   if s='' then exit;
   ExtAction := TExtAction.Create;
   ExtAction.IsChanged := True;
@@ -220,7 +222,7 @@ begin
   iIndex := lbFileTypes.ItemIndex;
   if iIndex < 0 then Exit;
   sName := lbFileTypes.Items[iIndex];
-  sName := InputBox(Caption, 'Enter name:', sName); // TODO: Localize
+  sName := InputBox(Caption, rsMsgEnterName, sName);
   lbFileTypes.Items[iIndex] := sName;
   // rename file type in TExts object
   Exts.Items[iIndex].Name := sName;
@@ -396,7 +398,7 @@ procedure TfrmFileAssoc.btnAddExtClick(Sender: TObject);
 var
   sExt : String;
 begin
-  sExt := InputBox(Caption, 'Enter file extension:', ''); // TODO: Localize
+  sExt := InputBox(Caption, rsMsgEnterFileExt, '');
   if sExt <> '' then
     begin
       lbExts.ItemIndex := lbExts.Items.Add(sExt);

@@ -2803,6 +2803,14 @@ msgstr "Verwijder geselecteerde \"%s\"?"
 msgid "Disk is not available"
 msgstr "Disk is niet voorhanden"
 
+#: ulng.rsmsgenterfileext
+msgid "Enter file extension:"
+msgstr ""
+
+#: ulng.rsmsgentername
+msgid "Enter name:"
+msgstr ""
+
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
 msgstr "CRC fout in archief gegevens"

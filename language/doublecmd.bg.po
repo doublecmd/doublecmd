@@ -2803,6 +2803,14 @@ msgstr "Изтриване на избрания \"%s\"?"
 msgid "Disk is not available"
 msgstr "Дискът не е на разположение"
 
+#: ulng.rsmsgenterfileext
+msgid "Enter file extension:"
+msgstr ""
+
+#: ulng.rsmsgentername
+msgid "Enter name:"
+msgstr ""
+
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
 msgstr ""

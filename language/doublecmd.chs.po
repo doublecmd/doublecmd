@@ -2803,6 +2803,14 @@ msgstr "删除选中的 \"%s\"?"
 msgid "Disk is not available"
 msgstr "无效的磁盘"
 
+#: ulng.rsmsgenterfileext
+msgid "Enter file extension:"
+msgstr ""
+
+#: ulng.rsmsgentername
+msgid "Enter name:"
+msgstr ""
+
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
 msgstr "压缩文件CRC错误"

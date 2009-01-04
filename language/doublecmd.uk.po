@@ -2802,6 +2802,14 @@ msgstr "Видалити вибраний \"%s\"?"
 msgid "Disk is not available"
 msgstr "Диск не доступний"
 
+#: ulng.rsmsgenterfileext
+msgid "Enter file extension:"
+msgstr ""
+
+#: ulng.rsmsgentername
+msgid "Enter name:"
+msgstr ""
+
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
 msgstr "Контрольна сума не співпадає, архів пошкоджено."

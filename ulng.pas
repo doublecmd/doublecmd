@@ -60,6 +60,8 @@ resourcestring
   rsMsgSetVolumeLabel = 'Set volume label';
   rsMsgVolumeLabel = 'Volume label:';
   rsMsgRestartForApplyChanges = 'Please, restart Double Commander for apply changes';
+  rsMsgEnterName = 'Enter name:';
+  rsMsgEnterFileExt = 'Enter file extension:';
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuMount = 'Mount';
