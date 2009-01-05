@@ -2783,6 +2783,10 @@ msgstr ""
 msgid "ChDir to [%s] failed!"
 msgstr "无法转到目录 [%s]!"
 
+#: ulng.rsmsgcloseallinactivetabs
+msgid "Remove all inactive tabs?"
+msgstr ""
+
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
 msgstr "复制 %d 选中的文件/目录吗?"

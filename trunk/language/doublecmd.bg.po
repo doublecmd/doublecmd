@@ -2783,6 +2783,10 @@ msgstr "Разкачане"
 msgid "ChDir to [%s] failed!"
 msgstr "Смяната на папката на [%s] бе неуспешно!"
 
+#: ulng.rsmsgcloseallinactivetabs
+msgid "Remove all inactive tabs?"
+msgstr ""
+
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
 msgstr "Презапис на %d избраните папки/файлове?"

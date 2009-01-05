@@ -63,6 +63,7 @@ resourcestring
   rsMsgEnterName = 'Enter name:';
   rsMsgEnterFileExt = 'Enter file extension:';
   rsMsgFollowSymlink = 'Follow symlink "%s"?';
+  rsMsgCloseAllInActiveTabs = 'Remove all inactive tabs?';
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuMount = 'Mount';

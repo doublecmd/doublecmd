@@ -598,7 +598,7 @@ begin
   with frmMain do
   begin
     if Boolean(gDirTabOptions and tb_confirm_close_all) then
-      if not msgYesNo('Remove all inactive tabs?') then Exit;
+      if not msgYesNo(rsMsgCloseAllInActiveTabs) then Exit;
     case SelectedPanel of
     fpLeft:
        for I:= nbLeft.PageCount - 1 downto 0 do

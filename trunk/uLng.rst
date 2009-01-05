@@ -138,6 +138,10 @@ ulng.rsmsgenterfileext='Enter file extension:'
 ulng.rsmsgfollowsymlink='Follow symlink "%s"?'
 
 
+# hash value = 231097167
+ulng.rsmsgcloseallinactivetabs='Remove all inactive tabs?'
+
+
 # hash value = 128648723
 ulng.rsmnuactions='Actions'
 

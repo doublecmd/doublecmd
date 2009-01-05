@@ -2783,6 +2783,10 @@ msgstr "Einbindung lösen"
 msgid "ChDir to [%s] failed!"
 msgstr "Wechseln nach [%s] fehlgeschlagen!"
 
+#: ulng.rsmsgcloseallinactivetabs
+msgid "Remove all inactive tabs?"
+msgstr ""
+
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
 msgstr "%d markierte Dateien / Ordner kopieren?"
