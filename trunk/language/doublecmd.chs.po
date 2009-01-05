@@ -2891,6 +2891,10 @@ msgstr "文件 %s 已存在, 是否覆盖?"
 msgid "Folder %s exists, overwrite?"
 msgstr ""
 
+#: ulng.rsmsgfollowsymlink
+msgid "Follow symlink \"%s\"?"
+msgstr ""
+
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
 msgstr "复制文件 %s"
@@ -3150,6 +3154,10 @@ msgstr "未知类型"
 #: ulng.rspropsyes
 msgid "Yes (%s)"
 msgstr "是 (%s)"
+
+#: ulng.rsquicksearchpanel
+msgid "Find:"
+msgstr ""
 
 #: ulng.rssaveposition
 msgid "&Save position"

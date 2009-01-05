@@ -2891,6 +2891,10 @@ msgstr "Datei %s existiert bereits. Überschreiben?"
 msgid "Folder %s exists, overwrite?"
 msgstr "Verzeichnis besteht bereits, überschreiben?"
 
+#: ulng.rsmsgfollowsymlink
+msgid "Follow symlink \"%s\"?"
+msgstr ""
+
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
 msgstr "Kopiere Datei %s"
@@ -3150,6 +3154,10 @@ msgstr "Unbekannter Typ"
 #: ulng.rspropsyes
 msgid "Yes (%s)"
 msgstr "Ja (%s)"
+
+#: ulng.rsquicksearchpanel
+msgid "Find:"
+msgstr ""
 
 #: ulng.rssaveposition
 msgid "&Save position"

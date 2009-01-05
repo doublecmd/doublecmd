@@ -1249,7 +1249,7 @@ begin
   pnAltSearch.Parent:=Self;
   pnAltSearch.Height:=20;
   pnAltSearch.Width:=185;
-  pnAltSearch.Caption:='Find:'; //TODO: localize
+  pnAltSearch.Caption:=rsQuickSearchPanel;
   pnAltSearch.Alignment:=taLeftJustify;
   
   edtSearch:=TEdit.Create(pnAltSearch);

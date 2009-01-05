@@ -2890,6 +2890,10 @@ msgstr "Файл %s существует, переписать?"
 msgid "Folder %s exists, overwrite?"
 msgstr "Каталог %s существует, переписать?"
 
+#: ulng.rsmsgfollowsymlink
+msgid "Follow symlink \"%s\"?"
+msgstr "Следовать ссылке \"%s\"?"
+
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
 msgstr "Копирование файла %s"
@@ -3149,6 +3153,10 @@ msgstr "Неизвестный тип"
 #: ulng.rspropsyes
 msgid "Yes (%s)"
 msgstr "Да (%s)"
+
+#: ulng.rsquicksearchpanel
+msgid "Find:"
+msgstr "Найти:"
 
 #: ulng.rssaveposition
 msgid "&Save position"

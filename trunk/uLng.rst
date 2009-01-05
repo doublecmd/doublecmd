@@ -134,6 +134,10 @@ ulng.rsmsgentername='Enter name:'
 ulng.rsmsgenterfileext='Enter file extension:'
 
 
+# hash value = 32868031
+ulng.rsmsgfollowsymlink='Follow symlink "%s"?'
+
+
 # hash value = 128648723
 ulng.rsmnuactions='Actions'
 
@@ -264,6 +268,10 @@ ulng.rsmsglogpack='Pack to file %s'
 
 # hash value = 126195795
 ulng.rsmsglogextract='Extract file %s'
+
+
+# hash value = 5047418
+ulng.rsquicksearchpanel='Find:'
 
 
 # hash value = 254598078

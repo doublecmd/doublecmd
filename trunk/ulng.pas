@@ -62,6 +62,7 @@ resourcestring
   rsMsgRestartForApplyChanges = 'Please, restart Double Commander for apply changes';
   rsMsgEnterName = 'Enter name:';
   rsMsgEnterFileExt = 'Enter file extension:';
+  rsMsgFollowSymlink = 'Follow symlink "%s"?';
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuMount = 'Mount';
@@ -100,6 +101,7 @@ resourcestring
   rsMsgLogPack = 'Pack to file %s';
   rsMsgLogExtract = 'Extract file %s';
 
+  rsQuickSearchPanel = 'Find:';
   rsSavePosition = '&Save position';
   rsPositionSaved = 'Position saved.';
   // File operations dialog

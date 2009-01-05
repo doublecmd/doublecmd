@@ -69,12 +69,12 @@ type
     function UseForm:Boolean; virtual;
     function FreeAtEnd:Boolean; virtual;
     function DlgFileExist(const sMsg:String):Boolean; // result=true > rewrite file
-    function DlgProcessSymLink(const sMsg:String):Boolean;
+    function DlgFollowSymLink(const sMsg:String):Boolean;
   end;
   
 const
     FMyMsgButtons : array[0..5] of TMyMsgButton = (msmbRewrite, msmbNo, msmbSkip, msmbAppend, msmbRewriteAll, msmbSkipAll); //Alexx2000
-    FSymLinkBtns : array[0..3] of TMyMsgButton = (msmbYes, msmbNo, msmbRewriteAll, msmbSkipAll); //Alexx2000
+    FSymLinkBtns : array[0..3] of TMyMsgButton = (msmbYes, msmbNo, msmbAll, msmbSkipAll); //Alexx2000
 
 implementation
 
@@ -313,7 +313,7 @@ end;
 
 { Dialog for process symlink or real file/folder }
 
-function TFileOpThread.DlgProcessSymLink(const sMsg:String):Boolean; // result=true > process symlink
+function TFileOpThread.DlgFollowSymLink(const sMsg:String):Boolean; // result=true > follow symlink
 begin
   FAppend:= False;
   Result:= False;
@@ -325,15 +325,15 @@ begin
       begin
         Result:=True;
       end;
-    mmrRewriteAll:
+    mmrAll:
       begin
-        FSymLinkAll:=True;
+        FNotSymLinkAll:=True;
         Result:=True;
       end;
 
     mmrSkipAll:
       begin
-        FNotSymLinkAll:=True;
+        FSymLinkAll:=True;
       end;
     else
       Raise Exception.Create('bad handling msg result');
@@ -353,7 +353,7 @@ begin
   Result:= True;
   // For process symlink or real file/folder
   if FPS_ISLNK(FileRecItem^.iMode) then
-  if (not FSymLinkAll) and (FNotSymLinkAll  or not DlgProcessSymLink('Process SymLink "' + FileRecItem^.sName +'"? Press "Yes" to copy or "No" for copy real file/folder')) then //TODO: Localize message
+  if (not FSymLinkAll) and (FNotSymLinkAll or DlgFollowSymLink(Format(rsMsgFollowSymlink, [FileRecItem^.sName]))) then
     begin
       sRealName:=ReadSymLink(FileRecItem^.sName);
 
