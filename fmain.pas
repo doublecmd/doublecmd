@@ -315,6 +315,7 @@ type
     procedure mnuDropClick(Sender: TObject);
     procedure mnuSplitterPercentClick(Sender: TObject);
     procedure mnuHelpClick(Sender: TObject);
+    procedure mnuTabMenuClick(Sender: TObject);
     procedure nbPageChanged(Sender: TObject);
     procedure nbPageMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -994,6 +995,15 @@ begin
 
 end;
 
+procedure TfrmMain.mnuTabMenuClick(Sender: TObject);
+var
+  Cmd: String;
+begin
+  Cmd:= (Sender as TMenuItem).Action.Name;
+  Cmd:= 'cm_' + Copy(Cmd, 4, Length(Cmd) - 3);
+  Actions.Execute(Cmd, pmTabMenu.Parent.Name);
+end;
+
 procedure TfrmMain.nbPageChanged(Sender: TObject);
 begin
   with Sender as TNoteBook do
@@ -1023,6 +1033,7 @@ begin
   {$ENDIF}
     begin
       PopUpPoint:= (Sender as TNoteBook).ClientToScreen(Point(X, Y));
+      pmTabMenu.Parent:= (Sender as TNoteBook);
       pmTabMenu.PopUp(PopUpPoint.x, PopUpPoint.y);
     end;
 end;

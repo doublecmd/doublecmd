@@ -1802,28 +1802,26 @@ object frmMain: TfrmMain
     top = 136
     object miNewTab: TMenuItem
       Action = actNewTab
-      OnClick = actExecute
+      OnClick = mnuTabMenuClick
     end
     object miToggleLockTab: TMenuItem
       Action = actToggleLockTab
-      RadioItem = True
-      OnClick = actExecute
+      OnClick = mnuTabMenuClick
     end
     object miToggleLockDcaTab: TMenuItem
       Action = actToggleLockDcaTab
-      RadioItem = True
-      OnClick = actExecute
+      OnClick = mnuTabMenuClick
     end
     object miLine14: TMenuItem
       Caption = '-'
     end
     object miRemoveTab: TMenuItem
       Action = actRemoveTab
-      OnClick = actExecute
+      OnClick = mnuTabMenuClick
     end
     object miRemoveAllTabs: TMenuItem
       Action = actRemoveAllTabs
-      OnClick = actExecute
+      OnClick = mnuTabMenuClick
     end
   end
 end
