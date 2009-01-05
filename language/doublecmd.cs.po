@@ -2785,6 +2785,10 @@ msgstr ""
 msgid "ChDir to [%s] failed!"
 msgstr "Změna adresáře na [%s] selhala!"
 
+#: ulng.rsmsgcloseallinactivetabs
+msgid "Remove all inactive tabs?"
+msgstr ""
+
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
 msgstr "Copy %d selected files/directories?"

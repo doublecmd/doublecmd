@@ -2782,6 +2782,10 @@ msgstr "Отмонтировать"
 msgid "ChDir to [%s] failed!"
 msgstr "Переход в каталог [%s] не удался!"
 
+#: ulng.rsmsgcloseallinactivetabs
+msgid "Remove all inactive tabs?"
+msgstr "Закрыть все неактивные вкладки?"
+
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
 msgstr "Копировать %d выбранных файлов/каталогов?"
