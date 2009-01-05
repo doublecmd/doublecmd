@@ -2891,6 +2891,10 @@ msgstr ""
 msgid "Folder %s exists, overwrite?"
 msgstr ""
 
+#: ulng.rsmsgfollowsymlink
+msgid "Follow symlink \"%s\"?"
+msgstr ""
+
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
 msgstr ""
@@ -3149,6 +3153,10 @@ msgstr ""
 
 #: ulng.rspropsyes
 msgid "Yes (%s)"
+msgstr ""
+
+#: ulng.rsquicksearchpanel
+msgid "Find:"
 msgstr ""
 
 #: ulng.rssaveposition

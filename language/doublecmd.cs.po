@@ -2893,6 +2893,10 @@ msgstr "Soubor %s existuje, přepsat?"
 msgid "Folder %s exists, overwrite?"
 msgstr ""
 
+#: ulng.rsmsgfollowsymlink
+msgid "Follow symlink \"%s\"?"
+msgstr ""
+
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
 msgstr "Kopírovat soubor %s"
@@ -3152,6 +3156,10 @@ msgstr "Neznámý typ"
 #: ulng.rspropsyes
 msgid "Yes (%s)"
 msgstr "Ano (%s)"
+
+#: ulng.rsquicksearchpanel
+msgid "Find:"
+msgstr ""
 
 #: ulng.rssaveposition
 msgid "&Save position"
