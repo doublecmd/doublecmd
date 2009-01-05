@@ -566,10 +566,19 @@ begin
 end;
 
 procedure TActs.cm_NewTab(param:string);
+var
+  PanelSelected: TFilePanelSelect;
 begin
   with frmMain do
   begin
-    case SelectedPanel of
+    if param = 'nbLeft' then
+      PanelSelected:= fpLeft
+    else if param = 'nbRight' then
+      PanelSelected:= fpRight
+    else
+      PanelSelected:= SelectedPanel;
+
+    case PanelSelected of
     fpLeft:
        CreatePanel(AddPage(nbLeft), fpLeft, ActiveFrame.ActiveDir);
     fpRight:
@@ -579,10 +588,19 @@ begin
 end;
 
 procedure TActs.cm_RemoveTab(param:string);
+var
+  PanelSelected: TFilePanelSelect;
 begin
   with frmMain do
   begin
-    case SelectedPanel of
+    if param = 'nbLeft' then
+      PanelSelected:= fpLeft
+    else if param = 'nbRight' then
+      PanelSelected:= fpRight
+    else
+      PanelSelected:= SelectedPanel;
+
+    case PanelSelected of
     fpLeft:
        RemovePage(nbLeft, nbLeft.PageIndex);
     fpRight:
@@ -594,12 +612,21 @@ end;
 procedure TActs.cm_RemoveAllTabs(param: string);
 var
   I: Integer;
+  PanelSelected: TFilePanelSelect;
 begin
   with frmMain do
   begin
     if Boolean(gDirTabOptions and tb_confirm_close_all) then
       if not msgYesNo(rsMsgCloseAllInActiveTabs) then Exit;
-    case SelectedPanel of
+
+    if param = 'nbLeft' then
+      PanelSelected:= fpLeft
+    else if param = 'nbRight' then
+      PanelSelected:= fpRight
+    else
+      PanelSelected:= SelectedPanel;
+
+    case PanelSelected of
     fpLeft:
        for I:= nbLeft.PageCount - 1 downto 0 do
          if I <> nbLeft.PageIndex then
@@ -662,10 +689,18 @@ procedure TActs.cm_ToggleLockTab(param: string);
 var
   I: Integer;
   nbNoteBook: TNoteBook;
+  PanelSelected: TFilePanelSelect;
 begin
   with frmMain do
   begin
-    case SelectedPanel of
+    if param = 'nbLeft' then
+      PanelSelected:= fpLeft
+    else if param = 'nbRight' then
+      PanelSelected:= fpRight
+    else
+      PanelSelected:= SelectedPanel;
+
+    case PanelSelected of
     fpLeft:
       nbNoteBook:= nbLeft;
     fpRight:
@@ -693,10 +728,18 @@ procedure TActs.cm_ToggleLockDcaTab(param: string);
 var
   I: Integer;
   nbNoteBook: TNoteBook;
+  PanelSelected: TFilePanelSelect;
 begin
   with frmMain do
   begin
-    case SelectedPanel of
+    if param = 'nbLeft' then
+      PanelSelected:= fpLeft
+    else if param = 'nbRight' then
+      PanelSelected:= fpRight
+    else
+      PanelSelected:= SelectedPanel;
+
+    case PanelSelected of
     fpLeft:
       nbNoteBook:= nbLeft;
     fpRight:
