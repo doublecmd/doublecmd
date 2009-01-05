@@ -300,6 +300,7 @@ object fColumnsSetConf: TfColumnsSetConf
         Width = 144
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         BorderSpacing.Top = 8
+        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
         ItemHeight = 16
         TabOrder = 3
         OnChange = cbCursorTextChange
@@ -313,6 +314,7 @@ object fColumnsSetConf: TfColumnsSetConf
         Width = 144
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         BorderSpacing.Top = 8
+        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
         ItemHeight = 16
         TabOrder = 4
         OnChange = cbCursorColorChange
@@ -326,6 +328,7 @@ object fColumnsSetConf: TfColumnsSetConf
         Width = 144
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         BorderSpacing.Top = 8
+        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
         ItemHeight = 16
         TabOrder = 5
         OnChange = cbMarkColorChange
@@ -339,6 +342,7 @@ object fColumnsSetConf: TfColumnsSetConf
         Width = 144
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         BorderSpacing.Top = 8
+        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
         ItemHeight = 16
         TabOrder = 6
         OnChange = cbBackColor2Change
@@ -352,6 +356,7 @@ object fColumnsSetConf: TfColumnsSetConf
         Width = 144
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         BorderSpacing.Top = 8
+        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
         ItemHeight = 16
         TabOrder = 7
         OnChange = cbBackColorChange
@@ -363,6 +368,7 @@ object fColumnsSetConf: TfColumnsSetConf
         Top = 36
         Width = 144
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
         ItemHeight = 16
         TabOrder = 8
         OnChange = cbTextColorChange

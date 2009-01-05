@@ -828,6 +828,7 @@ object frmOptions: TfrmOptions
           Height = 22
           Top = 26
           Width = 100
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
           ItemHeight = 16
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -841,6 +842,7 @@ object frmOptions: TfrmOptions
           Top = 56
           Width = 100
           BorderSpacing.Top = 8
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
           ItemHeight = 16
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -888,6 +890,7 @@ object frmOptions: TfrmOptions
           Top = 86
           Width = 100
           BorderSpacing.Top = 8
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
           ItemHeight = 16
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -901,6 +904,7 @@ object frmOptions: TfrmOptions
           Top = 116
           Width = 100
           BorderSpacing.Top = 8
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
           ItemHeight = 16
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -914,6 +918,7 @@ object frmOptions: TfrmOptions
           Top = 146
           Width = 100
           BorderSpacing.Top = 8
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
           ItemHeight = 16
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -927,6 +932,7 @@ object frmOptions: TfrmOptions
           Top = 176
           Width = 100
           BorderSpacing.Top = 8
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
           ItemHeight = 16
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -1605,8 +1611,9 @@ object frmOptions: TfrmOptions
             Left = 174
             Height = 22
             Top = 479
-            Width = 100
+            Width = 140
             BorderSpacing.Top = 8
+            Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
             ItemHeight = 16
             OnChange = cbCategoryColorChange
             OnDropDown = cbColorBoxDropDown
@@ -1648,7 +1655,7 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbCategoryColor
             AnchorSideBottom.Control = cbCategoryColor
             AnchorSideBottom.Side = asrBottom
-            Left = 278
+            Left = 318
             Height = 22
             Top = 479
             Width = 28

@@ -188,6 +188,12 @@ implementation
 
 uses uLng;
 
+procedure SetColorBoxColor(ColorBox: TColorBox; Color: TColor);
+begin
+  ColorBox.Selected:= Color;
+  ColorBox.Color:= Color;
+end;
+
 procedure LoadCustColumn(const Index:integer);
 begin
  with frmColumnsSetConf do
@@ -199,13 +205,13 @@ begin
 
     edtFont.Text:=ColumnClass.GetColumnFontName(IndexRaw);
     sneFontSize.Value:=ColumnClass.GetColumnFontSize(IndexRaw);
-    cbTextColor.Color:=ColumnClass.GetColumnTextColor(IndexRaw);
-    cbBackColor.Color:=ColumnClass.GetColumnBackground(IndexRaw);
-    cbBackColor2.Color:=ColumnClass.GetColumnBackground2(IndexRaw);
-    cbMarkColor.Color:=ColumnClass.GetColumnMarkColor(IndexRaw);
-    cbCursorColor.Color:=ColumnClass.GetColumnCursorColor(IndexRaw);
-    cbCursorText.Color:=ColumnClass.GetColumnCursorText(IndexRaw);
-     cbOvercolor.Checked:=ColumnClass.GetColumnOvercolor(IndexRaw);
+    SetColorBoxColor(cbTextColor, ColumnClass.GetColumnTextColor(IndexRaw));
+    SetColorBoxColor(cbBackColor, ColumnClass.GetColumnBackground(IndexRaw));
+    SetColorBoxColor(cbBackColor2, ColumnClass.GetColumnBackground2(IndexRaw));
+    SetColorBoxColor(cbMarkColor, ColumnClass.GetColumnMarkColor(IndexRaw));
+    SetColorBoxColor(cbCursorColor, ColumnClass.GetColumnCursorColor(IndexRaw));
+    SetColorBoxColor(cbCursorText, ColumnClass.GetColumnCursorText(IndexRaw));
+    cbOvercolor.Checked:=ColumnClass.GetColumnOvercolor(IndexRaw);
 
     //open pblCustCont if it is hidden
     if Splitter2.Height+1>pnlCustCont.Height then
