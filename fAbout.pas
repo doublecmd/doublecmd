@@ -94,6 +94,7 @@ const
     'Contributors:'+LineEnding+
     'Dmitry Kolomiets (B4rr4cuda@rambler.ru)'+LineEnding+
     'Tolstov Igor (attid@yandex.ru)'+LineEnding+
+    'Vitaly Zotov (vitalyzotov@mail.ru)'+LineEnding+
     'Zolotov Alex (zolotov-alex@shamangrad.net)'+LineEnding+
     'Peter Cernoch (pcernoch@volny.cz) - author PFM'+LineEnding+
     'Pavel Letko (letcuv@centrum.cz) - multirename, split, linker'+LineEnding+
