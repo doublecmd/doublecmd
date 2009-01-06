@@ -2679,6 +2679,10 @@ msgstr "Komprese..."
 msgid "Speed %s/s, remained time %s"
 msgstr ""
 
+#: ulng.rseditabouttext
+msgid "Internal Editor of Double Commander."
+msgstr ""
+
 #: ulng.rseditnewfile
 msgid "new.txt"
 msgstr "nový.txt"

@@ -114,6 +114,8 @@ resourcestring
   rsDlgExtract = 'Extracting...';
   // Viewer
   rsViewAboutText = 'Internal Viewer of Double Commander.';
+  // Editor
+  rsEditAboutText = 'Internal Editor of Double Commander.';
   
   // Columns in file panel
   rsColName = 'Name';

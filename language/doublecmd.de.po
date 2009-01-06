@@ -2677,6 +2677,10 @@ msgstr "Packe..."
 msgid "Speed %s/s, remained time %s"
 msgstr "Geschwindigkeit %s/s, verbleibende Zeit %s"
 
+#: ulng.rseditabouttext
+msgid "Internal Editor of Double Commander."
+msgstr ""
+
 #: ulng.rseditnewfile
 msgid "new.txt"
 msgstr "Neu.txt"

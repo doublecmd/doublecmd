@@ -2676,6 +2676,10 @@ msgstr "Упаковка..."
 msgid "Speed %s/s, remained time %s"
 msgstr "Скорость %s/с, осталось времени %s"
 
+#: ulng.rseditabouttext
+msgid "Internal Editor of Double Commander."
+msgstr "Встроенный редактор Double Commander."
+
 #: ulng.rseditnewfile
 msgid "new.txt"
 msgstr ""
