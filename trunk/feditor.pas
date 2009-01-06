@@ -348,7 +348,7 @@ end;
 
 procedure TfrmEditor.actAboutExecute(Sender: TObject);
 begin
-  ShowMessage('Internal editor, part of Double Commander');
+  msgOK(rsEditAboutText);
 end;
 
 procedure TfrmEditor.actEditCopyExecute(Sender: TObject);

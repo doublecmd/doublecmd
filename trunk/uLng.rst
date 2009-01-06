@@ -314,6 +314,10 @@ ulng.rsdlgextract='Extracting...'
 ulng.rsviewabouttext='Internal Viewer of Double Commander.'
 
 
+# hash value = 146325998
+ulng.rseditabouttext='Internal Editor of Double Commander.'
+
+
 # hash value = 346165
 ulng.rscolname='Name'
 
