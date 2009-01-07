@@ -92,7 +92,7 @@ object frmDescrEdit: TfrmDescrEdit
     Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 6
-    Caption = '&ОК'
+    Caption = '&OK'
     Default = True
     Kind = bkOK
     ModalResult = 1
@@ -112,7 +112,7 @@ object frmDescrEdit: TfrmDescrEdit
     Anchors = [akRight, akBottom]
     BorderSpacing.Bottom = 18
     Cancel = True
-    Caption = 'Отмена'
+    Caption = 'Cancel'
     Kind = bkCancel
     ModalResult = 2
     NumGlyphs = 0

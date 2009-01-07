@@ -153,6 +153,22 @@ end;
 
 procedure TfrmFileAssoc.UpdateEnabledButtons;
 begin
+  if lbFileTypes.Items.Count = 0 then
+    btnAddExt.Enabled:= False
+  else
+    btnAddExt.Enabled:= True;
+
+  if lbExts.Items.Count = 0 then
+    begin
+      btnAddAct.Enabled:= False;
+      sbtnIcon.Enabled:= False;
+    end
+  else
+    begin
+      btnAddAct.Enabled:= True;
+      sbtnIcon.Enabled:= True;
+    end;
+
   if (lbExts.Items.Count = 0) or (lbExts.ItemIndex = -1) then
     btnRemoveExt.Enabled := False
   else
@@ -165,6 +181,7 @@ begin
       btnDownAct.Enabled := False;
       edbAction.Enabled:= False;
       fneCommand.Enabled:= False;
+      btnCommands.Enabled:= False;
       edbAction.Text:= '';
       fneCommand.FileName:= '';
     end
@@ -175,6 +192,7 @@ begin
       btnDownAct.Enabled := True;
       edbAction.Enabled:= True;
       fneCommand.Enabled:= True;
+      btnCommands.Enabled:= True;
     end;
 
   if lbActions.ItemIndex = 0 then
