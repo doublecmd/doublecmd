@@ -138,7 +138,7 @@ object DialogBox: TDialogBox
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 24
       BorderSpacing.Right = 12
-      Caption = 'Отмена'
+      Caption = 'Cancel'
       OnClick = ButtonClick
       TabOrder = 3
     end
