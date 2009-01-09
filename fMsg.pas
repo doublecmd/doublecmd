@@ -8,7 +8,7 @@ uses
   Dialogs, StdCtrls, Buttons;
 
 const
-  cButtonWith=90;
+  cButtonWith=140;
   cButtonSpace=15;
 
 type
