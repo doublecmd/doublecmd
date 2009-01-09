@@ -131,7 +131,7 @@ object frmOptions: TfrmOptions
       end
       object pgBehav: TPage
         ClientWidth = 620
-        ClientHeight = 506
+        ClientHeight = 524
         OnResize = pgBehavResize
         object lblRunInTerm: TLabel
           AnchorSideTop.Control = edtRunInTerm
@@ -292,13 +292,14 @@ object frmOptions: TfrmOptions
             ParentColor = False
           end
           object cbIconsSize: TComboBox
-            AnchorSideLeft.Control = cbShowIcons
+            AnchorSideLeft.Control = lblIconsSize
+            AnchorSideLeft.Side = asrBottom
             AnchorSideRight.Side = asrBottom
-            Left = 93
+            Left = 79
             Height = 21
             Top = 33
             Width = 131
-            BorderSpacing.Left = 80
+            BorderSpacing.Left = 12
             BorderSpacing.Right = 10
             Enabled = False
             ItemHeight = 13
@@ -330,13 +331,12 @@ object frmOptions: TfrmOptions
             TabOrder = 2
           end
           object cbMouseMode: TComboBox
-            AnchorSideLeft.Control = cbSelectionByMouse
+            AnchorSideLeft.Control = cbIconsSize
             AnchorSideRight.Side = asrBottom
-            Left = 93
+            Left = 79
             Height = 21
             Top = 87
             Width = 131
-            BorderSpacing.Left = 80
             ItemHeight = 13
             Items.Strings = (
               'Left button'
@@ -841,8 +841,8 @@ object frmOptions: TfrmOptions
           Height = 22
           Top = 56
           Width = 100
-          BorderSpacing.Top = 8
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          BorderSpacing.Top = 8
           ItemHeight = 16
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -889,8 +889,8 @@ object frmOptions: TfrmOptions
           Height = 22
           Top = 86
           Width = 100
-          BorderSpacing.Top = 8
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          BorderSpacing.Top = 8
           ItemHeight = 16
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -903,8 +903,8 @@ object frmOptions: TfrmOptions
           Height = 22
           Top = 116
           Width = 100
-          BorderSpacing.Top = 8
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          BorderSpacing.Top = 8
           ItemHeight = 16
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -917,8 +917,8 @@ object frmOptions: TfrmOptions
           Height = 22
           Top = 146
           Width = 100
-          BorderSpacing.Top = 8
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          BorderSpacing.Top = 8
           ItemHeight = 16
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -931,8 +931,8 @@ object frmOptions: TfrmOptions
           Height = 22
           Top = 176
           Width = 100
-          BorderSpacing.Top = 8
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          BorderSpacing.Top = 8
           ItemHeight = 16
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
@@ -1612,8 +1612,8 @@ object frmOptions: TfrmOptions
             Height = 22
             Top = 479
             Width = 140
-            BorderSpacing.Top = 8
             Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+            BorderSpacing.Top = 8
             ItemHeight = 16
             OnChange = cbCategoryColorChange
             OnDropDown = cbColorBoxDropDown
@@ -1716,8 +1716,8 @@ object frmOptions: TfrmOptions
           Width = 596
           Anchors = [akTop, akLeft, akRight]
           Caption = ' Screen layout '
-          ClientHeight = 340
-          ClientWidth = 592
+          ClientHeight = 358
+          ClientWidth = 596
           TabOrder = 0
           object cbShowMainToolBar: TCheckBox
             Left = 10

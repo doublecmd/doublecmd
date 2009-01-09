@@ -790,7 +790,7 @@ object frmCompareFiles: TfrmCompareFiles
       Left = 6
       Height = 32
       Top = 8
-      Width = 110
+      Width = 150
       BorderSpacing.InnerBorder = 4
       Caption = 'Compare files'
       OnClick = btnCompareClick
