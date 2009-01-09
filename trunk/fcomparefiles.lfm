@@ -833,7 +833,6 @@ object frmCompareFiles: TfrmCompareFiles
       Height = 22
       Top = 13
       Width = 108
-      AllowGrayed = True
       BorderSpacing.Left = 6
       Caption = 'Binary mode'
       TabOrder = 3
@@ -862,7 +861,7 @@ object frmCompareFiles: TfrmCompareFiles
       Height = 22
       Top = 13
       Width = 116
-      AllowGrayed = True
+      Checked = True
       BorderSpacing.Left = 6
       Caption = 'Keep scrolling'
       TabOrder = 5
