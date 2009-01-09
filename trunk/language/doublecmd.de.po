@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.3.5 alpha\n"
+"Project-Id-Version: Double Commander 0.4 alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-30 21:14+0300\n"
+"POT-Creation-Date: 2009-01-08 21:14+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: \n"
@@ -86,12 +86,12 @@ msgstr ""
 
 #: TFRMABOUT.LBLLAZARUSVER.CAPTION
 msgid "Lazarus"
-msgstr "Lazarus"
+msgstr ""
 
 #: TFRMABOUT.LBLREVISION.CAPTION
 msgctxt "TFRMABOUT.LBLREVISION.CAPTION"
 msgid "Revision"
-msgstr ""
+msgstr "Revision"
 
 #: TFRMABOUT.LBLTITLE.CAPTION
 msgctxt "TFRMABOUT.LBLTITLE.CAPTION"
@@ -188,7 +188,6 @@ msgid "&Button bar:"
 msgstr "&Schalterleiste"
 
 #: TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION
-msgctxt "TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION"
 msgid "&Command:"
 msgstr "&Befehl"
 
@@ -392,61 +391,6 @@ msgstr "Vordefiniert"
 msgid "Sample"
 msgstr "Beispiel"
 
-#: TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION
-msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Abbruch"
-
-#: TFRMEDITSEARCHREPLACE.BTNOK.CAPTION
-msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&OK"
-
-#: TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION
-msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
-msgid "C&ase sensitivity"
-msgstr "Strikt nach Schreibweise"
-
-#: TFRMEDITSEARCHREPLACE.CBSEARCHFROMCURSOR.CAPTION
-msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHFROMCURSOR.CAPTION"
-msgid "Search from &caret"
-msgstr "Suche von &caret"
-
-#: TFRMEDITSEARCHREPLACE.CBSEARCHREGEXP.CAPTION
-msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHREGEXP.CAPTION"
-msgid "&Regular expressions"
-msgstr "&Reguläre Ausdrücke"
-
-#: TFRMEDITSEARCHREPLACE.CBSEARCHSELECTEDONLY.CAPTION
-msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHSELECTEDONLY.CAPTION"
-msgid "Selected &text only"
-msgstr "Nur den markierten Text"
-
-#: TFRMEDITSEARCHREPLACE.CBSEARCHWHOLEWORDS.CAPTION
-msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHWHOLEWORDS.CAPTION"
-msgid "&Whole words only"
-msgstr "Nur ganze Wörter"
-
-#: TFRMEDITSEARCHREPLACE.GBSEARCHOPTIONS.CAPTION
-msgctxt "TFRMEDITSEARCHREPLACE.GBSEARCHOPTIONS.CAPTION"
-msgid "Option"
-msgstr "Option"
-
-#: TFRMEDITSEARCHREPLACE.LBLREPLACEWITH.CAPTION
-msgctxt "TFRMEDITSEARCHREPLACE.LBLREPLACEWITH.CAPTION"
-msgid "&Replace with:"
-msgstr "&Erstezen mit:"
-
-#: TFRMEDITSEARCHREPLACE.LBLSEARCHFOR.CAPTION
-msgctxt "TFRMEDITSEARCHREPLACE.LBLSEARCHFOR.CAPTION"
-msgid "&Search for:"
-msgstr "&Suche nach:"
-
-#: TFRMEDITSEARCHREPLACE.RGSEARCHDIRECTION.CAPTION
-msgctxt "TFRMEDITSEARCHREPLACE.RGSEARCHDIRECTION.CAPTION"
-msgid "Direction"
-msgstr "Richtung"
-
 #: TFRMEXTRACTDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -487,22 +431,22 @@ msgstr "Entpacke Datei(en) nach:"
 
 #: TFRMEXTRACTDLG.LBLFILEMASK.CAPTION
 msgid "&Files to unpack:"
-msgstr "&Datei(en) zum Entpacken:"
+msgstr "&Dateien zum Entpacken"
 
 #: TFRMFILEASSOC.BTNADDACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNADDACT.CAPTION"
 msgid "Add"
-msgstr ""
+msgstr "Hinzufügen"
 
 #: TFRMFILEASSOC.BTNADDEXT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNADDEXT.CAPTION"
 msgid "Add"
-msgstr ""
+msgstr "Hinzufügen"
 
 #: TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION
 msgctxt "TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION"
 msgid "Add"
-msgstr ""
+msgstr "Hinzufügen"
 
 #: TFRMFILEASSOC.BTNCANCEL.CAPTION
 msgctxt "TFRMFILEASSOC.BTNCANCEL.CAPTION"
@@ -512,46 +456,46 @@ msgstr "Abbruch"
 #: TFRMFILEASSOC.BTNDOWNACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNDOWNACT.CAPTION"
 msgid "Down"
-msgstr ""
+msgstr "Runter"
 
 #: TFRMFILEASSOC.BTNOK.CAPTION
 msgctxt "TFRMFILEASSOC.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&OK"
+msgstr "&Ok"
 
 #: TFRMFILEASSOC.BTNREMOVEACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVEACT.CAPTION"
 msgid "Remove"
-msgstr ""
+msgstr "Entfernen"
 
 #: TFRMFILEASSOC.BTNREMOVEEXT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVEEXT.CAPTION"
 msgid "Remove"
-msgstr ""
+msgstr "Entfernen"
 
 #: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
 msgid "Remove"
-msgstr "Entfernen"
+msgstr ""
 
 #: TFRMFILEASSOC.BTNRENAMETYPE.CAPTION
 msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
 msgid "Rename"
-msgstr ""
+msgstr "Umbenennen"
 
 #: TFRMFILEASSOC.BTNUPACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNUPACT.CAPTION"
 msgid "Up"
-msgstr ""
+msgstr "Hoch"
 
 #: TFRMFILEASSOC.CAPTION
 msgid "File associations"
-msgstr "Dateiverknüpfungen"
+msgstr "Datei-Verknüpfungen"
 
 #: TFRMFILEASSOC.GBACTIONS.CAPTION
 msgctxt "TFRMFILEASSOC.GBACTIONS.CAPTION"
 msgid "Actions"
-msgstr ""
+msgstr "Aktionen"
 
 #: TFRMFILEASSOC.GBEXTS.CAPTION
 msgid "Extensions"
@@ -560,15 +504,15 @@ msgstr "Endungen"
 #: TFRMFILEASSOC.GBFILETYPES.CAPTION
 msgctxt "TFRMFILEASSOC.GBFILETYPES.CAPTION"
 msgid "File types"
-msgstr ""
+msgstr "Dateitypen"
 
 #: TFRMFILEASSOC.GBICON.CAPTION
 msgid "Icon"
 msgstr "Icon"
 
-#: TFRMFILEASSOC.LBLACTION.CAPTION
+#: TFRMFILEASSOC.LEDACTION.EDITLABEL.CAPTION
 msgid "Action:"
-msgstr ""
+msgstr "Aktion:"
 
 #: TFRMFILEASSOC.LBLCOMMAND.CAPTION
 msgctxt "TFRMFILEASSOC.LBLCOMMAND.CAPTION"
@@ -578,49 +522,49 @@ msgstr "&Befehl"
 #: TFRMFILEASSOC.MIEDIT.CAPTION
 msgctxt "TFRMFILEASSOC.MIEDIT.CAPTION"
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeiten"
 
 #: TFRMFILEASSOC.MIEDITOR.CAPTION
 msgid "Open in Editor"
-msgstr ""
+msgstr "im Editor öffnen"
 
 #: TFRMFILEASSOC.MIFILENAME.CAPTION
 msgctxt "TFRMFILEASSOC.MIFILENAME.CAPTION"
 msgid "File name"
-msgstr ""
+msgstr "Dateiname"
 
 #: TFRMFILEASSOC.MIFILEPATH.CAPTION
 msgid "File path"
-msgstr ""
+msgstr "Dateipfad"
 
 #: TFRMFILEASSOC.MIFULLPATH.CAPTION
 msgid "Full path"
-msgstr ""
+msgstr "Vollständiger Pfad"
 
 #: TFRMFILEASSOC.MIGETOUTPUTFROMCOMMAND.CAPTION
 msgid "Get output from command"
-msgstr ""
+msgstr "Ausgabe aus Befehlszeile entnehmen"
 
 #: TFRMFILEASSOC.MIOPEN.CAPTION
 msgctxt "TFRMFILEASSOC.MIOPEN.CAPTION"
 msgid "Open"
-msgstr ""
+msgstr "Öffnen"
 
 #: TFRMFILEASSOC.MISHELL.CAPTION
 msgid "Run in terminal"
-msgstr ""
+msgstr "In Befehlszeile ausführen"
 
 #: TFRMFILEASSOC.MIVFS.CAPTION
 msgid "Open in VFS"
-msgstr ""
+msgstr "In VFS öffnen"
 
 #: TFRMFILEASSOC.MIVIEW.CAPTION
 msgid "View"
-msgstr ""
+msgstr "Betrachten"
 
 #: TFRMFILEASSOC.MIVIEWER.CAPTION
 msgid "Open in Viewer"
-msgstr ""
+msgstr "In Betrachter öffnen"
 
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
@@ -1091,7 +1035,6 @@ msgid "Switch to next tab"
 msgstr "Zum nächsten Tab wechseln"
 
 #: TFRMMAIN.ACTOPEN.CAPTION
-msgctxt "TFRMMAIN.ACTOPEN.CAPTION"
 msgid "Open"
 msgstr "Öffne"
 
@@ -1236,7 +1179,7 @@ msgstr "Homepage von DoubleCommander öffnen"
 
 #: TFRMMAIN.ACTWIPE.CAPTION
 msgid "Wipe"
-msgstr "Reinigen"
+msgstr "Löschen"
 
 #: TFRMMAIN.BTNF9.CAPTION
 msgid "Terminal F9"
@@ -1341,77 +1284,77 @@ msgstr "Verknüpfung erstellen"
 #: TFRMMAIN.MILINE1.CAPTION
 msgctxt "TFRMMAIN.MILINE1.CAPTION"
 msgid "-"
-msgstr "-"
+msgstr ""
 
 #: TFRMMAIN.MILINE10.CAPTION
 msgctxt "TFRMMAIN.MILINE10.CAPTION"
 msgid "-"
-msgstr "-"
+msgstr ""
 
 #: TFRMMAIN.MILINE12.CAPTION
 msgctxt "TFRMMAIN.MILINE12.CAPTION"
 msgid "-"
-msgstr "-"
+msgstr ""
 
 #: TFRMMAIN.MILINE14.CAPTION
 msgctxt "TFRMMAIN.MILINE14.CAPTION"
 msgid "-"
-msgstr "-"
+msgstr ""
 
 #: TFRMMAIN.MILINE15.CAPTION
 msgctxt "TFRMMAIN.MILINE15.CAPTION"
 msgid "-"
-msgstr "-"
+msgstr ""
 
 #: TFRMMAIN.MILINE16.CAPTION
 msgctxt "TFRMMAIN.MILINE16.CAPTION"
 msgid "-"
-msgstr "-"
+msgstr ""
 
 #: TFRMMAIN.MILINE17.CAPTION
 msgctxt "TFRMMAIN.MILINE17.CAPTION"
 msgid "-"
-msgstr "-"
+msgstr ""
 
 #: TFRMMAIN.MILINE18.CAPTION
 msgctxt "TFRMMAIN.MILINE18.CAPTION"
 msgid "-"
-msgstr "-"
+msgstr ""
 
 #: TFRMMAIN.MILINE2.CAPTION
 msgctxt "TFRMMAIN.MILINE2.CAPTION"
 msgid "-"
-msgstr "-"
+msgstr ""
 
 #: TFRMMAIN.MILINE3.CAPTION
 msgctxt "TFRMMAIN.MILINE3.CAPTION"
 msgid "-"
-msgstr "-"
+msgstr ""
 
 #: TFRMMAIN.MILINE4.CAPTION
 msgctxt "TFRMMAIN.MILINE4.CAPTION"
 msgid "-"
-msgstr "-"
+msgstr ""
 
 #: TFRMMAIN.MILINE5.CAPTION
 msgctxt "TFRMMAIN.MILINE5.CAPTION"
 msgid "-"
-msgstr "-"
+msgstr ""
 
 #: TFRMMAIN.MILINE6.CAPTION
 msgctxt "TFRMMAIN.MILINE6.CAPTION"
 msgid "-"
-msgstr "-"
+msgstr ""
 
 #: TFRMMAIN.MILINE7.CAPTION
 msgctxt "TFRMMAIN.MILINE7.CAPTION"
 msgid "-"
-msgstr "-"
+msgstr ""
 
 #: TFRMMAIN.MILINE9.CAPTION
 msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
-msgstr "-"
+msgstr ""
 
 #: TFRMMAIN.MIMOVE.CAPTION
 msgid "Move..."
@@ -1865,15 +1808,15 @@ msgstr "Flaches Erscheinungsbild"
 #: TFRMOPTIONS.CBFLATTOOLBAR.CAPTION
 msgctxt "TFRMOPTIONS.CBFLATTOOLBAR.CAPTION"
 msgid "Flat buttons"
-msgstr "Flache Schalter"
+msgstr ""
 
 #: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
 msgid "Horizontal lines"
-msgstr ""
+msgstr "Horizontale Linien"
 
 #: TFRMOPTIONS.CBGRIDVERTLINE.CAPTION
 msgid "Vertical lines"
-msgstr ""
+msgstr "Vertikale Linien"
 
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
@@ -1917,7 +1860,7 @@ msgid "File system plugins"
 msgstr "Dateisystem Plugin"
 
 #: TFRMOPTIONS.CBLOGWINDOW.CAPTION
-msgid "Show log window"
+msgid "Log window"
 msgstr "Log-Datei anzeigen"
 
 #: TFRMOPTIONS.CBLYNXLIKE.CAPTION
@@ -1982,11 +1925,11 @@ msgstr "Zeige Tabstop-Zeile"
 
 #: TFRMOPTIONS.CBSHOWTABS.CAPTION
 msgid "Sho&w folder tabs"
-msgstr "&Zeige Ordnerreiter"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWWARNINGMESSAGES.CAPTION
 msgid "Show warning messages (\"OK\" button only)"
-msgstr ""
+msgstr "Warnungen anzeigen (nur mit \"OK\" Schalter)"
 
 #: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION
 msgid "&Show tab header also when there is only one tab"
@@ -2010,11 +1953,11 @@ msgstr "Rei&ter auf mehrer Zeilen verteilen"
 
 #: TFRMOPTIONS.CBTABSOPENFOREGROUND.CAPTION
 msgid "Ctrl+&Up opens new tab in foreground"
-msgstr "Strg+Pfeil hoch öffnet neuen Reiter im Vordergrund"
+msgstr ""
 
 #: TFRMOPTIONS.CBTERMWINDOW.CAPTION
 msgid "Show terminal window"
-msgstr ""
+msgstr "Konolenfenster zeigen"
 
 #: TFRMOPTIONS.CBTWODISKPANELS.CAPTION
 msgid "Show two drive button bars (fixed width, above file windows)"
@@ -2078,11 +2021,11 @@ msgstr "Beim Beenden speichern"
 
 #: TFRMOPTIONS.GBSCREENLAYOUT.CAPTION
 msgid " Screen layout "
-msgstr "Layout"
+msgstr ""
 
 #: TFRMOPTIONS.GBSHOWGRID.CAPTION
 msgid "Show grid in file panel"
-msgstr ""
+msgstr "Gitternetz anzeigen"
 
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
@@ -2170,11 +2113,11 @@ msgstr "Parameter:"
 
 #: TFRMOPTIONS.LBLRUNINTERM.CAPTION
 msgid "Run in terminal:"
-msgstr "In Konsolenfenster ausführen"
+msgstr "In Befehlszeile ausführen"
 
 #: TFRMOPTIONS.LBLRUNTERM.CAPTION
 msgid "Run terminal:"
-msgstr "Konsolenfenster"
+msgstr "Befehlszeile:"
 
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
@@ -2242,7 +2185,7 @@ msgstr "Eigene Dateien"
 
 #: TFRMOPTIONS.RBUSESTREAMINSEARCH.CAPTION
 msgid "Use stream for search text in files"
-msgstr "Nutze Stream zur textsuche in Dateien"
+msgstr "Nutze Stream zur Textsuche in Dateien"
 
 #: TFRMOPTIONS.RGSCROLLING.CAPTION
 msgid "Scrolling"
@@ -2675,11 +2618,11 @@ msgstr "Packe..."
 
 #: ulng.rsdlgspeedtime
 msgid "Speed %s/s, remained time %s"
-msgstr "Geschwindigkeit %s/s, verbleibende Zeit %s"
+msgstr ""
 
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
-msgstr ""
+msgstr "Interner Editor von Double Commander"
 
 #: ulng.rseditnewfile
 msgid "new.txt"
@@ -2702,13 +2645,50 @@ msgctxt "ulng.rseditsearchcaption"
 msgid "Search"
 msgstr "Suchen"
 
+#: ulng.rseditsearchcaret
+msgid "Search from &caret"
+msgstr "Suche von &caret"
+
+#: ulng.rseditsearchcase
+msgid "C&ase sensitivity"
+msgstr "Strikt nach Schreibweise"
+
+#: ulng.rseditsearchdirection
+msgid "Direction"
+msgstr "Richtung"
+
+#: ulng.rseditsearchforlbl
+msgid "&Search for:"
+msgstr "&Suche nach:"
+
 #: ulng.rseditsearchfrw
 msgid "&Forward"
 msgstr "&Vorwärts"
 
+#: ulng.rseditsearchoptions
+msgid "Option"
+msgstr "Option"
+
+#: ulng.rseditsearchregexp
+msgctxt "ulng.rseditsearchregexp"
+msgid "&Regular expressions"
+msgstr "&Reguläre Ausdrücke"
+
 #: ulng.rseditsearchreplace
 msgid "Replace"
 msgstr "Ersetzen"
+
+#: ulng.rseditsearchreplacewith
+msgid "&Replace with:"
+msgstr "&Erstezen mit:"
+
+#: ulng.rseditsearchselect
+msgid "Selected &text only"
+msgstr "Nur den markierten Text"
+
+#: ulng.rseditsearchwholeword
+msgid "&Whole words only"
+msgstr "Nur ganze Wörter"
 
 #: ulng.rsfinddepth
 msgid "%s level(s)"
@@ -2785,11 +2765,11 @@ msgstr "Einbindung lösen"
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
-msgstr "Wechseln nach [%s] fehlgeschlagen!"
+msgstr ""
 
 #: ulng.rsmsgcloseallinactivetabs
 msgid "Remove all inactive tabs?"
-msgstr ""
+msgstr "Alle in-aktiven Tabs entfernen?"
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -2809,15 +2789,15 @@ msgstr "Markierte \"%s löschen\"?"
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
-msgstr "Laufwerk nicht verfügbar"
+msgstr ""
 
 #: ulng.rsmsgenterfileext
 msgid "Enter file extension:"
-msgstr ""
+msgstr "Dateiendung eingeben:"
 
 #: ulng.rsmsgentername
 msgid "Enter name:"
-msgstr ""
+msgstr "Namen eingeben:"
 
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
@@ -2897,11 +2877,11 @@ msgstr "Datei %s existiert bereits. Überschreiben?"
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
-msgstr "Verzeichnis besteht bereits, überschreiben?"
+msgstr ""
 
 #: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"
-msgstr ""
+msgstr "Sym-Link folgen"
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
@@ -3092,15 +3072,15 @@ msgstr "Zeile für Zeile beim Navigieren mit Cursor-Taste"
 #: ulng.rsoptlog
 msgctxt "ulng.rsoptlog"
 msgid "Log"
-msgstr "Log"
+msgstr ""
 
 #: ulng.rsoptmiscellaneous
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Verschiedenes"
 
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"
-msgstr ""
+msgstr "Linke Taste;Rechte Taste;"
 
 #: ulng.rsoptpagebypage
 msgid "Page by page"
@@ -3161,11 +3141,11 @@ msgstr "Unbekannter Typ"
 
 #: ulng.rspropsyes
 msgid "Yes (%s)"
-msgstr "Ja (%s)"
+msgstr ""
 
 #: ulng.rsquicksearchpanel
 msgid "Find:"
-msgstr ""
+msgstr "Finde:"
 
 #: ulng.rssaveposition
 msgid "&Save position"
@@ -3211,3 +3191,5 @@ msgstr "Fehler beim Erstellen des symb. Link."
 msgid "Internal Viewer of Double Commander."
 msgstr "Interner Betrachter des Double Commander"
 
+
+ 	  	 
