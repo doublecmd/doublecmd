@@ -426,7 +426,8 @@ procedure TFrameFilePanel.dgPanelHeaderClick(Sender: TObject;
   IsColumn: Boolean; Index: Integer);
 begin
   if not IsColumn then Exit;
-  pnlFile.SortDirection:= not pnlFile.SortDirection;
+  if pnlFile.SortColumn = Index then
+    pnlFile.SortDirection:= not pnlFile.SortDirection;  
   pnlFile.SortByCol(Index);
   dgPanel.Invalidate;
 end;
