@@ -96,7 +96,7 @@ msgstr "Revision"
 #: TFRMABOUT.LBLTITLE.CAPTION
 msgctxt "TFRMABOUT.LBLTITLE.CAPTION"
 msgid "Double Commander"
-msgstr "Double Commander"
+msgstr "DoubleCommander"
 
 #: TFRMABOUT.LBLVERSION.CAPTION
 msgid "Version %s"
@@ -188,6 +188,7 @@ msgid "&Button bar:"
 msgstr "&Schalterleiste"
 
 #: TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION"
 msgid "&Command:"
 msgstr "&Befehl"
 
@@ -415,7 +416,7 @@ msgstr "&Pfad mit entpacken (falls gespeichert)"
 
 #: TFRMEXTRACTDLG.CBFILEMASK.TEXT
 msgid "*.*"
-msgstr "*.*"
+msgstr "*"
 
 #: TFRMEXTRACTDLG.CBINSEPARATEFOLDER.CAPTION
 msgid "Unpack each archive to a &separate subdir (name of the archive)"
@@ -476,7 +477,7 @@ msgstr "Entfernen"
 #: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
 msgid "Remove"
-msgstr ""
+msgstr "Entfernen"
 
 #: TFRMFILEASSOC.BTNRENAMETYPE.CAPTION
 msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
@@ -719,7 +720,7 @@ msgstr "Suche Datei(en)"
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sensitive"
-msgstr "Gross- Kleinschreibung beachten"
+msgstr "Gross- / Kleinschreibung beachten"
 
 #: TFRMFINDDLG.CBDATEFROM.CAPTION
 msgid "Date From:"
@@ -800,7 +801,7 @@ msgstr "Dateimaske"
 
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "FileDir"
-msgstr "DateiDir"
+msgstr "Verzeichnis in dem DoubleCommander suchen soll"
 
 #: TFRMFINDDLG.LBLINFO.CAPTION
 msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
@@ -853,7 +854,7 @@ msgstr "Manuel hinzufügen"
 
 #: TFRMHOTDIR.CAPTION
 msgid "Directory Hotlist"
-msgstr "Ordnerfavoriten"
+msgstr "Verzeichnisfavoriten"
 
 #: TFRMLINKER.CAPTION
 msgid "Linker"
@@ -926,11 +927,11 @@ msgstr "Löschen F8"
 #: TFRMMAIN.ACTDIRHISTORY.CAPTION
 msgctxt "TFRMMAIN.ACTDIRHISTORY.CAPTION"
 msgid "Directory history"
-msgstr "Ordnerverlauf"
+msgstr "Verzeichnisverlauf"
 
 #: TFRMMAIN.ACTDIRHOTLIST.CAPTION
 msgid "Directory &hotlist"
-msgstr "Ordner-Favoriten"
+msgstr "Verzeichnis-Favoriten"
 
 #: TFRMMAIN.ACTEDIT.CAPTION
 msgid "Edit F4"
@@ -996,7 +997,7 @@ msgstr "Öffne linke Laufwerksliste"
 
 #: TFRMMAIN.ACTMAKEDIR.CAPTION
 msgid "MakeDir F7"
-msgstr "Ordner erstellen F7"
+msgstr "Verzeichnis erstellen F7"
 
 #: TFRMMAIN.ACTMARKCURRENTEXTENSION.CAPTION
 msgid "Select all with same extension"
@@ -1392,7 +1393,7 @@ msgstr "&Markieren"
 
 #: TFRMMAIN.MNUMARKCMPDIR.CAPTION
 msgid "&Compare Directories"
-msgstr "Ordner &vergleichen"
+msgstr "Verzeichnisse &vergleichen"
 
 #: TFRMMAIN.MNUSHOW.CAPTION
 msgid "&Show"
@@ -1414,11 +1415,11 @@ msgstr "Bea&rbeiten"
 
 #: TFRMMKDIR.CAPTION
 msgid "Create new directory"
-msgstr "Neuen Ordner anlegen"
+msgstr "Neues Verzeichnis anlegen"
 
 #: TFRMMKDIR.LBLMAKEDIR.CAPTION
 msgid "Input new directory name:"
-msgstr "Namen für neuen Ordner eingeben"
+msgstr "Namen für neues Verzeichnis eingeben"
 
 #: TFRMMOVEDLG.LBLFILETYPE.CAPTION
 msgctxt "TFRMMOVEDLG.LBLFILETYPE.CAPTION"
@@ -1752,7 +1753,7 @@ msgstr "Sortieren nach Gross- / Kleinschreibung"
 
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
-msgstr "Veraluf der Kommandozeile"
+msgstr "Verlauf der Kommandozeile"
 
 #: TFRMOPTIONS.CBCUTTEXTTOCOLWIDTH.CAPTION
 msgid "Cut text to column width"
@@ -1761,11 +1762,11 @@ msgstr "Text auf Spaltenbreite kürzen"
 #: TFRMOPTIONS.CBDIRHISTORY.CAPTION
 msgctxt "TFRMOPTIONS.CBDIRHISTORY.CAPTION"
 msgid "Directory history"
-msgstr "Ordnerverlauf"
+msgstr "Verzeichnisverlauf"
 
 #: TFRMOPTIONS.CBDIRSELECT.CAPTION
 msgid "Select directory with keypad"
-msgstr "Ordner über Zahlenblock wählen"
+msgstr "Verzeichnis über Zahlenblock wählen"
 
 #: TFRMOPTIONS.CBDROPREADONLYFLAG.CAPTION
 msgctxt "TFRMOPTIONS.CBDROPREADONLYFLAG.CAPTION"
@@ -1873,7 +1874,7 @@ msgstr "In den Sys-Tray minimieren (neben der Uhr)"
 
 #: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
 msgid "Process comments with files/folders"
-msgstr "Kommentare von Dateien / Ordnern mitbearbeiten"
+msgstr "Kommentare von Dateien / Verzeichnissen mitbearbeiten"
 
 #: TFRMOPTIONS.CBRENAMESELONLYNAME.CAPTION
 msgid "Select only the file name then renaming (not the extension)"
@@ -1893,7 +1894,7 @@ msgstr "Kommandozeile anzeigen"
 
 #: TFRMOPTIONS.CBSHOWCURDIR.CAPTION
 msgid "Show &current directory"
-msgstr "Zeige aktuellen Ordner"
+msgstr "Zeige aktuelles Verzeichnis"
 
 #: TFRMOPTIONS.CBSHOWDISKPANEL.CAPTION
 msgid "Show &drive buttons"
@@ -1925,7 +1926,7 @@ msgstr "Zeige Tabstop-Zeile"
 
 #: TFRMOPTIONS.CBSHOWTABS.CAPTION
 msgid "Sho&w folder tabs"
-msgstr ""
+msgstr "Zeige Verzeichnis-Reiter"
 
 #: TFRMOPTIONS.CBSHOWWARNINGMESSAGES.CAPTION
 msgid "Show warning messages (\"OK\" button only)"
@@ -1949,15 +1950,15 @@ msgstr "Alle gesperrten Reiter mit Sternchen * markieren"
 
 #: TFRMOPTIONS.CBTABSMULTILINES.CAPTION
 msgid "&Tabs on multiple lines"
-msgstr "Rei&ter auf mehrer Zeilen verteilen"
+msgstr "Rei&ter-Titel auf mehrere Zeilen verteilen"
 
 #: TFRMOPTIONS.CBTABSOPENFOREGROUND.CAPTION
 msgid "Ctrl+&Up opens new tab in foreground"
-msgstr ""
+msgstr "Strg+Pf&eil hoch öffnet einen neuen Reiter im Vordergrund"
 
 #: TFRMOPTIONS.CBTERMWINDOW.CAPTION
 msgid "Show terminal window"
-msgstr "Konolenfenster zeigen"
+msgstr "Konsolenfenster zeigen"
 
 #: TFRMOPTIONS.CBTWODISKPANELS.CAPTION
 msgid "Show two drive button bars (fixed width, above file windows)"
@@ -2013,7 +2014,7 @@ msgstr "Fortschritt des Vorgangs:"
 
 #: TFRMOPTIONS.GBQUICKSEARCH.CAPTION
 msgid "Quick search (current dir)"
-msgstr "Schnelle Suche (in diesem Ordner)"
+msgstr "Schnelle Suche (in diesem Verzeichnis)"
 
 #: TFRMOPTIONS.GBSAVEONEXIT.CAPTION
 msgid "Save on exit"
@@ -2029,7 +2030,7 @@ msgstr "Gitternetz anzeigen"
 
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
-msgstr "Ordner-reiter-Titel"
+msgstr "Verzeichnisreiter-Titel"
 
 #: TFRMOPTIONS.LABEL3.CAPTION
 msgid "Commands:"
@@ -2133,7 +2134,7 @@ msgstr "Inhalt-PlugIns erlauben es, weitere Deatils (wie z.B. MP3-Tags) in Datei
 
 #: TFRMOPTIONS.LBLWFXDESCRIPTION.CAPTION
 msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgstr "Dateisystem-PlugIns erlauben auf Dateisysteme oder exteren Laufwerke zuzugreifen, auf die das Betriebssystem nicht zugreifen kann (z.B. Palm oder Pocket-PCs)."
+msgstr "Dateisystem-PlugIns erlauben auf Dateisysteme oder externe Laufwerke zuzugreifen, auf die das Betriebssystem nicht zugreifen kann (z.B. Palm oder Pocket-PCs)."
 
 #: TFRMOPTIONS.LBLWIPEPASSNUMBER.CAPTION
 msgid "Number of wipe pass:"
@@ -2173,7 +2174,7 @@ msgstr "Nicht verfügbar"
 
 #: TFRMOPTIONS.RBPROGRAMDIR.CAPTION
 msgid "Program directory (portable version)"
-msgstr "Programmverzeichneis (portable Version)"
+msgstr "Programmverzeichnis (portable Version)"
 
 #: TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION
 msgid "Use memory mapping for search text in files"
@@ -2234,7 +2235,7 @@ msgstr "Packe Dateien"
 
 #: TFRMPACKDLG.CBCREATESEPARATEARCHIVES.CAPTION
 msgid "Create separate archives, o&ne per selected file/dir"
-msgstr "Separate Archive erstellen, &pro gewählte Datei/Ordner eins"
+msgstr "Separate Archive erstellen, &pro gewählte Datei/Verzeichnis eins"
 
 #: TFRMPACKDLG.CBCREATESFX.CAPTION
 msgid "Create self e&xtracting archive"
@@ -2258,7 +2259,7 @@ msgstr "=>"
 
 #: TFRMPACKDLG.CBRECURSE.CAPTION
 msgid "Recursively pack &subdirectories"
-msgstr "Alle &Unterordner mit Dateien einschliessen"
+msgstr "Alle &Unterverzeichnise mit Dateien einschliessen"
 
 #: TFRMPACKDLG.CBSTOREDIR.CAPTION
 msgid "Also &pack path names (only recursed)"
@@ -2348,7 +2349,7 @@ msgstr "Wachturm"
 
 #: TFRMSPLITTER.LBDIRTARGET.CAPTION
 msgid "Directory target"
-msgstr "Zielordner"
+msgstr "Zielverzeichnis"
 
 #: TFRMSPLITTER.LBFILESOURCE.CAPTION
 msgid "File source"
@@ -2704,7 +2705,7 @@ msgstr "Nur das aktuelle Verzeichnis"
 
 #: ulng.rsfinddirnoex
 msgid "Directory %s does not exist!"
-msgstr "Ordner %s existiert nicht!"
+msgstr "Verzeichnis %s existiert nicht!"
 
 #: ulng.rsfindscaned
 msgid "Scanned: %d"
@@ -2773,7 +2774,7 @@ msgstr "Alle in-aktiven Tabs entfernen?"
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
-msgstr "%d markierte Dateien / Ordner kopieren?"
+msgstr "%d markierte Datei(en) / Verzeichnis(se) kopieren?"
 
 #: ulng.rsmsgcpsel
 msgid "Copy selected \"%s\"?"
@@ -2781,7 +2782,7 @@ msgstr "Markierte \"%s kopieren\"?"
 
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
-msgstr "Löschen von %d Dateien / Ordnern?"
+msgstr "Löschen von %d Dateien / Verzeichnissen?"
 
 #: ulng.rsmsgdelsel
 msgid "Delete selected \"%s\"?"
@@ -2789,7 +2790,7 @@ msgstr "Markierte \"%s löschen\"?"
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
-msgstr ""
+msgstr "Laufwerk steht nicht zur Verfügung"
 
 #: ulng.rsmsgenterfileext
 msgid "Enter file extension:"
@@ -2809,7 +2810,7 @@ msgstr "Datenfehler"
 
 #: ulng.rsmsgerrdirexists
 msgid "Directory %s exists!"
-msgstr "Ordner %s besteht bereits!"
+msgstr "Verzeichnis %s besteht bereits!"
 
 #: ulng.rsmsgerreaborted
 msgid "Function aborted by user"
@@ -2841,7 +2842,7 @@ msgstr "Kann Datei nicht erstellen"
 
 #: ulng.rsmsgerrforcedir
 msgid "Can not create directory %s!"
-msgstr "Ordner %s kann nicht erstellt werden!"
+msgstr "Verzeichnis %s kann nicht erstellt werden!"
 
 #: ulng.rsmsgerrnofiles
 msgid "No files found"
@@ -2877,7 +2878,7 @@ msgstr "Datei %s existiert bereits. Überschreiben?"
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
-msgstr ""
+msgstr "Verzeichnis besteht bereits. Soll es überschrieben werden"
 
 #: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"
@@ -2909,7 +2910,7 @@ msgstr "Erstelle Verknüpfung %s"
 
 #: ulng.rsmsglogmkdir
 msgid "Create directory %s"
-msgstr "Erstelle Ordner %s"
+msgstr "Erstelle Verzeichnis %s"
 
 #: ulng.rsmsglogmove
 msgid "Move file %s"
@@ -2921,7 +2922,7 @@ msgstr "Packe in Datei %s"
 
 #: ulng.rsmsglogrmdir
 msgid "Remove directory %s"
-msgstr "Ordner entfernen %s"
+msgstr "Verzeichnis %s entfernen"
 
 #: ulng.rsmsglogsuccess
 msgid "Done: "
@@ -2937,7 +2938,7 @@ msgstr "Neue Datei"
 
 #: ulng.rsmsgnextvolunpack
 msgid "Next volume will be unpacked"
-msgstr "Nächter Teil wird entpackt"
+msgstr "Nächster Teil wird entpackt"
 
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
@@ -2953,7 +2954,7 @@ msgstr "Kann Datei %s nicht löschen"
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
-msgstr "&Hinzufügen %s"
+msgstr "&Füge %s hinzu"
 
 #: ulng.rsmsgpopuphotcnf
 msgid "&Configure"
@@ -2965,11 +2966,11 @@ msgstr "&Lösche %s"
 
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
-msgstr "%d markierte Dateien / Ordner umbenennen / verschieben?"
+msgstr "%d markierte Dateien / Verzeichnisse umbenennen / verschieben?"
 
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"%s\"?"
-msgstr "Datei / Ordner \"%s kopieren / verschieben\"?"
+msgstr "Datei / Verzeichnis \"%s kopieren / verschieben\"?"
 
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander for apply changes"
@@ -3043,7 +3044,7 @@ msgstr "Dateitypen"
 
 #: ulng.rsoptfoldertabs
 msgid "Folder tabs"
-msgstr "Ordnerreiter"
+msgstr "Verzeichnisreiter"
 
 #: ulng.rsoptfonts
 msgid "Fonts"
@@ -3109,7 +3110,7 @@ msgstr "Datei"
 
 #: ulng.rspropsfolder
 msgid "Directory"
-msgstr "Ordner"
+msgstr "Verzeichnis"
 
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"
@@ -3141,7 +3142,7 @@ msgstr "Unbekannter Typ"
 
 #: ulng.rspropsyes
 msgid "Yes (%s)"
-msgstr ""
+msgstr "Ja (%s)"
 
 #: ulng.rsquicksearchpanel
 msgid "Find:"
@@ -3153,15 +3154,15 @@ msgstr "&Position speichern"
 
 #: ulng.rsselectdir
 msgid "Select a directory"
-msgstr "Wähle einen Ordner"
+msgstr "Wähle ein Verzeichnis"
 
 #: ulng.rsspacemsg
 msgid "Files:%d, Dirs:%d, Size: %d bytes"
-msgstr "Dateien:%d, Ordner:%d, Grösse: %d byte"
+msgstr "Dateien:%d, Verzeichnis:%d, Grösse: %d byte"
 
 #: ulng.rsspliterrdirectory
 msgid "Unable to create target directory!"
-msgstr "Kann Zielordner nicht erstellen"
+msgstr "Kann Zielverzeichnis nicht erstellen"
 
 #: ulng.rsspliterrfilesize
 msgid "Incorrect file size format!"
@@ -3181,7 +3182,7 @@ msgstr "Grösse:"
 
 #: ulng.rssplitseldir
 msgid "Select directory:"
-msgstr "Wähle Ordner:"
+msgstr "Wähle Verzeichnis:"
 
 #: ulng.rssymerrcreate
 msgid "Error creating symlink."
@@ -3191,5 +3192,3 @@ msgstr "Fehler beim Erstellen des symb. Link."
 msgid "Internal Viewer of Double Commander."
 msgstr "Interner Betrachter des Double Commander"
 
-
- 	  	 
