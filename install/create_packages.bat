@@ -1,6 +1,6 @@
 
 rem Set Double Commander version
-set DC_VER=0.3.5
+set DC_VER=0.4.0
 
 rem Path to subversion
 set SVN_EXE="c:\Program Files\svn-win32-1.4.3\bin\svn.exe"
