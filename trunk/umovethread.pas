@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2007-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2009  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit uMoveThread;
@@ -59,6 +59,7 @@ begin
   iCopied:=0;
   for xIndex:=NewFileList.Count-1 downto 0 do // copy and delete
   begin
+    if Paused then Suspend;
     pr:=NewFileList.GetItem(xIndex);
 
     EstimateTime(iCopied);

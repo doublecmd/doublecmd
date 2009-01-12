@@ -110,11 +110,13 @@ object frmFileOp: TfrmFileOp
     AnchorSideTop.Control = btnCancel
     AnchorSideRight.Control = pbFirst
     AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = btnCancel
+    AnchorSideBottom.Side = asrBottom
     Left = 321
-    Height = 30
+    Height = 32
     Top = 104
     Width = 75
-    Anchors = [akTop, akRight]
+    Anchors = [akTop, akRight, akBottom]
     Layout = blGlyphTop
     NumGlyphs = 0
     OnClick = btnPauseStartClick

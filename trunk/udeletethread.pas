@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit uDeleteThread;
@@ -57,6 +57,7 @@ begin
 
   for xIndex:=NewFileList.Count-1 downto 0 do // deleting
   begin
+    if Paused then Suspend;
     pr:=NewFileList.GetItem(xIndex);
     FFileOpDlg.sFileName:=pr^.sName;
     Synchronize(@FFileOpDlg.UpdateDlg);

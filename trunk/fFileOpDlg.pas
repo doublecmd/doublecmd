@@ -1,16 +1,20 @@
 {
-Seksi Commander
-----------------------------
-Implementing of progress dialog for file operation
+   Seksi Commander
+   ----------------------------
+   Implementing of progress dialog for file operation
 
-Licence  : GNU GPL v 2.0
-Author   : radek.cervinka@centrum.cz
+   Licence  : GNU GPL v 2.0
+   Author   : radek.cervinka@centrum.cz
 
-contributors:
+   contributors:
 
+   Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
 }
+
 unit fFileOpDlg;
+
 {$mode objfpc}{$H+}
+
 interface
 
 uses
