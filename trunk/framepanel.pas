@@ -448,7 +448,7 @@ begin
     Canvas.Font.Size := gFontSize;
     Canvas.Font.Style := gFontStyle;
 
-    if gdSelected in aState then
+    if (gdSelected in aState) and Focused then
       Canvas.Brush.Color:= gCursorColor
     else
       Canvas.Brush.Color:=Color;
@@ -908,7 +908,7 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
           Canvas.Font.Size:=ActiveColmSlave.GetColumnFontSize(ACol);
           Canvas.Brush.Style:=bsSolid;
 
-          if gdSelected in State then
+          if (gdSelected in State) and Focused then
 {*}         Canvas.Brush.Color:= ActiveColmSlave.GetColumnCursorColor(ACol)
           else
             begin
@@ -926,7 +926,7 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
               if gUseInvertedSelection then
                 begin
                 //------------------------------------------------------
-                  if (gdSelected in State) then
+                  if (gdSelected in State) and Focused then
                     begin
                        Canvas.Brush.Color :=ActiveColmSlave.GetColumnCursorColor(ACol);
                        Canvas.FillRect(Rect);
@@ -942,7 +942,7 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
               Canvas.Font.Color:= ActiveColmSlave.GetColumnMarkColor(ACol)
             end
           else
-           if (gdSelected in State) then
+           if (gdSelected in State) and Focused then
 {*}             Canvas.Font.Color:=ActiveColmSlave.GetColumnCursorText(ACol)
           else
              begin
