@@ -1978,7 +1978,8 @@ end;
 procedure TfrmMain.FrameedtSearchExit(Sender: TObject);
 begin
   // sometimes must be search panel closed this way
-  TPanel(TEdit(Sender).Parent).Visible:=False;
+  TFrameFilePanel(TEdit(Sender).Parent.Parent).CloseAltPanel;
+  TFrameFilePanel(TEdit(Sender).Parent.Parent).RedrawGrid;
   KeyPreview:=True;
 end;
 
