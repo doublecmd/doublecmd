@@ -1123,7 +1123,11 @@ begin
   end;
 
   if ((Key=VK_DOWN) or (Key=VK_UP)) and (ssShift in Shift) then
-    SelectFile(GetActiveItem);
+    begin
+      SelectFile(GetActiveItem);
+      if (dgPanel.Row=dgPanel.RowCount-1) or (dgPanel.Row=dgPanel.FixedRows) then
+        dgPanel.Invalidate;
+    end;
 
   {$IFDEF LCLGTK2}
    if ((dgPanel.Row=dgPanel.RowCount-1) and (key=VK_DOWN))
