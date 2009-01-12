@@ -1942,6 +1942,8 @@ begin
       if FPS_ISDIR(pnlFile.GetActiveItem^.iMode) then
         CalculateSpace(False);
       SelectFile(GetActiveItem);
+      if gSpaceMovesDown then
+        dgPanel.Row:= dgPanel.Row + 1;
       dgPanel.Invalidate;
       MakeSelectedVisible;
     end;
