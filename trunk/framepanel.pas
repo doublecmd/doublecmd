@@ -109,6 +109,7 @@ type
 
   private
     { Private declarations }
+    FActive: Boolean;
     FLastMark:String;
     FLastSelect:TGridRect;
     FLastAutoSelect: Boolean;
@@ -448,7 +449,7 @@ begin
     Canvas.Font.Size := gFontSize;
     Canvas.Font.Style := gFontStyle;
 
-    if (gdSelected in aState) and Focused then
+    if (gdSelected in aState) and FActive then
       Canvas.Brush.Color:= gCursorColor
     else
       Canvas.Brush.Color:=Color;
@@ -634,6 +635,7 @@ procedure TFrameFilePanel.CloseAltPanel;
 begin
   pnAltSearch.Visible:=False;
   edtSearch.Text:='';
+  FActive:= False;
 end;
 
 procedure TFrameFilePanel.ShowAltPanel(Char : TUTF8Char);
@@ -648,6 +650,7 @@ begin
   fPrevious := False;
   edtSearch.Text := Char;
   edtSearch.SelStart := Length(edtSearch.Text) + 1;
+  FActive:= True;
 end;
 
 procedure TFrameFilePanel.UnMarkAll;
@@ -908,7 +911,7 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
           Canvas.Font.Size:=ActiveColmSlave.GetColumnFontSize(ACol);
           Canvas.Brush.Style:=bsSolid;
 
-          if (gdSelected in State) and Focused then
+          if (gdSelected in State) and FActive then
 {*}         Canvas.Brush.Color:= ActiveColmSlave.GetColumnCursorColor(ACol)
           else
             begin
@@ -926,7 +929,7 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
               if gUseInvertedSelection then
                 begin
                 //------------------------------------------------------
-                  if (gdSelected in State) and Focused then
+                  if (gdSelected in State) and FActive then
                     begin
                        Canvas.Brush.Color :=ActiveColmSlave.GetColumnCursorColor(ACol);
                        Canvas.FillRect(Rect);
@@ -942,7 +945,7 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
               Canvas.Font.Color:= ActiveColmSlave.GetColumnMarkColor(ACol)
             end
           else
-           if (gdSelected in State) and Focused then
+           if (gdSelected in State) and FActive then
 {*}             Canvas.Font.Color:=ActiveColmSlave.GetColumnCursorText(ACol)
           else
              begin
@@ -1005,6 +1008,7 @@ begin
 //  edtRename.OnExit(Sender);        // this is hack, because onExit is NOT called
 {  if pnAltSearch.Visible then
     CloseAltPanel;}
+  FActive:= False;
   lblLPath.Color:=clBtnFace;
   lblLPath.Font.Color:=clBlack;
   ClearGridSelection;
@@ -1059,6 +1063,7 @@ begin
 //  DebugLn(Self.Name+'.OnEnter');
   CloseAltPanel;
 //  edtRename.OnExit(Sender);        // this is hack, bacause onExit is NOT called
+  FActive:= True;
   SetFocus;
   UpDatelblInfo;
 end;
