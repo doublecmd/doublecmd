@@ -12,10 +12,9 @@ object frmFileOp: TfrmFileOp
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
-  ParentFont = False
   Position = poScreenCenter
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.25'
+  LCLVersion = '0.9.27'
   object lblFileName: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -67,7 +66,6 @@ object frmFileOp: TfrmFileOp
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
     BorderSpacing.Right = 6
-    Max = 100
     Smooth = True
     TabOrder = 0
     BarShowText = True
@@ -86,7 +84,6 @@ object frmFileOp: TfrmFileOp
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
     BorderSpacing.Right = 6
-    Max = 100
     Position = 20
     Smooth = True
     TabOrder = 1
@@ -108,5 +105,21 @@ object frmFileOp: TfrmFileOp
     NumGlyphs = 0
     OnClick = btnCancelClick
     TabOrder = 2
+  end
+  object btnPauseStart: TBitBtn
+    AnchorSideTop.Control = btnCancel
+    AnchorSideRight.Control = pbFirst
+    AnchorSideRight.Side = asrBottom
+    Left = 321
+    Height = 30
+    Top = 104
+    Width = 75
+    Anchors = [akTop, akRight]
+    Layout = blGlyphTop
+    NumGlyphs = 0
+    OnClick = btnPauseStartClick
+    Spacing = -1
+    TabOrder = 3
+    Visible = False
   end
 end

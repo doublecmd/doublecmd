@@ -111,11 +111,12 @@
         <UnitName Value="fMsg"/>
       </Unit6>
       <Unit7>
-        <Filename Value="dmdialogs.pas"/>
-        <ComponentName Value="dmDlg"/>
+        <Filename Value="dmcommondata.pas"/>
+        <ComponentName Value="dmComData"/>
         <HasResources Value="True"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="dmDialogs"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="dmCommonData"/>
       </Unit7>
       <Unit8>
         <Filename Value="dmhigh.pas"/>
@@ -158,6 +159,7 @@
         <ComponentName Value="frmFileOp"/>
         <HasResources Value="True"/>
         <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="fFileOpDlg"/>
       </Unit13>
       <Unit14>
