@@ -91,6 +91,7 @@ var
   glsDirHistory:TStringListEx;
   glsMaskHistory : TStringListEx;
   gCutTextToColWidth : Boolean;
+  gSpaceMovesDown: Boolean;
   gScrollMode: Integer;
   gTrayIcon: Boolean;
   gShortFileSizeFormat:Boolean=True;
@@ -441,6 +442,7 @@ begin
   gTrayIcon := gIni.ReadBool('Configuration', 'TrayIcon', False);
   gDateTimeFormat := gIni.ReadString('Configuration', 'DateTimeFormat', 'dd.mm.yy');
   gDriveBlackList:= gIni.ReadString('Configuration', 'DriveBlackList', '');
+  gSpaceMovesDown := gIni.ReadBool('Configuration', 'SpaceMovesDown', False);
 
   gMouseSelectionEnabled:= gIni.ReadBool('Configuration', 'MouseSelectionEnabled', True);
   gMouseSelectionButton := gIni.ReadInteger('Configuration', 'MouseSelectionButton', 0);
@@ -607,6 +609,7 @@ begin
   gIni.WriteBool('Configuration', 'TrayIcon', gTrayIcon);
   gIni.WriteString('Configuration', 'DateTimeFormat', gDateTimeFormat);
   gIni.WriteString('Configuration', 'DriveBlackList', gDriveBlackList);
+  gIni.WriteBool('Configuration', 'SpaceMovesDown', gSpaceMovesDown);
   
   gIni.WriteBool('Configuration', 'MouseSelectionEnabled', gMouseSelectionEnabled);
   gIni.WriteInteger('Configuration', 'MouseSelectionButton', gMouseSelectionButton);
