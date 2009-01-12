@@ -12,7 +12,7 @@
    degauss of the disk, or by disintegrating, incinerating,
    pulverizing, shreding, or melting the disk.
 
-   Copyright (C) 2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
 
    Based on:
    
@@ -134,6 +134,7 @@ begin
     for i := 1 to pass do
     begin
       //---------------Progress--------------
+      if Paused then Suspend;
       FFileOpDlg.iProgress1Max:= 100;
       FFileOpDlg.iProgress1Pos:= 0;
       Synchronize(@FFileOpDlg.UpdateDlg);
@@ -154,6 +155,7 @@ begin
         fs.Write(Buffer, n);
         max := max - n;
         //---------------Progress--------------
+        if Paused then Suspend;
         Inc(iPos, n);
         if iMax <> 0 then
           FFileOpDlg.iProgress1Pos:= (iPos * 100) div iMax;
@@ -175,6 +177,7 @@ begin
         fs.Write(Buffer, n);
         max := max - n;
         //---------------Progress--------------
+        if Paused then Suspend;
         Inc(iPos, n);
         if iMax <> 0 then
           FFileOpDlg.iProgress1Pos:= (iPos * 100) div iMax;
@@ -196,6 +199,7 @@ begin
         fs.Write(Buffer, n);
         max := max - n;
         //---------------Progress--------------
+        if Paused then Suspend;
         Inc(iPos, n);
         if iMax <> 0 then
           FFileOpDlg.iProgress1Pos:= (iPos * 100) div iMax;
