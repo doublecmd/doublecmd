@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Implementing of Options dialog
 
-   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
 
    contributors:
 
@@ -372,6 +372,9 @@ begin
       Items.Strings[1] := rsOptLineByLine;
       Items.Strings[2] := rsOptPageByPage;
     end;
+  // Show configuration directory
+  rbProgramDir.Caption:= rbProgramDir.Caption + ' - [' + gpCfgDir + ']';
+  rbUserHomeDir.Caption:= rbUserHomeDir.Caption + ' - [' + gpIniDir + ']';
   // tvTreeView localization
   with tvTreeView.Items do
     begin
