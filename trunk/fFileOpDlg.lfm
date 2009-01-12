@@ -7,7 +7,7 @@ object frmFileOp: TfrmFileOp
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Process file(s)'
-  ClientHeight = 144
+  ClientHeight = 148
   ClientWidth = 402
   OnClose = FormClose
   OnCreate = FormCreate
@@ -120,7 +120,7 @@ object frmFileOp: TfrmFileOp
     Layout = blGlyphTop
     NumGlyphs = 0
     OnClick = btnPauseStartClick
-    Spacing = -1
+    Spacing = 0
     TabOrder = 3
     Visible = False
   end
