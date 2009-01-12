@@ -57,7 +57,7 @@ uses
   dmHigh, dmHelpManager,
   uPixMapManager, uVFS, fFileAssoc,
   KASComp, fconfigtoolbar, uWCXprototypes, uDCUtils, uOSUtils,
-  dmDialogs, fViewer, fOptions, fCopyDlg, fMoveDlg, fFindDlg,
+  dmCommonData, fViewer, fOptions, fCopyDlg, fMoveDlg, fFindDlg,
   fSymLink, fMultiRename, fSplitter, fPackDlg, fExtractDlg, uDescr, fDescrEdit,
   LResources;
   
@@ -104,7 +104,7 @@ begin
        Application.CreateForm(TfrmHackForm, frmHackForm);
        Application.CreateForm(TfrmMain, frmMain); // main form
        Application.CreateForm(TdmHighl, dmHighl); // highlighters
-       Application.CreateForm(TdmDlg, dmDlg); // dialogs
+       Application.CreateForm(TdmComData, dmComData);
        Application.CreateForm(TdmHelpManager, dmHelpMgr); // help manager
        Application.Run;
      end;

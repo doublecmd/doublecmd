@@ -1,4 +1,4 @@
-unit dmDialogs;
+unit dmCommonData;
 
 {$mode objfpc}{$H+}
 
@@ -8,7 +8,11 @@ uses
   Classes, SysUtils, LResources, Forms, Controls, Dialogs; 
 
 type
-  TdmDlg = class(TDataModule)
+
+  { TdmComData }
+
+  TdmComData = class(TDataModule)
+    ImageList: TImageList;
     OpenDialog: TOpenDialog;
     SaveDialog: TSaveDialog;
   private
@@ -18,12 +22,12 @@ type
   end; 
 
 var
-  dmDlg: TdmDlg;
+  dmComData: TdmComData;
 
 implementation
 
 initialization
-  {$I dmdialogs.lrs}
+  {$I dmcommondata.lrs}
 
 end.
 

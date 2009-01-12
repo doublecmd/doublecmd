@@ -167,7 +167,7 @@ type
 implementation
 
 uses
-  dmDialogs, dmHigh, uLng, uFileProcs, uOSUtils,
+  dmCommonData, dmHigh, uLng, uFileProcs, uOSUtils,
   SynEditHighlighter, uShowMsg, fMsg, fEditSearch,
   SynEditTypes, uGlobsPaths, uGlobs, fEditorConf, LCLType, LConvEncoding;
 
@@ -384,9 +384,9 @@ end;
 procedure TfrmEditor.actFileOpenExecute(Sender: TObject);
 begin
   //inherited;
-  dmDlg.OpenDialog.Filter:='*.*';
-  if not dmDlg.OpenDialog.Execute then Exit;
-  OpenFile(dmDlg.OpenDialog.FileName);
+  dmComData.OpenDialog.Filter:='*.*';
+  if not dmComData.OpenDialog.Execute then Exit;
+  OpenFile(dmComData.OpenDialog.FileName);
   UpdateStatus;
 end;
 
@@ -528,11 +528,11 @@ var
   slStringList: TStringList;
 begin
   inherited;
-  dmDlg.SaveDialog.FileName:=Caption;
-  dmDlg.SaveDialog.Filter:='*.*'; // rewrite for highlighter
-  if not dmDlg.SaveDialog.Execute then Exit;
+  dmComData.SaveDialog.FileName:=Caption;
+  dmComData.SaveDialog.Filter:='*.*'; // rewrite for highlighter
+  if not dmComData.SaveDialog.Execute then Exit;
   try
-    fsFileStream:= TFileStreamEx.Create(dmDlg.SaveDialog.FileName, fmCreate);
+    fsFileStream:= TFileStreamEx.Create(dmComData.SaveDialog.FileName, fmCreate);
     // restore encoding
     slStringList:= TStringList.Create;
     slStringList.Text:= ConvertEncoding(Editor.Lines.Text, EncodingUTF8, sEncoding);
@@ -544,10 +544,10 @@ begin
   end;
   bChanged:=False;
   bNoname:=False;
-  Caption:=dmDlg.SaveDialog.FileName;
+  Caption:=dmComData.SaveDialog.FileName;
 
   UpdateStatus;
-  Editor.Highlighter:= dmHighl.GetHighlighterByExt(ExtractFileExt(dmDlg.SaveDialog.FileName));
+  Editor.Highlighter:= dmHighl.GetHighlighterByExt(ExtractFileExt(dmComData.SaveDialog.FileName));
   UpdateHighlighterStatus;
 end;
 

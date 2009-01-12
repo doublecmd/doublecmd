@@ -23,12 +23,14 @@ type
   { TfrmFileOp }
 
   TfrmFileOp = class(TForm)
+    btnPauseStart: TBitBtn;
     pbSecond: TProgressBar;
     pbFirst: TProgressBar;
     lblFileName: TLabel;
     lblEstimated: TLabel;
     btnCancel: TBitBtn;
     procedure btnCancelClick(Sender: TObject);
+    procedure btnPauseStartClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -48,14 +50,28 @@ type
   end;
 
 implementation
-uses fMain;
-//uses uFileOpThread;
+
+uses
+   fMain, dmCommonData, uFileOpThread;
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
 begin
   if Assigned(Thread) then
     Thread.Terminate;
   ModalResult := mrCancel;
+end;
+
+procedure TfrmFileOp.btnPauseStartClick(Sender: TObject);
+begin
+  if Assigned(Thread) then
+    begin
+      if Thread is TFileOpThread then
+        with Thread as TFileOpThread do
+        begin
+          Paused:= not Paused;
+          dmComData.ImageList.GetBitmap(Integer(not Paused), btnPauseStart.Glyph);
+        end;
+    end;
 end;
 
 procedure TfrmFileOp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -83,6 +99,8 @@ begin
   iProgress2Max:=0;
   iProgress1Pos:=0;
   iProgress2Pos:=0;
+  if btnPauseStart.Visible then
+    dmComData.ImageList.GetBitmap(1, btnPauseStart.Glyph);
 end;
 
 procedure TfrmFileOp.UpdateDlg;

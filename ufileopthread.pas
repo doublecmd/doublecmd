@@ -30,6 +30,8 @@ type
 {$ENDIF}
   private
     { Private declarations }
+    FPaused: Boolean;
+    procedure SetPaused(const Value: Boolean);
   protected
     FFileList: TFileList;  // input filelist (not rekursive walked)
     NewFileList: TFileList; // fill it with complete list of all files
@@ -70,6 +72,7 @@ type
     function FreeAtEnd:Boolean; virtual;
     function DlgFileExist(const sMsg:String):Boolean; // result=true > rewrite file
     function DlgFollowSymLink(const sMsg:String):Boolean;
+    property Paused: Boolean read FPaused write SetPaused;
   end;
   
 const
@@ -181,6 +184,16 @@ begin
   end;
 end;
 
+procedure TFileOpThread.SetPaused(const Value: Boolean);
+begin
+  if Value <> FPaused then
+    begin
+      FPaused:= Value;
+      if not FPaused then
+        Resume;
+    end;
+end;
+
 procedure TFileOpThread.Execute;
 begin
 // main thread code started here
@@ -230,6 +243,7 @@ begin
   DebugLn('TFileOpThread.CreateForm');
   FFileOpDlg:= TfrmFileOp.Create(Application);
   FFileOpDlg.Thread:= TThread(Self);
+  FFileOpDlg.btnPauseStart.Visible:= True;
   FFileOpDlg.Caption:= GetCaptionLng;
   FFileOpDlg.Show;
   FFileOpDlg.Update;
