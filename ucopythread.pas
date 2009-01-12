@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2007-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2009  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit uCopyThread;
@@ -236,9 +236,8 @@ begin
               end;
             Exit;
           end;
-
+        if Paused then Suspend;
         src.ReadBuffer(Buffer^, iCopyBlockSize);
-
         repeat
           try
             bRetry:= False;
@@ -268,8 +267,8 @@ begin
       end;
       if iDstSize > dst.Size then
       begin
+        if Paused then Suspend;
         src.ReadBuffer(Buffer^, iDstSize-dst.size);
-
         repeat
           try
             bRetry:= False;

@@ -9,10 +9,11 @@
 
    contributors:
    
-   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit uFileOpThread;
+
 {$mode objfpc}{$H+}
 {$DEFINE NOFAKETHREAD}
 
@@ -99,7 +100,7 @@ end;
 
 destructor TFileOpThread.Destroy;
 begin
-  if assigned(FFileList) then
+  if Assigned(FFileList) then
     FreeAndNil(FFileList);
 end;
 
