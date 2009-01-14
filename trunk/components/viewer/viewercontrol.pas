@@ -489,6 +489,7 @@ begin
   if FFileHandle >= 0 then
     FileClose(FFileHandle);
 
+  FMappedFile:= nil;
 end;
 {$ELSE}
 begin
