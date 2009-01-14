@@ -530,7 +530,10 @@ begin
   inherited;
   nbPages.Show;
   if CheckGraphics(FileList.Strings[iActiveFile]) then
-    LoadGraphics(FileList.Strings[iActiveFile]);
+    begin
+      ViewerControl.UnMapFile; // if any mapped
+      LoadGraphics(FileList.Strings[iActiveFile]);
+    end;
 end;
 
 Function TfrmViewer.CheckGraphics(const sFileName:String):Boolean;
