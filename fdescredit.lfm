@@ -9,7 +9,7 @@ object frmDescrEdit: TfrmDescrEdit
   ClientWidth = 400
   OnCreate = FormCreate
   ParentFont = False
-  Position = poMainFormCenter
+  Position = poDesktopCenter
   LCLVersion = '0.9.27'
   object lblEditCommentFor: TLabel
     AnchorSideLeft.Control = Owner
