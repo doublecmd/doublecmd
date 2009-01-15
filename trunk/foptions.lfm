@@ -12,7 +12,7 @@ object frmOptions: TfrmOptions
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  Position = poMainFormCenter
+  Position = poDesktopCenter
   LCLVersion = '0.9.27'
   object Panel1: TPanel
     Height = 43
