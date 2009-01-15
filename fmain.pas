@@ -2,7 +2,7 @@
    Double Commander
    -------------------------------------------------------------------------
    Licence  : GNU GPL v 2.0
-   Copyright (C) 2006-2008 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2009 Alexander Koblov (Alexx2000@mail.ru)
 
    Main Dialog window
 
@@ -291,7 +291,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
-    procedure FormPaint(Sender: TObject);
     procedure FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
     procedure FormDataEvent(Data: PtrInt);
     procedure FormWindowStateChange(Sender: TObject);
@@ -664,18 +663,6 @@ begin
     RenameFile(FileList, FrameFilePanel)
   else
     CopyFile(FileList, FrameFilePanel);
-end;
-
-var
-  bFirstPaint: Boolean = True;
-
-procedure TfrmMain.FormPaint(Sender: TObject);
-begin
-  if bFirstPaint then
-    begin
-      SetFocus;
-      bFirstPaint:= False;
-    end;
 end;
 
 procedure TfrmMain.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);

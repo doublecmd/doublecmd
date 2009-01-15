@@ -98,13 +98,14 @@ begin
   fAbout.TargetOS:= TargetOS;
 
   LoadPaths; // must be first
+  Application.ShowMainForm:= False;
+  Application.CreateForm(TfrmHackForm, frmHackForm);
   if LoadGlobs then
      begin
        LoadPixMapManager;
-       Application.CreateForm(TfrmHackForm, frmHackForm);
        Application.CreateForm(TfrmMain, frmMain); // main form
        Application.CreateForm(TdmHighl, dmHighl); // highlighters
-       Application.CreateForm(TdmComData, dmComData);
+       Application.CreateForm(TdmComData, dmComData); // common data
        Application.CreateForm(TdmHelpManager, dmHelpMgr); // help manager
        Application.Run;
      end;

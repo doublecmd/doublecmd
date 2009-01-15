@@ -140,9 +140,9 @@ begin
   frmMsg.BorderIcons := [biSystemMenu, biMinimize];
   
   if (High(Buttons)+1)>=3 then
-    frmMsg.Width:=(cButtonWith+cButtonSpace)*3+cButtonSpace
+    frmMsg.Width:=(cButtonWidth+cButtonSpace)*3+cButtonSpace
   else
-    frmMsg.Width:=(cButtonWith+cButtonSpace)*(High(Buttons)+1)+cButtonSpace;
+    frmMsg.Width:=(cButtonWidth+cButtonSpace)*(High(Buttons)+1)+cButtonSpace;
   frmMsg.Height:=(High(Buttons) div 3)*40+90;
 
 
@@ -165,14 +165,14 @@ begin
       begin
         Caption:=cLngButton[Buttons[iIndex]];
         Parent:=frmMsg;
-        Width:=cButtonWith;
+        Width:=cButtonWidth;
         Height := 32;
         Tag:=iIndex;
         OnCLick:=frmMsg.ButtonClick;
         if (High(Buttons)+1)>=3 then
-          Left:=(iIndex mod 3)*(cButtonWith+cButtonSpace)+(frmMsg.Width-(3*cButtonWith+2*cButtonSpace)) div 2
+          Left:=(iIndex mod 3)*(cButtonWidth+cButtonSpace)+(frmMsg.Width-(3*cButtonWidth+2*cButtonSpace)) div 2
         else
-          Left:=iIndex*(cButtonWith+cButtonSpace)+(frmMsg.Width-((High(Buttons)+1)*cButtonWith+High(Buttons)*cButtonSpace)) div 2;
+          Left:=iIndex*(cButtonWidth+cButtonSpace)+(frmMsg.Width-((High(Buttons)+1)*cButtonWidth+High(Buttons)*cButtonSpace)) div 2;
 
         Top:=(iIndex div 3)*(Height+5)+50;
         if Buttons[iIndex]=ButDefault then
@@ -367,16 +367,18 @@ end;
 
 procedure msgLoadLng;
 var
-  i:TMyMsgButton;
-  s:String;
-  xPos:Integer;
-
+  I: TMyMsgButton;
+  s: String;
+  xPos: Integer;
 begin
-  s := rsDlgButtons;
-  for i:= Low(TMyMsgButton) to High(TMyMsgButton) do
+  s:= rsDlgButtons;
+  for I:= Low(TMyMsgButton) to High(TMyMsgButton) do
   begin
     xPos:=Pos(';',s);
-    cLngButton[i]:=Copy(s,1,xPos-1);
+    cLngButton[I]:=Copy(s,1,xPos-1);
+    with Application.MainForm.Canvas do
+    if TextWidth(cLngButton[I]) >= (cButtonWidth - 8) then
+      cButtonWidth:= TextWidth(cLngButton[I]) + 8;
     Delete(s,1,xPos);
   end;
 end;
