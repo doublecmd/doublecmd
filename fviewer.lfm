@@ -1,11 +1,14 @@
 object frmViewer: TfrmViewer
-  Left = 66
+  Left = 63
   Height = 520
   Top = 87
   Width = 952
-  ActiveControl = ScrollBarVert
+  HorzScrollBar.Page = 951
+  VertScrollBar.Page = 491
+  ActiveControl = pnlLister
+  AutoScroll = False
   Caption = 'Viewer'
-  ClientHeight = 500
+  ClientHeight = 492
   ClientWidth = 952
   Constraints.MinHeight = 100
   Constraints.MinWidth = 200
@@ -58,16 +61,16 @@ object frmViewer: TfrmViewer
   OnKeyUp = frmViewerKeyUp
   Position = poDefault
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.25'
+  LCLVersion = '0.9.27'
   object pnlLister: TPanel
-    Height = 477
+    Height = 470
     Width = 952
     Align = alClient
     TabOrder = 2
   end
   object Status: TStatusBar
-    Height = 23
-    Top = 477
+    Height = 22
+    Top = 470
     Width = 952
     Panels = <    
       item
@@ -85,23 +88,22 @@ object frmViewer: TfrmViewer
     SimplePanel = False
   end
   object nbPages: TNotebook
-    Height = 477
+    Height = 470
     Width = 952
     Align = alClient
     PageIndex = 1
     ShowTabs = False
     TabOrder = 0
     object pgText: TPage
-      ClientWidth = 987
-      ClientHeight = 680
+      ClientWidth = 950
+      ClientHeight = 449
       object ScrollBarVert: TScrollBar
-        Left = 972
-        Height = 680
+        Left = 935
+        Height = 449
         Width = 15
         Align = alRight
         Anchors = [akTop, akRight]
         Kind = sbVertical
-        Max = 100
         PageSize = 1
         ParentCtl3D = False
         Position = 50
@@ -110,8 +112,9 @@ object frmViewer: TfrmViewer
       end
       object ViewerControl: TViewerControl
         Cursor = crIBeam
-        Height = 680
-        Width = 972
+        Height = 449
+        Width = 935
+        Encoding = 'ansi'
         ViewerMode = vmText
         Font.Height = -14
         Font.Name = 'fixed'
@@ -123,19 +126,22 @@ object frmViewer: TfrmViewer
     end
     object pgImage: TPage
       Caption = 'pgImage'
-      ClientWidth = 944
-      ClientHeight = 469
+      ClientWidth = 950
+      ClientHeight = 468
       object ScrollBox: TScrollBox
-        Height = 469
-        Width = 944
+        Height = 468
+        Width = 950
         Align = alClient
         ParentCtl3D = False
         TabOrder = 0
         TabStop = True
+        OnResize = ScrollBoxResize
         object Image: TImage
-          Height = 465
-          Width = 940
-          Align = alClient
+          Height = 464
+          Width = 946
+          AutoSize = True
+          Center = True
+          Proportional = True
         end
       end
     end
