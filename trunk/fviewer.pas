@@ -79,6 +79,7 @@ type
     procedure FormCreate(Sender : TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure miPluginsClick(Sender: TObject);
+    procedure ScrollBoxResize(Sender: TObject);
     procedure ViewerControlMouseWheelDown(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
     procedure ViewerControlMouseWheelUp(Sender: TObject; Shift: TShiftState;
@@ -122,7 +123,7 @@ type
     procedure ExitPluginMode;
     procedure UpDateScrollBar;
     Function CheckGraphics(const sFileName:String):Boolean;
-    procedure AdjustViewerSize(ReqWidth, ReqHeight: Integer);
+    procedure AdjustImageSize;
     procedure LoadGraphics(const sFileName:String);
     procedure DoSearch;
   public
@@ -241,6 +242,11 @@ begin
   bPlugin:= CheckPlugins(iActiveFile,true);
 end;
 
+procedure TfrmViewer.ScrollBoxResize(Sender: TObject);
+begin
+  AdjustImageSize;
+end;
+
 procedure TfrmViewer.ViewerControlMouseWheelDown(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 begin
@@ -357,8 +363,11 @@ end;
 
 procedure TfrmViewer.miStretchClick(Sender: TObject);
 begin
-  miStretch.Checked:=not miStretch.Checked;
-  Image.Stretch:=miStretch.Checked;
+  miStretch.Checked:= not miStretch.Checked;
+  Image.Stretch:= miStretch.Checked;
+  Image.AutoSize:= not Image.Stretch;
+  Image.Proportional:= Image.Stretch;
+  AdjustImageSize;
 end;
 
 procedure TfrmViewer.miTextClick(Sender: TObject);
@@ -547,16 +556,14 @@ begin
        (sExt='.ddw') or (sExt='.tga');
 end;
 
-// Adjust Viewer size (width and height) to view image
-// with dimensions ReqWidth/ReqHeight
-procedure TfrmViewer.AdjustViewerSize(ReqWidth, ReqHeight: Integer);
-var
-  dx, dy: Integer;
+// Adjust Image size (width and height) to ScrollBox size
+procedure TfrmViewer.AdjustImageSize;
 begin
-  dx := Width - ViewerControl.Width;
-  dy := Height - ViewerControl.Height;
-  Width := ReqWidth + dx;
-  Height := ReqHeight + dy;
+  if Image.Stretch then
+    begin
+      Image.Width:= ScrollBox.ClientWidth;
+      Image.Height:= ScrollBox.ClientHeight;
+    end;
 end;
 
 procedure TfrmViewer.LoadGraphics(const sFileName:String);
@@ -565,7 +572,6 @@ var
   fsFileStream: TFileStreamEx;  
 begin
 //  DebugLn('TfrmViewer.Load graphics');
-  Image.Stretch:=miStretch.Checked;
   sExt:= ExtractFileExt(sFilename);
   System.Delete(sExt, 1, 1); // delete a dot
   fsFileStream:= TFileStreamEx.Create(sFileName, fmOpenRead);
@@ -574,12 +580,12 @@ begin
   finally
     fsFileStream.Free;
   end;
-  with Image.Picture do AdjustViewerSize(Width, Height);
-  nbPages.ActivePageComponent:=pgImage;
-  miImage.Visible:=True;
-  miEdit.Visible:=False;
-//  miView.Visible:=False;// text modes
-  bImage:=True;
+  miStretch.Checked:= not miStretch.Checked;
+  miStretchClick(nil);
+  nbPages.ActivePageComponent:= pgImage;
+  miImage.Visible:= True;
+  miEdit.Visible:= False;
+  bImage:= True;
 end;
 
 procedure TfrmViewer.DoSearch;
