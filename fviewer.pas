@@ -272,14 +272,12 @@ begin
   // (see also TfrmViewer.miSavePosClick)
   CloseAction:=caFree;
   if not bImage then gViewerPos.Save(Self);
-
+  gViewerImageStretch:= miStretch.Checked;
   ViewerControl.UnMapFile;
   if FDeleteAfterView then
     begin
       Count := FileList.Count - 1;
-
       //DebugLN('DeleteFile == ' + FileList.Strings[0]);
-
       for I := 0 to Count do
         mbDeleteFile(FileList.Strings[I]);
     end;
@@ -431,7 +429,7 @@ begin
   
 {  Status.Panels[0].Width:=50;
   Status.Panels[1].Width:=50;}
-
+  miStretch.Checked:= gViewerImageStretch;
 // update menu encoding
   miEncoding.Clear;
   EncodingsList:= TStringList.Create;

@@ -125,6 +125,8 @@ var
 
   gViewerPos:TControlPosition;
   gEditorPos:TControlPosition;
+
+  gViewerImageStretch: Boolean;
   
   { File panels color page }
   
@@ -515,6 +517,8 @@ begin
 
   gCutTextToColWidth := gIni.ReadBool('Configuration', 'CutTextToColWidth', False);
 
+  gViewerImageStretch:=  gIni.ReadBool('Viewer', 'Image.Stretch', False);
+
   if mbFileExists(gpIniDir + 'doublecmd.ext') then
     gExts.LoadFromFile(gpIniDir + 'doublecmd.ext');
 
@@ -679,6 +683,8 @@ begin
   gIni.WriteInteger('Configuration', 'IconsSize', gNewIconsSize);
   
   gIni.WriteBool('Configuration', 'CutTextToColWidth', gCutTextToColWidth);
+
+  gIni.WriteBool('Viewer', 'Image.Stretch', gViewerImageStretch);
 
   SaveWindowPos(gViewerPos, 'Viewer.');
   SaveWindowPos(gEditorPos, 'Editor.');
