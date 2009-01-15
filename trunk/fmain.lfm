@@ -18,7 +18,6 @@ object frmMain: TfrmMain
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
   OnKeyUp = frmMainKeyUp
-  OnPaint = FormPaint
   OnResize = FormResize
   OnShow = frmMainShow
   OnUTF8KeyPress = FormUTF8KeyPress
@@ -27,6 +26,7 @@ object frmMain: TfrmMain
   ShowHint = True
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.27'
+  Visible = True
   object pnlSyncSize: TPanel
     Height = 26
     Top = 24

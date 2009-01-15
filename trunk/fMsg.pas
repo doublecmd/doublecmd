@@ -7,9 +7,9 @@ uses
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons;
 
-const
-  cButtonWith=140;
-  cButtonSpace=15;
+var
+  cButtonWidth: Integer = 90;
+  cButtonSpace: Integer = 15;
 
 type
   TfrmMsg = class(TForm)

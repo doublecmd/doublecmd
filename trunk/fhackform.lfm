@@ -3,10 +3,7 @@ object frmHackForm: TfrmHackForm
   Height = 300
   Top = 236
   Width = 400
-  HorzScrollBar.Page = 399
-  VertScrollBar.Page = 299
-  OnShow = FormShow
-  ShowInTaskBar = stNever
   Position = poDesktopCenter
-  LCLVersion = '0.9.25'
+  ShowInTaskBar = stNever
+  LCLVersion = '0.9.27'
 end
