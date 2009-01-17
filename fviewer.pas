@@ -556,11 +556,29 @@ end;
 
 // Adjust Image size (width and height) to ScrollBox size
 procedure TfrmViewer.AdjustImageSize;
+const
+  fmtImageInfo = '%s (%s %%)';
+var
+  sResolution: String;
+  iScale: Integer;
 begin
   if Image.Stretch then
     begin
       Image.Width:= ScrollBox.ClientWidth;
       Image.Height:= ScrollBox.ClientHeight;
+      // show image resolution and scale
+      sResolution:= IntToStr(Image.ClientWidth) + 'x' + IntToStr(Image.ClientHeight);
+      iScale:= (Image.ClientWidth * 100) div Image.Picture.Width;
+      Status.Panels[2].Text:= Format(fmtImageInfo, [sResolution, IntToStr(iScale)]);
+      sResolution:= IntToStr(Image.Picture.Width) + 'x' + IntToStr(Image.Picture.Height);
+      Status.Panels[3].Text:= Format(fmtImageInfo, [sResolution, '100']);
+    end
+  else
+    begin
+      // show image resolution and scale
+      sResolution:= IntToStr(Image.Picture.Width) + 'x' + IntToStr(Image.Picture.Height);
+      Status.Panels[2].Text:= Format(fmtImageInfo, [sResolution, '100']);
+      Status.Panels[3].Text:= Status.Panels[2].Text;
     end;
 end;
 
