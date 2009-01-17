@@ -588,20 +588,27 @@ var
   fsFileStream: TFileStreamEx;  
 begin
 //  DebugLn('TfrmViewer.Load graphics');
+  bImage:= True;
   sExt:= ExtractFileExt(sFilename);
   System.Delete(sExt, 1, 1); // delete a dot
-  fsFileStream:= TFileStreamEx.Create(sFileName, fmOpenRead);
   try
-    Image.Picture.LoadFromStreamWithFileExt(fsFileStream, sExt);
+    fsFileStream:= TFileStreamEx.Create(sFileName, fmOpenRead);
+    try
+      Image.Picture.LoadFromStreamWithFileExt(fsFileStream, sExt);
+    except
+      FreeAndNil(fsFileStream);
+      ReMmapIfNeed; // open as text
+      Exit;
+    end;
   finally
-    fsFileStream.Free;
+    if Assigned(fsFileStream) then
+      fsFileStream.Free;
   end;
   miStretch.Checked:= not miStretch.Checked;
   miStretchClick(nil);
   nbPages.ActivePageComponent:= pgImage;
   miImage.Visible:= True;
   miEdit.Visible:= False;
-  bImage:= True;
 end;
 
 procedure TfrmViewer.DoSearch;
