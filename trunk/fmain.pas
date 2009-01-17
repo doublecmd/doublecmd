@@ -1988,14 +1988,17 @@ begin
     edtRename.Hint:=sFileName;
     edtRename.Text:=ExtractFileName(sFileName);
     edtRename.Visible:=True;
+    edtRename.SetFocus;
     if gRenameSelOnlyName then
       begin
+        {$IFDEF LCLGTK2}
+        edtRename.SelStart:=1;
+        {$ENDIF}
         edtRename.SelStart:=0;
         edtRename.SelLength:=length(edtRename.Text)-length(ExtractFileExt(edtRename.Text));
       end
     else
       edtRename.SelectAll;
-    edtRename.SetFocus;
   end;
 end;
 
