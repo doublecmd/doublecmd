@@ -998,6 +998,7 @@ begin
      //DebugLN('In folder = ' + CurrFileName);
 
      New(fr);
+     FillByte(fr^, SizeOf(fr^), 0);
      with fr^, PHeaderData(FArcFileList.Items[I])^  do
          begin
             sName := CurrFileName;
