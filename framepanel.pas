@@ -117,7 +117,7 @@ type
     procedure SetGridHorzLine(const AValue: Boolean);
     procedure SetGridVertLine(const AValue: Boolean);
   protected
-
+    procedure StartDragEx;
   public
     { Public declarations }
     pnlFile:TFilePanel;
@@ -159,7 +159,7 @@ implementation
 
 uses
   LCLProc, Masks, uLng, uShowMsg, uGlobs, GraphType, uPixmapManager, uVFSUtil,
-  uDCUtils, uOSUtils, math, uFileList;
+  uDCUtils, uOSUtils, math, uFileList, uDragDropEx;
 
 
 procedure TFrameFilePanel.LoadPanel;
@@ -282,6 +282,22 @@ begin
 //  dgPanel.SetFocus;
 end;
 
+procedure TFrameFilePanel.StartDragEx;
+var
+  fl: TFileList;
+begin
+  dgPanel.Perform(LM_LBUTTONUP, 0, 0);
+  Application.ProcessMessages;
+
+  fl:= TFileList.Create;
+  try
+    CopyListSelectedExpandNames(pnlFile.FileList, fl, ActiveDir);
+    DoDragDropEx(fl);
+  finally
+    FreeAndNil(fl);
+  end;
+end;
+
 procedure TFrameFilePanel.dgPanelMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
@@ -359,9 +375,14 @@ begin
     SetFocus;
     Exit;
   end;
-  // indicate that drag start at next mouse move event
-  dgPanel.StartDrag:= True;
-  dgPanel.LastMouseButton:= Button;
+  if ssCtrl in Shift then
+    StartDragEx // start drag&drop to external application
+  else
+    begin
+      // indicate that drag start at next mouse move event
+      dgPanel.StartDrag:= True;
+      dgPanel.LastMouseButton:= Button;
+    end;
 end;
 
 procedure TFrameFilePanel.dgPanelStartDrag(Sender: TObject; var DragObject: TDragObject);

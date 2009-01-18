@@ -61,7 +61,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="42">
+    <Units Count="43">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -354,6 +354,11 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fEditSearch"/>
       </Unit41>
+      <Unit42>
+        <Filename Value="udragdropex.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDragDropEx"/>
+      </Unit42>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
