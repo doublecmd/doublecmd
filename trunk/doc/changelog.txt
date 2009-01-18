@@ -1,4 +1,5 @@
 ﻿18.01.2009 ADD: Drag&Drop to external applications under Windows
+18.01.2009 FIX: Bug [ 2513084 ] tabs
 12.01.2009 ADD: Pause/Start file operations
 11.01.2009 FIX: Bug [ 2496645 ] sort files
 05.01.2009 FIX: Bug [ 2403796 ] removing tabs
