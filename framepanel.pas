@@ -117,7 +117,7 @@ type
     procedure SetGridHorzLine(const AValue: Boolean);
     procedure SetGridVertLine(const AValue: Boolean);
   protected
-    procedure StartDragEx;
+    procedure StartDragEx(Data: PtrInt);
   public
     { Public declarations }
     pnlFile:TFilePanel;
@@ -282,7 +282,7 @@ begin
 //  dgPanel.SetFocus;
 end;
 
-procedure TFrameFilePanel.StartDragEx;
+procedure TFrameFilePanel.StartDragEx(Data: PtrInt);
 var
   fl: TFileList;
 begin
@@ -375,8 +375,8 @@ begin
     SetFocus;
     Exit;
   end;
-  if ssCtrl in Shift then
-    StartDragEx // start drag&drop to external application
+  if ssCtrl in Shift then // start drag&drop to external application
+    Application.QueueAsyncCall(@StartDragEx, 0)
   else
     begin
       // indicate that drag start at next mouse move event

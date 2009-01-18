@@ -828,6 +828,8 @@ begin
 
     DROPEFFECT_COPY,
 
+    DROPEFFECT_MOVE,
+
     DROPEFFECT_LINK,
 
     DROPEFFECT_SCROLL: Result :=
