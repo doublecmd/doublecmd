@@ -400,6 +400,8 @@ begin
     fpRight:
        CreatePanel(AddPage(nbRight, bSetActive), fpRight, sDir);
     end;
+    if bSetActive then
+      ActiveFrame.SetFocus;
   end;
 end;
 
@@ -584,6 +586,7 @@ begin
     fpRight:
        CreatePanel(AddPage(nbRight), fpRight, ActiveFrame.ActiveDir);
     end;
+    ActiveFrame.SetFocus;
   end;
 end;
 
@@ -606,6 +609,7 @@ begin
     fpRight:
        RemovePage(nbRight, nbRight.PageIndex);
     end;
+    ActiveFrame.SetFocus;
   end;
 end;
 
@@ -636,6 +640,7 @@ begin
          if I <> nbRight.PageIndex then
            RemovePage(nbRight, I);
     end;
+    ActiveFrame.SetFocus;
   end;
 end;
 
