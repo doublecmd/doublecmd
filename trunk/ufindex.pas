@@ -118,7 +118,7 @@ end;
 var
   UnixFindData: PUnixFindData;
 begin
-  DebugLn('FindFirstEx with Path == ', Path);
+  //DebugLn('FindFirstEx with Path == ', Path);
   { Allocate UnixFindData }
   New(UnixFindData);
   FillChar(UnixFindData^, SizeOf(UnixFindData^), 0);
