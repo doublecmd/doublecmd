@@ -55,7 +55,6 @@ object frmMain: TfrmMain
         Align = alLeft
         Alignment = taLeftJustify
         BevelOuter = bvNone
-        ParentColor = False
         TabOrder = 0
         OnMouseUp = dskToolBarMouseUp
         OnToolButtonClick = dskToolButtonClick
