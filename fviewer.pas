@@ -244,7 +244,7 @@ end;
 
 procedure TfrmViewer.ScrollBoxResize(Sender: TObject);
 begin
-  AdjustImageSize;
+  if bImage then AdjustImageSize;
 end;
 
 procedure TfrmViewer.ViewerControlMouseWheelDown(Sender: TObject;
@@ -506,6 +506,7 @@ begin
     bImage:=False;
     nbPages.ActivePageComponent:=pgText;
     image.Picture:=nil;
+    Status.Panels[2].Text:= '0 (0 %)';
   end;
   Status.Panels[3].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
   UpDateScrollBar;
