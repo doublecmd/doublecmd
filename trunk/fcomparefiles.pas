@@ -16,7 +16,7 @@ type
     edtFileNameLeft: TFileNameEdit;
     edtFileNameRight: TFileNameEdit;
     pnlLeft: TPanel;
-    Splitter1: TSplitter;
+    Splitter: TSplitter;
     pnlRight: TPanel;
     pnlLeftBox: TPanel;
     pnlRightBox: TPanel;
@@ -32,6 +32,7 @@ type
     chbKeepScrolling: TCheckBox;
     procedure btnCompareClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormResize(Sender: TObject);
     procedure lstLeftSpecialLineColors(Sender: TObject; Line: Integer;
       var Special: Boolean; var FG, BG: TColor);
     procedure lstLeftStatusChange(Sender: TObject; Changes: TSynStatusChanges);
@@ -75,6 +76,11 @@ begin
   lstRight.Font.Name:= gEditorFontName;
   lstRight.Font.Size:= gEditorFontSize;
   lstRight.Font.Style:= gEditorFontStyle;
+end;
+
+procedure TfrmCompareFiles.FormResize(Sender: TObject);
+begin
+  pnlLeft.Width:= (Width div 2) - (Splitter.Width div 2);
 end;
 
 procedure TfrmCompareFiles.btnCompareClick(Sender: TObject);
