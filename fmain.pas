@@ -2795,11 +2795,15 @@ begin
       btnLeftRoot.Flat := gInterfaceFlat;
       btnLeftUp.Flat := gInterfaceFlat;
       btnLeftHome.Flat := gInterfaceFlat;
+      btnLeftDirectoryHotlist.Flat := gInterfaceFlat;
+      btnLeftTargetEqualSource.Flat:= gInterfaceFlat;
       
       btnRightDrive.Flat := gInterfaceFlat;
       btnRightRoot.Flat := gInterfaceFlat;
       btnRightUp.Flat := gInterfaceFlat;
       btnRightHome.Flat := gInterfaceFlat;
+      btnRightDirectoryHotlist.Flat := gInterfaceFlat;
+      btnRightTargetEqualSource.Flat:= gInterfaceFlat;
     end;
 
   for I := 0 to nbLeft.PageCount - 1 do  //  change on all tabs
