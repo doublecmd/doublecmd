@@ -55,14 +55,12 @@ object frmCompareFiles: TfrmCompareFiles
       Font.Height = 13
       Font.Name = 'adobe-courier'
       Font.Pitch = fpVariable
-      Font.Quality = fqNonAntialiased
       ParentColor = False
       ParentCtl3D = False
       ParentFont = False
       TabOrder = 1
       BookMarkOptions.Xoffset = -18
       BookMarkOptions.OnChange = nil
-      Gutter.DigitCount = 2
       Gutter.LeftOffset = 0
       Gutter.Visible = False
       Gutter.Width = 15
@@ -388,7 +386,6 @@ object frmCompareFiles: TfrmCompareFiles
           ShortCut = 24642
         end>
       ReadOnly = True
-      SelectedColor.OnChange = nil
       OnSpecialLineColors = lstLeftSpecialLineColors
       OnStatusChange = lstLeftStatusChange
     end
@@ -432,7 +429,6 @@ object frmCompareFiles: TfrmCompareFiles
       Font.Height = 13
       Font.Name = 'adobe-courier'
       Font.Pitch = fpVariable
-      Font.Quality = fqNonAntialiased
       ParentColor = False
       ParentCtl3D = False
       ParentFont = False
@@ -762,7 +758,6 @@ object frmCompareFiles: TfrmCompareFiles
           ShortCut = 24642
         end>
       ReadOnly = True
-      SelectedColor.OnChange = nil
       OnSpecialLineColors = lstRightSpecialLineColors
       OnStatusChange = lstRightStatusChange
     end
