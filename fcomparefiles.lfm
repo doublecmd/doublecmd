@@ -8,10 +8,10 @@ object frmCompareFiles: TfrmCompareFiles
   ClientHeight = 530
   ClientWidth = 820
   OnCreate = FormCreate
-  ParentFont = False
+  OnResize = FormResize
   Position = poScreenCenter
   LCLVersion = '0.9.27'
-  object Splitter1: TSplitter
+  object Splitter: TSplitter
     Left = 361
     Height = 460
     Top = 48
