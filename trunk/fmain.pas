@@ -180,6 +180,8 @@ type
     pmDropMenu: TPopupMenu;
     pmTabMenu: TPopupMenu;
     seLogWindow: TSynEdit;
+    btnLeftTargetEqualSource: TSpeedButton;
+    btnRightTargetEqualSource: TSpeedButton;
     Splitter1: TSplitter;
     tbDelete: TMenuItem;
     tbEdit: TMenuItem;
@@ -514,6 +516,7 @@ begin
   btnLeftHome.Flat := gInterfaceFlat;
   btnLeftDirectoryHotlist.Visible := gDriveMenuButton;
   btnLeftDirectoryHotlist.Flat := gInterfaceFlat;
+  btnLeftTargetEqualSource.Flat:= gInterfaceFlat;
 
   btnRightDrive.Visible := gDriveMenuButton;
   btnRightDrive.Flat := gInterfaceFlat;
@@ -525,6 +528,7 @@ begin
   btnRightHome.Flat := gInterfaceFlat;
   btnRightDirectoryHotlist.Visible := gDriveMenuButton;
   btnRightDirectoryHotlist.Flat := gInterfaceFlat;
+  btnRightTargetEqualSource.Flat:= gInterfaceFlat;
 
   pnlCommand.Visible := gCmdLine;
   pnlKeys.Visible := gKeyButtons;
