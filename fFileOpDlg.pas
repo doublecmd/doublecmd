@@ -61,7 +61,12 @@ uses
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
 begin
   if Assigned(Thread) then
-    Thread.Terminate;
+    begin
+      Thread.Terminate;
+      if Thread is TFileOpThread then
+        with Thread as TFileOpThread do
+          if Paused then Paused:= False; 
+    end;
   ModalResult := mrCancel;
 end;
 
