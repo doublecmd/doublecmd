@@ -372,13 +372,13 @@ var
 
   RequiredSize: Integer;
 
-  i: Integer;
+  I: Integer;
 
   hGlobalDropInfo: HGlobal;
 
   DropFiles: PDropFiles;
 
-  c: PChar;
+  wsFileList: WideString;
 
 begin
 
@@ -400,25 +400,24 @@ begin
 
 
 
+  {
+    Bring the filenames in a form,
+    separated by #0 and ending with a double #0#0
+  }
+
+  for I := 0 to Self.Files.Count - 1 do
+
+    begin
+
+      wsFileList:= wsFileList + UTF8Decode(Self.Files[I]) + #0;
+
+    end;
+
+  wsFileList:= wsFileList + #0;
+
   { Определяем необходимый размер структуры }
 
-  RequiredSize := sizeof(TDropFiles);
-
-  for i := 0 to Self.Files.Count - 1 do
-
-  begin
-
-    { Длина каждой строки, плюс 1 байт для
-
-    терминатора }
-
-    RequiredSize := RequiredSize + Length(Self.Files[i]) + 1;
-
-  end;
-
-  { 1 байт для завершающего терминатора }
-
-  Inc(RequiredSize);
+  RequiredSize := SizeOf(TDropFiles) + Length(wsFileList) * 2;
 
 
 
@@ -451,19 +450,19 @@ begin
 
     }
 
-    DropFiles.pFiles := sizeof(TDropFiles);
+    DropFiles.pFiles := SizeOf(TDropFiles);
 
     DropFiles.pt := Self.FDropPoint;
 
     DropFiles.fNC := Self.InClientArea;
 
-    DropFiles.fWide := False;
+    DropFiles.fWide := True;
 
 
 
     {
 
-      Копируем каждое имя файла в буфер.
+      Копируем имена файлов в буфер.
 
       Буфер начинается со смещения
 
@@ -473,19 +472,9 @@ begin
 
     }
 
-    c := PChar(DropFiles);
+    DropFiles := Pointer(PtrInt(DropFiles)) + DropFiles.pFiles;
 
-    c := c + DropFiles.pFiles;
-
-    for i := 0 to Self.Files.Count - 1 do
-
-    begin
-
-      StrCopy(c, PChar(Self.Files[i]));
-
-      c := c + Length(Self.Files[i]);
-
-    end;
+    CopyMemory(DropFiles, PWideChar(wsFileList), Length(wsFileList) * 2);
 
 
 

@@ -375,7 +375,7 @@ begin
     SetFocus;
     Exit;
   end;
-  if ssCtrl in Shift then // start drag&drop to external application
+  if ssAlt in Shift then // start drag&drop to external application
     Application.QueueAsyncCall(@StartDragEx, 0)
   else
     begin
