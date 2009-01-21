@@ -472,7 +472,7 @@ begin
 
     }
 
-    DropFiles := Pointer(PtrInt(DropFiles)) + DropFiles.pFiles;
+    DropFiles := Pointer(DropFiles) + DropFiles.pFiles;
 
     CopyMemory(DropFiles, PWideChar(wsFileList), Length(wsFileList) * 2);
 
