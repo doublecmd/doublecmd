@@ -365,8 +365,12 @@ begin
           end
         else if (gMouseSelectionButton = 0) then
           begin
-            pnlFile.MarkAllFiles(False);
-            dgPanel.Invalidate;
+            frp := pnlFile.GetReferenceItemPtr(iRow - dgPanel.FixedRows); // substract fixed rows (header)
+            if Assigned(frp) and not frp^.bSelected then
+              begin
+                pnlFile.MarkAllFiles(False);
+                dgPanel.Invalidate;
+              end;
           end;
       end;//of mouse selection handler
     end;
