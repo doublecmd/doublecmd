@@ -291,6 +291,7 @@ begin
 
   fl:= TFileList.Create;
   try
+    SelectFileIfNoSelected(GetActiveItem);
     CopyListSelectedExpandNames(pnlFile.FileList, fl, ActiveDir);
     DoDragDropEx(fl);
   finally
