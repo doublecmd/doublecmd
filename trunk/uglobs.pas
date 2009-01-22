@@ -235,6 +235,7 @@ begin
       AddHotKey('F7','cm_MakeDir','','FrmMain','FrmMain');
       AddHotKey('F1','cm_About','','FrmMain','FrmMain');
       AddHotKey('F9','cm_RunTerm','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+A','cm_MarkMarkAll','','FrmMain','FrmMain');
       AddHotKey('Ctrl+R','cm_Refresh','','FrmMain','FrmMain');
       AddHotKey('Alt+F7','cm_Search','','FrmMain','FrmMain');
       AddHotKey('Ctrl+D','cm_DirHotList','','FrmMain','FrmMain');
