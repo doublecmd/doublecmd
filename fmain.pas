@@ -2882,6 +2882,8 @@ begin
   begin
     sDir:=Trim(Copy(sCmd, iIndex+3, length(sCmd)));
     sDir:=IncludeTrailingBackslash(sDir);
+    if Pos('~' + PathDelim, sDir) = 1 then
+      sDir:= StringReplace(sDir, '~' + PathDelim, GetHomeDir, []);
     logWrite('Chdir to: ' + sDir);
     if not mbSetCurrentDir(sDir) then
     begin
