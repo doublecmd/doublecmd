@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2006-2008 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2009 Alexander Koblov (Alexx2000@mail.ru)
    
    Vitaly Zotov (vitalyzotov@mail.ru)
 }
@@ -513,16 +513,11 @@ begin
       if ProcessExtCommand(sOpenCmd{, frp}) then
         Exit;
     end;
-    // and at the end try if it is executable
-    if bExecutable then
-      begin
-        mbSetCurrentDir(ActiveDir);
-        LastActive:=sName;
-
-        ExecCmdFork(Format('"%s"', [sName]));
-        LoadPanel;
-        Exit;
-      end;
+    // and at the end try to open by system
+    mbSetCurrentDir(ActiveDir);
+    LastActive:= sName;
+    ShellExecute(sName);
+    LoadPanel;
   end;
 end;
 

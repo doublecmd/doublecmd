@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -116,6 +116,12 @@ function FileIsExeLib(const sFileName : String) : Boolean;
 function FileIsReadOnly(iAttr:Cardinal): Boolean;
 function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Boolean;
 function ExecCmdFork(sCmdLine:String; bTerm : Boolean = False; sTerm : String = ''):Boolean;
+{en
+   Opens a file or URL in the user's preferred application
+   @param(URL File name or URL)
+   @returns(The function returns @true if successful, @false otherwise)
+}
+function ShellExecute(URL: String): Boolean;
 function GetDiskFreeSpace(Path : String; var FreeSize, TotalSize : Int64) : Boolean;
 {en
    Create a hard link to a file
@@ -218,7 +224,10 @@ function mbRemoveDir(const Dir: UTF8String): Boolean;
 function mbLoadLibrary(Name: UTF8String): TLibHandle;
 
 implementation
-   
+
+uses
+  FileUtil;
+
 (*Is Directory*)
 
 function  FPS_ISDIR(iAttr:Cardinal) : Boolean;
@@ -408,6 +417,35 @@ begin
   wFileName:= UTF8Decode(sFileName);
   wParams:= UTF8Decode(sParams);
   Result := (ShellExecuteW(0, 'open', PWChar(wFileName), PWChar(wParams), PWChar(wWorkDir), SW_SHOW) > 32);
+end;
+{$ENDIF}
+
+function ShellExecute(URL: String): Boolean;
+{$IFDEF MSWINDOWS}
+begin
+  Result:= ExecCmdFork(Format('"%s"', [URL]));
+end;
+{$ELSE}
+var
+  DesktopEnv: Cardinal;
+  sCmdLine: String;
+begin
+  Result:= False;
+  sCmdLine:= '';
+  DesktopEnv:= GetDesktopEnvironment;
+  case DesktopEnv of
+  DE_UNKNOWN:
+    if FileIsExecutable(URL) then
+      sCmdLine:= Format('"%s"', [URL]);
+  DE_KDE:
+    sCmdLine:= 'kfmclient exec ' + QuoteStr(URL);
+  DE_GNOME:
+    sCmdLine:= 'gnome-open ' + QuoteStr(URL);
+  DE_XFCE:
+    sCmdLine:= 'exo-open ' + QuoteStr(URL);
+  end;
+  if sCmdLine <> '' then
+    Result:= ExecCmdFork(sCmdLine);
 end;
 {$ENDIF}
 
