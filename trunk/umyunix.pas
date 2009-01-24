@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific UNIX functions.
 
-    Copyright (C) 2008  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,6 +33,12 @@ const
   libc = 'c';
   _PATH_FSTAB = '/etc/fstab';
   _PATH_MOUNTED = '/etc/mtab';
+
+const
+  DE_UNKNOWN = 0;
+  DE_KDE = 1;
+  DE_GNOME = 2;
+  DE_XFCE = 3;
 
 type
   PIOFILE = Pointer;
@@ -125,6 +131,7 @@ function getgrnam(name: PChar): PGroupRecord; cdecl; external libc name 'getgrna
 
 function UnixToWinAge(UnixAge: time_t): LongInt;
 function LinuxToWinAttr(pFileName: PChar; const srInfo: BaseUnix.Stat): Longint;
+function GetDesktopEnvironment: Cardinal;
 
 implementation
 
@@ -147,6 +154,25 @@ begin
      Result:= Result or faReadOnly;
   if fpS_ISSOCK(srInfo.st_mode) or fpS_ISBLK(srInfo.st_mode) or fpS_ISCHR(srInfo.st_mode) or fpS_ISFIFO(srInfo.st_mode) Then
      Result:= Result or faSysFile;
+end;
+
+function GetDesktopEnvironment: Cardinal;
+var
+  DesktopSession: String;
+begin
+  Result:= DE_UNKNOWN;
+  if GetEnvironmentVariable('KDE_FULL_SESSION') <> '' then
+    Exit(DE_KDE);
+  if GetEnvironmentVariable('GNOME_DESKTOP_SESSION_ID') <> '' then
+    Exit(DE_GNOME);
+  DesktopSession:= GetEnvironmentVariable('DESKTOP_SESSION');
+  DesktopSession:= LowerCase(DesktopSession);
+  if Pos('kde', DesktopSession) <> 0 then
+    Exit(DE_KDE);
+  if Pos('gnome', DesktopSession) <> 0 then
+    Exit(DE_GNOME);
+  if Pos('xfce', DesktopSession) <> 0 then
+    Exit(DE_XFCE);
 end;
 
 end.
