@@ -260,10 +260,13 @@ begin
           end; // except
         until not bRetry;
         
-        if iDstSize <> 0 then
-          FFileOpDlg.iProgress1Pos:= (dst.Size * 100) div iDstSize;
-        EstimateTime(FCopied + dst.Size);
-        Synchronize(@FFileOpDlg.UpdateDlg);
+        if (iDstSize <> 0) and (FFilesSize <> 0) then
+          begin
+            FFileOpDlg.iProgress1Pos:= (dst.Size * 100) div iDstSize;
+            FFileOpDlg.iProgress2Pos:= ((FCopied + dst.Size) * 100) div FFilesSize;
+            EstimateTime(FCopied + dst.Size);
+            Synchronize(@FFileOpDlg.UpdateDlg);
+          end;
       end;
       if iDstSize > dst.Size then
       begin
