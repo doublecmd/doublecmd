@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -86,7 +86,7 @@ function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boo
 implementation
 
 uses
-  LCLProc, fMain, uVFSutil, uOSUtils, uExts, uGlobs, uLng, uDCUtils;
+  LCLProc, fMain, uVFSutil, uOSUtils, uExts, uGlobs, uLng, uDCUtils, uShellExecute;
 
 var
 {$IFDEF MSWINDOWS}
@@ -153,7 +153,7 @@ begin
         pnlFile.LoadPanelVFS(@FileRecItem);
         Exit;
       end;
-    if not pnlFile.ProcessExtCommand(sCmd) then
+    if not ProcessExtCommand(sCmd, pnlFile.ActiveDir) then
       frmMain.ExecCmd(sCmd);
   end;
 end;
@@ -302,7 +302,7 @@ begin
               begin
                 sCmd:=sl.Strings[i];
                 if pos('VIEW=',sCmd)>0 then Continue;  // view command is only for viewer
-                frmMain.ActiveFrame.pnlFile.ReplaceExtCommand(sCmd, @fri);
+                ReplaceExtCommand(sCmd, @fri, frmMain.ActiveFrame.pnlFile.ActiveDir);
                 
                 sCmd:= RemoveQuotation(sCmd);
                 InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 0, I + $1000, MFT_STRING);
@@ -399,7 +399,7 @@ begin
   else if (cmd >= $1000) then // actions sub menu
     begin
       sCmd:= sl.Strings[cmd - $1000];
-      frmMain.ActiveFrame.pnlFile.ReplaceExtCommand(sCmd, @fri);
+      ReplaceExtCommand(sCmd, @fri, frmMain.ActiveFrame.pnlFile.ActiveDir);
       sCmd:= Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
       try
         with frmMain.ActiveFrame do
@@ -409,7 +409,7 @@ begin
               pnlFile.LoadPanelVFS(@fri);
               Exit;
             end;
-          if not pnlFile.ProcessExtCommand(sCmd) then
+          if not ProcessExtCommand(sCmd, pnlFile.ActiveDir) then
             frmMain.ExecCmd(sCmd);
         end;
       finally
@@ -461,7 +461,7 @@ begin
               begin
                 sCmd:=sl.Strings[i];
                 if pos('VIEW=',sCmd)>0 then Continue;  // view command is only for viewer
-                frmMain.ActiveFrame.pnlFile.ReplaceExtCommand(sCmd, @fri);
+                ReplaceExtCommand(sCmd, @fri, frmMain.ActiveFrame.pnlFile.ActiveDir);
                 mi:=TMenuItem.Create(miActions);
                 mi.Caption:=RemoveQuotation(sCmd);
                 mi.Hint:=Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
