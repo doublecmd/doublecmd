@@ -118,6 +118,7 @@ begin
   //DebugLn('sDestPath == ', sDestPath);
   New(pfri);
   pfri^.sName:= edtPackedFile.Text;
+  pfri^.iMode:= 0;
   ExtractFileList.AddItem(pfri);
   Dispose(pfri);
   fWCXModule.VFSCopyOut(ExtractFileList, sDestPath + '*', 0);
