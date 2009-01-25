@@ -73,7 +73,7 @@ function ShowPackInfoDlg(WCXModule: TWCXModule; HeaderData: THeaderData): Boolea
 
 implementation
 uses
-  LCLProc, FileUtil,  uTypes, uFileOp, uFileList, uDCUtils, uOSUtils;
+  LCLProc, FileUtil,  uTypes, uFileOp, uFileList, uDCUtils, uShellExecute;
 
 function ShowPackInfoDlg(WCXModule: TWCXModule; HeaderData: THeaderData): Boolean;
 var
@@ -122,7 +122,7 @@ begin
   Dispose(pfri);
   fWCXModule.VFSCopyOut(ExtractFileList, sDestPath + '*', 0);
   // execute file
-  ExecCmdFork(Format('"%s"', [sDestPath+ExtractFileName(edtPackedFile.Text)]));
+  ShellExecuteEx('open', sDestPath+ExtractFileName(edtPackedFile.Text), sDestPath);
 end;
 
 procedure TfrmPackInfoDlg.btnUnpackAllAndExecClick(Sender: TObject);
@@ -139,7 +139,7 @@ begin
 
   fWCXModule.VFSCopyOut(ExtractFileList, sDestPath + '*', 0);
   // execute file
-  ExecCmdFork(Format('"%s"', [sDestPath+edtPackedFile.Text]));
+  ShellExecuteEx('open', sDestPath+edtPackedFile.Text, sDestPath);
 end;
 
 initialization

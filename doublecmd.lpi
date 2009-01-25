@@ -31,7 +31,6 @@
     </VersionInfo>
     <PublishOptions>
       <Version Value="2"/>
-      <DestinationDirectory Value="$(TestDir)\publishedproject\"/>
       <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
       <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
     </PublishOptions>
@@ -61,7 +60,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="43">
+    <Units Count="44">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -359,6 +358,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDragDropEx"/>
       </Unit42>
+      <Unit43>
+        <Filename Value="ushellexecute.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uShellExecute"/>
+      </Unit43>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -83,8 +83,6 @@ type
     procedure cdDownLevel(frp:PFileRecItem);
     procedure MarkGroup(const sMask:String; bSelect:Boolean); // second parametr is switch sel/uns
     procedure UpdatePrompt;
-    function ProcessExtCommand(sCmd:String{; pfr:PFileRecItem}) : Boolean;
-    procedure ReplaceExtCommand(var sCmd:String; pfr:PFileRecItem);
     procedure SetActiveDir(const AValue:String);
     function GetActiveDir:String;
     property OnBeforeChangeDirectory : TOnBeforeChangeDirectory read FOnBeforeChangeDirectory write FOnBeforeChangeDirectory;
@@ -108,9 +106,9 @@ type
 implementation
 
 uses
-  LCLProc, SysUtils, Masks, StrUtils, Process, AsyncProcess, uFileOp, uGlobs, uVFSutil,
+  LCLProc, SysUtils, Masks, uFileOp, uGlobs, uVFSutil,
   uShowMsg, Controls, uLng, uShowForm, uVFSmodule, uDCUtils,
-  uOSUtils,fMain;
+  uOSUtils,fMain, uShellExecute;
 
 constructor TFilePanel.Create(AOwner : TObject; APanel:TDrawGrid; AlblPath: TLabel; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
 begin
@@ -509,8 +507,8 @@ begin
       end;
       LastActive:=sName;
 
-      ReplaceExtCommand(sOpenCmd, pfri);
-      if ProcessExtCommand(sOpenCmd{, frp}) then
+      ReplaceExtCommand(sOpenCmd, pfri, ActiveDir);
+      if ProcessExtCommand(sOpenCmd, ActiveDir) then
         Exit;
     end;
     // and at the end try to open by system
@@ -710,66 +708,6 @@ begin
   else
   //TODO
     flblFree.Caption:=Format(rsFreeMsg,[cnvFormatFileSize(0),cnvFormatFileSize(0)]);
-end;
-
-procedure TFilePanel.ReplaceExtCommand(var sCmd:String; pfr:PFileRecItem);
-var
-  sDir: String;
-  iStart,
-  iCount: Integer;
-  Process: TProcessUTF8;
-begin
-  with pfr^ do
-  begin
-    sDir:= IfThen(sPath<>'', sPath, ActiveDir);
-    sCmd:=StringReplace(sCmd,'%f',QuoteStr(ExtractFileName(sName)),[rfReplaceAll]);
-    sCmd:=StringReplace(sCmd,'%d',QuoteStr(sDir),[rfReplaceAll]);
-    sCmd:=StringReplace(sCmd,'%p',QuoteStr(sDir+ExtractFileName(sName)),[rfReplaceAll]);
-    sCmd:=Trim(sCmd);
-    // get output from command between '<?' and '?>'
-    if Pos('<?', sCmd) <> 0 then
-      begin
-        iStart:= Pos('<?', sCmd) + 2;
-        iCount:= Pos('?>', sCmd) - iStart;
-        sDir:= GetTempFolder + ExtractFileName(sName) + '.tmp';
-        Process:= TProcessUTF8.Create(nil);
-        Process.CommandLine:= Format(fmtRunInShell, [GetShell, Copy(sCmd, iStart, iCount) + ' > ' + sDir]);
-        Process.Options:= [poNoConsole, poWaitOnExit];
-        Process.Execute;
-        Process.Free;
-        sCmd:= Copy(sCmd, 1, iStart-3) + sDir;
-//        DebugLn('"'+sCmd+'"');
-      end;
-  end;
-end;
-
-function TFilePanel.ProcessExtCommand(sCmd:String{; pfr:PFileRecItem}) : Boolean;
-var
-  bTerm: Boolean;
-begin
-  Result:= False;
-  bTerm:= False;
-  if Pos('{!SHELL}', sCmd) > 0 then
-  begin
-    sCmd:= StringReplace(sCmd,'{!SHELL}','',[rfReplaceAll]);
-    bTerm:= True;
-  end;
-  if Pos('{!EDITOR}',sCmd) > 0 then
-  begin
-    sCmd:= Trim(StringReplace(sCmd,'{!EDITOR}','',[rfReplaceAll]));
-    uShowForm.ShowEditorByGlob(RemoveQuotation(sCmd));
-    Result:= True;
-    Exit;
-  end;
-  if Pos('{!VIEWER}',sCmd) > 0 then
-  begin
-    sCmd:= Trim(StringReplace(sCmd,'{!VIEWER}','',[rfReplaceAll]));
-    uShowForm.ShowViewerByGlob(RemoveQuotation(sCmd));
-    Result:= True;
-    Exit;
-  end;
-  mbSetCurrentDir(ActiveDir);
-  Result:= ExecCmdFork(sCmd, bTerm, gRunInTerm);
 end;
 
 procedure TFilePanel.SetActiveDir(const AValue:String);

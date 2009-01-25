@@ -127,7 +127,7 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls, ExtCtrls,
      fMkDir,LCLProc,uFileProcs,uDeleteThread,fFileAssoc,fExtractDlg,fAbout,
      fOptions,fCompareFiles,fFindDlg,fSymLink,fHardLink,fMultiRename,
      uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit,
-     HelpIntfs, dmHelpManager;
+     HelpIntfs, dmHelpManager, uShellExecute;
 
 { TActs }
 
@@ -816,8 +816,8 @@ begin
                 begin
                   if (sViewCmd<>'') then
                     begin
-                      pnlFile.ReplaceExtCommand(sViewCmd, fr);
-                      pnlFile.ProcessExtCommand(sViewCmd);
+                      ReplaceExtCommand(sViewCmd, fr, pnlFile.ActiveDir);
+                      ProcessExtCommand(sViewCmd, pnlFile.ActiveDir);
                     end
                   else
                     begin
@@ -831,8 +831,8 @@ begin
             begin
               if (sViewCmd<>'') then
                 begin
-                  pnlFile.ReplaceExtCommand(sViewCmd, fr);
-                  pnlFile.ProcessExtCommand(sViewCmd);
+                  ReplaceExtCommand(sViewCmd, fr, pnlFile.ActiveDir);
+                  ProcessExtCommand(sViewCmd, pnlFile.ActiveDir);
                 end
               else
                 begin
