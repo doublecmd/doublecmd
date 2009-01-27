@@ -671,8 +671,8 @@ begin
   FileList := PChar(UTF8ToSys(GetFileList(FFileList)));
 
   WCXModule := Self;  // set WCXModule variable to current module
-  SetChangeVolProc(0, ChangeVolProc);
-  SetProcessDataProc(0, ProcessDataProc);
+  SetChangeVolProc(-1, ChangeVolProc);
+  SetProcessDataProc(-1, ProcessDataProc);
 
   iResult := PackFiles(PChar(UTF8ToSys(FArchiveName)), pDstPath, Folder, FileList, FFlags);
 
@@ -957,8 +957,8 @@ begin
     CT := nil;
 
     WCXModule := Self;  // set WCXModule variable to current module
-    SetChangeVolProc(0, ChangeVolProc);
-    SetProcessDataProc(0, ProcessDataProc);
+    SetChangeVolProc(-1, ChangeVolProc);
+    SetProcessDataProc(-1, ProcessDataProc);
 
     CopySelectedWithSubFolders(flNameList);
    
