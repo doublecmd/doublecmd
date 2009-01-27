@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Archive File support - class for manage WCX plugins (Version 2.10)
 
-   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -98,7 +98,7 @@ Type
     function LoadModule(const sName:String):Boolean;override; {Load WCX plugin}
     procedure UnloadModule;override;                          {UnLoad WCX plugin}
 
-    function VFSInit:Boolean;override;
+    function VFSInit(Data: PtrInt):Boolean;override;
     procedure VFSDestroy;override;
     function VFSCaps : TVFSCaps;override;
 
@@ -344,7 +344,7 @@ begin
   ShowErrorMsg(iResult);
 end;
 
-function TWCXModule.VFSInit: Boolean;
+function TWCXModule.VFSInit(Data: PtrInt): Boolean;
 begin
 
 end;

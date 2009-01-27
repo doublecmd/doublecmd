@@ -2,7 +2,7 @@
    Double Commander - Virtual File System support
    - virtual class for manage Shared Object
  
-   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
  
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ Type
   public
     function LoadModule(const sName:String):Boolean;virtual;abstract; {Load plugin}
     procedure UnloadModule;virtual;abstract;
-    function VFSInit:Boolean;virtual;abstract;
+    function VFSInit(Data: PtrInt):Boolean;virtual;abstract;
     procedure VFSDestroy;virtual;abstract;
     function VFSCaps : TVFSCaps;virtual;abstract;
 

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Virtual File System - class for manage WFX plugins (Version 1.3)
  
-   Copyright (C) 2007-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2009  Koblov Alexander (Alexx2000@mail.ru)
  
    Callback functions based on:
      Total Commander filesystem plugins debugger
@@ -113,7 +113,7 @@ Type
     destructor Destroy; override;
     function LoadModule(const sName:String):Boolean;override; {Load plugin}
     procedure UnloadModule;override;
-    function VFSInit:Boolean;override;
+    function VFSInit(Data: PtrInt):Boolean;override;
     procedure VFSDestroy;override;
     function VFSCaps : TVFSCaps;override;
 
@@ -477,7 +477,7 @@ end;
 End;
 {/CallBack functions}
 
-function TWFXModule.VFSInit: Boolean;
+function TWFXModule.VFSInit(Data: PtrInt): Boolean;
 var dps:pFsDefaultParamStruct;
 begin
     if assigned(FsSetDefaultParams) then
