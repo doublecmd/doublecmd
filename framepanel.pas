@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
    
    Copyright (C) 2008 Vitaly Zotov (vitalyzotov@mail.ru)
 }
@@ -307,7 +307,8 @@ var
   frp: PFileRecItem;
 begin
   dgPanel.MouseToCell(X, Y, iCol, iRow);
-  
+  if iRow < dgPanel.FixedRows then Exit; // if is header
+
 {  if (Button=mbRight) and (iRow < dgPanel.FixedRows ) then
     begin
       pmFrColumnMenu.PopUp(X,Y);
