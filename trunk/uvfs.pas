@@ -253,6 +253,7 @@ begin
       if Pos('#', gWFXPlugins.Names[I]) = 0 then
         begin
           New(pfri);
+          FillByte(pfri^, SizeOf(pfri^), 0);
           with pfri^ do
             begin
               sName := gWFXPlugins.Names[I];
@@ -263,6 +264,7 @@ begin
               bLinkIsDir := False;
               fl.AddItem(pfri);
             end;
+          Dispose(pfri);
         end
     end;
 end;
