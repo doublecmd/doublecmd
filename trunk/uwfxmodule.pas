@@ -478,9 +478,10 @@ End;
 {/CallBack functions}
 
 function TWFXModule.VFSInit(Data: PtrInt): Boolean;
-var dps:pFsDefaultParamStruct;
+var
+  dps: pFsDefaultParamStruct;
 begin
-    if assigned(FsSetDefaultParams) then
+    if Assigned(FsSetDefaultParams) then
     begin
       GetMem(dps,SizeOf(tFsDefaultParamStruct));
       dps.DefaultIniName:=gini.FileName;
@@ -524,25 +525,9 @@ begin
 end;
 
 function TWFXModule.VFSOpen(const sName: String; bCanYouHandleThisFile : Boolean = False): Boolean;
-var dps:pFsDefaultParamStruct;
 begin
-  Debugln('WFXVFSOpen entered');
+  Debugln('WFXVFSOpen Entered');
   Result := (FsInit(WFXModuleList.Add(Self), @MainProgressProc, @MainLogProc, @MainRequestProc) = 0);
-
-//TODO: remove this and implement VFSInit call.
-//------------------------------------------------------
-    if assigned(FsSetDefaultParams) then
-    begin
-      GetMem(dps,SizeOf(tFsDefaultParamStruct));
-      dps.DefaultIniName:=gini.FileName;
-      dps.PluginInterfaceVersionHi:=1;
-      dps.PluginInterfaceVersionLow:=50;
-      dps.size:=SizeOf(tFsDefaultParamStruct);
-      FsSetDefaultParams(dps);
-      FreeMem(dps,SizeOf(tFsDefaultParamStruct));
-    end;
-//------------------------------------------------------
-
   Debugln('WFXVFSOpen Leaved');
 end;
 
