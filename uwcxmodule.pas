@@ -56,6 +56,7 @@ Type
     FArcFileList : TList;
     FFileList : TFileList;
     FFileMask : String;
+    FPackerCaps,
     FFlags : Integer;
     FDstPath,
     fFolder : String;
@@ -346,7 +347,7 @@ end;
 
 function TWCXModule.VFSInit(Data: PtrInt): Boolean;
 begin
-
+  FPackerCaps:= Data;
 end;
 
 procedure TWCXModule.VFSDestroy;
@@ -360,7 +361,7 @@ begin
   Include(Result, VFS_CAPS_COPYOUT);
   if Assigned(PackFiles) then
     Include(Result, VFS_CAPS_COPYIN);
-  if Assigned(DeleteFiles) then
+  if Boolean(FPackerCaps and PK_CAPS_DELETE) and Assigned(DeleteFiles) then
     Include(Result, VFS_CAPS_DELETE);
 end;
 

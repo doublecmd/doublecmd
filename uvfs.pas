@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Implementation of Virtual File System
 
-   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -39,6 +39,7 @@ type
   protected
     FCurrentPlugin : String;
     sLastArchive : String;
+    FVFSInitData: PtrInt;
     FVFSType : TVFSType;
     FVFSModule : TVFSmodule;
   public
@@ -126,17 +127,14 @@ end;
 
 function TVFS.TryFindModule(const sFileName: String): Boolean;
 var
-  I, iCount,
-  Index : Integer;
-  sPlugin : String;
+  I, iCount : Integer;
 begin
   if not mbFileExists(sFileName) then Exit(False);
   iCount := gWCXPlugins.Count - 1;
   for I := 0 to iCount do
     begin
-      sPlugin := gWCXPlugins.ValueFromIndex[I];
-      Index := Pos(',', sPlugin) + 1;
-      FCurrentPlugin := GetCmdDirFromEnvVar(Copy(sPlugin, Index, Length(sPlugin)));
+      FCurrentPlugin := GetCmdDirFromEnvVar(gWCXPlugins.FileName[I]);
+      FVFSInitData:= gWCXPlugins.Flags[I];
 
       FVFSModule := TWCXModule.Create;
       Result := FVFSModule.LoadModule(FCurrentPlugin);
@@ -144,6 +142,7 @@ begin
         begin
           try
             Result := False;
+            FVFSModule.VFSInit(FVFSInitData);
             if FVFSModule.VFSOpen(sFileName, True) then // found
               begin
                 sLastArchive := sFileName;
@@ -161,30 +160,27 @@ end;
 
 function TVFS.FindModule(const sFileName:String; bLoadModule : Boolean = True):Boolean;
 var
-  Count, i:Integer;
-  sExt, tmp:String;
-  Index : Integer;
+  Count, I: Integer;
+  sExt: String;
 begin
   Result := False;
-  tmp := '';
   sExt := LowerCase(ExtractFileExt(sFileName));
-  sExt := copy(sExt,2,length(sExt));
+  sExt := Copy(sExt,2,Length(sExt));
   DebugLN('sExt = ', sExt);
-  tmp := gWCXPlugins.Values[sExt];
+  I := gWCXPlugins.IndexOfName(sExt);
   
-
+  {
   //**************** Debug
      //DebugLN(FPlugins.Text);
      for i:=0 to gWCXPlugins.Count -1 do
-     DebugLN(gWCXPlugins.ValueFromIndex[i]);
+     DebugLN(gWCXPlugins.ValueFromIndex[I]);
   //***************
+  }
 
-
-  DebugLN('tmp = ', tmp);
-  if tmp <> '' then
+  if I >= 0 then
     begin
-      Index := Pos(',', tmp) + 1;
-      FCurrentPlugin := GetCmdDirFromEnvVar(Copy(tmp, Index, Length(tmp)));
+      FCurrentPlugin := GetCmdDirFromEnvVar(gWCXPlugins.FileName[I]);
+      FVFSInitData:= gWCXPlugins.Flags[I];
 
       //DebugLN('FCurrentPlugin = ', FCurrentPlugin);
 
@@ -210,7 +206,7 @@ begin
             sLastArchive := '';
             Result := LoadAndOpen(sLastArchive);
             //*********************
-            DebugLn(PChar(Pointer(FVFSModule.VFSMisc)));
+            //DebugLn(PChar(Pointer(FVFSModule.VFSMisc)));
             //*********************
           end;
       end;
@@ -229,6 +225,7 @@ begin
 
   if Result then
     begin
+      FVFSModule.VFSInit(FVFSInitData);
       if bGetOpenResult then
         Result := FVFSModule.VFSOpen(sLastArchive)
       else
@@ -249,7 +246,7 @@ begin
       Result := False;
       Exit;
     end;
-  dec(Count);
+  Dec(Count);
   fl.Clear;
   for I := 0 to Count do
     begin

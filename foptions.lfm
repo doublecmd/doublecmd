@@ -1324,14 +1324,17 @@ object frmOptions: TfrmOptions
               Width = 70
             end          
             item
+              SizePriority = 0
               Title.Caption = 'Plugin'
               Width = 183
             end          
             item
+              SizePriority = 0
               Title.Caption = 'Registered for'
               Width = 183
             end          
             item
+              SizePriority = 0
               Title.Caption = 'File name'
               Width = 184
             end>
