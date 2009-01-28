@@ -764,6 +764,7 @@ procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
                  inc(FFilesSize, UnpSize);
                end;
           end; //with
+       Dispose(fr);
      end;
   end;
 
@@ -1022,6 +1023,7 @@ begin
             iSize := UnpSize;
          end; //with
      fl.AddItem(fr);
+     Dispose(fr);
    end;
 end;
 
