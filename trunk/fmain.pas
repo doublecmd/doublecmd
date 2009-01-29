@@ -341,6 +341,7 @@ type
     procedure framedgPanelMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FramedgPanelDragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure pnlLeftRightDblClick(Sender: TObject);
     procedure seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
     procedure ShowPathEdit;
@@ -2184,6 +2185,18 @@ begin
           pmDropMenu.PopUp(MousePoint.X, MousePoint.Y);
         end;
       end; // case
+end;
+
+procedure TfrmMain.pnlLeftRightDblClick(Sender: TObject);
+begin
+  if Sender is TPanel then
+    with (Sender as TPanel) do
+    begin
+      if Name = 'pnlLeft' then
+        Actions.cm_NewTab('nbLeft')
+      else if Name = 'pnlRight' then
+        Actions.cm_NewTab('nbRight');
+    end;
 end;
 
 procedure TfrmMain.seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
