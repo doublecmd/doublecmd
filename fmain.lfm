@@ -114,6 +114,7 @@ object frmMain: TfrmMain
       ClientHeight = 162
       ClientWidth = 170
       TabOrder = 0
+      OnDblClick = pnlLeftRightDblClick
       object nbLeft: TNotebook
         Height = 138
         Top = 24
@@ -213,6 +214,7 @@ object frmMain: TfrmMain
       ClientHeight = 162
       ClientWidth = 502
       TabOrder = 1
+      OnDblClick = pnlLeftRightDblClick
       object nbRight: TNotebook
         Height = 138
         Top = 24
