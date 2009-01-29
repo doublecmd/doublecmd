@@ -378,12 +378,14 @@ object frmConfigToolBar: TfrmConfigToolBar
       ButtonGlyphSize = 16
     end
   end
-  object stToolBarFileName: TStaticText
+  object pnlToolBarFileName: TPanel
     Left = 133
     Height = 21
     Top = 10
     Width = 305
-    BorderStyle = sbsSunken
+    Alignment = taLeftJustify
+    BevelInner = bvLowered
+    ShowHint = True
     TabOrder = 16
   end
   object OpenDialog: TOpenDialog

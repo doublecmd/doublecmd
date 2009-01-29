@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Configuration Toolbar
 
-    Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ type
     OpenDialog: TOpenDialog;
     lblParameters: TLabel;
     sbIconExample: TSpeedButton;
-    stToolBarFileName: TStaticText;
+    pnlToolBarFileName: TPanel;
     tbScrollBox: TScrollBox;
     lblSize: TLabel;
     lblStartPath: TLabel;
@@ -94,7 +94,10 @@ var
   LastToolButton, NewToolButton : Integer;
 
 implementation
-uses ActnList, LCLProc, uClassesEx, fMain, uOSForms, uPixMapManager, uGlobsPaths, uGlobs;
+
+uses
+  ActnList, LCLProc, uClassesEx, fMain, uOSForms, uPixMapManager,
+  uGlobsPaths, uGlobs, uDCUtils;
 
 procedure ShowConfigToolbar(iButtonIndex : Integer = -1);
 begin
@@ -141,7 +144,11 @@ begin
   IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
   ktbBar.LoadFromIniFile(IniBarFile);
   IniBarFile.Free;
-  stToolBarFileName.Caption := gpIniDir + 'default.bar';
+  with pnlToolBarFileName do
+  begin
+    Caption:= MinimizeFilePath(gpIniDir + 'default.bar', Canvas, Width);
+    Hint:= gpIniDir + 'default.bar';
+  end;
   if ktbBar.Tag >= 0 then
     begin
       ktbBar.Buttons[ktbBar.Tag].Click;
@@ -169,14 +176,18 @@ procedure TfrmConfigToolBar.btnOpenBarFileClick(Sender: TObject);
 var
   IniBarFile: TIniFileEx;
 begin
-  OpenDialog.FileName := stToolBarFileName.Caption;
+  OpenDialog.FileName := pnlToolBarFileName.Hint;
   OpenDialog.Filter:= '*.bar|*.bar';
   if OpenDialog.Execute then
     begin
       IniBarFile:= TIniFileEx.Create(OpenDialog.FileName);
       ktbBar.LoadFromIniFile(IniBarFile);
       IniBarFile.Free;
-      stToolBarFileName.Caption := OpenDialog.FileName;
+      with pnlToolBarFileName do
+      begin
+        Caption:= MinimizeFilePath(OpenDialog.FileName, Canvas, Width);
+        Hint:= OpenDialog.FileName;
+      end;
     end;
 end;
 
