@@ -486,12 +486,15 @@ end;
 
 procedure TActs.cm_ShowButtonMenu(param:string);
 var
-  Point:TPoint;
+  Point: TPoint;
   IniFile: TIniFileEx;
 begin
   with frmMain do
   begin
-    IniFile:= TIniFileEx.Create(gpIniDir + param);
+    if Pos(PathDelim, param) <> 0 then
+      IniFile:= TIniFileEx.Create(GetCmdDirFromEnvVar(param))
+    else
+      IniFile:= TIniFileEx.Create(gpIniDir + param);
     pmButtonMenu.LoadFromIniFile(IniFile);
     IniFile.Free;
     Point:=MainToolBar.ClientToScreen(Classes.Point(0,0));

@@ -400,7 +400,7 @@ type
     procedure LoadTabs(ANoteBook:TNoteBook);
     procedure SaveTabs(ANoteBook:TNoteBook);
     function ExecCmd(Cmd:string; param:string='') : Boolean;
-    function ExecCmdEx(NumberOfButton:Integer) : Boolean;
+    function ExecCmdEx(Sender: TObject; NumberOfButton:Integer) : Boolean;
     procedure ToggleConsole;
     procedure UpdateWindowView;
     procedure LoadWindowState;
@@ -891,7 +891,7 @@ end;
 
 procedure TfrmMain.MainToolBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
 begin
-  ExecCmdEx(NumberOfButton);
+  ExecCmdEx(Sender, NumberOfButton);
   DebugLn(MainToolBar.Commands[NumberOfButton]);
 end;
 
@@ -1046,7 +1046,7 @@ end;
 procedure TfrmMain.pmButtonMenuMenuButtonClick(Sender: TObject;
   NumberOfButton: Integer);
 begin
-    ExecCmdEx(NumberOfButton);
+    ExecCmdEx(Sender, NumberOfButton);
 end;
 
 procedure TfrmMain.pnlKeysResize(Sender: TObject);
@@ -2667,12 +2667,23 @@ begin
     Result:= ExecCmdFork(Format('"%s" %s', [Cmd, Param]));
 end;
 
-function TfrmMain.ExecCmdEx(NumberOfButton: Integer): Boolean;
-var Cmd,Param: String;
+function TfrmMain.ExecCmdEx(Sender: TObject; NumberOfButton: Integer): Boolean;
+var
+  Cmd, Param: String;
 begin
-  Cmd:= MainToolBar.GetButtonX(NumberOfButton,CmdX);
-  Param:= MainToolBar.GetButtonX(NumberOfButton,ParamX);
-  if Actions.Execute(Cmd,Param)>-1 then
+  if Sender is TKASToolBar then
+    with Sender as TKASToolBar do
+    begin
+      Cmd:= GetButtonX(NumberOfButton, CmdX);
+      Param:= GetButtonX(NumberOfButton, ParamX);
+    end;
+  if Sender is TKASBarMenu then
+    with Sender as TKASBarMenu do
+    begin
+      Cmd:= BarFile.GetButtonX(NumberOfButton, CmdX);
+      Param:= BarFile.GetButtonX(NumberOfButton, ParamX);
+    end;
+  if Actions.Execute(Cmd,Param) > -1 then
     Result:= True
   else
     Result:= ExecCmdFork(Format('"%s" %s', [Cmd, Param]));
