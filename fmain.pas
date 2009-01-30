@@ -1648,18 +1648,19 @@ begin
     CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
 
     if (ActiveFrame.pnlFile.GetSelectedCount=1) then
+    with ActiveFrame.pnlFile do
     begin
       if sDestPath='' then
         begin
-          ShowRenameFileEdit(ActiveFrame.pnlFile.GetActiveItem^.sName);
+          ShowRenameFileEdit(ActiveDir + GetActiveItem^.sName);
           Exit;
         end
       else
         begin
-          if FPS_ISDIR(ActiveFrame.pnlFile.GetActiveItem^.iMode) then
+          if FPS_ISDIR(GetActiveItem^.iMode) then
             sDestPath:=sDestPath + '*.*'
           else
-            sDestPath:=sDestPath + ExtractFileName(ActiveFrame.pnlFile.GetActiveItem^.sName);
+            sDestPath:=sDestPath + ExtractFileName(GetActiveItem^.sName);
         end;
     end
     else
@@ -1670,9 +1671,8 @@ begin
       try
         edtDst.Text:=sDestPath;
         lblMoveSrc.Caption:=sCopyQuest;
-        if ShowModal=mrCancel then   Exit ; // throught finally
-{        ActiveFrame.UnMarkAll;
-        Exit;}
+        if ShowModal=mrCancel then Exit; // throught finally
+
         sDestPath := ExtractFilePath(edtDst.Text);
         sDstMaskTemp:=ExtractFileName(edtDst.Text);
       finally
