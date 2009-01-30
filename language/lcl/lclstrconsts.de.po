@@ -4,7 +4,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-09-03 22:36+0100\n"
+"PO-Revision-Date: 2009-01-23 17:46+0100\n"
 "Last-Translator: Joerg Braun <jb@toolbox-mag.de>\n"
 "Language-Team: Deutsch <lazarus@miraclec.com>\n"
 "MIME-Version: 1.0\n"
@@ -63,7 +63,7 @@ msgstr "Rückschritt"
 #: lclstrconsts.ifsvk_cancel
 msgctxt "lclstrconsts.ifsvk_cancel"
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: lclstrconsts.ifsvk_capital
 msgid "Capital"
@@ -84,7 +84,7 @@ msgstr "Konvertiert"
 #: lclstrconsts.ifsvk_delete
 msgctxt "lclstrconsts.ifsvk_delete"
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: lclstrconsts.ifsvk_down
 msgid "Down"
@@ -121,7 +121,7 @@ msgstr "Pos1"
 #: lclstrconsts.ifsvk_insert
 msgctxt "lclstrconsts.ifsvk_insert"
 msgid "Insert"
-msgstr ""
+msgstr "Einfügen"
 
 #: lclstrconsts.ifsvk_junja
 msgid "Junja"
@@ -159,7 +159,7 @@ msgstr "Modusänderung"
 #: lclstrconsts.ifsvk_next
 msgctxt "lclstrconsts.ifsvk_next"
 msgid "Next"
-msgstr ""
+msgstr "Weiter"
 
 #: lclstrconsts.ifsvk_nonconvert
 msgid "Nonconvert"
@@ -184,7 +184,7 @@ msgstr "Druck"
 #: lclstrconsts.ifsvk_prior
 msgctxt "lclstrconsts.ifsvk_prior"
 msgid "Prior"
-msgstr ""
+msgstr "Zurück"
 
 #: lclstrconsts.ifsvk_rbutton
 msgid "Mouse Button Right"
@@ -241,11 +241,11 @@ msgstr "Ressource %s nicht gefunden"
 
 #: lclstrconsts.rs3ddkshadowcolorcaption
 msgid "3D Dark Shadow"
-msgstr ""
+msgstr "Dunkl. 3D-Schatten"
 
 #: lclstrconsts.rs3dlightcolorcaption
 msgid "3D Light"
-msgstr ""
+msgstr "3D-Licht"
 
 #: lclstrconsts.rsacontrolcannothaveitselfasparent
 msgid "A control can't have itself as parent"
@@ -253,11 +253,11 @@ msgstr "Ein Control kann nicht sein eigener Vorfahr sein"
 
 #: lclstrconsts.rsactivebordercolorcaption
 msgid "Active Border"
-msgstr ""
+msgstr "Aktiver Rand"
 
 #: lclstrconsts.rsactivecaptioncolorcaption
 msgid "Active Caption"
-msgstr ""
+msgstr "Aktive Titelleiste"
 
 #: lclstrconsts.rsallfiles
 msgid "All files (%s)|%s|%s"
@@ -265,11 +265,11 @@ msgstr "Alle Dateien (%s)|%s|%s"
 
 #: lclstrconsts.rsappworkspacecolorcaption
 msgid "Application Workspace"
-msgstr ""
+msgstr "Arbeitsbereich"
 
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
-msgstr ""
+msgstr "Desktop"
 
 #: lclstrconsts.rsbackward
 msgid "Backward"
@@ -285,19 +285,19 @@ msgstr "Leer"
 
 #: lclstrconsts.rsbtnfacecolorcaption
 msgid "Button Face"
-msgstr ""
+msgstr "Schalterfläche"
 
 #: lclstrconsts.rsbtnhighlightcolorcaption
 msgid "Button Highlight"
-msgstr ""
+msgstr "Schalter-Hervorheb."
 
 #: lclstrconsts.rsbtnshadowcolorcaption
 msgid "Button Shadow"
-msgstr ""
+msgstr "Schalter-Schatten"
 
 #: lclstrconsts.rsbtntextcolorcaption
 msgid "Button Text"
-msgstr ""
+msgstr "Schalter-Text"
 
 #: lclstrconsts.rscalculator
 msgid "Calculator"
@@ -306,7 +306,7 @@ msgstr "Rechner"
 #: lclstrconsts.rscancelrecordhint
 msgctxt "lclstrconsts.rscancelrecordhint"
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: lclstrconsts.rscannotfocus
 msgid "Can not focus"
@@ -318,7 +318,7 @@ msgstr "Canvas erlaubt kein Zeichnen"
 
 #: lclstrconsts.rscaptiontextcolorcaption
 msgid "Caption Text"
-msgstr ""
+msgstr "Titelleistentext"
 
 #: lclstrconsts.rscasesensitive
 msgid "Case sensitive"
@@ -334,7 +334,7 @@ msgstr "Zeiger"
 
 #: lclstrconsts.rscustomcolorcaption
 msgid "Custom ..."
-msgstr ""
+msgstr "Eigene ..."
 
 #: lclstrconsts.rsdefaultfileinfovalue
 msgid "permissions user group size date time"
@@ -367,12 +367,12 @@ msgstr "Doppeltes Icon-Format"
 
 #: lclstrconsts.rseditrecordhint
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeiten"
 
 #: lclstrconsts.rserror
 msgctxt "lclstrconsts.rserror"
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: lclstrconsts.rserrorcreatingdevicecontext
 msgid "Error creating device context for %s.%s"
@@ -468,7 +468,7 @@ msgstr "Weitersuchen"
 
 #: lclstrconsts.rsfirstrecordhint
 msgid "First"
-msgstr ""
+msgstr "Erster"
 
 #: lclstrconsts.rsfixedcolstoobig
 msgid "FixedCols can't be >= ColCount"
@@ -480,7 +480,7 @@ msgstr "FixedRows kann nicht größer/gleich RowCount sein"
 
 #: lclstrconsts.rsformcolorcaption
 msgid "Form"
-msgstr ""
+msgstr "Form"
 
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
@@ -504,15 +504,15 @@ msgstr "--g-fatal-warnings    Von Gtk+/GDK generierte Warnungen und Fehler halte
 
 #: lclstrconsts.rsgradientactivecaptioncolorcaption
 msgid "Gradient Active Caption"
-msgstr ""
+msgstr "Gradient der aktiven Titelleiste"
 
 #: lclstrconsts.rsgradientinactivecaptioncolorcaption
 msgid "Gradient Inactive Caption"
-msgstr ""
+msgstr "Gradient der inaktiven Titelleiste"
 
 #: lclstrconsts.rsgraytextcolorcaption
 msgid "Gray Text"
-msgstr ""
+msgstr "Ausgegrauter Text"
 
 #: lclstrconsts.rsgridfiledoesnotexists
 msgid "Grid file doesn't exists"
@@ -648,11 +648,11 @@ msgstr "Hilfebetrachter nicht gefunden"
 
 #: lclstrconsts.rshighlightcolorcaption
 msgid "Highlight"
-msgstr ""
+msgstr "Hervorhebung"
 
 #: lclstrconsts.rshighlighttextcolorcaption
 msgid "Highlight Text"
-msgstr ""
+msgstr "Hervorgehob. Text"
 
 #: lclstrconsts.rshotlightcolorcaption
 msgid "Hot Light"
@@ -692,17 +692,17 @@ msgstr "Icon besitzt kein gültiges Bild"
 
 #: lclstrconsts.rsinactivebordercolorcaption
 msgid "Inactive Border"
-msgstr ""
+msgstr "Inaktiver Rand"
 
 #: lclstrconsts.rsinactivecaptioncolorcaption
 msgctxt "lclstrconsts.rsinactivecaptioncolorcaption"
 msgid "Inactive Caption"
-msgstr ""
+msgstr "Inaktive Titelleiste"
 
 #: lclstrconsts.rsinactivecaptiontext
 msgctxt "lclstrconsts.rsinactivecaptiontext"
 msgid "Inactive Caption"
-msgstr ""
+msgstr "Inaktive Titelleiste"
 
 #: lclstrconsts.rsindexoutofbounds
 msgid "%s Index %d out of bounds 0 .. %d"
@@ -714,11 +714,11 @@ msgstr "Index außerhalb des Bereichs Zelle[Spalte=%s Reihe=%d]"
 
 #: lclstrconsts.rsinfobkcolorcaption
 msgid "Info Background"
-msgstr ""
+msgstr "Info-Hintergrund"
 
 #: lclstrconsts.rsinfotextcolorcaption
 msgid "Info Text"
-msgstr ""
+msgstr "Infotext"
 
 #: lclstrconsts.rsinsertrecordhint
 msgctxt "lclstrconsts.rsinsertrecordhint"
@@ -755,7 +755,7 @@ msgstr "Jpint Picture Expert Group"
 
 #: lclstrconsts.rslastrecordhint
 msgid "Last"
-msgstr ""
+msgstr "Letzter"
 
 #: lclstrconsts.rslistindexexceedsbounds
 msgid "List index exceeds bounds (%d)"
@@ -816,7 +816,7 @@ msgstr "&Alles bestätigen"
 
 #: lclstrconsts.rsmenubarcolorcaption
 msgid "Menu Bar"
-msgstr ""
+msgstr "Menübalken"
 
 #: lclstrconsts.rsmenucolorcaption
 msgctxt "lclstrconsts.rsmenucolorcaption"
@@ -825,11 +825,11 @@ msgstr "Menü"
 
 #: lclstrconsts.rsmenuhighlightcolorcaption
 msgid "Menu Highlight"
-msgstr ""
+msgstr "Menühervorhebung"
 
 #: lclstrconsts.rsmenutextcolorcaption
 msgid "Menu Text"
-msgstr ""
+msgstr "Menütext"
 
 #: lclstrconsts.rsmodified
 msgid "  modified "
@@ -895,7 +895,7 @@ msgstr "Portable Pixmap"
 
 #: lclstrconsts.rspostrecordhint
 msgid "Post"
-msgstr ""
+msgstr "Übertragen"
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
 msgid "%s%sPress Ok to ignore and risk data corruption.%sPress Cancel to kill the program."
@@ -916,7 +916,7 @@ msgstr "Endupdate wenn kein Update läuft"
 
 #: lclstrconsts.rsrasterimagesaveinupdate
 msgid "Cannot save image while update in progress"
-msgstr ""
+msgstr "Kann Bild während des Updates nicht sichern"
 
 #: lclstrconsts.rsrasterimageupdateall
 msgid "Cannot begin update all when canvas only update in progress"
@@ -924,7 +924,7 @@ msgstr "Kann nicht mit dem kompletten Aktualisieren beginnen wenn ein Canvas-Upd
 
 #: lclstrconsts.rsrefreshrecordshint
 msgid "Refresh"
-msgstr ""
+msgstr "Auffrischen"
 
 #: lclstrconsts.rsreplace
 msgid "Replace"
@@ -941,7 +941,7 @@ msgstr "Ressource %s nicht gefunden"
 
 #: lclstrconsts.rsscrollbarcolorcaption
 msgid "ScrollBar"
-msgstr ""
+msgstr "Scrollbalken"
 
 #: lclstrconsts.rsscrollbaroutofrange
 msgid "ScrollBar property out of range"
@@ -1017,15 +1017,15 @@ msgstr "Warnung:"
 
 #: lclstrconsts.rswindowcolorcaption
 msgid "Window"
-msgstr ""
+msgstr "Fenster"
 
 #: lclstrconsts.rswindowframecolorcaption
 msgid "Window Frame"
-msgstr ""
+msgstr "Fensterrahmen"
 
 #: lclstrconsts.rswindowtextcolorcaption
 msgid "Window Text"
-msgstr ""
+msgstr "Fenstertext"
 
 #: lclstrconsts.scannotfocus
 msgid "Cannot focus a disabled or invisible window"
