@@ -187,6 +187,8 @@ type
   end;
 
 
+  { Query DROPFILES structure for [BOOL fWide] parameter }
+  function DragQueryWide( hGlobalDropInfo: HDROP ): boolean;
 
 implementation
 
@@ -641,6 +643,8 @@ var
 
   DropPoint: TPoint;
 
+  bWideStrings: boolean;
+
 begin
 
   dataObj._AddRef;
@@ -703,6 +707,7 @@ begin
 
     InClient := DragQueryPoint(Medium.hGlobal, @DropPoint);
 
+    bWideStrings := DragQueryWide( Medium.hGlobal );
 
 
     { Создаем объект TDragDropInfo }
@@ -723,7 +728,11 @@ begin
 
         sizeof(szFilename));
 
-      DropInfo.Add(szFilename);
+      // If Wide strings, then do Wide to UTF-8 transform
+      if( bWideStrings ) then
+        DropInfo.Add( UTF8Encode( szFileName ) )
+      else
+        DropInfo.Add(szFilename);
 
     end;
 
@@ -742,6 +751,9 @@ begin
     DropInfo.Free;
 
   end;
+
+  { Release memory allocated on DoDragDrop }
+  DragFinish( Medium.hGlobal );
 
   if (Medium.PUnkForRelease = nil) then
 
@@ -1046,6 +1058,13 @@ begin
 
 end;
 
+function DragQueryWide( hGlobalDropInfo: HDROP ): boolean;
+var DropFiles: PDropFiles;
+begin
+  DropFiles := GlobalLock( hGlobalDropInfo );
+  Result := DropFiles^.fWide;
+  GlobalUnlock( hGlobalDropInfo );
+end;
 
 initialization
 
