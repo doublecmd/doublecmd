@@ -100,6 +100,7 @@ procedure TfrmFileOp.FormShow(Sender: TObject);
 begin
   sEstimated:='';
   sFileName:='';
+  Hint:= Caption;
   pbFirst.Position:=0;
   pbSecond.Position:=0;
   pbFirst.Max:=1;
@@ -152,7 +153,10 @@ begin
     pbFirst.Invalidate;
   if bp2 then
     pbSecond.Invalidate;
-    
+
+  if bp2 then
+    Caption:= IntToStr(iProgress2Pos) + '% ' + Hint;
+
   if sEstimated<>lblEstimated.Caption then
   begin
     lblEstimated.Caption:=sEstimated;
