@@ -672,6 +672,7 @@ end;
 
 procedure TfrmMain.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
 begin
+  if edtCommand.Focused then Exit;
   // quick search by Letter only
   if (Length(UTF8Key) = 1) and ((Ord(UTF8Key[1]) < 32) or
      (UTF8Key[1] in ['+','-','*','/','\'])) then Exit;
