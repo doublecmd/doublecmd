@@ -352,6 +352,7 @@ type
     procedure FramepnlFileAfterChangeDirectory(Sender: TObject; const NewDir : String);
     procedure edtCommandKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure edtCommandExit(Sender: TObject);
     procedure tbEditClick(Sender: TObject);
   private
     { Private declarations }
@@ -2882,19 +2883,23 @@ procedure TfrmMain.edtCommandKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if not edtCommand.DroppedDown and ((Key=VK_UP) or (Key=VK_DOWN)) then
-  begin
-    ActiveFrame.SetFocus;
-    Key:=0;
-  end;
+    begin
+      ActiveFrame.SetFocus;
+      Key:= 0;
+    end
+  else
+    KeyPreview:= False;
 end;
 
-
+procedure TfrmMain.edtCommandExit(Sender: TObject);
+begin
+  KeyPreview:= True;
+end;
 
 procedure TfrmMain.tbEditClick(Sender: TObject);
 begin
   ShowConfigToolbar(pmToolBar.Tag);
 end;
-
 
 function TfrmMain.ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
 var
