@@ -350,6 +350,8 @@ object frmMain: TfrmMain
           ParentCtl3D = False
           TabOrder = 0
           TabStop = False
+          OnKeyDown = edtCommandKeyDown
+          OnExit = edtCommandExit
         end
       end
       object nbConsole: TNotebook
