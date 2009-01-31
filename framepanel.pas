@@ -407,8 +407,6 @@ var
   iRow, iOldRow: Integer;
   fri: PFileRecItem;
 begin
-  dgPanel.FGridState:= gsRowMoving;
-
   if dgPanel.DropRowIndex = DG_MOUSE_LEAVE then Exit;
 
   dgPanel.MouseToCell(X, Y, iOldRow, iRow);
