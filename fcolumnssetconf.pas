@@ -833,6 +833,7 @@ begin
       sneFontSize.Value:=dlgfont.Font.Size;
       TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontSize:=dlgfont.Font.Size;
       TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontName:=dlgfont.Font.Name;
+      TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontStyle:=dlgfont.Font.Style;
       EditorSaveResult(nil);
     end;
 end;

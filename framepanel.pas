@@ -469,15 +469,6 @@ begin
   if (Row = 0) and gTabHeader then Exit;
   with dgPanel do
   begin
-    Canvas.Brush.Style:=bsSolid;
-    Canvas.Font.Name := gFontName;
-    Canvas.Font.Size := gFontSize;
-    Canvas.Font.Style := gFontStyle;
-
-    if (gdSelected in aState) and FActive then
-      Canvas.Brush.Color:= gCursorColor
-    else
-      Canvas.Brush.Color:=Color;
     if Color <> gBackColor then
       Color:= gBackColor;
   end;
@@ -856,7 +847,7 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
   begin
    with frp^, dgPanel do
      begin
-     if (iIconID >= 0) and gShowIcons then
+       if (iIconID >= 0) and gShowIcons then
        begin
          Tr:=Rect;
          Tr.Left:=Tr.Left+1;
@@ -934,6 +925,7 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
         begin
           Canvas.Font.Name:=ActiveColmSlave.GetColumnFontName(ACol);
           Canvas.Font.Size:=ActiveColmSlave.GetColumnFontSize(ACol);
+          Canvas.Font.Style:=ActiveColmSlave.GetColumnFontStyle(ACol);
           Canvas.Brush.Style:=bsSolid;
 
           if (gdSelected in State) and FActive then
@@ -997,7 +989,6 @@ begin
 
   if not isSlave then  ActiveColmSlave:=ColSet.GetColumnSet(ActiveColm);
 
-  iTextTop := Rect.Top + (gIconsSize div 2) - (dgPanel.Canvas.TextHeight('Pp') div 2);
 
   if DrawFixed then exit;
 
@@ -1007,6 +998,8 @@ begin
   if not Assigned(frp) then Exit;
 
   NewPrepareColors;
+
+  iTextTop := Rect.Top + (gIconsSize div 2) - (dgPanel.Canvas.TextHeight('Pp') div 2);
 
   if ACol=0 then
     DrawIconRaw
@@ -1260,6 +1253,7 @@ begin
   dgPanel.FixedCols:=0;
   dgPanel.FixedRows:=0;
   dgPanel.DefaultDrawing:=True;
+  dgPanel.DoubleBuffered:=True;
   dgPanel.Width:=Self.Width;
   dgPanel.ColCount:= 0;
   dgPanel.AutoFillColumns:= True;
