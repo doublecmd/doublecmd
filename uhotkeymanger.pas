@@ -29,7 +29,7 @@ unit uhotkeymanger;
 interface
 
 uses
-  Classes, SysUtils,Controls,LCLProc,LCLType,LCLIntf,forms,uActs,uClassesEx;
+  Classes, SysUtils,Controls,LCLProc,LCLType,LCLIntf,Forms,ActnList,uActs,uClassesEx;
 
 const
   scWin=$1000;
@@ -130,6 +130,8 @@ type
      function GetFormsListBy(Hotkey: string; List: TStringList): integer;
      function GetControlsListBy(Hotkey: string; List: TStringList): integer;
      function GetCommandsListBy(Hotkey: string; List: TStringList): integer;
+     //---------------------
+     procedure LoadShortCutToActionList(ActionList: TActionList);
      //---------------------
      procedure Save(FileName:string);
      procedure Load(FileName:string);
@@ -440,6 +442,25 @@ function THotKeyManager.ReplaceHotkey(AOldHotkey, ANewHotKey: string): integer;
 begin
   Result:=GetHotKeyIndex(ShortCutToTextEx(TextToShortCutEx(AOldHotkey)));
   FHotList.Strings[Result]:=ShortCutToTextEx(TextToShortCutEx(ANewHotKey));
+end;
+
+procedure THotKeyManager.LoadShortCutToActionList(ActionList: TActionList);
+var
+  I: Integer;
+  slActionList: TStringList;
+  sCmd: String;
+begin
+  slActionList:= TStringList.Create;
+  for I:= 0 to HotkeyList.Count - 1 do
+    begin
+      if GetCommandsListBy(HotkeyList[I], slActionList) > 0 then
+        begin
+          sCmd:= slActionList.ValueFromIndex[0]; // get first action
+          sCmd:= 'act' + Copy(sCmd, 4, Length(sCmd) - 3);
+          if Assigned(ActionList.ActionByName(sCmd)) then
+            (ActionList.ActionByName(sCmd) as TAction).ShortCut:= TextToShortCutEx(HotkeyList[I]);
+        end;
+    end;
 end;
 
 procedure THotKeyManager.Save(FileName: string);
