@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Toolbar panel class
 
-   Copyright (C) 2006-2007  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
    
    contributors:
    
@@ -39,7 +39,14 @@ type
 
   TOnToolButtonClick = procedure (Sender: TObject; NumberOfButton : Integer) of object;
   TChangeLineCount   = procedure (AddSize : Integer) of object;
-  TOnLoadButtonGlyph   = function (sIconFileName : String; iIconSize : Integer; clBackColor : TColor) : TBitmap of object;
+  TOnLoadButtonGlyph = function (sIconFileName : String; iIconSize : Integer; clBackColor : TColor) : TBitmap of object;
+
+  { TSpeedDivider }
+
+  TSpeedDivider = class(TCustomSpeedButton)
+  protected
+    procedure Paint; override;
+  end;
 
   { TKAStoolBar }
 
@@ -87,6 +94,7 @@ type
     destructor Destroy; override;
     procedure InitBounds;
     
+    function AddDivider: Integer;
     function AddX(ButtonX, CmdX, ParamX, PathX, MenuX:string ):integer;
     function AddButton(sCaption, Cmd, BtnHint, IconPath : String) : Integer;
     function GetButtonX(Index:integer; What:TInfor):string;
@@ -122,7 +130,7 @@ procedure Register;
 
 implementation
 
-uses GraphType;
+uses GraphType, Themes;
 
 function TKAStoolBar.GetCmdDirFromEnvVar(sPath: String): String;
 begin
@@ -179,7 +187,6 @@ TKButton(XButtons[Result]).ParamX:=ParamX;
 TKButton(XButtons[Result]).PathX:=PathX;
 TKButton(XButtons[Result]).MenuX:=MenuX;
 end;
-
 
 function TKAStoolBar.GetButtonX(Index: integer; What: TInfor): string;
 begin
@@ -462,6 +469,7 @@ end;
 procedure TKAStoolBar.LoadFromIniFile(IniFile : TIniFile);
 var  
   BtnCount, I : Integer;
+  sMenu: String;
 begin
   DeleteAllToolButtons;
   FPositionX := FTotalBevelWidth;
@@ -470,9 +478,13 @@ begin
   
   for I := 1 to BtnCount do
     begin
-      AddButton('', GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'cmd' + IntToStr(I), '')),
-                IniFile.ReadString('Buttonbar', 'menu' + IntToStr(I), ''),
-                GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'button' + IntToStr(I), '')));
+      sMenu:= IniFile.ReadString('Buttonbar', 'menu' + IntToStr(I), '');
+      if sMenu = '-' then
+        AddDivider
+      else
+        AddButton('', GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'cmd' + IntToStr(I), '')),
+                  sMenu,
+                  GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'button' + IntToStr(I), '')));
 
        XButtons.Add(TKButton.Create);
            TKButton(XButtons[I-1]).ButtonX :=GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'button' + IntToStr(I), ''));
@@ -523,6 +535,44 @@ begin
   IniFile := TInifile.Create(FileName);
   SaveToIniFile(IniFile);
   IniFile.Free;
+end;
+
+function TKAStoolBar.AddDivider: Integer;
+var
+  ToolDivider: TSpeedDivider;
+begin
+  // lock on resize handler
+  FLockResize:= True;
+
+  ToolDivider:= TSpeedDivider.Create(Self);
+  ToolDivider.Parent:= Self;
+  ToolDivider.Visible:= True;
+  ToolDivider.ParentShowHint:= False;
+  ToolDivider.Height:= FButtonSize;
+  ToolDivider.Width:= 3;
+
+  if ((FPositionX + ToolDivider.Width) > Width) then
+    begin
+      FPositionY:= FPositionY + ToolDivider.Height;
+      FPositionX:= FTotalBevelWidth;
+      if Assigned(FChangeLineCount) then
+        FChangeLineCount(FButtonSize);
+      Height:= Height + FButtonSize;
+    end;
+
+  ToolDivider.Left:= FPositionX;
+  ToolDivider.Top:= FPositionY;
+
+  //WriteLN('ToolDivider.Left == ' + IntToStr(ToolButton.Left));
+
+  FPositionX:= FPositionX + ToolDivider.Width;
+
+  ToolDivider.Tag:= FButtonsList.Add(ToolDivider);
+
+  // unlock on resize handler
+  FLockResize:= False;
+
+  Result:= ToolDivider.Tag;
 end;
 
 function TKAStoolBar.AddButton(sCaption, Cmd, BtnHint, IconPath : String) : Integer;
@@ -615,6 +665,24 @@ begin
   finally
     Repaint;
   end;
+end;
+
+{ TSpeedDivider }
+
+procedure TSpeedDivider.Paint;
+var
+  DividerRect: TRect;
+  Details: TThemedElementDetails;
+begin
+  DividerRect:= ClientRect;
+  Details:= ThemeServices.GetElementDetails(ttbSeparatorNormal);
+  if (DividerRect.Right - DividerRect.Left) > 3 then
+    begin
+      DividerRect.Left:= (DividerRect.Left + DividerRect.Right) div 2 - 1;
+      DividerRect.Right:= DividerRect.Left + 3;
+    end;
+  ThemeServices.DrawElement(Canvas.GetUpdatedHandle([csBrushValid, csPenValid]),
+                            Details, DividerRect);
 end;
 
 end.
