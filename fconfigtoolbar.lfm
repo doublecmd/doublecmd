@@ -376,6 +376,7 @@ object frmConfigToolBar: TfrmConfigToolBar
       OnLoadButtonGlyph = ktbBarLoadButtonGlyph
       CheckToolButton = True
       ButtonGlyphSize = 16
+      ShowDividerAsButton = True
     end
   end
   object pnlToolBarFileName: TPanel

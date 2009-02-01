@@ -65,6 +65,7 @@ type
     FCheckToolButton : Boolean;
     FFlatButtons: Boolean;
     FDiskPanel: Boolean;
+    FDividerAsButton: Boolean;
     FChangePath : String;
     FEnvVar : String;
     FOldWidth : Integer;
@@ -120,6 +121,7 @@ type
     property FlatButtons : Boolean read FFlatButtons write SetFlatButtons default False;
     property IsDiskPanel : Boolean read FDiskPanel write FDiskPanel default False;
     property ButtonGlyphSize : Integer read FIconSize write FIconSize;
+    property ShowDividerAsButton: Boolean read FDividerAsButton write FDividerAsButton default False;
 
     property ChangePath : String read FChangePath write FChangePath;
     property EnvVar : String read FEnvVar write FEnvVar;
@@ -479,7 +481,7 @@ begin
   for I := 1 to BtnCount do
     begin
       sMenu:= IniFile.ReadString('Buttonbar', 'menu' + IntToStr(I), '');
-      if sMenu = '-' then
+      if (sMenu = '-') and not FDividerAsButton then
         AddDivider
       else
         AddButton('', GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'cmd' + IntToStr(I), '')),
@@ -564,6 +566,9 @@ begin
   ToolDivider.Top:= FPositionY;
 
   //WriteLN('ToolDivider.Left == ' + IntToStr(ToolButton.Left));
+
+  if Assigned(OnMouseUp) then
+    ToolDivider.OnMouseUp:= OnMouseUp;
 
   FPositionX:= FPositionX + ToolDivider.Width;
 
