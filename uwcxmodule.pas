@@ -304,6 +304,7 @@ begin
   Result := 1;
   with WCXModule do
   begin
+    if not Assigned(FFileOpDlg) then Exit;
     if FFileOpDlg.ModalResult = mrCancel then // Cancel operation
       Result := 0;
 
@@ -420,11 +421,10 @@ begin
       Result := False;
       Exit;
     end;
-  {
+
   WCXModule := Self;  // set WCXModule variable to current module
   SetChangeVolProc(ArcHandle, ChangeVolProc);
   SetProcessDataProc(ArcHandle, ProcessDataProc);
-  }
 
   DebugLN('Get File List');
   (*Get File List*)
