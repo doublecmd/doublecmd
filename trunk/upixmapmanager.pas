@@ -9,7 +9,7 @@
    
    contributors:
    
-   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -627,7 +627,7 @@ begin
     end;
     if FPS_ISDIR(iMode) then
       {$IFDEF MSWINDOWS}
-      if not mbFileExists(sName + '\desktop.ini') then
+      if not mbFileExists(sName + '\desktop.ini') and (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16) then
       {$ENDIF}
     begin
       Result:=FiDirIconID;
@@ -698,6 +698,7 @@ var
 begin
   Result := nil;
 {$IFDEF MSWINDOWS}
+  if GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) < 15 then Exit;
   if (not gCustomDriveIcons) and (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16) then
     begin
       SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON);
