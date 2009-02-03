@@ -410,7 +410,7 @@ begin
   InitGlobs;
 
   { Load location of configuration files }
-  Ini := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
+  Ini := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini', fmOpenRead);
   gUseIniInProgramDir := Ini.ReadBool('Configuration', 'UseIniInProgramDir', False);
   Ini.Free;
   
