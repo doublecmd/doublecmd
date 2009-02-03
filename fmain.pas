@@ -2004,7 +2004,7 @@ begin
         edtRename.SelStart:=1;
         {$ENDIF}
         edtRename.SelStart:=0;
-        edtRename.SelLength:=length(edtRename.Text)-length(ExtractFileExt(edtRename.Text));
+        edtRename.SelLength:= UTF8Length(edtRename.Text)-UTF8Length(ExtractFileExt(edtRename.Text));
       end
     else
       edtRename.SelectAll;
