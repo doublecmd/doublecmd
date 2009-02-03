@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This module contains classes with UTF8 file names support.
 
-   Copyright (C) 2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ type
 
   TIniFileEx = class(TIniFile)
   public
-    constructor Create(const AFileName: String; AEscapeLineFeeds : Boolean = False); override;
+    constructor Create(const AFileName: String; Mode: Word = fmOpenReadWrite);
     procedure UpdateFile; override;
   end;  
   
@@ -114,15 +114,15 @@ end;
 
 { TIniFileEx }
 
-constructor TIniFileEx.Create(const AFileName: String; AEscapeLineFeeds: Boolean);
+constructor TIniFileEx.Create(const AFileName: String; Mode: Word);
 var
   fsIniFile: TFileStreamEx;
 begin
   if mbFileExists(AFileName) then
-    fsIniFile:= TFileStreamEx.Create(AFileName, fmOpenReadWrite or fmShareDenyNone)
+    fsIniFile:= TFileStreamEx.Create(AFileName, Mode or fmShareDenyNone)
   else
     fsIniFile:= TFileStreamEx.Create(AFileName, fmCreate);
-  inherited Create(fsIniFile, AEscapeLineFeeds);
+  inherited Create(fsIniFile);
 end; 
 
 procedure TIniFileEx.UpdateFile;
