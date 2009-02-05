@@ -271,6 +271,9 @@ begin
       AddHotKey('Alt+Del','cm_Wipe','','FrmMain','FrmMain');
       AddHotKey('Ctrl+Tab','cm_NextTab','','FrmMain','FrmMain');
       AddHotKey('Shift+Ctrl+Tab','cm_PrevTab','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+X','cm_CutToClipboard','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+C','cm_CopyToClipboard','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+V','cm_PasteFromClipboard','','FrmMain','FrmMain');
 //      AddHotKey('','cm_','','FrmMain','FrmMain');
     end;
 end;

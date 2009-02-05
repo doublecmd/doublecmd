@@ -133,6 +133,9 @@ const cf_Null=0;
    procedure cm_FileSpliter(param: string='');
    procedure cm_PanelsSplitterPerPos(param: string='');
    procedure cm_EditComment(param: string='');
+   procedure cm_CopyToClipboard(param: string='');
+   procedure cm_CutToClipboard(param: string='');
+   procedure cm_PasteFromClipboard(param: string='');
 
    //---------------------
    {   procedure SomeFunction (param:string; var Result:integer);
@@ -150,7 +153,7 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls, ExtCtrls,
      fMkDir,LCLProc,uFileProcs,uDeleteThread,fFileAssoc,fExtractDlg,fAbout,
      fOptions,fCompareFiles,fFindDlg,fSymLink,fHardLink,fMultiRename,
      uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit,
-     HelpIntfs, dmHelpManager, uShellExecute;
+     HelpIntfs, dmHelpManager, uShellExecute, uClipboard;
 
 { TActs }
 
@@ -1673,6 +1676,96 @@ begin
   end;
 end;
 
+function SendToClipboard(ClipboardMode: uClipboard.TClipboardOperation):Boolean;
+var
+  sl: TStringList;
+  i : Integer;
+begin
+  Result := False;
+
+  with frmMain.ActiveFrame.pnlFile do
+  begin
+    if (PanelMode in [pmArchive, pmVFS]) or (FileList.Count = 0) then Exit;
+
+    sl := TStringList.Create;
+
+    for i := 0 to FileList.Count-1 do
+      if GetFileItem(i).bSelected then
+        sl.Add(ActiveDir + GetFileItem(i).sName);
+
+    if sl.Count = 0 then
+      sl.Add(ActiveDir + GetActiveItem^.sName);
+
+    try
+      case ClipboardMode of
+        uClipboard.ClipboardCut:
+            Result := uClipboard.CutToClipboard(sl);
+
+        uClipboard.ClipboardCopy:
+            Result := uClipboard.CopyToClipboard(sl);
+      end;
+    finally
+      FreeAndNil(sl);
+    end;
+  end;
+end;
+
+procedure TActs.cm_CopyToClipboard(param: string='');
+begin
+  SendToClipboard(ClipboardCopy);
+end;
+
+procedure TActs.cm_CutToClipboard(param: string='');
+begin
+  SendToClipboard(ClipboardCut);
+end;
+
+procedure TActs.cm_PasteFromClipboard(param: string='');
+var
+  ClipboardOp: TClipboardOperation;
+  filenamesList: TStringList;
+  i: Integer;
+  fr: TFileRecItem;
+  FileList: TFileList;
+begin
+  with frmMain do
+  begin
+    if PasteFromClipboard(ClipboardOp, filenamesList) = True then
+    begin
+      // fill file list by files
+      FileList:= TFileList.Create;
+
+      for i := 0 to filenamesList.Count - 1 do
+        begin
+          fr:= LoadFilebyName(filenamesList[i]);
+          fr.sName:= filenamesList[i];
+          fr.sNameNoExt:= ExtractFileName(filenamesList[i]);
+          FileList.AddItem(@fr);
+        end;
+
+      { If panel is in Archive of VFS mode - show dialog for the user to confirm. }
+      { Otherwise just start the operation thread. }
+      case ClipboardOp of
+        uClipboard.ClipboardCut:
+        begin
+          if ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then
+            RenameFile(FileList, ActiveFrame)
+          else if ActiveFrame.pnlFile.PanelMode = pmDirectory then
+            RunRenameThread(FileList, ActiveFrame.ActiveDir, '*.*');
+        end;
+
+        uClipboard.ClipboardCopy:
+        begin
+          if ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then
+            CopyFile(FileList, ActiveFrame)
+          else if ActiveFrame.pnlFile.PanelMode = pmDirectory then
+            RunCopyThread(FileList, ActiveFrame.ActiveDir, '*.*', False);
+        end;
+
+      end;
+    end;
+  end;
+end;
 
 end.
 

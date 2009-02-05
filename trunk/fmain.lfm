@@ -1506,6 +1506,24 @@ object frmMain: TfrmMain
       DisableIfNoHandler = True
       OnExecute = actExecute
     end
+    object actCutToClipboard: TAction
+      Category = 'File'
+      Caption = 'Cu&t Ctrl+X'
+      DisableIfNoHandler = True
+      OnExecute = actExecute
+    end
+    object actCopyToClipboard: TAction
+      Category = 'File'
+      Caption = '&Copy Ctrl+C'
+      DisableIfNoHandler = True
+      OnExecute = actExecute
+    end
+    object actPasteFromClipboard: TAction
+      Category = 'File'
+      Caption = '&Paste Ctrl+V'
+      DisableIfNoHandler = True
+      OnExecute = actExecute
+    end
     object actCopyFullNamesToClip: TAction
       Category = 'Mark'
       Caption = 'Copy Filename(s) with Full &Path'

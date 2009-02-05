@@ -38,6 +38,8 @@ const
   sCmdVerbOpen = 'open';
   sCmdVerbRename = 'rename';
   sCmdVerbDelete = 'delete';
+  sCmdVerbCut = 'cut';
+  sCmdVerbCopy = 'copy';
   sCmdVerbPaste = 'paste';
 
 {$IFDEF UNIX}
@@ -377,6 +379,21 @@ begin
                     bHandled := True;
                   end; // is dir
               end; // with
+        end
+      else if SameText(sVerb, sCmdVerbCut) then
+        begin
+          frmMain.actCutToClipboard.Execute;
+          bHandled := True;
+        end
+      else if SameText(sVerb, sCmdVerbCopy) then
+        begin
+          frmMain.actCopyToClipboard.Execute;
+          bHandled := True;
+        end
+      else if SameText(sVerb, sCmdVerbPaste) then
+        begin
+          frmMain.actPasteFromClipboard.Execute;
+          bHandled := True;
         end;
 
       if not bHandled then
@@ -519,6 +536,22 @@ begin
   mi.Caption:='-';
   CM.Items.Add(mi);
   
+  mi:=TMenuItem.Create(CM);
+  mi.Action := frmMain.actCutToClipboard;
+  CM.Items.Add(mi);
+
+  mi:=TMenuItem.Create(CM);
+  mi.Action := frmMain.actCopyToClipboard;
+  CM.Items.Add(mi);
+
+  mi:=TMenuItem.Create(CM);
+  mi.Action := frmMain.actPasteFromClipboard;
+  CM.Items.Add(mi);
+
+  mi:=TMenuItem.Create(CM);
+  mi.Caption:='-';
+  CM.Items.Add(mi);
+
   mi:=TMenuItem.Create(CM);
   mi.Action := frmMain.actFileProperties;
   CM.Items.Add(mi);

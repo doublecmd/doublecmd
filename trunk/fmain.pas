@@ -61,6 +61,9 @@ type
     actContextMenu: TAction;
     actCopyNamesToClip: TAction;
     actCopyFullNamesToClip: TAction;
+    actCutToClipboard: TAction;
+    actCopyToClipboard: TAction;
+    actPasteFromClipboard: TAction;
     actExchange: TAction;
     actEditComment: TAction;
     actHelpIndex: TAction;
@@ -385,6 +388,9 @@ type
     procedure miHotDeleteClick(Sender: TObject);
     procedure miHotConfClick(Sender: TObject);
     procedure CalculateSpace(bDisplayMessage:Boolean);
+    procedure RunRenameThread(srcFileList: TFileList; sDestPath: String; sDestMask: String);
+    procedure RunCopyThread(srcFileList: TFileList; sDestPath: String; sDestMask: String;
+                            bDropReadOnlyFlag: Boolean);
     procedure RenameFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel);
     procedure CopyFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel);
     procedure RenameFile(sDestPath:String); // this is for F6 and Shift+F6
@@ -1513,13 +1519,43 @@ begin
   end;
 end;
 
+procedure TfrmMain.RunRenameThread(srcFileList: TFileList; sDestPath: String; sDestMask: String);
+var
+  MT: TMoveThread;
+begin
+  try
+    MT:= TMoveThread.Create(srcFileList);
+    MT.sDstPath:= sDestPath;
+    MT.sDstMask:= sDestMask;
+    MT.Resume;
+  except
+    MT.Free;
+  end;
+end;
+
+procedure TfrmMain.RunCopyThread(srcFileList: TFileList;
+                                 sDestPath: String; sDestMask: String;
+                                 bDropReadOnlyFlag: Boolean);
+var
+  CT: TCopyThread;
+begin
+  try
+    CT:= TCopyThread.Create(srcFileList);
+    CT.sDstPath:= sDestPath;
+    CT.sDstMask:= sDestMask;
+    CT.bDropReadOnlyFlag:= bDropReadOnlyFlag;
+    CT.Resume;
+  except
+    CT.Free;
+  end;
+end;
+
 (* Used for drag&drop move from external application *)
 procedure TfrmMain.RenameFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel);
 var
   sDestPath,
   sDstMaskTemp: String;
   sCopyQuest: String;
-  MT: TMoveThread;
 begin
   if (srcFileList.Count=1) and not (FPS_ISDIR(srcFileList.GetItem(0)^.iMode) or srcFileList.GetItem(0)^.bLinkIsDir) then
     begin
@@ -1547,14 +1583,8 @@ begin
 
   (* Move files *)
 
-  try
-    MT:= TMoveThread.Create(srcFileList);
-    MT.sDstPath:= sDestPath;
-    MT.sDstMask:= sDstMaskTemp;
-    MT.Resume;
-  except
-    MT.Free;
-  end;
+  RunRenameThread(srcFileList, sDestPath, sDstMaskTemp);
+
 end;
 
 (* Used for drag&drop copy from external application *)
@@ -1564,7 +1594,6 @@ var
   sDestPath,
   sDstMaskTemp: String;
   blDropReadOnlyFlag: Boolean;
-  CT: TCopyThread;
 begin
   if (srcFileList.Count=1) and not (FPS_ISDIR(srcFileList.GetItem(0)^.iMode) or srcFileList.GetItem(0)^.bLinkIsDir) then
     begin
@@ -1628,15 +1657,8 @@ begin
 
   (* Copy files between real file system *)
 
-  try
-    CT:= TCopyThread.Create(srcFileList);
-    CT.sDstPath:= sDestPath;
-    CT.sDstMask:= sDstMaskTemp;
-    CT.bDropReadOnlyFlag:= blDropReadOnlyFlag;
-    CT.Resume;
-  except
-    CT.Free;
-  end;
+  RunCopyThread(srcFileList, sDestPath, sDstMaskTemp, blDropReadOnlyFlag);
+
 end;
 
 procedure TfrmMain.RenameFile(sDestPath:String);
@@ -1644,7 +1666,6 @@ var
   fl:TFileList;
   sDstMaskTemp:String;
   sCopyQuest:String;
-  MT : TMoveThread;
 begin
   fl:= TFileList.Create; // free at Thread end by thread
   try
@@ -1688,16 +1709,9 @@ begin
   
     (* Move files *)
 
-    try
-      MT:= TMoveThread.Create(fl);
-      MT.sDstPath:=sDestPath;
-      MT.sDstMask:=sDstMaskTemp;
-      MT.Resume;
-    except
-      MT.Free;
-    end;
+    RunRenameThread(fl, sDestPath, sDstMaskTemp);
 
-  except
+  finally
     FreeAndNil(fl);
   end;
 end;
@@ -1707,7 +1721,6 @@ var
   fl:TFileList;
   sDstMaskTemp:String;
   sCopyQuest:String;
-  CT : TCopyThread;
   blDropReadOnlyFlag : Boolean;
 begin
 
@@ -1816,17 +1829,9 @@ begin
 
     (* Copy files between real file system *)
 
-    try
-      CT:= TCopyThread.Create(fl);
-      CT.sDstPath:= sDestPath;
-      CT.sDstMask:= sDstMaskTemp;
-      CT.bDropReadOnlyFlag:= blDropReadOnlyFlag;
-      CT.Resume;
-    except
-      CT.Free;
-    end;
+    RunCopyThread(fl, sDestPath, sDstMaskTemp, blDropReadOnlyFlag);
 
-  except
+  finally
     FreeAndNil(fl);
   end;
 end;

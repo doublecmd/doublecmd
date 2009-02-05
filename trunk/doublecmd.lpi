@@ -60,7 +60,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="44">
+    <Units Count="45">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -363,6 +363,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uShellExecute"/>
       </Unit43>
+      <Unit44>
+        <Filename Value="uClipboard.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uClipboard"/>
+      </Unit44>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
