@@ -18,41 +18,50 @@ $lazpath/lazbuild wcx/zip/Zip.lpi
 # WDX plugins
 $lazpath/lazbuild wdx/rpm_wdx/rpm_wdx.lpi
 
+# WLX plugins
+$lazpath/lazbuild wlx/WlxMplayer/wlxMplayer.lpi
+
 # Strip and rename WCX
 pushd wcx/cpio/lib/
-strip --strip-all cpio
-mv cpio cpio.wcx
+strip --strip-all cpio.so
+mv cpio.so cpio.wcx
 popd
 
 pushd wcx/deb/lib/
-strip --strip-all deb
-mv deb deb.wcx
+strip --strip-all deb.so
+mv deb.so deb.wcx
 popd
 
 pushd wcx/rpm/lib/
-strip --strip-all rpm
-mv rpm rpm.wcx
+strip --strip-all rpm.so
+mv rpm.so rpm.wcx
 popd
 
 pushd wcx/unbz2/lib/
-strip --strip-all unbz2
-mv unbz2 unbz2.wcx
+strip --strip-all unbz2.so
+mv unbz2.so unbz2.wcx
 popd
 
 pushd wcx/unrar/lib/
-strip --strip-all unrar
-mv unrar unrar.wcx
+strip --strip-all unrar.so
+mv unrar.so unrar.wcx
 popd
 
 pushd wcx/zip/lib/
-strip --strip-all Zip
-mv Zip zip.wcx
+strip --strip-all Zip.so
+mv Zip.so zip.wcx
 popd
 
 # Strip and rename WDX
 pushd wdx/rpm_wdx/lib/
-strip --strip-all rpm_wdx
-mv rpm_wdx rpm_wdx.wcx
+strip --strip-all rpm_wdx.so
+mv rpm_wdx.so rpm_wdx.wdx
+popd
+
+# Strip and rename WLX
+pushd wlx/WlxMplayer/lib/
+strip --strip-all wlxMplayer.so
+mv wlxMplayer.so wlxMplayer.wlx
 popd
 
 # Return from plugins directory
