@@ -974,6 +974,14 @@ msgstr ""
 msgid "Copy to same panel"
 msgstr "Копіювати в ту ж панель"
 
+#: TFRMMAIN.ACTCOPYTOCLIPBOARD.CAPTION
+msgid "&Copy"
+msgstr "Копіювати"
+
+#: TFRMMAIN.ACTCUTTOCLIPBOARD.CAPTION
+msgid "Cu&t"
+msgstr "Вирізати"
+
 #: TFRMMAIN.ACTDELETE.CAPTION
 msgid "Delete F8"
 msgstr "Видалити F8"
@@ -1113,6 +1121,10 @@ msgstr "&Параметри..."
 #: TFRMMAIN.ACTPACKFILES.CAPTION
 msgid "Pack files..."
 msgstr "Упакувати..."
+
+#: TFRMMAIN.ACTPASTEFROMCLIPBOARD.CAPTION
+msgid "&Paste"
+msgstr "Вставити"
 
 #: TFRMMAIN.ACTPREVTAB.CAPTION
 msgid "Switch to previous tab"
@@ -1256,6 +1268,11 @@ msgctxt "TFRMMAIN.BTNLEFTROOT.CAPTION"
 msgid "/"
 msgstr ""
 
+#: TFRMMAIN.BTNLEFTTARGETEQUALSOURCE.CAPTION
+msgctxt "TFRMMAIN.BTNLEFTTARGETEQUALSOURCE.CAPTION"
+msgid "="
+msgstr ""
+
 #: TFRMMAIN.BTNLEFTUP.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTUP.CAPTION"
 msgid ".."
@@ -1274,6 +1291,11 @@ msgstr ""
 #: TFRMMAIN.BTNRIGHTROOT.CAPTION
 msgctxt "TFRMMAIN.BTNRIGHTROOT.CAPTION"
 msgid "/"
+msgstr ""
+
+#: TFRMMAIN.BTNRIGHTTARGETEQUALSOURCE.CAPTION
+msgctxt "TFRMMAIN.BTNRIGHTTARGETEQUALSOURCE.CAPTION"
+msgid "="
 msgstr ""
 
 #: TFRMMAIN.BTNRIGHTUP.CAPTION

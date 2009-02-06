@@ -863,7 +863,7 @@ msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
 msgstr "Windows: 'rahs' Unix: 'rwxrwxrwx'"
 
 #: TFRMFINDDLG.LBLSEARCHDEPTH.CAPTION
-msgid "Search su&bmappen:"
+msgid "Search su&bdirectories:"
 msgstr "Doorzoek onderliggend mappen:"
 
 #: TFRMFINDDLG.LBLSTATUS.CAPTION
@@ -974,6 +974,14 @@ msgstr "Kopiëer bestandsnaam(en) naar klembord"
 #: TFRMMAIN.ACTCOPYSAMEPANEL.CAPTION
 msgid "Copy to same panel"
 msgstr "Kopiëer naar zelfde paneel"
+
+#: TFRMMAIN.ACTCOPYTOCLIPBOARD.CAPTION
+msgid "&Copy"
+msgstr "Kopiëren"
+
+#: TFRMMAIN.ACTCUTTOCLIPBOARD.CAPTION
+msgid "Cu&t"
+msgstr "Knippen"
 
 #: TFRMMAIN.ACTDELETE.CAPTION
 msgid "Delete F8"
@@ -1114,6 +1122,10 @@ msgstr "Opties..."
 #: TFRMMAIN.ACTPACKFILES.CAPTION
 msgid "Pack files..."
 msgstr "Inpakken bestanden..."
+
+#: TFRMMAIN.ACTPASTEFROMCLIPBOARD.CAPTION
+msgid "&Paste"
+msgstr "Plakken"
 
 #: TFRMMAIN.ACTPREVTAB.CAPTION
 msgid "Switch to previous tab"
@@ -1257,6 +1269,11 @@ msgctxt "TFRMMAIN.BTNLEFTROOT.CAPTION"
 msgid "/"
 msgstr "/"
 
+#: TFRMMAIN.BTNLEFTTARGETEQUALSOURCE.CAPTION
+msgctxt "TFRMMAIN.BTNLEFTTARGETEQUALSOURCE.CAPTION"
+msgid "="
+msgstr ""
+
 #: TFRMMAIN.BTNLEFTUP.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTUP.CAPTION"
 msgid ".."
@@ -1276,6 +1293,11 @@ msgstr "-"
 msgctxt "TFRMMAIN.BTNRIGHTROOT.CAPTION"
 msgid "/"
 msgstr "/"
+
+#: TFRMMAIN.BTNRIGHTTARGETEQUALSOURCE.CAPTION
+msgctxt "TFRMMAIN.BTNRIGHTTARGETEQUALSOURCE.CAPTION"
+msgid "="
+msgstr ""
 
 #: TFRMMAIN.BTNRIGHTUP.CAPTION
 msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"

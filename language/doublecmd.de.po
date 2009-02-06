@@ -920,6 +920,14 @@ msgstr "Kopiere Dateinamen in die Zwischenablage"
 msgid "Copy to same panel"
 msgstr "Kopiere in gleichen Ordner"
 
+#: TFRMMAIN.ACTCOPYTOCLIPBOARD.CAPTION
+msgid "&Copy"
+msgstr "Kopieren"
+
+#: TFRMMAIN.ACTCUTTOCLIPBOARD.CAPTION
+msgid "Cu&t"
+msgstr "Ausschneiden"
+
 #: TFRMMAIN.ACTDELETE.CAPTION
 msgid "Delete F8"
 msgstr "Löschen F8"
@@ -1058,6 +1066,10 @@ msgstr "Optionen..."
 #: TFRMMAIN.ACTPACKFILES.CAPTION
 msgid "Pack files..."
 msgstr "&Packe Dateien"
+
+#: TFRMMAIN.ACTPASTEFROMCLIPBOARD.CAPTION
+msgid "&Paste"
+msgstr "Einfügen"
 
 #: TFRMMAIN.ACTPREVTAB.CAPTION
 msgid "Switch to previous tab"
@@ -1201,6 +1213,11 @@ msgctxt "TFRMMAIN.BTNLEFTROOT.CAPTION"
 msgid "/"
 msgstr "/"
 
+#: TFRMMAIN.BTNLEFTTARGETEQUALSOURCE.CAPTION
+msgctxt "TFRMMAIN.BTNLEFTTARGETEQUALSOURCE.CAPTION"
+msgid "="
+msgstr ""
+
 #: TFRMMAIN.BTNLEFTUP.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTUP.CAPTION"
 msgid ".."
@@ -1220,6 +1237,11 @@ msgstr "~"
 msgctxt "TFRMMAIN.BTNRIGHTROOT.CAPTION"
 msgid "/"
 msgstr "/"
+
+#: TFRMMAIN.BTNRIGHTTARGETEQUALSOURCE.CAPTION
+msgctxt "TFRMMAIN.BTNRIGHTTARGETEQUALSOURCE.CAPTION"
+msgid "="
+msgstr ""
 
 #: TFRMMAIN.BTNRIGHTUP.CAPTION
 msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"

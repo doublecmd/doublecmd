@@ -1508,19 +1508,19 @@ object frmMain: TfrmMain
     end
     object actCutToClipboard: TAction
       Category = 'File'
-      Caption = 'Cu&t Ctrl+X'
+      Caption = 'Cu&t'
       DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actCopyToClipboard: TAction
       Category = 'File'
-      Caption = '&Copy Ctrl+C'
+      Caption = '&Copy'
       DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actPasteFromClipboard: TAction
       Category = 'File'
-      Caption = '&Paste Ctrl+V'
+      Caption = '&Paste'
       DisableIfNoHandler = True
       OnExecute = actExecute
     end
