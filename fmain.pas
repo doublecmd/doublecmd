@@ -910,6 +910,7 @@ procedure TfrmMain.frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   try
     SaveWindowState;
+    SaveShortCuts;
     SaveGlobs;
   except
   end;
