@@ -21,6 +21,9 @@ $lazpath/lazbuild wdx/rpm_wdx/rpm_wdx.lpi
 # WLX plugins
 $lazpath/lazbuild wlx/WlxMplayer/wlxMplayer.lpi
 
+# DSX plugins
+$lazpath/lazbuild dsx/DSXLocate/DSXLocate.lpi
+
 # Strip and rename WCX
 pushd wcx/cpio/lib/
 strip --strip-all cpio.so
@@ -62,6 +65,12 @@ popd
 pushd wlx/WlxMplayer/lib/
 strip --strip-all wlxMplayer.so
 mv wlxMplayer.so wlxMplayer.wlx
+popd
+
+# Strip and rename DSX
+pushd dsx/DSXLocate/lib/
+strip --strip-all DSXLocate.so
+mv DSXLocate.so DSXLocate.dsx
 popd
 
 # Return from plugins directory
