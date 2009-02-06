@@ -1263,7 +1263,7 @@ begin
   dgPanel.Align:=alClient;
 //  dgPanel.DefaultDrawing:=False;
   dgPanel.ScrollBars:= ssAutoVertical;
-  dgPanel.Options:=[goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect, goColSizing, goHeaderHotTracking, goHeaderPushedLook];
+  dgPanel.Options:=[goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect, goColSizing];
   dgPanel.TitleStyle := tsStandard;
   dgPanel.TabStop:=False;
 
