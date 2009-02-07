@@ -3,7 +3,7 @@ rem Set Double Commander version
 set DC_VER=0.4.0
 
 rem Path to subversion
-set SVN_EXE="c:\Program Files\svn-win32-1.4.3\bin\svn.exe"
+set SVN_EXE="c:\Program Files\svn-win32-1.5.5\bin\svn.exe"
 
 rem Path to Inno Setup compiler
 set ISCC_EXE="c:\Program Files\Inno Setup 5\ISCC.exe"

@@ -1520,38 +1520,47 @@ begin
   end;
 end;
 
+// Frees srcFileList.
 procedure TfrmMain.RunRenameThread(srcFileList: TFileList; sDestPath: String; sDestMask: String);
 var
-  MT: TMoveThread;
+  MT: TMoveThread = nil;
 begin
   try
     MT:= TMoveThread.Create(srcFileList);
     MT.sDstPath:= sDestPath;
     MT.sDstMask:= sDestMask;
-    MT.Resume;
+    MT.Resume; // srcFileList is freed when thread finishes
   except
-    MT.Free;
+    if MT <> nil then
+      MT.Free // frees srcFileList
+    else
+      FreeAndNil(srcFileList);
   end;
 end;
 
+// Frees srcFileList.
 procedure TfrmMain.RunCopyThread(srcFileList: TFileList;
                                  sDestPath: String; sDestMask: String;
                                  bDropReadOnlyFlag: Boolean);
 var
-  CT: TCopyThread;
+  CT: TCopyThread = nil;
 begin
   try
     CT:= TCopyThread.Create(srcFileList);
     CT.sDstPath:= sDestPath;
     CT.sDstMask:= sDestMask;
     CT.bDropReadOnlyFlag:= bDropReadOnlyFlag;
-    CT.Resume;
+    CT.Resume; // srcFileList is freed when thread finishes
   except
-    CT.Free;
+    if CT <> nil then
+      CT.Free // frees srcFileList
+    else
+      FreeAndNil(srcFileList);
   end;
 end;
 
 (* Used for drag&drop move from external application *)
+// Frees srcFileList automatically.
 procedure TfrmMain.RenameFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel);
 var
   sDestPath,
@@ -1589,6 +1598,7 @@ begin
 end;
 
 (* Used for drag&drop copy from external application *)
+// Frees srcFileList automatically.
 procedure TfrmMain.CopyFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel);
 var
   sCopyQuest,
@@ -1712,7 +1722,7 @@ begin
 
     RunRenameThread(fl, sDestPath, sDstMaskTemp);
 
-  finally
+  except
     FreeAndNil(fl);
   end;
 end;
@@ -1832,7 +1842,7 @@ begin
 
     RunCopyThread(fl, sDestPath, sDstMaskTemp, blDropReadOnlyFlag);
 
-  finally
+  except
     FreeAndNil(fl);
   end;
 end;
