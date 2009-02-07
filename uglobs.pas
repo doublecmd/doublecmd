@@ -354,7 +354,7 @@ begin
     CopyFile(gpCfgDir + 'default.bar', gpIniDir + 'default.bar');
   // extension file
   if not mbFileExists(gpIniDir + 'doublecmd.ext') then
-    CopyFile(gpCfgDir + 'doublecmd.ext', gpIniDir + 'doublecmd.ext');
+    CopyFile(gpCfgDir + 'doublecmd.ext.example', gpIniDir + 'doublecmd.ext.example');
   // pixmaps file
   if not mbFileExists(gpIniDir + 'pixmaps.txt') then
     CopyFile(gpCfgDir + 'pixmaps.txt', gpIniDir + 'pixmaps.txt');

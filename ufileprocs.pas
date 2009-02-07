@@ -4,13 +4,13 @@
    Licence  : GNU GPL v 2.0
    Author   : radek.cervinka@centrum.cz
 
-   some file rutines (obsolete)
+   some file routines
 
    contributors:
 
    Mattias Gaertner (from Lazarus code)
   
-   Copyright (C) 2007-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2009  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit uFileProcs;
