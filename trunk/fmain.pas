@@ -1125,7 +1125,7 @@ begin
 {         Key:=0;
          ActiveFrame.ClearCmdLine; // hack delete key
 }
-         if (not edtCommand.Focused) or (Key = VK_F8) then
+         if ((not edtCommand.Focused) and (edtCommand.Tag = 0)) or (Key = VK_F8) then
          begin
            Actions.cm_Delete('');
            //actDelete.Execute;
@@ -1178,7 +1178,7 @@ begin
       if Shift=[ssShift] then
       begin
         mbSetCurrentDir(ActiveDir);
-        if not edtCommand.Focused then
+        if (not edtCommand.Focused) and (edtCommand.Tag = 0) then
           ExecCmdFork(ActiveDir + pnlFile.GetActiveItem^.sName, True, gRunInTerm)
         else
           begin
@@ -1228,15 +1228,6 @@ begin
         SetNotActFrmByActFrm;
       Exit;
     end;
-
-{    if (Key=VK_X) then
-    begin
-      if not edtCommand.Focused then
-      begin
-        actRunTerm.Execute;
-        Exit;
-      end;
-    end;}
   end; // Shift=[ssCtrl]
   
   // not handled
@@ -1251,7 +1242,7 @@ begin
   if (ord(key)>31) and (ord(key)<255) then
   begin
     if ((Key='-') or (Key='*') or (Key='+') or (Key=' '))and (Trim(edtCommand.Text)='') then Exit;
-    if not edtCommand.Focused then
+    if (not edtCommand.Focused) and (edtCommand.Tag = 0) then
     begin
       edtCommand.SetFocus; // handle first char of command line specially
       with ActiveFrame do
@@ -1964,7 +1955,7 @@ begin
 
   if (Shift=[]) and (Key=VK_BACK) and (edtCommand.Text='') then
   begin
-    if edtCommand.Focused then Exit;
+    if edtCommand.Focused or (edtCommand.Tag = 1) then Exit;
     with ActiveFrame do
     begin
       pnlFile.cdUpLevel;
