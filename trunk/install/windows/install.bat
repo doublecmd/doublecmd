@@ -24,15 +24,15 @@ xcopy /E language %DC_INSTALL_DIR%\language\
 xcopy /E doc %DC_INSTALL_DIR%\doc\
 xcopy /E pixmaps %DC_INSTALL_DIR%\pixmaps\
 rem Copy files
-copy doublecmd.exe  %DC_INSTALL_DIR%\
-copy doublecmd.ini  %DC_INSTALL_DIR%\
-copy doublecmd.ext  %DC_INSTALL_DIR%\
-copy editor.col     %DC_INSTALL_DIR%\
-copy twilight.col   %DC_INSTALL_DIR%\
-copy pixmaps.txt    %DC_INSTALL_DIR%\
-copy default.bar    %DC_INSTALL_DIR%\
+copy doublecmd.exe          %DC_INSTALL_DIR%\
+copy doublecmd.ini          %DC_INSTALL_DIR%\
+copy doublecmd.ext.example  %DC_INSTALL_DIR%\
+copy editor.col             %DC_INSTALL_DIR%\
+copy twilight.col           %DC_INSTALL_DIR%\
+copy pixmaps.txt            %DC_INSTALL_DIR%\
+copy default.bar            %DC_INSTALL_DIR%\
 rem Copy libraries
-copy *.dll          %DC_INSTALL_DIR%\
+copy *.dll                  %DC_INSTALL_DIR%\
 
 rem copy plugins
 rem WCX
