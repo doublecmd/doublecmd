@@ -116,7 +116,7 @@ object frmPackDlg: TfrmPackDlg
   object cbEncrypt: TCheckBox
     Left = 4
     Height = 19
-    Top = 163
+    Top = 143
     Width = 62
     Caption = 'Encr&ypt'
     TabOrder = 6
@@ -124,7 +124,7 @@ object frmPackDlg: TfrmPackDlg
   object cbCreateSeparateArchives: TCheckBox
     Left = 4
     Height = 19
-    Top = 143
+    Top = 163
     Width = 261
     Caption = 'Create separate archives, o&ne per selected file/dir'
     Enabled = False
