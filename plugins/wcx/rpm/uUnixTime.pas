@@ -24,11 +24,11 @@ var
 begin
   ft.dwLowDateTime  := $D53E8000;
   ft.dwHighDateTime := $019DB1DE;
-  comp(ft):=comp(ft) + 10000000.0 * (mtime);
+  comp(ft):=comp(ft) + 10000000 * (mtime);
   FillChar(tzinfo, sizeof(tzinfo), #0);
   GetTimeZoneInformation(tzinfo);
   bias := tzinfo.bias;
-  comp(ft) := comp(ft) - 10000000.0 * 60 * bias;
+  comp(ft) := comp(ft) - 10000000 * 60 * bias;
   FileTimeToSystemTime(ft, st);
   if (tzinfo.StandardDate.wmonth <> 0) and usedaylight then begin
     if tzinfo.StandardDate.wYear = 0 then begin
@@ -66,7 +66,7 @@ begin
     if summer
       then bias := tzinfo.DaylightBias
       else bias := tzinfo.StandardBias;
-    comp(ft) := comp(ft) - 10000000.0 * 60 * bias;
+    comp(ft) := comp(ft) - 10000000 * 60 * bias;
   end;
   FileTimeToDosDateTime(ft, hw, lw);
   Result := 65536 * hw + lw;
