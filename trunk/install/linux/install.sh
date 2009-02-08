@@ -19,6 +19,12 @@ mkdir -p $DC_INSTALL_DIR/plugins/wcx/zip
 # WDX plugins directories
 mkdir -p $DC_INSTALL_DIR/plugins/wdx
 mkdir -p $DC_INSTALL_DIR/plugins/wdx/rpm_wdx
+# WLX plugins directories
+mkdir -p $DC_INSTALL_DIR/plugins/wlx
+mkdir -p $DC_INSTALL_DIR/plugins/wlx/WlxMplayer
+# DSX plugins directories
+mkdir -p $DC_INSTALL_DIR/plugins/dsx
+mkdir -p $DC_INSTALL_DIR/plugins/dsx/DSXLocate
 
 # Copy directories
 cp -a language $DC_INSTALL_DIR/
@@ -42,7 +48,11 @@ cp -a plugins/wcx/unrar/lib/unrar.wcx      $DC_INSTALL_DIR/plugins/wcx/unrar/
 cp -a plugins/wcx/unbz2/lib/unbz2.wcx      $DC_INSTALL_DIR/plugins/wcx/unbz2/
 cp -a plugins/wcx/zip/lib/zip.wcx          $DC_INSTALL_DIR/plugins/wcx/zip/
 # WDX
-cp -a plugins/wdx/rpm_wdx/lib/rpm_wdx.wcx  $DC_INSTALL_DIR/plugins/wdx/rpm_wdx/
+cp -a plugins/wdx/rpm_wdx/lib/rpm_wdx.wdx  $DC_INSTALL_DIR/plugins/wdx/rpm_wdx/
+# WLX
+cp -a plugins/wlx/WlxMplayer/lib/wlxMplayer.wlx  $DC_INSTALL_DIR/plugins/wlx/WlxMplayer/
+# DSX
+cp -a plugins/dsx/DSXLocate/lib/DSXLocate.dsx  $DC_INSTALL_DIR/plugins/dsx/DSXLocate/
 
 if [ -z $1 ]
   then

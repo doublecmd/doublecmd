@@ -43,4 +43,4 @@ copy  plugins\wcx\unrar\lib\unrar.wcx      %DC_INSTALL_DIR%\plugins\wcx\unrar\
 copy  plugins\wcx\unbz2\lib\unbz2.wcx      %DC_INSTALL_DIR%\plugins\wcx\unbz2\
 copy  plugins\wcx\zip\lib\zip.wcx          %DC_INSTALL_DIR%\plugins\wcx\zip\
 rem WDX
-copy  plugins\wdx\rpm_wdx\lib\rpm_wdx.wcx  %DC_INSTALL_DIR%\plugins\wdx\rpm_wdx\
+copy  plugins\wdx\rpm_wdx\lib\rpm_wdx.wdx  %DC_INSTALL_DIR%\plugins\wdx\rpm_wdx\
