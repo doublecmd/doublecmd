@@ -26,7 +26,7 @@ library wlxMplayer;
 
 {$mode objfpc}{$H+}
 
-{$DEFINE LCLGTK}
+{$DEFINE LCLGTK2}
 
 uses
    {$IFDEF UNIX}

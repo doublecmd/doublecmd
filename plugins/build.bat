@@ -51,7 +51,7 @@ popd
 rem Strip and rename WDX
 pushd wdx\rpm_wdx\lib\
 strip --strip-all rpm_wdx.dll
-rename rpm_wdx.dll rpm_wdx.wcx
+rename rpm_wdx.dll rpm_wdx.wdx
 popd
 
 rem Return from plugins directory

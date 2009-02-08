@@ -2,6 +2,8 @@
 
 # Set Double Commander version
 DC_VER=0.4.0
+# and architecture
+DC_ARCH=$(uname -m)
 # The new package will be saved here
 PACK_DIR="`dirs`"/linux/release
 
@@ -29,22 +31,22 @@ fi
 
 # Create *.rpm package
 
-/usr/local/sbin/checkinstall -R --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --maintainer=Alexx2000@mail.ru --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
+/usr/local/sbin/checkinstall -R --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$DC_ARCH --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --maintainer=Alexx2000@mail.ru --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
 
 # Create *.deb package
 
-/usr/local/sbin/checkinstall -D --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --maintainer=Alexx2000@mail.ru --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
+/usr/local/sbin/checkinstall -D --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$DC_ARCH --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --maintainer=Alexx2000@mail.ru --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
 
 # Create *.tgz package
 
-/usr/local/sbin/checkinstall -S --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --maintainer=Alexx2000@mail.ru --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
+/usr/local/sbin/checkinstall -S --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$DC_ARCH --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --maintainer=Alexx2000@mail.ru --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
 
 # Create *.tar.bz2 package
 
 mkdir -p $BUILD_PACK_DIR
 install/linux/install.sh $BUILD_PACK_DIR
 cd $BUILD_PACK_DIR
-tar -cvjf $PACK_DIR/doublecmd-$DC_VER-1.$lcl.i386.tar.bz2 doublecmd
+tar -cvjf $PACK_DIR/doublecmd-$DC_VER-1.$lcl.$DC_ARCH.tar.bz2 doublecmd
 
 # Clean DC build dir
 rm -rf $BUILD_DC_TMP_DIR
