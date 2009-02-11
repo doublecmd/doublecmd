@@ -96,26 +96,26 @@ object frmViewer: TfrmViewer
     TabOrder = 0
     object pgText: TPage
       ClientWidth = 950
-      ClientHeight = 449
+      ClientHeight = 442
       object ScrollBarVert: TScrollBar
         Left = 935
-        Height = 449
+        Height = 442
         Width = 15
         Align = alRight
         Anchors = [akTop, akRight]
         Kind = sbVertical
         PageSize = 1
-        ParentCtl3D = False
         Position = 50
         TabOrder = 0
         OnScroll = ScrollBarVertScroll
       end
       object ViewerControl: TViewerControl
         Cursor = crIBeam
-        Height = 449
+        Height = 442
         Width = 935
         Encoding = 'ansi'
         ViewerMode = vmText
+        OnMouseUp = ViewerControlMouseUp
         Font.Height = -14
         Font.Name = 'fixed'
         Font.Pitch = fpFixed
@@ -132,7 +132,8 @@ object frmViewer: TfrmViewer
         Height = 468
         Width = 950
         Align = alClient
-        ParentCtl3D = False
+        ClientHeight = 464
+        ClientWidth = 946
         TabOrder = 0
         TabStop = True
         OnResize = ScrollBoxResize
@@ -249,6 +250,21 @@ object frmViewer: TfrmViewer
         Caption = 'About Viewer...'
         OnClick = miAbout2Click
       end
+    end
+  end
+  object pmEditMenu: TPopupMenu
+    left = 126
+    top = 8
+    object pmiCopy: TMenuItem
+      Caption = 'Copy To Clipboard'
+      OnClick = miCopyToClipboardClick
+    end
+    object miDiv5: TMenuItem
+      Caption = '-'
+    end
+    object pmiSelectAll: TMenuItem
+      Caption = 'Select All'
+      OnClick = miSelectAllClick
     end
   end
 end

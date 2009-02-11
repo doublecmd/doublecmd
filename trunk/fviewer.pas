@@ -40,6 +40,9 @@ type
 
   TfrmViewer = class(TForm)
     Image: TImage;
+    pmiSelectAll: TMenuItem;
+    miDiv5: TMenuItem;
+    pmiCopy: TMenuItem;
     miDiv3: TMenuItem;
     miEncoding: TMenuItem;
     miDiv4: TMenuItem;
@@ -50,6 +53,7 @@ type
     pnlLister: TPanel;
     pgText: TPage;
     pgImage: TPage;
+    pmEditMenu: TPopupMenu;
     ScrollBarVert: TScrollBar;
     ScrollBox: TScrollBox;
     Status: TStatusBar;
@@ -80,6 +84,8 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure miPluginsClick(Sender: TObject);
     procedure ScrollBoxResize(Sender: TObject);
+    procedure ViewerControlMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure ViewerControlMouseWheelDown(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
     procedure ViewerControlMouseWheelUp(Sender: TObject; Shift: TShiftState;
@@ -245,6 +251,13 @@ end;
 procedure TfrmViewer.ScrollBoxResize(Sender: TObject);
 begin
   if bImage then AdjustImageSize;
+end;
+
+procedure TfrmViewer.ViewerControlMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  if Button = mbRight then
+    pmEditMenu.PopUp();
 end;
 
 procedure TfrmViewer.ViewerControlMouseWheelDown(Sender: TObject;
