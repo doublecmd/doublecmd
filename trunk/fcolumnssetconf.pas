@@ -4,6 +4,10 @@
    Implementing of columns' configure dialog
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
+   
+   contributors:
+
+   Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -49,6 +53,8 @@ type
     btnCancel: TBitBtn;
     btnNext: TButton;
     btnPrev: TButton;
+    ResFont: TButton;
+    btnAllFont: TButton;
     cbOvercolor: TCheckBox;
     ResCurText: TButton;
     cBackGrndLabel: TLabel;
@@ -114,6 +120,7 @@ type
     procedure btnOkClick(Sender: TObject);
     procedure btnPrevClick(Sender: TObject);
     procedure cbOvercolorChange(Sender: TObject);
+    procedure ResFontClick(Sender: TObject);
     procedure ResBack2Click(Sender: TObject);
     procedure ResBackClick(Sender: TObject);
     procedure ResCurColClick(Sender: TObject);
@@ -653,6 +660,16 @@ begin
     EditorSaveResult(nil);
 end;
 
+procedure TfColumnsSetConf.ResFontClick(Sender: TObject);
+begin
+  TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontName:= gFontName;
+  TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontSize:= gFontSize;
+  TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontStyle:= gFontStyle;
+  edtFont.Text:= gFontName;
+  sneFontSize.Value:= gFontSize;
+  EditorSaveResult(nil);
+end;
+    
 procedure TfColumnsSetConf.ResBack2Click(Sender: TObject);
 begin
   TColPrm(stgColumns.Objects[6,IndexRaw+1]).Background2:=gBackColor2;
@@ -803,6 +820,11 @@ var i:integer;
 begin
 for i:= 1 to stgColumns.RowCount-1 do
   case (Sender as TButton).tag of
+    0:begin
+      TColPrm(stgColumns.Objects[6,i]).FontName :=TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontName;
+      TColPrm(stgColumns.Objects[6,i]).FontSize :=TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontSize;
+      TColPrm(stgColumns.Objects[6,i]).FontStyle :=TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontStyle;  
+    end;
     1:begin
       TColPrm(stgColumns.Objects[6,i]).TextColor :=cbTextColor.Color;
     end;
