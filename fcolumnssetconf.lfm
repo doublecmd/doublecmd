@@ -550,10 +550,15 @@ object fColumnsSetConf: TfColumnsSetConf
       end
       object cbOverColor: TCheckBox
         Tag = 1
-        Left = 639
-        Height = 20
-        Top = 4
-        Width = 144
+        AnchorSideLeft.Control = btnAllFont
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = btnAllFont
+        AnchorSideTop.Side = asrCenter
+        Left = 711
+        Height = 17
+        Top = 7
+        Width = 92
+        BorderSpacing.Left = 6
         Caption = 'Allow Overcolor'
         OnChange = cbOvercolorChange
         TabOrder = 21
@@ -635,6 +640,38 @@ object fColumnsSetConf: TfColumnsSetConf
         Caption = 'All'
         OnClick = btnAllTextClick
         TabOrder = 27
+      end
+      object ResFont: TButton
+        AnchorSideLeft.Control = sneFontSize
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = sneFontSize
+        AnchorSideBottom.Control = sneFontSize
+        AnchorSideBottom.Side = asrBottom
+        Left = 629
+        Height = 23
+        Top = 4
+        Width = 30
+        Anchors = [akTop, akLeft, akBottom]
+        BorderSpacing.Left = 6
+        Caption = 'R'
+        OnClick = ResFontClick
+        TabOrder = 28
+      end
+      object btnAllFont: TButton
+        AnchorSideLeft.Control = ResFont
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = ResFont
+        AnchorSideBottom.Control = ResFont
+        AnchorSideBottom.Side = asrBottom
+        Left = 665
+        Height = 23
+        Top = 4
+        Width = 40
+        Anchors = [akTop, akLeft, akBottom]
+        BorderSpacing.Left = 6
+        Caption = 'All'
+        OnClick = btnAllTextClick
+        TabOrder = 29
       end
     end
     object Splitter2: TSplitter
