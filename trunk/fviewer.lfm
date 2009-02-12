@@ -132,8 +132,6 @@ object frmViewer: TfrmViewer
         Height = 468
         Width = 950
         Align = alClient
-        ClientHeight = 464
-        ClientWidth = 946
         TabOrder = 0
         TabStop = True
         OnResize = ScrollBoxResize
