@@ -1700,7 +1700,17 @@ begin
         lblMoveSrc.Caption:=sCopyQuest;
         if ShowModal=mrCancel then Exit; // throught finally
 
-        sDestPath := ExtractFilePath(edtDst.Text);
+        sCopyQuest := ExtractFilePath(edtDst.Text);
+        if Length(sCopyQuest) <> 0 then
+          sDestPath:= sCopyQuest
+        else
+          begin
+            sCopyQuest:= ActiveFrame.pnlFile.GetActiveItem^.sPath;
+            if Length(sCopyQuest) <> 0 then
+              sDestPath:= sCopyQuest
+            else
+              sDestPath:= ActiveFrame.pnlFile.ActiveDir;
+          end;
         sDstMaskTemp:=ExtractFileName(edtDst.Text);
       finally
         with ActiveFrame do
