@@ -64,18 +64,6 @@ begin
 
     EstimateTime(iCopied);
 
-    {Check disk free space}
-    GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
-    if pr^.iSize > iFreeDiskSize then
-      begin
-        case MsgBox(Self, rsMsgNoFreeSpaceCont, [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of
-          mmrNo:
-            Exit;
-          mmrSkip:
-            Continue;
-        end;
-      end;
-
     if FPS_ISDIR(pr^.iMode) then
     begin
       mbRemoveDir(pr^.sName);
@@ -108,6 +96,19 @@ begin
       begin
         // rename failed, maybe not the same filesystem (or we want append)
         // OK, copy standard way and delete src file
+
+        // Check disk free space
+        GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
+        if pr^.iSize > iFreeDiskSize then
+          begin
+            case MsgBox(Self, rsMsgNoFreeSpaceCont, [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of
+              mmrNo:
+                Exit;
+              mmrSkip:
+                Continue;
+            end;
+          end;
+
         if cpFile(pr, sDstPath, False) then // False >> not show confirmation dialog
           begin
             if mbDeleteFile(pr^.sName) then
