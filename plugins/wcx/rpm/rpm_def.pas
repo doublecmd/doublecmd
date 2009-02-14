@@ -42,26 +42,47 @@ const
   RPMSIG_MD5_PGP     = 4;
   RPMSIG_HEADERSIG   = 5;
 
-const
-  RPMTAG_NAME         = 1000;
-  RPMTAG_VERSION      = 1001;
-  RPMTAG_RELEASE      = 1002;
-  RPMTAG_SUMMARY      = 1004;
-  RPMTAG_DESCRIPTION  = 1005;
-  RPMTAG_BUILDTIME    = 1006;
-  RPMTAG_DISTRIBUTION = 1010;
-  RPMTAG_VENDOR       = 1011;
-  RPMTAG_LICENSE      = 1014;
-  RPMTAG_PACKAGER     = 1015;
-  RPMTAG_GROUP        = 1016;
-  RPMTAG_OS           = 1021;
-  RPMTAG_ARCH         = 1022;
-  RPMTAG_FILENAMES    = 1027;
-  RPMTAG_FILEMTIMES   = 1034;
-  RPMTAG_SOURCERPM    = 1044;
-  RPMTAG_ARCHIVESIZE  = 1046;
 
-type
+const
+
+  RPMTAG_NAME         = 1000;
+
+  RPMTAG_VERSION      = 1001;
+
+  RPMTAG_RELEASE      = 1002;
+
+  RPMTAG_SUMMARY      = 1004;
+
+  RPMTAG_DESCRIPTION  = 1005;
+
+  RPMTAG_BUILDTIME    = 1006;
+
+  RPMTAG_DISTRIBUTION = 1010;
+
+  RPMTAG_VENDOR       = 1011;
+
+  RPMTAG_LICENSE      = 1014;
+
+  RPMTAG_PACKAGER     = 1015;
+
+  RPMTAG_GROUP        = 1016;
+
+  RPMTAG_OS           = 1021;
+
+  RPMTAG_ARCH         = 1022;
+
+  RPMTAG_FILENAMES    = 1027;
+
+  RPMTAG_FILEMTIMES   = 1034;
+
+  RPMTAG_SOURCERPM    = 1044;
+
+  RPMTAG_ARCHIVESIZE  = 1046;
+
+type
+  RPM_DataSig = array[0..3] of char;
+
+type
   RPM_EntryInfo = record
     tag    : LongWord;
     etype  : LongWord;
