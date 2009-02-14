@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Packed file information window
 
-   Copyright (C) 2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -94,7 +94,11 @@ begin
     lblPackedCompression.Caption:= IntToStr(100 - (HeaderData.PackSize*100 div HeaderData.UnpSize))+'%';
     lblPackedMethod.Caption:= IntToStr(HeaderData.Method);
     // DateTime and Attributes
-    dtDateTime:= FileDateToDateTime(HeaderData.FileTime);
+    try
+      dtDateTime:= FileDateToDateTime(HeaderData.FileTime);
+    except
+      dtDateTime:= 0;
+    end;
     lblPackedDate.Caption:= DateToStr(dtDateTime);
     lblPackedTime.Caption:= TimeToStr(dtDateTime);
     lblPackedAttr.Caption:= AttrToStr(HeaderData.FileAttr);
