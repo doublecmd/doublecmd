@@ -43,6 +43,7 @@ const
   fmtRunInTerm = '%s "%s"';
   fmtRunInShell = '%s /C "%s"';
   ShieldChar = '/';
+  MonoSpaceFont = 'Fixedsys';
   {$ELSE}
   faFolder = S_IFDIR;
   faSymLink   = $00000040;
@@ -51,6 +52,7 @@ const
   fmtRunInTerm = '%s ''%s ; echo -n Press ENTER to exit... ; read''';
   fmtRunInShell = '%s -c ''%s''';
   ShieldChar = '\';
+  MonoSpaceFont = 'Fixed';
   {$ENDIF}
 
 type

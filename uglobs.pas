@@ -10,7 +10,7 @@
 
    contributors:
 
-   Copyright (C) 2006-2008 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2009 Alexander Koblov (Alexx2000@mail.ru)
    
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
    
@@ -471,16 +471,16 @@ begin
   { Fonts }
   gFontName:=gIni.ReadString('Configuration', 'Font.Name', 'default');
   DebugLn('gFontName:',gFontName);
-  gEditorFontName:=gIni.ReadString('Configuration', 'Editor.Font.Name', 'default');
+  gEditorFontName:=gIni.ReadString('Editor', 'Font.Name', MonoSpaceFont);
   DebugLn('gEditorFontName:',gEditorFontName);
-  gViewerFontName:=gIni.ReadString('Configuration', 'Viewer.Font.Name', 'default');
+  gViewerFontName:=gIni.ReadString('Viewer', 'Font.Name', MonoSpaceFont);
   DebugLn('gViewerEditorFontName:',gViewerFontName);
   gFontSize:=gIni.ReadInteger('Configuration', 'Font.Size', 10);
-  gEditorFontSize:=gIni.ReadInteger('Configuration', 'Editor.Font.Size', 14);
-  gViewerFontSize:=gIni.ReadInteger('Configuration', 'Viewer.Font.Size', 14);
+  gEditorFontSize:=gIni.ReadInteger('Editor', 'Font.Size', 14);
+  gViewerFontSize:=gIni.ReadInteger('Viewer', 'Font.Size', 14);
   gFontStyle := TFontStyles(gIni.ReadInteger('Configuration', 'Font.Style', 1));
-  gEditorFontStyle:= TFontStyles(gIni.ReadInteger('Configuration', 'Editor.Font.Style', 0));
-  gViewerFontStyle:= TFontStyles(gIni.ReadInteger('Configuration', 'Viewer.Font.Style', 0));
+  gEditorFontStyle:= TFontStyles(gIni.ReadInteger('Editor', 'Font.Style', 0));
+  gViewerFontStyle:= TFontStyles(gIni.ReadInteger('Viewer', 'Font.Style', 0));
   { Colors }
   gForeColor  := gIni.ReadInteger('Colors', 'ForeColor', clDefault);
   gBackColor := gIni.ReadInteger('Colors', 'BackColor', clWhite);
@@ -638,16 +638,16 @@ begin
   
   { Fonts }
   gIni.WriteString('Configuration', 'Font.Name', gFontName);
-  gIni.WriteString('Configuration', 'Editor.Font.Name', gEditorFontName);
-  gIni.WriteString('Configuration', 'Viewer.Font.Name', gViewerFontName);
+  gIni.WriteString('Editor', 'Font.Name', gEditorFontName);
+  gIni.WriteString('Viewer', 'Font.Name', gViewerFontName);
 
   gIni.WriteInteger('Configuration', 'Font.Size', gFontSize);
-  gIni.WriteInteger('Configuration', 'Editor.Font.Size', gEditorFontSize);
-  gIni.WriteInteger('Configuration', 'Viewer.Font.Size', gViewerFontSize);
+  gIni.WriteInteger('Editor', 'Font.Size', gEditorFontSize);
+  gIni.WriteInteger('Viewer', 'Font.Size', gViewerFontSize);
 
   gIni.WriteInteger('Configuration', 'Font.Style', Integer(gFontStyle));
-  gIni.WriteInteger('Configuration', 'Editor.Font.Style', Integer(gEditorFontStyle));
-  gIni.WriteInteger('Configuration', 'Viewer.Font.Style', Integer(gViewerFontStyle));
+  gIni.WriteInteger('Editor', 'Font.Style', Integer(gEditorFontStyle));
+  gIni.WriteInteger('Viewer', 'Font.Style', Integer(gViewerFontStyle));
   { Colors }
   gIni.WriteInteger('Colors', 'ForeColor', gForeColor);
   gIni.WriteInteger('Colors', 'BackColor', gBackColor);
