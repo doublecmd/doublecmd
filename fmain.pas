@@ -315,6 +315,7 @@ type
     procedure MainToolBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
     procedure frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure frmMainKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure frmMainAfterShow(Data: PtrInt);
     procedure frmMainShow(Sender: TObject);
     procedure mnuDropClick(Sender: TObject);
     procedure mnuSplitterPercentClick(Sender: TObject);
@@ -928,10 +929,15 @@ begin
 //
 end;
 
+procedure TfrmMain.frmMainAfterShow(Data: PtrInt);
+begin
+  SetActiveFrame(fpLeft);
+end;
+
 procedure TfrmMain.frmMainShow(Sender: TObject);
 begin
   DebugLn('frmMain.frmMainShow');
-  SetActiveFrame(fpLeft);
+  Application.QueueAsyncCall(@frmMainAfterShow, 0);
 end;
 
 procedure TfrmMain.mnuDropClick(Sender: TObject);
