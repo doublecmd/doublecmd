@@ -32,7 +32,7 @@ function  RPM_ProcessEntry(var f : file; data_start : LongInt; var entry : RPM_E
 
 procedure swap_value(var value; size : Integer);
 procedure copy_str2buf(var buf : TStrBuf; s : AnsiString);
-function  get_archivename(var fname : String;is_bz2file:boolean) : String;
+function  get_archivename(var fname : String;datasig:RPM_DataSig) : String;
 function  read_string(var f : file; var s : AnsiString) : Boolean;
 function  read_int32(var f : file; var int32 : LongWord) : Boolean;
 
@@ -69,7 +69,7 @@ begin
     buf[i_char] := s[i_char];
 end;
 
-function get_archivename(var fname : String;is_bz2file:boolean) : String;
+function get_archivename(var fname : String;datasig:RPM_DataSig) : String;
 var
   tmp_str : String;
   i_char  : Integer;
@@ -84,10 +84,12 @@ begin
     end;
   if fgFound then
     SetLength(tmp_str, i_char - 1);
-  if is_bz2file then
+  if (datasig[0] = #31) and (datasig[1] = #139) then
+    tmp_str := tmp_str + '.cpio.gz'
+  else if (datasig[0]='B') and (datasig[1]='Z') and (datasig[2]='h') then
     tmp_str := tmp_str + '.cpio.bz2'
   else
-    tmp_str := tmp_str + '.cpio.gz';
+    tmp_str := tmp_str + '.cpio.lzma';
   Result := tmp_str;
 end;
 
@@ -198,37 +200,67 @@ begin
       RPMTAG_NAME :
         if entry.etype = 6 then fgError := not read_string(f, info.name);
       RPMTAG_VERSION :
-        if entry.etype = 6 then fgError := not read_string(f, info.version);
-      RPMTAG_RELEASE :
-        if entry.etype = 6 then fgError := not read_string(f, info.release);
-      RPMTAG_SUMMARY :
-        if entry.etype = 9 then fgError := not read_string(f, info.summary);
-      RPMTAG_DESCRIPTION :
-        if entry.etype = 9 then begin
-          fgError := not read_string(f, info.description);
-          if not fgError then
-            CRtoCRLF(info.description);
-        end;
-      RPMTAG_BUILDTIME :
-        if entry.etype = 4 then fgError := not read_int32(f, info.buildtime);
-      RPMTAG_DISTRIBUTION :
-        if entry.etype = 6 then fgError := not read_string(f, info.distribution);
-      RPMTAG_VENDOR :
-        if entry.etype = 6 then fgError := not read_string(f, info.vendor);
-      RPMTAG_LICENSE :
-        if entry.etype = 6 then fgError := not read_string(f, info.license);
-      RPMTAG_PACKAGER :
-        if entry.etype = 6 then fgError := not read_string(f, info.packager);
-      RPMTAG_GROUP :
-        if entry.etype = 9 then fgError := not read_string(f, info.group);
-      RPMTAG_OS :
-        if entry.etype = 6 then fgError := not read_string(f, info.os);
-      RPMTAG_ARCH :
-        if entry.etype = 6 then fgError := not read_string(f, info.arch);
-      RPMTAG_SOURCERPM :
-        if entry.etype = 6 then fgError := not read_string(f, info.sourcerpm);
+
+        if entry.etype = 6 then fgError := not read_string(f, info.version);
+
+      RPMTAG_RELEASE :
+
+        if entry.etype = 6 then fgError := not read_string(f, info.release);
+
+      RPMTAG_SUMMARY :
+
+        if entry.etype = 9 then fgError := not read_string(f, info.summary);
+
+      RPMTAG_DESCRIPTION :
+
+        if entry.etype = 9 then begin
+
+          fgError := not read_string(f, info.description);
+
+          if not fgError then
+
+            CRtoCRLF(info.description);
+
+        end;
+
+      RPMTAG_BUILDTIME :
+
+        if entry.etype = 4 then fgError := not read_int32(f, info.buildtime);
+
+      RPMTAG_DISTRIBUTION :
+
+        if entry.etype = 6 then fgError := not read_string(f, info.distribution);
+
+      RPMTAG_VENDOR :
+
+        if entry.etype = 6 then fgError := not read_string(f, info.vendor);
+
+      RPMTAG_LICENSE :
+
+        if entry.etype = 6 then fgError := not read_string(f, info.license);
+
+      RPMTAG_PACKAGER :
+
+        if entry.etype = 6 then fgError := not read_string(f, info.packager);
+
+      RPMTAG_GROUP :
+
+        if entry.etype = 9 then fgError := not read_string(f, info.group);
+
+      RPMTAG_OS :
+
+        if entry.etype = 6 then fgError := not read_string(f, info.os);
+
+      RPMTAG_ARCH :
+
+        if entry.etype = 6 then fgError := not read_string(f, info.arch);
+
+      RPMTAG_SOURCERPM :
+
+        if entry.etype = 6 then fgError := not read_string(f, info.sourcerpm);
     end;{case}
-  end
+
+  end
   else fgError := True;
   Result := not fgError;
   Seek(f, save_pos);

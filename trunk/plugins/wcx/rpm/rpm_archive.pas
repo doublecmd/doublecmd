@@ -49,7 +49,7 @@ type
     changevol_proc : TChangeVolProc;
 //- RPM tags -------------------------------------------
     info           : RPM_InfoRec;
-    is_bz2file     : boolean;
+    datasig        : RPM_DataSig;
   end;{ArchiveRec}
 
 var
@@ -96,7 +96,6 @@ var
   filename  : String;
   r_lead    : RPM_Lead;
   signature : RPM_Header;
-  datasig   : array[0..3] of char;
   fgError   : Boolean;
   headerend : integer;
 begin
@@ -141,9 +140,8 @@ begin
               arec^.arch_len := FileSize(arec^.handle_file) - FilePos(arec^.handle_file);
           if not fgError then begin
             headerend:=FilePos(arec^.handle_file);
-            BlockRead(arec^.handle_file, datasig, 3);
+            BlockRead(arec^.handle_file, arec^.datasig, 3);
             Seek(arec^.handle_file, headerend);
-            arec^.is_bz2file:=(datasig[0]='B') and (datasig[1]='Z') and (datasig[2]='h');
           end;
         end;
       end;{ioresult}
@@ -196,7 +194,7 @@ begin
       begin
         case arec^.headers of
           HDR_DATA: begin
-              copy_str2buf(TStrBuf(FileName), get_archivename(arec^.fname,arec^.is_bz2file));
+              copy_str2buf(TStrBuf(FileName), get_archivename(arec^.fname,arec^.datasig));
               PackSize := arec^.arch_len;
               UnpSize  := arec^.arch_len;
             end;
