@@ -18,6 +18,7 @@ mkdir  %DC_INSTALL_DIR%\plugins\wcx\zip
 rem WDX plugins directories
 mkdir  %DC_INSTALL_DIR%\plugins\wdx
 mkdir  %DC_INSTALL_DIR%\plugins\wdx\rpm_wdx
+mkdir  %DC_INSTALL_DIR%\plugins\wdx\deb_wdx
 
 rem Copy directories
 xcopy /E language %DC_INSTALL_DIR%\language\
@@ -44,3 +45,4 @@ copy  plugins\wcx\unbz2\lib\unbz2.wcx      %DC_INSTALL_DIR%\plugins\wcx\unbz2\
 copy  plugins\wcx\zip\lib\zip.wcx          %DC_INSTALL_DIR%\plugins\wcx\zip\
 rem WDX
 copy  plugins\wdx\rpm_wdx\lib\rpm_wdx.wdx  %DC_INSTALL_DIR%\plugins\wdx\rpm_wdx\
+copy  plugins\wdx\deb_wdx\lib\deb_wdx.wdx  %DC_INSTALL_DIR%\plugins\wdx\deb_wdx\
