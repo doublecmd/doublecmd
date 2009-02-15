@@ -547,7 +547,7 @@ begin
   LogSplitter.Visible := gLogWindow;
   seLogWindow.Visible := gLogWindow;
 
-  seLogWindow.Font.Name := gFontName;
+  seLogWindow.Font.Name := gEditorFontName;
 
   pmColumnsMenu.Items.Clear;
   //DebugLn('frmMain.FormCreate Done');

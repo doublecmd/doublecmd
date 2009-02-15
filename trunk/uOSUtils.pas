@@ -35,6 +35,7 @@ uses
 {$mode delphi}{$H+}
     
 const
+  InvalidHandleValue = THandle(-1);
   {$IFDEF MSWINDOWS}
   faFolder = faDirectory;
   faSymLink   = $00000400;
