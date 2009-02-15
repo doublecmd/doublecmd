@@ -17,6 +17,7 @@ $lazpath/lazbuild wcx/zip/Zip.lpi
 
 # WDX plugins
 $lazpath/lazbuild wdx/rpm_wdx/rpm_wdx.lpi
+$lazpath/lazbuild wdx/deb_wdx/src/deb_wdx.lpi
 
 # WLX plugins
 $lazpath/lazbuild wlx/WlxMplayer/wlxMplayer.lpi
@@ -59,6 +60,11 @@ popd
 pushd wdx/rpm_wdx/lib/
 strip --strip-all rpm_wdx.so
 mv rpm_wdx.so rpm_wdx.wdx
+popd
+
+pushd wdx/deb_wdx/lib/
+strip --strip-all deb_wdx.so
+mv deb_wdx.so deb_wdx.wdx
 popd
 
 # Strip and rename WLX

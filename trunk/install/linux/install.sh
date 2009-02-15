@@ -19,6 +19,7 @@ mkdir -p $DC_INSTALL_DIR/plugins/wcx/zip
 # WDX plugins directories
 mkdir -p $DC_INSTALL_DIR/plugins/wdx
 mkdir -p $DC_INSTALL_DIR/plugins/wdx/rpm_wdx
+mkdir -p $DC_INSTALL_DIR/plugins/wdx/deb_wdx
 # WLX plugins directories
 mkdir -p $DC_INSTALL_DIR/plugins/wlx
 mkdir -p $DC_INSTALL_DIR/plugins/wlx/WlxMplayer
@@ -49,6 +50,7 @@ cp -a plugins/wcx/unbz2/lib/unbz2.wcx      $DC_INSTALL_DIR/plugins/wcx/unbz2/
 cp -a plugins/wcx/zip/lib/zip.wcx          $DC_INSTALL_DIR/plugins/wcx/zip/
 # WDX
 cp -a plugins/wdx/rpm_wdx/lib/rpm_wdx.wdx  $DC_INSTALL_DIR/plugins/wdx/rpm_wdx/
+cp -a plugins/wdx/deb_wdx/lib/deb_wdx.wdx  $DC_INSTALL_DIR/plugins/wdx/deb_wdx/
 # WLX
 cp -a plugins/wlx/WlxMplayer/lib/wlxMplayer.wlx  $DC_INSTALL_DIR/plugins/wlx/WlxMplayer/
 # DSX
