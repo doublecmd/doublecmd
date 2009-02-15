@@ -479,6 +479,10 @@ object fColumnsSetConf: TfColumnsSetConf
       object ResCurText: TButton
         AnchorSideLeft.Control = btnCursorText
         AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbCursorText
+        AnchorSideBottom.Control = cbCursorText
+        AnchorSideBottom.Side = asrBottom
+        Anchors = [akTop, akLeft, akBottom]
         Left = 792
         Height = 22
         Top = 96
@@ -489,8 +493,12 @@ object fColumnsSetConf: TfColumnsSetConf
         TabOrder = 15
       end
       object ResCurCol: TButton
-        AnchorSideLeft.Control = btnCursorText
+        AnchorSideLeft.Control = btnCursorColor
         AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbCursorColor
+        AnchorSideBottom.Control = cbCursorColor
+        AnchorSideBottom.Side = asrBottom
+        Anchors = [akTop, akLeft, akBottom]
         Left = 792
         Height = 22
         Top = 66
@@ -501,8 +509,12 @@ object fColumnsSetConf: TfColumnsSetConf
         TabOrder = 16
       end
       object ResMark: TButton
-        AnchorSideLeft.Control = btnCursorText
+        AnchorSideLeft.Control = btnMarkColor
         AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbMarkColor
+        AnchorSideBottom.Control = cbMarkColor
+        AnchorSideBottom.Side = asrBottom
+        Anchors = [akTop, akLeft, akBottom]
         Left = 792
         Height = 22
         Top = 36
@@ -515,6 +527,10 @@ object fColumnsSetConf: TfColumnsSetConf
       object ResBack2: TButton
         AnchorSideLeft.Control = btnBackColor2
         AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbBackColor2
+        AnchorSideBottom.Control = cbBackColor2
+        AnchorSideBottom.Side = asrBottom
+        Anchors = [akTop, akLeft, akBottom]
         Left = 344
         Height = 22
         Top = 96
@@ -525,8 +541,12 @@ object fColumnsSetConf: TfColumnsSetConf
         TabOrder = 18
       end
       object ResBack: TButton
-        AnchorSideLeft.Control = btnBackColor2
+        AnchorSideLeft.Control = btnBackColor
         AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbBackColor
+        AnchorSideBottom.Control = cbBackColor
+        AnchorSideBottom.Side = asrBottom
+        Anchors = [akTop, akLeft, akBottom]
         Left = 344
         Height = 22
         Top = 66
@@ -537,8 +557,12 @@ object fColumnsSetConf: TfColumnsSetConf
         TabOrder = 19
       end
       object ResText: TButton
-        AnchorSideLeft.Control = btnBackColor2
+        AnchorSideLeft.Control = btnTextColor
         AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbTextColor
+        AnchorSideBottom.Control = cbTextColor
+        AnchorSideBottom.Side = asrBottom
+        Anchors = [akTop, akLeft, akBottom]
         Left = 344
         Height = 22
         Top = 36
@@ -567,6 +591,10 @@ object fColumnsSetConf: TfColumnsSetConf
         Tag = 1
         AnchorSideLeft.Control = ResText
         AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbTextColor
+        AnchorSideBottom.Control = cbTextColor
+        AnchorSideBottom.Side = asrBottom
+        Anchors = [akTop, akLeft, akBottom]
         Left = 380
         Height = 22
         Top = 36
@@ -578,8 +606,12 @@ object fColumnsSetConf: TfColumnsSetConf
       end
       object btnAllBack: TButton
         Tag = 2
-        AnchorSideLeft.Control = ResText
+        AnchorSideLeft.Control = ResBack
         AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbBackColor
+        AnchorSideBottom.Control = cbBackColor
+        AnchorSideBottom.Side = asrBottom
+        Anchors = [akTop, akLeft, akBottom]
         Left = 380
         Height = 22
         Top = 64
@@ -591,8 +623,12 @@ object fColumnsSetConf: TfColumnsSetConf
       end
       object btnAllBack2: TButton
         Tag = 3
-        AnchorSideLeft.Control = ResText
+        AnchorSideLeft.Control = ResBack2
         AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbBackColor2
+        AnchorSideBottom.Control = cbBackColor2
+        AnchorSideBottom.Side = asrBottom
+        Anchors = [akTop, akLeft, akBottom]
         Left = 380
         Height = 22
         Top = 96
@@ -604,8 +640,12 @@ object fColumnsSetConf: TfColumnsSetConf
       end
       object btnAllCurCol: TButton
         Tag = 5
-        AnchorSideLeft.Control = ResMark
+        AnchorSideLeft.Control = ResCurCol
         AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbCursorColor
+        AnchorSideBottom.Control = cbCursorColor
+        AnchorSideBottom.Side = asrBottom
+        Anchors = [akTop, akLeft, akBottom]
         Left = 828
         Height = 22
         Top = 66
@@ -617,8 +657,12 @@ object fColumnsSetConf: TfColumnsSetConf
       end
       object btnAllCurText: TButton
         Tag = 6
-        AnchorSideLeft.Control = ResMark
+        AnchorSideLeft.Control = ResCurText
         AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbCursorText
+        AnchorSideBottom.Control = cbCursorText
+        AnchorSideBottom.Side = asrBottom
+        Anchors = [akTop, akLeft, akBottom]
         Left = 828
         Height = 22
         Top = 96
@@ -632,6 +676,10 @@ object fColumnsSetConf: TfColumnsSetConf
         Tag = 4
         AnchorSideLeft.Control = ResMark
         AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbMarkColor
+        AnchorSideBottom.Control = cbMarkColor
+        AnchorSideBottom.Side = asrBottom
+        Anchors = [akTop, akLeft, akBottom]
         Left = 828
         Height = 22
         Top = 36
