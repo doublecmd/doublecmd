@@ -496,9 +496,12 @@ begin
       MainToolBar.ButtonGlyphSize := gToolBarIconSize;
       MainToolBar.ChangePath := gpExePath;
       MainToolBar.EnvVar := '%commander_path%';
-      IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
-      MainToolBar.LoadFromIniFile(IniBarFile);
-      IniBarFile.Free;
+      try
+        IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar', fmOpenRead);
+        MainToolBar.LoadFromIniFile(IniBarFile);
+      finally
+        FreeThenNil(IniBarFile);
+      end;
     end;
   (*Tool Bar*)
 
@@ -636,15 +639,21 @@ begin
 
   if gSaveCmdLineHistory then
     begin
-      slCommandHistory:= TStringListEx.Create;
-      slCommandHistory.Assign(edtCommand.Items);
-      slCommandHistory.SaveToFile(gpIniDir+cHistoryFile);
-      slCommandHistory.Free;
+      try
+        slCommandHistory:= TStringListEx.Create;
+        slCommandHistory.Assign(edtCommand.Items);
+        slCommandHistory.SaveToFile(gpIniDir+cHistoryFile);
+      finally
+        FreeThenNil(slCommandHistory);
+      end;
     end;  
   {*Tool Bar*}
-  IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
-  MainToolBar.SaveToIniFile(IniBarFile);
-  IniBarFile.Free;
+  try
+    IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
+    MainToolBar.SaveToIniFile(IniBarFile);
+  finally
+    FreeThenNil(IniBarFile);
+  end;
   {*Tool Bar*}
 end;
 
