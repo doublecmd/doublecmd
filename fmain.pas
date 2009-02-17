@@ -2174,7 +2174,7 @@ begin
 
   if (Button = mbRight) and ((gMouseSelectionButton<>1) or not gMouseSelectionEnabled) then
     begin
-      Actions.cm_ContextMenu('');
+      Actions.cm_ContextMenu('OnMouseClick');
       //actContextMenu.Execute;
     end;
 end;

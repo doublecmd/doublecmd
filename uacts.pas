@@ -310,24 +310,33 @@ end;
 
 procedure TActs.cm_ContextMenu(param:string);
 var
-  fl : TFileList;
+  fl: TFileList;
+  Point: TPoint;
+  Rect: TRect;
 begin
-with frmMain do
+with frmMain, ActiveFrame do
   begin
-    with ActiveFrame do
+    if pnlFile.PanelMode in [pmArchive, pmVFS] then
       begin
-        if pnlFile.PanelMode in [pmArchive, pmVFS] then
-          begin
-            msgWarning(rsMsgErrNotSupported);
-            UnMarkAll;
-            Exit;
-          end;
-
-        fl := TFileList.Create;
-        SelectFileIfNoSelected(GetActiveItem);
-        CopyListSelectedExpandNames(pnlFile.FileList, fl, ActiveDir, False);
+        msgWarning(rsMsgErrNotSupported);
+        UnMarkAll;
+        Exit;
       end;
-    ShowContextMenu(frmMain, fl, Mouse.CursorPos.x, Mouse.CursorPos.y);
+
+    fl := TFileList.Create;
+    SelectFileIfNoSelected(GetActiveItem);
+    CopyListSelectedExpandNames(pnlFile.FileList, fl, ActiveDir, False);
+
+    if param  = 'OnMouseClick' then
+      ShowContextMenu(frmMain, fl, Mouse.CursorPos.x, Mouse.CursorPos.y)
+    else
+      begin
+        Rect:= dgPanel.CellRect(0, dgPanel.Row);
+        Point.X:= Rect.Left + ((Rect.Right - Rect.Left) div 2);
+        Point.Y:= Rect.Top + ((Rect.Bottom - Rect.Top) div 2);
+        Point:= dgPanel.ClientToScreen(Point);
+        ShowContextMenu(frmMain, fl, Point.X, Point.Y)
+      end;
     ActiveFrame.UnMarkAll;
   end;
 end;
