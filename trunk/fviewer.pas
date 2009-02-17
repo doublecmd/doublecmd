@@ -258,7 +258,10 @@ end;
 
 procedure TfrmViewer.miPluginsClick(Sender: TObject);
 begin
-  bPlugin:= CheckPlugins(iActiveFile,true);
+  ViewerControl.UnMapFile; // if any mapped
+  bPlugin:= CheckPlugins(iActiveFile, True);
+  if not bPlugin then
+    ViewerControl.MapFile(FileList.Strings[iActiveFile]);
 end;
 
 procedure TfrmViewer.ScrollBoxResize(Sender: TObject);
