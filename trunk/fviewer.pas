@@ -214,31 +214,44 @@ begin
 end;
 
 function TfrmViewer.CheckPlugins(Index:integer; Force:boolean=false):boolean;
-var i:integer;
+var
+  I: Integer;
 begin
-  i:=0;
-  DebugLn('WlXPlugins.Count = '+inttostr(WlxPlugins.Count));
-  while (i<WlxPlugins.Count) do
-   if WlxPlugins.GetWLxModule(i).FileParamVSDetectStr(FileList[Index]) then
+  I:= 0;
+  DebugLn('WlXPlugins.Count = ' + IntToStr(WlxPlugins.Count));
+  while (I < WlxPlugins.Count) do
+   if WlxPlugins.GetWLxModule(I).FileParamVSDetectStr(FileList[Index]) then
      begin
-       Result:=true;
-       DebugLn('I = '+Inttostr(I));
-       nbPages.Hide;
+       Result:= True;
+       DebugLn('I = '+IntToStr(I));
+       nbPages.Visible:= False;
        if not WlxPrepareContainer(pnlLister.Handle) then {TODO: ERROR and exit;};
-       WlxPlugins.LoadModule(i);
-       WlxPlugins.GetWLxModule(i).CallListLoad(pnlLister.Handle,FileList[Index], {TODO: showFlags}0);
-       ActivePlugin:=I;
+       WlxPlugins.LoadModule(I);
+       DebugLn('WlxModule.Name = ', WlxPlugins.GetWLxModule(I).Name);
+       if WlxPlugins.GetWLxModule(I).CallListLoad(pnlLister.Handle,FileList[Index], {TODO: showFlags}0) = 0 then
+         begin
+           WlxPlugins.GetWLxModule(I).UnloadModule;
+           Inc(I);
+           Continue;
+         end;
+       ActivePlugin:= I;
        Exit;
      end
-   else  i:=i+1;
- Result:=false;
+   else  I:= I + 1;
+ // Plugin not found
+ nbPages.Visible:= True;
+ ActivePlugin:= -1;
+ Result:= False;
 end;
 
 procedure TfrmViewer.ExitPluginMode;
 begin
   WlxPrepareContainer(pnlLister.Handle,true);
-  if WlxPlugins.Count > 0 then
-    WlxPlugins.GetWLxModule(ActivePlugin).UnloadModule;
+  if (WlxPlugins.Count > 0) and (ActivePlugin >= 0) then
+    begin
+      WlxPlugins.GetWLxModule(ActivePlugin).CallListCloseWindow;
+      WlxPlugins.GetWLxModule(ActivePlugin).UnloadModule;
+    end;
 //  pnlLister.Hide;
   nbPages.Show;
 end;
@@ -294,8 +307,9 @@ begin
       for I := 0 to Count do
         mbDeleteFile(FileList.Strings[I]);
     end;
-  if assigned(WlxPlugins) then
+  if Assigned(WlxPlugins) then
      begin
+       ExitPluginMode;
        FreeAndNil(WlxPlugins);
      end;
 end;

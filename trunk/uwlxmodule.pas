@@ -6,6 +6,10 @@
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
 
+   contributors:
+
+   Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2 of the License, or
@@ -222,25 +226,21 @@ end;
 
 procedure TWLXModule.UnloadModule;
 begin
-//  DebugLn('Try to call ListCloseWindow');
-   CallListCloseWindow;
-//  DebugLn('Call ListCloseWindow succses');
-
   if FModuleHandle <> 0 then
-      FreeLibrary(FModuleHandle);
-    FModuleHandle := 0;
+    FreeLibrary(FModuleHandle);
+  FModuleHandle := 0;
 
-    ListLoad:=nil;
-    ListLoadNext:=nil;
-    ListCloseWindow:=nil;
-    ListGetDetectString:=nil;
-    ListSearchText:=nil;
-    ListSearchDialog:=nil;
-    ListSendCommand:=nil;
-    ListPrint:=nil;
-    ListNotificationReceived:=nil;
-    ListSetDefaultParams:=nil;
-    ListGetPreviewBitmap:=nil;
+  ListLoad:=nil;
+  ListLoadNext:=nil;
+  ListCloseWindow:=nil;
+  ListGetDetectString:=nil;
+  ListSearchText:=nil;
+  ListSearchDialog:=nil;
+  ListSendCommand:=nil;
+  ListPrint:=nil;
+  ListNotificationReceived:=nil;
+  ListSetDefaultParams:=nil;
+  ListGetPreviewBitmap:=nil;
 end;
 
 function TWLXModule.CallListLoad(ParentWin: THandle; FileToLoad: string;
@@ -272,12 +272,14 @@ end;
 
 procedure TWLXModule.CallListCloseWindow;
 begin
-if not assigned(ListCloseWindow) then exit;
+  if not Assigned(ListCloseWindow) then Exit;
+//  DebugLn('Try to call ListCloseWindow');
   try
     ListCloseWindow(FPluginWindow);
   finally
     FPluginWindow:=0;
   end;
+//  DebugLn('Call ListCloseWindow success');
 end;
 
 function TWLXModule.CallListGetDetectString: string;
