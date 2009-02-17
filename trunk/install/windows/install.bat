@@ -17,6 +17,7 @@ mkdir  %DC_INSTALL_DIR%\plugins\wcx\unbz2
 mkdir  %DC_INSTALL_DIR%\plugins\wcx\zip
 rem WDX plugins directories
 mkdir  %DC_INSTALL_DIR%\plugins\wdx
+mkdir  %DC_INSTALL_DIR%\plugins\wdx\scripts
 mkdir  %DC_INSTALL_DIR%\plugins\wdx\rpm_wdx
 mkdir  %DC_INSTALL_DIR%\plugins\wdx\deb_wdx
 
@@ -47,3 +48,4 @@ copy  plugins\wcx\zip\ZipConfDlg.lfm       %DC_INSTALL_DIR%\plugins\wcx\zip\
 rem WDX
 copy  plugins\wdx\rpm_wdx\lib\rpm_wdx.wdx  %DC_INSTALL_DIR%\plugins\wdx\rpm_wdx\
 copy  plugins\wdx\deb_wdx\lib\deb_wdx.wdx  %DC_INSTALL_DIR%\plugins\wdx\deb_wdx\
+copy  plugins\wdx\scripts\*                 %DC_INSTALL_DIR%\plugins\wdx\scripts\
