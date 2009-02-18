@@ -461,6 +461,7 @@ begin
             (ActionList.ActionByName(sCmd) as TAction).ShortCut:= TextToShortCutEx(HotkeyList[I]);
         end;
     end;
+  FreeAndNil(slActionList);
 end;
 
 procedure THotKeyManager.Save(FileName: string);
@@ -538,6 +539,7 @@ begin
     end;
   
   FreeAndNil(st);
+  FreeAndNil(ini);
 end;
 
 procedure THotKeyManager.RegisterManagerForF(AObject: TCustomForm);
