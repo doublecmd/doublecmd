@@ -166,25 +166,27 @@ begin
   Screen.Cursor:=crHourGlass;
   try
     bPlugin:= CheckPlugins(iIndex);
-//    DebugLn('View: BeforeCheckGraphics:' + iIndex);
-    if CheckGraphics(FileList.Strings[iIndex]) then
-    begin
-//      DebugLn('View: LoadGraphics:' + iIndex);
-      LoadGraphics(FileList.Strings[iIndex]);
-    end
+    if bPlugin then
+      Status.Panels[2].Text:= WlxPlugins.GetWLxModule(ActivePlugin).Name
+//      DebugLn('View: BeforeCheckGraphics:' + iIndex);
+    else if CheckGraphics(FileList.Strings[iIndex]) then
+      begin
+//        DebugLn('View: LoadGraphics:' + iIndex);
+        LoadGraphics(FileList.Strings[iIndex]);
+      end
     else
-    begin
-//      DebugLn('View: LoadIntoViewer:' + iIndex);
+      begin
+//        DebugLn('View: LoadIntoViewer:' + iIndex);
 
-      miImage.Visible:=False;
-      miEdit.Visible:=True;
-      bImage:=False;
-      nbPages.ActivePageComponent:=pgText;
-      ViewerControl.UnMapFile; // if any mapped
-//      miProcess.Click;
-      ViewerControl.MapFile(FileList.Strings[iIndex]);     //handled by miProcess.Click
-      UpDateScrollBar;
-    end;
+        miImage.Visible:=False;
+        miEdit.Visible:=True;
+        bImage:=False;
+        nbPages.ActivePageComponent:=pgText;
+        ViewerControl.UnMapFile; // if any mapped
+//        miProcess.Click;
+        ViewerControl.MapFile(FileList.Strings[iIndex]);     //handled by miProcess.Click
+        UpDateScrollBar;
+      end;
     Status.Panels[0].Text:=FileList.Strings[iIndex];
     Status.Panels[1].Text:=Format('%d/%d',[iIndex+1,FileList.Count]);
     Status.Panels[3].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
@@ -260,7 +262,9 @@ procedure TfrmViewer.miPluginsClick(Sender: TObject);
 begin
   ViewerControl.UnMapFile; // if any mapped
   bPlugin:= CheckPlugins(iActiveFile, True);
-  if not bPlugin then
+  if bPlugin then
+    Status.Panels[2].Text:= WlxPlugins.GetWLxModule(ActivePlugin).Name
+  else
     ViewerControl.MapFile(FileList.Strings[iActiveFile]);
 end;
 
