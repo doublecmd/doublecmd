@@ -54,8 +54,11 @@ type
   { TIniFileEx }
 
   TIniFileEx = class(TIniFile)
+  private
+    FIniFileStream: TFileStreamEx;
   public
     constructor Create(const AFileName: String; Mode: Word = fmOpenReadWrite);
+    destructor Destroy; override;
     procedure UpdateFile; override;
   end;  
   
@@ -115,14 +118,12 @@ end;
 { TIniFileEx }
 
 constructor TIniFileEx.Create(const AFileName: String; Mode: Word);
-var
-  fsIniFile: TFileStreamEx;
 begin
   if mbFileExists(AFileName) then
-    fsIniFile:= TFileStreamEx.Create(AFileName, Mode or fmShareDenyNone)
+    FIniFileStream:= TFileStreamEx.Create(AFileName, Mode or fmShareDenyNone)
   else
-    fsIniFile:= TFileStreamEx.Create(AFileName, fmCreate);
-  inherited Create(fsIniFile);
+    FIniFileStream:= TFileStreamEx.Create(AFileName, fmCreate);
+  inherited Create(FIniFileStream);
 end; 
 
 procedure TIniFileEx.UpdateFile;
@@ -131,5 +132,11 @@ begin
   Stream.Size:= 0;
   inherited UpdateFile;
 end; 
+
+destructor TIniFileEx.Destroy;
+begin
+  FreeAndNil(FIniFileStream);
+  inherited Destroy;
+end;
 
 end.
