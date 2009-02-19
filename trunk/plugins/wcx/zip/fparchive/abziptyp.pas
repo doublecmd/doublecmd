@@ -622,7 +622,7 @@ uses
 //  Dialogs,                                                           {!!.04}
   {$ENDIF}
   {$IFDEF LINUX}
-  Libc,
+//  Libc,
   {$IFNDEF NoQt}
   {$IFDEF UsingCLX}
   QControls,

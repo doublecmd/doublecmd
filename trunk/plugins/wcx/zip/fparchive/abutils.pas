@@ -21,6 +21,8 @@
  *
  * Contributor(s):
  *
+ * Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+ *
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
@@ -40,7 +42,9 @@ uses
   Windows,
 {$ENDIF}
 {$IFDEF LINUX}
-  Libc,
+  UnixType,
+  Unix,
+  BaseUnix,
   DateUtils,
 {$ENDIF}
   SysUtils,
@@ -476,6 +480,8 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 {$IFDEF LINUX}
+function mktemp(__template:Pchar):Pchar;cdecl;external 'c' name 'mktemp';
+
 function GetTempFileName(const Path, Mask : string): string;
 {
 Returns a unique filename for use as a temporary
@@ -658,9 +664,9 @@ var
   Rslt : Integer;
 begin
   Result := -1;
-  Rslt := statfs(PAnsiChar(ExtractFilePath(Path)), FStats);
+  Rslt := fpStatFS(PAnsiChar(ExtractFilePath(Path)), @FStats);
   if Rslt = 0 then
-    Result := Int64(FStats.f_bAvail) * Int64(FStats.f_bsize);
+    Result := Int64(FStats.bAvail) * Int64(FStats.bsize);
 end;
 
 function LinuxVolumeSize(const Path : string): Int64;
@@ -669,9 +675,9 @@ var
   Rslt : Integer;
 begin
   Result := -1;
-  Rslt := statfs(PAnsiChar(ExtractFilePath(Path)), FStats);
+  Rslt := fpStatFS(PAnsiChar(ExtractFilePath(Path)), @FStats);
   if Rslt = 0 then
-    Result := Int64(FStats.f_blocks) * Int64(FStats.f_bsize);
+    Result := Int64(FStats.blocks) * Int64(FStats.bsize);
 end;
 {$ENDIF LINUX}
 
@@ -755,7 +761,7 @@ var
 {$ENDIF}
 {$IFDEF LINUX}
 var
-  SB: TStatBuf;
+  SB: TStat;
 {$ENDIF}
 
 begin
@@ -770,7 +776,7 @@ begin
 {$ENDIF}
 {$IFDEF LINUX}
   if FileExists(Path) then begin
-    stat(PAnsiChar(Path), SB);
+    fpstat(PAnsiChar(Path), SB);
       
     Result := (SB.st_mode and AB_FMODE_DIR) = AB_FMODE_DIR;
   end;
@@ -1373,7 +1379,7 @@ function AbFileGetAttr(const aFileName : string) : Integer;
 {$IFDEF LINUX}
 {$WARN SYMBOL_PLATFORM OFF}
 var
-  SB: TStatBuf;
+  SB: TStat;
 {$WARN SYMBOL_PLATFORM ON}
 {$ENDIF LINUX}
 begin
@@ -1385,7 +1391,7 @@ begin
 
   {$IFDEF LINUX}
   {$WARN SYMBOL_PLATFORM OFF}
-  stat(PAnsiChar(aFileName), SB);
+  fpstat(PAnsiChar(aFileName), SB);
   Result := AbUnix2DosFileAttributes(SB.st_mode);                        {!!.01}
   {$WARN SYMBOL_PLATFORM ON}
   {$ENDIF}
@@ -1401,7 +1407,7 @@ begin
 
   {$IFDEF LINUX}
   {$WARN SYMBOL_PLATFORM OFF}
-  chmod(PAnsiChar(aFileName), AbDOS2UnixFileAttributes(aAttr));          {!!.01}
+  fpchmod(PAnsiChar(aFileName), AbDOS2UnixFileAttributes(aAttr));          {!!.01}
   {$WARN SYMBOL_PLATFORM ON}
   {$ENDIF}
 end;
@@ -1420,7 +1426,7 @@ var
 {$ENDIF}
 {$IFDEF LINUX}
 var
-  StatBuf: TStatBuf64;
+  StatBuf: TStat;
 {$ENDIF}
 begin
 {$IFDEF MSWINDOWS}
@@ -1438,7 +1444,7 @@ begin
   end;                                                        {!!.02}
 {$ENDIF}
 {$IFDEF LINUX}
-  lstat64(PAnsiChar(aFileName), StatBuf);
+  fplstat(PAnsiChar(aFileName), @StatBuf);
   Result := StatBuf.st_size;
 {$ENDIF}
 end;
