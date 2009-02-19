@@ -109,7 +109,7 @@ uses
   Windows,
   {$ENDIF}
   {$IFDEF LINUX}
-  Libc,
+//  Libc,
   {$ENDIF}
   SysUtils,
   AbConst,
