@@ -58,7 +58,7 @@ type
     FTempName: String;
     FEncoding: String;
     FViewerMode:TViewerMode;
-    FFileHandle:Integer;
+    FFileHandle:THandle;
     FFileSize:PtrInt;
     FMappingHandle : THandle;
     FMappedFile:PChar;
@@ -152,6 +152,8 @@ begin
   FEncoding:= EncodingAnsi;
   FViewerMode:=vmBin;
   FMappedFile:=nil;
+  FFileHandle:=0;
+  FMappingHandle:=0;
   FPosition:=0;
   Width:=100;
   Height:=100;
@@ -419,8 +421,17 @@ begin
     UnMapFile; // if needed
 
   wFileName:= UTF8Decode(sFileName);
-  FFileHandle:= CreateFileW(PWChar(wFileName), GENERIC_READ, 0, nil, OPEN_EXISTING,
+  FFileHandle:= CreateFileW(PWChar(wFileName), GENERIC_READ,
+                            FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
+                            nil, OPEN_EXISTING,
                             FILE_ATTRIBUTE_NORMAL, 0);
+
+  if FFileHandle = INVALID_HANDLE_VALUE then
+  begin
+    FFileHandle := 0;
+    Exit;
+  end;
+
   FFileSize := GetFileSize(FFileHandle, nil);
   
   FMappingHandle := CreateFileMapping(FFileHandle, nil, PAGE_READONLY, 0, 0, nil);
@@ -431,6 +442,7 @@ begin
     begin
       FMappedFile:=nil;
       FileClose(FFileHandle);
+      FFileHandle := 0;
       Exit;
     end;
 
@@ -447,10 +459,15 @@ begin
     UnMapFile; // if needed
   FFileHandle:=fpOpen(PChar(sFileName), O_RDONLY);
   writeln('Trying map:'+sFileName);
-  if FFileHandle=-1 then Exit;
+  if FFileHandle = -1 then
+  begin
+    FFileHandle := 0;
+    Exit;
+  end;
   if fpFStat(FFileHandle, StatBuf) <> 0 then
   begin
     fpClose(FFileHandle);
+    FFileHandle := 0;
     Exit;
   end;
 
@@ -460,6 +477,7 @@ begin
   begin
     FMappedFile:=nil;
     fpClose(FFileHandle);
+    FFileHandle := 0;
     writeln('failed > try throught cat+stdin');
     if FTempName<>'' then
     begin
@@ -481,15 +499,23 @@ procedure TViewerControl.UnMapFile;
 {$IFDEF MSWINDOWS}
 begin
   if Assigned(FMappedFile) then
+  begin
     UnmapViewOfFile(FMappedFile);
-    
-  if FMappingHandle <> 0 then
-    CloseHandle(FMappingHandle);
-    
-  if FFileHandle >= 0 then
-    FileClose(FFileHandle);
+    FMappedFile:= nil;
+  end;
 
-  FMappedFile:= nil;
+  if FMappingHandle <> 0 then
+  begin
+    CloseHandle(FMappingHandle);
+    FMappingHandle := 0;
+  end;
+    
+  if FFileHandle <> 0 then
+  begin
+    FileClose(FFileHandle);
+    FFileHandle := 0;
+  end;
+
 end;
 {$ELSE}
 begin
@@ -502,6 +528,7 @@ begin
   end;
   if not assigned(FMappedFile) then Exit;
   fpClose(FFileHandle);
+  FFileHandle := 0;
   fpmunmap(FMappedFile,FFileSize);
   FMappedFile:=nil;
   writeln('Unmap file done');
