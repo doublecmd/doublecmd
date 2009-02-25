@@ -198,35 +198,21 @@ var
   sr: TSearchRec;
 begin
 //  DebugLn('Enter LoadFilesbyDir');
-  Result:= True;
+  Result:= False;
   fl.Clear;
   fl.CurrentDirectory := IncludeTrailingPathDelimiter(sDir);
   if FindFirstEx('*',faAnyFile,sr)<>0 then
   begin
-    with fr do     // append "blank dir"
-    begin
-      fr.sName:='..';
-      fr.sNameNoExt:='..';
-      fr.sExt:='';
-      fr.iDirSize:=0;
-      fr.iMode:=0;
-      fr.bExecutable:=False;
-      fr.bSysFile := False;
-      fr.bIsLink:=False;
-      fr.sLinkTo:='';
-      fr.bLinkIsDir:=False;
-      fr.bSelected:=False;
-      fr.sModeStr:='';
-      fr.iSize:=0;
-      fl.AddItem(@fr);
-    end;
+    { No files have been found. }
     FindCloseEx(sr);
     Exit;
   end;
   repeat
     if sr.Name='.' then Continue;
-    if ((sDir=DirectorySeparator) or (sDir=(ExtractFileDrive(sDir)+PathDelim))) and (sr.Name='..') then Continue;
     if sr.Name='' then Continue;
+
+    // Don't include '..' in the root directory.
+    if ((sDir=DirectorySeparator) or (sDir=(ExtractFileDrive(sDir)+PathDelim))) and (sr.Name='..') then Continue;
 
     // get TFileRecItem structure by SearchRec
     fr:= LoadFileInfoBySearchRec(sDir, sr);

@@ -361,7 +361,6 @@ type
   private
     { Private declarations }
     PanelSelected:TFilePanelSelect;
-    bAltPress:Boolean;
     DrivesList : TList;
     MainSplitterHintWnd: THintWindow;
     
@@ -776,6 +775,7 @@ procedure TfrmMain.MainToolBarDragDrop(Sender, Source: TObject; X, Y: Integer);
 var
   sFileName : String;
 begin
+  if ActiveFrame.IsActiveItemValid then
   with ActiveFrame, ActiveFrame.GetActiveItem^ do
     begin
       sFileName := ActiveDir + sName;
@@ -788,7 +788,10 @@ end;
 procedure TfrmMain.MainToolBarDragOver(Sender, Source: TObject; X, Y: Integer;
   State: TDragState; var Accept: Boolean);
 begin
-  Accept := True;
+  if ActiveFrame.IsActiveItemValid then
+    Accept := True
+  else
+    Accept := False;
 end;
 
 function TfrmMain.MainToolBarLoadButtonGlyph(sIconFileName: String;
@@ -1166,14 +1169,18 @@ begin
       begin
         if (edtCommand.Text='') then
         begin
-          if pnlFile.PanelMode = pmDirectory then
-            Screen.Cursor:=crHourGlass;
-          try
-            pnlFile.ChooseFile(pnlFile.GetActiveItem);
-            UpDatelblInfo;
-          finally
-            dgPanel.Invalidate;
-            Screen.Cursor:=crDefault;
+          // Only if there are items in the panel.
+          if not IsEmpty then
+          begin
+            if pnlFile.PanelMode = pmDirectory then
+              Screen.Cursor:=crHourGlass;
+            try
+              pnlFile.ChooseFile(pnlFile.GetActiveItem);
+              UpDatelblInfo;
+            finally
+              dgPanel.Invalidate;
+              Screen.Cursor:=crDefault;
+            end;
           end;
           Exit;
         end
@@ -1194,7 +1201,12 @@ begin
       begin
         mbSetCurrentDir(ActiveDir);
         if (not edtCommand.Focused) and (edtCommand.Tag = 0) then
-          ExecCmdFork(ActiveDir + pnlFile.GetActiveItem^.sName, True, gRunInTerm)
+        begin
+          if IsActiveItemValid then
+          begin
+            ExecCmdFork(ActiveDir + pnlFile.GetActiveItem^.sName, True, gRunInTerm);
+          end;
+        end
         else
           begin
             // execute command line
@@ -1208,19 +1220,23 @@ begin
       // ctrl enter
       if Shift=[ssCtrl] then
       begin
-        edtCmdLine.Text:=edtCmdLine.Text+pnlFile.GetActiveItem^.sName+' ';
+        if IsActiveItemValid then
+          edtCmdLine.Text:=edtCmdLine.Text+pnlFile.GetActiveItem^.sName+' ';
         Exit;
       end;
       // ctrl+shift+enter
       if Shift=[ssShift,ssCtrl] then
       begin
-        if (pnlFile.GetActiveItem^.sName = '..') then
+        if Assigned(GetActiveItem) then
         begin
-          edtCmdLine.Text:=edtCmdLine.Text+(pnlFile.ActiveDir) + ' ';
-        end
-        else
-        begin
-          edtCmdLine.Text:=edtCmdLine.Text+(pnlFile.ActiveDir) + pnlFile.GetActiveItem^.sName+' ';
+          if (pnlFile.GetActiveItem^.sName = '..') then
+          begin
+            edtCmdLine.Text:=edtCmdLine.Text+(pnlFile.ActiveDir) + ' ';
+          end
+          else
+          begin
+            edtCmdLine.Text:=edtCmdLine.Text+(pnlFile.ActiveDir) + pnlFile.GetActiveItem^.sName+' ';
+          end;
         end;
         Exit;
       end;
@@ -1330,7 +1346,6 @@ var
 begin
   with ActiveFrame do
   begin
-    SelectFileIfNoSelected(GetActiveItem);
     iSelCnt:=pnlFile.GetSelectedCount;
     if iSelCnt=0 then Abort;
     if iSelCnt >1 then
@@ -1477,6 +1492,12 @@ begin
   begin
     if not bDisplayMessage then  // Calculate by <Space> key
       begin
+        if not IsActiveItemValid then
+        begin
+          FreeAndNil(fl);
+          Exit;
+        end;
+
         p:= GetActiveItem^;
         p.sNameNoExt:= p.sName; //dstname
         p.sName:= ActiveDir+p.sName;
@@ -1486,7 +1507,12 @@ begin
       end
     else
       begin
-        SelectFileIfNoSelected(GetActiveItem);
+        if SelectFileIfNoSelected(GetActiveItem) = False then
+        begin
+          FreeAndNil(fl);
+          Exit;
+        end;
+
         CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
       end;
   end;
@@ -1589,7 +1615,11 @@ begin
     try
       edtDst.Text:= sDestPath;
       lblMoveSrc.Caption:= sCopyQuest;
-      if ShowModal = mrCancel then   Exit ; // throught finally
+      if ShowModal = mrCancel then
+      begin
+         FreeAndNil(srcFileList);
+         Exit; // throught finally
+      end;
       sDestPath:= ExtractFilePath(edtDst.Text);
       sDstMaskTemp:= ExtractFileName(edtDst.Text);
     finally
@@ -1649,7 +1679,10 @@ begin
       cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
       cbDropReadOnlyFlag.Visible := (dstFramePanel.pnlFile.PanelMode = pmDirectory);
       if ShowModal = mrCancel then
-        Exit ; // throught finally
+      begin
+        FreeAndNil(srcFileList);
+        Exit; // throught finally
+      end;
       sDestPath:=ExtractFilePath(edtDst.Text);
       sDstMaskTemp:=ExtractFileName(edtDst.Text);
       blDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
@@ -1684,36 +1717,44 @@ var
   sDstMaskTemp:String;
   sCopyQuest:String;
 begin
-  fl:= TFileList.Create; // free at Thread end by thread
-  try
-    sCopyQuest:=GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr);
-    CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
+  // Exit if no valid files selected.
+  if ActiveFrame.SelectFileIfNoSelected(ActiveFrame.GetActiveItem) = False then Exit;
 
-    if (ActiveFrame.pnlFile.GetSelectedCount=1) then
-    with ActiveFrame.pnlFile do
-    begin
-      if sDestPath='' then
-        begin
+  if (ActiveFrame.pnlFile.GetSelectedCount=1) then
+  with ActiveFrame.pnlFile do
+  begin
+    if sDestPath='' then
+      begin
+        if ActiveFrame.IsActiveItemValid then
           ShowRenameFileEdit(ActiveDir + GetActiveItem^.sName);
-          Exit;
-        end
-      else
-        begin
-          if FPS_ISDIR(GetActiveItem^.iMode) then
-            sDestPath:=sDestPath + '*.*'
-          else
-            sDestPath:=sDestPath + ExtractFileName(GetActiveItem^.sName);
-        end;
-    end
+        Exit;
+      end
     else
-      sDestPath:=sDestPath+'*.*';
+      begin
+        if FPS_ISDIR(GetActiveItem^.iMode) then
+          sDestPath:=sDestPath + '*.*'
+        else
+          sDestPath:=sDestPath + ExtractFileName(GetActiveItem^.sName);
+      end;
+  end
+  else
+    sDestPath:=sDestPath+'*.*';
+
+  try
+    fl:= TFileList.Create; // free at Thread end by thread
+    CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
 
     with TfrmMoveDlg.Create(Application) do
     begin
       try
         edtDst.Text:=sDestPath;
+        sCopyQuest:=GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr);
         lblMoveSrc.Caption:=sCopyQuest;
-        if ShowModal=mrCancel then Exit; // throught finally
+        if ShowModal=mrCancel then
+        begin
+          FreeAndNil(fl); // Free now, because the thread won't be run.
+          Exit; // throught finally
+        end;
 
         sCopyQuest := ExtractFilePath(edtDst.Text);
         if Length(sCopyQuest) <> 0 then
@@ -1750,7 +1791,6 @@ var
   sCopyQuest:String;
   blDropReadOnlyFlag : Boolean;
 begin
-
   if (ActiveFrame.pnlFile.PanelMode in [pmVFS, pmArchive]) and
      (NotActiveFrame.pnlFile.PanelMode in [pmVFS, pmArchive]) then
     begin
@@ -1758,12 +1798,11 @@ begin
       Exit;
     end;
 
+  // Exit if no valid files selected.
+  if ActiveFrame.SelectFileIfNoSelected(ActiveFrame.GetActiveItem) = False then Exit;
+
   fl:=TFileList.Create; // free at Thread end by thread
   try
-    sCopyQuest:=GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr);
-
-    CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
-
     CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
 
     if (ActiveFrame.pnlFile.GetSelectedCount=1) and not (FPS_ISDIR(ActiveFrame.pnlFile.GetActiveItem^.iMode) or ActiveFrame.pnlFile.GetActiveItem^.bLinkIsDir) then
@@ -1808,11 +1847,15 @@ begin
     begin
       try
         edtDst.Text:=sDestPath;
+        sCopyQuest:=GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr);
         lblCopySrc.Caption := sCopyQuest;
         cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
         cbDropReadOnlyFlag.Visible := (NotActiveFrame.pnlFile.PanelMode = pmDirectory);
         if ShowModal=mrCancel then
+        begin
+          FreeAndNil(fl); // Free now, because the thread won't be run.
           Exit ; // throught finally
+        end;
         sDestPath:=ExtractFilePath(edtDst.Text);
         sDstMaskTemp:=ExtractFileName(edtDst.Text);
         blDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
@@ -1888,8 +1931,6 @@ begin
     Exit;
   end;
 
-  bAltPress:=(Shift=[ssAlt]);
-
   // CTRL+PgUp
   if (Shift=[ssCtrl]) and (Key=VK_PRIOR) then
   begin
@@ -1904,7 +1945,7 @@ begin
   begin
     with ActiveFrame do
     begin
-      if not (pnlFile.GetActiveItem^.sName='..') then
+      if IsActiveItemValid then
         begin
           if FPS_ISDIR(pnlFile.GetActiveItem^.iMode) or (pnlFile.GetActiveItem^.bLinkIsDir) then
             pnlFile.cdDownLevel(pnlFile.GetActiveItem)
@@ -1929,7 +1970,8 @@ begin
   begin
     with ActiveFrame do
     begin
-      pnlFile.ChooseFile(pnlFile.GetActiveItem);
+      if Assigned(GetActiveItem) then
+        pnlFile.ChooseFile(pnlFile.GetActiveItem);
     end;
     Key:=0;
     Exit;
@@ -1942,8 +1984,6 @@ begin
     Exit;
   end;
 //  DebugLn(Key);
-
-  bAltPress:=False;
 
   if (shift=[ssCtrl]) and (Key=VK_Up) then
   begin
@@ -1962,19 +2002,25 @@ begin
   end;
 
   // handle Space key
-  if (Shift=[]) and (Key=VK_Space) and (edtCommand.Text='') and (edtCommand.Text='') then
+  if (Shift=[]) and (Key=VK_Space) and (edtCommand.Text='') then
   begin
     with ActiveFrame do
     begin
-//      if not AnySelected then Exit;
-      if FPS_ISDIR(pnlFile.GetActiveItem^.iMode) then
-        CalculateSpace(False);
-      SelectFile(GetActiveItem);
-      if gSpaceMovesDown then
-        dgPanel.Row:= dgPanel.Row + 1;
-      dgPanel.Invalidate;
-      MakeSelectedVisible;
+      if not IsEmpty then
+      begin
+        if IsActiveItemValid then
+        begin
+          if FPS_ISDIR(pnlFile.GetActiveItem^.iMode) then
+            CalculateSpace(False);
+          SelectFile(GetActiveItem);
+        end;
+        if gSpaceMovesDown then
+          dgPanel.Row:= dgPanel.Row + 1;
+        dgPanel.Invalidate;
+        MakeSelectedVisible;
+      end;
     end;
+    Key := 0;
     Exit;
   end;
 
@@ -1986,6 +2032,7 @@ begin
       pnlFile.cdUpLevel;
       RedrawGrid;
     end;
+    Key := 0;
     Exit;
   end;
 end;
