@@ -128,7 +128,8 @@ type
     procedure LoadPanel;
     procedure SetFocus;
     procedure SelectFile(frp:PFileRecItem);
-    procedure SelectFileIfNoSelected(frp:PFileRecItem);
+    { Returns True if at least one file is/was selected. }
+    function  SelectFileIfNoSelected(frp:PFileRecItem):Boolean;
     procedure UnSelectFileIfSelected(frp:PFileRecItem);
     procedure MakeVisible(iRow:Integer);
     procedure MakeSelectedVisible;
@@ -150,6 +151,9 @@ type
     procedure ClearGridSelection;
     procedure RedrawGrid;
     function GetActiveItem:PFileRecItem;
+    { Returns True if there are no files shown in the panel. }
+    function IsEmpty:Boolean;
+    function IsActiveItemValid:Boolean;
     property ActiveDir:String read GetActiveDir;
     property GridVertLine: Boolean read fGridVertLine write SetGridVertLine;
     property GridHorzLine: Boolean read fGridHorzLine write SetGridHorzLine;
@@ -193,23 +197,33 @@ begin
   UpDatelblInfo;
 end;
 
-procedure TFrameFilePanel.SelectFileIfNoSelected(frp:PFileRecItem);
+function TFrameFilePanel.SelectFileIfNoSelected(frp:PFileRecItem):Boolean;
 var
   i:Integer;
 begin
   FLastAutoSelect:= False;
   for i:=0 to pnlFile.FileList.Count-1 do
   begin
-    if pnlFile.FileList.GetItem(i)^.bSelected then Exit;
+    if pnlFile.FileList.GetItem(i)^.bSelected then
+    begin
+      Result := True;
+      Exit;
+    end;
   end;
-  pnlFile.InvertFileSection(frp);
-  UpDatelblInfo;
-  FLastAutoSelect:= True;
+  if pnlFile.IsItemValid(frp) then
+  begin
+    pnlFile.InvertFileSection(frp);
+    UpDatelblInfo;
+    FLastAutoSelect:= True;
+    Result := True;
+  end
+  else
+    Result := False;
 end;
 
 procedure TFrameFilePanel.UnSelectFileIfSelected(frp:PFileRecItem);
 begin
-  if FLastAutoSelect and (frp^.bSelected) then
+  if FLastAutoSelect and Assigned(frp) and (frp^.bSelected) then
     begin
       pnlFile.InvertFileSection(frp);
       UpDatelblInfo;
@@ -230,7 +244,10 @@ var
 begin
   if dgPanel.Row>=0 then
   begin
-    pnlFile.LastActive:=pnlFile.GetActiveItem^.sName;
+    if Assigned(pnlFile.GetActiveItem) then
+      pnlFile.LastActive:=pnlFile.GetActiveItem^.sName
+    else
+      pnlFile.LastActive:='';
   end;
   if pnlFile.PanelMode = pmDirectory then
     pnlFile.LoadPanel
@@ -258,7 +275,7 @@ procedure TFrameFilePanel.Init;
 begin
   ClearCmdLine;
   UpDatelblInfo;
-  FLastMark:= '*.*';
+  FLastMark:= '*';
   FLastAutoSelect:= False;
   if dgPanel.RowCount < Integer(gTabHeader) then
     dgPanel.RowCount:= Integer(gTabHeader);
@@ -291,9 +308,12 @@ begin
 
   fl:= TFileList.Create;
   try
-    SelectFileIfNoSelected(GetActiveItem);
-    CopyListSelectedExpandNames(pnlFile.FileList, fl, ActiveDir);
-    DoDragDropEx(fl);
+    if SelectFileIfNoSelected(GetActiveItem) = True then
+    begin
+      CopyListSelectedExpandNames(pnlFile.FileList, fl, ActiveDir);
+
+      DoDragDropEx(fl);
+    end;
   finally
     FreeAndNil(fl);
   end;
@@ -704,6 +724,7 @@ procedure TFrameFilePanel.MarkPlus;
 var
   s:String;
 begin
+  if IsEmpty then Exit;
   s:=FLastMark;
   if not ShowInputComboBox(rsMarkPlus, rsMaskInput, glsMaskHistory, s) then Exit;
   FLastMark:=s;
@@ -713,6 +734,7 @@ end;
 
 procedure TFrameFilePanel.MarkShiftPlus;
 begin
+  if IsActiveItemValid then
   with GetActiveItem^ do
   begin
     pnlFile.MarkGroup('*'+sExt, True);
@@ -722,6 +744,7 @@ end;
 
 procedure TFrameFilePanel.MarkShiftMinus;
 begin
+  if IsActiveItemValid then
   with GetActiveItem^ do
   begin
     pnlFile.MarkGroup('*'+sExt ,False);
@@ -733,6 +756,7 @@ procedure TFrameFilePanel.MarkMinus;
 var
   s:String;
 begin
+  if IsEmpty then Exit;
   s:=FLastMark;
   if not ShowInputComboBox(rsMarkMinus, rsMaskInput, glsMaskHistory, s) then Exit;
   FLastMark:=s;
@@ -1104,15 +1128,17 @@ end;
 procedure TFrameFilePanel.dgPanelKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if Key=VK_Insert then
+  if Key=VK_INSERT then
   begin
-    SelectFile(GetActiveItem);
-//    dgPanel.Invalidate(ListView.Items[ListView.Selected.Index].DisplayRect, True);
-//    dgPanel.Invalidate;
-    if dgPanel.Row<dgPanel.RowCount-1 then
-      dgPanel.Row:=dgPanel.Row+1;
-    MakeSelectedVisible;
-    dgPanel.Invalidate;
+    if not IsEmpty then
+    begin
+      if IsActiveItemValid then
+        SelectFile(GetActiveItem);
+      dgPanel.InvalidateRow(dgPanel.Row);
+      if dgPanel.Row<dgPanel.RowCount-1 then
+        dgPanel.Row:=dgPanel.Row+1;
+      MakeSelectedVisible;
+    end;
     Exit;
   end;
 
@@ -1147,9 +1173,12 @@ begin
 
   if ((Key=VK_DOWN) or (Key=VK_UP)) and (ssShift in Shift) then
     begin
-      SelectFile(GetActiveItem);
-      if (dgPanel.Row=dgPanel.RowCount-1) or (dgPanel.Row=dgPanel.FixedRows) then
-        dgPanel.Invalidate;
+      if IsActiveItemValid then
+      begin
+        SelectFile(GetActiveItem);
+        if (dgPanel.Row=dgPanel.RowCount-1) or (dgPanel.Row=dgPanel.FixedRows) then
+          dgPanel.Invalidate;
+      end;
     end;
 
   {$IFDEF LCLGTK2}
@@ -1162,6 +1191,16 @@ end;
 function TFrameFilePanel.GetActiveItem:PFileRecItem;
 begin
   Result:=pnlFile.GetActiveItem;
+end;
+
+function TFrameFilePanel.IsEmpty:Boolean;
+begin
+  Result := pnlFile.IsEmpty;
+end;
+
+function TFrameFilePanel.IsActiveItemValid:Boolean;
+begin
+  Result := pnlFile.IsItemValid(GetActiveItem);
 end;
 
 procedure TFrameFilePanel.lblLPathMouseEnter(Sender: TObject);

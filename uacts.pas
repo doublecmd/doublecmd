@@ -323,8 +323,9 @@ with frmMain, ActiveFrame do
         Exit;
       end;
 
-    fl := TFileList.Create;
-    SelectFileIfNoSelected(GetActiveItem);
+    if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+
+    fl := TFileList.Create;  // ShowContextMenu frees 'fl'.
     CopyListSelectedExpandNames(pnlFile.FileList, fl, ActiveDir, False);
 
     if param  = 'OnMouseClick' then
@@ -354,10 +355,10 @@ var
   I: Integer;
   sl: TStringList;
 begin
-  sl:= TStringList.Create;
   with frmmain.ActiveFrame do
   begin
-    SelectFileIfNoSelected(GetActiveItem);
+    if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+    sl:= TStringList.Create;
     for I:=0 to pnlFile.FileList.Count - 1 do
       if pnlFile.FileList.GetItem(I)^.bSelected then
         sl.Add(ActiveDir + pnlFile.FileList.GetItem(I)^.sName);
@@ -373,10 +374,10 @@ var
   I: Integer;
   sl: TStringList;
 begin
-  sl:= TStringList.Create;
   with frmMain.ActiveFrame do
   begin
-    SelectFileIfNoSelected(GetActiveItem);
+    if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+    sl:= TStringList.Create;
     for I:=0 to pnlFile.FileList.Count - 1 do
       if pnlFile.FileList.GetItem(I)^.bSelected then
         sl.Add(pnlFile.FileList.GetItem(I)^.sName);
@@ -420,7 +421,8 @@ var
 begin
   with FrmMain.ActiveFrame do
   begin
-    if fpS_ISDIR(pnlFile.GetActiveItem^.iMode) then
+    if IsEmpty then Exit;
+    if IsActiveItemValid and FPS_ISDIR(pnlFile.GetActiveItem^.iMode) then
       sDir:= FrmMain.ActiveFrame.ActiveDir + pnlFile.GetActiveItem^.sName
     else
       sDir:= FrmMain.ActiveFrame.ActiveDir;
@@ -454,12 +456,20 @@ end;
 
 procedure TActs.cm_OpenArchive(param:string);
 begin
-  FrmMain.ActiveFrame.pnlFile.TryOpenArchive(FrmMain.ActiveFrame.GetActiveItem);
+  with frmMain.ActiveFrame.pnlFile do
+  begin
+    if IsItemValid(GetActiveItem) then
+      TryOpenArchive(GetActiveItem);
+  end;
 end;
 
 procedure TActs.cm_Open(param:string);
 begin
-  FrmMain.ActiveFrame.pnlFile.ChooseFile(FrmMain.ActiveFrame.GetActiveItem);
+  with frmMain.ActiveFrame.pnlFile do
+  begin
+    if IsItemValid(GetActiveItem) then
+      ChooseFile(GetActiveItem);
+  end;
 end;
 
 procedure TActs.cm_OpenVFSList(param:string);
@@ -479,10 +489,11 @@ begin
   Result:= False;
   if not IsBlocked then
     begin
-      fl:=TFileList.Create;
       with FrmMain.ActiveFrame do
         begin
-          SelectFileIfNoSelected(GetActiveItem);
+          if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+
+          fl:=TFileList.Create;
           CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
 
           fl.CurrentDirectory := ActiveDir;
@@ -570,7 +581,7 @@ begin
         Exit;
       end; // in VFS
 
-    SelectFileIfNoSelected(GetActiveItem);
+    if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
   end;
 
   case msgYesNoCancel(frmMain.GetFileDlgStr(rsMsgDelSel,rsMsgDelFlDr)) of
@@ -831,6 +842,8 @@ with frmMain do
 begin
   with ActiveFrame do
   begin
+    if IsEmpty then Exit;
+
     SelectFileIfNoSelected(GetActiveItem);
     sl:= TStringList.Create;
     try
@@ -895,7 +908,7 @@ begin
       else
         begin
           fr := pnlFile.GetActiveItem;
-          if (FPS_ISDIR(fr^.iMode) or fr^.bLinkIsDir) then
+          if Assigned(fr) and ((FPS_ISDIR(fr^.iMode) or fr^.bLinkIsDir)) then
             begin
               Screen.Cursor:=crHourGlass;
               try
@@ -918,7 +931,6 @@ end;
 
 procedure TActs.cm_Edit(param:string);
 var
-//  sl:TStringList;
   i:Integer;
   fr:PFileRecItem;
   sFileName,
@@ -934,7 +946,9 @@ begin
           UnMarkAll;
           Exit;
         end;
-      SelectFileIfNoSelected(GetActiveItem);
+
+      if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+
       try
       // in this time we only one file process
         for i:=0 to pnlFile.FileList.Count-1 do
@@ -957,11 +971,13 @@ end;
 
 procedure TActs.cm_Copy(param:string);
 begin
+  // Selection validation in CopyFile.
   frmMain.CopyFile(frmMain.NotActiveFrame.ActiveDir);
 end;
 
 procedure TActs.cm_Rename(param:string);
 begin
+  // Selection validation in RenameFile.
   frmMain.RenameFile(frmMain.NotActiveFrame.ActiveDir);
 end;
 
@@ -1050,7 +1066,7 @@ begin
           end;
       end; // in VFS
 
-    SelectFileIfNoSelected(GetActiveItem);
+    if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
   end;
 
   case msgYesNoCancel(GetFileDlgStr(rsMsgDelSel,rsMsgDelFlDr)) of
@@ -1116,10 +1132,11 @@ begin
   Result:= False;
   if not IsBlocked then
     begin
-      fl:=TFileList.Create;
       with ActiveFrame do
         begin
-          SelectFileIfNoSelected(GetActiveItem);
+          if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+
+          fl:=TFileList.Create;
           CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
 
           fl.CurrentDirectory := ActiveDir;
@@ -1205,6 +1222,8 @@ begin
   inherited;
 with frmMain do
 begin
+  if FrameLeft.IsEmpty or FrameRight.IsEmpty then Exit;
+
   with FrameLeft do
   begin
     SelectFileIfNoSelected(GetActiveItem);
@@ -1333,10 +1352,12 @@ begin
   inherited;
 with frmMain do
 begin
+  Result := False;
   try
     with ActiveFrame do
     begin
-      SelectFileIfNoSelected(GetActiveItem);
+      if SelectFileIfNoSelected(GetActiveItem) = False then Exit; // through finally
+
       sFile2 := pnlFile.GetActiveItem^.sName;
       sFile1 := ActiveDir + sFile2;
       if param <> '' then
@@ -1371,10 +1392,12 @@ begin
 with frmMain do
 begin
   inherited;
+  Result := False;
   try
     with ActiveFrame do
     begin
-      SelectFileIfNoSelected(GetActiveItem);
+      if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+
       sFile2 := pnlFile.GetActiveItem^.sName;
       sFile1 := ActiveDir + sFile2;
       if param <> '' then
@@ -1482,7 +1505,7 @@ with frmMain do
 begin
   with ActiveFrame do
   begin
-    SelectFileIfNoSelected(GetActiveItem);
+    if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
 
     sl:=TStringList.Create;
     try
@@ -1512,11 +1535,13 @@ end;
 
 procedure TActs.cm_CopySamePanel(param:string);
 begin
+  // Selection validation in CopyFile.
   frmMain.CopyFile('');
 end;
 
 procedure TActs.cm_RenameOnly(param:string);
 begin
+  // Selection validation in RenameFile.
   frmMain.RenameFile('');
 end;
 
@@ -1575,9 +1600,8 @@ begin
   inherited;
   with frmMain.ActiveFrame do
   begin
-    if FPS_ISDIR(pnlFile.GetActiveItem^.iMode) then
-      frmMain.CalculateSpace(True);
-    // I don't know what to do if the item is file or something else
+    // Selection validation in CalculateSpace.
+    frmMain.CalculateSpace(True);
   end;
 end;
 
@@ -1589,7 +1613,7 @@ begin
     try
       with ActiveFrame do
       begin
-        SelectFileIfNoSelected(GetActiveItem);
+        if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
         ShowFilePropertiesDialog(pnlFile.FileList, ActiveDir);
       end;
     finally
@@ -1611,7 +1635,7 @@ begin
   begin
     with ActiveFrame do
     begin
-      SelectFileIfNoSelected(GetActiveItem);
+      if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
       sl:=TStringList.Create;
       try
         for i:=0 to pnlFile.FileList.Count-1 do
@@ -1639,7 +1663,7 @@ begin
   begin
     with ActiveFrame do
     begin
-      SelectFileIfNoSelected(GetActiveItem);
+      if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
 
       sl:=TStringList.Create;
       try
@@ -1681,7 +1705,8 @@ procedure TActs.cm_EditComment(param: string);
 begin
   with frmMain.ActiveFrame do
   begin
-    ShowDescrEditDlg(ActiveDir + pnlFile.GetActiveItem^.sName);
+    if IsActiveItemValid then
+      ShowDescrEditDlg(ActiveDir + pnlFile.GetActiveItem^.sName);
   end;
 end;
 
@@ -1694,18 +1719,17 @@ begin
 
   with frmMain.ActiveFrame.pnlFile do
   begin
-    if (PanelMode in [pmArchive, pmVFS]) or (FileList.Count = 0) then Exit;
+    if (PanelMode in [pmArchive, pmVFS]) or IsEmpty then Exit;
+
+    if frmMain.ActiveFrame.SelectFileIfNoSelected(GetActiveItem) = False then Exit;
 
     sl := TStringList.Create;
 
-    for i := 0 to FileList.Count-1 do
-      if GetFileItem(i).bSelected then
-        sl.Add(ActiveDir + GetFileItem(i).sName);
-
-    if sl.Count = 0 then
-      sl.Add(ActiveDir + GetActiveItem^.sName);
-
     try
+      for i := 0 to FileList.Count-1 do
+        if GetFileItem(i).bSelected then
+          sl.Add(ActiveDir + GetFileItem(i).sName);
+
       case ClipboardMode of
         uClipboard.ClipboardCut:
             Result := uClipboard.CutToClipboard(sl);
@@ -1715,6 +1739,7 @@ begin
       end;
     finally
       FreeAndNil(sl);
+      frmMain.ActiveFrame.UnSelectFileIfSelected(GetActiveItem);
     end;
   end;
 end;

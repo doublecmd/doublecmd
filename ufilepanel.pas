@@ -85,6 +85,11 @@ type
     procedure UpdatePrompt;
     procedure SetActiveDir(const AValue:String);
     function GetActiveDir:String;
+    { Returns True if there are no files shown in the panel. }
+    function IsEmpty:Boolean;
+    { Returns True if item is not nil and not '..'.
+      May be extended to include other conditions. }
+    function IsItemValid(frp:PFileRecItem):Boolean;
     property OnBeforeChangeDirectory : TOnBeforeChangeDirectory read FOnBeforeChangeDirectory write FOnBeforeChangeDirectory;
     property OnAfterChangeDirectory : TOnAfterChangeDirectory read FOnAfterChangeDirectory write FOnAfterChangeDirectory;
 
@@ -178,7 +183,6 @@ begin
     with pfri^ do
     begin
       if (not gShowSystemFiles) and bSysFile then Continue;
-      if ((pfri^.sPath='') and (pfri^.sName='..') and (ActiveDir='/')) then  Continue;
       fRefList.Add(pfri);
     end;
   end;
@@ -392,8 +396,8 @@ end;
 
 procedure TFilePanel.InvertFileSection(frp:PFileRecItem);
 begin
-  if not gShowSystemFiles and (frp^.bSysFile) then Exit;
-  frp^.bSelected:=not frp^.bSelected;
+  if Assigned(frp) then
+    MarkFile(frp, not frp^.bSelected);
 end;
 
 procedure TFilePanel.InvertAllFiles;
@@ -522,22 +526,18 @@ end;
 procedure TFilePanel.MarkAllFiles(bMarked:Boolean);
 var
   i:Integer;
-  fr:PFileRecItem;
 
 begin
   for i:=0 to fFileList.Count-1 do
   begin
-    fr:=fFileList.GetItem(i);
-    if not gShowSystemFiles and (fr^.bSysFile) then
-// system files is always not selected if not showed
-      fr^.bSelected:=False
-    else
-      fr^.bSelected:=bMarked;
+    MarkFile(fFileList.GetItem(i), bMarked);
   end;
 end;
 
 procedure TFilePanel.MarkFile(frp:PFileRecItem; bMarked:Boolean);
 begin
+  if IsItemValid(frp) then
+  begin
     if not gShowSystemFiles and (frp^.bSysFile) then
       begin
 // system files is always not selected if not showed
@@ -547,6 +547,7 @@ begin
       begin
         frp^.bSelected:=bMarked;
       end;
+  end;
 end;
 
 function TFilePanel.GetSelectedCount:Integer;
@@ -659,6 +660,7 @@ end;
 function TFilePanel.GetActiveItem:PFileRecItem;
 begin
   Result:= nil;
+  if IsEmpty then Exit; // No files in the panel.
   if fPanel.Row < fPanel.FixedRows then
     fPanel.Row:= fPanel.FixedRows;
 //  DebugLn(fPanel.Row, ' ', fRefList.Count);
@@ -726,6 +728,19 @@ begin
   Result:= nil;
   if iIndex >= fRefList.Count then Exit;
   Result:= PFileRecItem(fRefList.Items[iIndex]);
+end;
+
+function TFilePanel.IsEmpty:Boolean;
+begin
+  Result := (fRefList.Count = 0);
+end;
+
+function TFilePanel.IsItemValid(frp:PFileRecItem):Boolean;
+begin
+  if Assigned(frp) and (frp^.sName <> '..') then
+    Result := True
+  else
+    Result := False;
 end;
 
 end.
