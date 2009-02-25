@@ -67,6 +67,9 @@ const       {Error codes returned to calling application}
   MEMPACK_DONE=         1;    {Function call finished OK, there is no more data}
 
 type
+  TArcHandle = type PtrUInt;
+
+type
   {Definition of callback functions called by the DLL}
   {Ask to swap disk for multi-volume archive}
   PChangeVolProc=^TChangeVolProc;

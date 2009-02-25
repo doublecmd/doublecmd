@@ -3,9 +3,7 @@
    -------------------------------------------------------------------------
    WCX plugin for working with *.zip, *.gz, *.tar, *.tgz archives
 
-
-   Copyright (C) 2007  Koblov Alexander (Alexx2000@mail.ru)
-
+   Copyright (C) 2007-2009  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -39,12 +37,12 @@ type
   end;
 
 {Mandatory functions}
-function OpenArchive (var ArchiveData : tOpenArchiveData) : THandle;stdcall;
-function ReadHeader (hArcData : THandle; var HeaderData : THeaderData) : Integer;stdcall;
-function ProcessFile (hArcData : THandle; Operation : Integer; DestPath, DestName : PChar) : Integer;stdcall;
-function CloseArchive (hArcData : THandle) : Integer;stdcall;
-procedure SetChangeVolProc (hArcData : THandle; pChangeVolProc1 : PChangeVolProc);stdcall;
-procedure SetProcessDataProc (hArcData : THandle; pProcessDataProc1 : TProcessDataProc);stdcall;
+function OpenArchive (var ArchiveData : tOpenArchiveData) : TArcHandle;stdcall;
+function ReadHeader (hArcData : TArcHandle; var HeaderData : THeaderData) : Integer;stdcall;
+function ProcessFile (hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PChar) : Integer;stdcall;
+function CloseArchive (hArcData : TArcHandle) : Integer;stdcall;
+procedure SetChangeVolProc (hArcData : TArcHandle; pChangeVolProc1 : PChangeVolProc);stdcall;
+procedure SetProcessDataProc (hArcData : TArcHandle; pProcessDataProc1 : TProcessDataProc);stdcall;
 {Optional functions}
 function PackFiles(PackedFile: pchar;  SubPath: pchar;  SrcPath: pchar;  AddList: pchar;  Flags: integer): Integer;stdcall;
 function DeleteFiles (PackedFile, DeleteList : PChar) : Integer;stdcall;
@@ -131,7 +129,7 @@ begin
    //WriteLN('MakeFileList = ' + Result);
 end;
 
-function OpenArchive (var ArchiveData : tOpenArchiveData) : THandle;
+function OpenArchive (var ArchiveData : tOpenArchiveData) : TArcHandle;
 var
   Arc : TAbZipKitEx;
 begin
@@ -146,7 +144,7 @@ begin
     Arc.OpenArchive(ArchiveData.ArcName);
     Arc.Tag := 0;
     //MessageBox(0,'OpenArchive','OpenArchive',16);
-    Result :=Cardinal(Arc);
+    Result := TArcHandle(Arc);
   except
     on EAbUnhandledType do ArchiveData.OpenResult := E_UNKNOWN_FORMAT;
   end;
@@ -155,7 +153,7 @@ begin
     Arc.Free;
 end;
 
-function ReadHeader (hArcData : THandle; var HeaderData : THeaderData) : Integer;
+function ReadHeader (hArcData : TArcHandle; var HeaderData : THeaderData) : Integer;
 var
   Arc : TAbZipKitEx;
   I, Size : Integer;
@@ -203,7 +201,7 @@ begin
 
 end;
 
-function ProcessFile (hArcData : THandle; Operation : Integer; DestPath, DestName : PChar) : Integer;
+function ProcessFile (hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PChar) : Integer;
 var
   Arc : TAbZipKitEx;
 begin
@@ -231,7 +229,7 @@ begin
   Result := 0;
 end;
 
-function CloseArchive (hArcData : THandle) : Integer;
+function CloseArchive (hArcData : TArcHandle) : Integer;
 var
  Arc : TAbZipKitEx;
 begin
@@ -241,11 +239,11 @@ begin
   Result := 0;
 end;
 
-procedure SetChangeVolProc (hArcData : THandle; pChangeVolProc1 : PChangeVolProc);
+procedure SetChangeVolProc (hArcData : TArcHandle; pChangeVolProc1 : PChangeVolProc);
 begin
 end;
 
-procedure SetProcessDataProc (hArcData : THandle; pProcessDataProc1 : TProcessDataProc);
+procedure SetProcessDataProc (hArcData : TArcHandle; pProcessDataProc1 : TProcessDataProc);
 var
  Arc : TAbZipKitEx;
 begin

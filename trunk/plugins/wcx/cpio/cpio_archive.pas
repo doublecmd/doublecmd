@@ -5,7 +5,7 @@
 //***************************************************************
 {
   Add some changes for Lazarus and Linux compability
-  Copyright (C) 2007  Koblov Alexander (Alexx2000@mail.ru)
+  Copyright (C) 2007-2009  Koblov Alexander (Alexx2000@mail.ru)
 }
 //***************************************************************
 // This code based on Christian Ghisler (support@ghisler.com) sources
@@ -37,7 +37,7 @@ const
 type
   PArchiveRec = ^TArchiveRec;
   TArchiveRec = record
-    handle_io      : Integer;
+    handle_io      : THandle;
     handle_file    : file;
     fname          : AnsiString;
     fdate          : Integer;
@@ -52,19 +52,19 @@ var
 
 function  GetPackerCaps : Integer; stdcall;
 
-function  OpenArchive(var ArchiveData : TOpenArchiveData) : Integer; stdcall;
-function  CloseArchive(hArcData : Integer) : Integer; stdcall;
-function  ReadHeader(hArcData : Integer; var HeaderData : THeaderData) : Integer; stdcall;
-function  ProcessFile(hArcData : Integer; Operation : Integer; DestPath : PChar; DestName : PChar) : Integer; stdcall;
-procedure SetProcessDataProc(hArcData : Integer; ProcessDataProc : TProcessDataProc); stdcall;
-procedure SetChangeVolProc(hArcData : Integer; ChangeVolProc : TChangeVolProc); stdcall;
+function  OpenArchive(var ArchiveData : TOpenArchiveData) : TArcHandle; stdcall;
+function  CloseArchive(hArcData : TArcHandle) : Integer; stdcall;
+function  ReadHeader(hArcData : TArcHandle; var HeaderData : THeaderData) : Integer; stdcall;
+function  ProcessFile(hArcData : TArcHandle; Operation : Integer; DestPath : PChar; DestName : PChar) : Integer; stdcall;
+procedure SetProcessDataProc(hArcData : TArcHandle; ProcessDataProc : TProcessDataProc); stdcall;
+procedure SetChangeVolProc(hArcData : TArcHandle; ChangeVolProc : TChangeVolProc); stdcall;
 
 implementation
 
 uses
   SysUtils;
 
-function GetArchiveID(hArcData : Integer) : Integer;
+function GetArchiveID(hArcData : THandle) : Integer;
 var
   i_rec   : Integer;
   arec    : PArchiveRec;
@@ -87,7 +87,7 @@ end;
 
 function OpenArchive;
 var
-  arch      : Integer;
+  arch      : THandle;
   arec      : PArchiveRec;
   filename  : String;
   fgError   : Boolean;
