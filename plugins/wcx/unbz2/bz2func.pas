@@ -4,7 +4,7 @@
    WCX plugin for extract *.bz2 archives
 
 
-   Copyright (C) 2007  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2009  Koblov Alexander (Alexx2000@mail.ru)
 
    based on:
      pasbzip.pas from FPC sources
@@ -32,12 +32,12 @@ interface
 uses uWCXhead;
 
 { Mandatory functions }
-function OpenArchive (var ArchiveData : tOpenArchiveData) : THandle;stdcall;
-function ReadHeader (hArcData : THandle; var HeaderData : THeaderData) : Integer;stdcall;
-function ProcessFile (hArcData : THandle; Operation : Integer; DestPath, DestName : PChar) : Integer;stdcall;
-function CloseArchive (hArcData : THandle) : Integer;stdcall;
-procedure SetChangeVolProc (hArcData : THandle; pChangeVolProc : TChangeVolProc);stdcall;
-procedure SetProcessDataProc (hArcData : THandle; pProcessDataProc : TProcessDataProc);stdcall;
+function OpenArchive (var ArchiveData : tOpenArchiveData) : TArcHandle;stdcall;
+function ReadHeader (hArcData : TArcHandle; var HeaderData : THeaderData) : Integer;stdcall;
+function ProcessFile (hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PChar) : Integer;stdcall;
+function CloseArchive (hArcData : TArcHandle) : Integer;stdcall;
+procedure SetChangeVolProc (hArcData : TArcHandle; pChangeVolProc : TChangeVolProc);stdcall;
+procedure SetProcessDataProc (hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);stdcall;
 { Optional functions }
 function CanYouHandleThisFile(FileName: PChar): Boolean;stdcall;
 
@@ -69,7 +69,7 @@ begin
 end;
 
   
-function OpenArchive (var ArchiveData : tOpenArchiveData) : THandle;
+function OpenArchive (var ArchiveData : tOpenArchiveData) : TArcHandle;
 begin
   if FileExists(ArchiveData.ArcName) then
     begin
@@ -81,7 +81,7 @@ begin
     Result := E_EOPEN;
 end;
 
-function ReadHeader (hArcData : THandle; var HeaderData : THeaderData) : Integer;
+function ReadHeader (hArcData : TArcHandle; var HeaderData : THeaderData) : Integer;
 var
   sr : TSearchRec;
 begin
@@ -104,7 +104,7 @@ begin
   Result := 0;
 end;
 
-function ProcessFile (hArcData : THandle; Operation : Integer; DestPath, DestName : PChar) : Integer;
+function ProcessFile (hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PChar) : Integer;
 var
   infile,outfile:Tbufstream;
   decoder:Tbzip2_decode_stream;
@@ -178,16 +178,16 @@ begin
 
 end;
 
-function CloseArchive (hArcData : THandle) : Integer;
+function CloseArchive (hArcData : TArcHandle) : Integer;
 begin
   Result := 0;
 end;
 
-procedure SetChangeVolProc (hArcData : THandle; pChangeVolProc : TChangeVolProc);
+procedure SetChangeVolProc (hArcData : TArcHandle; pChangeVolProc : TChangeVolProc);
 begin
 end;
 
-procedure SetProcessDataProc (hArcData : THandle; pProcessDataProc : TProcessDataProc);
+procedure SetProcessDataProc (hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);
 begin
   if Assigned(pProcessDataProc) then
     ProcessDataProc := pProcessDataProc

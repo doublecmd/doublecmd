@@ -9,7 +9,7 @@ uses
 
 {$E wcx}
 
-{$R *.res}
+{$IFDEF MSWINDOWS}{$R *.res}{$ENDIF}
 exports
   { Mandatory }
   OpenArchive,

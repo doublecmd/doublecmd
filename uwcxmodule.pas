@@ -375,7 +375,7 @@ end;
 
 function TWCXModule.VFSOpen(const sName: String; bCanYouHandleThisFile : Boolean = False): Boolean;
 var
-  ArcHandle : THandle;
+  ArcHandle : TArcHandle;
   ArcFile : tOpenArchiveData;
   ArcHeader : THeaderData;
   HeaderData : PHeaderData;
@@ -519,7 +519,7 @@ end;
 
 function TWCXModule.WCXCopyOut : Boolean;
 var
-  ArcHandle : THandle;
+  ArcHandle : TArcHandle;
   ArcFile : tOpenArchiveData;
   ArcHeader : THeaderData;
   Extract : Boolean;
