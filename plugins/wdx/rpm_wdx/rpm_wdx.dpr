@@ -21,7 +21,7 @@ uses
 
 {$E wdx}
 
-{$R *.res}
+{$IFDEF MSWINDOWS}{$R *.res}{$ENDIF}
 exports
   ContentGetDetectString    name 'ContentGetDetectString',
   ContentGetSupportedField  name 'ContentGetSupportedField',

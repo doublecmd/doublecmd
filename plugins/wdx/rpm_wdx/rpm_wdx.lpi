@@ -125,6 +125,10 @@
       </Options>
     </Linking>
     <Other>
+      <ConfigFile>
+        <CustomConfigFile Value="True"/>
+        <ConfigFilePath Value="fpc-$(TargetCPU).cfg"/>
+      </ConfigFile>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
