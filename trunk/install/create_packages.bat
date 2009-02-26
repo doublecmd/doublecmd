@@ -19,6 +19,10 @@ set BUILD_DC_TMP_DIR=%TEMP%\doublecmd-%DC_VER%
 rm -rf %BUILD_DC_TMP_DIR%
 %SVN_EXE% export ..\ %BUILD_DC_TMP_DIR%
 
+rem Save revision number
+mkdir %BUILD_DC_TMP_DIR%\.svn
+copy ..\.svn\entries %BUILD_DC_TMP_DIR%\.svn\
+
 rem Prepare package build dir
 rm -rf %BUILD_PACK_DIR%
 mkdir %BUILD_PACK_DIR%
