@@ -60,15 +60,19 @@ object frmEditSearchReplace: TfrmEditSearchReplace
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = cbReplaceText
     AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnOK
     Left = 12
-    Height = 144
+    Height = 113
     Top = 72
-    Width = 195
+    Width = 197
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
     BorderSpacing.Left = 12
     BorderSpacing.Top = 12
+    BorderSpacing.Right = 6
     Caption = 'Option'
-    ClientHeight = 126
-    ClientWidth = 191
+    ClientHeight = 95
+    ClientWidth = 193
     TabOrder = 1
     object cbSearchCaseSensitive: TCheckBox
       AnchorSideLeft.Control = gbSearchOptions
@@ -142,10 +146,10 @@ object frmEditSearchReplace: TfrmEditSearchReplace
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 213
+    Left = 215
     Height = 88
     Top = 72
-    Width = 188
+    Width = 186
     Anchors = [akTop, akLeft, akRight]
     AutoFill = True
     BorderSpacing.Left = 6
@@ -161,7 +165,7 @@ object frmEditSearchReplace: TfrmEditSearchReplace
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
     ClientHeight = 70
-    ClientWidth = 184
+    ClientWidth = 182
     Items.Strings = (
       '&Forward'
       '&Backward'
@@ -187,16 +191,18 @@ object frmEditSearchReplace: TfrmEditSearchReplace
     TabOrder = 3
   end
   object btnOK: TBitBtn
+    AnchorSideTop.Control = gbSearchOptions
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnCancel
-    AnchorSideBottom.Control = gbSearchOptions
+    AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 215
-    Height = 32
-    Top = 184
+    Height = 31
+    Top = 185
     Width = 90
-    Anchors = [akRight, akBottom]
+    Anchors = [akTop, akRight]
     BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 4
     Caption = '&OK'
     Default = True
     Kind = bkOK
@@ -206,17 +212,19 @@ object frmEditSearchReplace: TfrmEditSearchReplace
     TabOrder = 4
   end
   object btnCancel: TBitBtn
+    AnchorSideTop.Control = gbSearchOptions
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = gbSearchOptions
+    AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 311
-    Height = 32
-    Top = 184
+    Height = 31
+    Top = 185
     Width = 90
-    Anchors = [akRight, akBottom]
+    Anchors = [akTop, akRight]
     BorderSpacing.Right = 8
+    BorderSpacing.Bottom = 4
     Cancel = True
     Caption = 'Cancel'
     Kind = bkCancel
