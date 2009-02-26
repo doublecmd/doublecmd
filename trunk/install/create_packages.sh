@@ -15,6 +15,10 @@ BUILD_DC_TMP_DIR=/var/tmp/doublecmd-$DC_VER
 rm -rf $BUILD_DC_TMP_DIR
 svn export ../ $BUILD_DC_TMP_DIR
 
+# Save revision number
+mkdir $BUILD_DC_TMP_DIR/.svn
+cp -a ../.svn/entries $BUILD_DC_TMP_DIR/.svn/
+
 # Copy package description file
 cp linux/description-pak $BUILD_DC_TMP_DIR/
 

@@ -53,7 +53,7 @@ cp -a plugins/wcx/zip/ZipConfDlg.lfm       $DC_INSTALL_DIR/plugins/wcx/zip/
 # WDX
 cp -a plugins/wdx/rpm_wdx/lib/rpm_wdx.wdx  $DC_INSTALL_DIR/plugins/wdx/rpm_wdx/
 cp -a plugins/wdx/deb_wdx/lib/deb_wdx.wdx  $DC_INSTALL_DIR/plugins/wdx/deb_wdx/
-cp -a plugins/wdx/scripts/*                 $DC_INSTALL_DIR/plugins/wdx/scripts/
+install -m 644 plugins/wdx/scripts/*       $DC_INSTALL_DIR/plugins/wdx/scripts/
 # WLX
 cp -a plugins/wlx/WlxMplayer/lib/wlxMplayer.wlx  $DC_INSTALL_DIR/plugins/wlx/WlxMplayer/
 # DSX
