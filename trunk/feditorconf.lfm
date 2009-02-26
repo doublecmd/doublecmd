@@ -137,7 +137,7 @@ object frmEditorConf: TfrmEditorConf
     Left = 377
     Height = 32
     Top = 312
-    Width = 82
+    Width = 90
     Anchors = [akRight, akBottom]
     BorderSpacing.InnerBorder = 2
     Caption = 'Cancel'
@@ -151,7 +151,7 @@ object frmEditorConf: TfrmEditorConf
     Left = 260
     Height = 32
     Top = 312
-    Width = 82
+    Width = 90
     Anchors = [akRight, akBottom]
     BorderSpacing.InnerBorder = 2
     Caption = '&OK'

@@ -1,6 +1,6 @@
 object frmFindView: TfrmFindView
   Left = 365
-  Height = 97
+  Height = 104
   Top = 311
   Width = 344
   HorzScrollBar.Page = 343
@@ -12,10 +12,9 @@ object frmFindView: TfrmFindView
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Find'
-  ClientHeight = 97
+  ClientHeight = 104
   ClientWidth = 344
   OnShow = FormShow
-  ParentFont = False
   Position = poScreenCenter
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.27'
