@@ -650,10 +650,9 @@ end;
 (*Return a list of drives in system*)
 
 function GetAllDrives : TList;
+{$IFDEF MSWINDOWS}
 var
   Drive : PDrive;
-
-{$IFDEF MSWINDOWS}
   DriveNum: Integer;
   DriveBits: set of 0..25;
 begin
@@ -685,18 +684,33 @@ begin
 end;
 
 {$ELSE}
+  function MountEntryExists(DriveList: TList; MountDir: String): Boolean;
+  var
+    J: Integer;
+  begin
+    for J:= 0 to DriveList.Count - 1 do
+      if PDrive(DriveList.Items[J])^.Path = MountDir then
+        Exit(True);
+    Result:= False;
+  end;
+var
+  Drive : PDrive;
   fstab: PIOFile;
   pme: PMountEntry;
+  MntEntFileList: array[1..2] of PChar = (_PATH_FSTAB, _PATH_MOUNTED);
+  I: Integer;
 begin
   Result := TList.Create;
-  fstab:= setmntent(_PATH_FSTAB,'r');
+  for I:= Low(MntEntFileList) to High(MntEntFileList) do
+  begin
+  fstab:= setmntent(MntEntFileList[I],'r');
   if not Assigned(fstab) then exit;
   pme:= getmntent(fstab);
   while (pme <> nil) do
   begin
-    if (pme.mnt_dir <> '/') and (pme.mnt_dir <> 'none') and
+    if (pme.mnt_dir <> '/') and (pme.mnt_dir <> 'none') and (pme.mnt_fsname <> 'none') and
        (pme.mnt_dir <> 'swap') and (pme.mnt_dir <> '/proc') and 
-       (pme.mnt_dir <> '/dev/pts') then
+       (pme.mnt_dir <> '/dev/pts') and (MountEntryExists(Result, pme.mnt_dir) = False) then
        begin
          New(Drive);
          with Drive^ do
@@ -718,6 +732,7 @@ begin
     pme:= getmntent(fstab);
   end;
   endmntent(fstab);
+  end;
 end;
 {$ENDIF}
 
