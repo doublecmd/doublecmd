@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit uExts;
