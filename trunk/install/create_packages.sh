@@ -3,7 +3,7 @@
 # Set Double Commander version
 DC_VER=0.4.0
 # and architecture
-DC_ARCH=$(uname -m)
+DC_ARCH=$(fpc -iTP)
 # The new package will be saved here
 PACK_DIR="`dirs`"/linux/release
 
