@@ -684,14 +684,27 @@ begin
 end;
 
 {$ELSE}
-  function MountEntryExists(DriveList: TList; MountDir: String): Boolean;
+  function CheckMountEntry(DriveList: TList; MountEntry: PMountEntry): Boolean;
   var
     J: Integer;
   begin
-    for J:= 0 to DriveList.Count - 1 do
-      if PDrive(DriveList.Items[J])^.Path = MountDir then
-        Exit(True);
     Result:= False;
+    with MountEntry^ do
+    begin
+      // check mount dir first
+      if (mnt_dir = '/') or (mnt_dir = 'none') or (mnt_fsname = 'none') or
+         (mnt_dir = 'swap') or (mnt_dir = '/proc') or
+         (mnt_dir = '/dev/pts') then Exit;
+      // check file system type
+      if (mnt_type = 'tmpfs') or (mnt_type = 'proc') or (mnt_type = 'sysfs') or
+         (mnt_type = 'devpts') or (mnt_type = 'fusectl') or (mnt_type = 'securityfs') or
+         (mnt_type = 'binfmt_misc') or (mnt_type = 'fuse.gvfs-fuse-daemon') then Exit;
+      // if already added
+      for J:= 0 to DriveList.Count - 1 do
+        if PDrive(DriveList.Items[J])^.Path = mnt_dir then
+          Exit;
+    end;
+    Result:= True;
   end;
 var
   Drive : PDrive;
@@ -708,9 +721,7 @@ begin
   pme:= getmntent(fstab);
   while (pme <> nil) do
   begin
-    if (pme.mnt_dir <> '/') and (pme.mnt_dir <> 'none') and (pme.mnt_fsname <> 'none') and
-       (pme.mnt_dir <> 'swap') and (pme.mnt_dir <> '/proc') and 
-       (pme.mnt_dir <> '/dev/pts') and (MountEntryExists(Result, pme.mnt_dir) = False) then
+    if CheckMountEntry(Result, pme) then
        begin
          New(Drive);
          with Drive^ do
