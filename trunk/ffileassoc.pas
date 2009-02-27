@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     File associations configuration
 
-    Copyright (C) 2008  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -111,7 +111,7 @@ procedure ShowFileAssocDlg;
 implementation
 
 uses
-  LCLType, uGlobsPaths, uGlobs, uPixMapManager, uLng;
+  LCLType, uGlobsPaths, uGlobs, uPixMapManager, uLng, uOSUtils;
 
 procedure ShowFileAssocDlg;
 begin
@@ -132,7 +132,7 @@ var
 begin
   Exts := TExts.Create;
   // load extension file
-  if FileExists(gpIniDir + 'doublecmd.ext') then
+  if mbFileExists(gpIniDir + 'doublecmd.ext') then
     Exts.LoadFromFile(gpIniDir + 'doublecmd.ext');
   lbFileTypes.ItemHeight := gIconsSize + 4;
   // fill file types list box
