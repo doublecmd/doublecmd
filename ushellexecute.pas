@@ -110,7 +110,7 @@ begin
     sName:= ExtractFileName(sFileName);
     sPath:= ExtractFilePath(sFileName);
     sExt:= ExtractFileExt(sFileName);
-    sCommand:= gExts.GetExtActionCmd(LowerCase(sExt), sCmd);
+    sCommand:= gExts.GetExtActionCmd(FileRecItem, sCmd);
   end;
   if sCommand <> '' then
     begin

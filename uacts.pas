@@ -856,7 +856,7 @@ begin
             logWrite('View.Add: ' + ActiveDir + fr^.sName, lmtInfo);
 
           //now test if exists View command in doublecmd.ext :)
-          sViewCmd:= gExts.GetExtActionCmd(LowerCase(ExtractFileExt(fr^.sName)),'view');
+          sViewCmd:= gExts.GetExtActionCmd(fr^, 'view');
 
           case pnlFile.PanelMode of
           pmArchive, pmVFS: // if in Virtual File System
