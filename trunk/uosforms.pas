@@ -289,17 +289,17 @@ begin
 //------------------------------------------------------------------------------
 { Actions submenu }
     fri := FileList.GetItem(0)^;
-    if (FileList.Count = 1) and not (FPS_ISDIR(fri.iMode) or (fri.bLinkIsDir)) then
+    if (FileList.Count = 1) then
       begin
 	hActionsSubMenu := CreatePopupMenu;
-	InsertMenuItemEx(menu, hActionsSubMenu, PWChar(UTF8Decode(rsMnuActions)), 0, 333, MFT_STRING);
   
         // Read actions from doublecmd.ext
         sl:=TStringList.Create;
 
-        if gExts.GetExtActions(lowercase(ExtractFileExt(fri.sName)),sl) then
+        if gExts.GetExtActions(fri, sl) then
           begin
           //founded any commands
+            InsertMenuItemEx(menu, hActionsSubMenu, PWChar(UTF8Decode(rsMnuActions)), 0, 333, MFT_STRING);
             for i:=0 to sl.Count-1 do
               begin
                 sCmd:=sl.Strings[i];
@@ -310,9 +310,13 @@ begin
                 InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 0, I + $1000, MFT_STRING);
               end;
           end;
-    
-        // now add delimiter
-        InsertMenuItemEx(hActionsSubMenu,0, nil, 0, 0, MFT_SEPARATOR);
+    if not (FPS_ISDIR(fri.iMode) or (fri.bLinkIsDir)) then
+      begin
+        if sl.Count = 0 then
+          InsertMenuItemEx(menu, hActionsSubMenu, PWChar(UTF8Decode(rsMnuActions)), 0, 333, MFT_STRING)
+        else
+          // now add delimiter
+          InsertMenuItemEx(hActionsSubMenu,0, nil, 0, 0, MFT_SEPARATOR);
 
         // now add VIEW item
 	sCmd:= '{!VIEWER}' + fri.sPath + fri.sName;
@@ -323,6 +327,7 @@ begin
 	sCmd:= '{!EDITOR}' + fri.sPath + fri.sName;
         I := sl.Add(sCmd);
 	InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 1, I + $1000, MFT_STRING);
+      end;
       end;
 { /Actions submenu }
 //------------------------------------------------------------------------------
@@ -460,20 +465,20 @@ begin
   CM.Items.Add(mi);
 
   fri := FileList.GetItem(0)^;
-  if (FileList.Count = 1) and not (FPS_ISDIR(fri.iMode) or (fri.bLinkIsDir)) then
+  if (FileList.Count = 1) then
     begin
       FileRecItem:= fri;
       miActions:=TMenuItem.Create(CM);
       miActions.Caption:= rsMnuActions;
-      CM.Items.Add(miActions);
   
       { Actions submenu }
       // Read actions from doublecmd.ext
       sl:=TStringList.Create;
       try
-        if gExts.GetExtActions(lowercase(ExtractFileExt(fri.sName)),sl) then
+        if gExts.GetExtActions(fri, sl) then
           begin
-          //founded any commands
+            //founded any commands
+            CM.Items.Add(miActions);
             for i:=0 to sl.Count-1 do
               begin
                 sCmd:=sl.Strings[i];
@@ -487,25 +492,32 @@ begin
                 miActions.Add(mi);
               end;
           end;
-    
-        // now add delimiter
-        mi:=TMenuItem.Create(miActions);
-        mi.Caption:='-';
-        miActions.Add(mi);
+        if not (FPS_ISDIR(fri.iMode) or (fri.bLinkIsDir)) then
+          begin
+            if sl.Count = 0 then
+              CM.Items.Add(miActions)
+            else
+              begin
+                // now add delimiter
+                mi:=TMenuItem.Create(miActions);
+                mi.Caption:='-';
+                miActions.Add(mi);
+              end;
 
-        // now add VIEW item
-        mi:=TMenuItem.Create(miActions);
-        mi.Caption:='{!VIEWER}' + fri.sPath + fri.sName;
-        mi.Hint:=mi.Caption;
-        mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
-        miActions.Add(mi);
+            // now add VIEW item
+            mi:=TMenuItem.Create(miActions);
+            mi.Caption:='{!VIEWER}' + fri.sPath + fri.sName;
+            mi.Hint:=mi.Caption;
+            mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
+            miActions.Add(mi);
 
-        // now add EDITconfigure item
-        mi:=TMenuItem.Create(miActions);
-        mi.Caption:='{!EDITOR}' + fri.sPath + fri.sName;
-        mi.Hint:=mi.Caption;
-        mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
-        miActions.Add(mi);
+            // now add EDITconfigure item
+            mi:=TMenuItem.Create(miActions);
+            mi.Caption:='{!EDITOR}' + fri.sPath + fri.sName;
+            mi.Hint:=mi.Caption;
+            mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
+            miActions.Add(mi);
+          end;
       finally
         FreeAndNil(sl);
       end;

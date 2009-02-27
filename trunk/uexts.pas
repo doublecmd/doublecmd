@@ -15,7 +15,7 @@ unit uExts;
 
 interface
 uses
-  Classes, Contnrs;
+  Classes, Contnrs, uFileList, uTypes;
 type
   {en
      Class for storage actions by file extensions
@@ -109,14 +109,14 @@ type
        @param(sActionName Action name)
        @returns(Action command)
     }
-    function GetExtActionCmd(sExt:String; const sActionName:String):String;
+    function GetExtActionCmd(FileRecItem: TFileRecItem; const sActionName:String):String;
     {en
        Return list of actions by extension
        @param(sExt File extension)
        @param(slActions Actions list)
        @returns(The function returns @true if successful, @false otherwise)
     }
-    function GetExtActions(sExt:String; var slActions:TStringList):Boolean;
+    function GetExtActions(FileRecItem: TFileRecItem; var slActions:TStringList):Boolean;
     {en
        Indicates the number of items
     }
@@ -130,7 +130,7 @@ type
 
 implementation
 uses
-  LCLProc, SysUtils, uLog, uClassesEx;
+  LCLProc, SysUtils, uLog, uClassesEx, uOSUtils;
 
 constructor TExtAction.Create;
 begin
@@ -381,21 +381,26 @@ begin
   extFile.Free;
 end;
 
-function TExts.GetExtActions(sExt:String; var slActions:TStringList):Boolean;
+function TExts.GetExtActions(FileRecItem: TFileRecItem; var slActions:TStringList):Boolean;
 var
-  i:Integer;
+  I: Integer;
+  sMask: String;
 begin
   Result:=False;
-  if sExt='' then Exit;
-  if sExt[1]='.' then
-    Delete(sExt,1,1);
-  for i:=0 to FExtList.Count-1 do
+  if (FPS_ISDIR(FileRecItem.iMode) or (FileRecItem.bLinkIsDir)) then
+    sMask:= 'folder'
+  else
+    sMask:= LowerCase(FileRecItem.sExt);
+  if sMask = '' then Exit;
+  if sMask[1] = '.' then
+    Delete(sMask, 1, 1);
+  for I:= 0 to FExtList.Count - 1 do
     with GetItems(i) do
     begin
-      if Extensions.IndexOf(sExt) >= 0 then
+      if Extensions.IndexOf(sMask) >= 0 then
       begin
         slActions.Assign(Actions);
-        Result:=True;
+        Result:= True;
         Break;
       end;
     end;
@@ -433,26 +438,31 @@ begin
   FExtList.Delete(Index);
 end;
 
-function TExts.GetExtActionCmd(sExt:String; const sActionName:String):String;
+function TExts.GetExtActionCmd(FileRecItem: TFileRecItem; const sActionName:String):String;
 var
-  i:Integer;
+  I: Integer;
+  sMask: String;
 begin
-  Result:='';
-  if sExt='' then Exit;
-  if sExt[1]='.' then
-    Delete(sExt,1,1);
-  for i:=0 to FExtList.Count-1 do
-    with GetItems(i) do
+  Result:= '';
+  if (FPS_ISDIR(FileRecItem.iMode) or (FileRecItem.bLinkIsDir)) then
+    sMask:= 'folder'
+  else
+    sMask:= LowerCase(FileRecItem.sExt);
+  if sMask = '' then Exit;
+  if sMask[1] = '.' then
+    Delete(sMask, 1, 1);
+  for I:= 0 to FExtList.Count - 1 do
+    with GetItems(I) do
     begin
-      if Extensions.IndexOf(sExt) >= 0 then
+      if Extensions.IndexOf(sMask) >= 0 then
       begin
-        Result:=Actions.Values[UpperCase(sActionName)];
+        Result:= Actions.Values[UpperCase(sActionName)];
         Exit;
       end;
     end;
   // if command not found then try to find default command
-  for i:=0 to FExtList.Count-1 do
-    with GetItems(i) do
+  for I:= 0 to FExtList.Count - 1 do
+    with GetItems(I) do
     begin
       if Extensions.IndexOf('default') >= 0 then
       begin
