@@ -2174,7 +2174,7 @@ msgid "Date and time format:"
 msgstr "Formát data a času:"
 
 #: TFRMOPTIONS.LBLDSXDESCRIPTION.CAPTION
-msgid "Search plugins allow to use in search alternative search algorithms or external tools (like \"locate\", etc.)"
+msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "Vyhledávací pluginy umožňují použití při hledání alternativních vyhledávacích algoritmů nebo externích nástrojů (např. \"najít \", atd.)"
 
 #: TFRMOPTIONS.LBLEDITORFONT.CAPTION
@@ -3034,7 +3034,7 @@ msgid "Rename/move selected \"%s\"?"
 msgstr "Přejmenovat/přesunout vybrané \"%s\"?"
 
 #: ulng.rsmsgrestartforapplychanges
-msgid "Please, restart Double Commander for apply changes"
+msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Pro provedení změn restartujte program"
 
 #: ulng.rsmsgselected

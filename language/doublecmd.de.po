@@ -1883,7 +1883,7 @@ msgid "File system plugins"
 msgstr "Dateisystem Plugin"
 
 #: TFRMOPTIONS.CBLOGWINDOW.CAPTION
-msgid "Log window"
+msgid "Show log window"
 msgstr "Log-Datei anzeigen"
 
 #: TFRMOPTIONS.CBLYNXLIKE.CAPTION
@@ -2103,7 +2103,7 @@ msgid "Date and time format:"
 msgstr "Datums- und Zeitformat"
 
 #: TFRMOPTIONS.LBLDSXDESCRIPTION.CAPTION
-msgid "Search plugins allow to use in search alternative search algorithms or external tools (like \"locate\", etc.)"
+msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "Such-PlugIns erlauben alternative Such-Algorithmen oder externe Tools (wie \"locate\", oder ähnliches) zu nutzen"
 
 #: TFRMOPTIONS.LBLEDITORFONT.CAPTION
@@ -2995,7 +2995,7 @@ msgid "Rename/move selected \"%s\"?"
 msgstr "Datei / Verzeichnis \"%s kopieren / verschieben\"?"
 
 #: ulng.rsmsgrestartforapplychanges
-msgid "Please, restart Double Commander for apply changes"
+msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Bitte DoubleCommander neustarten um die Änderungen zu übernehmen"
 
 #: ulng.rsmsgselected
