@@ -27,7 +27,7 @@ type
 
 implementation
 uses
-  uFileProcs, SysUtils, uShowMsg, uLng, uGlobs, uLog, uDCUtils, uOSUtils;
+  uFileProcs, SysUtils, FileUtil, uShowMsg, uLng, uGlobs, uLog, uDCUtils, uOSUtils;
 
 
 procedure TMoveThread.MainExecute;
@@ -80,6 +80,7 @@ begin
         sDstNew:=sDstName;
       if sDstExt<>'.' then
         sDstNew:=sDstNew+sDstExt;
+      if CompareFilenames(pr^.sName, sDstPath+pr^.sPath+sDstNew) = 0 then Continue;
       FFileOpDlg.sFileName:=ExtractFileName(pr^.sName)+' -> '+pr^.sPath+sDstNew;
       Synchronize(@FFileOpDlg.UpdateDlg);
 //  test if exists and show dialog

@@ -31,7 +31,7 @@ type
 
 implementation
 uses
-  LCLProc, SysUtils, Classes, StrUtils, uLng, uGlobs, uLog, uShowMsg, uFileProcs, uFindEx,
+  LCLProc, SysUtils, Classes, StrUtils, FileUtil, uLng, uGlobs, uLog, uShowMsg, uFileProcs, uFindEx,
   uDCUtils, uOSUtils, uClassesEx, uDescr;
 
 procedure TCopyThread.MainExecute;
@@ -101,6 +101,7 @@ begin
   if sDstExt<>'.' then
     sDstNew:= sDstNew+sDstExt;
 //  DebugLn(sDstNew);
+  if CompareFilenames(fr^.sName, sDst+fr^.sPath+sDstNew) = 0 then Exit(False);
   FFileOpDlg.sFileName:= ExtractFileName(fr^.sName)+' -> '+fr^.sPath+sDstNew;
   Synchronize(@FFileOpDlg.UpdateDlg);
   if FPS_ISLNK(fr^.iMode) then

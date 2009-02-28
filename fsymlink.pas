@@ -27,7 +27,7 @@ function ShowSymLinkForm(const sNew, sDst:String): Boolean;
 implementation
 
 uses
-  uLng, uGlobs, uLog, uShowMsg, uOSUtils;
+  FileUtil, uLng, uGlobs, uLog, uShowMsg, uOSUtils;
 
 function ShowSymLinkForm(const sNew, sDst:String): Boolean;
 begin
@@ -50,6 +50,7 @@ begin
   inherited;
   sSrc:=edtNew.Text;
   sDst:=edtDst.Text;
+  if CompareFilenames(sSrc, sDst) = 0 then Exit;
   if CreateSymLink(sSrc, sDst) then
     begin
       // write log
