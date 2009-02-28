@@ -29,7 +29,7 @@ implementation
 
 
 uses
-  uLng, uGlobs, uLog, uShowMsg, uOSUtils;
+  FileUtil, uLng, uGlobs, uLog, uShowMsg, uOSUtils;
 
 function ShowHardLinkForm(const sNew, sDst:String): Boolean;
 begin
@@ -52,6 +52,7 @@ begin
   inherited;
   sSrc:=edtNew.Text;
   sDst:=edtDst.Text;
+  if CompareFilenames(sSrc, sDst) = 0 then Exit;
   if CreateHardLink(sSrc, sDst) then
     begin
       // write log
