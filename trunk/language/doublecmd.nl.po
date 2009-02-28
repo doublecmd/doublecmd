@@ -2159,7 +2159,7 @@ msgid "Date and time format:"
 msgstr "Datum en tijd formaat:"
 
 #: TFRMOPTIONS.LBLDSXDESCRIPTION.CAPTION
-msgid "Search plugins allow to use in search alternative search algorithms or external tools (like \"locate\", etc.)"
+msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
 msgstr "Zoek plug-ins "
 
 #: TFRMOPTIONS.LBLEDITORFONT.CAPTION
@@ -3014,7 +3014,7 @@ msgid "Rename/move selected \"%s\"?"
 msgstr "Verplaats/hernoem geselecteerde \"%s\"?"
 
 #: ulng.rsmsgrestartforapplychanges
-msgid "Please, restart Double Commander for apply changes"
+msgid "Please, restart Double Commander in order to apply changes"
 msgstr "A.u.b. Double Commander herstarten om wijzigingen door te voeren"
 
 #: ulng.rsmsgselected

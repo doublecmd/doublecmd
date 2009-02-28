@@ -121,9 +121,9 @@ ulng.rsmsgsetvolumelabel='Set volume label'
 ulng.rsmsgvolumelabel='Volume label:'
 
 
-# hash value = 46117123
-ulng.rsmsgrestartforapplychanges='Please, restart Double Commander for ap'+
-'ply changes'
+# hash value = 41970755
+ulng.rsmsgrestartforapplychanges='Please, restart Double Commander in ord'+
+'er to apply changes'
 
 
 # hash value = 70793546

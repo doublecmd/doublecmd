@@ -59,7 +59,7 @@ resourcestring
   rsMsgNoFreeSpaceRetry = 'No enough free space on target drive, Retry?';
   rsMsgSetVolumeLabel = 'Set volume label';
   rsMsgVolumeLabel = 'Volume label:';
-  rsMsgRestartForApplyChanges = 'Please, restart Double Commander for apply changes';
+  rsMsgRestartForApplyChanges = 'Please, restart Double Commander in order to apply changes';
   rsMsgEnterName = 'Enter name:';
   rsMsgEnterFileExt = 'Enter file extension:';
   rsMsgFollowSymlink = 'Follow symlink "%s"?';
