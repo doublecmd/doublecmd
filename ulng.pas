@@ -275,8 +275,6 @@ var
 begin
   { Localization }
   if sFileName = 'doublecmd.po' then Exit;  // default english interface
-  
-  DebugLn('Loading lng file: ' + gpLngDir + sFileName);
 
   gPOFileName := sFileName;
   if not mbFileExists(gpLngDir + gPOFileName) then
@@ -291,6 +289,7 @@ begin
     end;
   if mbFileExists(gpLngDir + gPOFileName) then
     begin
+      DebugLn('Loading lng file: ' + gpLngDir + gPOFileName);
       TranslateLCL(gPOFileName);
       Translations.TranslateUnitResourceStrings('uLng', gpLngDir + gPOFileName);
       LRSTranslator := TTranslator.Create(gpLngDir + gPOFileName);
