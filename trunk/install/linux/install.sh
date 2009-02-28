@@ -62,7 +62,12 @@ cp -a plugins/dsx/DSXLocate/lib/DSXLocate.dsx  $DC_INSTALL_DIR/plugins/dsx/DSXLo
 if [ -z $1 ]
   then
     # Copy libraries
-    cp -a *.so           /usr/lib/
+    if [ "$(fpc -iTP)" = "x86_64" ]
+      then
+        install -m 644 *.so           /usr/lib64/
+      else
+        install -m 644 *.so           /usr/lib/
+    fi
     # Create symlink and desktop files
     ln -sf $DC_INSTALL_DIR/doublecmd /usr/bin/doublecmd
     install -m 644 doublecmd.png /usr/share/pixmaps/doublecmd.png
