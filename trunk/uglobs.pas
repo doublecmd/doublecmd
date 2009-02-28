@@ -432,12 +432,12 @@ begin
   gStatusBar := gIni.ReadBool('Layout', 'StatusBar', True);
   gCmdLine := gIni.ReadBool('Layout', 'CmdLine', True);
   gLogWindow := gIni.ReadBool('Layout', 'LogWindow', True);
-  gTermWindow := gIni.ReadBool('Layout', 'TermWindow', True);
+  gTermWindow := gIni.ReadBool('Layout', 'TermWindow', False);
   gKeyButtons := gIni.ReadBool('Layout', 'KeyButtons', True);
   gInterfaceFlat := gIni.ReadBool('Layout', 'InterfaceFlat', True);
   
   gShowSystemFiles := gIni.ReadBool('Configuration', 'ShowSystemFiles', False);
-  gPOFileName := gIni.ReadString('Configuration', 'Language', '');
+  gPOFileName := gIni.ReadString('Configuration', 'Language', '?');
   gRunInTerm := gIni.ReadString('Configuration', 'RunInTerm', RunInTerm);
   gCaseSensitiveSort := gIni.ReadBool('Configuration', 'CaseSensitiveSort', False);
   gLynxLike := gIni.ReadBool('Configuration', 'LynxLike', True);

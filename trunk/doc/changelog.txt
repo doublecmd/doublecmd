@@ -1,4 +1,7 @@
-﻿31.01.2009 FIX: Bug [ 2513089 ] panel
+﻿--------------------------------------------------------------------------------
+28.02.2009 Release Double Commander 0.4 beta
+--------------------------------------------------------------------------------
+31.01.2009 FIX: Bug [ 2513089 ] panel
 18.01.2009 ADD: Drag&Drop to external applications under Windows
 18.01.2009 FIX: Bug [ 2513084 ] tabs
 12.01.2009 ADD: Pause/Start file operations

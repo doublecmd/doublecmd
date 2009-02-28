@@ -63,7 +63,7 @@ uses
   
 const
   dcBuildDate = {$I %DATE%};
-  dcVersion = '0.4 alpha';
+  dcVersion = '0.4.5 alpha';
   lazVersion = {$I version.inc};
   fpcVersion = {$I %FPCVERSION%};
   TargetCPU = {$I %FPCTARGETCPU%};
