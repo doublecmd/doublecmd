@@ -35,15 +35,15 @@ fi
 
 # Create *.rpm package
 
-/usr/local/sbin/checkinstall -R --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$DC_ARCH --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --maintainer=Alexx2000@mail.ru --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
+checkinstall -R --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$DC_ARCH --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --maintainer=Alexx2000@mail.ru --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
 
 # Create *.deb package
 
-/usr/local/sbin/checkinstall -D --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$DC_ARCH --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --maintainer=Alexx2000@mail.ru --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
+checkinstall -D --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$DC_ARCH --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --maintainer=Alexx2000@mail.ru --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
 
 # Create *.tgz package
 
-/usr/local/sbin/checkinstall -S --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$DC_ARCH --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --maintainer=Alexx2000@mail.ru --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
+checkinstall -S --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$DC_ARCH --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --maintainer=Alexx2000@mail.ru --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
 
 # Create *.tar.bz2 package
 
