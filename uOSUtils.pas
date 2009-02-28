@@ -461,7 +461,7 @@ var
 begin
     fpStatFS(PChar(Path), @sbfs);
     FreeSize := (Int64(sbfs.bavail)*sbfs.bsize);
-{$IFDEF CPU32} // TODO: Fix it
+{$IF DEFINED(CPU32) or (FPC_VERSION>2) or ((FPC_VERSION=2) and ((FPC_RELEASE>2) or ((FPC_RELEASE=2) and (FPC_PATCH>=3))))}
     TotalSize := (Int64(sbfs.blocks)*sbfs.bsize);
 {$ENDIF}
 end;
