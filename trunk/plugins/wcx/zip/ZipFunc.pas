@@ -247,7 +247,7 @@ procedure SetProcessDataProc (hArcData : TArcHandle; pProcessDataProc1 : TProces
 var
  Arc : TAbZipKitEx;
 begin
-  if (hArcData <> 0) then  // if archive is open
+  if (hArcData <> INVALID_HANDLE_VALUE) then  // if archive is open
    begin
      Arc := TAbZipKitEx(Pointer(hArcData));
      if Assigned(pProcessDataProc1) then
