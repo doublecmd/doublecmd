@@ -9,7 +9,7 @@ object frmMultiRename: TfrmMultiRename
   ClientWidth = 740
   OnCreate = FormCreate
   ParentFont = False
-  Position = poDesktopCenter
+  Position = poScreenCenter
   LCLVersion = '0.9.26'
   object gbMaska: TGroupBox
     AnchorSideLeft.Control = Owner

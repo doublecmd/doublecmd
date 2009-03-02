@@ -11,7 +11,7 @@ object frmLinker: TfrmLinker
   Caption = 'Linker'
   ClientHeight = 364
   ClientWidth = 360
-  Position = poDesktopCenter
+  Position = poScreenCenter
   object prbrWork: TProgressBar
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Control = Owner

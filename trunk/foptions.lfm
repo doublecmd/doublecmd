@@ -4,15 +4,13 @@ object frmOptions: TfrmOptions
   Top = 138
   Width = 800
   ActiveControl = tvTreeView
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
   Caption = 'Options'
   ClientHeight = 600
   ClientWidth = 800
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  Position = poDesktopCenter
+  Position = poScreenCenter
   LCLVersion = '0.9.27'
   object Panel1: TPanel
     Height = 43
@@ -72,6 +70,7 @@ object frmOptions: TfrmOptions
     Width = 170
     Align = alLeft
     DefaultItemHeight = 16
+    ReadOnly = True
     Images = ilTreeView
     ScrollBars = ssNone
     TabOrder = 0

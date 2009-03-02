@@ -22,7 +22,7 @@ object frmMain: TfrmMain
   OnShow = frmMainShow
   OnUTF8KeyPress = FormUTF8KeyPress
   OnWindowStateChange = FormWindowStateChange
-  Position = poDesktopCenter
+  Position = poScreenCenter
   ShowHint = True
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.27'
