@@ -312,7 +312,8 @@ begin
 
     if not (Size < 0) then
       begin
-        FPercent := FPercent + ((Size * 100) / FFilesSize);
+        if FFilesSize <> 0 then
+          FPercent := FPercent + ((Size * 100) / FFilesSize);
         //DebugLn('Percent = ' + IntToStr(Round(FPercent)));
 
         FFileOpDlg.iProgress1Pos := 100;
