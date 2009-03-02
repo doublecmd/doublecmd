@@ -2621,7 +2621,7 @@ msgstr "Дата"
 
 #: ulng.rscolext
 msgid "Ext"
-msgstr "Расш"
+msgstr "Тип"
 
 #: ulng.rscolname
 msgid "Name"
