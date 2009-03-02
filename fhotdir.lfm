@@ -8,7 +8,7 @@ object frmHotDir: TfrmHotDir
   ClientHeight = 423
   ClientWidth = 437
   ParentFont = False
-  Position = poDesktopCenter
+  Position = poScreenCenter
   LCLVersion = '0.9.27'
   object lsHotDir: TListBox
     AnchorSideRight.Control = btnOK

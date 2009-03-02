@@ -18,7 +18,7 @@ object frmHardLink: TfrmHardLink
   Constraints.MaxHeight = 160
   Constraints.MaxWidth = 400
   KeyPreview = True
-  Position = poDesktopCenter
+  Position = poScreenCenter
   object lblNew: TLabel
     AnchorSideTop.Control = edtDst
     AnchorSideTop.Side = asrBottom
