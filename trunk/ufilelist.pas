@@ -84,6 +84,13 @@ Type
        @param(iIndex Item index)
        @returns(Pointer to TFileRecItem strucrure)
     }
+    procedure LoadFromFileNames(const FileNamesList: TStringList);
+    {en
+       Clears the filelist and fills it with file records using
+       a list of filenames with full paths. It is used generally
+       to convert a list of file paths from external applications.
+       @param(FileNamesList List of filenames with full paths)
+    }
     function  GetItem(iIndex: Integer) : PFileRecItem;
     {en
        Return full file name of item by index
@@ -132,7 +139,7 @@ Type
 implementation
 
 uses
-  LCLProc, uGlobs, uPixmapManager, uDCUtils, uOSUtils;
+  LCLProc, uGlobs, uPixmapManager, uDCUtils, uOSUtils, uFileOp;
 
 var
   bSortNegative : Boolean; // because implementation of TList.Sort
@@ -222,6 +229,28 @@ begin
   p^.iGroup:=fi^.iGroup; //[mate]
   p^.iDirSize:= fi^.iDirSize;
   Result := fList.Add(p);
+end;
+
+procedure TFileList.LoadFromFileNames(const FileNamesList: TStringList);
+var
+  fr: TFileRecItem;
+  i: Integer;
+begin
+  fList.Clear;
+
+  if not Assigned(FileNamesList) or (FileNamesList.Count <= 0) then Exit;
+
+  // TODO: File names can be from different directories.
+  //       Maybe set individual sPath's instead.
+  CurrentDirectory := ExtractFilePath(FileNamesList[0]);
+
+  for i := 0 to FileNamesList.Count-1 do
+    begin
+      fr:= LoadFilebyName(FileNamesList[i]);
+      fr.sName:= FileNamesList[i];
+      fr.sNameNoExt:= ExtractFileName(FileNamesList[i]);
+      AddItem(@fr);
+    end;
 end;
 
 {

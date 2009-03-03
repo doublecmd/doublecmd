@@ -60,7 +60,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="45">
+    <Units Count="46">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -368,6 +368,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uClipboard"/>
       </Unit44>
+      <Unit45>
+        <Filename Value="udragdropgtk.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDragDropGtk"/>
+      </Unit45>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

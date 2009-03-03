@@ -329,6 +329,7 @@ type
       iIconSize: Integer; clBackColor: TColor): TBitmap;
     procedure pmButtonMenuMenuButtonClick(Sender: TObject;
       NumberOfButton: Integer);
+    procedure pmDropMenuClose(Sender: TObject);
     procedure pnlKeysResize(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -344,7 +345,6 @@ type
     procedure FramedgPanelEnter(Sender: TObject);
     procedure framedgPanelMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure FramedgPanelDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure pnlLeftRightDblClick(Sender: TObject);
     procedure seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
@@ -391,8 +391,8 @@ type
     procedure RunRenameThread(srcFileList: TFileList; sDestPath: String; sDestMask: String);
     procedure RunCopyThread(srcFileList: TFileList; sDestPath: String; sDestMask: String;
                             bDropReadOnlyFlag: Boolean);
-    procedure RenameFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel);
-    procedure CopyFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel);
+    procedure RenameFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel; destPath: String);
+    procedure CopyFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel; destPath: String);
     procedure RenameFile(sDestPath:String); // this is for F6 and Shift+F6
     procedure CopyFile(sDestPath:String); //  this is for F5 and Shift+F5
     procedure ShowRenameFileEdit(const sFileName:String);
@@ -432,7 +432,7 @@ uses
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg, uClassesEx,
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils, uLog, uWipeThread,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg, fExtractDlg,
-  fLinker, fSplitter, uFileProcs, LCLProc, uOSUtils, uOSForms, uPixMapManager,fColumnsSetConf;
+  fLinker, fSplitter, uFileProcs, LCLProc, uOSUtils, uOSForms, uPixMapManager,fColumnsSetConf, uDragDropEx;
 
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -458,6 +458,8 @@ begin
   nbLeft.Options:=[nboShowCloseButtons];
   nbRight.Options:=[nboShowCloseButtons];
   actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
+
+  AllowDropFiles := not uDragDropEx.IsExternalDraggingSupported;
 
   PanelSelected:=fpLeft;
 
@@ -658,10 +660,11 @@ end;
 
 procedure TfrmMain.FormDropFiles(Sender: TObject; const FileNames: array of String);
 var
-  fr: TFileRecItem;
   FrameFilePanel: TFrameFilePanel;
   I: Integer;
   FileList: TFileList;
+  FileNamesList: TStringList;
+  Point: TPoint;
 begin
   FrameFilePanel:= nil;
   // drop on left panel
@@ -673,19 +676,27 @@ begin
   if not Assigned(FrameFilePanel) then Exit;
 
   // fill file list by files
+
   FileList:= TFileList.Create;
-  FileList.CurrentDirectory:= ExtractFilePath(FileNames[0]);
-  for I:= Low(FileNames) to High(FileNames) do
-    begin
-      fr:= LoadFilebyName(FileNames[I]);
-      fr.sName:= FileNames[I];
-      FileList.AddItem(@fr);
-    end;
-  // if Shift pressed then move else copy
-  if (GetKeyState(VK_SHIFT) and $8000) <> 0 then
-    RenameFile(FileList, FrameFilePanel)
-  else
-    CopyFile(FileList, FrameFilePanel);
+  FileNamesList := TStringList.Create;
+  try
+    for I:= Low(FileNames) to High(FileNames) do
+      FileNamesList.Add(FileNames[I]);
+
+    FileList.LoadFromFileNames(FileNamesList);
+  except
+    FreeAndNil(FileList);
+    FreeAndNil(FileNamesList);
+    Exit;
+  end;
+
+  FreeAndNil(FileNamesList); // don't need it anymore
+
+  GetCursorPos(Point);
+
+  FrameFilePanel.dgPanel.DropFiles(FileList, // will free FileList
+                                   GetDropEffectByKeyAndMouse(GetKeyShiftState, mbLeft),
+                                   Point, False);
 end;
 
 procedure TfrmMain.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
@@ -960,53 +971,73 @@ end;
 
 procedure TfrmMain.mnuDropClick(Sender: TObject);
 var
-  iRow, iCol: Integer;
-  fri: PFileRecItem;
-  sDest: String;
+  DropParams: TDropParams;
+  SourceFileName, TargetFileName: String;
 begin
-  if (Sender is TMenuItem) and (pmDropMenu.Parent is TDrawGridEx)  then
-    with pmDropMenu.Parent as TDrawGridEx do
+  if (Sender is TMenuItem) and (pmDropMenu.Tag <> 0) then
     begin
-      MouseToCell(0, pmDropMenu.Tag, iCol, iRow);
-      fri:= (Parent as TFrameFilePanel).pnlFile.GetReferenceItemPtr(iRow - FixedRows); // substract fixed rows (header)
+      // First, immediately copy parameters to a new record.
+      // Any function we call next (like creating a form) could issue closing
+      // all open popup menus (pmDropMenu too), which would in turn cause
+      // pmDropMenuClose to be executed, thus disposing of pmDropMenu.Tag.
+      DropParams := PDropParams(pmDropMenu.Tag)^; // this copies all record fields
 
-      //***************
-      ActiveFrame.dgPanel.Row:= ActiveFrame.dgPanel.DragRowIndex;
-      //***************
+      with DropParams do
+      begin
+        // First three commands are standard Drag&Drop effects,
+        // so bounce back to DropFiles (it will handle freeing FileList).
+        if (Sender as TMenuItem).Name = 'miMove' then
+          begin
+            TargetPanel.dgPanel.DropFiles(FileList,
+                                          DropMoveEffect,
+                                          ScreenDropPoint,
+                                          DropIntoDirectories);
+          end
+        else if (Sender as TMenuItem).Name = 'miCopy' then
+          begin
+            TargetPanel.dgPanel.DropFiles(FileList,
+                                          DropCopyEffect,
+                                          ScreenDropPoint,
+                                          DropIntoDirectories);
+          end
+        else if (Sender as TMenuItem).Name = 'miSymLink' then
+          begin
+            TargetPanel.dgPanel.DropFiles(FileList,
+                                          DropLinkEffect, // is treated as symlink in DropFiles
+                                          ScreenDropPoint,
+                                          DropIntoDirectories);
+          end
 
-      // get destination directory
-      if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and (pmDropMenu.Tag <= GridHeight) then
-        if fri^.sName = '..' then
-          sDest:= LowDirLevel((Parent as TFrameFilePanel).ActiveDir)
-        else
-          sDest:= (Parent as TFrameFilePanel).ActiveDir + fri^.sName + PathDelim
-      else
-        sDest:= (Parent as TFrameFilePanel).ActiveDir;
-      
-      if (Sender as TMenuItem).Name = 'miMove' then
-        begin
-          RenameFile(sDest);
-        end
-      else if (Sender as TMenuItem).Name = 'miCopy' then
-        begin
-          CopyFile(sDest);
-        end
-      else if (Sender as TMenuItem).Name = 'miHardLink' then
-        begin
-          Actions.cm_HardLink(sDest);
-          DropRowIndex:= -1;
-        end
-      else if (Sender as TMenuItem).Name = 'miSymLink' then
-        begin
-          Actions.cm_SymLink(sDest);
-          DropRowIndex:= -1;
-        end
-      else if (Sender as TMenuItem).Name = 'miCancel' then
-        begin
-          DropRowIndex:= -1;
-          Invalidate;
-        end;
-    end; //with
+        // For others we call specific functions and must handle freeing FileList.
+
+        else if (Sender as TMenuItem).Name = 'miHardLink' then
+          begin
+            // TODO: process multiple files
+
+            SourceFileName := FileList.GetFileName(0);
+            TargetFileName := TargetDirectory + ExtractFileName(SourceFileName);
+
+            if ShowHardLinkForm(SourceFileName, TargetFileName) = True then
+              TargetPanel.RefreshPanel;
+
+            FreeAndNil(FileList);
+          end
+        else if (Sender as TMenuItem).Name = 'miCancel' then
+          begin
+            FreeAndNil(FileList);
+          end;
+      end; //with
+    end;
+end;
+
+procedure TfrmMain.pmDropMenuClose(Sender: TObject);
+begin
+  // Free drop parameters given to drop menu.
+  if pmDropMenu.Tag <> 0 then
+  begin
+    Dispose(PDropParams(pmDropMenu.Tag));
+    pmDropMenu.Tag := 0;
+  end;
 end;
 
 procedure TfrmMain.mnuSplitterPercentClick(Sender: TObject);
@@ -1599,7 +1630,7 @@ end;
 
 (* Used for drag&drop move from external application *)
 // Frees srcFileList automatically.
-procedure TfrmMain.RenameFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel);
+procedure TfrmMain.RenameFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel; destPath: String);
 var
   sDestPath,
   sDstMaskTemp: String;
@@ -1608,12 +1639,12 @@ begin
   if (srcFileList.Count=1) and not (FPS_ISDIR(srcFileList.GetItem(0)^.iMode) or srcFileList.GetItem(0)^.bLinkIsDir) then
     begin
       sCopyQuest:= Format(rsMsgRenSel, [srcFileList.GetItem(0)^.sName]);
-      sDestPath:= dstFramePanel.ActiveDir + ExtractFileName(srcFileList.GetItem(0)^.sName);
+      sDestPath:= destPath + ExtractFileName(srcFileList.GetItem(0)^.sName);
     end
   else
     begin
       sCopyQuest:= Format(rsMsgRenFlDr, [srcFileList.Count]);
-      sDestPath:= dstFramePanel.ActiveDir + '*.*';
+      sDestPath:= destPath + '*.*';
     end;
 
   with TfrmMoveDlg.Create(Application) do
@@ -1641,7 +1672,7 @@ end;
 
 (* Used for drag&drop copy from external application *)
 // Frees srcFileList automatically.
-procedure TfrmMain.CopyFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel);
+procedure TfrmMain.CopyFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel; destPath: String);
 var
   sCopyQuest,
   sDestPath,
@@ -1651,12 +1682,12 @@ begin
   if (srcFileList.Count=1) and not (FPS_ISDIR(srcFileList.GetItem(0)^.iMode) or srcFileList.GetItem(0)^.bLinkIsDir) then
     begin
       sCopyQuest:= Format(rsMsgCpSel, [srcFileList.GetItem(0)^.sName]);
-      sDestPath:= dstFramePanel.ActiveDir + ExtractFileName(srcFileList.GetItem(0)^.sName);
+      sDestPath:= destPath + ExtractFileName(srcFileList.GetItem(0)^.sName);
     end
   else
     begin
       sCopyQuest:= Format(rsMsgCpFlDr, [srcFileList.Count]);
-      sDestPath:= dstFramePanel.ActiveDir + '*.*';
+      sDestPath:= destPath + '*.*';
     end;
 
   (* Copy files between archive and real file system *)
@@ -2177,13 +2208,13 @@ end;
 { Show context or columns menu on right click }
 procedure TfrmMain.framedgPanelMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
-var  iRow, iCol, I : Integer; Point:TPoint; MI:TMenuItem;
+var  I : Integer; Point:TPoint; MI:TMenuItem;
 begin
 
-  if Sender is TDrawGrid then
+  if Sender is TDrawGridEx then
     begin
-      (Sender as TDrawGrid).MouseToCell(X, Y, iCol, iRow);
-      if (Button=mbRight) and (iRow < (Sender as TDrawGrid).FixedRows ) then
+      { If right click on header }
+      if (Button=mbRight) and (Y < (Sender as TDrawGridEx).GetHeaderHeight) then
         begin
 
           //Load Columns into menu
@@ -2218,7 +2249,7 @@ begin
 	    pmColumnsMenu.Items.Add(MI);
         
           Point:=(Sender as TDrawGrid).ClientToScreen(Classes.Point(0,0));
-          Point.Y:=Point.Y+(Sender as TDrawGrid).RowHeights[iRow];
+          Point.Y:=Point.Y+(Sender as TDrawGridEx).GetHeaderHeight;
           Point.X:=Point.X+X-50;
           pmColumnsMenu.PopUp(Point.X,Point.Y);
           Exit;
@@ -2230,50 +2261,6 @@ begin
       Actions.cm_ContextMenu('OnMouseClick');
       //actContextMenu.Execute;
     end;
-end;
-
-procedure TfrmMain.FramedgPanelDragDrop(Sender, Source: TObject; X, Y: Integer);
-var
-  iRow, iCol: Integer;
-  fri: PFileRecItem;
-  MousePoint: TPoint;
-  sDest: String;
-begin
-  if (Sender is TDrawGridEx) and (Source is TDrawGridEx) then
-    with Sender as TDrawGridEx do
-      case (Source as TDrawGridEx).LastMouseButton of
-      mbLeft:
-        begin
-          MouseToCell(X, Y, iCol, iRow);
-          fri:= (Parent as TFrameFilePanel).pnlFile.GetReferenceItemPtr(iRow - FixedRows); // substract fixed rows (header)
-
-          if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and (Y <= GridHeight) then
-            if fri^.sName = '..' then
-              sDest:= LowDirLevel((Parent as TFrameFilePanel).ActiveDir)
-            else
-              sDest:= (Parent as TFrameFilePanel).ActiveDir + fri^.sName + PathDelim
-          else
-            sDest:= (Parent as TFrameFilePanel).ActiveDir;
-
-          if (GetKeyState(VK_SHIFT) and $8000) <> 0 then // if Shift then move
-            begin
-              RenameFile(sDest);
-            end
-          else // else copy
-            begin
-              CopyFile(sDest);
-            end;
-        end;
-      mbRight:
-        begin
-          // save in parent drop target
-          pmDropMenu.Parent:= (Sender as TDrawGridEx);
-          // save in tag Y coordinate
-          pmDropMenu.Tag:= Y;
-          MousePoint:= ClientToScreen(Classes.Point(X, Y));
-          pmDropMenu.PopUp(MousePoint.X, MousePoint.Y);
-        end;
-      end; // case
 end;
 
 procedure TfrmMain.pnlLeftRightDblClick(Sender: TObject);
@@ -2603,7 +2590,6 @@ begin
     
     dgPanel.OnEnter:=@framedgPanelEnter;
     dgPanel.OnMouseUp := @framedgPanelMouseUp;
-    dgPanel.OnDragDrop:= @FramedgPanelDragDrop;
 
   end;
 

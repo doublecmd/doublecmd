@@ -20,31 +20,82 @@ unit framePanel;
 interface
 
 uses
-  SysUtils, Classes, Graphics, Controls, Forms, LMessages,
+  SysUtils, Classes, Graphics, Controls, Forms, LMessages, LCLIntf,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, uFilePanel, Grids, uTypes,
-  Buttons, uColumns,lcltype,Menus;
+  Buttons, uColumns,lcltype,Menus, uFileList, uDragDropEx;
 
-const
-  DG_MOUSE_ENTER = -2;
-  DG_MOUSE_LEAVE = -3;
-  
 type
   TFilePanelSelect=(fpLeft, fpRight);
 
   { TDrawGridEx }
 
+  TFrameFilePanel = class;
+
   TDrawGridEx = class(TDrawGrid)
   private
-    procedure CMMouseEnter(var Message :TLMessage); message CM_MouseEnter;
-    procedure CMMouseLeave(var Message :TLMessage); message CM_MouseLeave;
-  protected
     procedure MouseMove(Shift: TShiftState; X,Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
-  public
+
+    // Updates the drop row index, which is used to draw a rectangle
+    // on directories during drag&drop operations.
+    procedure ChangeDropRowIndex(NewIndex: Integer);
+
+    // Simulates releasing mouse button that started a dragging operation,
+    // but was released in another window or another application.
+    procedure ClearMouseButtonAfterDrag;
+
+    { Events for drag&drop from external applications }
+    function OnExDragBegin: Boolean;
+    function OnExDragEnd  : Boolean;
+    function OnExDragEnter(var DropEffect: TDropEffect; ScreenPoint: TPoint):Boolean;
+    function OnExDragOver(var DropEffect: TDropEffect; ScreenPoint: TPoint):Boolean;
+    function OnExDrop(const FileNamesList: TStringList; DropEffect: TDropEffect; ScreenPoint: TPoint):Boolean;
+    function OnExDragLeave:Boolean;
+
+    // Used to register as a drag and drop source and target.
+    DragDropSource: uDragDropEx.TDragDropSource;
+    DragDropTarget: uDragDropEx.TDragDropTarget;
+
     StartDrag: Boolean;
+    DragStartPoint: TPoint;
     DragRowIndex,
     DropRowIndex: Integer;
-    LastMouseButton: TMouseButton;
+    LastMouseButton: TMouseButton; // Mouse button that initiated dragging
+
+  protected
+
+  public
+    constructor Create(AOwner: TComponent); override;
+
+    // Returns height of all the header rows.
+    function GetHeaderHeight: Integer;
+
+    {  This function is called from various points to handle dropping files into the panel.
+       @param(FileList
+              List of files dropped (this function handles freeing it).)
+       @param(DropEffect
+              Desired action to take with regard to the files.)
+       @param(ScreenDropPoint
+              Point where the drop occurred.)
+       @param(DropIntoDirectories
+              If true it is/was allowed to drop into specific directories
+              (directories may have been tracked while dragging).
+              Target path will be modified accordingly if ScreenDropPoint points
+              to a directory in the target panel. }
+    procedure DropFiles(var FileList: TFileList; DropEffect: TDropEffect;
+                        ScreenDropPoint: TPoint; DropIntoDirectories: Boolean);
+
+  end;
+
+  // Used to pass drop parameters to pmDropMenu from DropFiles.
+  PDropParams = ^TDropParams;
+  TDropParams = record
+    FileList: TFileList;
+    DropEffect: TDropEffect;
+    ScreenDropPoint: TPoint;
+    DropIntoDirectories: Boolean;
+    TargetDirectory: String;
+    TargetPanel: TFrameFilePanel;
   end;
 
   { TFrameFilePanel }
@@ -95,6 +146,7 @@ type
     procedure dgPanelStartDrag(Sender: TObject; var DragObject: TDragObject);
     procedure dgPanelDragOver(Sender, Source: TObject; X, Y: Integer;
                                                State: TDragState; var Accept: Boolean);
+    procedure dgPanelDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure dgPanelEndDrag(Sender, Target: TObject; X, Y: Integer);
     procedure dgPanelHeaderClick(Sender: TObject;IsColumn: Boolean; index: Integer);
     procedure dgPanelKeyPress(Sender: TObject; var Key: Char);
@@ -117,7 +169,7 @@ type
     procedure SetGridHorzLine(const AValue: Boolean);
     procedure SetGridVertLine(const AValue: Boolean);
   protected
-    procedure StartDragEx(Data: PtrInt);
+    function StartDragEx(MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
   public
     { Public declarations }
     pnlFile:TFilePanel;
@@ -163,7 +215,11 @@ implementation
 
 uses
   LCLProc, Masks, uLng, uShowMsg, uGlobs, GraphType, uPixmapManager, uVFSUtil,
-  uDCUtils, uOSUtils, math, uFileList, uDragDropEx;
+  uDCUtils, uOSUtils, math, fMain, fSymLink
+{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+  , GtkProc  // for ReleaseMouseCapture
+{$ENDIF}
+  ;
 
 
 procedure TFrameFilePanel.LoadPanel;
@@ -299,23 +355,37 @@ begin
 //  dgPanel.SetFocus;
 end;
 
-procedure TFrameFilePanel.StartDragEx(Data: PtrInt);
+function TFrameFilePanel.StartDragEx(MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
 var
-  fl: TFileList;
+  fileNamesList: TStringList;
+  draggedFileItem, frp: PFileRecItem;
+  i: Integer;
 begin
-  dgPanel.Perform(LM_LBUTTONUP, 0, 0);
-  Application.ProcessMessages;
+  Result := False;
 
-  fl:= TFileList.Create;
-  try
-    if SelectFileIfNoSelected(GetActiveItem) = True then
-    begin
-      CopyListSelectedExpandNames(pnlFile.FileList, fl, ActiveDir);
+  if dgPanel.DragRowIndex >= dgPanel.FixedRows then
+  begin
+    draggedFileItem := pnlFile.GetReferenceItemPtr(dgPanel.DragRowIndex - dgPanel.FixedRows); // substract fixed rows (header)
 
-      DoDragDropEx(fl);
+    fileNamesList := TStringList.Create;
+    try
+      if SelectFileIfNoSelected(draggedFileItem) = True then
+      begin
+        for i := 0 to pnlFile.FileList.Count-1 do
+        begin
+          frp := pnlFile.FileList.GetItem(i);
+          if frp^.bSelected then
+            fileNamesList.Add(ActiveDir + frp^.sName);
+        end;
+
+        // Initiate external drag&drop operation.
+        Result := dgPanel.DragDropSource.DoDragDrop(fileNamesList, MouseButton, ScreenStartPoint);
+      end;
+
+    finally
+      FreeAndNil(fileNamesList);
+      UnSelectFileIfSelected(draggedFileItem);
     end;
-  finally
-    FreeAndNil(fl);
   end;
 end;
 
@@ -326,15 +396,17 @@ var
   ARow, AFromRow, AToRow: Integer;
   frp: PFileRecItem;
 begin
-  dgPanel.MouseToCell(X, Y, iCol, iRow);
-  if iRow < dgPanel.FixedRows then Exit; // if is header
+  if (Y < dgPanel.GetHeaderHeight) then Exit; // if is header
 
-{  if (Button=mbRight) and (iRow < dgPanel.FixedRows ) then
-    begin
-      pmFrColumnMenu.PopUp(X,Y);
-    end;}
+  SetFocus;
+
+  if IsEmpty then Exit;
+
+  dgPanel.MouseToCell(X, Y, iCol, iRow);
   case Button of
     mbRight: begin
+      dgPanel.Row := iRow;
+
       if (gMouseSelectionEnabled) and (gMouseSelectionButton = 1) then
       begin
         frp := pnlFile.GetReferenceItemPtr(iRow - dgPanel.FixedRows); // substract fixed rows (header)
@@ -398,74 +470,160 @@ begin
     end;
   else
     dgPanel.Row := iRow;
-    SetFocus;
     Exit;
   end;
-  if ssAlt in Shift then // start drag&drop to external application
-    Application.QueueAsyncCall(@StartDragEx, 0)
-  else
-    begin
-      // indicate that drag start at next mouse move event
-      dgPanel.StartDrag:= True;
-      dgPanel.LastMouseButton:= Button;
-    end;
+
+  { Dragging }
+
+  if (not DragManager.IsDragging) and // we could be in dragging mode already (started by a different button)
+     (Y < dgPanel.GridHeight) then // check if there is an item under the mouse cursor
+  begin
+    // indicate that drag start at next mouse move event
+    dgPanel.StartDrag:= True;
+    dgPanel.LastMouseButton:= Button;
+    dgPanel.DragStartPoint.X := X;
+    dgPanel.DragStartPoint.Y := Y;
+    dgPanel.DragRowIndex := iRow;
+    uDragDropEx.TransformDragging := False;
+  end;
 end;
 
 procedure TFrameFilePanel.dgPanelStartDrag(Sender: TObject; var DragObject: TDragObject);
-var
-  iRow, iCol: Integer;
-  CursorPoint: TPoint;
 begin
-  CursorPoint:= dgPanel.ScreenToClient(Mouse.CursorPos);
-  dgPanel.MouseToCell(CursorPoint.X, CursorPoint.Y, iCol, iRow);
-  dgPanel.DragRowIndex:= iRow;
 end;
 
 procedure TFrameFilePanel.dgPanelDragOver(Sender, Source: TObject; X, Y: Integer;
   State: TDragState; var Accept: Boolean);
 var
-  iRow, iOldRow: Integer;
-  fri: PFileRecItem;
+  iRow, Dummy: Integer;
+  fri: PFileRecItem = nil;
+  SourcePanel: TFrameFilePanel = nil;
+  TargetPanel: TFrameFilePanel = nil;
+  SourceDir, TargetDir: String;
 begin
-  if dgPanel.DropRowIndex = DG_MOUSE_LEAVE then Exit;
+  Accept := False;
 
-  dgPanel.MouseToCell(X, Y, iOldRow, iRow);
-  Accept:= False;
+  // Always allow dropping into an empty panel.
+  // And it is also allowed to drop onto header in case all visible items
+  // are directories and the user wants to drop into panel's current directory.
+  if IsEmpty or (Y < dgPanel.GetHeaderHeight) then
+  begin
+    dgPanel.ChangeDropRowIndex(-1);
+    Accept:= True;
+    Exit;
+  end;
 
-  if iRow < dgPanel.FixedRows then Exit;
-  
-  iOldRow:= dgPanel.DropRowIndex; // save old row index
-  fri:= pnlFile.GetReferenceItemPtr(iRow - dgPanel.FixedRows); // substract fixed rows (header)
-  if (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and not (Y > dgPanel.GridHeight) then
+  if (Source is TDrawGridEx) and (Sender is TDrawGridEx) then
+  begin
+    SourcePanel := ((Source as TDrawGridEx).Parent) as TFrameFilePanel;
+    TargetPanel := ((Sender as TDrawGridEx).Parent) as TFrameFilePanel;
+
+    SourceDir := SourcePanel.ActiveDir;
+    TargetDir := TargetPanel.ActiveDir;
+  end;
+
+  dgPanel.MouseToCell(X, Y, Dummy, iRow);
+
+  if iRow >= dgPanel.FixedRows then
+    fri:= pnlFile.GetReferenceItemPtr(iRow - dgPanel.FixedRows); // substract fixed rows (header)
+
+  if Assigned(fri) and (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and (Y < dgPanel.GridHeight) then
     begin
-      dgPanel.DropRowIndex:= iRow;
-      if not (((iRow = dgPanel.DragRowIndex) or (fri^.bSelected = True)) and (Sender = Source)) then // if not same object then accept
-        Accept:= True;
-      if iOldRow = iRow then Exit; // if same row then exit
-      if iOldRow >= 0 then // invalidate old row if need
-        dgPanel.InvalidateRow(iOldRow);
-      dgPanel.InvalidateRow(iRow);
+      if State = dsDragLeave then
+        // Mouse is leaving the control or drop will occur immediately.
+        // Don't draw DropRow rectangle.
+        dgPanel.ChangeDropRowIndex(-1)
+      else
+        dgPanel.ChangeDropRowIndex(iRow);
+
+      if Sender = Source then
+      begin
+        if not ((iRow = dgPanel.DragRowIndex) or (fri^.bSelected = True)) then
+          Accept := True;
+      end
+      else
+      begin
+        if Assigned(SourcePanel) and Assigned(TargetPanel) then
+        begin
+          if fri^.sName = '..' then
+            TargetDir := LowDirLevel(TargetDir)
+          else
+            TargetDir := TargetDir + fri^.sName + DirectorySeparator;
+
+          if SourceDir <> TargetDir then Accept := True;
+        end
+        else
+          Accept := True;
+      end;
     end
   else if (Sender <> Source) then
     begin
-      dgPanel.DropRowIndex:= -1;
-      Accept:= True;
-      if Y > dgPanel.GridHeight then
-        iRow:= -1;
-      if iOldRow = iRow then Exit; // if same row then exit  
-      if iOldRow >= 0 then // invalidate old row if need
-        dgPanel.InvalidateRow(iOldRow);
+      dgPanel.ChangeDropRowIndex(-1);
+
+      if Assigned(SourcePanel) and Assigned(TargetPanel) then
+      begin
+        if SourcePanel.ActiveDir <> TargetPanel.ActiveDir then
+          Accept := True;
+      end
+      else
+        Accept := True;
+    end
+  else
+    begin
+      dgPanel.ChangeDropRowIndex(-1);
     end;
 end;
 
-procedure TFrameFilePanel.dgPanelEndDrag(Sender, Target: TObject; X, Y: Integer);
+procedure TFrameFilePanel.dgPanelDragDrop(Sender, Source: TObject; X, Y: Integer);
 var
-  iRow: Integer;
+  SourcePanel: TFrameFilePanel;
+  FileList: TFileList;
+  ScreenDropPoint: TPoint;
 begin
-  iRow:= dgPanel.DropRowIndex;
-  dgPanel.DropRowIndex:= -1;
-  if iRow >= 0 then
-    dgPanel.InvalidateRow(iRow);
+  if (Sender is TDrawGridEx) and (Source is TDrawGridEx) then
+  begin
+    SourcePanel := ((Source as TDrawGridEx).Parent) as TFrameFilePanel;
+
+    // Get file names from source panel.
+    with SourcePanel do
+    begin
+      if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+
+      FileList := TFileList.Create;
+      try
+        CopyListSelectedExpandNames(pnlFile.FileList, FileList, ActiveDir);
+        UnSelectFileIfSelected(GetActiveItem);
+      except
+        FreeAndNil(FileList);
+        UnSelectFileIfSelected(GetActiveItem);
+        Exit;
+      end;
+    end;
+
+    // Drop onto target panel.
+    with Sender as TDrawGridEx do
+    begin
+      ScreenDropPoint := ClientToScreen(Point(X, Y));
+
+      DropFiles(FileList, // Will be freed automatically.
+                GetDropEffectByKeyAndMouse(GetKeyShiftState,
+                                          (Source as TDrawGridEx).LastMouseButton),
+                ScreenDropPoint, True);
+
+      ChangeDropRowIndex(-1);
+    end;
+  end;
+end;
+
+procedure TFrameFilePanel.dgPanelEndDrag(Sender, Target: TObject; X, Y: Integer);
+begin
+  // If cancelled by the user, DragManager does not send drag-leave event
+  // to the target, so we must clear the DropRow in both panels.
+  frmMain.FrameLeft.dgPanel.ChangeDropRowIndex(-1);
+  frmMain.FrameRight.dgPanel.ChangeDropRowIndex(-1);
+
+  if uDragDropEx.TransformDragging = False then
+    dgPanel.ClearMouseButtonAfterDrag;
 end;
 
 procedure TFrameFilePanel.dgPanelHeaderClick(Sender: TObject;
@@ -1082,17 +1240,19 @@ end;
 procedure TFrameFilePanel.dgPanelDblClick(Sender: TObject);
 var
   Point : TPoint;
-  iRow, iCol : Integer;
 begin
   dgPanel.StartDrag:= False; // don't start drag on double click
   Point:= dgPanel.ScreenToClient(Mouse.CursorPos);
-  dgPanel.MouseToCell(Point.X, Point.Y, iCol, iRow);
-  if iRow < dgPanel.FixedRows then Exit;
+
+  // If not on a file/directory then exit.
+  if (Point.Y <  dgPanel.GetHeaderHeight) or
+     (Point.Y >= dgPanel.GridHeight) or
+     IsEmpty then Exit;
 
   if pnlFile.PanelMode = pmDirectory then
     Screen.Cursor:=crHourGlass;
   try
-    pnlFile.ChooseFile(pnlFile.GetActiveItem{(false)});
+    pnlFile.ChooseFile(pnlFile.GetActiveItem);
     UpDatelblInfo;
   finally
     dgPanel.Invalidate;
@@ -1240,8 +1400,6 @@ begin
 end;
 
 constructor TFrameFilePanel.Create(AOwner : TWinControl; lblDriveInfo : TLabel; lblCommandPath:TLabel; cmbCommand:TComboBox);
-var
-  x:Integer;
 begin
   DebugLn('TFrameFilePanel.Create components');
   inherited Create(AOwner);
@@ -1289,6 +1447,14 @@ begin
 
   dgPanel:=TDrawGridEx.Create(Self);
   dgPanel.Parent:=Self;
+
+  // Register panel as drag&drop source and target.
+  dgPanel.DragDropSource := uDragDropEx.CreateDragDropSource(dgPanel);
+  dgPanel.DragDropSource.RegisterEvents(nil, nil, @dgPanel.OnExDragEnd);
+  dgPanel.DragDropTarget := uDragDropEx.CreateDragDropTarget(dgPanel);
+  dgPanel.DragDropTarget.RegisterEvents(@dgPanel.OnExDragEnter,@dgPanel.OnExDragOver,
+                                        @dgPanel.OnExDrop,@dgPanel.OnExDragLeave);
+
   dgPanel.FixedCols:=0;
   dgPanel.FixedRows:=0;
   dgPanel.DefaultDrawing:=True;
@@ -1336,6 +1502,7 @@ begin
   dgPanel.OnMouseDown := @dgPanelMouseDown;
   dgPanel.OnStartDrag := @dgPanelStartDrag;
   dgPanel.OnDragOver := @dgPanelDragOver;
+  dgPanel.OnDragDrop:= @dgPanelDragDrop;
   dgPanel.OnEndDrag:= @dgPanelEndDrag;
   dgPanel.OnDblClick:=@dgPanelDblClick;
   dgPanel.OnDrawCell:=@dgPanelDrawCell;
@@ -1378,39 +1545,327 @@ end;
 
 { TDrawGridEx }
 
-procedure TDrawGridEx.CMMouseEnter(var Message: TLMessage);
+constructor TDrawGridEx.Create(AOwner: TComponent);
 begin
-  inherited;
-  DropRowIndex:= DG_MOUSE_ENTER; // indicate that mouse enter
-end;
+  TransformDragging := False;
+  StartDrag := False;
+  DropRowIndex := -1;
 
-procedure TDrawGridEx.CMMouseLeave(var Message: TLMessage);
-begin
-  inherited;
-  DropRowIndex:= DG_MOUSE_LEAVE; // indicate that mouse leave
-  Invalidate;
+  inherited Create(AOwner);
 end;
 
 procedure TDrawGridEx.MouseMove(Shift: TShiftState; X, Y: Integer);
 var
-  iRow, iCol: Integer;
+  Point: TPoint;
+  frp: PFileRecItem;
+  SourcePanel: TFrameFilePanel;
 begin
-  // if begin drag and not column header
+  inherited MouseMove(Shift, X, Y);
+
+  // If dragging is currently in effect, the window has mouse capture and
+  // we can retrieve the window over which the mouse cursor currently is.
+  if DragManager.IsDragging and uDragDropEx.IsExternalDraggingSupported then
+  begin
+    Point := Self.ClientToScreen(Classes.Point(X, Y));
+
+    // use specifically LCLIntf.WindowFromPoint to avoid confusion with Windows.WindowFromPoint
+    if LCLIntf.WindowFromPoint(Point) = 0 then
+    begin
+      // If result is 0 then the window belongs to another process
+      // and we transform intra-process dragging into inter-process dragging.
+
+      // Set flag temporarily before stopping internal dragging,
+      // so that triggered events will know that dragging is transforming.
+      TransformDragging := True;
+
+      // Stop internal dragging
+      DragManager.DragStop(False);
+
+{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+      // Under GTK, DragManager does not release it's mouse capture on
+      // DragStop(). We must release it here manually or LCL will get confused
+      // with who "owns" the capture after the GTK drag&drop finishes.
+      ReleaseMouseCapture;
+{$ENDIF}
+
+      // Clear flag before starting external dragging.
+      TransformDragging := False;
+
+      SourcePanel := (Parent as TFrameFilePanel);
+
+      // Start external dragging.
+      // On Windows it does not return until dragging is finished.
+
+      SourcePanel.StartDragEx(LastMouseButton, Point);
+    end;
+  end
+
+  else
+
+  // if we are about to start dragging
   if StartDrag then
     begin
-      MouseToCell(X, Y, iCol, iRow);
-      if (iRow >= FixedRows) then
-        BeginDrag(False);
-      StartDrag:= False;
+      if DragRowIndex >= FixedRows then
+      begin
+        frp := (Parent as TFrameFilePanel).pnlFile.GetReferenceItemPtr(DragRowIndex - FixedRows); // substract fixed rows (header)
+        // Check if valid item is being dragged.
+        if (Parent as TFrameFilePanel).pnlFile.IsItemValid(frp) then
+        begin
+          StartDrag := False;
+          BeginDrag(False);
+        end;
+      end;
     end;
-  inherited MouseMove(Shift, X, Y);
 end;
 
 procedure TDrawGridEx.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
 begin
-  StartDrag:= False;
+  StartDrag := False;
   inherited MouseUp(Button, Shift, X, Y);
+end;
+
+function TDrawGridEx.GetHeaderHeight: Integer;
+var
+  i : Integer;
+begin
+  Result := 0;
+  for i := 0 to FixedRows-1 do
+    Result := Result + RowHeights[i];
+end;
+
+procedure TDrawGridEx.ChangeDropRowIndex(NewIndex: Integer);
+var
+  OldDropRowIndex: Integer;
+begin
+  if DropRowIndex <> NewIndex then
+  begin
+    OldDropRowIndex := DropRowIndex;
+
+    // Set new index before redrawing.
+    DropRowIndex := NewIndex;
+
+    if OldDropRowIndex >= 0 then // invalidate old row if need
+      InvalidateRow(OldDropRowIndex);
+    if NewIndex >= 0 then
+      InvalidateRow(NewIndex);
+  end;
+end;
+
+function TDrawGridEx.OnExDragEnter(var DropEffect: TDropEffect; ScreenPoint: TPoint):Boolean;
+begin
+  Result := True;
+end;
+
+function TDrawGridEx.OnExDragOver(var DropEffect: TDropEffect; ScreenPoint: TPoint):Boolean;
+var
+  ClientPoint: TPoint;
+  Dummy, iRow: Integer;
+  fri: PFileRecItem;
+  TargetPanel: TFrameFilePanel = nil;
+begin
+  Result := False;
+
+  ClientPoint := Self.ScreenToClient(ScreenPoint);
+
+  TargetPanel := (Self.Parent as TFrameFilePanel);
+
+  // Allow dropping into empty panel or on the header.
+  if TargetPanel.IsEmpty or (ClientPoint.Y < GetHeaderHeight) then
+  begin
+    ChangeDropRowIndex(-1);
+    Result := True;
+    Exit;
+  end;
+
+  MouseToCell(ClientPoint.X, ClientPoint.Y, Dummy, iRow);
+
+  // Get the item over which there is something dragged.
+  fri := TargetPanel.pnlFile.GetReferenceItemPtr(iRow - FixedRows); // substract fixed rows (header)
+
+  if Assigned(fri) and (FPS_ISDIR(fri^.iMode) or fri^.bLinkIsDir) and (ClientPoint.Y < GridHeight) then
+    // It is a directory or link.
+    begin
+      ChangeDropRowIndex(iRow);
+      Result := True;
+    end
+  else
+    begin
+      ChangeDropRowIndex(-1);
+      Result := True;
+    end;
+end;
+
+function TDrawGridEx.OnExDrop(const FileNamesList: TStringList; DropEffect: TDropEffect;
+                              ScreenPoint: TPoint):Boolean;
+var
+  FileList: TFileList;
+begin
+  if FileNamesList.Count > 0 then
+  begin
+    FileList := TFileList.Create;
+    FileList.LoadFromFileNames(FileNamesList);
+    DropFiles(FileList, DropEffect, ScreenPoint, True); // Will free FileList.
+  end;
+
+  ChangeDropRowIndex(-1);
+  Result := True;
+end;
+
+function TDrawGridEx.OnExDragLeave: Boolean;
+begin
+  ChangeDropRowIndex(-1);
+  Result := True;
+end;
+
+function TDrawGridEx.OnExDragBegin: Boolean;
+begin
+  Result := True;
+end;
+
+function TDrawGridEx.OnExDragEnd: Boolean;
+{$IF DEFINED(MSWINDOWS)}
+var
+  startPoint: TPoint;
+  currentPoint: TPoint;
+{$ENDIF}
+begin
+{$IF DEFINED(MSWINDOWS)}
+  // On windows dragging can be transformed back into internal.
+  // Check if drag was aborted due to mouse moving back into
+  // the application window or the user just cancelled it.
+  if (DragDropSource.GetLastStatus = DragDropAborted) and
+     TransformDragging then
+  begin
+    // Transform to internal dragging again.
+
+    // Save current mouse position.
+    GetCursorPos(currentPoint);
+
+    // Temporarily set cursor position to the point where the drag was started
+    // so that DragManager can properly read the control being dragged.
+    startPoint := ClientToScreen(Self.DragStartPoint);
+    SetCursorPos(startPoint.X,startPoint.Y);
+
+    // Begin internal dragging.
+    BeginDrag(True);
+
+    // Move cursor back.
+    SetCursorPos(currentPoint.X, currentPoint.Y);
+
+    // Clear flag.
+    TransformDragging := False;
+
+    Exit;
+  end;
+{$ENDIF}
+
+  // Refresh source file panel after drop to (possibly) another application
+  // (files could have been moved for example).
+  (Self.Parent as TFrameFilePanel).RefreshPanel;
+
+  ClearMouseButtonAfterDrag;
+
+  Result := True;
+end;
+
+// Frees FileList.
+procedure TDrawGridEx.DropFiles(var FileList: TFileList; DropEffect: TDropEffect;
+                                ScreenDropPoint: TPoint; DropIntoDirectories: Boolean);
+var
+  pfr: PFileRecItem;
+  TargetPanel: TFrameFilePanel;
+  TargetDir: string;
+  iCol, iRow: Integer;
+  ClientDropPoint: TPoint;
+  DropParams: PDropParams;
+begin
+  if FileList.Count > 0 then
+  begin
+    TargetPanel := (Self.Parent as TFrameFilePanel);
+
+    ClientDropPoint := TargetPanel.dgPanel.ScreenToClient(ScreenDropPoint);
+    TargetPanel.dgPanel.MouseToCell(ClientDropPoint.X, ClientDropPoint.Y, iCol, iRow);
+
+    // default to current active directory in the destination panel
+    TargetDir := TargetPanel.ActiveDir;
+
+    if (DropIntoDirectories = True) and
+       (iRow >= Self.FixedRows) and
+       (ClientDropPoint.Y < TargetPanel.dgPanel.GridHeight) then
+    begin
+      pfr := TargetPanel.pnlFile.GetReferenceItemPtr(iRow - FixedRows);
+
+      // If dropped into a directory modify destination path accordingly.
+      if Assigned(pfr) and (FPS_ISDIR(pfr^.iMode) or (pfr^.bLinkIsDir)) then
+      begin
+        if pfr^.sName = '..' then
+          // remove the last subdirectory in the path
+          TargetDir := LowDirLevel(TargetDir)
+        else
+          TargetDir := TargetDir + pfr^.sName + DirectorySeparator;
+      end;
+    end;
+
+    case DropEffect of
+
+      DropMoveEffect:
+        frmMain.RenameFile(FileList, TargetPanel, TargetDir); // will free FileList
+
+      DropCopyEffect:
+        frmMain.CopyFile(FileList, TargetPanel, TargetDir);   // will free FileList
+
+      DropLinkEffect:
+        begin
+          // TODO: process multiple files
+
+          // Treat LinkEffect as SymLink action
+          if ShowSymLinkForm(FileList.GetFileName(0),
+                             TargetDir + ExtractFileName(FileList.GetFileName(0)))
+          then
+            TargetPanel.RefreshPanel;
+
+          FreeAndNil(FileList);
+        end;
+
+      DropAskEffect:
+        begin
+          // Ask the user what he would like to do by displaying a menu.
+
+          // Create params record to pass to drop menu.
+          // pmDropMenu handles disposing of this in OnClose event.
+          DropParams := new(PDropParams);
+          DropParams^.ScreenDropPoint := ScreenDropPoint;
+          DropParams^.DropIntoDirectories := DropIntoDirectories;
+          DropParams^.FileList := FileList;
+          DropParams^.DropEffect := DropEffect;
+          DropParams^.TargetDirectory := TargetDir;
+          DropParams^.TargetPanel := TargetPanel;
+
+          frmMain.pmDropMenu.Tag := LongInt(DropParams);
+
+          frmMain.pmDropMenu.PopUp(ScreenDropPoint.X, ScreenDropPoint.Y); // returns immediately
+
+          // Popup menu will handle freeing FileList.
+        end;
+
+      else
+        FreeAndNil(FileList);
+
+    end;
+  end
+  else
+    FreeAndNil(FileList);
+end;
+
+procedure TDrawGridEx.ClearMouseButtonAfterDrag;
+begin
+  // Clear some control specific flags.
+  Exclude(ControlState, csClicked);
+  Exclude(ControlState, csLButtonDown);
+
+  // reset TCustomGrid state
+  FGridState := gsNormal;
 end;
 
 end.

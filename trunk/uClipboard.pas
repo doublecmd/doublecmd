@@ -14,6 +14,18 @@ uses
   function PasteFromClipboard(out ClipboardOp: TClipboardOperation;
                               out filenames:TStringList):Boolean;
 
+{$IF DEFINED(UNIX)}
+  function URIDecode(encodedUri: String): String;
+  function URIEncode(path: String): String;
+  function ExtractFilenames(uriList: String): TStringList;
+
+const
+  // General MIME
+  uriListMime = 'text/uri-list';
+  textPlainMime = 'text/plain';
+  fileScheme = 'file:';   // for URI
+{$ENDIF}
+
 implementation
 
 uses
@@ -38,11 +50,6 @@ const
 
   // Kde
   kdeClipboardMime = 'application/x-kde-cutselection';
-
-  // Other
-  uriListMime = 'text/uri-list';
-  textPlainMime = 'text/plain';
-  fileScheme = 'file:';   // for URI
 
 {$ENDIF}
 
