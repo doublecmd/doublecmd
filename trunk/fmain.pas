@@ -2387,7 +2387,7 @@ begin
   NotActiveFrame.dgPanelExit(self);
   {$IFDEF unix}
   if gTermWindow and Assigned(Cons) then
-    Cons.Terminal.Write_pty('cd "'+ActiveFrame.ActiveDir+'"'+#13+#10);
+    Cons.Terminal.Write_pty(' cd "'+ActiveFrame.ActiveDir+'"'+#13+#10);
   {$ENDIF}
 end;
 
@@ -3016,7 +3016,7 @@ begin
         DebugLn(sDir);
 {$IFDEF UNIX}
         if gTermWindow and Assigned(Cons) then
-          Cons.Terminal.Write_pty('cd "'+sDir+'"'+#13#10);
+          Cons.Terminal.Write_pty(' cd "'+sDir+'"'+#13#10);
 {$ENDIF}
       end;
     end;
