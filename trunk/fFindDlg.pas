@@ -200,7 +200,6 @@ begin
   Splitter1.Visible:= False;
   Height:= Panel2.Height + 22;
   DSL:= TDSXModuleList.Create;
-  DSL.Load(gini);
   // fill search depth combobox
   cbSearchDepth.Items.Add(rsFindDepthAll);
   cbSearchDepth.Items.Add(rsFindDepthCurDir);
@@ -631,6 +630,8 @@ begin
     cmbFindFileMask.SelectAll;
   //cmbFindFileMask.SetFocus;
   cmbFindFileMask.Items.Assign(glsMaskHistory);
+  DSL.Load(gini);
+  cbbSPlugins.Clear;
   for i:=0 to DSL.Count-1 do
     begin
       cbbSPlugins.AddItem(DSL.GetDSXModule(i).Name+' ('+DSL.GetDSXModule(i).Descr+' )',nil);
