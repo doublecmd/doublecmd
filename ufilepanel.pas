@@ -610,7 +610,7 @@ begin
               fActiveDir:=Copy(fActiveDir,1, i);
               {$IFDEF unix}
               if gTermWindow and Assigned(Cons) then
-                Cons.Terminal.Write_pty('cd "'+fActiveDir+'"'+#13#10);
+                Cons.Terminal.Write_pty(' cd "'+fActiveDir+'"'+#13#10);
               {$ENDIF}
               bPathFound:=True;
               Break;
@@ -640,7 +640,7 @@ begin
         ActiveDir:=ActiveDir+sName+DirectorySeparator;
         {$IFDEF unix}
         if gTermWindow and Assigned(Cons) then
-          Cons.Terminal.Write_pty('cd "'+ActiveDir+'"'+#13#10);
+          Cons.Terminal.Write_pty(' cd "'+ActiveDir+'"'+#13#10);
         {$ENDIF}
         LastActive:='';
         if glsDirHistory.IndexOf(ActiveDir)=-1 then
