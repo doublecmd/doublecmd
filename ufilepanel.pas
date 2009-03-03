@@ -726,8 +726,8 @@ end;
 function TFilePanel.GetReferenceItemPtr(iIndex:Integer):PFileRecItem;
 begin
   Result:= nil;
-  if iIndex >= fRefList.Count then Exit;
-  Result:= PFileRecItem(fRefList.Items[iIndex]);
+  if (iIndex >= 0) and (iIndex < fRefList.Count) then
+    Result:= PFileRecItem(fRefList.Items[iIndex]);
 end;
 
 function TFilePanel.IsEmpty:Boolean;

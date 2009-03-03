@@ -4,7 +4,6 @@ object frmMain: TfrmMain
   Top = 109
   Width = 678
   ActiveControl = nbRight
-  AllowDropFiles = True
   Caption = 'Double Commander'
   ClientHeight = 478
   ClientWidth = 678

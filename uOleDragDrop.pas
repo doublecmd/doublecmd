@@ -19,7 +19,7 @@ unit uOleDragDrop;
 interface
 
 uses
-  Windows, ActiveX, Classes;
+  Windows, ActiveX, Classes, Controls, uDragDropEx;
 
 type
   { TFormatList -- массив записей TFormatEtc }
@@ -86,8 +86,7 @@ type
   end;
 
 
-  TFileDropEvent = procedure(DDI: TDragDropInfo) of object;
-
+  TDragDropTargetWindows = class; // forward declaration
 
   { TFileDropTarget знает, как принимать сброшенные файлы }
 
@@ -97,14 +96,13 @@ type
 
     FHandle: HWND;
 
-    FOnFilesDropped: TFileDropEvent;
+    FDragDropTarget: TDragDropTargetWindows;
 
   public
 
-    constructor Create(Handle: HWND; AOnDrop: TFileDropEvent);
+    constructor Create(DragDropTarget: TDragDropTargetWindows);
 
     destructor Destroy; override;
-
 
 
     { из IDropTarget }
@@ -119,8 +117,6 @@ type
 
     function Drop(const dataObj: IDataObject; grfKeyState: LongWord;
       pt: TPoint; var dwEffect: LongWord): HResult; stdcall;
-
-    property OnFilesDropped: TFileDropEvent Read FOnFilesDropped Write FOnFilesDropped;
 
   end;
 
@@ -186,6 +182,42 @@ type
 
   end;
 
+  TDragDropSourceWindows = class(TDragDropSource)
+  public
+    function  RegisterEvents(DragBeginEvent  : uDragDropEx.TDragBeginEvent;
+                             RequestDataEvent: uDragDropEx.TRequestDataEvent;// not handled in Windows
+                             DragEndEvent    : uDragDropEx.TDragEndEvent): Boolean; override;
+
+    function DoDragDrop(const FileNamesList: TStringList;
+                        MouseButton: TMouseButton;
+                        ScreenStartPoint: TPoint
+                       ): Boolean; override;
+  end;
+
+  TDragDropTargetWindows = class(TDragDropTarget)
+  public
+    constructor Create(Control: TWinControl); override;
+    destructor  Destroy; override;
+
+    function  RegisterEvents(DragEnterEvent: uDragDropEx.TDragEnterEvent;
+                             DragOverEvent : uDragDropEx.TDragOverEvent;
+                             DropEvent     : uDragDropEx.TDropEvent;
+                             DragLeaveEvent: uDragDropEx.TDragLeaveEvent): Boolean; override;
+
+    procedure UnregisterEvents; override;
+
+  private
+    FDragDropTarget: TFileDropTarget;
+  end;
+
+
+  function GetEffectByKeyState(grfKeyState: LongWord) : Integer;
+
+  { These functions convert Windows-specific effect value to
+  { TDropEffect values and vice-versa. }
+  function WinEffectToDropEffect(dwEffect: LongWord): TDropEffect;
+  function DropEffectToWinEffect(DropEffect: TDropEffect): LongWord;
+
 
   { Query DROPFILES structure for [BOOL fWide] parameter }
   function DragQueryWide( hGlobalDropInfo: HDROP ): boolean;
@@ -193,7 +225,7 @@ type
 implementation
 
 uses
-  SysUtils, ShellAPI, ShlObj;
+  SysUtils, ShellAPI, ShlObj, LCLIntf;
 
 { TEnumFormatEtc }
 
@@ -495,23 +527,20 @@ end;
 
 { TFileDropTarget }
 
-constructor TFileDropTarget.Create(Handle: HWND; AOnDrop: TFileDropEvent);
-
+constructor TFileDropTarget.Create(DragDropTarget: TDragDropTargetWindows);
 begin
 
   inherited Create;
 
   _AddRef;
 
-  FHandle := Handle;
-
-  FOnFilesDropped := AOnDrop;
+  FDragDropTarget := DragDropTarget;
 
   ActiveX.CoLockObjectExternal(Self,
 
     True, False);
 
-  ActiveX.RegisterDragDrop(FHandle, Self);
+  ActiveX.RegisterDragDrop(DragDropTarget.GetControl.Handle, Self);
 
 end;
 
@@ -586,32 +615,67 @@ end;
 function TFileDropTarget.DragEnter(const dataObj: IDataObject;
   grfKeyState: LongWord; pt: TPoint; var dwEffect: LongWord): HResult; stdcall;
 
+var
+  DropEffect: TDropEffect;
+
 begin
+  dwEffect := GetEffectByKeyState(grfKeyState);
 
-  dwEffect := DROPEFFECT_COPY;
+  if Assigned(FDragDropTarget.GetDragEnterEvent) then
+  begin
+      DropEffect := WinEffectToDropEffect(dwEffect);
 
-  Result := S_OK;
-
+      if FDragDropTarget.GetDragEnterEvent()(DropEffect, pt) = True then
+      begin
+        dwEffect := DropEffectToWinEffect(DropEffect);
+        Result := S_OK
+      end
+      else
+        Result := S_FALSE;
+  end
+  else
+      Result := S_OK;
 end;
 
 function TFileDropTarget.DragOver
 
   (grfKeyState: LongWord; pt: TPoint; var dwEffect: LongWord): HResult; stdcall;
 
+var
+  DropEffect: TDropEffect;
+
 begin
+  dwEffect := GetEffectByKeyState(grfKeyState);
 
-  dwEffect := DROPEFFECT_COPY;
+  if Assigned(FDragDropTarget.GetDragOverEvent) then
+  begin
+      DropEffect := WinEffectToDropEffect(dwEffect);
 
-  Result := S_OK;
-
+      if FDragDropTarget.GetDragOverEvent()(DropEffect, pt) = True then
+      begin
+        dwEffect := DropEffectToWinEffect(DropEffect);
+        Result := S_OK
+      end
+      else
+        Result := S_FALSE;
+  end
+  else
+      Result := S_OK;
 end;
 
 function TFileDropTarget.DragLeave: HResult; stdcall;
 
 begin
 
-  Result := S_OK;
-
+  if Assigned(FDragDropTarget.GetDragLeaveEvent) then
+  begin
+      if FDragDropTarget.GetDragLeaveEvent() = True then
+        Result := S_OK
+      else
+        Result := S_FALSE;
+  end
+  else
+      Result := S_OK;
 end;
 
 {
@@ -633,8 +697,6 @@ var
 
   i: Integer;
 
-  rslt: Integer;
-
   DropInfo: TDragDropInfo;
 
   szFilename: array [0..MAX_PATH] of char;
@@ -644,6 +706,8 @@ var
   DropPoint: TPoint;
 
   bWideStrings: boolean;
+
+  DropEffect: TDropEffect;
 
 begin
 
@@ -681,7 +745,7 @@ begin
 
   { Заносим данные в структуру Medium }
 
-  rslt := dataObj.GetData(Format, Medium);
+  Result := dataObj.GetData(Format, Medium);
 
 
 
@@ -695,7 +759,7 @@ begin
 
   }
 
-  if (rslt = S_OK) then
+  if (Result = S_OK) then
 
   begin
 
@@ -706,6 +770,9 @@ begin
     NumFiles := DragQueryFile(Medium.hGlobal, $FFFFFFFF, nil, 0);
 
     InClient := DragQueryPoint(Medium.hGlobal, @DropPoint);
+
+    if (DropPoint.X = 0) and (DropPoint.Y = 0) then
+      DropPoint := pt;
 
     bWideStrings := DragQueryWide( Medium.hGlobal );
 
@@ -738,11 +805,20 @@ begin
 
     { Если указан обработчик, вызываем его }
 
-    if (Assigned(FOnFilesDropped)) then
+    if (Assigned(FDragDropTarget.GetDropEvent)) then
 
     begin
 
-      FOnFilesDropped(DropInfo);
+      // Set default effect by examining keyboard keys.
+      dwEffect := GetEffectByKeyState(grfKeyState);
+
+      DropEffect := WinEffectToDropEffect(dwEffect);
+
+      if FDragDropTarget.GetDropEvent()(DropInfo.Files, DropEffect, DropInfo.DropPoint) = False then
+
+        ;
+
+      dwEffect := DropEffectToWinEffect(DropEffect);
 
     end;
 
@@ -750,22 +826,18 @@ begin
 
     DropInfo.Free;
 
+
+    { Release memory allocated on DoDragDrop }
+    DragFinish( Medium.hGlobal );
+
+    if (Medium.PUnkForRelease = nil) then
+
+      ReleaseStgMedium(@Medium);
+
   end;
-
-  { Release memory allocated on DoDragDrop }
-  DragFinish( Medium.hGlobal );
-
-  if (Medium.PUnkForRelease = nil) then
-
-    ReleaseStgMedium(@Medium);
-
 
 
   dataObj._Release;
-
-  dwEffect := DROPEFFECT_COPY;
-
-  Result := S_OK;
 
 end;
 
@@ -791,6 +863,9 @@ QueryContinueDrag определяет необходимые действия.
 function TFileDropSource.QueryContinueDrag(fEscapePressed: BOOL;
   grfKeyState: longint): HResult;
 
+var
+  Point:TPoint;
+
 begin
 
   if (fEscapePressed) then
@@ -799,9 +874,12 @@ begin
 
     Result := DRAGDROP_S_CANCEL;
 
+    // Set flag to notify that dragging was canceled by the user.
+    uDragDropEx.TransformDragging := False;
+
   end
 
-  else if ((grfKeyState and (MK_LBUTTON or MK_RBUTTON)) = 0) then
+  else if ((grfKeyState and (MK_LBUTTON or MK_MBUTTON or MK_RBUTTON)) = 0) then
 
   begin
 
@@ -813,7 +891,27 @@ begin
 
   begin
 
-    Result := S_OK;
+    GetCursorPos(Point);
+
+    // Call LCL function, not the Windows one.
+    // LCL version will return 0 if mouse is over a window belonging to another process.
+    if LCLIntf.WindowFromPoint(Point) <> 0 then
+
+    begin
+      // Mouse cursor has been moved back into the application window.
+
+      // Cancel external dragging.
+      Result := DRAGDROP_S_CANCEL;
+
+      // Set flag to notify that dragging has not finished,
+      // but rather it is to be transformed into internal dragging.
+      uDragDropEx.TransformDragging := True;
+
+    end
+
+    else
+
+      Result := S_OK;  // Continue dragging
 
   end;
 
@@ -1058,6 +1156,43 @@ begin
 
 end;
 
+
+function GetEffectByKeyState(grfKeyState: LongWord): Integer;
+begin
+  Result := DROPEFFECT_COPY; { default effect }
+
+  if (grfKeyState and MK_CONTROL) > 0 then
+  begin
+    if (grfKeyState and MK_SHIFT) > 0 then
+      Result := DROPEFFECT_LINK
+    else
+      Result := DROPEFFECT_COPY;
+  end
+  else if (grfKeyState and MK_SHIFT) > 0 then
+    Result := DROPEFFECT_MOVE;
+
+end;
+
+function WinEffectToDropEffect(dwEffect: LongWord): TDropEffect;
+begin
+  case dwEffect of
+    DROPEFFECT_COPY: Result := DropCopyEffect;
+    DROPEFFECT_MOVE: Result := DropMoveEffect;
+    DROPEFFECT_LINK: Result := DropLinkEffect;
+    else             Result := DropNoEffect;
+  end;
+end;
+
+function DropEffectToWinEffect(DropEffect: TDropEffect): LongWord;
+begin
+  case DropEffect of
+    DropCopyEffect: Result := DROPEFFECT_COPY;
+    DropMoveEffect: Result := DROPEFFECT_MOVE;
+    DropLinkEffect: Result := DROPEFFECT_LINK;
+    else            Result := DROPEFFECT_NONE;
+  end;
+end;
+
 function DragQueryWide( hGlobalDropInfo: HDROP ): boolean;
 var DropFiles: PDropFiles;
 begin
@@ -1065,6 +1200,144 @@ begin
   Result := DropFiles^.fWide;
   GlobalUnlock( hGlobalDropInfo );
 end;
+
+{ ---------------------------------------------------------}
+{ TDragDropSourceWindows }
+
+function TDragDropSourceWindows.RegisterEvents(
+                         DragBeginEvent  : uDragDropEx.TDragBeginEvent;
+                         RequestDataEvent: uDragDropEx.TRequestDataEvent; // not Handled in Windows
+                         DragEndEvent    : uDragDropEx.TDragEndEvent): Boolean;
+begin
+  inherited;
+
+  // RequestDataEvent is not handled, because the system has control of all data transfer.
+
+  Result := True; // confirm that events are registered
+end;
+
+function TDragDropSourceWindows.DoDragDrop(const FileNamesList: TStringList;
+                                           MouseButton: TMouseButton;
+                                           ScreenStartPoint: TPoint): Boolean;
+var
+  DropSource: TFileDropSource;
+  DropData: THDropDataObject;
+  Rslt: HRESULT;
+  dwEffect: LongWord;
+  I: Integer;
+begin
+
+    // Simulate drag-begin event.
+    if Assigned(GetDragBeginEvent) then
+    begin
+      Result := GetDragBeginEvent()();
+      if Result = False then Exit;
+    end;
+
+    // Create source-object
+    DropSource:= TFileDropSource.Create;
+
+    // and data object
+    DropData:= THDropDataObject.Create(ScreenStartPoint, True);
+
+    for I:= 0 to FileNamesList.Count - 1 do
+      DropData.Add (FileNamesList[i]);
+
+    // Start OLE Drag&Drop
+    Rslt:= ActiveX.DoDragDrop(DropData, DropSource,
+                      DROPEFFECT_MOVE or DROPEFFECT_COPY or DROPEFFECT_LINK, // Allowed effects
+                      @dwEffect);
+
+    case Rslt of
+      DRAGDROP_S_DROP:
+        begin
+          FLastStatus := DragDropSuccessful;
+          Result := True;
+        end;
+
+      DRAGDROP_S_CANCEL:
+        begin
+          FLastStatus := DragDropAborted;
+          Result := False;
+        end;
+
+      E_OUTOFMEMORY:
+        begin
+          MessageBox(0, 'Out of memory', 'Error!', 16);
+          FLastStatus := DragDropError;
+          Result := False;
+        end;
+
+      else
+        begin
+          MessageBox(0, 'Something bad happened', 'Error!', 16);
+          FLastStatus := DragDropError;
+          Result := False;
+        end;
+    end;
+
+    // Simulate drag-end event. This must be called here,
+    // after DoDragDrop returns from the system.
+    if Assigned(GetDragEndEvent) then
+    begin
+      if Result = True then
+        Result := GetDragEndEvent()()
+      else
+        GetDragEndEvent()()
+    end;
+
+    { РћСЃРІРѕР±РѕР¶РґР°РµРј РёСЃРїРѕР»СЊР·РѕРІР°РЅРЅС‹Рµ СЂРµСЃСѓСЂСЃС‹
+
+    РїРѕСЃР»Рµ Р·Р°РІРµСЂС€РµРЅРёСЏ СЂР°Р±РѕС‚С‹ }
+
+   { DropSource.Free;
+
+    DropData.Free; }
+end;
+
+
+{ ---------------------------------------------------------}
+{ TDragDropTargetWindows }
+
+constructor TDragDropTargetWindows.Create(Control: TWinControl);
+begin
+  FDragDropTarget := nil;
+  inherited Create(Control);
+end;
+
+destructor TDragDropTargetWindows.Destroy;
+begin
+  inherited Destroy;
+  if FDragDropTarget <> nil then
+    FreeAndNil(FDragDropTarget);
+end;
+
+function TDragDropTargetWindows.RegisterEvents(
+                                DragEnterEvent: uDragDropEx.TDragEnterEvent;
+                                DragOverEvent : uDragDropEx.TDragOverEvent;
+                                DropEvent     : uDragDropEx.TDropEvent;
+                                DragLeaveEvent: uDragDropEx.TDragLeaveEvent): Boolean;
+begin
+  // Unregister if registered before.
+  UnregisterEvents;
+
+  inherited; // Call inherited Register now.
+
+  GetControl.HandleNeeded; // force creation of the handle
+  if GetControl.HandleAllocated = True then
+  begin
+    FDragDropTarget := uOleDragDrop.TFileDropTarget.Create(Self);
+    Result := True;
+  end;
+end;
+
+procedure TDragDropTargetWindows.UnregisterEvents;
+begin
+  inherited;
+  if Assigned(FDragDropTarget) then
+    FreeAndNil(FDragDropTarget); // Freeing will unregister events
+end;
+
 
 initialization
 

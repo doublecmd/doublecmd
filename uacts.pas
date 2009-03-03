@@ -1758,8 +1758,6 @@ procedure TActs.cm_PasteFromClipboard(param: string='');
 var
   ClipboardOp: TClipboardOperation;
   filenamesList: TStringList;
-  i: Integer;
-  fr: TFileRecItem;
   FileList: TFileList;
 begin
   with frmMain do
@@ -1768,14 +1766,7 @@ begin
     begin
       // fill file list by files
       FileList:= TFileList.Create;
-
-      for i := 0 to filenamesList.Count - 1 do
-        begin
-          fr:= LoadFilebyName(filenamesList[i]);
-          fr.sName:= filenamesList[i];
-          fr.sNameNoExt:= ExtractFileName(filenamesList[i]);
-          FileList.AddItem(@fr);
-        end;
+      FileList.LoadFromFileNames(fileNamesList);
 
       { If panel is in Archive of VFS mode - show dialog for the user to confirm. }
       { Otherwise just start the operation thread. }
@@ -1783,7 +1774,7 @@ begin
         uClipboard.ClipboardCut:
         begin
           if ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then
-            RenameFile(FileList, ActiveFrame)
+            RenameFile(FileList, ActiveFrame, ActiveFrame.ActiveDir)
           else if ActiveFrame.pnlFile.PanelMode = pmDirectory then
             RunRenameThread(FileList, ActiveFrame.ActiveDir, '*.*');
         end;
@@ -1791,7 +1782,7 @@ begin
         uClipboard.ClipboardCopy:
         begin
           if ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then
-            CopyFile(FileList, ActiveFrame)
+            CopyFile(FileList, ActiveFrame, ActiveFrame.ActiveDir)
           else if ActiveFrame.pnlFile.PanelMode = pmDirectory then
             RunCopyThread(FileList, ActiveFrame.ActiveDir, '*.*', False);
         end;
