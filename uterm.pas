@@ -145,6 +145,7 @@ type
    private
     FChildPid:THandle;
     Fpty:Longint;
+    FCols,Frows:integer;
     //---------------------
     //---------------------
    public
@@ -158,6 +159,7 @@ type
       //---------------------
       function SendBreak_pty():boolean;  // ^C
       function SendSignal_pty(Sig:Cint):boolean;
+      function SetScreenSize(aCols,aRows:integer):boolean;
       //---------------------
       function KillShell:LongInt;
       function CSI_GetTaskId(const buf:UTF8string):integer; //get index of sequence in CSILast list
@@ -477,7 +479,8 @@ function Tterm.Fork_pty(const rows, cols: integer; const cmd:UTF8string; const p
 var ws:TWinSize;
     ChildPid:THandle;
 begin
-
+  FCols:=cols;
+  Frows:=rows;
   ws.ws_row:=rows;
   ws.ws_col:=cols;
   ws.ws_xpixel:=0;
@@ -548,6 +551,23 @@ var BytesWritten:TSize;
 begin
   BytesWritten:=fpwrite(Fpty,Sig,sizeof(sig));
   result:=result and (BytesWritten>0);
+end;
+
+function Tterm.SetScreenSize(aCols, aRows: integer): boolean;
+var ws:TWinSize;
+begin
+  ws.ws_row:=aRows;
+  ws.ws_col:=aCols;
+  ws.ws_xpixel:=0;
+  ws.ws_ypixel:=0;
+
+  if FpIOCtl(Fpty,TIOCSWINSZ,@ws)=0 then
+    begin
+      Result:=true;
+      FCols:=aCols;
+      Frows:=aRows;
+    end
+  else Result:=false;
 end;
 
 
