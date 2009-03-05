@@ -54,7 +54,7 @@ type
 
   { Mouse entered into the control when dragging something }
   TDragEnterEvent = function(
-      // Proposed drop effect by the source.
+      // Proposed drop effect by the source (can be changed by the target to inform the source).
       var DropEffect: TDropEffect;
       // Screen coordinates of mouse cursor.
       ScreenPoint: TPoint):Boolean of object;
@@ -146,7 +146,7 @@ type
     function GetControl: TWinControl;
   end;
 
-  { Returns system-appropriate DragDropTarget object. }
+  { These functions return system-appropriate DragDrop... object. }
   function CreateDragDropSource(Control: TWinControl): TDragDropSource;
   function CreateDragDropTarget(Control: TWinControl): TDragDropTarget;
 
@@ -162,6 +162,9 @@ type
 var
   { If set to True, then dragging is being transformed: internal to external or vice-versa. }
   TransformDragging : Boolean = False;
+
+  { If set to True, then transforming from external back to internal dragging is enabled. }
+  AllowTransformToInternal : Boolean = True;
 
 implementation
 
