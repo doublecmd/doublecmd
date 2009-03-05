@@ -44,6 +44,10 @@ type
     // but was released in another window or another application.
     procedure ClearMouseButtonAfterDrag;
 
+    // If internal dragging is currently in effect, this function
+    // stops internal dragging and starts external.
+    procedure TransformDraggingToExternal(ScreenPoint: TPoint);
+
     { Events for drag&drop from external applications }
     function OnExDragBegin: Boolean;
     function OnExDragEnd  : Boolean;
@@ -475,7 +479,7 @@ begin
 
   { Dragging }
 
-  if (not DragManager.IsDragging) and // we could be in dragging mode already (started by a different button)
+  if (not dgPanel.Dragging)   and  // we could be in dragging mode already (started by a different button)
      (Y < dgPanel.GridHeight) then // check if there is an item under the mouse cursor
   begin
     // indicate that drag start at next mouse move event
@@ -485,6 +489,7 @@ begin
     dgPanel.DragStartPoint.Y := Y;
     dgPanel.DragRowIndex := iRow;
     uDragDropEx.TransformDragging := False;
+    uDragDropEx.AllowTransformToInternal := True;
   end;
 end;
 
@@ -1287,6 +1292,8 @@ end;
 
 procedure TFrameFilePanel.dgPanelKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
+var
+  ScreenPoint:TPoint;
 begin
   if Key=VK_INSERT then
   begin
@@ -1346,6 +1353,19 @@ begin
    or ((dgPanel.Row=dgPanel.FixedRows) and (key=VK_UP)) then
     key:=0;
   {$ENDIF}
+
+  if dgPanel.Dragging and (Key = VK_MENU) then // Alt key
+  begin
+    // Force transform to external dragging in anticipation of user
+    // pressing Alt+Tab to change active application window.
+
+    // Disable flag, so that dragging isn't immediately transformed
+    // back to internal before the other application window is shown.
+    uDragDropEx.AllowTransformToInternal := False;
+
+    GetCursorPos(ScreenPoint);
+    dgPanel.TransformDraggingToExternal(ScreenPoint);
+  end;
 end;
 
 function TFrameFilePanel.GetActiveItem:PFileRecItem;
@@ -1558,13 +1578,13 @@ procedure TDrawGridEx.MouseMove(Shift: TShiftState; X, Y: Integer);
 var
   Point: TPoint;
   frp: PFileRecItem;
-  SourcePanel: TFrameFilePanel;
+  ExpectedButton: TShiftStateEnum;
 begin
   inherited MouseMove(Shift, X, Y);
 
   // If dragging is currently in effect, the window has mouse capture and
   // we can retrieve the window over which the mouse cursor currently is.
-  if DragManager.IsDragging and uDragDropEx.IsExternalDraggingSupported then
+  if Self.Dragging and uDragDropEx.IsExternalDraggingSupported then
   begin
     Point := Self.ClientToScreen(Classes.Point(X, Y));
 
@@ -1574,29 +1594,7 @@ begin
       // If result is 0 then the window belongs to another process
       // and we transform intra-process dragging into inter-process dragging.
 
-      // Set flag temporarily before stopping internal dragging,
-      // so that triggered events will know that dragging is transforming.
-      TransformDragging := True;
-
-      // Stop internal dragging
-      DragManager.DragStop(False);
-
-{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
-      // Under GTK, DragManager does not release it's mouse capture on
-      // DragStop(). We must release it here manually or LCL will get confused
-      // with who "owns" the capture after the GTK drag&drop finishes.
-      ReleaseMouseCapture;
-{$ENDIF}
-
-      // Clear flag before starting external dragging.
-      TransformDragging := False;
-
-      SourcePanel := (Parent as TFrameFilePanel);
-
-      // Start external dragging.
-      // On Windows it does not return until dragging is finished.
-
-      SourcePanel.StartDragEx(LastMouseButton, Point);
+      TransformDraggingToExternal(Point);
     end;
   end
 
@@ -1605,13 +1603,26 @@ begin
   // if we are about to start dragging
   if StartDrag then
     begin
-      if DragRowIndex >= FixedRows then
+      StartDrag := False;
+
+      case LastMouseButton of
+        mbLeft   : ExpectedButton := ssLeft;
+        mbMiddle : ExpectedButton := ssMiddle;
+        mbRight  : ExpectedButton := ssRight;
+        else       Exit;
+      end;
+
+      // Make sure the same mouse button is still pressed.
+      if not (ExpectedButton in Shift) then
+      begin
+        ClearMouseButtonAfterDrag;
+      end
+      else if DragRowIndex >= FixedRows then
       begin
         frp := (Parent as TFrameFilePanel).pnlFile.GetReferenceItemPtr(DragRowIndex - FixedRows); // substract fixed rows (header)
         // Check if valid item is being dragged.
         if (Parent as TFrameFilePanel).pnlFile.IsItemValid(frp) then
         begin
-          StartDrag := False;
           BeginDrag(False);
         end;
       end;
@@ -1620,9 +1631,18 @@ end;
 
 procedure TDrawGridEx.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
+var
+  WasDragging: Boolean;
 begin
   StartDrag := False;
-  inherited MouseUp(Button, Shift, X, Y);
+
+  WasDragging := Self.Dragging;
+
+  inherited MouseUp(Button, Shift, X, Y);  // will stop any dragging
+
+  // Call handler only if button-up was not lifted to finish drag&drop operation.
+  if (WasDragging = False) then
+    frmMain.framedgPanelMouseUp(Self, Button, Shift, X, Y);
 end;
 
 function TDrawGridEx.GetHeaderHeight: Integer;
@@ -1650,6 +1670,35 @@ begin
     if NewIndex >= 0 then
       InvalidateRow(NewIndex);
   end;
+end;
+
+procedure TDrawGridEx.TransformDraggingToExternal(ScreenPoint: TPoint);
+var
+  SourcePanel: TFrameFilePanel;
+begin
+  // Set flag temporarily before stopping internal dragging,
+  // so that triggered events will know that dragging is transforming.
+  TransformDragging := True;
+
+  // Stop internal dragging
+  DragManager.DragStop(False);
+
+{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+  // Under GTK, DragManager does not release it's mouse capture on
+  // DragStop(). We must release it here manually or LCL will get confused
+  // with who "owns" the capture after the GTK drag&drop finishes.
+  ReleaseMouseCapture;
+{$ENDIF}
+
+  // Clear flag before starting external dragging.
+  TransformDragging := False;
+
+  SourcePanel := (Parent as TFrameFilePanel);
+
+  // Start external dragging.
+  // On Windows it does not return until dragging is finished.
+
+  SourcePanel.StartDragEx(LastMouseButton, ScreenPoint);
 end;
 
 function TDrawGridEx.OnExDragEnter(var DropEffect: TDropEffect; ScreenPoint: TPoint):Boolean;
@@ -1778,7 +1827,7 @@ var
   TargetDir: string;
   iCol, iRow: Integer;
   ClientDropPoint: TPoint;
-  DropParams: PDropParams;
+  DropParams: TDropParams;
 begin
   if FileList.Count > 0 then
   begin
@@ -1832,19 +1881,17 @@ begin
         begin
           // Ask the user what he would like to do by displaying a menu.
 
-          // Create params record to pass to drop menu.
-          // pmDropMenu handles disposing of this in OnClose event.
-          DropParams := new(PDropParams);
-          DropParams^.ScreenDropPoint := ScreenDropPoint;
-          DropParams^.DropIntoDirectories := DropIntoDirectories;
-          DropParams^.FileList := FileList;
-          DropParams^.DropEffect := DropEffect;
-          DropParams^.TargetDirectory := TargetDir;
-          DropParams^.TargetPanel := TargetPanel;
+          // Fill parameters record to pass to drop menu.
+          DropParams.ScreenDropPoint := ScreenDropPoint;
+          DropParams.DropIntoDirectories := DropIntoDirectories;
+          DropParams.FileList := FileList;
+          DropParams.DropEffect := DropEffect;
+          DropParams.TargetDirectory := TargetDir;
+          DropParams.TargetPanel := TargetPanel;
 
-          frmMain.pmDropMenu.Tag := LongInt(DropParams);
-
-          frmMain.pmDropMenu.PopUp(ScreenDropPoint.X, ScreenDropPoint.Y); // returns immediately
+          // returns immediately after showing menu
+          frmMain.pmDropMenu.PopUp(ScreenDropPoint.X, ScreenDropPoint.Y,
+                                   DropParams);
 
           // Popup menu will handle freeing FileList.
         end;

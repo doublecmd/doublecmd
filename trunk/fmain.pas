@@ -51,6 +51,15 @@ const
 
 type
 
+  TDropPopupMenu = class(TPopupMenu)
+  private
+    FPDropParams: PDropParams;
+
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure PopUp(X, Y: Integer; const DropParams: TDropParams);
+  end;
+
   { TfrmMain }
 
   TfrmMain = class(TForm)
@@ -180,7 +189,7 @@ type
     pmDrivesMenu: TPopupMenu;
     LogSplitter: TSplitter;
     pmColumnsMenu: TPopupMenu;
-    pmDropMenu: TPopupMenu;
+    pmDropMenu: TDropPopupMenu;
     pmTabMenu: TPopupMenu;
     seLogWindow: TSynEdit;
     btnLeftTargetEqualSource: TSpeedButton;
@@ -974,13 +983,13 @@ var
   DropParams: TDropParams;
   SourceFileName, TargetFileName: String;
 begin
-  if (Sender is TMenuItem) and (pmDropMenu.Tag <> 0) then
+  if (Sender is TMenuItem) and Assigned(pmDropMenu.FPDropParams) then
     begin
       // First, immediately copy parameters to a new record.
       // Any function we call next (like creating a form) could issue closing
       // all open popup menus (pmDropMenu too), which would in turn cause
-      // pmDropMenuClose to be executed, thus disposing of pmDropMenu.Tag.
-      DropParams := PDropParams(pmDropMenu.Tag)^; // this copies all record fields
+      // pmDropMenuClose to be executed, thus disposing of parameters.
+      DropParams := pmDropMenu.FPDropParams^; // this copies all record fields
 
       with DropParams do
       begin
@@ -1017,10 +1026,10 @@ begin
             SourceFileName := FileList.GetFileName(0);
             TargetFileName := TargetDirectory + ExtractFileName(SourceFileName);
 
+            FreeAndNil(FileList);
+
             if ShowHardLinkForm(SourceFileName, TargetFileName) = True then
               TargetPanel.RefreshPanel;
-
-            FreeAndNil(FileList);
           end
         else if (Sender as TMenuItem).Name = 'miCancel' then
           begin
@@ -1030,13 +1039,30 @@ begin
     end;
 end;
 
+constructor TDropPopupMenu.Create(AOwner: TComponent);
+begin
+  FPDropParams := nil;
+  inherited;
+end;
+
+procedure TDropPopupMenu.PopUp(X, Y: Integer; const DropParams: TDropParams);
+begin
+  // Disposing of this is handled in pmDropMenuClose.
+  FPDropParams := new(PDropParams);
+  if Assigned(FPDropParams) then
+  begin
+    FPDropParams^ := DropParams;
+    inherited PopUp(X, Y);
+  end;
+end;
+
 procedure TfrmMain.pmDropMenuClose(Sender: TObject);
 begin
   // Free drop parameters given to drop menu.
-  if pmDropMenu.Tag <> 0 then
+  if Assigned(pmDropMenu.FPDropParams) then
   begin
-    Dispose(PDropParams(pmDropMenu.Tag));
-    pmDropMenu.Tag := 0;
+    Dispose(pmDropMenu.FPDropParams);
+    pmDropMenu.FPDropParams := nil;
   end;
 end;
 
@@ -2206,15 +2232,16 @@ begin
 end;
 
 { Show context or columns menu on right click }
+{ Is called manually from TDrawGridEx.MouseUp }
 procedure TfrmMain.framedgPanelMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var  I : Integer; Point:TPoint; MI:TMenuItem;
 begin
 
-  if Sender is TDrawGridEx then
+  if (Sender is TDrawGridEx) and (Button = mbRight) then
     begin
       { If right click on header }
-      if (Button=mbRight) and (Y < (Sender as TDrawGridEx).GetHeaderHeight) then
+      if (Y < (Sender as TDrawGridEx).GetHeaderHeight) then
         begin
 
           //Load Columns into menu
@@ -2231,35 +2258,36 @@ begin
                 end;
             end;
 
-           //-
-	    MI:=TMenuItem.Create(pmColumnsMenu);
-	    MI.Caption:='-';
-	    pmColumnsMenu.Items.Add(MI);
-	   //Configure this custom columns
-	    MI:=TMenuItem.Create(pmColumnsMenu);
-	    MI.Tag:=1000;
-	    MI.Caption:=rsMenuConfigureThisCustomColumn;
-	    MI.OnClick:=@ColumnsMenuClick;
-	    pmColumnsMenu.Items.Add(MI);
-	   //Configure custom columns
-	    MI:=TMenuItem.Create(pmColumnsMenu);
-	    MI.Tag:=1001;
-	    MI.Caption:=rsMenuConfigureCustomColumns;
-	    MI.OnClick:=@ColumnsMenuClick;
-	    pmColumnsMenu.Items.Add(MI);
+         //-
+    	    MI:=TMenuItem.Create(pmColumnsMenu);
+    	    MI.Caption:='-';
+    	    pmColumnsMenu.Items.Add(MI);
+    	   //Configure this custom columns
+    	    MI:=TMenuItem.Create(pmColumnsMenu);
+    	    MI.Tag:=1000;
+    	    MI.Caption:=rsMenuConfigureThisCustomColumn;
+    	    MI.OnClick:=@ColumnsMenuClick;
+    	    pmColumnsMenu.Items.Add(MI);
+    	   //Configure custom columns
+    	    MI:=TMenuItem.Create(pmColumnsMenu);
+    	    MI.Tag:=1001;
+    	    MI.Caption:=rsMenuConfigureCustomColumns;
+    	    MI.OnClick:=@ColumnsMenuClick;
+    	    pmColumnsMenu.Items.Add(MI);
         
           Point:=(Sender as TDrawGrid).ClientToScreen(Classes.Point(0,0));
           Point.Y:=Point.Y+(Sender as TDrawGridEx).GetHeaderHeight;
           Point.X:=Point.X+X-50;
           pmColumnsMenu.PopUp(Point.X,Point.Y);
-          Exit;
-        end;
-    end;
+        end
 
-  if (Button = mbRight) and ((gMouseSelectionButton<>1) or not gMouseSelectionEnabled) then
-    begin
-      Actions.cm_ContextMenu('OnMouseClick');
-      //actContextMenu.Execute;
+      { If right click on file/directory }
+      else if (Y < (Sender as TDrawGridEx).GridHeight)
+           and ((gMouseSelectionButton<>1) or not gMouseSelectionEnabled) then
+        begin
+          Actions.cm_ContextMenu('OnMouseClick');
+          //actContextMenu.Execute;
+        end;
     end;
 end;
 
@@ -2589,8 +2617,6 @@ begin
     edtSearch.OnExit:=@FrameedtSearchExit;
     
     dgPanel.OnEnter:=@framedgPanelEnter;
-    dgPanel.OnMouseUp := @framedgPanelMouseUp;
-
   end;
 
 end;

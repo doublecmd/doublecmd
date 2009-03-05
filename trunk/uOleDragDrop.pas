@@ -891,21 +891,31 @@ begin
 
   begin
 
-    GetCursorPos(Point);
-
-    // Call LCL function, not the Windows one.
-    // LCL version will return 0 if mouse is over a window belonging to another process.
-    if LCLIntf.WindowFromPoint(Point) <> 0 then
+    if uDragDropEx.AllowTransformToInternal then
 
     begin
-      // Mouse cursor has been moved back into the application window.
 
-      // Cancel external dragging.
-      Result := DRAGDROP_S_CANCEL;
+      GetCursorPos(Point);
 
-      // Set flag to notify that dragging has not finished,
-      // but rather it is to be transformed into internal dragging.
-      uDragDropEx.TransformDragging := True;
+      // Call LCL function, not the Windows one.
+      // LCL version will return 0 if mouse is over a window belonging to another process.
+      if LCLIntf.WindowFromPoint(Point) <> 0 then
+
+      begin
+        // Mouse cursor has been moved back into the application window.
+
+        // Cancel external dragging.
+        Result := DRAGDROP_S_CANCEL;
+
+        // Set flag to notify that dragging has not finished,
+        // but rather it is to be transformed into internal dragging.
+        uDragDropEx.TransformDragging := True;
+
+      end
+
+      else
+
+        Result := S_OK;  // Continue dragging
 
     end
 
