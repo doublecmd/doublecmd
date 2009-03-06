@@ -171,8 +171,12 @@ end;
 var
    widget,
    mySocket:PGtkWidget;	//the socket
+   lst:PGlist;
 begin
-  widget := gtk_vbox_new(FALSE,0);
+  lst:=gtk_container_children(GTK_CONTAINER(PGtkwidget(AWidget)));
+  if lst=nil then exit;
+  widget := PGtkWidget(lst^.data);
+  //gtk_vbox_new(FALSE,0);
    mySocket := gtk_socket_new();
   gtk_container_add (GTK_CONTAINER(widget), mySocket);
 
