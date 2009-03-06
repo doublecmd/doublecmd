@@ -79,6 +79,7 @@ type
     cbLynxLike: TCheckBox;
     cbMainFont: TComboBox;
     cbRenameSelOnlyName: TCheckBox;
+    cbShowCopyTabSelectPanel: TCheckBox;
     cbShortFileSizeFormat: TCheckBox;
     cbViewerFont: TComboBox;
     cbFlatInterface: TCheckBox;
@@ -1659,6 +1660,7 @@ begin
   rbUseMmapInSearch.Checked := gUseMmapInSearch;
   seWipePassNumber.Value:= gWipePassNumber;
   cbProcessComments.Checked:= gProcessComments;
+  cbShowCopyTabSelectPanel.Checked:=gShowCopyTabSelectPanel;
 
   { Log file }
   cbLogFile.Checked := gLogFile;
@@ -1804,7 +1806,8 @@ begin
   gUseMmapInSearch := rbUseMmapInSearch.Checked;
   gWipePassNumber:= seWipePassNumber.Value;
   gProcessComments:= cbProcessComments.Checked;
-  
+  gShowCopyTabSelectPanel:=cbShowCopyTabSelectPanel.Checked;
+
   { Log file }
   gLogFile := cbLogFile.Checked;
   gLogFileName := fneLogFileName.FileName;

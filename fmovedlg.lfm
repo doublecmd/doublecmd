@@ -1,124 +1,166 @@
 object frmMoveDlg: TfrmMoveDlg
-  Left = 303
-  Height = 180
-  Top = 194
-  Width = 350
+  Left = 725
+  Height = 225
+  Top = 629
+  Width = 783
   HorzScrollBar.Page = 349
   HorzScrollBar.Range = 337
   VertScrollBar.Page = 179
   VertScrollBar.Range = 160
-  ActiveControl = btnOK
   AutoScroll = False
   Caption = 'Move file(s)'
-  ClientHeight = 180
-  ClientWidth = 350
+  ClientHeight = 225
+  ClientWidth = 783
+  Constraints.MaxHeight = 225
   KeyPreview = True
+  OnKeyDown = FormKeyDown
   OnKeyPress = frmMoveDlgKeyPress
   OnShow = frmMoveDlgShow
-  ParentFont = False
   Position = poScreenCenter
   LCLVersion = '0.9.27'
-  object lblMoveSrc: TLabel
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = Owner
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 8
-    Height = 20
-    Top = 8
-    Width = 334
-    Anchors = [akTop, akLeft, akRight]
-    AutoSize = False
-    BorderSpacing.Left = 8
-    BorderSpacing.Top = 8
-    BorderSpacing.Right = 8
-    Caption = 'Move %s:'
-    ParentColor = False
-  end
-  object lblFileType: TLabel
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = edtDst
-    AnchorSideTop.Side = asrBottom
-    Left = 12
-    Height = 19
-    Top = 64
-    Width = 68
-    BorderSpacing.Left = 12
-    BorderSpacing.Top = 6
-    Caption = 'Only type:'
-    ParentColor = False
-  end
-  object btnOK: TBitBtn
-    AnchorSideTop.Control = cmbFileType
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = btnCancel
-    Left = 156
-    Height = 32
-    Top = 129
-    Width = 90
-    Anchors = [akTop, akRight]
-    BorderSpacing.Top = 12
-    BorderSpacing.Right = 6
-    BorderSpacing.InnerBorder = 2
-    Caption = '&OK'
-    Default = True
-    Kind = bkOK
-    ModalResult = 1
-    NumGlyphs = 0
+  object Panel2: TPanel
+    Height = 160
+    Width = 783
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 160
+    ClientWidth = 783
     TabOrder = 0
+    object lblMoveSrc: TLabel
+      AnchorSideLeft.Control = Owner
+      AnchorSideTop.Control = Owner
+      AnchorSideRight.Control = Owner
+      AnchorSideRight.Side = asrBottom
+      Left = 8
+      Height = 20
+      Top = 8
+      Width = 767
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = False
+      BorderSpacing.Left = 8
+      BorderSpacing.Top = 8
+      BorderSpacing.Right = 8
+      Caption = 'Move %s:'
+      ParentColor = False
+    end
+    object lblFileType: TLabel
+      AnchorSideLeft.Control = Owner
+      AnchorSideTop.Side = asrBottom
+      Left = 12
+      Height = 17
+      Top = 64
+      Width = 81
+      BorderSpacing.Left = 12
+      BorderSpacing.Top = 6
+      Caption = 'Only type:'
+      ParentColor = False
+    end
+    object edtDst: TEdit
+      AnchorSideLeft.Control = Owner
+      AnchorSideTop.Control = lblMoveSrc
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = Owner
+      AnchorSideRight.Side = asrBottom
+      Left = 8
+      Height = 24
+      Top = 34
+      Width = 767
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 8
+      BorderSpacing.Top = 6
+      BorderSpacing.Right = 8
+      TabOrder = 0
+    end
+    object cmbFileType: TComboBox
+      AnchorSideLeft.Control = Owner
+      AnchorSideTop.Control = lblFileType
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = Owner
+      AnchorSideRight.Side = asrBottom
+      Left = 8
+      Height = 25
+      Top = 87
+      Width = 767
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 8
+      BorderSpacing.Top = 6
+      BorderSpacing.Right = 8
+      Enabled = False
+      TabOrder = 1
+    end
   end
-  object btnCancel: TBitBtn
-    AnchorSideTop.Control = cmbFileType
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 252
-    Height = 32
-    Top = 129
-    Width = 90
-    Anchors = [akTop, akRight]
-    BorderSpacing.Top = 12
-    BorderSpacing.Right = 8
-    BorderSpacing.InnerBorder = 2
-    Cancel = True
-    Caption = 'Cancel'
-    Kind = bkCancel
-    ModalResult = 2
-    NumGlyphs = 0
+  object panel3: TPanel
+    Height = 64
+    Top = 160
+    Width = 783
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 64
+    ClientWidth = 783
     TabOrder = 1
-  end
-  object edtDst: TEdit
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = lblMoveSrc
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 8
-    Height = 24
-    Top = 34
-    Width = 334
-    Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Left = 8
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 8
-    TabOrder = 2
-  end
-  object cmbFileType: TComboBox
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = lblFileType
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 8
-    Height = 28
-    Top = 89
-    Width = 334
-    Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Left = 8
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 8
-    Enabled = False
-    ParentCtl3D = False
-    TabOrder = 3
+    object Panel1: TPanel
+      Left = 576
+      Height = 64
+      Width = 207
+      Align = alRight
+      BevelOuter = bvNone
+      ChildSizing.EnlargeHorizontal = crsHomogenousSpaceResize
+      ChildSizing.EnlargeVertical = crsHomogenousSpaceResize
+      ChildSizing.Layout = cclTopToBottomThenLeftToRight
+      ClientHeight = 64
+      ClientWidth = 207
+      TabOrder = 0
+      object btnOK: TBitBtn
+        AnchorSideTop.Side = asrBottom
+        Left = 15
+        Height = 32
+        Top = 13
+        Width = 90
+        Anchors = [akTop, akRight]
+        BorderSpacing.Top = 12
+        BorderSpacing.Right = 6
+        BorderSpacing.InnerBorder = 2
+        Caption = '&OK'
+        Default = True
+        Kind = bkOK
+        ModalResult = 1
+        NumGlyphs = 0
+        TabOrder = 0
+      end
+      object btnCancel: TBitBtn
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = Owner
+        AnchorSideRight.Side = asrBottom
+        Left = 111
+        Height = 32
+        Top = 13
+        Width = 90
+        Anchors = [akTop, akRight]
+        BorderSpacing.Top = 12
+        BorderSpacing.Right = 8
+        BorderSpacing.InnerBorder = 2
+        Cancel = True
+        Caption = 'Cancel'
+        Kind = bkCancel
+        ModalResult = 2
+        NumGlyphs = 0
+        TabOrder = 1
+      end
+    end
+    object pnlSelector: TPanel
+      Height = 64
+      Width = 576
+      Align = alClient
+      BevelOuter = bvNone
+      ChildSizing.LeftRightSpacing = 5
+      ChildSizing.TopBottomSpacing = 13
+      ChildSizing.HorizontalSpacing = 3
+      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+      ChildSizing.EnlargeVertical = crsHomogenousChildResize
+      ChildSizing.ShrinkHorizontal = crsHomogenousSpaceResize
+      ChildSizing.ShrinkVertical = crsHomogenousSpaceResize
+      ChildSizing.Layout = cclTopToBottomThenLeftToRight
+      TabOrder = 1
+    end
   end
 end
