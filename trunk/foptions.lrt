@@ -100,6 +100,7 @@ TFRMOPTIONS.LBLWIPEPASSNUMBER.CAPTION=Number of wipe pass:
 TFRMOPTIONS.CBDROPREADONLYFLAG.CAPTION=Drop readonly flag
 TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION=Process comments with files/folders
 TFRMOPTIONS.CBRENAMESELONLYNAME.CAPTION=Select only the file name then renaming (not the extension)
+TFRMOPTIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION=Show tab select panel in copy/move dialog
 TFRMOPTIONS.GBFILESEARCH.CAPTION=File search
 TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION=Use memory mapping for search text in files
 TFRMOPTIONS.RBUSESTREAMINSEARCH.CAPTION=Use stream for search text in files

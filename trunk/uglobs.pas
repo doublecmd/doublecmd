@@ -150,6 +150,7 @@ var
   gDropReadOnlyFlag : Boolean = True;
   gWipePassNumber: Integer;
   gProcessComments: Boolean;
+  gShowCopyTabSelectPanel:boolean;
   
   gRenameSelOnlyName:boolean;
 
@@ -496,6 +497,8 @@ begin
   gWipePassNumber:= gIni.ReadInteger('Configuration', 'WipePassNumber', 1);
   gProcessComments := gIni.ReadBool('Configuration', 'ProcessComments', True);
   gRenameSelOnlyName:= gIni.ReadBool('Configuration', 'RenameSelOnlyName', false);
+  gShowCopyTabSelectPanel:= gIni.ReadBool('Configuration', 'ShowCopyTabSelectPanel', false);
+
   { Log }
   gLogFile := gIni.ReadBool('Configuration', 'LogFile', True);
   gLogFileName := gIni.ReadString('Configuration', 'LogFileName', gpIniDir + 'doublecmd.log');
@@ -665,6 +668,8 @@ begin
   gIni.WriteInteger('Configuration', 'WipePassNumber', gWipePassNumber);
   gIni.WriteBool('Configuration', 'ProcessComments', gProcessComments);
   gIni.WriteBool('Configuration', 'RenameSelOnlyName', gRenameSelOnlyName);
+  gIni.WriteBool('Configuration', 'ShowCopyTabSelectPanel', gShowCopyTabSelectPanel);
+
   { Log }
   gIni.WriteBool('Configuration', 'LogFile', gLogFile);
   gIni.WriteString('Configuration', 'LogFileName', gLogFileName);
