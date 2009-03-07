@@ -43,11 +43,11 @@ uses
 var noteb:TNotebook;
 procedure TfrmMoveDlg.TabsSelector(Sender: TObject);
 begin
-  edtDst.Text:=TFrameFilePanel(noteb.Page[(sender as TBitBtn).tag-1].Components[0]).ActiveDir;
+  edtDst.Text:=TFrameFilePanel(noteb.Page[(sender as TBitBtn).tag].Components[0]).ActiveDir;
 end;
 
 function TfrmMoveDlg.ShowTabsSelector: integer;
-var btnS:TBitBtn; i,tc:integer;
+var btnS:TBitBtn; i,tc:integer; st:TStringList; s:string;
 begin
   if frmmain.SelectedPanel=fpRight
   then noteb:=frmmain.nbLeft
@@ -59,16 +59,31 @@ begin
       exit;
     end;
   tc:=noteb.PageCount;
+  try
+    st:=TStringList.Create;
+    for i:=0 to tc-1 do
+    if TFrameFilePanel(noteb.Page[i].Components[0]).Visible=true then
+      begin
+       s:=TFrameFilePanel(noteb.Page[i].Components[0]).ActiveDir;
+        if st.IndexOf(s)=-1 then
+          begin
+            st.Add(s);
+            st.Objects[st.Count-1]:=TObject(i);
+          end;
+
+      end;
+
+  tc:=st.Count;
   if tc>10 then tc:=10;
   for i:=0 to tc-1 do
     begin
       btnS:=TBitBtn.Create(frmMoveDlg);
       btns.Parent:=pnlSelector;
-      btns.Tag:=i+1;
+      btns.Tag:=PtrInt(st.Objects[i]);
       if i<9 then
-        btns.Caption:=inttostr(i+1)+' - '+noteb.Page[i].Caption
+        btns.Caption:=inttostr(i+1)+' - '+noteb.Page[PtrInt(st.Objects[i])].Caption
       else
-        btns.Caption:='0 - '+noteb.Page[i].Caption;
+        btns.Caption:='0 - '+noteb.Page[PtrInt(st.Objects[i])].Caption;
 
       btnS.OnClick:=@TabsSelector;
 
@@ -78,6 +93,10 @@ begin
       btns.Top:=5;
       btns.Visible:=true;
     end;
+  finally
+    st.Free;
+  end;
+
 end;
 
 
@@ -98,7 +117,7 @@ end;
 procedure TfrmMoveDlg.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-    if gShowCopyTabSelectPanel and (edtDst.Focused=false) then
+    if gShowCopyTabSelectPanel and (edtDst.Focused=false) and (key-49<pnlSelector.ControlCount) then
     begin
       if (key>=VK_1) and (Key<=VK_9) then
          TBitBtn(pnlSelector.Controls[key-49]).Click;
