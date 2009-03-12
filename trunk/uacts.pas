@@ -52,8 +52,8 @@ const cf_Null=0;
    destructor Destroy;override;
    function Execute(Cmd: string; param:string =''): integer;
    function GetIndex(Cmd: string): integer;
-   function GetCategoriesList(var List:TStrings):integer;
-   function GetCommandsByCategory(Category:string; var List:TStrings):integer;
+   function GetCategoriesList(const List:TStrings):integer;
+   function GetCommandsByCategory(Category:string; const List:TStrings):integer;
   published
 
   //Only published functions and procedures can by found by MethodAddress
@@ -242,7 +242,7 @@ begin
   end;
 end;
 
-function TActs.GetCategoriesList(var List: TStrings): integer;
+function TActs.GetCategoriesList(const List: TStrings): integer;
 var s:string; i,p:integer;
 begin
   List.Clear;
@@ -270,7 +270,7 @@ begin
   result:=List.Count;
 end;
 
-function TActs.GetCommandsByCategory(Category: string; var List: TStrings
+function TActs.GetCommandsByCategory(Category: string; const List: TStrings
   ): integer;
 var i:integer; s:string;
 begin

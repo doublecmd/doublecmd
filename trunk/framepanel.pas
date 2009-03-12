@@ -1406,17 +1406,17 @@ end;
 procedure TFrameFilePanel.SetGridHorzLine(const AValue: Boolean);
 begin
   if AValue then
-    Include(dgPanel.Options, goHorzLine)
+    dgPanel.Options := dgPanel.Options + [goHorzLine]
   else
-    Exclude(dgPanel.Options, goHorzLine);
+    dgPanel.Options := dgPanel.Options - [goHorzLine];
 end;
 
 procedure TFrameFilePanel.SetGridVertLine(const AValue: Boolean);
 begin
   if AValue then
-    Include(dgPanel.Options, goVertLine)
+    dgPanel.Options := dgPanel.Options + [goVertLine]
   else
-    Exclude(dgPanel.Options, goVertLine);
+    dgPanel.Options := dgPanel.Options - [goVertLine]
 end;
 
 constructor TFrameFilePanel.Create(AOwner : TWinControl; lblDriveInfo : TLabel; lblCommandPath:TLabel; cmbCommand:TComboBox);
@@ -1908,8 +1908,7 @@ end;
 procedure TDrawGridEx.ClearMouseButtonAfterDrag;
 begin
   // Clear some control specific flags.
-  Exclude(ControlState, csClicked);
-  Exclude(ControlState, csLButtonDown);
+  ControlState := ControlState - [csClicked, csLButtonDown];
 
   // reset TCustomGrid state
   FGridState := gsNormal;
