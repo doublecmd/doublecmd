@@ -2034,7 +2034,7 @@ begin
     with ActiveFrame do
     begin
       if Assigned(GetActiveItem) then
-        pnlFile.ChooseFile(pnlFile.GetActiveItem);
+        pnlFile.ChooseFile(pnlFile.GetActiveItem,true);
     end;
     Key:=0;
     Exit;
