@@ -68,7 +68,7 @@ type
     procedure UpdatePanel;
 //    procedure ChDir(sDir:String);
     procedure TryOpenArchive(pfri:PFileRecItem);
-    procedure ChooseFile(pfri:PFileRecItem); // main input node
+    procedure ChooseFile(pfri:PFileRecItem; FolderMode:boolean=false); // main input node
     function GetFileItem(iIndex:Integer):TFileRecItem;
     function GetFileItemPtr(iIndex:Integer):PFileRecItem;
     function GetReferenceItemPtr(iIndex:Integer):PFileRecItem;
@@ -464,7 +464,7 @@ begin
   Sort;
 end;
 
-procedure TFilePanel.ChooseFile(pfri:PFileRecItem);
+procedure TFilePanel.ChooseFile(pfri:PFileRecItem; FolderMode:boolean=false);
 var
   sOpenCmd:String;
 begin
@@ -497,6 +497,7 @@ begin
       cdDownLevel(pfri);
       Exit;
     end;
+    if FolderMode then exit;
     //now test if exists Open command in doublecmd.ext :)
     sOpenCmd:= gExts.GetExtActionCmd(pfri^, 'open');
     if (sOpenCmd<>'') then
