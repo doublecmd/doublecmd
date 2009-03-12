@@ -217,7 +217,7 @@ TCmdBox=class(TCustomControl)
       property OutY               : Integer   read FOutY        write SetOutY;
       property TopLine            : Integer   read FTopLine     write SetTopLine;
       property History[i:Integer] : string    read GetHistory;
-      property InputPos           : Integer   read FInputPos;
+      property InputPos           : Integer   read FInputPos    write FInputPos;
       function HistoryCount       : Integer;
       published
       property Align;
@@ -1290,7 +1290,7 @@ begin
    if (l=1) and (Byte(S[Pp])<32) then Delete(s,Pp,1) else inc(Pp,l);
   end;
   FInputBuffer.Insert(InputPos,s,FInputColor,FInputBackGround);
-  Inc(InputPos,UTF8Length(s));
+  InputPos := InputPos + UTF8Length(s);
   FCaretX:=FInputX+InputPos;
   AdjustScrollBars;
   MakeInputVisible;

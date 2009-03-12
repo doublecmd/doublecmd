@@ -861,13 +861,13 @@ begin
         tmpWCXPlugins.Enabled[iPluginIndex]:= bEnabled;
         sExt:= Copy2SpaceDel(sExts);
       until sExt = '';
-      stgPlugins.Cells[0, stgPlugins.Row]:= IfThen(bEnabled, '+', '-');
+      stgPlugins.Cells[0, stgPlugins.Row]:= IfThen(bEnabled, string('+'), string('-'));
       btnEnablePlugin.Caption:= IfThen(bEnabled, rsOptDisable, rsOptEnable);
     end
   else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
     begin
       bEnabled:= not tmpWFXPlugins.Enabled[stgPlugins.Row - 1];
-      stgPlugins.Cells[0, stgPlugins.Row]:= IfThen(bEnabled, '+', '-');
+      stgPlugins.Cells[0, stgPlugins.Row]:= IfThen(bEnabled, string('+'), string('-'));
       tmpWFXPlugins.Enabled[stgPlugins.Row - 1]:= bEnabled;
       btnEnablePlugin.Caption:= IfThen(bEnabled, rsOptDisable, rsOptEnable);
     end;

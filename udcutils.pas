@@ -137,7 +137,7 @@ function RemoveQuotation(const Str: String): String;
 }
 procedure SplitArgs(var Args: TOpenStringArray; CmdLine: String);
 
-procedure ParseLineToList(sLine: String; var ssItems: TStrings);
+procedure ParseLineToList(sLine: String; const ssItems: TStrings);
 
 implementation
 uses
@@ -522,7 +522,7 @@ begin
   end;
 end;
 
-procedure ParseLineToList(sLine: String; var ssItems: TStrings);
+procedure ParseLineToList(sLine: String; const ssItems: TStrings);
 var
   I: Integer;
   xPos: Integer;

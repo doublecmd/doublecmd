@@ -68,7 +68,7 @@ begin
         if st.IndexOf(s)=-1 then
           begin
             st.Add(s);
-            st.Objects[st.Count-1]:=TObject(i);
+            st.Objects[st.Count-1]:=TObject(ptrint(i));
           end;
 
       end;
