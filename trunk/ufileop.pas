@@ -212,7 +212,7 @@ begin
     if sr.Name='' then Continue;
 
     // Don't include '..' in the root directory.
-    if ((sDir=DirectorySeparator) or (sDir=(ExtractFileDrive(sDir)+PathDelim))) and (sr.Name='..') then Continue;
+    if ( (sDir=DirectorySeparator) or (sDir=(ExtractFileDrive(sDir)+PathDelim)) or (sDir=ExtractFileDrive(sDir))) and (sr.Name='..') then Continue;
 
     // get TFileRecItem structure by SearchRec
     fr:= LoadFileInfoBySearchRec(sDir, sr);
