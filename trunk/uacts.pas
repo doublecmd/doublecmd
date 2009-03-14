@@ -1558,8 +1558,12 @@ var
 begin
 with frmMain do
 begin
-  sNewFile:=ActiveFrame.ActiveDir + rsEditNewFile;
+  if ActiveFrame.IsActiveItemValid then
+    sNewFile:= ActiveFrame.GetActiveItem^.sName
+  else
+    sNewFile:= rsEditNewFile;
   if not InputQuery(rsEditNewOpen, rsEditNewFileName, sNewFile) then Exit;
+  sNewFile:= ActiveFrame.ActiveDir + sNewFile;
   if not mbFileExists(sNewFile) then
     try
       hFile:= mbFileCreate(sNewFile);
