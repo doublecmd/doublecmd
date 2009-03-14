@@ -689,11 +689,17 @@ begin
     fpLeft:
        for I:= nbLeft.PageCount - 1 downto 0 do
          if I <> nbLeft.PageIndex then
-           RemovePage(nbLeft, I);
+           case RemovePage(nbLeft, I) of
+             1: Continue; // skip tab
+             2: Break;    // cancel operation
+           end;
     fpRight:
        for I:= nbRight.PageCount - 1 downto 0 do
          if I <> nbRight.PageIndex then
-           RemovePage(nbRight, I);
+           case RemovePage(nbRight, I) of
+             1: Continue; // skip tab
+             2: Break;    // cancel operation
+           end;
     end;
     ActiveFrame.SetFocus;
   end;

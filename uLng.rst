@@ -59,6 +59,10 @@ ulng.rsmsgpopuphotadd='&Add %s'
 ulng.rsmsgpopuphotcnf='&Configure'
 
 
+# hash value = 109561311
+ulng.rsmsgcloselockedtab='This tab (%s) is locked! Close anyway?'
+
+
 # hash value = 209920523
 ulng.rsdlgbuttons='&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &A'+
 'll;&Skip;S&kip All;All;'
@@ -366,8 +370,8 @@ ulng.rsconfcolmove='Move'
 ulng.rsconfcolconfig='Config'
 
 
-# hash value = 243859392
-ulng.rsconfcustheader='Customize column: '
+# hash value = 235833582
+ulng.rsconfcustheader='Customize column'
 
 
 # hash value = 206743977
