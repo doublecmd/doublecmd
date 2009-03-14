@@ -2794,6 +2794,10 @@ msgstr ""
 msgid "Remove all inactive tabs?"
 msgstr "Alle in-aktiven Tabs entfernen?"
 
+#: ulng.rsmsgcloselockedtab
+msgid "This tab (%s) is locked! Close anyway?"
+msgstr ""
+
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
 msgstr "%d markierte Datei(en) / Verzeichnis(se) kopieren?"
@@ -3095,7 +3099,7 @@ msgstr "Zeile für Zeile beim Navigieren mit Cursor-Taste"
 #: ulng.rsoptlog
 msgctxt "ulng.rsoptlog"
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
 #: ulng.rsoptmiscellaneous
 msgid "Miscellaneous"
@@ -3179,8 +3183,8 @@ msgid "Select a directory"
 msgstr "Wähle ein Verzeichnis"
 
 #: ulng.rsspacemsg
-msgid "Files:%d, Dirs:%d, Size: %d bytes"
-msgstr "Dateien:%d, Verzeichnis:%d, Grösse: %d byte"
+msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
+msgstr "Dateien: %d, Verzeichnis: %d, Grösse: %s (%s byte)"
 
 #: ulng.rsspliterrdirectory
 msgid "Unable to create target directory!"

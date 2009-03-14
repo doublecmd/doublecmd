@@ -2686,7 +2686,7 @@ msgid "Width"
 msgstr "Šířka"
 
 #: ulng.rsconfcustheader
-msgid "Customize column: "
+msgid "Customize column"
 msgstr "Nastavení sloupců:"
 
 #: ulng.rsdlgbuttons
@@ -2831,6 +2831,10 @@ msgstr "Změna adresáře na [%s] selhala!"
 #: ulng.rsmsgcloseallinactivetabs
 msgid "Remove all inactive tabs?"
 msgstr "Odstranit neaktivní záložky?"
+
+#: ulng.rsmsgcloselockedtab
+msgid "This tab (%s) is locked! Close anyway?"
+msgstr ""
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -3221,8 +3225,8 @@ msgid "Select a directory"
 msgstr "Vybrat adresář"
 
 #: ulng.rsspacemsg
-msgid "Files:%d, Dirs:%d, Size: %d bytes"
-msgstr "Souborů:%d, Adresářů:%d, Velikost: %d bytů"
+msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
+msgstr "Souborů: %d, Adresářů: %d, Velikost: %s (%s bytů)"
 
 #: ulng.rsspliterrdirectory
 msgid "Unable to create target directory!"
