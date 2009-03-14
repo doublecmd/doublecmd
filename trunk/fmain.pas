@@ -2188,7 +2188,9 @@ begin
 end;
 
 procedure TfrmMain.ColumnsMenuClick(Sender: TObject);
-var Index,x:integer;
+var
+  frmColumnsSetConf: TfColumnsSetConf;
+  Index: Integer;
 begin
   Case (Sender as TMenuItem).Tag of
     1000: //This
@@ -2197,8 +2199,8 @@ begin
             {EDIT Set}
             frmColumnsSetConf.edtNameofColumnsSet.Text:=ColSet.GetColumnSet(ActiveFrame.ActiveColm).CurrentColumnsSetName;
             Index:=ColSet.Items.IndexOf(ActiveFrame.ActiveColm);
-            frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(1+ColSet.Items.IndexOf(ActiveFrame.ActiveColm));
-            frmColumnsSetConf.Tag:=ColSet.Items.IndexOf(ActiveFrame.ActiveColm);
+            frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(1 + Index);
+            frmColumnsSetConf.Tag:=Index;
             frmColumnsSetConf.ColumnClass.Clear;
             frmColumnsSetConf.ColumnClass.Load(gIni,ActiveFrame.ActiveColm);
             {EDIT Set}

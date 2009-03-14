@@ -1451,6 +1451,8 @@ begin
 end;
 
 procedure TfrmOptions.btnEditColumnsSetClick(Sender: TObject);
+var
+  frmColumnsSetConf: TfColumnsSetConf;
 begin
   //TODO: may be it would be better to show error message?
   if lstColumnsSets.ItemIndex=-1 then exit;
@@ -1552,6 +1554,8 @@ begin
 end;
 
 procedure TfrmOptions.btnNewColumnsSetClick(Sender: TObject);
+var
+  frmColumnsSetConf: TfColumnsSetConf;
 begin
   Application.CreateForm(TfColumnsSetConf, frmColumnsSetConf);
    // Create new Set

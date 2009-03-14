@@ -81,6 +81,7 @@ object fColumnsSetConf: TfColumnsSetConf
       OnEditingDone = stgColumnsEditingDone
       OnHeaderSized = stgColumnsHeaderSized
       OnKeyDown = stgColumnsKeyDown
+      OnMouseDown = stgColumnsMouseDown
       OnSelectEditor = stgColumnsSelectEditor
       ColWidths = (
         67

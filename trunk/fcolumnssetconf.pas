@@ -150,7 +150,8 @@ type
       Index: Integer);
     procedure stgColumnsKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-
+    procedure stgColumnsMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure stgColumnsSelectEditor(Sender: TObject; aCol, aRow: Integer;
       var Editor: TWinControl);
 
@@ -169,31 +170,39 @@ type
     procedure UpdateColumnClass;
     procedure DGHeaderSized(Sender: TObject;IsColumn: Boolean; Index: Integer);
     { private declarations }
+    procedure AddNewField;
+    procedure CreateEditingControls;
+    procedure EditorSaveResult(Sender: TObject);
+    procedure LoadCustColumn(const Index:integer);
+    procedure OpenColorsPanel;
+    procedure UpdateColorsPanelHeader(const Index: Integer);
   public
     { public declarations }
     ColumnClass:TPanelColumnsClass;
-    procedure AddNewField;
-  end; 
+  private
+    { Editing controls. }
+    updWidth: TSpinEdit;
+    cbbAlign: TComboBox;
+    edtField: TEdit;
+    btnAdd: TButton;
+    btnDel: TBitBtn;
+    updMove: TUpDown;
+    btnCfg: TButton;
 
-  procedure EditorSaveResult(Sender: TObject);
+    PreviewPan: TFrameFilePanel;
 
-var
-  IndexRaw:integer=0;
-  pnlCustHeight:integer=130;
-  PnlContHeight:integer=180;
-  PreviewPan:TFrameFilePanel;
-  frmColumnsSetConf: TfColumnsSetConf;
-  updWidth:TSpinEdit;
-  cbbAlign:TComboBox;
-  edtField:TEdit;
-  btnAdd:TButton;
-  btnDel:TBitBtn;
-  updMove:TUpDown;
-  btnCfg:TButton;
-  Showed:boolean;
+    IndexRaw: Integer;
+    Showed: boolean;
+    ColumnClassOwnership: Boolean;
+  end;
+
 implementation
 
 uses uLng;
+
+const
+  pnlCustHeight: Integer = 130;
+  PnlContHeight: Integer = 180;
 
 procedure SetColorBoxColor(ColorBox: TColorBox; Color: TColor);
 begin
@@ -201,44 +210,35 @@ begin
   ColorBox.Color:= Color;
 end;
 
-procedure LoadCustColumn(const Index:integer);
+procedure TfColumnsSetConf.LoadCustColumn(const Index:integer);
 begin
- with frmColumnsSetConf do
- begin
-   if (Index>=stgColumns.RowCount-1) or (Index<0) then exit;
-   
-    IndexRaw:=Index;
-    pnlCustHead.Caption:=rsConfCustHeader+inttostr(IndexRaw);
+  if (Index>=stgColumns.RowCount-1) or (Index<0) then exit;
 
-    edtFont.Text:=ColumnClass.GetColumnFontName(IndexRaw);
-    sneFontSize.Value:=ColumnClass.GetColumnFontSize(IndexRaw);
-    SetColorBoxColor(cbTextColor, ColumnClass.GetColumnTextColor(IndexRaw));
-    SetColorBoxColor(cbBackColor, ColumnClass.GetColumnBackground(IndexRaw));
-    SetColorBoxColor(cbBackColor2, ColumnClass.GetColumnBackground2(IndexRaw));
-    SetColorBoxColor(cbMarkColor, ColumnClass.GetColumnMarkColor(IndexRaw));
-    SetColorBoxColor(cbCursorColor, ColumnClass.GetColumnCursorColor(IndexRaw));
-    SetColorBoxColor(cbCursorText, ColumnClass.GetColumnCursorText(IndexRaw));
-    cbOvercolor.Checked:=ColumnClass.GetColumnOvercolor(IndexRaw);
+  IndexRaw:=Index;
 
-    //open pblCustCont if it is hidden
-    if Splitter2.Height+1>pnlCustCont.Height then
-    pnlCustHeadClick(nil);
- end;
+  UpdateColorsPanelHeader(IndexRaw);
+  edtFont.Text:=ColumnClass.GetColumnFontName(IndexRaw);
+  sneFontSize.Value:=ColumnClass.GetColumnFontSize(IndexRaw);
+  SetColorBoxColor(cbTextColor, ColumnClass.GetColumnTextColor(IndexRaw));
+  SetColorBoxColor(cbBackColor, ColumnClass.GetColumnBackground(IndexRaw));
+  SetColorBoxColor(cbBackColor2, ColumnClass.GetColumnBackground2(IndexRaw));
+  SetColorBoxColor(cbMarkColor, ColumnClass.GetColumnMarkColor(IndexRaw));
+  SetColorBoxColor(cbCursorColor, ColumnClass.GetColumnCursorColor(IndexRaw));
+  SetColorBoxColor(cbCursorText, ColumnClass.GetColumnCursorText(IndexRaw));
+  cbOvercolor.Checked:=ColumnClass.GetColumnOvercolor(IndexRaw);
 end;
 
-procedure EditorSaveResult(Sender: TObject);
+procedure TfColumnsSetConf.EditorSaveResult(Sender: TObject);
 begin
- with frmColumnsSetConf do
-   begin
-    if Sender is TSpinEdit then
-     stgColumns.Cells[2,(Sender as TSpinEdit).Tag]:=inttostr(updWidth.Value);
-    if Sender is TComboBox then
-     stgColumns.Cells[3,(Sender as TComboBox).Tag]:=(Sender as TComboBox).Text;
-    if Sender is TEdit then
-     stgColumns.Cells[4,(Sender as TEdit).Tag]:=(Sender as TEdit).Text;
-   end;
-   
-  frmColumnsSetConf.UpdateColumnClass;
+  if Sender is TSpinEdit then
+   stgColumns.Cells[2,(Sender as TSpinEdit).Tag]:=inttostr(updWidth.Value);
+  if Sender is TComboBox then
+   stgColumns.Cells[3,(Sender as TComboBox).Tag]:=(Sender as TComboBox).Text;
+  if Sender is TEdit then
+   stgColumns.Cells[4,(Sender as TEdit).Tag]:=(Sender as TEdit).Text;
+
+  UpdateColumnClass;
+  UpdateColorsPanelHeader(IndexRaw);
 end;
 
 { TfColumnsSetConf }
@@ -266,7 +266,7 @@ var i,indx:integer;
        ColumnClass.SetColumnPrm(Indx,TColPrm(stgColumns.Objects[6,i]));
      end;
 
-  PreviewPan.ActiveColmSlave:=frmColumnsSetConf.ColumnClass;
+  PreviewPan.ActiveColmSlave := Self.ColumnClass;
   PreviewPan.SetColWidths;
   PreviewPan.Repaint;
 
@@ -277,144 +277,103 @@ end;
 procedure TfColumnsSetConf.stgColumnsSelectEditor(Sender: TObject; aCol,
   aRow: Integer; var Editor: TWinControl);
 
-var i:integer;
-
 begin
-  if assigned(updWidth) then FreeAndNil(updWidth);
-  if assigned(cbbAlign) then FreeAndNil(cbbAlign);
-  if assigned(btnAdd) then FreeAndNil(btnAdd);
-  if assigned(btnDel) then FreeAndNil(btnDel);
-  if assigned(edtField) then FreeAndNil(edtField);
-  if assigned(updMove) then FreeAndNil(updMove);
-  if assigned(btncfg) then FreeAndNil(btnCfg);
+ // Hide '+' button in other columns than 4th (Field contents).
+ if (aCol <> 4) and btnAdd.Visible then
+   btnAdd.Hide;
 
  try
   case aCol of
     0: begin
-         btnDel:=TBitBtn.Create(frmColumnsSetConf);
-         with btnDel do
-           begin
-             Parent:=stgColumns;
-             Glyph.Assign(btnCancel.Glyph);
-             Caption:='';
-             Height:=stgColumns.RowHeights[aRow];
-             Width:=stgColumns.ColWidths[aCol]-2;
-             Visible:=false;
-             Tag:=aRow;
-             OnClick:=@BitBtnDeleteFieldClick;
-             Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Right-Width;
-             Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
-           end;
-         Editor:=btnDel;
+         // Only show delete button if there is more than one column.
+         if (stgColumns.RowCount - stgColumns.FixedRows) > 1 then
+         begin
+           with btnDel do
+             begin
+               Height:=stgColumns.RowHeights[aRow];
+               Width:=stgColumns.ColWidths[aCol]-2;
+               Tag:=aRow;
+               Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Right-Width;
+               Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
+             end;
+           Editor:=btnDel;
+         end
+         else
+           Editor := nil;
        end;
 
     2: begin
-         updWidth:=TSpinEdit.Create(frmColumnsSetConf);
-         with  updWidth do
+         with updWidth do
            begin
-             Parent:=(Sender as TStringGrid);
              Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Left;
              Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
              Height:=(Sender as TStringGrid).RowHeights[aRow];
              Width:=(Sender as TStringGrid).ColWidths[aCol];
              Tag:=aRow;
-             if ((Sender as TStringGrid).Cells[aCol,aRow])<>'' then
-             MaxValue:=1000;
              Value:=StrToInt((Sender as TStringGrid).Cells[aCol,aRow]);
-             OnKeyDown:=@EditorKeyDown;
-             OnChange:=@SpinEditChange;
-             OnExit:=@SpinEditExit;
-             Visible:=false;
-         end;
+           end;
          Editor:=updWidth;
        end;
     3: begin
-         cbbAlign:=TComboBox.Create(frmColumnsSetConf);
          with cbbAlign do
            begin
-             Parent:=(Sender as TStringGrid);
              Width:=(Sender as TStringGrid).ColWidths[aCol];
              Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Left;
              Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
              Height:=(Sender as TStringGrid).RowHeights[aRow];
              Tag:=aRow;
-             Style:=csDropDownList;
-             AddItem('<-',nil);
-             AddItem('->',nil);
-             AddItem('=',nil);
-             OnSelect:=@ComboBoxXSelect;
-             OnKeyDown:=@EditorKeyDown;
              ItemIndex:=Items.IndexOf((Sender as TStringGrid).Cells[aCol,aRow]);
-             Visible:=false;
            end;
-           Editor:=cbbAlign;
+         Editor:=cbbAlign;
        end;
     4: begin
-         btnAdd:=TButton.Create(frmColumnsSetConf);
          with btnAdd do
            begin
-             Parent:=(Sender as TStringGrid);
              Width:=20;
              Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Right-Width;
              Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
              Height:=(Sender as TStringGrid).RowHeights[aRow];
              Tag:=aRow;
-             Caption:='+';
-             OnClick:=@ButtonAddClick;
-             Visible:=true;
+             Show;
            end;
-         edtField:=TEdit.Create(frmColumnsSetConf);
+
          with edtField do
            begin
-             Parent:=(Sender as TStringGrid);
              Width:=(Sender as TStringGrid).ColWidths[aCol];
              Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Left;
              Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
              Height:=(Sender as TStringGrid).RowHeights[aRow];
              Tag:=aRow;
-             OnExit:=@EditExit;
-             OnKeyDown:=@EditorKeyDown;
-             Visible:=false;
              Text:=(Sender as TStringGrid).Cells[aCol,aRow];
            end;
          Editor:=edtField;
        end;
     5: begin
-     updMove:=TUpDown.Create(frmColumnsSetConf);
-     with updMove do
-       begin
-         Parent:=stgColumns;
-         Height:=stgColumns.RowHeights[aRow];
-         Width:=stgColumns.ColWidths[aCol]-2;
-         Visible:=false;
-         Tag:=aRow;
-         Min:=-((Sender as TStringGrid).RowCount-1);
-         Max:=-1;
-         Position:=-aRow;
-         OnChanging:=@UpDownXChanging;
-         OnClick:=@UpDownXClick;
-         Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Right-Width;
-         Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
+         with updMove do
+           begin
+             Height:=stgColumns.RowHeights[aRow];
+             Width:=stgColumns.ColWidths[aCol]-2;
+             Tag:=aRow;
+             Min:=-((Sender as TStringGrid).RowCount-1);
+             Max:=-1;
+             Position:=-aRow;
+             Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Right-Width;
+             Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
+           end;
+         Editor:=updMove;
        end;
-     Editor:=updMove;
-   end;
 
-   6: begin
-     btnCfg:=TButton.Create(frmColumnsSetConf);
-     with btnCfg do
-       begin
-         Parent:=stgColumns;
-         Height:=stgColumns.RowHeights[aRow];
-         Width:=stgColumns.ColWidths[aCol]-2;
-         Visible:=false;
-         Tag:=aRow;
-         Caption:=rsConfColConfig;
-         OnClick:=@BtnCfgClick;
-         Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Right-Width;
-         Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
+    6: begin
+         with btnCfg do
+           begin
+            Height:=stgColumns.RowHeights[aRow];
+            Width:=stgColumns.ColWidths[aCol]-2;
+            Tag:=aRow;
+            Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Right-Width;
+            Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
+           end;
+         Editor:=btnCfg;
        end;
-     Editor:=btnCfg;
-      end;
   end;
 
  finally
@@ -436,6 +395,30 @@ begin
     begin
       AddNewField;
     end;
+end;
+
+procedure TfColumnsSetConf.stgColumnsMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  Col, Row: Integer;
+begin
+  if Y < stgColumns.GridHeight then
+  begin
+    // Clicked on a cell, allow editing.
+    stgColumns.Options := stgColumns.Options + [goEditing];
+
+    // Select clicked column in customize colors panel.
+    stgColumns.MouseToCell(X, Y, Col, Row);
+    LoadCustColumn(Row - stgColumns.FixedRows);
+  end
+  else
+  begin
+    // Clicked not on a cell, disable editing.
+    stgColumns.Options := stgColumns.Options - [goEditing];
+
+    if btnAdd.Visible then
+      btnAdd.Hide;
+  end;
 end;
 
 procedure TfColumnsSetConf.EditorKeyDown(Sender: TObject; var Key: Word;
@@ -467,23 +450,99 @@ end;
 procedure TfColumnsSetConf.FormCreate(Sender: TObject);
 begin
   ColumnClass:=TPanelColumnsClass.Create;
+  ColumnClassOwnership := True;
+
   // Resize window for screen size if need
   ResizeToScreen(Self);
   PreviewPan:=TFrameFilePanel.Create(pnlPreview, Label1, Label2, ComboBox1);
+
+  CreateEditingControls;
+end;
+
+procedure TfColumnsSetConf.CreateEditingControls;
+begin
+  // Editing controls are created with no parent-control.
+  // TCustomGrid handles their visibility when they are assigned to Editor property.
+
+  btnCfg:=TButton.Create(Self);
+  with btnCfg do
+   begin
+     Caption := rsConfColConfig;
+     OnClick := @BtnCfgClick;
+   end;
+
+  btnDel:=TBitBtn.Create(Self);
+  with btnDel do
+   begin
+     Glyph.Assign(btnCancel.Glyph);
+     Caption := '';
+     OnClick := @BitBtnDeleteFieldClick;
+   end;
+
+  cbbAlign:=TComboBox.Create(Self);
+  with cbbAlign do
+   begin
+     Style := csDropDownList;
+     AddItem('<-',nil);
+     AddItem('->',nil);
+     AddItem('=',nil);
+     OnSelect := @ComboBoxXSelect;
+     OnKeyDown := @EditorKeyDown;
+   end;
+
+  edtField:=TEdit.Create(Self);
+  with edtField do
+   begin
+     OnExit := @EditExit;
+     OnKeyDown := @EditorKeyDown;
+   end;
+
+  updMove:=TUpDown.Create(Self);
+  with updMove do
+   begin
+     OnChanging := @UpDownXChanging;
+     OnClick := @UpDownXClick;
+   end;
+
+  updWidth:=TSpinEdit.Create(Self);
+  with updWidth do
+   begin
+     MinValue := 0;
+     MaxValue := 1000;
+     OnKeyDown := @EditorKeyDown;
+     OnChange := @SpinEditChange;
+     OnExit := @SpinEditExit;
+  end;
+
+
+  // Add button displayed in 'Field contents'.
+  btnAdd:=TButton.Create(Self);
+  with btnAdd do
+   begin
+     Visible := False;
+     Parent := stgColumns; // set Parent, because this control is shown manually in stgColumns
+     Caption := '+';
+     OnClick := @ButtonAddClick;
+   end;
 end;
 
 procedure TfColumnsSetConf.FormDestroy(Sender: TObject);
+var
+  i: Integer;
 begin
   showed:=false;
-  if assigned(updWidth) then FreeAndNil(updWidth);
-  if assigned(cbbAlign) then FreeAndNil(cbbAlign);
-  if assigned(btnAdd) then FreeAndNil(btnAdd);
-  if assigned(btnDel) then FreeAndNil(btnDel);
-  if assigned(edtField) then FreeAndNil(edtField);
-  if assigned(updMove) then FreeAndNil(updMove);
-  if assigned(btnCfg) then FreeAndNil(btnCfg);
-  if assigned(PreviewPan) then FreeAndNil(PreviewPan);
-  // ColumnClass.Free;
+  if (ColumnClassOwnership = True) and Assigned(ColumnClass) then
+    FreeAndNil(ColumnClass);
+
+  // Free TColPrm objects assigned to each row.
+  for i := 0 to stgColumns.RowCount-1 do
+  begin
+    if Assigned(stgColumns.Objects[6, i]) then
+    begin
+      (stgColumns.Objects[6, i] as TColPrm).Free;
+      stgColumns.Objects[6, i] := nil;
+    end;
+  end;
 end;
 
 procedure TfColumnsSetConf.FormResize(Sender: TObject);
@@ -539,7 +598,7 @@ begin
     else
         begin
             stgColumns.RowCount:=1;
-            frmColumnsSetConf.AddNewField;
+            AddNewField;
         end;
     Showed:=true;
     // Localize StringGrid header
@@ -551,21 +610,7 @@ begin
     stgColumns.Cells[5,0]:= rsConfColMove;
     stgColumns.Cells[6,0]:= rsOptColors;
 
-  IndexRaw:=0;
-  pnlCustHead.Caption:=rsConfCustHeader+inttostr(IndexRaw);
-
-  edtFont.Text:=ColumnClass.GetColumnFontName(IndexRaw);
-  sneFontSize.Value:=ColumnClass.GetColumnFontSize(IndexRaw);
-  cbTextColor.Color:=ColumnClass.GetColumnTextColor(IndexRaw);
-  cbBackColor.Color:=ColumnClass.GetColumnBackground(IndexRaw);
-  cbBackColor2.Color:=ColumnClass.GetColumnBackground2(IndexRaw);
-  cbMarkColor.Color:=ColumnClass.GetColumnMarkColor(IndexRaw);
-  cbCursorColor.Color:=ColumnClass.GetColumnCursorColor(IndexRaw);
-  cbCursorText.Color:=ColumnClass.GetColumnCursorText(IndexRaw);
-  cbOvercolor.Checked:=ColumnClass.GetColumnOvercolor(IndexRaw);
-
-
-
+  LoadCustColumn(0);
 end;
 
 
@@ -603,6 +648,7 @@ begin
      Top:=stgColumns.CellRect(5,abs(updMove.Position)).Top;
    end;
   EditorSaveResult(Sender);
+  LoadCustColumn(abs(updMove.Position) - 1);
 end;
 
 procedure TfColumnsSetConf.UpDownXChanging(Sender: TObject;
@@ -613,14 +659,33 @@ begin
 end;
 
 procedure TfColumnsSetConf.BitBtnDeleteFieldClick(Sender: TObject);
+var
+  RowNr: Integer;
 begin
-stgColumns.DeleteColRow(false,(Sender as TBitBtn).Tag);
- EditorSaveResult(Sender);
+  RowNr := (Sender as TBitBtn).Tag;
+
+  // Free TColPrm object assigned to the row.
+  if Assigned(stgColumns.Objects[6, RowNr]) then
+  begin
+    (stgColumns.Objects[6, RowNr] as TColPrm).Free;
+    stgColumns.Objects[6, RowNr] := nil;
+  end;
+
+  stgColumns.DeleteColRow(false, RowNr);
+  EditorSaveResult(Sender);
+
+  if RowNr = stgColumns.RowCount then
+    // The last row was deleted, load previous column.
+    LoadCustColumn(RowNr - stgColumns.FixedRows - 1)
+  else
+    // Load next column (RowNr will point to it after deleting).
+    LoadCustColumn(RowNr - stgColumns.FixedRows);
 end;
 
 procedure TfColumnsSetConf.BtnCfgClick(Sender: TObject);
 begin
   LoadCustColumn((Sender as TButton).Tag-1);
+  OpenColorsPanel;
 end;
 
 procedure TfColumnsSetConf.DGHeaderSized(Sender: TObject; IsColumn: Boolean;
@@ -632,26 +697,30 @@ end;
 
 procedure TfColumnsSetConf.btnOkClick(Sender: TObject);
 begin
-if edtNameofColumnsSet.Text='' then
-   edtNameofColumnsSet.Text:=DateTimeToStr(now);
+  if edtNameofColumnsSet.Text='' then
+     edtNameofColumnsSet.Text:=DateTimeToStr(now);
 
-    UpdateColumnClass;
+  UpdateColumnClass;
 
-    case Self.Tag of
-    -1: ColSet.Add(edtNameofColumnsSet.Text,ColumnClass);
-    else
-      begin
-        ColSet.DeleteColumnSet(gIni,Self.Tag);
-        Colset.Insert(Self.Tag,edtNameofColumnsSet.Text,ColumnClass);
-      end;
+  case Self.Tag of
+  -1: ColSet.Add(edtNameofColumnsSet.Text,ColumnClass);
+  else
+    begin
+      ColSet.DeleteColumnSet(gIni,Self.Tag);
+      Colset.Insert(Self.Tag,edtNameofColumnsSet.Text,ColumnClass);
     end;
+  end;
 
-ColSet.Save(gIni);
+  // Release ownership of ColumnClass (ColSet is now responsible for it).
+  ColumnClassOwnership := False;
+
+  ColSet.Save(gIni);
 end;
 
 procedure TfColumnsSetConf.btnPrevClick(Sender: TObject);
 begin
-LoadCustColumn(IndexRaw-1);
+  LoadCustColumn(IndexRaw-1);
+  OpenColorsPanel;
 end;
 
 procedure TfColumnsSetConf.cbOvercolorChange(Sender: TObject);
@@ -849,14 +918,21 @@ end;
 
 procedure TfColumnsSetConf.btnFontSelectClick(Sender: TObject);
 begin
-  if dlgfont.Execute then
+  with TColPrm(stgColumns.Objects[6,IndexRaw+1]) do
     begin
-      edtFont.Text:=dlgfont.Font.Name;
-      sneFontSize.Value:=dlgfont.Font.Size;
-      TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontSize:=dlgfont.Font.Size;
-      TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontName:=dlgfont.Font.Name;
-      TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontStyle:=dlgfont.Font.Style;
-      EditorSaveResult(nil);
+      dlgfont.Font.Name  := FontName;
+      dlgfont.Font.Size  := FontSize;
+      dlgfont.Font.Style := FontStyle;
+
+      if dlgfont.Execute then
+        begin
+          edtFont.Text := dlgfont.Font.Name;
+          sneFontSize.Value := dlgfont.Font.Size;
+          FontName  := dlgfont.Font.Name;
+          FontSize  := dlgfont.Font.Size;
+          FontStyle := dlgfont.Font.Style;
+          EditorSaveResult(nil);
+        end;
     end;
 end;
 
@@ -884,7 +960,8 @@ end;
 
 procedure TfColumnsSetConf.btnNextClick(Sender: TObject);
 begin
-LoadCustColumn(IndexRaw+1);
+  LoadCustColumn(IndexRaw+1);
+  OpenColorsPanel;
 end;
 
 procedure TfColumnsSetConf.MenuFieldsClick(Sender: TObject);
@@ -1007,6 +1084,18 @@ begin
   
 end;
 
+procedure TfColumnsSetConf.OpenColorsPanel;
+begin
+  //open pblCustCont if it is hidden
+  if Splitter2.Height+1>pnlCustCont.Height then
+    pnlCustHeadClick(nil);
+end;
+
+procedure TfColumnsSetConf.UpdateColorsPanelHeader(const Index: Integer);
+begin
+  pnlCustHead.Caption := rsConfCustHeader + ' ' + IntToStr(Index+1) + ': '
+                       + #39 + ColumnClass.GetColumnTitle(Index) + #39;
+end;
 
 initialization
   {$I fcolumnssetconf.lrs}
