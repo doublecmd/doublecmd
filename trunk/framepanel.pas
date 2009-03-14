@@ -174,6 +174,7 @@ type
     procedure SetGridVertLine(const AValue: Boolean);
   protected
     function StartDragEx(MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
+    procedure SelectRange(iRow: PtrInt);
   public
     { Public declarations }
     pnlFile:TFilePanel;
@@ -393,11 +394,40 @@ begin
   end;
 end;
 
+procedure TFrameFilePanel.SelectRange(iRow: PtrInt);
+var
+  ARow, AFromRow, AToRow: Integer;
+  frp: PFileRecItem;
+begin
+  if iRow < 0 then
+    iRow:= dgPanel.Row;
+
+  if(FLastSelectionStartRow < 0) then
+    begin
+      AFromRow := Min(dgPanel.Row, iRow) - dgPanel.FixedRows;
+      AToRow := Max(dgPanel.Row, iRow) - dgPanel.FixedRows;
+      FLastSelectionStartRow := dgPanel.Row;
+    end
+  else
+    begin
+      AFromRow := Min(FLastSelectionStartRow, iRow) - dgPanel.FixedRows; // substract fixed rows (header)
+      AToRow := Max(FLastSelectionStartRow, iRow) - dgPanel.FixedRows;
+    end;
+
+  pnlFile.MarkAllFiles(False);
+  for ARow := AFromRow to AToRow do
+  begin
+    frp := pnlFile.GetReferenceItemPtr(ARow);
+    if not Assigned(frp) then Continue;
+    pnlFile.MarkFile(frp, True);
+  end;
+  dgPanel.Invalidate;
+end;
+
 procedure TFrameFilePanel.dgPanelMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   iRow, iCol : Integer;
-  ARow, AFromRow, AToRow: Integer;
   frp: PFileRecItem;
 begin
   if (Y < dgPanel.GetHeaderHeight) then Exit; // if is header
@@ -440,26 +470,7 @@ begin
           end
         else if ssShift in Shift then
           begin
-            if(FLastSelectionStartRow < 0) then
-              begin
-                AFromRow := Min(dgPanel.Row, iRow) - dgPanel.FixedRows;
-                AToRow := Max(dgPanel.Row, iRow) - dgPanel.FixedRows;
-                FLastSelectionStartRow := dgPanel.Row;
-              end
-            else
-              begin
-                AFromRow := Min(FLastSelectionStartRow, iRow) - dgPanel.FixedRows; // substract fixed rows (header)
-                AToRow := Max(FLastSelectionStartRow, iRow) - dgPanel.FixedRows;
-              end;
-
-            pnlFile.MarkAllFiles(False);
-            for ARow := AFromRow to AToRow do
-            begin
-              frp := pnlFile.GetReferenceItemPtr(ARow);
-              if not Assigned(frp) then Continue;
-              pnlFile.MarkFile(frp, True);
-            end;
-            dgPanel.Invalidate;
+            SelectRange(iRow);
           end
         else if (gMouseSelectionButton = 0) then
           begin
@@ -1337,6 +1348,15 @@ begin
       MarkShiftMinus;
     Exit;
   end;
+
+  if Key = VK_SHIFT then
+    begin
+      FLastSelectionStartRow:= dgPanel.Row;
+      Exit;
+    end;
+
+  if ((Key=VK_END) or (Key=VK_HOME) or (Key=VK_NEXT) or (Key=VK_PRIOR)) and (ssShift in Shift) then
+    Application.QueueAsyncCall(@SelectRange, -1);
 
   if ((Key=VK_DOWN) or (Key=VK_UP)) and (ssShift in Shift) then
     begin
