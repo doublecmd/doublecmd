@@ -3202,8 +3202,8 @@ msgid "Select a directory"
 msgstr "选择目录"
 
 #: ulng.rsspacemsg
-msgid "Files:%d, Dirs:%d, Size: %d bytes"
-msgstr "文件:%d, 目录:%d, 大小: %d bytes"
+msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
+msgstr "文件: %d, 目录: %d, 大小: %s (%s bytes)"
 
 #: ulng.rsspliterrdirectory
 msgid "Unable to create target directory!"

@@ -3202,7 +3202,7 @@ msgid "Select a directory"
 msgstr ""
 
 #: ulng.rsspacemsg
-msgid "Files:%d, Dirs:%d, Size: %d bytes"
+msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
 msgstr ""
 
 #: ulng.rsspliterrdirectory

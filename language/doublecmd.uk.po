@@ -2954,6 +2954,10 @@ msgstr "Перехід в каталог [%s] не вдався!"
 msgid "Remove all inactive tabs?"
 msgstr "Видалити всі неактивні вкладки?"
 
+#: ulng.rsmsgcloselockedtab
+msgid "This tab (%s) is locked! Close anyway?"
+msgstr ""
+
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
 msgstr "Копиювати %d вибраних файлів/каталогів?"
@@ -3339,8 +3343,8 @@ msgid "Select a directory"
 msgstr "Виберіть каталог"
 
 #: ulng.rsspacemsg
-msgid "Files:%d, Dirs:%d, Size: %d bytes"
-msgstr "Файлів:%d, Каталогів:%d, Розмір: %d байт"
+msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
+msgstr "Файлів: %d, Каталогів: %d, Розмір: %s (%s байт)"
 
 #: ulng.rsspliterrdirectory
 msgid "Unable to create target directory!"

@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 
@@ -36,14 +36,14 @@ type
 
 implementation
 uses
-  SysUtils, uLng, uShowMsg;
+  SysUtils, StrUtils, uLng, uShowMsg, uDCUtils;
 
 { TSpaceThread }
 
 procedure TSpaceThread.MainExecute;
 begin
   if FDisplayMessage then
-    msgOK(Self, Format(rsSpaceMsg,[FilesCount, DirCount, FilesSize]));
+    msgOK(Self, Format(rsSpaceMsg,[FilesCount, DirCount, cnvFormatFileSize(FilesSize), Numb2USA(IntToStr(FilesSize))]));
 end;
 
 constructor TSpaceThread.Create(aFileList: TFileList; bDisplayMessage: Boolean);

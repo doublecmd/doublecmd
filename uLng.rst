@@ -68,8 +68,8 @@ ulng.rsdlgbuttons='&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &A'+
 'll;&Skip;S&kip All;All;'
 
 
-# hash value = 123445971
-ulng.rsspacemsg='Files:%d, Dirs:%d, Size: %d bytes'
+# hash value = 48894041
+ulng.rsspacemsg='Files: %d, Dirs: %d, Size: %s (%s bytes)'
 
 
 # hash value = 189133881

@@ -3202,8 +3202,8 @@ msgid "Select a directory"
 msgstr "Selecteer een map"
 
 #: ulng.rsspacemsg
-msgid "Files:%d, Dirs:%d, Size: %d bytes"
-msgstr "Bestanden:%d, Dirs:%d, Grootte: %d, bytes"
+msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
+msgstr "Bestanden: %d, Dirs: %d, Grootte: %s (%s, bytes)"
 
 #: ulng.rsspliterrdirectory
 msgid "Unable to create target directory!"
