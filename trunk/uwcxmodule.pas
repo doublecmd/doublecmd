@@ -381,11 +381,12 @@ var
   ArcHeader : THeaderData;
   HeaderData : PHeaderData;
   bHasDir : Boolean;
-  sDirs : TStringList;
+  sDirs, ExistsDirList : TStringList;
   I : Integer;
 begin
   bHasDir := False;
   sDirs := TStringList.Create;
+  ExistsDirList := TStringList.Create;
   
   FArchiveName := sName;
   DebugLN('FArchiveName = ' + FArchiveName);
@@ -442,6 +443,8 @@ begin
         if (sDirs.Count > 0) or not bHasDir then
           begin
             bHasDir := FPS_ISDIR(HeaderData^.FileAttr);
+            if bHasDir and (ExistsDirList.IndexOf(HeaderData.FileName) < 0) then
+              ExistsDirList.Add(HeaderData.FileName);
             GetDirs(String(HeaderData^.FileName), sDirs);
           end;
         //****************************
@@ -453,9 +456,6 @@ begin
         if iResult <> 0 then
           ShowErrorMessage;
 
-        (* if archive keeps some folders, but some do not keep *)
-        if (sDirs.Count > 0) and (bHasDir) then
-          Continue;
         FArcFileList.Add(HeaderData);
       end; // while
     
@@ -464,6 +464,8 @@ begin
       begin
         for I := 0 to sDirs.Count - 1 do
           begin
+            if ExistsDirList.IndexOf(sDirs.Strings[I]) >= 0 then
+              Continue;
             FillChar(ArcHeader, SizeOf(ArcHeader), #0);
             ArcHeader.FileName := sDirs.Strings[I];
             ArcHeader.FileAttr := faFolder;
@@ -475,6 +477,7 @@ begin
       end;
   finally
     sDirs.Free;
+    ExistsDirList.Free;
     CloseArchive(ArcHandle);
   end;
   Result := True;
