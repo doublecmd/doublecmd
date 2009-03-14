@@ -129,6 +129,10 @@ function getgrgid(gid: __gid_t): PGroupRecord; cdecl; external libc name 'getgrg
 }
 function getgrnam(name: PChar): PGroupRecord; cdecl; external libc name 'getgrnam';
 
+function fpOpenDir(__name: PChar): pDir; cdecl; external libc name 'opendir';
+function fpReadDir(__dirp: pDir): pDirent; cdecl; external libc name 'readdir64';
+function fpCloseDir(__dirp: pDir): cInt; cdecl; external libc name 'closedir';
+
 function UnixToWinAge(UnixAge: time_t): LongInt;
 function LinuxToWinAttr(pFileName: PChar; const srInfo: BaseUnix.Stat): Longint;
 function GetDesktopEnvironment: Cardinal;
