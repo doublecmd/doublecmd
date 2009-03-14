@@ -24,6 +24,7 @@ procedure LoadPaths;
 var
   Ini : TIniFileEx;
 begin
+  OnGetApplicationName := @GetAppName;
   gpExePath := ExtractFilePath(SysToUTF8(ParamStr(0)));
   DebugLn('Executable directory: ', gpExePath);
   
@@ -36,11 +37,9 @@ begin
     end
   else  
     begin
-      OnGetApplicationName := @GetAppName;
       gpIniDir := GetAppConfigDir;//(False);
       if not mbDirectoryExists(gpIniDir) then
         ForceDirectory(gpIniDir);
-      OnGetApplicationName := nil;
       gpIniDir := IncludeTrailingPathDelimiter(gpIniDir);  // add if need path delimiter
     end;
   Ini.Free;

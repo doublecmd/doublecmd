@@ -375,7 +375,7 @@ begin
     end;
   // Show configuration directory
   rbProgramDir.Caption:= rbProgramDir.Caption + ' - [' + gpCfgDir + ']';
-  rbUserHomeDir.Caption:= rbUserHomeDir.Caption + ' - [' + gpIniDir + ']';
+  rbUserHomeDir.Caption:= rbUserHomeDir.Caption + ' - [' + GetAppConfigDir + PathDelim + ']';
   // tvTreeView localization
   with tvTreeView.Items do
     begin
