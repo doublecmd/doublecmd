@@ -413,7 +413,7 @@ type
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
     procedure CreatePanel(AOwner:TWinControl; APanel:TFilePanelSelect; sPath : String);
     function AddPage(ANoteBook:TNoteBook; bSetActive: Boolean = True):TPage;
-    procedure RemovePage(ANoteBook:TNoteBook; iPageIndex:Integer);
+    function RemovePage(ANoteBook:TNoteBook; iPageIndex:Integer): LongInt;
     procedure LoadTabs(ANoteBook:TNoteBook);
     procedure SaveTabs(ANoteBook:TNoteBook);
     function ExecCmd(Cmd:string; param:string='') : Boolean;
@@ -2639,17 +2639,20 @@ begin
     ANoteBook.Options := ANoteBook.Options + [nboMultiLine];
 end;
 
-procedure TfrmMain.RemovePage(ANoteBook: TNoteBook; iPageIndex:Integer);
+function TfrmMain.RemovePage(ANoteBook: TNoteBook; iPageIndex:Integer): LongInt;
 begin
-  if ANoteBook.PageCount>1 then
+  Result:= -1;
+  if ANoteBook.PageCount > 1 then
   begin
-{    With ANoteBook.Page[iPageIndex] do
-    begin
-    if ComponentCount>0 then // must be true, but
-    // component 0 is TFrameFilePanel
-      Components[0].Free;
-    end;}
+    if ANoteBook.Page[iPageIndex].Tag > 0 then
+      case msgYesNoCancel(Format(rsMsgCloseLockedTab, [ANoteBook.Page[iPageIndex].Caption])) of
+        mmrNo:
+          Exit(1);
+        mmrCancel, mmrNone:
+          Exit(2);
+      end;
     ANoteBook.Pages.Delete(iPageIndex);
+    Result:= 0;
   end;
   ANoteBook.ShowTabs:= ((ANoteBook.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
 end;

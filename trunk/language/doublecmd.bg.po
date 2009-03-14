@@ -2667,7 +2667,7 @@ msgid "Width"
 msgstr "Ширина"
 
 #: ulng.rsconfcustheader
-msgid "Customize column: "
+msgid "Customize column"
 msgstr "Нагласяване на стълбове:"
 
 #: ulng.rsdlgbuttons
@@ -2812,6 +2812,10 @@ msgstr "Смяната на папката на [%s] бе неуспешно!"
 #: ulng.rsmsgcloseallinactivetabs
 msgid "Remove all inactive tabs?"
 msgstr "Премахване на бездейните подпрозорци?"
+
+#: ulng.rsmsgcloselockedtab
+msgid "This tab (%s) is locked! Close anyway?"
+msgstr ""
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Localization core unit
 
-   Copyright (C) 2007-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2009  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,6 +44,7 @@ resourcestring
   rsMsgSelected = 'Selected %s of %s in %d of %d files';
   rsMsgPopUpHotAdd = '&Add %s';
   rsMsgPopUpHotCnf = '&Configure';
+  rsMsgCloseLockedTab = 'This tab (%s) is locked! Close anyway?';
   rsDlgButtons = '&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &All;&Skip;S&kip All;All;';
   rsSpaceMsg = 'Files:%d, Dirs:%d, Size: %d bytes';
   rsSelectDir = 'Select a directory';

@@ -2667,7 +2667,7 @@ msgid "Width"
 msgstr "宽度"
 
 #: ulng.rsconfcustheader
-msgid "Customize column: "
+msgid "Customize column"
 msgstr "自定义列"
 
 #: ulng.rsdlgbuttons
@@ -2812,6 +2812,10 @@ msgstr "无法转到目录 [%s]!"
 #: ulng.rsmsgcloseallinactivetabs
 msgid "Remove all inactive tabs?"
 msgstr "移除所有非活动标签吗?"
+
+#: ulng.rsmsgcloselockedtab
+msgid "This tab (%s) is locked! Close anyway?"
+msgstr ""
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
