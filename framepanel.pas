@@ -1028,7 +1028,7 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
             if gCutTextToColWidth then
               begin
                 while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
-                  Delete(s,Length(s)-tw,1);
+                  UTF8Delete(s,UTF8Length(s)-tw,1);
               end;
             Canvas.TextOut(Rect.Left + 4, iTextTop, s);
           end;
