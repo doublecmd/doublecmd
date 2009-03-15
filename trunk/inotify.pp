@@ -10,6 +10,7 @@ uses
 {$ENDIF}
 
 type
+  uint32_t = cuint32;
   {en Structure describing an inotify event. }
   inotify_event = record
     wd:     longint;  //en< Watch descriptor.
@@ -42,8 +43,8 @@ const
   IN_Q_OVERFLOW = $00004000;    {en< Event queued overflowed. }
   IN_IGNORED   = $00008000;     {en< File was ignored. }
   { Helper events. }
-  IN_CLOSE     = (IN_CLOSE_WRITE or IN_CLOSE_NOWRITE); {en< Close.}
-  IN_MOVE      = (IN_MOVED_FROM or IN_MOVED_TO);       {en< Moves.}
+//  IN_CLOSE     = (IN_CLOSE_WRITE or IN_CLOSE_NOWRITE); {en< Close.}
+//  IN_MOVE      = (IN_MOVED_FROM or IN_MOVED_TO);       {en< Moves.}
   { Special flags. }
   IN_ONLYDIR   = $01000000;     {en< Only watch the path if it is a directory. }
   IN_DONT_FOLLOW = $02000000;   {en< Do not follow a sym link. }
