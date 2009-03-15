@@ -166,6 +166,7 @@ type
     gbMisc4: TGroupBox;
     gbShowGrid: TGroupBox;
     gbExtended: TGroupBox;
+    gbAutoRefresh: TGroupBox;
     ledDriveBlackList: TLabeledEdit;
     lblDSXDescription: TLabel;
     lblWLXDescription: TLabel;
@@ -182,6 +183,7 @@ type
     lbxCategories: TListBox;
     lbxCommands: TListBox;
     lstColumnsSets: TListBox;
+    pgAutoRefresh: TPage;
     pgMisc: TPage;
     pnlButtons: TPanel;
     pgColumns: TPage;
@@ -261,6 +263,13 @@ type
     tsWCX: TTabSheet;
     tsWFX: TTabSheet;
     tvTreeView: TTreeView;
+    cbWatchFileNameChange: TCheckBox;
+    edtWatchExcludeDrives: TEdit;
+    lblWatchExcludeDrives: TLabel;
+    cbWatchFileCount: TCheckBox;
+    cbWatchFreeSpace: TCheckBox;
+    cbWatchNoBackground: TCheckBox;
+    cbWatchAttributesChange: TCheckBox;
     procedure bbtnAddCategoryClick(Sender: TObject);
     procedure bbtnApplyCategoryClick(Sender: TObject);
     procedure bbtnDeleteCategoryClick(Sender: TObject);
@@ -1571,7 +1580,7 @@ end;
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
 begin
   //DebugLN('Page index == ' + IntToStr(Node.Index));
-  if tvTreeView.Selected.ImageIndex = 16 then // special for "Colors" item
+  if tvTreeView.Selected.ImageIndex = 17 then // special for "Colors" item
     begin
       nbNotebook.PageIndex := 4;
       pnlCaption.Caption := tvTreeView.Items.Item[5].Text;
