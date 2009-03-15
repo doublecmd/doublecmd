@@ -47,8 +47,9 @@ type
     LIBHAL_PROPERTY_TYPE_UINT64  = DBUS_TYPE_UINT64,//** Type for 64-bit unsigned integer property */
     LIBHAL_PROPERTY_TYPE_DOUBLE  = DBUS_TYPE_DOUBLE,//** Type for double precision floating point property */
     LIBHAL_PROPERTY_TYPE_BOOLEAN = DBUS_TYPE_BOOLEAN,//** Type for boolean property */
-    LIBHAL_PROPERTY_TYPE_STRING  = DBUS_TYPE_STRING//** Type for UTF-8 string property */
-//С…Р·    LIBHAL_PROPERTY_TYPE_STRLIST = ((int) (DBUS_TYPE_STRING<<8)+('l'))//** Type for list of UTF-8 strings property */
+    LIBHAL_PROPERTY_TYPE_STRING  = DBUS_TYPE_STRING, //** Type for UTF-8 string property */
+    LIBHAL_PROPERTY_TYPE_STRLIST = (DBUS_TYPE_STRING shl 8) + (byte('l')) //** Type for list of UTF-8 strings property */
+//    LIBHAL_PROPERTY_TYPE_STRLIST = ((int) (DBUS_TYPE_STRING<<8)+('l'))
   );
 
 
@@ -69,7 +70,7 @@ type
  *
  * Type for callback when a device is added.
  }
-LibHalDeviceAdded = procedure(ctx: PLibHalContext; const udi: PChar);
+LibHalDeviceAdded = procedure(ctx: PLibHalContext; const udi: PChar);cdecl;
 
 {
  * LibHalDeviceRemoved:
@@ -78,7 +79,7 @@ LibHalDeviceAdded = procedure(ctx: PLibHalContext; const udi: PChar);
  *
  * Type for callback when a device is removed.
  }
-LibHalDeviceRemoved = procedure(ctx: PLibHalContext; const udi: PChar);
+LibHalDeviceRemoved = procedure(ctx: PLibHalContext; const udi: PChar);cdecl;
 
 //* Create a new context for a connection with hald */
 function libhal_ctx_new:PLibHalContext; cdecl; external 'libhal';
