@@ -162,6 +162,7 @@ type
     nbConsole: TNotebook;
     Page1: TPage;
     Panel1: TPanel;
+    MainSplitter: TPanel;
     pmButtonMenu: TKASBarMenu;
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
@@ -289,7 +290,6 @@ type
     actFileLinker: TAction;
     actFileSpliter: TAction;
     pmToolBar: TPopupMenu;
-    MainSplitter: TSplitter;
     MainTrayIcon: TTrayIcon;
 
     procedure actExecute(Sender: TObject);
@@ -308,12 +308,15 @@ type
     procedure FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
     procedure FormDataEvent(Data: PtrInt);
     procedure FormWindowStateChange(Sender: TObject);
+    procedure MainSplitterDblClick(Sender: TObject);
+    procedure MainSplitterMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure MainSplitterMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure MainSplitterMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);   
     procedure MainTrayIconClick(Sender: TObject);
     procedure lblDriveInfoDblClick(Sender: TObject);
-    procedure MainSplitterCanResize(Sender: TObject; var NewSize: Integer;
-      var Accept: Boolean);
-    procedure MainSplitterChangeBounds(Sender: TObject);
-    procedure MainSplitterMoved(Sender: TObject);
     procedure MainToolBarDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure MainToolBarDragOver(Sender, Source: TObject; X, Y: Integer;
       State: TDragState; var Accept: Boolean);
@@ -328,7 +331,6 @@ type
     procedure frmMainShow(Sender: TObject);
     procedure mnuDropClick(Sender: TObject);
     procedure mnuSplitterPercentClick(Sender: TObject);
-    procedure mnuHelpClick(Sender: TObject);
     procedure mnuTabMenuClick(Sender: TObject);
     procedure nbPageChanged(Sender: TObject);
     procedure nbPageMouseUp(Sender: TObject; Button: TMouseButton;
@@ -354,6 +356,7 @@ type
     procedure FramedgPanelEnter(Sender: TObject);
     procedure framedgPanelMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure pnlLeftResize(Sender: TObject);
     procedure pnlLeftRightDblClick(Sender: TObject);
     procedure seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
@@ -372,7 +375,14 @@ type
     PanelSelected:TFilePanelSelect;
     DrivesList : TList;
     MainSplitterHintWnd: THintWindow;
-    
+
+    // frost_asm begin
+    // mainsplitter
+    MainSplitterLeftMouseBtnDown:boolean;
+    MainSplitterMouseDownX:integer;
+    // lastWindowState
+    lastWindowState:TWindowState;
+    // frost_asm end
     procedure ColumnsMenuClick(Sender: TObject);
     function ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
     procedure AddSpecialButtons(dskPanel: TKASToolBar);
@@ -451,6 +461,9 @@ var
   I : Integer;
 begin
   inherited;
+  // frost_asm begin
+  MainSplitterLeftMouseBtnDown:=false;
+  // frost_asm end
   SetMyWndProc(Handle);
   Application.OnException := @AppException;
 
@@ -464,6 +477,9 @@ begin
 
   LoadWindowState;
 
+  // frost_asm begin
+    lastWindowState:=WindowState;
+  // frost_asm end
   nbLeft.Options:=[nboShowCloseButtons];
   nbRight.Options:=[nboShowCloseButtons];
   actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
@@ -729,15 +745,101 @@ end;
 
 procedure TfrmMain.FormWindowStateChange(Sender: TObject);
 begin
+  // запоминаєм состояние окна перед минимизацией для
+  // дальнейшего восстановления после разворачивания из трея
+  if WindowState <> wsMinimized then
+     lastWindowState:=WindowState;
+
   if gTrayIcon and (WindowState = wsMinimized) and (not MainTrayIcon.Visible) then
     begin
       Hide;
       MainTrayIcon.Visible:= True;
     end;
+
+end;
+
+procedure TfrmMain.MainSplitterDblClick(Sender: TObject);
+begin
+  // чтоби не обробативалось  MainSplitterMouseUp
+  MainSplitterLeftMouseBtnDown:=false;
+  MainSplitter.ParentColor:=true;
+  // 50 50
+  Actions.cm_PanelsSplitterPerPos('50');
+end;
+
+procedure TfrmMain.MainSplitterMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  if (Button=mbLeft) and (not MainSplitterLeftMouseBtnDown) then
+  begin
+   // под линуксом MainSplitter.Color:=clBlack не работает
+   MainSplitter.ParentColor:=true;
+   MainSplitter.Color:=ColorToRGB(clBlack);
+
+   MainSplitterMouseDownX:=X;
+   MainSplitterLeftMouseBtnDown:=true;
+   // create hint
+   if not Assigned(MainSplitterHintWnd) then
+    MainSplitterHintWnd:= THintWindow.Create(nil);
+   MainSplitterHintWnd.Color:= Application.HintColor;
+  end;
+end;
+
+procedure TfrmMain.MainSplitterMouseMove(Sender: TObject; Shift: TShiftState;
+  X, Y: Integer);
+var
+  APoint: TPoint;
+  Rect: TRect;
+  sHint: String;
+begin
+  if MainSplitterLeftMouseBtnDown and (MainSplitter.Left+X>3) and (MainSplitter.Left+X+3<pnlNotebooks.Width) then
+  begin
+   MainSplitter.Left:=MainSplitter.Left+X-MainSplitterMouseDownX;
+
+   // hint
+   if not Assigned(MainSplitterHintWnd) then  Exit;
+   // calculate persent
+   sHint:= FloatToStrF(MainSplitter.Left*100 / (pnlNotebooks.Width-MainSplitter.Width), ffFixed, 15, 1) + '%';
+   //calculate hint position
+   Rect:= MainSplitterHintWnd.CalcHintRect(1000, sHint, nil);
+   APoint:= Mouse.CursorPos;
+   with Rect do
+   begin
+     Right:= APoint.X + 8 + Right;
+     Bottom:= APoint.Y + 12 + Bottom;
+     Left:= APoint.X + 8;
+     Top:= APoint.Y + 12;
+   end;
+   //show hint
+   MainSplitterHintWnd.ActivateHint(Rect, sHint);
+  end;
+end;
+
+procedure TfrmMain.MainSplitterMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  if (MainSplitterLeftMouseBtnDown) then
+  begin
+   // hide and destroy hint
+   if Assigned(MainSplitterHintWnd) then
+   begin
+     MainSplitterHintWnd.Hide;
+     FreeAndNil(MainSplitterHintWnd);
+   end;
+
+   MainSplitter.ParentColor:=true;
+   MainSplitterLeftMouseBtnDown:=false;
+   pnlLeft.Width:=MainSplitter.Left;
+  end;
+
 end;
 
 procedure TfrmMain.MainTrayIconClick(Sender: TObject);
 begin
+  // делал по другому
+  // WindowState:=lastWindowState; но при wsNormal
+  // окно становится видимим но свернутим
+  if lastWindowState=wsMaximized then  WindowState:=wsMaximized;
   ShowOnTop;
   Application.QueueAsyncCall(@FormDataEvent, 0);
 end;
@@ -750,45 +852,6 @@ begin
       SetActiveFrame(fpLeft);
   Actions.cm_DirHotList('');
 //  actDirHotList.Execute;
-end;
-
-procedure TfrmMain.MainSplitterCanResize(Sender: TObject; var NewSize: Integer;
-  var Accept: Boolean);
-begin
-  if not Assigned(MainSplitterHintWnd) then
-    MainSplitterHintWnd:= THintWindow.Create(nil);
-  MainSplitterHintWnd.Color:= Application.HintColor;
-end;
-
-procedure TfrmMain.MainSplitterChangeBounds(Sender: TObject);
-var
-  APoint: TPoint;
-  Rect: TRect;
-  sHint: String;
-begin
-  if not Assigned(MainSplitterHintWnd) then Exit;
-  sHint:= FloatToStrF(MainSplitter.Left*100 / (pnlNotebooks.Width-MainSplitter.Width), ffFixed, 15, 1) + '%';
-
-  Rect:= MainSplitterHintWnd.CalcHintRect(1000, sHint, nil);
-  APoint:= Mouse.CursorPos;
-  with Rect do
-  begin
-    Right:= APoint.X + 8 + Right;
-    Bottom:= APoint.Y + 12 + Bottom;
-    Left:= APoint.X + 8;
-    Top:= APoint.Y + 12;
-  end;
-
-  MainSplitterHintWnd.ActivateHint(Rect, sHint);
-end;
-
-procedure TfrmMain.MainSplitterMoved(Sender: TObject);
-begin
-  if Assigned(MainSplitterHintWnd) then
-    begin
-      MainSplitterHintWnd.Hide;
-      FreeAndNil(MainSplitterHintWnd);
-    end;
 end;
 
 procedure TfrmMain.MainToolBarDragDrop(Sender, Source: TObject; X, Y: Integer);
@@ -1072,11 +1135,6 @@ begin
   begin
     Actions.cm_PanelsSplitterPerPos(inttostr(Tag));
   end;
-end;
-
-procedure TfrmMain.mnuHelpClick(Sender: TObject);
-begin
-
 end;
 
 procedure TfrmMain.mnuTabMenuClick(Sender: TObject);
@@ -2291,6 +2349,14 @@ begin
           //actContextMenu.Execute;
         end;
     end;
+end;
+
+procedure TfrmMain.pnlLeftResize(Sender: TObject);
+begin
+  // ставим спліттер в нужную позицию при смене размера левой панели
+  MainSplitter.Left:=pnlLeft.Width;
+  MainSplitter.Height:=pnlLeft.Height;
+  MainSplitter.top:=pnlLeft.top;
 end;
 
 procedure TfrmMain.pnlLeftRightDblClick(Sender: TObject);
