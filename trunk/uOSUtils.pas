@@ -209,6 +209,9 @@ function mbFileOpen(const FileName: UTF8String; Mode: Integer): Integer;
 function mbFileCreate(const FileName: UTF8String): Integer;overload;
 function mbFileCreate(const FileName: UTF8String; Mode: Integer): Integer;overload;
 function mbFileAge(const FileName: UTF8String): Longint;
+// On success returns non-zero value.
+function mbFileSetTime(const FileName: UTF8String; ModificationTime: Longint;
+                       CreationTime: Longint = 0; LastAccessTime: Longint = 0): Longint;
 function mbFileExists(const FileName: UTF8String): Boolean;
 function mbFileAccess(const FileName: UTF8String; Mode: Integer): Boolean;
 function mbFileGetAttr(const FileName: UTF8String): LongInt;
@@ -949,6 +952,60 @@ begin
 end;
 {$ENDIF}
 
+function mbFileSetTime(const FileName: UTF8String; ModificationTime, CreationTime, LastAccessTime: Longint): Longint;
+{$IFDEF MSWINDOWS}
+var
+  Handle: THandle;
+  wFileName: WideString;
+  WinModificationTime: TFileTime;
+  WinCreationTime: TFileTime;
+  WinLastAccessTime: TFileTime;
+  PWinModificationTime: PFileTime = nil;
+  PWinCreationTime: PFileTime = nil;
+  PWinLastAccessTime: PFileTime = nil;
+begin
+  wFileName:= UTF8Decode(FileName);
+  Handle := CreateFileW(PWChar(wFileName),
+                        FILE_WRITE_ATTRIBUTES,
+                        FILE_SHARE_READ or FILE_SHARE_WRITE,
+                        nil,
+                        OPEN_EXISTING,
+                        FILE_FLAG_BACKUP_SEMANTICS,  // needed for opening directories
+                        0);
+
+  if Handle <> INVALID_HANDLE_VALUE then
+    begin
+      if ModificationTime <> 0 then
+      begin
+        DosToWinTime(ModificationTime, WinModificationTime);
+        PWinModificationTime := @WinModificationTime;
+      end;
+      if CreationTime <> 0 then
+      begin
+        DosToWinTime(CreationTime, WinCreationTime);
+        PWinCreationTime := @WinCreationTime;
+      end;
+      if LastAccessTime <> 0 then
+      begin
+        DosToWinTime(LastAccessTime, WinLastAccessTime);
+        PWinLastAccessTime := @WinLastAccessTime;
+      end;
+
+      Result := Longint(Windows.SetFileTime(Handle,
+                                            PWinCreationTime,
+                                            PWinLastAccessTime,
+                                            PWinModificationTime));
+      CloseHandle(Handle);
+    end
+  else
+    Result := 0;
+end;
+{$ELSE}
+begin
+  Result := FileSetDate(FileName, ModificationTime);
+end;
+{$ENDIF}
+
 function mbFileExists(const FileName: UTF8String) : Boolean;
 {$IFDEF MSWINDOWS}
 var
@@ -1105,7 +1162,7 @@ begin
     begin
       Windows.FindClose(Handle);
       if (FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) = 0 then
-        Result:= (FindData.nFileSizeHigh * MAXDWORD)+FindData.nFileSizeLow;
+        Result:= (Int64(FindData.nFileSizeHigh) * MAXDWORD)+FindData.nFileSizeLow;
     end;
 end;
 {$ELSE}

@@ -1863,6 +1863,7 @@ begin
 
   try
     fl:= TFileList.Create; // free at Thread end by thread
+    fl.CurrentDirectory := ActiveFrame.ActiveDir;
     CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
 
     with TfrmMoveDlg.Create(Application) do
@@ -1912,17 +1913,37 @@ var
   sCopyQuest:String;
   blDropReadOnlyFlag : Boolean;
 begin
-  if (ActiveFrame.pnlFile.PanelMode in [pmVFS, pmArchive]) and
-     (NotActiveFrame.pnlFile.PanelMode in [pmVFS, pmArchive]) then
+  if (ActiveFrame.pnlFile.PanelMode in [pmVFS, pmArchive]) then
+  begin
+    if (NotActiveFrame.pnlFile.PanelMode in [pmVFS, pmArchive]) then
+    begin
+      // At least one panel must be real file system.
+      msgWarning(rsMsgErrNotSupported);
+      Exit;
+    end;
+
+    if not (VFS_CAPS_COPYOUT in ActiveFrame.pnlFile.VFS.VFSmodule.VFSCaps) then
     begin
       msgWarning(rsMsgErrNotSupported);
       Exit;
     end;
+  end;
+
+  if (NotActiveFrame.pnlFile.PanelMode in [pmVFS, pmArchive]) then
+  begin
+    if not (VFS_CAPS_COPYIN in NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCaps) then
+    begin
+      msgWarning(rsMsgErrNotSupported);
+      Exit;
+    end;
+  end;
+
 
   // Exit if no valid files selected.
   if ActiveFrame.SelectFileIfNoSelected(ActiveFrame.GetActiveItem) = False then Exit;
 
   fl:=TFileList.Create; // free at Thread end by thread
+  fl.CurrentDirectory := ActiveFrame.ActiveDir;
   try
     CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
 
@@ -1934,15 +1955,16 @@ begin
     (* Copy files between archive and real file system *)
   
     (* Check active panel *)
-    if  ActiveFrame.pnlFile.PanelMode = pmArchive then
+    if ActiveFrame.pnlFile.PanelMode = pmArchive then
       begin
         if not IsBlocked then
           begin
             DebugLn('+++ Extract files from archive +++');
-            fl.CurrentDirectory := ActiveFrame.ActiveDir;
             ShowExtractDlg(ActiveFrame, fl, ExtractFilePath(sDestPath));
             NotActiveFrame.RefreshPanel;
-          end;
+          end
+          else
+            FreeAndNil(fl);
         Exit;
       end;
 
@@ -1951,16 +1973,12 @@ begin
       begin
         if not IsBlocked then
           begin
-            if  (VFS_CAPS_COPYIN in NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCaps) then
-              begin
-                DebugLn('+++ Pack files to archive +++');
-                fl.CurrentDirectory := ActiveFrame.ActiveDir;
-                sDestPath:=ExtractFilePath(sDestPath);
-                ShowPackDlg(NotActiveFrame.pnlFile.VFS, fl, sDestPath, False);
-              end
-            else
-              msgWarning(rsMsgErrNotSupported);
-          end;
+            DebugLn('+++ Pack files to archive +++');
+            sDestPath:=ExtractFilePath(sDestPath);
+            ShowPackDlg(NotActiveFrame.pnlFile.VFS, fl, sDestPath, False);
+          end
+          else
+            FreeAndNil(fl);
         Exit;
       end;
                                                         
@@ -1983,7 +2001,8 @@ begin
 
       finally
         with ActiveFrame do
-	   UnSelectFileIfSelected(GetActiveItem);
+          UnSelectFileIfSelected(GetActiveItem);
+
         Free;
       end;
     end; //with
@@ -1993,28 +2012,16 @@ begin
     (* Check not active panel *)
     if NotActiveFrame.pnlFile.PanelMode = pmVFS then
       begin
-        if  (VFS_CAPS_COPYIN in NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCaps) then
-          begin
-            DebugLn('+++ Copy files to VFS +++');
-            fl.CurrentDirectory := ActiveFrame.ActiveDir;
-            NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyInEx(fl, sDestPath, 0);
-          end
-        else
-          msgOK(rsMsgErrNotSupported);
+        DebugLn('+++ Copy files to VFS +++');
+        NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyInEx(fl, sDestPath, 0);
         Exit;
       end;
 
     (* Check active panel *)
-    if  ActiveFrame.pnlFile.PanelMode = pmVFS then
+    if ActiveFrame.pnlFile.PanelMode = pmVFS then
       begin
-        if  (VFS_CAPS_COPYOUT in ActiveFrame.pnlFile.VFS.VFSmodule.VFSCaps) then
-          begin
-            DebugLn('+++ Copy files from VFS +++');
-            fl.CurrentDirectory := ActiveFrame.ActiveDir;
-            ActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyOutEx(fl, sDestPath, 0);
-          end
-        else
-          msgOK(rsMsgErrNotSupported);
+        DebugLn('+++ Copy files from VFS +++');
+        ActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyOutEx(fl, sDestPath, 0);
         Exit;
       end;
 

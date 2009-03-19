@@ -62,7 +62,9 @@ type
     CurrentVFS : TVFS;
   public
     { public declarations }
-  end; 
+  end;
+
+// Frees 'fl'.
 function ShowPackDlg(VFS : TVFS; var fl : TFileList; sDestPath:String; bNewArchive : Boolean = True): Boolean;
 
 implementation
@@ -93,6 +95,7 @@ begin
       CurrentVFS := VFS;
       Result:= (ShowModal = mrOK);
       if Result then
+        begin
           if VFS.FindModule(edtPackCmd.Text, False) then
             begin
               Flags := 0;
@@ -102,14 +105,21 @@ begin
               if bNewArchive then
                 begin
                   VFS.LoadAndOpen(edtPackCmd.Text, False);
-                  VFS.VFSmodule.VFSCopyIn(fl, '', Flags)
+                  VFS.VFSmodule.VFSCopyIn(fl, '', Flags);
+                  VFS.VFSmodule.VFSClose;
                 end
               else
                 begin
                   VFS.LoadAndOpen(edtPackCmd.Text, True);
                   VFS.VFSmodule.VFSCopyIn(fl, sDestPath, Flags)
                 end;
-            end;
+            end
+            else
+              FreeAndNil(fl);
+        end
+        else
+          FreeAndNil(fl);
+
       Free;
     end;
 end;
@@ -124,10 +134,8 @@ var
  sExt,
  sCurrentPlugin : String;
  iCurPlugCaps : Integer;
- Count : Integer;
 begin
   J := 0;
-  Count := 0;
   sExt := ExtractFileExt(edtPackCmd.Text);
   Delete(sExt, 1, 1);  // delete a dot
   bExsistArchive := (sExt <> 'none');

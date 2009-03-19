@@ -37,6 +37,8 @@ const
   OP_COPYOUT = 0;
   OP_COPYIN = 1;
 
+  INVALID_HANDLE_VALUE = THandle(-1);
+
 Type
   TWFXModule = class;
 
@@ -180,9 +182,8 @@ var
 
 begin
   Handle := FsFindFirst(PChar(UTF8ToSys(srcPath)), FindData);
-  if Handle < 0 then
+  if Handle = INVALID_HANDLE_VALUE then
   begin
-    FsFindClose(Handle);
     Exit;
   end;
   repeat
@@ -570,7 +571,7 @@ end;
 function TWFXModule.WFXCopyOut: Boolean;
 var
   Count, I : Integer;
-  ri : pRemoteInfo;
+  ri : TRemoteInfo;
   iInt64Rec : TInt64Rec;
   RemoteName,
   LocalName : String;
@@ -578,7 +579,7 @@ var
 begin
   FsFillAndCount(FFileList, FFilesSize);
   Count := FFileList.Count - 1;
-  New(ri);
+
   for I := 0 to Count do
     begin
       RemoteName := FFileList.CurrentDirectory + FFileList.GetFileName(I);
@@ -593,7 +594,7 @@ begin
           Continue;
         end;
 
-      with ri^, FFileList.GetItem(I)^ do
+      with ri, FFileList.GetItem(I)^ do
         begin
           iInt64Rec.Value := iSize;
           SizeLow := iInt64Rec.Low;
@@ -604,9 +605,13 @@ begin
 
       FLastFileSize := FFileList.GetItem(I)^.iSize;
 
-      iResult := FsGetFile(PChar(UTF8ToSys(RemoteName)), PChar(UTF8ToSys(LocalName)), FFlags, ri);
+      iResult := FsGetFile(PChar(UTF8ToSys(RemoteName)), PChar(UTF8ToSys(LocalName)), FFlags, @ri);
 
-      if iResult = FS_FILE_USERABORT then Exit; //Copying was aborted by the user (through ProgressProc)
+      if iResult = FS_FILE_USERABORT then
+      begin
+        FreeAndNil(FFileList);
+        Exit; //Copying was aborted by the user (through ProgressProc)
+      end;
 
       Result := (iResult = FS_FILE_OK);
 
@@ -621,8 +626,7 @@ begin
           logWrite(CT, Format(rsMsgLogError+rsMsgLogCopy, [RemoteName+' -> '+LocalName]), lmtError);
       {/ Log messages }
     end;
-    Dispose(ri);
-    FreeAndNil(FFileList);
+  FreeAndNil(FFileList);
 end;
 
 function TWFXModule.WFXCopyIn: Boolean;
@@ -652,7 +656,11 @@ begin
 
       iResult := FsPutFile(PChar(UTF8ToSys(LocalName)), PChar(UTF8ToSys(RemoteName)), FFlags);
 
-      if iResult = FS_FILE_USERABORT then Exit; //Copying was aborted by the user (through ProgressProc)
+      if iResult = FS_FILE_USERABORT then
+      begin
+        FreeAndNil(FFileList);
+        Exit; //Copying was aborted by the user (through ProgressProc)
+      end;
 
       Result := (iResult = FS_FILE_OK);
       
@@ -667,6 +675,7 @@ begin
           logWrite(CT, Format(rsMsgLogError+rsMsgLogCopy, [LocalName+' -> '+RemoteName]), lmtError);
       {/ Log messages }
     end;
+  FreeAndNil(FFileList);
 end;
 
 function TWFXModule.VFSCopyOut(var flSrcList: TFileList; sDstPath: String;
@@ -687,11 +696,12 @@ begin
     CT := nil;
     WFXCopyOut;
     FFileOpDlg.Close;
-    FFileOpDlg.Free;
 
   except
     Result := False;
   end;
+
+  FFileOpDlg := nil;
 end;
 
 function TWFXModule.VFSCopyIn(var flSrcList: TFileList; sDstName: String;
@@ -712,11 +722,12 @@ begin
     CT := nil;
     WFXCopyIn;
     FFileOpDlg.Close;
-    FFileOpDlg.Free;
 
   except
     Result := False
   end;
+
+  FFileOpDlg := nil;
 end;
 
 function TWFXModule.VFSCopyOutEx(var flSrcList: TFileList; sDstPath: String;
@@ -834,10 +845,13 @@ begin
         {/ Log messages }
       end;
     FFileOpDlg.Close;
-    FFileOpDlg.Free;
   except
     Result := False;
   end;
+
+  FreeAndNil(flNameList);
+  FFileOpDlg := nil;
+
   WFXStatusInfo(FFolder, FS_STATUS_END, FS_STATUS_OP_DELETE);
 end;
 
@@ -845,7 +859,7 @@ function TWFXModule.VFSList(const sDir: String; var fl: TFileList): Boolean;
 var
   FindData : TWIN32FINDDATA;
   Handle:THandle;
-  fr : PFileRecItem;
+  fr : TFileRecItem;
   CurrFileName : String;  // Current file name
 begin
   WFXStatusInfo(sDir, FS_STATUS_START, FS_STATUS_OP_LIST);
@@ -857,8 +871,8 @@ begin
   Handle := FsFindFirst(PChar(UTF8ToSys(sDir)), FindData);
   repeat
 //  Debugln('Repeat in vfsList entered');
-  New(fr);
-  with fr^ do
+
+  with fr do
     begin
       CurrFileName := SysToUTF8(FindData.cFileName);
       if (CurrFileName = '.') or  (CurrFileName = '..') then Continue;
@@ -876,16 +890,18 @@ begin
       sNameNoExt:=Copy(sName,1,length(sName)-length(sExt));
       sPath := sDir;
 
-      iSize := (FindData.nFileSizeHigh * MAXDWORD)+FindData.nFileSizeLow;
+      iSize := (Int64(FindData.nFileSizeHigh) * MAXDWORD)+FindData.nFileSizeLow;
       fTimeI := FileTimeToDateTime(FindData.ftLastWriteTime);
       sTime := FormatDateTime(gDateTimeFormat, fTimeI);
     end;
-  fl.AddItem(fr);
+  fl.AddItem(@fr);
 //  if FsFindNext(Handle, FindData) then DebugLn('FsFindNex=true') else DebugLn('FsFindNex=false');
   until (not FsFindNext(Handle, FindData));
   
   FsFindClose(Handle);
   WFXStatusInfo(sDir, FS_STATUS_END, FS_STATUS_OP_LIST);
+
+  Result := True;
 end;
 
 function TWFXModule.VFSMisc: PtrUInt;
@@ -920,11 +936,13 @@ begin
             WFXCopyIn;
           end;
       end; //case
-        Synchronize(FFileOpDlg.Close);
-      end; //with
+    end; //with
   except
     DebugLN('Error in "WFXCopyThread.Execute"');
   end;
+
+  Synchronize(WFXModule.FFileOpDlg.Close);
+  WFXModule.FFileOpDlg := nil;
 end;
 
 { TWFXModuleList }

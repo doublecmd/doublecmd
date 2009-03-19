@@ -29,11 +29,9 @@ uses
   uVFSTypes, uVFSUtil, fFileOpDlg, Dialogs, DialogAPI, uClassesEx;
 
 {$H+}
-const
-  OP_EXTRACT = 0;
-  OP_PACK = 1;
-
 Type
+  TWCXOperation = (OP_EXTRACT, OP_PACK, OP_DELETE);
+
   TWCXModule = class;
   
   PHeaderData = ^THeaderData;
@@ -41,11 +39,21 @@ Type
   { Packing/Unpacking thread }
   
    TWCXCopyThread = class(TThread)
+   private
+     FOperation: TWCXOperation;
+     FFileList: TFileList;
+     FPath: String;
+     FFlags: Integer;
+     FWCXModule : TWCXModule;
+
    protected
      procedure Execute; override;
+     procedure Terminating(Sender: TObject);
+
    public
-     Operation : Integer;
-     WCXModule : TWCXModule;
+     constructor Create(WCXModule: TWCXModule;
+                        Operation: TWCXOperation; var FileList: TFileList;
+                        Path: String; Flags: Integer);
    end;
   
   
@@ -54,21 +62,67 @@ Type
   TWCXModule = class (TVFSModule)
   private
     FArcFileList : TList;
-    FFileList : TFileList;
-    FFileMask : String;
-    FPackerCaps,
-    FFlags : Integer;
-    FDstPath,
-    fFolder : String;
+    FPackerCaps : Integer;
+    FFolder : String;
     FFilesSize: Int64;
     FPercent : Double;
     CT : TWCXCopyThread;         // Packing/Unpacking thread
     FFileOpDlg: TfrmFileOp; // progress window
     procedure ShowErrorMessage;
-    function WCXCopyOut : Boolean; {Extract files from archive}
-    function WCXCopyIn : Boolean;  {Pack files in archive}
 
-    procedure CopySelectedWithSubFolders(var flist:TFileList);
+    // These 3 functions handle freeing FileList.
+    {Extract files from archive}
+    function WCXCopyOut(var FileList: TFileList; sDestPath: String; Flags: Integer) : Boolean;
+    {Pack files in archive}
+    function WCXCopyIn(var FileList: TFileList; sDestPath: String; Flags: Integer) : Boolean;
+    {Delete files from archive}
+    function WCXDelete(var FileList: TFileList) : Boolean;
+
+    {en
+      Counts size of all files in archive that match selection in FileList
+      and given file mask.
+    }
+    procedure CountFiles(const FileList: TFileList; FileMask: String);
+
+    {en
+      Creates neccessary paths before extracting files from archive.
+      Also counts size of all files that will be extracted.
+
+      @param(FileList
+             List of files/directories to extract (relative to archive root).)
+      @param(FileMask
+             Only files matching this mask will be extracted.)
+      @param(sDestPath
+             Destination path where the files will be extracted.)
+      @param(CurrentArchiveDir
+             Path inside the archive from where the files will be extracted.)
+    }
+    procedure CreateDirsAndCountFiles(const FileList: TFileList; FileMask: String;
+                                      sDestPath: String; CurrentArchiveDir: String);
+
+    {en
+      Creates paths to directories and sets their attributes.
+
+      @param(sDestPath
+             Destination path where directories will be created.)
+      @param(PathsToCreate
+             Path names relative to destination path.)
+      @param(DirsAttributes
+             List of directories and their attributes.
+             If a directory being created is in this list its attributes are set.)
+    }
+    function ForceDirectoriesWithAttrs(sDestPath: String;
+                                       const PathsToCreate: TStringList;
+                                       const DirsAttributes: TFileList): Boolean;
+
+    { Frees current archive file list (fArcFileList). }
+    procedure DeleteArchiveFileList;
+
+    { Initializes and shows progress dialog. }
+    procedure PrepareDialog(Operation: TWCXOperation);
+    { Closes progress dialog and cleans up. }
+    procedure FinishDialog;
+
   protected
     // module's functions
   //**mandatory:
@@ -77,6 +131,7 @@ Type
     ProcessFile : TProcessFile;
     CloseArchive : TCloseArchive;
   //**optional:
+    // TODO: add ReadHeaderEx for archives with >2GB files
     PackFiles : TPackFiles;
     DeleteFiles : TDeleteFiles;
     GetPackerCaps : TGetPackerCaps;
@@ -153,23 +208,27 @@ uses Forms, SysUtils, Masks, uFileOp, uGlobs, uLog, uOSUtils, LCLProc, uFileProc
      uDCUtils, uLng, Controls, fPackInfoDlg, fDialogBox, uGlobsPaths, FileUtil;
 
 var
-  WCXModule : TWCXModule;  // used in ProcessDataProc
+  WCXModule : TWCXModule = nil;  // used in ProcessDataProc
   iResult : Integer;
 
 constructor TWCXModule.Create;
 begin
   FFilesSize:= 0;
   FPercent := 0;
+  FArcFileList := nil;
+  CT := nil;
+  FFileOpDlg := nil;
 end;
 
 destructor TWCXModule.Destroy;
 begin
   UnloadModule;
+  WCXModule := nil; // clear global variable pointing to self
 end;
 
 function TWCXModule.LoadModule(const sName:String):Boolean;
 var
-  PackDefaultParamStruct : pPackDefaultParamStruct;
+  PackDefaultParamStruct : TPackDefaultParamStruct;
   SetDlgProcInfo: TSetDlgProcInfo;
 begin
   FModuleHandle := mbLoadLibrary(sName);
@@ -208,14 +267,14 @@ begin
   
   if Assigned(PackSetDefaultParams) then
     begin
-      with PackDefaultParamStruct^ do
+      with PackDefaultParamStruct do
         begin
-          Size := SizeOf(PackDefaultParamStruct^);
+          Size := SizeOf(PackDefaultParamStruct);
           PluginInterfaceVersionLow := 10;
           PluginInterfaceVersionHi := 2;
           DefaultIniName := '';
         end;
-      PackSetDefaultParams(PackDefaultParamStruct);
+      PackSetDefaultParams(@PackDefaultParamStruct);
     end;
 
   // Dialog API
@@ -302,6 +361,7 @@ begin
   //DebugLn('Working ' + FileName + ' Size = ' + IntToStr(Size));
 
   Result := 1;
+  if Assigned(WCXModule) then
   with WCXModule do
   begin
     if not Assigned(FFileOpDlg) then Exit;
@@ -347,6 +407,25 @@ begin
   ShowErrorMsg(iResult);
 end;
 
+procedure TWCXModule.DeleteArchiveFileList;
+var
+  i: Integer;
+begin
+  if Assigned(FArcFileList) then
+  begin
+    for i := 0 to FArcFileList.Count - 1 do
+    begin
+      if Assigned(FArcFileList.Items[i]) then
+      begin
+        Dispose(PHeaderData(FArcFileList.Items[i]));
+        FArcFileList.Items[i] := nil;
+      end;
+    end;
+
+    FreeAndNil(FArcFileList);
+  end;
+end;
+
 function TWCXModule.VFSInit(Data: PtrInt): Boolean;
 begin
   FPackerCaps:= Data;
@@ -354,7 +433,8 @@ end;
 
 procedure TWCXModule.VFSDestroy;
 begin
-
+  DeleteArchiveFileList;
+  UnloadModule;
 end;
 
 function TWCXModule.VFSCaps: TVFSCaps;
@@ -369,7 +449,7 @@ end;
 
 function TWCXModule.VFSConfigure(Parent: THandle): Boolean;
 begin
-  if @ConfigurePacker <> nil then
+  if Assigned(ConfigurePacker) then
     ConfigurePacker(Parent, FModuleHandle);
 end;
 
@@ -380,14 +460,10 @@ var
   ArcFile : tOpenArchiveData;
   ArcHeader : THeaderData;
   HeaderData : PHeaderData;
-  bHasDir : Boolean;
   sDirs, ExistsDirList : TStringList;
   I : Integer;
+  NameLength: Integer;
 begin
-  bHasDir := False;
-  sDirs := TStringList.Create;
-  ExistsDirList := TStringList.Create;
-  
   FArchiveName := sName;
   DebugLN('FArchiveName = ' + FArchiveName);
 
@@ -431,39 +507,60 @@ begin
   DebugLN('Get File List');
   (*Get File List*)
   FillChar(ArcHeader, SizeOf(ArcHeader), #0);
+  DeleteArchiveFileList;
   FArcFileList := TList.Create;
+  sDirs := TStringList.Create;
+  ExistsDirList := TStringList.Create;
 
   try
     while (ReadHeader(ArcHandle, ArcHeader) = 0) do
       begin
         New(HeaderData);
         HeaderData^ := ArcHeader;
+
+        // Some plugins end directories with path delimiter. Delete it if present.
+        if FPS_ISDIR(HeaderData^.FileAttr) then
+        begin
+          NameLength := strlen(HeaderData^.FileName);   // This is a C-String
+          if (NameLength < Sizeof(HeaderData^.FileName)) and
+             (HeaderData^.FileName[NameLength-1] = PathDelim)
+          then
+            HeaderData^.FileName[NameLength-1] := #0;
+        end;
+
         //****************************
-        (* if plugin is not give a list of folders *)
-        if (sDirs.Count > 0) or not bHasDir then
-          begin
-            bHasDir := FPS_ISDIR(HeaderData^.FileAttr);
-            if bHasDir and (ExistsDirList.IndexOf(HeaderData.FileName) < 0) then
-              ExistsDirList.Add(HeaderData.FileName);
-            GetDirs(String(HeaderData^.FileName), sDirs);
-          end;
+        (* Workaround for plugins that don't give a list of folders
+           or the list does not include all of the folders.
+           This considerably slows down opening archives with lots of files. *)
+
+        if FPS_ISDIR(HeaderData^.FileAttr) then
+        begin
+          // Collect directories that the plugin supplies.
+          if (ExistsDirList.IndexOf(HeaderData.FileName) < 0) then
+            ExistsDirList.Add(HeaderData.FileName);
+        end;
+
+        // Collect all directories.
+        GetDirs(String(HeaderData^.FileName), sDirs);
+
         //****************************
+
+        FArcFileList.Add(HeaderData);
+
         FillChar(ArcHeader, SizeOf(ArcHeader), #0);
         // get next file
         iResult := ProcessFile(ArcHandle, PK_SKIP, nil, nil);
 
         //Check for errors
-        if iResult <> 0 then
+        if iResult <> E_SUCCESS then
           ShowErrorMessage;
-
-        FArcFileList.Add(HeaderData);
       end; // while
     
-    (* if plugin is not give a list of folders *)
-    if not bHasDir then
+    (* if plugin does not give a list of folders *)
       begin
         for I := 0 to sDirs.Count - 1 do
           begin
+            // Add only those directories that were not supplied by the plugin.
             if ExistsDirList.IndexOf(sDirs.Strings[I]) >= 0 then
               Continue;
             FillChar(ArcHeader, SizeOf(ArcHeader), #0);
@@ -485,7 +582,7 @@ end;
 
 function TWCXModule.VFSClose: Boolean;
 begin
-
+  DeleteArchiveFileList;
 end;
 
 function TWCXModule.VFSRefresh: Boolean;
@@ -503,56 +600,55 @@ begin
 
 end;
 
-function GetFileList(var fl:TFileList) : String;
-var
-  I, Count : Integer;
-  FileList : String;
+function ExcludeFrontPathDelimiter(s:String): String;
 begin
-  I := 1;
-  Count := fl.Count - 1;
-  FileList := fl.GetItem(0)^.sName;
-  while I <= Count do
-    begin
-      FileList := FileList + #0 + fl.GetItem(I)^.sName;
-      I := I + 1;
-    end;
-  FileList := FileList + #0#0;
-  //DebugLn('FileList := ' + FileList);
-  Result := FileList;
+  if (Length(s) > 0) and (s[1] = PathDelim) then
+    Result := Copy(s, 2, Length(s) - 1)
+  else
+    Result := s;
 end;
 
-function TWCXModule.WCXCopyOut : Boolean;
+function GetFileList(var fl:TFileList; Operation: TWCXOperation) : String;
+var
+  I        : Integer;
+  FileName : String;
+begin
+  Result := '';
+
+  for I := 0 to fl.Count - 1 do
+    begin
+      // Filenames must be relative to archive root and shouldn't start with path delimiter.
+      FileName := ExcludeFrontPathDelimiter(fl.GetItem(I)^.sName);
+
+      // Special treatment of directories.
+      if FPS_ISDIR(fl.GetItem(I)^.iMode) then
+      begin
+        case Operation of
+          OP_PACK:
+              FileName := IncludeTrailingPathDelimiter(FileName);
+
+          OP_DELETE:
+              FileName := IncludeTrailingPathDelimiter(FileName) + '*.*';
+        end;
+      end;
+
+      Result := Result + FileName + #0;
+    end;
+
+  Result := Result + #0;
+end;
+
+function TWCXModule.WCXCopyOut(var FileList: TFileList; sDestPath: String; Flags: Integer) : Boolean;
 var
   ArcHandle : TArcHandle;
   ArcFile : tOpenArchiveData;
   ArcHeader : THeaderData;
-  Extract : Boolean;
-  Count, I : Integer;
-  Folder : String;
+  CurrentFileName: String;
+  TargetFileName: String;
+  FileMask: String;
 begin
-   FPercent := 0;
+  FPercent := 0;
 
-   FFileMask := ExtractFileName(FDstPath);
-   if FFileMask = '' then FFileMask := '*';  // extract all selected files/folders
-   FDstPath := ExtractFilePath(FDstPath);
-   
-   (* Get current folder in archive *)
-   Folder := FFileList.CurrentDirectory; //LowDirLevel(FFileList.GetItem(0)^.sName);
-
-   (* Get relative path *)
-   IncludeFileInList(FArchiveName, Folder);
-
-   FFolder := Folder;
-
-   DebugLN('Folder = ' + Folder);
-
-   //sDstPath := ExcludeTrailingPathDelimiter(sDstPath);
-
-   CopySelectedWithSubFolders(FFileList);
-   DebugLN('Extract file = ' + FArchiveName + DirectorySeparator + ArcHeader.FileName);
-
-
-  Count := FFileList.Count;
   FillChar(ArcFile, SizeOf(ArcFile), #0);
   ArcFile.ArcName := PChar(UTF8ToSys(FArchiveName));
   ArcFile.OpenMode := PK_OM_EXTRACT;
@@ -567,9 +663,21 @@ begin
       end
     else
       ShowErrorMsg(ArcFile.OpenResult);
+
     Result := False;
+    FreeAndNil(FileList);
     Exit;
    end;
+
+  FileMask := ExtractFileName(sDestPath);
+  if FileMask = '' then FileMask := '*';  // extract all selected files/folders
+  sDestPath := ExtractFilePath(sDestPath);
+
+  // Convert file list so that filenames are relative to archive root.
+  ChangeFileListRoot(FArchiveName + PathDelim, FileList);
+
+  // Count total files size and create needed directories.
+  CreateDirsAndCountFiles(FileList, FileMask, sDestPath, FileList.CurrentDirectory);
 
   WCXModule := Self;  // set WCXModule variable to current module
   SetChangeVolProc(ArcHandle, ChangeVolProc);
@@ -579,25 +687,28 @@ begin
   FillChar(ArcHeader, SizeOf(ArcHeader), #0);
   while (ReadHeader(ArcHandle, ArcHeader) = 0) do
    begin
+    CurrentFileName := SysToUTF8(ArcHeader.FileName);
 
-     if  FFileList.CheckFileName(SysToUTF8(ArcHeader.FileName)) >= 0 then // Want To Extract This File
+    // Now check if the file is to be extracted.
+
+    if  (not FPS_ISDIR(ArcHeader.FileAttr))        // Omit directories (we handle them ourselves).
+    and MatchesFileList(FileList, CurrentFileName) // Check if it's included in the filelist
+    and ((FileMask = '*.*') or (FileMask = '*')    // And name matches file mask
+        or MatchesMaskList(ExtractFileName(CurrentFileName), FileMask))
+    then
        begin
-         //DebugLn(FDstPath + ExtractDirLevel(Folder, PathDelim + ArcHeader.FileName));
+         TargetFileName := sDestPath + ExtractDirLevel(FileList.CurrentDirectory, CurrentFileName);
 
-         if (FFileMask <> '*.*') and (FFileMask <> '*') then
-           ForceDirectory(ExtractFilePath(FDstPath + ExtractDirLevel(Folder, PathDelim + SysToUTF8(ArcHeader.FileName))));
-
-
-         iResult := ProcessFile(ArcHandle, PK_EXTRACT, nil, PChar(UTF8ToSys(FDstPath) + ExtractDirLevel(UTF8ToSys(Folder), PathDelim + ArcHeader.FileName)));
+         iResult := ProcessFile(ArcHandle, PK_EXTRACT, nil, PChar(UTF8ToSys(TargetFileName)));
 
          //Check for errors
-         if iResult <> 0 then
+         if iResult <> E_SUCCESS then
            begin
              if Assigned(CT) then
                begin
                  // write log error
                  if (log_arc_op in gLogOptions) and (log_errors in gLogOptions) then
-                   logWrite(CT, Format(rsMsgLogError+rsMsgLogExtract, [FArchiveName + PathDelim + SysToUTF8(ArcHeader.FileName)+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + SysToUTF8(ArcHeader.FileName))]), lmtError);
+                   logWrite(CT, Format(rsMsgLogError+rsMsgLogExtract, [FArchiveName + PathDelim + CurrentFileName + ' -> ' + TargetFileName]), lmtError);
                  // Standart error modal dialog
                  CT.Synchronize(ShowErrorMessage)
                end
@@ -605,7 +716,7 @@ begin
                begin
                  // write log error
                  if (log_arc_op in gLogOptions) and (log_errors in gLogOptions) then
-                   logWrite(Format(rsMsgLogError+rsMsgLogExtract, [FArchiveName + PathDelim + SysToUTF8(ArcHeader.FileName)+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + SysToUTF8(ArcHeader.FileName))]), lmtError);
+                   logWrite(Format(rsMsgLogError+rsMsgLogExtract, [FArchiveName + PathDelim + CurrentFileName + ' -> ' + TargetFileName]), lmtError);
                  // Standart error modal dialog
                  ShowErrorMessage;
                end;
@@ -618,23 +729,22 @@ begin
                begin
                  // write log success
                  if (log_arc_op in gLogOptions) and (log_success in gLogOptions) then
-                   logWrite(CT, Format(rsMsgLogSuccess+rsMsgLogExtract, [FArchiveName + PathDelim + SysToUTF8(ArcHeader.FileName)+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + SysToUTF8(ArcHeader.FileName))]), lmtSuccess);
+                   logWrite(CT, Format(rsMsgLogSuccess+rsMsgLogExtract, [FArchiveName + PathDelim + CurrentFileName +' -> ' + TargetFileName]), lmtSuccess);
                end
              else
                begin
                  // write log success
                  if (log_arc_op in gLogOptions) and (log_success in gLogOptions) then
-                   logWrite(Format(rsMsgLogSuccess+rsMsgLogExtract, [FArchiveName + PathDelim + SysToUTF8(ArcHeader.FileName)+' -> '+FDstPath+ExtractDirLevel(Folder, PathDelim + SysToUTF8(ArcHeader.FileName))]), lmtSuccess);
+                   logWrite(Format(rsMsgLogSuccess+rsMsgLogExtract, [FArchiveName + PathDelim + CurrentFileName + ' -> ' + TargetFileName]), lmtSuccess);
                end;
            end; // Success
-           
-       end // CheckFileName
+       end // Extract
      else // Skip
        begin
          iResult := ProcessFile(ArcHandle, PK_SKIP, nil, nil);
 
          //Check for errors
-         if iResult <> 0 then
+         if iResult <> E_SUCCESS then
            if Assigned(CT) then
              CT.Synchronize(ShowErrorMessage)
            else
@@ -643,46 +753,50 @@ begin
      FillChar(ArcHeader, SizeOf(ArcHeader), #0);
    end;
   CloseArchive(ArcHandle);
+  FreeAndNil(FileList);
   Result := True;
 end;
 
-function TWCXModule.WCXCopyIn : Boolean;
+function TWCXModule.WCXCopyIn(var FileList: TFileList; sDestPath: String; Flags: Integer) : Boolean;
 var
-  FileList, Folder, pDstPath : PChar;
-  I : Integer;
+  pDestPath : PChar;
 begin
   DebugLN('VFSCopyIn =' + FArchiveName);
   FPercent := 0;
-  New(FileList);
-  New(Folder);
-  FDstPath := ExtractDirLevel(FArchiveName + PathDelim, FDstPath);
-  FDstPath := ExcludeTrailingPathDelimiter(FDstPath);
 
-  if FDstPath = '' then
-    pDstPath := nil
+  sDestPath := ExtractDirLevel(FArchiveName + PathDelim, sDestPath);
+  sDestPath := ExcludeTrailingPathDelimiter(sDestPath);
+
+  DebugLN('sDstPath == ' + sDestPath);
+
+  sDestPath := UTF8ToSys(sDestPath);
+
+  if sDestPath = '' then
+    pDestPath := nil
   else
-    pDstPath := PChar(UTF8ToSys(FDstPath));
+    pDestPath := PChar(sDestPath); // Make pointer to local variable
     
-  DebugLN('sDstPath == ' + FDstPath);
+  // Convert file list so that filenames are relative to archive root.
+  ChangeFileListRoot(FArchiveName + PathDelim, FileList);
 
   (* Add in file list files from subfolders *)
-  FillAndCount(FFileList, FFilesSize);
+  FillAndCount(FileList, FFilesSize);
 
-  DebugLN('Curr Dir := ' + FFileList.CurrentDirectory);
-  Folder := PChar(UTF8ToSys(FFileList.CurrentDirectory));
-  
+  DebugLN('Curr Dir := ' + FileList.CurrentDirectory);
 
-  (* Convert TFileList into PChar *)
-  FileList := PChar(UTF8ToSys(GetFileList(FFileList)));
 
   WCXModule := Self;  // set WCXModule variable to current module
-  SetChangeVolProc(-1, ChangeVolProc);
-  SetProcessDataProc(-1, ProcessDataProc);
+  SetChangeVolProc(INVALID_HANDLE_VALUE, ChangeVolProc);
+  SetProcessDataProc(INVALID_HANDLE_VALUE, ProcessDataProc);
 
-  iResult := PackFiles(PChar(UTF8ToSys(FArchiveName)), pDstPath, Folder, FileList, FFlags);
+  iResult := PackFiles(PChar(UTF8ToSys(FArchiveName)),
+                       pDestPath, // no trailing path delimiter here
+                       PChar(UTF8ToSys(IncludeTrailingPathDelimiter(FileList.CurrentDirectory))), // end with path delimiter here
+                       PChar(UTF8ToSys(GetFileList(FileList, OP_PACK))),  // Convert TFileList into PChar
+                       Flags);
 
   //Check for errors
-  if iResult <> 0 then
+  if iResult <> E_SUCCESS then
     begin
       if Assigned(CT) then
         begin
@@ -716,102 +830,218 @@ begin
             logWrite(Format(rsMsgLogSuccess+rsMsgLogPack, [FArchiveName]), lmtSuccess);
         end;
     end; // Success
+
+  FreeAndNil(FileList);
+  Result := True;
 end;
 
-procedure TWCXModule.CopySelectedWithSubFolders(var flist:TFileList);
-
-  procedure SelectFilesInSubfolders(var fl : TFileList; sDir : String);
-  var
-    fr : PFileRecItem;
-    I, Count : Integer;
-    CurrFileName : String;  // Current file name
-  begin
-    if (FFileMask = '*.*') or (FFileMask = '*') then
-      ForceDirectory(FDstPath + ExtractDirLevel(FFolder, PathDelim + sDir));
-
-    //DebugLN('ForceDirectory = ' + FDstPath + ExtractDirLevel(FFolder, PathDelim + sDir));
-
-    Count := FArcFileList.Count - 1;
-    for I := 0 to  Count do
-     begin
-       CurrFileName := SysToUTF8(PathDelim + PHeaderData(FArcFileList.Items[I])^.FileName);
-
-       //DebugLN('sDir = ', sDir);
-       //DebugLN('In folder = ' + CurrFileName);
-
-       if not IncludeFileInList(sDir + PathDelim, CurrFileName) then
-         Continue;
-
-       if (FFileMask <> '*.*') and (FFileMask <> '*') and
-          not FPS_ISDIR(PHeaderData(FArcFileList.Items[I])^.FileAttr) and
-          not(MatchesMaskList(CurrFileName, FFileMask)) then
-         Continue;
-
-  //     DebugLN('In folder = ' + CurrFileName);
-
-       New(fr);
-       with fr^, PHeaderData(FArcFileList.Items[I])^  do
-           begin
-             sName := {FArchiveName + PathDelim +} SysToUTF8(FileName);
-             iMode := FileAttr;
-             if FPS_ISDIR(iMode) then
-               begin
-                 sExt:='';
-                 //DebugLN('SelectFilesInSubfolders = ' + FileName);
-                 if (FFileMask = '*.*') or (FFileMask = '*') then
-                   fl.AddItem(fr);
-                 SelectFilesInSubfolders(fl, SysToUTF8(FileName));
-               end
-             else
-               begin
-                 fl.AddItem(fr);
-                 inc(FFilesSize, UnpSize);
-               end;
-          end; //with
-       Dispose(fr);
-     end;
-  end;
-
-
+function TWCXModule.WCXDelete(var FileList: TFileList) : Boolean;
 var
-  xIndex:Integer;
-  fri:TFileRecItem;
-  Newfl : TFileList;
-  Count : Integer;
+  iResult: Integer;
 begin
-  Newfl := TFileList.Create;
-  Count := flist.Count-1;
-  for xIndex:=0 to Count do
+  FPercent := 0;
+
+  // Convert file list so that filenames are relative to archive root.
+  ChangeFileListRoot(FArchiveName + PathDelim, FileList);
+
+  CountFiles(FileList, '*.*');
+
+  WCXModule := Self;  // set WCXModule variable to current module
+  SetChangeVolProc(INVALID_HANDLE_VALUE, ChangeVolProc);
+  SetProcessDataProc(INVALID_HANDLE_VALUE, ProcessDataProc);
+
+  iResult := DeleteFiles(PChar(UTF8ToSys(FArchiveName)),
+                         PChar(UTF8ToSys(GetFileList(FileList, OP_DELETE))));
+
+  //Check for errors
+  if iResult <> E_SUCCESS then
+    begin
+      if Assigned(CT) then
+          CT.Synchronize(ShowErrorMessage)
+      else
+          ShowErrorMessage;
+    end;
+
+  FreeAndNil(FileList);
+end;
+
+function TWCXModule.ForceDirectoriesWithAttrs(sDestPath: String;
+                                              const PathsToCreate: TStringList;
+                                              const DirsAttributes: TFileList): Boolean;
+var
+  Directories: TStringList;
+  i: Integer;
+  PathIndex: Integer;
+  ListIndex: Integer;
+  TargetDir: String;
+  Time: Longint;
+begin
+  Result := True;
+
+  sDestPath := IncludeTrailingPathDelimiter(sDestPath);
+
+  // First create path to destination directory (we don't have attributes for that).
+  ForceDirectory(sDestPath);
+
+  Directories := TStringList.Create;
+
+  for PathIndex := 0 to PathsToCreate.Count - 1 do
   begin
-    fri:=flist.GetItem(xIndex)^;
+    Directories.Clear;
 
-
-    fri.sName := ExtractDirLevel(FArchiveName, fri.sName);
-
-    if fri.sName[1] = PathDelim then
-      Delete(fri.sName, 1, 1);
-
-    if (FFileMask <> '*.*') and (FFileMask <> '*') and not(MatchesMaskList(fri.sName, FFileMask) or FPS_ISDIR(fri.iMode)) then
-      Continue;
-      
-
-    //DebugLn('Curr File = ' + fri.sName);
-
-    if FPS_ISDIR(fri.iMode) then
+    // Get all relative directories from the path to create.
+    // This adds directories to list in order from the outer to inner ones,
+    // for example: dir, dir/dir2, dir/dir2/dir3.
+    if GetDirs(PathsToCreate.Strings[PathIndex], Directories) <> -1 then
+    try
+      for i := 0 to Directories.Count - 1 do
       begin
-        if (FFileMask = '*.*') or (FFileMask = '*') then
-          Newfl.AddItem(@fri);
-        SelectFilesInSubfolders(Newfl, fri.sName);
-      end
-    else
-      begin
-        Newfl.AddItem(@fri);
-        inc(FFilesSize, fri.iSize);
+        TargetDir := sDestPath + Directories.Strings[i];
+
+        if not DirPathExists(TargetDir) then
+        begin
+           if ForceDirectory(TargetDir) = False then
+           begin
+             // Error, cannot create directory.
+             Result := False;
+           end
+           else
+           begin
+             // Check, if attributes are stored for the directory in the DirectoriesList.
+             ListIndex := DirsAttributes.CheckFileName(Directories.Strings[i]);
+             if ListIndex <> -1 then
+             begin
+{$IF DEFINED(MSWINDOWS)}
+               // Restore attributes, e.g., hidden, read-only.
+               // On Unix iMode value would have to be translated somehow.
+               mbFileSetAttr(TargetDir, DirsAttributes.GetItem(ListIndex)^.iMode);
+{$ENDIF}
+               Time := Trunc(DirsAttributes.GetItem(ListIndex)^.fTimeI);
+
+               // Set creation, modification time
+               mbFileSetTime(TargetDir, Time, Time, Time);
+             end;
+           end;
+        end;
       end;
 
-  end; //for
-  FreeAndNil(flist);
-  flist := Newfl;
+    except
+    end;
+
+  end;
+
+  FreeAndNil(Directories);
+end;
+
+procedure TWCXModule.CreateDirsAndCountFiles(const FileList: TFileList; FileMask: String; sDestPath: String; CurrentArchiveDir: String);
+var
+  // List of paths that we know must be created.
+  PathsToCreate: TStringList;
+
+  // List of possible directories to create with their attributes.
+  // This usually short list is created so that we don't traverse
+  // the whole archive each time we need an attribute for a directory.
+  DirsWithAttributes: TFileList;
+
+  i: Integer;
+  fri : TFileRecItem;
+  CurrentFileName: String;
+  ArcHeader: THeaderData;
+begin
+  FFilesSize := 0;
+
+  PathsToCreate := TStringList.Create;
+  DirsWithAttributes := TFileList.Create;
+
+  for i := 0 to FArcFileList.Count - 1 do
+  begin
+    ArcHeader := PHeaderData(FArcFileList.Items[I])^;
+    CurrentFileName := SysToUTF8(ArcHeader.FileName);
+
+    // Check if the file from the archive fits the selection given via FileList.
+    if not MatchesFileList(FileList, CurrentFileName) then
+      Continue;
+
+    if FPS_ISDIR(ArcHeader.FileAttr) then
+    begin
+      // Save this directory with its attributes.
+      fri.sName  := ExtractDirLevel(CurrentArchiveDir, CurrentFileName);
+      fri.iMode  := ArcHeader.FileAttr;
+      fri.fTimeI := ArcHeader.FileTime;
+
+      DirsWithAttributes.AddItem(@fri);
+    end
+    else
+    begin
+      if ((FileMask = '*.*') or (FileMask = '*') or
+          MatchesMaskList(ExtractFileName(CurrentFileName), FileMask)) then
+      begin
+        Inc(FFilesSize, ArcHeader.UnpSize);
+
+        CurrentFileName := ExtractDirLevel(CurrentArchiveDir, ExtractFilePath(CurrentFileName));
+
+        // If CurrentFileName is empty now then it was a file in current archive
+        // directory, therefore we don't have to create any paths for it.
+        if Length(CurrentFileName) > 0 then
+          if PathsToCreate.IndexOf(CurrentFileName) < 0 then
+            PathsToCreate.Add(CurrentFileName);
+      end;
+    end;
+  end;
+
+  try
+    if ForceDirectoriesWithAttrs(sDestPath, PathsToCreate, DirsWithAttributes) = False then
+      ; // Error.
+  except
+  end;
+
+  FreeAndNil(PathsToCreate);
+  FreeAndNil(DirsWithAttributes);
+end;
+
+procedure TWCXModule.CountFiles(const FileList: TFileList; FileMask: String);
+var
+  i: Integer;
+  CurrentFileName: String;
+  ArcHeader: THeaderData;
+begin
+  FFilesSize := 0;
+
+  for i := 0 to FArcFileList.Count - 1 do
+  begin
+    ArcHeader := PHeaderData(FArcFileList.Items[I])^;
+    CurrentFileName := SysToUTF8(ArcHeader.FileName);
+
+    // Check if the file from the archive fits the selection given via FileList.
+    if  (not FPS_ISDIR(ArcHeader.FileAttr))        // Omit directories
+    and MatchesFileList(FileList, CurrentFileName) // Check if it's included in the filelist
+    and ((FileMask = '*.*') or (FileMask = '*')    // And name matches file mask
+        or MatchesMaskList(ExtractFileName(CurrentFileName), FileMask))
+    then
+      Inc(FFilesSize, ArcHeader.UnpSize);
+  end;
+end;
+
+procedure TWCXModule.PrepareDialog(Operation: TWCXOperation);
+begin
+  FFileOpDlg:= TfrmFileOp.Create(nil);
+  FFileOpDlg.iProgress1Max:=100;
+  FFileOpDlg.iProgress2Max:=100;
+
+  case Operation of
+    OP_EXTRACT:  FFileOpDlg.Caption := rsDlgExtract;
+    OP_PACK   :  FFileOpDlg.Caption := rsDlgPack;
+    OP_DELETE :  FFileOpDlg.Caption := rsDlgDel;
+  end;
+
+  FFileOpDlg.Thread := TThread(CT);
+  FFileOpDlg.Show;
+end;
+
+procedure TWCXModule.FinishDialog;
+begin
+  FFileOpDlg.Close;
+  FFileOpDlg := nil;
 end;
 
 {Extract files from archive}
@@ -819,27 +1049,10 @@ end;
 function TWCXModule.VFSCopyOut(var flSrcList: TFileList; sDstPath: String;
   Flags: Integer): Boolean;
 begin
-  Result := True;
-  try
-    FFileOpDlg:= TfrmFileOp.Create(nil);
-    FFileOpDlg.Show;
-    FFileOpDlg.iProgress1Max:=100;
-    FFileOpDlg.iProgress2Max:=100;
-    FFileOpDlg.Caption := rsDlgExtract;
-
-    FFileList := flSrcList;
-    FDstPath := sDstPath;
-    FFlags := Flags;
-
-    CT := nil;
-    WCXCopyOut;
-    FFileOpDlg.Close;
-    FFileOpDlg.Free;
-    FFileOpDlg := nil;
-  except
-    FFileOpDlg := nil;
-    Result := False;
-  end;
+  CT := nil;
+  PrepareDialog(OP_EXTRACT);
+  Result := WCXCopyOut(flSrcList, sDstPath, Flags);
+  FinishDialog;
 end;
 
 {Pack files}
@@ -847,27 +1060,10 @@ end;
 function TWCXModule.VFSCopyIn(var flSrcList: TFileList; sDstName: String; Flags : Integer
   ): Boolean;
 begin
-  Result := True;
-  try
-    FFileOpDlg:= TfrmFileOp.Create(nil);
-    FFileOpDlg.Show;
-    FFileOpDlg.iProgress1Max:=100;
-    FFileOpDlg.iProgress2Max:=100;
-    FFileOpDlg.Caption := rsDlgPack;
-
-    FFileList := flSrcList;
-    FDstPath := sDstName;
-    FFlags := Flags;
-
-    CT := nil;
-    WCXCopyIn;
-    FFileOpDlg.Close;
-    FFileOpDlg.Free;
-    FFileOpDlg := nil;
-  except
-    FFileOpDlg := nil;
-    Result := False;
-  end;
+  CT := nil;
+  PrepareDialog(OP_PACK);
+  Result := WCXCopyIn(flSrcList, sDstName, Flags);
+  FinishDialog;
 end;
 
 {Extract files from archive in thread}
@@ -875,26 +1071,18 @@ end;
 function TWCXModule.VFSCopyOutEx(var flSrcList: TFileList; sDstPath: String;
   Flags: Integer): Boolean;
 begin
-  Result := True;
-  try
-    FFileOpDlg:= TfrmFileOp.Create(nil);
-    FFileOpDlg.Show;
-    FFileOpDlg.iProgress1Max:=100;
-    FFileOpDlg.iProgress2Max:=100;
-    FFileOpDlg.Caption := rsDlgExtract;
-  
-    FFileList := flSrcList;
-    FDstPath := sDstPath;
-  
-    CT := TWCXCopyThread.Create(True);
-    CT.FreeOnTerminate := True;
-    CT.Operation := OP_EXTRACT;
-    CT.WCXModule := Self;
-    FFileOpDlg.Thread := TThread(CT);
+  // check if other operations are running
+  if not IsBlocked then
+  begin
+    CT := TWCXCopyThread.Create(Self, OP_EXTRACT, flSrcList, sDstPath, Flags);
+    PrepareDialog(OP_EXTRACT);
     CT.Resume;
-  except
-    FFileOpDlg := nil;
+    Result := True;
+  end
+  else
+  begin
     Result := False;
+    FreeAndNil(flSrcList);
   end;
 end;
 
@@ -903,27 +1091,18 @@ end;
 function TWCXModule.VFSCopyInEx(var flSrcList: TFileList; sDstName: String; Flags : Integer
   ): Boolean;
 begin
-  Result := True;
-  try
-    FFileOpDlg:= TfrmFileOp.Create(nil);
-    FFileOpDlg.Show;
-    FFileOpDlg.iProgress1Max:=100;
-    FFileOpDlg.iProgress2Max:=100;
-    FFileOpDlg.Caption := rsDlgPack;
-    
-    FFileList := flSrcList;
-    FDstPath := sDstName;
-    FFlags := Flags;
-  
-    CT := TWCXCopyThread.Create(True);
-    CT.FreeOnTerminate := True;
-    CT.Operation := OP_PACK;
-    CT.WCXModule := Self;
-    FFileOpDlg.Thread := TThread(CT);
+  // check if other operations are running
+  if not IsBlocked then
+  begin
+    CT := TWCXCopyThread.Create(Self, OP_PACK, flSrcList, sDstName, Flags);
+    PrepareDialog(OP_PACK);
     CT.Resume;
-  except
-    FFileOpDlg := nil;
+    Result := True;
+  end
+  else
+  begin
     Result := False;
+    FreeAndNil(flSrcList);
   end;
 end;
 
@@ -943,50 +1122,30 @@ begin
    begin
      //DebugLn(PHeaderData(FArcFileList.Items[I])^.FileName);
      if (PathDelim + PHeaderData(FArcFileList.Items[I])^.FileName) = UTF8ToSys(fFolder + sName) then
-       Break;
+     begin
+       Result:= ShowPackInfoDlg(Self, PHeaderData(FArcFileList.Items[I])^);
+       Exit;
+     end;
    end;
-   Result:= ShowPackInfoDlg(Self, PHeaderData(FArcFileList.Items[I])^);
+   Result:= False;
 end;
 
 function TWCXModule.VFSDelete(var flNameList: TFileList): Boolean;
-var
-  Folder : String;
 begin
-  // DebugLN('Folder = ' + Folder);
-  try
-    FFileOpDlg:= TfrmFileOp.Create(nil);
-    FFileOpDlg.Show;
-    FFileOpDlg.iProgress1Max:=100;
-    FFileOpDlg.iProgress2Max:=100;
-    FFileOpDlg.Caption := rsDlgDel;
-
-    CT := nil;
-
-    WCXModule := Self;  // set WCXModule variable to current module
-    SetChangeVolProc(-1, ChangeVolProc);
-    SetProcessDataProc(-1, ProcessDataProc);
-
-    CopySelectedWithSubFolders(flNameList);
-   
-    DeleteFiles(PChar(UTF8ToSys(FArchiveName)), PChar(UTF8ToSys(GetFileList(flNameList))));
-    
-    FFileOpDlg.Close;
-    FFileOpDlg.Free;
-    FFileOpDlg := nil;
-  except
-    FFileOpDlg := nil;
-    Result := False;
-  end;
+  CT := nil;
+  PrepareDialog(OP_DELETE);
+  Result := WCXDelete(flNameList);
+  FinishDialog;
 end;
 
 function TWCXModule.VFSList(const sDir: String; var fl: TFileList): Boolean;
 var
-  fr : PFileRecItem;
+  fr : TFileRecItem;
   I, Count : Integer;
   CurrFileName : String;  // Current file name
 begin
   fl.Clear;
-  fFolder:= sDir; // save current folder
+  FFolder := sDir; // save current folder
   AddUpLevel(LowDirLevel(sDir), fl);
   
   DebugLN('LowDirLevel(sDir) = ' + LowDirLevel(sDir));
@@ -994,20 +1153,15 @@ begin
   Count := FArcFileList.Count - 1;
   for I := 0 to  Count do
    begin
-     CurrFileName := SysToUTF8(PathDelim + PHeaderData(FArcFileList.Items[I])^.FileName);
-     
-     //DebugLn(CurrFileName);
-     
-     if not IncludeFileInList(sDir, CurrFileName) then
+     CurrFileName := PathDelim + SysToUTF8(PHeaderData(FArcFileList.Items[I])^.FileName);
+
+     if not IsFileInPath(sDir, CurrFileName, False) then
        Continue;
 
-     //DebugLN('In folder = ' + CurrFileName);
-
-     New(fr);
-     FillByte(fr^, SizeOf(fr^), 0);
-     with fr^, PHeaderData(FArcFileList.Items[I])^  do
+     FillByte(fr, SizeOf(fr), 0);
+     with fr, PHeaderData(FArcFileList.Items[I])^  do
          begin
-            sName := CurrFileName;
+            sName := ExtractFileName(CurrFileName);
             iMode := FileAttr;
             sModeStr := AttrToStr(iMode);
             bLinkIsDir := False;
@@ -1015,8 +1169,8 @@ begin
             if FPS_ISDIR(iMode) then
               sExt:=''
             else
-              sExt:=ExtractFileExt(CurrFileName);
-            sNameNoExt:=Copy(CurrFileName,1,length(CurrFileName)-length(sExt));
+              sExt:=ExtractFileExt(sName);
+            sNameNoExt:=Copy(sName,1,length(sName)-length(sExt));
             sPath := sDir;
             try
               fTimeI := FileDateToDateTime(FileTime);
@@ -1026,8 +1180,7 @@ begin
             sTime := FormatDateTime(gDateTimeFormat, fTimeI);
             iSize := UnpSize;
          end; //with
-     fl.AddItem(fr);
-     Dispose(fr);
+     fl.AddItem(@fr);
    end;
 end;
 
@@ -1041,30 +1194,55 @@ end;
 
 { TWCXCopyThread }
 
-procedure TWCXCopyThread.Execute;
+constructor TWCXCopyThread.Create(WCXModule: TWCXModule;
+                                  Operation: TWCXOperation; var FileList: TFileList;
+                                  Path: String; Flags: Integer);
+begin
+  inherited Create(True, DefaultStackSize);
 
+  FreeOnTerminate := True;
+  OnTerminate := Terminating;
+
+  FWCXModule := WCXModule;
+  FOperation := Operation;
+  FFileList := FileList;
+  FPath := Path;
+  FFlags:= Flags;
+end;
+
+procedure TWCXCopyThread.Execute;
 begin
 // main archive thread code started here
-  try
-    with WCXModule do
-      begin
-      case Operation of
+  with FWCXModule do
+  begin
+    try
+      case FOperation of
         OP_EXTRACT:
-          begin
-            WCXCopyOut;
-          end;
+            WCXCopyOut(FFileList, FPath, FFlags);
         OP_PACK:
-          begin
-            WCXCopyIn;
-          end;
-      end; //case
-        Synchronize(FFileOpDlg.Close);
-        Synchronize(FFileOpDlg.Free);
-        FFileOpDlg := nil;
-      end; //with
-  except
-    DebugLN('Error in "WCXCopyThread.Execute"');
-  end;
+            WCXCopyIn(FFileList, FPath, FFlags);
+        OP_DELETE:
+            WCXDelete(FFileList);
+      end;
+    except
+      DebugLN('Error in "WCXCopyThread.Execute"');
+    end;
+
+    Synchronize(FinishDialog);
+    CT := nil;
+  end; //with
+end;
+
+procedure TWCXCopyThread.Terminating(Sender: TObject);
+begin
+  // Last chance to clean up if there was an error.
+  if Assigned(FFileList) then
+    FreeAndNil(FFileList);
+
+  if Assigned(FWCXModule) and Assigned(FWCXModule.FFileOpDlg) then
+    Synchronize(FWCXModule.FinishDialog);
+
+  FWCXModule.CT := nil;
 end;
 
 function IsBlocked : Boolean;
@@ -1145,7 +1323,7 @@ var
   sCurrPlugin,
   sValue: String;
 begin
-  Ini.ReadSectionRaw('PackerPlugins', gWCXPlugins);
+  Ini.ReadSectionRaw('PackerPlugins', Self);
   for I:= 0 to Count - 1 do
     if Pos('#', Names[I]) = 0 then
       begin

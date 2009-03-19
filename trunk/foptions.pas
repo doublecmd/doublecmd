@@ -861,12 +861,12 @@ begin
   if stgPlugins.RowCount <= 1 then Exit;
   if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
     begin
-      bEnabled:= not tmpWCXPlugins.Enabled[stgPlugins.Row - 1];
       sExts:= stgPlugins.Cells[2, stgPlugins.Row];
       sExt:= Copy2SpaceDel(sExts);
       repeat
         //DebugLn('Extension = ', sExt);
         iPluginIndex:= tmpWCXPlugins.IndexOfName(sExt);
+        bEnabled:= not tmpWCXPlugins.Enabled[iPluginIndex];
         tmpWCXPlugins.Enabled[iPluginIndex]:= bEnabled;
         sExt:= Copy2SpaceDel(sExts);
       until sExt = '';
@@ -883,6 +883,10 @@ begin
 end;
 
 procedure TfrmOptions.btnRemovePluginClick(Sender: TObject);
+var
+  sExt,
+  sExts: String;
+  iPluginIndex: Integer;
 begin
   if stgPlugins.Row <= 0 then Exit; // no plugins
 
@@ -893,7 +897,13 @@ begin
     end
   else if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
     begin
-      tmpWCXPlugins.Delete(stgPlugins.Row - 1);
+      sExts:= stgPlugins.Cells[2, stgPlugins.Row];
+      sExt:= Copy2SpaceDel(sExts);
+      repeat
+        iPluginIndex:= tmpWCXPlugins.IndexOfName(sExt);
+        tmpWCXPlugins.Delete(iPluginIndex);
+        sExt:= Copy2SpaceDel(sExts);
+      until sExt = '';
       stgPlugins.DeleteColRow(False, stgPlugins.Row);
     end
   else if pcPluginsTypes.ActivePage.Name = 'tsWDX' then
@@ -942,38 +952,51 @@ procedure TfrmOptions.btnConfigPluginClick(Sender: TObject);
 var
   WCXmodule: TWCXmodule;
   WFXmodule: TWFXmodule;
+  PluginFileName: String;
 begin
   if stgPlugins.Row <= 0 then Exit; // no plugins
+
+  PluginFileName := GetCmdDirFromEnvVar(stgPlugins.Cells[3, stgPlugins.Row]);
 
   if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
     begin
       WCXmodule := TWCXmodule.Create;
       DebugLn('TWCXmodule created');
-      if WCXmodule.LoadModule(GetCmdDirFromEnvVar(tmpWCXPlugins.FileName[stgPlugins.Row - 1])) then
-       begin
-         DebugLn('WCXModule Loaded');
-         WCXmodule.VFSConfigure(Handle);
-         DebugLn('Dialog executed');
-         WCXModule.UnloadModule;
-         DebugLn('WCX Module Unloaded');
-         WCXmodule.Free;
-         DebugLn('WCX Freed');
-       end;
+      try
+        if WCXmodule.LoadModule(PluginFileName) then
+         begin
+           DebugLn('WCXModule Loaded');
+           WCXmodule.VFSConfigure(stgPlugins.Handle);
+           DebugLn('Dialog executed');
+           WCXModule.UnloadModule;
+           DebugLn('WCX Module Unloaded');
+         end
+         else
+           msgError(rsMsgErrEOpen + ': ' + PluginFileName);
+      finally
+        WCXmodule.Free;
+        DebugLn('WCX Freed');
+      end;
     end
   else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
     begin
       WFXmodule := TWFXmodule.Create;
       DebugLn('TWFXmodule created');
-      if WFXmodule.LoadModule(GetCmdDirFromEnvVar(tmpWFXPlugins.FileName[stgPlugins.Row - 1])) then
-       begin
-         DebugLn('WFXModule Loaded');
-         WFXmodule.VFSConfigure(Handle);
-         DebugLn('Dialog executed');
-         WFXModule.UnloadModule;
-         DebugLn('WFX Module Unloaded');
-         WFXmodule.Free;
-         DebugLn('WFX Freed');
-       end;
+      try
+        if WFXmodule.LoadModule(PluginFileName) then
+         begin
+           DebugLn('WFXModule Loaded');
+           WFXmodule.VFSConfigure(stgPlugins.Handle);
+           DebugLn('Dialog executed');
+           WFXModule.UnloadModule;
+           DebugLn('WFX Module Unloaded');
+         end
+         else
+           msgError(rsMsgErrEOpen + ': ' + PluginFileName);
+      finally
+        WFXmodule.Free;
+        DebugLn('WFX Freed');
+      end;
     end;
 end;
 
@@ -1018,8 +1041,10 @@ end;
 
 procedure TfrmOptions.btnWCXAddClick(Sender: TObject);
 var
-  I, J: Integer;
-  sExt,
+  J: Integer;
+  sExt : String;
+  sExts : String;
+  sExtsTemp : String;
   sPluginName : String;
   WCXmodule : TWCXmodule;
 begin
@@ -1032,16 +1057,21 @@ begin
       else
         sPluginName := '0,' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
 
-      if InputQuery(rsOptEnterExt, Format(rsOptAssocPluginWith, [odOpenDialog.FileName]), sExt) then
+      if InputQuery(rsOptEnterExt, Format(rsOptAssocPluginWith, [odOpenDialog.FileName]), sExts) then
         begin
-          I:= tmpWCXPlugins.AddObject(sExt + '=' + sPluginName, TObject(True));
+          sExtsTemp := sExts;
+          sExt:= Copy2SpaceDel(sExtsTemp);
+          repeat
+            tmpWCXPlugins.AddObject(sExt + '=' + sPluginName, TObject(True));
+            sExt:= Copy2SpaceDel(sExtsTemp);
+          until sExt = '';
 
-          stgPlugins.RowCount:= stgPlugins.RowCount + 1;
+          stgPlugins.RowCount:= stgPlugins.RowCount + 1; // Add new row
           J:= stgPlugins.RowCount-1;
-          stgPlugins.Cells[0, J]:= '+';
-          stgPlugins.Cells[1, J]:= ExtractOnlyFileName(tmpWCXPlugins.FileName[I]);
-          stgPlugins.Cells[2, J]:= tmpWCXPlugins.Ext[I];
-          stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpWCXPlugins.FileName[I]);
+          stgPlugins.Cells[0, J]:= '+'; // Enabled
+          stgPlugins.Cells[1, J]:= ExtractOnlyFileName(odOpenDialog.FileName);
+          stgPlugins.Cells[2, J]:= sExts;
+          stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(odOpenDialog.FileName);
         end;
 
       WCXModule.UnloadModule;
@@ -1059,6 +1089,10 @@ var
 begin
   btnAddPlugin.OnClick:= @btnWCXAddClick;
   iRow:= 0;
+
+  // Clear column with extensions
+  stgPlugins.Clean(2, stgPlugins.FixedRows, 2, stgPlugins.RowCount, [gzNormal]);
+
   for I := 0 to tmpWCXPlugins.Count - 1 do
   begin
     // get associated extension

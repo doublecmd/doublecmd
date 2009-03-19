@@ -52,6 +52,7 @@ TfrmExtractDlg = class(TForm)
     { public declarations }
   end; 
 
+// Frees fl.
 function  ShowExtractDlg(ActiveFrame:TFrameFilePanel; var fl : TFileList; sDestPath:String): Boolean;
 
 implementation
@@ -81,18 +82,20 @@ begin
           if glsMaskHistory.IndexOf(cbFileMask.Text) < 0 then
             glsMaskHistory.Add(cbFileMask.Text);
           sDestPath := IncludeTrailingPathDelimiter(edtExtractTo.Text) + cbFileMask.Text;
-          ExtractFileList := TFileList.Create;
-          ExtractFileList.CurrentDirectory := PathDelim;
 
           // if in archive
           if ActiveFrame.pnlFile.PanelMode = pmArchive then
             begin
               if CurrentVFS.FindModule(CurrentVFS.ArcFullName) then
+              begin
                 CurrentVFS.VFSmodule.VFSCopyOutEx(fl, sDestPath, 0);
-            end;
-
+                fl := nil; // VFSCopyOutEx handles freeing it
+              end;
+            end
+          else
           // if in real directory
           if ActiveFrame.pnlFile.PanelMode = pmDirectory then
+          begin
             for I := 0 to fl.Count - 1 do // extract all selected archives
               if CurrentVFS.FindModule(fl.GetFileName(I)) then
                 begin
@@ -108,7 +111,12 @@ begin
                   CurrentVFS.VFSmodule.VFSList(PathDelim, ExtractFileList);
                   CurrentVFS.VFSmodule.VFSCopyOut(ExtractFileList, sDestPath, 0);
                 end;
+          end;
         end; // if Result
+
+      if Assigned(fl) then
+        FreeAndNil(fl);
+
       Free;
     end;
 end;
