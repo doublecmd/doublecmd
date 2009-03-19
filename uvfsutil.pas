@@ -24,7 +24,36 @@ uses
 procedure FillAndCount(var fl:TFileList; out FilesSize : Int64);
 procedure AddUpLevel(sUpPath : String; var ls:TFileList);
 function LowDirLevel(sPath : String) : String;
-function IncludeFileInList(sPath : String; var sFileName : String) : Boolean;
+
+{en
+  Checks if a filename matches any filename in the filelist or
+  if it could be in any directory of the file list or any of their subdirectories.
+}
+function MatchesFileList(const FileList: TFileList; FileName: String): Boolean;
+
+{en
+  Checks if a filename with full path belongs in the specified path.
+  @param(sPath
+         Fully specified path to directory to check.)
+  @param(sFilePath
+         Fully specified path to file name.)
+  @param(AllowSubDirs
+         If True, allows the file path to point to a file in some subdirectory of sPath.
+         If False, only allows the file path to point directly to a file in sPath.
+}
+function IsFileInPath(const sPath : String; sFilePath : String; AllowSubDirs: Boolean) : Boolean;
+
+{en
+  Changes all the file names in FileList making them relative to 'sNewRootPath'.
+  It is done by removing 'sNewRootPath' prefix from file names and setting
+  current directory to sNewRootPath.
+  @param(sNewRootPath
+         Path that specifies new 'root' directory for all filenames.)
+  @param(FileList
+         Contains list of files to change.)
+}
+procedure ChangeFileListRoot(sNewRootPath: String; var FileList: TFileList);
+
 function ExtractDirLevel(const sPrefix, sPath: String): String;
 function ls2FileInfo(sls:string):TFileRecItem;
 // convert line in ls -la (or vfs) format to our structure
@@ -84,6 +113,7 @@ end;
 begin
   NewFileList:=TFileList.Create;
   NewFileList.CurrentDirectory := fl.CurrentDirectory;
+  FilesSize := 0;
   for i:=0 to fl.Count-1 do
   begin
     ptr:=fl.GetItem(i);
@@ -106,6 +136,22 @@ begin
   fl := NewFileList;
 end;
 
+procedure ChangeFileListRoot(sNewRootPath: String; var FileList: TFileList);
+var
+  i: Integer;
+  pfri: PFileRecItem;
+begin
+  for i:=0 to FileList.Count-1 do
+  begin
+    pfri := FileList.GetItem(i);
+
+    pfri^.sName := ExtractDirLevel(sNewRootPath, pfri^.sName);
+    pfri^.sPath := ExtractDirLevel(sNewRootPath, pfri^.sPath);
+  end;
+
+  FileList.CurrentDirectory := ExtractDirLevel(sNewRootPath, FileList.CurrentDirectory);
+end;
+
 procedure AddUpLevel(sUpPath : String; var ls:TFileList); // add virtually ..
 var
   fi:TFileRecItem;
@@ -117,7 +163,11 @@ begin
   fi.bSelected:=False;
   fi.bExecutable:=False;
   fi.bSysFile := False;
+{$IF DEFINED(MSWINDOWS)}
+  fi.sModeStr:='d-----';
+{$ELSE}
   fi.sModeStr:='drwxr-xr-x';
+{$ENDIF}
   fi.iMode:=ModeStr2Mode(fi.sModeStr); //!!!!
   fi.iDirSize:=0;
   fi.sPath := sUpPath;
@@ -149,30 +199,73 @@ begin
 end;
 
 
-function IncludeFileInList(sPath : String; var sFileName : String) : Boolean;
+function MatchesFileList(const FileList: TFileList; FileName: String): Boolean;
 var
-  Index : Integer;
+  i: Integer;
+  pfri : pFileRecItem;
 begin
-//DebugLN('Folder = ' + SPath);
-Result := False;
-Index := Pos(SPath, sFileName);
-if Index > 0 then
+  Result := False;
+  for i:=0 to FileList.Count-1 do
   begin
-    Delete(sFileName, 1, Index + Length(SPath) - 1);
-    if Pos(DirectorySeparator, sFileName) = 0 then
-      Result := True;
+    pfri:=FileList.GetItem(i);
+
+    if FPS_ISDIR(pfri^.iMode) then
+    begin
+      // Check if 'FileName' is in this directory or any of its subdirectories.
+      if IsFileInPath(pfri^.sName, FileName, True) then
+        Result := True;
+    end
+    else
+    begin
+      // Item in the list is a file, only compare names.
+      if pfri^.sName = FileName then
+        Result := True;
+    end;
+  end;
+end;
+
+function IsFileInPath(const sPath : String; sFilePath : String; AllowSubDirs: Boolean) : Boolean;
+var
+  PathLength, FilePathLength: Integer;
+  DelimiterPos: Integer;
+begin
+  Result := False;
+
+  PathLength := Length(sPath);
+  FilePathLength := Length(sFilePath);
+
+  if (FilePathLength >= PathLength) and
+     (CompareStr(Copy(sFilePath, 1, PathLength), sPath) = 0) then
+  begin
+    if AllowSubDirs then
+      Result := True
+    else
+    begin
+      // Additionally check if the remaining path is a relative path.
+
+      // Look for a path delimiter in the middle of the filepath.
+      sFilePath := Copy(sFilePath, 1 + PathLength, FilePathLength - PathLength);
+      DelimiterPos := Pos(DirectorySeparator, sFilePath);
+
+      // If no delimiter was found or it was found at then end (for example,
+      // directories may end with it), then the filename is in 'sPath'.
+      if (DelimiterPos = 0) or (DelimiterPos = FilePathLength - PathLength) then
+        Result := True;
+    end;
   end;
 end;
 
 function ExtractDirLevel(const sPrefix, sPath: String): String;
+var
+  PrefixLength: Integer;
 begin
-  Result := sPath;
-  //DebugLN('Prefix = ' + sPrefix);
-  //DebugLN('sPath = ' + sPath);
-
-  IncludeFileInList(sPrefix, Result);
-
-  //DebugLN('Result := ' + Result);
+  if IsFileInPath(sPrefix, sPath, True) then
+  begin
+    PrefixLength := Length(sPrefix);
+    Result := Copy(sPath, 1 + PrefixLength, Length(sPath) - PrefixLength)
+  end
+  else
+    Result := sPath;
 end;
 
 function ModeStr2Mode(const sMode:String):Integer;

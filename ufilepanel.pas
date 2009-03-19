@@ -250,6 +250,8 @@ begin
                 end
               else  // exit from VFS
                 begin
+                  fVFS.CloseAndUnload;
+
                   case fPanelMode of
                   pmVFS:
                     LoadVFSListInPanel;
@@ -344,7 +346,10 @@ procedure TFilePanel.LoadPanel;
 begin
 //  DebugLn('TFilePanel.LoadPanel');
   if fPanelMode in [pmArchive, pmVFS] then
+  begin
+    fVFS.CloseAndUnload;
     fPanelMode := pmDirectory;
+  end;
 
   if Assigned(FOnBeforeChangeDirectory) then
     if not FOnBeforeChangeDirectory(fOwner, ActiveDir) then

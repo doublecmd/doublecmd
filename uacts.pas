@@ -1090,6 +1090,7 @@ begin
   end;
 
   fl:= TFileList.Create; // free at Thread end by thread
+  fl.CurrentDirectory := ActiveFrame.ActiveDir;
   try
     CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
 
@@ -1099,6 +1100,7 @@ begin
       begin
         DebugLN('+++ Delete files +++');
         ActiveFrame.pnlFile.VFS.VFSmodule.VFSDelete(fl);
+        ActiveFrame.RefreshPanel;
         Exit;
       end;
 
@@ -1620,17 +1622,27 @@ begin
   inherited;
   with frmMain do
   begin
-    try
-      with ActiveFrame do
-      begin
-        if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
-        ShowFilePropertiesDialog(pnlFile.FileList, ActiveDir);
+    with ActiveFrame do
+    begin
+      case pnlFile.PanelMode of
+        pmVFS:
+          msgWarning(rsMsgErrNotSupported);
+
+        pmArchive:
+          if IsActiveItemValid then
+            pnlFile.VFS.VFSmodule.VFSRun(GetActiveItem^.sName);
+
+        pmDirectory:
+          try
+            if SelectFileIfNoSelected(GetActiveItem) = True then
+              ShowFilePropertiesDialog(pnlFile.FileList, ActiveDir);
+          finally
+            frameLeft.RefreshPanel;
+            frameRight.RefreshPanel;
+            ActiveFrame.SetFocus;
+          end;
       end;
-    finally
-      frameLeft.RefreshPanel;
-      frameRight.RefreshPanel;
-      ActiveFrame.SetFocus;
-    end
+    end;
   end;
 end;
 

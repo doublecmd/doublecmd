@@ -94,13 +94,6 @@ end;
 procedure TfrmFileOp.FormCreate(Sender: TObject);
 begin
   Thread := nil;
-end;
-
-procedure TfrmFileOp.FormShow(Sender: TObject);
-begin
-  sEstimated:='';
-  sFileName:='';
-  Hint:= Caption;
   pbFirst.Position:=0;
   pbSecond.Position:=0;
   pbFirst.Max:=1;
@@ -109,6 +102,13 @@ begin
   iProgress2Max:=0;
   iProgress1Pos:=0;
   iProgress2Pos:=0;
+end;
+
+procedure TfrmFileOp.FormShow(Sender: TObject);
+begin
+  sEstimated:='';
+  sFileName:='';
+  Hint:= Caption;
   if btnPauseStart.Visible then
     dmComData.ImageList.GetBitmap(1, btnPauseStart.Glyph);
 end;

@@ -44,7 +44,7 @@ type
     FVFSModule : TVFSmodule;
   public
     constructor Create;
-    destructor Destroy; override;
+    destructor Destroy;
     
     function cdUpLevel(frp:PFileRecItem; var flist: TFileList) : Boolean;
     function cdDownLevel(frp:PFileRecItem; var flist: TFileList) : Boolean;
@@ -68,6 +68,10 @@ type
        @returns(@true if plugin module load, @false otherwise)
     }
     function LoadAndOpen(const sFileName:String; bGetOpenResult : Boolean = True) : Boolean;
+    {en
+       Closes VFS and unloads plugin module.
+    }
+    function CloseAndUnload: Boolean;
     function LoadVFSList(var fl:TFileList) : Boolean;
     property VFSType : TVFSType read FVFSType;
     property VFSmodule : TVFSmodule read FVFSModule write SetVFSModule;
@@ -93,14 +97,15 @@ end;
 constructor TVFS.Create;
 begin
   sLastArchive:='';  // nothing
+  FCurrentPlugin := '';
+  FVFSModule := nil;
+  FVFSInitData := 0;
 end;
 
 destructor TVFS.Destroy;
 begin
   if Assigned(FVFSModule) then
-     FVFSModule.Destroy;
-  FVFSModule := nil;
-  inherited
+     FreeAndNil(FVFSModule);
 end;
 
 function TVFS.cdUpLevel(frp: PFileRecItem; var flist: TFileList): Boolean;
@@ -154,6 +159,8 @@ begin
             FVFSModule.UnloadModule;
           end;
         end;
+
+      FreeAndNil(FVFSModule);
     end; // for
 end;
 
@@ -215,6 +222,10 @@ end;
 function TVFS.LoadAndOpen(const sFileName:String; bGetOpenResult : Boolean = True): Boolean;
 begin
   sLastArchive := sFileName;
+
+//  if Assigned(FVFSModule) then
+//    CloseAndUnload;
+
   case FVFSType of
     vtWCX:  FVFSModule := TWCXModule.Create;
     vtWFX:  FVFSModule := TWFXModule.Create;
@@ -231,6 +242,16 @@ begin
       else
         FVFSModule.VFSOpen(sLastArchive);
     end;
+end;
+
+function TVFS.CloseAndUnload: Boolean;
+begin
+  if Assigned(FVFSModule) then
+  begin
+    FVFSModule.VFSClose;
+    FVFSModule.UnloadModule;
+    FreeAndNil(FVFSModule);
+  end;
 end;
 
 function TVFS.LoadVFSList(var fl: TFileList) : Boolean;

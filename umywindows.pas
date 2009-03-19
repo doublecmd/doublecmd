@@ -61,7 +61,8 @@ procedure mbWaitLabelChange(const sDrv: UTF8String; const sCurLabel: UTF8String)
 }
 procedure mbCloseCD(const sDrv: UTF8String);
 
-function WinToDosTime (var Wtime: TFileTime; var DTime: LongInt): LongBool;
+function WinToDosTime (const Wtime: TFileTime; var DTime: LongInt): LongBool;
+function DosToWinTime (const DTime: LongInt; var Wtime: TFileTime): LongBool;
 
 implementation
 
@@ -162,12 +163,21 @@ begin
   mciSendCommand(OpenParms.wDeviceID, MCI_CLOSE, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, Longint(@OpenParms));
 end;
 
-function WinToDosTime (var Wtime: TFileTime; var DTime: LongInt): LongBool;
+function WinToDosTime (const Wtime: TFileTime; var DTime: LongInt): LongBool;
 var
   lft : TFileTime;
 begin
   Result:= FileTimeToLocalFileTime(WTime,lft) and
                 FileTimeToDosDateTime(lft,Longrec(Dtime).Hi,LongRec(DTIME).lo);
+end;
+
+function DosToWinTime (const DTime: LongInt; var Wtime: TFileTime): LongBool;
+var
+  lft : TFileTime;
+  DosTime: LongRec;
+begin
+  Result := DosDateTimeToFileTime(Longrec(Dtime).Hi, Longrec(Dtime).Lo, lft) and
+                LocalFileTimeToFileTime(lft, WTime);
 end;
 
 end.

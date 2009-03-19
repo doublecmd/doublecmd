@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, uWCXhead, uWCXModule;
+  ExtCtrls, uWCXhead, uWCXModule, uOSUtils;
 
 type
 
@@ -89,10 +89,16 @@ begin
     sArcType:= SysToUTF8(ExtractFileExt(HeaderData.ArcName));
     Delete(sArcType, 1, 1);
     lblPackedPacker.Caption:= sArcType;
-    lblPackedOrgSize.Caption:=  IntToStr(HeaderData.UnpSize);
-    lblPackedPackedSize.Caption:= IntToStr(HeaderData.PackSize);
-    lblPackedCompression.Caption:= IntToStr(100 - (HeaderData.PackSize*100 div HeaderData.UnpSize))+'%';
-    lblPackedMethod.Caption:= IntToStr(HeaderData.Method);
+
+    if not FPS_ISDIR(HeaderData.FileAttr) then
+    begin
+      lblPackedOrgSize.Caption:=  IntToStr(HeaderData.UnpSize);
+      lblPackedPackedSize.Caption:= IntToStr(HeaderData.PackSize);
+      if HeaderData.UnpSize > 0 then
+        lblPackedCompression.Caption:= IntToStr(100 - (Int64(HeaderData.PackSize)*100 div HeaderData.UnpSize))+'%';
+      lblPackedMethod.Caption:= IntToStr(HeaderData.Method);
+    end;
+
     // DateTime and Attributes
     try
       dtDateTime:= FileDateToDateTime(HeaderData.FileTime);
@@ -105,6 +111,7 @@ begin
     ShowModal;
     Free;
   end;
+  Result := True;
 end;
 
 { TfrmPackInfoDlg }
