@@ -1914,6 +1914,10 @@ msgstr "Kurzes Dateigrössenformat"
 msgid "Show command &line"
 msgstr "Kommandozeile anzeigen"
 
+#: TFRMOPTIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION
+msgid "Show tab select panel in copy/move dialog"
+msgstr ""
+
 #: TFRMOPTIONS.CBSHOWCURDIR.CAPTION
 msgid "Show &current directory"
 msgstr "Zeige aktuelles Verzeichnis"
@@ -1986,9 +1990,33 @@ msgstr "Konsolenfenster zeigen"
 msgid "Show two drive button bars (fixed width, above file windows)"
 msgstr "Zeige zwei Laufwerksleisten (feste Breite, über den Dateifenstern)"
 
+#: TFRMOPTIONS.CBWATCHATTRIBUTESCHANGE.CAPTION
+msgid "Also when &size, date, or attributes change"
+msgstr ""
+
+#: TFRMOPTIONS.CBWATCHFILECOUNT.CAPTION
+msgid "Update &footer (total number of files)"
+msgstr ""
+
+#: TFRMOPTIONS.CBWATCHFILENAMECHANGE.CAPTION
+msgid "Refresh when files are &created, deleted and renamed"
+msgstr ""
+
+#: TFRMOPTIONS.CBWATCHFREESPACE.CAPTION
+msgid "Update &header (free disk space)"
+msgstr ""
+
+#: TFRMOPTIONS.CBWATCHONLYFOREGROUND.CAPTION
+msgid "Don't &react to updates while in the background"
+msgstr ""
+
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
 msgstr "Textfarbe"
+
+#: TFRMOPTIONS.GBAUTOREFRESH.CAPTION
+msgid "Auto-Refresh when the file system changes"
+msgstr ""
 
 #: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
 msgid "&Buffer size for files:"
@@ -2145,6 +2173,10 @@ msgstr "Befehlszeile:"
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Schrift für Betrachter"
+
+#: TFRMOPTIONS.LBLWATCHEXCLUDEDRIVES.CAPTION
+msgid "No refresh for &these drives:"
+msgstr ""
 
 #: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
 msgid "Packer plugins are used to work with archives."

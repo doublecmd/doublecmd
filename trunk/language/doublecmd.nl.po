@@ -1970,6 +1970,10 @@ msgstr "Kort Bestandsgrootte formaat"
 msgid "Show command &line"
 msgstr "Toon commando regel"
 
+#: TFRMOPTIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION
+msgid "Show tab select panel in copy/move dialog"
+msgstr ""
+
 #: TFRMOPTIONS.CBSHOWCURDIR.CAPTION
 msgid "Show &current directory"
 msgstr "Toon huidige map"
@@ -2042,9 +2046,33 @@ msgstr "Toon terminal venster"
 msgid "Show two drive button bars (fixed width, above file windows)"
 msgstr "Toon twee drive knoppenbalken (vaste breedte, boven bestandspaneel"
 
+#: TFRMOPTIONS.CBWATCHATTRIBUTESCHANGE.CAPTION
+msgid "Also when &size, date, or attributes change"
+msgstr ""
+
+#: TFRMOPTIONS.CBWATCHFILECOUNT.CAPTION
+msgid "Update &footer (total number of files)"
+msgstr ""
+
+#: TFRMOPTIONS.CBWATCHFILENAMECHANGE.CAPTION
+msgid "Refresh when files are &created, deleted and renamed"
+msgstr ""
+
+#: TFRMOPTIONS.CBWATCHFREESPACE.CAPTION
+msgid "Update &header (free disk space)"
+msgstr ""
+
+#: TFRMOPTIONS.CBWATCHONLYFOREGROUND.CAPTION
+msgid "Don't &react to updates while in the background"
+msgstr ""
+
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
 msgstr "Tekst kleur:"
+
+#: TFRMOPTIONS.GBAUTOREFRESH.CAPTION
+msgid "Auto-Refresh when the file system changes"
+msgstr ""
 
 #: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
 msgid "&Buffer size for files:"
@@ -2201,6 +2229,10 @@ msgstr "Start terminal:"
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Viewer lettertype"
+
+#: TFRMOPTIONS.LBLWATCHEXCLUDEDRIVES.CAPTION
+msgid "No refresh for &these drives:"
+msgstr ""
 
 #: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
 msgid "Packer plugins are used to work with archives."

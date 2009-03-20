@@ -268,7 +268,7 @@ type
     lblWatchExcludeDrives: TLabel;
     cbWatchFileCount: TCheckBox;
     cbWatchFreeSpace: TCheckBox;
-    cbWatchNoBackground: TCheckBox;
+    cbWatchOnlyForeground: TCheckBox;
     cbWatchAttributesChange: TCheckBox;
     procedure bbtnAddCategoryClick(Sender: TObject);
     procedure bbtnApplyCategoryClick(Sender: TObject);
@@ -1721,7 +1721,7 @@ begin
   cbLogErrors.Checked := (log_errors in gLogOptions);
   cbLogInfo.Checked := (log_info in gLogOptions);
 
-  {Folder tabs}
+  { Folder tabs }
   cbTabsAlwaysVisible.Checked := Boolean(gDirTabOptions and tb_always_visible) and gDirectoryTabs;
   cbTabsMultiLines.Checked :=  Boolean(gDirTabOptions and tb_multiple_lines);
   cbTabsLimitOption.Checked := Boolean(gDirTabOptions and tb_text_length_limit);
@@ -1730,7 +1730,7 @@ begin
   cbTabsLockedAsterisk.Checked:= Boolean(gDirTabOptions and tb_show_asterisk_for_locked);
   edtTabsLimitLength.Text := IntToStr(gDirTabLimit);
 
-  {Configuration storage}
+  { Configuration storage }
   if gUseIniInProgramDir then
     rbProgramDir.Checked := True
   else
@@ -1757,6 +1757,13 @@ begin
   cbGridVertLine.Checked:= gGridVertLine;
   cbGridHorzLine.Checked:= gGridHorzLine;
   cbShowWarningMessages.Checked:= gShowWarningMessages;
+  { Auto refresh }
+  cbWatchFileNameChange.Checked := (watch_file_name_change in gWatchDirs);
+  cbWatchAttributesChange.Checked := (watch_attributes_change in gWatchDirs);
+  cbWatchOnlyForeground.Checked := (watch_only_foreground in gWatchDirs);
+  cbWatchFileCount.Checked := (watch_total_number_files in gWatchDirs);
+  cbWatchFreeSpace.Checked := (watch_free_disk_space in gWatchDirs);
+  edtWatchExcludeDrives.Text:= gWatchDirsExclude;
   { Icons sizes in file panels }
   cbIconsSize.Text := IntToStr(gNewIconsSize) + 'x' + IntToStr(gNewIconsSize);
 
@@ -1916,6 +1923,20 @@ begin
   gGridVertLine:= cbGridVertLine.Checked;
   gGridHorzLine:= cbGridHorzLine.Checked;
   gShowWarningMessages:= cbShowWarningMessages.Checked;
+
+  { Auto refresh }
+  gWatchDirs := []; // Reset watch options
+  if cbWatchFileNameChange.Checked then
+    Include(gWatchDirs, watch_file_name_change);
+  if cbWatchAttributesChange.Checked then
+    Include(gWatchDirs, watch_attributes_change);
+  if cbWatchOnlyForeground.Checked then
+    Include(gWatchDirs, watch_only_foreground);
+  if cbWatchFileCount.Checked then
+    Include(gWatchDirs, watch_total_number_files);
+  if cbWatchFreeSpace.Checked then
+    Include(gWatchDirs, watch_free_disk_space);
+  gWatchDirsExclude:= edtWatchExcludeDrives.Text;
 
 //-------------------------------------------------
   if (gNewIconsSize <> StrToInt(Copy(cbIconsSize.Text, 1, 2))) or ((lngList.ItemIndex>-1) and

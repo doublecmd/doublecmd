@@ -40,6 +40,10 @@ type
   { Log options }
   TLogOptions = set of (log_cp_mv_ln, log_delete, log_dir_op, log_arc_op,
                         log_vfs_op, log_success, log_errors, log_info);
+  { Watch dirs options }
+  TWatchOptions = set of (watch_file_name_change, watch_attributes_change,
+                          watch_only_foreground, watch_total_number_files,
+                          watch_free_disk_space);
                         
 var
   { For localization }
@@ -181,6 +185,10 @@ var
   gGridVertLine,
   gGridHorzLine,
   gShowWarningMessages: Boolean;
+
+  { Auto refresh page }
+  gWatchDirs: TWatchOptions;
+  gWatchDirsExclude: String;
   
   {HotKey Manager}
   HotMan:THotKeyManager;
@@ -498,7 +506,6 @@ begin
   gProcessComments := gIni.ReadBool('Configuration', 'ProcessComments', True);
   gRenameSelOnlyName:= gIni.ReadBool('Configuration', 'RenameSelOnlyName', false);
   gShowCopyTabSelectPanel:= gIni.ReadBool('Configuration', 'ShowCopyTabSelectPanel', false);
-
   { Log }
   gLogFile := gIni.ReadBool('Configuration', 'LogFile', True);
   gLogFileName := gIni.ReadString('Configuration', 'LogFileName', gpIniDir + 'doublecmd.log');
@@ -516,6 +523,9 @@ begin
   gGridVertLine:= gIni.ReadBool('Configuration', 'GridVertLine', False);
   gGridHorzLine:= gIni.ReadBool('Configuration', 'GridHorzLine', False);
   gShowWarningMessages := gIni.ReadBool('Configuration', 'ShowWarningMessages', True);
+  { Auto refresh page }
+  gWatchDirs := TWatchOptions(gIni.ReadInteger('Configuration', 'WatchDirs', Integer(gWatchDirs)));
+  gWatchDirsExclude := gIni.ReadString('Configuration', 'WatchDirsExclude', '');
 
   gShowIcons := gIni.ReadBool('Configuration', 'ShowIcons', True);
   gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
@@ -687,6 +697,9 @@ begin
   gIni.WriteBool('Configuration', 'GridVertLine', gGridVertLine);
   gIni.WriteBool('Configuration', 'GridHorzLine', gGridHorzLine);
   gIni.WriteBool('Configuration', 'ShowWarningMessages', gShowWarningMessages);
+  { Auto refresh page }
+  gIni.WriteInteger('Configuration', 'WatchDirs', Integer(gWatchDirs));
+  gIni.WriteString('Configuration', 'WatchDirsExclude', gWatchDirsExclude);
 
   gIni.WriteBool('Configuration', 'ShowIcons', gShowIcons);
   gIni.WriteInteger('Configuration', 'IconsSize', gNewIconsSize);
