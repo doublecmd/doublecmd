@@ -153,6 +153,6 @@ TFRMOPTIONS.GBAUTOREFRESH.CAPTION=Auto-Refresh when the file system changes
 TFRMOPTIONS.LBLWATCHEXCLUDEDRIVES.CAPTION=No refresh for &these drives:
 TFRMOPTIONS.CBWATCHFILENAMECHANGE.CAPTION=Refresh when files are &created, deleted and renamed
 TFRMOPTIONS.CBWATCHATTRIBUTESCHANGE.CAPTION=Also when &size, date, or attributes change
-TFRMOPTIONS.CBWATCHNOBACKGROUND.CAPTION=Don't &react to updates while in the background
+TFRMOPTIONS.CBWATCHONLYFOREGROUND.CAPTION=Don't &react to updates while in the background
 TFRMOPTIONS.CBWATCHFILECOUNT.CAPTION=Update &footer (total number of files)
 TFRMOPTIONS.CBWATCHFREESPACE.CAPTION=Update &header (free disk space)

@@ -2647,7 +2647,7 @@ object frmOptions: TfrmOptions
             Caption = 'Also when &size, date, or attributes change'
             TabOrder = 1
           end
-          object cbWatchNoBackground: TCheckBox
+          object cbWatchOnlyForeground: TCheckBox
             AnchorSideLeft.Control = gbAutoRefresh
             AnchorSideTop.Control = cbWatchAttributesChange
             AnchorSideTop.Side = asrBottom
@@ -2662,7 +2662,7 @@ object frmOptions: TfrmOptions
           end
           object cbWatchFileCount: TCheckBox
             AnchorSideLeft.Control = gbAutoRefresh
-            AnchorSideTop.Control = cbWatchNoBackground
+            AnchorSideTop.Control = cbWatchOnlyForeground
             AnchorSideTop.Side = asrBottom
             Left = 12
             Height = 17
