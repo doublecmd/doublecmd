@@ -370,13 +370,13 @@ type
       Shift: TShiftState);
     procedure edtCommandExit(Sender: TObject);
     procedure tbEditClick(Sender: TObject);
-    procedure ActiveFrameOnWatcherNotifyEvent(NotifyEvent: TWatchFilter);
-    procedure NotActiveFrameOnWatcherNotifyEvent(NotifyEvent: TWatchFilter);
+    procedure LeftFrameOnWatcherNotifyEvent(NotifyEvent: TWatchFilter);
+    procedure RightFrameOnWatcherNotifyEvent(NotifyEvent: TWatchFilter);
   private
     { Private declarations }
     PanelSelected:TFilePanelSelect;
-    ActiveFrameWatcher,
-    NotActiveFrameWatcher: TFileSystemWatcher;
+    LeftFrameWatcher,
+    RightFrameWatcher: TFileSystemWatcher;
     DrivesList : TList;
     MainSplitterHintWnd: THintWindow;
 
@@ -589,11 +589,11 @@ begin
   if HotMan.HotkeyList.Count=0 then LoadDefaultHotkeyBindings;
   // load shortcuts to action list for showing it in menu
   HotMan.LoadShortCutToActionList(ActionLst);
-
+  // toggle console window
   ToggleConsole;
-
-  ActiveFrameWatcher:= nil;
-  NotActiveFrameWatcher:= nil;
+  // toggle file system watcher
+  LeftFrameWatcher:= nil;
+  RightFrameWatcher:= nil;
   ToggleFileSystemWatcher;
 end;
 
@@ -2473,8 +2473,11 @@ begin
           else
             ANoteBook.Page[(Sender as TPage).PageIndex].Caption := sCaption;
         end;
-      if Assigned(ActiveFrameWatcher) then
-        ActiveFrameWatcher.WatchPath:= NewDir;
+      // update file system watcher directory
+      if (ANoteBook.Name = 'nbLeft') and Assigned(LeftFrameWatcher) then
+        LeftFrameWatcher.WatchPath:= NewDir
+      else if (ANoteBook.Name = 'nbRight') and Assigned(RightFrameWatcher) then
+        RightFrameWatcher.WatchPath:= NewDir;
     end;
 end;
 
@@ -2931,25 +2934,25 @@ begin
         Include(WatchFilter, wfFileNameChange);
       if (watch_attributes_change in gWatchDirs) then
         Include(WatchFilter, wfAttributesChange);
-      if not Assigned(ActiveFrameWatcher) then
+      if not Assigned(LeftFrameWatcher) then
         begin
-          ActiveFrameWatcher:= TFileSystemWatcher.Create(ActiveFrame.ActiveDir, WatchFilter);
-          ActiveFrameWatcher.OnWatcherNotifyEvent:= @ActiveFrameOnWatcherNotifyEvent;
-          ActiveFrameWatcher.Active:= True;
+          LeftFrameWatcher:= TFileSystemWatcher.Create(FrameLeft.ActiveDir, WatchFilter);
+          LeftFrameWatcher.OnWatcherNotifyEvent:= @LeftFrameOnWatcherNotifyEvent;
+          LeftFrameWatcher.Active:= True;
         end;
-      if not Assigned(NotActiveFrameWatcher) then
+      if not Assigned(RightFrameWatcher) then
         begin
-          NotActiveFrameWatcher:= TFileSystemWatcher.Create(NotActiveFrame.ActiveDir, WatchFilter);
-          NotActiveFrameWatcher.OnWatcherNotifyEvent:= @NotActiveFrameOnWatcherNotifyEvent;
-          NotActiveFrameWatcher.Active:= True;
+          RightFrameWatcher:= TFileSystemWatcher.Create(FrameRight.ActiveDir, WatchFilter);
+          RightFrameWatcher.OnWatcherNotifyEvent:= @RightFrameOnWatcherNotifyEvent;
+          RightFrameWatcher.Active:= True;
         end;
     end
   else
     begin
-      if Assigned(ActiveFrameWatcher) then
-        FreeAndNil(ActiveFrameWatcher);
-      if Assigned(NotActiveFrameWatcher) then
-        FreeAndNil(NotActiveFrameWatcher);
+      if Assigned(LeftFrameWatcher) then
+        FreeAndNil(LeftFrameWatcher);
+      if Assigned(RightFrameWatcher) then
+        FreeAndNil(RightFrameWatcher);
     end;
 end;
 
@@ -3121,14 +3124,14 @@ begin
   ShowConfigToolbar(pmToolBar.Tag);
 end;
 
-procedure TfrmMain.ActiveFrameOnWatcherNotifyEvent(NotifyEvent: TWatchFilter);
+procedure TfrmMain.LeftFrameOnWatcherNotifyEvent(NotifyEvent: TWatchFilter);
 begin
-  ActiveFrame.RefreshPanel;
+  FrameLeft.RefreshPanel;
 end;
 
-procedure TfrmMain.NotActiveFrameOnWatcherNotifyEvent(NotifyEvent: TWatchFilter);
+procedure TfrmMain.RightFrameOnWatcherNotifyEvent(NotifyEvent: TWatchFilter);
 begin
-  NotActiveFrame.RefreshPanel;
+  FrameRight.RefreshPanel;
 end;
 
 function TfrmMain.ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
