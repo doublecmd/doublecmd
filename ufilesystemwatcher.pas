@@ -33,7 +33,7 @@ uses
   Classes, SysUtils;
 
 type
-  TWatchFilter = (wfFileNameChange, wfAttributesChange);
+  TWatchFilter = set of (wfFileNameChange, wfAttributesChange);
 
   TOnWatcherNotifyEvent = procedure(NotifyEvent: TWatchFilter) of object;
 
@@ -50,9 +50,9 @@ type
   protected
     procedure Execute; override;
     procedure WatcherNotifyEvent;
-    destructor Destroy; override;
   public
     constructor Create(sPath: UTF8String; aWatchFilter: TWatchFilter);
+    destructor Destroy; override;
     property OnWatcherNotifyEvent: TOnWatcherNotifyEvent write FOnWatcherNotifyEvent;
   end;
 
@@ -70,6 +70,7 @@ type
     procedure SetWatchPath(const AValue: UTF8String);
   public
     constructor Create(sPath: UTF8String; aWatchFilter: TWatchFilter);
+    destructor Destroy; override;
     property Active: Boolean read FActive write SetActive;
     property WatchPath: UTF8String read FWatchPath write SetWatchPath;
     property WatchFilter: TWatchFilter read FWatchFilter write SetWatchFilter;
@@ -93,10 +94,10 @@ var
   wsPath: WideString;
 begin
   hNotifyFilter:= 0;
-  case FWatchFilter of
-    wfFileNameChange:   hNotifyFilter:= FILE_NOTIFY_CHANGE_FILE_NAME;
-    wfAttributesChange: hNotifyFilter:= FILE_NOTIFY_CHANGE_ATTRIBUTES;
-  end; // case
+  if wfFileNameChange in FWatchFilter then
+    hNotifyFilter:= hNotifyFilter or FILE_NOTIFY_CHANGE_FILE_NAME;
+  if wfAttributesChange in FWatchFilter then
+    hNotifyFilter:= hNotifyFilter or FILE_NOTIFY_CHANGE_ATTRIBUTES;
 
   wsPath:= UTF8Decode(FWatchPath);
   FNotifyHandle:= FindFirstChangeNotificationW(PWideChar(wsPath), False, hNotifyFilter);
@@ -122,10 +123,11 @@ var
   hNotifyFilter: uint32_t;
 begin
   hNotifyFilter:= 0;
-  case FWatchFilter of
-    wfFileNameChange:   hNotifyFilter:= IN_CREATE or IN_DELETE or IN_DELETE_SELF or IN_MOVE or IN_MOVE_SELF;
-    wfAttributesChange: hNotifyFilter:= IN_ATTRIB;
-  end; // case
+  if wfFileNameChange in FWatchFilter then
+    hNotifyFilter:= hNotifyFilter or IN_CREATE or IN_DELETE or IN_DELETE_SELF or IN_MOVE or IN_MOVE_SELF;
+  if wfAttributesChange in FWatchFilter then
+    hNotifyFilter:= hNotifyFilter or IN_ATTRIB;
+
  WriteLn('Start watching');
  // create inotify instance
  FFileHandle:= inotify_init();
@@ -233,6 +235,7 @@ begin
     FWatcherThread.Terminate;
   FWatchPath:= AValue;
   FWatcherThread:= TWatcherThread.Create(FWatchPath, FWatchFilter);
+  FWatcherThread.OnWatcherNotifyEvent:= FOnWatcherNotifyEvent;
   FWatcherThread.Resume;
 end;
 
@@ -266,6 +269,13 @@ begin
   FActive:= False;
   FWatchPath:= sPath;
   FWatchFilter:= aWatchFilter;
+end;
+
+destructor TFileSystemWatcher.Destroy;
+begin
+  if Assigned(FWatcherThread) then
+    FWatcherThread.Terminate;
+  inherited Destroy;
 end;
 
 end.

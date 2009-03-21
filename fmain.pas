@@ -42,7 +42,7 @@ interface
 uses
   LResources,
   Graphics, Forms, Menus, Controls, Dialogs, ComCtrls,
-  StdCtrls, ExtCtrls,ActnList,Buttons,
+  StdCtrls, ExtCtrls,ActnList,Buttons, uFileSystemWatcher,
   SysUtils, Classes,  {uFilePanel,} framePanel, {FileCtrl,} Grids,
   KASToolBar, SynEdit, KASBarMenu,KASBarFiles,uColumns, uFileList, LCLType,uCmdBox{$IFDEF UNIX},uterm{$ENDIF};
 
@@ -370,9 +370,13 @@ type
       Shift: TShiftState);
     procedure edtCommandExit(Sender: TObject);
     procedure tbEditClick(Sender: TObject);
+    procedure ActiveFrameOnWatcherNotifyEvent(NotifyEvent: TWatchFilter);
+    procedure NotActiveFrameOnWatcherNotifyEvent(NotifyEvent: TWatchFilter);
   private
     { Private declarations }
     PanelSelected:TFilePanelSelect;
+    ActiveFrameWatcher,
+    NotActiveFrameWatcher: TFileSystemWatcher;
     DrivesList : TList;
     MainSplitterHintWnd: THintWindow;
 
@@ -429,12 +433,13 @@ type
     function ExecCmd(Cmd:string; param:string='') : Boolean;
     function ExecCmdEx(Sender: TObject; NumberOfButton:Integer) : Boolean;
     procedure ToggleConsole;
+    procedure ToggleFileSystemWatcher;
     procedure UpdateWindowView;
     procedure LoadWindowState;
     procedure SaveWindowState;
     procedure SaveShortCuts;
     procedure LoadShortCuts;
-    published
+  published
     property SelectedPanel:TFilePanelSelect read PanelSelected;
   end;
 var
@@ -586,10 +591,11 @@ begin
   HotMan.LoadShortCutToActionList(ActionLst);
 
   ToggleConsole;
+
+  ActiveFrameWatcher:= nil;
+  NotActiveFrameWatcher:= nil;
+  ToggleFileSystemWatcher;
 end;
-
-
-
 
 procedure TfrmMain.btnLeftClick(Sender: TObject);
 begin
@@ -2467,6 +2473,8 @@ begin
           else
             ANoteBook.Page[(Sender as TPage).PageIndex].Caption := sCaption;
         end;
+      if Assigned(ActiveFrameWatcher) then
+        ActiveFrameWatcher.WatchPath:= NewDir;
     end;
 end;
 
@@ -2912,6 +2920,39 @@ begin
 {$ENDIF}
 end;
 
+procedure TfrmMain.ToggleFileSystemWatcher;
+var
+  WatchFilter: TWatchFilter;
+begin
+  if gWatchDirs <> [] then
+    begin
+      WatchFilter:= [];
+      if (watch_file_name_change in gWatchDirs) then
+        Include(WatchFilter, wfFileNameChange);
+      if (watch_attributes_change in gWatchDirs) then
+        Include(WatchFilter, wfAttributesChange);
+      if not Assigned(ActiveFrameWatcher) then
+        begin
+          ActiveFrameWatcher:= TFileSystemWatcher.Create(ActiveFrame.ActiveDir, WatchFilter);
+          ActiveFrameWatcher.OnWatcherNotifyEvent:= @ActiveFrameOnWatcherNotifyEvent;
+          ActiveFrameWatcher.Active:= True;
+        end;
+      if not Assigned(NotActiveFrameWatcher) then
+        begin
+          NotActiveFrameWatcher:= TFileSystemWatcher.Create(NotActiveFrame.ActiveDir, WatchFilter);
+          NotActiveFrameWatcher.OnWatcherNotifyEvent:= @NotActiveFrameOnWatcherNotifyEvent;
+          NotActiveFrameWatcher.Active:= True;
+        end;
+    end
+  else
+    begin
+      if Assigned(ActiveFrameWatcher) then
+        FreeAndNil(ActiveFrameWatcher);
+      if Assigned(NotActiveFrameWatcher) then
+        FreeAndNil(NotActiveFrameWatcher);
+    end;
+end;
+
 procedure TfrmMain.UpdateWindowView;
 var
   I : Integer;
@@ -3053,6 +3094,7 @@ begin
   LogSplitter.Visible := gLogWindow;
   seLogWindow.Visible := gLogWindow;
   ToggleConsole;
+  ToggleFileSystemWatcher;
   nbLeft.ShowTabs := ((nbLeft.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
   nbRight.ShowTabs := ((nbRight.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
 end;
@@ -3077,6 +3119,16 @@ end;
 procedure TfrmMain.tbEditClick(Sender: TObject);
 begin
   ShowConfigToolbar(pmToolBar.Tag);
+end;
+
+procedure TfrmMain.ActiveFrameOnWatcherNotifyEvent(NotifyEvent: TWatchFilter);
+begin
+  ActiveFrame.RefreshPanel;
+end;
+
+procedure TfrmMain.NotActiveFrameOnWatcherNotifyEvent(NotifyEvent: TWatchFilter);
+begin
+  NotActiveFrame.RefreshPanel;
 end;
 
 function TfrmMain.ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
