@@ -3077,6 +3077,10 @@ msgstr "Без промяна; ВИСША; нисша; Пъритв Знаци �
 msgid "Associate plugin \"%s\" with:"
 msgstr "Обвързване на приставка \"%s\" с:"
 
+#: ulng.rsoptautorefresh
+msgid "Auto refresh"
+msgstr ""
+
 #: ulng.rsoptbehav
 msgid "Behaviors"
 msgstr "Поведения"

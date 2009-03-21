@@ -579,6 +579,10 @@ ulng.rsoptcolumns='Columns'
 ulng.rsoptmiscellaneous='Miscellaneous'
 
 
+# hash value = 204553704
+ulng.rsoptautorefresh='Auto refresh'
+
+
 # hash value = 158773252
 ulng.rsoptlinebylinecursor='Line by line with cursor movement'
 

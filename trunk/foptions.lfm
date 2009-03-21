@@ -2597,7 +2597,7 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = pgAutoRefresh
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 173
+          Height = 200
           Top = 10
           Width = 580
           Anchors = [akTop, akLeft, akRight]
@@ -2605,7 +2605,7 @@ object frmOptions: TfrmOptions
           BorderSpacing.Top = 10
           BorderSpacing.Right = 10
           Caption = 'Auto-Refresh when the file system changes'
-          ClientHeight = 155
+          ClientHeight = 182
           ClientWidth = 576
           TabOrder = 0
           object lblWatchExcludeDrives: TLabel

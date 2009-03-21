@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-03-20 23:13+0300\n"
+"PO-Revision-Date: 2009-03-21 20:25+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -3075,6 +3075,10 @@ msgstr "Без изменений;ПРОПИСНЫЕ;строчные;С Про�
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
 msgstr "Связать плагин \"%s\" с расширением:"
+
+#: ulng.rsoptautorefresh
+msgid "Auto refresh"
+msgstr "Автообновление"
 
 #: ulng.rsoptbehav
 msgid "Behaviors"

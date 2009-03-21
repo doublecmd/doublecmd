@@ -3077,6 +3077,10 @@ msgstr "Geem wijziging:HOOFDLETTERS;kleine letters;Eerste letter Groot"
 msgid "Associate plugin \"%s\" with:"
 msgstr "Assosiëer plug-in  \"%s\" met:"
 
+#: ulng.rsoptautorefresh
+msgid "Auto refresh"
+msgstr ""
+
 #: ulng.rsoptbehav
 msgid "Behaviors"
 msgstr "Gedrag"

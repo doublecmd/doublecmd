@@ -3058,6 +3058,10 @@ msgstr "Keine Änderung;GROSSBUCHSTABEN;alles klein;Erster Buchstabe Gross"
 msgid "Associate plugin \"%s\" with:"
 msgstr "Verknüpfe PlugIn \"%s\" mit:"
 
+#: ulng.rsoptautorefresh
+msgid "Auto refresh"
+msgstr ""
+
 #: ulng.rsoptbehav
 msgid "Behaviors"
 msgstr "Verhalten"

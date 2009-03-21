@@ -3214,6 +3214,10 @@ msgstr "Без змін;ПРОПИСНІ;строчні;З Прописної;"
 msgid "Associate plugin \"%s\" with:"
 msgstr "Асоціювати  плагін \"%s\" з:"
 
+#: ulng.rsoptautorefresh
+msgid "Auto refresh"
+msgstr ""
+
 #: ulng.rsoptbehav
 msgid "Behaviors"
 msgstr "Поведінка"
