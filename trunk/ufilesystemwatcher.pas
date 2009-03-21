@@ -148,8 +148,7 @@ begin
 // WriteLn('After inotify_add_watch()');
 
  // process events
- while True do
- begin
+ repeat
   // wait events
   repeat
    if (fpioctl(FFileHandle, $541B, @bytes_to_parse) = -1) then
@@ -158,6 +157,7 @@ begin
     Exit;
    end;
    Sleep(1);
+   if Terminated then Exit;
   until (bytes_to_parse >= SizeOf(inotify_event));
 //  WriteLn('After fpioctl()');
 
@@ -184,7 +184,7 @@ begin
 
   // free memory
   FreeMem(buf);
- end;
+ until Terminated;
 end;
 {$ELSE}
 begin
