@@ -3126,11 +3126,13 @@ end;
 
 procedure TfrmMain.LeftFrameOnWatcherNotifyEvent(NotifyEvent: TWatchFilter);
 begin
+  if (not Focused) and (watch_only_foreground in gWatchDirs) then Exit;
   FrameLeft.RefreshPanel;
 end;
 
 procedure TfrmMain.RightFrameOnWatcherNotifyEvent(NotifyEvent: TWatchFilter);
 begin
+  if (not Focused) and (watch_only_foreground in gWatchDirs) then Exit;
   FrameRight.RefreshPanel;
 end;
 
