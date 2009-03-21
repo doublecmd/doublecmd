@@ -152,12 +152,12 @@ begin
  begin
   // wait events
   repeat
-
    if (fpioctl(FFileHandle, $541B, @bytes_to_parse) = -1) then
    begin
     WriteLn('ioctl(): ');
     Exit;
    end;
+   Sleep(1);
   until (bytes_to_parse >= SizeOf(inotify_event));
 //  WriteLn('After fpioctl()');
 
