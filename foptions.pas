@@ -405,6 +405,7 @@ begin
       Item[14].Text := rsOptQuickSearch;
       Item[15].Text := rsOptColumns;
       Item[16].Text := rsOptMiscellaneous;
+      Item[17].Text := rsOptAutoRefresh;
     end;
   tvTreeView.Items.Item[0].Selected:= True;
 

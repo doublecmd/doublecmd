@@ -3097,6 +3097,10 @@ msgstr "Neměnit;VELKÁ;malá;1. znak velký;"
 msgid "Associate plugin \"%s\" with:"
 msgstr "Asociovat plugin \"%s\" s:"
 
+#: ulng.rsoptautorefresh
+msgid "Auto refresh"
+msgstr ""
+
 #: ulng.rsoptbehav
 msgid "Behaviors"
 msgstr "Funkce"

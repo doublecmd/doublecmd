@@ -195,6 +195,7 @@ resourcestring
   rsOptQuickSearch = 'Quick search';
   rsOptColumns = 'Columns';
   rsOptMiscellaneous = 'Miscellaneous';
+  rsOptAutoRefresh = 'Auto refresh';
   //-------------------------------
   rsOptLineByLineCursor = 'Line by line with cursor movement';
   rsOptLineByLine = 'Line by line';

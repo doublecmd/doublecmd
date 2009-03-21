@@ -3077,6 +3077,10 @@ msgstr "Sin cambios;MAYÚSCULAS;minúsculas;Primera Mayúscula;"
 msgid "Associate plugin \"%s\" with:"
 msgstr ""
 
+#: ulng.rsoptautorefresh
+msgid "Auto refresh"
+msgstr ""
+
 #: ulng.rsoptbehav
 msgid "Behaviors"
 msgstr "Comportamiento"

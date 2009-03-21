@@ -3077,6 +3077,10 @@ msgstr "不修改;大写;小写;首字大写;"
 msgid "Associate plugin \"%s\" with:"
 msgstr " \"%s\" 相关插件:"
 
+#: ulng.rsoptautorefresh
+msgid "Auto refresh"
+msgstr ""
+
 #: ulng.rsoptbehav
 msgid "Behaviors"
 msgstr "行为"
