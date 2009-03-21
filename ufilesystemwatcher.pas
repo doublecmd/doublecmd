@@ -104,7 +104,7 @@ begin
 
   if FNotifyHandle <> INVALID_HANDLE_VALUE then
     repeat
-      if WaitForSingleObject(FNotifyHandle, INFINITE) = WAIT_OBJECT_0 then
+      if WaitForSingleObject(FNotifyHandle, 100) = WAIT_OBJECT_0 then
       begin
         Synchronize(@WatcherNotifyEvent);
       end;
