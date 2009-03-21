@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2007-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2009  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit fMultiRename;
@@ -115,7 +115,7 @@ type
 implementation
 
 uses
-  uLng, uFileProcs, uDCUtils, uOSUtils;
+  LCLProc, uLng, uFileProcs, uDCUtils, uOSUtils;
 
 function ShowMultiRenameForm(Var lsInFiles: TStringList):Boolean;
 var
@@ -166,12 +166,16 @@ begin
       sTmpAll:=StringReplace(sTmpAll,edFind.Text,edReplace.Text,[rfReplaceAll,rfIgnoreCase]);
     //file name style
     case cmbxFont.ItemIndex of
-      1: sTmpAll:=UpperCase(sTmpAll);
-      2: sTmpAll:=LowerCase(sTmpAll);
+      1: sTmpAll:= UTF8UpperCase(sTmpAll);
+      2: sTmpAll:= UTF8LowerCase(sTmpAll);
       3: begin
-           sTmpAll:=LowerCase(sTmpAll);
-           if length(sTmpAll)>0 then
-             sTmpAll[1]:=UpCase(stmpall[1]);
+           sTmpAll:= UTF8LowerCase(sTmpAll);
+           if UTF8Length(sTmpAll) > 0 then
+             begin
+               sTmpExt:= UTF8Copy(sTmpAll, 1, 1);
+               UTF8Delete(sTmpAll, 1, 1);
+               sTmpAll:= UTF8UpperCase(sTmpExt) + sTmpAll;
+             end;
          end;
     end;
     //save new name file
