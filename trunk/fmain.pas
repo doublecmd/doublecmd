@@ -370,8 +370,7 @@ type
       Shift: TShiftState);
     procedure edtCommandExit(Sender: TObject);
     procedure tbEditClick(Sender: TObject);
-    procedure LeftFrameOnWatcherNotifyEvent(NotifyEvent: TWatchFilter);
-    procedure RightFrameOnWatcherNotifyEvent(NotifyEvent: TWatchFilter);
+    procedure FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyEvent: TWatchFilter);
   private
     { Private declarations }
     PanelSelected:TFilePanelSelect;
@@ -456,7 +455,8 @@ uses
   fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg, uClassesEx,
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils, uLog, uWipeThread,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg, fExtractDlg,
-  fLinker, fSplitter, uFileProcs, LCLProc, uOSUtils, uOSForms, uPixMapManager,fColumnsSetConf, uDragDropEx;
+  fLinker, fSplitter, uFileProcs, LCLProc, uOSUtils, uOSForms, uPixMapManager,
+  fColumnsSetConf, uDragDropEx, StrUtils;
 
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -2936,14 +2936,14 @@ begin
         Include(WatchFilter, wfAttributesChange);
       if not Assigned(LeftFrameWatcher) then
         begin
-          LeftFrameWatcher:= TFileSystemWatcher.Create(FrameLeft.ActiveDir, WatchFilter);
-          LeftFrameWatcher.OnWatcherNotifyEvent:= @LeftFrameOnWatcherNotifyEvent;
+          LeftFrameWatcher:= TFileSystemWatcher.Create(FrameLeft, FrameLeft.ActiveDir, WatchFilter);
+          LeftFrameWatcher.OnWatcherNotifyEvent:= @FramePanelOnWatcherNotifyEvent;
           LeftFrameWatcher.Active:= True;
         end;
       if not Assigned(RightFrameWatcher) then
         begin
-          RightFrameWatcher:= TFileSystemWatcher.Create(FrameRight.ActiveDir, WatchFilter);
-          RightFrameWatcher.OnWatcherNotifyEvent:= @RightFrameOnWatcherNotifyEvent;
+          RightFrameWatcher:= TFileSystemWatcher.Create(FrameRight, FrameRight.ActiveDir, WatchFilter);
+          RightFrameWatcher.OnWatcherNotifyEvent:= @FramePanelOnWatcherNotifyEvent;
           RightFrameWatcher.Active:= True;
         end;
     end
@@ -3124,16 +3124,26 @@ begin
   ShowConfigToolbar(pmToolBar.Tag);
 end;
 
-procedure TfrmMain.LeftFrameOnWatcherNotifyEvent(NotifyEvent: TWatchFilter);
+procedure TfrmMain.FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyEvent: TWatchFilter);
+var
+  sDrive,
+  sWatchDirsExclude: String;
+  FrameFilePanel: TFrameFilePanel;
 begin
+  // if not active and refresh only in foreground then exit
   if (not Focused) and (watch_only_foreground in gWatchDirs) then Exit;
-  FrameLeft.RefreshPanel;
-end;
-
-procedure TfrmMain.RightFrameOnWatcherNotifyEvent(NotifyEvent: TWatchFilter);
-begin
-  if (not Focused) and (watch_only_foreground in gWatchDirs) then Exit;
-  FrameRight.RefreshPanel;
+  if not (Sender is TFrameFilePanel) then Exit;
+  FrameFilePanel:= (Sender as TFrameFilePanel);
+  // if current path in exclude list then exit
+  if gWatchDirsExclude <> '' then
+    begin
+      sWatchDirsExclude:= gWatchDirsExclude;
+      repeat
+        sDrive:= Copy2SymbDel(sWatchDirsExclude, ';');
+        if Pos(sDrive, FrameFilePanel.ActiveDir) = 1 then Exit;
+      until sWatchDirsExclude = '';
+    end;
+  FrameFilePanel.RefreshPanel;
 end;
 
 function TfrmMain.ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
