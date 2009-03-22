@@ -113,6 +113,7 @@ type
     cbGridVertLine: TCheckBox;
     cbGridHorzLine: TCheckBox;
     cbShowWarningMessages: TCheckBox;
+    cbShowSystemFiles: TCheckBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
@@ -1668,6 +1669,7 @@ begin
   cbRenameSelOnlyName.Checked:= gRenameSelOnlyName;
   cbCutTextToColWidth.Checked:= gCutTextToColWidth;
   ledDriveBlackList.Text:= gDriveBlackList;
+  cbShowSystemFiles.Checked:= gShowSystemFiles;
 
   fneExtEditor.FileName := gExtEdit;
   fneExtViewer.FileName := gExtView;
@@ -1816,6 +1818,7 @@ begin
   gRenameSelOnlyName:= cbRenameSelOnlyName.Checked;
   gCutTextToColWidth:= cbCutTextToColWidth.Checked;
   gDriveBlackList:= ledDriveBlackList.Text;
+  gShowSystemFiles:= cbShowSystemFiles.Checked;
   
   gMouseSelectionEnabled := cbSelectionByMouse.Checked;
   gMouseSelectionButton := cbMouseMode.ItemIndex;
