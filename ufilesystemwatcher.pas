@@ -35,12 +35,13 @@ uses
 type
   TWatchFilter = set of (wfFileNameChange, wfAttributesChange);
 
-  TOnWatcherNotifyEvent = procedure(NotifyEvent: TWatchFilter) of object;
+  TOnWatcherNotifyEvent = procedure(Sender: TObject; NotifyEvent: TWatchFilter) of object;
 
   { TWatcherThread }
 
   TWatcherThread = class(TThread)
   private
+    FOwner: TObject;
     FOnWatcherNotifyEvent: TOnWatcherNotifyEvent;
     FFileHandle,
     FNotifyHandle: THandle;
@@ -51,7 +52,7 @@ type
     procedure Execute; override;
     procedure WatcherNotifyEvent;
   public
-    constructor Create(sPath: UTF8String; aWatchFilter: TWatchFilter);
+    constructor Create(aOwner: TObject; sPath: UTF8String; aWatchFilter: TWatchFilter);
     destructor Destroy; override;
     property OnWatcherNotifyEvent: TOnWatcherNotifyEvent write FOnWatcherNotifyEvent;
   end;
@@ -60,6 +61,7 @@ type
 
   TFileSystemWatcher = class
   private
+    FOwner: TObject;
     FActive: Boolean;
     FWatchPath: UTF8String;
     FWatchFilter: TWatchFilter;
@@ -69,7 +71,7 @@ type
     procedure SetWatchFilter(const AValue: TWatchFilter);
     procedure SetWatchPath(const AValue: UTF8String);
   public
-    constructor Create(sPath: UTF8String; aWatchFilter: TWatchFilter);
+    constructor Create(aOwner: TObject; sPath: UTF8String; aWatchFilter: TWatchFilter);
     destructor Destroy; override;
     property Active: Boolean read FActive write SetActive;
     property WatchPath: UTF8String read FWatchPath write SetWatchPath;
@@ -194,7 +196,7 @@ end;
 procedure TWatcherThread.WatcherNotifyEvent;
 begin
   if Assigned(FOnWatcherNotifyEvent) then
-    FOnWatcherNotifyEvent(FNotifyEvent);
+    FOnWatcherNotifyEvent(FOwner, FNotifyEvent);
 end;
 
 destructor TWatcherThread.Destroy;
@@ -218,10 +220,11 @@ begin
 end;
 {$ENDIF}
 
-constructor TWatcherThread.Create(sPath: UTF8String; aWatchFilter: TWatchFilter);
+constructor TWatcherThread.Create(aOwner: TObject; sPath: UTF8String; aWatchFilter: TWatchFilter);
 begin
   inherited Create(True); // create suspended
 
+  FOwner:= aOwner;
   FWatchPath:= sPath;
   FWatchFilter:= aWatchFilter;
   FreeOnTerminate:= True;
@@ -234,7 +237,7 @@ begin
   if Assigned(FWatcherThread) then
     FWatcherThread.Terminate;
   FWatchPath:= AValue;
-  FWatcherThread:= TWatcherThread.Create(FWatchPath, FWatchFilter);
+  FWatcherThread:= TWatcherThread.Create(FOwner, FWatchPath, FWatchFilter);
   FWatcherThread.OnWatcherNotifyEvent:= FOnWatcherNotifyEvent;
   FWatcherThread.Resume;
 end;
@@ -244,7 +247,7 @@ begin
   if FActive = AValue then Exit;
   if AValue then
     begin
-      FWatcherThread:= TWatcherThread.Create(FWatchPath, FWatchFilter);
+      FWatcherThread:= TWatcherThread.Create(FOwner, FWatchPath, FWatchFilter);
       FWatcherThread.OnWatcherNotifyEvent:= FOnWatcherNotifyEvent;
       FWatcherThread.Resume;
       FActive:= AValue;
@@ -264,9 +267,10 @@ begin
   SetWatchPath(FWatchPath);
 end;
 
-constructor TFileSystemWatcher.Create(sPath: UTF8String; aWatchFilter: TWatchFilter);
+constructor TFileSystemWatcher.Create(aOwner: TObject; sPath: UTF8String; aWatchFilter: TWatchFilter);
 begin
   FActive:= False;
+  FOwner:= aOwner;
   FWatchPath:= sPath;
   FWatchFilter:= aWatchFilter;
 end;
