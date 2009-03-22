@@ -913,13 +913,6 @@ object frmMain: TfrmMain
         Caption = 'Combine Files'
         OnClick = actExecute
       end
-      object miLine3: TMenuItem
-        Caption = '-'
-      end
-      object mnuFilesShwSysFiles: TMenuItem
-        Action = actShowSysFiles
-        OnClick = actExecute
-      end
       object miLine4: TMenuItem
         Caption = '-'
       end
@@ -1088,6 +1081,13 @@ object frmMain: TfrmMain
         Action = actRefresh
         OnClick = actExecute
       end
+      object miLine3: TMenuItem
+        Caption = '-'
+      end
+      object mnuFilesShwSysFiles: TMenuItem
+        Action = actShowSysFiles
+        OnClick = actExecute
+      end      
     end
     object mnuConfig: TMenuItem
       Caption = 'C&onfiguration'
