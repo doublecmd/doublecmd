@@ -2866,7 +2866,7 @@ msgstr "Удалить выбранный \"%s\"?"
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
-msgstr "Диск не доступен"
+msgstr "Диск недоступен"
 
 #: ulng.rsmsgenterfileext
 msgid "Enter file extension:"
