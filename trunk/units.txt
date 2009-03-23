@@ -10,3 +10,4 @@ umywindows.pas
 umyunix.pas
 inotify.pp
 uvfsutil.pas
+uwcxmodule.pas

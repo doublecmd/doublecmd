@@ -26,7 +26,8 @@ unit uWCXmodule;
 interface
 uses
   uWCXprototypes, uWCXhead, uFileList, uTypes, dynlibs, Classes, uVFSModule,
-  uVFSTypes, uVFSUtil, fFileOpDlg, Dialogs, DialogAPI, uClassesEx;
+  uVFSTypes, uVFSUtil, fFileOpDlg, Dialogs, DialogAPI, uClassesEx,
+  StringHashList;
 
 {$H+}
 Type
@@ -109,11 +110,11 @@ Type
              Path names relative to destination path.)
       @param(DirsAttributes
              List of directories and their attributes.
-             If a directory being created is in this list its attributes are set.)
-    }
+             Each list item's data field must be a pointer to THeaderData.
+             If a directory being created is in this list, its attributes are set.}
     function ForceDirectoriesWithAttrs(sDestPath: String;
-                                       const PathsToCreate: TStringList;
-                                       const DirsAttributes: TFileList): Boolean;
+                                       const PathsToCreate: TStringHashList;
+                                       const DirsAttributes: TStringHashList): Boolean;
 
     { Frees current archive file list (fArcFileList). }
     procedure DeleteArchiveFileList;
@@ -455,12 +456,35 @@ end;
 
 
 function TWCXModule.VFSOpen(const sName: String; bCanYouHandleThisFile : Boolean = False): Boolean;
+
+  procedure CollectDirs(Path: PChar; var DirsList: TStringHashList);
+  var
+    I : Integer;
+    Dir : string;
+  begin
+    // Scan from the second char from the end, to the second char from the beginning.
+    for I := strlen(Path) - 2 downto 1 do
+    begin
+      if Path[I] = PathDelim then
+      begin
+        SetString(Dir, Path, I);
+        if DirsList.Find(Dir) = -1 then
+          // Add directory and continue scanning for parent directories.
+          DirsList.Add(Dir)
+        else
+          // This directory is already in the list and we assume
+          // that all parent directories are too.
+          Exit;
+      end
+    end;
+  end;
+
 var
   ArcHandle : TArcHandle;
   ArcFile : tOpenArchiveData;
   ArcHeader : THeaderData;
   HeaderData : PHeaderData;
-  sDirs, ExistsDirList : TStringList;
+  AllDirsList, ExistsDirList : TStringHashList;
   I : Integer;
   NameLength: Integer;
 begin
@@ -509,8 +533,8 @@ begin
   FillChar(ArcHeader, SizeOf(ArcHeader), #0);
   DeleteArchiveFileList;
   FArcFileList := TList.Create;
-  sDirs := TStringList.Create;
-  ExistsDirList := TStringList.Create;
+  ExistsDirList := TStringHashList.Create(True);
+  AllDirsList := TStringHashList.Create(True);
 
   try
     while (ReadHeader(ArcHandle, ArcHeader) = 0) do
@@ -526,22 +550,18 @@ begin
              (HeaderData^.FileName[NameLength-1] = PathDelim)
           then
             HeaderData^.FileName[NameLength-1] := #0;
-        end;
 
         //****************************
         (* Workaround for plugins that don't give a list of folders
-           or the list does not include all of the folders.
-           This considerably slows down opening archives with lots of files. *)
+           or the list does not include all of the folders. *)
 
-        if FPS_ISDIR(HeaderData^.FileAttr) then
-        begin
           // Collect directories that the plugin supplies.
-          if (ExistsDirList.IndexOf(HeaderData.FileName) < 0) then
+          if (ExistsDirList.Find(HeaderData.FileName) < 0) then
             ExistsDirList.Add(HeaderData.FileName);
         end;
 
         // Collect all directories.
-        GetDirs(String(HeaderData^.FileName), sDirs);
+        CollectDirs(HeaderData^.FileName, AllDirsList);
 
         //****************************
 
@@ -555,28 +575,29 @@ begin
         if iResult <> E_SUCCESS then
           ShowErrorMessage;
       end; // while
-    
-    (* if plugin does not give a list of folders *)
+
+      (* if plugin does not give a list of folders *)
+      for I := 0 to AllDirsList.Count - 1 do
       begin
-        for I := 0 to sDirs.Count - 1 do
-          begin
-            // Add only those directories that were not supplied by the plugin.
-            if ExistsDirList.IndexOf(sDirs.Strings[I]) >= 0 then
-              Continue;
-            FillChar(ArcHeader, SizeOf(ArcHeader), #0);
-            ArcHeader.FileName := sDirs.Strings[I];
-            ArcHeader.FileAttr := faFolder;
-            ArcHeader.FileTime := mbFileAge(FArchiveName);
-            New(HeaderData);
-            HeaderData^ := ArcHeader;
-            FArcFileList.Add(HeaderData);
-          end;
+        // Add only those directories that were not supplied by the plugin.
+        if ExistsDirList.Find((AllDirsList.List + I)^.Key) < 0 then
+        begin
+          New(HeaderData);
+          FillChar(HeaderData^, SizeOf(HeaderData^), #0);
+          StrPLCopy(HeaderData^.FileName, (AllDirsList.List + I)^.Key,
+                    SizeOf(HeaderData^.FileName) - 1);
+          HeaderData^.FileAttr := faFolder;
+          HeaderData^.FileTime := mbFileAge(FArchiveName);
+          FArcFileList.Add(HeaderData);
+        end;
       end;
+
   finally
-    sDirs.Free;
+    AllDirsList.Free;
     ExistsDirList.Free;
     CloseArchive(ArcHandle);
   end;
+
   Result := True;
 end;
 
@@ -866,15 +887,17 @@ begin
 end;
 
 function TWCXModule.ForceDirectoriesWithAttrs(sDestPath: String;
-                                              const PathsToCreate: TStringList;
-                                              const DirsAttributes: TFileList): Boolean;
+                                              const PathsToCreate: TStringHashList;
+                                              const DirsAttributes: TStringHashList): Boolean;
 var
   Directories: TStringList;
+  CreatedPaths: TStringHashList;
   i: Integer;
   PathIndex: Integer;
   ListIndex: Integer;
   TargetDir: String;
   Time: Longint;
+  pArcHeader: PHeaderData;
 begin
   Result := True;
 
@@ -884,141 +907,162 @@ begin
   ForceDirectory(sDestPath);
 
   Directories := TStringList.Create;
+  CreatedPaths := TStringHashList.Create(True);
 
-  for PathIndex := 0 to PathsToCreate.Count - 1 do
-  begin
-    Directories.Clear;
+  try
+    for PathIndex := 0 to PathsToCreate.Count - 1 do
+    begin
+      Directories.Clear;
 
-    // Get all relative directories from the path to create.
-    // This adds directories to list in order from the outer to inner ones,
-    // for example: dir, dir/dir2, dir/dir2/dir3.
-    if GetDirs(PathsToCreate.Strings[PathIndex], Directories) <> -1 then
-    try
-      for i := 0 to Directories.Count - 1 do
-      begin
-        TargetDir := sDestPath + Directories.Strings[i];
-
-        if not DirPathExists(TargetDir) then
+      // Create also all parent directories of the path to create.
+      // This adds directories to list in order from the outer to inner ones,
+      // for example: dir, dir/dir2, dir/dir2/dir3.
+      if GetDirs((PathsToCreate.List + PathIndex)^.Key, Directories) <> -1 then
+      try
+        for i := 0 to Directories.Count - 1 do
         begin
-           if ForceDirectory(TargetDir) = False then
-           begin
-             // Error, cannot create directory.
-             Result := False;
-           end
-           else
-           begin
-             // Check, if attributes are stored for the directory in the DirectoriesList.
-             ListIndex := DirsAttributes.CheckFileName(Directories.Strings[i]);
-             if ListIndex <> -1 then
-             begin
-{$IF DEFINED(MSWINDOWS)}
-               // Restore attributes, e.g., hidden, read-only.
-               // On Unix iMode value would have to be translated somehow.
-               mbFileSetAttr(TargetDir, DirsAttributes.GetItem(ListIndex)^.iMode);
-{$ENDIF}
-               Time := Trunc(DirsAttributes.GetItem(ListIndex)^.fTimeI);
+          TargetDir := sDestPath + Directories.Strings[i];
 
-               // Set creation, modification time
-               mbFileSetTime(TargetDir, Time, Time, Time);
+          if (CreatedPaths.Find(TargetDir) = -1) and
+             (not DirPathExists(TargetDir)) then
+          begin
+             if ForceDirectory(TargetDir) = False then
+             begin
+               // Error, cannot create directory.
+               Result := False;
+               Break; // Don't try to create subdirectories.
+             end
+             else
+             begin
+               CreatedPaths.Add(TargetDir);
+
+               // Check, if attributes are stored for the directory.
+               ListIndex := DirsAttributes.Find(Directories.Strings[i]);
+               if ListIndex <> -1 then
+               begin
+                 pArcHeader := PHeaderData((DirsAttributes.List + ListIndex)^.Data);
+                 if Assigned(pArcHeader) then
+                 begin
+{$IF DEFINED(MSWINDOWS)}
+                   // Restore attributes, e.g., hidden, read-only.
+                   // On Unix iMode value would have to be translated somehow.
+                   mbFileSetAttr(TargetDir, pArcHeader^.FileAttr);
+{$ENDIF}
+                   Time := pArcHeader^.FileTime;
+
+                   // Set creation, modification time
+                   mbFileSetTime(TargetDir, Time, Time, Time);
+                 end;
+               end;
              end;
-           end;
+          end;
         end;
+
+      except
       end;
 
-    except
     end;
 
+  finally
+    FreeAndNil(Directories);
+    FreeAndNil(CreatedPaths);
   end;
-
-  FreeAndNil(Directories);
 end;
 
-procedure TWCXModule.CreateDirsAndCountFiles(const FileList: TFileList; FileMask: String; sDestPath: String; CurrentArchiveDir: String);
+procedure TWCXModule.CreateDirsAndCountFiles(const FileList: TFileList; FileMask: String;
+                                             sDestPath: String; CurrentArchiveDir: String);
 var
   // List of paths that we know must be created.
-  PathsToCreate: TStringList;
+  PathsToCreate: TStringHashList;
 
   // List of possible directories to create with their attributes.
-  // This usually short list is created so that we don't traverse
-  // the whole archive each time we need an attribute for a directory.
-  DirsWithAttributes: TFileList;
+  // This hash list is created to speed up searches for attributes in archive file list.
+  DirsAttributes: TStringHashList;
 
   i: Integer;
-  fri : TFileRecItem;
   CurrentFileName: String;
-  ArcHeader: THeaderData;
+  pArcHeader: PHeaderData;
 begin
   FFilesSize := 0;
 
-  PathsToCreate := TStringList.Create;
-  DirsWithAttributes := TFileList.Create;
+  PathsToCreate := TStringHashList.Create(True);
+  DirsAttributes := TStringHashList.Create(True);
 
   for i := 0 to FArcFileList.Count - 1 do
   begin
-    ArcHeader := PHeaderData(FArcFileList.Items[I])^;
-    CurrentFileName := SysToUTF8(ArcHeader.FileName);
+    pArcHeader := PHeaderData(FArcFileList.Items[I]);
+    CurrentFileName := SysToUTF8(pArcHeader^.FileName);
 
     // Check if the file from the archive fits the selection given via FileList.
     if not MatchesFileList(FileList, CurrentFileName) then
       Continue;
 
-    if FPS_ISDIR(ArcHeader.FileAttr) then
+    if FPS_ISDIR(pArcHeader^.FileAttr) then
     begin
-      // Save this directory with its attributes.
-      fri.sName  := ExtractDirLevel(CurrentArchiveDir, CurrentFileName);
-      fri.iMode  := ArcHeader.FileAttr;
-      fri.fTimeI := ArcHeader.FileTime;
+      CurrentFileName := ExtractDirLevel(CurrentArchiveDir, CurrentFileName);
 
-      DirsWithAttributes.AddItem(@fri);
+      // Save this directory and a pointer to its entry.
+      DirsAttributes.Add(CurrentFileName, pArcHeader);
+
+      // If extracting all files and directories, add this directory
+      // to PathsToCreate so that empty directories are also created.
+      if (FileMask = '*.*') or (FileMask = '*') then
+      begin
+        // Paths in PathsToCreate list must end with path delimiter.
+        CurrentFileName := IncludeTrailingPathDelimiter(CurrentFileName);
+
+        if PathsToCreate.Find(CurrentFileName) < 0 then
+          PathsToCreate.Add(CurrentFileName);
+      end;
     end
     else
     begin
       if ((FileMask = '*.*') or (FileMask = '*') or
           MatchesMaskList(ExtractFileName(CurrentFileName), FileMask)) then
       begin
-        Inc(FFilesSize, ArcHeader.UnpSize);
+        Inc(FFilesSize, pArcHeader^.UnpSize);
 
         CurrentFileName := ExtractDirLevel(CurrentArchiveDir, ExtractFilePath(CurrentFileName));
 
         // If CurrentFileName is empty now then it was a file in current archive
         // directory, therefore we don't have to create any paths for it.
         if Length(CurrentFileName) > 0 then
-          if PathsToCreate.IndexOf(CurrentFileName) < 0 then
+          if PathsToCreate.Find(CurrentFileName) < 0 then
             PathsToCreate.Add(CurrentFileName);
       end;
     end;
   end;
 
   try
-    if ForceDirectoriesWithAttrs(sDestPath, PathsToCreate, DirsWithAttributes) = False then
+    if ForceDirectoriesWithAttrs(sDestPath, PathsToCreate, DirsAttributes) = False then
       ; // Error.
   except
   end;
 
   FreeAndNil(PathsToCreate);
-  FreeAndNil(DirsWithAttributes);
+  FreeAndNil(DirsAttributes);
 end;
 
 procedure TWCXModule.CountFiles(const FileList: TFileList; FileMask: String);
 var
   i: Integer;
   CurrentFileName: String;
-  ArcHeader: THeaderData;
+  pArcHeader: PHeaderData;
 begin
   FFilesSize := 0;
 
   for i := 0 to FArcFileList.Count - 1 do
   begin
-    ArcHeader := PHeaderData(FArcFileList.Items[I])^;
-    CurrentFileName := SysToUTF8(ArcHeader.FileName);
+    pArcHeader := PHeaderData(FArcFileList.Items[I]);
+    CurrentFileName := SysToUTF8(pArcHeader^.FileName);
 
     // Check if the file from the archive fits the selection given via FileList.
-    if  (not FPS_ISDIR(ArcHeader.FileAttr))        // Omit directories
+    if  (not FPS_ISDIR(pArcHeader^.FileAttr))      // Omit directories
     and MatchesFileList(FileList, CurrentFileName) // Check if it's included in the filelist
     and ((FileMask = '*.*') or (FileMask = '*')    // And name matches file mask
         or MatchesMaskList(ExtractFileName(CurrentFileName), FileMask))
     then
-      Inc(FFilesSize, ArcHeader.UnpSize);
+      Inc(FFilesSize, pArcHeader^.UnpSize);
   end;
 end;
 
