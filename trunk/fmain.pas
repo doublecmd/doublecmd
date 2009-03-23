@@ -53,11 +53,11 @@ type
 
   TDropPopupMenu = class(TPopupMenu)
   private
-    FPDropParams: PDropParams;
+    FDropParams: TDropParams;
 
   public
     constructor Create(AOwner: TComponent); override;
-    procedure PopUp(X, Y: Integer; const DropParams: TDropParams);
+    procedure PopUp(DropParams: TDropParams);
   end;
 
   { TfrmMain }
@@ -696,6 +696,7 @@ var
   FileList: TFileList;
   FileNamesList: TStringList;
   Point: TPoint;
+  DropParams: TDropParams;
 begin
   FrameFilePanel:= nil;
   // drop on left panel
@@ -725,9 +726,18 @@ begin
 
   GetCursorPos(Point);
 
-  FrameFilePanel.dgPanel.DropFiles(FileList, // will free FileList
-                                   GetDropEffectByKeyAndMouse(GetKeyShiftState, mbLeft),
-                                   Point, False);
+  try
+    DropParams := TDropParams.Create(
+        FileList,
+        GetDropEffectByKeyAndMouse(GetKeyShiftState, mbLeft),
+        Point, False,
+        nil, FrameFilePanel);
+  except
+    FreeAndNil(FileList);
+    Exit;
+  end;
+
+  FrameFilePanel.dgPanel.DropFiles(DropParams);
 end;
 
 procedure TfrmMain.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
@@ -1049,60 +1059,37 @@ end;
 
 procedure TfrmMain.mnuDropClick(Sender: TObject);
 var
-  DropParams: TDropParams;
+  DropParamsRef: TDropParams;
   SourceFileName, TargetFileName: String;
 begin
-  if (Sender is TMenuItem) and Assigned(pmDropMenu.FPDropParams) then
+  if (Sender is TMenuItem) and Assigned(pmDropMenu.FDropParams) then
     begin
-      // First, immediately copy parameters to a new record.
-      // Any function we call next (like creating a form) could issue closing
-      // all open popup menus (pmDropMenu too), which would in turn cause
-      // pmDropMenuClose to be executed, thus disposing of parameters.
-      DropParams := pmDropMenu.FPDropParams^; // this copies all record fields
+      // Make a copy of the reference to parameters and clear FDropParams,
+      // so that they're not destroyed if pmDropMenuClose is called while we're processing.
+      DropParamsRef := pmDropMenu.FDropParams;
+      pmDropMenu.FDropParams := nil; // release ownership
 
-      with DropParams do
+      with DropParamsRef do
       begin
-        // First three commands are standard Drag&Drop effects,
-        // so bounce back to DropFiles (it will handle freeing FileList).
         if (Sender as TMenuItem).Name = 'miMove' then
           begin
-            TargetPanel.dgPanel.DropFiles(FileList,
-                                          DropMoveEffect,
-                                          ScreenDropPoint,
-                                          DropIntoDirectories);
+            TargetPanel.dgPanel.DoDragDropOperation(ddoMove, DropParamsRef);
           end
         else if (Sender as TMenuItem).Name = 'miCopy' then
           begin
-            TargetPanel.dgPanel.DropFiles(FileList,
-                                          DropCopyEffect,
-                                          ScreenDropPoint,
-                                          DropIntoDirectories);
+            TargetPanel.dgPanel.DoDragDropOperation(ddoCopy, DropParamsRef);
           end
         else if (Sender as TMenuItem).Name = 'miSymLink' then
           begin
-            TargetPanel.dgPanel.DropFiles(FileList,
-                                          DropLinkEffect, // is treated as symlink in DropFiles
-                                          ScreenDropPoint,
-                                          DropIntoDirectories);
+            TargetPanel.dgPanel.DoDragDropOperation(ddoSymLink, DropParamsRef);
           end
-
-        // For others we call specific functions and must handle freeing FileList.
-
         else if (Sender as TMenuItem).Name = 'miHardLink' then
           begin
-            // TODO: process multiple files
-
-            SourceFileName := FileList.GetFileName(0);
-            TargetFileName := TargetDirectory + ExtractFileName(SourceFileName);
-
-            FreeAndNil(FileList);
-
-            if ShowHardLinkForm(SourceFileName, TargetFileName) = True then
-              TargetPanel.RefreshPanel;
+            TargetPanel.dgPanel.DoDragDropOperation(ddoHardLink, DropParamsRef);
           end
         else if (Sender as TMenuItem).Name = 'miCancel' then
           begin
-            FreeAndNil(FileList);
+            FreeAndNil(DropParamsRef);
           end;
       end; //with
     end;
@@ -1110,29 +1097,26 @@ end;
 
 constructor TDropPopupMenu.Create(AOwner: TComponent);
 begin
-  FPDropParams := nil;
+  FDropParams := nil;
   inherited;
 end;
 
-procedure TDropPopupMenu.PopUp(X, Y: Integer; const DropParams: TDropParams);
+procedure TDropPopupMenu.PopUp(DropParams: TDropParams);
 begin
-  // Disposing of this is handled in pmDropMenuClose.
-  FPDropParams := new(PDropParams);
-  if Assigned(FPDropParams) then
+  // Disposing of the params is handled in pmDropMenuClose or mnuDropClick.
+  if Assigned(DropParams) then
   begin
-    FPDropParams^ := DropParams;
-    inherited PopUp(X, Y);
+    FDropParams := DropParams;
+    inherited PopUp(DropParams.ScreenDropPoint.X,
+                    DropParams.ScreenDropPoint.Y);
   end;
 end;
 
 procedure TfrmMain.pmDropMenuClose(Sender: TObject);
 begin
   // Free drop parameters given to drop menu.
-  if Assigned(pmDropMenu.FPDropParams) then
-  begin
-    Dispose(pmDropMenu.FPDropParams);
-    pmDropMenu.FPDropParams := nil;
-  end;
+  if Assigned(pmDropMenu.FDropParams) then
+    FreeAndNil(pmDropMenu.FDropParams);
 end;
 
 procedure TfrmMain.mnuSplitterPercentClick(Sender: TObject);
