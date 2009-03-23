@@ -796,11 +796,9 @@ begin
     pDestPath := nil
   else
     pDestPath := PChar(sDestPath); // Make pointer to local variable
-    
-  // Convert file list so that filenames are relative to archive root.
-  ChangeFileListRoot(FArchiveName + PathDelim, FileList);
 
   (* Add in file list files from subfolders *)
+  (* Make filenames relative to FileList.CurrentDirectory *)
   FillAndCount(FileList, FFilesSize);
 
   DebugLN('Curr Dir := ' + FileList.CurrentDirectory);

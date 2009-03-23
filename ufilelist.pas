@@ -498,6 +498,7 @@ begin
   Assert(srcFileList <> nil,'CopyListExpandNames: srcFileList=nil');
   Assert(dstFileList <> nil,'CopyListExpandNames: dstFileList=nil');
   dstFileList.Clear;
+  dstFileList.CurrentDirectory := srcFileList.CurrentDirectory;
   for xIndex:=0 to srcFileList.Count-1 do
   begin
     p:=srcFileList.GetItem(xIndex)^;
