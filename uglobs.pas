@@ -171,6 +171,7 @@ var
 
   { Configuration page }
   gUseIniInProgramDir,
+  gNewUseIniInProgramDir,
   gSaveDirHistory,
   gSaveCmdLineHistory,
   gSaveFileMaskHistory : Boolean;
@@ -424,6 +425,7 @@ begin
   { Load location of configuration files }
   Ini := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini', fmOpenRead);
   gUseIniInProgramDir := Ini.ReadBool('Configuration', 'UseIniInProgramDir', False);
+  gNewUseIniInProgramDir:= gUseIniInProgramDir;
   Ini.Free;
   
   { Layout page }
@@ -594,6 +596,20 @@ procedure SaveGlobs;
 var
   Ini: TIniFileEx;
 begin
+  if gNewUseIniInProgramDir <> gUseIniInProgramDir then
+    begin
+      gIni.Free;
+      { Save location of configuration files }
+      try
+        Ini:= TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
+        Ini.WriteBool('Configuration', 'UseIniInProgramDir', gNewUseIniInProgramDir);
+      finally
+        Ini.Free;
+      end;
+      LoadPaths;
+      gIni := TIniFileEx.Create(gpIniDir + 'doublecmd.ini');
+    end;
+    
   if gSaveDirHistory then
     glsDirHistory.SaveToFile(gpIniDir + 'dirhistory.txt');
   if gSaveFileMaskHistory then
@@ -721,14 +737,6 @@ begin
   gWdxPlugins.Save(gIni);
   gWFXPlugins.Save(gIni);
   gWCXPlugins.Save(gIni);
-
-  { Save location of configuration files }
-  try
-    Ini:= TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
-    Ini.WriteBool('Configuration', 'UseIniInProgramDir', gUseIniInProgramDir);
-  finally
-    Ini.Free;
-  end;
 end;
 
 initialization
