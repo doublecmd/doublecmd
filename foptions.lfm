@@ -2697,6 +2697,7 @@ object frmOptions: TfrmOptions
             BorderSpacing.Left = 12
             BorderSpacing.Top = 6
             Caption = 'Update &footer (total number of files)'
+            Enabled = False
             TabOrder = 3
           end
           object cbWatchFreeSpace: TCheckBox
@@ -2710,6 +2711,7 @@ object frmOptions: TfrmOptions
             BorderSpacing.Left = 12
             BorderSpacing.Top = 6
             Caption = 'Update &header (free disk space)'
+            Enabled = False
             TabOrder = 4
           end
           object edtWatchExcludeDrives: TEdit
