@@ -2029,6 +2029,10 @@ msgstr "Zobrazit &záložky adresářů"
 msgid "Show warning messages (\"OK\" button only)"
 msgstr "Zobrazit varovné zprávy (pouze tlačítko \"OK\")"
 
+#: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
+msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr ""
+
 #: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION
 msgid "&Show tab header also when there is only one tab"
 msgstr "&Zobrazit záložku i když bude pouze 1"

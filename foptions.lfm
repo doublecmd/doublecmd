@@ -2548,9 +2548,9 @@ object frmOptions: TfrmOptions
             AnchorSideLeft.Control = gbShowGrid
             AnchorSideTop.Control = gbShowGrid
             Left = 12
-            Height = 21
+            Height = 17
             Top = 6
-            Width = 135
+            Width = 77
             BorderSpacing.Left = 12
             BorderSpacing.Top = 6
             Caption = 'Vertical lines'
@@ -2561,9 +2561,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbGridVertLine
             AnchorSideTop.Side = asrBottom
             Left = 12
-            Height = 21
-            Top = 33
-            Width = 151
+            Height = 17
+            Top = 29
+            Width = 89
             BorderSpacing.Left = 12
             BorderSpacing.Top = 6
             Caption = 'Horizontal lines'
@@ -2577,27 +2577,40 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = pgMisc
           AnchorSideRight.Side = asrBottom
           Left = 8
-          Height = 60
+          Height = 82
           Top = 96
           Width = 584
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 8
           BorderSpacing.Top = 6
           BorderSpacing.Right = 8
-          ClientHeight = 42
+          ClientHeight = 64
           ClientWidth = 580
           TabOrder = 1
           object cbShowWarningMessages: TCheckBox
             AnchorSideLeft.Control = gbExtended
             AnchorSideTop.Control = gbExtended
             Left = 12
-            Height = 21
+            Height = 17
             Top = 6
-            Width = 343
+            Width = 224
             BorderSpacing.Left = 12
             BorderSpacing.Top = 6
             Caption = 'Show warning messages ("OK" button only)'
             TabOrder = 0
+          end
+          object cbSpaceMovesDown: TCheckBox
+            AnchorSideLeft.Control = gbExtended
+            AnchorSideTop.Control = cbShowWarningMessages
+            AnchorSideTop.Side = asrBottom
+            Left = 12
+            Height = 17
+            Top = 29
+            Width = 416
+            BorderSpacing.Left = 12
+            BorderSpacing.Top = 6
+            Caption = 'When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)'
+            TabOrder = 1
           end
         end
       end

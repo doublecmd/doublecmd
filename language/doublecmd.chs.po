@@ -2014,6 +2014,10 @@ msgstr "显示文件夹标签页(&W)"
 msgid "Show warning messages (\"OK\" button only)"
 msgstr "显示所有警告信息(仅有“确定”按钮)"
 
+#: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
+msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr ""
+
 #: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION
 msgid "&Show tab header also when there is only one tab"
 msgstr "总是显示标签页"

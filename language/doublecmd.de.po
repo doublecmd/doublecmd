@@ -1958,6 +1958,10 @@ msgstr "Zeige Verzeichnis-Reiter"
 msgid "Show warning messages (\"OK\" button only)"
 msgstr "Warnungen anzeigen (nur mit \"OK\" Schalter)"
 
+#: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
+msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr ""
+
 #: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION
 msgid "&Show tab header also when there is only one tab"
 msgstr "&Reiter-Titel auch zeigen wenn nur einer vorhanden"
@@ -2643,7 +2647,7 @@ msgid "Width"
 msgstr "Breite"
 
 #: ulng.rsconfcustheader
-msgid "Customize column: "
+msgid "Customize column"
 msgstr "Spalten anpassen"
 
 #: ulng.rsdlgbuttons

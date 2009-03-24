@@ -2096,6 +2096,10 @@ msgstr "Вкл&адки папок"
 msgid "Show warning messages (\"OK\" button only)"
 msgstr "Показувати попередження (тільки кнопка \"OK\")"
 
+#: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
+msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr ""
+
 #: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION
 msgid "&Show tab header also when there is only one tab"
 msgstr "Показувати заголовок вкладки, навіть якщо вона одна"

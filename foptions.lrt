@@ -150,6 +150,7 @@ TFRMOPTIONS.GBSHOWGRID.CAPTION=Show grid in file panel
 TFRMOPTIONS.CBGRIDVERTLINE.CAPTION=Vertical lines
 TFRMOPTIONS.CBGRIDHORZLINE.CAPTION=Horizontal lines
 TFRMOPTIONS.CBSHOWWARNINGMESSAGES.CAPTION=Show warning messages ("OK" button only)
+TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION=When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)
 TFRMOPTIONS.GBAUTOREFRESH.CAPTION=Auto-Refresh when the file system changes
 TFRMOPTIONS.LBLWATCHEXCLUDEDRIVES.CAPTION=No refresh for &these drives:
 TFRMOPTIONS.CBWATCHFILENAMECHANGE.CAPTION=Refresh when files are &created, deleted and renamed
