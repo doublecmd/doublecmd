@@ -2014,6 +2014,10 @@ msgstr "Показване на &подстраници за папките"
 msgid "Show warning messages (\"OK\" button only)"
 msgstr "Показване на предупреждения (само с копче \"Добре\")"
 
+#: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
+msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr ""
+
 #: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION
 msgid "&Show tab header also when there is only one tab"
 msgstr "Показване на &заглавки на подпрозорците, дори когато има само един"

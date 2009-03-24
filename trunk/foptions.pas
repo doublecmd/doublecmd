@@ -114,6 +114,7 @@ type
     cbGridHorzLine: TCheckBox;
     cbShowWarningMessages: TCheckBox;
     cbShowSystemFiles: TCheckBox;
+    cbSpaceMovesDown: TCheckBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
@@ -1760,6 +1761,7 @@ begin
   cbGridVertLine.Checked:= gGridVertLine;
   cbGridHorzLine.Checked:= gGridHorzLine;
   cbShowWarningMessages.Checked:= gShowWarningMessages;
+  cbSpaceMovesDown.Checked:= gSpaceMovesDown;
   { Auto refresh }
   cbWatchFileNameChange.Checked := (watch_file_name_change in gWatchDirs);
   cbWatchAttributesChange.Checked := (watch_attributes_change in gWatchDirs);
@@ -1927,6 +1929,7 @@ begin
   gGridVertLine:= cbGridVertLine.Checked;
   gGridHorzLine:= cbGridHorzLine.Checked;
   gShowWarningMessages:= cbShowWarningMessages.Checked;
+  gSpaceMovesDown:= cbSpaceMovesDown.Checked;
 
   { Auto refresh }
   gWatchDirs := []; // Reset watch options
