@@ -1734,7 +1734,7 @@ begin
   edtTabsLimitLength.Text := IntToStr(gDirTabLimit);
 
   { Configuration storage }
-  if gUseIniInProgramDir then
+  if gNewUseIniInProgramDir then
     rbProgramDir.Checked := True
   else
     rbUserHomeDir.Checked := True;
@@ -1905,7 +1905,7 @@ begin
   gDirTabLimit := StrToIntDef(edtTabsLimitLength.Text, 32);
 
   { Configuration storage }
-  gUseIniInProgramDir := rbProgramDir.Checked;
+  gNewUseIniInProgramDir := rbProgramDir.Checked;
   gSaveDirHistory := cbDirHistory.Checked;
   gSaveCmdLineHistory := cbCmdLineHistory.Checked;
   gSaveFileMaskHistory := cbFileMaskHistory.Checked;
