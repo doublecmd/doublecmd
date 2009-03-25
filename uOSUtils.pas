@@ -916,7 +916,7 @@ end;
 function mbFileCreate(const FileName: UTF8String; Mode: Integer): Integer;
 {$IFDEF MSWINDOWS}
 begin
-  Result:= FileCreate(FileName);
+  Result:= mbFileCreate(FileName);
 end;
 {$ELSE}
 begin
