@@ -122,7 +122,8 @@ procedure TfrmCompareFiles.lstLeftStatusChange(Sender: TObject;
 begin
   if (chbKeepScrolling.Checked) then
     begin
-      lstRight.TopLine := lstLeft.TopLine;
+      lstRight.TopLine:= lstLeft.TopLine;
+      lstRight.LeftChar:= lstLeft.LeftChar;
       lstLeft.Invalidate;
     end;
 end;
@@ -151,7 +152,8 @@ procedure TfrmCompareFiles.lstRightStatusChange(Sender: TObject;
 begin
   if (chbKeepScrolling.Checked) then
     begin
-      lstLeft.TopLine := lstRight.TopLine;
+      lstLeft.TopLine:= lstRight.TopLine;
+      lstLeft.LeftChar:= lstRight.LeftChar;
       lstRight.Invalidate;
     end;
 end;
