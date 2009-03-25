@@ -1837,6 +1837,10 @@ msgstr "Commandoregel geschiedenis"
 msgid "Cut text to column width"
 msgstr "Snij tekst af op kolombreedte"
 
+#: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
+msgid "Show square brackets around directories"
+msgstr ""
+
 #: TFRMOPTIONS.CBDIRHISTORY.CAPTION
 msgctxt "TFRMOPTIONS.CBDIRHISTORY.CAPTION"
 msgid "Directory history"
@@ -2001,6 +2005,10 @@ msgstr "Toon knoppenbalk"
 #: TFRMOPTIONS.CBSHOWSTATUSBAR.CAPTION
 msgid "Show &status bar"
 msgstr "Toon &statusbalk"
+
+#: TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION
+msgid "Show hidden/system files"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWTABHEADER.CAPTION
 msgid "Show &tabstop header"

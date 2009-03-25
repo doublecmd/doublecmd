@@ -25,8 +25,8 @@ msgstr "->"
 msgid "<-"
 msgstr "<-"
 
-#: TFCOLUMNSSETCONF.BUTTON1.CAPTION
 #, fuzzy
+#: TFCOLUMNSSETCONF.BUTTON1.CAPTION
 msgid "Button1"
 msgstr "Button1"
 
@@ -34,8 +34,8 @@ msgstr "Button1"
 msgid "Configure custom columns view"
 msgstr "Konfigurovat vlastní pohled (sloupce)"
 
-#: TFCOLUMNSSETCONF.CBOVERCOLOR.CAPTION
 #, fuzzy
+#: TFCOLUMNSSETCONF.CBOVERCOLOR.CAPTION
 msgid "Allow Overcolor"
 msgstr "Povolit Overcolor"
 
@@ -119,28 +119,28 @@ msgstr "&ОК"
 msgid "frmColumsProps"
 msgstr "frmColumsProps"
 
-#: TFRMCOLUMSPROPS.COMBOBOX1.TEXT
 #, fuzzy
+#: TFRMCOLUMSPROPS.COMBOBOX1.TEXT
 msgid "ComboBox1"
 msgstr "ComboBox1"
 
-#: TFRMCOLUMSPROPS.GBOX1.CAPTION
 #, fuzzy
+#: TFRMCOLUMSPROPS.GBOX1.CAPTION
 msgid "Gbox1"
 msgstr "Gbox1"
 
-#: TFRMCOLUMSPROPS.GROUPBOX1.CAPTION
 #, fuzzy
+#: TFRMCOLUMSPROPS.GROUPBOX1.CAPTION
 msgid "GroupBox1"
 msgstr "GroupBox1"
 
-#: TFRMCOLUMSPROPS.LABEL1.CAPTION
 #, fuzzy
+#: TFRMCOLUMSPROPS.LABEL1.CAPTION
 msgid "Label1"
 msgstr "Label1"
 
-#: TFRMCOLUMSPROPS.LABEL2.CAPTION
 #, fuzzy
+#: TFRMCOLUMSPROPS.LABEL2.CAPTION
 msgid "Label2"
 msgstr "Label2"
 
@@ -416,8 +416,8 @@ msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
 msgid "C&ase sensitivity"
 msgstr "&Rozlišovat velikost"
 
-#: TFRMEDITSEARCHREPLACE.CBSEARCHFROMCURSOR.CAPTION
 #, fuzzy
+#: TFRMEDITSEARCHREPLACE.CBSEARCHFROMCURSOR.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHFROMCURSOR.CAPTION"
 msgid "Search from &caret"
 msgstr "Hledat od &stříšky"
@@ -607,8 +607,8 @@ msgstr "Cesta k souboru"
 msgid "Full path"
 msgstr "Úplná cesta"
 
-#: TFRMFILEASSOC.MIGETOUTPUTFROMCOMMAND.CAPTION
 #, fuzzy
+#: TFRMFILEASSOC.MIGETOUTPUTFROMCOMMAND.CAPTION
 msgid "Get output from command"
 msgstr "Získat výstup příkazu"
 
@@ -621,8 +621,8 @@ msgstr "Otevřít"
 msgid "Run in terminal"
 msgstr "Spustit v terminálu"
 
-#: TFRMFILEASSOC.MIVFS.CAPTION
 #, fuzzy
+#: TFRMFILEASSOC.MIVFS.CAPTION
 msgid "Open in VFS"
 msgstr "Otevřív v VFS"
 
@@ -898,8 +898,8 @@ msgstr "Standard"
 msgid "Find"
 msgstr "Hledat"
 
-#: TFRMHARDLINK.CAPTION
 #, fuzzy
+#: TFRMHARDLINK.CAPTION
 msgid "Create hardlink"
 msgstr "Vytvořit hardlink"
 
@@ -1259,8 +1259,8 @@ msgstr "Zobraz F3"
 msgid "Visit Double Commander Web Site"
 msgstr "Navštívit domovskou stránku"
 
-#: TFRMMAIN.ACTWIPE.CAPTION
 #, fuzzy
+#: TFRMMAIN.ACTWIPE.CAPTION
 msgid "Wipe"
 msgstr "Otřete"
 
@@ -1550,8 +1550,8 @@ msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
 msgstr "&Regulární výrazy"
 
-#: TFRMMULTIRENAME.CBUSESUBS.CAPTION
 #, fuzzy
+#: TFRMMULTIRENAME.CBUSESUBS.CAPTION
 msgid "Use substitution"
 msgstr "Použití substituce"
 
@@ -1852,6 +1852,10 @@ msgstr "Hystorie příkazového řádku"
 msgid "Cut text to column width"
 msgstr "Oříznout text na šířku sloupce"
 
+#: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
+msgid "Show square brackets around directories"
+msgstr ""
+
 #: TFRMOPTIONS.CBDIRHISTORY.CAPTION
 msgctxt "TFRMOPTIONS.CBDIRHISTORY.CAPTION"
 msgid "Directory history"
@@ -2016,6 +2020,10 @@ msgstr "Zobrazit &tlačitkovou lištu"
 #: TFRMOPTIONS.CBSHOWSTATUSBAR.CAPTION
 msgid "Show &status bar"
 msgstr "Zobrazit &stavový řádek"
+
+#: TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION
+msgid "Show hidden/system files"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWTABHEADER.CAPTION
 msgid "Show &tabstop header"
@@ -2257,8 +2265,8 @@ msgstr ""
 msgid "Packer plugins are used to work with archives."
 msgstr "Komprimační zásuvný modul pro práci s archívy."
 
-#: TFRMOPTIONS.LBLWDXDESCRIPTION.CAPTION
 #, fuzzy
+#: TFRMOPTIONS.LBLWDXDESCRIPTION.CAPTION
 msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "Obsahové zásuvné moduly umožňují zobrazit rozšířené informace jako jsou MP3 tagy nebo atributy obrázků v seznamu souborů, nebo je používat k vyhledávání a \"multi-přejmenování\""
 
@@ -2266,8 +2274,8 @@ msgstr "Obsahové zásuvné moduly umožňují zobrazit rozšířené informace 
 msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgstr "Zásuvné moduly souborovýcch systémů umožní přístup na běžně nedostupná média jako jsou například externí zařízení (Palm/PocketPC)."
 
-#: TFRMOPTIONS.LBLWIPEPASSNUMBER.CAPTION
 #, fuzzy
+#: TFRMOPTIONS.LBLWIPEPASSNUMBER.CAPTION
 msgid "Number of wipe pass:"
 msgstr "Počet WIPE průchodů:"
 
@@ -2517,8 +2525,8 @@ msgctxt "TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION"
 msgid "Remove"
 msgstr "Vymazat"
 
-#: TFRMTWEAKPLUGIN.CAPTION
 #, fuzzy
+#: TFRMTWEAKPLUGIN.CAPTION
 msgid "Tweak plugin"
 msgstr "Vylepšovací plugin"
 
@@ -2566,8 +2574,8 @@ msgstr "Podporuje vyhledávání textu v archívu"
 msgid "Description:"
 msgstr "Popis:"
 
-#: TFRMTWEAKPLUGIN.LBLDETECTSTR.CAPTION
 #, fuzzy
+#: TFRMTWEAKPLUGIN.LBLDETECTSTR.CAPTION
 msgid "Detect string:"
 msgstr "Detekovaný text:"
 
@@ -2980,8 +2988,8 @@ msgstr "Soubor %s existuje, přepsat?"
 msgid "Folder %s exists, overwrite?"
 msgstr "Složka %s existuje, přepsat?"
 
-#: ulng.rsmsgfollowsymlink
 #, fuzzy
+#: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"
 msgstr "Follow symbolický odkaz \"%s\"?"
 
@@ -3217,8 +3225,8 @@ msgstr "Soubor"
 msgid "Directory"
 msgstr "Adresář"
 
-#: ulng.rspropsnmdpipe
 #, fuzzy
+#: ulng.rspropsnmdpipe
 msgid "Named pipe"
 msgstr "Pojmenované roury"
 
@@ -3230,13 +3238,13 @@ msgstr "Ne"
 msgid "Socket"
 msgstr "Socket"
 
-#: ulng.rspropsspblkdev
 #, fuzzy
+#: ulng.rspropsspblkdev
 msgid "Special block device"
 msgstr "Speciální blokové zařízení"
 
-#: ulng.rspropsspchrdev
 #, fuzzy
+#: ulng.rspropsspchrdev
 msgid "Special character device"
 msgstr "Zvláštní charakter zařízení"
 

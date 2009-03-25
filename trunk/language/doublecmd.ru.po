@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-03-24 22:00+0300\n"
+"PO-Revision-Date: 2009-03-25 23:22+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1836,6 +1836,10 @@ msgstr "История командной строки"
 msgid "Cut text to column width"
 msgstr "Обрезать текст по ширине колонки"
 
+#: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
+msgid "Show square brackets around directories"
+msgstr "Показывать квадратные скобки вокруг имён папок"
+
 #: TFRMOPTIONS.CBDIRHISTORY.CAPTION
 msgctxt "TFRMOPTIONS.CBDIRHISTORY.CAPTION"
 msgid "Directory history"
@@ -2000,6 +2004,10 @@ msgstr "&Панель инструментов"
 #: TFRMOPTIONS.CBSHOWSTATUSBAR.CAPTION
 msgid "Show &status bar"
 msgstr "&Строка состояния"
+
+#: TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION
+msgid "Show hidden/system files"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWTABHEADER.CAPTION
 msgid "Show &tabstop header"

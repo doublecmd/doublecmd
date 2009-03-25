@@ -1781,6 +1781,10 @@ msgstr "Verlauf der Kommandozeile"
 msgid "Cut text to column width"
 msgstr "Text auf Spaltenbreite kürzen"
 
+#: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
+msgid "Show square brackets around directories"
+msgstr ""
+
 #: TFRMOPTIONS.CBDIRHISTORY.CAPTION
 msgctxt "TFRMOPTIONS.CBDIRHISTORY.CAPTION"
 msgid "Directory history"
@@ -1945,6 +1949,10 @@ msgstr "Zeige Schalterleiste"
 #: TFRMOPTIONS.CBSHOWSTATUSBAR.CAPTION
 msgid "Show &status bar"
 msgstr "Stausleiste zeigen"
+
+#: TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION
+msgid "Show hidden/system files"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWTABHEADER.CAPTION
 msgid "Show &tabstop header"

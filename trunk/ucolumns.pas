@@ -769,7 +769,14 @@ begin
         if AType=DC then
           begin
             case IntList.IndexOf(AFunc) of
-              0: Result:=ptr^.sName;
+              0: begin
+                   with ptr^ do
+                     // Show square brackets around directories
+                     if gDirBrackets and (FPS_ISDIR(iMode) or bLinkIsDir) then
+                       Result:= '[' + ptr^.sName + ']'
+                     else
+                       Result:= ptr^.sName;
+                 end;
               1: Result:=ptr^.sExt;
               2: begin
                    with ptr^ do
@@ -790,7 +797,14 @@ begin
               6: Result:=ptr^.sOwner;
               7: Result:=ptr^.sTime;
               8: Result:=ptr^.sLinkTo;
-              9: Result:=ptr^.sNameNoExt;
+              9: begin
+                   with ptr^ do
+                     // Show square brackets around directories
+                     if gDirBrackets and (FPS_ISDIR(iMode) or bLinkIsDir) then
+                       Result:= '[' + ptr^.sNameNoExt + ']'
+                     else
+                       Result:= ptr^.sNameNoExt;
+                 end;
         //     10: Result:=ptr^.
             end;
             Exit;

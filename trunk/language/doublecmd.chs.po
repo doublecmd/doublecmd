@@ -1837,6 +1837,10 @@ msgstr "命令行历史"
 msgid "Cut text to column width"
 msgstr "按列宽裁剪文本"
 
+#: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
+msgid "Show square brackets around directories"
+msgstr ""
+
 #: TFRMOPTIONS.CBDIRHISTORY.CAPTION
 msgctxt "TFRMOPTIONS.CBDIRHISTORY.CAPTION"
 msgid "Directory history"
@@ -2001,6 +2005,10 @@ msgstr "显示按钮栏(&B)"
 #: TFRMOPTIONS.CBSHOWSTATUSBAR.CAPTION
 msgid "Show &status bar"
 msgstr "显示状态栏(&S)"
+
+#: TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION
+msgid "Show hidden/system files"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWTABHEADER.CAPTION
 msgid "Show &tabstop header"

@@ -2577,14 +2577,14 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = pgMisc
           AnchorSideRight.Side = asrBottom
           Left = 8
-          Height = 82
+          Height = 106
           Top = 96
           Width = 584
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 8
           BorderSpacing.Top = 6
           BorderSpacing.Right = 8
-          ClientHeight = 64
+          ClientHeight = 88
           ClientWidth = 580
           TabOrder = 1
           object cbShowWarningMessages: TCheckBox
@@ -2611,6 +2611,19 @@ object frmOptions: TfrmOptions
             BorderSpacing.Top = 6
             Caption = 'When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)'
             TabOrder = 1
+          end
+          object cbDirBrackets: TCheckBox
+            AnchorSideLeft.Control = gbExtended
+            AnchorSideTop.Control = cbSpaceMovesDown
+            AnchorSideTop.Side = asrBottom
+            Left = 12
+            Height = 17
+            Top = 52
+            Width = 211
+            BorderSpacing.Left = 12
+            BorderSpacing.Top = 6
+            Caption = 'Show square brackets around directories'
+            TabOrder = 2
           end
         end
       end
