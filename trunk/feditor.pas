@@ -498,8 +498,7 @@ end;
 
 procedure TfrmEditor.actFileSaveExecute(Sender: TObject);
 var
-  fsFileStream: TFileStreamEx;
-  slStringList: TStringList;
+  slStringList: TStringListEx;
 begin
   inherited;
   if bNoname then
@@ -507,15 +506,13 @@ begin
   else
   begin
     try
-      fsFileStream:= TFileStreamEx.Create(Caption, fmCreate);
       // restore encoding
-      slStringList:= TStringList.Create;
+      slStringList:= TStringListEx.Create;
       slStringList.Text:= ConvertEncoding(Editor.Lines.Text, EncodingUTF8, sEncoding);
       // save to file
-      slStringList.SaveToStream(fsFileStream);
+      slStringList.SaveToFile(Caption);
     finally
       slStringList.Free;
-      fsFileStream.Free;
     end;
     bChanged:=False;
     UpdateStatus;
@@ -524,23 +521,20 @@ end;
 
 procedure TfrmEditor.actFileSaveAsExecute(Sender: TObject);
 var
-  fsFileStream: TFileStreamEx;
-  slStringList: TStringList;
+  slStringList: TStringListEx;
 begin
   inherited;
   dmComData.SaveDialog.FileName:=Caption;
   dmComData.SaveDialog.Filter:='*.*'; // rewrite for highlighter
   if not dmComData.SaveDialog.Execute then Exit;
   try
-    fsFileStream:= TFileStreamEx.Create(dmComData.SaveDialog.FileName, fmCreate);
     // restore encoding
-    slStringList:= TStringList.Create;
+    slStringList:= TStringListEx.Create;
     slStringList.Text:= ConvertEncoding(Editor.Lines.Text, EncodingUTF8, sEncoding);
     // save to file
-    slStringList.SaveToStream(fsFileStream);
+    slStringList.SaveToFile(dmComData.SaveDialog.FileName);
   finally
     slStringList.Free;
-    fsFileStream.Free;
   end;
   bChanged:=False;
   bNoname:=False;

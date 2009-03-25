@@ -110,7 +110,15 @@ procedure TStringListEx.SaveToFile(const FileName: String);
 var
   fsFileStream: TFileStreamEx;
 begin
-  fsFileStream:= TFileStreamEx.Create(FileName, fmCreate);
+  if mbFileExists(FileName) then
+    begin
+      fsFileStream:= TFileStreamEx.Create(FileName, fmOpenWrite or fmShareDenyNone);
+      fsFileStream.Position:= 0;
+      fsFileStream.Size:= 0;
+    end
+  else
+    fsFileStream:= TFileStreamEx.Create(FileName, fmCreate);
+
   SaveToStream(fsFileStream);
   fsFileStream.Free;
 end;
