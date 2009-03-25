@@ -185,7 +185,8 @@ var
   { Misc page }
   gGridVertLine,
   gGridHorzLine,
-  gShowWarningMessages: Boolean;
+  gShowWarningMessages,
+  gDirBrackets: Boolean;
 
   { Auto refresh page }
   gWatchDirs: TWatchOptions;
@@ -525,6 +526,7 @@ begin
   gGridVertLine:= gIni.ReadBool('Configuration', 'GridVertLine', False);
   gGridHorzLine:= gIni.ReadBool('Configuration', 'GridHorzLine', False);
   gShowWarningMessages := gIni.ReadBool('Configuration', 'ShowWarningMessages', True);
+  gDirBrackets:= gIni.ReadBool('Configuration', 'DirBrackets', True);
   { Auto refresh page }
   gWatchDirs := TWatchOptions(gIni.ReadInteger('Configuration', 'WatchDirs', Integer(gWatchDirs)));
   gWatchDirsExclude := gIni.ReadString('Configuration', 'WatchDirsExclude', '');
@@ -713,6 +715,7 @@ begin
   gIni.WriteBool('Configuration', 'GridVertLine', gGridVertLine);
   gIni.WriteBool('Configuration', 'GridHorzLine', gGridHorzLine);
   gIni.WriteBool('Configuration', 'ShowWarningMessages', gShowWarningMessages);
+  gIni.WriteBool('Configuration', 'DirBrackets', gDirBrackets);
   { Auto refresh page }
   gIni.WriteInteger('Configuration', 'WatchDirs', Integer(gWatchDirs));
   gIni.WriteString('Configuration', 'WatchDirsExclude', gWatchDirsExclude);

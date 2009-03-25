@@ -1186,6 +1186,7 @@ msgid "Menu F9"
 msgstr ""
 
 #: TFRMMAIN.ACTSHOWSYSFILES.CAPTION
+msgctxt "TFRMMAIN.ACTSHOWSYSFILES.CAPTION"
 msgid "Show hidden/system files"
 msgstr ""
 
@@ -1837,6 +1838,10 @@ msgstr ""
 msgid "Cut text to column width"
 msgstr ""
 
+#: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
+msgid "Show square brackets around directories"
+msgstr ""
+
 #: TFRMOPTIONS.CBDIRHISTORY.CAPTION
 msgctxt "TFRMOPTIONS.CBDIRHISTORY.CAPTION"
 msgid "Directory history"
@@ -2000,6 +2005,11 @@ msgstr ""
 
 #: TFRMOPTIONS.CBSHOWSTATUSBAR.CAPTION
 msgid "Show &status bar"
+msgstr ""
+
+#: TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION
+msgctxt "TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION"
+msgid "Show hidden/system files"
 msgstr ""
 
 #: TFRMOPTIONS.CBSHOWTABHEADER.CAPTION
