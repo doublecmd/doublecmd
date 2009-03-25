@@ -45,6 +45,8 @@ type
     bbtnAddCategory: TBitBtn;
     bbtnDeleteCategory: TBitBtn;
     bbtnApplyCategory: TBitBtn;
+    btnConfigApply: TBitBtn;
+    btnConfigEdit: TBitBtn;
     btnConfigPlugin: TBitBtn;
     btnTweakPlugin: TBitBtn;
     btnRemovePlugin: TBitBtn;
@@ -276,6 +278,8 @@ type
     procedure bbtnAddCategoryClick(Sender: TObject);
     procedure bbtnApplyCategoryClick(Sender: TObject);
     procedure bbtnDeleteCategoryClick(Sender: TObject);
+    procedure btnConfigApplyClick(Sender: TObject);
+    procedure btnConfigEditClick(Sender: TObject);
     procedure btnConfigPluginClick(Sender: TObject);
     procedure btnDSXAddClick(Sender: TObject);
     procedure btnEnablePluginClick(Sender: TObject);
@@ -367,7 +371,7 @@ implementation
 
 uses
   uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc, menus,
-  uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg,
+  uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
   fTweakPlugin, uhotkeymanger, uTypes, StrUtils, uFindEx;
 
 
@@ -1478,6 +1482,19 @@ begin
   if lbCategories.Count > 0 then
     lbCategories.ItemIndex := 0;
   lbCategoriesClick(lbCategories);
+end;
+
+procedure TfrmOptions.btnConfigApplyClick(Sender: TObject);
+begin
+  LoadGlobs;
+  LoadConfig;
+  btnConfigApply.Enabled:= False;
+end;
+
+procedure TfrmOptions.btnConfigEditClick(Sender: TObject);
+begin
+  ShowEditorByGlob(gpIniDir + 'doublecmd.ini');
+  btnConfigApply.Enabled:= True;
 end;
 
 procedure TfrmOptions.btnCategoryColorClick(Sender: TObject);

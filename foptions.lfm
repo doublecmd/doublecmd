@@ -1042,9 +1042,9 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbCursorText
           AnchorSideTop.Side = asrBottom
           Left = 10
-          Height = 19
+          Height = 17
           Top = 210
-          Width = 134
+          Width = 126
           BorderSpacing.Top = 12
           Caption = 'Use Inverted Selection'
           OnChange = cbbUseInvertedSelectionChange
@@ -1558,9 +1558,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = edtCategoryName
             AnchorSideTop.Side = asrCenter
             Left = 12
-            Height = 19
-            Top = 197
-            Width = 107
+            Height = 14
+            Top = 199
+            Width = 79
             Caption = 'Category name:'
             ParentColor = False
           end
@@ -1568,9 +1568,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = edtCategoryMask
             AnchorSideTop.Side = asrCenter
             Left = 12
-            Height = 19
-            Top = 228
-            Width = 106
+            Height = 14
+            Top = 230
+            Width = 77
             Caption = 'Category mask:'
             ParentColor = False
           end
@@ -1578,9 +1578,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbCategoryColor
             AnchorSideTop.Side = asrCenter
             Left = 12
-            Height = 19
-            Top = 290
-            Width = 104
+            Height = 14
+            Top = 292
+            Width = 76
             Caption = 'Category color:'
             ParentColor = False
           end
@@ -1588,9 +1588,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = edtCategoryAttr
             AnchorSideTop.Side = asrCenter
             Left = 12
-            Height = 19
-            Top = 259
-            Width = 130
+            Height = 14
+            Top = 261
+            Width = 100
             Caption = 'Category attributes:'
             ParentColor = False
           end
@@ -2256,9 +2256,9 @@ object frmOptions: TfrmOptions
           TabOrder = 0
           object rbProgramDir: TRadioButton
             Left = 10
-            Height = 21
+            Height = 17
             Top = 6
-            Width = 194
+            Width = 184
             Caption = 'Program directory (portable version)'
             Checked = True
             State = cbChecked
@@ -2268,9 +2268,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = rbProgramDir
             AnchorSideTop.Side = asrBottom
             Left = 10
-            Height = 21
-            Top = 33
-            Width = 122
+            Height = 17
+            Top = 29
+            Width = 112
             BorderSpacing.Top = 6
             Caption = 'User home directory'
             TabOrder = 1
@@ -2278,11 +2278,11 @@ object frmOptions: TfrmOptions
           end
         end
         object gbSaveOnExit: TGroupBox
-          AnchorSideTop.Control = gbLocConfigFiles
+          AnchorSideTop.Control = btnConfigEdit
           AnchorSideTop.Side = asrBottom
           Left = 10
           Height = 103
-          Top = 93
+          Top = 129
           Width = 576
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
@@ -2292,28 +2292,58 @@ object frmOptions: TfrmOptions
           TabOrder = 1
           object cbDirHistory: TCheckBox
             Left = 10
-            Height = 21
+            Height = 17
             Top = 6
-            Width = 103
+            Width = 93
             Caption = 'Directory history'
             TabOrder = 0
           end
           object cbCmdLineHistory: TCheckBox
             Left = 10
-            Height = 21
+            Height = 17
             Top = 31
-            Width = 127
+            Width = 117
             Caption = 'Command line history'
             TabOrder = 1
           end
           object cbFileMaskHistory: TCheckBox
             Left = 10
-            Height = 21
+            Height = 17
             Top = 56
-            Width = 105
+            Width = 95
             Caption = 'File mask history'
             TabOrder = 2
           end
+        end
+        object btnConfigEdit: TBitBtn
+          AnchorSideLeft.Control = pgConfigStorage
+          AnchorSideTop.Control = gbLocConfigFiles
+          AnchorSideTop.Side = asrBottom
+          Left = 10
+          Height = 30
+          Top = 93
+          Width = 116
+          BorderSpacing.Left = 10
+          BorderSpacing.Top = 6
+          Caption = 'Edit'
+          OnClick = btnConfigEditClick
+          TabOrder = 2
+        end
+        object btnConfigApply: TBitBtn
+          AnchorSideLeft.Control = btnConfigEdit
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = gbLocConfigFiles
+          AnchorSideTop.Side = asrBottom
+          Left = 136
+          Height = 30
+          Top = 93
+          Width = 116
+          BorderSpacing.Left = 10
+          BorderSpacing.Top = 6
+          Caption = 'Apply'
+          Enabled = False
+          OnClick = btnConfigApplyClick
+          TabOrder = 3
         end
       end
       object pgQuickSearch: TPage
