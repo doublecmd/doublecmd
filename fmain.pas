@@ -2477,9 +2477,17 @@ begin
 end;
 
 procedure TfrmMain.UpdateDiskCount;
+var
+  I: Integer;
 begin
   DrivesList.Clear;
   DrivesList := GetAllDrives;
+  { Delete drives that in drives black list }
+  for I:= DrivesList.Count - 1 downto 0 do
+    begin
+      if MatchesMaskList(PDrive(DrivesList.Items[I])^.Name, gDriveBlackList) then
+        DrivesList.Delete(I);
+    end;  
   // create drives drop down menu
   CreateDrivesMenu;
   // delete all disk buttons
@@ -2944,6 +2952,8 @@ procedure TfrmMain.UpdateWindowView;
 var
   I : Integer;
 begin
+  (* Update list of showed drives *)
+  UpdateDiskCount;
   (* Disk Panels *)
   if (dskRight.FlatButtons <> gDriveBarFlat) then  //  if change
     begin
