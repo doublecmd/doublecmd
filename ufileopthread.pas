@@ -203,8 +203,6 @@ try
   FSkipAll:=False;
   NewFileList:=TFileList.Create;
   try
-    FillAndCount; // gets full list of files (rekursive)
-
     if gProcessComments then
       FDescr:= TDescription.Create(True);
 
@@ -216,6 +214,8 @@ try
       FFileOpDlg.iProgress2Max:= 100;
       Synchronize(@FFileOpDlg.UpdateDlg);
     end;
+
+    FillAndCount; // gets full list of files (rekursive)
 
     MainExecute; // main executive (virtual)
 
