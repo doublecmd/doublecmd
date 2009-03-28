@@ -31,6 +31,8 @@ type
     btnClose: TButton;
     chbKeepScrolling: TCheckBox;
     procedure btnCompareClick(Sender: TObject);
+    procedure btnNextDiffClick(Sender: TObject);
+    procedure btnPrevDiffClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure lstLeftSpecialLineColors(Sender: TObject; Line: Integer;
@@ -42,6 +44,7 @@ type
     procedure btnCloseClick(Sender: TObject);
   private
     { Private declarations }
+    fPosition: Integer;
   public
     { Public declarations }
   end;
@@ -76,6 +79,7 @@ begin
   lstRight.Font.Name:= gEditorFontName;
   lstRight.Font.Size:= gEditorFontSize;
   lstRight.Font.Style:= gEditorFontStyle;
+  fPosition:= 0;
 end;
 
 procedure TfrmCompareFiles.FormResize(Sender: TObject);
@@ -96,6 +100,46 @@ begin
 {  CompareFiles(edtFileNameLeft.Text, edtFileNameRight.Text,
     lstLeft.Items, lstRight.Items, cmInternalText);}
   pnlStatusBar.Panels[0].Text := rsCompareDiffs + ' ' + IntToStr(iChanges);
+end;
+
+procedure TfrmCompareFiles.btnNextDiffClick(Sender: TObject);
+var
+  I: Integer;
+begin
+  while PtrInt(lstLeft.Lines.Objects[fPosition]) <> 0 do
+    Inc(fPosition);
+  for I:= fPosition to lstLeft.Lines.Count - 1 do
+    begin
+      if PtrInt(lstLeft.Lines.Objects[I]) <> 0 then
+        begin
+          lstLeft.TopLine:= I + 1;
+          while PtrInt(lstLeft.Lines.Objects[fPosition]) <> 0 do
+            Inc(fPosition);
+          Break;
+        end;
+      Inc(fPosition);
+    end;
+end;
+
+procedure TfrmCompareFiles.btnPrevDiffClick(Sender: TObject);
+var
+  I: Integer;
+begin
+  Dec(fPosition);
+  while PtrInt(lstLeft.Lines.Objects[fPosition]) <> 0 do
+    Dec(fPosition);
+  for I:= fPosition downto 0 do
+    begin
+      if PtrInt(lstLeft.Lines.Objects[I]) <> 0 then
+        begin
+          while PtrInt(lstLeft.Lines.Objects[fPosition]) <> 0 do
+            Dec(fPosition);
+          Break;
+        end;
+      Dec(fPosition);
+    end;
+  Inc(fPosition);
+  lstLeft.TopLine:= fPosition + 1;
 end;
 
 procedure TfrmCompareFiles.lstLeftSpecialLineColors(Sender: TObject;

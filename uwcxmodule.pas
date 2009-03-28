@@ -92,29 +92,25 @@ Type
       @param(FileList
              List of files/directories to extract (relative to archive root).)
       @param(FileMask
-             Only files matching this mask will be extracted.)
+             Only directories containing files matching this mask will be created.)
       @param(sDestPath
              Destination path where the files will be extracted.)
       @param(CurrentArchiveDir
              Path inside the archive from where the files will be extracted.)
-    }
+      @param(CreatedPaths
+             This list will be filled with absolute paths to directories
+             that were created, together with their attributes.)}
     procedure CreateDirsAndCountFiles(const FileList: TFileList; FileMask: String;
-                                      sDestPath: String; CurrentArchiveDir: String);
+                                      sDestPath: String; CurrentArchiveDir: String;
+                                      var CreatedPaths: TStringHashList);
 
     {en
-      Creates paths to directories and sets their attributes.
-
-      @param(sDestPath
-             Destination path where directories will be created.)
-      @param(PathsToCreate
-             Path names relative to destination path.)
-      @param(DirsAttributes
-             List of directories and their attributes.
-             Each list item's data field must be a pointer to THeaderData.
-             If a directory being created is in this list, its attributes are set.}
-    function ForceDirectoriesWithAttrs(sDestPath: String;
-                                       const PathsToCreate: TStringHashList;
-                                       const DirsAttributes: TStringHashList): Boolean;
+      Sets attributes for directories.
+      @param(Paths
+             The list of absolute paths, which attributes are to be set.
+             Each list item's data field must be a pointer to THeaderData,
+             from where the attributes are retrieved.}
+    function SetDirsAttributes(const Paths: TStringHashList): Boolean;
 
     { Frees current archive file list (fArcFileList). }
     procedure DeleteArchiveFileList;
@@ -392,7 +388,7 @@ begin
           //DebugLn('Working ' + FileName + ' Percent2 = ' + IntToStr(FFileOpDlg.iProgress2Pos));
         end;
         
-        
+
     if Assigned(CT) then
       CT.Synchronize(FFileOpDlg.UpdateDlg)
     else
@@ -667,6 +663,7 @@ var
   CurrentFileName: String;
   TargetFileName: String;
   FileMask: String;
+  CreatedPaths: TStringHashList;
 begin
   FPercent := 0;
 
@@ -697,85 +694,97 @@ begin
   // Convert file list so that filenames are relative to archive root.
   ChangeFileListRoot(FArchiveName + PathDelim, FileList);
 
-  // Count total files size and create needed directories.
-  CreateDirsAndCountFiles(FileList, FileMask, sDestPath, FileList.CurrentDirectory);
+  CreatedPaths := TStringHashList.Create(True);
 
-  WCXModule := Self;  // set WCXModule variable to current module
-  SetChangeVolProc(ArcHandle, ChangeVolProc);
-  SetProcessDataProc(ArcHandle, ProcessDataProc);
+  try
+    // Count total files size and create needed directories.
+    CreateDirsAndCountFiles(FileList, FileMask,
+                            sDestPath, FileList.CurrentDirectory,
+                            CreatedPaths);
+
+    WCXModule := Self;  // set WCXModule variable to current module
+    SetChangeVolProc(ArcHandle, ChangeVolProc);
+    SetProcessDataProc(ArcHandle, ProcessDataProc);
 
 
-  FillChar(ArcHeader, SizeOf(ArcHeader), #0);
-  while (ReadHeader(ArcHandle, ArcHeader) = 0) do
-   begin
-    CurrentFileName := SysToUTF8(ArcHeader.FileName);
+    FillChar(ArcHeader, SizeOf(ArcHeader), #0);
+    while (ReadHeader(ArcHandle, ArcHeader) = 0) do
+     begin
+      CurrentFileName := SysToUTF8(ArcHeader.FileName);
 
-    // Now check if the file is to be extracted.
+      // Now check if the file is to be extracted.
 
-    if  (not FPS_ISDIR(ArcHeader.FileAttr))        // Omit directories (we handle them ourselves).
-    and MatchesFileList(FileList, CurrentFileName) // Check if it's included in the filelist
-    and ((FileMask = '*.*') or (FileMask = '*')    // And name matches file mask
-        or MatchesMaskList(ExtractFileName(CurrentFileName), FileMask))
-    then
-       begin
-         TargetFileName := sDestPath + ExtractDirLevel(FileList.CurrentDirectory, CurrentFileName);
+      if  (not FPS_ISDIR(ArcHeader.FileAttr))        // Omit directories (we handle them ourselves).
+      and MatchesFileList(FileList, CurrentFileName) // Check if it's included in the filelist
+      and ((FileMask = '*.*') or (FileMask = '*')    // And name matches file mask
+          or MatchesMaskList(ExtractFileName(CurrentFileName), FileMask))
+      then
+         begin
+           TargetFileName := sDestPath + ExtractDirLevel(FileList.CurrentDirectory, CurrentFileName);
 
-         iResult := ProcessFile(ArcHandle, PK_EXTRACT, nil, PChar(UTF8ToSys(TargetFileName)));
+           iResult := ProcessFile(ArcHandle, PK_EXTRACT, nil, PChar(UTF8ToSys(TargetFileName)));
 
-         //Check for errors
-         if iResult <> E_SUCCESS then
-           begin
-             if Assigned(CT) then
-               begin
-                 // write log error
-                 if (log_arc_op in gLogOptions) and (log_errors in gLogOptions) then
-                   logWrite(CT, Format(rsMsgLogError+rsMsgLogExtract, [FArchiveName + PathDelim + CurrentFileName + ' -> ' + TargetFileName]), lmtError);
-                 // Standart error modal dialog
-                 CT.Synchronize(ShowErrorMessage)
-               end
-             else
-               begin
-                 // write log error
-                 if (log_arc_op in gLogOptions) and (log_errors in gLogOptions) then
-                   logWrite(Format(rsMsgLogError+rsMsgLogExtract, [FArchiveName + PathDelim + CurrentFileName + ' -> ' + TargetFileName]), lmtError);
-                 // Standart error modal dialog
-                 ShowErrorMessage;
-               end;
-             // user abort operation
-             if iResult = E_EABORTED then Break;
-           end // Error
-         else
-           begin
-             if Assigned(CT) then
-               begin
-                 // write log success
-                 if (log_arc_op in gLogOptions) and (log_success in gLogOptions) then
-                   logWrite(CT, Format(rsMsgLogSuccess+rsMsgLogExtract, [FArchiveName + PathDelim + CurrentFileName +' -> ' + TargetFileName]), lmtSuccess);
-               end
-             else
-               begin
-                 // write log success
-                 if (log_arc_op in gLogOptions) and (log_success in gLogOptions) then
-                   logWrite(Format(rsMsgLogSuccess+rsMsgLogExtract, [FArchiveName + PathDelim + CurrentFileName + ' -> ' + TargetFileName]), lmtSuccess);
-               end;
-           end; // Success
-       end // Extract
-     else // Skip
-       begin
-         iResult := ProcessFile(ArcHandle, PK_SKIP, nil, nil);
-
-         //Check for errors
-         if iResult <> E_SUCCESS then
-           if Assigned(CT) then
-             CT.Synchronize(ShowErrorMessage)
+           //Check for errors
+           if iResult <> E_SUCCESS then
+             begin
+               if Assigned(CT) then
+                 begin
+                   // write log error
+                   if (log_arc_op in gLogOptions) and (log_errors in gLogOptions) then
+                     logWrite(CT, Format(rsMsgLogError+rsMsgLogExtract, [FArchiveName + PathDelim + CurrentFileName + ' -> ' + TargetFileName]), lmtError);
+                   // Standart error modal dialog
+                   CT.Synchronize(ShowErrorMessage)
+                 end
+               else
+                 begin
+                   // write log error
+                   if (log_arc_op in gLogOptions) and (log_errors in gLogOptions) then
+                     logWrite(Format(rsMsgLogError+rsMsgLogExtract, [FArchiveName + PathDelim + CurrentFileName + ' -> ' + TargetFileName]), lmtError);
+                   // Standart error modal dialog
+                   ShowErrorMessage;
+                 end;
+               // user abort operation
+               if iResult = E_EABORTED then Break;
+             end // Error
            else
-             ShowErrorMessage;
-       end; // Skip
-     FillChar(ArcHeader, SizeOf(ArcHeader), #0);
-   end;
-  CloseArchive(ArcHandle);
-  FreeAndNil(FileList);
-  Result := True;
+             begin
+               if Assigned(CT) then
+                 begin
+                   // write log success
+                   if (log_arc_op in gLogOptions) and (log_success in gLogOptions) then
+                     logWrite(CT, Format(rsMsgLogSuccess+rsMsgLogExtract, [FArchiveName + PathDelim + CurrentFileName +' -> ' + TargetFileName]), lmtSuccess);
+                 end
+               else
+                 begin
+                   // write log success
+                   if (log_arc_op in gLogOptions) and (log_success in gLogOptions) then
+                     logWrite(Format(rsMsgLogSuccess+rsMsgLogExtract, [FArchiveName + PathDelim + CurrentFileName + ' -> ' + TargetFileName]), lmtSuccess);
+                 end;
+             end; // Success
+         end // Extract
+       else // Skip
+         begin
+           iResult := ProcessFile(ArcHandle, PK_SKIP, nil, nil);
+
+           //Check for errors
+           if iResult <> E_SUCCESS then
+             if Assigned(CT) then
+               CT.Synchronize(ShowErrorMessage)
+             else
+               ShowErrorMessage;
+         end; // Skip
+       FillChar(ArcHeader, SizeOf(ArcHeader), #0);
+     end;
+
+    CloseArchive(ArcHandle);
+    Result := True;
+
+    SetDirsAttributes(CreatedPaths);
+
+  finally
+    FreeAndNil(FileList);
+    FreeAndNil(CreatedPaths);
+  end;
 end;
 
 function TWCXModule.WCXCopyIn(var FileList: TFileList; sDestPath: String; Flags: Integer) : Boolean;
@@ -884,91 +893,9 @@ begin
   FreeAndNil(FileList);
 end;
 
-function TWCXModule.ForceDirectoriesWithAttrs(sDestPath: String;
-                                              const PathsToCreate: TStringHashList;
-                                              const DirsAttributes: TStringHashList): Boolean;
-var
-  Directories: TStringList;
-  CreatedPaths: TStringHashList;
-  i: Integer;
-  PathIndex: Integer;
-  ListIndex: Integer;
-  TargetDir: String;
-  Time: Longint;
-  pArcHeader: PHeaderData;
-begin
-  Result := True;
-
-  sDestPath := IncludeTrailingPathDelimiter(sDestPath);
-
-  // First create path to destination directory (we don't have attributes for that).
-  ForceDirectory(sDestPath);
-
-  Directories := TStringList.Create;
-  CreatedPaths := TStringHashList.Create(True);
-
-  try
-    for PathIndex := 0 to PathsToCreate.Count - 1 do
-    begin
-      Directories.Clear;
-
-      // Create also all parent directories of the path to create.
-      // This adds directories to list in order from the outer to inner ones,
-      // for example: dir, dir/dir2, dir/dir2/dir3.
-      if GetDirs((PathsToCreate.List + PathIndex)^.Key, Directories) <> -1 then
-      try
-        for i := 0 to Directories.Count - 1 do
-        begin
-          TargetDir := sDestPath + Directories.Strings[i];
-
-          if (CreatedPaths.Find(TargetDir) = -1) and
-             (not DirPathExists(TargetDir)) then
-          begin
-             if ForceDirectory(TargetDir) = False then
-             begin
-               // Error, cannot create directory.
-               Result := False;
-               Break; // Don't try to create subdirectories.
-             end
-             else
-             begin
-               CreatedPaths.Add(TargetDir);
-
-               // Check, if attributes are stored for the directory.
-               ListIndex := DirsAttributes.Find(Directories.Strings[i]);
-               if ListIndex <> -1 then
-               begin
-                 pArcHeader := PHeaderData((DirsAttributes.List + ListIndex)^.Data);
-                 if Assigned(pArcHeader) then
-                 begin
-{$IF DEFINED(MSWINDOWS)}
-                   // Restore attributes, e.g., hidden, read-only.
-                   // On Unix iMode value would have to be translated somehow.
-                   mbFileSetAttr(TargetDir, pArcHeader^.FileAttr);
-{$ENDIF}
-                   Time := pArcHeader^.FileTime;
-
-                   // Set creation, modification time
-                   mbFileSetTime(TargetDir, Time, Time, Time);
-                 end;
-               end;
-             end;
-          end;
-        end;
-
-      except
-      end;
-
-    end;
-
-  finally
-    FreeAndNil(Directories);
-    FreeAndNil(CreatedPaths);
-  end;
-end;
-
 procedure TWCXModule.CreateDirsAndCountFiles(const FileList: TFileList; FileMask: String;
-                                             sDestPath: String; CurrentArchiveDir: String);
+                                             sDestPath: String; CurrentArchiveDir: String;
+                                             var CreatedPaths: TStringHashList);
 var
   // List of paths that we know must be created.
   PathsToCreate: TStringHashList;
@@ -980,8 +907,14 @@ var
   i: Integer;
   CurrentFileName: String;
   pArcHeader: PHeaderData;
+  Directories: TStringList;
+  PathIndex: Integer;
+  ListIndex: Integer;
+  TargetDir: String;
 begin
   FFilesSize := 0;
+
+  { First, collect all the paths that need to be created and their attributes. }
 
   PathsToCreate := TStringHashList.Create(True);
   DirsAttributes := TStringHashList.Create(True);
@@ -1031,14 +964,97 @@ begin
     end;
   end;
 
-  try
-    if ForceDirectoriesWithAttrs(sDestPath, PathsToCreate, DirsAttributes) = False then
-      ; // Error.
-  except
-  end;
+  { Second, create paths and save which paths were created and their attributes. }
 
-  FreeAndNil(PathsToCreate);
-  FreeAndNil(DirsAttributes);
+  Directories := TStringList.Create;
+
+  try
+    sDestPath := IncludeTrailingPathDelimiter(sDestPath);
+
+    // Create path to destination directory (we don't have attributes for that).
+    ForceDirectory(sDestPath);
+
+    CreatedPaths.Clear;
+
+    for PathIndex := 0 to PathsToCreate.Count - 1 do
+    begin
+      Directories.Clear;
+
+      // Create also all parent directories of the path to create.
+      // This adds directories to list in order from the outer to inner ones,
+      // for example: dir, dir/dir2, dir/dir2/dir3.
+      if GetDirs((PathsToCreate.List + PathIndex)^.Key, Directories) <> -1 then
+      try
+        for i := 0 to Directories.Count - 1 do
+        begin
+          TargetDir := sDestPath + Directories.Strings[i];
+
+          if (CreatedPaths.Find(TargetDir) = -1) and
+             (not DirPathExists(TargetDir)) then
+          begin
+             if ForceDirectory(TargetDir) = False then
+             begin
+               // Error, cannot create directory.
+               Break; // Don't try to create subdirectories.
+             end
+             else
+             begin
+               // Retrieve attributes for this directory, if they are stored.
+               ListIndex := DirsAttributes.Find(Directories.Strings[i]);
+               if ListIndex <> -1 then
+                 pArcHeader := (DirsAttributes.List + ListIndex)^.Data
+               else
+                 pArcHeader := nil;
+
+               CreatedPaths.Add(TargetDir, pArcHeader);
+             end;
+          end;
+        end;
+      except
+      end;
+    end;
+
+  finally
+    FreeAndNil(PathsToCreate);
+    FreeAndNil(DirsAttributes);
+    FreeAndNil(Directories);
+  end;
+end;
+
+function TWCXModule.SetDirsAttributes(const Paths: TStringHashList): Boolean;
+var
+  PathIndex: Integer;
+  TargetDir: String;
+  pArcHeader: PHeaderData;
+  Time: Longint;
+begin
+  Result := True;
+
+  for PathIndex := 0 to Paths.Count - 1 do
+  begin
+    // Get attributes.
+    pArcHeader := PHeaderData((Paths.List + PathIndex)^.Data);
+
+    if Assigned(pArcHeader) then
+    begin
+      TargetDir := (Paths.List + PathIndex)^.Key;
+
+      try
+{$IF DEFINED(MSWINDOWS)}
+        // Restore attributes, e.g., hidden, read-only.
+        // On Unix attributes value would have to be translated somehow.
+        mbFileSetAttr(TargetDir, pArcHeader^.FileAttr);
+{$ENDIF}
+        Time := pArcHeader^.FileTime;
+
+        // Set creation, modification time
+        mbFileSetTime(TargetDir, Time, Time, Time);
+
+      except
+        Result := False;
+      end;
+    end;
+  end;
 end;
 
 procedure TWCXModule.CountFiles(const FileList: TFileList; FileMask: String);
