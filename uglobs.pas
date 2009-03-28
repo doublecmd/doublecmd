@@ -217,7 +217,7 @@ function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boo
 
 procedure LoadDefaultHotkeyBindings;
 
-procedure ResizeToScreen(Control:TControl; Width:integer=1024; Height:integer=768);
+procedure ResizeToScreen(Control:TControl; Increase: Boolean = False; Width:integer=1024; Height:integer=768);
 
 // for debugging only, can be removed
 procedure dbgShowWindowPos(const pos: TControlPosition);
@@ -289,24 +289,26 @@ begin
     end;
 end;
 
-procedure ResizeToScreen(Control:TControl; Width:integer=1024; Height:integer=768);
+procedure ResizeToScreen(Control:TControl; Increase: Boolean = False; Width:integer=1024; Height:integer=768);
 var SWidth, SHeight,
      PersW, PersH,
      NewW, NewH :Integer;
 begin
-  SWidth:=Screen.DesktopWidth;
+  SWidth:= Screen.Width;
   SHeight:=Screen.DesktopHeight;
 
   if (SWidth=Width) and (SHeight=Height) then exit;
 
-  PersW:=round((SWidth*100)/Width);
-  PersH:=round((SHeight*100)/Height);
+  if (not Increase) and (SWidth > Control.Width) and (SHeight > Control.Height) then Exit;
 
-  NewW:=round((Control.Width*PersW)/100);
-  NewH:=round((Control.Height*PersH)/100);
+  PersW:= round((SWidth*100)/Width);
+  PersH:= round((SHeight*100)/Height);
 
-  Control.Width:=NewW;
-  Control.Height:=NewH;
+  NewW:= round((Control.Width*PersW)/100);
+  NewH:= round((Control.Height*PersH)/100);
+
+  Control.Width:= NewW;
+  Control.Height:= NewH;
 end;
 
 // for debugging only, can be removed
