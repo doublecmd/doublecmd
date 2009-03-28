@@ -111,6 +111,7 @@ object frmMain: TfrmMain
         Width = 170
         Align = alClient
         OnCloseTabClicked = NoteBookCloseTabClicked
+        OnMouseDown = nbPageMouseDown
         OnMouseUp = nbPageMouseUp
         OnPageChanged = nbPageChanged
         Options = [nboShowCloseButtons]
@@ -212,6 +213,7 @@ object frmMain: TfrmMain
         Width = 484
         Align = alClient
         OnCloseTabClicked = NoteBookCloseTabClicked
+        OnMouseDown = nbPageMouseDown
         OnMouseUp = nbPageMouseUp
         OnPageChanged = nbPageChanged
         Options = [nboShowCloseButtons]
