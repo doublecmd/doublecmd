@@ -287,7 +287,8 @@ object fColumnsSetConf: TfColumnsSetConf
         Height = 23
         Top = 4
         Width = 48
-        MaxValue = 0
+        MaxValue = 25
+        MinValue = 8
         OnChange = sneFontSizeChange
         TabOrder = 2
         Value = 7
