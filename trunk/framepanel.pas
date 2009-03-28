@@ -223,7 +223,7 @@ type
     procedure MakeSelectedVisible;
     procedure InvertAllFiles;
     procedure MarkAll;
-    procedure RefreshPanel;
+    procedure RefreshPanel(bUpdateFileCount: Boolean = True; bUpdateDiskFreeSpace: Boolean = True);
     procedure Init;
     procedure ClearCmdLine;
     procedure CloseAltPanel;
@@ -330,10 +330,14 @@ begin
   UpDatelblInfo;
 end;
 
-procedure TFrameFilePanel.RefreshPanel;
+procedure TFrameFilePanel.RefreshPanel(bUpdateFileCount: Boolean = True; bUpdateDiskFreeSpace: Boolean = True);
 var
   aFileList: TFileList;
 begin
+  // set up refresh parameters
+  pnlFile.bUpdateFileCount:= bUpdateFileCount;
+  pnlFile.bUpdateDiskFreeSpace:= bUpdateDiskFreeSpace;
+
   if dgPanel.Row>=0 then
   begin
     if Assigned(pnlFile.GetActiveItem) then
@@ -360,6 +364,10 @@ begin
     CloseAltPanel;
   UpDatelblInfo;
 //  dgPanel.SetFocus;
+
+  // restore default value
+  pnlFile.bUpdateFileCount:= True;
+  pnlFile.bUpdateDiskFreeSpace:= True;
 end;
 
 

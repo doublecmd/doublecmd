@@ -3137,7 +3137,7 @@ begin
         if Pos(sDrive, FrameFilePanel.ActiveDir) = 1 then Exit;
       until sWatchDirsExclude = '';
     end;
-  FrameFilePanel.RefreshPanel;
+  FrameFilePanel.RefreshPanel((watch_total_number_files in gWatchDirs), (watch_free_disk_space in gWatchDirs));
 end;
 
 function TfrmMain.ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
