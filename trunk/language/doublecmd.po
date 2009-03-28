@@ -1728,6 +1728,16 @@ msgctxt "TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION"
 msgid ">>"
 msgstr ""
 
+#: TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION
+msgctxt "TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION"
+msgid "Apply"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCONFIGEDIT.CAPTION
+msgctxt "TFRMOPTIONS.BTNCONFIGEDIT.CAPTION"
+msgid "Edit"
+msgstr ""
+
 #: TFRMOPTIONS.BTNCONFIGPLUGIN.CAPTION
 msgid "Configure"
 msgstr ""
@@ -2152,8 +2162,16 @@ msgstr ""
 msgid "Folder tabs headers"
 msgstr ""
 
-#: TFRMOPTIONS.LABEL3.CAPTION
+#: TFRMOPTIONS.LBCOMMANDS.CAPTION
 msgid "Commands:"
+msgstr ""
+
+#: TFRMOPTIONS.LBFILTER.CAPTION
+msgid "Filter"
+msgstr ""
+
+#: TFRMOPTIONS.LBHOTKEYS.CAPTION
+msgid "Hot Keys"
 msgstr ""
 
 #: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
@@ -2266,6 +2284,10 @@ msgstr ""
 
 #: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr ""
+
+#: TFRMOPTIONS.LBPRESSEDHOTKEYCOMMAND.CAPTION
+msgid "Useds pressed hotkeys"
 msgstr ""
 
 #: TFRMOPTIONS.LBTYPES.CAPTION

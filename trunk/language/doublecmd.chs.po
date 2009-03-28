@@ -1186,6 +1186,7 @@ msgid "Menu F9"
 msgstr "菜单 F9"
 
 #: TFRMMAIN.ACTSHOWSYSFILES.CAPTION
+msgctxt "TFRMMAIN.ACTSHOWSYSFILES.CAPTION"
 msgid "Show hidden/system files"
 msgstr "显示隐藏/系统文件"
 
@@ -1727,6 +1728,14 @@ msgctxt "TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
+#: TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION
+msgid "Apply"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCONFIGEDIT.CAPTION
+msgid "Edit"
+msgstr ""
+
 #: TFRMOPTIONS.BTNCONFIGPLUGIN.CAPTION
 msgid "Configure"
 msgstr "配置"
@@ -2007,8 +2016,9 @@ msgid "Show &status bar"
 msgstr "显示状态栏(&S)"
 
 #: TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION
+msgctxt "TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION"
 msgid "Show hidden/system files"
-msgstr ""
+msgstr "显示隐藏/系统文件"
 
 #: TFRMOPTIONS.CBSHOWTABHEADER.CAPTION
 msgid "Show &tabstop header"
@@ -2150,9 +2160,17 @@ msgstr "文件面板显示栅格"
 msgid "Folder tabs headers"
 msgstr "文件夹标签页头"
 
-#: TFRMOPTIONS.LABEL3.CAPTION
+#: TFRMOPTIONS.LBCOMMANDS.CAPTION
 msgid "Commands:"
-msgstr "注释:"
+msgstr ""
+
+#: TFRMOPTIONS.LBFILTER.CAPTION
+msgid "Filter"
+msgstr ""
+
+#: TFRMOPTIONS.LBHOTKEYS.CAPTION
+msgid "Hot Keys"
+msgstr ""
 
 #: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
 msgid "Background 2:"
@@ -2265,6 +2283,10 @@ msgstr "擦去数:"
 #: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "查看器插件允许查看图片,电子表格,数据库等格式(F3, Ctrl+Q)"
+
+#: TFRMOPTIONS.LBPRESSEDHOTKEYCOMMAND.CAPTION
+msgid "Useds pressed hotkeys"
+msgstr ""
 
 #: TFRMOPTIONS.LBTYPES.CAPTION
 msgid "Categories:"

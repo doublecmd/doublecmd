@@ -1195,6 +1195,7 @@ msgid "Menu F9"
 msgstr "Меню F9"
 
 #: TFRMMAIN.ACTSHOWSYSFILES.CAPTION
+msgctxt "TFRMMAIN.ACTSHOWSYSFILES.CAPTION"
 msgid "Show hidden/system files"
 msgstr "&Показувати системні файли"
 
@@ -1736,6 +1737,14 @@ msgctxt "TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION"
 msgid ">>"
 msgstr ""
 
+#: TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION
+msgid "Apply"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCONFIGEDIT.CAPTION
+msgid "Edit"
+msgstr ""
+
 #: TFRMOPTIONS.BTNCONFIGPLUGIN.CAPTION
 msgid "Configure"
 msgstr "Налаштувати"
@@ -2016,8 +2025,9 @@ msgid "Show &status bar"
 msgstr "Рядок стану"
 
 #: TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION
+msgctxt "TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION"
 msgid "Show hidden/system files"
-msgstr ""
+msgstr "&Показувати системні файли"
 
 #: TFRMOPTIONS.CBSHOWTABHEADER.CAPTION
 msgid "Show &tabstop header"
@@ -2159,9 +2169,17 @@ msgstr "Відображати сітку для панелі"
 msgid "Folder tabs headers"
 msgstr "Заголовки вкладок"
 
-#: TFRMOPTIONS.LABEL3.CAPTION
+#: TFRMOPTIONS.LBCOMMANDS.CAPTION
 msgid "Commands:"
 msgstr "Команди::"
+
+#: TFRMOPTIONS.LBFILTER.CAPTION
+msgid "Filter"
+msgstr ""
+
+#: TFRMOPTIONS.LBHOTKEYS.CAPTION
+msgid "Hot Keys"
+msgstr ""
 
 #: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
 msgid "Background 2:"
@@ -2275,6 +2293,10 @@ msgstr "Кіл-ть проходів стирання:"
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Плагіни перегляду дозволяють відобразити різні формати файлів, такі як: зображення, бази даних, таблиці та інші у Переглядачеві (F3, Ctrl+Q)"
 
+#: TFRMOPTIONS.LBPRESSEDHOTKEYCOMMAND.CAPTION
+msgid "Useds pressed hotkeys"
+msgstr ""
+
 #: TFRMOPTIONS.LBTYPES.CAPTION
 msgid "Categories:"
 msgstr "Категорії:"
@@ -2336,8 +2358,9 @@ msgid "Registered for"
 msgstr ""
 
 #: TFRMOPTIONS.TGRIDCOLUMN4TITLE.CAPTION
+msgctxt "TFRMOPTIONS.TGRIDCOLUMN4TITLE.CAPTION"
 msgid "File name"
-msgstr ""
+msgstr "Ім'я файла"
 
 #: TFRMOPTIONS.TSDSX.CAPTION
 msgid "Search plugins (.DSX)"
