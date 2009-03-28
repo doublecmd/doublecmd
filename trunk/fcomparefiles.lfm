@@ -803,6 +803,7 @@ object frmCompareFiles: TfrmCompareFiles
       BorderSpacing.Left = 6
       BorderSpacing.InnerBorder = 4
       Caption = 'Next difference'
+      OnClick = btnNextDiffClick
       TabOrder = 1
     end
     object btnPrevDiff: TButton
@@ -817,6 +818,7 @@ object frmCompareFiles: TfrmCompareFiles
       BorderSpacing.Left = 6
       BorderSpacing.InnerBorder = 4
       Caption = 'Previous difference'
+      OnClick = btnPrevDiffClick
       TabOrder = 2
     end
     object chbBinMode: TCheckBox
@@ -856,9 +858,10 @@ object frmCompareFiles: TfrmCompareFiles
       Height = 22
       Top = 13
       Width = 116
-      Checked = True
       BorderSpacing.Left = 6
       Caption = 'Keep scrolling'
+      Checked = True
+      State = cbChecked
       TabOrder = 5
     end
   end
