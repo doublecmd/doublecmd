@@ -392,6 +392,50 @@ msgstr "Vordefiniert"
 msgid "Sample"
 msgstr "Beispiel"
 
+#: TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION
+msgid "Cancel"
+msgstr ""
+
+#: TFRMEDITSEARCHREPLACE.BTNOK.CAPTION
+msgid "&OK"
+msgstr ""
+
+#: TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION
+msgid "C&ase sensitivity"
+msgstr "Strikt nach Schreibweise"
+
+#: TFRMEDITSEARCHREPLACE.CBSEARCHFROMCURSOR.CAPTION
+msgid "Search from &caret"
+msgstr "Suche von &caret"
+
+#: TFRMEDITSEARCHREPLACE.CBSEARCHREGEXP.CAPTION
+msgid "&Regular expressions"
+msgstr "&Reguläre Ausdrücke"
+
+#: TFRMEDITSEARCHREPLACE.CBSEARCHSELECTEDONLY.CAPTION
+msgid "Selected &text only"
+msgstr "Nur den markierten Text"
+
+#: TFRMEDITSEARCHREPLACE.CBSEARCHWHOLEWORDS.CAPTION
+msgid "&Whole words only"
+msgstr "Nur ganze Wörter"
+
+#: TFRMEDITSEARCHREPLACE.GBSEARCHOPTIONS.CAPTION
+msgid "Option"
+msgstr ""
+
+#: TFRMEDITSEARCHREPLACE.LBLREPLACEWITH.CAPTION
+msgid "&Replace with:"
+msgstr "&Erstezen mit:"
+
+#: TFRMEDITSEARCHREPLACE.LBLSEARCHFOR.CAPTION
+msgid "&Search for:"
+msgstr "&Suche nach:"
+
+#: TFRMEDITSEARCHREPLACE.RGSEARCHDIRECTION.CAPTION
+msgid "Direction"
+msgstr "Richtung"
+
 #: TFRMEXTRACTDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMEXTRACTDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -511,7 +555,7 @@ msgstr "Dateitypen"
 msgid "Icon"
 msgstr "Icon"
 
-#: TFRMFILEASSOC.LEDACTION.EDITLABEL.CAPTION
+#: TFRMFILEASSOC.LBLACTION.CAPTION
 msgid "Action:"
 msgstr "Aktion:"
 
@@ -1044,6 +1088,7 @@ msgid "Switch to next tab"
 msgstr "Zum nächsten Tab wechseln"
 
 #: TFRMMAIN.ACTOPEN.CAPTION
+msgctxt "TFRMMAIN.ACTOPEN.CAPTION"
 msgid "Open"
 msgstr "Öffne"
 
@@ -1130,6 +1175,7 @@ msgid "Menu F9"
 msgstr "Menü F9"
 
 #: TFRMMAIN.ACTSHOWSYSFILES.CAPTION
+msgctxt "TFRMMAIN.ACTSHOWSYSFILES.CAPTION"
 msgid "Show hidden/system files"
 msgstr "Zeige versteckte und Systemdateien"
 
@@ -1307,77 +1353,77 @@ msgstr "Verknüpfung erstellen"
 #: TFRMMAIN.MILINE1.CAPTION
 msgctxt "TFRMMAIN.MILINE1.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: TFRMMAIN.MILINE10.CAPTION
 msgctxt "TFRMMAIN.MILINE10.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: TFRMMAIN.MILINE12.CAPTION
 msgctxt "TFRMMAIN.MILINE12.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: TFRMMAIN.MILINE14.CAPTION
 msgctxt "TFRMMAIN.MILINE14.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: TFRMMAIN.MILINE15.CAPTION
 msgctxt "TFRMMAIN.MILINE15.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: TFRMMAIN.MILINE16.CAPTION
 msgctxt "TFRMMAIN.MILINE16.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: TFRMMAIN.MILINE17.CAPTION
 msgctxt "TFRMMAIN.MILINE17.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: TFRMMAIN.MILINE18.CAPTION
 msgctxt "TFRMMAIN.MILINE18.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: TFRMMAIN.MILINE2.CAPTION
 msgctxt "TFRMMAIN.MILINE2.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: TFRMMAIN.MILINE3.CAPTION
 msgctxt "TFRMMAIN.MILINE3.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: TFRMMAIN.MILINE4.CAPTION
 msgctxt "TFRMMAIN.MILINE4.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: TFRMMAIN.MILINE5.CAPTION
 msgctxt "TFRMMAIN.MILINE5.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: TFRMMAIN.MILINE6.CAPTION
 msgctxt "TFRMMAIN.MILINE6.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: TFRMMAIN.MILINE7.CAPTION
 msgctxt "TFRMMAIN.MILINE7.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: TFRMMAIN.MILINE9.CAPTION
 msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: TFRMMAIN.MIMOVE.CAPTION
 msgid "Move..."
@@ -1671,6 +1717,14 @@ msgctxt "TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
+#: TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION
+msgid "Apply"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCONFIGEDIT.CAPTION
+msgid "Edit"
+msgstr ""
+
 #: TFRMOPTIONS.BTNCONFIGPLUGIN.CAPTION
 msgid "Configure"
 msgstr "Einstellen"
@@ -1835,7 +1889,7 @@ msgstr "Flaches Erscheinungsbild"
 #: TFRMOPTIONS.CBFLATTOOLBAR.CAPTION
 msgctxt "TFRMOPTIONS.CBFLATTOOLBAR.CAPTION"
 msgid "Flat buttons"
-msgstr ""
+msgstr "Flache Schalter"
 
 #: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
 msgid "Horizontal lines"
@@ -1951,8 +2005,9 @@ msgid "Show &status bar"
 msgstr "Stausleiste zeigen"
 
 #: TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION
+msgctxt "TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION"
 msgid "Show hidden/system files"
-msgstr ""
+msgstr "Zeige versteckte und Systemdateien"
 
 #: TFRMOPTIONS.CBSHOWTABHEADER.CAPTION
 msgid "Show &tabstop header"
@@ -2094,9 +2149,17 @@ msgstr "Gitternetz anzeigen"
 msgid "Folder tabs headers"
 msgstr "Verzeichnisreiter-Titel"
 
-#: TFRMOPTIONS.LABEL3.CAPTION
+#: TFRMOPTIONS.LBCOMMANDS.CAPTION
 msgid "Commands:"
 msgstr "Befehle:"
+
+#: TFRMOPTIONS.LBFILTER.CAPTION
+msgid "Filter"
+msgstr ""
+
+#: TFRMOPTIONS.LBHOTKEYS.CAPTION
+msgid "Hot Keys"
+msgstr ""
 
 #: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
 msgid "Background 2:"
@@ -2209,6 +2272,10 @@ msgstr "Anzahl der Reinigungsdurchgänge"
 #: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Betrachter-PlugIns erlauben die Anzeige von Bilder, Tabellen, Datenbanken o.ä. durch den Betrachter (F3 oder Strg+Q)."
+
+#: TFRMOPTIONS.LBPRESSEDHOTKEYCOMMAND.CAPTION
+msgid "Useds pressed hotkeys"
+msgstr ""
 
 #: TFRMOPTIONS.LBTYPES.CAPTION
 msgid "Categories:"
@@ -2712,50 +2779,13 @@ msgctxt "ulng.rseditsearchcaption"
 msgid "Search"
 msgstr "Suchen"
 
-#: ulng.rseditsearchcaret
-msgid "Search from &caret"
-msgstr "Suche von &caret"
-
-#: ulng.rseditsearchcase
-msgid "C&ase sensitivity"
-msgstr "Strikt nach Schreibweise"
-
-#: ulng.rseditsearchdirection
-msgid "Direction"
-msgstr "Richtung"
-
-#: ulng.rseditsearchforlbl
-msgid "&Search for:"
-msgstr "&Suche nach:"
-
 #: ulng.rseditsearchfrw
 msgid "&Forward"
 msgstr "&Vorwärts"
 
-#: ulng.rseditsearchoptions
-msgid "Option"
-msgstr "Option"
-
-#: ulng.rseditsearchregexp
-msgctxt "ulng.rseditsearchregexp"
-msgid "&Regular expressions"
-msgstr "&Reguläre Ausdrücke"
-
 #: ulng.rseditsearchreplace
 msgid "Replace"
 msgstr "Ersetzen"
-
-#: ulng.rseditsearchreplacewith
-msgid "&Replace with:"
-msgstr "&Erstezen mit:"
-
-#: ulng.rseditsearchselect
-msgid "Selected &text only"
-msgstr "Nur den markierten Text"
-
-#: ulng.rseditsearchwholeword
-msgid "&Whole words only"
-msgstr "Nur ganze Wörter"
 
 #: ulng.rsfinddepth
 msgid "%s level(s)"

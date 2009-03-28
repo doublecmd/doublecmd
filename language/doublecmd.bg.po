@@ -1186,6 +1186,7 @@ msgid "Menu F9"
 msgstr "Изборник F9"
 
 #: TFRMMAIN.ACTSHOWSYSFILES.CAPTION
+msgctxt "TFRMMAIN.ACTSHOWSYSFILES.CAPTION"
 msgid "Show hidden/system files"
 msgstr "Показване на скрити/ системни файлове"
 
@@ -1727,6 +1728,14 @@ msgctxt "TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION"
 msgid ">>"
 msgstr ""
 
+#: TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION
+msgid "Apply"
+msgstr ""
+
+#: TFRMOPTIONS.BTNCONFIGEDIT.CAPTION
+msgid "Edit"
+msgstr ""
+
 #: TFRMOPTIONS.BTNCONFIGPLUGIN.CAPTION
 msgid "Configure"
 msgstr "Настройка"
@@ -2007,8 +2016,9 @@ msgid "Show &status bar"
 msgstr "Показване на лента на &състоянието"
 
 #: TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION
+msgctxt "TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION"
 msgid "Show hidden/system files"
-msgstr ""
+msgstr "Показване на скрити/ системни файлове"
 
 #: TFRMOPTIONS.CBSHOWTABHEADER.CAPTION
 msgid "Show &tabstop header"
@@ -2150,9 +2160,17 @@ msgstr "Показване на решетка във вайловите кри�
 msgid "Folder tabs headers"
 msgstr "Заглавки на подстраниците на папките"
 
-#: TFRMOPTIONS.LABEL3.CAPTION
+#: TFRMOPTIONS.LBCOMMANDS.CAPTION
 msgid "Commands:"
-msgstr "Заповеди:"
+msgstr ""
+
+#: TFRMOPTIONS.LBFILTER.CAPTION
+msgid "Filter"
+msgstr ""
+
+#: TFRMOPTIONS.LBHOTKEYS.CAPTION
+msgid "Hot Keys"
+msgstr ""
 
 #: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
 msgid "Background 2:"
@@ -2265,6 +2283,10 @@ msgstr "Брой на повторенията:"
 #: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Приставките за преглед позволяват показването на файлови формати от рода на изображения, таблици, бази от данни и т.н. в прегеда (F3, Ctrl+Q)"
+
+#: TFRMOPTIONS.LBPRESSEDHOTKEYCOMMAND.CAPTION
+msgid "Useds pressed hotkeys"
+msgstr ""
 
 #: TFRMOPTIONS.LBTYPES.CAPTION
 msgid "Categories:"

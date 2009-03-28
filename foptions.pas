@@ -121,6 +121,7 @@ type
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
+    edtFilter: TEdit;
     edtParam: TEdit;
     edtCategoryAttr: TEdit;
     edtTabsLimitLength: TEdit;
@@ -172,12 +173,15 @@ type
     gbShowGrid: TGroupBox;
     gbExtended: TGroupBox;
     gbAutoRefresh: TGroupBox;
+    lbPressedHotKeyCommand: TLabel;
+    lbHotKeys: TLabel;
+    lbFilter: TLabel;
     ledDriveBlackList: TLabeledEdit;
     lblDSXDescription: TLabel;
     lblWLXDescription: TLabel;
     lblWCXDescription: TLabel;
     lbcategory: TLabel;
-    Label3: TLabel;
+    lbcommands: TLabel;
     lblParam: TLabel;
     lblWipePassNumber: TLabel;
     lblMouseMode: TLabel;
@@ -187,6 +191,7 @@ type
     lbtypes: TLabel;
     lbxCategories: TListBox;
     lbxCommands: TListBox;
+    lbxHotkeys: TListBox;
     lstColumnsSets: TListBox;
     pgAutoRefresh: TPage;
     pgMisc: TPage;
@@ -288,7 +293,6 @@ type
     procedure btnWLXAddClick(Sender: TObject);
     procedure btClearHotKeyClick(Sender: TObject);
     procedure btnBackColor2Click(Sender: TObject);
-    procedure btnCancelClick(Sender: TObject);
     procedure btnCopyColumnsSetClick(Sender: TObject);
     procedure btnCursorColorClick(Sender: TObject);
     procedure btnCursorTextClick(Sender: TObject);
@@ -311,6 +315,7 @@ type
     procedure cbTermWindowChange(Sender: TObject);
     procedure cbTextColorChange(Sender: TObject);
     procedure cbColorBoxDropDown(Sender: TObject);
+    procedure edtFilterChange(Sender: TObject);
     procedure edtEditorSizeChange(Sender: TObject);
     procedure edtMainSizeChange(Sender: TObject);
     procedure edtViewerSizeChange(Sender: TObject);
@@ -335,6 +340,8 @@ type
     procedure lbCategoriesDrawItem(Control: TWinControl; Index: Integer;
       ARect: TRect; State: TOwnerDrawState);
     procedure lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
+    procedure lbxCommandsSelectionChange(Sender: TObject; User: boolean);
+    procedure lbxHotkeysSelectionChange(Sender: TObject; User: boolean);
     procedure nbNotebookPageChanged(Sender: TObject);
     procedure pbExamplePaint(Sender: TObject);
     procedure pcPluginsTypesChange(Sender: TObject);
@@ -449,8 +456,11 @@ if lbxCommands.ItemIndex=-1 then exit;
  begin
   i:=HotMan.GetHotKeyIndex(ShortCutToTextEx(vShortCut));
   if i=-1 then
-    HotMan.AddHotKey(ShortCutToTextEx(vShortCut),lbxCommands.Items[lbxCommands.ItemIndex],edtParam.Text,frmMain)
-  else
+  begin
+    HotMan.AddHotKey(ShortCutToTextEx(vShortCut),lbxCommands.Items[lbxCommands.ItemIndex],edtParam.Text,frmMain);
+    lbxHotkeys.Items.Add(ShortCutToTextEx(vShortCut));
+  end
+      else
    begin
      st:=TStringList.Create;
      HotMan.GetControlsListBy(ShortCutToTextEx(vShortCut),st);
@@ -463,10 +473,10 @@ if lbxCommands.ItemIndex=-1 then exit;
        else
          begin
             HotMan.AddHotKey(ShortCutToTextEx(vShortCut),lbxCommands.Items[lbxCommands.ItemIndex],edtParam.Text,frmMain);
+            lbxHotkeys.Items.Add(ShortCutToTextEx(vShortCut));
             edtParam.Text:='';
             edHotKey.Text:='';
          end;
-
      st.free;
    end;
  end else
@@ -478,7 +488,6 @@ if lbxCommands.ItemIndex=-1 then exit;
 
    
 end;
-
 
 procedure TfrmOptions.btnForeColorClick(Sender: TObject);
 begin
@@ -550,6 +559,32 @@ end;
 procedure TfrmOptions.cbColorBoxDropDown(Sender: TObject);
 begin
   (Sender as TColorBox).Color := clWindow;
+end;
+procedure TfrmOptions.edtFilterChange(Sender: TObject);
+{< filtering active commands list
+}
+var slFiltered,slAllCommands:TStringList;
+  i,p: Integer;
+begin
+  edHotKey.Clear;
+  if edtFilter.Text<>'' then
+  begin;
+    if lbxCategories.ItemIndex=-1 then exit;
+    slFiltered:=TStringList.Create();
+    slAllCommands:=TStringList.Create();
+    Actions.GetCommandsByCategory(lbxCategories.items.Strings[lbxCategories.ItemIndex],slAllCommands);
+    for i:=0 to slAllCommands.Count-1 do
+    begin
+         p:=Pos(LowerCase(edtFilter.Text),LowerCase(slAllCommands.Strings[i]));
+         if p<>0 then
+          slFiltered.Add(slAllCommands[i]);
+    end;
+    lbxCommands.Items.Assign(slFiltered);
+    slAllCommands.free;
+    slFiltered.free;
+  end
+   else// or maiby    FillCommandsPage;
+    lbxCategoriesSelectionChange(lbxCategories,true);
 end;
 
 procedure TfrmOptions.edtEditorSizeChange(Sender: TObject);
@@ -706,12 +741,29 @@ end;
 
 procedure TfrmOptions.edHotKeyKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
+//<
+var
+  i: LongInt;
+  st: TStringList;
 begin
   vShortCut := ShortCutEx(Key,GetKeyShiftStateEx);
   TEdit(Sender).Text := ShortCutToTextEx(vShortCut);
   Key := 0;
   btSetHotKey.Enabled := (edHotKey.Text <> '');
   btClearHotKey.Enabled := (edHotKey.Text <> '');
+  // find hotkey
+  i:=HotMan.GetHotKeyIndex(ShortCutToTextEx(vShortCut));
+  if i<>-1 then
+   begin
+     st:=TStringList.Create;
+     HotMan.GetControlsListBy(ShortCutToTextEx(vShortCut),st);
+     lbPressedHotKeyCommand.Caption:='ShortCut used by '+#13+st.Text;
+     HotMan.GetCommandsListBy(ShortCutToTextEx(vShortCut),st);
+     lbPressedHotKeyCommand.Caption:=lbPressedHotKeyCommand.Caption+ansistring(copy(st.Text,pos('=',st.Text)+1,Length(st.Text)-pos('=',st.Text)));
+     st.free;
+   end
+   else
+     lbPressedHotKeyCommand.Caption:='';
 end;
 
 procedure TfrmOptions.FormDestroy(Sender: TObject);
@@ -1403,6 +1455,47 @@ begin
   lbxCommands.Sorted:= True;
 end;
 
+procedure TfrmOptions.lbxCommandsSelectionChange(Sender: TObject; User: boolean
+  );
+  // < find hotkeys for command
+var i,j: integer;
+    st:TStringList;
+    p: LongInt;
+    cmd: String;
+begin
+     // clears all controls
+     vShortCut := 0;
+     btSetHotKey.Enabled :=false;
+     btClearHotKey.Enabled :=false;
+     edHotKey.Clear;
+     lbxHotkeys.Clear;
+     lbxHotkeys.Items.Clear;
+
+     st:=TStringList.Create;
+     for i:=0 to HotMan.HotkeyList.Count -1 do
+     begin
+     HotMan.GetCommandsListBy(HotMan.HotkeyList[i],st);
+      for j:=0 to st.Count-1 do
+      begin
+      // copy command name
+       p:=pos('=',st[j]);
+       cmd:=Copy(st[j],p+1,Length(st[j])-p);
+       if (lbxCommands.Items[lbxCommands.ItemIndex]=cmd) then
+         lbxHotkeys.items.add(HotMan.HotkeyList[i]);
+      end;
+     end;
+end;
+
+procedure TfrmOptions.lbxHotkeysSelectionChange(Sender: TObject; User: boolean);
+//< select hotkey
+begin
+  vShortCut :=TextToShortCutEx(lbxHotkeys.Items[lbxHotkeys.ItemIndex]);
+  edHotKey.Text := lbxHotkeys.Items[lbxHotkeys.ItemIndex];
+  btSetHotKey.Enabled := true;
+  btClearHotKey.Enabled := true;
+  lbPressedHotKeyCommand.Caption:='';
+end;
+
 procedure TfrmOptions.nbNotebookPageChanged(Sender: TObject);
 begin 
   // temporally this is hack for bug http://www.freepascal.org/mantis/view.php?id=9635
@@ -1557,6 +1650,13 @@ begin
      if HotMan.GetControlsListBy(ShortCutToTextEx(vShortCut),st)>0 then
        begin
          HotMan.DeleteHotKey(ShortCutToTextEx(vShortCut),frmMain);
+//         edtParam.Text:='';
+//         edHotKey.Text:='';
+         lbPressedHotKeyCommand.Caption:='';
+         if lbxHotkeys.Items.IndexOf(ShortCutToTextEx(vShortCut))<>-1 then
+         begin
+             lbxHotkeys.Items.Delete(lbxHotkeys.Items.IndexOf(ShortCutToTextEx(vShortCut)));
+         end;
        end;
     st.free;
  end;
@@ -1570,11 +1670,6 @@ begin
      cbBackColor2.Color := optColorDialog.Color;
      pbExample.Repaint;
    end;
-end;
-
-procedure TfrmOptions.btnCancelClick(Sender: TObject);
-begin
-
 end;
 
 procedure TfrmOptions.btnCopyColumnsSetClick(Sender: TObject);
