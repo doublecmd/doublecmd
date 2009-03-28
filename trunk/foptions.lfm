@@ -11,6 +11,7 @@ object frmOptions: TfrmOptions
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
+  ShowInTaskBar = stNever
   LCLVersion = '0.9.27'
   object Panel1: TPanel
     Height = 43
