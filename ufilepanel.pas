@@ -56,6 +56,8 @@ type
     FOnBeforeChangeDirectory : TOnBeforeChangeDirectory;
     FOnAfterChangeDirectory : TOnAfterChangeDirectory;
   public
+    bUpdateFileCount,
+    bUpdateDiskFreeSpace: Boolean;
 //    iLastDrawnIndex  :Integer; // fucking dirty hack (OnDrawItem
 
     constructor Create(AOwner : TObject; APanel:TDrawGrid; AlblPath: TLabel; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
@@ -133,6 +135,8 @@ begin
   fVFSmoduleList := TStringList.Create;
 //  LastActive:='';
 //  iLastDrawnIndex:=-1;
+  bUpdateFileCount:= True;
+  bUpdateDiskFreeSpace:= True;
 end;
 
 Destructor TFilePanel.Destroy;
@@ -570,6 +574,7 @@ procedure TFilePanel.UpdateCountStatus;
 var
   i:Integer;
 begin
+  if not bUpdateFileCount then Exit;
   fFilesInDir:=0;
   fFilesSelected:=0;
   fSizeInDir:=0;
@@ -708,6 +713,7 @@ begin
   
   fedtCommand.Left:=flblCurPath.Width+5;
   fedtCommand.Width:=TControl(fedtCommand.Parent).Width-fedtCommand.Left;
+  if not bUpdateDiskFreeSpace then Exit;
   if fPanelMode=pmDirectory then
   begin
     GetDiskFreeSpace(fActiveDir, FreeSize, TotalSize);
