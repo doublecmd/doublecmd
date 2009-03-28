@@ -4,8 +4,6 @@ object frmPackDlg: TfrmPackDlg
   Top = 547
   Width = 517
   HelpContext = 150
-  HorzScrollBar.Page = 516
-  VertScrollBar.Page = 231
   ActiveControl = cbStoredir
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
@@ -13,9 +11,10 @@ object frmPackDlg: TfrmPackDlg
   ClientHeight = 232
   ClientWidth = 517
   Font.Height = -11
-  Font.Name = 'MS Sans Serif'
+  Font.Name = 'Default'
   OnShow = FormShow
   Position = poScreenCenter
+  LCLVersion = '0.9.27'
   object lblPrompt: TLabel
     Left = 4
     Height = 12
@@ -23,9 +22,6 @@ object frmPackDlg: TfrmPackDlg
     Width = 445
     AutoSize = False
     Caption = 'Pack file(s) to the file:'
-    Font.Color = clBtnText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
     ParentColor = False
     ShowAccelChar = False
   end
@@ -138,7 +134,6 @@ object frmPackDlg: TfrmPackDlg
     OnAcceptDirectory = edtPackCmdAcceptDirectory
     ButtonWidth = 23
     NumGlyphs = 1
-    ParentColor = False
     TabOrder = 10
   end
   object rgPacker: TRadioGroup
