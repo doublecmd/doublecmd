@@ -332,6 +332,8 @@ type
     procedure mnuDropClick(Sender: TObject);
     procedure mnuSplitterPercentClick(Sender: TObject);
     procedure mnuTabMenuClick(Sender: TObject);
+    procedure nbPageMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure nbPageChanged(Sender: TObject);
     procedure nbPageMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -1134,6 +1136,18 @@ begin
   Cmd:= (Sender as TMenuItem).Action.Name;
   Cmd:= 'cm_' + Copy(Cmd, 4, Length(Cmd) - 3);
   Actions.Execute(Cmd, pmTabMenu.Parent.Name);
+end;
+
+procedure TfrmMain.nbPageMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  with Sender as TNoteBook do
+  begin
+    if (Name = 'nbLeft') and (FrameLeft <> nil) then
+      SetActiveFrame(fpLeft);
+    if (Name = 'nbRight') and (FrameRight <> nil) then
+      SetActiveFrame(fpRight);;
+  end;
 end;
 
 procedure TfrmMain.nbPageChanged(Sender: TObject);
