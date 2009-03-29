@@ -366,6 +366,7 @@ type
     procedure FillCommandsPage;
     procedure LoadConfig;
     procedure SaveConfig;
+    procedure SetColorInColorBox(const lcbColorBox:TColorBox;const lColor:TColor);
   end;
 
 var
@@ -447,7 +448,7 @@ var vNum,i: integer;
     Cat:string;
     st:TStringList;
 begin
-  // ToDo Black list HotKey which can't use
+  // ToDo: Black list HotKey which can't use
 //TODO: Realize full version of hotkey's using. Allow to bind hotkeys to any controls.
 
 if lbxCategories.ItemIndex=-1 then exit;
@@ -493,20 +494,18 @@ end;
 procedure TfrmOptions.btnForeColorClick(Sender: TObject);
 begin
  if optColorDialog.Execute then
-   begin
-     cbTextColor.Text := '';
-     cbTextColor.Color := optColorDialog.Color;
-     pbExample.Repaint;
-   end;
+ begin
+    SetColorInColorBox(cbTextColor,optColorDialog.Color);
+    pbExample.Repaint;
+ end;
 end;
 
 procedure TfrmOptions.btnBackColorClick(Sender: TObject);
 begin
    if optColorDialog.Execute then
    begin
-     cbBackColor.Text := '';
-     cbBackColor.Color := optColorDialog.Color;
-     pbExample.Repaint;
+    SetColorInColorBox(cbBackColor,optColorDialog.Color);
+    pbExample.Repaint;
    end;
 end;
 
@@ -1416,9 +1415,8 @@ begin
       MaskItem := TMaskItem(lbCategories.Items.Objects[lbCategories.ItemIndex]);
 
       edtCategoryMask.Text := MaskItem.sExt;
-      cbCategoryColor.Color := MaskItem.cColor;
+      SetColorInColorBox(cbCategoryColor,MaskItem.cColor);
       edtCategoryAttr.Text := MaskItem.sModeStr;
-      cbCategoryColor.Selected := cbCategoryColor.Color;
     end
   else
     begin
@@ -1594,10 +1592,7 @@ end;
 procedure TfrmOptions.btnCategoryColorClick(Sender: TObject);
 begin
   if optColorDialog.Execute then
-   begin
-     cbCategoryColor.Text := '';
-     cbCategoryColor.Color := optColorDialog.Color;
-   end;
+    SetColorInColorBox(cbCategoryColor,optColorDialog.Color);
 end;
 
 procedure TfrmOptions.btnDelColumnsSetClick(Sender: TObject);
@@ -1667,9 +1662,8 @@ procedure TfrmOptions.btnBackColor2Click(Sender: TObject);
 begin
    if optColorDialog.Execute then
    begin
-     cbBackColor2.Text := '';
-     cbBackColor2.Color := optColorDialog.Color;
-     pbExample.Repaint;
+    SetColorInColorBox(cbBackColor2,optColorDialog.Color);
+    pbExample.Repaint;
    end;
 end;
 
@@ -1687,9 +1681,8 @@ procedure TfrmOptions.btnCursorColorClick(Sender: TObject);
 begin
    if optColorDialog.Execute then
    begin
-     cbCursorColor.Text := '';
-     cbCursorColor.Color := optColorDialog.Color;
-     pbExample.Repaint;
+    SetColorInColorBox(cbCursorColor,optColorDialog.Color);
+    pbExample.Repaint;
    end;
 end;
 
@@ -1697,9 +1690,8 @@ procedure TfrmOptions.btnCursorTextClick(Sender: TObject);
 begin
    if optColorDialog.Execute then
    begin
-     cbCursorText.Text := '';
-     cbCursorText.Color := optColorDialog.Color;
-     pbExample.Repaint;
+    SetColorInColorBox(cbCursorText,optColorDialog.Color);
+    pbExample.Repaint;
    end;
 end;
 
@@ -1707,9 +1699,8 @@ procedure TfrmOptions.btnMarkColorClick(Sender: TObject);
 begin
    if optColorDialog.Execute then
    begin
-     cbMarkColor.Text := '';
-     cbMarkColor.Color := optColorDialog.Color;
-     pbExample.Repaint;
+    SetColorInColorBox(cbMarkColor,optColorDialog.Color);
+    pbExample.Repaint;
    end;
 end;
 
@@ -1796,25 +1787,13 @@ begin
 
   edtRunTerm.Text:=gRunTerm;
 
-
   { Colors }
-  cbTextColor.Selected := gForeColor;
-  cbTextColor.Color := gForeColor;
-
-  cbBackColor.Selected := gBackColor;
-  cbBackColor.Color := gBackColor;
-
-  cbBackColor2.Selected := gBackColor2;
-  cbBackColor2.Color := gBackColor2;
-
-  cbMarkColor.Selected := gMarkColor;
-  cbMarkColor.Color := gMarkColor;
-
-  cbCursorColor.Selected := gCursorColor;
-  cbCursorColor.Color := gCursorColor;
-
-  cbCursorText.Selected := gCursorText;
-  cbCursorText.Color := gCursorText;
+  SetColorInColorBox(cbTextColor,gForeColor);
+  SetColorInColorBox(cbBackColor,gBackColor);
+  SetColorInColorBox(cbBackColor2,gBackColor2);
+  SetColorInColorBox(cbMarkColor,gMarkColor);
+  SetColorInColorBox(cbCursorColor,gCursorColor);
+  SetColorInColorBox(cbCursorText,gCursorText);
 
   cbShowIcons.Checked := gShowIcons;
   cbbUseInvertedSelection.Checked:=gUseInvertedSelection;
@@ -2089,6 +2068,38 @@ begin
   gWDXPlugins.Assign(tmpWDXPlugins);
   gWFXPlugins.Assign(tmpWFXPlugins);
   tmpWLXPlugins.Save(gIni);
+end;
+
+procedure TfrmOptions.SetColorInColorBox(const lcbColorBox: TColorBox;
+  const lColor: TColor);
+//< setelect in lcbColorBox lColor if lColor in lcbColorBox else
+// add to lcbColorBox lColor and select him
+var
+  i: LongInt;
+  debStr:String;
+begin
+     if(lcbColorBox=nil) then exit; // if lcbColorBox not exist;
+
+     with lcbColorBox do
+     begin
+       //search lColor in colorbox colorlist
+       for i:=0 to Items.Count-1 do
+       if Colors[i]=lColor then //find color
+       begin
+       // select color
+           Selected:=lColor;
+       // set colorbox color to lColor
+           Color:=lColor;
+           exit;
+       end;
+
+       //add items to colorbox list
+       Items.Objects[Items.Add('$'+HexStr(lColor,8))]:=TObject(lColor);
+       Color:=lColor;
+       Selected:=lColor;
+       //lcbColorBox.Text:=debStr;
+
+     end;
 end;
 
 initialization
