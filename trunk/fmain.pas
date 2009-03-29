@@ -1148,14 +1148,18 @@ begin
         if PanelSelected = fpLeft then // same panel
           FrameLeft.SetFocus
         else if Boolean(gDirTabOptions and tb_activate_panel_on_click) then
-          SetActiveFrame(fpLeft);
+          SetActiveFrame(fpLeft)
+        else
+          FrameRight.SetFocus;
       end;
     if (Name = 'nbRight') and (FrameRight <> nil) then
       begin
         if PanelSelected = fpRight then // same panel
           FrameRight.SetFocus
         else if Boolean(gDirTabOptions and tb_activate_panel_on_click) then
-          SetActiveFrame(fpRight);
+          SetActiveFrame(fpRight)
+        else
+          FrameLeft.SetFocus;
       end;
   end;
 end;
