@@ -1738,12 +1738,14 @@ msgid ">>"
 msgstr ""
 
 #: TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION
+msgctxt "TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION"
 msgid "Apply"
-msgstr ""
+msgstr "Застосувати"
 
 #: TFRMOPTIONS.BTNCONFIGEDIT.CAPTION
+msgctxt "TFRMOPTIONS.BTNCONFIGEDIT.CAPTION"
 msgid "Edit"
-msgstr ""
+msgstr "Редагувати"
 
 #: TFRMOPTIONS.BTNCONFIGPLUGIN.CAPTION
 msgid "Configure"
@@ -2043,6 +2045,10 @@ msgstr "Показувати попередження (тільки кнопка
 
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr ""
+
+#: TFRMOPTIONS.CBTABSACTIVATEONCLICK.CAPTION
+msgid "Activate target &panel when clicking on one of its Tabs"
 msgstr ""
 
 #: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION

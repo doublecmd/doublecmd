@@ -1729,10 +1729,12 @@ msgid ">>"
 msgstr ""
 
 #: TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION
+msgctxt "TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION"
 msgid "Apply"
 msgstr ""
 
 #: TFRMOPTIONS.BTNCONFIGEDIT.CAPTION
+msgctxt "TFRMOPTIONS.BTNCONFIGEDIT.CAPTION"
 msgid "Edit"
 msgstr ""
 
@@ -2034,6 +2036,10 @@ msgstr ""
 
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr ""
+
+#: TFRMOPTIONS.CBTABSACTIVATEONCLICK.CAPTION
+msgid "Activate target &panel when clicking on one of its Tabs"
 msgstr ""
 
 #: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION

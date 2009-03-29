@@ -1144,9 +1144,19 @@ begin
   with Sender as TNoteBook do
   begin
     if (Name = 'nbLeft') and (FrameLeft <> nil) then
-      SetActiveFrame(fpLeft);
+      begin
+        if PanelSelected = fpLeft then // same panel
+          FrameLeft.SetFocus
+        else if Boolean(gDirTabOptions and tb_activate_panel_on_click) then
+          SetActiveFrame(fpLeft);
+      end;
     if (Name = 'nbRight') and (FrameRight <> nil) then
-      SetActiveFrame(fpRight);;
+      begin
+        if PanelSelected = fpRight then // same panel
+          FrameRight.SetFocus
+        else if Boolean(gDirTabOptions and tb_activate_panel_on_click) then
+          SetActiveFrame(fpRight);
+      end;
   end;
 end;
 

@@ -118,6 +118,7 @@ type
     cbShowSystemFiles: TCheckBox;
     cbSpaceMovesDown: TCheckBox;
     cbDirBrackets: TCheckBox;
+    cbTabsActivateOnClick: TCheckBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
@@ -1845,6 +1846,7 @@ begin
   cbTabsConfirmCloseAll.Checked:= Boolean(gDirTabOptions and tb_confirm_close_all);
   cbTabsOpenForeground.Checked:= Boolean(gDirTabOptions and tb_open_new_in_foreground);
   cbTabsLockedAsterisk.Checked:= Boolean(gDirTabOptions and tb_show_asterisk_for_locked);
+  cbTabsActivateOnClick.Checked:= Boolean(gDirTabOptions and tb_activate_panel_on_click);
   edtTabsLimitLength.Text := IntToStr(gDirTabLimit);
 
   { Configuration storage }
@@ -2017,6 +2019,8 @@ begin
     gDirTabOptions := (gDirTabOptions or tb_open_new_in_foreground);
   if cbTabsLockedAsterisk.Checked then
     gDirTabOptions := (gDirTabOptions or tb_show_asterisk_for_locked);
+  if cbTabsActivateOnClick.Checked then
+    gDirTabOptions := (gDirTabOptions or tb_activate_panel_on_click);
 
   gDirTabLimit := StrToIntDef(edtTabsLimitLength.Text, 32);
 
