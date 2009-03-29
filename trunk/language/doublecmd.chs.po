@@ -1729,12 +1729,14 @@ msgid ">>"
 msgstr ">>"
 
 #: TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION
+msgctxt "TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION"
 msgid "Apply"
-msgstr ""
+msgstr "应用"
 
 #: TFRMOPTIONS.BTNCONFIGEDIT.CAPTION
+msgctxt "TFRMOPTIONS.BTNCONFIGEDIT.CAPTION"
 msgid "Edit"
-msgstr ""
+msgstr "编辑"
 
 #: TFRMOPTIONS.BTNCONFIGPLUGIN.CAPTION
 msgid "Configure"
@@ -2034,6 +2036,10 @@ msgstr "显示所有警告信息(仅有“确定”按钮)"
 
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr ""
+
+#: TFRMOPTIONS.CBTABSACTIVATEONCLICK.CAPTION
+msgid "Activate target &panel when clicking on one of its Tabs"
 msgstr ""
 
 #: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION
