@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbDfOutW.pas 3.04                           *}
+{* ABBREVIA: AbDfOutW.pas 3.05                           *}
 {*********************************************************}
 {* Deflate output sliding window                         *}
 {*********************************************************}
@@ -109,10 +109,6 @@ implementation
         remaining data is moved back FSlideCount bytes, moving
         FCurrent along with it as well.
         }
-
-uses
-  AbUtils;
-
 
 {===TAbDfOutputWindow==================================================}
 constructor TAbDfOutputWindow.Create(aStream       : TStream;
@@ -271,7 +267,7 @@ begin
 
   {if we've reached the point requested, abort}
   if (FPartSize > 0) and ((FCurrent - FBuffer) >= FPartSize) then
-    raise EAbPartSizedInflate.Create('');
+    raise EAbPartSizedInflate.Create(''); {NOTE: This exception is expected during detection of .GZ and .TGZ files. (VerifyGZip)}
 
   {if we've advanced to the point when we need to write, do so}
   if (FCurrent >= FWritePoint) then

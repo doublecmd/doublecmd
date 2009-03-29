@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbDfCryS.pas 3.04                           *}
+{* ABBREVIA: AbDfCryS.pas 3.05                           *}
 {*********************************************************}
 {* Deflate encryption streams                            *}
 {*********************************************************}
@@ -37,8 +37,7 @@ interface
 
 uses
   SysUtils,
-  Classes,
-  AbDfBase;
+  Classes;
 
 type
   TAbZipEncryptHeader = array [0..11] of byte;
@@ -326,7 +325,7 @@ begin
 
   {if it isn't valid, reposition the stream, ready for the next try}
   if not Result then begin
-    FStream.Seek(-sizeof(Header), soFromCurrent);
+    FStream.Seek(-sizeof(Header), soCurrent);
     FReady := false;
   end
 

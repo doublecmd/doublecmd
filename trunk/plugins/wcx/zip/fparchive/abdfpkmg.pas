@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbDfPkMg.pas 3.04                           *}
+{* ABBREVIA: AbDfPkMg.pas 3.05                           *}
 {*********************************************************}
 {* Deflate package-merge algorithm                       *}
 {*********************************************************}
@@ -46,9 +46,6 @@ procedure GenerateCodeLengths(aMaxCodeLen  : integer;
                               aLog         : TAbLogger);
 
 implementation
-
-uses
-  AbDfXlat;
 
 type
   PPkgNode = ^TPkgNode;

@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbCabExt.pas 3.04                           *}
+{* ABBREVIA: AbCabExt.pas 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: Cabinet file extractor component            *}
 {*********************************************************}
@@ -38,7 +38,7 @@ interface
 uses
   SysUtils, Classes,
   AbCBrows, 
-  AbArcTyp, AbUtils, AbCabTyp;
+  AbArcTyp;
 
 type
   TAbCustomCabExtractor = class(TAbCustomCabBrowser)

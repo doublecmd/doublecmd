@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbRegLinux.pas 3.04                         *}
+{* ABBREVIA: AbRegLinux.pas 3.05                         *}
 {*********************************************************}
 {* ABBREVIA: Registrations                               *}
 {*********************************************************}
@@ -140,7 +140,7 @@ begin
   RegisterPropertyEditor( TypeInfo( TAbColHeadings ), TAbZipView, 'Headings',
                           TAbColHeadingsProperty );
   RegisterComponents( 'Abbrevia',
-                      [TAbCLXMeterLink,
+                      [TAbMeterLink,
                         TAbZipBrowser,
                         TAbUnzipper,
                         TAbZipper,

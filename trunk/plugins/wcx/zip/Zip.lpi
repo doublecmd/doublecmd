@@ -1,13 +1,15 @@
 <?xml version="1.0"?>
 <CONFIG>
   <ProjectOptions>
-    <PathDelim Value="/"/>
-    <Version Value="5"/>
+    <PathDelim Value="\"/>
+    <Version Value="7"/>
     <General>
+      <Flags>
+        <LRSInOutputDirectory Value="False"/>
+      </Flags>
+      <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
-      <IconPath Value="./"/>
       <TargetFileExt Value=".wcx"/>
-      <ActiveEditorIndexAtStart Value="1"/>
     </General>
     <PublishOptions>
       <Version Value="2"/>
@@ -21,101 +23,33 @@
         <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <Units Count="9">
+    <Units Count="1">
       <Unit0>
         <Filename Value="Zip.dpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="5" Y="3"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="0"/>
-        <UsageCount Value="24"/>
-        <Loaded Value="True"/>
       </Unit0>
-      <Unit1>
-        <Filename Value="wcxhead.pas"/>
-        <UnitName Value="wcxhead"/>
-        <CursorPos X="21" Y="8"/>
-        <TopLine Value="1"/>
-        <UsageCount Value="10"/>
-      </Unit1>
-      <Unit2>
-        <Filename Value="ZipFunc.pas"/>
-        <UnitName Value="ZipFunc"/>
-        <CursorPos X="22" Y="125"/>
-        <TopLine Value="38"/>
-        <EditorIndex Value="1"/>
-        <UsageCount Value="13"/>
-        <Loaded Value="True"/>
-      </Unit2>
-      <Unit3>
-        <Filename Value="fparchive-0.1/abfcifdi.pas"/>
-        <UnitName Value="AbFciFdi"/>
-        <CursorPos X="1" Y="420"/>
-        <TopLine Value="407"/>
-        <UsageCount Value="10"/>
-      </Unit3>
-      <Unit4>
-        <Filename Value="fparchive-0.1/abarctyp.pas"/>
-        <UnitName Value="AbArcTyp"/>
-        <CursorPos X="14" Y="118"/>
-        <TopLine Value="102"/>
-        <UsageCount Value="10"/>
-      </Unit4>
-      <Unit5>
-        <Filename Value="../../../Prog/lazarus/fpcsrc/rtl/objpas/sysutils/finah.inc"/>
-        <CursorPos X="25" Y="30"/>
-        <TopLine Value="13"/>
-        <UsageCount Value="10"/>
-      </Unit5>
-      <Unit6>
-        <Filename Value="fparchive-0.1/abbrowse.pas"/>
-        <UnitName Value="AbBrowse"/>
-        <CursorPos X="36" Y="198"/>
-        <TopLine Value="182"/>
-        <UsageCount Value="10"/>
-      </Unit6>
-      <Unit7>
-        <Filename Value="fparchive-0.1/abutils.pas"/>
-        <UnitName Value="AbUtils"/>
-        <CursorPos X="3" Y="88"/>
-        <TopLine Value="72"/>
-        <UsageCount Value="10"/>
-      </Unit7>
-      <Unit8>
-        <Filename Value="fparchive/abutils.pas"/>
-        <UnitName Value="AbUtils"/>
-        <CursorPos X="12" Y="516"/>
-        <TopLine Value="496"/>
-        <UsageCount Value="11"/>
-      </Unit8>
     </Units>
-    <JumpHistory Count="2" HistoryIndex="1">
-      <Position1>
-        <Filename Value="ZipFunc.pas"/>
-        <Caret Line="36" Column="86" TopLine="22"/>
-      </Position1>
-      <Position2>
-        <Filename Value="ZipFunc.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position2>
-    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="5"/>
+    <Version Value="8"/>
     <SearchPaths>
       <OtherUnitFiles Value="fparchive/;../../../"/>
       <UnitOutputDirectory Value="lib"/>
+      <SrcPath Value="$(FPCSrcDir)/rtl/objpas/"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
-        <DelphiCompat Value="True"/>
+        <SyntaxMode Value="Delphi"/>
+        <UseAnsiStrings Value="True"/>
       </SyntaxOptions>
     </Parsing>
     <CodeGeneration>
       <SmartLinkUnit Value="True"/>
-      <Generate Value="Faster"/>
     </CodeGeneration>
     <Linking>
+      <Debugging>
+        <GenerateDebugInfo Value="True"/>
+      </Debugging>
       <Options>
         <ExecutableType Value="Library"/>
       </Options>
@@ -128,14 +62,4 @@
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
-  <Debugging>
-    <Exceptions Count="2">
-      <Item1>
-        <Name Value="ECodetoolError"/>
-      </Item1>
-      <Item2>
-        <Name Value="EFOpenError"/>
-      </Item2>
-    </Exceptions>
-  </Debugging>
 </CONFIG>

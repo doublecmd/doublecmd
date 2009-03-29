@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbVMStrm.pas 3.04                           *}
+{* ABBREVIA: AbVMStrm.pas 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: Virtual Memory Stream                       *}
 {*********************************************************}
@@ -36,7 +36,6 @@ unit AbVMStrm;
 interface
 
 uses
-  Types,
   Classes;
 
 const
@@ -46,7 +45,7 @@ const
 type
   PvmsPage = ^TvmsPage;
   TvmsPage = packed record
-    vpStmOfs : Longint;  {value will be multiple of AB_VMSPageSize}
+    vpStmOfs : Int64;  {value will be multiple of AB_VMSPageSize}
     vpLRU    : integer;  {'time' page was last accessed}
     vpDirty  : integer;  {has the page been changed?}
     vpData   : array [0..pred(AB_VMSPageSize)] of byte; {stream data}
@@ -58,22 +57,22 @@ type
       vmsCachePage    : PvmsPage;   {the latest page used}
       vmsLRU          : Longint;    {'tick' value}
       vmsMaxMemToUse  : Longint;    {maximum memory to use for data}
-      vmsMaxPages     : integer;    {maximum data pages}
+      vmsMaxPages     : Integer;    {maximum data pages}
       vmsPageList     : TList;      {page array, sorted by offset}
-      vmsPosition     : Longint;    {position of stream}
-      vmsSize         : Longint;    {size of stream}
+      vmsPosition     : Int64;    {position of stream}
+      vmsSize         : Int64;    {size of stream}
       vmsSwapFileDir  : string;     {swap file directory}
       vmsSwapFileName : string;     {swap file name}
-      vmsSwapFileSize : Longint;    {size of swap file}
+      vmsSwapFileSize : Int64;    {size of swap file}
       vmsSwapHandle   : integer;    {swap file handle}
     protected
       procedure vmsSetMaxMemToUse(aNewMem : Longint);
 
       function vmsAlterPageList(aNewMem : Longint) : Longint;
-      procedure vmsFindOldestPage(var OldestInx : integer;
+      procedure vmsFindOldestPage(var OldestInx : Longint;
                                   var OldestPage: PvmsPage);
       function vmsGetNextLRU : Longint;
-      function vmsGetPageForOffset(aOffset : Longint) : PvmsPage;
+      function vmsGetPageForOffset(aOffset : Int64) : PvmsPage;
 
       procedure vmsSwapFileCreate;
       procedure vmsSwapFileDestroy;
@@ -89,10 +88,10 @@ type
         {-read from the stream into a buffer}
       function Write(const Buffer; Count : Longint) : Longint; override;
         {-write to the stream from a buffer}
-      function Seek(Offset : Longint; Origin : Word) : Longint; override;
+      function Seek(const Offset : Int64; Origin : TSeekOrigin) : Int64; override;
         {-seek to a particular point in the stream}
 
-      procedure SetSize(NewSize : Longint); {$IFDEF VERSION3} override; {$ENDIF}  
+      procedure SetSize(const NewSize : Int64); {$IFDEF VERSION3} override; {$ENDIF}
         {-set the stream size}
 
       property MaxMemToUse : Longint
@@ -146,18 +145,13 @@ end;
 destructor TAbVirtualMemoryStream.Destroy;
 var
   Inx : integer;
-  P : PvmsPage;
-  
 begin
   {destroy the swap file}
   vmsSwapFileDestroy;
   {throw away all pages in the list}
   if (vmsPageList <> nil) then begin
     for Inx := 0 to pred(vmsPageList.Count) do
-      begin
-      P:=PvmsPage(vmsPageList[Inx]);
-      Dispose(P);
-      end;
+      Dispose(PvmsPage(vmsPageList[Inx]));
     vmsPageList.Destroy;
   end;
   {let our ancestor clean up}
@@ -170,10 +164,10 @@ var
   BufInx      : Longint;
   Page        : PvmsPage;
   PageDataInx : integer;
-  Posn        : Longint;
-  BytesToGo   : Longint;
-  BytesToRead : integer;
-  StartOfs    : Longint;
+  Posn        : int64;
+  BytesToGo   : int64;
+  BytesToRead : int64;
+  StartOfs    : int64;
 begin
   {reading is complicated by the fact we can only read in chunks of
    AB_VMSPageSize: we need to partition out the overall read into a read
@@ -216,20 +210,20 @@ begin
   vmsPosition := Posn;
 end;
 {--------}
-function TAbVirtualMemoryStream.Seek( Offset : Longint;
-                                      Origin : Word) : Longint;
+function TAbVirtualMemoryStream.Seek(const Offset : Int64;
+                                      Origin : TSeekOrigin) : Int64;
 begin
   case Origin of
-    soFromBeginning : vmsPosition := Offset;
-    soFromCurrent   : inc(vmsPosition, Offset);
-    soFromEnd       : vmsPosition := vmsSize + Offset;
+    soBeginning : vmsPosition := Offset;
+    soCurrent   : inc(vmsPosition, Offset);
+    soEnd       : vmsPosition := vmsSize + Offset;
   else
-    raise EAbVMSInvalidOrigin.Create( Origin, 0 );              
+    raise EAbVMSInvalidOrigin.Create( Integer(Origin), 0 );
   end;
   Result := vmsPosition;
 end;
 {--------}
-procedure TAbVirtualMemoryStream.SetSize(NewSize : Longint);
+procedure TAbVirtualMemoryStream.SetSize(const NewSize : Int64);
 var
   Page : PvmsPage;
   Inx  : integer;
@@ -267,7 +261,7 @@ var
   NumPages : Longint;
   Page     : PvmsPage;
   i        : integer;
-  OldestPageNum : integer;
+  OldestPageNum : Longint;
 begin
   {calculate the max number of pages required}
   NumPages := pred(aNewMem + AB_VMSPageSize) div AB_VMSPageSize;
@@ -293,7 +287,7 @@ begin
   Result := NumPages * AB_VMSPageSize;
 end;
 {--------}
-procedure TAbVirtualMemoryStream.vmsFindOldestPage(var OldestInx : integer;
+procedure TAbVirtualMemoryStream.vmsFindOldestPage(var OldestInx : Longint;
                                                    var OldestPage: PvmsPage);
 var
   OldestLRU : Longint;
@@ -326,10 +320,10 @@ begin
   Result := vmsLRU;
 end;
 {--------}
-function TAbVirtualMemoryStream.vmsGetPageForOffset(aOffset : Longint) : PvmsPage;
+function TAbVirtualMemoryStream.vmsGetPageForOffset(aOffset : Int64) : PvmsPage;
 var
   Page     : PvmsPage;
-  PageOfs  : Longint;
+  PageOfs  : Int64;
   L, M, R  : integer;
   OldestPageNum : integer;
   CreatedNewPage: boolean;
@@ -451,7 +445,7 @@ end;
 procedure TAbVirtualMemoryStream.vmsSwapFileRead(aPage : PvmsPage);
 var
   BytesRead : Longint;
-  SeekResult: Longint;
+  SeekResult: Int64;
 begin
   if (vmsSwapHandle = 0) or (aPage^.vpStmOfs >= vmsSwapFileSize) then begin
     {there is nothing to be read from the disk (either the swap file
@@ -461,7 +455,7 @@ begin
   else {there is something to be read from the swap file} begin
     SeekResult := FileSeek(vmsSwapHandle, aPage^.vpStmOfs, 0);
     if (SeekResult = -1) then
-      raise EAbVMSSeekFail.Create( vmsSwapFileName );                  
+      raise EAbVMSSeekFail.Create( vmsSwapFileName );
     BytesRead := FileRead(vmsSwapHandle, aPage^.vpData, AB_VMSPageSize);
     if (BytesRead <> AB_VMSPageSize) then
       raise EAbVMSReadFail.Create( AB_VMSPageSize, vmsSwapFileName );  
@@ -470,17 +464,17 @@ end;
 {--------}
 procedure TAbVirtualMemoryStream.vmsSwapFileWrite(aPage : PvmsPage);
 var
-  NewPos : Longint;
-  BytesWrit : Longint;
-  SeekResult: Longint;
+  NewPos : Int64;        
+  SeekResult: Int64;
+  BytesWritten : Longint;
 begin
   if (vmsSwapHandle = 0) then
     vmsSwapFileCreate;
   SeekResult := FileSeek(vmsSwapHandle, aPage^.vpStmOfs, 0);
   if (SeekResult = -1) then
     raise EAbVMSSeekFail.Create( vmsSwapFileName );                    
-  BytesWrit := FileWrite(vmsSwapHandle, aPage^.vpData, AB_VMSPageSize);
-  if BytesWrit <> AB_VMSPageSize then
+  BytesWritten := FileWrite(vmsSwapHandle, aPage^.vpData, AB_VMSPageSize);
+  if BytesWritten <> AB_VMSPageSize then
     raise EAbVMSWriteFail.Create( AB_VMSPageSize, vmsSwapFileName );   
   NewPos := aPage^.vpStmOfs + AB_VMSPageSize;
   if (NewPos > vmsSwapFileSize) then
@@ -493,10 +487,10 @@ var
   BufInx      : Longint;
   Page        : PvmsPage;
   PageDataInx : integer;
-  Posn        : Longint;
+  Posn        : Int64;
   BytesToGo   : Longint;
   BytesToWrite: integer;
-  StartOfs    : Longint;
+  StartOfs    : Int64;
 begin
   {writing is complicated by the fact we can only write in chunks of
    AB_VMSPageSize: we need to partition out the overall write into a

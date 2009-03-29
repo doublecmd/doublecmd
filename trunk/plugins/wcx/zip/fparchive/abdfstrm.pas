@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbDfStrm.pas 3.04                           *}
+{* ABBREVIA: AbDfStrm.pas 3.05                           *}
 {*********************************************************}
 {* Deflate streams unit for various streams              *}
 {*********************************************************}
@@ -137,8 +137,8 @@ type
       FLitCount    : integer;
       FLog         : TAbLogger;
       FSlideWin    : TAbDfInputWindow;
-      FStartOfs    : longint;
-      FStoredSize  : longint;
+      FStartOfs    : Int64;
+      FStoredSize  : LongWord;
       FStream      : PAnsiChar;
       FStrmEnd     : PAnsiChar;
       {$IFDEF UseLogging}
@@ -146,7 +146,7 @@ type
       {$ENDIF}
       FUseDeflate64: boolean;
     protected
-      function lzsGetApproxSize : integer;
+      function lzsGetApproxSize : LongWord;
       function lzsGetStaticSize : integer;
       function lzsGetStoredSize : integer;
       function lzsIsFull : boolean;
@@ -203,7 +203,6 @@ type
 implementation
 
 uses
-  AbDfCryS,
   AbDfXlat;
 
 type
@@ -682,7 +681,7 @@ begin
   {if we couldn't write the correct number of bytes, it's an error}
   if (BytesWritten <> ByteCount) then
     raise EAbInternalDeflateError.Create(
-       'could not write to the output atream [TAbDfInBitStream.obsEmptyBuffer]');
+       'could not write to the output stream [TAbDfInBitStream.obsEmptyBuffer]');
 
   {reset the pointers}
   FBufPos := FBuffer;
@@ -1018,7 +1017,7 @@ begin
   while (CurPos < StrmEnd) do begin
 
     {if the next item is a literal...}
-    if boolean(PByte(CurPos)^) then begin
+    if boolean(CurPos^) then begin
 
       {encode the literal character as a symbol}
       inc(CurPos);
@@ -1174,7 +1173,7 @@ begin
 {  Clear;}
 end;
 {--------}
-function TAbDfLZStream.lzsGetApproxSize : integer;
+function TAbDfLZStream.lzsGetApproxSize : LongWord;
 var
   i : integer;
 begin

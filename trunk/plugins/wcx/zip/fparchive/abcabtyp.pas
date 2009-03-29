@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbCabTyp.pas 3.04                           *}
+{* ABBREVIA: AbCabTyp.pas 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: Cabinet Archive                             *}
 {* Based on info from the FCI/FDI Library Description,   *}
@@ -34,6 +34,8 @@
 {$I AbDefine.inc}
 
 unit AbCabTyp;
+{$WARN UNIT_PLATFORM OFF}  
+{$WARN SYMBOL_PLATFORM OFF}
 
 interface
 
@@ -44,7 +46,7 @@ uses
   Libc,  
 {$endif}
   SysUtils, Classes, AbFciFdi, AbArcTyp,
-  AbUtils, AbConst, AbExcept;
+  AbUtils, AbConst;
 
 type
   TAbCabItem = class(TAbArchiveItem)
@@ -87,6 +89,7 @@ type
     FErrors          : CabErrorRecord;
     FFileHandle      : Integer;
     FItemInProgress  : TAbCabItem;
+    FIIPName         : string;
     FItemProgress    : DWord;
     FNextCabinet     : string;
     FNextDisk        : string;
@@ -97,7 +100,7 @@ type
     FCabSize           : Longint;
     FCompressionType   : TAbCabCompressionType;
     FFileCount         : Word;
-    FFolderThreshold   : Longint;
+    FFolderThreshold   : LongWord;
     FFolderCount       : Word;
     FHasPrev           : Boolean;
     FHasNext           : Boolean;
@@ -106,7 +109,8 @@ type
     {internal methods}
     procedure CloseCabFile;
     procedure CreateCabFile;
-    function  CreateItem( const FileSpec : string ): TAbArchiveItem;
+    function  CreateItem(const SourceFileName   : string;
+                         const ArchiveDirectory : string): TAbArchiveItem;
       override;
     procedure DoCabItemProcessed;
     procedure DoCabItemProgress(BytesCompressed : DWord;
@@ -126,15 +130,15 @@ type
     procedure PutItem( Index : Integer; Value : TAbCabItem );
     procedure SaveArchive;
       override;
-    procedure SetFolderThreshold(Value : Longint);
+    procedure SetFolderThreshold(Value : LongWord);
     procedure SetSetID(Value : Word);
-    procedure SetSpanningThreshold(Value : Longint);
+    procedure SetSpanningThreshold(Value : Int64);
       override;
     procedure TestItemAt(Index : Integer);
       override;
 
   public {methods}
-    constructor Create(FileName : string; Mode : Word);
+    constructor Create(const FileName : string; Mode : Word);
       override;
     destructor Destroy;
       override;
@@ -151,7 +155,7 @@ type
     property CompressionType : TAbCabCompressionType
       read  FCompressionType
       write FCompressionType;
-    property FolderThreshold : Longint
+    property FolderThreshold : LongWord
       read  FFolderThreshold
       write SetFolderThreshold;
     property FolderCount : Word
@@ -174,7 +178,9 @@ type
 function VerifyCab(const Fn : string) : TAbArchiveType;
 
 implementation
-
+uses
+  AbExcept;
+  
 type
   PWord    = ^Word;
   PInteger = ^Integer;
@@ -186,10 +192,14 @@ begin
   Result := atCab;
   CabArchive := TAbCabArchive.Create(Fn, fmOpenRead or fmShareDenyNone);
   try
-    CabArchive.LoadArchive;
-  except
-    on EAbFDICreateError do
-      Result := atUnknown;
+    try
+      CabArchive.LoadArchive;
+    except
+      on EAbFDICreateError do
+        Result := atUnknown;
+    end;
+  finally
+    CabArchive.Free;
   end;
 end;
 
@@ -444,10 +454,14 @@ begin
       begin
         NewFilename := StrPas(pfdin^.psz1);
         if (NewFilename = Archive.FItemInProgress.FileName) then begin
-          if not (eoRestorePath in Archive.ExtractOptions) then
-            NewFilename := ExtractFileName(NewFileName);
-          if (Archive.BaseDirectory <> '') then
-            NewFilename := Archive.BaseDirectory + '\' + NewFilename;
+          if Archive.FIIPName <> '' then
+            NewFilename := Archive.FIIPName
+          else begin
+            if not (eoRestorePath in Archive.ExtractOptions) then
+              NewFilename := ExtractFileName(NewFileName);
+            if (Archive.BaseDirectory <> '') then
+              NewFilename := Archive.BaseDirectory + '\' + NewFilename;
+          end;
           NewFilePath := ExtractFilePath(NewFilename);
           if (Length(NewFilePath) > 0 ) and
             (NewFilePath[Length(NewFilePath)] = '\') then
@@ -477,9 +491,11 @@ begin
       end;
     FDINT_Close_File_Info :
       begin
-        AbFileSetAttr(NewFilename, pfdin^.attribs);
-        FileSetDate(pfdin^.hf, Longint(pfdin^.date) shl 16 + pfdin^.time);
         _lclose(pfdin^.hf);
+        // [ 880505 ]  Need to Set Attributes after File is closed {!!.05}
+        AbFileSetAttr(NewFilename, pfdin^.attribs);
+        // Need to test as Handle maybe invalid after _lclose
+        FileSetDate(pfdin^.hf, Longint(pfdin^.date) shl 16 + pfdin^.time);
         Archive.DoCabItemProcessed;
       end;
   end;
@@ -487,7 +503,7 @@ end;
 
 
 { == TAbCabArchive ========================================================= }
-constructor TAbCabArchive.Create( FileName : string; Mode : Word );
+constructor TAbCabArchive.Create(const FileName : string; Mode : Word );
 begin
   {Mode is used to identify which interface to use: }
   {  fmOpenWrite - FCI, fmOpenRead - FDI}
@@ -515,9 +531,10 @@ end;
 procedure TAbCabArchive.Add(aItem : TAbArchiveItem);
   {add a file to the cabinet}
 var
+  FH : HFILE;
+  newFileName:  string;
   Confirm, DoExecute : Boolean;
   FP, FN : array[0..255] of Char;
-  FH : HFILE;
   Item : TAbCabItem;
 begin
   if (FMode <> fmOpenWrite) then begin
@@ -533,7 +550,7 @@ begin
   if not Confirm then
     Exit;
   Item.Action := aaAdd;
-  StrPCopy(FP, Item.Filename);                                           {!!.02}
+  StrPCopy(FP, Item.DiskFilename);                                           {!!.02}
   FH := _lopen(FP, OF_READ or OF_SHARE_DENY_NONE);                       {!!.02}
   if (FH <> HFILE_ERROR) then begin
     aItem.UncompressedSize := _llseek(FH, 0, 2);
@@ -544,11 +561,19 @@ begin
     raise EAbFileNotFound.Create;
 
 
-  StrPCopy(FN, ExtractFilename(Item.Filename));                          {!!.02}
+    newFileName := Item.FileName;
+    if (soStripPath in StoreOptions) then
+    	Item.FileName := ExtractFileName(newFileName);
+
+    if (soRemoveDots in StoreOptions) then AbStripDots(newFileName);
+
+  StrPCopy(FN, newFileName);                          {!!.02}
   if not FCIAddFile(FFCIContext, FP, FN, DoExecute, @FCI_GetNextCab,
     @FCI_Status, @FCI_GetOpenInfo, CompressionTypeMap[FCompressionType]) then
     raise EAbFCIAddFileError.Create;
 
+	//TODO: Verify after flushing cab we can write to it again
+    FIsDirty := true;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbCabArchive.CloseCabFile;
@@ -604,20 +629,21 @@ begin
     end;
 end;
 { -------------------------------------------------------------------------- }
-function TAbCabArchive.CreateItem( const FileSpec : string ): TAbArchiveItem;
+function TAbCabArchive.CreateItem(const SourceFileName   : string;
+                                  const ArchiveDirectory : string): TAbArchiveItem;
   {create a new item for the file list}
 var
-  Buff : array [0..255] of Char;
+  FullSourceFileName, FullArchiveFileName : string;
 begin
   Result := TAbCabItem.Create;
   with TAbCabItem(Result) do begin
     CompressedSize := 0;
-    StrPCopy(Buff, ExpandFileName(FileSpec));
-    AnsiToOEM(Buff, Buff);
-    DiskFileName := StrPas(Buff);
-    StrPCopy(Buff, FixName(FileSpec));
-    AnsiToOEM(Buff, Buff);
-    FileName := StrPas(Buff);
+
+    MakeFullNames(SourceFileName, ArchiveDirectory,
+                  FullSourceFileName, FullArchiveFileName);
+
+    Result.FileName := FullArchiveFileName;
+    Result.DiskFileName := FullSourceFileName;
   end;
 end;
 { -------------------------------------------------------------------------- }
@@ -665,9 +691,14 @@ procedure TAbCabArchive.ExtractItemAt(Index : Integer; const NewName : string);
   {extract a file from the cabinet}
 begin
   FItemInProgress := GetItem(Index);
-  if not FDICopy(FFDIContext, FCabName, FCabPath, 0, @FDI_ExtractFiles,
-                 nil, Self) then
-    DoProcessItemFailure(FItemInProgress, ptExtract, ecCabError, 0);
+  FIIPName := NewName;
+  try
+    if not FDICopy(FFDIContext, FCabName, FCabPath, 0, @FDI_ExtractFiles,
+                   nil, Self) then
+      DoProcessItemFailure(FItemInProgress, ptExtract, ecCabError, 0);
+  finally
+    FIIPName := '';
+  end;
 end;
 {----------------------------------------------------------------------------}
 procedure TAbCabArchive.ExtractItemToStreamAt(Index : Integer; OutStream : TStream);
@@ -754,7 +785,7 @@ begin
     FCIFlushCabinet(FFCIContext, False, @FCI_GetNextCab, @FCI_Status);
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCabArchive.SetFolderThreshold(Value : Longint);
+procedure TAbCabArchive.SetFolderThreshold(Value : LongWord);
   {set maximum compression boundary}
 begin
   if (Value > 0) then
@@ -771,7 +802,7 @@ begin
   FFCICabInfo.SetID := Value;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCabArchive.SetSpanningThreshold(Value : Longint);
+procedure TAbCabArchive.SetSpanningThreshold(Value : Int64);
   {set maximum cabinet size}
 begin
   if (Value > 0) then
@@ -785,5 +816,6 @@ procedure TAbCabArchive.TestItemAt(Index : Integer);
 begin
   {not implemented for cabinet archives}
 end;
-
+{$WARN UNIT_PLATFORM ON}
+{$WARN SYMBOL_PLATFORM ON}
 end.

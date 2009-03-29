@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbRegClx.pas 3.04                           *}
+{* ABBREVIA: AbRegClx.pas 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: Registrations (CLX)                         *}
 {*********************************************************}
@@ -229,7 +229,7 @@ begin
 
   RegisterComponents( 'Abbrevia',
                       [
-                        TAbCLXMeterLink,
+                        TAbMeterLink,
                         TAbMeter,
                         TAbCabView,
                         TAbZipView,

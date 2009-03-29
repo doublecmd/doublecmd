@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbRegVcl.pas 3.04                           *}
+{* ABBREVIA: AbRegVcl.pas 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: Registrations (VCL)                         *}
 {*********************************************************}
@@ -206,7 +206,8 @@ begin
                         TAbCabKit,
                         TAbCabView,
                         TAbMeter,
-                        TAbVCLMeterLink,
+                        TAbMeterLink,
+                        TAbVclMeterLink,
                         TAbMakeSelfExe ]);
 end;
 

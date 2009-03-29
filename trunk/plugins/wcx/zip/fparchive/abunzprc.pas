@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbUnzPrc.pas 3.04                           *}
+{* ABBREVIA: AbUnzPrc.pas 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: UnZip procedures                            *}
 {*********************************************************}
@@ -183,11 +183,13 @@ type
     no encryption is tried, no check on CRC is done, uses the whole
     compressedstream - no Progress events - no Frills!}
 
+  function CopyFileTo(const Source, Destination: string;FailifExists:boolean): Boolean;
 implementation
 
 uses
   AbConst,
   AbExcept,
+  AbTempFileStream,  
   AbBitBkt,
   {$IFNDEF NoQt}
   {$IFDEF LINUX}
@@ -1029,6 +1031,7 @@ procedure RequestPassword(Archive : TAbZipArchive; var Abort : Boolean);
 var
   APassPhrase : string;
 begin
+  APassPhrase := Archive.Password; {!!.05  SF.NET Bug 698162}
   Abort := False;
   if Assigned(Archive.OnNeedPassword) then begin
     Archive.OnNeedPassword(Archive, APassPhrase);
@@ -1092,11 +1095,11 @@ begin
         raise EAbUserAbort.Create;
 
 
-      Hlpr.Passphrase := Archive.Password;
       Hlpr.CheckValue := TheCRC;
       repeat
         try
           { attempt to inflate }
+          Hlpr.Passphrase := Archive.Password;
           Result := Inflate(Archive.FStream, OutStream, Hlpr);
           Successful := True;
         except
@@ -1123,15 +1126,15 @@ end;
 { -------------------------------------------------------------------------- }
 function DoExtractStored(Archive : TAbZipArchive; Item : TAbZipItem; OutStream : TStream; TheCRC : LongInt) : LongInt;
 var
-  DataRead    : LongInt;
+  DataRead    : Int64;
   CRC32       : LongInt;
   Percent     : LongInt;
   LastPercent : LongInt;
 
   Tries : Integer;
-  Total       : LongInt;
-  Remaining   : LongInt;
-  SizeToRead  : LongInt;
+  Total       : Int64;
+  Remaining   : Int64;
+  SizeToRead  : Int64;
   Abort       : Boolean;
   Buffer      : array [0..1023] of byte;
   DecryptStream : TAbDfDecryptStream;
@@ -1199,44 +1202,49 @@ begin
 
       { check for valid password }
       DecryptStream := TAbDfDecryptStream.Create(Archive.FStream, TheCRC, Archive.Password);
-      while not Abort and not DecryptStream.IsValid and (Tries < Archive.PasswordRetries) do begin
-        RequestPassword(Archive, Abort);
-        if Abort then
-          raise EAbUserAbort.Create;
-        DecryptStream.Free;
-        DecryptStream := TAbDfDecryptStream.Create(Archive.FStream, TheCRC, Archive.Password);
-        Inc(Tries);
-      end;
-      if (Tries > Archive.PasswordRetries) then
-        raise EAbZipInvalidPassword.Create;
+      try 
+          while not Abort and not DecryptStream.IsValid and (Tries < Archive.PasswordRetries) do begin
+            RequestPassword(Archive, Abort);
+            if Abort then
+              raise EAbUserAbort.Create;
+            DecryptStream.Free;
+            DecryptStream := TAbDfDecryptStream.Create(Archive.FStream, TheCRC, Archive.Password);
+            Inc(Tries);
+          end;
+          if (Tries > Archive.PasswordRetries) then
+            raise EAbZipInvalidPassword.Create;
 
-      { got good Password, so extract }
-      { get first bufferful (decrypting) }
-      {  DecryptStream.Position := 0;                            }{!!.01}{!!.02}
-      DataRead := DecryptStream.Read(Buffer, SizeToRead);
-      { while more data has been read and we're not told to bail }
-      while (DataRead > 0) and not Abort do begin
-        { report progress }
-        if Assigned(Archive.OnProgress) then begin
-          Total := Total + DataRead;
-          Remaining := Remaining - DataRead;                             {!!.01}
-          Percent := Round((100.0 * Total) / Item.UncompressedSize);
-          if (LastPercent <> Percent) then
-            Archive.OnProgress(Percent, Abort);
-          LastPercent := Percent;
-        end;
+          { got good Password, so extract }
+          { get first bufferful (decrypting) }
+          {  DecryptStream.Position := 0;                            }{!!.01}{!!.02}
+          DataRead := DecryptStream.Read(Buffer, SizeToRead);
+          { while more data has been read and we're not told to bail }
+          while (DataRead > 0) and not Abort do begin
+            { report progress }
+            if Assigned(Archive.OnProgress) then begin
+              Total := Total + DataRead;
+              Remaining := Remaining - DataRead;                             {!!.01}
+              Percent := Round((100.0 * Total) / Item.UncompressedSize);
+              if (LastPercent <> Percent) then
+                Archive.OnProgress(Percent, Abort);
+              LastPercent := Percent;
+            end;
 
-        { update CRC }
-        AbUpdateCRCBuffer(CRC32, Buffer, DataRead);
+            { update CRC }
+            AbUpdateCRCBuffer(CRC32, Buffer, DataRead);
 
-        { write data }
-        OutStream.WriteBuffer(Buffer, DataRead);
+            { write data }
+            OutStream.WriteBuffer(Buffer, DataRead);
 
-        { get next bufferful (decrypting) }
-        SizeToRead := SizeOf(Buffer);
-        if SizeToRead > Remaining then
-          SizeToRead := Remaining;
-        DataRead := DecryptStream.Read(Buffer, SizeToRead);
+            { get next bufferful (decrypting) }
+            SizeToRead := SizeOf(Buffer);
+            if SizeToRead > Remaining then
+              SizeToRead := Remaining;
+            DataRead := DecryptStream.Read(Buffer, SizeToRead);
+          end;
+      finally
+      	DecryptStream.Free();
+
       end;
     except
       on EAbUserAbort do
@@ -1333,7 +1341,7 @@ var
   procedure GetHeader;
   begin
     {get past the item's local file header}
-    ZipArchive.FStream.Seek(Item.RelativeOffset, soFromBeginning);
+    ZipArchive.FStream.Seek(Item.RelativeOffset, soBeginning);
 
     { select appropriate CRC value based on General Purpose Bit Flag }
     { also get whether the file is stored, while we've got the local file header }
@@ -1394,12 +1402,22 @@ procedure AbUnzip(Sender : TObject; Item : TAbZipItem; NewName : string);
   {create the output filestream and pass it to AbUnzipToStream}
 var
   Confirm    : Boolean;
+  {$IFDEF AbUnZipClobber}
   OutStream  : TFileStream;
+  {$ENDIF}
+  MemoryStream   : TMemoryStream;
+  OutStream      : TFileStream;
+  TempFileStream : TAbTempFileStream;
+  TempFileName   : String;
+(*  {$IFDEF AbUnZipMemory}
+  TempOut    : TMemoryStream;
+  OutStream  : TFileStream;
+  {$ENDIF}
+  {$IFDEF AbUnZipTempFile}
+  TempOut    : TAbTempFileStream;
+  TempFile   : String;
+  {$ENDIF}*)
   ZipArchive : TAbZipArchive;
-{$IFDEF LINUX}                                                           {!!.01}
-  FileDateTime  : TDateTime;                                             {!!.01}
-  LinuxFileTime : LongInt;                                               {!!.01}
-{$ENDIF LINUX}                                                           {!!.01}
 begin
   ZipArchive := TAbZipArchive(Sender);
 
@@ -1410,24 +1428,81 @@ begin
 
   if not Confirm then
     Exit;
-  OutStream := TFileStream.Create(NewName, fmCreate or fmShareDenyWrite); {!!.01}
+  // The problem with Create the FileStream here is that overwrites the existing
+  // File which is no problem, unless the archive is password protected and
+  // then Password is found out to be wrong.   Ways to resolve:
+  // 1. extract to TMemoryStream then Write MemoryStream to Disk if everything is ok.
+  // 2. Move the password check up in the process (if possible)
+  // 3. Write to a Temp File if everything ok copy to new location.
+  // Given all the options that I have now, I am going to try option #1 for now,
+  // it may cause problems on memory overhead for some, but lets see if it does.
+  // It also may speed up this routine for many.
+  // NOTE: Instead of doing what I stated above, I added compiler define logic to allow you to chose for now.
   try
+  {$IFDEF AbUnZipClobber}
+    OutStream := TFileStream.Create(NewName, fmCreate or fmShareDenyWrite); {!!.01}
     try    {OutStream}
       AbUnZipToStream(Sender, Item, OutStream);
-      {$IFDEF MSWINDOWS}
-      FileSetDate(OutStream.Handle, (Longint(Item.LastModFileDate) shl 16)
-        + Item.LastModFileTime);
-      {$ENDIF}
-      {$IFDEF LINUX}
-      FileDateTime := AbDosFileDateToDateTime(Item.LastModFileDate,      {!!.01}
-        Item.LastModFileTime);                                           {!!.01}
-      LinuxFileTime := AbDateTimeToUnixTime(FileDateTime);               {!!.01}
-//!! MVC not implemented      FileSetDate(NewName, LinuxFileTime);                               {!!.01}
-      {$ENDIF}
-      AbFileSetAttr(NewName, Item.ExternalFileAttributes);
-   finally {OutStream}
+    // Some Network Operating Systems cache the file and when we set attributes they are truncated
+      AbFlushOsBuffers(OutStream.Handle);
+    finally {OutStream}
       OutStream.Free;
     end;   {OutStream}
+  {$ENDIF}
+
+    // Unpack to memory for files less than 1MB
+    if Item.UncompressedSize < 1024 * 1024 then
+    begin
+  //  {$IFDEF AbUnZipMemory}
+      MemoryStream := TMemoryStream.Create;
+      try
+        MemoryStream.Size := Item.UncompressedSize;// This causes all the memory to allocated at once which is faster
+        MemoryStream.Position := 0;
+        AbUnZipToStream(Sender, Item, MemoryStream);
+        OutStream := TFileStream.Create(NewName, fmCreate or fmShareDenyWrite); {!!.01}
+        try
+          // Copy Memory Stream To File Stream.
+          MemoryStream.SaveToStream(OutStream);
+          // Some Operating Systems cache the file and when we set attributes they are truncated
+          AbFlushOsBuffers(OutStream.Handle);
+        finally
+         OutStream.Free;
+        end;
+      finally
+        MemoryStream.Free;
+      end;
+  //  {$ENDIF}
+
+    end else begin  // for larger files copy through temp file
+
+  //  {$IFDEF AbUnZipTempFile}
+      TempFileStream := TAbTempFileStream.Create(false);
+      try
+        AbUnZipToStream(Sender, Item, TempFileStream);
+        TempFileName := TempFileStream.FileName;
+      finally
+        TempFileStream.Free;
+      end;
+
+      // Now copy the temp File to correct location
+      CopyFileTo(pchar(TempFileName),pchar(NewName),false);
+
+      // Check that it exists
+      if Not FileExists(NewName) then
+      begin
+        raise EAbException.CreateFmt(abMoveFileErrorS,[TempFileName,NewName]); // TODO: Add Own Exception Class
+      end;
+      // Now Delete the Temp File
+      DeleteFile(TempFileName);
+    end;
+  // {$ENDIF}
+
+
+    // [ 880505 ]  Need to Set Attributes after File is closed {!!.05}
+    {!!.05 Moved to after OutStream.Free to make sure File Handle is closed}
+
+    AbSetFileTime(NewName, Item.SystemSpecificLastModFileTime);
+    AbFileSetAttr(NewName, Item.SystemSpecificAttributes);
 
   except
     on E : EAbUserAbort do begin
@@ -1474,9 +1549,9 @@ begin
     BitBucket := TAbBitBucketStream.Create(0);
     LFH := TAbZipLocalFileHeader.Create;
       {get the item's local file header}
-    ZipArchive.FStream.Seek(Item.RelativeOffset, soFromBeginning);
+    ZipArchive.FStream.Seek(Item.RelativeOffset, soBeginning);
     LFH.LoadFromStream(ZipArchive.FStream);
-    ZipArchive.FStream.Seek(Item.RelativeOffset, soFromBeginning);
+    ZipArchive.FStream.Seek(Item.RelativeOffset, soBeginning);
 
       {currently a single exception is raised for any LFH error}
     if (LFH.VersionNeededToExtract <> Item.VersionNeededToExtract) then
@@ -1515,5 +1590,36 @@ begin
   Inflate(CompressedStream, UncompressedStream, nil);
 end;
 
+function CopyFileTo(const Source, Destination: string;failifExists:boolean): Boolean;
+{$IFDEF LINUX}
+var
+SourceStream: TFileStream;
+{$ENDIF}
+begin
+// -TODO: Change to use a Linux copy function
+// There is no native Linux copy function (at least "cp" doesn't use one
+// and I can't find one anywhere (Johannes Berg))
+{$IFDEF LINUX}
+   Result := false;
+   if not FileExists(Destination) then
+   begin
+      SourceStream := TFileStream.Create(Source, fmOpenRead);
+      try
+         with TFileStream.Create(Destination, fmCreate) do
+         try
+            CopyFrom(SourceStream, 0);    // copy whole stream
+         finally
+            Free;
+         end;
+      finally
+         SourceStream.free;
+      end;
+      Result := true;
+   end;
+{$ENDIF LINUX}
+{$IFDEF MSWINDOWS}
+   Result := CopyFile(PChar(Source), PChar(Destination), failifExists);
+{$ENDIF MSWINDOWS}
+end;
 end.
 

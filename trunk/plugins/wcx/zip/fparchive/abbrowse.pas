@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbBrowse.pas 3.04                           *}
+{* ABBREVIA: AbBrowse.pas 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: Base Browser Component                      *}
 {*********************************************************}
@@ -39,17 +39,10 @@ uses
   SysUtils, Classes,
   AbBase,
   AbUtils,
-  AbExcept,
-  AbArcTyp,
-{$IFDEF MSWINDOWS}
-  AbCabTyp,
-{$ENDIF}
-  AbZipTyp,
-  AbTarTyp,
-  AbGzTyp;
+  AbArcTyp;
 
-type
-  TAbMeterLink = class(TAbBaseComponent)
+  type
+  TAbBaseMeterLink = class(TAbBaseComponent)
     public
       procedure DoProgress(Progress : Byte); virtual; abstract;
       procedure Reset; virtual; abstract;
@@ -60,8 +53,8 @@ type
     FArchive : TAbArchive;
   protected {private}
     FSpanningThreshold : Longint;
-    FItemProgressMeter : TAbMeterLink;
-    FArchiveProgressMeter : TAbMeterLink;
+    FItemProgressMeter : TAbBaseMeterLink;
+    FArchiveProgressMeter : TAbBaseMeterLink;
     FBaseDirectory : string;
     FFileName : string;
     FLogFile : string;
@@ -124,7 +117,7 @@ type
   protected {properties}
     property Archive : TAbArchive
       read FArchive;
-    property ArchiveProgressMeter : TAbMeterLink
+    property ArchiveProgressMeter : TAbBaseMeterLink
       read  FArchiveProgressMeter
       write FArchiveProgressMeter;
     property BaseDirectory : string
@@ -137,7 +130,7 @@ type
       read  FSpanningThreshold
       write SetSpanningThreshold
       default 0;
-    property ItemProgressMeter : TAbMeterLink
+    property ItemProgressMeter : TAbBaseMeterLink
       read  FItemProgressMeter
       write FItemProgressMeter;
     property LogFile : string
@@ -219,7 +212,13 @@ function AbDetermineArcType(const FN : string; AssertType : TAbArchiveType) : TA
 implementation
 
 uses
-  AbConst;
+  AbExcept,
+{$IFDEF MSWINDOWS}
+  AbCabTyp,
+{$ENDIF}
+  AbZipTyp,
+  AbTarTyp,
+  AbGzTyp;
 
 { TAbBaseBrowser implementation ======================================= }
 
@@ -240,6 +239,7 @@ end;
 { -------------------------------------------------------------------------- }
 destructor TAbBaseBrowser.Destroy;
 begin
+ if Assigned(FArchive) then
   FArchive.Free;
   FArchive := nil;
   inherited Destroy;
@@ -499,14 +499,18 @@ begin
     if not FileExists(FN) or (AbFileGetSize(FN) = 0) then begin          {!!.01}
     { file doesn't exist (or is empty) so presume to make one }          {!!.01}
       if Ext = '.ZIP' then
-        Result := atZip;
-      if Ext = '.TAR' then
-        Result := atTar;
-      if (Ext = '.GZ') then
-        Result := atGzip;
-      if (Ext = '.TGZ') then
-        Result := atGzippedTar;
-      if (Ext = '.CAB') then
+        Result := atZip
+      else if Ext = '.JAR' then {!!.05}
+        Result := atZip
+      else if Ext = '.TAR' then
+        Result := atTar
+      else if (Ext = '.GZ') then
+        Result := atGzip
+      else if (Ext = '.TGZ') then
+        Result := atGzippedTar
+      else if (Ext = '.BZ2') then
+        Result := atBZip
+      else if (Ext = '.CAB') then
         Result := atCab;
     end
     else begin  { file exists so guess that's what it is and double check }
@@ -515,13 +519,17 @@ begin
         Ext := UpperCase(ExtractFileExt(FN));
 
         if Ext = '.EXE' then
-          Result := VerifySelfExtracting(FS);
-        if Ext = '.ZIP' then
-          Result := VerifyZip(FS);
-        if Ext = '.TAR' then
-          Result := VerifyTar(FS);
-        if (Ext = '.GZ') or (Ext = '.TGZ') then
+          Result := VerifySelfExtracting(FS)
+        else if Ext = '.ZIP' then
+          Result := VerifyZip(FS)
+        else if Ext = '.JAR' then        {!!.05}
+          Result := VerifyZip(FS)
+        else if Ext = '.TAR' then
+          Result := VerifyTar(FS)
+        else if (Ext = '.GZ') or (Ext = '.TGZ') then
           Result := VerifyGzip(FS);
+//        else if Ext = '.BZ2' then
+//          Result := VerifyBzip2(FS)
 {$IFDEF MSWINDOWS}
         if (Ext = '.CAB') then
           Result := VerifyCab(FN);

@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbZipPrc.pas 3.04                           *}
+{* ABBREVIA: AbZipPrc.pas 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: TABZipHelper class                          *}
 {*********************************************************}
@@ -36,7 +36,6 @@ unit AbZipPrc;
 interface
 
 uses
-  Types, //!! MVC for max_path.
   Classes,
   AbArcTyp,
   AbZipTyp,
@@ -127,14 +126,6 @@ begin
           Item.GeneralPurposeBitFlag or DEFLATE_SUPERFAST_MASK;
       end;
     end;
-{
-    case Archive.DeflationOption of
-      doNormal    : Hlpr.PKZipOption := 'n';
-      doMaximum   : Hlpr.PKZipOption := 'x';
-      doFast      : Hlpr.PKZipOption := 'f';
-      doSuperFast : Hlpr.PKZipOption := 's';
-    end;
-}
 {!!.02 End Rewritten}
 
     { attach progress notification method }
@@ -154,11 +145,11 @@ var
   CRC32       : LongInt;
   Percent     : LongInt;
   LastPercent : LongInt;
-  InSize      : LongInt;
-  DataRead    : LongInt;
-  Total       : LongInt;
+  InSize      : Int64;
+  DataRead    : Int64;
+  Total       : Int64;
   Abort       : Boolean;
-  Buffer      : array [0..1023] of byte;
+  Buffer      : array [0..8191] of byte;
   DestStrm    : TStream;  { place holder for Output, either direct or encrypted }
 begin
   { setup }
@@ -207,6 +198,11 @@ begin
   if (Percent < 100) and Assigned(Archive.OnProgress) then
     Archive.OnProgress(100, Abort);
 
+  { DestStrm was created under these conditions it needs to be freed. }
+  //  [ 890888 ] Memory Leak in abZipPrc
+  if Archive.Password <> '' then  { encrypt the stream }
+    DestStrm.Free;
+
   { User wants to bail }
   if Abort then begin
     raise EAbUserAbort.Create;
@@ -227,6 +223,7 @@ begin
   Item.UncompressedSize := InStream.Size;
   Item.GeneralPurposeBitFlag := 0;
   Item.CompressedSize := 0;
+  Item.VersionMadeBy := MakeVersionMadeBy;
 
   { if not reading from a file, then set defaults for storing the item }
   if not (InStream is TFileStream) or (InStream is TAbSpanStream) then begin
@@ -236,16 +233,6 @@ begin
     Item.LastModFileTime := LongRec(FileTimeStamp).Lo;
     Item.LastModFileDate := LongRec(FileTimeStamp).Hi;
   end;
-
-{$IFDEF MSWINDOWS}
-  if (GetVersion shr 16) = 0 then {Windows NT}
-    Item.VersionMadeBy := $0A00 + 20
-  else
-    Item.VersionMadeBy := 20;
-{$ENDIF}
-{$IFDEF LINUX}
-  Item.VersionMadeBy := 20;
-{$ENDIF}
 end;
 
 procedure Validate;
@@ -286,13 +273,13 @@ begin
         smDeflated : begin
         { Item is to be deflated regarless }
           { deflate item }
-          DoDeflate(ZipArchive, Item, TempOut, InStream);                {!!.01}
+          DoDeflate(ZipArchive, Item, OutStream, InStream);                {!!.01}
         end;
 
         smStored : begin
         { Item is to be stored regardless }
           { store item }
-          DoStore(ZipArchive, Item, TempOut, InStream);                  {!!.01}
+          DoStore(ZipArchive, Item, OutStream, InStream);                  {!!.01}
         end;
 
         smBestMethod : begin
@@ -313,8 +300,12 @@ begin
             TempOut.SwapFileDirectory := Sender.TempDirectory;           {!!.01}
 
             { store item }
-            DoStore(ZipArchive, Item, TempOut, InStream);                {!!.01}
+            DoStore(ZipArchive, Item, TempOut, InStream);          {!!.01}
           end {if};
+          
+    	 TempOut.Seek(0, soBeginning);                                    {!!.01}
+    	 if TempOut.Size > 0 then
+           OutStream.CopyFrom(TempOut, TempOut.Size);        
         end;
       end; { case }
 
@@ -329,8 +320,6 @@ begin
     { update item }
     UpdateItem;
 
-    TempOut.Seek(0, soFromBeginning);                                    {!!.01}
-    OutStream.CopyFrom(TempOut, TempOut.Size);                           {!!.01}
 
   finally                                                                {!!.01}
     TempOut.Free;                                                        {!!.01}
@@ -343,45 +332,61 @@ end;
 procedure AbZip( Sender : TAbZipArchive; Item : TAbZipItem;
                  OutStream : TStream );
 var
-  UncompressedStream : TStream;
-  DateTime : LongInt;
+  UncompressedStream : TStream = nil;
   SaveDir : string;
-  Buff : array [0..MAX_PATH] of AnsiChar;
   ZipArchive : TAbZipArchive;
+  Name : string;
+  Attrs: LongInt;
+  FileTime : LongInt;
 begin
   ZipArchive := TAbZipArchive(Sender);
-  GetDir(0, SaveDir);
-  try {SaveDir}
-    if (ZipArchive.BaseDirectory <> '') then
-      ChDir(ZipArchive.BaseDirectory);
-    StrPCopy(Buff, Item.DiskFileName);
-{!!OEM - Added }
-{$IFDEF Linux}
- { do nothing to Buff }
-{$ELSE}
-    if AreFileApisANSI then begin
-      OEMToAnsi(Buff, Buff);
-    end;
-{$ENDIF}
-{!!OEM - End Added }
-    { Converting file names causing problems on some systems, take hands off approach }
-    {  OEMToAnsi(Buff, Buff);  }
-    UncompressedStream := TFileStream.Create(StrPas(Buff),
+
+  if TAbZipHostOS((Item.VersionMadeBy shr 8) and $FF) = hosMSDOS then
+    Name := AbStrOemToAnsi(Item.DiskFileName)
+  else
+    Name := Item.DiskFileName;
+
+  {Now get the file's attributes}
+  Attrs := AbFileGetAttr(Name);
+  if Attrs = -1 then
+    Raise EAbFileNotFound.Create;
+
+  Item.ExternalFileAttributes := Attrs;
+  Item.SystemSpecificAttributes := Attrs;
+
+  // Date and time
+  FileTime := AbGetFileTime(Name);
+
+  if FileTime < 0 then
+    FileTime := DateTimeToFileDate(SysUtils.Now);
+
+  Item.SystemSpecificLastModFileTime := FileTime;
+
+  if AbAttrIsDir(Attrs) then begin
+
+    {Directory. Only set fields.}
+    Item.UncompressedSize := 0;
+    Item.CompressedSize := 0;
+    Item.GeneralPurposeBitFlag := 0;
+    Item.VersionMadeBy := MakeVersionMadeBy;
+    Item.VersionNeededToExtract := 20;
+    Item.CRC32 := 0;
+    Item.InternalFileAttributes := 0;
+    Item.CompressionMethod:=cmStored;
+
+  end else begin
+    { File. Open stream for compression. }
+    UncompressedStream := TFileStream.Create(Name,
       fmOpenRead or fmShareDenyWrite );
-    {Now get the file's attributes}
-    Item.ExternalFileAttributes := AbFileGetAttr(StrPas(Buff));
+
     Item.UncompressedSize := UncompressedStream.Size;
-  finally {SaveDir}
-    ChDir( SaveDir );
-  end; {SaveDir}
-  try {UncompressedStream}
-    DateTime := FileGetDate(TFileStream(UncompressedStream).Handle);
-    Item.LastModFileTime := LongRec(DateTime).Lo;
-    Item.LastModFileDate := LongRec(DateTime).Hi;
-    AbZipFromStream(Sender, Item, OutStream, UncompressedStream);
-  finally {UncompressedStream}
-    UncompressedStream.Free;
-  end; {UncompressedStream}
+
+    try {UncompressedStream}
+      AbZipFromStream(Sender, Item, OutStream, UncompressedStream);
+    finally {UncompressedStream}
+      UncompressedStream.Free;
+    end; {UncompressedStream}
+  end;
 end;
 { -------------------------------------------------------------------------- }
 procedure DeflateStream( UncompressedStream, CompressedStream : TStream );

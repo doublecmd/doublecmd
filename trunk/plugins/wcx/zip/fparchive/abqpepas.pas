@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbQPePas.pas 3.04                           *}
+{* ABBREVIA: AbQPePas.pas 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: Password property editor (CLX)              *}
 {*   See AbPePass.pas for the VCL header                 *}

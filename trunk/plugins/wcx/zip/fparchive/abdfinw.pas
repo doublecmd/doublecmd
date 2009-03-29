@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbDfInW.pas 3.04                            *}
+{* ABBREVIA: AbDfInW.pas 3.05                            *}
 {*********************************************************}
 {* Deflate input sliding window unit                     *}
 {*********************************************************}
@@ -104,7 +104,7 @@ type
       function GetNextKeyLength : integer;
       function Position : longint;
       procedure ReadBuffer(var aBuffer; aCount  : longint;
-                                        aOffset : longint);
+                                        aOffset : Int64);
 
       property ChainLen : integer read FChainLen write FChainLen;
       property Checksum : longint read iwGetChecksum;
@@ -341,12 +341,17 @@ function TAbDfInputWindow.FindLongestMatch(aAmpleLength : integer;
                                        var aMatch       : TAbDfMatch;
                                      const aPrevMatch   : TAbDfMatch)
                                                         : boolean;
+{$IFDEF CLR}
+{Note:  Delphi for .NET can't use ASM only the pascal code. }
+ {$DEFINE UseGreedyPascal}
+{$ELSE}
 {Note: this routine implements a greedy algorithm and is by far the
        time sink for compression. There are two versions, one written
        in Pascal for understanding, one in assembler for speed.
        Activate one and only one of the following compiler defines.}
-{.$DEFINE UseGreedyAsm}
+{$DEFINE UseGreedyAsm}
 {.$DEFINE UseGreedyPascal}
+{$ENDIF}
 
 {Check to see that all is correct}
 {$IFDEF UseGreedyAsm}
@@ -739,14 +744,14 @@ begin
 end;
 {--------}
 procedure TAbDfInputWindow.ReadBuffer(var aBuffer; aCount  : longint;
-                                                   aOffset : longint);
+                                                   aOffset : Int64);
 var
-  CurPos : longint;
+  CurPos : Int64;              
 begin
-  CurPos := FStream.Seek(0, soFromCurrent);
-  FStream.Seek(aOffSet, soFromBeginning);
+  CurPos := FStream.Seek(0, soCurrent);
+  FStream.Seek(aOffSet, soBeginning);
   FStream.ReadBuffer(aBuffer, aCount);
-  FStream.Seek(CurPos, soFromBeginning);
+  FStream.Seek(CurPos, soBeginning);
 end;
 {====================================================================}
 

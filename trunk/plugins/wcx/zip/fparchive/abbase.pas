@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbBase.pas 3.04                             *}
+{* ABBREVIA: AbBase.pas 3.05                             *}
 {*********************************************************}
 {* ABBREVIA: Base component class                        *}
 {*********************************************************}
@@ -36,8 +36,7 @@ unit AbBase;
 interface
 
 uses
-  Classes,
-  AbConst;
+  Classes;
 
 type
   TAbBaseComponent = class(TComponent)
@@ -53,6 +52,8 @@ type
   end;
 
 implementation
+uses
+  AbConst;
 
 { -------------------------------------------------------------------------- }
 function TAbBaseComponent.GetVersion : string;
