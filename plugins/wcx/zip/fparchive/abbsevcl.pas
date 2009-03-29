@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbBaseVCL.pas 3.04                          *}
+{* ABBREVIA: AbBaseVCL.pas 3.05                          *}
 {*********************************************************}
 {* ABBREVIA: Base component class (VCL)                  *}
 {*********************************************************}
@@ -36,12 +36,11 @@ unit AbBseVCL;
 interface
 
 uses
-  Classes,
+  Classes
   {$IFNDEF BuildingStub}
-  Controls,
+  , Controls
   {$ENDIF BuildingStub}
-  AbConst,
-  AbBase;
+  ;
 
 
 {$IFNDEF BuildingStub}

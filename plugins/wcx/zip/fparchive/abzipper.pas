@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbZipper.pas 3.04                           *}
+{* ABBREVIA: AbZipper.pas 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: Non-visual Component with Zip support       *}
 {*********************************************************}
@@ -50,7 +50,7 @@ type
     FOnConfirmSave          : TAbArchiveConfirmEvent;
     FOnSave                 : TAbArchiveEvent;
     FOnArchiveSaveProgress  : TAbArchiveProgressEvent;                 {!!.04}
-    FArchiveSaveProgressMeter : TAbMeterLink;                          {!!.04}
+    FArchiveSaveProgressMeter : TAbBaseMeterLink;                          {!!.04}
 
     FStoreOptions           : TAbStoreOptions;
 
@@ -71,7 +71,7 @@ type
     procedure SetFileName(const aFileName : string);
       override;
     procedure SetStoreOptions( Value : TAbStoreOptions );
-    procedure SetZipfileComment(Value : string);
+    procedure SetZipfileComment(const Value : string);
       override;
     procedure ZipProc(Sender : TObject; Item : TAbArchiveItem;
                       OutStream : TStream);
@@ -100,7 +100,7 @@ type
       read  FStoreOptions
       write SetStoreOptions
       default AbDefStoreOptions;
-    property ArchiveSaveProgressMeter : TAbMeterLink                   {!!.04}
+    property ArchiveSaveProgressMeter : TAbBaseMeterLink                   {!!.04}
       read  FArchiveSaveProgressMeter                                  {!!.04}
       write FArchiveSaveProgressMeter;                                 {!!.04}
 
@@ -121,17 +121,19 @@ type
       override;
     destructor Destroy;
       override;
+    procedure AddEntries(const Paths : String; const ArchiveDirectory : String);
     procedure AddFiles(const FileMask : string; SearchAttr : Integer);
     procedure AddFilesEx(const FileMask, ExclusionMask : string; SearchAttr : Integer);
     procedure AddFromStream(const NewName : string; FromStream : TStream);
     procedure DeleteAt(Index : Integer);
-    procedure DeleteFiles(const FileMask : string);
-    procedure DeleteFilesEx(const FileMask, ExclusionMask : string);
+    procedure DeleteFiles(const FileMask : string; Recursive : Boolean = False);
+    procedure DeleteFilesEx(const FileMask, ExclusionMask : string; Recursive : Boolean = False);
+    procedure DeleteDirectoriesRecursively(const Paths : string);
     procedure DeleteTaggedItems;
     procedure FreshenFiles(const FileMask : string);
     procedure FreshenFilesEx(const FileMask, ExclusionMask : string);
     procedure FreshenTaggedItems;
-    procedure Move(aItem : TAbArchiveItem; NewStoredPath : string);
+    procedure Move(aItem : TAbArchiveItem; const NewStoredPath : string);
     procedure Save;
     procedure Replace(aItem : TAbArchiveItem);
   end;
@@ -190,6 +192,20 @@ begin
   inherited Destroy;
 end;
 { -------------------------------------------------------------------------- }
+procedure TAbCustomZipper.AddEntries(const Paths : String; const ArchiveDirectory : String);
+  {Add specific entries (files or directories), separates by AbPathSep.
+   Each entry can't have wildcards, must be absolute path,
+   or relative to BaseDirectory.
+   ArchivePath specifies, where in the archive directory structure
+   these entries will be put.}
+begin
+  if (ZipArchive <> nil) then
+    ZipArchive.AddEntries(Paths, ArchiveDirectory)
+  else
+    raise EAbNoArchive.Create;
+  DoChange;
+end;
+{ -------------------------------------------------------------------------- }
 procedure TAbCustomZipper.AddFiles(const FileMask : string; SearchAttr : Integer);
   {Add files to the archive where the disk filespec matches}
 begin
@@ -223,11 +239,16 @@ begin
   DoChange;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCustomZipper.DeleteFiles(const FileMask : string);
+procedure TAbCustomZipper.DeleteFiles(const FileMask : string; Recursive : Boolean);
   {delete all files from the archive that match the file mask}
+  {if Recursive=False only files from matching directory are deleted}
+  {Examples:
+    DeleteFiles('dir/*.*', False) - deletes all files in dir/
+    DeleteFiles('dir/*.*', True)  - delete all files in dir/ and in subdirectories
+  }
 begin
   if (ZipArchive <> nil) then
-    ZipArchive.DeleteFiles( FileMask )
+    ZipArchive.DeleteFiles( FileMask, Recursive )
   else
     raise EAbNoArchive.Create;
   DoChange;
@@ -243,11 +264,29 @@ begin
   DoChange;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCustomZipper.DeleteFilesEx(const FileMask, ExclusionMask : string);
+procedure TAbCustomZipper.DeleteFilesEx(const FileMask, ExclusionMask : string;
+                                        Recursive : Boolean);
   {Delete files that match Filemask except those matching ExclusionMask}
+  {if Recursive=False only files from matching directory are deleted}
+  {Examples:
+    DeleteFilesEx('dir/*;*.pas', 'src/*', True)
+      deletes all files in dir/ and in subdirectories, and all *.pas in every directory
+      but does not delete anything in src/ directory
+  }
 begin
   if (ZipArchive <> nil) then
-    ZipArchive.DeleteFilesEx(FileMask, ExclusionMask)
+    ZipArchive.DeleteFilesEx(FileMask, ExclusionMask, Recursive)
+  else
+    raise EAbNoArchive.Create;
+  DoChange;
+end;
+{ -------------------------------------------------------------------------- }
+procedure TAbCustomZipper.DeleteDirectoriesRecursively(const Paths : string);
+  {Delete directory entry and all file and directory entries matching the same path recursively}
+  {Example: 'src/;bin/' deletes whole src/ and bin/ dirs with all files and directories in them}
+begin
+  if (ZipArchive <> nil) then
+    ZipArchive.DeleteDirectoriesRecursively(Paths)
   else
     raise EAbNoArchive.Create;
   DoChange;
@@ -328,7 +367,7 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCustomZipper.Move(aItem : TAbArchiveItem; NewStoredPath : string);
+procedure TAbCustomZipper.Move(aItem : TAbArchiveItem; const NewStoredPath : string);
   {renames the item}
 begin
   if (ZipArchive <> nil) then
@@ -393,15 +432,13 @@ begin
   FFileName := aFileName;
   if (csDesigning in ComponentState) then
     Exit;
-  try
-    if Assigned(FArchive) then
-      FArchive.Save;
-  except
-    raise;
-  end;
-
-  FArchive.Free;
-  FArchive := nil;
+  {!!.05 Remove Try|Except Raise and double Free }
+  if Assigned(FArchive) then
+   begin
+     FArchive.Save;
+     FArchive.Free;
+   end;
+  FArchive := nil;   
 
   ArcType := ArchiveType;
 
@@ -488,7 +525,7 @@ begin
     ZipArchive.StoreOptions := Value;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCustomZipper.SetZipfileComment(Value : string);
+procedure TAbCustomZipper.SetZipfileComment(const Value : string);
 begin
   if (ZipArchive <> nil) then
     (ZipArchive as TAbZipArchive).ZipfileComment := Value
@@ -541,6 +578,7 @@ begin
 end;
 {!!.04 - Added end}
 { -------------------------------------------------------------------------- }
+
 
 end.
 

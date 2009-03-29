@@ -26,7 +26,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbUtils.pas 3.04                            *}
+{* ABBREVIA: AbUtils.pas 3.05                            *}
 {*********************************************************}
 {* ABBREVIA: Utility classes and routines                *}
 {*********************************************************}
@@ -41,15 +41,15 @@ uses
 {$IFDEF MSWINDOWS}
   Windows,
 {$ENDIF}
-{$IFDEF LINUX}
+{$IFDEF UNIX}
   UnixType,
   Unix,
   BaseUnix,
-  DateUtils,
+  unixutil,
 {$ENDIF}
+  DateUtils,
   SysUtils,
   Classes;
-
 
 type
   {describe the pending action for an archive item}
@@ -90,7 +90,7 @@ var
 
 type
   TAbArchiveType = (atUnknown, atZip, atSpannedZip {!!.01}, atSelfExtZip,
-                    atTar, atGzip, atGzippedTar, atCab);
+                    atTar, atGzip, atGzippedTar, atCab, atBZip, atBzippedTar);
 
 
 {$IFDEF LINUX}
@@ -190,14 +190,24 @@ type
   end;
 
   {===Helper functions===}
+  procedure ablog(s:string);
+
+  function AbAttrIsDir(Attributes: LongWord): Boolean;
+    { Returns True, if Attributes have 'directory' flag. }
+
+  // Ansi to OEM, if needed
+  function AbStrAnsiToOem(Source: string): string;
+  // OEM to Ansi, if needed
+  function AbStrOemToAnsi(Source: string): string;
+
   procedure AbCreateDirectory( const Path : string );
     {creates the requested directory tree.  CreateDir is insufficient,
      because if you have a path x:\dir, and request x:\dir\sub1\sub2,
      (/dir and /dir/sub1/sub2 on Linux) it fails.}
 
-  function AbCreateTempFile(Dir : string) : string;
+  function AbCreateTempFile(const Dir : string) : string;
 
-  function AbGetTempFile(Dir : string; CreateIt : Boolean) : string;
+  function AbGetTempFile(const Dir : string; CreateIt : Boolean) : string;
 
   function AbdMax(Var1, Var2: Longint): Longint;
     {-Return the maximum of two values}
@@ -209,12 +219,24 @@ type
     {Returns true if Path is an existing directory
      returns False on blank strings, filenames...}
 
+  function AbDirMatch(DirPath : string; PathToMatch : string; Recursive : Boolean) : Boolean;
+    {see if DirPath matches PathToMatch}
+    {If Recursive=True it is allowed for DirPath to point to a subdirectory of PathToMatch,
+     for example: PathToMatch = 'dir/', DirPath = 'dir/subdir' - Result is True}
+
   function AbDrive(const ArchiveName : string) : AnsiChar;
 
   function AbDriveIsRemovable(const ArchiveName : string) : Boolean;
 
-  function AbFileMatch(FileName : string; FileMask : string ) : Boolean;
+  function AbExtractEntry(const Entries : String; var StartPos : Integer) : String;
+    {From a list of paths separated with AbPathSep (';') extracts a path from
+     the position StartPos (counted from 1) and modifies StartPos to point to next entry.}
+    {When no more entries are found, returns empty string.}
+
+  function AbFileMatch(FileName : string; FileMask : string; Recursive : Boolean) : Boolean;
     {see if FileName matches FileMask}
+    {If Recursive=True it is allowed for FileName to be in a subdirectory of FileMask,
+     for example: FileMask = 'dir/*.pas', FileName = 'dir/subdir/a.pas' - Result is True}
 
   procedure AbFindFiles(const FileMask : string; SearchAttr : Integer;
                          FileList : TStrings; Recurse : Boolean );
@@ -227,14 +249,14 @@ type
   function AbFindNthSlash( const Path : string; n : Integer ) : Integer;
     {return the position of the character just before the nth backslash}
 
-  function AbGetDriveFreeSpace(const ArchiveName : string) : LongInt;
+  function AbGetDriveFreeSpace(const ArchiveName : string) : int64;
     {return the available space on the specified drive }
 
   function AbGetPathType( const Value : string ) : TAbPathType;
     {returns path type - none, relative or absolute}
 
   {$IFDEF MSWINDOWS}
-  function AbGetShortFileSpec( LongFileSpec : string ) : string;
+  function AbGetShortFileSpec(const LongFileSpec : string ) : string;
   {$ENDIF}
 
   procedure AbIncFilename( var Filename : string; Value : Word );
@@ -249,8 +271,8 @@ type
                                           SubPaths[0] = abbrevia
                                           SubPaths[1] = examples}
 
-  function AbPatternMatch( Source : string; iSrc : Integer;
-                  Pattern : string; iPat : Integer ) : Boolean;
+  function AbPatternMatch(const Source : string; iSrc : Integer;
+                          const Pattern : string; iPat : Integer ) : Boolean;
     { recursive routine to see if the source string matches
       the pattern.  Both ? and * wildcard characters are allowed.}
 
@@ -289,7 +311,7 @@ const
 
   function AbFileGetAttr(const aFileName : string) : integer;
   procedure AbFileSetAttr(const aFileName : string; aAttr : integer);
-    {-Get or set file attributes for a file. Uses DOS format attributes}
+    {-Get or set file attributes for a file. }
   function AbFileGetSize(const aFileName : string) :                     {!!.01}
   {$IFDEF MSWINDOWS}                                                     {!!.01}
     {$IFDEF VERSION4} Int64 {$ELSE} LongInt {$ENDIF};                    {!!.01}
@@ -303,9 +325,10 @@ const
 
 { date and time stuff }
 const
-  Date1900 {: LongInt} = $0001AC05;  {Julian day count for 01/01/1900 -- TDateTime Start Date}
-  Date1970 {: LongInt} = $00020FE4;  {Julian day count for 01/01/1970 -- Unix Start Date}
-  Unix0Date: TDateTime = 25568;      {Date1970 - Date1900}
+//  Date1900 {: LongInt} = $0001AC05;  {Julian day count for 01/01/1900 -- TDateTime Start Date}
+//  Date1970 {: LongInt} = $00020FE4;  {Julian day count for 01/01/1970 -- Unix Start Date}
+  Unix0Date: TDateTime = 25569;      {Date1970 - Date1900}
+                      //See: TP Abbrevia bug [1327858]
 
   SecondsInDay    = 86400;  {Number of seconds in a day}
   SecondsInHour   =  3600;  {Number of seconds in an hour}
@@ -314,29 +337,48 @@ const
   MinutesInHour   =    60;  {Number of minutes in an hour}
   MinutesInDay    =  1440;  {Number of minutes in a day}
 
+  // -----------------------------------------------------------
+  // Use the following functions to convert time Unix<->Windows.
+  // TDateTime is assumed to be local time.
 
-  function AbUnixTimeToDateTime(UnixTime : LongInt) : TDateTime;
-  function AbDateTimeToUnixTime(DateTime : TDateTime) : LongInt;
+  function AbUnixFileTimeToDateTime(UnixTime : LongInt) : TDateTime;
+  function AbDateTimeToUnixFileTime(DateTime : TDateTime) : LongInt;
 
-  function AbDosFileDateToDateTime(FileDate, FileTime : Word) : TDateTime;  {!!.01}
-  function AbDateTimeToDosFileDate(Value : TDateTime) : LongInt;            {!!.01}
+  function AbDosFileTimeToDateTime(DosTime : LongInt) : TDateTime;
+  function AbDateTimeToDosFileTime(Value : TDateTime) : LongInt;
+
+  // Work both for MS-DOS and Unix time.
+  function AbFileTimeToLocalFileTime(FileTime: LongInt): LongInt;
+  function AbLocalFileTimeToFileTime(FileTime: LongInt): LongInt;
+
+  function AbGetFileTime(const Path : string): Longint;
+    {returns time for a file or directory}
+    {MS-DOS local time on Windows, UNIX UTC time on Unix}
+
+  function AbSetFileTime(const FileName : string; const Age : LongInt) : Integer; {!!.05}
+
+  function AbFlushOsBuffers(Handle : Integer) : Boolean;
 
 { file attributes }
-  function AbDOS2UnixFileAttributes(Attr: LongInt): LongInt;
-  function AbUnix2DosFileAttributes(Attr: LongInt): LongInt;
+  function AbDOS2UnixFileAttributes(Attr: LongWord): LongWord;
+  function AbUnix2DosFileAttributes(Attr: LongWord): LongWord;
 
 { LINUX File Types and Permissions }
 const
-  AB_FMODE_FILE          = $0000;
-  AB_FMODE_FIFO          = $1000;
-  AB_FMODE_CHARSPECFILE  = $2000;
-  AB_FMODE_DIR           = $4000;
-  AB_FMODE_BLOCKSPECFILE = $6000;
-  AB_FMODE_FILE2         = $8000;
-  AB_FMODE_FILELINK      = $A000;
-  AB_FMODE_SOCKET        = $C000;
+  // These use high 4 bits
+  AB_FMODE_SOCKET             = $C000;
+  AB_FMODE_FILELINK           = $A000;       // Unix symbolic link
+  AB_FMODE_FILEREG            = $8000;       // Unix regular file
+  AB_FMODE_BLOCKSPECFILE      = $6000;       // Unix block special
+  AB_FMODE_DIR                = $4000;
+  AB_FMODE_CHARSPECFILE       = $2000;       // Unix character special
+  AB_FMODE_FIFO               = $1000;       // Unix fifo
+  AB_FMODE_FILE               = $0000;
 
-
+  // These use low 12 bits
+  AB_FPERMISSION_UID          = $0800; { Set UID on execution }
+  AB_FPERMISSION_GID          = $0400; { Set GID on execution }
+  AB_FPERMISSION_VTX          = $0200; { Save text (sticky bit) }
   AB_FPERMISSION_OWNERREAD    = $0100; { read by owner }
   AB_FPERMISSION_OWNERWRITE   = $0080; { write by owner }
   AB_FPERMISSION_OWNEREXECUTE = $0040; { execute/search by owner }
@@ -364,7 +406,7 @@ uses
   AbExcept;
 
 const
-  AB_MAXPATH = 255;
+  AB_MAXPATH = MAX_PATH;
 
 type
   XFCBrec = packed record
@@ -443,6 +485,57 @@ end;
 
 
 { ========================================================================== }
+function AbAttrIsDir(Attributes: LongWord): Boolean;
+begin
+{$IFDEF MSWINDOWS}
+  Result := (Attributes <> LongWord(-1)) and ((Attributes and faDirectory) <> 0);
+{$ELSE} // Unix
+  Result := (Attributes <> LongWord(-1)) and ((Attributes and AB_FMODE_DIR) <> 0);
+{$ENDIF}
+end;
+{ -------------------------------------------------------------------------- }
+// Ansi to OEM, if needed
+function AbStrAnsiToOem(Source: string): string;
+{$IFDEF MSWINDOWS}
+var
+  Buff : PChar;
+begin
+  if AreFileApisANSI then begin
+    Buff := StrAlloc(Length(Source)+1);
+    AnsiToOEM(PChar(Source), Buff);
+    Result := StrPas(Buff);
+    StrDispose(Buff);
+  end
+  else
+    Result := Source;
+end;
+{$ELSE}
+begin
+  Result := Source;
+end;
+{$ENDIF}
+{ -------------------------------------------------------------------------- }
+// OEM to Ansi, if needed
+function AbStrOemToAnsi(Source: string): string;
+{$IFDEF MSWINDOWS}
+var
+  Buff : PChar;
+begin
+  if AreFileApisANSI then begin
+    Buff := StrAlloc(Length(Source)+1);
+    OEMToAnsi(PChar(Source), Buff);
+    Result := StrPas(Buff);
+    StrDispose(Buff);
+  end
+  else
+    Result := Source;
+end;
+{$ELSE}
+begin
+  Result := Source;
+end;
+{$ENDIF}
+{ -------------------------------------------------------------------------- }
 procedure AbCreateDirectory( const Path : string );
   {creates the requested directory tree.  CreateDir is insufficient,
    because if you have a path x:\dir, and request x:\dir\sub1\sub2,
@@ -474,7 +567,7 @@ begin
   until ( Length( TempPath ) = Length( Path ) );
 end;
 { -------------------------------------------------------------------------- }
-function AbCreateTempFile(Dir : string) : string;
+function AbCreateTempFile(const Dir : string) : string;
 begin
   Result := AbGetTempFile(Dir, True);
 end;
@@ -499,7 +592,7 @@ begin
 end;
 {$ENDIF}
 
-function AbGetTempFile(Dir : string; CreateIt : Boolean) : string;
+function AbGetTempFile(const Dir : string; CreateIt : Boolean) : string;
 {$IFDEF MSWINDOWS}
 var
   FileNameZ : array [0..259] of char;
@@ -594,37 +687,16 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 {!!.01 -- Rewritten}
-function AbGetDriveFreeSpace(const ArchiveName : string) : LongInt;
+function AbGetDriveFreeSpace(const ArchiveName : string) : Int64;
 { attempt to find free space (in bytes) on drive/volume,
   returns MaxLongInt on drives with greater space,
   returns -1 if fails for some reason }
 
 {$IFDEF MSWINDOWS }
-function GetLocalDiskFree(const Path : string) : {$IFDEF VERSION4} Int64 {$ELSE} LongInt {$ENDIF};
-var
-  SectorsPerCluster, BytesPerSector,
-  NumberOfFreeClusters, TotalNumberOfClusters : {$IFDEF VERSION4} Cardinal {$ELSE} LongInt {$ENDIF};
-  Succeeded : BOOL;
-  DrvBuf : array[0..255] of char;
-begin
-  Result := -1;
-  StrPCopy(DrvBuf, ExtractFileDrive(Path) + AbDosPathDelim);
-  Succeeded := GetDiskFreeSpace(DrvBuf,
-    SectorsPerCluster, BytesPerSector, NumberOfFreeClusters, TotalNumberOfClusters);
-  if Succeeded then
-{!!.03 -- Rewritten}
-    try
-      Result := BytesPerSector * SectorsPerCluster * NumberOfFreeClusters;
-    except
-      on EIntOverflow do
-        Result := High(Result);
-    end;
-{!!.03 -- End Rewritten}
-end;
 
-function GetRemoteDiskFree(const Path : string) : {$IFDEF VERSION4} Int64 {$ELSE} LongInt {$ENDIF};
+function GetDiskFree(const Path : string) : Int64;
 var
-  FreeAvailable, TotalSpace, TotalFree: {$IFDEF VERSION4} TLargeInteger {$ELSE} LongInt {$ENDIF};
+  FreeAvailable, TotalSpace, TotalFree: Int64;
   Succeeded : BOOL;
   PathBuf : array[0..255] of char;
 begin
@@ -635,7 +707,7 @@ begin
     Result := FreeAvailable;
 end;
 
-function GetRemoveableDiskFree(const Path : string) : LongInt;
+function GetRemoveableDiskFree(const Path : string) : Int64;
 begin
   Result := DiskFree(Ord(AbDrive(Path)) - Ord('A') + 1);
 end;
@@ -664,9 +736,15 @@ var
   Rslt : Integer;
 begin
   Result := -1;
+{$IFDEF FPC}
   Rslt := fpStatFS(PAnsiChar(ExtractFilePath(Path)), @FStats);
   if Rslt = 0 then
     Result := Int64(FStats.bAvail) * Int64(FStats.bsize);
+{$ELSE}
+  Rslt := statfs(PAnsiChar(ExtractFilePath(Path)), FStats);
+  if Rslt = 0 then
+    Result := Int64(FStats.f_bAvail) * Int64(FStats.f_bsize);
+{$ENDIF}
 end;
 
 function LinuxVolumeSize(const Path : string): Int64;
@@ -675,25 +753,24 @@ var
   Rslt : Integer;
 begin
   Result := -1;
+{$IFDEF FPC}
   Rslt := fpStatFS(PAnsiChar(ExtractFilePath(Path)), @FStats);
   if Rslt = 0 then
     Result := Int64(FStats.blocks) * Int64(FStats.bsize);
+{$ELSE}
+  Rslt := statfs(PAnsiChar(ExtractFilePath(Path)), FStats);
+  if Rslt = 0 then
+    Result := Int64(FStats.f_blocks) * Int64(FStats.f_bsize);
+{$ENDIF}
 end;
 {$ENDIF LINUX}
 
 var
-{$IFDEF MSWINDOWS}
-{$IFDEF VERSION4}
   Size : Int64;
-{$ELSE}
-  Size : Integer;
-{$ENDIF VERSION4}
+{$IFDEF MSWINDOWS}
   DrvTyp : Integer;
   DrvStr : string;                                                       {!!.02}
 {$ENDIF MSWINDOWS}
-{$IFDEF LINUX}
-  Size : Int64;
-{$ENDIF}
 begin
 {$IFDEF MSWINDOWS }
   Size := -1;
@@ -710,13 +787,13 @@ begin
       if Pos('\\', ArchiveName) = 1 then begin  {path is UNC; must refer to network }
         { check OS version }
         if OSOK then begin
-          Size := GetRemoteDiskFree(DrvStr);                             {!!.02}
+          Size := GetDiskFree(DrvStr);                             {!!.02}
         end
         else begin {OS < Win95b }
           {GetDiskFreeSpaceEx isn't available and
            GetDiskFreeSpace and DiskFree fail on UNC paths,
            about all we can do is hope the server isn't full}
-            Size := MaxLongInt;
+            Size := High(Int64);
         end; {if}
       end
       else begin { path is not UNC}
@@ -730,10 +807,10 @@ begin
 
 //        DRIVE_CDROM           : Size := -1; { fail }                 {!!.04}
 //        DRIVE_CDROM           : Size := 0; { Read-Only }             {!!.04}
-          DRIVE_CDROM             : Size := GetLocalDiskFree(DrvStr);  {!!.04}
+          DRIVE_CDROM             : Size := GetDiskFree(DrvStr);  {!!.04}
           DRIVE_REMOVABLE         : Size := GetRemoveableDiskFree(DrvStr); {!!.02}
-          DRIVE_FIXED             : Size := GetLocalDiskFree(DrvStr);      {!!.02}
-          DRIVE_REMOTE            : Size := GetRemoteDiskFree(DrvStr);     {!!.02}
+          DRIVE_FIXED             : Size := GetDiskFree(DrvStr);      {!!.02}
+          DRIVE_REMOTE            : Size := GetDiskFree(DrvStr);     {!!.02}
         end; {case}
       end; {if}
     end; {ptAbsolute}
@@ -761,7 +838,11 @@ var
 {$ENDIF}
 {$IFDEF LINUX}
 var
+{$IFDEF FPC}
   SB: TStat;
+{$ELSE}
+  SB: TStatBuf;
+{$ENDIF}
 {$ENDIF}
 
 begin
@@ -776,29 +857,76 @@ begin
 {$ENDIF}
 {$IFDEF LINUX}
   if FileExists(Path) then begin
+{$IFDEF FPC}
     fpstat(PAnsiChar(Path), SB);
-      
+{$ELSE}
+    stat(PAnsiChar(Path), SB);
+{$ENDIF}
+
     Result := (SB.st_mode and AB_FMODE_DIR) = AB_FMODE_DIR;
   end;
 {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
-function AbFileMatch(FileName: string; FileMask: string ): Boolean;
-  {see if FileName matches FileMask}
-var
-  DirMatch : Boolean;
-  MaskDir : string;
-begin
-  FileName := UpperCase( FileName );
-  FileMask := UpperCase( FileMask );
-  MaskDir := ExtractFilePath( FileMask );
-  if MaskDir = '' then
-    DirMatch := True
-  else
-    DirMatch := AbPatternMatch( ExtractFilePath( FileName ), 1, MaskDir, 1 );
 
-  Result := DirMatch and AbPatternMatch( ExtractFileName( FileName ), 1,
-                                       ExtractFileName( FileMask ), 1 );
+procedure ablog(s:string);
+var
+  tf:TFilestream;
+begin
+{$IFDEF MSWINDOWS}
+  tf:= TFileStream.create('f:\trash\ab.log', fmOpenReadWrite);
+{$ELSE}
+  tf:= TFileStream.create('/tmp/ab.log', fmOpenReadWrite);
+{$ENDIF}
+  tf.Seek(0, soEnd);
+  s:=s+string(#13)+string(#10);
+  tf.Write(s[1], Length(s));
+  tf.free;
+end;
+
+function AbDirMatch(DirPath : string; PathToMatch : string; Recursive : Boolean) : Boolean;
+begin
+  if Recursive then
+    PathToMatch := PathToMatch + '*'; // append wildcard
+
+  Result := AbPatternMatch(DirPath, 1, PathToMatch, 1);
+end;
+{ -------------------------------------------------------------------------- }
+function AbExtractEntry(const Entries : String; var StartPos : Integer) : String;
+var
+  I  : Integer;
+  Len: Integer;
+begin
+  Result := '';
+  Len := Length(Entries);
+  I := StartPos;
+  if (I >= 1) and (I <= Len) then
+  begin
+    while (I <= Len) and (Entries[I] <> AbPathSep) do Inc(I);
+    Result := Copy(Entries, StartPos, I - StartPos);
+    if (I <= Len) and (Entries[I] = AbPathSep) then Inc(I);
+
+    StartPos := I;
+  end;
+end;
+{ -------------------------------------------------------------------------- }
+function AbFileMatch(FileName: string; FileMask: string; Recursive: Boolean): Boolean;
+  {see if FileName matches FileMask}
+begin
+//  FileName := UpperCase( FileName );
+//  FileMask := UpperCase( FileMask );
+
+  // If FileMask points to a directory, match all files in it.
+  if RightStr(FileMask, Length(AbPathDelim)) = AbPathDelim then
+    FileMask := FileMask + AbAnyFile;
+
+  Result := // Match directory
+            AbDirMatch( ExtractFilePath( FileName ),
+                        ExtractFilePath( FileMask ), Recursive )
+         and
+            // Match file name
+            AbPatternMatch( ExtractFileName( FileName ), 1,
+                            ExtractFileName( FileMask ), 1 )
 end;
 { -------------------------------------------------------------------------- }
 procedure AbFindFiles( const FileMask : string; SearchAttr : Integer;
@@ -812,11 +940,13 @@ begin
   Found := FindFirst( FileMask, SearchAttr, SR );
   if Found = 0 then begin
     try
-      NameMask := UpperCase(ExtractFileName(FileMask));
+      NameMask := ExtractFileName(FileMask);
       while Found = 0 do begin
         NewFile := ExtractFilePath( FileMask ) + SR.Name;
-        if AbPatternMatch(UpperCase(SR.Name), 1, NameMask, 1) then
-        FileList.Add( NewFile );
+	   if ((sr.Name <> AbThisDir) and (sr.Name <> AbParentDir)) then begin
+	        if AbPatternMatch(SR.Name, 1, NameMask, 1) then
+    	    FileList.Add( NewFile );
+        end;
         Found := FindNext( SR );
       end;
     finally
@@ -851,17 +981,15 @@ end;
 procedure AbFindFilesEx( const FileMask : string; SearchAttr : Integer;
                        FileList : TStrings; Recurse : Boolean );
 var
-  I, J: Integer;
+  Position: Integer;
   MaskPart: string;
 begin
-  I := 1;
-  while I <= Length(FileMask) do begin
-    J := I;
-    while (I <= Length(FileMask)) and (FileMask[I] <> AbPathSep) do Inc(I);
-    MaskPart := Trim(Copy(FileMask, J, I - J));
-    if (I <= Length(FileMask)) and (FileMask[I] = AbPathSep) then Inc(I);
-
-    AbFindFiles(MaskPart, SearchAttr, FileList, Recurse);
+  Position := 1;
+  while True do
+  begin
+    MaskPart := AbExtractEntry(FileMask, Position);
+    if MaskPart = '' then Break;
+    AbFindFiles(Trim(MaskPart), SearchAttr, FileList, Recurse);
   end;
 end;
 { -------------------------------------------------------------------------- }
@@ -919,7 +1047,7 @@ end;
 { -------------------------------------------------------------------------- }
 {$IFDEF MSWINDOWS}
 {$IFDEF Version6} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
-function AbGetShortFileSpec( LongFileSpec : string ) : string;
+function AbGetShortFileSpec(const LongFileSpec : string ) : string;
 var
   SR : TSearchRec;
   Search : string;
@@ -971,7 +1099,7 @@ var
   Ext : string[4];
   I : Word;
 begin
-  I := Value mod 100;
+  I := (Value +1) mod 100;
   Ext := ExtractFileExt(Filename);
   if (Length(Ext) < 2) then
     Ext := '.' + Format('%.2d', [I])
@@ -1037,8 +1165,8 @@ begin
   until ( i = Length( Path ) );
 end;
 { -------------------------------------------------------------------------- }
-function AbPatternMatch( Source : string; iSrc : Integer;
-                Pattern : string; iPat : Integer ) : Boolean;
+function AbPatternMatch(const Source : string; iSrc : Integer;
+                        const Pattern : string; iPat : Integer ) : Boolean;
 { recursive routine to see if the source string matches
   the pattern.  Both ? and * wildcard characters are allowed.
   Compares Source from iSrc to Length(Source) to
@@ -1048,7 +1176,7 @@ var
   k : Integer;
 begin
   if Length( Source ) = 0 then begin
-    Result := Length( Pattern ) = 0;
+    Result := (Length( Pattern ) = 0) or (Pattern = '*');
     Exit;
   end;
 
@@ -1207,12 +1335,19 @@ begin
 {$ENDIF LINUX}
 end;
 { -------------------------------------------------------------------------- }
-function AbUnixTimeToDateTime(UnixTime : LongInt) : TDateTime;
+function AbUnixFileTimeToDateTime(UnixTime : LongInt) : TDateTime;
 { convert unix date to Delphi TDateTime }
 var
   Hrs, Mins, Secs : Word;
   TodaysSecs : LongInt;
+{$IFDEF MSWINDOWS}
+  DosFileTime : Longint;
+{$ENDIF}
 begin
+{$IFDEF UNIX}
+  UnixTime := AbFileTimeToLocalFileTime(UnixTime);
+{$ENDIF}
+
   TodaysSecs := UnixTime mod SecondsInDay;
   Hrs := TodaysSecs div SecondsInHour;
   TodaysSecs := TodaysSecs - (Hrs * SecondsInHour);
@@ -1221,14 +1356,31 @@ begin
 
   Result := Unix0Date + (UnixTime div SecondsInDay) +
     EncodeTime(Hrs, Mins, Secs, 0);
+
+{$IFDEF MSWINDOWS}
+  // Convert universal to local TDateTime.
+  DosFileTime := AbDateTimeToDosFileTime(Result);
+  DosFileTime := AbFileTimeToLocalFileTime(DosFileTime);
+  Result      := AbDosFileTimeToDateTime(DosFileTime);
+{$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
-function AbDateTimeToUnixTime(DateTime : TDateTime) : LongInt;
+function AbDateTimeToUnixFileTime(DateTime : TDateTime) : LongInt;
 { convert Delphi TDateTime to unix date }
 var
   Hrs, Mins, Secs, MSecs : Word;
   Dt, Tm : TDateTime;
+{$IFDEF MSWINDOWS}
+  DosFileTime : Longint;
+{$ENDIF}
 begin
+{$IFDEF MSWINDOWS}
+  // Convert local to universal TDateTime.
+  DosFileTime := AbDateTimeToDosFileTime(DateTime);
+  DosFileTime := AbLocalFileTimeToFileTime(DosFileTime);
+  DateTime    := AbDosFileTimeToDateTime(DosFileTime);
+{$ENDIF}
+
   Dt := Trunc(DateTime);
   Tm := DateTime - Dt;
   if Dt < Unix0Date then
@@ -1238,24 +1390,23 @@ begin
 
   DecodeTime(Tm, Hrs, Mins, Secs, MSecs);
   Result := Result + (Hrs * SecondsInHour) + (Mins * SecondsInMinute) + Secs;
+
+{$IFDEF UNIX}
+  Result := AbLocalFileTimeToFileTime(Result);
+{$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 {!!.01 -- Added }
-function AbDosFileDateToDateTime(FileDate, FileTime : Word) : TDateTime;
-{$IFDEF MSWINDOWS}
-var
-  Temp : LongInt;
-begin
-  LongRec(Temp).Lo := FileTime;
-  LongRec(Temp).Hi := FileDate;
-  Result := FileDateToDateTime(Temp);
-{$ENDIF}
-{$IFDEF LINUX}
+function AbDosFileTimeToDateTime(DosTime : LongInt) : TDateTime;
 {!!.02 -- rewritten }
 var
   Yr, Mo, Dy : Word;
   Hr, Mn, S  : Word;
+  FileDate, FileTime : Word;
 begin
+  FileDate := LongRec(DosTime).Hi;
+  FileTime := LongRec(DosTime).Lo;
+
   Yr := FileDate shr 9 + 1980;
 
   Mo := FileDate shr 5 and 15;
@@ -1292,16 +1443,10 @@ begin
       FileTime shr 5 and 63,
       FileTime and 31 shl 1, 0);
 }
-{$ENDIF}
 {!!.02 -- end rewritten }
 end;
 
-function AbDateTimeToDosFileDate(Value : TDateTime) : LongInt;
-{$IFDEF MSWINDOWS}
-begin
-  Result := DateTimeToFileDate(Value);
-{$ENDIF}
-{$IFDEF LINUX}
+function AbDateTimeToDosFileTime(Value : TDateTime) : LongInt;
 var
   Yr, Mo, Dy : Word;
   Hr, Mn, S, MS: Word;
@@ -1313,10 +1458,149 @@ begin
 
   LongRec(Result).Lo := (S shr 1) or (Mn shl 5) or (Hr shl 11);
   LongRec(Result).Hi := Dy or (Mo shl 5) or ((Yr - 1980) shl 9);
+end;
+
+function AbFileTimeToLocalFileTime(FileTime: LongInt): LongInt;
+{$IFDEF MSWINDOWS}
+var
+  WinFileTime     : TFileTime = (dwLowDateTime:0; dwHighDateTime: 0);
+  LocalWinFileTime: TFileTime = (dwLowDateTime:0; dwHighDateTime: 0);
+{$ENDIF}
+begin
+{$IFDEF MSWINDOWS}
+  DosDateTimeToFileTime(LongRec(FileTime).hi, LongRec(FileTime).lo, WinFileTime);
+  FileTimeToLocalFileTime(WinFileTime, LocalWinFileTime);
+  FileTimeToDosDateTime(LocalWinFileTime, LongRec(FileTime).hi, LongRec(FileTime).lo);
+{$ENDIF}
+{$IFDEF UNIX}
+  FileTime := FileTime + TzSeconds;
+{$ENDIF}
+  Result := FileTime;
+end;
+
+function AbLocalFileTimeToFileTime(FileTime: LongInt): LongInt;
+{$IFDEF MSWINDOWS}
+var
+  WinFileTime, LocalWinFileTime: TFileTime;
+{$ENDIF}
+begin
+{$IFDEF MSWINDOWS}
+  DosDateTimeToFileTime(LongRec(FileTime).hi, LongRec(FileTime).lo, LocalWinFileTime);
+  LocalFileTimeToFileTime(LocalWinFileTime, WinFileTime);
+  FileTimeToDosDateTime(WinFileTime, LongRec(FileTime).hi, LongRec(FileTime).lo);
+{$ENDIF}
+{$IFDEF UNIX}
+  FileTime := FileTime - Tzseconds;
+{$ENDIF}
+  Result := FileTime;
+end;
+
+function AbGetFileTime(const Path : string): Longint;
+  {returns time for a file or directory}
+{$IFDEF MSWINDOWS}
+var
+  Handle: THandle;
+  FindData: TWin32FindData;
+  WinPath: string;
+  Len: Integer;
+  LocalWinTime: TFileTime;
+begin
+  Len := Length(Path);
+  if (Len > 0) then
+  begin
+    WinPath := Path;
+    AbUnfixName(WinPath);
+    if WinPath[Len] = AbPathDelim then
+      WinPath := Copy(Path, 1, Len-1);
+
+    Handle := FindFirstFile(PAnsiChar(WinPath), FindData);
+    if Handle <> Windows.INVALID_HANDLE_VALUE then
+      begin
+        Windows.FindClose(Handle);
+
+        // On Windows NT we get NTFS UTC time (even on FAT partitions
+        // - it is automatically converted by the system).
+        // Convert to MS-DOS local time.
+        if  FileTimeToLocalFileTime(FindData.ftLastWriteTime, LocalWinTime)
+        and FileTimeToDosDateTime(LocalWinTime,
+                                  Longrec(Result).Hi,
+                                  Longrec(Result).Lo)
+        then
+           Exit;
+      end;
+  end;
+  Result:= -1;
+end;
+{$ELSE}
+var
+  Info: BaseUnix.Stat;
+  UnixPath: string;
+begin
+  UnixPath := Path;
+  AbFixName(UnixPath);
+
+  Result:= -1;
+  if fpStat(UnixPath, Info) >= 0 then
+    Result := Info.st_mtime;
+end;
+{$ENDIF}
+
+function AbSetFileTime(const FileName : string;const Age : LongInt) : Integer; {!!.05}
+{$IFDEF MSWINDOWS}
+var
+  f: THandle;
+begin
+  f := FileOpen(FileName, fmOpenWrite);
+  if f = THandle(-1) then
+    Result := GetLastError
+  else
+  begin
+    {$IFDEF DefeatWarnings}{$IFDEF Version6} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF} {$ENDIF}
+    Result := FileSetDate(f, Age);
+    {$IFDEF DefeatWarnings}{$IFDEF Version6} {$WARN SYMBOL_PLATFORM ON} {$ENDIF}{$ENDIF}
+    FileClose(f);
+  end;
+end;
+{$ENDIF}
+{$IFDEF UNIX}
+var
+{$IFDEF FPC}
+  ut: TUtimBuf;
+{$ELSE}
+  ut: TUTimeBuffer;
+{$ENDIF}
+begin
+  Result := 0;
+  ut.actime := Age;
+  ut.modtime := Age;
+{$IFDEF FPC}
+  if FpUtime(FileName, @ut) = -1 then
+    Result := fpgeterrno;
+{$ELSE}
+  if utime(PAnsiChar(FileName), @ut) = -1 then
+    Result := GetLastError;
+{$ENDIF}
+end;
+{$ENDIF}
+{ -------------------------------------------------------------------------- }
+
+function AbFlushOsBuffers(Handle : Integer) : Boolean;
+//Taken from StSystem.pas from SysTools, modified to do nothing for linux
+{-Flush the OS's buffers for the specified file}
+begin
+{$IFNDEF LINUX}
+  Result := FlushFileBuffers(Handle);
+  if not Result then
+{$IFDEF Version6}
+    RaiseLastOSError;
+{$ELSE}
+    RaiseLastWin32Error;
+{$ENDIF}
 {$ENDIF}
 end;
 
-{ -------------------------------------------------------------------------- }
+
+
 {!!.01 -- End Added }
 function AbSwapLongEndianness(Value : LongInt): LongInt;
 { convert BigEndian <-> LittleEndian 32-bit value }
@@ -1329,47 +1613,52 @@ begin
     TCastArray(Result)[3-i] := TCastArray(Value)[i];
 end;
 { -------------------------------------------------------------------------- }
-function AbDOS2UnixFileAttributes(Attr: LongInt): LongInt;
+function AbDOS2UnixFileAttributes(Attr: LongWord): LongWord;
 begin
   {$IFDEF LINUX} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
   {$IFDEF Version6} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
   Result := { default permissions }
     AB_FPERMISSION_OWNERREAD or
-    AB_FPERMISSION_OWNERWRITE or
-    AB_FPERMISSION_OWNEREXECUTE or
     AB_FPERMISSION_GROUPREAD or
     AB_FPERMISSION_OTHERREAD;
 
-  if (Attr and faReadOnly) <> faReadOnly then
-    Result := Result and not (AB_FPERMISSION_OWNERWRITE or AB_FPERMISSION_OWNEREXECUTE);
+  if (Attr and faReadOnly) = 0 then
+    Result := Result or AB_FPERMISSION_OWNERWRITE;
+
+  if (Attr and faDirectory) <> 0 then
+  begin
+    Result := Result or AB_FMODE_DIR;
+    Result := Result or AB_FPERMISSION_OWNEREXECUTE;
+  end
+  else
+    Result := Result or AB_FMODE_FILE;
   {$IFDEF Version6} {$WARN SYMBOL_PLATFORM ON} {$ENDIF}
   {$IFDEF LINUX} {$WARN SYMBOL_PLATFORM ON} {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
-function AbUnix2DosFileAttributes(Attr: LongInt): LongInt;
+function AbUnix2DosFileAttributes(Attr: LongWord): LongWord;
 begin
   {$IFDEF LINUX} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
   {$IFDEF Version6} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
   Result := 0;
-  case (Attr shr 24) shl 24 of
-    AB_FMODE_FILE, AB_FMODE_FILE2: begin { standard file }
-      Result := 0;
-    end;
+  case (Attr and $F000) of
+    AB_FMODE_FILE, AB_FMODE_FILEREG:
+      Result := faArchive; { standard file }
 
-    AB_FMODE_DIR : begin  { directory }
+    AB_FMODE_FILELINK:
+      Result := Result or faSymLink;
+
+    AB_FMODE_DIR: { directory }
       Result := Result or faDirectory;
-    end;
 
     AB_FMODE_FIFO,
     AB_FMODE_CHARSPECFILE,
     AB_FMODE_BLOCKSPECFILE,
-    AB_FMODE_FILELINK,
-    AB_FMODE_SOCKET: begin
+    AB_FMODE_SOCKET:
       Result := Result or faSysFile;
-    end;
   end;
 
-  if (Attr and AB_FPERMISSION_OWNERWRITE) <> AB_FPERMISSION_OWNERWRITE then
+  if (Attr and AB_FPERMISSION_OWNERWRITE) = 0 then
     Result := Result or faReadOnly;
   {$IFDEF Version6} {$WARN SYMBOL_PLATFORM ON} {$ENDIF}
   {$IFDEF LINUX} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
@@ -1379,7 +1668,11 @@ function AbFileGetAttr(const aFileName : string) : Integer;
 {$IFDEF LINUX}
 {$WARN SYMBOL_PLATFORM OFF}
 var
+{$IFDEF FPC}
   SB: TStat;
+{$ELSE}
+  SB: TStatBuf;
+{$ENDIF}
 {$WARN SYMBOL_PLATFORM ON}
 {$ENDIF LINUX}
 begin
@@ -1391,8 +1684,12 @@ begin
 
   {$IFDEF LINUX}
   {$WARN SYMBOL_PLATFORM OFF}
+  {$IFDEF FPC}
   fpstat(PAnsiChar(aFileName), SB);
-  Result := AbUnix2DosFileAttributes(SB.st_mode);                        {!!.01}
+  {$ELSE}
+  stat(PAnsiChar(aFileName), SB);
+  {$ENDIF}
+  Result := SB.st_mode;
   {$WARN SYMBOL_PLATFORM ON}
   {$ENDIF}
 end;
@@ -1405,9 +1702,15 @@ begin
   {$IFDEF Version6} {$WARN SYMBOL_PLATFORM ON} {$ENDIF}
   {$ENDIF}
 
+  //FileSetAttr not implemented on FPC for Unix
+
   {$IFDEF LINUX}
   {$WARN SYMBOL_PLATFORM OFF}
-  fpchmod(PAnsiChar(aFileName), AbDOS2UnixFileAttributes(aAttr));          {!!.01}
+  {$IFDEF FPC}
+  fpchmod(PAnsiChar(aFileName), aAttr);
+  {$ELSE}
+  chmod(PAnsiChar(aFileName), aAttr);
+  {$ENDIF}
   {$WARN SYMBOL_PLATFORM ON}
   {$ENDIF}
 end;
@@ -1426,7 +1729,11 @@ var
 {$ENDIF}
 {$IFDEF LINUX}
 var
+{$IFDEF FPC}
   StatBuf: TStat;
+{$ELSE}
+  StatBuf: TStatBuf64;
+{$ENDIF}
 {$ENDIF}
 begin
 {$IFDEF MSWINDOWS}
@@ -1444,7 +1751,11 @@ begin
   end;                                                        {!!.02}
 {$ENDIF}
 {$IFDEF LINUX}
+{$IFDEF FPC}
   fplstat(PAnsiChar(aFileName), @StatBuf);
+{$ELSE}
+  lstat64(PAnsiChar(aFileName), StatBuf);
+{$ENDIF}
   Result := StatBuf.st_size;
 {$ENDIF}
 end;
@@ -1456,11 +1767,6 @@ const
   MAX_VOL_LABEL = 16;
 
 function AbGetVolumeLabel(Drive : AnsiChar) : AnsiString;
-{$IFDEF LINUX}
-begin
-  Result:='';
-end;
-{$ELSE}
 {-Get the volume label for the specified drive.}
 var
   Root : AnsiString;
@@ -1468,6 +1774,9 @@ var
   NameSize : Integer;
   VolName : string;
 begin
+{$IFDEF LINUX}
+  result := ''; //Stop Gap, spanning support needs to be rethought for Linux
+{$ELSE}
   NameSize := 0;
   Root := Drive + ':\';
   SetLength(VolName, MAX_VOL_LABEL);
@@ -1478,8 +1787,8 @@ begin
     nil, MaxLength, Flags, nil, NameSize)
   then
     Result := VolName;
-end;
 {$ENDIF}
+end;
 
 procedure AbSetSpanVolumeLabel(Drive: AnsiChar; VolNo : Integer);
 begin

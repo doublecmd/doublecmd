@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbFciFdi.pas 3.04                           *}
+{* ABBREVIA: AbFciFdi.pas 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: Cabinet DLL wrapper                         *}
 {* Based on info from the FCI/FDI Library Description,   *}
@@ -299,12 +299,12 @@ var
 {============================================================================}
 procedure LoadCabinetDLL;
 begin
+{$ifdef MSWINDOWS}
   if CabDllLoaded then
     Exit;
-//  CabDllHandle := LoadLibrary(CabinetDLL);
+  CabDllHandle := LoadLibrary(CabinetDLL);
   if (CabDllHandle = 0) then
     raise EAbNoCabinetDLL.Create;
-{$ifdef MSWINDOWS}
   @FDICreateProc := GetProcAddress(CabDllHandle, 'FDICreate');
   @FDIIsCabinetProc := GetProcAddress(CabDllHandle, 'FDIIsCabinet');
   @FDICopyProc := GetProcAddress(CabDllHandle, 'FDICopy');

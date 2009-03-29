@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbPeDir.inc 3.04                            *}
+{* ABBREVIA: AbPeDir.inc 3.05                            *}
 {*********************************************************}
 {* ABBREVIA: Property Editor - Directory (Source)        *}
 {*   See AbPeDir.pas for the VCL header                  *}

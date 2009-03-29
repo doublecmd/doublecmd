@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbDfEnc.pas 3.04                            *}
+{* ABBREVIA: AbDfEnc.pas 3.05                            *}
 {*********************************************************}
 {* Deflate encoding unit                                 *}
 {*********************************************************}
@@ -49,7 +49,6 @@ uses
   AbDfInW,
   AbDfHufD,
   AbDfStrm,
-  AbDfXlat,
   AbDfCryS,
   AbDfPkMg;
 
@@ -685,11 +684,11 @@ const
   StoredBlockSize = $FFFF;
 var
   Buffer    : PAnsiChar;
-  BytesRead : longint;
-  ByteCount : longint;
-  BytesToGo : longint;
-  CurPos    : longint;
-  Size      : longint;
+  BytesRead : LongWord;
+  ByteCount : Int64;
+  BytesToGo : Int64;
+  CurPos    : Int64;
+  Size      : Int64;
   Percent   : longint;
   CheckSum  : longint;
   UseCRC32  : boolean;
@@ -716,9 +715,9 @@ begin
   if (aHelper.StreamSize > 0) then
     BytesToGo := aHelper.StreamSize
   else begin
-    CurPos := aSource.Seek(0, soFromCurrent);
-    Size := aSource.Seek(0, soFromEnd);
-    aSource.Seek(CurPos, soFromBeginning);
+    CurPos := aSource.Seek(0, soCurrent);
+    Size := aSource.Seek(0, soEnd);
+    aSource.Seek(CurPos, soBeginning);
     BytesToGo := Size - CurPos;
   end;
 

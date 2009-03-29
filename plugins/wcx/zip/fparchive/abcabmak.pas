@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbCabMak.pas 3.04                           *}
+{* ABBREVIA: AbCabMak.pas 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: Cabinet builder component (VCL)             *}
 {*   See AbQCabMk.pas for the CLX header                 *}
@@ -39,7 +39,7 @@ interface
 uses
   SysUtils, Classes,
   AbCBrows,
-  AbArcTyp, AbUtils, AbCabTyp;
+  AbArcTyp, AbCabTyp;
 
 type
   TAbCustomMakeCab = class(TAbCustomCabBrowser)
@@ -70,8 +70,9 @@ type
 
   public {methods}
     constructor Create( AOwner : TComponent ); override;
-    procedure AddFiles( FileMask : string; SearchAttr : Integer );
-    procedure AddFilesEx( FileMask, ExclusionMask : string; SearchAttr : Integer );
+    procedure AddFiles(const FileMask : string; SearchAttr : Integer );
+    procedure AddFilesEx(const FileMask : string;
+                         const ExclusionMask : string; SearchAttr : Integer );
     procedure StartNewFolder;
     procedure StartNewCabinet;
   end;
@@ -105,7 +106,8 @@ type
 implementation
 
 uses
-  AbExcept;
+  AbExcept,
+  AbUtils;
 
 { TAbCustomMakeCab ========================================================= }
 constructor TAbCustomMakeCab.Create( AOwner : TComponent );
@@ -117,7 +119,7 @@ begin
   FSetID := 0;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCustomMakeCab.AddFiles(FileMask : string; SearchAttr : Integer );
+procedure TAbCustomMakeCab.AddFiles(const FileMask : string; SearchAttr : Integer );
   {Add files to the cabinet where the disk filespec matches}
 begin
   if Assigned(CabArchive) then
@@ -127,8 +129,9 @@ begin
   DoChange;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCustomMakeCab.AddFilesEx(FileMask, ExclusionMask : string;
-  SearchAttr : Integer);
+procedure TAbCustomMakeCab.AddFilesEx(const FileMask : string;
+                                      const ExclusionMask : string;
+                                            SearchAttr : Integer);
   {Add files that match Filemask except those matching ExclusionMask}
 begin
   if Assigned(CabArchive) then

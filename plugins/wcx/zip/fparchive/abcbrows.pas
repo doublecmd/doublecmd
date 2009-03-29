@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbCBrows.pas 3.04                           *}
+{* ABBREVIA: AbCBrows.pas 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: Cabinet file browser component              *}
 {*********************************************************}
@@ -38,7 +38,7 @@ interface
 uses
   SysUtils, Classes,
   AbBrowse,
-  AbArcTyp, AbExcept, AbUtils, AbCabTyp;
+  AbCabTyp;
 
 type
   TAbCustomCabBrowser = class(TAbBaseBrowser)
@@ -115,7 +115,8 @@ type
 implementation
 
 uses
-  AbConst;
+  AbArcTyp,
+  AbUtils;
 
 { TAbCustomCabBrowser ====================================================== }
 constructor TAbCustomCabBrowser.Create(AOwner : TComponent);

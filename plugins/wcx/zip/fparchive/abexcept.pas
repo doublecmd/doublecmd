@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbExcept.pas 3.04                           *}
+{* ABBREVIA: AbExcept.pas 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: Exception classes                           *}
 {*********************************************************}
@@ -51,8 +51,12 @@ type
   end;
 
   EAbBadStream = class( EAbException )
+  protected
+    FInnerException : Exception;
   public
     constructor Create;
+    constructor CreateInner(aInnerException : Exception);
+    property InnerException : Exception read FInnerException;
   end;
 
   EAbDuplicateName = class( EAbException )
@@ -98,7 +102,14 @@ type
   EAbZipException = class( EAbException ); {Zip exception}
   EAbCabException = class( EAbException ); {Cab exception}
   EAbTarException = class( EAbException ); {Tar Exception}
-  EAbGzipException = class( EAbException); {GZip exception }
+  EAbGzipException = class( EAbException); {GZip exception}
+  EAbBzipException = class( EAbException); {BZip exception}
+
+
+  EAbInvalidHeaderException = class(EAbException)
+  public 
+    constructor Create;
+  end;
 
   EAbZipBadSpanStream = class( EAbZipException )
   public
@@ -190,6 +201,26 @@ type
     constructor Create;
   end;
 
+  EAbTarBadFileName = class( EAbTarException )
+  public
+    constructor Create;
+  end;
+
+  EAbTarBadLinkName = class( EAbTarException )
+  public
+    constructor Create;
+  end;
+
+  EAbTarBadOp = class( EAbTarException )
+  public
+    constructor Create;
+  end;
+
+  EAbTarInvalid = class( EAbTarException )
+  public
+    constructor Create;
+  end;
+
   EAbGzipBadCRC = class( EAbGZipException )
   public
     constructor Create;
@@ -201,6 +232,21 @@ type
   end;
 
   EAbGzipInvalid = class( EAbGZipException )
+  public
+    constructor Create;
+  end;
+
+  EAbBzipBadCRC = class( EAbBZipException )
+  public
+    constructor Create;
+  end;
+
+  EAbBzipBadFileSize = class( EAbBZipException )
+  public
+    constructor Create;
+  end;
+
+  EAbBzipInvalid = class( EAbBZipException )
   public
     constructor Create;
   end;
@@ -360,6 +406,11 @@ type
     constructor Create;
   end;
 
+  EAbFileTooLarge = class(EAbException)
+  public
+    constructor Create;
+  end;
+
   procedure AbConvertException( const E : Exception;
                                 var eClass : TAbErrorClass;
                                 var eErrorCode : Integer );
@@ -380,8 +431,17 @@ end;
 constructor EAbBadStream.Create;
 begin
   inherited Create(AbStrRes(AbBadStreamType));
+  FInnerException := nil;
   ErrorCode := AbBadStreamType;
 end;
+
+constructor EAbBadStream.CreateInner(aInnerException: Exception);
+begin
+  inherited Create(AbStrRes(AbBadStreamType) + #13#10 + aInnerException.Message);
+  FInnerException := aInnerException;
+  ErrorCode := AbBadStreamType;
+end;
+
 
 constructor EAbDuplicateName.Create;
 begin
@@ -525,6 +585,30 @@ constructor EAbReadError.Create;
 begin
   inherited Create(AbStrRes(AbReadError));
   ErrorCode := AbReadError;
+end;
+
+constructor EAbTarBadFileName.Create;
+begin
+  inherited Create('Invalid file name (too long?)');
+  ErrorCode := 0;
+end;
+
+constructor EAbTarBadLinkName.Create;
+begin
+  inherited Create('Invalid link name (too long?)');
+  ErrorCode := 0;
+end;
+
+constructor EAbTarBadOp.Create;
+begin
+  inherited Create('Invalid operation requested');
+  ErrorCode := 0;
+end;
+
+constructor EAbTarInvalid.Create;
+begin
+  inherited Create('Invalid TAR file');
+  ErrorCode := 0;
 end;
 
 constructor EAbVMSReadTooManyBytes.Create( Count : Integer;
@@ -771,12 +855,55 @@ begin
 
 end;
 
+
+{ EAbBzipBadCRC }
+
+constructor EAbBzipBadCRC.Create;
+begin
+  inherited Create(AbStrRes(AbBzipBadCRC));
+  ErrorCode := AbBzipBadCRC;
+end;
+
+{ EAbBzipBadFileSize }
+
+constructor EAbBzipBadFileSize.Create;
+begin
+  inherited Create(AbStrRes(AbBzipBadFileSize));
+  ErrorCode := AbBzipBadFileSize;
+end;
+
+{ EAbBzipInvalid }
+
+constructor EAbBzipInvalid.Create;
+begin
+  inherited Create(AbStrRes(AbSpanningNotSupported));
+  ErrorCode := AbSpanningNotSupported;
+
+end;
+
 { EAbSpanningNotSupported }
 
 constructor EAbSpanningNotSupported.Create;
 begin
   inherited Create(AbStrRes(AbSpanningNotSupported));
   ErrorCode := AbSpanningNotSupported;
+end;
+
+
+{ EAbInvalidHeader }
+
+constructor EAbInvalidHeaderException.Create;
+begin
+	inherited Create('Invalid Header');
+  ErrorCode := AbInvalidHeader;
+end;
+
+{ EAbFileTooLarge }
+
+constructor EAbFileTooLarge.Create;
+begin
+    {TODO Create const and fix wording}
+    inherited Create('File size is too big for archive type'); 
 end;
 
 end.

@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbDfBase.pas 3.04                           *}
+{* ABBREVIA: AbDfBase.pas 3.05                           *}
 {*********************************************************}
 {* Deflate base unit                                     *}
 {*********************************************************}
@@ -106,22 +106,22 @@ type
       FMaxLazy        : longint;
       FOnProgressStep : TAbProgressStep;
       FOptions        : longint;
-      FPartSize       : longint;
+      FPartSize       : Int64;
       FPassphrase     : string;
-      FSizeCompressed : longint;
-      FSizeNormal     : longint;
-      FStreamSize     : longint;
+      FSizeCompressed : Int64;
+      FSizeNormal     : Int64;
+      FStreamSize     : Int64;
       FWindowSize     : longint;
       FZipOption      : AnsiChar;
     protected
       procedure dhSetAmpleLength(aValue : longint);
       procedure dhSetChainLength(aValue : longint);
       procedure dhSetCheckValue(aValue : longint);
-      procedure dhSetLogFile(aValue : string);
+      procedure dhSetLogFile(const aValue : string);
       procedure dhSetMaxLazy(aValue : longint);
       procedure dhSetOnProgressStep(aValue : TAbProgressStep);
       procedure dhSetOptions(aValue : longint);
-      procedure dhSetPassphrase(aValue : string);
+      procedure dhSetPassphrase(const aValue : string);
       procedure dhSetWindowSize(aValue : longint);
       procedure dhSetZipOption(aValue : AnsiChar);
     public
@@ -141,20 +141,20 @@ type
                   read FMaxLazy write dhSetMaxLazy;
       property Options : longint
                   read FOptions write dhSetOptions;
-      property PartialSize : longint
+      property PartialSize : Int64
                   read FPartSize write FPartSize;
       property Passphrase : string
                   read FPassphrase write dhSetPassphrase;
       property PKZipOption : AnsiChar
                   read FZipOption write dhSetZipOption;
-      property StreamSize : longint
+      property StreamSize : Int64
                   read FStreamSize write FStreamSize;
       property WindowSize : longint
                   read FWindowSize write dhSetWindowSize;
 
-      property CompressedSize : longint
+      property CompressedSize : Int64
                   read FSizeCompressed write FSizeCompressed;
-      property NormalSize : longint
+      property NormalSize : Int64
                   read FSizeNormal write FSizeNormal;
 
       property OnProgressStep : TAbProgressStep
@@ -177,7 +177,7 @@ type
       destructor Destroy; override;
 
       function Read(var Buffer; Count : longint) : longint; override;
-      function Seek(Offset : longint; Origin : word) : longint; override;
+      function Seek(const Offset : Int64; Origin : TSeekOrigin) : Int64; override;
       function Write(const Buffer; Count : longint) : longint; override;
       procedure WriteLine(const S : string);
       procedure WriteStr(const S : string);
@@ -314,7 +314,7 @@ begin
   FCheckValue := aValue;
 end;
 {--------}
-procedure TAbDeflateHelper.dhSetLogFile(aValue : string);
+procedure TAbDeflateHelper.dhSetLogFile(const aValue : string);
 begin
   FLogFile := aValue;
 end;
@@ -342,7 +342,7 @@ begin
   end;
 end;
 {--------}
-procedure TAbDeflateHelper.dhSetPassphrase(aValue : string);
+procedure TAbDeflateHelper.dhSetPassphrase(const aValue : string);
 begin
   FPassphrase := aValue;
 end;
@@ -518,18 +518,18 @@ begin
   Result := 0;
 end;
 {--------}
-function TAbLogger.Seek(Offset : longint; Origin : word) : longint;
+function TAbLogger.Seek(const Offset : Int64; Origin : TSeekOrigin) : Int64;
 begin
   case Origin of
-    soFromBeginning :
+    soBeginning :
       begin
       end;
-    soFromCurrent :
+    soCurrent :
       if (Offset = 0) then begin
         Result := FStream.Position + (FCurPos - FBuffer);
         Exit;
       end;
-    soFromEnd :
+    soEnd :
       if (Offset = 0) then begin
         Result := FStream.Position + (FCurPos - FBuffer);
         Exit;

@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbZipCry.pas 3.04                           *}
+{* ABBREVIA: AbZipCry.pas 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: PKZip crypto units                          *}
 {* Based on information from Appnote.txt, shipped with   *}
@@ -67,8 +67,9 @@ type
     procedure InitKeys;
       {-Initialize Keys}
   public
-    constructor Create( aPassword : string; var aStream : TStream;
-                        aCRC : LongInt; aCheckByte : Boolean );          
+    constructor Create(const aPassword : string;
+                         var aStream : TStream;
+                             aCRC : LongInt; aCheckByte : Boolean );          
     destructor Destroy; override;
 
     function Decode( c : Byte ) : Byte;
@@ -110,8 +111,9 @@ const
   AbZipMagicNumber = 134775813;
 
 { -------------------------------------------------------------------------- }
-constructor TAbZDecoder.Create( aPassword : string; var aStream : TStream;
-                                aCRC : LongInt; aCheckByte : Boolean );
+constructor TAbZDecoder.Create(const aPassword : string;
+                                var aStream : TStream;
+                                    aCRC : LongInt; aCheckByte : Boolean );
 begin
   inherited Create;
   FPassword := aPassword;

@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbBitBkt.pas 3.04                           *}
+{* ABBREVIA: AbBitBkt.pas 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: Bit bucket memory stream class              *}
 {*********************************************************}
@@ -36,7 +36,6 @@ unit AbBitBkt;
 interface
 
 uses
-  Types, //!!MVC for TByteArray
   Classes;
 
 type
@@ -45,18 +44,18 @@ type
       FBuffer  : PChar;
       FBufSize : longint;
       FBufPosn : longint;
-      FPosn    : longint;
-      FSize    : longint;
-      FTail    : longint;
+      FPosn    : Int64;
+      FSize    : Int64;
+      FTail    : Int64;
     protected
     public
       constructor Create(aBufSize : cardinal);
       destructor Destroy; override;
       function Read(var Buffer; Count : Longint) : Longint; override;
       function Write(const Buffer; Count : Longint) : Longint; override;
-      function Seek(Offset : Longint; Origin : Word) : Longint; override;
+      function Seek(const Offset : Int64; Origin : TSeekOrigin) : Int64; override;
 
-      procedure ForceSize(aSize : longint);
+      procedure ForceSize(aSize : Int64);
   end;
 
 implementation
@@ -101,15 +100,15 @@ begin
   inherited Destroy;
 end;
 {--------}
-procedure TAbBitBucketStream.ForceSize(aSize : longint);
+procedure TAbBitBucketStream.ForceSize(aSize : Int64);
 begin
   FSize := aSize;
 end;
 {--------}
 function TAbBitBucketStream.Read(var Buffer; Count : Longint) : Longint;
 var
-  Chunk2Size : longint;
-  Chunk1Size : longint;
+  Chunk2Size : Int64;
+  Chunk1Size : Int64;
   OutBuffer  : TByteArray absolute Buffer;
 begin
   {we cannot read more bytes than there is buffer}
@@ -188,7 +187,7 @@ begin
   Result := Count;
 end;
 {--------}
-function TAbBitBucketStream.Seek(Offset : Longint; Origin : Word) : Longint;
+function TAbBitBucketStream.Seek(const Offset : Int64; Origin : TSeekOrigin): Int64;
 var
   Posn : longint;
   BytesBack : longint;
@@ -202,11 +201,11 @@ begin
 {$ENDIF}
   {calculate the new position}
   case Origin of
-    soFromBeginning :
+    soBeginning :
       Posn := Offset;
-    soFromCurrent   :
+    soCurrent   :
       Posn := FPosn + Offset;
-    soFromEnd       :
+    soEnd       :
       if (Offset = 0) then begin
         {special case: position at end of stream}
         FBufPosn := FTail;

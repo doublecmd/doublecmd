@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbZipTyp.pas 3.04                           *}
+{* ABBREVIA: AbZipTyp.pas 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: PKZip types                                 *}
 {* Based on information from Appnote.txt, shipped with   *}
@@ -38,18 +38,24 @@ unit AbZipTyp;
 interface
 
 uses
-  Types, //!!  MVC for MMAX_PATH
   Classes, AbArcTyp, AbUtils, AbSpanSt;
 
 const
   { note  #$50 = 'P', #$4B = 'K'}
-  Ab_ZipVersion = 20;
+  Ab_ZipVersion = 21;
   Ab_ZipLocalFileHeaderSignature            : Longint = $04034B50;
   Ab_ZipCentralDirectoryFileHeaderSignature : Longint = $02014B50;
   Ab_ZipCentralDirectoryTailSignature       : Longint = $06054B50;
   Ab_ZipSpannedSetSignature                 : Longint = $08074B50;
   Ab_ZipPossiblySpannedSignature            : Longint = $30304B50;
   Ab_GeneralZipSignature                    : Word    = $4B50;       {!!.02}
+
+  {Rohan Added}
+  Ab_ArchiveExtraDataRecord                 : Longint = $08064b50;
+  Ab_DigitalSignature                       : Longint = $05054b50;
+  Ab_Zip64EndCetralDirectory                : Longint = $06064b50;
+  Ab_Zip64EndCetralDirectoryLocator         : Longint = $07064b50;
+  {End Rohan Added}
 
   Ab_WindowsExeSignature                    : Word    = $5A4D;       {!!.02}
   Ab_LinuxExeSigWord1                       : Word    = $457F;       {!!.02}
@@ -170,8 +176,12 @@ type
     (smStored, smDeflated, smBestMethod);
 
   TAbZipHostOS =
-    (hosDOS, hosAmiga, hosVAX, hosUnix, hosVMCMS, hosAtari,
+    (hosMSDOS, hosAmiga, hosVAX, hosUnix, hosVMCMS, hosAtari,
      hosOS2, hosMacintosh, hosZSystem, hosCPM, hosNTFS);
+     // above list is from APPNOTE.TXT Zip specification.
+     // 7-Zip defines NTFS as value 11
+     // also, see AB_BZIP_OS_ID_ constants in AbBZipTyp
+     // and   TAbGzFileSystem in AbGzTyp
 
   {for method 6 - imploding}
   TAbZipDictionarySize =
@@ -194,17 +204,17 @@ type
   TAbZipDataDescriptor = class( TObject )
   protected {private}
     FCRC32            : Longint;
-    FCompressedSize   : Longint;
-    FUncompressedSize : Longint;
+    FCompressedSize   : LongWord;
+    FUncompressedSize : LongWord;
   public {methods}
     procedure LoadFromStream( Stream : TStream );
     procedure SaveToStream( Stream : TStream );
   public {properties}
     property CRC32 : Longint
       read FCRC32 write FCRC32;
-    property CompressedSize : Longint
+    property CompressedSize : LongWord
       read FCompressedSize write FCompressedSize;
-    property UncompressedSize : Longint
+    property UncompressedSize : LongWord
       read FUncompressedSize write FUncompressedSize;
   end;
 
@@ -218,11 +228,11 @@ type
     FVersionNeededToExtract : Word;
     FGeneralPurposeBitFlag : Word;
     FCompressionMethod : Word;
-    FLastModFileTime : Word;
-    FLastModFileDate : Word;
+    FLastModFileTime : Word;         // This is stored
+    FLastModFileDate : Word;         // in local time zone
     FCRC32 : Longint;
-    FCompressedSize : Longint;
-    FUncompressedSize : Longint;
+    FCompressedSize : LongWord;
+    FUncompressedSize : LongWord;
     FFileNameLength : Word;
     FExtraFieldLength : Word;
     FFileName : PChar;
@@ -258,9 +268,9 @@ type
       read FLastModFileDate write FLastModFileDate;
     property CRC32 : Longint
       read FCRC32 write FCRC32;
-    property CompressedSize : Longint
+    property CompressedSize : LongWord
       read FCompressedSize write FCompressedSize;
-    property UncompressedSize : Longint
+    property UncompressedSize : LongWord
       read FUncompressedSize write FUncompressedSize;
     property FileNameLength : Word
       read FFileNameLength write FFileNameLength;
@@ -304,7 +314,7 @@ type
     FDiskNumberStart        : Word;
     FInternalFileAttributes : Word;
     FExternalFileAttributes : Longint;
-    FRelativeOffset         : Longint;
+    FRelativeOffset         : LongWord;
     FFileComment            : PChar;
   public {methods}
     constructor Create;
@@ -322,7 +332,7 @@ type
       read FInternalFileAttributes write FInternalFileAttributes;
     property ExternalFileAttributes : Longint
       read FExternalFileAttributes write FExternalFileAttributes;
-    property RelativeOffset : Longint
+    property RelativeOffset : LongWord
       read FRelativeOffset write FRelativeOffset;
     property FileComment : PChar
       read FFileComment write FFileComment;
@@ -330,6 +340,9 @@ type
 
 { TAbZipDirectoryFileFooter interface ====================================== }
   TAbZipDirectoryFileFooter = class( TObject )
+  private
+    function GetIsZip64(): Boolean;
+    function GetIsSpan: Boolean;
   protected {private}
     FValidSignature       : Longint;
     FSignature            : Longint;
@@ -337,8 +350,8 @@ type
     FStartDiskNumber      : Word;
     FEntriesOnDisk        : Word;
     FTotalEntries         : Word;
-    FDirectorySize        : Longint;
-    FDirectoryOffset      : Longint;
+    FDirectorySize        : LongWord;
+    FDirectoryOffset      : LongWord;
     FZipfileCommentLength : Word;
     FZipFileComment       : PChar;
     function GetValid : Boolean;
@@ -357,9 +370,9 @@ type
       read FEntriesOnDisk write FEntriesOnDisk;
     property TotalEntries : Word
       read FTotalEntries write FTotalEntries;
-    property DirectorySize : Longint
+    property DirectorySize : LongWord
       read FDirectorySize write FDirectorySize;
-    property DirectoryOffset : Longint
+    property DirectoryOffset : LongWord
       read FDirectoryOffset write FDirectoryOffset;
     property StartDiskNumber : Word
       read FStartDiskNumber write FStartDiskNumber;
@@ -369,7 +382,32 @@ type
       read FZipfileComment write FZipfileComment;
     property IsValid : Boolean
       read GetValid;
+    property IsSpan: Boolean read GetIsSpan;
+    property IsZip64: Boolean read GetIsZip64;
   end;
+
+  {
+   		Zip64 end of central directory record
+        zip64 end of central dir
+        signature                       4 bytes  (0x06064b50)
+        size of zip64 end of central
+        directory record                8 bytes
+        version made by                 2 bytes
+        version needed to extract       2 bytes
+        number of this disk             4 bytes
+        number of the disk with the
+        start of the central directory  4 bytes
+        total number of entries in the
+        central directory on this disk  8 bytes
+        total number of entries in the
+        central directory               8 bytes
+        size of the central directory   8 bytes
+        offset of start of central
+        directory with respect to
+        the starting disk number        8 bytes
+        zip64 extensible data sector    (variable size)
+}
+
 
 { TAbZipItem interface ===================================================== }
   TAbZipItem = class( TAbArchiveItem )
@@ -387,7 +425,7 @@ type
     function GetFileComment : string;
     function GetGeneralPurposeBitFlag : Word;
     function GetInternalFileAttributes : Word;
-    function GetRelativeOffset : Longint;
+    function GetRelativeOffset : Int64;
     function GetShannonFanoTreeCount : Byte;
     function GetVersionMadeBy : Word;
     function GetVersionNeededToExtract : Word;
@@ -396,33 +434,39 @@ type
     procedure SaveLFHToStream( Stream : TStream );
     procedure SetCompressionMethod( Value : TAbZipCompressionMethod );
     procedure SetDiskNumberStart( Value : Word );
-    procedure SetFileComment( Value : string );
-    procedure SetExtraField( Value : string );
+    procedure SetFileComment(const Value : string );
+    procedure SetExtraField(const Value : string );
     procedure SetGeneralPurposeBitFlag( Value : Word );
     procedure SetInternalFileAttributes( Value : Word );
-    procedure SetRelativeOffset( Value : Longint );
+    procedure SetRelativeOffset( Value : Int64 );
     procedure SetVersionMadeBy( Value : Word );
     procedure SetVersionNeededToExtract( Value : Word );
 
   protected {redefined property methods}
-    function  GetCompressedSize : Longint; override;
+    function  GetCompressedSize : Int64; override;
     function  GetCRC32 : Longint; override;
-    function  GetExternalFileAttributes : Longint; override;
+    function  GetExternalFileAttributes : LongWord; override;
     function  GetFileName : string; override;
     function  GetIsEncrypted : Boolean; override;
+    function  GetLastModDateTime : TDateTime; override;
     function  GetLastModFileDate : Word; override;
     function  GetLastModFileTime : Word; override;
-    function  GetUncompressedSize : Longint; override;
-    procedure SetCompressedSize( const Value : Longint ); override;
+    function  GetSystemSpecificAttributes: LongWord; override;
+    function  GetSystemSpecificLastModFileTime: Longint; override;
+    function  GetUncompressedSize : Int64; override;
+    procedure SetCompressedSize( const Value : Int64 ); override;
     procedure SetCRC32( const Value : Longint ); override;
-    procedure SetExternalFileAttributes( Value : Longint ); override;
-    procedure SetFileName( Value : string ); override;
+    procedure SetExternalFileAttributes( Value : LongWord ); override;
+    procedure SetFileName(const Value : string ); override;
+    procedure SetLastModDateTime(const Value : TDateTime); override;
     procedure SetLastModFileDate(const Value : Word ); override;
     procedure SetLastModFileTime(const Value : Word ); override;
-    procedure SetUncompressedSize( const Value : Longint ); override;
+    procedure SetSystemSpecificAttributes(Value: LongWord); override;
+    procedure SetSystemSpecificLastModFileTime(const Value: Longint); override;
+    procedure SetUncompressedSize( const Value : Int64 ); override;
 
   public {methods}
-    constructor Create;
+    constructor Create; override;
     destructor  Destroy; override;
     procedure LoadFromStream( Stream : TStream );
 
@@ -451,7 +495,7 @@ type
     property GeneralPurposeBitFlag : Word
       read GetGeneralPurposeBitFlag
       write SetGeneralPurposeBitFlag;
-    property RelativeOffset : Longint
+    property RelativeOffset : Int64
       read GetRelativeOffset
       write SetRelativeOffset;
     property ShannonFanoTreeCount : Byte
@@ -467,6 +511,7 @@ type
 { TAbZipArchive interface ================================================== }
   TAbZipArchive = class( TAbArchive )
   protected {private}
+  	FIsZip64				: Boolean;
     FCompressionMethodToUse : TAbZipSupportedMethod;
     FCurrentDisk            : Word;
     FDeflationOption        : TAbZipDeflationOption;
@@ -475,7 +520,7 @@ type
     FIsExecutable           : Boolean;
     FPassword               : string;
     FPasswordRetries        : Byte;
-    FStubSize               : Longint;
+    FStubSize               : LongWord;
     FAutoGen                : Boolean;                               {!!.02}
 
     FExtractHelper          : TAbArchiveItemExtractEvent;
@@ -488,18 +533,20 @@ type
     FOnRequestNthDisk       : TAbRequestNthDiskEvent;
     FOnRequestBlankDisk     : TAbRequestDiskEvent;
 
-  protected {methods}
+  protected {methods}    
+    class function GetMaxFileSize: Int64; override;
 
-    function CreateItem(const FileSpec : string): TAbArchiveItem; override;
-    procedure DoExtractHelper(Index : Integer; NewName : string);
+    function CreateItem(const SourceFileName   : string;
+                        const ArchiveDirectory : string): TAbArchiveItem; override;
+    procedure DoExtractHelper(Index : Integer; const NewName : string);
     procedure DoExtractToStreamHelper(Index : Integer; aStream : TStream);
     procedure DoTestHelper(Index : Integer);
     procedure DoInsertHelper(Index : Integer; OutStream : TStream);
     procedure DoInsertFromStreamHelper(Index : Integer; OutStream : TStream);
     procedure DoRequestNextImage(ImageNumber : Integer; var Stream : TStream;
       var Abort : Boolean );
-    function FindCDTail : Longint;
-    function GetItem( Index : Integer ) : TAbZipItem;                    
+    function FindCDTail : Int64;   
+    function GetItem( Index : Integer ) : TAbZipItem;
     function GetZipFileComment : string;
     procedure PutItem( Index : Integer; Value : TAbZipItem );
     procedure DoRequestLastDisk( var Abort : Boolean );
@@ -514,13 +561,13 @@ type
       override;
     procedure TestItemAt(Index : Integer);
       override;
-    function FixName( Value : string ) : string;
+    function FixName(const Value : string ) : string;
       override;
     procedure LoadArchive;
       override;
     procedure SaveArchive;
       override;
-    procedure SetZipFileComment( Value : string );
+    procedure SetZipFileComment(const Value : string );
 
   protected {properties}
     property IsExecutable : Boolean
@@ -535,13 +582,14 @@ type
       var ImageName: string; var Abort: Boolean);                        {!!.01}
 
   public {methods}
-    constructor Create( FileName : string; Mode : Word );
+    constructor Create(const FileName : string; Mode : Word );
       override;
-    constructor CreateFromStream( aStream : TStream; ArchiveName : string );
+    constructor CreateFromStream( aStream : TStream; const ArchiveName : string ); override;
     destructor Destroy;
       override;
 
   public {properties}
+
     property CompressionMethodToUse : TAbZipSupportedMethod
       read FCompressionMethodToUse
       write FCompressionMethodToUse;
@@ -575,7 +623,7 @@ type
       read FPasswordRetries
       write FPasswordRetries
       default AbDefPasswordRetries;
-    property StubSize : Longint
+    property StubSize : LongWord
       read FStubSize;
     property ZipFileComment : string
       read GetZipFileComment
@@ -608,11 +656,14 @@ procedure MakeSelfExtracting( StubStream, ZipStream,
      then perform operations as needed - like ExtractFiles( '*.*' ).
      This routine updates the RelativeOffset of each item in the archive}
 
-function FindCentralDirectoryTail(aStream : TStream) : Longint;
+function FindCentralDirectoryTail(aStream : TStream) : Int64;
+function FindZip64CentralDirLocator(aStream: TStream; centralDirectoryPos: Int64): Int64;
 
 function VerifyZip(Strm : TStream) : TAbArchiveType;
 
 function VerifySelfExtracting(Strm : TStream) : TAbArchiveType;
+
+function MakeVersionMadeBy : Word;
 
 implementation
 
@@ -635,13 +686,27 @@ uses
   AbVMStrm,
   SysUtils;
 
+function MakeVersionMadeBy : Word;
+begin
+  Result := Ab_ZipVersion;
+{$IFDEF MSWINDOWS}
+  if (GetVersion and $FF) >= $05 then
+    Result := Result + (10 shl 8) // Windows/NTFS
+  else
+    Result := Result + (0 shl 8)  // MS-DOS/FAT
+{$ENDIF}
+{$IFDEF LINUX}
+  Result := Result + (3 shl 8)
+{$ENDIF}
+end;
+
 function VerifyZip(Strm : TStream) : TAbArchiveType;
 { determine if stream appears to be in PkZip format }
 var
   Footer       : TAbZipDirectoryFileFooter;
   Sig          : LongInt;                                                {!!.01}
-  TailPosition : LongInt;
-  StartPos     : LongInt;
+  TailPosition : int64;
+  StartPos     : int64;
 begin
   StartPos := Strm.Position;
   Result := atUnknown;
@@ -668,7 +733,7 @@ begin
     end
 (* {!!.02}
   else begin  { may be a span }                                          {!!.01}
-    Strm.Seek(0, soFromBeginning);                                       {!!.01}
+    Strm.Seek(0, somBeginning);                                       {!!.01}
     Strm.Read(Sig, SizeOf(LongInt));                                     {!!.01}
     if (Sig = Ab_ZipSpannedSetSignature)                                 {!!.01}
       or (Sig = Ab_ZipPossiblySpannedSignature)                          {!!.01}
@@ -683,7 +748,7 @@ function VerifySelfExtracting(Strm : TStream) : TAbArchiveType;
 { determine if stream appears to be an executable with appended PkZip data }
 var
   FileSignature : LongInt;
-  StartPos      : LongInt;
+  StartPos      : Int64;
   IsWinExe, IsLinuxExe : Boolean;                                        {!!.01}
 begin
   StartPos := Strm.Position;
@@ -717,7 +782,50 @@ begin
 end;
 
 {============================================================================}
-function FindCentralDirectoryTail(aStream : TStream) : Longint;
+
+function FindZip64CentralDirLocator(aStream: TStream; centralDirectoryPos: Int64): Int64;
+const
+    minimumBlockSize: Integer = $14;
+    maximumVariableData: Integer = $1000;
+type
+    DataRec = packed record
+    signature: Longint;
+    Data: array[0..15] of Byte;
+    end;
+    PDataRec = ^DataRec;
+var
+	Found: Boolean;
+	i, BytesRead: Integer;
+    Position, EndPosition: Int64;
+    Buffer: array[0..4095] of Byte;
+function ToInt(value: Longint): integer;
+var
+	Bytes: array[0..3] of byte absolute value;
+begin
+	result := (bytes[0]) or (bytes[1] shl 8)
+    	or (bytes[2] shl 16) or (bytes[3] shl 24);
+end;
+begin
+	Found := False;
+	Position := centralDirectoryPos;
+    EndPosition := Position - maximumVariableData;
+
+    if (Position < 0) then Position := 0;
+
+    aStream.Seek(EndPosition, soBeginning);
+    BytesRead := aStream.Read(Buffer, SizeOf(buffer));
+
+	for i := BytesRead - SizeOf(DataRec) downto 0 do begin
+        if (ToInt(PDataRec(@Buffer[i])^.signature) = Ab_Zip64EndCetralDirectoryLocator) then begin
+            Position := EndPosition - (BytesRead - i);
+            aStream.Seek(Position, soBeginning); Found := true; break;
+        end;
+    end;
+
+   if Found then Result := Position else result := -1;
+end;
+{============================================================================}
+function FindCentralDirectoryTail(aStream : TStream) : Int64;
 { search end of aStream looking for ZIP Central Directory structure
   returns position in stream if found (otherwise returns -1),
   leaves stream positioned at start of structure or at original
@@ -726,19 +834,19 @@ const
   StartBufSize = 512;
   CMaxBufSize = 64 * 1024;                                               {!!.01}
 var
-  StartPos  : longint;
+  StartPos  : Int64;
   TailRec : packed record
     trSig : longint;
     trMid : array [0..15] of byte;
     trLen : word;
   end;
   Buffer    : PAnsiChar;
-  Offset    : longint;
+  Offset    : Int64;
   TestPos   : PAnsiChar;
   Done      : boolean;
-  BytesRead : longint;
-  BufSize   : integer;
-  MaxBufSize: Integer;                                                   {!!.01}
+  BytesRead : Int64;
+  BufSize   : Int64;
+  MaxBufSize: Int64;                                                   {!!.01}
   CommentLen: integer;
   SpanState : Boolean;                                                   {!!.01}
 begin
@@ -754,17 +862,17 @@ begin
   end;                                                                   {!!.01}
 
   {save the starting position}
-  StartPos := aStream.Seek(0, soFromCurrent);
+  StartPos := aStream.Seek(0, soCurrent);
 
   {start off with the majority case: no zip file comment, so the
    central directory tail is the last thing in the stream and it's a
    fixed size and doesn't indicate a zip file comment}
-  Result := aStream.Seek(-sizeof(TailRec), soFromEnd);
+  Result := aStream.Seek(-sizeof(TailRec), soEnd);
   if (Result >= 0) then begin
     aStream.ReadBuffer(TailRec, sizeof(TailRec));
     if (TailRec.trSig = Ab_ZipEndCentralDirectorySignature) and
        (TailRec.trLen = 0) then begin
-      aStream.Seek(Result, soFromBeginning);
+      aStream.Seek(Result, soBeginning);
       Exit;
     end;
   end;
@@ -786,14 +894,19 @@ begin
     while not Done do begin
 
       {seek to the search position}
-      Result := aStream.Seek(Offset, soFromEnd);
+      Result := aStream.Seek(Offset, soEnd);
       if (Result <= 0) then begin                                        {!!.01}
-        Result := aStream.Seek(0, soFromBeginning);
+        Result := aStream.Seek(0, soBeginning);
         Done := true;
       end;
 
       {read a buffer full}
       BytesRead := aStream.Read(Buffer^, BufSize);
+
+      if BytesRead < sizeOf(TailRec) then begin
+        Result := -1;
+        Exit;
+      end;
 
       {search backwards through the buffer looking for the signature}
       TestPos := Buffer + BytesRead - sizeof(TailRec);
@@ -813,7 +926,7 @@ begin
 
           {calculate its position and exit}
           Result := Result + (TestPos - Buffer);
-          aStream.Seek(Result, soFromBeginning);
+          aStream.Seek(Result, soBeginning);
           Exit;
         end;
       end;
@@ -834,7 +947,7 @@ begin
 
     {if we reach this point, the CD tail is not present}
     Result := -1;
-    aStream.Seek(StartPos, soFromBeginning);
+    aStream.Seek(StartPos, soBeginning);
   finally
     FreeMem(Buffer);
   end;
@@ -844,11 +957,104 @@ begin
     TAbSpanStream(aStream).IgnoreSpanning := SpanState;                  {!!.01}
 end;
 {============================================================================}
+                                                                          { -------------------------------------------------------------------------- }
+procedure MakeSelfExtracting( StubStream, ZipStream,
+                              SelfExtractingStream : TStream );
+  {-takes an executable stub, and a .zip format stream, and creates
+   a SelfExtracting stream.  The stub should create a TAbZipArchive
+   passing itself as the file, using a read-only open mode.  It should
+   then perform operations as needed - like ExtractFiles( '*.*' ).
+   This routine updates the RelativeOffset of each item in the archive}
+var
+  DirectoryStart : Int64;
+  FileSignature : Word;
+  StubSize : LongWord;
+  TailPosition : Int64;
+  ZDFF : TAbZipDirectoryFileFooter;
+  ZipItem : TAbZipItem;
+  IsWinExe, IsLinuxExe : Boolean;                                        {!!.01}
+begin
+  {check file type of stub stream}
+  StubStream.Position := 0;
+  StubStream.Read(FileSignature, SizeOf(FileSignature));
 
+{!!.01 -- re-written executable Type Detection to allow use of non-native stubs }
+  IsLinuxExe := False;
+  IsWinExe := FileSignature = Ab_WindowsExeSignature;
+  if not IsWinExe then begin
+    IsLinuxExe := FileSignature = Ab_LinuxExeSigWord1; { check 1st sig }
+    if IsLinuxExe then begin
+      StubStream.Read(FileSignature, SizeOf(FileSignature)); { check 2nd sig }
+      IsLinuxExe := FileSignature = Ab_LinuxExeSigWord2;
+    end;
+  end;
+
+  if not (IsWinExe or IsLinuxExe) then
+    raise EAbZipInvalidStub.Create;
+{!!.01 -- End Re-written}
+
+  StubStream.Position := 0;
+  StubSize := StubStream.Size;
+
+  ZipStream.Position := 0;
+  ZipStream.Read( FileSignature, sizeof( FileSignature ) );
+  if FileSignature <> $4B50 then
+    raise EAbZipInvalid.Create;
+  ZipStream.Position := 0;
+
+  {copy the stub into the selfex stream}
+  SelfExtractingStream.Position := 0;
+  SelfExtractingStream.CopyFrom( StubStream, 0 ); // copy whole StubStream
+
+  TailPosition := FindCentralDirectoryTail( ZipStream );
+  if TailPosition = -1 then
+    raise EAbZipInvalid.Create;
+  {load the ZipDirectoryFileFooter}
+  ZDFF := TAbZipDirectoryFileFooter.Create;
+  try
+    ZDFF.LoadFromStream( ZipStream );
+    DirectoryStart := ZDFF.DirectoryOffset;
+  finally
+    ZDFF.Free;
+  end;
+  {copy everything up to the CDH into the SelfExtractingStream}
+  ZipStream.Position := 0;
+  if DirectoryStart > 0 then
+    SelfExtractingStream.CopyFrom( ZipStream, DirectoryStart );
+  ZipStream.Position := DirectoryStart;
+  repeat
+    ZipItem := TAbZipItem.Create;
+    try
+      ZipItem.LoadFromStream( ZipStream );
+      ZipItem.RelativeOffset := ZipItem.RelativeOffset + StubSize;
+      {save the modified entry into the Self Extracting Stream}
+      ZipItem.SaveCDHToStream( SelfExtractingStream );
+    finally
+      ZipItem.Free;
+    end;
+  until ZipStream.Position = TailPosition;
+
+  {save the CDH Footer.}
+  ZDFF := TAbZipDirectoryFileFooter.Create;
+  try
+    ZDFF.LoadFromStream( ZipStream );
+    ZDFF.DirectoryOffset := ZDFF.DirectoryOffset + StubSize;
+    ZDFF.SaveToStream( SelfExtractingStream );
+  finally
+    ZDFF.Free;
+  end;
+end;         
+{============================================================================}
 { TAbZipDataDescriptor implementation ====================================== }
 procedure TAbZipDataDescriptor.LoadFromStream( Stream : TStream );
+var
+	tempBuffer: Longint;
 begin
-  Stream.Read( FCRC32, sizeof( FCRC32 ) );
+  Stream.Read(tempBuffer, SizeOf(tempBuffer));
+  if (tempBuffer = Ab_ZipSpannedSetSignature) then
+  	Stream.Read( FCRC32, sizeof( FCRC32 ) )
+  else
+  	FCRC32 := tempBuffer;
   Stream.Read( FCompressedSize, sizeof( FCompressedSize ) );
   Stream.Read( FUncompressedSize, sizeof( FUncompressedSize ) );
 end;
@@ -856,6 +1062,21 @@ end;
 procedure TAbZipDataDescriptor.SaveToStream( Stream : TStream );
 begin
   {!!.01 -- rewritten}
+  {      Although not originally assigned a signature, the value 
+      0x08074b50 has commonly been adopted as a signature value 
+      for the data descriptor record.  Implementers should be 
+      aware that ZIP files may be encountered with or without this 
+      signature marking data descriptors and should account for
+      either case when reading ZIP files to ensure compatibility.
+      When writing ZIP files, it is recommended to include the
+      signature value marking the data descriptor record.  When
+      the signature is used, the fields currently defined for
+      the data descriptor record will immediately follow the
+      signature.}
+  {Begin Rohan Added}
+  Stream.Write(Ab_ZipSpannedSetSignature, sizeof(longint));
+  {End Rohan Added}
+
   Stream.Write( FCRC32, sizeof( FCRC32 ) );
   Stream.Write( FCompressedSize, sizeof( FCompressedSize ) );
   Stream.Write( FUncompressedSize, sizeof( FUncompressedSize ) );
@@ -894,7 +1115,7 @@ end;
 { -------------------------------------------------------------------------- }
 function TAbZipFileHeader.GetCompressionRatio : Double;
 var
-  CompSize : Longint;
+  CompSize : Int64;
 begin
   {adjust for encrypted headers - ensures we never get negative compression
   ratios for stored, encrypted files - no guarantees about negative
@@ -1151,6 +1372,21 @@ begin
   inherited Destroy;
 end;
 { -------------------------------------------------------------------------- }
+function TAbZipDirectoryFileFooter.GetIsSpan: Boolean;
+begin
+	Result := ((StartDiskNumber > 0) and (StartDiskNumber < $FFFF));
+end;
+
+function TAbZipDirectoryFileFooter.GetIsZip64: Boolean;
+begin
+  	Result := ((DiskNumber = $FFFF) or
+		      (StartDiskNumber = $FFFF) or
+			  (EntriesOnDisk = $FFFF) or
+              (TotalEntries = $FFFF) or
+              (DirectorySize = LongWord(-1)) or
+              (DirectoryOffset = LongWord(-1)));
+end;
+
 function TAbZipDirectoryFileFooter.GetValid : Boolean;
 begin
   Result := (FSignature = FValidSignature);
@@ -1212,7 +1448,7 @@ begin
   inherited Destroy;
 end;
 { -------------------------------------------------------------------------- }
-function TAbZipItem.GetCompressedSize : Longint;
+function TAbZipItem.GetCompressedSize : Int64;
 begin
   Result := FItemInfo.CompressedSize;
 end;
@@ -1252,7 +1488,7 @@ begin
   Result := FItemInfo.DiskNumberStart;
 end;
 { -------------------------------------------------------------------------- }
-function TAbZipItem.GetExternalFileAttributes : Longint;
+function TAbZipItem.GetExternalFileAttributes : LongWord;
 begin
   Result := FItemInfo.ExternalFileAttributes;
 end;
@@ -1283,7 +1519,8 @@ begin
 {$IFDEF Linux}
  { do nothing to Buff }
 {$ELSE}
-    if AreFileApisANSI then begin
+    // For MS-DOS only?
+    if (Hi(VersionMadeBy) = 0) and AreFileApisANSI then begin
       OEMToAnsi(Buff, Buff);
     end;
 {$ENDIF}
@@ -1303,6 +1540,17 @@ begin
   Result := FItemInfo.IsEncrypted;
 end;
 { -------------------------------------------------------------------------- }
+function TAbZipItem.GetLastModDateTime : TDateTime;
+var
+  FileTime: Longint;
+begin
+  LongRec(FileTime).Hi := LastModFileDate;
+  LongRec(FileTime).Lo := LastModFileTime;
+
+  // ZIP stores MS-DOS local time
+  Result := AbDosFileTimeToDateTime(FileTime);
+end;
+{ -------------------------------------------------------------------------- }
 function TAbZipItem.GetLastModFileDate : Word;
 begin
   Result := FItemInfo.LastModFileDate;
@@ -1313,7 +1561,48 @@ begin
   Result := FItemInfo.LastModFileTime;
 end;
 { -------------------------------------------------------------------------- }
-function TAbZipItem.GetRelativeOffset : Longint;
+function TAbZipItem.GetSystemSpecificAttributes: LongWord;
+var
+  Attrs: LongWord;
+  SystemCode: TAbZipHostOs;
+begin
+  Result := GetExternalFileAttributes;
+
+  SystemCode := TAbZipHostOs(Byte(VersionMadeBy shr 8));
+
+{$IFDEF MSWINDOWS}
+  if (SystemCode = hosUnix) or
+     // Ugly hack: $1FFFF is max value of attributes on Windows
+     (Result > $1FFFF) then
+  begin
+    // high 16 bits are permissions.
+    // low 16 bits are: ?
+    Attrs := Result shr 16;
+    Result := AbUnix2DosFileAttributes(Attrs);
+  end;
+{$ENDIF}
+{$IFDEF UNIX}
+  if (SystemCode = hosMSDOS) or (SystemCode = hosNTFS) then
+    AbDOS2UnixFileAttributes(Result)
+  else
+    Result := Result shr 16;
+{$ENDIF}
+end;
+{ -------------------------------------------------------------------------- }
+function TAbZipItem.GetSystemSpecificLastModFileTime: Longint;
+var
+  DateTime: TDateTime;
+begin
+  LongRec(Result).Hi := LastModFileDate;
+  LongRec(Result).Lo := LastModFileTime;
+
+{$IFDEF UNIX}
+  DateTime := AbDosFileTimeToDateTime(Result);
+  Result   := AbDateTimeToUnixFileTime(DateTime);
+{$ENDIF}
+end;
+{ -------------------------------------------------------------------------- }
+function TAbZipItem.GetRelativeOffset : Int64;
 begin
   Result := FItemInfo.RelativeOffset;
 end;
@@ -1323,7 +1612,7 @@ begin
   Result := FItemInfo.ShannonFanoTreeCount;
 end;
 { -------------------------------------------------------------------------- }
-function TAbZipItem.GetUncompressedSize : Longint;
+function TAbZipItem.GetUncompressedSize : Int64;
 begin
   Result := FItemInfo.UncompressedSize;
 end;
@@ -1339,16 +1628,18 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.LoadFromStream( Stream : TStream );
+var
+    tempFileName: string;
 begin
   FItemInfo.LoadFromStream( Stream );
   if FItemInfo.FileName <> nil then
-    FFileName := StrPas( FItemInfo.FileName )
+    FileName := StrPas( FItemInfo.FileName )
   else
-    FFileName := '';
-  LastModFileTime := FItemInfo.LastModFileTime;
-  LastModFileDate := FItemInfo.LastModFileDate;
-  DiskFileName := FileName;
-  AbUnfixName( FDiskFileName );
+    FileName := '';
+
+  tempFileName := FileName;
+  AbUnfixName( tempFileName );
+  DiskFileName := tempFileName;
   Action := aaNone;
   Tagged := False;
 end;
@@ -1413,7 +1704,7 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipItem.SetCompressedSize( const Value : Longint );
+procedure TAbZipItem.SetCompressedSize( const Value : Int64 );
 begin
   FItemInfo.CompressedSize:= Value;
 end;
@@ -1433,12 +1724,12 @@ begin
   FItemInfo.DiskNumberStart := Value;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipItem.SetExternalFileAttributes( Value : Longint );
+procedure TAbZipItem.SetExternalFileAttributes( Value : LongWord );
 begin
   FItemInfo.ExternalFileAttributes := Value;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipItem.SetExtraField( Value : string );
+procedure TAbZipItem.SetExtraField(const Value : string );
 begin
   FItemInfo.ExtraFieldLength := Length( Value );
   if Assigned( FItemInfo.FExtraField ) then
@@ -1450,7 +1741,7 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipItem.SetFileComment( Value : string );
+procedure TAbZipItem.SetFileComment(const Value : string );
 begin
   FItemInfo.FileCommentLength := Length( Value );
   if Assigned( FItemInfo.FFileComment ) then
@@ -1463,9 +1754,9 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipItem.SetFileName( Value : string );
+procedure TAbZipItem.SetFileName(const Value : string );
 begin
-  FFileName := Value;
+  inherited SetFileName(Value);
   FItemInfo.FileNameLength := Length( Value );
   if Assigned( FItemInfo.FFileName ) then
     StrDispose( FItemInfo.FFileName );
@@ -1486,6 +1777,17 @@ begin
   FItemInfo.InternalFileAttributes := Value;
 end;
 { -------------------------------------------------------------------------- }
+procedure TAbZipItem.SetLastModDateTime(const Value : TDateTime);
+var
+  FileTime : Integer;
+begin
+  // ZIP stores MS-DOS local time
+  FileTime := AbDateTimeToDosFileTime(Value);
+
+  LastModFileDate := LongRec(FileTime).Hi;
+  LastModFileTime := LongRec(FileTime).Lo;
+end;
+{ -------------------------------------------------------------------------- }
 procedure TAbZipItem.SetLastModFileDate( const Value : Word );
 begin
   FItemInfo.LastModFileDate := Value;
@@ -1496,12 +1798,46 @@ begin
   FItemInfo.LastModFileTime := Value;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipItem.SetRelativeOffset( Value : Longint );
+procedure TAbZipItem.SetSystemSpecificAttributes(Value: LongWord);
+var
+  Attrs: LongWord;
+begin
+  Attrs := Value;
+
+{$IFDEF MSWINDOWS}
+{$ENDIF}
+{$IFDEF UNIX}
+  Attrs := Attrs shl 16;
+  // Don't know what low 16 bits are
+{$ENDIF}
+
+  SetExternalFileAttributes(Attrs);
+  VersionMadeBy := MakeVersionMadeBy;
+  // Convert FileName (OEM/Ansi)?
+end;
+{ -------------------------------------------------------------------------- }
+procedure TAbZipItem.SetSystemSpecificLastModFileTime(const Value: Longint);
+var
+  DateTime: TDateTime;
+  DosFileTime: Longint;
+begin
+{$IFDEF UNIX}
+  DateTime    := AbUnixFileTimeToDateTime(DosFileTime);
+  DosFileTime := AbDateTimeToDosFileTime(DateTime);
+{$ELSE}
+  DosFileTime := Value;
+{$ENDIF}
+
+  LastModFileDate := LongRec(DosFileTime).Hi;
+  LastModFileTime := LongRec(DosFileTime).Lo;
+end;
+{ -------------------------------------------------------------------------- }
+procedure TAbZipItem.SetRelativeOffset( Value : Int64 );
 begin
   FItemInfo.RelativeOffset := Value;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipItem.SetUncompressedSize( const Value : Longint );
+procedure TAbZipItem.SetUncompressedSize( const Value : Int64 );
 begin
   inherited SetUncompressedSize( Value );
   FItemInfo.UncompressedSize:= Value;
@@ -1520,7 +1856,7 @@ end;
 
 
 { TAbZipArchive implementation ============================================= }
-constructor TAbZipArchive.Create( FileName : string; Mode : Word );
+constructor TAbZipArchive.Create(const FileName : string; Mode : Word );
 begin
   inherited Create( FileName, Mode );
   FCompressionMethodToUse := smBestMethod;
@@ -1534,7 +1870,7 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 constructor TAbZipArchive.CreateFromStream( aStream : TStream;
-                                            ArchiveName : string );
+                                      const ArchiveName : string );
 begin
   inherited CreateFromStream( aStream, ArchiveName );
   FInfo := TAbZipDirectoryFileFooter.Create;
@@ -1548,9 +1884,10 @@ begin
   inherited Destroy;
 end;
 { -------------------------------------------------------------------------- }
-function TAbZipArchive.CreateItem( const FileSpec : string ): TAbArchiveItem;
+function TAbZipArchive.CreateItem(const SourceFileName   : string;
+                                  const ArchiveDirectory : string): TAbArchiveItem;
 var
-  Buff : array [0..MAX_PATH] of Char;
+  FullSourceFileName, FullArchiveFileName: string;
 begin
   Result := TAbZipItem.Create;
   with TAbZipItem( Result ) do begin
@@ -1559,33 +1896,35 @@ begin
     CompressedSize := 0;
     CRC32 := 0;
     ExtraField := '';
-    StrPCopy(Buff, ExpandFileName(FileSpec));
-{!!.03 - Added }
-{$IFDEF Linux}
- { do nothing to Buff }
-{$ELSE}
-    if AreFileApisANSI then begin
-      AnsiToOEM(Buff, Buff);
-    end;
-{$ENDIF}
-{!!.03 - End Added }
-    DiskFileName := StrPas(Buff);
-    StrPCopy(Buff, FixName(FileSpec));
-{!!.03 - Added }
-{$IFDEF Linux}
- { do nothing to Buff }
-{$ELSE}
-    if AreFileApisANSI then begin
-      AnsiToOEM(Buff, Buff);
-    end;
-{$ENDIF}
-{!!.03 - End Added }
-    FileName := StrPas(Buff);
     RelativeOffset := 0;
+
+(*{!!.03 - Added }
+{$IFDEF Linux}
+ { do nothing to Buff }
+{$ELSE}
+    if AreFileApisANSI then begin
+      I := 0;
+      while Ord(Buff[I]) <> 0 do begin
+        if Ord(Buff[I]) >= 128 then begin
+          VersionMadeBy := Lo(VersionMadeBy) or $0B00;
+          Break;
+          end;
+        Inc(I);
+      end;
+    end;
+{$ENDIF}
+{!!.03 - End Added }
+*)
+
+    MakeFullNames(SourceFileName, ArchiveDirectory,
+                  FullSourceFileName, FullArchiveFileName);
+
+    Result.FileName := AbStrAnsiToOem(FullArchiveFileName);
+    Result.DiskFileName := FullSourceFileName;
   end;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipArchive.DoExtractHelper(Index : Integer; NewName : string);
+procedure TAbZipArchive.DoExtractHelper(Index : Integer; const NewName : string);
 begin
   if Assigned(FExtractHelper) then
     FExtractHelper(Self, ItemList[Index], NewName)
@@ -1756,9 +2095,10 @@ begin
 
   {--spanned image set--}
   { first check if the current image contains the CDT }                  {!!.03}
-  if FindCentralDirectoryTail(Stream) > -1 {not found} then begin        {!!.03}
-    Exit;                                                                {!!.03}
-  end;                                                                   {!!.03}
+// Removed {!!.05 if ImageNumber is looking for another disk it will never be opened.
+//  if FindCentralDirectoryTail(Stream) > -1 {not found} then begin        {!!.03}
+//    Exit;                                                                {!!.03}
+//  end;                                                                   {!!.03}
 
   {if OnRequestImage assigned, then fire event}
   if Assigned(FOnRequestImage) then begin
@@ -1776,31 +2116,30 @@ begin
 
   {if not last image requested, then simply auto-generate image name}
   if (ImageNumber > AbLastImage) then begin
-    if (ImageNumber = 0) then
-      ImageName := FArchiveName
-    else
+//    if (ImageNumber = 0) then
+//      ImageName := FArchiveName
+//    else
       AbIncFilename(ImageName, ImageNumber);
     if not FileExists(ImageName) then
       raise EAbFileNotFound.Create;
     Stream.Free;
     Stream := TAbSpanStream.Create(ImageName, fmOpenRead, MediaType, FSpanningThreshold);
-    TAbSpanStream(Stream).OnRequestImage := DoSpanningMediaRequest;
+    TAbSpanStream(Stream).OnRequestImage := DoSpanningMediaRequest;   {!!.05 [ 714944 ]}
     TAbSpanStream(Stream).OnArchiveProgress := DoArchiveSaveProgress;  {!!.04}
 //    TAbSpanStream(Stream).SpanNumber := ImageNumber;                     {!!.01}
     Exit;
   end;
 
 
-
-
   {search for last image, assuming images were auto-generated}
-  Stream.Free;                                                         {!!.04}
   FAutoGen := True;                                                  {!!.02}
   for i := 1 to 99 do begin
     AbIncFilename(ImageName, i);
     if not FileExists(ImageName) then
       raise EAbFileNotFound.Create;
-//    Stream.Free;                                                     {!!.04}
+    // 885670 (Moved Stream to avoid file corruption)
+    if Assigned(Stream) then
+       Stream.Free;                                                     {!!.04}
     Stream := TAbSpanStream.Create(ImageName, fmOpenRead, MediaType, FSpanningThreshold);
     TAbSpanStream(Stream).OnRequestImage := DoSpanningMediaRequest;
     TAbSpanStream(Stream).OnArchiveProgress := DoArchiveSaveProgress;  {!!.04}
@@ -1809,7 +2148,10 @@ begin
     if Found then
       Break
     else
+    begin
       Stream.Free;
+      Stream := nil;
+    end;
   end;
 
   CurrentDisk := ImageNumber;                                            {!!.01}
@@ -1826,8 +2168,15 @@ var
 begin
   if Assigned(FOnRequestImage) then
     FOnRequestImage(self, ImageNumber, ImageName, Abort)
-  else if FAutoGen then                                              {!!.02}
-    AbIncFilename(ImageName, ImageNumber)                            {!!.02}
+  else if FAutoGen then
+   begin
+    AbIncFilename(ImageName, ImageNumber);                            {!!.02}
+    // if we are reading and the file does not exist
+    // then we must be at last file in archive, change to .ZIP extention
+    // as the last file is there.
+    if (Mode = smReading) and Not FileExists(ImageName) then         {!!.05}
+      ImageName := ChangeFileExt(ImageName,'.ZIP');
+   end
   else if Mode = smReading then begin
 
     pMessage := Format(AbStrRes(AbImageNumRequest), [ImageNumber]);
@@ -1923,27 +2272,29 @@ begin
   DoExtractToStreamHelper(Index, aStream);
 end;
 { -------------------------------------------------------------------------- }
-function TAbZipArchive.FindCDTail : Longint;
+function TAbZipArchive.FindCDTail : Int64;
 begin
   Result := FindCentralDirectoryTail( FStream );
 end;
 { -------------------------------------------------------------------------- }
-function TAbZipArchive.FixName( Value : string ) : string;
+function TAbZipArchive.FixName(const Value : string ) : string;
   {-changes backslashes to forward slashes}
 var
   i : SmallInt;
+  lValue : string;
 begin
+  lValue := Value; {!!.05 [ 783583 ]}
   {$IFDEF MSWINDOWS}
   if DOSMode then begin
     {Add the base directory to the filename before converting }
     {the file spec to the short filespec format. }
     if BaseDirectory <> '' then begin
       {Does the filename contain a drive or a leading backslash? }
-      if not ((Pos(':', Value) = 2) or (Pos(AbPathDelim, Value) = 1)) then
+      if not ((Pos(':', lValue) = 2) or (Pos(AbPathDelim, lValue) = 1)) then
         {If not, add the BaseDirectory to the filename.}
-        Value := AbAddBackSlash(BaseDirectory) + Value;                {!!.04}
+        lValue := AbAddBackSlash(BaseDirectory) + lValue;                {!!.04}
     end;
-    Value := AbGetShortFileSpec( Value );
+    lValue := AbGetShortFileSpec( lValue );
   end;
   {$ENDIF MSWINDOWS}
 
@@ -1952,23 +2303,23 @@ begin
 
   {strip drive stuff}
   if soStripDrive in StoreOptions then
-    AbStripDrive( Value );
+    AbStripDrive( lValue );
 
   {check for a leading backslash}
-  if Value[1] = AbPathDelim then
-    System.Delete( Value, 1, 1 );
+  if (Length(lValue) > 1) and (lValue[1] = AbPathDelim) then {!!.05  - [ 799438 ]}
+    System.Delete( lValue, 1, 1 );
 
   if soStripPath in StoreOptions then begin
-    Value := ExtractFileName( Value );
+    lValue := ExtractFileName( lValue );
   end;
 
   if soRemoveDots in StoreOptions then
-    AbStripDots( Value );
+    AbStripDots( lValue );
 
-  for i := 1 to Length( Value ) do
-    if Value[i] = '\' then
-      Value[i] := '/';
-  Result := Value;
+  for i := 1 to Length( lValue ) do
+    if lValue[i] = '\' then
+      lValue[i] := '/';
+  Result := lValue;
 end;
 { -------------------------------------------------------------------------- }
 function TAbZipArchive.GetItem( Index : Integer ) : TAbZipItem;
@@ -1984,15 +2335,15 @@ end;
 procedure TAbZipArchive.LoadArchive;
 var
   Abort : Boolean;
-  TailPosition : Longint;
+  TailPosition : int64;
   Item : TAbZipItem;
   i : Integer;
   Progress : Byte;
   FileSignature : DWord;                                             {!!.02}
   IsZip : Boolean;
-  Lowest : Longint;
+  Lowest : Int64;
 begin
-  Lowest := MaxLongint;
+  Lowest := High(Int64);
   Abort := False;
   FAutoGen := False;                                                 {!!.02}
   if FStream.Size = 0 then
@@ -2004,8 +2355,10 @@ begin
 
   IsZip := (FileSignature and $0000FFFF) = Ab_GeneralZipSignature;   {!!.02}
 
+  //Rohan: This is a problem
 {$IFDEF MSWINDOWS}
-  IsExecutable := FileSignature = Ab_WindowsExeSignature;
+// [ 719083 ] Windows exe signature check
+  IsExecutable := (FileSignature and $0000FFFF) = Ab_WindowsExeSignature;
 {$ENDIF}
 {$IFDEF LINUX}
   if FileSignature = Ab_LinuxExeSigWord1 then begin
@@ -2023,9 +2376,18 @@ begin
   { try to locate central directory tail }
   if (FileSignature = DWord(Ab_ZipSpannedSetSignature)) or           {!!.02}
      (FileSignature = DWord(Ab_ZipPossiblySpannedSignature)) then    {!!.02}
-    TailPosition := -1                                               {!!.02}
+  begin
+    if FDriveIsRemovable then        {!!.05}
+      TailPosition := -1              {!!.02}
+    else TailPosition := FindCDTail;  {!!.05}
+  end
   else                                                               {!!.02}
+   begin                                                             {!!.02}
     TailPosition := FindCDTail;
+    // 885670 (Second Part Better Error Message)
+    if TailPosition = -1 then
+      raise EAbZipInvalid.Create;
+   end;
 
   if (TailPosition = -1) then begin { not found so need different image }
     if IsZip then begin
@@ -2045,14 +2407,24 @@ begin
 
   { load the ZipDirectoryFileFooter }
   FInfo.LoadFromStream(FStream);
+
+
+
   CurrentDisk := FInfo.DiskNumber;
   { set spanning flag if current disk is not the first one }
   if (FInfo.DiskNumber > 0) then
     FSpanned := True;
+  //Possible Bug, Remove Drives could be split instead of spanned.
+  If FSpanned and (Not FDriveIsRemovable) then
+    FAutoGen := True;
 
+  if (FInfo.StartDiskNumber <> FInfo.DiskNumber) then begin
+  	DoRequestNextImage(FInfo.FStartDiskNumber, FStream, Abort);
+    if (Abort) then raise EAbUserAbort.Create();
+  end;
   { build Items list from central directory records }
   i := 0;
-  FStream.Seek(FInfo.DirectoryOffset, soFromBeginning);
+  FStream.Seek(FInfo.DirectoryOffset, soBeginning);
   {  while not((FStream.Position = TailPosition) and }                   {!!.01}
   {    (CurrentDisk = FInfo.DiskNumber)) do begin }                      {!!.01}
   while (FStream.Position < TailPosition) or                             {!!.01}
@@ -2070,7 +2442,12 @@ begin
 
     { create new Item }
     Item := TAbZipItem.Create;
+    try
     Item.LoadFromStream(FStream);
+    except {!!.05 [ 800130 ] ZIP - Potential Memory Leak }
+      Item.Free;
+      raise;
+    end;
     if IsExecutable then
       if (Item.RelativeOffset < Lowest) then
         Lowest := Item.RelativeOffset;
@@ -2098,10 +2475,10 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 
-type
+{type
   TAbItemDataRec = record
-    StreamOffset : LongInt;
-  end;
+    StreamOffset : Int64;
+  end;}
 
 { -------------------------------------------------------------------------- }
 const
@@ -2110,15 +2487,15 @@ const
   AB_SIZE_CD_HEADER    = 46;
   AB_SIZE_CD_TAIL      = 22;
 
-procedure TAbZipArchive.SaveArchive;
+procedure TAbZipArchive.SaveArchive2; {!!.05 Renamed SaveArchive to SaveArchive2, switch methods to take back to Commerical 3.05 status}
 var
   CompressedDataStream  : TAbVirtualMemoryStream;
 //  CDStream : TAbVirtualMemoryStream;
-  ArchiveSize : LongInt;
+  ArchiveSize : Int64;
 
 { Zip file save logic, taking unsplittable structures into account}
 
-procedure IncrementSize(Size : LongInt; CurrItem : TAbZipItem);
+procedure IncrementSize(Size : Int64; CurrItem : TAbZipItem);
 begin
   { track size of Archive }
   ArchiveSize := ArchiveSize +
@@ -2139,7 +2516,7 @@ procedure BuildData;
 var
   CurrItem : TAbZipItem;
   i : Integer;
-  Size : LongInt;
+  Size : Int64;
   TempStream : TAbVirtualMemoryStream;
 begin
   ArchiveSize := 0;
@@ -2154,17 +2531,23 @@ begin
       aaNone, aaMove: begin
       {just copy the compressed file data to temporary stream }
         { find the current item's data }
+{!!!}
+{RJL: The problem with this code that FStream is TAbSpanStream in which
+ a seek can currently not occur while writing }
         FStream.Position := CurrItem.RelativeOffset;
 
         { save compressed data size }
         Size := CurrItem.CompressedSize;
-        CompressedDataStream.Write(Size, SizeOf(LongInt));
+        if Size > 0 then
+        begin
+          CompressedDataStream.Write(Size, SizeOf(LongInt));
 
-        { save compressed data }
-        CompressedDataStream.CopyFrom(FStream, Size);
+          { save compressed data }
+          CompressedDataStream.CopyFrom(FStream, Size);
 
-        { track the size }
-        IncrementSize(Size, CurrItem);
+          { track the size }
+          IncrementSize(Size, CurrItem);
+        end;
       end;
 
       aaDelete: begin
@@ -2188,13 +2571,14 @@ begin
             DoInsertHelper(i, TempStream);
 
           if CurrItem.CompressedSize > 0 then begin
-            TempStream.Seek(0, soFromBeginning);
+            TempStream.Seek(0, soBeginning);
             { save compressed data offset }
             Size := TempStream.Size;
             CompressedDataStream.Write(Size, SizeOf(LongInt));
 
             { save compressed data }
-            CompressedDataStream.CopyFrom(TempStream, Size);
+            if Size > 0 then
+              CompressedDataStream.CopyFrom(TempStream, Size);
 
             IncrementSize(Size, CurrItem);
           end;
@@ -2215,7 +2599,7 @@ begin
 
   end; { for i }
 
-  CompressedDataStream.Seek(0, soFromBeginning);
+  CompressedDataStream.Seek(0, soBeginning);
 end;
 
 function Spanning : Boolean;
@@ -2244,7 +2628,7 @@ procedure SaveData;
 var
   CurrItem : TAbZipItem;
   i : Integer;
-  Size : LongInt;
+  Size : Int64;
   WorkStream : TMemoryStream;
   MediaType  : TAbMediaType;
 begin
@@ -2253,11 +2637,16 @@ begin
 
   { need new stream for writing }
   MediaType := TAbSpanStream(FStream).MediaType;
+  if FOwnsStream then begin
   FStream.Free;
   FStream := TAbSpanstream.Create(ArchiveName, fmOpenWrite or fmShareDenyWrite,
     MediaType, FSpanningThreshold);
+  end;
 
   if Spanning then begin
+    { set up event handler for new disk}
+    (FStream as TAbSpanStream).OnRequestImage := DoSpanningMediaRequest; {!!.05  [753982]} 
+
     { write spanned signature }
     FStream.Write(Ab_ZipSpannedSetSignature, SizeOf(Ab_ZipSpannedSetSignature));
 
@@ -2284,8 +2673,9 @@ begin
       { write local header }{ intermediate stream needed for speed }
       WorkStream.Size := 0;
       CurrItem.SaveLFHToStream(WorkStream);
-      WorkStream.Seek(0, soFromBeginning);
-      FStream.CopyFrom(WorkStream, WorkStream.Size);
+      WorkStream.Seek(0, soBeginning);
+      if WorkStream.Size > 0 then
+        FStream.CopyFrom(WorkStream, WorkStream.Size);
 
       { write compressed data }
       if CurrItem.CompressedSize > 0 then begin
@@ -2300,8 +2690,9 @@ begin
       then begin
         WorkStream.Size := 0;
         CurrItem.SaveDDToStream(WorkStream);
-        WorkStream.Seek(0, soFromBeginning);
-        FStream.CopyFrom(WorkStream, WorkStream.Size);
+        WorkStream.Seek(0, soBeginning);
+        if WorkStream.Size > 0 then
+          FStream.CopyFrom(WorkStream, WorkStream.Size);
       end;
 
     end; { if }
@@ -2321,7 +2712,7 @@ var
   CurrItem : TAbZipItem;
   i : Integer;
   EntryCt : Integer;
-  DirSize : LongInt;
+  DirSize : Int64;
   WorkStream : TMemoryStream;
 begin
   WorkStream := TMemoryStream.Create;
@@ -2351,9 +2742,10 @@ begin
       { write CD header and increment CD size }{ intermediate stream needed for speed }
       WorkStream.Size := 0;
       CurrItem.SaveCDHToStream(WorkStream);
-      WorkStream.Seek(0, soFromBeginning);
+      WorkStream.Seek(0, soBeginning);
       Inc(DirSize, WorkStream.Size);
-      FStream.CopyFrom(WorkStream, WorkStream.Size);
+      if WorkStream.Size > 0 then
+        FStream.CopyFrom(WorkStream, WorkStream.Size);
 
       { count entry }
       Inc(EntryCt);
@@ -2374,8 +2766,9 @@ begin
   { write CD tail }{ intermediate stream needed for speed }
   WorkStream.Size := 0;
   FInfo.SaveToStream(WorkStream);
-  WorkStream.Seek(0, soFromBeginning);
-  FStream.CopyFrom(WorkStream, WorkStream.Size);
+  WorkStream.Seek(0, soBeginning);
+  if WorkStream.Size > 0 then
+    FStream.CopyFrom(WorkStream, WorkStream.Size);
 
   finally
     WorkStream.Free;
@@ -2402,6 +2795,7 @@ procedure CopyStub;
 begin
   {copy the executable stub over to the output}
   if IsExecutable then
+//  if StubSize > 0 then
 //    NewStream.CopyFrom( FStream, StubSize )
 end;
 
@@ -2434,6 +2828,9 @@ begin
 end;
 
 begin { SaveArchive }
+  Exit;
+//This function doesn't work correctly.
+
   if Validate then begin
     Initialize;
     try
@@ -2455,7 +2852,7 @@ end;  { SaveArchive }
 
 
 
-procedure TAbZipArchive.SaveArchive2;
+procedure TAbZipArchive.SaveArchive; {!!.05 Renamed SaveArchive2 to SaveArchive, switch methods to take back to Commerical 3.05 status}
   {builds a new archive and copies it to FStream}
 var
   Abort              : Boolean;
@@ -2463,17 +2860,20 @@ var
   {TotalBytesWritten : Longint;}                                         {!!.01}
   CDHStream          : TMemoryStream;
   HasDataDescriptor  : Boolean;
-  i                  : Integer;
+  i                  : LongWord;
   LFH                : TAbZipLocalFileHeader;
   NewStream          : TAbVirtualMemoryStream;
   WorkingStream      : TAbVirtualMemoryStream;
   CurrItem           : TAbZipItem;
-  SCurrentImage      : Word;
-  SCurrentOffset     : Longint;
-  SSpanningThreshold : Longint;
+  SCurrentImage      : LongWord;
+  SCurrentOffset     : int64;
+  SSpanningThreshold : Int64;
   CanSpan            : Boolean;
   MediaType          : TAbMediaType;                                     {!!.01}
+  BlockSize          : int64;
+  ByteBuf            : Byte;
 begin
+  if (Count = 0) then Exit;
   {shouldn't be trying to overwrite an existing spanned archive}
   if Spanned then begin
     for i := 0 to Pred(Count) do
@@ -2487,19 +2887,28 @@ begin
   if FStream is TAbSpanStream then begin
     if TAbSpanStream(FStream).SpanMode = smWriting then begin
       MediaType := TAbSpanStream(FStream).MediaType;
+      if FOwnsStream then begin //  914427
       FStream.Free;
       FStream := TAbSpanstream.Create(ArchiveName, fmOpenRead or fmShareDenyWrite,
         MediaType, FSpanningThreshold);
+      end;
       TAbSpanStream(FStream).OnRequestImage := DoSpanningMediaRequest;
       TAbSpanStream(FStream).OnArchiveProgress := DoArchiveSaveProgress; {!!.04}
     end;
   end;
 {!!.01 -- End Modified (see more below)}
 
+  //CanSpan := False;
+  //SSpanningThreshold := 0;
+  FDriveIsRemovable := AbDriveIsRemovable(ArchiveName);
+{We should let the user decide whether w should span or not}
+{.$IFDEF OLD_SPAN_LOGIC}
   {can span if new archive and drive is removable, or
    can span if SpanningThreshold > 0 and drive is fixed}
-  FDriveIsRemovable := AbDriveIsRemovable(ArchiveName);
-  SSpanningThreshold := AbGetDriveFreeSpace(ArchiveName);
+  if (FDriveIsRemovable) then
+	  SSpanningThreshold := AbGetDriveFreeSpace(ArchiveName)
+  else SSpanningThreshold := 0;
+
   if FDriveIsRemovable then
     CanSpan := (FStream.Size = 0)
   else begin
@@ -2507,17 +2916,31 @@ begin
     if CanSpan then
       SSpanningThreshold := SpanningThreshold
   end;
-  if (SSpanningThreshold <= 0) then
-    SSpanningThreshold := MaxLongint;
+{.$ENDIF}
+  if (SpanningThreshold > 0) then begin
+  	SSpanningThreshold := AbGetDriveFreeSpace(ArchiveName);
+    if (SpanningThreshold < SSpanningThreshold) then
+    	SSpanningThreshold := SpanningThreshold
+  end;
+
+  {if (SSpanningThreshold <= 0) then
+    SSpanningThreshold := High(int64);
+
+  if (CanSpan = False) then SSpanningThreshold := High(int64);;}
 
   {init new zip archive stream}
   NewStream := TAbVirtualMemoryStream.Create;
+
+  //NewStream := TFileStream.Create(AbGetTempFile(FTempDir, False), fmCreate or fmOpenReadWrite);
   try {NewStream}
     NewStream.SwapFileDirectory := ExtractFilePath(AbGetTempFile(FTempDir, False));
 
     {copy the executable stub over to the output}
     if IsExecutable then
-      NewStream.CopyFrom( FStream, StubSize )
+    begin
+      if StubSize > 0 then
+        NewStream.CopyFrom( FStream, StubSize );
+    end
     else if CanSpan then
       NewStream.Write(Ab_ZipPossiblySpannedSignature,
         SizeOf(Ab_ZipPossiblySpannedSignature));
@@ -2569,47 +2992,75 @@ begin
             CurrItem.DiskNumberStart := SCurrentImage;
             CurrItem.RelativeOffset := SCurrentOffset;
             WorkingStream := TAbVirtualMemoryStream.Create;
+            try
             try {WorkingStream}
 
               WorkingStream.SwapFileDirectory := NewStream.SwapFileDirectory;
+
               if (CurrItem.Action = aaStreamAdd) then
                 DoInsertFromStreamHelper(i, WorkingStream)
               else
                 DoInsertHelper(i, WorkingStream);
+
               CurrItem.SaveLFHToStream(NewStream);
-              NewStream.CopyFrom(WorkingStream, 0);
+              NewStream.CopyFrom(WorkingStream, 0); // copy whole stream
               if CurrItem.IsEncrypted then                               {!!.01}
                 CurrItem.SaveDDToStream(NewStream);                      {!!.01}
 
               FInfo.EntriesOnDisk := FInfo.EntriesOnDisk + 1;
               FInfo.TotalEntries := FInfo.TotalEntries + 1;
               CurrItem.SaveCDHToStream(CDHStream);
+
             except
-              CurrItem.Action := aaDelete;
-              DoProcessItemFailure(CurrItem, ptAdd, ecFileOpenError, 0);
+              on E : Exception do
+              begin
+                { Exception was caused by a User Abort and Item Failure should not be called
+                  Question:  Do we want an New Event when this occurs or should the
+                  exception just be re-raised }
+                if (E is EAbUserAbort) then {!!.05 [ 783614 ]}
+                   raise;
+                CurrItem.Action := aaDelete;
+                DoProcessItemFailure(CurrItem, ptAdd, ecFileOpenError, 0);
+              end;
             end;
-            WorkingStream.Free;
+            finally
+              WorkingStream.Free;
+            end;
           end;
         end; { case }
 
         {Now add the data descriptor record to new stream}
         HasDataDescriptor := (CurrItem.CompressionMethod = cmDeflated) and
           ((CurrItem.GeneralPurposeBitFlag and AbHasDataDescriptorFlag) <> 0);
-        if (CurrItem.Action <> aaDelete) and HasDataDescriptor then
-          CurrItem.SaveDDToStream(NewStream);
+        if (CurrItem.Action <> aaDelete) and HasDataDescriptor then    // it's already above
+          CurrItem.SaveDDToStream(NewStream);                          // in aaAdd ?
+
         DoArchiveProgress(AbPercentage(9 * succ( i ), 10 * Count), Abort);
+
         if Abort then
           raise EabUserAbort.Create;
-        if (SSpanningThreshold > 0) then 
+        if (SSpanningThreshold > 0) then
           SCurrentImage := NewStream.Position div SSpanningThreshold;
         SCurrentOffset := NewStream.Position - (SCurrentImage * SSpanningThreshold);
       end;
+      { if Spanning and pad archive so directory starts on last disk }
+      if SSpanningThreshold>0 then
+        begin
+          // is the disk space left on the disk enough, if not pad till it is
+          BlockSize:=(SSpanningThreshold-SCurrentOffset);
+          if (BlockSize>0) and (BlockSize<CDHStream.Size+512) then
+            begin
+              bytebuf := 0;
+              for i:=0 to BlockSize do
+                NewStream.Write(bytebuf,sizeof(bytebuf));
+              SCurrentImage := NewStream.Position div SSpanningThreshold;
+              SCurrentOffset := NewStream.Position - (SCurrentImage * SSpanningThreshold);
+            end;
+        end;
 
       {append the central directory}
       FInfo.StartDiskNumber := SCurrentImage;
       FInfo.DirectoryOffset := SCurrentOffset;
-      CDHStream.Position := 0;
-      NewStream.CopyFrom( CDHStream, CDHStream.Size );
 
       { we're not sure if the CDH may span disks }
       if (SpanningThreshold > 0) then
@@ -2618,7 +3069,11 @@ begin
       {append the central directory footer}
       FInfo.DirectorySize := CDHStream.Size;
       FInfo.DiskNumber := SCurrentImage;
-      FInfo.SaveToStream(NewStream);
+      FInfo.SaveToStream(CDHStream);
+      
+      CDHStream.Position := 0;
+      if CDHStream.Size > 0 then
+        NewStream.CopyFrom( CDHStream, CDHStream.Size );
     finally {CDHStream}
       CDHStream.Free;
     end; {CDHStream}
@@ -2635,7 +3090,12 @@ begin
     NewStream.Position := 0;
     if (FStream is TMemoryStream) then
       TMemoryStream(FStream).LoadFromStream(NewStream)
-    else begin
+    else if not FOwnsStream then begin // 914427
+       FStream.Size := 0;
+       FStream.Position := 0;
+       if NewStream.Size > 0 then
+         FStream.CopyFrom(NewStream, NewStream.Size)
+    end else begin
       { need new stream to write }
       FStream.Free;
 
@@ -2651,27 +3111,82 @@ begin
         {!!! write spanning signature here?}
       end
       else
-        FStream := TAbSpanStream.Create(FArchiveName,
-          fmOpenWrite or fmShareDenyWrite, mtLocal,
-            FSpanningThreshold);
+       if SpanningThreshold > 0 then
+        begin
+          //NOTE: It is possible that a archive written through this method will not be
+          //split.   I.e. The SpanningThreshold > TotalArchiveSize
+          //First File of a Split Archive is 'ARCHIVENAME.Z01' however if not split
+          //it should be 'ARCHIVENAME.ZIP'
+          //To handle this problem the first file is created with. '.ZIP'
+          //Later on in the process it is renamed to '.Z01' if spanned'
+          //The last file in a split archive has .ZIP extension
+          //It will be named .Z## initially.  Then renamed to .ZIP
+          //So Split archive will have two renames, with last and first file.
+          FStream := TAbSpanStream.Create(FArchiveName,
+                    fmOpenWrite or fmShareDenyWrite, mtLocal,
+                      FSpanningThreshold);
+        end
+       else
+        begin
+// !!.05 Test to use TFileStream if not Spanned
+//        FStream := TAbSpanStream.Create(FArchiveName,
+//          fmOpenWrite or fmShareDenyWrite, mtLocal,
+//            FSpanningThreshold);
+        FStream := nil; {!!.05 avoid A/V on free if Create Fails}
+        FStream := TFileStream.Create(FArchiveName,
+          fmOpenReadWrite or fmShareDenyWrite);
+       end;
 
       try
-        TAbSpanStream(FStream).OnRequestImage :=
-          DoSpanningMediaRequest;
-        TAbSpanStream(FStream).OnArchiveProgress := DoArchiveSaveProgress; {!!.04}
+        if (FStream is TAbSpanStream) then
+         begin
+          TAbSpanStream(FStream).OnRequestImage :=
+                                 DoSpanningMediaRequest;
+          TAbSpanStream(FStream).OnArchiveProgress := DoArchiveSaveProgress; {!!.04}
 //        TAbSpanStream(FStream).SpanNumber := SCurrentImage;              {!!.01}
+         end;
 
         FStream.Size := 0;
         { copy temporary archive to the stream }
-        if FStream.Position <> 0 then
-          FStream.Position := 0;
-        TAbSpanStream(FStream).ArchiveTotalSize := NewStream.Size;     {!!.04}
-        FStream.CopyFrom(NewStream, NewStream.Size);
+        
+        if (FStream is TAbSpanStream) then
+           TAbSpanStream(FStream).ArchiveTotalSize := NewStream.Size; {!!.04}
+
+        if NewStream.Size > 0 then
+          FStream.CopyFrom(NewStream, NewStream.Size);
       except
-        raise EAbBadStream.Create;
+       on E : Exception do
+        begin
+         if E is EAbUserAbort                      {!!.05 [783614] }
+           then raise
+           else raise EAbBadStream.CreateInner(E);
+         end;
       end;
 {!!.01 -- End Modified }
     end;
+
+   {rename if split archive}
+    if (SCurrentImage > 0) then
+      begin
+       //Other archive types we hold the stream for the last file.
+       //However, with a split archive we need to free it so we can rename it.
+        {Rohan Changed, acces of destroyed object later}     
+        MediaType := (FStream as TAbSpanStream).MediaType;
+        FStream.Free;
+       //Rename .ZIP to Z01
+        RenameFile(FArchiveName,ChangeFileExt(FArchiveName,'.Z01'));
+       //Rename .Z## (where ## is last image) to .ZIP
+        if SCurrentImage < 9 then
+         RenameFile(ChangeFileExt(FArchiveName,'.z0' + IntToStr(SCurrentImage+1)),FArchiveName)
+        else
+         RenameFile(ChangeFileExt(FArchiveName,'.z' + IntToStr(SCurrentImage+1)),FArchiveName);
+        // SCurrentImage > 0 only if FStream is a Spanned Archive.
+        //Note: Possible memory leak
+        // Open the Split archive for reading to duplicate behavior of single file archives.
+        FStream := TAbSpanstream.Create(ArchiveName, fmOpenRead or fmShareDenyWrite,
+          MediaType, FSpanningThreshold);
+      end;
+
 
     {update Items list}
     for i := pred( Count ) downto 0 do begin
@@ -2681,14 +3196,19 @@ begin
         FItemList[i].Action := aaNone;
     end;
 
+
+
     DoArchiveSaveProgress( 100, Abort );                               {!!.04}
     DoArchiveProgress( 100, Abort );
   finally {NewStream}
     NewStream.Free;
+ //   FStream.Free;
   end;
+
+
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipArchive.SetZipFileComment( Value : string );
+procedure TAbZipArchive.SetZipFileComment(const Value : string );
 begin
   FInfo.ZipFileCommentLength := Length( Value );
   if Assigned( FInfo.FZipFileComment ) then
@@ -2711,90 +3231,9 @@ begin
   DoTestHelper(Index);
 end;
 { -------------------------------------------------------------------------- }
-procedure MakeSelfExtracting( StubStream, ZipStream,
-                              SelfExtractingStream : TStream );
-  {-takes an executable stub, and a .zip format stream, and creates
-   a SelfExtracting stream.  The stub should create a TAbZipArchive
-   passing itself as the file, using a read-only open mode.  It should
-   then perform operations as needed - like ExtractFiles( '*.*' ).
-   This routine updates the RelativeOffset of each item in the archive}
-var
-  DirectoryStart : Longint;
-  FileSignature : Word;
-  StubSize : Longint;
-  TailPosition : Longint;
-  ZDFF : TAbZipDirectoryFileFooter;
-  ZipItem : TAbZipItem;
-  IsWinExe, IsLinuxExe : Boolean;                                        {!!.01}
+class function TAbZipArchive.GetMaxFileSize: Int64;
 begin
-  {check file type of stub stream}
-  StubStream.Position := 0;
-  StubStream.Read(FileSignature, SizeOf(FileSignature));
-
-{!!.01 -- re-written executable Type Detection to allow use of non-native stubs }
-  IsLinuxExe := False;
-  IsWinExe := FileSignature = Ab_WindowsExeSignature;
-  if not IsWinExe then begin
-    IsLinuxExe := FileSignature = Ab_LinuxExeSigWord1; { check 1st sig }
-    if IsLinuxExe then begin
-      StubStream.Read(FileSignature, SizeOf(FileSignature)); { check 2nd sig }
-      IsLinuxExe := FileSignature = Ab_LinuxExeSigWord2;
-    end;
-  end;
-
-  if not (IsWinExe or IsLinuxExe) then
-    raise EAbZipInvalidStub.Create;
-{!!.01 -- End Re-written}
-
-  StubStream.Position := 0;
-  StubSize := StubStream.Size;
-
-  ZipStream.Position := 0;
-  ZipStream.Read( FileSignature, sizeof( FileSignature ) );
-  if FileSignature <> $4B50 then
-    raise EAbZipInvalid.Create;
-  ZipStream.Position := 0;
-
-  {copy the stub into the selfex stream}
-  SelfExtractingStream.Position := 0;
-  SelfExtractingStream.CopyFrom( StubStream, 0 );
-
-  TailPosition := FindCentralDirectoryTail( ZipStream );
-  if TailPosition = -1 then
-    raise EAbZipInvalid.Create;
-  {load the ZipDirectoryFileFooter}
-  ZDFF := TAbZipDirectoryFileFooter.Create;
-  try
-    ZDFF.LoadFromStream( ZipStream );
-    DirectoryStart := ZDFF.DirectoryOffset;
-  finally
-    ZDFF.Free;
-  end;
-  {copy everything up to the CDH into the SelfExtractingStream}
-  ZipStream.Position := 0;
-  SelfExtractingStream.CopyFrom( ZipStream, DirectoryStart );
-  ZipStream.Position := DirectoryStart;
-  repeat
-    ZipItem := TAbZipItem.Create;
-    try
-      ZipItem.LoadFromStream( ZipStream );
-      ZipItem.RelativeOffset := ZipItem.RelativeOffset + StubSize;
-      {save the modified entry into the Self Extracting Stream}
-      ZipItem.SaveCDHToStream( SelfExtractingStream );
-    finally
-      ZipItem.Free;
-    end;
-  until ZipStream.Position = TailPosition;
-
-  {save the CDH Footer.}
-  ZDFF := TAbZipDirectoryFileFooter.Create;
-  try
-    ZDFF.LoadFromStream( ZipStream );
-    ZDFF.DirectoryOffset := ZDFF.DirectoryOffset + StubSize;
-    ZDFF.SaveToStream( SelfExtractingStream );
-  finally
-    ZDFF.Free;
-  end;
+	Result := High(Int64);
 end;
 
 end.

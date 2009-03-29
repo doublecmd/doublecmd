@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbDfXlat.pas 3.04                           *}
+{* ABBREVIA: AbDfXlat.pas 3.05                           *}
 {*********************************************************}
 {* Deflate length/dist to symbol translator              *}
 {*********************************************************}
@@ -36,10 +36,8 @@ unit AbDfXlat;
 interface
 
 uses
-  Types, //!! MVC for tbytearray.
   SysUtils,
-  Classes,
-  AbDfBase;
+  Classes;
 
 type
   TAbDfTranslator = class
@@ -72,7 +70,9 @@ var
   AbSymbolTranslator : TAbDfTranslator;
 
 implementation
-
+uses
+  AbDfBase;
+  
 {====================================================================}
 constructor TAbDfTranslator.Create;
 begin

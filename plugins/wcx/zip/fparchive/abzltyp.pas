@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbZLTyp.pas 3.04                            *}
+{* ABBREVIA: AbZLTyp.pas 3.05                            *}
 {*********************************************************}
 {* ABBREVIA: TAbZlItem class                             *}
 {*********************************************************}
@@ -34,7 +34,6 @@
 {* "ZLIB Compressed Data Format Specification            *}
 {*  version 3.3" for more information on ZLib            *}
 {*********************************************************}
-{$i abdefine.inc}
 
 unit AbZLTyp;
 

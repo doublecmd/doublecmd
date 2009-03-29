@@ -25,7 +25,8 @@
 unit ZipFunc;
 
 interface
-uses uWCXhead, AbZipKit, AbArcTyp, AbZipTyp, DialogAPI, IniFiles;
+uses uWCXhead, AbZipKit, AbArcTyp, AbZipTyp, DialogAPI, IniFiles,
+     AbExcept, AbUtils;
 
 type
   TAbZipKitEx = class (TAbZipKit)
@@ -34,6 +35,9 @@ type
     procedure AbArchiveItemProgressEvent(Sender : TObject; Item : TAbArchiveItem; Progress : Byte;
                                          var Abort : Boolean);
     procedure AbArchiveProgressEvent (Sender : TObject; Progress : Byte; var Abort : Boolean);
+
+    procedure AbProcessItemFailureEvent(Sender: TObject; Item: TAbArchiveItem; ProcessType: TAbProcessType;
+                                        ErrorClass: TAbErrorClass; ErrorCode: Integer);
   end;
 
 {Mandatory functions}
@@ -59,7 +63,11 @@ var
   gIni: TIniFile;
   
 implementation
-uses AbUtils, AbExcept, SysUtils, Classes, ZipConfDlg;//, windows;
+uses SysUtils, Classes, ZipConfDlg
+{$IFDEF MSWINDOWS}
+, Windows
+{$ENDIF}
+;
 
 {$IFNDEF FPC} // for compiling under Delphi
 Const
@@ -75,6 +83,22 @@ begin
       FileName[i]:=PathDelim;
 end;
 {$ENDIF}
+
+procedure TAbZipKitEx.AbProcessItemFailureEvent(Sender: TObject;
+                           Item: TAbArchiveItem; ProcessType: TAbProcessType;
+                           ErrorClass: TAbErrorClass; ErrorCode: Integer);
+var
+  Msg: String;
+begin
+//ProcessType:(ptAdd, ptDelete, ptExtract, ptFreshen, ptMove, ptReplace, ptFoundUnhandled);
+
+  Msg := 'Error while processing: ' + Item.FileName;
+
+{$IFDEF MSWINDOWS}
+  // This is supposedly thread-safe.
+  MessageBox(0, PCHAR(msg), 'Error', MB_OK or MB_ICONERROR);
+{$ENDIF}
+end;
 
 function ExtractOnlyFileName(const FileName: string): string;
 var
@@ -114,19 +138,18 @@ var
   I : Integer;
   CurrentChar : Char;
 begin
-    I := 0;
-    while True do
-    begin
-      CurrentChar :=  (FileList + I)^;
-      if CurrentChar = #0 then
-        CurrentChar := ';';
+  I := 0;
+  while True do
+  begin
+    CurrentChar :=  (FileList + I)^;
+    if CurrentChar = #0 then
+      CurrentChar := AbPathSep;
 
-      if ((FileList + I)^ = #0) and ((FileList + I + 1)^ = #0) then
-        break;
-      Result := Result +  CurrentChar;
-      I := I + 1;
-    end;
-   //WriteLN('MakeFileList = ' + Result);
+    if ((FileList + I)^ = #0) and ((FileList + I + 1)^ = #0) then
+      break;
+    Result := Result +  CurrentChar;
+    I := I + 1;
+  end;
 end;
 
 function OpenArchive (var ArchiveData : tOpenArchiveData) : TArcHandle;
@@ -138,6 +161,7 @@ begin
   //MessageBox(0,ArchiveData.ArcName,'OpenArchive',16);
   Arc.OnArchiveItemProgress := Arc.AbArchiveItemProgressEvent;
   Arc.OnArchiveProgress := Arc.AbArchiveProgressEvent;
+  Arc.OnProcessItemFailure := Arc.AbProcessItemFailureEvent;
 
   try
     Arc.TarAutoHandle:=true;
@@ -156,9 +180,6 @@ end;
 function ReadHeader (hArcData : TArcHandle; var HeaderData : THeaderData) : Integer;
 var
   Arc : TAbZipKitEx;
-  I, Size : Integer;
-  Year, Month, Day,
-  Hour, Min, Sec, MSec: Word;
   sFileName : String;
 begin
   Arc := TAbZipKitEx(Pointer(hArcData));
@@ -181,21 +202,13 @@ begin
       DoDirSeparators(sFileName);
       sFileName := ExcludeTrailingPathDelimiter(sFileName);
 
-      StrPCopy(FileName, sFileName);
+      StrPLCopy(FileName, sFileName, SizeOf(FileName) - 1);
 
       PackSize := Arc.Items[Arc.Tag].CompressedSize;
       UnpSize := Arc.Items[Arc.Tag].UncompressedSize;
       FileCRC := Arc.Items[Arc.Tag].CRC32;
-      {File date/time}
-      try
-        DecodeDate(Arc.Items[Arc.Tag].LastModTimeAsDateTime, Year, Month, Day);
-        DecodeTime(Arc.Items[Arc.Tag].LastModTimeAsDateTime, Hour, Min, Sec, MSec);
-        FileTime := (Year - 1980) shl 25 or (Month shl 21) or (Day shl 16) or (Hour shl 11) or (Min shl 5) or (Sec div 2);
-      except
-        FileTime := FileAge(Arc.FileName);
-      end;
-      FileAttr := Arc.Items[Arc.Tag].ExternalFileAttributes;
-
+      FileTime := Arc.Items[Arc.Tag].SystemSpecificLastModFileTime;
+      FileAttr := Arc.Items[Arc.Tag].SystemSpecificAttributes;
     end;
   Result := 0;
 
@@ -206,27 +219,46 @@ var
   Arc : TAbZipKitEx;
 begin
   Arc := TAbZipKitEx(Pointer(hArcData));
-  case Operation of
-  PK_TEST:
-    begin
-      Arc.TagItems('*.*');
-      Arc.TestTaggedItems;
-    end;
 
-  PK_EXTRACT:
-    begin
-      Arc.BaseDirectory := ExtractFilePath(DestName);//DestPath;
-      Arc.ExtractAt(Arc.Tag, DestName);
-    end;
+  try
+    Result := E_SUCCESS;
 
-  PK_SKIP:
-    begin
+    case Operation of
+    PK_TEST:
+      begin
+        Arc.TagItems('*.*');
+        Arc.TestTaggedItems;
+      end;
 
-    end;
-  end; {case}
+    PK_EXTRACT:
+      begin
+        Arc.BaseDirectory := ExtractFilePath(DestName);
+        Arc.ExtractAt(Arc.Tag, DestName);
+
+        // Show progress and ask if aborting.
+        if Assigned(Arc.FProcessDataProc) then
+        begin
+          if Arc.FProcessDataProc(PChar(Arc.Items[Arc.Tag].FileName),
+                                  Arc.Items[Arc.Tag].UncompressedSize) = 0
+          then
+            Result := E_EABORTED;
+        end;
+      end;
+
+    PK_SKIP:
+      begin
+
+      end;
+    end; {case}
+
+  except
+    on EAbUserAbort do
+      Result := E_EABORTED;
+    else
+      Result := E_BAD_DATA;
+  end;
 
   Arc.Tag := Arc.Tag + 1;
-  Result := 0;
 end;
 
 function CloseArchive (hArcData : TArcHandle) : Integer;
@@ -269,50 +301,105 @@ var
  Arc : TAbZipKitEx;
 begin
   try
-    Arc := TAbZipKitEx.Create(nil);
-    Arc.CompressionMethodToUse:= gCompressionMethodToUse;
-    Arc.DeflationOption:= gDeflationOption;
-    Arc.FProcessDataProc := gProcessDataProc;
-    Arc.OnArchiveItemProgress := Arc.AbArchiveItemProgressEvent;
-    Arc.OnArchiveProgress := Arc.AbArchiveProgressEvent;
+    try
+      Arc := TAbZipKitEx.Create(nil);
+      Arc.AutoSave := False;
+      Arc.CompressionMethodToUse:= gCompressionMethodToUse;
+      Arc.DeflationOption:= gDeflationOption;
+      Arc.FProcessDataProc := gProcessDataProc;
+      Arc.OnProcessItemFailure := Arc.AbProcessItemFailureEvent;
 
-    Arc.OpenArchive(PackedFile);
-    Arc.BaseDirectory := SrcPath;
-    
-    Arc.AddFiles(MakeFileList(AddList), faAnyFile);
-    Arc.Save;
-    Arc.CloseArchive;
+      Arc.TarAutoHandle:=True;
+      Arc.OpenArchive(PackedFile);
+
+      Arc.OnArchiveItemProgress := Arc.AbArchiveItemProgressEvent;
+      Arc.OnArchiveProgress := Arc.AbArchiveProgressEvent;
+
+      Arc.BaseDirectory := SrcPath;
+      Arc.AddEntries(MakeFileList(AddList), SubPath);
+
+      Arc.Save;
+      Arc.CloseArchive;
+
+      Result := E_SUCCESS;
+    except
+      on EAbUserAbort do
+        Result := E_EABORTED;
+      on EAbFileNotFound do
+        Result := E_EOPEN;
+      else
+        begin
+          Result := E_BAD_DATA;
+        end;
+    end;
+
+  finally
     FreeAndNil(Arc);
-    Result := 0;
-  except
-    Result := E_BAD_DATA;
   end;
 end;
 
 function DeleteFiles (PackedFile, DeleteList : PChar) : Integer;
+
+  function StrEndsWith(S : String; SearchPhrase : String) : Boolean;
+  begin
+    Result := (RightStr(S, Length(SearchPhrase)) = SearchPhrase);
+  end;
+
 var
  Arc : TAbZipKitEx;
+ pFileName : PChar;
+ FileName : String;
 begin
   try
-    Arc := TAbZipKitEx.Create(nil);
-    Arc.FProcessDataProc := gProcessDataProc;
-    Arc.OnArchiveItemProgress := Arc.AbArchiveItemProgressEvent;
-    Arc.OnArchiveProgress := Arc.AbArchiveProgressEvent;
-    
-    Arc.OpenArchive(PackedFile);
-    Arc.DeleteFiles(MakeFileList(DeleteList));
-    Arc.Save;
-    Arc.CloseArchive;
+    try
+      Arc := TAbZipKitEx.Create(nil);
+      Arc.FProcessDataProc := gProcessDataProc;
+      Arc.OnProcessItemFailure := Arc.AbProcessItemFailureEvent;
+
+      Arc.OpenArchive(PackedFile);
+
+      // Set this after opening archive, to get only progress of deleting.
+      Arc.OnArchiveItemProgress := Arc.AbArchiveItemProgressEvent;
+      Arc.OnArchiveProgress := Arc.AbArchiveProgressEvent;
+
+      // Parse file list.
+      pFileName := DeleteList;
+      while pFileName^ <> #0 do
+      begin
+        FileName := pFileName;    // Convert PChar to String (up to first #0).
+
+        // If ends with '.../*.*' or '.../' then delete directory.
+        if StrEndsWith(FileName, PathDelim + '*.*') or
+           StrEndsWith(FileName, PathDelim)
+        then
+          Arc.DeleteDirectoriesRecursively(ExtractFilePath(FileName))
+        else
+          Arc.DeleteFiles(FileName);
+
+        pFileName := pFileName + Length(FileName) + 1; // move after filename and ending #0
+        if pFileName^ = #0 then
+          Break;  // end of list
+      end;
+
+      Arc.Save;
+      Arc.CloseArchive;
+      Result := E_SUCCESS;
+    except
+      on EAbUserAbort do
+        Result := E_EABORTED;
+      else
+        Result := E_BAD_DATA;
+    end;
+  finally
     FreeAndNil(Arc);
-    Result := 0;
-  except
-    Result := E_BAD_DATA;
   end;
 end;
 
 function GetPackerCaps : Integer;
 begin
-  Result := PK_CAPS_NEW or PK_CAPS_DELETE or PK_CAPS_MODIFY or PK_CAPS_MULTIPLE;
+  Result := PK_CAPS_NEW      or PK_CAPS_DELETE  or PK_CAPS_MODIFY
+         or PK_CAPS_MULTIPLE or PK_CAPS_OPTIONS or PK_CAPS_BY_CONTENT;
+  //     or PK_CAPS_MEMPACK  or PK_CAPS_ENCRYPT
 end;
 
 procedure ConfigurePacker(Parent: THandle; DllInstance: THandle);
@@ -356,3 +443,4 @@ end;
 finalization
   gIni.Free;
 end.
+

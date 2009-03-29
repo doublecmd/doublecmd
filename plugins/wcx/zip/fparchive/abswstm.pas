@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbSWStm.pas 3.04                            *}
+{* ABBREVIA: AbSWStm.pas 3.05                            *}
 {*********************************************************}
 {* ABBREVIA: TabSlidingWindowStream class                *}
 {*********************************************************}
@@ -63,7 +63,6 @@ unit AbSWStm;
 interface        
                  
 uses             
-  Types, //!! MVC for maxpath
   SysUtils,      
   Classes;       
                  

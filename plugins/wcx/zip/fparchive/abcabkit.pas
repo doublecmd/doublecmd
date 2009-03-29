@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbCabKit.PAS 3.04                           *}
+{* ABBREVIA: AbCabKit.PAS 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: Cabinet file builder/extractor component    *}
 {*********************************************************}
@@ -36,8 +36,8 @@ unit AbCabKit;
 interface
 
 uses
-  SysUtils, Classes, AbArcTyp, AbUtils, AbCabTyp,
-  AbCabMak, AbCBrows;
+  SysUtils, Classes, AbArcTyp,
+  AbCabMak;
 
 type
   TAbCustomCabKit = class(TAbCustomMakeCab)
@@ -106,7 +106,9 @@ type
 implementation
 
 uses
-  AbExcept;
+  AbExcept,
+  AbCabTyp,
+  AbCBrows;
 
 { TAbCustomCabKit ==================================================== }
 constructor TAbCustomCabKit.Create(AOwner : TComponent);

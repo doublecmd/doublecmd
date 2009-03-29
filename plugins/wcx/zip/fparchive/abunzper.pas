@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: ABUnzper.pas 3.04                           *}
+{* ABBREVIA: ABUnzper.pas 3.05                           *}
 {*********************************************************}
 {* ABBREVIA: Non-visual Component with UnZip support     *}
 {*********************************************************}
@@ -63,6 +63,9 @@ type
     procedure UnzipToStreamProc(Sender : TObject; Item : TAbArchiveItem;
                                 OutStream : TStream);
     procedure TestItemProc(Sender : TObject; Item : TAbArchiveItem);
+
+    procedure SetFileName(const aFileName : string);
+      override;
 
   protected {properties}
     property ExtractOptions : TAbExtractOptions
@@ -260,6 +263,19 @@ begin
   AbTestZipItem(TAbZipArchive(Sender), TAbZipItem(Item));
 end;
 { -------------------------------------------------------------------------- }
+
+procedure TAbCustomUnZipper.SetFileName(const aFileName: string);
+begin
+  if aFileName <> '' then
+   begin
+      if Not FileExists(aFileName) then  {!!.05}
+         raise EAbFileNotFound.Create;
+      if AbFileGetSize(aFileName) <= 0 then {!!.05}
+         raise EAbBadStream.Create;
+   end;
+
+  inherited SetFileName(aFileName);
+end;
 
 end.
 
