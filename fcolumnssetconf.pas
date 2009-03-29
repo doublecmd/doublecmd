@@ -176,6 +176,8 @@ type
     procedure LoadCustColumn(const Index:integer);
     procedure OpenColorsPanel;
     procedure UpdateColorsPanelHeader(const Index: Integer);
+    procedure SetColorInColorBox(const lcbColorBox: TColorBox; const lColor: TColor);
+
   public
     { public declarations }
     ColumnClass:TPanelColumnsClass;
@@ -219,12 +221,12 @@ begin
   UpdateColorsPanelHeader(IndexRaw);
   edtFont.Text:=ColumnClass.GetColumnFontName(IndexRaw);
   sneFontSize.Value:=ColumnClass.GetColumnFontSize(IndexRaw);
-  SetColorBoxColor(cbTextColor, ColumnClass.GetColumnTextColor(IndexRaw));
-  SetColorBoxColor(cbBackColor, ColumnClass.GetColumnBackground(IndexRaw));
-  SetColorBoxColor(cbBackColor2, ColumnClass.GetColumnBackground2(IndexRaw));
-  SetColorBoxColor(cbMarkColor, ColumnClass.GetColumnMarkColor(IndexRaw));
-  SetColorBoxColor(cbCursorColor, ColumnClass.GetColumnCursorColor(IndexRaw));
-  SetColorBoxColor(cbCursorText, ColumnClass.GetColumnCursorText(IndexRaw));
+  SetColorInColorBox(cbTextColor, ColumnClass.GetColumnTextColor(IndexRaw));
+  SetColorInColorBox(cbBackColor, ColumnClass.GetColumnBackground(IndexRaw));
+  SetColorInColorBox(cbBackColor2, ColumnClass.GetColumnBackground2(IndexRaw));
+  SetColorInColorBox(cbMarkColor, ColumnClass.GetColumnMarkColor(IndexRaw));
+  SetColorInColorBox(cbCursorColor, ColumnClass.GetColumnCursorColor(IndexRaw));
+  SetColorInColorBox(cbCursorText, ColumnClass.GetColumnCursorText(IndexRaw));
   cbOvercolor.Checked:=ColumnClass.GetColumnOvercolor(IndexRaw);
 end;
 
@@ -742,48 +744,42 @@ end;
 procedure TfColumnsSetConf.ResBack2Click(Sender: TObject);
 begin
   TColPrm(stgColumns.Objects[6,IndexRaw+1]).Background2:=gBackColor2;
-  cbBackColor2.Color:=gBackColor2;
-  cbBackColor2.Text:='';
+  SetColorInColorBox(cbBackColor2,gBackColor2);
   EditorSaveResult(nil);
 end;
 
 procedure TfColumnsSetConf.ResBackClick(Sender: TObject);
 begin
   TColPrm(stgColumns.Objects[6,IndexRaw+1]).Background:=gBackColor;
-  cbBackColor.Color:=gBackColor;
-  cbBackColor.Text:='';
+  SetColorInColorBox(cbBackColor,gBackColor);
   EditorSaveResult(nil);
 end;
 
 procedure TfColumnsSetConf.ResCurColClick(Sender: TObject);
 begin
   TColPrm(stgColumns.Objects[6,IndexRaw+1]).CursorColor:=gCursorColor;
-  cbCursorColor.Color:=gCursorColor;
-  cbCursorColor.Text:='';
+  SetColorInColorBox(cbCursorColor,gCursorColor);
   EditorSaveResult(nil);
 end;
 
 procedure TfColumnsSetConf.ResMarkClick(Sender: TObject);
 begin
   TColPrm(stgColumns.Objects[6,IndexRaw+1]).MarkColor:=gMarkColor;
-  cbMarkColor.Color:=gMarkColor;
-  cbMarkColor.Text:='';
+  SetColorInColorBox(cbMarkColor,gMarkColor);
   EditorSaveResult(nil);
 end;
 
 procedure TfColumnsSetConf.ResTextClick(Sender: TObject);
 begin
   TColPrm(stgColumns.Objects[6,IndexRaw+1]).TextColor:=gForeColor;
-  cbTextColor.Color:=gForeColor;
-  cbTextColor.Text:='';
+  SetColorInColorBox(cbTextColor,gForeColor);
   EditorSaveResult(nil);
 end;
 
 procedure TfColumnsSetConf.ResCurTextClick(Sender: TObject);
 begin
   TColPrm(stgColumns.Objects[6,IndexRaw+1]).CursorText:=gCursorText;
-  cbCursorText.Color:=gCursorText;
-  cbCursorText.Text:='';
+  SetColorInColorBox(cbCursorText,gCursorText);
   EditorSaveResult(nil);
 end;
 
@@ -844,8 +840,7 @@ procedure TfColumnsSetConf.btnCursorColorClick(Sender: TObject);
 begin
   if dlgcolor.Execute then
     begin
-      cbCursorColor.Color:=dlgcolor.Color;
-      cbCursorColor.Text := '';
+      SetColorInColorBox(cbCursorColor,dlgcolor.Color);
       TColPrm(stgColumns.Objects[6,IndexRaw+1]).CursorColor:=cbCursorColor.Color;
       EditorSaveResult(nil);
     end;
@@ -855,8 +850,7 @@ procedure TfColumnsSetConf.btnCursorTextClick(Sender: TObject);
 begin
   if dlgcolor.Execute then
     begin
-      cbCursorText.Color:=dlgcolor.Color;
-      cbCursorText.Text := '';
+      SetColorInColorBox(cbCursorText,dlgcolor.Color);
       TColPrm(stgColumns.Objects[6,IndexRaw+1]).CursorText:=cbCursorText.Color;
       EditorSaveResult(nil);
     end;
@@ -866,8 +860,7 @@ procedure TfColumnsSetConf.btnBackColorClick(Sender: TObject);
 begin
   if dlgcolor.Execute then
     begin
-      cbBackColor.Color:=dlgcolor.Color;
-      cbBackColor.Text := '';
+    SetColorInColorBox(cbBackColor,dlgcolor.Color);
       TColPrm(stgColumns.Objects[6,IndexRaw+1]).Background:=cbBackColor.Color;
       EditorSaveResult(nil);
     end;
@@ -877,8 +870,7 @@ procedure TfColumnsSetConf.btnBackColor2Click(Sender: TObject);
 begin
   if dlgcolor.Execute then
     begin
-      cbBackColor2.Color:=dlgcolor.Color;
-      cbBackColor2.Text := '';
+      SetColorInColorBox(cbBackColor2,dlgcolor.Color);
       TColPrm(stgColumns.Objects[6,IndexRaw+1]).Background2:=cbBackColor2.Color;
       EditorSaveResult(nil);
     end;
@@ -940,8 +932,8 @@ procedure TfColumnsSetConf.btnForeColorClick(Sender: TObject);
 begin
   if dlgcolor.Execute then
     begin
-      cbTextColor.Color:=dlgcolor.Color;
-      cbTextColor.Text := '';
+     SetColorInColorBox(cbTextColor,dlgcolor.Color);
+
       TColPrm(stgColumns.Objects[6,IndexRaw+1]).TextColor:=cbTextColor.Color;
       EditorSaveResult(nil);
     end;
@@ -951,8 +943,7 @@ procedure TfColumnsSetConf.btnMarkColorClick(Sender: TObject);
 begin
   if dlgcolor.Execute then
     begin
-      cbMarkColor.Color:=dlgcolor.Color;
-      cbMarkColor.Text := '';
+      SetColorInColorBox(cbMarkColor,dlgcolor.Color);
       TColPrm(stgColumns.Objects[6,IndexRaw+1]).MarkColor:=cbMarkColor.Color;
       EditorSaveResult(nil);
     end;
@@ -1096,6 +1087,36 @@ begin
   pnlCustHead.Caption := rsConfCustHeader + ' ' + IntToStr(Index+1) + ': '
                        + #39 + ColumnClass.GetColumnTitle(Index) + #39;
 end;
+
+procedure TfColumnsSetConf.SetColorInColorBox(const lcbColorBox: TColorBox;
+  const lColor: TColor);
+//< setelect in lcbColorBox lColor if lColor in lcbColorBox else
+// add to lcbColorBox lColor and select him
+var
+  i: LongInt;
+begin
+     if(lcbColorBox=nil) then exit; // if lcbColorBox not exist;
+
+     with lcbColorBox do
+     begin
+       //search lColor in  colorlist
+       for i:=0 to Items.Count-1 do
+       if Colors[i]=lColor then //find color
+       begin
+       // select color
+           Selected:=lColor;
+       // set colorbox color to lColor
+           Color:=lColor;
+           exit;
+       end;
+
+       //add items to colorbox list
+       Items.Objects[Items.Add('$'+HexStr(lColor,8))]:=TObject(lColor);
+       Color:=lColor;
+       Selected:=lColor;
+     end;
+end;
+
 
 initialization
   {$I fcolumnssetconf.lrs}
