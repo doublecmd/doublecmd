@@ -467,7 +467,7 @@ begin
   gMouseSelectionEnabled:= gIni.ReadBool('Configuration', 'MouseSelectionEnabled', True);
   gMouseSelectionButton := gIni.ReadInteger('Configuration', 'MouseSelectionButton', 0);
 
-  gDirTabOptions := gIni.ReadInteger('Configuration', 'DirTabOptions', 273);
+  gDirTabOptions := gIni.ReadInteger('Configuration', 'DirTabOptions', 785);
   gDirTabLimit :=  gIni.ReadInteger('Configuration', 'DirTabLimit', 32);
 
   gUseExtEdit := gIni.ReadBool('Configuration', 'UseExtEdit', False);
