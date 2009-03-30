@@ -41,6 +41,7 @@ type
     btnCancel: TBitBtn;
     btnDownAct: TButton;
     btnOK: TBitBtn;
+    btnRemoveIcon: TSpeedButton;
     btnUpAct: TButton;
     btnRemoveAct: TButton;
     btnRemoveExt: TButton;
@@ -98,6 +99,7 @@ type
     procedure miActionsClick(Sender: TObject);
     procedure miCommandsClick(Sender: TObject);
     procedure sbtnIconClick(Sender: TObject);
+    procedure btnRemoveIconClick(Sender: TObject);
   private
     { private declarations }
     Exts : TExts;
@@ -162,11 +164,13 @@ begin
     begin
       btnAddAct.Enabled:= False;
       sbtnIcon.Enabled:= False;
+      btnRemoveIcon.Enabled:= False;
     end
   else
     begin
       btnAddAct.Enabled:= True;
       sbtnIcon.Enabled:= True;
+      btnRemoveIcon.Enabled:= True;
     end;
 
   if (lbExts.Items.Count = 0) or (lbExts.ItemIndex = -1) then
@@ -410,6 +414,23 @@ begin
         Repaint;
       end;
     end;
+end;
+
+procedure TfrmFileAssoc.btnRemoveIconClick(Sender: TObject);
+begin
+  with lbFileTypes do
+  begin
+    if ItemIndex < 0 then Exit;
+    // free icon
+    sbtnIcon.Glyph.FreeImage;
+    edtIconFileName.Text:= '';
+    TBitmap(Items.Objects[ItemIndex]).Free;
+    Exts.Items[ItemIndex].Icon:= '';
+    // and set IconIndex
+    Exts.Items[ItemIndex].IconIndex:= 0;
+    Exts.Items[ItemIndex].IsChanged:= True;
+    Repaint;
+  end;
 end;
 
 procedure TfrmFileAssoc.btnAddExtClick(Sender: TObject);

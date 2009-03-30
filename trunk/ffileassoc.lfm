@@ -9,7 +9,7 @@ object frmFileAssoc: TfrmFileAssoc
   ClientWidth = 554
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '0.9.26'
+  LCLVersion = '0.9.27'
   object gbFileTypes: TGroupBox
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -21,7 +21,7 @@ object frmFileAssoc: TfrmFileAssoc
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
     Caption = 'File types'
-    ClientHeight = 508
+    ClientHeight = 510
     ClientWidth = 255
     TabOrder = 0
     object lbFileTypes: TListBox
@@ -98,7 +98,7 @@ object frmFileAssoc: TfrmFileAssoc
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 10
     Caption = 'Extensions'
-    ClientHeight = 115
+    ClientHeight = 117
     ClientWidth = 269
     TabOrder = 1
     object lbExts: TListBox
@@ -152,7 +152,7 @@ object frmFileAssoc: TfrmFileAssoc
     BorderSpacing.Top = 6
     BorderSpacing.Right = 10
     Caption = 'Actions'
-    ClientHeight = 285
+    ClientHeight = 287
     ClientWidth = 269
     TabOrder = 2
     object lblCommand: TLabel
@@ -305,7 +305,6 @@ object frmFileAssoc: TfrmFileAssoc
       ButtonWidth = 23
       NumGlyphs = 1
       BorderSpacing.Top = 6
-      ParentColor = False
       TabOrder = 5
       OnChange = fneCommandChange
     end
@@ -355,7 +354,6 @@ object frmFileAssoc: TfrmFileAssoc
       NumGlyphs = 1
       OnButtonClick = btnActionsClick
       OnChange = edtActionChange
-      ParentColor = False
       TabOrder = 6
     end
   end
@@ -373,7 +371,7 @@ object frmFileAssoc: TfrmFileAssoc
     BorderSpacing.Top = 6
     BorderSpacing.Right = 10
     Caption = 'Icon'
-    ClientHeight = 54
+    ClientHeight = 56
     ClientWidth = 269
     TabOrder = 3
     object sbtnIcon: TSpeedButton
@@ -384,6 +382,24 @@ object frmFileAssoc: TfrmFileAssoc
       Color = clBtnFace
       NumGlyphs = 0
       OnClick = sbtnIconClick
+    end
+    object btnRemoveIcon: TSpeedButton
+      AnchorSideLeft.Control = edtIconFileName
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = edtIconFileName
+      AnchorSideBottom.Control = edtIconFileName
+      AnchorSideBottom.Side = asrBottom
+      Left = 239
+      Height = 23
+      Top = 14
+      Width = 23
+      Anchors = [akTop, akLeft, akBottom]
+      Caption = 'X'
+      Color = clBtnFace
+      Font.Style = [fsBold]
+      NumGlyphs = 0
+      OnClick = btnRemoveIconClick
+      ParentFont = False
     end
     object edtIconFileName: TEdit
       AnchorSideTop.Control = sbtnIcon
