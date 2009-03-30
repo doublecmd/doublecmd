@@ -332,6 +332,7 @@ type
     procedure mnuDropClick(Sender: TObject);
     procedure mnuSplitterPercentClick(Sender: TObject);
     procedure mnuTabMenuClick(Sender: TObject);
+    procedure nbPageAfterMouseDown(Data: PtrInt);
     procedure nbPageMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure nbPageChanged(Sender: TObject);
@@ -1138,10 +1139,9 @@ begin
   Actions.Execute(Cmd, pmTabMenu.Parent.Name);
 end;
 
-procedure TfrmMain.nbPageMouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
+procedure TfrmMain.nbPageAfterMouseDown(Data: PtrInt);
 begin
-  with Sender as TNoteBook do
+  with TNoteBook(Pointer(Data)) do
   begin
     if (Name = 'nbLeft') and (FrameLeft <> nil) then
       begin
@@ -1162,6 +1162,12 @@ begin
           FrameLeft.SetFocus;
       end;
   end;
+end;
+
+procedure TfrmMain.nbPageMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  Application.QueueAsyncCall(@nbPageAfterMouseDown, PtrInt(Sender));
 end;
 
 procedure TfrmMain.nbPageChanged(Sender: TObject);
