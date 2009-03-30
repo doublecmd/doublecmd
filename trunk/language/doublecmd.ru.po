@@ -1986,7 +1986,7 @@ msgstr "&Командная строка"
 
 #: TFRMOPTIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION
 msgid "Show tab select panel in copy/move dialog"
-msgstr ""
+msgstr "Показывать панель выбора вкладок в диалоге копирования/перемещения"
 
 #: TFRMOPTIONS.CBSHOWCURDIR.CAPTION
 msgid "Show &current directory"
