@@ -470,7 +470,22 @@ if lbxCommands.ItemIndex=-1 then exit;
      if st.IndexOf('frmMain')>-1 then
        begin
           HotMan.GetCommandsListBy(ShortCutToTextEx(vShortCut),st);
-          ShowMessage('ShortCut used by '+st.Text);
+          if MessageDlg('ShortCut used','ShortCut used by '+st.Text+' move here?',mtConfirmation,mbOKCancel,0) = mrOk then
+          begin  //ToDo  lang resurce
+            //**  delete
+            HotMan.DeleteHotKey(ShortCutToTextEx(vShortCut),frmMain);
+            lbPressedHotKeyCommand.Caption:='';
+            if lbxHotkeys.Items.IndexOf(ShortCutToTextEx(vShortCut))<>-1 then
+            begin
+              lbxHotkeys.Items.Delete(lbxHotkeys.Items.IndexOf(ShortCutToTextEx(vShortCut)));
+            end;
+
+            //** add
+            HotMan.AddHotKey(ShortCutToTextEx(vShortCut),lbxCommands.Items[lbxCommands.ItemIndex],edtParam.Text,frmMain);
+            lbxHotkeys.Items.Add(ShortCutToTextEx(vShortCut));
+            edtParam.Text:='';
+            edHotKey.Text:='';
+          end;
        end
        else
          begin
