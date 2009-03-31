@@ -191,7 +191,6 @@ type
     lblWDXDescription: TLabel;
     lbtypes: TLabel;
     lbxCategories: TListBox;
-    lbxCommands: TListBox;
     lbxHotkeys: TListBox;
     lstColumnsSets: TListBox;
     pgAutoRefresh: TPage;
@@ -268,6 +267,7 @@ type
     rbUseStreamInSearch: TRadioButton;
     seWipePassNumber: TSpinEdit;
     stgPlugins: TStringGrid;
+    stgCommands: TStringGrid;
     tsWLX: TTabSheet;
     tsDSX: TTabSheet;
     tsWDX: TTabSheet;
@@ -341,12 +341,14 @@ type
     procedure lbCategoriesDrawItem(Control: TWinControl; Index: Integer;
       ARect: TRect; State: TOwnerDrawState);
     procedure lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
-    procedure lbxCommandsSelectionChange(Sender: TObject; User: boolean);
+//    procedure lbxCommandsSelectionChange(Sender: TObject; User: boolean);
     procedure lbxHotkeysSelectionChange(Sender: TObject; User: boolean);
     procedure nbNotebookPageChanged(Sender: TObject);
     procedure pbExamplePaint(Sender: TObject);
     procedure pcPluginsTypesChange(Sender: TObject);
     procedure pgBehavResize(Sender: TObject);
+    procedure stgCommandsSelectCell(Sender: TObject; aCol, aRow: Integer;
+      var CanSelect: Boolean);
     procedure stgPluginsBeforeSelection(Sender: TObject; aCol, aRow: Integer);
     procedure tsDSXShow(Sender: TObject);
     procedure tsWCXShow(Sender: TObject);
@@ -367,6 +369,7 @@ type
     procedure LoadConfig;
     procedure SaveConfig;
     procedure SetColorInColorBox(const lcbColorBox:TColorBox;const lColor:TColor);
+    function getCommandComment(const lCmd:string):string;
   end;
 
 var
@@ -448,25 +451,27 @@ var vNum,i: integer;
     Cat:string;
     st:TStringList;
 begin
-  // ToDo: Black list HotKey which can't use
+// ToDo: Black list HotKey which can't use
 //TODO: Realize full version of hotkey's using. Allow to bind hotkeys to any controls.
 
 if lbxCategories.ItemIndex=-1 then exit;
-if lbxCommands.ItemIndex=-1 then exit;
+if stgCommands.Row<1 then exit;
   cat:=lbxCategories.Items[lbxCategories.ItemIndex];
  if cat='Main' then
  begin
   i:=HotMan.GetHotKeyIndex(ShortCutToTextEx(vShortCut));
   if i=-1 then
   begin
-    HotMan.AddHotKey(ShortCutToTextEx(vShortCut),lbxCommands.Items[lbxCommands.ItemIndex],edtParam.Text,frmMain);
+    HotMan.AddHotKey(ShortCutToTextEx(vShortCut),
+                     stgCommands.Cells[0,stgCommands.Row]
+                     ,edtParam.Text,frmMain);
     lbxHotkeys.Items.Add(ShortCutToTextEx(vShortCut));
   end
       else
    begin
      st:=TStringList.Create;
      HotMan.GetControlsListBy(ShortCutToTextEx(vShortCut),st);
-     
+
      if st.IndexOf('frmMain')>-1 then
        begin
           HotMan.GetCommandsListBy(ShortCutToTextEx(vShortCut),st);
@@ -481,29 +486,26 @@ if lbxCommands.ItemIndex=-1 then exit;
             end;
 
             //** add
-            HotMan.AddHotKey(ShortCutToTextEx(vShortCut),lbxCommands.Items[lbxCommands.ItemIndex],edtParam.Text,frmMain);
+            HotMan.AddHotKey(ShortCutToTextEx(vShortCut),stgCommands.cells[0,stgCommands.Row],edtParam.Text,frmMain);
             lbxHotkeys.Items.Add(ShortCutToTextEx(vShortCut));
             edtParam.Text:='';
             edHotKey.Text:='';
           end;
-       end
+       end // end st.IndexOf('frmMain')>-1
        else
          begin
-            HotMan.AddHotKey(ShortCutToTextEx(vShortCut),lbxCommands.Items[lbxCommands.ItemIndex],edtParam.Text,frmMain);
+            HotMan.AddHotKey(ShortCutToTextEx(vShortCut),
+                             stgCommands.Cells[0,stgCommands.Row]
+                             ,edtParam.Text,frmMain);
+
             lbxHotkeys.Items.Add(ShortCutToTextEx(vShortCut));
             edtParam.Text:='';
             edHotKey.Text:='';
-         end;
+         end; //end if st.IndexOf('frmMain')>-1
      st.free;
    end;
- end else
- if cat='Lister' then
-   begin
+ end; // end if main
 
-   end;
-   
-
-   
 end;
 
 procedure TfrmOptions.btnForeColorClick(Sender: TObject);
@@ -578,28 +580,42 @@ end;
 procedure TfrmOptions.edtFilterChange(Sender: TObject);
 {< filtering active commands list
 }
-var slFiltered,slAllCommands:TStringList;
-  i,p: Integer;
+var slFiltered,slAllCommands,slComment:TStringList;
+  i: Integer;
+  lstr:string;
+  Rect: TRect;
 begin
+  if lbxCategories.ItemIndex=-1 then exit;
   edHotKey.Clear;
   if edtFilter.Text<>'' then
   begin;
-    if lbxCategories.ItemIndex=-1 then exit;
     slFiltered:=TStringList.Create();
     slAllCommands:=TStringList.Create();
+    lstr:=edtFilter.Text;
+
     Actions.GetCommandsByCategory(lbxCategories.items.Strings[lbxCategories.ItemIndex],slAllCommands);
     for i:=0 to slAllCommands.Count-1 do
     begin
-         p:=Pos(LowerCase(edtFilter.Text),LowerCase(slAllCommands.Strings[i]));
-         if p<>0 then
-          slFiltered.Add(slAllCommands[i]);
+         if (Pos(LowerCase(lstr),LowerCase(slAllCommands.Strings[i]))<>0)
+         or (UTF8Pos(UTF8LowerCase(lstr),UTF8LowerCase(getCommandComment(slAllCommands.Strings[i])))<>0)
+             then  slFiltered.Add(slAllCommands[i]);
     end;
-    lbxCommands.Items.Assign(slFiltered);
+    slFiltered.Sort;
+    slAllCommands.Clear;
+    for i:=0 to slFiltered.Count -1 do slAllCommands.Add(getCommandComment(slFiltered.Strings[i]));
+
+    slFiltered.Insert(0,'Command');
+    slAllCommands.Insert(0,'Comment');
+    stgCommands.RowCount:=slFiltered.Count;
+
+    stgCommands.Cols[0].Assign(slFiltered);
+    stgCommands.Cols[1].Assign(slAllCommands);
+    //if stgCommands.RowCount>1 then stgCommands.Row:=1;
+
     slAllCommands.free;
     slFiltered.free;
   end
-   else// or maiby    FillCommandsPage;
-    lbxCategoriesSelectionChange(lbxCategories,true);
+   else  FillCommandsPage;
 end;
 
 procedure TfrmOptions.edtEditorSizeChange(Sender: TObject);
@@ -760,25 +776,29 @@ procedure TfrmOptions.edHotKeyKeyDown(Sender: TObject; var Key: Word;
 var
   i: LongInt;
   st: TStringList;
+  s:string;
 begin
   vShortCut := ShortCutEx(Key,GetKeyShiftStateEx);
   TEdit(Sender).Text := ShortCutToTextEx(vShortCut);
   Key := 0;
   btSetHotKey.Enabled := (edHotKey.Text <> '');
-  btClearHotKey.Enabled := (edHotKey.Text <> '');
+  lbPressedHotKeyCommand.Caption:='';
   // find hotkey
+  s:=ShortCutToTextEx(vShortCut);
   i:=HotMan.GetHotKeyIndex(ShortCutToTextEx(vShortCut));
   if i<>-1 then
+  begin
+  st:=TStringList.Create;
+   if HotMan.GetControlsListBy(ShortCutToTextEx(vShortCut),st)>0 then
    begin
-     st:=TStringList.Create;
-     HotMan.GetControlsListBy(ShortCutToTextEx(vShortCut),st);
-     lbPressedHotKeyCommand.Caption:='ShortCut used by '+#13+st.Text;
      HotMan.GetCommandsListBy(ShortCutToTextEx(vShortCut),st);
-     lbPressedHotKeyCommand.Caption:=lbPressedHotKeyCommand.Caption+ansistring(copy(st.Text,pos('=',st.Text)+1,Length(st.Text)-pos('=',st.Text)));
-     st.free;
-   end
-   else
-     lbPressedHotKeyCommand.Caption:='';
+     s:=st.Text;
+     lbPressedHotKeyCommand.Caption:='useds by '+st[0];
+     btClearHotKey.Enabled := (edHotKey.Text <> '');
+   end;
+  st.free;
+  end;
+
 end;
 
 procedure TfrmOptions.FormDestroy(Sender: TObject);
@@ -911,6 +931,39 @@ begin
   iWidth:= (pgBehav.Width div 2) - 26;
   gbMisc1.Width:= iWidth;
   gbDateTimeFormat.Width:= iWidth;
+end;
+
+procedure TfrmOptions.stgCommandsSelectCell(Sender: TObject; aCol,
+  aRow: Integer; var CanSelect: Boolean);
+  // < find hotkeys for command
+var i,j: integer;
+    st:TStringList;
+    p: LongInt;
+    cmd,selcmd: String;
+begin
+     // clears all controls
+     vShortCut := 0;
+     btSetHotKey.Enabled :=false;
+     btClearHotKey.Enabled :=false;
+     edHotKey.Clear;
+     lbPressedHotKeyCommand.Caption:='';
+     lbxHotkeys.Items.Clear;
+
+     st:=TStringList.Create;
+     selcmd:=stgCommands.Cells[0,aRow];// get selected command
+     //todo:delete this )
+     Caption:=selcmd;
+     for i:=0 to HotMan.HotkeyList.Count -1 do
+     begin
+     HotMan.GetCommandsListBy(HotMan.HotkeyList[i],st);
+      for j:=0 to st.Count-1 do
+      begin
+      // copy command name
+       p:=pos('=',st[j]);
+       cmd:=Copy(st[j],p+1,Length(st[j])-p);
+       if (selcmd=cmd) then  lbxHotkeys.items.add(HotMan.HotkeyList[i]);
+      end; // for j
+     end; // for i
 end;
 
 { Plugins }
@@ -1404,6 +1457,9 @@ end;
 
 procedure TfrmOptions.FillCommandsPage;
 begin
+stgCommands.ColWidths[0]:=150;
+stgCommands.ColWidths[1]:=250;
+
 actions.GetCategoriesList(lbxCategories.Items);
 if lbxCategories.Items.Count>0 then
 begin
@@ -1462,42 +1518,55 @@ begin
    end;
 end;
 
-procedure TfrmOptions.lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
+function TfrmOptions.getCommandComment(const lCmd:string):string;
+var
+  myact: TContainedAction;
+  lstr:string;
 begin
-  if lbxCategories.ItemIndex=-1 then exit;
-  Actions.GetCommandsByCategory( lbxCategories.items.Strings[lbxCategories.ItemIndex],lbxCommands.items);
-  lbxCommands.Sorted:= True;
+ result:='';
+ with frmMain.actionLst do
+ begin
+  lstr:=copy(lCmd,4,Length(lCmd)-3);
+    myact:=ActionByName('act'+lstr);
+    if (myact<>nil) then
+     if (myact is TAction) then
+     begin
+      lstr:=(myact as TAction).Caption;
+      while pos('&',lstr)<>0 do Delete(lstr,pos('&',lstr),1);
+      result:=lstr;
+     end;
+ end;
 end;
 
-procedure TfrmOptions.lbxCommandsSelectionChange(Sender: TObject; User: boolean
-  );
-  // < find hotkeys for command
-var i,j: integer;
-    st:TStringList;
-    p: LongInt;
-    cmd: String;
+procedure TfrmOptions.lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
+var lCmdStList,lCommentStList:TStringList;
+  i: Integer;
 begin
-     // clears all controls
-     vShortCut := 0;
-     btSetHotKey.Enabled :=false;
-     btClearHotKey.Enabled :=false;
-     edHotKey.Clear;
-     lbxHotkeys.Clear;
-     lbxHotkeys.Items.Clear;
+ // new interface
+  if lbxCategories.ItemIndex=-1 then exit;
+  edtFilter.Clear;
+  lCmdStList:=TStringList.Create;
+  Actions.GetCommandsByCategory( lbxCategories.items.Strings[lbxCategories.ItemIndex],lCmdStList);
+  if lCmdStList.Count>0 then
+  begin;
+    lCmdStList.Sort;
+    lCommentStList:=TStringList.Create;
+    for i:=0 to lCmdStList.Count -1 do
+      lCommentStList.Add(getCommandComment(lCmdStList.Strings[i]));
 
-     st:=TStringList.Create;
-     for i:=0 to HotMan.HotkeyList.Count -1 do
-     begin
-     HotMan.GetCommandsListBy(HotMan.HotkeyList[i],st);
-      for j:=0 to st.Count-1 do
-      begin
-      // copy command name
-       p:=pos('=',st[j]);
-       cmd:=Copy(st[j],p+1,Length(st[j])-p);
-       if (lbxCommands.Items[lbxCommands.ItemIndex]=cmd) then
-         lbxHotkeys.items.add(HotMan.HotkeyList[i]);
-      end;
-     end;
+    lCmdStList.Insert(0,'Commands');
+    stgCommands.RowCount:=lCmdStList.Count;
+    stgCommands.Cols[0].Assign(lCmdStList);
+
+    lCommentStList.Insert(0,'Comment');
+    stgCommands.Cols[1].Assign(lCommentStList);
+    stgCommands.Row:=1;
+   end;
+
+   lCmdStList.Free;
+   lCommentStList.Free;
+  // end new interface
+
 end;
 
 procedure TfrmOptions.lbxHotkeysSelectionChange(Sender: TObject; User: boolean);
@@ -1641,33 +1710,33 @@ end;
 {/ File lbtypes category color }
 
 procedure TfrmOptions.btClearHotKeyClick(Sender: TObject);
-var vActions: TAction; st:TStringList; cat:string; i:integer;
+var vActions: TAction;
+    st:TStringList;
+    cat:string;
+    i:integer;
 begin
 
  //TODO: delete hotkey.
  //TODO:New interface for hotkeys
 
-//       edtParam.Text:='';
-//       edHotKey.Text:='';
-
-       
  if lbxCategories.ItemIndex=-1 then exit;
   cat:=lbxCategories.Items[lbxCategories.ItemIndex];
  if cat='Main' then
  begin
     i:=HotMan.GetHotKeyIndex(ShortCutToTextEx(vShortCut));
-    if i=-1 then exit;
+    if i=-1 then exit; // no hotkey in hotkey manager
     st:=TStringList.Create;
      if HotMan.GetControlsListBy(ShortCutToTextEx(vShortCut),st)>0 then
        begin
          HotMan.DeleteHotKey(ShortCutToTextEx(vShortCut),frmMain);
-//         edtParam.Text:='';
-//         edHotKey.Text:='';
+         edtParam.Text:='';
+         edHotKey.Text:='';
          lbPressedHotKeyCommand.Caption:='';
+         btClearHotKey.Enabled:=false;
+         btSetHotKey.Enabled:=false;
+         // if hotkey in hotkeylist, delete him
          if lbxHotkeys.Items.IndexOf(ShortCutToTextEx(vShortCut))<>-1 then
-         begin
              lbxHotkeys.Items.Delete(lbxHotkeys.Items.IndexOf(ShortCutToTextEx(vShortCut)));
-         end;
        end;
     st.free;
  end;
@@ -1890,8 +1959,9 @@ begin
 
 
    FillColumnsList;
-   
+   // fill commands
    FillCommandsPage;
+
   { Fill plugins lists }
   tmpDSXPlugins.Load(gIni);
   tmpWCXPlugins.Assign(gWCXPlugins);
@@ -2099,22 +2169,20 @@ begin
      begin
        //search lColor in colorbox colorlist
        for i:=0 to Items.Count-1 do
-       if Colors[i]=lColor then //find color
-       begin
+        if Colors[i]=lColor then //find color
+         begin
        // select color
            Selected:=lColor;
        // set colorbox color to lColor
            Color:=lColor;
            exit;
-       end;
+         end;//  if for
 
        //add items to colorbox list
        Items.Objects[Items.Add('$'+HexStr(lColor,8))]:=TObject(lColor);
        Color:=lColor;
        Selected:=lColor;
-       //lcbColorBox.Text:=debStr;
-
-     end;
+     end; // with
 end;
 
 initialization
