@@ -441,6 +441,7 @@ type
     procedure SaveWindowState;
     procedure SaveShortCuts;
     procedure LoadShortCuts;
+    function  IsCommandLineVisible: Boolean;
   published
     property SelectedPanel:TFilePanelSelect read PanelSelected;
   end;
@@ -745,16 +746,26 @@ end;
 
 procedure TfrmMain.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
 begin
-  if (edtCommand.Focused) or (edtCommand.Tag = 1) then Exit;
-  // quick search by Letter only
-  if (Length(UTF8Key) = 1) and ((Ord(UTF8Key[1]) <= 32) or
-     (UTF8Key[1] in ['+','-','*','/','\'])) then Exit;
-  if gQuickSearch and (GetKeyShiftState = gQuickSearchMode) then
+  if (not edtCommand.Focused) and (edtCommand.Tag = 0) then
     begin
-      ActiveFrame.ShowAltPanel(LowerCase(UTF8Key));
-      UTF8Key:= '';
-      KeyPreview:= False;
-    end;
+      // quick search by Letter only
+      if (Length(UTF8Key) = 1) and ((Ord(UTF8Key[1]) <= 32) or
+         (UTF8Key[1] in ['+','-','*','/','\'])) then Exit;
+
+      if gQuickSearch and (GetKeyShiftState = gQuickSearchMode) then
+        begin
+          ActiveFrame.ShowAltPanel(LowerCase(UTF8Key));
+          UTF8Key:= '';
+          KeyPreview:= False;
+        end
+      else if gCmdLine then  // If command line is enabled
+        begin
+          edtCommand.SetFocus;
+          edtCommand.Text := edtCommand.Text + UTF8Key;
+          edtCommand.SelStart := UTF8Length(edtCommand.Text) + 1;
+          UTF8Key := #0;
+        end;
+    end
 end;
 
 procedure TfrmMain.FormDataEvent(Data: PtrInt);
@@ -1285,9 +1296,6 @@ begin
     case Key of
      VK_F8, VK_DELETE:
        begin
-{         Key:=0;
-         ActiveFrame.ClearCmdLine; // hack delete key
-}
          if ((not edtCommand.Focused) and (edtCommand.Tag = 0)) or (Key = VK_F8) then
          begin
            Actions.cm_Delete('');
@@ -1312,7 +1320,11 @@ begin
     begin
       if Shift=[] then
       begin
-        if (edtCommand.Text='') then
+        if edtCommand.Focused and (edtCommand.Text='') then
+        begin
+          ActiveFrame.SetFocus;
+        end
+        else if (not IsCommandLineVisible) or (edtCommand.Text='') then
         begin
           // Only if there are items in the panel.
           if not IsEmpty then
@@ -1337,6 +1349,11 @@ begin
           ClearCmdLine;
           RefreshPanel;
           ActiveFrame.SetFocus;
+{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+          // workaround for GTK
+          // edtCommandExit is not always called when losing focus
+          edtCommandExit(Self);
+{$ENDIF}
           Exit;
         end;
       end; //Shift=[]
@@ -1345,7 +1362,7 @@ begin
       if Shift=[ssShift] then
       begin
         mbSetCurrentDir(ActiveDir);
-        if (not edtCommand.Focused) and (edtCommand.Tag = 0) then
+        if (not IsCommandLineVisible) or (edtCommand.Text='') then
         begin
           if IsActiveItemValid then
           begin
@@ -1359,6 +1376,11 @@ begin
             ClearCmdLine;
             RefreshPanel;
             ActiveFrame.SetFocus;
+{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+            // workaround for GTK,
+            // edtCommandExit is not always called when losing focus
+            edtCommandExit(Self);
+{$ENDIF}
           end;
         Exit;
       end;
@@ -1411,22 +1433,31 @@ begin
 end;
 
 procedure TfrmMain.FormKeyPress(Sender: TObject; var Key: Char);
+var
+  CmdText : UTF8String;
 begin
-//  DebugLn('KeyPress:',Key);
-  if Key=#27 then
-    ActiveFrame.ClearCmdLine;
-  if (ord(key)>31) and (ord(key)<255) then
+  if gCmdLine then  // If command line is enabled
   begin
-    if ((Key='-') or (Key='*') or (Key='+') or (Key=' '))and (Trim(edtCommand.Text)='') then Exit;
-    if (not edtCommand.Focused) and (edtCommand.Tag = 0) then
+    if Key=#27 then
+      ActiveFrame.ClearCmdLine;
+    if ((ord(key)>31) and (ord(key)<255)) or (ord(Key) = VK_BACK) then
     begin
-      edtCommand.SetFocus; // handle first char of command line specially
-      with ActiveFrame do
+      if ((Key='-') or (Key='*') or (Key='+') or (Key=' '))and (Trim(edtCommand.Text)='') then Exit;
+      if (not edtCommand.Focused) and (edtCommand.Tag = 0) then
+      begin
+        edtCommand.SetFocus; // handle first char of command line specially
+        CmdText := edtCommand.Text;
+        if ord(Key) = VK_BACK then  // backspace
         begin
-          edtCommand.Text:=edtCmdLine.Text+Key;
-          edtCommand.SelStart := Length(edtCommand.Text) + 1;
-        end;
-      Key:=#0;
+          UTF8Delete(CmdText, UTF8Length(CmdText), 1);
+          edtCommand.Text := CmdText;
+        end
+        else
+          edtCommand.Text := CmdText + Key;
+
+        edtCommand.SelStart := UTF8Length(edtCommand.Text) + 1;
+        Key:=#0;
+      end;
     end;
   end;
 end;
@@ -1619,11 +1650,11 @@ end;
 procedure TfrmMain.edtCommandKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  inherited;
   if (key=VK_Down) and (Shift=[ssCtrl]) and (edtCommand.Items.Count>0) then
   begin
     Key:=0;
     edtCommand.DroppedDown:=True;
+    edtCommand.SetFocus;
   end;
 end;
 
@@ -2154,7 +2185,8 @@ begin
   end;
 
   // handle Space key
-  if (Shift=[]) and (Key=VK_Space) and (edtCommand.Text='') then
+  if (Shift=[]) and (Key=VK_Space) and
+     ((not IsCommandLineVisible) or (edtCommand.Text='')) then
   begin
     with ActiveFrame do
     begin
@@ -2176,16 +2208,18 @@ begin
     Exit;
   end;
 
-  if (Shift=[]) and (Key=VK_BACK) and (edtCommand.Text='') then
+  if (Shift=[]) and (Key=VK_BACK) and
+     ((not IsCommandLineVisible) or (edtCommand.Text='')) then
   begin
-    if edtCommand.Focused or (edtCommand.Tag = 1) then Exit;
-    with ActiveFrame do
+    if (not edtCommand.Focused) and (edtCommand.Tag = 0) then
     begin
-      pnlFile.cdUpLevel;
-      RedrawGrid;
+      with ActiveFrame do
+      begin
+        pnlFile.cdUpLevel;
+        RedrawGrid;
+      end;
+      Key := 0;
     end;
-    Key := 0;
-    Exit;
   end;
 end;
 
@@ -3121,6 +3155,7 @@ begin
   btnRightHome.Visible := gDriveMenuButton;
 
   pnlCommand.Visible := gCmdLine;
+  edtCommand.Tag := 0;
   pnlKeys.Visible := gKeyButtons;
   LogSplitter.Visible := gLogWindow;
   seLogWindow.Visible := gLogWindow;
@@ -3138,6 +3173,16 @@ begin
       ActiveFrame.SetFocus;
       Key:= 0;
     end
+  else if (edtCommand.DroppedDown) and (Key in [VK_RETURN, VK_ESCAPE]) then
+    begin
+      edtCommand.DroppedDown := False;
+      Key := 0;
+    end
+  else if Key = VK_ESCAPE then
+    begin
+      edtCommand.Text := '';
+      Key := 0;
+    end
   else
     edtCommand.Tag:= 1;
 end;
@@ -3145,6 +3190,10 @@ end;
 procedure TfrmMain.edtCommandExit(Sender: TObject);
 begin
   edtCommand.Tag:= 0;
+
+  // Hide command line if it was temporarily shown.
+  if (not gCmdLine) and IsCommandLineVisible then
+    pnlCommand.Hide;
 end;
 
 procedure TfrmMain.tbEditClick(Sender: TObject);
@@ -3280,6 +3329,11 @@ procedure TfrmMain.LoadShortCuts;
 begin
   // ToDo Black list HotKey which can't use
   HotMan.Load(gpIniDir + 'shortcuts.ini');
+end;
+
+function TfrmMain.IsCommandLineVisible: Boolean;
+begin
+  Result := (edtCommand.Visible and pnlCommand.Visible);
 end;
 
 initialization
