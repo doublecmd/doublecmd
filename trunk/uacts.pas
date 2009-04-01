@@ -1122,6 +1122,13 @@ end;
 
 procedure TActs.cm_FocusCmdLine(param:string);
 begin
+  // Show temporarily command line on user request.
+  if (not gCmdLine) and (frmMain.IsCommandLineVisible = False) then
+  begin
+    frmMain.pnlCommand.Show;
+    frmMain.ActiveFrame.pnlFile.UpdatePrompt;
+  end;
+
   frmMain.edtCommand.SetFocus;
 end;
 
@@ -1593,9 +1600,15 @@ end;
 
 procedure TActs.cm_ShowCmdLineHistory(param:string);
 begin
-  inherited;
-  if (frmMain.edtCommand.Items.Count>0) then
-    frmMain.edtCommand.DroppedDown:=True;
+  with frmMain do
+  begin
+    if IsCommandLineVisible then
+    begin
+      edtCommand.SetFocus;
+      if edtCommand.Items.Count>0 then
+        edtCommand.DroppedDown:=True;
+    end;
+  end;
 end;
 
 procedure TActs.cm_RunTerm(param:string);
