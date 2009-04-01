@@ -52,7 +52,8 @@ const
 
 implementation
 uses
-  uFileProcs, uFindEx, uGlobs, uOSUtils {$IFDEF UNIX}, uUsersGroups, Unix, BaseUnix{$ENDIF};
+  uFileProcs, uFindEx, uGlobs, uOSUtils {$IFDEF UNIX}, uUsersGroups, Unix, BaseUnix{$ENDIF}
+  {$IFDEF WINDOWS}, Windows {$ENDIF};
 
 {$IFDEF UNIX}   // *nix
 function IsDirByName(const sName:String):Boolean;
@@ -226,16 +227,23 @@ end;
 function AttrToStr(iAttr: Cardinal): String;
 {$IFDEF MSWINDOWS}
 begin
-  Result:= '------';
-  
+  Result:= '--------';
+
   if FPS_ISDIR(iAttr) then Result[1]:='d';
   if FPS_ISLNK(iAttr) then Result[1]:='l';
 
-  if Boolean(iAttr and $01) then Result[2] := 'r';
-  if Boolean(iAttr and $20) then Result[3] := 'a';
-  if Boolean(iAttr and $02) then Result[4] := 'h';
-  if Boolean(iAttr and $04) then Result[5] := 's';
-  if Boolean(iAttr and $08) then Result[6] := 'v';
+  if Boolean(iAttr and FILE_ATTRIBUTE_READONLY   ) then Result[2] := 'r';
+  if Boolean(iAttr and FILE_ATTRIBUTE_ARCHIVE    ) then Result[3] := 'a';
+  if Boolean(iAttr and FILE_ATTRIBUTE_HIDDEN     ) then Result[4] := 'h';
+  if Boolean(iAttr and FILE_ATTRIBUTE_SYSTEM     ) then Result[5] := 's';
+
+  // These two are exclusive on NTFS.
+  if Boolean(iAttr and FILE_ATTRIBUTE_COMPRESSED ) then Result[6] := 'c';
+  if Boolean(iAttr and FILE_ATTRIBUTE_ENCRYPTED  ) then Result[6] := 'e';
+
+  if Boolean(iAttr and FILE_ATTRIBUTE_TEMPORARY  ) then Result[7] := 't';
+  if Boolean(iAttr and FILE_ATTRIBUTE_SPARSE_FILE) then Result[8] := 'p';
+
 end;
 {$ELSE}
 begin
