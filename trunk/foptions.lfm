@@ -1,7 +1,7 @@
 object frmOptions: TfrmOptions
-  Left = 278
+  Left = 270
   Height = 547
-  Top = 124
+  Top = 152
   Width = 673
   ActiveControl = tvTreeView
   Caption = 'Options'
@@ -1127,16 +1127,19 @@ object frmOptions: TfrmOptions
           ParentColor = False
         end
         object lbPressedHotKeyCommand: TLabel
-          AnchorSideLeft.Control = lbFilter
-          AnchorSideTop.Control = lbHotKeys
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lbxHotkeys
-          Left = 12
+          AnchorSideLeft.Control = edtFilter
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = edtFilter
+          AnchorSideTop.Side = asrCenter
+          AnchorSideRight.Control = btSetHotKey
+          AnchorSideRight.Side = asrBottom
+          Left = 160
           Height = 14
-          Top = 408
-          Width = 173
+          Top = 342
+          Width = 312
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 6
+          AutoSize = False
+          BorderSpacing.Left = 8
           Font.Color = clRed
           Font.Style = [fsBold]
           ParentColor = False
@@ -1159,16 +1162,14 @@ object frmOptions: TfrmOptions
         object btSetHotKey: TButton
           AnchorSideLeft.Control = edHotKey
           AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = stgCommands
-          AnchorSideTop.Side = asrBottom
+          AnchorSideTop.Control = edHotKey
           AnchorSideRight.Control = stgCommands
           AnchorSideRight.Side = asrBottom
           Left = 361
           Height = 24
-          Top = 362
+          Top = 363
           Width = 111
           Anchors = [akTop, akRight]
-          BorderSpacing.Top = 30
           BorderSpacing.InnerBorder = 4
           Caption = 'Set HotKey'
           Enabled = False
@@ -1187,7 +1188,7 @@ object frmOptions: TfrmOptions
           Width = 111
           Anchors = [akTop, akRight]
           BorderSpacing.Left = 8
-          BorderSpacing.Top = 7
+          BorderSpacing.Top = 6
           BorderSpacing.InnerBorder = 4
           Caption = 'Clear HotKey'
           Enabled = False
@@ -1257,7 +1258,7 @@ object frmOptions: TfrmOptions
           Width = 464
           Anchors = [akTop, akLeft, akRight, akBottom]
           BorderSpacing.Top = 20
-          ColCount = 2
+          ColCount = 3
           ExtendedSelect = False
           FixedCols = 0
           MouseWheelOption = mwGrid
@@ -1646,7 +1647,7 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrCenter
             Left = 12
             Height = 14
-            Top = 209
+            Top = 191
             Width = 79
             Caption = 'Category name:'
             ParentColor = False
@@ -1656,7 +1657,7 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrCenter
             Left = 12
             Height = 14
-            Top = 240
+            Top = 222
             Width = 77
             Caption = 'Category mask:'
             ParentColor = False
@@ -1666,7 +1667,7 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrCenter
             Left = 12
             Height = 14
-            Top = 302
+            Top = 284
             Width = 76
             Caption = 'Category color:'
             ParentColor = False
@@ -1676,7 +1677,7 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrCenter
             Left = 12
             Height = 14
-            Top = 271
+            Top = 253
             Width = 100
             Caption = 'Category attributes:'
             ParentColor = False
@@ -1686,8 +1687,8 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrBottom
             Left = 174
             Height = 23
-            Top = 205
-            Width = 256
+            Top = 187
+            Width = 252
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Top = 12
             TabOrder = 0
@@ -1697,8 +1698,8 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrBottom
             Left = 174
             Height = 23
-            Top = 236
-            Width = 256
+            Top = 218
+            Width = 252
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Top = 8
             TabOrder = 1
@@ -1708,7 +1709,7 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrBottom
             Left = 174
             Height = 22
-            Top = 298
+            Top = 280
             Width = 140
             Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
             BorderSpacing.Top = 8
@@ -1721,9 +1722,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbCategoryColor
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = bbtnDeleteCategory
-            Left = 148
+            Left = 144
             Height = 32
-            Top = 332
+            Top = 314
             Width = 90
             Anchors = [akTop, akRight]
             BorderSpacing.Top = 12
@@ -1737,9 +1738,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbCategoryColor
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = bbtnApplyCategory
-            Left = 244
+            Left = 240
             Height = 32
-            Top = 332
+            Top = 314
             Width = 90
             Anchors = [akTop, akRight]
             BorderSpacing.Top = 12
@@ -1755,7 +1756,7 @@ object frmOptions: TfrmOptions
             AnchorSideBottom.Side = asrBottom
             Left = 318
             Height = 22
-            Top = 298
+            Top = 280
             Width = 28
             Anchors = [akTop, akLeft, akBottom]
             BorderSpacing.InnerBorder = 4
@@ -1765,9 +1766,9 @@ object frmOptions: TfrmOptions
           end
           object lbCategories: TListBox
             Left = 12
-            Height = 183
+            Height = 165
             Top = 10
-            Width = 418
+            Width = 414
             Anchors = [akTop, akLeft, akRight, akBottom]
             OnClick = lbCategoriesClick
             OnDrawItem = lbCategoriesDrawItem
@@ -1779,9 +1780,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = lbCategories
             AnchorSideRight.Side = asrBottom
-            Left = 340
+            Left = 336
             Height = 32
-            Top = 332
+            Top = 314
             Width = 90
             Anchors = [akTop, akRight]
             BorderSpacing.Top = 12
@@ -1795,8 +1796,8 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrBottom
             Left = 174
             Height = 23
-            Top = 267
-            Width = 256
+            Top = 249
+            Width = 252
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Top = 8
             TabOrder = 8
@@ -2126,7 +2127,7 @@ object frmOptions: TfrmOptions
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = edtTabsLimitLength
             AnchorSideTop.Side = asrCenter
-            Left = 292
+            Left = 288
             Height = 14
             Top = 57
             Width = 52
@@ -2162,7 +2163,7 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbTabsLimitOption
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Side = asrBottom
-            Left = 245
+            Left = 241
             Height = 23
             Top = 53
             Width = 41
@@ -2238,7 +2239,7 @@ object frmOptions: TfrmOptions
             Left = 108
             Height = 23
             Top = 2
-            Width = 303
+            Width = 299
             ButtonWidth = 23
             NumGlyphs = 1
             Anchors = [akTop, akLeft, akRight]
@@ -2426,6 +2427,7 @@ object frmOptions: TfrmOptions
           BorderSpacing.Left = 10
           BorderSpacing.Top = 6
           Caption = 'Edit'
+          NumGlyphs = 0
           OnClick = btnConfigEditClick
           TabOrder = 2
         end
@@ -2442,6 +2444,7 @@ object frmOptions: TfrmOptions
           BorderSpacing.Top = 6
           Caption = 'Apply'
           Enabled = False
+          NumGlyphs = 0
           OnClick = btnConfigApplyClick
           TabOrder = 3
         end
