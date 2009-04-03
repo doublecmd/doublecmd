@@ -326,8 +326,8 @@ end;
 procedure TFrameFilePanel.InvertAllFiles;
 begin
   pnlFile.InvertAllFiles;
-  dgPanel.Invalidate;
   UpDatelblInfo;
+  dgPanel.Invalidate;
 end;
 
 procedure TFrameFilePanel.RefreshPanel(bUpdateFileCount: Boolean = True; bUpdateDiskFreeSpace: Boolean = True);
@@ -460,6 +460,7 @@ begin
     if not Assigned(frp) then Continue;
     pnlFile.MarkFile(frp, True);
   end;
+  UpDatelblInfo;
   dgPanel.Invalidate;
 end;
 
@@ -504,6 +505,7 @@ begin
             if Assigned(frp) then
               begin
                 pnlFile.InvertFileSection(frp);
+                UpDatelblInfo;
                 dgPanel.Invalidate;
               end;
           end
@@ -517,6 +519,7 @@ begin
             if Assigned(frp) and not frp^.bSelected then
               begin
                 pnlFile.MarkAllFiles(False);
+                UpDatelblInfo;
                 dgPanel.Invalidate;
               end;
           end;
@@ -906,8 +909,8 @@ end;
 procedure TFrameFilePanel.UnMarkAll;
 begin
   pnlFile.MarkAllFiles(False);
-  dgPanel.Invalidate;
   UpDatelblInfo;
+  dgPanel.Invalidate;
 end;
 
 procedure TFrameFilePanel.UpDatelblInfo;
@@ -924,8 +927,8 @@ end;
 procedure TFrameFilePanel.MarkAll;
 begin
   pnlFile.MarkAllFiles(True);
-  dgPanel.Invalidate;
   UpDatelblInfo;
+  dgPanel.Invalidate;
 end;
 
 Function TFrameFilePanel.GetActiveDir:String;
@@ -943,6 +946,7 @@ begin
   if not ShowInputComboBox(rsMarkPlus, rsMaskInput, glsMaskHistory, s) then Exit;
   FLastMark:=s;
   pnlFile.MarkGroup(s,True);
+  UpDatelblInfo;
   dgPanel.Invalidate;
 end;
 
@@ -952,6 +956,7 @@ begin
   with GetActiveItem^ do
   begin
     pnlFile.MarkGroup('*'+sExt, True);
+    UpDatelblInfo;
     dgPanel.Invalidate;
   end;
 end;
@@ -962,6 +967,7 @@ begin
   with GetActiveItem^ do
   begin
     pnlFile.MarkGroup('*'+sExt ,False);
+    UpDatelblInfo;
     dgPanel.Invalidate;
   end;
 end;
@@ -975,8 +981,8 @@ begin
   if not ShowInputComboBox(rsMarkMinus, rsMaskInput, glsMaskHistory, s) then Exit;
   FLastMark:=s;
   pnlFile.MarkGroup(s,False);
+  UpDatelblInfo;
   dgPanel.Invalidate;
-//  pnlFile.UpdatePanel;
 end;
 
 procedure TFrameFilePanel.edtPathKeyPress(Sender: TObject;
