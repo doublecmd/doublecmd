@@ -1185,15 +1185,23 @@ procedure TfrmMain.nbPageChanged(Sender: TObject);
 begin
   with Sender as TNoteBook do
   begin
-    if (Name = 'nbLeft') and (FrameLeft <> nil) then
-      FrameLeft.pnlFile.UpdatePrompt;
-    if (Name = 'nbRight') and (FrameRight <> nil) then
-      FrameRight.pnlFile.UpdatePrompt;
-
     if Page[PageIndex].Tag = 2 then // if locked with directory change
       begin
         ActiveFrame.pnlFile.ActiveDir:= Page[PageIndex].Hint;
         ActiveFrame.LoadPanel;
+      end;
+
+    if (Name = 'nbLeft') and (FrameLeft <> nil) then
+      begin
+        FrameLeft.pnlFile.UpdatePrompt;
+        if Assigned(LeftFrameWatcher) and (LeftFrameWatcher.WatchPath <> FrameLeft.ActiveDir) then
+          LeftFrameWatcher.WatchPath:= FrameLeft.ActiveDir;
+      end;
+    if (Name = 'nbRight') and (FrameRight <> nil) then
+      begin
+        FrameRight.pnlFile.UpdatePrompt;
+        if Assigned(RightFrameWatcher) and (RightFrameWatcher.WatchPath <> RightLeft.ActiveDir) then
+          RightFrameWatcher.WatchPath:= RightLeft.ActiveDir;    
       end;
   end;
 end;
@@ -2996,13 +3004,13 @@ begin
         Include(WatchFilter, wfAttributesChange);
       if not Assigned(LeftFrameWatcher) then
         begin
-          LeftFrameWatcher:= TFileSystemWatcher.Create(FrameLeft, FrameLeft.ActiveDir, WatchFilter);
+          LeftFrameWatcher:= TFileSystemWatcher.Create(nbLeft, FrameLeft.ActiveDir, WatchFilter);
           LeftFrameWatcher.OnWatcherNotifyEvent:= @FramePanelOnWatcherNotifyEvent;
           LeftFrameWatcher.Active:= True;
         end;
       if not Assigned(RightFrameWatcher) then
         begin
-          RightFrameWatcher:= TFileSystemWatcher.Create(FrameRight, FrameRight.ActiveDir, WatchFilter);
+          RightFrameWatcher:= TFileSystemWatcher.Create(nbRight, FrameRight.ActiveDir, WatchFilter);
           RightFrameWatcher.OnWatcherNotifyEvent:= @FramePanelOnWatcherNotifyEvent;
           RightFrameWatcher.Active:= True;
         end;
@@ -3209,8 +3217,9 @@ var
 begin
   // if not active and refresh only in foreground then exit
   if (not Focused) and (watch_only_foreground in gWatchDirs) then Exit;
-  if not (Sender is TFrameFilePanel) then Exit;
-  FrameFilePanel:= (Sender as TFrameFilePanel);
+  if not (Sender is TNotebook) then Exit;
+  with Sender as TNotebook do
+    FrameFilePanel:= TFrameFilePanel(Page[PageIndex].Components[0]);
   // if current path in exclude list then exit
   if gWatchDirsExclude <> '' then
     begin
