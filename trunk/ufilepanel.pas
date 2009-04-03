@@ -589,17 +589,17 @@ begin
       begin
         inc(fFilesSelected);
         if not FPS_ISDIR(iMode) then
-          fSizeSelected:=Cardinal(fSizeSelected)+iSize
+          fSizeSelected:= fSizeSelected+iSize
         else
           if iDirSize<>0 then
-            fSizeSelected:=Cardinal(fSizeSelected)+iDirSize;
+            fSizeSelected:= fSizeSelected+iDirSize;
       end;
       inc(fFilesInDir);
       if not FPS_ISDIR(iMode) then
-        fSizeInDir:=Cardinal(fSizeInDir)+iSize
+        fSizeInDir:= fSizeInDir+iSize
       else
         if iDirSize<>0 then
-          fSizeInDir:=Cardinal(fSizeInDir)+iDirSize;
+          fSizeInDir:= fSizeInDir+iDirSize;
     end;
   end;
 end;
