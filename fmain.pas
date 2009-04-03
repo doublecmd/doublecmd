@@ -1200,8 +1200,8 @@ begin
     if (Name = 'nbRight') and (FrameRight <> nil) then
       begin
         FrameRight.pnlFile.UpdatePrompt;
-        if Assigned(RightFrameWatcher) and (RightFrameWatcher.WatchPath <> RightLeft.ActiveDir) then
-          RightFrameWatcher.WatchPath:= RightLeft.ActiveDir;    
+        if Assigned(RightFrameWatcher) and (RightFrameWatcher.WatchPath <> FrameRight.ActiveDir) then
+          RightFrameWatcher.WatchPath:= FrameRight.ActiveDir;    
       end;
   end;
 end;
