@@ -486,7 +486,7 @@ begin
         frp := pnlFile.GetReferenceItemPtr(iRow - dgPanel.FixedRows); // substract fixed rows (header)
         if Assigned(frp) then
         begin
-          pnlFile.InvertFileSection(frp);
+          SelectFile(frp);
           dgPanel.Invalidate;
         end;
       end;
@@ -504,8 +504,7 @@ begin
             frp := pnlFile.GetReferenceItemPtr(iRow - dgPanel.FixedRows); // substract fixed rows (header)
             if Assigned(frp) then
               begin
-                pnlFile.InvertFileSection(frp);
-                UpDatelblInfo;
+                SelectFile(frp);
                 dgPanel.Invalidate;
               end;
           end
