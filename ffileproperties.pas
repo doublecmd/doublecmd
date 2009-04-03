@@ -5,7 +5,7 @@
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
    Copyright (C) 2003 Martin Matusu <xmat@volny.cz>
-   Copyright (C) 2006-2007 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2009 Alexander Koblov (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -117,7 +117,7 @@ procedure ShowFileProperties(FileList:TFileList; const aPath:String);
 implementation
 
 uses
-  uLng, uFileOp, uFileProcs, uFindEx, BaseUnix, uUsersGroups;
+  uLng, uFileOp, uFileProcs, uFindEx, BaseUnix, uUsersGroups, uDCUtils;
 
 procedure ShowFileProperties(FileList:TFileList; const aPath:String);
 begin
@@ -210,10 +210,11 @@ begin
     begin
       fpStat(PChar(szPath + sName), sb);
 
-      lblFileName.Caption:=sName;
-      lblFileName1.Caption := sName;
-      lblFolder.Caption:=szPath;
-      lblSize.Caption:=IntToStr(iSize);
+      lblFileName.Caption:= sName;
+      lblFileName1.Caption:= sName;
+      lblFolder.Caption:= MinimizeFilePath(szPath, lblFolder.Canvas, lblFolder.Width);
+      if not FPS_ISDIR(iMode) then
+        lblSize.Caption:= IntToStr(iSize);
       
       dtFileDates := FileDateToDateTime(sb.st_atime);
       lblLastAccess.Caption:=DateTimeToStr(dtFileDates);
