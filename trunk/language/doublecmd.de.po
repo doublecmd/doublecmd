@@ -749,9 +749,26 @@ msgstr "&Gehe zu Datei"
 msgid "&New search"
 msgstr "&Neue Suche"
 
+#: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
+msgid "&Delete"
+msgstr ""
+
+#: TFRMFINDDLG.BTNSEARCHLOAD.CAPTION
+msgid "L&oad"
+msgstr ""
+
+#: TFRMFINDDLG.BTNSEARCHSAVE.CAPTION
+msgid "S&ave"
+msgstr ""
+
 #: TFRMFINDDLG.BTNSTART.CAPTION
 msgid "&Start"
 msgstr "&Starten"
+
+#: TFRMFINDDLG.BTNSTOP.CAPTION
+msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
+msgid "Cancel"
+msgstr ""
 
 #: TFRMFINDDLG.BTNVIEW.CAPTION
 msgid "&View"
@@ -764,6 +781,10 @@ msgstr "Füge in &Listbox ein"
 #: TFRMFINDDLG.CAPTION
 msgid "Find files"
 msgstr "Suche Datei(en)"
+
+#: TFRMFINDDLG.CBATTRIB.CAPTION
+msgid "Attributes"
+msgstr ""
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sensitive"
@@ -780,6 +801,10 @@ msgstr "Vor Datum:"
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
 msgstr "Tag(e)"
+
+#: TFRMFINDDLG.CBDIRECTORY.CAPTION
+msgid "Directory"
+msgstr ""
 
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 msgid "File Size From:"
@@ -804,6 +829,10 @@ msgstr "Suche Datei die NICHT den Text enthalten"
 #: TFRMFINDDLG.CBNOTOLDERTHAN.CAPTION
 msgid "Not older than:"
 msgstr "Nicht älter als:"
+
+#: TFRMFINDDLG.CBREGEXP.CAPTION
+msgid "&Regular expressions"
+msgstr ""
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
 msgid "Replace text"
@@ -834,6 +863,30 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
+#: TFRMFINDDLG.DEDATEFROM.CANCELCAPTION
+msgctxt "TFRMFINDDLG.DEDATEFROM.CANCELCAPTION"
+msgid "Cancel"
+msgstr ""
+
+#: TFRMFINDDLG.DEDATEFROM.OKCAPTION
+msgctxt "TFRMFINDDLG.DEDATEFROM.OKCAPTION"
+msgid "OK"
+msgstr ""
+
+#: TFRMFINDDLG.DEDATETO.CANCELCAPTION
+msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
+msgid "Cancel"
+msgstr ""
+
+#: TFRMFINDDLG.DEDATETO.OKCAPTION
+msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
+msgid "OK"
+msgstr ""
+
+#: TFRMFINDDLG.EDTATTRIB.HINT
+msgid "Use '-' to off attribute and '?' to any"
+msgstr ""
+
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
 msgstr "Suche Daten"
@@ -841,6 +894,10 @@ msgstr "Suche Daten"
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
 msgstr "Aktuell"
+
+#: TFRMFINDDLG.LBLENCODING.CAPTION
+msgid "Encoding:"
+msgstr ""
 
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 msgid "FileMask"
@@ -862,6 +919,10 @@ msgstr "Suche Unterverzeichnisse"
 msgid "Status"
 msgstr "Status"
 
+#: TFRMFINDDLG.LBLTEMPLATEHEADER.CAPTION
+msgid "&Previous searches:"
+msgstr ""
+
 #: TFRMFINDDLG.MISHOWINVIEWER.CAPTION
 msgid "Show In Viewer"
 msgstr "Zeige im Betrachter"
@@ -869,6 +930,10 @@ msgstr "Zeige im Betrachter"
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
 msgstr "Fortgeschritten"
+
+#: TFRMFINDDLG.TSLOADSAVE.CAPTION
+msgid "Load/Save"
+msgstr ""
 
 #: TFRMFINDDLG.TSSTANDARD.CAPTION
 msgid "Standard"

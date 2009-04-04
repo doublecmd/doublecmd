@@ -164,6 +164,7 @@ msgid "Add S&ubbar >>"
 msgstr ""
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION"
 msgid "&Delete"
 msgstr ""
 
@@ -254,6 +255,7 @@ msgid "Edit comment for:"
 msgstr ""
 
 #: TFRMDESCREDIT.LBLENCODING.CAPTION
+msgctxt "TFRMDESCREDIT.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr ""
 
@@ -742,6 +744,7 @@ msgid "Write"
 msgstr ""
 
 #: TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION
+msgctxt "TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION"
 msgid "Attributes"
 msgstr ""
 
@@ -757,8 +760,26 @@ msgstr ""
 msgid "&New search"
 msgstr ""
 
+#: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
+msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
+msgid "&Delete"
+msgstr ""
+
+#: TFRMFINDDLG.BTNSEARCHLOAD.CAPTION
+msgid "L&oad"
+msgstr ""
+
+#: TFRMFINDDLG.BTNSEARCHSAVE.CAPTION
+msgid "S&ave"
+msgstr ""
+
 #: TFRMFINDDLG.BTNSTART.CAPTION
 msgid "&Start"
+msgstr ""
+
+#: TFRMFINDDLG.BTNSTOP.CAPTION
+msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
+msgid "Cancel"
 msgstr ""
 
 #: TFRMFINDDLG.BTNVIEW.CAPTION
@@ -771,6 +792,11 @@ msgstr ""
 
 #: TFRMFINDDLG.CAPTION
 msgid "Find files"
+msgstr ""
+
+#: TFRMFINDDLG.CBATTRIB.CAPTION
+msgctxt "TFRMFINDDLG.CBATTRIB.CAPTION"
+msgid "Attributes"
 msgstr ""
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
@@ -787,6 +813,11 @@ msgstr ""
 
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
+msgstr ""
+
+#: TFRMFINDDLG.CBDIRECTORY.CAPTION
+msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
+msgid "Directory"
 msgstr ""
 
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
@@ -811,6 +842,11 @@ msgstr ""
 
 #: TFRMFINDDLG.CBNOTOLDERTHAN.CAPTION
 msgid "Not older than:"
+msgstr ""
+
+#: TFRMFINDDLG.CBREGEXP.CAPTION
+msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
+msgid "&Regular expressions"
 msgstr ""
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
@@ -842,12 +878,41 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr ""
 
+#: TFRMFINDDLG.DEDATEFROM.CANCELCAPTION
+msgctxt "TFRMFINDDLG.DEDATEFROM.CANCELCAPTION"
+msgid "Cancel"
+msgstr ""
+
+#: TFRMFINDDLG.DEDATEFROM.OKCAPTION
+msgctxt "TFRMFINDDLG.DEDATEFROM.OKCAPTION"
+msgid "OK"
+msgstr ""
+
+#: TFRMFINDDLG.DEDATETO.CANCELCAPTION
+msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
+msgid "Cancel"
+msgstr ""
+
+#: TFRMFINDDLG.DEDATETO.OKCAPTION
+msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
+msgid "OK"
+msgstr ""
+
+#: TFRMFINDDLG.EDTATTRIB.HINT
+msgid "Use '-' to off attribute and '?' to any"
+msgstr ""
+
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
 msgstr ""
 
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
+msgstr ""
+
+#: TFRMFINDDLG.LBLENCODING.CAPTION
+msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
+msgid "Encoding:"
 msgstr ""
 
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
@@ -870,12 +935,20 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
+#: TFRMFINDDLG.LBLTEMPLATEHEADER.CAPTION
+msgid "&Previous searches:"
+msgstr ""
+
 #: TFRMFINDDLG.MISHOWINVIEWER.CAPTION
 msgid "Show In Viewer"
 msgstr ""
 
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
+msgstr ""
+
+#: TFRMFINDDLG.TSLOADSAVE.CAPTION
+msgid "Load/Save"
 msgstr ""
 
 #: TFRMFINDDLG.TSSTANDARD.CAPTION
@@ -3230,6 +3303,7 @@ msgid "File"
 msgstr ""
 
 #: ulng.rspropsfolder
+msgctxt "ulng.rspropsfolder"
 msgid "Directory"
 msgstr ""
 

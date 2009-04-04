@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-03-29 13:01+0300\n"
+"PO-Revision-Date: 2009-04-05 00:43+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -756,9 +756,26 @@ msgstr "Пере&йти к файлу"
 msgid "&New search"
 msgstr "Н&овый поиск"
 
+#: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
+msgid "&Delete"
+msgstr ""
+
+#: TFRMFINDDLG.BTNSEARCHLOAD.CAPTION
+msgid "L&oad"
+msgstr "Загрузить"
+
+#: TFRMFINDDLG.BTNSEARCHSAVE.CAPTION
+msgid "S&ave"
+msgstr "Сохранить"
+
 #: TFRMFINDDLG.BTNSTART.CAPTION
 msgid "&Start"
 msgstr "&Старт"
+
+#: TFRMFINDDLG.BTNSTOP.CAPTION
+msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
+msgid "Cancel"
+msgstr ""
 
 #: TFRMFINDDLG.BTNVIEW.CAPTION
 msgid "&View"
@@ -771,6 +788,10 @@ msgstr "Фай&лы на панель"
 #: TFRMFINDDLG.CAPTION
 msgid "Find files"
 msgstr "Поиск файлов"
+
+#: TFRMFINDDLG.CBATTRIB.CAPTION
+msgid "Attributes"
+msgstr ""
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sensitive"
@@ -787,6 +808,10 @@ msgstr "Дата до:"
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
 msgstr "День"
+
+#: TFRMFINDDLG.CBDIRECTORY.CAPTION
+msgid "Directory"
+msgstr ""
 
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 msgid "File Size From:"
@@ -811,6 +836,10 @@ msgstr "Файлы, НЕ содержащие этот текст"
 #: TFRMFINDDLG.CBNOTOLDERTHAN.CAPTION
 msgid "Not older than:"
 msgstr "Не старше чем:"
+
+#: TFRMFINDDLG.CBREGEXP.CAPTION
+msgid "&Regular expressions"
+msgstr ""
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
 msgid "Replace text"
@@ -841,6 +870,30 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr ""
 
+#: TFRMFINDDLG.DEDATEFROM.CANCELCAPTION
+msgctxt "TFRMFINDDLG.DEDATEFROM.CANCELCAPTION"
+msgid "Cancel"
+msgstr ""
+
+#: TFRMFINDDLG.DEDATEFROM.OKCAPTION
+msgctxt "TFRMFINDDLG.DEDATEFROM.OKCAPTION"
+msgid "OK"
+msgstr ""
+
+#: TFRMFINDDLG.DEDATETO.CANCELCAPTION
+msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
+msgid "Cancel"
+msgstr ""
+
+#: TFRMFINDDLG.DEDATETO.OKCAPTION
+msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
+msgid "OK"
+msgstr ""
+
+#: TFRMFINDDLG.EDTATTRIB.HINT
+msgid "Use '-' to off attribute and '?' to any"
+msgstr ""
+
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
 msgstr "С текстом"
@@ -848,6 +901,10 @@ msgstr "С текстом"
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
 msgstr "Текущий"
+
+#: TFRMFINDDLG.LBLENCODING.CAPTION
+msgid "Encoding:"
+msgstr ""
 
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 msgid "FileMask"
@@ -869,6 +926,10 @@ msgstr "&Глубина вложенности подкаталогов:"
 msgid "Status"
 msgstr "Статус"
 
+#: TFRMFINDDLG.LBLTEMPLATEHEADER.CAPTION
+msgid "&Previous searches:"
+msgstr "Сохранённые шаблоны поиска:"
+
 #: TFRMFINDDLG.MISHOWINVIEWER.CAPTION
 msgid "Show In Viewer"
 msgstr "Просмотр"
@@ -876,6 +937,10 @@ msgstr "Просмотр"
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
 msgstr "Расширенный"
+
+#: TFRMFINDDLG.TSLOADSAVE.CAPTION
+msgid "Load/Save"
+msgstr "Шаблоны поиска"
 
 #: TFRMFINDDLG.TSSTANDARD.CAPTION
 msgid "Standard"

@@ -75,6 +75,12 @@ type
     edtTimeTo: TEdit;
     edtReplaceText: TEdit;
     gbAttributes: TGroupBox;
+    btnSearchDelete: TButton;
+    btnSearchLoad: TButton;
+    lblTemplateHeader: TLabel;
+    lbSearchTemplates: TListBox;
+    btnSearchSave: TButton;
+    lblSearchContents: TPanel;
     lblSearchDepth: TLabel;
     lblEncoding: TLabel;
     lblInfo: TLabel;
@@ -85,6 +91,7 @@ type
     Splitter1: TSplitter;
     Panel2: TPanel;
     pgcSearch: TPageControl;
+    tsLoadSave: TTabSheet;
     tsStandard: TTabSheet;
     lblFindPathStart: TLabel;
     lblFindFileMask: TLabel;
@@ -100,6 +107,9 @@ type
     lblCurrent: TLabel;
     PopupMenuFind: TPopupMenu;
     miShowInViewer: TMenuItem;
+    procedure btnSearchDeleteClick(Sender: TObject);
+    procedure btnSearchLoadClick(Sender: TObject);
+    procedure btnSearchSaveClick(Sender: TObject);
     procedure cbEncodingSelect(Sender: TObject);
     procedure cbUsePluginChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -230,6 +240,21 @@ begin
       cbCaseSens.Checked:= Boolean(cbCaseSens.Tag);
       cbCaseSens.Enabled:= True;
     end;
+end;
+
+procedure TfrmFindDlg.btnSearchLoadClick(Sender: TObject);
+begin
+
+end;
+
+procedure TfrmFindDlg.btnSearchDeleteClick(Sender: TObject);
+begin
+
+end;
+
+procedure TfrmFindDlg.btnSearchSaveClick(Sender: TObject);
+begin
+
 end;
 
 procedure TfrmFindDlg.btnSelDirClick(Sender: TObject);
