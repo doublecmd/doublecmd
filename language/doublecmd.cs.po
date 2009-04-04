@@ -769,9 +769,26 @@ msgstr "&Jdi k souboru"
 msgid "&New search"
 msgstr "&Nové hledání"
 
+#: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
+msgid "&Delete"
+msgstr ""
+
+#: TFRMFINDDLG.BTNSEARCHLOAD.CAPTION
+msgid "L&oad"
+msgstr ""
+
+#: TFRMFINDDLG.BTNSEARCHSAVE.CAPTION
+msgid "S&ave"
+msgstr ""
+
 #: TFRMFINDDLG.BTNSTART.CAPTION
 msgid "&Start"
 msgstr "&Start"
+
+#: TFRMFINDDLG.BTNSTOP.CAPTION
+msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
+msgid "Cancel"
+msgstr ""
 
 #: TFRMFINDDLG.BTNVIEW.CAPTION
 msgid "&View"
@@ -784,6 +801,10 @@ msgstr "Výsledek do &okna"
 #: TFRMFINDDLG.CAPTION
 msgid "Find files"
 msgstr "Hledat soubory"
+
+#: TFRMFINDDLG.CBATTRIB.CAPTION
+msgid "Attributes"
+msgstr ""
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sensitive"
@@ -800,6 +821,10 @@ msgstr "Datum do:"
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
 msgstr "Dnů(í)"
+
+#: TFRMFINDDLG.CBDIRECTORY.CAPTION
+msgid "Directory"
+msgstr ""
 
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 msgid "File Size From:"
@@ -824,6 +849,10 @@ msgstr "Hledat soubory NEobsahující text"
 #: TFRMFINDDLG.CBNOTOLDERTHAN.CAPTION
 msgid "Not older than:"
 msgstr "Není starší, než:"
+
+#: TFRMFINDDLG.CBREGEXP.CAPTION
+msgid "&Regular expressions"
+msgstr ""
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
 msgid "Replace text"
@@ -854,6 +883,30 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
+#: TFRMFINDDLG.DEDATEFROM.CANCELCAPTION
+msgctxt "TFRMFINDDLG.DEDATEFROM.CANCELCAPTION"
+msgid "Cancel"
+msgstr ""
+
+#: TFRMFINDDLG.DEDATEFROM.OKCAPTION
+msgctxt "TFRMFINDDLG.DEDATEFROM.OKCAPTION"
+msgid "OK"
+msgstr ""
+
+#: TFRMFINDDLG.DEDATETO.CANCELCAPTION
+msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
+msgid "Cancel"
+msgstr ""
+
+#: TFRMFINDDLG.DEDATETO.OKCAPTION
+msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
+msgid "OK"
+msgstr ""
+
+#: TFRMFINDDLG.EDTATTRIB.HINT
+msgid "Use '-' to off attribute and '?' to any"
+msgstr ""
+
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
 msgstr "Hledat data"
@@ -861,6 +914,10 @@ msgstr "Hledat data"
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
 msgstr "Aktuální"
+
+#: TFRMFINDDLG.LBLENCODING.CAPTION
+msgid "Encoding:"
+msgstr ""
 
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 msgid "FileMask"
@@ -882,6 +939,10 @@ msgstr "Prohledat po&dadresáře:"
 msgid "Status"
 msgstr "Stav"
 
+#: TFRMFINDDLG.LBLTEMPLATEHEADER.CAPTION
+msgid "&Previous searches:"
+msgstr ""
+
 #: TFRMFINDDLG.MISHOWINVIEWER.CAPTION
 msgid "Show In Viewer"
 msgstr "Zobrazit v prohlížeči"
@@ -889,6 +950,10 @@ msgstr "Zobrazit v prohlížeči"
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
 msgstr "Rozžířené"
+
+#: TFRMFINDDLG.TSLOADSAVE.CAPTION
+msgid "Load/Save"
+msgstr ""
 
 #: TFRMFINDDLG.TSSTANDARD.CAPTION
 msgid "Standard"

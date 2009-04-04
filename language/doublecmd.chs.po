@@ -757,9 +757,26 @@ msgstr "转到文件(&G)"
 msgid "&New search"
 msgstr "搜索(&N)"
 
+#: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
+msgid "&Delete"
+msgstr ""
+
+#: TFRMFINDDLG.BTNSEARCHLOAD.CAPTION
+msgid "L&oad"
+msgstr ""
+
+#: TFRMFINDDLG.BTNSEARCHSAVE.CAPTION
+msgid "S&ave"
+msgstr ""
+
 #: TFRMFINDDLG.BTNSTART.CAPTION
 msgid "&Start"
 msgstr "开始(&S)"
+
+#: TFRMFINDDLG.BTNSTOP.CAPTION
+msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
+msgid "Cancel"
+msgstr ""
 
 #: TFRMFINDDLG.BTNVIEW.CAPTION
 msgid "&View"
@@ -772,6 +789,10 @@ msgstr "发给列表框(&L)"
 #: TFRMFINDDLG.CAPTION
 msgid "Find files"
 msgstr "查找文件"
+
+#: TFRMFINDDLG.CBATTRIB.CAPTION
+msgid "Attributes"
+msgstr ""
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sensitive"
@@ -788,6 +809,10 @@ msgstr "结束日期:"
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
 msgstr "天"
+
+#: TFRMFINDDLG.CBDIRECTORY.CAPTION
+msgid "Directory"
+msgstr ""
 
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 msgid "File Size From:"
@@ -812,6 +837,10 @@ msgstr "查找不包含这些文本的文件"
 #: TFRMFINDDLG.CBNOTOLDERTHAN.CAPTION
 msgid "Not older than:"
 msgstr "不早于:"
+
+#: TFRMFINDDLG.CBREGEXP.CAPTION
+msgid "&Regular expressions"
+msgstr ""
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
 msgid "Replace text"
@@ -842,6 +871,30 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
+#: TFRMFINDDLG.DEDATEFROM.CANCELCAPTION
+msgctxt "TFRMFINDDLG.DEDATEFROM.CANCELCAPTION"
+msgid "Cancel"
+msgstr ""
+
+#: TFRMFINDDLG.DEDATEFROM.OKCAPTION
+msgctxt "TFRMFINDDLG.DEDATEFROM.OKCAPTION"
+msgid "OK"
+msgstr ""
+
+#: TFRMFINDDLG.DEDATETO.CANCELCAPTION
+msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
+msgid "Cancel"
+msgstr ""
+
+#: TFRMFINDDLG.DEDATETO.OKCAPTION
+msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
+msgid "OK"
+msgstr ""
+
+#: TFRMFINDDLG.EDTATTRIB.HINT
+msgid "Use '-' to off attribute and '?' to any"
+msgstr ""
+
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
 msgstr "查找数据"
@@ -849,6 +902,10 @@ msgstr "查找数据"
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
 msgstr "当前"
+
+#: TFRMFINDDLG.LBLENCODING.CAPTION
+msgid "Encoding:"
+msgstr ""
 
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 msgid "FileMask"
@@ -870,6 +927,10 @@ msgstr "搜索子目录:"
 msgid "Status"
 msgstr "状态"
 
+#: TFRMFINDDLG.LBLTEMPLATEHEADER.CAPTION
+msgid "&Previous searches:"
+msgstr ""
+
 #: TFRMFINDDLG.MISHOWINVIEWER.CAPTION
 msgid "Show In Viewer"
 msgstr "查看"
@@ -877,6 +938,10 @@ msgstr "查看"
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
 msgstr "高级"
+
+#: TFRMFINDDLG.TSLOADSAVE.CAPTION
+msgid "Load/Save"
+msgstr ""
 
 #: TFRMFINDDLG.TSSTANDARD.CAPTION
 msgid "Standard"
