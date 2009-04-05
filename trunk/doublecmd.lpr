@@ -59,7 +59,7 @@ uses
   KASComp, fconfigtoolbar, uWCXprototypes, uDCUtils, uOSUtils,
   dmCommonData, fViewer, fOptions, fCopyDlg, fMoveDlg, fFindDlg,
   fSymLink, fMultiRename, fSplitter, fPackDlg, fExtractDlg, uDescr, fDescrEdit,
-  LResources;
+  LResources, uKeyboard;
   
 const
   dcBuildDate = {$I %DATE%};
@@ -78,6 +78,12 @@ begin
   {$I doublecmd.lrs}
   Application.Title:= 'Double Commander';
   Application.Initialize;
+
+{$IF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+  // It cannot be set in 'initialization', because of dependency on GTKProc.InitKeyboardTables.
+  UpdateGtkAltGrVirtualKeyCode;
+{$ENDIF}
+
   ThousandSeparator:= ' ';
   DebugLn('Double Commander ' + dcVersion);
   DebugLn('Revision: ' + dcRevision);

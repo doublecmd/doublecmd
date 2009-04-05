@@ -60,7 +60,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="47">
+    <Units Count="48">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -378,6 +378,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uSearchTemplate"/>
       </Unit46>
+      <Unit47>
+        <Filename Value="ukeyboard.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uKeyboard"/>
+      </Unit47>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

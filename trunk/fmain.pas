@@ -460,8 +460,7 @@ uses
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils, uLog, uWipeThread,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg, fExtractDlg,
   fLinker, fSplitter, uFileProcs, LCLProc, uOSUtils, uOSForms, uPixMapManager,
-  fColumnsSetConf, uDragDropEx, StrUtils;
-
+  fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 var
@@ -745,16 +744,30 @@ begin
 end;
 
 procedure TfrmMain.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
+var
+  ModifierKeys: TShiftState;
 begin
   if (not edtCommand.Focused) and (edtCommand.Tag = 0) then
     begin
       // quick search by Letter only
+
+      // Check for certain Ascii keys.
       if (Length(UTF8Key) = 1) and ((Ord(UTF8Key[1]) <= 32) or
          (UTF8Key[1] in ['+','-','*','/','\'])) then Exit;
 
-      if gQuickSearch and (GetKeyShiftState = gQuickSearchMode) then
+      ModifierKeys := GetKeyShiftStateEx;
+
+      if gQuickSearch and (gQuickSearchMode = []) and
+         // Check only ssCtrl and ssAlt.
+         (ModifierKeys * [ssCtrl, ssAlt] = gQuickSearchMode) then
         begin
-          ActiveFrame.ShowAltPanel(LowerCase(UTF8Key));
+          // Make upper case if either caps-lock is toggled or shift pressed.
+          if (ssCaps in ModifierKeys) xor (ssShift in ModifierKeys) then
+            UTF8Key := UTF8UpperCase(UTF8Key)
+          else
+            UTF8Key := UTF8LowerCase(UTF8Key);
+
+          ActiveFrame.ShowAltPanel(UTF8Key);
           UTF8Key:= '';
           KeyPreview:= False;
         end
@@ -763,7 +776,7 @@ begin
           edtCommand.SetFocus;
           edtCommand.Text := edtCommand.Text + UTF8Key;
           edtCommand.SelStart := UTF8Length(edtCommand.Text) + 1;
-          UTF8Key := #0;
+          UTF8Key := '';
         end;
     end
 end;
@@ -2100,19 +2113,38 @@ end;
 
 procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
+var
+  ModifierKeys: TShiftState;
+  UTF8Char: TUTF8Char;
 begin
-  inherited;
-  //DebugLn('Key down: ', IntToStr(Key));
   // used for quick search by Ctrl+Alt+Letter and Alt+Letter
-  if gQuickSearch and (gQuickSearchMode <> []) and (Shift = gQuickSearchMode) and (Key > 32) then
+  if gQuickSearch and (not edtCommand.Focused) and (edtCommand.Tag = 0) then
+  begin
+    ModifierKeys := GetKeyShiftStateEx;
+
+    if ((gQuickSearchMode <> []) and
+        // Check only Ctrl and Alt as quicksearch keys.
+       (ModifierKeys * [ssCtrl, ssAlt] = gQuickSearchMode))
+{$IFDEF MSWINDOWS}
+    // Entering international characters with Ctrl+Alt on Windows.
+    or ((gQuickSearchMode = []) and
+       (ModifierKeys * [ssCtrl, ssAlt] = [ssCtrl, ssAlt]) and
+       (ModifierKeys - [ssCtrl, ssAlt, ssShift, ssCaps] = []))
+{$ENDIF}
+    then
     begin
-      ActiveFrame.ShowAltPanel(LowerCase(Chr(Key)));
-      Key := 0;
-      KeyPreview := False;
-      Exit;
+      UTF8Char := VirtualKeyToUTF8Char(Key, ModifierKeys - gQuickSearchMode);
+      if UTF8Char <> '' then
+      begin
+        ActiveFrame.ShowAltPanel(UTF8Char);
+        Key := 0;
+        KeyPreview := False;
+        Exit;
+      end;
     end;
-  
-  if Key=9 then  // TAB
+  end;
+
+  if Key=VK_TAB then
   begin
     Key:=0;
     case PanelSelected of

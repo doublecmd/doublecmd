@@ -389,7 +389,7 @@ implementation
 uses
   uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc, menus,
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
-  fTweakPlugin, uhotkeymanger, uTypes, StrUtils, uFindEx;
+  fTweakPlugin, uhotkeymanger, uTypes, StrUtils, uFindEx, uKeyboard;
 
 const
      stgCmdCommandIndex=0;
