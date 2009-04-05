@@ -709,6 +709,7 @@ object frmFindDlg: TfrmFindDlg
           BorderSpacing.Top = 6
           BorderSpacing.Right = 12
           BorderSpacing.Bottom = 12
+          OnSelectionChange = lbSearchTemplatesSelectionChange
           TabOrder = 0
         end
         object lblSearchContents: TPanel
