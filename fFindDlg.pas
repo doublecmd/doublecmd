@@ -138,6 +138,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure frmFindDlgClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure frmFindDlgShow(Sender: TObject);
+    procedure lbSearchTemplatesSelectionChange(Sender: TObject; User: boolean);
     procedure lsFoundedFilesDblClick(Sender: TObject);
     procedure meTimeChange(Sender: TObject);
     procedure miShowInViewerClick(Sender: TObject);
@@ -152,6 +153,11 @@ type
     DSL:TDSXModuleList;
     procedure ThreadTerminate(Sender:TObject);
   end;
+
+const
+  cKilo = 1024;
+  cMega = 1024*1024;
+  cGiga = 1024*1024*1024;
 
 var
   frmFindDlg: TfrmFindDlg =nil;
@@ -249,11 +255,12 @@ procedure TfrmFindDlg.btnSearchLoadClick(Sender: TObject);
 var
   SearchTemplate: TSearchTemplate;
 begin
-  if lbSearchTemplates.ItemIndex <0 then Exit;
+  if lbSearchTemplates.ItemIndex < 0 then Exit;
   SearchTemplate:= gSearchTemplateList.Templates[lbSearchTemplates.ItemIndex];
   with SearchTemplate.SearchRecord do
   begin
     cmbFindFileMask.Text:= rFileMask;
+    edtFindPathStart.Text:= SearchTemplate.StartPath;
     // attributes
     cbAttrib.Checked:= False;
     cbDirectory.State:= cbGrayed;
@@ -292,12 +299,37 @@ begin
     // file size
     cbFileSizeFrom.Checked:= rIsFileSizeFrom;
     cbFileSizeTo.Checked:= rIsFileSizeTo;
-    seFileSizeFrom.Text:= '';
-    seFileSizeTo.Text:= '';
-    if rIsFileSizeFrom then
-      seFileSizeFrom.Value:= rFileSizeFrom;
-    if rIsFileSizeTo then
-      seFileSizeTo.Value:= rFileSizeTo;
+    if rIsFileSizeFrom or rIsFileSizeTo then
+      begin
+        if (rFileSizeFrom >= cGiga) or (rFileSizeTo >= cGiga) then
+          begin
+            cbUnitOfMeasure.ItemIndex:= 3;
+            seFileSizeFrom.Value:= rFileSizeFrom div cGiga;
+            seFileSizeTo.Value:= rFileSizeTo div cGiga;
+          end
+        else if (rFileSizeFrom >= cMega) or (rFileSizeTo >= cMega) then
+          begin
+            cbUnitOfMeasure.ItemIndex:= 2;
+            seFileSizeFrom.Value:= rFileSizeFrom div cMega;
+            seFileSizeTo.Value:= rFileSizeTo div cMega;
+          end
+        else if (rFileSizeFrom >= cKilo) or (rFileSizeTo >= cKilo) then
+          begin
+            cbUnitOfMeasure.ItemIndex:= 1;
+            seFileSizeFrom.Value:= rFileSizeFrom div cKilo;
+            seFileSizeTo.Value:= rFileSizeTo div cKilo;
+          end
+        else
+          begin
+            cbUnitOfMeasure.ItemIndex:= 0;
+            seFileSizeFrom.Value:= rFileSizeFrom;
+            seFileSizeTo.Value:= rFileSizeTo;
+          end;
+      end;
+    if not rIsFileSizeFrom then
+      seFileSizeFrom.Text:= '';
+    if not rIsFileSizeTo then
+      seFileSizeTo.Text:= '';
     // find text
     cbNoThisText.Checked:= rIsNoThisText;
     cbFindInFile.Checked:= rFindInFiles;
@@ -315,7 +347,7 @@ end;
 
 procedure TfrmFindDlg.btnSearchDeleteClick(Sender: TObject);
 begin
-  if lbSearchTemplates.ItemIndex <0 then Exit;
+  if lbSearchTemplates.ItemIndex < 0 then Exit;
   gSearchTemplateList.DeleteTemplate(lbSearchTemplates.ItemIndex);
   tsLoadSaveShow(nil);
 end;
@@ -328,6 +360,7 @@ begin
   if not InputQuery(rsFindSaveTemplateCaption, rsFindSaveTemplateTitle, sName) then Exit;
   SearchTemplate:= TSearchTemplate.Create;
   SearchTemplate.TemplateName:= sName;
+  SearchTemplate.StartPath:= edtFindPathStart.Text;
   PrepareSearch;
   FFindThread.FillSearchRecord(SearchTemplate.SearchRecord);
   gSearchTemplateList.Add(SearchTemplate);
@@ -454,11 +487,11 @@ begin
            0:
              FileSizeFrom := seFileSizeFrom.Value;   //Byte
            1:
-             FileSizeFrom := seFileSizeFrom.Value * 1024; //KiloByte
+             FileSizeFrom := seFileSizeFrom.Value * cKilo; //KiloByte
            2:
-             FileSizeFrom := seFileSizeFrom.Value * 1048576; //MegaByte
+             FileSizeFrom := seFileSizeFrom.Value * cMega; //MegaByte
            3:
-             FileSizeFrom := seFileSizeFrom.Value * 1073741824; //GigaByte
+             FileSizeFrom := seFileSizeFrom.Value * cGiga; //GigaByte
          end;
        end;
     if cbFileSizeTo.Checked then
@@ -468,11 +501,11 @@ begin
            0:
              FileSizeTo := seFileSizeTo.Value;   //Byte
            1:
-             FileSizeTo := seFileSizeTo.Value * 1024; //KiloByte
+             FileSizeTo := seFileSizeTo.Value * cKilo; //KiloByte
            2:
-             FileSizeTo := seFileSizeTo.Value * 1048576; //MegaByte
+             FileSizeTo := seFileSizeTo.Value * cMega; //MegaByte
            3:
-             FileSizeTo := seFileSizeTo.Value * 1073741824; //GigaByte
+             FileSizeTo := seFileSizeTo.Value * cGiga; //GigaByte
          end;
        end;
     (* File attributes *)
@@ -749,6 +782,13 @@ begin
   if (cbbSPlugins.Items.Count>0) then cbbSPlugins.ItemIndex:=0;
 end;
 
+procedure TfrmFindDlg.lbSearchTemplatesSelectionChange(Sender: TObject; User: boolean);
+begin
+  if lbSearchTemplates.ItemIndex < 0 then Exit;
+  with gSearchTemplateList.Templates[lbSearchTemplates.ItemIndex] do
+    lblSearchContents.Caption:= '"'+SearchRecord.rFileMask+'" in "'+StartPath+'"';
+end;
+
 procedure TfrmFindDlg.lsFoundedFilesDblClick(Sender: TObject);
 begin
   miShowInViewer.Click;
@@ -809,6 +849,7 @@ end;
 procedure TfrmFindDlg.tsLoadSaveShow(Sender: TObject);
 begin
   gSearchTemplateList.LoadToStringList(lbSearchTemplates.Items);
+  lblSearchContents.Caption:= '';
 end;
 
 initialization

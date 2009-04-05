@@ -35,11 +35,13 @@ type
 
   TSearchTemplate = class
   private
-    FTemplateName: UTF8String;
+    FTemplateName,
+    FStartPath: UTF8String;
   public
     constructor Create;
     SearchRecord: TSearchAttrRecord;
     property TemplateName: UTF8String read FTemplateName write FTemplateName;
+    property StartPath: UTF8String read FStartPath write FStartPath;
   end;
 
   { TSearchTemplateList }
@@ -110,6 +112,7 @@ begin
       begin
         sTemplate:= 'Template' + IntToStr(I+1);
         SearchTemplate.TemplateName:= IniFile.ReadString(cSection, sTemplate+'Name', '');
+        SearchTemplate.StartPath:= IniFile.ReadString(cSection, sTemplate+'StartPath', '');
         rFileMask:= strnew(PChar(IniFile.ReadString(cSection, sTemplate+'FileMask', '*')));
         rAttributes:= IniFile.ReadInteger(cSection, sTemplate+'Attributes', faAnyFile);
         rAttribStr:= strnew(PChar(IniFile.ReadString(cSection, sTemplate+'AttribStr', '*')));
@@ -156,6 +159,7 @@ begin
     begin
       sTemplate:= 'Template' + IntToStr(I+1);
       IniFile.WriteString(cSection, sTemplate+'Name', Templates[I].TemplateName);
+      IniFile.WriteString(cSection, sTemplate+'StartPath', Templates[I].StartPath);
       IniFile.WriteString(cSection, sTemplate+'FileMask', StrPas(rFileMask));
       IniFile.WriteInteger(cSection, sTemplate+'Attributes', rAttributes);
       IniFile.WriteString(cSection, sTemplate+'AttribStr', StrPas(rAttribStr));
