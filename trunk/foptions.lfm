@@ -117,7 +117,7 @@ object frmOptions: TfrmOptions
       Width = 501
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 5
+      PageIndex = 7
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
@@ -1632,175 +1632,191 @@ object frmOptions: TfrmOptions
       object pgFileTypesColors: TPage
         ClientWidth = 493
         ClientHeight = 471
-        object gbFileTypesColors: TGroupBox
-          Left = 10
-          Height = 436
-          Top = 2
-          Width = 469
-          Anchors = [akTop, akLeft, akRight, akBottom]
-          Caption = 'File types colors'
-          ClientHeight = 418
-          ClientWidth = 465
+        object pcFileTypesColors: TPageControl
+          Height = 471
+          Width = 493
+          ActivePage = tsByFileType
+          Align = alClient
+          TabIndex = 0
           TabOrder = 0
-          object lblCategoryName: TLabel
-            AnchorSideTop.Control = edtCategoryName
-            AnchorSideTop.Side = asrCenter
-            Left = 12
-            Height = 14
-            Top = 191
-            Width = 79
-            Caption = 'Category name:'
-            ParentColor = False
+          object tsByFileType: TTabSheet
+            Caption = 'By file type'
+            ClientHeight = 445
+            ClientWidth = 485
+            object gbFileTypesColors: TGroupBox
+              Left = 10
+              Height = 436
+              Top = 2
+              Width = 469
+              Anchors = [akTop, akLeft, akRight, akBottom]
+              Caption = 'File types colors'
+              ClientHeight = 418
+              ClientWidth = 465
+              TabOrder = 0
+              object lblCategoryName: TLabel
+                AnchorSideTop.Control = edtCategoryName
+                AnchorSideTop.Side = asrCenter
+                Left = 12
+                Height = 14
+                Top = 191
+                Width = 79
+                Caption = 'Category name:'
+                ParentColor = False
+              end
+              object lblCategoryMask: TLabel
+                AnchorSideTop.Control = edtCategoryMask
+                AnchorSideTop.Side = asrCenter
+                Left = 12
+                Height = 14
+                Top = 222
+                Width = 77
+                Caption = 'Category mask:'
+                ParentColor = False
+              end
+              object lblCategoryColor: TLabel
+                AnchorSideTop.Control = cbCategoryColor
+                AnchorSideTop.Side = asrCenter
+                Left = 12
+                Height = 14
+                Top = 284
+                Width = 76
+                Caption = 'Category color:'
+                ParentColor = False
+              end
+              object lblCategoryAttr: TLabel
+                AnchorSideTop.Control = edtCategoryAttr
+                AnchorSideTop.Side = asrCenter
+                Left = 12
+                Height = 14
+                Top = 253
+                Width = 100
+                Caption = 'Category attributes:'
+                ParentColor = False
+              end
+              object edtCategoryName: TEdit
+                AnchorSideTop.Control = lbCategories
+                AnchorSideTop.Side = asrBottom
+                Left = 174
+                Height = 23
+                Top = 187
+                Width = 252
+                Anchors = [akTop, akLeft, akRight]
+                BorderSpacing.Top = 12
+                TabOrder = 0
+              end
+              object edtCategoryMask: TEdit
+                AnchorSideTop.Control = edtCategoryName
+                AnchorSideTop.Side = asrBottom
+                Left = 174
+                Height = 23
+                Top = 218
+                Width = 252
+                Anchors = [akTop, akLeft, akRight]
+                BorderSpacing.Top = 8
+                TabOrder = 1
+              end
+              object cbCategoryColor: TColorBox
+                AnchorSideTop.Control = edtCategoryAttr
+                AnchorSideTop.Side = asrBottom
+                Left = 174
+                Height = 22
+                Top = 280
+                Width = 140
+                Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+                BorderSpacing.Top = 8
+                ItemHeight = 16
+                OnChange = cbCategoryColorChange
+                OnDropDown = cbColorBoxDropDown
+                TabOrder = 2
+              end
+              object bbtnAddCategory: TBitBtn
+                AnchorSideTop.Control = cbCategoryColor
+                AnchorSideTop.Side = asrBottom
+                AnchorSideRight.Control = bbtnDeleteCategory
+                Left = 144
+                Height = 32
+                Top = 314
+                Width = 90
+                Anchors = [akTop, akRight]
+                BorderSpacing.Top = 12
+                BorderSpacing.Right = 6
+                Caption = 'Add'
+                NumGlyphs = 0
+                OnClick = bbtnAddCategoryClick
+                TabOrder = 3
+              end
+              object bbtnDeleteCategory: TBitBtn
+                AnchorSideTop.Control = cbCategoryColor
+                AnchorSideTop.Side = asrBottom
+                AnchorSideRight.Control = bbtnApplyCategory
+                Left = 240
+                Height = 32
+                Top = 314
+                Width = 90
+                Anchors = [akTop, akRight]
+                BorderSpacing.Top = 12
+                BorderSpacing.Right = 6
+                Caption = 'Delete'
+                NumGlyphs = 0
+                OnClick = bbtnDeleteCategoryClick
+                TabOrder = 4
+              end
+              object btnCategoryColor: TButton
+                AnchorSideTop.Control = cbCategoryColor
+                AnchorSideBottom.Control = cbCategoryColor
+                AnchorSideBottom.Side = asrBottom
+                Left = 318
+                Height = 22
+                Top = 280
+                Width = 28
+                Anchors = [akTop, akLeft, akBottom]
+                BorderSpacing.InnerBorder = 4
+                Caption = '>>'
+                OnClick = btnCategoryColorClick
+                TabOrder = 5
+              end
+              object lbCategories: TListBox
+                Left = 12
+                Height = 165
+                Top = 10
+                Width = 414
+                Anchors = [akTop, akLeft, akRight, akBottom]
+                OnClick = lbCategoriesClick
+                OnDrawItem = lbCategoriesDrawItem
+                Style = lbOwnerDrawFixed
+                TabOrder = 6
+              end
+              object bbtnApplyCategory: TBitBtn
+                AnchorSideTop.Control = cbCategoryColor
+                AnchorSideTop.Side = asrBottom
+                AnchorSideRight.Control = lbCategories
+                AnchorSideRight.Side = asrBottom
+                Left = 336
+                Height = 32
+                Top = 314
+                Width = 90
+                Anchors = [akTop, akRight]
+                BorderSpacing.Top = 12
+                Caption = 'Apply'
+                NumGlyphs = 0
+                OnClick = bbtnApplyCategoryClick
+                TabOrder = 7
+              end
+              object edtCategoryAttr: TEdit
+                AnchorSideTop.Control = edtCategoryMask
+                AnchorSideTop.Side = asrBottom
+                Left = 174
+                Height = 23
+                Top = 249
+                Width = 252
+                Anchors = [akTop, akLeft, akRight]
+                BorderSpacing.Top = 8
+                TabOrder = 8
+              end
+            end
           end
-          object lblCategoryMask: TLabel
-            AnchorSideTop.Control = edtCategoryMask
-            AnchorSideTop.Side = asrCenter
-            Left = 12
-            Height = 14
-            Top = 222
-            Width = 77
-            Caption = 'Category mask:'
-            ParentColor = False
-          end
-          object lblCategoryColor: TLabel
-            AnchorSideTop.Control = cbCategoryColor
-            AnchorSideTop.Side = asrCenter
-            Left = 12
-            Height = 14
-            Top = 284
-            Width = 76
-            Caption = 'Category color:'
-            ParentColor = False
-          end
-          object lblCategoryAttr: TLabel
-            AnchorSideTop.Control = edtCategoryAttr
-            AnchorSideTop.Side = asrCenter
-            Left = 12
-            Height = 14
-            Top = 253
-            Width = 100
-            Caption = 'Category attributes:'
-            ParentColor = False
-          end
-          object edtCategoryName: TEdit
-            AnchorSideTop.Control = lbCategories
-            AnchorSideTop.Side = asrBottom
-            Left = 174
-            Height = 23
-            Top = 187
-            Width = 252
-            Anchors = [akTop, akLeft, akRight]
-            BorderSpacing.Top = 12
-            TabOrder = 0
-          end
-          object edtCategoryMask: TEdit
-            AnchorSideTop.Control = edtCategoryName
-            AnchorSideTop.Side = asrBottom
-            Left = 174
-            Height = 23
-            Top = 218
-            Width = 252
-            Anchors = [akTop, akLeft, akRight]
-            BorderSpacing.Top = 8
-            TabOrder = 1
-          end
-          object cbCategoryColor: TColorBox
-            AnchorSideTop.Control = edtCategoryAttr
-            AnchorSideTop.Side = asrBottom
-            Left = 174
-            Height = 22
-            Top = 280
-            Width = 140
-            Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-            BorderSpacing.Top = 8
-            ItemHeight = 16
-            OnChange = cbCategoryColorChange
-            OnDropDown = cbColorBoxDropDown
-            TabOrder = 2
-          end
-          object bbtnAddCategory: TBitBtn
-            AnchorSideTop.Control = cbCategoryColor
-            AnchorSideTop.Side = asrBottom
-            AnchorSideRight.Control = bbtnDeleteCategory
-            Left = 144
-            Height = 32
-            Top = 314
-            Width = 90
-            Anchors = [akTop, akRight]
-            BorderSpacing.Top = 12
-            BorderSpacing.Right = 6
-            Caption = 'Add'
-            NumGlyphs = 0
-            OnClick = bbtnAddCategoryClick
-            TabOrder = 3
-          end
-          object bbtnDeleteCategory: TBitBtn
-            AnchorSideTop.Control = cbCategoryColor
-            AnchorSideTop.Side = asrBottom
-            AnchorSideRight.Control = bbtnApplyCategory
-            Left = 240
-            Height = 32
-            Top = 314
-            Width = 90
-            Anchors = [akTop, akRight]
-            BorderSpacing.Top = 12
-            BorderSpacing.Right = 6
-            Caption = 'Delete'
-            NumGlyphs = 0
-            OnClick = bbtnDeleteCategoryClick
-            TabOrder = 4
-          end
-          object btnCategoryColor: TButton
-            AnchorSideTop.Control = cbCategoryColor
-            AnchorSideBottom.Control = cbCategoryColor
-            AnchorSideBottom.Side = asrBottom
-            Left = 318
-            Height = 22
-            Top = 280
-            Width = 28
-            Anchors = [akTop, akLeft, akBottom]
-            BorderSpacing.InnerBorder = 4
-            Caption = '>>'
-            OnClick = btnCategoryColorClick
-            TabOrder = 5
-          end
-          object lbCategories: TListBox
-            Left = 12
-            Height = 165
-            Top = 10
-            Width = 414
-            Anchors = [akTop, akLeft, akRight, akBottom]
-            OnClick = lbCategoriesClick
-            OnDrawItem = lbCategoriesDrawItem
-            Style = lbOwnerDrawFixed
-            TabOrder = 6
-          end
-          object bbtnApplyCategory: TBitBtn
-            AnchorSideTop.Control = cbCategoryColor
-            AnchorSideTop.Side = asrBottom
-            AnchorSideRight.Control = lbCategories
-            AnchorSideRight.Side = asrBottom
-            Left = 336
-            Height = 32
-            Top = 314
-            Width = 90
-            Anchors = [akTop, akRight]
-            BorderSpacing.Top = 12
-            Caption = 'Apply'
-            NumGlyphs = 0
-            OnClick = bbtnApplyCategoryClick
-            TabOrder = 7
-          end
-          object edtCategoryAttr: TEdit
-            AnchorSideTop.Control = edtCategoryMask
-            AnchorSideTop.Side = asrBottom
-            Left = 174
-            Height = 23
-            Top = 249
-            Width = 252
-            Anchors = [akTop, akLeft, akRight]
-            BorderSpacing.Top = 8
-            TabOrder = 8
+          object tsBySearchTemplate: TTabSheet
+            Caption = 'By search template'
           end
         end
       end

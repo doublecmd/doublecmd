@@ -43,8 +43,9 @@ type
 
   TfrmOptions = class(TForm)
     bbtnAddCategory: TBitBtn;
-    bbtnDeleteCategory: TBitBtn;
     bbtnApplyCategory: TBitBtn;
+    bbtnDeleteCategory: TBitBtn;
+    btnCategoryColor: TButton;
     btnConfigApply: TBitBtn;
     btnConfigEdit: TBitBtn;
     btnConfigPlugin: TBitBtn;
@@ -52,7 +53,6 @@ type
     btnRemovePlugin: TBitBtn;
     btnEnablePlugin: TBitBtn;
     btnAddPlugin: TBitBtn;
-    btnCategoryColor: TButton;
     btnSelEditFnt: TButton;
     btnSelMainFnt: TButton;
     btnSelViewFnt: TButton;
@@ -71,6 +71,7 @@ type
     cbBackColor: TColorBox;
     cBackGrndLabel: TLabel;
     cbCaseSensitiveSort: TCheckBox;
+    cbCategoryColor: TColorBox;
     cbDirSelect: TCheckBox;
     cbDropReadOnlyFlag: TCheckBox;
     cbEditorFont: TComboBox;
@@ -103,7 +104,6 @@ type
     cbCursorColor: TColorBox;
     cbCursorText: TColorBox;
     cbTextColor: TColorBox;
-    cbCategoryColor: TColorBox;
     cbDateTimeFormat: TComboBox;
     cbbFileSystem: TComboBox;
     cbMouseMode: TComboBox;
@@ -122,13 +122,13 @@ type
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
+    edtCategoryAttr: TEdit;
+    edtCategoryMask: TEdit;
+    edtCategoryName: TEdit;
     edtFilter: TEdit;
     edtParam: TEdit;
-    edtCategoryAttr: TEdit;
     edtTabsLimitLength: TEdit;
     edtCopyBufferSize: TEdit;
-    edtCategoryName: TEdit;
-    edtCategoryMask: TEdit;
     edtEditorSize: TSpinEdit;
     edtMainSize: TSpinEdit;
     edtRunTerm: TEdit;
@@ -140,6 +140,7 @@ type
     cbLogFile: TCheckBox;
     gbExactNameMatch: TGroupBox;
     fneLogFileName: TFileNameEdit;
+    gbFileTypesColors: TGroupBox;
     gbLogFile: TGroupBox;
     gbLogFileOp: TGroupBox;
     gbLogFileStatus: TGroupBox;
@@ -148,7 +149,6 @@ type
     fneExtEditor: TFileNameEdit;
     gbMisc1: TGroupBox;
     gbExample: TGroupBox;
-    gbFileTypesColors: TGroupBox;
     gbMisc2: TGroupBox;
     gbScreenLayout: TGroupBox;
     cbFlatDiskPanel: TCheckBox;
@@ -174,6 +174,11 @@ type
     gbShowGrid: TGroupBox;
     gbExtended: TGroupBox;
     gbAutoRefresh: TGroupBox;
+    lbCategories: TListBox;
+    lblCategoryAttr: TLabel;
+    lblCategoryColor: TLabel;
+    lblCategoryMask: TLabel;
+    lblCategoryName: TLabel;
     lbPressedHotKeyCommand: TLabel;
     lbHotKeys: TLabel;
     lbFilter: TLabel;
@@ -187,12 +192,12 @@ type
     lblWipePassNumber: TLabel;
     lblMouseMode: TLabel;
     lblConfigColumns: TLabel;
-    lblCategoryAttr: TLabel;
     lblWDXDescription: TLabel;
     lbtypes: TLabel;
     lbxCategories: TListBox;
     lbxHotkeys: TListBox;
     lstColumnsSets: TListBox;
+    pcFileTypesColors: TPageControl;
     pgAutoRefresh: TPage;
     pgMisc: TPage;
     pnlButtons: TPanel;
@@ -211,9 +216,6 @@ type
     lblCopyBufferSize: TLabel;
     lblIconsSize: TLabel;
     lblWFXDescription: TLabel;
-    lblCategoryColor: TLabel;
-    lblCategoryName: TLabel;
-    lblCategoryMask: TLabel;
     lblBackground2: TLabel;
     lblMarkColor: TLabel;
     lblCursorColor: TLabel;
@@ -224,7 +226,6 @@ type
     lblRunTerm: TLabel;
     lblRunInTerm: TLabel;
     lblViewerFont: TLabel;
-    lbCategories: TListBox;
     lngList: TListBox;
     cbLogArcOp: TCheckBox;
     cbLogCpMvLn: TCheckBox;
@@ -268,6 +269,8 @@ type
     seWipePassNumber: TSpinEdit;
     stgPlugins: TStringGrid;
     stgCommands: TStringGrid;
+    tsByFileType: TTabSheet;
+    tsBySearchTemplate: TTabSheet;
     tsWLX: TTabSheet;
     tsDSX: TTabSheet;
     tsWDX: TTabSheet;
