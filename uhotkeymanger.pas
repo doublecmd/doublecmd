@@ -145,13 +145,15 @@ type
 //Helpers
 //------------------------------------------------------
  function ShortCutEx(Key: Word; Shift: TShiftState): TShortCut;
- function GetKeyShiftStateEx: TShiftState;
  function ShortCutToTextEx(ShortCut: TShortCut): string;
  function TextToShortCutEx(const ShortCutText: string): TShortCut;
  function KeyToText(Akey:Word):string;
  
  
 implementation
+
+uses
+  uKeyboard;
 
 { THotKeyManager }
 
@@ -252,22 +254,6 @@ begin
   if ssCtrl in Shift then Inc(Result,scCtrl);
   if ssAlt in Shift then Inc(Result,scAlt);
   if ssSuper in Shift then Inc(Result,scWin);
-end;
-
-
-function GetKeyShiftStateEx: TShiftState;
-begin
-  Result:=[];
-  if (GetKeyState(VK_CONTROL) and $8000)<>0 then
-    Include(Result,ssCtrl);
-  if (GetKeyState(VK_SHIFT) and $8000)<>0 then
-    Include(Result,ssShift);
-  if (GetKeyState(VK_MENU) and $8000)<>0 then
-    Include(Result,ssAlt);
-  if (GetKeyState(VK_RWIN) and $8000)<>0 then
-    Include(Result,ssSuper);
-  if (GetKeyState(VK_LWIN) and $8000)<>0 then
-    Include(Result,ssSuper);
 end;
 
 constructor THotKeyManager.Create;
@@ -789,6 +775,9 @@ procedure THotKeyManager.KeyDownHandler(Sender: TObject; var Key: Word; Shift: T
       i,j:integer;
       Handled:boolean;
       sk:string;
+{$IFDEF MSWINDOWS}
+      UTF8Char: TUTF8Char;
+{$ENDIF}
 begin
 
  {предварительная проверка - зарегистрирован ли хоткей вообще,
@@ -802,26 +791,35 @@ begin
  if i=-1 then exit;
  Sinfo:=TObjInfoClass(FFormsList.Objects[i]);
 
- if (Assigned(Sinfo.AChilds)) and (Sinfo.AChilds.Count>0) then
-   begin
-    for j:=0 to Sinfo.AChilds.Count-1 do
-      if Assigned(Sinfo.AChilds.Objects[j]) then
-      if (TObjInfoClass(Sinfo.AChilds.Objects[j]).AObject as TWinControl).Focused then
-        begin
-           Handled:=HotKeyEvent(sk,TObjInfoClass(Sinfo.AChilds.Objects[j]));
-           if Handled then
-            begin
-             key:=0;
-             exit;
-            end
-         else
-           //Оригинальный onKeyDown контрола
-           OrigControlKeyDown(TObjInfoClass(Sinfo.AChilds.Objects[j]));
-        end;
-   end;
+{$IFDEF MSWINDOWS}
+  // Don't execute hotkeys with AltGr on Windows.
+  if not ((GetKeyShiftStateEx = [ssAltGr]){ and
+          VirtualKeyToUTF8Char(Key, )
+          DetectInternationalCharacter(Key, UTF8Char)}) then
+{$ENDIF}
+  begin
+    if (Assigned(Sinfo.AChilds)) and (Sinfo.AChilds.Count>0) then
+     begin
+      for j:=0 to Sinfo.AChilds.Count-1 do
+        if Assigned(Sinfo.AChilds.Objects[j]) then
+        if (TObjInfoClass(Sinfo.AChilds.Objects[j]).AObject as TWinControl).Focused then
+          begin
+             Handled:=HotKeyEvent(sk,TObjInfoClass(Sinfo.AChilds.Objects[j]));
+             if Handled then
+              begin
+               key:=0;
+               exit;
+              end
+           else
+             //Оригинальный onKeyDown контрола
+             OrigControlKeyDown(TObjInfoClass(Sinfo.AChilds.Objects[j]));
+          end;
+     end;
 
-  //Наш глобальный хоткей
-  Handled:=HotKeyEvent(sk,Sinfo);
+    //Наш глобальный хоткей
+    Handled:=HotKeyEvent(sk,Sinfo);
+  end;
+
   //Оригинальный OnKeyDown
   if not Handled then
     Handled:=OrigFormKeyDown(Sinfo) else Key:=0;

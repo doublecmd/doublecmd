@@ -892,8 +892,16 @@ end;
 
 procedure TFrameFilePanel.ShowAltPanel(Char : TUTF8Char);
 begin
-  pnAltSearch.Top := dgPanel.Top + dgPanel.Height;
+  edtSearch.Height   := pnAltSearch.Canvas.TextHeight('Pp') + 1
+                      + GetSystemMetrics(SM_CYEDGE) * 2;
+  pnAltSearch.Height := edtSearch.Height + GetSystemMetrics(SM_CYEDGE);
+  pnAltSearch.Width  := dgPanel.Width div 2;
+  edtSearch.Width    := pnAltSearch.Width - edtSearch.Left
+                      - GetSystemMetrics(SM_CXEDGE);
+
+  pnAltSearch.Top  := pnlFooter.Top + pnlFooter.Height - pnAltSearch.Height;
   pnAltSearch.Left := dgPanel.Left;
+
   pnAltSearch.Visible := True;
   edtSearch.SetFocus;
   edtSearch.Tag := 0; // save current search position
@@ -901,7 +909,7 @@ begin
   fNext := False;
   fPrevious := False;
   edtSearch.Text := Char;
-  edtSearch.SelStart := Length(edtSearch.Text) + 1;
+  edtSearch.SelStart := UTF8Length(edtSearch.Text) + 1;
   FActive:= True;
 end;
 
@@ -1569,17 +1577,13 @@ begin
   // now create search panel
   pnAltSearch:=TPanel.Create(Self);
   pnAltSearch.Parent:=Self;
-  pnAltSearch.Height:=20;
-  pnAltSearch.Width:=185;
   pnAltSearch.Caption:=rsQuickSearchPanel;
   pnAltSearch.Alignment:=taLeftJustify;
   
   edtSearch:=TEdit.Create(pnAltSearch);
   edtSearch.Parent:=pnAltSearch;
-  edtSearch.Width:=118;
   edtSearch.Left:=64;
   edtSearch.Top:=1;
-  edtSearch.Height:=18;
 
   pnAltSearch.Visible := False;
   
