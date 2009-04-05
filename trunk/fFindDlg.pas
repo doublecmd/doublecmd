@@ -145,6 +145,7 @@ type
   private
     { Private declarations }
     FFindThread:TFindThread;
+    procedure PrepareSearch;
   public
     { Public declarations }
     DSL:TDSXModuleList;
@@ -159,7 +160,8 @@ procedure ShowFindDlg(const sActPath:String);
 implementation
 
 uses
-  LCLProc, LConvEncoding, fViewer, uLng, uGlobs, uShowForm, fMain, uTypes, uFileOp, uFindEx, uOSUtils;
+  LCLProc, LConvEncoding, fViewer, uLng, uGlobs, uShowForm, fMain, uTypes,
+  uFileOp, uFindEx, uOSUtils, uSearchTemplate;
 
 procedure SAddFileProc(PlugNr:integer; FoundFile:pchar); stdcall;
 var s:string;
@@ -253,8 +255,14 @@ begin
 end;
 
 procedure TfrmFindDlg.btnSearchSaveClick(Sender: TObject);
+var
+  SearchTemplate: TSearchTemplate;
 begin
-
+  SearchTemplate:= TSearchTemplate.Create;
+  PrepareSearch;
+  FFindThread.FillSearchRecord(SearchTemplate.SearchRecord);
+  gSearchTemplateList.Add(SearchTemplate);
+  FreeAndNil(FFindThread);
 end;
 
 procedure TfrmFindDlg.btnSelDirClick(Sender: TObject);
@@ -283,28 +291,10 @@ begin
   Close;
 end;
 
-procedure TfrmFindDlg.btnStartClick(Sender: TObject);
+procedure TfrmFindDlg.PrepareSearch;
 var
   dtTime : TDateTime;
-  sr:TSearchAttrRecord;
 begin
-  if cmbFindFileMask.Items.IndexOf(cmbFindFileMask.Text) < 0 then
-    cmbFindFileMask.Items.Add(cmbFindFileMask.Text);
-            
-  if not mbDirectoryExists(edtFindPathStart.Text) then
-  begin
-    ShowMessage(Format(rsFindDirNoEx,[edtFindPathStart.Text]));
-    Exit;
-  end;
-  
-  Panel1.Visible := True;
-  Splitter1.Visible := True;
-  Height := (Screen.Height * 4) div 5;
-  
-  lsFoundedFiles.Items.Clear;
-  btnStop.Enabled:=True;
-  btnStart.Enabled:=False;
-  btnClose.Enabled:=False;
   FFindThread:=TFindThread.Create;
   with FFindThread do
   begin
@@ -338,7 +328,7 @@ begin
          if TryStrToTime(edtTimeFrom.Text, dtTime) then
            DateTimeFrom := DateTimeFrom + dtTime;
        end;
-       
+
     if cbTimeTo.Checked then
        begin
          IsTimeTo := True;
@@ -385,7 +375,7 @@ begin
          end;
        end;
 
-                
+
     (* File size search *)
      if cbFileSizeFrom.Checked then
        begin
@@ -435,6 +425,33 @@ begin
           AttribStr := edtAttrib.Text;
 
       end;
+  end;
+end;
+
+procedure TfrmFindDlg.btnStartClick(Sender: TObject);
+var
+  sr:TSearchAttrRecord;
+begin
+  if cmbFindFileMask.Items.IndexOf(cmbFindFileMask.Text) < 0 then
+    cmbFindFileMask.Items.Add(cmbFindFileMask.Text);
+            
+  if not mbDirectoryExists(edtFindPathStart.Text) then
+  begin
+    ShowMessage(Format(rsFindDirNoEx,[edtFindPathStart.Text]));
+    Exit;
+  end;
+  
+  Panel1.Visible := True;
+  Splitter1.Visible := True;
+  Height := (Screen.Height * 4) div 5;
+  
+  lsFoundedFiles.Items.Clear;
+  btnStop.Enabled:=True;
+  btnStart.Enabled:=False;
+  btnClose.Enabled:=False;
+  PrepareSearch;
+  with FFindThread do
+  begin
     Status:=lblStatus;
     Current:=lblCurrent;
 
@@ -453,8 +470,6 @@ begin
     //end
     else
       begin
-
-
 
       DebugLn('thread a');
   {$IFDEF NOFAKETHREAD}

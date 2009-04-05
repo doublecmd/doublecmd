@@ -23,7 +23,7 @@ unit uGlobs;
 interface
 uses
   Classes, Controls, uExts, uColorExt, Graphics, uClassesEx, uWDXModule,
-  uColumns,uhotkeymanger,uActs, uWFXModule, uWCXModule;
+  uColumns,uhotkeymanger,uActs, uWFXModule, uWCXModule, uSearchTemplate;
 
 type
   TControlPosition = object
@@ -191,7 +191,9 @@ var
   { Auto refresh page }
   gWatchDirs: TWatchOptions;
   gWatchDirsExclude: String;
-  
+
+  gSearchTemplateList: TSearchTemplateList;
+
   {HotKey Manager}
   HotMan:THotKeyManager;
   
@@ -403,6 +405,8 @@ begin
     FreeAndNil(gExts);
   if Assigned(gIni) then
     FreeAndNil(gIni);
+  if Assigned(gSearchTemplateList) then
+    FreeAndNil(gSearchTemplateList);
   if Assigned(gWdxPlugins) then
     gWdxPlugins.Free;
   if Assigned(gWCXPlugins) then
@@ -562,7 +566,11 @@ begin
   DoLoadLng;
   msgLoadLng;
   Result := True;
-  
+
+  { Search template list }
+  gSearchTemplateList:= TSearchTemplateList.Create;
+  gSearchTemplateList.LoadFromIni(gIni);
+
   {Wdx Plugins and columns}
   //---------------------
   gWdxPlugins:=TWDXModuleList.Create;
@@ -737,6 +745,9 @@ begin
   
   //TODO: Save hotkeys
   //HotMan.Save();
+
+  { Search template list }
+  gSearchTemplateList.SaveToIni(gIni);
 
   { Plugins }
   gWdxPlugins.Save(gIni);
