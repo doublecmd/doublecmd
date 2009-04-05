@@ -679,6 +679,7 @@ object frmFindDlg: TfrmFindDlg
         Caption = 'Load/Save'
         ClientHeight = 384
         ClientWidth = 659
+        OnShow = tsLoadSaveShow
         object lblTemplateHeader: TLabel
           AnchorSideLeft.Control = tsLoadSave
           AnchorSideTop.Control = tsLoadSave
@@ -708,7 +709,6 @@ object frmFindDlg: TfrmFindDlg
           BorderSpacing.Top = 6
           BorderSpacing.Right = 12
           BorderSpacing.Bottom = 12
-          Sorted = True
           TabOrder = 0
         end
         object lblSearchContents: TPanel

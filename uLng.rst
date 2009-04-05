@@ -442,6 +442,14 @@ ulng.rsfinddepthcurdir='current dir only'
 ulng.rsfinddepth='%s level(s)'
 
 
+# hash value = 201978661
+ulng.rsfindsavetemplatecaption='Save search template'
+
+
+# hash value = 187920010
+ulng.rsfindsavetemplatetitle='Template name:'
+
+
 # hash value = 48267678
 ulng.rssymerrcreate='Error creating symlink.'
 
