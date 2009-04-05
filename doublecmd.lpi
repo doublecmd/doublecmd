@@ -60,7 +60,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="46">
+    <Units Count="47">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -373,6 +373,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDragDropGtk"/>
       </Unit45>
+      <Unit46>
+        <Filename Value="usearchtemplate.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uSearchTemplate"/>
+      </Unit46>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
