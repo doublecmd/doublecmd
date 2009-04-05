@@ -367,9 +367,9 @@ procedure TFindThread.FillSearchRecord(var Srec:TSearchAttrRecord);
 begin
   with Srec do
   begin
-    rFileMask:=pchar(FFileMask);
+    rFileMask:= strnew(PChar(FFileMask));
     rAttributes:=FAttributes;
-    rAttribStr:=pchar(FAttribStr);
+    rAttribStr:= strnew(PChar(FAttribStr));
     rCaseSens:=FCaseSens;
     {Date search}
     rIsDateFrom:=FIsDateFrom;
@@ -387,13 +387,11 @@ begin
     (* Find text *)
     rIsNoThisText:=FIsNoThisText;
     rFindInFiles:=FFindInFiles;
-    rFindData:= pchar(FFindData);
+    rFindData:= strnew(PChar(FFindData));
     (* Replace text *)
     rReplaceInFiles:=FReplaceInFiles;
-    rReplaceData:=pchar(FReplaceData);
+    rReplaceData:= strnew(PChar(FReplaceData));
   end;
-  
-  
 end;
 
 procedure TFindThread.WalkAdr(const sNewDir:String);
