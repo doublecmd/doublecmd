@@ -502,6 +502,7 @@ object frmFindDlg: TfrmFindDlg
           BorderSpacing.Left = 6
           BorderSpacing.Top = 6
           Enabled = False
+          MaxValue = 1023
           TabOrder = 9
         end
         object seFileSizeTo: TSpinEdit
@@ -516,6 +517,7 @@ object frmFindDlg: TfrmFindDlg
           Anchors = [akTop, akLeft, akBottom]
           BorderSpacing.Top = 6
           Enabled = False
+          MaxValue = 1023
           TabOrder = 10
         end
         object cbUnitOfMeasure: TComboBox
