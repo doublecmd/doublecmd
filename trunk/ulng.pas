@@ -153,6 +153,8 @@ resourcestring
   rsFindDepthAll = 'all (unlimited depth)';
   rsFindDepthCurDir = 'current dir only';
   rsFindDepth = '%s level(s)';
+  rsFindSaveTemplateCaption = 'Save search template';
+  rsFindSaveTemplateTitle = 'Template name:';
   // Symlink dialog
   rsSymErrCreate = 'Error creating symlink.';
   // Hardlink dialog

@@ -2901,6 +2901,14 @@ msgstr "pouze aktuální adresář"
 msgid "Directory %s does not exist!"
 msgstr "Adreář %s neexistuje!"
 
+#: ulng.rsfindsavetemplatecaption
+msgid "Save search template"
+msgstr ""
+
+#: ulng.rsfindsavetemplatetitle
+msgid "Template name:"
+msgstr ""
+
 #: ulng.rsfindscaned
 msgid "Scanned: %d"
 msgstr "Prohledáno: %d"

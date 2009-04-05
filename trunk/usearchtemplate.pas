@@ -49,7 +49,8 @@ type
     function GetTemplate(Index: Integer): TSearchTemplate;
   public
     function Add(SearchTemplate: TSearchTemplate): Integer;
-    procedure Delete(Index: Integer);
+    procedure DeleteTemplate(Index: Integer);
+    procedure LoadToStringList(StringList: TStrings);
     procedure LoadFromIni(IniFile: TIniFileEx);
     procedure SaveToIni(IniFile: TIniFileEx);
     property Templates[Index: Integer]: TSearchTemplate read GetTemplate;
@@ -77,10 +78,19 @@ begin
   Result:= inherited Add(SearchTemplate);
 end;
 
-procedure TSearchTemplateList.Delete(Index: Integer);
+procedure TSearchTemplateList.DeleteTemplate(Index: Integer);
 begin
   Templates[Index].Free;
   Delete(Index);
+end;
+
+procedure TSearchTemplateList.LoadToStringList(StringList: TStrings);
+var
+  I: Integer;
+begin
+  StringList.Clear;
+  for I:= 0 to Count - 1 do
+    StringList.Add(Templates[I].TemplateName);
 end;
 
 const
@@ -99,6 +109,7 @@ begin
       with SearchTemplate.SearchRecord do
       begin
         sTemplate:= 'Template' + IntToStr(I+1);
+        SearchTemplate.TemplateName:= IniFile.ReadString(cSection, sTemplate+'Name', '');
         rFileMask:= strnew(PChar(IniFile.ReadString(cSection, sTemplate+'FileMask', '*')));
         rAttributes:= IniFile.ReadInteger(cSection, sTemplate+'Attributes', faAnyFile);
         rAttribStr:= strnew(PChar(IniFile.ReadString(cSection, sTemplate+'AttribStr', '*')));
@@ -144,6 +155,7 @@ begin
     with Templates[I].SearchRecord do
     begin
       sTemplate:= 'Template' + IntToStr(I+1);
+      IniFile.WriteString(cSection, sTemplate+'Name', Templates[I].TemplateName);
       IniFile.WriteString(cSection, sTemplate+'FileMask', StrPas(rFileMask));
       IniFile.WriteInteger(cSection, sTemplate+'Attributes', rAttributes);
       IniFile.WriteString(cSection, sTemplate+'AttribStr', StrPas(rAttribStr));

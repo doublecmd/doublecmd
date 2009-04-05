@@ -164,6 +164,7 @@ msgid "Add S&ubbar >>"
 msgstr "Añadir S&ubbarra >>"
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION"
 msgid "&Delete"
 msgstr "&Borrar"
 
@@ -254,6 +255,7 @@ msgid "Edit comment for:"
 msgstr ""
 
 #: TFRMDESCREDIT.LBLENCODING.CAPTION
+msgctxt "TFRMDESCREDIT.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr ""
 
@@ -742,6 +744,7 @@ msgid "Write"
 msgstr "Escritura"
 
 #: TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION
+msgctxt "TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION"
 msgid "Attributes"
 msgstr "Atributos"
 
@@ -758,8 +761,9 @@ msgid "&New search"
 msgstr "&Nueva búsqueda"
 
 #: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
+msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
 msgid "&Delete"
-msgstr ""
+msgstr "&Borrar"
 
 #: TFRMFINDDLG.BTNSEARCHLOAD.CAPTION
 msgid "L&oad"
@@ -776,7 +780,7 @@ msgstr "&Empezar"
 #: TFRMFINDDLG.BTNSTOP.CAPTION
 msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: TFRMFINDDLG.BTNVIEW.CAPTION
 msgid "&View"
@@ -791,8 +795,9 @@ msgid "Find files"
 msgstr "Buscar ficheros"
 
 #: TFRMFINDDLG.CBATTRIB.CAPTION
+msgctxt "TFRMFINDDLG.CBATTRIB.CAPTION"
 msgid "Attributes"
-msgstr ""
+msgstr "Atributos"
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sensitive"
@@ -811,6 +816,7 @@ msgid "Day(s)"
 msgstr "Día(s)"
 
 #: TFRMFINDDLG.CBDIRECTORY.CAPTION
+msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
 msgid "Directory"
 msgstr ""
 
@@ -839,6 +845,7 @@ msgid "Not older than:"
 msgstr "No más de:"
 
 #: TFRMFINDDLG.CBREGEXP.CAPTION
+msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
 msgstr ""
 
@@ -874,12 +881,12 @@ msgstr "*"
 #: TFRMFINDDLG.DEDATEFROM.CANCELCAPTION
 msgctxt "TFRMFINDDLG.DEDATEFROM.CANCELCAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: TFRMFINDDLG.DEDATEFROM.OKCAPTION
 msgctxt "TFRMFINDDLG.DEDATEFROM.OKCAPTION"
 msgid "OK"
-msgstr ""
+msgstr "Aceptar"
 
 #: TFRMFINDDLG.DEDATETO.CANCELCAPTION
 msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
@@ -889,7 +896,7 @@ msgstr ""
 #: TFRMFINDDLG.DEDATETO.OKCAPTION
 msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
 msgid "OK"
-msgstr ""
+msgstr "Aceptar"
 
 #: TFRMFINDDLG.EDTATTRIB.HINT
 msgid "Use '-' to off attribute and '?' to any"
@@ -904,6 +911,7 @@ msgid "Current"
 msgstr "Actual"
 
 #: TFRMFINDDLG.LBLENCODING.CAPTION
+msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr ""
 
@@ -1801,7 +1809,7 @@ msgstr ""
 #: TFRMOPTIONS.BTNCONFIGEDIT.CAPTION
 msgctxt "TFRMOPTIONS.BTNCONFIGEDIT.CAPTION"
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: TFRMOPTIONS.BTNCONFIGPLUGIN.CAPTION
 msgid "Configure"
@@ -2885,6 +2893,14 @@ msgstr ""
 msgid "Directory %s does not exist!"
 msgstr "El directorio %s no existe!"
 
+#: ulng.rsfindsavetemplatecaption
+msgid "Save search template"
+msgstr ""
+
+#: ulng.rsfindsavetemplatetitle
+msgid "Template name:"
+msgstr ""
+
 #: ulng.rsfindscaned
 msgid "Scanned: %d"
 msgstr "Buscados: %d"
@@ -3295,6 +3311,7 @@ msgid "File"
 msgstr "Archivo"
 
 #: ulng.rspropsfolder
+msgctxt "ulng.rspropsfolder"
 msgid "Directory"
 msgstr "Directorio"
 

@@ -142,6 +142,7 @@ type
     procedure meTimeChange(Sender: TObject);
     procedure miShowInViewerClick(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure tsLoadSaveShow(Sender: TObject);
   private
     { Private declarations }
     FFindThread:TFindThread;
@@ -245,24 +246,93 @@ begin
 end;
 
 procedure TfrmFindDlg.btnSearchLoadClick(Sender: TObject);
+var
+  SearchTemplate: TSearchTemplate;
 begin
-
+  if lbSearchTemplates.ItemIndex <0 then Exit;
+  SearchTemplate:= gSearchTemplateList.Templates[lbSearchTemplates.ItemIndex];
+  with SearchTemplate.SearchRecord do
+  begin
+    cmbFindFileMask.Text:= rFileMask;
+    // attributes
+    cbAttrib.Checked:= False;
+    cbDirectory.State:= cbGrayed;
+    cbSymLink.State:= cbGrayed;
+    cbMore.Checked:= False;
+    edtAttrib.Text:= '';
+    if rAttributes <> faAnyFile then
+      begin
+        cbAttrib.Checked:= True;
+        cbDirectory.Checked:= FPS_ISDIR(rAttributes);
+        cbSymLink.Checked:= FPS_ISLNK(rAttributes);
+      end;
+    if (rAttribStr <> '') and (rAttribStr <> '?????????') then
+      begin
+        cbAttrib.Checked:= True;
+        cbMore.Checked:= True;
+        edtAttrib.Text:= rAttribStr;
+      end;
+    // file date
+    cbDateFrom.Checked:= rIsDateFrom;
+    deDateFrom.Text:= '';
+    deDateTo.Text:= '';
+    if rIsDateFrom then
+      deDateFrom.Date:= Trunc(rDateTimeFrom);
+    if rIsDateTo then
+      deDateTo.Date:= Trunc(rDateTimeTo);
+    // file time
+    cbTimeFrom.Checked:= rIsTimeFrom;
+    cbTimeTo.Checked:= rIsTimeTo;
+    edtTimeFrom.Text:= '';
+    edtTimeTo.Text:= '';
+    if rIsTimeFrom then
+      edtTimeFrom.Text:= TimeToStr(rDateTimeFrom);
+    if rIsTimeTo then
+      edtTimeTo.Text:= TimeToStr(rDateTimeTo);
+    // file size
+    cbFileSizeFrom.Checked:= rIsFileSizeFrom;
+    cbFileSizeTo.Checked:= rIsFileSizeTo;
+    seFileSizeFrom.Text:= '';
+    seFileSizeTo.Text:= '';
+    if rIsFileSizeFrom then
+      seFileSizeFrom.Value:= rFileSizeFrom;
+    if rIsFileSizeTo then
+      seFileSizeTo.Value:= rFileSizeTo;
+    // find text
+    cbNoThisText.Checked:= rIsNoThisText;
+    cbFindInFile.Checked:= rFindInFiles;
+    cbCaseSens.Checked:= rCaseSens;
+    edtFindText.Text:= '';
+    if rFindInFiles then
+      edtFindText.Text:= rFindData;
+    // replace text
+    cbReplaceText.Checked:= rReplaceInFiles;
+    edtReplaceText.Text:= '';
+    if rReplaceInFiles then
+      edtReplaceText.Text:= rReplaceData;
+  end;
 end;
 
 procedure TfrmFindDlg.btnSearchDeleteClick(Sender: TObject);
 begin
-
+  if lbSearchTemplates.ItemIndex <0 then Exit;
+  gSearchTemplateList.DeleteTemplate(lbSearchTemplates.ItemIndex);
+  tsLoadSaveShow(nil);
 end;
 
 procedure TfrmFindDlg.btnSearchSaveClick(Sender: TObject);
 var
+  sName: UTF8String;
   SearchTemplate: TSearchTemplate;
 begin
+  if not InputQuery(rsFindSaveTemplateCaption, rsFindSaveTemplateTitle, sName) then Exit;
   SearchTemplate:= TSearchTemplate.Create;
+  SearchTemplate.TemplateName:= sName;
   PrepareSearch;
   FFindThread.FillSearchRecord(SearchTemplate.SearchRecord);
   gSearchTemplateList.Add(SearchTemplate);
   FreeAndNil(FFindThread);
+  tsLoadSaveShow(nil);
 end;
 
 procedure TfrmFindDlg.btnSelDirClick(Sender: TObject);
@@ -736,9 +806,14 @@ begin
   end;
 end;
 
+procedure TfrmFindDlg.tsLoadSaveShow(Sender: TObject);
+begin
+  gSearchTemplateList.LoadToStringList(lbSearchTemplates.Items);
+end;
+
 initialization
  {$I fFindDlg.lrs}
 finalization
-  if assigned(frmFindDlg) then
+  if Assigned(frmFindDlg) then
     FreeAndNil(frmFindDlg);
 end.

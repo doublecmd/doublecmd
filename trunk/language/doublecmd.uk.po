@@ -164,6 +164,7 @@ msgid "Add S&ubbar >>"
 msgstr "Додати панель..."
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION"
 msgid "&Delete"
 msgstr "Видалити"
 
@@ -254,6 +255,7 @@ msgid "Edit comment for:"
 msgstr "Редагувати коментар для:"
 
 #: TFRMDESCREDIT.LBLENCODING.CAPTION
+msgctxt "TFRMDESCREDIT.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr "Кодування:"
 
@@ -750,6 +752,7 @@ msgid "Write"
 msgstr "Запис"
 
 #: TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION
+msgctxt "TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION"
 msgid "Attributes"
 msgstr "Атрибути"
 
@@ -766,8 +769,9 @@ msgid "&New search"
 msgstr "Н&овий пошук"
 
 #: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
+msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
 msgid "&Delete"
-msgstr ""
+msgstr "Видалити"
 
 #: TFRMFINDDLG.BTNSEARCHLOAD.CAPTION
 msgid "L&oad"
@@ -784,7 +788,7 @@ msgstr "&Старт"
 #: TFRMFINDDLG.BTNSTOP.CAPTION
 msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "Відміна"
 
 #: TFRMFINDDLG.BTNVIEW.CAPTION
 msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
@@ -800,8 +804,9 @@ msgid "Find files"
 msgstr "Пошук файлів"
 
 #: TFRMFINDDLG.CBATTRIB.CAPTION
+msgctxt "TFRMFINDDLG.CBATTRIB.CAPTION"
 msgid "Attributes"
-msgstr ""
+msgstr "Атрибути"
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sensitive"
@@ -820,6 +825,7 @@ msgid "Day(s)"
 msgstr "День"
 
 #: TFRMFINDDLG.CBDIRECTORY.CAPTION
+msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
 msgid "Directory"
 msgstr ""
 
@@ -848,8 +854,9 @@ msgid "Not older than:"
 msgstr "Не старші ніж:"
 
 #: TFRMFINDDLG.CBREGEXP.CAPTION
+msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
-msgstr ""
+msgstr "Регулярні вирази"
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
 msgid "Replace text"
@@ -883,22 +890,22 @@ msgstr ""
 #: TFRMFINDDLG.DEDATEFROM.CANCELCAPTION
 msgctxt "TFRMFINDDLG.DEDATEFROM.CANCELCAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "Скасувати"
 
 #: TFRMFINDDLG.DEDATEFROM.OKCAPTION
 msgctxt "TFRMFINDDLG.DEDATEFROM.OKCAPTION"
 msgid "OK"
-msgstr ""
+msgstr "Так"
 
 #: TFRMFINDDLG.DEDATETO.CANCELCAPTION
 msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "Скасувати"
 
 #: TFRMFINDDLG.DEDATETO.OKCAPTION
 msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
 msgid "OK"
-msgstr ""
+msgstr "Так"
 
 #: TFRMFINDDLG.EDTATTRIB.HINT
 msgid "Use '-' to off attribute and '?' to any"
@@ -913,8 +920,9 @@ msgid "Current"
 msgstr "Поточний"
 
 #: TFRMFINDDLG.LBLENCODING.CAPTION
+msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
-msgstr ""
+msgstr "Кодування:"
 
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 msgid "FileMask"
@@ -2897,6 +2905,14 @@ msgstr "Тільки поточний каталог "
 msgid "Directory %s does not exist!"
 msgstr "Каталог %s не існує!"
 
+#: ulng.rsfindsavetemplatecaption
+msgid "Save search template"
+msgstr ""
+
+#: ulng.rsfindsavetemplatetitle
+msgid "Template name:"
+msgstr ""
+
 #: ulng.rsfindscaned
 msgid "Scanned: %d"
 msgstr "Проглянуто: %d"
@@ -3308,6 +3324,7 @@ msgid "File"
 msgstr "Файл"
 
 #: ulng.rspropsfolder
+msgctxt "ulng.rspropsfolder"
 msgid "Directory"
 msgstr "Каталог"
 

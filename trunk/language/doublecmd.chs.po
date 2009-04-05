@@ -164,6 +164,7 @@ msgid "Add S&ubbar >>"
 msgstr "添加子栏"
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION"
 msgid "&Delete"
 msgstr "删除(&D)"
 
@@ -254,6 +255,7 @@ msgid "Edit comment for:"
 msgstr "编辑注释:"
 
 #: TFRMDESCREDIT.LBLENCODING.CAPTION
+msgctxt "TFRMDESCREDIT.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr "编码:"
 
@@ -742,6 +744,7 @@ msgid "Write"
 msgstr "写"
 
 #: TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION
+msgctxt "TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION"
 msgid "Attributes"
 msgstr "属性"
 
@@ -758,8 +761,9 @@ msgid "&New search"
 msgstr "搜索(&N)"
 
 #: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
+msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
 msgid "&Delete"
-msgstr ""
+msgstr "删除(&D)"
 
 #: TFRMFINDDLG.BTNSEARCHLOAD.CAPTION
 msgid "L&oad"
@@ -776,7 +780,7 @@ msgstr "开始(&S)"
 #: TFRMFINDDLG.BTNSTOP.CAPTION
 msgctxt "TFRMFINDDLG.BTNSTOP.CAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: TFRMFINDDLG.BTNVIEW.CAPTION
 msgid "&View"
@@ -791,8 +795,9 @@ msgid "Find files"
 msgstr "查找文件"
 
 #: TFRMFINDDLG.CBATTRIB.CAPTION
+msgctxt "TFRMFINDDLG.CBATTRIB.CAPTION"
 msgid "Attributes"
-msgstr ""
+msgstr "属性"
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sensitive"
@@ -811,6 +816,7 @@ msgid "Day(s)"
 msgstr "天"
 
 #: TFRMFINDDLG.CBDIRECTORY.CAPTION
+msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
 msgid "Directory"
 msgstr ""
 
@@ -839,8 +845,9 @@ msgid "Not older than:"
 msgstr "不早于:"
 
 #: TFRMFINDDLG.CBREGEXP.CAPTION
+msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
-msgstr ""
+msgstr "正则表达式(&R)"
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
 msgid "Replace text"
@@ -874,22 +881,22 @@ msgstr "*"
 #: TFRMFINDDLG.DEDATEFROM.CANCELCAPTION
 msgctxt "TFRMFINDDLG.DEDATEFROM.CANCELCAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: TFRMFINDDLG.DEDATEFROM.OKCAPTION
 msgctxt "TFRMFINDDLG.DEDATEFROM.OKCAPTION"
 msgid "OK"
-msgstr ""
+msgstr "确定"
 
 #: TFRMFINDDLG.DEDATETO.CANCELCAPTION
 msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: TFRMFINDDLG.DEDATETO.OKCAPTION
 msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
 msgid "OK"
-msgstr ""
+msgstr "确定"
 
 #: TFRMFINDDLG.EDTATTRIB.HINT
 msgid "Use '-' to off attribute and '?' to any"
@@ -904,8 +911,9 @@ msgid "Current"
 msgstr "当前"
 
 #: TFRMFINDDLG.LBLENCODING.CAPTION
+msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
-msgstr ""
+msgstr "编码:"
 
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 msgid "FileMask"
@@ -2885,6 +2893,14 @@ msgstr "仅当前目录"
 msgid "Directory %s does not exist!"
 msgstr "目录 %s 不存在!"
 
+#: ulng.rsfindsavetemplatecaption
+msgid "Save search template"
+msgstr ""
+
+#: ulng.rsfindsavetemplatetitle
+msgid "Template name:"
+msgstr ""
+
 #: ulng.rsfindscaned
 msgid "Scanned: %d"
 msgstr "已扫描: %d"
@@ -3295,6 +3311,7 @@ msgid "File"
 msgstr "文件"
 
 #: ulng.rspropsfolder
+msgctxt "ulng.rspropsfolder"
 msgid "Directory"
 msgstr "目录"
 
