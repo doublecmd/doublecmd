@@ -57,7 +57,7 @@ var
 implementation
 
 uses
-  LCLProc
+  LCLProc, LCLIntf
 {$IF DEFINED(MSWINDOWS)}
   , Windows, Win32Proc
 {$ENDIF}
