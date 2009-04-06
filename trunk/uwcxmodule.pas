@@ -279,7 +279,7 @@ begin
     begin
       with SetDlgProcInfo do
       begin
-        PluginDir:= PWideChar(WideString(ExtractFilePath(sName)));
+        PluginDir:= PWideChar(UTF8Decode(ExtractFilePath(sName)));
         PluginConfDir:= PWideChar(UTF8Decode(gpIniDir));
         InputBox:= @fDialogBox.InputBox;
         MessageBox:= @fDialogBox.MessageBox;
