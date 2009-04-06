@@ -544,7 +544,7 @@ var
 begin
   Result:= nil;
   wsString:= UTF8Decode(mbString);
-  iLength:= Length(wsString) * 2;
+  iLength:= (Length(wsString) * 2) + 1;
   Result:= GetMem(iLength);
   if Result <> nil then
     Move(PWideChar(wsString)^, Result^, iLength);
