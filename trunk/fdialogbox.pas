@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains realization of Dialog API functions.
 
-    Copyright (C) 2008  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -86,6 +86,9 @@ function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PChar; Msg, wParam, lParam: PtrI
 
 implementation
 
+uses
+  uClassesEx;
+
 function InputBox(Caption, Prompt, DefaultText: PWideChar): PWideChar;stdcall;
 var
   sCaption,
@@ -142,12 +145,12 @@ end;
 
 function DialogBoxEx(lfmFileName: PWideChar; DlgProc: TDlgProc): PtrUInt;stdcall;
 var
-  lfmStringList: TStringList;
+  lfmStringList: TStringListEx;
   wDlgData: WideString;
 begin
   try
-    lfmStringList:= TStringList.Create;
-    lfmStringList.LoadFromFile(lfmFileName);
+    lfmStringList:= TStringListEx.Create;
+    lfmStringList.LoadFromFile(UTF8Encode(lfmFileName));
     wDlgData:= lfmStringList.Text;
     Result:= DialogBox(PWideChar(wDlgData), DlgProc);
   finally

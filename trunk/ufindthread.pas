@@ -367,9 +367,9 @@ procedure TFindThread.FillSearchRecord(var Srec:TSearchAttrRecord);
 begin
   with Srec do
   begin
-    rFileMask:= strnew(PChar(FFileMask));
+    rFileMask:= StrNew(PChar(FFileMask));
     rAttributes:=FAttributes;
-    rAttribStr:= strnew(PChar(FAttribStr));
+    rAttribStr:= StrNew(PChar(FAttribStr));
     rCaseSens:=FCaseSens;
     {Date search}
     rIsDateFrom:=FIsDateFrom;
@@ -387,10 +387,10 @@ begin
     (* Find text *)
     rIsNoThisText:=FIsNoThisText;
     rFindInFiles:=FFindInFiles;
-    rFindData:= strnew(PChar(FFindData));
+    rFindData:= StrNew(PChar(FFindData));
     (* Replace text *)
     rReplaceInFiles:=FReplaceInFiles;
-    rReplaceData:= strnew(PChar(FReplaceData));
+    rReplaceData:= StrNew(PChar(FReplaceData));
   end;
 end;
 
