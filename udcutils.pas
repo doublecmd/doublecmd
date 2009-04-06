@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Several useful functions
    
-   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
 
    contributors:
    
@@ -138,6 +138,8 @@ function RemoveQuotation(const Str: String): String;
 procedure SplitArgs(var Args: TOpenStringArray; CmdLine: String);
 
 procedure ParseLineToList(sLine: String; const ssItems: TStrings);
+
+function StrNewW(mbString: UTF8String): PWideChar;
 
 implementation
 uses
@@ -533,6 +535,19 @@ begin
       ssItems[I]:= Copy(sLine, 1, xPos - 1);
       Delete(sLine, 1, xPos);
     end;
+end;
+
+function StrNewW(mbString: UTF8String): PWideChar;
+var
+  wsString: WideString;
+  iLength: PtrInt;
+begin
+  Result:= nil;
+  wsString:= UTF8Decode(mbString);
+  iLength:= Length(wsString) * 2;
+  Result:= GetMem(iLength);
+  if Result <> nil then
+    Move(PWideChar(wsString)^, Result^, iLength);
 end;
 
 end.

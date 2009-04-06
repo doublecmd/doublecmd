@@ -113,9 +113,9 @@ begin
         sTemplate:= 'Template' + IntToStr(I+1);
         SearchTemplate.TemplateName:= IniFile.ReadString(cSection, sTemplate+'Name', '');
         SearchTemplate.StartPath:= IniFile.ReadString(cSection, sTemplate+'StartPath', '');
-        rFileMask:= strnew(PChar(IniFile.ReadString(cSection, sTemplate+'FileMask', '*')));
+        rFileMask:= StrNew(PChar(IniFile.ReadString(cSection, sTemplate+'FileMask', '*')));
         rAttributes:= IniFile.ReadInteger(cSection, sTemplate+'Attributes', faAnyFile);
-        rAttribStr:= strnew(PChar(IniFile.ReadString(cSection, sTemplate+'AttribStr', '*')));
+        rAttribStr:= StrNew(PChar(IniFile.ReadString(cSection, sTemplate+'AttribStr', '*')));
         // date/time
         rCaseSens:= IniFile.ReadBool(cSection, sTemplate+'CaseSens', False);
         rIsDateFrom:= IniFile.ReadBool(cSection, sTemplate+'IsDateFrom', False);
@@ -137,11 +137,11 @@ begin
         rIsNoThisText:= IniFile.ReadBool(cSection, sTemplate+'IsNoThisText', False);
         rFindInFiles:= IniFile.ReadBool(cSection, sTemplate+'FindInFiles', False);
         if rFindInFiles then
-          rFindData:= strnew(PChar(IniFile.ReadString(cSection, sTemplate+'FindData', '')));
+          rFindData:= StrNew(PChar(IniFile.ReadString(cSection, sTemplate+'FindData', '')));
         // replace text
         rReplaceInFiles:= IniFile.ReadBool(cSection, sTemplate+'ReplaceInFiles', False);
         if rReplaceInFiles then
-          rReplaceData:= strnew(PChar(IniFile.ReadString(cSection, sTemplate+'ReplaceData', '')));
+          rReplaceData:= StrNew(PChar(IniFile.ReadString(cSection, sTemplate+'ReplaceData', '')));
       end;
       Add(SearchTemplate)
     end;
