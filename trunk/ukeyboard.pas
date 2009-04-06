@@ -66,7 +66,6 @@ uses
   , GtkProc
 {$ENDIF}
 {$IF DEFINED(LCLGTK2)}
-  , Gdk  // To include gdkkeysyms.inc
   , Gdk2, GLib2, GtkExtra
   , GtkProc
 {$ENDIF}
@@ -226,15 +225,17 @@ begin
     begin
 {$IFDEF LCLGTK}
       KeyVal := XKeycodetoKeysym(gdk_display, KeyInfo.KeyCode[False], 0);
+
+      if KeyVal = GDK_ISO_Level3_Shift then  // AltGraph
 {$ELSE}
       GdkKey.keycode := KeyInfo.keycode[False];
 
       KeyVal := gdk_keymap_lookup_key(
                     gdk_keymap_get_for_display(gdk_display_get_default),
                     @GdkKey);
-{$ENDIF}
 
-      if KeyVal = GDK_ISO_Level3_Shift then  // AltGraph
+      if KeyVal = GDK_KEY_ISO_Level3_Shift then  // AltGraph
+{$ENDIF}
       begin
         VK_ALTGR := VKNr;
         Exit;
