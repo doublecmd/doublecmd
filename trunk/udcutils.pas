@@ -139,7 +139,7 @@ procedure SplitArgs(var Args: TOpenStringArray; CmdLine: String);
 
 procedure ParseLineToList(sLine: String; const ssItems: TStrings);
 
-function StrNewW(mbString: UTF8String): PWideChar;
+function StrNewW(const mbString: UTF8String): PWideChar;
 
 implementation
 uses
@@ -537,14 +537,14 @@ begin
     end;
 end;
 
-function StrNewW(mbString: UTF8String): PWideChar;
+function StrNewW(const mbString: UTF8String): PWideChar;
 var
   wsString: WideString;
   iLength: PtrInt;
 begin
   Result:= nil;
   wsString:= UTF8Decode(mbString);
-  iLength:= (Length(wsString) * 2) + 1;
+  iLength:= (Length(wsString) * SizeOf(WideChar)) + 1;
   Result:= GetMem(iLength);
   if Result <> nil then
     Move(PWideChar(wsString)^, Result^, iLength);
