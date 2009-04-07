@@ -42,17 +42,9 @@ unit AbGzTyp;
 interface
 
 uses
-  {$IFDEF MSWINDOWS}
-  Windows,
-  {$ENDIF}
-// Removed Not needed: [ 871613 ] AB305B - QT dependancy in AbGzTyp
-//  {$IFDEF LINUX}
-//  QDialogs,
-//  {$ENDIF}
   SysUtils, Classes,
-
-  AbConst, AbExcept, AbUtils, AbArcTyp, AbTarTyp, 
-  AbDfBase, AbDfDec, AbDfEnc, AbVMStrm, AbBitBkt, AbSpanSt;
+  AbConst, AbExcept, AbUtils, AbArcTyp, AbTarTyp,
+  AbDfBase, AbDfDec, AbDfEnc, AbVMStrm, AbBitBkt;
 
 type
   { pre-defined "operating system" (really more FILE system)
@@ -78,8 +70,11 @@ type
                       { after header proper}
       { Bit 3: FNAME    header data contains FileName, null terminated}
                       { string starting immediately after Extra Data (if any)}
+                      { The name must consist of ISO 8859-1 (LATIN-1) characters }
       { Bit 4: FCOMMENT header data contains Comment, null terminated string}
                       { starting immediately after FileName (if any)}
+                      { The comment must consist of ISO 8859-1 (LATIN-1) chars.
+                        Line breaks should be denoted by #10. }
       { Bits 5..7 are undefined and reserved as of this writing (4/27/2001)}
     ModTime    : LongInt; { File Modification (Creation) time,}
                           { UNIX cdate format}
@@ -98,14 +93,11 @@ type
 type
   TAbGzipItem = class(TAbArchiveItem)
   private
-//    FCRC32: LongInt;
-  protected {private}
     FGZHeader : TAbGzHeader;
     FIsText : Boolean;
     FCRC16 : ShortInt;
     FXLen  : ShortInt;
-    FExtraField, FFileComment : string;
-    FIncludeHeaderCrc: Boolean;
+    FExtraField, FFileComment : AnsiString;
 
   protected
     function GetExtraField: string;
@@ -125,15 +117,19 @@ type
 
     function GetExternalFileAttributes : LongWord; override;
     function GetIsEncrypted : Boolean; override;
+    function GetLastModDateTime: TDateTime; override;
     function GetLastModFileDate : Word; override;
     function GetLastModFileTime : Word; override;
     function GetSystemSpecificAttributes: LongWord; override;
+    function GetSystemSpecificLastModFileTime: Longint; override;
 
     procedure SetExternalFileAttributes( Value : LongWord ); override;
     procedure SetFileName(const Value : string); override;
     procedure SetIsEncrypted(Value : Boolean); override;
+    procedure SetLastModDateTime(const Value : TDateTime); override;
     procedure SetLastModFileDate(const Value : Word); override;
     procedure SetLastModFileTime(const Value : Word); override;
+    procedure SetSystemSpecificLastModFileTime(const Value: Longint); override;
 
     procedure SaveGzHeaderToStream(AStream : TStream);
     procedure LoadGzHeaderFromStream(AStream : TStream);
@@ -180,9 +176,6 @@ type
 
     property GZHeader : TAbGzHeader
       read FGZHeader write FGZHeader;
-
-    property IncludeHeaderCrc : Boolean
-      read FIncludeHeaderCrc write FIncludeHeaderCrc;
 
     constructor Create; override;
   end;
@@ -343,13 +336,12 @@ function VerifyHeader(const Header : TAbGzHeader) : Boolean;
 begin
   { check id fields and if deflated (only handle deflate anyway)}
   Result := (Header.ID1 = AB_GZ_HDR_ID1) and
-     (Header.ID2 = AB_GZ_HDR_ID2) and
-     (Header.CompMethod = 8 {deflate});
+            (Header.ID2 = AB_GZ_HDR_ID2) and
+            (Header.CompMethod = 8 {deflate});
 end;
 
 function VerifyGZip(Strm : TStream) : TAbArchiveType;
 var
-{  Hdr : TAbGzHeader; }
   GHlp : TAbGzipStreamHelper;
   Hlpr : TAbDeflateHelper;
   PartialTarData : TMemoryStream;
@@ -404,6 +396,7 @@ constructor TAbGzipStreamHelper.Create(AStream : TStream);
 begin
   inherited Create(AStream);
   FItem := TAbGzipItem.Create;
+  FItem.LastModDateTime := SysUtils.Now;
 end;
 
 destructor TAbGzipStreamHelper.Destroy;
@@ -468,8 +461,10 @@ begin
     SeekToItemData;
     if (AStream is TAbBitBucketStream) then
       Helper.Options := Helper.Options or dfc_TestOnly;
+
     FItem.CRC32 := Inflate(FStream, AStream, Helper);
     FItem.UncompressedSize := AStream.Size{Helper.NormalSize};
+    FItem.CompressedSize := Helper.CompressedSize;
   finally
     Helper.Free;
   end;
@@ -514,10 +509,13 @@ var
   Helper : TAbDeflateHelper;
 begin
   Helper := TAbDeflateHelper.Create;
+  // TODO: deflate option: (just slowest/fastest)
+  //fast :  Helper.PKZipOption := 's';
+  //slow :  Helper.PKZipOption := 'x';
   try
     FItem.CRC32 := Deflate(AStream, FStream, Helper);
-    FItem.UncompressedSize := AStream.Size;                         {!!.02}
-//    FItem.UncompressedSize := FStream.Size{Helper.NormalSize};         {!!.02}
+    FItem.UncompressedSize := AStream.Size;//Helper.NormalSize
+    FItem.CompressedSize := Helper.CompressedSize;
   finally
     Helper.Free;
   end;
@@ -562,8 +560,11 @@ end;
 
 constructor TAbGzipItem.Create;
 begin
-{ set defaults }
-  { Maxium Compression }
+  inherited;
+
+  FGzHeader.Flags := 0;
+
+  { Maximum Compression }
   FGzHeader.XtraFlags := 2;
 
   FileName := '';
@@ -577,8 +578,6 @@ begin
 {$IFDEF MSWINDOWS } {assume FAT system }
   FGzHeader.OS := AB_GZ_OS_ID_FAT;
 {$ENDIF MSWINDOWS }
-
-  FIncludeHeaderCrc := False;
 end;
 
 function TAbGzipItem.GetExternalFileAttributes: LongWord;
@@ -652,30 +651,32 @@ begin
   Result := (FGZHeader.Flags and AB_GZ_FLAG_FTEXT) = AB_GZ_FLAG_FTEXT;
 end;
 
+function TAbGzipItem.GetLastModDateTime : TDateTime;
+begin
+  // Gzip stores Unix time.
+  Result := AbUnixFileTimeToDateTime(FGzHeader.ModTime);
+end;
+
 function TAbGzipItem.GetLastModFileDate: Word;
 var
-  Rslt : LongInt;
   D : TDateTime;
 begin
   { convert to TDateTime }
   D := AbUnixFileTimeToDateTime(FGZHeader.ModTime);
 
   { convert to DOS file Date }
-  Rslt := DateTimeToFileDate(D);
-  Result := LongRec(Rslt).Hi;
+  Result := LongRec(DateTimeToFileDate(D)).Hi;
 end;
 
 function TAbGzipItem.GetLastModFileTime: Word;
 var
-  Rslt : LongInt;
   D : TDateTime;
 begin
   { convert to TDateTime }
   D := AbUnixFileTimeToDateTime(FGZHeader.ModTime);
 
   { convert to DOS file Time }
-  Rslt := DateTimeToFileDate(D);
-  Result := LongRec(Rslt).Lo;
+  Result := LongRec(DateTimeToFileDate(D)).Lo;
 end;
 
 function TAbGzipItem.GetSystemSpecificAttributes: LongWord;
@@ -683,6 +684,20 @@ begin
   Result := GetExternalFileAttributes;
 {$IFDEF MSWINDOWS}
   Result := AbUnix2DosFileAttributes(Result);
+{$ENDIF}
+end;
+
+function TAbGzipItem.GetSystemSpecificLastModFileTime: Longint;
+{$IFDEF MSWINDOWS}
+var
+  DateTime: TDateTime;
+{$ENDIF}
+begin
+  Result   := FGZHeader.ModTime;
+
+{$IFDEF MSWINDOWS}
+  DateTime := AbUnixFileTimeToDateTime(Result);
+  Result   := AbDateTimeToDosFileTime(DateTime);
 {$ENDIF}
 end;
 
@@ -751,10 +766,10 @@ end;
 procedure TAbGzipItem.SaveGzHeaderToStream(AStream: TStream);
 var
   HBuff, HPtr : PAnsiChar;
-  HSize, I32 : LongInt;
-  I16 : ShortInt;
+  HSize : LongInt;
   LenW  : Word;
   tempFileName: string;
+  CRC32 : Longint;
 begin
   { start with basic header record }
   HSize := SizeOf(TAbGzHeader);
@@ -766,37 +781,27 @@ begin
   { compression method }
   FGzHeader.CompMethod := 8;  { deflate }
 
-  { flags }
-  FGzHeader.Flags := 0;
-
-  { provide for the header CRC }
-  if IncludeHeaderCRC then begin
-    FGzHeader.Flags := AB_GZ_FLAG_FHCRC;
-    Inc(HSize, 2);
-  end;
-
-  { add Text flag if user has set it }
-  if IsText then
-    FGzHeader.Flags := FGzHeader.Flags or AB_GZ_FLAG_FTEXT;
+  { Clear bits 5-7 of flags }
+  FGzHeader.Flags := FGzHeader.Flags and ((1 shl 5) - 1);
 
   { any Extra Field Present? }
-  if FExtraField > '' then begin
-    FGzHeader.Flags := FGZHeader.Flags or AB_GZ_FLAG_FEXTRA;
+  if HasExtraField then begin
     HSize := HSize + 2 + Length(FExtraField);
   end;
 
-  tempFileName := FileName;
-
   { any File Name present? }
-  if tempFileName > '' then begin
-    FGzHeader.Flags := FGZHeader.Flags or AB_GZ_FLAG_FNAME;
-    HSize := HSize + Length(tempFileName) + 1;
+  if HasFileName then begin
+    HSize := HSize + Length(FileName) + 1;
   end;
 
   { any File Comment present? }
-  if FFileComment > '' then begin
-    FGzHeader.Flags := FGZHeader.Flags or AB_GZ_FLAG_FCOMMENT;
+  if HasFileComment then begin
     HSize := HSize + Length(FFileComment) + 1;
+  end;
+
+  { provide for the header CRC }
+  if HasHeaderCRC then begin
+    Inc(HSize, 2);
   end;
 
   { build the header plus extra info }
@@ -819,6 +824,7 @@ begin
 
     { add filename if any (and include final #0 from string) }
     if HasFileName then begin
+      tempFileName := FileName;
       Move(tempFileName[1], HPtr^, succ(length(tempFileName)));
       Inc(HPtr, succ(length(tempFileName)));
     end;
@@ -829,10 +835,14 @@ begin
       Inc(HPtr, succ(length(FFileComment)));
     end;
 
-    if IncludeHeaderCRC then begin
-      { calculate and write the header CRC }
-      I16 := LongRec(I32).Lo;
-      Move(I16, HPtr^, sizeof(I16));
+    if HasHeaderCRC then begin
+      { calculate new header checksum }
+      CRC32 := -1;
+      AbUpdateCRCBuffer(CRC32, HBuff^, HSize - 2);
+      CRC32 := not CRC32;
+      FCRC16 := LongRec(CRC32).Lo;
+      Move(FCRC16, HPtr^, sizeof(FCRC16));
+      Inc(HPtr, sizeof(FCRC16));
     end;
 
     { dump it all to the stream }
@@ -849,10 +859,9 @@ end;
 
 procedure TAbGzipItem.SetExtraField(const Value: string);
 begin
-  FExtraField := '';
+  FExtraField := Value;
 
-  if Value > '' then begin
-    FExtraField := Value;
+  if Value <> '' then begin
     FGzHeader.Flags := FGzHeader.Flags or AB_GZ_FLAG_FEXTRA;
   end
   else begin
@@ -862,10 +871,9 @@ end;
 
 procedure TAbGzipItem.SetFileComment(const Value: string);
 begin
-  FFileComment := '';
+  FFileComment := Value;
 
-  if Value > '' then begin
-    FFileComment := Value;
+  if Value <> '' then begin
     FGzHeader.Flags := FGzHeader.Flags or AB_GZ_FLAG_FCOMMENT;
   end
   else begin
@@ -875,11 +883,9 @@ end;
 
 procedure TAbGzipItem.SetFileName(const Value: string);
 begin
-  if inherited FileName <> '' then
-     inherited SetFileName('');
+  inherited SetFileName(Value);
 
-  if Value > '' then begin
-    inherited SetFileName(Value) { + #0};
+  if (Value <> '') and (Value <> 'unknown') then begin
     FGzHeader.Flags := FGzHeader.Flags or AB_GZ_FLAG_FNAME;
   end
   else begin
@@ -907,6 +913,12 @@ begin
     True  : FGzHeader.Flags := FGzHeader.Flags or AB_GZ_FLAG_FTEXT;
     False : FGzHeader.Flags := FGzHeader.Flags and not AB_GZ_FLAG_FTEXT;
   end;
+end;
+
+procedure TAbGzipItem.SetLastModDateTime(const Value : TDateTime);
+begin
+  // Gzip stores Unix time.
+  FGzHeader.ModTime := AbDateTimeToUnixFileTime(Value);
 end;
 
 procedure TAbGzipItem.SetLastModFileDate(const Value: Word);
@@ -949,6 +961,22 @@ begin
   FGZHeader.ModTime := UT;
 end;
 
+procedure TAbGzipItem.SetSystemSpecificLastModFileTime(const Value: Longint);
+var
+  UnixFileTime: Longint;
+{$IFDEF MSWINDOWS}
+  DateTime: TDateTime;
+{$ENDIF}
+begin
+{$IFDEF MSWINDOWS}
+  DateTime     := AbDosFileTimeToDateTime(Value);
+  UnixFileTime := AbDateTimeToUnixFileTime(DateTime);
+{$ELSE}
+  UnixFileTime := Value;
+{$ENDIF}
+
+  FGZHeader.ModTime := UnixFileTime;
+end;
 
 { TAbGzipArchive }
 
@@ -1130,7 +1158,7 @@ begin
 end;
 
 function TAbGzipArchive.FixName(const Value: string): string;
-{ fix up fileaname for storage }
+{ fix up filename for storage }
 begin
   if FState = gsTar then
   begin
@@ -1165,78 +1193,49 @@ var
   Item         : TAbGzipItem;
   ItemFound    : Boolean;
   Abort        : Boolean;
-  TotalEntries : Integer;
-  i            : Integer;
-  Progress     : Byte;
 begin
   if FGzStream.Size = 0 then
     Exit;
 
-  if IsGzippedTar and TarAutoHandle then begin
-    { extract Tar and set stream up }
+  SwapToGzip;
 
-    GzHelp := TAbGzipStreamHelper.Create(FGzStream);
-    try
-      if not FTarLoaded then begin
-        GzHelp.SeekToItemData;
-        GzHelp.ExtractItemData(FTarStream);
-        SwapToTar;
-        inherited LoadArchive;
-        FTarLoaded := True;
-      end;
-    finally
-      GzHelp.Free;
-    end;
-  end
-  else begin
-    SwapToGzip;
+  { create helper }
+  GzHelp := TAbGzipStreamHelper.Create(FGzStream);
+  try
+    ItemFound := GzHelp.FindFirstItem;
 
-    { create helper }
-    GzHelp := TAbGzipStreamHelper.Create(FGzStream);
-    try
-      TotalEntries := GzHelp.GetItemCount;
+    if ItemFound then begin
+      Item := TAbGzipItem.Create;
+      Item.LoadGzHeaderFromStream(FGzStream);
 
-      {build Items list from tar header records}
-      i := 0;
+      FItemList.Clear;
+      FItemList.Add(Item);
 
-      { reset Tar }
-      ItemFound := GzHelp.FindFirstItem;
-
-      { while more data in Tar }
-
-      if ItemFound then begin
-        Item := TAbGzipItem.Create;
-        Item.LoadGzHeaderFromStream(FGzStream);
-
-        FGzStream.Seek(-SizeOf(TAbGzTailRec), soFromEnd);
-        GZHelp.ReadTail;
-        Item.CRC32 := GZHelp.FTail.CRC32;
-        Item.UncompressedSize := GZHelp.FTail.ISize;
-//        Item.CRC32 := GZHelp.FItem.FCRC32;
-        Item.UncompressedSize := GZHelp.FItem.UncompressedSize;
-
-        Item.Action := aaNone;
-        FItemList.Clear;
-        FItemList.Add(Item);
-        Inc(i);
-
-        { show progress and allow for aborting }
-        Progress := (i * 100) div TotalEntries;
-        DoArchiveProgress(Progress, Abort);
-        if Abort then begin
-          FStatus := asInvalid;
-          raise EAbUserAbort.Create;
+      if IsGzippedTar and TarAutoHandle then begin
+        { extract Tar and set stream up }
+        if not FTarLoaded then begin
+          GzHelp.SeekToItemData;
+          GzHelp.ExtractItemData(FTarStream);
+          SwapToTar;
+          inherited LoadArchive;
+          FTarLoaded := True;
         end;
-
-        { get the next item }
       end;
 
-      DoArchiveProgress(100, Abort);
-      FIsDirty := False;
-    finally
-      { Clean Up }
-      GzHelp.Free;
+      FGzStream.Seek(-SizeOf(TAbGzTailRec), soFromEnd);
+      GZHelp.ReadTail;
+      Item.CRC32 := GZHelp.FTail.CRC32;
+      Item.UncompressedSize := GZHelp.FTail.ISize;
+//        Item.CRC32 := GZHelp.FItem.FCRC32;
+//        Item.UncompressedSize := GZHelp.FItem.UncompressedSize;
     end;
+
+    DoArchiveProgress(100, Abort);
+    FIsDirty := False;
+
+  finally
+    { Clean Up }
+    GzHelp.Free;
   end;
 end;
 
@@ -1254,81 +1253,74 @@ var
   Abort               : Boolean;
   i                   : Integer;
   NewStream           : TAbVirtualMemoryStream;
-  WorkingStream       : TAbVirtualMemoryStream;
   UncompressedStream  : TStream;
   FileTime            : LongInt;
   SaveDir             : string;
   CurItem             : TAbGzipItem;
-  Attrs               : LongInt;
+  //Attrs               : LongInt;
 begin
   {prepare for the try..finally}
+  InGzHelp  := nil;
   OutGzHelp := nil;
   NewStream := nil;
-  WorkingStream := nil;
 
   try
-    InGzHelp := TAbGzipStreamHelper.Create(FGzStream);
+    {init new archive stream}
+    NewStream := TAbVirtualMemoryStream.Create;
+    OutGzHelp := TAbGzipStreamHelper.Create(NewStream);
 
-    try
-      if IsGzippedTar and TarAutoHandle then begin
-        { save the Tar data first }
-        SwapToTar;
-        inherited SaveArchive;
+    { create helper }
+    NewStream.SwapFileDirectory := ExtractFilePath(AbGetTempFile(FTempDir, False));
 
-        { update contents of GZip Stream with new Tar }
-        FGZStream.Position := 0;
-        InGzHelp.ReadHeader;
-        FGZStream.Size := 0;
-        InGzHelp.WriteArchiveHeader;
-        FTarStream.Position := 0;
-        InGzHelp.WriteArchiveItem(FTarStream);
-        InGzHelp.WriteArchiveTail;
+    if IsGzippedTar and TarAutoHandle then begin
+      { save the Tar data first }
+      SwapToTar;
+      inherited SaveArchive;
+      FTarStream.Position := 0; // rewind tar stream
 
-        CurItem := TAbGzipItem.Create();
-        try
-            FGZItem.Add(CurItem);
-            CurItem.Action := aaNone;
-            CurItem.CRC32 := InGzHelp.CRC;
-            CurItem.UncompressedSize := InGzHelp.FileSize;
-        except
-            CurItem.Free(); raise;
-        end;
+      FGZItem.Clear;
+      CurItem := TAbGzipItem.Create;
+      FGzItem.Add(CurItem);
 
-      end;
+      { read gzip header }
+      FGZStream.Position := 0;
+      CurItem.LoadGzHeaderFromStream(FGzStream);
+      { Set modtime to time of compression start. }
+      if (not CurItem.HasFileName) or (CurItem.FGzHeader.ModTime = 0) then
+        CurItem.LastModDateTime := SysUtils.Now;
 
-      {
-        When Is Gzipperd Tar and Tar Auto Handle
-        it does not seems as if any item is being added to the
-        Archive, because AddFiles add all files to the tar and
-        the single item is never added.
-      }
+      { write new gzip stream }
+      CurItem.SaveGzHeaderToStream(NewStream);
+      OutGzHelp.WriteArchiveItem(FTarStream);
+      OutGzHelp.WriteArchiveTail;
 
-      {TODO -cGZip : Find a better way of saving}
+      CurItem.CRC32            := OutGzHelp.FItem.CRC32;
+      CurItem.UncompressedSize := OutGzHelp.FItem.UncompressedSize;
+      CurItem.CompressedSize   := OutGzHelp.FItem.CompressedSize;
 
       SwapToGzip;
+    end
 
-      {init new archive stream}
-      NewStream := TAbVirtualMemoryStream.Create;
-      OutGzHelp := TAbGzipStreamHelper.Create(NewStream);
+    else  // GZip
 
-      { create helper }
-      NewStream.SwapFileDirectory := ExtractFilePath(AbGetTempFile(FTempDir, False));
+    begin
+
+      InGzHelp := TAbGzipStreamHelper.Create(FGzStream);
+
+      SwapToGzip;
 
       {build new archive from existing archive}
       for i := 0 to pred(Count) do begin
         FCurrentItem := ItemList[i];
         CurItem      := TAbGzipItem(ItemList[i]);
-        InGzHelp.SeekToItemData;
 
         case CurItem.Action of
           aaNone, aaMove : begin
           {just copy the file to new stream}
-            WorkingStream := TAbVirtualMemoryStream.Create;
             InGzHelp.SeekToItemData;
-            InGzHelp.ExtractItemData(WorkingStream);
-            WorkingStream.Position := 0;
             CurItem.SaveGzHeaderToStream(NewStream);
-            OutGzHelp.WriteArchiveItem(WorkingStream);
+            if InGzHelp.FItem.CompressedSize > 0 then
+              NewStream.CopyFrom(FGzStream, InGzHelp.FItem.CompressedSize);
           end;
 
           aaDelete: {doing nothing omits file from new stream} ;
@@ -1353,11 +1345,11 @@ begin
                         fmOpenRead or fmShareDenyWrite );
 
                     {Now get the file's attributes}
-                    Attrs := AbFileGetAttr(CurItem.DiskFileName);
-                    CurItem.ExternalFileAttributes := Attrs;
-                    CurItem.SystemSpecificAttributes := Attrs;
-
+                    //Attrs := AbFileGetAttr(CurItem.DiskFileName);
+                    //CurItem.ExternalFileAttributes := Attrs;
+                    //CurItem.SystemSpecificAttributes := Attrs;
                     CurItem.UncompressedSize := UncompressedStream.Size;
+
                   finally {SaveDir}
                     ChDir( SaveDir );
                   end; {SaveDir}
@@ -1380,29 +1372,29 @@ begin
           end;
         end; {case}
       end; { for }
-    finally
-      InGzHelp.Free;
-    end;
+
+      { only write tail if there is a compressed stream,
+        i.e., the only item was not deleted }
+      if NewStream.Size > 0 then
+        OutGzHelp.WriteArchiveTail;
+    end; {else GZip}
 
     {copy new stream to FStream}
-    OutGzHelp.WriteArchiveTail;
     NewStream.Position := 0;
     if (FStream is TMemoryStream) then
       TMemoryStream(FStream).LoadFromStream(NewStream)
     else begin
       { need new stream to write }
-      FStream.Free;
-      // GZIP does not support spanning, removing use of AbSpanStream.
-//      FStream := TAbSpanStream.Create(FArchiveName, fmOpenWrite or fmShareDenyWrite, mtLocal, FSpanningThreshold);
-      FStream := TFileStream.Create(FArchiveName,fmOpenWrite or fmShareDenyWrite);
-//    TAbSpanStream(FStream).OnRequestImage := DoSpanningMediaRequest;   {!!.01}
-//    TAbSpanStream(FStream).OnArchiveProgress := DoArchiveSaveProgress; {!!.04}
+      FreeAndNil(FStream);
+      FGzStream := nil;
+      // GZIP does not support spanning
+      FStream := TFileStream.Create(FArchiveName, fmCreate or fmShareDenyWrite);
       try
+        FGZStream := FStream;
         if NewStream.Size > 0 then
           FStream.CopyFrom(NewStream, NewStream.Size);
-        FGZStream := FStream;
       except
-        raise EAbException.Create('Unable to create new Spanned stream');
+        raise EAbException.Create('Unable to create new file stream');
       end;
     end;
 
@@ -1416,10 +1408,13 @@ begin
 
     DoArchiveSaveProgress( 100, Abort );                               {!!.04}
     DoArchiveProgress( 100, Abort );
-  finally {NewStream}
-    WorkingStream.Free;
-    OutGzHelp.Free;
-    NewStream.Free;
+  finally
+    if Assigned(InGzHelp) then
+      InGzHelp.Free;
+    if Assigned(OutGzHelp) then
+      OutGzHelp.Free;
+    if Assigned(NewStream) then
+      NewStream.Free;
   end;
 end;
 
