@@ -205,8 +205,8 @@ begin
       StrPLCopy(FileName, sFileName, SizeOf(FileName) - 1);
 
       PackSize := Arc.Items[Arc.Tag].CompressedSize;
-      UnpSize := Arc.Items[Arc.Tag].UncompressedSize;
-      FileCRC := Arc.Items[Arc.Tag].CRC32;
+      UnpSize  := Arc.Items[Arc.Tag].UncompressedSize;
+      FileCRC  := Arc.Items[Arc.Tag].CRC32;
       FileTime := Arc.Items[Arc.Tag].SystemSpecificLastModFileTime;
       FileAttr := Arc.Items[Arc.Tag].SystemSpecificAttributes;
     end;
@@ -356,6 +356,7 @@ begin
       Arc.FProcessDataProc := gProcessDataProc;
       Arc.OnProcessItemFailure := Arc.AbProcessItemFailureEvent;
 
+      Arc.TarAutoHandle:=True;
       Arc.OpenArchive(PackedFile);
 
       // Set this after opening archive, to get only progress of deleting.

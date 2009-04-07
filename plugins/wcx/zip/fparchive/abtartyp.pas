@@ -569,7 +569,7 @@ begin
   try
     { get current Tar Header }
     TarItem.LoadTarHeaderFromStream(Strm);
-    if TarItem.CheckSumGood or (TarItem.ItemType in [UNKNOWN_ITEM])
+    if TarItem.CheckSumGood //or (TarItem.ItemType in [UNKNOWN_ITEM])
     or TarItem.TestEmpty // Empty Tar file
     then
       Result := atTar
@@ -736,9 +736,6 @@ begin
 end;
 
 function TAbTarItem.GetExternalFileAttributes: LongWord;
-var
-  Permissions: LongWord;
-  LinkFlag: AnsiChar;
 begin
   TarAttrsToUnixAttrs(FTarItem.Mode, FTarItem.LinkFlag, Result);
 end;
@@ -922,7 +919,7 @@ begin
           Result := Result +'.';
       end;
       Result := Result + #13#10;
-      P := PByteArray(Integer(P)+16);
+      P := PByteArray(PByte(P)+16);
     end;
   end;
   //Result := Result + 'RecSize: '  +IntToStr(SizeOf(TAbTarHeaderRec))+#13#10;  //512
@@ -1482,7 +1479,7 @@ begin
   end
   else { We already copied the entire name, but it must be null terminated }
     begin
-    FillChar(Pointer(Integer(PHeader)+AB_TAR_RECORDSIZE-1)^, 1, #0); { Zero rest of the block }
+    FillChar((PByte(PHeader)+AB_TAR_RECORDSIZE-1)^, 1, #0); { Zero rest of the block }
   end;
 
   { Finally we need to stuff the file type Header. }
@@ -1557,7 +1554,7 @@ begin
   end
   else { We already copied the entire name, but it must be null terminated }
     begin
-    FillChar(Pointer(Integer(PHeader)+AB_TAR_RECORDSIZE-1)^, 1, #0); { Zero rest of the block }
+    FillChar((PByte(PHeader)+AB_TAR_RECORDSIZE-1)^, 1, #0); { Zero rest of the block }
   end;
   { Finally we need to stuff the file type Header. }
   PHeader := FTarHeaderList.Items[FTarHeaderList.Count-1];
@@ -2289,7 +2286,6 @@ var
   OutStream : TFileStream;
   UseName : string;
   CurItem : TAbTarItem;
-  FileDateTime  : Longint;
 begin
   { Check the index is not out of range. }
   if(Index >= ItemList.Count) then
@@ -2601,6 +2597,11 @@ begin
           end;
         end; { aaAdd ... }
       end; { case }
+
+      DoArchiveProgress(AbPercentage(9 * succ( i ), 10 * Count), Abort);
+      if Abort then
+        raise EabUserAbort.Create;
+
     end; { for i ... }
 
 // save tail regardless if archive empty
@@ -2616,7 +2617,7 @@ begin
       FStream.Position := 0;
       FStream.Size := 0;
       if NewStream.Size > 0 then
-        TAbVirtualMemoryStream(FStream).CopyFrom(NewStream, NewStream.Size);
+        (FStream as TAbVirtualMemoryStream).CopyFrom(NewStream, NewStream.Size);
     end
     else begin
       { need new stream to write }
