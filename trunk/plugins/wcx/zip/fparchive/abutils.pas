@@ -593,10 +593,13 @@ end;
 {$ENDIF}
 
 function AbGetTempFile(const Dir : string; CreateIt : Boolean) : string;
-{$IFDEF MSWINDOWS}
 var
+{$IFDEF MSWINDOWS}
   FileNameZ : array [0..259] of char;
   TempPathZ : array [0..259] of char;
+{$ENDIF}
+{$IFDEF UNIX}
+  FileHandle: Integer;
 {$ENDIF}
 begin
 {$IFDEF MSWINDOWS}
@@ -620,7 +623,11 @@ begin
 {$IFDEF LINUX}
   Result := GetTempFileName(Dir, 'VMSXXXXXX');
   if CreateIt then
-    FileCreate(Result);
+  begin
+    FileHandle := FileCreate(Result);
+    if FileHandle <> -1 then
+      FileClose(FileHandle);
+  end;
 {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
