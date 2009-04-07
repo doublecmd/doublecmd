@@ -40,14 +40,14 @@ uses
 
 const
   AB_VMSPageSize = 4096; {must be a power of two}
-  AB_VMSMaxPages = 256;  {makes 1MB with the above value}
+  AB_VMSMaxPages = 2048; {makes 8MB with the above value}
 
 type
   PvmsPage = ^TvmsPage;
   TvmsPage = packed record
-    vpStmOfs : Int64;  {value will be multiple of AB_VMSPageSize}
+    vpStmOfs : Int64;    {value will be multiple of AB_VMSPageSize}
     vpLRU    : integer;  {'time' page was last accessed}
-    vpDirty  : integer;  {has the page been changed?}
+    vpDirty  : Boolean;  {has the page been changed?}
     vpData   : array [0..pred(AB_VMSPageSize)] of byte; {stream data}
   end;
 
@@ -56,21 +56,21 @@ type
     protected {private}
       vmsCachePage    : PvmsPage;   {the latest page used}
       vmsLRU          : Longint;    {'tick' value}
-      vmsMaxMemToUse  : Longint;    {maximum memory to use for data}
+      vmsMaxMemToUse  : Longword;   {maximum memory to use for data}
       vmsMaxPages     : Integer;    {maximum data pages}
       vmsPageList     : TList;      {page array, sorted by offset}
-      vmsPosition     : Int64;    {position of stream}
-      vmsSize         : Int64;    {size of stream}
+      vmsPosition     : Int64;      {position of stream}
+      vmsSize         : Int64;      {size of stream}
       vmsSwapFileDir  : string;     {swap file directory}
       vmsSwapFileName : string;     {swap file name}
-      vmsSwapFileSize : Int64;    {size of swap file}
+      vmsSwapFileSize : Int64;      {size of swap file}
       vmsSwapHandle   : integer;    {swap file handle}
     protected
-      procedure vmsSetMaxMemToUse(aNewMem : Longint);
+      procedure vmsSetMaxMemToUse(aNewMem : Longword);
 
-      function vmsAlterPageList(aNewMem : Longint) : Longint;
-      procedure vmsFindOldestPage(var OldestInx : Longint;
-                                  var OldestPage: PvmsPage);
+      function vmsAlterPageList(aNewMem : Longword) : Longword;
+      procedure vmsFindOldestPage(out OldestInx : Longint;
+                                  out OldestPage: PvmsPage);
       function vmsGetNextLRU : Longint;
       function vmsGetPageForOffset(aOffset : Int64) : PvmsPage;
 
@@ -91,10 +91,10 @@ type
       function Seek(const Offset : Int64; Origin : TSeekOrigin) : Int64; override;
         {-seek to a particular point in the stream}
 
-      procedure SetSize(const NewSize : Int64); {$IFDEF VERSION3} override; {$ENDIF}
+      procedure SetSize(const NewSize : Int64); override;
         {-set the stream size}
 
-      property MaxMemToUse : Longint
+      property MaxMemToUse : Longword
          read vmsMaxMemToUse write vmsSetMaxMemToUse;
         {-maximum memory to use for data before swapping to disk}
       property SwapFileDirectory : string
@@ -104,17 +104,10 @@ type
 implementation
 
 uses
-  {$IFDEF MSWINDOWS}
-  Windows,
-  {$ENDIF}
-  {$IFDEF LINUX}
-//  Libc,
-  {$ENDIF}
   SysUtils,
   AbConst,
   AbExcept,                                                            
-  AbUtils,
-  AbArcTyp;
+  AbUtils;
 
 const
   LastLRUValue = $7FFFFFFF;
@@ -132,14 +125,16 @@ begin
   with Page^ do begin
     vpStmOfs := 0;
     vpLRU := vmsGetNextLRU;
-    vpDirty := 0;
+    vpDirty := False;
     FillChar(vpData, AB_VMSPageSize, 0);
   end;
   vmsPageList.Insert(0, pointer(Page));
+  {from now on, there always will be at least one page}
+
   {prime the cache, from now on the cache will never be nil}
   vmsCachePage := Page;
-  {assume we shall use at least 100K for data, we're already using 4K}
-  MaxMemToUse := 100 * 1024;
+  {use all allowed pages}
+  MaxMemToUse := AB_VMSMaxPages * AB_VMSPageSize;
 end;
 {--------}
 destructor TAbVirtualMemoryStream.Destroy;
@@ -161,7 +156,7 @@ end;
 function TAbVirtualMemoryStream.Read(var Buffer; Count : Longint) : Longint;
 var
   BufAsBytes  : TByteArray absolute Buffer;
-  BufInx      : Longint;
+  BufInx      : Int64;
   Page        : PvmsPage;
   PageDataInx : integer;
   Posn        : int64;
@@ -211,7 +206,7 @@ begin
 end;
 {--------}
 function TAbVirtualMemoryStream.Seek(const Offset : Int64;
-                                      Origin : TSeekOrigin) : Int64;
+                                     Origin : TSeekOrigin) : Int64;
 begin
   case Origin of
     soBeginning : vmsPosition := Offset;
@@ -227,22 +222,26 @@ procedure TAbVirtualMemoryStream.SetSize(const NewSize : Int64);
 var
   Page : PvmsPage;
   Inx  : integer;
-  NewFileSize : Longint;
+  NewFileSize : Int64;
 begin
   if (NewSize < vmsSize) then begin
     {go through the page list discarding pages whose offset is greater
      than our new size; don't bother saving any data from them since
      it be beyond the end of the stream anyway}
-    for Inx := pred(vmsPageList.Count) downto 0 do begin
+    {never delete the last page here}
+    for Inx := pred(vmsPageList.Count) downto 1 do begin
       Page := PvmsPage(vmsPageList[Inx]);
-      if (Page^.vpStmOfs >= NewSize) then
-        Dispose(Page)
-      else if (Page^.vpStmOfs < NewSize) then begin
-        if (succ(Inx) < vmsPageList.Count) then
-          vmsPageList.Count := succ(Inx);
+      if (Page^.vpStmOfs >= NewSize) then begin
+        Dispose(Page);
+        vmsPageList.Delete(Inx);
+      end else begin
         Break;
       end;
     end;
+
+    { Reset cache to the first page in case the cached page was deleted. }
+    vmsCachePage := vmsPageList[0];
+
     {force the swap file file size in range, it'll be a multiple of
      AB_VMSPageSize}
     NewFileSize := pred(NewSize + AB_VMSPageSize) and
@@ -256,7 +255,7 @@ begin
     vmsPosition := NewSize;
 end;
 {--------}
-function TAbVirtualMemoryStream.vmsAlterPageList(aNewMem : Longint) : Longint;
+function TAbVirtualMemoryStream.vmsAlterPageList(aNewMem : Longword) : Longword;
 var
   NumPages : Longint;
   Page     : PvmsPage;
@@ -264,17 +263,21 @@ var
   OldestPageNum : Longint;
 begin
   {calculate the max number of pages required}
-  NumPages := pred(aNewMem + AB_VMSPageSize) div AB_VMSPageSize;
+  if aNewMem = 0 then
+    NumPages := 1 // always have at least one page
+  else
+    NumPages := pred(aNewMem + AB_VMSPageSize) div AB_VMSPageSize;
   if (NumPages > AB_VMSMaxPages) then
     NumPages := AB_VMSMaxPages;
   {if the maximum number of pages means we have to shrink the current
    list, do so, tossing out the oldest pages first}
   if (NumPages < vmsPageList.Count) then
+  begin
     for i := 1 to (vmsPageList.Count - NumPages) do begin
       {find the oldest page}
       vmsFindOldestPage(OldestPageNum, Page);
       {if it is dirty, write it out to the swap file}
-      if (Page^.vpDirty <> 0) then begin
+      if Page^.vpDirty then begin
         vmsSwapFileWrite(Page);
       end;
       {remove it from the page list}
@@ -282,13 +285,17 @@ begin
       {free the page memory}
       Dispose(Page);
     end;
+
+    { Reset cache to the first page in case the cached page was deleted. }
+    vmsCachePage := vmsPageList[0];
+  end;
   {remember our new max number of pages}
   vmsMaxPages := NumPages;
   Result := NumPages * AB_VMSPageSize;
 end;
 {--------}
-procedure TAbVirtualMemoryStream.vmsFindOldestPage(var OldestInx : Longint;
-                                                   var OldestPage: PvmsPage);
+procedure TAbVirtualMemoryStream.vmsFindOldestPage(out OldestInx : Longint;
+                                                   out OldestPage: PvmsPage);
 var
   OldestLRU : Longint;
   Inx       : integer;
@@ -296,7 +303,7 @@ var
 begin
   OldestInx := -1;
   OldestLRU := LastLRUValue;
-  for Inx := 0 to pred(vmsMaxPages) do begin
+  for Inx := 0 to pred(vmsPageList.Count) do begin
     Page := PvmsPage(vmsPageList[Inx]);
     if (Page^.vpLRU < OldestLRU) then begin
       OldestInx := Inx;
@@ -386,7 +393,7 @@ begin
       {find the oldest page}
       vmsFindOldestPage(OldestPageNum, Page);
       {if it is dirty, write it out to the swap file}
-      if (Page^.vpDirty <> 0) then begin
+      if Page^.vpDirty then begin
         vmsSwapFileWrite(Page);
       end;
       {remove it from the page list}
@@ -400,7 +407,7 @@ begin
     with Page^ do begin
       vpStmOfs := aOffset;
       vpLRU := vmsGetNextLRU;
-      vpDirty := 0;
+      vpDirty := False;
       vmsSwapFileRead(Page);
     end;
     {insert the page into the correct spot}
@@ -414,7 +421,7 @@ begin
   end;{try..except}
 end;
 {--------}
-procedure TAbVirtualMemoryStream.vmsSetMaxMemToUse(aNewMem : Longint);
+procedure TAbVirtualMemoryStream.vmsSetMaxMemToUse(aNewMem : Longword);
 begin
   vmsMaxMemToUse := vmsAlterPageList(aNewMem);
 end;
@@ -484,12 +491,12 @@ end;
 function TAbVirtualMemoryStream.Write(const Buffer; Count : Longint) : Longint;
 var
   BufAsBytes  : TByteArray absolute Buffer;
-  BufInx      : Longint;
+  BufInx      : Int64;
   Page        : PvmsPage;
   PageDataInx : integer;
   Posn        : Int64;
-  BytesToGo   : Longint;
-  BytesToWrite: integer;
+  BytesToGo   : Int64;
+  BytesToWrite: Int64;
   StartOfs    : Int64;
 begin
   {writing is complicated by the fact we can only write in chunks of
@@ -518,7 +525,7 @@ begin
     else
       Page := vmsGetPageForOffset(StartOfs);
     Move(BufAsBytes[BufInx], Page^.vpData[PageDataInx], BytesToWrite);
-    Page^.vpDirty := 1;
+    Page^.vpDirty := True;
     dec(BytesToGo, BytesToWrite);
     inc(Posn, BytesToWrite);
     inc(BufInx, BytesToWrite);
