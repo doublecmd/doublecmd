@@ -37,16 +37,12 @@ interface
 
 uses
   Classes,
-  AbArcTyp,
-  AbZipTyp,
-  AbDfBase,
-  AbDfEnc,
-  AbSpanSt;
+  AbZipTyp;
 
-  procedure AbZip( Sender : TAbZipArchive; Item : TAbZipItem;
+  procedure AbZip( ZipArchive : TAbZipArchive; Item : TAbZipItem;
     OutStream : TStream );
 
-  procedure AbZipFromStream(Sender : TAbZipArchive; Item : TAbZipItem;
+  procedure AbZipFromStream(ZipArchive : TAbZipArchive; Item : TAbZipItem;
     OutStream, InStream : TStream);
 
   procedure DeflateStream( UncompressedStream, CompressedStream : TStream );
@@ -57,17 +53,13 @@ uses
 implementation
 
 uses
-{$IFDEF MSWINDOWS}
-  Windows,
-{$ENDIF}
-{$IFDEF LINUX}
-//  Libc,
-{$ENDIF}
   AbConst,
   AbExcept,
   AbUtils,
+  AbDfBase,
   AbDfCryS,
-  AbZipCry,                                                              {!!.01}
+  AbDfEnc,
+  AbSpanSt,
   AbVMStrm,                                                              {!!.01}
   SysUtils;
 
@@ -210,12 +202,11 @@ begin
 
 end;
 { ========================================================================== }
-procedure AbZipFromStream(Sender : TAbZipArchive; Item : TAbZipItem;
+procedure AbZipFromStream(ZipArchive : TAbZipArchive; Item : TAbZipItem;
   OutStream, InStream : TStream);
 var
-  ZipArchive : TAbZipArchive;
   FileTimeStamp   : LongInt;
-  InStartPos{, OutStartPos} : LongInt;                                   {!!.01}
+  InStartPos : LongInt;                                                  {!!.01}
   TempOut : TAbVirtualMemoryStream;                                      {!!.01}
 
 procedure ConfigureItem;
@@ -254,10 +245,8 @@ begin
 end;
 
 begin
-  ZipArchive := TAbZipArchive(Sender);
-
   TempOut := TAbVirtualMemoryStream.Create;                              {!!.01}
-  TempOut.SwapFileDirectory := Sender.TempDirectory;                     {!!.01}
+  TempOut.SwapFileDirectory := ZipArchive.TempDirectory;                 {!!.01}
 
   try
     { configure Item }
@@ -297,7 +286,7 @@ begin
             InStream.Position  := InStartPos;
             TempOut.Free;                                                {!!.01}
             TempOut := TAbVirtualMemoryStream.Create;                    {!!.01}
-            TempOut.SwapFileDirectory := Sender.TempDirectory;           {!!.01}
+            TempOut.SwapFileDirectory := ZipArchive.TempDirectory;       {!!.01}
 
             { store item }
             DoStore(ZipArchive, Item, TempOut, InStream);          {!!.01}
@@ -329,18 +318,14 @@ begin
   Item.InternalFileAttributes := 0; { don't care }
 end;
 { -------------------------------------------------------------------------- }
-procedure AbZip( Sender : TAbZipArchive; Item : TAbZipItem;
+procedure AbZip( ZipArchive : TAbZipArchive; Item : TAbZipItem;
                  OutStream : TStream );
 var
   UncompressedStream : TStream = nil;
-  SaveDir : string;
-  ZipArchive : TAbZipArchive;
   Name : string;
   Attrs: LongInt;
   FileTime : LongInt;
 begin
-  ZipArchive := TAbZipArchive(Sender);
-
   if TAbZipHostOS((Item.VersionMadeBy shr 8) and $FF) = hosMSDOS then
     Name := AbStrOemToAnsi(Item.DiskFileName)
   else
@@ -348,10 +333,10 @@ begin
 
   {Now get the file's attributes}
   Attrs := AbFileGetAttr(Name);
+
   if Attrs = -1 then
     Raise EAbFileNotFound.Create;
 
-  Item.ExternalFileAttributes := Attrs;
   Item.SystemSpecificAttributes := Attrs;
 
   // Date and time
@@ -382,7 +367,7 @@ begin
     Item.UncompressedSize := UncompressedStream.Size;
 
     try {UncompressedStream}
-      AbZipFromStream(Sender, Item, OutStream, UncompressedStream);
+      AbZipFromStream(ZipArchive, Item, OutStream, UncompressedStream);
     finally {UncompressedStream}
       UncompressedStream.Free;
     end; {UncompressedStream}

@@ -106,15 +106,10 @@ type
                  
 implementation   
                  
-  {$IFDEF MSWINDOWS}
-uses             
-  Windows;       
-  {$ENDIF}       
-                 
-const            
+const
   ChunkSize = 8192; {cannot be greater than MaxInt}
-                 
-                 
+
+
 {===Helper routines==================================================}
 procedure RaiseException(const S : string);
 begin            

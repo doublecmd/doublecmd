@@ -135,6 +135,12 @@ begin
   vmsCachePage := Page;
   {use all allowed pages}
   MaxMemToUse := AB_VMSMaxPages * AB_VMSPageSize;
+
+  vmsPosition := 0;
+  vmsSize := 0;
+
+  vmsSwapHandle := 0;
+  vmsSwapFileSize := 0;
 end;
 {--------}
 destructor TAbVirtualMemoryStream.Destroy;
@@ -155,8 +161,7 @@ end;
 {--------}
 function TAbVirtualMemoryStream.Read(var Buffer; Count : Longint) : Longint;
 var
-  BufAsBytes  : TByteArray absolute Buffer;
-  BufInx      : Int64;
+  BufPtr      : PByte;
   Page        : PvmsPage;
   PageDataInx : integer;
   Posn        : int64;
@@ -172,7 +177,7 @@ begin
   {initialise some variables, note that the complex calc in the
    expression for PageDataInx is the offset of the start of the page
    where Posn is found.}
-  BufInx := 0;
+  BufPtr := @Buffer;
   Posn := vmsPosition;
   PageDataInx := Posn - (Posn and (not pred(AB_VMSPageSize)));
   BytesToRead := AB_VMSPageSize - PageDataInx;
@@ -194,10 +199,10 @@ begin
       Page := vmsCachePage
     else
       Page := vmsGetPageForOffset(StartOfs);
-    Move(Page^.vpData[PageDataInx], BufAsBytes[BufInx], BytesToRead);
+    Move(Page^.vpData[PageDataInx], BufPtr^, BytesToRead);
     dec(BytesToGo, BytesToRead);
     inc(Posn, BytesToRead);
-    inc(BufInx, BytesToRead);
+    inc(BufPtr, BytesToRead);
     PageDataInx := 0;
     BytesToRead := AB_VMSPageSize;
   end;

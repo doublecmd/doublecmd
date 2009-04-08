@@ -248,8 +248,6 @@ type
     function FixName(const Value : string) : string;
       override;
 
-    function GetItem(Index: Integer): TAbGzipItem;                  {!!.03}
-    procedure PutItem(Index: Integer; const Value: TAbGzipItem);    {!!.03}
   public {methods}
     constructor Create(const FileName : string; Mode : Word);
       override;
@@ -265,10 +263,6 @@ type
 
     property IsGzippedTar : Boolean
       read GetIsGzippedTar write FIsGzippedTar;
-
-    property Items[Index : Integer] : TAbGzipItem                    {!!.03}
-      read GetItem                                                   {!!.03}
-      write PutItem; default;                                        {!!.03}
   end;
 
 function VerifyGZip(Strm : TStream) : TAbArchiveType;
@@ -1178,15 +1172,6 @@ begin
   Result := FIsGzippedTar;
 end;
 
-{!!.03 -- Added }
-function TAbGzipArchive.GetItem(Index: Integer): TAbGzipItem;
-begin
-  Result := nil;
-  if Index = 0 then
-    Result := TAbGzipItem(FItemList.Items[Index]);
-end;
-{!!.03 -- End Added }
-
 procedure TAbGzipArchive.LoadArchive;
 var
   GzHelp       : TAbGzipStreamHelper;
@@ -1238,14 +1223,6 @@ begin
     GzHelp.Free;
   end;
 end;
-
-{!!.03 -- Added }
-procedure TAbGzipArchive.PutItem(Index: Integer; const Value: TAbGzipItem);
-begin
-  if Index = 0 then
-    FItemList.Items[Index] := Value;
-end;
-{!!.03 -- End Added }
 
 procedure TAbGzipArchive.SaveArchive;
 var

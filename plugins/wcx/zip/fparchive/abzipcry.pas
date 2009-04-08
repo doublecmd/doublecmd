@@ -42,7 +42,6 @@ uses
   {$IFDEF MSWINDOWS}
   Windows,
   {$ENDIF}
-  AbArcTyp,
   AbUtils,
   AbZipTyp;
 

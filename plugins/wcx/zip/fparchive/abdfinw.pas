@@ -257,7 +257,7 @@ begin
        ((HashInx shl c_HashShift) xor longint(CurPos[2])) and
        c_HashMask;
     HashChains^[longint(CurPos) and FWinMask] :=
-       HashHeads^[HashInx];
+       HashHeads^[HashInx]; //TODO 64bit pointer
     HashHeads^[HashInx] := CurPos;
     inc(CurPos);
   end;
@@ -403,7 +403,7 @@ begin
 
   {update the chain itself: set the entry for this position equal to
    the previous string position}
-  FHashChains^[longint(CurPos) and FWinMask] := PrevStrPos;
+  FHashChains^[longint(CurPos) and FWinMask] := PrevStrPos;//TODO 64bit pointer
 
   {calculate the maximum match we could do at this position}
   MaxMatch := (FLookAheadEnd - CurPos);
@@ -697,8 +697,6 @@ begin
 end;
 {--------}
 procedure TAbDfInputWindow.iwSlide;
-type
-  PLongint = ^longint;
 var
   i : integer;
   ByteCount : integer;
@@ -716,7 +714,7 @@ begin
   dec(FLookAheadEnd, ByteCount);
 
   {patch up the hash table: the head pointers}
-  Buffer := longint(FBuffer);
+  Buffer := longint(FBuffer);//64bit pointer
   ListItem := PLongint(@FHashHeads^[0]);
   for i := 0 to pred(c_HashCount) do begin
     dec(ListItem^, ByteCount);

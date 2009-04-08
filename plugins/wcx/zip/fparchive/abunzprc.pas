@@ -347,7 +347,6 @@ end;
 procedure TAbUnzipHelper.uzReadNextPrim;
 var
   L : LongInt;
-  {i : Integer;}
   NeedDisk : Boolean;
   Abort : Boolean;
 begin
@@ -465,7 +464,6 @@ var
 begin
   {read next byte if we're out of bits}
   if FBitsLeft = 0 then begin
-    {uzReadNext;}
     {do we still have a byte buffered?}
     if FInPos <= FInCnt then begin
       {get next byte out of buffer and advance position counter}
@@ -493,8 +491,6 @@ begin
     SaveBitsLeft := FBitsLeft;
     {number of additional bits that we need}
     Delta := Bits - FBitsLeft;
-    {read next byte}
-    {uzReadNext;}
     {do we still have a byte buffered?}
     if FInPos <= FInCnt then begin
       {get next byte out of buffer and advance position counter}
@@ -776,7 +772,7 @@ var
   end;
 
 begin
-  GetMem(Followers, SizeOf(Followers^));
+  GetMem(Followers, SizeOf(TAbFollowerSets));
   try
     Factor := Ord( FCompressionMethod ) - 1;
     FactorMask := FactorMasks[Factor];
@@ -1534,7 +1530,6 @@ begin
   if ZipArchive.Spanned and (ZipArchive.CurrentDisk <> Item.DiskNumberStart) then
   begin
     ZipArchive.CurrentDisk := Item.DiskNumberStart;
-//    if not (ZipArchive.FStream is TFileStream) then                  {!!.04}
     if not (ZipArchive.FStream is TAbSpanStream) then                  {!!.04}
       raise EAbZipBadSpanStream.Create;
     ZipArchive.DoRequestNthImage(ZipArchive.CurrentDisk,

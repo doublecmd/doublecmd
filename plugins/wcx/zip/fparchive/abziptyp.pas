@@ -534,8 +534,6 @@ type
     FOnRequestBlankDisk     : TAbRequestDiskEvent;
 
   protected {methods}    
-    class function GetMaxFileSize: Int64; override;
-
     function CreateItem(const SourceFileName   : string;
                         const ArchiveDirectory : string): TAbArchiveItem; override;
     procedure DoExtractHelper(Index : Integer; const NewName : string);
@@ -546,9 +544,7 @@ type
     procedure DoRequestNextImage(ImageNumber : Integer; var Stream : TStream;
       var Abort : Boolean );
     function FindCDTail : Int64;   
-    function GetItem( Index : Integer ) : TAbZipItem;
     function GetZipFileComment : string;
-    procedure PutItem( Index : Integer; Value : TAbZipItem );
     procedure DoRequestLastDisk( var Abort : Boolean );
       virtual;
     procedure DoRequestNthDisk( DiskNumber : Byte; var Abort : Boolean );
@@ -629,13 +625,6 @@ type
       read GetZipFileComment
       write SetZipFileComment;
 
-    property Items[Index : Integer] : TAbZipItem                      {!!.03}
-      read GetItem                                                    {!!.03}
-      write PutItem; default;                                         {!!.03}
-
-{!!!}    procedure SaveArchive2;
-
-
   public {events}
     property OnNeedPassword : TAbNeedPasswordEvent
       read FOnNeedPassword write FOnNeedPassword;
@@ -670,10 +659,8 @@ implementation
 uses
   {$IFDEF MSWINDOWS}
   Windows,
-//  Dialogs,                                                           {!!.04}
   {$ENDIF}
   {$IFDEF LINUX}
-//  Libc,
   {$IFNDEF NoQt}
   {$IFDEF UsingCLX}
   QControls,
@@ -1563,7 +1550,9 @@ end;
 { -------------------------------------------------------------------------- }
 function TAbZipItem.GetSystemSpecificAttributes: LongWord;
 var
+{$IFDEF MSWINDOWS}
   Attrs: LongWord;
+{$ENDIF}
   SystemCode: TAbZipHostOs;
 begin
   Result := GetExternalFileAttributes;
@@ -1590,8 +1579,10 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 function TAbZipItem.GetSystemSpecificLastModFileTime: Longint;
+{$IFDEF UNIX}
 var
   DateTime: TDateTime;
+{$ENDIF}
 begin
   LongRec(Result).Hi := LastModFileDate;
   LongRec(Result).Lo := LastModFileTime;
@@ -1629,7 +1620,7 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.LoadFromStream( Stream : TStream );
 var
-    tempFileName: string;
+  tempFileName: string;
 begin
   FItemInfo.LoadFromStream( Stream );
   if FItemInfo.FileName <> nil then
@@ -1804,8 +1795,6 @@ var
 begin
   Attrs := Value;
 
-{$IFDEF MSWINDOWS}
-{$ENDIF}
 {$IFDEF UNIX}
   Attrs := Attrs shl 16;
   // Don't know what low 16 bits are
@@ -1818,7 +1807,9 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.SetSystemSpecificLastModFileTime(const Value: Longint);
 var
+{$IFDEF UNIX}
   DateTime: TDateTime;
+{$ENDIF}
   DosFileTime: Longint;
 begin
 {$IFDEF UNIX}
@@ -2082,7 +2073,6 @@ begin
     TAbSpanStream(Stream).OnArchiveProgress := DoArchiveSaveProgress;
 
 {!!.04 - changed}
-//    if FindCentralDirectoryTail(Stream) = -1 {not found} then
     if (CurrentDisk = Word(-1))
       and (FindCentralDirectoryTail(Stream) = -1) {not found} then
 {!!.04 - changed end}
@@ -2183,7 +2173,6 @@ begin
     pCaption := AbStrRes(AbImageRequest);
 {$IFDEF MSWINDOWS}
 {!!.04}
-//    Abort := not InputQuery(pCaption, pMessage, ImageName);
     Abort := Windows.MessageBox( 0, PChar(pMessage), PChar(pCaption),
       MB_TASKMODAL or MB_OKCANCEL ) = IDCANCEL;
 {!!.04}
@@ -2209,7 +2198,7 @@ begin
   if SpanStrm.SpanMode = smWriting then begin
     if SpanStrm.MediaType = mtRemoveable then begin
       DoRequestBlankDisk(Abort);
-      AbWriteVolumeLabel(Format('PKBACK# %3.3d',                         {!!.01}
+      AbWriteVolumeLabel(Format(AB_SPAN_VOL_LABEL,                       {!!.01}
         [Pred(ImageNumber)]), AbDrive(FArchiveName));                    {!!.01}
     end
     else begin
@@ -2317,14 +2306,9 @@ begin
     AbStripDots( lValue );
 
   for i := 1 to Length( lValue ) do
-    if lValue[i] = '\' then
-      lValue[i] := '/';
+    if lValue[i] = AbDosPathDelim then
+      lValue[i] := AbUnixPathDelim;
   Result := lValue;
-end;
-{ -------------------------------------------------------------------------- }
-function TAbZipArchive.GetItem( Index : Integer ) : TAbZipItem;
-begin
-  Result := TAbZipItem(FItemList.Items[Index]);
 end;
 { -------------------------------------------------------------------------- }
 function TAbZipArchive.GetZipFileComment : string;
@@ -2379,15 +2363,16 @@ begin
   begin
     if FDriveIsRemovable then        {!!.05}
       TailPosition := -1              {!!.02}
-    else TailPosition := FindCDTail;  {!!.05}
+    else
+      TailPosition := FindCDTail;  {!!.05}
   end
   else                                                               {!!.02}
-   begin                                                             {!!.02}
+  begin                                                              {!!.02}
     TailPosition := FindCDTail;
     // 885670 (Second Part Better Error Message)
     if TailPosition = -1 then
       raise EAbZipInvalid.Create;
-   end;
+  end;
 
   if (TailPosition = -1) then begin { not found so need different image }
     if IsZip then begin
@@ -2409,7 +2394,6 @@ begin
   FInfo.LoadFromStream(FStream);
 
 
-
   CurrentDisk := FInfo.DiskNumber;
   { set spanning flag if current disk is not the first one }
   if (FInfo.DiskNumber > 0) then
@@ -2422,6 +2406,7 @@ begin
   	DoRequestNextImage(FInfo.FStartDiskNumber, FStream, Abort);
     if (Abort) then raise EAbUserAbort.Create();
   end;
+
   { build Items list from central directory records }
   i := 0;
   FStream.Seek(FInfo.DirectoryOffset, soBeginning);
@@ -2469,395 +2454,10 @@ begin
 end;
 
 { -------------------------------------------------------------------------- }
-procedure TAbZipArchive.PutItem( Index : Integer; Value : TAbZipItem );
-begin
-  FItemList.Items[Index] := Value;
-end;
-{ -------------------------------------------------------------------------- }
-
-{type
-  TAbItemDataRec = record
-    StreamOffset : Int64;
-  end;}
-
-{ -------------------------------------------------------------------------- }
-const
-  AB_SIZE_LOCAL_HEADER = 30;
-  AB_SIZE_DATA_DESC    = 16;
-  AB_SIZE_CD_HEADER    = 46;
-  AB_SIZE_CD_TAIL      = 22;
-
-procedure TAbZipArchive.SaveArchive2; {!!.05 Renamed SaveArchive to SaveArchive2, switch methods to take back to Commerical 3.05 status}
-var
-  CompressedDataStream  : TAbVirtualMemoryStream;
-//  CDStream : TAbVirtualMemoryStream;
-  ArchiveSize : Int64;
-
-{ Zip file save logic, taking unsplittable structures into account}
-
-procedure IncrementSize(Size : Int64; CurrItem : TAbZipItem);
-begin
-  { track size of Archive }
-  ArchiveSize := ArchiveSize +
-    Size                 + { size of compressed data }
-    AB_SIZE_LOCAL_HEADER + { local header size }
-    AB_SIZE_CD_HEADER +
-    (2 * Length(CurrItem.FileName)) +
-    (2 * Length(CurrItem.ExtraField));
-
-  if (CurrItem.CompressionMethod = cmDeflated) and
-    ((CurrItem.GeneralPurposeBitFlag and AbHasDataDescriptorFlag) <> 0)
-  then
-    ArchiveSize := ArchiveSize + AB_SIZE_DATA_DESC;
-end;
-
-procedure BuildData;
-{ build zip structures and compress the data }
-var
-  CurrItem : TAbZipItem;
-  i : Integer;
-  Size : Int64;
-  TempStream : TAbVirtualMemoryStream;
-begin
-  ArchiveSize := 0;
-
-  { for each item in original item list }
-  for i := 0 to pred( Count ) do begin
-    CurrItem := (ItemList[i] as TAbZipItem);
-    FCurrentItem := ItemList[i];              { archive needs to know this for event handling }
-
-    { handle item according to item disposition }
-    case CurrItem.Action of
-      aaNone, aaMove: begin
-      {just copy the compressed file data to temporary stream }
-        { find the current item's data }
-{!!!}
-{RJL: The problem with this code that FStream is TAbSpanStream in which
- a seek can currently not occur while writing }
-        FStream.Position := CurrItem.RelativeOffset;
-
-        { save compressed data size }
-        Size := CurrItem.CompressedSize;
-        if Size > 0 then
-        begin
-          CompressedDataStream.Write(Size, SizeOf(LongInt));
-
-          { save compressed data }
-          CompressedDataStream.CopyFrom(FStream, Size);
-
-          { track the size }
-          IncrementSize(Size, CurrItem);
-        end;
-      end;
-
-      aaDelete: begin
-        {doing nothing omits file from new stream}
-      end;
-
-      aaAdd, aaFreshen, aaReplace, aaStreamAdd: begin
-        { build zip structures for item }
-          // build local header
-          // build data descriptor
-          // build CD header
-
-        { compress data to temp stream }
-        TempStream := TAbVirtualMemoryStream.Create;
-        try
-          TempStream.SwapFileDirectory := CompressedDataStream.SwapFileDirectory;
-
-          if (CurrItem.Action = aaStreamAdd) then
-            DoInsertFromStreamHelper(i, TempStream)
-          else
-            DoInsertHelper(i, TempStream);
-
-          if CurrItem.CompressedSize > 0 then begin
-            TempStream.Seek(0, soBeginning);
-            { save compressed data offset }
-            Size := TempStream.Size;
-            CompressedDataStream.Write(Size, SizeOf(LongInt));
-
-            { save compressed data }
-            if Size > 0 then
-              CompressedDataStream.CopyFrom(TempStream, Size);
-
-            IncrementSize(Size, CurrItem);
-          end;
-
-          { update zip structures for item }
-          // fixup local header
-          // fixup data descriptor
-          // fixup CD header
-
-        finally
-          TempStream.Free;
-        end;
-      end;
-
-    end; { case }
-
-    { !!! progress event }
-
-  end; { for i }
-
-  CompressedDataStream.Seek(0, soBeginning);
-end;
-
-function Spanning : Boolean;
-begin
-//  Result := False; {!!!}
-// if writing to removeable media or spanning threshold is set
-// and there's no room for the archive in the current span size,
-// then we're spanning
-  Result :=
-  ((FSpanningThreshold > 0) and (ArchiveSize > FSpanningThreshold))
-    or (AbDriveIsRemovable(FArchiveName) and ((FStream as TAbSpanStream).FreeSpace < ArchiveSize));
-end;
-
-procedure GetNextMedia;
-begin
-  { get next media }
-  TAbSpanStream(FStream).GotoNext;
-
-  { set volume label }
-  if AbDriveIsRemovable(ArchiveName) then
-    AbSetSpanVolumeLabel(AbDrive(FArchiveName), Succ((FStream as TAbSpanStream).SpanNumber));
-end;
-
-procedure SaveData;
-{ save compressed data }
-var
-  CurrItem : TAbZipItem;
-  i : Integer;
-  Size : Int64;
-  WorkStream : TMemoryStream;
-  MediaType  : TAbMediaType;
-begin
-  WorkStream := TMemoryStream.Create;
-  try
-
-  { need new stream for writing }
-  MediaType := TAbSpanStream(FStream).MediaType;
-  if FOwnsStream then begin
-  FStream.Free;
-  FStream := TAbSpanstream.Create(ArchiveName, fmOpenWrite or fmShareDenyWrite,
-    MediaType, FSpanningThreshold);
-  end;
-
-  if Spanning then begin
-    { set up event handler for new disk}
-    (FStream as TAbSpanStream).OnRequestImage := DoSpanningMediaRequest; {!!.05  [753982]} 
-
-    { write spanned signature }
-    FStream.Write(Ab_ZipSpannedSetSignature, SizeOf(Ab_ZipSpannedSetSignature));
-
-    { set volume label }
-    if AbDriveIsRemovable(ArchiveName) then
-      AbSetSpanVolumeLabel(AbDrive(FArchiveName), Succ((FStream as TAbSpanStream).SpanNumber));
-  end; { if Spanning }
-
-  { for each item in saved item list }
-  for i := 0 to pred(Count) do begin
-    CurrItem := (ItemList[i] as TAbZipItem);
-    FCurrentItem := ItemList[i];              { archive needs to know this for event handling }
-
-    if not (CurrItem.Action = aaDelete) then begin
-
-      { if not room on current media for item's local header }
-      if (FStream as TAbSpanStream).FreeSpace < AB_SIZE_LOCAL_HEADER then
-        GetNextMedia;
-
-      { fixup CD header } {!!!}
-      CurrItem.DiskNumberStart := (FStream as TAbSpanStream).SpanNumber;
-      CurrItem.RelativeOffset := FStream.Position;
-
-      { write local header }{ intermediate stream needed for speed }
-      WorkStream.Size := 0;
-      CurrItem.SaveLFHToStream(WorkStream);
-      WorkStream.Seek(0, soBeginning);
-      if WorkStream.Size > 0 then
-        FStream.CopyFrom(WorkStream, WorkStream.Size);
-
-      { write compressed data }
-      if CurrItem.CompressedSize > 0 then begin
-        CompressedDataStream.Read(Size, SizeOf(LongInt));
-        if Size > 0 then
-          FStream.CopyFrom(CompressedDataStream, Size);
-      end;
-
-      { write data descriptor }{ intermediate stream needed for speed }
-      if (CurrItem.CompressionMethod = cmDeflated) and
-        ((CurrItem.GeneralPurposeBitFlag and AbHasDataDescriptorFlag) <> 0) { data descriptor flag set }
-      then begin
-        WorkStream.Size := 0;
-        CurrItem.SaveDDToStream(WorkStream);
-        WorkStream.Seek(0, soBeginning);
-        if WorkStream.Size > 0 then
-          FStream.CopyFrom(WorkStream, WorkStream.Size);
-      end;
-
-    end; { if }
-
-    { !!! progress event }
-
-  end; { for i }
-
-  finally
-    WorkStream.Free;
-  end;
-end; { SaveData }
-
-procedure SaveCDT;
-{ save Central Directory }
-var
-  CurrItem : TAbZipItem;
-  i : Integer;
-  EntryCt : Integer;
-  DirSize : Int64;
-  WorkStream : TMemoryStream;
-begin
-  WorkStream := TMemoryStream.Create;
-  try
-
-  { offset of Start of Central Directory }
-  FInfo.FDirectoryOffset := FStream.Position;
-
-  {!!!}
-  FInfo.StartDiskNumber := (FStream as TAbSpanStream).SpanNumber;
-  DirSize := 0;
-  FInfo.TotalEntries := Count;
-  EntryCt := 0;
-
-  { for each item in saved item list }
-  for i := 0 to pred( Count ) do begin
-    CurrItem := (ItemList[i] as TAbZipItem);
-    FCurrentItem := ItemList[i];              { archive needs to know this for event handling }
-
-    if not (CurrItem.Action = aaDelete) then begin
-      { if not room on current media for item's CD header }
-      if (FStream as TAbSpanStream).FreeSpace < AB_SIZE_CD_HEADER then begin
-        GetNextMedia;
-        EntryCt := 0;
-      end;
-
-      { write CD header and increment CD size }{ intermediate stream needed for speed }
-      WorkStream.Size := 0;
-      CurrItem.SaveCDHToStream(WorkStream);
-      WorkStream.Seek(0, soBeginning);
-      Inc(DirSize, WorkStream.Size);
-      if WorkStream.Size > 0 then
-        FStream.CopyFrom(WorkStream, WorkStream.Size);
-
-      { count entry }
-      Inc(EntryCt);
-    end; { if }
-
-    { !!! progress event }
-  end; { for i }
-
-  { build CD Tail }
-  FInfo.EntriesOnDisk := EntryCt;
-  FInfo.DirectorySize := DirSize; //FStream.Position - FInfo.FDirectoryOffset; {!!!}
-
-  { if not room on current media for CD tail }
-  if (FStream as TAbSpanStream).FreeSpace < AB_SIZE_CD_TAIL then
-    GetNextMedia;
-
-  FInfo.DiskNumber := (FStream as TAbSpanStream).SpanNumber { + 1};
-  { write CD tail }{ intermediate stream needed for speed }
-  WorkStream.Size := 0;
-  FInfo.SaveToStream(WorkStream);
-  WorkStream.Seek(0, soBeginning);
-  if WorkStream.Size > 0 then
-    FStream.CopyFrom(WorkStream, WorkStream.Size);
-
-  finally
-    WorkStream.Free;
-  end;
-end; { SaveCDT }
-
-procedure Initialize;
-begin
-  FStream.Position := 0;
-
-  CompressedDataStream := TAbVirtualMemoryStream.Create;
-  CompressedDataStream.SwapFileDirectory := ExtractFilePath(AbGetTempFile(FTempDir, False));
-
-//  CDStream := TAbVirtualMemoryStream.Create;
-//  CDStream.SwapFileDirectory := CompressedDataStream.SwapFileDirectory;
-end;
-
-procedure Cleanup;
-begin
-  CompressedDataStream.Free;
-end;
-
-procedure CopyStub;
-begin
-  {copy the executable stub over to the output}
-  if IsExecutable then
-//  if StubSize > 0 then
-//    NewStream.CopyFrom( FStream, StubSize )
-end;
-
-procedure UpdateItemsList;
-var
-  i : Integer;
-begin
-  {update Items list}
-  for i := pred( Count ) downto 0 do begin
-    if FItemList[i].Action = aaDelete then
-      FItemList.Delete( i )
-    else if FItemList[i].Action <> aaFailed then
-      FItemList[i].Action := aaNone;
-  end;
-end;
-
-function Validate : Boolean;
-var
-  i : Integer;
-begin
-  {shouldn't be trying to overwrite an existing spanned archive}
-  Result := True;
-  if Spanned then begin
-    for i := 0 to Pred(Count) do
-      if ItemList[i].Action <> aaFailed then
-        ItemList[i].Action := aaNone;
-    FIsDirty := False;
-    Result := False;
-  end;
-end;
-
-begin { SaveArchive }
-  Exit;
-//This function doesn't work correctly.
-
-  if Validate then begin
-    Initialize;
-    try
-      CopyStub;
-      BuildData;
-      SaveData;
-      SaveCDT;
-      UpdateItemsList;
-    finally
-      Cleanup;
-    end;
-  end else
-    raise EAbZipSpanOverwrite.Create;
-end;  { SaveArchive }
-
-
-
-{ -------------------------------------------------------------------------- }
-
-
-
-procedure TAbZipArchive.SaveArchive; {!!.05 Renamed SaveArchive2 to SaveArchive, switch methods to take back to Commerical 3.05 status}
+procedure TAbZipArchive.SaveArchive;
   {builds a new archive and copies it to FStream}
 var
   Abort              : Boolean;
-  {BlockSize         : Longint;}                                         {!!.01}
-  {TotalBytesWritten : Longint;}                                         {!!.01}
   CDHStream          : TMemoryStream;
   HasDataDescriptor  : Boolean;
   i                  : LongWord;
@@ -2898,10 +2498,8 @@ begin
   end;
 {!!.01 -- End Modified (see more below)}
 
-  //CanSpan := False;
-  //SSpanningThreshold := 0;
   FDriveIsRemovable := AbDriveIsRemovable(ArchiveName);
-{We should let the user decide whether w should span or not}
+{We should let the user decide whether we should span or not}
 {.$IFDEF OLD_SPAN_LOGIC}
   {can span if new archive and drive is removable, or
    can span if SpanningThreshold > 0 and drive is fixed}
@@ -2923,15 +2521,9 @@ begin
     	SSpanningThreshold := SpanningThreshold
   end;
 
-  {if (SSpanningThreshold <= 0) then
-    SSpanningThreshold := High(int64);
-
-  if (CanSpan = False) then SSpanningThreshold := High(int64);;}
-
   {init new zip archive stream}
   NewStream := TAbVirtualMemoryStream.Create;
 
-  //NewStream := TFileStream.Create(AbGetTempFile(FTempDir, False), fmCreate or fmOpenReadWrite);
   try {NewStream}
     NewStream.SwapFileDirectory := ExtractFilePath(AbGetTempFile(FTempDir, False));
 
@@ -2993,36 +2585,36 @@ begin
             CurrItem.RelativeOffset := SCurrentOffset;
             WorkingStream := TAbVirtualMemoryStream.Create;
             try
-            try {WorkingStream}
+              try {WorkingStream}
 
-              WorkingStream.SwapFileDirectory := NewStream.SwapFileDirectory;
+                WorkingStream.SwapFileDirectory := NewStream.SwapFileDirectory;
 
-              if (CurrItem.Action = aaStreamAdd) then
-                DoInsertFromStreamHelper(i, WorkingStream)
-              else
-                DoInsertHelper(i, WorkingStream);
+                if (CurrItem.Action = aaStreamAdd) then
+                  DoInsertFromStreamHelper(i, WorkingStream)
+                else
+                  DoInsertHelper(i, WorkingStream);
 
-              CurrItem.SaveLFHToStream(NewStream);
-              NewStream.CopyFrom(WorkingStream, 0); // copy whole stream
-              if CurrItem.IsEncrypted then                               {!!.01}
-                CurrItem.SaveDDToStream(NewStream);                      {!!.01}
+                CurrItem.SaveLFHToStream(NewStream);
+                NewStream.CopyFrom(WorkingStream, 0); // copy whole stream
+                if CurrItem.IsEncrypted then                               {!!.01}
+                  CurrItem.SaveDDToStream(NewStream);                      {!!.01}
 
-              FInfo.EntriesOnDisk := FInfo.EntriesOnDisk + 1;
-              FInfo.TotalEntries := FInfo.TotalEntries + 1;
-              CurrItem.SaveCDHToStream(CDHStream);
+                FInfo.EntriesOnDisk := FInfo.EntriesOnDisk + 1;
+                FInfo.TotalEntries := FInfo.TotalEntries + 1;
+                CurrItem.SaveCDHToStream(CDHStream);
 
-            except
-              on E : Exception do
-              begin
-                { Exception was caused by a User Abort and Item Failure should not be called
-                  Question:  Do we want an New Event when this occurs or should the
-                  exception just be re-raised }
-                if (E is EAbUserAbort) then {!!.05 [ 783614 ]}
-                   raise;
-                CurrItem.Action := aaDelete;
-                DoProcessItemFailure(CurrItem, ptAdd, ecFileOpenError, 0);
+              except
+                on E : Exception do
+                begin
+                  { Exception was caused by a User Abort and Item Failure should not be called
+                    Question:  Do we want an New Event when this occurs or should the
+                    exception just be re-raised }
+                  if (E is EAbUserAbort) then {!!.05 [ 783614 ]}
+                     raise;
+                  CurrItem.Action := aaDelete;
+                  DoProcessItemFailure(CurrItem, ptAdd, ecFileOpenError, 0);
+                end;
               end;
-            end;
             finally
               WorkingStream.Free;
             end;
@@ -3097,13 +2689,13 @@ begin
          FStream.CopyFrom(NewStream, NewStream.Size)
     end else begin
       { need new stream to write }
-      FStream.Free;
+      FreeAndNil(FStream);
 
 {!!.01 -- Modified to take better advantage of TAbSpanStream features }
       if Spanned and AbDriveIsRemovable(FArchiveName) then begin         {!!.03}
         {reset image number }
         SCurrentImage := 0;
-        AbWriteVolumeLabel(Format('PKBACK# %3.3d',
+        AbWriteVolumeLabel(Format(AB_SPAN_VOL_LABEL,
           [Succ(SCurrentImage)]), AbDrive(FArchiveName));
         FStream := TAbSpanStream.Create(FArchiveName,
           fmOpenWrite or fmShareDenyWrite, mtRemoveable,
@@ -3128,14 +2720,9 @@ begin
         end
        else
         begin
-// !!.05 Test to use TFileStream if not Spanned
-//        FStream := TAbSpanStream.Create(FArchiveName,
-//          fmOpenWrite or fmShareDenyWrite, mtLocal,
-//            FSpanningThreshold);
-        FStream := nil; {!!.05 avoid A/V on free if Create Fails}
-        FStream := TFileStream.Create(FArchiveName,
-          fmOpenReadWrite or fmShareDenyWrite);
-       end;
+          FStream := TFileStream.Create(FArchiveName,
+            fmOpenReadWrite or fmShareDenyWrite);
+        end;
 
       try
         if (FStream is TAbSpanStream) then
@@ -3187,7 +2774,6 @@ begin
           MediaType, FSpanningThreshold);
       end;
 
-
     {update Items list}
     for i := pred( Count ) downto 0 do begin
       if FItemList[i].Action = aaDelete then
@@ -3196,16 +2782,11 @@ begin
         FItemList[i].Action := aaNone;
     end;
 
-
-
     DoArchiveSaveProgress( 100, Abort );                               {!!.04}
     DoArchiveProgress( 100, Abort );
   finally {NewStream}
     NewStream.Free;
- //   FStream.Free;
   end;
-
-
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipArchive.SetZipFileComment(const Value : string );
@@ -3231,13 +2812,5 @@ begin
   DoTestHelper(Index);
 end;
 { -------------------------------------------------------------------------- }
-class function TAbZipArchive.GetMaxFileSize: Int64;
-begin
-	Result := High(Int64);
-end;
-
 end.
-
-
-
 
