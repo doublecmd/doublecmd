@@ -37,8 +37,7 @@ interface
 
 uses
   Classes,
-  AbBrowse, AbZBrows, AbZipper,
-  AbArcTyp, AbBase, AbUtils, AbZipTyp;
+  AbZipper, AbArcTyp, AbZipTyp;
 
 type
   TAbCustomZipKit = class(TAbCustomZipper)

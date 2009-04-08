@@ -104,17 +104,6 @@ AB_PAX_MD_HEADERS        = [AB_TAR_LF_XHDR, AB_TAR_LF_XGL]; { If present then PO
   AB_TAR_TSUID   = $0800;   { Set UID on execution }
   AB_TAR_TSGID   = $0400;   { Set GID on execution }
   AB_TAR_TSVTX   = $0200;   { Save text (sticky bit) }
-{ They are defined in AbUtils }
-//{ File permissions }
-//  AB_TAR_TUREAD  = $0100;   { read by owner }
-//  AB_TAR_TUWRITE = $0080;   { write by owner }
-//  AB_TAR_TUEXEC  = $0040;   { execute/search by owner }
-//  AB_TAR_TGREAD  = $0020;   { read by group }
-//  AB_TAR_TGWRITE = $0010;   { write by group }
-//  AB_TAR_TGEXEC  = $0008;   { execute/search by group }
-//  AB_TAR_TOREAD  = $0004;   { read by other }
-//  AB_TAR_TOWRITE = $0002;   { write by other }
-//  AB_TAR_TOEXEC  = $0001;   { execute/search by other }
 
 
 type
@@ -405,7 +394,7 @@ type
   private
     function FindItem(FindFirst: Boolean): Boolean; { Tool for FindFirst/NextItem functions }
   protected
-    FTarHeader     : TAbTarHeaderRec; { Speed-up Buffer only }
+    FTarHeader      : TAbTarHeaderRec; { Speed-up Buffer only }
     FCurrItemSize   : int64;           { Current Item size }
     FCurrItemPreHdrs: Integer;         { Number of Meta-data Headers before the Item }
   public
@@ -445,8 +434,6 @@ type
     function FixName(const Value: string): string;
       override;
 
-    function GetItem(Index: Integer): TAbTarItem;
-    procedure PutItem(Index: Integer; const Value: TAbTarItem);     
   public {methods}
     constructor Create(const FileName : string; Mode : Word);
       override;
@@ -454,9 +441,6 @@ type
       override;
     property UnsupportedTypesDetected : Boolean
       read FArchReadOnly;
-    property Items[Index : Integer] : TAbTarItem
-      read GetItem
-      write PutItem; default;                                       
  end;
 
  procedure UnixAttrsToTarAttrs(const UnixAttrs: LongWord;
@@ -1000,7 +984,7 @@ begin
       NameLength := OctalToInt64(PHeader.Size, SizeOf(PHeader.Size));
       NumMHeaders := Floor(NameLength / AB_TAR_RECORDSIZE);
       ExtraName := NameLength mod AB_TAR_RECORDSIZE; { Chars in the last Header }
-      { NumMHeasder should never be zero }
+      { NumMHeaders should never be zero }
       { It appears that it is not null terminated in the blocks }
       for J := 1 to NumMHeaders do
         begin
@@ -1369,7 +1353,7 @@ begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
   { Dev Major and Minor are Only used for AB_TAR_LF_CHR, AB_TAR_LF_BLK }
-  { Otherwise they are suffed with #00 }
+  { Otherwise they are stuffed with #00 }
   FTarItem.DevMajor := Value; { Store to the struct }
   S := PadString(IntToOctal(Value), SizeOf(Arr8));
   Move(S[1], PTarHeader.DevMajor, Length(S));
@@ -1383,7 +1367,7 @@ begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
   { Dev Major and Minor are Only used for AB_TAR_LF_CHR, AB_TAR_LF_BLK }
-  { Otherwise they are suffed with #00 }
+  { Otherwise they are stuffed with #00 }
   FTarItem.DevMinor := Value;
   S := PadString(IntToOctal(Value), SizeOf(Arr8));
   Move(S[1], PTarHeader.DevMinor, Length(S));
@@ -1858,7 +1842,6 @@ var
   I: Integer;
   J: Integer;
   TotalOldNumHeaders: Integer;
-  tempStr: String;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
@@ -1945,7 +1928,7 @@ begin
     end; { End if GNU... }
     { Save off the new name and store to the Header }
     FTarItem.LinkName := Value;
-    StrPCopy(PTarHeader.LinkName, tempStr);
+    StrPCopy(PTarHeader.LinkName, Value);
   end;{ End else Short new name,... }
   { May have updated the Headers so point it back to the File type Header. }
   PTarHeader := FTarHeaderList.Items[FTarHeaderList.Count-1];
@@ -2012,7 +1995,6 @@ begin
   S := PadString(IntToOctal(Value), SizeOf(Arr12));{ Stuff to header }
   Move(S[1], PTarHeader.ModTime, Length(S));
   FTarItem.Dirty := True;
-
 end;
 
 
@@ -2476,17 +2458,6 @@ begin
   Result := lValue;
 end;
 
-function TAbTarArchive.GetItem(Index: Integer): TAbTarItem;
-begin
-  Result := TAbTarItem(FItemList.Items[Index]);
-end;
-
-procedure TAbTarArchive.PutItem(Index: Integer; const Value: TAbTarItem);
-begin
-  //TODO: Remove this from all archives
-  FItemList.Items[Index] := Value;
-end;
-
 procedure TAbTarArchive.SaveArchive;
 var
   OutTarHelp     : TAbTarStreamHelper;
@@ -2546,7 +2517,6 @@ begin
               if Attrs = -1 then
                 Raise EAbFileNotFound.Create;
 
-              CurItem.ExternalFileAttributes := Attrs;
               CurItem.SystemSpecificAttributes := Attrs;
 
               if AbAttrIsDir(Attrs) then begin
@@ -2662,3 +2632,4 @@ begin
 end;
 
 end. { End unit AbTarTyp }
+

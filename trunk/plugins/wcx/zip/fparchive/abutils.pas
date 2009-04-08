@@ -42,7 +42,6 @@ uses
   Windows,
 {$ENDIF}
 {$IFDEF UNIX}
-  UnixType,
   Unix,
   BaseUnix,
   unixutil,
@@ -89,7 +88,7 @@ var
   AbCrc32TableOfs : Word;
 
 type
-  TAbArchiveType = (atUnknown, atZip, atSpannedZip {!!.01}, atSelfExtZip,
+  TAbArchiveType = (atUnknown, atZip, atSpannedZip, atSelfExtZip,
                     atTar, atGzip, atGzippedTar, atCab, atBZip, atBzippedTar);
 
 
@@ -190,7 +189,6 @@ type
   end;
 
   {===Helper functions===}
-  procedure ablog(s:string);
 
   function AbAttrIsDir(Attributes: LongWord): Boolean;
     { Returns True, if Attributes have 'directory' flag. }
@@ -296,20 +294,17 @@ type
   function AbUpdateCRC32(CurByte : Byte; CurCrc : LongInt) : LongInt;
     {-Returns an updated crc32}
 
-
-
-  function AbWriteVolumeLabel(const VolName : string;
-                                  Drive : AnsiChar) : Cardinal;
-{!!.04 - Added }
+{ spanning }
 const
   AB_SPAN_VOL_LABEL = 'PKBACK# %3.3d';
 
-  function AbGetVolumeLabel(Drive : AnsiChar) : AnsiString;
+  function  AbGetVolumeLabel(Drive : AnsiChar) : AnsiString;
   procedure AbSetSpanVolumeLabel(Drive: AnsiChar; VolNo : Integer);
-  function AbTestSpanVolumeLabel(Drive: AnsiChar; VolNo : Integer): Boolean;
-{!!.04 - Added End }
+  function  AbTestSpanVolumeLabel(Drive: AnsiChar; VolNo : Integer): Boolean;
+  function  AbWriteVolumeLabel(const VolName : string; Drive : AnsiChar) : Cardinal;
 
-  function AbFileGetAttr(const aFileName : string) : integer;
+
+  function  AbFileGetAttr(const aFileName : string) : integer;
   procedure AbFileSetAttr(const aFileName : string; aAttr : integer);
     {-Get or set file attributes for a file. }
   function AbFileGetSize(const aFileName : string) :                     {!!.01}
@@ -325,10 +320,7 @@ const
 
 { date and time stuff }
 const
-//  Date1900 {: LongInt} = $0001AC05;  {Julian day count for 01/01/1900 -- TDateTime Start Date}
-//  Date1970 {: LongInt} = $00020FE4;  {Julian day count for 01/01/1970 -- Unix Start Date}
   Unix0Date: TDateTime = 25569;      {Date1970 - Date1900}
-                      //See: TP Abbrevia bug [1327858]
 
   SecondsInDay    = 86400;  {Number of seconds in a day}
   SecondsInHour   =  3600;  {Number of seconds in an hour}
@@ -398,37 +390,17 @@ const
     AB_FPERMISSION_OTHERREAD;
 
 
-
 implementation
 
 uses
-  AbConst,
-  AbExcept;
+  AbConst
+{$IFDEF MSWINDOWS}
+  , AbExcept
+{$ENDIF}
+  ;
 
 const
   AB_MAXPATH = MAX_PATH;
-
-type
-  XFCBrec = packed record
-    Flag : Byte;                      {should be $FF}
-    Reserved0 : array[1..5] of Byte;  {should be all zeroes}
-    AttrByte : Byte;                  {should be 8}
-    DriveCode : Byte;
-    FileSpec : array[1..11] of AnsiChar;
-    Reserved1 : array[1..25] of Byte;
-  end;
-
-  DTABuf = array[0..63] of AnsiChar;
-
-  PMediaIDType = ^MediaIDType;
-  MediaIDType = packed record
-  {This type describes the information that DOS 4.0 or higher writes
-   in the boot sector of a disk when it is formatted}
-    InfoLevel : Word;                        {Reserved for future use}
-    SerialNumber : LongInt;                  {Disk serial number}
-    VolumeLabel : array[0..10] of AnsiChar;  {Disk volume label}
-    FileSystemID : array[0..7] of AnsiChar;  {String for internal use by the OS}
-  end;
 
 {===platform independent routines for platform dependent stuff=======}
 function ExtractShortName(const SR : TSearchRec) : string;
@@ -595,7 +567,6 @@ end;
 function AbGetTempFile(const Dir : string; CreateIt : Boolean) : string;
 var
 {$IFDEF MSWINDOWS}
-  FileNameZ : array [0..259] of char;
   TempPathZ : array [0..259] of char;
 {$ENDIF}
 {$IFDEF UNIX}
@@ -621,6 +592,8 @@ begin
   {$ENDIF}
 {$ENDIF}
 {$IFDEF LINUX}
+  //GetTempPath
+  //AbDirectoryExists
   Result := GetTempFileName(Dir, 'VMSXXXXXX');
   if CreateIt then
   begin
@@ -811,9 +784,6 @@ begin
           0 {type undeterminable} : Size := -1; { fail }
           1 {root non-existant}   : Size := -1; { fail }
           DRIVE_RAMDISK           : Size := -1; { fail }
-
-//        DRIVE_CDROM           : Size := -1; { fail }                 {!!.04}
-//        DRIVE_CDROM           : Size := 0; { Read-Only }             {!!.04}
           DRIVE_CDROM             : Size := GetDiskFree(DrvStr);  {!!.04}
           DRIVE_REMOVABLE         : Size := GetRemoveableDiskFree(DrvStr); {!!.02}
           DRIVE_FIXED             : Size := GetDiskFree(DrvStr);      {!!.02}
@@ -875,22 +845,6 @@ begin
 {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
-
-procedure ablog(s:string);
-var
-  tf:TFilestream;
-begin
-{$IFDEF MSWINDOWS}
-  tf:= TFileStream.create('f:\trash\ab.log', fmOpenReadWrite);
-{$ELSE}
-  tf:= TFileStream.create('/tmp/ab.log', fmOpenReadWrite);
-{$ENDIF}
-  tf.Seek(0, soEnd);
-  s:=s+string(#13)+string(#10);
-  tf.Write(s[1], Length(s));
-  tf.free;
-end;
-
 function AbDirMatch(DirPath : string; PathToMatch : string; Recursive : Boolean) : Boolean;
 begin
   if Recursive then
@@ -1295,17 +1249,19 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 procedure AbUpdateCRC( var CRC : LongInt; var Buffer; Len : Word );
-type
-  TByteArray = array[0..65520] of Byte;
 var
-  BufArray : TByteArray absolute Buffer;
+  BufPtr : PByte;
   i : Integer;
   CRCTemp : DWORD;
 begin
+  BufPtr := @Buffer;
   CRCTemp := CRC;
   for i := 0 to pred( Len ) do
-    CRCTemp := AbCrc32Table[ Byte(CrcTemp xor DWORD( BufArray[i] ) ) ] xor
+  begin
+    CRCTemp := AbCrc32Table[ Byte(CrcTemp) xor (BufPtr^) ] xor
               ((CrcTemp shr 8) and $00FFFFFF);
+    BufPtr := BufPtr + 1;
+  end;
   CRC := CRCTemp;
 end;
 { -------------------------------------------------------------------------- }
@@ -1598,11 +1554,13 @@ begin
 {$IFNDEF LINUX}
   Result := FlushFileBuffers(Handle);
   if not Result then
-{$IFDEF Version6}
+  {$IFDEF Version6}
     RaiseLastOSError;
-{$ELSE}
+  {$ELSE}
     RaiseLastWin32Error;
-{$ENDIF}
+  {$ENDIF}
+{$ELSE}
+  Result := False;
 {$ENDIF}
 end;
 
@@ -1770,16 +1728,17 @@ end;
 
 
 {!!.04 - Added }
-const
-  MAX_VOL_LABEL = 16;
-
 function AbGetVolumeLabel(Drive : AnsiChar) : AnsiString;
 {-Get the volume label for the specified drive.}
+{$IFNDEF LINUX}
+const
+  MAX_VOL_LABEL = 16;
 var
   Root : AnsiString;
   Flags, MaxLength : DWORD;
   NameSize : Integer;
   VolName : string;
+{$ENDIF}
 begin
 {$IFDEF LINUX}
   result := ''; //Stop Gap, spanning support needs to be rethought for Linux

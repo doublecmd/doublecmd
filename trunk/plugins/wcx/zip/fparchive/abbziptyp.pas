@@ -306,8 +306,6 @@ type
       override;
 
 //    function Decompress: integer;
-    function GetItem(Index: Integer): TAbBzipItem;                  {!!.03}
-    procedure PutItem(Index: Integer; const Value: TAbBzipItem);    {!!.03}
   public {methods}
     constructor Create(const FileName : string; Mode : Word);
       override;
@@ -323,10 +321,6 @@ type
 
     property IsBzippedTar : Boolean
       read GetIsBzippedTar write FIsBzippedTar;
-
-    property Items[Index : Integer] : TAbBzipItem                    {!!.03}
-      read GetItem                                                   {!!.03}
-      write PutItem; default;                                        {!!.03}
   end;
 
 function VerifyBZip(Strm : TStream) : TAbArchiveType;
@@ -1164,15 +1158,6 @@ begin
   Result := FIsBzippedTar;
 end;
 
-{!!.03 -- Added }
-function TAbBzipArchive.GetItem(Index: Integer): TAbBzipItem;
-begin
-  Result := nil;
-  if Index = 0 then
-    Result := TAbBzipItem(FItemList.Items[Index]);
-end;
-{!!.03 -- End Added }
-
 procedure TAbBzipArchive.LoadArchive;
 var
   BZipHelp       : TAbBzipStreamHelper;
@@ -1253,14 +1238,6 @@ begin
     end;
   end;
 end;
-
-{!!.03 -- Added }
-procedure TAbBzipArchive.PutItem(Index: Integer; const Value: TAbBzipItem);
-begin
-  if Index = 0 then
-    FItemList.Items[Index] := Value;
-end;
-{!!.03 -- End Added }
 
 procedure TAbBzipArchive.SaveArchive;
 var

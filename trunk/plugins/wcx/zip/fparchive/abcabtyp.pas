@@ -123,11 +123,9 @@ type
       override;
     procedure ExtractItemToStreamAt(Index : Integer; OutStream : TStream);
       override;
-    function  GetItem(ItemIndex : Integer) : TAbCabItem;
     procedure LoadArchive;
       override;
     procedure OpenCabFile;
-    procedure PutItem( Index : Integer; Value : TAbCabItem );
     procedure SaveArchive;
       override;
     procedure SetFolderThreshold(Value : LongWord);
@@ -164,9 +162,6 @@ type
       read  FHasPrev;
     property HasNext : Boolean
       read  FHasNext;
-    property Items[Index : Integer] : TAbCabItem
-      read  GetItem
-      write PutItem; default;
     property ItemProgress : DWord
       read  FItemProgress
       write FItemProgress;
@@ -218,7 +213,7 @@ procedure FXI_FreeMem(lpBuffer : Pointer);
   cdecl;
   {free memory}
 begin
-  Dispose(lpBuffer);
+  Freemem(lpBuffer);
 end;
 
 
@@ -690,7 +685,7 @@ end;
 procedure TAbCabArchive.ExtractItemAt(Index : Integer; const NewName : string);
   {extract a file from the cabinet}
 begin
-  FItemInProgress := GetItem(Index);
+  FItemInProgress := TAbCabItem(ItemList.Items[Index]);
   FIIPName := NewName;
   try
     if not FDICopy(FFDIContext, FCabName, FCabPath, 0, @FDI_ExtractFiles,
@@ -704,12 +699,6 @@ end;
 procedure TAbCabArchive.ExtractItemToStreamAt(Index : Integer; OutStream : TStream);
 begin
   {not implemented for cabinet archives}
-end;
-{----------------------------------------------------------------------------}
-function TAbCabArchive.GetItem(ItemIndex : Integer) : TAbCabItem;
-  {fetch an item from the file list}
-begin
-  Result := TAbCabItem(FItemList.Items[ItemIndex]);
 end;
 {----------------------------------------------------------------------------}
 procedure TAbCabArchive.LoadArchive;
@@ -770,12 +759,6 @@ begin
     raise EAbFDICopyError.Create;
   end;
   DoArchiveProgress(100, Abort);
-end;
-{ -------------------------------------------------------------------------- }
-procedure TAbCabArchive.PutItem( Index : Integer; Value : TAbCabItem );
-  {replace an existing item in the file list}
-begin
-  FItemList.Items[Index] := Value;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbCabArchive.SaveArchive;

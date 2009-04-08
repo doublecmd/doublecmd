@@ -37,8 +37,7 @@ interface
 
 uses
   SysUtils, Classes,
-  AbBrowse, AbZBrows,
-  AbBase, AbUtils, AbArcTyp, AbZipTyp, AbTarTyp, AbGzTyp, AbSpanSt;
+  AbBrowse, AbZBrows, AbUtils, AbArcTyp, AbZipTyp, AbTarTyp, AbGzTyp;
 
 type
   TAbCustomZipper = class(TAbCustomZipBrowser)
@@ -432,13 +431,13 @@ begin
   FFileName := aFileName;
   if (csDesigning in ComponentState) then
     Exit;
-  {!!.05 Remove Try|Except Raise and double Free }
+
   if Assigned(FArchive) then
    begin
      FArchive.Save;
      FArchive.Free;
+     FArchive := nil;
    end;
-  FArchive := nil;   
 
   ArcType := ArchiveType;
 

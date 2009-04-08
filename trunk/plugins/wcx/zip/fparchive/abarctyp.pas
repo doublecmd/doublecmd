@@ -36,9 +36,6 @@ unit AbArcTyp;
 interface
 
 uses
-  {$IFNDEF Linux}
-  Windows,                                                 {!!.03}
-  {$ENDIF Linux}
   Classes,
   AbUtils,
   SysUtils;
@@ -326,7 +323,6 @@ type
     procedure SetLogFile(const Value : string);
     procedure SetLogging(Value : Boolean);
     procedure Unlock;
-    class function GetMaxFileSize: Int64; virtual;
 
   protected {abstract methods}
     function CreateItem(const SourceFileName : string;
@@ -595,6 +591,7 @@ begin
   FAction := aaNone;
   FLastModFileTime := 0;
   FLastModFileDate := 0;
+  FCRC32 := 0;
 end;
 { -------------------------------------------------------------------------- }
 destructor TAbArchiveItem.Destroy;
@@ -602,10 +599,9 @@ begin
   inherited Destroy;
 end;
 { -------------------------------------------------------------------------- }
-
 class function TAbArchiveItem.GetMaxFileSize: Int64;
 begin
-    Result := $FFFFFFFF;  //Make same as old
+    Result := High(LongWord);
 end;
 { -------------------------------------------------------------------------- }
 function TAbArchiveItem.GetCompressedSize : Int64;
@@ -1112,18 +1108,15 @@ procedure TAbArchive.AddFilesEx(const FileMask, ExclusionMask : string;
   {Add files matching Filemask except those matching ExclusionMask}
 var
   PathType : TAbPathType;
-  IsWild : Boolean;
   SaveDir : string;
   Mask : string;
   MaskF : string;
 
-  procedure CreateItems(Wild, Recursing : Boolean);
+  procedure CreateItems(Recursing : Boolean);
   var
     i : Integer;
     Files : TStrings;
     FilterList : TStringList;
-    Item : TAbArchiveItem;
-    FullPath : String;
   begin
     FilterList := TStringList.Create;
     try
@@ -1152,7 +1145,6 @@ var
 
 begin
   CheckValid;
-  IsWild := (Pos('*', FileMask) > 0) or (Pos('?', FileMask) > 0);
   PathType := AbGetPathType(FileMask);
 
   Mask := FileMask;
@@ -1167,7 +1159,7 @@ begin
         if BaseDirectory <> '' then
           ChDir(BaseDirectory);
         try
-          CreateItems(IsWild, soRecurse in StoreOptions);
+          CreateItems(soRecurse in StoreOptions);
         finally
           if BaseDirectory <> '' then
             ChDir(SaveDir);
@@ -1175,7 +1167,7 @@ begin
       end;
     ptAbsolute :
       begin
-        CreateItems(IsWild, soRecurse in StoreOptions);
+        CreateItems(soRecurse in StoreOptions);
       end;
   end;
 end;
@@ -1187,7 +1179,7 @@ var
   Item : TAbArchiveItem;
   PT : TAbProcessType;                                               
 begin
-  Item := CreateItem('', NewName);    //TODO no expand
+  Item := CreateItem('', NewName);
   CheckValid;
 
   PT := ptAdd;
@@ -1644,7 +1636,6 @@ procedure TAbArchive.Freshen(aItem : TAbArchiveItem);
   {freshen the item}
 var
   Index : Integer;
-//  temp : String;
 begin
   CheckValid;
   Index := FindItem(aItem);
@@ -2014,21 +2005,20 @@ procedure TAbArchive.Save;
 var
   Confirm : Boolean;
 begin
-  if Status = asInvalid then
-    Exit;
-  if (not FIsDirty) {and (Count > 0)} then
-    Exit;
-  Lock;
-  try
-    DoConfirmSave(Confirm);
-    if not Confirm then
-      Exit;
+  if FIsDirty and (Status <> asInvalid) then
+  begin
+    Lock;
+    try
+      DoConfirmSave(Confirm);
+      if not Confirm then
+        Exit;
 
-    SaveArchive;
-    FIsDirty := False;
-    DoSave;
-  finally
-    Unlock;
+      SaveArchive;
+      FIsDirty := False;
+      DoSave;
+    finally
+      Unlock;
+    end;
   end;
 end;
 { -------------------------------------------------------------------------- }
@@ -2097,12 +2087,6 @@ begin
   FPadLock.Locked := False;
 end;
 { -------------------------------------------------------------------------- }
-//TODO: Remove
-class function TAbArchive.GetMaxFileSize: Int64;
-begin
-    Result := High(LongWord);
-end;
-{ -------------------------------------------------------------------------- }
 procedure TAbArchive.UnTagItems(const FileMask : string);
   {clear tags for all items that match the mask}
 var
@@ -2115,13 +2099,14 @@ begin
           Tagged := False;
       end;
 end;
-{ ========================================================================== }
-
+{ -------------------------------------------------------------------------- }
 procedure TAbArchive.DoSpanningMediaRequest(Sender: TObject;
   ImageNumber: Integer; var ImageName: string; var Abort: Boolean);
 begin
   raise EAbSpanningNotSupported.Create;
 end;
+
+{ ========================================================================== }
 
 { TAbArchiveStreamHelper }
 

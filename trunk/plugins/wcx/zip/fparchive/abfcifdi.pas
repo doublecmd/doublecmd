@@ -36,7 +36,6 @@ unit AbFciFdi;
 interface
 
 uses
-  Types, //!! MVC for BOOL
   {$IFDEF FPC}
   dynlibs, // loadlibrary
   {$ENDIF}

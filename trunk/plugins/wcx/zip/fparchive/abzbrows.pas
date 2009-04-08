@@ -37,8 +37,7 @@ interface
 
 uses
   SysUtils, Classes,
-  AbBrowse,
-  AbBase, AbExcept, AbUtils, AbArcTyp, AbZipTyp, AbTarTyp, AbGzTyp, AbSpanSt;
+  AbBrowse, AbExcept, AbUtils, AbArcTyp, AbZipTyp, AbTarTyp, AbGzTyp, AbSpanSt;
 
 type
   TAbCustomZipBrowser = class(TAbBaseBrowser)
