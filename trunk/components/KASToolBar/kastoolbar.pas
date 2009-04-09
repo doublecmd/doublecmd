@@ -490,9 +490,9 @@ begin
 
        XButtons.Add(TKButton.Create);
            TKButton(XButtons[I-1]).ButtonX :=GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'button' + IntToStr(I), ''));
-           TKButton(XButtons[I-1]).CmdX := IniFile.ReadString('Buttonbar', 'cmd' + IntToStr(I), '');
-           TKButton(XButtons[I-1]).ParamX := IniFile.ReadString('Buttonbar', 'param' + IntToStr(I), '');
-           TKButton(XButtons[I-1]).PathX := IniFile.ReadString('Buttonbar', 'path' + IntToStr(I), '');
+           TKButton(XButtons[I-1]).CmdX := GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'cmd' + IntToStr(I), ''));
+           TKButton(XButtons[I-1]).ParamX := GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'param' + IntToStr(I), ''));
+           TKButton(XButtons[I-1]).PathX := GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'path' + IntToStr(I), ''));
            TKButton(XButtons[I-1]).MenuX := IniFile.ReadString('Buttonbar', 'menu' + IntToStr(I), '');
            TKButton(XButtons[I-1]).IconicX := IniFile.ReadInteger('Buttonbar', 'icon' + IntToStr(I),0);
 
@@ -510,9 +510,9 @@ begin
     begin
       IniFile.WriteString('Buttonbar', 'button' + IntToStr(I + 1), SetCmdDirAsEnvVar(GetButtonX(I,ButtonX)));
       IniFile.WriteString('Buttonbar', 'cmd' + IntToStr(I + 1), SetCmdDirAsEnvVar(GetButtonX(I,CmdX)));
-      IniFile.WriteString('Buttonbar', 'param' + IntToStr(I + 1), GetButtonX(I,ParamX) );
-      IniFile.WriteString('Buttonbar', 'path' + IntToStr(I + 1), GetButtonX(I,PathX) );
-      IniFile.WriteString('Buttonbar', 'menu' + IntToStr(I + 1),GetButtonX(I,MenuX) );
+      IniFile.WriteString('Buttonbar', 'param' + IntToStr(I + 1), SetCmdDirAsEnvVar(GetButtonX(I,ParamX)));
+      IniFile.WriteString('Buttonbar', 'path' + IntToStr(I + 1), SetCmdDirAsEnvVar(GetButtonX(I,PathX)));
+      IniFile.WriteString('Buttonbar', 'menu' + IntToStr(I + 1),GetButtonX(I,MenuX));
     end;
 end;
 
