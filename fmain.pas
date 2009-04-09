@@ -1003,7 +1003,21 @@ begin
    begin
      if IsAvailable(dskPanel.Commands[NumberOfButton]) then
        begin
-         FrameFilePanel.pnlFile.ActiveDir := dskPanel.Commands[NumberOfButton];
+         if PanelSelected = fpRight then
+           begin
+             if IncludeTrailingPathDelimiter(ExtractFileDrive(FrameLeft.pnlFile.ActiveDir)) = dskPanel.Commands[NumberOfButton] then
+               FrameFilePanel.pnlFile.ActiveDir := FrameLeft.pnlFile.ActiveDir
+             else
+               FrameFilePanel.pnlFile.ActiveDir := dskPanel.Commands[NumberOfButton];
+           end
+         else
+           begin
+             if IncludeTrailingPathDelimiter(ExtractFileDrive(FrameRight.pnlFile.ActiveDir)) = dskPanel.Commands[NumberOfButton] then
+               FrameFilePanel.pnlFile.ActiveDir := FrameRight.pnlFile.ActiveDir
+             else
+               FrameFilePanel.pnlFile.ActiveDir := dskPanel.Commands[NumberOfButton];
+           end;
+
          dskPanel.Tag := NumberOfButton;
          btnDrive.Tag:= NumberOfButton;
 
