@@ -291,6 +291,7 @@ type
     actFileSpliter: TAction;
     pmToolBar: TPopupMenu;
     MainTrayIcon: TTrayIcon;
+    tmHAL: TTimer;
 
     procedure actExecute(Sender: TObject);
     procedure btnLeftClick(Sender: TObject);
@@ -374,6 +375,7 @@ type
     procedure edtCommandExit(Sender: TObject);
     procedure tbEditClick(Sender: TObject);
     procedure FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyEvent: TWatchFilter);
+    procedure tmHALTimer(Sender: TObject);
   private
     { Private declarations }
     PanelSelected:TFilePanelSelect;
@@ -1096,6 +1098,10 @@ procedure TfrmMain.frmMainShow(Sender: TObject);
 begin
   DebugLn('frmMain.frmMainShow');
   Application.QueueAsyncCall(@frmMainAfterShow, 0);
+  {$IFDEF LINUX}
+  CreateHal;
+  tmHAL.Enabled := True;
+  {$ENDIF}
 end;
 
 procedure TfrmMain.mnuDropClick(Sender: TObject);
@@ -3276,6 +3282,12 @@ begin
       until sWatchDirsExclude = '';
     end;
   FrameFilePanel.RefreshPanel((watch_total_number_files in gWatchDirs), (watch_free_disk_space in gWatchDirs));
+end;
+
+procedure TfrmMain.tmHALTimer(Sender: TObject);
+begin
+  if CheckHalMsg then
+    UpdateDiskCount;
 end;
 
 function TfrmMain.ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;

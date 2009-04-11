@@ -1871,4 +1871,10 @@ object frmMain: TfrmMain
       OnClick = mnuTabMenuClick
     end
   end
+  object tmHAL: TTimer
+    Enabled = False
+    OnTimer = tmHALTimer
+    left = 53
+    top = 24
+  end
 end
