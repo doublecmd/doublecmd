@@ -1445,7 +1445,7 @@ end;
 procedure LibHalDeviceAdded(ctx: PLibHalContext; const udi: PChar); cdecl;
 begin
   DebugLn('add dev  ',udi);
-  sleep(1500); // if we dont do it we don`t see new dev
+//  sleep(1500); // if we dont do it we don`t see new dev
   CheckBlockDev(ctx,udi,nil); // it return value 2 time on one flash like /dev/sda /dev/sda1
 end;
 
@@ -1472,7 +1472,10 @@ end;
 function CheckHalMsg: Boolean;
 begin
   Result := False;
-  dbus_connection_read_write_dispatch(DcDbus, 10);
+  // for one disk i must dispatch ~9 msg try do it 3 times
+  dbus_connection_read_write_dispatch(DcDbus, 1);
+  dbus_connection_read_write_dispatch(DcDbus, 1);
+  dbus_connection_read_write_dispatch(DcDbus, 1);
   if DeviceWasChange then
   begin
     Result := True;
