@@ -3286,8 +3286,10 @@ end;
 
 procedure TfrmMain.tmHALTimer(Sender: TObject);
 begin
+{$IFDEF UNIX}
   if CheckHalMsg then
     UpdateDiskCount;
+{$ENDIF}
 end;
 
 function TfrmMain.ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
