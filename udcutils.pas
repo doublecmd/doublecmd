@@ -146,6 +146,12 @@ function StrNewW(const mbString: UTF8String): PWideChar;
    @returns(Decimal number)
 }
 function OctToDec(Value: String): LongInt;
+{en
+   Convert a number specified as an decimal number to it's octal value.
+   @param(Value Decimal number)
+   @returns(Octal number as string)
+}
+function DecToOct(Value: LongInt): String;
 
 implementation
 uses
@@ -563,6 +569,19 @@ begin
   Result:= 0;
   for I:= 1 to Length(Value) do
     Result:= Result * 8 + StrToInt(Copy(Value, I, 1));
+end;
+
+function DecToOct(Value: LongInt): String;
+var
+  iMod: Integer;
+begin
+  while Value >= 8 do
+    begin
+      iMod:= Value mod 8;
+      Value:= Value div 8;
+      Result:= IntToStr(iMod) + Result;
+    end;
+  Result:= IntToStr(Value) + Result;
 end;
 
 end.
