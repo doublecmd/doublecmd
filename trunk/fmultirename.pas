@@ -149,9 +149,11 @@ end;
 
 procedure TfrmMultiRename.FreshText;
 var
+  bError: Boolean;
   c:integer;
   sTmpAll,sTmpName,sTmpExt:string;
 begin
+  bError:= False;
   for c:=0 to lsvwFile.Items.Count-1 do
   begin
     //use mask
@@ -165,6 +167,7 @@ begin
         sTmpAll:= ReplaceRegExpr(edFind.Text, sTmpAll, edReplace.Text, cbUseSubs.Checked);
       except
         sTmpAll:= rsMsgErrRegExpSyntax;
+        bError:= True;
       end
     else
       sTmpAll:=StringReplace(sTmpAll,edFind.Text,edReplace.Text,[rfReplaceAll,rfIgnoreCase]);
@@ -185,6 +188,7 @@ begin
     //save new name file
     lsvwFile.Items[c].SubItems.Strings[0]:=sTmpAll;
   end;
+  btnOK.Enabled:= not bError;
 end;
 
 procedure TfrmMultiRename.cmbxFontChange(Sender: TObject);
