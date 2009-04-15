@@ -370,6 +370,7 @@ object frmFileProperties: TfrmFileProperties
         Width = 23
         AllowGrayed = True
         BorderSpacing.Top = 6
+        OnClick = cbChangeModeClick
         TabOrder = 0
       end
       object cbWriteOwner: TCheckBox
@@ -381,6 +382,7 @@ object frmFileProperties: TfrmFileProperties
         Width = 23
         AllowGrayed = True
         BorderSpacing.Top = 6
+        OnClick = cbChangeModeClick
         TabOrder = 1
       end
       object cbExecOwner: TCheckBox
@@ -392,6 +394,7 @@ object frmFileProperties: TfrmFileProperties
         Width = 23
         AllowGrayed = True
         BorderSpacing.Top = 6
+        OnClick = cbChangeModeClick
         TabOrder = 2
       end
       object cbReadGroup: TCheckBox
@@ -403,6 +406,7 @@ object frmFileProperties: TfrmFileProperties
         Width = 23
         AllowGrayed = True
         BorderSpacing.Top = 6
+        OnClick = cbChangeModeClick
         TabOrder = 3
       end
       object cbWriteGroup: TCheckBox
@@ -414,6 +418,7 @@ object frmFileProperties: TfrmFileProperties
         Width = 23
         AllowGrayed = True
         BorderSpacing.Top = 6
+        OnClick = cbChangeModeClick
         TabOrder = 4
       end
       object cbExecGroup: TCheckBox
@@ -425,6 +430,7 @@ object frmFileProperties: TfrmFileProperties
         Width = 23
         AllowGrayed = True
         BorderSpacing.Top = 6
+        OnClick = cbChangeModeClick
         TabOrder = 5
       end
       object cbReadOther: TCheckBox
@@ -436,6 +442,7 @@ object frmFileProperties: TfrmFileProperties
         Width = 23
         AllowGrayed = True
         BorderSpacing.Top = 6
+        OnClick = cbChangeModeClick
         TabOrder = 6
       end
       object cbWriteOther: TCheckBox
@@ -447,6 +454,7 @@ object frmFileProperties: TfrmFileProperties
         Width = 23
         AllowGrayed = True
         BorderSpacing.Top = 6
+        OnClick = cbChangeModeClick
         TabOrder = 7
       end
       object cbExecOther: TCheckBox
@@ -458,6 +466,7 @@ object frmFileProperties: TfrmFileProperties
         Width = 23
         AllowGrayed = True
         BorderSpacing.Top = 6
+        OnClick = cbChangeModeClick
         TabOrder = 8
       end
       object cbSuid: TCheckBox
@@ -470,6 +479,7 @@ object frmFileProperties: TfrmFileProperties
         AllowGrayed = True
         BorderSpacing.Top = 6
         Caption = 'SUID'
+        OnClick = cbChangeModeClick
         TabOrder = 9
       end
       object cbSgid: TCheckBox
@@ -482,6 +492,7 @@ object frmFileProperties: TfrmFileProperties
         AllowGrayed = True
         BorderSpacing.Top = 6
         Caption = 'SGID'
+        OnClick = cbChangeModeClick
         TabOrder = 10
       end
       object cbSticky: TCheckBox
@@ -494,6 +505,7 @@ object frmFileProperties: TfrmFileProperties
         AllowGrayed = True
         BorderSpacing.Top = 6
         Caption = 'Sticky'
+        OnClick = cbChangeModeClick
         TabOrder = 11
       end
       object edtOctal: TEdit

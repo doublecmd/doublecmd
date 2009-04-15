@@ -93,6 +93,7 @@ type
     tsAttributes: TTabSheet;
     procedure btnAllClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
+    procedure cbChangeModeClick(Sender: TObject);
     procedure edtOctalKeyPress(Sender: TObject; var Key: char);
     procedure edtOctalKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -171,6 +172,11 @@ end;
 procedure TfrmFileProperties.btnCloseClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TfrmFileProperties.cbChangeModeClick(Sender: TObject);
+begin
+  edtOctal.Text:= DecToOct(GetModeFromForm);
 end;
 
 procedure TfrmFileProperties.edtOctalKeyPress(Sender: TObject; var Key: char);
@@ -261,7 +267,7 @@ begin
 
       
       ShowAttr(iMode);
-      edtOctal.Text:= DecToOct(iMode);
+      edtOctal.Text:= DecToOct(GetModeFromForm);
       lblAttrText.Caption:=sModeStr; // + 666 like
 
       if FPS_ISDIR(iMode) then
