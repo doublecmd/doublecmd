@@ -36,7 +36,7 @@ function ShellExecuteEx(sCmd, sFileName, sActiveDir: String): Boolean;
 implementation
 
 uses
-  Process, AsyncProcess, StrUtils, uDCUtils, uShowForm, uGlobs, uOSUtils;
+  Process, UTF8Process, StrUtils, uDCUtils, uShowForm, uGlobs, uOSUtils;
 
 procedure ReplaceExtCommand(var sCmd:String; pfr:PFileRecItem; ActiveDir: String);
 var
