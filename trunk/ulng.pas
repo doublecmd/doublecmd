@@ -65,6 +65,7 @@ resourcestring
   rsMsgEnterFileExt = 'Enter file extension:';
   rsMsgFollowSymlink = 'Follow symlink "%s"?';
   rsMsgCloseAllInActiveTabs = 'Remove all inactive tabs?';
+  rsMsgErrRegExpSyntax = 'Syntax error in regular expression!';
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuMount = 'Mount';

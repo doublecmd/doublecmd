@@ -161,7 +161,11 @@ begin
     sTmpAll:=sTmpName+'.'+sTmpExt;
     //find and replace
     if cbRegExp.Checked and (edFind.Text <> '') then
-      sTmpAll:= ReplaceRegExpr(edFind.Text, sTmpAll, edReplace.Text, cbUseSubs.Checked)
+      try
+        sTmpAll:= ReplaceRegExpr(edFind.Text, sTmpAll, edReplace.Text, cbUseSubs.Checked);
+      except
+        sTmpAll:= rsMsgErrRegExpSyntax;
+      end
     else
       sTmpAll:=StringReplace(sTmpAll,edFind.Text,edReplace.Text,[rfReplaceAll,rfIgnoreCase]);
     //file name style
