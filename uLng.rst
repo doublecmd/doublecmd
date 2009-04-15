@@ -146,6 +146,10 @@ ulng.rsmsgfollowsymlink='Follow symlink "%s"?'
 ulng.rsmsgcloseallinactivetabs='Remove all inactive tabs?'
 
 
+# hash value = 247668033
+ulng.rsmsgerrregexpsyntax='Syntax error in regular expression!'
+
+
 # hash value = 128648723
 ulng.rsmnuactions='Actions'
 
