@@ -723,6 +723,10 @@ msgstr "Última modificación"
 msgid "Last status change:"
 msgstr "Último cambio de estado:"
 
+#: TFRMFILEPROPERTIES.LBLOCTAL.CAPTION
+msgid "Octal:"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgid "Read"
 msgstr "Lectura"
@@ -3053,6 +3057,10 @@ msgstr "Memoria insuficiente"
 #: ulng.rsmsgerrnotsupported
 msgid "Function not supported!"
 msgstr "Función no soportada!"
+
+#: ulng.rsmsgerrregexpsyntax
+msgid "Syntax error in regular expression!"
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"

@@ -55,7 +55,9 @@ type
     cbWriteOwner: TCheckBox;
     cbxGroups: TComboBox;
     cbxUsers: TComboBox;
+    edtOctal: TEdit;
     gbOwner: TGroupBox;
+    lblOctal: TLabel;
     lblAttrBitsStr: TLabel;
     lblAttrText: TLabel;
     lblExec: TLabel;
@@ -91,6 +93,8 @@ type
     tsAttributes: TTabSheet;
     procedure btnAllClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
+    procedure edtOctalKeyPress(Sender: TObject; var Key: char);
+    procedure edtOctalKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnSkipClick(Sender: TObject);
@@ -117,7 +121,7 @@ procedure ShowFileProperties(FileList:TFileList; const aPath:String);
 implementation
 
 uses
-  uLng, uFileOp, uFileProcs, uFindEx, BaseUnix, uUsersGroups, uDCUtils;
+  LCLType, uLng, uFileOp, uFileProcs, uFindEx, BaseUnix, uUsersGroups, uDCUtils;
 
 procedure ShowFileProperties(FileList:TFileList; const aPath:String);
 begin
@@ -167,6 +171,18 @@ end;
 procedure TfrmFileProperties.btnCloseClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TfrmFileProperties.edtOctalKeyPress(Sender: TObject; var Key: char);
+begin
+  if not ((Key in ['0'..'7']) or (Key = Chr(VK_BACK))) then
+    Key:= #0;
+end;
+
+procedure TfrmFileProperties.edtOctalKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  ShowAttr(OctToDec(edtOctal.Text));
 end;
 
 procedure TfrmFileProperties.btnAllClick(Sender: TObject);
@@ -245,7 +261,7 @@ begin
 
       
       ShowAttr(iMode);
-
+      edtOctal.Text:= DecToOct(iMode);
       lblAttrText.Caption:=sModeStr; // + 666 like
 
       if FPS_ISDIR(iMode) then
@@ -268,8 +284,6 @@ begin
   finally
   end;
 end;
-
-
 
 procedure TfrmFileProperties.StoreData(FileList:TFileList);
 var

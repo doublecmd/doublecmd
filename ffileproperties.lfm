@@ -315,10 +315,15 @@ object frmFileProperties: TfrmFileProperties
         ParentColor = False
       end
       object lblAttrTextStr: TLabel
+        AnchorSideLeft.Control = tsAttributes
+        AnchorSideTop.Control = edtOctal
+        AnchorSideTop.Side = asrBottom
         Left = 8
         Height = 19
-        Top = 203
+        Top = 205
         Width = 148
+        BorderSpacing.Left = 8
+        BorderSpacing.Top = 6
         Caption = 'Representation in text:'
         ParentColor = False
       end
@@ -326,21 +331,34 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblAttrTextStr
         AnchorSideTop.Side = asrCenter
         Left = 160
-        Height = 16
-        Top = 204
-        Width = 56
+        Height = 19
+        Top = 205
+        Width = 67
         Caption = '-----------'
         Font.Color = clBlack
-        Font.Height = 10
         ParentColor = False
         ParentFont = False
       end
       object lblAttrBitsStr: TLabel
+        AnchorSideTop.Control = cbSuid
+        AnchorSideTop.Side = asrCenter
         Left = 8
         Height = 19
-        Top = 171
+        Top = 150
         Width = 31
         Caption = 'Bits:'
+        ParentColor = False
+      end
+      object lblOctal: TLabel
+        AnchorSideLeft.Control = tsAttributes
+        AnchorSideTop.Control = edtOctal
+        AnchorSideTop.Side = asrCenter
+        Left = 8
+        Height = 19
+        Top = 178
+        Width = 40
+        BorderSpacing.Left = 8
+        Caption = 'Octal:'
         ParentColor = False
       end
       object cbReadOwner: TCheckBox
@@ -349,7 +367,7 @@ object frmFileProperties: TfrmFileProperties
         Left = 112
         Height = 22
         Top = 64
-        Width = 24
+        Width = 23
         AllowGrayed = True
         BorderSpacing.Top = 6
         TabOrder = 0
@@ -360,7 +378,7 @@ object frmFileProperties: TfrmFileProperties
         Left = 184
         Height = 22
         Top = 64
-        Width = 24
+        Width = 23
         AllowGrayed = True
         BorderSpacing.Top = 6
         TabOrder = 1
@@ -371,7 +389,7 @@ object frmFileProperties: TfrmFileProperties
         Left = 256
         Height = 22
         Top = 64
-        Width = 24
+        Width = 23
         AllowGrayed = True
         BorderSpacing.Top = 6
         TabOrder = 2
@@ -382,7 +400,7 @@ object frmFileProperties: TfrmFileProperties
         Left = 112
         Height = 22
         Top = 92
-        Width = 24
+        Width = 23
         AllowGrayed = True
         BorderSpacing.Top = 6
         TabOrder = 3
@@ -393,7 +411,7 @@ object frmFileProperties: TfrmFileProperties
         Left = 184
         Height = 22
         Top = 92
-        Width = 24
+        Width = 23
         AllowGrayed = True
         BorderSpacing.Top = 6
         TabOrder = 4
@@ -404,7 +422,7 @@ object frmFileProperties: TfrmFileProperties
         Left = 256
         Height = 22
         Top = 92
-        Width = 24
+        Width = 23
         AllowGrayed = True
         BorderSpacing.Top = 6
         TabOrder = 5
@@ -415,7 +433,7 @@ object frmFileProperties: TfrmFileProperties
         Left = 112
         Height = 22
         Top = 120
-        Width = 24
+        Width = 23
         AllowGrayed = True
         BorderSpacing.Top = 6
         TabOrder = 6
@@ -426,7 +444,7 @@ object frmFileProperties: TfrmFileProperties
         Left = 184
         Height = 22
         Top = 120
-        Width = 24
+        Width = 23
         AllowGrayed = True
         BorderSpacing.Top = 6
         TabOrder = 7
@@ -437,37 +455,59 @@ object frmFileProperties: TfrmFileProperties
         Left = 256
         Height = 22
         Top = 120
-        Width = 24
+        Width = 23
         AllowGrayed = True
         BorderSpacing.Top = 6
         TabOrder = 8
       end
       object cbSuid: TCheckBox
+        AnchorSideTop.Control = cbReadOther
+        AnchorSideTop.Side = asrBottom
         Left = 112
         Height = 22
-        Top = 168
-        Width = 60
+        Top = 148
+        Width = 59
         AllowGrayed = True
+        BorderSpacing.Top = 6
         Caption = 'SUID'
         TabOrder = 9
       end
       object cbSgid: TCheckBox
+        AnchorSideTop.Control = cbWriteOther
+        AnchorSideTop.Side = asrBottom
         Left = 184
         Height = 22
-        Top = 168
-        Width = 61
+        Top = 148
+        Width = 60
         AllowGrayed = True
+        BorderSpacing.Top = 6
         Caption = 'SGID'
         TabOrder = 10
       end
       object cbSticky: TCheckBox
+        AnchorSideTop.Control = cbExecOther
+        AnchorSideTop.Side = asrBottom
         Left = 256
         Height = 22
-        Top = 168
-        Width = 64
+        Top = 148
+        Width = 63
         AllowGrayed = True
+        BorderSpacing.Top = 6
         Caption = 'Sticky'
         TabOrder = 11
+      end
+      object edtOctal: TEdit
+        AnchorSideTop.Control = cbSuid
+        AnchorSideTop.Side = asrBottom
+        Left = 115
+        Height = 23
+        Top = 176
+        Width = 80
+        BorderSpacing.Top = 6
+        MaxLength = 4
+        OnKeyPress = edtOctalKeyPress
+        OnKeyUp = edtOctalKeyUp
+        TabOrder = 12
       end
     end
   end

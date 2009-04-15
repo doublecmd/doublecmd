@@ -723,6 +723,10 @@ msgstr "上次修改:"
 msgid "Last status change:"
 msgstr "上次修改状态:"
 
+#: TFRMFILEPROPERTIES.LBLOCTAL.CAPTION
+msgid "Octal:"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgid "Read"
 msgstr "读"
@@ -3053,6 +3057,10 @@ msgstr "内存不足"
 #: ulng.rsmsgerrnotsupported
 msgid "Function not supported!"
 msgstr "不支持的功能!"
+
+#: ulng.rsmsgerrregexpsyntax
+msgid "Syntax error in regular expression!"
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"

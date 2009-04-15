@@ -723,6 +723,10 @@ msgstr ""
 msgid "Last status change:"
 msgstr ""
 
+#: TFRMFILEPROPERTIES.LBLOCTAL.CAPTION
+msgid "Octal:"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgid "Read"
 msgstr ""
@@ -3052,6 +3056,10 @@ msgstr ""
 
 #: ulng.rsmsgerrnotsupported
 msgid "Function not supported!"
+msgstr ""
+
+#: ulng.rsmsgerrregexpsyntax
+msgid "Syntax error in regular expression!"
 msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
