@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.4 alpha\n"
+"Project-Id-Version: Double Commander 0.45 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-08 21:14+0300\n"
 "PO-Revision-Date: \n"
@@ -759,11 +759,11 @@ msgstr "L&öschen"
 
 #: TFRMFINDDLG.BTNSEARCHLOAD.CAPTION
 msgid "L&oad"
-msgstr ""
+msgstr "&Laden"
 
 #: TFRMFINDDLG.BTNSEARCHSAVE.CAPTION
 msgid "S&ave"
-msgstr ""
+msgstr "&Speichern"
 
 #: TFRMFINDDLG.BTNSTART.CAPTION
 msgid "&Start"
@@ -810,7 +810,7 @@ msgstr "Tag(e)"
 #: TFRMFINDDLG.CBDIRECTORY.CAPTION
 msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
 msgid "Directory"
-msgstr ""
+msgstr "Verzeichnis"
 
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 msgid "File Size From:"
@@ -892,7 +892,7 @@ msgstr "OK"
 
 #: TFRMFINDDLG.EDTATTRIB.HINT
 msgid "Use '-' to off attribute and '?' to any"
-msgstr ""
+msgstr "Nutze '-' um Attribut abszuschalten und '?' als Platzhalter"
 
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
@@ -929,7 +929,7 @@ msgstr "Status"
 
 #: TFRMFINDDLG.LBLTEMPLATEHEADER.CAPTION
 msgid "&Previous searches:"
-msgstr ""
+msgstr "Vorherige Suche(n)"
 
 #: TFRMFINDDLG.MISHOWINVIEWER.CAPTION
 msgid "Show In Viewer"
@@ -941,7 +941,7 @@ msgstr "Fortgeschritten"
 
 #: TFRMFINDDLG.TSLOADSAVE.CAPTION
 msgid "Load/Save"
-msgstr ""
+msgstr "Laden/Speichern"
 
 #: TFRMFINDDLG.TSSTANDARD.CAPTION
 msgid "Standard"
@@ -1318,7 +1318,7 @@ msgstr "Löschen"
 
 #: TFRMMAIN.BTNF9.CAPTION
 msgid "Terminal F9"
-msgstr ""
+msgstr "Konsole-Fenster F9"
 
 #: TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION"
@@ -1915,7 +1915,7 @@ msgstr "Text auf Spaltenbreite kürzen"
 
 #: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
 msgid "Show square brackets around directories"
-msgstr ""
+msgstr "Zeige eckige Klammern um Verzeichnisse"
 
 #: TFRMOPTIONS.CBDIRHISTORY.CAPTION
 msgctxt "TFRMOPTIONS.CBDIRHISTORY.CAPTION"
@@ -2052,7 +2052,7 @@ msgstr "Kommandozeile anzeigen"
 
 #: TFRMOPTIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION
 msgid "Show tab select panel in copy/move dialog"
-msgstr ""
+msgstr "Zeige Auswahldialog für Tabs im Kopieren/Verschieben-Dialog"
 
 #: TFRMOPTIONS.CBSHOWCURDIR.CAPTION
 msgid "Show &current directory"
@@ -2101,11 +2101,11 @@ msgstr "Warnungen anzeigen (nur mit \"OK\" Schalter)"
 
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr ""
+msgstr "Wenn Dateien mit der <Leertaste> ausgewählt werden, zur nächsten Datei wechseln (wie mit <Einfügen>)"
 
 #: TFRMOPTIONS.CBTABSACTIVATEONCLICK.CAPTION
 msgid "Activate target &panel when clicking on one of its Tabs"
-msgstr ""
+msgstr "Ziel-Panel auswählen, wenn eines seiner Tabs angeklickt wird"
 
 #: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION
 msgid "&Show tab header also when there is only one tab"
@@ -2141,23 +2141,23 @@ msgstr "Zeige zwei Laufwerksleisten (feste Breite, über den Dateifenstern)"
 
 #: TFRMOPTIONS.CBWATCHATTRIBUTESCHANGE.CAPTION
 msgid "Also when &size, date, or attributes change"
-msgstr ""
+msgstr "Auch wenn &Grösse, Datum oder Attribut geändert werden"
 
 #: TFRMOPTIONS.CBWATCHFILECOUNT.CAPTION
 msgid "Update &footer (total number of files)"
-msgstr ""
+msgstr "Fusszeile auffrischen (Gesamt-Anzahl der Dateien)"
 
 #: TFRMOPTIONS.CBWATCHFILENAMECHANGE.CAPTION
 msgid "Refresh when files are &created, deleted and renamed"
-msgstr ""
+msgstr "Auffrischen wenn Dateien &erstellt, gelöscht oder umbenannt werden"
 
 #: TFRMOPTIONS.CBWATCHFREESPACE.CAPTION
 msgid "Update &header (free disk space)"
-msgstr ""
+msgstr "Kopfzeile auffrischen (freier Speicherplatz)"
 
 #: TFRMOPTIONS.CBWATCHONLYFOREGROUND.CAPTION
 msgid "Don't &react to updates while in the background"
-msgstr ""
+msgstr "Nicht auf Änderungen reagieren wenn im Hintergrund"
 
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
@@ -2165,7 +2165,7 @@ msgstr "Textfarbe"
 
 #: TFRMOPTIONS.GBAUTOREFRESH.CAPTION
 msgid "Auto-Refresh when the file system changes"
-msgstr ""
+msgstr "Automatisch auffrischen wenn das Dateisystem verändert wird"
 
 #: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
 msgid "&Buffer size for files:"
@@ -2221,7 +2221,7 @@ msgstr "Beim Beenden speichern"
 
 #: TFRMOPTIONS.GBSCREENLAYOUT.CAPTION
 msgid " Screen layout "
-msgstr ""
+msgstr "Bildschirmdarstellung"
 
 #: TFRMOPTIONS.GBSHOWGRID.CAPTION
 msgid "Show grid in file panel"
@@ -2329,11 +2329,11 @@ msgstr "Befehlszeile:"
 
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
-msgstr "Schrift für Betrachter"
+msgstr "Schriftart für Betrachter"
 
 #: TFRMOPTIONS.LBLWATCHEXCLUDEDRIVES.CAPTION
 msgid "No refresh for &these drives:"
-msgstr ""
+msgstr "Diese Laufwerke nicht auffrischen"
 
 #: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
 msgid "Packer plugins are used to work with archives."
@@ -2357,7 +2357,7 @@ msgstr "Betrachter-PlugIns erlauben die Anzeige von Bilder, Tabellen, Datenbanke
 
 #: TFRMOPTIONS.LBPRESSEDHOTKEYCOMMAND.CAPTION
 msgid "Useds pressed hotkeys"
-msgstr ""
+msgstr "Benutzte HotKeys"
 
 #: TFRMOPTIONS.LBTYPES.CAPTION
 msgid "Categories:"
@@ -2834,7 +2834,7 @@ msgstr "Packe..."
 
 #: ulng.rsdlgspeedtime
 msgid "Speed %s/s, remained time %s"
-msgstr ""
+msgstr "Geschwindigkeit %s/s, verbleibende Zeit %s"
 
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
@@ -2887,11 +2887,11 @@ msgstr "Verzeichnis %s existiert nicht!"
 
 #: ulng.rsfindsavetemplatecaption
 msgid "Save search template"
-msgstr ""
+msgstr "Suche als Vorlage speichern"
 
 #: ulng.rsfindsavetemplatetitle
 msgid "Template name:"
-msgstr ""
+msgstr "Vorlagen-Name"
 
 #: ulng.rsfindscaned
 msgid "Scanned: %d"
@@ -2952,7 +2952,7 @@ msgstr "Einbindung lösen"
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
-msgstr ""
+msgstr "Verzeichniswechsel nach [%s] fehlgeschlagen"
 
 #: ulng.rsmsgcloseallinactivetabs
 msgid "Remove all inactive tabs?"
@@ -2960,7 +2960,7 @@ msgstr "Alle in-aktiven Tabs entfernen?"
 
 #: ulng.rsmsgcloselockedtab
 msgid "This tab (%s) is locked! Close anyway?"
-msgstr ""
+msgstr "Dieser Tab ist gesperrt! Trotzdem schliessen?"
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -3192,7 +3192,7 @@ msgstr "Verknüpfe PlugIn \"%s\" mit:"
 
 #: ulng.rsoptautorefresh
 msgid "Auto refresh"
-msgstr ""
+msgstr "Automatisch Auffrischen"
 
 #: ulng.rsoptbehav
 msgid "Behaviors"
