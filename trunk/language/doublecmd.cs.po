@@ -733,6 +733,10 @@ msgstr "Poslední změna:"
 msgid "Last status change:"
 msgstr "Poslední změna stavu:"
 
+#: TFRMFILEPROPERTIES.LBLOCTAL.CAPTION
+msgid "Octal:"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgid "Read"
 msgstr "Čtení"
@@ -3061,6 +3065,10 @@ msgstr "Nedostatek paměti"
 #: ulng.rsmsgerrnotsupported
 msgid "Function not supported!"
 msgstr "Funkce není podporována!"
+
+#: ulng.rsmsgerrregexpsyntax
+msgid "Syntax error in regular expression!"
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"

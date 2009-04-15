@@ -723,6 +723,10 @@ msgstr "Последна промяна:"
 msgid "Last status change:"
 msgstr "Последна промяна на състоянието:"
 
+#: TFRMFILEPROPERTIES.LBLOCTAL.CAPTION
+msgid "Octal:"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgid "Read"
 msgstr "Запис"
@@ -3053,6 +3057,10 @@ msgstr "Недостатъчно памет"
 #: ulng.rsmsgerrnotsupported
 msgid "Function not supported!"
 msgstr "Действието не се поддържа!"
+
+#: ulng.rsmsgerrregexpsyntax
+msgid "Syntax error in regular expression!"
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"

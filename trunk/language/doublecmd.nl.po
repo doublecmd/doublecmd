@@ -723,6 +723,10 @@ msgstr "Laatste wijziging:"
 msgid "Last status change:"
 msgstr "Laatste status wijziging:"
 
+#: TFRMFILEPROPERTIES.LBLOCTAL.CAPTION
+msgid "Octal:"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgid "Read"
 msgstr "Lees"
@@ -3053,6 +3057,10 @@ msgstr "Niet genoeg geheugen"
 #: ulng.rsmsgerrnotsupported
 msgid "Function not supported!"
 msgstr "Functie niet ondersteund"
+
+#: ulng.rsmsgerrregexpsyntax
+msgid "Syntax error in regular expression!"
+msgstr ""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
