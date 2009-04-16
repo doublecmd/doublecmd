@@ -75,6 +75,7 @@ type
     function GetFileItemPtr(iIndex:Integer):PFileRecItem;
     function GetReferenceItemPtr(iIndex:Integer):PFileRecItem;
     function GetActiveItem:PFileRecItem;
+    function GetFirstSelectedItem:PFileRecItem;
     function GetSelectedCount:Integer;
     procedure InvertFileSection(frp:PFileRecItem);
     procedure MarkAllFiles(bMarked:Boolean);
@@ -678,6 +679,20 @@ begin
   if fPanel.Row > fRefList.Count then
      fPanel.Row:= fPanel.FixedRows;
   Result:= fRefList.Items[fPanel.Row-fPanel.FixedRows]; // minus fixed header
+end;
+
+function TFilePanel.GetFirstSelectedItem: PFileRecItem;
+var
+  I: Integer;
+  frp: PFileRecItem;
+begin
+  Result:= GetActiveItem;
+  for I:= 0 to fFileList.Count - 1 do
+    begin
+      frp:= fFileList.GetItem(I);
+      if frp^.bSelected then
+        Exit(frp);
+    end;
 end;
 
 procedure TFilePanel.MarkGroup(const sMask:String; bSelect:Boolean);

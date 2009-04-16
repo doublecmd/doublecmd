@@ -1568,7 +1568,7 @@ begin
     if iSelCnt >1 then
       Result:=Format(sLngMulti, [iSelCnt])
     else
-      Result:=Format(sLngOne, [pnlFile.GetActiveItem^.sName])
+      Result:=Format(sLngOne, [pnlFile.GetFirstSelectedItem^.sName])
   end;
 end;
 
@@ -1948,10 +1948,10 @@ begin
       end
     else
       begin
-        if FPS_ISDIR(GetActiveItem^.iMode) then
+        if FPS_ISDIR(GetFirstSelectedItem^.iMode) then
           sDestPath:=sDestPath + '*.*'
         else
-          sDestPath:=sDestPath + ExtractFileName(GetActiveItem^.sName);
+          sDestPath:=sDestPath + ExtractFileName(GetFirstSelectedItem^.sName);
       end;
   end
   else
@@ -2043,8 +2043,8 @@ begin
   try
     CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
 
-    if (ActiveFrame.pnlFile.GetSelectedCount=1) and not (FPS_ISDIR(ActiveFrame.pnlFile.GetActiveItem^.iMode) or ActiveFrame.pnlFile.GetActiveItem^.bLinkIsDir) then
-      sDestPath:=sDestPath + ExtractFileName(ActiveFrame.pnlFile.GetActiveItem^.sName)
+    if (ActiveFrame.pnlFile.GetSelectedCount=1) and not (FPS_ISDIR(ActiveFrame.pnlFile.GetFirstSelectedItem^.iMode) or ActiveFrame.pnlFile.GetFirstSelectedItem^.bLinkIsDir) then
+      sDestPath:=sDestPath + ExtractFileName(ActiveFrame.pnlFile.GetFirstSelectedItem^.sName)
     else
       sDestPath:=sDestPath + '*.*';
 
