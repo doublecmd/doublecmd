@@ -577,6 +577,8 @@ begin
     GetDir(0, sPath);
     pnlFile.ActiveDir := sPath;
     pnlFile.LoadPanel;
+    GridVertLine:= gGridVertLine;
+    GridHorzLine:= gGridHorzLine;
     UpDatelblInfo;
     dgPanel.Color := gBackColor;
     pnlHeader.Visible := gCurDir;
