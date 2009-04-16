@@ -1512,8 +1512,8 @@ end;
 
 procedure TActs.cm_MultiRename(param:string);
 var
-  sl:TStringList;
-  i:Integer;
+  sl: TStringList;
+  I: Integer;
   Result: Boolean;
 begin
 with frmMain do
@@ -1522,15 +1522,16 @@ begin
   begin
     if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
 
-    sl:=TStringList.Create;
+    sl:= TStringList.Create;
     try
-      for i:=0 to pnlFile.FileList.Count-1 do
-        if pnlFile.GetFileItem(i).bSelected then
-          sl.Add(ActiveDir+pnlFile.GetFileItem(i).sName);
-      if sl.Count>0 then
+      for I:= 0 to pnlFile.FileList.Count-1 do
+        if pnlFile.GetFileItem(I).bSelected then
+          sl.Add(ActiveDir+pnlFile.GetFileItem(I).sName);
+      if sl.Count > 0 then
         Result:= ShowMultiRenameForm(sl);
     finally
       FreeAndNil(sl);
+{
       if Result then
         begin
           frameLeft.RefreshPanel;
@@ -1541,6 +1542,7 @@ begin
           UnSelectFileIfSelected(GetActiveItem);
         end;
       ActiveFrame.SetFocus;
+}
     end;
   end;
 end;

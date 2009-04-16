@@ -8,6 +8,7 @@ object frmMultiRename: TfrmMultiRename
   ClientHeight = 400
   ClientWidth = 740
   OnCreate = FormCreate
+  OnClose = FormClose
   ParentFont = False
   Position = poScreenCenter
   LCLVersion = '0.9.26'
@@ -379,6 +380,7 @@ object frmMultiRename: TfrmMultiRename
     BorderSpacing.Right = 6
     BorderSpacing.InnerBorder = 4
     Caption = 'OK'
+    Default = True
     OnClick = btnOKClick
     TabOrder = 4
   end
@@ -391,8 +393,9 @@ object frmMultiRename: TfrmMultiRename
     Anchors = [akRight, akBottom]
     BorderSpacing.Right = 6
     BorderSpacing.InnerBorder = 4
+    Cancel = True
     Caption = 'Cancel'
-    ModalResult = 2
+    OnClick = btnCancelClick
     TabOrder = 5
   end
   object gbLog: TGroupBox
