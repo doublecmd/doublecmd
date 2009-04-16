@@ -737,7 +737,7 @@ var
 begin
   Result := TList.Create;
   for I:= Low(MntEntFileList) to High(MntEntFileList) do
-  begin
+  try
   fstab:= setmntent(MntEntFileList[I],'r');
   if not Assigned(fstab) then exit;
   pme:= getmntent(fstab);
@@ -765,6 +765,8 @@ begin
     pme:= getmntent(fstab);
   end;
   endmntent(fstab);
+  except
+    DebugLn('Error with ', MntEntFileList[I]);
   end;
 end;
 {$ENDIF}
