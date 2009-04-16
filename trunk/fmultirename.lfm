@@ -11,6 +11,7 @@ object frmMultiRename: TfrmMultiRename
   OnClose = FormClose
   ParentFont = False
   Position = poScreenCenter
+  ShowInTaskBar = stAlways
   LCLVersion = '0.9.26'
   object gbMaska: TGroupBox
     AnchorSideLeft.Control = Owner
