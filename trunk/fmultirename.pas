@@ -83,9 +83,11 @@ type
     procedure edPocChange(Sender: TObject);
     procedure edIntervalChange(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
+    procedure btnCancelClick(Sender: TObject);
     procedure btnRestoreClick(Sender: TObject);
     procedure btnNameMenuClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure NameClick(Sender: TObject);
     procedure NameXClick(Sender: TObject);
     procedure NameXXClick(Sender: TObject);
@@ -121,8 +123,8 @@ function ShowMultiRenameForm(Var lsInFiles: TStringList):Boolean;
 var
   c:integer;
 begin
-  Result:= False;
-  With TfrmMultiRename.Create(Application) do
+  Result:= True;
+  with TfrmMultiRename.Create(Application) do
   begin
     try
       for c:=0 to lsInFiles.Count-1 do
@@ -134,9 +136,9 @@ begin
         item[c].SubItems.Add(ExtractFileDir(lsInFiles[c]));
       end;
       btnRestoreClick(nil);
-      Result:= (ShowModal = mrOK);
-    finally
-      Free;
+      Show;
+    except
+      Result:= False;
     end;
   end;
 end;
@@ -145,6 +147,11 @@ procedure TfrmMultiRename.FormCreate(Sender: TObject);
 begin
   // Localize File name style ComboBox
   ParseLineToList(rsMulRenFileNameStyleList, cmbxFont.Items);
+end;
+
+procedure TfrmMultiRename.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  CloseAction:= caFree;
 end;
 
 procedure TfrmMultiRename.FreshText;
@@ -485,7 +492,12 @@ begin
     if cbLog.Checked then
       FileClose(hFile);
   end;
-  ModalResult:=mrOK;
+  Close;
+end;
+
+procedure TfrmMultiRename.btnCancelClick(Sender: TObject);
+begin
+  Close;
 end;
 
 initialization
