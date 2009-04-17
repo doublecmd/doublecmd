@@ -2091,7 +2091,18 @@ begin
           FreeAndNil(fl); // Free now, because the thread won't be run.
           Exit ; // throught finally
         end;
-        sDestPath:=ExtractFilePath(edtDst.Text);
+
+        sCopyQuest := ExtractFilePath(edtDst.Text);
+        if Length(sCopyQuest) <> 0 then
+          sDestPath:= sCopyQuest
+        else
+          begin
+            sCopyQuest:= ActiveFrame.pnlFile.GetActiveItem^.sPath;
+            if Length(sCopyQuest) <> 0 then
+              sDestPath:= sCopyQuest
+            else
+              sDestPath:= ActiveFrame.pnlFile.ActiveDir;
+          end;
         sDstMaskTemp:=ExtractFileName(edtDst.Text);
         blDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
 
