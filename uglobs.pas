@@ -220,6 +220,7 @@ function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boo
 procedure LoadDefaultHotkeyBindings;
 
 procedure ResizeToScreen(Control:TControl; Increase: Boolean = False; Width:integer=1024; Height:integer=768);
+procedure InitPropStorage(Owner: TComponent);
 
 // for debugging only, can be removed
 procedure dbgShowWindowPos(const pos: TControlPosition);
@@ -311,6 +312,14 @@ begin
 
   Control.Width:= NewW;
   Control.Height:= NewH;
+end;
+
+procedure InitPropStorage(Owner: TComponent);
+var
+  IniPropStorage: TIniPropStorageEx;
+begin
+  IniPropStorage:= TIniPropStorageEx.Create(Owner);
+  IniPropStorage.IniFileName:= gpIniDir + 'session.ini';
 end;
 
 // for debugging only, can be removed
