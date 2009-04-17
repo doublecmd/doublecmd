@@ -11,6 +11,7 @@ object frmOptions: TfrmOptions
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
+  SessionProperties = 'Height;Width;WindowState'
   ShowInTaskBar = stNever
   LCLVersion = '0.9.26.3'
   object Panel1: TPanel

@@ -413,6 +413,8 @@ end;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
+  // Initialize property storage
+  InitPropStorage(Self);
   // Resize window for screen size if need
   ResizeToScreen(Self);
   // Localize Mouse selection mode ComboBox

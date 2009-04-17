@@ -28,7 +28,7 @@ unit uClassesEx;
 interface
 
 uses
-  Classes, RtlConsts, SysUtils, IniFiles;
+  Classes, RtlConsts, SysUtils, IniFiles, IniPropStorage;
 
 type
   { TFileStreamEx class }
@@ -57,11 +57,19 @@ type
   private
     FIniFileStream: TFileStreamEx;
   public
-    constructor Create(const AFileName: String; Mode: Word = fmOpenReadWrite);
+    constructor Create(const AFileName: String; Mode: Word);
+    constructor Create(const AFileName: string; AEscapeLineFeeds : Boolean = False); override;
     destructor Destroy; override;
     procedure UpdateFile; override;
   end;  
-  
+
+  { TIniPropStorageEx }
+
+  TIniPropStorageEx = class(TCustomIniPropStorage)
+  protected
+    function IniFileClass: TIniFileClass; override;
+  end;
+
 implementation
 
 uses uOSUtils;
@@ -132,7 +140,12 @@ begin
   else
     FIniFileStream:= TFileStreamEx.Create(AFileName, fmCreate);
   inherited Create(FIniFileStream);
-end; 
+end;
+
+constructor TIniFileEx.Create(const AFileName: string; AEscapeLineFeeds: Boolean);
+begin
+  Create(AFileName, fmOpenReadWrite);
+end;
 
 procedure TIniFileEx.UpdateFile;
 begin
@@ -145,6 +158,13 @@ destructor TIniFileEx.Destroy;
 begin
   FreeAndNil(FIniFileStream);
   inherited Destroy;
+end;
+
+{ TIniPropStorageEx }
+
+function TIniPropStorageEx.IniFileClass: TIniFileClass;
+begin
+  Result:= TIniFileEx;
 end;
 
 end.
