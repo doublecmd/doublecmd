@@ -69,6 +69,8 @@ const cf_Null=0;
    procedure cm_Open(param:string='');
    procedure cm_OpenVFSList(param:string='');
    procedure cm_TargetEqualSource(param:string='');
+   procedure cm_LeftEqualRight(param:string='');
+   procedure cm_RightEqualLeft(param:string='');
    procedure cm_PackFiles(param: string='');
    procedure cm_QuickSearch(param: string='');
    procedure cm_RightOpenDrives(param: string='');
@@ -451,6 +453,30 @@ begin
     else
       NotActiveFrame.pnlFile.ActiveDir:= ActiveFrame.pnlFile.ActiveDir;
     NotActiveFrame.RefreshPanel;
+  end;
+end;
+
+procedure TActs.cm_LeftEqualRight(param: string);
+begin
+  with FrmMain do
+  begin
+    if FrameRight.pnlFile.PanelMode = pmArchive then
+      FrameLeft.pnlFile.ActiveDir:= ExtractFilePath(FrameRight.pnlFile.VFS.ArcFullName)
+    else
+      FrameLeft.pnlFile.ActiveDir:= FrameRight.pnlFile.ActiveDir;
+    FrameLeft.RefreshPanel;
+  end;
+end;
+
+procedure TActs.cm_RightEqualLeft(param: string);
+begin
+  with FrmMain do
+  begin
+    if FrameLeft.pnlFile.PanelMode = pmArchive then
+      FrameRight.pnlFile.ActiveDir:= ExtractFilePath(FrameLeft.pnlFile.VFS.ArcFullName)
+    else
+      FrameRight.pnlFile.ActiveDir:= FrameLeft.pnlFile.ActiveDir;
+    FrameRight.RefreshPanel;
   end;
 end;
 
