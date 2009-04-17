@@ -894,7 +894,7 @@ msgstr ""
 #: TFRMFINDDLG.DEDATETO.CANCELCAPTION
 msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "Отмена"
 
 #: TFRMFINDDLG.DEDATETO.OKCAPTION
 msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
@@ -1130,6 +1130,10 @@ msgstr "Содержание"
 msgid "Keyboard"
 msgstr "Горячие клавиши"
 
+#: TFRMMAIN.ACTLEFTEQUALRIGHT.CAPTION
+msgid "Left &= Right"
+msgstr ""
+
 #: TFRMMAIN.ACTLEFTOPENDRIVES.CAPTION
 msgid "Open left drive list"
 msgstr "Открыть список дисков слева"
@@ -1236,6 +1240,10 @@ msgstr "Переименовать"
 #: TFRMMAIN.ACTREVERSEORDER.CAPTION
 msgid "Reverse order"
 msgstr "Обратный п&орядок"
+
+#: TFRMMAIN.ACTRIGHTEQUALLEFT.CAPTION
+msgid "Right &= Left"
+msgstr ""
 
 #: TFRMMAIN.ACTRIGHTOPENDRIVES.CAPTION
 msgid "Open right drive list"

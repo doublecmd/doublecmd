@@ -72,6 +72,8 @@ type
     actCopyFullNamesToClip: TAction;
     actCutToClipboard: TAction;
     actCopyToClipboard: TAction;
+    actRightEqualLeft: TAction;
+    actLeftEqualRight: TAction;
     actPasteFromClipboard: TAction;
     actExchange: TAction;
     actEditComment: TAction;

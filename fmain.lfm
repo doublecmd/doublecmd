@@ -1626,6 +1626,16 @@ object frmMain: TfrmMain
       DisableIfNoHandler = True
       OnExecute = actExecute
     end
+    object actLeftEqualRight: TAction
+      Category = 'Commands'
+      Caption = 'Left &= Right'
+      OnExecute = actExecute
+    end
+    object actRightEqualLeft: TAction
+      Category = 'Commands'
+      Caption = 'Right &= Left'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     left = 152

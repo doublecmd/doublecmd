@@ -1131,6 +1131,10 @@ msgstr ""
 msgid "Keyboard"
 msgstr ""
 
+#: TFRMMAIN.ACTLEFTEQUALRIGHT.CAPTION
+msgid "Left &= Right"
+msgstr ""
+
 #: TFRMMAIN.ACTLEFTOPENDRIVES.CAPTION
 msgid "Open left drive list"
 msgstr ""
@@ -1236,6 +1240,10 @@ msgstr ""
 
 #: TFRMMAIN.ACTREVERSEORDER.CAPTION
 msgid "Reverse order"
+msgstr ""
+
+#: TFRMMAIN.ACTRIGHTEQUALLEFT.CAPTION
+msgid "Right &= Left"
 msgstr ""
 
 #: TFRMMAIN.ACTRIGHTOPENDRIVES.CAPTION
