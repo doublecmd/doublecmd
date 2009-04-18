@@ -220,7 +220,7 @@ function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boo
 procedure LoadDefaultHotkeyBindings;
 
 procedure ResizeToScreen(Form: TCustomForm; Increase: Boolean = False; Width:integer=1024; Height:integer=768);
-procedure InitPropStorage(Owner: TComponent);
+function InitPropStorage(Owner: TComponent): TIniPropStorageEx;
 
 // for debugging only, can be removed
 procedure dbgShowWindowPos(const pos: TControlPosition);
@@ -314,19 +314,18 @@ begin
   Form.Height:= NewH;
 end;
 
-procedure InitPropStorage(Owner: TComponent);
+function InitPropStorage(Owner: TComponent): TIniPropStorageEx;
 var
-  IniPropStorage: TIniPropStorageEx;
   sWidth, sHeight: String;
 begin
-  IniPropStorage:= TIniPropStorageEx.Create(Owner);
-  IniPropStorage.IniFileName:= gpIniDir + 'session.ini';
+  Result:= TIniPropStorageEx.Create(Owner);
+  Result.IniFileName:= gpIniDir + 'session.ini';
   if Owner is TCustomForm then
     with Owner as TCustomForm do
     begin
       sWidth:= IntToStr(Monitor.Width);
       sHeight:= IntToStr(Monitor.Height);
-      IniPropStorage.IniSection:= Name + '(' + sWidth + 'x' + sHeight + ')';
+      Result.IniSection:= Name + '(' + sWidth + 'x' + sHeight + ')';
     end;
 end;
 

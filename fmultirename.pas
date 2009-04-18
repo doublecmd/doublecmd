@@ -20,7 +20,7 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ComCtrls, Menus, Buttons, SynRegExpr;
+  StdCtrls, ComCtrls, Menus, Buttons, SynRegExpr, uClassesEx;
 
 type
 
@@ -87,6 +87,7 @@ type
     procedure btnRestoreClick(Sender: TObject);
     procedure btnNameMenuClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure NameClick(Sender: TObject);
     procedure NameXClick(Sender: TObject);
@@ -99,6 +100,7 @@ type
     procedure ExtensionXXClick(Sender: TObject);
     procedure ppNameMenuPopup(Sender: TObject);
   private
+    IniPropStorage: TIniPropStorageEx;
     {Function sReplace call sReplaceXX with parametres}
     function sReplace(sMask:string;count:integer):string;
     {sReplaceXX doing Nx,Nx:x and Ex,Ex:x}
@@ -148,12 +150,31 @@ begin
   // Localize File name style ComboBox
   ParseLineToList(rsMulRenFileNameStyleList, cmbxFont.Items);
   // Initialize property storage
-  InitPropStorage(Self);
+  IniPropStorage:= InitPropStorage(Self);
+  IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item0_Width';
+  IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item1_Width';
+  IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item2_Width';
+end;
+
+procedure TfrmMultiRename.FormShow(Sender: TObject);
+begin
+  with lsvwFile.Columns do
+  begin
+    Items[0].Width:= StrToIntDef(IniPropStorage.StoredValue['lsvwFile_Columns.Item0_Width'], Items[0].Width);
+    Items[1].Width:= StrToIntDef(IniPropStorage.StoredValue['lsvwFile_Columns.Item1_Width'], Items[1].Width);
+    Items[2].Width:= StrToIntDef(IniPropStorage.StoredValue['lsvwFile_Columns.Item2_Width'], Items[2].Width);
+  end;
 end;
 
 procedure TfrmMultiRename.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   CloseAction:= caFree;
+  with lsvwFile.Columns do
+  begin
+    IniPropStorage.StoredValue['lsvwFile_Columns.Item0_Width']:= IntToStr(Items[0].Width);
+    IniPropStorage.StoredValue['lsvwFile_Columns.Item1_Width']:= IntToStr(Items[1].Width);
+    IniPropStorage.StoredValue['lsvwFile_Columns.Item2_Width']:= IntToStr(Items[2].Width);
+  end;
 end;
 
 procedure TfrmMultiRename.FreshText;

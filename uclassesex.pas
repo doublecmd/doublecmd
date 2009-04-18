@@ -200,7 +200,7 @@ begin
       if (mWidth < Width) or (mHeight < Height) then
         begin
           Width:= mWidth - pWidth;
-          Height:= mHeight - pHeight;
+          Height:= mHeight - (pHeight * 2);
         end;
 
       if (Top > (mTop + mHeight - pHeight)) or (Top < mTop) then
