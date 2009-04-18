@@ -7,12 +7,12 @@ object frmMultiRename: TfrmMultiRename
   Caption = 'MultiRename'
   ClientHeight = 400
   ClientWidth = 740
-  OnCreate = FormCreate
   OnClose = FormClose
-  ParentFont = False
+  OnCreate = FormCreate
   Position = poScreenCenter
+  SessionProperties = 'Height;Width;WindowState'
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.26'
+  LCLVersion = '0.9.27'
   object gbMaska: TGroupBox
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Side = asrBottom

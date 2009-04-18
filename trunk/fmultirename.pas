@@ -117,7 +117,7 @@ type
 implementation
 
 uses
-  LCLProc, uLng, uFileProcs, uDCUtils, uOSUtils;
+  LCLProc, uLng, uGlobs, uFileProcs, uDCUtils, uOSUtils;
 
 function ShowMultiRenameForm(Var lsInFiles: TStringList):Boolean;
 var
@@ -147,6 +147,10 @@ procedure TfrmMultiRename.FormCreate(Sender: TObject);
 begin
   // Localize File name style ComboBox
   ParseLineToList(rsMulRenFileNameStyleList, cmbxFont.Items);
+  // Initialize property storage
+  InitPropStorage(Self);
+  // Resize window for screen size if need
+  ResizeToScreen(Self);
 end;
 
 procedure TfrmMultiRename.FormClose(Sender: TObject; var CloseAction: TCloseAction);

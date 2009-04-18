@@ -151,6 +151,10 @@ begin
   if iCount > 0 then
     lbFileTypes.ItemIndex:= 0;
   UpdateEnabledButtons;
+  // Initialize property storage
+  InitPropStorage(Self);
+  // Resize window for screen size if need
+  ResizeToScreen(Self);
 end;
 
 procedure TfrmFileAssoc.UpdateEnabledButtons;
