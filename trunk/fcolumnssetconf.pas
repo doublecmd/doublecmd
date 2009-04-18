@@ -454,8 +454,8 @@ begin
   ColumnClass:=TPanelColumnsClass.Create;
   ColumnClassOwnership := True;
 
-  // Resize window for screen size if need
-  ResizeToScreen(Self);
+  // Initialize property storage
+  InitPropStorage(Self);
   PreviewPan:=TFrameFilePanel.Create(pnlPreview, Label1, Label2, ComboBox1);
 
   CreateEditingControls;

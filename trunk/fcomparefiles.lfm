@@ -10,6 +10,7 @@ object frmCompareFiles: TfrmCompareFiles
   OnCreate = FormCreate
   OnResize = FormResize
   Position = poScreenCenter
+  SessionProperties = 'Height;Width;WindowState;Left;Top'
   LCLVersion = '0.9.27'
   object Splitter: TSplitter
     Left = 361

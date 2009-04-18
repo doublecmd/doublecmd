@@ -80,6 +80,8 @@ begin
   lstRight.Font.Size:= gEditorFontSize;
   lstRight.Font.Style:= gEditorFontStyle;
   fPosition:= 0;
+  // Initialize property storage
+  InitPropStorage(Self);
 end;
 
 procedure TfrmCompareFiles.FormResize(Sender: TObject);
