@@ -9,6 +9,7 @@ object frmMultiRename: TfrmMultiRename
   ClientWidth = 740
   OnClose = FormClose
   OnCreate = FormCreate
+  OnShow = FormShow
   Position = poScreenCenter
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stAlways
@@ -25,7 +26,6 @@ object frmMultiRename: TfrmMultiRename
     Caption = 'Mask'
     ClientHeight = 99
     ClientWidth = 172
-    ParentCtl3D = False
     TabOrder = 0
     object lbName: TLabel
       AnchorSideLeft.Control = gbMaska
@@ -126,7 +126,6 @@ object frmMultiRename: TfrmMultiRename
     Caption = 'Find && Replace'
     ClientHeight = 136
     ClientWidth = 192
-    ParentCtl3D = False
     TabOrder = 1
     object lbFind: TLabel
       AnchorSideLeft.Control = gbFindReplace
@@ -462,17 +461,17 @@ object frmMultiRename: TfrmMultiRename
       item
         AutoSize = True
         Caption = 'Old File Name'
-        Width = 101
+        Width = 200
       end    
       item
         AutoSize = True
         Caption = 'New File Name'
-        Width = 108
+        Width = 200
       end    
       item
         AutoSize = True
         Caption = 'File Path'
-        Width = 508
+        Width = 200
       end>
     TabOrder = 8
     ViewStyle = vsReport
