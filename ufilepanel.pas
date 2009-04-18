@@ -129,7 +129,7 @@ begin
   flblFree:=AlblFree;
   fedtCommand:=AedtCommand;
   fFileList:=TFileList.Create;
-  GetDir(0,fActiveDir);
+  fActiveDir:= mbGetCurrentDir;
   fActiveDir:=ExtractFilePath(fActiveDir);
   fPathHistory:=TPathHistory.Create;
   fPanelMode:=pmDirectory;
@@ -365,7 +365,7 @@ begin
 
   if not mbSetCurrentDir(ActiveDir) then
     begin
-      GetDir(0,fActiveDir);
+      fActiveDir:= mbGetCurrentDir;
       IncludeTrailingBackslash(fActiveDir);
       Exit;   // chdir failed
     end;

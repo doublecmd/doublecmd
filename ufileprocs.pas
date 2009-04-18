@@ -225,7 +225,7 @@ begin
     begin
       sDir:=copy(DirectoryName,1,i-1);
       if (sDir='') then
-        GetDir(0, sDir);
+        sDir:= mbGetCurrentDir;
 
       //DebugLn('Dir: ' + sDir);
       if not mbDirectoryExists(sDir) then

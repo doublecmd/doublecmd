@@ -135,7 +135,7 @@ begin
   FCaseSens:=True;
   FFilesScaned:=0;
   FilterMask:='*';
-  GetDir(0, FPathStart);
+  FPathStart:= mbGetCurrentDir;
   FItems:=nil;
   FIsDateFrom := False;
   FIsDateTo := False;
