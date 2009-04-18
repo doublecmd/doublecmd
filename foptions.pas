@@ -413,8 +413,6 @@ end;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
-  // Initialize property storage
-  InitPropStorage(Self);
   // Localize Mouse selection mode ComboBox
   ParseLineToList(rsOptMouseSelectionButton, cbMouseMode.Items);
   // Scrolling radio group localization
@@ -464,6 +462,8 @@ begin
   cbTermWindow.Checked:= False;
   cbTermWindow.Enabled:= False;
 {$ENDIF}
+  // Initialize property storage
+  InitPropStorage(Self);
   // Resize window for screen size if need
   ResizeToScreen(Self);
   // Let not warning on which page save form
