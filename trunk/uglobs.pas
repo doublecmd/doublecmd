@@ -317,9 +317,19 @@ end;
 procedure InitPropStorage(Owner: TComponent);
 var
   IniPropStorage: TIniPropStorageEx;
+  sWidth, sHeight,
+  sIniFileName: String;
 begin
   IniPropStorage:= TIniPropStorageEx.Create(Owner);
-  IniPropStorage.IniFileName:= gpIniDir + 'session.ini';
+  sIniFileName:= 'session.ini';
+  if Owner is TCustomForm then
+    with Owner as TCustomForm do
+    begin
+      sWidth:= IntToStr(Monitor.Width);
+      sHeight:= IntToStr(Monitor.Height);
+      sIniFileName:= 'session_' + sWidth + 'x' + sHeight + '.ini';
+    end;
+  IniPropStorage.IniFileName:= gpIniDir + sIniFileName;
 end;
 
 // for debugging only, can be removed
