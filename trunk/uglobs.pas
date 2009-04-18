@@ -22,7 +22,7 @@ unit uGlobs;
 
 interface
 uses
-  Classes, Controls, uExts, uColorExt, Graphics, uClassesEx, uWDXModule,
+  Classes, Controls, Forms, uExts, uColorExt, Graphics, uClassesEx, uWDXModule,
   uColumns,uhotkeymanger,uActs, uWFXModule, uWCXModule, uSearchTemplate;
 
 type
@@ -219,7 +219,7 @@ function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boo
 
 procedure LoadDefaultHotkeyBindings;
 
-procedure ResizeToScreen(Control:TControl; Increase: Boolean = False; Width:integer=1024; Height:integer=768);
+procedure ResizeToScreen(Form: TCustomForm; Increase: Boolean = False; Width:integer=1024; Height:integer=768);
 procedure InitPropStorage(Owner: TComponent);
 
 // for debugging only, can be removed
@@ -233,7 +233,7 @@ var
 
 implementation
 uses
-   Forms, LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils;
+   LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils;
 
 procedure LoadDefaultHotkeyBindings;
 begin
@@ -292,26 +292,26 @@ begin
     end;
 end;
 
-procedure ResizeToScreen(Control:TControl; Increase: Boolean = False; Width:integer=1024; Height:integer=768);
+procedure ResizeToScreen(Form: TCustomForm; Increase: Boolean = False; Width:integer=1024; Height:integer=768);
 var SWidth, SHeight,
      PersW, PersH,
      NewW, NewH :Integer;
 begin
-  SWidth:= Screen.Width;
-  SHeight:=Screen.DesktopHeight;
+  SWidth:= Form.Monitor.Width;
+  SHeight:= Form.Monitor.Height;
 
   if (SWidth=Width) and (SHeight=Height) then exit;
 
-  if (not Increase) and (SWidth > Control.Width) and (SHeight > Control.Height) then Exit;
+  if (not Increase) and (SWidth > Form.Width) and (SHeight > Form.Height) then Exit;
 
   PersW:= round((SWidth*100)/Width);
   PersH:= round((SHeight*100)/Height);
 
-  NewW:= round((Control.Width*PersW)/100);
-  NewH:= round((Control.Height*PersH)/100);
+  NewW:= round((Form.Width*PersW)/100);
+  NewH:= round((Form.Height*PersH)/100);
 
-  Control.Width:= NewW;
-  Control.Height:= NewH;
+  Form.Width:= NewW;
+  Form.Height:= NewH;
 end;
 
 procedure InitPropStorage(Owner: TComponent);
@@ -348,7 +348,8 @@ begin
   Control.Width := Width;
   Control.Height := Height;
   // Resize window for screen size if need
-  ResizeToScreen(Control);
+  if Control is TForm then
+    ResizeToScreen(Control as TForm);
 end;
 
 procedure LoadWindowPos(var pos:TControlPosition; sPrefix:String);
