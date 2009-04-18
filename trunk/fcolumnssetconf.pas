@@ -200,7 +200,7 @@ type
 
 implementation
 
-uses uLng;
+uses uLng, uOSUtils;
 
 const
   pnlCustHeight: Integer = 130;
@@ -560,7 +560,8 @@ if not showed then exit;
 end;
 
 procedure TfColumnsSetConf.FormShow(Sender: TObject);
-var i:integer; sPath:string;
+var
+  I: Integer;
 begin
 
   pnlCustHeadClick(Sender);
@@ -574,8 +575,7 @@ begin
     dgPanel.OnHeaderSized:=@DGHeaderSized;
     Init;
     ReAlign;
-    GetDir(0, sPath);
-    pnlFile.ActiveDir := sPath;
+    pnlFile.ActiveDir := mbGetCurrentDir;
     pnlFile.LoadPanel;
     GridVertLine:= gGridVertLine;
     GridHorzLine:= gGridHorzLine;

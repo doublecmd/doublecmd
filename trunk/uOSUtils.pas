@@ -1211,15 +1211,16 @@ function mbGetCurrentDir: UTF8String;
 {$IFDEF MSWINDOWS}
 var
   iSize: Integer;
-  wDir: WideString;
+  wsDir: WideString;
 begin
   Result:= '';
   iSize:= GetCurrentDirectoryW(0, nil);
   if iSize > 0 then
     begin
-      SetLength(wDir, iSize);
-      GetCurrentDirectoryW(iSize, PWChar(wDir));
-      Result:= UTF8Encode(wDir);
+      SetLength(wsDir, iSize);
+      GetCurrentDirectoryW(iSize, PWideChar(wsDir));
+      wsDir:= PWideChar(wsDir);
+      Result:= UTF8Encode(wsDir);
     end;
 end;
 {$ELSE}

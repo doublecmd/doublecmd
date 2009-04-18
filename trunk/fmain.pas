@@ -2820,7 +2820,7 @@ begin
     pnlFile.OnBeforeChangeDirectory := @FramepnlFileBeforeChangeDirectory;
     pnlFile.OnAfterChangeDirectory := @FramepnlFileAfterChangeDirectory;
     if not mbDirectoryExists(sPath) then
-      GetDir(0, sPath);
+      sPath:= mbGetCurrentDir;
     pnlFile.ActiveDir := sPath;
     pnlFile.LoadPanel;
     GridVertLine:= gGridVertLine;
@@ -2920,7 +2920,7 @@ begin
   I:= 0;
   sIndex:= '0';
   // create one tab in any way
-  GetDir(0, sPath); // default path
+  sPath:= mbGetCurrentDir; // default path
   sPath:= gIni.ReadString(TabsSection, sIndex + '_path', sPath);
    while True do
     begin
@@ -3327,8 +3327,8 @@ begin
     begin
       with ActiveFrame.pnlFile do
       begin
-        GetDir(0,sDir);
-        ActiveDir:=sDir;
+        sDir:= mbGetCurrentDir;
+        ActiveDir:= sDir;
         DebugLn(sDir);
 {$IFDEF UNIX}
         if gTermWindow and Assigned(Cons) then
