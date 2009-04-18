@@ -2610,6 +2610,7 @@ object frmOptions: TfrmOptions
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
           BorderSpacing.Bottom = 6
+          OnDblClick = btnEditColumnsSetClick
           TabOrder = 1
         end
         object pnlButtons: TPanel
