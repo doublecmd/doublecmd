@@ -4,7 +4,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-23 17:46+0100\n"
+"PO-Revision-Date: 2009-04-16 10:23+0100\n"
 "Last-Translator: Joerg Braun <jb@toolbox-mag.de>\n"
 "Language-Team: Deutsch <lazarus@miraclec.com>\n"
 "MIME-Version: 1.0\n"
@@ -88,7 +88,7 @@ msgstr "Löschen"
 
 #: lclstrconsts.ifsvk_down
 msgid "Down"
-msgstr "Runter"
+msgstr "Hinunter"
 
 #: lclstrconsts.ifsvk_end
 msgid "End"
@@ -656,7 +656,7 @@ msgstr "Hervorgehob. Text"
 
 #: lclstrconsts.rshotlightcolorcaption
 msgid "Hot Light"
-msgstr ""
+msgstr "Kräftig hervorgehoben"
 
 #: lclstrconsts.rsicns
 msgid "OSX Icon Resource"
