@@ -66,13 +66,19 @@ type
   { TIniPropStorageEx }
 
   TIniPropStorageEx = class(TCustomIniPropStorage)
+  private
+    FPercentSize: Integer;
   protected
     function IniFileClass: TIniFileClass; override;
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure Restore; override;
+    property PercentSize: Integer read FPercentSize write FPercentSize;
   end;
 
 implementation
 
-uses uOSUtils;
+uses Forms, uOSUtils;
 
 { TFileStreamEx}
 
@@ -165,6 +171,43 @@ end;
 function TIniPropStorageEx.IniFileClass: TIniFileClass;
 begin
   Result:= TIniFileEx;
+end;
+
+constructor TIniPropStorageEx.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FPercentSize:= 5;
+end;
+
+procedure TIniPropStorageEx.Restore;
+var
+  mLeft, mTop, // monitor left and top
+  mWidth, mHeight, // monitor width and height
+  pWidth, pHeight: Integer;
+begin
+  inherited Restore;
+  if Self.Owner is TCustomForm then
+    with Self.Owner as TCustomForm do
+    begin
+      mLeft:= Monitor.Left;
+      mTop:= Monitor.Top;
+      mWidth:= Monitor.Width;
+      mHeight:= Monitor.Height;
+
+      pWidth:= (mWidth * FPercentSize) div 100;
+      pHeight:= (mHeight * FPercentSize) div 100;
+
+      if (mWidth < Width) or (mHeight < Height) then
+        begin
+          Width:= mWidth - pWidth;
+          Height:= mHeight - pHeight;
+        end;
+
+      if (Top > (mTop + mHeight - pHeight)) or (Top < mTop) then
+        Top:= mTop + pHeight;
+      if (Left > (mLeft + mWidth - pWidth)) or ((Left + Width - pWidth) < mLeft) then
+        Left:= mLeft + pWidth;
+    end;
 end;
 
 end.

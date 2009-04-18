@@ -9,7 +9,7 @@ object frmFileAssoc: TfrmFileAssoc
   ClientWidth = 554
   OnCreate = FormCreate
   Position = poScreenCenter
-  SessionProperties = 'Height;Width;WindowState'
+  SessionProperties = 'Height;Width;WindowState;Left;Top'
   LCLVersion = '0.9.27'
   object gbFileTypes: TGroupBox
     AnchorSideLeft.Control = Owner
