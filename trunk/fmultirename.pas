@@ -149,8 +149,6 @@ begin
   ParseLineToList(rsMulRenFileNameStyleList, cmbxFont.Items);
   // Initialize property storage
   InitPropStorage(Self);
-  // Resize window for screen size if need
-  ResizeToScreen(Self);
 end;
 
 procedure TfrmMultiRename.FormClose(Sender: TObject; var CloseAction: TCloseAction);

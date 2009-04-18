@@ -464,8 +464,6 @@ begin
 {$ENDIF}
   // Initialize property storage
   InitPropStorage(Self);
-  // Resize window for screen size if need
-  ResizeToScreen(Self);
   // Let not warning on which page save form
   nbNotebook.PageIndex := 0;
 end;
