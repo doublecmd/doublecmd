@@ -64,7 +64,7 @@ msgstr ""
 #: lclstrconsts.ifsvk_cancel
 msgctxt "lclstrconsts.ifsvk_cancel"
 msgid "Cancel"
-msgstr ""
+msgstr "Anuluj"
 
 #: lclstrconsts.ifsvk_capital
 msgid "Capital"
@@ -268,6 +268,10 @@ msgstr "Wszystkie pliki (%s)|%s|%s"
 msgid "Application Workspace"
 msgstr ""
 
+#: lclstrconsts.rsaquacolorcaption
+msgid "Aqua"
+msgstr ""
+
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
 msgstr ""
@@ -280,9 +284,17 @@ msgstr ""
 msgid "Bitmaps"
 msgstr ""
 
+#: lclstrconsts.rsblackcolorcaption
+msgid "Black"
+msgstr ""
+
 #: lclstrconsts.rsblank
 msgid "Blank"
 msgstr "Pusty"
+
+#: lclstrconsts.rsbluecolorcaption
+msgid "Blue"
+msgstr ""
 
 #: lclstrconsts.rsbtnfacecolorcaption
 msgid "Button Face"
@@ -307,7 +319,7 @@ msgstr "Kalkulator"
 #: lclstrconsts.rscancelrecordhint
 msgctxt "lclstrconsts.rscancelrecordhint"
 msgid "Cancel"
-msgstr ""
+msgstr "Anuluj"
 
 #: lclstrconsts.rscannotfocus
 msgid "Can not focus"
@@ -325,6 +337,10 @@ msgstr ""
 msgid "Case sensitive"
 msgstr ""
 
+#: lclstrconsts.rscreamcolorcaption
+msgid "Cream"
+msgstr ""
+
 #: lclstrconsts.rscreatinggdbcatchableerror
 msgid "Creating gdb catchable error:"
 msgstr "Błąd przy tworzeniu \"gdb catchable\":"
@@ -335,6 +351,10 @@ msgstr ""
 
 #: lclstrconsts.rscustomcolorcaption
 msgid "Custom ..."
+msgstr ""
+
+#: lclstrconsts.rsdefaultcolorcaption
+msgid "Default"
 msgstr ""
 
 #: lclstrconsts.rsdefaultfileinfovalue
@@ -373,7 +393,7 @@ msgstr ""
 #: lclstrconsts.rserror
 msgctxt "lclstrconsts.rserror"
 msgid "Error"
-msgstr ""
+msgstr "Błąd"
 
 #: lclstrconsts.rserrorcreatingdevicecontext
 msgid "Error creating device context for %s.%s"
@@ -409,7 +429,7 @@ msgstr "Katalog \"%s\" nie istnieje."
 
 #: lclstrconsts.rsfdfilealreadyexists
 msgid "The file \"%s\" already exists. Overwrite ?"
-msgstr ""
+msgstr "Plik \"%s\" już istnieje. Nadpisać ?"
 
 #: lclstrconsts.rsfdfilemustexist
 msgid "File must exist"
@@ -491,6 +511,10 @@ msgstr "Błąd przy zapisie formularza do strumienia  \"%s\": %s"
 msgid "Forward"
 msgstr ""
 
+#: lclstrconsts.rsfuchsiacolorcaption
+msgid "Fuchsia"
+msgstr ""
+
 #: lclstrconsts.rsgdkoptiondebug
 msgid "--gdk-debug flags     Turn on specific GDK trace/debug messages."
 msgstr "--gdk-debug flags     Włącz specificzne dla GDK komunikaty śledzenia/odpluskwiania."
@@ -511,8 +535,16 @@ msgstr ""
 msgid "Gradient Inactive Caption"
 msgstr ""
 
+#: lclstrconsts.rsgraycolorcaption
+msgid "Gray"
+msgstr ""
+
 #: lclstrconsts.rsgraytextcolorcaption
 msgid "Gray Text"
+msgstr ""
+
+#: lclstrconsts.rsgreencolorcaption
+msgid "Green"
 msgstr ""
 
 #: lclstrconsts.rsgridfiledoesnotexists
@@ -529,7 +561,7 @@ msgstr "GroupIndex nie może być mniejszy niż poprzedniego elementu menu"
 
 #: lclstrconsts.rsgtkfilter
 msgid "Filter:"
-msgstr ""
+msgstr "Filtr:"
 
 #: lclstrconsts.rsgtkhistory
 msgid "History:"
@@ -625,7 +657,7 @@ msgstr ""
 
 #: lclstrconsts.rshelpnotfound
 msgid "Help not found"
-msgstr ""
+msgstr "Nie znaleziono pomocy"
 
 #: lclstrconsts.rshelpnotregistered
 msgid "%s: Not registered"
@@ -758,6 +790,10 @@ msgstr ""
 msgid "Last"
 msgstr ""
 
+#: lclstrconsts.rslimecolorcaption
+msgid "Lime"
+msgstr ""
+
 #: lclstrconsts.rslistindexexceedsbounds
 msgid "List index exceeds bounds (%d)"
 msgstr "Indeks listy poza zakresem (%d)"
@@ -765,6 +801,10 @@ msgstr "Indeks listy poza zakresem (%d)"
 #: lclstrconsts.rslistmustbeempty
 msgid "List must be empty"
 msgstr "Lista musi być pusta"
+
+#: lclstrconsts.rsmarooncolorcaption
+msgid "Maroon"
+msgstr ""
 
 #: lclstrconsts.rsmbabort
 msgid "Abort"
@@ -813,6 +853,10 @@ msgstr "&Tak"
 
 #: lclstrconsts.rsmbyestoall
 msgid "Yes to &All"
+msgstr "Tak na &wszystkie"
+
+#: lclstrconsts.rsmedgraycolorcaption
+msgid "Medium Gray"
 msgstr ""
 
 #: lclstrconsts.rsmenubarcolorcaption
@@ -836,6 +880,10 @@ msgstr ""
 msgid "  modified "
 msgstr " zmodyfikowany"
 
+#: lclstrconsts.rsmoneygreencolorcaption
+msgid "Money Green"
+msgstr ""
+
 #: lclstrconsts.rsmtconfirmation
 msgid "Confirmation"
 msgstr "Potwierdzenie"
@@ -857,9 +905,17 @@ msgstr "Informacja"
 msgid "Warning"
 msgstr "Ostrzeżenie"
 
+#: lclstrconsts.rsnavycolorcaption
+msgid "Navy"
+msgstr ""
+
 #: lclstrconsts.rsnextrecordhint
 msgctxt "lclstrconsts.rsnextrecordhint"
 msgid "Next"
+msgstr ""
+
+#: lclstrconsts.rsnonecolorcaption
+msgid "None"
 msgstr ""
 
 #: lclstrconsts.rsnotavalidgridfile
@@ -868,6 +924,10 @@ msgstr "Nieprawidłowy plik siatki"
 
 #: lclstrconsts.rsnowidgetset
 msgid "No widgetset object. Please check if the unit \"interfaces\" was added to the programs uses clause."
+msgstr ""
+
+#: lclstrconsts.rsolivecolorcaption
+msgid "Olive"
 msgstr ""
 
 #: lclstrconsts.rspickdate
@@ -911,6 +971,10 @@ msgstr ""
 msgid "Property %s does not exist"
 msgstr "Właściwość %s nie istnieje"
 
+#: lclstrconsts.rspurplecolorcaption
+msgid "Purple"
+msgstr ""
+
 #: lclstrconsts.rsrasterimageendupdate
 msgid "Endupdate while no update in progress"
 msgstr ""
@@ -923,17 +987,21 @@ msgstr ""
 msgid "Cannot begin update all when canvas only update in progress"
 msgstr ""
 
+#: lclstrconsts.rsredcolorcaption
+msgid "Red"
+msgstr ""
+
 #: lclstrconsts.rsrefreshrecordshint
 msgid "Refresh"
-msgstr ""
+msgstr "Odśwież"
 
 #: lclstrconsts.rsreplace
 msgid "Replace"
-msgstr ""
+msgstr "Zamień"
 
 #: lclstrconsts.rsreplaceall
 msgid "Replace all"
-msgstr ""
+msgstr "Zamień wszystko"
 
 #: lclstrconsts.rsresourcenotfound
 msgctxt "lclstrconsts.rsresourcenotfound"
@@ -956,9 +1024,21 @@ msgstr "Wybierz kolor"
 msgid "Select a font"
 msgstr "Wybierz czcionkę"
 
+#: lclstrconsts.rssilvercolorcaption
+msgid "Silver"
+msgstr ""
+
 #: lclstrconsts.rssize
 msgid "  size "
 msgstr "  rozmiar "
+
+#: lclstrconsts.rsskybluecolorcaption
+msgid "Sky Blue"
+msgstr ""
+
+#: lclstrconsts.rstealcolorcaption
+msgid "Teal"
+msgstr ""
 
 #: lclstrconsts.rstext
 msgid "Text"
@@ -1004,6 +1084,10 @@ msgstr " UWAGA: Pozostało %d struktur TimerInfo zostaną usunięte"
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
 msgstr " UWAGA: Pozostały %s nieusunięte dowiązania do LM_PAINT/LM_GtkPAINT."
 
+#: lclstrconsts.rswhitecolorcaption
+msgid "White"
+msgstr ""
+
 #: lclstrconsts.rswholewordsonly
 msgid "Whole words only"
 msgstr ""
@@ -1026,6 +1110,10 @@ msgstr ""
 
 #: lclstrconsts.rswindowtextcolorcaption
 msgid "Window Text"
+msgstr ""
+
+#: lclstrconsts.rsyellowcolorcaption
+msgid "Yellow"
 msgstr ""
 
 #: lclstrconsts.scannotfocus
