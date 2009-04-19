@@ -1316,7 +1316,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result:= False; // TODO: mbSetEnvironmentVariable for Linux
+  Result:= (setenv(PChar(sName), PChar(sValue), 1) = 0);
 end;
 {$ENDIF}
 
