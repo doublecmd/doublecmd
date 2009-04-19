@@ -438,7 +438,7 @@ begin
 
   if Assigned(DragDropTarget.GetDropEvent) and
      Assigned(selection) and Assigned(selection^.data) and
-     (selection^.length >= 0) // if selection length < 0 data is invalid
+     (selection^.length > 0) // if selection length < 0 data is invalid
   then
   begin
     SetString(uriList, PChar(selection^.data), selection^.length);
