@@ -2292,7 +2292,7 @@ begin
          end;//  if for
 
        //add items to colorbox list
-       Items.Objects[Items.Add('$'+HexStr(lColor,8))]:=TObject(lColor);
+       Items.Objects[Items.Add('$'+HexStr(lColor,8))]:=TObject(PtrInt(lColor));
        Color:=lColor;
        Selected:=lColor;
      end; // with
