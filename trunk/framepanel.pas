@@ -1191,7 +1191,7 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
 
           Canvas.FillRect(Rect);
           //Canvas.Font.Style:=[];
-          newColor:=gColorExt.GetColorBy(sExt, sModeStr);
+          newColor:=gColorExt.GetColorBy(frp);
 {*}       if bSelected then
             begin
               if gUseInvertedSelection then

@@ -277,6 +277,7 @@
         <Filename Value="fcolumnssetconf.pas"/>
         <ComponentName Value="fColumnsSetConf"/>
         <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="fColumnsSetConf"/>
       </Unit30>
       <Unit31>
