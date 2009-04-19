@@ -46,6 +46,8 @@ begin
 	
   gpLngDir := gpExePath + 'language' + DirectorySeparator;
   gpPixmapPath := gpExePath + 'pixmaps' + DirectorySeparator;
+  // set up environment variables
+  mbSetEnvironmentVariable('commander_path', ExcludeTrailingBackslash(gpExePath));
 end;
 
 end.
