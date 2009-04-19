@@ -4,7 +4,7 @@
    Load colors of files in file panels
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
 
    This program is free software; you can redistribute it and/or modify
@@ -27,7 +27,7 @@ unit uColorExt;
 
 interface
 uses
-  Classes, Graphics;
+  Classes, Graphics, uTypes;
 type
 
 
@@ -48,10 +48,9 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    function ColorByExt(const sExt:String):TColor;
     function GetColorByExt(const sExt:String):TColor;
     function GetColorByAttr(const sModeStr:String):TColor;
-    function GetColorBy(const sExt,sModeStr: String): TColor;
+    function GetColorBy(FileRecItem: PFileRecItem): TColor;
     procedure Load;
     procedure Save;
     property  MaskItemList : TList read lslist write lslist;
@@ -80,11 +79,6 @@ begin
        end;
       FreeAndNil(lsList);
     end;
-end;
-
-function TColorExt.ColorByExt(const sExt:String):TColor;
-begin
-Result:=GetColorByExt(sExt);
 end;
 
 function TColorExt.GetColorByExt(const sExt: String): TColor;
@@ -117,11 +111,12 @@ begin
    end;
 end;
 
-function TColorExt.GetColorBy(const sExt, sModeStr: String): TColor;
+function TColorExt.GetColorBy(FileRecItem: PFileRecItem): TColor;
 var I:Integer;
 begin
  Result:= -1;//gForeColor; //$0000ff00;
  for I:=0 to lslist.Count-1 do
+   with FileRecItem^ do
    begin
      if ( MatchesMaskList(sExt,TMAskItem(lslist[I]).sExt,';') ) and
       (MatchesMaskList(sModeStr,TMAskItem(lslist[I]).sModeStr,';') or (TMAskItem(lslist[I]).sModeStr='')) then
