@@ -15,7 +15,7 @@ rem WCX plugins
 %lazpath%\lazbuild.exe wcx\zip\zip.lpi
 
 rem WDX plugins
-%lazpath%\lazbuild.exe wdx\rpm_wdx\rpm_wdx.lpi
+%lazpath%\lazbuild.exe wdx\rpm_wdx\src\rpm_wdx.lpi
 %lazpath%\lazbuild.exe wdx\deb_wdx\src\deb_wdx.lpi
 
 rem Strip and rename WCX
