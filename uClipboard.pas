@@ -225,7 +225,7 @@ begin
   Result := TStringList.Create;
 
   // For compatibility with apps that end the string with zero.
-  while (uriList[len] = #0) and (len > 0) do Dec(len);
+  while (len > 0) and (uriList[len] = #0) do Dec(len);
   if len = 0 then Exit;
 
   oldIndex := 1;
@@ -398,15 +398,22 @@ begin
   plainList := '';
   for i := 0 to filenames.Count-1 do
   begin
+
+    // Separate previous uris with line endings,
+    // but do not end the whole string with it.
+    if i > 0 then
+    begin
+      plainList := plainList + LineEnding;
+      uriList   := uriList   + LineEnding;
+    end;
+
     plainList := plainList
                + fileScheme + '//'  { don't put hostname }
-               + filenames[i]
-               + LineEnding;
+               + filenames[i];
 
     uriList   := uriList
                + fileScheme + '//'  { don't put hostname }
-               + URIEncode(filenames[i])
-               + LineEnding;
+               + URIEncode(filenames[i]);
   end;
 
 
