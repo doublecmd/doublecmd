@@ -154,7 +154,7 @@
     <Other>
       <ConfigFile>
         <CustomConfigFile Value="True"/>
-        <ConfigFilePath Value="fpc-$(TargetCPU).cfg"/>
+        <ConfigFilePath Value="fpc-extra.cfg"/>
       </ConfigFile>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
