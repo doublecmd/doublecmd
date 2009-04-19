@@ -5,7 +5,7 @@ unit uClipboard;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, LCLType;
 
   type TClipboardOperation = ( ClipboardCopy, ClipboardCut );
 
@@ -14,32 +14,24 @@ uses
   function PasteFromClipboard(out ClipboardOp: TClipboardOperation;
                               out filenames:TStringList):Boolean;
 
-{$IF DEFINED(UNIX)}
   function URIDecode(encodedUri: String): String;
   function URIEncode(path: String): String;
   function ExtractFilenames(uriList: String): TStringList;
 
 const
   // General MIME
-  uriListMime = 'text/uri-list';
-  textPlainMime = 'text/plain';
-  fileScheme = 'file:';   // for URI
-{$ENDIF}
+  uriListMime     = 'text/uri-list';
+  textPlainMime   = 'text/plain';
 
-implementation
+  fileScheme      = 'file:';   // for URI
 
-uses
-{$IFDEF MSWINDOWS}
-  Windows, ActiveX, uOleDragDrop, fMain,
-{$ELSE IFDEF UNIX}
-  LCLIntf, LCLType,
-{$ENDIF}
-  Clipbrd;
-
-const
 {$IFDEF MSWINDOWS}
 
-  CFSTR_PREFERREDDROPEFFECT = 'Preferred DropEffect';
+  CFSTR_PREFERRED_DROPEFFECT      = 'Preferred DropEffect';
+  CFSTR_FILENAME                  = 'FileName';
+  CFSTR_FILENAMEW                 = 'FileNameW';
+  CFSTR_UNIFORM_RESOURCE_LOCATOR  = 'UniformResourceLocator';
+  CFSTR_UNIFORM_RESOURCE_LOCATORW = 'UniformResourceLocatorW';
 
 {$ELSE IFDEF UNIX}
 
@@ -54,7 +46,57 @@ const
 {$ENDIF}
 
 
-{$IFDEF UNIX}
+var
+
+{$IFDEF MSWINDOWS}
+
+  CFU_PREFERRED_DROPEFFECT,
+  CFU_FILENAME,
+  CFU_FILENAMEW,
+  CFU_UNIFORM_RESOURCE_LOCATOR,
+  CFU_UNIFORM_RESOURCE_LOCATORW,
+
+{$ELSE IFDEF UNIX}
+
+  CFU_KDE_CUT_SELECTION,
+  CFU_GNOME_COPIED_FILES,
+
+{$ENDIF}
+
+  CFU_TEXT_PLAIN,
+  CFU_URI_LIST: TClipboardFormat;
+
+
+implementation
+
+uses
+{$IFDEF MSWINDOWS}
+  Windows, Win32Proc, ActiveX, uOleDragDrop, fMain;
+{$ELSE IFDEF UNIX}
+  LCLIntf, Clipbrd;
+{$ENDIF}
+
+
+procedure RegisterUserFormats;
+begin
+{$IF DEFINED(MSWINDOWS)}
+
+  CFU_PREFERRED_DROPEFFECT      := RegisterClipboardFormat(CFSTR_PREFERRED_DROPEFFECT);
+  CFU_FILENAME                  := RegisterClipboardFormat(CFSTR_FILENAME);
+  CFU_FILENAMEW                 := RegisterClipboardFormat(CFSTR_FILENAMEW);
+  CFU_UNIFORM_RESOURCE_LOCATOR  := RegisterClipboardFormat(CFSTR_UNIFORM_RESOURCE_LOCATOR);
+  CFU_UNIFORM_RESOURCE_LOCATORW := RegisterClipboardFormat(CFSTR_UNIFORM_RESOURCE_LOCATORW);
+
+{$ELSEIF DEFINED(UNIX)}
+
+  CFU_GNOME_COPIED_FILES        := RegisterClipboardFormat(gnomeClipboardMime);
+  CFU_KDE_CUT_SELECTION         := RegisterClipboardFormat(kdeClipboardMime);
+
+{$ENDIF}
+
+  CFU_TEXT_PLAIN                := RegisterClipboardFormat(textPlainMime);
+  CFU_URI_LIST                  := RegisterClipboardFormat(uriListMime);
+end;
 
 { Changes all '%XX' to bytes (XX is a hex number). }
 function URIDecode(encodedUri: String): String;
@@ -212,6 +254,8 @@ begin
   end;
 end;
 
+{$IFDEF UNIX}
+
 function GetClipboardFormatAsString(formatId: TClipboardFormat): String;
 var
   PBuffer: PChar;
@@ -261,7 +305,6 @@ var
   i: Integer;
   hGlobalBuffer: HGLOBAL;
   pBuffer: LPVOID;
-  CF_EFFECT: UINT;
   PreferredEffect: DWORD = DROPEFFECT_COPY;
 
 const
@@ -270,7 +313,6 @@ const
 
 {$IFDEF UNIX}
 var
-  formatId: Integer;
   i: Integer;
   s: String;
   uriList: String;
@@ -285,12 +327,6 @@ begin
 
 {$IFDEF MSWINDOWS}
 
-  { First, try to acquire preferred effect (move, copy) handle. }
-
-  CF_EFFECT := RegisterClipboardFormat(PChar(CFSTR_PREFERREDDROPEFFECT));
-
-  if CF_EFFECT = 0 then Exit;
-
   if OpenClipboard(frmMain.Handle) = False then Exit;
 
   // Empty clipboard, freeing handles to data inside it.
@@ -299,50 +335,53 @@ begin
 
   { Now, set preferred effect. }
 
-  if ClipboardOp = ClipboardCopy then
-    PreferredEffect := DROPEFFECT_COPY
-  else if ClipboardOp = ClipboardCut then
-    PreferredEffect := DROPEFFECT_MOVE;
-
-  hGlobalBuffer := GlobalAlloc(GMEM_MOVEABLE, SizeOf(DWORD));
-  if hGlobalBuffer = 0 then
+  if CFU_PREFERRED_DROPEFFECT <> 0 then
   begin
-    CloseClipboard;
-    Exit;
-  end;
+    if ClipboardOp = ClipboardCopy then
+      PreferredEffect := DROPEFFECT_COPY
+    else if ClipboardOp = ClipboardCut then
+      PreferredEffect := DROPEFFECT_MOVE;
 
-  pBuffer := GlobalLock(hGlobalBuffer);
-  if pBuffer <> nil then
-  begin
-    CopyMemory(pBuffer, PDWORD(@PreferredEffect), SizeOf(DWORD));
-    GlobalUnlock(hGlobalBuffer);
-
-    if SetClipboardData(CF_EFFECT, hGlobalBuffer) = 0 then
+    hGlobalBuffer := GlobalAlloc(GMEM_MOVEABLE, SizeOf(DWORD));
+    if hGlobalBuffer = 0 then
     begin
-      // Failed.
+      CloseClipboard;
+      Exit;
+    end;
+
+    pBuffer := GlobalLock(hGlobalBuffer);
+    if pBuffer <> nil then
+    begin
+      CopyMemory(pBuffer, PDWORD(@PreferredEffect), SizeOf(DWORD));
+      GlobalUnlock(hGlobalBuffer);
+
+      if SetClipboardData(CFU_PREFERRED_DROPEFFECT, hGlobalBuffer) = 0 then
+      begin
+        // Failed.
+        GlobalFree(hGlobalBuffer);
+        CloseClipboard;
+        Exit;
+      end
+      // else SetClipboardData succeeded,
+      // so hGlobalBuffer is now owned by the operating system.
+    end
+    else
+    begin
+      // Could not lock allocated memory, so free it.
       GlobalFree(hGlobalBuffer);
       CloseClipboard;
       Exit;
-    end
-    // else SetClipboardData succeeded,
-    // so hGlobalBuffer is now owned by the operating system.
-  end
-  else
-  begin
-    // Could not lock allocated memory, so free it.
-    GlobalFree(hGlobalBuffer);
-    CloseClipboard;
-    Exit;
+    end;
   end;
 
   { Now, set clipboard data in CF_HDROP format. }
 
-  DragDropInfo := TDragDropInfo.Create(DummyPoint, True);
+  DragDropInfo := TDragDropInfo.Create(DummyPoint, True, PreferredEffect);
 
   for i := 0 to filenames.Count - 1 do
     DragDropInfo.Add(filenames[i]);
 
-  hGlobalBuffer := DragDropInfo.CreateHDrop;
+  hGlobalBuffer := DragDropInfo.CreateHDrop(Win32Proc.UnicodeEnabledOS);
   if SetClipboardData(CF_HDROP, hGlobalBuffer) = 0 then
     GlobalFree(hGlobalBuffer);
 
@@ -375,8 +414,7 @@ begin
   Clipboard.Clear;
 
   { Gnome }
-  formatId := RegisterClipboardFormat(gnomeClipboardMime);
-  if formatId <> 0 then
+  if CFU_GNOME_COPIED_FILES <> 0 then
   begin
     case ClipboardOp of
       ClipboardCopy:
@@ -393,13 +431,12 @@ begin
     if s <> '' then
     begin
       s := s + LineEnding + uriList;
-      Clipboard.AddFormat(formatId, s[1], Length(s));
+      Clipboard.AddFormat(CFU_GNOME_COPIED_FILES, s[1], Length(s));
     end;
   end;
 
   { KDE }
-  formatId := RegisterClipboardFormat(kdeClipboardMime);
-  if formatId <> 0 then
+  if CFU_KDE_CUT_SELECTION <> 0 then
   begin
     case ClipboardOp of
       ClipboardCopy:
@@ -414,7 +451,7 @@ begin
     end;
 
     if s <> '' then
-      Clipboard.AddFormat(formatId, s[1], Length(s));
+      Clipboard.AddFormat(CFU_KDE_CUT_SELECTION, s[1], Length(s));
   end;
 
   // Common to all, plain text.
@@ -422,9 +459,8 @@ begin
                       plainList[1], Length(plainList));
 
   // Send also as URI-list.
-  formatId := RegisterClipboardFormat(uriListMime);
-  if formatId <> 0 then
-    Clipboard.AddFormat(formatId, uriList[1], Length(uriList));
+  if CFU_URI_LIST <> 0 then
+    Clipboard.AddFormat(CFU_URI_LIST, uriList[1], Length(uriList));
 
   Clipboard.Close;
 
@@ -453,7 +489,6 @@ var
   i: Integer;
   szFilename: array [0..MAX_PATH] of char;
   bWideStrings: boolean;
-  CF_EFFECT: UINT;
   PreferredEffect: DWORD;
 {$ELSE IF DEFINED(UNIX)}
 var
@@ -473,13 +508,9 @@ begin
 
   if OpenClipboard(0) = False then Exit;
 
-  { First, try to acquire preferred effect (move, copy) handle. }
-
-  CF_EFFECT := RegisterClipboardFormat(PChar(CFSTR_PREFERREDDROPEFFECT));
-
-  if CF_EFFECT <> 0 then
+  if CFU_PREFERRED_DROPEFFECT <> 0 then
   begin
-    hGlobalBuffer := GetClipboardData(CF_EFFECT);
+    hGlobalBuffer := GetClipboardData(CFU_PREFERRED_DROPEFFECT);
     if hGlobalBuffer <> 0 then
     begin
       pBuffer := GlobalLock(hGlobalBuffer);
@@ -515,7 +546,7 @@ begin
       if bWideStrings then
         filenames.Add(UTF8Encode(szFileName))
       else
-        filenames.Add(szFilename);
+        filenames.Add(AnsiToUtf8(szFilename));
 
     end;
 
@@ -630,6 +661,11 @@ begin
 
 {$ENDIF}
 end;
+
+
+initialization
+
+  RegisterUserFormats;
 
 end.
 
