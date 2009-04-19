@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific WINDOWS functions.
 
-    Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -68,6 +68,8 @@ implementation
 
 uses
   LCLProc, ShellAPI, MMSystem;
+
+function mciSendCommand(IDDevice: MCIDEVICEID; uMsg: UINT; fdwCommand: DWORD; dwParam: DWORD_PTR): MCIERROR; stdcall; external 'winmm.dll' name 'mciSendCommandA';
 
 function DisplayName(const wsDrv: WideString): WideString;
 var
@@ -158,9 +160,9 @@ begin
   FillChar(OpenParms, SizeOf(OpenParms), 0);
   OpenParms.lpstrDeviceType:= 'CDAudio';
   OpenParms.lpstrElementName:= PChar(ExtractFileDrive(sDrv));
-  mciSendCommand(0, MCI_OPEN, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, Longint(@OpenParms));
+  mciSendCommand(0, MCI_OPEN, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, DWORD_PTR(@OpenParms));
   mciSendCommand(OpenParms.wDeviceID, MCI_SET, MCI_SET_DOOR_CLOSED, 0);
-  mciSendCommand(OpenParms.wDeviceID, MCI_CLOSE, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, Longint(@OpenParms));
+  mciSendCommand(OpenParms.wDeviceID, MCI_CLOSE, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, DWORD_PTR(@OpenParms));
 end;
 
 function WinToDosTime (const Wtime: TFileTime; var DTime: LongInt): LongBool;
