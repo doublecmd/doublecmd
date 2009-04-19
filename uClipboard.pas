@@ -9,8 +9,8 @@ uses
 
   type TClipboardOperation = ( ClipboardCopy, ClipboardCut );
 
-  function CopyToClipboard(filenames:TStringList):Boolean;
-  function CutToClipboard(filenames:TStringList):Boolean;
+  function CopyToClipboard(const filenames:TStringList):Boolean;
+  function CutToClipboard(const filenames:TStringList):Boolean;
   function PasteFromClipboard(out ClipboardOp: TClipboardOperation;
                               out filenames:TStringList):Boolean;
 
@@ -298,7 +298,7 @@ end;
 
 {$ENDIF}
 
-function SendToClipboard(filenames:TStringList; ClipboardOp: TClipboardOperation):Boolean;
+function SendToClipboard(const filenames:TStringList; ClipboardOp: TClipboardOperation):Boolean;
 {$IFDEF MSWINDOWS}
 var
   DragDropInfo: TDragDropInfo;
@@ -477,12 +477,12 @@ begin
 
 end;
 
-function CopyToClipboard(filenames:TStringList):Boolean;
+function CopyToClipboard(const filenames:TStringList):Boolean;
 begin
   Result := SendToClipboard(filenames, ClipboardCopy);
 end;
 
-function CutToClipboard(filenames:TStringList):Boolean;
+function CutToClipboard(const filenames:TStringList):Boolean;
 begin
   Result := SendToClipboard(filenames, ClipboardCut);
 end;

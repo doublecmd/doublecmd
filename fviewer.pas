@@ -138,7 +138,7 @@ type
   end;
 
 
-procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
+procedure ShowViewer(const FilesToView:TStringList; bDeleteAfterView : Boolean = False);
 
 implementation
 
@@ -146,16 +146,16 @@ uses
   uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx, uFindMmap, uDCUtils,
   uOSUtils;
 
-procedure ShowViewer(sl:TStringList; bDeleteAfterView : Boolean = False);
+procedure ShowViewer(const FilesToView:TStringList; bDeleteAfterView : Boolean = False);
 var viewer: TfrmViewer;
 begin
   //DebugLn('ShowViewer - Using Internal');
   viewer := TfrmViewer.Create(Application);
   gViewerPos.Restore(viewer);
-  viewer.FileList.Assign(sl);
+  viewer.FileList.Assign(FilesToView); // Make a copy of the list
   viewer.LoadFile(0);
-  viewer.Show;
   viewer.FDeleteAfterView := bDeleteAfterView;
+  viewer.Show;
 end;
 
 procedure TfrmViewer.LoadFile(iIndex:Integer);

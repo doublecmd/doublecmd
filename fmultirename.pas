@@ -114,14 +114,14 @@ type
   end;
 
 {initialization function}
-  function ShowMultiRenameForm(Var lsInFiles: TStringList):Boolean;
+  function ShowMultiRenameForm(const lsInFiles: TStringList):Boolean;
 
 implementation
 
 uses
   LCLProc, uLng, uGlobs, uFileProcs, uDCUtils, uOSUtils;
 
-function ShowMultiRenameForm(Var lsInFiles: TStringList):Boolean;
+function ShowMultiRenameForm(const lsInFiles: TStringList):Boolean;
 var
   c:integer;
 begin

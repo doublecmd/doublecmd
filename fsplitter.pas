@@ -45,7 +45,7 @@ type
 
   end;
 
-  function ShowSplitterFileForm(var sFile:TStringList):boolean;
+  function ShowSplitterFileForm(const sFile:TStringList):boolean;
 
 
 implementation
@@ -53,7 +53,7 @@ implementation
 uses
   uLng, uClassesEx, uOSUtils;
 
-function ShowSplitterFileForm(var sFile:TStringList):boolean;
+function ShowSplitterFileForm(const sFile:TStringList):boolean;
 begin
   with TfrmSplitter.Create(Application) do
   begin
