@@ -16,7 +16,7 @@ $lazpath/lazbuild wcx/unrar/unrar.lpi
 $lazpath/lazbuild wcx/zip/Zip.lpi
 
 # WDX plugins
-$lazpath/lazbuild wdx/rpm_wdx/rpm_wdx.lpi
+$lazpath/lazbuild wdx/rpm_wdx/src/rpm_wdx.lpi
 $lazpath/lazbuild wdx/deb_wdx/src/deb_wdx.lpi
 
 # WLX plugins

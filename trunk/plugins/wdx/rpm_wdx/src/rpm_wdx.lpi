@@ -108,7 +108,7 @@
   <CompilerOptions>
     <Version Value="5"/>
 	   <SearchPaths>
-         <UnitOutputDirectory Value="lib"/>
+         <UnitOutputDirectory Value="..\lib"/>
        </SearchPaths>
     <PathDelim Value="\"/>
     <Parsing>
