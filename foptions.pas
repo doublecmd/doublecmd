@@ -35,7 +35,7 @@ uses
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Buttons, Spin, ColorBox,
   CheckLst, EditBtn,uColumns, Grids, uDSXModule, uWCXModule, uWDXModule,
-  uWFXmodule, uWLXModule;
+  uWFXmodule, uWLXModule, Menus;
 
 type
 
@@ -49,6 +49,7 @@ type
     btnConfigApply: TBitBtn;
     btnConfigEdit: TBitBtn;
     btnConfigPlugin: TBitBtn;
+    btnSearchTemplate: TButton;
     btnTweakPlugin: TBitBtn;
     btnRemovePlugin: TBitBtn;
     btnEnablePlugin: TBitBtn;
@@ -197,11 +198,11 @@ type
     lbxCategories: TListBox;
     lbxHotkeys: TListBox;
     lstColumnsSets: TListBox;
-    pcFileTypesColors: TPageControl;
     pgAutoRefresh: TPage;
     pgMisc: TPage;
     pnlButtons: TPanel;
     pgColumns: TPage;
+    pmSearchTemplate: TPopupMenu;
     rgScrolling: TRadioGroup;
     rbCtrlAltLetterQS: TRadioButton;
     rbAltLetterQS: TRadioButton;
@@ -269,8 +270,6 @@ type
     seWipePassNumber: TSpinEdit;
     stgPlugins: TStringGrid;
     stgCommands: TStringGrid;
-    tsByFileType: TTabSheet;
-    tsBySearchTemplate: TTabSheet;
     tsWLX: TTabSheet;
     tsDSX: TTabSheet;
     tsWDX: TTabSheet;
@@ -292,6 +291,8 @@ type
     procedure btnConfigPluginClick(Sender: TObject);
     procedure btnDSXAddClick(Sender: TObject);
     procedure btnEnablePluginClick(Sender: TObject);
+    procedure btnSearchTemplateClick(Sender: TObject);
+    procedure miSearchTemplateClick(Sender: TObject);
     procedure btnWDXAddClick(Sender: TObject);
     procedure btnWFXAddClick(Sender: TObject);
     procedure btnWLXAddClick(Sender: TObject);
@@ -387,7 +388,7 @@ var
 
 implementation
 uses
-  uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc, menus,
+  uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc,
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
   fTweakPlugin, uhotkeymanger, uTypes, StrUtils, uFindEx, uKeyboard;
 
@@ -1499,54 +1500,6 @@ end;
 //lbxCommands.items.AddStrings(actions.CommandList);
 end;
 
-procedure TfrmOptions.cbCategoryColorChange(Sender: TObject);
-begin
-  (Sender as TColorBox).Color := (Sender as TColorBox).Selected;
-end;
-
-procedure TfrmOptions.lbCategoriesClick(Sender: TObject);
-var
-  MaskItem : TMaskItem;
-begin
-
-  if (lbCategories.Count > 0) and (Assigned(lbCategories.Items.Objects[lbCategories.ItemIndex])) then
-    begin
-      edtCategoryName.Text := lbCategories.Items[lbCategories.ItemIndex];
-      MaskItem := TMaskItem(lbCategories.Items.Objects[lbCategories.ItemIndex]);
-
-      edtCategoryMask.Text := MaskItem.sExt;
-      SetColorInColorBox(cbCategoryColor,MaskItem.cColor);
-      edtCategoryAttr.Text := MaskItem.sModeStr;
-    end
-  else
-    begin
-      if lbCategories.Count = 0 then
-        edtCategoryName.Text := ''
-      else
-        edtCategoryName.Text := lbCategories.Items[lbCategories.ItemIndex];
-      edtCategoryMask.Text := '*';
-      edtCategoryAttr.Text := '';
-      cbCategoryColor.ItemIndex := -1;
-      cbCategoryColor.Color := clWindow;
-      cbCategoryColor.Selected := cbCategoryColor.Color;
-    end;
-end;
-
-procedure TfrmOptions.lbCategoriesDrawItem(Control: TWinControl;
-  Index: Integer; ARect: TRect; State: TOwnerDrawState);
-begin
-  With (Control as TListBox) do
-   begin
-     Canvas.FillRect(ARect);
-     if not Selected[Index] then
-       Canvas.Font.Color:=TMaskItem(Items.Objects[Index]).cColor
-     else
-       Canvas.Font.Color:=gCursorText;
-       
-     Canvas.TextOut(ARect.Left+2,ARect.Top+1,Items[Index]);
-   end;
-end;
-
 function TfrmOptions.getCommandComment(const lCmd:string):string;
 //< find Comment for command
 // command=caption of action assigned to command
@@ -1678,6 +1631,103 @@ begin
   nbNotebook.Page[nbNotebook.PageIndex].Height := nbNotebook.Height - 8;
 end;
 
+{ File type color }
+
+procedure TfrmOptions.cbCategoryColorChange(Sender: TObject);
+begin
+  (Sender as TColorBox).Color := (Sender as TColorBox).Selected;
+end;
+
+procedure TfrmOptions.lbCategoriesClick(Sender: TObject);
+var
+  MaskItem : TMaskItem;
+  bEnabled: Boolean;
+begin
+
+  if (lbCategories.Count > 0) and (Assigned(lbCategories.Items.Objects[lbCategories.ItemIndex])) then
+    begin
+      edtCategoryName.Text := lbCategories.Items[lbCategories.ItemIndex];
+      MaskItem := TMaskItem(lbCategories.Items.Objects[lbCategories.ItemIndex]);
+
+      edtCategoryMask.Text := MaskItem.sExt;
+      SetColorInColorBox(cbCategoryColor,MaskItem.cColor);
+      bEnabled:= Pos('>', MaskItem.sExt) <> 1;
+      edtCategoryMask.Enabled:= bEnabled;
+      edtCategoryAttr.Enabled:= bEnabled;
+      edtCategoryAttr.Text := MaskItem.sModeStr;
+    end
+  else
+    begin
+      if lbCategories.Count = 0 then
+        edtCategoryName.Text := ''
+      else
+        edtCategoryName.Text := lbCategories.Items[lbCategories.ItemIndex];
+      edtCategoryMask.Text := '*';
+      edtCategoryAttr.Text := '';
+      cbCategoryColor.ItemIndex := -1;
+      cbCategoryColor.Color := clWindow;
+      cbCategoryColor.Selected := cbCategoryColor.Color;
+    end;
+end;
+
+procedure TfrmOptions.lbCategoriesDrawItem(Control: TWinControl;
+  Index: Integer; ARect: TRect; State: TOwnerDrawState);
+begin
+  With (Control as TListBox) do
+   begin
+     Canvas.FillRect(ARect);
+     if not Selected[Index] then
+       Canvas.Font.Color:=TMaskItem(Items.Objects[Index]).cColor
+     else
+       Canvas.Font.Color:=gCursorText;
+
+     Canvas.TextOut(ARect.Left+2,ARect.Top+1,Items[Index]);
+   end;
+end;
+
+procedure TfrmOptions.btnSearchTemplateClick(Sender: TObject);
+var
+  mi: TMenuItem;
+  I: Integer;
+begin
+  pmSearchTemplate.Items.Clear;
+  mi:= TMenuItem.Create(pmSearchTemplate);
+  mi.Caption:= '(none)';
+  mi.OnClick:= @miSearchTemplateClick;
+  mi.Tag:= -1;
+  pmSearchTemplate.Items.Add(mi);
+  for I:= 0 to gSearchTemplateList.Count - 1 do
+    with gSearchTemplateList do
+    begin
+      mi:= TMenuItem.Create(pmSearchTemplate);
+      mi.Caption:= Templates[I].TemplateName;
+      mi.OnClick:= @miSearchTemplateClick;
+      mi.Tag:= I;
+      pmSearchTemplate.Items.Add(mi);
+    end;
+  pmSearchTemplate.PopUp();
+end;
+
+procedure TfrmOptions.miSearchTemplateClick(Sender: TObject);
+begin
+  if Sender is TMenuItem then
+    with Sender as TMenuItem, gSearchTemplateList do
+    begin
+      if Tag = -1 then
+        begin
+          edtCategoryMask.Text:= '*';
+          edtCategoryAttr.Text:= '';
+        end
+      else
+        begin
+          edtCategoryMask.Text:= '>' + Templates[Tag].TemplateName;
+          edtCategoryAttr.Text:= '';
+        end;
+      edtCategoryMask.Enabled:= (Tag = -1);
+      edtCategoryAttr.Enabled:= (Tag = -1);
+    end;
+end;
+
 procedure TfrmOptions.bbtnAddCategoryClick(Sender: TObject);
 var
   iIndex : Integer;
@@ -1752,6 +1802,14 @@ begin
   lbCategoriesClick(lbCategories);
 end;
 
+procedure TfrmOptions.btnCategoryColorClick(Sender: TObject);
+begin
+  if optColorDialog.Execute then
+    SetColorInColorBox(cbCategoryColor,optColorDialog.Color);
+end;
+
+{ /File type color }
+
 procedure TfrmOptions.btnConfigApplyClick(Sender: TObject);
 begin
   LoadGlobs;
@@ -1763,12 +1821,6 @@ procedure TfrmOptions.btnConfigEditClick(Sender: TObject);
 begin
   ShowEditorByGlob(gpIniDir + 'doublecmd.ini');
   btnConfigApply.Enabled:= True;
-end;
-
-procedure TfrmOptions.btnCategoryColorClick(Sender: TObject);
-begin
-  if optColorDialog.Execute then
-    SetColorInColorBox(cbCategoryColor,optColorDialog.Color);
 end;
 
 procedure TfrmOptions.btnDelColumnsSetClick(Sender: TObject);
