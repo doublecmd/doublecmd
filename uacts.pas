@@ -1590,7 +1590,7 @@ end;
 procedure TActs.cm_EditNew(param:string);
 var
   sNewFile: String;
-  hFile: Integer;
+  hFile: Integer = 0;
 begin
 with frmMain do
 begin
@@ -1599,12 +1599,17 @@ begin
   else
     sNewFile:= rsEditNewFile;
   if not InputQuery(rsEditNewOpen, rsEditNewFileName, sNewFile) then Exit;
-  sNewFile:= ActiveFrame.ActiveDir + sNewFile;
+
+  // If user entered only a filename prepend it with current directory.
+  if ExtractFilePath(sNewFile) = '' then
+    sNewFile:= ActiveFrame.ActiveDir + sNewFile;
+
   if not mbFileExists(sNewFile) then
     try
       hFile:= mbFileCreate(sNewFile);
     finally
-      FileClose(hFile);
+      if hFile > 0 then
+        FileClose(hFile);
     end;
   try
     ShowEditorByGlob(sNewFile);
