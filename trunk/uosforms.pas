@@ -60,11 +60,11 @@ procedure SetMyWndProc(Handle : THandle);
    @param(FileList List of files)
    @param(aPath Current file path)
 }  
-procedure ShowFilePropertiesDialog(FileList:TFileList; const aPath:String);
+procedure ShowFilePropertiesDialog(const FileList:TFileList; const aPath:String);
 {en
    Show file/folder context menu
    @param(Owner Parent window)
-   @param(FileList List of files)
+   @param(FileList List of files. It is freed by this function.)
    @param(X X coordinate)
    @param(Y Y coordinate)
 }
@@ -94,7 +94,6 @@ var
 {$IFDEF MSWINDOWS}
   OldWProc: WNDPROC;
   ICM2: IContextMenu2 = nil;
-  hActionsSubMenu: HMENU;
 {$ELSE}
   CM : TContextMenu = nil;
   FileRecItem: TFileRecItem;
@@ -266,12 +265,13 @@ procedure ShowContextMenu(Owner: TWinControl; FileList : TFileList; X, Y : Integ
 {$IFDEF MSWINDOWS}
 var
   fri : TFileRecItem;
-  sl: TStringList;
+  sl: TStringList = nil;
   i:Integer;
   sCmd:String;  
   contMenu: IContextMenu;
-  menu: HMENU;
-  cmd: UINT;
+  menu: HMENU = 0;
+  hActionsSubMenu: HMENU = 0;
+  cmd: UINT = 0;
   iCmd: Integer;
   HR: HResult;
   cmici: TCMINVOKECOMMANDINFO;
@@ -279,167 +279,176 @@ var
   ZVerb: array[0..255] of char;
   sVerb : String;
 begin
-  if FileList.Count = 0 then Exit;
 
-  contMenu := GetIContextMenu(Owner.Handle, FileList);
-  menu := CreatePopupMenu;
   try
-    OleCheck( contMenu.QueryContextMenu(menu, 0, 1, $7FFF, CMF_EXPLORE or CMF_CANRENAME) );
-    contMenu.QueryInterface(IID_IContextMenu2, ICM2); // to handle submenus.
-//------------------------------------------------------------------------------
-{ Actions submenu }
-    fri := FileList.GetItem(0)^;
-    if (FileList.Count = 1) then
-      begin
-	hActionsSubMenu := CreatePopupMenu;
-  
-        // Read actions from doublecmd.ext
-        sl:=TStringList.Create;
+    if FileList.Count = 0 then Exit;
 
-        if gExts.GetExtActions(fri, sl) then
-          begin
-          //founded any commands
-            InsertMenuItemEx(menu, hActionsSubMenu, PWChar(UTF8Decode(rsMnuActions)), 0, 333, MFT_STRING);
-            for i:=0 to sl.Count-1 do
-              begin
-                sCmd:=sl.Strings[i];
-                if pos('VIEW=',sCmd)>0 then Continue;  // view command is only for viewer
-                ReplaceExtCommand(sCmd, @fri, frmMain.ActiveFrame.pnlFile.ActiveDir);
-                
-                sCmd:= RemoveQuotation(sCmd);
-                InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 0, I + $1000, MFT_STRING);
-              end;
-          end;
-    if not (FPS_ISDIR(fri.iMode) or (fri.bLinkIsDir)) then
-      begin
-        if sl.Count = 0 then
-          InsertMenuItemEx(menu, hActionsSubMenu, PWChar(UTF8Decode(rsMnuActions)), 0, 333, MFT_STRING)
-        else
-          // now add delimiter
-          InsertMenuItemEx(hActionsSubMenu,0, nil, 0, 0, MFT_SEPARATOR);
+    contMenu := GetIContextMenu(Owner.Handle, FileList);
+    menu := CreatePopupMenu;
+    try
+      OleCheck( contMenu.QueryContextMenu(menu, 0, 1, $7FFF, CMF_EXPLORE or CMF_CANRENAME) );
+      contMenu.QueryInterface(IID_IContextMenu2, ICM2); // to handle submenus.
+      //------------------------------------------------------------------------------
+      { Actions submenu }
+      fri := FileList.GetItem(0)^;
+      if (FileList.Count = 1) then
+        begin
+          hActionsSubMenu := CreatePopupMenu;
 
-        // now add VIEW item
-	sCmd:= '{!VIEWER}' + fri.sPath + fri.sName;
-        I := sl.Add(sCmd);
-	InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 1, I + $1000, MFT_STRING);
-       
-        // now add EDITconfigure item
-	sCmd:= '{!EDITOR}' + fri.sPath + fri.sName;
-        I := sl.Add(sCmd);
-	InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 1, I + $1000, MFT_STRING);
-      end;
-      end;
-{ /Actions submenu }
-//------------------------------------------------------------------------------
-    cmd := UINT(TrackPopupMenu(menu, TPM_LEFTALIGN or TPM_LEFTBUTTON or TPM_RIGHTBUTTON or TPM_RETURNCMD, X, Y, 0, Owner.Handle, nil));
-  finally
-    DestroyMenu(hActionsSubMenu);
-    DestroyMenu(menu);
-    ICM2 := nil;
-  end;
-  
-  if (cmd > 0) and (cmd < $1000) then
-    begin
-      iCmd := LongInt(Cmd) - 1;
-      HR := contMenu.GetCommandString(iCmd, GCS_VERBA, nil, ZVerb, SizeOf(ZVerb));
-      sVerb := StrPas(ZVerb);
-      bHandled := False;
+          // Read actions from doublecmd.ext
+          sl:=TStringList.Create;
 
-      if SameText(sVerb, sCmdVerbDelete) then
-        begin
-          frmMain.actDelete.Execute;
-          bHandled := True;
-        end
-      else if SameText(sVerb, sCmdVerbRename) then
-        begin
-          if FileList.Count = 1 then
-            with FileList.GetItem(0)^ do
-              begin
-                DebugLn(sNAme);
-                DebugLn(ExtractFileDrive(sName));
-                if sName <> (ExtractFileDrive(sName)+PathDelim) then
-                  frmMain.RenameFile('')
-                else  // change drive label
-                  begin
-                    sCmd:= mbGetVolumeLabel(sName, True);
-                    if InputQuery(rsMsgSetVolumeLabel, rsMsgVolumeLabel, sCmd) then
-                      mbSetVolumeLabel(sName, sCmd);
-                  end;
-              end
-          else
-            frmMain.actRename.Execute;
-          bHandled := True;
-        end
-      else if SameText(sVerb, sCmdVerbOpen) then
-        begin
-          if FileList.Count = 1 then
-            with FileList.GetItem(0)^ do
-              begin
-                if FPS_ISDIR(iMode) or (bLinkIsDir) then
-                  begin
-                    if sName = '..' then
-                      frmMain.ActiveFrame.pnlFile.cdUpLevel
-                    else
-                      frmMain.ActiveFrame.pnlFile.cdDownLevel(FileList.GetItem(0));
-                    bHandled := True;
-                  end; // is dir
-              end; // with
-        end
-      else if SameText(sVerb, sCmdVerbCut) then
-        begin
-          frmMain.actCutToClipboard.Execute;
-          bHandled := True;
-        end
-      else if SameText(sVerb, sCmdVerbCopy) then
-        begin
-          frmMain.actCopyToClipboard.Execute;
-          bHandled := True;
-        end
-      else if SameText(sVerb, sCmdVerbPaste) then
-        begin
-          frmMain.actPasteFromClipboard.Execute;
-          bHandled := True;
-        end;
-
-      if not bHandled then
-        begin
-          FillChar(cmici, SizeOf(cmici), #0);
-          with cmici do
-          begin
-            cbSize := sizeof(cmici);
-            hwnd := Owner.Handle;
-            lpVerb := PChar(cmd - 1);
-            nShow := SW_NORMAL;
-          end;
-          OleCheck( contMenu.InvokeCommand(cmici) );
-        end;
-        
-      if SameText(sVerb, sCmdVerbDelete) or SameText(sVerb, sCmdVerbPaste) then
-        frmMain.ActiveFrame.RefreshPanel;
-
-    end // if cmd > 0
-  else if (cmd >= $1000) then // actions sub menu
-    begin
-      sCmd:= sl.Strings[cmd - $1000];
-      ReplaceExtCommand(sCmd, @fri, frmMain.ActiveFrame.pnlFile.ActiveDir);
-      sCmd:= Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
-      try
-        with frmMain.ActiveFrame do
-        begin
-          if (Pos('{!VFS}',sCmd)>0) and pnlFile.VFS.FindModule(ActiveDir + fri.sName) then
+          if gExts.GetExtActions(fri, sl) then
             begin
-              pnlFile.LoadPanelVFS(@fri);
-              Exit;
+            //founded any commands
+              InsertMenuItemEx(menu, hActionsSubMenu, PWChar(UTF8Decode(rsMnuActions)), 0, 333, MFT_STRING);
+              for i:=0 to sl.Count-1 do
+                begin
+                  sCmd:=sl.Strings[i];
+                  if pos('VIEW=',sCmd)>0 then Continue;  // view command is only for viewer
+                  ReplaceExtCommand(sCmd, @fri, frmMain.ActiveFrame.pnlFile.ActiveDir);
+
+                  sCmd:= RemoveQuotation(sCmd);
+                  InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 0, I + $1000, MFT_STRING);
+                end;
             end;
-          if not ProcessExtCommand(sCmd, pnlFile.ActiveDir) then
-            frmMain.ExecCmd(sCmd);
+
+          if not (FPS_ISDIR(fri.iMode) or (fri.bLinkIsDir)) then
+            begin
+              if sl.Count = 0 then
+                InsertMenuItemEx(menu, hActionsSubMenu, PWChar(UTF8Decode(rsMnuActions)), 0, 333, MFT_STRING)
+              else
+                // now add delimiter
+                InsertMenuItemEx(hActionsSubMenu,0, nil, 0, 0, MFT_SEPARATOR);
+
+              // now add VIEW item
+              sCmd:= '{!VIEWER}' + fri.sPath + fri.sName;
+              I := sl.Add(sCmd);
+              InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 1, I + $1000, MFT_STRING);
+
+              // now add EDITconfigure item
+              sCmd:= '{!EDITOR}' + fri.sPath + fri.sName;
+              I := sl.Add(sCmd);
+              InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 1, I + $1000, MFT_STRING);
+            end;
         end;
-      finally
-        bHandled:= True;
-        FreeAndNil(sl);
-      end;
+      { /Actions submenu }
+      //------------------------------------------------------------------------------
+      cmd := UINT(TrackPopupMenu(menu, TPM_LEFTALIGN or TPM_LEFTBUTTON or TPM_RIGHTBUTTON or TPM_RETURNCMD, X, Y, 0, Owner.Handle, nil));
+    finally
+      if hActionsSubMenu <> 0 then
+        DestroyMenu(hActionsSubMenu);
+      if menu <> 0 then
+        DestroyMenu(menu);
+      ICM2 := nil;
     end;
-  FileList.Free;
+
+    if (cmd > 0) and (cmd < $1000) then
+      begin
+        iCmd := LongInt(Cmd) - 1;
+        HR := contMenu.GetCommandString(iCmd, GCS_VERBA, nil, ZVerb, SizeOf(ZVerb));
+        sVerb := StrPas(ZVerb);
+        bHandled := False;
+
+        if SameText(sVerb, sCmdVerbDelete) then
+          begin
+            frmMain.actDelete.Execute;
+            bHandled := True;
+          end
+        else if SameText(sVerb, sCmdVerbRename) then
+          begin
+            if FileList.Count = 1 then
+              with FileList.GetItem(0)^ do
+                begin
+                  DebugLn(sNAme);
+                  DebugLn(ExtractFileDrive(sName));
+                  if sName <> (ExtractFileDrive(sName)+PathDelim) then
+                    frmMain.RenameFile('')
+                  else  // change drive label
+                    begin
+                      sCmd:= mbGetVolumeLabel(sName, True);
+                      if InputQuery(rsMsgSetVolumeLabel, rsMsgVolumeLabel, sCmd) then
+                        mbSetVolumeLabel(sName, sCmd);
+                    end;
+                end
+            else
+              frmMain.actRename.Execute;
+            bHandled := True;
+          end
+        else if SameText(sVerb, sCmdVerbOpen) then
+          begin
+            if FileList.Count = 1 then
+              with FileList.GetItem(0)^ do
+                begin
+                  if FPS_ISDIR(iMode) or (bLinkIsDir) then
+                    begin
+                      if sName = '..' then
+                        frmMain.ActiveFrame.pnlFile.cdUpLevel
+                      else
+                        frmMain.ActiveFrame.pnlFile.cdDownLevel(FileList.GetItem(0));
+                      bHandled := True;
+                    end; // is dir
+                end; // with
+          end
+        else if SameText(sVerb, sCmdVerbCut) then
+          begin
+            frmMain.actCutToClipboard.Execute;
+            bHandled := True;
+          end
+        else if SameText(sVerb, sCmdVerbCopy) then
+          begin
+            frmMain.actCopyToClipboard.Execute;
+            bHandled := True;
+          end
+        else if SameText(sVerb, sCmdVerbPaste) then
+          begin
+            frmMain.actPasteFromClipboard.Execute;
+            bHandled := True;
+          end;
+
+        if not bHandled then
+          begin
+            FillChar(cmici, SizeOf(cmici), #0);
+            with cmici do
+            begin
+              cbSize := sizeof(cmici);
+              hwnd := Owner.Handle;
+              lpVerb := PChar(cmd - 1);
+              nShow := SW_NORMAL;
+            end;
+            OleCheck( contMenu.InvokeCommand(cmici) );
+          end;
+
+        if SameText(sVerb, sCmdVerbDelete) or SameText(sVerb, sCmdVerbPaste) then
+          frmMain.ActiveFrame.RefreshPanel;
+
+      end // if cmd > 0
+    else if (cmd >= $1000) then // actions sub menu
+      begin
+        sCmd:= sl.Strings[cmd - $1000];
+        ReplaceExtCommand(sCmd, @fri, frmMain.ActiveFrame.pnlFile.ActiveDir);
+        sCmd:= Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
+        try
+          with frmMain.ActiveFrame do
+          begin
+            if (Pos('{!VFS}',sCmd)>0) and pnlFile.VFS.FindModule(ActiveDir + fri.sName) then
+              begin
+                pnlFile.LoadPanelVFS(@fri);
+                Exit;
+              end;
+            if not ProcessExtCommand(sCmd, pnlFile.ActiveDir) then
+              frmMain.ExecCmd(sCmd);
+          end;
+        finally
+          bHandled:= True;
+        end;
+      end;
+
+  finally
+    FreeAndNil(FileList);
+    if Assigned(sl) then
+      FreeAndNil(sl);
+  end;
 end;
 {$ELSE}
 var
@@ -449,7 +458,11 @@ var
   sCmd: String;
   mi, miActions: TMenuItem;
 begin
-  if FileList.Count = 0 then Exit;
+  if FileList.Count = 0 then
+  begin
+    FreeAndNil(FileList);
+    Exit;
+  end;
 
   if not Assigned(CM) then
     CM:= TContextMenu.Create(Owner)
@@ -632,7 +645,7 @@ end;
 {$ENDIF}
 
 (* Show file properties dialog *)
-procedure ShowFilePropertiesDialog(FileList:TFileList; const aPath:String);
+procedure ShowFilePropertiesDialog(const FileList:TFileList; const aPath:String);
 {$IFDEF UNIX}
 begin
   ShowFileProperties(FileList, aPath);
@@ -646,20 +659,24 @@ begin
   if FileList.Count = 0 then Exit;
 
   fl := TFileList.Create;
-  CopyListSelectedExpandNames(FileList, fl, aPath, False);
-  contMenu := GetIContextMenu(frmMain.Handle, fl);
+  try
+    CopyListSelectedExpandNames(FileList, fl, aPath, False);
+    contMenu := GetIContextMenu(frmMain.Handle, fl);
 
-  FillChar(cmici, sizeof(cmici), #0);
-  with cmici do
-    begin
-      cbSize := sizeof(cmici);
-      hwnd := frmMain.Handle;
-      lpVerb := 'properties';
-      nShow := SW_SHOWNORMAL;
-    end;
+    FillChar(cmici, sizeof(cmici), #0);
+    with cmici do
+      begin
+        cbSize := sizeof(cmici);
+        hwnd := frmMain.Handle;
+        lpVerb := 'properties';
+        nShow := SW_SHOWNORMAL;
+      end;
 
-  OleCheck(contMenu.InvokeCommand(cmici));
-  fl.Free;
+    OleCheck(contMenu.InvokeCommand(cmici));
+
+  finally
+    fl.Free;
+  end;
 end;
 {$ENDIF}
 

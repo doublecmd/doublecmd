@@ -47,7 +47,7 @@ type
     { Public declarations }
   end;
 
-function ShowLinkerFilesForm(var lsFiles:TStringList):Boolean;
+function ShowLinkerFilesForm(const lsFiles:TStringList):Boolean;
 {start function with input arguments}
 implementation
 
@@ -62,7 +62,7 @@ begin
   //dlgSaveAll.Title:=lngGetString(clngLinkDialogSave);
 end;
 
-function ShowLinkerFilesForm(var lsFiles:TStringList):Boolean;
+function ShowLinkerFilesForm(const lsFiles:TStringList):Boolean;
 var
   c:Integer;
 begin

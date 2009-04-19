@@ -953,8 +953,7 @@ begin
             end
         end;
     finally
-      if pnlFile.PanelMode = pmDirectory then
-        FreeAndNil(sl);
+      FreeAndNil(sl);
       ActiveFrame.UnMarkAll;
     end;
   end;
@@ -1827,13 +1826,15 @@ begin
   begin
     if PasteFromClipboard(ClipboardOp, filenamesList) = True then
     begin
-      // fill file list by files
+      // fill file list with files
       FileList:= TFileList.Create;
       FileList.LoadFromFileNames(fileNamesList);
+      FreeAndNil(fileNamesList);
 
       { If panel is in Archive of VFS mode - show dialog for the user to confirm. }
       { Otherwise just start the operation thread. }
       case ClipboardOp of
+
         uClipboard.ClipboardCut:
         begin
           if ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then
@@ -1848,8 +1849,10 @@ begin
             CopyFile(FileList, ActiveFrame, ActiveFrame.ActiveDir)
           else if ActiveFrame.pnlFile.PanelMode = pmDirectory then
             RunCopyThread(FileList, ActiveFrame.ActiveDir, '*.*', False);
-        end;
+        end
 
+        else
+          FreeAndNil(FileList);
       end;
     end;
   end;

@@ -25,13 +25,20 @@ type
   TWaitThread = class(TThread)
   private
     FFileList : TStringList;
+
   protected
     procedure Execute; override;
+
+  public
+    // Files in FilesToView list will be deleted after viewing.
+    constructor Create(const FilesToView: TStringList);
+    destructor Destroy; override;
   end;
 
 Function ShowEditorByGlob(sFileName:String):Boolean;
 Function ShowViewerByGlob(sFileName:String):Boolean;
-Function ShowViewerByGlobList(list:TStringList; bDeleteAfterView : Boolean = False):Boolean;
+Function ShowViewerByGlobList(const FilesToView: TStringList;
+                              bDeleteAfterView : Boolean = False):Boolean;
 
 
 implementation
@@ -71,9 +78,10 @@ begin
   Result:=True;
 end;
 
-function ShowViewerByGlobList(List : TStringList; bDeleteAfterView : Boolean = False):Boolean;
+function ShowViewerByGlobList(const FilesToView : TStringList;
+                              bDeleteAfterView : Boolean = False):Boolean;
 var
-  I, Count:Integer;
+  I : Integer;
   WaitThread : TWaitThread;
 begin
   if gUseExtView then
@@ -81,25 +89,42 @@ begin
     DebugLN('ShowViewerByGlobList - Use ExtView ');
     if bDeleteAfterView then
       begin
-        WaitThread := TWaitThread.Create(True);
-        WaitThread.FFileList := List;
-        WaitThread.FreeOnTerminate := True;
+        WaitThread := TWaitThread.Create(FilesToView);
         WaitThread.Resume;
       end
     else
-     for i:=0 to list.Count-1 do
-       ExecCmdFork(Format(sCmdLine, [gExtView, List.Strings[i]]))
+     for i:=0 to FilesToView.Count-1 do
+       ExecCmdFork(Format(sCmdLine, [gExtView, FilesToView.Strings[i]]))
   end // gUseExtView
   else
-    ShowViewer(List, bDeleteAfterView);
+    ShowViewer(FilesToView, bDeleteAfterView);
   Result:=True;
 end;
 
 { TWaitThread }
 
+constructor TWaitThread.Create(const FilesToView: TStringList);
+begin
+  inherited Create(True);
+
+  FreeOnTerminate := True;
+
+  FFileList := TStringList.Create;
+  // Make a copy of list elements.
+  FFileList.Assign(FilesToView);
+end;
+
+destructor TWaitThread.Destroy;
+begin
+  if Assigned(FFileList) then
+    FreeAndNil(FFileList);
+
+  inherited Destroy;
+end;
+
 procedure TWaitThread.Execute;
 var
-  I, Count : Integer;
+  I : Integer;
   Process : TProcess;
 begin
   Process := TProcess.Create(nil);
@@ -107,9 +132,9 @@ begin
   Process.Options := [poWaitOnExit];
   Process.Execute;
   Process.Free;
+
   (* Delete temp files after view *)
-  Count := FFileList.Count - 1;
-  for I := 0 to Count do
+  for I := 0 to FFileList.Count - 1 do
     mbDeleteFile(FFileList.Strings[I]);
 end;
 
