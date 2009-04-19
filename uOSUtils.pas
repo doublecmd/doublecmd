@@ -227,6 +227,8 @@ function mbSetCurrentDir(const NewDir: UTF8String): Boolean;
 function mbDirectoryExists(const Directory : UTF8String) : Boolean;
 function mbCreateDir(const NewDir: UTF8String): Boolean;
 function mbRemoveDir(const Dir: UTF8String): Boolean;
+{ Other functions }
+function mbSetEnvironmentVariable(const sName, sValue: UTF8String): Boolean;
 function mbLoadLibrary(Name: UTF8String): TLibHandle;
 
 {$IFNDEF MSWINDOWS}
@@ -1299,6 +1301,22 @@ end;
 {$ELSE}
 begin
   Result:= fpRmDir(PChar(Dir)) = 0;
+end;
+{$ENDIF}
+
+function mbSetEnvironmentVariable(const sName, sValue: UTF8String): Boolean;
+{$IFDEF MSWINDOWS}
+var
+  wsName,
+  wsValue: WideString;
+begin
+  wsName:= UTF8Decode(sName);
+  wsValue:= UTF8Decode(sValue);
+  Result:= SetEnvironmentVariableW(PWideChar(wsName), PWideChar(wsValue));
+end;
+{$ELSE}
+begin
+  Result:= False; // TODO: mbSetEnvironmentVariable for Linux
 end;
 {$ENDIF}
 
