@@ -220,17 +220,15 @@ object frmFindDlg: TfrmFindDlg
         object edtFindPathStart: TDirectoryEdit
           AnchorSideTop.Control = lblFindPathStart
           AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = tsStandard
           AnchorSideRight.Side = asrBottom
           Left = 8
           Height = 21
           Top = 72
-          Width = 623
+          Width = 620
           ButtonWidth = 23
           NumGlyphs = 1
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
-          BorderSpacing.Right = 28
           TabOrder = 3
         end
         object cbUsePlugin: TCheckBox
