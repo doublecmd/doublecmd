@@ -128,6 +128,15 @@ function getgrgid(gid: __gid_t): PGroupRecord; cdecl; external libc name 'getgrg
             fields of the record in the group database that matches the group name)
 }
 function getgrnam(name: PChar): PGroupRecord; cdecl; external libc name 'getgrnam';
+{en
+   Change or add an environment variable
+   @param(name Environment variable name)
+   @param(value Environment variable value)
+   @param(overwrite Overwrite environment variable if exist)
+   @returns(The function returns zero on success, or -1 if there was
+            insufficient space in the environment)
+}
+function setenv(const name, value: PChar; overwrite: LongInt): LongInt; cdecl; external libc name 'setenv';
 
 function fpOpenDir(__name: PChar): pDir; cdecl; external libc name 'opendir';
 function fpReadDir(__dirp: pDir): pDirent; cdecl; external libc name 'readdir64';
