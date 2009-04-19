@@ -48,10 +48,10 @@ begin
   with pfr^ do
   begin
     sDir:= IfThen(sPath<>'', sPath, ActiveDir);
+    sCmd:= GetCmdDirFromEnvVar(sCmd);
     sCmd:= StringReplace(sCmd,'%f',QuoteStr(ExtractFileName(sName)),[rfReplaceAll]);
     sCmd:= StringReplace(sCmd,'%d',QuoteStr(sDir),[rfReplaceAll]);
     sCmd:= StringReplace(sCmd,'%p',QuoteStr(sDir+ExtractFileName(sName)),[rfReplaceAll]);
-    sCmd:= GetCmdDirFromEnvVar(sCmd);
     sCmd:= Trim(sCmd);
     // get output from command between '<?' and '?>'
     if Pos('<?', sCmd) <> 0 then

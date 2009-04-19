@@ -964,6 +964,7 @@ procedure TActs.cm_Edit(param:string);
 var
   i:Integer;
   fr:PFileRecItem;
+  sEditCmd,
   sFileName,
   sFilePath : String;
 begin
@@ -987,9 +988,20 @@ begin
         fr:=pnlFile.GetFileItemPtr(i);
         if fr^.bSelected and not (FPS_ISDIR(fr^.iMode)) then
           begin
-            sFileName := fr^.sName;
-            sFilePath := ActiveDir;
-            ShowEditorByGlob(GetSplitFileName(sFileName, sFilePath));
+            //now test if exists Edit command in doublecmd.ext :)
+            sEditCmd:= gExts.GetExtActionCmd(fr^, 'edit');
+
+            if (sEditCmd<>'') then
+              begin
+                ReplaceExtCommand(sEditCmd, fr, pnlFile.ActiveDir);
+                ProcessExtCommand(sEditCmd, pnlFile.ActiveDir);
+              end
+            else
+              begin
+                sFileName := fr^.sName;
+                sFilePath := ActiveDir;
+                ShowEditorByGlob(GetSplitFileName(sFileName, sFilePath));
+              end;
             Break;
           end;
         end;
