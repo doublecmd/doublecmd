@@ -436,6 +436,7 @@ type
     function RemovePage(ANoteBook:TNoteBook; iPageIndex:Integer): LongInt;
     procedure LoadTabs(ANoteBook:TNoteBook);
     procedure SaveTabs(ANoteBook:TNoteBook);
+    procedure SetMultilineTabs(ANoteBook: TNoteBook; Multiline: Boolean);
     function ExecCmd(Cmd:string; param:string='') : Boolean;
     function ExecCmdEx(Sender: TObject; NumberOfButton:Integer) : Boolean;
     procedure ToggleConsole;
@@ -464,7 +465,7 @@ uses
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils, uLog, uWipeThread,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg, fExtractDlg,
   fLinker, fSplitter, uFileProcs, LCLProc, uOSUtils, uOSForms, uPixMapManager,
-  fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard;
+  fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 var
@@ -492,8 +493,15 @@ begin
   // frost_asm begin
     lastWindowState:=WindowState;
   // frost_asm end
+
+  // Tabs
   nbLeft.Options:=[nboShowCloseButtons];
   nbRight.Options:=[nboShowCloseButtons];
+
+  SetMultilineTabs(nbLeft, Boolean(gDirTabOptions and tb_multiple_lines));
+  SetMultilineTabs(nbRight, Boolean(gDirTabOptions and tb_multiple_lines));
+
+
   actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
 
   AllowDropFiles := not uDragDropEx.IsExternalDraggingSupported;
@@ -2852,8 +2860,6 @@ begin
   Result:=ANoteBook.Page[x];
 
   ANoteBook.ShowTabs:= ((ANoteBook.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
-  if Boolean(gDirTabOptions and tb_multiple_lines) then
-    ANoteBook.Options := ANoteBook.Options + [nboMultiLine];
 end;
 
 function TfrmMain.RemovePage(ANoteBook: TNoteBook; iPageIndex:Integer): LongInt;
@@ -2992,6 +2998,29 @@ begin
       gIni.WriteString(TabsSection, sIndex + '_columnsset', sColumnSet);
     end;
   gIni.WriteInteger(TabsSection, 'activetab', ANoteBook.PageIndex);
+end;
+
+procedure TfrmMain.SetMultilineTabs(ANoteBook: TNoteBook; Multiline: Boolean);
+begin
+  if (nbcMultiline in ANoteBook.GetCapabilities) and
+      // If different then current setting
+     (Multiline <> (nboMultiline in ANoteBook.Options)) then
+  begin
+    if Multiline then
+      ANoteBook.Options := ANoteBook.Options + [nboMultiLine]
+    else
+      ANoteBook.Options := ANoteBook.Options - [nboMultiLine];
+
+    // Workaround: nboMultiline property is currently not updated by LCL.
+    // Force update and realign all pages.
+
+    TWSCustomNotebookClass(ANoteBook.WidgetSetClass).UpdateProperties(ANoteBook);
+
+    // Change sizes of pages, because multiline tabs may
+    // take up different amount of space than single line.
+    ANoteBook.InvalidateClientRectCache(true);
+    ANoteBook.ReAlign;
+  end;
 end;
 
 (* Execute internal or external command *)
@@ -3189,6 +3218,13 @@ begin
       btnRightTargetEqualSource.Flat:= gInterfaceFlat;
     end;
 
+  // Tabs
+  nbLeft.ShowTabs := ((nbLeft.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
+  nbRight.ShowTabs := ((nbRight.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
+
+  SetMultilineTabs(nbLeft, Boolean(gDirTabOptions and tb_multiple_lines));
+  SetMultilineTabs(nbRight, Boolean(gDirTabOptions and tb_multiple_lines));
+
   for I := 0 to nbLeft.PageCount - 1 do  //  change on all tabs
     with nbLeft.Page[I].Controls[0] as TFrameFilePanel do
     begin
@@ -3234,8 +3270,6 @@ begin
   seLogWindow.Visible := gLogWindow;
   ToggleConsole;
   ToggleFileSystemWatcher;
-  nbLeft.ShowTabs := ((nbLeft.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
-  nbRight.ShowTabs := ((nbRight.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
 end;
 
 procedure TfrmMain.edtCommandKeyDown(Sender: TObject; var Key: Word;
