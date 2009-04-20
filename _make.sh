@@ -25,14 +25,14 @@ fi
 
 build_doublecmd()
 {
-  $lazpath/lazbuild --widgetset=$lcl doublecmd.lpi
-  #fpc doublecmd.lpr -S2cdgi -OG3 -g -gl -vewnhi -l -Ficomponents/KASToolBar/ -Ficomponents/KASToolBar/lib/i386-linux/ -Ficomponents/viewer/ -Fu$lazpath/components/jpeg/lib/i386-linux/ -Fucomponents/KASToolBar/lib/i386-linux/ -Fu$lazpath/components/synedit/units/i386-linux/ -Fu$lazpath/lcl/units/i386-linux/ -Fu$lazpath/lcl/units/i386-linux/$lcl/ -Fucomponents/viewer/lib/i386-linux/ -Fu$lazpath/packager/units/i386-linux/ -Fu. -odoublecmd -dLCL -dLCL$lcl
+  $lazpath/lazbuild --widgetset=$lcl src/doublecmd.lpi
+  
   strip --strip-all doublecmd
 }
 
 build_default()
 {
-  for LFM in `ls ./*.lfm`
+  for LFM in `ls ./src/*.lfm`
   do
     LRS=`echo $LFM | sed -e 's/\.lfm$/\.lrs/'`
     $lazpath/tools/lazres $LRS $LFM

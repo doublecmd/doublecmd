@@ -7,7 +7,6 @@
       <Flags>
         <SaveClosedFiles Value="False"/>
         <MainUnitHasUsesSectionForAllUnits Value="False"/>
-        <LRSInOutputDirectory Value="False"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
@@ -18,7 +17,7 @@
     </General>
     <i18n>
       <EnableI18N Value="True"/>
-      <OutDir Value="language"/>
+      <OutDir Value="..\language"/>
     </i18n>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
@@ -389,9 +388,13 @@
   <CompilerOptions>
     <Version Value="8"/>
     <PathDelim Value="\"/>
+    <Target>
+      <Filename Value="..\doublecmd"/>
+    </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(LazarusDir)\ide\"/>
-      <OtherUnitFiles Value="$(ProjPath)\src\;$(ProjPath)\src\platform\;$(ProjPath)\src\platform\$(SrcOS)\"/>
+      <IncludeFiles Value="$(LazarusDir)\ide\;$(ProjOutDir)\"/>
+      <OtherUnitFiles Value="$(ProjPath)\platform\;$(ProjPath)\platform\$(SrcOS)\;..\sdk\"/>
+      <UnitOutputDirectory Value="..\units"/>
       <SrcPath Value="$(LazarusDir)\lcl\;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType)\;$(fpcsrcdir)\packages\fcl-base\src\"/>
     </SearchPaths>
     <Parsing>
