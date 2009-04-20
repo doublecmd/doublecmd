@@ -804,7 +804,7 @@ msgid "Attributes"
 msgstr "Принадлежности"
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
-msgid "Case sensitive"
+msgid "Case sens&itive"
 msgstr "Отчитане на глАВноСТта"
 
 #: TFRMFINDDLG.CBDATEFROM.CAPTION
@@ -833,7 +833,8 @@ msgid "File Size To:"
 msgstr "Размер до:"
 
 #: TFRMFINDDLG.CBFINDINFILE.CAPTION
-msgid "Find in file"
+#, fuzzy
+msgid "Find &text in file"
 msgstr "Търсене във файл"
 
 #: TFRMFINDDLG.CBMORE.CAPTION
@@ -841,7 +842,7 @@ msgid "More"
 msgstr "Още"
 
 #: TFRMFINDDLG.CBNOTHISTEXT.CAPTION
-msgid "Find files NOT containing the text"
+msgid "Find files N&OT containing the text"
 msgstr "Намиране на файлове НЕсъдържащи текста"
 
 #: TFRMFINDDLG.CBNOTOLDERTHAN.CAPTION
@@ -854,7 +855,7 @@ msgid "&Regular expressions"
 msgstr "&Обичайни изрази"
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
-msgid "Replace text"
+msgid "Re&place text"
 msgstr "Замяна на текст"
 
 #: TFRMFINDDLG.CBSYMLINK.CAPTION
@@ -874,7 +875,7 @@ msgid "Kbyte"
 msgstr "КБайта"
 
 #: TFRMFINDDLG.CBUSEPLUGIN.CAPTION
-msgid "Use search plugin:"
+msgid "&Use search plugin:"
 msgstr "Използване на приставка за търсене:"
 
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
@@ -920,11 +921,13 @@ msgid "Encoding:"
 msgstr "Знаков набор:"
 
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
-msgid "FileMask"
+#, fuzzy
+msgid "&File mask"
 msgstr "Файл"
 
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
-msgid "FileDir"
+#, fuzzy
+msgid "&Directory"
 msgstr "Папка"
 
 #: TFRMFINDDLG.LBLINFO.CAPTION

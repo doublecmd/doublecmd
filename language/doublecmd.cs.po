@@ -811,7 +811,7 @@ msgid "Attributes"
 msgstr ""
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
-msgid "Case sensitive"
+msgid "Case sens&itive"
 msgstr "Rozlišovat velikost"
 
 #: TFRMFINDDLG.CBDATEFROM.CAPTION
@@ -839,7 +839,8 @@ msgid "File Size To:"
 msgstr "Velikost do:"
 
 #: TFRMFINDDLG.CBFINDINFILE.CAPTION
-msgid "Find in file"
+#, fuzzy
+msgid "Find &text in file"
 msgstr "Vyhledat soubor"
 
 #: TFRMFINDDLG.CBMORE.CAPTION
@@ -847,7 +848,7 @@ msgid "More"
 msgstr "Více"
 
 #: TFRMFINDDLG.CBNOTHISTEXT.CAPTION
-msgid "Find files NOT containing the text"
+msgid "Find files N&OT containing the text"
 msgstr "Hledat soubory NEobsahující text"
 
 #: TFRMFINDDLG.CBNOTOLDERTHAN.CAPTION
@@ -859,7 +860,7 @@ msgid "&Regular expressions"
 msgstr ""
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
-msgid "Replace text"
+msgid "Re&place text"
 msgstr "Nahradit text"
 
 #: TFRMFINDDLG.CBSYMLINK.CAPTION
@@ -879,7 +880,7 @@ msgid "Kbyte"
 msgstr "kB"
 
 #: TFRMFINDDLG.CBUSEPLUGIN.CAPTION
-msgid "Use search plugin:"
+msgid "&Use search plugin:"
 msgstr "Použit vyhledávací zásuvný modul:"
 
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
@@ -924,11 +925,13 @@ msgid "Encoding:"
 msgstr ""
 
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
-msgid "FileMask"
+#, fuzzy
+msgid "&File mask"
 msgstr "Souborová maska"
 
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
-msgid "FileDir"
+#, fuzzy
+msgid "&Directory"
 msgstr "Adresářová maska"
 
 #: TFRMFINDDLG.LBLINFO.CAPTION
