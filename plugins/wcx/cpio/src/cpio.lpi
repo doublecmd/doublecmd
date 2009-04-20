@@ -64,8 +64,8 @@
   <CompilerOptions>
     <Version Value="5"/>
     <SearchPaths>
-      <OtherUnitFiles Value="../../../"/>
-      <UnitOutputDirectory Value="lib"/>
+      <OtherUnitFiles Value="../../../../"/>
+      <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
