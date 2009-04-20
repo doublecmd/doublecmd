@@ -804,7 +804,7 @@ msgid "Attributes"
 msgstr ""
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
-msgid "Case sensitive"
+msgid "Case sens&itive"
 msgstr ""
 
 #: TFRMFINDDLG.CBDATEFROM.CAPTION
@@ -833,7 +833,7 @@ msgid "File Size To:"
 msgstr ""
 
 #: TFRMFINDDLG.CBFINDINFILE.CAPTION
-msgid "Find in file"
+msgid "Find &text in file"
 msgstr ""
 
 #: TFRMFINDDLG.CBMORE.CAPTION
@@ -841,7 +841,7 @@ msgid "More"
 msgstr ""
 
 #: TFRMFINDDLG.CBNOTHISTEXT.CAPTION
-msgid "Find files NOT containing the text"
+msgid "Find files N&OT containing the text"
 msgstr ""
 
 #: TFRMFINDDLG.CBNOTOLDERTHAN.CAPTION
@@ -854,7 +854,7 @@ msgid "&Regular expressions"
 msgstr ""
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
-msgid "Replace text"
+msgid "Re&place text"
 msgstr ""
 
 #: TFRMFINDDLG.CBSYMLINK.CAPTION
@@ -874,7 +874,7 @@ msgid "Kbyte"
 msgstr ""
 
 #: TFRMFINDDLG.CBUSEPLUGIN.CAPTION
-msgid "Use search plugin:"
+msgid "&Use search plugin:"
 msgstr ""
 
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
@@ -920,11 +920,11 @@ msgid "Encoding:"
 msgstr ""
 
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
-msgid "FileMask"
+msgid "&File mask"
 msgstr ""
 
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
-msgid "FileDir"
+msgid "&Directory"
 msgstr ""
 
 #: TFRMFINDDLG.LBLINFO.CAPTION

@@ -111,6 +111,7 @@ type
     procedure btnSearchLoadClick(Sender: TObject);
     procedure btnSearchSaveClick(Sender: TObject);
     procedure cbEncodingSelect(Sender: TObject);
+    procedure cbFindInFileChange(Sender: TObject);
     procedure cbUsePluginChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGoToPathClick(Sender: TObject);
@@ -134,12 +135,13 @@ type
     procedure btnStopClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure btnCloseClick(Sender: TObject);
-    procedure cbFindInFileClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure frmFindDlgClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure frmFindDlgShow(Sender: TObject);
     procedure lbSearchTemplatesSelectionChange(Sender: TObject; User: boolean);
     procedure lsFoundedFilesDblClick(Sender: TObject);
+    procedure lsFoundedFilesKeyDown(Sender: TObject;
+      var Key: Word; Shift: TShiftState);
     procedure meTimeChange(Sender: TObject);
     procedure miShowInViewerClick(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -167,8 +169,8 @@ procedure ShowFindDlg(const sActPath:String);
 implementation
 
 uses
-  LCLProc, LConvEncoding, fViewer, uLng, uGlobs, uShowForm, fMain, uTypes,
-  uFileOp, uFindEx, uOSUtils, uSearchTemplate;
+  LCLProc, LCLType, LConvEncoding, fViewer, uLng, uGlobs, uShowForm, fMain,
+  uTypes, uFileOp, uFindEx, uOSUtils, uSearchTemplate;
 
 procedure SAddFileProc(PlugNr:integer; FoundFile:pchar); stdcall;
 var s:string;
@@ -198,11 +200,18 @@ procedure ShowFindDlg(const sActPath:String);
 begin
   if not assigned (frmFindDlg) then
     frmFindDlg:=TfrmFindDlg.Create(nil);
-  frmFindDlg.edtFindPathStart.Text := sActPath;
-  frmFindDlg.Show;
-  frmFindDlg.BringToFront;
-  frmFindDlg.cmbFindFileMask.SetFocus;
 
+  if Assigned(frmFindDlg) then
+    with frmFindDlg do
+    begin
+      edtFindPathStart.Text := sActPath;
+      Show;
+      BringToFront;
+
+      if pgcSearch.ActivePage = tsStandard then
+        if cmbFindFileMask.CanFocus then
+          cmbFindFileMask.SetFocus;
+    end;
 end;
 
 procedure TfrmFindDlg.FormCreate(Sender: TObject);
@@ -234,6 +243,12 @@ end;
 procedure TfrmFindDlg.cbUsePluginChange(Sender: TObject);
 begin
   cbbSPlugins.Enabled:=cbUsePlugin.Checked;
+
+  if cbbSPlugins.Enabled and cbbSPlugins.CanFocus then
+  begin
+    cbbSPlugins.SetFocus;
+    cbbSPlugins.SelectAll;
+  end;
 end;
 
 procedure TfrmFindDlg.cbEncodingSelect(Sender: TObject);
@@ -249,6 +264,17 @@ begin
       cbCaseSens.Checked:= Boolean(cbCaseSens.Tag);
       cbCaseSens.Enabled:= True;
     end;
+end;
+
+procedure TfrmFindDlg.cbFindInFileChange(Sender: TObject);
+begin
+  gbFindData.Enabled:=cbFindInFile.Checked;
+
+  if edtFindText.Enabled and edtFindText.CanFocus then
+  begin
+    edtFindText.SetFocus;
+    edtFindText.SelectAll;
+  end;
 end;
 
 procedure TfrmFindDlg.btnSearchLoadClick(Sender: TObject);
@@ -384,6 +410,9 @@ begin
   Panel1.Visible := False;
   Splitter1.Visible := False;
   Height := Panel2.Height + 22;
+
+  if pgcSearch.ActivePage = tsStandard then
+    cmbFindFileMask.SetFocus;
 end;
 
 procedure TfrmFindDlg.btnGoToPathClick(Sender: TObject);
@@ -547,7 +576,10 @@ begin
   Panel1.Visible := True;
   Splitter1.Visible := True;
   Height := (Screen.Height * 4) div 5;
-  
+
+  if lsFoundedFiles.CanFocus then
+    lsFoundedFiles.SetFocus;
+
   lsFoundedFiles.Items.Clear;
   btnStop.Enabled:=True;
   btnStart.Enabled:=False;
@@ -685,6 +717,12 @@ begin
   edtReplaceText.Enabled := cbReplaceText.Checked;
   cbNoThisText.Checked := False;
   cbNoThisText.Enabled := not cbReplaceText.Checked;
+
+  if edtReplaceText.Enabled and edtReplaceText.CanFocus then
+  begin
+    edtReplaceText.SetFocus;
+    edtReplaceText.SelectAll;
+  end;
 end;
 
 procedure TfrmFindDlg.cbSymLinkChange(Sender: TObject);
@@ -747,11 +785,6 @@ begin
   Close;
 end;
 
-procedure TfrmFindDlg.cbFindInFileClick(Sender: TObject);
-begin
-  gbFindData.Enabled:=cbFindInFile.Checked;
-end;
-
 procedure TfrmFindDlg.FormDestroy(Sender: TObject);
 begin
     FreeAndNil(DSL);
@@ -760,7 +793,6 @@ end;
 procedure TfrmFindDlg.frmFindDlgClose(Sender: TObject;
   var CloseAction: TCloseAction);
 begin
-//  CloseAction:=caFree;
   Panel1.Visible := False;
   Height := Panel2.Height + 22;
   glsMaskHistory.Assign(cmbFindFileMask.Items);
@@ -771,7 +803,7 @@ var i:integer;
 begin
   if cmbFindFileMask.Visible then
     cmbFindFileMask.SelectAll;
-  //cmbFindFileMask.SetFocus;
+
   cmbFindFileMask.Items.Assign(glsMaskHistory);
   DSL.Load(gini);
   cbbSPlugins.Clear;
@@ -792,6 +824,21 @@ end;
 procedure TfrmFindDlg.lsFoundedFilesDblClick(Sender: TObject);
 begin
   miShowInViewer.Click;
+end;
+
+procedure TfrmFindDlg.lsFoundedFilesKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  if lsFoundedFiles.ItemIndex <> -1 then
+  begin
+    case Key of
+      VK_F3:
+        ShowViewerByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
+
+      VK_F4:
+        ShowEditorByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
+    end;
+  end;
 end;
 
 procedure TfrmFindDlg.meTimeChange(Sender: TObject);

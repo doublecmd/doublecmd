@@ -804,7 +804,7 @@ msgid "Attributes"
 msgstr "属性"
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
-msgid "Case sensitive"
+msgid "Case sens&itive"
 msgstr "区分大小写"
 
 #: TFRMFINDDLG.CBDATEFROM.CAPTION
@@ -833,7 +833,8 @@ msgid "File Size To:"
 msgstr "最大:"
 
 #: TFRMFINDDLG.CBFINDINFILE.CAPTION
-msgid "Find in file"
+#, fuzzy
+msgid "Find &text in file"
 msgstr "在文件中查找"
 
 #: TFRMFINDDLG.CBMORE.CAPTION
@@ -841,7 +842,7 @@ msgid "More"
 msgstr "更多"
 
 #: TFRMFINDDLG.CBNOTHISTEXT.CAPTION
-msgid "Find files NOT containing the text"
+msgid "Find files N&OT containing the text"
 msgstr "查找不包含这些文本的文件"
 
 #: TFRMFINDDLG.CBNOTOLDERTHAN.CAPTION
@@ -854,7 +855,7 @@ msgid "&Regular expressions"
 msgstr "正则表达式(&R)"
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
-msgid "Replace text"
+msgid "Re&place text"
 msgstr "替换文本"
 
 #: TFRMFINDDLG.CBSYMLINK.CAPTION
@@ -874,7 +875,7 @@ msgid "Kbyte"
 msgstr "Kbyte"
 
 #: TFRMFINDDLG.CBUSEPLUGIN.CAPTION
-msgid "Use search plugin:"
+msgid "&Use search plugin:"
 msgstr "使用搜索插件:"
 
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
@@ -920,11 +921,13 @@ msgid "Encoding:"
 msgstr "编码:"
 
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
-msgid "FileMask"
+#, fuzzy
+msgid "&File mask"
 msgstr "文件名掩码"
 
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
-msgid "FileDir"
+#, fuzzy
+msgid "&Directory"
 msgstr "文件所在目录"
 
 #: TFRMFINDDLG.LBLINFO.CAPTION

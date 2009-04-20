@@ -796,7 +796,7 @@ msgid "Attributes"
 msgstr "Attribute"
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
-msgid "Case sensitive"
+msgid "Case sens&itive"
 msgstr "Gross- / Kleinschreibung beachten"
 
 #: TFRMFINDDLG.CBDATEFROM.CAPTION
@@ -825,7 +825,8 @@ msgid "File Size To:"
 msgstr "Bis Dateigrösse"
 
 #: TFRMFINDDLG.CBFINDINFILE.CAPTION
-msgid "Find in file"
+#, fuzzy
+msgid "Find &text in file"
 msgstr "Suche in Datei"
 
 #: TFRMFINDDLG.CBMORE.CAPTION
@@ -833,7 +834,7 @@ msgid "More"
 msgstr "Mehr"
 
 #: TFRMFINDDLG.CBNOTHISTEXT.CAPTION
-msgid "Find files NOT containing the text"
+msgid "Find files N&OT containing the text"
 msgstr "Suche Datei die NICHT den Text enthalten"
 
 #: TFRMFINDDLG.CBNOTOLDERTHAN.CAPTION
@@ -846,7 +847,7 @@ msgid "&Regular expressions"
 msgstr "&Reguläre Ausdrücke"
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
-msgid "Replace text"
+msgid "Re&place text"
 msgstr "Ersetze Text"
 
 #: TFRMFINDDLG.CBSYMLINK.CAPTION
@@ -866,7 +867,7 @@ msgid "Kbyte"
 msgstr "kByte"
 
 #: TFRMFINDDLG.CBUSEPLUGIN.CAPTION
-msgid "Use search plugin:"
+msgid "&Use search plugin:"
 msgstr "Nutze Such-PlugIn"
 
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
@@ -912,11 +913,13 @@ msgid "Encoding:"
 msgstr "Kodiere:"
 
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
-msgid "FileMask"
+#, fuzzy
+msgid "&File mask"
 msgstr "Dateimaske"
 
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
-msgid "FileDir"
+#, fuzzy
+msgid "&Directory"
 msgstr "Verzeichnis in dem DoubleCommander suchen soll"
 
 #: TFRMFINDDLG.LBLINFO.CAPTION

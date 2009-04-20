@@ -813,7 +813,7 @@ msgid "Attributes"
 msgstr "Атрибути"
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
-msgid "Case sensitive"
+msgid "Case sens&itive"
 msgstr "З врахуванням регістру"
 
 #: TFRMFINDDLG.CBDATEFROM.CAPTION
@@ -842,7 +842,8 @@ msgid "File Size To:"
 msgstr "Розмір файла до:"
 
 #: TFRMFINDDLG.CBFINDINFILE.CAPTION
-msgid "Find in file"
+#, fuzzy
+msgid "Find &text in file"
 msgstr "Шукати в файлі"
 
 #: TFRMFINDDLG.CBMORE.CAPTION
@@ -850,7 +851,7 @@ msgid "More"
 msgstr "Більше"
 
 #: TFRMFINDDLG.CBNOTHISTEXT.CAPTION
-msgid "Find files NOT containing the text"
+msgid "Find files N&OT containing the text"
 msgstr "Файлы, що НЕ містять цей текст"
 
 #: TFRMFINDDLG.CBNOTOLDERTHAN.CAPTION
@@ -863,7 +864,7 @@ msgid "&Regular expressions"
 msgstr "Регулярні вирази"
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
-msgid "Replace text"
+msgid "Re&place text"
 msgstr "Замінити текст"
 
 #: TFRMFINDDLG.CBSYMLINK.CAPTION
@@ -883,7 +884,7 @@ msgid "Kbyte"
 msgstr "Кілобайт"
 
 #: TFRMFINDDLG.CBUSEPLUGIN.CAPTION
-msgid "Use search plugin:"
+msgid "&Use search plugin:"
 msgstr "Використовувати пошуковий плагін"
 
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
@@ -929,11 +930,13 @@ msgid "Encoding:"
 msgstr "Кодування:"
 
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
-msgid "FileMask"
+#, fuzzy
+msgid "&File mask"
 msgstr "Шукати файли:"
 
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
-msgid "FileDir"
+#, fuzzy
+msgid "&Directory"
 msgstr "В каталозі:"
 
 #: TFRMFINDDLG.LBLINFO.CAPTION
