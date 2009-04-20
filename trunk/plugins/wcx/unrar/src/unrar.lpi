@@ -87,8 +87,8 @@
     <Version Value="5"/>
     <PathDelim Value="\"/>
     <SearchPaths>
-      <OtherUnitFiles Value="..\..\..\"/>
-      <UnitOutputDirectory Value="lib"/>
+      <OtherUnitFiles Value="..\..\..\..\"/>
+      <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
