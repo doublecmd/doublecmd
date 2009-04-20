@@ -391,7 +391,7 @@
     <PathDelim Value="\"/>
     <SearchPaths>
       <IncludeFiles Value="$(LazarusDir)\ide\"/>
-      <OtherUnitFiles Value="$(ProjPath)\src\platform\;$(ProjPath)\src\platform\$(SrcOS)\"/>
+      <OtherUnitFiles Value="$(ProjPath)\src\;$(ProjPath)\src\platform\;$(ProjPath)\src\platform\$(SrcOS)\"/>
       <SrcPath Value="$(LazarusDir)\lcl\;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType)\;$(fpcsrcdir)\packages\fcl-base\src\"/>
     </SearchPaths>
     <Parsing>
