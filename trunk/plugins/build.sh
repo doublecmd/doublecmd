@@ -8,8 +8,8 @@
 pushd plugins
 
 # WCX plugins
-$lazpath/lazbuild wcx/cpio/cpio.lpi
-$lazpath/lazbuild wcx/deb/deb.lpi
+$lazpath/lazbuild wcx/cpio/src/cpio.lpi
+$lazpath/lazbuild wcx/deb/src/deb.lpi
 $lazpath/lazbuild wcx/rpm/rpm.lpi
 $lazpath/lazbuild wcx/unbz2/unbz2.lpi
 $lazpath/lazbuild wcx/unrar/unrar.lpi
