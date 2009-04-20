@@ -9,7 +9,7 @@ pushd plugins
 rem WCX plugins
 %lazpath%\lazbuild.exe wcx\cpio\src\cpio.lpi
 %lazpath%\lazbuild.exe wcx\deb\src\deb.lpi
-%lazpath%\lazbuild.exe wcx\rpm\rpm.lpi
+%lazpath%\lazbuild.exe wcx\rpm\src\rpm.lpi
 %lazpath%\lazbuild.exe wcx\unbz2\unbz2.lpi
 %lazpath%\lazbuild.exe wcx\unrar\unrar.lpi
 %lazpath%\lazbuild.exe wcx\zip\zip.lpi

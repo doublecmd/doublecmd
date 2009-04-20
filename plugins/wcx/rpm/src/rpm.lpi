@@ -76,8 +76,8 @@
   <CompilerOptions>
     <Version Value="5"/>
     <SearchPaths>
-      <OtherUnitFiles Value="../../../"/>
-      <UnitOutputDirectory Value="lib"/>
+      <OtherUnitFiles Value="../../../../"/>
+      <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
@@ -95,7 +95,7 @@
     <Other>
       <ConfigFile>
         <CustomConfigFile Value="True"/>
-        <ConfigFilePath Value="fpc-$(TargetCPU).cfg"/>
+        <ConfigFilePath Value="fpc-extra.cfg"/>
       </ConfigFile>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
