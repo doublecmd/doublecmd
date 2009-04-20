@@ -19,10 +19,9 @@ call components\build.bat
 call plugins\build.bat
 
 :default
-for %%f in (*.lfm) do %lazpath%\Tools\lazres %%~nf.lrs %%f
+for %%f in (src\*.lfm) do %lazpath%\Tools\lazres %%~nf.lrs %%f
 
 :doublecmd
-%lazpath%\lazbuild doublecmd.lpi
-rem fpc doublecmd.lpr -S2cdgi -OG3 -g -gl -vewnhi -l -Ficomponents\KASToolBar\ -Ficomponents\KASToolBar\lib\i386-win32\ -Ficomponents\viewer\ -Fu%lazpath%\components\images\lib\i386-win32\ -Fucomponents\KASToolBar\lib\i386-win32\ -Fu%lazpath%\components\synedit\units\i386-win32\ -Fu%lazpath%\lcl\units\i386-win32\ -Fu%lazpath%\lcl\units\i386-win32\win32\ -Fucomponents\viewer\lib\i386-win32\ -Fu%lazpath%\packager\units\i386-win32\ -Fu. -odoublecmd.exe -Fi%lazpath%\ide\
+%lazpath%\lazbuild src\doublecmd.lpi
 
 strip --strip-all doublecmd.exe
