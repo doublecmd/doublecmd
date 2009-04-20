@@ -853,32 +853,37 @@ begin
     end;
   if I < 1 then I := 1;
   
+  try
+    while I <> iEnd do
+      begin
+        Result := MatchesMask(AnsiLowerCase(pnlFile.GetReferenceItemPtr(I-1)^.sName), sSearchName);
 
-  
-  while I <> iEnd do
-    begin
-      Result := MatchesMask(AnsiLowerCase(pnlFile.GetReferenceItemPtr(I-1)^.sName), sSearchName);
+        if Result then
+          begin
+            dgPanel.Row := I;
+            MakeVisible(I);
+            edtSearch.Tag := I;
+            Exit;
+          end;
+        if fSearchDirect then
+          Inc(I)
+        else
+          Dec(I);
+        // if not Next or Previous then search from beginning of list
+        // to cursor position
+        if (not(fNext or fPrevious)) and (I = iEnd) then
+          begin
+            I := 1;
+            iEnd := iPos;
+  		  iPos := 1;
+          end;
+      end; // while
+  except
+    on EConvertError do; // bypass
+    else
+      raise;
+  end;
 
-      if Result then
-        begin
-          dgPanel.Row := I;
-          MakeVisible(I);
-          edtSearch.Tag := I;
-          Exit;
-        end;
-      if fSearchDirect then
-        Inc(I)
-      else
-        Dec(I);
-      // if not Next or Previous then search from beginning of list
-      // to cursor position
-      if (not(fNext or fPrevious)) and (I = iEnd) then
-        begin
-          I := 1;
-          iEnd := iPos;
-		  iPos := 1;
-        end;
-    end; // while
   fNext := False;
   fPrevious := False;
 end;
