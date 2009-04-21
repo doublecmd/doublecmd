@@ -43,7 +43,8 @@ Function ShowViewerByGlobList(const FilesToView: TStringList;
 
 implementation
 uses
-  SysUtils, Process, LCLProc, uGlobs, uOSUtils, fEditor, fViewer, uDCUtils;
+  SysUtils, Process, UTF8Process, LCLProc, uGlobs, uOSUtils, fEditor, fViewer,
+  uDCUtils;
 
 const
   sCmdLine = '"%s" "%s"';
@@ -125,9 +126,9 @@ end;
 procedure TWaitThread.Execute;
 var
   I : Integer;
-  Process : TProcess;
+  Process : TProcessUTF8;
 begin
-  Process := TProcess.Create(nil);
+  Process := TProcessUTF8.Create(nil);
   Process.CommandLine := Format(sCmdLine, [gExtView, FFileList.Strings[0]]);
   Process.Options := [poWaitOnExit];
   Process.Execute;
