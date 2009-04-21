@@ -72,7 +72,7 @@
     <Version Value="5"/>
     <PathDelim Value="\"/>
     <SearchPaths>
-      <OtherUnitFiles Value="..\..\..\..\"/>
+      <OtherUnitFiles Value="..\..\..\..\sdk\"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
     <Parsing>

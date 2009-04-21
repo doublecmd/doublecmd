@@ -6,7 +6,7 @@
     <General>
       <MainUnit Value="0"/>
       <IconPath Value="./"/>
-      <TargetFileExt Value=".exe"/>
+      <TargetFileExt Value=".wcx"/>
       <ActiveEditorIndexAtStart Value="0"/>
     </General>
     <VersionInfo>
@@ -26,7 +26,7 @@
         <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <Units Count="4">
+    <Units Count="3">
       <Unit0>
         <Filename Value="unrar.dpr"/>
         <IsPartOfProject Value="True"/>
@@ -52,13 +52,6 @@
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit2>
-      <Unit3>
-        <Filename Value="..\..\..\uWCXhead.pas"/>
-        <UnitName Value="uWCXhead"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
-        <UsageCount Value="10"/>
-      </Unit3>
     </Units>
     <JumpHistory Count="5" HistoryIndex="4">
       <Position1>
@@ -87,7 +80,7 @@
     <Version Value="5"/>
     <PathDelim Value="\"/>
     <SearchPaths>
-      <OtherUnitFiles Value="..\..\..\..\"/>
+      <OtherUnitFiles Value="..\..\..\..\sdk\"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
     <Parsing>

@@ -76,7 +76,7 @@
   <CompilerOptions>
     <Version Value="5"/>
     <SearchPaths>
-      <OtherUnitFiles Value="../../../../"/>
+      <OtherUnitFiles Value="../../../../sdk/"/>
       <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
     <Parsing>
