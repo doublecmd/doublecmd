@@ -3098,6 +3098,10 @@ msgstr ""
 msgid "Follow symlink \"%s\"?"
 msgstr ""
 
+#: ulng.rsmsginvalidselection
+msgid "Invalid selection."
+msgstr ""
+
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
 msgstr ""
@@ -3154,6 +3158,10 @@ msgstr ""
 msgid "Next volume will be unpacked"
 msgstr ""
 
+#: ulng.rsmsgnofilesselected
+msgid "No files selected."
+msgstr ""
+
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
 msgstr ""
@@ -3164,6 +3172,10 @@ msgstr ""
 
 #: ulng.rsmsgnotdelete
 msgid "Can not delete file %s"
+msgstr ""
+
+#: ulng.rsmsgnotimplemented
+msgid "Not implemented."
 msgstr ""
 
 #: ulng.rsmsgpopuphotadd
@@ -3200,6 +3212,10 @@ msgstr ""
 
 #: ulng.rsmsgsetvolumelabel
 msgid "Set volume label"
+msgstr ""
+
+#: ulng.rsmsgtoomanyfilesselected
+msgid "Too many files selected."
 msgstr ""
 
 #: ulng.rsmsgvolumelabel

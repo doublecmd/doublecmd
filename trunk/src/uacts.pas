@@ -1269,58 +1269,108 @@ end;
 
 procedure TActs.cm_CompareContents(param:string);
 var
-  sFile1, sFile2:String;
-begin
-  inherited;
-with frmMain do
-begin
-  if FrameLeft.IsEmpty or FrameRight.IsEmpty then Exit;
+  FilesToCompare: TStringList = nil;
+  DirsToCompare: TStringList = nil;
 
-  with FrameLeft do
+  procedure AddItem(const pItem: PFileRecItem; Directory: String);
   begin
-    SelectFileIfNoSelected(GetActiveItem);
-    with pnlFile.GetActiveItem^ do
-    begin
-      if not FPS_ISDIR(iMode) then
-        sFile1 := ActiveDir + sName
-      else
-        begin
-          MsgOk(rsMsgErrNoFiles);
-          FrameLeft.UnMarkAll;
-          Exit;
-        end;
-    end;
-  end; // FrameLeft;
+    if not FPS_ISDIR(pItem^.iMode) then
+      FilesToCompare.Add(Directory + pItem^.sName)
+    else
+      DirsToCompare.Add(Directory + pItem^.sName);
+  end;
 
-  with FrameRight do
+  function FormatCommand(CompareList: TStringList): String;
+  var
+    i : Integer;
   begin
-    SelectFileIfNoSelected(GetActiveItem);
-    with pnlFile.GetActiveItem^ do
-    begin
-      if not FPS_ISDIR(iMode) then
-        sFile2 := ActiveDir + sName
-      else
-        begin
-          MsgOk(rsMsgErrNoFiles);
-          FrameRight.UnMarkAll;
-          Exit;
-        end;
-    end;
-  end; // Frameright;
+    Result := '"' + gExtDiff + '"';
+    for i := 0 to CompareList.Count - 1 do
+      Result := Result + ' "' + CompareList.Strings[i] + '"';
+  end;
 
-  try
-    if gUseExtDiff then
+var
+  i : Integer;
+begin
+  with frmMain do
+  begin
+    try
+      FilesToCompare := TStringList.Create;
+      DirsToCompare := TStringList.Create;
+
+      if param = 'dir' then
       begin
-        ExecCmdFork(Format('"%s" "%s" "%s"', [gExtDiff, sFile1, sFile2]));
-        Exit;
+        if (not FrameLeft.IsEmpty) and (not FrameRight.IsEmpty) then
+        begin
+          DirsToCompare.Add(FrameLeft.ActiveDir);
+          DirsToCompare.Add(FrameRight.ActiveDir);
+        end;
+      end
+      else if ActiveFrame.pnlFile.SelectedCount = 1 then
+      begin
+        if NotActiveFrame.pnlFile.SelectedCount = 1 then
+        begin
+          { compare single selected files in both panels }
+
+          AddItem(ActiveFrame.pnlFile.GetFirstSelectedItem, ActiveFrame.ActiveDir);
+          AddItem(NotActiveFrame.pnlFile.GetFirstSelectedItem, NotActiveFrame.ActiveDir);
+        end
+        else
+        begin
+          // Only one file selected in active panel.
+          MsgWarning(rsMsgInvalidSelection);
+          Exit;
+        end;
+      end
+      else if ActiveFrame.pnlFile.SelectedCount > 1 then
+      begin
+        { compare all selected files in active frame }
+
+        for i := 0 to ActiveFrame.pnlFile.FileList.Count - 1 do
+          if ActiveFrame.pnlFile.FileList.GetItem(i)^.bSelected then
+            AddItem(ActiveFrame.pnlFile.FileList.GetItem(i), ActiveFrame.ActiveDir);
+      end
+      else if FrameLeft.IsActiveItemValid and FrameRight.IsActiveItemValid then
+      begin
+        { no files selected in the active panel }
+        { compare ActiveItems in both panels }
+
+        AddItem(FrameLeft.pnlFile.GetActiveItem, FrameLeft.ActiveDir);
+        AddItem(FrameRight.pnlFile.GetActiveItem, FrameRight.ActiveDir);
       end;
 
-    ShowCmpFiles(sFile1, sFile2);
-  finally
-    FrameLeft.UnMarkAll;
-    FrameRight.UnMarkAll;
+      if ((FilesToCompare.Count > 0) and (DirsToCompare.Count > 0))
+      or ((FilesToCompare.Count = 1) or (DirsToCompare.Count = 1)) then
+      begin
+         // Either files or directories must be selected and more than one.
+         MsgWarning(rsMsgInvalidSelection)
+      end
+      else if FilesToCompare.Count > 0 then
+      begin
+        if gUseExtDiff then
+          ExecCmdFork(FormatCommand(FilesToCompare))
+        else if FilesToCompare.Count = 2 then
+          ShowCmpFiles(FilesToCompare.Strings[0], FilesToCompare.Strings[1])
+        else
+          MsgWarning(rsMsgTooManyFilesSelected);
+      end
+      else if DirsToCompare.Count > 0 then
+      begin
+        if gUseExtDiff then
+          ExecCmdFork(FormatCommand(DirsToCompare))
+        else
+          MsgWarning(rsMsgNotImplemented);
+      end
+      else
+        msgWarning(rsMsgNoFilesSelected);
+
+    finally
+      if Assigned(FilesToCompare) then
+        FreeAndNil(FilesToCompare);
+      if Assigned(DirsToCompare) then
+        FreeAndNil(DirsToCompare);
+    end;
   end;
-end;
 end;
 
 
