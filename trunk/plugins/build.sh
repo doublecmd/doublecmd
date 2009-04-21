@@ -11,7 +11,7 @@ pushd plugins
 $lazpath/lazbuild wcx/cpio/src/cpio.lpi
 $lazpath/lazbuild wcx/deb/src/deb.lpi
 $lazpath/lazbuild wcx/rpm/src/rpm.lpi
-$lazpath/lazbuild wcx/unbz2/unbz2.lpi
+$lazpath/lazbuild wcx/unbz2/src/unbz2.lpi
 $lazpath/lazbuild wcx/unrar/src/unrar.lpi
 $lazpath/lazbuild wcx/zip/Zip.lpi
 
