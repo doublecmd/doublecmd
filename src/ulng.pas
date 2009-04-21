@@ -66,6 +66,10 @@ resourcestring
   rsMsgFollowSymlink = 'Follow symlink "%s"?';
   rsMsgCloseAllInActiveTabs = 'Remove all inactive tabs?';
   rsMsgErrRegExpSyntax = 'Syntax error in regular expression!';
+  rsMsgNoFilesSelected = 'No files selected.';
+  rsMsgTooManyFilesSelected = 'Too many files selected.';
+  rsMsgInvalidSelection = 'Invalid selection.';
+  rsMsgNotImplemented = 'Not implemented.';
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuMount = 'Mount';
