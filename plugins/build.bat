@@ -12,7 +12,7 @@ rem WCX plugins
 %lazpath%\lazbuild.exe wcx\rpm\src\rpm.lpi
 %lazpath%\lazbuild.exe wcx\unbz2\src\unbz2.lpi
 %lazpath%\lazbuild.exe wcx\unrar\src\unrar.lpi
-%lazpath%\lazbuild.exe wcx\zip\zip.lpi
+%lazpath%\lazbuild.exe wcx\zip\src\zip.lpi
 
 rem WDX plugins
 %lazpath%\lazbuild.exe wdx\rpm_wdx\src\rpm_wdx.lpi
