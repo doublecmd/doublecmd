@@ -35,8 +35,33 @@ Type
 
   TWCXModule = class;
   
-  PHeaderData = ^THeaderData;
-  
+  { TWCXHeaderData }
+
+  { Handles THeaderData and THeaderDataEx }
+  TWCXHeader = class
+  private
+    function PCharLToUTF8(CharString: PChar; MaxSize: Integer): UTF8String;
+
+  public
+    constructor Create(const Data: PHeaderData); overload;
+    constructor Create(const Data: PHeaderDataEx); overload;
+    constructor Create; overload; // allows creating empty record
+
+    ArcName: UTF8String;
+    FileName: UTF8String;
+    Flags,
+    HostOS,
+    FileCRC,
+    FileTime,
+    UnpVer,
+    Method,
+    FileAttr: Longint;
+    PackSize,
+    UnpSize: Int64;
+    Cmt: UTF8String;
+    CmtState: Longint;
+  end;
+
   { Packing/Unpacking thread }
   
    TWCXCopyThread = class(TThread)
@@ -120,6 +145,10 @@ Type
     { Closes progress dialog and cleans up. }
     procedure FinishDialog;
 
+    { Reads WCX header using ReadHeaderEx if available or ReadHeader. }
+    function ReadWCXHeader(hArcData: TArcHandle;
+                           out HeaderData: TWCXHeader): Integer;
+
   protected
     // module's functions
   //**mandatory:
@@ -128,7 +157,7 @@ Type
     ProcessFile : TProcessFile;
     CloseArchive : TCloseArchive;
   //**optional:
-    // TODO: add ReadHeaderEx for archives with >2GB files
+    ReadHeaderEx : TReadHeaderEx;
     PackFiles : TPackFiles;
     DeleteFiles : TDeleteFiles;
     GetPackerCaps : TGetPackerCaps;
@@ -237,6 +266,7 @@ begin
   // mandatory functions
   OpenArchive:= TOpenArchive(GetProcAddress(FModuleHandle,'OpenArchive'));
   @ReadHeader:= GetProcAddress(FModuleHandle,'ReadHeader');
+  @ReadHeaderEx:= GetProcAddress(FModuleHandle,'ReadHeaderEx');
   @ProcessFile:= GetProcAddress(FModuleHandle,'ProcessFile');
   @CloseArchive:= GetProcAddress(FModuleHandle,'CloseArchive');
   if ((@OpenArchive = nil)or(@ReadHeader = nil)or
@@ -300,6 +330,7 @@ begin
   FModuleHandle := 0;
   @OpenArchive:= nil;
   @ReadHeader:= nil;
+  @ReadHeaderEx:= nil;
   @ProcessFile:= nil;
   @CloseArchive:= nil;
   @PackFiles:= nil;
@@ -416,7 +447,7 @@ begin
     begin
       if Assigned(FArcFileList.Items[i]) then
       begin
-        Dispose(PHeaderData(FArcFileList.Items[i]));
+        TWCXHeader(FArcFileList.Items[i]).Free;
         FArcFileList.Items[i] := nil;
       end;
     end;
@@ -455,10 +486,10 @@ end;
 
 function TWCXModule.VFSOpen(const sName: String; bCanYouHandleThisFile : Boolean = False): Boolean;
 
-  procedure CollectDirs(Path: PChar; var DirsList: TStringHashList);
+  procedure CollectDirs(Path: PAnsiChar; var DirsList: TStringHashList);
   var
     I : Integer;
-    Dir : string;
+    Dir : AnsiString;
   begin
     // Scan from the second char from the end, to the second char from the beginning.
     for I := strlen(Path) - 2 downto 1 do
@@ -480,8 +511,7 @@ function TWCXModule.VFSOpen(const sName: String; bCanYouHandleThisFile : Boolean
 var
   ArcHandle : TArcHandle;
   ArcFile : tOpenArchiveData;
-  ArcHeader : THeaderData;
-  HeaderData : PHeaderData;
+  Header: TWCXHeader;
   AllDirsList, ExistsDirList : TStringHashList;
   I : Integer;
   NameLength: Integer;
@@ -528,44 +558,37 @@ begin
 
   DebugLN('Get File List');
   (*Get File List*)
-  FillChar(ArcHeader, SizeOf(ArcHeader), #0);
   DeleteArchiveFileList;
   FArcFileList := TList.Create;
   ExistsDirList := TStringHashList.Create(True);
   AllDirsList := TStringHashList.Create(True);
 
   try
-    while (ReadHeader(ArcHandle, ArcHeader) = 0) do
+    while (ReadWCXHeader(ArcHandle, Header) = E_SUCCESS) do
       begin
-        New(HeaderData);
-        HeaderData^ := ArcHeader;
-
         // Some plugins end directories with path delimiter. Delete it if present.
-        if FPS_ISDIR(HeaderData^.FileAttr) then
+        if FPS_ISDIR(Header.FileAttr) then
         begin
-          NameLength := strlen(HeaderData^.FileName);   // This is a C-String
-          if (NameLength < Sizeof(HeaderData^.FileName)) and
-             (HeaderData^.FileName[NameLength-1] = PathDelim)
-          then
-            HeaderData^.FileName[NameLength-1] := #0;
+          NameLength := Length(Header.FileName);
+          if (Header.FileName[NameLength] = PathDelim) then
+            Delete(Header.FileName, NameLength, 1);
 
         //****************************
         (* Workaround for plugins that don't give a list of folders
            or the list does not include all of the folders. *)
 
           // Collect directories that the plugin supplies.
-          if (ExistsDirList.Find(HeaderData.FileName) < 0) then
-            ExistsDirList.Add(HeaderData.FileName);
+          if (ExistsDirList.Find(Header.FileName) < 0) then
+            ExistsDirList.Add(Header.FileName);
         end;
 
         // Collect all directories.
-        CollectDirs(HeaderData^.FileName, AllDirsList);
+        CollectDirs(PAnsiChar(Header.FileName), AllDirsList);
 
         //****************************
 
-        FArcFileList.Add(HeaderData);
+        FArcFileList.Add(Header);
 
-        FillChar(ArcHeader, SizeOf(ArcHeader), #0);
         // get next file
         iResult := ProcessFile(ArcHandle, PK_SKIP, nil, nil);
 
@@ -580,13 +603,16 @@ begin
         // Add only those directories that were not supplied by the plugin.
         if ExistsDirList.Find((AllDirsList.List + I)^.Key) < 0 then
         begin
-          New(HeaderData);
-          FillChar(HeaderData^, SizeOf(HeaderData^), #0);
-          StrPLCopy(HeaderData^.FileName, (AllDirsList.List + I)^.Key,
-                    SizeOf(HeaderData^.FileName) - 1);
-          HeaderData^.FileAttr := faFolder;
-          HeaderData^.FileTime := mbFileAge(FArchiveName);
-          FArcFileList.Add(HeaderData);
+          Header := TWCXHeader.Create;
+          try
+            Header.FileName := (AllDirsList.List + I)^.Key;
+            Header.ArcName  := FArchiveName;
+            Header.FileAttr := faFolder;
+            Header.FileTime := mbFileAge(FArchiveName);
+            FArcFileList.Add(Header);
+          except
+            FreeAndNil(Header);
+          end;
         end;
       end;
 
@@ -661,8 +687,7 @@ function TWCXModule.WCXCopyOut(var FileList: TFileList; sDestPath: String; Flags
 var
   ArcHandle : TArcHandle;
   ArcFile : tOpenArchiveData;
-  ArcHeader : THeaderData;
-  CurrentFileName: String;
+  Header : TWCXHeader;
   TargetFileName: String;
   FileMask: String;
   CreatedPaths: TStringHashList;
@@ -708,21 +733,17 @@ begin
     SetChangeVolProc(ArcHandle, ChangeVolProc);
     SetProcessDataProc(ArcHandle, ProcessDataProc);
 
-
-    FillChar(ArcHeader, SizeOf(ArcHeader), #0);
-    while (ReadHeader(ArcHandle, ArcHeader) = 0) do
+    while (ReadWCXHeader(ArcHandle, Header) = E_SUCCESS) do
      begin
-      CurrentFileName := SysToUTF8(ArcHeader.FileName);
-
       // Now check if the file is to be extracted.
 
-      if  (not FPS_ISDIR(ArcHeader.FileAttr))        // Omit directories (we handle them ourselves).
-      and MatchesFileList(FileList, CurrentFileName) // Check if it's included in the filelist
+      if  (not FPS_ISDIR(Header.FileAttr))           // Omit directories (we handle them ourselves).
+      and MatchesFileList(FileList, Header.FileName) // Check if it's included in the filelist
       and ((FileMask = '*.*') or (FileMask = '*')    // And name matches file mask
-          or MatchesMaskList(ExtractFileName(CurrentFileName), FileMask))
+          or MatchesMaskList(ExtractFileName(Header.FileName), FileMask))
       then
          begin
-           TargetFileName := sDestPath + ExtractDirLevel(FileList.CurrentDirectory, CurrentFileName);
+           TargetFileName := sDestPath + ExtractDirLevel(FileList.CurrentDirectory, Header.FileName);
 
            iResult := ProcessFile(ArcHandle, PK_EXTRACT, nil, PChar(UTF8ToSys(TargetFileName)));
 
@@ -733,7 +754,7 @@ begin
                  begin
                    // write log error
                    if (log_arc_op in gLogOptions) and (log_errors in gLogOptions) then
-                     logWrite(CT, Format(rsMsgLogError+rsMsgLogExtract, [FArchiveName + PathDelim + CurrentFileName + ' -> ' + TargetFileName]), lmtError);
+                     logWrite(CT, Format(rsMsgLogError+rsMsgLogExtract, [FArchiveName + PathDelim + Header.FileName + ' -> ' + TargetFileName]), lmtError);
                    // Standart error modal dialog
                    CT.Synchronize(ShowErrorMessage)
                  end
@@ -741,7 +762,7 @@ begin
                  begin
                    // write log error
                    if (log_arc_op in gLogOptions) and (log_errors in gLogOptions) then
-                     logWrite(Format(rsMsgLogError+rsMsgLogExtract, [FArchiveName + PathDelim + CurrentFileName + ' -> ' + TargetFileName]), lmtError);
+                     logWrite(Format(rsMsgLogError+rsMsgLogExtract, [FArchiveName + PathDelim + Header.FileName + ' -> ' + TargetFileName]), lmtError);
                    // Standart error modal dialog
                    ShowErrorMessage;
                  end;
@@ -754,13 +775,13 @@ begin
                  begin
                    // write log success
                    if (log_arc_op in gLogOptions) and (log_success in gLogOptions) then
-                     logWrite(CT, Format(rsMsgLogSuccess+rsMsgLogExtract, [FArchiveName + PathDelim + CurrentFileName +' -> ' + TargetFileName]), lmtSuccess);
+                     logWrite(CT, Format(rsMsgLogSuccess+rsMsgLogExtract, [FArchiveName + PathDelim + Header.FileName +' -> ' + TargetFileName]), lmtSuccess);
                  end
                else
                  begin
                    // write log success
                    if (log_arc_op in gLogOptions) and (log_success in gLogOptions) then
-                     logWrite(Format(rsMsgLogSuccess+rsMsgLogExtract, [FArchiveName + PathDelim + CurrentFileName + ' -> ' + TargetFileName]), lmtSuccess);
+                     logWrite(Format(rsMsgLogSuccess+rsMsgLogExtract, [FArchiveName + PathDelim + Header.FileName + ' -> ' + TargetFileName]), lmtSuccess);
                  end;
              end; // Success
          end // Extract
@@ -775,7 +796,6 @@ begin
              else
                ShowErrorMessage;
          end; // Skip
-       FillChar(ArcHeader, SizeOf(ArcHeader), #0);
      end;
 
     CloseArchive(ArcHandle);
@@ -908,7 +928,7 @@ var
 
   i: Integer;
   CurrentFileName: String;
-  pArcHeader: PHeaderData;
+  Header: TWCXHeader;
   Directories: TStringList;
   PathIndex: Integer;
   ListIndex: Integer;
@@ -923,19 +943,18 @@ begin
 
   for i := 0 to FArcFileList.Count - 1 do
   begin
-    pArcHeader := PHeaderData(FArcFileList.Items[I]);
-    CurrentFileName := SysToUTF8(pArcHeader^.FileName);
+    Header := TWCXHeader(FArcFileList.Items[i]);
 
     // Check if the file from the archive fits the selection given via FileList.
-    if not MatchesFileList(FileList, CurrentFileName) then
+    if not MatchesFileList(FileList, Header.FileName) then
       Continue;
 
-    if FPS_ISDIR(pArcHeader^.FileAttr) then
+    if FPS_ISDIR(Header.FileAttr) then
     begin
-      CurrentFileName := ExtractDirLevel(CurrentArchiveDir, CurrentFileName);
+      CurrentFileName := ExtractDirLevel(CurrentArchiveDir, Header.FileName);
 
       // Save this directory and a pointer to its entry.
-      DirsAttributes.Add(CurrentFileName, pArcHeader);
+      DirsAttributes.Add(CurrentFileName, Header);
 
       // If extracting all files and directories, add this directory
       // to PathsToCreate so that empty directories are also created.
@@ -951,11 +970,11 @@ begin
     else
     begin
       if ((FileMask = '*.*') or (FileMask = '*') or
-          MatchesMaskList(ExtractFileName(CurrentFileName), FileMask)) then
+          MatchesMaskList(ExtractFileName(Header.FileName), FileMask)) then
       begin
-        Inc(FFilesSize, pArcHeader^.UnpSize);
+        Inc(FFilesSize, Header.UnpSize);
 
-        CurrentFileName := ExtractDirLevel(CurrentArchiveDir, ExtractFilePath(CurrentFileName));
+        CurrentFileName := ExtractDirLevel(CurrentArchiveDir, ExtractFilePath(Header.FileName));
 
         // If CurrentFileName is empty now then it was a file in current archive
         // directory, therefore we don't have to create any paths for it.
@@ -1004,11 +1023,11 @@ begin
                // Retrieve attributes for this directory, if they are stored.
                ListIndex := DirsAttributes.Find(Directories.Strings[i]);
                if ListIndex <> -1 then
-                 pArcHeader := (DirsAttributes.List + ListIndex)^.Data
+                 Header := (DirsAttributes.List + ListIndex)^.Data
                else
-                 pArcHeader := nil;
+                 Header := nil;
 
-               CreatedPaths.Add(TargetDir, pArcHeader);
+               CreatedPaths.Add(TargetDir, Header);
              end;
           end;
         end;
@@ -1027,7 +1046,7 @@ function TWCXModule.SetDirsAttributes(const Paths: TStringHashList): Boolean;
 var
   PathIndex: Integer;
   TargetDir: String;
-  pArcHeader: PHeaderData;
+  Header: TWCXHeader;
   Time: Longint;
 begin
   Result := True;
@@ -1035,9 +1054,9 @@ begin
   for PathIndex := 0 to Paths.Count - 1 do
   begin
     // Get attributes.
-    pArcHeader := PHeaderData((Paths.List + PathIndex)^.Data);
+    Header := TWCXHeader((Paths.List + PathIndex)^.Data);
 
-    if Assigned(pArcHeader) then
+    if Assigned(Header) then
     begin
       TargetDir := (Paths.List + PathIndex)^.Key;
 
@@ -1045,9 +1064,9 @@ begin
 {$IF DEFINED(MSWINDOWS)}
         // Restore attributes, e.g., hidden, read-only.
         // On Unix attributes value would have to be translated somehow.
-        mbFileSetAttr(TargetDir, pArcHeader^.FileAttr);
+        mbFileSetAttr(TargetDir, Header.FileAttr);
 {$ENDIF}
-        Time := pArcHeader^.FileTime;
+        Time := Header.FileTime;
 
         // Set creation, modification time
         mbFileSetTime(TargetDir, Time, Time, Time);
@@ -1062,23 +1081,21 @@ end;
 procedure TWCXModule.CountFiles(const FileList: TFileList; FileMask: String);
 var
   i: Integer;
-  CurrentFileName: String;
-  pArcHeader: PHeaderData;
+  Header: TWCXHeader;
 begin
   FFilesSize := 0;
 
   for i := 0 to FArcFileList.Count - 1 do
   begin
-    pArcHeader := PHeaderData(FArcFileList.Items[I]);
-    CurrentFileName := SysToUTF8(pArcHeader^.FileName);
+    Header := TWCXHeader(FArcFileList.Items[I]);
 
     // Check if the file from the archive fits the selection given via FileList.
-    if  (not FPS_ISDIR(pArcHeader^.FileAttr))      // Omit directories
-    and MatchesFileList(FileList, CurrentFileName) // Check if it's included in the filelist
+    if  (not FPS_ISDIR(Header.FileAttr))           // Omit directories
+    and MatchesFileList(FileList, Header.FileName) // Check if it's included in the filelist
     and ((FileMask = '*.*') or (FileMask = '*')    // And name matches file mask
-        or MatchesMaskList(ExtractFileName(CurrentFileName), FileMask))
+        or MatchesMaskList(ExtractFileName(Header.FileName), FileMask))
     then
-      Inc(FFilesSize, pArcHeader^.UnpSize);
+      Inc(FFilesSize, Header.UnpSize);
   end;
 end;
 
@@ -1102,6 +1119,38 @@ procedure TWCXModule.FinishDialog;
 begin
   FFileOpDlg.Close;
   FFileOpDlg := nil;
+end;
+
+function TWCXModule.ReadWCXHeader(hArcData: TArcHandle;
+                                  out HeaderData: TWCXHeader): Integer;
+var
+  ArcHeader : THeaderData;
+  ArcHeaderEx : THeaderDataEx;
+begin
+  HeaderData := nil;
+
+  if Assigned(ReadHeaderEx) then
+  begin
+    FillChar(ArcHeaderEx, SizeOf(ArcHeaderEx), #0);
+    Result := ReadHeaderEx(hArcData, ArcHeaderEx);
+    if Result = E_SUCCESS then
+    begin
+      HeaderData := TWCXHeader.Create(PHeaderDataEx(@ArcHeaderEx));
+    end;
+  end
+  else if Assigned(ReadHeader) then
+  begin
+    FillChar(ArcHeader, SizeOf(ArcHeader), #0);
+    Result := ReadHeader(hArcData, ArcHeader);
+    if Result = E_SUCCESS then
+    begin
+      HeaderData := TWCXHeader.Create(PHeaderData(@ArcHeader));
+    end;
+  end
+  else
+  begin
+    Result := E_NOT_SUPPORTED;
+  end;
 end;
 
 {Extract files from archive}
@@ -1174,16 +1223,15 @@ end;
 function TWCXModule.VFSRun(const sName: String): Boolean;
 var
   iCount, I: Integer;
+  Header: TWCXHeader;
 begin
-  //DebugLn(fFolder + sName);
-
   iCount := FArcFileList.Count - 1;
   for I := 0 to  iCount do
    begin
-     //DebugLn(PHeaderData(FArcFileList.Items[I])^.FileName);
-     if (PathDelim + PHeaderData(FArcFileList.Items[I])^.FileName) = UTF8ToSys(fFolder + sName) then
+     Header := TWCXHeader(FArcFileList.Items[I]);
+     if PathDelim + Header.FileName = FFolder + sName then
      begin
-       Result:= ShowPackInfoDlg(Self, PHeaderData(FArcFileList.Items[I])^);
+       Result := ShowPackInfoDlg(Self, Header);
        Exit;
      end;
    end;
@@ -1213,13 +1261,13 @@ begin
   Count := FArcFileList.Count - 1;
   for I := 0 to  Count do
    begin
-     CurrFileName := PathDelim + SysToUTF8(PHeaderData(FArcFileList.Items[I])^.FileName);
+     CurrFileName := PathDelim + TWCXHeader(FArcFileList.Items[I]).FileName;
 
      if not IsFileInPath(sDir, CurrFileName, False) then
        Continue;
 
      FillByte(fr, SizeOf(fr), 0);
-     with fr, PHeaderData(FArcFileList.Items[I])^  do
+     with fr, TWCXHeader(FArcFileList.Items[I])  do
          begin
             sName := ExtractFileName(CurrFileName);
             iMode := FileAttr;
@@ -1405,7 +1453,7 @@ begin
   Ini.EraseSection('PackerPlugins');
   for I := 0 to Count - 1 do
     begin
-      if Enabled[I] then
+      if Boolean(Objects[I]) then
         begin
           Ini.WriteString('PackerPlugins', Names[I], ValueFromIndex[I])
         end
@@ -1432,6 +1480,68 @@ begin
       Result := Result + 1;
   end;
   if Result=Count then Result:=-1;
+end;
+
+{ TWCXHeader }
+
+constructor TWCXHeader.Create(const Data: PHeaderData);
+begin
+  ArcName  := PCharLToUTF8(Data^.ArcName, SizeOf(Data^.ArcName));
+  FileName := PCharLToUTF8(Data^.FileName, SizeOf(Data^.FileName));
+  Flags    := Data^.Flags;
+  HostOS   := Data^.HostOS;
+  FileCRC  := Data^.FileCRC;
+  FileTime := Data^.FileTime;
+  UnpVer   := Data^.UnpVer;
+  Method   := Data^.Method;
+  FileAttr := Data^.FileAttr;
+  PackSize := Data^.PackSize;
+  UnpSize  := Data^.UnpSize;
+  if Assigned(Data^.CmtBuf) then
+    Cmt := PCharLToUTF8(Data^.CmtBuf, Data^.CmtSize);
+  CmtState := Data^.CmtState;
+end;
+
+constructor TWCXHeader.Create(const Data: PHeaderDataEx);
+
+  function Combine64(High, Low: Longint): Int64;
+  begin
+    Result := Int64(High) shl (SizeOf(Int64) shl 2);
+    Result := Result + Int64(Low);
+  end;
+
+begin
+  ArcName  := PCharLToUTF8(Data^.ArcName, SizeOf(Data^.ArcName));
+  FileName := PCharLToUTF8(Data^.FileName, SizeOf(Data^.FileName));
+  Flags    := Data^.Flags;
+  HostOS   := Data^.HostOS;
+  FileCRC  := Data^.FileCRC;
+  FileTime := Data^.FileTime;
+  UnpVer   := Data^.UnpVer;
+  Method   := Data^.Method;
+  FileAttr := Data^.FileAttr;
+  PackSize := Combine64(Data^.PackSizeHigh, Data^.PackSize);
+  UnpSize  := Combine64(Data^.UnpSizeHigh, Data^.UnpSize);
+  if Assigned(Data^.CmtBuf) then
+    Cmt := PCharLToUTF8(Data^.CmtBuf, Data^.CmtSize);
+  CmtState := Data^.CmtState;
+end;
+
+constructor TWCXHeader.Create;
+begin
+end;
+
+function TWCXHeader.PCharLToUTF8(CharString: PChar; MaxSize: Integer): UTF8String;
+var
+  NameLength: Integer;
+  TempString: AnsiString;
+begin
+  NameLength := strlen(CharString);
+  if NameLength > MaxSize then
+    NameLength := MaxSize;
+
+  SetString(TempString, CharString, NameLength);
+  Result := SysToUTF8(TempString);
 end;
 
 end.

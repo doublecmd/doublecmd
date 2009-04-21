@@ -82,6 +82,7 @@ type
   TProcessDataProc=function(FileName: PChar; Size: Integer): Integer; stdcall;
 
 type
+  PHeaderData = ^THeaderData;
   THeaderData=packed record
     ArcName:array [0..259] of char;
     FileName:array [0..259] of char;
@@ -100,6 +101,7 @@ type
     CmtState:longint;
   end;
 
+  PHeaderDataEx = ^THeaderDataEx;
   THeaderDataEx=packed record
     ArcName:array [0..1023] of char;
     FileName:array [0..1023] of char;
