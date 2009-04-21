@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, uWCXhead, uWCXModule, uOSUtils;
+  ExtCtrls, uWCXModule, uOSUtils;
 
 type
 
@@ -69,13 +69,13 @@ type
     { public declarations }
   end; 
 
-function ShowPackInfoDlg(WCXModule: TWCXModule; HeaderData: THeaderData): Boolean;
+function ShowPackInfoDlg(WCXModule: TWCXModule; HeaderData: TWCXHeader): Boolean;
 
 implementation
 uses
   LCLProc, FileUtil,  uTypes, uFileOp, uFileList, uDCUtils, uShellExecute;
 
-function ShowPackInfoDlg(WCXModule: TWCXModule; HeaderData: THeaderData): Boolean;
+function ShowPackInfoDlg(WCXModule: TWCXModule; HeaderData: TWCXHeader): Boolean;
 var
   dtDateTime: TDateTime;
   sArcType: String;
@@ -85,8 +85,8 @@ begin
     // save current VFS module
     fWCXModule:= WCXModule;
 
-    edtPackedFile.Text:= SysToUTF8(HeaderData.FileName);
-    sArcType:= SysToUTF8(ExtractFileExt(HeaderData.ArcName));
+    edtPackedFile.Text:= HeaderData.FileName;
+    sArcType:= ExtractFileExt(HeaderData.ArcName);
     Delete(sArcType, 1, 1);
     lblPackedPacker.Caption:= sArcType;
 
@@ -95,7 +95,7 @@ begin
       lblPackedOrgSize.Caption:=  IntToStr(HeaderData.UnpSize);
       lblPackedPackedSize.Caption:= IntToStr(HeaderData.PackSize);
       if HeaderData.UnpSize > 0 then
-        lblPackedCompression.Caption:= IntToStr(100 - (Int64(HeaderData.PackSize)*100 div HeaderData.UnpSize))+'%';
+        lblPackedCompression.Caption:= IntToStr(100 - (HeaderData.PackSize*100 div HeaderData.UnpSize))+'%';
       lblPackedMethod.Caption:= IntToStr(HeaderData.Method);
     end;
 
