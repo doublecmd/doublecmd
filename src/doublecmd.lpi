@@ -315,17 +315,17 @@
         <UnitName Value="fDescrEdit"/>
       </Unit35>
       <Unit36>
-        <Filename Value="ugdiplus.pas"/>
+        <Filename Value="platform\win\ugdiplus.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uGdiPlus"/>
       </Unit36>
       <Unit37>
-        <Filename Value="umywindows.pas"/>
+        <Filename Value="platform\win\umywindows.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMyWindows"/>
       </Unit37>
       <Unit38>
-        <Filename Value="umyunix.pas"/>
+        <Filename Value="platform\unix\umyunix.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMyUnix"/>
       </Unit38>
@@ -354,7 +354,7 @@
         <UnitName Value="fEditSearch"/>
       </Unit41>
       <Unit42>
-        <Filename Value="udragdropex.pas"/>
+        <Filename Value="platform\udragdropex.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDragDropEx"/>
       </Unit42>
@@ -364,12 +364,12 @@
         <UnitName Value="uShellExecute"/>
       </Unit43>
       <Unit44>
-        <Filename Value="uClipboard.pas"/>
+        <Filename Value="platform\uClipboard.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uClipboard"/>
       </Unit44>
       <Unit45>
-        <Filename Value="udragdropgtk.pas"/>
+        <Filename Value="platform\udragdropgtk.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDragDropGtk"/>
       </Unit45>
@@ -379,7 +379,7 @@
         <UnitName Value="uSearchTemplate"/>
       </Unit46>
       <Unit47>
-        <Filename Value="ukeyboard.pas"/>
+        <Filename Value="platform\ukeyboard.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uKeyboard"/>
       </Unit47>
