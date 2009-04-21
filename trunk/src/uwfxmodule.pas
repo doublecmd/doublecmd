@@ -27,12 +27,13 @@
 
 unit uWFXmodule;
 
+{$mode delphi}{$H+}
+
 interface
 uses
  sysutils, Classes, uFileList, uVFSModule, uVFSTypes, ufsplugin, uWFXprototypes,
  dynlibs, uTypes, fFileOpDlg, uClassesEx;
 
-{$mode delphi}{$H+}
 const
   OP_COPYOUT = 0;
   OP_COPYIN = 1;
@@ -152,6 +153,8 @@ Type
   public
     procedure Load(Ini: TIniFileEx); overload;
     procedure Save(Ini: TIniFileEx); overload;
+    function FindFirstEnabledByName(Name: String): Integer;
+
     property Name[Index: Integer]: String read GetAName write SetAName;
     property FileName[Index: Integer]: String read GetAFileName write SetAFileName;
     property Enabled[Index: Integer]: Boolean read GetAEnabled write SetAEnabled;
@@ -159,7 +162,7 @@ Type
 
 implementation
 uses
-  LCLProc, LCLType, uGlobs, uLog, uVFSutil, uFileOp, uOSUtils, uFileProcs, uLng,
+  LCLProc, LCLType, uGlobs, uLog, uVFSutil, uFileOp, uOSUtils, uLng,
   Dialogs, Forms, Controls, FileUtil;
 
 var
@@ -1006,7 +1009,7 @@ begin
   Ini.EraseSection('FileSystemPlugins');
   for I := 0 to Count - 1 do
     begin
-      if Boolean(Objects[I]) then
+      if Enabled[I] then
         begin
           Ini.WriteString('FileSystemPlugins', Name[I], FileName[I])
         end
@@ -1015,6 +1018,19 @@ begin
           Ini.WriteString('FileSystemPlugins', '#' + Name[I], FileName[I]);
         end;
     end;
+end;
+
+function TWFXModuleList.FindFirstEnabledByName(Name: String): Integer;
+begin
+  Result:=0;
+  while Result < Count do
+  begin
+    if Enabled[Result] and (DoCompareText(Names[Result], Name) = 0) then
+       Exit
+    else
+      Result := Result + 1;
+  end;
+  if Result=Count then Result:=-1;
 end;
 
 initialization

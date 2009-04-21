@@ -142,8 +142,8 @@ begin
   with CurrentVFS do
     begin
       for I:=0 to gWCXPlugins.Count - 1 do
+        if gWCXPlugins.Enabled[I] then
         begin
-        if Pos('#', gWCXPlugins.Names[I]) <> 0 then Continue;
           sCurrentPlugin := gWCXPlugins.ValueFromIndex[i];
           iCurPlugCaps := StrToInt(Copy(sCurrentPlugin, 1, Pos(',',sCurrentPlugin) - 1));
           if (iCurPlugCaps and PK_CAPS_NEW) = PK_CAPS_NEW then

@@ -192,6 +192,8 @@ Type
     procedure Load(Ini: TIniFileEx); overload;
     procedure Save(Ini: TIniFileEx); overload;
     function Add(Ext: String; Flags: PtrInt; FileName: String): Integer;
+    function FindFirstEnabledByName(Name: String): Integer;
+
     property FileName[Index: Integer]: String read GetAFileName write SetAFileName;
     property Flags[Index: Integer]: PtrInt read GetAFlags write SetAFlags;
     property Ext[Index: Integer]: String read GetAExt write SetExt;
@@ -201,7 +203,7 @@ Type
 function IsBlocked : Boolean;
 
 implementation
-uses Forms, SysUtils, Masks, uFileOp, uGlobs, uLog, uOSUtils, LCLProc, uFileProcs,
+uses Forms, SysUtils, Masks, uFileOp, uGlobs, uLog, uOSUtils, LCLProc,
      uDCUtils, uLng, Controls, fPackInfoDlg, fDialogBox, uGlobsPaths, FileUtil;
 
 var
@@ -1403,7 +1405,7 @@ begin
   Ini.EraseSection('PackerPlugins');
   for I := 0 to Count - 1 do
     begin
-      if Boolean(Objects[I]) then
+      if Enabled[I] then
         begin
           Ini.WriteString('PackerPlugins', Names[I], ValueFromIndex[I])
         end
@@ -1417,6 +1419,19 @@ end;
 function TWCXModuleList.Add(Ext: String; Flags: PtrInt; FileName: String): Integer;
 begin
   Result:= AddObject(Ext + '=' + IntToStr(Flags) + #44 + FileName, TObject(True));
+end;
+
+function TWCXModuleList.FindFirstEnabledByName(Name: String): Integer;
+begin
+  Result:=0;
+  while Result < Count do
+  begin
+    if Enabled[Result] and (DoCompareText(Names[Result], Name) = 0) then
+       Exit
+    else
+      Result := Result + 1;
+  end;
+  if Result=Count then Result:=-1;
 end;
 
 end.

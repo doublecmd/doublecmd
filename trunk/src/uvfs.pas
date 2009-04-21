@@ -134,33 +134,38 @@ function TVFS.TryFindModule(const sFileName: String): Boolean;
 var
   I, iCount : Integer;
 begin
+  Result := False;
+
   if not mbFileExists(sFileName) then Exit(False);
   iCount := gWCXPlugins.Count - 1;
   for I := 0 to iCount do
     begin
-      FCurrentPlugin := GetCmdDirFromEnvVar(gWCXPlugins.FileName[I]);
-      FVFSInitData:= gWCXPlugins.Flags[I];
-
-      FVFSModule := TWCXModule.Create;
-      Result := FVFSModule.LoadModule(FCurrentPlugin);
-      if Result then
+      if gWCXPlugins.Enabled[i] then
         begin
-          try
-            Result := False;
-            FVFSModule.VFSInit(FVFSInitData);
-            if FVFSModule.VFSOpen(sFileName, True) then // found
-              begin
-                sLastArchive := sFileName;
-                Exit(True);
-              end
-            else
-              FVFSModule.UnloadModule;
-          except
-            FVFSModule.UnloadModule;
-          end;
-        end;
+          FCurrentPlugin := GetCmdDirFromEnvVar(gWCXPlugins.FileName[I]);
+          FVFSInitData:= gWCXPlugins.Flags[I];
 
-      FreeAndNil(FVFSModule);
+          FVFSModule := TWCXModule.Create;
+          Result := FVFSModule.LoadModule(FCurrentPlugin);
+          if Result then
+            begin
+              try
+                Result := False;
+                FVFSModule.VFSInit(FVFSInitData);
+                if FVFSModule.VFSOpen(sFileName, True) then // found
+                  begin
+                    sLastArchive := sFileName;
+                    Exit(True);
+                  end
+                else
+                  FVFSModule.UnloadModule;
+              except
+                FVFSModule.UnloadModule;
+              end;
+            end;
+
+          FreeAndNil(FVFSModule);
+        end;
     end; // for
 end;
 
@@ -174,7 +179,7 @@ begin
   sExt := LowerCase(ExtractFileExt(sFileName));
   sExt := Copy(sExt,2,Length(sExt));
   DebugLN('sExt = ', sExt);
-  I := gWCXPlugins.IndexOfName(sExt);
+  I := gWCXPlugins.FindFirstEnabledByName(sExt);
   
   {
   //**************** Debug
@@ -202,7 +207,7 @@ begin
         end;
     end
   else    // WFX Support
-    if gWFXPlugins.IndexOfName(sFileName) >=0 then
+    if gWFXPlugins.FindFirstEnabledByName(sFileName) >=0 then
       begin
         FCurrentPlugin := GetCmdDirFromEnvVar(gWFXPlugins.Values[sFileName]);
 
