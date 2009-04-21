@@ -115,7 +115,7 @@
   <CompilerOptions>
     <Version Value="5"/>
     <SearchPaths>
-      <UnitOutputDirectory Value="lib"/>
+      <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
     <CodeGeneration>
       <Generate Value="Faster"/>

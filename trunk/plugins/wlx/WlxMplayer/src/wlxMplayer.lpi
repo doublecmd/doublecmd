@@ -56,7 +56,7 @@
     <SearchPaths>
       <OtherUnitFiles Value="$(LazarusDir)\lcl\units\$(TargetCPU)-$(TargetOS)\$(LCLWidgetType)\"/>
       <LCLWidgetType Value="qt"/>
-      <UnitOutputDirectory Value="lib"/>
+      <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
     <CodeGeneration>
       <Generate Value="Faster"/>

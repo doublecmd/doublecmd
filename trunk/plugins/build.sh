@@ -20,10 +20,10 @@ $lazpath/lazbuild wdx/rpm_wdx/src/rpm_wdx.lpi
 $lazpath/lazbuild wdx/deb_wdx/src/deb_wdx.lpi
 
 # WLX plugins
-$lazpath/lazbuild wlx/WlxMplayer/wlxMplayer.lpi
+$lazpath/lazbuild wlx/WlxMplayer/src/wlxMplayer.lpi
 
 # DSX plugins
-$lazpath/lazbuild dsx/DSXLocate/DSXLocate.lpi
+$lazpath/lazbuild dsx/DSXLocate/src/DSXLocate.lpi
 
 # Strip and rename WCX
 pushd wcx/cpio/lib/
