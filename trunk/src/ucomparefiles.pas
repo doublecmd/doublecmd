@@ -10,7 +10,7 @@ const
   cColumnSize=10;
   cLineDiverg=50;
 
-function CompareFiles(const sLeftFileName, sRightFileName:String; {Var}
+function CompareFiles(const sLeftFileName, sRightFileName:UTF8String; {Var}
   lsLeft, lsRight:TStrings; CompareMethod:TCompareMethod):Integer;
 
 implementation
@@ -36,15 +36,29 @@ begin
   Result:=IntToHex(b,2)+' ';
 end;
 
-function CompareFilesText(const sLeftFileName, sRightFileName:String; {Var}
+function CompareFilesText(const sLeftFileName, sRightFileName:UTF8String; {Var}
   lsLeft, lsRight:TStrings):Integer;
+
+  procedure ReadFromFile(const FileName: UTF8String; Strings: TStrings);
+  var
+    FileStream : TFileStreamEx;
+  begin
+    FileStream := TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyWrite);
+    try
+      Strings.LoadFromStream(FileStream);
+    finally
+      FreeAndNil(FileStream);
+    end;
+  end;
+
 begin
-  lsLeft.LoadFromFile(sLeftFileName);
-  lsRight.LoadFromFile(sRightFileName);
-  Result:=TextCompare(lsLeft,lsRight);
+  ReadFromFile(sLeftFileName, lsLeft);
+  ReadFromFile(sRightFileName, lsRight);
+
+  Result := TextCompare(lsLeft, lsRight);
 end;
 
-function CompareFilesBin(const sLeftFileName, sRightFileName:String; {Var}
+function CompareFilesBin(const sLeftFileName, sRightFileName:UTF8String; {Var}
   lsLeft, lsRight:TStrings):Integer;
 
 var
@@ -166,7 +180,7 @@ begin
   end;
 end;
 
-function CompareFiles(const sLeftFileName, sRightFileName:String; {Var}
+function CompareFiles(const sLeftFileName, sRightFileName:UTF8String; {Var}
   lsLeft, lsRight:TStrings; CompareMethod:TCompareMethod):Integer;
 begin
   assert(lsLeft<>nil,'CompareFiles: lsLeft=nil');
@@ -177,6 +191,7 @@ begin
 
     lsLeft.Clear;
     lsRight.Clear;
+
     case CompareMethod of
       cmInternalText:Result:=CompareFilesText(sLeftFileName,sRightFileName, lsLeft, lsRight);
       cmInternalBin:Result:=CompareFilesBin(sLeftFileName,sRightFileName, lsLeft, lsRight);

@@ -55,7 +55,7 @@ implementation
 
 
 uses
-  uCompareFiles, uLng, uGlobs;
+  uCompareFiles, uLng, uGlobs, uShowMsg;
 
 procedure ShowCmpFiles(const sFile1, sFile2:String);
 begin
@@ -93,12 +93,18 @@ procedure TfrmCompareFiles.btnCompareClick(Sender: TObject);
 var
   iChanges : integer;
 begin
-  if chbBinMode.Checked then
-    iChanges := CompareFiles(edtFileNameLeft.Text, edtFileNameRight.Text,
-       lstLeft.Lines, lstRight.Lines, cmInternalBin)
-  else
-    iChanges := CompareFiles(edtFileNameLeft.Text, edtFileNameRight.Text,
-       lstLeft.Lines, lstRight.Lines, cmInternalText);
+  try
+    if chbBinMode.Checked then
+      iChanges := CompareFiles(edtFileNameLeft.Text, edtFileNameRight.Text,
+         lstLeft.Lines, lstRight.Lines, cmInternalBin)
+    else
+      iChanges := CompareFiles(edtFileNameLeft.Text, edtFileNameRight.Text,
+         lstLeft.Lines, lstRight.Lines, cmInternalText);
+  except
+    on e : EFOpenError do
+      msgError(e.Message);
+  end;
+
 {  CompareFiles(edtFileNameLeft.Text, edtFileNameRight.Text,
     lstLeft.Items, lstRight.Items, cmInternalText);}
   pnlStatusBar.Panels[0].Text := rsCompareDiffs + ' ' + IntToStr(iChanges);
