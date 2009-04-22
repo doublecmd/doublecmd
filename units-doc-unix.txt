@@ -1,0 +1,13 @@
+src/ufilelist.pas
+src/udcutils.pas
+src/platform/uOSUtils.pas
+src/platform/uosforms.pas
+src/uvfs.pas
+src/uexts.pas
+src/ufileprocs.pas
+src/udescr.pas
+src/platform/win/umywindows.pas
+src/platform/unix/umyunix.pas
+src/platform/unix/inotify.pp
+src/uvfsutil.pas
+src/uwcxmodule.pas
