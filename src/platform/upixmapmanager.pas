@@ -242,7 +242,7 @@ begin
               begin
                 sName:= sFileName;
                 sExt := ExtractFileExt(sFileName);
-                iMode := FileGetAttr(sFileName);
+                iMode := mbFileGetAttr(sFileName);
                 bLinkIsDir := (FPS_ISLNK(iMode) and FPS_ISDIR(iMode));
               end;
               iIndex := PixMapManager.GetIconByFile(pfri, pmDirectory);
