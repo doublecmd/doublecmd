@@ -162,6 +162,7 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls, ExtCtrls,
 function TActs.Methods(AClass:TClass): TStringList;
 //------------------------------------------------------
     type
+       pmethodnamerec = ^tmethodnamerec;
        tmethodnamerec = packed record
           name : pshortstring;
           addr : pointer;
@@ -169,7 +170,8 @@ function TActs.Methods(AClass:TClass): TStringList;
 
        tmethodnametable = packed record
          count : dword;
-         entries : packed array[0..0] of tmethodnamerec;
+         entries : tmethodnamerec; // first entry
+         // subsequent tmethodnamerec records follow
        end;
 
        pmethodnametable =  ^tmethodnametable;
@@ -178,6 +180,7 @@ var
  methodtable : pmethodnametable;
  i : dword;
  vmt : tclass;
+ pentry: pmethodnamerec;
 
 begin
    Result:=TStringList.Create;
@@ -186,8 +189,11 @@ begin
      begin
         methodtable:=pmethodnametable((Pointer(vmt)+vmtMethodTable)^);
         if assigned(methodtable) then
+        begin
+          pentry := @methodtable^.entries;
           for i:=0 to methodtable^.count-1 do
-            Result.AddObject(methodtable^.entries[i].name^,Tobject(AClass));
+            Result.AddObject(pentry[i].name^,Tobject(AClass));
+        end;
         vmt:=pclass(pointer(vmt)+vmtParent)^;
      end;
 end;
