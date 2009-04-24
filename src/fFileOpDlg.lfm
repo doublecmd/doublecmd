@@ -1,14 +1,13 @@
 object frmFileOp: TfrmFileOp
   Left = 278
-  Height = 161
+  Height = 160
   Top = 234
-  Width = 402
+  Width = 522
   ActiveControl = btnCancel
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
   Caption = 'Process file(s)'
-  ClientHeight = 161
-  ClientWidth = 402
+  ClientHeight = 160
+  ClientWidth = 522
+  Constraints.MaxHeight = 160
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
@@ -23,7 +22,7 @@ object frmFileOp: TfrmFileOp
     Left = 12
     Height = 23
     Top = 8
-    Width = 378
+    Width = 498
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 12
@@ -44,7 +43,7 @@ object frmFileOp: TfrmFileOp
     Left = 6
     Height = 16
     Top = 93
-    Width = 390
+    Width = 510
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
@@ -61,7 +60,7 @@ object frmFileOp: TfrmFileOp
     Left = 6
     Height = 22
     Top = 65
-    Width = 390
+    Width = 510
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
@@ -79,7 +78,7 @@ object frmFileOp: TfrmFileOp
     Left = 6
     Height = 22
     Top = 37
-    Width = 390
+    Width = 510
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
@@ -92,11 +91,14 @@ object frmFileOp: TfrmFileOp
   object btnCancel: TBitBtn
     AnchorSideTop.Control = lblEstimated
     AnchorSideTop.Side = asrBottom
-    Left = 160
+    AnchorSideRight.Control = btnPauseStart
+    Left = 346
     Height = 32
     Top = 115
     Width = 89
+    Anchors = [akTop, akRight]
     BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
     BorderSpacing.InnerBorder = 2
     Cancel = True
     Caption = 'Cancel'
@@ -112,7 +114,7 @@ object frmFileOp: TfrmFileOp
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = btnCancel
     AnchorSideBottom.Side = asrBottom
-    Left = 321
+    Left = 441
     Height = 32
     Top = 115
     Width = 75

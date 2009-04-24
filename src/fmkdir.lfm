@@ -1,41 +1,49 @@
 object frmMkDir: TfrmMkDir
   Left = 366
-  Height = 98
+  Height = 106
   Top = 546
-  Width = 336
-  HorzScrollBar.Page = 335
-  HorzScrollBar.Range = 329
-  VertScrollBar.Page = 97
-  VertScrollBar.Range = 89
+  Width = 495
   ActiveControl = edtMkDir
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Create new directory'
-  ClientHeight = 98
-  ClientWidth = 336
+  ClientHeight = 106
+  ClientWidth = 495
+  Constraints.MaxHeight = 120
   KeyPreview = True
   OnKeyPress = FormKeyPress
   Position = poScreenCenter
+  LCLVersion = '0.9.27'
   object lblMakeDir: TLabel
     Left = 8
-    Height = 14
+    Height = 16
     Top = 8
-    Width = 129
+    Width = 164
     Caption = 'Input new directory name:'
     ParentColor = False
   end
   object edtMkDir: TEdit
-    Left = 8
-    Height = 24
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 25
     Top = 32
-    Width = 321
+    Width = 483
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Left = 6
+    BorderSpacing.Right = 6
     TabOrder = 0
   end
   object btnOK: TBitBtn
-    Left = 167
+    AnchorSideRight.Control = btnCancel
+    Left = 307
     Height = 32
     Top = 64
-    Width = 75
+    Width = 88
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 6
     BorderSpacing.InnerBorder = 2
     Caption = '&OK'
     Default = True
@@ -45,10 +53,14 @@ object frmMkDir: TfrmMkDir
     TabOrder = 1
   end
   object btnCancel: TBitBtn
-    Left = 255
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 401
     Height = 32
     Top = 64
-    Width = 75
+    Width = 88
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 6
     BorderSpacing.InnerBorder = 2
     Cancel = True
     Caption = 'Cancel'
