@@ -19,9 +19,6 @@ type
     edtDst: TEdit;
     lblCopySrc: TLabel;
     lblFileType: TLabel;
-    Panel1: TPanel;
-    Panel2: TPanel;
-    Panel3: TPanel;
     pnlSelector: TPanel;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure frmCopyDlgKeyPress(Sender: TObject; var Key: Char);
@@ -48,7 +45,7 @@ begin
 end;
 
 function TfrmCopyDlg.ShowTabsSelector: integer;
-var btnS:TBitBtn; i,tc:integer; st:TStringList; s:string;
+var btnS,btnL:TBitBtn; i,tc:integer; st:TStringList; s:string;
 begin
   if frmmain.SelectedPanel=fpRight
   then noteb:=frmmain.nbLeft
@@ -74,6 +71,7 @@ begin
       end;
 
   tc:=st.Count;
+  btnL := nil;
   if tc>10 then tc:=10;
   for i:=0 to tc-1 do
     begin
@@ -87,11 +85,20 @@ begin
 
       btnS.OnClick:=TabsSelector;
 
-      btns.Width:=60;
-      btns.Height:=34;
-      btns.Left:=i*62;
-      btns.Top:=5;
+      btns.AutoSize:=True;
+      btns.Left := 2;
+      btns.Anchors :=[akLeft,akBottom];
       btns.Visible:=true;
+
+      if btnL <> nil then
+      begin
+        btns.AnchorSideLeft.Control := btnL;
+        btns.AnchorSideLeft.Side := asrRight;
+      end;
+
+      btnL := btnS;
+      if (Self.Width < (btnL.Left+btnL.Width+200)) then // 200 = Ok + Cancel
+        Self.Width := (btnL.Left+btnL.Width+200);
     end;
   finally
     st.Free;
@@ -105,7 +112,7 @@ begin
   if gShowCopyTabSelectPanel then
     begin
       ShowTabsSelector;
-      Panel1.SetFocus;
+      pnlSelector.SetFocus;
     end
   else
     begin

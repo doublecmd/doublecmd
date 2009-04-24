@@ -1,18 +1,17 @@
 object frmCopyDlg: TfrmCopyDlg
-  Left = 725
-  Height = 220
-  Top = 629
-  Width = 783
+  Left = 345
+  Height = 191
+  Top = 415
+  Width = 733
   HorzScrollBar.Page = 349
   HorzScrollBar.Range = 337
   VertScrollBar.Page = 205
   VertScrollBar.Range = 186
+  ActiveControl = edtDst
   AutoScroll = False
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
   Caption = 'Copy file(s)'
-  ClientHeight = 220
-  ClientWidth = 783
+  ClientHeight = 191
+  ClientWidth = 733
   Constraints.MaxHeight = 220
   KeyPreview = True
   OnKeyDown = FormKeyDown
@@ -20,162 +19,131 @@ object frmCopyDlg: TfrmCopyDlg
   OnShow = frmCopyDlgShow
   Position = poScreenCenter
   LCLVersion = '0.9.27'
-  object Panel1: TPanel
-    Height = 160
-    Width = 783
-    Align = alTop
-    BevelOuter = bvNone
-    ClientHeight = 160
-    ClientWidth = 783
-    TabOrder = 0
-    object lblCopySrc: TLabel
-      AnchorSideLeft.Control = Owner
-      AnchorSideTop.Control = Owner
-      AnchorSideRight.Control = Owner
-      AnchorSideRight.Side = asrBottom
-      Left = 8
-      Height = 20
-      Top = 8
-      Width = 767
-      Anchors = [akTop, akLeft, akRight]
-      AutoSize = False
-      BorderSpacing.Left = 8
-      BorderSpacing.Top = 8
-      BorderSpacing.Right = 8
-      Caption = 'Copy %s:'
-      ParentColor = False
-    end
-    object lblFileType: TLabel
-      AnchorSideLeft.Control = Owner
-      AnchorSideTop.Side = asrBottom
-      Left = 12
-      Height = 17
-      Top = 64
-      Width = 81
-      BorderSpacing.Left = 12
-      BorderSpacing.Top = 6
-      Caption = 'Only type:'
-      ParentColor = False
-    end
-    object edtDst: TEdit
-      AnchorSideLeft.Control = Owner
-      AnchorSideTop.Control = lblCopySrc
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = Owner
-      AnchorSideRight.Side = asrBottom
-      Left = 8
-      Height = 24
-      Top = 34
-      Width = 767
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Left = 8
-      BorderSpacing.Top = 6
-      BorderSpacing.Right = 8
-      TabOrder = 0
-    end
-    object cmbFileType: TComboBox
-      AnchorSideLeft.Control = Owner
-      AnchorSideTop.Control = lblFileType
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = Owner
-      AnchorSideRight.Side = asrBottom
-      Left = 8
-      Height = 25
-      Top = 87
-      Width = 767
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Left = 8
-      BorderSpacing.Top = 6
-      BorderSpacing.Right = 8
-      Enabled = False
-      TabOrder = 1
-    end
-    object cbDropReadOnlyFlag: TCheckBox
-      AnchorSideLeft.Control = Owner
-      AnchorSideTop.Control = cmbFileType
-      AnchorSideTop.Side = asrBottom
-      Left = 12
-      Height = 21
-      Top = 118
-      Width = 167
-      BorderSpacing.Left = 12
-      BorderSpacing.Top = 6
-      Caption = 'Drop readonly flag'
-      TabOrder = 2
-    end
+  object lblFileType: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Side = asrBottom
+    Left = 12
+    Height = 16
+    Top = 64
+    Width = 62
+    BorderSpacing.Left = 12
+    BorderSpacing.Top = 6
+    Caption = 'Only type:'
+    ParentColor = False
   end
-  object Panel3: TPanel
-    Height = 60
-    Top = 160
-    Width = 783
-    Align = alClient
-    BevelOuter = bvNone
-    ClientHeight = 60
-    ClientWidth = 783
+  object lblCopySrc: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 20
+    Top = 8
+    Width = 717
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 8
+    BorderSpacing.Right = 8
+    Caption = 'Copy %s:'
+    ParentColor = False
+  end
+  object btnCancel: TBitBtn
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 641
+    Height = 34
+    Top = 151
+    Width = 88
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Top = 12
+    BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 6
+    BorderSpacing.InnerBorder = 2
+    Cancel = True
+    Caption = 'Cancel'
+    Kind = bkCancel
+    ModalResult = 2
+    NumGlyphs = 0
+    TabOrder = 0
+  end
+  object btnOK: TBitBtn
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnCancel
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 547
+    Height = 34
+    Top = 151
+    Width = 88
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Top = 12
+    BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 6
+    BorderSpacing.InnerBorder = 2
+    Caption = '&OK'
+    Default = True
+    Kind = bkOK
+    ModalResult = 1
+    NumGlyphs = 0
     TabOrder = 1
-    object Panel2: TPanel
-      Left = 575
-      Height = 60
-      Width = 208
-      Align = alRight
-      BevelOuter = bvNone
-      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-      ChildSizing.EnlargeVertical = crsHomogenousSpaceResize
-      ChildSizing.Layout = cclTopToBottomThenLeftToRight
-      ClientHeight = 60
-      ClientWidth = 208
-      TabOrder = 0
-      object btnOK: TBitBtn
-        AnchorSideTop.Side = asrBottom
-        Left = 7
-        Height = 34
-        Top = 13
-        Width = 97
-        Anchors = []
-        BorderSpacing.Top = 12
-        BorderSpacing.Right = 6
-        BorderSpacing.InnerBorder = 2
-        Caption = '&OK'
-        Default = True
-        Kind = bkOK
-        ModalResult = 1
-        NumGlyphs = 0
-        TabOrder = 0
-      end
-      object btnCancel: TBitBtn
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = Owner
-        AnchorSideRight.Side = asrBottom
-        Left = 111
-        Height = 34
-        Top = 13
-        Width = 90
-        Anchors = [akRight]
-        BorderSpacing.Top = 12
-        BorderSpacing.Right = 8
-        BorderSpacing.InnerBorder = 2
-        Cancel = True
-        Caption = 'Cancel'
-        Kind = bkCancel
-        ModalResult = 2
-        NumGlyphs = 0
-        TabOrder = 1
-      end
-    end
-    object pnlSelector: TPanel
-      Height = 60
-      Width = 575
-      Align = alClient
-      BevelOuter = bvNone
-      ChildSizing.LeftRightSpacing = 5
-      ChildSizing.TopBottomSpacing = 13
-      ChildSizing.HorizontalSpacing = 3
-      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-      ChildSizing.EnlargeVertical = crsHomogenousChildResize
-      ChildSizing.ShrinkHorizontal = crsHomogenousSpaceResize
-      ChildSizing.ShrinkVertical = crsHomogenousSpaceResize
-      ChildSizing.Layout = cclTopToBottomThenLeftToRight
-      TabOrder = 1
-    end
+  end
+  object cbDropReadOnlyFlag: TCheckBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Side = asrBottom
+    Left = 12
+    Height = 22
+    Top = 119
+    Width = 139
+    BorderSpacing.Left = 12
+    BorderSpacing.Top = 6
+    Caption = 'Drop readonly flag'
+    TabOrder = 2
+  end
+  object cmbFileType: TComboBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 27
+    Top = 86
+    Width = 717
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 8
+    Enabled = False
+    TabOrder = 3
+  end
+  object edtDst: TEdit
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 24
+    Top = 34
+    Width = 717
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 8
+    TabOrder = 4
+  end
+  object pnlSelector: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnOK
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Height = 38
+    Top = 153
+    Width = 547
+    Anchors = [akLeft, akRight, akBottom]
+    BevelOuter = bvNone
+    TabOrder = 5
   end
 end
