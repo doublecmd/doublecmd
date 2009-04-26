@@ -152,7 +152,9 @@ resourcestring
   //Compare by content Dialog
   rsCompareDiffs = 'Number of changes:';
   // Find files dialog
-  rsFindScaned = 'Scanned: %d';
+  rsFindScanning = 'Scanning';
+  rsFindScanned = 'Scanned: %d';
+  rsFindFound = 'Found: %d';
   rsFindWhereBeg = 'Begin at';
   rsFindDirNoEx = 'Directory %s does not exist!';
   rsFindDepthAll = 'all (unlimited depth)';

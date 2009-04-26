@@ -18,6 +18,7 @@ object frmFindDlg: TfrmFindDlg
   LCLVersion = '0.9.27'
   object Splitter1: TSplitter
     Cursor = crVSplit
+    Left = 0
     Height = 1
     Top = 380
     Width = 768
@@ -25,7 +26,9 @@ object frmFindDlg: TfrmFindDlg
     ResizeAnchor = akTop
   end
   object Panel2: TPanel
+    Left = 0
     Height = 380
+    Top = 0
     Width = 768
     Align = alTop
     BevelOuter = bvNone
@@ -34,7 +37,9 @@ object frmFindDlg: TfrmFindDlg
     FullRepaint = False
     TabOrder = 0
     object pgcSearch: TPageControl
+      Left = 0
       Height = 380
+      Top = 0
       Width = 667
       ActivePage = tsStandard
       Anchors = [akTop, akLeft, akRight]
@@ -88,7 +93,9 @@ object frmFindDlg: TfrmFindDlg
           Top = 25
           Width = 645
           Anchors = [akTop, akLeft, akRight]
+          AutoComplete = False
           ItemHeight = 15
+          ItemWidth = 0
           TabOrder = 0
           Text = '*'
         end
@@ -200,9 +207,11 @@ object frmFindDlg: TfrmFindDlg
             Height = 23
             Top = 93
             Width = 100
+            AutoComplete = False
             BorderSpacing.Left = 6
             BorderSpacing.Top = 6
             ItemHeight = 15
+            ItemWidth = 0
             OnSelect = cbEncodingSelect
             Style = csDropDownList
             TabOrder = 5
@@ -228,6 +237,7 @@ object frmFindDlg: TfrmFindDlg
           Height = 21
           Top = 76
           Width = 620
+          ShowHidden = False
           ButtonWidth = 23
           NumGlyphs = 1
           Anchors = [akTop, akLeft, akRight]
@@ -259,11 +269,13 @@ object frmFindDlg: TfrmFindDlg
           Top = 315
           Width = 526
           Anchors = [akTop, akLeft, akRight]
+          AutoComplete = False
           BorderSpacing.Left = 6
           BorderSpacing.Top = 12
           BorderSpacing.Right = 6
           Enabled = False
           ItemHeight = 15
+          ItemWidth = 0
           MaxLength = 65535
           TabOrder = 7
         end
@@ -276,9 +288,11 @@ object frmFindDlg: TfrmFindDlg
           Height = 23
           Top = 103
           Width = 184
+          AutoComplete = False
           BorderSpacing.Left = 6
           BorderSpacing.Top = 6
           ItemHeight = 15
+          ItemWidth = 0
           Style = csDropDownList
           TabOrder = 2
         end
@@ -437,6 +451,7 @@ object frmFindDlg: TfrmFindDlg
           Height = 23
           Top = 163
           Width = 110
+          AutoComplete = False
           BorderSpacing.Top = 6
           Enabled = False
           ItemHeight = 15
@@ -449,6 +464,7 @@ object frmFindDlg: TfrmFindDlg
             'Month(s)'
             'Year(s)'
           )
+          ItemWidth = 0
           TabOrder = 10
           Text = 'Day(s)'
         end
@@ -528,6 +544,7 @@ object frmFindDlg: TfrmFindDlg
           Height = 23
           Top = 249
           Width = 72
+          AutoComplete = False
           Enabled = False
           ItemHeight = 15
           ItemIndex = 1
@@ -537,6 +554,7 @@ object frmFindDlg: TfrmFindDlg
             'Mbyte'
             'Gbyte'
           )
+          ItemWidth = 0
           Style = csDropDownList
           TabOrder = 15
           Text = 'Kbyte'
@@ -713,6 +731,7 @@ object frmFindDlg: TfrmFindDlg
           BorderSpacing.Top = 6
           BorderSpacing.Right = 12
           BorderSpacing.Bottom = 12
+          ItemHeight = 0
           OnSelectionChange = lbSearchTemplatesSelectionChange
           TabOrder = 0
         end
@@ -818,12 +837,12 @@ object frmFindDlg: TfrmFindDlg
       Anchors = [akTop, akRight]
       BorderSpacing.InnerBorder = 4
       Caption = '&Start'
-      Default = True
       OnClick = btnStartClick
       TabOrder = 2
     end
   end
   object Panel1: TPanel
+    Left = 0
     Height = 174
     Top = 381
     Width = 768
@@ -834,7 +853,9 @@ object frmFindDlg: TfrmFindDlg
     FullRepaint = False
     TabOrder = 1
     object Panel3: TPanel
+      Left = 0
       Height = 58
+      Top = 0
       Width = 768
       Align = alTop
       BevelInner = bvRaised
@@ -848,13 +869,12 @@ object frmFindDlg: TfrmFindDlg
         AnchorSideTop.Control = lblCurrent
         AnchorSideTop.Side = asrBottom
         Left = 10
-        Height = 14
-        Top = 26
-        Width = 38
+        Height = 16
+        Top = 28
+        Width = 36
         BorderSpacing.Left = 10
         BorderSpacing.Top = 6
         Caption = 'Status'
-        Font.Color = clBlack
         Font.Pitch = fpVariable
         Font.Style = [fsBold]
         ParentColor = False
@@ -864,13 +884,29 @@ object frmFindDlg: TfrmFindDlg
         AnchorSideLeft.Control = Panel3
         AnchorSideTop.Control = Panel3
         Left = 10
-        Height = 14
+        Height = 16
         Top = 6
-        Width = 44
+        Width = 43
         BorderSpacing.Left = 10
         BorderSpacing.Top = 6
         Caption = 'Current'
-        Font.Color = clBlack
+        Font.Pitch = fpVariable
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+      end
+      object lblFound: TLabel
+        AnchorSideRight.Control = Panel3
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = lblStatus
+        AnchorSideBottom.Side = asrCenter
+        Left = 720
+        Height = 16
+        Top = 28
+        Width = 36
+        Anchors = [akRight, akBottom]
+        BorderSpacing.Right = 12
+        Caption = 'Found'
         Font.Pitch = fpVariable
         Font.Style = [fsBold]
         ParentColor = False
@@ -878,10 +914,12 @@ object frmFindDlg: TfrmFindDlg
       end
     end
     object lsFoundedFiles: TListBox
+      Left = 0
       Height = 58
       Top = 58
       Width = 768
       Align = alClient
+      ItemHeight = 0
       MultiSelect = True
       OnDblClick = lsFoundedFilesDblClick
       OnKeyDown = lsFoundedFilesKeyDown
@@ -889,6 +927,7 @@ object frmFindDlg: TfrmFindDlg
       TabOrder = 1
     end
     object Panel4: TPanel
+      Left = 0
       Height = 58
       Top = 116
       Width = 768

@@ -2916,7 +2916,7 @@ msgstr ""
 msgid "Template name:"
 msgstr ""
 
-#: ulng.rsfindscaned
+#: ulng.rsfindscanned
 msgid "Scanned: %d"
 msgstr "已扫描: %d"
 

@@ -787,6 +787,7 @@ msgid "Cancel"
 msgstr ""
 
 #: TFRMFINDDLG.BTNVIEW.CAPTION
+msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
 msgid "&View"
 msgstr ""
 
@@ -925,6 +926,11 @@ msgstr ""
 
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "&Directory"
+msgstr ""
+
+#: TFRMFINDDLG.LBLFOUND.CAPTION
+msgctxt "TFRMFINDDLG.LBLFOUND.CAPTION"
+msgid "Found"
 msgstr ""
 
 #: TFRMFINDDLG.LBLINFO.CAPTION
@@ -2905,6 +2911,11 @@ msgstr ""
 msgid "Directory %s does not exist!"
 msgstr ""
 
+#: ulng.rsfindfound
+msgctxt "ulng.rsfindfound"
+msgid "Found: %d"
+msgstr ""
+
 #: ulng.rsfindsavetemplatecaption
 msgid "Save search template"
 msgstr ""
@@ -2913,8 +2924,13 @@ msgstr ""
 msgid "Template name:"
 msgstr ""
 
-#: ulng.rsfindscaned
+#: ulng.rsfindscanned
+msgctxt "ulng.rsfindscanned"
 msgid "Scanned: %d"
+msgstr ""
+
+#: ulng.rsfindscanning
+msgid "Scanning"
 msgstr ""
 
 #: ulng.rsfindwherebeg
@@ -3322,6 +3338,7 @@ msgid "Page by page"
 msgstr ""
 
 #: ulng.rsoptplugins
+msgctxt "ulng.rsoptplugins"
 msgid "Plugins"
 msgstr ""
 

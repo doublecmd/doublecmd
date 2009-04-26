@@ -2908,7 +2908,7 @@ msgstr "Suche als Vorlage speichern"
 msgid "Template name:"
 msgstr "Vorlagen-Name"
 
-#: ulng.rsfindscaned
+#: ulng.rsfindscanned
 msgid "Scanned: %d"
 msgstr "Gelesen: %d"
 

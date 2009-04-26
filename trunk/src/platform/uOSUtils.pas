@@ -22,17 +22,17 @@
 
 unit uOSUtils;
  
+{$mode delphi}{$H+}
+
 interface
 
 uses
-    SysUtils, Classes, LCLProc, uDCUtils, uFindEx, uClassesEx
+    SysUtils, Classes, LCLProc, uDCUtils, uClassesEx
     {$IFDEF MSWINDOWS}
     , Windows, ShellApi, uNTFSLinks, uMyWindows, JwaWinNetWk
     {$ELSE}
     , BaseUnix, Unix, UnixType, UnixUtil, dl, uMyUnix, libhal, dbus
     {$ENDIF};
-    
-{$mode delphi}{$H+}
     
 const
   InvalidHandleValue = THandle(-1);
@@ -85,7 +85,9 @@ type
   TFileMapRec = record
     FileHandle : THandle;
     FileSize : Int64;
+{$IFDEF MSWINDOWS}
     MappingHandle : THandle;
+{$ENDIF}
     MappedFile : PChar;
   end;
 
@@ -167,12 +169,12 @@ function GetAllDrives : TList;
    @param(FileMapRec TFileMapRec structure)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function MapFile(const sFileName : String; var FileMapRec : TFileMapRec) : Boolean;
+function MapFile(const sFileName : UTF8String; out FileMapRec : TFileMapRec) : Boolean;
 {en
    Unmap previously mapped file
    @param(FileMapRec TFileMapRec structure)
 }
-procedure UnMapFile(FileMapRec : TFileMapRec);
+procedure UnMapFile(var FileMapRec : TFileMapRec);
 
 (* Date/Time routines *)
 {en
@@ -773,24 +775,35 @@ begin
 end;
 {$ENDIF}
 
-function MapFile(const sFileName : String; var FileMapRec : TFileMapRec) : Boolean;
+function MapFile(const sFileName : UTF8String; out FileMapRec : TFileMapRec) : Boolean;
 {$IFDEF MSWINDOWS}
 begin
   Result := False;
   with FileMapRec do
     begin
+      MappedFile := nil;
+      MappingHandle := 0;
+      FileHandle := InvalidHandleValue;
+
+      FileSize := mbFileSize(sFileName);
+      if FileSize = 0 then Exit;   // Cannot map empty files
+
       FileHandle := mbFileOpen(sFileName, fmOpenRead);
-      if FileHandle <= 0 then Exit;
-      FileSize := GetFileSize(FileHandle, nil);
+      if FileHandle = InvalidHandleValue then Exit;
 
       MappingHandle := CreateFileMapping(FileHandle, nil, PAGE_READONLY, 0, 0, nil);
-
       if MappingHandle <> 0 then
-        MappedFile := MapViewOfFile(MappingHandle, FILE_MAP_READ, 0, 0, 0)
+      begin
+        MappedFile := MapViewOfFile(MappingHandle, FILE_MAP_READ, 0, 0, 0);
+        if not Assigned(MappedFile) then
+        begin
+          UnMapFile(FileMapRec);
+          Exit;
+        end;
+      end
       else
         begin
-          MappedFile := nil;
-          FileClose(FileHandle);
+          UnMapFile(FileMapRec);
           Exit;
         end;
     end;
@@ -803,21 +816,28 @@ begin
   Result:= False;
   with FileMapRec do
     begin
+      MappedFile := nil;
       FileHandle:= fpOpen(PChar(sFileName), O_RDONLY);
 
-      if FileHandle = -1 then Exit;
+      if FileHandle = InvalidHandleValue then Exit;
       if fpfstat(FileHandle, StatInfo) <> 0 then
         begin
-          fpClose(FileHandle);
+          UnMapFile(FileMapRec);
           Exit;
         end;
 
-      FileSize:= StatInfo.st_size;
+      FileSize := StatInfo.st_size;
+      if FileSize = 0 then // Cannot map empty files
+      begin
+        UnMapFile(FileMapRec);
+        Exit;
+      end;
+
       MappedFile:= fpmmap(nil,FileSize,PROT_READ, MAP_PRIVATE{SHARED},FileHandle,0 );
       if PtrInt(MappedFile) = -1 then
         begin
           MappedFile := nil;
-          fpClose(FileHandle);
+          UnMapFile(FileMapRec);
           Exit;
         end;
     end;
@@ -825,30 +845,45 @@ begin
 end;
 {$ENDIF}
 
-procedure UnMapFile(FileMapRec : TFileMapRec);
+procedure UnMapFile(var FileMapRec : TFileMapRec);
 {$IFDEF MSWINDOWS}
 begin
   with FileMapRec do
     begin
       if Assigned(MappedFile) then
+      begin
         UnmapViewOfFile(MappedFile);
+        MappedFile := nil;
+      end;
 
       if MappingHandle <> 0 then
+      begin
         CloseHandle(MappingHandle);
+        MappingHandle := 0;
+      end;
 
-      if FileHandle >= 0 then
-       FileClose(FileHandle);
+      if FileHandle <> InvalidHandleValue then
+      begin
+        FileClose(FileHandle);
+        FileHandle := InvalidHandleValue;
+      end;
     end;
 end;
 {$ELSE}
 begin
   with FileMapRec do
     begin
-      if FileHandle >= 0 then
+      if FileHandle <> InvalidHandleValue then
+      begin
         fpClose(FileHandle);
+        FileHandle := InvalidHandleValue;
+      end;
 
       if Assigned(MappedFile) then
+      begin
         fpmunmap(MappedFile,FileSize);
+        MappedFile := nil;
+      end;
     end;
 end;
 {$ENDIF}  

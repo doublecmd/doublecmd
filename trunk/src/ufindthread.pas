@@ -28,7 +28,7 @@ unit uFindThread;
 interface
 
 uses
-  Classes, StdCtrls, uDCUtils, SysUtils, udsxplugin;
+  Classes, StdCtrls, SysUtils, udsxplugin;
 
 type
 
@@ -40,9 +40,11 @@ TFindThread = class(TThread)
     FPathStart:String;
     FItems: TStrings;
     FStatus: TLabel;
+    FFound: TLabel;
     FCurrent: TLabel;
     FCurrentFile:String;
-    FFilesScaned:Integer;
+    FFilesScanned:Integer;
+    FFilesFound:Integer;
     FFoundFile:String;
     FFileMask : String;
     FAttributes: Cardinal;
@@ -76,6 +78,8 @@ TFindThread = class(TThread)
     function CheckFileDate(DT : LongInt) : Boolean;
     function CheckFileSize(FileSize : Int64) : Boolean;
     function CheckFile(const Folder : String; const sr : TSearchRec) : Boolean;
+    function FindInFile(const sFileName:UTF8String;
+                        sData: String; bCase:Boolean): Boolean;
   protected
     procedure Execute; override;
   public
@@ -85,6 +89,8 @@ TFindThread = class(TThread)
     procedure WalkAdr(const sNewDir:String);
     procedure UpDateProgress;
     procedure FillSearchRecord(var Srec:TSearchAttrRecord);
+    function IsAborting: Boolean;
+
     property FilterMask:String read FFileMask write FFileMask;
     property PathStart:String read FPathStart write FPathStart;
     property Items:TStrings write FItems;
@@ -94,6 +100,7 @@ TFindThread = class(TThread)
     property FindInFiles:Boolean write FFindInFiles;
     property IsNoThisText:Boolean write FIsNoThisText default False;
     property Status:TLabel read FStatus write FStatus;
+    property Found:TLabel read FFound write FFound;
     property Current:TLabel read FCurrent write FCurrent; // label current file
     property CaseSensitive:boolean read FCaseSens write FCaseSens;
     property FindData:String read FFindData write FFindData;
@@ -124,16 +131,16 @@ implementation
 
 uses
   LCLProc, Dialogs, Masks, SynRegExpr, uLng, uClassesEx, uFindMmap, uFindEx,
-  uGlobs, uShowMsg, uOSUtils;
+  uGlobs, uShowMsg, uOSUtils, uLog;
 
 { TFindThread }
 
 constructor TFindThread.Create;
 begin
-  DebugLn('thread b');
   inherited Create(True);
   FCaseSens:=True;
-  FFilesScaned:=0;
+  FFilesScanned:=0;
+  FFilesFound := 0;
   FilterMask:='*';
   FPathStart:= mbGetCurrentDir;
   FItems:=nil;
@@ -155,8 +162,9 @@ procedure TFindThread.Execute;
 var
   sCurrDir:String;
 begin
+  FreeOnTerminate := True;
+
   try
-    DebugLn('thread b2');
     assert(Assigned(FItems),'assert:FItems is empty');
     Synchronize(@UpDateProgress);
     if length(FPathStart)>1 then
@@ -165,13 +173,10 @@ begin
     FCurrentDepth:= -1;
     sCurrDir:= mbGetCurrentDir;
     try
-      DebugLn('thread b',FPathStart);
       WalkAdr(FPathStart);
     finally
       mbSetCurrentDir(sCurrDir);
     end;  
-  //  MessageBeep(1000);
-    DebugLn('thread end');
 
   except
     on E:Exception do
@@ -194,56 +199,104 @@ end;
 
 procedure TFindThread.UpDateProgress;
 begin
-  FStatus.Caption:=Format(rsFindScaned,[FFilesScaned]);
-  FCurrent.Caption:=FCurrentFile;
+  FStatus.Caption:= Format(rsFindScanned, [FFilesScanned]);
+  FFound.Caption := Format(rsFindFound, [FFilesFound]);
+
+  if FCurrentFile = '' then
+    FCurrent.Caption := ''
+  else
+    FCurrent.Caption:=rsFindScanning + ': ' + FCurrentFile;
 end;
 
 
-function FindInFile(const sFileName:String; sData: String; bCase:Boolean): Boolean;
-const
-  BufferSize = 4096;
+function TFindThread.FindInFile(const sFileName:UTF8String;
+                                sData: String; bCase:Boolean): Boolean;
 var
-    fs: TFileStreamEx;
-    lastPos, sDataLength,
-    OffsetPos: Cardinal;
-    Buffer: array[0..BufferSize-1] of Char;
+  fs: TFileStreamEx;
 
-    Compare: function(Str1, Str2: PChar; MaxLen: SizeInt): SizeInt;
+  function FillBuffer(Buffer: PAnsiChar; BytesToRead: Longint): Longint;
+  var
+    DataRead: Longint;
+  begin
+    Result := 0;
+    repeat
+      DataRead := fs.Read(Buffer[Result], BytesToRead - Result);
+      if DataRead = 0 then
+        Break;
+      Result := Result + DataRead;
+    until Result >= BytesToRead;
+  end;
 
+var
+  lastPos,
+  sDataLength,
+  DataRead: Longint;
+  Buffer: PAnsiChar = nil;
+  BufferSize: Integer;
 begin
-  if gUseMmapInSearch then
-    begin
-      Result := FindMmap(sFileName, sData, bCase);
-      Exit;
-    end;
-  
   Result := False;
   if sData = '' then Exit;
 
-  if bCase then
-    Compare := @StrLComp
-  else
-    Compare := @StrLIComp;
+  if gUseMmapInSearch then
+    begin
+      // memory mapping should be slightly faster and use less memory
+      case FindMmap(sFileName, sData, bCase, @IsAborting) of
+        0 : Exit(False);
+        1 : Exit(True);
+        // else fall back to searching via stream reading
+      end;
+    end;
 
+  BufferSize := gCopyBlockSize;
   sDataLength := Length(sData);
 
-  try
-    fs := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
-    try
-      repeat
-        OffsetPos := fs.Read(Buffer, BufferSize) - sDataLength;
-        lastPos := 0;
-        while (not Result) and (lastPos <= OffsetPos) do
-          begin
-            Result := (Compare(PChar(sData), @Buffer[lastPos], sDataLength) = 0);
-            inc(lastPos);
-          end;
+  if sDataLength > BufferSize then
+    raise Exception.Create(rsMsgErrSmallBuf);
 
-      until fs.Position >= fs.Size;
-    except
-    end;
+  fs := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
+  try
+    if sDataLength > fs.Size then // string longer than file, cannot search
+      Exit;
+
+    // Buffer is extended by sDataLength-1 and BufferSize + sDataLength - 1
+    // bytes are read. Then strings of length sDataLength are compared with
+    // sData starting from offset 0 to BufferSize-1. The remaining part of the
+    // buffer [BufferSize, BufferSize+sDataLength-1] is moved to the beginning,
+    // buffer is filled up with BufferSize bytes and the search continues.
+
+    GetMem(Buffer, BufferSize + sDataLength - 1);
+    if Assigned(Buffer) then
+      try
+        if FillBuffer(Buffer, sDataLength-1) = sDataLength-1 then
+        begin
+          while not Terminated do
+          begin
+            DataRead := FillBuffer(@Buffer[sDataLength-1], BufferSize);
+            if DataRead = 0 then
+              Break;
+
+            for lastPos := 0 to DataRead - 1 do
+            begin
+              if PosMem(@Buffer[lastPos], sDataLength, sData, bCase) <> Pointer(-1) then
+                Exit(True); // found
+            end;
+
+            // Copy last 'sDataLength-1' bytes to the beginning of the buffer
+            // (to search 'on the boundary' - where previous buffer ends,
+            // and the next buffer starts).
+            Move(Buffer[DataRead], Buffer^, sDataLength-1);
+          end;
+        end;
+      except
+      end;
+
   finally
-    fs.Free;
+    FreeAndNil(fs);
+    if Assigned(Buffer) then
+    begin
+      FreeMem(Buffer);
+      Buffer := nil;
+    end;
   end;
 end;
 
@@ -252,7 +305,7 @@ procedure FileReplaceString(const FileName, SearchString, ReplaceString: string;
 var
   fs: TFileStreamEx;
   S: string;
-  Flags : TReplaceFlags;
+  Flags : TReplaceFlags = [];
 begin
   Include(Flags, rfReplaceAll);
   if not bCase then
@@ -318,8 +371,6 @@ begin
 end;
 
 function TFindThread.CheckFile(const Folder : String; const sr : TSearchRec) : Boolean;
-var
-  Attrib : Cardinal;
 begin
   Result := True;
 
@@ -352,13 +403,25 @@ begin
            Result := False;
            Exit;
          end;
-       Result := FindInFile(Folder + PathDelim + sr.Name, FFindData, FCaseSens);
 
-       if (FReplaceInFiles and Result) then
-         FileReplaceString(Folder + PathDelim + sr.Name, FFindData, FReplaceData, FCaseSens);
+       try
+         Result := FindInFile(Folder + PathDelim + sr.Name, FFindData, FCaseSens);
 
-       if FIsNoThisText then
-         Result := not Result;
+         if (FReplaceInFiles and Result) then
+           FileReplaceString(Folder + PathDelim + sr.Name, FFindData, FReplaceData, FCaseSens);
+
+         if FIsNoThisText then
+           Result := not Result;
+
+       except
+         on e : EFOpenError do
+           begin
+             if (log_errors in gLogOptions) then
+               logWrite(Self, rsMsgLogError + rsMsgErrEOpen + ' ' +
+                              Folder + PathDelim + sr.Name, lmtError);
+             Result := False;
+           end;
+       end;
      end;
 end;
 
@@ -417,33 +480,42 @@ begin
   if FindFirstEx(Path, FAttributes, sr) = 0 then
   repeat
     if (sr.Name='.') or (sr.Name='..') then Continue;
-    inc(FFilesScaned);
-    //DebugLn(sr.Name);
 
-      if CheckFile(sNewDir, sr) then
-      begin
-        fFoundFile:=sNewDir + PathDelim + sr.Name;
-        Synchronize(@AddFile);
-      end;
-      
     FCurrentFile:=sNewDir + PathDelim + sr.Name;
     Synchronize(@UpDateProgress);
+
+    if CheckFile(sNewDir, sr) then
+    begin
+      FFoundFile := FCurrentFile;
+      Synchronize(@AddFile);
+      FFilesFound := FFilesFound + 1;
+    end;
+      
+    inc(FFilesScanned);
   until (FindNextEx(sr)<>0) or Terminated;
   FindCloseEx(sr);
+  FCurrentFile := '';
+  Synchronize(@UpDateProgress);
 
-    { Search in sub folders }
-    if (not Terminated) and (FCurrentDepth < FSearchDepth) then
-    begin
-      Path := sNewDir + PathDelim + '*';
-      DebugLn('Search in sub folders = ', Path);
-      if not Terminated and (FindFirstEx(Path, faDirectory, sr) = 0) then
-        repeat
-          if (sr.Name[1] <> '.') then
-            WalkAdr(sNewDir + PathDelim + sr.Name);
-        until Terminated or (FindNextEx(sr) <> 0);
-      FindCloseEx(sr);
-    end;
+  { Search in sub folders }
+  if (not Terminated) and (FCurrentDepth < FSearchDepth) then
+  begin
+    Path := sNewDir + PathDelim + '*';
+    DebugLn('Search in sub folders = ', Path);
+    if not Terminated and (FindFirstEx(Path, faDirectory, sr) = 0) then
+      repeat
+        if (sr.Name[1] <> '.') then
+          WalkAdr(sNewDir + PathDelim + sr.Name);
+      until Terminated or (FindNextEx(sr) <> 0);
+    FindCloseEx(sr);
+  end;
+
   Dec(FCurrentDepth);
+end;
+
+function TFindThread.IsAborting: Boolean;
+begin
+  Result := Terminated;
 end;
 
 end.
