@@ -53,7 +53,7 @@ const
   fmtRunInTerm = '%s ''%s ; echo -n Press ENTER to exit... ; read''';
   fmtRunInShell = '%s -c ''%s''';
   ShieldChar = '\';
-  MonoSpaceFont = 'Fixed';
+  MonoSpaceFont = 'Monospace';
   {$ENDIF}
 
 type
