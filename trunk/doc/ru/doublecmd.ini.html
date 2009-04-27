@@ -1,547 +1,209 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html lang="ru">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
 <head>
-
-
-
-  
-  
-  
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
-
-
-
-  
-  
-  
-  <title>Структура файла doublecmd.ini</title>
+  <title>Настройки файла doublecmd.ini</title>
+  <link rel="STYLESHEET" type="text/css" href="doublecmd.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 
-
 <body>
-
-
-
-<big><span style="font-weight: bold;">Настройки файла doublecmd.ini</span></big><br>
-
-
-
-<br>
-
-
-
-<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
-
-
-
-  <tbody>
-
-
-
-    <tr>
-
-
-
-      <td style="font-weight: bold;">[Configuration]</td>
-
-
-
-      <td>Основные настройки</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td><span style="color: rgb(153, 0, 0);">CaseSensitiveSort</span>=0</td>
-
-
-
-      <td>0: Case sensitive sort OFF<br>
-
-
-
-1: Case sensitive sort ON</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td><span style="color: rgb(153, 0, 0);">CopyBlockSize</span>=64</td>
-
-
-
-      <td>Sets block size for copying (in kbytes=1024 bytes). Default&nbsp;is 64 (=65536 bytes).</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td><span style="color: rgb(153, 0, 0);">CustomDriveIcons</span>=0</td>
-
-
-
-      <td>Использовать свои иконки для дисков (из %commander_path%\pixmaps\XxX\devices\) вместо системных (<span style="color: rgb(255, 0, 0);">только </span><span style="color: rgb(255, 0, 0);">Windows</span>)<br>
-
-
-
-0: Использовать системные иконки<br>
-
-
-
-1: Использовать пользовательские иконки</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td><span style="color: rgb(153, 0, 0);">DirTabLimit</span>=32</td>
-
-
-
-      <td>Максимальное число символов на заголовке вкладки</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td style="color: rgb(153, 0, 0);">DriveBlackList</td>
-
-
-
-      <td>Список дисков которые не будут отображаться на панели дисков и в меню дисков&nbsp; (; - разделитель)</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td><span style="color: rgb(153, 0, 0);">UseExtEdit</span>=0</td>
-
-
-
-      <td>0: Использовать встроенный редактор<br>
-
-
-
-1: Использовать внешний редактор (см. ExtEdit)</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td><span style="color: rgb(153, 0, 0);">UseExtView</span>=0</td>
-
-
-
-      <td>0:&nbsp;Использовать встроенный просмоторщик<br>
-
-
-
-1:&nbsp;Использовать внешний просмоторщик (см. ExtView)</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td><span style="color: rgb(153, 0, 0);">UseExtDiff</span>=0</td>
-
-
-
-      <td>0: Use internal file differ<br>
-
-
-
-1: Use external file differ (see ExtDiff)</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td style="color: rgb(153, 0, 0);">ExtEdit</td>
-
-
-
-      <td>Внешний редактор для F4</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td style="color: rgb(153, 0, 0);">ExtView</td>
-
-
-
-      <td>Внешний просмоторщик для&nbsp; F3</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td style="color: rgb(153, 0, 0);">ExtDiff</td>
-
-
-
-      <td>External file differ</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td><span style="color: rgb(153, 0, 0);">Font.Name</span>=default &nbsp;&nbsp; </td>
-
-
-
-      <td>Шрифт для файловых панелей</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td><span style="color: rgb(153, 0, 0);">Font.Size</span>=10</td>
-
-
-
-      <td>Размер шрифта для файловых панелей</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td style="color: rgb(153, 0, 0);">Font.Style</td>
-
-
-
-      <td>Стиль шрифта для файловых панелей</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td><span style="color: rgb(153, 0, 0);">Maximized</span>=0&nbsp;&nbsp;&nbsp; </td>
-
-
-
-      <td>Состояние окна<br>
-
-
-
-0: обычное окно<br>
-1: окно, развёрнутое на весь экран</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td><span style="color: rgb(153, 0, 0);">MouseSelectionEnabled</span>=1</td>
-
-
-
-      <td>Enable mouse selection<br>
-
-
-
-0: no<br>
-
-
-
-1: yes</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td></td>
-
-
-
-      <td></td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td><span style="color: rgb(153, 0, 0);">QuickSearchMatchBeginning</span>=1</td>
-
-
-
-      <td>0: A search string like "double" will be read as "*double"<br>
-
-
-
-1: Exact match: typing "cmd" will find only "cmd.ini", but not "doublecmd.ini"</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td><span style="color: rgb(153, 0, 0);">QuickSearchMatchEnding</span>=1</td>
-
-
-
-      <td>0: Typing a dot is read as *. , "double.i" finds also "doublecmd.ini"<br>
-
-
-
-1: Exact match: typing "double.i" finds only "double.ini", but doesn't find "doublecmd.ini"</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td><span style="color: rgb(153, 0, 0);">ScrollMode</span>=0</td>
-
-
-
-      <td>Режим прокрутки мышью<br>
-
-
-
-0: Построчно с движением курсора<br>
-
-
-
-1: Построчно<br>
-
-
-
-2: Постранично</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td><span style="color: rgb(153, 0, 0);">ShowIcons</span>=1</td>
-
-
-
-      <td>Показывать иконки в файловых панелях<br>
-
-
-
-&nbsp;0: Нет<br>
-
-
-
-&nbsp;1: Да</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td><span style="color: rgb(153, 0, 0);">ShowSystemFiles</span>=0</td>
-
-
-
-      <td>Показывать скрытые/системные файлы<br>
-
-
-
-0: Нет<br>
-
-
-
-1: Да</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td><span style="color: rgb(153, 0, 0);">UseIniInProgramDir</span>=0</td>
-
-
-
-      <td>Месторасположение конфигурационных файлом<br>
-
-
-
-0: Домашний каталог пользователя<br>
-
-
-
-1:&nbsp;Каталог программы</td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td></td>
-
-
-
-      <td></td>
-
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-
-      <td></td>
-
-
-
-      <td></td>
-
-
-
-    </tr>
-
-
-
+  <div class="CHAPTER">
+	<h1>Настройки файла <tt>doublecmd.ini</tt></h1>
+	
+	<p>Большинство настроек файла <tt>doublecmd.ini</tt> может быть изменено из диалоговых окон
+	настройки. Прямое редактирование файла может потребоваться в редких случаях.</p>
+	
+	<div class="SECT1">
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<col width="25%"/>
+		<col width="25%"/>
+		<thead>
+		  <tr>
+			<th>[Configuration]</th>
+			<th>Основные настройки</th>
+		  </tr>
+		</thead>
+		
+		<tbody>
+		  <tr>
+			<td><tt><span class="brown">CaseSensitiveSort</span>=0</tt></td>
+			<td>0: Case sensitive sort OFF<br/>1: Case sensitive sort ON</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">CopyBlockSize</span>=64</tt></td>
+			<td>Устанавливает размер блока при копировании (в Кб=1024 байт). По умолчанию 64 (=65536 байт).</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">CustomDriveIcons</span>=0</tt></td>
+			<td>Использовать свои иконки для дисков (из <tt>%commander_path%\pixmaps\XxX\devices\</tt>)
+			вместо системных (только Windows)<br/>0: Использовать системные иконки<br/>1: Использовать
+			пользовательские иконки</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">DirTabLimit</span>=32</tt></td>
+			<td>Максимальное число символов на заголовке вкладки</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">DriveBlackList</span></tt></td>
+			<td>Список дисков которые не будут отображаться на панели дисков и в меню дисков (; (точка
+			с запятой)&nbsp;&mdash; разделитель)</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">UseExtEdit</span>=0</tt></td>
+			<td>0: Использовать встроенный редактор<br/>1: Использовать внешний редактор (см. <a href="#ext_edit">ExtEdit</a>)</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">UseExtView</span>=0</tt></td>
+			<td>0: Использовать встроенный просмоторщик<br/>1: Использовать внешний просмоторщик
+			(см. <a href="#ext_view">ExtView<a>)</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">UseExtDiff</span>=0</tt></td>
+			<td>0: Использовать внутренний диффер<br/>1: Использовать внешний диффер (см. <a href="#ext_diff">ExtDiff</a>)</td>
+		  </tr>
+		  <tr>
+			<td><a name="ext_edit"><tt><span class="brown">ExtEdit</span></tt></a></td>
+			<td>путь к внешнему редактору для <kbd>F4</kbd></td>
+		  </tr>
+		  <tr>
+			<td><a name="ext_view"><tt><span class="brown">ExtView</span></tt></a></td>
+			<td>путь к внешнему просмоторщику для <kbd>F3</kbd></td>
+		  </tr>
+		  <tr>
+			<td><a name="ext_diff"><tt><span class="brown">ExtDiff</span></tt></a></td>
+			<td>путь к внешнему дифферу</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">Font.Name</span>=default</tt></td>
+			<td>Шрифт для файловых панелей</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">Font.Size</span>=10</tt></td>
+			<td>Размер шрифта для файловых панелей</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">Font.Style</span></tt></td>
+			<td>Стиль шрифта для файловых панелей</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">Maximized</span>=0</tt></td>
+			<td>Состояние окна<br/>0: обычное окно<br/>1: окно, развёрнутое на весь экран</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">MouseSelectionEnabled</span>=1</tt></td>
+			<td>Разрешить выделение мышью<br/>0: нет<br/>1: да</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">QuickSearchMatchBeginning</span>=1</tt></td>
+			<td>0: A search string like "double" will be read as "*double"<br/>1: Exact match: typing
+			"cmd" will find only "cmd.ini", but not "doublecmd.ini"</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">QuickSearchMatchEnding</span>=1</tt></td>
+			<td>0: Typing a dot is read as *. , "double.i" finds also "doublecmd.ini"<br/>1: Exact
+			match: typing "double.i" finds only "double.ini", but doesn't find "doublecmd.ini"</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">ScrollMode</span>=0</tt></td>
+			<td>Режим прокрутки мышью<br/>0: Построчно с движением курсора<br/>1: Построчно<br/>2:
+			Постранично</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">ShowIcons</span>=1</tt></td>
+			<td>Показывать иконки в файловых панелях</br>0: Нет<br/>1: Да</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">ShowSystemFiles</span>=0</tt></td>
+			<td>Показывать скрытые/системные файлы<br/>0: Нет<br/>1: Да</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">UseIniInProgramDir</span>=0</tt></td>
+			<td>Месторасположение конфигурационных файлов<br/>0: Домашний каталог пользователя<br/>
+			1: Каталог программы</td>
+		  </tr>
+		
+		<thead>
+		  <tr>
+			<th>[Colors]</th>
+			<th>Настройки цветов</th>
+		  </tr>
+		</thead>
+		
+		<thead>
+		  <tr>
+			<th>[PackerPlugins]</th>
+			<th>Список установленных архиваторных плагинов</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr>
+			<td><tt><span class="brown">bz2</span>=0,%commander_path%\plugins\unbz2.wcx</tt></td>
+			<td>Плагин для работы с bz2-архивами. 0&nbsp;&mdash; сумма возможностей плагина</td>
+		  </tr>
+		</tbody>
+		
+		<thead>
+		  <tr>
+			<th>[Content Plugins]</th>
+			<th>Список и настройки контентных плагинов</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr>
+			<td><tt><span class="brown">PluginCount</span>=2</tt></td>
+			<td>Количество установленных контентных плагинов</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">Plugin1Name</span>=rpm_wdx</tt></td>
+			<td>Название первого контентного плагина</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">Plugin1Detect</span>=EXT="RPM"</tt></td>
+			<td>Первый плагин срабатывает для расширения RPM</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">Plugin1Path</span></tt></td>
+			<td>Путь к первому контентному плагину</td>
+		  </tr>
+		</tbody>
+		
+		<thead>
+		  <tr>
+			<th>[ColumnsSet]</th>
+			<th>Список доступных наборов колонок</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr>
+			<td><tt><span class="brown">ColumnsSetCount</span>=2</tt></td>
+			<td>Количество достуных наборов колонок</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">ColumnsSet1Name</span>=Default</tt></td>
+			<td>Первый наборок колонок&nbsp;&mdash; Default</td>
+		  </tr>
+		</tbody>
+		
+		<thead>
+		  <tr>
+			<th>[lefttabs]</th>
+			<th>Список вкладок левой панели</th>
+		  </tr>
+		</thead>
+		
+		<thead>
+		  <tr>
+			<th>[righttabs]</th>
+			<th>Список вкладок правой панели</th>
+		  </tr>
+		</thead>
+		
+		</tbody>
+	  </table>
+	</div>
+	
+  </div>
   
-  
-  
-  </tbody>
-</table>
-
-
-
 </body>
+
 </html>
