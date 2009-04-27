@@ -1,1696 +1,615 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
 <head>
-
-
-  
-  <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
-
-
-  
-  <meta name="Content-Language" content="russian" />
-
-  
-  <title>Синтаксис регулярных выражений</title>
+  <title>РЎРёРЅС‚Р°РєСЃРёСЃ СЂРµРіСѓР»СЏСЂРЅС‹С… РІС‹СЂР°Р¶РµРЅРёР№</title>
+  <link rel="STYLESHEET" type="text/css" href="doublecmd.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 
-
-<body leftmargin="0" topmargin="0" style="background-color: rgb(255, 255, 255);" marginheight="0" marginwidth="0">
-
-
-<table bgcolor="white" border="0" cellpadding="0" cellspacing="14" width="779">
-
-
-  <tbody>
-
-
-    <tr>
-
-
-      <td height="100%" valign="top" width="769"><span style="font-family: Arial; font-size: 12pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 12pt; color: rgb(0, 0, 255);"><b>Синтаксис
-регулярных выражений</b></span><span style="font-family: Arial; font-size: 14pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 14pt; color: rgb(0, 0, 255);"><b>
-      <br />
-
-
-      <br />
-
-
-      </b></span></span></span> <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Введение</b></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
-      <br />
-
-
-      <br />
-
-
-Регулярные выражения - это широкоиспользуемый способ описания шаблонов
-для поиска текста и проверки соответствия текста шаблону. Специальные <b>метасимволы</b>
-позволяют определять, например, что Вы ищете подстроку в начале входной
-строки или определенное число повторений подстроки. <br />
-
-
-      <br />
-
-
-Регулярные выражения предназначены главным образом для профессионалов,
-однако могут быть полезны и при работе в офисе для поиска определённых
-документов (см. примеры ниже). <br />
-
-
-      <br />
-
-
-Double Commander поддерживает регулярные выражения в следующих
-функциях:
-      
-      <ul>
-
-
-        <li>Команды -&gt; Поиск файлов (в имени файла).</li>
-
-
-        <li>Во встроенном редакторе.</li>
-
-
-        <li>В инструменте группового переименования.</li>
-
-
-      
-      </ul>
-
-
-      <br />
-
-
-      <br />
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Простое
-сравнение</b></span></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
-      <br />
-
-
-      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
-      <br />
-
-
-Любой символ совпадает с самим собой, если он не относится к
-специальным метасимволам описанным чуть ниже. <br />
-
-
-      <br />
-
-
-Последовательность символов совпадает с такой же
-последовательностью во входной строке, так что шаблон "bluh" совпадет с
-подстрокой "bluh'' во входной строке. Пока все просто, не так ли ? <br />
-
-
-      <br />
-
-
-Если необходимо, чтобы метасимволы или <b>escape-последовательности</b>
-воспринимались как обычные символы, их нужно предварять символом "\",
-например, метасимвол "^" обычно совпадает с началом строк, однако, если
-записать его как "\^", то он будет совпадать с символом "^", "\\"
-совпадает с "\" и т.д. <br />
-
-
-      <br />
-
-
-      <b>Примеры</b><b>:</b> <br />
-
-
-      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foobar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foobar' <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\^FooBarPtr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'^FooBarPtr' <br />
-
-
-      </i> <br />
-
-
-      <br />
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Escape-последовательности</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
-      <br />
-
-
-      <br />
-
-
-Любой символ может быть определен с помощью escape
-последовательности, так же как это делается в языках C или Perl: "\n''
-означает начало строки, "\t'' - табуляцию и т.д.. Вообще, \xnn, где nn
-это последовательность шестнадцатеричных цифр, означает символ с
-ASCII-кодом nn. Если необходимо определить двухбайтный (Unicode)
-символ, используйте формат '\x{nnnn}', где 'nnnn' - одна или более
-шестнадцатеричных цифр. <br />
-
-
-      <br />
-
-
-      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\xnn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>символ
-с шестнадцатеричным кодом nn <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\x{nnnn}&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>символ
-с шестнадцатеричным кодом nnnn (более одного байта можно задавать
-только в режиме </i><i><a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode</a></i><i>)
-      <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>табуляция
-(HT/TAB), можно также \x09 <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>новая
-строка (NL), можно также \x0a <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>возврат
-каретки (CR), можно также \x0d <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\f&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>перевод
-формата (FF), можно также \x0c <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>звонок
-(BEL), можно также \x07 <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\e&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>escape
-(ESC), можно также \x1b <br />
-
-
-      </i> <br />
-
-
-      <b>Примеры</b><b>:</b> <br />
-
-
-      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foo\x20bar&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foo bar' (обратите внимание на пробел посередине) <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\tfoobar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foobar' предшествуемый табуляцией <br />
-
-
-      </i> <br />
-
-
-      <br />
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Перечни
-символов</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
-      <br />
-
-
-      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
-      <br />
-
-
-Вы можете определить перечень, заключив символы в []. Перечень будет
-совпадать с любым <b>одним</b> символом перечисленным в
-нем. <br />
-
-
-      <br />
-
-
-Если первый символ перечня (сразу после "['') - "^'', то такой перечень
-совпадает с любым символом <b>не</b> перечисленным в
-перечне. <br />
-
-
-      <br />
-
-
-      <b>Примеры</b><b>:</b> <br />
-
-
-      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob[aeiou]r&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foobar', 'foober' и т.д. но не 'foobbr', 'foobcr' и т.д. <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob[^aeiou]r&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foobbr', 'foobcr' и т.д.. но не 'foobar', 'foober' и т.д. <br />
-
-
-      </i> <br />
-
-
-Внутри перечня символ "-'' может быть использован для определения <b>диапазонов</b>
-символов, например a-z представляет все символы между "a'' и "z'',
-включительно. <br />
-
-
-      <br />
-
-
-Если Вам необходимо включить в перечень сам символ "-'', поместите
-его в начало или конец перечня или предварите '\'. Если Вам необходимо
-поместить в перечень сам символ ']', поместите его в самое начало или
-предварите '\'. <br />
-
-
-      <br />
-
-
-      <b>Примеры</b><b>:</b> <br />
-
-
-      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[-az]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>'a',
-'z' </i><i>и </i><i>'-' <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[az-]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>'a',
-'z' </i><i>и </i><i>'-' <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[a\-z]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>'a',
-'z' </i><i>и </i><i>'-' <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[a-z]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>все
-26 малых латинских букв от 'a' до 'z' <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[\n-\x0D]&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>#10,
-#11, #12, #13. <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[\d-t]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>цифра,
-'-' или 't'. <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;[]-a]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>символ
-из диапазона ']'..'a'. <br />
-
-
-      </i> <br />
-
-
-      <br />
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Метасимволы</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
-      <br />
-
-
-      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
-      <br />
-
-
-Метасимволы - это специальные символы, являющиеся важнейшим
-понятием в регулярных выражениях. Существует несколько групп
-метасимволов. <br />
-
-
-      <br />
-
-
-      <br />
-
-
-      <a name="syntax_line_separators"></a>Метасимволы
-- разделители строк<span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
-      <br />
-
-
-      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
-      <br />
-
-
-      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;^&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>начало
-строки <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>конец
-строки <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>начало
-текста <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\Z&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>конец
-текста <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>любой
-символ в строке <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">
-      <br />
-
-
-      </span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><b>Примеры</b><b>:</b>
-      <br />
-
-
-      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;^foobar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foobar' только если он в начале строки <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foobar$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foobar' только если он в конце строки <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;^foobar$&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foobar' только если это единственное слово в строке <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob.r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foobar', 'foobbr', 'foob1r' и т.д. <br />
-
-
-      </i> <br />
-
-
-Метасимвол "^" по умолчанию совпадает только в начале входного
-текста, а метасимвол "$" - только в конце текста. Внутренние
-разделители строк, имеющиеся в тексте, не будут совпадать с "^'' и
-"$''. <br />
-
-
-Однако, если Вам необходимо работать с текстом как с
-многострочным, чтобы "^'' совпадал после каждого разделителя строки
-внутри текста, а "$'' - перед каждым разделителем, то Вы можете
-включить <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_m">модификатор
-/m</a>. <br />
-
-
-      <br />
-
-
-Метасимволы \A и \Z аналогичны "^'' и "$'', но на них не действует <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_m">модификатор
-/m</a>, т.е. они всегда совпадают только с началом и концом всего
-входного текста. <br />
-
-
-      <br />
-
-
-Метасимвол ".'' по умолчанию совпадает с любым символом, однако, если
-Вы выключите <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_s">модификатор
-/s</a>, то '.' не будет совпадать с разделителями строк. <br />
-
-
-      <br />
-
-
-TRegExpr интерпретирует разделители строк так, как это рекомендовано на
-www.unicode.org ( http://www.unicode.org/unicode/reports/tr18/ ): <br />
-
-
-      <br />
-
-
-"^" совпадает с началом входного текста, а также, если включен <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_m">модификатор
-/m</a>, с точкой непосредственно следующей после \x0D\x0A, \x0A
-или \x0D (если Вы используете <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode-версию</a>
-TRegExpr, то также \x2028 или \x2029 или \x0B или \x0C или \x85).
-Обратите внимание, что он не совпадает в промежутке внутри
-последовательности \x0D\x0A. <br />
-
-
-      <br />
-
-
-"$" совпадает с концом входного текста, а также, если включен <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_m">модификатор
-/m</a>, с точкой непосредственно предшествующей \x0D\x0A, \x0A
-или \x0D (если Вы используете <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode-версию</a>
-TRegExpr, то также \x2028 или \x2029 или \x0B или \x0C или \x85).
-Обратите внимание, что он не совпадает в промежутке внутри
-последовательности \x0D\x0A. <br />
-
-
-      <br />
-
-
-"." совпадает с любым символом, но если выключен <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_s">модификаторr
-/s</a>, то "." не совпадает с \x0D\x0A и \x0A и \x0D (если Вы
-используете <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode-версию</a>
-TRegExpr, то не совпадает также с \x2028 и \x2029 и \x0B и \x0C и
-\x85). <br />
-
-
-      <br />
-
-
-Обратите внимание, что "^.*$" (шаблон для пустой строки) не совпадает с
-пустой строкой вида \x0D\x0A, но совпадает с \x0A\x0D. <br />
-
-
-      <br />
-
-
-Вы можете перенастроить вышеописанное поведение при обработке
-многострочных текстов - см. описания свойств <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#lineseparators">LineSeparators</a>
-и <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#linepairedseparator">LinePairedSeparator</a>,
-скажем, Вы можете перенастроиться на использование только
-Unix-разделителей строк \n или только DOS/Windows-разделителей \r\n или
-же смешанных разделителей (так и настроено по умолчанию) или вообще
-определить свои собственные разделители строк! <br />
-
-
-      <br />
-
-
-      <br />
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b><a name="syntax_predefined_classes"></a>Метасимволы -
-стандартные перечни символов</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
-      <br />
-
-
-      <br />
-
-
-      </b></span></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\w&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>буквенно-цифровой
-символ или "_" <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\W&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>не
-\w <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>цифровой
-символ <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>не
-\d <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>любой&nbsp;"пробельный"&nbsp;символ&nbsp;</i></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>(</i><i>по
-умолчанию -</i><i> [ \t\n\r\f]) <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\S&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>не
-\s <br />
-
-
-      </i> <br />
-
-
-Стандартные перечни \w, \d и \s можно использовать и внутри <b>перечней
-символов</b>. <br />
-
-
-      <br />
-
-
-      <b>Примеры</b><b>:</b> <br />
-
-
-      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob\dr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foob1r', ''foob6r' и т.д. но не 'foobar', 'foobbr' и т.д. <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob[\w\s]r&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foobar', 'foob r', 'foobbr' и т.д. но не 'foob1r', 'foob=r' и т.д. <br />
-
-
-      </i> <br />
-
-
-TRegExpr использует свойства <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.spacechars">SpaceChars</a>
-и <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.wordchars">WordChars</a>
-для того, чтобы определять стандартные перечни \w, \W, \s, \S, т.е. Вы
-легко можете переопределить состав этих перечней. <br />
-
-
-      <br />
-
-
-      <br />
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b><a name="syntax_word_boundaries"></a>Метасимволы -
-границы слов</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
-      <br />
-
-
-      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
-      <br />
-
-
-      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>Совпадает
-на границе слова <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;\B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>Совпадает
-не на границе слова <br />
-
-
-      </i> <br />
-
-
-Граница слова (\b) это точка между двумя символами, один из которых
-удовлетворяет \w, а другой - \W (в любом порядке), при этом перед
-началом и после конца строки подразумевается \W. <br />
-
-
-      <br />
-
-
-      <br />
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b><a name="metacharacters_iterators"></a>Метасимволы -
-повторения</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
-      <br />
-
-
-      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
-      <br />
-
-
-После любого элемента регулярного выражения может следовать очень
-важный тип метасимвола - <b>повторитель</b>. Используя их
-Вы можете определить число допустимых повторений предшествующего
-символа, метасимвола или подвыражения. <br />
-
-
-      <br />
-
-
-      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>ноль
-или более раз ("жадный"), то же что {0,} <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Courier; font-size: 12pt; color: rgb(0, 0, 0);">&nbsp;</span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>один
-или более раз ("жадный"), то же что {1,} <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;?&nbsp;&nbsp;&nbsp;</span><span style="font-family: Courier; font-size: 12pt; color: rgb(0, 0, 0);">&nbsp;</span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>ноль
-или один раз ("жадный"), то же что {0,1} <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;{n}&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>точно
-n раз ("жадный") <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;{n,}&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>не
-менее n раз ("жадный") <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;{n,m}&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>не
-менее n но не более m раз ("жадный") <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;*?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>ноль
-или более раз ("не жадный"), то же что {0,}? <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;+?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>один
-или более раз ("не жадный"), то же что {1,}? <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;??&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>ноль
-или один раз ("не жадный"), то же что {0,1}? <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;{n}?&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>точно
-n раз ("не жадный") <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;{n,}?&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>не
-менее n раз ("не жадный") <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;{n,m}?&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>не
-менее n но не более m раз ("не жадный") <br />
-
-
-      </i> <br />
-
-
-Т.о. {n,m} задает <b>минимум</b> n повторов и <b>максимум</b>
--
-m. Повторитель {n} эквивалентен {n,n} и задает точно n повторов.
-Повторитель {n,} задает минимум n повторов. Теоретически величина
-параметров n и m не ограничена, но рекомендуется не задавать большие
-значения, поскольку в некоторых ситуациях это может потребовать
-существенных затрат времени и ОЗУ при обработке такого повторителя в
-связи с рекурсивным характером работы. <br />
-
-
-      <br />
-
-
-Если фигурные скобки встречаются в "неправильном" месте, где они не
-могут быть восприняты как повторитель, то они вопринимаются просто как
-символы. <br />
-
-
-      <br />
-
-
-      <b>Примеры</b><b>:</b> <br />
-
-
-      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob.*r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foobar', 'foobalkjdflkj9r' и 'foobr' <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob.+r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foobar', 'foobalkjdflkj9r' но не 'foobr' <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob.?r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foobar', 'foobbr' и 'foobr' но не 'foobalkj9r' <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;fooba{2}r&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foobaar' <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;fooba{2,}r&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foobaar', 'foobaaar', 'foobaaaar' и т.д. <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;fooba{2,3}r&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foobaar', или 'foobaaar' но не 'foobaaaar' <br />
-
-
-      </i> <br />
-
-
-Небольшое пояснение по поводу "жадности". "Жадные" варианты
-повторителей пытаются захватить как можно большую часть входного
-текста, в то время как "не жадные" - как можно меньшую. Например, 'b+'
-как и 'b*' примененные к входной строке 'abbbbc' найдут 'bbbb', в то
-время как 'b+?' найдет только 'b', а 'b*?' - вообще - пустую строку;
-'b{2,3}?' найдет 'bb', в то время как 'b{2,3}' найдет 'bbb'. <br />
-
-
-      <br />
-
-
-Вы можете переключить все повторители в выражении в "не жадный" режим,
-воспользовавшись <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_g">модификатором
-/g</a>. <br />
-
-
-      <br />
-
-
-      <br />
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Метасимволы</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
-- </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>варианты</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
-      <br />
-
-
-      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
-      <br />
-
-
-Вы можете определить перечень <b>вариантов</b>, используя
-метасимвол "|'' для их разделения, например "fee|fie|foe" найдет "fee''
-или "fie'' или "foe'', (так же как "f(e|i|o)e"). В качестве первого
-варианта воспринимается все от предыдущего метасимвола "('' или "[''
-или от начала выражения до первого метасимвола "|'', в качестве
-последнего - все от последнего "|'' до конца выражения или до
-ближайшего метасимвола ")''. Обычно, чтобы не запутаться, набор
-вариантов всегда заключают в скобки, даже если без этого можно было бы
-обойтись. <br />
-
-
-Варианты пробуются начиная с первого и попытки завершаются сразу
-же как удастся подобрать такой при котором совпадет вся последующая
-часть выражения (подробнее см.<a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#mechanism">Механизм
-работы</a>).
-Это означает, что варианты не обязательно обеспечат "жадное" поведение.
-Например, если применить выражение "foo|foot" ко входной строке
-"barefoot'', то будет найдено "foo'' так это первый вариант который
-позволил совпасть всему выражению. <br />
-
-
-Обратите внимание, что метасимвол "|'' воспринимается как обычный
-символ внутри перечней символов, например, [fee|fie|foe] означает ровно
-то же самое что и [feio|]. <br />
-
-
-      <br />
-
-
-      <b>Примеры</b><b>:</b> <br />
-
-
-      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foo(bar|foo)&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foobar' или 'foofoo'. <br />
-
-
-      </i> <br />
-
-
-      <br />
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Метасимволы</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
-- </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>подвыражения</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
-      <br />
-
-
-      <br />
-
-
-      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Метасимволы
-( ... ) могут также использоваться для задания подвыражений - по
-завершении поиска выражения Вы можете обратиться к любому подвыражению
-используя свойства MatchPos, MatchLen и <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.match">Match</a>,
-а также подставлять подвыражения в некий шаблон, используя метод <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.substitute">Substitute</a>).
-      <br />
-
-
-      <br />
-
-
-Подвыражения нумеруются слева направо, в порядке появления открывающих
-скобок. <br />
-
-
-Первое подвыражение имеет номер '1' (выражение в целом - '0', к нему
-можно обращаться в <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.substitute">Substitute</a>
-как '$0' так и '$&amp;'). <br />
-
-
-      <br />
-
-
-      <b>Примеры</b><b>:</b> <br />
-
-
-      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;(foobar){8,10}&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-строку содержащую 8, 9 или 10 копий 'foobar' <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;foob([0-9]|a+)r&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'foob0r', 'foob1r' , 'foobar', 'foobaar', 'foobaar' и т.д. <br />
-
-
-      </i> <br />
-
-
-      <br />
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Метасимволы</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
-- </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>обратные
-ссылки</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>
-      <br />
-
-
-      </b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
-      <br />
-
-
-Метасимволы от \1 до \9 воспринимаются как обратные ссылки.
-\&lt;n&gt; совпадает с ранее найденным подвыражением
-#&lt;n&gt;. <br />
-
-
-      <br />
-
-
-      <b>Примеры</b><b>:</b> <br />
-
-
-      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;(.)\1+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'aaaa' и 'cc'. <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;(.+)\1+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>также
-находит 'abab' и '123123' <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"><i>&nbsp;&nbsp;</i>(['"]?)(\d+)\1&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-"13" (в дв.кавычках), или '4' (в один.кавычках) или 77 (без кавычек) и
-т.д. <br />
-
-
-      </i> <br />
-
-
-      <br />
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b><a name="about_modifiers"></a>Модификаторы</b></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
-      <br />
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;<br />
-
-
-            </span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Модификаторы
-служат для изменения режимов работы регулярных выражений. <br />
-
-
-      <br />
-
-
-Любой модификатор может меняться с помощью специальной конструкции <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#inline_modifiers">(?...)</a>
-внутри регулярного выражения.<br />
-
-
-      <br />
-
-
-      <a name="modifier_i"></a>i <br />
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Регистро-независимый
-режим (по умолчанию использует выбранный в ОС язык по умолчанию), (см.
-также <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#invertcase">InvertCase</a>)
-&nbsp;<br />
-
-
-            </span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><a name="modifier_m"></a>m</span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);">
-      </span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><br />
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Воспринимать
-входной текст как многострочный, при этом метасимволы "^'' и "$'' будут
-совпадать не только в начале и конце текста в целом, но и в начале и в
-конце всех имеющихся в тексте строк (см. также <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#syntax_line_separators">Разделители
-строк</a>)
-&nbsp;<br />
-
-
-            </span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><a name="modifier_s"></a>s <br />
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Воспринимать
-входной текст как одну строку. При этом метасимвол ".'' совпадает с
-любым символом, если же этот модификатор выключен, то он не совпадает с
-разделителями строк (см.также <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#syntax_line_separators">Разделители
-строк</a>). &nbsp;<br />
-
-
-            </span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><a name="modifier_g"></a>g<b> </b> <br />
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Не
-стандартный модификатор. Выключая его Вы переключаете все повторители в
-"не жадный" режим (по умолчанию этот модификатор включен). Т.е. если
-его отключить, то все '+' работают как '+?', '*' как '*?' и т.д.
-&nbsp;<br />
-
-
-            </span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><a name="modifier_x"></a>x <br />
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Позволяет
-форматировать шаблон чтобы обеспечить более легкую читаемость (см.
-описание ниже). &nbsp;<br />
-
-
-            </span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><a name="modifier_r"></a>r <br />
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Не
-стандартный модификатор. Если включен, то диапазоны вида а-я включают
-также букву 'ё', А-Я включают 'Ё', а а-Я включает вообще все русские
-буквы.
-&nbsp;<br />
-
-
-            </span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;<br />
-
-
-            </span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;<br />
-
-
-            </span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_x">Модификатор
-/x</a>
-заставляет&nbsp;игнорировать пробелы, табуляции и разделители
-строк, что позволяет форматировать текст выражения. Кроме того, если
-встречается символ #, то все последующие символы до конца строки
-воспринимаются как комментарий, например: <br />
-
-
-      <br />
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="19"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"><i>(&nbsp;
-&nbsp;<br />
-
-
-            </i></span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="19"></td>
-
-
-            <td><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"><i>(abc)&nbsp;#&nbsp;Комментарий&nbsp;1
-&nbsp;<br />
-
-
-            </i></span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="19"></td>
-
-
-            <td><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"><i>&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;#&nbsp;Пробелы&nbsp;внутри&nbsp;выражения&nbsp;также&nbsp;игнорируются
-&nbsp;<br />
-
-
-            </i></span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="19"></td>
-
-
-            <td><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"><i>(efg)&nbsp;#&nbsp;Комментарий&nbsp;2
-&nbsp;<br />
-
-
-            </i></span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="19"></td>
-
-
-            <td><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"><i>)
-&nbsp;<br />
-
-
-            </i></span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="19"></td>
-
-
-            <td><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      <span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);"></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><br />
-
-
-Естественно, это означает что, если Вам нужно вставить в выражение
-пробел, табуляцию или разделитель строки или #, то в расширенном (/x)
-режиме это можно сделать только предваряя их '/' или используя /xnn
-(внутри перечней символов все эти символы воспринимаются как обычно) <br />
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;<br />
-
-
-            </span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;<br />
-
-
-            </span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-
-        <tbody>
-
-
-          <tr valign="top">
-
-
-            <td width="25"></td>
-
-
-            <td><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"></span></td>
-
-
-          </tr>
-
-
-        
-        </tbody>
-      
-      </table>
-
-
-      <span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Расширения
-      </b></span></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 255);"><b>Perl
-      <br />
-
-
-      </b></span></span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">
-      <br />
-
-
-      </span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);"><b><a name="inline_modifiers"></a>(?imsxr-imsxr)</b> <br />
-
-
-      </span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Позволяет
-изменять значения модификаторов</span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);">
-      <br />
-
-
-      <br />
-
-
-      </span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><b>Примеры</b><b>:</b>
-      <br />
-
-
-      </span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;(?i)Saint-Petersburg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'Saint-petersburg' и 'Saint-Petersburg' <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;(?i)Saint-(?-i)Petersburg&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'Saint-Petersburg' но не 'Saint-petersburg' <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;(?i)(Saint-)?Petersburg&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'Saint-petersburg' и 'saint-petersburg' <br />
-
-
-      </i></span><span style="font-family: Courier; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;&nbsp;((?i)Saint-)?Petersburg&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><i>находит
-'saint-Petersburg', но не 'saint-petersburg' <br />
-
-
-      </i><i> <br />
-
-
-      </i></span><span style="font-family: Times New Roman; font-size: 12pt; color: rgb(0, 0, 0);">
-      <br />
-
-
-      <b><a name="inline_comment"></a>(?#text)</b>
-      <br />
-
-
-      </span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);">Комментарий,
-просто игнорируется. Обратите внимание, что в комментарии такого вида
-невозможно поместить символ ")", поскольку он воспринимается как конец
-комментария. <br />
-
-
-      <br />
-
-
-Double Commander использует свободную Delphi-библиотеку TRegExpr Андрея
-В. Сорокина: <a href="http://www.regexpstudio.com/">http://www.regexpstudio.com/</a>
-      <br />
-
-
-Большинство из приведённых выше объяснений и примеров позаимствована из
-справочного файла к этой библиотеке. </span></span><span style="font-family: Arial; font-size: 10pt; color: rgb(0, 0, 0);"><br />
-
-
-      </span></span></span> </span></span></span></span></td>
-
-
-    </tr>
-
-
+<body>
+  <div class="CHAPTER">
+	<h1>РЎРёРЅС‚Р°РєСЃРёСЃ СЂРµРіСѓР»СЏСЂРЅС‹С… РІС‹СЂР°Р¶РµРЅРёР№</h1>
+	
+	<div class="TOC">
+	  <dl>
+		<dt class="bold">РЎРѕРґРµСЂР¶Р°РЅРёРµ</dt>
+		<dt>1. <a a href="#preface">Р’РІРµРґРµРЅРёРµ</a></dt>
+		<dt>2. <a a href="#compare">РџСЂРѕСЃС‚РѕРµ СЃСЂР°РІРЅРµРЅРёРµ</a></dt>
+		<dt>3. <a a href="#esc">Escape-РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё</a></dt>
+		<dt>4. <a a href="#symbols">РџРµСЂРµС‡РЅРё СЃРёРјРІРѕР»РѕРІ</a></dt>
+		<dt>5. <a a href="#meta">РњРµС‚Р°СЃРёРјРІРѕР»С‹</a></dt>
+		<dd>
+		  <dl>
+			<dt>5.1. <a a href="#meta-line">РњРµС‚Р°СЃРёРјРІРѕР»С‹ - СЂР°Р·РґРµР»РёС‚РµР»Рё СЃС‚СЂРѕРє</a></dt>
+			<dt>5.2. <a a href="#meta-std">РњРµС‚Р°СЃРёРјРІРѕР»С‹ - СЃС‚Р°РЅРґР°СЂС‚РЅС‹Рµ РїРµСЂРµС‡РЅРё СЃРёРјРІРѕР»РѕРІ</a></dt>
+			<dt>5.3. <a a href="#meta-words">РњРµС‚Р°СЃРёРјРІРѕР»С‹ - РіСЂР°РЅРёС†С‹ СЃР»РѕРІ</a></dt>
+			<dt>5.4. <a a href="#meta-dup">РњРµС‚Р°СЃРёРјРІРѕР»С‹ - РїРѕРІС‚РѕСЂРµРЅРёСЏ</a></dt>
+			<dt>5.5. <a a href="#meta-vars">РњРµС‚Р°СЃРёРјРІРѕР»С‹ - РІР°СЂРёР°РЅС‚С‹</a></dt>
+			<dt>5.6. <a a href="#meta-sub">РњРµС‚Р°СЃРёРјРІРѕР»С‹ - РїРѕРґРІС‹СЂР°Р¶РµРЅРёСЏ</a></dt>
+			<dt>5.7. <a a href="#meta-back">РњРµС‚Р°СЃРёРјРІРѕР»С‹ - РѕР±СЂР°С‚РЅС‹Рµ СЃСЃС‹Р»РєРё</a></dt>
+		  </dl>
+		</dd>
+		<dt>6. <a a href="#modifiers">РњРѕРґРёС„РёРєР°С‚РѕСЂС‹</a></dt>
+		<dt>7. <a a href="#perl">Р Р°СЃС€РёСЂРµРЅРёСЏ Perl</a></dt>
+	  </dl>
+	</div>
+	
+	<hr/>
+	
+	<p>Double Commander РёСЃРїРѕР»СЊР·СѓРµС‚ СЃРІРѕР±РѕРґРЅСѓСЋ Delphi-Р±РёР±Р»РёРѕС‚РµРєСѓ TRegExpr РђРЅРґСЂРµСЏ Р’. РЎРѕСЂРѕРєРёРЅР°:
+	<a href="http://www.regexpstudio.com/">http://www.regexpstudio.com/</a>. Р‘РѕР»СЊС€РёРЅСЃС‚РІРѕ РёР·
+	РїСЂРёРІРµРґС‘РЅРЅС‹С… РґР°Р»РµРµ РѕР±СЉСЏСЃРЅРµРЅРёР№ Рё РїСЂРёРјРµСЂРѕРІ РїРѕР·Р°РёРјСЃС‚РІРѕРІР°РЅРѕ РёР· СЃРїСЂР°РІРѕС‡РЅРѕРіРѕ С„Р°Р№Р»Р° Рє СЌС‚РѕР№ Р±РёР±Р»РёРѕС‚РµРєРµ.</p>
+	
+	<div class="SECT1">
+	  <h2><a name="preface">1. Р’РІРµРґРµРЅРёРµ</a></h2>
+	  <p>Р РµРіСѓР»СЏСЂРЅС‹Рµ РІС‹СЂР°Р¶РµРЅРёСЏ&nbsp;&mdash; СЌС‚Рѕ С€РёСЂРѕРєРѕРёСЃРїРѕР»СЊР·СѓРµРјС‹Р№ СЃРїРѕСЃРѕР± РѕРїРёСЃР°РЅРёСЏ С€Р°Р±Р»РѕРЅРѕРІ РґР»СЏ РїРѕРёСЃРєР°
+	  С‚РµРєСЃС‚Р° Рё РїСЂРѕРІРµСЂРєРё СЃРѕРѕС‚РІРµС‚СЃС‚РІРёСЏ С‚РµРєСЃС‚Р° С€Р°Р±Р»РѕРЅСѓ. РЎРїРµС†РёР°Р»СЊРЅС‹Рµ <span class="bold">РјРµС‚Р°СЃРёРјРІРѕР»С‹</span>
+	  РїРѕР·РІРѕР»СЏСЋС‚ РѕРїСЂРµРґРµР»СЏС‚СЊ, РЅР°РїСЂРёРјРµСЂ, С‡С‚Рѕ Р’С‹ РёС‰РµС‚Рµ РїРѕРґСЃС‚СЂРѕРєСѓ РІ РЅР°С‡Р°Р»Рµ РІС…РѕРґРЅРѕР№ СЃС‚СЂРѕРєРё РёР»Рё РѕРїСЂРµРґРµР»РµРЅРЅРѕРµ
+	  С‡РёСЃР»Рѕ РїРѕРІС‚РѕСЂРµРЅРёР№ РїРѕРґСЃС‚СЂРѕРєРё.<p>
+	  <p>Р РµРіСѓР»СЏСЂРЅС‹Рµ РІС‹СЂР°Р¶РµРЅРёСЏ РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅС‹ РіР»Р°РІРЅС‹Рј РѕР±СЂР°Р·РѕРј РґР»СЏ РїСЂРѕС„РµСЃСЃРёРѕРЅР°Р»РѕРІ, РѕРґРЅР°РєРѕ РјРѕРіСѓС‚ Р±С‹С‚СЊ
+	  РїРѕР»РµР·РЅС‹ Рё РїСЂРё СЂР°Р±РѕС‚Рµ РІ РѕС„РёСЃРµ РґР»СЏ РїРѕРёСЃРєР° РѕРїСЂРµРґРµР»С‘РЅРЅС‹С… РґРѕРєСѓРјРµРЅС‚РѕРІ (СЃРј. РїСЂРёРјРµСЂС‹ РЅРёР¶Рµ).</p>
+	  <p>Double Commander РїРѕРґРґРµСЂР¶РёРІР°РµС‚ СЂРµРіСѓР»СЏСЂРЅС‹Рµ РІС‹СЂР°Р¶РµРЅРёСЏ РІ СЃР»РµРґСѓСЋС‰РёС… С„СѓРЅРєС†РёСЏС…:</p>
+	  <ul>
+		<li><p>РљРѕРјР°РЅРґС‹&nbsp;&rarr; РџРѕРёСЃРє С„Р°Р№Р»РѕРІ (РІ РёРјРµРЅРё С„Р°Р№Р»Р°)</p></li>
+		<li><p>РІРѕ РІСЃС‚СЂРѕРµРЅРЅРѕРј СЂРµРґР°РєС‚РѕСЂРµ</p></li>
+		<li><p>РІ РёРЅСЃС‚СЂСѓРјРµРЅС‚Рµ РіСЂСѓРїРїРѕРІРѕРіРѕ РїРµСЂРµРёРјРµРЅРѕРІР°РЅРёСЏ</p></li>
+	  </ul>
+	</div>
+	
+	<div class="SECT1">
+	  <h2><a name="compare">2. РџСЂРѕСЃС‚РѕРµ СЃСЂР°РІРЅРµРЅРёРµ</a></h2>
+	  <p>Р›СЋР±РѕР№ СЃРёРјРІРѕР» СЃРѕРІРїР°РґР°РµС‚ СЃ СЃР°РјРёРј СЃРѕР±РѕР№, РµСЃР»Рё РѕРЅ РЅРµ РѕС‚РЅРѕСЃРёС‚СЃСЏ Рє СЃРїРµС†РёР°Р»СЊРЅС‹Рј РјРµС‚Р°СЃРёРјРІРѕР»Р°Рј
+	  РѕРїРёСЃР°РЅРЅС‹Рј С‡СѓС‚СЊ РЅРёР¶Рµ.</p>
+	  <p>РџРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ СЃРёРјРІРѕР»РѕРІ СЃРѕРІРїР°РґР°РµС‚ СЃ С‚Р°РєРѕР№ Р¶Рµ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊСЋ РІРѕ РІС…РѕРґРЅРѕР№ СЃС‚СЂРѕРєРµ,
+	  С‚Р°Рє С‡С‚Рѕ С€Р°Р±Р»РѕРЅ "bluh" СЃРѕРІРїР°РґРµС‚ СЃ РїРѕРґСЃС‚СЂРѕРєРѕР№ "bluh" РІРѕ РІС…РѕРґРЅРѕР№ СЃС‚СЂРѕРєРµ. РџРѕРєР° РІСЃРµ РїСЂРѕСЃС‚Рѕ, РЅРµ С‚Р°Рє Р»Рё ?</p>
+	  <p>Р•СЃР»Рё РЅРµРѕР±С…РѕРґРёРјРѕ, С‡С‚РѕР±С‹ РјРµС‚Р°СЃРёРјРІРѕР»С‹ РёР»Рё <span class="bold">escape-РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё</span>
+	  РІРѕСЃРїСЂРёРЅРёРјР°Р»РёСЃСЊ РєР°Рє РѕР±С‹С‡РЅС‹Рµ СЃРёРјРІРѕР»С‹, РёС… РЅСѓР¶РЅРѕ РїСЂРµРґРІР°СЂСЏС‚СЊ СЃРёРјРІРѕР»РѕРј "\", РЅР°РїСЂРёРјРµСЂ, РјРµС‚Р°СЃРёРјРІРѕР» "^"
+	  РѕР±С‹С‡РЅРѕ СЃРѕРІРїР°РґР°РµС‚ СЃ РЅР°С‡Р°Р»РѕРј СЃС‚СЂРѕРє, РѕРґРЅР°РєРѕ, РµСЃР»Рё Р·Р°РїРёСЃР°С‚СЊ РµРіРѕ РєР°Рє "\^", С‚Рѕ РѕРЅ Р±СѓРґРµС‚ СЃРѕРІРїР°РґР°С‚СЊ СЃ
+	  СЃРёРјРІРѕР»РѕРј "^", "\\" СЃРѕРІРїР°РґР°РµС‚ СЃ "\" Рё С‚.Рґ.</p>
+	  <p class="bold">РџСЂРёРјРµСЂС‹:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>foobar</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foobar'</td>
+		  </tr>
+		  <tr>
+			<td><tt>\^FooBarPtr</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ '^FooBarPtr'</td>
+		  </tr>
+		</tbody>
+	  </table>
+	</div>
+	
+	<div class="SECT1">
+	  <h2><a name="esc">3. Escape-РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё</a></h2>
+	  <p>Р›СЋР±РѕР№ СЃРёРјРІРѕР» РјРѕР¶РµС‚ Р±С‹С‚СЊ РѕРїСЂРµРґРµР»РµРЅ СЃ РїРѕРјРѕС‰СЊСЋ escape РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё, С‚Р°Рє Р¶Рµ РєР°Рє СЌС‚Рѕ
+	  РґРµР»Р°РµС‚СЃСЏ РІ СЏР·С‹РєР°С… C РёР»Рё Perl: "\n" РѕР·РЅР°С‡Р°РµС‚ РЅР°С‡Р°Р»Рѕ СЃС‚СЂРѕРєРё, "\t"&nbsp;&mdash; С‚Р°Р±СѓР»СЏС†РёСЋ Рё С‚.Рґ..
+	  Р’РѕРѕР±С‰Рµ, \xnn, РіРґРµ nn СЌС‚Рѕ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ С€РµСЃС‚РЅР°РґС†Р°С‚РµСЂРёС‡РЅС‹С… С†РёС„СЂ, РѕР·РЅР°С‡Р°РµС‚ СЃРёРјРІРѕР» СЃ ASCII-РєРѕРґРѕРј nn.
+	  Р•СЃР»Рё РЅРµРѕР±С…РѕРґРёРјРѕ РѕРїСЂРµРґРµР»РёС‚СЊ РґРІСѓС…Р±Р°Р№С‚РЅС‹Р№ (Unicode) СЃРёРјРІРѕР», РёСЃРїРѕР»СЊР·СѓР№С‚Рµ С„РѕСЂРјР°С‚ '\x{nnnn}',
+	  РіРґРµ 'nnnn'&nbsp;&mdash; РѕРґРЅР° РёР»Рё Р±РѕР»РµРµ С€РµСЃС‚РЅР°РґС†Р°С‚РµСЂРёС‡РЅС‹С… С†РёС„СЂ.</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>\xnn</tt></td>
+			<td>СЃРёРјРІРѕР» СЃ С€РµСЃС‚РЅР°РґС†Р°С‚РµСЂРёС‡РЅС‹Рј РєРѕРґРѕРј nn</td>
+		  </tr>
+		  <tr>
+			<td><tt>\x{nnnn}</tt></td>
+			<td>СЃРёРјРІРѕР» СЃ С€РµСЃС‚РЅР°РґС†Р°С‚РµСЂРёС‡РЅС‹Рј РєРѕРґРѕРј nnnn (Р±РѕР»РµРµ РѕРґРЅРѕРіРѕ Р±Р°Р№С‚Р° РјРѕР¶РЅРѕ Р·Р°РґР°РІР°С‚СЊ С‚РѕР»СЊРєРѕ РІ СЂРµР¶РёРјРµ
+			<a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode</a>)</td>
+		  </tr>
+		  <tr>
+			<td><tt>\t</tt></td>
+			<td>С‚Р°Р±СѓР»СЏС†РёСЏ (HT/TAB), РјРѕР¶РЅРѕ С‚Р°РєР¶Рµ \x09</td>
+		  </tr>
+		  <tr>
+			<td><tt>\n</tt></td>
+			<td>РЅРѕРІР°СЏ СЃС‚СЂРѕРєР° (NL), РјРѕР¶РЅРѕ С‚Р°РєР¶Рµ \x0a</td>
+		  </tr>
+		  <tr>
+			<td><tt>\r</tt></td>
+			<td>РІРѕР·РІСЂР°С‚ РєР°СЂРµС‚РєРё (CR), РјРѕР¶РЅРѕ С‚Р°РєР¶Рµ \x0d</td>
+		  </tr>
+		  <tr>
+			<td><tt>\f</tt></td>
+			<td>РїРµСЂРµРІРѕРґ С„РѕСЂРјР°С‚Р° (FF), РјРѕР¶РЅРѕ С‚Р°РєР¶Рµ \x0c</td>
+		  </tr>
+		  <tr>
+			<td><tt>\a</tt></td>
+			<td>Р·РІРѕРЅРѕРє (BEL), РјРѕР¶РЅРѕ С‚Р°РєР¶Рµ \x07</td>
+		  </tr>
+		  <tr>
+			<td><tt>\e</tt></td>
+			<td>escape (ESC), РјРѕР¶РЅРѕ С‚Р°РєР¶Рµ \x1b</td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p class="bold">РџСЂРёРјРµСЂС‹:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>foo\x20bar</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foo bar' (РѕР±СЂР°С‚РёС‚Рµ РІРЅРёРјР°РЅРёРµ РЅР° РїСЂРѕР±РµР» РїРѕСЃРµСЂРµРґРёРЅРµ)</td>
+		  </tr>
+		  <tr>
+			<td><tt>\tfoobar</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foobar' РїСЂРµРґС€РµСЃС‚РІСѓРµРјС‹Р№ С‚Р°Р±СѓР»СЏС†РёРµР№</td>
+		  </tr>
+		</tbody>
+	  </table>
+	</div>
+	
+	<div class="SECT1">
+	  <h2><a name="symbols">4. РџРµСЂРµС‡РЅРё СЃРёРјРІРѕР»РѕРІ</a></h2>
+	  <p>Р’С‹ РјРѕР¶РµС‚Рµ РѕРїСЂРµРґРµР»РёС‚СЊ РїРµСЂРµС‡РµРЅСЊ, Р·Р°РєР»СЋС‡РёРІ СЃРёРјРІРѕР»С‹ РІ []. РџРµСЂРµС‡РµРЅСЊ Р±СѓРґРµС‚ СЃРѕРІРїР°РґР°С‚СЊ СЃ Р»СЋР±С‹Рј
+	  <span class="bold">РѕРґРЅРёРј</span> СЃРёРјРІРѕР»РѕРј РїРµСЂРµС‡РёСЃР»РµРЅРЅС‹Рј РІ РЅРµРј.</p>
+	  <p>Р•СЃР»Рё РїРµСЂРІС‹Р№ СЃРёРјРІРѕР» РїРµСЂРµС‡РЅСЏ (СЃСЂР°Р·Сѓ РїРѕСЃР»Рµ "[") - "^", С‚Рѕ С‚Р°РєРѕР№ РїРµСЂРµС‡РµРЅСЊ СЃРѕРІРїР°РґР°РµС‚ СЃ Р»СЋР±С‹Рј
+	  СЃРёРјРІРѕР»РѕРј <span class="bold">РЅРµ</span> РїРµСЂРµС‡РёСЃР»РµРЅРЅС‹Рј РІ РїРµСЂРµС‡РЅРµ.</p>
+	  <p class="bold">РџСЂРёРјРµСЂС‹:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>foob[aeiou]r</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foobar', 'foober' Рё С‚.Рґ. РЅРѕ РЅРµ 'foobbr', 'foobcr' Рё С‚.Рґ.</td>
+		  </tr>
+		  <tr>
+			<td><tt>foob[^aeiou]r</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foobbr', 'foobcr' Рё С‚.Рґ.. РЅРѕ РЅРµ 'foobar', 'foober' Рё С‚.Рґ.</td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p>Р’РЅСѓС‚СЂРё РїРµСЂРµС‡РЅСЏ СЃРёРјРІРѕР» "-" РјРѕР¶РµС‚ Р±С‹С‚СЊ РёСЃРїРѕР»СЊР·РѕРІР°РЅ РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ <span class="bold">РґРёР°РїР°Р·РѕРЅРѕРІ</span>
+	  СЃРёРјРІРѕР»РѕРІ, РЅР°РїСЂРёРјРµСЂ a-z РїСЂРµРґСЃС‚Р°РІР»СЏРµС‚ РІСЃРµ СЃРёРјРІРѕР»С‹ РјРµР¶РґСѓ "a" Рё "z", РІРєР»СЋС‡РёС‚РµР»СЊРЅРѕ.</p>
+	  <p>Р•СЃР»Рё Р’Р°Рј РЅРµРѕР±С…РѕРґРёРјРѕ РІРєР»СЋС‡РёС‚СЊ РІ РїРµСЂРµС‡РµРЅСЊ СЃР°Рј СЃРёРјРІРѕР» "-", РїРѕРјРµСЃС‚РёС‚Рµ РµРіРѕ РІ РЅР°С‡Р°Р»Рѕ РёР»Рё РєРѕРЅРµС†
+	  РїРµСЂРµС‡РЅСЏ РёР»Рё РїСЂРµРґРІР°СЂРёС‚Рµ '\'. Р•СЃР»Рё Р’Р°Рј РЅРµРѕР±С…РѕРґРёРјРѕ РїРѕРјРµСЃС‚РёС‚СЊ РІ РїРµСЂРµС‡РµРЅСЊ СЃР°Рј СЃРёРјРІРѕР» ']', РїРѕРјРµСЃС‚РёС‚Рµ
+	  РµРіРѕ РІ СЃР°РјРѕРµ РЅР°С‡Р°Р»Рѕ РёР»Рё РїСЂРµРґРІР°СЂРёС‚Рµ '\'.</p>
+	  <p class="bold">РџСЂРёРјРµСЂС‹:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>[-az]</tt></td>
+			<td>'a', 'z' Рё '-'</td>
+		  </tr>
+		  <tr>
+			<td><tt>[az-]</tt></td>
+			<td>'a', 'z' Рё '-'</td>
+		  </tr>
+		  <tr>
+			<td><tt>[a\-z]</tt></td>
+			<td>'a', 'z' Рё '-'</td>
+		  </tr>
+		  <tr>
+			<td><tt>[a-z]</tt></td>
+			<td>РІСЃРµ 26 РјР°Р»С‹С… Р»Р°С‚РёРЅСЃРєРёС… Р±СѓРєРІ РѕС‚ 'a' РґРѕ 'z'</td>
+		  </tr>
+		  <tr>
+			<td><tt>[\n-\x0D]</tt></td>
+			<td>#10, #11, #12, #13</td>
+		  </tr>
+		  <tr>
+			<td><tt>[\d-t]</tt></td>
+			<td>С†РёС„СЂР°, '-' РёР»Рё 't'</td>
+		  </tr>
+		  <tr>
+			<td><tt>[]-a]</tt></td>
+			<td>СЃРёРјРІРѕР» РёР· РґРёР°РїР°Р·РѕРЅР° ']'..'a'</td>
+		  </tr>
+		</tbody>
+	  </table>
+	</div>
+	
+	<div class="SECT1">
+	  <h2><a name="meta">5. РњРµС‚Р°СЃРёРјРІРѕР»С‹</a></h2>
+	  <p>РњРµС‚Р°СЃРёРјРІРѕР»С‹&nbsp;&mdash; СЌС‚Рѕ СЃРїРµС†РёР°Р»СЊРЅС‹Рµ СЃРёРјРІРѕР»С‹, СЏРІР»СЏСЋС‰РёРµСЃСЏ РІР°Р¶РЅРµР№С€РёРј РїРѕРЅСЏС‚РёРµРј РІ СЂРµРіСѓР»СЏСЂРЅС‹С…
+	  РІС‹СЂР°Р¶РµРЅРёСЏС…. РЎСѓС‰РµСЃС‚РІСѓРµС‚ РЅРµСЃРєРѕР»СЊРєРѕ РіСЂСѓРїРї РјРµС‚Р°СЃРёРјРІРѕР»РѕРІ.</p>
+	</div>
+	
+	<div class="SECT2">
+	  <h3><a id="meta-line" name="meta-line">5.1. РњРµС‚Р°СЃРёРјРІРѕР»С‹ - СЂР°Р·РґРµР»РёС‚РµР»Рё СЃС‚СЂРѕРє</a></h3>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>^</tt></td>
+			<td>РЅР°С‡Р°Р»Рѕ СЃС‚СЂРѕРєРё</td>
+		  </tr>
+		  <tr>
+			<td><tt>$</tt></td>
+			<td>РєРѕРЅРµС† СЃС‚СЂРѕРєРё</td>
+		  </tr>
+		  <tr>
+			<td><tt>\A</tt></td>
+			<td>РЅР°С‡Р°Р»Рѕ С‚РµРєСЃС‚Р°</td>
+		  </tr>
+		  <tr>
+			<td><tt>\Z</tt></td>
+			<td>РєРѕРЅРµС† С‚РµРєСЃС‚Р°</td>
+		  </tr>
+		  <tr>
+			<td><tt>.</tt></td>
+			<td>Р»СЋР±РѕР№ СЃРёРјРІРѕР» РІ СЃС‚СЂРѕРєРµ</td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p class="bold">РџСЂРёРјРµСЂС‹:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>^foobar</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foobar' С‚РѕР»СЊРєРѕ РµСЃР»Рё РѕРЅ РІ РЅР°С‡Р°Р»Рµ СЃС‚СЂРѕРєРё</td>
+		  </tr>
+		  <tr>
+			<td><tt>foobar$</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foobar' С‚РѕР»СЊРєРѕ РµСЃР»Рё РѕРЅ РІ РєРѕРЅС†Рµ СЃС‚СЂРѕРєРё</td>
+		  </tr>
+		  <tr>
+			<td><tt>^foobar$</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foobar' С‚РѕР»СЊРєРѕ РµСЃР»Рё СЌС‚Рѕ РµРґРёРЅСЃС‚РІРµРЅРЅРѕРµ СЃР»РѕРІРѕ РІ СЃС‚СЂРѕРєРµ</td>
+		  </tr>
+		  <tr>
+			<td><tt>foob.r</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foobar', 'foobbr', 'foob1r' Рё С‚.Рґ.</td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p>РњРµС‚Р°СЃРёРјРІРѕР» "^" РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ СЃРѕРІРїР°РґР°РµС‚ С‚РѕР»СЊРєРѕ РІ РЅР°С‡Р°Р»Рµ РІС…РѕРґРЅРѕРіРѕ С‚РµРєСЃС‚Р°, Р° РјРµС‚Р°СЃРёРјРІРѕР» "$"&nbsp;&mdash; 
+	  С‚РѕР»СЊРєРѕ РІ РєРѕРЅС†Рµ С‚РµРєСЃС‚Р°. Р’РЅСѓС‚СЂРµРЅРЅРёРµ СЂР°Р·РґРµР»РёС‚РµР»Рё СЃС‚СЂРѕРє, РёРјРµСЋС‰РёРµСЃСЏ РІ С‚РµРєСЃС‚Рµ, РЅРµ Р±СѓРґСѓС‚ СЃРѕРІРїР°РґР°С‚СЊ СЃ
+	  "^" Рё "$".</p>
+	  <p>РћРґРЅР°РєРѕ, РµСЃР»Рё Р’Р°Рј РЅРµРѕР±С…РѕРґРёРјРѕ СЂР°Р±РѕС‚Р°С‚СЊ СЃ С‚РµРєСЃС‚РѕРј РєР°Рє СЃ РјРЅРѕРіРѕСЃС‚СЂРѕС‡РЅС‹Рј, С‡С‚РѕР±С‹ "^" СЃРѕРІРїР°РґР°Р» РїРѕСЃР»Рµ
+	  РєР°Р¶РґРѕРіРѕ СЂР°Р·РґРµР»РёС‚РµР»СЏ СЃС‚СЂРѕРєРё РІРЅСѓС‚СЂРё С‚РµРєСЃС‚Р°, Р° "$"&nbsp;&mdash; РїРµСЂРµРґ РєР°Р¶РґС‹Рј СЂР°Р·РґРµР»РёС‚РµР»РµРј, С‚Рѕ Р’С‹
+	  РјРѕР¶РµС‚Рµ РІРєР»СЋС‡РёС‚СЊ <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_m">РјРѕРґРёС„РёРєР°С‚РѕСЂ /m</a>.</p>
+	  <p>РњРµС‚Р°СЃРёРјРІРѕР»С‹ \A Рё \Z Р°РЅР°Р»РѕРіРёС‡РЅС‹ "^" Рё "$", РЅРѕ РЅР° РЅРёС… РЅРµ РґРµР№СЃС‚РІСѓРµС‚ <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_m">РјРѕРґРёС„РёРєР°С‚РѕСЂ /m</a>,
+	  С‚.&nbsp;Рµ. РѕРЅРё РІСЃРµРіРґР° СЃРѕРІРїР°РґР°СЋС‚ С‚РѕР»СЊРєРѕ СЃ РЅР°С‡Р°Р»РѕРј Рё РєРѕРЅС†РѕРј РІСЃРµРіРѕ РІС…РѕРґРЅРѕРіРѕ С‚РµРєСЃС‚Р°.</p>
+	  <p>РњРµС‚Р°СЃРёРјРІРѕР» "." РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ СЃРѕРІРїР°РґР°РµС‚ СЃ Р»СЋР±С‹Рј СЃРёРјРІРѕР»РѕРј, РѕРґРЅР°РєРѕ, РµСЃР»Рё Р’С‹ РІС‹РєР»СЋС‡РёС‚Рµ <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_s">РјРѕРґРёС„РёРєР°С‚РѕСЂ /s</a>,
+	  С‚Рѕ '.' РЅРµ Р±СѓРґРµС‚ СЃРѕРІРїР°РґР°С‚СЊ СЃ СЂР°Р·РґРµР»РёС‚РµР»СЏРјРё СЃС‚СЂРѕРє.</p>
+	  <p>TRegExpr РёРЅС‚РµСЂРїСЂРµС‚РёСЂСѓРµС‚ СЂР°Р·РґРµР»РёС‚РµР»Рё СЃС‚СЂРѕРє С‚Р°Рє, РєР°Рє СЌС‚Рѕ СЂРµРєРѕРјРµРЅРґРѕРІР°РЅРѕ РЅР° www.unicode.org
+	  (http://www.unicode.org/unicode/reports/tr18/):</p>
+	  <p>"^" СЃРѕРІРїР°РґР°РµС‚ СЃ РЅР°С‡Р°Р»РѕРј РІС…РѕРґРЅРѕРіРѕ С‚РµРєСЃС‚Р°, Р° С‚Р°РєР¶Рµ, РµСЃР»Рё РІРєР»СЋС‡РµРЅ <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_m">РјРѕРґРёС„РёРєР°С‚РѕСЂ /m</a>,
+	  СЃ С‚РѕС‡РєРѕР№ РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕ СЃР»РµРґСѓСЋС‰РµР№ РїРѕСЃР»Рµ \x0D\x0A, \x0A РёР»Рё \x0D (РµСЃР»Рё Р’С‹ РёСЃРїРѕР»СЊР·СѓРµС‚Рµ <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode-РІРµСЂСЃРёСЋ</a>
+	  TRegExpr, С‚Рѕ С‚Р°РєР¶Рµ \x2028 РёР»Рё \x2029 РёР»Рё \x0B РёР»Рё \x0C РёР»Рё \x85). РћР±СЂР°С‚РёС‚Рµ РІРЅРёРјР°РЅРёРµ, С‡С‚Рѕ РѕРЅ РЅРµ
+	  СЃРѕРІРїР°РґР°РµС‚ РІ РїСЂРѕРјРµР¶СѓС‚РєРµ РІРЅСѓС‚СЂРё РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё \x0D\x0A.</p>
+	  <p>"$" СЃРѕРІРїР°РґР°РµС‚ СЃ РєРѕРЅС†РѕРј РІС…РѕРґРЅРѕРіРѕ С‚РµРєСЃС‚Р°, Р° С‚Р°РєР¶Рµ, РµСЃР»Рё РІРєР»СЋС‡РµРЅ <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_m">РјРѕРґРёС„РёРєР°С‚РѕСЂ /m</a>,
+	  СЃ С‚РѕС‡РєРѕР№ РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕ РїСЂРµРґС€РµСЃС‚РІСѓСЋС‰РµР№ \x0D\x0A, \x0A РёР»Рё \x0D (РµСЃР»Рё Р’С‹ РёСЃРїРѕР»СЊР·СѓРµС‚Рµ <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode-РІРµСЂСЃРёСЋ</a>
+	  TRegExpr, С‚Рѕ С‚Р°РєР¶Рµ \x2028 РёР»Рё \x2029 РёР»Рё \x0B РёР»Рё \x0C РёР»Рё \x85). РћР±СЂР°С‚РёС‚Рµ РІРЅРёРјР°РЅРёРµ, С‡С‚Рѕ РѕРЅ РЅРµ
+	  СЃРѕРІРїР°РґР°РµС‚ РІ РїСЂРѕРјРµР¶СѓС‚РєРµ РІРЅСѓС‚СЂРё РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё \x0D\x0A.</p>
+	  <p>"." СЃРѕРІРїР°РґР°РµС‚ СЃ Р»СЋР±С‹Рј СЃРёРјРІРѕР»РѕРј, РЅРѕ РµСЃР»Рё РІС‹РєР»СЋС‡РµРЅ
+	  <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_s">РјРѕРґРёС„РёРєР°С‚РѕСЂ /s</a>,
+	  С‚Рѕ "." РЅРµ СЃРѕРІРїР°РґР°РµС‚ СЃ \x0D\x0A Рё \x0A Рё \x0D (РµСЃР»Рё Р’С‹ РёСЃРїРѕР»СЊР·СѓРµС‚Рµ <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode-РІРµСЂСЃРёСЋ</a>
+	  TRegExpr, С‚Рѕ РЅРµ СЃРѕРІРїР°РґР°РµС‚ С‚Р°РєР¶Рµ СЃ \x2028 Рё \x2029 Рё \x0B Рё \x0C Рё \x85).</p>
+	  <p>РћР±СЂР°С‚РёС‚Рµ РІРЅРёРјР°РЅРёРµ, С‡С‚Рѕ "^.*$" (С€Р°Р±Р»РѕРЅ РґР»СЏ РїСѓСЃС‚РѕР№ СЃС‚СЂРѕРєРё) РЅРµ СЃРѕРІРїР°РґР°РµС‚ СЃ РїСѓСЃС‚РѕР№ СЃС‚СЂРѕРєРѕР№ РІРёРґР°
+	  \x0D\x0A, РЅРѕ СЃРѕРІРїР°РґР°РµС‚ СЃ \x0A\x0D.</p>
+	  <p>Р’С‹ РјРѕР¶РµС‚Рµ РїРµСЂРµРЅР°СЃС‚СЂРѕРёС‚СЊ РІС‹С€РµРѕРїРёСЃР°РЅРЅРѕРµ РїРѕРІРµРґРµРЅРёРµ РїСЂРё РѕР±СЂР°Р±РѕС‚РєРµ РјРЅРѕРіРѕСЃС‚СЂРѕС‡РЅС‹С… С‚РµРєСЃС‚РѕРІ&nbsp;&mdash;
+	  СЃРј. РѕРїРёСЃР°РЅРёСЏ СЃРІРѕР№СЃС‚РІ <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#lineseparators">LineSeparators</a>
+	  Рё <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#linepairedseparator">LinePairedSeparator</a>,
+	  СЃРєР°Р¶РµРј, Р’С‹ РјРѕР¶РµС‚Рµ РїРµСЂРµРЅР°СЃС‚СЂРѕРёС‚СЊСЃСЏ РЅР° РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ С‚РѕР»СЊРєРѕ Unix-СЂР°Р·РґРµР»РёС‚РµР»РµР№ СЃС‚СЂРѕРє \n РёР»Рё С‚РѕР»СЊРєРѕ
+	  DOS/Windows-СЂР°Р·РґРµР»РёС‚РµР»РµР№ \r\n РёР»Рё Р¶Рµ СЃРјРµС€Р°РЅРЅС‹С… СЂР°Р·РґРµР»РёС‚РµР»РµР№ (С‚Р°Рє Рё РЅР°СЃС‚СЂРѕРµРЅРѕ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ) РёР»Рё
+	  РІРѕРѕР±С‰Рµ РѕРїСЂРµРґРµР»РёС‚СЊ СЃРІРѕРё СЃРѕР±СЃС‚РІРµРЅРЅС‹Рµ СЂР°Р·РґРµР»РёС‚РµР»Рё СЃС‚СЂРѕРє!</p>
+	</div>
+	
+	<div class="SECT2">
+	  <h3><a name="meta-std">5.2. РњРµС‚Р°СЃРёРјРІРѕР»С‹ - СЃС‚Р°РЅРґР°СЂС‚РЅС‹Рµ РїРµСЂРµС‡РЅРё СЃРёРјРІРѕР»РѕРІ</a></h3>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>\w</tt></td>
+			<td>Р±СѓРєРІРµРЅРЅРѕ-С†РёС„СЂРѕРІРѕР№ СЃРёРјРІРѕР» РёР»Рё "_"</td>
+		  </tr>
+		  <tr>
+			<td><tt>\W</tt></td>
+			<td>РЅРµ \w</td>
+		  </tr>
+		  <tr>
+			<td><tt>\d</tt></td>
+			<td>С†РёС„СЂРѕРІРѕР№ СЃРёРјРІРѕР»</td>
+		  </tr>
+		  <tr>
+			<td><tt>\D</tt></td>
+			<td>РЅРµ \d</td>
+		  </tr>
+		  <tr>
+			<td><tt>\s</tt></td>
+			<td>Р»СЋР±РѕР№ "РїСЂРѕР±РµР»СЊРЅС‹Р№" СЃРёРјРІРѕР» (РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ&nbsp;&mdash; [\t\n\r\f])</td>
+		  </tr>
+		  <tr>
+			<td><tt>\S</tt></td>
+			<td>РЅРµ \s</td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p>РЎС‚Р°РЅРґР°СЂС‚РЅС‹Рµ РїРµСЂРµС‡РЅРё \w, \d Рё \s РјРѕР¶РЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ Рё РІРЅСѓС‚СЂРё <span class="bold">РїРµСЂРµС‡РЅРµР№ СЃРёРјРІРѕР»РѕРІ</span>.</p>
+	  <p class="bold">РџСЂРёРјРµСЂС‹:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>foob\dr</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foob1r', ''foob6r' Рё С‚.Рґ. РЅРѕ РЅРµ 'foobar', 'foobbr' Рё С‚.Рґ.</td>
+		  </tr>
+		  <tr>
+			<td><tt>foob[\w\s]r</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foobar', 'foob r', 'foobbr' Рё С‚.Рґ. РЅРѕ РЅРµ 'foob1r', 'foob=r' Рё С‚.Рґ.</td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p>TRegExpr РёСЃРїРѕР»СЊР·СѓРµС‚ СЃРІРѕР№СЃС‚РІР°
+	  <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.spacechars">SpaceChars</a>
+	  Рё <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.wordchars">WordChars</a>
+	  РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РѕРїСЂРµРґРµР»СЏС‚СЊ СЃС‚Р°РЅРґР°СЂС‚РЅС‹Рµ РїРµСЂРµС‡РЅРё \w, \W, \s, \S, С‚.Рµ. Р’С‹ Р»РµРіРєРѕ РјРѕР¶РµС‚Рµ РїРµСЂРµРѕРїСЂРµРґРµР»РёС‚СЊ
+	  СЃРѕСЃС‚Р°РІ СЌС‚РёС… РїРµСЂРµС‡РЅРµР№.</p>
+	</div>
+	
+	<div class="SECT2">
+	  <h3><a name="meta-words">5.3. РњРµС‚Р°СЃРёРјРІРѕР»С‹ - РіСЂР°РЅРёС†С‹ СЃР»РѕРІ</a></h3>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>\b</tt></td>
+			<td>СЃРѕРІРїР°РґР°РµС‚ РЅР° РіСЂР°РЅРёС†Рµ СЃР»РѕРІР°</td>
+		  </tr>
+		  <tr>
+			<td><tt>\B</tt></td>
+			<td>СЃРѕРІРїР°РґР°РµС‚ РЅРµ РЅР° РіСЂР°РЅРёС†Рµ СЃР»РѕРІР° </td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p>Р“СЂР°РЅРёС†Р° СЃР»РѕРІР° (\b) СЌС‚Рѕ С‚РѕС‡РєР° РјРµР¶РґСѓ РґРІСѓРјСЏ СЃРёРјРІРѕР»Р°РјРё, РѕРґРёРЅ РёР· РєРѕС‚РѕСЂС‹С… СѓРґРѕРІР»РµС‚РІРѕСЂСЏРµС‚ \w, Р°
+	  РґСЂСѓРіРѕР№&nbsp;&mdash; \W (РІ Р»СЋР±РѕРј РїРѕСЂСЏРґРєРµ), РїСЂРё СЌС‚РѕРј РїРµСЂРµРґ РЅР°С‡Р°Р»РѕРј Рё РїРѕСЃР»Рµ РєРѕРЅС†Р° СЃС‚СЂРѕРєРё РїРѕРґСЂР°Р·СѓРјРµРІР°РµС‚СЃСЏ \W.</p>
+	</div>
+	
+	<div class="SECT2">
+	  <h3><a name="meta-dup">5.4. РњРµС‚Р°СЃРёРјРІРѕР»С‹ - РїРѕРІС‚РѕСЂРµРЅРёСЏ</a></h3>
+	  <p>РџРѕСЃР»Рµ Р»СЋР±РѕРіРѕ СЌР»РµРјРµРЅС‚Р° СЂРµРіСѓР»СЏСЂРЅРѕРіРѕ РІС‹СЂР°Р¶РµРЅРёСЏ РјРѕР¶РµС‚ СЃР»РµРґРѕРІР°С‚СЊ РѕС‡РµРЅСЊ РІР°Р¶РЅС‹Р№ С‚РёРї РјРµС‚Р°СЃРёРјРІРѕР»Р°&nbsp;&mdash;
+	  РїРѕРІС‚РѕСЂРёС‚РµР»СЊ. РСЃРїРѕР»СЊР·СѓСЏ РёС… Р’С‹ РјРѕР¶РµС‚Рµ РѕРїСЂРµРґРµР»РёС‚СЊ С‡РёСЃР»Рѕ РґРѕРїСѓСЃС‚РёРјС‹С… РїРѕРІС‚РѕСЂРµРЅРёР№ РїСЂРµРґС€РµСЃС‚РІСѓСЋС‰РµРіРѕ
+	  СЃРёРјРІРѕР»Р°, РјРµС‚Р°СЃРёРјРІРѕР»Р° РёР»Рё РїРѕРґРІС‹СЂР°Р¶РµРЅРёСЏ.</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>*</tt></td>
+			<td>РЅРѕР»СЊ РёР»Рё Р±РѕР»РµРµ СЂР°Р· ("Р¶Р°РґРЅС‹Р№"), С‚Рѕ Р¶Рµ С‡С‚Рѕ {0,}</td>
+		  </tr>
+		  <tr>
+			<td><tt>+</tt></td>
+			<td>РѕРґРёРЅ РёР»Рё Р±РѕР»РµРµ СЂР°Р· ("Р¶Р°РґРЅС‹Р№"), С‚Рѕ Р¶Рµ С‡С‚Рѕ {1,}</td>
+		  </tr>
+		  <tr>
+			<td><tt>?</tt></td>
+			<td>РЅРѕР»СЊ РёР»Рё РѕРґРёРЅ СЂР°Р· ("Р¶Р°РґРЅС‹Р№"), С‚Рѕ Р¶Рµ С‡С‚Рѕ {0,1}</td>
+		  </tr>
+		  <tr>
+			<td><tt>{n}</tt></td>
+			<td>С‚РѕС‡РЅРѕ n СЂР°Р· ("Р¶Р°РґРЅС‹Р№")</td>
+		  </tr>
+		  <tr>
+			<td><tt>{n,}</tt></td>
+			<td>РЅРµ РјРµРЅРµРµ n СЂР°Р· ("Р¶Р°РґРЅС‹Р№")</td>
+		  </tr>
+		  <tr>
+			<td><tt>{n,m}</tt></td>
+			<td>РЅРµ РјРµРЅРµРµ n РЅРѕ РЅРµ Р±РѕР»РµРµ m СЂР°Р· ("Р¶Р°РґРЅС‹Р№")</td>
+		  </tr>
+		  <tr>
+			<td><tt>*?</tt></td>
+			<td>РЅРѕР»СЊ РёР»Рё Р±РѕР»РµРµ СЂР°Р· ("РЅРµ Р¶Р°РґРЅС‹Р№"), С‚Рѕ Р¶Рµ С‡С‚Рѕ {0,}?</td>
+		  </tr>
+		  <tr>
+			<td><tt>+?</tt></td>
+			<td>РѕРґРёРЅ РёР»Рё Р±РѕР»РµРµ СЂР°Р· ("РЅРµ Р¶Р°РґРЅС‹Р№"), С‚Рѕ Р¶Рµ С‡С‚Рѕ {1,}?</td>
+		  </tr>
+		  <tr>
+			<td><tt>??</tt></td>
+			<td>РЅРѕР»СЊ РёР»Рё РѕРґРёРЅ СЂР°Р· ("РЅРµ Р¶Р°РґРЅС‹Р№"), С‚Рѕ Р¶Рµ С‡С‚Рѕ {0,1}?</td>
+		  </tr>
+		  <tr>
+			<td><tt>{n}?</tt></td>
+			<td>С‚РѕС‡РЅРѕ n СЂР°Р· ("РЅРµ Р¶Р°РґРЅС‹Р№")</td>
+		  </tr>
+		  <tr>
+			<td><tt>{n,}?</tt></td>
+			<td>РЅРµ РјРµРЅРµРµ n СЂР°Р· ("РЅРµ Р¶Р°РґРЅС‹Р№")</td>
+		  </tr>
+		  <tr>
+			<td><tt>{n,m}?</tt></td>
+			<td>РЅРµ РјРµРЅРµРµ n РЅРѕ РЅРµ Р±РѕР»РµРµ m СЂР°Р· ("РЅРµ Р¶Р°РґРЅС‹Р№") </td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p>Рў.Рѕ. {n,m} Р·Р°РґР°РµС‚ <span class="bold">РјРёРЅРёРјСѓРј</span> n РїРѕРІС‚РѕСЂРѕРІ Рё <span class="bold">РјР°РєСЃРёРјСѓРј</span>&nbsp;&mdash;
+	  m. РџРѕРІС‚РѕСЂРёС‚РµР»СЊ {n} СЌРєРІРёРІР°Р»РµРЅС‚РµРЅ {n,n} Рё Р·Р°РґР°РµС‚ С‚РѕС‡РЅРѕ n РїРѕРІС‚РѕСЂРѕРІ. РџРѕРІС‚РѕСЂРёС‚РµР»СЊ {n,} Р·Р°РґР°РµС‚
+	  РјРёРЅРёРјСѓРј n РїРѕРІС‚РѕСЂРѕРІ. РўРµРѕСЂРµС‚РёС‡РµСЃРєРё РІРµР»РёС‡РёРЅР° РїР°СЂР°РјРµС‚СЂРѕРІ n Рё m РЅРµ РѕРіСЂР°РЅРёС‡РµРЅР°, РЅРѕ СЂРµРєРѕРјРµРЅРґСѓРµС‚СЃСЏ
+	  РЅРµ Р·Р°РґР°РІР°С‚СЊ Р±РѕР»СЊС€РёРµ Р·РЅР°С‡РµРЅРёСЏ, РїРѕСЃРєРѕР»СЊРєСѓ РІ РЅРµРєРѕС‚РѕСЂС‹С… СЃРёС‚СѓР°С†РёСЏС… СЌС‚Рѕ РјРѕР¶РµС‚ РїРѕС‚СЂРµР±РѕРІР°С‚СЊ
+	  СЃСѓС‰РµСЃС‚РІРµРЅРЅС‹С… Р·Р°С‚СЂР°С‚ РІСЂРµРјРµРЅРё Рё РћР—РЈ РїСЂРё РѕР±СЂР°Р±РѕС‚РєРµ С‚Р°РєРѕРіРѕ РїРѕРІС‚РѕСЂРёС‚РµР»СЏ РІ СЃРІСЏР·Рё СЃ СЂРµРєСѓСЂСЃРёРІРЅС‹Рј
+	  С…Р°СЂР°РєС‚РµСЂРѕРј СЂР°Р±РѕС‚С‹.</p>
+	  <p>Р•СЃР»Рё С„РёРіСѓСЂРЅС‹Рµ СЃРєРѕР±РєРё РІСЃС‚СЂРµС‡Р°СЋС‚СЃСЏ РІ "РЅРµРїСЂР°РІРёР»СЊРЅРѕРј" РјРµСЃС‚Рµ, РіРґРµ РѕРЅРё РЅРµ РјРѕРіСѓС‚ Р±С‹С‚СЊ РІРѕСЃРїСЂРёРЅСЏС‚С‹
+	  РєР°Рє РїРѕРІС‚РѕСЂРёС‚РµР»СЊ, С‚Рѕ РѕРЅРё РІРѕРїСЂРёРЅРёРјР°СЋС‚СЃСЏ РїСЂРѕСЃС‚Рѕ РєР°Рє СЃРёРјРІРѕР»С‹</p>
+	  <p class="bold">РџСЂРёРјРµСЂС‹:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>foob.*r</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foobar', 'foobalkjdflkj9r' Рё 'foobr'</td>
+		  </tr>
+		  <tr>
+			<td><tt>foob.+r</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foobar', 'foobalkjdflkj9r' РЅРѕ РЅРµ 'foobr'</td>
+		  </tr>
+		  <tr>
+			<td><tt>foob.?r</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foobar', 'foobbr' Рё 'foobr' РЅРѕ РЅРµ 'foobalkj9r'</td>
+		  </tr>
+		  <tr>
+			<td><tt>fooba{2}r</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foobaar'</td>
+		  </tr>
+		  <tr>
+			<td><tt>fooba{2,}r</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foobaar', 'foobaaar', 'foobaaaar' Рё С‚.Рґ.</td>
+		  </tr>
+		  <tr>
+			<td><tt>fooba{2,3}r</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foobaar', РёР»Рё 'foobaaar' РЅРѕ РЅРµ 'foobaaaar' </td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p>РќРµР±РѕР»СЊС€РѕРµ РїРѕСЏСЃРЅРµРЅРёРµ РїРѕ РїРѕРІРѕРґСѓ "Р¶Р°РґРЅРѕСЃС‚Рё". "Р–Р°РґРЅС‹Рµ" РІР°СЂРёР°РЅС‚С‹ РїРѕРІС‚РѕСЂРёС‚РµР»РµР№ РїС‹С‚Р°СЋС‚СЃСЏ Р·Р°С…РІР°С‚РёС‚СЊ
+	  РєР°Рє РјРѕР¶РЅРѕ Р±РѕР»СЊС€СѓСЋ С‡Р°СЃС‚СЊ РІС…РѕРґРЅРѕРіРѕ С‚РµРєСЃС‚Р°, РІ С‚Рѕ РІСЂРµРјСЏ РєР°Рє "РЅРµ Р¶Р°РґРЅС‹Рµ"&nbsp;&mdash; РєР°Рє РјРѕР¶РЅРѕ
+	  РјРµРЅСЊС€СѓСЋ. РќР°РїСЂРёРјРµСЂ, 'b+' РєР°Рє Рё 'b*' РїСЂРёРјРµРЅРµРЅРЅС‹Рµ Рє РІС…РѕРґРЅРѕР№ СЃС‚СЂРѕРєРµ 'abbbbc' РЅР°Р№РґСѓС‚ 'bbbb', РІ С‚Рѕ
+	  РІСЂРµРјСЏ РєР°Рє 'b+?' РЅР°Р№РґРµС‚ С‚РѕР»СЊРєРѕ 'b', Р° 'b*?'&nbsp;&mdash; РІРѕРѕР±С‰Рµ&nbsp;&mdash; РїСѓСЃС‚СѓСЋ СЃС‚СЂРѕРєСѓ;
+	  'b{2,3}?' РЅР°Р№РґРµС‚ 'bb', РІ С‚Рѕ РІСЂРµРјСЏ РєР°Рє 'b{2,3}' РЅР°Р№РґРµС‚ 'bbb'.</p>
+	  <p>Р’С‹ РјРѕР¶РµС‚Рµ РїРµСЂРµРєР»СЋС‡РёС‚СЊ РІСЃРµ РїРѕРІС‚РѕСЂРёС‚РµР»Рё РІ РІС‹СЂР°Р¶РµРЅРёРё РІ "РЅРµ Р¶Р°РґРЅС‹Р№" СЂРµР¶РёРј, РІРѕСЃРїРѕР»СЊР·РѕРІР°РІС€РёСЃСЊ
+	  <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_g">РјРѕРґРёС„РёРєР°С‚РѕСЂРѕРј /g</a>.</p>
+	</div>
+	
+	<div class="SECT2">
+	  <h3><a name="meta-vars">5.5. РњРµС‚Р°СЃРёРјРІРѕР»С‹ - РІР°СЂРёР°РЅС‚С‹</a></h3>
+	  <p>Р’С‹ РјРѕР¶РµС‚Рµ РѕРїСЂРµРґРµР»РёС‚СЊ РїРµСЂРµС‡РµРЅСЊ <span class="bold">РІР°СЂРёР°РЅС‚РѕРІ</span>, РёСЃРїРѕР»СЊР·СѓСЏ РјРµС‚Р°СЃРёРјРІРѕР» "|"
+	  РґР»СЏ РёС… СЂР°Р·РґРµР»РµРЅРёСЏ, РЅР°РїСЂРёРјРµСЂ "fee|fie|foe" РЅР°Р№РґРµС‚ "fee" РёР»Рё "fie" РёР»Рё "foe", (С‚Р°Рє Р¶Рµ РєР°Рє "f(e|i|o)e").
+	  Р’ РєР°С‡РµСЃС‚РІРµ РїРµСЂРІРѕРіРѕ РІР°СЂРёР°РЅС‚Р° РІРѕСЃРїСЂРёРЅРёРјР°РµС‚СЃСЏ РІСЃРµ РѕС‚ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РјРµС‚Р°СЃРёРјРІРѕР»Р° "(" РёР»Рё "[" РёР»Рё РѕС‚
+	  РЅР°С‡Р°Р»Р° РІС‹СЂР°Р¶РµРЅРёСЏ РґРѕ РїРµСЂРІРѕРіРѕ РјРµС‚Р°СЃРёРјРІРѕР»Р° "|", РІ РєР°С‡РµСЃС‚РІРµ РїРѕСЃР»РµРґРЅРµРіРѕ&nbsp;&mdash; РІСЃРµ РѕС‚
+	  РїРѕСЃР»РµРґРЅРµРіРѕ "|" РґРѕ РєРѕРЅС†Р° РІС‹СЂР°Р¶РµРЅРёСЏ РёР»Рё РґРѕ Р±Р»РёР¶Р°Р№С€РµРіРѕ РјРµС‚Р°СЃРёРјРІРѕР»Р° ")". РћР±С‹С‡РЅРѕ, С‡С‚РѕР±С‹ РЅРµ Р·Р°РїСѓС‚Р°С‚СЊСЃСЏ,
+	  РЅР°Р±РѕСЂ РІР°СЂРёР°РЅС‚РѕРІ РІСЃРµРіРґР° Р·Р°РєР»СЋС‡Р°СЋС‚ РІ СЃРєРѕР±РєРё, РґР°Р¶Рµ РµСЃР»Рё Р±РµР· СЌС‚РѕРіРѕ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ Р±С‹ РѕР±РѕР№С‚РёСЃСЊ.</p>
+	  <p>Р’Р°СЂРёР°РЅС‚С‹ РїСЂРѕР±СѓСЋС‚СЃСЏ РЅР°С‡РёРЅР°СЏ СЃ РїРµСЂРІРѕРіРѕ Рё РїРѕРїС‹С‚РєРё Р·Р°РІРµСЂС€Р°СЋС‚СЃСЏ СЃСЂР°Р·Сѓ Р¶Рµ РєР°Рє СѓРґР°СЃС‚СЃСЏ РїРѕРґРѕР±СЂР°С‚СЊ
+	  С‚Р°РєРѕР№ РїСЂРё РєРѕС‚РѕСЂРѕРј СЃРѕРІРїР°РґРµС‚ РІСЃСЏ РїРѕСЃР»РµРґСѓСЋС‰Р°СЏ С‡Р°СЃС‚СЊ РІС‹СЂР°Р¶РµРЅРёСЏ (РїРѕРґСЂРѕР±РЅРµРµ СЃРј. <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#mechanism">РњРµС…Р°РЅРёР·Рј СЂР°Р±РѕС‚С‹</a>).
+	  Р­С‚Рѕ РѕР·РЅР°С‡Р°РµС‚, С‡С‚Рѕ РІР°СЂРёР°РЅС‚С‹ РЅРµ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РѕР±РµСЃРїРµС‡Р°С‚ "Р¶Р°РґРЅРѕРµ" РїРѕРІРµРґРµРЅРёРµ. РќР°РїСЂРёРјРµСЂ, РµСЃР»Рё РїСЂРёРјРµРЅРёС‚СЊ
+	  РІС‹СЂР°Р¶РµРЅРёРµ "foo|foot" РєРѕ РІС…РѕРґРЅРѕР№ СЃС‚СЂРѕРєРµ "barefoot", С‚Рѕ Р±СѓРґРµС‚ РЅР°Р№РґРµРЅРѕ "foo" С‚Р°Рє СЌС‚Рѕ РїРµСЂРІС‹Р№ РІР°СЂРёР°РЅС‚
+	  РєРѕС‚РѕСЂС‹Р№ РїРѕР·РІРѕР»РёР» СЃРѕРІРїР°СЃС‚СЊ РІСЃРµРјСѓ РІС‹СЂР°Р¶РµРЅРёСЋ.</p>
+	  <p>РћР±СЂР°С‚РёС‚Рµ РІРЅРёРјР°РЅРёРµ, С‡С‚Рѕ РјРµС‚Р°СЃРёРјРІРѕР» "|" РІРѕСЃРїСЂРёРЅРёРјР°РµС‚СЃСЏ РєР°Рє РѕР±С‹С‡РЅС‹Р№ СЃРёРјРІРѕР» РІРЅСѓС‚СЂРё РїРµСЂРµС‡РЅРµР№
+	  СЃРёРјРІРѕР»РѕРІ, РЅР°РїСЂРёРјРµСЂ, [fee|fie|foe] РѕР·РЅР°С‡Р°РµС‚ СЂРѕРІРЅРѕ С‚Рѕ Р¶Рµ СЃР°РјРѕРµ С‡С‚Рѕ Рё [feio|].</p>
+	  <p class="bold">РџСЂРёРјРµСЂС‹:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>foo(bar|foo)</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foobar' РёР»Рё 'foofoo'</td>
+		  </tr>
+		</tbody>
+	  </table>
+	</div>
+	
+	<div class="SECT2">
+	  <h3><a name="meta-sub">5.6. РњРµС‚Р°СЃРёРјРІРѕР»С‹ - РїРѕРґРІС‹СЂР°Р¶РµРЅРёСЏ</a></h3>
+	  <p>РњРµС‚Р°СЃРёРјРІРѕР»С‹ ( ... ) РјРѕРіСѓС‚ С‚Р°РєР¶Рµ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ РґР»СЏ Р·Р°РґР°РЅРёСЏ РїРѕРґРІС‹СЂР°Р¶РµРЅРёР№&nbsp;&mdash; РїРѕ
+	  Р·Р°РІРµСЂС€РµРЅРёРё РїРѕРёСЃРєР° РІС‹СЂР°Р¶РµРЅРёСЏ Р’С‹ РјРѕР¶РµС‚Рµ РѕР±СЂР°С‚РёС‚СЊСЃСЏ Рє Р»СЋР±РѕРјСѓ РїРѕРґРІС‹СЂР°Р¶РµРЅРёСЋ РёСЃРїРѕР»СЊР·СѓСЏ СЃРІРѕР№СЃС‚РІР°
+	  MatchPos, MatchLen Рё <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.match">Match</a>,
+	  Р° С‚Р°РєР¶Рµ РїРѕРґСЃС‚Р°РІР»СЏС‚СЊ РїРѕРґРІС‹СЂР°Р¶РµРЅРёСЏ РІ РЅРµРєРёР№ С€Р°Р±Р»РѕРЅ, РёСЃРїРѕР»СЊР·СѓСЏ РјРµС‚РѕРґ
+	  <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.substitute">Substitute</a>).</p>
+	  <p>РџРѕРґРІС‹СЂР°Р¶РµРЅРёСЏ РЅСѓРјРµСЂСѓСЋС‚СЃСЏ СЃР»РµРІР° РЅР°РїСЂР°РІРѕ, РІ РїРѕСЂСЏРґРєРµ РїРѕСЏРІР»РµРЅРёСЏ РѕС‚РєСЂС‹РІР°СЋС‰РёС… СЃРєРѕР±РѕРє.</p>
+	  <p>РџРµСЂРІРѕРµ РїРѕРґРІС‹СЂР°Р¶РµРЅРёРµ РёРјРµРµС‚ РЅРѕРјРµСЂ '1' (РІС‹СЂР°Р¶РµРЅРёРµ РІ С†РµР»РѕРј&nbsp;&mdash; '0', Рє РЅРµРјСѓ РјРѕР¶РЅРѕ
+	  РѕР±СЂР°С‰Р°С‚СЊСЃСЏ РІ <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.substitute">Substitute</a>
+	  РєР°Рє '$0' С‚Р°Рє Рё '$&amp;').</p>
+	  <p class="bold">РџСЂРёРјРµСЂС‹:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>(foobar){8,10}</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ СЃС‚СЂРѕРєСѓ СЃРѕРґРµСЂР¶Р°С‰СѓСЋ 8, 9 РёР»Рё 10 РєРѕРїРёР№ 'foobar'</td>
+		  </tr>
+		  <tr>
+			<td><tt>foob([0-9]|a+)r</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'foob0r', 'foob1r' , 'foobar', 'foobaar', 'foobaar' Рё С‚.Рґ.</td>
+		  </tr>
+		</tbody>
+	  </table>
+	</div>
+	
+	<div class="SECT2">
+	  <h3><a name="meta-back">5.7. РњРµС‚Р°СЃРёРјРІРѕР»С‹ - РѕР±СЂР°С‚РЅС‹Рµ СЃСЃС‹Р»РєРё</a></h3>
+	  <p>РњРµС‚Р°СЃРёРјРІРѕР»С‹ РѕС‚ \1 РґРѕ \9 РІРѕСЃРїСЂРёРЅРёРјР°СЋС‚СЃСЏ РєР°Рє РѕР±СЂР°С‚РЅС‹Рµ СЃСЃС‹Р»РєРё. \&lt;n&gt; СЃРѕРІРїР°РґР°РµС‚ СЃ СЂР°РЅРµРµ
+	  РЅР°Р№РґРµРЅРЅС‹Рј РїРѕРґРІС‹СЂР°Р¶РµРЅРёРµРј #&lt;n&gt;.</p>
+	  <p class="bold">РџСЂРёРјРµСЂС‹:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>(.)\1+</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'aaaa' Рё 'cc'</td>
+		  </tr>
+		  <tr>
+			<td><tt>(.+)\1+</tt></td>
+			<td>С‚Р°РєР¶Рµ РЅР°С…РѕРґРёС‚ 'abab' Рё '123123'</td>
+		  </tr>
+		  <tr>
+			<td><tt>(['"]?)(\d+)\1</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ "13" (РІ РґРІ. РєР°РІС‹С‡РєР°С…), РёР»Рё '4' (РІ РѕРґРёРЅ. РєР°РІС‹С‡РєР°С…) РёР»Рё 77 (Р±РµР· РєР°РІС‹С‡РµРє) Рё С‚.Рґ.</td>
+		  </tr>
+		</tbody>
+	  </table>
+	</div>
+	
+	<div class="SECT1">
+	  <h2><a name="modifiers">6. РњРѕРґРёС„РёРєР°С‚РѕСЂС‹</a></h2>
+	  <p>РњРѕРґРёС„РёРєР°С‚РѕСЂС‹ СЃР»СѓР¶Р°С‚ РґР»СЏ РёР·РјРµРЅРµРЅРёСЏ СЂРµР¶РёРјРѕРІ СЂР°Р±РѕС‚С‹ СЂРµРіСѓР»СЏСЂРЅС‹С… РІС‹СЂР°Р¶РµРЅРёР№.</p>
+	  <p>Р›СЋР±РѕР№ РјРѕРґРёС„РёРєР°С‚РѕСЂ РјРѕР¶РµС‚ РјРµРЅСЏС‚СЊСЃСЏ СЃ РїРѕРјРѕС‰СЊСЋ СЃРїРµС†РёР°Р»СЊРЅРѕР№ РєРѕРЅСЃС‚СЂСѓРєС†РёРё
+	  <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#inline_modifiers">(?...)</a>
+	  РІРЅСѓС‚СЂРё СЂРµРіСѓР»СЏСЂРЅРѕРіРѕ РІС‹СЂР°Р¶РµРЅРёСЏ.</p>
+	  <dl>
+		<dt><tt>i</tt></dt>
+		<dd>СЂРµРіРёСЃС‚СЂРѕ-РЅРµР·Р°РІРёСЃРёРјС‹Р№ СЂРµР¶РёРј (РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РёСЃРїРѕР»СЊР·СѓРµС‚ РІС‹Р±СЂР°РЅРЅС‹Р№ РІ РћРЎ СЏР·С‹Рє РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ),
+		(СЃРј. С‚Р°РєР¶Рµ <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#invertcase">InvertCase</a>)</dd>
+		<dt><tt>m</tt></dt>
+		<dd>РІРѕСЃРїСЂРёРЅРёРјР°С‚СЊ РІС…РѕРґРЅРѕР№ С‚РµРєСЃС‚ РєР°Рє РјРЅРѕРіРѕСЃС‚СЂРѕС‡РЅС‹Р№, РїСЂРё СЌС‚РѕРј РјРµС‚Р°СЃРёРјРІРѕР»С‹ "^" Рё "$" Р±СѓРґСѓС‚ СЃРѕРІРїР°РґР°С‚СЊ
+		РЅРµ С‚РѕР»СЊРєРѕ РІ РЅР°С‡Р°Р»Рµ Рё РєРѕРЅС†Рµ С‚РµРєСЃС‚Р° РІ С†РµР»РѕРј, РЅРѕ Рё РІ РЅР°С‡Р°Р»Рµ Рё РІ РєРѕРЅС†Рµ РІСЃРµС… РёРјРµСЋС‰РёС…СЃСЏ РІ С‚РµРєСЃС‚Рµ
+		СЃС‚СЂРѕРє (СЃРј. С‚Р°РєР¶Рµ <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#syntax_line_separators">Р Р°Р·РґРµР»РёС‚РµР»Рё
+		СЃС‚СЂРѕРє</a>)</dd>
+		<dt><tt>s</tt></dt>
+		<dd>РІРѕСЃРїСЂРёРЅРёРјР°С‚СЊ РІС…РѕРґРЅРѕР№ С‚РµРєСЃС‚ РєР°Рє РѕРґРЅСѓ СЃС‚СЂРѕРєСѓ. РџСЂРё СЌС‚РѕРј РјРµС‚Р°СЃРёРјРІРѕР» "." СЃРѕРІРїР°РґР°РµС‚ СЃ Р»СЋР±С‹Рј
+		СЃРёРјРІРѕР»РѕРј, РµСЃР»Рё Р¶Рµ СЌС‚РѕС‚ РјРѕРґРёС„РёРєР°С‚РѕСЂ РІС‹РєР»СЋС‡РµРЅ, С‚Рѕ РѕРЅ РЅРµ СЃРѕРІРїР°РґР°РµС‚ СЃ СЂР°Р·РґРµР»РёС‚РµР»СЏРјРё СЃС‚СЂРѕРє (СЃРј.С‚Р°РєР¶Рµ
+		<a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#syntax_line_separators">Р Р°Р·РґРµР»РёС‚РµР»Рё
+		СЃС‚СЂРѕРє</a>)</dd>
+		<dt><tt>g</tt></dt>
+		<dd>РЅРµ СЃС‚Р°РЅРґР°СЂС‚РЅС‹Р№ РјРѕРґРёС„РёРєР°С‚РѕСЂ. Р’С‹РєР»СЋС‡Р°СЏ РµРіРѕ Р’С‹ РїРµСЂРµРєР»СЋС‡Р°РµС‚Рµ РІСЃРµ РїРѕРІС‚РѕСЂРёС‚РµР»Рё РІ "РЅРµ Р¶Р°РґРЅС‹Р№"
+		СЂРµР¶РёРј (РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ СЌС‚РѕС‚ РјРѕРґРёС„РёРєР°С‚РѕСЂ РІРєР»СЋС‡РµРЅ). Рў.Рµ. РµСЃР»Рё РµРіРѕ РѕС‚РєР»СЋС‡РёС‚СЊ, С‚Рѕ РІСЃРµ '+' СЂР°Р±РѕС‚Р°СЋС‚
+		РєР°Рє '+?', '*' РєР°Рє '*?' Рё С‚.Рґ.</dd>
+		<dt><tt>x</tt></dt>
+		<dd>РїРѕР·РІРѕР»СЏРµС‚ С„РѕСЂРјР°С‚РёСЂРѕРІР°С‚СЊ С€Р°Р±Р»РѕРЅ С‡С‚РѕР±С‹ РѕР±РµСЃРїРµС‡РёС‚СЊ Р±РѕР»РµРµ Р»РµРіРєСѓСЋ С‡РёС‚Р°РµРјРѕСЃС‚СЊ (СЃРј. РѕРїРёСЃР°РЅРёРµ РЅРёР¶Рµ)</dd>
+		<dt><tt>r</tt></dt>
+		<dd>РЅРµ СЃС‚Р°РЅРґР°СЂС‚РЅС‹Р№ РјРѕРґРёС„РёРєР°С‚РѕСЂ. Р•СЃР»Рё РІРєР»СЋС‡РµРЅ, С‚Рѕ РґРёР°РїР°Р·РѕРЅС‹ РІРёРґР° 'Р°-СЏ' РІРєР»СЋС‡Р°СЋС‚ С‚Р°РєР¶Рµ Р±СѓРєРІСѓ
+		'С‘', 'Рђ-РЇ' РІРєР»СЋС‡Р°СЋС‚ 'РЃ', Р° 'Р°-РЇ' РІРєР»СЋС‡Р°РµС‚ РІРѕРѕР±С‰Рµ РІСЃРµ СЂСѓСЃСЃРєРёРµ Р±СѓРєРІС‹</dd>
+	  </dl>
+	  <p><a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_x">РњРѕРґРёС„РёРєР°С‚РѕСЂ
+	  /x</a> Р·Р°СЃС‚Р°РІР»СЏРµС‚ РёРіРЅРѕСЂРёСЂРѕРІР°С‚СЊ РїСЂРѕР±РµР»С‹, С‚Р°Р±СѓР»СЏС†РёРё Рё СЂР°Р·РґРµР»РёС‚РµР»Рё СЃС‚СЂРѕРє, С‡С‚Рѕ РїРѕР·РІРѕР»СЏРµС‚
+	  С„РѕСЂРјР°С‚РёСЂРѕРІР°С‚СЊ С‚РµРєСЃС‚ РІС‹СЂР°Р¶РµРЅРёСЏ. РљСЂРѕРјРµ С‚РѕРіРѕ, РµСЃР»Рё РІСЃС‚СЂРµС‡Р°РµС‚СЃСЏ СЃРёРјРІРѕР» #, С‚Рѕ РІСЃРµ РїРѕСЃР»РµРґСѓСЋС‰РёРµ
+	  СЃРёРјРІРѕР»С‹ РґРѕ РєРѕРЅС†Р° СЃС‚СЂРѕРєРё РІРѕСЃРїСЂРёРЅРёРјР°СЋС‚СЃСЏ РєР°Рє РєРѕРјРјРµРЅС‚Р°СЂРёР№, РЅР°РїСЂРёРјРµСЂ:</p>
+	  <pre class="CODE">
+	  (
+		(abc) # РљРѕРјРјРµРЅС‚Р°СЂРёР№ 1
+		  |   # РџСЂРѕР±РµР»С‹ РІРЅСѓС‚СЂРё РІС‹СЂР°Р¶РµРЅРёСЏ С‚Р°РєР¶Рµ РёРіРЅРѕСЂРёСЂСѓСЋС‚СЃСЏ
+		(efg) # РљРѕРјРјРµРЅС‚Р°СЂРёР№ 2
+	  )</pre>
+	  <p>Р•СЃС‚РµСЃС‚РІРµРЅРЅРѕ, СЌС‚Рѕ РѕР·РЅР°С‡Р°РµС‚ С‡С‚Рѕ, РµСЃР»Рё Р’Р°Рј РЅСѓР¶РЅРѕ РІСЃС‚Р°РІРёС‚СЊ РІ РІС‹СЂР°Р¶РµРЅРёРµ РїСЂРѕР±РµР», С‚Р°Р±СѓР»СЏС†РёСЋ РёР»Рё
+	  СЂР°Р·РґРµР»РёС‚РµР»СЊ СЃС‚СЂРѕРєРё РёР»Рё #, С‚Рѕ РІ СЂР°СЃС€РёСЂРµРЅРЅРѕРј (/x) СЂРµР¶РёРјРµ СЌС‚Рѕ РјРѕР¶РЅРѕ СЃРґРµР»Р°С‚СЊ С‚РѕР»СЊРєРѕ РїСЂРµРґРІР°СЂСЏСЏ РёС…
+	  '/' РёР»Рё РёСЃРїРѕР»СЊР·СѓСЏ /xnn (РІРЅСѓС‚СЂРё РїРµСЂРµС‡РЅРµР№ СЃРёРјРІРѕР»РѕРІ РІСЃРµ СЌС‚Рё СЃРёРјРІРѕР»С‹ РІРѕСЃРїСЂРёРЅРёРјР°СЋС‚СЃСЏ РєР°Рє РѕР±С‹С‡РЅРѕ).</p>
+	</div>
+	
+	<div class="SECT1">
+	  <h2><a name="perl">7. Р Р°СЃС€РёСЂРµРЅРёСЏ Perl</a></h2>
+	  <p class="bold">(?imsxr-imsxr)</p>
+	  <p>РџРѕР·РІРѕР»СЏРµС‚ РёР·РјРµРЅСЏС‚СЊ Р·РЅР°С‡РµРЅРёСЏ РјРѕРґРёС„РёРєР°С‚РѕСЂРѕРІ</p>
+	  <p class="bold">РџСЂРёРјРµСЂС‹:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>(?i)Saint-Petersburg</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'Saint-petersburg' Рё 'Saint-Petersburg'</td>
+		  </tr>
+		  <tr>
+			<td><tt>(?i)Saint-(?-i)Petersburg</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'Saint-Petersburg' РЅРѕ РЅРµ 'Saint-petersburg'</td>
+		  </tr>
+		  <tr>
+			<td><tt>(?i)(Saint-)?Petersburg</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'Saint-petersburg' Рё 'saint-petersburg'</td>
+		  </tr>
+		  <tr>
+			<td><tt>((?i)Saint-)?Petersburg</tt></td>
+			<td>РЅР°С…РѕРґРёС‚ 'saint-Petersburg', РЅРѕ РЅРµ 'saint-petersburg' </td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p class="bold">(?#text)</p>
+	  <p>РљРѕРјРјРµРЅС‚Р°СЂРёР№, РїСЂРѕСЃС‚Рѕ РёРіРЅРѕСЂРёСЂСѓРµС‚СЃСЏ. РћР±СЂР°С‚РёС‚Рµ РІРЅРёРјР°РЅРёРµ, С‡С‚Рѕ РІ РєРѕРјРјРµРЅС‚Р°СЂРёРё С‚Р°РєРѕРіРѕ РІРёРґР°
+	  РЅРµРІРѕР·РјРѕР¶РЅРѕ РїРѕРјРµСЃС‚РёС‚СЊ СЃРёРјРІРѕР» ")", РїРѕСЃРєРѕР»СЊРєСѓ РѕРЅ РІРѕСЃРїСЂРёРЅРёРјР°РµС‚СЃСЏ РєР°Рє РєРѕРЅРµС† РєРѕРјРјРµРЅС‚Р°СЂРёСЏ.</p>
+	</div>
+	
+  </div>
   
-  </tbody>
-</table>
-
-
-<br />
-
-
-<br />
-
-
 </body>
+
 </html>
