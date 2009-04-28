@@ -48,6 +48,7 @@ type
       sPath       : AnsiString; // used only in block operation
       bSelected   : Boolean;
       iDirSize    : Int64;
+      pContainer  : Pointer; // used in sorting function
   end;
 
   PFileRecItem=^TFileRecItem;

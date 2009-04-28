@@ -372,6 +372,8 @@ end;
 
 
 procedure TFrameFilePanel.Init;
+var
+  TabHeaderHeight: Integer;
 begin
   ClearCmdLine;
   UpDatelblInfo;
@@ -382,8 +384,15 @@ begin
   dgPanel.FixedRows:= Integer(gTabHeader);
   dgPanel.Tag:= dgPanel.DefaultRowHeight;
   dgPanel.DefaultRowHeight:= gIconsSize;
+  dgPanel.Flat := gInterfaceFlat;
+
   if gTabHeader then
-    dgPanel.RowHeights[0]:= dgPanel.Tag;
+    TabHeaderHeight := gIconsSize + 1;
+    if not gInterfaceFlat then
+    begin
+      TabHeaderHeight := TabHeaderHeight + 2;
+    end;
+    dgPanel.RowHeights[0] := TabHeaderHeight;
   with FLastSelect do
   begin
     Left:= 0;
@@ -686,11 +695,25 @@ end;
 
 procedure TFrameFilePanel.dgPanelHeaderClick(Sender: TObject;
   IsColumn: Boolean; Index: Integer);
+var
+  ShiftState : TShiftState;
+  iSortingDirection : Integer;
 begin
   if not IsColumn then Exit;
-  if pnlFile.SortColumn = Index then
-    pnlFile.SortDirection:= not pnlFile.SortDirection;  
-  pnlFile.SortByCol(Index);
+
+  iSortingDirection := 1;
+  ShiftState := GetKeyShiftState;
+  if not ((ssShift in ShiftState) or (ssCtrl in ShiftState)) then
+  begin
+    iSortingDirection := pnlFile.Sorting.GetSortingDirection(Index);
+    if iSortingDirection < 0 then iSortingDirection := 0;
+    iSortingDirection := iSortingDirection xor 1;
+    pnlFile.Sorting.Clear;
+  end;
+
+  pnlFile.Sorting.AddSorting(Index, Boolean(iSortingDirection));
+
+  pnlFile.Sort;
   dgPanel.Invalidate;
 end;
 
@@ -1062,7 +1085,8 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
  function DrawFixed:boolean;
  //------------------------------------------------------
    var
-      tw:Integer;
+      iSortingDirection : Integer;
+      TitleX: Integer;
    begin
      Result:= False;
 
@@ -1070,27 +1094,31 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
         begin
           // Draw fixed header
           if not (ACol in [0..ActiveColmSlave.ColumnsCount-1]) then Exit;
+
           iTextTop := Rect.Top + (dgPanel.RowHeights[0] div 2) - (dgPanel.Canvas.TextHeight('Pp') div 2);
           with dgPanel do
           begin
-            tw := 0;
+            TitleX := 0;
             s := ActiveColmSlave.GetColumnTitle(ACol);
-            if ACol = pnlFile.SortColumn then
-              begin
-                tw := 1;
-                if pnlFile.SortDirection then
-                  s := s + ' <'
-                else
-                  s := s + ' >';
-              end;
+
+            iSortingDirection := pnlFile.Sorting.GetSortingDirection(ACol);
+            if iSortingDirection >= 0 then
+            begin
+              TitleX := TitleX + gIconsSize;
+              PixMapManager.DrawBitmap(PixMapManager.GetIconBySortingDirection(iSortingDirection), Canvas, Rect);
+            end;
+
+            TitleX := max(TitleX, 4);
+
             if gCutTextToColWidth then
               begin
-                while Canvas.TextWidth(s)-(Rect.Right-Rect.Left)-4>0 do
-                  UTF8Delete(s,UTF8Length(s)-tw,1);
+                while Canvas.TextWidth(s) - ((Rect.Right - Rect.Left) - TitleX) > 0 do
+                  UTF8Delete(s, UTF8Length(s), 1);
               end;
-            Canvas.TextOut(Rect.Left + 4, iTextTop, s);
+
+            Canvas.TextOut(Rect.Left + TitleX, iTextTop, s);
           end;
-          Result:= True;
+          Result := True;
         end;
    end; // of DrawHeader
   //------------------------------------------------------

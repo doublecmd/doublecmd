@@ -33,6 +33,7 @@ const
   //sort by specific field
   //ToDo:
   //  in future may be using enumerated values {sf_ByName, sf_ByExt,...} ?
+  SF_BYDIRECTORY  = 100; // Sorting by directory
   SF_BYNAME       = 0; //en< Sorting by name
   SF_BYEXT        = 1; //en< Sorting by extension
   SF_BYSIZE       = 2; //en< Sorting by file size
@@ -40,13 +41,13 @@ const
   SF_BYATTRIB     = 4; //en< Sorting by attributes
 
 Type
+  TFileListSorting = class;
+
   {en
      Class for storing list of files
   }
   TFileList = class
   private
-    sortIn          : Integer;      //column for sorting
-    negatSort       : Boolean;
     fDir : String;
     function GetCount:Integer;
   protected
@@ -55,6 +56,7 @@ Type
        to TFileRecItem strucrures
     }
     fList: TList;
+    CurrentSorting : TFileListSorting;
   public
     {en
        Create TFileList
@@ -111,10 +113,9 @@ Type
     procedure  UpdateFileInformation(PanelMode: TPanelMode);
     {en
        Sort file list
-       @param(SortBy Field, see SF_* constants)
-       @param(bCaseSensitive Set @true for case sensitive sorting)
+       @param(Sorting object)
     }
-    procedure Sort(SortBy:Integer; bDirection, bCaseSensitive:Boolean); overload;
+    procedure Sort(Sorting : TFileListSorting); overload;
     {en
        Indicates the number of items in the file list
     }
@@ -125,14 +126,39 @@ Type
     property CurrentDirectory : String read fDir write fDir;
   end;
 
+  PFileList = ^TFileList;
+
+  TCompareFunction = function (FileList: TFileList; item1, item2: Pointer; bNegative: Boolean) : Integer;
+
+  TFileListSortingColumn = record
+    iField : Integer;
+    IsAscending : Boolean;
+    CompareFunction : TCompareFunction;
+  end;
+
+  PFileListSortingColumn = ^TFileListSortingColumn;
+
+  TFileListSorting = class(TList)
+  public
+    Destructor Destroy; override;
+    procedure AddSorting(iField : Integer; IsAscending : Boolean);
+    procedure Clear; override;
+    function GetSortingDirection(iField : Integer) : Integer;
+  end;
+
+  PFileListSorting = ^TFileListSorting;
+
 { this function couldn't be a method > type of parametr TList.Sort
   is function and not a method
 }
-  function ICompareByName(item1, item2:Pointer):Integer;
-  function ICompareByExt (item1, item2:Pointer):Integer;
-  function ICompareBySize(item1, item2:Pointer):Integer;
-  function ICompareByDate(item1, item2:Pointer):Integer;
-  function ICompareByAttr(item1, item2:Pointer):Integer;
+  function ICompareByDirectory(FileList: TFileList; item1, item2:Pointer; bSortNegative: Boolean):Integer;
+  function ICompareByName(FileList: TFileList; item1, item2:Pointer; bSortNegative: Boolean):Integer;
+  function ICompareByExt (FileList: TFileList; item1, item2:Pointer; bSortNegative: Boolean):Integer;
+  function ICompareBySize(FileList: TFileList; item1, item2:Pointer; bSortNegative: Boolean):Integer;
+  function ICompareByDate(FileList: TFileList; item1, item2:Pointer; bSortNegative: Boolean):Integer;
+  function ICompareByAttr(FileList: TFileList; item1, item2:Pointer; bSortNegative: Boolean):Integer;
+
+  function IMulticolumnCompare(item1, item2:Pointer):Integer;
 
   procedure CopyListSelectedExpandNames(srcFileList, dstFileList:TFileList; sPath:String; bFullName : Boolean = True);
 
@@ -141,18 +167,13 @@ implementation
 uses
   LCLProc, uGlobs, uPixmapManager, uDCUtils, uOSUtils, uFileOp;
 
-var
-  bSortNegative : Boolean; // because implementation of TList.Sort
-  bCaseSensSort : Boolean;
-
 {
 class constructor
 }
 Constructor TFileList.Create;
 begin
-  fList:=TList.Create;
-  sortIn      := SF_BYNAME;
-  negatSort   := FALSE;
+  fList := TList.Create;
+  CurrentSorting := TFileListSorting.Create;
 end;
 
 
@@ -160,6 +181,7 @@ Destructor TFileList.Destroy;
 begin
   Clear;
   FreeAndNil(fList);
+  FreeAndNil(CurrentSorting);
   inherited;
 end;
 
@@ -228,6 +250,7 @@ begin
   p^.iOwner:=fi^.iOwner; //[mate]
   p^.iGroup:=fi^.iGroup; //[mate]
   p^.iDirSize:= fi^.iDirSize;
+  p^.pContainer := Self;
   Result := fList.Add(p);
 end;
 
@@ -279,8 +302,50 @@ begin
 end;
 
 {
+Sort files by multicolumn sorting.
+}
+procedure TFileList.Sort(Sorting : TFileListSorting);
+var
+  i : Integer;
+  pSortingColumn : PFileListSortingColumn;
+  bSortedByName : Boolean;
+begin
+  if fList.Count = 0 then Exit;
+
+  CurrentSorting.Clear;
+  CurrentSorting.AddSorting(SF_BYDIRECTORY, true);
+  bSortedByName := false;
+  for i := 0 to Sorting.Count - 1 do
+  begin
+    pSortingColumn := PFileListSortingColumn(Sorting[i]);
+    CurrentSorting.AddSorting(pSortingColumn^.iField, pSortingColumn^.IsAscending);
+    if pSortingColumn^.iField = SF_BYNAME then
+      bSortedByName := true;
+  end;
+  if not bSortedByName then
+    CurrentSorting.AddSorting(SF_BYNAME, true);
+
+  for i := 0 to CurrentSorting.Count - 1 do
+  begin
+    pSortingColumn := PFileListSortingColumn(CurrentSorting[i]);
+    case pSortingColumn^.iField of
+      SF_BYDIRECTORY : pSortingColumn^.CompareFunction := @ICompareByDirectory;
+      SF_BYNAME      : pSortingColumn^.CompareFunction := @ICompareByName;
+      SF_BYEXT       : pSortingColumn^.CompareFunction := @ICompareByExt;
+      SF_BYSIZE      : pSortingColumn^.CompareFunction := @ICompareBySize;
+      SF_BYDATE      : pSortingColumn^.CompareFunction := @ICompareByDate;
+      SF_BYATTRIB    : pSortingColumn^.CompareFunction := @ICompareByAttr;
+    else
+      Raise Exception.Create('Unknow sort parametr - fix me');
+    end;
+  end;
+  fList.Sort(@IMulticolumnCompare);
+end;
+
+{
 Sort files by the default value in SortCol (e.g. SortIn) variable.
 }
+{
 procedure TFileList.Sort(SortBy:Integer; bDirection, bCaseSensitive:Boolean);
 begin
   bSortNegative:=bDirection;
@@ -296,7 +361,7 @@ begin
     Raise Exception.Create('Unknow sort parametr - fix me');
   end;
 end;
-
+}
 
 function TFileList.GetCount:Integer;
 begin
@@ -322,18 +387,47 @@ end;
   < 0 (negative)  Item1 is greater than Item2
 }
 
-function ICompareCheckDir(item1, item2: PFileRecItem; bCompareByName:Boolean=True):Integer;
+function IMulticolumnCompare(item1, item2:Pointer):Integer;
+var
+  CurrentFileList : TFileList;
+  Sorting : TFileListSorting;
+  iSortingCount : Integer;
+  i : Integer;
+  pSortingColumn : PFileListSortingColumn;
 begin
-  Result:=0;
-  if item1=item2 then Exit;
+{> 0 (positive)   Item1 is less than Item2
+  0              Item1 is equal to Item2
+< 0 (negative)  Item1 is greater than Item2}
 
-  if (not (FPS_ISDIR(item1^.iMode) or item1^.bLinkIsDir)) and  (not (FPS_ISDIR(item2^.iMode) or item2^.bLinkIsDir)) then  Exit;
-  if (not (FPS_ISDIR(item1^.iMode) or item1^.bLinkIsDir)) and (FPS_ISDIR(item2^.iMode) or item2^.bLinkIsDir) then
+  Result := 0;
+  if item1 = item2 then Exit;
+
+  CurrentFileList := TFileList(PFileRecItem(item1)^.pContainer);
+  Sorting := CurrentFileList.CurrentSorting;
+  iSortingCount := Sorting.Count - 1;
+  for i := 0 to iSortingCount do
+  begin
+    pSortingColumn := PFileListSortingColumn(Sorting[i]);
+    Result := pSortingColumn^.CompareFunction(CurrentFileList, item1, item2, not pSortingColumn^.IsAscending);
+    if Result <> 0 then Exit;
+  end;
+end;
+
+function ICompareByDirectory(FileList: TFileList; item1, item2:Pointer; bSortNegative: Boolean):Integer;
+begin
+{> 0 (positive)   Item1 is less than Item2
+  0              Item1 is equal to Item2
+< 0 (negative)  Item1 is greater than Item2}
+
+  Result:=0;
+
+  if (not (FPS_ISDIR(PFileRecItem(item1)^.iMode) or PFileRecItem(item1)^.bLinkIsDir)) and  (not (FPS_ISDIR(PFileRecItem(item2)^.iMode) or PFileRecItem(item2)^.bLinkIsDir)) then  Exit;
+  if (not (FPS_ISDIR(PFileRecItem(item1)^.iMode) or PFileRecItem(item1)^.bLinkIsDir)) and (FPS_ISDIR(PFileRecItem(item2)^.iMode) or PFileRecItem(item2)^.bLinkIsDir) then
   begin
     Result:=+1;
     Exit;
   end;
-  if (FPS_ISDIR(item1^.iMode) or item1^.bLinkIsDir) and (not (FPS_ISDIR(item2^.iMode) or item2^.bLinkIsDir)) then
+  if (FPS_ISDIR(PFileRecItem(item1)^.iMode) or PFileRecItem(item1)^.bLinkIsDir) and (not (FPS_ISDIR(PFileRecItem(item2)^.iMode) or PFileRecItem(item2)^.bLinkIsDir)) then
   begin
     Result:=-1;
     Exit;
@@ -341,141 +435,128 @@ begin
 // both is directory, compare it
 //  if item1.fName=item2.fName then Exit;
   // handle .. first
-  if item1^.sName='..' then
+  if PFileRecItem(item1)^.sName='..' then
   begin
     Result:=-1;
     Exit;
   end;
-  if item2^.sName='..' then
+  if PFileRecItem(item2)^.sName='..' then
   begin
     Result:=+1;
     Exit;
   end;
-
-  if not bCompareByName then
-  begin
-    Result:=0; // used in by Attr, or Date
-    Exit;
-  end;
-  if bCaseSensSort then
-    Result:=StrComp(PChar(item1^.sName), PChar(item2^.sName))
-  else
-    Result := StrIComp(PChar(item1^.sName), PChar(item2^.sName));
-  if bSortNegative then
-    Result:=-Result;
 end;
 
-function ICompareByName(item1, item2:Pointer):Integer;
+function ICompareByName(FileList: TFileList; item1, item2:Pointer; bSortNegative: Boolean):Integer;
 begin
 {> 0 (positive)   Item1 is less than Item2
   0              Item1 is equal to Item2
 < 0 (negative)  Item1 is greater than Item2}
-  Result:=0;
-  if item1=item2 then Exit;;
-  Result:= ICompareCheckDir(PFileRecItem(item1),PFileRecItem(item2));
-  if Result<>0 then Exit;
+  Result := 0;
 
-  if bCaseSensSort then
-    Result:=StrComp(PChar(PFileRecItem(item1)^.sName),PChar(PFileRecItem(item2)^.sName))
+  if gCaseSensitiveSort then
+    Result := StrComp(PChar(PFileRecItem(item1)^.sName), PChar(PFileRecItem(item2)^.sName))
   else
-    Result:=StrIComp(PChar(PFileRecItem(item1)^.sName),PChar(PFileRecItem(item2)^.sName));
-{  if FileRecPtr(item1)^.fName = FileRecPtr(item2)^.fName then
-    Exit;
+    Result := StrIComp(PChar(PFileRecItem(item1)^.sName), PChar(PFileRecItem(item2)^.sName));
 
-  if FileRecPtr(item1)^.fName > FileRecPtr(item2)^.fName then
-    Result:=-1
-  else
-    Result:=+1;
-}
   if bSortNegative then
-    Result:=-Result;
-
+    Result := -Result;
 end;
 
-function ICompareByExt(item1, item2:Pointer):Integer;
+function ICompareByExt(FileList: TFileList; item1, item2:Pointer; bSortNegative: Boolean):Integer;
 begin
 {> 0 (positive)   Item1 is less than Item2
   0              Item1 is equal to Item2
 < 0 (negative)  Item1 is greater than Item2}
-  Result:=0;
-  if item1=item2 then Exit;
 
-  Result:= ICompareCheckDir(PFileRecItem(item1),PFileRecItem(item2));
-  if Result<>0 then Exit;
+  Result:=0;
 
   if PFileRecItem(item1)^.sExt = PFileRecItem(item2)^.sExt then
     Exit;
 
+  Result := StrComp(PChar(PFileRecItem(item1)^.sExt), PChar(PFileRecItem(item2)^.sExt));
+{
   if PFileRecItem(item1)^.sExt > PFileRecItem(item2)^.sExt then
     Result:=-1
   else
     Result:=+1;
+}
 
   if bSortNegative then
-    Result:=-Result;
-
+    Result := -Result;
 end;
 
-function ICompareByDate(item1, item2:Pointer):Integer;
+function ICompareByDate(FileList: TFileList; item1, item2:Pointer; bSortNegative: Boolean):Integer;
 begin
 {> 0 (positive)   Item1 is less than Item2
   0              Item1 is equal to Item2
 < 0 (negative)  Item1 is greater than Item2}
+
   Result:=0;
-  if item1=item2 then Exit;
-  Result:= ICompareCheckDir(PFileRecItem(item1),PFileRecItem(item2), False);
-  if Result<>0 then Exit;
 
   if PFileRecItem(item1)^.fTimeI = PFileRecItem(item2)^.fTimeI then
     Exit;
 
-  if PFileRecItem(item1)^.fTimeI > PFileRecItem(item2)^.fTimeI then
-    Result:=-1
+  if PFileRecItem(item1)^.fTimeI < PFileRecItem(item2)^.fTimeI then
+    Result := -1
   else
-    Result:=+1;
+    Result := +1;
+
   if bSortNegative then
-    Result:=-Result;
+    Result := -Result;
 end;
 
-function ICompareByAttr(item1, item2:Pointer):Integer;
+function ICompareByAttr(FileList: TFileList; item1, item2:Pointer; bSortNegative: Boolean):Integer;
 begin
+{> 0 (positive)   Item1 is less than Item2
+  0              Item1 is equal to Item2
+< 0 (negative)  Item1 is greater than Item2}
+
   Result:=0;
-  if item1=item2 then Exit;
-  Result:= ICompareCheckDir(PFileRecItem(item1),PFileRecItem(item2), False);
-  if Result<>0 then Exit;
 
   if PFileRecItem(item1)^.iMode = PFileRecItem(item2)^.iMode then
     Exit;
 
   if PFileRecItem(item1)^.iMode > PFileRecItem(item2)^.iMode then
-    Result:=-1
+    Result := -1
   else
-    Result:=+1;
+    Result := +1;
+
   if bSortNegative then
-    Result:=-Result;
+    Result := -Result;
 end;
 
-function ICompareBySize(item1, item2:Pointer):Integer;
+function ICompareBySize(FileList: TFileList; item1, item2:Pointer; bSortNegative: Boolean):Integer;
+var
+  iSize1 : Integer;
+  iSize2 : Integer;
 begin
 {> 0 (positive)   Item1 is less than Item2
   0              Item1 is equal to Item2
 < 0 (negative)  Item1 is greater than Item2}
-  Result:=0;
-  if item1=item2 then Exit;
-  Result:= ICompareCheckDir(PFileRecItem(item1),PFileRecItem(item2){, False});
-  if Result<>0 then Exit;
 
-  if PFileRecItem(item1)^.iSize = PFileRecItem(item2)^.iSize then
+  Result := 0;
+
+  if FPS_ISDIR(PFileRecItem(item1)^.iMode) or PFileRecItem(item1)^.bLinkIsDir then
+    iSize1 := 0
+  else
+    iSize1 := PFileRecItem(item1)^.iSize;
+
+  if FPS_ISDIR(PFileRecItem(item2)^.iMode) or PFileRecItem(item2)^.bLinkIsDir then
+    iSize2 := 0
+  else
+    iSize2 := PFileRecItem(item2)^.iSize;
+
+  if iSize1 = iSize2 then
     Exit;
 
-  if PFileRecItem(item1)^.iSize > PFileRecItem(item2)^.iSize then
-    Result:=-1
+  if iSize1 < iSize2 then
+    Result := -1
   else
-    Result:=+1;
+    Result := +1;
 
   if bSortNegative then
-    Result:=-Result;
-
+    Result := -Result;
 end;
 
 procedure TFileList.UpdateFileInformation(PanelMode: TPanelMode);
@@ -516,6 +597,70 @@ begin
       end;
     DebugLN(p.sName);
     dstFileList.AddItem(@p);
+  end;
+end;
+
+procedure TFileListSorting.AddSorting(iField : Integer; IsAscending : Boolean);
+var
+  i : Integer;
+  pSortingColumn : PFileListSortingColumn;
+begin
+  i := Count - 1;
+  while i >= 0 do
+  begin
+    pSortingColumn := PFileListSortingColumn(Self[i]);
+    if pSortingColumn^.iField = iField then
+    begin
+      pSortingColumn^.IsAscending := not pSortingColumn^.IsAscending;
+      Exit;
+    end;
+    dec(i);
+  end;
+
+  new(pSortingColumn);
+  pSortingColumn^.iField := iField;
+  pSortingColumn^.IsAscending := IsAscending;
+  Add(pSortingColumn);
+end;
+
+Destructor TFileListSorting.Destroy;
+begin
+  Clear;
+end;
+
+procedure TFileListSorting.Clear;
+var
+  i : Integer;
+  pSortingColumn : PFileListSortingColumn;
+begin
+  i := Count - 1;
+  while i >= 0 do
+  begin
+    pSortingColumn := PFileListSortingColumn(Self[i]);
+    dispose(pSortingColumn);
+    dec(i);
+  end;
+
+  Inherited Clear;
+end;
+
+function TFileListSorting.GetSortingDirection(iField : Integer) : Integer;
+var
+  i : Integer;
+  pSortingColumn : PFileListSortingColumn;
+begin
+  Result := -1;
+
+  i := Count - 1;
+  while i >= 0 do
+  begin
+    pSortingColumn := PFileListSortingColumn(Self[i]);
+    if pSortingColumn^.iField = iField then
+    begin
+      Result := Integer(pSortingColumn^.IsAscending);
+      break;
+    end;
+    dec(i);
   end;
 end;
 
