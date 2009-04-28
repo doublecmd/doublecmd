@@ -127,6 +127,10 @@ type
     property Items[Index: Integer]: TExtAction read GetItems;
   end;
 
+const
+  cMaskDefault = 'default';
+  cMaskFolder = 'folder';
+  cMaskFile = 'file';
 
 implementation
 uses
@@ -388,7 +392,7 @@ var
 begin
   Result:=False;
   if (FPS_ISDIR(FileRecItem.iMode) or (FileRecItem.bLinkIsDir)) then
-    sMask:= 'folder'
+    sMask:= cMaskFolder
   else
     sMask:= LowerCase(FileRecItem.sExt);
   if sMask = '' then Exit;
@@ -400,6 +404,17 @@ begin
       if Extensions.IndexOf(sMask) >= 0 then
       begin
         slActions.Assign(Actions);
+        Result:= True;
+        Break;
+      end;
+    end;
+  if sMask = cMaskFolder then Exit;
+  for I:= 0 to FExtList.Count - 1 do
+    with GetItems(i) do
+    begin
+      if Extensions.IndexOf(cMaskFile) >= 0 then
+      begin
+        slActions.AddStrings(Actions);
         Result:= True;
         Break;
       end;
@@ -445,7 +460,7 @@ var
 begin
   Result:= '';
   if (FPS_ISDIR(FileRecItem.iMode) or (FileRecItem.bLinkIsDir)) then
-    sMask:= 'folder'
+    sMask:= cMaskFolder
   else
     sMask:= LowerCase(FileRecItem.sExt);
   if sMask = '' then Exit;
@@ -464,7 +479,7 @@ begin
   for I:= 0 to FExtList.Count - 1 do
     with GetItems(I) do
     begin
-      if Extensions.IndexOf('default') >= 0 then
+      if Extensions.IndexOf(cMaskDefault) >= 0 then
       begin
         Result:=Actions.Values[UpperCase(sActionName)];
         Break;
