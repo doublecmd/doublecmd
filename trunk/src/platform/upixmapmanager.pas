@@ -57,6 +57,8 @@ type
     FiUpDirIconID: PtrInt;
     FiDefaultIconID: PtrInt;
     FiArcIconID : PtrInt;
+    FiSortAscID : PtrInt;
+    FiSortDescID : PtrInt;
     FFirstIconSize,
     FSecondIconSize,
     FThirdIconSize : TDriveIcons;
@@ -74,7 +76,8 @@ type
     function GetBitmap(iIndex:Integer; BkColor : TColor):TBitmap;
     function GetStretchBitmap(iIndex: Integer; BkColor : TColor; iSize : Integer): TBitmap;
     function DrawBitmap(iIndex: Integer; Canvas : TCanvas; Rect : TRect) : Boolean;
-    Function GetIconByFile(fi:PFileRecItem; PanelMode: TPanelMode):PtrInt;
+    function GetIconBySortingDirection(iSortingDirection: Integer): PtrInt;
+    function GetIconByFile(fi:PFileRecItem; PanelMode: TPanelMode):PtrInt;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
   end;
 
@@ -429,6 +432,8 @@ begin
   FiLinkIconID:=CheckAddPixmap('filesystems' + PathDelim + 'link.png');
   FiUpDirIconID:=CheckAddPixmap('actions' + PathDelim + 'go-up.png');
   FiArcIconID := CheckAddPixmap('filesystems' + PathDelim + 'archive.png');
+  FiSortAscID := CheckAddPixmap('actions' + PathDelim + 'sort-asc.png');
+  FiSortDescID := CheckAddPixmap('actions' + PathDelim + 'sort-desc.png');
 
   { Load icons from doublecmd.ext }
   for I := 0 to gExts.Count - 1 do
@@ -597,6 +602,18 @@ begin
 {$ELSE}
     Result:= False;
 {$ENDIF}
+end;
+
+function TPixMapManager.GetIconBySortingDirection(iSortingDirection: Integer): PtrInt;
+begin
+  if iSortingDirection = 0 then
+    begin
+      Result := FiSortDescID;
+    end
+  else
+    begin
+      Result := FiSortAscID;
+    end;
 end;
 
 function TPixMapManager.GetIconByFile(fi: PFileRecItem; PanelMode: TPanelMode): PtrInt;

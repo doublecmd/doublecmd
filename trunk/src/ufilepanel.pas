@@ -55,6 +55,8 @@ type
     fedtCommand:TComboBox; // only for place correction after Chdir
     FOnBeforeChangeDirectory : TOnBeforeChangeDirectory;
     FOnAfterChangeDirectory : TOnAfterChangeDirectory;
+
+    fSorting : TFileListSorting;
   public
     bUpdateFileCount,
     bUpdateDiskFreeSpace: Boolean;
@@ -97,6 +99,7 @@ type
     property OnAfterChangeDirectory : TOnAfterChangeDirectory read FOnAfterChangeDirectory write FOnAfterChangeDirectory;
 
   published
+    property Sorting : TFileListSorting read fSorting;
     property SortDirection:Boolean read fSortDirect write fSortDirect; // maybe write method
     property SortColumn : Integer read fSortCol write SortByCol;
     property ActiveDir:String read GetActiveDir write SetActiveDir;
@@ -138,6 +141,7 @@ begin
 //  iLastDrawnIndex:=-1;
   bUpdateFileCount:= True;
   bUpdateDiskFreeSpace:= True;
+  fSorting := TFileListSorting.Create;
 end;
 
 Destructor TFilePanel.Destroy;
@@ -152,6 +156,8 @@ begin
     FreeAndNil(fRefList);
   if Assigned(fVFSmoduleList) then
     FreeAndNil(fVFSmoduleList);
+  if assigned(fSorting) then
+    FreeAndNil(fSorting);
 end;
 
 
@@ -383,13 +389,16 @@ end;
 
 procedure TFilePanel.SortByCol(iCol:Integer);
 begin
+  Sorting.Clear;
+  Sorting.AddSorting(iCol, fSortDirect);
   fSortCol:=iCol;
   Sort;
 end;
 
 procedure TFilePanel.Sort;
 begin
-  fFileList.Sort(fSortCol, fSortDirect, gCaseSensitiveSort);
+  //fFileList.Sort(fSortCol, fSortDirect, gCaseSensitiveSort);
+  fFileList.Sort(Sorting);
   UpDatePanel;
 end;
 
