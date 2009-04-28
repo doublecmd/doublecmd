@@ -21,8 +21,9 @@ uses
 type
   TCopyThread = class(TFileOpThread)
   private
-    FCopied: Int64;
   protected
+    FCopied: Int64;
+
     function CpFile(fr: PFileRecItem; const sDst: String; bShowDlg: Boolean): Boolean;
     function CopyFile(const sSrc, sDst: String; bAppend: Boolean): Boolean;
     procedure MainExecute; override;
@@ -40,6 +41,7 @@ var
   xIndex:Integer;
   iTotalDiskSize,
   iFreeDiskSize: Int64;
+  bProceed: Boolean;
 begin
   CorrectMask;
   FReplaceAll:= False;
@@ -50,8 +52,11 @@ begin
   begin
     if Terminated then
        Exit;
+
+    bProceed := True;
+
     pr:= NewFileList.GetItem(xIndex);
-//    DebugLn(pr^.sname,' ',pr^.sNameNoExt);
+
     EstimateTime(FCopied);
 
     { Check disk free space }
@@ -62,19 +67,22 @@ begin
           mmrNo:
             Exit;
           mmrSkip:
-            Continue;
+            bProceed := False;
         end;
       end;
 
-    CpFile(pr,sDstPath, True);
-    if not FPS_ISDIR(pr^.iMode) then
-      inc(FCopied,pr^.iSize);
-    if FFilesSize <> 0 then
-      FFileOpDlg.iProgress2Pos:= (FCopied * 100) div FFilesSize;
-    Synchronize(@FFileOpDlg.UpdateDlg);
-  end;
+    if bProceed then
+      CpFile(pr,sDstPath, True);
 
-//  writeln('iCoped:',iCoped,' FFileSize', FFilesSize);
+    if not FPS_ISDIR(pr^.iMode) then
+    begin
+      inc(FCopied,pr^.iSize);
+
+      if FFilesSize <> 0 then
+        FFileOpDlg.iProgress2Pos:= (FCopied * 100) div FFilesSize;
+      Synchronize(@FFileOpDlg.UpdateDlg);
+    end;
+  end;
 end;
 
 // bShowDlg is only for Rename
