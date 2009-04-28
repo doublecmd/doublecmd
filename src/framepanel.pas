@@ -1556,6 +1556,8 @@ begin
   edtPath:=TEdit.Create(lblLPath);
   edtPath.Parent:=pnlHeader;
   edtPath.Visible:=False;
+  edtPath.TabStop:=False;
+
 
   pnlFooter:=TPanel.Create(Self);
   pnlFooter.Parent:=Self;
@@ -1606,6 +1608,7 @@ begin
   edtRename:=TEdit.Create(dgPanel);
   edtRename.Parent:=dgPanel;
   edtRename.Visible:=False;
+  edtRename.TabStop:=False;
 
   // now create search panel
   pnAltSearch:=TPanel.Create(Self);
@@ -1615,6 +1618,7 @@ begin
   
   edtSearch:=TEdit.Create(pnAltSearch);
   edtSearch.Parent:=pnAltSearch;
+  edtSearch.TabStop:=False;
   edtSearch.Left:=64;
   edtSearch.Top:=1;
 

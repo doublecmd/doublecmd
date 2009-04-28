@@ -24,7 +24,7 @@ object frmMain: TfrmMain
   Position = poScreenCenter
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.26.3'
+  LCLVersion = '0.9.27'
   Visible = True
   object pnlSyncSize: TPanel
     Height = 26
@@ -91,7 +91,6 @@ object frmMain: TfrmMain
     ClientWidth = 659
     FullRepaint = False
     TabOrder = 1
-    TabStop = True
     object pnlLeft: TPanel
       Left = 1
       Height = 323
@@ -109,6 +108,7 @@ object frmMain: TfrmMain
         Height = 299
         Top = 24
         Width = 170
+        TabStop = False
         Align = alClient
         OnCloseTabClicked = NoteBookCloseTabClicked
         OnMouseDown = nbPageMouseDown
@@ -211,6 +211,7 @@ object frmMain: TfrmMain
         Height = 299
         Top = 24
         Width = 484
+        TabStop = False
         Align = alClient
         OnCloseTabClicked = NoteBookCloseTabClicked
         OnMouseDown = nbPageMouseDown
@@ -352,6 +353,7 @@ object frmMain: TfrmMain
         Height = 139
         Top = 1
         Width = 655
+        TabStop = False
         Align = alClient
         PageIndex = 0
         ShowTabs = False
@@ -524,6 +526,7 @@ object frmMain: TfrmMain
     ParentColor = False
     ParentFont = False
     TabOrder = 4
+    TabStop = False
     Keystrokes = <    
       item
         Command = 3
@@ -1089,7 +1092,7 @@ object frmMain: TfrmMain
       object mnuFilesShwSysFiles: TMenuItem
         Action = actShowSysFiles
         OnClick = actExecute
-      end      
+      end
     end
     object mnuConfig: TMenuItem
       Caption = 'C&onfiguration'
