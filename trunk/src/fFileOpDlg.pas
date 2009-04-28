@@ -102,6 +102,10 @@ begin
   iProgress2Max:=0;
   iProgress1Pos:=0;
   iProgress2Pos:=0;
+
+  pbFirst.DoubleBuffered := True;
+  pbSecond.DoubleBuffered := True;
+  Self.DoubleBuffered := True;
 end;
 
 procedure TfrmFileOp.FormShow(Sender: TObject);
