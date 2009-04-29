@@ -828,11 +828,11 @@ msgstr ""
 msgid "File Size From:"
 msgstr "Bestandsgrootte vanaf:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
 msgid "File Size To:"
 msgstr "Bestandsgrootte tot:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBFINDINFILE.CAPTION
 msgid "Find &text in file"
 msgstr "Zoek in bestand"
@@ -915,6 +915,7 @@ msgstr "Zoek Data"
 msgid "Current"
 msgstr "Huidig"
 
+#, fuzzy
 #: TFRMFINDDLG.LBLENCODING.CAPTION
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
@@ -925,7 +926,6 @@ msgstr "Koderen:"
 msgid "&File mask"
 msgstr "BestandsMasker"
 
-#, fuzzy
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "&Directory"
 msgstr "BestandDir"
@@ -1727,7 +1727,7 @@ msgid "[h]our"
 msgstr "[U]ur"
 
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
-msgid "[m]inute"
+msgid "Mi[n]ute"
 msgstr "[Mi]nuut"
 
 #: TFRMMULTIRENAME.MIMONTH.CAPTION

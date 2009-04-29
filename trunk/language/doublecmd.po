@@ -1726,7 +1726,7 @@ msgid "[h]our"
 msgstr ""
 
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
-msgid "[m]inute"
+msgid "Mi[n]ute"
 msgstr ""
 
 #: TFRMMULTIRENAME.MIMONTH.CAPTION

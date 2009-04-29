@@ -837,11 +837,11 @@ msgstr ""
 msgid "File Size From:"
 msgstr "Розмір файла від:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
 msgid "File Size To:"
 msgstr "Розмір файла до:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBFINDINFILE.CAPTION
 msgid "Find &text in file"
 msgstr "Шукати в файлі"
@@ -924,6 +924,7 @@ msgstr "З текстом"
 msgid "Current"
 msgstr "Поточний"
 
+#, fuzzy
 #: TFRMFINDDLG.LBLENCODING.CAPTION
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
@@ -934,7 +935,6 @@ msgstr "Кодування:"
 msgid "&File mask"
 msgstr "Шукати файли:"
 
-#, fuzzy
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "&Directory"
 msgstr "В каталозі:"
@@ -1736,7 +1736,7 @@ msgid "[h]our"
 msgstr "[Ч]ас"
 
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
-msgid "[m]inute"
+msgid "Mi[n]ute"
 msgstr "[Хв]илина"
 
 #: TFRMMULTIRENAME.MIMONTH.CAPTION

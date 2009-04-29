@@ -828,11 +828,11 @@ msgstr ""
 msgid "File Size From:"
 msgstr "最小:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
 msgid "File Size To:"
 msgstr "最大:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBFINDINFILE.CAPTION
 msgid "Find &text in file"
 msgstr "在文件中查找"
@@ -915,6 +915,7 @@ msgstr "查找数据"
 msgid "Current"
 msgstr "当前"
 
+#, fuzzy
 #: TFRMFINDDLG.LBLENCODING.CAPTION
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
@@ -925,7 +926,6 @@ msgstr "编码:"
 msgid "&File mask"
 msgstr "文件名掩码"
 
-#, fuzzy
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "&Directory"
 msgstr "文件所在目录"
@@ -1727,7 +1727,7 @@ msgid "[h]our"
 msgstr "[H]our"
 
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
-msgid "[m]inute"
+msgid "Mi[n]ute"
 msgstr "[Mi]nute"
 
 #: TFRMMULTIRENAME.MIMONTH.CAPTION
