@@ -17,20 +17,20 @@ msgstr ""
 msgid "All"
 msgstr "Vše"
 
+#, fuzzy
 #: TFCOLUMNSSETCONF.BTNNEXT.CAPTION
 msgid "->"
 msgstr "->"
 
-#, fuzzy
 #: TFCOLUMNSSETCONF.BTNPREV.CAPTION
 msgid "<-"
 msgstr "<-"
 
+#, fuzzy
 #: TFCOLUMNSSETCONF.BUTTON1.CAPTION
 msgid "Button1"
 msgstr "Button1"
 
-#, fuzzy
 #: TFCOLUMNSSETCONF.CAPTION
 msgid "Configure custom columns view"
 msgstr "Konfigurovat vlastní pohled (sloupce)"
@@ -111,6 +111,7 @@ msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
 msgid "OK"
 msgstr "OK"
 
+#, fuzzy
 #: TFRMCOLUMSPROPS.BITBTN1.CAPTION
 msgid "&ОК"
 msgstr "&ОК"
@@ -135,7 +136,6 @@ msgstr "Gbox1"
 msgid "GroupBox1"
 msgstr "GroupBox1"
 
-#, fuzzy
 #: TFRMCOLUMSPROPS.LABEL1.CAPTION
 msgid "Label1"
 msgstr "Label1"
@@ -408,12 +408,12 @@ msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Zrušit"
 
+#, fuzzy
 #: TFRMEDITSEARCHREPLACE.BTNOK.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&OK"
 
-#, fuzzy
 #: TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
 msgid "C&ase sensitivity"
@@ -601,11 +601,11 @@ msgctxt "TFRMFILEASSOC.MIFILENAME.CAPTION"
 msgid "File name"
 msgstr "Název souboru"
 
+#, fuzzy
 #: TFRMFILEASSOC.MIFILEPATH.CAPTION
 msgid "File path"
 msgstr "Cesta k souboru"
 
-#, fuzzy
 #: TFRMFILEASSOC.MIFULLPATH.CAPTION
 msgid "Full path"
 msgstr "Úplná cesta"
@@ -614,12 +614,12 @@ msgstr "Úplná cesta"
 msgid "Get output from command"
 msgstr "Získat výstup příkazu"
 
+#, fuzzy
 #: TFRMFILEASSOC.MIOPEN.CAPTION
 msgctxt "TFRMFILEASSOC.MIOPEN.CAPTION"
 msgid "Open"
 msgstr "Otevřít"
 
-#, fuzzy
 #: TFRMFILEASSOC.MISHELL.CAPTION
 msgid "Run in terminal"
 msgstr "Spustit v terminálu"
@@ -840,11 +840,11 @@ msgstr ""
 msgid "File Size From:"
 msgstr "Velikost od:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
 msgid "File Size To:"
 msgstr "Velikost do:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBFINDINFILE.CAPTION
 msgid "Find &text in file"
 msgstr "Vyhledat soubor"
@@ -927,6 +927,7 @@ msgstr "Hledat data"
 msgid "Current"
 msgstr "Aktuální"
 
+#, fuzzy
 #: TFRMFINDDLG.LBLENCODING.CAPTION
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
@@ -937,7 +938,6 @@ msgstr "Kódování:"
 msgid "&File mask"
 msgstr "Souborová maska"
 
-#, fuzzy
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "&Directory"
 msgstr "Adresářová maska"
@@ -974,11 +974,11 @@ msgstr "Rozžířené"
 msgid "Load/Save"
 msgstr ""
 
+#, fuzzy
 #: TFRMFINDDLG.TSSTANDARD.CAPTION
 msgid "Standard"
 msgstr "Standard"
 
-#, fuzzy
 #: TFRMFINDVIEW.CAPTION
 msgid "Find"
 msgstr "Hledat"
@@ -1344,11 +1344,11 @@ msgstr "Přenést adresář pod kursorem do pravého okna"
 msgid "Unselect all with same extension"
 msgstr "Zrušit označení všech se stejnou příponou"
 
+#, fuzzy
 #: TFRMMAIN.ACTVIEW.CAPTION
 msgid "View F3"
 msgstr "Zobraz F3"
 
-#, fuzzy
 #: TFRMMAIN.ACTVISITHOMEPAGE.CAPTION
 msgid "Visit Double Commander Web Site"
 msgstr "Navštívit domovskou stránku"
@@ -1633,12 +1633,12 @@ msgstr "Obnovit vše"
 msgid "MultiRename"
 msgstr "Hromadné přejmenování"
 
+#, fuzzy
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
 msgid "Log"
 msgstr "Log"
 
-#, fuzzy
 #: TFRMMULTIRENAME.CBREGEXP.CAPTION
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
@@ -1742,7 +1742,7 @@ msgid "[h]our"
 msgstr "[H]Hodina"
 
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
-msgid "[m]inute"
+msgid "Mi[n]ute"
 msgstr "[Mi]Minuta"
 
 #: TFRMMULTIRENAME.MIMONTH.CAPTION
@@ -2373,20 +2373,20 @@ msgstr "Spustit terminál:"
 msgid "Viewer font"
 msgstr "Písmo prohlížeče"
 
+#, fuzzy
 #: TFRMOPTIONS.LBLWATCHEXCLUDEDRIVES.CAPTION
 msgid "No refresh for &these drives:"
 msgstr ""
 
-#, fuzzy
 #: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
 msgid "Packer plugins are used to work with archives."
 msgstr "Komprimační zásuvný modul pro práci s archívy."
 
+#, fuzzy
 #: TFRMOPTIONS.LBLWDXDESCRIPTION.CAPTION
 msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
 msgstr "Obsahové zásuvné moduly umožňují zobrazit rozšířené informace jako jsou MP3 tagy nebo atributy obrázků v seznamu souborů, nebo je používat k vyhledávání a \"multi-přejmenování\""
 
-#, fuzzy
 #: TFRMOPTIONS.LBLWFXDESCRIPTION.CAPTION
 msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
 msgstr "Zásuvné moduly souborovýcch systémů umožní přístup na běžně nedostupná média jako jsou například externí zařízení (Palm/PocketPC)."
@@ -2635,12 +2635,12 @@ msgstr "Změnit"
 msgid "Default"
 msgstr "Výchozí"
 
+#, fuzzy
 #: TFRMTWEAKPLUGIN.BTNOK.CAPTION
 msgctxt "TFRMTWEAKPLUGIN.BTNOK.CAPTION"
 msgid "OK"
 msgstr "OK"
 
-#, fuzzy
 #: TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION
 msgctxt "TFRMTWEAKPLUGIN.BTNREMOVE.CAPTION"
 msgid "Remove"
@@ -2686,11 +2686,11 @@ msgstr "Můžete vytvářet nové archívy"
 msgid "Supports the options dialogbox"
 msgstr "Podporuje dialog s nastavením"
 
+#, fuzzy
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_SEARCHTEXT.CAPTION
 msgid "Allow searching for text in archives"
 msgstr "Podporuje vyhledávání textu v archívu"
 
-#, fuzzy
 #: TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION
 msgid "Description:"
 msgstr "Popis:"
@@ -3120,11 +3120,11 @@ msgstr "Neznámý formát archívu"
 msgid "File %s changed, save?"
 msgstr "Soubor %s byl změněn, uložit?"
 
+#, fuzzy
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Soubor %s existuje, přepsat?"
 
-#, fuzzy
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
 msgstr "Složka %s existuje, přepsat?"
@@ -3373,11 +3373,11 @@ msgstr "Nástroje"
 msgid "Position saved."
 msgstr "Pozice uložena."
 
+#, fuzzy
 #: ulng.rspropsfile
 msgid "File"
 msgstr "Soubor"
 
-#, fuzzy
 #: ulng.rspropsfolder
 msgctxt "ulng.rspropsfolder"
 msgid "Directory"
@@ -3387,6 +3387,7 @@ msgstr "Adresář"
 msgid "Named pipe"
 msgstr "Pojmenované roury"
 
+#, fuzzy
 #: ulng.rspropsno
 msgid "No"
 msgstr "Ne"
@@ -3396,7 +3397,6 @@ msgstr "Ne"
 msgid "Socket"
 msgstr "Socket"
 
-#, fuzzy
 #: ulng.rspropsspblkdev
 msgid "Special block device"
 msgstr "Speciální blokové zařízení"

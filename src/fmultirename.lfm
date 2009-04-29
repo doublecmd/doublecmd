@@ -547,7 +547,7 @@ object frmMultiRename: TfrmMultiRename
         OnClick = miHourClick
       end
       object miMinute: TMenuItem
-        Caption = '[m]inute'
+        Caption = 'Mi[n]ute'
         OnClick = miMinuteClick
       end
       object miSecond: TMenuItem

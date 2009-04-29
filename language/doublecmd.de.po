@@ -820,11 +820,11 @@ msgstr "Verzeichnis"
 msgid "File Size From:"
 msgstr "Dateigrösse ab:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
 msgid "File Size To:"
 msgstr "Bis Dateigrösse"
 
-#, fuzzy
 #: TFRMFINDDLG.CBFINDINFILE.CAPTION
 msgid "Find &text in file"
 msgstr "Suche in Datei"
@@ -907,6 +907,7 @@ msgstr "Suche Daten"
 msgid "Current"
 msgstr "Aktuell"
 
+#, fuzzy
 #: TFRMFINDDLG.LBLENCODING.CAPTION
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
@@ -917,7 +918,6 @@ msgstr "Kodiere:"
 msgid "&File mask"
 msgstr "Dateimaske"
 
-#, fuzzy
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "&Directory"
 msgstr "Verzeichnis in dem DoubleCommander suchen soll"
@@ -1719,7 +1719,7 @@ msgid "[h]our"
 msgstr "[S]tunde"
 
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
-msgid "[m]inute"
+msgid "Mi[n]ute"
 msgstr "[M]inute"
 
 #: TFRMMULTIRENAME.MIMONTH.CAPTION

@@ -209,9 +209,9 @@ end;
 procedure TfrmMultiRename.miMinuteClick(Sender: TObject);
 begin
   if ppNameMenu.Tag=0 then
-    InsertMask('[m]',edName)
+    InsertMask('[n]',edName)
   else
-    InsertMask('[m]',edExt);
+    InsertMask('[n]',edExt);
 end;
 
 procedure TfrmMultiRename.miMonthClick(Sender: TObject);
@@ -374,7 +374,7 @@ begin
         sOrigExt,[rfReplaceAll,rfIgnoreCase]);
 //type [N]
   sNew:=StringReplace(sNew,'[N]',
-        sOrigName,[rfReplaceAll,rfIgnoreCase]);
+        sOrigName,[rfReplaceAll]);
 //type [C]
   i:=StrToInt(edPoc.Text)+StrToInt(edInterval.Text)*count;
   sTmp:=format('%.'+
