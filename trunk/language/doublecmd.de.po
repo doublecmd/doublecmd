@@ -824,8 +824,8 @@ msgstr "Dateigrösse ab:"
 msgid "File Size To:"
 msgstr "Bis Dateigrösse"
 
-#: TFRMFINDDLG.CBFINDINFILE.CAPTION
 #, fuzzy
+#: TFRMFINDDLG.CBFINDINFILE.CAPTION
 msgid "Find &text in file"
 msgstr "Suche in Datei"
 
@@ -912,15 +912,19 @@ msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr "Kodiere:"
 
-#: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 #, fuzzy
+#: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 msgid "&File mask"
 msgstr "Dateimaske"
 
-#: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 #, fuzzy
+#: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "&Directory"
 msgstr "Verzeichnis in dem DoubleCommander suchen soll"
+
+#: TFRMFINDDLG.LBLFOUND.CAPTION
+msgid "Found"
+msgstr ""
 
 #: TFRMFINDDLG.LBLINFO.CAPTION
 msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
@@ -1711,15 +1715,15 @@ msgid "[Ex:x]xtension"
 msgstr "[Ex:x]ndung"
 
 #: TFRMMULTIRENAME.MIHOUR.CAPTION
-msgid "[H]our"
+msgid "[h]our"
 msgstr "[S]tunde"
 
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
-msgid "[Mi]nute"
+msgid "[m]inute"
 msgstr "[M]inute"
 
 #: TFRMMULTIRENAME.MIMONTH.CAPTION
-msgid "[Mo]nth"
+msgid "[M]onth"
 msgstr "[Mo]nat"
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
@@ -1747,7 +1751,7 @@ msgid "Name..."
 msgstr "Name..."
 
 #: TFRMMULTIRENAME.MISECOND.CAPTION
-msgid "[S]econd"
+msgid "[s]econd"
 msgstr "[S]ekunde"
 
 #: TFRMMULTIRENAME.MIYEAR.CAPTION
@@ -2900,6 +2904,10 @@ msgstr "Nur das aktuelle Verzeichnis"
 msgid "Directory %s does not exist!"
 msgstr "Verzeichnis %s existiert nicht!"
 
+#: ulng.rsfindfound
+msgid "Found: %d"
+msgstr ""
+
 #: ulng.rsfindsavetemplatecaption
 msgid "Save search template"
 msgstr "Suche als Vorlage speichern"
@@ -2911,6 +2919,10 @@ msgstr "Vorlagen-Name"
 #: ulng.rsfindscanned
 msgid "Scanned: %d"
 msgstr "Gelesen: %d"
+
+#: ulng.rsfindscanning
+msgid "Scanning"
+msgstr ""
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
@@ -3093,6 +3105,10 @@ msgstr "Verzeichnis besteht bereits. Soll es überschrieben werden"
 msgid "Follow symlink \"%s\"?"
 msgstr "Sym-Link folgen"
 
+#: ulng.rsmsginvalidselection
+msgid "Invalid selection."
+msgstr ""
+
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
 msgstr "Kopiere Datei %s"
@@ -3149,6 +3165,10 @@ msgstr "Neue Datei"
 msgid "Next volume will be unpacked"
 msgstr "Nächster Teil wird entpackt"
 
+#: ulng.rsmsgnofilesselected
+msgid "No files selected."
+msgstr ""
+
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
 msgstr "Nicht genügend Speicherplatz auf dem Ziellaufwerk. Trotzdem fortfahren?"
@@ -3160,6 +3180,10 @@ msgstr "Nicht genügend Speicherplatz auf dem Ziellaufwerk. Erneut versuchen?"
 #: ulng.rsmsgnotdelete
 msgid "Can not delete file %s"
 msgstr "Kann Datei %s nicht löschen"
+
+#: ulng.rsmsgnotimplemented
+msgid "Not implemented."
+msgstr ""
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
@@ -3196,6 +3220,10 @@ msgstr "Speicherort des nächsten Teils angeben"
 #: ulng.rsmsgsetvolumelabel
 msgid "Set volume label"
 msgstr "Laufwerksbezeichnung angeben"
+
+#: ulng.rsmsgtoomanyfilesselected
+msgid "Too many files selected."
+msgstr ""
 
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
