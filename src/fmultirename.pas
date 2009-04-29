@@ -128,7 +128,7 @@ type
 implementation
 
 uses
-  LCLProc, uLng, uGlobs, uFileProcs, uDCUtils, uOSUtils;
+  LCLProc, FileUtil, uLng, uGlobs, uFileProcs, uDCUtils, uOSUtils;
 
 function ShowMultiRenameForm(const srcFileList: TFileList):Boolean;
 var
@@ -448,7 +448,7 @@ begin
     iEnd:= Pos(']', Result);
     if (iStart = 0) or (iEnd = 0) then Exit;
     sTmp:= Copy(Result, iStart+1, iEnd-iStart-1);
-    sTmp:= FormatDateTime(sTmp, dtDateTime);
+    sTmp:= SysToUTF8(FormatDateTime(sTmp, dtDateTime));
     Delete(Result, iStart, iEnd-iStart+1);
     Insert(sTmp, Result, iStart);
   until False;
