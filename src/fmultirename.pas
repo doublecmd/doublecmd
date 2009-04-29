@@ -370,11 +370,9 @@ begin
   sOrigExt:=ExtractFileExt(lsvwFile.Items[count].Caption);
   delete(sOrigExt,1,1);
 //type [E]
-  sNew:=StringReplace(sMask,'[E]',
-        sOrigExt,[rfReplaceAll,rfIgnoreCase]);
+  sNew:=StringReplace(sMask,'[E]', sOrigExt,[rfReplaceAll]);
 //type [N]
-  sNew:=StringReplace(sNew,'[N]',
-        sOrigName,[rfReplaceAll]);
+  sNew:=StringReplace(sNew,'[N]', sOrigName,[rfReplaceAll]);
 //type [C]
   i:=StrToInt(edPoc.Text)+StrToInt(edInterval.Text)*count;
   sTmp:=format('%.'+
