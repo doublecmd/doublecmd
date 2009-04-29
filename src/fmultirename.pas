@@ -20,7 +20,7 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ComCtrls, Menus, Buttons, SynRegExpr, uClassesEx;
+  StdCtrls, ComCtrls, Menus, Buttons, SynRegExpr, uClassesEx, uFileList;
 
 type
 
@@ -89,6 +89,12 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure miDayClick(Sender: TObject);
+    procedure miHourClick(Sender: TObject);
+    procedure miMinuteClick(Sender: TObject);
+    procedure miMonthClick(Sender: TObject);
+    procedure miSecondClick(Sender: TObject);
+    procedure miYearClick(Sender: TObject);
     procedure NameClick(Sender: TObject);
     procedure NameXClick(Sender: TObject);
     procedure NameXXClick(Sender: TObject);
@@ -105,23 +111,26 @@ type
     function sReplace(sMask:string;count:integer):string;
     {sReplaceXX doing Nx,Nx:x and Ex,Ex:x}
     function sReplaceXX(sMask,sSymbol,sOrig:string):string;
+    {sReplaceDateTime doing Y,M,D and h,m,s}
+    function sReplaceDateTime(sMask: String; dtDateTime: TDateTime): String;
     {InsertMask is for write key symbols from buttons}
     procedure InsertMask(Mask:string;edChoose:Tedit);
     {Main function for write into lsvwFile}
     procedure FreshText;
   public
     { Public declarations }
+    FileList: TFileList;
   end;
 
 {initialization function}
-  function ShowMultiRenameForm(const lsInFiles: TStringList):Boolean;
+  function ShowMultiRenameForm(const srcFileList: TFileList):Boolean;
 
 implementation
 
 uses
   LCLProc, uLng, uGlobs, uFileProcs, uDCUtils, uOSUtils;
 
-function ShowMultiRenameForm(const lsInFiles: TStringList):Boolean;
+function ShowMultiRenameForm(const srcFileList: TFileList):Boolean;
 var
   c:integer;
 begin
@@ -129,13 +138,14 @@ begin
   with TfrmMultiRename.Create(Application) do
   begin
     try
-      for c:=0 to lsInFiles.Count-1 do
+      FileList:= srcFileList;
+      for c:=0 to FileList.Count-1 do
       with lsvwFile.Items do
       begin
         Add;
-        Item[c].Caption:=ExtractFileName(lsInFiles[c]);
+        Item[c].Caption:=ExtractFileName(FileList.GetItem(c)^.sName);
         item[c].SubItems.Add('');
-        item[c].SubItems.Add(ExtractFileDir(lsInFiles[c]));
+        item[c].SubItems.Add(ExcludeTrailingBackslash(FileList.GetItem(c)^.sPath));
       end;
       btnRestoreClick(nil);
       Show;
@@ -154,6 +164,7 @@ begin
   IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item0_Width';
   IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item1_Width';
   IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item2_Width';
+  FileList:= nil;
 end;
 
 procedure TfrmMultiRename.FormShow(Sender: TObject);
@@ -175,6 +186,56 @@ begin
     IniPropStorage.StoredValue['lsvwFile_Columns.Item1_Width']:= IntToStr(Items[1].Width);
     IniPropStorage.StoredValue['lsvwFile_Columns.Item2_Width']:= IntToStr(Items[2].Width);
   end;
+  if Assigned(FileList) then
+    FreeAndNil(FileList);
+end;
+
+procedure TfrmMultiRename.miDayClick(Sender: TObject);
+begin
+  if ppNameMenu.Tag=0 then
+    InsertMask('[D]',edName)
+  else
+    InsertMask('[D]',edExt);
+end;
+
+procedure TfrmMultiRename.miHourClick(Sender: TObject);
+begin
+  if ppNameMenu.Tag=0 then
+    InsertMask('[h]',edName)
+  else
+    InsertMask('[h]',edExt);
+end;
+
+procedure TfrmMultiRename.miMinuteClick(Sender: TObject);
+begin
+  if ppNameMenu.Tag=0 then
+    InsertMask('[m]',edName)
+  else
+    InsertMask('[m]',edExt);
+end;
+
+procedure TfrmMultiRename.miMonthClick(Sender: TObject);
+begin
+  if ppNameMenu.Tag=0 then
+    InsertMask('[M]',edName)
+  else
+    InsertMask('[M]',edExt);
+end;
+
+procedure TfrmMultiRename.miSecondClick(Sender: TObject);
+begin
+  if ppNameMenu.Tag=0 then
+    InsertMask('[s]',edName)
+  else
+    InsertMask('[s]',edExt);
+end;
+
+procedure TfrmMultiRename.miYearClick(Sender: TObject);
+begin
+  if ppNameMenu.Tag=0 then
+    InsertMask('[Y]',edName)
+  else
+    InsertMask('[Y]',edExt);
 end;
 
 procedure TfrmMultiRename.FreshText;
@@ -311,13 +372,6 @@ begin
 //type [E]
   sNew:=StringReplace(sMask,'[E]',
         sOrigExt,[rfReplaceAll,rfIgnoreCase]);
-
-{
-//type [H][Mi][S][R][Me][D]
-  sNew:=StringReplace(sNew,'[H..D]'-what symbol,
-        -which replace,[rfReplaceAll,rfIgnoreCase]);
-}
-
 //type [N]
   sNew:=StringReplace(sNew,'[N]',
         sOrigName,[rfReplaceAll,rfIgnoreCase]);
@@ -331,6 +385,8 @@ begin
   sNew:=sReplaceXX(sNew,'[N',sOrigName);
 //type[Exx]
   sNew:=sReplaceXX(sNew,'[E',sOrigExt);
+//type [h][m][s][Y][M][D]
+  sNew:= sReplaceDateTime(sNew, FileList.GetItem(count)^.fTimeI);
   Result:=sNew;
 end;
 
@@ -378,6 +434,24 @@ Begin
     end;
   end;
   result:=sMask;
+end;
+
+function TfrmMultiRename.sReplaceDateTime(sMask: String; dtDateTime: TDateTime): String;
+var
+  iStart,
+  iEnd: Integer;
+  sTmp: String;
+begin
+  Result:= sMask;
+  repeat
+    iStart:= Pos('[', Result);
+    iEnd:= Pos(']', Result);
+    if (iStart = 0) or (iEnd = 0) then Exit;
+    sTmp:= Copy(Result, iStart+1, iEnd-iStart-1);
+    sTmp:= FormatDateTime(sTmp, dtDateTime);
+    Delete(Result, iStart, iEnd-iStart+1);
+    Insert(sTmp, Result, iStart);
+  until False;
 end;
 
 procedure TfrmMultiRename.btnNameMenuClick(Sender: TObject);

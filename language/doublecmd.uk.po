@@ -841,8 +841,8 @@ msgstr "Розмір файла від:"
 msgid "File Size To:"
 msgstr "Розмір файла до:"
 
-#: TFRMFINDDLG.CBFINDINFILE.CAPTION
 #, fuzzy
+#: TFRMFINDDLG.CBFINDINFILE.CAPTION
 msgid "Find &text in file"
 msgstr "Шукати в файлі"
 
@@ -929,15 +929,19 @@ msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr "Кодування:"
 
-#: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 #, fuzzy
+#: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 msgid "&File mask"
 msgstr "Шукати файли:"
 
-#: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 #, fuzzy
+#: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "&Directory"
 msgstr "В каталозі:"
+
+#: TFRMFINDDLG.LBLFOUND.CAPTION
+msgid "Found"
+msgstr ""
 
 #: TFRMFINDDLG.LBLINFO.CAPTION
 msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
@@ -1728,15 +1732,15 @@ msgid "[Ex:x]xtension"
 msgstr "[Рx:x]озширення"
 
 #: TFRMMULTIRENAME.MIHOUR.CAPTION
-msgid "[H]our"
+msgid "[h]our"
 msgstr "[Ч]ас"
 
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
-msgid "[Mi]nute"
+msgid "[m]inute"
 msgstr "[Хв]илина"
 
 #: TFRMMULTIRENAME.MIMONTH.CAPTION
-msgid "[Mo]nth"
+msgid "[M]onth"
 msgstr "[Мі]сяць"
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
@@ -1764,7 +1768,7 @@ msgid "Name..."
 msgstr "Ім'я..."
 
 #: TFRMMULTIRENAME.MISECOND.CAPTION
-msgid "[S]econd"
+msgid "[s]econd"
 msgstr "[С]екунда"
 
 #: TFRMMULTIRENAME.MIYEAR.CAPTION
@@ -2920,6 +2924,10 @@ msgstr "Тільки поточний каталог "
 msgid "Directory %s does not exist!"
 msgstr "Каталог %s не існує!"
 
+#: ulng.rsfindfound
+msgid "Found: %d"
+msgstr ""
+
 #: ulng.rsfindsavetemplatecaption
 msgid "Save search template"
 msgstr ""
@@ -2931,6 +2939,10 @@ msgstr ""
 #: ulng.rsfindscanned
 msgid "Scanned: %d"
 msgstr "Проглянуто: %d"
+
+#: ulng.rsfindscanning
+msgid "Scanning"
+msgstr ""
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
@@ -3113,6 +3125,10 @@ msgstr "Каталог %s існує, перезаписати?"
 msgid "Follow symlink \"%s\"?"
 msgstr "Прямувати за посиланням \"%s\"?"
 
+#: ulng.rsmsginvalidselection
+msgid "Invalid selection."
+msgstr ""
+
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
 msgstr "Копиювання файла %s"
@@ -3169,6 +3185,10 @@ msgstr "Новий файл"
 msgid "Next volume will be unpacked"
 msgstr "Наступний том буде розпаковано"
 
+#: ulng.rsmsgnofilesselected
+msgid "No files selected."
+msgstr ""
+
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
 msgstr "Недостатньо місця на отримувачі. Продовжити?"
@@ -3180,6 +3200,10 @@ msgstr "Недостатньо місця на отримувачі. Повто�
 #: ulng.rsmsgnotdelete
 msgid "Can not delete file %s"
 msgstr "Не могу стерти файл %s"
+
+#: ulng.rsmsgnotimplemented
+msgid "Not implemented."
+msgstr ""
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
@@ -3216,6 +3240,10 @@ msgstr "Вкажіть шлях до наступного тому"
 #: ulng.rsmsgsetvolumelabel
 msgid "Set volume label"
 msgstr "Встановити мітку диска"
+
+#: ulng.rsmsgtoomanyfilesselected
+msgid "Too many files selected."
+msgstr ""
 
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"

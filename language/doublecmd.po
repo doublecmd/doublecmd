@@ -1722,15 +1722,15 @@ msgid "[Ex:x]xtension"
 msgstr ""
 
 #: TFRMMULTIRENAME.MIHOUR.CAPTION
-msgid "[H]our"
+msgid "[h]our"
 msgstr ""
 
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
-msgid "[Mi]nute"
+msgid "[m]inute"
 msgstr ""
 
 #: TFRMMULTIRENAME.MIMONTH.CAPTION
-msgid "[Mo]nth"
+msgid "[M]onth"
 msgstr ""
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
@@ -1758,7 +1758,7 @@ msgid "Name..."
 msgstr ""
 
 #: TFRMMULTIRENAME.MISECOND.CAPTION
-msgid "[S]econd"
+msgid "[s]econd"
 msgstr ""
 
 #: TFRMMULTIRENAME.MIYEAR.CAPTION

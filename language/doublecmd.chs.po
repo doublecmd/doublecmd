@@ -832,8 +832,8 @@ msgstr "最小:"
 msgid "File Size To:"
 msgstr "最大:"
 
-#: TFRMFINDDLG.CBFINDINFILE.CAPTION
 #, fuzzy
+#: TFRMFINDDLG.CBFINDINFILE.CAPTION
 msgid "Find &text in file"
 msgstr "在文件中查找"
 
@@ -920,15 +920,19 @@ msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr "编码:"
 
-#: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 #, fuzzy
+#: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 msgid "&File mask"
 msgstr "文件名掩码"
 
-#: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 #, fuzzy
+#: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "&Directory"
 msgstr "文件所在目录"
+
+#: TFRMFINDDLG.LBLFOUND.CAPTION
+msgid "Found"
+msgstr ""
 
 #: TFRMFINDDLG.LBLINFO.CAPTION
 msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
@@ -1719,15 +1723,15 @@ msgid "[Ex:x]xtension"
 msgstr "[Ex:x]xtension"
 
 #: TFRMMULTIRENAME.MIHOUR.CAPTION
-msgid "[H]our"
+msgid "[h]our"
 msgstr "[H]our"
 
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
-msgid "[Mi]nute"
+msgid "[m]inute"
 msgstr "[Mi]nute"
 
 #: TFRMMULTIRENAME.MIMONTH.CAPTION
-msgid "[Mo]nth"
+msgid "[M]onth"
 msgstr "[Mo]nth"
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
@@ -1755,7 +1759,7 @@ msgid "Name..."
 msgstr "名称..."
 
 #: TFRMMULTIRENAME.MISECOND.CAPTION
-msgid "[S]econd"
+msgid "[s]econd"
 msgstr "[S]econd"
 
 #: TFRMMULTIRENAME.MIYEAR.CAPTION
@@ -2908,6 +2912,10 @@ msgstr "仅当前目录"
 msgid "Directory %s does not exist!"
 msgstr "目录 %s 不存在!"
 
+#: ulng.rsfindfound
+msgid "Found: %d"
+msgstr ""
+
 #: ulng.rsfindsavetemplatecaption
 msgid "Save search template"
 msgstr ""
@@ -2919,6 +2927,10 @@ msgstr ""
 #: ulng.rsfindscanned
 msgid "Scanned: %d"
 msgstr "已扫描: %d"
+
+#: ulng.rsfindscanning
+msgid "Scanning"
+msgstr ""
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
@@ -3101,6 +3113,10 @@ msgstr "文件夹%s已存在, 覆盖吗?"
 msgid "Follow symlink \"%s\"?"
 msgstr "允许符号链接\"%s\"吗?"
 
+#: ulng.rsmsginvalidselection
+msgid "Invalid selection."
+msgstr ""
+
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
 msgstr "复制文件 %s"
@@ -3157,6 +3173,10 @@ msgstr "新建文件"
 msgid "Next volume will be unpacked"
 msgstr "将解包下一卷"
 
+#: ulng.rsmsgnofilesselected
+msgid "No files selected."
+msgstr ""
+
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
 msgstr "目标磁盘空间不足,继续?"
@@ -3168,6 +3188,10 @@ msgstr "目标磁盘空间不足, 重试?"
 #: ulng.rsmsgnotdelete
 msgid "Can not delete file %s"
 msgstr "不能删除文件 %s"
+
+#: ulng.rsmsgnotimplemented
+msgid "Not implemented."
+msgstr ""
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
@@ -3204,6 +3228,10 @@ msgstr "选择下一卷位置"
 #: ulng.rsmsgsetvolumelabel
 msgid "Set volume label"
 msgstr "设置卷标"
+
+#: ulng.rsmsgtoomanyfilesselected
+msgid "Too many files selected."
+msgstr ""
 
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"

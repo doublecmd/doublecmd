@@ -832,8 +832,8 @@ msgstr "Tamaño desde:"
 msgid "File Size To:"
 msgstr "Tamaño hasta:"
 
-#: TFRMFINDDLG.CBFINDINFILE.CAPTION
 #, fuzzy
+#: TFRMFINDDLG.CBFINDINFILE.CAPTION
 msgid "Find &text in file"
 msgstr "Buscar en fichero"
 
@@ -920,15 +920,19 @@ msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr ""
 
-#: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 #, fuzzy
+#: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 msgid "&File mask"
 msgstr "Máscara de ficheros"
 
-#: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 #, fuzzy
+#: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "&Directory"
 msgstr "Directorio de fichero"
+
+#: TFRMFINDDLG.LBLFOUND.CAPTION
+msgid "Found"
+msgstr ""
 
 #: TFRMFINDDLG.LBLINFO.CAPTION
 msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
@@ -1719,15 +1723,15 @@ msgid "[Ex:x]xtension"
 msgstr "[Ex:x]xtensión"
 
 #: TFRMMULTIRENAME.MIHOUR.CAPTION
-msgid "[H]our"
+msgid "[h]our"
 msgstr "[H]ora"
 
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
-msgid "[Mi]nute"
+msgid "[m]inute"
 msgstr "[Mi]nuto"
 
 #: TFRMMULTIRENAME.MIMONTH.CAPTION
-msgid "[Mo]nth"
+msgid "[M]onth"
 msgstr "[Mo]->Mes"
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
@@ -1755,7 +1759,7 @@ msgid "Name..."
 msgstr "Nombre..."
 
 #: TFRMMULTIRENAME.MISECOND.CAPTION
-msgid "[S]econd"
+msgid "[s]econd"
 msgstr "[S]egundo"
 
 #: TFRMMULTIRENAME.MIYEAR.CAPTION
@@ -2908,6 +2912,10 @@ msgstr ""
 msgid "Directory %s does not exist!"
 msgstr "El directorio %s no existe!"
 
+#: ulng.rsfindfound
+msgid "Found: %d"
+msgstr ""
+
 #: ulng.rsfindsavetemplatecaption
 msgid "Save search template"
 msgstr ""
@@ -2919,6 +2927,10 @@ msgstr ""
 #: ulng.rsfindscanned
 msgid "Scanned: %d"
 msgstr "Buscados: %d"
+
+#: ulng.rsfindscanning
+msgid "Scanning"
+msgstr ""
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
@@ -3101,6 +3113,10 @@ msgstr ""
 msgid "Follow symlink \"%s\"?"
 msgstr ""
 
+#: ulng.rsmsginvalidselection
+msgid "Invalid selection."
+msgstr ""
+
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
 msgstr "Copiar fichero %s"
@@ -3157,6 +3173,10 @@ msgstr "Nuevo fichero"
 msgid "Next volume will be unpacked"
 msgstr "Se descomprimirá el siguiente volumen"
 
+#: ulng.rsmsgnofilesselected
+msgid "No files selected."
+msgstr ""
+
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
 msgstr "Espacio insuficiente en disco de destino, Continuar?"
@@ -3168,6 +3188,10 @@ msgstr "Espacio insuficiente en disco de destino, Reintentar?"
 #: ulng.rsmsgnotdelete
 msgid "Can not delete file %s"
 msgstr "Imposible borrar %s"
+
+#: ulng.rsmsgnotimplemented
+msgid "Not implemented."
+msgstr ""
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
@@ -3203,6 +3227,10 @@ msgstr "Escoja situación del siguiente volumen"
 
 #: ulng.rsmsgsetvolumelabel
 msgid "Set volume label"
+msgstr ""
+
+#: ulng.rsmsgtoomanyfilesselected
+msgid "Too many files selected."
 msgstr ""
 
 #: ulng.rsmsgvolumelabel
