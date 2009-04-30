@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="48">
+    <Units Count="49">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -383,6 +383,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uKeyboard"/>
       </Unit47>
+      <Unit48>
+        <Filename Value="platform\udragdropqt.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDragDropQt"/>
+      </Unit48>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

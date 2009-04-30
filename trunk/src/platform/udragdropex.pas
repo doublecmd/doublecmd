@@ -174,6 +174,9 @@ uses
 {$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
 uses
   uDragDropGtk;
+{$ELSEIF DEFINED(LCLQT)}
+uses
+  uDragDropQt;
 {$ENDIF}
 
 
@@ -334,7 +337,7 @@ begin
 {$ELSEIF DEFINED(LCLGTK) OR DEFINED(LCLGTK2)}
   Result := True;
 {$ELSEIF DEFINED(LCLQT)}
-  Result := False; // TODO: Implement in QT
+  Result := True;
 {$ELSE}
   Result := False;
 {$ENDIF}
@@ -346,6 +349,8 @@ begin
   Result := TDragDropSourceWindows.Create(Control);
 {$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   Result := TDragDropSourceGTK.Create(Control);
+{$ELSEIF DEFINED(LCLQT)}
+  Result := TDragDropSourceQT.Create(Control);
 {$ELSE}
   Result := TDragDropSource.Create(Control);   // Dummy
 {$ENDIF}
@@ -357,6 +362,8 @@ begin
   Result := TDragDropTargetWindows.Create(Control);
 {$ELSEIF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   Result := TDragDropTargetGTK.Create(Control);
+{$ELSEIF DEFINED(LCLQT)}
+  Result := TDragDropTargetQT.Create(Control);
 {$ELSE}
   Result := TDragDropTarget.Create(Control);   // Dummy
 {$ENDIF}
