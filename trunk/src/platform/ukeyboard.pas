@@ -116,11 +116,6 @@ begin
 {$ENDIF}
 
 {$IF DEFINED(UNIX) and DEFINED(LCLQT)}
-  // Lazarus uses QtMetaModifier for Alt, but QT docs state it's QtAltModifier.
-  // On Windows QtMetaModifier is supposedly mapped to Windows Key.
-  if (QApplication_keyboardModifiers and QtAltModifier) > 0 then
-    Include(Result,ssAlt);
-
   // QtGroupSwitchModifier is only recognized on X11.
   if (QApplication_keyboardModifiers and QtGroupSwitchModifier) > 0 then
     Include(Result,ssAltGr);
