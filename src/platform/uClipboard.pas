@@ -18,6 +18,9 @@ uses
   function URIEncode(path: String): String;
   function ExtractFilenames(uriList: String): TStringList;
 
+  function FormatUriList(FileNames: TStringList): String;
+  function FormatTextPlain(FileNames: TStringList): String;
+
 const
   // General MIME
   uriListMime     = 'text/uri-list';
@@ -254,6 +257,40 @@ begin
   end;
 end;
 
+function FormatUriList(FileNames: TStringList): String;
+var
+  i : integer;
+begin
+  Result := '';
+  for i := 0 to filenames.Count-1 do
+  begin
+    // Separate previous uris with line endings,
+    // but do not end the whole string with it.
+    if i > 0 then
+      Result := Result + LineEnding;
+
+    Result := Result
+            + fileScheme + '//'  { don't put hostname }
+            + URIEncode(filenames[i]);
+  end;
+end;
+
+function FormatTextPlain(FileNames: TStringList): String;
+var
+  i : integer;
+begin
+  Result := '';
+  for i := 0 to filenames.Count-1 do
+  begin
+    if i > 0 then
+      Result := Result + LineEnding;
+
+    Result := Result
+            + fileScheme + '//'  { don't put hostname }
+            + filenames[i];
+  end;
+end;
+
 {$IFDEF UNIX}
 
 function GetClipboardFormatAsString(formatId: TClipboardFormat): String;
@@ -313,7 +350,6 @@ const
 
 {$IFDEF UNIX}
 var
-  i: Integer;
   s: String;
   uriList: String;
   plainList: String;
@@ -394,28 +430,8 @@ begin
 {$IFDEF UNIX}
 
   // Prepare filenames list.
-  uriList := '';
-  plainList := '';
-  for i := 0 to filenames.Count-1 do
-  begin
-
-    // Separate previous uris with line endings,
-    // but do not end the whole string with it.
-    if i > 0 then
-    begin
-      plainList := plainList + LineEnding;
-      uriList   := uriList   + LineEnding;
-    end;
-
-    plainList := plainList
-               + fileScheme + '//'  { don't put hostname }
-               + filenames[i];
-
-    uriList   := uriList
-               + fileScheme + '//'  { don't put hostname }
-               + URIEncode(filenames[i]);
-  end;
-
+  uriList := FormatUriList(filenames);
+  plainList := FormatTextPlain(filenames);
 
   Clipboard.Open;
   Clipboard.Clear;

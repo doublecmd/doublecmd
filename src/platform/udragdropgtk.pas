@@ -322,22 +322,10 @@ begin
   case TTargetId(info) of
 
     tidTextUriList:
-      for i := 0 to DragDropSource.GetFileNamesList.Count-1 do
-      begin
-        dataString := dataString
-                    + fileScheme + '//'  { don't put hostname }
-                    + URIEncode(DragDropSource.GetFileNamesList[i])
-                    + LineEnding;
-      end;
+      dataString := FormatUriList(DragDropSource.GetFileNamesList);
 
     tidTextPlain:
-      for i := 0 to DragDropSource.GetFileNamesList.Count-1 do
-      begin
-        dataString := dataString
-                    + fileScheme + '//'  { don't put hostname }
-                    + DragDropSource.GetFileNamesList[i]
-                    + LineEnding;
-      end;
+      dataString := FormatTextPlain(DragDropSource.GetFileNamesList);
 
   end;
 
@@ -424,7 +412,7 @@ function OnDataReceived(widget: PGtkWidget; context: PGdkDragContext; x, y: gint
 var
   DragDropTarget: TDragDropTargetGTK;
   DropEffect: TDropEffect;
-  FileNamesList: TStringList;
+  FileNamesList: TStringList = nil;
   CursorPosition: TPoint;
   uriList: string;
 begin
@@ -465,7 +453,8 @@ begin
         Result := DragDropTarget.GetDropEvent()(FileNamesList, DropEffect, CursorPosition);
 
     finally
-      FreeAndNil(FileNamesList);
+      if Assigned(FileNamesList) then
+        FreeAndNil(FileNamesList);
     end;
 
   end;
