@@ -257,6 +257,38 @@ implementation
 uses
   FileUtil;
 
+{$IFDEF UNIX}
+type
+  {en
+    Waits for a child process to finish and collects its exit status,
+    causing it to be released by the system (prevents defunct processes).
+
+    Instead of the wait-thread we could just ignore or handle SIGCHLD signal
+    for the process, but this way we don't interfere with the signal handling.
+    The downside is that there's a thread for every child process running.
+  }
+  TWaitForPidThread = class(TThread)
+  private
+    FPID: TPid;
+  protected
+    procedure Execute; override;
+  public
+    constructor Create(WaitForPid: TPid); overload;
+  end;
+
+  constructor TWaitForPidThread.Create(WaitForPid: TPid);
+  begin
+    inherited Create(True);
+    FPID := WaitForPid;
+    FreeOnTerminate := True;
+  end;
+
+  procedure TWaitForPidThread.Execute;
+  begin
+    FpWaitPid(FPID, nil, 0);
+  end;
+{$ENDIF}
+
 (*Is Directory*)
 
 function  FPS_ISDIR(iAttr:Cardinal) : Boolean;
@@ -382,6 +414,7 @@ var
   x, pid : LongInt;
   Args : TOpenStringArray;
   pArgs : PPCharArray;
+  WaitForPidThread: TWaitForPidThread;
 begin
   sTempStr := Trim(sCmdLine);
   SplitArgs(Args, sTempStr);
@@ -418,11 +451,16 @@ begin
       { If the FpExecVP fails, we return an exitvalue of 127, to let it be known }
       fpExit(127);
     end
-  else
-    if pid = -1 then         { Fork failed }
-      begin
-        raise Exception.Create('Fork failed: ' + sCmdLine);
-      end;
+  else if pid = -1 then         { Fork failed }
+    begin
+      raise Exception.Create('Fork failed: ' + sCmdLine);
+    end
+  else if pid > 0 then          { Parent }
+    begin
+      WaitForPidThread := TWaitForPidThread.Create(pid);
+      WaitForPidThread.Resume;
+    end;
+
   Result := (pid > 0);
 end;
 {$ELSE}
