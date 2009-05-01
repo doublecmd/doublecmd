@@ -412,13 +412,12 @@ function ExecCmdFork(sCmdLine:String; bTerm : Boolean; sTerm : String) : Boolean
 var
   sTempStr : String;
   x, pid : LongInt;
+  Command : String;
   Args : TOpenStringArray;
-  pArgs : PPCharArray;
   WaitForPidThread: TWaitForPidThread;
 begin
   sTempStr := Trim(sCmdLine);
-  SplitArgs(Args, sTempStr);
-  
+
   if bTerm then
     begin
       x := 1;
@@ -429,25 +428,25 @@ begin
       end;
       if sTerm = '' then sTerm := RunInTerm;
       sTempStr := Format(fmtRunInTerm, [sTerm, sTempStr]);
-      SplitArgs(Args, sTempStr);
     end;
-  if Length(Args) = 0 then Exit;
-    for x := 0 to Length(Args) - 1 do Args[x] := RemoveQuotation(Args[x]);
 
-  if Length(Args) > 0 then
-    begin
-      pArgs := AllocMem((Length(Args) + 1) * SizeOf(PChar));
-      for x := 0 to Length(Args) - 1 do
-        pArgs[x] := PChar(Args[x]);
-      pArgs[Length(Args)] := nil;
-    end;
+  SplitArgs(Args, sTempStr);
+
+  if Length(Args) = 0 then Exit;
+
+  Command := Args[0];
+
+  // remove command from args (0th element)
+  for x := 1 to Length(Args) - 1 do
+    Args[x-1] := RemoveQuotation(Args[x]);
+  SetLength(Args, Length(Args) - 1);
 
   pid := fpFork;
 
   if pid = 0 then
     begin
       { The child does the actual exec, and then exits }
-      FpExecVP(Args[0], PPChar(@pArgs[0]));
+      FpExecLP(Command, Args);
       { If the FpExecVP fails, we return an exitvalue of 127, to let it be known }
       fpExit(127);
     end
