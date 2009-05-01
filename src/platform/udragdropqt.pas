@@ -135,6 +135,7 @@ begin
 
   except
     QDrag_destroy(DragObject);
+    raise;
   end;
 
   // Start drag&drop operation (default to Copy action).
