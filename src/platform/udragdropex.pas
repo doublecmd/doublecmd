@@ -79,10 +79,10 @@ type
   TDragLeaveEvent = function:Boolean of object;
 
   { Base class for external source }
-  TDragDropSource = class
+  TDragDropSource = class(TObject)
   public
     constructor Create(SourceControl: TWinControl); virtual;
-    destructor  Destroy; virtual;
+    destructor  Destroy; override;
 
     function  RegisterEvents(DragBeginEvent  : uDragDropEx.TDragBeginEvent;
                              RequestDataEvent: uDragDropEx.TRequestDataEvent;
@@ -117,10 +117,10 @@ type
   end;
 
   { Base class for external target }
-  TDragDropTarget = class
+  TDragDropTarget = class(TObject)
   public
     constructor Create(TargetControl: TWinControl); virtual;
-    destructor  Destroy; virtual;
+    destructor  Destroy; override;
 
     function  RegisterEvents(DragEnterEvent: uDragDropEx.TDragEnterEvent;
                              DragOverEvent : uDragDropEx.TDragOverEvent;

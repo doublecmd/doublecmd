@@ -431,11 +431,11 @@ begin
   if Assigned(gWFXPlugins) then
     FreeAndNil(gWFXPlugins);
   if Assigned(ColSet) then
-    ColSet.Free;
+    FreeAndNil(ColSet);
   if Assigned(HotMan) then
-    HotMan.Free;
+    FreeAndNil(HotMan);
   if Assigned(Actions) then
-    Actions.Free;
+    FreeAndNil(Actions);
 end;
 
 function LoadGlobs : Boolean;

@@ -626,6 +626,7 @@ end;
 Destructor TFileListSorting.Destroy;
 begin
   Clear;
+  inherited;
 end;
 
 procedure TFileListSorting.Clear;

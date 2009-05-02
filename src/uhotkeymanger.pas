@@ -276,8 +276,6 @@ begin
  begin
    while FFormsList.Count>0 do
      begin
-      //ClearHotKeys;
-       UnRegisterHotkeyManager(TObjInfoClass(FFormsList.Objects[0]).AObject );
        if Assigned(FFormsList.Objects[0]) then
          begin
            TObjInfoClass(FFormsList.Objects[0]).Free;

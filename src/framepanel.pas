@@ -77,6 +77,7 @@ type
 
   public
     constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
 
     // Returns height of all the header rows.
     function GetHeaderHeight: Integer;
@@ -1677,7 +1678,20 @@ begin
   StartDrag := False;
   DropRowIndex := -1;
 
+  DragDropSource := nil;
+  DragDropTarget := nil;
+
   inherited Create(AOwner);
+end;
+
+destructor TDrawGridEx.Destroy;
+begin
+  if Assigned(DragDropSource) then
+    FreeAndNil(DragDropSource);
+  if Assigned(DragDropTarget) then
+    FreeAndNil(DragDropTarget);
+
+  inherited;
 end;
 
 procedure TDrawGridEx.MouseMove(Shift: TShiftState; X, Y: Integer);

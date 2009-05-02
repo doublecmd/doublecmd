@@ -702,6 +702,8 @@ begin
     FreeThenNil(IniBarFile);
   end;
   {*Tool Bar*}
+
+  DestroyDrivesList(DrivesList);
 end;
 
 procedure TfrmMain.FormDropFiles(Sender: TObject; const FileNames: array of String);
@@ -1109,7 +1111,6 @@ begin
   DebugLn('frmMain.frmMainShow');
   Application.QueueAsyncCall(@frmMainAfterShow, 0);
   {$IFDEF LINUX}
-  CreateHal;
   tmHAL.Enabled := True;
   {$ENDIF}
 end;
@@ -2629,7 +2630,7 @@ procedure TfrmMain.UpdateDiskCount;
 var
   I: Integer;
 begin
-  DrivesList.Clear;
+  DestroyDrivesList(DrivesList);
   DrivesList := GetAllDrives;
   { Delete drives that in drives black list }
   for I:= DrivesList.Count - 1 downto 0 do
