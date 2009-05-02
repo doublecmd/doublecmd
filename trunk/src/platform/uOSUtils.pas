@@ -161,6 +161,10 @@ function GetAppConfigDir: String;
 
 function IsAvailable(Path : String) : Boolean;
 function GetAllDrives : TList;
+{en
+   Destroys drives list created by GetAllDrives.
+}
+procedure DestroyDrivesList(var ADrivesList: TList);
 
 (* File mapping/unmapping routines *)
 {en
@@ -248,7 +252,7 @@ var
   DcDbus : PDBusConnection;
   DcCtx : PLibHalContext;
   DeviceWasChange : Boolean;
-  DeviceList : TStringList;
+  DeviceList : TStringList = nil;
 
 {$ENDIF}
 
@@ -811,6 +815,20 @@ begin
   end;
 end;
 {$ENDIF}
+
+procedure DestroyDrivesList(var ADrivesList: TList);
+var
+  i : Integer;
+begin
+  if Assigned(ADrivesList) then
+  begin
+    for i := 0 to ADrivesList.Count - 1 do
+      if Assigned(ADrivesList.Items[i]) then
+        Dispose(PDrive(ADrivesList.Items[i]));
+    FreeAndNil(ADrivesList);
+  end;
+end;
+
 
 function MapFile(const sFileName : UTF8String; out FileMapRec : TFileMapRec) : Boolean;
 {$IFDEF MSWINDOWS}
@@ -1582,10 +1600,21 @@ begin
 //  dbus_connection_close(DcDbus);
 //  it not right becose wee don do dbus_connection_open
 //  how i must close dbus_bus_get_private i dont know
+
+  FreeAndNil(DeviceList);
 end;
 
 // ************************** HAL section End ***********************  //
 
 {$ENDIF}
 
+{$IFDEF UNIX}
+
+initialization
+  CreateHal;
+
+finalization
+  FreeHal;
+
+{$ENDIF}
 end.

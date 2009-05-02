@@ -318,7 +318,14 @@ begin
           png := TPortableNetworkGraphic.Create;
           png.LoadFromFile(sFileName);
           png.Transparent:=True;
-          bmp := Graphics.TBitMap(png);
+
+          // Convert png to bitmap (just reassign handles ownership)
+          // to make sure only Graphics.TBitmap objects are in FPixmapList.
+          bmp := Graphics.TBitMap.Create;
+          bmp.BitmapHandle := png.ReleaseBitmapHandle;
+          bmp.MaskHandle := png.ReleaseMaskHandle;
+          bmp.Transparent := True;
+          png.Free;
         end
       else
         begin
@@ -353,9 +360,16 @@ begin
 end;
 
 destructor TPixMapManager.Destroy;
+var
+  i : Integer;
 begin
   if assigned(FPixmapList) then
+  begin
+    for i := 0 to FPixmapList.Count - 1 do
+      if Assigned(FPixmapList.Objects[i]) then
+        Graphics.TCustomBitmap(FPixmapList.Objects[i]).Free;
     FreeAndNil(FPixmapList);
+  end;
   if assigned(FExtList) then
     FreeAndNil(FExtList);
   with FFirstIconSize do
