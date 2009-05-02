@@ -102,6 +102,8 @@ destructor TFileOpThread.Destroy;
 begin
   if Assigned(FFileList) then
     FreeAndNil(FFileList);
+
+  inherited;
 end;
 
 procedure TFileOpThread.FillAndCountRec(const srcPath, dstPath:String);

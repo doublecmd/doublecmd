@@ -1589,19 +1589,23 @@ var
   cmd:string;
 begin
      lstl:=TStringList.Create;
-     for i:=0 to HotMan.HotkeyList.Count -1 do
-     begin
-     HotMan.GetCommandsListBy(HotMan.HotkeyList[i],lstl);
-      for j:=0 to lstl.Count-1 do
-      begin
-      // copy command name
-       p:=pos('=',lstl[j]);
-       cmd:=Copy(lstl[j],p+1,Length(lstl[j])-p);
+     try
+       for i:=0 to HotMan.HotkeyList.Count -1 do
+       begin
+       HotMan.GetCommandsListBy(HotMan.HotkeyList[i],lstl);
+        for j:=0 to lstl.Count-1 do
+        begin
+        // copy command name
+         p:=pos('=',lstl[j]);
+         cmd:=Copy(lstl[j],p+1,Length(lstl[j])-p);
 
-       if (command=cmd) then
-         Res.add(HotMan.HotkeyList[i]);
-      end; // for j
-     end; // for i
+         if (command=cmd) then
+           Res.add(HotMan.HotkeyList[i]);
+        end; // for j
+       end; // for i
+     finally
+       FreeAndNil(lstl);
+     end;
      Result:=res.Count;
 end;
 
