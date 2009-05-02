@@ -2368,10 +2368,15 @@ begin
 end;
 
 destructor TCmdBox.Destroy;
+var
+  i : Integer;
 begin
  FCaretTimer.Enabled := False;
  System.DoneCriticalSection(FLock);
+ FInputBuffer.Free;
  FStringBuffer.Free;
+ for i:=0 to Length(FLines)-1 do FLines[i].Free;
+ for i:=0 to Length(FHistory)-1 do FHistory[i].Free;
  inherited Destroy;
 end;
 

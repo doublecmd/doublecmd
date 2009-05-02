@@ -140,6 +140,7 @@ procedure SplitArgs(var Args: TOpenStringArray; CmdLine: String);
 procedure ParseLineToList(sLine: String; const ssItems: TStrings);
 
 function StrNewW(const mbString: UTF8String): PWideChar;
+procedure StrDisposeW(var pStr : PWideChar);
 {en
    Convert a number specified as an octal number to it's decimal value.
    @param(Value Octal number as string)
@@ -560,6 +561,12 @@ begin
   Result:= GetMem(iLength);
   if Result <> nil then
     Move(PWideChar(wsString)^, Result^, iLength);
+end;
+
+procedure StrDisposeW(var pStr : PWideChar);
+begin
+  FreeMem(pStr);
+  pStr := nil;
 end;
 
 function OctToDec(Value: String): LongInt;

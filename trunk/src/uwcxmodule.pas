@@ -320,6 +320,8 @@ begin
         SendDlgMsg:= @fDialogBox.SendDlgMsg;
       end;
       SetDlgProc(SetDlgProcInfo);
+      StrDisposeW(SetDlgProcInfo.PluginDir);
+      StrDisposeW(SetDlgProcInfo.PluginConfDir);
     end;
 end;
 
@@ -734,7 +736,7 @@ begin
     SetProcessDataProc(ArcHandle, ProcessDataProc);
 
     while (ReadWCXHeader(ArcHandle, Header) = E_SUCCESS) do
-     begin
+     try
       // Now check if the file is to be extracted.
 
       if  (not FPS_ISDIR(Header.FileAttr))           // Omit directories (we handle them ourselves).
@@ -796,6 +798,9 @@ begin
              else
                ShowErrorMessage;
          end; // Skip
+
+     finally
+       FreeAndNil(Header);
      end;
 
     CloseArchive(ArcHandle);
