@@ -367,7 +367,7 @@ begin
   begin
     for i := 0 to FPixmapList.Count - 1 do
       if Assigned(FPixmapList.Objects[i]) then
-        Graphics.TCustomBitmap(FPixmapList.Objects[i]).Free;
+        Graphics.TBitmap(FPixmapList.Objects[i]).Free;
     FreeAndNil(FPixmapList);
   end;
   if assigned(FExtList) then
