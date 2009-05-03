@@ -98,6 +98,10 @@ uses
    FList:TList;
    FCurrentColumnsFile:string;
    fSetName:string;
+
+   // Global settings for columns view.
+   FCursorBorder: Boolean;
+   FCursorBorderColor: TColor;
   //------------------------------------------------------
   public
     constructor Create;
@@ -121,6 +125,9 @@ uses
     function GetColumnCursorText(const Index:Integer):TColor;
     //---------------------
     function GetColumnPrm(const Index:Integer):TColPrm;
+    //---------------------
+    function GetCursorBorder: Boolean;
+    function GetCursorBorderColor: TColor;
 
     //---------------------
     function GetColumnItem(const Index:Integer):TPanelColumn;
@@ -145,6 +152,9 @@ uses
     procedure SetColumnCursorText(const Index:Integer; Value:TColor);
     procedure SetColumnOvercolor(const Index:Integer; Value:boolean);
     Procedure SetColumnPrm(const Index:Integer; Value:TColPrm);
+    //---------------------
+    procedure SetCursorBorder(ShowBorder: Boolean);
+    procedure SetCursorBorderColor(Color: TColor);
     //---------------------
     procedure Delete(const Index:Integer);
     procedure Clear;
@@ -342,6 +352,16 @@ Result.MarkColor:=GetColumnMarkColor(Index);
 Result.TextColor:=GetColumnTextColor(Index);
 end;
 
+function TPanelColumnsClass.GetCursorBorder: Boolean;
+begin
+  Result := FCursorBorder;
+end;
+
+function TPanelColumnsClass.GetCursorBorderColor: TColor;
+begin
+  Result := FCursorBorderColor;
+end;
+
 function TPanelColumnsClass.GetColumnItem(const Index: integer): TPanelColumn;
 begin
   if Index>=Flist.Count then exit;
@@ -514,6 +534,16 @@ SetColumnOvercolor(Index,Value.Overcolor);
 
 end;
 
+procedure TPanelColumnsClass.SetCursorBorder(ShowBorder: Boolean);
+begin
+  FCursorBorder := ShowBorder;
+end;
+
+procedure TPanelColumnsClass.SetCursorBorderColor(Color: TColor);
+begin
+  FCursorBorderColor := Color;
+end;
+
 
  //------------------------------------------------------
  procedure FillListFromString(List:TStrings; FuncString:string);
@@ -588,35 +618,36 @@ begin
     if aCount=0 then
       begin
         AddDefaultColumns;
-        Exit;
-      end;
-    //---------------------
-    For I:=0 to aCount-1 do
-      begin
-        Flist.Add(TPanelColumn.Create);
-        TPanelColumn(FList[I]).Title:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'Title','');
-         //---------------------
-          TPanelColumn(FList[I]).FuncString:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FuncsString','');
-          FillListFromString(TPanelColumn(FList[I]).FuncList,Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FuncsString',''));
-          TPanelColumn(FList[I]).Width:=Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Width',50);
-          TPanelColumn(FList[I]).Align:=TAlignment(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Align',0));
-         //---------------------
+      end
+    else
+      For I:=0 to aCount-1 do
+        begin
+          Flist.Add(TPanelColumn.Create);
+          TPanelColumn(FList[I]).Title:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'Title','');
+           //---------------------
+            TPanelColumn(FList[I]).FuncString:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FuncsString','');
+            FillListFromString(TPanelColumn(FList[I]).FuncList,Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FuncsString',''));
+            TPanelColumn(FList[I]).Width:=Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Width',50);
+            TPanelColumn(FList[I]).Align:=TAlignment(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Align',0));
+           //---------------------
 
-          TPanelColumn(FList[I]).FontName:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FontName',gFontName);
-          TPanelColumn(FList[I]).FontSize:=Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'FontSize',gFontSize);
-          TPanelColumn(FList[I]).FontStyle:=TFontStyles(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'FontStyle',Integer(gFontStyle)));
-          TPanelColumn(FList[I]).Overcolor:=Ini.ReadBool(fSetName,'Column'+IntToStr(I+1)+'Overcolor',true );
-                    
-          TPanelColumn(FList[I]).TextColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'TextColor',gForeColor));
-          TPanelColumn(FList[I]).Background:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Background',gBackColor ));
-          TPanelColumn(FList[I]).Background2:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Background2',gBackColor2 ));
-          TPanelColumn(FList[I]).MarkColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'MarkColor',gMarkColor ));
-          TPanelColumn(FList[I]).CursorColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'CursorColor',gCursorColor ));
-          TPanelColumn(FList[I]).CursorText:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'CursorText',gCursorText ));
+            TPanelColumn(FList[I]).FontName:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FontName',gFontName);
+            TPanelColumn(FList[I]).FontSize:=Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'FontSize',gFontSize);
+            TPanelColumn(FList[I]).FontStyle:=TFontStyles(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'FontStyle',Integer(gFontStyle)));
+            TPanelColumn(FList[I]).Overcolor:=Ini.ReadBool(fSetName,'Column'+IntToStr(I+1)+'Overcolor',true );
 
-         //---------------------
-      end;
+            TPanelColumn(FList[I]).TextColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'TextColor',gForeColor));
+            TPanelColumn(FList[I]).Background:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Background',gBackColor ));
+            TPanelColumn(FList[I]).Background2:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Background2',gBackColor2 ));
+            TPanelColumn(FList[I]).MarkColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'MarkColor',gMarkColor ));
+            TPanelColumn(FList[I]).CursorColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'CursorColor',gCursorColor ));
+            TPanelColumn(FList[I]).CursorText:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'CursorText',gCursorText ));
+
+           //---------------------
+        end;
     //---------------------
+    SetCursorBorder(Ini.ReadBool(fSetName, 'CursorBorder', False));
+    SetCursorBorderColor(TColor(Ini.ReadInteger(fSetName, 'CursorBorderColor', gCursorColor)));
 end;
 
 procedure TPanelColumnsClass.Save(FileName, ASetName: string);
@@ -679,6 +710,10 @@ begin
         Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'CursorText', TPanelColumn(FList[I]).CursorText);
 
       end;
+
+    Ini.WriteBool(fSetName, 'CursorBorder', GetCursorBorder);
+    if GetCursorBorderColor <> clNone then
+      Ini.WriteInteger(fSetName, 'CursorBorderColor', GetCursorBorderColor);
 end;
 
 procedure TPanelColumnsClass.Delete(const Index: Integer);

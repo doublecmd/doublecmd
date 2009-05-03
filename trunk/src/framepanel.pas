@@ -239,6 +239,7 @@ type
     function AnySelected:Boolean;
     procedure ClearGridSelection;
     procedure RedrawGrid;
+    procedure UpdateColumnsView;
     function GetActiveItem:PFileRecItem;
     { Returns True if there are no files shown in the panel. }
     function IsEmpty:Boolean;
@@ -1269,11 +1270,7 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
 //------------------------------------------------------
 
 begin
-{  (Sender as TDrawGrid).Canvas.TextOut(Rect.Left, Rect.Top, IntToStr(ARow));
-  Exit;}
-
   if not isSlave then  ActiveColmSlave:=ColSet.GetColumnSet(ActiveColm);
-
 
   if DrawFixed then exit;
 
@@ -1376,6 +1373,20 @@ end;
 procedure TFrameFilePanel.RedrawGrid;
 begin
   dgPanel.Invalidate;
+end;
+
+procedure TFrameFilePanel.UpdateColumnsView;
+begin
+  if isSlave then
+  begin
+    dgPanel.FocusRectVisible := ActiveColmSlave.GetCursorBorder;
+    dgPanel.FocusColor := ActiveColmSlave.GetCursorBorderColor;
+  end
+  else
+  begin
+    dgPanel.FocusRectVisible := ColSet.GetColumnSet(ActiveColm).GetCursorBorder;
+    dgPanel.FocusColor := ColSet.GetColumnSet(ActiveColm).GetCursorBorderColor;
+  end;
 end;
 
 procedure TFrameFilePanel.dgPanelKeyUp(Sender: TObject; var Key: Word;
@@ -1660,6 +1671,7 @@ begin
   
 //  setup column widths
   SetColWidths;
+  UpdateColumnsView;
 end;
 
 destructor TFrameFilePanel.Destroy;

@@ -2410,7 +2410,6 @@ begin
             frmColumnsSetConf.ColumnClass.Load(gIni,ActiveFrame.ActiveColm);
             {EDIT Set}
             frmColumnsSetConf.ShowModal;
-            //ColSet.Save(gIni);
 
             FreeAndNil(frmColumnsSetConf);
             //TODO: Reload current columns in panels
@@ -2428,6 +2427,7 @@ begin
     begin
       ActiveFrame.ActiveColm:=ColSet.Items[(Sender as TMenuItem).Tag];
       ActiveFrame.SetColWidths;
+      ActiveFrame.UpdateColumnsView;
 //      ActiveFrame.dgPanel.ColCount:=ColSet.GetColumnSet(ActiveFrame.ActiveColm).ColumnsCount;
 
 //      if ColSet.GetColumnSet(ActiveFrame.ActiveColm).ColumnsCount>0 then
@@ -2899,6 +2899,7 @@ begin
                   ActiveColm:='Default';
               Colset.GetColumnSet(ActiveColm).Load(gini,ActiveColm);
               SetColWidths;
+              UpdateColumnsView;
            end;
         end;
 end;
@@ -2949,6 +2950,7 @@ begin
         begin
           ActiveColm:= sColumnSet;
           SetColWidths;
+          UpdateColumnsView;
         end;
 
       Inc(I);
