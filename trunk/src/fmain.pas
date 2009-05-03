@@ -2875,7 +2875,18 @@ begin
         mmrCancel, mmrNone:
           Exit(2);
       end;
+
     ANoteBook.Pages.Delete(iPageIndex);
+
+    if (nboMultiLine in ANoteBook.Options) and
+       ANoteBook.ClientRectNeedsInterfaceUpdate then
+    begin
+      // The height of the tabs (nr of lines) has changed.
+      // Recalculate size of each page.
+      ANoteBook.InvalidateClientRectCache(False);
+      ANoteBook.ReAlign;
+    end;
+
     Result:= 0;
   end;
   ANoteBook.ShowTabs:= ((ANoteBook.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
@@ -3019,10 +3030,13 @@ begin
 
     TWSCustomNotebookClass(ANoteBook.WidgetSetClass).UpdateProperties(ANoteBook);
 
-    // Change sizes of pages, because multiline tabs may
-    // take up different amount of space than single line.
-    ANoteBook.InvalidateClientRectCache(true);
-    ANoteBook.ReAlign;
+    if ANoteBook.ClientRectNeedsInterfaceUpdate then
+    begin
+      // Change sizes of pages, because multiline tabs may
+      // take up different amount of space than single line.
+      ANoteBook.InvalidateClientRectCache(True);
+      ANoteBook.ReAlign;
+    end;
   end;
 end;
 
