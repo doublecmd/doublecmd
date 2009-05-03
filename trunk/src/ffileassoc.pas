@@ -269,7 +269,7 @@ end;
 procedure TfrmFileAssoc.lbFileTypesDrawItem(Control: TWinControl;
   Index: Integer; ARect: TRect; State: TOwnerDrawState);
 var
-  I, iTextTop: Integer;
+  iTextTop: Integer;
   ExtAction: TExtAction;
   MR: TRect;
 begin
@@ -353,9 +353,9 @@ var
   slActions : TStringList;
 begin
   iIndex := lbActions.ItemIndex;
-  if (iIndex < 0) or (fneCommand.FileName = '') then Exit;
+  if (iIndex < 0) or (fneCommand.Text = '') then Exit;
   slActions := TStringList(lbActions.Items.Objects[iIndex]);
-  slActions.ValueFromIndex[iIndex] := fneCommand.FileName;
+  slActions.ValueFromIndex[iIndex] := fneCommand.Text;
   if lbFileTypes.ItemIndex >= 0 then
     Exts.Items[lbFileTypes.ItemIndex].IsChanged:= True;
 end;
