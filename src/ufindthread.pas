@@ -155,7 +155,7 @@ end;
 
 destructor TFindThread.Destroy;
 begin
-
+  inherited;
 end;
 
 procedure TFindThread.Execute;
