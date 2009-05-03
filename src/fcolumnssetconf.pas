@@ -48,11 +48,14 @@ type
     btnCursorText: TButton;
     btnFontSelect: TBitBtn;
     btnForeColor: TButton;
+    btnCursorBorderColor: TButton;
     btnMarkColor: TButton;
     btnOk: TBitBtn;
     btnCancel: TBitBtn;
     btnNext: TButton;
     btnPrev: TButton;
+    cbCursorBorder: TCheckBox;
+    cbCursorBorderColor: TColorBox;
     ResFont: TButton;
     btnAllFont: TButton;
     cbOvercolor: TCheckBox;
@@ -85,6 +88,7 @@ type
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
+    pnlGlobalSettings: TPanel;
     pnlCustCont: TPanel;
     pnlCustHead: TPanel;
     pnlPrevCont: TPanel;
@@ -104,8 +108,8 @@ type
     btnAllCurText: TButton;
     btnAllMarc: TButton;
     sneFontSize: TSpinEdit;
-    Splitter1: TSplitter;
-    Splitter2: TSplitter;
+    SplitterPreview: TSplitter;
+    SplitterCustomize: TSplitter;
     stgColumns: TStringGrid;
     procedure btnAllTextClick(Sender: TObject);
     procedure btnBackColor2Click(Sender: TObject);
@@ -113,12 +117,15 @@ type
     procedure btnCancelClick(Sender: TObject);
     procedure btnCursorColorClick(Sender: TObject);
     procedure btnCursorTextClick(Sender: TObject);
+    procedure btnCursorBorderColorClick(Sender: TObject);
     procedure btnFontSelectClick(Sender: TObject);
     procedure btnForeColorClick(Sender: TObject);
     procedure btnMarkColorClick(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure btnOkClick(Sender: TObject);
     procedure btnPrevClick(Sender: TObject);
+    procedure cbCursorBorderChange(Sender: TObject);
+    procedure cbCursorBorderColorChange(Sender: TObject);
     procedure cbOvercolorChange(Sender: TObject);
     procedure ResFontClick(Sender: TObject);
     procedure ResBack2Click(Sender: TObject);
@@ -143,7 +150,7 @@ type
     procedure pnlCustHeadClick(Sender: TObject);
     procedure pnlPreviewHeadClick(Sender: TObject);
     procedure sneFontSizeChange(Sender: TObject);
-    procedure Splitter2CanResize(Sender: TObject; var NewSize: Integer;
+    procedure SplitterCustomizeCanResize(Sender: TObject; var NewSize: Integer;
       var Accept: Boolean);
     procedure stgColumnsEditingDone(Sender: TObject);
     procedure stgColumnsHeaderSized(Sender: TObject; IsColumn: Boolean;
@@ -252,6 +259,8 @@ var i,indx:integer;
     Wid: integer;
     Ali: TAlignment;
  begin
+   if not Showed then Exit;
+
    // Save fields
    ColumnClass.Clear;
    for i:=1 to stgColumns.RowCount-1 do
@@ -268,8 +277,12 @@ var i,indx:integer;
        ColumnClass.SetColumnPrm(Indx,TColPrm(stgColumns.Objects[6,i]));
      end;
 
+  ColumnClass.SetCursorBorder(cbCursorBorder.Checked);
+  ColumnClass.SetCursorBorderColor(cbCursorBorderColor.Color);
+
   PreviewPan.ActiveColmSlave := Self.ColumnClass;
   PreviewPan.SetColWidths;
+  PreviewPan.UpdateColumnsView;
   PreviewPan.Repaint;
 
 end;
@@ -446,6 +459,7 @@ begin
   UpdateColumnClass;
   PreviewPan.ActiveColmSlave:=ColumnClass;
   PreviewPan.SetColWidths;
+  PreviewPan.UpdateColumnsView;
 
 end;
 
@@ -572,6 +586,7 @@ begin
     ActiveColmSlave:=ColumnClass;
     isSlave:=true;
     SetColWidths;
+    UpdateColumnsView;
     dgPanel.OnHeaderSized:=@DGHeaderSized;
     Init;
     ReAlign;
@@ -604,7 +619,10 @@ begin
             stgColumns.RowCount:=1;
             AddNewField;
         end;
-    Showed:=true;
+
+    cbCursorBorder.Checked := ColumnClass.GetCursorBorder;
+    SetColorInColorBox(cbCursorBorderColor, ColumnClass.GetCursorBorderColor);
+
     // Localize StringGrid header
     stgColumns.Cells[0,0]:= rsConfColDelete;
     stgColumns.Cells[1,0]:= rsConfColCaption;
@@ -615,6 +633,8 @@ begin
     stgColumns.Cells[6,0]:= rsOptColors;
 
   LoadCustColumn(0);
+
+  Showed:=true;
 end;
 
 
@@ -727,6 +747,11 @@ begin
   OpenColorsPanel;
 end;
 
+procedure TfColumnsSetConf.cbCursorBorderChange(Sender: TObject);
+begin
+  EditorSaveResult(nil);
+end;
+
 procedure TfColumnsSetConf.cbOvercolorChange(Sender: TObject);
 begin
   TColPrm(stgColumns.Objects[6,IndexRaw+1]).Overcolor:=cbOvercolor.Checked;
@@ -827,11 +852,16 @@ begin
       EditorSaveResult(nil);
 end;
 
+procedure TfColumnsSetConf.cbCursorBorderColorChange(Sender: TObject);
+begin
+      (Sender as TColorBox).Color := (Sender as TColorBox).Selected;
+      EditorSaveResult(nil);
+end;
+
 procedure TfColumnsSetConf.cbTextColorDropDown(Sender: TObject);
 begin
     (Sender as TColorBox).Color := clWindow;
 end;
-
 
 procedure TfColumnsSetConf.btnCancelClick(Sender: TObject);
 begin
@@ -854,6 +884,15 @@ begin
     begin
       SetColorInColorBox(cbCursorText,dlgcolor.Color);
       TColPrm(stgColumns.Objects[6,IndexRaw+1]).CursorText:=cbCursorText.Color;
+      EditorSaveResult(nil);
+    end;
+end;
+
+procedure TfColumnsSetConf.btnCursorBorderColorClick(Sender: TObject);
+begin
+  if dlgcolor.Execute then
+    begin
+      SetColorInColorBox(cbCursorBorderColor,dlgcolor.Color);
       EditorSaveResult(nil);
     end;
 end;
@@ -972,33 +1011,33 @@ end;
 
 procedure TfColumnsSetConf.pnlCustHeadClick(Sender: TObject);
 begin
-    if Splitter2.Height+1>pnlCustCont.Height then
+    if SplitterCustomize.Height+1>pnlCustCont.Height then
     begin
      //open panel
-     if pnlCustHead.Top<250 then Splitter1.MoveSplitter(100);
+     if pnlCustHead.Top<250 then SplitterPreview.MoveSplitter(100);
      pnlCustCont.Constraints.MinHeight:=pnlCustHeight;
      pnlCustCont.Constraints.MaxHeight:=pnlCustHeight;
-     Splitter2.MoveSplitter(-pnlCustHeight);
+     SplitterCustomize.MoveSplitter(-pnlCustHeight);
     end
   else
     begin
       //Hide panel
       pnlCustCont.Constraints.MinHeight:=1;
       pnlCustCont.Constraints.MaxHeight:=1;
-      Splitter2.MoveSplitter(pnlCustCont.Height);
+      SplitterCustomize.MoveSplitter(pnlCustCont.Height);
     end;
 end;
 
 procedure TfColumnsSetConf.pnlPreviewHeadClick(Sender: TObject);
 begin
-  if Splitter1.Height>pnlPrevCont.Height then
+  if SplitterPreview.Height>pnlPrevCont.Height then
    //open panel
-   Splitter1.MoveSplitter(-PnlContHeight)
+   SplitterPreview.MoveSplitter(-PnlContHeight)
   else
     begin
       //Hide panel
       PnlContHeight:=pnlPrevCont.Height;
-      Splitter1.MoveSplitter(pnlPrevCont.Height);
+      SplitterPreview.MoveSplitter(pnlPrevCont.Height);
     end;
 end;
 
@@ -1009,7 +1048,7 @@ begin
 UpdateColumnClass;
 end;
 
-procedure TfColumnsSetConf.Splitter2CanResize(Sender: TObject;
+procedure TfColumnsSetConf.SplitterCustomizeCanResize(Sender: TObject;
   var NewSize: Integer; var Accept: Boolean);
 begin
  { if NewSize=130 then
@@ -1080,7 +1119,7 @@ end;
 procedure TfColumnsSetConf.OpenColorsPanel;
 begin
   //open pblCustCont if it is hidden
-  if Splitter2.Height+1>pnlCustCont.Height then
+  if SplitterCustomize.Height+1>pnlCustCont.Height then
     pnlCustHeadClick(nil);
 end;
 
