@@ -1,4 +1,4 @@
-{
+﻿{
     Double Commander
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
@@ -224,6 +224,11 @@ function mbFileGetAttr(const FileName: UTF8String): LongInt;
 function mbFileSetAttr (const FileName: UTF8String; Attr: LongInt) : LongInt;
 function mbFileSetReadOnly(const FileName: UTF8String; ReadOnly: Boolean): Boolean;
 function mbDeleteFile(const FileName: UTF8String): Boolean;
+// 30.04.2009 -----
+// Функция удаляет файлы и и папки в корзину (пока только Windows)
+// This function move files and folders to trash can (only Windows implemented)
+function mbDeleteToTrash(const FileName: UTF8String): Boolean;
+// ----------------
 function mbRenameFile(const OldName, NewName : UTF8String): Boolean;
 function mbFileSize(const FileName: UTF8String): Int64;
 function FileFlush(Handle: Integer): Boolean;
@@ -259,7 +264,12 @@ var
 implementation
 
 uses
-  FileUtil;
+  FileUtil
+  // 30.04.2009 - для удаления в корзину
+  {$IFDEF MSWINDOWS}
+  , Win32Int, InterfaceBase
+  {$ENDIF}
+  ;
 
 {$IFDEF UNIX}
 type
@@ -1244,6 +1254,32 @@ begin
   Result:= fpUnLink(FileName) >= 0;
 end;
 {$ENDIF}
+
+// 30.04.2009 ---------------------------------------------------------------------
+function mbDeleteToTrash(const FileName: UTF8String): Boolean;
+{$IFDEF MSWINDOWS}
+var
+  wFileName: WideString;
+  FileOp: TSHFileOpStructW;
+begin
+  wFileName:= UTF8Decode(FileName);
+  wFileName:= wFileName + #0;
+  FillChar(FileOp, SizeOf(FileOp), 0);
+  FileOp.Wnd := TWin32Widgetset(Widgetset).AppHandle;
+  FileOp.wFunc := FO_DELETE;
+  FileOp.pFrom := PWideChar(wFileName);
+  // удаляем без подтвержения
+  FileOp.fFlags := FOF_ALLOWUNDO or FOF_NOERRORUI or FOF_SILENT or FOF_NOCONFIRMATION;
+  Result := (SHFileOperationW(@FileOp) = 0) and (not FileOp.fAnyOperationsAborted);
+end;
+{$ELSE}
+begin
+  // Хотелось бы реализовать удаление в корзину Nautilus/Gnome,
+  // велосипеды в виде собственных корзин городить не хочется.
+  // Корзины, работающие с libc не поддерживаются (проверено с libtrash).
+end;
+{$ENDIF}
+// --------------------------------------------------------------------------------
 
 function mbRenameFile(const OldName, NewName: UTF8String): Boolean;
 {$IFDEF MSWINDOWS}

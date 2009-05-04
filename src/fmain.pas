@@ -1,4 +1,4 @@
-{
+﻿{
    Double Commander
    -------------------------------------------------------------------------
    Licence  : GNU GPL v 2.0
@@ -1343,19 +1343,25 @@ var
   pfri : PFileRecItem;
 begin
   Result:=True;
+  // ---- 30.04.2009 - переписал для удаления в корзину. ----
+  If (Key = VK_F8) or (Key = VK_DELETE) then
+   begin
+    if ((not edtCommand.Focused) and (edtCommand.Tag = 0)) or (Key = VK_F8) then
+     begin
+      if Shift=[] then
+       Actions.cm_Delete('recycle')
+      else
+       if Shift=[ssShift] then
+        Actions.cm_Delete('');
+      //actDelete.Execute;
+      Exit;
+     end;
+   end;
+  // ---------------------------------------------------------
+
   if Shift=[] then
   begin
     case Key of
-     VK_F8, VK_DELETE:
-       begin
-         if ((not edtCommand.Focused) and (edtCommand.Tag = 0)) or (Key = VK_F8) then
-         begin
-           Actions.cm_Delete('');
-           //actDelete.Execute;
-           Exit;
-         end;
-       end;
-
      VK_APPS:
        begin
          Actions.cm_ContextMenu('');

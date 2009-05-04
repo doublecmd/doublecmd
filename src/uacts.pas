@@ -1,4 +1,4 @@
-{
+﻿{
    Double Commander
    -------------------------------------------------------------------------
    This unit contains all DC actions
@@ -1150,6 +1150,11 @@ begin
     (* Delete files *)
     try
       DT := TDeleteThread.Create(fl);
+      // 30.04.2009 - передаем параметр корзины в поток.
+      If (param = 'recycle') then
+       DT.Recycle := true
+      else
+       If (param = '') then DT.Recycle := false;
       DT.sDstPath:= NotActiveFrame.ActiveDir;
       //DT.sDstMask:=sDstMaskTemp;
       DT.Resume;
