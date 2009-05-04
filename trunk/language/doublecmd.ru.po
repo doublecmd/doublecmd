@@ -863,11 +863,11 @@ msgstr "Симв. ссылка"
 
 #: TFRMFINDDLG.CBTIMEFROM.CAPTION
 msgid "Time from:"
-msgstr "Врямя от:"
+msgstr "Время от:"
 
 #: TFRMFINDDLG.CBTIMETO.CAPTION
 msgid "Time to:"
-msgstr "Врямя до:"
+msgstr "Время до:"
 
 #: TFRMFINDDLG.CBUNITOFMEASURE.TEXT
 msgid "Kbyte"
