@@ -1,4 +1,4 @@
-{
+﻿{
    Seksi Commander
    ----------------------------
    Implementing of Delete thread
@@ -25,12 +25,18 @@ type
   { TDeleteThread }
 
   TDeleteThread = class(TFileOpThread)
+  private
+   // 30.04.2009 - поле, показывающее удаление в корзину
+    FRecycle : boolean;
   protected
     constructor Create(aFileList:TFileList); override;
     procedure MainExecute; override;
     function DeleteFile(fr:PFileRecItem):Boolean;
     function GetCaptionLng: String; override;
     function CheckFile(FileRecItem: PFileRecItem): Boolean; override;
+ public
+    // 30.04.2009 - свойство для удаления в корзину
+    property Recycle : boolean read FRecycle write FRecycle default false;
   end;
 
 implementation
@@ -74,6 +80,8 @@ end;
 function TDeleteThread.DeleteFile (fr:PFileRecItem):Boolean;
 begin
   try
+  If (FRecycle = false) then
+   begin
     if FPS_ISDIR(fr^.iMode) then // directory
       begin
         Result := mbRemoveDir(fr^.sName);
@@ -104,6 +112,22 @@ begin
               logWrite(Self, Format(rsMsgLogError+rsMsgLogDelete, [fr^.sName]), lmtError);
           end;
       end;
+   end
+  else
+   begin // 30.04.2009 - Вызов удаления в корзину. Файлы и папки удаляются одной функцией.
+    Result := mbDeleteToTrash(fr^.sName);
+    // write log
+    if Result then
+     begin
+      if (log_delete in gLogOptions) and (log_success in gLogOptions) then
+        logWrite(Self, Format(rsMsgLogSuccess+rsMsgLogDelete, [fr^.sName]), lmtSuccess);
+     end
+    else
+     begin
+      if (log_delete in gLogOptions) and (log_errors in gLogOptions) then
+        logWrite(Self, Format(rsMsgLogError+rsMsgLogDelete, [fr^.sName]), lmtError);
+     end;
+   end;
     // process comments if need
     if Result and gProcessComments and Assigned(FDescr) then
       FDescr.DeleteDescription(fr^.sName);
