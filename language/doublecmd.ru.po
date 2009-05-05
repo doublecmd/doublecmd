@@ -621,7 +621,7 @@ msgstr "Просмотреть"
 
 #: TFRMFILEASSOC.MIVIEWER.CAPTION
 msgid "Open in Viewer"
-msgstr "Открыть в просмоторщике"
+msgstr "Открыть в просмотрщике"
 
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
@@ -2708,7 +2708,7 @@ msgstr "Плагин:"
 
 #: TFRMVIEWER.CAPTION
 msgid "Viewer"
-msgstr "Просмоторщик"
+msgstr "Внутренняя программа просмотра"
 
 #: TFRMVIEWER.MIABOUT2.CAPTION
 msgid "About Viewer..."
@@ -3074,7 +3074,7 @@ msgstr "Файлы не найдены"
 
 #: ulng.rsmsgerrnomemory
 msgid "Not enough memory"
-msgstr "Не достаточно памяти"
+msgstr "Недостаточно памяти"
 
 #: ulng.rsmsgerrnotsupported
 msgid "Function not supported!"
@@ -3439,5 +3439,5 @@ msgstr "Ошибка создания симв. ссылки."
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
-msgstr "Внутренний просмоторщик Double Commander."
+msgstr "Внутренняя программа просмотра Double Commander"
 
