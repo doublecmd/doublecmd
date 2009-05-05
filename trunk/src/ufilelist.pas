@@ -457,11 +457,7 @@ begin
   if gCaseSensitiveSort then
     Result := StrComp(PChar(PFileRecItem(item1)^.sName), PChar(PFileRecItem(item2)^.sName))
   else
-    {$IFDEF MSWINDOWS}
-    Result := AnsiCompareText(UTF8ToAnsi(PFileRecItem(item1)^.sName), UTF8ToAnsi(PFileRecItem(item2)^.sName));
-    {$ELSE}
-    Result := AnsiCompareText(PFileRecItem(item1)^.sName, PFileRecItem(item2)^.sName);
-    {$ENDIF}
+    Result := mbCompareText(PFileRecItem(item1)^.sName, PFileRecItem(item2)^.sName);
 
   if bSortNegative then
     Result := -Result;
@@ -481,11 +477,7 @@ begin
   if gCaseSensitiveSort then
     Result := StrComp(PChar(PFileRecItem(item1)^.sExt), PChar(PFileRecItem(item2)^.sExt))
   else
-    {$IFDEF MSWINDOWS}
-    Result := AnsiCompareText(UTF8ToAnsi(PFileRecItem(item1)^.sExt), UTF8ToAnsi(PFileRecItem(item2)^.sExt));
-    {$ELSE}
-    Result := AnsiCompareText(PFileRecItem(item1)^.sExt, PFileRecItem(item2)^.sExt);
-    {$ENDIF}
+    Result := mbCompareText(PFileRecItem(item1)^.sExt, PFileRecItem(item2)^.sExt);
 
 {
   if PFileRecItem(item1)^.sExt > PFileRecItem(item2)^.sExt then

@@ -80,7 +80,7 @@ end;
 function TDeleteThread.DeleteFile (fr:PFileRecItem):Boolean;
 begin
   try
-  If (FRecycle = false) then
+  If (FRecycle = false) {$IFNDEF MSWINDOWS} or True{$ENDIF} then
    begin
     if FPS_ISDIR(fr^.iMode) then // directory
       begin
