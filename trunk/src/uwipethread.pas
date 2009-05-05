@@ -357,6 +357,7 @@ begin
 
   for xIndex:=NewFileList.Count-1 downto 0 do // deleting
   begin
+    if Terminated then Exit;
     pr:=NewFileList.GetItem(xIndex);
     FFileOpDlg.sFileName:=pr^.sName;
     Synchronize(@FFileOpDlg.UpdateDlg);
