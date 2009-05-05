@@ -120,6 +120,12 @@ type
     function Drop(const dataObj: IDataObject; grfKeyState: LongWord;
       pt: TPoint; var dwEffect: LongWord): HResult; stdcall;
 
+    {en
+       Retrieves the filenames from the HDROP format
+       as a list of UTF-8 strings.
+       @returns(List of filenames or nil in case of an error.)
+    }
+    class function GetDropFilenames(hDropData: HDROP): TStringList;
   end;
 
   { TFileDropSource - источник
@@ -229,7 +235,7 @@ type
 implementation
 
 uses
-  SysUtils, ShellAPI, ShlObj, LCLIntf, Win32Proc, uClipboard;
+  SysUtils, ShellAPI, ShlObj, LCLIntf, Win32Proc, uClipboard, uLng;
 
 var
   // Supported formats by the source.
@@ -944,19 +950,15 @@ var
 
   Format: TFormatETC;
 
-  NumFiles: Integer;
-
   i: Integer;
 
   DropInfo: TDragDropInfo;
 
-  szFilename: array [0..MAX_PATH] of char;
+  FileNames: TStringList;
 
   InClient: boolean;
 
   DropPoint: TPoint;
-
-  bWideStrings: boolean;
 
   DropEffect: TDropEffect;
 
@@ -1020,45 +1022,30 @@ begin
 
       begin
 
-        { Получаем количество файлов и
-
-        прочие сведения }
-
-        NumFiles := DragQueryFile(Medium.hGlobal, $FFFFFFFF, nil, 0);
-
         InClient := DragQueryPoint(Medium.hGlobal, @DropPoint);
 
         if (DropPoint.X = 0) and (DropPoint.Y = 0) then
           DropPoint := pt;
-
-        bWideStrings := DragQueryWide( Medium.hGlobal );
-
 
         { Создаем объект TDragDropInfo }
 
         DropInfo := TDragDropInfo.Create(DropPoint, InClient, dwEffect);
 
 
+        { Retrieve file names }
 
-        { Заносим все файлы в список }
+        FileNames := GetDropFilenames(Medium.hGlobal);
 
-        for i := 0 to NumFiles - 1 do
+        if Assigned(FileNames) then
 
-        begin
+          for i := 0 to FileNames.Count - 1 do
 
-          DragQueryFile(Medium.hGlobal, i,
+          begin
 
-            szFilename,
+            DropInfo.Add(FileNames[i]);
 
-            sizeof(szFilename));
+          end;
 
-          // If Wide strings, then do Wide to UTF-8 transform
-          if( bWideStrings ) then
-            DropInfo.Add( UTF8Encode( szFileName ) )
-          else
-            DropInfo.Add( AnsiToUtf8( szFilename ) );
-
-        end;
 
         { Если указан обработчик, вызываем его }
 
@@ -1107,6 +1094,65 @@ begin
 
 end;
 
+class function TFileDropTarget.GetDropFilenames(hDropData: HDROP): TStringList;
+
+var
+  NumFiles: Integer;
+  i: Integer;
+  wszFilename: PWideChar;
+  FileName: WideString;
+  RequiredSize: Cardinal;
+
+begin
+
+  Result := nil;
+
+  if hDropData <> 0 then
+  begin
+
+    Result := TStringList.Create;
+
+    try
+
+      NumFiles := DragQueryFileW(hDropData, $FFFFFFFF, nil, 0);
+
+      for i := 0 to NumFiles - 1 do
+      begin
+        RequiredSize := DragQueryFileW(hDropData, i, nil, 0) + 1; // + 1 = terminating zero
+
+        wszFilename := GetMem(RequiredSize * SizeOf(WideChar));
+        if Assigned(wszFilename) then
+        try
+          if DragQueryFileW(hDropData, i, wszFilename, RequiredSize) > 0 then
+          begin
+             FileName := wszFilename;
+
+             // Windows inserts '?' character where Wide->Ansi conversion
+             // of a character was not possible, in which case filename is invalid.
+             // This may happen if a non-Unicode application was the source.
+             if Pos('?', FileName) = 0 then
+               Result.Add(UTF8Encode(FileName))
+             else
+               raise Exception.Create(rsMsgInvalidFilename + ': ' + LineEnding +
+                                      UTF8Encode(FileName));
+          end;
+
+        finally
+          FreeMem(wszFilename);
+
+        end;
+
+      end;
+
+    except
+      FreeAndNil(Result);
+      raise;
+
+    end;
+
+  end;
+
+end;
 
 { TFileDropSource }
 

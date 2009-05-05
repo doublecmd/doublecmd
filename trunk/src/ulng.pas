@@ -70,6 +70,7 @@ resourcestring
   rsMsgTooManyFilesSelected = 'Too many files selected.';
   rsMsgInvalidSelection = 'Invalid selection.';
   rsMsgNotImplemented = 'Not implemented.';
+  rsMsgInvalidFilename = 'Invalid filename';
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuMount = 'Mount';
