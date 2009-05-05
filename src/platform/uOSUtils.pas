@@ -239,6 +239,7 @@ function mbDirectoryExists(const Directory : UTF8String) : Boolean;
 function mbCreateDir(const NewDir: UTF8String): Boolean;
 function mbRemoveDir(const Dir: UTF8String): Boolean;
 { Other functions }
+function mbCompareText(const s1, s2: UTF8String): PtrInt;
 function mbSetEnvironmentVariable(const sName, sValue: UTF8String): Boolean;
 function mbLoadLibrary(Name: UTF8String): TLibHandle;
 
@@ -1427,6 +1428,17 @@ end;
 {$ELSE}
 begin
   Result:= fpRmDir(PChar(Dir)) = 0;
+end;
+{$ENDIF}
+
+function mbCompareText(const s1, s2: UTF8String): PtrInt; inline;
+{$IFDEF MSWINDOWS}
+begin
+  Result:= WideCompareText(UTF8Decode(s1), UTF8Decode(s2));
+end;
+{$ELSE}
+begin
+  Result:= StrIComp(PChar(s1), PChar(s2));
 end;
 {$ENDIF}
 
