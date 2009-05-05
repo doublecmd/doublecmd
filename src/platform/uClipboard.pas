@@ -508,10 +508,6 @@ function PasteFromClipboard(out ClipboardOp: TClipboardOperation; out filenames:
 var
   hGlobalBuffer: HGLOBAL;
   pBuffer: LPVOID;
-  NumFiles: Integer;
-  i: Integer;
-  szFilename: array [0..MAX_PATH] of char;
-  bWideStrings: boolean;
   PreferredEffect: DWORD;
 {$ELSE IF DEFINED(UNIX)}
 var
@@ -552,30 +548,10 @@ begin
 
   hGlobalBuffer := GetClipboardData(CF_HDROP);
 
-  if hGlobalBuffer <> 0 then
-  begin
+  filenames := uOleDragDrop.TFileDropTarget.GetDropFilenames(hGlobalBuffer);
 
-    NumFiles := DragQueryFile(hGlobalBuffer, $FFFFFFFF, nil, 0);
-    bWideStrings := DragQueryWide(hGlobalBuffer);
-
-    filenames := TStringList.Create;
-
-    for i := 0 to NumFiles - 1 do
-    begin
-
-      DragQueryFile(hGlobalBuffer, i, szFilename, sizeof(szFilename));
-
-      // If Wide strings, then do Wide to UTF-8 transform
-      if bWideStrings then
-        filenames.Add(UTF8Encode(szFileName))
-      else
-        filenames.Add(AnsiToUtf8(szFilename));
-
-    end;
-
+  if Assigned(filenames) then
     Result := True;
-
-  end;
 
   CloseClipboard;
 

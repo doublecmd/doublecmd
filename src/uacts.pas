@@ -1890,11 +1890,10 @@ begin
   with frmMain do
   begin
     if PasteFromClipboard(ClipboardOp, filenamesList) = True then
-    begin
+    try
       // fill file list with files
       FileList:= TFileList.Create;
       FileList.LoadFromFileNames(fileNamesList);
-      FreeAndNil(fileNamesList);
 
       { If panel is in Archive of VFS mode - show dialog for the user to confirm. }
       { Otherwise just start the operation thread. }
@@ -1919,6 +1918,9 @@ begin
         else
           FreeAndNil(FileList);
       end;
+
+    finally
+      FreeAndNil(fileNamesList);
     end;
   end;
 end;
