@@ -63,6 +63,7 @@ begin
 
   for xIndex:=NewFileList.Count-1 downto 0 do // deleting
   begin
+    if Terminated then Exit;
     if Paused then Suspend;
     pr:=NewFileList.GetItem(xIndex);
     FFileOpDlg.sFileName:=pr^.sName;
