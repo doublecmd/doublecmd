@@ -457,7 +457,11 @@ begin
   if gCaseSensitiveSort then
     Result := StrComp(PChar(PFileRecItem(item1)^.sName), PChar(PFileRecItem(item2)^.sName))
   else
-    Result := StrIComp(PChar(PFileRecItem(item1)^.sName), PChar(PFileRecItem(item2)^.sName));
+    {$IFDEF MSWINDOWS}
+    Result := AnsiCompareText(UTF8ToAnsi(PFileRecItem(item1)^.sName), UTF8ToAnsi(PFileRecItem(item2)^.sName));
+    {$ELSE}
+    Result := AnsiCompareText(PFileRecItem(item1)^.sName, PFileRecItem(item2)^.sName);
+    {$ENDIF}
 
   if bSortNegative then
     Result := -Result;
@@ -474,7 +478,15 @@ begin
   if PFileRecItem(item1)^.sExt = PFileRecItem(item2)^.sExt then
     Exit;
 
-  Result := StrComp(PChar(PFileRecItem(item1)^.sExt), PChar(PFileRecItem(item2)^.sExt));
+  if gCaseSensitiveSort then
+    Result := StrComp(PChar(PFileRecItem(item1)^.sExt), PChar(PFileRecItem(item2)^.sExt))
+  else
+    {$IFDEF MSWINDOWS}
+    Result := AnsiCompareText(UTF8ToAnsi(PFileRecItem(item1)^.sExt), UTF8ToAnsi(PFileRecItem(item2)^.sExt));
+    {$ELSE}
+    Result := AnsiCompareText(PFileRecItem(item1)^.sExt, PFileRecItem(item2)^.sExt);
+    {$ENDIF}
+
 {
   if PFileRecItem(item1)^.sExt > PFileRecItem(item2)^.sExt then
     Result:=-1
@@ -650,6 +662,12 @@ var
   i : Integer;
   pSortingColumn : PFileListSortingColumn;
 begin
+  if (Count = 0) and (iField = SF_BYNAME) then
+  begin
+    Result := 1;
+    Exit;
+  end;
+
   Result := -1;
 
   i := Count - 1;
