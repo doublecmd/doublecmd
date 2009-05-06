@@ -2069,13 +2069,13 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = gbFileSearch
           AnchorSideTop.Side = asrBottom
           Left = 10
-          Height = 150
+          Height = 178
           Top = 218
           Width = 469
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           Caption = 'General options'
-          ClientHeight = 132
+          ClientHeight = 160
           ClientWidth = 465
           TabOrder = 1
           object lblWipePassNumber: TLabel
@@ -2097,7 +2097,7 @@ object frmOptions: TfrmOptions
             Left = 14
             Height = 17
             Top = 26
-            Width = 106
+            Width = 104
             BorderSpacing.Left = 14
             BorderSpacing.Top = 6
             Caption = 'Drop readonly flag'
@@ -2123,7 +2123,7 @@ object frmOptions: TfrmOptions
             Left = 14
             Height = 17
             Top = 49
-            Width = 188
+            Width = 186
             BorderSpacing.Left = 14
             BorderSpacing.Top = 6
             Caption = 'Process comments with files/folders'
@@ -2136,7 +2136,7 @@ object frmOptions: TfrmOptions
             Left = 13
             Height = 17
             Top = 72
-            Width = 295
+            Width = 293
             BorderSpacing.Left = 14
             BorderSpacing.Top = 6
             Caption = 'Select only the file name then renaming (not the extension)'
@@ -2149,11 +2149,24 @@ object frmOptions: TfrmOptions
             Left = 13
             Height = 17
             Top = 95
-            Width = 224
+            Width = 222
             BorderSpacing.Left = 14
             BorderSpacing.Top = 6
             Caption = 'Show tab select panel in copy/move dialog'
             TabOrder = 4
+          end
+          object cbDeleteToTrash: TCheckBox
+            AnchorSideLeft.Control = gbGeneralOptions
+            AnchorSideTop.Control = cbShowCopyTabSelectPanel
+            AnchorSideTop.Side = asrBottom
+            Left = 14
+            Height = 17
+            Top = 118
+            Width = 223
+            BorderSpacing.Left = 14
+            BorderSpacing.Top = 6
+            Caption = '&F8/Del deletes to recycle bin (Shift=directly)'
+            TabOrder = 5
           end
         end
         object gbFileSearch: TGroupBox
@@ -2173,7 +2186,7 @@ object frmOptions: TfrmOptions
             Left = 14
             Height = 17
             Top = 6
-            Width = 223
+            Width = 221
             Caption = 'Use memory mapping for search text in files'
             TabOrder = 0
             TabStop = False
@@ -2184,7 +2197,7 @@ object frmOptions: TfrmOptions
             Left = 14
             Height = 17
             Top = 29
-            Width = 175
+            Width = 173
             BorderSpacing.Top = 6
             Caption = 'Use stream for search text in files'
             Checked = True

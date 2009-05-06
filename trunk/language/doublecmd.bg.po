@@ -824,11 +824,11 @@ msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
 msgid "Directory"
 msgstr ""
 
+#, fuzzy
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 msgid "File Size From:"
 msgstr "Размер от:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
 msgid "File Size To:"
 msgstr "Размер до:"
@@ -911,6 +911,7 @@ msgstr ""
 msgid "Find Data"
 msgstr "Търсене на данни"
 
+#, fuzzy
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
 msgstr "Текущ"
@@ -921,7 +922,6 @@ msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr "Знаков набор:"
 
-#, fuzzy
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 msgid "&File mask"
 msgstr "Файл"
@@ -1889,6 +1889,10 @@ msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
 msgid "Remove"
 msgstr "Премахване"
 
+#: TFRMOPTIONS.BTNSEARCHTEMPLATE.CAPTION
+msgid "Template..."
+msgstr ""
+
 #: TFRMOPTIONS.BTNSELEDITFNT.CAPTION
 msgctxt "TFRMOPTIONS.BTNSELEDITFNT.CAPTION"
 msgid "..."
@@ -1939,6 +1943,10 @@ msgstr "Дневник на реда управление"
 #: TFRMOPTIONS.CBCUTTEXTTOCOLWIDTH.CAPTION
 msgid "Cut text to column width"
 msgstr "Подразване на ткеста до ширината на стълба"
+
+#: TFRMOPTIONS.CBDELETETOTRASH.CAPTION
+msgid "&F8/Del deletes to recycle bin (Shift=directly)"
+msgstr ""
 
 #: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
 msgid "Show square brackets around directories"
@@ -2381,10 +2389,6 @@ msgstr "Брой на повторенията:"
 #: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Приставките за преглед позволяват показването на файлови формати от рода на изображения, таблици, бази от данни и т.н. в прегеда (F3, Ctrl+Q)"
-
-#: TFRMOPTIONS.LBPRESSEDHOTKEYCOMMAND.CAPTION
-msgid "Useds pressed hotkeys"
-msgstr ""
 
 #: TFRMOPTIONS.LBTYPES.CAPTION
 msgid "Categories:"
@@ -3112,6 +3116,10 @@ msgstr "Вече съществува %s, замяна?"
 #: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"
 msgstr "Следване на мека връзка \"%s\"?"
+
+#: ulng.rsmsginvalidfilename
+msgid "Invalid filename"
+msgstr ""
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."

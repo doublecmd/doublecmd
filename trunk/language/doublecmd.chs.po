@@ -824,11 +824,11 @@ msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
 msgid "Directory"
 msgstr ""
 
+#, fuzzy
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 msgid "File Size From:"
 msgstr "最小:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
 msgid "File Size To:"
 msgstr "最大:"
@@ -911,6 +911,7 @@ msgstr ""
 msgid "Find Data"
 msgstr "查找数据"
 
+#, fuzzy
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
 msgstr "当前"
@@ -921,7 +922,6 @@ msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr "编码:"
 
-#, fuzzy
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 msgid "&File mask"
 msgstr "文件名掩码"
@@ -1889,6 +1889,10 @@ msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
 msgid "Remove"
 msgstr "移除"
 
+#: TFRMOPTIONS.BTNSEARCHTEMPLATE.CAPTION
+msgid "Template..."
+msgstr ""
+
 #: TFRMOPTIONS.BTNSELEDITFNT.CAPTION
 msgctxt "TFRMOPTIONS.BTNSELEDITFNT.CAPTION"
 msgid "..."
@@ -1939,6 +1943,10 @@ msgstr "命令行历史"
 #: TFRMOPTIONS.CBCUTTEXTTOCOLWIDTH.CAPTION
 msgid "Cut text to column width"
 msgstr "按列宽裁剪文本"
+
+#: TFRMOPTIONS.CBDELETETOTRASH.CAPTION
+msgid "&F8/Del deletes to recycle bin (Shift=directly)"
+msgstr ""
 
 #: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
 msgid "Show square brackets around directories"
@@ -2381,10 +2389,6 @@ msgstr "擦去数:"
 #: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "查看器插件允许查看图片,电子表格,数据库等格式(F3, Ctrl+Q)"
-
-#: TFRMOPTIONS.LBPRESSEDHOTKEYCOMMAND.CAPTION
-msgid "Useds pressed hotkeys"
-msgstr ""
 
 #: TFRMOPTIONS.LBTYPES.CAPTION
 msgid "Categories:"
@@ -3112,6 +3116,10 @@ msgstr "文件夹%s已存在, 覆盖吗?"
 #: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"
 msgstr "允许符号链接\"%s\"吗?"
+
+#: ulng.rsmsginvalidfilename
+msgid "Invalid filename"
+msgstr ""
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."

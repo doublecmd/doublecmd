@@ -728,6 +728,7 @@ begin
   gIni.WriteBool('Configuration', 'ProcessComments', gProcessComments);
   gIni.WriteBool('Configuration', 'RenameSelOnlyName', gRenameSelOnlyName);
   gIni.WriteBool('Configuration', 'ShowCopyTabSelectPanel', gShowCopyTabSelectPanel);
+  gIni.WriteBool('Configuration', 'UseTrash', gUseTrash);
 
   { Log }
   gIni.WriteBool('Configuration', 'LogFile', gLogFile);

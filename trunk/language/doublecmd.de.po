@@ -816,11 +816,11 @@ msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
 msgid "Directory"
 msgstr "Verzeichnis"
 
+#, fuzzy
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 msgid "File Size From:"
 msgstr "Dateigrösse ab:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
 msgid "File Size To:"
 msgstr "Bis Dateigrösse"
@@ -903,6 +903,7 @@ msgstr "Nutze '-' um Attribut abszuschalten und '?' als Platzhalter"
 msgid "Find Data"
 msgstr "Suche Daten"
 
+#, fuzzy
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
 msgstr "Aktuell"
@@ -913,7 +914,6 @@ msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr "Kodiere:"
 
-#, fuzzy
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 msgid "&File mask"
 msgstr "Dateimaske"
@@ -1881,6 +1881,10 @@ msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
 msgid "Remove"
 msgstr "Entfernen"
 
+#: TFRMOPTIONS.BTNSEARCHTEMPLATE.CAPTION
+msgid "Template..."
+msgstr ""
+
 #: TFRMOPTIONS.BTNSELEDITFNT.CAPTION
 msgctxt "TFRMOPTIONS.BTNSELEDITFNT.CAPTION"
 msgid "..."
@@ -1931,6 +1935,10 @@ msgstr "Verlauf der Kommandozeile"
 #: TFRMOPTIONS.CBCUTTEXTTOCOLWIDTH.CAPTION
 msgid "Cut text to column width"
 msgstr "Text auf Spaltenbreite kürzen"
+
+#: TFRMOPTIONS.CBDELETETOTRASH.CAPTION
+msgid "&F8/Del deletes to recycle bin (Shift=directly)"
+msgstr ""
 
 #: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
 msgid "Show square brackets around directories"
@@ -2373,10 +2381,6 @@ msgstr "Anzahl der Reinigungsdurchgänge"
 #: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Betrachter-PlugIns erlauben die Anzeige von Bilder, Tabellen, Datenbanken o.ä. durch den Betrachter (F3 oder Strg+Q)."
-
-#: TFRMOPTIONS.LBPRESSEDHOTKEYCOMMAND.CAPTION
-msgid "Useds pressed hotkeys"
-msgstr "Benutzte HotKeys"
 
 #: TFRMOPTIONS.LBTYPES.CAPTION
 msgid "Categories:"
@@ -3104,6 +3108,10 @@ msgstr "Verzeichnis besteht bereits. Soll es überschrieben werden"
 #: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"
 msgstr "Sym-Link folgen"
+
+#: ulng.rsmsginvalidfilename
+msgid "Invalid filename"
+msgstr ""
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
