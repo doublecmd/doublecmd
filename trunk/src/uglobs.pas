@@ -155,6 +155,7 @@ var
   gWipePassNumber: Integer;
   gProcessComments: Boolean;
   gShowCopyTabSelectPanel:boolean;
+  gUseTrash : Boolean = True; // 05.05.2009 - флаг удаления в корзину. По умолчанию включен.
   
   gRenameSelOnlyName:boolean;
 
@@ -532,6 +533,9 @@ begin
   gProcessComments := gIni.ReadBool('Configuration', 'ProcessComments', True);
   gRenameSelOnlyName:= gIni.ReadBool('Configuration', 'RenameSelOnlyName', false);
   gShowCopyTabSelectPanel:= gIni.ReadBool('Configuration', 'ShowCopyTabSelectPanel', false);
+  gUseTrash := gIni.ReadBool('Configuration', 'UseTrash', True); // 05.05.2009 - добавил опцию использования корзины в конфиге.
+//  If gUseTrash then DebugLn('Trash on')
+//  else DebugLn('Trash off');
   { Log }
   gLogFile := gIni.ReadBool('Configuration', 'LogFile', True);
   gLogFileName := gIni.ReadString('Configuration', 'LogFileName', gpIniDir + 'doublecmd.log');
