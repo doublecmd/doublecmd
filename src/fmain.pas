@@ -1356,12 +1356,14 @@ begin
    begin
     if ((not edtCommand.Focused) and (edtCommand.Tag = 0)) or (Key = VK_F8) then
      begin
-      if Shift=[] then
-       Actions.cm_Delete('recycle')
-      else
-       if Shift=[ssShift] then
-        Actions.cm_Delete('');
-      //actDelete.Execute;
+       if gUseTrash then         // 05.05.2009 - флаг из конфигурации. Если корзина включена.
+        begin
+         if Shift=[ssShift] then // если шифт - удаляем напрямую
+           Actions.cm_Delete('')
+         else 
+           Actions.cm_Delete('recycle'); // без шифта удаляем в корзину
+        end
+       else Actions.cm_Delete('');  // если корзина отключена в конфигурации, удалять напрямую.
       Exit;
      end;
    end;
