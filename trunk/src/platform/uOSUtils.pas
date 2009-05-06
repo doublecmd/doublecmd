@@ -1,4 +1,4 @@
-﻿{
+{
     Double Commander
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
@@ -1438,7 +1438,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result:= StrIComp(PChar(s1), PChar(s2));
+  Result:= StrComp(PChar(UTF8LowerCase(s1)), PChar(UTF8LowerCase(s2)));
 end;
 {$ENDIF}
 
