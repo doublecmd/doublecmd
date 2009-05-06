@@ -1639,6 +1639,11 @@ object frmMain: TfrmMain
       Caption = 'Right &= Left'
       OnExecute = actExecute
     end
+    object actChangeDirToRoot: TAction
+      Category = 'Commands'
+      Caption = 'Change directory to root'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     left = 152

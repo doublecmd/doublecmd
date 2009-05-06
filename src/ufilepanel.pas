@@ -86,6 +86,7 @@ type
     procedure UpdateCountStatus;
     procedure cdUpLevel;
     procedure cdDownLevel(frp:PFileRecItem);
+    procedure cdRootLevel;
     procedure MarkGroup(const sMask:String; bSelect:Boolean); // second parametr is switch sel/uns
     procedure UpdatePrompt;
     procedure SetActiveDir(const AValue:String);
@@ -676,6 +677,22 @@ begin
       LoadPanelVFS(frp);
       fPanel.Invalidate;
     end;
+end;
+
+procedure TFilePanel.cdRootLevel;
+begin
+  fActiveDir := ExtractFileDrive(fActiveDir);
+  LastActive:='';
+
+  {$IFDEF unix}
+  if gTermWindow and Assigned(Cons) then
+    Cons.Terminal.Write_pty('cd "'+fActiveDir+'"'+#13#10);
+  {$ENDIF}
+
+  if glsDirHistory.IndexOf(fActiveDir)=-1 then
+    glsDirHistory.Insert(0,fActiveDir);
+
+  LoadPanel;
 end;
 
 function TFilePanel.GetActiveItem:PFileRecItem;
