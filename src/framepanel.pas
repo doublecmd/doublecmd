@@ -75,6 +75,9 @@ type
 
   protected
 
+    procedure InitializeWnd; override;
+    procedure FinalizeWnd; override;
+
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -674,7 +677,7 @@ begin
         FileList, // Will be freed automatically.
         GetDropEffectByKeyAndMouse(GetKeyShiftState,
                                   (Source as TDrawGridEx).LastMouseButton),
-        ClientToScreen(Point(X, Y)),
+        ClientToScreen(Classes.Point(X, Y)),
         True,
         SourcePanel,
         Self));
@@ -1587,14 +1590,6 @@ begin
 
   dgPanel:=TDrawGridEx.Create(Self);
   dgPanel.Parent:=Self;
-
-  // Register panel as drag&drop source and target.
-  dgPanel.DragDropSource := uDragDropEx.CreateDragDropSource(dgPanel);
-  dgPanel.DragDropSource.RegisterEvents(nil, nil, @dgPanel.OnExDragEnd);
-  dgPanel.DragDropTarget := uDragDropEx.CreateDragDropTarget(dgPanel);
-  dgPanel.DragDropTarget.RegisterEvents(@dgPanel.OnExDragEnter,@dgPanel.OnExDragOver,
-                                        @dgPanel.OnExDrop,@dgPanel.OnExDragLeave);
-
   dgPanel.FixedCols:=0;
   dgPanel.FixedRows:=0;
   dgPanel.DefaultDrawing:=True;
@@ -1635,7 +1630,7 @@ begin
   edtSearch.Top:=1;
 
   pnAltSearch.Visible := False;
-  
+
   // ---
   dgPanel.OnMouseDown := @dgPanelMouseDown;
   dgPanel.OnStartDrag := @dgPanelStartDrag;
@@ -1686,17 +1681,37 @@ end;
 
 constructor TDrawGridEx.Create(AOwner: TComponent);
 begin
+  inherited Create(AOwner);
+
   TransformDragging := False;
   StartDrag := False;
   DropRowIndex := -1;
 
   DragDropSource := nil;
   DragDropTarget := nil;
-
-  inherited Create(AOwner);
 end;
 
 destructor TDrawGridEx.Destroy;
+begin
+  inherited;
+end;
+
+procedure TDrawGridEx.InitializeWnd;
+begin
+  inherited;
+
+  // Register as drag&drop source and target.
+  DragDropSource := uDragDropEx.CreateDragDropSource(Self);
+  if Assigned(DragDropSource) then
+    DragDropSource.RegisterEvents(nil, nil, @OnExDragEnd);
+
+  DragDropTarget := uDragDropEx.CreateDragDropTarget(Self);
+  if Assigned(DragDropTarget) then
+    DragDropTarget.RegisterEvents(@OnExDragEnter,@OnExDragOver,
+                                  @OnExDrop,@OnExDragLeave);
+end;
+
+procedure TDrawGridEx.FinalizeWnd;
 begin
   if Assigned(DragDropSource) then
     FreeAndNil(DragDropSource);
