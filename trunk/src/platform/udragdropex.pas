@@ -20,6 +20,13 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
 
+{en
+   Be aware that raw HWND handles are used to register controls for drag&drop
+   in the system. Some LCL's functions may destroy a control's handle and create
+   a new one during the lifetime of that control, making drag&drop invalid.
+   Override TWinControl.InitializeWnd and TWinControl.FinalizeWnd to handle
+   registration/unregistration in each control.
+}
 unit uDragDropEx;
 
 {$mode objfpc}{$H+}
@@ -196,8 +203,7 @@ end;
 
 destructor TDragDropSource.Destroy;
 begin
-  if FDragDropControl.HandleAllocated then
-    UnregisterEvents;
+  UnregisterEvents;
 
   FDragDropControl := nil;
 
@@ -276,8 +282,7 @@ end;
 
 destructor TDragDropTarget.Destroy;
 begin
-  if FDragDropControl.HandleAllocated then
-    UnregisterEvents;
+  UnregisterEvents;
 
   FDragDropControl := nil;
 end;

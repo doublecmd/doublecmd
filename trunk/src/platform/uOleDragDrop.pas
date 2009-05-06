@@ -98,13 +98,20 @@ type
 
     FHandle: HWND;
 
+    FReleased: Boolean;
+
     FDragDropTarget: TDragDropTargetWindows;
 
   public
 
     constructor Create(DragDropTarget: TDragDropTargetWindows);
 
-    destructor Destroy; override;
+    {en
+       Unregisters drag&drop target and releases the object (it is destroyed).
+       This is the function that should be called to cleanup the object instead
+       of Free. Do not use the object after calling it.
+    }
+    procedure FinalRelease;
 
 
     { из IDropTarget }
@@ -787,84 +794,60 @@ begin
 
   inherited Create;
 
+  // Here RefCount is 1 - as set in TInterfacedObject.NewInstance,
+  // but it's decremented back in TInterfacedObject.AfterConstruction
+  // (when this constructor finishes). So we must manually again increase it.
   _AddRef;
+
+  FReleased := False;
 
   FDragDropTarget := DragDropTarget;
 
-  ActiveX.CoLockObjectExternal(Self,
+  // Increases RefCount.
+  ActiveX.CoLockObjectExternal(Self, True, False);
 
-    True, False);
+  // Increases RefCount.
+  if ActiveX.RegisterDragDrop(DragDropTarget.GetControl.Handle, Self) = S_OK then
 
-  ActiveX.RegisterDragDrop(DragDropTarget.GetControl.Handle, Self);
+    FHandle := DragDropTarget.GetControl.Handle
 
-end;
-
-{ Destroy снимает блокировку с объекта
-
-и разрывает связь с ним }
-
-destructor TFileDropTarget.Destroy;
-
-var
-
-  WorkHandle: HWND;
-
-begin
-
-  {
-
-    Если значение FHandle не равно 0,
-
-    значит, связь с окном все
-
-    еще существует. Обратите внимание
-
-    на то, что FHandle необходимо
-
-    прежде всего присвоить 0, потому
-
-    что CoLockObjectExternal и
-
-    RevokeDragDrop вызывают Release,
-
-    что, в свою очередь, может
-
-    привести к вызову Free и зацикливанию
-
-    программы.
-
-    Подозреваю, что этот фрагмент не
-
-    совсем надежен. Если объект будет
-
-    освобожден до того, как
-
-    счетчик ссылок упадет до 0,
-
-    может возникнуть исключение.
-
-  }
-
-  if (FHandle <> 0) then
-
-  begin
-
-    WorkHandle := FHandle;
+  else
 
     FHandle := 0;
 
-    ActiveX.CoLockObjectExternal
+end;
 
-    (Self, False, True);
 
-    ActiveX.RevokeDragDrop(WorkHandle);
+procedure TFileDropTarget.FinalRelease;
+
+begin
+
+  if not FReleased then
+
+  begin
+
+    FReleased := True;
+
+    // Decreases reference count.
+    ActiveX.CoLockObjectExternal(Self, False, True);
+
+    // Check if window was not already destroyed.
+    if (FHandle <> 0) and (IsWindow(FHandle)) then
+    begin
+
+      // Decreases reference count.
+      ActiveX.RevokeDragDrop(FHandle);
+
+      FHandle := 0;
+
+    end
+    else
+      _Release; // Cannot revoke - just release reference.
+
+    _Release; // For _AddRef in Create.
 
   end;
-
-
-
-  inherited Destroy;
-
+  
 end;
 
 function TFileDropTarget.DragEnter(const dataObj: IDataObject;
@@ -1652,7 +1635,7 @@ begin
   inherited Destroy;
   if Assigned(FDragDropTarget) then
   begin
-    FDragDropTarget._Release;
+    FDragDropTarget.FinalRelease;
     FDragDropTarget := nil;
   end;
 end;
@@ -1671,7 +1654,7 @@ begin
   GetControl.HandleNeeded; // force creation of the handle
   if GetControl.HandleAllocated = True then
   begin
-    FDragDropTarget := uOleDragDrop.TFileDropTarget.Create(Self);
+    FDragDropTarget := TFileDropTarget.Create(Self);
     Result := True;
   end;
 end;
@@ -1681,7 +1664,7 @@ begin
   inherited;
   if Assigned(FDragDropTarget) then
   begin
-    FDragDropTarget._Release; // Freeing will unregister events
+    FDragDropTarget.FinalRelease; // Releasing will unregister events
     FDragDropTarget := nil;
   end;
 end;
