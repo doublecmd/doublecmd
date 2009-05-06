@@ -824,11 +824,11 @@ msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
 msgid "Directory"
 msgstr ""
 
+#, fuzzy
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 msgid "File Size From:"
 msgstr "Bestandsgrootte vanaf:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
 msgid "File Size To:"
 msgstr "Bestandsgrootte tot:"
@@ -911,6 +911,7 @@ msgstr ""
 msgid "Find Data"
 msgstr "Zoek Data"
 
+#, fuzzy
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
 msgstr "Huidig"
@@ -921,7 +922,6 @@ msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr "Koderen:"
 
-#, fuzzy
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 msgid "&File mask"
 msgstr "BestandsMasker"
@@ -1889,6 +1889,10 @@ msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
 msgid "Remove"
 msgstr "Verwijder"
 
+#: TFRMOPTIONS.BTNSEARCHTEMPLATE.CAPTION
+msgid "Template..."
+msgstr ""
+
 #: TFRMOPTIONS.BTNSELEDITFNT.CAPTION
 msgctxt "TFRMOPTIONS.BTNSELEDITFNT.CAPTION"
 msgid "..."
@@ -1939,6 +1943,10 @@ msgstr "Commandoregel geschiedenis"
 #: TFRMOPTIONS.CBCUTTEXTTOCOLWIDTH.CAPTION
 msgid "Cut text to column width"
 msgstr "Snij tekst af op kolombreedte"
+
+#: TFRMOPTIONS.CBDELETETOTRASH.CAPTION
+msgid "&F8/Del deletes to recycle bin (Shift=directly)"
+msgstr ""
 
 #: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
 msgid "Show square brackets around directories"
@@ -2381,10 +2389,6 @@ msgstr "Aantal wissingen:"
 #: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Viewer plug-ins laten formaten zoals plaatjes, rekenbladen en databases etc. zien in Viewer (F3, Ctrl+Q)"
-
-#: TFRMOPTIONS.LBPRESSEDHOTKEYCOMMAND.CAPTION
-msgid "Useds pressed hotkeys"
-msgstr ""
 
 #: TFRMOPTIONS.LBTYPES.CAPTION
 msgid "Categories:"
@@ -3112,6 +3116,10 @@ msgstr "Map %s bestaat, overshrijven?"
 #: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"
 msgstr "Volg symlink \"%s\"?"
+
+#: ulng.rsmsginvalidfilename
+msgid "Invalid filename"
+msgstr ""
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."

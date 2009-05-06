@@ -824,11 +824,11 @@ msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
 msgid "Directory"
 msgstr ""
 
+#, fuzzy
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 msgid "File Size From:"
 msgstr "Tamaño desde:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
 msgid "File Size To:"
 msgstr "Tamaño hasta:"
@@ -911,6 +911,7 @@ msgstr ""
 msgid "Find Data"
 msgstr "Buscar datos"
 
+#, fuzzy
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
 msgstr "Actual"
@@ -921,7 +922,6 @@ msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr ""
 
-#, fuzzy
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 msgid "&File mask"
 msgstr "Máscara de ficheros"
@@ -1889,6 +1889,10 @@ msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
 msgid "Remove"
 msgstr ""
 
+#: TFRMOPTIONS.BTNSEARCHTEMPLATE.CAPTION
+msgid "Template..."
+msgstr ""
+
 #: TFRMOPTIONS.BTNSELEDITFNT.CAPTION
 msgctxt "TFRMOPTIONS.BTNSELEDITFNT.CAPTION"
 msgid "..."
@@ -1938,6 +1942,10 @@ msgstr "Histórico de comandos"
 
 #: TFRMOPTIONS.CBCUTTEXTTOCOLWIDTH.CAPTION
 msgid "Cut text to column width"
+msgstr ""
+
+#: TFRMOPTIONS.CBDELETETOTRASH.CAPTION
+msgid "&F8/Del deletes to recycle bin (Shift=directly)"
 msgstr ""
 
 #: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
@@ -2380,10 +2388,6 @@ msgstr ""
 
 #: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr ""
-
-#: TFRMOPTIONS.LBPRESSEDHOTKEYCOMMAND.CAPTION
-msgid "Useds pressed hotkeys"
 msgstr ""
 
 #: TFRMOPTIONS.LBTYPES.CAPTION
@@ -3111,6 +3115,10 @@ msgstr ""
 
 #: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"
+msgstr ""
+
+#: ulng.rsmsginvalidfilename
+msgid "Invalid filename"
 msgstr ""
 
 #: ulng.rsmsginvalidselection

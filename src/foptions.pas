@@ -120,6 +120,7 @@ type
     cbSpaceMovesDown: TCheckBox;
     cbDirBrackets: TCheckBox;
     cbTabsActivateOnClick: TCheckBox;
+    cbDeleteToTrash: TCheckBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
@@ -2058,6 +2059,7 @@ begin
   seWipePassNumber.Value:= gWipePassNumber;
   cbProcessComments.Checked:= gProcessComments;
   cbShowCopyTabSelectPanel.Checked:=gShowCopyTabSelectPanel;
+  cbDeleteToTrash.Checked:= gUseTrash;
 
   { Log file }
   cbLogFile.Checked := gLogFile;
@@ -2216,6 +2218,7 @@ begin
   gWipePassNumber:= seWipePassNumber.Value;
   gProcessComments:= cbProcessComments.Checked;
   gShowCopyTabSelectPanel:=cbShowCopyTabSelectPanel.Checked;
+  gUseTrash:= cbDeleteToTrash.Checked;
 
   { Log file }
   gLogFile := cbLogFile.Checked;
