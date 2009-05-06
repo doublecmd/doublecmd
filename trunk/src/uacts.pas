@@ -138,6 +138,7 @@ const cf_Null=0;
    procedure cm_CopyToClipboard(param: string='');
    procedure cm_CutToClipboard(param: string='');
    procedure cm_PasteFromClipboard(param: string='');
+   procedure cm_ChangeDirToRoot(param: string='');
 
    //---------------------
    {   procedure SomeFunction (param:string; var Result:integer);
@@ -1923,6 +1924,11 @@ begin
       FreeAndNil(fileNamesList);
     end;
   end;
+end;
+
+procedure TActs.cm_ChangeDirToRoot(param: string='');
+begin
+  FrmMain.ActiveFrame.pnlFile.cdRootLevel;
 end;
 
 end.

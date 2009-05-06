@@ -72,6 +72,7 @@ type
     actCopyFullNamesToClip: TAction;
     actCutToClipboard: TAction;
     actCopyToClipboard: TAction;
+    actChangeDirToRoot: TAction;
     actRightEqualLeft: TAction;
     actLeftEqualRight: TAction;
     actPasteFromClipboard: TAction;
@@ -617,13 +618,15 @@ begin
   with Sender as TSpeedButton do
   begin
     if Caption = '/' then
-      FrameLeft.pnlFile.ActiveDir := ExtractFileDrive(FrameLeft.pnlFile.ActiveDir);
-    if Caption = '..' then
-      FrameLeft.pnlFile.cdUpLevel;
-    if Caption = '~' then
+      FrameLeft.pnlFile.cdRootLevel
+    else if Caption = '..' then
+      FrameLeft.pnlFile.cdUpLevel
+    else if Caption = '~' then
+    begin
       FrameLeft.pnlFile.ActiveDir := GetHomeDir;
+      FrameLeft.pnlFile.LoadPanel;
+    end;
   end;
-  FrameLeft.pnlFile.LoadPanel;
 
   SetActiveFrame(fpLeft);
 end;
@@ -631,9 +634,14 @@ end;
 procedure TfrmMain.actExecute(Sender: TObject);
 var cmd:string;
 begin
-cmd:=(Sender as TAction).Name;
-cmd:='cm_'+copy(cmd,4,length(cmd)-3);
-Actions.Execute(cmd);
+  cmd:=(Sender as TAction).Name;
+  cmd:='cm_'+copy(cmd,4,length(cmd)-3);
+  try
+    Actions.Execute(cmd);
+  except
+    on e : Exception do
+      msgError(e.Message);
+  end;
 end;
 
 
