@@ -183,7 +183,7 @@ end;
 
 
 
-function InternalGetDIB(Bitmap:HBITMAP;var iRgbTable:integer;var BitmapInfo:PBitmapInfo;var Bits:TBits): Boolean;
+function InternalGetDIB(Bitmap:HBITMAP;out iRgbTable:integer;out BitmapInfo:PBitmapInfo;var Bits:TBits): Boolean;
 var 
   DC: HDC;
   DS: TDIBSection;
@@ -223,11 +223,11 @@ begin
             iRgbTable := SizeOf(TRGBQuad)*(1 shl bmiHeader.biBitCount)
         else
           iRgbTable := SizeOf(TRGBQuad)*bmiHeader.biClrUsed;
-        if iRgbTable > 0 then
-          BitmapInfo := ReallocMemory(BitmapInfo,SizeOf(TBitmapInfoHeader)+iRgbTable);
-
-        setLength(Bits,bmiHeader.biSizeImage);
       end;
+
+    if iRgbTable > 0 then
+      BitmapInfo := ReallocMemory(BitmapInfo,SizeOf(TBitmapInfoHeader)+iRgbTable);
+    setLength(Bits,BitmapInfo^.bmiHeader.biSizeImage);
 
     DC := CreateCompatibleDC(0);
     try
