@@ -739,10 +739,11 @@ begin
   Integer(DriveBits) := GetLogicalDrives;
   for DriveNum := 0 to 25 do
   begin
-  New(Drive);
+    if not (DriveNum in DriveBits) then Continue;
+    New(Drive);
+    Result.Add(Drive);
     with Drive^ do
     begin
-     if not (DriveNum in DriveBits) then Continue;
      Name := Char(DriveNum + Ord('a')) + ':\';
      Path := Name;
      DriveType := TDriveType(GetDriveType(PChar(Name)));
@@ -756,7 +757,6 @@ begin
      if (DriveType <> dtFloppy) and (DriveType <> dtNetwork) then
        DriveLabel := mbGetVolumeLabel(Name, True);
     end;
-  Result.Add(Drive);
   end;
 
 end;
