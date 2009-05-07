@@ -42,11 +42,19 @@ var
   iTotalDiskSize,
   iFreeDiskSize: Int64;
   bProceed: Boolean;
+
+  bSkipFreeSpaceCheck : Boolean;
+  bSkipAllBigFiles : Boolean;
+
+  mmrResult : TMyMsgResult;
 begin
   CorrectMask;
   FReplaceAll:= False;
   FSkipAll:= False;
   FCopied:= 0;
+
+  bSkipFreeSpaceCheck:= False;
+  bSkipAllBigFiles:= False;
 
   for xIndex:=0 to NewFileList.Count-1 do // copy
   begin
@@ -60,16 +68,38 @@ begin
     EstimateTime(FCopied);
 
     { Check disk free space }
-    GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
-    if pr^.iSize > iFreeDiskSize then
+    if not bSkipFreeSpaceCheck then
+    begin
+      GetDiskFreeSpace(sDstPath, iFreeDiskSize, iTotalDiskSize);
+      if pr^.iSize > iFreeDiskSize then
       begin
-        case MsgBox(Self, rsMsgNoFreeSpaceCont, [msmbYes, msmbNo,msmbSkip], msmbYes, msmbNo) of
-          mmrNo:
-            Exit;
-          mmrSkip:
-            bProceed := False;
+        if bSkipAllBigFiles then
+        begin
+          bProceed:= False;
+        end
+          else
+        begin
+          mmrResult := MsgBox(Self, rsMsgNoFreeSpaceCont, [msmbYes, msmbAll, msmbNo, msmbSkip, msmbSkipAll], msmbYes, msmbNo);
+          case mmrResult of
+            mmrNo:
+              Exit;
+
+            mmrSkip:
+              bProceed:= False;
+
+            mmrAll:
+              bSkipFreeSpaceCheck:= True;
+
+            mmrSkipAll:
+            begin
+              bProceed:= False;
+              bSkipAllBigFiles:= True;
+            end;
+
+          end;
         end;
       end;
+    end;
 
     if bProceed then
       CpFile(pr,sDstPath, True);
