@@ -293,6 +293,7 @@ type
     procedure btnDSXAddClick(Sender: TObject);
     procedure btnEnablePluginClick(Sender: TObject);
     procedure btnSearchTemplateClick(Sender: TObject);
+    procedure edHotKeyKeyPress(Sender: TObject; var Key: char);
     procedure miSearchTemplateClick(Sender: TObject);
     procedure btnWDXAddClick(Sender: TObject);
     procedure btnWFXAddClick(Sender: TObject);
@@ -1711,6 +1712,13 @@ begin
       pmSearchTemplate.Items.Add(mi);
     end;
   pmSearchTemplate.PopUp();
+end;
+
+procedure TfrmOptions.edHotKeyKeyPress(Sender: TObject; var Key: char);
+begin
+  Key := #0;
+  edHotKey.Text := '';
+  btSetHotKey.Enabled := False;
 end;
 
 procedure TfrmOptions.miSearchTemplateClick(Sender: TObject);

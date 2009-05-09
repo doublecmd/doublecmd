@@ -1,3 +1,9 @@
+{
+  This unit handles anything regarding keyboard and keys.
+  It is heavily dependent on operating system and widget set.
+  For MSWINDOWS and Unix GTK1/2, QT.
+}
+
 unit uKeyboard;
 
 {$mode objfpc}{$H+}
@@ -7,7 +13,41 @@ interface
 uses
   Classes, SysUtils, LCLType;
 
-  { Retrieves current modifiers state of the keyboard. }
+
+type
+  TMenuKeyCap = (mkcBkSp, mkcTab, mkcEsc, mkcEnter, mkcSpace, mkcPgUp,
+    mkcPgDn, mkcEnd, mkcHome, mkcLeft, mkcUp, mkcRight, mkcDown, mkcIns,
+    mkcDel, mkcShift, mkcCtrl, mkcAlt, mkcWin);
+
+const
+  SmkcBkSp = 'BkSp';
+  SmkcTab = 'Tab';
+  SmkcEsc = 'Esc';
+  SmkcEnter = 'Enter';
+  SmkcSpace = 'Space';
+  SmkcPgUp = 'PgUp';
+  SmkcPgDn = 'PgDn';
+  SmkcEnd = 'End';
+  SmkcHome = 'Home';
+  SmkcLeft = 'Left';
+  SmkcUp = 'Up';
+  SmkcRight = 'Right';
+  SmkcDown = 'Down';
+  SmkcIns = 'Ins';
+  SmkcDel = 'Del';
+  SmkcShift = 'Shift+';
+  SmkcCtrl = 'Ctrl+';
+  SmkcAlt = 'Alt+';
+  SmkcWin = 'WinKey+';
+
+  MenuKeyCaps: array[TMenuKeyCap] of string = (
+    SmkcBkSp, SmkcTab, SmkcEsc, SmkcEnter, SmkcSpace, SmkcPgUp,
+    SmkcPgDn, SmkcEnd, SmkcHome, SmkcLeft, SmkcUp, SmkcRight,
+    SmkcDown, SmkcIns, SmkcDel, SmkcShift, SmkcCtrl, SmkcAlt,
+    SmkcWin);
+
+
+  {en Retrieves current modifiers state of the keyboard. }
   function GetKeyShiftStateEx: TShiftState;
 
   {en
@@ -16,10 +56,24 @@ uses
      @param(Key
             Virtual key code.)
      @param(ShiftState
-            Current keyboard modifiers that should be taken into account
+            Keyboard modifiers that should be taken into account
             when determining the character.)
   }
-  function VirtualKeyToUTF8Char(Key: Word; ShiftState: TShiftState): TUTF8Char;
+  function VirtualKeyToUTF8Char(Key: Byte; ShiftState: TShiftState = []): TUTF8Char;
+
+  {en
+     Returns text description of a virtual key trying to take into account
+     given modifiers state.
+     For keys that have characters assigned it usually returns that character,
+     for others some textual description.
+     @param(Key
+            Virtual key code.)
+     @param(ShiftState
+            Keyboard modifiers that should be taken into account
+            when determining the description.)
+     @return(UTF8 character assigned to Key or an empty string.)
+  }
+  function VirtualKeyToText(Key: Byte; ShiftState: TShiftState = []): string;
 
 {$IFDEF MSWINDOWS}
   {en
@@ -34,12 +88,56 @@ uses
   }
   function GetInternationalCharacter(Key: Word;
                                      ExcludeShiftState: TShiftState = []): TUTF8Char;
-
-  procedure UpdateKeyboardLayoutAltGrFlag;
 {$ENDIF}
 
-{$IF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
-  procedure UpdateGtkAltGrVirtualKeyCode;
+  {en
+     Initializes keyboard module.
+     Should be called after Application.Initialize and with the main form created.
+  }
+  procedure InitializeKeyboard;
+  procedure CleanupKeyboard;
+
+  {en
+     Should be called whenever a keyboard layout modification is detected.
+  }
+  procedure OnKeyboardLayoutChanged;
+
+implementation
+
+uses
+  LCLProc, LCLIntf
+{$IF DEFINED(MSWINDOWS)}
+  , Windows, Win32Proc
+{$ENDIF}
+{$IF DEFINED(UNIX)}
+  , XLib, X
+{$ENDIF}
+{$IF DEFINED(LCLGTK)}
+  , Gdk, GLib
+  , GtkProc
+{$ENDIF}
+{$IF DEFINED(LCLGTK2)}
+  , Gdk2, GLib2, GtkExtra
+  , GtkProc
+{$ENDIF}
+{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+  , qt4, qtwidgets
+  , xutil, KeySym
+  , Forms  // for Application.MainForm
+{$ENDIF}
+  ;
+
+{$IF DEFINED(UNIX)}
+  {$IF DEFINED(LCLGTK)}
+var
+  XDisplay: PDisplay = nil;
+  {$ELSEIF DEFINED(LCLGTK2)}
+var
+  XDisplay: PGdkDisplay = nil;
+  {$ELSEIF DEFINED(LCLQT)}
+var
+  XDisplay: PDisplay = nil;
+  {$ENDIF}
 {$ENDIF}
 
 {$IFDEF MSWINDOWS}
@@ -52,30 +150,105 @@ var
 var
   // This is set to a virtual key number that AltGr is mapped on.
   VK_ALTGR: Byte = VK_UNDEFINED;
+  {$IF DEFINED(LCLGTK2)}
+  KeysChangesSignalHandlerId : gulong = 0;
+  {$ENDIF}
 {$ENDIF}
 
-implementation
-
-uses
-  LCLProc, LCLIntf
-{$IF DEFINED(MSWINDOWS)}
-  , Windows, Win32Proc
-{$ENDIF}
-{$IF DEFINED(LCLGTK)}
-  , Gdk, GLib, XLib, X
-  , GtkProc
-{$ENDIF}
-{$IF DEFINED(LCLGTK2)}
-  , Gdk2, GLib2, GtkExtra
-  , GtkProc
-{$ENDIF}
 {$IF DEFINED(UNIX) and DEFINED(LCLQT)}
-  , qt4
+type
+  TKeyboardLayoutChangedHook = class
+  private
+    EventHook: QObject_hookH;
+
+    function EventFilter(Sender: QObjectH; Event: QEventH): Boolean; cdecl; // called by QT
+
+  public
+    constructor Create(QObject: QObjectH);
+    destructor Destroy; override;
+  end;
+
+var
+  // Used to catch "keyboard layout modified" event.
+  KeyboardLayoutChangedHook: TKeyboardLayoutChangedHook = nil;
+
+  ShiftMask : Cardinal = 0;
+  AltGrMask : Cardinal = 0;
 {$ENDIF}
-  ;
+
 
 {$IF DEFINED(LCLGTK)}
 function XKeycodeToKeysym(para1:PDisplay; para2:TKeyCode; index:integer):TKeySym;cdecl;external libX11;
+{$ENDIF}
+
+{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+{en
+   Retrieves the character and respective modifiers state
+   for the given keysym and given level.
+}
+procedure XKeysymToUTF8Char(XKeysym: TKeySym; ShiftLevel: Cardinal;
+                            out ShiftState: TShiftState; out KeyChar: TUTF8Char);
+var
+  XKeycode: TKeyCode;
+  XKeyEvent: TXKeyEvent;
+  KeySymChars: array[0..16] of Char;
+  KeySymCharLen: Integer;
+  Level: Integer;
+begin
+  KeyChar := '';
+  ShiftState := [];
+
+  XKeycode := XKeysymToKeycode(XDisplay, XKeysym);
+
+  if XKeycode <> 0 then
+  begin
+    // 4 levels - two groups of two characters each (unshifted/shifted).
+    // AltGr is usually the group switch.
+    for Level := 0 to 3 do
+    begin
+      if XKeysym = XKeycodeToKeysym(XDisplay, XKeyCode, Level) then
+      begin
+        // Init dummy XEvent to retrieve the char corresponding to the keycode.
+        FillChar(XKeyEvent, SizeOf(XKeyEvent), 0);
+        XKeyEvent._Type := KeyPress;
+        XKeyEvent.Display := XDisplay;
+        XKeyEvent.Same_Screen := True;
+        XKeyEvent.KeyCode := XKeyCode;
+
+        case ShiftLevel of
+          0: XKeyEvent.State := 0;                      // 1st group
+          1: XKeyEvent.State := ShiftMask;              // 1st group
+          2: XKeyEvent.State := AltGrMask;              // 2nd group
+          3: XKeyEvent.State := AltGrMask or ShiftMask; // 2nd group
+        else
+             XKeyEvent.State := 0;
+        end;
+
+        // Retrieve the character for this KeySym.
+        KeySymCharLen := XLookupString(@XKeyEvent, KeySymChars, SizeOf(KeySymChars), nil, nil);
+
+        // Delete ending zero.
+        if (KeySymCharLen > 0) and (KeySymChars[KeySymCharLen - 1] = #0) then
+          Dec(KeySymCharLen);
+
+        if KeySymCharLen > 0 then
+        begin
+          SetString(KeyChar, KeySymChars, KeySymCharLen);
+
+          // Get modifier keys of the found keysym.
+          case Level of
+            0: ShiftState := [];
+            1: ShiftState := [ssShift];
+            2: ShiftState := [ssAltGr];
+            3: ShiftState := [ssShift, ssAltGr];
+          end;
+        end;
+
+        Exit;
+      end
+    end;
+  end;
+end;
 {$ENDIF}
 
 function GetKeyShiftStateEx: TShiftState;
@@ -135,66 +308,207 @@ begin
     Include(Result,ssCaps);
 end;
 
-function VirtualKeyToUTF8Char(Key: Word; ShiftState: TShiftState): TUTF8Char;
+function VirtualKeyToUTF8Char(Key: Byte; ShiftState: TShiftState): TUTF8Char;
+
+{$IF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2) or DEFINED(LCLQT))}
+  function ShiftStateToXModifierLevel(ShiftState: TShiftState): Cardinal;
+  begin
+    Result := 0;
+    if ssShift in ShiftState then Result := Result or 1;
+    if ssAltGr in ShiftState then Result := Result or 2;
+  end;
+{$ENDIF}
+
 var
 {$IF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
   KeyInfo: TVKeyInfo;
 {$ENDIF}
   ShiftedChar: Boolean;
+{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+  KeyChar:TUTF8Char;
+  KeySym: TKeySym;
+  TempShiftState: TShiftState;
+{$ENDIF}
 begin
   Result := '';
-
-  Key := Byte(Key and $FF);
 
   // Upper case if either caps-lock is toggled or shift pressed.
   ShiftedChar := (ssCaps in ShiftState) xor (ssShift in ShiftState);
 
 {$IF DEFINED(MSWINDOWS)}
+
   Result := GetInternationalCharacter(Key, GetKeyShiftStateEx - ShiftState);
+
 {$ELSEIF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+
   KeyInfo := GtkProc.GetVKeyInfo(Key);
 
-  if ShiftedChar then
-  begin
-    if ssAltGr in ShiftState then
-      Result := KeyInfo.KeyChar[3]    // shifted + AltGr
-    else
-      Result := KeyInfo.KeyChar[1];   // shifted
-  end
-  else
-  begin
-    if ssAltGr in ShiftState then
-      Result := KeyInfo.KeyChar[2]    // unshifted + AltGr
-    else
-      Result := KeyInfo.KeyChar[0];   // unshifted
-  end;
-{$ELSE}
-  // Allow only keys we know how to translate, because we have no keyboard mapping.
+  // KeyInfo.KeyChar contains characters according to modifiers:
+  // [0] - unshifted            [2] - unshifted + AltGr
+  // [1] - shifted              [3] - shifted + AltGr
+  // Caps-lock is handled below with ShiftedChar variable.
+
+  Result := KeyInfo.KeyChar[ShiftStateToXModifierLevel(ShiftState)];
+
+{$ELSEIF DEFINED(UNIX) and DEFINED(LCLQT)}
+
+  // For QT we'll use Xlib to get text for a key.
+
+  KeySym := 0;
   case Key of
-    VK_0..VK_9:
-      Result := Char(Ord('0') + Key - VK_0);
-    VK_A..VK_Z:
-      Result := Char(Ord('A') + Key - VK_A);
-    VK_NUMPAD0..VK_NUMPAD9:
-      Result := Char(Ord('0') + Key - VK_NUMPAD0);
-    VK_OEM_PLUS:
-      Result := '+';
-    VK_OEM_COMMA:
-      Result := ',';
-    VK_OEM_MINUS:
-      Result := '-';
-    VK_OEM_PERIOD:
-      Result := '.';
+    VK_0..VK_9:         Result := Char(Ord('0') + Key - VK_0);
+    VK_A..VK_Z:         Result := Char(Ord('A') + Key - VK_A);
+    VK_NUMPAD0..
+      VK_NUMPAD9:       Result := Char(Ord('0') + Key - VK_NUMPAD0);
+
+    VK_MULTIPLY:        KeySym := XK_KP_Multiply;
+    VK_ADD:             KeySym := XK_KP_Add;
+    VK_SUBTRACT:        KeySym := XK_KP_Subtract;
+    VK_DIVIDE:          KeySym := XK_KP_Divide;
+
+    // These VKs might only work for US-layout keyboards.
+    VK_OEM_PLUS:        KeySym := XK_plus;
+    VK_OEM_MINUS:       KeySym := XK_minus;
+    VK_OEM_COMMA:       KeySym := XK_comma;
+    VK_OEM_PERIOD:      KeySym := XK_period;
+    VK_SEPARATOR:       KeySym := XK_comma;
+    VK_DECIMAL:         KeySym := XK_period;
+    VK_OEM_1:           KeySym := XK_semicolon;
+    VK_OEM_3:           KeySym := XK_quoteleft;
+    VK_OEM_4:           KeySym := XK_bracketleft;
+    VK_OEM_5:           KeySym := XK_backslash;
+    VK_OEM_6:           KeySym := XK_bracketright;
+    VK_OEM_7:           KeySym := XK_apostrophe;
+
+    // Some additional keys for QT not mapped in TQtWidget.QtKeyToLCLKey.
+    // Based on QT sources: src/gui/kernel/qkeymapper_x11.cpp.
+    QtKey_Bar:          KeySym := XK_bar;
+    QtKey_Underscore:   KeySym := XK_underscore;
+    QtKey_Question:     KeySym := XK_question;
+    QtKey_AsciiCircum:  KeySym := XK_asciicircum;
+
+    // $C1 - $DA not used VK space
+    // Some of these keys (not translated in QtKeyToLCLKey) are on international keyboards.
+    QtKey_Aacute:       KeySym := XK_aacute;
+    QtKey_Acircumflex:  KeySym := XK_acircumflex;
+    QtKey_Atilde:       KeySym := XK_atilde;
+    QtKey_Adiaeresis:   KeySym := XK_adiaeresis;
+    QtKey_Aring:        KeySym := XK_aring;
+    QtKey_AE:           KeySym := XK_ae;
+    QtKey_Ccedilla:     KeySym := XK_ccedilla;
+    QtKey_Egrave:       KeySym := XK_egrave;
+    QtKey_Eacute:       KeySym := XK_eacute;
+    QtKey_Ecircumflex:  KeySym := XK_ecircumflex;
+    QtKey_Ediaeresis:   KeySym := XK_ediaeresis;
+    QtKey_Igrave:       KeySym := XK_igrave;
+    QtKey_Iacute:       KeySym := XK_iacute;
+    QtKey_Icircumflex:  KeySym := XK_icircumflex;
+    QtKey_Idiaeresis:   KeySym := XK_idiaeresis;
+    QtKey_ETH:          KeySym := XK_eth;
+    QtKey_Ntilde:       KeySym := XK_ntilde;
+    QtKey_Ograve:       KeySym := XK_ograve;
+    QtKey_Oacute:       KeySym := XK_oacute;
+    QtKey_Ocircumflex:  KeySym := XK_ocircumflex;
+    QtKey_Otilde:       KeySym := XK_otilde;
+    QtKey_Odiaeresis:   KeySym := XK_odiaeresis;
+    QtKey_multiply:     KeySym := XK_multiply;
+    QtKey_Ooblique:     KeySym := XK_ooblique;
+    QtKey_Ugrave:       KeySym := XK_ugrave;
+    QtKey_Uacute:       KeySym := XK_uacute;
   end;
+
+  if KeySym <> 0 then
+  begin
+    // Get character for a key with the given keysym
+    // and with given modifiers applied.
+    // Don't care about modifiers state, because we already have it.
+    XKeysymToUTF8Char(KeySym, ShiftStateToXModifierLevel(ShiftState),
+                      TempShiftState, KeyChar);
+    Result := KeyChar;
+  end;
+
+{$ELSE}
+
 {$ENDIF}
 
   // Make upper case if either caps-lock is toggled or shift pressed.
   if Result <> '' then
   begin
-    if ShiftedChar then
+  if ShiftedChar then
       Result := UTF8UpperCase(Result)
     else
       Result := UTF8LowerCase(Result);
+  end;
+end;
+
+function VirtualKeyToText(Key: Byte; ShiftState: TShiftState): string;
+var
+  Name: string;
+{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+  KeyChar: TUTF8Char;
+  KeySym: TKeySym;
+  TempShiftState: TShiftState;
+{$ENDIF}
+begin
+
+{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+  // Overwrite behaviour for some keys in QT.
+  KeySym := 0;
+  case Key of
+    QtKey_Bar:         KeySym := XK_bar;                 // VK_F13
+    QtKey_Underscore:  KeySym := XK_underscore;          // VK_SLEEP
+
+    // '+' (XK_plus) and 'numpad +' (XK_KP_Add) are both reported as VK_ADD (QtKey_Plus)
+    VK_ADD:            KeySym := XK_KP_Add;
+    // '*' (XK_multiply) and 'numpad *' (XK_KP_Multiply) are both reported as VK_MULTIPLY (QtKey_Asterisk)
+    VK_MULTIPLY:       KeySym := XK_KP_Multiply;
+  end;
+
+  if KeySym <> 0 then
+  begin
+    // Get base character for a key with the given keysym.
+    // Don't care about modifiers state, because we already have it.
+    XKeysymToUTF8Char(KeySym, 0, TempShiftState, KeyChar);
+    Name := KeyChar;
+  end
+  else
+{$ENDIF}
+
+  case Key of
+    VK_BACK:
+      Name := MenuKeyCaps[mkcBkSp];
+    VK_TAB:
+      Name := MenuKeyCaps[mkcTab];
+    VK_RETURN:
+      Name := MenuKeyCaps[mkcEnter];
+    VK_ESCAPE:
+      Name := MenuKeyCaps[mkcEsc];
+    VK_SPACE..VK_DOWN:
+      Name := MenuKeyCaps[TMenuKeyCap(Ord(mkcSpace) + Key - VK_SPACE)];
+    VK_INSERT:
+      Name := MenuKeyCaps[mkcIns];
+    VK_DELETE:
+      Name := MenuKeyCaps[mkcDel];
+    VK_0..VK_9:
+      Name := Chr(Key - VK_0 + Ord('0'));
+    VK_A..VK_Z:
+      Name := Chr(Key - VK_A + Ord('A'));
+    VK_NUMPAD0..VK_NUMPAD9:
+      Name := Chr(Key - VK_NUMPAD0 + Ord('0'));
+    VK_F1..VK_F24:
+      Name := 'F' + IntToStr(Key - VK_F1 + 1);
+  else
+     Name := VirtualKeyToUTF8Char(Key, []);
+  end;
+
+  Result := '';
+  if Name <> '' then
+  begin
+    if ssShift in ShiftState then Result := Result + MenuKeyCaps[mkcShift];
+    if ssCtrl  in ShiftState then Result := Result + MenuKeyCaps[mkcCtrl];
+    if ssAlt   in ShiftState then Result := Result + MenuKeyCaps[mkcAlt];
+    if ssSuper in ShiftState then Result := Result + MenuKeyCaps[mkcWin];
+    Result := Result + Name;
   end;
 end;
 
@@ -219,14 +533,14 @@ begin
        (KeyInfo.KeyCode[False] <> 0) then
     begin
 {$IFDEF LCLGTK}
-      KeyVal := XKeycodetoKeysym(gdk_display, KeyInfo.KeyCode[False], 0);
+      KeyVal := XKeycodetoKeysym(XDisplay, KeyInfo.KeyCode[False], 0);
 
       if KeyVal = GDK_ISO_Level3_Shift then  // AltGraph
 {$ELSE}
       GdkKey.keycode := KeyInfo.keycode[False];
 
       KeyVal := gdk_keymap_lookup_key(
-                    gdk_keymap_get_for_display(gdk_display_get_default),
+                    gdk_keymap_get_for_display(XDisplay),
                     @GdkKey);
 
       if KeyVal = GDK_KEY_ISO_Level3_Shift then  // AltGraph
@@ -272,20 +586,30 @@ begin
     then
       KeyboardState[VK_LCONTROL] := 0;
   end;
+
   if ssAlt in ExcludeShiftState then
   begin
     KeyboardState[VK_LMENU] := 0;
     if (not HasKeyboardAltGrKey) then
       KeyboardState[VK_RMENU] := 0;
   end;
+
   if ssAltGr in ExcludeShiftState then
   begin
     KeyboardState[VK_RMENU] := 0;
     if not IsKeyDown(VK_LMENU) then // if Left Alt not pressed
       KeyboardState[VK_LCONTROL] := 0;
   end;
+
   if ssCaps in ExcludeShiftState then
     KeyboardState[VK_CAPITAL] := 0;
+
+  if ssShift in ExcludeShiftState then
+  begin
+    KeyboardState[VK_LSHIFT] := 0;
+    KeyboardState[VK_RSHIFT] := 0;
+    KeyboardState[VK_SHIFT] := 0;
+  end;
 
   if (not IsKeyDown(VK_LCONTROL)) and (not IsKeyDown(VK_RCONTROL)) then
     KeyboardState[VK_CONTROL] := 0;
@@ -410,10 +734,238 @@ begin
 end;
 {$ENDIF}
 
+{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+procedure UpdateModifiersMasks;
+var
+  Map: PXModifierKeymap;
+  KeyCode: PKeyCode;
+  KeySym: TKeySym;
+  ModifierNr, l, Level: Integer;
+begin
+  ShiftMask := 0;
+  AltGrMask := 0;
 
+  if Assigned(XDisplay) then
+  begin
+    Map := XGetModifierMapping(XDisplay);
+    if Assigned(Map) then
+    begin
+      KeyCode := Map^.modifiermap;
+
+      for ModifierNr := 0 to 7 do // Xlib uses up to 8 modifiers.
+      begin
+        // Scan through possible keycodes for each modifier.
+        // We're looking for the keycodes assigned to Shift and AltGr.
+        for l := 1 to Map^.max_keypermod do
+        begin
+          if KeyCode^ <> 0 then // Omit zero keycodes.
+          begin
+            for Level := 0 to 3 do  // Check group 1 and group 2 (each has 2 keysyms)
+            begin
+              // Translate each keycode to keysym and check
+              // if this is the modifier we are looking for.
+              KeySym := XKeycodeToKeysym(XDisplay, KeyCode^, Level);
+
+              // If found, assign mask according the the modifier number
+              // (Shift by default should be the first modifier).
+              case KeySym of
+                XK_Mode_switch:
+                  AltGrMask := 1 shl ModifierNr;
+
+                XK_Shift_L,
+                XK_Shift_R:
+                  ShiftMask := 1 shl ModifierNr;
+              end;
+            end;
+          end;
+
+          Inc(KeyCode);
+        end;
+      end;
+
+      XFreeModifiermap(Map);
+    end;
+  end;
+end;
+{$ENDIF}
+
+procedure OnKeyboardLayoutChanged;
+begin
 {$IFDEF MSWINDOWS}
-initialization
   UpdateKeyboardLayoutAltGrFlag;
+{$ENDIF}
+{$IF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+  UpdateGtkAltGrVirtualKeyCode;
+{$ENDIF}
+{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+  UpdateModifiersMasks;
+{$ENDIF}
+end;
+
+{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+constructor TKeyboardLayoutChangedHook.Create(QObject: QObjectH);
+var
+  Method: TMethod;
+begin
+  EventHook := QObject_hook_create(QObject);
+  if Assigned(EventHook) then
+  begin
+    TEventFilterMethod(Method) := @EventFilter;
+    QObject_hook_hook_events(EventHook, Method);
+  end;
+end;
+
+destructor TKeyboardLayoutChangedHook.Destroy;
+begin
+  if Assigned(EventHook) then
+  begin
+    QObject_hook_destroy(EventHook);
+    EventHook := nil;
+  end;
+end;
+
+function TKeyboardLayoutChangedHook.EventFilter(Sender: QObjectH; Event: QEventH): Boolean; cdecl;
+begin
+  Result := False; // Don't filter any events.
+
+  // Somehow this event won't be sent to the window,
+  // unless the user first presses a key inside it.
+  if QEvent_type(Event) = QEventKeyboardLayoutChange then
+  begin
+    OnKeyboardLayoutChanged;
+  end;
+end;
+{$ENDIF}
+
+{$IF DEFINED(UNIX)}
+{$IF DEFINED(LCLGTK)}
+function EventHandler(GdkXEvent: PGdkXEvent; GdkEvent: PGdkEvent;
+                      Data: gpointer): TGdkFilterReturn; cdecl;
+var
+  XEvent: xlib.PXEvent;
+  XMappingEvent: PXMappingEvent;
+begin
+  Result := GDK_FILTER_CONTINUE;  // Don't filter any events.
+
+  XEvent := xlib.PXEvent(GdkXEvent);
+
+  case XEvent^._type of
+    MappingNotify{, 112}:
+      begin
+        XMappingEvent := PXMappingEvent(XEvent);
+        case XMappingEvent^.request of
+          MappingModifier,
+          MappingKeyboard:
+          begin
+            XRefreshKeyboardMapping(XMappingEvent);
+            OnKeyboardLayoutChanged;
+          end;
+          // Don't care about MappingPointer.
+        end;
+      end;
+  end;
+end;
+{$ELSEIF DEFINED(LCLGTK2)}
+procedure KeysChangedSignalHandler(keymap: PGdkKeymap; Data: gpointer); cdecl;
+begin
+  OnKeyboardLayoutChanged;
+end;
+{$ENDIF}
+{$ENDIF}
+
+procedure UnhookKeyboardLayoutChanged;
+begin
+{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+
+  if Assigned(KeyboardLayoutChangedHook) then
+    FreeAndNil(KeyboardLayoutChangedHook);
+
+{$ELSEIF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+
+  {$IF DEFINED(LCLGTK)}
+
+  gdk_window_remove_filter(nil, @EventHandler, nil);
+
+  {$ELSEIF DEFINED(LCLGTK2)}
+
+  if (KeysChangesSignalHandlerId <> 0)
+  and g_signal_handler_is_connected(gdk_keymap_get_for_display(XDisplay),
+                                    KeysChangesSignalHandlerId) then
+  begin
+    g_signal_handler_disconnect(gdk_keymap_get_for_display(XDisplay),
+                                KeysChangesSignalHandlerId);
+    KeysChangesSignalHandlerId := 0;
+  end;
+
+  {$ENDIF}
+
+{$ENDIF}
+end;
+
+procedure HookKeyboardLayoutChanged;
+begin
+  UnhookKeyboardLayoutChanged;
+
+  // On Unix (X server) the event for changing keyboard layout
+  // is sent twice (on QT, GTK1 and GTK2).
+
+{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+
+  KeyboardLayoutChangedHook := KeyboardLayoutChangedHook.Create(
+                               TQtWidget(Application.MainForm.Handle).TheObject);
+
+{$ELSEIF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+
+  // On GTK1 XLib's MappingNotify event is used to detect keyboard mapping changes.
+  // On GTK2 however (at least on my system), an event of type 112 instead of 34
+  // (which is a correct value for MappingNotify) is received, yet max value for
+  // an event is 35. So, on GTK2 a GdkKeymap signal is used instead.
+
+  {$IF DEFINED(LCLGTK)}
+
+  gdk_window_add_filter(nil, @EventHandler, nil); // Filter events for all windows.
+
+  {$ELSEIF DEFINED(LCLGTK2)}
+
+  // Connect to GdkKeymap object for the given display.
+  KeysChangesSignalHandlerId :=
+      g_signal_connect(gdk_keymap_get_for_display(XDisplay),
+                       'keys-changed',
+                       TGCallback(@KeysChangedSignalHandler), nil);
+
+  {$ENDIF}
+
+{$ENDIF}
+end;
+
+procedure InitializeKeyboard;
+begin
+  OnKeyboardLayoutChanged;
+  HookKeyboardLayoutChanged;
+end;
+
+procedure CleanupKeyboard;
+begin
+  UnhookKeyboardLayoutChanged;
+end;
+
+
+initialization
+{$IF DEFINED(UNIX)}
+  // Get connection to X server.
+  {$IF DEFINED(LCLGTK)}
+  XDisplay := gdk_display;
+  {$ELSEIF DEFINED(LCLGTK2)}
+  XDisplay := gdk_display_get_default;
+  {$ELSEIF DEFINED(LCLQT)}
+  XDisplay := XOpenDisplay(nil);
+  {$ENDIF}
+{$ENDIF}
+
+
+finalization
+{$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+  XCloseDisplay(XDisplay);
 {$ENDIF}
 
 end.
