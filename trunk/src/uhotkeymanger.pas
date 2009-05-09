@@ -34,41 +34,7 @@ uses
 const
   scWin=$1000;
 
-  type
-  TMenuKeyCap = (mkcBkSp, mkcTab, mkcEsc, mkcEnter, mkcSpace, mkcPgUp,
-    mkcPgDn, mkcEnd, mkcHome, mkcLeft, mkcUp, mkcRight, mkcDown, mkcIns,
-    mkcDel, mkcShift, mkcCtrl, mkcAlt);
-
-const
-  SmkcBkSp = 'BkSp';
-  SmkcTab = 'Tab';
-  SmkcEsc = 'Esc';
-  SmkcEnter = 'Enter';
-  SmkcSpace = 'Space';
-  SmkcPgUp = 'PgUp';
-  SmkcPgDn = 'PgDn';
-  SmkcEnd = 'End';
-  SmkcHome = 'Home';
-  SmkcLeft = 'Left';
-  SmkcUp = 'Up';
-  SmkcRight = 'Right';
-  SmkcDown = 'Down';
-  SmkcIns = 'Ins';
-  SmkcDel = 'Del';
-  SmkcShift = 'Shift+';
-  SmkcCtrl = 'Ctrl+';
-  SmkcAlt = 'Alt+';
-
-  MenuKeyCaps: array[TMenuKeyCap] of string = (
-    SmkcBkSp, SmkcTab, SmkcEsc, SmkcEnter, SmkcSpace, SmkcPgUp,
-    SmkcPgDn, SmkcEnd, SmkcHome, SmkcLeft, SmkcUp, SmkcRight,
-    SmkcDown, SmkcIns, SmkcDel, SmkcShift, SmkcCtrl, SmkcAlt);
-
-
 type
-
-
-
    { TObjInfoClass }
    //Object information for forms and controls
    TObjInfoClass=class
@@ -189,19 +155,23 @@ begin
       Shift := Shift or scCtrl
     else if CompareFront(StartPos, MenuKeyCaps[mkcAlt]) then
       Shift := Shift or scAlt
-    else if CompareFront(StartPos, 'WinKey+') then
+    else if CompareFront(StartPos, MenuKeyCaps[mkcWin]) then
       Shift := Shift or scWin
     else
       Break;
   end;
-  if ShortCutText = '' then Exit;
-  for Key := $08 to $FF do begin { Copy range from table in ShortCutToText }
-    Name:=ShortCutToText(Key);
-    if (Name<>'') and (length(Name)=length(ShortCutText)-StartPos+1)
-    and (AnsiStrLIComp(@ShortCutText[StartPos], PChar(Name), length(Name)) = 0)
-    then begin
-      Result := Key or Shift;
-      Exit;
+
+  // Get text for the key if anything left in the string.
+  if Copy(ShortCutText, StartPos, Length(ShortCutText) - StartPos + 1) <> '' then
+  begin
+    for Key := $08 to $FF do begin { Copy range from table in ShortCutToText }
+      Name:=VirtualKeyToText(Key);
+      if (Name<>'') and (length(Name)=length(ShortCutText)-StartPos+1)
+      and (AnsiStrLIComp(@ShortCutText[StartPos], PChar(Name), length(Name)) = 0)
+      then begin
+        Result := Key or Shift;
+        Exit;
+      end;
     end;
   end;
 end;
@@ -214,38 +184,15 @@ end;
 
 function ShortCutToTextEx(ShortCut: TShortCut): string;
 var
-  Name: string;
-  Key: Byte;
+  ShiftState: TShiftState = [];
 begin
-  Key := ShortCut and $FF;
-  case Key of
-    $08, $09:
-      Name := MenuKeyCaps[TMenuKeyCap(Ord(mkcBkSp) + Key - $08)];
-    $0D: Name := MenuKeyCaps[mkcEnter];
-    $1B: Name := MenuKeyCaps[mkcEsc];
-    $20..$28:
-      Name := MenuKeyCaps[TMenuKeyCap(Ord(mkcSpace) + Key - $20)];
-    $2D..$2E:
-      Name := MenuKeyCaps[TMenuKeyCap(Ord(mkcIns) + Key - $2D)];
-    $30..$39: Name := Chr(Key - $30 + Ord('0'));
-    $41..$5A: Name := Chr(Key - $41 + Ord('A'));
-    $60..$69: Name := Chr(Key - $60 + Ord('0'));
-    $70..$87: Name := 'F' + IntToStr(Key - $6F);
-  else
-    Name := '';
-  end;
-  if Name <> '' then
-  begin
-    Result := '';
-    if ShortCut and scShift <> 0 then Result := Result + MenuKeyCaps[mkcShift];
-    if ShortCut and scCtrl <> 0 then Result := Result + MenuKeyCaps[mkcCtrl];
-    if ShortCut and scAlt <> 0 then Result := Result + MenuKeyCaps[mkcAlt];
-    if ShortCut and scWin <> 0 then Result := Result + 'WinKey+';
-    Result := Result + Name;
-  end
-  else Result := '';
-end;
+  if ShortCut and scShift <> 0 then Include(ShiftState, ssShift);
+  if ShortCut and scCtrl  <> 0 then Include(ShiftState, ssCtrl);
+  if ShortCut and scAlt   <> 0 then Include(ShiftState, ssAlt);
+  if ShortCut and scWin   <> 0 then Include(ShiftState, ssSuper);
 
+  Result := VirtualKeyToText(Byte(ShortCut and $FF), ShiftState);
+end;
 
 function ShortCutEx(Key: Word; Shift: TShiftState): TShortCut;
 begin
@@ -325,18 +272,27 @@ begin
 end;
 
 function THotKeyManager.AddHotKey(AHotKey,ACommand,AParams:string; AObject: TWinControl): integer;
-var par:TWinControl; TH:THotkeyInfoClass; i,j,k:integer; st:TStringList;
+var
+  par:TWinControl;
+  TH:THotkeyInfoClass;
+  i,j,k:integer;
+  st:TStringList;
+  shortCut: string;
 begin
+  shortCut := ShortCutToTextEx(TextToShortCutEx(AHotKey));
+  // Omit invalid shortcuts.
+  if shortCut <> '' then
+  begin
    //Find control's parent form
    par:=AObject;
    while assigned(Par) and (not (par is TCustomForm)) do
     Par:=Par.Parent;
-    
+
    if par is TCustomForm then
      begin
-      i:=FHotList.IndexOf(ShortCutToTextEx(TextToShortCutEx(AHotKey)));
+      i:=FHotList.IndexOf(shortCut);
       if i=-1 then
-        i:=FHotList.AddObject(ShortCutToTextEx(TextToShortCutEx(AHotKey)),TStringList.Create);
+        i:=FHotList.AddObject(shortCut,TStringList.Create);
       result:=i;
       st:=TStringList(FHotList.Objects[i]); //form list
       //---------------------
@@ -344,42 +300,50 @@ begin
       j:=st.IndexOf(par.Name);
       if j=-1 then
         j:=st.AddObject(par.Name,TStringList.Create);
-      
+
       st:=TStringList(st.Objects[j]); //controls list
       //---------------------
       k:=st.AddObject(AObject.Name,THotkeyInfoClass.Create);
       TH:=THotkeyInfoClass(st.Objects[k]);
-     // th.AShortCut:=TextToShortCutEx(AHotKey);
       Th.ACommand:=ACommand;
       TH.AParams:=AParams;
       TH.AObjectName:=AObject.Name;
       TH.AObjectFormName:=Par.Name;
      end;
+  end;
 end;
 
 function THotKeyManager.AddHotKey(AHotKey, ACommand, AParams, AObjectName,
   AObjectFormName: string): integer;
-var tmp,k:integer; TH:THotkeyInfoClass;
+var
+  tmp,k:integer;
+  TH:THotkeyInfoClass;
+  shortCut: string;
 begin
-  Th:=THotkeyInfoClass.Create;
- // th.AShortCut:=TextToShortCutEx(AHotKey);
-  th.ACommand:=ACommand;
-  th.AParams:=AParams;
-  th.AObjectName:=AObjectName;
-  th.AObjectFormName:=AObjectFormName;
+  shortCut := ShortCutToTextEx(TextToShortCutEx(AHotKey));
+  // Omit invalid shortcuts.
+  if shortCut <> '' then
+  begin
+    Th:=THotkeyInfoClass.Create;
+    th.ACommand:=ACommand;
+    th.AParams:=AParams;
+    th.AObjectName:=AObjectName;
+    th.AObjectFormName:=AObjectFormName;
 
-  
-        tmp:=FHotList.IndexOf(ShortCutToTextEx(TextToShortCutEx(AHotKey)));
-      if tmp=-1 then
-        tmp:=FHotList.AddObject(ShortCutToTextEx(TextToShortCutEx(AHotKey)),TStringList.Create);
+    tmp:=FHotList.IndexOf(shortCut);
+    if tmp=-1 then
+    tmp:=FHotList.AddObject(shortCut,TStringList.Create);
 
-      //find form and add it in form list
-  k:=TStringList(FHotList.Objects[tmp]).IndexOf(th.AObjectFormName);
-  if k=-1 then
-   k:=TStringList(FHotList.Objects[tmp]).AddObject(th.AObjectFormName,TStringList.Create);
+    //find form and add it in form list
+    k:=TStringList(FHotList.Objects[tmp]).IndexOf(th.AObjectFormName);
+    if k=-1 then
+      k:=TStringList(FHotList.Objects[tmp]).AddObject(th.AObjectFormName,TStringList.Create);
 
-  TStringList(TStringList(FHotList.Objects[tmp]).Objects[k]).AddObject(th.AObjectName,th);
-result:=tmp;
+    TStringList(TStringList(FHotList.Objects[tmp]).Objects[k]).AddObject(th.AObjectName,th);
+    result:=tmp;
+  end
+  else
+    Result := -1;
 end;
 
 function THotKeyManager.DeleteHotKey(AHotKey, AObjectName,
@@ -485,7 +449,7 @@ procedure THotKeyManager.Load(FileName: string);
 var st:TStringList;
     ini:TIniFileEx;
     i,j,k,tmp:integer;
-    sec,s:string;
+    sec, shortCut:string;
     Th:THotkeyInfoClass;
 begin
   //первый элемент листа контролов - сама форма
@@ -494,30 +458,35 @@ begin
   ini:=TIniFileEx.Create(FileName);
   ini.ReadSections(st);
 
-  if st.Count>0 then
   for i:=0 to st.Count-1 do
     begin
       sec:=st[i];
       j:=0;
       while ini.ValueExists(sec,'Command'+inttostr(j)) do
         begin
-         Th:=THotkeyInfoClass.Create;
-         //th.AShortCut:=TextToShortCutEx(sec);
-         th.ACommand:=ini.ReadString(sec,'Command'+inttostr(j),'');
-         th.AParams:=ini.ReadString(sec,'Param'+inttostr(j),'');
-         th.AObjectName:=ini.ReadString(sec,'Object'+inttostr(j),'');
-         th.AObjectFormName:=ini.ReadString(sec,'Form'+inttostr(j),'');
+          shortCut := ShortCutToTextEx(TextToShortCutEx(sec));
+          // Omit invalid shortcuts.
+          if shortCut <> '' then
+          begin
+            Th:=THotkeyInfoClass.Create;
             if Assigned(th) then
              begin
-              tmp:=FHotList.IndexOf(ShortCutToTextEx(TextToShortCutEx(sec)));
+              th.ACommand:=ini.ReadString(sec,'Command'+inttostr(j),'');
+              th.AParams:=ini.ReadString(sec,'Param'+inttostr(j),'');
+              th.AObjectName:=ini.ReadString(sec,'Object'+inttostr(j),'');
+              th.AObjectFormName:=ini.ReadString(sec,'Form'+inttostr(j),'');
+
+              tmp:=FHotList.IndexOf(shortCut);
               if tmp=-1 then
-                tmp:=FHotList.AddObject(ShortCutToTextEx(TextToShortCutEx(sec)),TStringList.Create);
+                tmp:=FHotList.AddObject(shortCut,TStringList.Create);
               k:=TStringList(FHotList.Objects[tmp]).IndexOf(th.AObjectFormName);
               if k=-1 then
                 k:=TStringList(FHotList.Objects[tmp]).AddObject(th.AObjectFormName,TStringList.Create);
              //TODO:Тут тоже по идее надо заменять если существует
               TStringList(TStringList(FHotList.Objects[tmp]).Objects[k]).AddObject(th.AObjectName,th)
              end;
+          end;
+
           j:=j+1;
         end;
     end;
@@ -773,9 +742,6 @@ procedure THotKeyManager.KeyDownHandler(Sender: TObject; var Key: Word; Shift: T
       i,j:integer;
       Handled:boolean;
       sk:string;
-{$IFDEF MSWINDOWS}
-      UTF8Char: TUTF8Char;
-{$ENDIF}
 begin
 
  {предварительная проверка - зарегистрирован ли хоткей вообще,
@@ -791,9 +757,7 @@ begin
 
 {$IFDEF MSWINDOWS}
   // Don't execute hotkeys with AltGr on Windows.
-  if not ((GetKeyShiftStateEx = [ssAltGr]){ and
-          VirtualKeyToUTF8Char(Key, )
-          DetectInternationalCharacter(Key, UTF8Char)}) then
+  if not (GetKeyShiftStateEx = [ssAltGr]) then
 {$ENDIF}
   begin
     if (Assigned(Sinfo.AChilds)) and (Sinfo.AChilds.Count>0) then

@@ -1198,6 +1198,7 @@ object frmOptions: TfrmOptions
           BorderSpacing.Top = 4
           BorderSpacing.Right = 10
           OnKeyDown = edHotKeyKeyDown
+          OnKeyPress = edHotKeyKeyPress
           TabOrder = 0
         end
         object btSetHotKey: TButton
