@@ -27,7 +27,7 @@ unit uSearchTemplate;
 interface
 
 uses
-  Classes, SysUtils, udsxplugin, uClassesEx;
+  Classes, SysUtils, uDSXPlugin, uClassesEx, uTypes;
 
 type
 
@@ -40,6 +40,7 @@ type
   public
     constructor Create;
     SearchRecord: TSearchAttrRecord;
+    function CheckFile(const FileRecItem: TFileRecItem): Boolean;
     property TemplateName: UTF8String read FTemplateName write FTemplateName;
     property StartPath: UTF8String read FStartPath write FStartPath;
   end;
@@ -60,12 +61,67 @@ type
 
 implementation
 
+function CheckFileDate(const SearchRecord: TSearchAttrRecord; DateTime: TDateTime): Boolean;
+begin
+  Result:= True;
+  with SearchRecord do
+  begin
+    (* Check date from *)
+    if rIsDateFrom then
+      Result:= (Int(DateTime) >= Int(rDateTimeFrom));
+
+    (* Check time to *)
+    if (rIsDateTo and Result) then
+      Result:= (Int(DateTime) <= Int(rDateTimeTo));
+
+    (* Check time from *)         //TODO seconds
+    if (rIsTimeFrom and Result) then
+      Result:= ((Trunc(Frac(DateTime) * 10000000) / 10000000) >= (Trunc(Frac(rDateTimeFrom) * 1000) / 1000));
+
+    //DebugLn('Time From = ', FloatToStr(rDateTimeFrom), ' File time = ', FloatToStr(DateTime), ' Result = ', BoolToStr(Result));
+
+    (* Check time to *)
+    if (rIsTimeTo and Result) then
+      Result:= ((Trunc(Frac(DateTime) * 10000000) / 10000000) <= (Trunc(Frac(rDateTimeTo) * 1000) / 1000));
+
+    //DebugLn('Time To = ', FloatToStr(rDateTimeTo), ' File time = ', FloatToStr(DateTime), ' Result = ', BoolToStr(Result));
+  end;
+end;
+
+function CheckFileSize(const SearchRecord: TSearchAttrRecord; FileSize: Int64): Boolean;
+begin
+   Result:= True;
+   with SearchRecord do
+   begin
+     if rIsFileSizeFrom then
+       Result:= (FileSize >= rFileSizeFrom);
+     //DebugLn('After From', FileSize, '-',  rFileSizeFrom, BoolToStr(Result));
+
+     if (rIsFileSizeTo and Result) then
+       Result:= (FileSize <= rFileSizeTo);
+     //DebugLn('After To',  FileSize, '-',  rFileSizeTo, BoolToStr(Result));
+  end;
+end;
+
 { TSearchTemplate }
 
 constructor TSearchTemplate.Create;
 begin
   inherited Create;
   FillByte(SearchRecord, SizeOf(SearchRecord), 0);
+end;
+
+function TSearchTemplate.CheckFile(const FileRecItem: TFileRecItem): Boolean;
+begin
+  Result:= True;
+  with SearchRecord do
+  begin
+    if (rIsDateFrom or rIsDateTo or rIsTimeFrom or rIsTimeTo) then
+      Result:= CheckFileDate(SearchRecord, FileRecItem.fTimeI);
+
+    if (rIsFileSizeFrom or rIsFileSizeTo) and Result then
+      Result := CheckFileSize(SearchRecord, FileRecItem.iSize);
+  end;
 end;
 
 { TSearchTemplateList }
