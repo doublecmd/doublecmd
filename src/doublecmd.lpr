@@ -79,11 +79,6 @@ begin
   Application.Title:= 'Double Commander';
   Application.Initialize;
 
-{$IF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
-  // It cannot be set in 'initialization', because of dependency on GTKProc.InitKeyboardTables.
-  UpdateGtkAltGrVirtualKeyCode;
-{$ENDIF}
-
   ThousandSeparator:= ' ';
   DebugLn('Double Commander ' + dcVersion);
   DebugLn('Revision: ' + dcRevision);
@@ -113,6 +108,14 @@ begin
        Application.CreateForm(TdmHighl, dmHighl); // highlighters
        Application.CreateForm(TdmComData, dmComData); // common data
        Application.CreateForm(TdmHelpManager, dmHelpMgr); // help manager
+
+       // Initializing keyboard module on GTK needs GTKProc.InitKeyboardTables
+       // which is called by Application.Initialize. On QT needs the handle
+       // of the main form created in Application.CreateForm above.
+       uKeyboard.InitializeKeyboard;
+
        Application.Run;
+
+       uKeyboard.CleanupKeyboard;
      end;
 end.
