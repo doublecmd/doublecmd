@@ -568,6 +568,7 @@ object frmOptions: TfrmOptions
           Width = 445
           DialogOptions = []
           FilterIndex = 0
+          HideDirectories = False
           ButtonWidth = 23
           NumGlyphs = 1
           Anchors = [akTop, akLeft, akRight]
@@ -583,6 +584,7 @@ object frmOptions: TfrmOptions
           Width = 445
           DialogOptions = []
           FilterIndex = 0
+          HideDirectories = False
           ButtonWidth = 23
           NumGlyphs = 1
           Anchors = [akTop, akLeft, akRight]
@@ -598,6 +600,7 @@ object frmOptions: TfrmOptions
           Width = 445
           DialogOptions = []
           FilterIndex = 0
+          HideDirectories = False
           ButtonWidth = 23
           NumGlyphs = 1
           Anchors = [akTop, akLeft, akRight]
@@ -1759,7 +1762,7 @@ object frmOptions: TfrmOptions
             Left = 174
             Height = 23
             Top = 239
-            Width = 210
+            Width = 262
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Top = 8
             BorderSpacing.Right = 6
@@ -1873,19 +1876,58 @@ object frmOptions: TfrmOptions
             BorderSpacing.Top = 8
             TabOrder = 8
           end
-          object btnSearchTemplate: TButton
+          object btnSearchTemplate: TBitBtn
             AnchorSideTop.Control = edtCategoryMask
             AnchorSideRight.Control = lbCategories
             AnchorSideRight.Side = asrBottom
             AnchorSideBottom.Control = edtCategoryMask
             AnchorSideBottom.Side = asrBottom
-            Left = 390
+            Left = 442
             Height = 23
+            Hint = 'Template...'
             Top = 239
-            Width = 75
+            Width = 23
             Anchors = [akTop, akRight, akBottom]
-            Caption = 'Template...'
+            Glyph.Data = {
+              36040000424D3604000000000000360000002800000010000000100000000100
+              2000000000000004000064000000640000000000000000000000000000009700
+              00FF000000000000000000000000000000FF00000000000000FFC2B5B3E30000
+              00FF000000000000000000000000000000000000000000000000000000000000
+              0000970000FF00000000000000000000000000000000C5B8B570E3DBD9FF8975
+              7375000000000000000000000000000000000000000000000000000000000000
+              000000000000970000FF000000000000000000000000C2B4B26FE1D9D7FF8571
+              6E75000000000000000000000000000000000000000000000000000000000000
+              0000970000FF00000000000000000000000000000000B3A4A26FD6C9C7FF705E
+              5B75000000000000000000000000000000000000000000000000000000009700
+              00FF0000000000000000000000000000000000000000A798967DD9CBCAFF7362
+              6184000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000005B494812D4C6C5FFD1C2C1FE8F7E
+              7DFF5B4B4E160000000000000000000000000000000000000000000000000000
+              000000000000000000000000000000000000C2B3B3C0EEE2E2FED5C8C7FFD6C9
+              C8FE746363C60000000000000000000000000000000000000000000000000000
+              00000000000000000000000000009D8B8B5CF9EEEFFFEDE1E0FFDED1D1FFEADE
+              DCFFB1A1A0FF645455630000000000000000000000000000000000000000D2C6
+              C36CEEE5E2C3BEADABB100000002D2C4C3FBFDF5F4FEE0D4D3FFDACCCBFFE8DD
+              DBFFD2C4C2FE796868FD61525509000000000000000000000000000000008B78
+              754B00000000000000007C6B6BFCF7ECECFFFEF6F4FFCFC2C0FFD4C7C7FFEDE3
+              E1FFCDBDBBFF998887FE605151BC00000000000000000000000000000000806F
+              6D350000000062514F4CCEBEBEFFFBF2F0FFFBF6F5FFC7B9B7FFD0C3C3FFF8F0
+              EFFFC7B7B4FFA69593FF665555FF5545464D000000000000000000000000D8CF
+              CE59D1C5C299978484FFF4EBEBFEFEFDFDFFF4EEEDFFC3B5B3FFD8CBC9FFFFFC
+              FCFFD8CBC9FFB2A1A0FF867474FE524343FA0000000200000000000000000000
+              00007767669CE0D3D1FFFFFEFEFFFFFFFFFFEFE7E6FFAF9E9BFFD6C6C4FFFCF7
+              F7FFD8CACAFFAE9D9EFF827173FF5B4A4EFF67595C9F00000000000000000000
+              00008E7F7ED8E2D7D6FFCCC2C2FFCDC6C6FFD0C9C9FFD7D1D2FFD6D1D2FFCEC6
+              C6FFCBC5C5FFC7C0C0FFC2B8B8FFA39698FF726468DC00000000000000000000
+              0000ACA2A3DEAC9C99FFC9BCBBFFDBCDCAFFF3E6E2FEFFFFFEFFF5EEECFFB9A7
+              A3FFF3EDEBFEF7F3F3FFA99998FFA49695FFB1A6A7E700000000000000000000
+              0000000000005F5054459C919391B7ADAFB4BBB2B2C3C0B5B6CFC0B6B7D2BBB2
+              B3D0BCB2B3C3BBB3B4B59D929592615156460000000000000000
+            }
+            Layout = blGlyphRight
             OnClick = btnSearchTemplateClick
+            ParentShowHint = False
+            ShowHint = True
             TabOrder = 9
           end
         end
@@ -2341,6 +2383,7 @@ object frmOptions: TfrmOptions
             Width = 295
             DialogOptions = []
             FilterIndex = 0
+            HideDirectories = False
             ButtonWidth = 23
             NumGlyphs = 1
             Anchors = [akTop, akLeft, akRight]
