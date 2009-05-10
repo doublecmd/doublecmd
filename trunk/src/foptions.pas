@@ -49,7 +49,7 @@ type
     btnConfigApply: TBitBtn;
     btnConfigEdit: TBitBtn;
     btnConfigPlugin: TBitBtn;
-    btnSearchTemplate: TButton;
+    btnSearchTemplate: TBitBtn;
     btnTweakPlugin: TBitBtn;
     btnRemovePlugin: TBitBtn;
     btnEnablePlugin: TBitBtn;
