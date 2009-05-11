@@ -170,7 +170,7 @@ procedure ShowFindDlg(const sActPath:String);
 implementation
 
 uses
-  LCLProc, LCLType, LConvEncoding, fViewer, uLng, uGlobs, uShowForm, fMain,
+  LCLProc, LCLType, LConvEncoding, DateUtils, fViewer, uLng, uGlobs, uShowForm, fMain,
   uTypes, uFileOp, uFindEx, uOSUtils, uSearchTemplate;
 
 procedure SAddFileProc(PlugNr:integer; FoundFile:pchar); stdcall;
@@ -504,33 +504,33 @@ begin
                begin
                  IsTimeFrom := True;
                  IsDateFrom := True;
-                 DateTimeFrom := Now -  0.0006945 * StrToInt(seNotOlderThan.Text);
+                 DateTimeFrom := Now -  OneMinute * StrToInt(seNotOlderThan.Text);
                end;
              1:  //Hour(s)
                begin
                  IsTimeFrom := True;
                  IsDateFrom := True;
-                 DateTimeFrom := Now -  0.0416667 * StrToInt(seNotOlderThan.Text);
+                 DateTimeFrom := Now -  OneHour * StrToInt(seNotOlderThan.Text);
                end;
              2:  //Day(s)
                begin
                  IsDateFrom := True;
-                 DateTimeFrom := Now - 1 * StrToInt(seNotOlderThan.Text);
+                 DateTimeFrom := Now - StrToInt(seNotOlderThan.Text);
                end;
              3:  //Week(s)
                begin
                  IsDateFrom := True;
-                 DateTimeFrom := Now - 7 * StrToInt(seNotOlderThan.Text);
+                 DateTimeFrom := Now - DaysPerWeek * StrToInt(seNotOlderThan.Text);
                end;
              4:  //Month(s)
                begin
                  IsDateFrom := True;
-                 DateTimeFrom := Now - 31 * StrToInt(seNotOlderThan.Text);
+                 DateTimeFrom := Now - DaysInMonth(Now) * StrToInt(seNotOlderThan.Text);
                end;
              5:  //Year(s)
                begin
                  IsDateFrom := True;
-                 DateTimeFrom := Now - 365 * StrToInt(seNotOlderThan.Text);
+                 DateTimeFrom := Now - DaysInYear(Now) * StrToInt(seNotOlderThan.Text);
                end;
            end;
          end;
