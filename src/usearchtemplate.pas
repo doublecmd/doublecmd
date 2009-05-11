@@ -37,12 +37,16 @@ type
   private
     FTemplateName,
     FStartPath: UTF8String;
+    FIsNotOlderThan: Boolean;
+    FNotOlderThan: Double;
   public
     constructor Create;
     SearchRecord: TSearchAttrRecord;
     function CheckFile(const FileRecItem: TFileRecItem): Boolean;
     property TemplateName: UTF8String read FTemplateName write FTemplateName;
     property StartPath: UTF8String read FStartPath write FStartPath;
+    property IsNotOlderThan: Boolean read FIsNotOlderThan write FIsNotOlderThan;
+    property NotOlderThan: Double read FNotOlderThan write FNotOlderThan;
   end;
 
   { TSearchTemplateList }
@@ -60,6 +64,9 @@ type
   end;
 
 implementation
+
+uses
+  DateUtils;
 
 function CheckFileDate(const SearchRecord: TSearchAttrRecord; DateTime: TDateTime): Boolean;
 begin
@@ -112,10 +119,51 @@ begin
 end;
 
 function TSearchTemplate.CheckFile(const FileRecItem: TFileRecItem): Boolean;
+var
+  dtNow: TDateTime;
+  iCount: Integer;
 begin
   Result:= True;
   with SearchRecord do
   begin
+    if FIsNotOlderThan then
+      begin
+        dtNow:= Now;
+        iCount:= Trunc(FNotOlderThan);
+        case Trunc(Frac(FNotOlderThan)*10) of
+        0:  //Minute(s)
+          begin
+            rIsTimeFrom:= True;
+            rDateTimeFrom:= dtNow - OneMinute * iCount;
+          end;
+        1:  //Hour(s)
+          begin
+            rIsTimeFrom:= True;
+            rDateTimeFrom:= dtNow - OneHour * iCount;
+          end;
+        2:  //Day(s)
+          begin
+            rIsDateFrom:= True;
+            rDateTimeFrom:= dtNow - iCount;
+          end;
+        3:  //Week(s)
+          begin
+            rIsDateFrom:= True;
+            rDateTimeFrom:= dtNow - DaysPerWeek * iCount;
+          end;
+        4:  //Month(s)
+          begin
+            rIsDateFrom:= True;
+            rDateTimeFrom:= dtNow - DaysInMonth(dtNow) * iCount;
+          end;
+        5:  //Year(s)
+          begin
+            rIsDateFrom:= True;
+            rDateTimeFrom:= dtNow - DaysInYear(dtNow) * iCount;
+          end;
+        end;
+      end;
+
     if (rIsDateFrom or rIsDateTo or rIsTimeFrom or rIsTimeTo) then
       Result:= CheckFileDate(SearchRecord, FileRecItem.fTimeI);
 
@@ -182,6 +230,10 @@ begin
           rDateTimeFrom:= IniFile.ReadDateTime(cSection, sTemplate+'DateTimeFrom', 0);
         if rIsDateTo or rIsTimeTo then
           rDateTimeTo:= IniFile.ReadDateTime(cSection, sTemplate+'DateTimeTo', Now);
+        // not older then
+        SearchTemplate.IsNotOlderThan:= IniFile.ReadBool(cSection, sTemplate+'IsNotOlderThan', False);
+        if SearchTemplate.IsNotOlderThan then
+          SearchTemplate.NotOlderThan:= IniFile.ReadFloat(cSection, sTemplate+'NotOlderThan', 0);
         // file size
         rIsFileSizeFrom:= IniFile.ReadBool(cSection, sTemplate+'IsFileSizeFrom', False);
         rIsFileSizeTo:= IniFile.ReadBool(cSection, sTemplate+'IsFileSizeTo', False);
@@ -229,6 +281,10 @@ begin
         IniFile.WriteDateTime(cSection, sTemplate+'DateTimeFrom', rDateTimeFrom);
       if rIsDateTo or rIsTimeTo then
         IniFile.WriteDateTime(cSection, sTemplate+'DateTimeTo', rDateTimeTo);
+      // not older then
+      IniFile.WriteBool(cSection, sTemplate+'IsNotOlderThan', Templates[I].IsNotOlderThan);
+      if Templates[I].IsNotOlderThan then
+        IniFile.WriteFloat(cSection, sTemplate+'NotOlderThan', Templates[I].NotOlderThan);
       // file size
       IniFile.WriteBool(cSection, sTemplate+'IsFileSizeFrom', rIsFileSizeFrom);
       IniFile.WriteBool(cSection, sTemplate+'IsFileSizeTo', rIsFileSizeTo);
