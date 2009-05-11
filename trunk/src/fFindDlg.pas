@@ -451,7 +451,8 @@ end;
 
 procedure TfrmFindDlg.PrepareSearch;
 var
-  dtTime : TDateTime;
+  dtTime, dtNow: TDateTime;
+  iCount: Integer;
 begin
   FFindThread:=TFindThread.Create;
   if Assigned(FFindThread) then
@@ -499,42 +500,41 @@ begin
       (* Not Older Than *)
        if cbNotOlderThan.Checked then
          begin
+           dtNow:= Now;
+           iCount:= -StrToInt(seNotOlderThan.Text);
            case cbDelayUnit.ItemIndex of
              0:  //Minute(s)
                begin
                  IsTimeFrom := True;
-                 IsDateFrom := True;
-                 DateTimeFrom := Now -  OneMinute * StrToInt(seNotOlderThan.Text);
+                 DateTimeFrom := IncMinute(dtNow, iCount);
                end;
              1:  //Hour(s)
                begin
                  IsTimeFrom := True;
-                 IsDateFrom := True;
-                 DateTimeFrom := Now -  OneHour * StrToInt(seNotOlderThan.Text);
+                 DateTimeFrom := IncHour(dtNow, iCount);
                end;
              2:  //Day(s)
                begin
                  IsDateFrom := True;
-                 DateTimeFrom := Now - StrToInt(seNotOlderThan.Text);
+                 DateTimeFrom := IncDay(dtNow, iCount);
                end;
              3:  //Week(s)
                begin
                  IsDateFrom := True;
-                 DateTimeFrom := Now - DaysPerWeek * StrToInt(seNotOlderThan.Text);
+                 DateTimeFrom := IncWeek(dtNow, iCount);
                end;
              4:  //Month(s)
                begin
                  IsDateFrom := True;
-                 DateTimeFrom := Now - DaysInMonth(Now) * StrToInt(seNotOlderThan.Text);
+                 DateTimeFrom := IncMonth(dtNow, iCount);
                end;
              5:  //Year(s)
                begin
                  IsDateFrom := True;
-                 DateTimeFrom := Now - DaysInYear(Now) * StrToInt(seNotOlderThan.Text);
+                 DateTimeFrom := IncYear(dtNow, iCount);
                end;
            end;
          end;
-
 
       (* File size search *)
        if cbFileSizeFrom.Checked then

@@ -130,7 +130,7 @@ TFindThread = class(TThread)
 implementation
 
 uses
-  LCLProc, Dialogs, Masks, SynRegExpr, uLng, uClassesEx, uFindMmap, uFindEx,
+  LCLProc, Dialogs, DateUtils, Masks, SynRegExpr, uLng, uClassesEx, uFindMmap, uFindEx,
   uGlobs, uShowMsg, uOSUtils, uLog;
 
 { TFindThread }
@@ -342,19 +342,17 @@ begin
    if (FIsDateTo and Result) then
       Result := (Int(DateTime) <= Int(FDateTimeTo));
 
-   (* Check time from *)         //TODO seconds
+   (* Check time from *)
    if (FIsTimeFrom and Result) then
-      Result := ((Trunc(Frac(DateTime) * 10000000) / 10000000) >= (Trunc(Frac(FDateTimeFrom) * 1000) / 1000));
+      Result := (CompareTime(DateTime, FDateTimeFrom) >= 0);
       
-      DebugLn('Time From = ', FloatToStr(FDateTimeFrom), ' File time = ', FloatToStr(DateTime), ' Result = ', BoolToStr(Result));
+   //DebugLn('Time From = ', FloatToStr(FDateTimeFrom), ' File time = ', FloatToStr(DateTime), ' Result = ', BoolToStr(Result));
 
    (* Check time to *)
    if (FIsTimeTo and Result) then
-      Result := ((Trunc(Frac(DateTime) * 10000000) / 10000000) <= (Trunc(Frac(FDateTimeTo) * 1000) / 1000));
+      Result := (CompareTime(DateTime, FDateTimeTo) <= 0);
 
    //DebugLn('Time To = ', FloatToStr(FDateTimeTo), ' File time = ', FloatToStr(DateTime), ' Result = ', BoolToStr(Result));
-
-
 end;
 
 function TFindThread.CheckFileSize(FileSize: Int64): Boolean;
@@ -362,12 +360,11 @@ begin
    Result := True;
    if FIsFileSizeFrom then
       Result := (FileSize >= FFileSizeFrom);
-      
-      //DebugLn('After From', FileSize, '-',  FFileSizeFrom, BoolToStr(Result));
+   //DebugLn('After From', FileSize, '-',  FFileSizeFrom, BoolToStr(Result));
       
    if (FIsFileSizeTo and Result) then
       Result := (FileSize <= FFileSizeTo);
-    //DebugLn('After To',  FileSize, '-',  FFileSizeTo, BoolToStr(Result));
+   //DebugLn('After To',  FileSize, '-',  FFileSizeTo, BoolToStr(Result));
 end;
 
 function TFindThread.CheckFile(const Folder : String; const sr : TSearchRec) : Boolean;
