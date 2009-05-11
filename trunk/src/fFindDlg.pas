@@ -336,6 +336,13 @@ begin
       edtTimeFrom.Text:= TimeToStr(rDateTimeFrom);
     if rIsTimeTo then
       edtTimeTo.Text:= TimeToStr(rDateTimeTo);
+    // not older then
+    cbNotOlderThan.Checked:= SearchTemplate.IsNotOlderThan;
+    if SearchTemplate.IsNotOlderThan then
+      begin
+        seNotOlderThan.Value:= Trunc(SearchTemplate.NotOlderThan);
+        cbDelayUnit.ItemIndex:= Trunc(Frac(SearchTemplate.NotOlderThan)*10);
+      end;
     // file size
     cbFileSizeFrom.Checked:= rIsFileSizeFrom;
     cbFileSizeTo.Checked:= rIsFileSizeTo;
@@ -401,6 +408,8 @@ begin
   SearchTemplate:= TSearchTemplate.Create;
   SearchTemplate.TemplateName:= sName;
   SearchTemplate.StartPath:= edtFindPathStart.Text;
+  SearchTemplate.IsNotOlderThan:= cbNotOlderThan.Checked;
+  SearchTemplate.NotOlderThan:= seNotOlderThan.Value + cbDelayUnit.ItemIndex/10;
   PrepareSearch;
   FFindThread.FillSearchRecord(SearchTemplate.SearchRecord);
   gSearchTemplateList.Add(SearchTemplate);
