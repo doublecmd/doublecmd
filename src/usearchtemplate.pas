@@ -39,6 +39,8 @@ type
     FStartPath: UTF8String;
     FIsNotOlderThan: Boolean;
     FNotOlderThan: Double;
+    function CheckFileDate(DateTime: TDateTime): Boolean;
+    function CheckFileSize(FileSize: Int64): Boolean;
   public
     constructor Create;
     SearchRecord: TSearchAttrRecord;
@@ -68,11 +70,54 @@ implementation
 uses
   DateUtils;
 
-function CheckFileDate(const SearchRecord: TSearchAttrRecord; DateTime: TDateTime): Boolean;
+{ TSearchTemplate }
+
+function TSearchTemplate.CheckFileDate(DateTime: TDateTime): Boolean;
+var
+  dtNow: TDateTime;
+  iCount: Integer;
 begin
   Result:= True;
   with SearchRecord do
   begin
+    if FIsNotOlderThan then
+      begin
+        dtNow:= Now;
+        iCount:= -Trunc(FNotOlderThan);
+        case Trunc(Frac(FNotOlderThan)*10) of
+        0:  //Minute(s)
+          begin
+            rIsTimeFrom:= True;
+            rDateTimeFrom:= IncMinute(dtNow, iCount);
+          end;
+        1:  //Hour(s)
+          begin
+            rIsTimeFrom:= True;
+            rDateTimeFrom:= IncHour(dtNow, iCount);
+          end;
+        2:  //Day(s)
+          begin
+            rIsDateFrom:= True;
+            rDateTimeFrom:= IncDay(dtNow, iCount);
+          end;
+        3:  //Week(s)
+          begin
+            rIsDateFrom:= True;
+            rDateTimeFrom:= IncWeek(dtNow, iCount);
+          end;
+        4:  //Month(s)
+          begin
+            rIsDateFrom:= True;
+            rDateTimeFrom:= IncMonth(dtNow, iCount);
+          end;
+        5:  //Year(s)
+          begin
+            rIsDateFrom:= True;
+            rDateTimeFrom:= IncYear(dtNow, iCount);
+          end;
+        end;
+      end;
+
     (* Check date from *)
     if rIsDateFrom then
       Result:= (Int(DateTime) >= Int(rDateTimeFrom));
@@ -81,21 +126,21 @@ begin
     if (rIsDateTo and Result) then
       Result:= (Int(DateTime) <= Int(rDateTimeTo));
 
-    (* Check time from *)         //TODO seconds
+    (* Check time from *)
     if (rIsTimeFrom and Result) then
-      Result:= ((Trunc(Frac(DateTime) * 10000000) / 10000000) >= (Trunc(Frac(rDateTimeFrom) * 1000) / 1000));
+      Result:= (CompareTime(DateTime, rDateTimeFrom) >= 0);
 
     //DebugLn('Time From = ', FloatToStr(rDateTimeFrom), ' File time = ', FloatToStr(DateTime), ' Result = ', BoolToStr(Result));
 
     (* Check time to *)
     if (rIsTimeTo and Result) then
-      Result:= ((Trunc(Frac(DateTime) * 10000000) / 10000000) <= (Trunc(Frac(rDateTimeTo) * 1000) / 1000));
+      Result:= (CompareTime(DateTime, rDateTimeTo) <= 0);
 
     //DebugLn('Time To = ', FloatToStr(rDateTimeTo), ' File time = ', FloatToStr(DateTime), ' Result = ', BoolToStr(Result));
   end;
 end;
 
-function CheckFileSize(const SearchRecord: TSearchAttrRecord; FileSize: Int64): Boolean;
+function TSearchTemplate.CheckFileSize(FileSize: Int64): Boolean;
 begin
    Result:= True;
    with SearchRecord do
@@ -110,8 +155,6 @@ begin
   end;
 end;
 
-{ TSearchTemplate }
-
 constructor TSearchTemplate.Create;
 begin
   inherited Create;
@@ -119,56 +162,15 @@ begin
 end;
 
 function TSearchTemplate.CheckFile(const FileRecItem: TFileRecItem): Boolean;
-var
-  dtNow: TDateTime;
-  iCount: Integer;
 begin
   Result:= True;
   with SearchRecord do
   begin
-    if FIsNotOlderThan then
-      begin
-        dtNow:= Now;
-        iCount:= Trunc(FNotOlderThan);
-        case Trunc(Frac(FNotOlderThan)*10) of
-        0:  //Minute(s)
-          begin
-            rIsTimeFrom:= True;
-            rDateTimeFrom:= dtNow - OneMinute * iCount;
-          end;
-        1:  //Hour(s)
-          begin
-            rIsTimeFrom:= True;
-            rDateTimeFrom:= dtNow - OneHour * iCount;
-          end;
-        2:  //Day(s)
-          begin
-            rIsDateFrom:= True;
-            rDateTimeFrom:= dtNow - iCount;
-          end;
-        3:  //Week(s)
-          begin
-            rIsDateFrom:= True;
-            rDateTimeFrom:= dtNow - DaysPerWeek * iCount;
-          end;
-        4:  //Month(s)
-          begin
-            rIsDateFrom:= True;
-            rDateTimeFrom:= dtNow - DaysInMonth(dtNow) * iCount;
-          end;
-        5:  //Year(s)
-          begin
-            rIsDateFrom:= True;
-            rDateTimeFrom:= dtNow - DaysInYear(dtNow) * iCount;
-          end;
-        end;
-      end;
-
-    if (rIsDateFrom or rIsDateTo or rIsTimeFrom or rIsTimeTo) then
-      Result:= CheckFileDate(SearchRecord, FileRecItem.fTimeI);
+    if (rIsDateFrom or rIsDateTo or rIsTimeFrom or rIsTimeTo or FIsNotOlderThan) then
+      Result:= CheckFileDate(FileRecItem.fTimeI);
 
     if (rIsFileSizeFrom or rIsFileSizeTo) and Result then
-      Result := CheckFileSize(SearchRecord, FileRecItem.iSize);
+      Result := CheckFileSize(FileRecItem.iSize);
   end;
 end;
 
@@ -230,7 +232,7 @@ begin
           rDateTimeFrom:= IniFile.ReadDateTime(cSection, sTemplate+'DateTimeFrom', 0);
         if rIsDateTo or rIsTimeTo then
           rDateTimeTo:= IniFile.ReadDateTime(cSection, sTemplate+'DateTimeTo', Now);
-        // not older then
+        // not older than
         SearchTemplate.IsNotOlderThan:= IniFile.ReadBool(cSection, sTemplate+'IsNotOlderThan', False);
         if SearchTemplate.IsNotOlderThan then
           SearchTemplate.NotOlderThan:= IniFile.ReadFloat(cSection, sTemplate+'NotOlderThan', 0);
@@ -281,7 +283,7 @@ begin
         IniFile.WriteDateTime(cSection, sTemplate+'DateTimeFrom', rDateTimeFrom);
       if rIsDateTo or rIsTimeTo then
         IniFile.WriteDateTime(cSection, sTemplate+'DateTimeTo', rDateTimeTo);
-      // not older then
+      // not older than
       IniFile.WriteBool(cSection, sTemplate+'IsNotOlderThan', Templates[I].IsNotOlderThan);
       if Templates[I].IsNotOlderThan then
         IniFile.WriteFloat(cSection, sTemplate+'NotOlderThan', Templates[I].NotOlderThan);
