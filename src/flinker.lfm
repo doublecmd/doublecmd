@@ -177,6 +177,7 @@ object frmLinker: TfrmLinker
     BorderSpacing.Bottom = 6
     BorderSpacing.InnerBorder = 4
     Caption = 'OK'
+    Default = True
     OnClick = btnOKClick
     TabOrder = 3
   end
@@ -193,6 +194,7 @@ object frmLinker: TfrmLinker
     Anchors = [akRight, akBottom]
     BorderSpacing.Top = 6
     BorderSpacing.InnerBorder = 4
+    Cancel = True
     Caption = 'Exit'
     ModalResult = 2
     TabOrder = 4
@@ -214,7 +216,6 @@ object frmLinker: TfrmLinker
     TabOrder = 5
   end
   object dlgSaveAll: TSaveDialog
-    Title = 'Сохранить файл как'
     Filter = 'All files|*.*'
     FilterIndex = 0
     left = 160

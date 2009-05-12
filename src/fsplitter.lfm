@@ -193,6 +193,7 @@ object frmSplitter: TfrmSplitter
     Anchors = [akRight, akBottom]
     BorderSpacing.Right = 6
     Caption = 'OK'
+    Default = True
     OnClick = btnOKClick
     TabOrder = 3
   end
@@ -204,6 +205,7 @@ object frmSplitter: TfrmSplitter
     Top = 232
     Width = 75
     Anchors = [akRight, akBottom]
+    Cancel = True
     Caption = 'Exit'
     ModalResult = 2
     TabOrder = 4

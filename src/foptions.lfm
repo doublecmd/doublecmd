@@ -34,6 +34,7 @@ object frmOptions: TfrmOptions
       BorderSpacing.Right = 8
       BorderSpacing.InnerBorder = 2
       Caption = '&OK'
+      Default = True
       Kind = bkOK
       ModalResult = 1
       NumGlyphs = 0
@@ -49,6 +50,7 @@ object frmOptions: TfrmOptions
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 8
       BorderSpacing.InnerBorder = 2
+      Cancel = True
       Caption = 'Cancel'
       Kind = bkCancel
       ModalResult = 2
