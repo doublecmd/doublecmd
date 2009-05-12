@@ -505,11 +505,13 @@ begin
            case cbDelayUnit.ItemIndex of
              0:  //Minute(s)
                begin
+                 IsDateFrom := True;
                  IsTimeFrom := True;
                  DateTimeFrom := IncMinute(dtNow, iCount);
                end;
              1:  //Hour(s)
                begin
+                 IsDateFrom := True;
                  IsTimeFrom := True;
                  DateTimeFrom := IncHour(dtNow, iCount);
                end;
