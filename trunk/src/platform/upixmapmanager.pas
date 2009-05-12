@@ -655,12 +655,13 @@ begin
 end;
 
 function TPixMapManager.DrawBitmap(iIndex: Integer; Canvas: TCanvas; Rect: TRect): Boolean;
-var
   {$IFDEF MSWINDOWS}
+var
   hicn: HICON;
   {$ENDIF}
 
   {$IFDEF LCLGTK2}
+var
   pbPicture : PGdkPixbuf;
   iPixbufWidth : Integer;
   iPixbufHeight : Integer;
