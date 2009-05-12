@@ -789,6 +789,7 @@ object frmCompareFiles: TfrmCompareFiles
       Width = 150
       BorderSpacing.InnerBorder = 4
       Caption = 'Compare files'
+      Default = True
       OnClick = btnCompareClick
       TabOrder = 0
     end
@@ -846,6 +847,7 @@ object frmCompareFiles: TfrmCompareFiles
       Width = 96
       BorderSpacing.Left = 6
       BorderSpacing.InnerBorder = 4
+      Cancel = True
       Caption = 'Close'
       OnClick = btnCloseClick
       TabOrder = 4
