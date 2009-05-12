@@ -84,6 +84,7 @@ type
     procedure MarkFile(frp:PFileRecItem; bMarked:Boolean);
     procedure InvertAllFiles;
     procedure UpdateCountStatus;
+    procedure UpdatePathLabel;
     procedure cdUpLevel;
     procedure cdDownLevel(frp:PFileRecItem);
     procedure cdRootLevel;
@@ -168,15 +169,7 @@ var
   pfri:PFileRecItem;
   bAnyRow:Boolean;
 begin
-  case fPanelMode of
-    pmDirectory:
-      flblPath.Caption:=' '+MinimizeFilePath(ActiveDir, flblPath.Canvas, flblPath.Width);
-    pmArchive,
-    pmVFS:
-      flblPath.Caption:=' ' + ActiveDir;
-  else
-    Raise Exception.Create('fix me:UpdatePanel:bad panelmode');
-  end;
+  UpdatePathLabel;
 
   if fPanel.FixedRows <> Integer(gTabHeader) then
     begin
@@ -353,7 +346,6 @@ begin
     end;
 end;
 
-
 procedure TFilePanel.LoadPanel;
 begin
 //  DebugLn('TFilePanel.LoadPanel');
@@ -386,7 +378,6 @@ begin
   fPanel.Invalidate;
 //  DebugLn('TFilePanel.LoadPanel DONE');
 end;
-
 
 procedure TFilePanel.SortByCol(iCol:Integer);
 begin
@@ -547,7 +538,6 @@ end;
 procedure TFilePanel.MarkAllFiles(bMarked:Boolean);
 var
   i:Integer;
-
 begin
   for i:=0 to fFileList.Count-1 do
   begin
@@ -612,6 +602,19 @@ begin
         if iDirSize<>0 then
           fSizeInDir:= fSizeInDir+iDirSize;
     end;
+  end;
+end;
+
+procedure TFilePanel.UpdatePathLabel;
+begin
+  case fPanelMode of
+    pmDirectory:
+      flblPath.Caption:=' '+MinimizeFilePath(ActiveDir, flblPath.Canvas, flblPath.Width);
+    pmArchive,
+    pmVFS:
+      flblPath.Caption:=' ' + ActiveDir;
+  else
+    Raise Exception.Create('fix me:UpdatePanel:bad panelmode');
   end;
 end;
 
