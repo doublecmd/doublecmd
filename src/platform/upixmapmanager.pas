@@ -66,6 +66,9 @@ type
     {$IFDEF MSWINDOWS}
     SysImgList : Cardinal;
     {$ENDIF}
+    {$IFDEF LCLGTK2}
+    FPixbufList : TStringList;
+    {$ENDIF}
   protected
     function CheckLoadPixmap(const sName:String; bUsePixmapPath : Boolean = True) : TBitmap;
     function CheckAddPixmap(const sName:String; bUsePixmapPath : Boolean = True):Integer;
@@ -84,7 +87,7 @@ type
 function StretchBitmap(bmBitmap : Graphics.TBitmap; iIconSize : Integer;
                        clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
 function LoadBitmapFromFile(sFileName : String; iIconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
-  
+
 var
   PixMapManager:TPixMapManager = nil;
 
@@ -93,7 +96,7 @@ procedure LoadPixMapManager;
 
 implementation
 uses
-  LCLProc, Forms, FileUtil, uGlobsPaths, uWCXhead, uGlobs, uExts{$IFDEF MSWINDOWS}, CommCtrl, ShellAPI, Windows, uIcoFiles, uGdiPlus{$ENDIF};
+  GraphType, LCLIntf, LCLType, LCLProc, Forms, FileUtil, uGlobsPaths, uWCXhead, uGlobs, uExts{$IFDEF LCLGTK2},gtkdef, gtk2, gdk2pixbuf, gdk2, glib2{$ENDIF}{$IFDEF MSWINDOWS}, CommCtrl, ShellAPI, Windows, uIcoFiles, uGdiPlus{$ENDIF};
 
 {$IFDEF MSWINDOWS}
 function GetRGBColor(Value: TColor): DWORD;
@@ -103,6 +106,21 @@ begin
     clNone: Result := CLR_NONE;
     clDefault: Result := CLR_DEFAULT;
   end;
+end;
+{$ENDIF}
+
+{$IFDEF LCLGTK2}
+procedure DrawPixbufAtCanvas(Canvas: TCanvas; Pixbuf : PGdkPixbuf; SrcX, SrcY, DstX, DstY, Width, Height: Integer);
+var
+  gdkDrawable : PGdkDrawable;
+  gdkGC : PGdkGC;
+  gtkDC : TGtkDeviceContext;
+begin
+  gtkDC := TGtkDeviceContext(Canvas.Handle);
+  gdkDrawable := gtkDC.Drawable;
+  gdkGC := gdk_gc_new(gdkDrawable);
+  gdk_draw_pixbuf(gdkDrawable, gdkGC, Pixbuf, SrcX, SrcY, DstX, DstY, Width, Height, GDK_RGB_DITHER_NONE, 0, 0);
+  g_object_unref(gdkGC)
 end;
 {$ENDIF}
 
@@ -154,6 +172,11 @@ var
   bmStandartBitmap : Graphics.TBitMap;
   PNG : TPortableNetworkGraphic;
   Icon : TIcon;
+  {$IFDEF LCLGTK2}
+  pbPicture : PGdkPixbuf;
+  iPixbufWidth : Integer;
+  iPixbufHeight : Integer;
+  {$ENDIF}
 begin
 {$IFDEF MSWINDOWS}
   iIconIndex := -1;
@@ -217,6 +240,22 @@ begin
       sGraphicFilter := GraphicFilter(TGraphic);
       // if file is graphic
       if (Pos(sExtFilter, sGraphicFilter) <> 0) and (mbFileExists(sFileName)) then
+      begin
+        {$IFDEF LCLGTK2}
+        bmStandartBitmap := TBitMap.Create;
+        pbPicture := gdk_pixbuf_new_from_file(PChar(sFileName), nil);
+        if pbPicture <> nil then
+        begin
+          iPixbufWidth := gdk_pixbuf_get_width(pbPicture);
+          iPixbufHeight := gdk_pixbuf_get_height(pbPicture);
+
+          bmStandartBitmap.SetSize(iPixbufWidth, iPixbufHeight);
+          bmStandartBitmap.Canvas.Brush.Color := clBackColor;
+          bmStandartBitmap.Canvas.FillRect(0, 0, iPixbufWidth, iPixbufHeight);
+
+          DrawPixbufAtCanvas(bmStandartBitmap.Canvas, pbPicture, 0, 0, 0, 0, iPixbufWidth, iPixbufHeight);
+        end;
+        {$ELSE}
         if CompareFileExt(sFileName, 'png', false) = 0 then
           begin
             PNG := TPortableNetworkGraphic.Create;
@@ -236,6 +275,8 @@ begin
             bmStandartBitmap := Graphics.TBitMap.Create;
             bmStandartBitmap.LoadFromFile(sFileName);
           end
+        {$ENDIF}
+      end
       else // get file icon by ext
         begin
           if mbFileExists(sFileName) or mbDirectoryExists(sFileName) then
@@ -296,6 +337,9 @@ var
   bmp: Graphics.TBitmap;
   png: TPortableNetworkGraphic;
   sFileName : String;
+  {$IFDEF LCLGTK2}
+  pbPicture : PGdkPixbuf;
+  {$ENDIF}
 begin
   Result:=-1;
   
@@ -310,6 +354,19 @@ begin
     Exit;
   end;
   // determine: known this file?
+  {$IFDEF LCLGTK2}
+  Result:= FPixbufList.IndexOf(sName);
+  if Result < 0 then
+  begin
+    pbPicture := gdk_pixbuf_new_from_file(PChar(sFileName), nil);
+    if pbPicture = nil then
+    begin
+      DebugLn(Format('Error: pixmap [%s] not loaded!', [sFileName]));
+      Exit;
+    end;
+    Result := FPixbufList.AddObject(sName, TObject(pbPicture));
+  end;
+  {$ELSE}
   Result:= FPixmapList.IndexOf(sName);
   if Result < 0 then // no
     begin
@@ -334,6 +391,7 @@ begin
         end;
       Result:= FPixmapList.AddObject(sName, bmp); // add to list
     end;
+  {$ENDIF}
 end;
 
 constructor TPixMapManager.Create;
@@ -345,6 +403,11 @@ var
 begin
   FExtList:=TStringList.Create;
   FPixmapList:=TStringList.Create;
+
+  {$IFDEF LCLGTK2}
+  FPixbufList := TStringList.Create;
+  {$ENDIF}
+
   {$IFDEF MSWINDOWS}
     if gIconsSize = 16 then
       iIconSize := SHGFI_SMALLICON
@@ -393,6 +456,15 @@ begin
     if Assigned(bmMediaFlash) then FreeAndNil(bmMediaFlash);
     if Assigned(bmMediaOptical) then FreeAndNil(bmMediaOptical);
   end;
+
+  {$IFDEF LCLGTK2}
+  if assigned(FPixbufList) then
+    for i := 0 to FPixbufList.Count - 1 do
+      g_object_unref(PGdkPixbuf(FPixbufList[i]));
+
+  FreeAndNil(FPixbufList);
+  {$ENDIF}
+
   {$IFDEF MSWINDOWS}
    ImageList_Destroy(SysImgList);
   {$ENDIF}
@@ -582,17 +654,34 @@ begin
   end;
 end;
 
-
 function TPixMapManager.DrawBitmap(iIndex: Integer; Canvas: TCanvas; Rect: TRect): Boolean;
-{$IFDEF MSWINDOWS}
 var
+  {$IFDEF MSWINDOWS}
   hicn: HICON;
-{$ENDIF}
+  {$ENDIF}
+
+  {$IFDEF LCLGTK2}
+  pbPicture : PGdkPixbuf;
+  iPixbufWidth : Integer;
+  iPixbufHeight : Integer;
+  {$ENDIF}
 begin
   Result := True;
+  {$IFDEF LCLGTK2}
+  if iIndex < FPixbufList.Count then
+  begin
+    pbPicture := PGdkPixbuf(FPixbufList.Objects[iIndex]);
+    iPixbufWidth :=  gdk_pixbuf_get_width(pbPicture);
+    iPixbufHeight :=  gdk_pixbuf_get_height(pbPicture);
+
+    DrawPixbufAtCanvas(Canvas, pbPicture, 0, 0, Rect.Left, Rect.Top, iPixbufWidth, iPixbufHeight);
+  end
+  else
+  {$ELSE}
   if iIndex < FPixmapList.Count then
     Canvas.Draw(Rect.Left, Rect.Top ,Graphics.TBitmap(FPixmapList.Objects[iIndex]))
   else
+  {$ENDIF}
 {$IFDEF MSWINDOWS}
   if iIndex >= $1000 then
     try

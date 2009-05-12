@@ -568,7 +568,6 @@ object frmOptions: TfrmOptions
           Width = 445
           DialogOptions = []
           FilterIndex = 0
-          HideDirectories = False
           ButtonWidth = 23
           NumGlyphs = 1
           Anchors = [akTop, akLeft, akRight]
@@ -584,7 +583,6 @@ object frmOptions: TfrmOptions
           Width = 445
           DialogOptions = []
           FilterIndex = 0
-          HideDirectories = False
           ButtonWidth = 23
           NumGlyphs = 1
           Anchors = [akTop, akLeft, akRight]
@@ -600,7 +598,6 @@ object frmOptions: TfrmOptions
           Width = 445
           DialogOptions = []
           FilterIndex = 0
-          HideDirectories = False
           ButtonWidth = 23
           NumGlyphs = 1
           Anchors = [akTop, akLeft, akRight]
@@ -2383,7 +2380,6 @@ object frmOptions: TfrmOptions
             Width = 295
             DialogOptions = []
             FilterIndex = 0
-            HideDirectories = False
             ButtonWidth = 23
             NumGlyphs = 1
             Anchors = [akTop, akLeft, akRight]
