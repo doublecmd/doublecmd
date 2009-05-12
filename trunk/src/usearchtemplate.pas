@@ -87,11 +87,13 @@ begin
         case Trunc(Frac(FNotOlderThan)*10) of
         0:  //Minute(s)
           begin
+            rIsDateFrom:= True;
             rIsTimeFrom:= True;
             rDateTimeFrom:= IncMinute(dtNow, iCount);
           end;
         1:  //Hour(s)
           begin
+            rIsDateFrom:= True;
             rIsTimeFrom:= True;
             rDateTimeFrom:= IncHour(dtNow, iCount);
           end;
