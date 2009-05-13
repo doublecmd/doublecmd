@@ -233,12 +233,7 @@ var
 
 implementation
 uses
-   LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils
-   {$IFDEF UNIX}
-   // 12.05.2009 - for linux path to gvfs-trash
-   , uMyUnix
-   {$ENDIF}
-   ;
+   LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils;
 
 procedure LoadDefaultHotkeyBindings;
 begin
