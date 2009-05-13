@@ -1283,9 +1283,21 @@ begin
    Судя по ее коду - всегда ноль.
    2. Возможно, стоит добавить сюда try..finally ?
   }
-  popen(f, _PATH_GVFS_TRASH + #32 + FileName, 'r');  // try to delete.
-  pclose(f);
-  Result := True;
+  if mbFileExists(_PATH_GVFS_TRASH) then
+    begin
+      popen(f, _PATH_GVFS_TRASH + #32 + FileName, 'r');  // try to delete.
+      pclose(f);
+      Result := True;
+      DebugLn('linux trash on')
+    end
+  else
+    begin
+      if mbDirectoryExists(FileName) then
+        Result:= mbRemoveDir(FileName)
+      else
+        Result:= mbDeleteFile(FileName);
+      DebugLn('linux trash off');
+    end;
 end;
 {$ENDIF}
 // --------------------------------------------------------------------------------
