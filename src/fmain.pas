@@ -1356,7 +1356,7 @@ begin
    begin
     if ((not edtCommand.Focused) and (edtCommand.Tag = 0)) or (Key = VK_F8) then
      begin
-      if gUseTrash {$IFDEF UNIX}and gUseTrashLinux{$ENDIF} then         // 12.05.2009 - additional check for linux
+      if gUseTrash then
        begin
         if Shift=[ssShift] then // если шифт - удаляем напрямую
          Actions.cm_Delete('')

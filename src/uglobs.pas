@@ -156,10 +156,6 @@ var
   gProcessComments: Boolean;
   gShowCopyTabSelectPanel:boolean;
   gUseTrash : Boolean = True; // 05.05.2009 - global trash variable. Enabled by default.
-  {$IFDEF UNIX}
-  // 12.05.2009 - additional trash variable for linux
-  gUseTrashLinux : Boolean = False;
-  {$ENDIF}
   gRenameSelOnlyName:boolean;
 
   { Folder tabs page }
@@ -542,13 +538,6 @@ begin
   gRenameSelOnlyName:= gIni.ReadBool('Configuration', 'RenameSelOnlyName', false);
   gShowCopyTabSelectPanel:= gIni.ReadBool('Configuration', 'ShowCopyTabSelectPanel', false);
   gUseTrash := gIni.ReadBool('Configuration', 'UseTrash', True); // 05.05.2009 - read global trash option from configuration file
-  {$IFDEF UNIX}
-  // 12.05.2009 - determine trash under linux (gnome, xfce)
-  gUseTrashLinux := mbFileExists(_PATH_GVFS_TRASH);
-  // just for test
-  If gUseTrashLinux then DebugLn('linux trash on')
-  else DebugLn('linux trash off');
-  {$ENDIF}
 
   { Log }
   gLogFile := gIni.ReadBool('Configuration', 'LogFile', True);
