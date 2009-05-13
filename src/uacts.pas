@@ -1102,6 +1102,8 @@ procedure TActs.cm_Delete(param:string);
 var
   fl:TFileList;
   DT : TDeleteThread;
+  // 12.05.2009 - if delete to trash, then show another messages
+  MsgDelSel, MsgDelFlDr : string;
 begin
 with frmMain do
 begin
@@ -1118,8 +1120,20 @@ begin
 
     if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
   end;
-
-  case msgYesNoCancel(GetFileDlgStr(rsMsgDelSel,rsMsgDelFlDr)) of
+  // 12.05.2009
+  // Showing delete dialog: to trash or to /dev/null :)
+  If (param = 'recycle') then
+   begin
+    MsgDelSel := rsMsgDelSelT;
+    MsgDelFlDr := rsMsgDelFlDrT;
+   end
+  else
+   begin
+    MsgDelSel := rsMsgDelSel;
+    MsgDelFlDr := rsMsgDelFlDr;
+   end;
+  // ------------------------------------------------------
+  case msgYesNoCancel(GetFileDlgStr(MsgDelSel,MsgDelFlDr)) of
     mmrNo:
       begin
         ActiveFrame.UnMarkAll;

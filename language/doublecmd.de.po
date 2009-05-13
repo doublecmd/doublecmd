@@ -811,12 +811,12 @@ msgstr "Vor Datum:"
 msgid "Day(s)"
 msgstr "Tag(e)"
 
+#, fuzzy
 #: TFRMFINDDLG.CBDIRECTORY.CAPTION
 msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
 msgid "Directory"
 msgstr "Verzeichnis"
 
-#, fuzzy
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 msgid "File Size From:"
 msgstr "Dateigrösse ab:"
@@ -899,6 +899,7 @@ msgstr "OK"
 msgid "Use '-' to off attribute and '?' to any"
 msgstr "Nutze '-' um Attribut abszuschalten und '?' als Platzhalter"
 
+#, fuzzy
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
 msgstr "Suche Daten"
@@ -908,7 +909,6 @@ msgstr "Suche Daten"
 msgid "Current"
 msgstr "Aktuell"
 
-#, fuzzy
 #: TFRMFINDDLG.LBLENCODING.CAPTION
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
@@ -3005,9 +3005,17 @@ msgstr "Markierte \"%s kopieren\"?"
 msgid "Delete %d selected files/directories?"
 msgstr "Löschen von %d Dateien / Verzeichnissen?"
 
+#: ulng.rsmsgdelfldrt
+msgid "Delete %d selected files/directories into trash can?"
+msgstr ""
+
 #: ulng.rsmsgdelsel
 msgid "Delete selected \"%s\"?"
 msgstr "Markierte \"%s löschen\"?"
+
+#: ulng.rsmsgdelselt
+msgid "Delete selected \"%s\" into trash can?"
+msgstr ""
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"

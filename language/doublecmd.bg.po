@@ -819,12 +819,12 @@ msgstr "Дата до:"
 msgid "Day(s)"
 msgstr "Ден/ дни"
 
+#, fuzzy
 #: TFRMFINDDLG.CBDIRECTORY.CAPTION
 msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
 msgid "Directory"
 msgstr ""
 
-#, fuzzy
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 msgid "File Size From:"
 msgstr "Размер от:"
@@ -907,6 +907,7 @@ msgstr "Добре"
 msgid "Use '-' to off attribute and '?' to any"
 msgstr ""
 
+#, fuzzy
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
 msgstr "Търсене на данни"
@@ -916,7 +917,6 @@ msgstr "Търсене на данни"
 msgid "Current"
 msgstr "Текущ"
 
-#, fuzzy
 #: TFRMFINDDLG.LBLENCODING.CAPTION
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
@@ -3013,9 +3013,17 @@ msgstr "Презаписване на избрания „%s“?"
 msgid "Delete %d selected files/directories?"
 msgstr "Изтриване на %d избраните папки/файлове?"
 
+#: ulng.rsmsgdelfldrt
+msgid "Delete %d selected files/directories into trash can?"
+msgstr ""
+
 #: ulng.rsmsgdelsel
 msgid "Delete selected \"%s\"?"
 msgstr "Изтриване на избрания \"%s\"?"
+
+#: ulng.rsmsgdelselt
+msgid "Delete selected \"%s\" into trash can?"
+msgstr ""
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"

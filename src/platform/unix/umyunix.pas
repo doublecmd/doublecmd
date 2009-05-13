@@ -34,6 +34,9 @@ const
   _PATH_FSTAB = '/etc/fstab';
   _PATH_MOUNTED = '/etc/mtab';
 
+  // 12.05.2009 - path to 'gvfs-trash'
+  _PATH_GVFS_TRASH = '/usr/bin/gvfs-trash';
+
 const
   DE_UNKNOWN = 0;
   DE_KDE = 1;
