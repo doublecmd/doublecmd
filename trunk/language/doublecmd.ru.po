@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-05-07 01:31+0300\n"
+"PO-Revision-Date: 2009-05-13 23:41+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -3012,9 +3012,17 @@ msgstr "Копировать выделенное \"%s\"?"
 msgid "Delete %d selected files/directories?"
 msgstr "Удалить %d выбранных файлов/каталогов?"
 
+#: ulng.rsmsgdelfldrt
+msgid "Delete %d selected files/directories into trash can?"
+msgstr "Удалить %d выбранных файлов/каталогов в корзину?"
+
 #: ulng.rsmsgdelsel
 msgid "Delete selected \"%s\"?"
 msgstr "Удалить выбранный \"%s\"?"
+
+#: ulng.rsmsgdelselt
+msgid "Delete selected \"%s\" into trash can?"
+msgstr "Удалить выбранный \"%s\" в корзину?"
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"

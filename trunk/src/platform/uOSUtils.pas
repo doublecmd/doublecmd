@@ -224,9 +224,9 @@ function mbFileGetAttr(const FileName: UTF8String): LongInt;
 function mbFileSetAttr (const FileName: UTF8String; Attr: LongInt) : LongInt;
 function mbFileSetReadOnly(const FileName: UTF8String; ReadOnly: Boolean): Boolean;
 function mbDeleteFile(const FileName: UTF8String): Boolean;
-// 30.04.2009 -----
-// Функция удаляет файлы и и папки в корзину (пока только Windows)
-// This function move files and folders to trash can (only Windows implemented)
+// 30.04.2009
+// This function move files and folders to trash can (Windows implemented)
+// 12.05.2009 - added implementation for Linux via gvfs-trash
 function mbDeleteToTrash(const FileName: UTF8String): Boolean;
 // ----------------
 function mbRenameFile(const OldName, NewName : UTF8String): Boolean;
@@ -1274,10 +1274,18 @@ begin
   Result := (SHFileOperationW(@FileOp) = 0) and (not FileOp.fAnyOperationsAborted);
 end;
 {$ELSE}
+// 12.05.2009
+// implementation via 'gvfs-trash' application
+var f: textfile;
 begin
-  // Хотелось бы реализовать удаление в корзину Nautilus/Gnome,
-  // велосипеды в виде собственных корзин городить не хочется.
-  // Корзины, работающие с libc не поддерживаются (проверено с libtrash).
+  {
+   1. Не разобрался до конца, что возвращает popen() при ошибках.
+   Судя по ее коду - всегда ноль.
+   2. Возможно, стоит добавить сюда try..finally ?
+  }
+  popen(f, _PATH_GVFS_TRASH + #32 + FileName, 'r');  // try to delete.
+  pclose(f);
+  Result := True;
 end;
 {$ENDIF}
 // --------------------------------------------------------------------------------

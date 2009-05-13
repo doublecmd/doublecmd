@@ -819,12 +819,12 @@ msgstr "结束日期:"
 msgid "Day(s)"
 msgstr "天"
 
+#, fuzzy
 #: TFRMFINDDLG.CBDIRECTORY.CAPTION
 msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
 msgid "Directory"
 msgstr ""
 
-#, fuzzy
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 msgid "File Size From:"
 msgstr "最小:"
@@ -907,6 +907,7 @@ msgstr "确定"
 msgid "Use '-' to off attribute and '?' to any"
 msgstr ""
 
+#, fuzzy
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
 msgstr "查找数据"
@@ -916,7 +917,6 @@ msgstr "查找数据"
 msgid "Current"
 msgstr "当前"
 
-#, fuzzy
 #: TFRMFINDDLG.LBLENCODING.CAPTION
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
@@ -3013,9 +3013,17 @@ msgstr "复制选中的 \"%s\" 吗?"
 msgid "Delete %d selected files/directories?"
 msgstr "删除 %d 选中的文件/目录吗?"
 
+#: ulng.rsmsgdelfldrt
+msgid "Delete %d selected files/directories into trash can?"
+msgstr ""
+
 #: ulng.rsmsgdelsel
 msgid "Delete selected \"%s\"?"
 msgstr "删除选中的 \"%s\"?"
+
+#: ulng.rsmsgdelselt
+msgid "Delete selected \"%s\" into trash can?"
+msgstr ""
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"

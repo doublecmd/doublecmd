@@ -3014,8 +3014,16 @@ msgstr ""
 msgid "Delete %d selected files/directories?"
 msgstr ""
 
+#: ulng.rsmsgdelfldrt
+msgid "Delete %d selected files/directories into trash can?"
+msgstr ""
+
 #: ulng.rsmsgdelsel
 msgid "Delete selected \"%s\"?"
+msgstr ""
+
+#: ulng.rsmsgdelselt
+msgid "Delete selected \"%s\" into trash can?"
 msgstr ""
 
 #: ulng.rsmsgdisknotavail

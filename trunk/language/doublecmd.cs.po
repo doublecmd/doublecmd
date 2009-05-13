@@ -1,3 +1,4 @@
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3 alpha\n"
@@ -13,16 +14,15 @@ msgstr ""
 "X-Poedit-Country: CZECH REPUBLIC\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,-1,444,-1,-1\n"
 
-#, fuzzy
 #: TFCOLUMNSSETCONF.BTNALLTEXT.CAPTION
 msgid "All"
 msgstr "Vše"
 
+#, fuzzy
 #: TFCOLUMNSSETCONF.BTNNEXT.CAPTION
 msgid "->"
 msgstr "->"
 
-#, fuzzy
 #: TFCOLUMNSSETCONF.BTNPREV.CAPTION
 msgid "<-"
 msgstr "<-"
@@ -102,6 +102,7 @@ msgctxt "TFRMABOUT.LBLTITLE.CAPTION"
 msgid "Double Commander"
 msgstr "Double Commander"
 
+#, fuzzy
 #: TFRMABOUT.LBLVERSION.CAPTION
 msgid "Version %s"
 msgstr "Verze %s"
@@ -127,7 +128,6 @@ msgstr "frmColumsProps"
 msgid "ComboBox1"
 msgstr "ComboBox1"
 
-#, fuzzy
 #: TFRMCOLUMSPROPS.GBOX1.CAPTION
 msgid "Gbox1"
 msgstr "Gbox1"
@@ -399,11 +399,11 @@ msgstr "&Podtržené"
 msgid "Predefined"
 msgstr "Předvoleno"
 
+#, fuzzy
 #: TFRMEDITORCONF.LBSAMPLE.CAPTION
 msgid "Sample"
 msgstr "Ukázka"
 
-#, fuzzy
 #: TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -592,11 +592,11 @@ msgctxt "TFRMFILEASSOC.MIEDIT.CAPTION"
 msgid "Edit"
 msgstr "Edit"
 
+#, fuzzy
 #: TFRMFILEASSOC.MIEDITOR.CAPTION
 msgid "Open in Editor"
 msgstr "Otevřít v editoru"
 
-#, fuzzy
 #: TFRMFILEASSOC.MIFILENAME.CAPTION
 msgctxt "TFRMFILEASSOC.MIFILENAME.CAPTION"
 msgid "File name"
@@ -606,11 +606,11 @@ msgstr "Název souboru"
 msgid "File path"
 msgstr "Cesta k souboru"
 
+#, fuzzy
 #: TFRMFILEASSOC.MIFULLPATH.CAPTION
 msgid "Full path"
 msgstr "Úplná cesta"
 
-#, fuzzy
 #: TFRMFILEASSOC.MIGETOUTPUTFROMCOMMAND.CAPTION
 msgid "Get output from command"
 msgstr "Získat výstup příkazu"
@@ -831,12 +831,12 @@ msgstr "Datum do:"
 msgid "Day(s)"
 msgstr "Dnů(í)"
 
+#, fuzzy
 #: TFRMFINDDLG.CBDIRECTORY.CAPTION
 msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
 msgid "Directory"
 msgstr ""
 
-#, fuzzy
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 msgid "File Size From:"
 msgstr "Velikost od:"
@@ -919,6 +919,7 @@ msgstr "OK"
 msgid "Use '-' to off attribute and '?' to any"
 msgstr ""
 
+#, fuzzy
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
 msgstr "Hledat data"
@@ -928,7 +929,6 @@ msgstr "Hledat data"
 msgid "Current"
 msgstr "Aktuální"
 
-#, fuzzy
 #: TFRMFINDDLG.LBLENCODING.CAPTION
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
@@ -966,11 +966,11 @@ msgstr ""
 msgid "Show In Viewer"
 msgstr "Zobrazit v prohlížeči"
 
+#, fuzzy
 #: TFRMFINDDLG.TSADVANCED.CAPTION
 msgid "Advanced"
 msgstr "Rozžířené"
 
-#, fuzzy
 #: TFRMFINDDLG.TSLOADSAVE.CAPTION
 msgid "Load/Save"
 msgstr ""
@@ -1336,11 +1336,11 @@ msgstr "Uzamčít záložku"
 msgid "Transfer dir under cursor to left window"
 msgstr "Přenést adresář pod kursorem do levého okna"
 
+#, fuzzy
 #: TFRMMAIN.ACTTRANSFERRIGHT.CAPTION
 msgid "Transfer dir under cursor to right window"
 msgstr "Přenést adresář pod kursorem do pravého okna"
 
-#, fuzzy
 #: TFRMMAIN.ACTUNMARKCURRENTEXTENSION.CAPTION
 msgid "Unselect all with same extension"
 msgstr "Zrušit označení všech se stejnou příponou"
@@ -1625,11 +1625,11 @@ msgctxt "TFRMMULTIRENAME.BTNOK.CAPTION"
 msgid "OK"
 msgstr "OK"
 
+#, fuzzy
 #: TFRMMULTIRENAME.BTNRESTORE.CAPTION
 msgid "Restore All"
 msgstr "Obnovit vše"
 
-#, fuzzy
 #: TFRMMULTIRENAME.CAPTION
 msgid "MultiRename"
 msgstr "Hromadné přejmenování"
@@ -2373,20 +2373,20 @@ msgstr "Parametr:"
 msgid "Run in terminal:"
 msgstr "Spustit v terminálu:"
 
+#, fuzzy
 #: TFRMOPTIONS.LBLRUNTERM.CAPTION
 msgid "Run terminal:"
 msgstr "Spustit terminál:"
 
-#, fuzzy
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Písmo prohlížeče"
 
+#, fuzzy
 #: TFRMOPTIONS.LBLWATCHEXCLUDEDRIVES.CAPTION
 msgid "No refresh for &these drives:"
 msgstr ""
 
-#, fuzzy
 #: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
 msgid "Packer plugins are used to work with archives."
 msgstr "Komprimační zásuvný modul pro práci s archívy."
@@ -2631,11 +2631,11 @@ msgctxt "TFRMTWEAKPLUGIN.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Zrušit"
 
+#, fuzzy
 #: TFRMTWEAKPLUGIN.BTNCHANGE.CAPTION
 msgid "Change"
 msgstr "Změnit"
 
-#, fuzzy
 #: TFRMTWEAKPLUGIN.BTNDEFAULT.CAPTION
 msgid "Default"
 msgstr "Výchozí"
@@ -2682,11 +2682,11 @@ msgstr "Můžete měnit stávající archívy"
 msgid "Archive can contain multiple files"
 msgstr "Archiv může obsahovat více souborů"
 
+#, fuzzy
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_NEW.CAPTION
 msgid "Can create new archives"
 msgstr "Můžete vytvářet nové archívy"
 
-#, fuzzy
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_OPTIONS.CAPTION
 msgid "Supports the options dialogbox"
 msgstr "Podporuje dialog s nastavením"
@@ -3032,9 +3032,17 @@ msgstr "Kopírovat vybrané \"%s\"?"
 msgid "Delete %d selected files/directories?"
 msgstr "Vymazat %d vybrané soubory / adresáře?"
 
+#: ulng.rsmsgdelfldrt
+msgid "Delete %d selected files/directories into trash can?"
+msgstr ""
+
 #: ulng.rsmsgdelsel
 msgid "Delete selected \"%s\"?"
 msgstr "Vymazat vybrané \"%s\"?"
+
+#: ulng.rsmsgdelselt
+msgid "Delete selected \"%s\" into trash can?"
+msgstr ""
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
@@ -3116,11 +3124,11 @@ msgstr "Buffer je příliš malý"
 msgid "Too many files to pack"
 msgstr "Příliš mnoho souborů pro kompresi"
 
+#, fuzzy
 #: ulng.rsmsgerrunknownformat
 msgid "Archive format unknown"
 msgstr "Neznámý formát archívu"
 
-#, fuzzy
 #: ulng.rsmsgfilechangedsave
 msgid "File %s changed, save?"
 msgstr "Soubor %s byl změněn, uložit?"
@@ -3373,11 +3381,11 @@ msgctxt "ulng.rsoptquicksearch"
 msgid "Quick search"
 msgstr "Rychlé hledání"
 
+#, fuzzy
 #: ulng.rsopttools
 msgid "Tools"
 msgstr "Nástroje"
 
-#, fuzzy
 #: ulng.rspositionsaved
 msgid "Position saved."
 msgstr "Pozice uložena."
@@ -3386,6 +3394,7 @@ msgstr "Pozice uložena."
 msgid "File"
 msgstr "Soubor"
 
+#, fuzzy
 #: ulng.rspropsfolder
 msgctxt "ulng.rspropsfolder"
 msgid "Directory"
@@ -3396,7 +3405,6 @@ msgstr "Adresář"
 msgid "Named pipe"
 msgstr "Pojmenované roury"
 
-#, fuzzy
 #: ulng.rspropsno
 msgid "No"
 msgstr "Ne"

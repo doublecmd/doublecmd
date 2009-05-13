@@ -36,6 +36,10 @@ resourcestring
   rsMsgNewFile = 'New file';
   rsMsgDelFlDr = 'Delete %d selected files/directories?';
   rsMsgDelSel = 'Delete selected "%s"?';
+  // 12.05.2009 - another message, when deleting to trash
+  rsMsgDelFlDrT = 'Delete %d selected files/directories into trash can?';
+  rsMsgDelSelT = 'Delete selected "%s" into trash can?';
+  // ---
   rsMsgCpFlDr = 'Copy %d selected files/directories?';
   rsMsgCpSel = 'Copy selected "%s"?';
   rsMsgRenFlDr = 'Rename/move %d selected files/directories?';
