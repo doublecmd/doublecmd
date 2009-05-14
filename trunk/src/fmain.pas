@@ -637,6 +637,10 @@ begin
   cmd:=(Sender as TAction).Name;
   cmd:='cm_'+copy(cmd,4,length(cmd)-3);
   try
+    // 14.05.2009 - fix delete to trash from context menu;
+    If (cmd = 'cm_Delete') and gUseTrash and mbCheckTrash then
+     Actions.Execute(cmd,'recycle')
+    else
     Actions.Execute(cmd);
   except
     on e : Exception do
@@ -1356,13 +1360,13 @@ begin
    begin
     if ((not edtCommand.Focused) and (edtCommand.Tag = 0)) or (Key = VK_F8) then
      begin
-      if gUseTrash then
+      if gUseTrash and mbCheckTrash then // 14.05.2009 - additional check for various linux distributives.
        begin
         if Shift=[ssShift] then // если шифт - удаляем напрямую
          Actions.cm_Delete('')
         else Actions.cm_Delete('recycle'); // без шифта удаляем в корзину
        end
-      else Actions.cm_Delete('');  // если корзина отключена в конфигурации, удалять напрямую.
+      else Actions.cm_Delete('');  // если корзина отключена в конфигурации, или (для линукс) нет программы gvsf-trash, то удалять напрямую.
       Exit;
      end;
    end;

@@ -224,10 +224,12 @@ function mbFileGetAttr(const FileName: UTF8String): LongInt;
 function mbFileSetAttr (const FileName: UTF8String; Attr: LongInt) : LongInt;
 function mbFileSetReadOnly(const FileName: UTF8String; ReadOnly: Boolean): Boolean;
 function mbDeleteFile(const FileName: UTF8String): Boolean;
-// 30.04.2009
-// This function move files and folders to trash can (Windows implemented)
-// 12.05.2009 - added implementation for Linux via gvfs-trash
+
+// 30.04.2009 - this function move files and folders to trash can (Windows implemented).
+// 12.05.2009 - added implementation for Linux via gvfs-trash.
 function mbDeleteToTrash(const FileName: UTF8String): Boolean;
+// 14.05.2009 - this funtion checks 'gvfs-trash' BEFORE deleting. Need for various linux disributives.
+function mbCheckTrash: Boolean;
 // ----------------
 function mbRenameFile(const OldName, NewName : UTF8String): Boolean;
 function mbFileSize(const FileName: UTF8String): Int64;
@@ -1283,23 +1285,45 @@ begin
    Судя по ее коду - всегда ноль.
    2. Возможно, стоит добавить сюда try..finally ?
   }
-  if mbFileExists(_PATH_GVFS_TRASH) then
-    begin
-      popen(f, _PATH_GVFS_TRASH + #32 + FileName, 'r');  // try to delete.
-      pclose(f);
-      Result := True;
-      DebugLn('linux trash on')
-    end
-  else
-    begin
-      if mbDirectoryExists(FileName) then
-        Result:= mbRemoveDir(FileName)
-      else
-        Result:= mbDeleteFile(FileName);
-      DebugLn('linux trash off');
-    end;
+// мы должны проверить файл на возможность записи, прежде, чем пытаться удалять его. 
+// если нет записи - возвращать ошибку удаления.
+//1-й вариант
+  If (popen(f, _PATH_GVFS_TRASH + #32 + FileName, 'r') = 0) then  // try to delete.
+   Result := True
+  else Result := False;
+  pclose(f);
+
+//2-й вариант
+{
+  If mbFileAccess(FileName,1) then   // в параметр нужно передать W or R+W
+   begin
+     popen(f, _PATH_GVFS_TRASH + #32 + FileName, 'r');  // try to delete. 
+     pclose(f);
+     Result := True;
+   end
+  else Result := False;
+}
 end;
 {$ENDIF}
+// --------------------------------------------------------------------------------
+
+// 14.05.2009 ---------------------------------------------------------------------
+function mbCheckTrash: Boolean;
+begin
+{$IFDEF UNIX}
+ // Checking gvfs-trash.
+ Result := mbFileExists(_PATH_GVFS_TRASH);
+ If Result then DebugLN('linux trash on')
+ else DebugLN('linux trash off');
+{$ELSE}
+ // 14.05.2009
+ {
+  сюда можно поставить проверку на доступность корзины в Windows
+  конкретного способа пока не знаю. Предполагаю, для этого нужно лезть в реестр винды.
+ }
+ Result := true; {stub}
+{$ENDIF}
+end;
 // --------------------------------------------------------------------------------
 
 function mbRenameFile(const OldName, NewName: UTF8String): Boolean;
