@@ -40,6 +40,8 @@ resourcestring
   rsMsgDelFlDrT = 'Delete %d selected files/directories into trash can?';
   rsMsgDelSelT = 'Delete selected "%s" into trash can?';
   // ---
+  rsMsgWipeFlDr = 'Wipe %d selected files/directories?';
+  rsMsgWipeSel = 'Wipe selected "%s"?';
   rsMsgCpFlDr = 'Copy %d selected files/directories?';
   rsMsgCpSel = 'Copy selected "%s"?';
   rsMsgRenFlDr = 'Rename/move %d selected files/directories?';
