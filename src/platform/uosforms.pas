@@ -29,7 +29,7 @@ interface
 uses
   Classes, SysUtils, uTypes, uFileList, Menus, Controls, Graphics, ExtDlgs, Dialogs,
   {$IFDEF UNIX}
-  Unix, fFileProperties;
+  BaseUnix, Unix, fFileProperties;
   {$ELSE}
   FileUtil, Windows, Messages, ShellApi, ShlObj, ActiveX, uShlObjAdditional,
   uMyWindows, JwaShlGuid, JwaDbt, JwaWinUser;
@@ -136,6 +136,8 @@ begin
 end;
 {$ELSE}
 begin
+  if fpGetUID = 0 then // if run under root
+    frmMain.Caption:= frmMain.Caption + ' - root mode';
 end;
 {$ENDIF}
 
