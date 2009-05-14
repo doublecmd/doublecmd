@@ -137,7 +137,7 @@ end;
 {$ELSE}
 begin
   if fpGetUID = 0 then // if run under root
-    frmMain.Caption:= frmMain.Caption + ' - root mode';
+    frmMain.Caption:= frmMain.Caption + ' - ROOT PRIVILEGES';
 end;
 {$ENDIF}
 
