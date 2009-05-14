@@ -617,7 +617,7 @@ begin
     if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
   end;
 
-  case msgYesNoCancel(frmMain.GetFileDlgStr(rsMsgDelSel,rsMsgDelFlDr)) of
+  case msgYesNoCancel(frmMain.GetFileDlgStr(rsMsgWipeSel,rsMsgWipeFlDr)) of
     mmrNo:
       begin
         FrmMain.ActiveFrame.UnMarkAll;
