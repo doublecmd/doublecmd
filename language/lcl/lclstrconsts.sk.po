@@ -269,6 +269,10 @@ msgstr "Všetky súbory (%s)|%s|%s"
 msgid "Application Workspace"
 msgstr ""
 
+#: lclstrconsts.rsaquacolorcaption
+msgid "Aqua"
+msgstr ""
+
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
 msgstr ""
@@ -281,9 +285,17 @@ msgstr "Spätný"
 msgid "Bitmaps"
 msgstr "Bitmapy"
 
+#: lclstrconsts.rsblackcolorcaption
+msgid "Black"
+msgstr ""
+
 #: lclstrconsts.rsblank
 msgid "Blank"
 msgstr "Prázdne"
+
+#: lclstrconsts.rsbluecolorcaption
+msgid "Blue"
+msgstr ""
 
 #: lclstrconsts.rsbtnfacecolorcaption
 msgid "Button Face"
@@ -326,6 +338,10 @@ msgstr ""
 msgid "Case sensitive"
 msgstr "Citlivé na veľkosť"
 
+#: lclstrconsts.rscreamcolorcaption
+msgid "Cream"
+msgstr ""
+
 #: lclstrconsts.rscreatinggdbcatchableerror
 msgid "Creating gdb catchable error:"
 msgstr ""
@@ -337,6 +353,10 @@ msgstr "Kurzor"
 #: lclstrconsts.rscustomcolorcaption
 msgid "Custom ..."
 msgstr "Vlastné ..."
+
+#: lclstrconsts.rsdefaultcolorcaption
+msgid "Default"
+msgstr ""
 
 #: lclstrconsts.rsdefaultfileinfovalue
 msgid "permissions user group size date time"
@@ -492,6 +512,10 @@ msgstr "Chyba streamovania formulára \"%s\": %s"
 msgid "Forward"
 msgstr ""
 
+#: lclstrconsts.rsfuchsiacolorcaption
+msgid "Fuchsia"
+msgstr ""
+
 #: lclstrconsts.rsgdkoptiondebug
 msgid "--gdk-debug flags     Turn on specific GDK trace/debug messages."
 msgstr ""
@@ -512,8 +536,16 @@ msgstr ""
 msgid "Gradient Inactive Caption"
 msgstr ""
 
+#: lclstrconsts.rsgraycolorcaption
+msgid "Gray"
+msgstr ""
+
 #: lclstrconsts.rsgraytextcolorcaption
 msgid "Gray Text"
+msgstr ""
+
+#: lclstrconsts.rsgreencolorcaption
+msgid "Green"
 msgstr ""
 
 #: lclstrconsts.rsgridfiledoesnotexists
@@ -759,6 +791,10 @@ msgstr ""
 msgid "Last"
 msgstr "Posledný"
 
+#: lclstrconsts.rslimecolorcaption
+msgid "Lime"
+msgstr ""
+
 #: lclstrconsts.rslistindexexceedsbounds
 msgid "List index exceeds bounds (%d)"
 msgstr "Index zoznamu prekračuje hranice (%d)"
@@ -766,6 +802,10 @@ msgstr "Index zoznamu prekračuje hranice (%d)"
 #: lclstrconsts.rslistmustbeempty
 msgid "List must be empty"
 msgstr "Zoznam musí byť prázdny"
+
+#: lclstrconsts.rsmarooncolorcaption
+msgid "Maroon"
+msgstr ""
 
 #: lclstrconsts.rsmbabort
 msgid "Abort"
@@ -816,6 +856,10 @@ msgstr "Án&o"
 msgid "Yes to &All"
 msgstr "Án&o pre všetky"
 
+#: lclstrconsts.rsmedgraycolorcaption
+msgid "Medium Gray"
+msgstr ""
+
 #: lclstrconsts.rsmenubarcolorcaption
 msgid "Menu Bar"
 msgstr ""
@@ -836,6 +880,10 @@ msgstr ""
 #: lclstrconsts.rsmodified
 msgid "  modified "
 msgstr ".. zmenené"
+
+#: lclstrconsts.rsmoneygreencolorcaption
+msgid "Money Green"
+msgstr ""
 
 #: lclstrconsts.rsmtconfirmation
 msgid "Confirmation"
@@ -858,10 +906,18 @@ msgstr "Informácia"
 msgid "Warning"
 msgstr "Upozornenie"
 
+#: lclstrconsts.rsnavycolorcaption
+msgid "Navy"
+msgstr ""
+
 #: lclstrconsts.rsnextrecordhint
 msgctxt "lclstrconsts.rsnextrecordhint"
 msgid "Next"
 msgstr "Ďalší"
+
+#: lclstrconsts.rsnonecolorcaption
+msgid "None"
+msgstr ""
 
 #: lclstrconsts.rsnotavalidgridfile
 msgid "Not a valid grid file"
@@ -870,6 +926,10 @@ msgstr "Neplatný súbor mriežky"
 #: lclstrconsts.rsnowidgetset
 msgid "No widgetset object. Please check if the unit \"interfaces\" was added to the programs uses clause."
 msgstr "Neexistuje objekt widgetsetu. Prosím skontrolujte, či je jednotka \"interfaces\" pridaná do klauzuly uses programu."
+
+#: lclstrconsts.rsolivecolorcaption
+msgid "Olive"
+msgstr ""
 
 #: lclstrconsts.rspickdate
 msgid "Select a date"
@@ -900,7 +960,9 @@ msgid "Post"
 msgstr "za"
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
-msgid "%s%sPress Ok to ignore and risk data corruption.%sPress Cancel to kill the program."
+#, fuzzy
+#| msgid "%s%sPress Ok to ignore and risk data corruption.%sPress Cancel to kill the program."
+msgid "%s%sPress OK to ignore and risk data corruption.%sPress Cancel to kill the program."
 msgstr "%s%sStlačte OK pre ignorovanie a risk porušenia dát.%sStlačte Zrušiť pre zabitie programu."
 
 #: lclstrconsts.rspriorrecordhint
@@ -911,6 +973,10 @@ msgstr "Pred"
 #: lclstrconsts.rspropertydoesnotexist
 msgid "Property %s does not exist"
 msgstr "Vlastnosť %s neexistuje"
+
+#: lclstrconsts.rspurplecolorcaption
+msgid "Purple"
+msgstr ""
 
 #: lclstrconsts.rsrasterimageendupdate
 msgid "Endupdate while no update in progress"
@@ -923,6 +989,10 @@ msgstr "Nemožno uložiť obrázok počas aktualizácie"
 #: lclstrconsts.rsrasterimageupdateall
 msgid "Cannot begin update all when canvas only update in progress"
 msgstr "Nemožno začať aktualizáciu všetkého, počas aktualizácie len plátna"
+
+#: lclstrconsts.rsredcolorcaption
+msgid "Red"
+msgstr ""
 
 #: lclstrconsts.rsrefreshrecordshint
 msgid "Refresh"
@@ -957,9 +1027,21 @@ msgstr "Výber farby"
 msgid "Select a font"
 msgstr "Výber fontu"
 
+#: lclstrconsts.rssilvercolorcaption
+msgid "Silver"
+msgstr ""
+
 #: lclstrconsts.rssize
 msgid "  size "
 msgstr "..veľkosť "
+
+#: lclstrconsts.rsskybluecolorcaption
+msgid "Sky Blue"
+msgstr ""
+
+#: lclstrconsts.rstealcolorcaption
+msgid "Teal"
+msgstr ""
 
 #: lclstrconsts.rstext
 msgid "Text"
@@ -1005,6 +1087,10 @@ msgstr " UPOZORNENIE: Ostáva %d štruktúr TimerInfo, uvoľním ich"
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
 msgstr " UPOZORNENIE: Ostáva %s neodstránených správ LM_PAINT/LM_GtkPAINT."
 
+#: lclstrconsts.rswhitecolorcaption
+msgid "White"
+msgstr ""
+
 #: lclstrconsts.rswholewordsonly
 msgid "Whole words only"
 msgstr "Len celé slová"
@@ -1027,6 +1113,10 @@ msgstr ""
 
 #: lclstrconsts.rswindowtextcolorcaption
 msgid "Window Text"
+msgstr ""
+
+#: lclstrconsts.rsyellowcolorcaption
+msgid "Yellow"
 msgstr ""
 
 #: lclstrconsts.scannotfocus

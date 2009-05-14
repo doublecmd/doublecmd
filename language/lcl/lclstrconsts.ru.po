@@ -5,7 +5,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-12-02 04:42+0300\n"
+"PO-Revision-Date: 2009-04-23 02:16+0300\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 
@@ -955,8 +955,9 @@ msgid "Post"
 msgstr "Отправить"
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
-msgid "%s%sPress Ok to ignore and risk data corruption.%sPress Cancel to kill the program."
-msgstr "%s%sНажмите 'Ok' чтобы игнорировать и подвергнуться риску повреждения данных.%sНажмите 'Отмена' для закрытия программы."
+#| msgid "%s%sPress Ok to ignore and risk data corruption.%sPress Cancel to kill the program."
+msgid "%s%sPress OK to ignore and risk data corruption.%sPress Cancel to kill the program."
+msgstr "%s%sНажмите 'OK' чтобы игнорировать и подвергнуться риску повреждения данных.%sНажмите 'Отмена' для закрытия программы."
 
 #: lclstrconsts.rspriorrecordhint
 msgctxt "lclstrconsts.rspriorrecordhint"

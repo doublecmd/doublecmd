@@ -815,11 +815,11 @@ msgstr "开始日期:"
 msgid "Date To:"
 msgstr "结束日期:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
 msgstr "天"
 
-#, fuzzy
 #: TFRMFINDDLG.CBDIRECTORY.CAPTION
 msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
 msgid "Directory"
@@ -903,6 +903,7 @@ msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
 msgid "OK"
 msgstr "确定"
 
+#, fuzzy
 #: TFRMFINDDLG.EDTATTRIB.HINT
 msgid "Use '-' to off attribute and '?' to any"
 msgstr ""
@@ -912,7 +913,6 @@ msgstr ""
 msgid "Find Data"
 msgstr "查找数据"
 
-#, fuzzy
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
 msgstr "当前"
@@ -3252,6 +3252,14 @@ msgstr ""
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
 msgstr "卷标:"
+
+#: ulng.rsmsgwipefldr
+msgid "Wipe %d selected files/directories?"
+msgstr ""
+
+#: ulng.rsmsgwipesel
+msgid "Wipe selected \"%s\"?"
+msgstr ""
 
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First Char Big;"

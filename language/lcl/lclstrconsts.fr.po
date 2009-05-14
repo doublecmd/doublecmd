@@ -266,6 +266,10 @@ msgstr "Tous les fichiers (%s)|%s|%s"
 msgid "Application Workspace"
 msgstr ""
 
+#: lclstrconsts.rsaquacolorcaption
+msgid "Aqua"
+msgstr ""
+
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
 msgstr ""
@@ -278,9 +282,17 @@ msgstr "Arrière"
 msgid "Bitmaps"
 msgstr "Images"
 
+#: lclstrconsts.rsblackcolorcaption
+msgid "Black"
+msgstr ""
+
 #: lclstrconsts.rsblank
 msgid "Blank"
 msgstr "Blanc"
+
+#: lclstrconsts.rsbluecolorcaption
+msgid "Blue"
+msgstr ""
 
 #: lclstrconsts.rsbtnfacecolorcaption
 msgid "Button Face"
@@ -323,6 +335,10 @@ msgstr ""
 msgid "Case sensitive"
 msgstr "Respecter la casse"
 
+#: lclstrconsts.rscreamcolorcaption
+msgid "Cream"
+msgstr ""
+
 #: lclstrconsts.rscreatinggdbcatchableerror
 msgid "Creating gdb catchable error:"
 msgstr "Créer une erreur d'arret de gdb :"
@@ -333,6 +349,10 @@ msgstr "Curseur"
 
 #: lclstrconsts.rscustomcolorcaption
 msgid "Custom ..."
+msgstr ""
+
+#: lclstrconsts.rsdefaultcolorcaption
+msgid "Default"
 msgstr ""
 
 #: lclstrconsts.rsdefaultfileinfovalue
@@ -489,6 +509,10 @@ msgstr "Dans le flux de fiche \"%s\" : erreur %s"
 msgid "Forward"
 msgstr "Avant"
 
+#: lclstrconsts.rsfuchsiacolorcaption
+msgid "Fuchsia"
+msgstr ""
+
 #: lclstrconsts.rsgdkoptiondebug
 msgid "--gdk-debug flags     Turn on specific GDK trace/debug messages."
 msgstr "--gdk-debug flags     Activer les messages spécifique GDK+ trace/debug."
@@ -509,8 +533,16 @@ msgstr ""
 msgid "Gradient Inactive Caption"
 msgstr ""
 
+#: lclstrconsts.rsgraycolorcaption
+msgid "Gray"
+msgstr ""
+
 #: lclstrconsts.rsgraytextcolorcaption
 msgid "Gray Text"
+msgstr ""
+
+#: lclstrconsts.rsgreencolorcaption
+msgid "Green"
 msgstr ""
 
 #: lclstrconsts.rsgridfiledoesnotexists
@@ -756,6 +788,10 @@ msgstr "Joint Picture Expert Group"
 msgid "Last"
 msgstr ""
 
+#: lclstrconsts.rslimecolorcaption
+msgid "Lime"
+msgstr ""
+
 #: lclstrconsts.rslistindexexceedsbounds
 msgid "List index exceeds bounds (%d)"
 msgstr "Index de liste hors limites (%d)"
@@ -763,6 +799,10 @@ msgstr "Index de liste hors limites (%d)"
 #: lclstrconsts.rslistmustbeempty
 msgid "List must be empty"
 msgstr "La liste doit être vide"
+
+#: lclstrconsts.rsmarooncolorcaption
+msgid "Maroon"
+msgstr ""
 
 #: lclstrconsts.rsmbabort
 msgid "Abort"
@@ -813,6 +853,10 @@ msgstr "&Oui"
 msgid "Yes to &All"
 msgstr "Oui à &tous"
 
+#: lclstrconsts.rsmedgraycolorcaption
+msgid "Medium Gray"
+msgstr ""
+
 #: lclstrconsts.rsmenubarcolorcaption
 msgid "Menu Bar"
 msgstr ""
@@ -833,6 +877,10 @@ msgstr ""
 #: lclstrconsts.rsmodified
 msgid "  modified "
 msgstr "  modifier"
+
+#: lclstrconsts.rsmoneygreencolorcaption
+msgid "Money Green"
+msgstr ""
 
 #: lclstrconsts.rsmtconfirmation
 msgid "Confirmation"
@@ -855,10 +903,18 @@ msgstr "Information"
 msgid "Warning"
 msgstr "Avertissement"
 
+#: lclstrconsts.rsnavycolorcaption
+msgid "Navy"
+msgstr ""
+
 #: lclstrconsts.rsnextrecordhint
 msgctxt "lclstrconsts.rsnextrecordhint"
 msgid "Next"
 msgstr "Suivant"
+
+#: lclstrconsts.rsnonecolorcaption
+msgid "None"
+msgstr ""
 
 #: lclstrconsts.rsnotavalidgridfile
 msgid "Not a valid grid file"
@@ -867,6 +923,10 @@ msgstr "N'est pas un fichier de grille correct"
 #: lclstrconsts.rsnowidgetset
 msgid "No widgetset object. Please check if the unit \"interfaces\" was added to the programs uses clause."
 msgstr "Aucun objet widgetset. Vérifier si l'unité \"interfaces\" est ajouté à la clause uses du programme."
+
+#: lclstrconsts.rsolivecolorcaption
+msgid "Olive"
+msgstr ""
 
 #: lclstrconsts.rspickdate
 msgid "Select a date"
@@ -897,7 +957,9 @@ msgid "Post"
 msgstr ""
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
-msgid "%s%sPress Ok to ignore and risk data corruption.%sPress Cancel to kill the program."
+#, fuzzy
+#| msgid "%s%sPress Ok to ignore and risk data corruption.%sPress Cancel to kill the program."
+msgid "%s%sPress OK to ignore and risk data corruption.%sPress Cancel to kill the program."
 msgstr "%s%s Pressez OK pour ignorer et risquer des données corruption.%s Pressez Annuler pour fermer le programme. "
 
 #: lclstrconsts.rspriorrecordhint
@@ -909,6 +971,10 @@ msgstr "Précédent"
 msgid "Property %s does not exist"
 msgstr "La propriété %s n'existe pas"
 
+#: lclstrconsts.rspurplecolorcaption
+msgid "Purple"
+msgstr ""
+
 #: lclstrconsts.rsrasterimageendupdate
 msgid "Endupdate while no update in progress"
 msgstr ""
@@ -919,6 +985,10 @@ msgstr ""
 
 #: lclstrconsts.rsrasterimageupdateall
 msgid "Cannot begin update all when canvas only update in progress"
+msgstr ""
+
+#: lclstrconsts.rsredcolorcaption
+msgid "Red"
 msgstr ""
 
 #: lclstrconsts.rsrefreshrecordshint
@@ -954,9 +1024,21 @@ msgstr "Choisir une couleur"
 msgid "Select a font"
 msgstr "Choisir une police"
 
+#: lclstrconsts.rssilvercolorcaption
+msgid "Silver"
+msgstr ""
+
 #: lclstrconsts.rssize
 msgid "  size "
 msgstr "  taille"
+
+#: lclstrconsts.rsskybluecolorcaption
+msgid "Sky Blue"
+msgstr ""
+
+#: lclstrconsts.rstealcolorcaption
+msgid "Teal"
+msgstr ""
 
 #: lclstrconsts.rstext
 msgid "Text"
@@ -1002,6 +1084,10 @@ msgstr " ATTENTION : Il y a %d structures TimerInfo, elles seront supprimés."
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
 msgstr " ATTENTION :  Il y a %s non enlevé LM_PAINT/LM_GtkPAINT liens de message."
 
+#: lclstrconsts.rswhitecolorcaption
+msgid "White"
+msgstr ""
+
 #: lclstrconsts.rswholewordsonly
 msgid "Whole words only"
 msgstr "Mots entiers seulement "
@@ -1024,6 +1110,10 @@ msgstr ""
 
 #: lclstrconsts.rswindowtextcolorcaption
 msgid "Window Text"
+msgstr ""
+
+#: lclstrconsts.rsyellowcolorcaption
+msgid "Yellow"
 msgstr ""
 
 #: lclstrconsts.scannotfocus

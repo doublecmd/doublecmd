@@ -267,6 +267,10 @@ msgstr "Visi failai (%s)|%s|%s"
 msgid "Application Workspace"
 msgstr "Programos darbo laukas"
 
+#: lclstrconsts.rsaquacolorcaption
+msgid "Aqua"
+msgstr ""
+
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
 msgstr "Darbalaukis"
@@ -279,9 +283,17 @@ msgstr "Atgal"
 msgid "Bitmaps"
 msgstr "Bitmap"
 
+#: lclstrconsts.rsblackcolorcaption
+msgid "Black"
+msgstr ""
+
 #: lclstrconsts.rsblank
 msgid "Blank"
 msgstr "Tuščias"
+
+#: lclstrconsts.rsbluecolorcaption
+msgid "Blue"
+msgstr ""
 
 #: lclstrconsts.rsbtnfacecolorcaption
 msgid "Button Face"
@@ -324,6 +336,10 @@ msgstr "Antraštės tekstas"
 msgid "Case sensitive"
 msgstr "Paisyti raidžių lygio"
 
+#: lclstrconsts.rscreamcolorcaption
+msgid "Cream"
+msgstr ""
+
 #: lclstrconsts.rscreatinggdbcatchableerror
 msgid "Creating gdb catchable error:"
 msgstr "Kuriama GDB aptinkama klaida:"
@@ -335,6 +351,10 @@ msgstr "Žymeklis"
 #: lclstrconsts.rscustomcolorcaption
 msgid "Custom ..."
 msgstr "Naudotojo…"
+
+#: lclstrconsts.rsdefaultcolorcaption
+msgid "Default"
+msgstr ""
 
 #: lclstrconsts.rsdefaultfileinfovalue
 msgid "permissions user group size date time"
@@ -490,6 +510,10 @@ msgstr "Formą siunčiant srautu „%s“ įvyko klaida: %s"
 msgid "Forward"
 msgstr "Pirmyn"
 
+#: lclstrconsts.rsfuchsiacolorcaption
+msgid "Fuchsia"
+msgstr ""
+
 #: lclstrconsts.rsgdkoptiondebug
 msgid "--gdk-debug flags     Turn on specific GDK trace/debug messages."
 msgstr "--gdk-debug žymės     Įjungiami nurodyti GDK sekimo/derinimo pranešimai."
@@ -510,9 +534,17 @@ msgstr "Veikiamosios antraštės gradientas"
 msgid "Gradient Inactive Caption"
 msgstr "Įprastos antraštės gradientas"
 
+#: lclstrconsts.rsgraycolorcaption
+msgid "Gray"
+msgstr ""
+
 #: lclstrconsts.rsgraytextcolorcaption
 msgid "Gray Text"
 msgstr "Neveiksnus tekstas"
+
+#: lclstrconsts.rsgreencolorcaption
+msgid "Green"
+msgstr ""
 
 #: lclstrconsts.rsgridfiledoesnotexists
 msgid "Grid file doesn't exists"
@@ -757,6 +789,10 @@ msgstr "Joint Picture Expert Group"
 msgid "Last"
 msgstr "Paskutinysis"
 
+#: lclstrconsts.rslimecolorcaption
+msgid "Lime"
+msgstr ""
+
 #: lclstrconsts.rslistindexexceedsbounds
 msgid "List index exceeds bounds (%d)"
 msgstr "Sąrašo indeksas peržengė ribas (%d)"
@@ -764,6 +800,10 @@ msgstr "Sąrašo indeksas peržengė ribas (%d)"
 #: lclstrconsts.rslistmustbeempty
 msgid "List must be empty"
 msgstr "Sąrašas turi būti tuščias"
+
+#: lclstrconsts.rsmarooncolorcaption
+msgid "Maroon"
+msgstr ""
 
 #: lclstrconsts.rsmbabort
 msgid "Abort"
@@ -814,6 +854,10 @@ msgstr "&Taip"
 msgid "Yes to &All"
 msgstr "Vis&ada taip"
 
+#: lclstrconsts.rsmedgraycolorcaption
+msgid "Medium Gray"
+msgstr ""
+
 #: lclstrconsts.rsmenubarcolorcaption
 msgid "Menu Bar"
 msgstr "Meniu juosta"
@@ -834,6 +878,10 @@ msgstr "Menu tekstas"
 #: lclstrconsts.rsmodified
 msgid "  modified "
 msgstr "  pakeista "
+
+#: lclstrconsts.rsmoneygreencolorcaption
+msgid "Money Green"
+msgstr ""
 
 #: lclstrconsts.rsmtconfirmation
 msgid "Confirmation"
@@ -856,10 +904,18 @@ msgstr "Informacija"
 msgid "Warning"
 msgstr "Perspėjimas"
 
+#: lclstrconsts.rsnavycolorcaption
+msgid "Navy"
+msgstr ""
+
 #: lclstrconsts.rsnextrecordhint
 msgctxt "lclstrconsts.rsnextrecordhint"
 msgid "Next"
 msgstr "Kitas"
+
+#: lclstrconsts.rsnonecolorcaption
+msgid "None"
+msgstr ""
 
 #: lclstrconsts.rsnotavalidgridfile
 msgid "Not a valid grid file"
@@ -868,6 +924,10 @@ msgstr "Klaidingas tinklelio failas"
 #: lclstrconsts.rsnowidgetset
 msgid "No widgetset object. Please check if the unit \"interfaces\" was added to the programs uses clause."
 msgstr "Nevaldiklio objektas. Patikrinkite ar modulis „interfaces“ yra paminėtas programos naudojamų modulių sąraše."
+
+#: lclstrconsts.rsolivecolorcaption
+msgid "Olive"
+msgstr ""
 
 #: lclstrconsts.rspickdate
 msgid "Select a date"
@@ -898,7 +958,9 @@ msgid "Post"
 msgstr "Tolesnis"
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
-msgid "%s%sPress Ok to ignore and risk data corruption.%sPress Cancel to kill the program."
+#, fuzzy
+#| msgid "%s%sPress Ok to ignore and risk data corruption.%sPress Cancel to kill the program."
+msgid "%s%sPress OK to ignore and risk data corruption.%sPress Cancel to kill the program."
 msgstr "%s%sPaspaude „Tinka“ ignoruosite, tačiau rizikuosite duomenimis.%sPaspaude „Atsisakyti“ sustabdysite programą."
 
 #: lclstrconsts.rspriorrecordhint
@@ -909,6 +971,10 @@ msgstr "Ankstesnis"
 #: lclstrconsts.rspropertydoesnotexist
 msgid "Property %s does not exist"
 msgstr "Savybė %s neegzistuoja"
+
+#: lclstrconsts.rspurplecolorcaption
+msgid "Purple"
+msgstr ""
 
 #: lclstrconsts.rsrasterimageendupdate
 msgid "Endupdate while no update in progress"
@@ -921,6 +987,10 @@ msgstr "Neina įrašyti paveikslo, nes jis atnaujinamas"
 #: lclstrconsts.rsrasterimageupdateall
 msgid "Cannot begin update all when canvas only update in progress"
 msgstr "Visko atnaujinti negalima kai atnaujinamas tik „Canvas“"
+
+#: lclstrconsts.rsredcolorcaption
+msgid "Red"
+msgstr ""
 
 #: lclstrconsts.rsrefreshrecordshint
 msgid "Refresh"
@@ -955,9 +1025,21 @@ msgstr "Nurodykit spalvą"
 msgid "Select a font"
 msgstr "Nurodykit šriftą"
 
+#: lclstrconsts.rssilvercolorcaption
+msgid "Silver"
+msgstr ""
+
 #: lclstrconsts.rssize
 msgid "  size "
 msgstr "  dydis "
+
+#: lclstrconsts.rsskybluecolorcaption
+msgid "Sky Blue"
+msgstr ""
+
+#: lclstrconsts.rstealcolorcaption
+msgid "Teal"
+msgstr ""
 
 #: lclstrconsts.rstext
 msgid "Text"
@@ -1003,6 +1085,10 @@ msgstr " Perspėjimas: dar liko %d „TimerInfo“ struktūrų, jos bus sunaikin
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
 msgstr " Perspėjimas: liko %s nepašalintos nuorodos į LM_PAINT/LM_GtkPAINT pranešimus."
 
+#: lclstrconsts.rswhitecolorcaption
+msgid "White"
+msgstr ""
+
 #: lclstrconsts.rswholewordsonly
 msgid "Whole words only"
 msgstr "Tik visų žodžių"
@@ -1026,6 +1112,10 @@ msgstr "Lango rėmelis"
 #: lclstrconsts.rswindowtextcolorcaption
 msgid "Window Text"
 msgstr "Lango tekstas"
+
+#: lclstrconsts.rsyellowcolorcaption
+msgid "Yellow"
+msgstr ""
 
 #: lclstrconsts.scannotfocus
 msgid "Cannot focus a disabled or invisible window"

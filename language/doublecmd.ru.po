@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-05-13 23:41+0300\n"
+"PO-Revision-Date: 2009-05-14 22:37+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -824,7 +824,6 @@ msgid "Directory"
 msgstr ""
 
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
-#, fuzzy
 msgid "File Size From:"
 msgstr "Размер файла от:"
 
@@ -911,12 +910,10 @@ msgid "Find Data"
 msgstr "С текстом"
 
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
-#, fuzzy
 msgid "Current"
 msgstr "Текущий"
 
 #: TFRMFINDDLG.LBLENCODING.CAPTION
-#, fuzzy
 msgctxt "TFRMFINDDLG.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr "Кодировка:"
@@ -3126,7 +3123,7 @@ msgstr "Следовать ссылке \"%s\"?"
 
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
-msgstr ""
+msgstr "Некорректное имя файла"
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
@@ -3251,6 +3248,14 @@ msgstr ""
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
 msgstr "Метка диска:"
+
+#: ulng.rsmsgwipefldr
+msgid "Wipe %d selected files/directories?"
+msgstr "Стереть %d выбранных файлов/каталогов?"
+
+#: ulng.rsmsgwipesel
+msgid "Wipe selected \"%s\"?"
+msgstr "Стереть выбранный \"%s\"?"
 
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First Char Big;"

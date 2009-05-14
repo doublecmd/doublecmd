@@ -264,6 +264,10 @@ msgstr "Tüm dosyalar (%s)|%s|%s"
 msgid "Application Workspace"
 msgstr ""
 
+#: lclstrconsts.rsaquacolorcaption
+msgid "Aqua"
+msgstr ""
+
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
 msgstr ""
@@ -276,9 +280,17 @@ msgstr "Geriye doğru"
 msgid "Bitmaps"
 msgstr "Bitmap resimleri"
 
+#: lclstrconsts.rsblackcolorcaption
+msgid "Black"
+msgstr ""
+
 #: lclstrconsts.rsblank
 msgid "Blank"
 msgstr "Boş"
+
+#: lclstrconsts.rsbluecolorcaption
+msgid "Blue"
+msgstr ""
 
 #: lclstrconsts.rsbtnfacecolorcaption
 msgid "Button Face"
@@ -321,6 +333,10 @@ msgstr ""
 msgid "Case sensitive"
 msgstr "Büyük/küçük harfe duyarlı"
 
+#: lclstrconsts.rscreamcolorcaption
+msgid "Cream"
+msgstr ""
+
 #: lclstrconsts.rscreatinggdbcatchableerror
 msgid "Creating gdb catchable error:"
 msgstr "gdb catchable yaratma hatası:"
@@ -331,6 +347,10 @@ msgstr ""
 
 #: lclstrconsts.rscustomcolorcaption
 msgid "Custom ..."
+msgstr ""
+
+#: lclstrconsts.rsdefaultcolorcaption
+msgid "Default"
 msgstr ""
 
 #: lclstrconsts.rsdefaultfileinfovalue
@@ -487,6 +507,10 @@ msgstr "Form akışı \"%s\" hatası: %s"
 msgid "Forward"
 msgstr "İleriye doğru"
 
+#: lclstrconsts.rsfuchsiacolorcaption
+msgid "Fuchsia"
+msgstr ""
+
 #: lclstrconsts.rsgdkoptiondebug
 msgid "--gdk-debug flags     Turn on specific GDK trace/debug messages."
 msgstr "--gdk-debug flags     GDK'ya özgü izleme/hata ayıklama iletilerini açar."
@@ -507,8 +531,16 @@ msgstr ""
 msgid "Gradient Inactive Caption"
 msgstr ""
 
+#: lclstrconsts.rsgraycolorcaption
+msgid "Gray"
+msgstr ""
+
 #: lclstrconsts.rsgraytextcolorcaption
 msgid "Gray Text"
+msgstr ""
+
+#: lclstrconsts.rsgreencolorcaption
+msgid "Green"
 msgstr ""
 
 #: lclstrconsts.rsgridfiledoesnotexists
@@ -754,6 +786,10 @@ msgstr "Joint Picture Expert Group"
 msgid "Last"
 msgstr ""
 
+#: lclstrconsts.rslimecolorcaption
+msgid "Lime"
+msgstr ""
+
 #: lclstrconsts.rslistindexexceedsbounds
 msgid "List index exceeds bounds (%d)"
 msgstr "Liste tanımlayıcısı sınırları aşıyor (%d)"
@@ -761,6 +797,10 @@ msgstr "Liste tanımlayıcısı sınırları aşıyor (%d)"
 #: lclstrconsts.rslistmustbeempty
 msgid "List must be empty"
 msgstr "Liste boş olmak zorunda"
+
+#: lclstrconsts.rsmarooncolorcaption
+msgid "Maroon"
+msgstr ""
 
 #: lclstrconsts.rsmbabort
 msgid "Abort"
@@ -811,6 +851,10 @@ msgstr "&Evet"
 msgid "Yes to &All"
 msgstr "Tümüne evet"
 
+#: lclstrconsts.rsmedgraycolorcaption
+msgid "Medium Gray"
+msgstr ""
+
 #: lclstrconsts.rsmenubarcolorcaption
 msgid "Menu Bar"
 msgstr ""
@@ -831,6 +875,10 @@ msgstr ""
 #: lclstrconsts.rsmodified
 msgid "  modified "
 msgstr "  değiştirilmiş "
+
+#: lclstrconsts.rsmoneygreencolorcaption
+msgid "Money Green"
+msgstr ""
 
 #: lclstrconsts.rsmtconfirmation
 msgid "Confirmation"
@@ -853,10 +901,18 @@ msgstr "Bilgi"
 msgid "Warning"
 msgstr "Dikkat"
 
+#: lclstrconsts.rsnavycolorcaption
+msgid "Navy"
+msgstr ""
+
 #: lclstrconsts.rsnextrecordhint
 msgctxt "lclstrconsts.rsnextrecordhint"
 msgid "Next"
 msgstr "Sonraki"
+
+#: lclstrconsts.rsnonecolorcaption
+msgid "None"
+msgstr ""
 
 #: lclstrconsts.rsnotavalidgridfile
 msgid "Not a valid grid file"
@@ -865,6 +921,10 @@ msgstr "Geçerli bir ızgara dosyası değil"
 #: lclstrconsts.rsnowidgetset
 msgid "No widgetset object. Please check if the unit \"interfaces\" was added to the programs uses clause."
 msgstr "Parçacık nesnesi yok. Lütfen  \"interfaces\" biriminin programın uses bölümüne eklenip eklenmediğini denetleyin."
+
+#: lclstrconsts.rsolivecolorcaption
+msgid "Olive"
+msgstr ""
 
 #: lclstrconsts.rspickdate
 msgid "Select a date"
@@ -895,7 +955,9 @@ msgid "Post"
 msgstr ""
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
-msgid "%s%sPress Ok to ignore and risk data corruption.%sPress Cancel to kill the program."
+#, fuzzy
+#| msgid "%s%sPress Ok to ignore and risk data corruption.%sPress Cancel to kill the program."
+msgid "%s%sPress OK to ignore and risk data corruption.%sPress Cancel to kill the program."
 msgstr "%s%s Yoksaymak ve verinin bozulması riskiyle devam etmek için Tamam'a basın. %s Programı sonlandırmak için İptal'e basın."
 
 #: lclstrconsts.rspriorrecordhint
@@ -907,6 +969,10 @@ msgstr "Önceki"
 msgid "Property %s does not exist"
 msgstr "%s özelliği mevcut değil"
 
+#: lclstrconsts.rspurplecolorcaption
+msgid "Purple"
+msgstr ""
+
 #: lclstrconsts.rsrasterimageendupdate
 msgid "Endupdate while no update in progress"
 msgstr ""
@@ -917,6 +983,10 @@ msgstr ""
 
 #: lclstrconsts.rsrasterimageupdateall
 msgid "Cannot begin update all when canvas only update in progress"
+msgstr ""
+
+#: lclstrconsts.rsredcolorcaption
+msgid "Red"
 msgstr ""
 
 #: lclstrconsts.rsrefreshrecordshint
@@ -952,9 +1022,21 @@ msgstr "Renk seç"
 msgid "Select a font"
 msgstr "Yazıtipi seç"
 
+#: lclstrconsts.rssilvercolorcaption
+msgid "Silver"
+msgstr ""
+
 #: lclstrconsts.rssize
 msgid "  size "
 msgstr "  boyut "
+
+#: lclstrconsts.rsskybluecolorcaption
+msgid "Sky Blue"
+msgstr ""
+
+#: lclstrconsts.rstealcolorcaption
+msgid "Teal"
+msgstr ""
 
 #: lclstrconsts.rstext
 msgid "Text"
@@ -1000,6 +1082,10 @@ msgstr " DİKKAT: %d adet TimerInfo yapısı kaldı, onları serbest bırakacağ
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
 msgstr " DİKKAT: %s adet kaldırılmamış LM_PAINT/LM_GtkPAINT mesaj bağlantısı kaldı."
 
+#: lclstrconsts.rswhitecolorcaption
+msgid "White"
+msgstr ""
+
 #: lclstrconsts.rswholewordsonly
 msgid "Whole words only"
 msgstr "Yalnızca tam sözcükler"
@@ -1022,6 +1108,10 @@ msgstr ""
 
 #: lclstrconsts.rswindowtextcolorcaption
 msgid "Window Text"
+msgstr ""
+
+#: lclstrconsts.rsyellowcolorcaption
+msgid "Yellow"
 msgstr ""
 
 #: lclstrconsts.scannotfocus

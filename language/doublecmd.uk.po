@@ -824,11 +824,11 @@ msgstr "Дата від:"
 msgid "Date To:"
 msgstr "Дата до:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
 msgstr "День"
 
-#, fuzzy
 #: TFRMFINDDLG.CBDIRECTORY.CAPTION
 msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
 msgid "Directory"
@@ -912,6 +912,7 @@ msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
 msgid "OK"
 msgstr "Так"
 
+#, fuzzy
 #: TFRMFINDDLG.EDTATTRIB.HINT
 msgid "Use '-' to off attribute and '?' to any"
 msgstr ""
@@ -921,7 +922,6 @@ msgstr ""
 msgid "Find Data"
 msgstr "З текстом"
 
-#, fuzzy
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
 msgstr "Поточний"
@@ -3264,6 +3264,14 @@ msgstr ""
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
 msgstr "Мітка диска:"
+
+#: ulng.rsmsgwipefldr
+msgid "Wipe %d selected files/directories?"
+msgstr ""
+
+#: ulng.rsmsgwipesel
+msgid "Wipe selected \"%s\"?"
+msgstr ""
 
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First Char Big;"

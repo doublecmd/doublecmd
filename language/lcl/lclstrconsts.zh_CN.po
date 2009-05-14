@@ -1,15 +1,16 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.9.16\n"
+"Project-Id-Version: 0.9.27 beta\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-06-15 15:22+0800\n"
-"Last-Translator: Liu Sizhuang <chinatslsz@hotmail.com>\n"
-"Language-Team: newsfree <freefcw@gmail.com>\n"
+"PO-Revision-Date: 2009-04-24 19:20+0800\n"
+"Last-Translator: XY.Chen <chenxinyv@gmail.com>、Liu Sizhuang <chinatslsz@hotmail.com>(2008-06-15)\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: chinese\n"
-"X-Poedit-Country: china\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: CHINA\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
 msgid "Browser %s%s%s not executable."
@@ -21,7 +22,7 @@ msgstr "浏览 %s%s%s 未找到."
 
 #: lclstrconsts.hhshelperrorwhileexecuting
 msgid "Error while executing %s%s%s:%s%s"
-msgstr "当执行 %s%s%s 时错误:%s%s "
+msgstr "当执行 %s%s%s 时发生错误:%s%s "
 
 #: lclstrconsts.hhshelpnohtmlbrowserfound
 msgid "Unable to find a HTML browser."
@@ -62,11 +63,11 @@ msgstr "退格"
 #: lclstrconsts.ifsvk_cancel
 msgctxt "lclstrconsts.ifsvk_cancel"
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: lclstrconsts.ifsvk_capital
 msgid "Capital"
-msgstr "大写字母"
+msgstr "大写"
 
 #: lclstrconsts.ifsvk_clear
 msgid "Clear"
@@ -83,11 +84,11 @@ msgstr "转换"
 #: lclstrconsts.ifsvk_delete
 msgctxt "lclstrconsts.ifsvk_delete"
 msgid "Delete"
-msgstr ""
+msgstr "删除"
 
 #: lclstrconsts.ifsvk_down
 msgid "Down"
-msgstr "下"
+msgstr ""
 
 #: lclstrconsts.ifsvk_end
 msgid "End"
@@ -95,7 +96,7 @@ msgstr ""
 
 #: lclstrconsts.ifsvk_escape
 msgid "Escape"
-msgstr "溢出"
+msgstr ""
 
 #: lclstrconsts.ifsvk_execute
 msgid "Execute"
@@ -240,23 +241,23 @@ msgstr "未找到资源 %s"
 
 #: lclstrconsts.rs3ddkshadowcolorcaption
 msgid "3D Dark Shadow"
-msgstr ""
+msgstr "3D阴影"
 
 #: lclstrconsts.rs3dlightcolorcaption
 msgid "3D Light"
-msgstr ""
+msgstr "3D光线"
 
 #: lclstrconsts.rsacontrolcannothaveitselfasparent
 msgid "A control can't have itself as parent"
-msgstr "控件无法把自己设为父节点"
+msgstr "控件不能把自己设为父节点"
 
 #: lclstrconsts.rsactivebordercolorcaption
 msgid "Active Border"
-msgstr ""
+msgstr "活动边线"
 
 #: lclstrconsts.rsactivecaptioncolorcaption
 msgid "Active Caption"
-msgstr ""
+msgstr "活动标题"
 
 #: lclstrconsts.rsallfiles
 msgid "All files (%s)|%s|%s"
@@ -264,11 +265,15 @@ msgstr "所有文件 (%s)|%s|%s"
 
 #: lclstrconsts.rsappworkspacecolorcaption
 msgid "Application Workspace"
+msgstr "引用程序工作区"
+
+#: lclstrconsts.rsaquacolorcaption
+msgid "Aqua"
 msgstr ""
 
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
-msgstr ""
+msgstr "桌面"
 
 #: lclstrconsts.rsbackward
 msgid "Backward"
@@ -278,25 +283,33 @@ msgstr "后退"
 msgid "Bitmaps"
 msgstr "黑白位图"
 
+#: lclstrconsts.rsblackcolorcaption
+msgid "Black"
+msgstr "黑"
+
 #: lclstrconsts.rsblank
 msgid "Blank"
 msgstr "空白"
 
+#: lclstrconsts.rsbluecolorcaption
+msgid "Blue"
+msgstr "蓝"
+
 #: lclstrconsts.rsbtnfacecolorcaption
 msgid "Button Face"
-msgstr ""
+msgstr "按钮表面"
 
 #: lclstrconsts.rsbtnhighlightcolorcaption
 msgid "Button Highlight"
-msgstr ""
+msgstr "按钮高亮"
 
 #: lclstrconsts.rsbtnshadowcolorcaption
 msgid "Button Shadow"
-msgstr ""
+msgstr "按钮阴影"
 
 #: lclstrconsts.rsbtntextcolorcaption
 msgid "Button Text"
-msgstr ""
+msgstr "按钮文本"
 
 #: lclstrconsts.rscalculator
 msgid "Calculator"
@@ -305,7 +318,7 @@ msgstr "计算器"
 #: lclstrconsts.rscancelrecordhint
 msgctxt "lclstrconsts.rscancelrecordhint"
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: lclstrconsts.rscannotfocus
 msgid "Can not focus"
@@ -317,11 +330,15 @@ msgstr "Canvas 不允许画图"
 
 #: lclstrconsts.rscaptiontextcolorcaption
 msgid "Caption Text"
-msgstr ""
+msgstr "标题文本"
 
 #: lclstrconsts.rscasesensitive
 msgid "Case sensitive"
 msgstr "大小写敏感"
+
+#: lclstrconsts.rscreamcolorcaption
+msgid "Cream"
+msgstr ""
 
 #: lclstrconsts.rscreatinggdbcatchableerror
 msgid "Creating gdb catchable error:"
@@ -329,11 +346,15 @@ msgstr "创建 GDB 可以捕捉的错误"
 
 #: lclstrconsts.rscursor
 msgid "Cursor"
-msgstr ""
+msgstr "光标"
 
 #: lclstrconsts.rscustomcolorcaption
 msgid "Custom ..."
-msgstr ""
+msgstr "自定义..."
+
+#: lclstrconsts.rsdefaultcolorcaption
+msgid "Default"
+msgstr "默认"
 
 #: lclstrconsts.rsdefaultfileinfovalue
 msgid "permissions user group size date time"
@@ -358,20 +379,20 @@ msgstr "目录(&D)"
 
 #: lclstrconsts.rsdocking
 msgid "Docking"
-msgstr "融合"
+msgstr "停靠"
 
 #: lclstrconsts.rsduplicateiconformat
 msgid "Duplicate icon format."
-msgstr ""
+msgstr "同样的图标格式."
 
 #: lclstrconsts.rseditrecordhint
 msgid "Edit"
-msgstr ""
+msgstr "编辑"
 
 #: lclstrconsts.rserror
 msgctxt "lclstrconsts.rserror"
 msgid "Error"
-msgstr ""
+msgstr "错误"
 
 #: lclstrconsts.rserrorcreatingdevicecontext
 msgid "Error creating device context for %s.%s"
@@ -479,7 +500,7 @@ msgstr "FixedRows 不能 >= RowCount"
 
 #: lclstrconsts.rsformcolorcaption
 msgid "Form"
-msgstr ""
+msgstr "窗体"
 
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
@@ -488,6 +509,10 @@ msgstr "窗体流 \"%s\" 错误: %s"
 #: lclstrconsts.rsforward
 msgid "Forward"
 msgstr "向前"
+
+#: lclstrconsts.rsfuchsiacolorcaption
+msgid "Fuchsia"
+msgstr "紫红"
 
 #: lclstrconsts.rsgdkoptiondebug
 msgid "--gdk-debug flags     Turn on specific GDK trace/debug messages."
@@ -503,15 +528,23 @@ msgstr "--g-fatal-warnings   使 Gtk+/GDK 产生的警告和错误终止应用�
 
 #: lclstrconsts.rsgradientactivecaptioncolorcaption
 msgid "Gradient Active Caption"
-msgstr ""
+msgstr "活动标题颜色渐变"
 
 #: lclstrconsts.rsgradientinactivecaptioncolorcaption
 msgid "Gradient Inactive Caption"
-msgstr ""
+msgstr "非活动标题颜色渐变"
+
+#: lclstrconsts.rsgraycolorcaption
+msgid "Gray"
+msgstr "灰"
 
 #: lclstrconsts.rsgraytextcolorcaption
 msgid "Gray Text"
-msgstr ""
+msgstr "灰色文本"
+
+#: lclstrconsts.rsgreencolorcaption
+msgid "Green"
+msgstr "绿"
 
 #: lclstrconsts.rsgridfiledoesnotexists
 msgid "Grid file doesn't exists"
@@ -647,11 +680,11 @@ msgstr "未找到帮助查看器"
 
 #: lclstrconsts.rshighlightcolorcaption
 msgid "Highlight"
-msgstr ""
+msgstr "高亮"
 
 #: lclstrconsts.rshighlighttextcolorcaption
 msgid "Highlight Text"
-msgstr ""
+msgstr "高亮文本"
 
 #: lclstrconsts.rshotlightcolorcaption
 msgid "Hot Light"
@@ -659,7 +692,7 @@ msgstr ""
 
 #: lclstrconsts.rsicns
 msgid "OSX Icon Resource"
-msgstr ""
+msgstr "OSX 图标资源"
 
 #: lclstrconsts.rsicon
 msgid "Icon"
@@ -667,41 +700,41 @@ msgstr "图标"
 
 #: lclstrconsts.rsiconimageempty
 msgid "Icon image cannot be empty"
-msgstr ""
+msgstr "图标图像不能为空"
 
 #: lclstrconsts.rsiconimageformat
 msgid "Icon image must have the same format"
-msgstr ""
+msgstr "图标图像必须有相同的格式"
 
 #: lclstrconsts.rsiconimageformatchange
 msgid "Cannot change format of icon image"
-msgstr ""
+msgstr "不能改变图标图像的格式"
 
 #: lclstrconsts.rsiconimagesize
 msgid "Icon image must have the same size"
-msgstr ""
+msgstr "图标图像必须有同样的大小"
 
 #: lclstrconsts.rsiconimagesizechange
 msgid "Cannot change size of icon image"
-msgstr ""
+msgstr "不能改变图标图像的大小"
 
 #: lclstrconsts.rsiconnocurrent
 msgid "Icon has no current image"
-msgstr ""
+msgstr "图标有不正确的图像"
 
 #: lclstrconsts.rsinactivebordercolorcaption
 msgid "Inactive Border"
-msgstr ""
+msgstr "非活动边框"
 
 #: lclstrconsts.rsinactivecaptioncolorcaption
 msgctxt "lclstrconsts.rsinactivecaptioncolorcaption"
 msgid "Inactive Caption"
-msgstr ""
+msgstr "非活动标题"
 
 #: lclstrconsts.rsinactivecaptiontext
 msgctxt "lclstrconsts.rsinactivecaptiontext"
 msgid "Inactive Caption"
-msgstr ""
+msgstr "非活动标题"
 
 #: lclstrconsts.rsindexoutofbounds
 msgid "%s Index %d out of bounds 0 .. %d"
@@ -713,11 +746,11 @@ msgstr "单元格索引超过范围[列=%d 行=%d]"
 
 #: lclstrconsts.rsinfobkcolorcaption
 msgid "Info Background"
-msgstr ""
+msgstr "info底色"
 
 #: lclstrconsts.rsinfotextcolorcaption
 msgid "Info Text"
-msgstr ""
+msgstr "info文本"
 
 #: lclstrconsts.rsinsertrecordhint
 msgctxt "lclstrconsts.rsinsertrecordhint"
@@ -756,6 +789,10 @@ msgstr ""
 msgid "Last"
 msgstr ""
 
+#: lclstrconsts.rslimecolorcaption
+msgid "Lime"
+msgstr "橙"
+
 #: lclstrconsts.rslistindexexceedsbounds
 msgid "List index exceeds bounds (%d)"
 msgstr "list 索引超过限制 (%d)"
@@ -763,6 +800,10 @@ msgstr "list 索引超过限制 (%d)"
 #: lclstrconsts.rslistmustbeempty
 msgid "List must be empty"
 msgstr "列表必须为空"
+
+#: lclstrconsts.rsmarooncolorcaption
+msgid "Maroon"
+msgstr "栗"
 
 #: lclstrconsts.rsmbabort
 msgid "Abort"
@@ -813,9 +854,13 @@ msgstr "是(&Y)"
 msgid "Yes to &All"
 msgstr "全部选是(&A)"
 
+#: lclstrconsts.rsmedgraycolorcaption
+msgid "Medium Gray"
+msgstr "中灰"
+
 #: lclstrconsts.rsmenubarcolorcaption
 msgid "Menu Bar"
-msgstr ""
+msgstr "菜单条"
 
 #: lclstrconsts.rsmenucolorcaption
 msgctxt "lclstrconsts.rsmenucolorcaption"
@@ -824,15 +869,19 @@ msgstr "菜单"
 
 #: lclstrconsts.rsmenuhighlightcolorcaption
 msgid "Menu Highlight"
-msgstr ""
+msgstr "菜单高亮"
 
 #: lclstrconsts.rsmenutextcolorcaption
 msgid "Menu Text"
-msgstr ""
+msgstr "菜单文本"
 
 #: lclstrconsts.rsmodified
 msgid "  modified "
 msgstr "已更改"
+
+#: lclstrconsts.rsmoneygreencolorcaption
+msgid "Money Green"
+msgstr "钱青"
 
 #: lclstrconsts.rsmtconfirmation
 msgid "Confirmation"
@@ -855,10 +904,18 @@ msgstr "信息"
 msgid "Warning"
 msgstr "警告"
 
+#: lclstrconsts.rsnavycolorcaption
+msgid "Navy"
+msgstr "深蓝"
+
 #: lclstrconsts.rsnextrecordhint
 msgctxt "lclstrconsts.rsnextrecordhint"
 msgid "Next"
 msgstr "下一个"
+
+#: lclstrconsts.rsnonecolorcaption
+msgid "None"
+msgstr "无"
 
 #: lclstrconsts.rsnotavalidgridfile
 msgid "Not a valid grid file"
@@ -867,6 +924,10 @@ msgstr "不是有效的网格文件"
 #: lclstrconsts.rsnowidgetset
 msgid "No widgetset object. Please check if the unit \"interfaces\" was added to the programs uses clause."
 msgstr "没有窗口部件集合对象，请检查单元 \"interfaces\" 是否已添加到程序的uses语句中。"
+
+#: lclstrconsts.rsolivecolorcaption
+msgid "Olive"
+msgstr "橄榄"
 
 #: lclstrconsts.rspickdate
 msgid "Select a date"
@@ -894,10 +955,12 @@ msgstr "便携位图"
 
 #: lclstrconsts.rspostrecordhint
 msgid "Post"
-msgstr ""
+msgstr "提交"
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
-msgid "%s%sPress Ok to ignore and risk data corruption.%sPress Cancel to kill the program."
+#, fuzzy
+#| msgid "%s%sPress Ok to ignore and risk data corruption.%sPress Cancel to kill the program."
+msgid "%s%sPress OK to ignore and risk data corruption.%sPress Cancel to kill the program."
 msgstr "%s%s确定忽略但数据有遗失的风险。%s取消则终止程序."
 
 #: lclstrconsts.rspriorrecordhint
@@ -909,21 +972,29 @@ msgstr "优先"
 msgid "Property %s does not exist"
 msgstr "属性 %s 不存在"
 
+#: lclstrconsts.rspurplecolorcaption
+msgid "Purple"
+msgstr "紫"
+
 #: lclstrconsts.rsrasterimageendupdate
 msgid "Endupdate while no update in progress"
 msgstr ""
 
 #: lclstrconsts.rsrasterimagesaveinupdate
 msgid "Cannot save image while update in progress"
-msgstr ""
+msgstr "处理更新时候不能保存图片"
 
 #: lclstrconsts.rsrasterimageupdateall
 msgid "Cannot begin update all when canvas only update in progress"
 msgstr ""
 
+#: lclstrconsts.rsredcolorcaption
+msgid "Red"
+msgstr "红"
+
 #: lclstrconsts.rsrefreshrecordshint
 msgid "Refresh"
-msgstr ""
+msgstr "刷新"
 
 #: lclstrconsts.rsreplace
 msgid "Replace"
@@ -940,7 +1011,7 @@ msgstr "未找到资源 %s"
 
 #: lclstrconsts.rsscrollbarcolorcaption
 msgid "ScrollBar"
-msgstr ""
+msgstr "滚动条"
 
 #: lclstrconsts.rsscrollbaroutofrange
 msgid "ScrollBar property out of range"
@@ -954,9 +1025,21 @@ msgstr "选择颜色"
 msgid "Select a font"
 msgstr "选择字体"
 
+#: lclstrconsts.rssilvercolorcaption
+msgid "Silver"
+msgstr "银"
+
 #: lclstrconsts.rssize
 msgid "  size "
 msgstr "大小"
+
+#: lclstrconsts.rsskybluecolorcaption
+msgid "Sky Blue"
+msgstr "天蓝"
+
+#: lclstrconsts.rstealcolorcaption
+msgid "Teal"
+msgstr "青"
 
 #: lclstrconsts.rstext
 msgid "Text"
@@ -1002,6 +1085,10 @@ msgstr ""
 msgid " WARNING: There are %s unremoved LM_PAINT/LM_GtkPAINT message links left."
 msgstr ""
 
+#: lclstrconsts.rswhitecolorcaption
+msgid "White"
+msgstr "白"
+
 #: lclstrconsts.rswholewordsonly
 msgid "Whole words only"
 msgstr "仅整个单词"
@@ -1016,15 +1103,19 @@ msgstr "警告:"
 
 #: lclstrconsts.rswindowcolorcaption
 msgid "Window"
-msgstr ""
+msgstr "窗口"
 
 #: lclstrconsts.rswindowframecolorcaption
 msgid "Window Frame"
-msgstr ""
+msgstr "窗口框架"
 
 #: lclstrconsts.rswindowtextcolorcaption
 msgid "Window Text"
-msgstr ""
+msgstr "窗口文本"
+
+#: lclstrconsts.rsyellowcolorcaption
+msgid "Yellow"
+msgstr "黄"
 
 #: lclstrconsts.scannotfocus
 msgid "Cannot focus a disabled or invisible window"
