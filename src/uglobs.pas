@@ -561,7 +561,7 @@ begin
   gNewIconsSize:= gIconsSize;
   gCustomDriveIcons := gIni.ReadBool('Configuration', 'CustomDriveIcons', False);
 
-  gCutTextToColWidth := gIni.ReadBool('Configuration', 'CutTextToColWidth', False);
+  gCutTextToColWidth := gIni.ReadBool('Configuration', 'CutTextToColWidth', True);
 
   gViewerImageStretch:=  gIni.ReadBool('Viewer', 'Image.Stretch', False);
 
