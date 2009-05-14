@@ -681,8 +681,14 @@ begin
   Result:= UTF8Encode(wDir) + DirectorySeparator + ApplicationName;
 end;
 {$ELSE}
+var
+  uinfo: PPasswordRecord;
 begin
-  Result:= SysUtils.GetAppConfigDir(False);
+  uinfo:= getpwuid(fpGetUID);
+  if uinfo <> nil then
+    Result:= uinfo^.pw_dir + '/.config/' + ApplicationName
+  else
+    Result:= SysUtils.GetAppConfigDir(False);
 end;
 {$ENDIF}
 
