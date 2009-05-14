@@ -815,11 +815,11 @@ msgstr "Fecha inicial:"
 msgid "Date To:"
 msgstr "Fecha final:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
 msgstr "Día(s)"
 
-#, fuzzy
 #: TFRMFINDDLG.CBDIRECTORY.CAPTION
 msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
 msgid "Directory"
@@ -903,6 +903,7 @@ msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
 msgid "OK"
 msgstr "Aceptar"
 
+#, fuzzy
 #: TFRMFINDDLG.EDTATTRIB.HINT
 msgid "Use '-' to off attribute and '?' to any"
 msgstr ""
@@ -912,7 +913,6 @@ msgstr ""
 msgid "Find Data"
 msgstr "Buscar datos"
 
-#, fuzzy
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
 msgstr "Actual"
@@ -3251,6 +3251,14 @@ msgstr ""
 
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
+msgstr ""
+
+#: ulng.rsmsgwipefldr
+msgid "Wipe %d selected files/directories?"
+msgstr ""
+
+#: ulng.rsmsgwipesel
+msgid "Wipe selected \"%s\"?"
 msgstr ""
 
 #: ulng.rsmulrenfilenamestylelist
