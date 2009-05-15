@@ -2414,19 +2414,21 @@ end;
 procedure TfrmMain.ColumnsMenuClick(Sender: TObject);
 var
   frmColumnsSetConf: TfColumnsSetConf;
+  FrameFilePanel: TFrameFilePanel;
   Index: Integer;
 begin
+  FrameFilePanel:= (pmColumnsMenu.Parent as TFrameFilePanel);
   Case (Sender as TMenuItem).Tag of
     1000: //This
           begin
             Application.CreateForm(TfColumnsSetConf, frmColumnsSetConf);
             {EDIT Set}
-            frmColumnsSetConf.edtNameofColumnsSet.Text:=ColSet.GetColumnSet(ActiveFrame.ActiveColm).CurrentColumnsSetName;
-            Index:=ColSet.Items.IndexOf(ActiveFrame.ActiveColm);
+            frmColumnsSetConf.edtNameofColumnsSet.Text:=ColSet.GetColumnSet(FrameFilePanel.ActiveColm).CurrentColumnsSetName;
+            Index:=ColSet.Items.IndexOf(FrameFilePanel.ActiveColm);
             frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(1 + Index);
             frmColumnsSetConf.Tag:=Index;
             frmColumnsSetConf.ColumnClass.Clear;
-            frmColumnsSetConf.ColumnClass.Load(gIni,ActiveFrame.ActiveColm);
+            frmColumnsSetConf.ColumnClass.Load(gIni,FrameFilePanel.ActiveColm);
             {EDIT Set}
             frmColumnsSetConf.ShowModal;
 
@@ -2444,9 +2446,9 @@ begin
 
   else
     begin
-      ActiveFrame.ActiveColm:=ColSet.Items[(Sender as TMenuItem).Tag];
-      ActiveFrame.SetColWidths;
-      ActiveFrame.UpdateColumnsView;
+      FrameFilePanel.ActiveColm:=ColSet.Items[(Sender as TMenuItem).Tag];
+      FrameFilePanel.SetColWidths;
+      FrameFilePanel.UpdateColumnsView;
 //      ActiveFrame.dgPanel.ColCount:=ColSet.GetColumnSet(ActiveFrame.ActiveColm).ColumnsCount;
 
 //      if ColSet.GetColumnSet(ActiveFrame.ActiveColm).ColumnsCount>0 then
@@ -2472,6 +2474,7 @@ begin
 
           //Load Columns into menu
           pmColumnsMenu.Items.Clear;
+          pmColumnsMenu.Parent:= (Sender as TDrawGridEx).Parent;
           if ColSet.Items.Count>0 then
             begin
               For I:=0 to ColSet.Items.Count-1 do
