@@ -412,6 +412,11 @@ begin
   SearchTemplate.NotOlderThan:= seNotOlderThan.Value + cbDelayUnit.ItemIndex/10;
   PrepareSearch;
   FFindThread.FillSearchRecord(SearchTemplate.SearchRecord);
+  if SearchTemplate.IsNotOlderThan then
+    begin
+      SearchTemplate.SearchRecord.rIsDateFrom:= False;
+      SearchTemplate.SearchRecord.rIsTimeFrom:= False;
+    end;
   gSearchTemplateList.Add(SearchTemplate);
   FreeAndNil(FFindThread);
   tsLoadSaveShow(nil);
