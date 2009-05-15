@@ -251,6 +251,7 @@ begin
   btnStart.Default := True;
 {$ENDIF}
 
+  cbDelayUnit.ItemIndex:= 2;
   edtFindPathStart.ShowHidden := gShowSystemFiles;
 end;
 
