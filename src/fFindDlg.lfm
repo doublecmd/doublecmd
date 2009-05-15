@@ -465,6 +465,7 @@ object frmFindDlg: TfrmFindDlg
             'Year(s)'
           )
           ItemWidth = 0
+          Style = csDropDownList
           TabOrder = 10
         end
         object cbFileSizeFrom: TCheckBox
