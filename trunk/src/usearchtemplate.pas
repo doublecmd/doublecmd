@@ -76,6 +76,8 @@ function TSearchTemplate.CheckFileDate(DateTime: TDateTime): Boolean;
 var
   dtNow: TDateTime;
   iCount: Integer;
+  bIsDateFrom,
+  bIsTimeFrom: Boolean;
 begin
   Result:= True;
   with SearchRecord do
@@ -87,41 +89,41 @@ begin
         case Round(Frac(FNotOlderThan)*10) of
         0:  //Minute(s)
           begin
-            rIsDateFrom:= True;
-            rIsTimeFrom:= True;
+            bIsDateFrom:= True;
+            bIsTimeFrom:= True;
             rDateTimeFrom:= IncMinute(dtNow, iCount);
           end;
         1:  //Hour(s)
           begin
-            rIsDateFrom:= True;
-            rIsTimeFrom:= True;
+            bIsDateFrom:= True;
+            bIsTimeFrom:= True;
             rDateTimeFrom:= IncHour(dtNow, iCount);
           end;
         2:  //Day(s)
           begin
-            rIsDateFrom:= True;
+            bIsDateFrom:= True;
             rDateTimeFrom:= IncDay(dtNow, iCount);
           end;
         3:  //Week(s)
           begin
-            rIsDateFrom:= True;
+            bIsDateFrom:= True;
             rDateTimeFrom:= IncWeek(dtNow, iCount);
           end;
         4:  //Month(s)
           begin
-            rIsDateFrom:= True;
+            bIsDateFrom:= True;
             rDateTimeFrom:= IncMonth(dtNow, iCount);
           end;
         5:  //Year(s)
           begin
-            rIsDateFrom:= True;
+            bIsDateFrom:= True;
             rDateTimeFrom:= IncYear(dtNow, iCount);
           end;
         end;
       end;
 
     (* Check date from *)
-    if rIsDateFrom then
+    if rIsDateFrom or bIsDateFrom then
       Result:= (Int(DateTime) >= Int(rDateTimeFrom));
 
     (* Check time to *)
@@ -129,7 +131,7 @@ begin
       Result:= (Int(DateTime) <= Int(rDateTimeTo));
 
     (* Check time from *)
-    if (rIsTimeFrom and Result) then
+    if ((rIsTimeFrom or bIsTimeFrom) and Result) then
       Result:= (CompareTime(DateTime, rDateTimeFrom) >= 0);
 
     //DebugLn('Time From = ', FloatToStr(rDateTimeFrom), ' File time = ', FloatToStr(DateTime), ' Result = ', BoolToStr(Result));
