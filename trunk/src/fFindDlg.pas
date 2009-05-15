@@ -341,7 +341,7 @@ begin
     if SearchTemplate.IsNotOlderThan then
       begin
         seNotOlderThan.Value:= Trunc(SearchTemplate.NotOlderThan);
-        cbDelayUnit.ItemIndex:= Trunc(Frac(SearchTemplate.NotOlderThan)*10);
+        cbDelayUnit.ItemIndex:= Round(Frac(SearchTemplate.NotOlderThan)*10);
       end;
     // file size
     cbFileSizeFrom.Checked:= rIsFileSizeFrom;

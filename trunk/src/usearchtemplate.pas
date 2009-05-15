@@ -84,7 +84,7 @@ begin
       begin
         dtNow:= Now;
         iCount:= -Trunc(FNotOlderThan);
-        case Trunc(Frac(FNotOlderThan)*10) of
+        case Round(Frac(FNotOlderThan)*10) of
         0:  //Minute(s)
           begin
             rIsDateFrom:= True;
