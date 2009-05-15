@@ -212,7 +212,6 @@ object frmOptions: TfrmOptions
             Height = 17
             Top = 6
             Width = 151
-            AllowGrayed = True
             BorderSpacing.Top = 6
             Caption = 'Select directory with keypad'
             TabOrder = 0
@@ -224,7 +223,6 @@ object frmOptions: TfrmOptions
             Height = 17
             Top = 52
             Width = 120
-            AllowGrayed = True
             BorderSpacing.Top = 6
             Caption = 'Case sensitive sorting'
             TabOrder = 1
@@ -236,7 +234,6 @@ object frmOptions: TfrmOptions
             Height = 17
             Top = 29
             Width = 111
-            AllowGrayed = True
             BorderSpacing.Top = 6
             Caption = 'Lynx like movement'
             TabOrder = 2
@@ -248,7 +245,6 @@ object frmOptions: TfrmOptions
             Height = 17
             Top = 75
             Width = 112
-            AllowGrayed = True
             BorderSpacing.Top = 6
             Caption = 'Short Filesize format'
             TabOrder = 3
