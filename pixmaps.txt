@@ -11,6 +11,7 @@ mp2=sound.png
 mp3=sound.png
 ods=spreadsheet.png
 odt=wordprocessing.png
+pas=text-x-pascal.png
 pdf=pdf.png
 po=gettext.png
 rpm=rpm.png
