@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.45 alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-08 21:14+0300\n"
+"POT-Creation-Date: 2009-05-14 23:57+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: \n"
@@ -924,7 +924,7 @@ msgstr "Verzeichnis in dem DoubleCommander suchen soll"
 
 #: TFRMFINDDLG.LBLFOUND.CAPTION
 msgid "Found"
-msgstr ""
+msgstr "Gefunden"
 
 #: TFRMFINDDLG.LBLINFO.CAPTION
 msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
@@ -1132,7 +1132,7 @@ msgstr "Tastatur"
 
 #: TFRMMAIN.ACTLEFTEQUALRIGHT.CAPTION
 msgid "Left &= Right"
-msgstr ""
+msgstr "Links &= Rechts"
 
 #: TFRMMAIN.ACTLEFTOPENDRIVES.CAPTION
 msgid "Open left drive list"
@@ -1243,7 +1243,7 @@ msgstr "Umgekehrt anordnen"
 
 #: TFRMMAIN.ACTRIGHTEQUALLEFT.CAPTION
 msgid "Right &= Left"
-msgstr ""
+msgstr "Rechts &= Links"
 
 #: TFRMMAIN.ACTRIGHTOPENDRIVES.CAPTION
 msgid "Open right drive list"
@@ -1883,7 +1883,7 @@ msgstr "Entfernen"
 
 #: TFRMOPTIONS.BTNSEARCHTEMPLATE.CAPTION
 msgid "Template..."
-msgstr ""
+msgstr "Vorlage..."
 
 #: TFRMOPTIONS.BTNSELEDITFNT.CAPTION
 msgctxt "TFRMOPTIONS.BTNSELEDITFNT.CAPTION"
@@ -1938,7 +1938,7 @@ msgstr "Text auf Spaltenbreite kürzen"
 
 #: TFRMOPTIONS.CBDELETETOTRASH.CAPTION
 msgid "&F8/Del deletes to recycle bin (Shift=directly)"
-msgstr ""
+msgstr "&F8/Entf löscht in den Papierkorb (mit 'Umschalt'=endgültig)"
 
 #: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
 msgid "Show square brackets around directories"
@@ -2268,7 +2268,7 @@ msgstr ""
 
 #: TFRMOPTIONS.LBHOTKEYS.CAPTION
 msgid "Hot Keys"
-msgstr ""
+msgstr "Tastenkombination"
 
 #: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
 msgid "Background 2:"
@@ -2910,7 +2910,7 @@ msgstr "Verzeichnis %s existiert nicht!"
 
 #: ulng.rsfindfound
 msgid "Found: %d"
-msgstr ""
+msgstr "Gefunden: %d"
 
 #: ulng.rsfindsavetemplatecaption
 msgid "Save search template"
@@ -2926,7 +2926,7 @@ msgstr "Gelesen: %d"
 
 #: ulng.rsfindscanning
 msgid "Scanning"
-msgstr ""
+msgstr "Suche"
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
@@ -3007,7 +3007,7 @@ msgstr "Löschen von %d Dateien / Verzeichnissen?"
 
 #: ulng.rsmsgdelfldrt
 msgid "Delete %d selected files/directories into trash can?"
-msgstr ""
+msgstr "%d markierte Dateien/Ordner in den Papierkorb löschen?"
 
 #: ulng.rsmsgdelsel
 msgid "Delete selected \"%s\"?"
@@ -3015,7 +3015,7 @@ msgstr "Markierte \"%s löschen\"?"
 
 #: ulng.rsmsgdelselt
 msgid "Delete selected \"%s\" into trash can?"
-msgstr ""
+msgstr "Markierte \"%s\" in den Papierkorb löschen?"
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
@@ -3087,7 +3087,7 @@ msgstr "Funktion wird nicht unterstützt!"
 
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
-msgstr ""
+msgstr "Syntax-fehler im regulären Ausdruck!"
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -3119,11 +3119,11 @@ msgstr "Sym-Link folgen"
 
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
-msgstr ""
+msgstr "Ungültiger Dateiname"
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
-msgstr ""
+msgstr "Ungültige Auswahl"
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
@@ -3183,7 +3183,7 @@ msgstr "Nächster Teil wird entpackt"
 
 #: ulng.rsmsgnofilesselected
 msgid "No files selected."
-msgstr ""
+msgstr "Keine Dateien ausgewählt."
 
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
@@ -3199,7 +3199,7 @@ msgstr "Kann Datei %s nicht löschen"
 
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
-msgstr ""
+msgstr "Nicht möglich."
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
@@ -3239,7 +3239,7 @@ msgstr "Laufwerksbezeichnung angeben"
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
-msgstr ""
+msgstr "Zuviele Dateien ausgewählt."
 
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
@@ -3247,11 +3247,11 @@ msgstr "Laufwerksbezeichnung:"
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
-msgstr ""
+msgstr "%d markierte Dateien/Ordner sicher löschen?"
 
 #: ulng.rsmsgwipesel
 msgid "Wipe selected \"%s\"?"
-msgstr ""
+msgstr "Markierte \"%s\" sicher löschen?"
 
 #: ulng.rsmulrenfilenamestylelist
 msgid "No change;UPPERCASE;lowercase;First Char Big;"
