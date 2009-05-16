@@ -418,15 +418,15 @@ begin
       // load theme icons
       for I:= 0 to slGenericIcons.Count - 1 do
         begin
+          sExt:= slGenericIcons.Names[I];
+          if FExtList.IndexOf(sExt) >= 0 then Continue;
           pgcIconName:= Pgchar(slGenericIcons.ValueFromIndex[I]);
           pbPicture:= gtk_icon_theme_load_icon(GtkIconTheme, pgcIconName, gIconsSize, GTK_ICON_LOOKUP_NO_SVG, nil);
-          sExt:= slGenericIcons.Names[I];
           //WriteLn(sExt, ' = ', pgcIconName);
           if pbPicture <> nil then
             begin
               iPixMap:= FPixbufList.AddObject(sExt, TObject(pbPicture));
-              if FExtList.IndexOf(sExt) < 0 then
-                FExtList.AddObject(sExt, TObject(iPixMap));
+              FExtList.AddObject(sExt, TObject(iPixMap));
             end;
         end;
     end;
@@ -442,14 +442,15 @@ var
 begin
   try
     Result:= False;
+    // load mime types list
     globs:= TStringListEx.Create;
     globs.NameValueSeparator:= ':';
     globs.LoadFromFile('/usr/share/mime/globs');
-
+    // load generic icons list
     generic_icons:= TStringListEx.Create;
     generic_icons.NameValueSeparator:= ':';
     generic_icons.LoadFromFile('/usr/share/mime/generic-icons');
-    // fill icons list
+    // fill icons list (format "extension=iconname")
     for I:= 0 to globs.Count - 1 do
       begin
         sIconName:= generic_icons.Values[globs.Names[I]];
