@@ -1,8 +1,8 @@
-avi=video.png
+avi=video-x-generic.png
 deb=deb.png
 doc=wordprocessing.png
-htm=html.png
-html=html.png
+htm=text-html.png
+html=text-html.png
 iso=cdimage.png
 jpeg=image.png
 jpg=image.png
