@@ -16,5 +16,5 @@ pdf=pdf.png
 po=gettext.png
 rpm=rpm.png
 sh=shellscript.png
-txt=txt.png
+txt=text-x-generic.png
 xls=spreadsheet.png
