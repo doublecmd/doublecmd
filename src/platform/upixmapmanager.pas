@@ -34,7 +34,7 @@ unit uPixMapManager;
 
 interface
 uses
-  Classes, SysUtils, uTypes, contnrs, Graphics, uOSUtils;
+  Classes, SysUtils, uTypes, contnrs, Graphics, uClassesEx, uOSUtils;
 
 type
   TDriveIcons = record
@@ -72,6 +72,10 @@ type
   protected
     function CheckLoadPixmap(const sName:String; bUsePixmapPath : Boolean = True) : TBitmap;
     function CheckAddPixmap(const sName:String; bUsePixmapPath : Boolean = True):Integer;
+  {$IF DEFINED(UNIX) and DEFINED(LCLGTK2)}
+    procedure LoadMimeIcons;
+    function GetGenericIcons(const slGenericIcons: TStringListEx): Boolean;
+  {$ENDIF}
   public
     constructor Create;
     destructor Destroy; override;
@@ -394,6 +398,74 @@ begin
   {$ENDIF}
 end;
 
+{$IF DEFINED(UNIX) and DEFINED(LCLGTK2)}
+procedure TPixMapManager.LoadMimeIcons;
+var
+  GtkIconTheme: PGtkIconTheme;
+  pbPicture: PGdkPixbuf;
+  slGenericIcons: TStringListEx;
+  I: Integer;
+  iPixMap: PtrInt;
+  pgcIconName: Pgchar;
+  sExt: String;
+begin
+  slGenericIcons:= TStringListEx.Create;
+  //slGenericIcons.LoadFromFile(gpIniDir + 'mimetypes.txt');
+  if GetGenericIcons(slGenericIcons) then
+    begin
+      // get current gtk theme
+      GtkIconTheme:= gtk_icon_theme_get_for_screen(gdk_screen_get_default);
+      // load theme icons
+      for I:= 0 to slGenericIcons.Count - 1 do
+        begin
+          pgcIconName:= Pgchar(slGenericIcons.ValueFromIndex[I]);
+          pbPicture:= gtk_icon_theme_load_icon(GtkIconTheme, pgcIconName, gIconsSize, GTK_ICON_LOOKUP_NO_SVG, nil);
+          sExt:= slGenericIcons.Names[I];
+          //WriteLn(sExt, ' = ', pgcIconName);
+          if pbPicture <> nil then
+            begin
+              iPixMap:= FPixbufList.AddObject(sExt, TObject(pbPicture));
+              if FExtList.IndexOf(sExt) < 0 then
+                FExtList.AddObject(sExt, TObject(iPixMap));
+            end;
+        end;
+    end;
+  slGenericIcons.Free;
+end;
+
+function TPixMapManager.GetGenericIcons(const slGenericIcons: TStringListEx): Boolean;
+var
+  globs,
+  generic_icons: TStringListEx;
+  I: Integer;
+  sIconName: String;
+begin
+  try
+    Result:= False;
+    globs:= TStringListEx.Create;
+    globs.NameValueSeparator:= ':';
+    globs.LoadFromFile('/usr/share/mime/globs');
+
+    generic_icons:= TStringListEx.Create;
+    generic_icons.NameValueSeparator:= ':';
+    generic_icons.LoadFromFile('/usr/share/mime/generic-icons');
+    // fill icons list
+    for I:= 0 to globs.Count - 1 do
+      begin
+        sIconName:= generic_icons.Values[globs.Names[I]];
+        if sIconName <> '' then
+          slGenericIcons.Add(PChar(globs.ValueFromIndex[I])+2 + '=' + sIconName);
+      end;
+    Result:= True;
+  finally
+    if Assigned(globs) then
+      FreeAndNil(globs);
+    if Assigned(generic_icons) then
+      FreeAndNil(generic_icons);
+  end;
+end;
+{$ENDIF}
+
 constructor TPixMapManager.Create;
 {$IFDEF MSWINDOWS}
 var
@@ -587,7 +659,10 @@ begin
   Plugins.Free;
   
   (* /Set archive icons *)
-  
+
+  {$IF DEFINED(UNIX) and DEFINED(LCLGTK2)}
+  LoadMimeIcons;
+  {$ENDIF}
 end;
 
 function TPixMapManager.GetBitmap(iIndex: Integer; BkColor : TColor): Graphics.TBitmap;
