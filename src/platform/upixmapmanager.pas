@@ -493,22 +493,21 @@ begin
         generic_icons:= TStringListEx.Create;
         generic_icons.NameValueSeparator:= ':';
         generic_icons.LoadFromFile(mime_generic_icons);
-        // fill icons list (format "extension=mimeiconname:genericiconname")
-        for I:= 0 to globs.Count - 1 do
-          begin
-            sGenericIconName:= IfThen(Assigned(generic_icons), generic_icons.Values[globs.Names[I]]);
-            if sGenericIconName <> '' then // if mime has generic icon
-              begin
-                sMimeIconName:= StringReplace(globs.Names[I], '/', '-', []);
-                slGenericIcons.Add(PChar(globs.ValueFromIndex[I])+2 + '=' + sMimeIconName + ':' + sGenericIconName);
-              end
-            else
-              begin
-                sMimeIconName:= StringReplace(globs.Names[I], '/', '-', []);
-                slGenericIcons.Add(PChar(globs.ValueFromIndex[I])+2 + '=' + sMimeIconName);
-              end;
-          end;
       end;
+    // fill icons list (format "extension=mimeiconname:genericiconname")
+    if Assigned(generic_icons) then
+      for I:= 0 to globs.Count - 1 do
+        begin
+          sGenericIconName:= ':' + generic_icons.Values[globs.Names[I]];
+          sMimeIconName:= StringReplace(globs.Names[I], '/', '-', []);
+          slGenericIcons.Add(PChar(globs.ValueFromIndex[I])+2 + '=' + sMimeIconName + sGenericIconName);
+        end
+    else
+      for I:= 0 to globs.Count - 1 do
+        begin
+          sMimeIconName:= StringReplace(globs.Names[I], '/', '-', []);
+          slGenericIcons.Add(PChar(globs.ValueFromIndex[I])+2 + '=' + sMimeIconName);
+        end;
     Result:= True;
   finally
     if Assigned(globs) then
