@@ -469,6 +469,9 @@ begin
 end;
 
 function TPixMapManager.GetGenericIcons(const slGenericIcons: TStringListEx): Boolean;
+const
+  mime_globs = '/usr/share/mime/globs';
+  mime_generic_icons = '/usr/share/mime/generic-icons';
 var
   globs,
   generic_icons: TStringListEx;
@@ -478,18 +481,23 @@ var
 begin
   try
     Result:= False;
+    globs:= nil;
+    generic_icons:= nil;
     // load mime types list
     globs:= TStringListEx.Create;
     globs.NameValueSeparator:= ':';
-    globs.LoadFromFile('/usr/share/mime/globs');
-    // load generic icons list
-    generic_icons:= TStringListEx.Create;
-    generic_icons.NameValueSeparator:= ':';
-    generic_icons.LoadFromFile('/usr/share/mime/generic-icons');
+    globs.LoadFromFile(mime_globs);
+    // try to load generic icons list
+    if mbFileExists(mime_generic_icons) then
+      begin
+        generic_icons:= TStringListEx.Create;
+        generic_icons.NameValueSeparator:= ':';
+        generic_icons.LoadFromFile(mime_generic_icons);
+      end;
     // fill icons list (format "extension=mimeiconname:genericiconname")
     for I:= 0 to globs.Count - 1 do
       begin
-        sGenericIconName:= generic_icons.Values[globs.Names[I]];
+        sGenericIconName:= IfThen(Assigned(generic_icons), generic_icons.Values[globs.Names[I]]);
         if sGenericIconName <> '' then // if mime has generic icon
           begin
             sMimeIconName:= StringReplace(globs.Names[I], '/', '-', []);
