@@ -1282,33 +1282,15 @@ begin
   Result := (SHFileOperationW(@FileOp) = 0) and (not FileOp.fAnyOperationsAborted);
 end;
 {$ELSE}
-// 12.05.2009
-// implementation via 'gvfs-trash' application
+// 12.05.2009 - implementation via 'gvfs-trash' application
 var f: textfile;
+    s: string;
 begin
-  {
-   1. Не разобрался до конца, что возвращает popen() при ошибках.
-   Судя по ее коду - всегда ноль.
-   2. Возможно, стоит добавить сюда try..finally ?
-  }
-// мы должны проверить файл на возможность записи, прежде, чем пытаться удалять его. 
-// если нет записи - возвращать ошибку удаления.
-//1-й вариант
-  If (popen(f, _PATH_GVFS_TRASH + #32 + FileName, 'r') = 0) then  // try to delete.
-   Result := True
-  else Result := False;
+  popen(f, _PATH_GVFS_TRASH + #32 + FileName, 'r');     // try to delete.
+  readln(f,s);
+  If (Pos('Error trashing',s) = 1) then Result := false // 17.05.2009 - return result from gvfs-trash;
+  else Result := true;
   pclose(f);
-
-//2-й вариант
-{
-  If mbFileAccess(FileName,1) then   // в параметр нужно передать W or R+W
-   begin
-     popen(f, _PATH_GVFS_TRASH + #32 + FileName, 'r');  // try to delete. 
-     pclose(f);
-     Result := True;
-   end
-  else Result := False;
-}
 end;
 {$ENDIF}
 // --------------------------------------------------------------------------------
@@ -1317,17 +1299,15 @@ end;
 function mbCheckTrash: Boolean;
 begin
 {$IFDEF UNIX}
- // Checking gvfs-trash.
- Result := mbFileExists(_PATH_GVFS_TRASH);
- If Result then DebugLN('linux trash on')
- else DebugLN('linux trash off');
+  // Checking gvfs-trash.
+  Result := mbFileExists(_PATH_GVFS_TRASH);
 {$ELSE}
- // 14.05.2009
- {
-  сюда можно поставить проверку на доступность корзины в Windows
-  конкретного способа пока не знаю. Предполагаю, для этого нужно лезть в реестр винды.
- }
- Result := true; {stub}
+  // 14.05.2009
+  {
+   сюда можно поставить проверку на доступность корзины в Windows
+   конкретного способа пока не знаю. Предполагаю, для этого нужно лезть в реестр винды.
+  }
+  Result := true; {stub}
 {$ENDIF}
 end;
 // --------------------------------------------------------------------------------
