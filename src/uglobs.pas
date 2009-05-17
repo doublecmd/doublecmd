@@ -264,6 +264,7 @@ begin
       AddHotKey('Ctrl+H','cm_DirHistory','','FrmMain','FrmMain');
       AddHotKey('Ctrl+7','cm_ShowCmdLineHistory','','FrmMain','FrmMain');
       AddHotKey('Ctrl+L','cm_CalculateSpace','','FrmMain','FrmMain');
+      AddHotKey('Alt+Shift+Enter','cm_CountDirContent','','FrmMain','FrmMain');
       AddHotKey('Alt+Enter','cm_FileProperties','','FrmMain','FrmMain');
       AddHotKey('Ctrl+T','cm_NewTab','','FrmMain','FrmMain');
       AddHotKey('Ctrl+W','cm_RemoveTab','','FrmMain','FrmMain');

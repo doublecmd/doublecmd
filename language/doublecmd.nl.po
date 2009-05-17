@@ -811,11 +811,11 @@ msgstr "Hoofdletter gevoelig"
 msgid "Date From:"
 msgstr "Datum van:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBDATETO.CAPTION
 msgid "Date To:"
 msgstr "Datum tot:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
 msgstr "Dag(en)"
@@ -898,6 +898,7 @@ msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
 msgid "Cancel"
 msgstr "Afbreken"
 
+#, fuzzy
 #: TFRMFINDDLG.DEDATETO.OKCAPTION
 msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
 msgid "OK"
@@ -908,7 +909,6 @@ msgstr "OK"
 msgid "Use '-' to off attribute and '?' to any"
 msgstr ""
 
-#, fuzzy
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
 msgstr "Zoek Data"
@@ -1035,6 +1035,10 @@ msgstr "Kopiëer pad naar commandoregel"
 msgid "Calculate &Occupied Space..."
 msgstr "Bereken gebruikte ruimte..."
 
+#: TFRMMAIN.ACTCHANGEDIRTOROOT.CAPTION
+msgid "Change directory to root"
+msgstr ""
+
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
 msgstr "Vergelijk met Inhoud"
@@ -1062,6 +1066,10 @@ msgstr "Kopiëer naar zelfde paneel"
 #: TFRMMAIN.ACTCOPYTOCLIPBOARD.CAPTION
 msgid "&Copy"
 msgstr "Kopiëren"
+
+#: TFRMMAIN.ACTCOUNTDIRCONTENT.CAPTION
+msgid "Sho&w occupied space"
+msgstr ""
 
 #: TFRMMAIN.ACTCUTTOCLIPBOARD.CAPTION
 msgid "Cu&t"
@@ -1497,6 +1505,10 @@ msgstr "-"
 msgctxt "TFRMMAIN.MILINE2.CAPTION"
 msgid "-"
 msgstr "-"
+
+#: TFRMMAIN.MILINE22.CAPTION
+msgid "-"
+msgstr ""
 
 #: TFRMMAIN.MILINE3.CAPTION
 msgctxt "TFRMMAIN.MILINE3.CAPTION"

@@ -1,4 +1,5 @@
-﻿14.03.2009 FIX: Bug [ 2650798 ] WCX plugins not work property...
+﻿17.05.2009 ADD: Feature Request [2777123] Show occupied space
+14.03.2009 FIX: Bug [ 2650798 ] WCX plugins not work property...
 --------------------------------------------------------------------------------
 28.02.2009 Release Double Commander 0.4 beta
 --------------------------------------------------------------------------------

@@ -130,6 +130,7 @@ const cf_Null=0;
    procedure cm_RunTerm(param: string='');
    procedure cm_ShowCmdLineHistory(param: string='');
    procedure cm_CalculateSpace(param: string='');
+   procedure cm_CountDirContent(param: string='');
    procedure cm_FileProperties(param: string='');
    procedure cm_FileLinker(param: string='');
    procedure cm_FileSpliter(param: string='');
@@ -1735,6 +1736,47 @@ begin
     // Selection validation in CalculateSpace.
     frmMain.CalculateSpace(True);
   end;
+end;
+
+procedure TActs.cm_CountDirContent(param: string);
+var
+  I: Integer;
+  dstFileList: TFileList;
+  p: TFileRecItem;
+begin
+  with frmMain, ActiveFrame do
+  begin
+    if pnlFile.PanelMode <> pmDirectory then Exit;
+    Screen.Cursor:= crHourGlass;
+    for I:= 0 to pnlFile.FileList.Count - 1 do
+      begin
+        p:= pnlFile.FileList.GetItem(I)^;
+        if (not FPS_ISDIR(p.iMode)) or (p.sName = '..') then Continue;
+        p.sNameNoExt:= p.sName;
+        p.sName:= ActiveDir + p.sNameNoExt;
+        p.sPath:= '';
+        //DebugLn(p.sName);
+        dstFileList:= TFileList.Create; // free at Thread end by thread
+        dstFileList.CurrentDirectory:= ActiveDir;
+        dstFileList.AddItem(@p);
+        Application.ProcessMessages;
+        with TSpaceThread.Create(dstFileList, False) do
+        begin
+          // start thread
+          Resume;
+          // wait while calculating
+          WaitFor;
+          // set up directory size
+          pnlFile.FileList.GetItem(I)^.iDirSize:= FilesSize;
+          // free space thread
+          Free;
+          // update panel
+          pnlFile.UpdatePanel;
+          RedrawGrid;
+       end; // with
+      end; // for
+  end; // with
+  Screen.Cursor:= crDefault;
 end;
 
 procedure TActs.cm_FileProperties(param:string);

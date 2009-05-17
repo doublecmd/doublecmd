@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 366
+  Left = 182
   Height = 659
-  Top = 175
+  Top = 54
   Width = 659
   ActiveControl = nbRight
   Caption = 'Double Commander'
@@ -27,6 +27,7 @@ object frmMain: TfrmMain
   LCLVersion = '0.9.27'
   Visible = True
   object pnlSyncSize: TPanel
+    Left = 0
     Height = 26
     Top = 24
     Width = 659
@@ -39,6 +40,7 @@ object frmMain: TfrmMain
     object pnlDisk: TPanel
       Left = 134
       Height = 26
+      Top = 0
       Width = 525
       Align = alRight
       ClientHeight = 26
@@ -83,6 +85,7 @@ object frmMain: TfrmMain
     end
   end
   object pnlNotebooks: TPanel
+    Left = 0
     Height = 499
     Top = 50
     Width = 659
@@ -105,6 +108,7 @@ object frmMain: TfrmMain
       OnDblClick = pnlLeftRightDblClick
       OnResize = pnlLeftResize
       object nbLeft: TNotebook
+        Left = 0
         Height = 299
         Top = 24
         Width = 170
@@ -118,7 +122,9 @@ object frmMain: TfrmMain
         TabOrder = 0
       end
       object pnlLeftTools: TPanel
+        Left = 0
         Height = 24
+        Top = 0
         Width = 170
         Align = alTop
         BevelOuter = bvNone
@@ -126,7 +132,9 @@ object frmMain: TfrmMain
         ClientWidth = 170
         TabOrder = 1
         object btnLeftDrive: TSpeedButton
+          Left = 0
           Height = 24
+          Top = 0
           Width = 48
           Action = actLeftOpenDrives
           Align = alLeft
@@ -137,6 +145,7 @@ object frmMain: TfrmMain
         object btnLeftHome: TSpeedButton
           Left = 124
           Height = 24
+          Top = 0
           Width = 23
           Align = alRight
           Caption = '~'
@@ -147,6 +156,7 @@ object frmMain: TfrmMain
         object btnLeftUp: TSpeedButton
           Left = 101
           Height = 24
+          Top = 0
           Width = 23
           Align = alRight
           Caption = '..'
@@ -157,6 +167,7 @@ object frmMain: TfrmMain
         object btnLeftRoot: TSpeedButton
           Left = 78
           Height = 24
+          Top = 0
           Width = 23
           Align = alRight
           Caption = '/'
@@ -167,6 +178,7 @@ object frmMain: TfrmMain
         object lblLeftDriveInfo: TLabel
           Left = 48
           Height = 24
+          Top = 0
           Width = 7
           Align = alClient
           Alignment = taCenter
@@ -176,6 +188,7 @@ object frmMain: TfrmMain
         object btnLeftDirectoryHotlist: TSpeedButton
           Left = 55
           Height = 24
+          Top = 0
           Width = 23
           Align = alRight
           Caption = '*'
@@ -186,6 +199,7 @@ object frmMain: TfrmMain
         object btnLeftTargetEqualSource: TSpeedButton
           Left = 147
           Height = 24
+          Top = 0
           Width = 23
           Action = actTargetEqualSource
           Align = alRight
@@ -208,6 +222,7 @@ object frmMain: TfrmMain
       TabOrder = 1
       OnDblClick = pnlLeftRightDblClick
       object nbRight: TNotebook
+        Left = 0
         Height = 299
         Top = 24
         Width = 484
@@ -221,7 +236,9 @@ object frmMain: TfrmMain
         TabOrder = 0
       end
       object pnlRightTools: TPanel
+        Left = 0
         Height = 24
+        Top = 0
         Width = 484
         Align = alTop
         BevelOuter = bvNone
@@ -229,7 +246,9 @@ object frmMain: TfrmMain
         ClientWidth = 484
         TabOrder = 1
         object btnRightDrive: TSpeedButton
+          Left = 0
           Height = 24
+          Top = 0
           Width = 48
           Action = actRightOpenDrives
           Align = alLeft
@@ -240,6 +259,7 @@ object frmMain: TfrmMain
         object btnRightHome: TSpeedButton
           Left = 438
           Height = 24
+          Top = 0
           Width = 23
           Align = alRight
           Caption = '~'
@@ -250,6 +270,7 @@ object frmMain: TfrmMain
         object btnRightUp: TSpeedButton
           Left = 415
           Height = 24
+          Top = 0
           Width = 23
           Align = alRight
           Caption = '..'
@@ -260,6 +281,7 @@ object frmMain: TfrmMain
         object btnRightRoot: TSpeedButton
           Left = 392
           Height = 24
+          Top = 0
           Width = 23
           Align = alRight
           Caption = '/'
@@ -270,6 +292,7 @@ object frmMain: TfrmMain
         object lblRightDriveInfo: TLabel
           Left = 48
           Height = 24
+          Top = 0
           Width = 321
           Align = alClient
           Alignment = taCenter
@@ -279,6 +302,7 @@ object frmMain: TfrmMain
         object btnRightDirectoryHotlist: TSpeedButton
           Left = 369
           Height = 24
+          Top = 0
           Width = 23
           Align = alRight
           Caption = '*'
@@ -289,6 +313,7 @@ object frmMain: TfrmMain
         object btnRightTargetEqualSource: TSpeedButton
           Left = 461
           Height = 24
+          Top = 0
           Width = 23
           Action = actTargetEqualSource
           Align = alRight
@@ -325,9 +350,9 @@ object frmMain: TfrmMain
         object lblCommandPath: TLabel
           AnchorSideTop.Side = asrCenter
           Left = 1
-          Height = 14
+          Height = 19
           Top = 5
-          Width = 23
+          Width = 29
           Alignment = taRightJustify
           Caption = 'Path'
           ParentColor = False
@@ -343,7 +368,6 @@ object frmMain: TfrmMain
           ItemHeight = 13
           OnExit = edtCommandExit
           OnKeyDown = edtCommandKeyDown
-          ParentCtl3D = False
           TabOrder = 0
           TabStop = False
         end
@@ -362,7 +386,9 @@ object frmMain: TfrmMain
           ClientWidth = 647
           ClientHeight = 131
           object CmdBox1: TCmdBox
+            Left = 0
             Height = 131
+            Top = 0
             Width = 647
             Align = alClient
             CaretColor = clWhite
@@ -372,11 +398,13 @@ object frmMain: TfrmMain
             CaretYShift = 3
             LineCount = 25
             Font.Color = clSilver
+            BackGroundColor = clBlack
             TabWidth = 60
             HistoryMax = 10
             InputSelColor = clBlue
             InputSelBackGround = clWhite
             CaretInterval = 500
+            EscapeCodeType = esctCmdBox
             GraphicalCharacterWidth = 10
             AutoFollow = True
           end
@@ -408,7 +436,9 @@ object frmMain: TfrmMain
     end
   end
   object MainToolBar: TKAStoolBar
+    Left = 0
     Height = 24
+    Top = 0
     Width = 659
     Align = alTop
     TabOrder = 2
@@ -422,6 +452,7 @@ object frmMain: TfrmMain
     EnvVar = '%commander_path%'
   end
   object pnlKeys: TPanel
+    Left = 0
     Height = 25
     Top = 614
     Width = 659
@@ -516,6 +547,7 @@ object frmMain: TfrmMain
     end
   end
   object seLogWindow: TSynEdit
+    Left = 0
     Height = 61
     Top = 553
     Width = 659
@@ -855,6 +887,7 @@ object frmMain: TfrmMain
   end
   object LogSplitter: TSplitter
     Cursor = crVSplit
+    Left = 0
     Height = 4
     Top = 549
     Width = 659
@@ -1008,6 +1041,13 @@ object frmMain: TfrmMain
         Action = actTargetEqualSource
         OnClick = actExecute
       end
+      object miLine22: TMenuItem
+        Caption = '-'
+      end
+      object mnuCountDirContent: TMenuItem
+        Action = actCountDirContent
+        OnClick = actExecute
+      end
     end
     object mnuTabs: TMenuItem
       Caption = '&Tabs'
@@ -1134,56 +1174,48 @@ object frmMain: TfrmMain
     object actExit: TAction
       Category = 'File'
       Caption = 'Exit'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actView: TAction
       Category = 'Classic'
       Caption = 'View F3'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actEdit: TAction
       Category = 'Classic'
       Caption = 'Edit F4'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actCopy: TAction
       Category = 'Classic'
       Caption = 'Copy F5'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actRename: TAction
       Category = 'Classic'
       Caption = 'Move F6'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMakeDir: TAction
       Category = 'Classic'
       Caption = 'MakeDir F7'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actDelete: TAction
       Category = 'Classic'
       Caption = 'Delete F8'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actAbout: TAction
       Category = 'Help'
       Caption = 'About'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
@@ -1191,442 +1223,374 @@ object frmMain: TfrmMain
       Category = 'File'
       Caption = 'Show hidden/system files'
       Checked = True
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actOptions: TAction
       Category = 'Config'
       Caption = 'Options...'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actCompareContents: TAction
       Category = 'File'
       Caption = 'Compare by &Contents'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actShowMenu: TAction
       Category = 'Classic'
       Caption = 'Menu F9'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actRefresh: TAction
       Category = 'Show'
       Caption = '&Refresh'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSearch: TAction
       Category = 'Commands'
       Caption = '&Search'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actDirHotList: TAction
       Category = 'Commands'
       Caption = 'Directory &hotlist'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMarkMarkAll: TAction
       Category = 'Mark'
       Caption = '&Select All'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMarkInvert: TAction
       Category = 'Mark'
       Caption = 'Invert Selections'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMarkUnmarkAll: TAction
       Category = 'Mark'
       Caption = 'Unselect All'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMarkPlus: TAction
       Category = 'Mark'
       Caption = 'Select a group'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMarkMinus: TAction
       Category = 'Mark'
       Caption = 'Unselect a group'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSymLink: TAction
       Category = 'File'
       Caption = 'Create symlink...'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actHardLink: TAction
       Category = 'File'
       Caption = 'Create link...'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actReverseOrder: TAction
       Category = 'Show'
       Caption = 'Reverse order'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSortByName: TAction
       Category = 'Show'
       Caption = 'Sort by name'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSortByExt: TAction
       Category = 'Show'
       Caption = 'Sort by extension'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSortBySize: TAction
       Category = 'Show'
       Caption = 'Sort by size'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSortByDate: TAction
       Category = 'Show'
       Caption = 'Sort by date'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSortByAttr: TAction
       Category = 'Show'
       Caption = 'Sort by attrib'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMultiRename: TAction
       Category = 'File'
       Caption = 'Multi Rename Tool'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actCopySamePanel: TAction
       Category = 'Commands'
       Caption = 'Copy to same panel'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actRenameOnly: TAction
       Category = 'Commands'
       Caption = 'Rename'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actEditNew: TAction
       Category = 'Commands'
       Caption = 'Edit new file'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actDirHistory: TAction
       Category = 'Commands'
       Caption = 'Directory history'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actShowCmdLineHistory: TAction
       Category = 'Commands'
       Caption = 'Show command line history'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actRunTerm: TAction
       Category = 'Commands'
       Caption = 'Run Term'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actCalculateSpace: TAction
       Category = 'File'
       Caption = 'Calculate &Occupied Space...'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actFileProperties: TAction
       Category = 'File'
       Caption = 'Show file properties'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actFileLinker: TAction
       Category = 'File'
       Caption = 'Link files'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actFileSpliter: TAction
       Category = 'File'
       Caption = 'Split file'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actNewTab: TAction
       Category = 'Tabs'
       Caption = 'New tab'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actRemoveTab: TAction
       Category = 'Tabs'
       Caption = 'Remove tab'
-      DisableIfNoHandler = True
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actPackFiles: TAction
       Category = 'File'
       Caption = 'Pack files...'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actExtractFiles: TAction
       Category = 'File'
       Caption = 'Extract files...'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actOpenVFSList: TAction
       Category = 'Commands'
       Caption = 'Open VFS List'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actLeftOpenDrives: TAction
       Category = 'Commands'
       Caption = 'Open left drive list'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actRightOpenDrives: TAction
       Category = 'Commands'
       Caption = 'Open right drive list'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actAddPathToCmdLine: TAction
       Category = 'Commands'
       Caption = 'Copy path to command line'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actFocusCmdLine: TAction
       Category = 'Commands'
       Caption = 'Focus command line'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actTransferLeft: TAction
       Category = 'Commands'
       Caption = 'Transfer dir under cursor to left window'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actTransferRight: TAction
       Category = 'Commands'
       Caption = 'Transfer dir under cursor to right window'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actContextMenu: TAction
       Category = 'Commands'
       Caption = 'Show context menu'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actOpenArchive: TAction
       Category = 'File'
       Caption = 'Try open archive'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actShowButtonMenu: TAction
       Category = 'Commands'
       Caption = 'Show button menu'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actQuickSearch: TAction
       Category = 'Commands'
       Caption = 'Quick search'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actFileAssoc: TAction
       Category = 'Config'
       Caption = 'File associations...'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actOpen: TAction
       Category = 'File'
       Caption = 'Open'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actCopyNamesToClip: TAction
       Category = 'Mark'
       Caption = 'Copy &Filename(s) to Clipboard'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actCutToClipboard: TAction
       Category = 'File'
       Caption = 'Cu&t'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actCopyToClipboard: TAction
       Category = 'File'
       Caption = '&Copy'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actPasteFromClipboard: TAction
       Category = 'File'
       Caption = '&Paste'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actCopyFullNamesToClip: TAction
       Category = 'Mark'
       Caption = 'Copy Filename(s) with Full &Path'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actTargetEqualSource: TAction
       Category = 'Commands'
       Caption = 'Target &= Source'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actExchange: TAction
       Category = 'Commands'
       Caption = 'Swap &Panels'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actOpenDirInNewTab: TAction
       Category = 'Tabs'
       Caption = 'Open folder in new tab'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actWipe: TAction
       Category = 'Commands'
       Caption = 'Wipe'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actMarkCurrentExtension: TAction
       Category = 'Mark'
       Caption = 'Select all with same extension'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actUnmarkCurrentExtension: TAction
       Category = 'Mark'
       Caption = 'Unselect all with same extension'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actEditComment: TAction
       Category = 'File'
       Caption = 'Edit comment...'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actToggleLockTab: TAction
       Category = 'Tabs'
       Caption = 'Lock this tab'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actToggleLockDcaTab: TAction
       Category = 'Tabs'
       Caption = 'Locked, but directory changes allowed'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actRemoveAllTabs: TAction
       Category = 'Tabs'
       Caption = 'Remove all tabs'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actNextTab: TAction
       Category = 'Tabs'
       Caption = 'Switch to next tab'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actPrevTab: TAction
       Category = 'Tabs'
       Caption = 'Switch to previous tab'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actKeyboard: TAction
       Category = 'Help'
       Caption = 'Keyboard'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actVisitHomePage: TAction
       Category = 'Help'
       Caption = 'Visit Double Commander Web Site'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actHelpIndex: TAction
       Category = 'Help'
       Caption = 'Contents'
-      DisableIfNoHandler = True
       OnExecute = actExecute
     end
     object actLeftEqualRight: TAction
@@ -1642,6 +1606,11 @@ object frmMain: TfrmMain
     object actChangeDirToRoot: TAction
       Category = 'Commands'
       Caption = 'Change directory to root'
+      OnExecute = actExecute
+    end
+    object actCountDirContent: TAction
+      Category = 'Commands'
+      Caption = 'Sho&w occupied space'
       OnExecute = actExecute
     end
   end

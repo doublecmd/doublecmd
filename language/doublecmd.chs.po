@@ -811,11 +811,11 @@ msgstr "区分大小写"
 msgid "Date From:"
 msgstr "开始日期:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBDATETO.CAPTION
 msgid "Date To:"
 msgstr "结束日期:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
 msgstr "天"
@@ -898,6 +898,7 @@ msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
 msgid "Cancel"
 msgstr "取消"
 
+#, fuzzy
 #: TFRMFINDDLG.DEDATETO.OKCAPTION
 msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
 msgid "OK"
@@ -908,7 +909,6 @@ msgstr "确定"
 msgid "Use '-' to off attribute and '?' to any"
 msgstr ""
 
-#, fuzzy
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
 msgstr "查找数据"
@@ -1035,6 +1035,10 @@ msgstr "复制路径到命令行"
 msgid "Calculate &Occupied Space..."
 msgstr "计算已用空间..."
 
+#: TFRMMAIN.ACTCHANGEDIRTOROOT.CAPTION
+msgid "Change directory to root"
+msgstr ""
+
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
 msgstr "比较内容"
@@ -1062,6 +1066,10 @@ msgstr "复制到同面板下"
 #: TFRMMAIN.ACTCOPYTOCLIPBOARD.CAPTION
 msgid "&Copy"
 msgstr "复制"
+
+#: TFRMMAIN.ACTCOUNTDIRCONTENT.CAPTION
+msgid "Sho&w occupied space"
+msgstr ""
 
 #: TFRMMAIN.ACTCUTTOCLIPBOARD.CAPTION
 msgid "Cu&t"
@@ -1497,6 +1505,10 @@ msgstr "-"
 msgctxt "TFRMMAIN.MILINE2.CAPTION"
 msgid "-"
 msgstr "-"
+
+#: TFRMMAIN.MILINE22.CAPTION
+msgid "-"
+msgstr ""
 
 #: TFRMMAIN.MILINE3.CAPTION
 msgctxt "TFRMMAIN.MILINE3.CAPTION"
