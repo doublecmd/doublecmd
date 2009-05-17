@@ -115,7 +115,7 @@ procedure TStringListEx.LoadFromFile(const FileName: String);
 var
   fsFileStream: TFileStreamEx;
 begin
-  fsFileStream:= TFileStreamEx.Create(FileName, fmOpenRead);
+  fsFileStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
   LoadFromStream(fsFileStream);
   fsFileStream.Free;
 end;
