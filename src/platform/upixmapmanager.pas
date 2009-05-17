@@ -100,7 +100,7 @@ procedure LoadPixMapManager;
 
 implementation
 uses
-  GraphType, LCLIntf, LCLType, LCLProc, Forms, FileUtil, uGlobsPaths, uWCXhead, uGlobs, uExts{$IFDEF LCLGTK2},gtkdef, gtk2, gdk2pixbuf, gdk2, glib2{$ENDIF}{$IFDEF MSWINDOWS}, CommCtrl, ShellAPI, Windows, uIcoFiles, uGdiPlus{$ENDIF};
+  GraphType, LCLIntf, LCLType, LCLProc, Forms, FileUtil, StrUtils, uGlobsPaths, uWCXhead, uGlobs, uExts{$IFDEF LCLGTK2},gtkdef, gtk2, gdk2pixbuf, gdk2, glib2{$ENDIF}{$IFDEF MSWINDOWS}, CommCtrl, ShellAPI, Windows, uIcoFiles, uGdiPlus{$ENDIF};
 
 {$IFDEF MSWINDOWS}
 function GetRGBColor(Value: TColor): DWORD;
@@ -407,7 +407,7 @@ var
   I: Integer;
   iPixMap: PtrInt;
   pgcIconName: Pgchar;
-  sExt: String;
+  sExt, sIconName: String;
 begin
   slGenericIcons:= TStringListEx.Create;
   //slGenericIcons.LoadFromFile(gpIniDir + 'mimetypes.txt');
@@ -415,13 +415,25 @@ begin
     begin
       // get current gtk theme
       GtkIconTheme:= gtk_icon_theme_get_for_screen(gdk_screen_get_default);
+      { // load custom theme
+      GtkIconTheme:= gtk_icon_theme_new;
+      gtk_icon_theme_set_custom_theme(GtkIconTheme, 'oxygen');
+      }
       // load theme icons
       for I:= 0 to slGenericIcons.Count - 1 do
         begin
           sExt:= slGenericIcons.Names[I];
           if FExtList.IndexOf(sExt) >= 0 then Continue;
-          pgcIconName:= Pgchar(slGenericIcons.ValueFromIndex[I]);
+          sIconName:= slGenericIcons.ValueFromIndex[I];
+          // try to load mime icon
+          pgcIconName:= Pgchar(Copy2SymbDel(sIconName, ':'));
           pbPicture:= gtk_icon_theme_load_icon(GtkIconTheme, pgcIconName, gIconsSize, GTK_ICON_LOOKUP_NO_SVG, nil);
+          // if icon not found then try to load generic icon
+          if pbPicture = nil then
+            begin
+              pgcIconName:= Pgchar(sIconName);
+              pbPicture:= gtk_icon_theme_load_icon(GtkIconTheme, pgcIconName, gIconsSize, GTK_ICON_LOOKUP_NO_SVG, nil);
+            end;
           //WriteLn(sExt, ' = ', pgcIconName);
           if pbPicture <> nil then
             begin
@@ -438,7 +450,8 @@ var
   globs,
   generic_icons: TStringListEx;
   I: Integer;
-  sIconName: String;
+  sMimeIconName,
+  sGenericIconName: String;
 begin
   try
     Result:= False;
@@ -450,12 +463,15 @@ begin
     generic_icons:= TStringListEx.Create;
     generic_icons.NameValueSeparator:= ':';
     generic_icons.LoadFromFile('/usr/share/mime/generic-icons');
-    // fill icons list (format "extension=iconname")
+    // fill icons list (format "extension=mimeiconname:genericiconname")
     for I:= 0 to globs.Count - 1 do
       begin
-        sIconName:= generic_icons.Values[globs.Names[I]];
-        if sIconName <> '' then
-          slGenericIcons.Add(PChar(globs.ValueFromIndex[I])+2 + '=' + sIconName);
+        sGenericIconName:= generic_icons.Values[globs.Names[I]];
+        if sGenericIconName <> '' then
+          begin
+            sMimeIconName:= StringReplace(globs.Names[I], '/', '-', []);
+            slGenericIcons.Add(PChar(globs.ValueFromIndex[I])+2 + '=' + sMimeIconName + ':' + sGenericIconName);
+          end;
       end;
     Result:= True;
   finally
