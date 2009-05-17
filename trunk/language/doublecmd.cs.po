@@ -1,4 +1,5 @@
 #, fuzzy
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3 alpha\n"
@@ -14,7 +15,6 @@ msgstr ""
 "X-Poedit-Country: CZECH REPUBLIC\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,-1,444,-1,-1\n"
 
-#, fuzzy
 #: TFCOLUMNSSETCONF.BTNALLTEXT.CAPTION
 msgid "All"
 msgstr "Vše"
@@ -92,6 +92,7 @@ msgstr "http://doublecmd.sourceforge.net"
 msgid "Lazarus"
 msgstr "Lazarus"
 
+#, fuzzy
 #: TFRMABOUT.LBLREVISION.CAPTION
 msgctxt "TFRMABOUT.LBLREVISION.CAPTION"
 msgid "Revision"
@@ -119,7 +120,6 @@ msgstr "OK"
 msgid "&ОК"
 msgstr "&ОК"
 
-#, fuzzy
 #: TFRMCOLUMSPROPS.CAPTION
 msgid "frmColumsProps"
 msgstr "frmColumsProps"
@@ -391,11 +391,11 @@ msgstr "&Zkosené"
 msgid "&StrikeOut"
 msgstr "Přeš&krtnuté"
 
+#, fuzzy
 #: TFRMEDITORCONF.CBUNDERLINE.CAPTION
 msgid "&Underline"
 msgstr "&Podtržené"
 
-#, fuzzy
 #: TFRMEDITORCONF.LBPREDEFINED.CAPTION
 msgid "Predefined"
 msgstr "Předvoleno"
@@ -582,12 +582,12 @@ msgstr "Ikona"
 msgid "Action:"
 msgstr "Akce:"
 
+#, fuzzy
 #: TFRMFILEASSOC.LBLCOMMAND.CAPTION
 msgctxt "TFRMFILEASSOC.LBLCOMMAND.CAPTION"
 msgid "&Command:"
 msgstr "&Příkaz:"
 
-#, fuzzy
 #: TFRMFILEASSOC.MIEDIT.CAPTION
 msgctxt "TFRMFILEASSOC.MIEDIT.CAPTION"
 msgid "Edit"
@@ -597,12 +597,12 @@ msgstr "Edit"
 msgid "Open in Editor"
 msgstr "Otevřít v editoru"
 
+#, fuzzy
 #: TFRMFILEASSOC.MIFILENAME.CAPTION
 msgctxt "TFRMFILEASSOC.MIFILENAME.CAPTION"
 msgid "File name"
 msgstr "Název souboru"
 
-#, fuzzy
 #: TFRMFILEASSOC.MIFILEPATH.CAPTION
 msgid "File path"
 msgstr "Cesta k souboru"
@@ -823,11 +823,11 @@ msgstr "Rozlišovat velikost"
 msgid "Date From:"
 msgstr "Datum od:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBDATETO.CAPTION
 msgid "Date To:"
 msgstr "Datum do:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
 msgstr "Dnů(í)"
@@ -910,6 +910,7 @@ msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
 msgid "Cancel"
 msgstr "Zrušit"
 
+#, fuzzy
 #: TFRMFINDDLG.DEDATETO.OKCAPTION
 msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
 msgid "OK"
@@ -920,7 +921,6 @@ msgstr "OK"
 msgid "Use '-' to off attribute and '?' to any"
 msgstr ""
 
-#, fuzzy
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
 msgstr "Hledat data"
@@ -958,11 +958,11 @@ msgstr "Prohledat po&dadresáře:"
 msgid "Status"
 msgstr "Stav"
 
+#, fuzzy
 #: TFRMFINDDLG.LBLTEMPLATEHEADER.CAPTION
 msgid "&Previous searches:"
 msgstr ""
 
-#, fuzzy
 #: TFRMFINDDLG.MISHOWINVIEWER.CAPTION
 msgid "Show In Viewer"
 msgstr "Zobrazit v prohlížeči"
@@ -1048,6 +1048,10 @@ msgstr "Kopírovat cestu do příkazového řádku"
 msgid "Calculate &Occupied Space..."
 msgstr "Vypočítat &obsazené místo..."
 
+#: TFRMMAIN.ACTCHANGEDIRTOROOT.CAPTION
+msgid "Change directory to root"
+msgstr ""
+
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
 msgstr "Porovnat pod&le obsahu"
@@ -1075,6 +1079,10 @@ msgstr "Kopírovat do stejného panelu"
 #: TFRMMAIN.ACTCOPYTOCLIPBOARD.CAPTION
 msgid "&Copy"
 msgstr "Kopírovat"
+
+#: TFRMMAIN.ACTCOUNTDIRCONTENT.CAPTION
+msgid "Sho&w occupied space"
+msgstr ""
 
 #: TFRMMAIN.ACTCUTTOCLIPBOARD.CAPTION
 msgid "Cu&t"
@@ -1328,11 +1336,11 @@ msgstr "Cíl &= Zdroj"
 msgid "Locked, but directory changes allowed"
 msgstr "Uzamčeno, ale změna složky povolena"
 
+#, fuzzy
 #: TFRMMAIN.ACTTOGGLELOCKTAB.CAPTION
 msgid "Lock this tab"
 msgstr "Uzamčít záložku"
 
-#, fuzzy
 #: TFRMMAIN.ACTTRANSFERLEFT.CAPTION
 msgid "Transfer dir under cursor to left window"
 msgstr "Přenést adresář pod kursorem do levého okna"
@@ -1512,6 +1520,10 @@ msgctxt "TFRMMAIN.MILINE2.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: TFRMMAIN.MILINE22.CAPTION
+msgid "-"
+msgstr ""
+
 #: TFRMMAIN.MILINE3.CAPTION
 msgctxt "TFRMMAIN.MILINE3.CAPTION"
 msgid "-"
@@ -1615,12 +1627,12 @@ msgstr "Pouze typy"
 msgid "Move %s:"
 msgstr "Přesun %s:"
 
+#, fuzzy
 #: TFRMMULTIRENAME.BTNCANCEL.CAPTION
 msgctxt "TFRMMULTIRENAME.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Zrušit"
 
-#, fuzzy
 #: TFRMMULTIRENAME.BTNOK.CAPTION
 msgctxt "TFRMMULTIRENAME.BTNOK.CAPTION"
 msgid "OK"
@@ -2365,20 +2377,20 @@ msgstr "Barva označených:"
 msgid "Mode:"
 msgstr "Mód:"
 
+#, fuzzy
 #: TFRMOPTIONS.LBLPARAM.CAPTION
 msgid "Param:"
 msgstr "Parametr:"
 
-#, fuzzy
 #: TFRMOPTIONS.LBLRUNINTERM.CAPTION
 msgid "Run in terminal:"
 msgstr "Spustit v terminálu:"
 
+#, fuzzy
 #: TFRMOPTIONS.LBLRUNTERM.CAPTION
 msgid "Run terminal:"
 msgstr "Spustit terminál:"
 
-#, fuzzy
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Písmo prohlížeče"
@@ -2622,11 +2634,11 @@ msgstr "Zdroj souboru"
 msgid "Create symlink"
 msgstr "Vytvořit symbolický odkaz"
 
+#, fuzzy
 #: TFRMTWEAKPLUGIN.BTNADD.CAPTION
 msgid "Add new"
 msgstr "Přidat nový"
 
-#, fuzzy
 #: TFRMTWEAKPLUGIN.BTNCANCEL.CAPTION
 msgctxt "TFRMTWEAKPLUGIN.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -2674,11 +2686,11 @@ msgstr "Zobrazit jako normální soubory (skrýt ikonu kompresoru)"
 msgid "Supports packing in memory"
 msgstr "Podporuje komprimaci v paměti"
 
+#, fuzzy
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_MODIFY.CAPTION
 msgid "Can modify exisiting archives"
 msgstr "Můžete měnit stávající archívy"
 
-#, fuzzy
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_MULTIPLE.CAPTION
 msgid "Archive can contain multiple files"
 msgstr "Archiv může obsahovat více souborů"
@@ -3116,11 +3128,11 @@ msgstr "Funkce není podporována!"
 msgid "Syntax error in regular expression!"
 msgstr ""
 
+#, fuzzy
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
 msgstr "Buffer je příliš malý"
 
-#, fuzzy
 #: ulng.rsmsgerrtoomanyfiles
 msgid "Too many files to pack"
 msgstr "Příliš mnoho souborů pro kompresi"
@@ -3380,11 +3392,11 @@ msgstr "Levé tlačítko;Pravé tlačítko;"
 msgid "Page by page"
 msgstr "Stranu po straně"
 
+#, fuzzy
 #: ulng.rsoptplugins
 msgid "Plugins"
 msgstr "Zásuvné moduly"
 
-#, fuzzy
 #: ulng.rsoptquicksearch
 msgctxt "ulng.rsoptquicksearch"
 msgid "Quick search"
@@ -3394,6 +3406,7 @@ msgstr "Rychlé hledání"
 msgid "Tools"
 msgstr "Nástroje"
 
+#, fuzzy
 #: ulng.rspositionsaved
 msgid "Position saved."
 msgstr "Pozice uložena."
@@ -3403,7 +3416,6 @@ msgstr "Pozice uložena."
 msgid "File"
 msgstr "Soubor"
 
-#, fuzzy
 #: ulng.rspropsfolder
 msgctxt "ulng.rspropsfolder"
 msgid "Directory"

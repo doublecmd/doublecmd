@@ -390,7 +390,7 @@ begin
       FileRecItem^.sNameNoExt := sr.Name;
       FileRecItem^.sName := sRealName;
     end;
-  DebugLn('sNameNoExt == ' + FileRecItem^.sNameNoExt);
+  //DebugLn('sNameNoExt == ' + FileRecItem^.sNameNoExt);
 end;
 
 procedure TFileOpThread.CorrectMask;

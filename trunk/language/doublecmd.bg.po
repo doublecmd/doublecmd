@@ -811,11 +811,11 @@ msgstr "Отчитане на глАВноСТта"
 msgid "Date From:"
 msgstr "Дата от:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBDATETO.CAPTION
 msgid "Date To:"
 msgstr "Дата до:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
 msgstr "Ден/ дни"
@@ -898,6 +898,7 @@ msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
 msgid "Cancel"
 msgstr "Отказ"
 
+#, fuzzy
 #: TFRMFINDDLG.DEDATETO.OKCAPTION
 msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
 msgid "OK"
@@ -908,7 +909,6 @@ msgstr "Добре"
 msgid "Use '-' to off attribute and '?' to any"
 msgstr ""
 
-#, fuzzy
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
 msgstr "Търсене на данни"
@@ -1035,6 +1035,10 @@ msgstr "Преписване на пътя в реда управление"
 msgid "Calculate &Occupied Space..."
 msgstr "Изчисляване на &заетото място..."
 
+#: TFRMMAIN.ACTCHANGEDIRTOROOT.CAPTION
+msgid "Change directory to root"
+msgstr ""
+
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
 msgstr "Сравняване по &съдържание"
@@ -1062,6 +1066,10 @@ msgstr "Презапис в същото крило"
 #: TFRMMAIN.ACTCOPYTOCLIPBOARD.CAPTION
 msgid "&Copy"
 msgstr "Запомняне"
+
+#: TFRMMAIN.ACTCOUNTDIRCONTENT.CAPTION
+msgid "Sho&w occupied space"
+msgstr ""
 
 #: TFRMMAIN.ACTCUTTOCLIPBOARD.CAPTION
 msgid "Cu&t"
@@ -1495,6 +1503,10 @@ msgstr ""
 
 #: TFRMMAIN.MILINE2.CAPTION
 msgctxt "TFRMMAIN.MILINE2.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMAIN.MILINE22.CAPTION
 msgid "-"
 msgstr ""
 

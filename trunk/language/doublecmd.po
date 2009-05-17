@@ -1034,6 +1034,10 @@ msgstr ""
 msgid "Calculate &Occupied Space..."
 msgstr ""
 
+#: TFRMMAIN.ACTCHANGEDIRTOROOT.CAPTION
+msgid "Change directory to root"
+msgstr ""
+
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
 msgstr ""
@@ -1060,6 +1064,10 @@ msgstr ""
 
 #: TFRMMAIN.ACTCOPYTOCLIPBOARD.CAPTION
 msgid "&Copy"
+msgstr ""
+
+#: TFRMMAIN.ACTCOUNTDIRCONTENT.CAPTION
+msgid "Sho&w occupied space"
 msgstr ""
 
 #: TFRMMAIN.ACTCUTTOCLIPBOARD.CAPTION
@@ -1494,6 +1502,10 @@ msgstr ""
 
 #: TFRMMAIN.MILINE2.CAPTION
 msgctxt "TFRMMAIN.MILINE2.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMAIN.MILINE22.CAPTION
 msgid "-"
 msgstr ""
 

@@ -811,11 +811,11 @@ msgstr "Sensible a mays/mins"
 msgid "Date From:"
 msgstr "Fecha inicial:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBDATETO.CAPTION
 msgid "Date To:"
 msgstr "Fecha final:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBDELAYUNIT.TEXT
 msgid "Day(s)"
 msgstr "Día(s)"
@@ -898,6 +898,7 @@ msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
 msgid "Cancel"
 msgstr ""
 
+#, fuzzy
 #: TFRMFINDDLG.DEDATETO.OKCAPTION
 msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
 msgid "OK"
@@ -908,7 +909,6 @@ msgstr "Aceptar"
 msgid "Use '-' to off attribute and '?' to any"
 msgstr ""
 
-#, fuzzy
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
 msgstr "Buscar datos"
@@ -1035,6 +1035,10 @@ msgstr "Copiar ruta a línea de comando"
 msgid "Calculate &Occupied Space..."
 msgstr "Calcular espacio &Ocupado"
 
+#: TFRMMAIN.ACTCHANGEDIRTOROOT.CAPTION
+msgid "Change directory to root"
+msgstr ""
+
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
 msgstr "Comparar por &Contenido"
@@ -1062,6 +1066,10 @@ msgstr "Copiar al mismo panel"
 #: TFRMMAIN.ACTCOPYTOCLIPBOARD.CAPTION
 msgid "&Copy"
 msgstr "Copiar"
+
+#: TFRMMAIN.ACTCOUNTDIRCONTENT.CAPTION
+msgid "Sho&w occupied space"
+msgstr ""
 
 #: TFRMMAIN.ACTCUTTOCLIPBOARD.CAPTION
 msgid "Cu&t"
@@ -1495,6 +1503,10 @@ msgstr ""
 
 #: TFRMMAIN.MILINE2.CAPTION
 msgctxt "TFRMMAIN.MILINE2.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMAIN.MILINE22.CAPTION
 msgid "-"
 msgstr ""
 
