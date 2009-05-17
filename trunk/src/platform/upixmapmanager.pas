@@ -400,11 +400,17 @@ end;
 
 {$IF DEFINED(UNIX) and DEFINED(LCLGTK2)}
 procedure TPixMapManager.LoadMimeIcons;
+const
+  // From update-mime-database.c
+  media_types: array[0..10] of String = (
+        'text', 'application', 'image', 'audio',
+        'inode', 'video', 'message', 'model', 'multipart',
+        'x-content', 'x-epoc');
 var
   GtkIconTheme: PGtkIconTheme;
   pbPicture: PGdkPixbuf;
   slGenericIcons: TStringListEx;
-  I: Integer;
+  I, J: Integer;
   iPixMap: PtrInt;
   pgcIconName: Pgchar;
   sExt, sIconName: String;
@@ -429,11 +435,28 @@ begin
           pgcIconName:= Pgchar(Copy2SymbDel(sIconName, ':'));
           pbPicture:= gtk_icon_theme_load_icon(GtkIconTheme, pgcIconName, gIconsSize, GTK_ICON_LOOKUP_NO_SVG, nil);
           // if icon not found then try to load generic icon
-          if pbPicture = nil then
+          if (pbPicture = nil) and (sIconName <> '') then
             begin
               pgcIconName:= Pgchar(sIconName);
               pbPicture:= gtk_icon_theme_load_icon(GtkIconTheme, pgcIconName, gIconsSize, GTK_ICON_LOOKUP_NO_SVG, nil);
             end;
+          // Shared-mime-info spec says:
+          // "If [generic-icon] is not specified then the mimetype is used to generate the
+          // generic icon by using the top-level media type (e.g. "video" in "video/ogg")
+          // and appending "-x-generic" (i.e. "video-x-generic" in the previous example)."
+          if pbPicture = nil then
+            begin
+              sIconName:= slGenericIcons.ValueFromIndex[I];
+              for J:= Low(media_types) to High(media_types) do
+                begin
+                  if Pos(media_types[J], sIconName) = 1 then
+                    begin
+                      pgcIconName:= Pgchar(media_types[J] + '-x-generic');
+                      pbPicture:= gtk_icon_theme_load_icon(GtkIconTheme, pgcIconName, gIconsSize, GTK_ICON_LOOKUP_NO_SVG, nil);
+                      if pbPicture <> nil then Break;
+                    end; // if
+                end; // for
+            end; // if
           //WriteLn(sExt, ' = ', pgcIconName);
           if pbPicture <> nil then
             begin
@@ -467,10 +490,15 @@ begin
     for I:= 0 to globs.Count - 1 do
       begin
         sGenericIconName:= generic_icons.Values[globs.Names[I]];
-        if sGenericIconName <> '' then
+        if sGenericIconName <> '' then // if mime has generic icon
           begin
             sMimeIconName:= StringReplace(globs.Names[I], '/', '-', []);
             slGenericIcons.Add(PChar(globs.ValueFromIndex[I])+2 + '=' + sMimeIconName + ':' + sGenericIconName);
+          end
+        else
+          begin
+            sMimeIconName:= StringReplace(globs.Names[I], '/', '-', []);
+            slGenericIcons.Add(PChar(globs.ValueFromIndex[I])+2 + '=' + sMimeIconName);
           end;
       end;
     Result:= True;
