@@ -1,6 +1,6 @@
 avi=video-x-generic.png
 bat=application-x-shellscript.png
-deb=deb.png
+deb=application-x-deb.png
 doc=wordprocessing.png
 htm=text-html.png
 html=text-html.png
@@ -15,7 +15,7 @@ odt=wordprocessing.png
 pas=text-x-pascal.png
 pdf=application-pdf.png
 po=gettext.png
-rpm=rpm.png
+rpm=application-x-rpm.png
 sh=application-x-shellscript.png
 txt=text-x-generic.png
 xls=spreadsheet.png
