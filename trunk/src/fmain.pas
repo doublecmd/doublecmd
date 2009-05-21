@@ -1118,7 +1118,7 @@ end;
 
 procedure TfrmMain.frmMainAfterShow(Data: PtrInt);
 begin
-  SetActiveFrame(fpLeft);
+  ActiveFrame.SetFocus;
 end;
 
 procedure TfrmMain.frmMainShow(Sender: TObject);
