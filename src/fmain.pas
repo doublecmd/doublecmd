@@ -1392,7 +1392,7 @@ begin
     Key:=0;
     with ActiveFrame do
     begin
-      if Shift=[] then
+      if (Shift=[])or (Shift=[ssCaps]) then // 21.05.2009 - не учитываем CapsLock при перемещении по панелям
       begin
         if edtCommand.Focused and (edtCommand.Text='') then
         begin
@@ -1430,7 +1430,7 @@ begin
 {$ENDIF}
           Exit;
         end;
-      end; //Shift=[]
+      end; //Shift=[] + 21.05.2009 - не учитываем CapsLock при перемещении по панелям
 
       // execute active file or command line in terminal (Shift+Enter)
       if Shift=[ssShift] then
