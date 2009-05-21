@@ -375,12 +375,9 @@ begin
   if FRegExp and not ExecRegExpr(FFileMask, sr.Name) then
     Exit(False);
 
-{$IFDEF MSWINDOWS}
-  (* This is hack *)
   //DebugLn('File = ', sr.Name);
   if (not FRegExp) and (not MatchesMaskList(sr.Name, FFileMask)) then
     Exit(False);
-{$ENDIF}
 
   if (FIsDateFrom or FIsDateTo or FIsTimeFrom or FIsTimeTo) then
       Result := CheckFileDate(sr.Time);
@@ -466,7 +463,7 @@ begin
   Inc(FCurrentDepth);
 
   // if regular expression then search all files
-  if FRegExp then
+  if FRegExp or (Pos(';', FFileMask) <> 0) then
     Path := sNewDir + PathDelim + '*'
   else
     Path := sNewDir + PathDelim + FFileMask;
