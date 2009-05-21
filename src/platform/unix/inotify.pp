@@ -79,8 +79,6 @@ var
   IsGoodKernelVersion: Boolean = False;
 
 function CheckKernelVersion: Boolean;
-const
-  Numbers = ['0'..'9'];
 var
   KernelName: TUtsName;
   sRelease: String;
@@ -92,7 +90,7 @@ begin
   iVersion:= StrToIntDef(Copy2SymbDel(sRelease, '.'), 0);
   iRelease:= StrToIntDef(Copy2SymbDel(sRelease, '.'), 0);
   for I:= 1 to Length(sRelease) do
-    if not (sRelease[I] in Numbers) then Break;
+    if not (sRelease[I] in ['0'..'9']) then Break;
   iPatch:= StrToIntDef(LeftStr(sRelease, I-1), 0);
   Result:= (iVersion >= 2) and (iRelease >= 6) and (iPatch >= 13);
 end;
