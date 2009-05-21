@@ -3,7 +3,7 @@ object frmMkDir: TfrmMkDir
   Height = 106
   Top = 546
   Width = 495
-  ActiveControl = edtMkDir
+  ActiveControl = cbMkDir
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Create new directory'
@@ -16,25 +16,11 @@ object frmMkDir: TfrmMkDir
   LCLVersion = '0.9.27'
   object lblMakeDir: TLabel
     Left = 8
-    Height = 16
+    Height = 14
     Top = 8
-    Width = 164
+    Width = 129
     Caption = 'Input new directory name:'
     ParentColor = False
-  end
-  object edtMkDir: TEdit
-    AnchorSideLeft.Control = Owner
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 6
-    Height = 25
-    Top = 32
-    Width = 483
-    Anchors = [akTop, akLeft, akRight]
-    AutoSize = True
-    BorderSpacing.Left = 6
-    BorderSpacing.Right = 6
-    TabOrder = 0
   end
   object btnOK: TBitBtn
     AnchorSideRight.Control = btnCancel
@@ -50,7 +36,9 @@ object frmMkDir: TfrmMkDir
     Kind = bkOK
     ModalResult = 1
     NumGlyphs = 0
-    TabOrder = 1
+    OnClick = ButtonsClick
+    TabOrder = 2
+    TabStop = False
   end
   object btnCancel: TBitBtn
     AnchorSideRight.Control = Owner
@@ -67,6 +55,22 @@ object frmMkDir: TfrmMkDir
     Kind = bkCancel
     ModalResult = 2
     NumGlyphs = 0
-    TabOrder = 2
+    OnClick = ButtonsClick
+    TabOrder = 1
+    TabStop = False
+  end
+  object cbMkDir: TComboBox
+    Left = 6
+    Height = 21
+    Top = 24
+    Width = 483
+    Anchors = [akTop, akLeft, akRight]
+    AutoComplete = True
+    AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
+    AutoSelect = True
+    DropDownCount = 5
+    ItemHeight = 13
+    ItemWidth = 0
+    TabOrder = 0
   end
 end

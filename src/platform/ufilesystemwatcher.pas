@@ -259,7 +259,6 @@ end;
 
 procedure TFileSystemWatcher.WatcherThreadError(Sender: TObject);
 begin
-  FActive:= False;
   FWatcherThread:= nil;
 end;
 
