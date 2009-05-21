@@ -108,6 +108,7 @@ begin
        Application.CreateForm(TdmHighl, dmHighl); // highlighters
        Application.CreateForm(TdmComData, dmComData); // common data
        Application.CreateForm(TdmHelpManager, dmHelpMgr); // help manager
+       Application.CreateForm(TfrmMkDir, frmMkDir);  // 21.05.2009 - makedir form
 
        // Initializing keyboard module on GTK needs GTKProc.InitKeyboardTables
        // which is called by Application.Initialize. On QT needs the handle
