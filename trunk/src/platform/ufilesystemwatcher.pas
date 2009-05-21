@@ -42,6 +42,7 @@ type
   TWatcherThread = class(TThread)
   private
     FOwner: TObject;
+    FOnWatcherThreadError: TNotifyEvent;
     FOnWatcherNotifyEvent: TOnWatcherNotifyEvent;
     FFileHandle,
     FNotifyHandle: THandle;
@@ -50,10 +51,12 @@ type
     FNotifyEvent: TWatchFilter;
   protected
     procedure Execute; override;
+    procedure WatcherThreadError(const sErrMsg: String);
     procedure WatcherNotifyEvent;
   public
     constructor Create(aOwner: TObject; sPath: UTF8String; aWatchFilter: TWatchFilter);
     destructor Destroy; override;
+    property OnWatcherThreadError: TNotifyEvent write FOnWatcherThreadError;
     property OnWatcherNotifyEvent: TOnWatcherNotifyEvent write FOnWatcherNotifyEvent;
   end;
 
@@ -70,6 +73,8 @@ type
     procedure SetActive(const AValue: Boolean);
     procedure SetWatchFilter(const AValue: TWatchFilter);
     procedure SetWatchPath(const AValue: UTF8String);
+  protected
+    procedure WatcherThreadError(Sender: TObject);
   public
     constructor Create(aOwner: TObject; sPath: UTF8String; aWatchFilter: TWatchFilter);
     destructor Destroy; override;
@@ -80,11 +85,13 @@ type
   end;
 
 implementation
+
 uses
+  LCLProc
   {$IF DEFINED(MSWINDOWS)}
-  Windows
+  ,Windows
   {$ELSEIF DEFINED(LINUX)}
-  inotify, Unix, BaseUnix, UnixUtil, UnixType
+  ,inotify, Unix, BaseUnix, UnixUtil, UnixType
   {$ENDIF};
 
 { TWatcherThread }
@@ -112,8 +119,8 @@ begin
       end;
       if not FindNextChangeNotification(FNotifyHandle) then
         begin
+          WatcherThreadError('FindNextChangeNotification - failed');
           RaiseLastOSError;
-          Break;
         end;
     until Terminated;
 end;
@@ -135,8 +142,8 @@ begin
  FFileHandle:= inotify_init();
  if (FFileHandle < 0) then
  begin
-  WriteLn('inotify_init(): ');
-  Exit;
+  WatcherThreadError('inotify_init(): failed');
+  RaiseLastOSError;
  end;
 // WriteLn('After inotify_init()');
 
@@ -144,8 +151,8 @@ begin
  FNotifyHandle:= inotify_add_watch(FFileHandle, PChar(FWatchPath), hNotifyFilter);
  if (FNotifyHandle < 0) then
  begin
-  WriteLn('inotify_add_watch(): ');
-  Exit;
+  WatcherThreadError('inotify_add_watch(): failed');
+  RaiseLastOSError;
  end;
 // WriteLn('After inotify_add_watch()');
 
@@ -155,8 +162,8 @@ begin
   repeat
    if (fpioctl(FFileHandle, $541B, @bytes_to_parse) = -1) then
    begin
-    WriteLn('ioctl(): ');
-    Exit;
+    WatcherThreadError('ioctl(): failed');
+    RaiseLastOSError;
    end;
    Sleep(1);
    if Terminated then Exit;
@@ -167,8 +174,8 @@ begin
   buf := GetMem(bytes_to_parse);
   if (fpread(FFileHandle, buf, bytes_to_parse) = -1) then
   begin
-   WriteLn('read(): ');
-   Exit;
+   WatcherThreadError('read(): failed');
+   RaiseLastOSError;
   end;
 //  WriteLn('After fpread()');
 
@@ -177,7 +184,7 @@ begin
   while (p < bytes_to_parse) do
   begin
    ev:= pinotify_event((buf + p));
-   WriteLn('wd = ',ev^.wd,', mask = ',ev^.mask,', cookie = ',ev^.cookie, 'name = ', PChar(@ev^.name));
+   WriteLn('wd = ',ev^.wd,', mask = ',ev^.mask,', cookie = ',ev^.cookie, ' name = ', PChar(@ev^.name));
    // call event handler
    Synchronize(@WatcherNotifyEvent);
    p:= p + ev^.len + 16;
@@ -192,6 +199,13 @@ end;
 begin
 end;
 {$ENDIF}
+
+procedure TWatcherThread.WatcherThreadError(const sErrMsg: String);
+begin
+  DebugLn(sErrMsg);
+  if Assigned(FOnWatcherThreadError) then
+    FOnWatcherThreadError(Self);
+end;
 
 procedure TWatcherThread.WatcherNotifyEvent;
 begin
@@ -238,8 +252,15 @@ begin
     FWatcherThread.Terminate;
   FWatchPath:= AValue;
   FWatcherThread:= TWatcherThread.Create(FOwner, FWatchPath, FWatchFilter);
+  FWatcherThread.OnWatcherThreadError:= @WatcherThreadError;
   FWatcherThread.OnWatcherNotifyEvent:= FOnWatcherNotifyEvent;
   FWatcherThread.Resume;
+end;
+
+procedure TFileSystemWatcher.WatcherThreadError(Sender: TObject);
+begin
+  FActive:= False;
+  FWatcherThread:= nil;
 end;
 
 procedure TFileSystemWatcher.SetActive(const AValue: Boolean);
@@ -248,6 +269,7 @@ begin
   if AValue then
     begin
       FWatcherThread:= TWatcherThread.Create(FOwner, FWatchPath, FWatchFilter);
+      FWatcherThread.OnWatcherThreadError:= @WatcherThreadError;
       FWatcherThread.OnWatcherNotifyEvent:= FOnWatcherNotifyEvent;
       FWatcherThread.Resume;
       FActive:= AValue;
