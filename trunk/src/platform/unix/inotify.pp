@@ -75,6 +75,9 @@ implementation
 uses
   SysUtils, BaseUnix, StrUtils;
 
+var
+  IsGoodKernelVersion: Boolean = False;
+
 function CheckKernelVersion: Boolean;
 const
   Numbers = ['0'..'9'];
@@ -97,23 +100,26 @@ end;
 function inotify_init: LongInt;
 begin
   inotify_init := -1;
-  if CheckKernelVersion then
+  if IsGoodKernelVersion then
     inotify_init := do_syscall(syscall_nr_inotify_init);
 end;
 
 function inotify_add_watch(__fd: LongInt; __name: PChar; __mask: uint32_t): LongInt;
 begin
   inotify_add_watch := -1;
-  if CheckKernelVersion then
+  if IsGoodKernelVersion then
     inotify_add_watch := do_syscall(syscall_nr_inotify_add_watch, TSysParam(__fd), TSysParam(__name), TSysParam(__mask));
 end;
 
 function inotify_rm_watch(__fd: LongInt; __wd: uint32_t): LongInt;
 begin
   inotify_rm_watch := -1;
-  if CheckKernelVersion then
+  if IsGoodKernelVersion then
     inotify_rm_watch := do_syscall(syscall_nr_inotify_rm_watch, TSysParam(__fd), TSysParam(__wd));
 end;
+
+initialization
+  IsGoodKernelVersion:= CheckKernelVersion;
 
 end.
 
