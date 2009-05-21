@@ -1,4 +1,4 @@
-﻿{
+{
    Double Commander
    -------------------------------------------------------------------------
    This unit contains all DC actions
@@ -1050,8 +1050,8 @@ begin
             end;
         end; // in VFS
 
-      sPath:=ActiveDir;
-      if not ShowMkDir(sPath) then Exit;
+      sPath:=pnlFile.GetActiveItem^.sNameNoExt;     // 21.05.2009 - pass name from cursor to makedir form
+      if not frmMkDir.ShowMkDir(sPath) then Exit;   // show makedir dialog
       if (sPath='') then Exit;
 
       { Create directory in VFS }
