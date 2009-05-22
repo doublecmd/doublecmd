@@ -194,7 +194,6 @@ type
                                   MousePos: TPoint; var Handled: Boolean);
     procedure dgPanelMouseWheelDown(Sender: TObject; Shift: TShiftState;
                                   MousePos: TPoint; var Handled: Boolean);
-    procedure lblLPathChangeBounds(Sender: TObject);
     procedure lblLPathMouseEnter(Sender: TObject);
     procedure lblLPathMouseLeave(Sender: TObject);
     procedure pnlHeaderResize(Sender: TObject);
@@ -1505,11 +1504,6 @@ begin
   Result := pnlFile.IsItemValid(GetActiveItem);
 end;
 
-procedure TFrameFilePanel.lblLPathChangeBounds(Sender: TObject);
-begin
-  pnlFile.UpdatePathLabel;
-end;
-
 procedure TFrameFilePanel.lblLPathMouseEnter(Sender: TObject);
 begin
   lblLPath.Font.Color:=clRed;
@@ -1664,7 +1658,6 @@ begin
 
   pnlHeader.OnResize := @pnlHeaderResize;
 
-  lblLPath.OnChangeBounds:=@lblLPathChangeBounds;
   lblLPath.OnMouseEnter:=@lblLPathMouseEnter;
   lblLPath.OnMouseLeave:=@lblLPathMouseLeave;
 
