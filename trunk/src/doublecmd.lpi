@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="50">
+    <Units Count="51">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -397,6 +397,13 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fCheckSumVerify"/>
       </Unit49>
+      <Unit50>
+        <Filename Value="fchecksumcalc.pas"/>
+        <ComponentName Value="frmCheckSumCalc"/>
+        <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fCheckSumCalc"/>
+      </Unit50>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
