@@ -89,6 +89,7 @@ begin
     if Terminated then Exit;
     if Paused then Suspend;
     pr:= NewFileList.GetItem(xIndex);
+    if FPS_ISDIR(pr^.iMode) then Continue;
 
     EstimateTime(FCopied);
 
