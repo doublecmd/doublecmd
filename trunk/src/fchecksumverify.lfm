@@ -1,0 +1,42 @@
+object frmCheckSumVerify: TfrmCheckSumVerify
+  Left = 290
+  Height = 300
+  Top = 175
+  Width = 400
+  Caption = 'Verify check sum...'
+  ClientHeight = 300
+  ClientWidth = 400
+  LCLVersion = '0.9.27'
+  object mmCheckSumVerify: TMemo
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = btnOK
+    Left = 10
+    Height = 240
+    Top = 10
+    Width = 380
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 10
+    BorderSpacing.Right = 10
+    BorderSpacing.Bottom = 10
+    TabOrder = 0
+  end
+  object btnOK: TBitBtn
+    AnchorSideLeft.Control = mmCheckSumVerify
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 163
+    Height = 30
+    Top = 260
+    Width = 75
+    Anchors = [akLeft, akBottom]
+    BorderSpacing.Bottom = 10
+    Caption = '&Закрыть'
+    Kind = bkClose
+    TabOrder = 1
+  end
+end
