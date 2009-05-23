@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="49">
+    <Units Count="50">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -230,6 +230,7 @@
         <ComponentName Value="frmPackDlg"/>
         <HasResources Value="True"/>
         <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="fPackDlg"/>
       </Unit23>
       <Unit24>
@@ -388,6 +389,14 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDragDropQt"/>
       </Unit48>
+      <Unit49>
+        <Filename Value="fchecksumverify.pas"/>
+        <ComponentName Value="frmCheckSumVerify"/>
+        <HasResources Value="True"/>
+        <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fCheckSumVerify"/>
+      </Unit49>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

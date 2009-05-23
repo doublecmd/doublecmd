@@ -951,6 +951,10 @@ object frmMain: TfrmMain
         Caption = 'Combine Files'
         OnClick = actExecute
       end
+      object mnuCheckSumVerify: TMenuItem
+        Action = actCheckSumVerify
+        OnClick = actExecute
+      end
       object miLine4: TMenuItem
         Caption = '-'
       end
@@ -1611,6 +1615,11 @@ object frmMain: TfrmMain
     object actCountDirContent: TAction
       Category = 'Commands'
       Caption = 'Sho&w occupied space'
+      OnExecute = actExecute
+    end
+    object actCheckSumVerify: TAction
+      Category = 'File'
+      Caption = 'Verify check sum...'
       OnExecute = actExecute
     end
   end

@@ -125,6 +125,8 @@ resourcestring
   rsDlgMv = 'Move file(s)';
   rsDlgPack = 'Packing...';
   rsDlgExtract = 'Extracting...';
+  rsDlgCheckSumCalc = 'Calculate check sum...';
+  rsDlgCheckSumVerify = 'Verify check sum...';
   // Viewer
   rsViewAboutText = 'Internal Viewer of Double Commander.';
   // Editor

@@ -88,6 +88,7 @@ const cf_Null=0;
    procedure cm_ToggleLockDcaTab(param: string='');
    procedure cm_Copy(param: string='');
    procedure cm_Delete(param: string='');
+   procedure cm_CheckSumVerify(param:string);
    procedure cm_Edit(param: string='');
    procedure cm_MakeDir(param: string='');
    procedure cm_Rename(param: string='');
@@ -157,7 +158,7 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls, ExtCtrls,
      fMkDir,LCLProc,uFileProcs,uDeleteThread,fFileAssoc,fExtractDlg,fAbout,
      fOptions,fCompareFiles,fFindDlg,fSymLink,fHardLink,fMultiRename,
      uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit,
-     HelpIntfs, dmHelpManager, uShellExecute, uClipboard;
+     HelpIntfs, dmHelpManager, uShellExecute, uClipboard, uCheckSumThread;
 
 { TActs }
 
@@ -1182,6 +1183,37 @@ begin
     FreeAndNil(fl);
   end;
 end;
+end;
+
+procedure TActs.cm_CheckSumVerify(param:string);
+var
+  fl: TFileList;
+begin
+  with frmMain.ActiveFrame do
+  begin
+    if  pnlFile.PanelMode <> pmDirectory then Exit;
+
+    if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+
+    fl:= TFileList.Create; // free at thread end by thread
+    fl.CurrentDirectory := ActiveDir;
+    try
+      CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
+
+      // verify check sum
+      with TCheckSumThread.Create(fl) do
+      try
+        sDstPath:= ActiveDir;
+        CheckSumOp:= checksum_verify;
+        Resume;
+      except
+        Free;
+      end;
+
+    except
+      FreeAndNil(fl);
+    end;
+  end;
 end;
 
 procedure TActs.cm_FocusCmdLine(param:string);

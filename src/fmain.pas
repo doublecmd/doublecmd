@@ -74,6 +74,7 @@ type
     actCopyToClipboard: TAction;
     actChangeDirToRoot: TAction;
     actCountDirContent: TAction;
+    actCheckSumVerify: TAction;
     actRightEqualLeft: TAction;
     actLeftEqualRight: TAction;
     actPasteFromClipboard: TAction;
@@ -119,6 +120,7 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     lblCommandPath: TLabel;
+    mnuCheckSumVerify: TMenuItem;
     mnuCountDirContent: TMenuItem;
     miLine22: TMenuItem;
     miLine18: TMenuItem;
