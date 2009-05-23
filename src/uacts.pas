@@ -1199,9 +1199,9 @@ begin
     if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
 
     if pnlFile.GetSelectedCount > 1 then
-      sFileName:= ActiveDir + '*.md5'
+      sFileName:= ActiveDir + ExtractFileName(ExcludeTrailingBackslash(ActiveDir)) + '.md5'
     else
-      sFileName:= ActiveDir + '*.md5';
+      sFileName:= ActiveDir + GetActiveItem^.sNameNoExt + '.md5';
 
     if not ShowCalcCheckSum(sFileName, CheckSumOpt) then Exit;
 
