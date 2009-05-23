@@ -951,6 +951,9 @@ object frmMain: TfrmMain
         Caption = 'Combine Files'
         OnClick = actExecute
       end
+      object mnuCheckSumCalc: TMenuItem
+        Action = actCheckSumCalc
+      end
       object mnuCheckSumVerify: TMenuItem
         Action = actCheckSumVerify
         OnClick = actExecute
@@ -1620,6 +1623,11 @@ object frmMain: TfrmMain
     object actCheckSumVerify: TAction
       Category = 'File'
       Caption = 'Verify check sum...'
+      OnExecute = actExecute
+    end
+    object actCheckSumCalc: TAction
+      Category = 'File'
+      Caption = 'Calculate check sum...'
       OnExecute = actExecute
     end
   end

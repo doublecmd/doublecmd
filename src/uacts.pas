@@ -88,6 +88,7 @@ const cf_Null=0;
    procedure cm_ToggleLockDcaTab(param: string='');
    procedure cm_Copy(param: string='');
    procedure cm_Delete(param: string='');
+   procedure cm_CheckSumCalc(param:string);
    procedure cm_CheckSumVerify(param:string);
    procedure cm_Edit(param: string='');
    procedure cm_MakeDir(param: string='');
@@ -158,7 +159,7 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls, ExtCtrls,
      fMkDir,LCLProc,uFileProcs,uDeleteThread,fFileAssoc,fExtractDlg,fAbout,
      fOptions,fCompareFiles,fFindDlg,fSymLink,fHardLink,fMultiRename,
      uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit,
-     HelpIntfs, dmHelpManager, uShellExecute, uClipboard, uCheckSumThread;
+     HelpIntfs, dmHelpManager, uShellExecute, uClipboard, uCheckSumThread, fCheckSumCalc;
 
 { TActs }
 
@@ -1183,6 +1184,47 @@ begin
     FreeAndNil(fl);
   end;
 end;
+end;
+
+procedure TActs.cm_CheckSumCalc(param:string);
+var
+  fl: TFileList;
+  CheckSumOpt: Cardinal;
+  sFileName: UTF8String;
+begin
+  with frmMain.ActiveFrame do
+  begin
+    if  pnlFile.PanelMode <> pmDirectory then Exit;
+
+    if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+
+    if pnlFile.GetSelectedCount > 1 then
+      sFileName:= ActiveDir + '*.md5'
+    else
+      sFileName:= ActiveDir + '*.md5';
+
+    if not ShowCalcCheckSum(sFileName, CheckSumOpt) then Exit;
+
+    fl:= TFileList.Create; // free at thread end by thread
+    fl.CurrentDirectory := ActiveDir;
+    try
+      CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
+
+      // calculate check sum
+      with TCheckSumThread.Create(fl) do
+      try
+        sDstPath:= ActiveDir;
+        CheckSumOp:= checksum_calc;
+        OneFile:= not Boolean(CheckSumOpt);
+        Resume;
+      except
+        Free;
+      end;
+
+    except
+      FreeAndNil(fl);
+    end;
+  end;
 end;
 
 procedure TActs.cm_CheckSumVerify(param:string);

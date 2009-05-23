@@ -6,13 +6,14 @@ object frmCheckSumVerify: TfrmCheckSumVerify
   Caption = 'Verify check sum...'
   ClientHeight = 300
   ClientWidth = 400
+  Position = poScreenCenter
   LCLVersion = '0.9.27'
   object mmCheckSumVerify: TMemo
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = btnOK
+    AnchorSideBottom.Control = btnClose
     Left = 10
     Height = 240
     Top = 10
@@ -24,7 +25,7 @@ object frmCheckSumVerify: TfrmCheckSumVerify
     BorderSpacing.Bottom = 10
     TabOrder = 0
   end
-  object btnOK: TBitBtn
+  object btnClose: TBitBtn
     AnchorSideLeft.Control = mmCheckSumVerify
     AnchorSideLeft.Side = asrCenter
     AnchorSideBottom.Control = Owner
@@ -35,7 +36,7 @@ object frmCheckSumVerify: TfrmCheckSumVerify
     Width = 75
     Anchors = [akLeft, akBottom]
     BorderSpacing.Bottom = 10
-    Caption = '&Закрыть'
+    Caption = '&Close'
     Kind = bkClose
     TabOrder = 1
   end

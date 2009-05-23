@@ -1,0 +1,90 @@
+object frmCheckSumCalc: TfrmCheckSumCalc
+  Left = 290
+  Height = 136
+  Top = 175
+  Width = 400
+  BorderIcons = [biSystemMenu, biMinimize]
+  Caption = 'Calculate check sum...'
+  ClientHeight = 136
+  ClientWidth = 400
+  Constraints.MaxHeight = 200
+  Constraints.MaxWidth = 800
+  Constraints.MinHeight = 136
+  Constraints.MinWidth = 400
+  Position = poScreenCenter
+  LCLVersion = '0.9.27'
+  object lblSaveTo: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 10
+    Height = 14
+    Top = 8
+    Width = 124
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 8
+    Caption = 'Save check sum file(s) to:'
+    ParentColor = False
+  end
+  object edtSaveTo: TEdit
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblSaveTo
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 10
+    Height = 23
+    Top = 28
+    Width = 380
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 10
+    TabOrder = 0
+  end
+  object cbSeparateFile: TCheckBox
+    AnchorSideLeft.Control = edtSaveTo
+    AnchorSideTop.Control = edtSaveTo
+    AnchorSideTop.Side = asrBottom
+    Left = 10
+    Height = 17
+    Top = 57
+    Width = 198
+    BorderSpacing.Top = 6
+    Caption = 'Create separate MD5 files for each file'
+    TabOrder = 1
+  end
+  object btnOK: TBitBtn
+    AnchorSideRight.Control = btnCancel
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 234
+    Height = 32
+    Top = 94
+    Width = 75
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 10
+    Caption = '&OK'
+    Default = True
+    Kind = bkOK
+    ModalResult = 1
+    TabOrder = 2
+  end
+  object btnCancel: TBitBtn
+    AnchorSideRight.Control = edtSaveTo
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 315
+    Height = 32
+    Top = 94
+    Width = 75
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Bottom = 10
+    Cancel = True
+    Caption = 'Cancel'
+    Kind = bkCancel
+    ModalResult = 2
+    TabOrder = 3
+  end
+end

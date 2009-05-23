@@ -1,7 +1,7 @@
 {
    Double Commander
    -------------------------------------------------------------------------
-   Verify check sum dialog
+   Calculate check sum dialog
 
    Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
 
@@ -21,7 +21,7 @@
 
 }
 
-unit fCheckSumVerify;
+unit fCheckSumCalc;
 
 {$mode objfpc}{$H+}
 
@@ -33,34 +33,41 @@ uses
 
 type
 
-  { TfrmCheckSumVerify }
+  { TfrmCheckSumCalc }
 
-  TfrmCheckSumVerify = class(TForm)
-    btnClose: TBitBtn;
-    mmCheckSumVerify: TMemo;
+  TfrmCheckSumCalc = class(TForm)
+    btnOK: TBitBtn;
+    btnCancel: TBitBtn;
+    cbSeparateFile: TCheckBox;
+    edtSaveTo: TEdit;
+    lblSaveTo: TLabel;
   private
     { private declarations }
   public
     { public declarations }
   end; 
 
-procedure ShowVerifyCheckSum(const VerifyResult: TStringList);
+function ShowCalcCheckSum(const sFileName: UTF8String; out CheckSumOpt: Cardinal): Boolean;
 
 implementation
 
-procedure ShowVerifyCheckSum(const VerifyResult: TStringList);
+function ShowCalcCheckSum(const sFileName: UTF8String; out CheckSumOpt: Cardinal): Boolean;
 begin
-  with TfrmCheckSumVerify.Create(Application) do
+  with TfrmCheckSumCalc.Create(Application) do
   try
-    mmCheckSumVerify.Lines.Assign(VerifyResult);
-    ShowModal;
+    edtSaveTo.Text:= sFileName;
+    Result:= (ShowModal = mrOK);
+    if Result then
+      begin
+        CheckSumOpt:= Integer(cbSeparateFile.Checked);
+      end;
   finally
     Free;
   end;
 end;
 
 initialization
-  {$I fchecksumverify.lrs}
+  {$I fchecksumcalc.lrs}
 
 end.
 
