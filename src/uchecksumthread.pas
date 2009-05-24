@@ -1,7 +1,7 @@
 {
     Double Commander
     -------------------------------------------------------------------------
-    Implementing of calculation/test checksum thread.
+    Implementing of calculate/verify checksum thread.
 
     Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
 
@@ -106,7 +106,7 @@ begin
   case FCheckSumOp of
     checksum_calc:
       if FOneFile then
-        FCheckSumFile.SaveToFile(sDstPath + ExtractFileName(ExcludeTrailingBackslash(sDstPath)) + '.md5');
+        FCheckSumFile.SaveToFile(sDstMask);
     checksum_verify:
       Synchronize(@ShowVerifyCheckSumResult);
   end;

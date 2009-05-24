@@ -51,6 +51,7 @@ object frmCheckSumCalc: TfrmCheckSumCalc
     Width = 198
     BorderSpacing.Top = 6
     Caption = 'Create separate MD5 files for each file'
+    OnChange = cbSeparateFileChange
     TabOrder = 1
   end
   object btnOK: TBitBtn

@@ -1214,6 +1214,7 @@ begin
       with TCheckSumThread.Create(fl) do
       try
         sDstPath:= ActiveDir;
+        sDstMask:= sFileName;
         CheckSumOp:= checksum_calc;
         OneFile:= not Boolean(CheckSumOpt);
         Resume;
