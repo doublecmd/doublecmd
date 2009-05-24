@@ -108,7 +108,10 @@ begin
       if FOneFile then
         FCheckSumFile.SaveToFile(sDstMask);
     checksum_verify:
-      Synchronize(@ShowVerifyCheckSumResult);
+      begin
+        Synchronize(@FFileOpDlg.Hide);
+        Synchronize(@ShowVerifyCheckSumResult);
+      end;
   end;
 end;
 
