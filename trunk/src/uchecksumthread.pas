@@ -46,12 +46,12 @@ type
     function CheckSumCalc(FileRecItem: PFileRecItem): String;
     function GetHashAlgByFileName(const sFileName: UTF8String): THashAlgorithm;
   protected
-    constructor Create(aFileList: TFileList); override;
-    destructor Destroy; override;
     procedure MainExecute; override;
     procedure CheckSumFile(pr:PFileRecItem);
     function GetCaptionLng: String; override;
   public
+    constructor Create(aFileList: TFileList); override;
+    destructor Destroy; override;
     property CheckSumOp: TCheckSumOp write FCheckSumOp;
     property Algorithm: THashAlgorithm read FAlgorithm write FAlgorithm;
     property OneFile: Boolean write FOneFile;
@@ -108,6 +108,7 @@ begin
     Synchronize(@FFileOpDlg.UpdateDlg);
   end;
 
+  if Terminated then Exit;
   // make result
   case FCheckSumOp of
     checksum_calc:
