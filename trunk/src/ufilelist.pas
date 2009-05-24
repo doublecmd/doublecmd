@@ -160,7 +160,8 @@ Type
 
   function IMulticolumnCompare(item1, item2:Pointer):Integer;
 
-  procedure CopyListSelectedExpandNames(srcFileList, dstFileList:TFileList; sPath:String; bFullName : Boolean = True);
+  procedure CopyListSelectedExpandNames(srcFileList, dstFileList: TFileList; sPath: String;
+                                        bFullName: Boolean = True; bSkipFolder: Boolean = False);
 
 implementation
 
@@ -575,7 +576,8 @@ begin
   end;
 end;
 
-procedure CopyListSelectedExpandNames(srcFileList, dstFileList:TFileList; sPath:String; bFullName : Boolean = True);
+procedure CopyListSelectedExpandNames(srcFileList, dstFileList: TFileList; sPath: String;
+                                      bFullName: Boolean = True; bSkipFolder: Boolean = False);
 var
   xIndex:Integer;
   p:TFileRecItem;
@@ -588,6 +590,7 @@ begin
   begin
     p:=srcFileList.GetItem(xIndex)^;
     if (not p.bSelected) or (p.sName = '..') then Continue;
+    if bSkipFolder and FPS_ISDIR(p.iMode) then Continue;
     if bFullName then
       begin
         p.sNameNoExt:=p.sName; //dstname
