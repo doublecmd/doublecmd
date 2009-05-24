@@ -147,23 +147,23 @@ begin
     checksum_verify: // verify check sum
       begin
         FCheckSumFile.Clear;
-        FCheckSumFile.NameValueSeparator:= '*';
+        FCheckSumFile.NameValueSeparator:= #32;
         FCheckSumFile.LoadFromFile(pr^.sName);
         FAlgorithm:= GetHashAlgByFileName(pr^.sName);
         for I:= 0 to FCheckSumFile.Count - 1 do
           begin
             bResult:= False;
             FillByte(fri, SizeOf(fri), 0);
-            fri.sName:= sDstPath + FCheckSumFile.ValueFromIndex[I];
+            fri.sName:= sDstPath + (PChar(FCheckSumFile.ValueFromIndex[I])+1);
             fri.iSize:= mbFileSize(fri.sName);
             //------------------------------------
             FFileOpDlg.sFileName:= fri.sName;
             Synchronize(@FFileOpDlg.UpdateDlg);
             //------------------------------------
             sCheckSum1:= CheckSumCalc(@fri);
-            sCheckSum2:= Trim(FCheckSumFile.Names[I]);
+            sCheckSum2:= FCheckSumFile.Names[I];
             bResult:= (StrComp(PChar(sCheckSum1), PChar(sCheckSum2)) = 0);
-            FResult.Add(FCheckSumFile.ValueFromIndex[I] + ': ' + IfThen(bResult, 'True', 'False'));
+            FResult.Add(PChar(FCheckSumFile.ValueFromIndex[I])+1 + ': ' + IfThen(bResult, 'True', 'False'));
           end;
       end;
   end;
