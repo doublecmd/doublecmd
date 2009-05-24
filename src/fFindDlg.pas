@@ -929,6 +929,7 @@ begin
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   if key=#13 then
   begin
+    Key := #0;
     if btnStart.Enabled then
       btnStart.Click
     else

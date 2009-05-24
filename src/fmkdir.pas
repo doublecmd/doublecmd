@@ -35,8 +35,11 @@ procedure TfrmMkDir.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
   if Key=#27 then
+  begin
     ModalResult:=mrCancel;
-  if Key=#13 then
+    Key := #0;
+  end
+  else if Key=#13 then
   begin
     ModalResult:=mrOK;
     Key:=#0;
