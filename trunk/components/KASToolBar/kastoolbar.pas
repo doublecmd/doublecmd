@@ -204,7 +204,8 @@ if (index>=XButtons.Count) or (Index<0) then Exit;
 end;
 
 procedure TKAStoolBar.SetButtonX(Index: integer; What: Tinfor; Value: string);
-//var
+var
+  BitmapTmp: TBitmap = nil;
 //  PNG : TPortableNetworkGraphic;
 begin
 //if Index<0 then Exit;
@@ -214,10 +215,20 @@ If Index>=XButtons.Count then XButtons.Add(TKButton.Create);
  case What of
   ButtonX: begin
              with TSpeedButton(FButtonsList.Items[Index]) do
-               if Assigned(FOnLoadButtonGlyph) then
-                 Glyph := FOnLoadButtonGlyph(Value, FIconSize, Color)
-               else
-                 Glyph := LoadBtnIcon(Value);
+             begin
+               try
+                 if Assigned(FOnLoadButtonGlyph) then
+                   BitmapTmp := FOnLoadButtonGlyph(Value, FIconSize, Color)
+                 else
+                   BitmapTmp := LoadBtnIcon(Value);
+
+                 Glyph := BitmapTmp; // Copy bitmap.
+
+               finally
+                 if Assigned(BitmapTmp) then
+                    FreeAndNil(BitmapTmp);
+               end;
+             end;
              TKButton(XButtons.Items[Index]).ButtonX:=Value;
            end;
   cmdX:TKButton(XButtons.Items[Index]).cmdX:=Value;
@@ -316,8 +327,13 @@ begin
    if CompareFileExt(IconPath, 'png', false) = 0 then
       begin
         PNG := TPortableNetworkGraphic.Create;
-        PNG.LoadFromFile(IconPath);
-        Result := TBitMap(PNG);
+        try
+          PNG.LoadFromFile(IconPath);
+          Result := Graphics.TBitmap.Create;
+          Result.Assign(PNG);
+        finally
+          FreeAndNil(PNG);
+        end;
       end
    else
       begin
@@ -584,6 +600,7 @@ function TKAStoolBar.AddButton(sCaption, Cmd, BtnHint, IconPath : String) : Inte
 var
   ToolButton: TSpeedButton;
   I:Integer;
+  Bitmap: TBitmap = nil;
 begin
   // lock on resize handler
   FLockResize := True;
@@ -628,11 +645,15 @@ begin
 
   ToolButton.Flat := FFlatButtons;
 
-  with ToolButton do
   if Assigned(FOnLoadButtonGlyph) then
-    Glyph := FOnLoadButtonGlyph(IconPath, FIconSize, Color)
+    Bitmap := FOnLoadButtonGlyph(IconPath, FIconSize, ToolButton.Color)
   else
-    Glyph := LoadBtnIcon(IconPath);
+    Bitmap := LoadBtnIcon(IconPath);
+
+  ToolButton.Glyph := Bitmap;
+
+  if Assigned(Bitmap) then
+    FreeAndNil(Bitmap);
 
   ToolButton.OnClick:=TNotifyEvent(@ToolButtonClick);
 

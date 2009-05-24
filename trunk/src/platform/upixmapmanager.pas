@@ -34,7 +34,10 @@ unit uPixMapManager;
 
 interface
 uses
-  Classes, SysUtils, uTypes, contnrs, Graphics, uClassesEx, uOSUtils;
+  Classes, SysUtils, uTypes, Graphics, uOSUtils
+  {$IF DEFINED(UNIX) and DEFINED(LCLGTK2)}
+  , uClassesEx
+  {$ENDIF};
 
 type
   TDriveIcons = record
@@ -80,15 +83,15 @@ type
     constructor Create;
     destructor Destroy; override;
     procedure Load(const sFileName:String);
-    function GetBitmap(iIndex:Integer; BkColor : TColor):TBitmap;
-    function GetStretchBitmap(iIndex: Integer; BkColor : TColor; iSize : Integer): TBitmap;
+    function GetBitmap(iIndex:Integer; BkColor : TColor):TBitmap; // Always returns new copy.
+//    function GetStretchBitmap(iIndex: Integer; BkColor : TColor; iSize : Integer): TBitmap;
     function DrawBitmap(iIndex: Integer; Canvas : TCanvas; Rect : TRect) : Boolean;
     function GetIconBySortingDirection(iSortingDirection: Integer): PtrInt;
     function GetIconByFile(fi:PFileRecItem; PanelMode: TPanelMode):PtrInt;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
   end;
 
-function StretchBitmap(bmBitmap : Graphics.TBitmap; iIconSize : Integer;
+function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
                        clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
 function LoadBitmapFromFile(sFileName : String; iIconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
 
@@ -100,7 +103,16 @@ procedure LoadPixMapManager;
 
 implementation
 uses
-  GraphType, LCLIntf, LCLType, LCLProc, Forms, FileUtil, StrUtils, uGlobsPaths, uWCXhead, uGlobs, uExts{$IFDEF LCLGTK2},gtkdef, gtk2, gdk2pixbuf, gdk2, glib2{$ENDIF}{$IFDEF MSWINDOWS}, CommCtrl, ShellAPI, Windows, uIcoFiles, uGdiPlus{$ENDIF};
+  GraphType, LCLIntf, LCLType, LCLProc, Forms, FileUtil, uGlobsPaths, uWCXhead,
+  uGlobs
+  {$IFDEF LCLGTK2}
+    , StrUtils
+    , gtkdef, gtk2, gdk2pixbuf, gdk2, glib2
+  {$ENDIF}
+  {$IFDEF MSWINDOWS}
+    , CommCtrl, ShellAPI, Windows, uIcoFiles, uGdiPlus, IntfGraphics
+  {$ENDIF}
+;
 
 {$IFDEF MSWINDOWS}
 function GetRGBColor(Value: TColor): DWORD;
@@ -128,7 +140,7 @@ begin
 end;
 {$ENDIF}
 
-function StretchBitmap(bmBitmap : Graphics.TBitmap; iIconSize : Integer;
+function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
                        clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
 var
   bmStretchBitmap : Graphics.TBitMap;
@@ -154,7 +166,8 @@ begin
         end;
         Transparent := True;
         TransparentColor := clBackColor;
-        if bFreeAtEnd then bmBitmap.Free;
+        if bFreeAtEnd then
+          FreeAndNil(bmBitmap);
         Result := bmStretchBitmap;
       end; //  with
 end;
@@ -167,15 +180,18 @@ var
   phicon,
   phiconLarge,
   phiconSmall : HIcon;
+  IntfImage: TLazIntfImage = nil;
 {$ENDIF}
   pfri : PFileRecItem;
   iIndex : Integer;
   sExtFilter,
   sGraphicFilter : String;
   bFreeAtEnd : Boolean;
-  bmStandartBitmap : Graphics.TBitMap;
+  bmStandartBitmap : Graphics.TBitMap = nil;
+  {$IFNDEF LCLGTK2}
   PNG : TPortableNetworkGraphic;
-  Icon : TIcon;
+  Icon : TIcon = nil;
+  {$ENDIF}
   {$IFDEF LCLGTK2}
   pbPicture : PGdkPixbuf;
   iPixbufWidth : Integer;
@@ -196,21 +212,20 @@ begin
       if iIconIndex < 0 then iIconIndex := 0;
       ExtractIconEx(PChar(sFileName), iIconIndex, phiconLarge, phiconSmall, 1);
       case iIconSize of
-        16:  // Small icon
+        16, 32:
           try
             Result:= Graphics.TBitMap.Create;
-            Icon:= CreateIconFromHandle(phiconSmall);
-            Result.LoadFromIntfImage(Icon.CreateIntfImage);
+            if iIconSize = 16 then
+              Icon:= CreateIconFromHandle(phiconSmall)    // Small icon
+            else
+              Icon:= CreateIconFromHandle(phiconLarge);   // Large icon
+            IntfImage := Icon.CreateIntfImage;
+            Result.LoadFromIntfImage(IntfImage);
           finally
-            Icon.Free;
-          end;
-        32:  // Large icon
-          try
-            Result:= Graphics.TBitMap.Create;
-            Icon:= CreateIconFromHandle(phiconLarge);
-            Result.LoadFromIntfImage(Icon.CreateIntfImage);
-          finally
-            Icon.Free;
+            if Assigned(Icon) then
+              FreeAndNil(Icon);
+            if Assigned(IntfImage) then
+              FreeAndNil(IntfImage);
           end;
         else
           begin
@@ -258,21 +273,30 @@ begin
           bmStandartBitmap.Canvas.FillRect(0, 0, iPixbufWidth, iPixbufHeight);
 
           DrawPixbufAtCanvas(bmStandartBitmap.Canvas, pbPicture, 0, 0, 0, 0, iPixbufWidth, iPixbufHeight);
+          gdk_pixmap_unref(pbPicture);
         end;
         {$ELSE}
         if CompareFileExt(sFileName, 'png', false) = 0 then
           begin
             PNG := TPortableNetworkGraphic.Create;
-            PNG.LoadFromFile(sFileName);
-            bmStandartBitmap := Graphics.TBitMap(PNG);
+            try
+              PNG.LoadFromFile(sFileName);
+              bmStandartBitmap := Graphics.TBitmap.Create;
+              bmStandartBitmap.Assign(PNG);
+            finally
+              FreeAndNil(PNG);
+            end;
           end
         else if CompareFileExt(sFileName, 'ico', false) = 0 then
           begin
-            { TODO: Load from *.ico
             Icon := TIcon.Create;
-            Icon.LoadFromFile(sFileName);
-            bmStandartBitmap.LoadFromIntfImage(Icon.CreateIntfImage);
-            }
+            try
+              Icon.LoadFromFile(sFileName);
+              bmStandartBitmap := Graphics.TBitmap.Create;
+              bmStandartBitmap.Assign(Icon);
+            finally
+              FreeAndNil(Icon);
+            end;
           end
         else
           begin
@@ -296,7 +320,6 @@ begin
               iIndex := PixMapManager.GetIconByFile(pfri, pmDirectory);
               bmStandartBitmap := PixMapManager.GetBitmap(iIndex, clBackColor);
               Dispose(pfri);
-              bFreeAtEnd := False; // do not free Bitmap in StretchBitmap function
             end
           else  // file not found
             begin
@@ -333,7 +356,9 @@ begin
   png:=TPortableNetworkGraphic.Create;
   png.LoadFromFile(sFileName);
   png.Transparent:=True;
-  Result := Graphics.TBitmap(png);
+  Result := Graphics.TBitmap.Create;
+  Result.Assign(png);
+  FreeAndNil(png);
 end;
 
 function TPixMapManager.CheckAddPixmap(const sName: String; bUsePixmapPath : Boolean = True): Integer;
@@ -377,16 +402,14 @@ begin
       if CompareFileExt(sFileName, 'png', False) = 0 then
         begin
           png := TPortableNetworkGraphic.Create;
-          png.LoadFromFile(sFileName);
-          png.Transparent:=True;
-
-          // Convert png to bitmap (just reassign handles ownership)
-          // to make sure only Graphics.TBitmap objects are in FPixmapList.
-          bmp := Graphics.TBitMap.Create;
-          bmp.BitmapHandle := png.ReleaseBitmapHandle;
-          bmp.MaskHandle := png.ReleaseMaskHandle;
-          bmp.Transparent := True;
-          png.Free;
+          try
+            png.LoadFromFile(sFileName);
+            png.Transparent:=True;
+            bmp := Graphics.TBitmap.Create;
+            bmp.Assign(png);
+          finally
+            FreeAndNil(png);
+          end;
         end
       else
         begin
@@ -584,7 +607,7 @@ begin
   {$IFDEF LCLGTK2}
   if assigned(FPixbufList) then
     for i := 0 to FPixbufList.Count - 1 do
-      g_object_unref(PGdkPixbuf(FPixbufList[i]));
+      g_object_unref(PGdkPixbuf(FPixbufList.Objects[i]));
 
   FreeAndNil(FPixbufList);
   {$ENDIF}
@@ -724,7 +747,11 @@ var
 {$ENDIF}
 begin
   if iIndex<FPixmapList.Count then
-    Result:=Graphics.TBitmap(FPixmapList.Objects[iIndex])
+  begin
+    // Make a new copy.
+    Result := Graphics.TBitmap.Create;
+    Result.Assign(Graphics.TBitmap(FPixmapList.Objects[iIndex]));
+  end
   else
 {$IFDEF MSWINDOWS}
   if iIndex >= $1000 then
@@ -766,8 +793,10 @@ begin
 {$ENDIF}
 end;
 
-function TPixMapManager.GetStretchBitmap(iIndex: Integer; BkColor: TColor;
+{function TPixMapManager.GetStretchBitmap(iIndex: Integer; BkColor: TColor;
   iSize: Integer): Graphics.TBitmap;
+var
+  BitmapTmp: TBitmap;
 begin
   Result := Graphics.TBitMap.Create;
   with Result do
@@ -777,9 +806,11 @@ begin
 
     Canvas.Brush.Color := BkColor;
     Canvas.FillRect(Canvas.ClipRect);
-    Canvas.StretchDraw(Canvas.ClipRect, GetBitmap(iIndex, BkColor));
+    BitmapTmp := GetBitmap(iIndex, BkColor);
+    Canvas.StretchDraw(Canvas.ClipRect, BitmapTmp);
+    FreeAndNil(BitmapTmp);
   end;
-end;
+end;}
 
 function TPixMapManager.DrawBitmap(iIndex: Integer; Canvas: TCanvas; Rect: TRect): Boolean;
   {$IFDEF MSWINDOWS}
@@ -939,9 +970,12 @@ end;
 function TPixMapManager.GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
 var
   DriveIcons : PDriveIcons;
+  Bitmap: Graphics.TBitmap;
 {$IFDEF MSWINDOWS}
   SFI: TSHFileInfo;
-  Icon: TIcon;
+  Icon: TIcon = nil;
+  IntfImage: TLazIntfImage = nil;
+  _para5 : UINT;
 {$ENDIF}
 begin
   Result := nil;
@@ -953,26 +987,25 @@ begin
       SFI.hIcon := 0;
       Result := Graphics.TBitMap.Create;
       case IconSize of
-      16: // Standart icon size
+      16, 32: // Standart icon size
         begin
-          SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON or SHGFI_SMALLICON);
+          if IconSize = 16 then
+            _para5 := SHGFI_SMALLICON
+          else
+            _para5 := SHGFI_LARGEICON;
+
+          SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), _para5 or SHGFI_ICON);
+
           if SFI.hIcon <> 0 then
             try
-              Icon:= CreateIconFromHandle(SFI.hIcon);
-              Result.LoadFromIntfImage(Icon.CreateIntfImage);
+              Icon := CreateIconFromHandle(SFI.hIcon);
+              IntfImage := Icon.CreateIntfImage;
+              Result.LoadFromIntfImage(IntfImage);
             finally
-              Icon.Free;
-            end;
-        end;
-      32:  // Standart icon size
-        begin
-          SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON or SHGFI_LARGEICON);
-          if SFI.hIcon <> 0 then
-            try
-              Icon:= CreateIconFromHandle(SFI.hIcon);
-              Result.LoadFromIntfImage(Icon.CreateIntfImage);
-            finally
-              Icon.Free;
+              if Assigned(Icon) then
+                FreeAndNil(Icon);
+              if Assigned(IntfImage) then
+                FreeAndNil(IntfImage);
             end;
         end;
       else  // for non standart icon size we Convert HIcon to TBitMap
@@ -1003,21 +1036,27 @@ begin
       end;
       case Drive^.DriveType of
       dtFloppy:
-        Result :=  DriveIcons^.bmMediaFloppy;
+        Bitmap := DriveIcons^.bmMediaFloppy;
       dtFixed:
-        Result :=  DriveIcons^.bmDriveHardDisk;
+        Bitmap := DriveIcons^.bmDriveHardDisk;
       dtFlash:
-        Result :=  DriveIcons^.bmMediaFlash;
+        Bitmap := DriveIcons^.bmMediaFlash;
       dtCDROM:
-        Result :=  DriveIcons^.bmMediaOptical;
+        Bitmap := DriveIcons^.bmMediaOptical;
       else
-        Result :=  DriveIcons^.bmDriveHardDisk;
+        Bitmap := DriveIcons^.bmDriveHardDisk;
       end;
       //  if need stretch icon
       if (IconSize <> 16) and (IconSize <> 22) and (IconSize <> 32) then
         begin
-          Result := StretchBitmap(Result, IconSize, clBackColor);
+          Result := StretchBitmap(Bitmap, IconSize, clBackColor, False);
+        end
+      else
+        begin
+          Result := Graphics.TBitmap.Create;
+          Result.Assign(Bitmap);
         end;
+      // 'Bitmap' should not be freed, because it only points to DriveIcons.
     end;  //
 end;
 
