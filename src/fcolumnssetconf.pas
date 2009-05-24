@@ -582,22 +582,14 @@ begin
 
   with PreviewPan do
   begin
-    edtCmdLine:=ComboBox1;
     ActiveColmSlave:=ColumnClass;
     isSlave:=true;
     SetColWidths;
     UpdateColumnsView;
+
     dgPanel.OnHeaderSized:=@DGHeaderSized;
-    Init;
-    ReAlign;
     pnlFile.ActiveDir := mbGetCurrentDir;
     pnlFile.LoadPanel;
-    GridVertLine:= gGridVertLine;
-    GridHorzLine:= gGridHorzLine;
-    UpDatelblInfo;
-    dgPanel.Color := gBackColor;
-    pnlHeader.Visible := gCurDir;
-    pnlFooter.Visible := gStatusBar;
   end;
 
 

@@ -477,9 +477,7 @@ uses
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 var
-  IniBarFile: TIniFileEx;
   slCommandHistory: TStringListEx;
-  I : Integer;
 begin
   inherited;
   // frost_asm begin
@@ -506,10 +504,6 @@ begin
   nbLeft.Options:=[nboShowCloseButtons];
   nbRight.Options:=[nboShowCloseButtons];
 
-  SetMultilineTabs(nbLeft, Boolean(gDirTabOptions and tb_multiple_lines));
-  SetMultilineTabs(nbRight, Boolean(gDirTabOptions and tb_multiple_lines));
-
-
   actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
 
   AllowDropFiles := not uDragDropEx.IsExternalDraggingSupported;
@@ -520,104 +514,28 @@ begin
 
   //DebugLN('dskLeft.Width == ' + IntToStr(dskLeft.Width));
   //DebugLN('dskRight.Width == ' + IntToStr(dskRight.Width));
-  DrivesList := GetAllDrives;
 
-  { Delete drives that in drives black list }
-  for I:= DrivesList.Count - 1 downto 0 do
-    begin
-      if MatchesMaskList(PDrive(DrivesList.Items[I])^.Name, gDriveBlackList) then
-        DrivesList.Delete(I);
-    end;
+  DrivesList := nil;
 
-  CreateDrivesMenu;
-
-  (*Create Disk Panels*)
-  dskLeft.Visible :=  gDriveBar2;
-  if gDriveBar2 and gDriveBar1 then
-    CreateDiskPanel(dskLeft);
-
-  dskRight.Visible := gDriveBar1;
-  if gDriveBar1 then
-    CreateDiskPanel(dskRight);
-
-  pnlSyncSize.Visible := gDriveBar1;
-  (*/Create Disk Panels*)
-
-  (*Tool Bar*)
-  if gButtonBar then
-    begin
-      MainToolBar.FlatButtons := gToolBarFlat;
-      MainToolBar.ButtonGlyphSize := gToolBarIconSize;
-      MainToolBar.ChangePath := gpExePath;
-      MainToolBar.EnvVar := '%commander_path%';
-      try
-        IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar', fmOpenRead);
-        MainToolBar.LoadFromIniFile(IniBarFile);
-      finally
-        FreeThenNil(IniBarFile);
-      end;
-    end;
-  (*Tool Bar*)
+  LeftFrameWatcher:= nil;
+  RightFrameWatcher:= nil;
 
   pmButtonMenu.BarFile.ChangePath := gpExePath;
   pmButtonMenu.BarFile.EnvVar := '%commander_path%';
 
+  { *HotKeys* }
   LoadShortCuts;
 
-  {Load some options from layout page}
-
-  for I := 0 to pnlKeys.ControlCount - 1 do  // function keys
-    if pnlKeys.Controls[I] is TSpeedButton then
-      (pnlKeys.Controls[I] as TSpeedButton).Flat := gInterfaceFlat;
-
-  MainToolBar.Visible := gButtonBar;
-
-  btnLeftDrive.Visible := gDriveMenuButton;
-  btnLeftDrive.Flat := gInterfaceFlat;
-  btnLeftRoot.Visible := gDriveMenuButton;
-  btnLeftRoot.Flat := gInterfaceFlat;
-  btnLeftUp.Visible := gDriveMenuButton;
-  btnLeftUp.Flat := gInterfaceFlat;
-  btnLeftHome.Visible := gDriveMenuButton;
-  btnLeftHome.Flat := gInterfaceFlat;
-  btnLeftDirectoryHotlist.Visible := gDriveMenuButton;
-  btnLeftDirectoryHotlist.Flat := gInterfaceFlat;
-  btnLeftTargetEqualSource.Flat:= gInterfaceFlat;
-
-  btnRightDrive.Visible := gDriveMenuButton;
-  btnRightDrive.Flat := gInterfaceFlat;
-  btnRightRoot.Visible := gDriveMenuButton;
-  btnRightRoot.Flat := gInterfaceFlat;
-  btnRightUp.Visible := gDriveMenuButton;
-  btnRightUp.Flat := gInterfaceFlat;
-  btnRightHome.Visible := gDriveMenuButton;;
-  btnRightHome.Flat := gInterfaceFlat;
-  btnRightDirectoryHotlist.Visible := gDriveMenuButton;
-  btnRightDirectoryHotlist.Flat := gInterfaceFlat;
-  btnRightTargetEqualSource.Flat:= gInterfaceFlat;
-
-  pnlCommand.Visible := gCmdLine;
-  pnlKeys.Visible := gKeyButtons;
-  LogSplitter.Visible := gLogWindow;
-  seLogWindow.Visible := gLogWindow;
-
-  seLogWindow.Font.Name := gEditorFontName;
-
-  pmColumnsMenu.Items.Clear;
-  //DebugLn('frmMain.FormCreate Done');
-  
   HotMan.RegisterHotkeyManager(Self);
   HotMan.RegisterHotkeyManager(edtCommand);
 
   if HotMan.HotkeyList.Count=0 then LoadDefaultHotkeyBindings;
   // load shortcuts to action list for showing it in menu
   HotMan.LoadShortCutToActionList(ActionLst);
-  // toggle console window
-  ToggleConsole;
-  // toggle file system watcher
-  LeftFrameWatcher:= nil;
-  RightFrameWatcher:= nil;
-  ToggleFileSystemWatcher;
+  { *HotKeys* }
+
+  UpdateWindowView;
+  //DebugLn('frmMain.FormCreate Done');
 end;
 
 procedure TfrmMain.btnLeftClick(Sender: TObject);
@@ -2669,16 +2587,21 @@ begin
   for I:= DrivesList.Count - 1 downto 0 do
     begin
       if MatchesMaskList(PDrive(DrivesList.Items[I])^.Name, gDriveBlackList) then
+      begin
+        if Assigned(DrivesList.Items[i]) then
+          Dispose(PDrive(DrivesList.Items[i]));
         DrivesList.Delete(I);
       end;
+    end;  
+
   // create drives drop down menu
   CreateDrivesMenu;
-  // delete all disk buttons
-  dskRight.DeleteAllToolButtons;
-  dskLeft.DeleteAllToolButtons;
-  // and add new
-  CreateDiskPanel(dskLeft);
-  CreateDiskPanel(dskRight);
+
+  // create drives left/right panels
+  if gDriveBar2 and gDriveBar1 then
+    CreateDiskPanel(dskLeft);
+  if gDriveBar1 then
+    CreateDiskPanel(dskRight);
 end;
 
 procedure TfrmMain.CreateDrivesMenu;
@@ -2757,7 +2680,9 @@ begin
            begin
              FrameLeft.pnlFile.ActiveDir := Hint;
              if gDriveBar2 and gDriveBar1 then
-               dskLeft.Buttons[Tag].Down := True;
+               dskLeft.Buttons[Tag].Down := True
+             else if gDriveBar1 then
+               dskRight.Buttons[Tag].Down := True;
              dskLeft.Tag := Tag;
              FrameLeft.pnlFile.LoadPanel;
              SetActiveFrame(fpLeft);
@@ -2818,6 +2743,7 @@ var
 begin
 //dskPanel.InitBounds; // Update information
 
+  dskPanel.DeleteAllToolButtons;
   dskPanel.FlatButtons := gDriveBarFlat;
   Count := DrivesList.Count - 1;
 
@@ -2878,28 +2804,20 @@ begin
   
   with TFrameFilePanel.Create(AOwner, lblDriveInfo, lblCommandPath, edtCommand) do
   begin
-    edtCmdLine:=edtCommand;
     PanelSelect:=APanel;
-    Init;
-    ReAlign;
-    pnlFile.OnBeforeChangeDirectory := @FramepnlFileBeforeChangeDirectory;
-    pnlFile.OnAfterChangeDirectory := @FramepnlFileAfterChangeDirectory;
     if not mbDirectoryExists(sPath) then
       sPath:= mbGetCurrentDir;
     pnlFile.ActiveDir := sPath;
     pnlFile.LoadPanel;
-    GridVertLine:= gGridVertLine;
-    GridHorzLine:= gGridHorzLine;
-    UpDatelblInfo;
-    dgPanel.Color := gBackColor;
-    pnlHeader.Visible := gCurDir;
-    pnlFooter.Visible := gStatusBar;
+
+    pnlFile.OnBeforeChangeDirectory := @FramepnlFileBeforeChangeDirectory;
+    pnlFile.OnAfterChangeDirectory := @FramepnlFileAfterChangeDirectory;
+
     lblLPath.OnClick:=@FramelblLPathClick;
     lblLPath.OnMouseUp := @FramelblLPathMouseUp;
     edtPath.OnExit:=@FrameEditExit;
     edtRename.OnExit:=@FrameEditExit;
     edtSearch.OnExit:=@FrameedtSearchExit;
-    
     dgPanel.OnEnter:=@framedgPanelEnter;
   end;
 
@@ -3194,102 +3112,57 @@ end;
 procedure TfrmMain.UpdateWindowView;
 var
   I : Integer;
+  IniBarFile : TIniFileEx;
 begin
-  (* Update list of showed drives *)
-  UpdateDiskCount;
   (* Disk Panels *)
-  if (dskRight.FlatButtons <> gDriveBarFlat) then  //  if change
-    begin
-      dskLeft.FlatButtons := gDriveBarFlat;
-      dskRight.FlatButtons := gDriveBarFlat;
-    end;
-  
-  if (dskLeft.Visible <> gDriveBar2) or (dskRight.Visible <> gDriveBar1) then  // if change
-    begin
-      if gDriveBar1 and gDriveBar2 then  // left visible only then right visible
-        begin
-          CreateDiskPanel(dskLeft);
-          dskLeft.Visible := gDriveBar2;
-        end
-      else
-        begin
-          dskLeft.Visible := gDriveBar2;
-          dskLeft.DeleteAllToolButtons;
-        end;
+  UpdateDiskCount; // Update list of showed drives
 
-    end;
-
-  if dskRight.Visible <> gDriveBar1 then  // if change
-    begin
-      if gDriveBar1 then
-        begin
-          CreateDiskPanel(dskRight);
-          dskRight.Visible := gDriveBar1;
-        end
-      else
-        begin
-          dskRight.Visible := gDriveBar1;
-          dskRight.DeleteAllToolButtons;
-        end;
-    end;
-
+  dskLeft.Visible := (gDriveBar1 and gDriveBar2);
+  dskRight.Visible := gDriveBar1;
   pnlSyncSize.Visible := gDriveBar1;
   (*/ Disk Panels *)
 
   (*Tool Bar*)
-  if MainToolBar.FlatButtons <> gToolBarFlat then
-    MainToolBar.FlatButtons := gToolBarFlat;
-  if MainToolBar.Visible <> gButtonBar then  // if change
+  MainToolBar.Visible := gButtonBar;
+  if gButtonBar then
     begin
-      if gButtonBar then
-        begin
-          MainToolBar.ChangePath := gpExePath;
-          MainToolBar.EnvVar := '%commander_path%';
-          MainToolBar.LoadFromFile(gpIniDir + 'default.bar');
-          MainToolBar.Visible := gButtonBar;
-        end
-      else
-        begin
-          MainToolBar.Visible := gButtonBar;
-          MainToolBar.DeleteAllToolButtons;
-        end;
-    end;
-  (*Tool Bar*)
-
-  {Load some options from layout page}
-  if btnLeftDrive.Visible <> gDriveMenuButton then
-    if gDriveMenuButton then
-      begin
-        if gDriveBar1 and gDriveBar2 then // left visible only then right visible
-          for I := 1 to 3 do
-            dskLeft.RemoveButton(dskLeft.ButtonCount - 1);
-        if gDriveBar1 then
-          for I := 1 to 3 do
-            dskRight.RemoveButton(dskRight.ButtonCount - 1);
-      end
-    else
-      begin
-        if gDriveBar1 and gDriveBar2 then  // left visible only then right visible
-          AddSpecialButtons(dskLeft);
-        if gDriveBar1 then
-          AddSpecialButtons(dskRight);
+      MainToolBar.FlatButtons := gToolBarFlat;
+      MainToolBar.ButtonGlyphSize := gToolBarIconSize;
+      MainToolBar.ChangePath := gpExePath;
+      MainToolBar.EnvVar := '%commander_path%';
+      try
+        IniBarFile := TIniFileEx.Create(gpIniDir + 'default.bar', fmOpenRead or fmShareDenyNone);
+        MainToolBar.LoadFromIniFile(IniBarFile);
+      finally
+        FreeThenNil(IniBarFile);
       end;
-  if btnLeftDrive.Flat <> gInterfaceFlat then
-    begin
-      btnLeftDrive.Flat := gInterfaceFlat;
-      btnLeftRoot.Flat := gInterfaceFlat;
-      btnLeftUp.Flat := gInterfaceFlat;
-      btnLeftHome.Flat := gInterfaceFlat;
-      btnLeftDirectoryHotlist.Flat := gInterfaceFlat;
-      btnLeftTargetEqualSource.Flat:= gInterfaceFlat;
-      
-      btnRightDrive.Flat := gInterfaceFlat;
-      btnRightRoot.Flat := gInterfaceFlat;
-      btnRightUp.Flat := gInterfaceFlat;
-      btnRightHome.Flat := gInterfaceFlat;
-      btnRightDirectoryHotlist.Flat := gInterfaceFlat;
-      btnRightTargetEqualSource.Flat:= gInterfaceFlat;
     end;
+
+  btnLeftDrive.Visible := gDriveMenuButton;
+  btnLeftDrive.Flat := gInterfaceFlat;
+  btnLeftRoot.Visible := gDriveMenuButton;
+  btnLeftRoot.Flat := gInterfaceFlat;
+  btnLeftUp.Visible := gDriveMenuButton;
+  btnLeftUp.Flat := gInterfaceFlat;
+  btnLeftHome.Visible := gDriveMenuButton;
+  btnLeftHome.Flat := gInterfaceFlat;
+  btnLeftDirectoryHotlist.Visible := gDriveMenuButton;
+  btnLeftDirectoryHotlist.Flat := gInterfaceFlat;
+  btnLeftTargetEqualSource.Visible := gDriveMenuButton;
+  btnLeftTargetEqualSource.Flat:= gInterfaceFlat;
+
+  btnRightDrive.Visible := gDriveMenuButton;
+  btnRightDrive.Flat := gInterfaceFlat;
+  btnRightRoot.Visible := gDriveMenuButton;
+  btnRightRoot.Flat := gInterfaceFlat;
+  btnRightUp.Visible := gDriveMenuButton;
+  btnRightUp.Flat := gInterfaceFlat;
+  btnRightHome.Visible := gDriveMenuButton;;
+  btnRightHome.Flat := gInterfaceFlat;
+  btnRightDirectoryHotlist.Visible := gDriveMenuButton;
+  btnRightDirectoryHotlist.Flat := gInterfaceFlat;
+  btnRightTargetEqualSource.Visible := gDriveMenuButton;
+  btnRightTargetEqualSource.Flat:= gInterfaceFlat;
 
   // Tabs
   nbLeft.ShowTabs := ((nbLeft.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
@@ -3299,48 +3172,20 @@ begin
   SetMultilineTabs(nbRight, Boolean(gDirTabOptions and tb_multiple_lines));
 
   for I := 0 to nbLeft.PageCount - 1 do  //  change on all tabs
-    with nbLeft.Page[I].Controls[0] as TFrameFilePanel do
-    begin
-      pnlHeader.Visible := gCurDir;  // Current directory
-      pnlFooter.Visible := gStatusBar;  // Status bar
-      GridVertLine:= gGridVertLine;
-      GridHorzLine:= gGridHorzLine;
-      if gShowIcons then
-        pnlFile.FileList.UpdateFileInformation(pnlFile.PanelMode);
-      pnlFile.UpdatePanel;
-    end;
-
+    (nbLeft.Page[I].Controls[0] as TFrameFilePanel).UpdateView;
   for I := 0 to nbRight.PageCount - 1 do  //  change on all tabs
-    with nbRight.Page[I].Controls[0] as TFrameFilePanel do
-    begin
-      pnlHeader.Visible := gCurDir;  // Current directory
-      pnlFooter.Visible := gStatusBar;  // Status bar
-      GridVertLine:= gGridVertLine;
-      GridHorzLine:= gGridHorzLine;
-      if gShowIcons then
-        pnlFile.FileList.UpdateFileInformation(pnlFile.PanelMode);
-      pnlFile.UpdatePanel;
-    end;
+    (nbRight.Page[I].Controls[0] as TFrameFilePanel).UpdateView;
 
   for I := 0 to pnlKeys.ControlCount - 1 do  // function keys
     if pnlKeys.Controls[I] is TSpeedButton then
       (pnlKeys.Controls[I] as TSpeedButton).Flat := gInterfaceFlat;
         
-  btnLeftDrive.Visible := gDriveMenuButton;
-  btnLeftRoot.Visible := gDriveMenuButton;
-  btnLeftUp.Visible := gDriveMenuButton;
-  btnLeftHome.Visible := gDriveMenuButton;
-
-  btnRightDrive.Visible := gDriveMenuButton;
-  btnRightRoot.Visible := gDriveMenuButton;
-  btnRightUp.Visible := gDriveMenuButton;
-  btnRightHome.Visible := gDriveMenuButton;
-
   pnlCommand.Visible := gCmdLine;
   edtCommand.Tag := 0;
   pnlKeys.Visible := gKeyButtons;
   LogSplitter.Visible := gLogWindow;
   seLogWindow.Visible := gLogWindow;
+  seLogWindow.Font.Name := gEditorFontName;
   ToggleConsole;
   ToggleFileSystemWatcher;
 end;

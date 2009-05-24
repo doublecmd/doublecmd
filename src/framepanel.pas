@@ -79,8 +79,9 @@ type
     procedure FinalizeWnd; override;
 
   public
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TComponent; AParent: TWinControl);
     destructor Destroy; override;
+    procedure UpdateView;
 
     // Returns height of all the header rows.
     function GetHeaderHeight: Integer;
@@ -228,7 +229,6 @@ type
     procedure InvertAllFiles;
     procedure MarkAll;
     procedure RefreshPanel(bUpdateFileCount: Boolean = True; bUpdateDiskFreeSpace: Boolean = True);
-    procedure Init;
     procedure ClearCmdLine;
     procedure CloseAltPanel;
     procedure ShowAltPanel(Char : TUTF8Char = #0);
@@ -243,6 +243,7 @@ type
     procedure ClearGridSelection;
     procedure RedrawGrid;
     procedure UpdateColumnsView;
+    procedure UpdateView;
     function GetActiveItem:PFileRecItem;
     { Returns True if there are no files shown in the panel. }
     function IsEmpty:Boolean;
@@ -375,37 +376,6 @@ begin
   pnlFile.bUpdateDiskFreeSpace:= True;
 end;
 
-
-procedure TFrameFilePanel.Init;
-var
-  TabHeaderHeight: Integer;
-begin
-  ClearCmdLine;
-  UpDatelblInfo;
-  FLastMark:= '*';
-  FLastAutoSelect:= False;
-  if dgPanel.RowCount < Integer(gTabHeader) then
-    dgPanel.RowCount:= Integer(gTabHeader);
-  dgPanel.FixedRows:= Integer(gTabHeader);
-  dgPanel.Tag:= dgPanel.DefaultRowHeight;
-  dgPanel.DefaultRowHeight:= gIconsSize;
-  dgPanel.Flat := gInterfaceFlat;
-
-  if gTabHeader then
-    TabHeaderHeight := gIconsSize + 1;
-    if not gInterfaceFlat then
-    begin
-      TabHeaderHeight := TabHeaderHeight + 2;
-    end;
-    dgPanel.RowHeights[0] := TabHeaderHeight;
-  with FLastSelect do
-  begin
-    Left:= 0;
-    Top:= 0;
-    Bottom:= 0;
-    Right:= dgPanel.ColCount-1;
-  end;
-end;
 
 procedure TFrameFilePanel.ClearCmdLine;
 begin
@@ -1540,7 +1510,8 @@ begin
     dgPanel.Options := dgPanel.Options - [goVertLine]
 end;
 
-constructor TFrameFilePanel.Create(AOwner : TWinControl; lblDriveInfo : TLabel; lblCommandPath:TLabel; cmbCommand:TComboBox);
+constructor TFrameFilePanel.Create(AOwner : TWinControl; lblDriveInfo : TLabel;
+                                   lblCommandPath:TLabel; cmbCommand:TComboBox);
 begin
   DebugLn('TFrameFilePanel.Create components');
   inherited Create(AOwner);
@@ -1548,18 +1519,18 @@ begin
   Align:=alClient;
   ActiveColmSlave:=nil;
   isSlave:=false;
+  FLastSelectionStartRow:=-1;
+  FLastMark:= '*';
+  FLastAutoSelect:= False;
+
   OnKeyPress:=@dgPanelKeyPress;
   pnlHeader:=TPanel.Create(Self);
   pnlHeader.Parent:=Self;
   pnlHeader.Height:=24;
   pnlHeader.Align:=alTop;
 
-//  pnlHeader.Width:=AOwner.Width;
-  
   pnlHeader.BevelInner:=bvNone;
   pnlHeader.BevelOuter:=bvNone;
-
-//  pnlHeader.Color:=clRed;
 
   lblLPath:=TLabel.Create(pnlHeader);
   lblLPath.Parent:=pnlHeader;
@@ -1573,7 +1544,6 @@ begin
   edtPath.Visible:=False;
   edtPath.TabStop:=False;
 
-
   pnlFooter:=TPanel.Create(Self);
   pnlFooter.Parent:=Self;
   pnlFooter.Align:=alBottom;
@@ -1584,35 +1554,14 @@ begin
   pnlFooter.Top:=Height-20;
 
   pnlFooter.BevelInner:=bvNone;
-  pnlFooter.BevelOuter:=bvNone;;
-
-  FLastSelectionStartRow:=-1;
-
-  dgPanel:=TDrawGridEx.Create(Self);
-  dgPanel.Parent:=Self;
-  dgPanel.FixedCols:=0;
-  dgPanel.FixedRows:=0;
-  dgPanel.DefaultDrawing:=True;
-  dgPanel.DoubleBuffered:=True;
-  dgPanel.Width:=Self.Width;
-  dgPanel.ColCount:= 0;
-  dgPanel.AutoFillColumns:= True;
-
-//  dgPanel.Height:=Self.Height - pnlHeader.Height - pnlFooter.Height;
-//  DebugLn(Self.Height - pnlHeader.Height - pnlFooter.Height);
-  dgPanel.Align:=alClient;
-//  dgPanel.DefaultDrawing:=False;
-  dgPanel.ScrollBars:= ssAutoVertical;
-  dgPanel.Options:=[goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect, goColSizing, goThumbTracking];
-  dgPanel.TitleStyle := tsStandard;
-  dgPanel.TabStop:=False;
+  pnlFooter.BevelOuter:=bvNone;
 
   lblLInfo:=TLabel.Create(pnlFooter);
   lblLInfo.Parent:=pnlFooter;
   lblLInfo.Width:=250;//  pnlFooter.Width;
   lblLInfo.AutoSize:=True;
 
-  edtRename:=TEdit.Create(dgPanel);
+  edtRename:=TEdit.Create(Self);
   edtRename.Parent:=dgPanel;
   edtRename.Visible:=False;
   edtRename.TabStop:=False;
@@ -1630,6 +1579,8 @@ begin
   edtSearch.Top:=1;
 
   pnAltSearch.Visible := False;
+
+  dgPanel:=TDrawGridEx.Create(Self, Self);
 
   // ---
   dgPanel.OnMouseDown := @dgPanelMouseDown;
@@ -1664,6 +1615,11 @@ begin
   
   pnlFile:=TFilePanel.Create(AOwner, TDrawGrid(dgPanel),lblLPath,lblCommandPath, lblDriveInfo, cmbCommand);
   
+  edtCmdLine := cmbCommand;
+  ClearCmdLine;
+
+  UpdateView;
+
 //  setup column widths
   SetColWidths;
   UpdateColumnsView;
@@ -1676,12 +1632,38 @@ begin
   inherited Destroy;
 end;
 
+procedure TFrameFilePanel.UpdateView;
+begin
+  pnlHeader.Visible := gCurDir;  // Current directory
+  pnlFooter.Visible := gStatusBar;  // Status bar
+  GridVertLine:= gGridVertLine;
+  GridHorzLine:= gGridHorzLine;
+
+  dgPanel.UpdateView;
+
+  with FLastSelect do
+  begin
+    Left:= 0;
+    Top:= 0;
+    Bottom:= 0;
+    Right:= dgPanel.ColCount-1;
+  end;
+
+  if gShowIcons then
+    pnlFile.FileList.UpdateFileInformation(pnlFile.PanelMode);
+
+  pnlFile.UpdatePanel;
+  UpDatelblInfo;
+end;
+
 
 { TDrawGridEx }
 
-constructor TDrawGridEx.Create(AOwner: TComponent);
+constructor TDrawGridEx.Create(AOwner: TComponent; AParent: TWinControl);
 begin
   inherited Create(AOwner);
+
+  Self.Parent := AParent;
 
   TransformDragging := False;
   StartDrag := False;
@@ -1689,11 +1671,48 @@ begin
 
   DragDropSource := nil;
   DragDropTarget := nil;
+
+  DoubleBuffered := True;
+  AutoFillColumns := True;
+  Align := alClient;
+  ScrollBars := ssAutoVertical;
+  Options := [goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect,
+              goColSizing, goThumbTracking];
+  TitleStyle := tsStandard;
+  TabStop := False;
+
+  UpdateView;
 end;
 
 destructor TDrawGridEx.Destroy;
 begin
   inherited;
+end;
+
+procedure TDrawGridEx.UpdateView;
+var
+  TabHeaderHeight: Integer;
+begin
+  Flat := gInterfaceFlat;
+  Color := gBackColor;
+
+  // Set height of each row.
+  DefaultRowHeight := gIconsSize;
+
+  // Set rows of header.
+  RowCount := Integer(gTabHeader);
+  if gTabHeader then
+  begin
+    TabHeaderHeight := gIconsSize + 1;
+    if not gInterfaceFlat then
+    begin
+      TabHeaderHeight := TabHeaderHeight + 2;
+    end;
+    RowHeights[0] := TabHeaderHeight;
+  end;
+
+  FixedRows := Integer(gTabHeader);
+  FixedCols := 0;
 end;
 
 procedure TDrawGridEx.InitializeWnd;
