@@ -140,7 +140,7 @@ begin
         sCheckSum1:= CheckSumCalc(pr);
         FCheckSumFile.Add(sCheckSum1 + ' *' + ExtractFileName(pr^.sName));
         if not FOneFile then
-          FCheckSumFile.SaveToFile(ExtractFileNameWithoutExt(pr^.sName) + '.md5');
+          FCheckSumFile.SaveToFile(ExtractFileNameWithoutExt(pr^.sName) + '.' + HashFileExt[FAlgorithm]);
       end;
     checksum_verify: // verify check sum
       begin
