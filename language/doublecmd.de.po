@@ -123,7 +123,7 @@ msgid "Calculate check sum..."
 msgstr ""
 
 #: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
-msgid "Create separate MD5 files for each file"
+msgid "Create separate MD5/SHA1 files for each file"
 msgstr ""
 
 #: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
@@ -758,11 +758,11 @@ msgstr "Symb. Link:"
 msgid "Type:"
 msgstr "Typ:"
 
+#, fuzzy
 #: TFRMFILEPROPERTIES.LBLWRITE.CAPTION
 msgid "Write"
 msgstr "Schreiben"
 
-#, fuzzy
 #: TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION
 msgctxt "TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION"
 msgid "Attributes"
@@ -844,6 +844,7 @@ msgstr "Verzeichnis"
 msgid "File Size From:"
 msgstr "Dateigrösse ab:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
 msgid "File Size To:"
 msgstr "Bis Dateigrösse"
@@ -853,7 +854,6 @@ msgstr "Bis Dateigrösse"
 msgid "Find &text in file"
 msgstr "Suche in Datei"
 
-#, fuzzy
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
 msgstr "Mehr"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-05-24 14:12+0300\n"
+"PO-Revision-Date: 2009-05-25 00:12+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -122,8 +122,8 @@ msgid "Calculate check sum..."
 msgstr ""
 
 #: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
-msgid "Create separate MD5 files for each file"
-msgstr "Для каждого файла создать отдельный MD5-файл"
+msgid "Create separate MD5/SHA1 files for each file"
+msgstr "Для каждого файла создать отдельный MD5/SHA1-файл"
 
 #: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
 msgid "Save check sum file(s) to:"
