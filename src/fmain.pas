@@ -1005,6 +1005,7 @@ var
   dskPanel : TKASToolBar;
   FrameFilePanel : TFrameFilePanel;
   btnDrive : TSpeedButton;
+  BitmapTmp: Graphics.TBitmap;
 begin
   dskPanel := (Sender as TKASToolBar);
 
@@ -1054,7 +1055,10 @@ begin
          dskPanel.Tag := NumberOfButton;
          btnDrive.Tag:= NumberOfButton;
 
-         btnDrive.Glyph := PixMapManager.GetDriveIcon(PDrive(DrivesList[NumberOfButton]), btnDrive.Height - 4, btnDrive.Color);
+         BitmapTmp := PixMapManager.GetDriveIcon(PDrive(DrivesList[NumberOfButton]), btnDrive.Height - 4, btnDrive.Color);
+         btnDrive.Glyph := BitmapTmp;
+         if Assigned(BitmapTmp) then
+           FreeAndNil(BitmapTmp);
          btnDrive.Caption := dskRight.Buttons[NumberOfButton].Caption;
        end
      else
@@ -2666,7 +2670,7 @@ begin
     begin
       if MatchesMaskList(PDrive(DrivesList.Items[I])^.Name, gDriveBlackList) then
         DrivesList.Delete(I);
-    end;  
+      end;
   // create drives drop down menu
   CreateDrivesMenu;
   // delete all disk buttons
@@ -2682,6 +2686,7 @@ var
   I, Count : Integer;
   Drive : PDrive;
   miTmp : TMenuItem;
+  BitmapTmp: Graphics.TBitmap;
 begin
   pmDrivesMenu.Items.Clear;
   btnLeftDrive.Caption := '';
@@ -2702,7 +2707,10 @@ begin
           begin
             if Pos(LowerCase(Path), LowerCase(FrameLeft.pnlFile.ActiveDir)) = 1 then
               begin
-                btnLeftDrive.Glyph := PixMapManager.GetDriveIcon(Drive, btnLeftDrive.Height - 4, btnLeftDrive.Color);
+                BitmapTmp := PixMapManager.GetDriveIcon(Drive, btnLeftDrive.Height - 4, btnLeftDrive.Color);
+                btnLeftDrive.Glyph := BitmapTmp;
+                if Assigned(BitmapTmp) then
+                  FreeAndNil(BitmapTmp);
                 btnLeftDrive.Caption := Name;
                 btnLeftDrive.Width := btnLeftDrive.Glyph.Width + btnLeftDrive.Canvas.TextWidth(btnLeftDrive.Caption) + 16;
                 btnLeftDrive.Tag:= I;
@@ -2710,7 +2718,10 @@ begin
               end;
             if Pos(LowerCase(Path), LowerCase(FrameRight.pnlFile.ActiveDir)) = 1 then
               begin
-                btnRightDrive.Glyph := PixMapManager.GetDriveIcon(Drive, btnRightDrive.Height - 4, btnRightDrive.Color);
+                BitmapTmp := PixMapManager.GetDriveIcon(Drive, btnRightDrive.Height - 4, btnRightDrive.Color);
+                btnRightDrive.Glyph := BitmapTmp;
+                if Assigned(BitmapTmp) then
+                  FreeAndNil(BitmapTmp);
                 btnRightDrive.Caption := Name;
                 btnRightDrive.Width := btnRightDrive.Glyph.Width + btnRightDrive.Canvas.TextWidth(btnRightDrive.Caption) + 16;
                 btnRightDrive.Tag:= I;
@@ -2719,7 +2730,11 @@ begin
           end;
         
         // get disk icon
-        miTmp.Bitmap := PixMapManager.GetDriveIcon(Drive, 16, clMenu);
+        BitmapTmp := PixMapManager.GetDriveIcon(Drive, 16, clMenu);
+        miTmp.Bitmap := BitmapTmp;
+        if Assigned(BitmapTmp) then
+          FreeAndNil(BitmapTmp);
+
         miTmp.RadioItem := True;
         miTmp.AutoCheck := True;
         miTmp.GroupIndex := 1;
@@ -2730,6 +2745,8 @@ begin
 end;
 
 procedure TfrmMain.DrivesMenuClick(Sender: TObject);
+var
+  BitmapTmp: Graphics.TBitmap;
 begin
   with Sender as TMenuItem do
   begin
@@ -2744,7 +2761,10 @@ begin
              dskLeft.Tag := Tag;
              FrameLeft.pnlFile.LoadPanel;
              SetActiveFrame(fpLeft);
-             btnLeftDrive.Glyph := PixMapManager.GetDriveIcon(PDrive(DrivesList[Tag]), btnLeftDrive.Height - 4, btnLeftDrive.Color);
+             BitmapTmp := PixMapManager.GetDriveIcon(PDrive(DrivesList[Tag]), btnLeftDrive.Height - 4, btnLeftDrive.Color);
+             btnLeftDrive.Glyph := BitmapTmp;
+             if Assigned(BitmapTmp) then
+               FreeAndNil(BitmapTmp);
              btnLeftDrive.Caption := Caption;
              btnLeftDrive.Width := btnLeftDrive.Glyph.Width + btnLeftDrive.Canvas.TextWidth(btnLeftDrive.Caption) + 16;
              btnLeftDrive.Tag:= Tag;
@@ -2757,7 +2777,10 @@ begin
              dskRight.Tag := Tag;
              FrameRight.pnlFile.LoadPanel;
              SetActiveFrame(fpRight);
-             btnRightDrive.Glyph := PixMapManager.GetDriveIcon(PDrive(DrivesList[Tag]), btnRightDrive.Height - 4, btnRightDrive.Color);
+             BitmapTmp := PixMapManager.GetDriveIcon(PDrive(DrivesList[Tag]), btnRightDrive.Height - 4, btnRightDrive.Color);
+             btnRightDrive.Glyph := BitmapTmp;
+             if Assigned(BitmapTmp) then
+               FreeAndNil(BitmapTmp);
              btnRightDrive.Caption := Caption;
              btnRightDrive.Width := btnRightDrive.Glyph.Width + btnRightDrive.Canvas.TextWidth(btnRightDrive.Caption) + 16;
              btnRightDrive.Tag:= Tag;
@@ -2791,6 +2814,7 @@ procedure TfrmMain.CreateDiskPanel(dskPanel: TKASToolBar);
 var
   I, Count : Integer;
   Drive : PDrive;
+  BitmapTmp: Graphics.TBitmap;
 begin
 //dskPanel.InitBounds; // Update information
 
@@ -2823,7 +2847,10 @@ begin
       {/Set chosen drive}
 
       // get drive icon
-      dskPanel.Buttons[I].Glyph := PixMapManager.GetDriveIcon(Drive, dskPanel.ButtonGlyphSize, dskPanel.Buttons[I].Color);
+      BitmapTmp := PixMapManager.GetDriveIcon(Drive, dskPanel.ButtonGlyphSize, dskPanel.Buttons[I].Color);
+      dskPanel.Buttons[I].Glyph := BitmapTmp;
+      if Assigned(BitmapTmp) then
+        FreeAndNil(BitmapTmp);
       {Set Buttons Transparent. Is need? }
       dskPanel.Buttons[I].Glyph.Transparent := True;
       dskPanel.Buttons[I].Transparent := True;

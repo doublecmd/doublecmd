@@ -93,25 +93,24 @@ function TKASBarMenu.LoadBtnIcon(IconPath: String): TBitMap;
 var
   PNG : TPortableNetworkGraphic;
 begin
-  Result := nil;
-  if IconPath <> '' then
-  if FileExists(IconPath) then
+  Result := Graphics.TBitmap.Create;
+  if (IconPath <> '') and FileExists(IconPath) then
    begin
-   if CompareFileExt(IconPath, 'png', false) = 0 then
-      begin
-        PNG := TPortableNetworkGraphic.Create;
-        PNG.LoadFromFile(IconPath);
-        Result := TBitMap(PNG);
-        exit;
-      end
-   else
-      begin
-         Result := TBitMap.Create;
-         Result.LoadFromFile(IconPath);
-         exit;
-      end;
+     if CompareFileExt(IconPath, 'png', false) = 0 then
+        begin
+          PNG := TPortableNetworkGraphic.Create;
+          try
+            PNG.LoadFromFile(IconPath);
+            Result.Assign(PNG);
+          finally
+            FreeAndNil(PNG);
+          end;
+        end
+     else
+        begin
+          Result.LoadFromFile(IconPath);
+        end;
    end;
- Result := TBitMap.Create;
 end;
 
 procedure TKASBarMenu.MenuOnClick(Sender: TObject);
