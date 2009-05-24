@@ -1208,7 +1208,7 @@ begin
     fl:= TFileList.Create; // free at thread end by thread
     fl.CurrentDirectory := ActiveDir;
     try
-      CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
+      CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir, True, True);
 
       // calculate check sum
       with TCheckSumThread.Create(fl) do
@@ -1230,6 +1230,7 @@ end;
 procedure TActs.cm_CheckSumVerify(param:string);
 var
   fl: TFileList;
+  I: Integer;
 begin
   with frmMain.ActiveFrame do
   begin
@@ -1237,10 +1238,18 @@ begin
 
     if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
 
+    with pnlFile.FileList do
+    for I:= Count - 1 downto 0 do
+      if GetItem(I)^.bSelected and (mbCompareText(GetItem(I)^.sExt, '.md5') <> 0) then
+        begin
+          msgError(rsMsgSelectOnlyCheckSumFiles);
+          Exit;
+        end;
+
     fl:= TFileList.Create; // free at thread end by thread
     fl.CurrentDirectory := ActiveDir;
     try
-      CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
+      CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir, True, True);
 
       // verify check sum
       with TCheckSumThread.Create(fl) do

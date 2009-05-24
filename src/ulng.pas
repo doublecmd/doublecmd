@@ -77,6 +77,7 @@ resourcestring
   rsMsgInvalidSelection = 'Invalid selection.';
   rsMsgNotImplemented = 'Not implemented.';
   rsMsgInvalidFilename = 'Invalid filename';
+  rsMsgSelectOnlyCheckSumFiles = 'Please select only check sum files!';
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuMount = 'Mount';
