@@ -211,10 +211,10 @@ function DateTimeToFileTime(dt : TDateTime) : TFileTime;
 function GetShell : String;
 
 { File handling functions}
-function mbFileOpen(const FileName: UTF8String; Mode: Integer): Integer;
-function mbFileCreate(const FileName: UTF8String): Integer;overload;
-function mbFileCreate(const FileName: UTF8String; Mode: Integer): Integer;overload;
-function mbFileAge(const FileName: UTF8String): Longint;
+function mbFileOpen(const FileName: UTF8String; Mode: Integer): THandle;
+function mbFileCreate(const FileName: UTF8String): THandle; overload;
+function mbFileCreate(const FileName: UTF8String; Mode: Integer): THandle; overload;
+function mbFileAge(const FileName: UTF8String): LongInt;
 // On success returns non-zero value.
 function mbFileSetTime(const FileName: UTF8String; ModificationTime: Longint;
                        CreationTime: Longint = 0; LastAccessTime: Longint = 0): Longint;
@@ -998,7 +998,7 @@ begin
   LocalFileTimeToFileTimeEx(Result, Result);
 end;
 
-function mbFileOpen(const FileName: UTF8String; Mode: Integer): Integer;
+function mbFileOpen(const FileName: UTF8String; Mode: Integer): THandle;
 {$IFDEF MSWINDOWS}
 const
   AccessMode: array[0..2] of DWORD  = (
@@ -1030,7 +1030,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileCreate(const FileName: UTF8String): Integer;
+function mbFileCreate(const FileName: UTF8String): THandle;
 {$IFDEF MSWINDOWS}
 var
   wFileName: WideString;
@@ -1045,7 +1045,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileCreate(const FileName: UTF8String; Mode: Integer): Integer;
+function mbFileCreate(const FileName: UTF8String; Mode: Integer): THandle;
 {$IFDEF MSWINDOWS}
 begin
   Result:= mbFileCreate(FileName);
@@ -1056,7 +1056,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileAge(const FileName: UTF8String): Longint;
+function mbFileAge(const FileName: UTF8String): LongInt;
 {$IFDEF MSWINDOWS}
 var
   Handle: THandle;
