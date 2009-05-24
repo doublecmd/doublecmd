@@ -171,15 +171,6 @@ var
 begin
   UpdatePathLabel;
 
-  if fPanel.FixedRows <> Integer(gTabHeader) then
-    begin
-      fPanel.FixedRows:= Integer(gTabHeader);
-      if gTabHeader then
-        fPanel.RowHeights[0]:= fPanel.Tag
-      else
-        fPanel.RowHeights[0]:= gIconsSize;
-    end;
-
   bAnyRow:=fPanel.Row>=0;
   fRefList.Clear;
   for i:=0 to fFileList.Count-1 do
