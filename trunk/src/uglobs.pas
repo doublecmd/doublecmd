@@ -289,6 +289,7 @@ begin
       AddHotKey('Ctrl+X','cm_CutToClipboard','','FrmMain','FrmMain');
       AddHotKey('Ctrl+C','cm_CopyToClipboard','','FrmMain','FrmMain');
       AddHotKey('Ctrl+V','cm_PasteFromClipboard','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+\','cm_ChangeDirToRoot','','FrmMain','FrmMain');
 //      AddHotKey('','cm_','','FrmMain','FrmMain');
     end;
 end;
