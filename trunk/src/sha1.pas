@@ -1,11 +1,14 @@
 {
-***************************************************
-* A binary compatible SHA1 implementation         *
-* written by Dave Barton (davebarton@bigfoot.com) *
-***************************************************
-* 160bit hash size                                *
-***************************************************
+******************************************************
+* A binary compatible SHA1 implementation            *
+* based on:                                          *
+*   Unit SHA1 - Dave Barton (davebarton@bigfoot.com) *
+*   Unit SHA - (C) Alex Demchenko (alex@ritlabs.com) *
+******************************************************
+* 160 bit hash size                                  *
+******************************************************
 }
+
 unit SHA1;
 
 {$mode delphi}{$H+}
@@ -19,7 +22,7 @@ type
   TSHA1Digest= array[0..19] of byte;
   TSHA1Context= record
     Hash: array[0..4] of DWord;
-    Hi, Lo: integer;
+    Length: QWord;
     Buffer: array[0..63] of byte;
     Index: integer;
   end;
@@ -33,7 +36,7 @@ procedure SHA1Final(var Context: TSHA1Context; var Digest: TSHA1Digest);
 implementation
 {$R-}
 
-function LRot32(X: DWord; n: Byte): DWord;
+function LRot32(x: DWord; n: Byte): DWord;
 begin
   Result:= (x shl n) or (x shr (32 - n));
 end;
@@ -102,7 +105,7 @@ end;
 //******************************************************************************
 procedure SHA1Init(var Context: TSHA1Context);
 begin
-  Context.Hi:= 0; Context.Lo:= 0;
+  Context.Length:= 0;
   Context.Index:= 0;
   FillChar(Context.Buffer,Sizeof(Context.Buffer),0);
   Context.Hash[0]:= $67452301;
@@ -113,53 +116,57 @@ begin
 end;
 
 //******************************************************************************
-procedure SHA1UpdateLen(var Context: TSHA1Context; Len: integer);
-var
-  i, k: integer;
-begin
-  for k:= 0 to 7 do
-  begin
-    i:= Context.Lo;
-    Inc(Context.Lo,Len);
-    if Context.Lo< i then
-      Inc(Context.Hi);
-  end;
-end;
-
-//******************************************************************************
 procedure SHA1Update(var Context: TSHA1Context; var Buffer; Len: integer);
-type
-  PByte= ^Byte;
 var
   Src: Pointer;
 begin
   Src:= @Buffer;
-  SHA1UpdateLen(Context,Len);
-  while Len> 0 do
+  while (Len > 0) do
   begin
     Context.Buffer[Context.Index]:= PByte(Src)^;
-    Inc(PByte(Src));
     Inc(Context.Index);
+    Inc(PByte(Src));
+    if (Context.Index = 64) then
+      begin
+        SHA1Compress(Context);
+        Inc(Context.Length, 512);
+        Context.Index:= 0;
+      end;
     Dec(Len);
-    if Context.Index= 64 then
-    begin
-      Context.Index:= 0;
-      SHA1Compress(Context);
-    end;
   end;
 end;
 
 //******************************************************************************
 procedure SHA1Final(var Context: TSHA1Context; var Digest: TSHA1Digest);
-type
-  PDWord= ^DWord;
+var
+  I: Integer;
 begin
+  Inc(Context.Length, Context.Index shl 3);
   Context.Buffer[Context.Index]:= $80;
-  if Context.Index>= 56 then
-    SHA1Compress(Context);
-  PDWord(@Context.Buffer[56])^:= RB(Context.Hi);
-  PDWord(@Context.Buffer[60])^:= RB(Context.Lo);
+  Inc(Context.Index);
+
+  if (Context.Index > 56) then
+    begin
+      while Context.Index < 64 do
+      begin
+        Context.Buffer[Context.Index]:= 0;
+        Inc(Context.Index);
+      end;
+      SHA1Compress(Context);
+      Context.Index:= 0;
+    end;
+
+  while Context.Index < 56 do
+  begin
+    Context.Buffer[Context.Index]:= 0;
+    Inc(Context.Index);
+  end;
+
+  for I:= 56 to 63 do
+    Context.Buffer[I] := (Context.Length shr ((63 - I) * 8)) and $FF;
+
   SHA1Compress(Context);
+
   Context.Hash[0]:= RB(Context.Hash[0]);
   Context.Hash[1]:= RB(Context.Hash[1]);
   Context.Hash[2]:= RB(Context.Hash[2]);
@@ -168,6 +175,5 @@ begin
   Move(Context.Hash,Digest,Sizeof(Digest));
   FillChar(Context,Sizeof(Context),0);
 end;
-
 
 end.
