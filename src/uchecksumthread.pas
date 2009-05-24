@@ -27,7 +27,7 @@ unit uCheckSumThread;
 interface
 
 uses
-  Classes, uFileOpThread, uFileList, uTypes, SysUtils, LCLProc, uClassesEx;
+  Classes, uFileOpThread, uFileList, uTypes, SysUtils, LCLProc, uClassesEx, uHash;
 
 type
   TCheckSumOp = (checksum_calc, checksum_verify);
@@ -39,6 +39,7 @@ type
     FCopied: Int64;
     FOneFile: Boolean;
     FCheckSumOp: TCheckSumOp;
+    FAlgorithm: THashAlgorithm;
     FCheckSumFile: TStringListEx;
     FResult: TStringList;
     procedure ShowVerifyCheckSumResult;
@@ -51,6 +52,7 @@ type
     function GetCaptionLng: String; override;
   public
     property CheckSumOp: TCheckSumOp write FCheckSumOp;
+    property Algorithm: THashAlgorithm read FAlgorithm write FAlgorithm;
     property OneFile: Boolean write FOneFile;
     property Result: TStringList read FResult;
   end;
@@ -58,7 +60,9 @@ type
 implementation
 
 uses
-  FileUtil, md5, StrUtils, uLng, uGlobs, uLog, fCheckSumVerify, uOSUtils;
+  FileUtil, StrUtils, uLng, uGlobs, uLog, fCheckSumVerify, uOSUtils;
+
+{ TCheckSumThread }
 
 constructor TCheckSumThread.Create(aFileList: TFileList);
 begin
@@ -66,6 +70,7 @@ begin
   FResult:= TStringList.Create;
   FCheckSumFile:= TStringListEx.Create;
   FSymLinkAll:= True;
+  FAlgorithm:= HASH_MD5;
 end;
 
 destructor TCheckSumThread.Destroy;
@@ -154,7 +159,7 @@ begin
             //------------------------------------
             sCheckSum1:= CheckSumCalc(@fri);
             sCheckSum2:= Trim(FCheckSumFile.Names[I]);
-            bResult:= MD5Match(MD5String(sCheckSum1), MD5String(sCheckSum2));
+            bResult:= (StrComp(PChar(sCheckSum1), PChar(sCheckSum2)) = 0);
             FResult.Add(FCheckSumFile.ValueFromIndex[I] + ': ' + IfThen(bResult, 'True', 'False'));
           end;
       end;
@@ -170,9 +175,9 @@ function TCheckSumThread.CheckSumCalc(FileRecItem: PFileRecItem): String;
 var
   hFile: THandle;
   Buf: PChar;
-  Context: TMDContext;
+  Context: THashContext;
   Count: Cardinal;
-  Digest: TMDDigest;
+  Digest: THashDigest;
   iProcessed: Int64;
   iCopyBlockSize: Integer;
 begin
@@ -184,7 +189,7 @@ begin
   Synchronize(@FFileOpDlg.UpdateDlg);
   iProcessed:= 0;
 
-  MD5Init(Context);
+  HashInit(Context, FAlgorithm);
   try
     hFile:= mbFileOpen(FileRecItem^.sName, fmOpenRead or fmShareDenyNone);
     if hFile <> feInvalidHandle then
@@ -196,7 +201,7 @@ begin
           Count:= FileRead(hFile, Buf^, iCopyBlockSize);
           if Count > 0 then
             begin
-              MD5Update(Context, Buf^, Count);
+              HashUpdate(Context, Buf^, Count);
               Inc(iProcessed, Count);
               FFileOpDlg.iProgress1Pos:= (iProcessed * 100) div FileRecItem^.iSize;
               Synchronize(@FFileOpDlg.UpdateDlg);
@@ -206,8 +211,8 @@ begin
         FileClose(hFile);
       end;
   finally
-    MD5Final(Context, Digest);
-    Result:= MD5Print(Digest);
+    HashFinal(Context, Digest);
+    Result:= HashPrint(Digest);
   end;
 end;
 
