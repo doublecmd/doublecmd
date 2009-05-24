@@ -11,7 +11,9 @@ object frmCheckSumCalc: TfrmCheckSumCalc
   Constraints.MaxWidth = 800
   Constraints.MinHeight = 136
   Constraints.MinWidth = 400
+  OnCreate = FormCreate
   Position = poScreenCenter
+  SessionProperties = 'cbSeparateFile.Checked;rbHashMD5.Checked;rbHashSHA1.Checked'
   LCLVersion = '0.9.27'
   object lblSaveTo: TLabel
     AnchorSideLeft.Control = Owner
@@ -87,5 +89,32 @@ object frmCheckSumCalc: TfrmCheckSumCalc
     Kind = bkCancel
     ModalResult = 2
     TabOrder = 3
+  end
+  object rbHashMD5: TRadioButton
+    AnchorSideLeft.Control = cbSeparateFile
+    AnchorSideTop.Control = cbSeparateFile
+    AnchorSideTop.Side = asrBottom
+    Left = 10
+    Height = 17
+    Top = 78
+    Width = 41
+    BorderSpacing.Top = 4
+    Caption = 'MD5'
+    OnChange = rbHashMD5Change
+    TabOrder = 5
+    TabStop = False
+  end
+  object rbHashSHA1: TRadioButton
+    AnchorSideLeft.Control = cbSeparateFile
+    AnchorSideTop.Control = rbHashMD5
+    AnchorSideTop.Side = asrBottom
+    Left = 10
+    Height = 17
+    Top = 95
+    Width = 46
+    Caption = 'SHA1'
+    OnChange = rbHashSHA1Change
+    TabOrder = 4
+    TabStop = False
   end
 end

@@ -38,6 +38,9 @@ type
     HashAlgorithm: THashAlgorithm;
   end;
 
+var
+  HashFileExt: array[THashAlgorithm] of String = ('md5', 'sha');
+
 procedure HashInit(var Context: THashContext; const Algorithm: THashAlgorithm);
 procedure HashUpdate(var Context: THashContext; var Buf; const BufLen: PtrUInt);
 procedure HashFinal(var Context: THashContext; var Digest: THashDigest);
@@ -59,7 +62,7 @@ begin
         Context.HashAlgorithm:= Algorithm;
       end;
     HASH_SHA1:
-        begin
+      begin
         New(SHA1Context);
         SHA1Init(SHA1Context^);
         Context.HashContext:= SHA1Context;

@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, Buttons;
+  StdCtrls, Buttons, uHash;
 
 type
 
@@ -41,28 +41,43 @@ type
     cbSeparateFile: TCheckBox;
     edtSaveTo: TEdit;
     lblSaveTo: TLabel;
+    rbHashMD5: TRadioButton;
+    rbHashSHA1: TRadioButton;
     procedure cbSeparateFileChange(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure rbHashMD5Change(Sender: TObject);
+    procedure rbHashSHA1Change(Sender: TObject);
   private
     FFileName: UTF8String;
+    FAlgorithm: THashAlgorithm;
   public
     { public declarations }
   end; 
 
-function ShowCalcCheckSum(var sFileName: UTF8String; out CheckSumOpt: Cardinal): Boolean;
+function ShowCalcCheckSum(var sFileName: UTF8String; out SeparateFile: Boolean;
+                          out HashAlgorithm: THashAlgorithm): Boolean;
 
 implementation
 
-function ShowCalcCheckSum(var sFileName: UTF8String; out CheckSumOpt: Cardinal): Boolean;
+uses
+  uGlobs;
+
+function ShowCalcCheckSum(var sFileName: UTF8String; out SeparateFile: Boolean;
+                          out HashAlgorithm: THashAlgorithm): Boolean;
 begin
   with TfrmCheckSumCalc.Create(Application) do
   try
     FFileName:= sFileName;
     edtSaveTo.Text:= FFileName;
+    // set up default hash algorithm if need
+    if not (rbHashMD5.Checked or rbHashSHA1.Checked) then
+      rbHashMD5.Checked:= True;
     Result:= (ShowModal = mrOK);
     if Result then
       begin
         sFileName:= edtSaveTo.Text;
-        CheckSumOpt:= Integer(cbSeparateFile.Checked);
+        SeparateFile:= cbSeparateFile.Checked;
+        HashAlgorithm:= FAlgorithm;
       end;
   finally
     Free;
@@ -74,9 +89,26 @@ end;
 procedure TfrmCheckSumCalc.cbSeparateFileChange(Sender: TObject);
 begin
   if cbSeparateFile.Checked then
-    edtSaveTo.Text:= ExtractFilePath(edtSaveTo.Text) + '*' + ExtractFileExt(edtSaveTo.Text)
+    edtSaveTo.Text:= ExtractFilePath(edtSaveTo.Text) + '*.' + HashFileExt[FAlgorithm]
   else
-    edtSaveTo.Text:= ExtractFilePath(edtSaveTo.Text) + ExtractFileName(FFileName);
+    edtSaveTo.Text:= ExtractFilePath(edtSaveTo.Text) + ExtractFileName(FFileName) + '.' + HashFileExt[FAlgorithm];
+end;
+
+procedure TfrmCheckSumCalc.FormCreate(Sender: TObject);
+begin
+  InitPropStorage(Self);
+end;
+
+procedure TfrmCheckSumCalc.rbHashMD5Change(Sender: TObject);
+begin
+  FAlgorithm:= HASH_MD5;
+  edtSaveTo.Text:= ChangeFileExt(edtSaveTo.Text, '.md5');
+end;
+
+procedure TfrmCheckSumCalc.rbHashSHA1Change(Sender: TObject);
+begin
+  FAlgorithm:= HASH_SHA1;
+  edtSaveTo.Text:= ChangeFileExt(edtSaveTo.Text, '.sha');
 end;
 
 initialization

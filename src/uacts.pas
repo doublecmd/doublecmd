@@ -157,7 +157,7 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls, ExtCtrls,
      Clipbrd,uOSUtils,framePanel,uWCXmodule,fPackDlg,uWipeThread,uFileOp,
      uFileOpThread,fFileOpDlg,forms,uVFSutil,uShowForm,uDCUtils,uLog,uVFSTypes,
      fMkDir,LCLProc,uFileProcs,uDeleteThread,fFileAssoc,fExtractDlg,fAbout,
-     fOptions,fCompareFiles,fFindDlg,fSymLink,fHardLink,fMultiRename,
+     fOptions,fCompareFiles,fFindDlg,fSymLink,fHardLink,fMultiRename, uHash,
      uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit,
      HelpIntfs, dmHelpManager, uShellExecute, uClipboard, uCheckSumThread, fCheckSumCalc;
 
@@ -1189,7 +1189,8 @@ end;
 procedure TActs.cm_CheckSumCalc(param:string);
 var
   fl: TFileList;
-  CheckSumOpt: Cardinal;
+  bSeparateFile: Boolean;
+  HashAlgorithm: THashAlgorithm;
   sFileName: UTF8String;
 begin
   with frmMain.ActiveFrame do
@@ -1199,11 +1200,11 @@ begin
     if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
 
     if pnlFile.GetSelectedCount > 1 then
-      sFileName:= ActiveDir + ExtractFileName(ExcludeTrailingBackslash(ActiveDir)) + '.md5'
+      sFileName:= ActiveDir + ExtractFileName(ExcludeTrailingBackslash(ActiveDir))
     else
-      sFileName:= ActiveDir + GetActiveItem^.sNameNoExt + '.md5';
+      sFileName:= ActiveDir + GetActiveItem^.sNameNoExt;
 
-    if not ShowCalcCheckSum(sFileName, CheckSumOpt) then Exit;
+    if not ShowCalcCheckSum(sFileName, bSeparateFile, HashAlgorithm) then Exit;
 
     fl:= TFileList.Create; // free at thread end by thread
     fl.CurrentDirectory := ActiveDir;
@@ -1216,7 +1217,8 @@ begin
         sDstPath:= ActiveDir;
         sDstMask:= sFileName;
         CheckSumOp:= checksum_calc;
-        OneFile:= not Boolean(CheckSumOpt);
+        OneFile:= not bSeparateFile;
+        Algorithm:= HashAlgorithm;
         Resume;
       except
         Free;
