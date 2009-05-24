@@ -107,6 +107,29 @@ msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
 msgid "OK"
 msgstr "OK"
 
+#: TFRMCHECKSUMCALC.BTNCANCEL.CAPTION
+msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr ""
+
+#: TFRMCHECKSUMCALC.BTNOK.CAPTION
+msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
+msgid "&OK"
+msgstr ""
+
+#: TFRMCHECKSUMCALC.CAPTION
+msgctxt "TFRMCHECKSUMCALC.CAPTION"
+msgid "Calculate check sum..."
+msgstr ""
+
+#: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
+msgid "Create separate MD5 files for each file"
+msgstr ""
+
+#: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
+msgid "Save check sum file(s) to:"
+msgstr ""
+
 #: TFRMCOLUMSPROPS.BITBTN1.CAPTION
 msgid "&ОК"
 msgstr "&OK"
@@ -739,6 +762,7 @@ msgstr "Typ:"
 msgid "Write"
 msgstr "Schreiben"
 
+#, fuzzy
 #: TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION
 msgctxt "TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION"
 msgid "Attributes"
@@ -756,7 +780,6 @@ msgstr "&Gehe zu Datei"
 msgid "&New search"
 msgstr "&Neue Suche"
 
-#, fuzzy
 #: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
 msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
 msgid "&Delete"
@@ -825,10 +848,12 @@ msgstr "Dateigrösse ab:"
 msgid "File Size To:"
 msgstr "Bis Dateigrösse"
 
+#, fuzzy
 #: TFRMFINDDLG.CBFINDINFILE.CAPTION
 msgid "Find &text in file"
 msgstr "Suche in Datei"
 
+#, fuzzy
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
 msgstr "Mehr"
@@ -841,13 +866,11 @@ msgstr "Suche Datei die NICHT den Text enthalten"
 msgid "Not older than:"
 msgstr "Nicht älter als:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBREGEXP.CAPTION
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
 msgstr "&Reguläre Ausdrücke"
 
-#, fuzzy
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
 msgid "Re&place text"
 msgstr "Ersetze Text"
@@ -2848,6 +2871,7 @@ msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;
 msgstr "&OK;&Nein;&Ja;&Abbruch;&Keine;&Anhängen;&Überschreiben;Überschreibe &alle;&Überspringen;Übers&pringe alle;Alle;"
 
 #: ulng.rsdlgchecksumcalc
+msgctxt "ulng.rsdlgchecksumcalc"
 msgid "Calculate check sum..."
 msgstr ""
 

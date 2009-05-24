@@ -41,29 +41,42 @@ type
     cbSeparateFile: TCheckBox;
     edtSaveTo: TEdit;
     lblSaveTo: TLabel;
+    procedure cbSeparateFileChange(Sender: TObject);
   private
-    { private declarations }
+    FFileName: UTF8String;
   public
     { public declarations }
   end; 
 
-function ShowCalcCheckSum(const sFileName: UTF8String; out CheckSumOpt: Cardinal): Boolean;
+function ShowCalcCheckSum(var sFileName: UTF8String; out CheckSumOpt: Cardinal): Boolean;
 
 implementation
 
-function ShowCalcCheckSum(const sFileName: UTF8String; out CheckSumOpt: Cardinal): Boolean;
+function ShowCalcCheckSum(var sFileName: UTF8String; out CheckSumOpt: Cardinal): Boolean;
 begin
   with TfrmCheckSumCalc.Create(Application) do
   try
-    edtSaveTo.Text:= sFileName;
+    FFileName:= sFileName;
+    edtSaveTo.Text:= FFileName;
     Result:= (ShowModal = mrOK);
     if Result then
       begin
+        sFileName:= edtSaveTo.Text;
         CheckSumOpt:= Integer(cbSeparateFile.Checked);
       end;
   finally
     Free;
   end;
+end;
+
+{ TfrmCheckSumCalc }
+
+procedure TfrmCheckSumCalc.cbSeparateFileChange(Sender: TObject);
+begin
+  if cbSeparateFile.Checked then
+    edtSaveTo.Text:= ExtractFilePath(edtSaveTo.Text) + '*' + ExtractFileExt(edtSaveTo.Text)
+  else
+    edtSaveTo.Text:= ExtractFilePath(edtSaveTo.Text) + ExtractFileName(FFileName);
 end;
 
 initialization

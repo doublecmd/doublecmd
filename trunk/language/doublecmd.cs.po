@@ -31,18 +31,22 @@ msgstr "<-"
 msgid "Button1"
 msgstr "Button1"
 
+#, fuzzy
 #: TFCOLUMNSSETCONF.CAPTION
 msgid "Configure custom columns view"
 msgstr "Konfigurovat vlastní pohled (sloupce)"
 
+#, fuzzy
 #: TFCOLUMNSSETCONF.CBOVERCOLOR.CAPTION
 msgid "Allow Overcolor"
 msgstr "Povolit Overcolor"
 
+#, fuzzy
 #: TFCOLUMNSSETCONF.LABEL3.CAPTION
 msgid "Font:"
 msgstr "Písmo:"
 
+#, fuzzy
 #: TFCOLUMNSSETCONF.LBLCONFIGVIEWNR.CAPTION
 msgid "Configure view nr:"
 msgstr "Konfigurace pohledu č.:"
@@ -52,22 +56,18 @@ msgstr "Konfigurace pohledu č.:"
 msgid "0"
 msgstr "0"
 
-#, fuzzy
 #: TFCOLUMNSSETCONF.MIADDCOLUMN.CAPTION
 msgid "Add column"
 msgstr "Přidat sloupec"
 
-#, fuzzy
 #: TFCOLUMNSSETCONF.PANEL6.CAPTION
 msgid "Preview"
 msgstr "Náhled"
 
-#, fuzzy
 #: TFCOLUMNSSETCONF.PNLCUSTHEAD.CAPTION
 msgid "Customize column:"
 msgstr "Nastavení sloupců:"
 
-#, fuzzy
 #: TFCOLUMNSSETCONF.RESCURTEXT.CAPTION
 msgid "R"
 msgstr "R"
@@ -115,6 +115,29 @@ msgstr "Verze %s"
 msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
 msgid "OK"
 msgstr "OK"
+
+#: TFRMCHECKSUMCALC.BTNCANCEL.CAPTION
+msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr ""
+
+#: TFRMCHECKSUMCALC.BTNOK.CAPTION
+msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
+msgid "&OK"
+msgstr ""
+
+#: TFRMCHECKSUMCALC.CAPTION
+msgctxt "TFRMCHECKSUMCALC.CAPTION"
+msgid "Calculate check sum..."
+msgstr ""
+
+#: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
+msgid "Create separate MD5 files for each file"
+msgstr ""
+
+#: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
+msgid "Save check sum file(s) to:"
+msgstr ""
 
 #: TFRMCOLUMSPROPS.BITBTN1.CAPTION
 msgid "&ОК"
@@ -330,6 +353,7 @@ msgstr "&Uložit"
 msgid "Save &As.."
 msgstr "Uložit &jako.."
 
+#, fuzzy
 #: TFRMEDITOR.ACTSAVEALL.CAPTION
 msgid "Sa&ve All"
 msgstr "&Uložit vše"
@@ -347,7 +371,6 @@ msgstr "&Nápověda"
 msgid "&Edit"
 msgstr "&Edit"
 
-#, fuzzy
 #: TFRMEDITOR.MIENCODING.CAPTION
 msgid "En&coding"
 msgstr "Kó&dování"
@@ -511,6 +534,7 @@ msgctxt "TFRMFILEASSOC.BTNADDEXT.CAPTION"
 msgid "Add"
 msgstr "Přidat"
 
+#, fuzzy
 #: TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION
 msgctxt "TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION"
 msgid "Add"
@@ -526,12 +550,12 @@ msgctxt "TFRMFILEASSOC.BTNDOWNACT.CAPTION"
 msgid "Down"
 msgstr "Dolů"
 
+#, fuzzy
 #: TFRMFILEASSOC.BTNOK.CAPTION
 msgctxt "TFRMFILEASSOC.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&OK"
 
-#, fuzzy
 #: TFRMFILEASSOC.BTNREMOVEACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVEACT.CAPTION"
 msgid "Remove"
@@ -547,7 +571,6 @@ msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
 msgid "Remove"
 msgstr "Smazat"
 
-#, fuzzy
 #: TFRMFILEASSOC.BTNRENAMETYPE.CAPTION
 msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
 msgid "Rename"
@@ -759,6 +782,7 @@ msgstr "Typ:"
 msgid "Write"
 msgstr "Zápis"
 
+#, fuzzy
 #: TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION
 msgctxt "TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION"
 msgid "Attributes"
@@ -776,7 +800,6 @@ msgstr "&Jdi k souboru"
 msgid "&New search"
 msgstr "&Nové hledání"
 
-#, fuzzy
 #: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
 msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
 msgid "&Delete"
@@ -845,10 +868,12 @@ msgstr "Velikost od:"
 msgid "File Size To:"
 msgstr "Velikost do:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBFINDINFILE.CAPTION
 msgid "Find &text in file"
 msgstr "Vyhledat soubor"
 
+#, fuzzy
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
 msgstr "Více"
@@ -861,13 +886,11 @@ msgstr "Hledat soubory NEobsahující text"
 msgid "Not older than:"
 msgstr "Není starší, než:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBREGEXP.CAPTION
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
 msgstr "&Regulární výrazy"
 
-#, fuzzy
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
 msgid "Re&place text"
 msgstr "Nahradit text"
@@ -892,6 +915,7 @@ msgstr "kB"
 msgid "&Use search plugin:"
 msgstr "Použit vyhledávací zásuvný modul:"
 
+#, fuzzy
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
@@ -912,7 +936,6 @@ msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
 msgid "Cancel"
 msgstr "Zrušit"
 
-#, fuzzy
 #: TFRMFINDDLG.DEDATETO.OKCAPTION
 msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
 msgid "OK"
@@ -1274,6 +1297,7 @@ msgstr "Obrácené třídění"
 msgid "Right &= Left"
 msgstr ""
 
+#, fuzzy
 #: TFRMMAIN.ACTRIGHTOPENDRIVES.CAPTION
 msgid "Open right drive list"
 msgstr "Otevřít pravý seznam disků"
@@ -1290,7 +1314,6 @@ msgstr "&Hledat"
 msgid "Show button menu"
 msgstr "Zobrazit menu tlačítek"
 
-#, fuzzy
 #: TFRMMAIN.ACTSHOWCMDLINEHISTORY.CAPTION
 msgid "Show command line history"
 msgstr "Zobrazit hystorii příkazového řádku"
@@ -1564,6 +1587,7 @@ msgctxt "TFRMMAIN.MISYMLINK.CAPTION"
 msgid "Create symlink..."
 msgstr "Vytvořit symbolický odkaz..."
 
+#, fuzzy
 #: TFRMMAIN.MNUCMD.CAPTION
 msgid "&Commands"
 msgstr "&Příkazy"
@@ -1580,7 +1604,6 @@ msgstr "Soubor"
 msgid "Combine Files"
 msgstr "Spojování souborů"
 
-#, fuzzy
 #: TFRMMAIN.MNUHELP.CAPTION
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
 msgid "&Help"
@@ -2318,6 +2341,7 @@ msgstr "Atributy kategorií:"
 msgid "Category color:"
 msgstr "Barva kategorie:"
 
+#, fuzzy
 #: TFRMOPTIONS.LBLCATEGORYMASK.CAPTION
 msgid "Category mask:"
 msgstr "Maska kategorie:"
@@ -2326,6 +2350,7 @@ msgstr "Maska kategorie:"
 msgid "Category name:"
 msgstr "Název kategore:"
 
+#, fuzzy
 #: TFRMOPTIONS.LBLCHAR.CAPTION
 msgid "characters"
 msgstr "znaky"
@@ -2334,7 +2359,6 @@ msgstr "znaky"
 msgid "Configure columns for file system:"
 msgstr "Konfigurace sloupců pro systém souborů:"
 
-#, fuzzy
 #: TFRMOPTIONS.LBLCOPYBUFFERSIZE.CAPTION
 msgid "Buffer size (Kb):"
 msgstr "Velikost buferu (Kb):"
@@ -2343,7 +2367,6 @@ msgstr "Velikost buferu (Kb):"
 msgid "Cursor Color:"
 msgstr "Barva kursoru:"
 
-#, fuzzy
 #: TFRMOPTIONS.LBLCURSORTEXT.CAPTION
 msgid "Cursor Text:"
 msgstr "Text kursoru:"
@@ -2573,6 +2596,7 @@ msgstr "Kompresní poměr:"
 msgid "Date:"
 msgstr "Datum:"
 
+#, fuzzy
 #: TFRMPACKINFODLG.LBLMETHOD.CAPTION
 msgid "Method:"
 msgstr "Metoda:"
@@ -2589,7 +2613,6 @@ msgstr "Soubor:"
 msgid "Packed size:"
 msgstr "Zkomprimovaná velikost:"
 
-#, fuzzy
 #: TFRMPACKINFODLG.LBLPACKER.CAPTION
 msgid "Packer:"
 msgstr "Komprimátor:"
@@ -2624,6 +2647,7 @@ msgstr "Velikost souboru"
 msgid "Watchtower"
 msgstr "Sledování výsledků"
 
+#, fuzzy
 #: TFRMSPLITTER.LBDIRTARGET.CAPTION
 msgid "Directory target"
 msgstr "Cílový adresář"
@@ -2640,7 +2664,6 @@ msgstr "Vytvořit symbolický odkaz"
 msgid "Add new"
 msgstr "Přidat nový"
 
-#, fuzzy
 #: TFRMTWEAKPLUGIN.BTNCANCEL.CAPTION
 msgctxt "TFRMTWEAKPLUGIN.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -2875,6 +2898,7 @@ msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;
 msgstr "&OK;&Ne;&Ano;&Zrušit;&Není;&Připojit;&Přepsat;Přepsat &Vše;Pře&skočit;Přes&kočit vše;Vše;"
 
 #: ulng.rsdlgchecksumcalc
+msgctxt "ulng.rsdlgchecksumcalc"
 msgid "Calculate check sum..."
 msgstr ""
 
@@ -3077,6 +3101,7 @@ msgstr "Zadej příponu souboru:"
 msgid "Enter name:"
 msgstr "Zadej název:"
 
+#, fuzzy
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
 msgstr "CRC chyba (kontrolní součet nesouhlasí)"
@@ -3093,7 +3118,6 @@ msgstr "Adresář %s existuje!"
 msgid "Function aborted by user"
 msgstr "7Operace přerušena uživatelem"
 
-#, fuzzy
 #: ulng.rsmsgerreclose
 msgid "Error closing file"
 msgstr "Chyba při uzavírání souboru"
@@ -3343,6 +3367,7 @@ msgctxt "ulng.rsoptenable"
 msgid "Enable"
 msgstr "Povolit"
 
+#, fuzzy
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "Zadej výraz"
@@ -3355,6 +3380,7 @@ msgstr "Souborové operace"
 msgid "File panels"
 msgstr "Panely souborů"
 
+#, fuzzy
 #: ulng.rsoptfiletypes
 msgctxt "ulng.rsoptfiletypes"
 msgid "File types"
@@ -3373,12 +3399,10 @@ msgstr "Písma"
 msgid "Hot keys"
 msgstr "Horké klávesy"
 
-#, fuzzy
 #: ulng.rsoptlanguage
 msgid "Language"
 msgstr "Jazyk"
 
-#, fuzzy
 #: ulng.rsoptlayout
 msgid "Layout"
 msgstr "Rozvržení"

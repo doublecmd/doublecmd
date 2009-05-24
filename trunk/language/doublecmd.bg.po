@@ -107,6 +107,29 @@ msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
 msgid "OK"
 msgstr "Добре"
 
+#: TFRMCHECKSUMCALC.BTNCANCEL.CAPTION
+msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr ""
+
+#: TFRMCHECKSUMCALC.BTNOK.CAPTION
+msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
+msgid "&OK"
+msgstr ""
+
+#: TFRMCHECKSUMCALC.CAPTION
+msgctxt "TFRMCHECKSUMCALC.CAPTION"
+msgid "Calculate check sum..."
+msgstr ""
+
+#: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
+msgid "Create separate MD5 files for each file"
+msgstr ""
+
+#: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
+msgid "Save check sum file(s) to:"
+msgstr ""
+
 #: TFRMCOLUMSPROPS.BITBTN1.CAPTION
 msgid "&ОК"
 msgstr "&Добре"
@@ -747,6 +770,7 @@ msgstr "Вид:"
 msgid "Write"
 msgstr "Четене"
 
+#, fuzzy
 #: TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION
 msgctxt "TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION"
 msgid "Attributes"
@@ -764,7 +788,6 @@ msgstr "&Отиване до файл"
 msgid "&New search"
 msgstr "&Ново търсене"
 
-#, fuzzy
 #: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
 msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
 msgid "&Delete"
@@ -833,10 +856,12 @@ msgstr "Размер от:"
 msgid "File Size To:"
 msgstr "Размер до:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBFINDINFILE.CAPTION
 msgid "Find &text in file"
 msgstr "Търсене във файл"
 
+#, fuzzy
 #: TFRMFINDDLG.CBMORE.CAPTION
 msgid "More"
 msgstr "Още"
@@ -849,13 +874,11 @@ msgstr "Намиране на файлове НЕсъдържащи текста
 msgid "Not older than:"
 msgstr "Не по- стар от:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBREGEXP.CAPTION
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
 msgstr "&Обичайни изрази"
 
-#, fuzzy
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
 msgid "Re&place text"
 msgstr "Замяна на текст"
@@ -2856,6 +2879,7 @@ msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;
 msgstr "&Добре;&Не;&Да;&Отказ;&Няма;&Довършване;&Замяна;Замяна &Всички;&Пропускане;П&ропускане на всички;Всички;"
 
 #: ulng.rsdlgchecksumcalc
+msgctxt "ulng.rsdlgchecksumcalc"
 msgid "Calculate check sum..."
 msgstr ""
 

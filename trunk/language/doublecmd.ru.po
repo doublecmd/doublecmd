@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-05-24 13:53+0300\n"
+"PO-Revision-Date: 2009-05-24 14:12+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -105,6 +105,29 @@ msgstr "Версия %s"
 msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
 msgid "OK"
 msgstr ""
+
+#: TFRMCHECKSUMCALC.BTNCANCEL.CAPTION
+msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr ""
+
+#: TFRMCHECKSUMCALC.BTNOK.CAPTION
+msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
+msgid "&OK"
+msgstr ""
+
+#: TFRMCHECKSUMCALC.CAPTION
+msgctxt "TFRMCHECKSUMCALC.CAPTION"
+msgid "Calculate check sum..."
+msgstr ""
+
+#: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
+msgid "Create separate MD5 files for each file"
+msgstr "Для каждого фала создать отдельный MD5-файл"
+
+#: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
+msgid "Save check sum file(s) to:"
+msgstr "Сохранить файл(ы) контрольных сумм как:"
 
 #: TFRMCOLUMSPROPS.BITBTN1.CAPTION
 msgid "&ОК"
@@ -2852,6 +2875,7 @@ msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;
 msgstr "&OK;&Нет;&Да;&Отмена;&Ни одного;&Добавить;&Переписать;Переписать &все;&Пропустить;Проп&устить Все;Все;"
 
 #: ulng.rsdlgchecksumcalc
+msgctxt "ulng.rsdlgchecksumcalc"
 msgid "Calculate check sum..."
 msgstr "Посчитать контрольные суммы..."
 
