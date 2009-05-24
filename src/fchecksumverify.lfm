@@ -23,6 +23,7 @@ object frmCheckSumVerify: TfrmCheckSumVerify
     BorderSpacing.Top = 10
     BorderSpacing.Right = 10
     BorderSpacing.Bottom = 10
+    ReadOnly = True
     TabOrder = 0
   end
   object btnClose: TBitBtn
