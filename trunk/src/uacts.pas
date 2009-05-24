@@ -1243,7 +1243,8 @@ begin
 
     with pnlFile.FileList do
     for I:= Count - 1 downto 0 do
-      if GetItem(I)^.bSelected and (mbCompareText(GetItem(I)^.sExt, '.md5') <> 0) then
+      if GetItem(I)^.bSelected and (mbCompareText(GetItem(I)^.sExt, '.md5') <> 0) and
+         (mbCompareText(GetItem(I)^.sExt, '.sha') <> 0) then
         begin
           msgError(rsMsgSelectOnlyCheckSumFiles);
           Exit;

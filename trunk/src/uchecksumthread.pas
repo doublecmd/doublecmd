@@ -44,6 +44,7 @@ type
     FResult: TStringList;
     procedure ShowVerifyCheckSumResult;
     function CheckSumCalc(FileRecItem: PFileRecItem): String;
+    function GetHashAlgByFileName(const sFileName: UTF8String): THashAlgorithm;
   protected
     constructor Create(aFileList: TFileList); override;
     destructor Destroy; override;
@@ -147,6 +148,7 @@ begin
         FCheckSumFile.Clear;
         FCheckSumFile.NameValueSeparator:= '*';
         FCheckSumFile.LoadFromFile(pr^.sName);
+        FAlgorithm:= GetHashAlgByFileName(pr^.sName);
         for I:= 0 to FCheckSumFile.Count - 1 do
           begin
             bResult:= False;
@@ -214,6 +216,17 @@ begin
     HashFinal(Context, Digest);
     Result:= HashPrint(Digest);
   end;
+end;
+
+function TCheckSumThread.GetHashAlgByFileName(const sFileName: UTF8String): THashAlgorithm;
+var
+  sExt: UTF8String;
+begin
+  sExt:= ExtractFileExt(sFileName);
+  if mbCompareText(sExt, '.md5') = 0 then
+    Result:= HASH_MD5
+  else if mbCompareText(sExt, '.sha') = 0 then
+    Result:= HASH_SHA1;
 end;
 
 function TCheckSumThread.GetCaptionLng: String;
