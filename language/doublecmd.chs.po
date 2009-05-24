@@ -764,6 +764,7 @@ msgstr "转到文件(&G)"
 msgid "&New search"
 msgstr "搜索(&N)"
 
+#, fuzzy
 #: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
 msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
 msgid "&Delete"
@@ -811,7 +812,6 @@ msgstr "区分大小写"
 msgid "Date From:"
 msgstr "开始日期:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBDATETO.CAPTION
 msgid "Date To:"
 msgstr "结束日期:"
@@ -849,11 +849,13 @@ msgstr "查找不包含这些文本的文件"
 msgid "Not older than:"
 msgstr "不早于:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBREGEXP.CAPTION
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
 msgstr "正则表达式(&R)"
 
+#, fuzzy
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
 msgid "Re&place text"
 msgstr "替换文本"
@@ -898,13 +900,11 @@ msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
 msgid "Cancel"
 msgstr "取消"
 
-#, fuzzy
 #: TFRMFINDDLG.DEDATETO.OKCAPTION
 msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
 msgid "OK"
 msgstr "确定"
 
-#, fuzzy
 #: TFRMFINDDLG.EDTATTRIB.HINT
 msgid "Use '-' to off attribute and '?' to any"
 msgstr ""
@@ -1507,8 +1507,9 @@ msgid "-"
 msgstr "-"
 
 #: TFRMMAIN.MILINE22.CAPTION
+msgctxt "TFRMMAIN.MILINE22.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: TFRMMAIN.MILINE3.CAPTION
 msgctxt "TFRMMAIN.MILINE3.CAPTION"
@@ -2854,6 +2855,14 @@ msgstr "自定义列"
 msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
 msgstr "确定(&O);否(&N);是(&Y);取消(&C);无(&N);添加(&A);覆盖(&R);覆盖全部(&A);略过(&S);略过全部(&K);全部;"
 
+#: ulng.rsdlgchecksumcalc
+msgid "Calculate check sum..."
+msgstr ""
+
+#: ulng.rsdlgchecksumverify
+msgid "Verify check sum..."
+msgstr ""
+
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
@@ -3248,6 +3257,10 @@ msgstr "请重启Double Commander,使修改生效"
 #: ulng.rsmsgselected
 msgid "Selected %s of %s in %d of %d files"
 msgstr "选中 %s 总大小 %s, 选中 %d 总文件数 %d files"
+
+#: ulng.rsmsgselectonlychecksumfiles
+msgid "Please select only check sum files!"
+msgstr ""
 
 #: ulng.rsmsgsellocnextvol
 msgid "Please select location of next volume"

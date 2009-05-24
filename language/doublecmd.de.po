@@ -756,6 +756,7 @@ msgstr "&Gehe zu Datei"
 msgid "&New search"
 msgstr "&Neue Suche"
 
+#, fuzzy
 #: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
 msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
 msgid "&Delete"
@@ -803,7 +804,6 @@ msgstr "Gross- / Kleinschreibung beachten"
 msgid "Date From:"
 msgstr "Ab Datum:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBDATETO.CAPTION
 msgid "Date To:"
 msgstr "Vor Datum:"
@@ -841,11 +841,13 @@ msgstr "Suche Datei die NICHT den Text enthalten"
 msgid "Not older than:"
 msgstr "Nicht älter als:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBREGEXP.CAPTION
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
 msgstr "&Reguläre Ausdrücke"
 
+#, fuzzy
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
 msgid "Re&place text"
 msgstr "Ersetze Text"
@@ -890,13 +892,11 @@ msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
 msgid "Cancel"
 msgstr "Abbruch"
 
-#, fuzzy
 #: TFRMFINDDLG.DEDATETO.OKCAPTION
 msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
 msgid "OK"
 msgstr "OK"
 
-#, fuzzy
 #: TFRMFINDDLG.EDTATTRIB.HINT
 msgid "Use '-' to off attribute and '?' to any"
 msgstr "Nutze '-' um Attribut abszuschalten und '?' als Platzhalter"
@@ -1499,8 +1499,9 @@ msgid "-"
 msgstr "-"
 
 #: TFRMMAIN.MILINE22.CAPTION
+msgctxt "TFRMMAIN.MILINE22.CAPTION"
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: TFRMMAIN.MILINE3.CAPTION
 msgctxt "TFRMMAIN.MILINE3.CAPTION"
@@ -2846,6 +2847,14 @@ msgstr "Spalten anpassen"
 msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
 msgstr "&OK;&Nein;&Ja;&Abbruch;&Keine;&Anhängen;&Überschreiben;Überschreibe &alle;&Überspringen;Übers&pringe alle;Alle;"
 
+#: ulng.rsdlgchecksumcalc
+msgid "Calculate check sum..."
+msgstr ""
+
+#: ulng.rsdlgchecksumverify
+msgid "Verify check sum..."
+msgstr ""
+
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
@@ -3240,6 +3249,10 @@ msgstr "Bitte DoubleCommander neustarten um die Änderungen zu übernehmen"
 #: ulng.rsmsgselected
 msgid "Selected %s of %s in %d of %d files"
 msgstr "Markierte %s von %s in %d von %d Dateien"
+
+#: ulng.rsmsgselectonlychecksumfiles
+msgid "Please select only check sum files!"
+msgstr ""
 
 #: ulng.rsmsgsellocnextvol
 msgid "Please select location of next volume"

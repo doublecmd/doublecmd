@@ -772,6 +772,7 @@ msgstr "Пере&йти до файла"
 msgid "&New search"
 msgstr "Н&овий пошук"
 
+#, fuzzy
 #: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
 msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
 msgid "&Delete"
@@ -820,7 +821,6 @@ msgstr "З врахуванням регістру"
 msgid "Date From:"
 msgstr "Дата від:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBDATETO.CAPTION
 msgid "Date To:"
 msgstr "Дата до:"
@@ -858,11 +858,13 @@ msgstr "Файлы, що НЕ містять цей текст"
 msgid "Not older than:"
 msgstr "Не старші ніж:"
 
+#, fuzzy
 #: TFRMFINDDLG.CBREGEXP.CAPTION
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
 msgstr "Регулярні вирази"
 
+#, fuzzy
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
 msgid "Re&place text"
 msgstr "Замінити текст"
@@ -907,13 +909,11 @@ msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
 msgid "Cancel"
 msgstr "Скасувати"
 
-#, fuzzy
 #: TFRMFINDDLG.DEDATETO.OKCAPTION
 msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
 msgid "OK"
 msgstr "Так"
 
-#, fuzzy
 #: TFRMFINDDLG.EDTATTRIB.HINT
 msgid "Use '-' to off attribute and '?' to any"
 msgstr ""
@@ -1516,6 +1516,7 @@ msgid "-"
 msgstr ""
 
 #: TFRMMAIN.MILINE22.CAPTION
+msgctxt "TFRMMAIN.MILINE22.CAPTION"
 msgid "-"
 msgstr ""
 
@@ -2865,6 +2866,14 @@ msgstr "Налаштувати колонки:"
 msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
 msgstr "&OK;&Ні;&Так;&Відміна;Жод&ного;&Додати;&Переписати;Переписати &все;&Пропустити;Проп&устити Все;Все;"
 
+#: ulng.rsdlgchecksumcalc
+msgid "Calculate check sum..."
+msgstr ""
+
+#: ulng.rsdlgchecksumverify
+msgid "Verify check sum..."
+msgstr ""
+
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
@@ -3260,6 +3269,10 @@ msgstr "Будь-ласка, перезапустіть Double Commander для 
 #: ulng.rsmsgselected
 msgid "Selected %s of %s in %d of %d files"
 msgstr "Виділено %s з %s в %d з %d файлів"
+
+#: ulng.rsmsgselectonlychecksumfiles
+msgid "Please select only check sum files!"
+msgstr ""
 
 #: ulng.rsmsgsellocnextvol
 msgid "Please select location of next volume"

@@ -1506,6 +1506,7 @@ msgid "-"
 msgstr ""
 
 #: TFRMMAIN.MILINE22.CAPTION
+msgctxt "TFRMMAIN.MILINE22.CAPTION"
 msgid "-"
 msgstr ""
 
@@ -2853,6 +2854,14 @@ msgstr ""
 msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
 msgstr ""
 
+#: ulng.rsdlgchecksumcalc
+msgid "Calculate check sum..."
+msgstr ""
+
+#: ulng.rsdlgchecksumverify
+msgid "Verify check sum..."
+msgstr ""
+
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
@@ -3248,6 +3257,10 @@ msgstr ""
 
 #: ulng.rsmsgselected
 msgid "Selected %s of %s in %d of %d files"
+msgstr ""
+
+#: ulng.rsmsgselectonlychecksumfiles
+msgid "Please select only check sum files!"
 msgstr ""
 
 #: ulng.rsmsgsellocnextvol
