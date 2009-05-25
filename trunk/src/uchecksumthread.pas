@@ -207,6 +207,11 @@ begin
               HashUpdate(Context, Buf^, Count);
               Inc(iProcessed, Count);
               FFileOpDlg.iProgress1Pos:= (iProcessed * 100) div FileRecItem^.iSize;
+              if FCheckSumOp = checksum_calc then
+                begin
+                  FFileOpDlg.iProgress2Pos:= ((FCopied + iProcessed) * 100) div FFilesSize;
+                  EstimateTime(FCopied + iProcessed);
+                end;
               Synchronize(@FFileOpDlg.UpdateDlg);
             end;
         until Count < iCopyBlockSize;
