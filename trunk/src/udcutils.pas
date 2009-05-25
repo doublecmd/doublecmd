@@ -52,6 +52,7 @@ function GetTempFolder: String;
 }
 function GetLastDir(Path : String) : String;
 function GetSplitFileName(var sFileName, sPath : String) : String;
+function MakeFileName(const sPath, sFileNameDef : String) : String;
 {en
    Split path into list of directories
    @param(DirName Path)
@@ -204,6 +205,13 @@ begin
     end
   else
     Result := sPath + sFileName;
+end;
+
+function MakeFileName(const sPath, sFileNameDef : String) : String;
+begin
+  Result:= ExtractFileName(ExcludeTrailingBackslash(sPath));
+  if Result = EmptyStr then
+    Result:= sFileNameDef;
 end;
 
 function GetDirs (DirName : String; var Dirs : TStringList) : Longint;
