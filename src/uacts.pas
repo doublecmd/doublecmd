@@ -1189,6 +1189,7 @@ end;
 procedure TActs.cm_CheckSumCalc(param:string);
 var
   fl: TFileList;
+  I: Integer;
   bSeparateFile: Boolean;
   HashAlgorithm: THashAlgorithm;
   sFileName: UTF8String;
@@ -1198,6 +1199,20 @@ begin
     if  pnlFile.PanelMode <> pmDirectory then Exit;
 
     if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+
+    bSeparateFile:= False;
+    with pnlFile.FileList do
+    for I:= Count - 1 downto 0 do // find files in selection
+      if GetItem(I)^.bSelected and not FPS_ISDIR(GetItem(I)^.iMode) then
+        begin
+          bSeparateFile:= True;
+          Break;
+        end;
+    if not bSeparateFile then // if selected only directories
+      begin
+        msgError(rsMsgNoFilesSelected);
+        Exit;
+      end;
 
     if pnlFile.GetSelectedCount > 1 then
       sFileName:= ActiveDir + ExtractFileName(ExcludeTrailingBackslash(ActiveDir))
