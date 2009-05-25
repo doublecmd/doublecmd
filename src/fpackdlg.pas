@@ -69,7 +69,7 @@ function ShowPackDlg(VFS : TVFS; var fl : TFileList; sDestPath:String; bNewArchi
 
 implementation
 uses
-  uWCXhead, uGlobs;
+  uWCXhead, uGlobs, uDCUtils;
 
 function ShowPackDlg(VFS : TVFS; var fl: TFileList; sDestPath:String; bNewArchive : Boolean = True): Boolean;
 var
@@ -87,7 +87,7 @@ begin
         else
         (* if some files selected *)
           begin
-            edtPackCmd.Text := sDestPath + ExtractFileName(ExcludeTrailingPathDelimiter(fl.CurrentDirectory)) + '.none';
+            edtPackCmd.Text := sDestPath + MakeFileName(fl.CurrentDirectory, 'archive') + '.none';
           end
       else  // pack in exsists archive
         edtPackCmd.Text := VFS.ArcFullName;

@@ -1215,7 +1215,7 @@ begin
       end;
 
     if pnlFile.GetSelectedCount > 1 then
-      sFileName:= ActiveDir + ExtractFileName(ExcludeTrailingBackslash(ActiveDir))
+      sFileName:= ActiveDir + MakeFileName(ActiveDir, 'checksum')
     else
       sFileName:= ActiveDir + GetActiveItem^.sNameNoExt;
 
