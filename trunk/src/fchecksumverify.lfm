@@ -34,7 +34,7 @@ object frmCheckSumVerify: TfrmCheckSumVerify
     Left = 163
     Height = 30
     Top = 260
-    Width = 75
+    Width = 100
     Anchors = [akLeft, akBottom]
     BorderSpacing.Bottom = 10
     Caption = '&Close'
