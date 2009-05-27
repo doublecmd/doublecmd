@@ -23,7 +23,7 @@
 	
 	<div class="SECT1">
 	  <h2><a name="main_window">1. Главное окно</a></h2>
-	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+	  <table border="1" frame="none" width="100%" class="CALSTABLE">
 		<col width="25%"/>
 		<col width="75%"/>
 		<thead>
@@ -107,6 +107,15 @@
 			<td>Уничтожить файл/каталог</td>
 		  </tr>
 		  <tr>
+			<td><tt class="red">Alt+Z</tt></td>
+			<td>открывает в неактивной панели тот же каталог, который открыт в активной</td>
+		  </tr>
+		  <tr>
+			<td><tt class="red">Shift+F2</tt></td>
+			<td>установить фокус в командную строку</td>
+		  </tr>
+		  <tr>
+		  <tr>
 			<td><tt class="red">Shift+F4</tt></td>
 			<td>создать новый текстовый файл и загрузить его в редактор</td>
 		  </tr>
@@ -121,6 +130,10 @@
 		  <tr>
 			<td><tt class="red">Shift+Enter</tt></td>
 			<td>выполнить приложение в терминале (терминал берется из настроек)</td>
+		  </tr>
+		   <tr>
+			<td><tt class="red">Shift+Ctrl+Tab</tt></td>
+			<td>переключает на предыдущую вкладку (левее) в активной панели</td>
 		  </tr>
 		  <tr>
 			<td><tt class="red">Ctrl+F3</tt></td>
@@ -139,12 +152,28 @@
 			<td>сортировать по размеру</td>
 		  </tr>
 		  <tr>
-			<td><tt class="red">Ctrl+H</tt></td>
-			<td>открыть историю уже посещённых каталогов</td>
+			<td><tt class="red">Ctrl+7</tt></td>
+			<td>выводит историю всех команд, которые были набраны в командной строке</td>
+		  </tr>		  
+		  <tr>
+		  	<td><tt class="red">Ctrl+A</tt></td>
+			<td>выделяет все файлы и папки в каталоге</td>
+		  </tr>
+		  <tr>
+			<td><tt class="red">Ctrl+Alt+C</tt></td>
+			<td>копирует полные имена выделенных файлов в буфер обмена</td>
+		  </tr>
+		  <tr>
+			<td><tt class="red">Ctrl+Alt+X</tt></td>
+			<td>копирует имена выделенных файлов в буфер обмена</td>
 		  </tr>
 		  <tr>
 			<td><tt class="red">Ctrl+D</tt></td>
 			<td>открыть меню избранных каталогов</td>
+		  </tr>
+		  <tr>
+			<td><tt class="red">Ctrl+H</tt></td>
+			<td>открыть историю уже посещённых каталогов</td>
 		  </tr>
 		  <tr>
 			<td><tt class="red">Ctrl+L</tt></td>
@@ -167,12 +196,24 @@
 			<td>открыть историю команд командной строки</td>
 		  </tr>
 		  <tr>
+			<td><tt class="red">Ctrl+ &#8592;</tt></td>
+			<td>открывает в левой панели каталог, который в правой панели находится под курсором</td>
+		  </tr>
+		  <tr>
+			<td><tt class="red">Ctrl+ &#8594;</tt></td>
+			<td>открывает в правой панели каталог, который в левой панели находится под курсором</td>
+		  </tr>
+		  <tr>
 			<td><tt class="red">Ctrl+Enter</tt></td>
 			<td>копировать имя файла в командную строку</td>
 		  </tr>
 		  <tr>
 			<td><tt class="red">Ctrl+P</tt></td>
 			<td>копировать путь в командную строку</td>
+		  </tr>
+		  <tr>
+			<td><tt class="red">Ctrl+S</tt></td>
+			<td>запускает быстрый поиск по каталогу, согласно настройкам</td>
 		  </tr>
 		  <tr>
 			<td><tt class="red">Ctrl+Shift+Enter</tt></td>
@@ -197,6 +238,10 @@
 		  <tr>
 			<td><tt class="red">Ctrl+T</tt></td>
 			<td>создать новую вкладку для текущей панели</td>
+		  </tr>
+		  <tr>
+			<td><tt class="red">Ctrl+Tab</tt></td>
+			<td>переключает на следующую вкладку, правее от активной</td>
 		  </tr>
 		  <tr>
 			<td><tt class="red">Ctrl+W</tt></td>
@@ -242,12 +287,7 @@
 			<td><tt class="red">Shift+Num -</tt></td>
 			<td>снять выделение со всех файлов в текущем каталоге с расширением как у файла под курсором</td>
 		  </tr>
-		  <tr>
-			<td><tt class="red">Shift+F2</tt></td>
-			<td>установить фокус в командную строку</td>
-		  </tr>
-		  <tr>
-			<td><tt class="red">Tab</tt></td>
+		  <td><tt class="red">Tab</tt></td>
 			<td>переключиться на другую файловую панель</td>
 		  </tr>
 		  <tr>
@@ -296,7 +336,7 @@
 	
 	<div class="SECT1">
 	  <h2><a name="viewer">2. Встроенный просмоторщик</a></h2>
-	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+	  <table border="1" frame="none" width="100%" class="CALSTABLE">
 	    <col width="25%" />
 		<col width="75%" />
 		<thead>
@@ -350,7 +390,7 @@
 	
 	<div class="SECT1">
 	  <h2><a name="editor">3. Встроенный редактор</a></h2>
-	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+	  <table border="1" frame="none" width="100%" class="CALSTABLE">
 		<col width="25%" />
 		<col width="75%" />
 		<thead>
