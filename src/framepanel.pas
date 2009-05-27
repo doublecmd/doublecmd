@@ -138,6 +138,48 @@ type
   end;
   PDropParams = ^TDropParams;
 
+  { TPathLabel }
+
+  TPathLabel = class(TLabel)
+  private
+    HighlightStartPos: Integer;
+    HighlightText: String;
+    {en
+       How much space to leave between the text and left border.
+    }
+    LeftSpacing: Integer;
+
+    {en
+       If a user clicks on a parent directory of the path,
+       this stores the full path of that parent directory.
+    }
+    SelectedDir: String;
+
+    {en
+       If a mouse if over some parent directory of the currently displayed path,
+       it is highlighted, so that user can click on it.
+    }
+    procedure Highlight(MousePosX, MousePosY: Integer);
+
+    procedure MouseEnter(Sender: TObject);
+    procedure MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+    procedure MouseLeave(Sender: TObject);
+
+  protected
+    procedure Paint; override;
+
+  public
+
+    constructor Create(AOwner: TComponent); override;
+
+    {en
+       Changes drawing colors depending active/inactive state.
+    }
+    procedure SetActive(Active: Boolean);
+
+    function GetSelectedDir: String;
+  end;
+
   { TFrameFilePanel }
 
   TFrameFilePanel = class (TWinControl)
@@ -154,7 +196,7 @@ type
     pnPanel: TPanel;
     lblLInfo: TLabel;
     pnlHeader: TPanel;
-    lblLPath: TLabel;
+    lblLPath: TPathLabel;
     edtPath,
     edtRename: TEdit;
 //---------------------
@@ -195,8 +237,7 @@ type
                                   MousePos: TPoint; var Handled: Boolean);
     procedure dgPanelMouseWheelDown(Sender: TObject; Shift: TShiftState;
                                   MousePos: TPoint; var Handled: Boolean);
-    procedure lblLPathMouseEnter(Sender: TObject);
-    procedure lblLPathMouseLeave(Sender: TObject);
+    procedure lblLPathClick(Sender: TObject);
     procedure pnlHeaderResize(Sender: TObject);
 
   private
@@ -283,8 +324,7 @@ begin
   if dgPanel.Row<0 then
     dgPanel.Selection:=FLastSelect;
   dgPanel.SetFocus;
-  lblLPath.Color:=clHighlight;
-  lblLPath.Font.Color:=clHighlightText;
+  lblLPath.SetActive(True);
   pnlFile.UpdatePrompt;
 //  dgPanel.Invalidate;
 end;
@@ -1282,8 +1322,7 @@ begin
 {  if pnAltSearch.Visible then
     CloseAltPanel;}
   FActive:= False;
-  lblLPath.Color:=clBtnFace;
-  lblLPath.Font.Color:=clBlack;
+  lblLPath.SetActive(False);
   ClearGridSelection;
 end;
 
@@ -1474,19 +1513,18 @@ begin
   Result := pnlFile.IsItemValid(GetActiveItem);
 end;
 
-procedure TFrameFilePanel.lblLPathMouseEnter(Sender: TObject);
+procedure TFrameFilePanel.lblLPathClick(Sender: TObject);
 begin
-  lblLPath.Font.Color:=clRed;
-  lblLPath.Font.Style:=[fsUnderline];
-end;
+  SetFocus;
 
-procedure TFrameFilePanel.lblLPathMouseLeave(Sender: TObject);
-begin
-  if lblLPath.Color=clHighlight then
-    lblLPath.Font.Color:=clHighlightText
+  if lblLPath.GetSelectedDir <> '' then
+  begin
+    // User clicked on a subdirectory of the path.
+    pnlFile.ActiveDir := lblLPath.SelectedDir;
+    pnlFile.LoadPanel;
+  end
   else
-    lblLPath.Font.Color:=clBlack;
-  lblLPath.Font.Style:=[];
+    Actions.cm_DirHistory('');
 end;
 
 procedure TFrameFilePanel.pnlHeaderResize(Sender: TObject);
@@ -1533,12 +1571,11 @@ begin
   pnlHeader.BevelInner:=bvNone;
   pnlHeader.BevelOuter:=bvNone;
 
-  lblLPath:=TLabel.Create(pnlHeader);
+  lblLPath:=TPathLabel.Create(pnlHeader);
   lblLPath.Parent:=pnlHeader;
   lblLPath.Top := 2;
   lblLPath.AutoSize:=False;
   lblLPath.Width:=pnlHeader.Width - 4;
-  lblLPath.Color:=clActiveCaption;
 
   edtPath:=TEdit.Create(lblLPath);
   edtPath.Parent:=pnlHeader;
@@ -1609,10 +1646,8 @@ begin
 
   pnlHeader.OnResize := @pnlHeaderResize;
 
-  lblLPath.OnMouseEnter:=@lblLPathMouseEnter;
-  lblLPath.OnMouseLeave:=@lblLPathMouseLeave;
+  lblLPath.OnClick := @lblLPathClick;
 
-  
   pnlFile:=TFilePanel.Create(AOwner, TDrawGrid(dgPanel),lblLPath,lblCommandPath, lblDriveInfo, cmbCommand);
   
   edtCmdLine := cmbCommand;
@@ -2145,4 +2180,154 @@ begin
     Result := ddtExternal;
 end;
 
+{ TPathLabel }
+
+constructor TPathLabel.Create(AOwner: TComponent);
+begin
+  LeftSpacing := 3; // set before painting
+
+  inherited;
+
+  SelectedDir := '';
+
+  HighlightStartPos := -1;
+  HighlightText := '';
+
+  SetActive(False);
+
+  OnMouseEnter:=@MouseEnter;
+  OnMouseMove :=@MouseMove;
+  OnMouseLeave:=@MouseLeave;
+end;
+
+procedure TPathLabel.Paint;
+begin
+  Canvas.Brush.Color := Color;
+  Canvas.Font.Color  := Font.Color;
+
+  Canvas.FillRect(0, 0, Width, Height); // background
+  Canvas.TextOut(LeftSpacing, 0, Text); // path
+
+  // Highlight part of the path if mouse is over it.
+  if HighlightStartPos <> -1 then
+  begin
+    Canvas.Brush.Color := Font.Color;  // reverse colors
+    Canvas.Font.Color  := Color;
+    Canvas.TextOut(HighlightStartPos, 0, HighlightText);
+  end;
+end;
+
+procedure TPathLabel.SetActive(Active: Boolean);
+begin
+  case Active of
+    False:
+      begin
+        Color      := clBtnFace;
+        Font.Color := clBtnText;
+      end;
+    True:
+      begin
+        Color      := clHighlight;
+        Font.Color := clHighlightText;
+      end;
+  end;
+end;
+
+procedure TPathLabel.Highlight(MousePosX, MousePosY: Integer);
+var
+  PartText: String;
+  StartPos, CurPos: Integer;
+  PartWidth: Integer;
+  CurrentHighlightPos, NewHighlightPos: Integer;
+  TextLen: Integer;
+  PathDelimWidth: Integer;
+begin
+  CurrentHighlightPos := LeftSpacing; // start at the beginning of the path
+  NewHighlightPos := -1;
+
+  Canvas.Font := Self.Font;
+  PathDelimWidth := Canvas.TextWidth(PathDelim);
+  TextLen := Length(Text);
+
+  // Start from the first character, but omit any path delimiters at the beginning.
+  StartPos := 1;
+  while (StartPos <= TextLen) and (Text[StartPos] = PathDelim) do
+    Inc(StartPos);
+
+  // Move the canvas position after the skipped text (if any).
+  CurrentHighlightPos := CurrentHighlightPos + (StartPos - 1) * PathDelimWidth;
+
+  for CurPos := StartPos + 1 to TextLen - 1 do
+  begin
+    if Text[CurPos] = PathDelim then
+    begin
+      PartText := Copy(Text, StartPos, CurPos - StartPos);
+      PartWidth := Canvas.TextWidth(PartText);
+
+      // If mouse is over this part of the path - highlight it.
+      if InRange(MousePosX, CurrentHighlightPos, CurrentHighlightPos + PartWidth) then
+      begin
+        NewHighlightPos := CurrentHighlightPos;
+        Break;
+      end;
+
+      CurrentHighlightPos := CurrentHighlightPos + PartWidth + PathDelimWidth;
+      StartPos := CurPos + 1;
+    end;
+  end;
+
+  // Repaint if highlighted part has changed.
+  if NewHighlightPos <> HighlightStartPos then
+  begin
+    // Omit minimized part of the displayed path.
+    if PartText = '..' then
+      HighlightStartPos := -1
+    else
+      HighlightStartPos := NewHighlightPos;
+
+    if HighlightStartPos <> -1 then
+    begin
+      Cursor := crHandPoint;
+
+      HighlightText := PartText;
+      // If clicked, this will be the new directory.
+      SelectedDir := Copy(Text, 1, CurPos - 1);
+    end
+    else
+    begin
+      Cursor := crDefault;
+
+      SelectedDir := '';
+      HighlightText := '';
+    end;
+
+    Self.Invalidate;
+  end;
+end;
+
+procedure TPathLabel.MouseEnter(Sender: TObject);
+begin
+  Cursor := crDefault;
+end;
+
+procedure TPathLabel.MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+begin
+  Highlight(X, Y);
+end;
+
+procedure TPathLabel.MouseLeave(Sender: TObject);
+begin
+  SelectedDir := '';
+  HighlightStartPos := -1;
+  HighlightText := '';
+  Cursor := crDefault;
+  Invalidate;
+end;
+
+function TPathLabel.GetSelectedDir: String;
+begin
+  Result := SelectedDir;
+end;
+
 end.
+

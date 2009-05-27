@@ -375,7 +375,6 @@ type
     procedure seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
     procedure ShowPathEdit;
-    procedure FramelblLPathClick(Sender: TObject);
     procedure FramelblLPathMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     function FramepnlFileBeforeChangeDirectory(Sender: TObject; const NewDir : String): Boolean;
@@ -2503,14 +2502,6 @@ begin
   end;
 end;
 
-procedure TfrmMain.FramelblLPathClick(Sender: TObject);
-begin
-//  DebugLn(TControl(Sender).Parent.Parent.ClassName);
-  SetActiveFrame(TFrameFilePanel(TControl(Sender).Parent.Parent).PanelSelect);
-  Actions.cm_DirHistory('');
-  //actDirHistory.Execute;
-end;
-
 procedure TfrmMain.FramelblLPathMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -2813,7 +2804,6 @@ begin
     pnlFile.OnBeforeChangeDirectory := @FramepnlFileBeforeChangeDirectory;
     pnlFile.OnAfterChangeDirectory := @FramepnlFileAfterChangeDirectory;
 
-    lblLPath.OnClick:=@FramelblLPathClick;
     lblLPath.OnMouseUp := @FramelblLPathMouseUp;
     edtPath.OnExit:=@FrameEditExit;
     edtRename.OnExit:=@FrameEditExit;
