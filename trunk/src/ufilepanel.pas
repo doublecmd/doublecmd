@@ -600,10 +600,10 @@ procedure TFilePanel.UpdatePathLabel;
 begin
   case fPanelMode of
     pmDirectory:
-      flblPath.Caption:=' '+MinimizeFilePath(ActiveDir, flblPath.Canvas, flblPath.Width);
+      flblPath.Caption := MinimizeFilePath(ActiveDir, flblPath.Canvas, flblPath.Width);
     pmArchive,
     pmVFS:
-      flblPath.Caption:=' ' + ActiveDir;
+      flblPath.Caption := ActiveDir;
   else
     Raise Exception.Create('fix me:UpdatePanel:bad panelmode');
   end;
