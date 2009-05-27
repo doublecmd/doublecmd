@@ -1523,7 +1523,8 @@ begin
   FLastMark:= '*';
   FLastAutoSelect:= False;
 
-  OnKeyPress:=@dgPanelKeyPress;
+  dgPanel:=TDrawGridEx.Create(Self, Self);
+
   pnlHeader:=TPanel.Create(Self);
   pnlHeader.Parent:=Self;
   pnlHeader.Height:=24;
@@ -1561,7 +1562,7 @@ begin
   lblLInfo.Width:=250;//  pnlFooter.Width;
   lblLInfo.AutoSize:=True;
 
-  edtRename:=TEdit.Create(Self);
+  edtRename:=TEdit.Create(dgPanel);
   edtRename.Parent:=dgPanel;
   edtRename.Visible:=False;
   edtRename.TabStop:=False;
@@ -1580,9 +1581,8 @@ begin
 
   pnAltSearch.Visible := False;
 
-  dgPanel:=TDrawGridEx.Create(Self, Self);
-
   // ---
+  OnKeyPress:=@dgPanelKeyPress;
   dgPanel.OnMouseDown := @dgPanelMouseDown;
   dgPanel.OnStartDrag := @dgPanelStartDrag;
   dgPanel.OnDragOver := @dgPanelDragOver;
