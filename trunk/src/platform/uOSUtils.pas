@@ -784,7 +784,8 @@ end;
       // check file system type
       if (mnt_type = 'tmpfs') or (mnt_type = 'proc') or (mnt_type = 'sysfs') or
          (mnt_type = 'devpts') or (mnt_type = 'fusectl') or (mnt_type = 'securityfs') or
-         (mnt_type = 'binfmt_misc') or (mnt_type = 'fuse.gvfs-fuse-daemon') then Exit;
+         (mnt_type = 'binfmt_misc') or (mnt_type = 'fuse.gvfs-fuse-daemon') or 
+         (mnt_type = 'fuse.truecrypt') then Exit;
       // if already added
       for J:= 0 to DriveList.Count - 1 do
         if PDrive(DriveList.Items[J])^.Path = mnt_dir then
