@@ -1789,7 +1789,7 @@ function SoftwareUpdateMessageBox(hWndOwner : HWND; szDistUnit : PWideChar; dwFl
 function SHGetMalloc(var ppMalloc: IMalloc): HResult; stdcall;
 function SHGetDesktopFolder(var ppshf: IShellFolder): HResult; stdcall;
 
-function SHChangeIconDialog(hOwner: THandle; var FileName: String; var IconIndex: Integer): Boolean;
+function SHChangeIconDialog(hOwner: THandle; var FileName: UTF8String; var IconIndex: Integer): Boolean;
 procedure OleError(ErrorCode: HResult);
 procedure OleCheck(Result: HResult);
 
@@ -1836,7 +1836,7 @@ Copyright:   Доработка библиотеки JVCL
 Дата:        15 июля 2003 г.
 ***************************************************** }
 
-function SHChangeIconDialog(hOwner: THandle; var FileName: String; var IconIndex: Integer): Boolean;
+function SHChangeIconDialog(hOwner: THandle; var FileName: UTF8String; var IconIndex: Integer): Boolean;
 type
   TSHChangeIconProc = function(Wnd: HWND; szFileName: PChar; Reserved: Integer;
                                var lpIconIndex: Integer): DWORD; stdcall;
@@ -1864,17 +1864,17 @@ begin
 
     if Assigned(SHChangeIconW) then
     begin
-      StringToWideChar(FileName, BufW, SizeOf(BufW));
+      BufW := UTF8Decode(FileName);
       Result := SHChangeIconW(hOwner, BufW, SizeOf(BufW), IconIndex) = 1;
       if Result then
-        FileName := BufW;
+        FileName := UTF8Encode(BufW);
     end
     else if Assigned(SHChangeIcon) then
     begin
-      StrPCopy(Buf, FileName);
+      Buf := UTF8ToAnsi(FileName);
       Result := SHChangeIcon(hOwner, Buf, SizeOf(Buf), IconIndex) = 1;
       if Result then
-        FileName := Buf;
+        FileName := AnsiToUTF8(Buf);
     end
     else
       begin
