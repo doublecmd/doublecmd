@@ -210,7 +210,7 @@ begin
   if FileIsExeLib(sFileName) then
     begin
       if iIconIndex < 0 then iIconIndex := 0;
-      ExtractIconEx(PChar(sFileName), iIconIndex, phiconLarge, phiconSmall, 1);
+      ExtractIconExW(PWChar(UTF8Decode(sFileName)), iIconIndex, phiconLarge, phiconSmall, 1);
       case iIconSize of
         16, 32:
           try
