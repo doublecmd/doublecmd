@@ -689,7 +689,7 @@ begin
       FindFirstEx(sNameNoExt, faAnyFile, sr);
       sExt := ExtractFileExt(sNameNoExt);
       iSize := sr.Size;
-      sTime := DateTimeToStr(Trunc(FileDateToDateTime(sr.Time)));
+      sTime := FormatDateTime(gDateTimeFormat, FileDateToDateTime(sr.Time));
       iMode := sr.Attr;
       sModeStr := AttrToStr(sr.Attr);
       bLinkIsDir:=False;
