@@ -1170,9 +1170,11 @@ begin
   with Sender as TNoteBook do
   begin
     if Page[PageIndex].Tag = 2 then // if locked with directory change
-      begin
-        ActiveFrame.pnlFile.ActiveDir:= Page[PageIndex].Hint;
-        ActiveFrame.LoadPanel;
+      with TFrameFilePanel(Page[PageIndex].Components[0]) do
+	  begin
+        pnlFile.ActiveDir:= Page[PageIndex].Hint;
+        LoadPanel;
+		Exit;
       end;
 
     if (Name = 'nbLeft') and (FrameLeft <> nil) then
