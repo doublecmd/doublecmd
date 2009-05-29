@@ -24,8 +24,16 @@ type
     procedure btnOKClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
     procedure btnADDClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure lsHotDirMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure lsHotDirMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure lsHotDirMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   private
     { Private declarations }
+    fPivotIndex: integer;
   public
     { Public declarations }
     procedure LoadFromGlob;
@@ -105,6 +113,41 @@ begin
     lsHotDir.ItemIndex:=lsHotDir.Items.Add(sDir+DirectorySeparator);
   btnDelete.Enabled:= (lsHotDir.Items.Count>0);
   btnEdit.Enabled:= (lsHotDir.Items.Count>0);
+end;
+
+procedure TfrmHotDir.FormCreate(Sender: TObject);
+begin
+  fPivotIndex := -1;
+end;
+
+procedure TfrmHotDir.lsHotDirMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  fPivotIndex := lsHotDir.GetIndexAtXY(X,Y);
+end;
+
+procedure TfrmHotDir.lsHotDirMouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+var
+  NewIndex: Integer;
+begin
+  if (fPivotIndex>=0) and (Y>=0) then
+    begin
+      NewIndex := lsHotDir.GetIndexAtXY(X,Y);
+      if (NewIndex>=0) and (NewIndex<>fPivotIndex) then
+        begin
+          lsHotDir.Items.Exchange(NewIndex, fPivotIndex);
+          if fPivotIndex=lsHotDir.ItemIndex then
+            lsHotDir.ItemIndex := NewIndex;
+          fPivotIndex := NewIndex;
+        end;
+    end;
+end;
+
+procedure TfrmHotDir.lsHotDirMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  fPivotIndex := -1;
 end;
 
 initialization

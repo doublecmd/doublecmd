@@ -3,11 +3,11 @@ object frmHotDir: TfrmHotDir
   Height = 423
   Top = 127
   Width = 437
-  ActiveControl = lsHotDir
+  ActiveControl = btnOK
   Caption = 'Directory Hotlist'
   ClientHeight = 423
   ClientWidth = 437
-  ParentFont = False
+  OnCreate = FormCreate
   Position = poScreenCenter
   LCLVersion = '0.9.27'
   object lsHotDir: TListBox
@@ -18,6 +18,10 @@ object frmHotDir: TfrmHotDir
     Width = 265
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Right = 12
+    ItemHeight = 0
+    OnMouseMove = lsHotDirMouseMove
+    OnMouseDown = lsHotDirMouseDown
+    OnMouseUp = lsHotDirMouseUp
     TabOrder = 0
     TopIndex = -1
   end
