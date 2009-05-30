@@ -1065,8 +1065,8 @@ begin
       if (mbDirectoryExists(ActiveDir+sPath)) then
       begin
         msgError(Format(rsMsgErrDirExists,[ActiveDir+sPath]));
-        pnlFile.LastActive:=sPath;
-        pnlFile.LoadPanel;
+        RefreshPanel;
+        pnlFile.Select(sPath);
       end
       else
       begin
@@ -1085,8 +1085,8 @@ begin
           if (log_dir_op in gLogOptions) and (log_success in gLogOptions) then
             logWrite(Format(rsMsgLogSuccess+rsMsgLogMkDir,[ActiveDir+sPath]), lmtSuccess);
 
-          pnlFile.LastActive:=sPath;
-          pnlFile.LoadPanel;
+          RefreshPanel;
+          pnlFile.Select(sPath);
         end;
       end;
     finally
