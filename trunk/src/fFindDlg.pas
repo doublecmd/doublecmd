@@ -449,8 +449,7 @@ begin
   if lsFoundedFiles.ItemIndex <> -1 then
   begin
     frmMain.ActiveFrame.pnlFile.ActiveDir := ExtractFilePath(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
-    frmMain.ActiveFrame.pnlFile.LastActive:= ExtractFileName(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
-    frmMain.ActiveFrame.pnlFile.LoadPanel;
+    frmMain.ActiveFrame.pnlFile.Select(ExtractFileName(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]));
     Close;
   end;
 end;
@@ -678,6 +677,8 @@ var
   FileRecItem: TFileRecItem;
   sFileName: String;
 begin
+  frmMain.ActiveFrame.pnlFile.ActiveDir := '';
+
   Count:= lsFoundedFiles.Items.Count - 1;
   frmMain.ActiveFrame.pnlFile.FileList.Clear;
   with FileRecItem do
@@ -691,7 +692,6 @@ begin
     end;
   frmMain.ActiveFrame.pnlFile.FileList.UpdateFileInformation(pmDirectory);
   frmMain.ActiveFrame.pnlFile.Sort;
-  frmMain.ActiveFrame.pnlFile.ActiveDir:= '';
   Close;
 end;
 

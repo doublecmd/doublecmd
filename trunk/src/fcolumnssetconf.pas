@@ -589,7 +589,6 @@ begin
 
     dgPanel.OnHeaderSized:=@DGHeaderSized;
     pnlFile.ActiveDir := mbGetCurrentDir;
-    pnlFile.LoadPanel;
   end;
 
 

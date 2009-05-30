@@ -1046,14 +1046,11 @@ begin
   if Key=#13 then
   begin
     Key:=#0; // catch the enter
-    //if DirectoryExists(edtPath.Text) then
-      begin
-        pnlFile.ActiveDir:=edtPath.Text;
-        LoadPanel;
-        edtPath.Visible:=False;
-        RefreshPanel;
-        SetFocus;
-      end;
+
+    pnlFile.ActiveDir:=edtPath.Text;
+    edtPath.Visible:=False;
+
+    SetFocus;
   end;
 end;
 
@@ -1521,7 +1518,6 @@ begin
   begin
     // User clicked on a subdirectory of the path.
     pnlFile.ActiveDir := lblLPath.SelectedDir;
-    pnlFile.LoadPanel;
   end
   else
     Actions.cm_DirHistory('');

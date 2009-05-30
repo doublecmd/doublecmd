@@ -408,8 +408,6 @@ begin
   sDir:= FrmMain.ActiveFrame.pnlFile.ActiveDir;
   FrmMain.ActiveFrame.pnlFile.ActiveDir:= FrmMain.NotActiveFrame.pnlFile.ActiveDir;
   FrmMain.NotActiveFrame.pnlFile.ActiveDir:= sDir;
-  FrmMain.ActiveFrame.RefreshPanel;
-  FrmMain.NotActiveFrame.RefreshPanel;
 end;
 
 procedure TActs.cm_LeftOpenDrives(param:string);
@@ -462,7 +460,6 @@ begin
       NotActiveFrame.pnlFile.ActiveDir:= ExtractFilePath(ActiveFrame.pnlFile.VFS.ArcFullName)
     else
       NotActiveFrame.pnlFile.ActiveDir:= ActiveFrame.pnlFile.ActiveDir;
-    NotActiveFrame.RefreshPanel;
   end;
 end;
 
@@ -474,7 +471,6 @@ begin
       FrameLeft.pnlFile.ActiveDir:= ExtractFilePath(FrameRight.pnlFile.VFS.ArcFullName)
     else
       FrameLeft.pnlFile.ActiveDir:= FrameRight.pnlFile.ActiveDir;
-    FrameLeft.RefreshPanel;
   end;
 end;
 
@@ -486,7 +482,6 @@ begin
       FrameRight.pnlFile.ActiveDir:= ExtractFilePath(FrameLeft.pnlFile.VFS.ArcFullName)
     else
       FrameRight.pnlFile.ActiveDir:= FrameLeft.pnlFile.ActiveDir;
-    FrameRight.RefreshPanel;
   end;
 end;
 
