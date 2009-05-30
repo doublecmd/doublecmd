@@ -308,6 +308,7 @@ type
     procedure btnLeftDirectoryHotlistClick(Sender: TObject);
     procedure btnRightClick(Sender: TObject);
     procedure btnRightDirectoryHotlistClick(Sender: TObject);
+    procedure PanelButtonClick(Button: TSpeedButton; SourceFrame: TFrameFilePanel);
     procedure DeleteClick(Sender: TObject);
     procedure dskToolBarMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -539,20 +540,7 @@ end;
 
 procedure TfrmMain.btnLeftClick(Sender: TObject);
 begin
-  with Sender as TSpeedButton do
-  begin
-    if Caption = '/' then
-      FrameLeft.pnlFile.cdRootLevel
-    else if Caption = '..' then
-      FrameLeft.pnlFile.cdUpLevel
-    else if Caption = '~' then
-    begin
-      FrameLeft.pnlFile.ActiveDir := GetHomeDir;
-      FrameLeft.pnlFile.LoadPanel;
-    end;
-  end;
-
-  SetActiveFrame(fpLeft);
+  PanelButtonClick(Sender as TSpeedButton, FrameLeft);
 end;
 
 procedure TfrmMain.actExecute(Sender: TObject);
@@ -586,18 +574,7 @@ end;
 
 procedure TfrmMain.btnRightClick(Sender: TObject);
 begin
-  with Sender as TSpeedButton do
-  begin
-    if Caption = '/' then
-      FrameRight.pnlFile.ActiveDir := ExtractFileDrive(FrameRight.pnlFile.ActiveDir);
-    if Caption = '..' then
-      FrameRight.pnlFile.cdUpLevel;
-    if Caption = '~' then
-      FrameRight.pnlFile.ActiveDir := GetHomeDir;
-  end;
-  FrameRight.pnlFile.LoadPanel;
-
-  SetActiveFrame(fpRight);
+  PanelButtonClick(Sender as TSpeedButton, FrameRight);
 end;
 
 procedure TfrmMain.btnRightDirectoryHotlistClick(Sender: TObject);
@@ -609,6 +586,24 @@ begin
   p := Classes.Point(btnRightDirectoryHotlist.Left,btnRightDirectoryHotlist.Height);
   p := pnlRightTools.ClientToScreen(p);
   pmHotList.PopUp(P.x,P.y);
+end;
+
+procedure TfrmMain.PanelButtonClick(Button: TSpeedButton; SourceFrame: TFrameFilePanel);
+begin
+  with Button do
+  begin
+    if Caption = '/' then
+      SourceFrame.pnlFile.cdRootLevel
+    else if Caption = '..' then
+      SourceFrame.pnlFile.cdUpLevel
+    else if Caption = '~' then
+    begin
+      SourceFrame.pnlFile.ActiveDir := GetHomeDir;
+      SourceFrame.pnlFile.LoadPanel;
+    end;
+  end;
+
+  SetActiveFrame(SourceFrame.PanelSelect);
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
@@ -942,13 +937,8 @@ begin
 
   if dskPanel.Buttons[NumberOfButton].GroupIndex = 0 then
      begin
-     Command := dskPanel.Commands[NumberOfButton];
-     if Command = '/' then
-        FrameFilePanel.pnlFile.ActiveDir := ExtractFileDrive(FrameFilePanel.pnlFile.ActiveDir);
-     if Command = '..' then
-        FrameFilePanel.pnlFile.cdUpLevel;
-     if Command = '~' then
-        FrameFilePanel.pnlFile.ActiveDir := GetHomeDir;
+       // Command := dskPanel.Commands[NumberOfButton];
+       PanelButtonClick(dskPanel.Buttons[NumberOfButton], FrameFilePanel)
      end
   else
    begin
@@ -1172,10 +1162,10 @@ begin
     if Page[PageIndex].Tag = 2 then // if locked with directory change
       with TFrameFilePanel(Page[PageIndex].Components[0]) do
 	  begin
-        pnlFile.ActiveDir:= Page[PageIndex].Hint;
+      pnlFile.ActiveDir:= Page[PageIndex].Hint;
         LoadPanel;
-		Exit;
-      end;
+      Exit;
+    end;
 
     if (Name = 'nbLeft') and (FrameLeft <> nil) then
       begin
