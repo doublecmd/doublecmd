@@ -259,7 +259,6 @@ type
     PanelSelect:TFilePanelSelect;
     constructor Create(AOwner :TWinControl; lblDriveInfo : TLabel; lblCommandPath:TLabel; cmbCommand:TComboBox);
     destructor Destroy; override;
-    procedure LoadPanel;
     procedure SetFocus;
     procedure SelectFile(frp:PFileRecItem);
     { Returns True if at least one file is/was selected. }
@@ -304,13 +303,6 @@ uses
 {$ENDIF}
   ;
 
-
-procedure TFrameFilePanel.LoadPanel;
-begin
-  if pnAltSearch.Visible then
-    CloseAltPanel;
-  pnlFile.LoadPanel;
-end;
 
 procedure TFrameFilePanel.SetFocus;
 begin
@@ -378,42 +370,23 @@ end;
 
 procedure TFrameFilePanel.RefreshPanel(bUpdateFileCount: Boolean = True; bUpdateDiskFreeSpace: Boolean = True);
 var
-  aFileList: TFileList;
+  LastSelection: String;
 begin
-  // set up refresh parameters
-  pnlFile.bUpdateFileCount:= bUpdateFileCount;
-  pnlFile.bUpdateDiskFreeSpace:= bUpdateDiskFreeSpace;
-
-  if dgPanel.Row>=0 then
-  begin
-    if Assigned(pnlFile.GetActiveItem) then
-      pnlFile.LastActive:=pnlFile.GetActiveItem^.sName
-    else
-      pnlFile.LastActive:='';
-  end;
-  if pnlFile.PanelMode = pmDirectory then
-    pnlFile.LoadPanel
-  else // if in VFS
-    begin
-      if pnlFile.VFS.VFSmodule.VFSRefresh then
-        begin
-          aFileList := pnlFile.FileList;
-          pnlFile.VFS.VFSmodule.VFSList(ExtractDirLevel(pnlFile.VFS.ArcFullName, ActiveDir), aFileList);
-          pnlFile.FileList := aFileList;
-          if gShowIcons then
-            pnlFile.FileList.UpdateFileInformation(pnlFile.PanelMode);
-          pnlFile.Sort; // and Update panel
-          dgPanel.Invalidate;
-        end;
-    end;
   if pnAltSearch.Visible then
     CloseAltPanel;
-  UpDatelblInfo;
-//  dgPanel.SetFocus;
 
-  // restore default value
-  pnlFile.bUpdateFileCount:= True;
-  pnlFile.bUpdateDiskFreeSpace:= True;
+  if dgPanel.Row >= 0 then
+  begin
+    if Assigned(pnlFile.GetActiveItem) then
+      LastSelection := pnlFile.GetActiveItem^.sName
+    else
+      LastSelection := '';
+  end;
+
+  pnlFile.Refresh(bUpdateFileCount, bUpdateDiskFreeSpace);
+  pnlFile.Select(LastSelection);
+
+  UpDatelblInfo;
 end;
 
 

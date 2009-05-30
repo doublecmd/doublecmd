@@ -57,15 +57,19 @@ type
 
     fSorting : TFileListSorting;
 
+    fUpdateFileCount,
+    fUpdateDiskFreeSpace: Boolean;
+
+    procedure LoadPanel;
+    procedure AddDirToHistory(const Directory: String);
+
   public
-    bUpdateFileCount,
-    bUpdateDiskFreeSpace: Boolean;
 
     constructor Create(AOwner : TObject; APanel:TDrawGrid; AlblPath: TLabel; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
     Destructor Destroy; override;
-    procedure LoadPanel;
     procedure LoadPanelVFS(frp:PFileRecItem);
     procedure LoadVFSListInPanel;
+    procedure Refresh(bUpdateFileCount: Boolean = True; bUpdateDiskFreeSpace: Boolean = True);
     procedure SortByCol(iCol:Integer);
     procedure Sort;
     procedure UpdatePanel;
@@ -147,8 +151,8 @@ begin
   fPanelMode:=pmDirectory;
   fVFSmoduleList := TStringList.Create;
   LastActive:='';
-  bUpdateFileCount:= True;
-  bUpdateDiskFreeSpace:= True;
+  fUpdateFileCount:= True;
+  fUpdateDiskFreeSpace:= True;
   fSorting := TFileListSorting.Create;
 end;
 
@@ -202,7 +206,6 @@ begin
       fPanel.Row:=0;
   end;
 
-//  fPanel.Selected.MakeVisible;}
   UpdateCountStatus;
 end;
 
@@ -366,7 +369,6 @@ end;
 
 procedure TFilePanel.Sort;
 begin
-  //fFileList.Sort(fSortCol, fSortDirect, gCaseSensitiveSort);
   fFileList.Sort(Sorting);
   UpDatePanel;
 end;
@@ -552,7 +554,7 @@ procedure TFilePanel.UpdateCountStatus;
 var
   i:Integer;
 begin
-  if not bUpdateFileCount then Exit;
+  if not fUpdateFileCount then Exit;
   fFilesInDir:=0;
   fFilesSelected:=0;
   fSizeInDir:=0;
@@ -694,7 +696,7 @@ begin
   
   fedtCommand.Left:=flblCurPath.Width+5;
   fedtCommand.Width:=TControl(fedtCommand.Parent).Width-fedtCommand.Left;
-  if not bUpdateDiskFreeSpace then Exit;
+  if not fUpdateDiskFreeSpace then Exit;
   if fPanelMode=pmDirectory then
   begin
     GetDiskFreeSpace(fActiveDir, FreeSize, TotalSize);
@@ -724,8 +726,7 @@ begin
               Exit;   // chdir failed
             end;
 
-          if glsDirHistory.IndexOf(fActiveDir)=-1 then
-            glsDirHistory.Insert(0,fActiveDir);
+          AddDirToHistory(fActiveDir);
 
           fActiveDir := NewDirectory;
 
@@ -789,6 +790,37 @@ begin
         Break;
       end;
   end;
+end;
+
+procedure TFilePanel.Refresh(bUpdateFileCount: Boolean = True;
+                             bUpdateDiskFreeSpace: Boolean = True);
+begin
+  // set up refresh parameters
+  FUpdateFileCount:= bUpdateFileCount;
+  FUpdateDiskFreeSpace:= bUpdateDiskFreeSpace;
+
+  if PanelMode = pmDirectory then
+    LoadPanel
+  else // if in VFS
+    begin
+      if VFS.VFSmodule.VFSRefresh then
+        begin
+          VFS.VFSmodule.VFSList(ExtractDirLevel(VFS.ArcFullName, ActiveDir), fFileList);
+          if gShowIcons then
+            FileList.UpdateFileInformation(PanelMode);
+          Sort; // and Update panel
+        end;
+    end;
+
+  // restore default value
+  FUpdateFileCount:= True;
+  FUpdateDiskFreeSpace:= True;
+end;
+
+procedure TFilePanel.AddDirToHistory(const Directory: String);
+begin
+  if glsDirHistory.IndexOf(fActiveDir)=-1 then
+    glsDirHistory.Insert(0,fActiveDir);
 end;
 
 end.
