@@ -36,7 +36,6 @@ type
     fPanel:TDrawGrid;
     fSortCol:Integer;
     fSortDirect:Boolean;
-    fPrevActiveDir: String;
     fActiveDir:String;
     fLastActive:String;
 
@@ -57,10 +56,10 @@ type
     FOnAfterChangeDirectory : TOnAfterChangeDirectory;
 
     fSorting : TFileListSorting;
+
   public
     bUpdateFileCount,
     bUpdateDiskFreeSpace: Boolean;
-//    iLastDrawnIndex  :Integer; // fucking dirty hack (OnDrawItem
 
     constructor Create(AOwner : TObject; APanel:TDrawGrid; AlblPath: TLabel; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
     Destructor Destroy; override;
@@ -70,7 +69,6 @@ type
     procedure SortByCol(iCol:Integer);
     procedure Sort;
     procedure UpdatePanel;
-//    procedure ChDir(sDir:String);
     procedure TryOpenArchive(pfri:PFileRecItem);
     procedure ChooseFile(pfri:PFileRecItem; FolderMode:boolean=false); // main input node
     function GetFileItem(iIndex:Integer):TFileRecItem;
@@ -90,8 +88,18 @@ type
     procedure cdRootLevel;
     procedure MarkGroup(const sMask:String; bSelect:Boolean); // second parametr is switch sel/uns
     procedure UpdatePrompt;
-    procedure SetActiveDir(const AValue:String);
+    {en
+       Changes the current directory of the panel and reloads the filelist.
+       Also executes triggers: before and after the dir changes.
+    }
+    procedure SetActiveDir(const NewDirectory: String);
     function GetActiveDir:String;
+
+    {en
+       Moves the selection focus to the file specified by FileName.
+    }
+    procedure Select(const FileName: String);
+
     { Returns True if there are no files shown in the panel. }
     function IsEmpty:Boolean;
     { Returns True if item is not nil and not '..'.
@@ -134,13 +142,11 @@ begin
   flblFree:=AlblFree;
   fedtCommand:=AedtCommand;
   fFileList:=TFileList.Create;
-  fActiveDir:= mbGetCurrentDir;
-  fActiveDir:=ExtractFilePath(fActiveDir);
+  fActiveDir:=ExtractFilePath(mbGetCurrentDir);
   fPathHistory:=TPathHistory.Create;
   fPanelMode:=pmDirectory;
   fVFSmoduleList := TStringList.Create;
-//  LastActive:='';
-//  iLastDrawnIndex:=-1;
+  LastActive:='';
   bUpdateFileCount:= True;
   bUpdateDiskFreeSpace:= True;
   fSorting := TFileListSorting.Create;
@@ -188,22 +194,14 @@ begin
   if bAnyRow then
   begin
     if (LastActive<>'') then // find correct cursor position in Panel (drawgrid)
-    begin
-      for i:=0 to fRefList.Count-1 do
-      begin
-        with GetReferenceItemPtr(i)^ do
-          if pos(LastActive, sName)=1 then
-          begin
-            fPanel.Row:= i+Integer(gTabHeader);
-            Break;
-          end;
-      end;
-    end
+      Select(LastActive)
     else
-      fPanel.Row:=0;
+      fPanel.Row := 0;
+
     if (fPanel.Row<0)then
       fPanel.Row:=0;
-  end;    
+  end;
+
 //  fPanel.Selected.MakeVisible;}
   UpdateCountStatus;
 end;
@@ -254,11 +252,8 @@ begin
                   pmArchive:
                     begin
                       fPanelMode := pmDirectory;
-                      fActiveDir := ExtractFilePath(fVFS.ArcFullName);
-                      mbSetCurrentDir(fActiveDir);
-                      if Assigned(FOnAfterChangeDirectory) then
-                        FOnAfterChangeDirectory(fOwner, fActiveDir);
-                      LoadFilesbyDir(fActiveDir, fFileList);
+                      ActiveDir := ExtractFilePath(fVFS.ArcFullName);
+                      Select(ExtractFileName(fVFS.ArcFullName));
                     end;
                   end; // case
                 end;
@@ -346,21 +341,12 @@ begin
     fPanelMode := pmDirectory;
   end;
 
-  if Assigned(FOnBeforeChangeDirectory) then
-    if not FOnBeforeChangeDirectory(fOwner, ActiveDir) then
-      begin
-        fActiveDir:= fPrevActiveDir;
-        Exit;
-      end;
-
   if not mbSetCurrentDir(ActiveDir) then
     begin
-      fActiveDir:= mbGetCurrentDir;
-      IncludeTrailingBackslash(fActiveDir);
+      SetActiveDir(IncludeTrailingBackslash(mbGetCurrentDir));
       Exit;   // chdir failed
     end;
-  if Assigned(FOnAfterChangeDirectory) then
-    FOnAfterChangeDirectory(fOwner, fActiveDir);
+
   LoadFilesbyDir(fActiveDir, fFileList);
 
   if gShowIcons then
@@ -611,32 +597,15 @@ end;
 
 procedure TFilePanel.cdUpLevel;
 var
-  i:Integer;
-  bPathFound:Boolean;
+  PreviousSubDirectory: string;
 begin
   if fPanelMode = pmDirectory then
     begin
-      bPathFound:=False;
-      fActiveDir:=ExcludeTrailingPathDelimiter(fActiveDir);
-      for i:=length(fActiveDir) downto 1 do
-        begin
-          if fActiveDir[i] = DirectorySeparator then
-            begin
-              LastActive:=Copy(fActiveDir,i+1,length(fActiveDir)-i+1);
-              fActiveDir:=Copy(fActiveDir,1, i);
-              {$IFDEF unix}
-              if gTermWindow and Assigned(Cons) then
-                Cons.Terminal.Write_pty(' cd "'+fActiveDir+'"'+#13#10);
-              {$ENDIF}
-              bPathFound:=True;
-              Break;
-            end;
-        end;
-    
-      if glsDirHistory.IndexOf(ActiveDir)=-1 then
-        glsDirHistory.Insert(0,ActiveDir);
+      PreviousSubDirectory := ExtractFileName(ExcludeTrailingPathDelimiter(fActiveDir));
 
-      LoadPanel;
+      SetActiveDir(LowDirLevel(fActiveDir));
+
+      Select(PreviousSubDirectory);
     end
   else // if VFS
     begin
@@ -651,19 +620,7 @@ procedure TFilePanel.cdDownLevel(frp:PFileRecItem);
 begin
   if fPanelMode = pmDirectory then
     begin
-      with frp^ do
-      begin
-        ActiveDir:=ActiveDir+sName+DirectorySeparator;
-        {$IFDEF unix}
-        if gTermWindow and Assigned(Cons) then
-          Cons.Terminal.Write_pty(' cd "'+ActiveDir+'"'+#13#10);
-        {$ENDIF}
-        LastActive:='';
-        if glsDirHistory.IndexOf(ActiveDir)=-1 then
-          glsDirHistory.Insert(0,ActiveDir);
-      end; // with frp^
-      
-      LoadPanel;
+      SetActiveDir(ActiveDir + frp^.sName + DirectorySeparator);
     end
   else // if VFS
     begin
@@ -675,18 +632,7 @@ end;
 
 procedure TFilePanel.cdRootLevel;
 begin
-  fActiveDir := ExtractFileDrive(fActiveDir);
-  LastActive:='';
-
-  {$IFDEF unix}
-  if gTermWindow and Assigned(Cons) then
-    Cons.Terminal.Write_pty('cd "'+fActiveDir+'"'+#13#10);
-  {$ENDIF}
-
-  if glsDirHistory.IndexOf(fActiveDir)=-1 then
-    glsDirHistory.Insert(0,fActiveDir);
-
-  LoadPanel;
+  SetActiveDir(ExtractFileDrive(fActiveDir));
 end;
 
 function TFilePanel.GetActiveItem:PFileRecItem;
@@ -759,10 +705,48 @@ begin
     flblFree.Caption:=Format(rsFreeMsg,[cnvFormatFileSize(0),cnvFormatFileSize(0)]);
 end;
 
-procedure TFilePanel.SetActiveDir(const AValue:String);
+procedure TFilePanel.SetActiveDir(const NewDirectory : String);
 begin
-  fPrevActiveDir:= fActiveDir;
-  fActiveDir:= IncludeTrailingBackslash(AValue);
+  if NewDirectory <> '' then
+  begin
+    if Assigned(FOnBeforeChangeDirectory) then
+      if not FOnBeforeChangeDirectory(fOwner, ActiveDir) then
+        Exit;
+
+    LastActive := '';
+
+    case fPanelMode of
+      pmDirectory:
+        begin
+          if not mbSetCurrentDir(NewDirectory) then
+            begin
+              SetActiveDir(IncludeTrailingBackslash(mbGetCurrentDir));
+              Exit;   // chdir failed
+            end;
+
+          if glsDirHistory.IndexOf(fActiveDir)=-1 then
+            glsDirHistory.Insert(0,fActiveDir);
+
+          fActiveDir := NewDirectory;
+
+          {$IFDEF unix}
+          if gTermWindow and Assigned(Cons) then
+            Cons.Terminal.Write_pty('cd "'+fActiveDir+'"'+#13#10);
+          {$ENDIF}
+
+          LoadPanel;
+        end;
+    //else
+    end;
+
+    if Assigned(FOnAfterChangeDirectory) then
+      FOnAfterChangeDirectory(fOwner, fActiveDir);
+  end
+  else
+  begin
+    fActiveDir := '';
+    LastActive := '';
+  end;
 end;
 
 function TFilePanel.GetActiveDir:String;
@@ -788,6 +772,23 @@ begin
     Result := True
   else
     Result := False;
+end;
+
+procedure TFilePanel.Select(const FileName: String);
+var
+  i: Integer;
+begin
+  LastActive := '';
+  if FileName <> '' then // find correct cursor position in Panel (drawgrid)
+  begin
+    for i := 0 to fRefList.Count - 1 do
+      if GetReferenceItemPtr(i)^.sName = FileName then
+      begin
+        fPanel.Row := i + fPanel.FixedRows;
+        LastActive := FileName;
+        Break;
+      end;
+  end;
 end;
 
 end.

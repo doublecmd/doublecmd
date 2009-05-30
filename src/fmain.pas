@@ -597,10 +597,7 @@ begin
     else if Caption = '..' then
       SourceFrame.pnlFile.cdUpLevel
     else if Caption = '~' then
-    begin
       SourceFrame.pnlFile.ActiveDir := GetHomeDir;
-      SourceFrame.pnlFile.LoadPanel;
-    end;
   end;
 
   SetActiveFrame(SourceFrame.PanelSelect);
@@ -974,7 +971,6 @@ begin
          msgOK(rsMsgDiskNotAvail);
        end;
   end;
-  FrameFilePanel.pnlFile.LoadPanel;
 
   SetActiveFrame(PanelSelected);
 end;
@@ -1163,7 +1159,6 @@ begin
       with TFrameFilePanel(Page[PageIndex].Components[0]) do
 	  begin
       pnlFile.ActiveDir:= Page[PageIndex].Hint;
-        LoadPanel;
       Exit;
     end;
 
@@ -1627,7 +1622,6 @@ begin
   sDummy:=(Sender As TMenuItem).Caption;
   SDummy:=StringReplace(sDummy,'&','',[rfReplaceAll]);
   ActiveFrame.pnlFile.ActiveDir:=sDummy;
-  ActiveFrame.LoadPanel;
 
   KeyPreview:=True;
   with ActiveFrame.dgPanel do
@@ -2314,7 +2308,6 @@ begin
     begin
       NotActiveFrame.pnlFile.ActiveDir := ActiveDir;
     end;
-    NotActiveFrame.LoadPanel;
   end;
 end;
 
@@ -2667,7 +2660,6 @@ begin
              else if gDriveBar1 then
                dskRight.Buttons[Tag].Down := True;
              dskLeft.Tag := Tag;
-             FrameLeft.pnlFile.LoadPanel;
              SetActiveFrame(fpLeft);
              BitmapTmp := PixMapManager.GetDriveIcon(PDrive(DrivesList[Tag]), btnLeftDrive.Height - 4, btnLeftDrive.Color);
              btnLeftDrive.Glyph := BitmapTmp;
@@ -2683,7 +2675,6 @@ begin
              if gDriveBar1 then
                dskRight.Buttons[Tag].Down := True;
              dskRight.Tag := Tag;
-             FrameRight.pnlFile.LoadPanel;
              SetActiveFrame(fpRight);
              BitmapTmp := PixMapManager.GetDriveIcon(PDrive(DrivesList[Tag]), btnRightDrive.Height - 4, btnRightDrive.Color);
              btnRightDrive.Glyph := BitmapTmp;
@@ -2788,13 +2779,14 @@ begin
   with TFrameFilePanel.Create(AOwner, lblDriveInfo, lblCommandPath, edtCommand) do
   begin
     PanelSelect:=APanel;
+
+    // Set before changing directory.
+    pnlFile.OnBeforeChangeDirectory := @FramepnlFileBeforeChangeDirectory;
+    pnlFile.OnAfterChangeDirectory := @FramepnlFileAfterChangeDirectory;
+
     if not mbDirectoryExists(sPath) then
       sPath:= mbGetCurrentDir;
     pnlFile.ActiveDir := sPath;
-    pnlFile.LoadPanel;
-
-    pnlFile.OnBeforeChangeDirectory := @FramepnlFileBeforeChangeDirectory;
-    pnlFile.OnAfterChangeDirectory := @FramepnlFileAfterChangeDirectory;
 
     lblLPath.OnMouseUp := @FramelblLPathMouseUp;
     edtPath.OnExit:=@FrameEditExit;
