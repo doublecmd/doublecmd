@@ -1661,8 +1661,6 @@ object frmMain: TfrmMain
   object pmDrivesMenu: TPopupMenu
     left = 80
     top = 136
-    object MenuItem4: TMenuItem
-    end
   end
   object pmButtonMenu: TKASBarMenu
     OnLoadButtonGlyph = pmButtonMenuLoadButtonGlyph
