@@ -1665,16 +1665,18 @@ end;
 
 constructor TDrawGridEx.Create(AOwner: TComponent; AParent: TWinControl);
 begin
+  // Initialize D&D before calling inherited create,
+  // because it will create the control and call InitializeWnd.
+  DragDropSource := nil;
+  DragDropTarget := nil;
+  TransformDragging := False;
+
   inherited Create(AOwner);
 
   Self.Parent := AParent;
 
-  TransformDragging := False;
   StartDrag := False;
   DropRowIndex := -1;
-
-  DragDropSource := nil;
-  DragDropTarget := nil;
 
   DoubleBuffered := True;
   AutoFillColumns := True;
