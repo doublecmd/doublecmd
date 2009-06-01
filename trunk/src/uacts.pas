@@ -419,7 +419,7 @@ begin
   pmDrivesMenu.Tag := 0;  // indicate that is left panel menu
   p := Classes.Point(btnLeftDrive.Left,btnLeftDrive.Height);
   p := pnlLeftTools.ClientToScreen(p);
-  pmDrivesMenu.Items[dskLeft.Tag].Checked := True;
+  UpdateDriveButtonMenuSelection(btnLeftDrive, FrameLeft.ActiveDir);
   pmDrivesMenu.PopUp(p.x, p.y);
  end;
 end;
@@ -562,7 +562,7 @@ begin
     pmDrivesMenu.Tag := 1;  // indicate that is right panel menu
     p := Classes.Point(btnRightDrive.Left,btnRightDrive.Height);
     p := pnlRightTools.ClientToScreen(p);
-    pmDrivesMenu.Items[dskRight.Tag].Checked := True;
+    UpdateDriveButtonMenuSelection(btnRightDrive, FrameRight.ActiveDir);
     pmDrivesMenu.PopUp(p.x, p.y);
   end;
 end;

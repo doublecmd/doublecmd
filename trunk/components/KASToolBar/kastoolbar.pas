@@ -107,6 +107,8 @@ type
     procedure SaveToFile(FileName : String);
     procedure RemoveButton(Index: Integer);
     procedure DeleteAllToolButtons;
+    procedure UncheckAllButtons;
+
     property ButtonCount: Integer read GetButtonCount;
     property Buttons[Index: Integer]: TSpeedButton read GetButton write SetButton;
     property Commands[Index: Integer]: String read GetCommand write SetCommand;
@@ -641,7 +643,10 @@ begin
     ToolButton.OnMouseUp := OnMouseUp;
 
   if FCheckToolButton then
+  begin
     ToolButton.GroupIndex := 1;
+    ToolButton.AllowAllUp := True;
+  end;
 
   ToolButton.Flat := FFlatButtons;
 
@@ -691,6 +696,14 @@ begin
   finally
     Repaint;
   end;
+end;
+
+procedure TKAStoolBar.UncheckAllButtons;
+var
+  i : Integer;
+begin
+  for i := 0 to ButtonCount - 1 do
+    Buttons[i].Down := False;
 end;
 
 { TSpeedDivider }
