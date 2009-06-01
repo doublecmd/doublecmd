@@ -600,7 +600,7 @@ begin
         if Assigned(SourcePanel) and Assigned(TargetPanel) then
         begin
           if fri^.sName = '..' then
-            TargetDir := LowDirLevel(TargetDir)
+            TargetDir := GetParentDir(TargetDir)
           else
             TargetDir := TargetDir + fri^.sName + DirectorySeparator;
 
@@ -2054,7 +2054,7 @@ begin
         begin
           if pfr^.sName = '..' then
             // remove the last subdirectory in the path
-            TargetDir := LowDirLevel(TargetDir)
+            TargetDir := GetParentDir(TargetDir)
           else
             TargetDir := TargetDir + pfr^.sName + DirectorySeparator;
         end;

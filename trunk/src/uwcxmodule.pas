@@ -1259,9 +1259,9 @@ var
 begin
   fl.Clear;
   FFolder := sDir; // save current folder
-  AddUpLevel(LowDirLevel(sDir), fl);
+  AddUpLevel(GetParentDir(sDir), fl);
   
-  DebugLN('LowDirLevel(sDir) = ' + LowDirLevel(sDir));
+  DebugLN('GetParentDir(sDir) = ' + GetParentDir(sDir));
   
   Count := FArcFileList.Count - 1;
   for I := 0 to  Count do

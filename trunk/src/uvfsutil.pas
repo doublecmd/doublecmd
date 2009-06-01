@@ -23,7 +23,6 @@ uses
 
 procedure FillAndCount(var fl:TFileList; out FilesSize : Int64);
 procedure AddUpLevel(sUpPath : String; var ls:TFileList);
-function LowDirLevel(sPath : String) : String;
 
 {en
   Checks if a filename matches any filename in the filelist or
@@ -172,31 +171,6 @@ begin
   fi.sPath := sUpPath;
   ls.AddItem(@fi);
 end;
-
-function LowDirLevel(sPath : String) : String;
-var
-Index, I, Count : Integer;
-tmp : String;
-begin
-  Count := 0;
-  sPath := ExcludeTrailingPathDelimiter(sPath);
-  tmp := sPath;
-  while True do
-    begin
-      Index := Pos(PathDelim, tmp);
-      if Index > 0 then
-        begin
-          Delete(tmp, Index, 1);
-          Inc(Count);
-          I := Index;
-        end
-      else
-        Break;
-    end;
-  Result := Copy(sPath, 1, I + Count - 1);
-
-end;
-
 
 function MatchesFileList(const FileList: TFileList; FileName: String): Boolean;
 var

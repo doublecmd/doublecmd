@@ -51,6 +51,20 @@ function GetTempFolder: String;
    @returns(Last directory name in path)
 }
 function GetLastDir(Path : String) : String;
+{en
+   Retrieves the root directory for a path.
+   @param(sPath Absolute path to a directory or a file.)
+   @returns(Root directory or an empty string if the path is not absolute.)
+}
+function GetRootDir(sPath : String) : String;
+{en
+   Retrieves parent directory for a path (removes the last subdirectory in the path).
+   @param(sPath Absolute or relative path to a directory or a file.)
+   @returns(Parent directory or an empty string
+            if the path does not have a parent directory.)
+}
+function GetParentDir(sPath : String) : String;
+
 function GetSplitFileName(var sFileName, sPath : String) : String;
 function MakeFileName(const sPath, sFileNameDef : String) : String;
 {en
@@ -157,7 +171,7 @@ function DecToOct(Value: LongInt): String;
 
 implementation
 uses
-   uOSUtils, uGlobs, uGlobsPaths, uVFSUtil;
+   uOSUtils, uGlobs, uGlobsPaths;
 
 
 function GetCmdDirFromEnvVar(sPath: String): String;
@@ -193,6 +207,32 @@ begin
     Result:= ExtractFileDrive(Path);
   if Result = '' then
     Result:= PathDelim;
+end;
+
+function GetRootDir(sPath : String) : String;
+begin
+{$IF DEFINED(MSWINDOWS)}
+  Result := ExtractFileDrive(sPath);
+{$ELSEIF DEFINED(UNIX)}
+  Result := PathDelim;  // Hardcoded
+{$ELSE}
+  Result := '';
+{$ENDIF}
+end;
+
+function GetParentDir(sPath : String) : String;
+var
+  i : Integer;
+begin
+  Result := '';
+  sPath := ExcludeTrailingPathDelimiter(sPath);
+  // Start from one character before last.
+  for i := length(sPath) - 1 downto 1 do
+    if sPath[i] = DirectorySeparator then
+    begin
+      Result := Copy(sPath, 1, i);
+      Break;
+    end;
 end;
 
 function GetSplitFileName(var sFileName, sPath : String) : String;
@@ -251,7 +291,7 @@ begin
         sDir := sPath;
       while iPos <> 0 do
         begin
-          sDir := LowDirLevel(sDir);
+          sDir := GetParentDir(sDir);
           Delete(sRelativeFileName, iPos, 3);
           iPos := Pos('..' + PathDelim, sRelativeFileName);
         end;
