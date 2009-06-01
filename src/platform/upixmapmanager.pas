@@ -79,6 +79,7 @@ type
     procedure LoadMimeIcons;
     function GetGenericIcons(const slGenericIcons: TStringListEx): Boolean;
   {$ENDIF}
+    function GetBuiltInDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
   public
     constructor Create;
     destructor Destroy; override;
@@ -89,6 +90,7 @@ type
     function GetIconBySortingDirection(iSortingDirection: Integer): PtrInt;
     function GetIconByFile(fi:PFileRecItem; PanelMode: TPanelMode):PtrInt;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
+    function GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
   end;
 
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
@@ -968,10 +970,8 @@ begin
 end;
 
 function TPixMapManager.GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
-var
-  DriveIcons : PDriveIcons;
-  Bitmap: Graphics.TBitmap;
 {$IFDEF MSWINDOWS}
+var
   SFI: TSHFileInfo;
   Icon: TIcon = nil;
   IntfImage: TLazIntfImage = nil;
@@ -1024,6 +1024,18 @@ begin
   else
 {$ENDIF}
     begin
+      Result := GetBuiltInDriveIcon(Drive, IconSize, clBackColor);
+    end;
+end;
+
+function TPixMapManager.GetBuiltInDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
+var
+  DriveIcons : PDriveIcons;
+  Bitmap: Graphics.TBitmap;
+begin
+{$IFDEF MSWINDOWS}
+  if GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) < 15 then Exit;
+{$ENDIF}
       case IconSize of
       16: // Standart 16x16 icon size
         DriveIcons := @FFirstIconSize;
@@ -1057,7 +1069,13 @@ begin
           Result.Assign(Bitmap);
         end;
       // 'Bitmap' should not be freed, because it only points to DriveIcons.
-    end;  //
+end;
+
+function TPixMapManager.GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
+var
+  Drive: TDrive = (Name: ''; Path: ''; DriveLabel: ''; DriveType: dtFixed);
+begin
+  Result := GetBuiltInDriveIcon(@Drive, IconSize, clBackColor);
 end;
 
 procedure LoadPixMapManager;

@@ -167,7 +167,6 @@ type
     miCopyFullNamesToClip: TMenuItem;
     miCopyNamesToClip: TMenuItem;
     miLine10: TMenuItem;
-    MenuItem4: TMenuItem;
     mnuFileAssoc: TMenuItem;
     nbConsole: TNotebook;
     Page1: TPage;
@@ -455,6 +454,9 @@ type
     procedure SaveShortCuts;
     procedure LoadShortCuts;
     function  IsCommandLineVisible: Boolean;
+    procedure UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; Path: String);
+    procedure UpdateDriveButtonMenuSelection(DriveButton: TSpeedButton; Path: String);
+    procedure UpdateSelectedDrive(ANoteBook: TNoteBook);
   published
     property SelectedPanel:TFilePanelSelect read PanelSelected;
   end;
@@ -963,19 +965,9 @@ begin
              else
                FrameFilePanel.pnlFile.ActiveDir := dskPanel.Commands[NumberOfButton];
            end;
-
-         dskPanel.Tag := NumberOfButton;
-         btnDrive.Tag:= NumberOfButton;
-
-         BitmapTmp := PixMapManager.GetDriveIcon(PDrive(DrivesList[NumberOfButton]), btnDrive.Height - 4, btnDrive.Color);
-         btnDrive.Glyph := BitmapTmp;
-         if Assigned(BitmapTmp) then
-           FreeAndNil(BitmapTmp);
-         btnDrive.Caption := dskRight.Buttons[NumberOfButton].Caption;
        end
      else
        begin
-         dskPanel.Buttons[dskPanel.Tag].Down := True;
          msgOK(rsMsgDiskNotAvail);
        end;
   end;
@@ -1167,21 +1159,27 @@ begin
       with TFrameFilePanel(Page[PageIndex].Components[0]) do
 	  begin
       pnlFile.ActiveDir:= Page[PageIndex].Hint;
-      Exit;
-    end;
-
-    if (Name = 'nbLeft') and (FrameLeft <> nil) then
+    end
+    else if (Name = 'nbLeft') and (FrameLeft <> nil) then
       begin
         FrameLeft.pnlFile.UpdatePrompt;
         if Assigned(LeftFrameWatcher) and (LeftFrameWatcher.WatchPath <> FrameLeft.ActiveDir) then
           LeftFrameWatcher.WatchPath:= FrameLeft.ActiveDir;
-      end;
-    if (Name = 'nbRight') and (FrameRight <> nil) then
+      end
+    else if (Name = 'nbRight') and (FrameRight <> nil) then
       begin
         FrameRight.pnlFile.UpdatePrompt;
         if Assigned(RightFrameWatcher) and (RightFrameWatcher.WatchPath <> FrameRight.ActiveDir) then
           RightFrameWatcher.WatchPath:= FrameRight.ActiveDir;    
       end;
+
+    // Update selected drive only on non-active panel,
+    // because active panel is updated on focus change.
+    if Assigned(ActiveFrame) and (ActiveFrame.Parent.Parent <> Sender) and
+       not Boolean(gDirTabOptions and tb_activate_panel_on_click) then
+    begin
+      UpdateSelectedDrive(Sender as TNotebook);
+    end;
   end;
 end;
 
@@ -2547,6 +2545,8 @@ begin
         LeftFrameWatcher.WatchPath:= NewDir
       else if (ANoteBook.Name = 'nbRight') and Assigned(RightFrameWatcher) then
         RightFrameWatcher.WatchPath:= NewDir;
+
+      UpdateSelectedDrive(ANoteBook);
     end;
 end;
 
@@ -2596,8 +2596,6 @@ var
   BitmapTmp: Graphics.TBitmap;
 begin
   pmDrivesMenu.Items.Clear;
-  btnLeftDrive.Caption := '';
-  btnRightDrive.Caption := '';
   Count := DrivesList.Count - 1;
   for I := 0 to Count do
     begin
@@ -2608,33 +2606,6 @@ begin
         miTmp.Tag := I;
         miTmp.Caption := Name;
         miTmp.ShortCut:= TextToShortCut(Name[1]);
-        miTmp.Hint := Path;
-        
-        if gDriveMenuButton then
-          begin
-            if Pos(LowerCase(Path), LowerCase(FrameLeft.pnlFile.ActiveDir)) = 1 then
-              begin
-                BitmapTmp := PixMapManager.GetDriveIcon(Drive, btnLeftDrive.Height - 4, btnLeftDrive.Color);
-                btnLeftDrive.Glyph := BitmapTmp;
-                if Assigned(BitmapTmp) then
-                  FreeAndNil(BitmapTmp);
-                btnLeftDrive.Caption := Name;
-                btnLeftDrive.Width := btnLeftDrive.Glyph.Width + btnLeftDrive.Canvas.TextWidth(btnLeftDrive.Caption) + 16;
-                btnLeftDrive.Tag:= I;
-                dskLeft.Tag := I;
-              end;
-            if Pos(LowerCase(Path), LowerCase(FrameRight.pnlFile.ActiveDir)) = 1 then
-              begin
-                BitmapTmp := PixMapManager.GetDriveIcon(Drive, btnRightDrive.Height - 4, btnRightDrive.Color);
-                btnRightDrive.Glyph := BitmapTmp;
-                if Assigned(BitmapTmp) then
-                  FreeAndNil(BitmapTmp);
-                btnRightDrive.Caption := Name;
-                btnRightDrive.Width := btnRightDrive.Glyph.Width + btnRightDrive.Canvas.TextWidth(btnRightDrive.Caption) + 16;
-                btnRightDrive.Tag:= I;
-                dskRight.Tag := I;
-              end;
-          end;
         
         // get disk icon
         BitmapTmp := PixMapManager.GetDriveIcon(Drive, 16, clMenu);
@@ -2654,49 +2625,28 @@ end;
 procedure TfrmMain.DrivesMenuClick(Sender: TObject);
 var
   BitmapTmp: Graphics.TBitmap;
+  Drive: PDrive;
 begin
   with Sender as TMenuItem do
   begin
-    if IsAvailable(Hint) then
+    Drive := PDrive(DrivesList.Items[(Sender as TMenuItem).Tag]);
+    if IsAvailable(Drive^.Path) then
        begin
          case pmDrivesMenu.Tag of
          0:
            begin
-             FrameLeft.pnlFile.ActiveDir := Hint;
-             if gDriveBar2 and gDriveBar1 then
-               dskLeft.Buttons[Tag].Down := True
-             else if gDriveBar1 then
-               dskRight.Buttons[Tag].Down := True;
-             dskLeft.Tag := Tag;
+             FrameLeft.pnlFile.ActiveDir := Drive^.Path;
              SetActiveFrame(fpLeft);
-             BitmapTmp := PixMapManager.GetDriveIcon(PDrive(DrivesList[Tag]), btnLeftDrive.Height - 4, btnLeftDrive.Color);
-             btnLeftDrive.Glyph := BitmapTmp;
-             if Assigned(BitmapTmp) then
-               FreeAndNil(BitmapTmp);
-             btnLeftDrive.Caption := Caption;
-             btnLeftDrive.Width := btnLeftDrive.Glyph.Width + btnLeftDrive.Canvas.TextWidth(btnLeftDrive.Caption) + 16;
-             btnLeftDrive.Tag:= Tag;
            end;
          1:
            begin
-             FrameRight.pnlFile.ActiveDir := Hint;
-             if gDriveBar1 then
-               dskRight.Buttons[Tag].Down := True;
-             dskRight.Tag := Tag;
+             FrameRight.pnlFile.ActiveDir := Drive^.Path;
              SetActiveFrame(fpRight);
-             BitmapTmp := PixMapManager.GetDriveIcon(PDrive(DrivesList[Tag]), btnRightDrive.Height - 4, btnRightDrive.Color);
-             btnRightDrive.Glyph := BitmapTmp;
-             if Assigned(BitmapTmp) then
-               FreeAndNil(BitmapTmp);
-             btnRightDrive.Caption := Caption;
-             btnRightDrive.Width := btnRightDrive.Glyph.Width + btnRightDrive.Canvas.TextWidth(btnRightDrive.Caption) + 16;
-             btnRightDrive.Tag:= Tag;
            end;
          end;  // case
        end
      else
        begin
-         pmDrivesMenu.Items[dskLeft.Tag].Checked := True;
          msgOK(rsMsgDiskNotAvail);
        end;
   end;
@@ -2735,24 +2685,6 @@ begin
   with Drive^ do
     begin
       dskPanel.AddButton(Name, Path, Path, '');
-      {Set chosen drive}
-      if dskPanel.Align = alLeft then
-        begin
-          if Pos(Path, FrameLeft.pnlFile.ActiveDir) = 1 then
-            begin
-              dskPanel.Buttons[I].Down := True;
-              dskPanel.Tag := I;
-            end;
-        end
-      else
-        begin
-          if Pos(Path, FrameRight.pnlFile.ActiveDir) = 1 then
-            begin
-              dskPanel.Buttons[I].Down := True;
-              dskPanel.Tag := I;
-            end;
-        end;
-      {/Set chosen drive}
 
       // get drive icon
       BitmapTmp := PixMapManager.GetDriveIcon(Drive, dskPanel.ButtonGlyphSize, dskPanel.Buttons[I].Color);
@@ -2764,8 +2696,6 @@ begin
       dskPanel.Buttons[I].Transparent := True;
       {/Set Buttons Transparent}
       dskPanel.Buttons[I].Layout := blGlyphLeft;
-      // save in tag button index
-      dskPanel.Buttons[I].Tag:= I;
     end; // with
   end; // for
 
@@ -3101,6 +3031,12 @@ begin
 
   dskLeft.Visible := (gDriveBar1 and gDriveBar2);
   dskRight.Visible := gDriveBar1;
+
+  UpdateDriveToolbarSelection(dskLeft, FrameLeft.ActiveDir);
+  UpdateDriveToolbarSelection(dskRight, FrameRight.ActiveDir);
+  UpdateDriveButtonMenuSelection(btnLeftDrive, FrameLeft.ActiveDir);
+  UpdateDriveButtonMenuSelection(btnRightDrive, FrameRight.ActiveDir);
+
   pnlSyncSize.Visible := gDriveBar1;
   (*/ Disk Panels *)
 
@@ -3350,6 +3286,103 @@ end;
 function TfrmMain.IsCommandLineVisible: Boolean;
 begin
   Result := (edtCommand.Visible and pnlCommand.Visible);
+end;
+
+procedure TfrmMain.UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; Path: String);
+var
+  i : Integer;
+  ToolButtonPath : String;
+begin
+  for i := 0 to DriveToolbar.ButtonCount - 1 do
+  begin
+    ToolButtonPath := DriveToolbar.Buttons[i].Hint;
+    if UpperCase(ToolButtonPath) = UpperCase(Copy(Path, 1, Length(ToolButtonPath))) then
+    begin
+      DriveToolbar.Buttons[i].Down := True;
+      Exit;
+    end;
+  end;
+
+  // Path not found in toolbar.
+
+  DriveToolbar.UncheckAllButtons;
+end;
+
+procedure TfrmMain.UpdateDriveButtonMenuSelection(DriveButton: TSpeedButton; Path: String);
+var
+  i : Integer;
+  BitmapTmp: Graphics.TBitmap;
+  Drive: PDrive;
+begin
+  for i := 0 to pmDrivesMenu.Items.Count - 1 do
+  begin
+    Drive := PDrive(DrivesList.Items[pmDrivesMenu.Items[i].Tag]);
+
+    if UpperCase(Drive^.Path) = UpperCase(Copy(Path, 1, Length(Drive^.Path))) then
+    begin
+      if gDriveMenuButton then
+      begin
+        DriveButton.Caption := Drive^.Name;
+
+        BitmapTmp := PixMapManager.GetDriveIcon(Drive,
+                                                DriveButton.Height - 2,
+                                                DriveButton.Color);
+        DriveButton.Glyph := BitmapTmp;
+
+        if Assigned(BitmapTmp) then
+          FreeAndNil(BitmapTmp);
+
+        DriveButton.Width := DriveButton.Glyph.Width
+                           + DriveButton.Canvas.TextWidth(DriveButton.Caption) + 16;
+      end;
+
+      pmDrivesMenu.Items[i].Checked := True;
+
+      Exit;
+    end;
+  end;
+
+  // Path not found in menu.
+
+  DriveButton.Caption := '';
+
+  BitmapTmp := PixMapManager.GetDefaultDriveIcon(DriveButton.Height - 2,
+                                                 DriveButton.Color);
+  DriveButton.Glyph := BitmapTmp;
+
+  if Assigned(BitmapTmp) then
+    FreeAndNil(BitmapTmp);
+
+  for i := 0 to pmDrivesMenu.Items.Count - 1 do
+    pmDrivesMenu.Items[i].Checked := False;
+end;
+
+procedure TfrmMain.UpdateSelectedDrive(ANoteBook: TNoteBook);
+var
+  Path : String;
+begin
+  if ANoteBook.Page[ANoteBook.PageIndex].ComponentCount > 0 then
+  begin
+    Path := (ANoteBook.Page[ANoteBook.PageIndex].Components[0] as TFrameFilePanel).pnlFile.ActiveDir;
+
+    // Change left drive toolbar for left drive button.
+    if (ANoteBook = nbLeft) then
+    begin
+      UpdateDriveToolbarSelection(dskLeft, Path);
+      UpdateDriveButtonMenuSelection(btnLeftDrive, Path);
+
+      // If only one drive toolbar is displayed then also change it.
+      if gDriveBar1 and not gDriveBar2 then
+        // dskRight is the main toolbar.
+        UpdateDriveToolbarSelection(dskRight, Path);
+    end
+    // Change right drive toolbar for right drive button
+    else if (ANoteBook = nbRight) then
+    begin
+      UpdateDriveToolbarSelection(dskRight, Path);
+      UpdateDriveButtonMenuSelection(btnRightDrive, Path);
+    end;
+  end;
 end;
 
 initialization

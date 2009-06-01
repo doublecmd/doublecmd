@@ -318,6 +318,7 @@ begin
   dgPanel.SetFocus;
   lblLPath.SetActive(True);
   pnlFile.UpdatePrompt;
+  frmMain.UpdateSelectedDrive(Parent.Parent as TNoteBook);
 //  dgPanel.Invalidate;
 end;
 
