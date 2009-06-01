@@ -163,7 +163,7 @@ Type
 implementation
 uses
   LCLProc, LCLType, uGlobs, uLog, uVFSutil, uFileOp, uOSUtils, uLng,
-  Dialogs, Forms, Controls, FileUtil;
+  Dialogs, Forms, Controls, FileUtil, uDCUtils;
 
 var
   WFXModuleList: TList = nil;
@@ -868,7 +868,7 @@ begin
   WFXStatusInfo(sDir, FS_STATUS_START, FS_STATUS_OP_LIST);
   fl.Clear;
   FFolder:= sDir; // save current folder
-  AddUpLevel(LowDirLevel(sDir), fl);
+  AddUpLevel(GetParentDir(sDir), fl);
   
   fl.CurrentDirectory := sDir;
   Handle := FsFindFirst(PChar(UTF8ToSys(sDir)), FindData);

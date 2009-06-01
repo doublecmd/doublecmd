@@ -605,7 +605,7 @@ begin
     begin
       PreviousSubDirectory := ExtractFileName(ExcludeTrailingPathDelimiter(fActiveDir));
 
-      SetActiveDir(LowDirLevel(fActiveDir));
+      SetActiveDir(GetParentDir(fActiveDir));
 
       Select(PreviousSubDirectory);
     end
@@ -634,7 +634,7 @@ end;
 
 procedure TFilePanel.cdRootLevel;
 begin
-  SetActiveDir(ExtractFileDrive(fActiveDir));
+  SetActiveDir(GetRootDir(fActiveDir));
 end;
 
 function TFilePanel.GetActiveItem:PFileRecItem;
