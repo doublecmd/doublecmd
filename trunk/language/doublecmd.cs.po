@@ -21,6 +21,10 @@ msgstr "Vše"
 
 #: TFCOLUMNSSETCONF.BTNNEXT.CAPTION
 msgid "->"
+msgstr "Písmo:"
+
+#, fuzzy
+#: TFCOLUMNSSETCONF.LBLCONF
 msgstr "->"
 
 #: TFCOLUMNSSETCONF.BTNPREV.CAPTION
@@ -44,11 +48,7 @@ msgstr "Povolit Overcolor"
 
 #, fuzzy
 #: TFCOLUMNSSETCONF.LABEL3.CAPTION
-msgid "Font:"
-msgstr "Písmo:"
-
-#, fuzzy
-#: TFCOLUMNSSETCONF.LBLCONFIGVIEWNR.CAPTION
+msgid "Font:"IGVIEWNR.CAPTION
 msgid "Configure view nr:"
 msgstr "Konfigurace pohledu č.:"
 
@@ -1397,25 +1397,45 @@ msgctxt "TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION"
 msgid "*"
 msgstr "*"
 
+#: TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.HINT
+msgid "Directory hotlist"
+msgstr ""
+
 #: TFRMMAIN.BTNLEFTHOME.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTHOME.CAPTION"
 msgid "~"
 msgstr "~"
+
+#: TFRMMAIN.BTNLEFTHOME.HINT
+msgid "Go to home directory"
+msgstr ""
 
 #: TFRMMAIN.BTNLEFTROOT.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTROOT.CAPTION"
 msgid "/"
 msgstr "/"
 
+#: TFRMMAIN.BTNLEFTROOT.HINT
+msgid "Go to root directory"
+msgstr ""
+
 #: TFRMMAIN.BTNLEFTTARGETEQUALSOURCE.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTTARGETEQUALSOURCE.CAPTION"
 msgid "="
+msgstr ""
+
+#: TFRMMAIN.BTNLEFTTARGETEQUALSOURCE.HINT
+msgid "Show same directory in opposite panel"
 msgstr ""
 
 #: TFRMMAIN.BTNLEFTUP.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTUP.CAPTION"
 msgid ".."
 msgstr ".."
+
+#: TFRMMAIN.BTNLEFTUP.HINT
+msgid "Go to parent directory"
+msgstr ""
 
 #: TFRMMAIN.BTNRIGHTDIRECTORYHOTLIST.CAPTION
 msgctxt "TFRMMAIN.BTNRIGHTDIRECTORYHOTLIST.CAPTION"

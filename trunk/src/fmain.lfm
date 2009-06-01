@@ -145,6 +145,7 @@ object frmMain: TfrmMain
         object btnLeftHome: TSpeedButton
           Left = 124
           Height = 24
+          Hint = 'Go to home directory'
           Top = 0
           Width = 23
           Align = alRight
@@ -156,6 +157,7 @@ object frmMain: TfrmMain
         object btnLeftUp: TSpeedButton
           Left = 101
           Height = 24
+          Hint = 'Go to parent directory'
           Top = 0
           Width = 23
           Align = alRight
@@ -167,6 +169,7 @@ object frmMain: TfrmMain
         object btnLeftRoot: TSpeedButton
           Left = 78
           Height = 24
+          Hint = 'Go to root directory'
           Top = 0
           Width = 23
           Align = alRight
@@ -188,6 +191,7 @@ object frmMain: TfrmMain
         object btnLeftDirectoryHotlist: TSpeedButton
           Left = 55
           Height = 24
+          Hint = 'Directory hotlist'
           Top = 0
           Width = 23
           Align = alRight
@@ -199,6 +203,7 @@ object frmMain: TfrmMain
         object btnLeftTargetEqualSource: TSpeedButton
           Left = 147
           Height = 24
+          Hint = 'Show same directory in opposite panel'
           Top = 0
           Width = 23
           Action = actTargetEqualSource

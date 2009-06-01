@@ -523,6 +523,14 @@ begin
   pmButtonMenu.BarFile.ChangePath := gpExePath;
   pmButtonMenu.BarFile.EnvVar := '%commander_path%';
 
+  // Use the same tooltips for left and right panel butttons.
+  btnRightDirectoryHotlist.Hint := btnLeftDirectoryHotlist.Hint;
+  btnRightHome.Hint := btnLeftHome.Hint;
+  btnRightRoot.Hint := btnLeftRoot.Hint;
+  btnRightTargetEqualSource.Hint := btnLeftTargetEqualSource.Hint;
+  btnRightUp.Hint := btnLeftUp.Hint;
+
+
   { *HotKeys* }
   LoadShortCuts;
 
@@ -2699,13 +2707,13 @@ var
   btnIndex : Integer;
 begin
   (*root button*)
-  btnIndex := dskPanel.AddButton('/', '/', 'root', '');
+  btnIndex := dskPanel.AddButton(btnLeftRoot.Caption, btnLeftRoot.Caption, btnLeftRoot.Hint, '');
   dskPanel.Buttons[btnIndex].GroupIndex := 0;
   (*up button*)
-  btnIndex := dskPanel.AddButton('..', '..', 'Up', '');
+  btnIndex := dskPanel.AddButton(btnLeftUp.Caption, btnLeftUp.Caption, btnLeftUp.Hint, '');
   dskPanel.Buttons[btnIndex].GroupIndex := 0;
   (*home button*)
-  btnIndex := dskPanel.AddButton('~', '~', 'Home', '');
+  btnIndex := dskPanel.AddButton(btnLeftHome.Caption, btnLeftHome.Caption, btnLeftHome.Hint, '');
   dskPanel.Buttons[btnIndex].GroupIndex := 0;
 end;
 
