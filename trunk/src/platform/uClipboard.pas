@@ -35,6 +35,7 @@ const
   CFSTR_FILENAMEW                 = 'FileNameW';
   CFSTR_UNIFORM_RESOURCE_LOCATOR  = 'UniformResourceLocator';
   CFSTR_UNIFORM_RESOURCE_LOCATORW = 'UniformResourceLocatorW';
+  CFSTR_SHELL_IDLIST_ARRAY        = 'Shell IDList Array';
 
 {$ELSE IFDEF UNIX}
 
@@ -58,6 +59,7 @@ var
   CFU_FILENAMEW,
   CFU_UNIFORM_RESOURCE_LOCATOR,
   CFU_UNIFORM_RESOURCE_LOCATORW,
+  CFU_SHELL_IDLIST_ARRAY,
 
 {$ELSE IFDEF UNIX}
 
@@ -89,6 +91,7 @@ begin
   CFU_FILENAMEW                 := RegisterClipboardFormat(CFSTR_FILENAMEW);
   CFU_UNIFORM_RESOURCE_LOCATOR  := RegisterClipboardFormat(CFSTR_UNIFORM_RESOURCE_LOCATOR);
   CFU_UNIFORM_RESOURCE_LOCATORW := RegisterClipboardFormat(CFSTR_UNIFORM_RESOURCE_LOCATORW);
+  CFU_SHELL_IDLIST_ARRAY        := RegisterClipboardFormat(CFSTR_SHELL_IDLIST_ARRAY);
 
 {$ELSEIF DEFINED(UNIX)}
 
@@ -343,7 +346,7 @@ var
   hGlobalBuffer: HGLOBAL;
   pBuffer: LPVOID;
   PreferredEffect: DWORD = DROPEFFECT_COPY;
-
+  formatEtc: TFormatEtc = (CfFormat: 0; Ptd: nil; dwAspect: 0; lindex: 0; tymed: TYMED_HGLOBAL);
 const
   DummyPoint: TPoint = (x: 0; y: 0);
 {$ENDIF}
@@ -369,6 +372,14 @@ begin
   // Assign ownership of clipboard to self (frmMain.Handle).
   EmptyClipboard;
 
+  { Create a helper object. }
+
+  DragDropInfo := TDragDropInfo.Create(DummyPoint, True, PreferredEffect);
+
+  for i := 0 to filenames.Count - 1 do
+    DragDropInfo.Add(filenames[i]);
+
+
   { Now, set preferred effect. }
 
   if CFU_PREFERRED_DROPEFFECT <> 0 then
@@ -378,19 +389,10 @@ begin
     else if ClipboardOp = ClipboardCut then
       PreferredEffect := DROPEFFECT_MOVE;
 
-    hGlobalBuffer := GlobalAlloc(GMEM_MOVEABLE, SizeOf(DWORD));
-    if hGlobalBuffer = 0 then
-    begin
-      CloseClipboard;
-      Exit;
-    end;
+    hGlobalBuffer := DragDropInfo.CreatePreferredDropEffect(PreferredEffect);
 
-    pBuffer := GlobalLock(hGlobalBuffer);
-    if pBuffer <> nil then
+    if hGlobalBuffer <> 0 then
     begin
-      CopyMemory(pBuffer, PDWORD(@PreferredEffect), SizeOf(DWORD));
-      GlobalUnlock(hGlobalBuffer);
-
       if SetClipboardData(CFU_PREFERRED_DROPEFFECT, hGlobalBuffer) = 0 then
       begin
         // Failed.
@@ -403,22 +405,21 @@ begin
     end
     else
     begin
-      // Could not lock allocated memory, so free it.
-      GlobalFree(hGlobalBuffer);
       CloseClipboard;
       Exit;
     end;
   end;
 
-  { Now, set clipboard data in CF_HDROP format. }
+  { Now, set clipboard data. }
 
-  DragDropInfo := TDragDropInfo.Create(DummyPoint, True, PreferredEffect);
-
-  for i := 0 to filenames.Count - 1 do
-    DragDropInfo.Add(filenames[i]);
-
-  hGlobalBuffer := DragDropInfo.CreateHDrop(Win32Proc.UnicodeEnabledOS);
+  formatEtc.CfFormat := CF_HDROP;
+  hGlobalBuffer := DragDropInfo.MakeDataInFormat(formatEtc);
   if SetClipboardData(CF_HDROP, hGlobalBuffer) = 0 then
+    GlobalFree(hGlobalBuffer);
+
+  formatEtc.CfFormat := CFU_SHELL_IDLIST_ARRAY;
+  hGlobalBuffer := DragDropInfo.MakeDataInFormat(formatEtc);
+  if SetClipboardData(CFU_SHELL_IDLIST_ARRAY, hGlobalBuffer) = 0 then
     GlobalFree(hGlobalBuffer);
 
   CloseClipboard;

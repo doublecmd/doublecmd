@@ -61,9 +61,10 @@ type
     FPreferredWinDropEffect: DWORD;
 
 
+    function CreateHDrop(bUnicode: Boolean): HGlobal;
     function CreateFileNames(bUnicode: Boolean): HGlobal;
     function CreateURIs(bUnicode: Boolean): HGlobal;
-    function CreatePreferredDropEffect(WinDropEffect: DWORD): HGlobal;
+    function CreateShellIdListArray: HGlobal;
     function MakeHGlobal(ptr: Pointer; Size: LongWord): HGlobal;
 
   public
@@ -75,9 +76,9 @@ type
 
     procedure Add(const s: string);
 
-    function CreateHDrop(bUnicode: Boolean): HGlobal;
-
     function MakeDataInFormat(const formatEtc: TFormatEtc): HGlobal;
+
+    function CreatePreferredDropEffect(WinDropEffect: DWORD): HGlobal;
 
     property InClientArea: boolean Read FInClientArea;
 
@@ -283,6 +284,7 @@ begin
   AddFormat(CFU_FILENAMEW);
   AddFormat(CFU_UNIFORM_RESOURCE_LOCATOR);
   AddFormat(CFU_UNIFORM_RESOURCE_LOCATORW);
+  AddFormat(CFU_SHELL_IDLIST_ARRAY);
 end;
 
 procedure DestroyDataFormats;
@@ -524,7 +526,12 @@ begin
       begin
         Result := CreateURIs(True);
       end}
-    ;
+
+    else if (formatEtc.CfFormat = CFU_SHELL_IDLIST_ARRAY) then
+
+      begin
+        Result := CreateShellIdListArray;
+      end;
 
   end;
 
@@ -599,6 +606,126 @@ begin
                             Length(UriList) * SizeOf(AnsiChar));
 
     end;
+
+end;
+
+function TDragDropInfo.CreateShellIdListArray: HGlobal;
+
+var
+  pidl: LPITEMIDLIST;
+  pidlSize: Integer;
+  pIdA: LPIDA = nil; // ShellIdListArray structure
+  ShellDesktop: IShellFolder = nil;
+  CurPosition: UINT;
+  dwTotalSizeToAllocate: DWORD;
+  I: Integer;
+
+  function GetPidlFromPath(ShellFolder: IShellFolder; Path: WideString): LPITEMIDLIST;
+  var
+    chEaten: ULONG = 0;
+    dwAttributes: ULONG = 0;
+  begin
+    if ShellFolder.ParseDisplayName(0, nil, PWideChar(Path), chEaten,
+                                    Result, dwAttributes) <> S_OK then
+    begin
+      Result := nil;
+    end;
+  end;
+
+  function GetPidlSize(Pidl: LPITEMIDLIST): Integer;
+  var
+    pidlTmp: LPITEMIDLIST;
+  begin
+    Result := 0;
+    pidlTmp := pidl;
+
+    while pidlTmp^.mkid.cb <> 0 do
+    begin
+      Result := Result + pidlTmp^.mkid.cb;
+      pidlTmp := LPITEMIDLIST(LPBYTE(pidlTmp) + PtrInt(pidlTmp^.mkid.cb)); // Next Item.
+    end;
+
+    Inc(Result, SizeOf(BYTE) * 2); // PIDL ends with two zeros.
+  end;
+
+begin
+  Result := 0;
+
+  // Get Desktop shell interface.
+  if SHGetDesktopFolder(ShellDesktop) = S_OK then
+  begin
+    // Get Desktop PIDL, which will be the root PIDL for the files' PIDLs.
+    if SHGetSpecialFolderLocation(0, CSIDL_DESKTOP, pidl) = S_OK then
+    begin
+      pidlSize := GetPidlSize(pidl);
+
+      // How much memory to allocate for the whole structure.
+      // We don't know how much memory each PIDL takes yet
+      // (estimate using desktop pidl size).
+      dwTotalSizeToAllocate := SizeOf(_IDA.cidl)
+                             + SizeOf(UINT) * (Files.Count + 1)  // PIDLs' offsets
+                             + pidlSize     * (Files.Count + 1); // PIDLs
+
+      pIda := AllocMem(dwTotalSizeToAllocate);
+
+      // Number of files PIDLs (without root).
+      pIdA^.cidl := Files.Count;
+
+      // Calculate offset for the first pidl (root).
+      CurPosition := SizeOf(_IDA.cidl) + SizeOf(UINT) * (Files.Count + 1);
+
+      // Write first PIDL.
+      pIdA^.aoffset[0] := CurPosition;
+      CopyMemory(LPBYTE(pIda) + PtrInt(CurPosition), pidl, pidlSize);
+      Inc(CurPosition, pidlSize);
+
+      CoTaskMemFree(pidl);
+
+      for I := 0 to Self.Files.Count - 1 do
+      begin
+        // Get PIDL for each file (if Desktop is the root, then
+        // absolute paths are acceptable).
+        pidl := GetPidlFromPath(ShellDesktop, UTF8Decode(Files[i]));
+
+        if pidl <> nil then
+        begin
+          pidlSize := GetPidlSize(pidl);
+
+          // If not enough memory then reallocate.
+          if dwTotalSizeToAllocate < CurPosition + pidlSize then
+          begin
+            // Estimate using current PIDL's size.
+            Inc(dwTotalSizeToAllocate, (Files.Count - i) * pidlSize);
+
+            pIdA := ReAllocMem(pIda, dwTotalSizeToAllocate);
+
+            if not Assigned(pIda) then
+              Break;
+          end;
+
+          // Write PIDL.
+{$R-}
+          pIdA^.aoffset[i + 1] := CurPosition;
+{$R+}
+          CopyMemory(LPBYTE(pIdA) + PtrInt(CurPosition), pidl, pidlSize);
+          Inc(CurPosition, pidlSize);
+
+          CoTaskMemFree(pidl);
+        end;
+      end;
+
+      if Assigned(pIda) then
+      begin
+        // Current position it at the end of the structure.
+        Result := MakeHGlobal(pIdA, CurPosition);
+        Freemem(pIda);
+      end;
+
+    end; // SHGetSpecialFolderLocation
+
+    ShellDesktop._Release;
+
+  end; // SHGetDesktopFolder
 
 end;
 
