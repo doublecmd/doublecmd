@@ -422,11 +422,15 @@ begin
 
         // Initiate external drag&drop operation.
         Result := dgPanel.DragDropSource.DoDragDrop(fileNamesList, MouseButton, ScreenStartPoint);
+
+        // Refresh source file panel after drop to (possibly) another application
+        // (files could have been moved for example).
+        // 'draggedFileItem' is invalid after this.
+        RefreshPanel;
       end;
 
     finally
       FreeAndNil(fileNamesList);
-      UnSelectFileIfSelected(draggedFileItem);
     end;
   end;
 end;
@@ -1983,10 +1987,6 @@ begin
     Exit;
   end;
 {$ENDIF}
-
-  // Refresh source file panel after drop to (possibly) another application
-  // (files could have been moved for example).
-  (Self.Parent as TFrameFilePanel).RefreshPanel;
 
   ClearMouseButtonAfterDrag;
 
