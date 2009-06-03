@@ -191,10 +191,8 @@ var
 I : byte;
 begin
 try
-  for I := 0 to PopupMenu.Items.Count - 1 do
-      PopUpMenu.Items.Items[0].Free;
-
-  PopUpMenu.Items.Free;
+  PopUpMenu.Free;
+  PopUpMenu := nil;
 finally
   inherited Destroy;
 end;

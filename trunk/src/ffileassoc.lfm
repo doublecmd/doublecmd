@@ -8,6 +8,7 @@ object frmFileAssoc: TfrmFileAssoc
   ClientHeight = 582
   ClientWidth = 554
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   Position = poScreenCenter
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   LCLVersion = '0.9.27'

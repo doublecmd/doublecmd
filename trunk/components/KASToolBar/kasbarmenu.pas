@@ -138,7 +138,10 @@ begin
 end;
 
 procedure TKASBarMenu.MakeMenu;
-var I:Integer; Item:TMenuItem;
+var
+  I:Integer;
+  Item:TMenuItem;
+  BitmapTmp: TBitmap;
 begin
   For I:=0 to Fbar.ButtonCount-1 do
     begin
@@ -146,9 +149,13 @@ begin
       Item.Caption:=Fbar.GetButtonX(I,MenuX);
       //------------------------------------------------------
       if Assigned(FOnLoadButtonGlyph) then
-        Item.Bitmap:= FOnLoadButtonGlyph(FBar.GetButtonX(I,ButtonX), 16, clFuchsia)
+        BitmapTmp := FOnLoadButtonGlyph(FBar.GetButtonX(I,ButtonX), 16, clFuchsia)
       else
-        Item.Bitmap:= LoadBtnIcon(FBar.GetButtonX(I,ButtonX));
+        BitmapTmp := LoadBtnIcon(FBar.GetButtonX(I,ButtonX));
+
+      Item.Bitmap := BitmapTmp;
+      if Assigned(BitmapTmp) then
+        FreeAndNil(BitmapTmp);
       //------------------------------------------------------
       Item.Tag:=I;
       Item.OnClick:=TNotifyEvent(@MenuOnClick);

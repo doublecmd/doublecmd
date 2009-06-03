@@ -90,6 +90,7 @@ type
     procedure btnRenameTypeClick(Sender: TObject);
     procedure btnUpActClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure lbActionsSelectionChange(Sender: TObject; User: boolean);
     procedure lbFileTypesDrawItem(Control: TWinControl; Index: Integer;
       ARect: TRect; State: TOwnerDrawState);
@@ -153,6 +154,12 @@ begin
   UpdateEnabledButtons;
   // Initialize property storage
   InitPropStorage(Self);
+end;
+
+procedure TfrmFileAssoc.FormDestroy(Sender: TObject);
+begin
+  if Assigned(Exts) then
+    FreeAndNil(Exts);
 end;
 
 procedure TfrmFileAssoc.UpdateEnabledButtons;
@@ -575,6 +582,7 @@ procedure TfrmFileAssoc.btnOKClick(Sender: TObject);
 begin
   gExts.Free;
   gExts := Exts;
+  Exts := nil;  // so that it isn't destroyed later
   gExts.SaveToFile(gpIniDir + 'doublecmd.ext');
   Close;
 end;
