@@ -1154,6 +1154,7 @@ end;
 procedure TfrmMain.nbPageChanged(Sender: TObject);
 begin
   with Sender as TNoteBook do
+  if PageIndex <> -1 then
   begin
     if Page[PageIndex].Tag = 2 then // if locked with directory change
       with TFrameFilePanel(Page[PageIndex].Components[0]) do
@@ -1203,6 +1204,7 @@ end;
 procedure TfrmMain.NoteBookCloseTabClicked(Sender: TObject);
 begin
   with (Sender As TPage) do
+  if PageIndex <> -1 then
   begin
     RemovePage(Parent as TNoteBook, PageIndex);
   end;
@@ -1481,16 +1483,15 @@ end;
 function TfrmMain.FrameLeft: TFrameFilePanel;
 begin
 //  DebugLn(nbLeft.Page[nbLeft.PageIndex].Components[0].ClassName);
-  Result:=TFrameFilePanel(nbLeft.Page[nbLeft.PageIndex].Components[0]);
+  if nbLeft.PageIndex <> -1 then
+    Result:=TFrameFilePanel(nbLeft.Page[nbLeft.PageIndex].Components[0]);
 end;
 
 function TfrmMain.FrameRight: TFrameFilePanel;
 begin
 //  DebugLn(nbRight.Page[nbRight.PageIndex].Components[0].ClassName);
-  Result:=TFrameFilePanel(nbRight.Page[nbRight.PageIndex].Components[0]);
-  
-//  Result:=TFrameFilePanel(nbRight.Page[0].Components[0]);
-
+  if nbRight.PageIndex <> -1 then
+    Result:=TFrameFilePanel(nbRight.Page[nbRight.PageIndex].Components[0]);
 end;
 
 Function TfrmMain.IsAltPanel:Boolean;
@@ -2752,7 +2753,9 @@ end;
 function TfrmMain.RemovePage(ANoteBook: TNoteBook; iPageIndex:Integer): LongInt;
 begin
   Result:= -1;
-  if ANoteBook.PageCount > 1 then
+  if (ANoteBook.PageCount > 1) and
+     (iPageIndex >= 0) and
+     (iPageIndex < ANoteBook.PageCount) then
   begin
     if ANoteBook.Page[iPageIndex].Tag > 0 then
       case msgYesNoCancel(Format(rsMsgCloseLockedTab, [ANoteBook.Page[iPageIndex].Caption])) of
@@ -2861,7 +2864,7 @@ begin
     // read active tab index
     iActiveTab:= gIni.ReadInteger(TabsSection, 'activetab', 0);
     // set active tab
-    if iActiveTab < ANoteBook.PageCount then
+    if (iActiveTab >= 0) and (iActiveTab < ANoteBook.PageCount) then
       ANoteBook.PageIndex := iActiveTab;
 end;
 
@@ -3154,7 +3157,8 @@ begin
   if (not Focused) and (watch_only_foreground in gWatchDirs) then Exit;
   if not (Sender is TNotebook) then Exit;
   with Sender as TNotebook do
-    FrameFilePanel:= TFrameFilePanel(Page[PageIndex].Components[0]);
+    if PageIndex <> -1 then
+      FrameFilePanel:= TFrameFilePanel(Page[PageIndex].Components[0]);
   // if current path in exclude list then exit
   if gWatchDirsExclude <> '' then
     begin
@@ -3361,7 +3365,8 @@ procedure TfrmMain.UpdateSelectedDrive(ANoteBook: TNoteBook);
 var
   Path : String;
 begin
-  if ANoteBook.Page[ANoteBook.PageIndex].ComponentCount > 0 then
+  if (ANoteBook.PageIndex <> -1) and
+     (ANoteBook.Page[ANoteBook.PageIndex].ComponentCount > 0) then
   begin
     Path := (ANoteBook.Page[ANoteBook.PageIndex].Components[0] as TFrameFilePanel).pnlFile.ActiveDir;
 
