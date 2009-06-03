@@ -353,6 +353,7 @@ type
     procedure pbExamplePaint(Sender: TObject);
     procedure pcPluginsTypesChange(Sender: TObject);
     procedure pgBehavResize(Sender: TObject);
+    procedure stgCommandsResize(Sender: TObject);
     procedure stgCommandsSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
     procedure stgPluginsBeforeSelection(Sender: TObject; aCol, aRow: Integer);
@@ -397,8 +398,7 @@ uses
 const
      stgCmdCommandIndex=0;
      stgCmdCommentIndex=1;
-     stgCmdCommandWidth=150;
-     stgCmdCommentWidth=240;
+     stgCmdHotkeysIndex=2;
 
 
 function StListToStr(separator:string; const lStList:TStringList):string;
@@ -955,6 +955,13 @@ begin
   gbDateTimeFormat.Width:= iWidth;
 end;
 
+procedure TfrmOptions.stgCommandsResize(Sender: TObject);
+begin
+  stgCommands.ColWidths[stgCmdHotkeysIndex] := stgCommands.Width
+                                             - stgCommands.ColWidths[stgCmdCommandIndex]
+                                             - stgCommands.ColWidths[stgCmdCommentIndex];
+end;
+
 procedure TfrmOptions.stgCommandsSelectCell(Sender: TObject; aCol,
   aRow: Integer; var CanSelect: Boolean);
   // < find hotkeys for command
@@ -1489,16 +1496,13 @@ end;
 
 procedure TfrmOptions.FillCommandsPage;
 begin
-stgCommands.ColWidths[stgCmdCommandIndex]:=stgCmdCommandWidth;
-stgCommands.ColWidths[stgCmdCommentIndex]:=stgCmdCommentWidth;
-
 actions.GetCategoriesList(lbxCategories.Items);
 if lbxCategories.Items.Count>0 then
 begin
   lbxCategories.ItemIndex:=0;
   lbxCategoriesSelectionChange(nil,false);
 end;
-
+stgcommands.AutoSizeColumns;
 //lbxCommands.items.AddStrings(actions.CommandList);
 end;
 

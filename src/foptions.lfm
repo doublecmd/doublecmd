@@ -1307,6 +1307,7 @@ object frmOptions: TfrmOptions
           Options = [goVertLine, goColSizing, goRowSelect, goDblClickAutoSize, goSmoothScroll]
           RowCount = 1
           TabOrder = 7
+          OnResize = stgCommandsResize
           OnSelectCell = stgCommandsSelectCell
         end
       end
