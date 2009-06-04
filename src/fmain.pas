@@ -121,6 +121,9 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     lblCommandPath: TLabel;
+    miTrayIconRestore: TMenuItem;
+    miLine8: TMenuItem;
+    miTrayIconExit: TMenuItem;
     mnuCheckSumCalc: TMenuItem;
     mnuCheckSumVerify: TMenuItem;
     mnuCountDirContent: TMenuItem;
@@ -201,6 +204,7 @@ type
     pmColumnsMenu: TPopupMenu;
     pmDropMenu: TDropPopupMenu;
     pmTabMenu: TPopupMenu;
+    pmTrayIconMenu: TPopupMenu;
     seLogWindow: TSynEdit;
     btnLeftTargetEqualSource: TSpeedButton;
     btnRightTargetEqualSource: TSpeedButton;
@@ -307,6 +311,8 @@ type
     procedure btnLeftDirectoryHotlistClick(Sender: TObject);
     procedure btnRightClick(Sender: TObject);
     procedure btnRightDirectoryHotlistClick(Sender: TObject);
+    procedure miTrayIconExitClick(Sender: TObject);
+    procedure miTrayIconRestoreClick(Sender: TObject);
     procedure PanelButtonClick(Button: TSpeedButton; SourceFrame: TFrameFilePanel);
     procedure DeleteClick(Sender: TObject);
     procedure dskToolBarMouseUp(Sender: TObject; Button: TMouseButton;
@@ -404,6 +410,7 @@ type
     function ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
     procedure AddSpecialButtons(dskPanel: TKASToolBar);
     procedure ReLoadTabs(ANoteBook: TNoteBook);
+    procedure RestoreFromTray;
   public
 //    frameLeft, frameRight:TFrameFilePanel;
     
@@ -475,7 +482,11 @@ uses
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils, uLog, uWipeThread,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg, fExtractDlg,
   fLinker, fSplitter, uFileProcs, LCLProc, uOSUtils, uOSForms, uPixMapManager,
-  fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls;
+  fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls
+  {$IFDEF LCLQT}
+    , qt4, qtwidgets
+  {$ENDIF}
+  ;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 var
@@ -596,6 +607,17 @@ begin
   p := Classes.Point(btnRightDirectoryHotlist.Left,btnRightDirectoryHotlist.Height);
   p := pnlRightTools.ClientToScreen(p);
   pmHotList.PopUp(P.x,P.y);
+end;
+
+procedure TfrmMain.miTrayIconExitClick(Sender: TObject);
+begin
+  RestoreFromTray;
+  Close;
+end;
+
+procedure TfrmMain.miTrayIconRestoreClick(Sender: TObject);
+begin
+  RestoreFromTray;
 end;
 
 procedure TfrmMain.PanelButtonClick(Button: TSpeedButton; SourceFrame: TFrameFilePanel);
@@ -739,18 +761,32 @@ begin
 end;
 
 procedure TfrmMain.FormWindowStateChange(Sender: TObject);
+{$IFDEF LCLQT}
+var
+  WindowStates: QtWindowStates;
+{$ENDIF}
 begin
+{$IFDEF LCLQT}
+  // On QT reported window state can be maximized and minimized at the same time
+  // (meaning a minimized window which should be in a maximized state when shown again).
+  WindowStates := QWidget_windowState(TQtWidget(Self.Handle).Widget);
+  if (WindowStates and QtWindowMinimized) <> 0 then
+{$ELSE}
+  if WindowState = wsMinimized then
+{$ENDIF}
+  begin  // Minimized
+    if gTrayIcon and (not MainTrayIcon.Visible) then
+      begin
+        Hide;
+        MainTrayIcon.Visible:= True;
+      end;
+    end
+  else
+  begin  // Not minimized
   // запоминаєм состояние окна перед минимизацией для
   // дальнейшего восстановления после разворачивания из трея
-  if WindowState <> wsMinimized then
      lastWindowState:=WindowState;
-
-  if gTrayIcon and (WindowState = wsMinimized) and (not MainTrayIcon.Visible) then
-    begin
-      Hide;
-      MainTrayIcon.Visible:= True;
     end;
-
 end;
 
 procedure TfrmMain.MainSplitterDblClick(Sender: TObject);
@@ -831,12 +867,7 @@ end;
 
 procedure TfrmMain.MainTrayIconClick(Sender: TObject);
 begin
-  // делал по другому
-  // WindowState:=lastWindowState; но при wsNormal
-  // окно становится видимим но свернутим
-  if lastWindowState=wsMaximized then  WindowState:=wsMaximized;
-  ShowOnTop;
-  Application.QueueAsyncCall(@FormDataEvent, 0);
+  RestoreFromTray;
 end;
 
 procedure TfrmMain.lblDriveInfoDblClick(Sender: TObject);
@@ -1007,6 +1038,10 @@ end;
 
 procedure TfrmMain.frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
+  // Process all queued asynchronous events before closing
+  // (frmMainAfterShow, nbPageAfterMouseDown, etc.).
+  Application.ProcessMessages;
+
   try
     SaveWindowState;
     SaveShortCuts;
@@ -3388,6 +3423,16 @@ begin
       UpdateDriveButtonMenuSelection(btnRightDrive, Path);
     end;
   end;
+end;
+
+procedure TfrmMain.RestoreFromTray;
+begin
+  // делал по другому
+  // WindowState:=lastWindowState; но при wsNormal
+  // окно становится видимим но свернутим
+  if lastWindowState=wsMaximized then  WindowState:=wsMaximized;
+  ShowOnTop;
+  Application.QueueAsyncCall(@FormDataEvent, 0);
 end;
 
 initialization
