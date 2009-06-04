@@ -44,7 +44,11 @@ uses
   Graphics, Forms, Menus, Controls, Dialogs, ComCtrls,
   StdCtrls, ExtCtrls,ActnList,Buttons, uFileSystemWatcher,
   SysUtils, Classes,  {uFilePanel,} framePanel, {FileCtrl,} Grids,
-  KASToolBar, SynEdit, KASBarMenu,KASBarFiles,uColumns, uFileList, LCLType,uCmdBox{$IFDEF UNIX},uterm{$ENDIF};
+  KASToolBar, SynEdit, KASBarMenu,KASBarFiles,uColumns, uFileList, LCLType,uCmdBox{$IFDEF UNIX},uterm{$ENDIF}
+  {$IFDEF LCLQT}
+    , qt4
+  {$ENDIF}
+  ;
 
 const
   cHistoryFile='cmdhistory.txt';
@@ -411,6 +415,12 @@ type
     procedure AddSpecialButtons(dskPanel: TKASToolBar);
     procedure ReLoadTabs(ANoteBook: TNoteBook);
     procedure RestoreFromTray;
+
+{$IFDEF LCLQT}
+    QtTrayIconHook: QSystemTrayIcon_hookH;
+    procedure QtSystemTrayIconActivated(reason: QSystemTrayIconActivationReason); cdecl;
+{$ENDIF}
+
   public
 //    frameLeft, frameRight:TFrameFilePanel;
     
@@ -484,7 +494,7 @@ uses
   fLinker, fSplitter, uFileProcs, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls
   {$IFDEF LCLQT}
-    , qt4, qtwidgets
+    , qtwidgets, qtobjects
   {$ENDIF}
   ;
 
@@ -764,6 +774,7 @@ procedure TfrmMain.FormWindowStateChange(Sender: TObject);
 {$IFDEF LCLQT}
 var
   WindowStates: QtWindowStates;
+  Method: TMethod;
 {$ENDIF}
 begin
 {$IFDEF LCLQT}
@@ -779,14 +790,28 @@ begin
       begin
         Hide;
         MainTrayIcon.Visible:= True;
+
+{$IFDEF LCLQT}
+        // Workaround for QT - hooking tray icon mouse events.
+        if MainTrayIcon.Handle <> 0 then
+        begin
+          QtTrayIconHook := QSystemTrayIcon_hook_create(TQtSystemTrayIcon(MainTrayIcon.Handle).Handle);
+          if Assigned(QtTrayIconHook) then
+          begin
+            QSystemTrayIcon_activated_Event(Method) := @QtSystemTrayIconActivated;
+            QSystemTrayIcon_hook_hook_activated(QtTrayIconHook, Method);
+          end;
+        end;
+{$ENDIF}
+
       end;
     end
   else
   begin  // Not minimized
-  // запоминаєм состояние окна перед минимизацией для
-  // дальнейшего восстановления после разворачивания из трея
-     lastWindowState:=WindowState;
-    end;
+    // запоминаєм состояние окна перед минимизацией для
+    // дальнейшего восстановления после разворачивания из трея
+    lastWindowState:=WindowState;
+  end;
 end;
 
 procedure TfrmMain.MainSplitterDblClick(Sender: TObject);
@@ -3427,6 +3452,15 @@ end;
 
 procedure TfrmMain.RestoreFromTray;
 begin
+{$IFDEF LCLQT}
+  // Destroy the hook, because hiding the tray icon will destroy it.
+  if Assigned(QtTrayIconHook) then
+  begin
+    QSystemTrayIcon_hook_destroy(QtTrayIconHook);
+    QtTrayIconHook := nil;
+  end;
+{$ENDIF}
+
   // делал по другому
   // WindowState:=lastWindowState; но при wsNormal
   // окно становится видимим но свернутим
@@ -3434,6 +3468,17 @@ begin
   ShowOnTop;
   Application.QueueAsyncCall(@FormDataEvent, 0);
 end;
+
+{$IFDEF LCLQT}
+procedure TfrmMain.QtSystemTrayIconActivated(reason: QSystemTrayIconActivationReason); cdecl;
+begin
+  case reason of
+    QSystemTrayIconTrigger,     // single click
+    QSystemTrayIconDoubleClick: // double click
+      MainTrayIconClick(MainTrayIcon);
+  end;
+end;
+{$ENDIF}
 
 initialization
  {$I fmain.lrs}
