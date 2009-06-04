@@ -1304,7 +1304,7 @@ object frmOptions: TfrmOptions
           ExtendedSelect = False
           FixedCols = 0
           MouseWheelOption = mwGrid
-          Options = [goVertLine, goColSizing, goRowSelect, goDblClickAutoSize, goSmoothScroll]
+          Options = [goVertLine, goColSizing, goRowSelect, goThumbTracking, goDblClickAutoSize, goSmoothScroll]
           RowCount = 1
           TabOrder = 7
           OnResize = stgCommandsResize
@@ -1481,7 +1481,7 @@ object frmOptions: TfrmOptions
               Width = 53
             end>
           FixedCols = 0
-          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook]
+          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect, goThumbTracking, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook]
           TabOrder = 1
           TitleStyle = tsNative
           OnBeforeSelection = stgPluginsBeforeSelection
