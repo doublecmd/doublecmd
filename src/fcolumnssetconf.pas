@@ -259,8 +259,6 @@ var i,indx:integer;
     Wid: integer;
     Ali: TAlignment;
  begin
-   if not Showed then Exit;
-
    // Save fields
    ColumnClass.Clear;
    for i:=1 to stgColumns.RowCount-1 do
@@ -280,11 +278,9 @@ var i,indx:integer;
   ColumnClass.SetCursorBorder(cbCursorBorder.Checked);
   ColumnClass.SetCursorBorderColor(cbCursorBorderColor.Color);
 
-  PreviewPan.ActiveColmSlave := Self.ColumnClass;
   PreviewPan.SetColWidths;
   PreviewPan.UpdateColumnsView;
   PreviewPan.Repaint;
-
 end;
 
 
@@ -457,10 +453,6 @@ begin
   stgColumns.Objects[6,stgColumns.RowCount-1]:=TColPrm.Create;
 
   UpdateColumnClass;
-  PreviewPan.ActiveColmSlave:=ColumnClass;
-  PreviewPan.SetColWidths;
-  PreviewPan.UpdateColumnsView;
-
 end;
 
 procedure TfColumnsSetConf.FormCreate(Sender: TObject);
@@ -584,13 +576,10 @@ begin
   begin
     ActiveColmSlave:=ColumnClass;
     isSlave:=true;
-    SetColWidths;
-    UpdateColumnsView;
 
     dgPanel.OnHeaderSized:=@DGHeaderSized;
     pnlFile.ActiveDir := mbGetCurrentDir;
   end;
-
 
     if ColumnClass.ColumnsCount>0 then
       begin
@@ -610,6 +599,9 @@ begin
             stgColumns.RowCount:=1;
             AddNewField;
         end;
+
+    PreviewPan.SetColWidths;
+    PreviewPan.UpdateColumnsView;
 
     cbCursorBorder.Checked := ColumnClass.GetCursorBorder;
     SetColorInColorBox(cbCursorBorderColor, ColumnClass.GetCursorBorderColor);
