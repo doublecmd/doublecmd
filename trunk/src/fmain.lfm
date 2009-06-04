@@ -1742,6 +1742,7 @@ object frmMain: TfrmMain
     end
   end
   object MainTrayIcon: TTrayIcon
+    PopUpMenu = pmTrayIconMenu
     Icon.Data = {
       BE0C00000000010001002020000000000000A80C000016000000280000002000
       0000400000000100180000000000800C0000120B0000120B0000000000000000
@@ -1847,7 +1848,9 @@ object frmMain: TfrmMain
       001FFC00001FFE00009FF80001BFFC0003FFFFE007FFFFFF0FFFFFFE1FFFFFFF
       FFFF
     }
+    Hint = 'Double Commander - click to restore'
     OnClick = MainTrayIconClick
+    OnDblClick = MainTrayIconClick
     left = 220
     top = 168
   end
@@ -1883,5 +1886,20 @@ object frmMain: TfrmMain
     OnTimer = tmHALTimer
     left = 53
     top = 24
+  end
+  object pmTrayIconMenu: TPopupMenu
+    left = 294
+    top = 193
+    object miTrayIconRestore: TMenuItem
+      Caption = 'Restore'
+      OnClick = miTrayIconRestoreClick
+    end
+    object miLine8: TMenuItem
+      Caption = '-'
+    end
+    object miTrayIconExit: TMenuItem
+      Caption = 'Exit'
+      OnClick = miTrayIconExitClick
+    end
   end
 end
