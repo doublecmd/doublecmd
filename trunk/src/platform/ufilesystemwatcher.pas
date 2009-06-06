@@ -35,7 +35,7 @@ uses
 type
   TWatchFilter = set of (wfFileNameChange, wfAttributesChange);
 
-  TOnWatcherNotifyEvent = procedure(Sender: TObject; NotifyEvent: TWatchFilter) of object;
+  TOnWatcherNotifyEvent = procedure(Sender: TObject; NotifyData: PtrInt) of object;
 
   { TWatcherThread }
 
@@ -47,8 +47,8 @@ type
     FFileHandle,
     FNotifyHandle: THandle;
     FWatchPath: UTF8String;
-    FWatchFilter,
-    FNotifyEvent: TWatchFilter;
+    FWatchFilter: TWatchFilter;
+    FNotifyData: PtrInt;
   protected
     procedure Execute; override;
     procedure WatcherThreadError(const sErrMsg: String);
@@ -185,6 +185,7 @@ begin
   begin
    ev:= pinotify_event((buf + p));
    WriteLn('wd = ',ev^.wd,', mask = ',ev^.mask,', cookie = ',ev^.cookie, ' name = ', PChar(@ev^.name));
+   FNotifyData:= PtrInt(ev);
    // call event handler
    Synchronize(@WatcherNotifyEvent);
    p:= p + ev^.len + 16;
@@ -210,7 +211,7 @@ end;
 procedure TWatcherThread.WatcherNotifyEvent;
 begin
   if Assigned(FOnWatcherNotifyEvent) then
-    FOnWatcherNotifyEvent(FOwner, FNotifyEvent);
+    FOnWatcherNotifyEvent(FOwner, FNotifyData);
 end;
 
 destructor TWatcherThread.Destroy;

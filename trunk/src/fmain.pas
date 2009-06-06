@@ -393,7 +393,7 @@ type
       Shift: TShiftState);
     procedure edtCommandExit(Sender: TObject);
     procedure tbEditClick(Sender: TObject);
-    procedure FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyEvent: TWatchFilter);
+    procedure FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
     procedure tmHALTimer(Sender: TObject);
   private
     { Private declarations }
@@ -3207,7 +3207,7 @@ begin
   ShowConfigToolbar(pmToolBar.Tag);
 end;
 
-procedure TfrmMain.FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyEvent: TWatchFilter);
+procedure TfrmMain.FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
 var
   sDrive,
   sWatchDirsExclude: String;
