@@ -88,7 +88,11 @@ function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boo
 implementation
 
 uses
-  LCLProc, fMain, uVFSutil, uOSUtils, uExts, uGlobs, uLng, uDCUtils, uShellExecute;
+  LCLProc, fMain, uVFSutil, uOSUtils, uExts, uGlobs, uLng, uDCUtils, uShellExecute
+  {$IF DEFINED(LINUX)}
+  , uFileSystemWatcher, inotify
+  {$ENDIF}
+  ;
 
 var
 {$IFDEF MSWINDOWS}
@@ -734,6 +738,31 @@ begin
   if Assigned(opdDialog) then
     FreeAndNil(opdDialog);
 end;
+
+{$IFDEF LINUX}
+var
+  FileSystemWatcher: TFileSystemWatcher = nil;
+type
+  TFakeClass = class
+    procedure OnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
+  end;
+
+procedure TFakeClass.OnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
+var
+  ev: pinotify_event absolute NotifyData;
+begin
+  if (ev^.mask = IN_DELETE) and (Pos('mtab', PChar(@ev^.name)) = 1) then
+    frmMain.UpdateDiskCount;
+end;
+
+initialization
+  FileSystemWatcher:= TFileSystemWatcher.Create(nil, '/etc', [wfFileNameChange]);
+  FileSystemWatcher.OnWatcherNotifyEvent:= TFakeClass.OnWatcherNotifyEvent;
+  FileSystemWatcher.Active:= True;
+finalization
+  if Assigned(FileSystemWatcher) then
+    FreeAndNil(FileSystemWatcher);
+{$ENDIF}
 
 end.
 
