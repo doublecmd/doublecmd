@@ -219,7 +219,7 @@ function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boo
 
 procedure LoadDefaultHotkeyBindings;
 
-procedure ResizeToScreen(Form: TCustomForm; Increase: Boolean = False; Width:integer=1024; Height:integer=768);
+procedure MinimizeToScreen(Form: TCustomForm; Width: Integer = 1024; Height: Integer = 768);
 function InitPropStorage(Owner: TComponent): TIniPropStorageEx;
 
 // for debugging only, can be removed
@@ -294,23 +294,24 @@ begin
     end;
 end;
 
-procedure ResizeToScreen(Form: TCustomForm; Increase: Boolean = False; Width:integer=1024; Height:integer=768);
-var SWidth, SHeight,
-     PersW, PersH,
-     NewW, NewH :Integer;
+procedure MinimizeToScreen(Form: TCustomForm; Width: Integer = 1024; Height: Integer = 768);
+var
+  mWidth, mHeight,
+  PersW, PersH,
+  NewW, NewH: Integer;
 begin
-  SWidth:= Form.Monitor.Width;
-  SHeight:= Form.Monitor.Height;
+  mWidth:= Form.Monitor.Width;
+  mHeight:= Form.Monitor.Height;
 
-  if (SWidth=Width) and (SHeight=Height) then exit;
+  if (mWidth = Width) and (mHeight = Height) then exit;
 
-  if (not Increase) and (SWidth > Form.Width) and (SHeight > Form.Height) then Exit;
+  if (mWidth > Form.Width) and (mHeight > Form.Height) then Exit;
 
-  PersW:= round((SWidth*100)/Width);
-  PersH:= round((SHeight*100)/Height);
+  PersW:= (mWidth * 100) div Width;
+  PersH:= (mHeight * 100) div Height;
 
-  NewW:= round((Form.Width*PersW)/100);
-  NewH:= round((Form.Height*PersH)/100);
+  NewW:= (Form.Width * PersW) div 100;
+  NewH:= (Form.Height * PersH) div 100;
 
   Form.Width:= NewW;
   Form.Height:= NewH;
@@ -358,7 +359,7 @@ begin
   Control.Height := Height;
   // Resize window for screen size if need
   if Control is TForm then
-    ResizeToScreen(Control as TForm);
+    MinimizeToScreen(Control as TForm);
 end;
 
 procedure LoadWindowPos(var pos:TControlPosition; sPrefix:String);
