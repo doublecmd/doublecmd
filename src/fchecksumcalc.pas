@@ -69,7 +69,6 @@ begin
   try
     FFileName:= sFileName;
     edtSaveTo.Text:= FFileName + ExtensionSeparator;
-    WriteLn(FFileName);
     // set up default hash algorithm if need
     if (not (rbHashMD5.Checked or rbHashSHA1.Checked)) or rbHashMD5.Checked then
       rbHashMD5Change(nil)
