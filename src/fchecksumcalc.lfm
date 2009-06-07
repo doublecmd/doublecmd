@@ -2,11 +2,11 @@ object frmCheckSumCalc: TfrmCheckSumCalc
   Left = 290
   Height = 136
   Top = 175
-  Width = 400
+  Width = 460
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'Calculate check sum...'
   ClientHeight = 136
-  ClientWidth = 400
+  ClientWidth = 460
   Constraints.MaxHeight = 200
   Constraints.MaxWidth = 800
   Constraints.MinHeight = 136
@@ -63,7 +63,7 @@ object frmCheckSumCalc: TfrmCheckSumCalc
     Left = 234
     Height = 32
     Top = 94
-    Width = 75
+    Width = 100
     Anchors = [akRight, akBottom]
     BorderSpacing.Right = 6
     BorderSpacing.Bottom = 10
@@ -81,7 +81,7 @@ object frmCheckSumCalc: TfrmCheckSumCalc
     Left = 315
     Height = 32
     Top = 94
-    Width = 75
+    Width = 100
     Anchors = [akRight, akBottom]
     BorderSpacing.Bottom = 10
     Cancel = True
