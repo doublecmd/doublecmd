@@ -1212,7 +1212,7 @@ begin
     if pnlFile.GetSelectedCount > 1 then
       sFileName:= ActiveDir + MakeFileName(ActiveDir, 'checksum')
     else
-      sFileName:= ActiveDir + GetActiveItem^.sNameNoExt;
+      sFileName:= ActiveDir + GetActiveItem^.sName;
 
     if not ShowCalcCheckSum(sFileName, bSeparateFile, HashAlgorithm) then Exit;
 

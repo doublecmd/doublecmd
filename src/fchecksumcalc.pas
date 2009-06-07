@@ -68,10 +68,13 @@ begin
   with TfrmCheckSumCalc.Create(Application) do
   try
     FFileName:= sFileName;
-    edtSaveTo.Text:= FFileName;
+    edtSaveTo.Text:= FFileName + ExtensionSeparator;
+    WriteLn(FFileName);
     // set up default hash algorithm if need
-    if not (rbHashMD5.Checked or rbHashSHA1.Checked) then
-      rbHashMD5.Checked:= True;
+    if (not (rbHashMD5.Checked or rbHashSHA1.Checked)) or rbHashMD5.Checked then
+      rbHashMD5Change(nil)
+    else
+      rbHashSHA1Change(nil);
     Result:= (ShowModal = mrOK);
     if Result then
       begin
