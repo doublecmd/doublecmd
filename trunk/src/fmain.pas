@@ -496,6 +496,9 @@ uses
   {$IFDEF LCLQT}
     , qtwidgets, qtobjects
   {$ENDIF}
+  {$IFDEF LCLGTK2}
+    , gtk2
+  {$ENDIF}
   ;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -526,6 +529,12 @@ begin
   // Tabs
   nbLeft.Options:=[nboShowCloseButtons];
   nbRight.Options:=[nboShowCloseButtons];
+
+{$IFDEF LCLGTK2}
+  // Disable the GTK automatic popup menu.
+  gtk_notebook_popup_disable(PGtkNotebook(nbLeft.Handle));
+  gtk_notebook_popup_disable(PGtkNotebook(nbRight.Handle));
+{$ENDIF}
 
   actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
 
@@ -1174,9 +1183,14 @@ end;
 procedure TfrmMain.mnuTabMenuClick(Sender: TObject);
 var
   Cmd: String;
+  TabNr: Integer;
 begin
   Cmd:= (Sender as TMenuItem).Action.Name;
   Cmd:= 'cm_' + Copy(Cmd, 4, Length(Cmd) - 3);
+
+  // TODO: Execute command on the correct tab.
+  TabNr := pmTabMenu.Tag;
+
   Actions.Execute(Cmd, pmTabMenu.Parent.Name);
 end;
 
@@ -1248,17 +1262,38 @@ procedure TfrmMain.nbPageMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   PopUpPoint: TPoint;
+  NoteBook: TNoteBook;
+  TabNr: Integer;
 begin
-  {$IFDEF LCLGTK2}
-  if Button = mbMiddle then
-  {$ELSE}
-  if Button = mbRight then
-  {$ENDIF}
+  case Button of
+
+  mbMiddle:
     begin
-      PopUpPoint:= (Sender as TNoteBook).ClientToScreen(Point(X, Y));
-      pmTabMenu.Parent:= (Sender as TNoteBook);
-      pmTabMenu.PopUp(PopUpPoint.x, PopUpPoint.y);
+      NoteBook := (Sender as TNoteBook);
+
+      TabNr := NoteBook.TabIndexAtClientPos(Point(X, Y));
+      if TabNr <> -1 then
+      begin
+        // TODO: Close correct tab nr.
+        // Actions.cm_RemoveTab(NoteBook.Name, TabNr);
+      end;
     end;
+
+  mbRight:
+    begin
+      NoteBook := (Sender as TNoteBook);
+
+      TabNr := NoteBook.TabIndexAtClientPos(Point(X, Y));
+      if TabNr <> -1 then
+      begin
+        PopUpPoint := NoteBook.ClientToScreen(Point(X, Y));
+
+        pmTabMenu.Parent := NoteBook;
+        pmTabMenu.Tag := TabNr;
+        pmTabMenu.PopUp(PopUpPoint.x, PopUpPoint.y);
+      end;
+    end;
+  end;
 end;
 
 procedure TfrmMain.NoteBookCloseTabClicked(Sender: TObject);
