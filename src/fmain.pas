@@ -1265,34 +1265,32 @@ var
   NoteBook: TNoteBook;
   TabNr: Integer;
 begin
+  NoteBook := (Sender as TNoteBook);
+
   case Button of
 
-  mbMiddle:
-    begin
-      NoteBook := (Sender as TNoteBook);
-
-      TabNr := NoteBook.TabIndexAtClientPos(Point(X, Y));
-      if TabNr <> -1 then
+    mbMiddle:
       begin
-        // TODO: Close correct tab nr.
-        // Actions.cm_RemoveTab(NoteBook.Name, TabNr);
+        TabNr := NoteBook.TabIndexAtClientPos(Point(X, Y));
+        if TabNr <> -1 then
+        begin
+          RemovePage(NoteBook, TabNr);
+        end;
       end;
-    end;
 
-  mbRight:
-    begin
-      NoteBook := (Sender as TNoteBook);
-
-      TabNr := NoteBook.TabIndexAtClientPos(Point(X, Y));
-      if TabNr <> -1 then
+    mbRight:
       begin
-        PopUpPoint := NoteBook.ClientToScreen(Point(X, Y));
+        TabNr := NoteBook.TabIndexAtClientPos(Point(X, Y));
+        if TabNr <> -1 then
+        begin
+          PopUpPoint := NoteBook.ClientToScreen(Point(X, Y));
 
-        pmTabMenu.Parent := NoteBook;
-        pmTabMenu.Tag := TabNr;
-        pmTabMenu.PopUp(PopUpPoint.x, PopUpPoint.y);
+          pmTabMenu.Parent := NoteBook;
+          pmTabMenu.Tag := TabNr;
+          pmTabMenu.PopUp(PopUpPoint.x, PopUpPoint.y);
+        end;
       end;
-    end;
+
   end;
 end;
 
