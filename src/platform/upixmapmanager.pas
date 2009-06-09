@@ -34,7 +34,7 @@ unit uPixMapManager;
 
 interface
 uses
-  Classes, SysUtils, uTypes, Graphics, uOSUtils
+  Classes, SysUtils, uTypes, Graphics, uOSUtils, uFileList
   {$IF DEFINED(UNIX) and DEFINED(LCLGTK2)}
   , uClassesEx
   {$ENDIF};
@@ -87,7 +87,7 @@ type
     function GetBitmap(iIndex:Integer; BkColor : TColor):TBitmap; // Always returns new copy.
 //    function GetStretchBitmap(iIndex: Integer; BkColor : TColor; iSize : Integer): TBitmap;
     function DrawBitmap(iIndex: Integer; Canvas : TCanvas; Rect : TRect) : Boolean;
-    function GetIconBySortingDirection(iSortingDirection: Integer): PtrInt;
+    function GetIconBySortingDirection(SortingDirection: TSortDirection): PtrInt;
     function GetIconByFile(fi:PFileRecItem; PanelMode: TPanelMode):PtrInt;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
@@ -868,16 +868,18 @@ begin
 {$ENDIF}
 end;
 
-function TPixMapManager.GetIconBySortingDirection(iSortingDirection: Integer): PtrInt;
+function TPixMapManager.GetIconBySortingDirection(SortingDirection: TSortDirection): PtrInt;
 begin
-  if iSortingDirection = 0 then
-    begin
-      Result := FiSortDescID;
-    end
-  else
-    begin
-      Result := FiSortAscID;
-    end;
+  case SortingDirection of
+    sdDescending:
+      begin
+        Result := FiSortDescID;
+      end;
+    sdAscending:
+      begin
+        Result := FiSortAscID;
+      end;
+  end;
 end;
 
 function TPixMapManager.GetIconByFile(fi: PFileRecItem; PanelMode: TPanelMode): PtrInt;
