@@ -28,7 +28,7 @@ unit uActs;
 interface
 
 uses
-  Classes, SysUtils,Dialogs,typinfo;
+  Classes, SysUtils, Dialogs, typinfo, ExtCtrls;
   
   
 const cf_Null=0;
@@ -54,10 +54,27 @@ const cf_Null=0;
    function GetIndex(Cmd: string): integer;
    function GetCategoriesList(const List:TStrings):integer;
    function GetCommandsByCategory(Category:string; const List:TStrings):integer;
+
+   //---------------------
+   // The Do... functions are cm_... functions' counterparts which are to be
+   // executed directly from the code with specific - especially non-string
+   // - arguments (instead of calling cm_... functions, in which case
+   // parameters would have to be converted to and from strings).
+   //
+   procedure DoRemoveTab(Notebook: TNotebook; PageIndex: Integer);
+   procedure DoToggleLockTab(Notebook: TNotebook; PageIndex: Integer);
+   procedure DoToggleLockDcaTab(Notebook: TNotebook; PageIndex: Integer);
+   //---------------------
+
   published
 
-  //Only published functions and procedures can by found by MethodAddress
-  //---------------------
+   //---------------------
+   // The cm_... functions are 'user' functions which can be assigned to toolbar
+   // button, hotkey, menu item, scripts, etc. Those functions take a string
+   // parameter(s) set by the user.
+   //
+   //Only published functions and procedures can by found by MethodAddress
+   //---------------------
    procedure cm_AddPathToCmdLine(param: string='');
    procedure cm_ContextMenu(param: string='');
    procedure cm_DriveContextMenu(param: string='');
@@ -153,7 +170,7 @@ const cf_Null=0;
 
 implementation
 
-uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls, ExtCtrls,
+uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
      Clipbrd,uOSUtils,framePanel,uWCXmodule,fPackDlg,uWipeThread,uFileOp,
      uFileOpThread,fFileOpDlg,forms,uVFSutil,uShowForm,uDCUtils,uLog,uVFSTypes,
      fMkDir,LCLProc,uFileProcs,uDeleteThread,fFileAssoc,fExtractDlg,fAbout,
@@ -306,6 +323,59 @@ begin
     end;
 
   Result:=List.Count;
+end;
+
+//------------------------------------------------------
+
+procedure TActs.DoRemoveTab(Notebook: TNotebook; PageIndex: Integer);
+begin
+  with frmMain do
+  begin
+    RemovePage(Notebook, PageIndex);
+    ActiveFrame.SetFocus;
+  end;
+end;
+
+procedure TActs.DoToggleLockTab(Notebook: TNotebook; PageIndex: Integer);
+begin
+  with frmMain do
+  begin
+    if NoteBook.Page[PageIndex].Tag <> 1 then  // lock
+      begin
+        if (NoteBook.Page[PageIndex].Tag = 0) and Boolean(gDirTabOptions and tb_show_asterisk_for_locked) then
+          NoteBook.Page[PageIndex].Caption:= '*'+NoteBook.Page[PageIndex].Caption;
+        NoteBook.Page[PageIndex].Tag:= 1;
+      end
+    else // unlock
+      begin
+        NoteBook.Page[PageIndex].Tag:= 0;
+        if Boolean(gDirTabOptions and tb_show_asterisk_for_locked) then
+          NoteBook.Page[PageIndex].Caption:= Copy(NoteBook.Page[PageIndex].Caption, 2, Length(NoteBook.Page[PageIndex].Caption)-1);
+      end;
+    ActiveFrame.SetFocus;
+  end;
+end;
+
+procedure TActs.DoToggleLockDcaTab(Notebook: TNotebook; PageIndex: Integer);
+begin
+  with frmMain do
+  begin
+    if NoteBook.Page[PageIndex].Tag <> 2 then // lock
+      begin
+        NoteBook.Page[PageIndex].Hint:= ActiveFrame.ActiveDir;
+        if (Notebook.Page[PageIndex].Tag = 0) and Boolean(gDirTabOptions and tb_show_asterisk_for_locked) then
+          Notebook.Page[PageIndex].Caption:= '*'+Notebook.Page[PageIndex].Caption;
+        Notebook.Page[PageIndex].Tag:= 2;
+      end
+    else  // unlock
+      begin
+        Notebook.Page[PageIndex].Tag:= 0;
+        Notebook.Page[PageIndex].Hint:= '';
+        if Boolean(gDirTabOptions and tb_show_asterisk_for_locked) then
+          Notebook.Page[PageIndex].Caption:= Copy(Notebook.Page[PageIndex].Caption, 2, Length(Notebook.Page[PageIndex].Caption)-1);
+      end;
+    ActiveFrame.SetFocus;
+  end;
 end;
 
 //------------------------------------------------------
@@ -691,11 +761,10 @@ begin
 
     case PanelSelected of
     fpLeft:
-       RemovePage(nbLeft, nbLeft.PageIndex);
+       DoRemoveTab(nbLeft, nbLeft.PageIndex);
     fpRight:
-       RemovePage(nbRight, nbRight.PageIndex);
+       DoRemoveTab(nbRight, nbRight.PageIndex);
     end;
-    ActiveFrame.SetFocus;
   end;
 end;
 
@@ -784,7 +853,6 @@ end;
 
 procedure TActs.cm_ToggleLockTab(param: string);
 var
-  I: Integer;
   nbNoteBook: TNoteBook;
   PanelSelected: TFilePanelSelect;
 begin
@@ -804,26 +872,12 @@ begin
       nbNoteBook:= nbRight;
     end;
 
-    I:= nbNoteBook.PageIndex;
-    if nbNoteBook.Page[I].Tag <> 1 then  // lock
-      begin
-        if (nbNoteBook.Page[I].Tag = 0) and Boolean(gDirTabOptions and tb_show_asterisk_for_locked) then
-          nbNoteBook.Page[I].Caption:= '*'+nbNoteBook.Page[I].Caption;
-        nbNoteBook.Page[I].Tag:= 1;
-      end
-    else // unlock
-      begin
-        nbNoteBook.Page[I].Tag:= 0;
-        if Boolean(gDirTabOptions and tb_show_asterisk_for_locked) then
-          nbNoteBook.Page[I].Caption:= Copy(nbNoteBook.Page[I].Caption, 2, Length(nbNoteBook.Page[I].Caption)-1);
-      end;
-    ActiveFrame.SetFocus;
+    DoToggleLockTab(nbNoteBook, nbNoteBook.PageIndex);
   end;
 end;
 
 procedure TActs.cm_ToggleLockDcaTab(param: string);
 var
-  I: Integer;
   nbNoteBook: TNoteBook;
   PanelSelected: TFilePanelSelect;
 begin
@@ -843,22 +897,7 @@ begin
       nbNoteBook:= nbRight;
     end;
 
-    I:= nbNoteBook.PageIndex;
-    if nbNoteBook.Page[I].Tag <> 2 then // lock
-      begin
-        nbNoteBook.Page[I].Hint:= ActiveFrame.ActiveDir;
-        if (nbNoteBook.Page[I].Tag = 0) and Boolean(gDirTabOptions and tb_show_asterisk_for_locked) then
-          nbNoteBook.Page[I].Caption:= '*'+nbNoteBook.Page[I].Caption;
-        nbNoteBook.Page[I].Tag:= 2;
-      end
-    else  // unlock
-      begin
-        nbNoteBook.Page[I].Tag:= 0;
-        nbNoteBook.Page[I].Hint:= '';
-        if Boolean(gDirTabOptions and tb_show_asterisk_for_locked) then
-          nbNoteBook.Page[I].Caption:= Copy(nbNoteBook.Page[I].Caption, 2, Length(nbNoteBook.Page[I].Caption)-1);
-      end;
-    ActiveFrame.SetFocus;
+    DoToggleLockDcaTab(nbNoteBook, nbNoteBook.PageIndex);
   end;
 end;
 
