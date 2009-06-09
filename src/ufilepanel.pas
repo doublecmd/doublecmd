@@ -157,8 +157,12 @@ begin
   LastActive:='';
   fUpdateFileCount:= True;
   fUpdateDiskFreeSpace:= True;
+
   fSorting := TFileListSorting.Create;
-  fSorting.AddSorting(0, sdAscending); // default sorting by 0-th column
+  // default to sorting by 0-th column
+  fSortCol := 0;
+  fSortDirect := sdAscending;
+  fSorting.AddSorting(fSortCol, fSortDirect);
 end;
 
 Destructor TFilePanel.Destroy;
@@ -365,24 +369,25 @@ begin
 end;
 
 procedure TFilePanel.SortByCol(iCol:Integer);
+var
+  ColumnsClass: TPanelColumnsClass;
 begin
-  Sorting.Clear;
-  Sorting.AddSorting(iCol, fSortDirect);
-  fSortCol:=iCol;
-  Sort;
+  ColumnsClass := (fFramePanel as TFrameFilePanel).GetColumnsClass;
+
+  if (iCol >= 0) and (iCol < ColumnsClass.ColumnsCount) then
+  begin
+    Sorting.Clear;
+    Sorting.AddSorting(iCol, fSortDirect);
+    fSortCol:=iCol;
+    Sort;
+  end;
 end;
 
 procedure TFilePanel.Sort;
 var
   ColumnsClass: TPanelColumnsClass;
 begin
-  with (fFramePanel as TFrameFilePanel) do
-  begin
-    if not isSlave then
-      ColumnsClass:=ColSet.GetColumnSet(ActiveColm)
-    else
-      ColumnsClass := ActiveColmSlave;
-  end;
+  ColumnsClass := (fFramePanel as TFrameFilePanel).GetColumnsClass;
 
   fFileList.Sort(Sorting, ColumnsClass);
   UpDatePanel;

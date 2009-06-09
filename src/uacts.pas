@@ -141,6 +141,7 @@ const cf_Null=0;
    procedure cm_SortByExt(param: string='');
    procedure cm_SortByName(param: string='');
    procedure cm_SortBySize(param: string='');
+   procedure cm_SortByColumn(param: string='');
    procedure cm_SymLink(param: string='');
    procedure cm_CopySamePanel(param: string='');
    procedure cm_DirHistory(param: string='');
@@ -1706,7 +1707,9 @@ begin
   with frmMain.ActiveFrame do
   begin
     if pnlFile.SortColumn = 0 then
-      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection);
+      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection)
+    else
+      pnlFile.SortDirection := sdAscending;
     pnlFile.SortByCol(0);
     RefreshPanel;
   end;
@@ -1718,7 +1721,9 @@ begin
   with frmMain.ActiveFrame do
   begin
     if pnlFile.SortColumn = 1 then
-      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection);
+      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection)
+    else
+      pnlFile.SortDirection := sdAscending;
     pnlFile.SortByCol(1);
     RefreshPanel;
   end;
@@ -1730,7 +1735,9 @@ begin
   with frmMain.ActiveFrame do
   begin
     if pnlFile.SortColumn = 2 then
-      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection);
+      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection)
+    else
+      pnlFile.SortDirection := sdAscending;
     pnlFile.SortByCol(2);
     RefreshPanel;
   end;
@@ -1742,7 +1749,9 @@ begin
   with frmMain.ActiveFrame do
   begin
     if pnlFile.SortColumn = 3 then
-      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection);
+      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection)
+    else
+      pnlFile.SortDirection := sdAscending;
     pnlFile.SortByCol(3);
     RefreshPanel;
   end;
@@ -1754,9 +1763,31 @@ begin
   with frmMain.ActiveFrame do
   begin
     if pnlFile.SortColumn = 4 then
-      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection);
+      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection)
+    else
+      pnlFile.SortDirection := sdAscending;
     pnlFile.SortByCol(4);
     RefreshPanel;
+  end;
+end;
+
+// Parameters:
+// Number of the column to sort by.
+procedure TActs.cm_SortByColumn(param: string='');
+var
+  ColumnNumber: Integer;
+begin
+  with frmMain.ActiveFrame do
+  begin
+    if TryStrToInt(param, ColumnNumber) then
+    begin
+      if pnlFile.SortColumn = ColumnNumber then
+        pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection)
+      else
+        pnlFile.SortDirection := sdAscending;
+      pnlFile.SortByCol(ColumnNumber);
+      RefreshPanel;
+    end;
   end;
 end;
 
