@@ -847,11 +847,11 @@ begin
               2: begin
                    with ptr^ do
                      // counted dir size
-                     if (FPS_ISDIR(iMode)) and (iDirSize<>0) then
+                     if (FPS_ISDIR(iMode) or (bIsLink and bLinkIsDir)) and (iDirSize<>0) then
                        Result:=cnvFormatFileSize(iDirSize)
                      else
                       begin
-                        if FPS_ISDIR(iMode) then
+                        if FPS_ISDIR(iMode) or (bIsLink and bLinkIsDir) then
                           Result:= '<DIR>'
                         else
                           Result:=cnvFormatFileSize(iSize);
