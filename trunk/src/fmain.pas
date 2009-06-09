@@ -496,9 +496,6 @@ uses
   {$IFDEF LCLQT}
     , qtwidgets, qtobjects
   {$ENDIF}
-  {$IFDEF LCLGTK2}
-    , gtk2
-  {$ENDIF}
   ;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -527,14 +524,8 @@ begin
   // frost_asm end
 
   // Tabs
-  nbLeft.Options:=[nboShowCloseButtons];
-  nbRight.Options:=[nboShowCloseButtons];
-
-{$IFDEF LCLGTK2}
-  // Disable the GTK automatic popup menu.
-  gtk_notebook_popup_disable(PGtkNotebook(nbLeft.Handle));
-  gtk_notebook_popup_disable(PGtkNotebook(nbRight.Handle));
-{$ENDIF}
+  nbLeft.Options:=[nboShowCloseButtons, nboHidePageListPopup];
+  nbRight.Options:=[nboShowCloseButtons, nboHidePageListPopup];
 
   actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
 
