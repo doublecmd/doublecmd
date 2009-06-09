@@ -126,8 +126,6 @@ Type
     CompiledSorting : TCompiledFunctionSorting;
   end;
 
-  TFileListSortFields = array of Integer;
-
   PFileListSortingColumn = ^TFileListSortingColumn;
 
   TFileListSorting = class(TList)
@@ -136,7 +134,6 @@ Type
     procedure AddSorting(iField : Integer; SortDirection : TSortDirection);
     procedure Clear; override;
     function GetSortingDirection(iField : Integer) : TSortDirection;
-    function GetSortFields: TFileListSortFields;
   end;
 
   PFileListSorting = ^TFileListSorting;
@@ -670,11 +667,6 @@ begin
     end;
     dec(i);
   end;
-end;
-
-function TFileListSorting.GetSortFields: TFileListSortFields;
-begin
-  SetLength(Result, 0);
 end;
 
 function ReverseSortDirection(SortDirection: TSortDirection): TSortDirection;

@@ -2910,13 +2910,18 @@ end;
 
 procedure TfrmMain.LoadTabs(ANoteBook: TNoteBook);
 var
-  I: Integer;
+  I, J: Integer;
   sIndex,
   TabsSection: String;
   fpsPanel: TFilePanelSelect;
   sPath, sColumnSet,
   sCaption: String;
   iActiveTab: Integer;
+  SortCount: Integer;
+  SortColumn: Integer;
+  SortDirection: TSortDirection;
+  FrameFilePanel: TFrameFilePanel;
+  ColumnsClass: TPanelColumnsClass;
 begin
   if ANoteBook.Name = 'nbLeft' then
     begin
@@ -2938,6 +2943,8 @@ begin
       sCaption:= gIni.ReadString(TabsSection, sIndex + '_caption', '');
       CreatePanel(AddPage(ANoteBook), fpsPanel, sPath);
 
+      FrameFilePanel := TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]);
+
       ANoteBook.Page[ANoteBook.PageCount - 1].Tag:= gIni.ReadInteger(TabsSection, sIndex + '_options', 0);
       if ANoteBook.Page[ANoteBook.PageCount - 1].Tag = 2 then // if locked tab with directory change
         ANoteBook.Page[ANoteBook.PageCount - 1].Hint:= sPath; // save in hint real path
@@ -2949,7 +2956,23 @@ begin
           ANoteBook.Page[ANoteBook.PageCount - 1].Caption:= sCaption;
           
       sColumnSet:= gIni.ReadString(TabsSection, sIndex + '_columnsset', 'Default');
-      with TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]) do
+
+      // Load sorting options.
+      FrameFilePanel.pnlFile.Sorting.Clear;
+      ColumnsClass := ColSet.GetColumnSet(sColumnSet);
+      SortCount := gIni.ReadInteger(TabsSection, sIndex + '_sortcount', 0);
+      for j := 0 to SortCount - 1 do
+      begin
+        SortColumn := gIni.ReadInteger(TabsSection, sIndex + '_sortcolumn' + IntToStr(j), -1);
+        if (SortColumn >= 0) and (SortColumn < ColumnsClass.ColumnsCount) then
+        begin
+          SortDirection := TSortDirection(gIni.ReadInteger(TabsSection, sIndex + '_sortdirection' + IntToStr(j), Integer(sdNone)));
+          FrameFilePanel.pnlFile.Sorting.AddSorting(SortColumn, SortDirection);
+          // RefreshPanel below will sort the panel.
+        end;
+      end;
+
+      with FrameFilePanel do
         begin
           ActiveColm:= sColumnSet;
           SetColWidths;
@@ -2974,10 +2997,12 @@ end;
 
 procedure TfrmMain.SaveTabs(ANoteBook: TNoteBook);
 var
-  I, Count: Integer;
+  I, J, Count: Integer;
   sIndex,
   TabsSection: String;
   sPath,sColumnSet : String;
+  FrameFilePanel: TFrameFilePanel;
+  SortingColumn: PFileListSortingColumn;
 begin
   if ANoteBook.Name = 'nbLeft' then
     TabsSection := 'lefttabs'
@@ -2990,19 +3015,33 @@ begin
   Count:= ANoteBook.PageCount - 1;
   for I:= 0 to Count do
     begin
+      FrameFilePanel := TFrameFilePanel(ANoteBook.Page[I].Components[0]);
+
       // get page index in string representation
       sIndex:= IntToStr(I);
 
       if ANoteBook.Page[I].Tag = 2 then // if locked tab with directory change
         sPath:= ANoteBook.Page[I].Hint // get path from hint
       else
-        sPath:= TFrameFilePanel(ANoteBook.Page[I].Components[0]).ActiveDir;
+        sPath:= FrameFilePanel.ActiveDir;
       gIni.WriteString(TabsSection, sIndex + '_path', sPath);
       gIni.WriteString(TabsSection, sIndex + '_caption', ANoteBook.Page[I].Caption);
       gIni.WriteInteger(TabsSection, sIndex + '_options', ANoteBook.Page[I].Tag);
 
-      sColumnSet:= TFrameFilePanel(ANoteBook.Page[I].Components[0]).ActiveColm;
+      sColumnSet:= FrameFilePanel.ActiveColm;
       gIni.WriteString(TabsSection, sIndex + '_columnsset', sColumnSet);
+
+      // Save sorting options.
+      gIni.WriteInteger(TabsSection, sIndex + '_sortcount', FrameFilePanel.pnlFile.Sorting.Count);
+      for j := 0 to FrameFilePanel.pnlFile.Sorting.Count - 1 do
+      begin
+        SortingColumn := PFileListSortingColumn(FrameFilePanel.pnlFile.Sorting.Items[j]);
+
+        gIni.WriteInteger(TabsSection, sIndex + '_sortcolumn' + IntToStr(j),
+                          SortingColumn^.iField);
+        gIni.WriteInteger(TabsSection, sIndex + '_sortdirection' + IntToStr(j),
+                          Integer(SortingColumn^.SortDirection));
+      end;
     end;
   gIni.WriteInteger(TabsSection, 'activetab', ANoteBook.PageIndex);
 end;
