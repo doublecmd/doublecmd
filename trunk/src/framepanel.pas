@@ -288,6 +288,8 @@ type
     { Returns True if there are no files shown in the panel. }
     function IsEmpty:Boolean;
     function IsActiveItemValid:Boolean;
+    function GetColumnsClass: TPanelColumnsClass;
+
     property ActiveDir:String read GetActiveDir;
     property GridVertLine: Boolean read fGridVertLine write SetGridVertLine;
     property GridHorzLine: Boolean read fGridHorzLine write SetGridHorzLine;
@@ -794,31 +796,19 @@ end;
 procedure TFrameFilePanel.SetColWidths;
 var
   x: Integer;
+  ColumnsClass: TPanelColumnsClass;
 begin
   //  setup column widths
-  //slave Colm has prioritet
- if isSlave then
- begin
-   UpdateColCount(ActiveColmSlave.ColumnsCount);
-   if ActiveColmSlave.ColumnsCount>0 then
-    for x:=0 to ActiveColmSlave.ColumnsCount-1 do
+  ColumnsClass := GetColumnsClass;
+
+  UpdateColCount(ColumnsClass.ColumnsCount);
+  if ColumnsClass.ColumnsCount>0 then
+    for x:=0 to ColumnsClass.ColumnsCount-1 do
       begin
         dgPanel.Columns.Items[x].SizePriority:= 0;
-        dgPanel.ColWidths[x]:= ActiveColmSlave.GetColumnWidth(x);
-        dgPanel.Columns.Items[x].Title.Caption:= ActiveColmSlave.GetColumnTitle(x);
+        dgPanel.ColWidths[x]:= ColumnsClass.GetColumnWidth(x);
+        dgPanel.Columns.Items[x].Title.Caption:= ColumnsClass.GetColumnTitle(x);
       end;
- end
- else
- begin
-   UpdateColCount(ColSet.GetColumnSet(ActiveColm).ColumnsCount);
-   if ColSet.GetColumnSet(ActiveColm).ColumnsCount>0 then
-     for x:=0 to ColSet.GetColumnSet(ActiveColm).ColumnsCount-1 do
-       begin
-         dgPanel.Columns.Items[x].SizePriority:= 0;
-         dgPanel.ColWidths[x]:= ColSet.GetColumnSet(ActiveColm).GetColumnWidth(x);
-         dgPanel.Columns.Items[x].Title.Caption:= ColSet.GetColumnSet(ActiveColm).GetColumnTitle(x);
-       end;
- end;
 end;
 
 procedure TFrameFilePanel.edSearchChange(Sender: TObject);
@@ -1052,14 +1042,6 @@ begin
     SetFocus;
   end;
 end;
-
-(*procedure TFrameFilePanel.HeaderSectionClick(
-  HeaderControl: TCustomHeaderControl; Section: TCustomHeaderSection);
-begin
-  pnlFile.SortDirection:= not pnlFile.SortDirection;
-  pnlFile.SortByCol(Section.Index{ Column.Index});
-  dgPanel.Invalidate;
-end; *)
 
 procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
   ARow: Integer; Rect: TRect; State: TGridDrawState);
@@ -1364,17 +1346,13 @@ begin
 end;
 
 procedure TFrameFilePanel.UpdateColumnsView;
+var
+  ColumnsClass: TPanelColumnsClass;
 begin
-  if isSlave then
-  begin
-    dgPanel.FocusRectVisible := ActiveColmSlave.GetCursorBorder;
-    dgPanel.FocusColor := ActiveColmSlave.GetCursorBorderColor;
-  end
-  else
-  begin
-    dgPanel.FocusRectVisible := ColSet.GetColumnSet(ActiveColm).GetCursorBorder;
-    dgPanel.FocusColor := ColSet.GetColumnSet(ActiveColm).GetCursorBorderColor;
-  end;
+  ColumnsClass := GetColumnsClass;
+
+  dgPanel.FocusRectVisible := ColumnsClass.GetCursorBorder;
+  dgPanel.FocusColor := ColumnsClass.GetCursorBorderColor;
 end;
 
 procedure TFrameFilePanel.dgPanelKeyUp(Sender: TObject; var Key: Word;
@@ -1665,6 +1643,14 @@ begin
 
   pnlFile.UpdatePanel;
   UpDatelblInfo;
+end;
+
+function TFrameFilePanel.GetColumnsClass: TPanelColumnsClass;
+begin
+  if isSlave then
+    Result := ActiveColmSlave
+  else
+    Result := ColSet.GetColumnSet(ActiveColm);
 end;
 
 
