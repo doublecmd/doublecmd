@@ -764,6 +764,23 @@ begin
     CloseAltPanel;
     SetFocus;
   end;
+
+  {LaBero begin}
+  {en
+      Execute/open selected file/directory
+      if the user press ENTER during QuickSearch
+  }
+  if (key=#13) then
+  begin
+    try
+       pnlFile.ChooseFile(pnlFile.GetActiveItem);
+       UpDatelblInfo;
+    finally
+       dgPanel.Invalidate;
+       Screen.Cursor:=crDefault;
+    end;
+  end;
+  {LaBero end}
 end;
 
 procedure TFrameFilePanel.edSearchKeyDown(Sender: TObject; var Key: Word;
