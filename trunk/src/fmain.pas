@@ -1184,14 +1184,33 @@ procedure TfrmMain.mnuTabMenuClick(Sender: TObject);
 var
   Cmd: String;
   TabNr: Integer;
+  MenuItem: TMenuItem;
+  NoteBook: TNotebook;
 begin
-  Cmd:= (Sender as TMenuItem).Action.Name;
-  Cmd:= 'cm_' + Copy(Cmd, 4, Length(Cmd) - 3);
+  MenuItem := (Sender as TMenuItem);
+  NoteBook := (pmTabMenu.Parent as TNotebook);
 
-  // TODO: Execute command on the correct tab.
-  TabNr := pmTabMenu.Tag;
+  // pmTabMenu.Tag stores tab page nr where the menu was activated.
 
-  Actions.Execute(Cmd, pmTabMenu.Parent.Name);
+  if MenuItem.Action = actRemoveTab then
+
+    Actions.DoRemoveTab(NoteBook, pmTabMenu.Tag)
+
+  else if MenuItem.Action = actToggleLockTab then
+
+    Actions.DoToggleLockTab(NoteBook, pmTabMenu.Tag)
+
+  else if MenuItem.Action = actToggleLockDcaTab then
+
+    Actions.DoToggleLockDcaTab(NoteBook, pmTabMenu.Tag)
+
+  else
+  begin
+    Cmd:= MenuItem.Action.Name;
+    Cmd:= 'cm_' + Copy(Cmd, 4, Length(Cmd) - 3);
+
+    Actions.Execute(Cmd, NoteBook.Name);
+  end;
 end;
 
 procedure TfrmMain.nbPageAfterMouseDown(Data: PtrInt);
@@ -1274,7 +1293,7 @@ begin
         TabNr := NoteBook.TabIndexAtClientPos(Point(X, Y));
         if TabNr <> -1 then
         begin
-          RemovePage(NoteBook, TabNr);
+          Actions.DoRemoveTab(NoteBook, TabNr);
         end;
       end;
 
