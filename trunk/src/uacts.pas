@@ -1694,7 +1694,7 @@ begin
   inherited;
   with frmMain.ActiveFrame do
   begin
-    pnlFile.SortDirection:= not pnlFile.SortDirection;
+    pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection);
     pnlFile.Sort;
     RefreshPanel;
   end;
@@ -1706,7 +1706,7 @@ begin
   with frmMain.ActiveFrame do
   begin
     if pnlFile.SortColumn = 0 then
-      pnlFile.SortDirection:= not pnlFile.SortDirection;
+      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection);
     pnlFile.SortByCol(0);
     RefreshPanel;
   end;
@@ -1718,7 +1718,7 @@ begin
   with frmMain.ActiveFrame do
   begin
     if pnlFile.SortColumn = 1 then
-      pnlFile.SortDirection:= not pnlFile.SortDirection;
+      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection);
     pnlFile.SortByCol(1);
     RefreshPanel;
   end;
@@ -1730,7 +1730,7 @@ begin
   with frmMain.ActiveFrame do
   begin
     if pnlFile.SortColumn = 2 then
-      pnlFile.SortDirection:= not pnlFile.SortDirection;    
+      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection);
     pnlFile.SortByCol(2);
     RefreshPanel;
   end;
@@ -1742,7 +1742,7 @@ begin
   with frmMain.ActiveFrame do
   begin
     if pnlFile.SortColumn = 3 then
-      pnlFile.SortDirection:= not pnlFile.SortDirection;
+      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection);
     pnlFile.SortByCol(3);
     RefreshPanel;
   end;
@@ -1754,7 +1754,7 @@ begin
   with frmMain.ActiveFrame do
   begin
     if pnlFile.SortColumn = 4 then
-      pnlFile.SortDirection:= not pnlFile.SortDirection;  
+      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection);
     pnlFile.SortByCol(4);
     RefreshPanel;
   end;

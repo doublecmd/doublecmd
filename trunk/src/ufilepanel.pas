@@ -19,7 +19,7 @@ unit uFilePanel;
 
 interface
 uses
-  StdCtrls, Grids, uFileList, uTypes, uPathHistory, Classes, uVFS;
+  StdCtrls, Grids, uFileList, uTypes, uPathHistory, Classes, uVFS, Controls, uColumns;
 
 type
   TOnBeforeChangeDirectory = function (Sender: TObject; const NewDir : String): Boolean of object;
@@ -30,12 +30,13 @@ type
   TFilePanel=Class
   private
     fOwner : TObject;
+    fFramePanel: TWinControl;
     fFileList:TFileList;
     fVFS : TVFS;
     flblPath:TLabel;
     fPanel:TDrawGrid;
     fSortCol:Integer;
-    fSortDirect:Boolean;
+    fSortDirect:TSortDirection;
     fActiveDir:String;
     fLastActive:String;
 
@@ -65,7 +66,8 @@ type
 
   public
 
-    constructor Create(AOwner : TObject; APanel:TDrawGrid; AlblPath: TLabel; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
+    constructor Create(AOwner : TObject; FramePanel: TWinControl; APanel:TDrawGrid;
+                       AlblPath: TLabel; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
     Destructor Destroy; override;
     procedure LoadPanelVFS(frp:PFileRecItem);
     procedure LoadVFSListInPanel;
@@ -114,7 +116,7 @@ type
 
   published
     property Sorting : TFileListSorting read fSorting;
-    property SortDirection:Boolean read fSortDirect write fSortDirect; // maybe write method
+    property SortDirection:TSortDirection read fSortDirect write fSortDirect; // maybe write method
     property SortColumn : Integer read fSortCol write SortByCol;
     property ActiveDir:String read GetActiveDir write SetActiveDir;
     property LastActive:String read fLastActive write fLastActive;
@@ -132,12 +134,14 @@ implementation
 
 uses
   LCLProc, SysUtils, Masks, uFileOp, uGlobs, uVFSutil,
-  uShowMsg, Controls, uLng, uShowForm, uVFSmodule, uDCUtils,
-  uOSUtils,fMain, uShellExecute;
+  uShowMsg, uLng, uShowForm, uVFSmodule, uDCUtils,
+  uOSUtils,fMain, uShellExecute, framePanel;
 
-constructor TFilePanel.Create(AOwner : TObject; APanel:TDrawGrid; AlblPath: TLabel; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
+constructor TFilePanel.Create(AOwner : TObject; FramePanel: TWinControl; APanel:TDrawGrid;
+                              AlblPath: TLabel; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
 begin
   fOwner := AOwner;
+  fFramePanel := FramePanel;
   fPanel:=APanel;
   fRefList:=TList.Create;
   fVFS := TVFS.Create;
@@ -154,6 +158,7 @@ begin
   fUpdateFileCount:= True;
   fUpdateDiskFreeSpace:= True;
   fSorting := TFileListSorting.Create;
+  fSorting.AddSorting(0, sdAscending); // default sorting by 0-th column
 end;
 
 Destructor TFilePanel.Destroy;
@@ -368,8 +373,18 @@ begin
 end;
 
 procedure TFilePanel.Sort;
+var
+  ColumnsClass: TPanelColumnsClass;
 begin
-  fFileList.Sort(Sorting);
+  with (fFramePanel as TFrameFilePanel) do
+  begin
+    if not isSlave then
+      ColumnsClass:=ColSet.GetColumnSet(ActiveColm)
+    else
+      ColumnsClass := ActiveColmSlave;
+  end;
+
+  fFileList.Sort(Sorting, ColumnsClass);
   UpDatePanel;
 end;
 

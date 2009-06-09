@@ -50,10 +50,17 @@ uses
      constructor Create;
    end;
 
+  // Array of functions by number.
+  TCompiledFunctionSorting = array of Integer;
+
+  TCompareFunction = function (CompiledSorting: TCompiledFunctionSorting;
+                               ptr1, ptr2: PFileRecItem; bNegative: Boolean): Integer of object;
+
  { TPanelColumnsType }
   TPanelColumn=class
   private
     function ActGetInfo(FuncS: string; ptr: PFileRecItem): string;
+    function GetFunctionNumber(FuncS: string): Integer;
   //------------------------------------------------------
   public
     //---------------------
@@ -87,6 +94,30 @@ uses
     function GetModType(str: string): string;
     //---------------------
     function GetColumnResultString(ptr:PFileRecItem):string;
+
+    {en
+       Compares two file records using columns functions.
+       @param(CompiledSorting
+              Array of functions number which will be used to sort file records.)
+       @param(ptr1
+              First file)
+       @param(ptr2
+              Second file)
+       @param(bNegative
+              If True, reverses the returning value.)
+       @returns(-1 lesser
+            @br  0 equal
+            @br  1 greater)
+    }
+    function Compare(CompiledSorting: TCompiledFunctionSorting;
+                     ptr1, ptr2: PFileRecItem; bNegative: Boolean): Integer;
+
+    {en
+       Converts string functions in the column into their integer values,
+       so that they don't have to be compared by string during sorting.
+       Call this before sorting then pass result to Compare in the sorting loop.
+    }
+    function CompileFunctionSorting: TCompiledFunctionSorting;
   //------------------------------------------------------
   end;
 
@@ -222,7 +253,7 @@ uses
   var IntList:TStringList;
 
 implementation
-uses uLng, uGlobs;
+uses uLng, uGlobs, uFileList;
 
 function StrToAlign(str:string):TAlignment;
 begin
@@ -862,6 +893,109 @@ begin
         //------------------------------------------------------
 end;
 
+
+function TPanelColumn.Compare(CompiledSorting: TCompiledFunctionSorting;
+                              ptr1, ptr2: PFileRecItem; bNegative: Boolean): Integer;
+var
+  i: Integer;
+begin
+  if Length(CompiledSorting) > 0 then
+  begin
+    Result := 0;
+
+    for i := 0 to Length(CompiledSorting) - 1 do
+    begin
+      //---------------------
+      //Internal doublecmd function
+      //------------------------------------------------------
+      // Only DC internal supported.
+      case CompiledSorting[i] of
+        0: Result := ICompareByName(ptr1, ptr2, bNegative);
+        1: Result := ICompareByExt(ptr1, ptr2, bNegative);
+        2: Result := ICompareBySize(ptr1, ptr2, bNegative);
+        3: Result := ICompareByAttr(ptr1, ptr2, bNegative);
+        4: begin
+             Result := mbCompareText(ptr1^.sPath, ptr2^.sPath);
+             if bNegative then
+               Result := -Result;
+           end;
+        5: begin
+             Result := mbCompareText(ptr1^.sGroup, ptr2^.sGroup);
+             if bNegative then
+               Result := -Result;
+           end;
+        6: begin
+             Result := mbCompareText(ptr1^.sOwner, ptr2^.sOwner);
+             if bNegative then
+               Result := -Result;
+           end;
+        7: Result := ICompareByDate(ptr1, ptr2, bNegative);
+        8: begin
+             Result := mbCompareText(ptr1^.sLinkTo, ptr2^.sLinkTo);
+             if bNegative then
+               Result := -Result;
+           end;
+        9: Result := ICompareByNameNoExt(ptr1, ptr2, bNegative);
+      end;
+
+      if Result <> 0 then
+        Exit;
+    end;
+  end
+  else
+   Result := -1;
+end;
+
+function TPanelColumn.CompileFunctionSorting: TCompiledFunctionSorting;
+var
+  FuncCount: Integer = 0;
+  i: Integer;
+begin
+  if Assigned(FuncList) and (FuncList.Count > 0) then
+  begin
+    SetLength(Result, FuncList.Count); // Start with all strings.
+
+    for i:=0 to FuncList.Count-1 do
+    begin
+      // Don't need to compare simple text, only functions.
+      if PtrInt(FuncList.Objects[i])=1 then
+        begin
+          Result[FuncCount] := GetFunctionNumber(FuncList.Strings[i]);
+
+          // If the function was found, save it's number.
+          if Result[FuncCount] <> -1 then
+            FuncCount := FuncCount + 1;
+        end;
+    end;
+
+    SetLength(Result, FuncCount); // Set the actual functions count.
+  end
+  else
+    SetLength(Result, 0);
+end;
+
+function TPanelColumn.GetFunctionNumber(FuncS: string): Integer;
+  const
+     //---------------------
+     DC ='DC';
+     //---------------------
+ //---------------------
+ var AType,AName,AFunc,AParam:string;
+begin
+   //---------------------
+   AType:=upcase(GetModType(FuncS));
+   AName:=upcase(GetModName(FuncS));
+   AFunc:=upcase(GetModFunctionName(FuncS));
+   AParam:=upcase(GetModFunctionParams(FuncS));
+   //---------------------
+    //Internal doublecmd function
+    //------------------------------------------------------
+    // Only DC internal supported.
+    if AType=DC then
+      Result := IntList.IndexOf(AFunc)
+    else
+      Result := -1;
+end;
 
 function TPanelColumn.GetColumnResultString(ptr: PFileRecItem): string;
 var i:integer; s:String;

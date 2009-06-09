@@ -2963,6 +2963,7 @@ begin
           ActiveColm:= sColumnSet;
           SetColWidths;
           UpdateColumnsView;
+          RefreshPanel;
         end;
 
       Inc(I);

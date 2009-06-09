@@ -691,22 +691,22 @@ procedure TFrameFilePanel.dgPanelHeaderClick(Sender: TObject;
   IsColumn: Boolean; Index: Integer);
 var
   ShiftState : TShiftState;
-  iSortingDirection : Integer;
+  SortingDirection : TSortDirection = sdAscending;
 begin
   if not IsColumn then Exit;
 
-  iSortingDirection := 1;
   ShiftState := GetKeyShiftState;
   if not ((ssShift in ShiftState) or (ssCtrl in ShiftState)) then
   begin
-    iSortingDirection := pnlFile.Sorting.GetSortingDirection(Index);
-    if iSortingDirection < 0 then iSortingDirection := 0;
-    iSortingDirection := iSortingDirection xor 1;
+    SortingDirection := pnlFile.Sorting.GetSortingDirection(Index);
+    if SortingDirection = sdNone then
+      SortingDirection := sdAscending
+    else
+      SortingDirection := ReverseSortDirection(SortingDirection);
     pnlFile.Sorting.Clear;
   end;
 
-  pnlFile.Sorting.AddSorting(Index, Boolean(iSortingDirection));
-
+  pnlFile.Sorting.AddSorting(Index, SortingDirection);
   pnlFile.Sort;
   dgPanel.Invalidate;
 end;
@@ -1076,7 +1076,7 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
  function DrawFixed:boolean;
  //------------------------------------------------------
    var
-      iSortingDirection : Integer;
+      SortingDirection : TSortDirection;
       TitleX: Integer;
    begin
      Result:= False;
@@ -1092,11 +1092,11 @@ procedure TFrameFilePanel.dgPanelDrawCell(Sender: TObject; ACol,
             TitleX := 0;
             s := ActiveColmSlave.GetColumnTitle(ACol);
 
-            iSortingDirection := pnlFile.Sorting.GetSortingDirection(ACol);
-            if iSortingDirection >= 0 then
+            SortingDirection := pnlFile.Sorting.GetSortingDirection(ACol);
+            if SortingDirection <> sdNone then
             begin
               TitleX := TitleX + gIconsSize;
-              PixMapManager.DrawBitmap(PixMapManager.GetIconBySortingDirection(iSortingDirection), Canvas, Rect);
+              PixMapManager.DrawBitmap(PixMapManager.GetIconBySortingDirection(SortingDirection), Canvas, Rect);
             end;
 
             TitleX := max(TitleX, 4);
@@ -1623,7 +1623,8 @@ begin
 
   lblLPath.OnClick := @lblLPathClick;
 
-  pnlFile:=TFilePanel.Create(AOwner, TDrawGrid(dgPanel),lblLPath,lblCommandPath, lblDriveInfo, cmbCommand);
+  pnlFile:=TFilePanel.Create(AOwner, Self, TDrawGrid(dgPanel),
+                             lblLPath, lblCommandPath, lblDriveInfo, cmbCommand);
   
   edtCmdLine := cmbCommand;
   ClearCmdLine;
