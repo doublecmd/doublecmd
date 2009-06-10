@@ -299,7 +299,7 @@ implementation
 
 uses
   LCLProc, Masks, uLng, uShowMsg, uGlobs, GraphType, uPixmapManager, uVFSUtil,
-  uDCUtils, uOSUtils, math, fMain, fSymLink, fHardLink
+  uDCUtils, uOSUtils, math, fMain, fSymLink, fHardLink, uFileSorting
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   , GtkProc  // for ReleaseMouseCapture
 {$ENDIF}

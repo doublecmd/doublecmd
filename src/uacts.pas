@@ -177,7 +177,8 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
      fMkDir,LCLProc,uFileProcs,uDeleteThread,fFileAssoc,fExtractDlg,fAbout,
      fOptions,fCompareFiles,fFindDlg,fSymLink,fHardLink,fMultiRename, uHash,
      uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit,
-     HelpIntfs, dmHelpManager, uShellExecute, uClipboard, uCheckSumThread, fCheckSumCalc;
+     HelpIntfs, dmHelpManager, uShellExecute, uClipboard, uCheckSumThread, fCheckSumCalc,
+     uFileSorting;
 
 { TActs }
 

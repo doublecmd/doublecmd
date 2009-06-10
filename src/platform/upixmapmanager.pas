@@ -34,7 +34,7 @@ unit uPixMapManager;
 
 interface
 uses
-  Classes, SysUtils, uTypes, Graphics, uOSUtils, uFileList
+  Classes, SysUtils, uTypes, Graphics, uOSUtils, uFileSorting
   {$IF DEFINED(UNIX) and DEFINED(LCLGTK2)}
   , uClassesEx
   {$ENDIF};

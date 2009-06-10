@@ -50,17 +50,33 @@ uses
      constructor Create;
    end;
 
-  // Array of functions by number.
-  TCompiledFunctionSorting = array of Integer;
+  TFileFunction = (fsfName, fsfExtension, fsfSize, fsfAttr, fsfPath,
+                   fsfGroup, fsfOwner, fsfTime, fsfLinkTo, fsfNameNoExtension,
+                   fsfInvalid);
 
-  TCompareFunction = function (CompiledSorting: TCompiledFunctionSorting;
-                               ptr1, ptr2: PFileRecItem; bNegative: Boolean): Integer of object;
+  TFileFunctions = array of TFileFunction;
+
+  const TFileFunctionStrings: array [TFileFunction] of string
+            = ('GETFILENAME',
+               'GETFILEEXT',
+               'GETFILESIZE',
+               'GETFILEATTR',
+               'GETFILEPATH',
+               'GETFILEGROUP',
+               'GETFILEOWNER',
+               'GETFILETIME',
+               'GETFILELINKTO',
+               'GETFILENAMENOEXT',
+               ''                 // fsfInvalid
+               );
+
+type
 
  { TPanelColumnsType }
   TPanelColumn=class
   private
     function ActGetInfo(FuncS: string; ptr: PFileRecItem): string;
-    function GetFunctionNumber(FuncS: string): Integer;
+    function GetFunctionByName(FuncS: string): TFileFunction;
   //------------------------------------------------------
   public
     //---------------------
@@ -96,28 +112,11 @@ uses
     function GetColumnResultString(ptr:PFileRecItem):string;
 
     {en
-       Compares two file records using columns functions.
-       @param(CompiledSorting
-              Array of functions number which will be used to sort file records.)
-       @param(ptr1
-              First file)
-       @param(ptr2
-              Second file)
-       @param(bNegative
-              If True, reverses the returning value.)
-       @returns(-1 lesser
-            @br  0 equal
-            @br  1 greater)
-    }
-    function Compare(CompiledSorting: TCompiledFunctionSorting;
-                     ptr1, ptr2: PFileRecItem; bNegative: Boolean): Integer;
-
-    {en
        Converts string functions in the column into their integer values,
        so that they don't have to be compared by string during sorting.
        Call this before sorting then pass result to Compare in the sorting loop.
     }
-    function CompileFunctionSorting: TCompiledFunctionSorting;
+    function GetColumnFunctions: TFileFunctions;
   //------------------------------------------------------
   end;
 
@@ -834,8 +833,9 @@ begin
         //------------------------------------------------------
         if AType=DC then
           begin
-            case IntList.IndexOf(AFunc) of
-              0: begin
+            case TFileFunction(IntList.IndexOf(AFunc)) of
+              fsfName:
+                 begin
                    with ptr^ do
                      // Show square brackets around directories
                      if gDirBrackets and (FPS_ISDIR(iMode) or bLinkIsDir) then
@@ -843,8 +843,10 @@ begin
                      else
                        Result:= ptr^.sName;
                  end;
-              1: Result:=ptr^.sExt;
-              2: begin
+              fsfExtension:
+                Result:=ptr^.sExt;
+              fsfSize:
+                begin
                    with ptr^ do
                      // counted dir size
                      if (FPS_ISDIR(iMode) or (bIsLink and bLinkIsDir)) and (iDirSize<>0) then
@@ -857,13 +859,20 @@ begin
                           Result:=cnvFormatFileSize(iSize);
                       end;
                  end;
-              3: Result:=ptr^.sModeStr;
-              4: Result:=ptr^.sPath;
-              5: Result:=ptr^.sGroup;
-              6: Result:=ptr^.sOwner;
-              7: Result:=ptr^.sTime;
-              8: Result:=ptr^.sLinkTo;
-              9: begin
+              fsfAttr:
+                Result:=ptr^.sModeStr;
+              fsfPath:
+                Result:=ptr^.sPath;
+              fsfGroup:
+                Result:=ptr^.sGroup;
+              fsfOwner:
+                Result:=ptr^.sOwner;
+              fsfTime:
+                Result:=ptr^.sTime;
+              fsfLinkTo:
+                Result:=ptr^.sLinkTo;
+              fsfNameNoExtension:
+                begin
                    with ptr^ do
                      // Show square brackets around directories
                      if gDirBrackets and (FPS_ISDIR(iMode) or bLinkIsDir) then
@@ -893,60 +902,7 @@ begin
         //------------------------------------------------------
 end;
 
-
-function TPanelColumn.Compare(CompiledSorting: TCompiledFunctionSorting;
-                              ptr1, ptr2: PFileRecItem; bNegative: Boolean): Integer;
-var
-  i: Integer;
-begin
-  if Length(CompiledSorting) > 0 then
-  begin
-    Result := 0;
-
-    for i := 0 to Length(CompiledSorting) - 1 do
-    begin
-      //---------------------
-      //Internal doublecmd function
-      //------------------------------------------------------
-      // Only DC internal supported.
-      case CompiledSorting[i] of
-        0: Result := ICompareByName(ptr1, ptr2, bNegative);
-        1: Result := ICompareByExt(ptr1, ptr2, bNegative);
-        2: Result := ICompareBySize(ptr1, ptr2, bNegative);
-        3: Result := ICompareByAttr(ptr1, ptr2, bNegative);
-        4: begin
-             Result := mbCompareText(ptr1^.sPath, ptr2^.sPath);
-             if bNegative then
-               Result := -Result;
-           end;
-        5: begin
-             Result := mbCompareText(ptr1^.sGroup, ptr2^.sGroup);
-             if bNegative then
-               Result := -Result;
-           end;
-        6: begin
-             Result := mbCompareText(ptr1^.sOwner, ptr2^.sOwner);
-             if bNegative then
-               Result := -Result;
-           end;
-        7: Result := ICompareByDate(ptr1, ptr2, bNegative);
-        8: begin
-             Result := mbCompareText(ptr1^.sLinkTo, ptr2^.sLinkTo);
-             if bNegative then
-               Result := -Result;
-           end;
-        9: Result := ICompareByNameNoExt(ptr1, ptr2, bNegative);
-      end;
-
-      if Result <> 0 then
-        Exit;
-    end;
-  end
-  else
-   Result := -1;
-end;
-
-function TPanelColumn.CompileFunctionSorting: TCompiledFunctionSorting;
+function TPanelColumn.GetColumnFunctions: TFileFunctions;
 var
   FuncCount: Integer = 0;
   i: Integer;
@@ -960,10 +916,10 @@ begin
       // Don't need to compare simple text, only functions.
       if PtrInt(FuncList.Objects[i])=1 then
         begin
-          Result[FuncCount] := GetFunctionNumber(FuncList.Strings[i]);
+          Result[FuncCount] := GetFunctionByName(FuncList.Strings[i]);
 
           // If the function was found, save it's number.
-          if Result[FuncCount] <> -1 then
+          if Result[FuncCount] <> fsfInvalid then
             FuncCount := FuncCount + 1;
         end;
     end;
@@ -974,7 +930,7 @@ begin
     SetLength(Result, 0);
 end;
 
-function TPanelColumn.GetFunctionNumber(FuncS: string): Integer;
+function TPanelColumn.GetFunctionByName(FuncS: string): TFileFunction;
   const
      //---------------------
      DC ='DC';
@@ -992,9 +948,9 @@ begin
     //------------------------------------------------------
     // Only DC internal supported.
     if AType=DC then
-      Result := IntList.IndexOf(AFunc)
+      Result := TFileFunction(IntList.IndexOf(AFunc))
     else
-      Result := -1;
+      Result := fsfInvalid;
 end;
 
 function TPanelColumn.GetColumnResultString(ptr: PFileRecItem): string;
@@ -1201,19 +1157,13 @@ Self.CursorColor:=gCursorColor;
 Self.CursorText:=gCursorText;
 end;
 
+var
+  i: TFileFunction;
+
 initialization
  IntList:=TStringlist.Create;
-{0} IntList.Add('GETFILENAME');
-{1} IntList.Add('GETFILEEXT');
-{2} IntList.Add('GETFILESIZE');
-{3} IntList.Add('GETFILEATTR');
-{4} IntList.Add('GETFILEPATH');
-{5} IntList.Add('GETFILEGROUP');
-{6} IntList.Add('GETFILEOWNER');
-{7} IntList.Add('GETFILETIME');
-{8} IntList.Add('GETFILELINKTO');
-{9} IntList.Add('GETFILENAMENOEXT');
-
+ for i := Low(TFileFunction) to Pred(fsfInvalid) do
+   IntList.Add(TFileFunctionStrings[i]);
 
 Finalization
  FreeAndNil(IntList);

@@ -492,7 +492,7 @@ uses
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils, uLog, uWipeThread,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg, fExtractDlg,
   fLinker, fSplitter, uFileProcs, LCLProc, uOSUtils, uOSForms, uPixMapManager,
-  fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls
+  fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls, uFileSorting
   {$IFDEF LCLQT}
     , qtwidgets, qtobjects
   {$ENDIF}
