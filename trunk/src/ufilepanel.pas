@@ -19,7 +19,8 @@ unit uFilePanel;
 
 interface
 uses
-  StdCtrls, Grids, uFileList, uTypes, uPathHistory, Classes, uVFS, Controls, uColumns;
+  StdCtrls, Grids, uFileList, uTypes, uPathHistory, Classes, uVFS, Controls,
+  uFileSorting;
 
 type
   TOnBeforeChangeDirectory = function (Sender: TObject; const NewDir : String): Boolean of object;
@@ -135,7 +136,7 @@ implementation
 uses
   LCLProc, SysUtils, Masks, uFileOp, uGlobs, uVFSutil,
   uShowMsg, uLng, uShowForm, uVFSmodule, uDCUtils,
-  uOSUtils,fMain, uShellExecute, framePanel;
+  uOSUtils,fMain, uShellExecute, framePanel, uColumns;
 
 constructor TFilePanel.Create(AOwner : TObject; FramePanel: TWinControl; APanel:TDrawGrid;
                               AlblPath: TLabel; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
