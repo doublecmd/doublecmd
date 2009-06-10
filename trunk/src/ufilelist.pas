@@ -225,7 +225,6 @@ begin
   p^.iOwner:=fi^.iOwner; //[mate]
   p^.iGroup:=fi^.iGroup; //[mate]
   p^.iDirSize:= fi^.iDirSize;
-  p^.pContainer := Self;
   Result := fList.Add(p);
 end;
 
@@ -287,6 +286,7 @@ var
   bSortedByName: Boolean;
   bSortedByExtension: Boolean;
   FileSortings: TFileSortings;
+  FileListSorter: TListSorter = nil;
 begin
   if fList.Count = 0 then Exit;
 
@@ -351,9 +351,13 @@ begin
     //   There is already a sorting by filename and extension.
   end;
 
-  uFileSorting.CurrentSorting := FileSortings; // pass through global variable for now
-
-  fList.Sort(@IMulticolumnCompare);
+  // Sort.
+  FileListSorter := TListSorter.Create(fList, FileSortings);
+  try
+    FileListSorter.Sort;
+  finally
+    FreeAndNil(FileListSorter);
+  end;
 end;
 
 function TFileList.GetCount:Integer;
