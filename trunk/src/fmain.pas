@@ -466,6 +466,7 @@ type
     procedure ToggleConsole;
     procedure ToggleFileSystemWatcher;
     procedure UpdateWindowView;
+    procedure MinimizeWindow;
     procedure LoadWindowState;
     procedure SaveWindowState;
     procedure SaveShortCuts;
@@ -997,7 +998,6 @@ begin
       PanelSelected := fpRight;
     end;
     
-
   if dskPanel.Buttons[NumberOfButton].GroupIndex = 0 then
      begin
        // Command := dskPanel.Commands[NumberOfButton];
@@ -3375,6 +3375,14 @@ begin
       edtCommand.Items.Delete(edtCommand.Items.Count-1);
   end;
 end;
+
+//LaBero begin
+//Minimize the main window
+procedure TfrmMain.MinimizeWindow;
+begin
+	Self.WindowState := wsMinimized;
+end;
+//LaBero end
 
 procedure TfrmMain.LoadWindowState;
 begin
