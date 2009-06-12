@@ -620,13 +620,16 @@ end;
 
 procedure TFilePanel.cdUpLevel;
 var
-  PreviousSubDirectory: string;
+  PreviousSubDirectory,
+  sUpLevel: String;
 begin
   if fPanelMode = pmDirectory then
     begin
       PreviousSubDirectory := ExtractFileName(ExcludeTrailingPathDelimiter(fActiveDir));
 
-      SetActiveDir(GetParentDir(fActiveDir));
+      sUpLevel:= GetParentDir(fActiveDir);
+      if sUpLevel = EmptyStr then Exit;
+      SetActiveDir(sUpLevel);
 
       Select(PreviousSubDirectory);
     end
@@ -715,14 +718,14 @@ begin
     Left:=1;
   end;
   
-  fedtCommand.Left:=flblCurPath.Width+5;
-  fedtCommand.Width:=TControl(fedtCommand.Parent).Width-fedtCommand.Left;
+  fedtCommand.Left:= flblCurPath.Width+5;
+  fedtCommand.Width:= TControl(fedtCommand.Parent).Width-fedtCommand.Left;
   if not fUpdateDiskFreeSpace then Exit;
-  if fPanelMode=pmDirectory then
-  begin
-    GetDiskFreeSpace(fActiveDir, FreeSize, TotalSize);
-    flblFree.Caption := Format(rsFreeMsg,[cnvFormatFileSize(FreeSize),cnvFormatFileSize(TotalSize)]);
-  end
+  if fPanelMode = pmDirectory then
+    begin
+      if GetDiskFreeSpace(fActiveDir, FreeSize, TotalSize) then
+        flblFree.Caption:= Format(rsFreeMsg,[cnvFormatFileSize(FreeSize),cnvFormatFileSize(TotalSize)]);
+    end
   else
   //TODO
     flblFree.Caption:=Format(rsFreeMsg,[cnvFormatFileSize(0),cnvFormatFileSize(0)]);
