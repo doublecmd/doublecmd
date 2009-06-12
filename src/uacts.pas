@@ -94,6 +94,7 @@ const cf_Null=0;
    procedure cm_ShowButtonMenu(param: string='');
    procedure cm_TransferLeft(param: string='');
    procedure cm_TransferRight(param: string='');
+   procedure cm_Minimize(param: string='');
    procedure cm_Wipe(param: string='');
    procedure cm_Exit(param: string='');
    procedure cm_NewTab(param: string='');
@@ -669,6 +670,11 @@ procedure TActs.cm_TransferRight(param:string);
 begin
   if (frmMain.SelectedPanel = fpLeft) then
     frmMain.SetNotActFrmByActFrm;
+end;
+
+procedure TActs.cm_Minimize(param:string);
+begin
+	FrmMain.MinimizeWindow;
 end;
 
 procedure TActs.cm_Wipe(param:string);
