@@ -1917,11 +1917,18 @@ var
   I: Integer;
   dstFileList: TFileList;
   p: TFileRecItem;
+  LastSelection: String;
 begin
   with frmMain, ActiveFrame do
   begin
     if pnlFile.PanelMode <> pmDirectory then Exit;
     Screen.Cursor:= crHourGlass;
+
+    if Assigned(pnlFile.GetActiveItem) then
+      LastSelection := pnlFile.GetActiveItem^.sName
+    else
+      LastSelection := '';
+
     for I:= 0 to pnlFile.FileList.Count - 1 do
       begin
         p:= pnlFile.FileList.GetItem(I)^;
@@ -1945,10 +1952,14 @@ begin
           // free space thread
           Free;
           // update panel
+          pnlFile.Select(LastSelection);
           pnlFile.UpdatePanel;
           RedrawGrid;
        end; // with
       end; // for
+
+    pnlFile.Select(LastSelection);
+
   end; // with
   Screen.Cursor:= crDefault;
 end;
