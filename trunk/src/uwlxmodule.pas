@@ -34,7 +34,7 @@ interface
 
 uses
   Classes, SysUtils, dynlibs, uDetectStr, uwlxprototypes, WLXPlugin,
-  uClassesEx, uDCUtils, uGlobs,LCLProc
+  uClassesEx, uDCUtils, uGlobs,LCLProc, LCLType
   {$IFDEF LCLGTK}
     ,gtk,glib,gdk
   {$ENDIF}
@@ -84,8 +84,8 @@ type
         function LoadModule:Boolean;
         procedure UnloadModule;
         //---------------------
-        function CallListLoad(ParentWin:THandle; FileToLoad:string; ShowFlags:integer):THandle;
-        function CallListLoadNext(ParentWin: THandle; FileToLoad: string; ShowFlags: integer): integer;
+        function CallListLoad(ParentWin:HWND; FileToLoad:string; ShowFlags:integer):THandle;
+        function CallListLoadNext(ParentWin: HWND; FileToLoad: string; ShowFlags: integer): integer;
         function CallListGetDetectString:string;
         procedure CallListSetDefaultParams;
         procedure CallListCloseWindow;
@@ -243,7 +243,7 @@ begin
   ListGetPreviewBitmap:=nil;
 end;
 
-function TWLXModule.CallListLoad(ParentWin: THandle; FileToLoad: string;
+function TWLXModule.CallListLoad(ParentWin: HWND; FileToLoad: string;
   ShowFlags: integer): THandle;
 begin
   if not assigned(ListLoad) then exit; //To prevent crash.
@@ -257,7 +257,7 @@ begin
   Result:=FPluginWindow;
 end;
 
-function TWLXModule.CallListLoadNext(ParentWin: THandle;
+function TWLXModule.CallListLoadNext(ParentWin: HWND;
   FileToLoad: string; ShowFlags: integer): integer;
 begin
   if assigned(ListLoadNext) then
