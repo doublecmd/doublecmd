@@ -147,14 +147,11 @@ uses
   FileUtil, uOSUtils;
 
 function WlxPrepareContainer(Ahandle: THandle; revert:boolean=false): boolean;
-{$IFNDEF LCLWIN32}
-{$IFNDEF LCLQT}
+{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   var lst:PGList;
 {$ENDIF}
-{$ENDIF}
 begin
-{$IFNDEF LCLWIN32}
-{$IFNDEF LCLQT}
+{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
     if not revert then
       begin
         //Hide controls from our gtk container
@@ -176,7 +173,6 @@ begin
           end else Result:=false;
          Exit;
         end;
-{$ENDIF}
 {$ENDIF}
      Result:=true
 
