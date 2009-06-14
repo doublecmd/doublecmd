@@ -1,5 +1,6 @@
 rem Clean up output directory
-del /Q units\win\*.*
+del /Q units\i386-win32-win32\*.*
+del /Q units\x86_64-win64-win64\*.*
 del /Q src\*.*~
 del /Q src\*.~*
 del /Q doublecmd*.exe
@@ -32,5 +33,8 @@ del /Q plugins\wcx\unrar\src\*.*~
 
 rem Clean up components output directories
 del /Q components\CmdLine\lib\i386-win32\*.*
+del /Q components\CmdLine\lib\x86_64-win64\*.*
 del /Q components\KASToolBar\lib\i386-win32\*.*
+del /Q components\KASToolBar\lib\x86_64-win64\*.*
 del /Q components\viewer\lib\i386-win32\*.*
+del /Q components\viewer\lib\x86_64-win64\*.*
