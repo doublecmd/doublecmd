@@ -415,7 +415,7 @@
     <SearchPaths>
       <IncludeFiles Value="$(LazarusDir)\ide\;$(ProjOutDir)\"/>
       <OtherUnitFiles Value="$(ProjPath)\platform\;$(ProjPath)\platform\$(SrcOS)\;..\sdk\"/>
-      <UnitOutputDirectory Value="..\units\$(SrcOS)"/>
+      <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
       <SrcPath Value="$(LazarusDir)\lcl\;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType)\;$(fpcsrcdir)\packages\fcl-base\src\"/>
     </SearchPaths>
     <Parsing>
