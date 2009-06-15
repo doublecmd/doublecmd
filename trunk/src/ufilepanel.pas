@@ -208,12 +208,7 @@ begin
   if bAnyRow then
   begin
     if (LastActive<>'') then // find correct cursor position in Panel (drawgrid)
-      Select(LastActive)
-    else
-      fPanel.Row := 0;
-
-    if (fPanel.Row<0)then
-      fPanel.Row:=0;
+      Select(LastActive);
   end;
 
   UpdateCountStatus;
@@ -494,12 +489,14 @@ begin
     begin
       LastActive:= '';
       LoadPanelVFS(pfri);
+      fPanel.Row := 0;
       Exit;
     end;
     if (fPanelMode=pmArchive) or (not FPS_ISDIR(iMode) and fVFS.FindModule(sPath + sName)) then
     begin
       LastActive:= '';
       LoadPanelVFS(pfri);
+      fPanel.Row := 0;
       Exit;
     end;
 
@@ -652,6 +649,7 @@ begin
     begin
       LastActive:='';
       LoadPanelVFS(frp);
+      fPanel.Row := 0;
       fPanel.Invalidate;
     end;
 end;
@@ -739,20 +737,21 @@ begin
       if not FOnBeforeChangeDirectory(fOwner, ActiveDir) then
         Exit;
 
-    LastActive := '';
-
     case fPanelMode of
       pmDirectory:
         begin
           if not mbSetCurrentDir(NewDirectory) then
             begin
-              SetActiveDir(IncludeTrailingBackslash(mbGetCurrentDir));
+              msgError(Format(rsMsgChDirFailed, [NewDirectory]));
               Exit;   // chdir failed
             end;
 
           AddDirToHistory(fActiveDir);
 
           fActiveDir := NewDirectory;
+
+          LastActive := '';
+          fPanel.Row := 0;
 
           {$IFDEF unix}
           if gTermWindow and Assigned(Cons) then
@@ -766,11 +765,6 @@ begin
 
     if Assigned(FOnAfterChangeDirectory) then
       FOnAfterChangeDirectory(fOwner, fActiveDir);
-  end
-  else
-  begin
-    fActiveDir := '';
-    LastActive := '';
   end;
 end;
 
