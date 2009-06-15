@@ -376,55 +376,63 @@ begin
 
   DragDropInfo := TDragDropInfo.Create(DummyPoint, True, PreferredEffect);
 
-  for i := 0 to filenames.Count - 1 do
-    DragDropInfo.Add(filenames[i]);
+  try
+
+    for i := 0 to filenames.Count - 1 do
+      DragDropInfo.Add(filenames[i]);
 
 
-  { Now, set preferred effect. }
+    { Now, set preferred effect. }
 
-  if CFU_PREFERRED_DROPEFFECT <> 0 then
-  begin
-    if ClipboardOp = ClipboardCopy then
-      PreferredEffect := DROPEFFECT_COPY
-    else if ClipboardOp = ClipboardCut then
-      PreferredEffect := DROPEFFECT_MOVE;
-
-    hGlobalBuffer := DragDropInfo.CreatePreferredDropEffect(PreferredEffect);
-
-    if hGlobalBuffer <> 0 then
+    if CFU_PREFERRED_DROPEFFECT <> 0 then
     begin
-      if SetClipboardData(CFU_PREFERRED_DROPEFFECT, hGlobalBuffer) = 0 then
+      if ClipboardOp = ClipboardCopy then
+        PreferredEffect := DROPEFFECT_COPY
+      else if ClipboardOp = ClipboardCut then
+        PreferredEffect := DROPEFFECT_MOVE;
+
+      hGlobalBuffer := DragDropInfo.CreatePreferredDropEffect(PreferredEffect);
+
+      if hGlobalBuffer <> 0 then
       begin
-        // Failed.
-        GlobalFree(hGlobalBuffer);
+        if SetClipboardData(CFU_PREFERRED_DROPEFFECT, hGlobalBuffer) = 0 then
+        begin
+          // Failed.
+          GlobalFree(hGlobalBuffer);
+          CloseClipboard;
+          Exit;
+        end
+        // else SetClipboardData succeeded,
+        // so hGlobalBuffer is now owned by the operating system.
+      end
+      else
+      begin
         CloseClipboard;
         Exit;
-      end
-      // else SetClipboardData succeeded,
-      // so hGlobalBuffer is now owned by the operating system.
-    end
-    else
-    begin
-      CloseClipboard;
-      Exit;
+      end;
     end;
+
+    { Now, set clipboard data. }
+
+    formatEtc.CfFormat := CF_HDROP;
+    hGlobalBuffer := DragDropInfo.MakeDataInFormat(formatEtc);
+    if SetClipboardData(CF_HDROP, hGlobalBuffer) = 0 then
+      GlobalFree(hGlobalBuffer);
+
+    formatEtc.CfFormat := CFU_SHELL_IDLIST_ARRAY;
+    hGlobalBuffer := DragDropInfo.MakeDataInFormat(formatEtc);
+    if SetClipboardData(CFU_SHELL_IDLIST_ARRAY, hGlobalBuffer) = 0 then
+      GlobalFree(hGlobalBuffer);
+
+    CloseClipboard;
+
+    Result := True;
+
+
+  finally
+    FreeAndNil(DragDropInfo);
+
   end;
-
-  { Now, set clipboard data. }
-
-  formatEtc.CfFormat := CF_HDROP;
-  hGlobalBuffer := DragDropInfo.MakeDataInFormat(formatEtc);
-  if SetClipboardData(CF_HDROP, hGlobalBuffer) = 0 then
-    GlobalFree(hGlobalBuffer);
-
-  formatEtc.CfFormat := CFU_SHELL_IDLIST_ARRAY;
-  hGlobalBuffer := DragDropInfo.MakeDataInFormat(formatEtc);
-  if SetClipboardData(CFU_SHELL_IDLIST_ARRAY, hGlobalBuffer) = 0 then
-    GlobalFree(hGlobalBuffer);
-
-  CloseClipboard;
-
-  Result := True;
 
 {$ENDIF}
 
