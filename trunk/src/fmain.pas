@@ -1495,24 +1495,6 @@ begin
     end;
   end;  // handle ENTER with some modifier
 
-  if Shift=[ssCtrl] then
-  begin
-    // handle ctrl+right
-    if (Key=VK_Right) then
-    begin
-      if (PanelSelected = fpLeft) then
-        SetNotActFrmByActFrm;
-      Exit;
-    end;
-    // handle ctrl+left
-    if (Key=VK_Left) then
-    begin
-      if (PanelSelected = fpRight) then
-        SetNotActFrmByActFrm;
-      Exit;
-    end;
-  end; // Shift=[ssCtrl]
-  
   // not handled
   Result:=False;
 end;
@@ -2291,22 +2273,6 @@ begin
     Exit;
   end;
 //  DebugLn(Key);
-
-  if (shift=[ssCtrl]) and (Key=VK_Up) then
-  begin
-    Key:=0;
-    Actions.cm_OpenDirInNewTab('');
-    //actOpenDirInNewTab.Execute;
-    Exit;
-  end;
-
-  if (shift=[ssCtrl]) and (Key=VK_Down) then
-  begin
-    Key:=0;
-    Actions.cm_ShowCmdLineHistory('');
-    //actShowCmdLineHistory.Execute;
-    Exit;
-  end;
 
   // handle Space key
   if (Shift=[]) and (Key=VK_Space) and
