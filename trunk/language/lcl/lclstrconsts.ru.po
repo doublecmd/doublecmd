@@ -5,7 +5,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-04-23 02:16+0300\n"
+"PO-Revision-Date: 2009-06-09 01:40+0300\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 
@@ -51,7 +51,7 @@ msgstr "Accept"
 
 #: lclstrconsts.ifsvk_apps
 msgid "application key"
-msgstr "клавиша application"
+msgstr "Клавиша Application"
 
 #: lclstrconsts.ifsvk_back
 msgid "Backspace"
@@ -72,11 +72,11 @@ msgstr "Clear"
 
 #: lclstrconsts.ifsvk_control
 msgid "Control"
-msgstr "Элемент управления"
+msgstr "Control"
 
 #: lclstrconsts.ifsvk_convert
 msgid "Convert"
-msgstr "Преобразовать"
+msgstr "Convert"
 
 #: lclstrconsts.ifsvk_delete
 msgctxt "lclstrconsts.ifsvk_delete"
@@ -89,7 +89,7 @@ msgstr "Стрелка вниз"
 
 #: lclstrconsts.ifsvk_end
 msgid "End"
-msgstr "Конец"
+msgstr "End"
 
 #: lclstrconsts.ifsvk_escape
 msgid "Escape"
@@ -97,11 +97,11 @@ msgstr "Escape"
 
 #: lclstrconsts.ifsvk_execute
 msgid "Execute"
-msgstr "Выполнить"
+msgstr "Execute"
 
 #: lclstrconsts.ifsvk_final
 msgid "Final"
-msgstr "Итоговый"
+msgstr "Final"
 
 #: lclstrconsts.ifsvk_hanja
 msgid "Hanja"
@@ -138,7 +138,7 @@ msgstr "Стрелка влево"
 
 #: lclstrconsts.ifsvk_lwin
 msgid "left windows key"
-msgstr "левая клавиша windows"
+msgstr "Левая клавиша Windows"
 
 #: lclstrconsts.ifsvk_mbutton
 msgid "Mouse Button Middle"
@@ -160,15 +160,15 @@ msgstr "Next"
 
 #: lclstrconsts.ifsvk_nonconvert
 msgid "Nonconvert"
-msgstr "Не преобразовывать"
+msgstr "Nonconvert"
 
 #: lclstrconsts.ifsvk_numlock
 msgid "Numlock"
-msgstr "Numlock"
+msgstr "NumLock"
 
 #: lclstrconsts.ifsvk_numpad
 msgid "Numpad %d"
-msgstr "Numpad %d"
+msgstr "%d цифровой клавиатуры"
 
 #: lclstrconsts.ifsvk_pause
 msgid "Pause key"
@@ -176,12 +176,12 @@ msgstr "Клавиша Pause"
 
 #: lclstrconsts.ifsvk_print
 msgid "Print"
-msgstr "Печать"
+msgstr "Print"
 
 #: lclstrconsts.ifsvk_prior
 msgctxt "lclstrconsts.ifsvk_prior"
 msgid "Prior"
-msgstr "Prior"
+msgstr "Page Up"
 
 #: lclstrconsts.ifsvk_rbutton
 msgid "Mouse Button Right"
@@ -197,15 +197,15 @@ msgstr "Стрелка вправо"
 
 #: lclstrconsts.ifsvk_rwin
 msgid "right windows key"
-msgstr "правая клавиша windows"
+msgstr "Правая клавиша Windows"
 
 #: lclstrconsts.ifsvk_scroll
 msgid "Scroll"
-msgstr "Scroll"
+msgstr "ScrollLock"
 
 #: lclstrconsts.ifsvk_select
 msgid "Select"
-msgstr "Выбрать"
+msgstr "Select"
 
 #: lclstrconsts.ifsvk_shift
 msgid "Shift"
@@ -385,6 +385,10 @@ msgstr "Формат значков дублируется."
 #: lclstrconsts.rseditrecordhint
 msgid "Edit"
 msgstr "Редактировать"
+
+#: lclstrconsts.rsentirescope
+msgid "Search entire file"
+msgstr "Во всём файле"
 
 #: lclstrconsts.rserror
 msgctxt "lclstrconsts.rserror"
@@ -839,9 +843,21 @@ msgstr "Нет для всех"
 msgid "&OK"
 msgstr "&ОК"
 
+#: lclstrconsts.rsmbopen
+msgid "&Open"
+msgstr "&Открыть"
+
 #: lclstrconsts.rsmbretry
 msgid "&Retry"
 msgstr "&Повтор"
+
+#: lclstrconsts.rsmbsave
+msgid "&Save"
+msgstr "&Сохранить"
+
+#: lclstrconsts.rsmbunlock
+msgid "&Unlock"
+msgstr "&Разблокировать"
 
 #: lclstrconsts.rsmbyes
 msgid "&Yes"
@@ -879,6 +895,10 @@ msgstr "  изменён "
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
 msgstr "Светло-зелёный"
+
+#: lclstrconsts.rsmtauthentication
+msgid "Authentication"
+msgstr "Проверка подлинности"
 
 #: lclstrconsts.rsmtconfirmation
 msgid "Confirmation"

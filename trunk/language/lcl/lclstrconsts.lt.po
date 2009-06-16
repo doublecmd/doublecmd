@@ -389,6 +389,10 @@ msgstr "Piktogramos formatai dubliuojasi."
 msgid "Edit"
 msgstr "Keisti"
 
+#: lclstrconsts.rsentirescope
+msgid "Search entire file"
+msgstr ""
+
 #: lclstrconsts.rserror
 msgctxt "lclstrconsts.rserror"
 msgid "Error"
@@ -842,9 +846,21 @@ msgstr "Visiada ne"
 msgid "&OK"
 msgstr "&Tinka"
 
+#: lclstrconsts.rsmbopen
+msgid "&Open"
+msgstr ""
+
 #: lclstrconsts.rsmbretry
 msgid "&Retry"
 msgstr "Ka&rtoti"
+
+#: lclstrconsts.rsmbsave
+msgid "&Save"
+msgstr ""
+
+#: lclstrconsts.rsmbunlock
+msgid "&Unlock"
+msgstr ""
 
 #: lclstrconsts.rsmbyes
 msgid "&Yes"
@@ -881,6 +897,10 @@ msgstr "  pakeista "
 
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
+msgstr ""
+
+#: lclstrconsts.rsmtauthentication
+msgid "Authentication"
 msgstr ""
 
 #: lclstrconsts.rsmtconfirmation
