@@ -1469,29 +1469,6 @@ begin
           end;
         Exit;
       end;
-      // ctrl enter
-      if Shift=[ssCtrl] then
-      begin
-        if IsActiveItemValid then
-          edtCmdLine.Text:=edtCmdLine.Text+pnlFile.GetActiveItem^.sName+' ';
-        Exit;
-      end;
-      // ctrl+shift+enter
-      if Shift=[ssShift,ssCtrl] then
-      begin
-        if Assigned(GetActiveItem) then
-        begin
-          if (pnlFile.GetActiveItem^.sName = '..') then
-          begin
-            edtCmdLine.Text:=edtCmdLine.Text+(pnlFile.ActiveDir) + ' ';
-          end
-          else
-          begin
-            edtCmdLine.Text:=edtCmdLine.Text+(pnlFile.ActiveDir) + pnlFile.GetActiveItem^.sName+' ';
-          end;
-        end;
-        Exit;
-      end;
     end;
   end;  // handle ENTER with some modifier
 
@@ -3237,35 +3214,6 @@ begin
 
       VK_RETURN, VK_SELECT:
         begin
-          with ActiveFrame do
-          begin
-            // ctrl enter
-            if Shift=[ssCtrl] then
-            begin
-              if IsActiveItemValid then
-              begin
-                edtCommand.Text:=edtCommand.Text+pnlFile.GetActiveItem^.sName+' ';
-                Key := 0;
-              end;
-            end
-            // ctrl+shift+enter
-            else if Shift=[ssShift,ssCtrl] then
-            begin
-              if Assigned(GetActiveItem) then
-              begin
-                if (pnlFile.GetActiveItem^.sName = '..') then
-                begin
-                  edtCommand.Text:=edtCommand.Text+(pnlFile.ActiveDir) + ' ';
-                end
-                else
-                begin
-                  edtCommand.Text:=edtCommand.Text+(pnlFile.ActiveDir) + pnlFile.GetActiveItem^.sName+' ';
-                end;
-                Key := 0;
-              end;
-            end;
-          end;
-
           if (Shift * [ssCtrl, ssAlt, ssMeta, ssAltGr] = []) then
           begin
             ExecuteCommandLine(ssShift in Shift);
@@ -3288,6 +3236,8 @@ procedure TfrmMain.edtCommandEnter(Sender: TObject);
 begin
   // Which actions should be active in the command line.
   Actions.EnableAction('AddPathToCmdLine', True);
+  Actions.EnableAction('AddFilenameToCmdLine', True);
+  Actions.EnableAction('AddPathAndFilenameToCmdLine', True);
   Actions.EnableAction('ShowCmdLineHistory', True);
 end;
 

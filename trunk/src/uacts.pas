@@ -109,6 +109,8 @@ const cf_Null=0;
    //Only published functions and procedures can by found by MethodAddress
    //---------------------
    procedure cm_AddPathToCmdLine(param: string='');
+   procedure cm_AddFilenameToCmdLine(param: string='');
+   procedure cm_AddPathAndFilenameToCmdLine(param: string='');
    procedure cm_ContextMenu(param: string='');
    procedure cm_DriveContextMenu(param: string='');
    procedure cm_CopyFullNamesToClip(param: string='');
@@ -530,6 +532,34 @@ begin
   with frmMain.ActiveFrame do
     begin
       edtCmdLine.Text := edtCmdLine.Text + (pnlFile.ActiveDir);
+    end;
+end;
+
+procedure TActs.cm_AddFilenameToCmdLine(param: string='');
+begin
+  with frmMain.ActiveFrame do
+    begin
+      if IsActiveItemValid then
+        edtCmdLine.Text := edtCmdLine.Text + pnlFile.GetActiveItem^.sName + ' ';
+    end;
+end;
+
+procedure TActs.cm_AddPathAndFilenameToCmdLine(param: string='');
+begin
+  with frmMain.ActiveFrame do
+    begin
+      if Assigned(GetActiveItem) then
+      begin
+        if (pnlFile.GetActiveItem^.sName = '..') then
+        begin
+          edtCmdLine.Text := edtCmdLine.Text + pnlFile.ActiveDir + ' ';
+        end
+        else
+        begin
+          edtCmdLine.Text := edtCmdLine.Text + pnlFile.ActiveDir +
+                                               pnlFile.GetActiveItem^.sName + ' ';
+        end;
+      end;
     end;
 end;
 
