@@ -528,23 +528,38 @@ end;
 //------------------------------------------------------
 
 procedure TActs.cm_AddPathToCmdLine(param:string);
+var
+  OldPosition: Integer;
 begin
   with frmMain.ActiveFrame do
     begin
+      OldPosition := edtCmdLine.SelStart;
       edtCmdLine.Text := edtCmdLine.Text + (pnlFile.ActiveDir);
+      edtCmdLine.SelStart := OldPosition + Length(pnlFile.ActiveDir);
     end;
 end;
 
 procedure TActs.cm_AddFilenameToCmdLine(param: string='');
+var
+  AddedString: String;
+  OldPosition: Integer;
 begin
   with frmMain.ActiveFrame do
     begin
       if IsActiveItemValid then
-        edtCmdLine.Text := edtCmdLine.Text + pnlFile.GetActiveItem^.sName + ' ';
+      begin
+        OldPosition := edtCmdLine.SelStart;
+        AddedString := pnlFile.GetActiveItem^.sName + ' ';
+        edtCmdLine.Text := edtCmdLine.Text + AddedString;
+        edtCmdLine.SelStart := OldPosition + Length(AddedString);
+      end;
     end;
 end;
 
 procedure TActs.cm_AddPathAndFilenameToCmdLine(param: string='');
+var
+  AddedString: String;
+  OldPosition: Integer;
 begin
   with frmMain.ActiveFrame do
     begin
@@ -552,13 +567,16 @@ begin
       begin
         if (pnlFile.GetActiveItem^.sName = '..') then
         begin
-          edtCmdLine.Text := edtCmdLine.Text + pnlFile.ActiveDir + ' ';
+          AddedString := pnlFile.ActiveDir + ' ';
         end
         else
         begin
-          edtCmdLine.Text := edtCmdLine.Text + pnlFile.ActiveDir +
-                                               pnlFile.GetActiveItem^.sName + ' ';
+          AddedString := pnlFile.ActiveDir + pnlFile.GetActiveItem^.sName + ' ';
         end;
+
+        OldPosition := edtCmdLine.SelStart;
+        edtCmdLine.Text := edtCmdLine.Text + AddedString;
+        edtCmdLine.SelStart := OldPosition + Length(AddedString);
       end;
     end;
 end;
