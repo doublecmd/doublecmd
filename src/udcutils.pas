@@ -399,6 +399,8 @@ Var
   iPos: Integer;
 
 Begin
+  if MaxLen <= 0 then Exit;
+
   sHelp := PathToMince;
   iPos := Pos(PathDelim, sHelp);
   If iPos = 0 Then
