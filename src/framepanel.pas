@@ -786,20 +786,30 @@ end;
 procedure TFrameFilePanel.edSearchKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if Key = 40 then // Down
+  case Key of
+    VK_DOWN:
       begin
         fSearchDirect := True;
         fNext := True;
         Key := 0;
         edSearchChange(Sender);
       end;
-  if Key = 38 then // Up
+
+    VK_UP:
       begin
         fSearchDirect := False;
         fPrevious := True;
         Key := 0;
         edSearchChange(Sender);
       end;
+
+    VK_TAB:
+      begin
+        CloseAltPanel;
+        SetFocus;
+        Key := 0;
+      end;
+  end;
 end;
 
 procedure TFrameFilePanel.UpdateColCount(NewColCount: Integer);
