@@ -290,6 +290,8 @@ begin
       AddHotKey('Ctrl+C','cm_CopyToClipboard','','FrmMain','FrmMain');
       AddHotKey('Ctrl+V','cm_PasteFromClipboard','','FrmMain','FrmMain');
       AddHotKey('Ctrl+\','cm_ChangeDirToRoot','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+Up','cm_OpenDirInNewTab','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+Down','cm_ShowCmdLineHistory','','FrmMain','FrmMain');
 //      AddHotKey('','cm_','','FrmMain','FrmMain');
     end;
 end;
