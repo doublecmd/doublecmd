@@ -292,6 +292,8 @@ begin
       AddHotKey('Ctrl+\','cm_ChangeDirToRoot','','FrmMain','FrmMain');
       AddHotKey('Ctrl+Up','cm_OpenDirInNewTab','','FrmMain','FrmMain');
       AddHotKey('Ctrl+Down','cm_ShowCmdLineHistory','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+Enter','cm_AddFilenameToCmdLine','','FrmMain','FrmMain');
+      AddHotKey('Shift+Ctrl+Enter','cm_AddPathAndFilenameToCmdLine','','FrmMain','FrmMain');
 //      AddHotKey('','cm_','','FrmMain','FrmMain');
     end;
 end;
