@@ -389,6 +389,10 @@ msgstr "同样的图标格式."
 msgid "Edit"
 msgstr "编辑"
 
+#: lclstrconsts.rsentirescope
+msgid "Search entire file"
+msgstr ""
+
 #: lclstrconsts.rserror
 msgctxt "lclstrconsts.rserror"
 msgid "Error"
@@ -842,9 +846,21 @@ msgstr "全部选否"
 msgid "&OK"
 msgstr "确定(&O)"
 
+#: lclstrconsts.rsmbopen
+msgid "&Open"
+msgstr ""
+
 #: lclstrconsts.rsmbretry
 msgid "&Retry"
 msgstr "重试(&R)"
+
+#: lclstrconsts.rsmbsave
+msgid "&Save"
+msgstr ""
+
+#: lclstrconsts.rsmbunlock
+msgid "&Unlock"
+msgstr ""
 
 #: lclstrconsts.rsmbyes
 msgid "&Yes"
@@ -882,6 +898,10 @@ msgstr "已更改"
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
 msgstr "钱青"
+
+#: lclstrconsts.rsmtauthentication
+msgid "Authentication"
+msgstr ""
 
 #: lclstrconsts.rsmtconfirmation
 msgid "Confirmation"

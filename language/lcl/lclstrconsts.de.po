@@ -389,6 +389,10 @@ msgstr "Doppeltes Icon-Format"
 msgid "Edit"
 msgstr "Bearbeiten"
 
+#: lclstrconsts.rsentirescope
+msgid "Search entire file"
+msgstr ""
+
 #: lclstrconsts.rserror
 msgctxt "lclstrconsts.rserror"
 msgid "Error"
@@ -842,9 +846,21 @@ msgstr "Immer Nein"
 msgid "&OK"
 msgstr "&Ok"
 
+#: lclstrconsts.rsmbopen
+msgid "&Open"
+msgstr ""
+
 #: lclstrconsts.rsmbretry
 msgid "&Retry"
 msgstr "&Wiederholen"
+
+#: lclstrconsts.rsmbsave
+msgid "&Save"
+msgstr ""
+
+#: lclstrconsts.rsmbunlock
+msgid "&Unlock"
+msgstr ""
 
 #: lclstrconsts.rsmbyes
 msgid "&Yes"
@@ -882,6 +898,10 @@ msgstr " geändert "
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
 msgstr "\"Geldgrün\""
+
+#: lclstrconsts.rsmtauthentication
+msgid "Authentication"
+msgstr ""
 
 #: lclstrconsts.rsmtconfirmation
 msgid "Confirmation"

@@ -381,6 +381,10 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
+#: lclstrconsts.rsentirescope
+msgid "Search entire file"
+msgstr ""
+
 #: lclstrconsts.rserror
 msgctxt "lclstrconsts.rserror"
 msgid "Error"
@@ -834,9 +838,21 @@ msgstr "Ні для всіх"
 msgid "&OK"
 msgstr "&ОК"
 
+#: lclstrconsts.rsmbopen
+msgid "&Open"
+msgstr ""
+
 #: lclstrconsts.rsmbretry
 msgid "&Retry"
 msgstr "&Повтор"
+
+#: lclstrconsts.rsmbsave
+msgid "&Save"
+msgstr ""
+
+#: lclstrconsts.rsmbunlock
+msgid "&Unlock"
+msgstr ""
 
 #: lclstrconsts.rsmbyes
 msgid "&Yes"
@@ -873,6 +889,10 @@ msgstr "змінений"
 
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
+msgstr ""
+
+#: lclstrconsts.rsmtauthentication
+msgid "Authentication"
 msgstr ""
 
 #: lclstrconsts.rsmtconfirmation

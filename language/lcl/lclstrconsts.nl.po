@@ -386,6 +386,10 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
+#: lclstrconsts.rsentirescope
+msgid "Search entire file"
+msgstr ""
+
 #: lclstrconsts.rserror
 msgctxt "lclstrconsts.rserror"
 msgid "Error"
@@ -839,9 +843,21 @@ msgstr "Nee op alles"
 msgid "&OK"
 msgstr "&OK"
 
+#: lclstrconsts.rsmbopen
+msgid "&Open"
+msgstr ""
+
 #: lclstrconsts.rsmbretry
 msgid "&Retry"
 msgstr "&Opnieuw"
+
+#: lclstrconsts.rsmbsave
+msgid "&Save"
+msgstr ""
+
+#: lclstrconsts.rsmbunlock
+msgid "&Unlock"
+msgstr ""
 
 #: lclstrconsts.rsmbyes
 msgid "&Yes"
@@ -878,6 +894,10 @@ msgstr "  gewijzigd "
 
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
+msgstr ""
+
+#: lclstrconsts.rsmtauthentication
+msgid "Authentication"
 msgstr ""
 
 #: lclstrconsts.rsmtconfirmation
