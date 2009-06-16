@@ -62,8 +62,6 @@ type
     //Main listы
     FHotList:TStringList;
     FFormsList:TStringList;
-    //Internal commands class
-    FActions:TActs;
     //---------------------
     //Hotkey Handler
     procedure KeyDownHandler(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -119,7 +117,7 @@ type
 implementation
 
 uses
-  uKeyboard;
+  uKeyboard, uGlobs;
 
 { THotKeyManager }
 
@@ -207,7 +205,6 @@ constructor THotKeyManager.Create;
 begin
   FHotList:=TStringList.Create;
   FFormsList:=TStringList.Create;
-  FActions:=TActs.Create;
 end;
 
 destructor THotKeyManager.Destroy;
@@ -233,10 +230,7 @@ begin
  end;
 
  //---------------------
- if Assigned(FActions) then
-  FreeAndNil(FActions);
- //---------------------
-  
+
  inherited Destroy;
 end;
 
@@ -592,6 +586,7 @@ var hi,tmp:integer;
 begin
 
  Result:=false;
+
  //HotKey index in list
  hi:=GetHotKeyIndex(sShortcut);
  if hi=-1 then exit;
@@ -623,9 +618,13 @@ begin
            ((ObjInfo.AObject is TCustomForm) or (TH.AObjectFormName=Par.Name)) then}
            if (CompareText(TH.AObjectName,ObjInfo.AObject.Name)=0) then
              begin
-               Result:=true;
-               FActions.Execute(TH.ACommand,TH.AParams);
-             end
+               // Check if the action is enabled.
+               if Actions.IsActionEnabled(Copy(TH.ACommand, 4, Length(TH.ACommand) - 3)) then
+               begin
+                 Result:=true;
+                 Actions.Execute(TH.ACommand,TH.AParams);
+               end;
+             end;
          end;
 
 end;

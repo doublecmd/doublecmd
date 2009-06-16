@@ -371,6 +371,7 @@ object frmMain: TfrmMain
           Width = 590
           Anchors = [akTop, akLeft, akRight]
           ItemHeight = 13
+          OnEnter = edtCommandEnter
           OnExit = edtCommandExit
           OnKeyDown = edtCommandKeyDown
           TabOrder = 0
