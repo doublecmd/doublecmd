@@ -28,32 +28,65 @@ unit uActs;
 interface
 
 uses
-  Classes, SysUtils, Dialogs, typinfo, ExtCtrls;
+  Classes, SysUtils, Dialogs, typinfo, ExtCtrls, StringHashList, ActnList;
   
   
 const cf_Null=0;
       cf_Error=-1;
-  
+
   type
 
    TIntFunc=procedure(param:string; var Result:integer) of object;
+
+  PActionState = ^TActionState;
+  TActionState = record
+    Enabled: Boolean;  //<en Whether the action is enabled (through hotkeys).
+    Action: TAction;   //<en If a TAction is assigned to a named action,
+                       //    it is cached here.
+  end;
 
   { TActs }
 
   TActs=class
   private
    FCmdList:TStrings;
-
-
    function GetList:TStrings;
-   function Methods(AClass:TClass) : TStringList;
+   procedure EnableAction(ActionState: PActionState; Enabled: Boolean);
+   class function Methods(AClass:TClass) : TStringList;
   public
+   FActionsState: TStringHashList;
    constructor Create;
    destructor Destroy;override;
    function Execute(Cmd: string; param:string =''): integer;
    function GetIndex(Cmd: string): integer;
    function GetCategoriesList(const List:TStrings):integer;
    function GetCommandsByCategory(Category:string; const List:TStrings):integer;
+
+   {en
+      Adds a named action to a list of possible actions.
+      @param(ActionName
+             Name of the action _without_ any prefixes ('cm_' or 'act').)
+   }
+   procedure AddAction(ActionName: String);
+   {en
+      Adds a TAction to a list of possible actions.
+   }
+   procedure AddAction(Action: TAction);
+   {en
+      Enables/disables an action.
+      @param(ActionName
+             Name of the action _without_ any prefixes ('cm_' or 'act').)
+      @param(Enable
+             Whether to enable or disable the action.)
+   }
+   procedure EnableAction(ActionName: String; Enable: Boolean);
+   {en
+      Checks if the action is enabled.
+      @param(ActionName
+             Name of the action _without_ any prefixes ('cm_' or 'act').)
+   }
+   function  IsActionEnabled(ActionName: String): Boolean;
+   procedure EnableAllActions(Enable: Boolean);
 
    //---------------------
    // The Do... functions are cm_... functions' counterparts which are to be
@@ -183,7 +216,7 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
 
 { TActs }
 
-function TActs.Methods(AClass:TClass): TStringList;
+class function TActs.Methods(AClass:TClass): TStringList;
 //------------------------------------------------------
     type
        pmethodnamerec = ^tmethodnamerec;
@@ -231,13 +264,30 @@ end;
 
 
 constructor TActs.Create;
+var
+  i: Integer;
 begin
   FCmdList:=GetList;
+  FActionsState:=TStringHashList.Create(False); // not case-sensitive
+
+  for i:=0 to FCmdList.Count - 1 do
+    AddAction(Copy(FCmdList.Strings[i], 4,
+                   Length(FCmdList.Strings[i]) - 3));
 end;
 
 destructor TActs.Destroy;
+var
+  i: Integer;
 begin
   if Assigned(FCmdList) then FreeAndNil(FCmdList);
+  if Assigned(FActionsState) then
+  begin
+    for i := 0 to FActionsState.Count - 1 do
+      if Assigned(FActionsState.List[i]^.Data) then
+        Dispose(PActionState(FActionsState.List[i]^.Data));
+
+    FreeAndNil(FActionsState);
+  end;
   inherited Destroy;
 end;
 
@@ -326,6 +376,96 @@ begin
     end;
 
   Result:=List.Count;
+end;
+
+procedure TActs.AddAction(ActionName: String);
+var
+  ActionState: PActionState;
+begin
+  if FActionsState.Find(ActionName) = -1 then
+  begin
+    New(ActionState);
+
+    if Assigned(ActionState) then
+    try
+      ActionState^.Enabled := True;
+      ActionState^.Action := nil;
+
+      FActionsState.Add(ActionName, ActionState);
+    except
+      Dispose(ActionState);
+    end;
+  end;
+end;
+
+procedure TActs.AddAction(Action: TAction);
+var
+  ActionState: PActionState;
+  ActionNameWithoutPrefix: string;
+  Index: Integer;
+begin
+  ActionNameWithoutPrefix := Copy(Action.Name, 4, Length(Action.Name) - 3);
+
+  Index := FActionsState.Find(ActionNameWithoutPrefix);
+  if Index = -1 then
+  begin
+    New(ActionState);
+
+    if Assigned(ActionState) then
+    try
+      ActionState^.Enabled := True;
+      ActionState^.Action := Action;
+
+      FActionsState.Add(ActionNameWithoutPrefix, ActionState);
+    except
+      Dispose(ActionState);
+    end;
+  end
+  else
+  begin
+    // Action already exists. Update TAction reference.
+    PActionState(FActionsState.List[Index]^.Data)^.Action := Action;
+  end;
+end;
+
+procedure TActs.EnableAction(ActionState: PActionState; Enabled: Boolean);
+begin
+  if Assigned(ActionState) then
+  begin
+    ActionState^.Enabled := Enabled;
+    if Assigned(ActionState^.Action) then
+      ActionState^.Action.Enabled := Enabled;
+  end;
+end;
+
+procedure TActs.EnableAction(ActionName: String; Enable: Boolean);
+var
+  ActionState: PActionState;
+begin
+  ActionState := FActionsState[ActionName];
+  if Assigned(ActionState) then
+    EnableAction(ActionState, Enable)
+  else
+    raise Exception.Create('Invalid Action Name: ' + ActionName);
+end;
+
+function TActs.IsActionEnabled(ActionName: String): Boolean;
+var
+  ActionState: PActionState;
+begin
+  ActionState := FActionsState[ActionName];
+  if Assigned(ActionState) then
+    Result := ActionState^.Enabled
+  else
+    raise Exception.Create('Invalid Action Name: ' + ActionName);
+end;
+
+procedure TActs.EnableAllActions(Enable: Boolean);
+var
+  i: Integer;
+begin
+  for i := 0 to FActionsState.Count - 1 do
+    EnableAction(PActionState(FActionsState.List[i]^.Data), Enable);
 end;
 
 //------------------------------------------------------
@@ -623,7 +763,6 @@ end;
 procedure TActs.cm_QuickSearch(param:string);
 begin
   FrmMain.ActiveFrame.ShowAltPanel;
-  FrmMain.KeyPreview := False;
 end;
 
 procedure TActs.cm_RightOpenDrives(param:string);

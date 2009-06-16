@@ -391,6 +391,7 @@ type
     procedure FramepnlFileAfterChangeDirectory(Sender: TObject; const NewDir : String);
     procedure edtCommandKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure edtCommandEnter(Sender: TObject);
     procedure edtCommandExit(Sender: TObject);
     procedure tbEditClick(Sender: TObject);
     procedure FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
@@ -475,6 +476,8 @@ type
     procedure UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; Path: String);
     procedure UpdateDriveButtonMenuSelection(DriveButton: TSpeedButton; Path: String);
     procedure UpdateSelectedDrive(ANoteBook: TNoteBook);
+    procedure EnableHotkeys(Enable: Boolean);
+    procedure ExecuteCommandLine(bRunInTerm: Boolean);
   published
     property SelectedPanel:TFilePanelSelect read PanelSelected;
   end;
@@ -493,7 +496,8 @@ uses
   fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils, uLog, uWipeThread,
   fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg, fExtractDlg,
   fLinker, fSplitter, uFileProcs, LCLProc, uOSUtils, uOSForms, uPixMapManager,
-  fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls, uFileSorting
+  fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls, uFileSorting, uacts,
+  StringHashList
   {$IFDEF LCLQT}
     , qtwidgets, qtobjects
   {$ENDIF}
@@ -502,6 +506,7 @@ uses
 procedure TfrmMain.FormCreate(Sender: TObject);
 var
   slCommandHistory: TStringListEx;
+  i: Integer;
 begin
   inherited;
   // frost_asm begin
@@ -564,6 +569,10 @@ begin
   if HotMan.HotkeyList.Count=0 then LoadDefaultHotkeyBindings;
   // load shortcuts to action list for showing it in menu
   HotMan.LoadShortCutToActionList(ActionLst);
+
+  for i:=0 to actionLst.ActionCount -1 do
+    // Have to cast TContainedAction to TAction here, which may be unsafe.
+    Actions.AddAction(TAction(actionLst[i]));
   { *HotKeys* }
 
   UpdateWindowView;
@@ -732,7 +741,14 @@ procedure TfrmMain.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
 var
   ModifierKeys: TShiftState;
 begin
-  if (not edtCommand.Focused) and (edtCommand.Tag = 0) then
+  // Either left or right panel has to be focused.
+  if not FrameLeft.dgPanel.Focused and
+     not FrameRight.dgPanel.Focused then
+  begin
+    Exit;
+  end;
+
+  if (edtCommand.Tag = 0) then
     begin
       // quick search by Letter only
 
@@ -754,7 +770,6 @@ begin
 
           ActiveFrame.ShowAltPanel(UTF8Key);
           UTF8Key:= '';
-          KeyPreview:= False;
         end
       else if gCmdLine then  // If command line is enabled
         begin
@@ -1384,17 +1399,14 @@ begin
   // ---- 30.04.2009 - переписал для удаления в корзину. ----
   If (Key = VK_F8) or (Key = VK_DELETE) then
    begin
-    if ((not edtCommand.Focused) and (edtCommand.Tag = 0)) or (Key = VK_F8) then
+    if gUseTrash and mbCheckTrash then // 14.05.2009 - additional check for various linux distributives.
      begin
-      if gUseTrash and mbCheckTrash then // 14.05.2009 - additional check for various linux distributives.
-       begin
-        if Shift=[ssShift] then // если шифт - удаляем напрямую
-         Actions.cm_Delete('')
-        else Actions.cm_Delete('recycle'); // без шифта удаляем в корзину
-       end
-      else Actions.cm_Delete('');  // если корзина отключена в конфигурации, или (для линукс) нет программы gvsf-trash, то удалять напрямую.
-      Exit;
-     end;
+      if Shift=[ssShift] then // если шифт - удаляем напрямую
+       Actions.cm_Delete('')
+      else Actions.cm_Delete('recycle'); // без шифта удаляем в корзину
+     end
+    else Actions.cm_Delete('');  // если корзина отключена в конфигурации, или (для линукс) нет программы gvsf-trash, то удалять напрямую.
+    Exit;
    end;
   // ---------------------------------------------------------
 
@@ -1417,11 +1429,7 @@ begin
     begin
       if (Shift=[])or (Shift=[ssCaps]) then // 21.05.2009 - не учитываем CapsLock при перемещении по панелям
       begin
-        if edtCommand.Focused and (edtCommand.Text='') then
-        begin
-          ActiveFrame.SetFocus;
-        end
-        else if (not IsCommandLineVisible) or (edtCommand.Text='') then
+        if (not IsCommandLineVisible) or (edtCommand.Text='') then
         begin
           // Only if there are items in the panel.
           if not IsEmpty then
@@ -1436,48 +1444,28 @@ begin
               Screen.Cursor:=crDefault;
             end;
           end;
-          Exit;
         end
         else
         begin
-          // execute command line
-          mbSetCurrentDir(ActiveDir);
-          ExecuteCommandFromEdit(edtCommand.Text, False);
-          ClearCmdLine;
-          RefreshPanel;
-          ActiveFrame.SetFocus;
-{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
-          // workaround for GTK
-          // edtCommandExit is not always called when losing focus
-          edtCommandExit(Self);
-{$ENDIF}
-          Exit;
+          ExecuteCommandLine(False);
         end;
+        Exit;
       end; //Shift=[] + 21.05.2009 - не учитываем CapsLock при перемещении по панелям
 
       // execute active file or command line in terminal (Shift+Enter)
       if Shift=[ssShift] then
       begin
-        mbSetCurrentDir(ActiveDir);
         if (not IsCommandLineVisible) or (edtCommand.Text='') then
         begin
           if IsActiveItemValid then
           begin
+            mbSetCurrentDir(ActiveDir);
             ExecCmdFork(ActiveDir + pnlFile.GetActiveItem^.sName, True, gRunInTerm);
           end;
         end
         else
           begin
-            // execute command line
-            ExecuteCommandFromEdit(edtCommand.Text, True);
-            ClearCmdLine;
-            RefreshPanel;
-            ActiveFrame.SetFocus;
-{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
-            // workaround for GTK,
-            // edtCommandExit is not always called when losing focus
-            edtCommandExit(Self);
-{$ENDIF}
+            ExecuteCommandLine(True);
           end;
         Exit;
       end;
@@ -1533,6 +1521,13 @@ procedure TfrmMain.FormKeyPress(Sender: TObject; var Key: Char);
 var
   CmdText : UTF8String;
 begin
+  // Either left or right panel has to be focused.
+  if not FrameLeft.dgPanel.Focused and
+     not FrameRight.dgPanel.Focused then
+  begin
+    Exit;
+  end;
+
   if gCmdLine then  // If command line is enabled
   begin
     if Key=#27 then
@@ -1540,7 +1535,7 @@ begin
     if ((ord(key)>31) and (ord(key)<255)) or (ord(Key) = VK_BACK) then
     begin
       if ((Key='-') or (Key='*') or (Key='+') or (Key=' '))and (Trim(edtCommand.Text)='') then Exit;
-      if (not edtCommand.Focused) and (edtCommand.Tag = 0) then
+      if (edtCommand.Tag = 0) then
       begin
         edtCommand.SetFocus; // handle first char of command line specially
         CmdText := edtCommand.Text;
@@ -1720,7 +1715,6 @@ begin
   mi.Caption:=rsMsgPopUpHotCnf;
   mi.OnClick:=@miHotConfClick;
   pmHotList.Items.Add(mi);
-//  KeyPreview:=False;
 end;
 
 procedure TfrmMain.HotDirSelected(Sender:TObject);
@@ -1733,7 +1727,6 @@ begin
   SDummy:=StringReplace(sDummy,'&','',[rfReplaceAll]);
   ActiveFrame.pnlFile.ActiveDir:=sDummy;
 
-  KeyPreview:=True;
   with ActiveFrame.dgPanel do
   begin
     if RowCount>0 then
@@ -2202,8 +2195,15 @@ var
   ModifierKeys: TShiftState;
   UTF8Char: TUTF8Char;
 begin
+  // Either left or right panel has to be focused.
+  if not FrameLeft.dgPanel.Focused and
+     not FrameRight.dgPanel.Focused then
+  begin
+    Exit;
+  end;
+
   // used for quick search by Ctrl+Alt+Letter and Alt+Letter
-  if gQuickSearch and (not edtCommand.Focused) and (edtCommand.Tag = 0) then
+  if gQuickSearch and (edtCommand.Tag = 0) then
   begin
     ModifierKeys := GetKeyShiftStateEx;
 
@@ -2223,7 +2223,6 @@ begin
       begin
         ActiveFrame.ShowAltPanel(UTF8Char);
         Key := 0;
-        KeyPreview := False;
         Exit;
       end;
     end;
@@ -2336,7 +2335,7 @@ begin
   if (Shift=[]) and (Key=VK_BACK) and
      ((not IsCommandLineVisible) or (edtCommand.Text='')) then
   begin
-    if (not edtCommand.Focused) and (edtCommand.Tag = 0) then
+    if (edtCommand.Tag = 0) then
     begin
       with ActiveFrame do
       begin
@@ -2350,7 +2349,6 @@ end;
 
 procedure TfrmMain.FormActivate(Sender: TObject);
 begin
-  KeyPreview:=True;
 //  ActiveFrame.SetFocus;
 //  DebugLn('Activate');
 end;
@@ -2359,7 +2357,6 @@ procedure TfrmMain.FrameEditExit(Sender: TObject);
 begin
 // handler for both edits
 //  DebugLn('On exit');
-  KeyPreview:=True;
   (Sender as TEdit).Visible:=False;
 end;
 
@@ -2368,12 +2365,10 @@ begin
   // sometimes must be search panel closed this way
   TFrameFilePanel(TEdit(Sender).Parent.Parent).CloseAltPanel;
   TFrameFilePanel(TEdit(Sender).Parent.Parent).RedrawGrid;
-  KeyPreview:=True;
 end;
 
 procedure TfrmMain.ShowRenameFileEdit(const sFileName:String);
 begin
-  KeyPreview:=False;
   With ActiveFrame do
   begin
     edtRename.OnExit:=@FrameEditExit;
@@ -2585,7 +2580,6 @@ end;
 
 procedure TfrmMain.ShowPathEdit;
 begin
-  KeyPreview:=False;
   with ActiveFrame do
   begin
     edtPath.OnExit:=@FrameEditExit;
@@ -2657,8 +2651,8 @@ end;
 procedure TfrmMain.SetActiveFrame(panel: TFilePanelSelect);
 begin
   PanelSelected:=panel;
-  ActiveFrame.SetFocus;
   NotActiveFrame.dgPanelExit(self);
+  ActiveFrame.SetFocus;
   {$IFDEF unix}
   if gTermWindow and Assigned(Cons) then
     Cons.Terminal.Write_pty(' cd "'+ActiveFrame.ActiveDir+'"'+#13+#10);
@@ -3262,18 +3256,73 @@ begin
       ActiveFrame.SetFocus;
       Key:= 0;
     end
-  else if (edtCommand.DroppedDown) and (Key in [VK_RETURN, VK_ESCAPE]) then
+  else if (edtCommand.DroppedDown) and (Key in [VK_RETURN, VK_SELECT, VK_ESCAPE]) then
     begin
       edtCommand.DroppedDown := False;
       Key := 0;
     end
-  else if Key = VK_ESCAPE then
-    begin
-      edtCommand.Text := '';
-      Key := 0;
-    end
   else
-    edtCommand.Tag:= 1;
+    case Key of
+      VK_ESCAPE:
+        begin
+          edtCommand.Text := '';
+          Key := 0;
+        end;
+
+      VK_RETURN, VK_SELECT:
+        begin
+          with ActiveFrame do
+          begin
+            // ctrl enter
+            if Shift=[ssCtrl] then
+            begin
+              if IsActiveItemValid then
+              begin
+                edtCommand.Text:=edtCommand.Text+pnlFile.GetActiveItem^.sName+' ';
+                Key := 0;
+              end;
+            end
+            // ctrl+shift+enter
+            else if Shift=[ssShift,ssCtrl] then
+            begin
+              if Assigned(GetActiveItem) then
+              begin
+                if (pnlFile.GetActiveItem^.sName = '..') then
+                begin
+                  edtCommand.Text:=edtCommand.Text+(pnlFile.ActiveDir) + ' ';
+                end
+                else
+                begin
+                  edtCommand.Text:=edtCommand.Text+(pnlFile.ActiveDir) + pnlFile.GetActiveItem^.sName+' ';
+                end;
+                Key := 0;
+              end;
+            end;
+          end;
+
+          if (Shift * [ssCtrl, ssAlt, ssMeta, ssAltGr] = []) then
+          begin
+            ExecuteCommandLine(ssShift in Shift);
+            Key := 0;
+          end;
+        end;
+
+      VK_TAB:
+        begin
+          ActiveFrame.SetFocus;
+          Key := 0;
+        end;
+
+      else
+        edtCommand.Tag:= 1;
+    end;
+end;
+
+procedure TfrmMain.edtCommandEnter(Sender: TObject);
+begin
+  // Which actions should be active in the command line.
+  Actions.EnableAction('AddPathToCmdLine', True);
+  Actions.EnableAction('ShowCmdLineHistory', True);
 end;
 
 procedure TfrmMain.edtCommandExit(Sender: TObject);
@@ -3570,6 +3619,41 @@ begin
   end;
 end;
 {$ENDIF}
+
+procedure TfrmMain.EnableHotkeys(Enable: Boolean);
+begin
+// KeyPreview should be always enabled.
+// We're enabling/disabling on a per-action level.
+
+  Actions.EnableAllActions(Enable);
+
+  // Actions that should always be enabled.
+  Actions.EnableAction('Exit', True);
+  Actions.EnableAction('Options', True);
+  Actions.EnableAction('FileAssoc', True);
+  Actions.EnableAction('HelpIndex', True);
+  Actions.EnableAction('Keyboard', True);
+  Actions.EnableAction('VisitHomePage', True);
+  Actions.EnableAction('About', True);
+  Actions.EnableAction('LeftOpenDrives', True);
+  Actions.EnableAction('RightOpenDrives', True);
+  Actions.EnableAction('RunTerm', True);
+  Actions.EnableAction('Minimize', True);
+end;
+
+procedure TfrmMain.ExecuteCommandLine(bRunInTerm: Boolean);
+begin
+  mbSetCurrentDir(ActiveFrame.ActiveDir);
+  ExecuteCommandFromEdit(edtCommand.Text, bRunInTerm);
+  edtCommand.Text := '';
+  ActiveFrame.RefreshPanel;
+  ActiveFrame.SetFocus;
+{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+  // workaround for GTK
+  // edtCommandExit is not always called when losing focus
+  edtCommandExit(Self);
+{$ENDIF}
+end;
 
 initialization
  {$I fmain.lrs}

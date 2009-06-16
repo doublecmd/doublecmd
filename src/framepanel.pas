@@ -787,19 +787,19 @@ procedure TFrameFilePanel.edSearchKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Key = 40 then // Down
-    begin
-      fSearchDirect := True;
-      fNext := True;
-      Key := 0;
-      edSearchChange(Sender);
-    end;
+      begin
+        fSearchDirect := True;
+        fNext := True;
+        Key := 0;
+        edSearchChange(Sender);
+      end;
   if Key = 38 then // Up
-    begin
-      fSearchDirect := False;
-      fPrevious := True;
-      Key := 0;
-      edSearchChange(Sender);
-    end;
+      begin
+        fSearchDirect := False;
+        fPrevious := True;
+        Key := 0;
+        edSearchChange(Sender);
+      end;
 end;
 
 procedure TFrameFilePanel.UpdateColCount(NewColCount: Integer);
@@ -1299,6 +1299,7 @@ begin
   FActive:= False;
   lblLPath.SetActive(False);
   ClearGridSelection;
+  frmMain.EnableHotkeys(False);
 end;
 
 procedure TFrameFilePanel.MakeSelectedVisible;
@@ -1355,6 +1356,7 @@ begin
   FActive:= True;
   SetFocus;
   UpDatelblInfo;
+  frmMain.EnableHotkeys(True);
 end;
 
 procedure TFrameFilePanel.RedrawGrid;
