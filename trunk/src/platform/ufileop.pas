@@ -52,7 +52,7 @@ const
 
 implementation
 uses
-  uFileProcs, uFindEx, uGlobs, uOSUtils {$IFDEF UNIX}, uUsersGroups, Unix, BaseUnix{$ENDIF}
+  uFileProcs, uFindEx, uGlobs, uDCUtils, uVFSUtil, uOSUtils {$IFDEF UNIX}, uUsersGroups, Unix, BaseUnix{$ENDIF}
   {$IFDEF WINDOWS}, Windows {$ENDIF};
 
 {$IFDEF UNIX}   // *nix
@@ -197,15 +197,19 @@ function LoadFilesbyDir(const sDir: String; fl: TFileList): Boolean;
 var
   fr: TFileRecItem;
   sr: TSearchRec;
+  sParentDir: UTF8String;
 begin
 //  DebugLn('Enter LoadFilesbyDir');
   Result:= False;
   fl.Clear;
   fl.CurrentDirectory := IncludeTrailingPathDelimiter(sDir);
-  if FindFirstEx('*',faAnyFile,sr)<>0 then
+  if FindFirstEx('*',faAnyFile,sr) <> 0 then 
   begin
     { No files have been found. }
     FindCloseEx(sr);
+    sParentDir:= GetParentDir(sDir);
+	if sParentDir <> EmptyStr then // if parent dir exists then add up level item
+	  AddUpLevel(sParentDir, fl);
     Exit;
   end;
   repeat
