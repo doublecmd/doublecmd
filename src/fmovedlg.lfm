@@ -66,6 +66,7 @@ object frmMoveDlg: TfrmMoveDlg
     Kind = bkOK
     ModalResult = 1
     NumGlyphs = 0
+    OnMouseDown = btnOKMouseDown
     TabOrder = 0
   end
   object btnCancel: TBitBtn
@@ -88,6 +89,7 @@ object frmMoveDlg: TfrmMoveDlg
     Kind = bkCancel
     ModalResult = 2
     NumGlyphs = 0
+    OnMouseDown = btnCancelMouseDown
     TabOrder = 1
   end
   object edtDst: TEdit

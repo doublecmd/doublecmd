@@ -169,6 +169,7 @@ begin
         Height := 32;
         Tag:=iIndex;
         OnCLick:=frmMsg.ButtonClick;
+        OnMouseDown:=frmMsg.MouseDownEvent;
         if (High(Buttons)+1)>=3 then
           Left:=(iIndex mod 3)*(cButtonWidth+cButtonSpace)+(frmMsg.Width-(3*cButtonWidth+2*cButtonSpace)) div 2
         else

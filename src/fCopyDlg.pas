@@ -20,12 +20,18 @@ type
     lblCopySrc: TLabel;
     lblFileType: TLabel;
     pnlSelector: TPanel;
+    procedure btnCancelMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure btnOKMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure frmCopyDlgKeyPress(Sender: TObject; var Key: Char);
     procedure frmCopyDlgShow(Sender: TObject);
   private
     function ShowTabsSelector: integer;
     procedure TabsSelector(Sender: TObject);
+    procedure TabsSelectorMouseDown(Sender: TObject; Button: TMouseButton;
+                                    Shift: TShiftState; X, Y: Integer);
     { Private declarations }
   public
     { Public declarations }
@@ -40,6 +46,12 @@ uses
 
 var noteb:TNotebook;
 procedure TfrmCopyDlg.TabsSelector(Sender: TObject);
+begin
+  edtDst.Text:=TFrameFilePanel(noteb.Page[(sender as TBitBtn).tag].Components[0]).ActiveDir;
+end;
+
+procedure TfrmCopyDlg.TabsSelectorMouseDown(Sender: TObject; Button: TMouseButton;
+                                            Shift: TShiftState; X, Y: Integer);
 begin
   edtDst.Text:=TFrameFilePanel(noteb.Page[(sender as TBitBtn).tag].Components[0]).ActiveDir;
 end;
@@ -84,6 +96,7 @@ begin
         btns.Caption:='0 - '+noteb.Page[PtrInt(st.Objects[i])].Caption;
 
       btnS.OnClick:=TabsSelector;
+      btnS.OnMouseDown:=TabsSelectorMouseDown;
 
       btns.AutoSize:=True;
       btns.Left := 2;
@@ -147,6 +160,18 @@ begin
       if key=vk_0 then
         TBitBtn(pnlSelector.Controls[9]).Click;
     end;
+end;
+
+procedure TfrmCopyDlg.btnCancelMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  ModalResult := btnCancel.ModalResult;
+end;
+
+procedure TfrmCopyDlg.btnOKMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  ModalResult := btnOk.ModalResult;
 end;
 
 initialization

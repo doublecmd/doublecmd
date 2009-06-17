@@ -78,6 +78,7 @@ object frmSymLink: TfrmSymLink
     ModalResult = 1
     NumGlyphs = 0
     OnClick = btnOKClick
+    OnMouseDown = btnOKMouseDown
     TabOrder = 0
   end
   object btnCancel: TBitBtn
@@ -97,6 +98,7 @@ object frmSymLink: TfrmSymLink
     Kind = bkCancel
     ModalResult = 2
     NumGlyphs = 0
+    OnMouseDown = btnCancelMouseDown
     TabOrder = 2
   end
 end

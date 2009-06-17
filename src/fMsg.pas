@@ -24,6 +24,8 @@ type
     Escape :Integer;
     iSelected:Integer;
     procedure ButtonClick(Sender:TObject);
+    procedure MouseDownEvent(Sender: TObject; Button: TMouseButton;
+                             Shift: TShiftState; X, Y: Integer);
   end;
 
 
@@ -35,6 +37,13 @@ begin
 end;
 
 procedure TfrmMsg.ButtonClick(Sender:TObject);
+begin
+  iSelected:=(Sender as TButton).Tag;
+  Close;
+end;
+
+procedure TfrmMsg.MouseDownEvent(Sender: TObject; Button: TMouseButton;
+                                 Shift: TShiftState; X, Y: Integer);
 begin
   iSelected:=(Sender as TButton).Tag;
   Close;
