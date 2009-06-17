@@ -8,6 +8,9 @@ uses
   Dialogs, StdCtrls, Buttons;
 
 type
+
+  { TfrmHardLink }
+
   TfrmHardLink = class(TForm)
     lblNew: TLabel;
     lblDst: TLabel;
@@ -15,7 +18,11 @@ type
     edtDst: TEdit;
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
+    procedure btnCancelMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure btnOKClick(Sender: TObject);
+    procedure btnOKMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   private
     { Private declarations }
 
@@ -68,6 +75,19 @@ begin
       // Standart error modal dialog
       MsgError(rsHardErrCreate);
     end;
+end;
+
+procedure TfrmHardLink.btnCancelMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  ModalResult := btnCancel.ModalResult;
+end;
+
+procedure TfrmHardLink.btnOKMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  ModalResult := btnOK.ModalResult;
+  btnOKClick(Sender);
 end;
 
 initialization

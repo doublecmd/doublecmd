@@ -67,6 +67,7 @@ object frmCopyDlg: TfrmCopyDlg
     Kind = bkCancel
     ModalResult = 2
     NumGlyphs = 0
+    OnMouseDown = btnCancelMouseDown
     TabOrder = 0
   end
   object btnOK: TBitBtn
@@ -88,6 +89,7 @@ object frmCopyDlg: TfrmCopyDlg
     Kind = bkOK
     ModalResult = 1
     NumGlyphs = 0
+    OnMouseDown = btnOKMouseDown
     TabOrder = 1
   end
   object cbDropReadOnlyFlag: TCheckBox
