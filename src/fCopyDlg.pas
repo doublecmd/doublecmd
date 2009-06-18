@@ -37,8 +37,6 @@ type
     { Public declarations }
   end;
 
-var
-  frmCopyDlg: TfrmCopyDlg;
 
 implementation
 uses
@@ -69,8 +67,8 @@ begin
       exit;
     end;
   tc:=noteb.PageCount;
+  st:=TStringList.Create;
   try
-    st:=TStringList.Create;
     for i:=0 to tc-1 do
     if TFrameFilePanel(noteb.Page[i].Components[0]).Visible=true then
       begin
@@ -87,7 +85,7 @@ begin
   if tc>10 then tc:=10;
   for i:=0 to tc-1 do
     begin
-      btnS:=TBitBtn.Create(frmCopyDlg);
+      btnS:=TBitBtn.Create(Self);
       btns.Parent:=pnlSelector;
       btns.Tag:=PtrInt(st.Objects[i]);
       if i<9 then
