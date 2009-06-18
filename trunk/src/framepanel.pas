@@ -42,6 +42,7 @@ type
   private
     procedure MouseMove(Shift: TShiftState; X,Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
+    procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer); override;
 
     // Updates the drop row index, which is used to draw a rectangle
     // on directories during drag&drop operations.
@@ -96,6 +97,12 @@ type
        Handles freeing DropParams. }
     procedure DoDragDropOperation(Operation: TDragDropOperation;
                                   DropParams: TDropParams);
+
+{$IFDEF LCLGTK2}
+    function TooManyDoubleClicks: Boolean;
+
+    fLastDoubleClickTime : TDateTime;
+{$ENDIF}
   end;
 
   { TDropParams }
@@ -302,6 +309,7 @@ uses
   uDCUtils, uOSUtils, math, fMain, fSymLink, fHardLink, uFileSorting
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   , GtkProc  // for ReleaseMouseCapture
+  , GTKGlobals  // for DblClickTime
 {$ENDIF}
   ;
 
@@ -1339,6 +1347,11 @@ procedure TFrameFilePanel.dgPanelDblClick(Sender: TObject);
 var
   Point : TPoint;
 begin
+{$IFDEF LCLGTK2}
+  // Workaround for two doubleclicks being sent on GTK.
+  if dgPanel.TooManyDoubleClicks then Exit;
+{$ENDIF}
+
   dgPanel.StartDrag:= False; // don't start drag on double click
   Point:= dgPanel.ScreenToClient(Mouse.CursorPos);
 
@@ -1356,6 +1369,10 @@ begin
     dgPanel.Invalidate;
     Screen.Cursor:=crDefault;
   end;
+
+{$IFDEF LCLGTK2}
+  dgPanel.fLastDoubleClickTime := Now;
+{$ENDIF}
 end;
 
 procedure TFrameFilePanel.dgPanelEnter(Sender: TObject);
@@ -1693,6 +1710,10 @@ begin
   DragDropTarget := nil;
   TransformDragging := False;
 
+{$IFDEF LCLGTK2}
+  FLastDoubleClickTime := Now;
+{$ENDIF}
+
   inherited Create(AOwner);
 
   Self.Parent := AParent;
@@ -1828,6 +1849,13 @@ procedure TDrawGridEx.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
 var
   WasDragging: Boolean;
 begin
+{$IFDEF LCLGTK2}
+  // Workaround for two doubleclicks being sent on GTK.
+  // MouseUp event is sent just after doubleclick, so if we drop
+  // doubleclick events we have to also drop MouseUp events that follow them.
+  if TooManyDoubleClicks then Exit;
+{$ENDIF}
+
   StartDrag := False;
 
   WasDragging := Self.Dragging;
@@ -1837,6 +1865,18 @@ begin
   // Call handler only if button-up was not lifted to finish drag&drop operation.
   if (WasDragging = False) then
     frmMain.framedgPanelMouseUp(Self, Button, Shift, X, Y);
+end;
+
+procedure TDrawGridEx.MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer);
+begin
+{$IFDEF LCLGTK2}
+  // Workaround for two doubleclicks being sent on GTK.
+  // MouseDown event is sent just before doubleclick, so if we drop
+  // doubleclick events we have to also drop MouseDown events that precede them.
+  if TooManyDoubleClicks then Exit;
+{$ENDIF}
+
+  inherited;
 end;
 
 function TDrawGridEx.GetHeaderHeight: Integer;
@@ -2138,6 +2178,13 @@ begin
   // reset TCustomGrid state
   FGridState := gsNormal;
 end;
+
+{$IFDEF LCLGTK2}
+function TDrawGridEx.TooManyDoubleClicks: Boolean;
+begin
+  Result := ((Now - fLastDoubleClickTime) <= ((1/86400)*(DblClickTime/1000)));
+end;
+{$ENDIF}
 
 { TDropParams }
 
