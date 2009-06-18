@@ -196,6 +196,7 @@ const cf_Null=0;
    procedure cm_CutToClipboard(param: string='');
    procedure cm_PasteFromClipboard(param: string='');
    procedure cm_ChangeDirToRoot(param: string='');
+   procedure cm_ChangeDir(param: string='');
 
    //---------------------
    {   procedure SomeFunction (param:string; var Result:integer);
@@ -2357,6 +2358,13 @@ end;
 procedure TActs.cm_ChangeDirToRoot(param: string='');
 begin
   FrmMain.ActiveFrame.pnlFile.cdRootLevel;
+end;
+
+// Parameters:
+// Full path to a directory.
+procedure TActs.cm_ChangeDir(param: string='');
+begin
+  FrmMain.ActiveFrame.pnlFile.ActiveDir := param;
 end;
 
 end.
