@@ -2264,35 +2264,35 @@ object frmOptions: TfrmOptions
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = edtTabsLimitLength
             AnchorSideTop.Side = asrCenter
-            Left = 284
-            Height = 14
-            Top = 57
-            Width = 52
+            Left = 288
+            Height = 16
+            Top = 58
+            Width = 62
             BorderSpacing.Left = 6
             Caption = 'characters'
             ParentColor = False
           end
           object cbTabsAlwaysVisible: TCheckBox
             Left = 12
-            Height = 17
+            Height = 21
             Top = 6
-            Width = 248
+            Width = 304
             Caption = '&Show tab header also when there is only one tab'
             TabOrder = 0
           end
           object cbTabsMultiLines: TCheckBox
             Left = 12
-            Height = 17
+            Height = 21
             Top = 31
-            Width = 119
+            Width = 148
             Caption = '&Tabs on multiple lines'
             TabOrder = 1
           end
           object cbTabsLimitOption: TCheckBox
             Left = 12
-            Height = 17
+            Height = 21
             Top = 56
-            Width = 123
+            Width = 156
             Caption = '&Limit tab title length to:'
             TabOrder = 2
           end
@@ -2300,34 +2300,34 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbTabsLimitOption
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Side = asrBottom
-            Left = 237
+            Left = 241
             Height = 23
-            Top = 53
+            Top = 55
             Width = 41
             Anchors = [akTop, akRight]
             TabOrder = 3
           end
           object cbTabsOpenForeground: TCheckBox
             Left = 12
-            Height = 17
+            Height = 21
             Top = 106
-            Width = 191
+            Width = 233
             Caption = 'Ctrl+&Up opens new tab in foreground'
             TabOrder = 4
           end
           object cbTabsConfirmCloseAll: TCheckBox
             Left = 12
-            Height = 17
+            Height = 21
             Top = 81
-            Width = 117
+            Width = 148
             Caption = '&Confirm close all tabs'
             TabOrder = 5
           end
           object cbTabsLockedAsterisk: TCheckBox
             Left = 12
-            Height = 17
-            Top = 131
-            Width = 186
+            Height = 21
+            Top = 156
+            Width = 230
             Caption = 'Show locked tabs &with an asterisk *'
             TabOrder = 6
           end
@@ -2336,13 +2336,21 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbTabsLockedAsterisk
             AnchorSideTop.Side = asrBottom
             Left = 12
-            Height = 17
-            Top = 154
-            Width = 272
+            Height = 21
+            Top = 183
+            Width = 329
             BorderSpacing.Left = 12
             BorderSpacing.Top = 6
             Caption = 'Activate target &panel when clicking on one of its Tabs'
             TabOrder = 7
+          end
+          object cbTabsShowCloseButton: TCheckBox
+            Left = 12
+            Height = 21
+            Top = 131
+            Width = 152
+            Caption = 'Show tab close button'
+            TabOrder = 8
           end
         end
       end
