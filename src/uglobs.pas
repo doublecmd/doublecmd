@@ -212,6 +212,7 @@ const
   tb_open_new_near_current = 128;
   tb_show_asterisk_for_locked = 256;
   tb_activate_panel_on_click = 512;
+  tb_show_close_button = 1024;
 
 function LoadGlobs : Boolean;
 procedure SaveGlobs;

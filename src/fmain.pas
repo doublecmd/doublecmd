@@ -530,8 +530,8 @@ begin
   // frost_asm end
 
   // Tabs
-  nbLeft.Options:=[nboShowCloseButtons, nboHidePageListPopup];
-  nbRight.Options:=[nboShowCloseButtons, nboHidePageListPopup];
+  nbLeft.Options:=[nboHidePageListPopup];
+  nbRight.Options:=[nboHidePageListPopup];
 
   actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
 
@@ -3168,6 +3168,17 @@ begin
   // Tabs
   nbLeft.ShowTabs := ((nbLeft.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
   nbRight.ShowTabs := ((nbRight.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
+
+  if gDirTabOptions and tb_show_close_button <> 0 then
+    begin
+      nbLeft.Options:= nbLeft.Options + [nboShowCloseButtons];
+      nbRight.Options:= nbRight.Options + [nboShowCloseButtons];
+    end
+  else
+    begin
+      nbLeft.Options:= nbLeft.Options - [nboShowCloseButtons];
+      nbRight.Options:= nbRight.Options - [nboShowCloseButtons];
+    end;
 
   SetMultilineTabs(nbLeft, Boolean(gDirTabOptions and tb_multiple_lines));
   SetMultilineTabs(nbRight, Boolean(gDirTabOptions and tb_multiple_lines));

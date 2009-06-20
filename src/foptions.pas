@@ -85,6 +85,7 @@ type
     cbRenameSelOnlyName: TCheckBox;
     cbShowCopyTabSelectPanel: TCheckBox;
     cbShortFileSizeFormat: TCheckBox;
+    cbTabsShowCloseButton: TCheckBox;
     cbViewerFont: TComboBox;
     cbFlatInterface: TCheckBox;
     cbFlatToolBar: TCheckBox;
@@ -2094,6 +2095,7 @@ begin
   cbTabsLockedAsterisk.Checked:= Boolean(gDirTabOptions and tb_show_asterisk_for_locked);
   cbTabsActivateOnClick.Checked:= Boolean(gDirTabOptions and tb_activate_panel_on_click);
   edtTabsLimitLength.Text := IntToStr(gDirTabLimit);
+  cbTabsShowCloseButton.Checked:= Boolean(gDirTabOptions and tb_show_close_button);
 
   { Configuration storage }
   if gNewUseIniInProgramDir then
@@ -2269,6 +2271,8 @@ begin
     gDirTabOptions := (gDirTabOptions or tb_show_asterisk_for_locked);
   if cbTabsActivateOnClick.Checked then
     gDirTabOptions := (gDirTabOptions or tb_activate_panel_on_click);
+  if cbTabsShowCloseButton.Checked then
+    gDirTabOptions := (gDirTabOptions or tb_show_close_button);
 
   gDirTabLimit := StrToIntDef(edtTabsLimitLength.Text, 32);
 
