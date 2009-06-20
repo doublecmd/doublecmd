@@ -44,9 +44,12 @@ uses
   Graphics, Forms, Menus, Controls, Dialogs, ComCtrls,
   StdCtrls, ExtCtrls,ActnList,Buttons, uFileSystemWatcher,
   SysUtils, Classes,  {uFilePanel,} framePanel, {FileCtrl,} Grids,
-  KASToolBar, SynEdit, KASBarMenu,KASBarFiles,uColumns, uFileList, LCLType,uCmdBox{$IFDEF UNIX},uterm{$ENDIF}
+  KASToolBar, SynEdit, KASBarMenu,KASBarFiles,uColumns, uFileList, LCLType,uCmdBox
+  {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+  , uterm
+  {$ENDIF}
   {$IFDEF LCLQT}
-    , qt4
+  , qt4
   {$ENDIF}
   ;
 
@@ -483,7 +486,7 @@ type
   end;
 var
   frmMain: TfrmMain;
-{$IFDEF UNIX}
+{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
   Cons: TConThread = nil;
 {$ENDIF}
 
@@ -1089,7 +1092,7 @@ begin
   except
   end;
 
-{$IFDEF UNIX}
+{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
  if assigned(Cons) then
   Cons.Free;
 {$ENDIF}
@@ -2596,7 +2599,7 @@ begin
   PanelSelected:=panel;
   NotActiveFrame.dgPanelExit(self);
   ActiveFrame.SetFocus;
-  {$IFDEF unix}
+  {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
   if gTermWindow and Assigned(Cons) then
     Cons.Terminal.Write_pty(' cd "'+ActiveFrame.ActiveDir+'"'+#13+#10);
   {$ENDIF}
@@ -3043,7 +3046,7 @@ end;
 
 procedure TfrmMain.ToggleConsole;
 begin
-{$IFDEF UNIX}
+{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
   if gTermWindow then
     begin
       if not Assigned(Cons) then
@@ -3292,7 +3295,7 @@ end;
 
 procedure TfrmMain.tmHALTimer(Sender: TObject);
 begin
-{$IFDEF UNIX}
+{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
   if CheckHalMsg then
     UpdateDiskCount;
 {$ENDIF}
@@ -3323,7 +3326,7 @@ begin
         sDir:= mbGetCurrentDir;
         ActiveDir:= sDir;
         DebugLn(sDir);
-{$IFDEF UNIX}
+{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
         if gTermWindow and Assigned(Cons) then
           Cons.Terminal.Write_pty(' cd "'+sDir+'"'+#13#10);
 {$ENDIF}
@@ -3335,7 +3338,7 @@ begin
     if edtCommand.Items.IndexOf(sCmd)=-1 then
       edtCommand.Items.Insert(0,sCmd);
 
-{$IFDEF unix}
+{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
     if gTermWindow and Assigned(Cons) then
       Cons.Terminal.Write_pty(sCmd+#13#10)
     else

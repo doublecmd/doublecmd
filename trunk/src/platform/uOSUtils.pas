@@ -31,7 +31,7 @@ uses
     {$IFDEF MSWINDOWS}
     , Windows, ShellApi, uNTFSLinks, uMyWindows, JwaWinNetWk
     {$ELSE}
-    , BaseUnix, Unix, UnixType, UnixUtil, dl, uMyUnix, libhal, dbus
+    , BaseUnix, Unix, UnixType, UnixUtil, dl, uMyUnix{$IFNDEF DARWIN}, libhal, dbus{$ENDIF}
     {$ENDIF};
     
 const
@@ -245,7 +245,7 @@ function mbCompareText(const s1, s2: UTF8String): PtrInt;
 function mbSetEnvironmentVariable(const sName, sValue: UTF8String): Boolean;
 function mbLoadLibrary(Name: UTF8String): TLibHandle;
 
-{$IFNDEF MSWINDOWS}
+{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
 // create all Hal object
 procedure CreateHal;
 // procedure where we get message add or remove
@@ -1502,7 +1502,9 @@ end;
 begin
   Result:= TLibHandle(dlopen(PChar(Name), RTLD_LAZY));
 end;
+{$ENDIF}
 
+{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
 // ************************** HAL section ***********************  //
 
 procedure CheckBlockDev(ctx: PLibHalContext; const udi: PChar; error: PDBusError; const CreateArray: boolean = False);
@@ -1688,7 +1690,7 @@ end;
 
 {$ENDIF}
 
-{$IFDEF UNIX}
+{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
 
 initialization
   CreateHal;
@@ -1697,4 +1699,5 @@ finalization
   FreeHal;
 
 {$ENDIF}
+
 end.
