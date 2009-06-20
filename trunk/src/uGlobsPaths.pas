@@ -25,7 +25,7 @@ var
   Ini : TIniFileEx;
 begin
   OnGetApplicationName := @GetAppName;
-  gpExePath := ExtractFilePath(SysToUTF8(ParamStr(0)));
+  gpExePath := ExtractFilePath(TryReadAllLinks(ParamStrUTF8(0)));
   DebugLn('Executable directory: ', gpExePath);
   
   gpCfgDir := gpExePath;
