@@ -686,7 +686,7 @@ var
   uinfo: PPasswordRecord;
 begin
   uinfo:= getpwuid(fpGetUID);
-  if uinfo <> nil then
+  if (uinfo <> nil) and (uinfo^.pw_dir <> '') then
     Result:= uinfo^.pw_dir + '/.config/' + ApplicationName
   else
     Result:= SysUtils.GetAppConfigDir(False);
