@@ -2597,7 +2597,6 @@ end;
 procedure TfrmMain.SetActiveFrame(panel: TFilePanelSelect);
 begin
   PanelSelected:=panel;
-  NotActiveFrame.dgPanelExit(self);
   ActiveFrame.SetFocus;
   {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
   if gTermWindow and Assigned(Cons) then
