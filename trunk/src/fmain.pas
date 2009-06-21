@@ -2857,6 +2857,7 @@ var
   sIndex,
   TabsSection: String;
   fpsPanel: TFilePanelSelect;
+  sCurrentDir,  
   sPath, sColumnSet,
   sCaption: String;
   iActiveTab: Integer;
@@ -2879,11 +2880,26 @@ begin
   I:= 0;
   sIndex:= '0';
   // create one tab in any way
-  sPath:= mbGetCurrentDir; // default path
-  sPath:= gIni.ReadString(TabsSection, sIndex + '_path', sPath);
+  sCurrentDir:= mbGetCurrentDir; // default path
+  sPath:= gIni.ReadString(TabsSection, sIndex + '_path', sCurrentDir);
    while True do
     begin
-      sCaption:= gIni.ReadString(TabsSection, sIndex + '_caption', '');
+	  if mbDirectoryExists(sPath) then
+	    begin
+	      sCaption:= gIni.ReadString(TabsSection, sIndex + '_caption', EmptyStr);
+		  if sCaption = EmptyStr then
+		    sCaption:= GetLastDir(ExcludeTrailingPathDelimiter(sPath));
+		end
+	  else	
+        begin // find exists directory
+		  repeat
+            sPath:= GetParentDir(sPath);	     
+	        if sPath = EmptyStr then
+	          sPath:= sCurrentDir;
+          until mbDirectoryExists(sPath);
+		  sCaption:= GetLastDir(ExcludeTrailingPathDelimiter(sPath));
+		end;
+        
       CreatePanel(AddPage(ANoteBook), fpsPanel, sPath);
 
       FrameFilePanel := TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]);
