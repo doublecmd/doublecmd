@@ -939,6 +939,8 @@ end;
 
 procedure TFrameFilePanel.ShowAltPanel(Char : TUTF8Char);
 begin
+  frmMain.EnableHotkeys(False);
+
   edtSearch.Height   := pnAltSearch.Canvas.TextHeight('Pp') + 1
                       + GetSystemMetrics(SM_CYEDGE) * 2;
   pnAltSearch.Height := edtSearch.Height + GetSystemMetrics(SM_CYEDGE);
@@ -1317,7 +1319,6 @@ begin
   FActive:= False;
   lblLPath.SetActive(False);
   ClearGridSelection;
-  frmMain.EnableHotkeys(False);
 end;
 
 procedure TFrameFilePanel.MakeSelectedVisible;

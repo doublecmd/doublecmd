@@ -2315,6 +2315,8 @@ end;
 
 procedure TfrmMain.ShowRenameFileEdit(const sFileName:String);
 begin
+  EnableHotkeys(False);
+
   With ActiveFrame do
   begin
     edtRename.OnExit:=@FrameEditExit;
@@ -2526,6 +2528,8 @@ end;
 
 procedure TfrmMain.ShowPathEdit;
 begin
+  EnableHotkeys(False);
+
   with ActiveFrame do
   begin
     edtPath.OnExit:=@FrameEditExit;
@@ -3247,6 +3251,8 @@ end;
 
 procedure TfrmMain.edtCommandEnter(Sender: TObject);
 begin
+  EnableHotkeys(False);
+
   // Which actions should be active in the command line.
   Actions.EnableAction('AddPathToCmdLine', True);
   Actions.EnableAction('AddFilenameToCmdLine', True);
