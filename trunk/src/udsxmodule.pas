@@ -113,6 +113,12 @@ TDsxModule=class
 
 implementation
 
+uses
+  uGlobsPaths;
+
+const
+  DsxIniFileName = 'dsx.ini';
+
 { TDsxModule }
 
 function TDsxModule.GIsLoaded: boolean;
@@ -165,7 +171,7 @@ begin
   if Assigned(SInit) then
     begin
       GetMem(dps,SizeOf(tDSXDefaultParamStruct));
-      dps^.DefaultIniName:=gini.FileName;
+      dps^.DefaultIniName:=gpIniDir + DsxIniFileName;
       dps^.PluginInterfaceVersionHi:=0;
       dps^.PluginInterfaceVersionLow:=10;
       dps^.size:=SizeOf(tDSXDefaultParamStruct);

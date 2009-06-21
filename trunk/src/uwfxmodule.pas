@@ -163,7 +163,10 @@ Type
 implementation
 uses
   LCLProc, LCLType, uGlobs, uLog, uVFSutil, uFileOp, uOSUtils, uLng,
-  Dialogs, Forms, Controls, FileUtil, uDCUtils;
+  Dialogs, Forms, Controls, FileUtil, uDCUtils, uGlobsPaths;
+
+const
+  WfxIniFileName = 'wfx.ini';
 
 var
   WFXModuleList: TList = nil;
@@ -488,7 +491,7 @@ begin
     if Assigned(FsSetDefaultParams) then
     begin
       GetMem(dps,SizeOf(tFsDefaultParamStruct));
-      dps.DefaultIniName:=gini.FileName;
+      dps.DefaultIniName:=gpIniDir + WfxIniFileName;
       dps.PluginInterfaceVersionHi:=1;
       dps.PluginInterfaceVersionLow:=50;
       dps.size:=SizeOf(tFsDefaultParamStruct);

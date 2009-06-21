@@ -235,6 +235,9 @@ implementation
 uses Forms, SysUtils, Masks, uFileOp, uGlobs, uLog, uOSUtils, LCLProc,
      uDCUtils, uLng, Controls, fPackInfoDlg, fDialogBox, uGlobsPaths, FileUtil;
 
+const
+  WcxIniFileName = 'wcx.ini';
+
 var
   WCXModule : TWCXModule = nil;  // used in ProcessDataProc
   iResult : Integer;
@@ -301,7 +304,7 @@ begin
           Size := SizeOf(PackDefaultParamStruct);
           PluginInterfaceVersionLow := 10;
           PluginInterfaceVersionHi := 2;
-          DefaultIniName := '';
+          DefaultIniName := gpIniDir + WcxIniFileName;
         end;
       PackSetDefaultParams(@PackDefaultParamStruct);
     end;
