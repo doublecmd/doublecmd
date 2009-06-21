@@ -251,7 +251,10 @@ type
 
 implementation
 
-uses uGlobs, FileUtil;
+uses uGlobs, uGlobsPaths, FileUtil;
+
+const
+  WdxIniFileName = 'wdx.ini';
 
 { TWDXModuleList }
 
@@ -565,7 +568,7 @@ begin
    if assigned(ContentSetDefaultParams) then
    begin
        GetMem(dps,SizeOf(tContentDefaultParamStruct));
-       dps.DefaultIniName:=gini.FileName;
+       dps.DefaultIniName:=gpIniDir + WdxIniFileName;
        dps.PluginInterfaceVersionHi:=1;
        dps.PluginInterfaceVersionLow:=50;
        dps.size:=SizeOf(tContentDefaultParamStruct);

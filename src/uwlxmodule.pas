@@ -143,8 +143,12 @@ type
   Function WlxPrepareContainer(Ahandle:THandle; revert:boolean=false):boolean;
 
 implementation
+
 uses
-  FileUtil, uOSUtils;
+  FileUtil, uOSUtils, uGlobsPaths;
+
+const
+  WlxIniFileName = 'wlx.ini';
 
 function WlxPrepareContainer(Ahandle: THandle; revert:boolean=false): boolean;
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
@@ -360,7 +364,7 @@ begin
   if not assigned(ListSetDefaultParams) then exit;
 
   GetMem(dps,SizeOf(tListDefaultParamStruct));
-  dps^.DefaultIniName:=gini.FileName;
+  dps^.DefaultIniName:=gpIniDir + WlxIniFileName;
   dps^.PluginInterfaceVersionHi:=1;
   dps^.PluginInterfaceVersionLow:=80;
   dps^.size:=SizeOf(tListDefaultParamStruct);
