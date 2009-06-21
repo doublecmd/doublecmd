@@ -4,9 +4,7 @@ object frmConfigToolBar: TfrmConfigToolBar
   Top = 256
   Width = 605
   HelpContext = 270
-  HorzScrollBar.Page = 604
-  VertScrollBar.Page = 284
-  ActiveControl = btnOpenBarFile
+  ActiveControl = pnlToolBarFileName
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Change button bar'
@@ -15,11 +13,11 @@ object frmConfigToolBar: TfrmConfigToolBar
   ClientWidth = 605
   Constraints.MaxHeight = 320
   Constraints.MaxWidth = 605
-  Font.Color = clBtnText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   OnShow = FormShow
   Position = poScreenCenter
+  LCLVersion = '0.9.27'
   object lblButtonBar: TLabel
     AnchorSideTop.Control = stToolBarFileName
     AnchorSideTop.Side = asrCenter
