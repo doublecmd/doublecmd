@@ -325,7 +325,8 @@ begin
   end;
   if dgPanel.Row<0 then
     dgPanel.Selection:=FLastSelect;
-  dgPanel.SetFocus;
+  if frmMain.Visible and dgPanel.CanFocus then
+    dgPanel.SetFocus;
   lblLPath.SetActive(True);
   pnlFile.UpdatePrompt;
   if Parent is TPage then

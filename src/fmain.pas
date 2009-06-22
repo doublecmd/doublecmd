@@ -330,7 +330,6 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
     procedure FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
-    procedure FormDataEvent(Data: PtrInt);
     procedure FormWindowStateChange(Sender: TObject);
     procedure MainSplitterDblClick(Sender: TObject);
     procedure MainSplitterMouseDown(Sender: TObject; Button: TMouseButton;
@@ -406,6 +405,7 @@ type
     RightFrameWatcher: TFileSystemWatcher;
     DrivesList : TList;
     MainSplitterHintWnd: THintWindow;
+    HiddenToTray: Boolean;
 
     // frost_asm begin
     // mainsplitter
@@ -418,11 +418,21 @@ type
     function ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
     procedure AddSpecialButtons(dskPanel: TKASToolBar);
     procedure ReLoadTabs(ANoteBook: TNoteBook);
+    procedure HideToTray;
     procedure RestoreFromTray;
+    procedure ShowTrayIcon(bShow: Boolean);
+
+    {en
+       Retrieves current window state, with a workaround for QT minimized state.
+    }
+    function GetWindowState: TWindowState;
 
 {$IFDEF LCLQT}
     QtTrayIconHook: QSystemTrayIcon_hookH;
     procedure QtSystemTrayIconActivated(reason: QSystemTrayIconActivationReason); cdecl;
+    procedure HookTrayIcon;
+    procedure UnHookTrayIcon;
+    function  IsTrayIconHooked: Boolean;
 {$ENDIF}
 
   public
@@ -511,6 +521,12 @@ var
   slCommandHistory: TStringListEx;
   i: Integer;
 begin
+{$IFDEF LCLQT}
+  QtTrayIconHook := nil;
+{$ENDIF}
+
+  HiddenToTray := False;
+
   inherited;
   // frost_asm begin
   MainSplitterLeftMouseBtnDown:=false;
@@ -784,52 +800,29 @@ begin
     end
 end;
 
-procedure TfrmMain.FormDataEvent(Data: PtrInt);
-begin
-  MainTrayIcon.Visible:= False;
-end;
-
 procedure TfrmMain.FormWindowStateChange(Sender: TObject);
-{$IFDEF LCLQT}
-var
-  WindowStates: QtWindowStates;
-  Method: TMethod;
-{$ENDIF}
 begin
-{$IFDEF LCLQT}
-  // On QT reported window state can be maximized and minimized at the same time
-  // (meaning a minimized window which should be in a maximized state when shown again).
-  WindowStates := QWidget_windowState(TQtWidget(Self.Handle).Widget);
-  if (WindowStates and QtWindowMinimized) <> 0 then
-{$ELSE}
-  if WindowState = wsMinimized then
-{$ENDIF}
+  if (GetWindowState = wsMinimized) then
   begin  // Minimized
-    if gTrayIcon and (not MainTrayIcon.Visible) then
+    if not HiddenToTray then
+    begin
+    if gMinimizeToTray or gAlwaysShowTrayIcon then
       begin
-        Hide;
-        MainTrayIcon.Visible:= True;
-
-{$IFDEF LCLQT}
-        // Workaround for QT - hooking tray icon mouse events.
-        if MainTrayIcon.Handle <> 0 then
-        begin
-          QtTrayIconHook := QSystemTrayIcon_hook_create(TQtSystemTrayIcon(MainTrayIcon.Handle).Handle);
-          if Assigned(QtTrayIconHook) then
-          begin
-            QSystemTrayIcon_activated_Event(Method) := @QtSystemTrayIconActivated;
-            QSystemTrayIcon_hook_hook_activated(QtTrayIconHook, Method);
-          end;
-        end;
-{$ENDIF}
-
+        HideToTray;
       end;
     end
+  else
+      // If we get wsMinimized while HiddenToTray is true,
+      // then this means it was sent by LCL when a hidden, minimized window was shown.
+      // We don't react to this message in this case.
+      HiddenToTray := False;
+  end
   else
   begin  // Not minimized
     // запоминаєм состояние окна перед минимизацией для
     // дальнейшего восстановления после разворачивания из трея
     lastWindowState:=WindowState;
+    HiddenToTray := False;
   end;
 end;
 
@@ -911,7 +904,15 @@ end;
 
 procedure TfrmMain.MainTrayIconClick(Sender: TObject);
 begin
-  RestoreFromTray;
+  if GetWindowState = wsMinimized then
+  begin
+    RestoreFromTray;
+  end
+  else
+  begin
+    MinimizeWindow;
+    HideToTray;
+  end;
 end;
 
 procedure TfrmMain.lblDriveInfoDblClick(Sender: TObject);
@@ -1108,6 +1109,7 @@ end;
 procedure TfrmMain.frmMainAfterShow(Data: PtrInt);
 begin
   ActiveFrame.SetFocus;
+  HiddenToTray := False;
 end;
 
 procedure TfrmMain.frmMainShow(Sender: TObject);
@@ -3222,6 +3224,7 @@ begin
   seLogWindow.Font.Name := gEditorFontName;
   ToggleConsole;
   ToggleFileSystemWatcher;
+  ShowTrayIcon(gAlwaysShowTrayIcon);
 end;
 
 procedure TfrmMain.edtCommandKeyDown(Sender: TObject; var Key: Word;
@@ -3541,23 +3544,67 @@ begin
   end;
 end;
 
+procedure TfrmMain.HideToTray;
+begin
+  Hide;
+  ShowTrayIcon(True);
+  HiddenToTray := True;
+end;
+
 procedure TfrmMain.RestoreFromTray;
 begin
-{$IFDEF LCLQT}
-  // Destroy the hook, because hiding the tray icon will destroy it.
-  if Assigned(QtTrayIconHook) then
-  begin
-    QSystemTrayIcon_hook_destroy(QtTrayIconHook);
-    QtTrayIconHook := nil;
-  end;
-{$ENDIF}
-
   // делал по другому
   // WindowState:=lastWindowState; но при wsNormal
   // окно становится видимим но свернутим
   if lastWindowState=wsMaximized then  WindowState:=wsMaximized;
   ShowOnTop;
-  Application.QueueAsyncCall(@FormDataEvent, 0);
+
+  if not gAlwaysShowTrayIcon then
+    ShowTrayIcon(False);
+end;
+
+procedure TfrmMain.ShowTrayIcon(bShow: Boolean);
+begin
+  if bShow <> MainTrayIcon.Visible then
+  begin
+    if bShow then
+    begin
+      MainTrayIcon.Visible := True;
+
+{$IFDEF LCLQT}
+      // Workaround for QT - hooking tray icon mouse events.
+      if not IsTrayIconHooked then
+        HookTrayIcon;
+{$ENDIF}
+    end
+    else
+  begin
+{$IFDEF LCLQT}
+    // Unhook, because hiding the tray icon will destroy it.
+      if IsTrayIconHooked then
+    UnHookTrayIcon;
+{$ENDIF}
+
+      MainTrayIcon.Visible := False;
+    end;
+  end;
+end;
+
+function TfrmMain.GetWindowState: TWindowState;
+{$IFDEF LCLQT}
+var
+  WindowStates: QtWindowStates;
+{$ENDIF}
+begin
+{$IFDEF LCLQT}
+  // On QT reported window state can be maximized and minimized at the same time
+  // (meaning a minimized window which should be in a maximized state when shown again).
+  WindowStates := QWidget_windowState(TQtWidget(Self.Handle).Widget);
+  if (WindowStates and QtWindowMinimized) <> 0 then
+    Result := wsMinimized
+  else
+{$ENDIF}
+  Result := Self.WindowState;
 end;
 
 {$IFDEF LCLQT}
@@ -3567,6 +3614,35 @@ begin
     QSystemTrayIconTrigger,     // single click
     QSystemTrayIconDoubleClick: // double click
       MainTrayIconClick(MainTrayIcon);
+  end;
+end;
+
+procedure TfrmMain.HookTrayIcon;
+var
+  Method: TMethod;
+begin
+  if MainTrayIcon.Handle <> 0 then
+  begin
+    QtTrayIconHook := QSystemTrayIcon_hook_create(TQtSystemTrayIcon(MainTrayIcon.Handle).Handle);
+    if Assigned(QtTrayIconHook) then
+    begin
+      QSystemTrayIcon_activated_Event(Method) := @QtSystemTrayIconActivated;
+      QSystemTrayIcon_hook_hook_activated(QtTrayIconHook, Method);
+    end;
+  end;
+end;
+
+function TfrmMain.IsTrayIconHooked: Boolean;
+begin
+  Result := (QtTrayIconHook <> nil);
+end;
+
+procedure TfrmMain.UnHookTrayIcon;
+begin
+  if Assigned(QtTrayIconHook) then
+  begin
+    QSystemTrayIcon_hook_destroy(QtTrayIconHook);
+    QtTrayIconHook := nil;
   end;
 end;
 {$ENDIF}
