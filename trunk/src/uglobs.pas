@@ -97,7 +97,8 @@ var
   gCutTextToColWidth : Boolean;
   gSpaceMovesDown: Boolean;
   gScrollMode: Integer;
-  gTrayIcon: Boolean;
+  gAlwaysShowTrayIcon: Boolean;
+  gMinimizeToTray: Boolean;
   gShortFileSizeFormat:Boolean=True;
 
   gDateTimeFormat : String;
@@ -488,7 +489,8 @@ begin
   glsHotDir.CommaText := gIni.ReadString('Configuration', 'HotDir', '');
   gShortFileSizeFormat := gIni.ReadBool('Configuration', 'ShortFileSizeFormat', True);
   gScrollMode := gIni.ReadInteger('Configuration', 'ScrollMode', 0);
-  gTrayIcon := gIni.ReadBool('Configuration', 'TrayIcon', False);
+  gMinimizeToTray := gIni.ReadBool('Configuration', 'MinimizeToTray', False);
+  gAlwaysShowTrayIcon := gIni.ReadBool('Configuration', 'AlwaysShowTrayIcon', False);
   gDateTimeFormat := gIni.ReadString('Configuration', 'DateTimeFormat', 'dd.mm.yy');
   gDriveBlackList:= gIni.ReadString('Configuration', 'DriveBlackList', '');
   gSpaceMovesDown := gIni.ReadBool('Configuration', 'SpaceMovesDown', False);
@@ -682,7 +684,8 @@ begin
   gIni.WriteString('Configuration', 'HotDir', glsHotDir.CommaText);
   gIni.WriteBool('Configuration', 'ShortFileSizeFormat', gShortFileSizeFormat);
   gIni.WriteInteger('Configuration', 'ScrollMode', gScrollMode);
-  gIni.WriteBool('Configuration', 'TrayIcon', gTrayIcon);
+  gIni.WriteBool('Configuration', 'MinimizeToTray', gMinimizeToTray);
+  gIni.WriteBool('Configuration', 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
   gIni.WriteString('Configuration', 'DateTimeFormat', gDateTimeFormat);
   gIni.WriteString('Configuration', 'DriveBlackList', gDriveBlackList);
   gIni.WriteBool('Configuration', 'SpaceMovesDown', gSpaceMovesDown);

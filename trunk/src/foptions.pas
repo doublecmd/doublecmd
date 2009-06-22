@@ -122,6 +122,7 @@ type
     cbDirBrackets: TCheckBox;
     cbTabsActivateOnClick: TCheckBox;
     cbDeleteToTrash: TCheckBox;
+    cbAlwaysShowTrayIcon: TCheckBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
@@ -294,6 +295,7 @@ type
     procedure btnDSXAddClick(Sender: TObject);
     procedure btnEnablePluginClick(Sender: TObject);
     procedure btnSearchTemplateClick(Sender: TObject);
+    procedure cbAlwaysShowTrayIconChange(Sender: TObject);
     procedure edHotKeyKeyPress(Sender: TObject; var Key: char);
     procedure miSearchTemplateClick(Sender: TObject);
     procedure btnWDXAddClick(Sender: TObject);
@@ -1719,6 +1721,12 @@ begin
   pmSearchTemplate.PopUp();
 end;
 
+procedure TfrmOptions.cbAlwaysShowTrayIconChange(Sender: TObject);
+begin
+  // Force minimizing to tray when tray icon is always shown.
+  cbMinimizeToTray.Enabled:= not cbAlwaysShowTrayIcon.Checked;
+end;
+
 procedure TfrmOptions.edHotKeyKeyPress(Sender: TObject; var Key: char);
 begin
   Key := #0;
@@ -2025,7 +2033,7 @@ begin
   cbCaseSensitiveSort.Checked:=gCaseSensitiveSort;
   cbLynxLike.Checked:=gLynxLike;
   cbShortFileSizeFormat.Checked:=gShortFileSizeFormat;
-  
+
   cbSelectionByMouse.Checked:=gMouseSelectionEnabled;
   cbMouseMode.ItemIndex := gMouseSelectionButton;
 
@@ -2036,7 +2044,9 @@ begin
     rgScrolling.ItemIndex:=  gScrollMode
   else
     rgScrolling.ItemIndex:= 0;
-  cbMinimizeToTray.Checked:= gTrayIcon;
+  cbMinimizeToTray.Checked:= gMinimizeToTray;
+  cbMinimizeToTray.Enabled:= not gAlwaysShowTrayIcon;
+  cbAlwaysShowTrayIcon.Checked:= gAlwaysShowTrayIcon;
   cbDateTimeFormat.Text:= gDateTimeFormat;
   lblDateTimeExample.Caption:= FormatDateTime(gDateTimeFormat, Now);
   cbRenameSelOnlyName.Checked:= gRenameSelOnlyName;
@@ -2180,7 +2190,8 @@ begin
   gLynxLike:=cbLynxLike.Checked;
   gShortFileSizeFormat:=cbShortFileSizeFormat.Checked;
   gScrollMode := rgScrolling.ItemIndex;
-  gTrayIcon:= cbMinimizeToTray.Checked;
+  gMinimizeToTray:= cbMinimizeToTray.Checked;
+  gAlwaysShowTrayIcon:= cbAlwaysShowTrayIcon.Checked;
   gDateTimeFormat := cbDateTimeFormat.Text;
   gRenameSelOnlyName:= cbRenameSelOnlyName.Checked;
   gCutTextToColWidth:= cbCutTextToColWidth.Checked;

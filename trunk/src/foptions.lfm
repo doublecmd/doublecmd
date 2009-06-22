@@ -1,12 +1,12 @@
 object frmOptions: TfrmOptions
   Left = 246
-  Height = 547
+  Height = 577
   Top = 115
-  Width = 673
+  Width = 704
   ActiveControl = tvTreeView
   Caption = 'Options'
-  ClientHeight = 547
-  ClientWidth = 673
+  ClientHeight = 577
+  ClientWidth = 704
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -17,16 +17,16 @@ object frmOptions: TfrmOptions
   object Panel1: TPanel
     Left = 0
     Height = 43
-    Top = 504
-    Width = 673
+    Top = 534
+    Width = 704
     Align = alBottom
     ClientHeight = 43
-    ClientWidth = 673
+    ClientWidth = 704
     FullRepaint = False
     TabOrder = 1
     object btnOK: TBitBtn
       AnchorSideRight.Control = btnCancel
-      Left = 355
+      Left = 386
       Height = 31
       Top = 5
       Width = 98
@@ -43,7 +43,7 @@ object frmOptions: TfrmOptions
     end
     object btnCancel: TBitBtn
       AnchorSideRight.Control = btnApply
-      Left = 461
+      Left = 492
       Height = 31
       Top = 5
       Width = 98
@@ -60,7 +60,7 @@ object frmOptions: TfrmOptions
     object btnApply: TBitBtn
       AnchorSideRight.Control = Panel1
       AnchorSideRight.Side = asrBottom
-      Left = 567
+      Left = 598
       Height = 31
       Top = 5
       Width = 98
@@ -75,11 +75,11 @@ object frmOptions: TfrmOptions
   end
   object tvTreeView: TTreeView
     Left = 0
-    Height = 504
+    Height = 534
     Top = 0
     Width = 170
     Align = alLeft
-    DefaultItemHeight = 16
+    DefaultItemHeight = 19
     Images = ilTreeView
     ReadOnly = True
     ScrollBars = ssNone
@@ -113,47 +113,48 @@ object frmOptions: TfrmOptions
   end
   object Panel3: TPanel
     Left = 170
-    Height = 504
+    Height = 534
     Top = 0
-    Width = 503
+    Width = 534
     Align = alClient
-    ClientHeight = 504
-    ClientWidth = 503
+    ClientHeight = 534
+    ClientWidth = 534
     TabOrder = 2
     object nbNotebook: TNotebook
       Left = 1
-      Height = 479
+      Height = 509
       Top = 24
-      Width = 501
+      Width = 532
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 7
+      PageIndex = 1
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
-        ClientWidth = 493
-        ClientHeight = 471
+        ClientWidth = 528
+        ClientHeight = 505
         object lngList: TListBox
           Left = 0
-          Height = 471
+          Height = 505
           Top = 0
-          Width = 493
+          Width = 528
           Align = alClient
           ItemHeight = 0
           TabOrder = 0
+          TopIndex = -1
         end
       end
       object pgBehav: TPage
-        ClientWidth = 493
-        ClientHeight = 471
+        ClientWidth = 528
+        ClientHeight = 505
         OnResize = pgBehavResize
         object lblRunInTerm: TLabel
           AnchorSideTop.Control = edtRunInTerm
           AnchorSideTop.Side = asrCenter
           Left = 8
-          Height = 14
-          Top = 13
-          Width = 76
+          Height = 18
+          Top = 11
+          Width = 96
           Caption = 'Run in terminal:'
           ParentColor = False
         end
@@ -161,9 +162,9 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = edtRunTerm
           AnchorSideTop.Side = asrCenter
           Left = 8
-          Height = 14
-          Top = 43
-          Width = 65
+          Height = 18
+          Top = 42
+          Width = 82
           Caption = 'Run terminal:'
           ParentColor = False
         end
@@ -172,10 +173,10 @@ object frmOptions: TfrmOptions
           AnchorSideLeft.Side = asrBottom
           AnchorSideRight.Control = pgBehav
           AnchorSideRight.Side = asrBottom
-          Left = 90
-          Height = 24
+          Left = 110
+          Height = 25
           Top = 8
-          Width = 393
+          Width = 408
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 6
           BorderSpacing.Right = 10
@@ -187,10 +188,10 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = edtRunInTerm
           AnchorSideRight.Side = asrBottom
-          Left = 90
-          Height = 24
-          Top = 38
-          Width = 393
+          Left = 110
+          Height = 25
+          Top = 39
+          Width = 408
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           TabOrder = 1
@@ -199,19 +200,19 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = edtRunTerm
           AnchorSideTop.Side = asrBottom
           Left = 10
-          Height = 156
-          Top = 68
+          Height = 176
+          Top = 70
           Width = 242
           BorderSpacing.Top = 6
-          ClientHeight = 138
+          ClientHeight = 172
           ClientWidth = 238
           TabOrder = 3
           object cbDirSelect: TCheckBox
             AnchorSideTop.Control = gbMisc1
             Left = 8
-            Height = 17
+            Height = 21
             Top = 6
-            Width = 151
+            Width = 202
             BorderSpacing.Top = 6
             Caption = 'Select directory with keypad'
             TabOrder = 0
@@ -220,9 +221,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbLynxLike
             AnchorSideTop.Side = asrBottom
             Left = 8
-            Height = 17
-            Top = 52
-            Width = 120
+            Height = 21
+            Top = 60
+            Width = 162
             BorderSpacing.Top = 6
             Caption = 'Case sensitive sorting'
             TabOrder = 1
@@ -231,9 +232,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbDirSelect
             AnchorSideTop.Side = asrBottom
             Left = 8
-            Height = 17
-            Top = 29
-            Width = 111
+            Height = 21
+            Top = 33
+            Width = 146
             BorderSpacing.Top = 6
             Caption = 'Lynx like movement'
             TabOrder = 2
@@ -242,9 +243,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbCaseSensitiveSort
             AnchorSideTop.Side = asrBottom
             Left = 8
-            Height = 17
-            Top = 75
-            Width = 112
+            Height = 21
+            Top = 87
+            Width = 155
             BorderSpacing.Top = 6
             Caption = 'Short Filesize format'
             TabOrder = 3
@@ -253,12 +254,24 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbShortFileSizeFormat
             AnchorSideTop.Side = asrBottom
             Left = 8
-            Height = 17
-            Top = 98
-            Width = 212
+            Height = 21
+            Top = 114
+            Width = 284
             BorderSpacing.Top = 6
             Caption = 'Mo&ve icon to system tray when minimized'
             TabOrder = 4
+          end
+          object cbAlwaysShowTrayIcon: TCheckBox
+            AnchorSideTop.Control = cbMinimizeToTray
+            AnchorSideTop.Side = asrBottom
+            Left = 8
+            Height = 21
+            Top = 141
+            Width = 159
+            BorderSpacing.Top = 6
+            Caption = 'Always show tray icon'
+            OnChange = cbAlwaysShowTrayIconChange
+            TabOrder = 5
           end
         end
         object gbMisc2: TGroupBox
@@ -271,22 +284,22 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Control = gbMisc1
           AnchorSideBottom.Side = asrBottom
           Left = 258
-          Height = 156
-          Top = 68
-          Width = 225
+          Height = 176
+          Top = 70
+          Width = 260
           Anchors = [akTop, akLeft, akRight, akBottom]
           BorderSpacing.Left = 6
           BorderSpacing.Top = 6
-          ClientHeight = 138
-          ClientWidth = 221
+          ClientHeight = 172
+          ClientWidth = 256
           TabOrder = 4
           object lblIconsSize: TLabel
             AnchorSideTop.Control = cbIconsSize
             AnchorSideTop.Side = asrCenter
             Left = 14
-            Height = 14
-            Top = 36
-            Width = 53
+            Height = 18
+            Top = 38
+            Width = 70
             Caption = 'Icons Size:'
             ParentColor = False
           end
@@ -294,9 +307,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbMouseMode
             AnchorSideTop.Side = asrCenter
             Left = 14
-            Height = 14
-            Top = 90
-            Width = 31
+            Height = 18
+            Top = 92
+            Width = 40
             Caption = 'Mode:'
             ParentColor = False
           end
@@ -304,57 +317,53 @@ object frmOptions: TfrmOptions
             AnchorSideLeft.Control = lblIconsSize
             AnchorSideLeft.Side = asrBottom
             AnchorSideRight.Side = asrBottom
-            Left = 79
-            Height = 21
+            Left = 96
+            Height = 29
             Top = 33
             Width = 131
-            AutoComplete = False
             BorderSpacing.Left = 12
             BorderSpacing.Right = 10
             Enabled = False
-            ItemHeight = 13
+            ItemHeight = 0
             ItemIndex = 0
             Items.Strings = (
               '16x16'
               '22x22'
               '32x32'
             )
-            ItemWidth = 0
             Style = csDropDownList
             TabOrder = 1
             Text = '16x16'
           end
           object cbShowIcons: TCheckBox
             Left = 13
-            Height = 17
+            Height = 21
             Top = 6
-            Width = 73
+            Width = 93
             Caption = 'Show icons'
             OnChange = cbShowIconsChange
             TabOrder = 0
           end
           object cbSelectionByMouse: TCheckBox
             Left = 13
-            Height = 17
+            Height = 21
             Top = 60
-            Width = 110
+            Width = 146
             Caption = 'Selection by mouse'
             TabOrder = 2
           end
           object cbMouseMode: TComboBox
             AnchorSideLeft.Control = cbIconsSize
             AnchorSideRight.Side = asrBottom
-            Left = 79
-            Height = 21
+            Left = 96
+            Height = 29
             Top = 87
             Width = 131
-            AutoComplete = False
-            ItemHeight = 13
+            ItemHeight = 0
             Items.Strings = (
               'Left button'
               'Right button'
             )
-            ItemWidth = 0
             Style = csDropDownList
             TabOrder = 3
           end
@@ -364,20 +373,20 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Side = asrBottom
           Left = 10
           Height = 109
-          Top = 230
+          Top = 252
           Width = 242
           BorderSpacing.Top = 6
           Caption = 'Date and time'
           ChildSizing.LeftRightSpacing = 6
           ChildSizing.TopBottomSpacing = 6
-          ClientHeight = 91
+          ClientHeight = 90
           ClientWidth = 238
           TabOrder = 5
           object lblDateTimeFormat: TLabel
             Left = 6
-            Height = 14
+            Height = 18
             Top = 6
-            Width = 107
+            Width = 139
             Caption = 'Date and time format:'
             ParentColor = False
           end
@@ -385,9 +394,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbDateTimeFormat
             AnchorSideTop.Side = asrBottom
             Left = 6
-            Height = 14
-            Top = 53
-            Width = 1
+            Height = 16
+            Top = 63
+            Width = 3
             BorderSpacing.Top = 6
             Font.Style = [fsBold]
             ParentColor = False
@@ -397,19 +406,17 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = lblDateTimeFormat
             AnchorSideTop.Side = asrBottom
             Left = 6
-            Height = 21
-            Top = 26
+            Height = 27
+            Top = 30
             Width = 184
-            AutoComplete = False
             BorderSpacing.Top = 6
-            ItemHeight = 13
+            ItemHeight = 0
             Items.Strings = (
               'dd.mm.yyyy hh:mm:ss'
               'dd.mm.yy hh:mm'
               'dd.mm.yyyy'
               'dd.mm.yy'
             )
-            ItemWidth = 0
             OnChange = cbDateTimeFormatChange
             TabOrder = 0
           end
@@ -417,13 +424,17 @@ object frmOptions: TfrmOptions
         object rgScrolling: TRadioGroup
           AnchorSideLeft.Control = gbDateTimeFormat
           AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = gbMisc2
+          AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = gbMisc2
           AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = gbDateTimeFormat
+          AnchorSideBottom.Side = asrBottom
           Left = 258
           Height = 109
-          Top = 230
-          Width = 225
-          Anchors = [akTop, akLeft, akRight]
+          Top = 252
+          Width = 260
+          Anchors = [akTop, akLeft, akRight, akBottom]
           AutoFill = True
           BorderSpacing.Left = 6
           BorderSpacing.Top = 6
@@ -436,8 +447,8 @@ object frmOptions: TfrmOptions
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 1
-          ClientHeight = 91
-          ClientWidth = 221
+          ClientHeight = 90
+          ClientWidth = 256
           Items.Strings = (
             'Line by line with cursor movement'
             'Line by line'
@@ -452,21 +463,21 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = gbDateTimeFormat
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 83
-          Top = 345
+          Height = 60
+          Top = 367
           Width = 242
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
-          ClientHeight = 65
+          ClientHeight = 56
           ClientWidth = 238
           TabOrder = 6
           object cbCutTextToColWidth: TCheckBox
             AnchorSideLeft.Control = gbMisc3
             AnchorSideTop.Control = gbMisc3
             Left = 10
-            Height = 17
+            Height = 21
             Top = 6
-            Width = 131
+            Width = 180
             BorderSpacing.Left = 10
             BorderSpacing.Top = 6
             Caption = 'Cut text to column width'
@@ -477,9 +488,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbCutTextToColWidth
             AnchorSideTop.Side = asrBottom
             Left = 10
-            Height = 17
-            Top = 29
-            Width = 138
+            Height = 21
+            Top = 33
+            Width = 182
             BorderSpacing.Left = 10
             BorderSpacing.Top = 6
             Caption = 'Show hidden/system files'
@@ -493,32 +504,32 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = rgScrolling
           AnchorSideRight.Side = asrBottom
           Left = 258
-          Height = 83
-          Top = 345
-          Width = 225
+          Height = 60
+          Top = 367
+          Width = 260
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
-          ClientHeight = 65
-          ClientWidth = 221
+          ClientHeight = 56
+          ClientWidth = 256
           TabOrder = 7
           object ledDriveBlackList: TLabeledEdit
             AnchorSideLeft.Control = gbMisc4
             AnchorSideRight.Control = gbMisc4
             AnchorSideRight.Side = asrBottom
             Left = 10
-            Height = 23
+            Height = 25
             Hint = 'Here you can enter one or more drives, separated by ";".'
             Top = 24
-            Width = 201
+            Width = 236
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Left = 10
             BorderSpacing.Right = 10
             EditLabel.AnchorSideLeft.Control = ledDriveBlackList
             EditLabel.AnchorSideBottom.Control = ledDriveBlackList
             EditLabel.Left = 10
-            EditLabel.Height = 14
-            EditLabel.Top = 7
-            EditLabel.Width = 73
+            EditLabel.Height = 18
+            EditLabel.Top = 3
+            EditLabel.Width = 96
             EditLabel.Caption = 'Drive black list:'
             EditLabel.ParentColor = False
             ParentShowHint = False
@@ -528,8 +539,8 @@ object frmOptions: TfrmOptions
         end
       end
       object pgTools: TPage
-        ClientWidth = 493
-        ClientHeight = 471
+        ClientWidth = 497
+        ClientHeight = 448
         object cbExtEditor: TCheckBox
           Left = 3
           Height = 21
@@ -563,9 +574,10 @@ object frmOptions: TfrmOptions
           Left = 2
           Height = 23
           Top = 40
-          Width = 445
+          Width = 449
           DialogOptions = []
           FilterIndex = 0
+          HideDirectories = False
           ButtonWidth = 23
           NumGlyphs = 1
           Anchors = [akTop, akLeft, akRight]
@@ -578,9 +590,10 @@ object frmOptions: TfrmOptions
           Left = 2
           Height = 23
           Top = 105
-          Width = 445
+          Width = 449
           DialogOptions = []
           FilterIndex = 0
+          HideDirectories = False
           ButtonWidth = 23
           NumGlyphs = 1
           Anchors = [akTop, akLeft, akRight]
@@ -593,9 +606,10 @@ object frmOptions: TfrmOptions
           Left = 2
           Height = 23
           Top = 170
-          Width = 445
+          Width = 449
           DialogOptions = []
           FilterIndex = 0
+          HideDirectories = False
           ButtonWidth = 23
           NumGlyphs = 1
           Anchors = [akTop, akLeft, akRight]
@@ -604,8 +618,8 @@ object frmOptions: TfrmOptions
         end
       end
       object pgFonts: TPage
-        ClientWidth = 493
-        ClientHeight = 471
+        ClientWidth = 497
+        ClientHeight = 448
         object lblMainFont: TLabel
           Left = 6
           Height = 14
@@ -619,7 +633,7 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Side = asrBottom
           Left = 6
           Height = 14
-          Top = 83
+          Top = 87
           Width = 52
           BorderSpacing.Top = 6
           Caption = 'Editor font'
@@ -630,7 +644,7 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Side = asrBottom
           Left = 6
           Height = 14
-          Top = 160
+          Top = 168
           Width = 56
           BorderSpacing.Top = 6
           Caption = 'Viewer font'
@@ -638,13 +652,11 @@ object frmOptions: TfrmOptions
         end
         object cbMainFont: TComboBox
           Left = 6
-          Height = 21
+          Height = 25
           Top = 26
-          Width = 400
+          Width = 404
           Anchors = [akTop, akLeft, akRight]
-          AutoComplete = False
-          ItemHeight = 13
-          ItemWidth = 0
+          ItemHeight = 0
           OnChange = cbMainFontChange
           TabOrder = 0
         end
@@ -652,8 +664,8 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbMainFont
           AnchorSideBottom.Control = cbMainFont
           AnchorSideBottom.Side = asrBottom
-          Left = 415
-          Height = 21
+          Left = 419
+          Height = 25
           Top = 26
           Width = 23
           Anchors = [akTop, akRight, akBottom]
@@ -665,9 +677,9 @@ object frmOptions: TfrmOptions
         object edtMainSize: TSpinEdit
           AnchorSideTop.Control = edtTest1
           AnchorSideTop.Side = asrCenter
-          Left = 415
+          Left = 419
           Height = 23
-          Top = 54
+          Top = 58
           Width = 55
           Anchors = [akTop, akRight]
           MaxValue = 25
@@ -681,8 +693,8 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Side = asrBottom
           Left = 6
           Height = 24
-          Top = 53
-          Width = 400
+          Top = 57
+          Width = 404
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           TabOrder = 3
@@ -691,14 +703,12 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = lblEditorFont
           AnchorSideTop.Side = asrBottom
           Left = 6
-          Height = 21
-          Top = 103
-          Width = 400
+          Height = 25
+          Top = 107
+          Width = 404
           Anchors = [akTop, akLeft, akRight]
-          AutoComplete = False
           BorderSpacing.Top = 6
-          ItemHeight = 13
-          ItemWidth = 0
+          ItemHeight = 0
           OnChange = cbEditorFontChange
           TabOrder = 4
         end
@@ -706,9 +716,9 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbEditorFont
           AnchorSideBottom.Control = cbEditorFont
           AnchorSideBottom.Side = asrBottom
-          Left = 415
-          Height = 21
-          Top = 103
+          Left = 419
+          Height = 25
+          Top = 107
           Width = 23
           Anchors = [akTop, akRight, akBottom]
           BorderSpacing.InnerBorder = 4
@@ -721,8 +731,8 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Side = asrBottom
           Left = 6
           Height = 24
-          Top = 130
-          Width = 400
+          Top = 138
+          Width = 404
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           TabOrder = 6
@@ -730,9 +740,9 @@ object frmOptions: TfrmOptions
         object edtEditorSize: TSpinEdit
           AnchorSideTop.Control = edtTest2
           AnchorSideTop.Side = asrCenter
-          Left = 415
+          Left = 419
           Height = 23
-          Top = 131
+          Top = 139
           Width = 55
           Anchors = [akTop, akRight]
           MaxValue = 25
@@ -745,14 +755,12 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = lblViewerFont
           AnchorSideTop.Side = asrBottom
           Left = 6
-          Height = 21
-          Top = 180
-          Width = 400
+          Height = 25
+          Top = 188
+          Width = 404
           Anchors = [akTop, akLeft, akRight]
-          AutoComplete = False
           BorderSpacing.Top = 6
-          ItemHeight = 13
-          ItemWidth = 0
+          ItemHeight = 0
           OnChange = cbViewerFontChange
           TabOrder = 8
         end
@@ -760,9 +768,9 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbViewerFont
           AnchorSideBottom.Control = cbViewerFont
           AnchorSideBottom.Side = asrBottom
-          Left = 415
-          Height = 21
-          Top = 180
+          Left = 419
+          Height = 25
+          Top = 188
           Width = 23
           Anchors = [akTop, akRight, akBottom]
           BorderSpacing.InnerBorder = 4
@@ -775,8 +783,8 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Side = asrBottom
           Left = 6
           Height = 24
-          Top = 207
-          Width = 400
+          Top = 219
+          Width = 404
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           TabOrder = 10
@@ -784,9 +792,9 @@ object frmOptions: TfrmOptions
         object edtViewerSize: TSpinEdit
           AnchorSideTop.Control = edtTest3
           AnchorSideTop.Side = asrCenter
-          Left = 415
+          Left = 419
           Height = 23
-          Top = 208
+          Top = 220
           Width = 56
           Anchors = [akTop, akRight]
           MaxValue = 25
@@ -797,8 +805,8 @@ object frmOptions: TfrmOptions
         end
       end
       object pgColor: TPage
-        ClientWidth = 493
-        ClientHeight = 471
+        ClientWidth = 497
+        ClientHeight = 448
         object cTextLabel: TLabel
           AnchorSideTop.Control = cbTextColor
           AnchorSideTop.Side = asrCenter
@@ -865,9 +873,7 @@ object frmOptions: TfrmOptions
           Top = 26
           Width = 100
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-          AutoComplete = False
           ItemHeight = 16
-          ItemWidth = 0
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
           TabOrder = 0
@@ -880,10 +886,8 @@ object frmOptions: TfrmOptions
           Top = 56
           Width = 100
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-          AutoComplete = False
           BorderSpacing.Top = 8
           ItemHeight = 16
-          ItemWidth = 0
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
           TabOrder = 1
@@ -930,10 +934,8 @@ object frmOptions: TfrmOptions
           Top = 86
           Width = 100
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-          AutoComplete = False
           BorderSpacing.Top = 8
           ItemHeight = 16
-          ItemWidth = 0
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
           TabOrder = 4
@@ -946,10 +948,8 @@ object frmOptions: TfrmOptions
           Top = 116
           Width = 100
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-          AutoComplete = False
           BorderSpacing.Top = 8
           ItemHeight = 16
-          ItemWidth = 0
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
           TabOrder = 5
@@ -962,10 +962,8 @@ object frmOptions: TfrmOptions
           Top = 146
           Width = 100
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-          AutoComplete = False
           BorderSpacing.Top = 8
           ItemHeight = 16
-          ItemWidth = 0
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
           TabOrder = 6
@@ -978,10 +976,8 @@ object frmOptions: TfrmOptions
           Top = 176
           Width = 100
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-          AutoComplete = False
           BorderSpacing.Top = 8
           ItemHeight = 16
-          ItemWidth = 0
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
           TabOrder = 7
@@ -1060,20 +1056,20 @@ object frmOptions: TfrmOptions
           Left = 304
           Height = 172
           Top = 26
-          Width = 174
+          Width = 178
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           Caption = 'Example'
           ChildSizing.LeftRightSpacing = 6
           ChildSizing.TopBottomSpacing = 6
-          ClientHeight = 154
-          ClientWidth = 170
+          ClientHeight = 153
+          ClientWidth = 174
           TabOrder = 12
           object pbExample: TPaintBox
             Left = 6
-            Height = 142
+            Height = 156
             Top = 6
-            Width = 158
+            Width = 162
             Align = alClient
             OnPaint = pbExamplePaint
           end
@@ -1092,15 +1088,15 @@ object frmOptions: TfrmOptions
         end
       end
       object pgHotKey: TPage
-        ClientWidth = 493
-        ClientHeight = 471
+        ClientWidth = 497
+        ClientHeight = 448
         object lblHotKey: TLabel
           AnchorSideLeft.Control = stgCommands
           AnchorSideTop.Control = edHotKey
           AnchorSideRight.Control = edHotKey
           Left = 8
           Height = 14
-          Top = 363
+          Top = 340
           Width = 177
           Anchors = [akTop, akLeft, akRight]
           Caption = 'Hot Key:'
@@ -1132,7 +1128,7 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = edtParam
           Left = 8
           Height = 14
-          Top = 439
+          Top = 416
           Width = 177
           Anchors = [akTop, akLeft, akRight]
           Caption = 'Param:'
@@ -1145,7 +1141,7 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = edtFilter
           Left = 12
           Height = 14
-          Top = 336
+          Top = 313
           Width = 25
           BorderSpacing.Left = 4
           BorderSpacing.Top = 4
@@ -1159,7 +1155,7 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = lbxHotkeys
           Left = 8
           Height = 14
-          Top = 388
+          Top = 365
           Width = 177
           Anchors = [akTop, akLeft, akRight]
           Caption = 'Hot Keys'
@@ -1174,8 +1170,8 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Side = asrBottom
           Left = 160
           Height = 14
-          Top = 342
-          Width = 312
+          Top = 319
+          Width = 316
           Anchors = [akTop, akLeft, akRight]
           AutoSize = False
           BorderSpacing.Left = 8
@@ -1190,8 +1186,8 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = btSetHotKey
           Left = 185
           Height = 23
-          Top = 363
-          Width = 166
+          Top = 340
+          Width = 170
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 4
           BorderSpacing.Right = 10
@@ -1205,9 +1201,9 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = edHotKey
           AnchorSideRight.Control = stgCommands
           AnchorSideRight.Side = asrBottom
-          Left = 361
+          Left = 365
           Height = 24
-          Top = 363
+          Top = 340
           Width = 111
           Anchors = [akTop, akRight]
           BorderSpacing.InnerBorder = 4
@@ -1222,9 +1218,9 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = stgCommands
           AnchorSideRight.Side = asrBottom
-          Left = 361
+          Left = 365
           Height = 24
-          Top = 393
+          Top = 370
           Width = 111
           Anchors = [akTop, akRight]
           BorderSpacing.Left = 8
@@ -1241,11 +1237,12 @@ object frmOptions: TfrmOptions
           Left = 8
           Height = 50
           Top = 18
-          Width = 464
+          Width = 468
           Anchors = [akTop, akLeft, akRight]
           ItemHeight = 0
           OnSelectionChange = lbxCategoriesSelectionChange
           TabOrder = 5
+          TopIndex = -1
         end
         object edtParam: TEdit
           AnchorSideLeft.Control = lbxHotkeys
@@ -1255,8 +1252,8 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Side = asrBottom
           Left = 185
           Height = 23
-          Top = 439
-          Width = 166
+          Top = 416
+          Width = 170
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 3
           TabOrder = 1
@@ -1267,7 +1264,7 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = lbFilter
           Left = 49
           Height = 19
-          Top = 340
+          Top = 317
           Width = 103
           BorderSpacing.Left = 12
           BorderSpacing.Top = 4
@@ -1282,22 +1279,23 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Side = asrBottom
           Left = 185
           Height = 48
-          Top = 388
-          Width = 166
+          Top = 365
+          Width = 170
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 2
           ItemHeight = 0
           OnSelectionChange = lbxHotkeysSelectionChange
           Sorted = True
           TabOrder = 6
+          TopIndex = -1
         end
         object stgCommands: TStringGrid
           AnchorSideTop.Control = lbxCategories
           AnchorSideTop.Side = asrBottom
           Left = 8
-          Height = 244
+          Height = 221
           Top = 88
-          Width = 464
+          Width = 468
           Anchors = [akTop, akLeft, akRight, akBottom]
           BorderSpacing.Top = 20
           ColCount = 3
@@ -1312,13 +1310,13 @@ object frmOptions: TfrmOptions
         end
       end
       object pgPlugins: TPage
-        ClientWidth = 493
-        ClientHeight = 471
+        ClientWidth = 497
+        ClientHeight = 448
         object pcPluginsTypes: TPageControl
           Left = 0
           Height = 84
           Top = 0
-          Width = 493
+          Width = 497
           ActivePage = tsWCX
           Align = alTop
           TabIndex = 0
@@ -1327,8 +1325,8 @@ object frmOptions: TfrmOptions
           OnPageChanged = pcPluginsTypesChange
           object tsWCX: TTabSheet
             Caption = 'Packer plugins (.WCX)'
-            ClientHeight = 58
-            ClientWidth = 485
+            ClientHeight = 80
+            ClientWidth = 493
             OnShow = tsWCXShow
             object lblWCXDescription: TLabel
               AnchorSideLeft.Control = tsWCX
@@ -1338,7 +1336,7 @@ object frmOptions: TfrmOptions
               Left = 10
               Height = 14
               Top = 12
-              Width = 465
+              Width = 473
               Anchors = [akTop, akLeft, akRight]
               BorderSpacing.Left = 10
               BorderSpacing.Top = 12
@@ -1351,8 +1349,8 @@ object frmOptions: TfrmOptions
           object tsWFX: TTabSheet
             Caption = 'File system plugins (.WFX)'
             ChildSizing.LeftRightSpacing = 239
-            ClientHeight = 58
-            ClientWidth = 485
+            ClientHeight = 53
+            ClientWidth = 489
             OnShow = tsWFXShow
             object lblWFXDescription: TLabel
               AnchorSideTop.Control = tsWFX
@@ -1361,7 +1359,7 @@ object frmOptions: TfrmOptions
               Left = 10
               Height = 27
               Top = 12
-              Width = 236
+              Width = 240
               Anchors = [akTop, akLeft, akRight]
               BorderSpacing.Left = 10
               BorderSpacing.Top = 12
@@ -1373,8 +1371,8 @@ object frmOptions: TfrmOptions
           end
           object tsWDX: TTabSheet
             Caption = 'Content plugins (.WDX)'
-            ClientHeight = 58
-            ClientWidth = 485
+            ClientHeight = 53
+            ClientWidth = 489
             OnShow = tsWDXShow
             object lblWDXDescription: TLabel
               AnchorSideLeft.Control = tsWDX
@@ -1384,7 +1382,7 @@ object frmOptions: TfrmOptions
               Left = 10
               Height = 27
               Top = 12
-              Width = 465
+              Width = 469
               Anchors = [akTop, akLeft, akRight]
               BorderSpacing.Left = 10
               BorderSpacing.Top = 12
@@ -1396,8 +1394,8 @@ object frmOptions: TfrmOptions
           end
           object tsDSX: TTabSheet
             Caption = 'Search plugins (.DSX)'
-            ClientHeight = 58
-            ClientWidth = 485
+            ClientHeight = 53
+            ClientWidth = 489
             OnShow = tsDSXShow
             object lblDSXDescription: TLabel
               AnchorSideLeft.Control = tsDSX
@@ -1407,7 +1405,7 @@ object frmOptions: TfrmOptions
               Left = 10
               Height = 14
               Top = 12
-              Width = 465
+              Width = 469
               Anchors = [akTop, akLeft, akRight]
               BorderSpacing.Left = 10
               BorderSpacing.Top = 12
@@ -1419,8 +1417,8 @@ object frmOptions: TfrmOptions
           end
           object tsWLX: TTabSheet
             Caption = 'Viewer plugins (.WLX)'
-            ClientHeight = 58
-            ClientWidth = 485
+            ClientHeight = 53
+            ClientWidth = 489
             OnShow = tsWLXShow
             object lblWLXDescription: TLabel
               AnchorSideLeft.Control = tsWLX
@@ -1430,7 +1428,7 @@ object frmOptions: TfrmOptions
               Left = 10
               Height = 14
               Top = 12
-              Width = 465
+              Width = 469
               Anchors = [akTop, akLeft, akRight]
               BorderSpacing.Left = 10
               BorderSpacing.Top = 12
@@ -1449,9 +1447,9 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = btnAddPlugin
           Left = 0
-          Height = 337
+          Height = 314
           Top = 84
-          Width = 493
+          Width = 497
           Anchors = [akTop, akLeft, akRight, akBottom]
           AutoAdvance = aaRightDown
           AutoFillColumns = True
@@ -1478,21 +1476,27 @@ object frmOptions: TfrmOptions
             item
               SizePriority = 0
               Title.Caption = 'File name'
-              Width = 53
+              Width = 57
             end>
           FixedCols = 0
           Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect, goThumbTracking, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook]
           TabOrder = 1
           TitleStyle = tsNative
           OnBeforeSelection = stgPluginsBeforeSelection
+          ColWidths = (
+            70
+            183
+            183
+            57
+          )
         end
         object btnAddPlugin: TBitBtn
           AnchorSideRight.Control = btnEnablePlugin
           AnchorSideBottom.Control = pgPlugins
           AnchorSideBottom.Side = asrBottom
-          Left = -89
+          Left = -85
           Height = 30
-          Top = 433
+          Top = 410
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1541,9 +1545,9 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = btnRemovePlugin
           AnchorSideBottom.Control = pgPlugins
           AnchorSideBottom.Side = asrBottom
-          Left = 27
+          Left = 31
           Height = 30
-          Top = 433
+          Top = 410
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1557,9 +1561,9 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = btnTweakPlugin
           AnchorSideBottom.Control = pgPlugins
           AnchorSideBottom.Side = asrBottom
-          Left = 143
+          Left = 147
           Height = 30
-          Top = 433
+          Top = 410
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1609,9 +1613,9 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = btnConfigPlugin
           AnchorSideBottom.Control = pgPlugins
           AnchorSideBottom.Side = asrBottom
-          Left = 259
+          Left = 263
           Height = 30
-          Top = 433
+          Top = 410
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 6
@@ -1662,9 +1666,9 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = pgPlugins
           AnchorSideBottom.Side = asrBottom
-          Left = 375
+          Left = 379
           Height = 30
-          Top = 433
+          Top = 410
           Width = 110
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 8
@@ -1676,8 +1680,8 @@ object frmOptions: TfrmOptions
         end
       end
       object pgFileTypesColors: TPage
-        ClientWidth = 493
-        ClientHeight = 471
+        ClientWidth = 528
+        ClientHeight = 505
         object gbFileTypesColors: TGroupBox
           AnchorSideLeft.Control = pgFileTypesColors
           AnchorSideTop.Control = pgFileTypesColors
@@ -1686,25 +1690,25 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Control = pgFileTypesColors
           AnchorSideBottom.Side = asrBottom
           Left = 8
-          Height = 457
+          Height = 491
           Top = 6
-          Width = 477
+          Width = 512
           Anchors = [akTop, akLeft, akRight, akBottom]
           BorderSpacing.Left = 8
           BorderSpacing.Top = 6
           BorderSpacing.Right = 8
           BorderSpacing.Bottom = 8
           Caption = 'File types colors'
-          ClientHeight = 439
-          ClientWidth = 473
+          ClientHeight = 472
+          ClientWidth = 508
           TabOrder = 0
           object lblCategoryName: TLabel
             AnchorSideTop.Control = edtCategoryName
             AnchorSideTop.Side = asrCenter
             Left = 12
-            Height = 14
-            Top = 212
-            Width = 79
+            Height = 18
+            Top = 244
+            Width = 100
             Caption = 'Category name:'
             ParentColor = False
           end
@@ -1712,9 +1716,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = edtCategoryMask
             AnchorSideTop.Side = asrCenter
             Left = 12
-            Height = 14
-            Top = 243
-            Width = 77
+            Height = 18
+            Top = 277
+            Width = 99
             Caption = 'Category mask:'
             ParentColor = False
           end
@@ -1722,9 +1726,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbCategoryColor
             AnchorSideTop.Side = asrCenter
             Left = 12
-            Height = 14
-            Top = 305
-            Width = 76
+            Height = 18
+            Top = 345
+            Width = 97
             Caption = 'Category color:'
             ParentColor = False
           end
@@ -1732,9 +1736,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = edtCategoryAttr
             AnchorSideTop.Side = asrCenter
             Left = 12
-            Height = 14
-            Top = 274
-            Width = 100
+            Height = 18
+            Top = 310
+            Width = 129
             Caption = 'Category attributes:'
             ParentColor = False
           end
@@ -1744,9 +1748,9 @@ object frmOptions: TfrmOptions
             AnchorSideRight.Control = lbCategories
             AnchorSideRight.Side = asrBottom
             Left = 174
-            Height = 23
-            Top = 208
-            Width = 291
+            Height = 25
+            Top = 241
+            Width = 326
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Top = 12
             TabOrder = 0
@@ -1756,9 +1760,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = btnSearchTemplate
             Left = 174
-            Height = 23
-            Top = 239
-            Width = 262
+            Height = 25
+            Top = 274
+            Width = 297
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Top = 8
             BorderSpacing.Right = 6
@@ -1768,14 +1772,12 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = edtCategoryAttr
             AnchorSideTop.Side = asrBottom
             Left = 174
-            Height = 22
-            Top = 301
+            Height = 29
+            Top = 340
             Width = 140
             Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-            AutoComplete = False
             BorderSpacing.Top = 8
             ItemHeight = 16
-            ItemWidth = 0
             OnChange = cbCategoryColorChange
             OnDropDown = cbColorBoxDropDown
             TabOrder = 2
@@ -1784,9 +1786,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbCategoryColor
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = bbtnDeleteCategory
-            Left = 183
+            Left = 218
             Height = 32
-            Top = 335
+            Top = 381
             Width = 90
             Anchors = [akTop, akRight]
             BorderSpacing.Top = 12
@@ -1800,9 +1802,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbCategoryColor
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = bbtnApplyCategory
-            Left = 279
+            Left = 314
             Height = 32
-            Top = 335
+            Top = 381
             Width = 90
             Anchors = [akTop, akRight]
             BorderSpacing.Top = 12
@@ -1817,8 +1819,8 @@ object frmOptions: TfrmOptions
             AnchorSideBottom.Control = cbCategoryColor
             AnchorSideBottom.Side = asrBottom
             Left = 318
-            Height = 22
-            Top = 301
+            Height = 29
+            Top = 340
             Width = 28
             Anchors = [akTop, akLeft, akBottom]
             BorderSpacing.InnerBorder = 4
@@ -1831,9 +1833,9 @@ object frmOptions: TfrmOptions
             AnchorSideRight.Control = gbFileTypesColors
             AnchorSideRight.Side = asrBottom
             Left = 12
-            Height = 190
+            Height = 223
             Top = 6
-            Width = 453
+            Width = 488
             Anchors = [akTop, akLeft, akRight, akBottom]
             BorderSpacing.Top = 6
             BorderSpacing.Right = 8
@@ -1842,15 +1844,16 @@ object frmOptions: TfrmOptions
             OnDrawItem = lbCategoriesDrawItem
             Style = lbOwnerDrawFixed
             TabOrder = 6
+            TopIndex = -1
           end
           object bbtnApplyCategory: TBitBtn
             AnchorSideTop.Control = cbCategoryColor
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = lbCategories
             AnchorSideRight.Side = asrBottom
-            Left = 375
+            Left = 410
             Height = 32
-            Top = 335
+            Top = 381
             Width = 90
             Anchors = [akTop, akRight]
             BorderSpacing.Top = 12
@@ -1865,9 +1868,9 @@ object frmOptions: TfrmOptions
             AnchorSideRight.Control = lbCategories
             AnchorSideRight.Side = asrBottom
             Left = 174
-            Height = 23
-            Top = 270
-            Width = 291
+            Height = 25
+            Top = 307
+            Width = 326
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Top = 8
             TabOrder = 8
@@ -1878,10 +1881,10 @@ object frmOptions: TfrmOptions
             AnchorSideRight.Side = asrBottom
             AnchorSideBottom.Control = edtCategoryMask
             AnchorSideBottom.Side = asrBottom
-            Left = 442
-            Height = 23
+            Left = 477
+            Height = 25
             Hint = 'Template...'
-            Top = 239
+            Top = 274
             Width = 23
             Anchors = [akTop, akRight, akBottom]
             Glyph.Data = {
@@ -1929,17 +1932,17 @@ object frmOptions: TfrmOptions
         end
       end
       object pgLayout: TPage
-        ClientWidth = 493
-        ClientHeight = 471
+        ClientWidth = 497
+        ClientHeight = 448
         object gbScreenLayout: TGroupBox
           Left = 10
           Height = 358
           Top = 6
-          Width = 469
+          Width = 473
           Anchors = [akTop, akLeft, akRight]
           Caption = ' Screen layout '
-          ClientHeight = 340
-          ClientWidth = 465
+          ClientHeight = 339
+          ClientWidth = 469
           TabOrder = 0
           object cbShowMainToolBar: TCheckBox
             Left = 10
@@ -2068,17 +2071,17 @@ object frmOptions: TfrmOptions
         end
       end
       object pgFileOp: TPage
-        ClientWidth = 493
-        ClientHeight = 471
+        ClientWidth = 497
+        ClientHeight = 448
         object gbCopyBufferSize: TGroupBox
           Left = 10
           Height = 100
           Top = 6
-          Width = 469
+          Width = 473
           Anchors = [akTop, akLeft, akRight]
           Caption = '&Buffer size for files:'
-          ClientHeight = 82
-          ClientWidth = 465
+          ClientHeight = 81
+          ClientWidth = 469
           TabOrder = 0
           object lblCopyBufferSize: TLabel
             AnchorSideTop.Side = asrBottom
@@ -2095,7 +2098,7 @@ object frmOptions: TfrmOptions
             AnchorSideRight.Control = gbCopyBufferSize
             AnchorSideRight.Side = asrBottom
             AnchorSideBottom.Side = asrCenter
-            Left = 359
+            Left = 363
             Height = 23
             Top = 6
             Width = 80
@@ -2110,12 +2113,12 @@ object frmOptions: TfrmOptions
           Left = 10
           Height = 178
           Top = 218
-          Width = 469
+          Width = 473
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           Caption = 'General options'
-          ClientHeight = 160
-          ClientWidth = 465
+          ClientHeight = 159
+          ClientWidth = 469
           TabOrder = 1
           object lblWipePassNumber: TLabel
             AnchorSideLeft.Control = gbGeneralOptions
@@ -2147,7 +2150,7 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Control = gbGeneralOptions
             AnchorSideRight.Side = asrBottom
-            Left = 389
+            Left = 393
             Height = 23
             Top = 2
             Width = 50
@@ -2214,12 +2217,12 @@ object frmOptions: TfrmOptions
           Left = 10
           Height = 100
           Top = 112
-          Width = 469
+          Width = 473
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           Caption = 'File search'
-          ClientHeight = 82
-          ClientWidth = 465
+          ClientHeight = 81
+          ClientWidth = 469
           TabOrder = 2
           object rbUseMmapInSearch: TRadioButton
             Left = 14
@@ -2246,25 +2249,25 @@ object frmOptions: TfrmOptions
         end
       end
       object pgTabs: TPage
-        ClientWidth = 493
-        ClientHeight = 471
+        ClientWidth = 497
+        ClientHeight = 448
         object gbTabs: TGroupBox
           AnchorSideRight.Side = asrBottom
           Left = 10
           Height = 340
           Top = 6
-          Width = 477
+          Width = 481
           Anchors = [akTop, akLeft, akRight]
           Caption = 'Folder tabs headers'
-          ClientHeight = 322
-          ClientWidth = 473
+          ClientHeight = 321
+          ClientWidth = 477
           TabOrder = 0
           object lblChar: TLabel
             AnchorSideLeft.Control = edtTabsLimitLength
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = edtTabsLimitLength
             AnchorSideTop.Side = asrCenter
-            Left = 288
+            Left = 292
             Height = 16
             Top = 58
             Width = 62
@@ -2300,7 +2303,7 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbTabsLimitOption
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Side = asrBottom
-            Left = 241
+            Left = 245
             Height = 23
             Top = 55
             Width = 41
@@ -2355,18 +2358,18 @@ object frmOptions: TfrmOptions
         end
       end
       object pgLogFile: TPage
-        ClientWidth = 493
-        ClientHeight = 471
+        ClientWidth = 497
+        ClientHeight = 448
         object gbLogFile: TGroupBox
           AnchorSideRight.Side = asrBottom
           Left = 10
           Height = 50
           Top = 8
-          Width = 469
+          Width = 473
           Anchors = [akTop, akLeft, akRight]
           Caption = 'File operation log file'
-          ClientHeight = 32
-          ClientWidth = 465
+          ClientHeight = 31
+          ClientWidth = 469
           TabOrder = 0
           object cbLogFile: TCheckBox
             AnchorSideTop.Control = fneLogFileName
@@ -2384,9 +2387,10 @@ object frmOptions: TfrmOptions
             Left = 108
             Height = 23
             Top = 2
-            Width = 295
+            Width = 299
             DialogOptions = []
             FilterIndex = 0
+            HideDirectories = False
             ButtonWidth = 23
             NumGlyphs = 1
             Anchors = [akTop, akLeft, akRight]
@@ -2401,12 +2405,12 @@ object frmOptions: TfrmOptions
           Left = 10
           Height = 122
           Top = 64
-          Width = 469
+          Width = 473
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           Caption = 'Log operations:'
-          ClientHeight = 104
-          ClientWidth = 465
+          ClientHeight = 103
+          ClientWidth = 469
           TabOrder = 1
           object cbLogCpMvLn: TCheckBox
             Left = 8
@@ -2456,12 +2460,12 @@ object frmOptions: TfrmOptions
           Left = 10
           Height = 87
           Top = 192
-          Width = 469
+          Width = 473
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           Caption = 'Operation status:'
-          ClientHeight = 69
-          ClientWidth = 465
+          ClientHeight = 68
+          ClientWidth = 469
           TabOrder = 2
           object cbLogSuccess: TCheckBox
             Left = 8
@@ -2490,17 +2494,17 @@ object frmOptions: TfrmOptions
         end
       end
       object pgConfigStorage: TPage
-        ClientWidth = 493
-        ClientHeight = 471
+        ClientWidth = 497
+        ClientHeight = 448
         object gbLocConfigFiles: TGroupBox
           Left = 10
           Height = 81
           Top = 6
-          Width = 469
+          Width = 473
           Anchors = [akTop, akLeft, akRight]
           Caption = 'Location of configuration files'
-          ClientHeight = 63
-          ClientWidth = 465
+          ClientHeight = 62
+          ClientWidth = 469
           TabOrder = 0
           object rbProgramDir: TRadioButton
             Left = 10
@@ -2531,12 +2535,12 @@ object frmOptions: TfrmOptions
           Left = 10
           Height = 103
           Top = 129
-          Width = 469
+          Width = 473
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           Caption = 'Save on exit'
-          ClientHeight = 85
-          ClientWidth = 465
+          ClientHeight = 84
+          ClientWidth = 469
           TabOrder = 1
           object cbDirHistory: TCheckBox
             Left = 10
@@ -2597,17 +2601,17 @@ object frmOptions: TfrmOptions
         end
       end
       object pgQuickSearch: TPage
-        ClientWidth = 493
-        ClientHeight = 471
+        ClientWidth = 497
+        ClientHeight = 448
         object gbQuickSearch: TGroupBox
           Left = 10
           Height = 154
           Top = 4
-          Width = 469
+          Width = 473
           Anchors = [akTop, akLeft, akRight]
           Caption = 'Quick search (current dir)'
-          ClientHeight = 136
-          ClientWidth = 465
+          ClientHeight = 135
+          ClientWidth = 469
           TabOrder = 0
           object rbCtrlAltLetterQS: TRadioButton
             Left = 10
@@ -2662,12 +2666,12 @@ object frmOptions: TfrmOptions
           Left = 10
           Height = 88
           Top = 164
-          Width = 469
+          Width = 473
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           Caption = 'Exact &name match:'
-          ClientHeight = 70
-          ClientWidth = 465
+          ClientHeight = 69
+          ClientWidth = 469
           TabOrder = 1
           object cbExactBeginning: TCheckBox
             Left = 10
@@ -2688,14 +2692,14 @@ object frmOptions: TfrmOptions
         end
       end
       object pgColumns: TPage
-        ClientWidth = 493
-        ClientHeight = 471
+        ClientWidth = 497
+        ClientHeight = 448
         object lblConfigColumns: TLabel
           AnchorSideTop.Control = cbbFileSystem
           AnchorSideTop.Side = asrCenter
           Left = 7
           Height = 14
-          Top = 3
+          Top = 5
           Width = 164
           Caption = 'Configure columns for file system:'
           ParentColor = False
@@ -2706,19 +2710,17 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = pgColumns
           AnchorSideRight.Side = asrBottom
           Left = 175
-          Height = 21
+          Height = 25
           Top = 0
-          Width = 312
+          Width = 316
           Anchors = [akTop, akLeft, akRight]
-          AutoComplete = False
           BorderSpacing.Left = 4
           BorderSpacing.Right = 6
-          ItemHeight = 13
+          ItemHeight = 0
           ItemIndex = 0
           Items.Strings = (
             'General'
           )
-          ItemWidth = 0
           MaxLength = 65535
           Style = csDropDownList
           TabOrder = 0
@@ -2732,9 +2734,9 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = pnlButtons
           Left = 6
-          Height = 386
-          Top = 27
-          Width = 481
+          Height = 359
+          Top = 31
+          Width = 485
           Anchors = [akTop, akLeft, akRight, akBottom]
           BorderSpacing.Left = 6
           BorderSpacing.Top = 6
@@ -2743,6 +2745,7 @@ object frmOptions: TfrmOptions
           ItemHeight = 0
           OnDblClick = btnEditColumnsSetClick
           TabOrder = 1
+          TopIndex = -1
         end
         object pnlButtons: TPanel
           AnchorSideRight.Control = pgColumns
@@ -2751,13 +2754,13 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 7
           Height = 46
-          Top = 419
-          Width = 480
+          Top = 396
+          Width = 484
           Anchors = [akLeft, akRight, akBottom]
           BorderSpacing.Right = 6
           BorderSpacing.Bottom = 6
           ClientHeight = 46
-          ClientWidth = 480
+          ClientWidth = 484
           TabOrder = 2
           object btnNewColumnsSet: TButton
             AnchorSideLeft.Control = pnlButtons
@@ -2784,7 +2787,7 @@ object frmOptions: TfrmOptions
           end
           object btnDelColumnsSet: TButton
             AnchorSideRight.Control = btnCopyColumnsSet
-            Left = 245
+            Left = 249
             Height = 32
             Top = 7
             Width = 112
@@ -2797,7 +2800,7 @@ object frmOptions: TfrmOptions
           object btnCopyColumnsSet: TButton
             AnchorSideRight.Control = pnlButtons
             AnchorSideRight.Side = asrBottom
-            Left = 363
+            Left = 367
             Height = 32
             Top = 7
             Width = 111
@@ -2810,8 +2813,8 @@ object frmOptions: TfrmOptions
         end
       end
       object pgMisc: TPage
-        ClientWidth = 493
-        ClientHeight = 471
+        ClientWidth = 497
+        ClientHeight = 448
         object gbShowGrid: TGroupBox
           AnchorSideLeft.Control = pgMisc
           AnchorSideTop.Control = pgMisc
@@ -2820,14 +2823,14 @@ object frmOptions: TfrmOptions
           Left = 8
           Height = 82
           Top = 8
-          Width = 477
+          Width = 481
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 8
           BorderSpacing.Top = 8
           BorderSpacing.Right = 8
           Caption = 'Show grid in file panel'
-          ClientHeight = 64
-          ClientWidth = 473
+          ClientHeight = 63
+          ClientWidth = 477
           TabOrder = 0
           object cbGridVertLine: TCheckBox
             AnchorSideLeft.Control = gbShowGrid
@@ -2864,13 +2867,13 @@ object frmOptions: TfrmOptions
           Left = 8
           Height = 106
           Top = 96
-          Width = 477
+          Width = 481
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 8
           BorderSpacing.Top = 6
           BorderSpacing.Right = 8
-          ClientHeight = 88
-          ClientWidth = 473
+          ClientHeight = 102
+          ClientWidth = 477
           TabOrder = 1
           object cbShowWarningMessages: TCheckBox
             AnchorSideLeft.Control = gbExtended
@@ -2913,8 +2916,8 @@ object frmOptions: TfrmOptions
         end
       end
       object pgAutoRefresh: TPage
-        ClientWidth = 493
-        ClientHeight = 471
+        ClientWidth = 497
+        ClientHeight = 448
         object gbAutoRefresh: TGroupBox
           AnchorSideLeft.Control = pgAutoRefresh
           AnchorSideTop.Control = pgAutoRefresh
@@ -2923,14 +2926,14 @@ object frmOptions: TfrmOptions
           Left = 10
           Height = 200
           Top = 10
-          Width = 473
+          Width = 477
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 10
           BorderSpacing.Right = 10
           Caption = 'Auto-Refresh when the file system changes'
-          ClientHeight = 182
-          ClientWidth = 469
+          ClientHeight = 181
+          ClientWidth = 473
           TabOrder = 0
           object lblWatchExcludeDrives: TLabel
             AnchorSideLeft.Control = gbAutoRefresh
@@ -3032,7 +3035,7 @@ object frmOptions: TfrmOptions
       Left = 1
       Height = 23
       Top = 1
-      Width = 501
+      Width = 532
       Align = alTop
       Color = clActiveCaption
       Font.Color = clCaptionText
