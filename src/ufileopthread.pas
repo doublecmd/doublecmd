@@ -217,10 +217,17 @@ try
       Synchronize(@CreateForm);  // create progress form in main thread
       FFileOpDlg.iProgress2Pos:= 0;
       FFileOpDlg.iProgress2Max:= 100;
+      Synchronize(@FFileOpDlg.ToggleProgressBarStyle);
       Synchronize(@FFileOpDlg.UpdateDlg);
     end;
 
     FillAndCount; // gets full list of files (rekursive)
+
+    if UseForm then
+      begin
+        Synchronize(@FFileOpDlg.ToggleProgressBarStyle);
+        Synchronize(@FFileOpDlg.UpdateDlg);
+      end;
 
     MainExecute; // main executive (virtual)
 

@@ -53,6 +53,7 @@ type
     sFileNameFrom,
     sFileNameTo: String;
     Thread: TThread;
+    procedure ToggleProgressBarStyle;
     procedure UpdateDlg;
   end;
 
@@ -119,6 +120,20 @@ begin
   Hint:= Caption;
   if btnPauseStart.Visible then
     dmComData.ImageList.GetBitmap(1, btnPauseStart.Glyph);
+end;
+
+procedure TfrmFileOp.ToggleProgressBarStyle;
+begin
+  if (pbFirst.Style = pbstMarquee) and (pbSecond.Style = pbstMarquee) then
+    begin
+      pbFirst.Style:= pbstNormal;
+      pbSecond.Style:= pbstNormal;
+    end
+  else
+    begin
+      pbFirst.Style:= pbstMarquee;
+      pbSecond.Style:= pbstMarquee;
+    end;
 end;
 
 procedure TfrmFileOp.UpdateDlg;

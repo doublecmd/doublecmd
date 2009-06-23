@@ -86,8 +86,8 @@ begin
 
       if CompareFilenames(pr^.sName, sDstPath+pr^.sPath+sDstNew) <> 0 then
       begin
-        FFileOpDlg.sFileNameFrom:= ExtractFileName(pr^.sName);
-        FFileOpDlg.sFileNameTo:= pr^.sPath + sDstNew;
+        FFileOpDlg.sFileNameFrom:= pr^.sName;
+        FFileOpDlg.sFileNameTo:= sDstPath + pr^.sPath + sDstNew;
         Synchronize(@FFileOpDlg.UpdateDlg);
 
         //  test if exists and show dialog
