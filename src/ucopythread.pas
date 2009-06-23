@@ -140,8 +140,8 @@ begin
     sDstNew:= sDstNew+sDstExt;
 //  DebugLn(sDstNew);
   if CompareFilenames(fr^.sName, sDst+fr^.sPath+sDstNew) = 0 then Exit(False);
-  FFileOpDlg.sFileNameFrom:= ExtractFileName(fr^.sName);
-  FFileOpDlg.sFileNameTo:= fr^.sPath + sDstNew;
+  FFileOpDlg.sFileNameFrom:= fr^.sName;
+  FFileOpDlg.sFileNameTo:= sDst + fr^.sPath + sDstNew;
   Synchronize(@FFileOpDlg.UpdateDlg);
   if FPS_ISLNK(fr^.iMode) then
     begin

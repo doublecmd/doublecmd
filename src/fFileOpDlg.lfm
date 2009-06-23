@@ -5,6 +5,7 @@ object frmFileOp: TfrmFileOp
   Width = 522
   ActiveControl = btnCancel
   Caption = 'Process file(s)'
+  ChildSizing.TopBottomSpacing = 4
   ClientHeight = 160
   ClientWidth = 522
   Constraints.MaxHeight = 160
@@ -24,7 +25,6 @@ object frmFileOp: TfrmFileOp
     Height = 14
     Top = 8
     Width = 462
-    Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.Top = 8
@@ -87,7 +87,6 @@ object frmFileOp: TfrmFileOp
     Height = 16
     Top = 24
     Width = 464
-    Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 2
     BorderSpacing.Right = 10
