@@ -23,6 +23,8 @@ uses
   Classes, uFileList, fFileOpDlg, uTypes, uDescr, fMsg, uShowMsg {$IFNDEF NOFAKETHREAD}, uFakeThread{$ENDIF};
 
 type
+  TFileOpDlgLook = set of (fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb);
+
   { TFileOpThread }
 {$IFDEF NOFAKETHREAD}
   TFileOpThread = class(TThread)
@@ -57,7 +59,8 @@ type
     procedure FillAndCountRec(const srcPath, dstPath:String); // rekursive called
     procedure EstimateTime(iSizeCoped:Int64);
     function  GetCaptionLng:String; virtual;
-    function CheckFile(FileRecItem: PFileRecItem): Boolean; virtual;
+    function  GetFileOpDlgLook: TFileOpDlgLook; virtual;
+    function  CheckFile(FileRecItem: PFileRecItem): Boolean; virtual;
     procedure CorrectMask;
     function  CorrectDstName(const sName:String):String;
     function  CorrectDstExt(const sExt:String):String;
@@ -242,12 +245,23 @@ end;
 end;
 
 procedure TFileOpThread.CreateForm;
+var
+  FileOpDlgLook: TFileOpDlgLook;
 begin
   DebugLn('TFileOpThread.CreateForm');
   FFileOpDlg:= TfrmFileOp.Create(Application);
   FFileOpDlg.Thread:= TThread(Self);
   FFileOpDlg.btnPauseStart.Visible:= True;
   FFileOpDlg.Caption:= GetCaptionLng;
+  //----------------------------------------------------------------------------
+  FileOpDlgLook:= GetFileOpDlgLook;
+  FFileOpDlg.lblFrom.Visible:= (fodl_from_lbl in FileOpDlgLook);
+  FFileOpDlg.lblFileNameFrom.Visible:= FFileOpDlg.lblFrom.Visible;
+  FFileOpDlg.lblTo.Visible:= (fodl_to_lbl in FileOpDlgLook);
+  FFileOpDlg.lblFileNameTo.Visible:= FFileOpDlg.lblTo.Visible;
+  FFileOpDlg.pbFirst.Visible:= (fodl_first_pb in FileOpDlgLook);
+  FFileOpDlg.pbSecond.Visible:= (fodl_second_pb in FileOpDlgLook);
+  //----------------------------------------------------------------------------
   FFileOpDlg.Show;
   FFileOpDlg.Update;
 end;
@@ -357,9 +371,14 @@ begin
   end; //case
 end;
 
-function TFileOpThread.GetCaptionLng:String;
+function TFileOpThread.GetCaptionLng: String;
 begin
   Result:= '';
+end;
+
+function TFileOpThread.GetFileOpDlgLook: TFileOpDlgLook;
+begin
+  Result:= [fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb];
 end;
 
 function TFileOpThread.CheckFile(FileRecItem: PFileRecItem): Boolean;

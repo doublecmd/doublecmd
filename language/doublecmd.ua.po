@@ -651,6 +651,11 @@ msgstr "перегляд"
 msgid "Open in Viewer"
 msgstr "Відкрити в переглядачі"
 
+#: TFRMFILEOP.BTNCANCEL.CAPTION
+msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Скасувати"
+
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
 msgstr "Обробити файл(и)"
@@ -658,6 +663,25 @@ msgstr "Обробити файл(и)"
 #: TFRMFILEOP.LBLESTIMATED.CAPTION
 msgid "Estimated"
 msgstr "Залишилось"
+
+#: TFRMFILEOP.LBLFILENAMEFROM.CAPTION
+#, fuzzy
+#| msgid "File name"
+msgctxt "TFRMFILEOP.LBLFILENAMEFROM.CAPTION"
+msgid "File name from"
+msgstr "Ім'я файла"
+
+#: TFRMFILEOP.LBLFILENAMETO.CAPTION
+msgid "File name to"
+msgstr ""
+
+#: TFRMFILEOP.LBLFROM.CAPTION
+msgid "From:"
+msgstr ""
+
+#: TFRMFILEOP.LBLTO.CAPTION
+msgid "To:"
+msgstr ""
 
 #: TFRMFILEPROPERTIES.BTNALL.CAPTION
 msgid "&All"
@@ -771,10 +795,10 @@ msgid "Symlink:"
 msgstr "Симв.посилання"
 
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
+#, fuzzy
 msgid "Type:"
 msgstr "Тип:"
 
-#, fuzzy
 #: TFRMFILEPROPERTIES.LBLWRITE.CAPTION
 msgid "Write"
 msgstr "Запис"
@@ -858,15 +882,15 @@ msgid "Directory"
 msgstr ""
 
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
+#, fuzzy
 msgid "File Size From:"
 msgstr "Розмір файла від:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
+#, fuzzy
 msgid "File Size To:"
 msgstr "Розмір файла до:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBFINDINFILE.CAPTION
 msgid "Find &text in file"
 msgstr "Шукати в файлі"

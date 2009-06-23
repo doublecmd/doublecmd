@@ -647,6 +647,11 @@ msgstr "视图"
 msgid "Open in Viewer"
 msgstr "在查看器中打开"
 
+#: TFRMFILEOP.BTNCANCEL.CAPTION
+msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "取消"
+
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
 msgstr "处理文件:"
@@ -654,6 +659,25 @@ msgstr "处理文件:"
 #: TFRMFILEOP.LBLESTIMATED.CAPTION
 msgid "Estimated"
 msgstr "估计"
+
+#: TFRMFILEOP.LBLFILENAMEFROM.CAPTION
+#, fuzzy
+#| msgid "File name"
+msgctxt "TFRMFILEOP.LBLFILENAMEFROM.CAPTION"
+msgid "File name from"
+msgstr "文件名"
+
+#: TFRMFILEOP.LBLFILENAMETO.CAPTION
+msgid "File name to"
+msgstr ""
+
+#: TFRMFILEOP.LBLFROM.CAPTION
+msgid "From:"
+msgstr ""
+
+#: TFRMFILEOP.LBLTO.CAPTION
+msgid "To:"
+msgstr ""
 
 #: TFRMFILEPROPERTIES.BTNALL.CAPTION
 msgid "&All"
@@ -763,10 +787,10 @@ msgid "Symlink:"
 msgstr "符号链接:"
 
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
+#, fuzzy
 msgid "Type:"
 msgstr "类型:"
 
-#, fuzzy
 #: TFRMFILEPROPERTIES.LBLWRITE.CAPTION
 msgid "Write"
 msgstr "写"
@@ -849,15 +873,15 @@ msgid "Directory"
 msgstr ""
 
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
+#, fuzzy
 msgid "File Size From:"
 msgstr "最小:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
+#, fuzzy
 msgid "File Size To:"
 msgstr "最大:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBFINDINFILE.CAPTION
 msgid "Find &text in file"
 msgstr "在文件中查找"

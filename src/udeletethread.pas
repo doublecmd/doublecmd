@@ -34,6 +34,7 @@ type
     function DeleteFile(fr:PFileRecItem):Boolean;
     function GetCaptionLng: String; override;
     function CheckFile(FileRecItem: PFileRecItem): Boolean; override;
+    function GetFileOpDlgLook: TFileOpDlgLook; override;
  public
     // 30.04.2009 - свойство для удаления в корзину
     property Recycle : boolean read FRecycle write FRecycle default false;
@@ -66,7 +67,7 @@ begin
     if Terminated then Exit;
     if Paused then Suspend;
     pr:=NewFileList.GetItem(xIndex);
-    FFileOpDlg.sFileName:=pr^.sName;
+    FFileOpDlg.sFileNameFrom:= pr^.sName;
     Synchronize(@FFileOpDlg.UpdateDlg);
     inc(iCopied,pr^.iSize);
     EstimateTime(iCopied);
@@ -147,6 +148,11 @@ begin
   Result:= inherited CheckFile(FileRecItem);
   if FileIsReadOnly(FileRecItem^.iMode) then
     mbFileSetReadOnly(FileRecItem^.sName, False);
+end;
+
+function TDeleteThread.GetFileOpDlgLook: TFileOpDlgLook;
+begin
+  Result:= [fodl_from_lbl, fodl_second_pb];
 end;
 
 end.

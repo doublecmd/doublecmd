@@ -136,7 +136,7 @@ begin
         if not FOneFile then
           FCheckSumFile.Clear;
         //------------------------------------
-        FFileOpDlg.sFileName:= pr^.sName;
+        FFileOpDlg.sFileNameFrom:= pr^.sName;
         Synchronize(@FFileOpDlg.UpdateDlg);
         //------------------------------------
         sCheckSum1:= CheckSumCalc(pr);
@@ -157,7 +157,7 @@ begin
             fri.sName:= sDstPath + (PChar(FCheckSumFile.ValueFromIndex[I])+1);
             fri.iSize:= mbFileSize(fri.sName);
             //------------------------------------
-            FFileOpDlg.sFileName:= fri.sName;
+            FFileOpDlg.sFileNameFrom:= fri.sName;
             Synchronize(@FFileOpDlg.UpdateDlg);
             //------------------------------------
             sCheckSum1:= CheckSumCalc(@fri);

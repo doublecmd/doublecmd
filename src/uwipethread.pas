@@ -68,6 +68,7 @@ type
     procedure MainExecute; override;
     procedure Wipe(fr: PFileRecItem);
     function GetCaptionLng: String;override;
+    function GetFileOpDlgLook: TFileOpDlgLook; override;
   end;
 
 implementation
@@ -359,7 +360,7 @@ begin
   begin
     if Terminated then Exit;
     pr:=NewFileList.GetItem(xIndex);
-    FFileOpDlg.sFileName:=pr^.sName;
+    FFileOpDlg.sFileNameFrom:= pr^.sName;
     Synchronize(@FFileOpDlg.UpdateDlg);
     inc(iCopied,pr^.iSize);
     EstimateTime(iCopied);
@@ -389,6 +390,11 @@ end;
 function TWipeThread.GetCaptionLng:String;
 begin
   Result:= rsDlgDel;
+end;
+
+function TWipeThread.GetFileOpDlgLook: TFileOpDlgLook;
+begin
+  Result:= [fodl_from_lbl, fodl_first_pb, fodl_second_pb];
 end;
 
 end.

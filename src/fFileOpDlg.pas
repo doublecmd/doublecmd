@@ -28,9 +28,12 @@ type
 
   TfrmFileOp = class(TForm)
     btnPauseStart: TBitBtn;
+    lblFrom: TLabel;
+    lblTo: TLabel;
+    lblFileNameTo: TLabel;
     pbSecond: TProgressBar;
     pbFirst: TProgressBar;
-    lblFileName: TLabel;
+    lblFileNameFrom: TLabel;
     lblEstimated: TLabel;
     btnCancel: TBitBtn;
     procedure btnCancelClick(Sender: TObject);
@@ -42,14 +45,14 @@ type
     { Private declarations }
 
   public
-    iProgress1Max:Integer;
-    iProgress1Pos:Integer;
-    iProgress2Max:Integer;
-    iProgress2Pos:Integer;
-    sEstimated:ShortString;  // bugbug, must be short string
-//    sEstimated:String;
-    sFileName:String;
-    Thread : TThread;
+    iProgress1Max: Integer;
+    iProgress1Pos: Integer;
+    iProgress2Max: Integer;
+    iProgress2Pos: Integer;
+    sEstimated: ShortString;  // bugbug, must be short string
+    sFileNameFrom,
+    sFileNameTo: String;
+    Thread: TThread;
     procedure UpdateDlg;
   end;
 
@@ -67,7 +70,7 @@ begin
         with Thread as TFileOpThread do
           if Paused then Paused:= False; 
     end;
-  ModalResult := mrCancel;
+  ModalResult:= mrCancel;
 end;
 
 procedure TfrmFileOp.btnPauseStartClick(Sender: TObject);
@@ -93,25 +96,26 @@ end;
 
 procedure TfrmFileOp.FormCreate(Sender: TObject);
 begin
-  Thread := nil;
-  pbFirst.Position:=0;
-  pbSecond.Position:=0;
-  pbFirst.Max:=1;
-  pbSecond.Max:=1;
-  iProgress1Max:=0;
-  iProgress2Max:=0;
-  iProgress1Pos:=0;
-  iProgress2Pos:=0;
+  Thread:= nil;
+  pbFirst.Position:= 0;
+  pbSecond.Position:= 0;
+  pbFirst.Max:= 1;
+  pbSecond.Max:= 1;
+  iProgress1Max:= 0;
+  iProgress2Max:= 0;
+  iProgress1Pos:= 0;
+  iProgress2Pos:= 0;
 
-  pbFirst.DoubleBuffered := True;
-  pbSecond.DoubleBuffered := True;
-  Self.DoubleBuffered := True;
+  pbFirst.DoubleBuffered:= True;
+  pbSecond.DoubleBuffered:= True;
+  Self.DoubleBuffered:= True;
 end;
 
 procedure TfrmFileOp.FormShow(Sender: TObject);
 begin
-  sEstimated:='';
-  sFileName:='';
+  sEstimated:= '';
+  sFileNameFrom:= '';
+  sFileNameTo:= '';
   Hint:= Caption;
   if btnPauseStart.Visible then
     dmComData.ImageList.GetBitmap(1, btnPauseStart.Glyph);
@@ -119,38 +123,37 @@ end;
 
 procedure TfrmFileOp.UpdateDlg;
 var
-  bP1, bP2:Boolean; // repaint if needed
-  s:String;
+  bP1, bP2: Boolean; // repaint if needed
+  s: String;
 begin
 // in processor intensive task we force repaint immedially
-  bP1:=False;
-  bP2:=False;
+  bP1:= False;
+  bP2:= False;
 
   if pbFirst.Max<> iProgress1Max then
   begin
-    if iProgress1Max>0 then
+    if iProgress1Max > 0 then
       pbFirst.Max:= iProgress1Max;
-{    pbFirst.Max:=20000;}
-    bP1:=True;
+    bP1:= True;
   end;
-  if pbFirst.Position<> iProgress1Pos then
+  if pbFirst.Position <> iProgress1Pos then
   begin
-    if iProgress1Pos>=0 then
+    if iProgress1Pos >= 0 then
       pbFirst.Position:= iProgress1Pos;
-    bP1:=True;
+    bP1:= True;
   end;
 
-  if pbSecond.Max<> iProgress2Max then
+  if pbSecond.Max <> iProgress2Max then
   begin
-    if iProgress2Max>0 then
+    if iProgress2Max > 0 then
       pbSecond.Max:= iProgress2Max;
-    bP2:=True;
+    bP2:= True;
   end;
-  if pbSecond.Position<> iProgress2Pos then
+  if pbSecond.Position <> iProgress2Pos then
   begin
-    if iProgress2Pos>0 then
+    if iProgress2Pos > 0 then
       pbSecond.Position:= iProgress2Pos;
-    bP2:=True;
+    bP2:= True;
   end;
   
   if bp1 then
@@ -161,15 +164,20 @@ begin
   if bp2 then
     Caption:= IntToStr(iProgress2Pos) + '% ' + Hint;
 
-  if sEstimated<>lblEstimated.Caption then
+  if sEstimated <> lblEstimated.Caption then
   begin
-    lblEstimated.Caption:=sEstimated;
+    lblEstimated.Caption:= sEstimated;
     lblEstimated.Invalidate;
   end;
-  if sFileName<>lblFileName.Caption then
+  if sFileNameFrom <> lblFileNameFrom.Caption then
   begin
-    lblFileName.Caption:=sFileName;
-    lblFileName.Invalidate;
+    lblFileNameFrom.Caption:= sFileNameFrom;
+    lblFileNameFrom.Invalidate;
+  end;
+  if sFileNameTo <> lblFileNameTo.Caption then
+  begin
+    lblFileNameTo.Caption:= sFileNameTo;
+    lblFileNameTo.Invalidate;
   end;
 end;
 
