@@ -8,7 +8,7 @@ object frmFileOp: TfrmFileOp
   ChildSizing.TopBottomSpacing = 4
   ClientHeight = 160
   ClientWidth = 522
-  Constraints.MaxHeight = 160
+  Constraints.MaxHeight = 180
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
@@ -21,19 +21,16 @@ object frmFileOp: TfrmFileOp
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 48
-    Height = 14
+    Left = 55
+    Height = 18
     Top = 8
-    Width = 462
+    Width = 455
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.Top = 8
     BorderSpacing.Right = 12
     Caption = 'File name from'
-    Font.Color = clBlack
-    Font.Height = 13
     ParentColor = False
-    ParentFont = False
   end
   object lblEstimated: TLabel
     AnchorSideLeft.Control = Owner
@@ -42,8 +39,8 @@ object frmFileOp: TfrmFileOp
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 16
-    Top = 104
+    Height = 18
+    Top = 108
     Width = 510
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
@@ -56,9 +53,9 @@ object frmFileOp: TfrmFileOp
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     Left = 10
-    Height = 16
+    Height = 18
     Top = 8
-    Width = 32
+    Width = 39
     BorderSpacing.Left = 10
     BorderSpacing.Top = 8
     Caption = 'From:'
@@ -69,9 +66,9 @@ object frmFileOp: TfrmFileOp
     AnchorSideTop.Control = lblFrom
     AnchorSideTop.Side = asrBottom
     Left = 10
-    Height = 16
-    Top = 26
-    Width = 18
+    Height = 18
+    Top = 28
+    Width = 20
     BorderSpacing.Left = 10
     BorderSpacing.Top = 2
     Caption = 'To:'
@@ -83,10 +80,10 @@ object frmFileOp: TfrmFileOp
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 48
-    Height = 16
-    Top = 24
-    Width = 464
+    Left = 55
+    Height = 18
+    Top = 28
+    Width = 457
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 2
     BorderSpacing.Right = 10
@@ -101,7 +98,7 @@ object frmFileOp: TfrmFileOp
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 22
-    Top = 76
+    Top = 80
     Width = 510
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
@@ -119,7 +116,7 @@ object frmFileOp: TfrmFileOp
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 22
-    Top = 48
+    Top = 52
     Width = 510
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
@@ -136,7 +133,7 @@ object frmFileOp: TfrmFileOp
     AnchorSideRight.Control = btnPauseStart
     Left = 346
     Height = 32
-    Top = 126
+    Top = 132
     Width = 89
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 6
@@ -158,7 +155,7 @@ object frmFileOp: TfrmFileOp
     AnchorSideBottom.Side = asrBottom
     Left = 441
     Height = 32
-    Top = 126
+    Top = 132
     Width = 75
     Anchors = [akTop, akRight, akBottom]
     Layout = blGlyphTop
