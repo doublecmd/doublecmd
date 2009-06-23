@@ -9,6 +9,7 @@ object frmFileOp: TfrmFileOp
   ClientHeight = 160
   ClientWidth = 522
   Constraints.MaxHeight = 180
+  Constraints.MinWidth = 500
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
