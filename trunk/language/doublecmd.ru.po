@@ -646,6 +646,11 @@ msgstr "Просмотреть"
 msgid "Open in Viewer"
 msgstr "Открыть в просмотрщике"
 
+#: TFRMFILEOP.BTNCANCEL.CAPTION
+msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr ""
+
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
 msgstr "Обработать файл(ы)"
@@ -653,6 +658,25 @@ msgstr "Обработать файл(ы)"
 #: TFRMFILEOP.LBLESTIMATED.CAPTION
 msgid "Estimated"
 msgstr "Осталось"
+
+#: TFRMFILEOP.LBLFILENAMEFROM.CAPTION
+#, fuzzy
+#| msgid "File name"
+msgctxt "TFRMFILEOP.LBLFILENAMEFROM.CAPTION"
+msgid "File name from"
+msgstr "Имя файла"
+
+#: TFRMFILEOP.LBLFILENAMETO.CAPTION
+msgid "File name to"
+msgstr ""
+
+#: TFRMFILEOP.LBLFROM.CAPTION
+msgid "From:"
+msgstr ""
+
+#: TFRMFILEOP.LBLTO.CAPTION
+msgid "To:"
+msgstr ""
 
 #: TFRMFILEPROPERTIES.BTNALL.CAPTION
 msgid "&All"

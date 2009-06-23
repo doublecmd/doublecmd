@@ -1,5 +1,3 @@
-#, fuzzy
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3 alpha\n"
@@ -659,6 +657,11 @@ msgstr "Zobrazit"
 msgid "Open in Viewer"
 msgstr "Otevřít v prohlížeči"
 
+#: TFRMFILEOP.BTNCANCEL.CAPTION
+msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Zrušit"
+
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
 msgstr "Zpracovat soubor(y)"
@@ -666,6 +669,25 @@ msgstr "Zpracovat soubor(y)"
 #: TFRMFILEOP.LBLESTIMATED.CAPTION
 msgid "Estimated"
 msgstr "Přibližně"
+
+#: TFRMFILEOP.LBLFILENAMEFROM.CAPTION
+#, fuzzy
+#| msgid "File name"
+msgctxt "TFRMFILEOP.LBLFILENAMEFROM.CAPTION"
+msgid "File name from"
+msgstr "Název souboru"
+
+#: TFRMFILEOP.LBLFILENAMETO.CAPTION
+msgid "File name to"
+msgstr ""
+
+#: TFRMFILEOP.LBLFROM.CAPTION
+msgid "From:"
+msgstr ""
+
+#: TFRMFILEOP.LBLTO.CAPTION
+msgid "To:"
+msgstr ""
 
 #: TFRMFILEPROPERTIES.BTNALL.CAPTION
 msgid "&All"
@@ -775,10 +797,10 @@ msgid "Symlink:"
 msgstr "Zástupce:"
 
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
+#, fuzzy
 msgid "Type:"
 msgstr "Typ:"
 
-#, fuzzy
 #: TFRMFILEPROPERTIES.LBLWRITE.CAPTION
 msgid "Write"
 msgstr "Zápis"
@@ -861,15 +883,15 @@ msgid "Directory"
 msgstr ""
 
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
+#, fuzzy
 msgid "File Size From:"
 msgstr "Velikost od:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
+#, fuzzy
 msgid "File Size To:"
 msgstr "Velikost do:"
 
-#, fuzzy
 #: TFRMFINDDLG.CBFINDINFILE.CAPTION
 msgid "Find &text in file"
 msgstr "Vyhledat soubor"
@@ -908,10 +930,10 @@ msgid "Time to:"
 msgstr "Čas do:"
 
 #: TFRMFINDDLG.CBUNITOFMEASURE.TEXT
+#, fuzzy
 msgid "Kbyte"
 msgstr "kB"
 
-#, fuzzy
 #: TFRMFINDDLG.CBUSEPLUGIN.CAPTION
 msgid "&Use search plugin:"
 msgstr "Použit vyhledávací zásuvný modul:"
@@ -1290,10 +1312,10 @@ msgid "Rename"
 msgstr "Přejmenovat"
 
 #: TFRMMAIN.ACTREVERSEORDER.CAPTION
+#, fuzzy
 msgid "Reverse order"
 msgstr "Obrácené třídění"
 
-#, fuzzy
 #: TFRMMAIN.ACTRIGHTEQUALLEFT.CAPTION
 msgid "Right &= Left"
 msgstr ""
@@ -1599,10 +1621,10 @@ msgid "-"
 msgstr "-"
 
 #: TFRMMAIN.MIMOVE.CAPTION
+#, fuzzy
 msgid "Move..."
 msgstr "Přesunout..."
 
-#, fuzzy
 #: TFRMMAIN.MISYMLINK.CAPTION
 msgctxt "TFRMMAIN.MISYMLINK.CAPTION"
 msgid "Create symlink..."
@@ -2354,19 +2376,19 @@ msgid "Background 2:"
 msgstr "Pozadí 2:"
 
 #: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
+#, fuzzy
 msgid "Category attributes:"
 msgstr "Atributy kategorií:"
 
-#, fuzzy
 #: TFRMOPTIONS.LBLCATEGORYCOLOR.CAPTION
 msgid "Category color:"
 msgstr "Barva kategorie:"
 
 #: TFRMOPTIONS.LBLCATEGORYMASK.CAPTION
+#, fuzzy
 msgid "Category mask:"
 msgstr "Maska kategorie:"
 
-#, fuzzy
 #: TFRMOPTIONS.LBLCATEGORYNAME.CAPTION
 msgid "Category name:"
 msgstr "Název kategore:"
@@ -2609,10 +2631,10 @@ msgid "Attributes:"
 msgstr "Atributy:"
 
 #: TFRMPACKINFODLG.LBLCOMPRESSIONRATIO.CAPTION
+#, fuzzy
 msgid "Compression ratio:"
 msgstr "Kompresní poměr:"
 
-#, fuzzy
 #: TFRMPACKINFODLG.LBLDATE.CAPTION
 msgid "Date:"
 msgstr "Datum:"
@@ -2660,10 +2682,10 @@ msgid "1457664B - 3.5\""
 msgstr "1457664B - 3.5\""
 
 #: TFRMSPLITTER.GRBXSIZE.CAPTION
+#, fuzzy
 msgid "File size"
 msgstr "Velikost souboru"
 
-#, fuzzy
 #: TFRMSPLITTER.GRBXWATCH.CAPTION
 msgid "Watchtower"
 msgstr "Sledování výsledků"
@@ -3114,10 +3136,10 @@ msgid "Disk is not available"
 msgstr "Disk není dostupný"
 
 #: ulng.rsmsgenterfileext
+#, fuzzy
 msgid "Enter file extension:"
 msgstr "Zadej příponu souboru:"
 
-#, fuzzy
 #: ulng.rsmsgentername
 msgid "Enter name:"
 msgstr "Zadej název:"
@@ -3379,10 +3401,10 @@ msgid "Configuration"
 msgstr "Konfigurace"
 
 #: ulng.rsoptdisable
+#, fuzzy
 msgid "Disable"
 msgstr "Zakázat"
 
-#, fuzzy
 #: ulng.rsoptenable
 msgctxt "ulng.rsoptenable"
 msgid "Enable"
@@ -3393,15 +3415,15 @@ msgid "Enter extension"
 msgstr "Zadej výraz"
 
 #: ulng.rsoptfileop
+#, fuzzy
 msgid "File operations"
 msgstr "Souborové operace"
 
-#, fuzzy
 #: ulng.rsoptfilepanels
+#, fuzzy
 msgid "File panels"
 msgstr "Panely souborů"
 
-#, fuzzy
 #: ulng.rsoptfiletypes
 msgctxt "ulng.rsoptfiletypes"
 msgid "File types"

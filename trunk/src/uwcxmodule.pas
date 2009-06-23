@@ -403,7 +403,7 @@ begin
     if FFileOpDlg.ModalResult = mrCancel then // Cancel operation
       Result := 0;
 
-    FFileOpDlg.sFileName := SysToUTF8(FileName);
+    FFileOpDlg.sFileNameFrom := SysToUTF8(FileName);
 
     if not (Size < 0) then
       begin

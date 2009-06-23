@@ -373,7 +373,8 @@ begin
       FFileOpDlg.iProgress2Pos := Round(FPercent);
     end;
 
-    FFileOpDlg.sFileName := SysToUTF8(SourceName + ' -> ' + TargetName);
+    FFileOpDlg.sFileNameFrom := SysToUTF8(SourceName);
+    FFileOpDlg.sFileNameTo := SysToUTF8(TargetName);
 
     if Assigned(CT) then
       CT.Synchronize(FFileOpDlg.UpdateDlg)

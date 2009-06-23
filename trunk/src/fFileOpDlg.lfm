@@ -14,21 +14,22 @@ object frmFileOp: TfrmFileOp
   Position = poScreenCenter
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.27'
-  object lblFileName: TLabel
-    AnchorSideLeft.Control = Owner
+  object lblFileNameFrom: TLabel
+    AnchorSideLeft.Control = lblFrom
+    AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 12
-    Height = 23
+    Left = 48
+    Height = 14
     Top = 8
-    Width = 498
+    Width = 462
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Left = 12
+    BorderSpacing.Left = 6
     BorderSpacing.Top = 8
     BorderSpacing.Right = 12
-    Caption = 'File name'
+    Caption = 'File name from'
     Font.Color = clBlack
     Font.Height = 13
     ParentColor = False
@@ -42,13 +43,55 @@ object frmFileOp: TfrmFileOp
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 16
-    Top = 93
+    Top = 104
     Width = 510
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
     BorderSpacing.Right = 6
     Caption = 'Estimated'
+    ParentColor = False
+  end
+  object lblFrom: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 10
+    Height = 16
+    Top = 8
+    Width = 32
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 8
+    Caption = 'From:'
+    ParentColor = False
+  end
+  object lblTo: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblFrom
+    AnchorSideTop.Side = asrBottom
+    Left = 10
+    Height = 16
+    Top = 26
+    Width = 18
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 2
+    Caption = 'To:'
+    ParentColor = False
+  end
+  object lblFileNameTo: TLabel
+    AnchorSideLeft.Control = lblFileNameFrom
+    AnchorSideTop.Control = lblFileNameFrom
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 48
+    Height = 16
+    Top = 24
+    Width = 464
+    Alignment = taCenter
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 2
+    BorderSpacing.Right = 10
+    Caption = 'File name to'
     ParentColor = False
   end
   object pbSecond: TProgressBar
@@ -59,7 +102,7 @@ object frmFileOp: TfrmFileOp
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 22
-    Top = 65
+    Top = 76
     Width = 510
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
@@ -71,13 +114,13 @@ object frmFileOp: TfrmFileOp
   end
   object pbFirst: TProgressBar
     AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = lblFileName
+    AnchorSideTop.Control = lblTo
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 22
-    Top = 37
+    Top = 48
     Width = 510
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
@@ -94,7 +137,7 @@ object frmFileOp: TfrmFileOp
     AnchorSideRight.Control = btnPauseStart
     Left = 346
     Height = 32
-    Top = 115
+    Top = 126
     Width = 89
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 6
@@ -116,7 +159,7 @@ object frmFileOp: TfrmFileOp
     AnchorSideBottom.Side = asrBottom
     Left = 441
     Height = 32
-    Top = 115
+    Top = 126
     Width = 75
     Anchors = [akTop, akRight, akBottom]
     Layout = blGlyphTop
