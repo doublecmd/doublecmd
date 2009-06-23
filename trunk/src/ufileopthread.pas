@@ -262,7 +262,9 @@ begin
   FFileOpDlg.pbFirst.Visible:= (fodl_first_pb in FileOpDlgLook);
   FFileOpDlg.pbSecond.Visible:= (fodl_second_pb in FileOpDlgLook);
   //----------------------------------------------------------------------------
+  FFileOpDlg.AutoSize:= True;
   FFileOpDlg.Show;
+  FFileOpDlg.AutoSize:= False;
   FFileOpDlg.Update;
 end;
 
