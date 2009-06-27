@@ -288,7 +288,7 @@ var
   FileSortings: TFileSortings;
   FileListSorter: TListSorter = nil;
 begin
-  if fList.Count = 0 then Exit;
+  if (fList.Count = 0) or (ColumnsClass.ColumnsCount = 0) then Exit;
 
   CurrentSorting.Clear;
 
