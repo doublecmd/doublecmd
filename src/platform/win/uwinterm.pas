@@ -150,6 +150,7 @@ begin
     wShowWindow:= SW_HIDE;
     hStdInput:= PipeStdInRead;
     hStdOutput:= PipeStdOutWrite;
+    hStdError:= PipeStdOutWrite;
   end;
 
   ZeroMemory(@FProcessInformation, SizeOf(FProcessInformation));
