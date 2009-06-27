@@ -753,7 +753,7 @@ begin
           LastActive := '';
           fPanel.Row := 0;
 
-          {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+          {$IF NOT DEFINED(DARWIN)}
           if gTermWindow and Assigned(Cons) then
             Cons.Terminal.Write_pty('cd "'+fActiveDir+'"'+#13#10);
           {$ENDIF}

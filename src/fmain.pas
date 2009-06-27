@@ -45,8 +45,8 @@ uses
   StdCtrls, ExtCtrls,ActnList,Buttons, uFileSystemWatcher,
   SysUtils, Classes,  {uFilePanel,} framePanel, {FileCtrl,} Grids,
   KASToolBar, SynEdit, KASBarMenu,KASBarFiles,uColumns, uFileList, LCLType,uCmdBox
-  {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
-  , uterm
+  {$IF NOT DEFINED(DARWIN)}
+  , uTerminal
   {$ENDIF}
   {$IFDEF LCLQT}
   , qt4
@@ -496,8 +496,8 @@ type
   end;
 var
   frmMain: TfrmMain;
-{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
-  Cons: TConThread = nil;
+{$IF NOT DEFINED(DARWIN)}
+  Cons: TConsoleThread = nil;
 {$ENDIF}
 
 implementation
@@ -1093,7 +1093,7 @@ begin
   except
   end;
 
-{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+{$IF NOT DEFINED(DARWIN)}
  if assigned(Cons) then
   Cons.Free;
 {$ENDIF}
@@ -2604,7 +2604,7 @@ procedure TfrmMain.SetActiveFrame(panel: TFilePanelSelect);
 begin
   PanelSelected:=panel;
   ActiveFrame.SetFocus;
-  {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+  {$IF NOT DEFINED(DARWIN)}
   if gTermWindow and Assigned(Cons) then
     Cons.Terminal.Write_pty(' cd "'+ActiveFrame.ActiveDir+'"'+#13+#10);
   {$ENDIF}
@@ -3067,12 +3067,12 @@ end;
 
 procedure TfrmMain.ToggleConsole;
 begin
-{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+{$IF NOT DEFINED(DARWIN)}
   if gTermWindow then
     begin
       if not Assigned(Cons) then
         begin
-          Cons:= TConThread.Create;
+          Cons:= CreateConsoleThread;
           Cons.ColsCount:= 80;
           Cons.RowsCount:= CmdBox1.LineCount;
           Cons.CmdBox:= CmdBox1;
@@ -3350,7 +3350,7 @@ begin
         sDir:= mbGetCurrentDir;
         ActiveDir:= sDir;
         DebugLn(sDir);
-{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+{$IF NOT DEFINED(DARWIN)}
         if gTermWindow and Assigned(Cons) then
           Cons.Terminal.Write_pty(' cd "'+sDir+'"'+#13#10);
 {$ENDIF}
@@ -3362,7 +3362,7 @@ begin
     if edtCommand.Items.IndexOf(sCmd)=-1 then
       edtCommand.Items.Insert(0,sCmd);
 
-{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+{$IF NOT DEFINED(DARWIN)}
     if gTermWindow and Assigned(Cons) then
       Cons.Terminal.Write_pty(sCmd+#13#10)
     else
@@ -3383,7 +3383,7 @@ end;
 //Minimize the main window
 procedure TfrmMain.MinimizeWindow;
 begin
-	Self.WindowState := wsMinimized;
+  Self.WindowState := wsMinimized;
 end;
 //LaBero end
 
