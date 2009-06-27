@@ -113,7 +113,7 @@ begin
   end;
   if dwRead > 0 then
     begin
-      Output:= ConsoleToUTF8(pcOutput);
+      Output:= ConsoleToUTF8(Copy(pcOutput, 1, dwRead));
       FreeMem(pcOutput);
     end;
   Result:= dwRead;
