@@ -464,7 +464,7 @@ begin
   // load all configuration
   LoadConfig;
 
-{$IF DEFINED(DARWIN)} // temporarily while console not implemented under Windows
+{$IF DEFINED(DARWIN)} // temporarily while console not implemented under Mac OS X
   cbTermWindow.Checked:= False;
   cbTermWindow.Enabled:= False;
 {$ENDIF}

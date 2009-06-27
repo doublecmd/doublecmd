@@ -119,8 +119,8 @@ begin
   Result:= dwRead;
 end;
 
-function TWinTerm.Fork_pty(const rows, cols: Integer; const cmd: UTF8String;
-  const params: UTF8string): THandle;
+function TWinTerm.Fork_pty(const RowCount, ColCount: Integer; const Command: UTF8String;
+  const Params: UTF8String): THandle;
 var
  hTmp1, hTmp2: THandle;
 begin
@@ -155,7 +155,7 @@ begin
   ZeroMemory(@FProcessInformation, SizeOf(FProcessInformation));
 
   CreateProcessW(nil,
-      PWideChar(UTF8Decode(cmd)),       // command line
+      PWideChar(UTF8Decode(Command)),       // command line
       nil,          // process security attributes
       nil,          // primary thread security attributes
       TRUE,         // handles are inherited
@@ -189,7 +189,7 @@ begin
   Result:= False;
 end;
 
-function TWinTerm.SetScreenSize(aCols, aRows: Integer): Boolean;
+function TWinTerm.SetScreenSize(ColCount, RowCount: Integer): Boolean;
 begin
   Result:= False;
 end;
