@@ -39,7 +39,6 @@ type
 
   TWinConThread = class(TConsoleThread)
   private
-    FBuffer: UTF8String;
     procedure AddSymbol;
   protected
     procedure Execute; override;
@@ -213,7 +212,7 @@ end;
 procedure TWinConThread.AddSymbol;
 begin
   if Assigned(FOut) then
-    FOut.Write(FBuffer);
+    FOut.Write(FBuf);
 end;
 
 procedure TWinConThread.Execute;
@@ -227,7 +226,7 @@ begin
     begin
      if Assigned(FTerm) then
        begin
-         if FTerm.Read_pty(FBuffer, 0) > 0 then
+         if FTerm.Read_pty(FBuf, 0) > 0 then
            Synchronize(@AddSymbol)
          else
            Sleep(1);

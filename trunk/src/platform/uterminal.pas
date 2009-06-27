@@ -57,6 +57,7 @@ type
      function SetScreenSize(ColCount, RowCount: Integer): Boolean; virtual; abstract;
      //---------------------
      function KillShell: LongInt; virtual; abstract;
+     function CSI_GetTaskId(const buf:UTF8string):integer; virtual; abstract; //get index of sequence in CSILast list
      //---------------------}
      property ShellPid: THandle read FChildPid;
      property PtyPid: LongInt read Fpty;
@@ -68,14 +69,15 @@ type
   protected
     FLock: System.TRTLCriticalSection;
     FTerm: TTerminal;
+    FBuf: UTF8String;
     FRowsCount,
     FColsCount: Integer;
     FOut: TCmdBox;
     FShell: String;
   public
     property Terminal: TTerminal read FTerm;
-    property RowsCount: integer read FRowsCount write FRowsCount;
-    property ColsCount: integer read FColsCount write FColsCount;
+    property RowsCount: Integer read FRowsCount write FRowsCount;
+    property ColsCount: Integer read FColsCount write FColsCount;
     property CmdBox: TCmdBox read FOut write FOut;
     property Shell: String read FShell write FShell;
   end;
@@ -88,7 +90,7 @@ uses
 {$IF DEFINED(WINDOWS)}
   uWinTerm;
 {$ELSEIF DEFINED(UNIX)}
-  uTerm;
+  uUnixTerm;
 {$ENDIF}
 
 function CreateConsoleThread: TConsoleThread;
@@ -98,7 +100,7 @@ begin
 end;
 {$ELSEIF DEFINED(UNIX)}
 begin
-  Result:= TConThread.Create;
+  Result:= TUnixConThread.Create;
 end;
 {$ENDIF}
 

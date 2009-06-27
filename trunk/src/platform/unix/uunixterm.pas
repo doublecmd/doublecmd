@@ -21,7 +21,7 @@
 
 }
 
-unit uterm;
+unit uUnixTerm;
 
 {$mode objfpc}{$H+}
 
@@ -30,7 +30,7 @@ interface
 uses
    Classes, SysUtils, BaseUnix, errors,
    {libc,}ExtCtrls, LCLProc, cwstring,
-   LCLType, uCmdBox, Graphics, TermInfo, termio, uOSUtils;
+   LCLType, Graphics, TermInfo, termio, uTerminal, uOSUtils;
 
 //линковка с либой libutil.a содержащей функции forkpty и тд.
 {$L libutil.a}
@@ -139,12 +139,10 @@ type
      end;
 
 type
-   { Tterm }
+   { TUnixTerm }
 
-   Tterm = class
+   TUnixTerm = class(TTerminal)
    private
-    FChildPid:THandle;
-    Fpty:Longint;
     FCols,Frows:integer;
     //---------------------
     //---------------------
@@ -153,35 +151,22 @@ type
      constructor Create;
      destructor Destroy; override;
 {    \\---------------------}
-      function Read_Pty(var str:UTF8String; const timeout: longint=10): longint; // Read info from pty
-      function Fork_pty(const rows,cols:integer; const cmd:UTF8string; const params:UTF8string=''):THandle; //Create new pty and start cmd
-      function Write_pty(const str:UTF8string):boolean; //write str to pty
+      function Read_Pty(var str:UTF8String; const timeout: longint=10): longint; override; // Read info from pty
+      function Fork_pty(const rows,cols:integer; const cmd:UTF8string; const params:UTF8string=''):THandle; override; //Create new pty and start cmd
+      function Write_pty(const str:UTF8string):boolean; override; //write str to pty
       //---------------------
-      function SendBreak_pty():boolean;  // ^C
-      function SendSignal_pty(Sig:Cint):boolean;
-      function SetScreenSize(aCols,aRows:integer):boolean;
+      function SendBreak_pty():boolean; override; // ^C
+      function SendSignal_pty(Sig:Cint):boolean; override;
+      function SetScreenSize(aCols,aRows:integer):boolean; override;
       //---------------------
-      function KillShell:LongInt;
-      function CSI_GetTaskId(const buf:UTF8string):integer; //get index of sequence in CSILast list
-{    //---------------------}
-     property ShellPid:THandle read FChildPid;
-     property PtyPid:LongInt read Fpty;
-
-     
+      function KillShell:LongInt; override;
+      function CSI_GetTaskId(const buf:UTF8string):integer; override; //get index of sequence in CSILast list
    end;
    
      { TConThread }
 
-  TConThread=class (TThread)
+  TUnixConThread = class(TConsoleThread)
    private
-     FLock: System.TRTLCriticalSection;
-     fTerm: Tterm;
-     fbuf:  UTF8String;
-     FRowsCount,
-     FColsCount:integer;
-     FOut:TCmdBox;
-     FShell:string;
-     //---------------------
      procedure AddSymbol;
      procedure CSIProc(NCode, Param: integer; ExParam: integer=0);
      procedure CSI_CaretTo(Y, X: integer);
@@ -192,11 +177,6 @@ type
    public
      constructor Create;
      destructor Destroy; override;
-     property Terminal:TTerm read fterm;
-     property RowsCount:integer read FRowsCount write FRowsCount;
-     property ColsCount:integer read FColsCount write FColsCount;
-     property CmdBox:TCmdBox read FOut write FOut;
-     property Shell:string read FShell write FShell;
   end;
 
 function forkpty(__amaster:Plongint; __name:Pchar; __termp:Ptermios; __winp:Pwinsize):longint;cdecl;external clib name 'forkpty';
@@ -205,9 +185,9 @@ function execl(__path:Pchar; __arg:Pchar):longint;cdecl;varargs;external clib na
 
 implementation
 
-{ TConThread }
+{ TUnixConThread }
 
-procedure TConThread.WriteS(const s:UTF8String);
+procedure TUnixConThread.WriteS(const s:UTF8String);
 begin
 if not assigned(FOut) then exit;
 //Form1.CmdBox1.StopRead;
@@ -216,7 +196,7 @@ FOut.Write(s);
 end;
 
 
-procedure TConThread.CSI_Colors(const Param:integer);
+procedure TUnixConThread.CSI_Colors(const Param:integer);
 begin
 if not assigned(FOut) then exit;
 with FOut do
@@ -266,14 +246,14 @@ begin
 end;
 end;
 
-procedure TConThread.CSI_CaretTo(Y,X:integer); //хз x y или y x. Надо проверить.
+procedure TUnixConThread.CSI_CaretTo(Y,X:integer); //хз x y или y x. Надо проверить.
 begin
 debugln('  Y: '+inttostr(Y)+'  X: '+inttostr(X));
 //Fout.OutY:=Y;
 //Fout.OutX:=X;
 end;
 
-procedure TConThread.CSIProc(NCode, Param:integer; ExParam:integer=0);
+procedure TUnixConThread.CSIProc(NCode, Param:integer; ExParam:integer=0);
 begin
   //debugln('Code:'+Inttostr(NCode)+'  Param: '+inttostr(Param));
   case NCode of
@@ -282,16 +262,16 @@ begin
   end;
 end;
 
-constructor TConThread.Create;
+constructor TUnixConThread.Create;
 begin
   inherited Create(true);
   System.InitCriticalSection(FLock);
-  Fterm:=Tterm.Create;
+  Fterm:=TUnixTerm.Create;
   FRowsCount:=50;
   FColsCount:=100;
 end;
 
-destructor TConThread.Destroy;
+destructor TUnixConThread.Destroy;
 begin
   FreeAndNil(fTerm);
   System.DoneCriticalSection(FLock);
@@ -299,7 +279,7 @@ begin
 end;
 
 
-procedure TConThread.Execute;
+procedure TUnixConThread.Execute;
 var x:TUTF8char;
 begin
   FShell:=GetShell;
@@ -320,7 +300,7 @@ end;
 //------------------------------------------------------
 var bufer:UTF8string;
 
-procedure TConThread.AddSymbol;
+procedure TUnixConThread.AddSymbol;
 var SeqCode,SeqPrm,i,x:integer;
     es,s:UTF8string;
     esnow,CSINow:boolean;
@@ -438,9 +418,9 @@ end;
 
 
 
-{ Tterm }
+{ TUnixTerm }
 
-function Tterm.CSI_GetTaskId(const buf:UTF8string):integer;
+function TUnixTerm.CSI_GetTaskId(const buf:UTF8string):integer;
 var Rez,L,R,M:integer;
 begin
  result:=0;
@@ -475,7 +455,7 @@ R:=Length(CSIList);
  result:=0;
 end;
 
-function Tterm.Fork_pty(const rows, cols: integer; const cmd:UTF8string; const params:UTF8string=''): THandle;
+function TUnixTerm.Fork_pty(const rows, cols: integer; const cmd:UTF8string; const params:UTF8string=''): THandle;
 var ws:TWinSize;
     ChildPid:THandle;
 begin
@@ -508,7 +488,7 @@ Result:=ChildPid;
 end;
 
 
-function Tterm.Read_Pty(var str:UTF8String; const timeout:longint=10):longint;
+function TUnixTerm.Read_Pty(var str:UTF8String; const timeout:longint=10):longint;
 var ifs:TFdSet;
     BytesRead:longint;
     buf:array [0..512] of char;
@@ -528,7 +508,7 @@ begin
   str:=copy(buf,0,BytesRead);
 end;
 
-function Tterm.Write_pty(const str: UTF8string): boolean;
+function TUnixTerm.Write_pty(const str: UTF8string): boolean;
 var BytesWritten:TSize; i:integer;
 begin
   i:=1;
@@ -541,19 +521,19 @@ begin
   end;
 end;
 
-function Tterm.SendBreak_pty(): boolean;
+function TUnixTerm.SendBreak_pty(): boolean;
 begin
    result:=SendSignal_pty(CINTR);
 end;
 
-function Tterm.SendSignal_pty(Sig: Cint): boolean;
+function TUnixTerm.SendSignal_pty(Sig: Cint): boolean;
 var BytesWritten:TSize;
 begin
   BytesWritten:=fpwrite(Fpty,Sig,sizeof(sig));
   result:=result and (BytesWritten>0);
 end;
 
-function Tterm.SetScreenSize(aCols, aRows: integer): boolean;
+function TUnixTerm.SetScreenSize(aCols, aRows: integer): boolean;
 var ws:TWinSize;
 begin
   ws.ws_row:=aRows;
@@ -571,7 +551,7 @@ begin
 end;
 
 
-function Tterm.KillShell: LongInt;
+function TUnixTerm.KillShell: LongInt;
 begin
   //FchildPid must be >0 in other case all processes in this group will be killed
   if FChildPid>0 then
@@ -580,7 +560,7 @@ begin
     result:=-1;
 end;
 
-constructor Tterm.Create;
+constructor TUnixTerm.Create;
 var tio:termio.termios;
 begin
  TCGetAttr(Fpty,tio);
@@ -610,7 +590,7 @@ begin
  TCSetAttr(Fpty,TCSANOW,tio);
 end;
 
-destructor Tterm.Destroy;
+destructor TUnixTerm.Destroy;
 begin
   KillShell;
   inherited Destroy;
