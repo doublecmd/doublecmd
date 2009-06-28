@@ -152,7 +152,7 @@ type
      destructor Destroy; override;
 {    \\---------------------}
       function Read_Pty(var str:UTF8String; const timeout: longint=10): longint; override; // Read info from pty
-      function Fork_pty(const rows,cols:integer; const cmd:UTF8string; const params:UTF8string=''):THandle; override; //Create new pty and start cmd
+      function Fork_pty(const rows,cols:integer; const cmd:UTF8string; const params:UTF8string=''):System.THandle; override; //Create new pty and start cmd
       function Write_pty(const str:UTF8string):boolean; override; //write str to pty
       //---------------------
       function SendBreak_pty():boolean; override; // ^C
@@ -455,7 +455,7 @@ R:=Length(CSIList);
  result:=0;
 end;
 
-function TUnixTerm.Fork_pty(const rows, cols: integer; const cmd:UTF8string; const params:UTF8string=''): THandle;
+function TUnixTerm.Fork_pty(const rows, cols: integer; const cmd:UTF8string; const params:UTF8string=''): System.THandle;
 var ws:TWinSize;
     ChildPid:THandle;
 begin
