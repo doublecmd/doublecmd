@@ -5,6 +5,9 @@
 
    Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
 
+   Based on terminal emulator implementation
+   Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
+
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2 of the License, or
