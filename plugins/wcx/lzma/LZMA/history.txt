@@ -1,0 +1,31 @@
+HISTORY of the LZMA SDK
+-----------------------
+
+  Version 4.42b               2006-06-13
+  --------------------------------------
+    - Fixed bug in ULZBinTree which caused an infinite loop on some files
+	- Fixed bug in ULZMAEncoder which caused encoding to fail on some files
+	- Fixed code layout problems caused by a mixture of tabs and spaces
+
+	Version 4.42a               2006-06-05
+  --------------------------------------
+    - Added port of LZMA benchmark
+
+  Version 4.42                2006-06-01
+  --------------------------------------
+    - First version of Pascal SDK ported from Java SDK
+
+
+HISTORY of the LZMA
+-------------------
+  2001-2004:  Improvements to LZMA compressing/decompressing code, 
+              keeping compatibility with original LZMA format
+  1996-2001:  Development of LZMA compression format
+
+  Some milestones:
+
+  2001-08-30: LZMA compression was added to 7-Zip
+  1999-01-02: First version of 7-Zip was released
+  
+
+End of document
