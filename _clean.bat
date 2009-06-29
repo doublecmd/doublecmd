@@ -12,6 +12,7 @@ rem Clean up plugins output directories
 del /Q plugins\wcx\cpio\lib\*.*
 del /Q plugins\wcx\rpm\lib\*.*
 del /Q plugins\wcx\deb\lib\*.*
+del /Q plugins\wcx\lzma\lib\*.*
 del /Q plugins\wcx\zip\lib\*.*
 del /Q plugins\wcx\unbz2\lib\*.*
 del /Q plugins\wcx\unrar\lib\*.*
@@ -20,6 +21,7 @@ rem Remove backup files
 del /Q plugins\wcx\cpio\src\*.bak
 del /Q plugins\wcx\rpm\src\*.bak
 del /Q plugins\wcx\deb\src\*.bak
+del /Q plugins\wcx\lzma\src\*.bak
 del /Q plugins\wcx\zip\src\*.bak
 del /Q plugins\wcx\unbz2\src\*.bak
 del /Q plugins\wcx\unrar\src\*.bak
@@ -27,6 +29,7 @@ del /Q plugins\wcx\unrar\src\*.bak
 del /Q plugins\wcx\cpio\src\*.*~
 del /Q plugins\wcx\rpm\src\*.*~
 del /Q plugins\wcx\deb\src\*.*~
+del /Q plugins\wcx\lzma\src\*.*~
 del /Q plugins\wcx\zip\src\*.*~
 del /Q plugins\wcx\unbz2\src\*.*~
 del /Q plugins\wcx\unrar\src\*.*~
