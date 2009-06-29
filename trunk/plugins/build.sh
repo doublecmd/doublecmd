@@ -10,6 +10,7 @@ pushd plugins
 # WCX plugins
 $lazpath/lazbuild wcx/cpio/src/cpio.lpi
 $lazpath/lazbuild wcx/deb/src/deb.lpi
+$lazpath/lazbuild wcx/lzma/src/lzma.lpi
 $lazpath/lazbuild wcx/rpm/src/rpm.lpi
 $lazpath/lazbuild wcx/unbz2/src/unbz2.lpi
 $lazpath/lazbuild wcx/unrar/src/unrar.lpi
@@ -34,6 +35,11 @@ popd
 pushd wcx/deb/lib/
 strip --strip-all deb.so
 mv deb.so deb.wcx
+popd
+
+pushd wcx/lzma/lib/
+strip --strip-all lzma.so
+mv lzma.so lzma.wcx
 popd
 
 pushd wcx/rpm/lib/

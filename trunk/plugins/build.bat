@@ -9,6 +9,7 @@ pushd plugins
 rem WCX plugins
 %lazpath%\lazbuild.exe wcx\cpio\src\cpio.lpi
 %lazpath%\lazbuild.exe wcx\deb\src\deb.lpi
+%lazpath%\lazbuild.exe wcx\lzma\src\lzma.lpi
 %lazpath%\lazbuild.exe wcx\rpm\src\rpm.lpi
 %lazpath%\lazbuild.exe wcx\unbz2\src\unbz2.lpi
 %lazpath%\lazbuild.exe wcx\unrar\src\unrar.lpi
@@ -27,6 +28,11 @@ popd
 pushd wcx\deb\lib\
 strip --strip-all deb.dll
 rename deb.dll deb.wcx
+popd
+
+pushd wcx\lzma\lib\
+strip --strip-all lzma.dll
+rename lzma.dll lzma.wcx
 popd
 
 pushd wcx\rpm\lib\
