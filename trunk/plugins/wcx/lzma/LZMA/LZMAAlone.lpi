@@ -1,0 +1,202 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectOptions>
+    <PathDelim Value="\"/>
+    <Version Value="5"/>
+    <General>
+      <MainUnit Value="0"/>
+      <IconPath Value="./"/>
+      <TargetFileExt Value=".exe"/>
+      <ActiveEditorIndexAtStart Value="3"/>
+    </General>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <CommandLineParams Value="e &quot;C:\Games\Black &amp; White 2\white.exe&quot; c:\desktop\test.lz"/>
+        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="1">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+    </RequiredPackages>
+    <Units Count="16">
+      <Unit0>
+        <Filename Value="LZMAAlone.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <CursorPos X="18" Y="23"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="5"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="UCRC.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="UCRC"/>
+        <CursorPos X="15" Y="3"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="20"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="compression\LZ\ULZBinTree.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ULZBinTree"/>
+        <CursorPos X="15" Y="3"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="20"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="compression\LZ\ULZInWindow.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ULZInWindow"/>
+        <CursorPos X="15" Y="3"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="20"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="compression\LZ\ULZOutWindow.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ULZOutWindow"/>
+        <CursorPos X="15" Y="3"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="20"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="compression\LZMA\ULZMABase.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ULZMABase"/>
+        <CursorPos X="15" Y="3"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="20"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="compression\LZMA\ULZMACommon.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ULZMACommon"/>
+        <CursorPos X="18" Y="19"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="compression\LZMA\ULZMADecoder.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ULZMADecoder"/>
+        <CursorPos X="15" Y="151"/>
+        <TopLine Value="367"/>
+        <EditorIndex Value="2"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="compression\LZMA\ULZMAEncoder.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ULZMAEncoder"/>
+        <CursorPos X="35" Y="451"/>
+        <TopLine Value="443"/>
+        <EditorIndex Value="3"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="compression\RangeCoder\UBitTreeDecoder.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="UBitTreeDecoder"/>
+        <CursorPos X="15" Y="3"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="20"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="compression\RangeCoder\UBitTreeEncoder.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="UBitTreeEncoder"/>
+        <CursorPos X="15" Y="3"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="20"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="compression\RangeCoder\URangeDecoder.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="URangeDecoder"/>
+        <CursorPos X="15" Y="3"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="20"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="compression\RangeCoder\URangeEncoder.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="URangeEncoder"/>
+        <CursorPos X="15" Y="3"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="20"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="UBufferedFS.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="UBufferedFS"/>
+        <CursorPos X="17" Y="37"/>
+        <TopLine Value="22"/>
+        <EditorIndex Value="4"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="ULZMAAlone.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ULZMAAlone"/>
+        <CursorPos X="83" Y="315"/>
+        <TopLine Value="300"/>
+        <EditorIndex Value="0"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="ULZMABench.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ULZMABench"/>
+        <CursorPos X="15" Y="3"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="20"/>
+      </Unit15>
+    </Units>
+    <JumpHistory Count="1" HistoryIndex="0">
+      <Position1>
+        <Filename Value="compression\LZMA\ULZMAEncoder.pas"/>
+        <Caret Line="130" Column="38" TopLine="115"/>
+      </Position1>
+    </JumpHistory>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="5"/>
+    <PathDelim Value="\"/>
+    <SearchPaths>
+      <IncludeFiles Value="compression\LZ\;compression\LZMA\;compression\RangeCoder\"/>
+      <OtherUnitFiles Value="compression\LZ\;compression\LZMA\;compression\RangeCoder\"/>
+    </SearchPaths>
+    <CodeGeneration>
+      <Generate Value="Faster"/>
+    </CodeGeneration>
+    <Other>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="2">
+      <Item1>
+        <Name Value="ECodetoolError"/>
+      </Item1>
+      <Item2>
+        <Name Value="EFOpenError"/>
+      </Item2>
+    </Exceptions>
+  </Debugging>
+</CONFIG>
