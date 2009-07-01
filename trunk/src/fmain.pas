@@ -516,6 +516,11 @@ uses
   {$ENDIF}
   ;
 
+{$IF DEFINED(LCLGTK2) or DEFINED(LCLQT)}
+var
+  LastActiveWindow: TCustomForm = nil;
+{$ENDIF}
+
 procedure TfrmMain.FormCreate(Sender: TObject);
 var
   slCommandHistory: TStringListEx;
@@ -3545,7 +3550,51 @@ begin
 end;
 
 procedure TfrmMain.HideToTray;
+{$IF DEFINED(LCLGTK2) or DEFINED(LCLQT)}
+var
+  ActiveWindow: HWND;
+  LCLObject: TObject;
+{$ENDIF}
 begin
+{
+  If a modal form is active we have to hide it first before hiding the main form
+  to avoid bugs:
+
+  On GTK2 a modal form loses it's modal state after the main window is
+  restored (GTK still says the window is modal and resetting modal state
+  doesn't do anything).
+
+  On QT the tray icon does not receive any mouse events (because the modal
+  window has capture) thus preventing the user from restoring the main window.
+  So when the main form is hidden the modal window is hidden too.
+}
+{$IF DEFINED(LCLGTK2) or DEFINED(LCLQT)}
+  LastActiveWindow := nil;
+  if not Self.Active then    // If there is another window active
+  begin
+    ActiveWindow := GetActiveWindow;
+    if ActiveWindow <> 0 then
+    begin
+      LCLObject := GetLCLOwnerObject(ActiveWindow);
+      if Assigned(LCLObject) and
+         (LCLObject is TCustomForm) and
+         (fsModal in (LCLObject as TCustomForm).FormState) then // only for modal windows
+      begin
+        LastActiveWindow := LCLObject as TCustomForm;
+{$IFDEF LCLGTK2}
+        // Cannot use Hide method, because it closes the modal form.
+        // We only want to hide it.
+        LastActiveWindow.Visible := False;
+{$ENDIF}
+{$IFDEF LCLQT}
+        // Have to use QT directly to hide the window for this to work.
+        TQtWidget(LastActiveWindow.Handle).setVisible(False);
+{$ENDIF}
+      end;
+    end;
+  end;
+{$ENDIF}
+
   Hide;
   ShowTrayIcon(True);
   HiddenToTray := True;
@@ -3561,6 +3610,20 @@ begin
 
   if not gAlwaysShowTrayIcon then
     ShowTrayIcon(False);
+
+  // After the main form is shown, restore the last active modal form if there was any.
+{$IF DEFINED(LCLGTK2) or DEFINED(LCLQT)}
+   if Assigned(LastActiveWindow) then
+   begin
+{$IFDEF LCLQT}
+     TQtWidget(LastActiveWindow.Handle).setVisible(true);
+{$ENDIF}
+{$IFDEF LCLGTK2}
+     LastActiveWindow.Show;
+{$ENDIF}
+     LastActiveWindow := nil;
+   end;
+{$ENDIF}
 end;
 
 procedure TfrmMain.ShowTrayIcon(bShow: Boolean);
