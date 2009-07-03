@@ -30,7 +30,7 @@ unit lzmafunc;
 interface
 
 uses
-  uWCXhead;
+  uWCXhead, ULZMACommon;
 
 type
   TEncoderOptions = record
@@ -42,6 +42,12 @@ type
     Eos: Boolean;
     Algorithm: Integer;
     MatchFinder: Integer;
+  end;
+
+  { TProgressProc }
+
+  TProgressProc = class
+    procedure LZMAProgress(const Action: TLZMAProgressAction; const Value: Int64);
   end;
 
 { Mandatory functions }
@@ -58,11 +64,12 @@ function GetPackerCaps: Integer; stdcall;
 implementation
 
 uses
-  Classes, SysUtils, ULZMACommon, ULZMADecoder, ULZMAEncoder, UBufferedFS;
+  Classes, SysUtils, ULZMADecoder, ULZMAEncoder, UBufferedFS;
 
 var
   sArcName: String;
   Count: Integer = 0;
+  ProgressPos: Int64 = 0;
   EncoderOptions: TEncoderOptions;
   ProcessDataProc: TProcessDataProc;
 
@@ -148,6 +155,7 @@ var
   v: Byte;
 begin
   Result:= E_SUCCESS;
+  ProgressPos:= 0;
   case Operation of
   PK_TEST:
     begin
@@ -162,19 +170,21 @@ begin
       else
         sOutputFileName:= DestName;
       try
-        inStream:= TBufferedFS.Create(sArcName, fmOpenRead or fmShareDenyNone);
-        outStream:= TBufferedFS.Create(sOutputFileName, fmCreate);
-      except
-        on EFOpenError do
-          Result:= E_EOPEN;
-        on EFCreateError do
-          Result:= E_ECREATE;
-      end;
-      if Result <> E_SUCCESS then Exit;
-      try
-        if inStream.read(Properties, PropertiesSize) <> PropertiesSize then
+        try
+          inStream:= TBufferedFS.Create(sArcName, fmOpenRead or fmShareDenyNone);
+          outStream:= TBufferedFS.Create(sOutputFileName, fmCreate);
+        except
+          on EFOpenError do
+            Result:= E_EOPEN;
+          on EFCreateError do
+            Result:= E_ECREATE;
+        end;
+        if Result <> E_SUCCESS then Exit;
+
+        if inStream.Read(Properties, PropertiesSize) <> PropertiesSize then
           Exit(E_BAD_DATA);
         decoder:= TLZMADecoder.Create;
+        decoder.OnProgress:= TProgressProc.LZMAProgress;
         if not decoder.SetDecoderProperties(properties) then
           Exit(E_BAD_DATA);
         outSize:= 0;
@@ -232,20 +242,24 @@ var
   sInputFileName: String;
 begin
   Result:= E_SUCCESS;
+  ProgressPos:= 0;
   sInputFileName:= StrPas(SrcPath) + StrPas(AddList);
+  sArcName:= PackedFile;
   try
-    inStream:= TBufferedFS.Create(sInputFileName, fmOpenRead or fmShareDenyNone);
-    outStream:= TBufferedFS.Create(PackedFile, fmCreate);
-  except
-    on EFOpenError do
-      Result:= E_EOPEN;
-    on EFCreateError do
-      Result:= E_ECREATE;
-  end;
-  if Result <> E_SUCCESS then Exit;
-  ApplyDefaultEncoderOptions;
-  try
+    try
+      inStream:= TBufferedFS.Create(sInputFileName, fmOpenRead or fmShareDenyNone);
+      outStream:= TBufferedFS.Create(sArcName, fmCreate);
+    except
+      on EFOpenError do
+        Result:= E_EOPEN;
+      on EFCreateError do
+        Result:= E_ECREATE;
+    end;
+    if Result <> E_SUCCESS then Exit;
+
+    ApplyDefaultEncoderOptions;
     encoder:= TLZMAEncoder.Create;
+    encoder.OnProgress:= TProgressProc.LZMAProgress;
     with EncoderOptions do
     begin
       if not encoder.SetAlgorithm(Algorithm) then
@@ -281,6 +295,17 @@ end;
 function GetPackerCaps: Integer;
 begin
   Result:= PK_CAPS_NEW;
+end;
+
+{ TProgressProc }
+
+procedure TProgressProc.LZMAProgress(const Action: TLZMAProgressAction; const Value: Int64);
+begin
+  if (Action = LPAPos) and Assigned(ProcessDataProc) then
+    begin
+      ProcessDataProc(PChar(sArcName), (Value - ProgressPos));
+      ProgressPos:= Value;
+    end;
 end;
 
 end.
