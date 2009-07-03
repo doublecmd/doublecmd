@@ -42,8 +42,9 @@ type
     function CheckFileDate(DateTime: TDateTime): Boolean;
     function CheckFileSize(FileSize: Int64): Boolean;
   public
-    constructor Create;
     SearchRecord: TSearchAttrRecord;
+
+    constructor Create;
     function CheckFile(const FileRecItem: TFileRecItem): Boolean;
     property TemplateName: UTF8String read FTemplateName write FTemplateName;
     property StartPath: UTF8String read FStartPath write FStartPath;
