@@ -61,7 +61,7 @@ type
     constructor Create(const AFileName: string; AEscapeLineFeeds : Boolean = False); override;
     destructor Destroy; override;
     procedure UpdateFile; override;
-  end;  
+  end;
 
   { TIniPropStorageEx }
 
@@ -105,8 +105,9 @@ end;
 
 destructor TFileStreamEx.Destroy;
 begin
-  if FHandle >= 0 then FileClose(FHandle);
   inherited Destroy;
+  // Close handle after destroying the base object, because it may use Handle in Destroy.
+  if FHandle >= 0 then FileClose(FHandle);
 end;
 
 { TStringListEx }
@@ -162,8 +163,9 @@ end;
 
 destructor TIniFileEx.Destroy;
 begin
-  FreeAndNil(FIniFileStream);
   inherited Destroy;
+  // Destroy stream after destroying the base object, because it may use the stream in Destroy.
+  FreeAndNil(FIniFileStream);
 end;
 
 { TIniPropStorageEx }
