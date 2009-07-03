@@ -18,7 +18,8 @@ exports
   SetChangeVolProc,
   SetProcessDataProc,
   { Optional }
-  CanYouHandleThisFile;
+  PackFiles,
+  GetPackerCaps;
 
 begin
 end.

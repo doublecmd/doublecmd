@@ -5,7 +5,7 @@
 
    Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
 
-   based on:
+   Based on:
      LZMAAlone from Pascal LZMA SDK
 
    This library is free software; you can redistribute it and/or
@@ -32,6 +32,18 @@ interface
 uses
   uWCXhead;
 
+type
+  TEncoderOptions = record
+    DictionarySize: Integer;
+    Lc: Integer;
+    Lp: Integer;
+    Pb: Integer;
+    Fb: Integer;
+    Eos: Boolean;
+    Algorithm: Integer;
+    MatchFinder: Integer;
+  end;
+
 { Mandatory functions }
 function OpenArchive (var ArchiveData: TOpenArchiveData): TArcHandle; stdcall;
 function ReadHeader (hArcData: TArcHandle; var HeaderData: THeaderData): Integer; stdcall;
@@ -40,18 +52,19 @@ function CloseArchive (hArcData: TArcHandle): Integer; stdcall;
 procedure SetChangeVolProc (hArcData: TArcHandle; pChangeVolProc: TChangeVolProc); stdcall;
 procedure SetProcessDataProc (hArcData: TArcHandle; pProcessDataProc: TProcessDataProc); stdcall;
 { Optional functions }
-function CanYouHandleThisFile(FileName: PChar): Boolean; stdcall;
+function PackFiles(PackedFile: PChar;  SubPath: PChar;  SrcPath: PChar;  AddList: PChar;  Flags: Integer): Integer; stdcall;
+function GetPackerCaps: Integer; stdcall;
 
 implementation
 
 uses
-  Classes, SysUtils, ULZMACommon, ULZMADecoder, UBufferedFS;
+  Classes, SysUtils, ULZMACommon, ULZMADecoder, ULZMAEncoder, UBufferedFS;
 
 var
   sArcName: String;
   Count: Integer = 0;
+  EncoderOptions: TEncoderOptions;
   ProcessDataProc: TProcessDataProc;
-
 
 function ExtractOnlyFileName(const FileName: String): String;
 var
@@ -71,7 +84,21 @@ begin
   Result:= Copy(FileName, I + 1, iDotIndex - I - 1);
 end;
 
-  
+procedure ApplyDefaultEncoderOptions;
+begin
+  with EncoderOptions do
+  begin
+    DictionarySize:= 1 shl 23;
+    Lc:= 3;
+    Lp:= 0;
+    Pb:= 2;
+    Fb:= 128;
+    Eos:= False;
+    Algorithm:= 2;
+    MatchFinder:= 1;
+  end;
+end;
+
 function OpenArchive (var ArchiveData: TOpenArchiveData): TArcHandle;
 begin
   if FileExists(ArchiveData.ArcName) then
@@ -104,22 +131,23 @@ begin
       FileAttr := sr.Attr;
       FindClose(sr);
     end;
-  Result:= 0;
+  Result:= E_SUCCESS;
 end;
 
 function ProcessFile (hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PChar): Integer;
 const
   PropertiesSize = 5;
 var
-  inStream: TBufferedFS;
-  outStream: TBufferedFS;
-  decoder: TLZMADecoder;
+  inStream: TBufferedFS = nil;
+  outStream: TBufferedFS = nil;
+  decoder: TLZMADecoder = nil;
   outSize: Int64;
   sOutputFileName: String;
   Properties: array[0..4] of Byte;
   I: Integer;
   v: Byte;
 begin
+  Result:= E_SUCCESS;
   case Operation of
   PK_TEST:
     begin
@@ -133,27 +161,38 @@ begin
         sOutputFileName:= sOutputFileName + ExtractOnlyFileName(sArcName)
       else
         sOutputFileName:= DestName;
-      inStream:= TBufferedFS.Create(sArcName, fmOpenRead or fmShareDenyNone);
-      outStream:= TBufferedFS.Create(sOutputFileName, fmCreate);
+      try
+        inStream:= TBufferedFS.Create(sArcName, fmOpenRead or fmShareDenyNone);
+        outStream:= TBufferedFS.Create(sOutputFileName, fmCreate);
+      except
+        on EFOpenError do
+          Result:= E_EOPEN;
+        on EFCreateError do
+          Result:= E_ECREATE;
+      end;
+      if Result <> E_SUCCESS then Exit;
       try
         if inStream.read(Properties, PropertiesSize) <> PropertiesSize then
-          raise Exception.Create('input .lzma file is too short');
+          Exit(E_BAD_DATA);
         decoder:= TLZMADecoder.Create;
         if not decoder.SetDecoderProperties(properties) then
-          raise Exception.Create('Incorrect stream properties');
+          Exit(E_BAD_DATA);
         outSize:= 0;
         for I:= 0 to 7 do begin
           v:= {shortint}(ReadByte(inStream));
           if v < 0 then
-            raise Exception.Create('Can''t read stream size');
+            Exit(E_EREAD);
           outSize := outSize or v shl (8 * I);
         end;
         if not decoder.Code(inStream, outStream, outSize) then
-          raise Exception.Create('Error in data stream');
-        decoder.Free;
+          Exit(E_BAD_DATA);
       finally
-        outStream.Free;
-        inStream.Free;
+        if Assigned(decoder) then
+          FreeAndNil(decoder);
+        if Assigned(outStream) then
+          FreeAndNil(outStream);
+        if Assigned(inStream) then
+          FreeAndNil(inStream);
       end;
     end;
 
@@ -164,12 +203,11 @@ begin
   end; // case
 
   Count:= Count + 1;
-  Result:= 0;
 end;
 
 function CloseArchive (hArcData: TArcHandle): Integer;
 begin
-  Result:= 0;
+  Result:= E_SUCCESS;
 end;
 
 procedure SetChangeVolProc (hArcData: TArcHandle; pChangeVolProc: TChangeVolProc);
@@ -184,9 +222,65 @@ begin
     ProcessDataProc:= nil;
 end;
 
-function CanYouHandleThisFile(FileName: PChar): Boolean;stdcall;
+function PackFiles(PackedFile: PChar; SubPath: PChar; SrcPath: PChar; AddList: PChar; Flags: Integer): Integer;
+var
+  inStream: TBufferedFS = nil;
+  outStream: TBufferedFS = nil;
+  encoder: TLZMAEncoder = nil;
+  filesize: Int64;
+  I: Integer;
+  sInputFileName: String;
 begin
-  Result:= True;
+  Result:= E_SUCCESS;
+  sInputFileName:= StrPas(SrcPath) + StrPas(AddList);
+  try
+    inStream:= TBufferedFS.Create(sInputFileName, fmOpenRead or fmShareDenyNone);
+    outStream:= TBufferedFS.Create(PackedFile, fmCreate);
+  except
+    on EFOpenError do
+      Result:= E_EOPEN;
+    on EFCreateError do
+      Result:= E_ECREATE;
+  end;
+  if Result <> E_SUCCESS then Exit;
+  ApplyDefaultEncoderOptions;
+  try
+    encoder:= TLZMAEncoder.Create;
+    with EncoderOptions do
+    begin
+      if not encoder.SetAlgorithm(Algorithm) then
+        Exit(E_BAD_DATA);
+      if not encoder.SetDictionarySize(DictionarySize) then
+        Exit(E_BAD_DATA);
+      if not encoder.SeNumFastBytes(Fb) then
+        Exit(E_BAD_DATA);
+      if not encoder.SetMatchFinder(MatchFinder) then
+        Exit(E_BAD_DATA);
+      if not encoder.SetLcLpPb(Lc, Lp, Pb) then
+        Exit(E_BAD_DATA);
+      encoder.SetEndMarkerMode(Eos);
+      encoder.WriteCoderProperties(outStream);
+      if Eos then
+        fileSize:= -1
+      else
+        fileSize:= inStream.Size;
+    end;
+    for I:= 0 to 7 do
+      WriteByte(outStream, (fileSize shr (8 * I)) and $FF);
+    encoder.Code(inStream, outStream, -1, -1);
+  finally
+    if Assigned(encoder) then
+      FreeAndNil(encoder);
+    if Assigned(outStream) then
+      FreeAndNil(outStream);
+    if Assigned(inStream) then
+      FreeAndNil(inStream);
+  end;
+end;
+
+function GetPackerCaps: Integer;
+begin
+  Result:= PK_CAPS_NEW;
 end;
 
 end.
