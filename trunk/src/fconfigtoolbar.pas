@@ -325,12 +325,17 @@ end;
 procedure TfrmConfigToolBar.btnOpenIconFileClick(Sender: TObject);
 var
   sFileName: String;
+  Bitmap: TBitmap;
 begin
   sFileName := kedtIconFileName.Text;
   if ShowOpenIconDialog(Self, sFileName) then
     begin
       kedtIconFileName.Text := sFileName;
-      sbIconExample.Glyph := LoadBitmapFromFile(kedtIconFileName.Text, 32, Color);
+
+      Bitmap := LoadBitmapFromFile(kedtIconFileName.Text, 32, Color);
+      sbIconExample.Glyph := Bitmap;
+      if Assigned(Bitmap) then
+        FreeAndNil(Bitmap);
     end;
 end;
 
