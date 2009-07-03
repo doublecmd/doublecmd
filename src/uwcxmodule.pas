@@ -43,10 +43,6 @@ Type
     function PCharLToUTF8(CharString: PChar; MaxSize: Integer): UTF8String;
 
   public
-    constructor Create(const Data: PHeaderData); overload;
-    constructor Create(const Data: PHeaderDataEx); overload;
-    constructor Create; overload; // allows creating empty record
-
     ArcName: UTF8String;
     FileName: UTF8String;
     Flags,
@@ -60,6 +56,10 @@ Type
     UnpSize: Int64;
     Cmt: UTF8String;
     CmtState: Longint;
+
+    constructor Create(const Data: PHeaderData); overload;
+    constructor Create(const Data: PHeaderDataEx); overload;
+    constructor Create; overload; // allows creating empty record
   end;
 
   { Packing/Unpacking thread }

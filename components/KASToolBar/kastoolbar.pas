@@ -352,7 +352,7 @@ end;
 
 procedure TKAStoolBar.SetButton(Index : Integer; Value : TSpeedButton);
 begin
- TSpeedButton(FButtonsList.Items[Index]) := Value;
+ FButtonsList.Items[Index] := Value;
 end;
 
 procedure TKAStoolBar.SetCommand(Index: Integer; const AValue: String);

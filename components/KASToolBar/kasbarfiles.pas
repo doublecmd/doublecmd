@@ -299,7 +299,7 @@ end;
 
 procedure TBarClass.SetButton(Index:Integer; const AValue: TKButton);
 begin
- TKButton(XButtons[Index]):=AValue;
+ XButtons[Index]:=AValue;
 end;
 
 function TBarClass.SetCmdDirAsEnvVar(sPath: String): String;

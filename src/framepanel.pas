@@ -40,6 +40,16 @@ type
 
   TDrawGridEx = class(TDrawGrid)
   private
+    // Used to register as a drag and drop source and target.
+    DragDropSource: uDragDropEx.TDragDropSource;
+    DragDropTarget: uDragDropEx.TDragDropTarget;
+
+    StartDrag: Boolean;
+    DragStartPoint: TPoint;
+    DragRowIndex,
+    DropRowIndex: Integer;
+    LastMouseButton: TMouseButton; // Mouse button that initiated dragging
+
     procedure MouseMove(Shift: TShiftState; X,Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer); override;
@@ -64,22 +74,18 @@ type
     function OnExDrop(const FileNamesList: TStringList; DropEffect: TDropEffect; ScreenPoint: TPoint):Boolean;
     function OnExDragLeave:Boolean;
 
-    // Used to register as a drag and drop source and target.
-    DragDropSource: uDragDropEx.TDragDropSource;
-    DragDropTarget: uDragDropEx.TDragDropTarget;
-
-    StartDrag: Boolean;
-    DragStartPoint: TPoint;
-    DragRowIndex,
-    DropRowIndex: Integer;
-    LastMouseButton: TMouseButton; // Mouse button that initiated dragging
-
   protected
 
     procedure InitializeWnd; override;
     procedure FinalizeWnd; override;
 
   public
+{$IFDEF LCLGTK2}
+    fLastDoubleClickTime : TDateTime;
+
+    function TooManyDoubleClicks: Boolean;
+{$ENDIF}
+
     constructor Create(AOwner: TComponent; AParent: TWinControl);
     destructor Destroy; override;
     procedure UpdateView;
@@ -97,12 +103,6 @@ type
        Handles freeing DropParams. }
     procedure DoDragDropOperation(Operation: TDragDropOperation;
                                   DropParams: TDropParams);
-
-{$IFDEF LCLGTK2}
-    function TooManyDoubleClicks: Boolean;
-
-    fLastDoubleClickTime : TDateTime;
-{$ENDIF}
   end;
 
   { TDropParams }

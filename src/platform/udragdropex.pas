@@ -117,10 +117,10 @@ type
     FDragEndEvent     : TDragEndEvent;
 
   protected
-    function GetControl: TWinControl;
-
     FLastStatus: TDragDropStatus;
     FFileNamesList: TStringList;
+
+    function GetControl: TWinControl;
   end;
 
   { Base class for external target }
