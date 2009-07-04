@@ -402,7 +402,7 @@ object frmMain: TfrmMain
             CaretWidth = 1
             CaretHeight = 13
             CaretYShift = 3
-            LineCount = 25
+            LineCount = 100
             Font.Color = clSilver
             BackGroundColor = clBlack
             TabWidth = 60
