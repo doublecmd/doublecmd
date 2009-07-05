@@ -360,9 +360,9 @@ begin
     on EFOpenError do
       begin
         if gSkipFileOpError then
-          logWrite(Self, rsMsgErrEOpen + ' - ' + sDst, lmtError, True)
+          logWrite(Self, rsMsgErrEOpen + ' - ' + sSrc, lmtError, True)
         else
-          if MsgBox(Self, rsMsgErrEOpen + ' - ' + sDst, [msmbSkip, msmbCancel], msmbSkip, msmbCancel) = mmrCancel then
+          if MsgBox(Self, rsMsgErrEOpen + ' - ' + sSrc, [msmbSkip, msmbCancel], msmbSkip, msmbCancel) = mmrCancel then
             Terminate;
       end;
     on EWriteError do
