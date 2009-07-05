@@ -61,7 +61,6 @@ end;
 procedure TfrmMsg.frmMsgShow(Sender: TObject);
 var
   x:Integer;
-  iWidth:Integer;
 begin
   for x:=0 to ComponentCount-1 do
   begin

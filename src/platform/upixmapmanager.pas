@@ -365,11 +365,12 @@ end;
 
 function TPixMapManager.CheckAddPixmap(const sName: String; bUsePixmapPath : Boolean = True): Integer;
 var
-  bmp: Graphics.TBitmap;
-  png: TPortableNetworkGraphic;
   sFileName : String;
   {$IFDEF LCLGTK2}
   pbPicture : PGdkPixbuf;
+  {$ELSE}
+  bmp: Graphics.TBitmap;
+  png: TPortableNetworkGraphic;
   {$ENDIF}
 begin
   Result:=-1;

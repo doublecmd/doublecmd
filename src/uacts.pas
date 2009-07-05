@@ -209,8 +209,8 @@ const cf_Null=0;
 implementation
 
 uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
-     Clipbrd,uOSUtils,framePanel,uWCXmodule,fPackDlg,uWipeThread,uFileOp,
-     uFileOpThread,fFileOpDlg,forms,uVFSutil,uShowForm,uDCUtils,uLog,uVFSTypes,
+     Clipbrd,uOSUtils,framePanel,uWCXmodule,fPackDlg,uWipeThread,
+     fFileOpDlg,forms,uVFSutil,uShowForm,uDCUtils,uLog,uVFSTypes,
      fMkDir,LCLProc,uFileProcs,uDeleteThread,fFileAssoc,fExtractDlg,fAbout,
      fOptions,fCompareFiles,fFindDlg,fSymLink,fHardLink,fMultiRename, uHash,
      uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit,
@@ -1990,7 +1990,6 @@ procedure TActs.cm_MultiRename(param:string);
 var
   fl: TFileList;
   I: Integer;
-  Result: Boolean;
 begin
 with frmMain do
 begin
@@ -2003,7 +2002,7 @@ begin
       for I:= 0 to pnlFile.FileList.Count-1 do
         if pnlFile.GetFileItem(I).bSelected then
           fl.AddItem(pnlFile.GetFileItemPtr(I));
-      Result:= ShowMultiRenameForm(fl);
+      ShowMultiRenameForm(fl);
     except
       FreeAndNil(fl);
     end;

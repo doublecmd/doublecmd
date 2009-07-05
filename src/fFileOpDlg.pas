@@ -139,7 +139,6 @@ end;
 procedure TfrmFileOp.UpdateDlg;
 var
   bP1, bP2: Boolean; // repaint if needed
-  s: String;
 begin
 // in processor intensive task we force repaint immedially
   bP1:= False;

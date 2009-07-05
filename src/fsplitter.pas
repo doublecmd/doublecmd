@@ -16,7 +16,7 @@ interface
 
 uses
   LResources,
-  SysUtils, Types, Classes, Graphics, Controls, Forms,
+  SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, Buttons;
 
 type

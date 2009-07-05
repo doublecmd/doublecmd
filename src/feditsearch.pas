@@ -105,7 +105,7 @@ type
     procedure SetReplaceText(Value: string);
     procedure SetReplaceTextHistory(Value: string);
   public
-    constructor Create(AOwner: TComponent; AReplace: Boolean);
+    constructor Create(AOwner: TComponent; AReplace: Boolean); reintroduce;
     property SearchBackwards: boolean read GetSearchBackwards
       write SetSearchBackwards;
     property SearchCaseSensitive: boolean read GetSearchCaseSensitive

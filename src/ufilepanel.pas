@@ -134,9 +134,8 @@ type
 implementation
 
 uses
-  LCLProc, SysUtils, Masks, uFileOp, uGlobs, uVFSutil,
-  uShowMsg, uLng, uShowForm, uVFSmodule, uDCUtils,
-  uOSUtils,fMain, uShellExecute, framePanel, uColumns;
+  LCLProc, SysUtils, Masks, uFileOp, uGlobs, uVFSutil, uShowMsg, uLng,
+  uVFSmodule, uDCUtils, uOSUtils,fMain, uShellExecute, framePanel, uColumns;
 
 constructor TFilePanel.Create(AOwner : TObject; FramePanel: TWinControl; APanel:TDrawGrid;
                               AlblPath: TLabel; AlblCurPath, AlblFree:TLabel; AedtCommand:TComboBox);
@@ -216,8 +215,6 @@ end;
 
 procedure TFilePanel.LoadPanelVFS(frp:PFileRecItem);
 var
-  sDir:String;
-  sDummy:String;
   VFSFileList : TFileList;
   sTempDir,
   sFileName : String;

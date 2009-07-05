@@ -187,8 +187,6 @@ begin
 end;
 
 destructor TKASEdit.Destroy;
-var
-I : byte;
 begin
 try
   PopUpMenu.Free;

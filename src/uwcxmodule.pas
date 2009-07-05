@@ -218,9 +218,9 @@ Type
     procedure SetAFlags(Index: Integer; const AValue: PtrInt);
     procedure SetExt(Index: Integer; const AValue: String);
   public
-    procedure Load(Ini: TIniFileEx); overload;
-    procedure Save(Ini: TIniFileEx); overload;
-    function Add(Ext: String; Flags: PtrInt; FileName: String): Integer;
+    procedure Load(Ini: TIniFileEx);
+    procedure Save(Ini: TIniFileEx);
+    function Add(Ext: String; Flags: PtrInt; FileName: String): Integer; reintroduce;
     function FindFirstEnabledByName(Name: String): Integer;
 
     property FileName[Index: Integer]: String read GetAFileName write SetAFileName;

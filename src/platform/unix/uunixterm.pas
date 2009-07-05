@@ -28,7 +28,7 @@ unit uUnixTerm;
 interface
 
 uses
-   Classes, SysUtils, BaseUnix, errors,
+   Classes, SysUtils, BaseUnix,
    {libc,}ExtCtrls, LCLProc, cwstring,
    LCLType, Graphics, TermInfo, termio, uTerminal, uOSUtils;
 
@@ -280,7 +280,6 @@ end;
 
 
 procedure TUnixConThread.Execute;
-var x:TUTF8char;
 begin
   FShell:=GetShell;
   if length(FShell)=0 then FShell:='/bin/bash';
@@ -298,7 +297,6 @@ begin
 end;
 
 //------------------------------------------------------
-var bufer:UTF8string;
 
 procedure TUnixConThread.AddSymbol;
 var SeqCode,SeqPrm,i,x:integer;
@@ -530,7 +528,7 @@ function TUnixTerm.SendSignal_pty(Sig: Cint): boolean;
 var BytesWritten:TSize;
 begin
   BytesWritten:=fpwrite(Fpty,Sig,sizeof(sig));
-  result:=result and (BytesWritten>0);
+  Result := (BytesWritten>0);
 end;
 
 function TUnixTerm.SetScreenSize(aCols, aRows: integer): boolean;

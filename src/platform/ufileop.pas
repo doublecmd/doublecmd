@@ -52,7 +52,7 @@ const
 
 implementation
 uses
-  uFileProcs, uFindEx, uGlobs, uDCUtils, uVFSUtil, uOSUtils {$IFDEF UNIX}, uUsersGroups, Unix, BaseUnix{$ENDIF}
+  uFindEx, uGlobs, uDCUtils, uVFSUtil, uOSUtils {$IFDEF UNIX}, uUsersGroups, Unix, BaseUnix{$ENDIF}
   {$IFDEF WINDOWS}, Windows {$ENDIF};
 
 {$IFDEF UNIX}   // *nix

@@ -35,7 +35,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, Menus, KASBarFiles, ImgList,FileUtil, IniFiles;
+  Menus, KASBarFiles, FileUtil, IniFiles;
   
 type
 

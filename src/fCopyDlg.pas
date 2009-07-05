@@ -4,7 +4,7 @@ interface
 
 uses
   LResources,
-  SysUtils, Types, Classes, Graphics, Controls, Forms,
+  SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, ExtCtrls;
 
 type
@@ -39,8 +39,9 @@ type
 
 
 implementation
+
 uses
-  uLng,fmain,framePanel,LCLType,uGlobs;
+  fMain, framePanel, LCLType, uGlobs;
 
 var noteb:TNotebook;
 procedure TfrmCopyDlg.TabsSelector(Sender: TObject);

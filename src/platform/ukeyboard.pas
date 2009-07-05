@@ -109,12 +109,10 @@ uses
 {$IF DEFINED(MSWINDOWS)}
   , Windows, Win32Proc
 {$ENDIF}
-{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
-  , XLib, X
-{$ENDIF}
 {$IF DEFINED(LCLGTK)}
   , Gdk, GLib
   , GtkProc
+  , XLib, X
 {$ENDIF}
 {$IF DEFINED(LCLGTK2)}
   , Gdk2, GLib2, GtkExtra
@@ -122,20 +120,19 @@ uses
 {$ENDIF}
 {$IF DEFINED(UNIX) and DEFINED(LCLQT)}
   , qt4, qtwidgets
+  , XLib, X
   , xutil, KeySym
   , Forms  // for Application.MainForm
 {$ENDIF}
   ;
 
 {$IF DEFINED(UNIX)}
-  {$IF DEFINED(LCLGTK)}
 var
+  {$IF DEFINED(LCLGTK)}
   XDisplay: PDisplay = nil;
   {$ELSEIF DEFINED(LCLGTK2)}
-var
   XDisplay: PGdkDisplay = nil;
   {$ELSEIF DEFINED(LCLQT)}
-var
   XDisplay: PDisplay = nil;
   {$ENDIF}
 {$ENDIF}

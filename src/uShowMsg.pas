@@ -54,8 +54,8 @@ function msgYesNoCancel(Thread: TThread; const sMsg:String):TMyMsgResult; overlo
 procedure msgOK(const sMsg:String); overload;
 procedure msgOK(Thread: TThread; const sMsg: String); overload;
 
-function msgWarning(const sMsg: String): Boolean; overload;
-function msgWarning(Thread: TThread; const sMsg: String): Boolean; overload;
+procedure msgWarning(const sMsg: String); overload;
+procedure msgWarning(Thread: TThread; const sMsg: String); overload;
 
 procedure msgError(const sMsg: String); overload;
 procedure msgError(Thread: TThread; const sMsg: String); overload;
@@ -121,7 +121,6 @@ end;
 function MeasureText(Canvas:TCanvas; const sText:String):Integer;
 var
   xEnter:Integer;
-  x:Integer;
 begin
   xEnter:=Pos(#10, sText);
   if xEnter>0 then
@@ -266,7 +265,7 @@ begin
   MsgBox(Thread, sMsg,[msmbOK],msmbOK, msmbOK)
 end;
 
-function msgWarning(const sMsg: String): Boolean;
+procedure msgWarning(const sMsg: String);
 begin
   if gShowWarningMessages then
     MsgBox(sMsg,[msmbOK],msmbOK, msmbOK)
@@ -279,7 +278,7 @@ begin
     end;
 end;
 
-function msgWarning(Thread: TThread; const sMsg: String): Boolean;
+procedure msgWarning(Thread: TThread; const sMsg: String);
 begin
   if gShowWarningMessages then
     MsgBox(Thread, sMsg,[msmbOK],msmbOK, msmbOK)

@@ -19,7 +19,7 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ActnList, Menus, SynEdit,
+  Dialogs, ActnList, Menus, SynEdit,
   ComCtrls,  SynEditSearch, uClassesEx;
 
 type
@@ -135,7 +135,6 @@ type
     { Private declarations }
     bChanged:Boolean;
     bNoName: Boolean;
-    bIsShortCut:Boolean;
     bSearchBackwards:Boolean;
     bSearchCaseSensitive:Boolean;
     bSearchFromCaret:Boolean;

@@ -64,11 +64,12 @@ type
     procedure WipeDir(dir: string);
     procedure WipeFile(filename: String);
   protected
-    constructor Create(aFileList: TFileList);override;
     procedure MainExecute; override;
     procedure Wipe(fr: PFileRecItem);
-    function GetCaptionLng: String;override;
+    function GetCaptionLng: String; override;
     function GetFileOpDlgLook: TFileOpDlgLook; override;
+  public
+    constructor Create(aFileList: TFileList); override;
   end;
 
 implementation

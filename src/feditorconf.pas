@@ -6,7 +6,7 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, SynEditHighlighter, SynEditStrConst,
-  Grids, Buttons, ComCtrls, uGlobsPaths, SynEdit, ButtonPanel;
+  Grids, Buttons, ComCtrls, uGlobsPaths, SynEdit;
 
 type
   TLittleAttr= Packed Record
@@ -122,7 +122,7 @@ implementation
 
 
 uses
-  FileUtil, uShowMsg, uLng, uFindEx, uOSUtils;
+  FileUtil, uShowMsg, uFindEx, uOSUtils;
 
 procedure SetupColorOfHighlighter(var h: TSynCustomHighlighter);
 var

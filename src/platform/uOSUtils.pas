@@ -127,7 +127,7 @@ function ExecCmdFork(sCmdLine:String; bTerm : Boolean = False; sTerm : String = 
    @returns(The function returns @true if successful, @false otherwise)
 }
 function ShellExecute(URL: String): Boolean;
-function GetDiskFreeSpace(Path : String; var FreeSize, TotalSize : Int64) : Boolean;
+function GetDiskFreeSpace(Path : String; out FreeSize, TotalSize : Int64) : Boolean;
 {en
    Create a hard link to a file
    @param(Path Name of file)
@@ -534,7 +534,7 @@ end;
 
 (* Get Disk Free Space *)
 
-function GetDiskFreeSpace(Path : String; var FreeSize, TotalSize : Int64) : Boolean;
+function GetDiskFreeSpace(Path : String; out FreeSize, TotalSize : Int64) : Boolean;
 {$IFDEF UNIX}
 var
   sbfs: TStatFS;
@@ -975,6 +975,7 @@ end;
 {$ELSE}
 begin
   Int64(lpLocalFileTime) := Int64(lpFileTime) + 10000000 * Int64(TZSeconds);
+  Result := True;
 end;
 {$ENDIF}
 
@@ -986,6 +987,7 @@ end;
 {$ELSE}
 begin
   Int64(lpFileTime) := Int64(lpLocalFileTime) - 10000000 * Int64(TZSeconds);
+  Result := True;
 end;
 {$ENDIF}
 
@@ -1511,7 +1513,6 @@ end;
 procedure CheckBlockDev(ctx: PLibHalContext; const udi: PChar; error: PDBusError; const CreateArray: boolean = False);
 var cap : PChar;
 var s : string;
-var i : integer;
 begin
 {  possible value what we can get (you can see that volume.label it will be mount point)
                for more key see "hal-device | less"
@@ -1644,7 +1645,6 @@ begin
 end;
 
 procedure LibHalDeviceRemoved(ctx: PLibHalContext; const udi: PChar); cdecl;
-var i : integer;
 begin
   // here we will when somebody remove flash or CD or may be other
   // when it will CD it will one time

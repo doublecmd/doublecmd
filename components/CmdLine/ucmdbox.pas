@@ -63,8 +63,8 @@ unit uCmdBox;
 
 interface
 
-uses Classes, SysUtils,ExtCtrls,ComCtrls,Controls,Graphics,StdCtrls,Forms,LCLType,LCLIntf,
-     lmessages,lresources,ClipBrd,LCLProc;
+uses Classes, SysUtils, ExtCtrls, ComCtrls, Controls, Graphics, Forms, LCLType,
+     LCLIntf, LMessages, LResources, ClipBrd, LCLProc;
   
 type TCaretType=(cartLine,cartSubBar,cartBigBar,cartUser);
      TEscapeCodeType=(esctCmdBox,esctAnsi,esctNone);
@@ -81,10 +81,10 @@ type
 { TCmdBox }
 
 TCmdBox=class(TCustomControl)
-      public
+    public
       constructor Create(AComponent:TComponent);override;
       destructor Destroy;override;
-      protected
+    protected
       procedure Paint;override;
       procedure Resize;override;
       procedure UTF8KeyPress(var Key:TUTF8Char);override;
@@ -92,7 +92,11 @@ TCmdBox=class(TCustomControl)
       procedure CreateParams(var Params:TCreateParams);override;
       procedure CreateWnd;override;
       procedure WMVScroll(var message: TLMVScroll);message LM_VSCROLL;
-      private
+      procedure MouseDown(Button:TMouseButton;Shift:TShiftState;x,y:Integer);override;
+      procedure MouseUp(Button:TMouseButton;Shift:TShiftState;x,y:Integer);override;
+      procedure MouseMove(Shift:TShiftState;x,y:Integer);override;
+      procedure EraseBackground(DC:HDC);override;
+    private
       FLock               : System.TRTLCriticalSection;
       FCaretTimer         : TTimer;
       FCaretVisible       : Boolean;
@@ -171,13 +175,9 @@ TCmdBox=class(TCustomControl)
       procedure SetHistoryMax(v:Integer);
       procedure InsertHistory;
       procedure SetHistoryPos(v:Integer);
-      procedure EraseBackground(DC:HDC);override;
       function GetHistory(i:Integer):string;
       procedure DeleteHistoryEntry(i:Integer);
       procedure MakeFirstHistoryEntry(i:Integer);
-      procedure MouseDown(Button:TMouseButton;Shift:TShiftState;x,y:Integer);override;
-      procedure MouseUp(Button:TMouseButton;Shift:TShiftState;x,y:Integer);override;
-      procedure MouseMove(Shift:TShiftState;x,y:Integer);override;
       function MoveInputCaretTo(x,y:Integer;chl:Boolean):Boolean;
       procedure SetSelection(Start,Ende:Integer);
       procedure LeftSelection(Start,Ende:Integer);
@@ -194,7 +194,7 @@ TCmdBox=class(TCustomControl)
       function GetCaretInterval:Integer;
       procedure SetCaretInterval(AValue:Integer);
 
-      public
+    public
       
       function HistoryHas(s:string):Boolean;
       function HistoryIndexOf(s:string):Integer;
@@ -219,7 +219,8 @@ TCmdBox=class(TCustomControl)
       property History[i:Integer] : string    read GetHistory;
       property InputPos           : Integer   read FInputPos    write FInputPos;
       function HistoryCount       : Integer;
-      published
+
+    published
       property Align;
       property Anchors;
       property ShowHint;
@@ -1934,15 +1935,12 @@ const AnsiColors:array['0'..'7'] of TColor=(clBlack,clRed,clGreen,clYellow,clBlu
 
 procedure TCmdBox.IntWrite;
 var Pp   : Integer;
-    SLen : Integer;
     l    : Integer;
     s    : String;
-    EscString  : String;
     EscPos     : Integer;
     EscSubMode : Integer;
 begin
  S    := FCurrentString;
- SLen := UTF8Length(S);
  Pp   := 1;
  while Pp<=Length(S) do
  begin

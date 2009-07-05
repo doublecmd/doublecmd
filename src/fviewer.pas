@@ -493,9 +493,9 @@ begin
 end;
 
 procedure TfrmViewer.miProcessClick(Sender: TObject);
-var
+{var
   sViewCmd:String;
-  sCurrName:String;
+  sCurrName:String;}
 begin
 {  DebugLn('TfrmViewer.miProcessClick');
   inherited;
