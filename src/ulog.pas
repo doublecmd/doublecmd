@@ -55,21 +55,24 @@ type
     procedure WriteLog(const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean);
   end;
 
-procedure ShowLogWindow(bShow: Boolean);
+procedure ShowLogWindow(bShow: Boolean; bLock: PBoolean = nil);
 procedure logWrite(const sText: String; LogMsgType: TLogMsgType = lmtInfo; bForce: Boolean = False; bLogFile: Boolean = True);
 procedure logWrite(Thread: TThread; const sText: String; LogMsgType: TLogMsgType = lmtInfo; bForce: Boolean = False; bLogFile: Boolean = True);
 
 implementation
 uses
-  SysUtils, LCLProc, fMain, uGlobs, uFileProcs, uOSUtils;
+  SysUtils, LCLProc, Forms, fMain, uGlobs, uFileProcs, uOSUtils;
 
-procedure ShowLogWindow(bShow: Boolean);
+procedure ShowLogWindow(bShow: Boolean; bLock: PBoolean);
 begin
   if Assigned(fMain.frmMain) then
   with fMain.frmMain do
   begin
     LogSplitter.Visible:= bShow;
     seLogWindow.Visible:= bShow;
+    if Assigned(bLock) then
+      miLogHide.Enabled:= not bLock^;
+    Application.ProcessMessages;
   end;
 end;
 
@@ -77,14 +80,18 @@ procedure logWrite(const sText: String; LogMsgType: TLogMsgType; bForce, bLogFil
 var
   hLogFile: Integer;
   LogMsgTypeObject: TObject absolute LogMsgType;
+  bLock: Boolean;
 begin
-  if (not gLogWindow) and bForce then
-    ShowLogWindow(True);
-  if Assigned(fMain.frmMain) and (gLogWindow or bForce) then // if write log to window
-  with fMain.frmMain.seLogWindow do
-    begin
-      CaretY:= Lines.AddObject(sText, LogMsgTypeObject) + 1;
-    end;
+  if Assigned(fMain.frmMain) then
+  with fMain.frmMain do
+  begin
+    if (not gLogWindow and seLogWindow.Visible) and bForce then
+      ShowLogWindow(True);
+
+    bLock:= not miLogHide.Enabled;
+    if (gLogWindow or bForce or bLock) then // if write log to window
+      seLogWindow.CaretY:= seLogWindow.Lines.AddObject(sText, LogMsgTypeObject) + 1;
+  end;
 
   if gLogFile and bLogFile then // if write log to file
     try

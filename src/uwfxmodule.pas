@@ -389,19 +389,32 @@ end;
 procedure MainLogProc(PluginNr, MsgType: Integer; LogString: PChar); stdcall;
 var
   sMsg: String;
+  LogMsgType: TLogMsgType = lmtInfo;
+  bLogFile: Boolean;
+  bLock: Boolean = True;
 Begin
+  sMsg:= rsMsgLogInfo;
+  bLogFile:= ((log_vfs_op in gLogOptions) and (log_info in gLogOptions));
   case MsgType of
-    msgtype_connect: sMsg:= 'msgtype_connect';
-    msgtype_disconnect: sMsg:= 'msgtype_disconnect';
-    msgtype_details: sMsg:= 'msgtype_details';
-    msgtype_transfercomplete: sMsg:= 'msgtype_transfercomplete';
-    msgtype_connectcomplete: sMsg:= 'msgtype_connectcomplete';
-    msgtype_importanterror: sMsg:= 'msgtype_importanterror';
-    msgtype_operationcomplete: sMsg:= 'msgtype_operationcomplete';
+    msgtype_connect:
+      begin
+        sMsg:= sMsg + 'msgtype_connect';
+        ShowLogWindow(True, @bLock);
+      end;
+    msgtype_disconnect: sMsg:= sMsg + 'msgtype_disconnect';
+    msgtype_details: sMsg:= sMsg + 'msgtype_details';
+    msgtype_transfercomplete: sMsg:= sMsg + 'msgtype_transfercomplete';
+    msgtype_connectcomplete: sMsg:= sMsg + 'msgtype_connectcomplete';
+    msgtype_importanterror:
+      begin
+        sMsg:= rsMsgLogError + 'msgtype_importanterror';
+        LogMsgType:= lmtError;
+        bLogFile:= (log_vfs_op in gLogOptions) and (log_errors in gLogOptions);
+      end;
+    msgtype_operationcomplete: sMsg:= sMsg + 'msgtype_operationcomplete';
   end;
   // write log info
-  if (log_vfs_op in gLogOptions) and (log_info in gLogOptions) then
-    logWrite(rsMsgLogInfo + sMsg + ', ' + logString);
+  logWrite(sMsg + ', ' + logString, LogMsgType, False, bLogFile);
     
   //DebugLN('MainLogProc ('+ sMsg + ',' + logString + ')');
 End;
