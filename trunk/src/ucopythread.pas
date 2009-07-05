@@ -32,8 +32,8 @@ type
 
 implementation
 uses
-  LCLProc, SysUtils, Classes, StrUtils, FileUtil, uLng, uGlobs, uLog, uShowMsg, uFileProcs, uFindEx,
-  uDCUtils, uOSUtils, uClassesEx, uDescr;
+  LCLProc, SysUtils, Classes, StrUtils, FileUtil, uLng, uGlobs, uLog, uShowMsg, uFileProcs,
+  uDCUtils, uOSUtils, uClassesEx;
 
 procedure TCopyThread.MainExecute;
 var

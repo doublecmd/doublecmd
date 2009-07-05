@@ -29,13 +29,13 @@ type
    // 30.04.2009 - поле, показывающее удаление в корзину
     FRecycle : boolean;
   protected
-    constructor Create(aFileList:TFileList); override;
     procedure MainExecute; override;
     function DeleteFile(fr:PFileRecItem):Boolean;
     function GetCaptionLng: String; override;
     function CheckFile(FileRecItem: PFileRecItem): Boolean; override;
     function GetFileOpDlgLook: TFileOpDlgLook; override;
  public
+    constructor Create(aFileList:TFileList); override;
     // 30.04.2009 - свойство для удаления в корзину
     property Recycle : boolean read FRecycle write FRecycle default false;
   end;

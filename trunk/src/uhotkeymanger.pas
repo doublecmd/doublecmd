@@ -29,7 +29,7 @@ unit uhotkeymanger;
 interface
 
 uses
-  Classes, SysUtils,Controls,LCLProc,LCLType,LCLIntf,Forms,ActnList,uActs,uClassesEx;
+  Classes, SysUtils, Controls, LCLProc, LCLType, LCLIntf, Forms, ActnList, uClassesEx;
 
 const
   scWin=$1000;

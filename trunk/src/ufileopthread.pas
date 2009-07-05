@@ -86,7 +86,7 @@ const
 implementation
 
 uses
-  SysUtils, DateUtils, uLng, uFileProcs, uFileOp, Forms, uFindEx, uDCUtils, uOSUtils,
+  SysUtils, DateUtils, uLng, uFileOp, Forms, uFindEx, uDCUtils, uOSUtils,
   LCLProc, uGlobs;
 
 { TFileOpThread }

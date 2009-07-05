@@ -29,7 +29,7 @@ unit uColumns;
 interface
 
 uses
-  Classes, SysUtils, uClassesEx, LCLProc, strutils, uTypes, uOSUtils, uDCUtils,Graphics;
+  Classes, SysUtils, uClassesEx, LCLProc, uTypes, uOSUtils, uDCUtils, Graphics;
 
   type
 
@@ -252,7 +252,7 @@ type
   var IntList:TStringList;
 
 implementation
-uses uLng, uGlobs, uFileList;
+uses uLng, uGlobs;
 
 function StrToAlign(str:string):TAlignment;
 begin
@@ -577,7 +577,7 @@ end;
 
  //------------------------------------------------------
  procedure FillListFromString(List:TStrings; FuncString:string);
-   var s,st:string; i:integer;
+   var s,st:string;
    begin
 
      s:=FuncString;

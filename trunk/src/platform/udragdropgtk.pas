@@ -293,7 +293,6 @@ function OnDragDataGet(widget: PGtkWidget; context: PGdkDragContext;
 var
   DragDropSource: TDragDropSourceGTK;
   dataString: string;
-  i: Integer;
 begin
   DragDropSource := TDragDropSourceGTK(param);
 

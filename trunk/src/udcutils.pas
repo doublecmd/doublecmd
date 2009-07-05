@@ -125,7 +125,7 @@ function CharPos(C: Char; const S: string; StartPos: Integer = 1): Integer;
    @param(n Name)
    @param(e Extension)
 }
-procedure DivFileName(const sFileName:String; var n,e:String);
+procedure DivFileName(const sFileName:String; out n,e:String);
 {en
    Get count of character in string
    @param(Char Character)
@@ -465,7 +465,7 @@ Begin
        end;
 End;
 
-procedure DivFileName(const sFileName:String; var n,e:String);
+procedure DivFileName(const sFileName:String; out n,e:String);
 var
   i:Integer;
 begin
@@ -527,15 +527,11 @@ end;
 
 function RemoveQuotation(const Str: String): String;
 var
-  b : boolean;
   I : integer;
 begin
   Result := Str;
   if Length(Result) < 2 then Exit;
-  {b := True;
-  for I := 2 to Length(Result) do
-    if (Result[I] in QuotationCharacters) and (Result[I - 1] <> ShieldChar) then b := False;
-  if b then} for I := Length(Result) downto 2 do
+  for I := Length(Result) downto 2 do
     if (Result[I] in QuotationCharacters) and (Result[I - 1] = ShieldChar) then Delete(Result, I - 1, 1);
 end;
 

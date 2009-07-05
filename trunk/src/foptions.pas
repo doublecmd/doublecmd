@@ -34,7 +34,7 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Buttons, Spin, ColorBox,
-  CheckLst, EditBtn,uColumns, Grids, uDSXModule, uWCXModule, uWDXModule,
+  EditBtn, Grids, uDSXModule, uWCXModule, uWDXModule,
   uWFXmodule, uWLXModule, Menus;
 
 type
@@ -477,15 +477,12 @@ end;
 
 procedure TfrmOptions.btSetHotKeyClick(Sender: TObject);
 var i: integer;
-    vActions: TAction;
     Cat:string;
     st:TStringList;
     lstr:string;
     lslHotKeys:TStringList;
-    l: Integer;
 procedure lAddHotKey;
 //< local function for add hot key,
-var    l: Integer;
 begin
     HotMan.AddHotKey(ShortCutToTextEx(vShortCut),
                      stgCommands.Cells[stgCmdCommandIndex,stgCommands.Row]
@@ -632,10 +629,6 @@ end;
 procedure TfrmOptions.edtFilterChange(Sender: TObject);
 {< filtering active commands list
 }
-var slFiltered,slAllCommands,slComment:TStringList;
-  i: Integer;
-  lstr:string;
-  Rect: TRect;
 begin
   if lbxCategories.ItemIndex=-1 then exit;
   edHotKey.Clear;
@@ -801,7 +794,6 @@ procedure TfrmOptions.edHotKeyKeyDown(Sender: TObject; var Key: Word;
 var
   i: LongInt;
   st: TStringList;
-  s:string;
 begin
   vShortCut := ShortCutEx(Key,GetKeyShiftStateEx);
   TEdit(Sender).Text := ShortCutToTextEx(vShortCut);
@@ -810,7 +802,6 @@ begin
   lbPressedHotKeyCommand.Caption:='';
 
   // find hotkey
-  s:=ShortCutToTextEx(vShortCut);
   i:=HotMan.GetHotKeyIndex(ShortCutToTextEx(vShortCut));
   if i<>-1 then
   begin
@@ -818,8 +809,7 @@ begin
    if HotMan.GetControlsListBy(ShortCutToTextEx(vShortCut),st)>0 then
    begin
      HotMan.GetCommandsListBy(ShortCutToTextEx(vShortCut),st);
-     s:=st.Text;
-     lbPressedHotKeyCommand.Caption:='useds by '+st[0];
+     lbPressedHotKeyCommand.Caption:='used by '+st[0];
      btClearHotKey.Enabled := (edHotKey.Text <> '');
    end;
   st.free;
@@ -969,10 +959,8 @@ end;
 procedure TfrmOptions.stgCommandsSelectCell(Sender: TObject; aCol,
   aRow: Integer; var CanSelect: Boolean);
   // < find hotkeys for command
-var i,j: integer;
-    st:TStringList;
-    p: LongInt;
-    cmd,selcmd: String;
+var st:TStringList;
+    selcmd: String;
 begin
 
      // clears all controls
@@ -1488,14 +1476,12 @@ begin
 end;
 
 procedure TfrmOptions.FillColumnsList;
-var i:Integer;
 begin
  lstColumnsSets.Clear;
  If ColSet.Items.Count>0 then
    begin
      lstColumnsSets.Items.AddStrings(ColSet.Items);
    end;
-
 end;
 
 procedure TfrmOptions.FillCommandsPage;
@@ -1537,7 +1523,7 @@ procedure TfrmOptions.FillCommandList(lstFilter:string);
 var
    slTmp,slFiltered,slAllCommands,slComments,slHotKey:TStringList;
    lstr: String;
-   i,j: Integer;
+   i: Integer;
 
 begin
     slAllCommands:=TStringList.Create();
@@ -1620,8 +1606,6 @@ begin
 end;
 
 procedure TfrmOptions.lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
-var lCmdStList,lCommentStList:TStringList;
-  i: Integer;
 begin
   if lbxCategories.ItemIndex=-1 then exit;
   edtFilter.Clear;
@@ -1881,13 +1865,11 @@ end;
 {/ File lbtypes category color }
 
 procedure TfrmOptions.btClearHotKeyClick(Sender: TObject);
-var vActions: TAction;
-    st:TStringList;
+var st:TStringList;
     cat:string;
     i:integer;
     lstr: String;
     lslHotKeys: TStringList;
-    needRefresh:boolean;
 begin
 
  //TODO: delete hotkey.
@@ -2363,7 +2345,6 @@ procedure TfrmOptions.SetColorInColorBox(const lcbColorBox: TColorBox;
 // add to lcbColorBox lColor and select him
 var
   i: LongInt;
-  debStr:String;
 begin
      if(lcbColorBox=nil) then exit; // if lcbColorBox not exist;
 

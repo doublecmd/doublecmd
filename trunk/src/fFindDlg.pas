@@ -32,7 +32,7 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, Buttons, uFindThread, Menus,
-  Calendar, EditBtn, Spin, MaskEdit,udsxmodule,udsxplugin;
+  EditBtn, Spin, MaskEdit, udsxmodule, udsxplugin;
 
 type
 
@@ -171,7 +171,7 @@ implementation
 
 uses
   LCLProc, LCLType, LConvEncoding, DateUtils, fViewer, uLng, uGlobs, uShowForm, fMain,
-  uTypes, uFileOp, uFindEx, uOSUtils, uSearchTemplate;
+  uTypes, uFileOp, uOSUtils, uSearchTemplate;
 
 procedure SAddFileProc(PlugNr:integer; FoundFile:pchar); stdcall;
 var s:string;
@@ -551,11 +551,11 @@ begin
              0:
                FileSizeFrom := seFileSizeFrom.Value;   //Byte
              1:
-               FileSizeFrom := seFileSizeFrom.Value * cKilo; //KiloByte
+               FileSizeFrom := Int64(seFileSizeFrom.Value) * cKilo; //KiloByte
              2:
-               FileSizeFrom := seFileSizeFrom.Value * cMega; //MegaByte
+               FileSizeFrom := Int64(seFileSizeFrom.Value) * cMega; //MegaByte
              3:
-               FileSizeFrom := seFileSizeFrom.Value * cGiga; //GigaByte
+               FileSizeFrom := Int64(seFileSizeFrom.Value) * cGiga; //GigaByte
            end;
          end;
       if cbFileSizeTo.Checked then
@@ -565,11 +565,11 @@ begin
              0:
                FileSizeTo := seFileSizeTo.Value;   //Byte
              1:
-               FileSizeTo := seFileSizeTo.Value * cKilo; //KiloByte
+               FileSizeTo := Int64(seFileSizeTo.Value) * cKilo; //KiloByte
              2:
-               FileSizeTo := seFileSizeTo.Value * cMega; //MegaByte
+               FileSizeTo := Int64(seFileSizeTo.Value) * cMega; //MegaByte
              3:
-               FileSizeTo := seFileSizeTo.Value * cGiga; //GigaByte
+               FileSizeTo := Int64(seFileSizeTo.Value) * cGiga; //GigaByte
            end;
          end;
       (* File attributes *)

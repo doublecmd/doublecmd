@@ -26,7 +26,7 @@ unit uVFS;
 
 interface
 uses
-  Classes, uGlobs, uFileList, uVFSutil, uTypes, uVFSmodule, uWCXmodule, uWFXmodule;
+  Classes, uGlobs, uFileList, uTypes, uVFSmodule, uWCXmodule, uWFXmodule;
 type
 
   TVFSType = (vtWCX, vtWFX);
@@ -43,8 +43,8 @@ type
     FVFSType : TVFSType;
     FVFSModule : TVFSmodule;
   public
-    constructor Create;
-    destructor Destroy;
+    constructor Create; virtual;
+    destructor Destroy; override;
     
     function cdUpLevel(frp:PFileRecItem; var flist: TFileList) : Boolean;
     function cdDownLevel(frp:PFileRecItem; var flist: TFileList) : Boolean;
@@ -71,7 +71,7 @@ type
     {en
        Closes VFS and unloads plugin module.
     }
-    function CloseAndUnload: Boolean;
+    procedure CloseAndUnload;
     function LoadVFSList(var fl:TFileList) : Boolean;
     property VFSType : TVFSType read FVFSType;
     property VFSmodule : TVFSmodule read FVFSModule write SetVFSModule;
@@ -81,7 +81,7 @@ type
 implementation
 
 uses
-  SysUtils, uGlobsPaths, uFindEx, uDCUtils, uOSUtils, LCLProc;
+  SysUtils, uDCUtils, uOSUtils, LCLProc;
 
 { TVFS }
 
@@ -172,7 +172,7 @@ end;
 
 function TVFS.FindModule(const sFileName:String; bLoadModule : Boolean = True):Boolean;
 var
-  Count, I: Integer;
+  I: Integer;
   sExt: String;
 begin
   Result := False;
@@ -249,7 +249,7 @@ begin
     end;
 end;
 
-function TVFS.CloseAndUnload: Boolean;
+procedure TVFS.CloseAndUnload;
 begin
   if Assigned(FVFSModule) then
   begin
@@ -262,7 +262,6 @@ end;
 function TVFS.LoadVFSList(var fl: TFileList) : Boolean;
 var
   I, Count : Integer;
-  sCurrPlugin : String;
   pfri : PFileRecItem;
 begin
   Result := True;

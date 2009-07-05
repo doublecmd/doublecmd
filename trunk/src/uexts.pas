@@ -15,7 +15,7 @@ unit uExts;
 
 interface
 uses
-  Classes, Contnrs, uFileList, uTypes;
+  Classes, Contnrs, uTypes;
 type
   {en
      Class for storage actions by file extensions

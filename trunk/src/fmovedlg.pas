@@ -38,8 +38,9 @@ type
 
 
 implementation
+
 uses
-  uLng,fmain,framePanel,LCLType,uGlobs;
+  fMain, framePanel, LCLType, uGlobs;
 
 var noteb:TNotebook;
 procedure TfrmMoveDlg.TabsSelector(Sender: TObject);

@@ -50,10 +50,6 @@ type
     DropRowIndex: Integer;
     LastMouseButton: TMouseButton; // Mouse button that initiated dragging
 
-    procedure MouseMove(Shift: TShiftState; X,Y: Integer); override;
-    procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
-    procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer); override;
-
     // Updates the drop row index, which is used to draw a rectangle
     // on directories during drag&drop operations.
     procedure ChangeDropRowIndex(NewIndex: Integer);
@@ -76,6 +72,10 @@ type
 
   protected
 
+    procedure MouseMove(Shift: TShiftState; X,Y: Integer); override;
+    procedure MouseUp(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
+    procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer); override;
+
     procedure InitializeWnd; override;
     procedure FinalizeWnd; override;
 
@@ -86,7 +86,7 @@ type
     function TooManyDoubleClicks: Boolean;
 {$ENDIF}
 
-    constructor Create(AOwner: TComponent; AParent: TWinControl);
+    constructor Create(AOwner: TComponent; AParent: TWinControl); reintroduce;
     destructor Destroy; override;
     procedure UpdateView;
 
@@ -137,7 +137,7 @@ type
                        aScreenDropPoint: TPoint; aDropIntoDirectories: Boolean;
                        aSourcePanel: TFrameFilePanel;
                        aTargetPanel: TFrameFilePanel);
-    destructor Destroy;
+    destructor Destroy; override;
 
     // States, whether the drag&drop operation was internal or external.
     // If SourcePanel is not nil, then it's assumed it was internal.
@@ -168,9 +168,9 @@ type
     }
     procedure Highlight(MousePosX, MousePosY: Integer);
 
-    procedure MouseEnter(Sender: TObject);
-    procedure MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
-    procedure MouseLeave(Sender: TObject);
+    procedure MouseEnterEvent(Sender: TObject);
+    procedure MouseMoveEvent(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+    procedure MouseLeaveEvent(Sender: TObject);
 
   protected
     procedure Paint; override;
@@ -264,9 +264,10 @@ type
     pnlFile:TFilePanel;
     edtCmdLine:TComboBox;
     PanelSelect:TFilePanelSelect;
-    constructor Create(AOwner :TWinControl; lblDriveInfo : TLabel; lblCommandPath:TLabel; cmbCommand:TComboBox);
+    constructor Create(AOwner :TWinControl; lblDriveInfo : TLabel;
+                       lblCommandPath:TLabel; cmbCommand:TComboBox); reintroduce;
     destructor Destroy; override;
-    procedure SetFocus;
+    procedure SetFocus; override;
     procedure SelectFile(frp:PFileRecItem);
     { Returns True if at least one file is/was selected. }
     function  SelectFileIfNoSelected(frp:PFileRecItem):Boolean;
@@ -305,7 +306,7 @@ type
 implementation
 
 uses
-  LCLProc, Masks, uLng, uShowMsg, uGlobs, GraphType, uPixmapManager, uVFSUtil,
+  LCLProc, Masks, uLng, uShowMsg, uGlobs, GraphType, uPixmapManager,
   uDCUtils, uOSUtils, math, fMain, fSymLink, fHardLink, uFileSorting
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   , GtkProc  // for ReleaseMouseCapture
@@ -2233,9 +2234,9 @@ begin
 
   SetActive(False);
 
-  OnMouseEnter:=@MouseEnter;
-  OnMouseMove :=@MouseMove;
-  OnMouseLeave:=@MouseLeave;
+  OnMouseEnter:=@MouseEnterEvent;
+  OnMouseMove :=@MouseMoveEvent;
+  OnMouseLeave:=@MouseLeaveEvent;
 end;
 
 procedure TPathLabel.Paint;
@@ -2343,17 +2344,17 @@ begin
   end;
 end;
 
-procedure TPathLabel.MouseEnter(Sender: TObject);
+procedure TPathLabel.MouseEnterEvent(Sender: TObject);
 begin
   Cursor := crDefault;
 end;
 
-procedure TPathLabel.MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+procedure TPathLabel.MouseMoveEvent(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 begin
   Highlight(X, Y);
 end;
 
-procedure TPathLabel.MouseLeave(Sender: TObject);
+procedure TPathLabel.MouseLeaveEvent(Sender: TObject);
 begin
   SelectedDir := '';
   HighlightStartPos := -1;

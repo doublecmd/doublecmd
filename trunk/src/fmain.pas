@@ -41,10 +41,9 @@ interface
 
 uses
   LResources,
-  Graphics, Forms, Menus, Controls, Dialogs, ComCtrls,
-  StdCtrls, ExtCtrls,ActnList,Buttons, uFileSystemWatcher,
-  SysUtils, Classes,  {uFilePanel,} framePanel, {FileCtrl,} Grids,
-  KASToolBar, SynEdit, KASBarMenu,KASBarFiles,uColumns, uFileList, LCLType,uCmdBox
+  Graphics, Forms, Menus, Controls, Dialogs, ComCtrls, StdCtrls, ExtCtrls, ActnList,
+  Buttons, SysUtils, Classes, Grids, KASToolBar, SynEdit, KASBarMenu, KASBarFiles,
+  uColumns, uFileList, LCLType, uCmdBox, uFileSystemWatcher, framePanel
   {$IF NOT DEFINED(DARWIN)}
   , uTerminal
   {$ENDIF}
@@ -64,7 +63,7 @@ type
 
   public
     constructor Create(AOwner: TComponent); override;
-    procedure PopUp(DropParams: TDropParams);
+    procedure PopUp(DropParams: TDropParams); reintroduce;
   end;
 
   { TfrmMain }
@@ -513,14 +512,12 @@ var
 implementation
 
 uses
-  Clipbrd, LCLIntf, uTypes, fAbout, uGlobs, uLng, fOptions,{ fViewer,}fconfigtoolbar, fFileAssoc,
-  uCopyThread, uDeleteThread, uVFSUtil, uWCXModule, uVFSTypes, Masks, uFileOp,
-  fMkDir, fCopyDlg, fCompareFiles,{ fEditor,} fMoveDlg, uMoveThread, uShowMsg, uClassesEx,
-  fFindDlg, uSpaceThread, fHotDir, fSymLink, fHardLink, uDCUtils, uLog, uWipeThread,
-  fMultiRename, uShowForm, uGlobsPaths, fFileOpDlg, fMsg, fPackDlg, fExtractDlg,
-  fLinker, fSplitter, uFileProcs, LCLProc, uOSUtils, uOSForms, uPixMapManager,
-  fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls, uFileSorting, uacts,
-  StringHashList
+  Clipbrd, LCLIntf, uTypes, fAbout, uGlobs, uLng, fOptions, fconfigtoolbar, fFileAssoc,
+  uCopyThread, uWCXModule, uVFSTypes, Masks, fMkDir, fCopyDlg, fCompareFiles,
+  fMoveDlg, uMoveThread, uShowMsg, uClassesEx, fFindDlg, uSpaceThread, fHotDir,
+  fSymLink, fHardLink, uDCUtils, uLog, fMultiRename, uGlobsPaths, fMsg, fPackDlg,
+  fExtractDlg, fLinker, fSplitter, LCLProc, uOSUtils, uOSForms, uPixMapManager,
+  fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls, uFileSorting
   {$IFDEF LCLQT}
     , qtwidgets, qtobjects
   {$ENDIF}
@@ -1023,24 +1020,19 @@ end;
 
 procedure TfrmMain.dskToolButtonClick(Sender: TObject; NumberOfButton: Integer);
 var
-  Command : String;
   dskPanel : TKASToolBar;
   FrameFilePanel : TFrameFilePanel;
-  btnDrive : TSpeedButton;
-  BitmapTmp: Graphics.TBitmap;
 begin
   dskPanel := (Sender as TKASToolBar);
 
   if (dskPanel.Align = alLeft) or (not gDriveBar2 and (PanelSelected = fpLeft))  then
     begin
       FrameFilePanel := FrameLeft;
-      btnDrive := btnLeftDrive;
       PanelSelected := fpLeft;
     end
   else
     begin
       FrameFilePanel := FrameRight;
-      btnDrive := btnRightDrive;
       PanelSelected := fpRight;
     end;
     
@@ -1151,7 +1143,6 @@ end;
 procedure TfrmMain.mnuDropClick(Sender: TObject);
 var
   DropParamsRef: TDropParams;
-  SourceFileName, TargetFileName: String;
 begin
   if (Sender is TMenuItem) and Assigned(pmDropMenu.FDropParams) then
     begin
@@ -1221,7 +1212,6 @@ end;
 procedure TfrmMain.mnuTabMenuClick(Sender: TObject);
 var
   Cmd: String;
-  TabNr: Integer;
   MenuItem: TMenuItem;
   NoteBook: TNotebook;
 begin
@@ -1424,8 +1414,6 @@ End;
 
 
 function TfrmMain.HandleActionHotKeys(var Key: Word; Shift: TShiftState):Boolean; // handled
-var
-  pfri : PFileRecItem;
 begin
   Result:=True;
   // ---- 30.04.2009 - переписал для удаления в корзину. ----
@@ -2700,7 +2688,6 @@ end;
 
 procedure TfrmMain.DrivesMenuClick(Sender: TObject);
 var
-  BitmapTmp: Graphics.TBitmap;
   Drive: PDrive;
 begin
   with Sender as TMenuItem do

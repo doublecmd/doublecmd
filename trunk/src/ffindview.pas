@@ -19,7 +19,7 @@ interface
 
 uses
   LResources, LClType,
-  SysUtils, Types, Classes, Graphics, Controls, Forms,
+  SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons;
 
 type
@@ -42,7 +42,7 @@ type
 implementation
 
 uses
-  LCLProc, uLng;
+  LCLProc;
 
 procedure TfrmFindView.FormShow(Sender: TObject);
 begin

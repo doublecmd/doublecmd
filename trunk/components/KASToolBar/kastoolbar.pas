@@ -590,9 +590,9 @@ begin
   Result:= ToolDivider.Tag;
 end;
 
-function TKAStoolBar.AddX(ButtonX, CmdX, ParamX, PathX, MenuX : String ) : Integer;
+function TKAStoolBar.AddX(ButtonX, CmdX, ParamX, PathX, MenuX : String) : Integer;
 begin
-  InsertX(XButtons.Count, ButtonX, CmdX, ParamX, PathX, MenuX);
+  Result := InsertX(XButtons.Count, ButtonX, CmdX, ParamX, PathX, MenuX);
 end;
 
 function TKAStoolBar.AddButton(sCaption, Cmd, BtnHint, IconPath : String) : Integer;
@@ -621,7 +621,6 @@ end;
 function TKAStoolBar.InsertButton(InsertAt: Integer; sCaption, Cmd, BtnHint, IconPath : String) : Integer;
 var
   ToolButton: TSpeedButton;
-  I:Integer;
   Bitmap: TBitmap = nil;
 begin
   if InsertAt < 0 then
@@ -712,9 +711,6 @@ begin
 end;
 
 procedure TKAStoolBar.RemoveButton(Index: Integer);
-var
-  I, OldLeft, PrevLeft,
-  OldTop, PrevTop : integer;
 begin
   try
     TSpeedButton(FButtonsList.Items[Index]).Visible := False;

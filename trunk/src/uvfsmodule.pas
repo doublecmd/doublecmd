@@ -22,11 +22,13 @@
 
 unit uVFSmodule;
 
+{$mode objfpc}{$H+}
+
 interface
+
 uses
   uVFSTypes, uFileList;
 
-{$mode objfpc}{$H+}
 Type
   TVFSModule = class
 

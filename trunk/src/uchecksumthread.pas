@@ -61,7 +61,7 @@ type
 implementation
 
 uses
-  FileUtil, StrUtils, uLng, uGlobs, uLog, fCheckSumVerify, uOSUtils;
+  FileUtil, StrUtils, uLng, uGlobs, fCheckSumVerify, uOSUtils;
 
 { TCheckSumThread }
 
@@ -181,8 +181,8 @@ var
   Context: THashContext;
   Count: Cardinal;
   Digest: THashDigest;
-  iProcessed: Int64;
-  iCopyBlockSize: Integer;
+  iProcessed: Cardinal;
+  iCopyBlockSize: Cardinal;
 begin
   Result:= EmptyStr;
   iCopyBlockSize:= gCopyBlockSize;
@@ -205,7 +205,7 @@ begin
           if Count > 0 then
             begin
               HashUpdate(Context, Buf^, Count);
-              Inc(iProcessed, Count);
+              iProcessed := iProcessed + Count;
               FFileOpDlg.iProgress1Pos:= (iProcessed * 100) div FileRecItem^.iSize;
               if FCheckSumOp = checksum_calc then
                 begin

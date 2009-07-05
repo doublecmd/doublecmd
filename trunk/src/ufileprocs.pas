@@ -55,8 +55,8 @@ procedure FileWriteLn(hFile: Integer; S: String);
 
 implementation
 uses
-  LCLProc, SysUtils, uGlobs, uShowMsg, Classes, uClassesEx, uLng, uDCUtils,
-  uFindEx, uOSUtils, uDeleteThread, uFileList;
+  LCLProc, SysUtils, uGlobs, uShowMsg, Classes, uClassesEx, uDCUtils,
+  uOSUtils, uDeleteThread, uFileList;
 
 const
   cBlockSize=16384; // size of block if copyfile

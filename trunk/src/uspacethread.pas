@@ -26,7 +26,7 @@ type
   protected
     procedure MainExecute; override;
   public
-    constructor Create(aFileList:TFileList; bDisplayMessage: Boolean);
+    constructor Create(aFileList:TFileList; bDisplayMessage: Boolean); reintroduce;
     function UseForm:Boolean; override;
     function FreeAtEnd:Boolean; override;
     property DirCount:Integer read FDirCount;

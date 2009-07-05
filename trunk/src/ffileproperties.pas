@@ -122,7 +122,7 @@ procedure ShowFileProperties(FileList:TFileList; const aPath:String);
 implementation
 
 uses
-  LCLType, uLng, uFileOp, uFileProcs, uFindEx, BaseUnix, uUsersGroups, uDCUtils;
+  LCLType, uLng, uFileOp, BaseUnix, uUsersGroups, uDCUtils;
 
 procedure ShowFileProperties(FileList:TFileList; const aPath:String);
 begin
@@ -351,7 +351,4 @@ initialization
  {$I ffileproperties.lrs}
 
 end.
-
-
-
 

@@ -31,7 +31,7 @@ uses
   {$IFDEF UNIX}
   BaseUnix, Unix, fFileProperties;
   {$ELSE}
-  FileUtil, Windows, Messages, ShellApi, ShlObj, ActiveX, uShlObjAdditional,
+  FileUtil, Windows, ShlObj, ActiveX, uShlObjAdditional,
   uMyWindows, JwaShlGuid, JwaDbt, JwaWinUser;
   {$ENDIF}
 const
@@ -88,7 +88,7 @@ function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boo
 implementation
 
 uses
-  LCLProc, fMain, uVFSutil, uOSUtils, uExts, uGlobs, uLng, uDCUtils, uShellExecute
+  LCLProc, fMain, uOSUtils, uGlobs, uLng, uDCUtils, uShellExecute
   {$IF DEFINED(LINUX)}
   , uFileSystemWatcher, inotify
   {$ENDIF}

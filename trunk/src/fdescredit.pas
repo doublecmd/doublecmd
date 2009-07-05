@@ -60,6 +60,7 @@ uses
 
 function ShowDescrEditDlg(sFileName: String): Boolean;
 begin
+  Result := False;
   with TfrmDescrEdit.Create(Application) do
   begin
     FDescr:= TDescription.Create(False);
@@ -75,6 +76,7 @@ begin
         FOriginalText:= ConvertEncoding(memDescr.Lines.Text, EncodingUTF8, FEncoding);
         FDescr.WriteDescription(sFileName, StringReplace(FOriginalText, LineEnding, #32, [rfReplaceAll]));
         FDescr.SaveDescription;
+        Result := True;
       end;
     FDescr.Free;
     Free;
