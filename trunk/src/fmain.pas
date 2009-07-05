@@ -3246,8 +3246,8 @@ begin
   pnlCommand.Visible := gCmdLine;
   edtCommand.Tag := 0;
   pnlKeys.Visible := gKeyButtons;
-  LogSplitter.Visible := gLogWindow;
-  seLogWindow.Visible := gLogWindow;
+  LogSplitter.Visible := gLogWindow or (not miLogHide.Enabled);
+  seLogWindow.Visible := gLogWindow or (not miLogHide.Enabled);
   seLogWindow.Font.Name := gEditorFontName;
   ToggleConsole;
   ToggleFileSystemWatcher;
