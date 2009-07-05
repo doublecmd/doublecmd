@@ -122,7 +122,7 @@ Type
 
     function VFSConfigure(Parent: THandle):Boolean;override;
     function VFSOpen(const sName:String; bCanYouHandleThisFile : Boolean = False):Boolean;override;
-//    function VFSClose:Boolean;override;
+    function VFSClose:Boolean;override;
     function VFSRefresh : Boolean;override;
     
     function VFSMkDir(const sDirName:String ):Boolean;override;
@@ -537,6 +537,11 @@ begin
   Debugln('WFXVFSOpen Entered');
   Result := (FsInit(WFXModuleList.Add(Self), @MainProgressProc, @MainLogProc, @MainRequestProc) = 0);
   Debugln('WFXVFSOpen Leaved');
+end;
+
+function TWFXModule.VFSClose: Boolean;
+begin
+  Result:= True;
 end;
 
 function TWFXModule.VFSRefresh: Boolean;
