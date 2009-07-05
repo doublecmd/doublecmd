@@ -402,7 +402,7 @@ object frmMain: TfrmMain
             CaretWidth = 1
             CaretHeight = 13
             CaretYShift = 3
-            LineCount = 100
+            LineCount = 256
             Font.Color = clSilver
             BackGroundColor = clBlack
             TabWidth = 60
@@ -563,6 +563,7 @@ object frmMain: TfrmMain
     Font.Pitch = fpFixed
     ParentColor = False
     ParentFont = False
+    PopupMenu = pmLogMenu
     TabOrder = 4
     TabStop = False
     Keystrokes = <    
@@ -959,6 +960,7 @@ object frmMain: TfrmMain
       end
       object mnuCheckSumCalc: TMenuItem
         Action = actCheckSumCalc
+        OnClick = actExecute
       end
       object mnuCheckSumVerify: TMenuItem
         Action = actCheckSumVerify
@@ -1901,6 +1903,30 @@ object frmMain: TfrmMain
     object miTrayIconExit: TMenuItem
       Caption = 'Exit'
       OnClick = miTrayIconExitClick
+    end
+  end
+  object pmLogMenu: TPopupMenu
+    left = 440
+    top = 136
+    object miLogCopy: TMenuItem
+      Caption = 'Copy'
+      OnClick = miLogMenuClick
+    end
+    object miLine24: TMenuItem
+      Caption = '-'
+    end
+    object miLogSelectAll: TMenuItem
+      Tag = 1
+      Caption = 'Select All'
+      OnClick = miLogMenuClick
+    end
+    object miLine25: TMenuItem
+      Caption = '-'
+    end
+    object miLogHide: TMenuItem
+      Tag = 2
+      Caption = 'Hide'
+      OnClick = miLogMenuClick
     end
   end
 end
