@@ -2111,7 +2111,7 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = gbFileSearch
           AnchorSideTop.Side = asrBottom
           Left = 10
-          Height = 178
+          Height = 198
           Top = 218
           Width = 473
           Anchors = [akTop, akLeft, akRight]
@@ -2209,6 +2209,18 @@ object frmOptions: TfrmOptions
             BorderSpacing.Top = 6
             Caption = '&F8/Del deletes to recycle bin (Shift=directly)'
             TabOrder = 5
+          end
+          object cbSkipFileOpError: TCheckBox
+            AnchorSideLeft.Control = cbDeleteToTrash
+            AnchorSideTop.Control = cbDeleteToTrash
+            AnchorSideTop.Side = asrBottom
+            Left = 14
+            Height = 19
+            Top = 153
+            Width = 315
+            BorderSpacing.Top = 6
+            Caption = 'Skip file operations errors and write them to log window'
+            TabOrder = 6
           end
         end
         object gbFileSearch: TGroupBox
