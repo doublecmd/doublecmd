@@ -347,34 +347,34 @@ begin
   FsContentGetSupportedFieldFlags := nil;
   FsContentSetValue := nil;
   FsContentGetDefaultView := nil;
-
 end;
 
 {CallBack functions}
-function MainProgressProc (PluginNr:integer;SourceName,TargetName:pchar;PercentDone:integer):integer;stdcall;
+function MainProgressProc(PluginNr: Integer; SourceName, TargetName: PChar; PercentDone: Integer): Integer; stdcall;
 begin
-  Result := 0;
-  DebugLN ('MainProgressProc ('+IntToStr(PluginNr)+','+SourceName+','+TargetName+','+inttostr(PercentDone)+')' ,inttostr(result));
+  Result:= 0;
+  DebugLN('MainProgressProc ('+IntToStr(PluginNr)+','+SourceName+','+TargetName+','+inttostr(PercentDone)+')' ,inttostr(result));
 
   with TWFXModule(WFXModuleList.Items[PluginNr]) do
   begin
+    if not Assigned(FFileOpDlg) then Exit;
     if FFileOpDlg.ModalResult = mrCancel then // Cancel operation
-      Result := 1;
+      Result:= 1;
   
     DebugLN('Percent1 = ' + IntToStr(PercentDone));
 
-    FFileOpDlg.iProgress1Pos := PercentDone;
+    FFileOpDlg.iProgress1Pos:= PercentDone;
 
     if (FLastFileSize > 0) and (PercentDone = 100) then
     begin
-      FPercent := FPercent + ((FLastFileSize * 100) / FFilesSize);
+      FPercent:= FPercent + ((FLastFileSize * 100) / FFilesSize);
       DebugLN('Percent2 = ' + IntToStr(Round(FPercent)));
 
-      FFileOpDlg.iProgress2Pos := Round(FPercent);
+      FFileOpDlg.iProgress2Pos:= Round(FPercent);
     end;
 
-    FFileOpDlg.sFileNameFrom := SysToUTF8(SourceName);
-    FFileOpDlg.sFileNameTo := SysToUTF8(TargetName);
+    FFileOpDlg.sFileNameFrom:= SysToUTF8(SourceName);
+    FFileOpDlg.sFileNameTo:= SysToUTF8(TargetName);
 
     if Assigned(CT) then
       CT.Synchronize(FFileOpDlg.UpdateDlg)
@@ -386,18 +386,18 @@ begin
   end; //with
 end;
 
-procedure MainLogProc (PluginNr, MsgType : Integer; LogString : PChar);stdcall;
+procedure MainLogProc(PluginNr, MsgType: Integer; LogString: PChar); stdcall;
 var
-  sMsg:String;
+  sMsg: String;
 Begin
-  Case MsgType of
-    msgtype_connect: sMsg :='msgtype_connect';
-    msgtype_disconnect: sMsg :='msgtype_disconnect';
-    msgtype_details: sMsg :='msgtype_details';
-    msgtype_transfercomplete: sMsg :='msgtype_transfercomplete';
-    msgtype_connectcomplete: sMsg :='msgtype_connectcomplete';
-    msgtype_importanterror: sMsg :='msgtype_importanterror';
-    msgtype_operationcomplete: sMsg :='msgtype_operationcomplete';
+  case MsgType of
+    msgtype_connect: sMsg:= 'msgtype_connect';
+    msgtype_disconnect: sMsg:= 'msgtype_disconnect';
+    msgtype_details: sMsg:= 'msgtype_details';
+    msgtype_transfercomplete: sMsg:= 'msgtype_transfercomplete';
+    msgtype_connectcomplete: sMsg:= 'msgtype_connectcomplete';
+    msgtype_importanterror: sMsg:= 'msgtype_importanterror';
+    msgtype_operationcomplete: sMsg:= 'msgtype_operationcomplete';
   end;
   // write log info
   if (log_vfs_op in gLogOptions) and (log_info in gLogOptions) then
@@ -406,83 +406,82 @@ Begin
   //DebugLN('MainLogProc ('+ sMsg + ',' + logString + ')');
 End;
 
-function MainRequestProc (PluginNr,RequestType:integer;CustomTitle,CustomText,ReturnedText:pchar;maxlen:integer):longbool;stdcall;
+function MainRequestProc(PluginNr, RequestType: Integer; CustomTitle, CustomText, ReturnedText: PChar; MaxLen: Integer): LongBool; stdcall;
 var
-  sReq:String;
-  ct:string;
-  sDir : String;
+  sReq,
+  sCustomTitle,
+  sReturnedText: String;
 begin
-  if CustomTitle='' then ct:='Double Commander' else ct:=CustomTitle;
-  Result:=True;
-Case RequestType of
- RT_Other:
-  Begin
-    sReq:='RT_Other';
-    ReturnedText:=pchar(InputBox (CT,CustomText,ReturnedText));
-    MaxLen:=Length (ReturnedText);
-  End;
- RT_UserName:
-  Begin
-    sReq:='RT_UserName';
-    ReturnedText:=pchar(InputBox (CT,'User name request',ReturnedText));
-    MaxLen:=Length (ReturnedText);
-  End;
- RT_Password:
-  Begin
-    sReq:='RT_Password';
-    ReturnedText:=pchar(InputBox (CT,'Password request',ReturnedText));
-    MaxLen:=Length (ReturnedText);
-  End;
- RT_Account:
-  Begin
-    sReq:='RT_Account';
-    ReturnedText:=pchar(InputBox (CT,'Account request',ReturnedText));
-    MaxLen:=Length (ReturnedText);
-  End;
- RT_UserNameFirewall:
-  Begin
-    sReq:='RT_UserNameFirewall';
-    ReturnedText:=pchar(InputBox (CT,'Firewall username request',ReturnedText));
-    MaxLen:=Length (ReturnedText);
-  End;
- RT_PasswordFirewall:
-  Begin
-    sReq:='RT_PasswordFirewall';
-    ReturnedText:=pchar(InputBox (CT,'Firewall password request',ReturnedText));
-    MaxLen:=Length (ReturnedText);
-  End;
- RT_TargetDir:
-  Begin
-    sReq:='RT_TargetDir';
-    SelectDirectory('Directory selection request','', sDir, False);
-    ReturnedText := PChar(sDir);
-    MaxLen:=Length (ReturnedText);
-  End;
- RT_URL:
-  Begin
-    sReq:='RT_URL';
-    ReturnedText:=PChar(InputBox (CT,'URL request',ReturnedText));
-    MaxLen:=Length (ReturnedText);
-  End;
- RT_MsgOK:
-  begin
-    sReq:='RT_MsgOK';
-    Result:=(MessageBoxFunction(CustomText, CustomTitle, MB_OK) = IDOK);
-  end;
- RT_MsgYesNo:
-  begin
-    sReq:='RT_MsgYesNo';
-    Result:=(MessageBoxFunction (CustomText, CustomTitle, MB_YESNO) = IDYES);
-  end;
- RT_MsgOKCancel:
-  begin
-    sReq:='RT_MsgOKCancel';
-    Result:=(MessageBoxFunction(CustomText, CustomTitle, MB_OKCANCEL) = IDOK);
-  end;
-end;
-  DebugLn('MainRequestProc ('+IntToStr(PluginNr)+','+sReq+','+CustomTitle+','+CustomText+','+ReturnedText+')',BoolToStr(result,true));
+  Result:= False;
+  if CustomTitle = '' then
+    sCustomTitle:= 'Double Commander'
+  else
+    sCustomTitle:= CustomTitle;
+  sReturnedText:= StrPas(ReturnedText);
 
-End;
+  case RequestType of
+    RT_Other:
+      begin
+        sReq:= 'RT_Other';
+        Result:= InputQuery(sCustomTitle, CustomText, sReturnedText);
+      end;
+    RT_UserName:
+      begin
+        sReq:= 'RT_UserName';
+        Result:= InputQuery(sCustomTitle, 'User name request', sReturnedText);
+      end;
+    RT_Password:
+      begin
+        sReq:= 'RT_Password';
+        Result:= InputQuery(sCustomTitle, 'Password request', sReturnedText);
+      end;
+    RT_Account:
+      begin
+        sReq:= 'RT_Account';
+        Result:= InputQuery(sCustomTitle, 'Account request', sReturnedText);
+      end;
+    RT_UserNameFirewall:
+      begin
+        sReq:= 'RT_UserNameFirewall';
+        Result:= InputQuery(sCustomTitle, 'Firewall username request', sReturnedText);
+      end;
+    RT_PasswordFirewall:
+      begin
+        sReq:= 'RT_PasswordFirewall';
+        Result:= InputQuery(sCustomTitle, 'Firewall password request', sReturnedText);
+      end;
+    RT_TargetDir:
+      begin
+        sReq:= 'RT_TargetDir';
+        Result:= SelectDirectory('Directory selection request', '', sReturnedText, False);
+      end;
+    RT_URL:
+      begin
+        sReq:= 'RT_URL';
+        Result:= InputQuery(sCustomTitle, 'URL request', sReturnedText);
+      end;
+    RT_MsgOK:
+      begin
+        sReq:= 'RT_MsgOK';
+        Result:= (MessageBoxFunction(CustomText, CustomTitle, MB_OK) = IDOK);
+      end;
+    RT_MsgYesNo:
+      begin
+        sReq:= 'RT_MsgYesNo';
+        Result:= (MessageBoxFunction (CustomText, CustomTitle, MB_YESNO) = IDYES);
+      end;
+    RT_MsgOKCancel:
+      begin
+        sReq:= 'RT_MsgOKCancel';
+        Result:= (MessageBoxFunction(CustomText, CustomTitle, MB_OKCANCEL) = IDOK);
+      end;
+  end;
+  if Result then
+    begin
+      StrPCopy(ReturnedText, Copy(sReturnedText, 1, MaxLen));
+    end;
+  DebugLn('MainRequestProc ('+IntToStr(PluginNr)+','+sReq+','+CustomTitle+','+CustomText+','+ReturnedText+')', BoolToStr(Result, True));
+end;
 {/CallBack functions}
 
 function TWFXModule.VFSInit(Data: PtrInt): Boolean;
@@ -801,10 +800,15 @@ begin
 end;
 
 function TWFXModule.VFSRun(const sName: String): Boolean;
+var
+  pcRemoteName: PChar;
 begin
   WFXStatusInfo(FFolder, FS_STATUS_START, FS_STATUS_OP_EXEC);
   if Assigned(FsExecuteFile) then
-    FsExecuteFile(0, PChar(UTF8ToSys(sName)), 'open');
+    begin
+      StrPCopy(pcRemoteName, FFolder + UTF8ToSys(sName));
+      FsExecuteFile(0, pcRemoteName, 'open');
+    end;
   WFXStatusInfo(FFolder, FS_STATUS_END, FS_STATUS_OP_EXEC);
 end;
 
