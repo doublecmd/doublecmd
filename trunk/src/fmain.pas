@@ -128,6 +128,11 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     lblCommandPath: TLabel;
+    miLogHide: TMenuItem;
+    miLine25: TMenuItem;
+    miLogSelectAll: TMenuItem;
+    miLogCopy: TMenuItem;
+    miLine24: TMenuItem;
     miTrayIconRestore: TMenuItem;
     miLine8: TMenuItem;
     miTrayIconExit: TMenuItem;
@@ -212,6 +217,7 @@ type
     pmDropMenu: TDropPopupMenu;
     pmTabMenu: TPopupMenu;
     pmTrayIconMenu: TPopupMenu;
+    pmLogMenu: TPopupMenu;
     seLogWindow: TSynEdit;
     btnLeftTargetEqualSource: TSpeedButton;
     btnRightTargetEqualSource: TSpeedButton;
@@ -318,6 +324,7 @@ type
     procedure btnLeftDirectoryHotlistClick(Sender: TObject);
     procedure btnRightClick(Sender: TObject);
     procedure btnRightDirectoryHotlistClick(Sender: TObject);
+    procedure miLogMenuClick(Sender: TObject);
     procedure miTrayIconExitClick(Sender: TObject);
     procedure miTrayIconRestoreClick(Sender: TObject);
     procedure PanelButtonClick(Button: TSpeedButton; SourceFrame: TFrameFilePanel);
@@ -654,6 +661,21 @@ begin
   p := Classes.Point(btnRightDirectoryHotlist.Left,btnRightDirectoryHotlist.Height);
   p := pnlRightTools.ClientToScreen(p);
   pmHotList.PopUp(P.x,P.y);
+end;
+
+procedure TfrmMain.miLogMenuClick(Sender: TObject);
+begin
+  case (Sender as TMenuItem).Tag of
+    0:
+      seLogWindow.CopyToClipboard;
+    1:
+      seLogWindow.SelectAll;
+    2:
+      begin
+        LogSplitter.Visible:= False;
+        seLogWindow.Visible:= False;
+      end;
+  end;
 end;
 
 procedure TfrmMain.miTrayIconExitClick(Sender: TObject);
