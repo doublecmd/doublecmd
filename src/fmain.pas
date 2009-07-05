@@ -406,6 +406,9 @@ type
     DrivesList : TList;
     MainSplitterHintWnd: THintWindow;
     HiddenToTray: Boolean;
+{$IFDEF LCLQT}
+    QtTrayIconHook: QSystemTrayIcon_hookH;
+{$ENDIF}
 
     // frost_asm begin
     // mainsplitter
@@ -414,6 +417,7 @@ type
     // lastWindowState
     lastWindowState:TWindowState;
     // frost_asm end
+
     procedure ColumnsMenuClick(Sender: TObject);
     function ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
     procedure AddSpecialButtons(dskPanel: TKASToolBar);
@@ -428,7 +432,6 @@ type
     function GetWindowState: TWindowState;
 
 {$IFDEF LCLQT}
-    QtTrayIconHook: QSystemTrayIcon_hookH;
     procedure QtSystemTrayIconActivated(reason: QSystemTrayIconActivationReason); cdecl;
     procedure HookTrayIcon;
     procedure UnHookTrayIcon;
@@ -2906,7 +2909,7 @@ begin
           until mbDirectoryExists(sPath);
 		  sCaption:= GetLastDir(ExcludeTrailingPathDelimiter(sPath));
 		end;
-        
+
       CreatePanel(AddPage(ANoteBook), fpsPanel, sPath);
 
       FrameFilePanel := TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]);

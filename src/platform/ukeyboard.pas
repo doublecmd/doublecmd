@@ -212,7 +212,7 @@ begin
         FillChar(XKeyEvent, SizeOf(XKeyEvent), 0);
         XKeyEvent._Type := KeyPress;
         XKeyEvent.Display := XDisplay;
-        XKeyEvent.Same_Screen := True;
+        XKeyEvent.Same_Screen := TBool(1); // True
         XKeyEvent.KeyCode := XKeyCode;
 
         case ShiftLevel of
