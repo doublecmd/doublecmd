@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains log write functions.
 
-    Copyright (C) 2008  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
 
     contributors:
 
@@ -29,6 +29,7 @@ unit uLog;
 {$mode objfpc}{$H+}
 
 interface
+
 uses
   Classes;
   
@@ -43,34 +44,49 @@ type
     FCriticalSection: TRTLCriticalSection;
     procedure LogWriteInTheThread;
   protected
-    FThread : TThread;
-    FMsg : String;
-    FLogMsgType : TLogMsgType;
+    FThread: TThread;
+    FMsg: String;
+    FLogMsgType: TLogMsgType;
+    FForce,
+    FLogFile: Boolean;
   public
-    constructor Create(Thread : TThread);
-    destructor Destroy;override;
-    procedure WriteLog(const sText:String; LogMsgType : TLogMsgType);
+    constructor Create(Thread: TThread);
+    destructor Destroy; override;
+    procedure WriteLog(const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean);
   end;
-  
-procedure logWrite(const sText:String; LogMsgType : TLogMsgType = lmtInfo);
-procedure logWrite(Thread : TThread; const sText:String; LogMsgType : TLogMsgType = lmtInfo);
+
+procedure ShowLogWindow(bShow: Boolean);
+procedure logWrite(const sText: String; LogMsgType: TLogMsgType = lmtInfo; bForce: Boolean = False; bLogFile: Boolean = True);
+procedure logWrite(Thread: TThread; const sText: String; LogMsgType: TLogMsgType = lmtInfo; bForce: Boolean = False; bLogFile: Boolean = True);
 
 implementation
 uses
   SysUtils, LCLProc, fMain, uGlobs, uFileProcs, uOSUtils;
 
-procedure logWrite(const sText:String; LogMsgType : TLogMsgType);
+procedure ShowLogWindow(bShow: Boolean);
+begin
+  if Assigned(fMain.frmMain) then
+  with fMain.frmMain do
+  begin
+    LogSplitter.Visible:= bShow;
+    seLogWindow.Visible:= bShow;
+  end;
+end;
+
+procedure logWrite(const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean);
 var
   hLogFile: Integer;
   LogMsgTypeObject: TObject absolute LogMsgType;
 begin
-  if Assigned(fMain.frmMain) and gLogWindow then // if write log to window
+  if (not gLogWindow) and bForce then
+    ShowLogWindow(True);
+  if Assigned(fMain.frmMain) and (gLogWindow or bForce) then // if write log to window
   with fMain.frmMain.seLogWindow do
     begin
-      CaretY := Lines.AddObject(sText, LogMsgTypeObject) + 1;
+      CaretY:= Lines.AddObject(sText, LogMsgTypeObject) + 1;
     end;
 
-  if gLogFile then // if write log to file
+  if gLogFile and bLogFile then // if write log to file
     try
       if mbFileExists(gLogFileName) then
         hLogFile:= mbFileOpen(gLogFileName, fmOpenReadWrite)
@@ -84,24 +100,24 @@ begin
 
       FileClose(hLogFile);
     except
-      on E:Exception do
+      on E: Exception do
         DebugLn('Error writing to log: ' + E.Message);
     end; // gLogWriteFile
 end;
 
-procedure logWrite(Thread: TThread; const sText: String; LogMsgType: TLogMsgType);
+procedure logWrite(Thread: TThread; const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean);
 var
-  LogWriteThread : TLogWriteThread;
+  LogWriteThread: TLogWriteThread;
 begin
   if Assigned (Thread) then
     try
-      LogWriteThread := TLogWriteThread.Create(Thread);
-      LogWriteThread.WriteLog(sText, LogMsgType);
+      LogWriteThread:= TLogWriteThread.Create(Thread);
+      LogWriteThread.WriteLog(sText, LogMsgType, bForce, bLogFile);
     finally
       LogWriteThread.Free;
     end
   else
-    logWrite(sText, LogMsgType);
+    logWrite(sText, LogMsgType, bForce, bLogFile);
 end;
 
 { TLogWriteThread }
@@ -115,21 +131,23 @@ end;
 
 constructor TLogWriteThread.Create(Thread: TThread);
 begin
-  FThread := Thread;
+  FThread:= Thread;
   InitCriticalSection(FCriticalSection);
 end;
 
 destructor TLogWriteThread.Destroy;
 begin
-  FMsg := '';
+  FMsg:= '';
   DoneCriticalsection(FCriticalSection);
   inherited Destroy;
 end;
 
-procedure TLogWriteThread.WriteLog(const sText: String; LogMsgType: TLogMsgType);
+procedure TLogWriteThread.WriteLog(const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean);
 begin
-  FMsg := sText;
-  FLogMsgType := LogMsgType;
+  FMsg:= sText;
+  FLogMsgType:= LogMsgType;
+  FForce:= bForce;
+  FLogFile:= bLogFile;
   FThread.Synchronize(FThread, @LogWriteInTheThread);
 end;
 
