@@ -671,10 +671,7 @@ begin
     1:
       seLogWindow.SelectAll;
     2:
-      begin
-        LogSplitter.Visible:= False;
-        seLogWindow.Visible:= False;
-      end;
+      ShowLogWindow(False);
   end;
 end;
 
