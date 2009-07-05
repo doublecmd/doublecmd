@@ -352,7 +352,7 @@ begin
     on EFCreateError do
       begin
         if gSkipFileOpError then
-          logWrite(Self, rsMsgErrECreate + ' - ' + sDst, lmtError, True)
+          logWrite(Self, rsMsgLogError + rsMsgErrECreate + ' - ' + sDst, lmtError, True)
         else
           if MsgBox(Self, rsMsgErrECreate + ' - ' + sDst, [msmbSkip, msmbCancel], msmbSkip, msmbCancel) = mmrCancel then
             Terminate;
@@ -360,7 +360,7 @@ begin
     on EFOpenError do
       begin
         if gSkipFileOpError then
-          logWrite(Self, rsMsgErrEOpen + ' - ' + sSrc, lmtError, True)
+          logWrite(Self, rsMsgLogError + rsMsgErrEOpen + ' - ' + sSrc, lmtError, True)
         else
           if MsgBox(Self, rsMsgErrEOpen + ' - ' + sSrc, [msmbSkip, msmbCancel], msmbSkip, msmbCancel) = mmrCancel then
             Terminate;
@@ -368,7 +368,7 @@ begin
     on EWriteError do
       begin
         if gSkipFileOpError then
-          logWrite(Self, rsMsgErrEWrite + ' - ' + sDst, lmtError, True)
+          logWrite(Self, rsMsgLogError + rsMsgErrEWrite + ' - ' + sDst, lmtError, True)
         else
           if MsgBox(Self, rsMsgErrEWrite + ' - ' + sDst, [msmbSkip, msmbCancel], msmbSkip, msmbCancel) = mmrCancel then
             Terminate;
