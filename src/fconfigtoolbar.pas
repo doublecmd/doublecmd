@@ -35,6 +35,7 @@ type
   { TfrmConfigToolBar }
 
   TfrmConfigToolBar = class(TForm)
+    btnInsertButton: TButton;
     lblButtonBar: TLabel;
     lblCommand: TLabel;
     btnCancel: TButton;
@@ -67,7 +68,7 @@ type
     lblSize: TLabel;
     lblStartPath: TLabel;
     lblToolTip: TLabel;
-    procedure btnAddSubBarClick(Sender: TObject);
+    procedure btnInsertButtonClick(Sender: TObject);
     procedure btnOpenBarFileClick(Sender: TObject);
     procedure cbCommandSelect(Sender: TObject);
     procedure cbFlatIconsChange(Sender: TObject);
@@ -77,21 +78,26 @@ type
     function ktbBarLoadButtonGlyph(sIconFileName: String; iIconSize: Integer;
       clBackColor: TColor): TBitmap;
     procedure ktbBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
-    procedure Save;
     procedure btnDeleteButtonClick(Sender: TObject);
     procedure btnOpenFileClick(Sender: TObject);
     procedure btnOpenIconFileClick(Sender: TObject);
+    procedure sbIconExampleClick(Sender: TObject);
+
   private
-    { private declarations }
+    LastToolButton : Integer;
+
     procedure FillActionLists;
+    procedure ClearControls;
+    procedure LoadButton(NumberOfButton: Integer);
+    procedure Save;
+    function  GetSelectedButton: Integer;
+    procedure InsertButton(InsertAt: Integer);
+
   public
-    { public declarations }
-  end; 
+    constructor Create(TheOwner: TComponent); override;
+  end;
 
   procedure ShowConfigToolbar(iButtonIndex : Integer = -1);
-
-var
-  LastToolButton, NewToolButton : Integer;
 
 implementation
 
@@ -103,8 +109,6 @@ procedure ShowConfigToolbar(iButtonIndex : Integer = -1);
 begin
   with TfrmConfigToolBar.Create(Application) do
   try
-    LastToolButton := -1;
-    NewToolButton := -1;
     ktbBar.InitBounds;
     ktbBar.Tag := iButtonIndex; // Selected button index
     ShowModal;
@@ -114,6 +118,12 @@ begin
 end;
 
 { TfrmConfigToolBar }
+
+constructor TfrmConfigToolBar.Create(TheOwner: TComponent);
+begin
+  LastToolButton := -1;
+  inherited;
+end;
 
 procedure TfrmConfigToolBar.FillActionLists;
 var
@@ -125,7 +135,7 @@ begin
     vActions := frmMain.actionLst.Actions[vNum] as TAction;
     cbCommand.Items.AddObject(vActions.Name, vActions);
   end;}
-  
+
   cbCommand.Items.AddStrings(Actions.CommandList);
   cbCommand.Sorted:=true;
 end;
@@ -158,8 +168,9 @@ begin
     begin
       if ktbBar.ButtonCount>0 then
         begin
-          ktbBar.Buttons[ktbBar.ButtonCount-1].Down:=true;
-          ktbBarToolButtonClick(Sender,ktbBar.ButtonCount-1);
+          ktbBar.Buttons[ktbBar.ButtonCount-1].Down := True;
+          LoadButton(ktbBar.ButtonCount-1);
+          LastToolButton := ktbBar.ButtonCount-1;
         end;
     end;
   Update;
@@ -191,9 +202,15 @@ begin
     end;
 end;
 
-procedure TfrmConfigToolBar.btnAddSubBarClick(Sender: TObject);
+procedure TfrmConfigToolBar.btnInsertButtonClick(Sender: TObject);
+var
+  SelectedIndex: Integer = 0;
 begin
-
+  SelectedIndex := GetSelectedButton;
+  if SelectedIndex = -1 then
+    InsertButton(ktbBar.ButtonCount)
+  else
+    InsertButton(SelectedIndex);
 end;
 
 procedure TfrmConfigToolBar.cbCommandSelect(Sender: TObject);
@@ -210,29 +227,33 @@ var
   IniBarFile: TIniFileEx;
 begin
   Save;
+
   gToolBarIconSize := StrToIntDef(kedtBarSize.Text, 16);
   gToolBarFlat := cbFlatIcons.Checked;
-  IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
-  ktbBar.SaveToIniFile(IniBarFile);
+
   frmMain.MainToolBar.ButtonGlyphSize := gToolBarIconSize;
-  frmMain.MainToolBar.DeleteAllToolButtons;
   frmMain.MainToolBar.FlatButtons := gToolBarFlat;
-  frmMain.MainToolBar.LoadFromIniFile(IniBarFile);
-  IniBarFile.Free;
+
+  IniBarFile := TIniFileEx.Create(gpIniDir + 'default.bar');
+  try
+    IniBarFile.CacheUpdates := True;
+    ktbBar.SaveToIniFile(IniBarFile);
+    IniBarFile.UpdateFile;
+
+    frmMain.MainToolBar.DeleteAllToolButtons;
+    frmMain.MainToolBar.LoadFromIniFile(IniBarFile);
+
+  finally
+    FreeAndNil(IniBarFile);
+  end;
+
   Close;
 end;
 
 (*Add new button on tool bar*)
 procedure TfrmConfigToolBar.btnAddButtonClick(Sender: TObject);
 begin
-  Save;
- // WriteLn();
-  ktbBar.AddX('','','','','');
-  NewToolButton := ktbBar.AddButton('', '', '', '');
-
-  ktbBar.Buttons[ktbBar.ButtonCount-1].Down:=true;
-  ktbBarToolButtonClick(Sender,ktbBar.ButtonCount-1);
-  //ShowMessage(IntToStr(NewToolButton));
+  InsertButton(ktbBar.ButtonCount);
 end;
 
 function TfrmConfigToolBar.ktbBarLoadButtonGlyph(sIconFileName: String;
@@ -244,22 +265,34 @@ end;
 (*Select button on panel*)
 procedure TfrmConfigToolBar.ktbBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
 begin
- Save;
-// cbCommand.Text := ktbBar.Commands[NumberOfButton];
-cbCommand.Text := ktbBar.GetButtonX(NumberOfButton,CmdX);
-// kedtIconFileName.Text := ktbBar.Icons[NumberOfButton];
- kedtIconFileName.Text := ktbBar.GetButtonX(NumberOfButton,ButtonX);
+  Save;
+  LoadButton(NumberOfButton);
+  LastToolButton := NumberOfButton;
+end;
 
-// kedtToolTip.Text := ktbBar.Buttons[NumberOfButton].Hint;
- kedtToolTip.Text := ktbBar.GetButtonX(NumberOfButton,MenuX);
+procedure TfrmConfigToolBar.ClearControls;
+begin
+  cbCommand.Text := '';
+  kedtIconFileName.Text := '';
+  kedtToolTip.Text := '';
+  sbIconExample.Glyph := nil;
+  kedtParams.Text:= '';
+  kedtStartPath.Text:= '';
+end;
 
- sbIconExample.Glyph := ktbBar.Buttons[NumberOfButton].Glyph;
- kedtParams.Text:= ktbBar.GetButtonX(NumberOfButton,ParamX);
- kedtStartPath.Text:= ktbBar.GetButtonX(NumberOfButton,PathX);
- 
- LastToolButton := NumberOfButton;
+procedure TfrmConfigToolBar.LoadButton(NumberOfButton: Integer);
+begin
+  // cbCommand.Text := ktbBar.Commands[NumberOfButton];
+  cbCommand.Text := ktbBar.GetButtonX(NumberOfButton,CmdX);
+  // kedtIconFileName.Text := ktbBar.Icons[NumberOfButton];
+  kedtIconFileName.Text := ktbBar.GetButtonX(NumberOfButton,ButtonX);
 
+  // kedtToolTip.Text := ktbBar.Buttons[NumberOfButton].Hint;
+  kedtToolTip.Text := ktbBar.GetButtonX(NumberOfButton,MenuX);
 
+  sbIconExample.Glyph := ktbBar.Buttons[NumberOfButton].Glyph;
+  kedtParams.Text:= ktbBar.GetButtonX(NumberOfButton,ParamX);
+  kedtStartPath.Text:= ktbBar.GetButtonX(NumberOfButton,PathX);
 end;
 
 (*Save current button*)
@@ -274,26 +307,7 @@ begin
        ktbBar.SetButtonX(LastToolButton,ButtonX,kedtIconFileName.Text);
        ktbBar.SetButtonX(LastToolButton,MenuX,kedtToolTip.Text);
        //---------------------
-//       ktbBar.Commands[LastToolButton] := cbCommand.Text;
-//       ktbBar.Icons[LastToolButton] :=  kedtIconFileName.Text;
-//       ktbBar.Buttons[LastToolButton].Hint := kedtToolTip.Text;
-      end
-   else   (*If only Append clicked*)
-      if NewToolButton >= 0 then
-         begin
-            //ShowMessage(IntToStr(NewToolButton));
-//            ktbBar.Commands[NewToolButton] := cbCommand.Text;
-//            ktbBar.Icons[NewToolButton] :=  kedtIconFileName.Text;
-//            ktbBar.Buttons[NewToolButton].Hint := kedtToolTip.Text;
-           //---------------------
-            ktbBar.SetButtonX(NewToolButton,CmdX,cbCommand.Text);
-            ktbBar.SetButtonX(NewToolButton,ButtonX,kedtIconFileName.Text);
-            ktbBar.SetButtonX(NewToolButton,MenuX,kedtToolTip.Text);
-            ktbBar.SetButtonX(NewToolButton,ParamX,kedtParams.Text);
-            ktbBar.SetButtonX(NewToolButton,PathX,kedtStartPath.Text);
-           //---------------------
-
-         end;
+      end;
 end;
 
 (*Remove current button*)
@@ -302,16 +316,19 @@ begin
    if (LastToolButton >= 0) and (ktbBar.ButtonCount > 0) then
       begin
         ktbBar.RemoveButton(LastToolButton);
-        cbCommand.Text := '';
-        kedtIconFileName.Text := '';
-        kedtToolTip.Text := '';
-        LastToolButton := -1;
-        NewToolButton := -1;
+        ClearControls;
+
         if ktbBar.ButtonCount>0 then
         begin
-          ktbBar.Buttons[ktbBar.ButtonCount-1].Down:=true;
-          ktbBarToolButtonClick(Sender,ktbBar.ButtonCount-1);
-        end;
+          // Select next button or the last one.
+          if (LastToolButton >= ktbBar.ButtonCount) then
+            LastToolButton := ktbBar.ButtonCount - 1;
+
+          ktbBar.Buttons[LastToolButton].Down := True;
+          LoadButton(LastToolButton);
+        end
+        else
+          LastToolButton := -1;
       end;
 end;
 
@@ -336,7 +353,46 @@ begin
       sbIconExample.Glyph := Bitmap;
       if Assigned(Bitmap) then
         FreeAndNil(Bitmap);
+
+      // Refresh icon on the toolbar.
+      ktbBar.SetButtonX(LastToolButton, ButtonX, kedtIconFileName.Text);
     end;
+end;
+
+procedure TfrmConfigToolBar.sbIconExampleClick(Sender: TObject);
+begin
+  btnOpenIconFileClick(Sender);
+end;
+
+function TfrmConfigToolBar.GetSelectedButton: Integer;
+begin
+  for Result := 0 to ktbBar.ButtonCount - 1 do
+    if ktbBar.Buttons[Result].Down then
+    begin
+      Exit;
+    end;
+  Result := -1;
+end;
+
+procedure TfrmConfigToolBar.InsertButton(InsertAt: Integer);
+begin
+  Save;
+  ClearControls;
+
+  if (InsertAt >= 0) and (InsertAt < ktbBar.ButtonCount) then
+  begin
+    ktbBar.InsertX(InsertAt, '','','','','');
+    LastToolButton := ktbBar.InsertButton(InsertAt, '', '', '', '');
+    ktbBar.Buttons[LastToolButton].Down := True;
+  end
+  else if (InsertAt = ktbBar.ButtonCount) then // insert at the end
+  begin
+    ktbBar.AddX('','','','','');
+    LastToolButton := ktbBar.AddButton('', '', '', '');
+    ktbBar.Buttons[LastToolButton].Down := True;
+  end
+  else
+    LastToolButton := -1;
 end;
 
 initialization

@@ -96,8 +96,10 @@ type
     procedure InitBounds;
     
     function AddDivider: Integer;
-    function AddX(ButtonX, CmdX, ParamX, PathX, MenuX:string ):integer;
+    function AddX(ButtonX, CmdX, ParamX, PathX, MenuX : String): Integer;
     function AddButton(sCaption, Cmd, BtnHint, IconPath : String) : Integer;
+    function InsertX(InsertAt: Integer; ButtonX, CmdX, ParamX, PathX, MenuX : String): Integer;
+    function InsertButton(InsertAt: Integer; sCaption, Cmd, BtnHint, IconPath : String) : Integer;
     function GetButtonX(Index:integer; What:TInfor):string;
 
     procedure SetButtonX(Index:integer; What:Tinfor;Value: string);
@@ -180,16 +182,6 @@ begin
 
   FPositionX := FTotalBevelWidth;
   FPositionY := FTotalBevelWidth;
-end;
-
-function TKAStoolBar.AddX(ButtonX, CmdX, ParamX, PathX, MenuX: string ): integer;
-begin
-Result:=XButtons.Add(TKButton.Create);
-TKButton(XButtons[Result]).CmdX:=CmdX;
-TKButton(XButtons[Result]).ButtonX:=ButtonX;
-TKButton(XButtons[Result]).ParamX:=ParamX;
-TKButton(XButtons[Result]).PathX:=PathX;
-TKButton(XButtons[Result]).MenuX:=MenuX;
 end;
 
 function TKAStoolBar.GetButtonX(Index: integer; What: TInfor): string;
@@ -598,18 +590,54 @@ begin
   Result:= ToolDivider.Tag;
 end;
 
+function TKAStoolBar.AddX(ButtonX, CmdX, ParamX, PathX, MenuX : String ) : Integer;
+begin
+  InsertX(XButtons.Count, ButtonX, CmdX, ParamX, PathX, MenuX);
+end;
+
 function TKAStoolBar.AddButton(sCaption, Cmd, BtnHint, IconPath : String) : Integer;
+begin
+  Result := InsertButton(FButtonsList.Count, sCaption, Cmd, BtnHint, IconPath);
+end;
+
+function TKAStoolBar.InsertX(InsertAt: Integer; ButtonX, CmdX, ParamX, PathX, MenuX : String): Integer;
+begin
+  if InsertAt < 0 then
+    InsertAt := 0;
+  if InsertAt > XButtons.Count then
+    InsertAt := XButtons.Count;
+
+  XButtons.Insert(InsertAt, TKButton.Create);
+
+  TKButton(XButtons[InsertAt]).CmdX:=CmdX;
+  TKButton(XButtons[InsertAt]).ButtonX:=ButtonX;
+  TKButton(XButtons[InsertAt]).ParamX:=ParamX;
+  TKButton(XButtons[InsertAt]).PathX:=PathX;
+  TKButton(XButtons[InsertAt]).MenuX:=MenuX;
+
+  Result := InsertAt;
+end;
+
+function TKAStoolBar.InsertButton(InsertAt: Integer; sCaption, Cmd, BtnHint, IconPath : String) : Integer;
 var
   ToolButton: TSpeedButton;
   I:Integer;
   Bitmap: TBitmap = nil;
 begin
+  if InsertAt < 0 then
+    InsertAt := 0;
+  if InsertAt > XButtons.Count then
+    InsertAt := FButtonsList.Count;
+
   // lock on resize handler
   FLockResize := True;
 
   ToolButton:= TSpeedButton.Create(Self);
+
+  FButtonsList.Insert(InsertAt, ToolButton);
+
   //Include(ToolButton.ComponentStyle, csSubComponent);
-  ToolButton.Parent:=Self;
+  ToolButton.Parent := Self;
   ToolButton.Visible := True;
 
   ToolButton.Height := FButtonSize;
@@ -664,16 +692,23 @@ begin
 
   FPositionX:= FPositionX + ToolButton.Width;
 
-  ToolButton.Tag := FButtonsList.Add(ToolButton);
-  
   // this is temporarly
   if FDiskPanel then
-    AddX(sCaption,Cmd,'','','');  
-  
+    InsertX(InsertAt, sCaption,Cmd, '', '', '');
+
   // unlock on resize handler
   FLockResize := False;
-  
-  Result := ToolButton.Tag;
+
+  UpdateButtonsTag;
+
+  // Recalculate positions of buttons if a new button was inserted in the middle.
+  if InsertAt < ButtonCount - 1 then
+  begin
+    FMustResize := True;
+    Resize;
+  end;
+
+  Result := InsertAt;
 end;
 
 procedure TKAStoolBar.RemoveButton(Index: Integer);
