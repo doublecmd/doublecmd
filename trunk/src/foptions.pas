@@ -123,6 +123,7 @@ type
     cbTabsActivateOnClick: TCheckBox;
     cbDeleteToTrash: TCheckBox;
     cbAlwaysShowTrayIcon: TCheckBox;
+    cbSkipFileOpError: TCheckBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
@@ -2077,6 +2078,7 @@ begin
 
   { File operations }
   edtCopyBufferSize.Text:= IntToStr(gCopyBlockSize div 1024);
+  cbSkipFileOpError.Checked:= gSkipFileOpError;
   cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
   rbUseMmapInSearch.Checked := gUseMmapInSearch;
   seWipePassNumber.Value:= gWipePassNumber;
@@ -2238,6 +2240,7 @@ begin
 
   { File operations }
   gCopyBlockSize := StrToIntDef(edtCopyBufferSize.Text, gCopyBlockSize) * 1024;
+  gSkipFileOpError:= cbSkipFileOpError.Checked;
   gDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
   gUseMmapInSearch := rbUseMmapInSearch.Checked;
   gWipePassNumber:= seWipePassNumber.Value;

@@ -350,14 +350,29 @@ begin
   Result:= FileCopyAttr(sSrc, sDst, bDropReadOnlyFlag);
   except
     on EFCreateError do
-      if MsgBox(Self, rsMsgErrECreate, [msmbSkip, msmbCancel], msmbSkip, msmbCancel) = mmrCancel then
-        Terminate;
+      begin
+        if gSkipFileOpError then
+          logWrite(Self, rsMsgErrECreate + ' - ' + sDst, lmtError, True)
+        else
+          if MsgBox(Self, rsMsgErrECreate + ' - ' + sDst, [msmbSkip, msmbCancel], msmbSkip, msmbCancel) = mmrCancel then
+            Terminate;
+      end;
     on EFOpenError do
-      if MsgBox(Self, rsMsgErrEOpen, [msmbSkip, msmbCancel], msmbSkip, msmbCancel) = mmrCancel then
-        Terminate;
+      begin
+        if gSkipFileOpError then
+          logWrite(Self, rsMsgErrEOpen + ' - ' + sDst, lmtError, True)
+        else
+          if MsgBox(Self, rsMsgErrEOpen + ' - ' + sDst, [msmbSkip, msmbCancel], msmbSkip, msmbCancel) = mmrCancel then
+            Terminate;
+      end;
     on EWriteError do
-      if MsgBox(Self, rsMsgErrEWrite, [msmbSkip, msmbCancel], msmbSkip, msmbCancel) = mmrCancel then
-        Terminate;
+      begin
+        if gSkipFileOpError then
+          logWrite(Self, rsMsgErrEWrite + ' - ' + sDst, lmtError, True)
+        else
+          if MsgBox(Self, rsMsgErrEWrite + ' - ' + sDst, [msmbSkip, msmbCancel], msmbSkip, msmbCancel) = mmrCancel then
+            Terminate;
+      end;
   end;
 end;
 

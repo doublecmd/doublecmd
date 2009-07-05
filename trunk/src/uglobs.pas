@@ -152,6 +152,7 @@ var
   { File operations page }
 
   gCopyBlockSize : Integer;
+  gSkipFileOpError: Boolean;
   gDropReadOnlyFlag : Boolean = True;
   gWipePassNumber: Integer;
   gProcessComments: Boolean;
@@ -536,6 +537,7 @@ begin
   gUseInvertedSelection:= gIni.ReadBool('Colors', 'UseInvertedSelection', false);
   { File operations }
   gCopyBlockSize := gIni.ReadInteger('Configuration', 'CopyBlockSize', 65536);
+  gSkipFileOpError:= gIni.ReadBool('Configuration', 'SkipFileOpError', False);
   gDropReadOnlyFlag := gIni.ReadBool('Configuration', 'DropReadOnlyFlag', True);
   gUseMmapInSearch := gIni.ReadBool('Configuration', 'UseMmapInSearch', False);
   gWipePassNumber:= gIni.ReadInteger('Configuration', 'WipePassNumber', 1);
@@ -731,6 +733,7 @@ begin
 
   { File operations }
   gIni.WriteInteger('Configuration', 'CopyBlockSize', gCopyBlockSize);
+  gIni.WriteBool('Configuration', 'SkipFileOpError', gSkipFileOpError);
   gIni.WriteBool('Configuration', 'DropReadOnlyFlag', gDropReadOnlyFlag);
   gIni.WriteBool('Configuration', 'UseMmapInSearch', gUseMmapInSearch);
   gIni.WriteInteger('Configuration', 'WipePassNumber', gWipePassNumber);

@@ -85,7 +85,7 @@ begin
   if Assigned(fMain.frmMain) then
   with fMain.frmMain do
   begin
-    if (not gLogWindow and seLogWindow.Visible) and bForce then
+    if (not (gLogWindow and seLogWindow.Visible)) and bForce then
       ShowLogWindow(True);
 
     bLock:= not miLogHide.Enabled;
@@ -132,7 +132,7 @@ end;
 procedure TLogWriteThread.LogWriteInTheThread;
 begin
    EnterCriticalsection(FCriticalSection);
-   logWrite(FMsg, FLogMsgType);
+   logWrite(FMsg, FLogMsgType, FForce, FLogFile);
    LeaveCriticalsection(FCriticalSection);
 end;
 
