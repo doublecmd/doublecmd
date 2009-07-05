@@ -1,6 +1,6 @@
 object frmConfigToolBar: TfrmConfigToolBar
   Left = 276
-  Height = 285
+  Height = 329
   Top = 256
   Width = 605
   HelpContext = 270
@@ -9,9 +9,9 @@ object frmConfigToolBar: TfrmConfigToolBar
   BorderStyle = bsDialog
   Caption = 'Change button bar'
   ChildSizing.TopBottomSpacing = 8
-  ClientHeight = 285
+  ClientHeight = 329
   ClientWidth = 605
-  Constraints.MaxHeight = 320
+  Constraints.MaxHeight = 340
   Constraints.MaxWidth = 605
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
@@ -19,12 +19,11 @@ object frmConfigToolBar: TfrmConfigToolBar
   Position = poScreenCenter
   LCLVersion = '0.9.27'
   object lblButtonBar: TLabel
-    AnchorSideTop.Control = stToolBarFileName
     AnchorSideTop.Side = asrCenter
     Left = 8
-    Height = 19
+    Height = 15
     Top = 11
-    Width = 84
+    Width = 75
     Caption = '&Button bar:'
     ParentColor = False
   end
@@ -32,9 +31,9 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideTop.Control = cbCommand
     AnchorSideTop.Side = asrCenter
     Left = 8
-    Height = 19
-    Top = 120
-    Width = 85
+    Height = 15
+    Top = 142
+    Width = 73
     Caption = '&Command:'
     FocusControl = cbCommand
     ParentColor = False
@@ -45,10 +44,11 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Height = 2
-    Top = 106
+    Left = 0
+    Height = 1
+    Top = 130
     Width = 605
-    Anchors = [akTop, akLeft, akRight]
+    Anchors = [akLeft, akRight]
     AutoSize = False
     BorderSpacing.Top = 4
     Color = clWindowFrame
@@ -59,9 +59,9 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideTop.Control = kedtParams
     AnchorSideTop.Side = asrCenter
     Left = 8
-    Height = 19
-    Top = 151
-    Width = 93
+    Height = 15
+    Top = 172
+    Width = 80
     Caption = '&Parameters:'
     FocusControl = kedtParams
     ParentColor = False
@@ -70,9 +70,9 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideTop.Control = kedtStartPath
     AnchorSideTop.Side = asrCenter
     Left = 8
-    Height = 19
-    Top = 177
-    Width = 78
+    Height = 15
+    Top = 197
+    Width = 71
     Caption = '&Start path:'
     FocusControl = kedtStartPath
     ParentColor = False
@@ -81,9 +81,9 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideTop.Control = kedtIconFileName
     AnchorSideTop.Side = asrCenter
     Left = 8
-    Height = 19
-    Top = 203
-    Width = 68
+    Height = 15
+    Top = 222
+    Width = 60
     Caption = 'Icon &file:'
     FocusControl = kedtIconFileName
     ParentColor = False
@@ -92,9 +92,9 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideTop.Control = sbIconExample
     AnchorSideTop.Side = asrCenter
     Left = 8
-    Height = 41
-    Top = 228
-    Width = 27
+    Height = 15
+    Top = 258
+    Width = 34
     Caption = 'Ic&on:'
     ParentColor = False
     WordWrap = True
@@ -103,9 +103,9 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideTop.Control = kedtToolTip
     AnchorSideTop.Side = asrCenter
     Left = 8
-    Height = 19
-    Top = 274
-    Width = 60
+    Height = 15
+    Top = 294
+    Width = 52
     Caption = '&Tooltip:'
     FocusControl = kedtToolTip
     ParentColor = False
@@ -115,16 +115,15 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideTop.Side = asrBottom
     Left = 133
     Height = 38
-    Top = 229
+    Top = 246
     Width = 38
     BorderSpacing.Top = 6
     Color = clBtnFace
     NumGlyphs = 0
+    OnClick = sbIconExampleClick
   end
   object btnOpenBarFile: TButton
-    AnchorSideLeft.Control = stToolBarFileName
     AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = stToolBarFileName
     AnchorSideTop.Side = asrCenter
     Left = 438
     Height = 21
@@ -136,11 +135,12 @@ object frmConfigToolBar: TfrmConfigToolBar
     TabOrder = 0
   end
   object btnDeleteButton: TButton
-    AnchorSideTop.Control = btnAddButton
+    AnchorSideLeft.Control = btnInsertButton
+    AnchorSideTop.Control = btnInsertButton
     AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 28
-    Top = 66
+    Top = 94
     Width = 77
     BorderSpacing.Top = 4
     BorderSpacing.InnerBorder = 4
@@ -153,7 +153,7 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 28
-    Top = 34
+    Top = 30
     Width = 77
     BorderSpacing.Top = 4
     BorderSpacing.InnerBorder = 4
@@ -165,13 +165,12 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideTop.Control = lblLabel
     AnchorSideTop.Side = asrBottom
     Left = 133
-    Height = 30
-    Top = 114
+    Height = 25
+    Top = 137
     Width = 298
-    AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
     BorderSpacing.Top = 6
     DropDownCount = 20
-    MaxLength = 0
+    ItemHeight = 0
     OnSelect = cbCommandSelect
     TabOrder = 4
   end
@@ -181,8 +180,8 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideBottom.Control = cbCommand
     AnchorSideBottom.Side = asrBottom
     Left = 432
-    Height = 30
-    Top = 114
+    Height = 25
+    Top = 137
     Width = 26
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.InnerBorder = 4
@@ -196,7 +195,7 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideTop.Side = asrBottom
     Left = 468
     Height = 28
-    Top = 114
+    Top = 137
     Width = 109
     BorderSpacing.Top = 6
     BorderSpacing.Bottom = 21
@@ -208,8 +207,8 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideTop.Control = cbCommand
     AnchorSideTop.Side = asrBottom
     Left = 133
-    Height = 21
-    Top = 150
+    Height = 22
+    Top = 168
     Width = 298
     BorderSpacing.Top = 6
     MaxLength = 259
@@ -219,8 +218,8 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideTop.Control = lblParameters
     AnchorSideTop.Side = asrBottom
     Left = 133
-    Height = 21
-    Top = 176
+    Height = 22
+    Top = 193
     Width = 298
     BorderSpacing.Top = 6
     MaxLength = 259
@@ -230,8 +229,8 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideTop.Control = lblStartPath
     AnchorSideTop.Side = asrBottom
     Left = 133
-    Height = 21
-    Top = 202
+    Height = 22
+    Top = 218
     Width = 298
     BorderSpacing.Top = 6
     MaxLength = 259
@@ -244,7 +243,7 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideTop.Side = asrCenter
     Left = 431
     Height = 21
-    Top = 202
+    Top = 219
     Width = 26
     BorderSpacing.InnerBorder = 4
     Caption = '>>'
@@ -255,18 +254,20 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideTop.Control = sbIconExample
     AnchorSideTop.Side = asrBottom
     Left = 133
-    Height = 21
-    Top = 273
+    Height = 22
+    Top = 290
     Width = 298
     BorderSpacing.Top = 6
     MaxLength = 259
     TabOrder = 11
   end
   object btnOK: TButton
+    AnchorSideBottom.Control = btnCancel
     Left = 468
     Height = 32
-    Top = 169
+    Top = 217
     Width = 109
+    Anchors = [akLeft, akBottom]
     BorderSpacing.InnerBorder = 4
     Caption = 'OK'
     Default = True
@@ -276,10 +277,12 @@ object frmConfigToolBar: TfrmConfigToolBar
   object btnCancel: TButton
     AnchorSideTop.Control = btnOK
     AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = btnHelp
     Left = 468
     Height = 32
-    Top = 205
+    Top = 253
     Width = 109
+    Anchors = [akLeft, akBottom]
     BorderSpacing.Top = 4
     BorderSpacing.InnerBorder = 4
     Cancel = True
@@ -290,40 +293,46 @@ object frmConfigToolBar: TfrmConfigToolBar
   object btnHelp: TButton
     AnchorSideTop.Control = btnCancel
     AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
     Left = 468
     Height = 32
-    Top = 241
+    Top = 289
     Width = 109
+    Anchors = [akLeft, akBottom]
     BorderSpacing.Top = 4
     BorderSpacing.InnerBorder = 4
     Caption = '&Help'
     TabOrder = 13
   end
   object gbGroupBox: TGroupBox
+    AnchorSideBottom.Control = lblLabel
     Left = 468
-    Height = 94
-    Top = 8
-    Width = 121
+    Height = 75
+    Top = 10
+    Width = 119
+    Anchors = [akTop]
     AutoSize = True
     Caption = 'Appearance'
     ChildSizing.LeftRightSpacing = 8
-    ClientHeight = 74
-    ClientWidth = 117
+    ClientHeight = 59
+    ClientWidth = 115
     TabOrder = 3
     object lblSize: TLabel
       AnchorSideTop.Control = kedtBarSize
       AnchorSideTop.Side = asrCenter
       Left = 8
-      Height = 19
-      Top = 1
-      Width = 45
+      Height = 15
+      Top = 4
+      Width = 39
       Caption = 'S&ize:'
       FocusControl = kedtBarSize
       ParentColor = False
     end
     object kedtBarSize: TKASEdit
       Left = 64
-      Height = 21
+      Height = 22
+      Top = 0
       Width = 43
       TabOrder = 0
     end
@@ -331,9 +340,9 @@ object frmConfigToolBar: TfrmConfigToolBar
       AnchorSideTop.Control = lblSize
       AnchorSideTop.Side = asrBottom
       Left = 8
-      Height = 22
-      Top = 28
-      Width = 89
+      Height = 21
+      Top = 27
+      Width = 78
       BorderSpacing.Top = 8
       Caption = 'F&lat icons'
       Checked = True
@@ -345,9 +354,9 @@ object frmConfigToolBar: TfrmConfigToolBar
       AnchorSideTop.Control = cbFlatIcons
       AnchorSideTop.Side = asrBottom
       Left = 8
-      Height = 22
-      Top = 52
-      Width = 101
+      Height = 21
+      Top = 50
+      Width = 90
       BorderSpacing.Top = 2
       Caption = 'S&mall icons'
       Enabled = False
@@ -355,19 +364,23 @@ object frmConfigToolBar: TfrmConfigToolBar
     end
   end
   object tbScrollBox: TScrollBox
-    AnchorSideTop.Control = stToolBarFileName
     AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = lblLabel
     Left = 133
-    Height = 50
+    Height = 89
     Top = 33
     Width = 330
-    AutoScroll = True
-    BorderSpacing.Top = 2
+    Anchors = [akTop, akBottom]
+    BorderSpacing.Bottom = 8
+    ClientHeight = 87
+    ClientWidth = 328
     TabOrder = 15
     object ktbBar: TKAStoolBar
-      Left = 1
-      Height = 24
-      Width = 296
+      Left = 0
+      Height = 20
+      Top = 0
+      Width = 328
+      Align = alTop
       BevelOuter = bvNone
       TabOrder = 0
       OnToolButtonClick = ktbBarToolButtonClick
@@ -384,12 +397,26 @@ object frmConfigToolBar: TfrmConfigToolBar
     Width = 305
     Alignment = taLeftJustify
     BevelInner = bvLowered
+    ParentShowHint = False
     ShowHint = True
     TabOrder = 16
   end
+  object btnInsertButton: TButton
+    AnchorSideLeft.Control = btnAddButton
+    AnchorSideTop.Control = btnAddButton
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 28
+    Top = 62
+    Width = 77
+    BorderSpacing.Top = 4
+    Caption = 'Insert'
+    OnClick = btnInsertButtonClick
+    TabOrder = 17
+  end
   object OpenDialog: TOpenDialog
     FilterIndex = 0
-    left = 496
-    top = 120
+    left = 552
+    top = 104
   end
 end
