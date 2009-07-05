@@ -433,7 +433,7 @@ begin
     RT_Password:
       begin
         sReq:= 'RT_Password';
-        Result:= InputQuery(sCustomTitle, 'Password request', sReturnedText);
+        Result:= InputQuery(sCustomTitle, 'Password request', True, sReturnedText);
       end;
     RT_Account:
       begin
@@ -448,7 +448,7 @@ begin
     RT_PasswordFirewall:
       begin
         sReq:= 'RT_PasswordFirewall';
-        Result:= InputQuery(sCustomTitle, 'Firewall password request', sReturnedText);
+        Result:= InputQuery(sCustomTitle, 'Firewall password request', True, sReturnedText);
       end;
     RT_TargetDir:
       begin
@@ -478,7 +478,8 @@ begin
   end;
   if Result then
     begin
-      StrPCopy(ReturnedText, Copy(sReturnedText, 1, MaxLen));
+      if ReturnedText <> nil then
+        StrPCopy(ReturnedText, Copy(sReturnedText, 1, MaxLen));
     end;
   DebugLn('MainRequestProc ('+IntToStr(PluginNr)+','+sReq+','+CustomTitle+','+CustomText+','+ReturnedText+')', BoolToStr(Result, True));
 end;
