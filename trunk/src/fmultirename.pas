@@ -252,8 +252,12 @@ begin
     //use mask
     sTmpName:=sReplace(edName.Text,c);
     sTmpExt:=sReplace(edExt.Text,c);
+
     //join
-    sTmpAll:=sTmpName+'.'+sTmpExt;
+    sTmpAll := sTmpName;
+    if sTmpExt <> '' then
+      sTmpAll := sTmpAll + '.' + sTmpExt;
+
     //find and replace
     if cbRegExp.Checked and (edFind.Text <> '') then
       try
@@ -281,7 +285,18 @@ begin
     //save new name file
     lsvwFile.Items[c].SubItems.Strings[0]:=sTmpAll;
   end;
+
   btnRename.Enabled:= not bError;
+  if bError then
+  begin
+    edFind.Color := clRed;
+    edFind.Font.Color := clWhite;
+  end
+  else
+  begin
+    edFind.Color := clWindow;
+    edFind.Font.Color := clWindowText;
+  end;
 end;
 
 procedure TfrmMultiRename.cmbxFontChange(Sender: TObject);
