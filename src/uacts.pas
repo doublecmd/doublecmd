@@ -488,16 +488,14 @@ begin
   begin
     if NoteBook.Page[PageIndex].Tag <> 1 then  // lock
       begin
-        if (NoteBook.Page[PageIndex].Tag = 0) and (tb_show_asterisk_for_locked in gDirTabOptions) then
-          NoteBook.Page[PageIndex].Caption:= '*'+NoteBook.Page[PageIndex].Caption;
         NoteBook.Page[PageIndex].Tag:= 1;
       end
     else // unlock
       begin
         NoteBook.Page[PageIndex].Tag:= 0;
-        if (tb_show_asterisk_for_locked in gDirTabOptions) then
-          NoteBook.Page[PageIndex].Caption:= Copy(NoteBook.Page[PageIndex].Caption, 2, Length(NoteBook.Page[PageIndex].Caption)-1);
       end;
+
+    UpdateTabLockedState(NoteBook.Page[PageIndex]);
     ActiveFrame.SetFocus;
   end;
 end;
@@ -509,17 +507,14 @@ begin
     if NoteBook.Page[PageIndex].Tag <> 2 then // lock
       begin
         NoteBook.Page[PageIndex].Hint:= ActiveFrame.ActiveDir;
-        if (Notebook.Page[PageIndex].Tag = 0) and (tb_show_asterisk_for_locked in gDirTabOptions) then
-          Notebook.Page[PageIndex].Caption:= '*'+Notebook.Page[PageIndex].Caption;
         Notebook.Page[PageIndex].Tag:= 2;
       end
     else  // unlock
       begin
-        Notebook.Page[PageIndex].Tag:= 0;
         Notebook.Page[PageIndex].Hint:= '';
-        if (tb_show_asterisk_for_locked in gDirTabOptions) then
-          Notebook.Page[PageIndex].Caption:= Copy(Notebook.Page[PageIndex].Caption, 2, Length(Notebook.Page[PageIndex].Caption)-1);
+        Notebook.Page[PageIndex].Tag:= 0;
       end;
+    UpdateTabLockedState(NoteBook.Page[PageIndex]);
     ActiveFrame.SetFocus;
   end;
 end;

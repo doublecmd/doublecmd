@@ -731,7 +731,7 @@ begin
   if NewDirectory <> '' then
   begin
     if Assigned(FOnBeforeChangeDirectory) then
-      if not FOnBeforeChangeDirectory(fOwner, ActiveDir) then
+      if not FOnBeforeChangeDirectory(fOwner, NewDirectory) then
         Exit;
 
     case fPanelMode of
