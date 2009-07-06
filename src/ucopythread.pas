@@ -56,6 +56,10 @@ begin
   bSkipFreeSpaceCheck:= False;
   bSkipAllBigFiles:= False;
 
+  // Create destination path if it doesn't exist.
+  if not mbDirectoryExists(sDstPath) then
+    ForceDirectory(sDstPath);
+
   for xIndex:=0 to NewFileList.Count-1 do // copy
   begin
     if Terminated then

@@ -43,6 +43,8 @@ const
 type
   TOpenStringArray = array of String;
 
+  TPathType = ( ptNone, ptRelative, ptAbsolute );
+
 function GetCmdDirFromEnvVar(sPath : String) : String;
 function SetCmdDirAsEnvVar(sPath : String) : String;
 function GetTempFolder: String;
@@ -83,6 +85,13 @@ function GetDirs (DirName : String; var Dirs : TStringList) : Longint;
 }
 function GetAbsoluteFileName(sPath, sRelativeFileName : String) : String;
 {en
+   Checks if a path to a directory or file is absolute or relative.
+   @returns(ptNone if a path is just a directory or file name (MyDir)
+            ptRelative if a path is relative                  (MyDir/MySubDir)
+            ptAbsolute if a path is absolute)                 (/root/MyDir)
+}
+function GetPathType(sPath : String): TPathType;
+{en
    Get file name without path and extension
    @param(FileName File name)
    @returns(File name without path and extension)
@@ -111,6 +120,17 @@ function cnvFormatFileSize(iSize:Int64):String;
 }
 function MinimizeFilePath(const PathToMince: String; Canvas: TCanvas;
                                             MaxLen: Integer): String;
+{en
+   Expands an absolute file path by removing all relative references.
+   Processes '/../' and '/./'.
+
+   Example:  /home/user/files/../somedirectory/./file.txt
+           = /home/user/somedirectory/file.txt
+
+   @param(Path path to expand.)
+}
+function ExpandAbsolutePath(Path: String): String;
+
 {en
    Return position of character in string begun from start position
    @param(C character)
@@ -304,6 +324,22 @@ begin
       Result := sRelativeFileName;
 end;
 
+function GetPathType(sPath : String): TPathType;
+begin
+  Result := ptNone;
+{$IFDEF MSWINDOWS}
+{check for drive/unc info}
+  if ( Pos( '\\', Value ) > 0 ) or ( Pos( DriveDelim, Value ) > 0 ) then
+{$ENDIF MSWINDOWS}
+{$IFDEF UNIX}
+{ UNIX absolute paths start with a slash }
+  if (sPath[1] = PathDelim) then
+{$ENDIF UNIX}
+    Result := ptAbsolute
+  else if ( Pos( PathDelim, sPath ) > 0 ) then
+    Result := ptRelative;
+end;
+
 function ExtractOnlyFileName(const FileName: string): string;
 var
  iDotIndex,
@@ -464,6 +500,35 @@ Begin
          Result := Copy(Result, 1, Length(Result) - 3) + '...';
        end;
 End;
+
+function ExpandAbsolutePath(Path: String): String;
+var
+  I, J: Integer;
+begin
+  {First remove all references to '\.\'}
+  I := Pos (DirectorySeparator + '.' + DirectorySeparator, Path);
+  while I <> 0 do
+      begin
+          Delete (Path, I, 2);
+          I := Pos (DirectorySeparator + '.' + DirectorySeparator, Path);
+      end;
+
+  {Then remove all references to '\..\'}
+  I := Pos (DirectorySeparator + '..', Path);
+  while (I <> 0) do
+      begin
+          J := Pred (I);
+          while (J > 0) and (Path [J] <> DirectorySeparator) do
+              Dec (J);
+          if (J = 0) then
+              Delete (Path, I, 3)
+          else
+              Delete (Path, J, I - J + 3);
+          I := Pos (DirectorySeparator + '..', Path);
+      end;
+
+  Result := Path;
+end;
 
 procedure DivFileName(const sFileName:String; out n,e:String);
 var

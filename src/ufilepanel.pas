@@ -767,7 +767,7 @@ end;
 
 function TFilePanel.GetActiveDir:String;
 begin
-  Result:= IncludeTrailingBackslash(fActiveDir);
+  Result:= IncludeTrailingPathDelimiter(fActiveDir);
 end;
 
 function TFilePanel.GetReferenceItemPtr(iIndex:Integer):PFileRecItem;
