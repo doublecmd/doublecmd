@@ -1251,7 +1251,7 @@ begin
       begin
         if PanelSelected = fpLeft then // same panel
           FrameLeft.SetFocus
-        else if Boolean(gDirTabOptions and tb_activate_panel_on_click) then
+        else if (tb_activate_panel_on_click in gDirTabOptions) then
           SetActiveFrame(fpLeft)
         else
           FrameRight.SetFocus;
@@ -1260,7 +1260,7 @@ begin
       begin
         if PanelSelected = fpRight then // same panel
           FrameRight.SetFocus
-        else if Boolean(gDirTabOptions and tb_activate_panel_on_click) then
+        else if (tb_activate_panel_on_click in gDirTabOptions) then
           SetActiveFrame(fpRight)
         else
           FrameLeft.SetFocus;
@@ -1300,7 +1300,7 @@ begin
     // Update selected drive only on non-active panel,
     // because active panel is updated on focus change.
     if Assigned(ActiveFrame) and (ActiveFrame.Parent.Parent <> Sender) and
-       not Boolean(gDirTabOptions and tb_activate_panel_on_click) then
+       not (tb_activate_panel_on_click in gDirTabOptions) then
     begin
       UpdateSelectedDrive(Sender as TNotebook);
     end;
@@ -2605,7 +2605,7 @@ begin
       if (Sender as TPage).Tag = 0 then // if not locked tab
         begin
           sCaption := GetLastDir(ExcludeTrailingPathDelimiter(NewDir));
-          if Boolean(gDirTabOptions and tb_text_length_limit) and (Length(sCaption) > gDirTabLimit) then
+          if (tb_text_length_limit in gDirTabOptions) and (Length(sCaption) > gDirTabLimit) then
             ANoteBook.Page[(Sender as TPage).PageIndex].Caption:= Copy(sCaption, 1, gDirTabLimit) + '...'
           else
             ANoteBook.Page[(Sender as TPage).PageIndex].Caption := sCaption;
@@ -2814,7 +2814,7 @@ begin
     ANoteBook.ActivePage:= IntToStr(x);
   Result:=ANoteBook.Page[x];
 
-  ANoteBook.ShowTabs:= ((ANoteBook.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
+  ANoteBook.ShowTabs:= ((ANoteBook.PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
 end;
 
 function TfrmMain.RemovePage(ANoteBook: TNoteBook; iPageIndex:Integer): LongInt;
@@ -2845,7 +2845,7 @@ begin
 
     Result:= 0;
   end;
-  ANoteBook.ShowTabs:= ((ANoteBook.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
+  ANoteBook.ShowTabs:= ((ANoteBook.PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
 end;
 
 procedure TfrmMain.ReLoadTabs(ANoteBook: TNoteBook);
@@ -2930,7 +2930,7 @@ begin
         ANoteBook.Page[ANoteBook.PageCount - 1].Hint:= sPath; // save in hint real path
 
       if sCaption <> '' then
-        if Boolean(gDirTabOptions and tb_text_length_limit) and (Length(sCaption) > gDirTabLimit) then
+        if (tb_text_length_limit in gDirTabOptions) and (Length(sCaption) > gDirTabLimit) then
           ANoteBook.Page[ANoteBook.PageCount - 1].Caption:= Copy(sCaption, 1, gDirTabLimit) + '...'
         else
           ANoteBook.Page[ANoteBook.PageCount - 1].Caption:= sCaption;
@@ -3209,10 +3209,10 @@ begin
   btnRightTargetEqualSource.Flat:= gInterfaceFlat;
 
   // Tabs
-  nbLeft.ShowTabs := ((nbLeft.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
-  nbRight.ShowTabs := ((nbRight.PageCount > 1) or Boolean(gDirTabOptions and tb_always_visible)) and gDirectoryTabs;
+  nbLeft.ShowTabs := ((nbLeft.PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
+  nbRight.ShowTabs := ((nbRight.PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
 
-  if gDirTabOptions and tb_show_close_button <> 0 then
+  if tb_show_close_button in gDirTabOptions then
     begin
       nbLeft.Options:= nbLeft.Options + [nboShowCloseButtons];
       nbRight.Options:= nbRight.Options + [nboShowCloseButtons];
@@ -3223,8 +3223,8 @@ begin
       nbRight.Options:= nbRight.Options - [nboShowCloseButtons];
     end;
 
-  SetMultilineTabs(nbLeft, Boolean(gDirTabOptions and tb_multiple_lines));
-  SetMultilineTabs(nbRight, Boolean(gDirTabOptions and tb_multiple_lines));
+  SetMultilineTabs(nbLeft, tb_multiple_lines in gDirTabOptions);
+  SetMultilineTabs(nbRight, tb_multiple_lines in gDirTabOptions);
 
   for I := 0 to nbLeft.PageCount - 1 do  //  change on all tabs
     (nbLeft.Page[I].Controls[0] as TFrameFilePanel).UpdateView;

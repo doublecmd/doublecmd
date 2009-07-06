@@ -2081,15 +2081,15 @@ begin
   cbLogInfo.Checked := (log_info in gLogOptions);
 
   { Folder tabs }
-  cbTabsAlwaysVisible.Checked := Boolean(gDirTabOptions and tb_always_visible) and gDirectoryTabs;
-  cbTabsMultiLines.Checked :=  Boolean(gDirTabOptions and tb_multiple_lines);
-  cbTabsLimitOption.Checked := Boolean(gDirTabOptions and tb_text_length_limit);
-  cbTabsConfirmCloseAll.Checked:= Boolean(gDirTabOptions and tb_confirm_close_all);
-  cbTabsOpenForeground.Checked:= Boolean(gDirTabOptions and tb_open_new_in_foreground);
-  cbTabsLockedAsterisk.Checked:= Boolean(gDirTabOptions and tb_show_asterisk_for_locked);
-  cbTabsActivateOnClick.Checked:= Boolean(gDirTabOptions and tb_activate_panel_on_click);
+  cbTabsAlwaysVisible.Checked := (tb_always_visible in gDirTabOptions) and gDirectoryTabs;
+  cbTabsMultiLines.Checked := tb_multiple_lines in gDirTabOptions;
+  cbTabsLimitOption.Checked := tb_text_length_limit in gDirTabOptions;
+  cbTabsConfirmCloseAll.Checked:= tb_confirm_close_all in gDirTabOptions;
+  cbTabsOpenForeground.Checked:= tb_open_new_in_foreground in gDirTabOptions;
+  cbTabsLockedAsterisk.Checked:= tb_show_asterisk_for_locked in gDirTabOptions;
+  cbTabsActivateOnClick.Checked:= tb_activate_panel_on_click in gDirTabOptions;
+  cbTabsShowCloseButton.Checked:= tb_show_close_button in gDirTabOptions;
   edtTabsLimitLength.Text := IntToStr(gDirTabLimit);
-  cbTabsShowCloseButton.Checked:= Boolean(gDirTabOptions and tb_show_close_button);
 
   { Configuration storage }
   if gNewUseIniInProgramDir then
@@ -2252,23 +2252,23 @@ begin
     Include(gLogOptions, log_info);
     
   { Folder tabs }
-  gDirTabOptions := 0;  // Reset tab options
+  gDirTabOptions := [];  // Reset tab options
   if cbTabsAlwaysVisible.Checked then
-    gDirTabOptions :=  (gDirTabOptions or tb_always_visible);
+    gDirTabOptions := gDirTabOptions + [tb_always_visible];
   if cbTabsMultiLines.Checked then
-    gDirTabOptions := (gDirTabOptions or tb_multiple_lines);
+    gDirTabOptions := gDirTabOptions + [tb_multiple_lines];
   if cbTabsLimitOption.Checked then
-    gDirTabOptions := (gDirTabOptions or tb_text_length_limit);
+    gDirTabOptions := gDirTabOptions + [tb_text_length_limit];
   if cbTabsConfirmCloseAll.Checked then
-    gDirTabOptions := (gDirTabOptions or tb_confirm_close_all);
+    gDirTabOptions := gDirTabOptions + [tb_confirm_close_all];
   if cbTabsOpenForeground.Checked then
-    gDirTabOptions := (gDirTabOptions or tb_open_new_in_foreground);
+    gDirTabOptions := gDirTabOptions + [tb_open_new_in_foreground];
   if cbTabsLockedAsterisk.Checked then
-    gDirTabOptions := (gDirTabOptions or tb_show_asterisk_for_locked);
+    gDirTabOptions := gDirTabOptions + [tb_show_asterisk_for_locked];
   if cbTabsActivateOnClick.Checked then
-    gDirTabOptions := (gDirTabOptions or tb_activate_panel_on_click);
+    gDirTabOptions := gDirTabOptions + [tb_activate_panel_on_click];
   if cbTabsShowCloseButton.Checked then
-    gDirTabOptions := (gDirTabOptions or tb_show_close_button);
+    gDirTabOptions := gDirTabOptions + [tb_show_close_button];
 
   gDirTabLimit := StrToIntDef(edtTabsLimitLength.Text, 32);
 
