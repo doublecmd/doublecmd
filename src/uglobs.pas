@@ -44,7 +44,12 @@ type
   TWatchOptions = set of (watch_file_name_change, watch_attributes_change,
                           watch_only_foreground, watch_total_number_files,
                           watch_free_disk_space);
-                        
+  { Tabs options }
+  TTabsOptions = set of (tb_always_visible, tb_multiple_lines, tb_same_width,
+                         tb_text_length_limit, tb_confirm_close_all,
+                         tb_close_on_dbl_click, tb_open_new_in_foreground,
+                         tb_open_new_near_current, tb_show_asterisk_for_locked,
+                         tb_activate_panel_on_click, tb_show_close_button);
 var
   { For localization }
   gPOFileName,
@@ -162,7 +167,10 @@ var
 
   { Folder tabs page }
 
-  gDirTabOptions,
+  gDirTabOptions : TTabsOptions = [tb_always_visible,
+                                   tb_confirm_close_all,
+                                   tb_show_asterisk_for_locked,
+                                   tb_activate_panel_on_click];
   gDirTabLimit : Integer;
   
   { Log page }
@@ -202,20 +210,6 @@ var
   {Actions}
   Actions:TActs;
   
-const
-  { Tabs options }
-  tb_always_visible = 1;
-  tb_multiple_lines = 2;
-  tb_same_width = 4;
-  tb_text_length_limit = 8;
-  tb_confirm_close_all = 16;
-  tb_close_on_dbl_click = 32;
-  tb_open_new_in_foreground = 64;
-  tb_open_new_near_current = 128;
-  tb_show_asterisk_for_locked = 256;
-  tb_activate_panel_on_click = 512;
-  tb_show_close_button = 1024;
-
 function LoadGlobs : Boolean;
 procedure SaveGlobs;
 function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boolean;
@@ -499,7 +493,7 @@ begin
   gMouseSelectionEnabled:= gIni.ReadBool('Configuration', 'MouseSelectionEnabled', True);
   gMouseSelectionButton := gIni.ReadInteger('Configuration', 'MouseSelectionButton', 0);
 
-  gDirTabOptions := gIni.ReadInteger('Configuration', 'DirTabOptions', 785);
+  gDirTabOptions := TTabsOptions(gIni.ReadInteger('Configuration', 'DirTabOptions', Integer(gDirTabOptions)));
   gDirTabLimit :=  gIni.ReadInteger('Configuration', 'DirTabLimit', 32);
 
   gUseExtEdit := gIni.ReadBool('Configuration', 'UseExtEdit', False);
@@ -695,7 +689,7 @@ begin
   gIni.WriteBool('Configuration', 'MouseSelectionEnabled', gMouseSelectionEnabled);
   gIni.WriteInteger('Configuration', 'MouseSelectionButton', gMouseSelectionButton);
 
-  gIni.WriteInteger('Configuration', 'DirTabOptions', gDirTabOptions);
+  gIni.WriteInteger('Configuration', 'DirTabOptions', Integer(gDirTabOptions));
   gIni.WriteInteger('Configuration', 'DirTabLimit', gDirTabLimit);
 
   gIni.WriteBool('Configuration', 'UseExtEdit', gUseExtEdit);
