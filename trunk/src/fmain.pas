@@ -467,10 +467,12 @@ type
     procedure RunRenameThread(srcFileList: TFileList; sDestPath: String; sDestMask: String);
     procedure RunCopyThread(srcFileList: TFileList; sDestPath: String; sDestMask: String;
                             bDropReadOnlyFlag: Boolean);
-    procedure RenameFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel; destPath: String);
-    procedure CopyFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel; destPath: String);
+    procedure RenameFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel; sDestPath: String);
+    procedure CopyFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel; sDestPath: String);
     procedure RenameFile(sDestPath:String); // this is for F6 and Shift+F6
     procedure CopyFile(sDestPath:String); //  this is for F5 and Shift+F5
+    procedure GetDestinationPathAndMask(EnteredPath: String; BaseDir: String;
+                                        out DestPath, DestMask: String);
     procedure ShowRenameFileEdit(const sFileName:String);
     procedure SetNotActFrmByActFrm;
     procedure SetActiveFrame(panel: TFilePanelSelect);
@@ -1836,21 +1838,20 @@ end;
 
 (* Used for drag&drop move from external application *)
 // Frees srcFileList automatically.
-procedure TfrmMain.RenameFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel; destPath: String);
+procedure TfrmMain.RenameFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel; sDestPath: String);
 var
-  sDestPath,
   sDstMaskTemp: String;
   sCopyQuest: String;
 begin
   if (srcFileList.Count=1) and not (FPS_ISDIR(srcFileList.GetItem(0)^.iMode) or srcFileList.GetItem(0)^.bLinkIsDir) then
     begin
       sCopyQuest:= Format(rsMsgRenSel, [srcFileList.GetItem(0)^.sName]);
-      sDestPath:= destPath + ExtractFileName(srcFileList.GetItem(0)^.sName);
+      sDestPath:= sDestPath + ExtractFileName(srcFileList.GetItem(0)^.sName);
     end
   else
     begin
       sCopyQuest:= Format(rsMsgRenFlDr, [srcFileList.Count]);
-      sDestPath:= destPath + '*.*';
+      sDestPath:= sDestPath + '*.*';
     end;
 
   with TfrmMoveDlg.Create(Application) do
@@ -1863,8 +1864,9 @@ begin
          FreeAndNil(srcFileList);
          Exit; // throught finally
       end;
-      sDestPath:= ExtractFilePath(edtDst.Text);
-      sDstMaskTemp:= ExtractFileName(edtDst.Text);
+
+      GetDestinationPathAndMask(edtDst.Text, dstFramePanel.ActiveDir, sDestPath, sDstMaskTemp);
+
     finally
       Free;
     end;
@@ -1878,24 +1880,12 @@ end;
 
 (* Used for drag&drop copy from external application *)
 // Frees srcFileList automatically.
-procedure TfrmMain.CopyFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel; destPath: String);
+procedure TfrmMain.CopyFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel; sDestPath: String);
 var
   sCopyQuest,
-  sDestPath,
   sDstMaskTemp: String;
   blDropReadOnlyFlag: Boolean;
 begin
-  if (srcFileList.Count=1) and not (FPS_ISDIR(srcFileList.GetItem(0)^.iMode) or srcFileList.GetItem(0)^.bLinkIsDir) then
-    begin
-      sCopyQuest:= Format(rsMsgCpSel, [srcFileList.GetItem(0)^.sName]);
-      sDestPath:= destPath + ExtractFileName(srcFileList.GetItem(0)^.sName);
-    end
-  else
-    begin
-      sCopyQuest:= Format(rsMsgCpFlDr, [srcFileList.Count]);
-      sDestPath:= destPath + '*.*';
-    end;
-
   (* Copy files between archive and real file system *)
 
   if  dstFramePanel.pnlFile.PanelMode = pmArchive then
@@ -1905,13 +1895,23 @@ begin
           if  (VFS_CAPS_COPYIN in dstFramePanel.pnlFile.VFS.VFSmodule.VFSCaps) then
             begin
               DebugLn('+++ Pack files to archive +++');
-              sDestPath:=ExtractFilePath(sDestPath);
               ShowPackDlg(dstFramePanel.pnlFile.VFS, srcFileList, sDestPath, False);
             end
           else
             msgWarning(rsMsgErrNotSupported);
         end;
       Exit;
+    end;
+
+  if (srcFileList.Count=1) and not (FPS_ISDIR(srcFileList.GetItem(0)^.iMode) or srcFileList.GetItem(0)^.bLinkIsDir) then
+    begin
+      sCopyQuest:= Format(rsMsgCpSel, [srcFileList.GetItem(0)^.sName]);
+      sDestPath:= sDestPath + ExtractFileName(srcFileList.GetItem(0)^.sName);
+    end
+  else
+    begin
+      sCopyQuest:= Format(rsMsgCpFlDr, [srcFileList.Count]);
+      sDestPath:= sDestPath + '*.*';
     end;
 
   with TfrmCopyDlg.Create(Application) do
@@ -1926,8 +1926,9 @@ begin
         FreeAndNil(srcFileList);
         Exit; // throught finally
       end;
-      sDestPath:=ExtractFilePath(edtDst.Text);
-      sDstMaskTemp:=ExtractFileName(edtDst.Text);
+
+      GetDestinationPathAndMask(edtDst.Text, dstFramePanel.ActiveDir, sDestPath, sDstMaskTemp);
+
       blDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
     finally
       Free;
@@ -1963,58 +1964,41 @@ begin
   // Exit if no valid files selected.
   if ActiveFrame.SelectFileIfNoSelected(ActiveFrame.GetActiveItem) = False then Exit;
 
-  if (ActiveFrame.pnlFile.GetSelectedCount=1) then
-  with ActiveFrame.pnlFile do
-  begin
-    if sDestPath='' then
-      begin
-        if ActiveFrame.IsActiveItemValid then
-          ShowRenameFileEdit(ActiveDir + GetActiveItem^.sName);
-        Exit;
-      end
-    else
-      begin
-        if FPS_ISDIR(GetFirstSelectedItem^.iMode) then
-          sDestPath:=sDestPath + '*.*'
-        else
-          sDestPath:=sDestPath + ExtractFileName(GetFirstSelectedItem^.sName);
-      end;
-  end
-  else
-    sDestPath:=sDestPath+'*.*';
+  if (sDestPath = '') and (ActiveFrame.pnlFile.GetSelectedCount = 1) then
+    with ActiveFrame do
+    begin
+      if IsActiveItemValid then
+        ShowRenameFileEdit(ActiveDir + GetActiveItem^.sName);
+      Exit;
+    end;
 
+  fl := TFileList.Create; // free at Thread end by thread
   try
-    fl:= TFileList.Create; // free at Thread end by thread
     fl.CurrentDirectory := ActiveFrame.ActiveDir;
     CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
 
     with TfrmMoveDlg.Create(Application) do
     begin
       try
-        edtDst.Text:=sDestPath;
-        sCopyQuest:=GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr);
-        lblMoveSrc.Caption:=sCopyQuest;
+        if (fl.Count = 1) and
+           (not (FPS_ISDIR(fl.GetItem(0)^.iMode) or fl.GetItem(0)^.bLinkIsDir))
+        then
+          edtDst.Text := sDestPath + ExtractFileName(fl.GetItem(0)^.sName)
+        else
+          edtDst.Text := sDestPath + '*.*';
+
+        lblMoveSrc.Caption := GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr);
         if ShowModal=mrCancel then
         begin
           FreeAndNil(fl); // Free now, because the thread won't be run.
           Exit; // throught finally
         end;
 
-        sCopyQuest := ExtractFilePath(edtDst.Text);
-        if Length(sCopyQuest) <> 0 then
-          sDestPath:= sCopyQuest
-        else
-          begin
-            sCopyQuest:= ActiveFrame.pnlFile.GetActiveItem^.sPath;
-            if Length(sCopyQuest) <> 0 then
-              sDestPath:= sCopyQuest
-            else
-              sDestPath:= ActiveFrame.pnlFile.ActiveDir;
-          end;
-        sDstMaskTemp:=ExtractFileName(edtDst.Text);
+        GetDestinationPathAndMask(edtDst.Text, ActiveFrame.ActiveDir, sDestPath, sDstMaskTemp);
+
       finally
         with ActiveFrame do
-	  UnSelectFileIfSelected(GetActiveItem);
+          UnSelectFileIfSelected(GetActiveItem);
         Free;
       end;
     end;
@@ -2030,9 +2014,8 @@ end;
 
 procedure TfrmMain.CopyFile(sDestPath:String);
 var
-  fl:TFileList;
-  sDstMaskTemp:String;
-  sCopyQuest:String;
+  fl: TFileList;
+  sDstMaskTemp: String;
   blDropReadOnlyFlag : Boolean;
 begin
   if (ActiveFrame.pnlFile.PanelMode in [pmVFS, pmArchive]) then
@@ -2060,19 +2043,13 @@ begin
     end;
   end;
 
-
   // Exit if no valid files selected.
   if ActiveFrame.SelectFileIfNoSelected(ActiveFrame.GetActiveItem) = False then Exit;
 
   fl:=TFileList.Create; // free at Thread end by thread
-  fl.CurrentDirectory := ActiveFrame.ActiveDir;
   try
+    fl.CurrentDirectory := ActiveFrame.ActiveDir;
     CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
-
-    if (ActiveFrame.pnlFile.GetSelectedCount=1) and not (FPS_ISDIR(ActiveFrame.pnlFile.GetFirstSelectedItem^.iMode) or ActiveFrame.pnlFile.GetFirstSelectedItem^.bLinkIsDir) then
-      sDestPath:=sDestPath + ExtractFileName(ActiveFrame.pnlFile.GetFirstSelectedItem^.sName)
-    else
-      sDestPath:=sDestPath + '*.*';
 
     (* Copy files between archive and real file system *)
   
@@ -2082,7 +2059,7 @@ begin
         if not IsBlocked then
           begin
             DebugLn('+++ Extract files from archive +++');
-            ShowExtractDlg(ActiveFrame, fl, ExtractFilePath(sDestPath));
+            ShowExtractDlg(ActiveFrame, fl, sDestPath);
             NotActiveFrame.RefreshPanel;
           end
           else
@@ -2096,7 +2073,6 @@ begin
         if not IsBlocked then
           begin
             DebugLn('+++ Pack files to archive +++');
-            sDestPath:=ExtractFilePath(sDestPath);
             ShowPackDlg(NotActiveFrame.pnlFile.VFS, fl, sDestPath, False);
           end
           else
@@ -2107,9 +2083,14 @@ begin
     with TfrmCopyDlg.Create(Application) do
     begin
       try
-        edtDst.Text:=sDestPath;
-        sCopyQuest:=GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr);
-        lblCopySrc.Caption := sCopyQuest;
+        if (fl.Count = 1) and
+           (not (FPS_ISDIR(fl.GetItem(0)^.iMode) or fl.GetItem(0)^.bLinkIsDir))
+        then
+          edtDst.Text := sDestPath + ExtractFileName(fl.GetItem(0)^.sName)
+        else
+          edtDst.Text := sDestPath + '*.*';
+
+        lblCopySrc.Caption := GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr);
         cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
         cbDropReadOnlyFlag.Visible := (NotActiveFrame.pnlFile.PanelMode = pmDirectory);
         if ShowModal=mrCancel then
@@ -2118,18 +2099,8 @@ begin
           Exit ; // throught finally
         end;
 
-        sCopyQuest := ExtractFilePath(edtDst.Text);
-        if Length(sCopyQuest) <> 0 then
-          sDestPath:= sCopyQuest
-        else
-          begin
-            sCopyQuest:= ActiveFrame.pnlFile.GetActiveItem^.sPath;
-            if Length(sCopyQuest) <> 0 then
-              sDestPath:= sCopyQuest
-            else
-              sDestPath:= ActiveFrame.pnlFile.ActiveDir;
-          end;
-        sDstMaskTemp:=ExtractFileName(edtDst.Text);
+        GetDestinationPathAndMask(edtDst.Text, ActiveFrame.ActiveDir, sDestPath, sDstMaskTemp);
+
         blDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
 
       finally
@@ -2167,6 +2138,40 @@ begin
   end;
 end;
 
+procedure TfrmMain.GetDestinationPathAndMask(EnteredPath: String; BaseDir: String;
+                                             out DestPath, DestMask: String);
+var
+  AbsolutePath: String;
+begin
+  if GetPathType(EnteredPath) = ptAbsolute then
+    AbsolutePath := EnteredPath
+  else
+    AbsolutePath := BaseDir + EnteredPath;
+
+  DoDirSeparators(AbsolutePath);  // normalize path delimiters
+  AbsolutePath := ExpandAbsolutePath(AbsolutePath);
+
+  if AbsolutePath[Length(AbsolutePath)] = PathDelim then
+  begin
+    // If the entered path ends with a path delimiter
+    // treat it as a path to a not yet existing directory
+    // which should be created.
+    DestPath := AbsolutePath;
+    DestMask := '*.*';
+  end
+  else if mbDirectoryExists(AbsolutePath) then
+  begin
+    // Destination is a directory.
+    DestPath := IncludeTrailingPathDelimiter(AbsolutePath);
+    DestMask := '*.*';
+  end
+  else
+  begin
+    // Destination is a file name or mask.
+    DestPath := ExtractFilePath(AbsolutePath);
+    DestMask := ExtractFileName(AbsolutePath);
+  end;
+end;
 
 procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
