@@ -502,6 +502,10 @@ type
     procedure UpdateSelectedDrive(ANoteBook: TNoteBook);
     procedure EnableHotkeys(Enable: Boolean);
     procedure ExecuteCommandLine(bRunInTerm: Boolean);
+    {en
+       Shows or removes the '*' indicator of a locked tab.
+    }
+    procedure UpdateTabLockedState(Page: TPage);
   published
     property SelectedPanel:TFilePanelSelect read PanelSelected;
   end;
@@ -1313,6 +1317,7 @@ var
   PopUpPoint: TPoint;
   NoteBook: TNoteBook;
   TabNr: Integer;
+  Index: Integer;
 begin
   NoteBook := (Sender as TNoteBook);
 
@@ -1333,6 +1338,12 @@ begin
         if TabNr <> -1 then
         begin
           PopUpPoint := NoteBook.ClientToScreen(Point(X, Y));
+
+          // Check lock option items.
+          Index := pmTabMenu.Items.IndexOf(miToggleLockTab);
+          pmTabMenu.Items.Items[Index].Checked := (NoteBook.Page[TabNr].Tag = 1);
+          Index := pmTabMenu.Items.IndexOf(miToggleLockDcaTab);
+          pmTabMenu.Items.Items[Index].Checked := (NoteBook.Page[TabNr].Tag = 2);
 
           pmTabMenu.Parent := NoteBook;
           pmTabMenu.Tag := TabNr;
@@ -2582,15 +2593,28 @@ begin
 end;
 
 function TfrmMain.FramepnlFileBeforeChangeDirectory(Sender: TObject; const NewDir: String): Boolean;
+var
+  NoteBook: TNoteBook;
+  Panel: TFilePanelSelect;
 begin
   Result:= True;
   if Sender is TPage then
     with Sender as TPage do
       if Tag = 1 then
         begin
-          CreatePanel(AddPage(TNoteBook((Sender as TPage).Parent)), ActiveFrame.PanelSelect, NewDir);
+          Result:= False;  // do not change directory in this tab
+
+          NoteBook := ((Sender as TPage).Parent) as TNoteBook;
+
+          if NoteBook = nbLeft then
+            Panel := fpLeft
+          else if NoteBook = nbRight then
+            Panel := fpRight
+          else
+            Exit;
+
+          CreatePanel(AddPage(NoteBook), Panel, NewDir);
           ActiveFrame.SetFocus;
-          Result:= False;
         end;
 end;
 
@@ -3148,6 +3172,31 @@ begin
 end;
 
 procedure TfrmMain.UpdateWindowView;
+
+  procedure UpdateNoteBook(NoteBook: TNoteBook);
+  var
+    I: Integer;
+  begin
+    NoteBook.ShowTabs := ((NoteBook.PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
+
+    if tb_show_close_button in gDirTabOptions then
+      begin
+        NoteBook.Options := NoteBook.Options + [nboShowCloseButtons];
+      end
+    else
+      begin
+        NoteBook.Options := NoteBook.Options - [nboShowCloseButtons];
+      end;
+
+    SetMultilineTabs(NoteBook, tb_multiple_lines in gDirTabOptions);
+
+    for I := 0 to NoteBook.PageCount - 1 do  //  change on all tabs
+    begin
+      (NoteBook.Page[I].Controls[0] as TFrameFilePanel).UpdateView;
+      UpdateTabLockedState(NoteBook.Page[I]);
+    end;
+  end;
+
 var
   I : Integer;
   IniBarFile : TIniFileEx;
@@ -3209,27 +3258,8 @@ begin
   btnRightTargetEqualSource.Flat:= gInterfaceFlat;
 
   // Tabs
-  nbLeft.ShowTabs := ((nbLeft.PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
-  nbRight.ShowTabs := ((nbRight.PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
-
-  if tb_show_close_button in gDirTabOptions then
-    begin
-      nbLeft.Options:= nbLeft.Options + [nboShowCloseButtons];
-      nbRight.Options:= nbRight.Options + [nboShowCloseButtons];
-    end
-  else
-    begin
-      nbLeft.Options:= nbLeft.Options - [nboShowCloseButtons];
-      nbRight.Options:= nbRight.Options - [nboShowCloseButtons];
-    end;
-
-  SetMultilineTabs(nbLeft, tb_multiple_lines in gDirTabOptions);
-  SetMultilineTabs(nbRight, tb_multiple_lines in gDirTabOptions);
-
-  for I := 0 to nbLeft.PageCount - 1 do  //  change on all tabs
-    (nbLeft.Page[I].Controls[0] as TFrameFilePanel).UpdateView;
-  for I := 0 to nbRight.PageCount - 1 do  //  change on all tabs
-    (nbRight.Page[I].Controls[0] as TFrameFilePanel).UpdateView;
+  UpdateNoteBook(nbLeft);
+  UpdateNoteBook(nbRight);
 
   for I := 0 to pnlKeys.ControlCount - 1 do  // function keys
     if pnlKeys.Controls[I] is TSpeedButton then
@@ -3757,6 +3787,21 @@ begin
   // edtCommandExit is not always called when losing focus
   edtCommandExit(Self);
 {$ENDIF}
+end;
+
+procedure TfrmMain.UpdateTabLockedState(Page: TPage);
+var
+  NewCaption: String;
+begin
+  if Page.Caption[1] = '*' then
+    NewCaption := Copy(Page.Caption, 2, Length(Page.Caption) - 1)
+  else
+    NewCaption := Page.Caption;
+
+  if (Page.Tag <> 0) and (tb_show_asterisk_for_locked in gDirTabOptions) then
+    Page.Caption := '*' + NewCaption
+  else
+    Page.Caption := NewCaption;
 end;
 
 initialization
