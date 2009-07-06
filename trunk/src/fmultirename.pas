@@ -51,8 +51,8 @@ type
     edPoc: TEdit;
     edInterval: TEdit;
     cmbxWidth: TComboBox;
-    btnOK: TButton;
-    btnCancel: TButton;
+    btnRename: TButton;
+    btnClose: TButton;
     gbLog: TGroupBox;
     edFile: TEdit;
     cbLog: TCheckBox;
@@ -82,8 +82,8 @@ type
     procedure cmbxFontChange(Sender: TObject);
     procedure edPocChange(Sender: TObject);
     procedure edIntervalChange(Sender: TObject);
-    procedure btnOKClick(Sender: TObject);
-    procedure btnCancelClick(Sender: TObject);
+    procedure btnRenameClick(Sender: TObject);
+    procedure btnCloseClick(Sender: TObject);
     procedure btnRestoreClick(Sender: TObject);
     procedure btnNameMenuClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -117,6 +117,8 @@ type
     procedure InsertMask(Mask:string;edChoose:Tedit);
     {Main function for write into lsvwFile}
     procedure FreshText;
+    {Executes the main operation of renaming files}
+    procedure RenameFiles;
   public
     { Public declarations }
     FileList: TFileList;
@@ -279,7 +281,7 @@ begin
     //save new name file
     lsvwFile.Items[c].SubItems.Strings[0]:=sTmpAll;
   end;
-  btnOK.Enabled:= not bError;
+  btnRename.Enabled:= not bError;
 end;
 
 procedure TfrmMultiRename.cmbxFontChange(Sender: TObject);
@@ -553,10 +555,21 @@ begin
   edFile.Enabled:=not edFile.Enabled;
 end;
 
-procedure TfrmMultiRename.btnOKClick(Sender: TObject);
+procedure TfrmMultiRename.btnRenameClick(Sender: TObject);
+begin
+  RenameFiles;
+end;
+
+procedure TfrmMultiRename.btnCloseClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfrmMultiRename.RenameFiles;
 var
   hFile: Integer;
-  c:integer;
+  c: Integer;
+  sResult: String;
 begin
   try
     if cbLog.Checked then
@@ -578,21 +591,26 @@ begin
     for c:=0 to lsvwFile.Items.Count-1 do
       with lsvwFile.Items do
       begin
-        mbRenameFile(Item[c].SubItems[1]+pathDelim+item[c].Caption,
-            Item[c].SubItems[1]+pathdelim+Item[c].SubItems[0]);
+        if mbRenameFile(Item[c].SubItems[1]+pathDelim+item[c].Caption,
+            Item[c].SubItems[1]+pathdelim+Item[c].SubItems[0]) = True then
+        begin
+          item[c].Caption := Item[c].SubItems[0];  // write the new name to table
+          sResult := 'OK    ';
+        end
+        else
+        begin
+          sResult := 'FAILED';
+        end;
+
         if cbLog.Checked then
-          FileWriteLn(hFile,item[c].Caption+' -> '+Item[c].SubItems[0]);
+          FileWriteLn(hFile, sResult + ' ' + item[c].Caption+' -> '+Item[c].SubItems[0]);
       end;
   finally
     if cbLog.Checked then
       FileClose(hFile);
   end;
-  Close;
-end;
 
-procedure TfrmMultiRename.btnCancelClick(Sender: TObject);
-begin
-  Close;
+  FreshText;
 end;
 
 initialization
