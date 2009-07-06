@@ -15,7 +15,6 @@ object frmExtractDlg: TfrmExtractDlg
   Caption = 'Unpack files'
   ClientHeight = 183
   ClientWidth = 447
-  Font.Color = clBtnText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   ParentFont = False
