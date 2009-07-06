@@ -329,7 +329,7 @@ begin
   Result := ptNone;
 {$IFDEF MSWINDOWS}
 {check for drive/unc info}
-  if ( Pos( '\\', Value ) > 0 ) or ( Pos( DriveDelim, Value ) > 0 ) then
+  if ( Pos( '\\', sPath ) > 0 ) or ( Pos( DriveDelim, sPath ) > 0 ) then
 {$ENDIF MSWINDOWS}
 {$IFDEF UNIX}
 { UNIX absolute paths start with a slash }
