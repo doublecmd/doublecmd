@@ -8,7 +8,6 @@ object frmDescrEdit: TfrmDescrEdit
   ClientHeight = 300
   ClientWidth = 400
   OnCreate = FormCreate
-  ParentFont = False
   Position = poScreenCenter
   LCLVersion = '0.9.27'
   object lblEditCommentFor: TLabel
@@ -80,6 +79,7 @@ object frmDescrEdit: TfrmDescrEdit
     Anchors = [akRight, akBottom]
     BorderSpacing.Bottom = 12
     OnChange = cbEncodingChange
+    Style = csDropDownList
     TabOrder = 1
   end
   object btnOK: TBitBtn
