@@ -172,7 +172,7 @@ function RemoveQuotation(const Str: String): String;
 }
 procedure SplitArgs(var Args: TOpenStringArray; CmdLine: String);
 
-procedure ParseLineToList(sLine: String; const ssItems: TStrings);
+procedure ParseLineToList(sLine: String; ssItems: TStrings);
 
 function StrNewW(const mbString: UTF8String): PWideChar;
 procedure StrDisposeW(var pStr : PWideChar);
@@ -648,15 +648,18 @@ begin
   end;
 end;
 
-procedure ParseLineToList(sLine: String; const ssItems: TStrings);
+procedure ParseLineToList(sLine: String; ssItems: TStrings);
 var
-  I: Integer;
   xPos: Integer;
 begin
-  for I:= 0 to ssItems.Count - 1 do
+  ssItems.Clear;
+  while sLine <> '' do
     begin
       xPos:= Pos(';', sLine);
-      ssItems[I]:= Copy(sLine, 1, xPos - 1);
+      if xPos = -1 then
+        ssItems.Add(sLine)
+      else
+        ssItems.Add(Copy(sLine, 1, xPos - 1));
       Delete(sLine, 1, xPos);
     end;
 end;

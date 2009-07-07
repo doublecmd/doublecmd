@@ -186,7 +186,8 @@ resourcestring
   rsSplitMsgCreated = 'Created:';
   rsSplitMsgSize = 'size:';
   // MultiRename dialog
-  rsMulRenFileNameStyleList = 'No change;UPPERCASE;lowercase;First Char Big;';
+  rsMulRenFileNameStyleList = 'No change;UPPERCASE;lowercase;First char uppercase;' +
+                              'First Char Of Every Word Uppercase;';
   // Edit
   rsEditNewFile = 'new.txt';
   rsEditNewOpen = 'Open file';
