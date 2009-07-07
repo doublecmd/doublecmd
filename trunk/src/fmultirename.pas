@@ -934,6 +934,8 @@ begin
     end;
 
     FLastPreset := PresetName;
+
+    FreshText;
   end;
 end;
 
