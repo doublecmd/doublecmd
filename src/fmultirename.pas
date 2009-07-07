@@ -21,16 +21,38 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, ComCtrls, Menus, Buttons, SynRegExpr, LCLType,
-  uClassesEx, uFileList;
+  uClassesEx, uFileList, StringHashList;
 
 type
+
+  PMultiRenamePreset = ^TMultiRenamePreset;
+  TMultiRenamePreset = record
+    FileName: String;
+    Extension: String;
+    FileNameStyle: Integer;
+    ExtensionStyle: Integer;
+    Find: String;
+    Replace: String;
+    RegExp: Boolean;
+    UseSubs: Boolean;
+    Counter: String;
+    Interval: String;
+    Width: Integer;
+    Log: Boolean;
+    LogFile: String;
+  end;
 
   { TfrmMultiRename }
 
   TfrmMultiRename = class(TForm)
+    btnLoadPreset: TButton;
+    btnSavePreset: TButton;
+    btnDeletePreset: TButton;
     cbRegExp: TCheckBox;
     cbUseSubs: TCheckBox;
     cmbExtensionStyle: TComboBox;
+    cbPresets: TComboBox;
+    gbPresets: TGroupBox;
     lsvwFile: TListView;
     gbMaska: TGroupBox;
     lbName: TLabel;
@@ -79,6 +101,9 @@ type
     miHour: TMenuItem;
     miMinute: TMenuItem;
     miSecond: TMenuItem;
+    procedure btnLoadPresetClick(Sender: TObject);
+    procedure btnSavePresetClick(Sender: TObject);
+    procedure btnDeletePresetClick(Sender: TObject);
     procedure cbRegExpChange(Sender: TObject);
     procedure cmbNameStyleChange(Sender: TObject);
     procedure edPocChange(Sender: TObject);
@@ -106,8 +131,12 @@ type
     procedure ExtensionXClick(Sender: TObject);
     procedure ExtensionXXClick(Sender: TObject);
     procedure ppNameMenuPopup(Sender: TObject);
-  private
+ private
     IniPropStorage: TIniPropStorageEx;
+    FLastPreset: String;
+    FFileList: TFileList;
+    FPresets: TStringHashList; // of PMultiRenamePreset
+
     {Function sReplace call sReplaceXX with parametres}
     function sReplace(sMask:string;count:integer):string;
     {sReplaceXX doing Nx,Nx:x and Ex,Ex:x}
@@ -130,9 +159,24 @@ type
     function IsLetter(AChar: AnsiChar): Boolean;
     {Applies style (uppercase, lowercase, etc.) to a string}
     function ApplyStyle(InputString: String; Style: Integer): String;
+    {Load preset configuration}
+    procedure LoadPresets;
+    {Save preset configuration}
+    procedure SavePresets;
+    {Loads specified preset from the configuration}
+    procedure LoadPreset(PresetName: String);
+    {Saves specified preset to the configuration}
+    procedure SavePreset(PresetName: String);
+    {Delete specified preset from configuration}
+    procedure DeletePreset(PresetName: String);
+    {Fills presets list with preset from configuration}
+    procedure FillPresetsList;
+    {Removes all presets from the presets list}
+    procedure ClearPresetsList;
   public
     { Public declarations }
-    FileList: TFileList;
+    constructor Create(TheOwner: TComponent; FileList: TFileList); reintroduce;
+    destructor Destroy; override;
   end;
 
 {initialization function}
@@ -141,34 +185,41 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uLng, uGlobs, uFileProcs, uDCUtils, uOSUtils;
+  LCLProc, FileUtil, uLng, uGlobs, uFileProcs, uDCUtils, uOSUtils, uShowMsg;
+
+const
+  sPresetsSection = 'MultiRenamePresets';
 
 function ShowMultiRenameForm(const srcFileList: TFileList):Boolean;
-var
-  c:integer;
 begin
   Result:= True;
-  with TfrmMultiRename.Create(Application) do
-  begin
-    try
-      FileList:= srcFileList;
-      for c:=0 to FileList.Count-1 do
-      with lsvwFile.Items do
-      begin
-        Add;
-        Item[c].Caption:=ExtractFileName(FileList.GetItem(c)^.sName);
-        item[c].SubItems.Add('');
-        item[c].SubItems.Add(ExcludeTrailingBackslash(FileList.GetItem(c)^.sPath));
-      end;
-      btnRestoreClick(nil);
+  try
+    with TfrmMultiRename.Create(Application, srcFileList) do
+    begin
       Show;
-    except
-      Result:= False;
     end;
+  except
+    Result:= False;
   end;
 end;
 
+constructor TfrmMultiRename.Create(TheOwner: TComponent; FileList: TFileList);
+begin
+  FPresets := TStringHashList.Create(False);
+  FFileList := FileList;
+  inherited Create(TheOwner);
+end;
+
+destructor TfrmMultiRename.Destroy;
+begin
+  inherited;
+  ClearPresetsList;
+  FreeAndNil(FPresets);
+end;
+
 procedure TfrmMultiRename.FormCreate(Sender: TObject);
+var
+  i: Integer;
 begin
   // Localize File name style ComboBox
   ParseLineToList(rsMulRenFileNameStyleList, cmbNameStyle.Items);
@@ -179,7 +230,25 @@ begin
   IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item0_Width';
   IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item1_Width';
   IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item2_Width';
-  FileList:= nil;
+
+  // Fill the files list.
+  for i := 0 to FFileList.Count - 1 do
+  with lsvwFile.Items do
+  begin
+    Add;
+    Item[i].Caption := ExtractFileName(FFileList.GetItem(i)^.sName);
+    Item[i].SubItems.Add('');
+    Item[i].SubItems.Add(ExcludeTrailingBackslash(FFileList.GetItem(i)^.sPath));
+  end;
+
+  // Set default values for controls.
+  btnRestoreClick(nil);
+
+  // Initialize presets.
+  LoadPresets;
+  FillPresetsList;
+  cbPresets.Text := FLastPreset;
+  LoadPreset(FLastPreset);
 end;
 
 procedure TfrmMultiRename.FormShow(Sender: TObject);
@@ -194,6 +263,8 @@ end;
 
 procedure TfrmMultiRename.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
+  SavePresets;
+
   CloseAction:= caFree;
   with lsvwFile.Columns do
   begin
@@ -201,8 +272,9 @@ begin
     IniPropStorage.StoredValue['lsvwFile_Columns.Item1_Width']:= IntToStr(Items[1].Width);
     IniPropStorage.StoredValue['lsvwFile_Columns.Item2_Width']:= IntToStr(Items[2].Width);
   end;
-  if Assigned(FileList) then
-    FreeAndNil(FileList);
+
+  if Assigned(FFileList) then
+    FreeAndNil(FFileList);
 end;
 
 procedure TfrmMultiRename.miDayClick(Sender: TObject);
@@ -326,6 +398,44 @@ begin
   FreshText;
 end;
 
+procedure TfrmMultiRename.btnLoadPresetClick(Sender: TObject);
+begin
+  LoadPreset(cbPresets.Text);
+end;
+
+procedure TfrmMultiRename.btnSavePresetClick(Sender: TObject);
+begin
+  if cbPresets.Text <> '' then
+  begin
+    if FPresets.Find(cbPresets.Text) <> -1 then
+    begin
+      if msgYesNo(Format(rsMsgPresetAlreadyExists, [cbPresets.Text])) = False then
+        Exit;
+    end;
+
+    SavePreset(cbPresets.Text);
+
+    if cbPresets.Items.IndexOf(cbPresets.Text) = -1 then
+      cbPresets.Items.Add(cbPresets.Text);
+  end;
+end;
+
+procedure TfrmMultiRename.btnDeletePresetClick(Sender: TObject);
+var
+  Index: Integer;
+begin
+  if cbPresets.Text <> '' then
+  begin
+    DeletePreset(cbPresets.Text);
+
+    Index := cbPresets.Items.IndexOf(cbPresets.Text);
+    if Index <> -1 then
+      cbPresets.Items.Delete(Index);
+
+    cbPresets.Text := '';
+  end;
+end;
+
 procedure TfrmMultiRename.edPocChange(Sender: TObject);
 var
   c:integer;
@@ -377,6 +487,8 @@ begin
   edExt.SelStart:=length(edExt.Text);
   edFind.Text:='';
   edReplace.Text:='';
+  cbRegExp.Checked:=False;
+  cbUseSubs.Checked:=False;
   cmbNameStyle.ItemIndex:=0;
   cmbExtensionStyle.ItemIndex:=0;
   edPoc.Text:='1';
@@ -386,6 +498,8 @@ begin
   edFile.Enabled:=cbLog.Checked;
   edFile.Text:=IncludeTrailingBackslash(lsvwFile.Items.Item[0].SubItems[1])+'default.log';
   edFile.SelStart:=length(edFile.Text);
+  cbPresets.Text:='';
+  FLastPreset:='';
 end;
 
 function TfrmMultiRename.sReplace(sMask:string;count:integer):string;
@@ -411,7 +525,7 @@ begin
 //type[Exx]
   sNew:=sReplaceXX(sNew,'[E',sOrigExt);
 //type [h][m][s][Y][M][D]
-  sNew:= sReplaceDateTime(sNew, FileList.GetItem(count)^.fTimeI);
+  sNew:= sReplaceDateTime(sNew, FFileList.GetItem(count)^.fTimeI);
   Result:=sNew;
 end;
 
@@ -712,6 +826,188 @@ begin
     else
        Result := InputString;
   end;
+end;
+
+procedure TfrmMultiRename.LoadPresets;
+var
+  i: Integer;
+  PresetIndex: Integer;
+  PresetName: String;
+  sPresetNr: String;
+  PresetsCount: Integer;
+  IniFile: TIniFileEx;
+begin
+  IniFile := gIni;
+
+  ClearPresetsList;
+
+  FLastPreset := IniFile.ReadString(sPresetsSection, 'LastPreset', '');
+  PresetsCount := IniFile.ReadInteger(sPresetsSection, 'Presets', -1);
+
+  for i := 0 to PresetsCount - 1 do
+  begin
+    sPresetNr := 'Preset' + IntToStr(I + 1);
+
+    PresetName := IniFile.ReadString(sPresetsSection, sPresetNr + 'PresetName', '');
+    if PresetName <> '' then
+    begin
+      PresetIndex := FPresets.Add(PresetName, New(PMultiRenamePreset));
+
+      with PMultiRenamePreset(FPresets.List[PresetIndex]^.Data)^ do
+      begin
+        FileName := IniFile.ReadString(sPresetsSection, sPresetNr + 'Filename', '[N]');
+        Extension := IniFile.ReadString(sPresetsSection, sPresetNr + 'Extension', '[E]');
+        FileNameStyle := IniFile.ReadInteger(sPresetsSection, sPresetNr + 'FilenameStyle', 0);
+        ExtensionStyle := IniFile.ReadInteger(sPresetsSection, sPresetNr + 'ExtensionStyle', 0);
+        Find := IniFile.ReadString(sPresetsSection, sPresetNr + 'Find', '');
+        Replace := IniFile.ReadString(sPresetsSection, sPresetNr + 'Replace', '');
+        RegExp := IniFile.ReadBool(sPresetsSection, sPresetNr + 'RegExp', False);
+        UseSubs := IniFile.ReadBool(sPresetsSection, sPresetNr + 'UseSubs', False);
+        Counter := IniFile.ReadString(sPresetsSection, sPresetNr + 'Counter', '1');
+        Interval := IniFile.ReadString(sPresetsSection, sPresetNr + 'Interval', '1');
+        Width := IniFile.ReadInteger(sPresetsSection, sPresetNr + 'Width', 0);
+        Log := IniFile.ReadBool(sPresetsSection, sPresetNr + 'Log', False);
+        LogFile := IniFile.ReadString(sPresetsSection, sPresetNr + 'LogFile', '');
+      end;
+    end;
+  end;
+end;
+
+procedure TfrmMultiRename.SavePresets;
+var
+  IniFile: TIniFileEx;
+  i: Integer;
+  sPresetNr: String;
+begin
+  IniFile := gIni;
+  IniFile.EraseSection(sPresetsSection);
+  IniFile.WriteString(sPresetsSection, 'LastPreset', FLastPreset);
+  IniFile.WriteInteger(sPresetsSection, 'Presets', FPresets.Count);
+
+  for i := 0 to FPresets.Count - 1 do
+    with PMultiRenamePreset(FPresets.List[i]^.Data)^ do
+    begin
+      sPresetNr := 'Preset' + IntToStr(I + 1);
+
+      IniFile.WriteString(sPresetsSection, sPresetNr + 'PresetName', FPresets.List[i]^.Key);
+      IniFile.WriteString(sPresetsSection, sPresetNr + 'Filename', FileName);
+      IniFile.WriteString(sPresetsSection, sPresetNr + 'Extension', Extension);
+      IniFile.WriteInteger(sPresetsSection, sPresetNr + 'FilenameStyle', FileNameStyle);
+      IniFile.WriteInteger(sPresetsSection, sPresetNr + 'ExtensionStyle', ExtensionStyle);
+      IniFile.WriteString(sPresetsSection, sPresetNr + 'Find', Find);
+      IniFile.WriteString(sPresetsSection, sPresetNr + 'Replace', Replace);
+      IniFile.WriteBool(sPresetsSection, sPresetNr + 'RegExp', RegExp);
+      IniFile.WriteBool(sPresetsSection, sPresetNr + 'UseSubs', UseSubs);
+      IniFile.WriteString(sPresetsSection, sPresetNr + 'Counter', Counter);
+      IniFile.WriteString(sPresetsSection, sPresetNr + 'Interval', Interval);
+      IniFile.WriteInteger(sPresetsSection, sPresetNr + 'Width', Width);
+      IniFile.WriteBool(sPresetsSection, sPresetNr + 'Log', Log);
+      IniFile.WriteString(sPresetsSection, sPresetNr + 'LogFile', LogFile);
+    end;
+end;
+
+procedure TfrmMultiRename.LoadPreset(PresetName: String);
+var
+  PresetIndex: Integer;
+begin
+  if PresetName <> '' then
+  begin
+    PresetIndex := FPresets.Find(PresetName);
+    if PresetIndex = -1 then
+      PresetIndex := FPresets.Add(PresetName, New(PMultiRenamePreset));
+
+    with PMultiRenamePreset(FPresets.List[PresetIndex]^.Data)^ do
+    begin
+      edName.Text := FileName;
+      edExt.Text := Extension;
+      cmbNameStyle.ItemIndex := FileNameStyle;
+      cmbExtensionStyle.ItemIndex := ExtensionStyle;
+      edFind.Text := Find;
+      edReplace.Text := Replace;
+      cbRegExp.Checked := RegExp;
+      cbUseSubs.Checked := UseSubs;
+      edPoc.Text := Counter;
+      edInterval.Text := Interval;
+      cmbxWidth.ItemIndex := Width;
+      cbLog.Checked := Log;
+      edFile.Text := LogFile;
+    end;
+
+    FLastPreset := PresetName;
+  end;
+end;
+
+procedure TfrmMultiRename.SavePreset(PresetName: String);
+var
+  PresetIndex: Integer;
+begin
+  if PresetName <> '' then
+  begin
+    PresetIndex := FPresets.Find(PresetName);
+    if PresetIndex = -1 then
+      PresetIndex := FPresets.Add(PresetName, New(PMultiRenamePreset));
+
+    with PMultiRenamePreset(FPresets.List[PresetIndex]^.Data)^ do
+    begin
+      FileName := edName.Text;
+      Extension := edExt.Text;
+      FileNameStyle := cmbNameStyle.ItemIndex;
+      ExtensionStyle := cmbExtensionStyle.ItemIndex;
+      Find := edFind.Text;
+      Replace := edReplace.Text;
+      RegExp := cbRegExp.Checked;
+      UseSubs := cbUseSubs.Checked;
+      Counter := edPoc.Text;
+      Interval := edInterval.Text;
+      Width := cmbxWidth.ItemIndex;
+      Log := cbLog.Checked;
+      LogFile := edFile.Text;
+    end;
+
+    FLastPreset := PresetName;
+    SavePresets;
+  end;
+end;
+
+procedure TfrmMultiRename.DeletePreset(PresetName: String);
+var
+  PresetIndex: Integer;
+begin
+  if PresetName <> '' then
+  begin
+    PresetIndex := FPresets.Find(PresetName);
+    if PresetIndex <> -1 then
+    begin
+      Dispose(PMultiRenamePreset(FPresets.List[PresetIndex]^.Data));
+      FPresets.Remove(PresetName);
+      FLastPreset := '';
+      SavePresets;
+    end;
+  end;
+end;
+
+procedure TfrmMultiRename.FillPresetsList;
+var
+  i: Integer;
+  PresetName: String;
+begin
+  cbPresets.Clear;
+
+  for i := 0 to FPresets.Count - 1 do
+  begin
+    PresetName := FPresets.List[i]^.Key;
+    if cbPresets.Items.IndexOf(PresetName) = -1 then
+      cbPresets.Items.Add(PresetName);
+  end;
+end;
+
+procedure TfrmMultiRename.ClearPresetsList;
+var
+  i: Integer;
+begin
+  for i := 0 to FPresets.Count - 1 do
+    Dispose(PMultiRenamePreset(FPresets.List[i]^.Data));
+  FPresets.Clear;
 end;
 
 initialization

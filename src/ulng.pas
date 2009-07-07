@@ -78,6 +78,7 @@ resourcestring
   rsMsgNotImplemented = 'Not implemented.';
   rsMsgInvalidFilename = 'Invalid filename';
   rsMsgSelectOnlyCheckSumFiles = 'Please select only check sum files!';
+  rsMsgPresetAlreadyExists = 'Preset "%s" already exists. Overwrite?';
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuMount = 'Mount';
