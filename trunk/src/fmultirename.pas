@@ -20,7 +20,8 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ComCtrls, Menus, Buttons, SynRegExpr, uClassesEx, uFileList;
+  StdCtrls, ComCtrls, Menus, Buttons, SynRegExpr, LCLType,
+  uClassesEx, uFileList;
 
 type
 
@@ -29,6 +30,7 @@ type
   TfrmMultiRename = class(TForm)
     cbRegExp: TCheckBox;
     cbUseSubs: TCheckBox;
+    cmbExtensionStyle: TComboBox;
     lsvwFile: TListView;
     gbMaska: TGroupBox;
     lbName: TLabel;
@@ -42,8 +44,7 @@ type
     lbReplace: TLabel;
     edFind: TEdit;
     edReplace: TEdit;
-    gbFontStyle: TGroupBox;
-    cmbxFont: TComboBox;
+    cmbNameStyle: TComboBox;
     gbCounter: TGroupBox;
     lbStNb: TLabel;
     lbInterval: TLabel;
@@ -79,7 +80,7 @@ type
     miMinute: TMenuItem;
     miSecond: TMenuItem;
     procedure cbRegExpChange(Sender: TObject);
-    procedure cmbxFontChange(Sender: TObject);
+    procedure cmbNameStyleChange(Sender: TObject);
     procedure edPocChange(Sender: TObject);
     procedure edIntervalChange(Sender: TObject);
     procedure btnRenameClick(Sender: TObject);
@@ -119,6 +120,16 @@ type
     procedure FreshText;
     {Executes the main operation of renaming files}
     procedure RenameFiles;
+    {Changes first char to uppercase and the rest to lowercase}
+    function FirstCharToUppercaseUTF8(InputString: String): String;
+    {Changes first char of first word to uppercase and the rest to lowercase}
+    function FirstCharOfFirstWordToUppercaseUTF8(InputString: String): String;
+    {Changes first char of every word to uppercase and the rest to lowercase}
+    function FirstCharOfEveryWordToUppercaseUTF8(InputString: String): String;
+    {Returns true if a byte represents a letter.}
+    function IsLetter(AChar: AnsiChar): Boolean;
+    {Applies style (uppercase, lowercase, etc.) to a string}
+    function ApplyStyle(InputString: String; Style: Integer): String;
   public
     { Public declarations }
     FileList: TFileList;
@@ -160,7 +171,9 @@ end;
 procedure TfrmMultiRename.FormCreate(Sender: TObject);
 begin
   // Localize File name style ComboBox
-  ParseLineToList(rsMulRenFileNameStyleList, cmbxFont.Items);
+  ParseLineToList(rsMulRenFileNameStyleList, cmbNameStyle.Items);
+  ParseLineToList(rsMulRenFileNameStyleList, cmbExtensionStyle.Items);
+
   // Initialize property storage
   IniPropStorage:= InitPropStorage(Self);
   IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item0_Width';
@@ -268,20 +281,16 @@ begin
       end
     else
       sTmpAll:=StringReplace(sTmpAll,edFind.Text,edReplace.Text,[rfReplaceAll,rfIgnoreCase]);
+
     //file name style
-    case cmbxFont.ItemIndex of
-      1: sTmpAll:= UTF8UpperCase(sTmpAll);
-      2: sTmpAll:= UTF8LowerCase(sTmpAll);
-      3: begin
-           sTmpAll:= UTF8LowerCase(sTmpAll);
-           if UTF8Length(sTmpAll) > 0 then
-             begin
-               sTmpExt:= UTF8Copy(sTmpAll, 1, 1);
-               UTF8Delete(sTmpAll, 1, 1);
-               sTmpAll:= UTF8UpperCase(sTmpExt) + sTmpAll;
-             end;
-         end;
-    end;
+    sTmpName := ExtractOnlyFileName(sTmpAll);
+    sTmpExt  := ExtractFileExt(sTmpAll);
+
+    sTmpName := ApplyStyle(sTmpName, cmbNameStyle.ItemIndex);
+    sTmpExt  := ApplyStyle(sTmpExt, cmbExtensionStyle.ItemIndex);
+
+    sTmpAll := sTmpName + sTmpExt;
+
     //save new name file
     lsvwFile.Items[c].SubItems.Strings[0]:=sTmpAll;
   end;
@@ -299,7 +308,7 @@ begin
   end;
 end;
 
-procedure TfrmMultiRename.cmbxFontChange(Sender: TObject);
+procedure TfrmMultiRename.cmbNameStyleChange(Sender: TObject);
 begin
   FreshText;
 end;
@@ -368,7 +377,7 @@ begin
   edExt.SelStart:=length(edExt.Text);
   edFind.Text:='';
   edReplace.Text:='';
-  cmbxFont.ItemIndex:=0;
+  cmbNameStyle.ItemIndex:=0;
   edPoc.Text:='1';
   edInterval.Text:='1';
   cmbxWidth.ItemIndex:=0;
@@ -626,6 +635,82 @@ begin
   end;
 
   FreshText;
+end;
+
+function TfrmMultiRename.FirstCharToUppercaseUTF8(InputString: String): String;
+var
+  FirstChar: String;
+begin
+  if UTF8Length(InputString) > 0 then
+    begin
+      Result := UTF8LowerCase(InputString);
+      FirstChar := UTF8Copy(Result, 1, 1);
+      UTF8Delete(Result, 1, 1);
+      Result := UTF8UpperCase(FirstChar) + Result;
+    end
+  else
+    Result := '';
+end;
+
+function TfrmMultiRename.FirstCharOfFirstWordToUppercaseUTF8(InputString: String): String;
+var
+  SeparatorPos: Integer;
+begin
+  InputString := UTF8LowerCase(InputString);
+  Result := '';
+
+  // Search for first letter.
+  for SeparatorPos := 1 to Length(InputString) do
+    if IsLetter(InputString[SeparatorPos]) then
+      break;
+
+  Result := Copy(InputString, 1, SeparatorPos - 1)
+          + FirstCharToUppercaseUTF8(Copy(InputString, SeparatorPos, Length(InputString) - SeparatorPos + 1));
+end;
+
+function TfrmMultiRename.FirstCharOfEveryWordToUppercaseUTF8(InputString: String): String;
+var
+  SeparatorPos: Integer;
+begin
+  InputString := UTF8LowerCase(InputString);
+  Result := '';
+
+  while InputString <> '' do
+  begin
+    // Search for first non-letter (word separator).
+    for SeparatorPos := 1 to Length(InputString) do
+      if not IsLetter(InputString[SeparatorPos]) then
+        break;
+
+    Result := Result
+            + FirstCharToUppercaseUTF8(Copy(InputString, 1, SeparatorPos));
+
+    Delete(InputString, 1, SeparatorPos);
+  end;
+end;
+
+function TfrmMultiRename.IsLetter(AChar: AnsiChar): Boolean;
+begin
+  Result :=  // Ascii letters
+             ( (AChar < #128)
+               and
+               (((AChar >= 'a') and (AChar <= 'z')) or
+                ((AChar >= 'A') and (AChar <= 'Z'))) )
+         or
+             // maybe Ansi or UTF8
+             (AChar >= #128);
+end;
+
+function TfrmMultiRename.ApplyStyle(InputString: String; Style: Integer): String;
+begin
+  case Style of
+    1: Result := UTF8UpperCase(InputString);
+    2: Result := UTF8LowerCase(InputString);
+    3: Result := FirstCharOfFirstWordToUppercaseUTF8(InputString);
+    4: Result := FirstCharOfEveryWordToUppercaseUTF8(InputString);
+    else
+       Result := InputString;
+  end;
 end;
 
 initialization
