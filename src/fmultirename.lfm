@@ -129,14 +129,9 @@ object frmMultiRename: TfrmMultiRename
       BorderSpacing.Left = 4
       BorderSpacing.Right = 4
       ItemHeight = 0
-      ItemIndex = 0
-      Items.Strings = (
-        'style'
-      )
       OnChange = cmbNameStyleChange
       Style = csDropDownList
       TabOrder = 4
-      Text = 'style'
     end
     object cmbExtensionStyle: TComboBox
       AnchorSideLeft.Control = btnExtMenu
@@ -153,14 +148,9 @@ object frmMultiRename: TfrmMultiRename
       BorderSpacing.Left = 4
       BorderSpacing.Right = 4
       ItemHeight = 0
-      ItemIndex = 0
-      Items.Strings = (
-        'style'
-      )
       OnChange = cmbNameStyleChange
       Style = csDropDownList
       TabOrder = 5
-      Text = 'style'
     end
   end
   object gbFindReplace: TGroupBox

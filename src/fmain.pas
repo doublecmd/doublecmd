@@ -1970,7 +1970,6 @@ procedure TfrmMain.RenameFile(sDestPath:String);
 var
   fl:TFileList;
   sDstMaskTemp:String;
-  sCopyQuest:String;
 begin
   // Exit if no valid files selected.
   if ActiveFrame.SelectFileIfNoSelected(ActiveFrame.GetActiveItem) = False then Exit;
