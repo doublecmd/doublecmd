@@ -1249,7 +1249,7 @@ end;
 
 procedure TfrmMain.nbPageAfterMouseDown(Data: PtrInt);
 begin
-  with TNoteBook(Pointer(Data)) do
+  with TObject(Data) as TNoteBook do
   begin
     if (Name = 'nbLeft') and (FrameLeft <> nil) then
       begin
