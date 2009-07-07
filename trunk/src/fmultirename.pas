@@ -378,6 +378,7 @@ begin
   edFind.Text:='';
   edReplace.Text:='';
   cmbNameStyle.ItemIndex:=0;
+  cmbExtensionStyle.ItemIndex:=0;
   edPoc.Text:='1';
   edInterval.Text:='1';
   cmbxWidth.ItemIndex:=0;

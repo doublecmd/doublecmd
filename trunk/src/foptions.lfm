@@ -360,10 +360,6 @@ object frmOptions: TfrmOptions
             Top = 87
             Width = 131
             ItemHeight = 0
-            Items.Strings = (
-              'Left button'
-              'Right button'
-            )
             Style = csDropDownList
             TabOrder = 3
           end
