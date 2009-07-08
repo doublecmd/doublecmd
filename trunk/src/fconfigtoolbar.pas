@@ -206,7 +206,7 @@ end;
 
 procedure TfrmConfigToolBar.cbCommandSelect(Sender: TObject);
 begin
-  kedtToolTip.Text :=cbCommand.Items[cbCommand.ItemIndex];
+  kedtToolTip.Text := Actions.GetCommandCaption(cbCommand.Items[cbCommand.ItemIndex]);
 end;
 
 procedure TfrmConfigToolBar.btnOKClick(Sender: TObject);
