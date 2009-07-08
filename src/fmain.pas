@@ -848,12 +848,12 @@ begin
   begin  // Minimized
     if not HiddenToTray then
     begin
-    if gMinimizeToTray or gAlwaysShowTrayIcon then
+      if gMinimizeToTray or gAlwaysShowTrayIcon then
       begin
         HideToTray;
       end;
     end
-  else
+    else
       // If we get wsMinimized while HiddenToTray is true,
       // then this means it was sent by LCL when a hidden, minimized window was shown.
       // We don't react to this message in this case.
@@ -930,18 +930,17 @@ procedure TfrmMain.MainSplitterMouseUp(Sender: TObject; Button: TMouseButton;
 begin
   if (MainSplitterLeftMouseBtnDown) then
   begin
-   // hide and destroy hint
-   if Assigned(MainSplitterHintWnd) then
-   begin
-     MainSplitterHintWnd.Hide;
-     FreeAndNil(MainSplitterHintWnd);
-   end;
+    // hide and destroy hint
+    if Assigned(MainSplitterHintWnd) then
+    begin
+      MainSplitterHintWnd.Hide;
+      FreeAndNil(MainSplitterHintWnd);
+    end;
 
-   MainSplitter.ParentColor:=true;
-   MainSplitterLeftMouseBtnDown:=false;
-   pnlLeft.Width:=MainSplitter.Left;
+    MainSplitter.ParentColor:=true;
+    MainSplitterLeftMouseBtnDown:=false;
+    pnlLeft.Width:=MainSplitter.Left;
   end;
-
 end;
 
 procedure TfrmMain.MainTrayIconClick(Sender: TObject);
@@ -1004,14 +1003,14 @@ end;
 
 procedure TfrmMain.DeleteClick(Sender: TObject);
 begin
-if pmToolBar.Tag >= 0 then
-   begin
-   if msgYesNo(Format(rsMsgDelSel, [MainToolBar.Buttons[pmToolBar.Tag].Hint])) then
-      begin
-         MainToolBar.RemoveButton (pmToolBar.Tag);
-         MainToolBar.SaveToFile(gpIniDir + 'default.bar');
-      end;
-   end;
+  if pmToolBar.Tag >= 0 then
+  begin
+    if msgYesNo(Format(rsMsgDelSel, [MainToolBar.Buttons[pmToolBar.Tag].Hint])) then
+    begin
+       MainToolBar.RemoveButton (pmToolBar.Tag);
+       MainToolBar.SaveToFile(gpIniDir + 'default.bar');
+    end;
+  end;
 end;
 
 procedure TfrmMain.dskToolBarMouseUp(Sender: TObject; Button: TMouseButton;
@@ -1297,9 +1296,9 @@ begin
   begin
     if Page[PageIndex].Tag = 2 then // if locked with directory change
       with TFrameFilePanel(Page[PageIndex].Components[0]) do
-	  begin
-      pnlFile.ActiveDir:= Page[PageIndex].Hint;
-    end
+        begin
+          pnlFile.ActiveDir:= Page[PageIndex].Hint;
+        end
     else if (Name = 'nbLeft') and (FrameLeft <> nil) then
       begin
         FrameLeft.pnlFile.UpdatePrompt;
@@ -2887,25 +2886,25 @@ procedure TfrmMain.ReLoadTabs(ANoteBook: TNoteBook);
 var
   I : Integer;
 begin
-     DebugLn('FSetCol='+inttostr(colset.Items.Count));
-     
-     for i:=0 to ANoteBook.PageCount-1 do
-        begin
-          with TFrameFilePanel(ANoteBook.Page[I].Components[0]) do
-           begin
-           DebugLn('ActiveColmRET'+Inttostr(I)+'='+ActiveColm);
-              if ColSet.Items.IndexOf(ActiveColm)=-1 then
-                if ColSet.Items.Count>0 then
-                  ActiveColm:=ColSet.Items[0]
-                else
-                  ActiveColm:='Default';
-              Colset.GetColumnSet(ActiveColm).Load(gini,ActiveColm);
-              SetColWidths;
-              UpdateColumnsView;
-           end;
-        end;
-end;
+  DebugLn('FSetCol='+inttostr(colset.Items.Count));
 
+  for i:=0 to ANoteBook.PageCount-1 do
+  begin
+    with TFrameFilePanel(ANoteBook.Page[I].Components[0]) do
+    begin
+      DebugLn('ActiveColmRET'+Inttostr(I)+'='+ActiveColm);
+      if ColSet.Items.IndexOf(ActiveColm)=-1 then
+        if ColSet.Items.Count>0 then
+          ActiveColm:=ColSet.Items[0]
+        else
+          ActiveColm:='Default';
+
+      Colset.GetColumnSet(ActiveColm).Load(gini,ActiveColm);
+      SetColWidths;
+      UpdateColumnsView;
+    end;
+  end;
+end;
 
 procedure TfrmMain.LoadTabs(ANoteBook: TNoteBook);
 var
@@ -2933,28 +2932,29 @@ begin
       TabsSection:= 'righttabs';
       fpsPanel:= fpRight;
     end;
+
   I:= 0;
   sIndex:= '0';
   // create one tab in any way
   sCurrentDir:= mbGetCurrentDir; // default path
   sPath:= gIni.ReadString(TabsSection, sIndex + '_path', sCurrentDir);
-   while True do
+  while True do
     begin
-	  if mbDirectoryExists(sPath) then
-	    begin
-	      sCaption:= gIni.ReadString(TabsSection, sIndex + '_caption', EmptyStr);
-		  if sCaption = EmptyStr then
-		    sCaption:= GetLastDir(ExcludeTrailingPathDelimiter(sPath));
-		end
-	  else	
+      if mbDirectoryExists(sPath) then
+        begin
+          sCaption:= gIni.ReadString(TabsSection, sIndex + '_caption', EmptyStr);
+          if sCaption = EmptyStr then
+            sCaption:= GetLastDir(ExcludeTrailingPathDelimiter(sPath));
+        end
+      else
         begin // find exists directory
-		  repeat
-            sPath:= GetParentDir(sPath);	     
-	        if sPath = EmptyStr then
-	          sPath:= sCurrentDir;
+          repeat
+            sPath:= GetParentDir(sPath);
+            if sPath = EmptyStr then
+              sPath:= sCurrentDir;
           until mbDirectoryExists(sPath);
-		  sCaption:= GetLastDir(ExcludeTrailingPathDelimiter(sPath));
-		end;
+          sCaption:= GetLastDir(ExcludeTrailingPathDelimiter(sPath));
+        end;
 
       CreatePanel(AddPage(ANoteBook), fpsPanel, sPath);
 
@@ -3003,11 +3003,12 @@ begin
       // if not found then break
       if sPath = '' then Break;
     end;
-    // read active tab index
-    iActiveTab:= gIni.ReadInteger(TabsSection, 'activetab', 0);
-    // set active tab
-    if (iActiveTab >= 0) and (iActiveTab < ANoteBook.PageCount) then
-      ANoteBook.PageIndex := iActiveTab;
+
+  // read active tab index
+  iActiveTab:= gIni.ReadInteger(TabsSection, 'activetab', 0);
+  // set active tab
+  if (iActiveTab >= 0) and (iActiveTab < ANoteBook.PageCount) then
+    ANoteBook.PageIndex := iActiveTab;
 end;
 
 procedure TfrmMain.SaveTabs(ANoteBook: TNoteBook);
