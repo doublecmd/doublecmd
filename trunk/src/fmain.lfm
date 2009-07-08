@@ -1923,8 +1923,13 @@ object frmMain: TfrmMain
     object miLine25: TMenuItem
       Caption = '-'
     end
-    object miLogHide: TMenuItem
+    object miLogClear: TMenuItem
       Tag = 2
+      Caption = 'Clear'
+      OnClick = miLogMenuClick
+    end
+    object miLogHide: TMenuItem
+      Tag = 3
       Caption = 'Hide'
       OnClick = miLogMenuClick
     end

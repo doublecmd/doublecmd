@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-07-08 21:06+0300\n"
+"PO-Revision-Date: 2009-07-08 23:24+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1628,6 +1628,10 @@ msgstr ""
 msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
 msgstr ""
+
+#: TFRMMAIN.MILOGCLEAR.CAPTION
+msgid "Clear"
+msgstr "Очистить"
 
 #: TFRMMAIN.MILOGCOPY.CAPTION
 msgctxt "TFRMMAIN.MILOGCOPY.CAPTION"
@@ -3369,6 +3373,10 @@ msgstr "&Настроить"
 msgid "&Delete %s"
 msgstr "Удалить %s"
 
+#: ulng.rsmsgpresetalreadyexists
+msgid "Preset \"%s\" already exists. Overwrite?"
+msgstr ""
+
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
 msgstr "Переименовать/переместить %d выбранных файлов/каталогов?"
@@ -3414,8 +3422,9 @@ msgid "Wipe selected \"%s\"?"
 msgstr "Стереть выбранный \"%s\"?"
 
 #: ulng.rsmulrenfilenamestylelist
-msgid "No change;UPPERCASE;lowercase;First Char Big;"
-msgstr "Без изменений;ПРОПИСНЫЕ;строчные;С Прописной;"
+#| msgid "No change;UPPERCASE;lowercase;First Char Big;"
+msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
+msgstr "Без изменений;ПРОПИСНЫЕ;строчные;С прописной;Каждое Слово С Прописной;"
 
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
