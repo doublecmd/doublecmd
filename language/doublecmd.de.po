@@ -1078,6 +1078,16 @@ msgstr "Berechne belegten Platz"
 msgid "Change directory to root"
 msgstr "Verzeichnis zu Root wechseln"
 
+#: TFRMMAIN.ACTCHECKSUMCALC.CAPTION
+msgctxt "TFRMMAIN.ACTCHECKSUMCALC.CAPTION"
+msgid "Calculate check sum..."
+msgstr "Berechne Prüfsumme..."
+
+#: TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION
+msgctxt "TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION"
+msgid "Verify check sum..."
+msgstr "Verifiziere Prüfsumme..."
+
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
 msgstr "Anhand des Inhalts vergleichen"
@@ -1570,6 +1580,16 @@ msgctxt "TFRMMAIN.MILINE22.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: TFRMMAIN.MILINE24.CAPTION
+msgctxt "TFRMMAIN.MILINE24.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMMAIN.MILINE25.CAPTION
+msgctxt "TFRMMAIN.MILINE25.CAPTION"
+msgid "-"
+msgstr "-"
+
 #: TFRMMAIN.MILINE3.CAPTION
 msgctxt "TFRMMAIN.MILINE3.CAPTION"
 msgid "-"
@@ -1595,10 +1615,29 @@ msgctxt "TFRMMAIN.MILINE7.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: TFRMMAIN.MILINE8.CAPTION
+msgctxt "TFRMMAIN.MILINE8.CAPTION"
+msgid "-"
+msgstr "-"
+
 #: TFRMMAIN.MILINE9.CAPTION
 msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
 msgstr "-"
+
+#: TFRMMAIN.MILOGCOPY.CAPTION
+msgctxt "TFRMMAIN.MILOGCOPY.CAPTION"
+msgid "Copy"
+msgstr "Kopieren"
+
+#: TFRMMAIN.MILOGHIDE.CAPTION
+msgid "Hide"
+msgstr ""
+
+#: TFRMMAIN.MILOGSELECTALL.CAPTION
+msgctxt "TFRMMAIN.MILOGSELECTALL.CAPTION"
+msgid "Select All"
+msgstr "Alle mar&kieren"
 
 #: TFRMMAIN.MIMOVE.CAPTION
 msgid "Move..."
@@ -1608,6 +1647,15 @@ msgstr "Verschiebe..."
 msgctxt "TFRMMAIN.MISYMLINK.CAPTION"
 msgid "Create symlink..."
 msgstr "Erstelle symb. Link"
+
+#: TFRMMAIN.MITRAYICONEXIT.CAPTION
+msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
+msgid "Exit"
+msgstr "Beenden"
+
+#: TFRMMAIN.MITRAYICONRESTORE.CAPTION
+msgid "Restore"
+msgstr ""
 
 #: TFRMMAIN.MNUCMD.CAPTION
 msgid "&Commands"
@@ -1961,7 +2009,8 @@ msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
 msgid "Remove"
 msgstr "Entfernen"
 
-#: TFRMOPTIONS.BTNSEARCHTEMPLATE.CAPTION
+#: TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT
+msgctxt "TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT"
 msgid "Template..."
 msgstr "Vorlage..."
 
@@ -1995,6 +2044,10 @@ msgstr "Optionen"
 #: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
 msgid "BackGround:"
 msgstr "Hintergrund:"
+
+#: TFRMOPTIONS.CBALWAYSSHOWTRAYICON.CAPTION
+msgid "Always show tray icon"
+msgstr ""
 
 #: TFRMOPTIONS.CBBFILESYSTEM.TEXT
 msgid "General"
@@ -2206,6 +2259,10 @@ msgstr "Zeige Verzeichnis-Reiter"
 msgid "Show warning messages (\"OK\" button only)"
 msgstr "Warnungen anzeigen (nur mit \"OK\" Schalter)"
 
+#: TFRMOPTIONS.CBSKIPFILEOPERROR.CAPTION
+msgid "Skip file operations errors and write them to log window"
+msgstr ""
+
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr "Wenn Dateien mit der <Leertaste> ausgewählt werden, zur nächsten Datei wechseln (wie mit <Einfügen>)"
@@ -2237,6 +2294,10 @@ msgstr "Rei&ter-Titel auf mehrere Zeilen verteilen"
 #: TFRMOPTIONS.CBTABSOPENFOREGROUND.CAPTION
 msgid "Ctrl+&Up opens new tab in foreground"
 msgstr "Strg+Pf&eil hoch öffnet einen neuen Reiter im Vordergrund"
+
+#: TFRMOPTIONS.CBTABSSHOWCLOSEBUTTON.CAPTION
+msgid "Show tab close button"
+msgstr ""
 
 #: TFRMOPTIONS.CBTERMWINDOW.CAPTION
 msgid "Show terminal window"
@@ -2829,6 +2890,7 @@ msgid "Search"
 msgstr "Suchen"
 
 #: TFRMVIEWER.MISELECTALL.CAPTION
+msgctxt "TFRMVIEWER.MISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "Alle mar&kieren"
 
@@ -2920,6 +2982,7 @@ msgid "Calculate check sum..."
 msgstr "Berechne Prüfsumme..."
 
 #: ulng.rsdlgchecksumverify
+msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr "Verifiziere Prüfsumme..."
 

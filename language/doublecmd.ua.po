@@ -1095,6 +1095,16 @@ msgstr "Розрахувати &займаєме місце..."
 msgid "Change directory to root"
 msgstr ""
 
+#: TFRMMAIN.ACTCHECKSUMCALC.CAPTION
+msgctxt "TFRMMAIN.ACTCHECKSUMCALC.CAPTION"
+msgid "Calculate check sum..."
+msgstr ""
+
+#: TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION
+msgctxt "TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION"
+msgid "Verify check sum..."
+msgstr ""
+
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
 msgstr "Порівняти п&о вмісту"
@@ -1587,6 +1597,16 @@ msgctxt "TFRMMAIN.MILINE22.CAPTION"
 msgid "-"
 msgstr ""
 
+#: TFRMMAIN.MILINE24.CAPTION
+msgctxt "TFRMMAIN.MILINE24.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMAIN.MILINE25.CAPTION
+msgctxt "TFRMMAIN.MILINE25.CAPTION"
+msgid "-"
+msgstr ""
+
 #: TFRMMAIN.MILINE3.CAPTION
 msgctxt "TFRMMAIN.MILINE3.CAPTION"
 msgid "-"
@@ -1612,10 +1632,29 @@ msgctxt "TFRMMAIN.MILINE7.CAPTION"
 msgid "-"
 msgstr ""
 
+#: TFRMMAIN.MILINE8.CAPTION
+msgctxt "TFRMMAIN.MILINE8.CAPTION"
+msgid "-"
+msgstr ""
+
 #: TFRMMAIN.MILINE9.CAPTION
 msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
 msgstr ""
+
+#: TFRMMAIN.MILOGCOPY.CAPTION
+msgctxt "TFRMMAIN.MILOGCOPY.CAPTION"
+msgid "Copy"
+msgstr "&Копіювати"
+
+#: TFRMMAIN.MILOGHIDE.CAPTION
+msgid "Hide"
+msgstr ""
+
+#: TFRMMAIN.MILOGSELECTALL.CAPTION
+msgctxt "TFRMMAIN.MILOGSELECTALL.CAPTION"
+msgid "Select All"
+msgstr "Виділити &все"
 
 #: TFRMMAIN.MIMOVE.CAPTION
 msgid "Move..."
@@ -1625,6 +1664,15 @@ msgstr "Перемістити..."
 msgctxt "TFRMMAIN.MISYMLINK.CAPTION"
 msgid "Create symlink..."
 msgstr "Створити символьне пос&илання..."
+
+#: TFRMMAIN.MITRAYICONEXIT.CAPTION
+msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
+msgid "Exit"
+msgstr "Вихід"
+
+#: TFRMMAIN.MITRAYICONRESTORE.CAPTION
+msgid "Restore"
+msgstr ""
 
 #: TFRMMAIN.MNUCMD.CAPTION
 msgid "&Commands"
@@ -1978,7 +2026,8 @@ msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
 msgid "Remove"
 msgstr "Видалити"
 
-#: TFRMOPTIONS.BTNSEARCHTEMPLATE.CAPTION
+#: TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT
+msgctxt "TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT"
 msgid "Template..."
 msgstr ""
 
@@ -2012,6 +2061,10 @@ msgstr "Настройка"
 #: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
 msgid "BackGround:"
 msgstr "Фон &1"
+
+#: TFRMOPTIONS.CBALWAYSSHOWTRAYICON.CAPTION
+msgid "Always show tray icon"
+msgstr ""
 
 #: TFRMOPTIONS.CBBFILESYSTEM.TEXT
 msgid "General"
@@ -2223,6 +2276,10 @@ msgstr "Вкл&адки папок"
 msgid "Show warning messages (\"OK\" button only)"
 msgstr "Показувати попередження (тільки кнопка \"OK\")"
 
+#: TFRMOPTIONS.CBSKIPFILEOPERROR.CAPTION
+msgid "Skip file operations errors and write them to log window"
+msgstr ""
+
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr ""
@@ -2254,6 +2311,10 @@ msgstr "Розміщати вкладки в декілька рядів"
 #: TFRMOPTIONS.CBTABSOPENFOREGROUND.CAPTION
 msgid "Ctrl+&Up opens new tab in foreground"
 msgstr "Ctrl+&Up відкриває нову вкладку у фоні"
+
+#: TFRMOPTIONS.CBTABSSHOWCLOSEBUTTON.CAPTION
+msgid "Show tab close button"
+msgstr ""
 
 #: TFRMOPTIONS.CBTERMWINDOW.CAPTION
 msgid "Show terminal window"
@@ -2939,6 +3000,7 @@ msgid "Calculate check sum..."
 msgstr ""
 
 #: ulng.rsdlgchecksumverify
+msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr ""
 
