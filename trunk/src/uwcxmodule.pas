@@ -1271,7 +1271,7 @@ begin
    begin
      CurrFileName := PathDelim + TWCXHeader(FArcFileList.Items[I]).FileName;
 
-     if not IsFileInPath(sDir, CurrFileName, False) then
+     if not IsInPath(sDir, CurrFileName, False) then
        Continue;
 
      FillByte(fr, SizeOf(fr), 0);
