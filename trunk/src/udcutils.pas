@@ -571,6 +571,10 @@ var
 begin
   Result := False;
 
+  if sBasePath = '' then Exit;
+
+  sBasePath := IncludeTrailingPathDelimiter(sBasePath);
+
   BasePathLength := Length(sBasePath);
   PathToCheckLength := Length(sPathToCheck);
 
