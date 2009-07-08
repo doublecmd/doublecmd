@@ -1473,6 +1473,7 @@ object frmOptions: TfrmOptions
             end>
           FixedCols = 0
           Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect, goThumbTracking, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook]
+          RowCount = 1
           TabOrder = 1
           TitleStyle = tsNative
           OnBeforeSelection = stgPluginsBeforeSelection
