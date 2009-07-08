@@ -197,6 +197,8 @@ const cf_Null=0;
    procedure cm_PasteFromClipboard(param: string='');
    procedure cm_ChangeDirToRoot(param: string='');
    procedure cm_ChangeDir(param: string='');
+   procedure cm_ClearLogWindow(param: string='');
+   procedure cm_ClearLogFile(param: string='');
 
    //---------------------
    {   procedure SomeFunction (param:string; var Result:integer);
@@ -2359,6 +2361,16 @@ end;
 procedure TActs.cm_ChangeDir(param: string='');
 begin
   FrmMain.ActiveFrame.pnlFile.ActiveDir := param;
+end;
+
+procedure TActs.cm_ClearLogWindow(param: string);
+begin
+  frmMain.seLogWindow.Lines.Clear;
+end;
+
+procedure TActs.cm_ClearLogFile(param: string);
+begin
+  mbDeleteFile(gLogFileName);
 end;
 
 end.

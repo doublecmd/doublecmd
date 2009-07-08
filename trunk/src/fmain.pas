@@ -82,6 +82,8 @@ type
     actCountDirContent: TAction;
     actCheckSumVerify: TAction;
     actCheckSumCalc: TAction;
+    actClearLogFile: TAction;
+    actClearLogWindow: TAction;
     actRightEqualLeft: TAction;
     actLeftEqualRight: TAction;
     actPasteFromClipboard: TAction;
@@ -675,7 +677,7 @@ begin
     1:
       seLogWindow.SelectAll;
     2:
-      seLogWindow.Lines.Clear;
+      Actions.cm_ClearLogWindow();
     3:
       ShowLogWindow(False);
   end;

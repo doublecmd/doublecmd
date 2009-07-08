@@ -1092,6 +1092,14 @@ msgctxt "TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION"
 msgid "Verify check sum..."
 msgstr "Проверить контрольные суммы..."
 
+#: TFRMMAIN.ACTCLEARLOGFILE.CAPTION
+msgid "Clear log file"
+msgstr ""
+
+#: TFRMMAIN.ACTCLEARLOGWINDOW.CAPTION
+msgid "Clear log window"
+msgstr ""
+
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
 msgstr "Сравнивать п&о содержимому"
