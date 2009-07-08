@@ -84,6 +84,13 @@ type
     actCheckSumCalc: TAction;
     actClearLogFile: TAction;
     actClearLogWindow: TAction;
+    actChangeDir: TAction;
+    actAddFilenameToCmdLine: TAction;
+    actAddPathAndFilenameToCmdLine: TAction;
+    actDriveContextMenu: TAction;
+    actSortByColumn: TAction;
+    actPanelsSplitterPerPos: TAction;
+    actMinimize: TAction;
     actRightEqualLeft: TAction;
     actLeftEqualRight: TAction;
     actPasteFromClipboard: TAction;

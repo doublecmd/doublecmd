@@ -1648,6 +1648,41 @@ object frmMain: TfrmMain
       Caption = 'Clear log window'
       OnExecute = actExecute
     end
+    object actMinimize: TAction
+      Category = 'Commands'
+      Caption = 'Minimize window'
+      OnExecute = actExecute
+    end
+    object actChangeDir: TAction
+      Category = 'Commands'
+      Caption = 'Change directory'
+      OnExecute = actExecute
+    end
+    object actAddFilenameToCmdLine: TAction
+      Category = 'Commands'
+      Caption = 'Add file name to command line'
+      OnExecute = actExecute
+    end
+    object actAddPathAndFilenameToCmdLine: TAction
+      Category = 'Commands'
+      Caption = 'Add path and file name to command line'
+      OnExecute = actExecute
+    end
+    object actPanelsSplitterPerPos: TAction
+      Category = 'Commands'
+      Caption = 'Set splitter position'
+      OnExecute = actExecute
+    end
+    object actSortByColumn: TAction
+      Category = 'Show'
+      Caption = 'Sort by column'
+      OnExecute = actExecute
+    end
+    object actDriveContextMenu: TAction
+      Category = 'Commands'
+      Caption = 'Drive context menu'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     left = 152

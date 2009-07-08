@@ -1071,12 +1071,24 @@ msgctxt "TFRMMAIN.ACTABOUT.CAPTION"
 msgid "About"
 msgstr ""
 
+#: TFRMMAIN.ACTADDFILENAMETOCMDLINE.CAPTION
+msgid "Add file name to command line"
+msgstr ""
+
+#: TFRMMAIN.ACTADDPATHANDFILENAMETOCMDLINE.CAPTION
+msgid "Add path and file name to command line"
+msgstr ""
+
 #: TFRMMAIN.ACTADDPATHTOCMDLINE.CAPTION
 msgid "Copy path to command line"
 msgstr ""
 
 #: TFRMMAIN.ACTCALCULATESPACE.CAPTION
 msgid "Calculate &Occupied Space..."
+msgstr ""
+
+#: TFRMMAIN.ACTCHANGEDIR.CAPTION
+msgid "Change directory"
 msgstr ""
 
 #: TFRMMAIN.ACTCHANGEDIRTOROOT.CAPTION
@@ -1148,6 +1160,10 @@ msgstr ""
 
 #: TFRMMAIN.ACTDIRHOTLIST.CAPTION
 msgid "Directory &hotlist"
+msgstr ""
+
+#: TFRMMAIN.ACTDRIVECONTEXTMENU.CAPTION
+msgid "Drive context menu"
 msgstr ""
 
 #: TFRMMAIN.ACTEDIT.CAPTION
@@ -1244,6 +1260,10 @@ msgstr ""
 msgid "Unselect All"
 msgstr ""
 
+#: TFRMMAIN.ACTMINIMIZE.CAPTION
+msgid "Minimize window"
+msgstr ""
+
 #: TFRMMAIN.ACTMULTIRENAME.CAPTION
 msgid "Multi Rename Tool"
 msgstr ""
@@ -1279,6 +1299,10 @@ msgstr ""
 
 #: TFRMMAIN.ACTPACKFILES.CAPTION
 msgid "Pack files..."
+msgstr ""
+
+#: TFRMMAIN.ACTPANELSSPLITTERPERPOS.CAPTION
+msgid "Set splitter position"
 msgstr ""
 
 #: TFRMMAIN.ACTPASTEFROMCLIPBOARD.CAPTION
@@ -1354,6 +1378,10 @@ msgstr ""
 
 #: TFRMMAIN.ACTSORTBYATTR.CAPTION
 msgid "Sort by attrib"
+msgstr ""
+
+#: TFRMMAIN.ACTSORTBYCOLUMN.CAPTION
+msgid "Sort by column"
 msgstr ""
 
 #: TFRMMAIN.ACTSORTBYDATE.CAPTION
