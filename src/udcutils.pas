@@ -132,6 +132,40 @@ function MinimizeFilePath(const PathToMince: String; Canvas: TCanvas;
 function ExpandAbsolutePath(Path: String): String;
 
 {en
+  Checks if a file or directory belongs in the specified path.
+  Only strings are compared, no file-system checks are done.
+
+  @param(sBasePath
+         Absolute path where the path to check should be in.)
+  @param(sPathToCheck
+         Absolute path to file or directory to check.)
+  @param(AllowSubDirs
+         If @true, allows the sPathToCheck to point to a file or directory in some subdirectory of sPath.
+         If @false, only allows the sPathToCheck to point directly to a file or directory in sPath.
+  @return(@true if sPathToCheck points to a directory or file in sBasePath.
+          @false otherwise.)
+
+  Examples:
+    IsInPath('/home', '/home/somedir/somefile', True) = True
+    IsInPath('/home', '/home/somedir/somefile', False) = False
+    IsInPath('/home', '/home/somedir/', False) = True
+}
+function IsInPath(sBasePath : String; sPathToCheck : String; AllowSubDirs: Boolean) : Boolean;
+
+{en
+   Changes a path to be relative to some parent directory.
+
+   @param(sPrefix
+          Absolute path that is a parent of sPath.)
+   @param(sPath
+          Path to change. Must be a subpath of sPrefix, otherwise no change is made.)
+
+   Examples:
+     ExtractDirLevel('/home', '/home/somedir/somefile') = '/somedir/somefile'
+}
+function ExtractDirLevel(const sPrefix, sPath: String): String;
+
+{en
    Return position of character in string begun from start position
    @param(C character)
    @param(S String)
@@ -528,6 +562,52 @@ begin
       end;
 
   Result := Path;
+end;
+
+function IsInPath(sBasePath : String; sPathToCheck : String; AllowSubDirs: Boolean) : Boolean;
+var
+  BasePathLength, PathToCheckLength: Integer;
+  DelimiterPos: Integer;
+begin
+  Result := False;
+
+  BasePathLength := Length(sBasePath);
+  PathToCheckLength := Length(sPathToCheck);
+
+  if (PathToCheckLength >= BasePathLength) and
+     (CompareStr(Copy(sPathToCheck, 1, BasePathLength), sBasePath) = 0) then
+  begin
+    if AllowSubDirs then
+      Result := True
+    else
+    begin
+      // Additionally check if the remaining path is a relative path.
+
+      // Look for a path delimiter in the middle of the filepath.
+      sPathToCheck := Copy(sPathToCheck, 1 + BasePathLength,
+                           PathToCheckLength - BasePathLength);
+
+      DelimiterPos := Pos(DirectorySeparator, sPathToCheck);
+
+      // If no delimiter was found or it was found at then end (for example,
+      // directories may end with it), then the 'sPathToCheck' is in 'sBasePath'.
+      if (DelimiterPos = 0) or (DelimiterPos = PathToCheckLength - BasePathLength) then
+        Result := True;
+    end;
+  end;
+end;
+
+function ExtractDirLevel(const sPrefix, sPath: String): String;
+var
+  PrefixLength: Integer;
+begin
+  if IsInPath(sPrefix, sPath, True) then
+  begin
+    PrefixLength := Length(sPrefix);
+    Result := Copy(sPath, 1 + PrefixLength, Length(sPath) - PrefixLength)
+  end
+  else
+    Result := sPath;
 end;
 
 procedure DivFileName(const sFileName:String; out n,e:String);
