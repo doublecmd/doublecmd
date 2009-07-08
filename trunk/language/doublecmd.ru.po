@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-07-08 23:24+0300\n"
+"PO-Revision-Date: 2009-07-09 00:31+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1072,11 +1072,11 @@ msgstr "О программе..."
 
 #: TFRMMAIN.ACTADDFILENAMETOCMDLINE.CAPTION
 msgid "Add file name to command line"
-msgstr ""
+msgstr "Добавить имя файла в командную строку"
 
 #: TFRMMAIN.ACTADDPATHANDFILENAMETOCMDLINE.CAPTION
 msgid "Add path and file name to command line"
-msgstr ""
+msgstr "Добавить путь и имя файла в командную строку"
 
 #: TFRMMAIN.ACTADDPATHTOCMDLINE.CAPTION
 msgid "Copy path to command line"
@@ -1088,7 +1088,7 @@ msgstr "Рассчитать &занимаемое место..."
 
 #: TFRMMAIN.ACTCHANGEDIR.CAPTION
 msgid "Change directory"
-msgstr ""
+msgstr "Сменить каталог"
 
 #: TFRMMAIN.ACTCHANGEDIRTOROOT.CAPTION
 msgid "Change directory to root"
@@ -1106,11 +1106,11 @@ msgstr "Проверить контрольные суммы..."
 
 #: TFRMMAIN.ACTCLEARLOGFILE.CAPTION
 msgid "Clear log file"
-msgstr ""
+msgstr "Очистить лог файл"
 
 #: TFRMMAIN.ACTCLEARLOGWINDOW.CAPTION
 msgid "Clear log window"
-msgstr ""
+msgstr "Очистить окно лога"
 
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
@@ -1163,7 +1163,7 @@ msgstr "Личный спис&ок каталогов"
 
 #: TFRMMAIN.ACTDRIVECONTEXTMENU.CAPTION
 msgid "Drive context menu"
-msgstr ""
+msgstr "Контекстное меню диска"
 
 #: TFRMMAIN.ACTEDIT.CAPTION
 msgid "Edit F4"
@@ -1261,7 +1261,7 @@ msgstr "С&нять выделение со всех"
 
 #: TFRMMAIN.ACTMINIMIZE.CAPTION
 msgid "Minimize window"
-msgstr ""
+msgstr "Свернуть"
 
 #: TFRMMAIN.ACTMULTIRENAME.CAPTION
 msgid "Multi Rename Tool"
@@ -1360,7 +1360,7 @@ msgstr "&Поиск..."
 
 #: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
 msgid "Show button menu"
-msgstr ""
+msgstr "Показать кнопочное меню"
 
 #: TFRMMAIN.ACTSHOWCMDLINEHISTORY.CAPTION
 msgid "Show command line history"
