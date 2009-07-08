@@ -1086,6 +1086,16 @@ msgstr "计算已用空间..."
 msgid "Change directory to root"
 msgstr ""
 
+#: TFRMMAIN.ACTCHECKSUMCALC.CAPTION
+msgctxt "TFRMMAIN.ACTCHECKSUMCALC.CAPTION"
+msgid "Calculate check sum..."
+msgstr ""
+
+#: TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION
+msgctxt "TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION"
+msgid "Verify check sum..."
+msgstr ""
+
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
 msgstr "比较内容"
@@ -1578,6 +1588,16 @@ msgctxt "TFRMMAIN.MILINE22.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: TFRMMAIN.MILINE24.CAPTION
+msgctxt "TFRMMAIN.MILINE24.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMMAIN.MILINE25.CAPTION
+msgctxt "TFRMMAIN.MILINE25.CAPTION"
+msgid "-"
+msgstr "-"
+
 #: TFRMMAIN.MILINE3.CAPTION
 msgctxt "TFRMMAIN.MILINE3.CAPTION"
 msgid "-"
@@ -1603,10 +1623,29 @@ msgctxt "TFRMMAIN.MILINE7.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: TFRMMAIN.MILINE8.CAPTION
+msgctxt "TFRMMAIN.MILINE8.CAPTION"
+msgid "-"
+msgstr "-"
+
 #: TFRMMAIN.MILINE9.CAPTION
 msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
 msgstr "-"
+
+#: TFRMMAIN.MILOGCOPY.CAPTION
+msgctxt "TFRMMAIN.MILOGCOPY.CAPTION"
+msgid "Copy"
+msgstr "复制"
+
+#: TFRMMAIN.MILOGHIDE.CAPTION
+msgid "Hide"
+msgstr ""
+
+#: TFRMMAIN.MILOGSELECTALL.CAPTION
+msgctxt "TFRMMAIN.MILOGSELECTALL.CAPTION"
+msgid "Select All"
+msgstr "全选"
 
 #: TFRMMAIN.MIMOVE.CAPTION
 msgid "Move..."
@@ -1616,6 +1655,15 @@ msgstr "移动..."
 msgctxt "TFRMMAIN.MISYMLINK.CAPTION"
 msgid "Create symlink..."
 msgstr "创建符号链接"
+
+#: TFRMMAIN.MITRAYICONEXIT.CAPTION
+msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
+msgid "Exit"
+msgstr "退出"
+
+#: TFRMMAIN.MITRAYICONRESTORE.CAPTION
+msgid "Restore"
+msgstr ""
 
 #: TFRMMAIN.MNUCMD.CAPTION
 msgid "&Commands"
@@ -1969,7 +2017,8 @@ msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
 msgid "Remove"
 msgstr "移除"
 
-#: TFRMOPTIONS.BTNSEARCHTEMPLATE.CAPTION
+#: TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT
+msgctxt "TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT"
 msgid "Template..."
 msgstr ""
 
@@ -2003,6 +2052,10 @@ msgstr "选项"
 #: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
 msgid "BackGround:"
 msgstr "背景色:"
+
+#: TFRMOPTIONS.CBALWAYSSHOWTRAYICON.CAPTION
+msgid "Always show tray icon"
+msgstr ""
 
 #: TFRMOPTIONS.CBBFILESYSTEM.TEXT
 msgid "General"
@@ -2214,6 +2267,10 @@ msgstr "显示文件夹标签页(&W)"
 msgid "Show warning messages (\"OK\" button only)"
 msgstr "显示所有警告信息(仅有“确定”按钮)"
 
+#: TFRMOPTIONS.CBSKIPFILEOPERROR.CAPTION
+msgid "Skip file operations errors and write them to log window"
+msgstr ""
+
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr ""
@@ -2245,6 +2302,10 @@ msgstr "在多行上显示标签页(&T)"
 #: TFRMOPTIONS.CBTABSOPENFOREGROUND.CAPTION
 msgid "Ctrl+&Up opens new tab in foreground"
 msgstr "Ctrl+&Up 前台打开新标签页"
+
+#: TFRMOPTIONS.CBTABSSHOWCLOSEBUTTON.CAPTION
+msgid "Show tab close button"
+msgstr ""
 
 #: TFRMOPTIONS.CBTERMWINDOW.CAPTION
 msgid "Show terminal window"
@@ -2837,6 +2898,7 @@ msgid "Search"
 msgstr "搜索"
 
 #: TFRMVIEWER.MISELECTALL.CAPTION
+msgctxt "TFRMVIEWER.MISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "全选"
 
@@ -2928,6 +2990,7 @@ msgid "Calculate check sum..."
 msgstr ""
 
 #: ulng.rsdlgchecksumverify
+msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr ""
 

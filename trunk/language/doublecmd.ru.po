@@ -1082,6 +1082,16 @@ msgstr "Рассчитать &занимаемое место..."
 msgid "Change directory to root"
 msgstr "Перейти в корневой каталог"
 
+#: TFRMMAIN.ACTCHECKSUMCALC.CAPTION
+msgctxt "TFRMMAIN.ACTCHECKSUMCALC.CAPTION"
+msgid "Calculate check sum..."
+msgstr "Посчитать контрольные суммы..."
+
+#: TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION
+msgctxt "TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION"
+msgid "Verify check sum..."
+msgstr "Проверить контрольные суммы..."
+
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
 msgstr "Сравнивать п&о содержимому"
@@ -1574,6 +1584,16 @@ msgctxt "TFRMMAIN.MILINE22.CAPTION"
 msgid "-"
 msgstr ""
 
+#: TFRMMAIN.MILINE24.CAPTION
+msgctxt "TFRMMAIN.MILINE24.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMAIN.MILINE25.CAPTION
+msgctxt "TFRMMAIN.MILINE25.CAPTION"
+msgid "-"
+msgstr ""
+
 #: TFRMMAIN.MILINE3.CAPTION
 msgctxt "TFRMMAIN.MILINE3.CAPTION"
 msgid "-"
@@ -1599,10 +1619,29 @@ msgctxt "TFRMMAIN.MILINE7.CAPTION"
 msgid "-"
 msgstr ""
 
+#: TFRMMAIN.MILINE8.CAPTION
+msgctxt "TFRMMAIN.MILINE8.CAPTION"
+msgid "-"
+msgstr ""
+
 #: TFRMMAIN.MILINE9.CAPTION
 msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
 msgstr ""
+
+#: TFRMMAIN.MILOGCOPY.CAPTION
+msgctxt "TFRMMAIN.MILOGCOPY.CAPTION"
+msgid "Copy"
+msgstr "&Копировать"
+
+#: TFRMMAIN.MILOGHIDE.CAPTION
+msgid "Hide"
+msgstr ""
+
+#: TFRMMAIN.MILOGSELECTALL.CAPTION
+msgctxt "TFRMMAIN.MILOGSELECTALL.CAPTION"
+msgid "Select All"
+msgstr "Выделить &всё"
 
 #: TFRMMAIN.MIMOVE.CAPTION
 msgid "Move..."
@@ -1612,6 +1651,15 @@ msgstr "Переместить..."
 msgctxt "TFRMMAIN.MISYMLINK.CAPTION"
 msgid "Create symlink..."
 msgstr "Создать символьную сс&ылку..."
+
+#: TFRMMAIN.MITRAYICONEXIT.CAPTION
+msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
+msgid "Exit"
+msgstr "Выход"
+
+#: TFRMMAIN.MITRAYICONRESTORE.CAPTION
+msgid "Restore"
+msgstr ""
 
 #: TFRMMAIN.MNUCMD.CAPTION
 msgid "&Commands"
@@ -1965,7 +2013,8 @@ msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
 msgid "Remove"
 msgstr "Удалить"
 
-#: TFRMOPTIONS.BTNSEARCHTEMPLATE.CAPTION
+#: TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT
+msgctxt "TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT"
 msgid "Template..."
 msgstr ""
 
@@ -1999,6 +2048,10 @@ msgstr "Настройка"
 #: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
 msgid "BackGround:"
 msgstr "Фон &1"
+
+#: TFRMOPTIONS.CBALWAYSSHOWTRAYICON.CAPTION
+msgid "Always show tray icon"
+msgstr ""
 
 #: TFRMOPTIONS.CBBFILESYSTEM.TEXT
 msgid "General"
@@ -2210,6 +2263,10 @@ msgstr "Вкл&адки папок"
 msgid "Show warning messages (\"OK\" button only)"
 msgstr "Показывать не критические сообщения об ошибках (с одной кнопкой \"ОК\")"
 
+#: TFRMOPTIONS.CBSKIPFILEOPERROR.CAPTION
+msgid "Skip file operations errors and write them to log window"
+msgstr ""
+
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr "При выделении файлов Пробелом перемещать курсор на следующий файл"
@@ -2241,6 +2298,10 @@ msgstr "Размещать вкладки в несколько рядов"
 #: TFRMOPTIONS.CBTABSOPENFOREGROUND.CAPTION
 msgid "Ctrl+&Up opens new tab in foreground"
 msgstr "Ctrl+вверх делает новую вкладку активной"
+
+#: TFRMOPTIONS.CBTABSSHOWCLOSEBUTTON.CAPTION
+msgid "Show tab close button"
+msgstr ""
 
 #: TFRMOPTIONS.CBTERMWINDOW.CAPTION
 msgid "Show terminal window"
@@ -2833,6 +2894,7 @@ msgid "Search"
 msgstr "&Найти..."
 
 #: TFRMVIEWER.MISELECTALL.CAPTION
+msgctxt "TFRMVIEWER.MISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "Выделить &всё"
 
@@ -2924,6 +2986,7 @@ msgid "Calculate check sum..."
 msgstr "Посчитать контрольные суммы..."
 
 #: ulng.rsdlgchecksumverify
+msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr "Проверить контрольные суммы..."
 

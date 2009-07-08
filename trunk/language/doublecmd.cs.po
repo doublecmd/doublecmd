@@ -18,35 +18,41 @@ msgid "All"
 msgstr "Vše"
 
 #: TFCOLUMNSSETCONF.BTNNEXT.CAPTION
+#, fuzzy
 msgid "->"
 msgstr "Písmo:"
 
-#, fuzzy
-#: TFCOLUMNSSETCONF.LBLCONF
-msgstr "->"
-
 #: TFCOLUMNSSETCONF.BTNPREV.CAPTION
+#, fuzzy
 msgid "<-"
 msgstr "<-"
 
-#, fuzzy
 #: TFCOLUMNSSETCONF.BUTTON1.CAPTION
+#, fuzzy
 msgid "Button1"
 msgstr "Button1"
 
-#, fuzzy
 #: TFCOLUMNSSETCONF.CAPTION
+#, fuzzy
 msgid "Configure custom columns view"
 msgstr "Konfigurovat vlastní pohled (sloupce)"
 
-#, fuzzy
 #: TFCOLUMNSSETCONF.CBOVERCOLOR.CAPTION
+#, fuzzy
 msgid "Allow Overcolor"
 msgstr "Povolit Overcolor"
 
-#, fuzzy
 #: TFCOLUMNSSETCONF.LABEL3.CAPTION
-msgid "Font:"IGVIEWNR.CAPTION
+#, fuzzy
+#| msgid "Configure view nr:"
+msgctxt "TFCOLUMNSSETCONF.LABEL3.CAPTION"
+msgid "Font:"
+msgstr "Konfigurace pohledu č.:"
+
+#: TFCOLUMNSSETCONF.LBLCONFIGVIEWNR.CAPTION
+#, fuzzy
+#| msgid "Configure view nr:"
+msgctxt "TFCOLUMNSSETCONF.LBLCONFIGVIEWNR.CAPTION"
 msgid "Configure view nr:"
 msgstr "Konfigurace pohledu č.:"
 
@@ -344,10 +350,10 @@ msgid "&Open"
 msgstr "&Otevřít"
 
 #: TFRMEDITOR.ACTFILESAVE.CAPTION
+#, fuzzy
 msgid "&Save"
 msgstr "&Uložit"
 
-#, fuzzy
 #: TFRMEDITOR.ACTFILESAVEAS.CAPTION
 msgid "Save &As.."
 msgstr "Uložit &jako.."
@@ -523,11 +529,11 @@ msgid "&Files to unpack:"
 msgstr "&Soubory pro rozbalení:"
 
 #: TFRMFILEASSOC.BTNADDACT.CAPTION
+#, fuzzy
 msgctxt "TFRMFILEASSOC.BTNADDACT.CAPTION"
 msgid "Add"
 msgstr "Přidat"
 
-#, fuzzy
 #: TFRMFILEASSOC.BTNADDEXT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNADDEXT.CAPTION"
 msgid "Add"
@@ -539,11 +545,11 @@ msgid "Add"
 msgstr "Přidat"
 
 #: TFRMFILEASSOC.BTNCANCEL.CAPTION
+#, fuzzy
 msgctxt "TFRMFILEASSOC.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Zrušit"
 
-#, fuzzy
 #: TFRMFILEASSOC.BTNDOWNACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNDOWNACT.CAPTION"
 msgid "Down"
@@ -1097,6 +1103,16 @@ msgstr "Vypočítat &obsazené místo..."
 msgid "Change directory to root"
 msgstr ""
 
+#: TFRMMAIN.ACTCHECKSUMCALC.CAPTION
+msgctxt "TFRMMAIN.ACTCHECKSUMCALC.CAPTION"
+msgid "Calculate check sum..."
+msgstr ""
+
+#: TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION
+msgctxt "TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION"
+msgid "Verify check sum..."
+msgstr ""
+
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
 msgstr "Porovnat pod&le obsahu"
@@ -1590,6 +1606,16 @@ msgctxt "TFRMMAIN.MILINE22.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: TFRMMAIN.MILINE24.CAPTION
+msgctxt "TFRMMAIN.MILINE24.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMMAIN.MILINE25.CAPTION
+msgctxt "TFRMMAIN.MILINE25.CAPTION"
+msgid "-"
+msgstr "-"
+
 #: TFRMMAIN.MILINE3.CAPTION
 msgctxt "TFRMMAIN.MILINE3.CAPTION"
 msgid "-"
@@ -1615,10 +1641,29 @@ msgctxt "TFRMMAIN.MILINE7.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: TFRMMAIN.MILINE8.CAPTION
+msgctxt "TFRMMAIN.MILINE8.CAPTION"
+msgid "-"
+msgstr "-"
+
 #: TFRMMAIN.MILINE9.CAPTION
 msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
 msgstr "-"
+
+#: TFRMMAIN.MILOGCOPY.CAPTION
+msgctxt "TFRMMAIN.MILOGCOPY.CAPTION"
+msgid "Copy"
+msgstr "Kopírovat"
+
+#: TFRMMAIN.MILOGHIDE.CAPTION
+msgid "Hide"
+msgstr ""
+
+#: TFRMMAIN.MILOGSELECTALL.CAPTION
+msgctxt "TFRMMAIN.MILOGSELECTALL.CAPTION"
+msgid "Select All"
+msgstr "Vybrat vše"
 
 #: TFRMMAIN.MIMOVE.CAPTION
 #, fuzzy
@@ -1629,6 +1674,15 @@ msgstr "Přesunout..."
 msgctxt "TFRMMAIN.MISYMLINK.CAPTION"
 msgid "Create symlink..."
 msgstr "Vytvořit symbolický odkaz..."
+
+#: TFRMMAIN.MITRAYICONEXIT.CAPTION
+msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
+msgid "Exit"
+msgstr "Konec"
+
+#: TFRMMAIN.MITRAYICONRESTORE.CAPTION
+msgid "Restore"
+msgstr ""
 
 #: TFRMMAIN.MNUCMD.CAPTION
 msgid "&Commands"
@@ -1982,7 +2036,8 @@ msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
 msgid "Remove"
 msgstr "Smazat"
 
-#: TFRMOPTIONS.BTNSEARCHTEMPLATE.CAPTION
+#: TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT
+msgctxt "TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT"
 msgid "Template..."
 msgstr ""
 
@@ -2016,6 +2071,10 @@ msgstr "Nastavení"
 #: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
 msgid "BackGround:"
 msgstr "Pozadí:"
+
+#: TFRMOPTIONS.CBALWAYSSHOWTRAYICON.CAPTION
+msgid "Always show tray icon"
+msgstr ""
 
 #: TFRMOPTIONS.CBBFILESYSTEM.TEXT
 msgid "General"
@@ -2227,6 +2286,10 @@ msgstr "Zobrazit &záložky adresářů"
 msgid "Show warning messages (\"OK\" button only)"
 msgstr "Zobrazit varovné zprávy (pouze tlačítko \"OK\")"
 
+#: TFRMOPTIONS.CBSKIPFILEOPERROR.CAPTION
+msgid "Skip file operations errors and write them to log window"
+msgstr ""
+
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr ""
@@ -2258,6 +2321,10 @@ msgstr "&Záložky na více řádků"
 #: TFRMOPTIONS.CBTABSOPENFOREGROUND.CAPTION
 msgid "Ctrl+&Up opens new tab in foreground"
 msgstr "Ctrl+&Nahoru otevře novou záložku na pozadí"
+
+#: TFRMOPTIONS.CBTABSSHOWCLOSEBUTTON.CAPTION
+msgid "Show tab close button"
+msgstr ""
 
 #: TFRMOPTIONS.CBTERMWINDOW.CAPTION
 msgid "Show terminal window"
@@ -2854,6 +2921,7 @@ msgid "Search"
 msgstr "Hledání"
 
 #: TFRMVIEWER.MISELECTALL.CAPTION
+msgctxt "TFRMVIEWER.MISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "Vybrat vše"
 
@@ -2945,6 +3013,7 @@ msgid "Calculate check sum..."
 msgstr ""
 
 #: ulng.rsdlgchecksumverify
+msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr ""
 

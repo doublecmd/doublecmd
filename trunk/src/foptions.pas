@@ -2082,14 +2082,18 @@ begin
 
   { Folder tabs }
   cbTabsAlwaysVisible.Checked := (tb_always_visible in gDirTabOptions) and gDirectoryTabs;
-  cbTabsMultiLines.Checked := tb_multiple_lines in gDirTabOptions;
   cbTabsLimitOption.Checked := tb_text_length_limit in gDirTabOptions;
   cbTabsConfirmCloseAll.Checked:= tb_confirm_close_all in gDirTabOptions;
   cbTabsOpenForeground.Checked:= tb_open_new_in_foreground in gDirTabOptions;
   cbTabsLockedAsterisk.Checked:= tb_show_asterisk_for_locked in gDirTabOptions;
   cbTabsActivateOnClick.Checked:= tb_activate_panel_on_click in gDirTabOptions;
-  cbTabsShowCloseButton.Checked:= tb_show_close_button in gDirTabOptions;
-  edtTabsLimitLength.Text := IntToStr(gDirTabLimit);
+  cbTabsMultiLines.Visible:= (nbcMultiline in nbNotebook.GetCapabilities);
+  if cbTabsMultiLines.Visible then
+     cbTabsMultiLines.Checked:= tb_multiple_lines in gDirTabOptions;
+  cbTabsShowCloseButton.Visible:= (nbcShowCloseButtons in nbNotebook.GetCapabilities);
+  if cbTabsShowCloseButton.Visible then
+    cbTabsShowCloseButton.Checked:= tb_show_close_button in gDirTabOptions;
+  edtTabsLimitLength.Text:= IntToStr(gDirTabLimit);
 
   { Configuration storage }
   if gNewUseIniInProgramDir then
