@@ -1247,6 +1247,7 @@ var
   iRow: Integer;
 begin
   btnAddPlugin.OnClick:= @btnWCXAddClick;
+  stgPlugins.RowCount:= 1;
   iRow:= 0;
 
   // Clear column with extensions
