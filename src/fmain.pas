@@ -127,6 +127,7 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     lblCommandPath: TLabel;
+    miLogClear: TMenuItem;
     miLogHide: TMenuItem;
     miLine25: TMenuItem;
     miLogSelectAll: TMenuItem;
@@ -674,6 +675,8 @@ begin
     1:
       seLogWindow.SelectAll;
     2:
+      seLogWindow.Lines.Clear;
+    3:
       ShowLogWindow(False);
   end;
 end;

@@ -1633,6 +1633,10 @@ msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
 msgstr ""
 
+#: TFRMMAIN.MILOGCLEAR.CAPTION
+msgid "Clear"
+msgstr ""
+
 #: TFRMMAIN.MILOGCOPY.CAPTION
 msgctxt "TFRMMAIN.MILOGCOPY.CAPTION"
 msgid "Copy"
@@ -3373,6 +3377,10 @@ msgstr "&Настройка"
 msgid "&Delete %s"
 msgstr "&Изтриване на %s"
 
+#: ulng.rsmsgpresetalreadyexists
+msgid "Preset \"%s\" already exists. Overwrite?"
+msgstr ""
+
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
 msgstr "Преименуване/местене на %d избраните папки/файлове?"
@@ -3418,7 +3426,9 @@ msgid "Wipe selected \"%s\"?"
 msgstr ""
 
 #: ulng.rsmulrenfilenamestylelist
-msgid "No change;UPPERCASE;lowercase;First Char Big;"
+#, fuzzy
+#| msgid "No change;UPPERCASE;lowercase;First Char Big;"
+msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Без промяна; ВИСША; нисша; Пъритв Знаци Главни;"
 
 #: ulng.rsoptassocpluginwith

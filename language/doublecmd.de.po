@@ -1625,6 +1625,10 @@ msgctxt "TFRMMAIN.MILINE9.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: TFRMMAIN.MILOGCLEAR.CAPTION
+msgid "Clear"
+msgstr ""
+
 #: TFRMMAIN.MILOGCOPY.CAPTION
 msgctxt "TFRMMAIN.MILOGCOPY.CAPTION"
 msgid "Copy"
@@ -3365,6 +3369,10 @@ msgstr "&Konfigurieren"
 msgid "&Delete %s"
 msgstr "&Lösche %s"
 
+#: ulng.rsmsgpresetalreadyexists
+msgid "Preset \"%s\" already exists. Overwrite?"
+msgstr ""
+
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
 msgstr "%d markierte Dateien / Verzeichnisse umbenennen / verschieben?"
@@ -3410,7 +3418,9 @@ msgid "Wipe selected \"%s\"?"
 msgstr "Markierte \"%s\" sicher löschen?"
 
 #: ulng.rsmulrenfilenamestylelist
-msgid "No change;UPPERCASE;lowercase;First Char Big;"
+#, fuzzy
+#| msgid "No change;UPPERCASE;lowercase;First Char Big;"
+msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Keine Änderung;GROSSBUCHSTABEN;alles klein;Erster Buchstabe Gross"
 
 #: ulng.rsoptassocpluginwith
