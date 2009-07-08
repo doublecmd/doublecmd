@@ -3502,7 +3502,7 @@ begin
   for i := 0 to DriveToolbar.ButtonCount - 1 do
   begin
     ToolButtonPath := DriveToolbar.Buttons[i].Hint;
-    if UpperCase(ToolButtonPath) = UpperCase(Copy(Path, 1, Length(ToolButtonPath))) then
+    if IsInPath(UTF8UpperCase(ToolButtonPath), UTF8UpperCase(Path), True) then
     begin
       DriveToolbar.Buttons[i].Down := True;
       Exit;
@@ -3524,7 +3524,7 @@ begin
   begin
     Drive := PDrive(DrivesList.Items[pmDrivesMenu.Items[i].Tag]);
 
-    if UpperCase(Drive^.Path) = UpperCase(Copy(Path, 1, Length(Drive^.Path))) then
+    if IsInPath(UTF8UpperCase(Drive^.Path), UTF8UpperCase(Path), True) then
     begin
       if gDriveMenuButton then
       begin
