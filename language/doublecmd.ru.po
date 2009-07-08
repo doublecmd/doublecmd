@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-06-23 21:30+0300\n"
+"PO-Revision-Date: 2009-07-08 21:06+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1636,7 +1636,7 @@ msgstr "&Копировать"
 
 #: TFRMMAIN.MILOGHIDE.CAPTION
 msgid "Hide"
-msgstr ""
+msgstr "Скрыть"
 
 #: TFRMMAIN.MILOGSELECTALL.CAPTION
 msgctxt "TFRMMAIN.MILOGSELECTALL.CAPTION"
@@ -1659,7 +1659,7 @@ msgstr "Выход"
 
 #: TFRMMAIN.MITRAYICONRESTORE.CAPTION
 msgid "Restore"
-msgstr ""
+msgstr "Восстановить"
 
 #: TFRMMAIN.MNUCMD.CAPTION
 msgid "&Commands"
@@ -2051,7 +2051,7 @@ msgstr "Фон &1"
 
 #: TFRMOPTIONS.CBALWAYSSHOWTRAYICON.CAPTION
 msgid "Always show tray icon"
-msgstr ""
+msgstr "Всегда показывать иконку в трее"
 
 #: TFRMOPTIONS.CBBFILESYSTEM.TEXT
 msgid "General"
@@ -2265,7 +2265,7 @@ msgstr "Показывать не критические сообщения об
 
 #: TFRMOPTIONS.CBSKIPFILEOPERROR.CAPTION
 msgid "Skip file operations errors and write them to log window"
-msgstr ""
+msgstr "Пропускать ошибки при файловых операциях и выводить их в окно лога"
 
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
@@ -2301,7 +2301,7 @@ msgstr "Ctrl+вверх делает новую вкладку активной"
 
 #: TFRMOPTIONS.CBTABSSHOWCLOSEBUTTON.CAPTION
 msgid "Show tab close button"
-msgstr ""
+msgstr "Кнопка закрытия таба"
 
 #: TFRMOPTIONS.CBTERMWINDOW.CAPTION
 msgid "Show terminal window"
@@ -3066,7 +3066,7 @@ msgstr "Каталог %s не существует!"
 
 #: ulng.rsfindfound
 msgid "Found: %d"
-msgstr ""
+msgstr "Найдено: %d"
 
 #: ulng.rsfindsavetemplatecaption
 msgid "Save search template"
@@ -3147,7 +3147,7 @@ msgstr "Закрыть все неактивные вкладки?"
 
 #: ulng.rsmsgcloselockedtab
 msgid "This tab (%s) is locked! Close anyway?"
-msgstr ""
+msgstr "Вкладка (%s) заблокирована! Закрыть?"
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -3179,11 +3179,11 @@ msgstr "Диск недоступен"
 
 #: ulng.rsmsgenterfileext
 msgid "Enter file extension:"
-msgstr ""
+msgstr "Введите расширение:"
 
 #: ulng.rsmsgentername
 msgid "Enter name:"
-msgstr ""
+msgstr "Введите имя:"
 
 #: ulng.rsmsgerrbadarchive
 msgid "CRC error in archive data"
@@ -3243,7 +3243,7 @@ msgstr "Функция не поддерживается!"
 
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
-msgstr ""
+msgstr "Ошибка синтаксиса в регулярном выражении!"
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -3279,7 +3279,7 @@ msgstr "Некорректное имя файла"
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
-msgstr ""
+msgstr "Некорректное выделение."
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
@@ -3339,7 +3339,7 @@ msgstr "Следующий том будет распакован"
 
 #: ulng.rsmsgnofilesselected
 msgid "No files selected."
-msgstr ""
+msgstr "Нет выделенных файлов."
 
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
@@ -3355,7 +3355,7 @@ msgstr "Не могу удалить файл %s"
 
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
-msgstr ""
+msgstr "Не реализовано."
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
