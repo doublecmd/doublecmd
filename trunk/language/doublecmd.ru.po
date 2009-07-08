@@ -1070,6 +1070,14 @@ msgctxt "TFRMMAIN.ACTABOUT.CAPTION"
 msgid "About"
 msgstr "О программе..."
 
+#: TFRMMAIN.ACTADDFILENAMETOCMDLINE.CAPTION
+msgid "Add file name to command line"
+msgstr ""
+
+#: TFRMMAIN.ACTADDPATHANDFILENAMETOCMDLINE.CAPTION
+msgid "Add path and file name to command line"
+msgstr ""
+
 #: TFRMMAIN.ACTADDPATHTOCMDLINE.CAPTION
 msgid "Copy path to command line"
 msgstr "Копировать путь в командную строку"
@@ -1077,6 +1085,10 @@ msgstr "Копировать путь в командную строку"
 #: TFRMMAIN.ACTCALCULATESPACE.CAPTION
 msgid "Calculate &Occupied Space..."
 msgstr "Рассчитать &занимаемое место..."
+
+#: TFRMMAIN.ACTCHANGEDIR.CAPTION
+msgid "Change directory"
+msgstr ""
 
 #: TFRMMAIN.ACTCHANGEDIRTOROOT.CAPTION
 msgid "Change directory to root"
@@ -1148,6 +1160,10 @@ msgstr "История каталогов"
 #: TFRMMAIN.ACTDIRHOTLIST.CAPTION
 msgid "Directory &hotlist"
 msgstr "Личный спис&ок каталогов"
+
+#: TFRMMAIN.ACTDRIVECONTEXTMENU.CAPTION
+msgid "Drive context menu"
+msgstr ""
 
 #: TFRMMAIN.ACTEDIT.CAPTION
 msgid "Edit F4"
@@ -1243,6 +1259,10 @@ msgstr "Выделить &группу..."
 msgid "Unselect All"
 msgstr "С&нять выделение со всех"
 
+#: TFRMMAIN.ACTMINIMIZE.CAPTION
+msgid "Minimize window"
+msgstr ""
+
 #: TFRMMAIN.ACTMULTIRENAME.CAPTION
 msgid "Multi Rename Tool"
 msgstr "Множественное &переименование"
@@ -1279,6 +1299,10 @@ msgstr "&Параметры..."
 #: TFRMMAIN.ACTPACKFILES.CAPTION
 msgid "Pack files..."
 msgstr "Упаковать..."
+
+#: TFRMMAIN.ACTPANELSSPLITTERPERPOS.CAPTION
+msgid "Set splitter position"
+msgstr ""
 
 #: TFRMMAIN.ACTPASTEFROMCLIPBOARD.CAPTION
 msgid "&Paste"
@@ -1354,6 +1378,10 @@ msgstr "&Показывать системные файлы"
 #: TFRMMAIN.ACTSORTBYATTR.CAPTION
 msgid "Sort by attrib"
 msgstr "&Атрибуты"
+
+#: TFRMMAIN.ACTSORTBYCOLUMN.CAPTION
+msgid "Sort by column"
+msgstr ""
 
 #: TFRMMAIN.ACTSORTBYDATE.CAPTION
 msgid "Sort by date"

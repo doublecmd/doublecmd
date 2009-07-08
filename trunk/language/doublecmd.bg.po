@@ -1074,6 +1074,14 @@ msgctxt "TFRMMAIN.ACTABOUT.CAPTION"
 msgid "About"
 msgstr "За"
 
+#: TFRMMAIN.ACTADDFILENAMETOCMDLINE.CAPTION
+msgid "Add file name to command line"
+msgstr ""
+
+#: TFRMMAIN.ACTADDPATHANDFILENAMETOCMDLINE.CAPTION
+msgid "Add path and file name to command line"
+msgstr ""
+
 #: TFRMMAIN.ACTADDPATHTOCMDLINE.CAPTION
 msgid "Copy path to command line"
 msgstr "Преписване на пътя в реда управление"
@@ -1081,6 +1089,10 @@ msgstr "Преписване на пътя в реда управление"
 #: TFRMMAIN.ACTCALCULATESPACE.CAPTION
 msgid "Calculate &Occupied Space..."
 msgstr "Изчисляване на &заетото място..."
+
+#: TFRMMAIN.ACTCHANGEDIR.CAPTION
+msgid "Change directory"
+msgstr ""
 
 #: TFRMMAIN.ACTCHANGEDIRTOROOT.CAPTION
 msgid "Change directory to root"
@@ -1152,6 +1164,10 @@ msgstr "Дневник на папката"
 #: TFRMMAIN.ACTDIRHOTLIST.CAPTION
 msgid "Directory &hotlist"
 msgstr "&Бързодостъпни папки"
+
+#: TFRMMAIN.ACTDRIVECONTEXTMENU.CAPTION
+msgid "Drive context menu"
+msgstr ""
 
 #: TFRMMAIN.ACTEDIT.CAPTION
 msgid "Edit F4"
@@ -1247,6 +1263,10 @@ msgstr "Избор на група"
 msgid "Unselect All"
 msgstr "Снемане на избора от всички"
 
+#: TFRMMAIN.ACTMINIMIZE.CAPTION
+msgid "Minimize window"
+msgstr ""
+
 #: TFRMMAIN.ACTMULTIRENAME.CAPTION
 msgid "Multi Rename Tool"
 msgstr "Множествено преименуване"
@@ -1283,6 +1303,10 @@ msgstr "Възможности..."
 #: TFRMMAIN.ACTPACKFILES.CAPTION
 msgid "Pack files..."
 msgstr "Сбиване на файлове..."
+
+#: TFRMMAIN.ACTPANELSSPLITTERPERPOS.CAPTION
+msgid "Set splitter position"
+msgstr ""
 
 #: TFRMMAIN.ACTPASTEFROMCLIPBOARD.CAPTION
 msgid "&Paste"
@@ -1358,6 +1382,10 @@ msgstr "Показване на скрити/ системни файлове"
 #: TFRMMAIN.ACTSORTBYATTR.CAPTION
 msgid "Sort by attrib"
 msgstr "Подреждане по принадлежности"
+
+#: TFRMMAIN.ACTSORTBYCOLUMN.CAPTION
+msgid "Sort by column"
+msgstr ""
 
 #: TFRMMAIN.ACTSORTBYDATE.CAPTION
 msgid "Sort by date"
