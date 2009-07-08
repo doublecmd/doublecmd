@@ -1638,6 +1638,16 @@ object frmMain: TfrmMain
       Caption = 'Calculate check sum...'
       OnExecute = actExecute
     end
+    object actClearLogFile: TAction
+      Category = 'Commands'
+      Caption = 'Clear log file'
+      OnExecute = actExecute
+    end
+    object actClearLogWindow: TAction
+      Category = 'Commands'
+      Caption = 'Clear log window'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     left = 152
