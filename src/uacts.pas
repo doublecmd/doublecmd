@@ -61,6 +61,7 @@ const cf_Null=0;
    function GetIndex(Cmd: string): integer;
    function GetCategoriesList(const List:TStrings):integer;
    function GetCommandsByCategory(Category:string; const List:TStrings):integer;
+   function GetCommandCaption(sCommand: String; bAmpersand: Boolean = False): UTF8String;
 
    {en
       Adds a named action to a list of possible actions.
@@ -381,6 +382,28 @@ begin
     end;
 
   Result:=List.Count;
+end;
+
+function TActs.GetCommandCaption(sCommand: String; bAmpersand: Boolean): UTF8String;
+//< find Comment for command
+// command=caption of action assigned to command
+var
+  myAct: TContainedAction;
+  lstr: String;
+begin
+  Result:= '';
+  with frmMain.actionLst do
+  begin
+    lstr:= Copy(sCommand, 4, Length(sCommand) - 3);// get action name
+    myAct:= ActionByName('act' + lstr); // get action
+    if (myAct <> nil) and (myAct is TAction) then // if action exist and action is TAction. its Need?
+      begin
+        lstr:= (myAct as TAction).Caption; //copy caption
+        if not bAmpersand then
+          while pos('&', lstr) <> 0 do Delete(lstr, Pos('&', lstr), 1); //delete all ampersand
+        Result:= lstr;
+      end;
+  end;
 end;
 
 procedure TActs.AddAction(ActionName: String);

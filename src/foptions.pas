@@ -380,7 +380,6 @@ type
     procedure LoadConfig;
     procedure SaveConfig;
     procedure SetColorInColorBox(const lcbColorBox:TColorBox;const lColor:TColor);
-    function  getCommandComment(const lCmd:string):string;
     procedure FillCommandList(lstFilter:string);// fill stringgrid
     // return assigned hotkey for command
     function  getHotKeyListByCommand(command:string; const res:TStringList):integer;
@@ -1497,28 +1496,6 @@ stgcommands.AutoSizeColumns;
 //lbxCommands.items.AddStrings(actions.CommandList);
 end;
 
-function TfrmOptions.getCommandComment(const lCmd:string):string;
-//< find Comment for command
-// command=caption of action assigned to command
-var
-  myact: TContainedAction;
-  lstr:string;
-begin
- result:='';
- with frmMain.actionLst do
- begin
-  lstr:=copy(lCmd,4,Length(lCmd)-3);// get action name
-    myact:=ActionByName('act'+lstr); // get action
-    if (myact<>nil) then // if action exist
-     if (myact is TAction) then // if action is Taction. its Need?
-     begin
-      lstr:=(myact as TAction).Caption; //copy caption
-      while pos('&',lstr)<>0 do Delete(lstr,pos('&',lstr),1); //delete all ampersand
-      result:=lstr;
-     end;
- end;
-end;
-
 procedure TfrmOptions.FillCommandList(lstFilter:string);
 //< fill stgCommands by commands and comments
 var
@@ -1539,7 +1516,7 @@ begin
       for i:=0 to slAllCommands.Count-1 do // for all command
       // if filtered text find in command or comment then add to filteredlist
          if (UTF8Pos(UTF8LowerCase(lstr),UTF8LowerCase(slAllCommands.Strings[i]))<>0)
-         or (UTF8Pos(UTF8LowerCase(lstr),UTF8LowerCase(getCommandComment(slAllCommands.Strings[i])))<>0)
+         or (UTF8Pos(UTF8LowerCase(lstr),UTF8LowerCase(Actions.GetCommandCaption(slAllCommands.Strings[i])))<>0)
              then  slFiltered.Add(slAllCommands[i]);
 
     end
@@ -1553,7 +1530,7 @@ begin
     for i:=0 to slFiltered.Count -1 do
     begin // for all filtered items do
      // get comment for command and add to slComments list
-     slComments.Add(getCommandComment(slFiltered.Strings[i]));
+     slComments.Add(Actions.GetCommandCaption(slFiltered.Strings[i]));
 
      slTmp.Clear;
      // getting list of assigned hot key
