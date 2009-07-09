@@ -196,7 +196,6 @@ type
     fSearchDirect,
     fNext,
     fPrevious : Boolean;
-    procedure edSearchKeyPress(Sender: TObject; var Key: Char);
     procedure edSearchKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   public
     pnlFooter: TPanel;
@@ -217,8 +216,10 @@ type
     procedure UpdateColCount(NewColCount: Integer);
     procedure SetColWidths;
     procedure edSearchChange(Sender: TObject);
-    procedure edtPathKeyPress(Sender: TObject; var Key: Char);
-    procedure edtRenameKeyPress(Sender: TObject; var Key: Char);
+    procedure edtPathKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtRenameKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure dgPanelDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
     procedure dgPanelExit(Sender: TObject);
@@ -767,32 +768,6 @@ begin
   end;
 end;
 
-procedure TFrameFilePanel.edSearchKeyPress(Sender: TObject; var Key: Char);
-begin
-  if (key=#13) or (key=#27) then
-  begin
-    CloseAltPanel;
-    SetFocus;
-  end;
-
-  {LaBero begin}
-  {en
-      Execute/open selected file/directory
-      if the user press ENTER during QuickSearch
-  }
-  if (key=#13) then
-  begin
-    try
-       pnlFile.ChooseFile(pnlFile.GetActiveItem);
-       UpDatelblInfo;
-    finally
-       dgPanel.Invalidate;
-       Screen.Cursor:=crDefault;
-    end;
-  end;
-  {LaBero end}
-end;
-
 procedure TFrameFilePanel.edSearchKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -818,6 +793,35 @@ begin
         CloseAltPanel;
         SetFocus;
         Key := 0;
+      end;
+
+    VK_ESCAPE:
+      begin
+        Key := 0;
+        CloseAltPanel;
+        SetFocus;
+      end;
+
+    VK_RETURN,
+    VK_SELECT:
+      begin
+        Key := 0;
+        CloseAltPanel;
+        SetFocus;
+
+        {LaBero begin}
+        {en
+            Execute/open selected file/directory
+            if the user press ENTER during QuickSearch
+        }
+        try
+           pnlFile.ChooseFile(pnlFile.GetActiveItem);
+           UpDatelblInfo;
+        finally
+           dgPanel.Invalidate;
+           Screen.Cursor:=crDefault;
+        end;
+        {LaBero end}
       end;
   end;
 end;
@@ -1043,43 +1047,49 @@ begin
   dgPanel.Invalidate;
 end;
 
-procedure TFrameFilePanel.edtPathKeyPress(Sender: TObject;
-  var Key: Char);
+procedure TFrameFilePanel.edtPathKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
 begin
-  if Key=#27 then
-  begin
-    edtPath.Visible:=False;
-    SetFocus;
-  end;
-  if Key=#13 then
-  begin
-    Key:=#0; // catch the enter
+  case Key of
+    VK_ESCAPE:
+      begin
+        Key := 0;
+        edtPath.Visible:=False;
+        SetFocus;
+      end;
 
-    pnlFile.ActiveDir:=edtPath.Text;
-    edtPath.Visible:=False;
+    VK_RETURN,
+    VK_SELECT:
+      begin
+        Key := 0; // catch the enter
 
-    SetFocus;
+        pnlFile.ActiveDir:=edtPath.Text;
+        edtPath.Visible:=False;
+
+        SetFocus;
+      end;
   end;
 end;
 
-procedure TFrameFilePanel.edtRenameKeyPress(Sender: TObject;
-  var Key: Char);
+procedure TFrameFilePanel.edtRenameKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
 var
   OldFileName: String;
   NewFileName: String;
 begin
   case Key of
-    #27: // Escape
+    VK_ESCAPE:
       begin
-        Key := #0;
+        Key := 0;
         edtRename.Visible:=False;
         UnMarkAll;
         SetFocus;
       end;
 
-    #13: // Enter
+    VK_RETURN,
+    VK_SELECT:
       begin
-        Key:=#0; // catch the enter
+        Key := 0; // catch the enter
 
         OldFileName := edtRename.Hint;
         NewFileName := edtRename.Text;
@@ -1665,10 +1675,9 @@ begin
   dgPanel.OnMouseWheelDown := @dgPanelMouseWheelDown;
   {/Alexx2000}
   edtSearch.OnChange:=@edSearchChange;
-  edtSearch.OnKeyPress:=@edSearchKeyPress;
   edtSearch.OnKeyDown:=@edSearchKeyDown;
-  edtPath.OnKeyPress:=@edtPathKeyPress;
-  edtRename.OnKeyPress:=@edtRenameKeyPress;
+  edtPath.OnKeyDown:=@edtPathKeyDown;
+  edtRename.OnKeyDown:=@edtRenameKeyDown;
 
   pnlHeader.OnResize := @pnlHeaderResize;
 
