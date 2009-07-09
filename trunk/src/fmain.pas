@@ -394,6 +394,7 @@ type
     procedure FormActivate(Sender: TObject);
     procedure FrameEditExit(Sender: TObject);
     procedure FrameedtSearchExit(Sender: TObject);
+    procedure FrameedtRenameExit(Sender: TObject);
 
     procedure FramedgPanelEnter(Sender: TObject);
     procedure framedgPanelMouseUp(Sender: TObject; Button: TMouseButton;
@@ -2356,6 +2357,15 @@ begin
   TFrameFilePanel(TEdit(Sender).Parent.Parent).RedrawGrid;
 end;
 
+procedure TfrmMain.FrameedtRenameExit(Sender: TObject);
+begin
+  with ActiveFrame do
+  begin
+    edtRename.Visible := False;
+    UnMarkAll;
+  end;
+end;
+
 procedure TfrmMain.ShowRenameFileEdit(const sFileName:String);
 begin
   EnableHotkeys(False);
@@ -2830,7 +2840,7 @@ begin
 
     lblLPath.OnMouseUp := @FramelblLPathMouseUp;
     edtPath.OnExit:=@FrameEditExit;
-    edtRename.OnExit:=@FrameEditExit;
+    edtRename.OnExit:=@FrameedtRenameExit;
     edtSearch.OnExit:=@FrameedtSearchExit;
     dgPanel.OnEnter:=@framedgPanelEnter;
   end;

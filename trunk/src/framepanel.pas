@@ -1064,21 +1064,45 @@ end;
 
 procedure TFrameFilePanel.edtRenameKeyPress(Sender: TObject;
   var Key: Char);
+var
+  OldFileName: String;
+  NewFileName: String;
 begin
-  if Key=#27 then
-  begin
-    edtRename.Visible:=False;
-    UnMarkAll;
-    SetFocus;
-  end;
-  if Key=#13 then
-  begin
-    Key:=#0; // catch the enter
-    mbRenameFile(edtRename.Hint, ExtractFilePath(edtRename.Hint)+edtRename.Text);
-    edtRename.Visible:=False;
-    pnlFile.LastActive:=edtRename.Text;
-    RefreshPanel;
-    SetFocus;
+  case Key of
+    #27: // Escape
+      begin
+        Key := #0;
+        edtRename.Visible:=False;
+        UnMarkAll;
+        SetFocus;
+      end;
+
+    #13: // Enter
+      begin
+        Key:=#0; // catch the enter
+
+        OldFileName := edtRename.Hint;
+        NewFileName := edtRename.Text;
+
+        if mbFileExists(ExtractFilePath(OldFileName) + NewFileName) then
+        begin
+          if MsgBox(Format(rsMsgFileExistsRwrt, [NewFileName]),
+                    [msmbYes, msmbNo], msmbYes, msmbNo) = mmrNo then
+          begin
+            Exit;
+          end;
+        end;
+
+        if mbRenameFile(OldFileName, NewFileName) = True then
+        begin
+          edtRename.Visible:=False;
+          pnlFile.LastActive:=NewFileName;
+          RefreshPanel;
+          SetFocus;
+        end
+        else
+          msgError(Format(rsMsgErrRename, [ExtractFileName(OldFileName), NewFileName]));
+      end;
   end;
 end;
 
