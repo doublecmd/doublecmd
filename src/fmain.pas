@@ -2372,7 +2372,6 @@ begin
 
   With ActiveFrame do
   begin
-    edtRename.OnExit:=@FrameEditExit;
     edtRename.Width:=dgPanel.ColWidths[0]+dgPanel.ColWidths[1]-16;
     edtRename.Top:= (dgPanel.CellRect(0,dgPanel.Row).Top-2);
     if gShowIcons then
@@ -2585,7 +2584,6 @@ begin
 
   with ActiveFrame do
   begin
-    edtPath.OnExit:=@FrameEditExit;
     with lblLPath do
       edtPath.SetBounds(Left, Top, Width, Height);
     edtPath.Text := ActiveDir;
