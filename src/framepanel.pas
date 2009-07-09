@@ -191,31 +191,29 @@ type
 
   TFrameFilePanel = class (TWinControl)
   private
-    fGridVertLine,
-    fGridHorzLine,
+    FActive: Boolean;
+    FLastMark: String;
+    FLastAutoSelect: Boolean;
+    FLastSelectionStartRow: Integer;
     fSearchDirect,
     fNext,
     fPrevious : Boolean;
-    procedure edSearchKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-  public
+
     pnlFooter: TPanel;
-    pnPanel: TPanel;
     lblLInfo: TLabel;
     pnlHeader: TPanel;
-    lblLPath: TPathLabel;
-    edtPath,
-    edtRename: TEdit;
-//---------------------
-    dgPanel: TDrawGridEx;
-    ActiveColm:String;
-    ActiveColmSlave:TPanelColumnsClass;
-    isSlave:boolean;
-//---------------------
-    pnAltSearch: TPanel;
-    edtSearch: TEdit;
+
+    function GetGridHorzLine: Boolean;
+    function GetGridVertLine: Boolean;
+    procedure SetGridHorzLine(const AValue: Boolean);
+    procedure SetGridVertLine(const AValue: Boolean);
+    function StartDragEx(MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
+    Function GetActiveDir:String;
+    procedure SelectRange(iRow: PtrInt);
     procedure UpdateColCount(NewColCount: Integer);
-    procedure SetColWidths;
+
     procedure edSearchChange(Sender: TObject);
+    procedure edSearchKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edtPathKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure edtRenameKeyDown(Sender: TObject; var Key: Word;
@@ -224,22 +222,18 @@ type
       Rect: TRect; State: TGridDrawState);
     procedure dgPanelExit(Sender: TObject);
     procedure dgPanelDblClick(Sender: TObject);
-    procedure dgPanelEnter(Sender: TObject);
     procedure dgPanelKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure dgPanelKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-
     procedure dgPanelMouseDown(Sender: TObject; Button: TMouseButton;
                                     Shift: TShiftState; X, Y: Integer);
-
     procedure dgPanelStartDrag(Sender: TObject; var DragObject: TDragObject);
     procedure dgPanelDragOver(Sender, Source: TObject; X, Y: Integer;
                                                State: TDragState; var Accept: Boolean);
     procedure dgPanelDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure dgPanelEndDrag(Sender, Target: TObject; X, Y: Integer);
     procedure dgPanelHeaderClick(Sender: TObject;IsColumn: Boolean; index: Integer);
-    procedure dgPanelKeyPress(Sender: TObject; var Key: Char);
     procedure dgPanelPrepareCanvas(sender: TObject; Col, Row: Integer; aState: TGridDrawState);
     procedure dgPanelMouseWheelUp(Sender: TObject; Shift: TShiftState;
                                   MousePos: TPoint; var Handled: Boolean);
@@ -248,49 +242,49 @@ type
     procedure lblLPathClick(Sender: TObject);
     procedure pnlHeaderResize(Sender: TObject);
 
-  private
-    { Private declarations }
-    FActive: Boolean;
-    FLastMark:String;
-    FLastSelect:TGridRect;
-    FLastAutoSelect: Boolean;
-    FLastSelectionStartRow: Integer;
-    procedure SetGridHorzLine(const AValue: Boolean);
-    procedure SetGridVertLine(const AValue: Boolean);
   protected
-    function StartDragEx(MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
-    procedure SelectRange(iRow: PtrInt);
+
   public
-    { Public declarations }
-    pnlFile:TFilePanel;
+    pnAltSearch: TPanel;
+    edtSearch: TEdit;
+    edtPath: TEdit;
+    edtRename: TEdit;
+    lblLPath: TPathLabel;
     edtCmdLine:TComboBox;
+//---------------------
+    ActiveColm:String;
+    ActiveColmSlave:TPanelColumnsClass;
+    isSlave:boolean;
+//---------------------
+    dgPanel: TDrawGridEx;
+    pnlFile:TFilePanel;
     PanelSelect:TFilePanelSelect;
+
     constructor Create(AOwner :TWinControl; lblDriveInfo : TLabel;
                        lblCommandPath:TLabel; cmbCommand:TComboBox); reintroduce;
     destructor Destroy; override;
     procedure SetFocus; override;
-    procedure SelectFile(frp:PFileRecItem);
+
     { Returns True if at least one file is/was selected. }
     function  SelectFileIfNoSelected(frp:PFileRecItem):Boolean;
     procedure UnSelectFileIfSelected(frp:PFileRecItem);
+    procedure SelectFile(frp:PFileRecItem);
     procedure MakeVisible(iRow:Integer);
     procedure MakeSelectedVisible;
     procedure InvertAllFiles;
     procedure MarkAll;
-    procedure RefreshPanel(bUpdateFileCount: Boolean = True; bUpdateDiskFreeSpace: Boolean = True);
-    procedure ClearCmdLine;
-    procedure CloseAltPanel;
-    procedure ShowAltPanel(Char : TUTF8Char = #0);
     procedure UnMarkAll;
-    procedure UpDatelblInfo;
-    Function GetActiveDir:String;
     procedure MarkMinus;
     procedure MarkPlus;
     procedure MarkShiftPlus;
     procedure MarkShiftMinus;
-    function AnySelected:Boolean;
-    procedure ClearGridSelection;
+    procedure SetColWidths;
     procedure RedrawGrid;
+    procedure RefreshPanel(bUpdateFileCount: Boolean = True; bUpdateDiskFreeSpace: Boolean = True);
+    procedure UpDatelblInfo;
+    procedure ClearCmdLine;
+    procedure ShowAltPanel(Char : TUTF8Char = #0);
+    procedure CloseAltPanel;
     procedure UpdateColumnsView;
     procedure UpdateView;
     function GetActiveItem:PFileRecItem;
@@ -299,9 +293,11 @@ type
     function IsActiveItemValid:Boolean;
     function GetColumnsClass: TPanelColumnsClass;
 
+    procedure dgPanelEnter(Sender: TObject);
+
     property ActiveDir:String read GetActiveDir;
-    property GridVertLine: Boolean read fGridVertLine write SetGridVertLine;
-    property GridHorzLine: Boolean read fGridHorzLine write SetGridHorzLine;
+    property GridVertLine: Boolean read GetGridVertLine write SetGridVertLine;
+    property GridHorzLine: Boolean read GetGridHorzLine write SetGridHorzLine;
   end;
 
 implementation
@@ -318,22 +314,12 @@ uses
 
 procedure TFrameFilePanel.SetFocus;
 begin
-  with FLastSelect do
-  begin
-    if top<0 then Top:=0;
-    if Left<0 then Left:=0;
-    if Right<0 then Right:=0;
-    if Bottom<0 then Bottom:=0;
-  end;
-  if dgPanel.Row<0 then
-    dgPanel.Selection:=FLastSelect;
   if frmMain.Visible and dgPanel.CanFocus then
     dgPanel.SetFocus;
   lblLPath.SetActive(True);
   pnlFile.UpdatePrompt;
   if Parent is TPage then
     frmMain.UpdateSelectedDrive(Parent.Parent as TNoteBook);
-//  dgPanel.Invalidate;
 end;
 
 procedure TFrameFilePanel.SelectFile(frp:PFileRecItem);
@@ -722,11 +708,6 @@ begin
   pnlFile.Sorting.AddSorting(Index, SortingDirection);
   pnlFile.Sort;
   dgPanel.Invalidate;
-end;
-
-procedure TFrameFilePanel.dgPanelKeyPress(Sender: TObject; var Key: Char);
-begin
-  DebugLn('dgpanel:' + Key)
 end;
 
 procedure TFrameFilePanel.dgPanelPrepareCanvas(sender: TObject; Col,
@@ -1368,30 +1349,12 @@ begin
     CloseAltPanel;}
   FActive:= False;
   lblLPath.SetActive(False);
-  ClearGridSelection;
 end;
 
 procedure TFrameFilePanel.MakeSelectedVisible;
 begin
   if dgPanel.Row>=0 then
     MakeVisible(dgPanel.Row);
-end;
-
-function TFrameFilePanel.AnySelected:Boolean;
-begin
-  Result:=dgPanel.Row>=0;
-end;
-
-procedure TFrameFilePanel.ClearGridSelection;
-var
-  nilRect:TGridRect;
-begin
-  FLastSelect:=dgPanel.Selection;
-  nilRect.Left:=-1;
-  nilRect.Top:=-1;
-  nilRect.Bottom:=-1;
-  nilRect.Right:=-1;
-  dgPanel.Selection:=nilRect;
 end;
 
 procedure TFrameFilePanel.dgPanelDblClick(Sender: TObject);
@@ -1582,6 +1545,16 @@ begin
   lblLPath.Width:=pnlHeader.Width - 4;
 end;
 
+function TFrameFilePanel.GetGridHorzLine: Boolean;
+begin
+  Result := goHorzLine in dgPanel.Options;
+end;
+
+function TFrameFilePanel.GetGridVertLine: Boolean;
+begin
+  Result := goVertLine in dgPanel.Options;
+end;
+
 procedure TFrameFilePanel.SetGridHorzLine(const AValue: Boolean);
 begin
   if AValue then
@@ -1669,7 +1642,6 @@ begin
   pnAltSearch.Visible := False;
 
   // ---
-  OnKeyPress:=@dgPanelKeyPress;
   dgPanel.OnMouseDown := @dgPanelMouseDown;
   dgPanel.OnStartDrag := @dgPanelStartDrag;
   dgPanel.OnDragOver := @dgPanelDragOver;
@@ -1681,7 +1653,6 @@ begin
   dgPanel.OnExit:=@dgPanelExit;
   dgPanel.OnKeyUp:=@dgPanelKeyUp;
   dgPanel.OnKeyDown:=@dgPanelKeyDown;
-  dgPanel.OnKeyPress:=@dgPanelKeyPress;
   dgPanel.OnHeaderClick:=@dgPanelHeaderClick;
   dgPanel.OnPrepareCanvas:=@dgPanelPrepareCanvas;
   {Alexx2000}
@@ -1725,14 +1696,6 @@ begin
   GridHorzLine:= gGridHorzLine;
 
   dgPanel.UpdateView;
-
-  with FLastSelect do
-  begin
-    Left:= 0;
-    Top:= 0;
-    Bottom:= 0;
-    Right:= dgPanel.ColCount-1;
-  end;
 
   if gShowIcons then
     pnlFile.FileList.UpdateFileInformation(pnlFile.PanelMode);
