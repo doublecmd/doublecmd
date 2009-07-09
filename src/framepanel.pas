@@ -1068,6 +1068,13 @@ begin
 
         SetFocus;
       end;
+
+{$IFDEF LCLGTK2}
+    // Workaround for GTK2 - up and down arrows moving through controls.
+    VK_UP,
+    VK_DOWN:
+      Key := 0;
+{$ENDIF}
   end;
 end;
 
@@ -1113,6 +1120,13 @@ begin
         else
           msgError(Format(rsMsgErrRename, [ExtractFileName(OldFileName), NewFileName]));
       end;
+
+{$IFDEF LCLGTK2}
+    // Workaround for GTK2 - up and down arrows moving through controls.
+    VK_UP,
+    VK_DOWN:
+      Key := 0;
+{$ENDIF}
   end;
 end;
 
