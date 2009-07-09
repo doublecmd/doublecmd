@@ -1156,8 +1156,12 @@ begin
     Result:= (Attr and FILE_ATTRIBUTE_DIRECTORY) = 0;
 end;
 {$ELSE}
+var
+  Info: BaseUnix.Stat;
 begin
-  Result:= fpAccess(FileName, F_OK) = 0;
+  Result:= False;
+  if fpStat(FileName, Info) >= 0 then
+    Result:= not (fpS_ISDIR(Info.st_mode) or FPS_ISLNK(Info.st_mode));
 end;
 {$ENDIF}
 
