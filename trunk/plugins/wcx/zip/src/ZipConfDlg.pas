@@ -104,9 +104,10 @@ procedure CreateZipConfDlg;
 var
   wFileName: WideString;
 begin
+  wFileName:= UTF8Decode(gPluginDir) + 'ZipConfDlg.lfm';
+
   with gSetDlgProcInfo do
   begin
-    wFileName:= PluginDir + 'ZipConfDlg.lfm';
     DialogBoxEx(PWideChar(wFileName), @DlgProc);
   end;
 end;

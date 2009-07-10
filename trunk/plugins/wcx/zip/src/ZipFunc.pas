@@ -61,8 +61,11 @@ var
   gCompressionMethodToUse : TAbZipSupportedMethod;
   gDeflationOption : TAbZipDeflationOption;
   gIni: TIniFile;
+  gPluginDir: UTF8String;
+  gPluginConfDir: UTF8String;
   
 implementation
+
 uses SysUtils, Classes, ZipConfDlg
 {$IFDEF MSWINDOWS}
 , Windows
@@ -411,8 +414,16 @@ end;
 procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);
 begin
   gSetDlgProcInfo:= SetDlgProcInfo;
+
+  gPluginDir := UTF8Encode(gSetDlgProcInfo.PluginDir);
+  gPluginConfDir := UTF8Encode(gSetDlgProcInfo.PluginConfDir);
+
+  // Clear so they are not used anymore.
+  gSetDlgProcInfo.PluginDir := nil;
+  gSetDlgProcInfo.PluginConfDir := nil;
+
   // load configuration from ini file
-  gIni:= TIniFile.Create(gSetDlgProcInfo.PluginConfDir + 'zip.ini');
+  gIni:= TIniFile.Create(gPluginConfDir + 'zip.ini');
   LoadConfig;
 end;
 

@@ -261,6 +261,8 @@ function TWCXModule.LoadModule(const sName:String):Boolean;
 var
   PackDefaultParamStruct : TPackDefaultParamStruct;
   SetDlgProcInfo: TSetDlgProcInfo;
+  sPluginDir: WideString;
+  sPluginConfDir: WideString;
 begin
   FModuleHandle := mbLoadLibrary(sName);
   Result := (FModuleHandle <> 0);
@@ -312,10 +314,13 @@ begin
   // Dialog API
   if Assigned(SetDlgProc) then
     begin
+      sPluginDir := UTF8Decode(ExtractFilePath(sName));
+      sPluginConfDir := UTF8Decode(gpIniDir);
+
       with SetDlgProcInfo do
       begin
-        PluginDir:= StrNewW(ExtractFilePath(sName));
-        PluginConfDir:= StrNewW(gpIniDir);
+        PluginDir:= PWideChar(sPluginDir);
+        PluginConfDir:= PWideChar(sPluginConfDir);
         InputBox:= @fDialogBox.InputBox;
         MessageBox:= @fDialogBox.MessageBox;
         DialogBox:= @fDialogBox.DialogBox;
@@ -323,8 +328,6 @@ begin
         SendDlgMsg:= @fDialogBox.SendDlgMsg;
       end;
       SetDlgProc(SetDlgProcInfo);
-      StrDisposeW(SetDlgProcInfo.PluginDir);
-      StrDisposeW(SetDlgProcInfo.PluginConfDir);
     end;
 end;
 
