@@ -1064,8 +1064,9 @@ end;
 procedure TFrameFilePanel.edtRenameKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
 var
-  OldFileName: String;
   NewFileName: String;
+  OldFileNameAbsolute: String;
+  NewFileNameAbsolute: String;
 begin
   case Key of
     VK_ESCAPE:
@@ -1081,10 +1082,11 @@ begin
       begin
         Key := 0; // catch the enter
 
-        OldFileName := edtRename.Hint;
-        NewFileName := edtRename.Text;
+        NewFileName         := edtRename.Text;
+        OldFileNameAbsolute := edtRename.Hint;
+        NewFileNameAbsolute := ExtractFilePath(OldFileNameAbsolute) + NewFileName;
 
-        if mbFileExists(ExtractFilePath(OldFileName) + NewFileName) then
+        if mbFileExists(NewFileNameAbsolute) then
         begin
           if MsgBox(Format(rsMsgFileExistsRwrt, [NewFileName]),
                     [msmbYes, msmbNo], msmbYes, msmbNo) = mmrNo then
@@ -1093,7 +1095,7 @@ begin
           end;
         end;
 
-        if mbRenameFile(OldFileName, NewFileName) = True then
+        if mbRenameFile(OldFileNameAbsolute, NewFileNameAbsolute) = True then
         begin
           edtRename.Visible:=False;
           pnlFile.LastActive:=NewFileName;
@@ -1101,7 +1103,7 @@ begin
           SetFocus;
         end
         else
-          msgError(Format(rsMsgErrRename, [ExtractFileName(OldFileName), NewFileName]));
+          msgError(Format(rsMsgErrRename, [ExtractFileName(OldFileNameAbsolute), NewFileName]));
       end;
 
 {$IFDEF LCLGTK2}
