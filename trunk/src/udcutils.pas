@@ -262,7 +262,7 @@ begin
   X:= GetEnvironmentVariableCount;
   if X = 0 then Exit;
   EnvVarList:= TStringList.Create;
-  for I:= 0 to X do
+  for I:= 1 to X do
     begin
       EnvVarList.Add(GetEnvironmentString(I));
       Result:= StringReplace(Result, '%'+EnvVarList.Names[I]+'%', EnvVarList.ValueFromIndex[I], [rfReplaceAll, rfIgnoreCase]);
