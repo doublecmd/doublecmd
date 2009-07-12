@@ -106,7 +106,7 @@ procedure LoadPixMapManager;
 implementation
 uses
   GraphType, LCLIntf, LCLType, LCLProc, Forms, FileUtil, uGlobsPaths, uWCXhead,
-  uGlobs
+  uGlobs, uDCUtils
   {$IFDEF LCLGTK2}
     , StrUtils
     , gtkdef, gtk2, gdk2pixbuf, gdk2, glib2
@@ -200,6 +200,7 @@ var
   iPixbufHeight : Integer;
   {$ENDIF}
 begin
+  sFileName:= mbExpandFileName(sFileName);
 {$IFDEF MSWINDOWS}
   iIconIndex := -1;
   iPos :=Pos(',', sFileName);
