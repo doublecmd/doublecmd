@@ -257,6 +257,7 @@ var
   I, X: Integer;
   EnvVarList: TStringList;
 begin
+  if sFileName = EmptyStr then Exit(EmptyStr);
   Result:= UTF8ToSys(sFileName);
   X:= GetEnvironmentVariableCount;
   if X = 0 then Exit;
