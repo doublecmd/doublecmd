@@ -47,6 +47,12 @@ type
 
 function GetCmdDirFromEnvVar(sPath : String) : String;
 function SetCmdDirAsEnvVar(sPath : String) : String;
+{en
+   Expands the file name with environment variables by replacing them by absolute path.
+   @param(sFileName File name to expand.)
+   @returns(Absolute file name.)
+}
+function mbExpandFileName(const sFileName: UTF8String): UTF8String;
 function GetTempFolder: String;
 {en
    Get last directory name in path
@@ -224,9 +230,9 @@ function OctToDec(Value: String): LongInt;
 function DecToOct(Value: LongInt): String;
 
 implementation
-uses
-   uOSUtils, uGlobs, uGlobsPaths;
 
+uses
+   FileUtil, uOSUtils, uGlobs, uGlobsPaths;
 
 function GetCmdDirFromEnvVar(sPath: String): String;
 begin
@@ -244,6 +250,24 @@ begin
     Result := StringReplace(sPath, ExcludeTrailingPathDelimiter(gpExePath), '%commander_path%', [rfIgnoreCase])
   else
     Result := sPath;
+end;
+
+function mbExpandFileName(const sFileName: UTF8String): UTF8String;
+var
+  I, X: Integer;
+  EnvVarList: TStringList;
+begin
+  Result:= UTF8ToSys(sFileName);
+  X:= GetEnvironmentVariableCount;
+  if X = 0 then Exit;
+  EnvVarList:= TStringList.Create;
+  for I:= 0 to X do
+    begin
+      EnvVarList.Add(GetEnvironmentString(I));
+      Result:= StringReplace(Result, '%'+EnvVarList.Names[I]+'%', EnvVarList.ValueFromIndex[I], [rfReplaceAll, rfIgnoreCase]);
+    end;
+  FreeAndNil(EnvVarList);
+  Result:= SysToUTF8(ExpandFileName(Result));
 end;
 
 function GetTempFolder: String;

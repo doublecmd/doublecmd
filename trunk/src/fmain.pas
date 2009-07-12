@@ -3122,6 +3122,8 @@ begin
       Cmd:= BarFile.GetButtonX(NumberOfButton, CmdX);
       Param:= BarFile.GetButtonX(NumberOfButton, ParamX);
     end;
+  Cmd:= mbExpandFileName(Cmd);
+  Param:= mbExpandFileName(Param);
   if Actions.Execute(Cmd,Param) > -1 then
     Result:= True
   else
