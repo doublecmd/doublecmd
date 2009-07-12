@@ -3122,12 +3122,15 @@ begin
       Cmd:= BarFile.GetButtonX(NumberOfButton, CmdX);
       Param:= BarFile.GetButtonX(NumberOfButton, ParamX);
     end;
-  Cmd:= mbExpandFileName(Cmd);
-  Param:= mbExpandFileName(Param);
+
   if Actions.Execute(Cmd,Param) > -1 then
     Result:= True
   else
-    Result:= ExecCmdFork(Format('"%s" %s', [Cmd, Param]));
+    begin
+      Cmd:= mbExpandFileName(Cmd);
+      Param:= mbExpandFileName(Param);
+      Result:= ExecCmdFork(Format('"%s" %s', [Cmd, Param]));
+    end;
 end;
 
 procedure TfrmMain.ToggleConsole;
