@@ -265,7 +265,7 @@ begin
   for I:= 1 to X do
     begin
       EnvVarList.Add(GetEnvironmentString(I));
-      Result:= StringReplace(Result, '%'+EnvVarList.Names[I]+'%', EnvVarList.ValueFromIndex[I], [rfReplaceAll, rfIgnoreCase]);
+      Result:= StringReplace(Result, '%'+EnvVarList.Names[I-1]+'%', EnvVarList.ValueFromIndex[I-1], [rfReplaceAll, rfIgnoreCase]);
     end;
   FreeAndNil(EnvVarList);
   Result:= SysToUTF8(ExpandFileName(Result));
