@@ -86,7 +86,8 @@ type
              destructor Destroy; override;
              //---------------------
              function GetButtonX(Index:integer; What:TInfor):string;
-             function AddButtonX(ButtonX, CmdX, ParamX, PathX, MenuX, MiskX:string ):integer;
+             function InsertButtonX(InsertAt: Integer; ButtonX, CmdX, ParamX, PathX, MenuX, MiskX: String): Integer;
+             function AddButtonX(ButtonX, CmdX, ParamX, PathX, MenuX, MiskX: String): Integer;
              //---------------------
              procedure RemoveButton(Index: Integer);
              procedure DeleteAllButtons;
@@ -199,16 +200,28 @@ if (index>=XButtons.Count) or (Index<0) then Exit;
       end;
 end;
 
-function TBarClass.AddButtonX(ButtonX, CmdX, ParamX, PathX, MenuX,MiskX: string
-  ): integer;
+function TBarClass.InsertButtonX(InsertAt: Integer; ButtonX, CmdX, ParamX, PathX, MenuX, MiskX: String): Integer;
 begin
-  Result:=XButtons.Add(TKButton.Create);
-  TKButton(XButtons[Result]).CmdX:=CmdX;
-  TKButton(XButtons[Result]).ButtonX:=ButtonX;
-  TKButton(XButtons[Result]).ParamX:=ParamX;
-  TKButton(XButtons[Result]).PathX:=PathX;
-  TKButton(XButtons[Result]).MenuX:=MenuX;
-  TKButton(XButtons[Result]).MiskX:=MiskX;
+  if InsertAt < 0 then
+    InsertAt:= 0;
+  if InsertAt > XButtons.Count then
+    InsertAt:= XButtons.Count;
+
+  XButtons.Insert(InsertAt, TKButton.Create);
+
+  TKButton(XButtons[InsertAt]).CmdX:= CmdX;
+  TKButton(XButtons[InsertAt]).ButtonX:= ButtonX;
+  TKButton(XButtons[InsertAt]).ParamX:= ParamX;
+  TKButton(XButtons[InsertAt]).PathX:= PathX;
+  TKButton(XButtons[InsertAt]).MenuX:= MenuX;
+  TKButton(XButtons[InsertAt]).MiskX:= MiskX;
+
+  Result:= InsertAt;
+end;
+
+function TBarClass.AddButtonX(ButtonX, CmdX, ParamX, PathX, MenuX, MiskX: String): Integer;
+begin
+  Result := InsertButtonX(XButtons.Count, ButtonX, CmdX, ParamX, PathX, MenuX, MiskX);
 end;
 
 procedure TBarClass.LoadFromFile(FileName: String);
