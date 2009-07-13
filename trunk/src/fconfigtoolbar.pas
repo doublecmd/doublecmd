@@ -138,7 +138,7 @@ begin
   kedtBarSize.Text := IntToStr(gToolBarIconSize);
   cbFlatIcons.Checked := gToolBarFlat;
   sbIconExample.Flat:= gToolBarFlat;
-  ktbBar.FlatButtons := gToolBarFlat;
+  ktbBar.Flat := gToolBarFlat;
   ktbBar.ChangePath := gpExePath;
   ktbBar.EnvVar := '%commander_path%';
   IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
@@ -169,7 +169,7 @@ end;
 
 procedure TfrmConfigToolBar.cbFlatIconsChange(Sender: TObject);
 begin
-  ktbBar.FlatButtons := cbFlatIcons.Checked;
+  ktbBar.Flat := cbFlatIcons.Checked;
   sbIconExample.Flat := cbFlatIcons.Checked;
 end;
 
@@ -218,7 +218,7 @@ begin
   gToolBarFlat := cbFlatIcons.Checked;
 
   frmMain.MainToolBar.ButtonGlyphSize := gToolBarIconSize;
-  frmMain.MainToolBar.FlatButtons := gToolBarFlat;
+  frmMain.MainToolBar.Flat := gToolBarFlat;
 
   IniBarFile := TIniFileEx.Create(gpIniDir + 'default.bar');
   try

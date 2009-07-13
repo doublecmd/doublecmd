@@ -55,9 +55,9 @@ type
     FOnToolButtonClick : TOnToolButtonClick;
     FOnLoadButtonGlyph : TOnLoadButtonGlyph;
     FCheckToolButton : Boolean;
-    FFlatButtons: Boolean;
-    FDiskPanel: Boolean;
+    FDriveToolBar: Boolean;
     FDividerAsButton: Boolean;
+    FFlat: Boolean;
     FChangePath : String;
     FEnvVar : String;
     FBarFile: TBarClass;
@@ -65,11 +65,10 @@ type
     //---------------------
     function LoadBtnIcon(IconPath : String) : TBitMap;
     function GetButton(Index: Integer): TSpeedButton;
-    function GetButtonCount: Integer;
     function GetCommand(Index: Integer): String;
     procedure SetButton(Index : Integer; Value : TSpeedButton);
     procedure SetCommand(Index: Integer; const AValue: String);
-    procedure SetFlatButtons(const AValue : Boolean);
+    procedure SetFlat(const AValue : Boolean);
     procedure ToolButtonClick(Sender: TObject);
     procedure UpdateButtonsTag;
 
@@ -97,7 +96,6 @@ type
     procedure DeleteAllToolButtons;
     procedure UncheckAllButtons;
 
-    property ButtonCount: Integer read GetButtonCount;
     property Buttons[Index: Integer]: TSpeedButton read GetButton write SetButton;
     property Commands[Index: Integer]: String read GetCommand write SetCommand;
 
@@ -106,8 +104,8 @@ type
     property OnToolButtonClick: TOnToolButtonClick read FOnToolButtonClick write FOnToolButtonClick;
     property OnLoadButtonGlyph : TOnLoadButtonGlyph read FOnLoadButtonGlyph write FOnLoadButtonGlyph;
     property CheckToolButton : Boolean read FCheckToolButton write FCheckToolButton default False;
-    property FlatButtons : Boolean read FFlatButtons write SetFlatButtons default False;
-    property IsDiskPanel : Boolean read FDiskPanel write FDiskPanel default False;
+    property Flat: Boolean read FFlat write SetFlat default False;
+    property DriveToolBar : Boolean read FDriveToolBar write FDriveToolBar default False;
     property ButtonGlyphSize : Integer read FIconSize write FIconSize;
     property ShowDividerAsButton: Boolean read FDividerAsButton write FDividerAsButton default False;
 
@@ -211,13 +209,13 @@ begin
     Glyph := LoadBtnIcon(AValue);
 end;
 }
-procedure TKAStoolBar.SetFlatButtons(const AValue: Boolean);
+procedure TKAStoolBar.SetFlat(const AValue: Boolean);
 var
   I :Integer;
 begin
-  FFlatButtons := AValue;
+  FFlat := AValue;
   for I := 0 to ButtonList.Count - 1 do
-    TSpeedButton(ButtonList.Items[I]).Flat := FFlatButtons;
+    TSpeedButton(ButtonList.Items[I]).Flat := FFlat;
 end;
 
 procedure TKAStoolBar.ToolButtonClick(Sender: TObject);
@@ -250,11 +248,6 @@ begin
     end;
   FBarFile.DeleteAllButtons;
   EndUpdate;
-end;
-
-function TKAStoolBar.GetButtonCount: Integer;
-begin
-  Result := ButtonList.Count;
 end;
 
 function TKAStoolBar.GetCommand(Index: Integer): String;
@@ -422,7 +415,7 @@ begin
   ToolButton.ShowHint := True;
   ToolButton.Hint := BtnHint;
 
-  if FDiskPanel then
+  if FDriveToolBar then
     begin
       ToolButton.Width := ToolButton.Canvas.TextWidth(sCaption) + ToolButton.Glyph.Width + 32;
     end
@@ -457,7 +450,7 @@ begin
     ToolButton.AllowAllUp := True;
   end;
 
-  ToolButton.Flat := FFlatButtons;
+  ToolButton.Flat := FFlat;
 
   if Assigned(FOnLoadButtonGlyph) then
     Bitmap := FOnLoadButtonGlyph(IconPath, FIconSize, ToolButton.Color)
@@ -474,7 +467,7 @@ begin
 
 
   // this is temporarly
-  if FDiskPanel then
+  if FDriveToolBar then
     InsertX(InsertAt, sCaption,Cmd, '', '', '');
 
   // unlock on resize handler
