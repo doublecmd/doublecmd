@@ -333,6 +333,7 @@ type
     procedure btnLeftDirectoryHotlistClick(Sender: TObject);
     procedure btnRightClick(Sender: TObject);
     procedure btnRightDirectoryHotlistClick(Sender: TObject);
+    procedure dskRightResize(Sender: TObject);
     procedure miLogMenuClick(Sender: TObject);
     procedure miTrayIconExitClick(Sender: TObject);
     procedure miTrayIconRestoreClick(Sender: TObject);
@@ -340,7 +341,6 @@ type
     procedure DeleteClick(Sender: TObject);
     procedure dskToolBarMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure dskRightChangeLineCount(AddSize: Integer);
     procedure dskToolButtonClick(Sender: TObject; NumberOfButton: Integer);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -675,6 +675,11 @@ begin
   p := Classes.Point(btnRightDirectoryHotlist.Left,btnRightDirectoryHotlist.Height);
   p := pnlRightTools.ClientToScreen(p);
   pmHotList.PopUp(P.x,P.y);
+end;
+
+procedure TfrmMain.dskRightResize(Sender: TObject);
+begin
+  pnlSyncSize.Height:= dskRight.Height + pnlDisk.BevelWidth * 2;
 end;
 
 procedure TfrmMain.miLogMenuClick(Sender: TObject);
@@ -1029,11 +1034,6 @@ begin
           Actions.cm_DriveContextMenu(sPath);
         end;
     end;
-end;
-
-procedure TfrmMain.dskRightChangeLineCount(AddSize: Integer);
-begin
-  pnlSyncSize.Height := pnlSyncSize.Height + AddSize;
 end;
 
 procedure TfrmMain.dskToolButtonClick(Sender: TObject; NumberOfButton: Integer);

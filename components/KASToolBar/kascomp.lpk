@@ -4,18 +4,15 @@
     <Name Value="KASComp"/>
     <Author Value="Alexander Koblov"/>
     <CompilerOptions>
-      <Version Value="5"/>
+      <Version Value="8"/>
       <SearchPaths>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
         <SyntaxOptions>
-          <DelphiCompat Value="True"/>
+          <SyntaxMode Value="Delphi"/>
         </SyntaxOptions>
       </Parsing>
-      <CodeGeneration>
-        <Generate Value="Faster"/>
-      </CodeGeneration>
       <Linking>
         <Debugging>
           <GenerateDebugInfo Value="True"/>
@@ -31,7 +28,7 @@
 "/>
     <License Value="GNU GPL 2
 "/>
-    <Version Major="1" Release="4" Build="1"/>
+    <Version Major="1" Release="5"/>
     <Files Count="4">
       <Item1>
         <Filename Value="kasedit.pas"/>
@@ -44,12 +41,12 @@
         <UnitName Value="KAStoolBar"/>
       </Item2>
       <Item3>
-	<Filename Value="kasbarmenu.pas"/>
-	<HasRegisterProc Value="True"/>
+        <Filename Value="kasbarmenu.pas"/>
+        <HasRegisterProc Value="True"/>
         <UnitName Value="KASBarMenu"/>
       </Item3>
       <Item4>
-	<Filename Value="kasbarfiles.pas"/>
+        <Filename Value="kasbarfiles.pas"/>
         <UnitName Value="KASBarFiles"/>
       </Item4>
     </Files>
