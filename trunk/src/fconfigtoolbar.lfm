@@ -380,8 +380,8 @@ object frmConfigToolBar: TfrmConfigToolBar
       Height = 20
       Top = 0
       Width = 328
-      Align = alTop
-      BevelOuter = bvNone
+      AutoSize = True
+      Constraints.MinHeight = 24
       TabOrder = 0
       OnToolButtonClick = ktbBarToolButtonClick
       OnLoadButtonGlyph = ktbBarLoadButtonGlyph

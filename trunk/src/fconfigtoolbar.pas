@@ -109,7 +109,6 @@ procedure ShowConfigToolbar(iButtonIndex : Integer = -1);
 begin
   with TfrmConfigToolBar.Create(Application) do
   try
-    ktbBar.InitBounds;
     ktbBar.Tag := iButtonIndex; // Selected button index
     ShowModal;
   finally

@@ -27,6 +27,8 @@ object frmMain: TfrmMain
   LCLVersion = '0.9.27'
   Visible = True
   object pnlSyncSize: TPanel
+    AnchorSideTop.Control = MainToolBar
+    AnchorSideTop.Side = asrBottom
     Left = 0
     Height = 26
     Top = 24
@@ -54,8 +56,8 @@ object frmMain: TfrmMain
         Top = 1
         Width = 142
         Align = alLeft
-        Alignment = taLeftJustify
-        BevelOuter = bvNone
+        Anchors = [akTop, akLeft, akRight]
+        AutoSize = True
         TabOrder = 0
         OnMouseUp = dskToolBarMouseUp
         OnToolButtonClick = dskToolButtonClick
@@ -65,18 +67,19 @@ object frmMain: TfrmMain
         ButtonGlyphSize = 16
       end
       object dskRight: TKAStoolBar
-        Left = 143
+        AnchorSideLeft.Control = dskLeft
+        AnchorSideLeft.Side = asrBottom
+        Left = 1
         Height = 24
         Top = 1
-        Width = 381
-        Align = alClient
-        Alignment = taLeftJustify
-        Anchors = [akTop, akLeft, akBottom]
-        BevelOuter = bvNone
+        Width = 523
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight]
+        AutoSize = True
         TabOrder = 1
         OnMouseUp = dskToolBarMouseUp
+        OnResize = dskRightResize
         OnToolButtonClick = dskToolButtonClick
-        OnChangeLineCount = dskRightChangeLineCount
         CheckToolButton = True
         FlatButtons = True
         IsDiskPanel = True
@@ -442,11 +445,13 @@ object frmMain: TfrmMain
     end
   end
   object MainToolBar: TKAStoolBar
+    AnchorSideTop.Control = Owner
     Left = 0
     Height = 24
     Top = 0
     Width = 659
-    Align = alTop
+    AutoSize = True
+    Constraints.MinHeight = 24
     TabOrder = 2
     OnDragDrop = MainToolBarDragDrop
     OnDragOver = MainToolBarDragOver
