@@ -867,8 +867,10 @@ begin
   end
   else
   begin  // Not minimized
-    // запоминаєм состояние окна перед минимизацией для
-    // дальнейшего восстановления после разворачивания из трея
+    // restore toolbar position
+    MainToolBar.Top:= 0;
+    // save window state before minimize for
+    // future loading after restore from tray
     lastWindowState:=WindowState;
     HiddenToTray := False;
   end;
