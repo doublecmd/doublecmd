@@ -268,7 +268,9 @@ begin
       Result:= StringReplace(Result, '%'+EnvVarList.Names[I-1]+'%', EnvVarList.ValueFromIndex[I-1], [rfReplaceAll, rfIgnoreCase]);
     end;
   FreeAndNil(EnvVarList);
-  Result:= SysToUTF8(ExpandFileName(Result));
+  if Pos(PathDelim, Result) <> 0 then
+    Result:= ExpandFileName(Result);
+  Result:= SysToUTF8(Result);
 end;
 
 function GetTempFolder: String;
