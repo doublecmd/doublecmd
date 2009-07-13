@@ -852,6 +852,7 @@ procedure TfrmMain.FormWindowStateChange(Sender: TObject);
 begin
   if (GetWindowState = wsMinimized) then
   begin  // Minimized
+    MainToolBar.Top:= 0; // restore toolbar position
     if not HiddenToTray then
     begin
       if gMinimizeToTray or gAlwaysShowTrayIcon then
@@ -867,8 +868,6 @@ begin
   end
   else
   begin  // Not minimized
-    // restore toolbar position
-    MainToolBar.Top:= 0;
     // save window state before minimize for
     // future loading after restore from tray
     lastWindowState:=WindowState;
