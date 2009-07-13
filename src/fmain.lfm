@@ -62,8 +62,8 @@ object frmMain: TfrmMain
         OnMouseUp = dskToolBarMouseUp
         OnToolButtonClick = dskToolButtonClick
         CheckToolButton = True
-        FlatButtons = True
-        IsDiskPanel = True
+        Flat = True
+        DriveToolBar = True
         ButtonGlyphSize = 16
       end
       object dskRight: TKAStoolBar
@@ -81,8 +81,8 @@ object frmMain: TfrmMain
         OnResize = dskRightResize
         OnToolButtonClick = dskToolButtonClick
         CheckToolButton = True
-        FlatButtons = True
-        IsDiskPanel = True
+        Flat = True
+        DriveToolBar = True
         ButtonGlyphSize = 16
       end
     end
@@ -458,7 +458,7 @@ object frmMain: TfrmMain
     OnMouseUp = MainToolBarMouseUp
     OnToolButtonClick = MainToolBarToolButtonClick
     OnLoadButtonGlyph = MainToolBarLoadButtonGlyph
-    FlatButtons = True
+    Flat = True
     ButtonGlyphSize = 16
     EnvVar = '%commander_path%'
   end

@@ -2786,7 +2786,7 @@ begin
 //dskPanel.InitBounds; // Update information
 
   dskPanel.DeleteAllToolButtons;
-  dskPanel.FlatButtons := gDriveBarFlat;
+  dskPanel.Flat := gDriveBarFlat;
   Count := DrivesList.Count - 1;
 
   for I := 0 to Count do
@@ -3243,7 +3243,7 @@ begin
   MainToolBar.Visible := gButtonBar;
   if gButtonBar then
     begin
-      MainToolBar.FlatButtons := gToolBarFlat;
+      MainToolBar.Flat := gToolBarFlat;
       MainToolBar.ButtonGlyphSize := gToolBarIconSize;
       MainToolBar.ChangePath := gpExePath;
       MainToolBar.EnvVar := '%commander_path%';
