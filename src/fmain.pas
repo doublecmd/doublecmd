@@ -3220,8 +3220,9 @@ procedure TfrmMain.UpdateWindowView;
   end;
 
 var
-  I : Integer;
-  IniBarFile : TIniFileEx;
+  I: Integer;
+  IniBarFile: TIniFileEx;
+  iDelta: Integer;
 begin
   (* Disk Panels *)
   UpdateDiskCount; // Update list of showed drives
@@ -3243,11 +3244,17 @@ begin
     begin
       MainToolBar.Flat:= gToolBarFlat;
       if gToolBarSmallIcons then
-        MainToolBar.GlyphSize:= gToolBarIconSize
+        begin
+          MainToolBar.GlyphSize:= gToolBarIconSize;
+          iDelta:= 0;
+        end
       else
-        MainToolBar.GlyphSize:= gToolBarButtonSize - 4;
-      MainToolBar.ButtonHeight:= gToolBarButtonSize;
-      MainToolBar.ButtonWidth:= gToolBarButtonSize;
+        begin
+          MainToolBar.GlyphSize:= gToolBarButtonSize;
+          iDelta:= 4;
+        end;
+      MainToolBar.ButtonHeight:= gToolBarButtonSize + iDelta;
+      MainToolBar.ButtonWidth:= gToolBarButtonSize + iDelta;
       MainToolBar.ChangePath:= gpExePath;
       MainToolBar.EnvVar:= '%commander_path%';
       try

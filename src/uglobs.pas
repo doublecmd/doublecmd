@@ -463,7 +463,7 @@ begin
   
   gButtonBar := gIni.ReadBool('Layout', 'ButtonBar', True);
   gToolBarFlat := gIni.ReadBool('ButtonBar', 'FlatIcons', True);
-  gToolBarButtonSize := gIni.ReadInteger('ButtonBar', 'ButtonHeight', 20);
+  gToolBarButtonSize := gIni.ReadInteger('ButtonBar', 'ButtonHeight', 16);
   gToolBarIconSize := gIni.ReadInteger('ButtonBar', 'SmallIconSize', 16);
   gToolBarSmallIcons:= gIni.ReadBool('ButtonBar', 'SmallIcons', False);
   gDriveBar1 := gIni.ReadBool('Layout', 'DriveBar1', True);
