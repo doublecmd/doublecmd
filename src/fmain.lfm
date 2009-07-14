@@ -58,32 +58,32 @@ object frmMain: TfrmMain
         Align = alLeft
         Anchors = [akTop, akLeft, akRight]
         AutoSize = True
+        Flat = True
+        ShowCaptions = True
         TabOrder = 0
         OnMouseUp = dskToolBarMouseUp
         OnToolButtonClick = dskToolButtonClick
-        CheckToolButton = True
-        Flat = True
-        DriveToolBar = True
-        ButtonGlyphSize = 16
+        RadioToolBar = True
+        GlyphSize = 16
       end
       object dskRight: TKAStoolBar
         AnchorSideLeft.Control = dskLeft
         AnchorSideLeft.Side = asrBottom
-        Left = 1
-        Height = 24
+        Left = 143
+        Height = 0
         Top = 1
-        Width = 523
+        Width = 381
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         AutoSize = True
+        Flat = True
+        ShowCaptions = True
         TabOrder = 1
         OnMouseUp = dskToolBarMouseUp
         OnResize = dskRightResize
         OnToolButtonClick = dskToolButtonClick
-        CheckToolButton = True
-        Flat = True
-        DriveToolBar = True
-        ButtonGlyphSize = 16
+        RadioToolBar = True
+        GlyphSize = 16
       end
     end
   end
@@ -452,14 +452,14 @@ object frmMain: TfrmMain
     Width = 659
     AutoSize = True
     Constraints.MinHeight = 24
+    Flat = True
     TabOrder = 2
     OnDragDrop = MainToolBarDragDrop
     OnDragOver = MainToolBarDragOver
     OnMouseUp = MainToolBarMouseUp
     OnToolButtonClick = MainToolBarToolButtonClick
     OnLoadButtonGlyph = MainToolBarLoadButtonGlyph
-    Flat = True
-    ButtonGlyphSize = 16
+    GlyphSize = 16
     EnvVar = '%commander_path%'
   end
   object pnlKeys: TPanel

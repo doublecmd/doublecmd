@@ -982,8 +982,7 @@ begin
   with ActiveFrame, ActiveFrame.GetActiveItem^ do
     begin
       sFileName := ActiveDir + sName;
-      MainToolBar.AddButton('', sFileName, ExtractOnlyFileName(sName), sFileName);
-      MainToolBar.AddX(sFileName, sFileName, '', sPath, ExtractOnlyFileName(sName));
+      MainToolBar.AddButtonX('', sFileName, '', sPath, ExtractOnlyFileName(sName), '',  sFileName);
       try
         IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
         MainToolBar.SaveToIniFile(IniBarFile);
@@ -2768,13 +2767,13 @@ var
   btnIndex : Integer;
 begin
   (*root button*)
-  btnIndex := dskPanel.AddButton(btnLeftRoot.Caption, btnLeftRoot.Caption, btnLeftRoot.Hint, '');
+  btnIndex := dskPanel.AddButtonX(btnLeftRoot.Caption, btnLeftRoot.Caption, '', '', btnLeftRoot.Hint, '', '');
   dskPanel.Buttons[btnIndex].GroupIndex := 0;
   (*up button*)
-  btnIndex := dskPanel.AddButton(btnLeftUp.Caption, btnLeftUp.Caption, btnLeftUp.Hint, '');
+  btnIndex := dskPanel.AddButtonX(btnLeftUp.Caption, btnLeftUp.Caption, '', '', btnLeftUp.Hint, '', '');
   dskPanel.Buttons[btnIndex].GroupIndex := 0;
   (*home button*)
-  btnIndex := dskPanel.AddButton(btnLeftHome.Caption, btnLeftHome.Caption, btnLeftHome.Hint, '');
+  btnIndex := dskPanel.AddButtonX(btnLeftHome.Caption, btnLeftHome.Caption, '', '', btnLeftHome.Hint, '', '');
   dskPanel.Buttons[btnIndex].GroupIndex := 0;
 end;
 
@@ -2795,11 +2794,11 @@ begin
   Drive := PDrive(DrivesList.Items[I]);
   with Drive^ do
     begin
-      dskPanel.AddButton(Name, Path, Path, '');
-
       // get drive icon
-      BitmapTmp := PixMapManager.GetDriveIcon(Drive, dskPanel.ButtonGlyphSize, dskPanel.Buttons[I].Color);
-      dskPanel.Buttons[I].Glyph := BitmapTmp;
+      BitmapTmp := PixMapManager.GetDriveIcon(Drive, dskPanel.GlyphSize, clBtnFace);
+
+      dskPanel.AddButtonX(Name, Path, '', '', Path, '', BitmapTmp);
+
       if Assigned(BitmapTmp) then
         FreeAndNil(BitmapTmp);
       {Set Buttons Transparent. Is need? }
@@ -3245,7 +3244,7 @@ begin
   if gButtonBar then
     begin
       MainToolBar.Flat := gToolBarFlat;
-      MainToolBar.ButtonGlyphSize := gToolBarIconSize;
+      MainToolBar.GlyphSize := gToolBarIconSize;
       MainToolBar.ChangePath := gpExePath;
       MainToolBar.EnvVar := '%commander_path%';
       try

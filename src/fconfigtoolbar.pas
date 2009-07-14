@@ -217,7 +217,7 @@ begin
   gToolBarIconSize := StrToIntDef(kedtBarSize.Text, 16);
   gToolBarFlat := cbFlatIcons.Checked;
 
-  frmMain.MainToolBar.ButtonGlyphSize := gToolBarIconSize;
+  frmMain.MainToolBar.GlyphSize := gToolBarIconSize;
   frmMain.MainToolBar.Flat := gToolBarFlat;
 
   IniBarFile := TIniFileEx.Create(gpIniDir + 'default.bar');
@@ -367,14 +367,12 @@ begin
 
   if (InsertAt >= 0) and (InsertAt < ktbBar.ButtonCount) then
   begin
-    ktbBar.InsertX(InsertAt, '','','','','');
-    LastToolButton := ktbBar.InsertButton(InsertAt, '', '', '', '');
+    LastToolButton := ktbBar.InsertButtonX(InsertAt, '', '', '', '', '', '', '');
     ktbBar.Buttons[LastToolButton].Down := True;
   end
   else if (InsertAt = ktbBar.ButtonCount) then // insert at the end
   begin
-    ktbBar.AddX('','','','','');
-    LastToolButton := ktbBar.AddButton('', '', '', '');
+    LastToolButton := ktbBar.AddButtonX('', '', '', '', '', '', '');
     ktbBar.Buttons[LastToolButton].Down := True;
   end
   else
