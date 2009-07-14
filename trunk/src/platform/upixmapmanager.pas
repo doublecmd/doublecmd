@@ -886,28 +886,29 @@ end;
 
 function TPixMapManager.GetIconByFile(fi: PFileRecItem; PanelMode: TPanelMode): PtrInt;
 var
-  Ext : String;
+  Ext: String;
 {$IFDEF MSWINDOWS}
-    FileInfo : TSHFileInfoW;
-    _para2 : DWORD;
-    _para5 : UINT;
+  FileInfo: TSHFileInfoW;
+  _para2: DWORD;
+  _para5: UINT;
+  sFileName: String;
 {$ENDIF}
 begin
-  Result:=-1;
-  if not assigned(fi) then Exit;
+  Result:= -1;
+  if not Assigned(fi) then Exit;
 
 
   with fi^ do
   begin
 //    writeln(sExt);
-    if sName='..' then
+    if sName = '..' then
     begin
-      Result:=FiUpDirIconID;
+      Result:= FiUpDirIconID;
       Exit;
     end;
     if bLinkIsDir then
     begin
-      Result:=FiDirLinkIconID;
+      Result:= FiDirLinkIconID;
       Exit;
     end;
     if FPS_ISDIR(iMode) then
@@ -915,60 +916,62 @@ begin
       if not mbFileExists(sPath + sName + '\desktop.ini') and (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16) then
       {$ENDIF}
     begin
-      Result:=FiDirIconID;
+      Result:= FiDirIconID;
       Exit;
     end;
     if FPS_ISLNK(iMode) then
     begin
-      Result:=FiLinkIconID;
+      Result:= FiLinkIconID;
       Exit;
     end;
     if (sExt = '') and (not FPS_ISDIR(iMode)) then
     begin
-      Result:=FiDefaultIconID;
+      Result:= FiDefaultIconID;
       Exit;
     end;
-    Ext := lowercase(copy(sExt,2,length(sExt)));
+    Ext:= LowerCase(copy(sExt, 2, Length(sExt)));
     Result:= FExtList.IndexOf(Ext); // ignore .
-    if Result<0 then
+    if Result < 0 then
     begin
     {$IFDEF MSWINDOWS}
     
     if PanelMode = pmDirectory then
       begin
-        _para2 := 0;
-        _para5 := SHGFI_SYSICONINDEX;
+        _para2:= 0;
+        _para5:= SHGFI_SYSICONINDEX;
+        sFileName:= sPath + sName;
       end
     else
       begin
-        _para2 := FILE_ATTRIBUTE_NORMAL;
-        _para5 := SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES;
+        _para2:= FILE_ATTRIBUTE_NORMAL;
+        _para5:= SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES;
+        sFileName:= sName;
       end;
 
     if gIconsSize = 16 then
-      _para5 := _para5 or SHGFI_SMALLICON
+      _para5:= _para5 or SHGFI_SMALLICON
     else
-      _para5 := _para5 or SHGFI_LARGEICON;
+      _para5:= _para5 or SHGFI_LARGEICON;
 
     //WriteLN('Icon for file == ' + sName);
           
-    SHGetFileInfoW(PWChar(UTF8Decode(sPath + sName)),
+    SHGetFileInfoW(PWideChar(UTF8Decode(sFileName)),
                            _para2,
                            FileInfo,
                            SizeOf(FileInfo),
                            _para5);
-       Result := FileInfo.iIcon + $1000;
+    Result:= FileInfo.iIcon + $1000;
        
        //WriteLN('FileInfo.iIcon == ' + IntToStr(FileInfo.iIcon));
        
-       if (FExtList.IndexOf(Ext)<0) and (Ext <> 'exe') and (Ext <> 'ico') and (Ext <> 'lnk')  and (not FPS_ISDIR(iMode)) then
+       if (FExtList.IndexOf(Ext) < 0) and (Ext <> 'exe') and (Ext <> 'ico') and (Ext <> 'lnk')  and (not FPS_ISDIR(iMode)) then
         FExtList.AddObject(Ext, TObject(Result));
     {$ELSE}
-      Result:=FiDefaultIconID;
+      Result:= FiDefaultIconID;
     {$ENDIF}
       Exit;
     end;
-    Result:=PtrInt(FExtList.Objects[Result]);
+    Result:= PtrInt(FExtList.Objects[Result]);
 //    writeln(Result);
   end;
 end;
