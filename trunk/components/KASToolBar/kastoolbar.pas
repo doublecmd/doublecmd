@@ -23,8 +23,6 @@
    02139, USA.
 }
 
-
-
 unit KASToolBar;
 
 {$mode objfpc}{$H+}
@@ -33,7 +31,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, ComCtrls,
-  Graphics, Dialogs, ExtCtrls, Buttons, IniFiles, FileUtil,KASBarFiles;
+  Graphics, Dialogs, ExtCtrls, Buttons, IniFiles, FileUtil, KASBarFiles;
 
 type
 
@@ -68,7 +66,7 @@ type
     procedure SetEnvVar(const AValue: String);
     procedure SetFlat(const AValue: Boolean);
     procedure ToolButtonClick(Sender: TObject);
-    procedure UpdateButtonsTag;
+    procedure UpdateButtonsTags;
   protected
     { Protected declarations }
     function CreateButton: TSpeedButton;
@@ -265,7 +263,7 @@ begin
      FOnToolButtonClick(Self, (Sender as TSpeedButton).Tag);
 end;
 
-procedure TKASToolBar.UpdateButtonsTag;
+procedure TKASToolBar.UpdateButtonsTags;
 var
   I: Integer;
 begin
@@ -378,6 +376,8 @@ begin
 
   EndUpdate;
 
+  UpdateButtonsTags;
+
   Result:= ToolDivider.Tag;
 end;
 
@@ -450,7 +450,7 @@ begin
 
   EndUpdate;
 
-  UpdateButtonsTag;
+  UpdateButtonsTags;
 
   // Recalculate positions of buttons if a new button was inserted in the middle.
   if InsertAt < ButtonCount - 1 then
@@ -489,10 +489,10 @@ end;
 procedure TKASToolBar.RemoveButton(Index: Integer);
 begin
   try
-    TSpeedButton(ButtonList.Items[Index]).Visible := False;
+    TSpeedButton(ButtonList.Items[Index]).Visible:= False;
     TSpeedButton(ButtonList.Items[Index]).Free;
     ButtonList.Delete(Index);
-    UpdateButtonsTag;
+    UpdateButtonsTags;
     FBarFile.RemoveButton(Index);
     Resize;
   finally
