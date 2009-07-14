@@ -81,9 +81,12 @@ var
   gTermWindow,
   gKeyButtons,
   gInterfaceFlat : Boolean;
-  
-  gToolBarIconSize : Integer;
-  
+
+  { Toolbar }
+  gToolBarButtonSize,
+  gToolBarIconSize: Integer;
+  gToolBarSmallIcons: Boolean;
+
   gDirSortFirst:Boolean=True; // want to show dir first in panels
   gDirHistoryCount:Integer=30; // how many history we remember
   gShowSystemFiles:Boolean=True;
@@ -460,7 +463,9 @@ begin
   
   gButtonBar := gIni.ReadBool('Layout', 'ButtonBar', True);
   gToolBarFlat := gIni.ReadBool('ButtonBar', 'FlatIcons', True);
-  gToolBarIconSize := gIni.ReadInteger('ButtonBar', 'ButtonHeight', 16);
+  gToolBarButtonSize := gIni.ReadInteger('ButtonBar', 'ButtonHeight', 20);
+  gToolBarIconSize := gIni.ReadInteger('ButtonBar', 'SmallIconSize', 16);
+  gToolBarSmallIcons:= gIni.ReadBool('ButtonBar', 'SmallIcons', False);
   gDriveBar1 := gIni.ReadBool('Layout', 'DriveBar1', True);
   gDriveBar2 := gIni.ReadBool('Layout', 'DriveBar2', True);
   gDriveBarFlat := gIni.ReadBool('Layout', 'DriveBarFlat', True);
@@ -656,7 +661,9 @@ begin
 
   gIni.WriteBool('Layout', 'ButtonBar', gButtonBar);
   gIni.WriteBool('ButtonBar', 'FlatIcons', gToolBarFlat);
-  gIni.WriteInteger('ButtonBar', 'ButtonHeight', gToolBarIconSize);
+  gIni.WriteInteger('ButtonBar', 'ButtonHeight', gToolBarButtonSize);
+  gIni.WriteInteger('ButtonBar', 'SmallIconSize', gToolBarIconSize);
+  gIni.WriteBool('ButtonBar', 'SmallIcons', gToolBarSmallIcons);
   gIni.WriteBool('Layout', 'DriveBar1', gDriveBar1);
   gIni.WriteBool('Layout', 'DriveBar2', gDriveBar2);
   gIni.WriteBool('Layout', 'DriveBarFlat', gDriveBarFlat);

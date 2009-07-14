@@ -419,10 +419,13 @@ begin
   ToolButton.ShowHint:= True;
   ToolButton.Hint:= sHint;
 
+  if Assigned(Bitmap) then
+    ToolButton.Glyph.Assign(Bitmap);
+
   if ShowCaptions then
     begin
       ToolButton.Caption:= sCaption;
-      ToolButton.Width:= ToolButton.Canvas.TextWidth(sCaption) + ToolButton.Glyph.Width + 32
+      ToolButton.Width:= ToolButton.Canvas.TextWidth(sCaption) + ToolButton.Glyph.Width + 16
     end
   else
     begin
@@ -442,9 +445,6 @@ begin
     end;
 
   ToolButton.Flat:= FFlat;
-
-  if Assigned(Bitmap) then
-    ToolButton.Glyph.Assign(Bitmap);
 
   ToolButton.OnClick:= TNotifyEvent(@ToolButtonClick);
 
