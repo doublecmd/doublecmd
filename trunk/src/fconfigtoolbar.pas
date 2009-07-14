@@ -221,20 +221,25 @@ end;
 procedure TfrmConfigToolBar.btnOKClick(Sender: TObject);
 var
   IniBarFile: TIniFileEx;
+  iDelta: Integer = 4;
 begin
   Save;
 
-  gToolBarButtonSize:= StrToIntDef(edtBarSize.Text, 20);
-  gToolBarSmallIcons:= cbSmallIcons.Checked;
-  gToolBarIconSize:= StrToIntDef(edtSmallIconSize.Text, 16);
   gToolBarFlat:= cbFlatIcons.Checked;
-
+  gToolBarButtonSize:= StrToIntDef(edtBarSize.Text, 16);
+  gToolBarSmallIcons:= cbSmallIcons.Checked;
+  if gToolBarSmallIcons then
+    begin
+      gToolBarIconSize:= StrToIntDef(edtSmallIconSize.Text, 16);
+      iDelta:= 0;
+    end;
+  // apply new parameters to main toolbar
   if gToolBarSmallIcons then
     frmMain.MainToolBar.GlyphSize:= gToolBarIconSize
   else
-    frmMain.MainToolBar.GlyphSize:= gToolBarButtonSize - 4;
-  frmMain.MainToolBar.ButtonHeight:= gToolBarButtonSize;
-  frmMain.MainToolBar.ButtonWidth:= gToolBarButtonSize;
+    frmMain.MainToolBar.GlyphSize:= gToolBarButtonSize;
+  frmMain.MainToolBar.ButtonHeight:= gToolBarButtonSize + iDelta;
+  frmMain.MainToolBar.ButtonWidth:= gToolBarButtonSize + iDelta;
   frmMain.MainToolBar.Flat:= gToolBarFlat;
 
   IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');

@@ -451,7 +451,7 @@ object frmMain: TfrmMain
     Top = 0
     Width = 659
     AutoSize = True
-    Constraints.MinHeight = 24
+    Constraints.MinHeight = 16
     Flat = True
     TabOrder = 2
     OnDragDrop = MainToolBarDragDrop
