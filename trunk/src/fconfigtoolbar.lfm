@@ -385,8 +385,8 @@ object frmConfigToolBar: TfrmConfigToolBar
       TabOrder = 0
       OnToolButtonClick = ktbBarToolButtonClick
       OnLoadButtonGlyph = ktbBarLoadButtonGlyph
-      CheckToolButton = True
-      ButtonGlyphSize = 16
+      RadioToolBar = True
+      GlyphSize = 16
       ShowDividerAsButton = True
     end
   end
