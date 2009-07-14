@@ -226,7 +226,7 @@ begin
     ktbBar.SaveToIniFile(IniBarFile);
     IniBarFile.UpdateFile;
 
-    frmMain.MainToolBar.DeleteAllToolButtons;
+    frmMain.MainToolBar.Clear;
     frmMain.MainToolBar.LoadFromIniFile(IniBarFile);
 
   finally
