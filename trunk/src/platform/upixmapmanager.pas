@@ -912,7 +912,7 @@ begin
     end;
     if FPS_ISDIR(iMode) then
       {$IFDEF MSWINDOWS}
-      if not mbFileExists(sName + '\desktop.ini') and (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16) then
+      if not mbFileExists(sPath + sName + '\desktop.ini') and (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16) then
       {$ENDIF}
     begin
       Result:=FiDirIconID;
@@ -952,7 +952,7 @@ begin
 
     //WriteLN('Icon for file == ' + sName);
           
-    SHGetFileInfoW(PWChar(UTF8Decode(sName)),
+    SHGetFileInfoW(PWChar(UTF8Decode(sPath + sName)),
                            _para2,
                            FileInfo,
                            SizeOf(FileInfo),
