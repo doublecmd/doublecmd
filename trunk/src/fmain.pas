@@ -3238,15 +3238,20 @@ begin
   (*/ Disk Panels *)
 
   (*Tool Bar*)
-  MainToolBar.Visible := gButtonBar;
+  MainToolBar.Visible:= gButtonBar;
   if gButtonBar then
     begin
-      MainToolBar.Flat := gToolBarFlat;
-      MainToolBar.GlyphSize := gToolBarIconSize;
-      MainToolBar.ChangePath := gpExePath;
-      MainToolBar.EnvVar := '%commander_path%';
+      MainToolBar.Flat:= gToolBarFlat;
+      if gToolBarSmallIcons then
+        MainToolBar.GlyphSize:= gToolBarIconSize
+      else
+        MainToolBar.GlyphSize:= gToolBarButtonSize - 4;
+      MainToolBar.ButtonHeight:= gToolBarButtonSize;
+      MainToolBar.ButtonWidth:= gToolBarButtonSize;
+      MainToolBar.ChangePath:= gpExePath;
+      MainToolBar.EnvVar:= '%commander_path%';
       try
-        IniBarFile := TIniFileEx.Create(gpIniDir + 'default.bar', fmOpenRead or fmShareDenyNone);
+        IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar', fmOpenRead or fmShareDenyNone);
         MainToolBar.LoadFromIniFile(IniBarFile);
       finally
         FreeThenNil(IniBarFile);

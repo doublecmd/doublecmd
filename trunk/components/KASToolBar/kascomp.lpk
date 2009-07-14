@@ -23,32 +23,26 @@
       </Other>
     </CompilerOptions>
     <Description Value="ToolBar that loading from *.ini file. Format of *.ini file 
-      KASEdit include popup menu with operations such as cut, copy, paste, delete, etc.
       KASBarMenu is popupmenu read *.bar file and uses *.bar buttons as menu items.
 "/>
     <License Value="GNU GPL 2
 "/>
-    <Version Major="1" Release="5"/>
-    <Files Count="4">
+    <Version Major="1" Minor="5"/>
+    <Files Count="3">
       <Item1>
-        <Filename Value="kasedit.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="KASEdit"/>
-      </Item1>
-      <Item2>
         <Filename Value="kastoolbar.pas"/>
         <HasRegisterProc Value="True"/>
-        <UnitName Value="KAStoolBar"/>
-      </Item2>
-      <Item3>
+        <UnitName Value="KASToolBar"/>
+      </Item1>
+      <Item2>
         <Filename Value="kasbarmenu.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="KASBarMenu"/>
-      </Item3>
-      <Item4>
+      </Item2>
+      <Item3>
         <Filename Value="kasbarfiles.pas"/>
         <UnitName Value="KASBarFiles"/>
-      </Item4>
+      </Item3>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="2">

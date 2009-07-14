@@ -27,8 +27,8 @@ unit fConfigToolBar;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons, KASToolBar, KASEdit,
-  ExtCtrls,KASBarFiles;
+  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons, KASToolBar,
+  ExtCtrls, KASBarFiles;
 
 type
 
@@ -36,6 +36,7 @@ type
 
   TfrmConfigToolBar = class(TForm)
     btnInsertButton: TButton;
+    edtSmallIconSize: TEdit;
     lblButtonBar: TLabel;
     lblCommand: TLabel;
     btnCancel: TButton;
@@ -45,16 +46,16 @@ type
     btnAddButton: TButton;
     ktbBar: TKASToolBar;
     btnOpenBarFile: TButton;
-    kedtBarSize: TKASEdit;
+    edtBarSize: TEdit;
     cbCommand: TComboBox;
     btnDeleteButton: TButton;
     btnOpenFile: TButton;
     btnAddSubBar: TButton;
     btnOpenIconFile: TButton;
-    kedtIconFileName: TKASEdit;
-    kedtParams: TKASEdit;
-    kedtStartPath: TKASEdit;
-    kedtToolTip: TKASEdit;
+    kedtIconFileName: TEdit;
+    edtParams: TEdit;
+    edtStartPath: TEdit;
+    edtToolTip: TEdit;
     cbFlatIcons: TCheckBox;
     btnHelp: TButton;
     cbSmallIcons: TCheckBox;
@@ -72,6 +73,7 @@ type
     procedure btnOpenBarFileClick(Sender: TObject);
     procedure cbCommandSelect(Sender: TObject);
     procedure cbFlatIconsChange(Sender: TObject);
+    procedure cbSmallIconsChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnAddButtonClick(Sender: TObject);
@@ -135,12 +137,15 @@ var
   IniBarFile: TIniFileEx;
 begin
   FillActionLists;
-  kedtBarSize.Text := IntToStr(gToolBarIconSize);
-  cbFlatIcons.Checked := gToolBarFlat;
+  edtBarSize.Text := IntToStr(gToolBarButtonSize);
+  edtSmallIconSize.Text:= IntToStr(gToolBarIconSize);
+  edtSmallIconSize.Enabled:= gToolBarSmallIcons;
+  cbSmallIcons.Checked:= gToolBarSmallIcons;
+  cbFlatIcons.Checked:= gToolBarFlat;
   sbIconExample.Flat:= gToolBarFlat;
-  ktbBar.Flat := gToolBarFlat;
-  ktbBar.ChangePath := gpExePath;
-  ktbBar.EnvVar := '%commander_path%';
+  ktbBar.Flat:= gToolBarFlat;
+  ktbBar.ChangePath:= gpExePath;
+  ktbBar.EnvVar:= '%commander_path%';
   IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
   ktbBar.LoadFromIniFile(IniBarFile);
   IniBarFile.Free;
@@ -164,13 +169,18 @@ begin
         end;
     end;
   Update;
-  Height:= kedtToolTip.Top + kedtToolTip.Height + 18;
+  Height:= edtToolTip.Top + edtToolTip.Height + 18;
 end;
 
 procedure TfrmConfigToolBar.cbFlatIconsChange(Sender: TObject);
 begin
   ktbBar.Flat := cbFlatIcons.Checked;
   sbIconExample.Flat := cbFlatIcons.Checked;
+end;
+
+procedure TfrmConfigToolBar.cbSmallIconsChange(Sender: TObject);
+begin
+  edtSmallIconSize.Enabled:= cbSmallIcons.Checked;
 end;
 
 procedure TfrmConfigToolBar.btnOpenBarFileClick(Sender: TObject);
@@ -205,7 +215,7 @@ end;
 
 procedure TfrmConfigToolBar.cbCommandSelect(Sender: TObject);
 begin
-  kedtToolTip.Text := Actions.GetCommandCaption(cbCommand.Items[cbCommand.ItemIndex]);
+  edtToolTip.Text := Actions.GetCommandCaption(cbCommand.Items[cbCommand.ItemIndex]);
 end;
 
 procedure TfrmConfigToolBar.btnOKClick(Sender: TObject);
@@ -214,15 +224,22 @@ var
 begin
   Save;
 
-  gToolBarIconSize := StrToIntDef(kedtBarSize.Text, 16);
-  gToolBarFlat := cbFlatIcons.Checked;
+  gToolBarButtonSize:= StrToIntDef(edtBarSize.Text, 20);
+  gToolBarSmallIcons:= cbSmallIcons.Checked;
+  gToolBarIconSize:= StrToIntDef(edtSmallIconSize.Text, 16);
+  gToolBarFlat:= cbFlatIcons.Checked;
 
-  frmMain.MainToolBar.GlyphSize := gToolBarIconSize;
-  frmMain.MainToolBar.Flat := gToolBarFlat;
+  if gToolBarSmallIcons then
+    frmMain.MainToolBar.GlyphSize:= gToolBarIconSize
+  else
+    frmMain.MainToolBar.GlyphSize:= gToolBarButtonSize - 4;
+  frmMain.MainToolBar.ButtonHeight:= gToolBarButtonSize;
+  frmMain.MainToolBar.ButtonWidth:= gToolBarButtonSize;
+  frmMain.MainToolBar.Flat:= gToolBarFlat;
 
-  IniBarFile := TIniFileEx.Create(gpIniDir + 'default.bar');
+  IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
   try
-    IniBarFile.CacheUpdates := True;
+    IniBarFile.CacheUpdates:= True;
     ktbBar.SaveToIniFile(IniBarFile);
     IniBarFile.UpdateFile;
 
@@ -260,10 +277,10 @@ procedure TfrmConfigToolBar.ClearControls;
 begin
   cbCommand.Text := '';
   kedtIconFileName.Text := '';
-  kedtToolTip.Text := '';
+  edtToolTip.Text := '';
   sbIconExample.Glyph := nil;
-  kedtParams.Text:= '';
-  kedtStartPath.Text:= '';
+  edtParams.Text:= '';
+  edtStartPath.Text:= '';
 end;
 
 procedure TfrmConfigToolBar.LoadButton(NumberOfButton: Integer);
@@ -273,12 +290,12 @@ begin
   // kedtIconFileName.Text := ktbBar.Icons[NumberOfButton];
   kedtIconFileName.Text := ktbBar.GetButtonX(NumberOfButton,ButtonX);
 
-  // kedtToolTip.Text := ktbBar.Buttons[NumberOfButton].Hint;
-  kedtToolTip.Text := ktbBar.GetButtonX(NumberOfButton,MenuX);
+  // edtToolTip.Text := ktbBar.Buttons[NumberOfButton].Hint;
+  edtToolTip.Text := ktbBar.GetButtonX(NumberOfButton,MenuX);
 
   sbIconExample.Glyph := ktbBar.Buttons[NumberOfButton].Glyph;
-  kedtParams.Text:= ktbBar.GetButtonX(NumberOfButton,ParamX);
-  kedtStartPath.Text:= ktbBar.GetButtonX(NumberOfButton,PathX);
+  edtParams.Text:= ktbBar.GetButtonX(NumberOfButton,ParamX);
+  edtStartPath.Text:= ktbBar.GetButtonX(NumberOfButton,PathX);
 end;
 
 (*Save current button*)
@@ -288,10 +305,10 @@ begin
       begin
        //---------------------
        ktbBar.SetButtonX(LastToolButton,CmdX,cbCommand.Text);
-       ktbBar.SetButtonX(LastToolButton,ParamX,kedtParams.Text);
-       ktbBar.SetButtonX(LastToolButton,PathX,kedtStartPath.Text);
+       ktbBar.SetButtonX(LastToolButton,ParamX,edtParams.Text);
+       ktbBar.SetButtonX(LastToolButton,PathX,edtStartPath.Text);
        ktbBar.SetButtonX(LastToolButton,ButtonX,kedtIconFileName.Text);
-       ktbBar.SetButtonX(LastToolButton,MenuX,kedtToolTip.Text);
+       ktbBar.SetButtonX(LastToolButton,MenuX,edtToolTip.Text);
        //---------------------
       end;
 end;
