@@ -52,24 +52,23 @@ type
   TKASToolBar = class(TToolBar)
   private
     FGlyphSize: Integer;
-    FOnToolButtonClick: TOnToolButtonClick;
-    FOnLoadButtonGlyph: TOnLoadButtonGlyph;
     FRadioToolBar: Boolean;
     FShowDividerAsButton: Boolean;
     FFlat: Boolean;
     FBarFile: TBarClass;
+    FOnToolButtonClick: TOnToolButtonClick;
+    FOnLoadButtonGlyph: TOnLoadButtonGlyph;
     function GetChangePath: String;
     function GetEnvVar: String;
-    function LoadBtnIcon(IconPath: String) : TBitMap;
+    function LoadBtnIcon(IconPath: String): TBitMap;
     function GetButton(Index: Integer): TSpeedButton;
     function GetCommand(Index: Integer): String;
     procedure SetChangePath(const AValue: String);
     procedure SetCommand(Index: Integer; const AValue: String);
     procedure SetEnvVar(const AValue: String);
-    procedure SetFlat(const AValue : Boolean);
+    procedure SetFlat(const AValue: Boolean);
     procedure ToolButtonClick(Sender: TObject);
     procedure UpdateButtonsTag;
-
   protected
     { Protected declarations }
     function CreateButton: TSpeedButton;
@@ -81,24 +80,26 @@ type
     
     function AddDivider: Integer;
     function AddButton(sCaption, sCommand, sHint: String; Bitmap: TBitmap): Integer;
-    function AddButton(sCaption, Cmd, BtnHint, IconPath : String) : Integer;
+    function AddButton(sCaption, sCommand, sHint, sBitmap : String): Integer;
     function AddButtonX(sCaption, CmdX, ParamX, PathX, MenuX, MiskX: String; Bitmap: TBitmap): Integer;
     function AddButtonX(sCaption, CmdX, ParamX, PathX, MenuX, MiskX, ButtonX: String): Integer;
 
-    function InsertButton(InsertAt: Integer; sCaption, Cmd, BtnHint: String; Bitmap: TBitmap): Integer;
-    function InsertButton(InsertAt: Integer; sCaption, Cmd, BtnHint, IconPath : String) : Integer;
+    function InsertButton(InsertAt: Integer; sCaption, sCommand, sHint: String; Bitmap: TBitmap): Integer;
+    function InsertButton(InsertAt: Integer; sCaption, sCommand, sHint, sBitmap : String) : Integer;
     function InsertButtonX(InsertAt: Integer; sCaption, CmdX, ParamX, PathX, MenuX, MiskX: String; Bitmap: TBitmap): Integer;
     function InsertButtonX(InsertAt: Integer; sCaption, CmdX, ParamX, PathX, MenuX, MiskX, ButtonX: String): Integer;
-    function GetButtonX(Index:integer; What:TInfor):string;
 
-    procedure SetButtonX(Index:integer; What:Tinfor;Value: string);
-    procedure LoadFromIniFile(IniFile : TIniFile);
-    procedure SaveToIniFile(IniFile : TIniFile);
-    procedure LoadFromFile(FileName : String);
-    procedure SaveToFile(FileName : String);
+    procedure Clear;
     procedure RemoveButton(Index: Integer);
-    procedure DeleteAllToolButtons;
     procedure UncheckAllButtons;
+
+    function GetButtonX(Index: Integer; What: TInfor): String;
+    procedure SetButtonX(Index: Integer; What: Tinfor; Value: String);
+
+    procedure LoadFromIniFile(IniFile: TIniFile);
+    procedure SaveToIniFile(IniFile: TIniFile);
+    procedure LoadFromFile(FileName: String);
+    procedure SaveToFile(FileName: String);
 
     property Buttons[Index: Integer]: TSpeedButton read GetButton;
     property Commands[Index: Integer]: String read GetCommand write SetCommand;
@@ -107,13 +108,13 @@ type
     { Published declarations }
     property OnToolButtonClick: TOnToolButtonClick read FOnToolButtonClick write FOnToolButtonClick;
     property OnLoadButtonGlyph : TOnLoadButtonGlyph read FOnLoadButtonGlyph write FOnLoadButtonGlyph;
-    property RadioToolBar : Boolean read FRadioToolBar write FRadioToolBar default False;
+    property RadioToolBar: Boolean read FRadioToolBar write FRadioToolBar default False;
     property Flat: Boolean read FFlat write SetFlat default False;
-    property GlyphSize : Integer read FGlyphSize write FGlyphSize;
+    property GlyphSize: Integer read FGlyphSize write FGlyphSize;
     property ShowDividerAsButton: Boolean read FShowDividerAsButton write FShowDividerAsButton default False;
 
-    property ChangePath : String read GetChangePath write SetChangePath;
-    property EnvVar : String read GetEnvVar write SetEnvVar;
+    property ChangePath: String read GetChangePath write SetChangePath;
+    property EnvVar: String read GetEnvVar write SetEnvVar;
   end;
 
 
@@ -123,6 +124,11 @@ implementation
 
 uses
   GraphType, Themes;
+
+procedure Register;
+begin
+  RegisterComponents('KASComponents',[TKASToolBar]);
+end;
 
 function TKASToolBar.CreateButton: TSpeedButton;
 begin
@@ -164,46 +170,38 @@ begin
   ButtonList.Insert(InsertAt, ToolButton);
 end;
 
-procedure Register;
-begin
-  RegisterComponents('KASComponents',[TKASToolBar]);
-end;
-
-function TKASToolBar.GetButtonX(Index: integer; What: TInfor): string;
+function TKASToolBar.GetButtonX(Index: Integer; What: TInfor): String;
 begin
   Result:= FBarFile.GetButtonX(Index, What);
 end;
 
-procedure TKASToolBar.SetButtonX(Index: integer; What: Tinfor; Value: string);
+procedure TKASToolBar.SetButtonX(Index: Integer; What: TInfor; Value: String);
 begin
   FBarFile.SetButtonX(Index, What, Value);
 end;
 
 function TKASToolBar.LoadBtnIcon(IconPath: String): TBitMap;
 var
-  PNG : TPortableNetworkGraphic;
+  pngBitmap: TPortableNetworkGraphic;
 begin
-  Result := nil;
-  if IconPath <> '' then
-  if FileExists(IconPath) then
-   begin
-   if CompareFileExt(IconPath, 'png', false) = 0 then
-      begin
-        PNG := TPortableNetworkGraphic.Create;
-        try
-          PNG.LoadFromFile(IconPath);
-          Result := Graphics.TBitmap.Create;
-          Result.Assign(PNG);
-        finally
-          FreeAndNil(PNG);
-        end;
-      end
-   else
-      begin
-         Result := TBitMap.Create;
-         Result.LoadFromFile(IconPath);
+  Result:= nil;
+  if (IconPath = '') or (not FileExists(IconPath)) then Exit;
+  if CompareFileExt(IconPath, 'png', false) = 0 then
+    begin
+      pngBitmap:= TPortableNetworkGraphic.Create;
+      try
+        pngBitmap.LoadFromFile(IconPath);
+        Result:= Graphics.TBitmap.Create;
+        Result.Assign(pngBitmap);
+      finally
+        FreeAndNil(pngBitmap);
       end;
-   end;
+    end
+  else
+    begin
+      Result:= TBitMap.Create;
+      Result.LoadFromFile(IconPath);
+    end;
 end;
 
 function TKASToolBar.GetChangePath: String;
@@ -236,7 +234,8 @@ begin
   FBarFile.EnvVar:= AValue;
 end;
 
-{procedure TKASToolBar.SetIconPath(Index: Integer; const AValue: String);
+{
+procedure TKASToolBar.SetIconPath(Index: Integer; const AValue: String);
 var
   PNG : TPortableNetworkGraphic;
 begin
@@ -249,13 +248,14 @@ begin
     Glyph := LoadBtnIcon(AValue);
 end;
 }
+
 procedure TKASToolBar.SetFlat(const AValue: Boolean);
 var
-  I :Integer;
+  I: Integer;
 begin
-  FFlat := AValue;
-  for I := 0 to ButtonList.Count - 1 do
-    TSpeedButton(ButtonList.Items[I]).Flat := FFlat;
+  FFlat:= AValue;
+  for I:= 0 to ButtonList.Count - 1 do
+    TSpeedButton(ButtonList.Items[I]).Flat:= FFlat;
 end;
 
 procedure TKASToolBar.ToolButtonClick(Sender: TObject);
@@ -267,40 +267,41 @@ end;
 
 procedure TKASToolBar.UpdateButtonsTag;
 var
-  I :Integer;
+  I: Integer;
 begin
-  for I := 0 to ButtonList.Count - 1 do
-    TSpeedButton(ButtonList.Items[I]).Tag := I;
+  for I:= 0 to ButtonList.Count - 1 do
+    TSpeedButton(ButtonList.Items[I]).Tag:= I;
 end;
 
-procedure TKASToolBar.DeleteAllToolButtons;
+procedure TKASToolBar.Clear;
 var
-  BtnCount,
   I: Integer;
 begin
   BeginUpdate;
-      
-  BtnCount := ButtonList.Count - 1;
-  for I := 0 to BtnCount do
+
+  for I:= ButtonList.Count downto 1 do
     begin
       TSpeedButton(ButtonList.Items[0]).Free;
       ButtonList.Delete(0);
     end;
   FBarFile.DeleteAllButtons;
+
   EndUpdate;
 end;
 
 function TKASToolBar.GetCommand(Index: Integer): String;
 begin
- Result := GetButtonX(Index,CmdX);
+ Result:= GetButtonX(Index, CmdX);
 end;
 
-{function TKASToolBar.GetIconPath(Index: Integer): String;
+{
+function TKASToolBar.GetIconPath(Index: Integer): String;
 begin
 //  Result := FIconList[Index];
  Result := GetButtonX(Index,ButtonX);
 end;
 }
+
 constructor TKASToolBar.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
@@ -312,7 +313,7 @@ destructor TKASToolBar.Destroy;
 var
   I: Integer;
 begin
-  for I := 0 to ButtonList.Count - 1 do
+  for I:= 0 to ButtonList.Count - 1 do
     if TControl(ButtonList[I]) is TSpeedButton then
       TSpeedButton(ButtonList.Items[I]).Free;
 
@@ -322,53 +323,43 @@ begin
   inherited Destroy;
 end;
 
-procedure TKASToolBar.LoadFromIniFile(IniFile : TIniFile);
+procedure TKASToolBar.LoadFromIniFile(IniFile: TIniFile);
 var  
-  I : Integer;
+  I: Integer;
   sMenu: String;
 begin
-  DeleteAllToolButtons;
+  Clear;
   FBarFile.LoadFromIniFile(IniFile);
-
-  
-  for I := 0 to FBarFile.ButtonCount - 1 do
+  for I:= 0 to FBarFile.ButtonCount - 1 do
     begin
       sMenu:= FBarFile.GetButtonX(I, MenuX);
       if (sMenu = '-') and not FShowDividerAsButton then
         AddDivider
       else
-        AddButton('', FBarFile.GetButtonX(I, CmdX),
-                  sMenu,
-                  FBarFile.GetButtonX(I, ButtonX));
-
-
+        AddButton('', FBarFile.GetButtonX(I, CmdX), sMenu, FBarFile.GetButtonX(I, ButtonX));
     end;
 end;
 
-procedure TKASToolBar.SaveToIniFile(IniFile : TIniFile);
+procedure TKASToolBar.SaveToIniFile(IniFile: TIniFile);
 begin
   FBarFile.SaveToIniFile(IniFile);
 end;
 
 procedure TKASToolBar.LoadFromFile(FileName: String);
 var
-  IniFile : Tinifile;
+  IniFile: TIniFile;
 begin
   IniFile:= TIniFile.Create(FileName);
-  LoadFromIniFile(IniFile);
+  FBarFile.LoadFromIniFile(IniFile);
   IniFile.Free;
 end;
 
 procedure TKASToolBar.SaveToFile(FileName: String);
 var
-  IniFile : Tinifile;
+  IniFile: TIniFile;
 begin
-  //For cleaning. Without this saved file will contain removed buttons
-  if FileExists(FileName) then
-    DeleteFile(FileName);
-
-  IniFile := TInifile.Create(FileName);
-  SaveToIniFile(IniFile);
+  IniFile:= TInifile.Create(FileName);
+  FBarFile.SaveToIniFile(IniFile);
   IniFile.Free;
 end;
 
@@ -376,7 +367,6 @@ function TKASToolBar.AddDivider: Integer;
 var
   ToolDivider: TSpeedDivider;
 begin
-  // lock on resize handler
   BeginUpdate;
 
   ToolDivider:= CreateDivider;
@@ -386,7 +376,6 @@ begin
   if Assigned(OnMouseUp) then
     ToolDivider.OnMouseUp:= OnMouseUp;
 
-  // unlock on resize handler
   EndUpdate;
 
   Result:= ToolDivider.Tag;
@@ -397,9 +386,9 @@ begin
   Result:= InsertButton(ButtonList.Count, sCaption, sCommand, sHint, Bitmap);
 end;
 
-function TKASToolBar.AddButton(sCaption, Cmd, BtnHint, IconPath : String) : Integer;
+function TKASToolBar.AddButton(sCaption, sCommand, sHint, sBitmap: String): Integer;
 begin
-  Result:= InsertButton(ButtonList.Count, sCaption, Cmd, BtnHint, IconPath);
+  Result:= InsertButton(ButtonList.Count, sCaption, sCommand, sHint, sBitmap);
 end;
 
 function TKASToolBar.AddButtonX(sCaption, CmdX, ParamX, PathX, MenuX, MiskX: String; Bitmap: TBitmap): Integer;
@@ -414,22 +403,21 @@ begin
   FBarFile.AddButtonX(ButtonX, CmdX, ParamX, PathX, MenuX, MiskX);
 end;
 
-function TKASToolBar.InsertButton(InsertAt: Integer; sCaption, Cmd, BtnHint: String; Bitmap: TBitmap): Integer;
+function TKASToolBar.InsertButton(InsertAt: Integer; sCaption, sCommand, sHint: String; Bitmap: TBitmap): Integer;
 var
   ToolButton: TSpeedButton;
 begin
   if InsertAt < 0 then
-    InsertAt := 0;
+    InsertAt:= 0;
   if InsertAt > ButtonList.Count then
-    InsertAt := ButtonList.Count;
+    InsertAt:= ButtonList.Count;
 
-  // lock on resize handler
   BeginUpdate;
 
   ToolButton:= CreateButton;
 
   ToolButton.ShowHint:= True;
-  ToolButton.Hint:= BtnHint;
+  ToolButton.Hint:= sHint;
 
   if ShowCaptions then
     begin
@@ -445,46 +433,42 @@ begin
   InsertButton(InsertAt, ToolButton);
 
   if Assigned(OnMouseUp) then
-    ToolButton.OnMouseUp := OnMouseUp;
+    ToolButton.OnMouseUp:= OnMouseUp;
 
   if FRadioToolBar then
-  begin
-    ToolButton.GroupIndex:= 1;
-    ToolButton.AllowAllUp:= True;
-  end;
+    begin
+      ToolButton.GroupIndex:= 1;
+      ToolButton.AllowAllUp:= True;
+    end;
 
   ToolButton.Flat:= FFlat;
 
   if Assigned(Bitmap) then
     ToolButton.Glyph.Assign(Bitmap);
 
-  ToolButton.OnClick:=TNotifyEvent(@ToolButtonClick);
+  ToolButton.OnClick:= TNotifyEvent(@ToolButtonClick);
 
-
-  // unlock on resize handler
   EndUpdate;
 
   UpdateButtonsTag;
 
   // Recalculate positions of buttons if a new button was inserted in the middle.
   if InsertAt < ButtonCount - 1 then
-  begin
     Resize;
-  end;
 
-  Result := InsertAt;
+  Result:= InsertAt;
 end;
 
-function TKASToolBar.InsertButton(InsertAt: Integer; sCaption, Cmd, BtnHint, IconPath : String) : Integer;
+function TKASToolBar.InsertButton(InsertAt: Integer; sCaption, sCommand, sHint, sBitmap: String): Integer;
 var
   Bitmap: TBitmap = nil;
 begin
   if Assigned(FOnLoadButtonGlyph) then
-    Bitmap := FOnLoadButtonGlyph(IconPath, FGlyphSize, clBtnFace)
+    Bitmap:= FOnLoadButtonGlyph(sBitmap, FGlyphSize, clBtnFace)
   else
-    Bitmap := LoadBtnIcon(IconPath);
+    Bitmap:= LoadBtnIcon(sBitmap);
 
-  Result:= InsertButton(InsertAt, sCaption, Cmd, BtnHint, Bitmap);
+  Result:= InsertButton(InsertAt, sCaption, sCommand, sHint, Bitmap);
 
   if Assigned(Bitmap) then
     FreeAndNil(Bitmap);
@@ -509,11 +493,8 @@ begin
     TSpeedButton(ButtonList.Items[Index]).Free;
     ButtonList.Delete(Index);
     UpdateButtonsTag;
-    //---------------------
     FBarFile.RemoveButton(Index);
-    //---------------------
     Resize;
-
   finally
     Repaint;
   end;
@@ -521,10 +502,10 @@ end;
 
 procedure TKASToolBar.UncheckAllButtons;
 var
-  i : Integer;
+  I: Integer;
 begin
-  for i := 0 to ButtonCount - 1 do
-    Buttons[i].Down := False;
+  for I:= 0 to ButtonCount - 1 do
+    Buttons[I].Down:= False;
 end;
 
 { TSpeedDivider }
@@ -541,8 +522,7 @@ begin
       DividerRect.Left:= (DividerRect.Left + DividerRect.Right) div 2 - 1;
       DividerRect.Right:= DividerRect.Left + 3;
     end;
-  ThemeServices.DrawElement(Canvas.GetUpdatedHandle([csBrushValid, csPenValid]),
-                            Details, DividerRect);
+  ThemeServices.DrawElement(Canvas.GetUpdatedHandle([csBrushValid, csPenValid]), Details, DividerRect);
 end;
 
 end.

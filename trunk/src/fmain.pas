@@ -2783,9 +2783,7 @@ var
   Drive : PDrive;
   BitmapTmp: Graphics.TBitmap;
 begin
-//dskPanel.InitBounds; // Update information
-
-  dskPanel.DeleteAllToolButtons;
+  dskPanel.Clear;
   dskPanel.Flat := gDriveBarFlat;
   Count := DrivesList.Count - 1;
 
