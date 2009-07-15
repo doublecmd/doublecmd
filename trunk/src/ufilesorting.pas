@@ -5,7 +5,7 @@ unit uFileSorting;
 interface
 
 uses
-  Classes, SysUtils, uTypes, uColumns;
+  Classes, SysUtils, uColumns, uFile;
 
 type
 
@@ -22,10 +22,10 @@ type
 
   TListSorter = class
     private
-      FSortList: TList;
+      FSortList: TFPList;
       FSortings: TFileSortings;
 
-      function MultiCompare(item1, item2:Pointer):Integer;
+      function MultiCompare(item1, item2: Pointer):Integer;
 
       {en
          Compares two file records using file functions.
@@ -37,7 +37,7 @@ type
               @br  0 equal
               @br  1 greater)
       }
-      function Compare(FileSorting: TFileSorting; ptr1, ptr2: PFileRecItem): Integer;
+      function Compare(FileSorting: TFileSorting; File1, File2: TFile): Integer;
 
       Procedure QuickSort(FList: PPointerList; L, R : Longint);
 
@@ -49,7 +49,7 @@ type
          @param(FileSorting
                 Sorting which will be used to sort file records.)
       }
-      constructor Create(List: TList; Sortings: TFileSortings);
+      constructor Create(List: TFPList; Sortings: TFileSortings);
 
       procedure Sort;
   end;
@@ -71,20 +71,20 @@ type
   procedure AddSorting(var FileSortings: TFileSortings;
                        SortFunction: TFileFunction; SortDirection: TSortDirection);
 
-  function ICompareByDirectory(item1, item2:PFileRecItem; bSortNegative: Boolean):Integer;
-  function ICompareByName(item1, item2:PFileRecItem; bSortNegative: Boolean):Integer;
-  function ICompareByNameNoExt(item1, item2:PFileRecItem; bSortNegative: Boolean):Integer;
-  function ICompareByExt (item1, item2:PFileRecItem; bSortNegative: Boolean):Integer;
-  function ICompareBySize(item1, item2:PFileRecItem; bSortNegative: Boolean):Integer;
-  function ICompareByDate(item1, item2:PFileRecItem; bSortNegative: Boolean):Integer;
-  function ICompareByAttr(item1, item2:PFileRecItem; bSortNegative: Boolean):Integer;
+  function ICompareByDirectory(item1, item2: TFile; bSortNegative: Boolean):Integer;
+  function ICompareByName(item1, item2: TFile; bSortNegative: Boolean):Integer;
+  function ICompareByNameNoExt(item1, item2: TFile; bSortNegative: Boolean):Integer;
+  function ICompareByExt (item1, item2: TFile; bSortNegative: Boolean):Integer;
+  function ICompareBySize(item1, item2: TFile; bSortNegative: Boolean):Integer;
+  function ICompareByDate(item1, item2: TFile; bSortNegative: Boolean):Integer;
+  function ICompareByAttr(item1, item2: TFile; bSortNegative: Boolean):Integer;
 
   function ReverseSortDirection(SortDirection: TSortDirection): TSortDirection;
 
 implementation
 
 uses
-  uOSUtils, uGlobs, uDCUtils;
+  uOSUtils, uGlobs, uDCUtils, uFileProperty, lclproc;
 
 
 function HasSortFunction(FileFunctions: TFileFunctions;
@@ -118,7 +118,7 @@ begin
 end;
 
 
-function ICompareByDirectory(item1, item2:PFileRecItem; bSortNegative: Boolean):Integer;
+function ICompareByDirectory(item1, item2: TFile; bSortNegative: Boolean):Integer;
 begin
 {> 0 (positive)   Item1 is less than Item2
   0              Item1 is equal to Item2
@@ -126,33 +126,42 @@ begin
 
   Result:=0;
 
-  if (not (FPS_ISDIR(item1^.iMode) or item1^.bLinkIsDir)) and  (not (FPS_ISDIR(item2^.iMode) or item2^.bLinkIsDir)) then  Exit;
-  if (not (FPS_ISDIR(item1^.iMode) or item1^.bLinkIsDir)) and (FPS_ISDIR(item2^.iMode) or item2^.bLinkIsDir) then
+{
+  if (not (FPS_ISDIR(item1^.iMode) or item1^.bLinkIsDir)) and
+     (not (FPS_ISDIR(item2^.iMode) or item2^.bLinkIsDir)) then  Exit;
+}
+  if (not item1.IsDirectory) and (not item2.IsDirectory) then
+    Exit;
+{
+  if (not (FPS_ISDIR(item1^.iMode) or item1^.bLinkIsDir)) and
+     (FPS_ISDIR(item2^.iMode) or item2^.bLinkIsDir) then
+}
+  if (not item1.IsDirectory) and item2.IsDirectory then
   begin
     Result:=+1;
-    Exit;
-  end;
-  if (FPS_ISDIR(item1^.iMode) or item1^.bLinkIsDir) and (not (FPS_ISDIR(item2^.iMode) or item2^.bLinkIsDir)) then
+  end
+  else if item1.IsDirectory and (not item2.IsDirectory) then
+  {
+  if (FPS_ISDIR(item1^.iMode) or item1^.bLinkIsDir) and
+      (not (FPS_ISDIR(item2^.iMode) or item2^.bLinkIsDir)) then
+  }
   begin
     Result:=-1;
-    Exit;
-  end;
+  end
 // both is directory, compare it
 //  if item1.fName=item2.fName then Exit;
   // handle .. first
-  if item1^.sName='..' then
+  else if item1.Name='..' then
   begin
     Result:=-1;
-    Exit;
-  end;
-  if item2^.sName='..' then
+  end
+  else if item2.Name='..' then
   begin
     Result:=+1;
-    Exit;
   end;
 end;
 
-function ICompareByName(item1, item2:PFileRecItem; bSortNegative: Boolean):Integer;
+function ICompareByName(item1, item2: TFile; bSortNegative: Boolean):Integer;
 begin
 {> 0 (positive)   Item1 is less than Item2
   0              Item1 is equal to Item2
@@ -160,15 +169,15 @@ begin
   Result := 0;
 
   if gCaseSensitiveSort then
-    Result := StrComp(PChar(item1^.sName), PChar(item2^.sName))
+    Result := StrComp(PChar(item1.Name), PChar(item2.Name))
   else
-    Result := mbCompareText(item1^.sName, item2^.sName);
+    Result := mbCompareText(item1.Name, item2.Name);
 
   if bSortNegative then
     Result := -Result;
 end;
 
-function ICompareByNameNoExt(item1, item2:PFileRecItem; bSortNegative: Boolean):Integer;
+function ICompareByNameNoExt(item1, item2: TFile; bSortNegative: Boolean):Integer;
 var
   name1, name2: string;
 begin
@@ -178,16 +187,15 @@ begin
   Result := 0;
 
   // Don't sort directories only by name.
-  if FPS_ISDIR(item1^.iMode) or (FPS_ISLNK(item1^.iMode) and item1^.bLinkIsDir) or
-     FPS_ISDIR(item2^.iMode) or (FPS_ISLNK(item2^.iMode) and item1^.bLinkIsDir) then
+  if item1.IsDirectory or item2.IsDirectory then
   begin
     // Sort by full name.
     Result := ICompareByName(item1, item2, bSortNegative);
   end
   else
   begin
-    name1 := ExtractOnlyFileName(item1^.sName);
-    name2 := ExtractOnlyFileName(item2^.sName);
+    name1 := item1.NameNoExt;// ExtractOnlyFileName(item1.Name);
+    name2 := item2.NameNoExt;// ExtractOnlyFileName(item2.Name);
 
     if gCaseSensitiveSort then
       Result := StrComp(PChar(name1), PChar(name2))
@@ -199,7 +207,7 @@ begin
   end;
 end;
 
-function ICompareByExt(item1, item2:PFileRecItem; bSortNegative: Boolean):Integer;
+function ICompareByExt(item1, item2: TFile; bSortNegative: Boolean):Integer;
 begin
 {> 0 (positive)   Item1 is less than Item2
   0              Item1 is equal to Item2
@@ -207,19 +215,21 @@ begin
 
   Result:=0;
 
-  if item1^.sExt = item2^.sExt then
+  if item1.Extension = item2.Extension then
     Exit;
 
   if gCaseSensitiveSort then
-    Result := StrComp(PChar(item1^.sExt), PChar(item2^.sExt))
+    Result := StrComp(PChar(item1.Extension), PChar(item2.Extension))
   else
-    Result := mbCompareText(item1^.sExt, item2^.sExt);
+    Result := mbCompareText(item1.Extension, item2.Extension);
 
   if bSortNegative then
     Result := -Result;
 end;
 
-function ICompareByDate(item1, item2:PFileRecItem; bSortNegative: Boolean):Integer;
+function ICompareByDate(item1, item2: TFile; bSortNegative: Boolean):Integer;
+var
+  Time1, Time2: TDateTime;
 begin
 {> 0 (positive)   Item1 is less than Item2
   0              Item1 is equal to Item2
@@ -227,10 +237,17 @@ begin
 
   Result:=0;
 
-  if item1^.fTimeI = item2^.fTimeI then
-    Exit;
+  // move this check before sorting starts?
+  // then don't add sorting by date if not supported.
+  if (not (fpDateTime in item1.SupportedProperties)) or
+     (not (fpDateTime in item2.SupportedProperties)) then Exit;
 
-  if item1^.fTimeI < item2^.fTimeI then
+  Time1 := (item1.Properties[fpDateTime] as TFileDateTimeProperty).Value;
+  Time2 := (item2.Properties[fpDateTime] as TFileDateTimeProperty).Value;
+
+  if Time1 = Time2 then Exit;
+
+  if Time1 < Time2 then
     Result := -1
   else
     Result := +1;
@@ -239,7 +256,9 @@ begin
     Result := -Result;
 end;
 
-function ICompareByAttr(item1, item2:PFileRecItem; bSortNegative: Boolean):Integer;
+function ICompareByAttr(item1, item2: TFile; bSortNegative: Boolean):Integer;
+var
+  Attr1, Attr2: Cardinal;
 begin
 {> 0 (positive)   Item1 is less than Item2
   0              Item1 is equal to Item2
@@ -247,10 +266,16 @@ begin
 
   Result:=0;
 
-  if item1^.iMode = item2^.iMode then
+  if (not (fpAttributes in item1.SupportedProperties)) or
+     (not (fpAttributes in item2.SupportedProperties)) then Exit;
+
+  Attr1 := (item1.Properties[fpAttributes] as TFileAttributesProperty).Value;
+  Attr2 := (item2.Properties[fpAttributes] as TFileAttributesProperty).Value;
+
+  if Attr1 = Attr2 then
     Exit;
 
-  if item1^.iMode > item2^.iMode then
+  if Attr1 > Attr2 then
     Result := -1
   else
     Result := +1;
@@ -259,21 +284,7 @@ begin
     Result := -Result;
 end;
 
-function ICompareBySize(item1, item2:PFileRecItem; bSortNegative: Boolean):Integer;
-
-  function GetSize(pFile: PFileRecItem): Cardinal;
-  begin
-    if FPS_ISDIR(pFile^.iMode) or pFile^.bLinkIsDir then
-    begin
-      if pFile^.iDirSize <> 0 then
-        Result := pFile^.iDirSize
-      else
-        Result := 0;
-    end
-    else
-      Result := pFile^.iSize;
-  end;
-
+function ICompareBySize(item1, item2: TFile; bSortNegative: Boolean):Integer;
 var
   iSize1 : Cardinal;
   iSize2 : Cardinal;
@@ -284,8 +295,11 @@ begin
 
   Result := 0;
 
-  iSize1 := GetSize(item1);
-  iSize2 := GetSize(item2);
+  if (not (fpSize in item1.SupportedProperties)) or
+     (not (fpSize in item2.SupportedProperties)) then Exit;
+
+  iSize1 := (item1.Properties[fpSize] as TFileSizeProperty).Value;
+  iSize2 := (item2.Properties[fpSize] as TFileSizeProperty).Value;
 
   if iSize1 = iSize2 then
     Exit;
@@ -311,7 +325,7 @@ end;
 
 { TListSorter }
 
-constructor TListSorter.Create(List: TList; Sortings: TFileSortings);
+constructor TListSorter.Create(List: TFPList; Sortings: TFileSortings);
 begin
   FSortList := List;
   FSortings := Sortings;
@@ -347,7 +361,7 @@ end;
   < 0 (negative)  Item1 is greater than Item2
 }
 
-function TListSorter.MultiCompare(item1, item2:Pointer):Integer;
+function TListSorter.MultiCompare(item1, item2: Pointer):Integer;
 var
   i : Integer;
 begin
@@ -361,18 +375,18 @@ begin
   // Put directories first.
   if gDirSortFirst then
   begin
-    Result := ICompareByDirectory(item1, item2, False); // Ascending
+    Result := ICompareByDirectory(TFile(item1), TFile(item2), False); // Ascending
     if Result <> 0 then Exit;
   end;
 
   for i := 0 to Length(FSortings) - 1 do
   begin
-    Result := Compare(FSortings[i], item1, item2);
+    Result := Compare(FSortings[i], TFile(item1), TFile(item2));
     if Result <> 0 then Exit;
   end;
 end;
 
-function TListSorter.Compare(FileSorting: TFileSorting; ptr1, ptr2: PFileRecItem): Integer;
+function TListSorter.Compare(FileSorting: TFileSorting; File1, File2: TFile): Integer;
 var
   i: Integer;
   bNegative: Boolean;
@@ -398,19 +412,20 @@ begin
       // Only DC internal functions supported.
       case FileSorting.SortFunctions[i] of
         fsfName:
-          Result := ICompareByName(ptr1, ptr2, bNegative);
+          Result := ICompareByName(File1, File2, bNegative);
         fsfExtension:
-          Result := ICompareByExt(ptr1, ptr2, bNegative);
+          Result := ICompareByExt(File1, File2, bNegative);
         fsfSize:
-          Result := ICompareBySize(ptr1, ptr2, bNegative);
+          Result := ICompareBySize(File1, File2, bNegative);
         fsfAttr:
-          Result := ICompareByAttr(ptr1, ptr2, bNegative);
+          Result := ICompareByAttr(File1, File2, bNegative);
         fsfPath:
           begin
-             Result := mbCompareText(ptr1^.sPath, ptr2^.sPath);
+             Result := mbCompareText(File1.Path, File2.Path);
              if bNegative then
                Result := -Result;
            end;
+{
         fsfGroup:
           begin
              Result := mbCompareText(ptr1^.sGroup, ptr2^.sGroup);
@@ -423,16 +438,19 @@ begin
              if bNegative then
                Result := -Result;
            end;
+}
         fsfTime:
-          Result := ICompareByDate(ptr1, ptr2, bNegative);
+          Result := ICompareByDate(File1, File2, bNegative);
+{
         fsfLinkTo:
           begin
              Result := mbCompareText(ptr1^.sLinkTo, ptr2^.sLinkTo);
              if bNegative then
                Result := -Result;
            end;
+}
         fsfNameNoExtension:
-          Result := ICompareByNameNoExt(ptr1, ptr2, bNegative);
+          Result := ICompareByNameNoExt(File1, File2, bNegative);
       end;
 
       if Result <> 0 then

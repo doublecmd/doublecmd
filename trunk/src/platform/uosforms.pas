@@ -312,7 +312,7 @@ begin
                 begin
                   sCmd:=sl.Strings[i];
                   if pos('VIEW=',sCmd)>0 then Continue;  // view command is only for viewer
-                  ReplaceExtCommand(sCmd, @fri, frmMain.ActiveFrame.pnlFile.ActiveDir);
+                  ReplaceExtCommand(sCmd, @fri, frmMain.ActiveFrame.CurrentPath);
 
                   sCmd:= RemoveQuotation(sCmd);
                   InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 0, I + $1000, MFT_STRING);
@@ -388,10 +388,14 @@ begin
                 begin
                   if FPS_ISDIR(iMode) or (bLinkIsDir) then
                     begin
+{
+  Do this via Actions not by directly using ActiveFrame.
+
                       if sName = '..' then
                         frmMain.ActiveFrame.pnlFile.cdUpLevel
                       else
                         frmMain.ActiveFrame.pnlFile.cdDownLevel(FileList.GetItem(0));
+}
                       bHandled := True;
                     end; // is dir
                 end; // with
@@ -426,24 +430,29 @@ begin
           end;
 
         if SameText(sVerb, sCmdVerbDelete) or SameText(sVerb, sCmdVerbPaste) then
-          frmMain.ActiveFrame.RefreshPanel;
+          frmMain.ActiveFrame.Reload;
 
       end // if cmd > 0
     else if (cmd >= $1000) then // actions sub menu
       begin
         sCmd:= sl.Strings[cmd - $1000];
-        ReplaceExtCommand(sCmd, @fri, frmMain.ActiveFrame.pnlFile.ActiveDir);
+        ReplaceExtCommand(sCmd, @fri, frmMain.ActiveFrame.CurrentPath);
         sCmd:= Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
         try
           with frmMain.ActiveFrame do
           begin
-            if (Pos('{!VFS}',sCmd)>0) and pnlFile.VFS.FindModule(ActiveDir + fri.sName) then
+(*
+  VFS via another file source
+
+            if (Pos('{!VFS}',sCmd)>0) and pnlFile.VFS.FindModule(CurrentPath + fri.sName) then
               begin
                 pnlFile.LoadPanelVFS(@fri);
                 Exit;
               end;
-            if not ProcessExtCommand(sCmd, pnlFile.ActiveDir) then
+
+            if not ProcessExtCommand(sCmd, CurrentPath) then
               frmMain.ExecCmd(sCmd);
+*)
           end;
         finally
           bHandled:= True;

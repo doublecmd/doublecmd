@@ -29,7 +29,9 @@ unit uColumns;
 interface
 
 uses
-  Classes, SysUtils, uClassesEx, LCLProc, uTypes, uOSUtils, uDCUtils, Graphics;
+  Classes, SysUtils, uClassesEx, LCLProc, uTypes, uOSUtils, uDCUtils, Graphics,
+  uFile
+  ;
 
   type
 
@@ -75,7 +77,7 @@ type
  { TPanelColumnsType }
   TPanelColumn=class
   private
-    function ActGetInfo(FuncS: string; ptr: PFileRecItem): string;
+    function ActGetInfo(FuncS: string; AFile: TFile): string;
     function GetFunctionByName(FuncS: string): TFileFunction;
   //------------------------------------------------------
   public
@@ -109,7 +111,7 @@ type
     function GetModName(str: string): string;
     function GetModType(str: string): string;
     //---------------------
-    function GetColumnResultString(ptr:PFileRecItem):string;
+    function GetColumnResultString(AFile: TFile):string;
 
     {en
        Converts string functions in the column into their integer values,
@@ -161,7 +163,7 @@ type
 
     //---------------------
     function GetColumnItem(const Index:Integer):TPanelColumn;
-    function GetColumnItemResultString(const Index:Integer;const  ptr:PFileRecItem):string;
+    function GetColumnItemResultString(const Index:Integer;const AFile: TFile):string;
     function GetCount:Integer;
     function Add(Item:TPanelColumn):integer;
     function Add(const Title, FuncString:string;const  Width:integer;const Align: TAlignment=taLeftJustify):integer; overload;
@@ -252,7 +254,9 @@ type
   var IntList:TStringList;
 
 implementation
-uses uLng, uGlobs;
+
+uses
+  uLng, uGlobs, uFileProperty, uDefaultFilePropertyFormatter;
 
 function StrToAlign(str:string):TAlignment;
 begin
@@ -399,11 +403,11 @@ begin
 end;
 
 function TPanelColumnsClass.GetColumnItemResultString(const Index: integer;
-  const ptr: PFileRecItem): string;
+  const AFile: TFile): string;
 begin
   Result:='';
   if Index>=Flist.Count then exit;
-  Result:=TPanelColumn(Flist[Index]).GetColumnResultString(ptr);
+  Result:=TPanelColumn(Flist[Index]).GetColumnResultString(AFile);
 end;
 
 constructor TPanelColumnsClass.Create;
@@ -812,7 +816,7 @@ s:=str;
     Result:=Copy(s,1,pos(s,'}')-1);
 end;
 
-function TPanelColumn.ActGetInfo(FuncS:string; ptr: PFileRecItem):string;
+function TPanelColumn.ActGetInfo(FuncS:string; AFile: TFile):string;
  //---------------------
   const
      //---------------------
@@ -836,55 +840,55 @@ begin
             case TFileFunction(IntList.IndexOf(AFunc)) of
               fsfName:
                  begin
-                   with ptr^ do
-                     // Show square brackets around directories
-                     if gDirBrackets and (FPS_ISDIR(iMode) or bLinkIsDir) then
-                       Result:= '[' + ptr^.sName + ']'
-                     else
-                       Result:= ptr^.sName;
+                   // Show square brackets around directories
+                   if gDirBrackets and AFile.IsDirectory then
+                     Result:= '[' + AFile.Name + ']'
+                   else
+                     Result:= AFile.Name;
                  end;
+
               fsfExtension:
-                Result:=ptr^.sExt;
+                Result := AFile.Extension;
+
               fsfSize:
                 begin
-                   with ptr^ do
-                     // counted dir size
-                     if (FPS_ISDIR(iMode) or (bIsLink and bLinkIsDir)) and (iDirSize<>0) then
-                       Result:=cnvFormatFileSize(iDirSize)
-                     else
-                      begin
-                        if FPS_ISDIR(iMode) or (bIsLink and bLinkIsDir) then
-                          Result:= '<DIR>'
-                        else
-                          Result:=cnvFormatFileSize(iSize);
-                      end;
+                  if AFile.IsDirectory and
+                     ((AFile.Properties[fpSize] as TFileSizeProperty).Value = 0)
+                  then
+                    Result := '<DIR>'
+                  else
+                    Result := AFile.Properties[fpSize].Format(DefaultFilePropertyFormatter);
                  end;
               fsfAttr:
-                Result:=ptr^.sModeStr;
+                Result := AFile.Properties[fpAttributes].Format(DefaultFilePropertyFormatter);
               fsfPath:
-                Result:=ptr^.sPath;
+                Result := AFile.Path;
+{
               fsfGroup:
                 Result:=ptr^.sGroup;
               fsfOwner:
                 Result:=ptr^.sOwner;
+}
               fsfTime:
-                Result:=ptr^.sTime;
+                Result := AFile.Properties[fpModificationTime].Format(DefaultFilePropertyFormatter);
+{
               fsfLinkTo:
                 Result:=ptr^.sLinkTo;
+}
               fsfNameNoExtension:
                 begin
-                   with ptr^ do
-                     // Show square brackets around directories
-                     if gDirBrackets and (FPS_ISDIR(iMode) or bLinkIsDir) then
-                       Result:= '[' + ptr^.sNameNoExt + ']'
-                     else
-                       Result:= ptr^.sNameNoExt;
+                   // Show square brackets around directories
+                   if gDirBrackets and AFile.IsDirectory then
+                     Result:= '[' + AFile.NameNoExt + ']'
+                   else
+                     Result:= AFile.NameNoExt;
                  end;
         //     10: Result:=ptr^.
             end;
             Exit;
           end;
         //------------------------------------------------------
+{
 
         //Plugin function
         //------------------------------------------------------
@@ -900,6 +904,7 @@ begin
             Exit;
           end;
         //------------------------------------------------------
+}
 end;
 
 function TPanelColumn.GetColumnFunctions: TFileFunctions;
@@ -953,7 +958,7 @@ begin
       Result := fsfInvalid;
 end;
 
-function TPanelColumn.GetColumnResultString(ptr: PFileRecItem): string;
+function TPanelColumn.GetColumnResultString(AFile: TFile): string;
 var i:integer; s:String;
 begin
 
@@ -969,7 +974,7 @@ begin
      else
      //Item is function
        begin
-         s:=s+ActGetInfo(FuncList[I],ptr);
+         s:=s+ActGetInfo(FuncList[I], AFile);
        end;
    end;
    Result:=s;

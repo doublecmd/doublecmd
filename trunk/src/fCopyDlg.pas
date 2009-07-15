@@ -41,18 +41,18 @@ type
 implementation
 
 uses
-  fMain, framePanel, LCLType, uGlobs;
+  fMain, LCLType, uGlobs, uFilePanelSelect, uFileView;
 
 var noteb:TNotebook;
 procedure TfrmCopyDlg.TabsSelector(Sender: TObject);
 begin
-  edtDst.Text:=TFrameFilePanel(noteb.Page[(sender as TBitBtn).tag].Components[0]).ActiveDir;
+  edtDst.Text:=TFileView(noteb.Page[(sender as TBitBtn).tag].Components[0]).CurrentPath;
 end;
 
 procedure TfrmCopyDlg.TabsSelectorMouseDown(Sender: TObject; Button: TMouseButton;
                                             Shift: TShiftState; X, Y: Integer);
 begin
-  edtDst.Text:=TFrameFilePanel(noteb.Page[(sender as TBitBtn).tag].Components[0]).ActiveDir;
+  edtDst.Text:=TFileView(noteb.Page[(sender as TBitBtn).tag].Components[0]).CurrentPath;
 end;
 
 function TfrmCopyDlg.ShowTabsSelector: integer;
@@ -71,9 +71,9 @@ begin
   st:=TStringList.Create;
   try
     for i:=0 to tc-1 do
-    if TFrameFilePanel(noteb.Page[i].Components[0]).Visible=true then
+    if TFileView(noteb.Page[i].Components[0]).Visible=true then
       begin
-       s:=TFrameFilePanel(noteb.Page[i].Components[0]).ActiveDir;
+       s:=TFileView(noteb.Page[i].Components[0]).CurrentPath;
         if st.IndexOf(s)=-1 then
           begin
             st.Add(s);
