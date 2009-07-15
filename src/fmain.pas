@@ -43,7 +43,9 @@ uses
   LResources,
   Graphics, Forms, Menus, Controls, Dialogs, ComCtrls, StdCtrls, ExtCtrls, ActnList,
   Buttons, SysUtils, Classes, Grids, KASToolBar, SynEdit, KASBarMenu, KASBarFiles,
-  uColumns, uFileList, LCLType, uCmdBox, uFileSystemWatcher, framePanel
+  uColumns, uFileList, LCLType, uCmdBox, uFileSystemWatcher,
+  uFileView, uColumnsFileView, uFilePanelSelect,
+  uFileSource
   {$IF NOT DEFINED(DARWIN)}
   , uTerminal
   {$ENDIF}
@@ -65,6 +67,7 @@ type
     constructor Create(AOwner: TComponent); override;
     procedure PopUp(DropParams: TDropParams); reintroduce;
   end;
+
 
   { TfrmMain }
 
@@ -337,7 +340,8 @@ type
     procedure miLogMenuClick(Sender: TObject);
     procedure miTrayIconExitClick(Sender: TObject);
     procedure miTrayIconRestoreClick(Sender: TObject);
-    procedure PanelButtonClick(Button: TSpeedButton; SourceFrame: TFrameFilePanel);
+    procedure PanelButtonClick(Button: TSpeedButton; SourceFrame: TFileView;
+                               PanelSelect: TFilePanelSelect);
     procedure DeleteClick(Sender: TObject);
     procedure dskToolBarMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -392,20 +396,12 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormActivate(Sender: TObject);
-    procedure FrameEditExit(Sender: TObject);
-    procedure FrameedtSearchExit(Sender: TObject);
-    procedure FrameedtRenameExit(Sender: TObject);
 
-    procedure FramedgPanelEnter(Sender: TObject);
-    procedure framedgPanelMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
     procedure pnlLeftResize(Sender: TObject);
     procedure pnlLeftRightDblClick(Sender: TObject);
     procedure seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
-    procedure ShowPathEdit;
-    procedure FramelblLPathMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+
     function FramepnlFileBeforeChangeDirectory(Sender: TObject; const NewDir : String): Boolean;
     procedure FramepnlFileAfterChangeDirectory(Sender: TObject; const NewDir : String);
     procedure edtCommandKeyDown(Sender: TObject; var Key: Word;
@@ -417,7 +413,7 @@ type
     procedure tmHALTimer(Sender: TObject);
   private
     { Private declarations }
-    PanelSelected:TFilePanelSelect;
+    PanelSelected: TFilePanelSelect;
     LeftFrameWatcher,
     RightFrameWatcher: TFileSystemWatcher;
     DrivesList : TList;
@@ -435,10 +431,8 @@ type
     lastWindowState:TWindowState;
     // frost_asm end
 
-    procedure ColumnsMenuClick(Sender: TObject);
     function ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
     procedure AddSpecialButtons(dskPanel: TKASToolBar);
-    procedure ReLoadTabs(ANoteBook: TNoteBook);
     procedure HideToTray;
     procedure RestoreFromTray;
     procedure ShowTrayIcon(bShow: Boolean);
@@ -456,15 +450,12 @@ type
 {$ENDIF}
 
   public
-//    frameLeft, frameRight:TFrameFilePanel;
+    procedure HandleActionHotKeys(var Key: Word; Shift: TShiftState);
     
-    function HandleActionHotKeys(var Key: Word; Shift: TShiftState):Boolean; // handled
-    
-    Function ActiveFrame:TFrameFilePanel;  // get Active frame
-    Function NotActiveFrame:TFrameFilePanel; // get NotActive frame :)
-    function FrameLeft:TFrameFilePanel;
-    function FrameRight:TFrameFilePanel;
-    Function IsAltPanel:Boolean;
+    Function ActiveFrame: TFileView;  // get Active frame
+    Function NotActiveFrame: TFileView; // get NotActive frame :)
+    function FrameLeft: TFileView;
+    function FrameRight: TFileView;
     procedure AppException(Sender: TObject; E: Exception);
     //check selected count and generate correct msg, parameters is lng indexs
     Function GetFileDlgStr(sLngOne, sLngMulti : String):String;
@@ -474,24 +465,23 @@ type
     procedure miHotAddClick(Sender: TObject);
     procedure miHotDeleteClick(Sender: TObject);
     procedure miHotConfClick(Sender: TObject);
-    procedure CalculateSpace(bDisplayMessage:Boolean);
     procedure RunRenameThread(srcFileList: TFileList; sDestPath: String; sDestMask: String);
     procedure RunCopyThread(srcFileList: TFileList; sDestPath: String; sDestMask: String;
                             bDropReadOnlyFlag: Boolean);
-    procedure RenameFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel; sDestPath: String);
-    procedure CopyFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel; sDestPath: String);
+//    procedure RenameFile(srcFileList: TFileList; dstFramePanel: TFileView; sDestPath: String);
+//    procedure CopyFile(srcFileList: TFileList; dstFramePanel: TFileView; sDestPath: String);
     procedure RenameFile(sDestPath:String); // this is for F6 and Shift+F6
     procedure CopyFile(sDestPath:String); //  this is for F5 and Shift+F5
     procedure GetDestinationPathAndMask(EnteredPath: String; BaseDir: String;
                                         out DestPath, DestMask: String);
-    procedure ShowRenameFileEdit(const sFileName:String);
     procedure SetNotActFrmByActFrm;
     procedure SetActiveFrame(panel: TFilePanelSelect);
     procedure UpdateDiskCount;
     procedure CreateDrivesMenu;
     procedure DrivesMenuClick(Sender: TObject);
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
-    procedure CreatePanel(AOwner:TWinControl; APanel:TFilePanelSelect; sPath : String);
+    procedure CreatePanel(sType: String; AOwner:TWinControl; APanel:TFilePanelSelect;
+                          FileSource: TFileSource);
     function AddPage(ANoteBook:TNoteBook; bSetActive: Boolean = True):TPage;
     function RemovePage(ANoteBook:TNoteBook; iPageIndex:Integer): LongInt;
     procedure LoadTabs(ANoteBook:TNoteBook);
@@ -517,8 +507,12 @@ type
        Shows or removes the '*' indicator of a locked tab.
     }
     procedure UpdateTabLockedState(Page: TPage);
+    procedure UpdatePrompt;
+    procedure ReLoadTabs(ANoteBook: TNoteBook);
   published
-    property SelectedPanel:TFilePanelSelect read PanelSelected;
+    // For now we allow to write here.
+    // Should be changed via event 'Active-file-view-changed' or something like that.
+    property SelectedPanel:TFilePanelSelect read PanelSelected write PanelSelected;
   end;
 var
   frmMain: TfrmMain;
@@ -534,7 +528,8 @@ uses
   fMoveDlg, uMoveThread, uShowMsg, uClassesEx, fFindDlg, uSpaceThread, fHotDir,
   fSymLink, fHardLink, uDCUtils, uLog, fMultiRename, uGlobsPaths, fMsg, fPackDlg,
   fExtractDlg, fLinker, fSplitter, LCLProc, uOSUtils, uOSForms, uPixMapManager,
-  fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls, uFileSorting
+  fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls, uFileSorting,
+  uFileSystemFileSource
   {$IFDEF LCLQT}
     , qtwidgets, qtobjects
   {$ENDIF}
@@ -629,7 +624,7 @@ end;
 
 procedure TfrmMain.btnLeftClick(Sender: TObject);
 begin
-  PanelButtonClick(Sender as TSpeedButton, FrameLeft);
+  PanelButtonClick(Sender as TSpeedButton, FrameLeft, fpLeft);
 end;
 
 procedure TfrmMain.actExecute(Sender: TObject);
@@ -663,7 +658,7 @@ end;
 
 procedure TfrmMain.btnRightClick(Sender: TObject);
 begin
-  PanelButtonClick(Sender as TSpeedButton, FrameRight);
+  PanelButtonClick(Sender as TSpeedButton, FrameRight, fpRight);
 end;
 
 procedure TfrmMain.btnRightDirectoryHotlistClick(Sender: TObject);
@@ -707,19 +702,24 @@ begin
   RestoreFromTray;
 end;
 
-procedure TfrmMain.PanelButtonClick(Button: TSpeedButton; SourceFrame: TFrameFilePanel);
+procedure TfrmMain.PanelButtonClick(Button: TSpeedButton; SourceFrame: TFileView;
+                                    PanelSelect: TFilePanelSelect);
 begin
   with Button do
   begin
+{
+   // Should those buttons only be in columns view?
+   // or on every view?
     if Caption = '/' then
-      SourceFrame.pnlFile.cdRootLevel
+      SourceFrame.cdRootLevel
     else if Caption = '..' then
-      SourceFrame.pnlFile.cdUpLevel
+      SourceFrame.cdUpLevel
     else if Caption = '~' then
-      SourceFrame.pnlFile.ActiveDir := GetHomeDir;
+      SourceFrame.CurrentPath := GetHomeDir;
+}
   end;
 
-  SetActiveFrame(SourceFrame.PanelSelect);
+  SetActiveFrame(PanelSelect);
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
@@ -754,15 +754,16 @@ begin
 end;
 
 procedure TfrmMain.FormDropFiles(Sender: TObject; const FileNames: array of String);
-var
-  FrameFilePanel: TFrameFilePanel;
+// This should not be needed for now as drag&drop should work through uDragDropEx.
+{var
+  FileView: TFileView;
   I: Integer;
   FileList: TFileList;
   FileNamesList: TStringList;
   Point: TPoint;
-  DropParams: TDropParams;
+  DropParams: TDropParams;}
 begin
-  FrameFilePanel:= nil;
+{  FrameFilePanel:= nil;
   // drop on left panel
   if FindLCLControl(Mouse.CursorPos) = FrameLeft.dgPanel then
     FrameFilePanel:= FrameLeft;
@@ -801,20 +802,21 @@ begin
     Exit;
   end;
 
-  FrameFilePanel.dgPanel.DropFiles(DropParams);
+  FrameFilePanel.dgPanel.DropFiles(DropParams);}
 end;
 
 procedure TfrmMain.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
 var
   ModifierKeys: TShiftState;
 begin
-  // Either left or right panel has to be focused.
-  if not FrameLeft.dgPanel.Focused and
-     not FrameRight.dgPanel.Focused then
+debugln('formutf8keypress');
+{  // Either left or right panel has to be focused.
+  if not FrameLeft.Focused and
+     not FrameRight.Focused then
   begin
     Exit;
   end;
-
+}
   if (edtCommand.Tag = 0) then
     begin
       // quick search by Letter only
@@ -829,14 +831,7 @@ begin
          // Check only ssCtrl and ssAlt.
          (ModifierKeys * [ssCtrl, ssAlt] = gQuickSearchMode) then
         begin
-          // Make upper case if either caps-lock is toggled or shift pressed.
-          if (ssCaps in ModifierKeys) xor (ssShift in ModifierKeys) then
-            UTF8Key := UTF8UpperCase(UTF8Key)
-          else
-            UTF8Key := UTF8LowerCase(UTF8Key);
-
-          ActiveFrame.ShowAltPanel(UTF8Key);
-          UTF8Key:= '';
+          // Let the panel receive this message.
         end
       else if gCmdLine then  // If command line is enabled
         begin
@@ -978,6 +973,9 @@ var
   sFileName: String;
   IniBarFile: TIniFileEx;
 begin
+{
+  // Should probably use Sender or Source here.
+
   if ActiveFrame.IsActiveItemValid then
   with ActiveFrame, ActiveFrame.GetActiveItem^ do
     begin
@@ -990,15 +988,18 @@ begin
         FreeThenNil(IniBarFile);
       end;
     end;
+}
 end;
 
 procedure TfrmMain.MainToolBarDragOver(Sender, Source: TObject; X, Y: Integer;
   State: TDragState; var Accept: Boolean);
 begin
+{
   if ActiveFrame.IsActiveItemValid then
     Accept := True
   else
     Accept := False;
+}
 end;
 
 function TfrmMain.MainToolBarLoadButtonGlyph(sIconFileName: String;
@@ -1039,25 +1040,25 @@ end;
 procedure TfrmMain.dskToolButtonClick(Sender: TObject; NumberOfButton: Integer);
 var
   dskPanel : TKASToolBar;
-  FrameFilePanel : TFrameFilePanel;
+  FileView : TFileView;
 begin
   dskPanel := (Sender as TKASToolBar);
 
   if (dskPanel.Align = alLeft) or (not gDriveBar2 and (PanelSelected = fpLeft))  then
     begin
-      FrameFilePanel := FrameLeft;
+      FileView := FrameLeft;
       PanelSelected := fpLeft;
     end
   else
     begin
-      FrameFilePanel := FrameRight;
+      FileView := FrameRight;
       PanelSelected := fpRight;
     end;
     
   if dskPanel.Buttons[NumberOfButton].GroupIndex = 0 then
      begin
        // Command := dskPanel.Commands[NumberOfButton];
-       PanelButtonClick(dskPanel.Buttons[NumberOfButton], FrameFilePanel)
+       PanelButtonClick(dskPanel.Buttons[NumberOfButton], FileView, PanelSelected)
      end
   else
    begin
@@ -1065,17 +1066,17 @@ begin
        begin
          if PanelSelected = fpRight then
            begin
-             if IncludeTrailingPathDelimiter(ExtractFileDrive(FrameLeft.pnlFile.ActiveDir)) = dskPanel.Commands[NumberOfButton] then
-               FrameFilePanel.pnlFile.ActiveDir := FrameLeft.pnlFile.ActiveDir
+             if IncludeTrailingPathDelimiter(ExtractFileDrive(FrameLeft.CurrentPath)) = dskPanel.Commands[NumberOfButton] then
+               FileView.CurrentPath := FrameLeft.CurrentPath
              else
-               FrameFilePanel.pnlFile.ActiveDir := dskPanel.Commands[NumberOfButton];
+               FileView.CurrentPath := dskPanel.Commands[NumberOfButton];
            end
          else
            begin
-             if IncludeTrailingPathDelimiter(ExtractFileDrive(FrameRight.pnlFile.ActiveDir)) = dskPanel.Commands[NumberOfButton] then
-               FrameFilePanel.pnlFile.ActiveDir := FrameRight.pnlFile.ActiveDir
+             if IncludeTrailingPathDelimiter(ExtractFileDrive(FrameRight.CurrentPath)) = dskPanel.Commands[NumberOfButton] then
+               FileView.CurrentPath := FrameRight.CurrentPath
              else
-               FrameFilePanel.pnlFile.ActiveDir := dskPanel.Commands[NumberOfButton];
+               FileView.CurrentPath := dskPanel.Commands[NumberOfButton];
            end;
        end
      else
@@ -1173,19 +1174,19 @@ begin
       begin
         if (Sender as TMenuItem).Name = 'miMove' then
           begin
-            TargetPanel.dgPanel.DoDragDropOperation(ddoMove, DropParamsRef);
+            TargetPanel.DoDragDropOperation(ddoMove, DropParamsRef);
           end
         else if (Sender as TMenuItem).Name = 'miCopy' then
           begin
-            TargetPanel.dgPanel.DoDragDropOperation(ddoCopy, DropParamsRef);
+            TargetPanel.DoDragDropOperation(ddoCopy, DropParamsRef);
           end
         else if (Sender as TMenuItem).Name = 'miSymLink' then
           begin
-            TargetPanel.dgPanel.DoDragDropOperation(ddoSymLink, DropParamsRef);
+            TargetPanel.DoDragDropOperation(ddoSymLink, DropParamsRef);
           end
         else if (Sender as TMenuItem).Name = 'miHardLink' then
           begin
-            TargetPanel.dgPanel.DoDragDropOperation(ddoHardLink, DropParamsRef);
+            TargetPanel.DoDragDropOperation(ddoHardLink, DropParamsRef);
           end
         else if (Sender as TMenuItem).Name = 'miCancel' then
           begin
@@ -1296,21 +1297,21 @@ begin
   if PageIndex <> -1 then
   begin
     if Page[PageIndex].Tag = 2 then // if locked with directory change
-      with TFrameFilePanel(Page[PageIndex].Components[0]) do
+      with TFileView(Page[PageIndex].Components[0]) do
         begin
-          pnlFile.ActiveDir:= Page[PageIndex].Hint;
+          CurrentPath:= Page[PageIndex].Hint;
         end
     else if (Name = 'nbLeft') and (FrameLeft <> nil) then
       begin
-        FrameLeft.pnlFile.UpdatePrompt;
-        if Assigned(LeftFrameWatcher) and (LeftFrameWatcher.WatchPath <> FrameLeft.ActiveDir) then
-          LeftFrameWatcher.WatchPath:= FrameLeft.ActiveDir;
+        //FrameLeft.pnlFile.UpdatePrompt;
+        if Assigned(LeftFrameWatcher) and (LeftFrameWatcher.WatchPath <> FrameLeft.CurrentPath) then
+          LeftFrameWatcher.WatchPath:= FrameLeft.CurrentPath;
       end
     else if (Name = 'nbRight') and (FrameRight <> nil) then
       begin
-        FrameRight.pnlFile.UpdatePrompt;
-        if Assigned(RightFrameWatcher) and (RightFrameWatcher.WatchPath <> FrameRight.ActiveDir) then
-          RightFrameWatcher.WatchPath:= FrameRight.ActiveDir;    
+        //FrameRight.pnlFile.UpdatePrompt;
+        if Assigned(RightFrameWatcher) and (RightFrameWatcher.WatchPath <> FrameRight.CurrentPath) then
+          RightFrameWatcher.WatchPath:= FrameRight.CurrentPath;
       end;
 
     // Update selected drive only on non-active panel,
@@ -1438,9 +1439,8 @@ begin
 End;
 
 
-function TfrmMain.HandleActionHotKeys(var Key: Word; Shift: TShiftState):Boolean; // handled
+procedure TfrmMain.HandleActionHotKeys(var Key: Word; Shift: TShiftState);
 begin
-  Result:=True;
   // ---- 30.04.2009 - переписал для удаления в корзину. ----
   If (Key = VK_F8) or (Key = VK_DELETE) then
    begin
@@ -1451,6 +1451,7 @@ begin
       else Actions.cm_Delete('recycle'); // без шифта удаляем в корзину
      end
     else Actions.cm_Delete('');  // если корзина отключена в конфигурации, или (для линукс) нет программы gvsf-trash, то удалять напрямую.
+    Key := 0;
     Exit;
    end;
   // ---------------------------------------------------------
@@ -1462,6 +1463,7 @@ begin
        begin
          Actions.cm_ContextMenu('');
          //actContextMenu.Execute;
+         Key := 0;
          Exit;
        end;
     end; // case
@@ -1469,73 +1471,59 @@ begin
 
   if (Key=VK_Return) or (Key=VK_SELECT) then
   begin
-    Key:=0;
     with ActiveFrame do
     begin
       if (Shift=[])or (Shift=[ssCaps]) then // 21.05.2009 - не учитываем CapsLock при перемещении по панелям
       begin
         if (not IsCommandLineVisible) or (edtCommand.Text='') then
         begin
-          // Only if there are items in the panel.
-          if not IsEmpty then
-          begin
-            if pnlFile.PanelMode = pmDirectory then
-              Screen.Cursor:=crHourGlass;
-            try
-              pnlFile.ChooseFile(pnlFile.GetActiveItem);
-              UpDatelblInfo;
-            finally
-              dgPanel.Invalidate;
-              Screen.Cursor:=crDefault;
-            end;
-          end;
+          // Delegated to ActiveFrame.
         end
         else
         begin
           ExecuteCommandLine(False);
+          Key:=0;
+          Exit;
         end;
-        Exit;
       end; //Shift=[] + 21.05.2009 - не учитываем CapsLock при перемещении по панелям
 
-      // execute active file or command line in terminal (Shift+Enter)
+      // execute command line in terminal (Shift+Enter)
       if Shift=[ssShift] then
       begin
         if (not IsCommandLineVisible) or (edtCommand.Text='') then
         begin
-          if IsActiveItemValid then
-          begin
-            mbSetCurrentDir(ActiveDir);
-            ExecCmdFork(ActiveDir + pnlFile.GetActiveItem^.sName, True, gRunInTerm);
-          end;
+          // Delegated to ActiveFrame.
         end
         else
           begin
             ExecuteCommandLine(True);
+            Key := 0;
+            Exit;
           end;
-        Exit;
       end;
     end;
   end;  // handle ENTER with some modifier
-
-  // not handled
-  Result:=False;
 end;
 
 procedure TfrmMain.FormKeyPress(Sender: TObject; var Key: Char);
 var
   CmdText : UTF8String;
 begin
+debugln('formkeypress');
   // Either left or right panel has to be focused.
+{
   if not FrameLeft.dgPanel.Focused and
      not FrameRight.dgPanel.Focused then
   begin
     Exit;
   end;
+}
 
   if gCmdLine then  // If command line is enabled
   begin
     if Key=#27 then
-      ActiveFrame.ClearCmdLine;
+      edtCommand.Text := '';
+
     if ((ord(key)>31) and (ord(key)<255)) or (ord(Key) = VK_BACK) then
     begin
       if ((Key='-') or (Key='*') or (Key='+') or (Key=' '))and (Trim(edtCommand.Text)='') then Exit;
@@ -1558,50 +1546,48 @@ begin
   end;
 end;
 
-Function TfrmMain.ActiveFrame:TFrameFilePanel;
+Function TfrmMain.ActiveFrame: TFileView;
 begin
-
   case PanelSelected of
     fpLeft:
-      Result:=FrameLeft;
+      Result := FrameLeft;
     fpRight:
-      Result:=FrameRight;
+      Result := FrameRight;
   else
     assert(false,'Bad active frame');
   end;
 end;
 
-Function TfrmMain.NotActiveFrame:TFrameFilePanel;
+Function TfrmMain.NotActiveFrame: TFileView;
 begin
   case PanelSelected of
-    fpRight: Result:=FrameLeft;
-    fpLeft: Result:=FrameRight;
+    fpRight:
+      Result := FrameLeft;
+    fpLeft:
+      Result := FrameRight;
   else
     assert(false,'Bad active frame');
     Result:=FrameLeft;// only for compilator warning;
   end;
 end;
 
-function TfrmMain.FrameLeft: TFrameFilePanel;
+function TfrmMain.FrameLeft: TFileView;
 begin
 //  DebugLn(nbLeft.Page[nbLeft.PageIndex].Components[0].ClassName);
   if nbLeft.PageIndex <> -1 then
-    Result:=TFrameFilePanel(nbLeft.Page[nbLeft.PageIndex].Components[0]);
+    Result := TFileView(nbLeft.Page[nbLeft.PageIndex].Components[0])
+  else
+    Result := nil;
 end;
 
-function TfrmMain.FrameRight: TFrameFilePanel;
+function TfrmMain.FrameRight: TFileView;
 begin
 //  DebugLn(nbRight.Page[nbRight.PageIndex].Components[0].ClassName);
   if nbRight.PageIndex <> -1 then
-    Result:=TFrameFilePanel(nbRight.Page[nbRight.PageIndex].Components[0]);
+    Result := TFileView(nbRight.Page[nbRight.PageIndex].Components[0])
+  else
+    Result := nil
 end;
-
-Function TfrmMain.IsAltPanel:Boolean;
-begin
-  Result:= frameLeft.pnAltSearch.Visible or
-           FrameRight.pnAltSearch.Visible;
-end;
-
 
 procedure TfrmMain.AppException(Sender: TObject; E: Exception);
 begin
@@ -1617,12 +1603,14 @@ var
 begin
   with ActiveFrame do
   begin
+{
     iSelCnt:=pnlFile.GetSelectedCount;
     if iSelCnt=0 then Abort;
     if iSelCnt >1 then
       Result:=Format(sLngMulti, [iSelCnt])
     else
       Result:=Format(sLngOne, [pnlFile.GetFirstSelectedItem^.sName])
+}
   end;
 end;
 
@@ -1630,7 +1618,7 @@ end;
 procedure TfrmMain.miHotAddClick(Sender: TObject);
 begin
   inherited;
-  glsHotDir.Add(ActiveFrame.ActiveDir);
+  glsHotDir.Add(ActiveFrame.CurrentPath);
 //  pmHotList.Items.Add();
 // OnClick:=HotDirSelected;
 end;
@@ -1638,7 +1626,7 @@ end;
 procedure TfrmMain.miHotDeleteClick(Sender: TObject);
 var i : integer;
 begin
-  i:= glsHotDir.IndexOf(ActiveFrame.ActiveDir);
+  i:= glsHotDir.IndexOf(ActiveFrame.CurrentPath);
   if i > 0 then glsHotDir.Delete(i);
 end;
 
@@ -1702,14 +1690,14 @@ begin
   // now add ADD or DELETE item
 
   mi:=TMenuItem.Create(pmHotList);
-  if glsHotDir.IndexOf(ActiveFrame.ActiveDir)>0 then
+  if glsHotDir.IndexOf(ActiveFrame.CurrentPath)>0 then
   begin
-    mi.Caption:=Format(rsMsgPopUpHotDelete,[ActiveFrame.ActiveDir]);
+    mi.Caption:=Format(rsMsgPopUpHotDelete,[ActiveFrame.CurrentPath]);
     mi.OnClick:=@miHotDeleteClick;
   end
   else
   begin
-    mi.Caption:=Format(rsMsgPopUpHotAdd,[ActiveFrame.ActiveDir]);
+    mi.Caption:=Format(rsMsgPopUpHotAdd,[ActiveFrame.CurrentPath]);
     mi.OnClick:=@miHotAddClick;
   end;
   pmHotList.Items.Add(mi);
@@ -1729,15 +1717,8 @@ begin
  // must extract & from Caption
   sDummy:=(Sender As TMenuItem).Caption;
   SDummy:=StringReplace(sDummy,'&','',[rfReplaceAll]);
-  ActiveFrame.pnlFile.ActiveDir:=sDummy;
-
-  with ActiveFrame.dgPanel do
-  begin
-    if RowCount>0 then
-     Row:=1;
-  end;
+  ActiveFrame.CurrentPath := sDummy;
 end;
-
 
 procedure TfrmMain.edtCommandKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
@@ -1747,76 +1728,6 @@ begin
     Key:=0;
     edtCommand.DroppedDown:=True;
     edtCommand.SetFocus;
-  end;
-end;
-
-procedure TfrmMain.CalculateSpace(bDisplayMessage:Boolean);
-var
-  fl:TFileList;
-  p:TFileRecItem;
-begin
-  fl:= TFileList.Create; // free at Thread end by thread
-  with ActiveFrame do
-  begin
-    if not bDisplayMessage then  // Calculate by <Space> key
-      begin
-        if not IsActiveItemValid then
-        begin
-          FreeAndNil(fl);
-          Exit;
-        end;
-
-        p:= GetActiveItem^;
-        p.sNameNoExt:= p.sName; //dstname
-        p.sName:= ActiveDir+p.sName;
-        p.sPath:= '';
-
-        fl.AddItem(@p);
-      end
-    else
-      begin
-        if SelectFileIfNoSelected(GetActiveItem) = False then
-        begin
-          FreeAndNil(fl);
-          Exit;
-        end;
-
-        CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
-      end;
-  end;
-
-  try
-  with TSpaceThread.Create(fl, bDisplayMessage) do
-    begin
-      if not bDisplayMessage then
-        Screen.Cursor:= crHourGlass;
-
-      // start thread
-      Resume;
-
-      if not bDisplayMessage then
-        begin
-          WaitFor;
-          Screen.Cursor:= crDefault;
-        end;
-
-      with ActiveFrame.GetActiveItem^ do
-      begin
-        if (bDisplayMessage = False) then
-          iDirSize:= FilesSize;
-        ActiveFrame.pnlFile.LastActive:= sName;
-      end;
-
-      if not bDisplayMessage then
-        Free;
-    end;
-  finally
-    with ActiveFrame do
-    begin
-      Screen.Cursor:= crDefault;
-//      UnMarkAll;
-      pnlFile.UpdatePanel;
-    end;
   end;
 end;
 
@@ -1861,7 +1772,7 @@ end;
 
 (* Used for drag&drop move from external application *)
 // Frees srcFileList automatically.
-procedure TfrmMain.RenameFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel; sDestPath: String);
+{procedure TfrmMain.RenameFile(srcFileList: TFileList; dstFramePanel: TFileView; sDestPath: String);
 var
   sDstMaskTemp: String;
   sCopyQuest: String;
@@ -1888,7 +1799,7 @@ begin
          Exit; // throught finally
       end;
 
-      GetDestinationPathAndMask(edtDst.Text, dstFramePanel.ActiveDir, sDestPath, sDstMaskTemp);
+      GetDestinationPathAndMask(edtDst.Text, dstFramePanel.CurrentPath, sDestPath, sDstMaskTemp);
 
     finally
       Free;
@@ -1903,7 +1814,7 @@ end;
 
 (* Used for drag&drop copy from external application *)
 // Frees srcFileList automatically.
-procedure TfrmMain.CopyFile(srcFileList: TFileList; dstFramePanel: TFrameFilePanel; sDestPath: String);
+procedure TfrmMain.CopyFile(srcFileList: TFileList; dstFramePanel: TFileView; sDestPath: String);
 var
   sCopyQuest,
   sDstMaskTemp: String;
@@ -1950,7 +1861,7 @@ begin
         Exit; // throught finally
       end;
 
-      GetDestinationPathAndMask(edtDst.Text, dstFramePanel.ActiveDir, sDestPath, sDstMaskTemp);
+      GetDestinationPathAndMask(edtDst.Text, dstFramePanel.CurrentPath, sDestPath, sDstMaskTemp);
 
       blDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
     finally
@@ -1975,17 +1886,19 @@ begin
   (* Copy files between real file system *)
 
   RunCopyThread(srcFileList, sDestPath, sDstMaskTemp, blDropReadOnlyFlag);
-
 end;
-
+}
 procedure TfrmMain.RenameFile(sDestPath:String);
 var
   fl:TFileList;
   sDstMaskTemp:String;
 begin
   // Exit if no valid files selected.
+{
   if ActiveFrame.SelectFileIfNoSelected(ActiveFrame.GetActiveItem) = False then Exit;
+}
 
+{
   if (sDestPath = '') and (ActiveFrame.pnlFile.GetSelectedCount = 1) then
     with ActiveFrame do
     begin
@@ -1993,11 +1906,14 @@ begin
         ShowRenameFileEdit(ActiveDir + GetActiveItem^.sName);
       Exit;
     end;
+}
 
   fl := TFileList.Create; // free at Thread end by thread
   try
-    fl.CurrentDirectory := ActiveFrame.ActiveDir;
-    CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
+{
+    fl.CurrentDirectory := ActiveFrame.CurrentPath;
+    CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.CurrentPath);
+}
 
     with TfrmMoveDlg.Create(Application) do
     begin
@@ -2016,11 +1932,13 @@ begin
           Exit; // throught finally
         end;
 
-        GetDestinationPathAndMask(edtDst.Text, ActiveFrame.ActiveDir, sDestPath, sDstMaskTemp);
+        GetDestinationPathAndMask(edtDst.Text, ActiveFrame.CurrentPath, sDestPath, sDstMaskTemp);
 
       finally
+{
         with ActiveFrame do
           UnSelectFileIfSelected(GetActiveItem);
+}
         Free;
       end;
     end;
@@ -2040,6 +1958,7 @@ var
   sDstMaskTemp: String;
   blDropReadOnlyFlag : Boolean;
 begin
+{
   if (ActiveFrame.pnlFile.PanelMode in [pmVFS, pmArchive]) then
   begin
     if (NotActiveFrame.pnlFile.PanelMode in [pmVFS, pmArchive]) then
@@ -2070,8 +1989,8 @@ begin
 
   fl:=TFileList.Create; // free at Thread end by thread
   try
-    fl.CurrentDirectory := ActiveFrame.ActiveDir;
-    CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.ActiveDir);
+    fl.CurrentDirectory := ActiveFrame.CurrentPath;
+    CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.CurrentPath);
 
     (* Copy files between archive and real file system *)
   
@@ -2121,7 +2040,7 @@ begin
           Exit ; // throught finally
         end;
 
-        GetDestinationPathAndMask(edtDst.Text, ActiveFrame.ActiveDir, sDestPath, sDstMaskTemp);
+        GetDestinationPathAndMask(edtDst.Text, ActiveFrame.CurrentPath, sDestPath, sDstMaskTemp);
 
         blDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
 
@@ -2158,6 +2077,7 @@ begin
   except
     FreeAndNil(fl);
   end;
+}
 end;
 
 procedure TfrmMain.GetDestinationPathAndMask(EnteredPath: String; BaseDir: String;
@@ -2201,12 +2121,15 @@ var
   ModifierKeys: TShiftState;
   UTF8Char: TUTF8Char;
 begin
+debugln('formkeydown');
+{
   // Either left or right panel has to be focused.
-  if not FrameLeft.dgPanel.Focused and
-     not FrameRight.dgPanel.Focused then
+  if not FrameLeft.Focused and
+     not FrameRight.Focused then
   begin
     Exit;
   end;
+}
 
   // used for quick search by Ctrl+Alt+Letter and Alt+Letter
   if gQuickSearch and (edtCommand.Tag = 0) then
@@ -2227,8 +2150,7 @@ begin
       UTF8Char := VirtualKeyToUTF8Char(Key, ModifierKeys - gQuickSearchMode);
       if UTF8Char <> '' then
       begin
-        ActiveFrame.ShowAltPanel(UTF8Char);
-        Key := 0;
+        // Delegated to ActiveFrame.
         Exit;
       end;
     end;
@@ -2247,17 +2169,23 @@ begin
   // CTRL+PgUp
   if (Shift=[ssCtrl]) and (Key=VK_PRIOR) then
   begin
+   // Delegate to ActiveFrame (actually should be via hotkey and appropriate command).
+{
     ActiveFrame.pnlFile.cdUpLevel;
     Key:=0;
 
     Exit;
+}
   end;
 
   // CTRL+PgDown
   if (Shift=[ssCtrl]) and (Key=VK_NEXT) then
   begin
+   // Delegate to ActiveFrame (actually should be via hotkey and appropriate command).
+
     with ActiveFrame do
     begin
+{
       if IsActiveItemValid then
         begin
           if FPS_ISDIR(pnlFile.GetActiveItem^.iMode) or (pnlFile.GetActiveItem^.bLinkIsDir) then
@@ -2266,75 +2194,14 @@ begin
             Actions.cm_OpenArchive('');
             //actOpenArchive.Execute;
         end;
+}
     end;
     Key:=0;
     Exit;
   end;
 
-  // cursors keys in Lynx like mode
-  if (Shift=[]) and (Key=VK_LEFT) and gLynxLike and (edtCommand.Text='') then
-  begin
-    ActiveFrame.pnlFile.cdUpLevel;
-    Key:=0;
-    Exit;
-  end;
-
-  if (Shift=[]) and (Key=VK_RIGHT) and gLynxLike and (edtCommand.Text='') then
-  begin
-    with ActiveFrame do
-    begin
-      if Assigned(GetActiveItem) then
-        pnlFile.ChooseFile(pnlFile.GetActiveItem,true);
-    end;
-    Key:=0;
-    Exit;
-  end;
-
-//  DebugLn(Key);
-  if HandleActionHotKeys(Key, Shift) Then
-  begin
-    Key:=0;;
-    Exit;
-  end;
-//  DebugLn(Key);
-
-  // handle Space key
-  if (Shift=[]) and (Key=VK_Space) and
-     ((not IsCommandLineVisible) or (edtCommand.Text='')) then
-  begin
-    with ActiveFrame do
-    begin
-      if not IsEmpty then
-      begin
-        if IsActiveItemValid then
-        begin
-          if FPS_ISDIR(pnlFile.GetActiveItem^.iMode) then
-            CalculateSpace(False);
-          SelectFile(GetActiveItem);
-        end;
-        if gSpaceMovesDown then
-          dgPanel.Row:= dgPanel.Row + 1;
-        dgPanel.Invalidate;
-        MakeSelectedVisible;
-      end;
-    end;
-    Key := 0;
-    Exit;
-  end;
-
-  if (Shift=[]) and (Key=VK_BACK) and
-     ((not IsCommandLineVisible) or (edtCommand.Text='')) then
-  begin
-    if (edtCommand.Tag = 0) then
-    begin
-      with ActiveFrame do
-      begin
-        pnlFile.cdUpLevel;
-        RedrawGrid;
-      end;
-      Key := 0;
-    end;
-  end;
+  HandleActionHotKeys(Key, Shift);
+  if Key = 0 then Exit;
 end;
 
 procedure TfrmMain.FormActivate(Sender: TObject);
@@ -2343,199 +2210,25 @@ begin
 //  DebugLn('Activate');
 end;
 
-procedure TfrmMain.FrameEditExit(Sender: TObject);
-begin
-// handler for both edits
-//  DebugLn('On exit');
-  (Sender as TEdit).Visible:=False;
-end;
-
-procedure TfrmMain.FrameedtSearchExit(Sender: TObject);
-begin
-  // sometimes must be search panel closed this way
-  TFrameFilePanel(TEdit(Sender).Parent.Parent).CloseAltPanel;
-  TFrameFilePanel(TEdit(Sender).Parent.Parent).RedrawGrid;
-end;
-
-procedure TfrmMain.FrameedtRenameExit(Sender: TObject);
-begin
-  with ActiveFrame do
-  begin
-    edtRename.Visible := False;
-    UnMarkAll;
-  end;
-end;
-
-procedure TfrmMain.ShowRenameFileEdit(const sFileName:String);
-begin
-  EnableHotkeys(False);
-
-  With ActiveFrame do
-  begin
-    edtRename.Width:=dgPanel.ColWidths[0]+dgPanel.ColWidths[1]-16;
-    edtRename.Top:= (dgPanel.CellRect(0,dgPanel.Row).Top-2);
-    if gShowIcons then
-      edtRename.Left:= gIconsSize + 3
-    else
-      edtRename.Left:= 2;
-    edtRename.Height:=dgpanel.DefaultRowHeight+4;
-    edtRename.Hint:=sFileName;
-    edtRename.Text:=ExtractFileName(sFileName);
-    edtRename.Visible:=True;
-    edtRename.SetFocus;
-    if gRenameSelOnlyName then
-      begin
-        {$IFDEF LCLGTK2}
-        edtRename.SelStart:=1;
-        {$ENDIF}
-        edtRename.SelStart:=0;
-        edtRename.SelLength:= UTF8Length(edtRename.Text)-UTF8Length(ExtractFileExt(edtRename.Text));
-      end
-    else
-      edtRename.SelectAll;
-  end;
-end;
-
-
 procedure TfrmMain.SetNotActFrmByActFrm;
 var
   pfr:PFileRecItem;
 begin
   with ActiveFrame do
   begin
+{
     pfr:=pnlFile.GetActiveItem;
     if not assigned(pfr) then Exit;
     if FPS_ISDIR(pfr^.iMode) and (not (pfr^.sName = '..')) then
     begin
-      NotActiveFrame.pnlFile.ActiveDir := ActiveDir + pfr^.sName;
+      NotActiveFrame.pnlFile.CurrentPath := ActiveDir + pfr^.sName;
     end
     else
     begin
-      NotActiveFrame.pnlFile.ActiveDir := ActiveDir;
+      NotActiveFrame.pnlFile.CurrentPath := ActiveDir;
     end;
+}
   end;
-end;
-
-
-procedure TfrmMain.FramedgPanelEnter(Sender: TObject);
-begin
-  if (Sender is TDrawGrid) then
-  begin;
-    with TFrameFilePanel(TDrawGrid(Sender).Parent) do
-    begin
-      PanelSelected:=PanelSelect;
-      dgPanelEnter(Sender);
-    end;
-  end;
-end;
-
-procedure TfrmMain.ColumnsMenuClick(Sender: TObject);
-var
-  frmColumnsSetConf: TfColumnsSetConf;
-  FrameFilePanel: TFrameFilePanel;
-  Index: Integer;
-begin
-  FrameFilePanel:= (pmColumnsMenu.Parent as TFrameFilePanel);
-  Case (Sender as TMenuItem).Tag of
-    1000: //This
-          begin
-            Application.CreateForm(TfColumnsSetConf, frmColumnsSetConf);
-            {EDIT Set}
-            frmColumnsSetConf.edtNameofColumnsSet.Text:=ColSet.GetColumnSet(FrameFilePanel.ActiveColm).CurrentColumnsSetName;
-            Index:=ColSet.Items.IndexOf(FrameFilePanel.ActiveColm);
-            frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(1 + Index);
-            frmColumnsSetConf.Tag:=Index;
-            frmColumnsSetConf.ColumnClass.Clear;
-            frmColumnsSetConf.ColumnClass.Load(gIni,FrameFilePanel.ActiveColm);
-            {EDIT Set}
-            frmColumnsSetConf.ShowModal;
-
-            FreeAndNil(frmColumnsSetConf);
-            //TODO: Reload current columns in panels
-            ReLoadTabs(nbLeft);
-            ReLoadTabs(nbRight);
-          end;
-    1001: //All columns
-          begin
-            Actions.cm_Options('15');
-            ReLoadTabs(nbLeft);
-            ReLoadTabs(nbRight);
-          end;
-
-  else
-    begin
-      FrameFilePanel.ActiveColm:=ColSet.Items[(Sender as TMenuItem).Tag];
-      FrameFilePanel.SetColWidths;
-      FrameFilePanel.UpdateColumnsView;
-//      ActiveFrame.dgPanel.ColCount:=ColSet.GetColumnSet(ActiveFrame.ActiveColm).ColumnsCount;
-
-//      if ColSet.GetColumnSet(ActiveFrame.ActiveColm).ColumnsCount>0 then
- //      for x:=0 to ColSet.GetColumnSet(ActiveFrame.ActiveColm).ColumnsCount-1 do
-   //     ActiveFrame.dgPanel.ColWidths[x]:=ColSet.GetColumnSet(ActiveFrame.ActiveColm).GetColumnWidth(x);
-    end;
-
-  end;
-end;
-
-{ Show context or columns menu on right click }
-{ Is called manually from TDrawGridEx.MouseUp }
-procedure TfrmMain.framedgPanelMouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-var  I : Integer; Point:TPoint; MI:TMenuItem;
-begin
-
-  if (Sender is TDrawGridEx) and (Button = mbRight) then
-    begin
-      { If right click on header }
-      if (Y < (Sender as TDrawGridEx).GetHeaderHeight) then
-        begin
-
-          //Load Columns into menu
-          pmColumnsMenu.Items.Clear;
-          pmColumnsMenu.Parent:= (Sender as TDrawGridEx).Parent;
-          if ColSet.Items.Count>0 then
-            begin
-              For I:=0 to ColSet.Items.Count-1 do
-                begin
-                  MI:=TMenuItem.Create(pmColumnsMenu);
-                  MI.Tag:=I;
-                  MI.Caption:=ColSet.Items[I];
-                  MI.OnClick:=@ColumnsMenuClick;
-                  pmColumnsMenu.Items.Add(MI);
-                end;
-            end;
-
-         //-
-    	    MI:=TMenuItem.Create(pmColumnsMenu);
-    	    MI.Caption:='-';
-    	    pmColumnsMenu.Items.Add(MI);
-    	   //Configure this custom columns
-    	    MI:=TMenuItem.Create(pmColumnsMenu);
-    	    MI.Tag:=1000;
-    	    MI.Caption:=rsMenuConfigureThisCustomColumn;
-    	    MI.OnClick:=@ColumnsMenuClick;
-    	    pmColumnsMenu.Items.Add(MI);
-    	   //Configure custom columns
-    	    MI:=TMenuItem.Create(pmColumnsMenu);
-    	    MI.Tag:=1001;
-    	    MI.Caption:=rsMenuConfigureCustomColumns;
-    	    MI.OnClick:=@ColumnsMenuClick;
-    	    pmColumnsMenu.Items.Add(MI);
-        
-          Point:=(Sender as TDrawGrid).ClientToScreen(Classes.Point(0,0));
-          Point.Y:=Point.Y+(Sender as TDrawGridEx).GetHeaderHeight;
-          Point.X:=Point.X+X-50;
-          pmColumnsMenu.PopUp(Point.X,Point.Y);
-        end
-
-      { If right click on file/directory }
-      else if (Y < (Sender as TDrawGridEx).GridHeight)
-           and ((gMouseSelectionButton<>1) or not gMouseSelectionEnabled) then
-        begin
-          Actions.cm_ContextMenu('OnMouseClick');
-          //actContextMenu.Execute;
-        end;
-    end;
 end;
 
 procedure TfrmMain.pnlLeftResize(Sender: TObject);
@@ -2578,38 +2271,6 @@ begin
   end;
 end;
 
-procedure TfrmMain.ShowPathEdit;
-begin
-  EnableHotkeys(False);
-
-  with ActiveFrame do
-  begin
-    with lblLPath do
-      edtPath.SetBounds(Left, Top, Width, Height);
-    edtPath.Text := ActiveDir;
-    edtPath.Visible := True;
-    edtPath.SetFocus;
-  end;
-end;
-
-procedure TfrmMain.FramelblLPathMouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-  case Button of
-  mbMiddle:
-    begin
-      SetActiveFrame(TFrameFilePanel(TControl(Sender).Parent.Parent).PanelSelect);
-      Actions.cm_DirHotList('');
-      //actDirHotList.Execute;
-    end;
-  mbRight:
-    begin
-      SetActiveFrame(TFrameFilePanel(TControl(Sender).Parent.Parent).PanelSelect);
-      ShowPathEdit;
-    end;
-  end;
-end;
-
 function TfrmMain.FramepnlFileBeforeChangeDirectory(Sender: TObject; const NewDir: String): Boolean;
 var
   NoteBook: TNoteBook;
@@ -2631,7 +2292,10 @@ begin
           else
             Exit;
 
-          CreatePanel(AddPage(NoteBook), Panel, NewDir);
+          // Create same type
+          //CreatePanel(ActiveFrame.Type, AddPage(NoteBook), Panel,
+          //            ActiveFrame.FileSource.Type.Create(sPath));
+
           ActiveFrame.SetFocus;
         end;
 end;
@@ -2668,7 +2332,7 @@ begin
   ActiveFrame.SetFocus;
   {$IF NOT DEFINED(DARWIN)}
   if gTermWindow and Assigned(Cons) then
-    Cons.Terminal.Write_pty(' cd "'+ActiveFrame.ActiveDir+'"'+#13+#10);
+    Cons.Terminal.Write_pty(' cd "'+ActiveFrame.CurrentPath+'"'+#13+#10);
   {$ENDIF}
 end;
 
@@ -2745,12 +2409,12 @@ begin
          case pmDrivesMenu.Tag of
          0:
            begin
-             FrameLeft.pnlFile.ActiveDir := Drive^.Path;
+             FrameLeft.CurrentPath := Drive^.Path;
              SetActiveFrame(fpLeft);
            end;
          1:
            begin
-             FrameRight.pnlFile.ActiveDir := Drive^.Path;
+             FrameRight.CurrentPath := Drive^.Path;
              SetActiveFrame(fpRight);
            end;
          end;  // case
@@ -2811,36 +2475,31 @@ begin
     AddSpecialButtons(dskPanel);
 end;
 
-procedure TfrmMain.CreatePanel(AOwner: TWinControl; APanel:TFilePanelSelect; sPath : String);
+procedure TfrmMain.CreatePanel(sType: String; AOwner: TWinControl; APanel:TFilePanelSelect; FileSource: TFileSource);
 var
-  lblDriveInfo : TLabel;
+  FileView: TFileView = nil;
 begin
-  case APanel of
-  fpLeft:
-    lblDriveInfo := lblLeftDriveInfo;
-  fpRight:
-    lblDriveInfo := lblRightDriveInfo;
-  end;
-  
-  with TFrameFilePanel.Create(AOwner, lblDriveInfo, lblCommandPath, edtCommand) do
+  // This function should be changed to a separate TFileView factory.
+
+  if sType = 'columns' then
   begin
-    PanelSelect:=APanel;
+    FileView := TColumnsFileView.Create(AOwner, FileSource);
+  end
+  else
+    Exit;
+
+  with FileView do
+  begin
+    PanelSelect := APanel;  // should be removed when notebook will be custom class
+                            // and will store where each view is (left or right)
+{
+  do this with observer pattern:
 
     // Set before changing directory.
-    pnlFile.OnBeforeChangeDirectory := @FramepnlFileBeforeChangeDirectory;
-    pnlFile.OnAfterChangeDirectory := @FramepnlFileAfterChangeDirectory;
-
-    if not mbDirectoryExists(sPath) then
-      sPath:= mbGetCurrentDir;
-    pnlFile.ActiveDir := sPath;
-
-    lblLPath.OnMouseUp := @FramelblLPathMouseUp;
-    edtPath.OnExit:=@FrameEditExit;
-    edtRename.OnExit:=@FrameedtRenameExit;
-    edtSearch.OnExit:=@FrameedtSearchExit;
-    dgPanel.OnEnter:=@framedgPanelEnter;
+    OnBeforeChangeDirectory := @FramepnlFileBeforeChangeDirectory;
+    OnAfterChangeDirectory := @FramepnlFileAfterChangeDirectory;
+}
   end;
-
 end;
 
 function TfrmMain.AddPage(ANoteBook: TNoteBook; bSetActive: Boolean):TPage;
@@ -2896,7 +2555,7 @@ begin
 
   for i:=0 to ANoteBook.PageCount-1 do
   begin
-    with TFrameFilePanel(ANoteBook.Page[I].Components[0]) do
+    with TColumnsFileView(ANoteBook.Page[I].Components[0]) do
     begin
       DebugLn('ActiveColmRET'+Inttostr(I)+'='+ActiveColm);
       if ColSet.Items.IndexOf(ActiveColm)=-1 then
@@ -2922,11 +2581,7 @@ var
   sPath, sColumnSet,
   sCaption: String;
   iActiveTab: Integer;
-  SortCount: Integer;
-  SortColumn: Integer;
-  SortDirection: TSortDirection;
-  FrameFilePanel: TFrameFilePanel;
-  ColumnsClass: TPanelColumnsClass;
+  FileView: TFileView;
 begin
   if ANoteBook.Name = 'nbLeft' then
     begin
@@ -2962,9 +2617,10 @@ begin
           sCaption:= GetLastDir(ExcludeTrailingPathDelimiter(sPath));
         end;
 
-      CreatePanel(AddPage(ANoteBook), fpsPanel, sPath);
+      CreatePanel('columns', AddPage(ANoteBook), fpsPanel,
+                  TFileSystemFileSource.Create(sPath));
 
-      FrameFilePanel := TFrameFilePanel(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]);
+      FileView := TFileView(ANoteBook.Page[ANoteBook.PageCount - 1].Components[0]);
 
       ANoteBook.Page[ANoteBook.PageCount - 1].Tag:= gIni.ReadInteger(TabsSection, sIndex + '_options', 0);
       if ANoteBook.Page[ANoteBook.PageCount - 1].Tag = 2 then // if locked tab with directory change
@@ -2975,31 +2631,8 @@ begin
           ANoteBook.Page[ANoteBook.PageCount - 1].Caption:= Copy(sCaption, 1, gDirTabLimit) + '...'
         else
           ANoteBook.Page[ANoteBook.PageCount - 1].Caption:= sCaption;
-          
-      sColumnSet:= gIni.ReadString(TabsSection, sIndex + '_columnsset', 'Default');
 
-      // Load sorting options.
-      FrameFilePanel.pnlFile.Sorting.Clear;
-      ColumnsClass := ColSet.GetColumnSet(sColumnSet);
-      SortCount := gIni.ReadInteger(TabsSection, sIndex + '_sortcount', 0);
-      for j := 0 to SortCount - 1 do
-      begin
-        SortColumn := gIni.ReadInteger(TabsSection, sIndex + '_sortcolumn' + IntToStr(j), -1);
-        if (SortColumn >= 0) and (SortColumn < ColumnsClass.ColumnsCount) then
-        begin
-          SortDirection := TSortDirection(gIni.ReadInteger(TabsSection, sIndex + '_sortdirection' + IntToStr(j), Integer(sdNone)));
-          FrameFilePanel.pnlFile.Sorting.AddSorting(SortColumn, SortDirection);
-          // RefreshPanel below will sort the panel.
-        end;
-      end;
-
-      with FrameFilePanel do
-        begin
-          ActiveColm:= sColumnSet;
-          SetColWidths;
-          UpdateColumnsView;
-          RefreshPanel;
-        end;
+      FileView.LoadConfiguration(TabsSection, StrToInt(sIndex));
 
       Inc(I);
       // get page index in string representation
@@ -3022,9 +2655,8 @@ var
   I, J, Count: Integer;
   sIndex,
   TabsSection: String;
-  sPath,sColumnSet : String;
-  FrameFilePanel: TFrameFilePanel;
-  SortingColumn: PFileListSortingColumn;
+  sPath : String;
+  FileView: TFileView;
 begin
   if ANoteBook.Name = 'nbLeft' then
     TabsSection := 'lefttabs'
@@ -3037,7 +2669,7 @@ begin
   Count:= ANoteBook.PageCount - 1;
   for I:= 0 to Count do
     begin
-      FrameFilePanel := TFrameFilePanel(ANoteBook.Page[I].Components[0]);
+      FileView := TFileView(ANoteBook.Page[I].Components[0]);
 
       // get page index in string representation
       sIndex:= IntToStr(I);
@@ -3045,25 +2677,12 @@ begin
       if ANoteBook.Page[I].Tag = 2 then // if locked tab with directory change
         sPath:= ANoteBook.Page[I].Hint // get path from hint
       else
-        sPath:= FrameFilePanel.ActiveDir;
+        sPath:= FileView.CurrentPath;
       gIni.WriteString(TabsSection, sIndex + '_path', sPath);
       gIni.WriteString(TabsSection, sIndex + '_caption', ANoteBook.Page[I].Caption);
       gIni.WriteInteger(TabsSection, sIndex + '_options', ANoteBook.Page[I].Tag);
 
-      sColumnSet:= FrameFilePanel.ActiveColm;
-      gIni.WriteString(TabsSection, sIndex + '_columnsset', sColumnSet);
-
-      // Save sorting options.
-      gIni.WriteInteger(TabsSection, sIndex + '_sortcount', FrameFilePanel.pnlFile.Sorting.Count);
-      for j := 0 to FrameFilePanel.pnlFile.Sorting.Count - 1 do
-      begin
-        SortingColumn := PFileListSortingColumn(FrameFilePanel.pnlFile.Sorting.Items[j]);
-
-        gIni.WriteInteger(TabsSection, sIndex + '_sortcolumn' + IntToStr(j),
-                          SortingColumn^.iField);
-        gIni.WriteInteger(TabsSection, sIndex + '_sortdirection' + IntToStr(j),
-                          Integer(SortingColumn^.SortDirection));
-      end;
+      FileView.SaveConfiguration(TabsSection, I);
     end;
   gIni.WriteInteger(TabsSection, 'activetab', ANoteBook.PageIndex);
 end;
@@ -3173,13 +2792,13 @@ begin
         Include(WatchFilter, wfAttributesChange);
       if not Assigned(LeftFrameWatcher) then
         begin
-          LeftFrameWatcher:= TFileSystemWatcher.Create(nbLeft, FrameLeft.ActiveDir, WatchFilter);
+          LeftFrameWatcher:= TFileSystemWatcher.Create(nbLeft, FrameLeft.CurrentPath, WatchFilter);
           LeftFrameWatcher.OnWatcherNotifyEvent:= @FramePanelOnWatcherNotifyEvent;
           LeftFrameWatcher.Active:= True;
         end;
       if not Assigned(RightFrameWatcher) then
         begin
-          RightFrameWatcher:= TFileSystemWatcher.Create(nbRight, FrameRight.ActiveDir, WatchFilter);
+          RightFrameWatcher:= TFileSystemWatcher.Create(nbRight, FrameRight.CurrentPath, WatchFilter);
           RightFrameWatcher.OnWatcherNotifyEvent:= @FramePanelOnWatcherNotifyEvent;
           RightFrameWatcher.Active:= True;
         end;
@@ -3214,7 +2833,7 @@ procedure TfrmMain.UpdateWindowView;
 
     for I := 0 to NoteBook.PageCount - 1 do  //  change on all tabs
     begin
-      (NoteBook.Page[I].Controls[0] as TFrameFilePanel).UpdateView;
+      (NoteBook.Page[I].Controls[0] as TFileView).UpdateView;
       UpdateTabLockedState(NoteBook.Page[I]);
     end;
   end;
@@ -3230,10 +2849,10 @@ begin
   dskLeft.Visible := (gDriveBar1 and gDriveBar2);
   dskRight.Visible := gDriveBar1;
 
-  UpdateDriveToolbarSelection(dskLeft, FrameLeft.ActiveDir);
-  UpdateDriveToolbarSelection(dskRight, FrameRight.ActiveDir);
-  UpdateDriveButtonMenuSelection(btnLeftDrive, FrameLeft.ActiveDir);
-  UpdateDriveButtonMenuSelection(btnRightDrive, FrameRight.ActiveDir);
+  UpdateDriveToolbarSelection(dskLeft, FrameLeft.CurrentPath);
+  UpdateDriveToolbarSelection(dskRight, FrameRight.CurrentPath);
+  UpdateDriveButtonMenuSelection(btnLeftDrive, FrameLeft.CurrentPath);
+  UpdateDriveButtonMenuSelection(btnRightDrive, FrameRight.CurrentPath);
 
   pnlSyncSize.Visible := gDriveBar1;
   (*/ Disk Panels *)
@@ -3380,24 +2999,26 @@ procedure TfrmMain.FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyData: P
 var
   sDrive,
   sWatchDirsExclude: String;
-  FrameFilePanel: TFrameFilePanel;
+  FileView: TFileView;
 begin
   // if not active and refresh only in foreground then exit
   if (not Focused) and (watch_only_foreground in gWatchDirs) then Exit;
   if not (Sender is TNotebook) then Exit;
   with Sender as TNotebook do
     if PageIndex <> -1 then
-      FrameFilePanel:= TFrameFilePanel(Page[PageIndex].Components[0]);
+      FileView:= TFileView(Page[PageIndex].Components[0])
+    else
+      Exit;
   // if current path in exclude list then exit
   if gWatchDirsExclude <> '' then
     begin
       sWatchDirsExclude:= gWatchDirsExclude;
       repeat
         sDrive:= Copy2SymbDel(sWatchDirsExclude, ';');
-        if Pos(sDrive, FrameFilePanel.ActiveDir) = 1 then Exit;
+        if Pos(sDrive, FileView.CurrentPath) = 1 then Exit;
       until sWatchDirsExclude = '';
     end;
-  FrameFilePanel.RefreshPanel((watch_total_number_files in gWatchDirs), (watch_free_disk_space in gWatchDirs));
+//  FileView.RefreshPanel((watch_total_number_files in gWatchDirs), (watch_free_disk_space in gWatchDirs));
 end;
 
 procedure TfrmMain.tmHALTimer(Sender: TObject);
@@ -3428,16 +3049,13 @@ begin
     end
     else
     begin
-      with ActiveFrame.pnlFile do
-      begin
-        sDir:= mbGetCurrentDir;
-        ActiveDir:= sDir;
-        DebugLn(sDir);
+      sDir := mbGetCurrentDir;
+      ActiveFrame.CurrentPath := sDir;
+      DebugLn(sDir);
 {$IF NOT DEFINED(DARWIN)}
-        if gTermWindow and Assigned(Cons) then
-          Cons.Terminal.Write_pty(' cd "'+sDir+'"'+#13#10);
+      if gTermWindow and Assigned(Cons) then
+        Cons.Terminal.Write_pty(' cd "'+sDir+'"'+#13#10);
 {$ENDIF}
-      end;
     end;
   end
   else
@@ -3491,13 +3109,13 @@ var
 begin
   try
     (* Save  columns widths *)
-    with FrameLeft do
-    begin
+    // Save columns settings for all colsets.
+  {
       for x:=0 to ColSet.GetColumnSet(ActiveColm).ColumnsCount - 1 do
         ColSet.GetColumnSet(ActiveColm).SetColumnWidth(x, dgPanel.ColWidths[x]);
       ColSet.GetColumnSet(ActiveColm).Save(gIni);
-    end;
-  
+  }
+
     (* Save all tabs *)
     SaveTabs(nbLeft);
     SaveTabs(nbRight);
@@ -3605,7 +3223,7 @@ begin
   if (ANoteBook.PageIndex <> -1) and
      (ANoteBook.Page[ANoteBook.PageIndex].ComponentCount > 0) then
   begin
-    Path := (ANoteBook.Page[ANoteBook.PageIndex].Components[0] as TFrameFilePanel).pnlFile.ActiveDir;
+    Path := (ANoteBook.Page[ANoteBook.PageIndex].Components[0] as TFileView).CurrentPath;
 
     // Change left drive toolbar for left drive button.
     if (ANoteBook = nbLeft) then
@@ -3811,10 +3429,10 @@ end;
 
 procedure TfrmMain.ExecuteCommandLine(bRunInTerm: Boolean);
 begin
-  mbSetCurrentDir(ActiveFrame.ActiveDir);
+  mbSetCurrentDir(ActiveFrame.CurrentPath);
   ExecuteCommandFromEdit(edtCommand.Text, bRunInTerm);
   edtCommand.Text := '';
-  ActiveFrame.RefreshPanel;
+  ActiveFrame.Reload;
   ActiveFrame.SetFocus;
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   // workaround for GTK
@@ -3836,6 +3454,30 @@ begin
     Page.Caption := '*' + NewCaption
   else
     Page.Caption := NewCaption;
+end;
+
+procedure TfrmMain.UpdatePrompt;
+const PTLen=40;
+var
+  FreeSize,
+  TotalSize : Int64;
+begin
+  with lblCommandPath do
+  begin
+    AutoSize := False;
+    if Length(ActiveFrame.CurrentPath) > PTLen then
+      Caption := '[' + Copy(ActiveFrame.CurrentPath,
+                            Length(ActiveFrame.CurrentPath) - PTLen,
+                            PTLen) + ']$:'
+    else
+      Caption := '[' + ActiveFrame.CurrentPath + ']$:';
+
+    AutoSize := True;
+    Left := 1;
+  end;
+
+  edtCommand.Left := lblCommandPath.Width + 5;
+  edtCommand.Width := TControl(edtCommand.Parent).Width - edtCommand.Left;
 end;
 
 initialization

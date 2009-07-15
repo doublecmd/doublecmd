@@ -34,7 +34,8 @@ unit uPixMapManager;
 
 interface
 uses
-  Classes, SysUtils, uTypes, Graphics, uOSUtils, uFileSorting
+  Classes, SysUtils, uTypes, Graphics, uOSUtils, uFileSorting,
+  uFile
   {$IF DEFINED(UNIX) and DEFINED(LCLGTK2)}
   , uClassesEx
   {$ENDIF};
@@ -88,7 +89,7 @@ type
 //    function GetStretchBitmap(iIndex: Integer; BkColor : TColor; iSize : Integer): TBitmap;
     function DrawBitmap(iIndex: Integer; Canvas : TCanvas; Rect : TRect) : Boolean;
     function GetIconBySortingDirection(SortingDirection: TSortDirection): PtrInt;
-    function GetIconByFile(fi:PFileRecItem; PanelMode: TPanelMode):PtrInt;
+    function GetIconByFile(AFile: TFile; DirectAccess: Boolean):PtrInt;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
   end;
@@ -106,7 +107,7 @@ procedure LoadPixMapManager;
 implementation
 uses
   GraphType, LCLIntf, LCLType, LCLProc, Forms, FileUtil, uGlobsPaths, uWCXhead,
-  uGlobs, uDCUtils
+  uGlobs, uDCUtils, uFileSystemFile
   {$IFDEF LCLGTK2}
     , StrUtils
     , gtkdef, gtk2, gdk2pixbuf, gdk2, glib2
@@ -184,7 +185,7 @@ var
   phiconSmall : HIcon;
   IntfImage: TLazIntfImage = nil;
 {$ENDIF}
-  pfri : PFileRecItem;
+  AFile: TFileSystemFile;
   iIndex : Integer;
   sExtFilter,
   sGraphicFilter : String;
@@ -312,17 +313,10 @@ begin
         begin
           if mbFileExists(sFileName) or mbDirectoryExists(sFileName) then
             begin
-              New(pfri);
-              with pfri^ do
-              begin
-                sName:= sFileName;
-                sExt := ExtractFileExt(sFileName);
-                iMode := mbFileGetAttr(sFileName);
-                bLinkIsDir := (FPS_ISLNK(iMode) and FPS_ISDIR(iMode));
-              end;
-              iIndex := PixMapManager.GetIconByFile(pfri, pmDirectory);
+              AFile := TFileSystemFile.Create(sFileName);
+              iIndex := PixMapManager.GetIconByFile(AFile, True);
               bmStandartBitmap := PixMapManager.GetBitmap(iIndex, clBackColor);
-              Dispose(pfri);
+              FreeAndNil(AFile);
             end
           else  // file not found
             begin
@@ -884,74 +878,78 @@ begin
   end;
 end;
 
-function TPixMapManager.GetIconByFile(fi: PFileRecItem; PanelMode: TPanelMode): PtrInt;
+function TPixMapManager.GetIconByFile(AFile: TFile; DirectAccess: Boolean): PtrInt;
 var
   Ext: String;
-{$IFDEF MSWINDOWS}
-  FileInfo: TSHFileInfoW;
-  _para2: DWORD;
-  _para5: UINT;
   sFileName: String;
+{$IFDEF MSWINDOWS}
+    FileInfo: TSHFileInfoW;
+    _para2: DWORD;
+    _para5: UINT;
 {$ENDIF}
 begin
-  Result:= -1;
-  if not Assigned(fi) then Exit;
+  Result := -1;
+  if not Assigned(AFile) then Exit;
 
-
-  with fi^ do
+  with AFile do
   begin
 //    writeln(sExt);
-    if sName = '..' then
+    if Name = '..' then
     begin
-      Result:= FiUpDirIconID;
+      Result := FiUpDirIconID;
       Exit;
     end;
-    if bLinkIsDir then
+
+    if IsLink and IsDirectory then
     begin
-      Result:= FiDirLinkIconID;
+      Result := FiDirLinkIconID;
       Exit;
     end;
-    if FPS_ISDIR(iMode) then
+
+    if IsDirectory then
       {$IFDEF MSWINDOWS}
-      if not mbFileExists(sPath + sName + '\desktop.ini') and (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16) then
+      if not mbFileExists(Path + Name + '\desktop.ini') and
+         (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16) then
       {$ENDIF}
     begin
-      Result:= FiDirIconID;
+      Result := FiDirIconID;
       Exit;
     end;
-    if FPS_ISLNK(iMode) then
+
+    if IsLink then
     begin
-      Result:= FiLinkIconID;
+      Result := FiLinkIconID;
       Exit;
     end;
-    if (sExt = '') and (not FPS_ISDIR(iMode)) then
+
+    if (Extension = '') and (not IsDirectory) then
     begin
-      Result:= FiDefaultIconID;
+      Result := FiDefaultIconID;
       Exit;
     end;
-    Ext:= LowerCase(copy(sExt, 2, Length(sExt)));
+    Ext := LowerCase(Copy(Extension, 2, Length(Extension)));
     Result:= FExtList.IndexOf(Ext); // ignore .
     if Result < 0 then
     begin
     {$IFDEF MSWINDOWS}
     
-    if PanelMode = pmDirectory then
+    if DirectAccess then
       begin
-        _para2:= 0;
-        _para5:= SHGFI_SYSICONINDEX;
-        sFileName:= sPath + sName;
+        _para2 := 0;
+        _para5 := SHGFI_SYSICONINDEX;
+        sFileName := Path + Name;
       end
     else
       begin
-        _para2:= FILE_ATTRIBUTE_NORMAL;
-        _para5:= SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES;
-        sFileName:= sName;
+        _para2 := FILE_ATTRIBUTE_NORMAL;
+        _para5 := SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES;
+        sFileName := Name;
       end;
 
     if gIconsSize = 16 then
-      _para5:= _para5 or SHGFI_SMALLICON
+      _para5 := _para5 or SHGFI_SMALLICON
     else
-      _para5:= _para5 or SHGFI_LARGEICON;
+      _para5 := _para5 or SHGFI_LARGEICON;
 
     //WriteLN('Icon for file == ' + sName);
           
@@ -960,18 +958,19 @@ begin
                            FileInfo,
                            SizeOf(FileInfo),
                            _para5);
-    Result:= FileInfo.iIcon + $1000;
+       Result := FileInfo.iIcon + $1000;
        
        //WriteLN('FileInfo.iIcon == ' + IntToStr(FileInfo.iIcon));
        
-       if (FExtList.IndexOf(Ext) < 0) and (Ext <> 'exe') and (Ext <> 'ico') and (Ext <> 'lnk')  and (not FPS_ISDIR(iMode)) then
+       if (FExtList.IndexOf(Ext) < 0) and (Ext <> 'exe') and
+          (Ext <> 'ico') and (Ext <> 'lnk') and (not IsDirectory) then
         FExtList.AddObject(Ext, TObject(Result));
     {$ELSE}
-      Result:= FiDefaultIconID;
+      Result := FiDefaultIconID;
     {$ENDIF}
       Exit;
     end;
-    Result:= PtrInt(FExtList.Objects[Result]);
+    Result := PtrInt(FExtList.Objects[Result]);
 //    writeln(Result);
   end;
 end;

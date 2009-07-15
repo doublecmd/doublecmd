@@ -90,8 +90,8 @@ end;
 procedure TfrmFileOp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
    CloseAction:= caFree;
-   frmMain.frameLeft.RefreshPanel;
-   frmMain.frameRight.RefreshPanel;
+   frmMain.frameLeft.Reload;
+   frmMain.frameRight.Reload;
    frmMain.ActiveFrame.SetFocus;
 end;
 

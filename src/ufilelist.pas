@@ -352,12 +352,12 @@ begin
   end;
 
   // Sort.
-  FileListSorter := TListSorter.Create(fList, FileSortings);
+{  FileListSorter := TListSorter.Create(fList, FileSortings);
   try
     FileListSorter.Sort;
   finally
     FreeAndNil(FileListSorter);
-  end;
+  end;}
 end;
 
 function TFileList.GetCount:Integer;
@@ -373,7 +373,7 @@ begin
   for i:=0 to fList.Count-1 do
   begin
     frp:=PFileRecItem(Flist.Items[i]);
-    frp^.iIconID:=PixMapManager.GetIconByFile(frp, PanelMode);
+    //frp^.iIconID:=PixMapManager.GetIconByFile(frp, PanelMode);
   end;
 end;
 

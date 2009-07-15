@@ -1,0 +1,40 @@
+unit uFileSourceProperty;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils; 
+
+type
+
+  TFileSourceProperty = (
+
+    {en
+       Set, if the files are available directly (for example: real file system).
+       Not sure what it would do yet, but I'll leave it for now.
+    }
+    fspDirectAccess,
+
+    {en
+       Set, if filenames are case sensitive.
+    }
+    fspCaseSensitive,
+
+    {en
+       Set, if the file source has virtual files
+       (like a VFS list, or results from searching, etc.).
+       Non-virtual files are all files that are physical
+       (regardless if they are directly accessible).
+    }
+    fspVirtual
+
+  );
+
+  TFileSourceProperties = set of TFileSourceProperty;
+
+implementation
+
+end.
+

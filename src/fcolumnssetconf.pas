@@ -33,7 +33,8 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Buttons, Grids,  ComCtrls, Menus, LCLType, uColumns,uGlobs, Spin,framePanel,
+  ExtCtrls, Buttons, Grids,  ComCtrls, Menus, LCLType, uColumns,uGlobs, Spin,
+  uColumnsFileView,
   ColorBox;
 
 type
@@ -198,7 +199,8 @@ type
     updMove: TUpDown;
     btnCfg: TButton;
 
-    PreviewPan: TFrameFilePanel;
+    // Make a custom TColumnsFileViewPreview = class(TColumnsFileView).
+    PreviewPan: TColumnsFileView;
 
     IndexRaw: Integer;
     Showed: boolean;
@@ -207,7 +209,8 @@ type
 
 implementation
 
-uses uLng, uOSUtils;
+uses
+  uLng, uOSUtils, uFileSystemFileSource;
 
 const
   pnlCustHeight: Integer = 130;
@@ -462,7 +465,7 @@ begin
 
   // Initialize property storage
   InitPropStorage(Self);
-  PreviewPan:=TFrameFilePanel.Create(pnlPreview, Label1, Label2, ComboBox1);
+  PreviewPan := TColumnsFileView.Create(pnlPreview, TFileSystemFileSource.Create);
 
   CreateEditingControls;
 end;
@@ -577,8 +580,7 @@ begin
     ActiveColmSlave:=ColumnClass;
     isSlave:=true;
 
-    dgPanel.OnHeaderSized:=@DGHeaderSized;
-    pnlFile.ActiveDir := mbGetCurrentDir;
+    //dgPanel.OnHeaderSized:=@DGHeaderSized;
   end;
 
     if ColumnClass.ColumnsCount>0 then
@@ -698,8 +700,10 @@ end;
 procedure TfColumnsSetConf.DGHeaderSized(Sender: TObject; IsColumn: Boolean;
   Index: Integer);
 begin
+{
   stgColumns.Cells[2,Index+1]:=inttostr(PreviewPan.dgPanel.ColWidths[index]);
   ColumnClass.SetColumnWidth(Index,PreviewPan.dgPanel.ColWidths[index])
+}
 end;
 
 procedure TfColumnsSetConf.btnOkClick(Sender: TObject);

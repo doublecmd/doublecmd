@@ -448,8 +448,8 @@ procedure TfrmFindDlg.btnGoToPathClick(Sender: TObject);
 begin
   if lsFoundedFiles.ItemIndex <> -1 then
   begin
-    frmMain.ActiveFrame.pnlFile.ActiveDir := ExtractFilePath(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
-    frmMain.ActiveFrame.pnlFile.Select(ExtractFileName(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]));
+    frmMain.ActiveFrame.CurrentPath := ExtractFilePath(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
+    //frmMain.ActiveFrame.Select(ExtractFileName(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]));
     Close;
   end;
 end;
@@ -677,10 +677,12 @@ var
   FileRecItem: TFileRecItem;
   sFileName: String;
 begin
-  frmMain.ActiveFrame.pnlFile.ActiveDir := '';
+  // This should create a new file source (virtual).
+(*
+  frmMain.ActiveFrame.CurrentPath := '';
 
   Count:= lsFoundedFiles.Items.Count - 1;
-  frmMain.ActiveFrame.pnlFile.FileList.Clear;
+//  frmMain.ActiveFrame.pnlFile.FileList.Clear;
   with FileRecItem do
   for I:= 0 to Count do
     begin
@@ -688,10 +690,15 @@ begin
       FileRecItem:= LoadFilebyName(sFileName);
       sNameNoExt:= sFileName;
       sName:= sFileName;
+{
       frmMain.ActiveFrame.pnlFile.FileList.AddItem(@FileRecItem);
+}
     end;
+{
   frmMain.ActiveFrame.pnlFile.FileList.UpdateFileInformation(pmDirectory);
   frmMain.ActiveFrame.pnlFile.Sort;
+}
+*)
   Close;
 end;
 
