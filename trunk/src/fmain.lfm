@@ -50,14 +50,15 @@ object frmMain: TfrmMain
       FullRepaint = False
       ParentColor = False
       TabOrder = 0
-      object dskLeft: TKAStoolBar
+      object dskLeft: TKASToolBar
         Left = 1
-        Height = 24
+        Height = 20
         Top = 1
         Width = 142
         Align = alLeft
         Anchors = [akTop, akLeft, akRight]
         AutoSize = True
+        Constraints.MinHeight = 20
         Flat = True
         ShowCaptions = True
         TabOrder = 0
@@ -66,16 +67,17 @@ object frmMain: TfrmMain
         RadioToolBar = True
         GlyphSize = 16
       end
-      object dskRight: TKAStoolBar
+      object dskRight: TKASToolBar
         AnchorSideLeft.Control = dskLeft
         AnchorSideLeft.Side = asrBottom
         Left = 143
-        Height = 0
+        Height = 20
         Top = 1
         Width = 381
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         AutoSize = True
+        Constraints.MinHeight = 20
         Flat = True
         ShowCaptions = True
         TabOrder = 1
@@ -444,14 +446,14 @@ object frmMain: TfrmMain
       OnMouseUp = MainSplitterMouseUp
     end
   end
-  object MainToolBar: TKAStoolBar
+  object MainToolBar: TKASToolBar
     AnchorSideTop.Control = Owner
     Left = 0
-    Height = 24
+    Height = 20
     Top = 0
     Width = 659
     AutoSize = True
-    Constraints.MinHeight = 16
+    Constraints.MinHeight = 20
     Flat = True
     TabOrder = 2
     OnDragDrop = MainToolBarDragDrop
