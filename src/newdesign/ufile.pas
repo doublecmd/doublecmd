@@ -38,7 +38,13 @@ type
   public
     constructor Create; virtual;
 
-    class function GetSupportedProperties: TFilePropertiesTypes; virtual abstract;
+    {en
+       Creates an identical copy of the object (as far as object data is concerned).
+    }
+    function Clone: TFile; virtual;
+    procedure CloneTo(AFile: TFile); virtual;
+
+    class function GetSupportedProperties: TFilePropertiesTypes; virtual;
 
     {en
        Returns True if name is not '..'.
@@ -110,6 +116,17 @@ type
     constructor Create; virtual;
     destructor Destroy; override;
 
+    {en
+       Creates a new object of the same type.
+    }
+    function CreateObjectOfSameType: TFiles; virtual;
+
+    {en
+       Create a list with cloned files.
+    }
+    function Clone: TFiles; virtual;
+    procedure CloneTo(Files: TFiles); virtual;
+
     function Add(AFile: TFile): Integer;
     procedure Clear;
 
@@ -127,6 +144,30 @@ uses
 
 constructor TFile.Create;
 begin
+  inherited;
+end;
+
+function TFile.Clone: TFile;
+begin
+  Result := TFile.Create;
+  CloneTo(Result);
+end;
+
+procedure TFile.CloneTo(AFile: TFile);
+begin
+  if Assigned(AFile) then
+  begin
+    AFile.FName := FName;
+    AFile.FPath := FPath;
+    AFile.FExtension := FExtension;
+    AFile.FNameNoExt := FNameNoExt;
+    AFile.FProperties := FProperties;
+  end;
+end;
+
+class function TFile.GetSupportedProperties: TFilePropertiesTypes;
+begin
+  Result := [];
 end;
 
 function TFile.GetProperties: TFileProperties;
@@ -155,8 +196,9 @@ begin
 
   // Cache Extension and NameNoExt.
 
-  if ((fpAttributes in SupportedProperties) and IsDirectory) or
-     (Name[1] = '.')
+  if (FName = '') or
+     ((fpAttributes in SupportedProperties) and IsDirectory) or
+     (FName[1] = '.')
   then
   begin
     // For directories and files beginning with '.' there is no extension.
@@ -242,6 +284,29 @@ begin
   Clear;
   FreeAndNil(FList);
   inherited;
+end;
+
+function TFiles.CreateObjectOfSameType: TFiles;
+begin
+  Result := TFiles.Create;
+end;
+
+function TFiles.Clone: TFiles;
+begin
+  Result := TFiles.Create;
+  CloneTo(Result);
+end;
+
+procedure TFiles.CloneTo(Files: TFiles);
+var
+  i: Integer;
+begin
+  for i := 0 to FList.Count - 1 do
+  begin
+    Files.Add(Get(i).Clone);
+  end;
+
+  Files.FPath := FPath;
 end;
 
 function TFiles.GetCount: Integer;

@@ -311,6 +311,8 @@ type
   protected
     procedure SetCurrentPath(NewPath: String); override;
     function GetActiveFile: TFile; override;
+    function GetDisplayedFiles: TFiles; override;
+    function GetSelectedFiles: TFiles; override;
 
   public
     ActiveColm: String;
@@ -452,6 +454,31 @@ begin
     Result := aFile.TheFile
   else
     Result := nil;
+end;
+
+function TColumnsFileView.GetDisplayedFiles: TFiles;
+var
+  i: Integer;
+begin
+  Result := FFileSourceFiles.CreateObjectOfSameType;
+
+  for i := 0 to FFiles.Count - 1 do
+  begin
+    Result.Add(FFiles[i].TheFile.Clone);
+  end;
+end;
+
+function TColumnsFileView.GetSelectedFiles: TFiles;
+var
+  i: Integer;
+begin
+  Result := FFileSourceFiles.CreateObjectOfSameType;
+
+  for i := 0 to FFiles.Count - 1 do
+  begin
+    if FFiles[i].Selected then
+      Result.Add(FFiles[i].TheFile.Clone);
+  end;
 end;
 
 procedure TColumnsFileView.LoadConfiguration(Section: String; TabIndex: Integer);
@@ -929,7 +956,7 @@ end;
 procedure TColumnsFileView.dgPanelDragDrop(Sender, Source: TObject; X, Y: Integer);
 var
   SourcePanel: TColumnsFileView;
-  Files: TFiles;
+  FileList: TFiles;
 begin
   if (Sender is TDrawGridEx) and (Source is TDrawGridEx) then
   begin
@@ -940,14 +967,14 @@ begin
     begin
       if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
 
-      Files := TFiles.Create;
+      FileList := TFiles.Create;
       try
 {
         CopyListSelectedExpandNames(pnlFile.FileList, FileList, ActiveDir);
 }
         UnSelectFileIfSelected(GetActiveItem);
       except
-        FreeAndNil(Files);
+        FreeAndNil(FileList);
         UnSelectFileIfSelected(GetActiveItem);
         Exit;
       end;

@@ -41,6 +41,12 @@ type
 
     destructor Destroy; override;
 
+    {en
+       Creates an identical copy of the object (as far as object data is concerned).
+    }
+    function Clone: TFileSystemFile; override;
+    procedure CloneTo(AFile: TFile); override;
+
     class function GetSupportedProperties: TFilePropertiesTypes; override;
 
     property Size: Int64 read GetSize write SetSize;
@@ -50,6 +56,9 @@ type
 
   TFileSystemFiles = class(TFiles)
   public
+    function CreateObjectOfSameType: TFiles; override;
+    function Clone: TFileSystemFiles; override;
+
     {en
        Fills a files list from filenames list.
        @param(FileNamesList
@@ -67,12 +76,14 @@ constructor TFileSystemFile.Create;
 begin
   inherited Create;
 
-  Name := '';
   FSize := TFileSizeProperty.Create;
   FAttributes := TNtfsFileAttributesProperty.Create;
   FModificationTime := TFileModificationDateTimeProperty.Create;
 
   AssignProperties;
+
+  // Set name after assigning Attributes property, because it is used to get extension.
+  Name := '';
 end;
 
 constructor TFileSystemFile.Create(SearchRecord: TSearchRec);
@@ -180,6 +191,27 @@ begin
     FreeAndNil(FModificationTime);
 end;
 
+function TFileSystemFile.Clone: TFileSystemFile;
+begin
+  Result := TFileSystemFile.Create;
+  CloneTo(Result);
+end;
+
+procedure TFileSystemFile.CloneTo(AFile: TFile);
+begin
+  if Assigned(AFile) then
+  begin
+    inherited CloneTo(AFile);
+
+    with AFile as TFileSystemFile do
+    begin
+      FSize := Self.FSize.Clone;
+      FAttributes := Self.FAttributes.Clone;
+      FModificationTime := Self.FModificationTime.Clone;
+    end;
+  end;
+end;
+
 procedure TFileSystemFile.AssignProperties;
 begin
   FProperties[fpSize] := FSize;
@@ -223,6 +255,17 @@ begin
 end;
 
 // ----------------------------------------------------------------------------
+
+function TFileSystemFiles.CreateObjectOfSameType: TFiles;
+begin
+  Result := TFileSystemFiles.Create;
+end;
+
+function TFileSystemFiles.Clone: TFileSystemFiles;
+begin
+  Result := TFileSystemFiles.Create;
+  CloneTo(Result);
+end;
 
 procedure TFileSystemFiles.LoadFromFileNames(const FileNamesList: TStringList);
 var
