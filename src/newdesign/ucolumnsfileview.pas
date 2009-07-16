@@ -233,8 +233,6 @@ type
     lblPath: TPathLabel;
     dgPanel: TDrawGridEx;
 
-    procedure SetCurrentPath(NewPath: String); override;
-
     function GetGridHorzLine: Boolean;
     function GetGridVertLine: Boolean;
     procedure SetGridHorzLine(const AValue: Boolean);
@@ -262,6 +260,8 @@ type
     procedure ShowPathEdit;
     procedure ShowAltPanel(Char : TUTF8Char = #0);
     procedure CloseAltPanel;
+
+    function GetActiveItem: TColumnsViewFile;
 
     // -- Events --------------------------------------------------------------
 
@@ -309,6 +309,8 @@ type
     procedure UTF8KeyPressEvent(Sender: TObject; var UTF8Key: TUTF8Char);
 
   protected
+    procedure SetCurrentPath(NewPath: String); override;
+    function GetActiveFile: TFile; override;
 
   public
     ActiveColm: String;
@@ -374,7 +376,6 @@ type
     procedure UpdateColumnsView;
     procedure UpdateView; override;
 
-    function GetActiveItem: TColumnsViewFile;
     {en
        Returns True if there are no files shown in the panel.
     }
@@ -439,6 +440,18 @@ begin
 
   // Create a Panel-Changed-Event for this?
   frmMain.UpdatePrompt;
+end;
+
+function TColumnsFileView.GetActiveFile: TFile;
+var
+  aFile: TColumnsViewFile;
+begin
+  aFile := GetActiveItem;
+
+  if Assigned(aFile) then
+    Result := aFile.TheFile
+  else
+    Result := nil;
 end;
 
 procedure TColumnsFileView.LoadConfiguration(Section: String; TabIndex: Integer);

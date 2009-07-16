@@ -41,6 +41,12 @@ type
     class function GetSupportedProperties: TFilePropertiesTypes; virtual abstract;
 
     {en
+       Returns True if name is not '..'.
+       May be extended to include other conditions.
+    }
+    function IsNameValid: Boolean; virtual;
+
+    {en
        This list only contains pointers to TFileProperty objects.
        Never free element from this list!
 
@@ -101,7 +107,7 @@ type
     procedure Put(Index: Integer; AFile: TFile);
 
   public
-    constructor Create;
+    constructor Create; virtual;
     destructor Destroy; override;
 
     function Add(AFile: TFile): Integer;
@@ -162,6 +168,14 @@ begin
     FExtension := ExtractFileExt(FName);
     FNameNoExt := Copy(FName, 1, Length(FName) - Length(FExtension));
   end;
+end;
+
+function TFile.IsNameValid: Boolean;
+begin
+  if Name <> '..' then
+    Result := True
+  else
+    Result := False;
 end;
 
 function TFile.IsDirectory: Boolean;
