@@ -33,6 +33,8 @@ type
     function GetCurrentPath: String; virtual;
     procedure SetCurrentPath(NewPath: String); virtual;
     function GetActiveFile: TFile; virtual;
+    function GetDisplayedFiles: TFiles; virtual abstract;
+    function GetSelectedFiles: TFiles; virtual abstract;
 
   public
     constructor Create(AOwner: TWinControl;
@@ -62,6 +64,17 @@ type
        return 'nil' if there is no file active.
     }
     property ActiveFile: TFile read GetActiveFile;
+    {en
+       A list of currently displayed files.
+       Caller is responsible for freeing the list.
+    }
+    property Files: TFiles read GetDisplayedFiles;
+    {en
+       A list of files selected by the user
+       (this should be a subset of displayed files list returned by Files).
+       Caller is responsible for freeing the list.
+    }
+    property SelectedFiles: TFiles read GetSelectedFiles;
   end;
 
 implementation
