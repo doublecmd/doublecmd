@@ -11,7 +11,8 @@ uses
 type
 
   {en
-     Base class for any view of the files.
+     Base class for any view of a file or files.
+     There should always be at least one file displayed on the view.
   }
   TFileView = class(TWinControl)
   private
@@ -31,6 +32,7 @@ type
   protected
     function GetCurrentPath: String; virtual;
     procedure SetCurrentPath(NewPath: String); virtual;
+    function GetActiveFile: TFile; virtual;
 
   public
     constructor Create(AOwner: TWinControl;
@@ -50,13 +52,16 @@ type
 
     procedure ExecuteCommand(CommandName: String; Parameter: String); virtual;
 
-    // I'm not sure CurrentPath property should be allowed for abstract TFileView.
-    // We have no guarantee that the FileSource associated with this view even
-    // has something like a current path?
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
-
     property FileSource: TFileSource read FFileSource write FFileSource;
     property PanelSelect: TFilePanelSelect read FPanelSelect write FPanelSelect;
+    {en
+       Currently active file.
+       There should always be at least one file in the view at any time, but
+       what 'active' means depends on the specific view, so ActiveFile may
+       return 'nil' if there is no file active.
+    }
+    property ActiveFile: TFile read GetActiveFile;
   end;
 
 implementation
@@ -87,6 +92,11 @@ end;
 procedure TFileView.SetCurrentPath(NewPath: String);
 begin
   FFileSource.CurrentPath := NewPath;
+end;
+
+function TFileView.GetActiveFile: TFile;
+begin
+  Result := nil;
 end;
 
 procedure TFileView.ExecuteCommand(CommandName: String; Parameter: String);

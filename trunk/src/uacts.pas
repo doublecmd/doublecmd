@@ -237,7 +237,7 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
      fOptions,fCompareFiles,fFindDlg,fSymLink,fHardLink,fMultiRename, uHash,
      uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit,
      HelpIntfs, dmHelpManager, uShellExecute, uClipboard, uCheckSumThread, fCheckSumCalc,
-     uFileSorting, uFilePanelSelect;
+     uFileSorting, uFilePanelSelect, uFile;
 
 { TActs }
 
@@ -583,20 +583,18 @@ procedure TActs.cm_AddFilenameToCmdLine(param: string='');
 var
   AddedString: String;
   OldPosition: Integer;
+  aFile: TFile;
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_AddFilenameToCmdLine', param);
-
-  with frmMain.ActiveFrame do
+  with frmMain do
     begin
-{
-      if IsActiveItemValid then
+      aFile := ActiveFrame.ActiveFile;
+      if Assigned(aFile) then
       begin
-        OldPosition := edtCmdLine.SelStart;
-        AddedString := pnlFile.GetActiveItem^.sName + ' ';
-        edtCmdLine.Text := edtCmdLine.Text + AddedString;
-        edtCmdLine.SelStart := OldPosition + Length(AddedString);
+        OldPosition := edtCommand.SelStart;
+        AddedString := aFile.Name + ' ';
+        edtCommand.Text := edtCommand.Text + AddedString;
+        edtCommand.SelStart := OldPosition + Length(AddedString);
       end;
-}
     end;
 end;
 
@@ -604,27 +602,28 @@ procedure TActs.cm_AddPathAndFilenameToCmdLine(param: string='');
 var
   AddedString: String;
   OldPosition: Integer;
+  aFile: TFile;
 begin
-  FrmMain.ActiveFrame.ExecuteCommand('cm_AddPathAndFilenameToCmdLine', param);
-  with frmMain.ActiveFrame do
+  with frmMain do
     begin
-{
-      if Assigned(GetActiveItem) then
+      aFile := ActiveFrame.ActiveFile;
+      if Assigned(aFile) then
       begin
-        if (pnlFile.GetActiveItem^.sName = '..') then
+        AddedString := ActiveFrame.CurrentPath;
+
+        if aFile.Name = '..' then
         begin
-          AddedString := pnlFile.CurrentPath + ' ';
+          AddedString := AddedString + ' ';
         end
         else
         begin
-          AddedString := pnlFile.CurrentPath + pnlFile.GetActiveItem^.sName + ' ';
+          AddedString := AddedString + aFile.Name + ' ';
         end;
 
-        OldPosition := edtCmdLine.SelStart;
-        edtCmdLine.Text := edtCmdLine.Text + AddedString;
-        edtCmdLine.SelStart := OldPosition + Length(AddedString);
+        OldPosition := edtCommand.SelStart;
+        edtCommand.Text := edtCommand.Text + AddedString;
+        edtCommand.SelStart := OldPosition + Length(AddedString);
       end;
-}
     end;
 end;
 

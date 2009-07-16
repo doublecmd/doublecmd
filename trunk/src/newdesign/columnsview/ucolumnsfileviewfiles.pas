@@ -51,7 +51,7 @@ type
     procedure Put(Index: Integer; AFile: TColumnsViewFile);
 
   public
-    constructor Create;
+    constructor Create; virtual;
     destructor Destroy; override;
 
     function Add(AFile: TColumnsViewFile): Integer;
