@@ -399,6 +399,11 @@ type
     property LastActive: String read FLastActive write FLastActive;
     property GridVertLine: Boolean read GetGridVertLine write SetGridVertLine;
     property GridHorzLine: Boolean read GetGridHorzLine write SetGridHorzLine;
+
+  published  // commands
+    procedure cm_MarkInvert(param: string='');
+    procedure cm_QuickSearch(param: string='');
+
   end;
 
 implementation
@@ -2893,6 +2898,16 @@ begin
   end;
 
   FreeAndNil(DropParams);
+end;
+
+procedure TColumnsFileView.cm_MarkInvert(param: string='');
+begin
+  InvertAll;
+end;
+
+procedure TColumnsFileView.cm_QuickSearch(param: string='');
+begin
+  ShowAltPanel;
 end;
 
 { TDrawGridEx }

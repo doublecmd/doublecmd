@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="61">
+    <Units Count="62">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -453,6 +453,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFilePanelSelect"/>
       </Unit60>
+      <Unit61>
+        <Filename Value="newdesign\umethodslist.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uMethodsList"/>
+      </Unit61>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Controls,
-  uFile, uFileSource, uFilePanelSelect;
+  uFile, uFileSource, uFilePanelSelect, uMethodsList;
 
 type
 
@@ -25,6 +25,8 @@ type
 
     // It should be independent of left/right side in the future.
     FPanelSelect: TFilePanelSelect;
+
+    FMethods: TMethodsList;
 
   protected
     function GetCurrentPath: String; virtual;
@@ -46,6 +48,8 @@ type
 
     procedure UpdateView; virtual abstract;
 
+    procedure ExecuteCommand(CommandName: String; Parameter: String); virtual;
+
     // I'm not sure CurrentPath property should be allowed for abstract TFileView.
     // We have no guarantee that the FileSource associated with this view even
     // has something like a current path?
@@ -58,17 +62,20 @@ type
 implementation
 
 uses
-  uOSUtils;
+  uOSUtils, uActs, LCLProc;
 
 constructor TFileView.Create(AOwner: TWinControl; FileSource: TFileSource);
 begin
   FFileSource := FileSource;
+  FMethods := TMethodsList.Create(Self);
   inherited Create(AOwner);
 end;
 
 destructor TFileView.Destroy;
 begin
+  inherited;
   FreeAndNil(FFileSource);
+  FreeAndNil(FMethods);
 end;
 
 function TFileView.GetCurrentPath: String;
@@ -80,6 +87,19 @@ end;
 procedure TFileView.SetCurrentPath(NewPath: String);
 begin
   FFileSource.CurrentPath := NewPath;
+end;
+
+procedure TFileView.ExecuteCommand(CommandName: String; Parameter: String);
+var
+  Method: TMethod;
+  Result: Integer;
+begin
+  Method := FMethods.GetMethod(CommandName);
+  if Assigned(Method.Code) then
+  begin
+    // Command is supported - execute it.
+    TCommandFunc(Method)(Parameter);
+  end;
 end;
 
 end.
