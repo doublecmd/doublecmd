@@ -36,7 +36,7 @@ const cf_Null=0;
 
   type
 
-   TIntFunc=procedure(param:string; var Result:integer) of object;
+  TCommandFunc = procedure(param: string) of object;
 
   PActionState = ^TActionState;
   TActionState = record
@@ -102,13 +102,32 @@ const cf_Null=0;
 
   published
 
-   //---------------------
+   //--------------------------------------------------------------------------
    // The cm_... functions are 'user' functions which can be assigned to toolbar
    // button, hotkey, menu item, scripts, etc. Those functions take a string
    // parameter(s) set by the user.
    //
-   //Only published functions and procedures can by found by MethodAddress
-   //---------------------
+   //--------------------------------------------------------------------------
+   // Only published functions and procedures can by found by MethodAddress
+   //--------------------------------------------------------------------------
+   //
+   // All commands can be split into three groups:
+   // 1. Global commands intended for the main application (cm_VisitHomePage,
+   //    cm_About, cm_Exit, ...).
+   //
+   // 2. Commands intended for file views (cm_QuickSearch, cm_SortByColumn, ...).
+   //    Those commands are simply redirected to the currently active file view by calling:
+   //       frmMain.ActiveFrame.ExecuteCommand(CommandName, param);
+   //    If they are supported by the given file view they are executed there.
+   //
+   //    If in future there will be a need to pass specific parameters to the
+   //    commands, i.e. not string, they should be implemented by creating
+   //    an interface for each command, and each file view implementing those
+   //    interfaces which commands it supports.
+   //
+   // 3. Commands intended for file sources (cm_Copy, cm_Rename, cm_MakeDir).
+   //    The file operations will mostly work only for non-virtual file sources.
+   //
    procedure cm_AddPathToCmdLine(param: string='');
    procedure cm_AddFilenameToCmdLine(param: string='');
    procedure cm_AddPathAndFilenameToCmdLine(param: string='');
@@ -309,7 +328,7 @@ begin
     if Assigned(t.code) then
     begin
      Result:=cf_Null;
-     TIntFunc(t)(param,Result);
+     TCommandFunc(t)(param);
     end;
 end;
 
@@ -565,6 +584,8 @@ var
   AddedString: String;
   OldPosition: Integer;
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_AddFilenameToCmdLine', param);
+
   with frmMain.ActiveFrame do
     begin
 {
@@ -584,6 +605,7 @@ var
   AddedString: String;
   OldPosition: Integer;
 begin
+  FrmMain.ActiveFrame.ExecuteCommand('cm_AddPathAndFilenameToCmdLine', param);
   with frmMain.ActiveFrame do
     begin
 {
@@ -612,6 +634,7 @@ var
   Point: TPoint;
   Rect: TRect;
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_ContextMenu', param);
 with frmMain, ActiveFrame do
   begin
 {
@@ -655,6 +678,7 @@ var
   I: Integer;
   sl: TStringList;
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_CopyFullNamesToClip', param);
   with frmmain.ActiveFrame do
   begin
 {
@@ -676,6 +700,7 @@ var
   I: Integer;
   sl: TStringList;
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_CopyNamesToClip', param);
   with frmMain.ActiveFrame do
   begin
 {
@@ -800,6 +825,7 @@ end;
 
 procedure TActs.cm_Open(param:string);
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_Open', param);
 {
   with frmMain.ActiveFrame.pnlFile do
   begin
@@ -823,6 +849,7 @@ var
   fl : TFileList;
   Result: Boolean;
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_PackFiles', param);
 {
 with frmMain do
 begin
@@ -859,9 +886,7 @@ end;
 
 procedure TActs.cm_QuickSearch(param:string);
 begin
-{
-  FrmMain.ActiveFrame.ShowAltPanel;
-}
+  FrmMain.ActiveFrame.ExecuteCommand('cm_QuickSearch', param);
 end;
 
 procedure TActs.cm_RightOpenDrives(param:string);
@@ -920,6 +945,7 @@ var
   fl:TFileList;
   WT : TWipeThread;
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_Wipe', param);
 {
   with FrmMain.ActiveFrame do
   begin
@@ -1162,6 +1188,7 @@ var
   sFilePath: String;
   bDeleteAfterView: Boolean;
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_View', param);
 {
 with frmMain do
 begin
@@ -1263,6 +1290,7 @@ var
   sFileName,
   sFilePath : String;
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_Edit', param);
 {
   with frmMain do
   begin
@@ -1311,14 +1339,18 @@ end;
 
 procedure TActs.cm_Copy(param:string);
 begin
+{
   // Selection validation in CopyFile.
   frmMain.CopyFile(frmMain.NotActiveFrame.CurrentPath);
+}
 end;
 
 procedure TActs.cm_Rename(param:string);
 begin
+{
   // Selection validation in RenameFile.
   frmMain.RenameFile(frmMain.NotActiveFrame.CurrentPath);
+}
 end;
 
 procedure TActs.cm_MakeDir(param:string);
@@ -1484,6 +1516,7 @@ var
   HashAlgorithm: THashAlgorithm;
   sFileName: UTF8String;
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_CheckSumCalc', param);
 {
   with frmMain.ActiveFrame do
   begin
@@ -1542,6 +1575,7 @@ var
   fl: TFileList;
   I: Integer;
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_CheckSumVerify', param);
   with frmMain.ActiveFrame do
   begin
 {
@@ -1602,6 +1636,8 @@ var
   fl : TFileList;
   Result: Boolean;
 begin
+// This command will probably be removed?
+// Because extracting files will be simply copying from archive file source.
 {
 with frmMain do
 begin
@@ -1711,6 +1747,7 @@ var
 var
   i : Integer;
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_CompareContents', param);
 {
   with frmMain do
   begin
@@ -1810,15 +1847,12 @@ end;
   
 procedure TActs.cm_MarkInvert(param:string);
 begin
-  inherited;
-{
-  frmMain.ActiveFrame.InvertAllFiles;
-}
+  frmMain.ActiveFrame.ExecuteCommand('cm_MarkInvert', param);
 end;
 
 procedure TActs.cm_MarkMarkAll(param:string);
 begin
-  inherited;
+  frmMain.ActiveFrame.ExecuteCommand('cm_MarkMarkAll', param);
 {
   frmMain.ActiveFrame.MarkAll;
 }
@@ -1826,7 +1860,7 @@ end;
 
 procedure TActs.cm_MarkUnmarkAll(param:string);
 begin
-  inherited;
+  frmMain.ActiveFrame.ExecuteCommand('cm_MarkUnmarkAll', param);
 {
   frmMain.ActiveFrame.UnMarkAll;
 }
@@ -1854,6 +1888,7 @@ end;
 
 procedure TActs.cm_MarkPlus(param:string);
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_MarkPlus', param);
 {
   frmMain.ActiveFrame.MarkPlus;
 }
@@ -1861,6 +1896,7 @@ end;
 
 procedure TActs.cm_MarkCurrentExtension(param: string);
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_MarkCurrentExtension', param);
 {
   frmMain.ActiveFrame.MarkShiftPlus;
 }
@@ -1868,6 +1904,7 @@ end;
 
 procedure TActs.cm_UnmarkCurrentExtension(param: string);
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_UnmarkCurrentExtension', param);
 {
   frmMain.ActiveFrame.MarkShiftMinus;
 }
@@ -1875,6 +1912,7 @@ end;
 
 procedure TActs.cm_MarkMinus(param:string);
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_MarkMinus', param);
 {
   frmMain.ActiveFrame.MarkMinus;
 }
@@ -1886,7 +1924,7 @@ var
   sFile1, sFile2:String;
   Result: Boolean;
 begin
-  inherited;
+  frmMain.ActiveFrame.ExecuteCommand('cm_SymLink', param);
 {
 with frmMain do
 begin
@@ -1928,6 +1966,7 @@ var
   sFile1, sFile2:String;
   Result: Boolean;
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_HardLink', param);
 {
 with frmMain do
 begin
@@ -2065,6 +2104,7 @@ procedure TActs.cm_SortByColumn(param: string='');
 var
   ColumnNumber: Integer;
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_SortByColumn', param);
 {
   with frmMain.ActiveFrame do
   begin
@@ -2114,12 +2154,14 @@ end;
 
 procedure TActs.cm_CopySamePanel(param:string);
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_CopySamePanel', param);
   // Selection validation in CopyFile.
   frmMain.CopyFile('');
 end;
 
 procedure TActs.cm_RenameOnly(param:string);
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_RenameOnly', param);
   // Selection validation in RenameFile.
   frmMain.RenameFile('');
 end;
@@ -2129,6 +2171,7 @@ var
   sNewFile: String;
   hFile: Integer = 0;
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_EditNew', param);
 {
 with frmMain do
 begin
@@ -2193,7 +2236,7 @@ end;
 
 procedure TActs.cm_CalculateSpace(param:string);
 begin
-  inherited;
+  frmMain.ActiveFrame.ExecuteCommand('cm_CalculateSpace', param);
   with frmMain.ActiveFrame do
   begin
     // Selection validation in CalculateSpace.
@@ -2210,6 +2253,7 @@ var
   p: TFileRecItem;
   LastSelection: String;
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_CountDirContent', param);
 {
   with frmMain, ActiveFrame do
   begin
@@ -2259,6 +2303,7 @@ end;
 
 procedure TActs.cm_FileProperties(param:string);
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_FileProperties', param);
 {
   inherited;
   with frmMain do
@@ -2371,6 +2416,7 @@ end;
 
 procedure TActs.cm_EditComment(param: string);
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_EditComment', param);
 {
   with frmMain.ActiveFrame do
   begin
@@ -2385,6 +2431,7 @@ var
   sl: TStringList;
   i : Integer;
 begin
+  // Will probably work only for file system.
 {
   Result := False;
 
@@ -2474,6 +2521,7 @@ end;
 
 procedure TActs.cm_ChangeDirToRoot(param: string='');
 begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_ChangeDirToRoot', param);
 {
   FrmMain.ActiveFrame.pnlFile.cdRootLevel;
 }
