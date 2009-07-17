@@ -70,7 +70,11 @@ type
 implementation
 
 uses
-  uFindEx;
+  uFindEx
+{$IFDEF UNIX}
+  , BaseUnix, uUsersGroups
+{$ENDIF}
+  ;
 
 constructor TFileSystemFile.Create;
 begin
@@ -87,9 +91,14 @@ begin
 end;
 
 constructor TFileSystemFile.Create(SearchRecord: TSearchRec);
-{$IFDEF MSWINDOWS}
+{$IF DEFINED(UNIX)}
+var
+  sb: BaseUnix.Stat; //buffer for stat info
+{$ENDIF}
 begin
   inherited Create;
+
+{$IF DEFINED(MSWINDOWS)}
 
   FAttributes := TNtfsFileAttributesProperty.Create(SearchRecord.Attr);
   FSize := TFileSizeProperty.Create(SearchRecord.Size);
@@ -98,71 +107,43 @@ begin
 
   //Other times: SearchRecord.FindData.ftCreationTime ...?
 
+{$ELSEIF DEFINED(UNIX)}
+
+  sb := PUnixFindData(SearchRecord.FindHandle)^.StatRec;
+
+  FAttributes := TUnixFileAttributesProperty.Create(sb.st_mode);
+  FSize := TFileSizeProperty.Create(sb.st_size);
+  FModificationTime := TFileModificationDateTimeProperty.Create(
+                           FileDateToDateTime(sb.st_mtime));
+
+{
+    iOwner:=sb.st_uid;
+    iGroup:=sb.st_gid;
+    sOwner:=UIDToStr(iOwner);
+    sGroup:=GIDToStr(iGroup);
+}
+
+{$ELSE}
+
+  // Create with default values.
+  FAttributes := TFileAttributesProperty.Create;
+  FSize := TFileSizeProperty.Create;
+  FModificationTime := TFileModificationDateTimeProperty.Create;
+
+{$ENDIF}
+
+{
+  if IsLink then
+    sLinkTo := ReadSymLink(SearchRecord.Name)
+  else
+    sLinkTo := '';
+}
+
   AssignProperties;
 
   // Set name after assigning Attributes property, because it is used to get extension.
   Name := SearchRecord.Name;
-{
-  if IsLink then
-    begin
-      sLinkTo:= ReadSymLink(SearchRec.Name);
-    end;
-
-    bExecutable:= not FPS_ISDIR(iMode); // for ShellExecute
-}
 end;
-{$ENDIF}
-{$IFDEF UNIX}      // Unix not working yet
-var
-  sb: BaseUnix.Stat; //buffer for stat info
-begin
-  with Result do
-  begin
-    sb:= PUnixFindData(SearchRec.FindHandle)^.StatRec;
-    iSize:=sb.st_size;
-
-    iOwner:=sb.st_uid; //UID
-    iGroup:=sb.st_gid; //GID
-    sOwner:=UIDToStr(iOwner);
-    sGroup:=GIDToStr(iGroup);
-{/mate}
-    iMode:=sb.st_mode;
-    bSysFile := (SearchRec.Name[1] = '.') and (SearchRec.Name <> '..');
-    fTimeI:= FileDateToDateTime(sb.st_mtime); // EncodeDate (1970, 1, 1) + (SearchRec.Time / 86400.0);
-
-
-    if FPS_ISDIR(iMode) or (SearchRec.Name[1]='.') then //!!!!!
-      sExt:= ''
-    else
-      sExt:= ExtractFileExt(SearchRec.Name);
-    sNameNoExt:= Copy(SearchRec.Name,1,Length(SearchRec.Name)-Length(sExt));
-    sName:= SearchRec.Name;
-
-    sTime:= FormatDateTime(gDateTimeFormat, fTimeI);
-    bIsLink:= FPS_ISLNK(iMode);
-    sLinkTo:= '';
-    iDirSize:= 0;
-
-    if bIsLink then
-    begin
-      sLinkTo:= ReadSymLink(SearchRec.Name);
-    end;
-
-    if bIsLink then
-      bLinkIsDir:= IsDirByName(sLinkTo)
-    else
-      bLinkIsDir:= False;
-    bExecutable:= (not FPS_ISDIR(iMode)) and (iMode AND (S_IXUSR OR S_IXGRP OR S_IXOTH)>0);
-
-    bSelected:= False;
-    sModeStr:= AttrToStr(iMode);
-    sPath:= Path;
-  end; // with
-
-
-  AssignProperties;
-end;
-{$ENDIF}
 
 constructor TFileSystemFile.Create(FilePath: String);
 var
