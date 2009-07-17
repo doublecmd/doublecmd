@@ -44,6 +44,9 @@ type
 
     destructor Destroy; override;
 
+    function Clone: TFileView; virtual;
+    procedure CloneTo(FileView: TFileView); virtual;
+
     // Retrieves files from file source again and displays the new list of files.
     procedure Reload; virtual abstract;
 
@@ -97,6 +100,21 @@ begin
   inherited;
   FreeAndNil(FFileSource);
   FreeAndNil(FMethods);
+end;
+
+function TFileView.Clone: TFileView;
+begin
+  raise Exception.Create('Cannot create object of abstract class');
+end;
+
+procedure TFileView.CloneTo(FileView: TFileView);
+begin
+  if Assigned(FileView) then
+  begin
+    // FFileSource should have been passed to FileView constructor already.
+    // FMethods are created in FileView constructor.
+    FileView.FPanelSelect := FPanelSelect;
+  end;
 end;
 
 function TFileView.GetCurrentAddress: String;
