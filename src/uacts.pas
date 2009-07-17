@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, Dialogs, typinfo, ExtCtrls, StringHashList, ActnList,
-  uFileView;
+  uFileView, uFileViewNotebook;
   
   
 const cf_Null=0;
@@ -96,10 +96,11 @@ const cf_Null=0;
    // - arguments (instead of calling cm_... functions, in which case
    // parameters would have to be converted to and from strings).
    //
-   procedure DoRemoveTab(Notebook: TNotebook; PageIndex: Integer);
-   procedure DoToggleLockTab(Notebook: TNotebook; PageIndex: Integer);
-   procedure DoToggleLockDcaTab(Notebook: TNotebook; PageIndex: Integer);
+   procedure DoRemoveTab(Notebook: TFileViewNotebook; PageIndex: Integer);
+   procedure DoToggleLockTab(Tab: TFileViewPage);
+   procedure DoToggleLockDcaTab(Tab: TFileViewPage);
    procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; FullNames: Boolean);
+   procedure DoNewTab(Notebook: TFileViewNotebook);
    //---------------------
 
   published
@@ -519,7 +520,7 @@ end;
 
 //------------------------------------------------------
 
-procedure TActs.DoRemoveTab(Notebook: TNotebook; PageIndex: Integer);
+procedure TActs.DoRemoveTab(Notebook: TFileViewNotebook; PageIndex: Integer);
 begin
   with frmMain do
   begin
@@ -528,39 +529,38 @@ begin
   end;
 end;
 
-procedure TActs.DoToggleLockTab(Notebook: TNotebook; PageIndex: Integer);
+procedure TActs.DoToggleLockTab(Tab: TFileViewPage);
 begin
   with frmMain do
   begin
-    if NoteBook.Page[PageIndex].Tag <> 1 then  // lock
+    if Tab.LockState <> tlsLockedPath then  // lock
       begin
-        NoteBook.Page[PageIndex].Tag:= 1;
+        Tab.LockState := tlsLockedPath;
       end
     else // unlock
       begin
-        NoteBook.Page[PageIndex].Tag:= 0;
+        Tab.LockState := tlsNormal;
       end;
 
-    UpdateTabLockedState(NoteBook.Page[PageIndex]);
     ActiveFrame.SetFocus;
   end;
 end;
 
-procedure TActs.DoToggleLockDcaTab(Notebook: TNotebook; PageIndex: Integer);
+procedure TActs.DoToggleLockDcaTab(Tab: TFileViewPage);
 begin
   with frmMain do
   begin
-    if NoteBook.Page[PageIndex].Tag <> 2 then // lock
+    if Tab.LockState <> tlsResettingPath then  // lock
       begin
-        NoteBook.Page[PageIndex].Hint:= ActiveFrame.CurrentPath;
-        Notebook.Page[PageIndex].Tag:= 2;
+        Tab.LockState := tlsResettingPath;
+        Tab.LockPath := ActiveFrame.CurrentPath;
       end
-    else  // unlock
+    else // unlock
       begin
-        Notebook.Page[PageIndex].Hint:= '';
-        Notebook.Page[PageIndex].Tag:= 0;
+        Tab.LockState := tlsNormal;
+        Tab.LockPath := '';
       end;
-    UpdateTabLockedState(NoteBook.Page[PageIndex]);
+
     ActiveFrame.SetFocus;
   end;
 end;
@@ -598,6 +598,17 @@ begin
     if Assigned(SelectedFiles) then
       FreeAndNil(SelectedFiles);
   end;
+end;
+
+procedure TActs.DoNewTab(Notebook: TFileViewNotebook);
+var
+  PanelSelected: TFilePanelSelect;
+begin
+  // Create a new panel in notebook.
+{
+  CreatePanel(AddPage(Notebook), fpLeft/fpRight, ActiveFrame.CurrentPath);
+  ActiveFrame.SetFocus;
+}
 end;
 
 //------------------------------------------------------
@@ -765,9 +776,9 @@ begin
 {
    case SelectedPanel of
     fpLeft:
-       CreatePanel(AddPage(nbLeft, bSetActive), fpLeft, sDir);
+       CreatePanel(AddPage(LeftTabs, bSetActive), fpLeft, sDir);
     fpRight:
-       CreatePanel(AddPage(nbRight, bSetActive), fpRight, sDir);
+       CreatePanel(AddPage(RightTabs, bSetActive), fpRight, sDir);
     end;
 }
     if bSetActive then
@@ -1002,81 +1013,39 @@ procedure TActs.cm_NewTab(param:string);
 var
   PanelSelected: TFilePanelSelect;
 begin
-  with frmMain do
-  begin
-    if param = 'nbLeft' then
-      PanelSelected:= fpLeft
-    else if param = 'nbRight' then
-      PanelSelected:= fpRight
-    else
-      PanelSelected:= SelectedPanel;
-{
-    case PanelSelected of
-    fpLeft:
-       CreatePanel(AddPage(nbLeft), fpLeft, ActiveFrame.CurrentPath);
-    fpRight:
-       CreatePanel(AddPage(nbRight), fpRight, ActiveFrame.CurrentPath);
-    end;
-}
-    ActiveFrame.SetFocus;
-  end;
+  DoNewTab(frmMain.ActiveNotebook);
 end;
 
 procedure TActs.cm_RemoveTab(param:string);
-var
-  PanelSelected: TFilePanelSelect;
 begin
   with frmMain do
-  begin
-    if param = 'nbLeft' then
-      PanelSelected:= fpLeft
-    else if param = 'nbRight' then
-      PanelSelected:= fpRight
-    else
-      PanelSelected:= SelectedPanel;
-
-    case PanelSelected of
-    fpLeft:
-       DoRemoveTab(nbLeft, nbLeft.PageIndex);
-    fpRight:
-       DoRemoveTab(nbRight, nbRight.PageIndex);
-    end;
-  end;
+    DoRemoveTab(ActiveNotebook, ActiveNotebook.PageIndex);
 end;
 
 procedure TActs.cm_RemoveAllTabs(param: string);
 var
   I: Integer;
-  PanelSelected: TFilePanelSelect;
+  ANotebook: TFileViewNotebook;
 begin
   with frmMain do
   begin
     if (tb_confirm_close_all in gDirTabOptions) then
       if not msgYesNo(rsMsgCloseAllInActiveTabs) then Exit;
 
-    if param = 'nbLeft' then
-      PanelSelected:= fpLeft
-    else if param = 'nbRight' then
-      PanelSelected:= fpRight
+    if param = 'LeftTabs' then
+      ANotebook := LeftTabs
+    else if param = 'RightTabs' then
+      ANotebook := RightTabs
     else
-      PanelSelected:= SelectedPanel;
+      ANotebook := ActiveNotebook;
 
-    case PanelSelected of
-    fpLeft:
-       for I:= nbLeft.PageCount - 1 downto 0 do
-         if I <> nbLeft.PageIndex then
-           case RemovePage(nbLeft, I) of
-             1: Continue; // skip tab
-             2: Break;    // cancel operation
-           end;
-    fpRight:
-       for I:= nbRight.PageCount - 1 downto 0 do
-         if I <> nbRight.PageIndex then
-           case RemovePage(nbRight, I) of
-             1: Continue; // skip tab
-             2: Break;    // cancel operation
-           end;
-    end;
+    for I := ANotebook.PageCount - 1 downto 0 do
+      if I <> ANotebook.PageIndex then
+        case RemovePage(ANotebook, I) of
+          1: Continue; // skip tab
+          2: Break;    // cancel operation
+        end;
+
     ActiveFrame.SetFocus;
   end;
 end;
@@ -1087,17 +1056,17 @@ with frmMain do
   begin
     case SelectedPanel of
     fpLeft: begin
-               if nbLeft.PageIndex=nbLeft.PageCount-1 then
-                 nbLeft.PageIndex:=0
+               if LeftTabs.PageIndex=LeftTabs.PageCount-1 then
+                 LeftTabs.PageIndex:=0
                else
-                 nbLeft.PageIndex:=nbLeft.PageIndex+1;
+                 LeftTabs.PageIndex:=LeftTabs.PageIndex+1;
             end;
 
     fpRight: begin
-               if nbRight.PageIndex=nbRight.PageCount-1 then
-                 nbRight.PageIndex:=0
+               if RightTabs.PageIndex=RightTabs.PageCount-1 then
+                 RightTabs.PageIndex:=0
                else
-                 nbRight.PageIndex:=nbRight.PageIndex+1;
+                 RightTabs.PageIndex:=RightTabs.PageIndex+1;
              end;
     end;
    ActiveFrame.SetFocus;
@@ -1110,17 +1079,17 @@ with frmMain do
   begin
     case SelectedPanel of
     fpLeft: begin
-               if nbLeft.PageIndex=0 then
-                 nbLeft.PageIndex:=nbLeft.PageCount-1
+               if LeftTabs.PageIndex=0 then
+                 LeftTabs.PageIndex:=LeftTabs.PageCount-1
                else
-                 nbLeft.PageIndex:=nbLeft.PageIndex-1;
+                 LeftTabs.PageIndex:=LeftTabs.PageIndex-1;
             end;
 
     fpRight: begin
-               if nbRight.PageIndex=0 then
-                 nbRight.PageIndex:=nbRight.PageCount-1
+               if RightTabs.PageIndex=0 then
+                 RightTabs.PageIndex:=RightTabs.PageCount-1
                else
-                 nbRight.PageIndex:=nbRight.PageIndex-1;
+                 RightTabs.PageIndex:=RightTabs.PageIndex-1;
              end;
     end;
   ActiveFrame.SetFocus;
@@ -1129,51 +1098,51 @@ end;
 
 procedure TActs.cm_ToggleLockTab(param: string);
 var
-  nbNoteBook: TNoteBook;
+  nbNoteBook: TFileViewNotebook;
   PanelSelected: TFilePanelSelect;
 begin
   with frmMain do
   begin
-    if param = 'nbLeft' then
+    if param = 'LeftTabs' then
       PanelSelected:= fpLeft
-    else if param = 'nbRight' then
+    else if param = 'RightTabs' then
       PanelSelected:= fpRight
     else
       PanelSelected:= SelectedPanel;
 
     case PanelSelected of
     fpLeft:
-      nbNoteBook:= nbLeft;
+      nbNoteBook:= LeftTabs;
     fpRight:
-      nbNoteBook:= nbRight;
+      nbNoteBook:= RightTabs;
     end;
 
-    DoToggleLockTab(nbNoteBook, nbNoteBook.PageIndex);
+    DoToggleLockTab(nbNoteBook.ActivePage);
   end;
 end;
 
 procedure TActs.cm_ToggleLockDcaTab(param: string);
 var
-  nbNoteBook: TNoteBook;
+  nbNoteBook: TFileViewNotebook;
   PanelSelected: TFilePanelSelect;
 begin
   with frmMain do
   begin
-    if param = 'nbLeft' then
+    if param = 'LeftTabs' then
       PanelSelected:= fpLeft
-    else if param = 'nbRight' then
+    else if param = 'RightTabs' then
       PanelSelected:= fpRight
     else
       PanelSelected:= SelectedPanel;
 
     case PanelSelected of
     fpLeft:
-      nbNoteBook:= nbLeft;
+      nbNoteBook:= LeftTabs;
     fpRight:
-      nbNoteBook:= nbRight;
+      nbNoteBook:= RightTabs;
     end;
 
-    DoToggleLockDcaTab(nbNoteBook, nbNoteBook.PageIndex);
+    DoToggleLockDcaTab(nbNoteBook.ActivePage);
   end;
 end;
 
