@@ -166,7 +166,6 @@ begin
     AFile.FPath := FPath;
     AFile.FExtension := FExtension;
     AFile.FNameNoExt := FNameNoExt;
-    AFile.FProperties := FProperties;
   end;
 end;
 
