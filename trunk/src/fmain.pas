@@ -419,9 +419,6 @@ type
     DrivesList : TList;
     MainSplitterHintWnd: THintWindow;
     HiddenToTray: Boolean;
-{$IFDEF LCLQT}
-    QtTrayIconHook: QSystemTrayIcon_hookH;
-{$ENDIF}
 
     // frost_asm begin
     // mainsplitter
@@ -441,13 +438,6 @@ type
        Retrieves current window state, with a workaround for QT minimized state.
     }
     function GetWindowState: TWindowState;
-
-{$IFDEF LCLQT}
-    procedure QtSystemTrayIconActivated(reason: QSystemTrayIconActivationReason); cdecl;
-    procedure HookTrayIcon;
-    procedure UnHookTrayIcon;
-    function  IsTrayIconHooked: Boolean;
-{$ENDIF}
 
   public
     procedure HandleActionHotKeys(var Key: Word; Shift: TShiftState);
@@ -545,10 +535,6 @@ var
   slCommandHistory: TStringListEx;
   i: Integer;
 begin
-{$IFDEF LCLQT}
-  QtTrayIconHook := nil;
-{$ENDIF}
-
   HiddenToTray := False;
 
   inherited;
@@ -3326,26 +3312,7 @@ procedure TfrmMain.ShowTrayIcon(bShow: Boolean);
 begin
   if bShow <> MainTrayIcon.Visible then
   begin
-    if bShow then
-    begin
-      MainTrayIcon.Visible := True;
-
-{$IFDEF LCLQT}
-      // Workaround for QT - hooking tray icon mouse events.
-      if not IsTrayIconHooked then
-        HookTrayIcon;
-{$ENDIF}
-    end
-    else
-  begin
-{$IFDEF LCLQT}
-    // Unhook, because hiding the tray icon will destroy it.
-      if IsTrayIconHooked then
-    UnHookTrayIcon;
-{$ENDIF}
-
-      MainTrayIcon.Visible := False;
-    end;
+    MainTrayIcon.Visible := bShow;
   end;
 end;
 
@@ -3365,46 +3332,6 @@ begin
 {$ENDIF}
   Result := Self.WindowState;
 end;
-
-{$IFDEF LCLQT}
-procedure TfrmMain.QtSystemTrayIconActivated(reason: QSystemTrayIconActivationReason); cdecl;
-begin
-  case reason of
-    QSystemTrayIconTrigger,     // single click
-    QSystemTrayIconDoubleClick: // double click
-      MainTrayIconClick(MainTrayIcon);
-  end;
-end;
-
-procedure TfrmMain.HookTrayIcon;
-var
-  Method: TMethod;
-begin
-  if MainTrayIcon.Handle <> 0 then
-  begin
-    QtTrayIconHook := QSystemTrayIcon_hook_create(TQtSystemTrayIcon(MainTrayIcon.Handle).Handle);
-    if Assigned(QtTrayIconHook) then
-    begin
-      QSystemTrayIcon_activated_Event(Method) := @QtSystemTrayIconActivated;
-      QSystemTrayIcon_hook_hook_activated(QtTrayIconHook, Method);
-    end;
-  end;
-end;
-
-function TfrmMain.IsTrayIconHooked: Boolean;
-begin
-  Result := (QtTrayIconHook <> nil);
-end;
-
-procedure TfrmMain.UnHookTrayIcon;
-begin
-  if Assigned(QtTrayIconHook) then
-  begin
-    QSystemTrayIcon_hook_destroy(QtTrayIconHook);
-    QtTrayIconHook := nil;
-  end;
-end;
-{$ENDIF}
 
 procedure TfrmMain.EnableHotkeys(Enable: Boolean);
 begin
