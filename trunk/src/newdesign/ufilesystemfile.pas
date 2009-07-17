@@ -189,6 +189,7 @@ begin
       FSize := Self.FSize.Clone;
       FAttributes := Self.FAttributes.Clone;
       FModificationTime := Self.FModificationTime.Clone;
+      AssignProperties;
     end;
   end;
 end;
