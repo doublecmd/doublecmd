@@ -9,6 +9,7 @@ uses
   uFileSourceOperation,
   uFileSourceOperationTypes,
   uLocalFileSource,
+  uFileSource,
   uFileSourceProperty,
   uFileProperty,
   uFile
@@ -27,6 +28,9 @@ type
   public
     constructor Create; override;
     constructor Create(Path: String); overload;
+
+    function Clone: TFileSystemFileSource; overload;
+    procedure CloneTo(FileSource: TFileSource); overload;
 
     class function GetSupportedFileProperties: TFilePropertiesTypes; override;
     class function GetOperationsTypes: TFileSourceOperationTypes; override;
@@ -54,6 +58,20 @@ begin
   inherited Create;
   FCurrentPath := Path;
   FCurrentAddress := '';
+end;
+
+function TFileSystemFileSource.Clone: TFileSystemFileSource;
+begin
+  Result := TFileSystemFileSource.Create(FCurrentPath);
+  CloneTo(Result);
+end;
+
+procedure TFileSystemFileSource.CloneTo(FileSource: TFileSource);
+begin
+  if Assigned(FileSource) then
+  begin
+    inherited CloneTo(FileSource);
+  end;
 end;
 
 class function TFileSystemFileSource.GetOperationsTypes: TFileSourceOperationTypes;

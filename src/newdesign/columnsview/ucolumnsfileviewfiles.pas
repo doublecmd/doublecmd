@@ -32,6 +32,12 @@ type
     }
     constructor Create(ReferenceFile: TFile); virtual reintroduce;
 
+    {en
+       Creates an identical copy of the object (as far as object data is concerned).
+    }
+    function Clone: TColumnsViewFile; virtual;
+    procedure CloneTo(AFile: TColumnsViewFile); virtual;
+
     property TheFile: TFile read FFile write FFile;
     property Selected: Boolean read FSelected write FSelected;
     property IconID: Integer read FIconID write FIconID;
@@ -54,6 +60,12 @@ type
     constructor Create; virtual;
     destructor Destroy; override;
 
+    {en
+       Create a list with cloned files.
+    }
+    function Clone: TColumnsViewFiles; virtual;
+    procedure CloneTo(Files: TColumnsViewFiles); virtual;
+
     function Add(AFile: TColumnsViewFile): Integer;
     procedure Clear;
 
@@ -75,6 +87,28 @@ begin
   TheFile := ReferenceFile;
 end;
 
+function TColumnsViewFile.Clone: TColumnsViewFile;
+var
+  ClonedFile: TFile;
+begin
+  ClonedFile := FFile.Clone;
+  try
+    Result := TColumnsViewFile.Create(ClonedFile);
+    CloneTo(Result);
+  except
+    FreeAndNil(ClonedFile);
+  end;
+end;
+
+procedure TColumnsViewFile.CloneTo(AFile: TColumnsViewFile);
+begin
+  if Assigned(AFile) then
+  begin
+    AFile.FSelected := FSelected;
+    AFile.FIconID := FIconID;
+  end;
+end;
+
 // ----------------------------------------------------------------------------
 
 constructor TColumnsViewFiles.Create;
@@ -88,6 +122,22 @@ begin
   Clear;
   FreeAndNil(FList);
   inherited;
+end;
+
+function TColumnsViewFiles.Clone: TColumnsViewFiles;
+begin
+  Result := TColumnsViewFiles.Create;
+  CloneTo(Result);
+end;
+
+procedure TColumnsViewFiles.CloneTo(Files: TColumnsViewFiles);
+var
+  i: Integer;
+begin
+  for i := 0 to FList.Count - 1 do
+  begin
+    Files.Add(Get(i).Clone);
+  end;
 end;
 
 function TColumnsViewFiles.GetCount: Integer;

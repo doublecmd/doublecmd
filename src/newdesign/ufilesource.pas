@@ -43,6 +43,9 @@ type
   public
     constructor Create; virtual;
 
+    function Clone: TFileSource; virtual;
+    procedure CloneTo(FileSource: TFileSource); virtual;
+
     // Retrieve operations permitted on the source.  = capabilities?
     class function GetOperationsTypes: TFileSourceOperationTypes; virtual abstract;
 
@@ -75,6 +78,21 @@ begin
   if ClassType = TFileSource then
     raise Exception.Create('Cannot construct abstract class');
   inherited Create;
+end;
+
+function TFileSource.Clone: TFileSource;
+begin
+  Result := TFileSource.Create;
+  CloneTo(Result);
+end;
+
+procedure TFileSource.CloneTo(FileSource: TFileSource);
+begin
+  if Assigned(FileSource) then
+  begin
+    FileSource.FCurrentPath := FCurrentPath;
+    FileSource.FCurrentAddress := FCurrentAddress;
+  end;
 end;
 
 function TFileSource.GetCurrentAddress: String;

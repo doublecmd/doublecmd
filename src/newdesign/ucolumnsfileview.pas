@@ -34,6 +34,7 @@ type
   TFileListSorting = class(TList)
   public
     Destructor Destroy; override;
+    function Clone: TFileListSorting;
     procedure AddSorting(iField : Integer; SortDirection : TSortDirection);
     procedure Clear; override;
     function GetSortingDirection(iField : Integer) : TSortDirection;
@@ -323,6 +324,9 @@ type
     constructor Create(AOwner: TWinControl; AFileSource: TFileSource); override;
 
     destructor Destroy; override;
+
+    function Clone: TColumnsFileView; override;
+    procedure CloneTo(FileView: TFileView); override;
 
     {en
        Retrieves file list from file source into FFileSourceFiles.
@@ -2510,6 +2514,7 @@ begin
   FLastMark := '*';
   FLastAutoSelect := False;
   FLastActive := '';
+  FActive := False;
 
   FUpdateFileCount := True;
   FUpdateDiskFreeSpace := True;
@@ -2635,6 +2640,57 @@ begin
   if Assigned(FSorting) then
     FreeAndNil(FSorting);
   inherited Destroy;
+end;
+
+function TColumnsFileView.Clone: TColumnsFileView;
+var
+  FileSourceCloned: TFileSource;
+begin
+  FileSourceCloned := FileSource.Clone;
+  try
+    Result := TColumnsFileView.Create(Parent, FileSourceCloned);
+    CloneTo(Result);
+  except
+    FreeAndNil(FileSourceCloned);
+  end;
+end;
+
+procedure TColumnsFileView.CloneTo(FileView: TFileView);
+begin
+  if Assigned(FileView) then
+  begin
+    inherited CloneTo(FileView);
+
+    with FileView as TColumnsFileView do
+    begin
+      FFiles := Self.FFiles.Clone;
+      FFileSourceFiles := Self.FFileSourceFiles.Clone;
+
+      FLastActive := Self.FLastActive;
+      FLastMark := Self.FLastMark;
+      FLastAutoSelect := Self.FLastAutoSelect;
+      FLastSelectionStartRow := Self.FLastSelectionStartRow;
+
+      {
+      // Those are only used temporarily, so probably don't need to be copied.
+      fSearchDirect,
+      fNext,
+      fPrevious : Boolean;
+      fUpdateFileCount,
+      fUpdateDiskFreeSpace: Boolean;
+      }
+
+      FSorting := Self.FSorting.Clone;
+      FSortCol := Self.FSortCol;
+      fSortDirect := Self.fSortDirect;
+
+      ActiveColm := Self.ActiveColm;
+      ActiveColmSlave := nil;    // set to nil because only used in preview?
+      isSlave := self.isSlave;
+
+      // All the visual controls don't need cloning.
+    end;
+  end;
 end;
 
 procedure TColumnsFileView.MakeFileSourceFileList;
@@ -3574,6 +3630,20 @@ Destructor TFileListSorting.Destroy;
 begin
   Clear;
   inherited;
+end;
+
+function TFileListSorting.Clone: TFileListSorting;
+var
+  i: Integer;
+  pSortingColumn : PFileListSortingColumn;
+begin
+  Result := TFileListSorting.Create;
+
+  for i := 0 to Count - 1 do
+  begin
+    pSortingColumn := PFileListSortingColumn(Self[i]);
+    Result.AddSorting(pSortingColumn^.iField, pSortingColumn^.SortDirection);
+  end;
 end;
 
 procedure TFileListSorting.Clear;
