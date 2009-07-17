@@ -95,6 +95,7 @@ type
     function IsDirectory: Boolean;
     function IsSysFile: Boolean;
     function IsLink: Boolean;
+    function IsExecutable: Boolean;   // for ShellExecute
   end;
 
   // --------------------------------------------------------------------------
@@ -140,7 +141,11 @@ type
 implementation
 
 uses
-  uOSUtils;
+  uOSUtils
+{$IFDEF UNIX}
+  , BaseUnix
+{$ENDIF}
+  ;
 
 constructor TFile.Create;
 begin
@@ -228,9 +233,11 @@ begin
   begin
     FileAttributes := Properties[fpAttributes] as TFileAttributesProperty;
     Result := FileAttributes.IsDirectory
-{$IFDEF MSWINDOWS}
+{$IF DEFINED(MSWINDOWS)}
               //Because symbolic link works on Windows 2k/XP for directories only
               or FileAttributes.IsLink
+{$ELSEIF DEFINED(UNIX)}
+//              or (IsLink and IsDirByName(sLinkTo))
 {$ENDIF}
               ;
   end
@@ -246,6 +253,26 @@ begin
   begin
     FileAttributes := Properties[fpAttributes] as TFileAttributesProperty;
     Result := FileAttributes.IsLink;
+  end
+  else
+    Result := False;
+end;
+
+function TFile.IsExecutable: Boolean;
+var
+  FileAttributes: TFileAttributesProperty;
+begin
+  if fpAttributes in SupportedProperties then
+  begin
+    FileAttributes := Properties[fpAttributes] as TFileAttributesProperty;
+{$IF DEFINED(MSWINDOWS)}
+    Result := not IsDirectory;
+{$ELSEIF DEFINED(UNIX)}
+    Result := (not IsDirectory) and
+              (FileAttributes.Value AND (S_IXUSR OR S_IXGRP OR S_IXOTH)>0);
+{$ELSE}
+    Result := False;
+{$ENDIF}
   end
   else
     Result := False;

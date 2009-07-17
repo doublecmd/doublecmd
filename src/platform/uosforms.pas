@@ -152,6 +152,7 @@ var
   sCmd: String;
 begin
   // ShowMessage((Sender as TMenuItem).Hint);
+(*
   sCmd:= (Sender as TMenuItem).Hint;
   with frmMain.ActiveFrame do
   begin
@@ -163,6 +164,7 @@ begin
     if not ProcessExtCommand(sCmd, pnlFile.ActiveDir) then
       frmMain.ExecCmd(sCmd);
   end;
+*)
 end;
 
 (* handling user commands from drive context menu *)
@@ -511,7 +513,7 @@ begin
               begin
                 sCmd:=sl.Strings[i];
                 if pos('VIEW=',sCmd)>0 then Continue;  // view command is only for viewer
-                ReplaceExtCommand(sCmd, @fri, frmMain.ActiveFrame.pnlFile.ActiveDir);
+                ReplaceExtCommand(sCmd, @fri, frmMain.ActiveFrame.CurrentPath);
                 mi:=TMenuItem.Create(miActions);
                 mi.Caption:=RemoveQuotation(sCmd);
                 mi.Hint:=Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
