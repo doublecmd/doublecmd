@@ -21,7 +21,17 @@ type
 
   protected
     FCurrentPath: String;
+    FCurrentAddress: String;
 
+    {en
+       Retrieves the full address of the file source
+       (the CurrentPath is relative to this).
+       This may be used for specifying address:
+       - archive : path to archive
+       - network : address of server
+       etc.
+    }
+    function GetCurrentAddress: String; virtual;
     function GetCurrentPath: String; virtual;
     procedure SetCurrentPath(NewPath: String); virtual;
 
@@ -42,14 +52,6 @@ type
     // Retrieve some properties of the file source.
     class function GetProperties: TFileSourceProperties; virtual abstract;
 
-    // Retrieves the full address of the file source
-    // (the CurrentPath is relative to this).
-    // This may be used for specifying address:
-    // - archive : path to archive
-    // - network : address of server
-    // etc.
-    function GetSourceAddress: string; virtual abstract;
-
     // Creates an operation object specific to the file source.
     function GetOperation(OperationType: TFileSourceOperationType): TFileSourceOperation; virtual abstract;
 
@@ -60,6 +62,7 @@ type
     function GetFiles: TFiles; virtual abstract;
 
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
+    property CurrentAddress: String read GetCurrentAddress;
     property Properties: TFileSourceProperties read GetProperties;
     property SupportedFileProperties: TFilePropertiesTypes read GetSupportedFileProperties;
 
@@ -72,6 +75,11 @@ begin
   if ClassType = TFileSource then
     raise Exception.Create('Cannot construct abstract class');
   inherited Create;
+end;
+
+function TFileSource.GetCurrentAddress: String;
+begin
+  Result := FCurrentAddress;
 end;
 
 function TFileSource.GetCurrentPath: String;

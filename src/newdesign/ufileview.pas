@@ -29,6 +29,8 @@ type
 
     FMethods: TMethodsList;
 
+    function GetCurrentAddress: String;
+
   protected
     function GetCurrentPath: String; virtual;
     procedure SetCurrentPath(NewPath: String); virtual;
@@ -55,6 +57,7 @@ type
     procedure ExecuteCommand(CommandName: String; Parameter: String); virtual;
 
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
+    property CurrentAddress: String read GetCurrentAddress;
     property FileSource: TFileSource read FFileSource write FFileSource;
     property PanelSelect: TFilePanelSelect read FPanelSelect write FPanelSelect;
     {en
@@ -94,6 +97,11 @@ begin
   inherited;
   FreeAndNil(FFileSource);
   FreeAndNil(FMethods);
+end;
+
+function TFileView.GetCurrentAddress: String;
+begin
+  Result := IncludeTrailingPathDelimiter(FFileSource.CurrentAddress);
 end;
 
 function TFileView.GetCurrentPath: String;

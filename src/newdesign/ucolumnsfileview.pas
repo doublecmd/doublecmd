@@ -471,6 +471,7 @@ end;
 function TColumnsFileView.GetSelectedFiles: TFiles;
 var
   i: Integer;
+  aFile: TColumnsViewFile;
 begin
   Result := FFileSourceFiles.CreateObjectOfSameType;
 
@@ -478,6 +479,14 @@ begin
   begin
     if FFiles[i].Selected then
       Result.Add(FFiles[i].TheFile.Clone);
+  end;
+
+  // If no files are selected, add currently active file if it is valid.
+  if (Result.Count = 0) then
+  begin
+    aFile := GetActiveItem;
+    if IsItemValid(aFile) then
+      Result.Add(aFile.TheFile.Clone);
   end;
 end;
 
