@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, ExtCtrls,
-  uFileView;
+  uFileView, uFilePanelSelect;
 
 type
 
@@ -32,6 +32,10 @@ type
     }
     function GetFileView: TFileView;
     {en
+       Frees current file view and assigns a new one.
+    }
+    procedure SetFileView(aFileView: TFileView);
+    {en
        Retrieves notebook on which this page is.
     }
     function GetNotebook: TFileViewNotebook;
@@ -41,9 +45,12 @@ type
   public
     constructor Create(TheOwner: TComponent); override;
 
+    procedure MakeActive;
+    procedure UpdateCaption(NewCaption: String);
+
     property LockState: TTabLockState read FLockState write SetLockState;
     property LockPath: String read FLockPath write FLockPath;
-    property FileView: TFileView read GetFileView;
+    property FileView: TFileView read GetFileView write SetFileView;
     property Notebook: TFileViewNotebook read GetNotebook;
 
   end;
@@ -52,6 +59,8 @@ type
 
   TFileViewNotebook = class(TCustomNotebook)
   private
+    FNotebookSide: TFilePanelSelect;
+
     function GetActivePage: TFileViewPage;
     function GetActiveView: TFileView;
     function GetFileViewOnPage(Index: Integer): TFileView;
@@ -59,17 +68,21 @@ type
 
     procedure SetMultilineTabs(Multiline: Boolean);
 
-    procedure CloseTabClickedEvent(Sender: TObject);
-
   public
-    constructor Create(ParentControl: TWinControl); reintroduce;
+    constructor Create(ParentControl: TWinControl;
+                       NotebookSide: TFilePanelSelect); reintroduce;
 
     function AddPage: TFileViewPage;
+    procedure RemovePage(Index: Integer);
+    procedure RemovePage(var aPage: TFileViewPage);
+    procedure ActivatePrevTab;
+    procedure ActivateNextTab;
 
     property ActivePage: TFileViewPage read GetActivePage;
     property ActiveView: TFileView read GetActiveView;
     property Page[Index: Integer]: TFileViewPage read GetPage;
     property View[Index: Integer]: TFileView read GetFileViewOnPage; default;
+    property Side: TFilePanelSelect read FNotebookSide;
 
   published
     property OnMouseDown;
@@ -89,6 +102,28 @@ constructor TFileViewPage.Create(TheOwner: TComponent);
 begin
   FLockState := tlsNormal;
   inherited Create(TheOwner);
+end;
+
+procedure TFileViewPage.MakeActive;
+var
+  aFileView: TFileView;
+begin
+  Notebook.PageIndex := PageIndex;
+
+  aFileView := FileView;
+  if Assigned(aFileView) then
+    aFileView.SetFocus;
+end;
+
+procedure TFileViewPage.UpdateCaption(NewCaption: String);
+begin
+  if NewCaption <> '' then
+  begin
+    if (tb_text_length_limit in gDirTabOptions) and (Length(NewCaption) > gDirTabLimit) then
+      Caption := Copy(NewCaption, 1, gDirTabLimit) + '...'
+    else
+      Caption := NewCaption;
+  end;
 end;
 
 procedure TFileViewPage.UpdateTabLockState;
@@ -114,6 +149,25 @@ begin
     Result := nil;
 end;
 
+procedure TFileViewPage.SetFileView(aFileView: TFileView);
+var
+  i: Integer;
+  aComponent: TComponent;
+begin
+  while ComponentCount > 0 do
+  begin
+    aComponent := Components[0];
+    RemoveComponent(aComponent);
+    aComponent.Free;
+  end;
+
+  if Assigned(aFileView) then
+  begin
+    InsertComponent(aFileView);
+    aFileView.Parent := Self;
+  end;
+end;
+
 function TFileViewPage.GetNotebook: TFileViewNotebook;
 begin
   Result := Parent as TFileViewNotebook;
@@ -127,7 +181,8 @@ end;
 
 // -- TFileViewNotebook -------------------------------------------------------
 
-constructor TFileViewNotebook.Create(ParentControl: TWinControl);
+constructor TFileViewNotebook.Create(ParentControl: TWinControl;
+                                     NotebookSide: TFilePanelSelect);
 begin
   PageClass := TFileViewPage;
   inherited Create(ParentControl);
@@ -136,10 +191,7 @@ begin
   Align := alClient;
   TabStop := False;
 
-  OnCloseTabClicked := @CloseTabClickedEvent;
-  OnMouseDown := @frmMain.nbPageMouseDown;
-  OnMouseUp := @frmMain.nbPageMouseUp;
-  OnPageChanged := @frmMain.nbPageChanged;
+  FNotebookSide := NotebookSide;
 end;
 
 function TFileViewNotebook.GetActivePage: TFileViewPage;
@@ -174,15 +226,6 @@ begin
   Result := TFileViewPage(CustomPage(Index));
 end;
 
-procedure TFileViewNotebook.CloseTabClickedEvent(Sender: TObject);
-begin
-  with (Sender As TFileViewPage) do
-  if PageIndex <> -1 then
-  begin
-    //RemovePage(Parent as TFileViewNotebook, PageIndex);
-  end;
-end;
-
 procedure TFileViewNotebook.SetMultilineTabs(Multiline: Boolean);
 begin
   if (nbcMultiline in GetCapabilities) and
@@ -211,18 +254,50 @@ end;
 
 function TFileViewNotebook.AddPage: TFileViewPage;
 var
-  x: Integer;
+  PageNr: Integer;
 begin
-  x := PageCount;
-
-  Pages.Add(IntToStr(x));
-
-//  if bSetActive then
-//    ANoteBook.ActivePage := IntToStr(x);
-
-  Result := TFileViewPage(CustomPage(x));
+  PageNr := Pages.Add(IntToStr(PageCount));
+  Result := GetPage(PageNr);
 
   ShowTabs:= ((PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
+end;
+
+procedure TFileViewNotebook.RemovePage(Index: Integer);
+begin
+  Pages.Delete(Index);
+
+  if (nboMultiLine in Options) and
+     ClientRectNeedsInterfaceUpdate then
+  begin
+    // The height of the tabs (nr of lines) has changed.
+    // Recalculate size of each page.
+    InvalidateClientRectCache(False);
+    ReAlign;
+  end;
+
+  ShowTabs:= ((PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
+end;
+
+procedure TFileViewNotebook.RemovePage(var aPage: TFileViewPage);
+begin
+  RemovePage(aPage.PageIndex);
+  aPage := nil;
+end;
+
+procedure TFileViewNotebook.ActivatePrevTab;
+begin
+  if PageIndex = PageCount - 1 then
+    Page[0].MakeActive
+  else
+    Page[PageIndex + 1].MakeActive;
+end;
+
+procedure TFileViewNotebook.ActivateNextTab;
+begin
+  if PageIndex = 0 then
+    Page[PageCount - 1].MakeActive
+  else
+    Page[PageIndex - 1].MakeActive;
 end;
 
 end.

@@ -602,13 +602,12 @@ end;
 
 procedure TActs.DoNewTab(Notebook: TFileViewNotebook);
 var
-  PanelSelected: TFilePanelSelect;
+  NewPage: TFileViewPage;
 begin
-  // Create a new panel in notebook.
-{
-  CreatePanel(AddPage(Notebook), fpLeft/fpRight, ActiveFrame.CurrentPath);
-  ActiveFrame.SetFocus;
-}
+  NewPage := Notebook.AddPage;
+  Notebook.ActiveView.Clone(NewPage);
+  NewPage.MakeActive;
+  NewPage.UpdateCaption(GetLastDir(ExcludeTrailingPathDelimiter(NewPage.FileView.CurrentPath)));
 end;
 
 //------------------------------------------------------
@@ -787,41 +786,39 @@ begin
 end;
 
 procedure TActs.cm_TargetEqualSource(param:string);
+var
+  NewPage: TFileViewPage;
 begin
-  with FrmMain do
+  with frmMain do
   begin
-{
-    if ActiveFrame.pnlFile.PanelMode = pmArchive then
-      NotActiveFrame.pnlFile.CurrentPath:= ExtractFilePath(ActiveFrame.pnlFile.VFS.ArcFullName)
-    else
-      NotActiveFrame.pnlFile.CurrentPath:= ActiveFrame.pnlFile.CurrentPath;
-}
+    NotActiveNotebook.ActivePage.FileView := nil;
+    ActiveFrame.Clone(NotActiveNotebook.ActivePage);
+    NotActiveNotebook.ActivePage.UpdateCaption(GetLastDir(
+      ExcludeTrailingPathDelimiter(NotActiveNotebook.ActivePage.FileView.CurrentPath)));
   end;
 end;
 
 procedure TActs.cm_LeftEqualRight(param: string);
+var
+  NewPage: TFileViewPage;
 begin
-  with FrmMain do
+  with frmMain do
   begin
-{
-    if FrameRight.pnlFile.PanelMode = pmArchive then
-      FrameLeft.pnlFile.CurrentPath:= ExtractFilePath(FrameRight.pnlFile.VFS.ArcFullName)
-    else
-      FrameLeft.pnlFile.CurrentPath:= FrameRight.pnlFile.CurrentPath;
-}
+    LeftTabs.ActivePage.FileView := nil;
+    FrameRight.Clone(LeftTabs.ActivePage);
+    LeftTabs.ActivePage.UpdateCaption(GetLastDir(ExcludeTrailingPathDelimiter(LeftTabs.ActivePage.FileView.CurrentPath)));
   end;
 end;
 
 procedure TActs.cm_RightEqualLeft(param: string);
+var
+  NewPage: TFileViewPage;
 begin
-  with FrmMain do
+  with frmMain do
   begin
-{
-    if FrameLeft.pnlFile.PanelMode = pmArchive then
-      FrameRight.pnlFile.CurrentPath:= ExtractFilePath(FrameLeft.pnlFile.VFS.ArcFullName)
-    else
-      FrameRight.pnlFile.CurrentPath:= FrameLeft.pnlFile.CurrentPath;
-}
+    RightTabs.ActivePage.FileView := nil;
+    FrameLeft.Clone(RightTabs.ActivePage);
+    RightTabs.ActivePage.UpdateCaption(GetLastDir(ExcludeTrailingPathDelimiter(RightTabs.ActivePage.FileView.CurrentPath)));
   end;
 end;
 
@@ -1052,70 +1049,26 @@ end;
 
 procedure TActs.cm_NextTab(param: string);
 begin
-with frmMain do
-  begin
-    case SelectedPanel of
-    fpLeft: begin
-               if LeftTabs.PageIndex=LeftTabs.PageCount-1 then
-                 LeftTabs.PageIndex:=0
-               else
-                 LeftTabs.PageIndex:=LeftTabs.PageIndex+1;
-            end;
-
-    fpRight: begin
-               if RightTabs.PageIndex=RightTabs.PageCount-1 then
-                 RightTabs.PageIndex:=0
-               else
-                 RightTabs.PageIndex:=RightTabs.PageIndex+1;
-             end;
-    end;
-   ActiveFrame.SetFocus;
-  end;
+  frmMain.ActiveNotebook.ActivateNextTab;
 end;
 
 procedure TActs.cm_PrevTab(param: string);
 begin
-with frmMain do
-  begin
-    case SelectedPanel of
-    fpLeft: begin
-               if LeftTabs.PageIndex=0 then
-                 LeftTabs.PageIndex:=LeftTabs.PageCount-1
-               else
-                 LeftTabs.PageIndex:=LeftTabs.PageIndex-1;
-            end;
-
-    fpRight: begin
-               if RightTabs.PageIndex=0 then
-                 RightTabs.PageIndex:=RightTabs.PageCount-1
-               else
-                 RightTabs.PageIndex:=RightTabs.PageIndex-1;
-             end;
-    end;
-  ActiveFrame.SetFocus;
-  end;
+  frmMain.ActiveNotebook.ActivatePrevTab;
 end;
 
 procedure TActs.cm_ToggleLockTab(param: string);
 var
   nbNoteBook: TFileViewNotebook;
-  PanelSelected: TFilePanelSelect;
 begin
   with frmMain do
   begin
     if param = 'LeftTabs' then
-      PanelSelected:= fpLeft
+      nbNoteBook := LeftTabs
     else if param = 'RightTabs' then
-      PanelSelected:= fpRight
+      nbNoteBook := RightTabs
     else
-      PanelSelected:= SelectedPanel;
-
-    case PanelSelected of
-    fpLeft:
-      nbNoteBook:= LeftTabs;
-    fpRight:
-      nbNoteBook:= RightTabs;
-    end;
+      nbNoteBook := ActiveNotebook;
 
     DoToggleLockTab(nbNoteBook.ActivePage);
   end;
@@ -1124,23 +1077,15 @@ end;
 procedure TActs.cm_ToggleLockDcaTab(param: string);
 var
   nbNoteBook: TFileViewNotebook;
-  PanelSelected: TFilePanelSelect;
 begin
   with frmMain do
   begin
     if param = 'LeftTabs' then
-      PanelSelected:= fpLeft
+      nbNoteBook := LeftTabs
     else if param = 'RightTabs' then
-      PanelSelected:= fpRight
+      nbNoteBook := RightTabs
     else
-      PanelSelected:= SelectedPanel;
-
-    case PanelSelected of
-    fpLeft:
-      nbNoteBook:= LeftTabs;
-    fpRight:
-      nbNoteBook:= RightTabs;
-    end;
+      nbNoteBook := ActiveNotebook;
 
     DoToggleLockDcaTab(nbNoteBook.ActivePage);
   end;

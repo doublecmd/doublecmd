@@ -325,7 +325,7 @@ type
 
     destructor Destroy; override;
 
-    function Clone: TColumnsFileView; override;
+    function Clone(NewParent: TWinControl): TColumnsFileView; override;
     procedure CloneTo(FileView: TFileView); override;
 
     {en
@@ -1150,11 +1150,9 @@ procedure TColumnsFileView.SetCurrentPath(NewPath: String);
 begin
   if NewPath <> '' then
   begin
-{
-    if Assigned(FOnBeforeChangeDirectory) then
-      if not FOnBeforeChangeDirectory(fOwner, NewDirectory) then
+    if Assigned(OnBeforeChangeDirectory) then
+      if not OnBeforeChangeDirectory(Parent as TCustomPage, NewPath) then
         Exit;
-}
 {
     if not FileSource.ChangePath(NewPath) then
       begin
@@ -1177,10 +1175,9 @@ begin
     MakeFileSourceFileList;
 
     UpdatePathLabel;
-{
-    if Assigned(FOnAfterChangeDirectory) then
-      FOnAfterChangeDirectory(fOwner, fActiveDir);
-}
+
+    if Assigned(OnAfterChangeDirectory) then
+      OnAfterChangeDirectory(Parent as TCustomPage, CurrentPath);
   end;
 end;
 
@@ -2136,7 +2133,7 @@ begin
   SetFocus;
   UpDatelblInfo;
   frmMain.EnableHotkeys(True);
-  frmMain.SelectedPanel := PanelSelect;
+  frmMain.SelectedPanel := (NotebookPage as TFileViewPage).Notebook.Side;
 end;
 
 procedure TColumnsFileView.RedrawGrid;
@@ -2553,7 +2550,6 @@ begin
   pnlFooter.Parent:=Self;
   pnlFooter.Align:=alBottom;
 
-  pnlFooter.Width:=AOwner.Width;
   pnlFooter.Anchors:=[akLeft, akRight, akBottom];
   pnlFooter.Height:=20;
   pnlFooter.Top:=Height-20;
@@ -2643,13 +2639,13 @@ begin
   inherited Destroy;
 end;
 
-function TColumnsFileView.Clone: TColumnsFileView;
+function TColumnsFileView.Clone(NewParent: TWinControl): TColumnsFileView;
 var
   FileSourceCloned: TFileSource;
 begin
   FileSourceCloned := FileSource.Clone;
   try
-    Result := TColumnsFileView.Create(Parent, FileSourceCloned);
+    Result := TColumnsFileView.Create(NewParent, FileSourceCloned);
     CloneTo(Result);
   except
     FreeAndNil(FileSourceCloned);

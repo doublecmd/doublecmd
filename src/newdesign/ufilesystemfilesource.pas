@@ -29,8 +29,8 @@ type
     constructor Create; override;
     constructor Create(Path: String); overload;
 
-    function Clone: TFileSystemFileSource; overload;
-    procedure CloneTo(FileSource: TFileSource); overload;
+    function Clone: TFileSystemFileSource; override;
+    procedure CloneTo(FileSource: TFileSource); override;
 
     class function GetSupportedFileProperties: TFilePropertiesTypes; override;
     class function GetOperationsTypes: TFileSourceOperationTypes; override;

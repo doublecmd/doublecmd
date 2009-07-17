@@ -400,8 +400,8 @@ type
     procedure seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
 
-    function FramepnlFileBeforeChangeDirectory(Sender: TObject; const NewDir : String): Boolean;
-    procedure FramepnlFileAfterChangeDirectory(Sender: TObject; const NewDir : String);
+    function FramepnlFileBeforeChangeDirectory(Sender: TCustomPage; const NewDir : String): Boolean;
+    procedure FramepnlFileAfterChangeDirectory(Sender: TCustomPage; const NewDir : String);
     procedure edtCommandKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure edtCommandEnter(Sender: TObject);
@@ -444,6 +444,7 @@ type
     Function ActiveFrame: TFileView;  // get Active frame
     Function NotActiveFrame: TFileView; // get NotActive frame :)
     function ActiveNotebook: TFileViewNotebook;
+    function NotActiveNotebook: TFileViewNotebook;
     function FrameLeft: TFileView;
     function FrameRight: TFileView;
     procedure AppException(Sender: TObject; E: Exception);
@@ -470,8 +471,7 @@ type
     procedure CreateDrivesMenu;
     procedure DrivesMenuClick(Sender: TObject);
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
-    procedure CreatePanel(sType: String; AOwner:TWinControl; APanel:TFilePanelSelect;
-                          FileSource: TFileSource);
+    function CreateFileView(sType: String; FileSource: TFileSource; Page: TFileViewPage): TFileView;
     function RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer): LongInt;
     procedure LoadTabs(ANoteBook: TFileViewNotebook);
     procedure SaveTabs(ANoteBook: TFileViewNotebook);
@@ -528,12 +528,23 @@ var
 {$ENDIF}
 
 procedure TfrmMain.FormCreate(Sender: TObject);
+
+  function CreateNotebook(aParent: TWinControl; aSide: TFilePanelSelect): TFileViewNotebook;
+  begin
+    Result := TFileViewNotebook.Create(aParent, aSide);
+
+    Result.OnCloseTabClicked := @NotebookCloseTabClicked;
+    Result.OnMouseDown := @nbPageMouseDown;
+    Result.OnMouseUp := @nbPageMouseUp;
+    Result.OnPageChanged := @nbPageChanged;
+  end;
+
 var
   slCommandHistory: TStringListEx;
   i: Integer;
 begin
-  nbLeft := TFileViewNotebook.Create(pnlLeft);
-  nbRight := TFileViewNotebook.Create(pnlRight);
+  nbLeft := CreateNotebook(pnlLeft, fpLeft);
+  nbRight := CreateNotebook(pnlRight, fpRight);
 
   HiddenToTray := False;
 
@@ -1343,9 +1354,9 @@ begin
 
           // Check lock option items.
           Index := pmTabMenu.Items.IndexOf(miToggleLockTab);
-          pmTabMenu.Items.Items[Index].Checked := (NoteBook.Page[TabNr].Tag = 1);
+          pmTabMenu.Items.Items[Index].Checked := (NoteBook.Page[TabNr].LockState = tlsLockedPath);
           Index := pmTabMenu.Items.IndexOf(miToggleLockDcaTab);
-          pmTabMenu.Items.Items[Index].Checked := (NoteBook.Page[TabNr].Tag = 2);
+          pmTabMenu.Items.Items[Index].Checked := (NoteBook.Page[TabNr].LockState = tlsResettingPath);
 
           pmTabMenu.Parent := NoteBook;
           pmTabMenu.Tag := TabNr;
@@ -1567,6 +1578,18 @@ begin
       Result := nbLeft;
     fpRight:
       Result := nbRight;
+  else
+    assert(false,'Bad active notebook');
+  end;
+end;
+
+function TfrmMain.NotActiveNotebook: TFileViewNotebook;
+begin
+  case PanelSelected of
+    fpLeft:
+      Result := nbRight;
+    fpRight:
+      Result := nbLeft;
   else
     assert(false,'Bad active notebook');
   end;
@@ -2266,10 +2289,10 @@ begin
   end;
 end;
 
-function TfrmMain.FramepnlFileBeforeChangeDirectory(Sender: TObject; const NewDir: String): Boolean;
+function TfrmMain.FramepnlFileBeforeChangeDirectory(Sender: TCustomPage; const NewDir: String): Boolean;
 var
   ANoteBook: TFileViewNotebook;
-  Page: TFileViewPage;
+  Page, NewPage: TFileViewPage;
   Panel: TFilePanelSelect;
 begin
   Result:= True;
@@ -2283,23 +2306,16 @@ begin
 
         ANoteBook := Page.Notebook;
 
-        if ANoteBook = LeftTabs then
-          Panel := fpLeft
-        else if ANoteBook = RightTabs then
-          Panel := fpRight
-        else
-          Exit;
-
         // Create same type
-        //CreatePanel(ActiveFrame.Type, AddPage(NoteBook), Panel,
-        //            ActiveFrame.FileSource.Type.Create(sPath));
-
-        ActiveFrame.SetFocus;
+        NewPage := ANoteBook.AddPage;
+        Page.FileView.Clone(NewPage);
+        NewPage.FileView.CurrentPath := NewDir;
+        NewPage.MakeActive;
       end;
   end;
 end;
 
-procedure TfrmMain.FramepnlFileAfterChangeDirectory(Sender: TObject; const NewDir: String);
+procedure TfrmMain.FramepnlFileAfterChangeDirectory(Sender: TCustomPage; const NewDir: String);
 var
   ANoteBook : TFileViewNotebook;
   Page: TFileViewPage;
@@ -2312,10 +2328,7 @@ begin
       if Page.LockState = tlsNormal then // if not locked tab
         begin
           sCaption := GetLastDir(ExcludeTrailingPathDelimiter(NewDir));
-          if (tb_text_length_limit in gDirTabOptions) and (Length(sCaption) > gDirTabLimit) then
-            Page.Caption:= Copy(sCaption, 1, gDirTabLimit) + '...'
-          else
-            Page.Caption := sCaption;
+          Page.UpdateCaption(sCaption);
         end;
 
       // update file system watcher directory
@@ -2477,30 +2490,27 @@ begin
     AddSpecialButtons(dskPanel);
 end;
 
-procedure TfrmMain.CreatePanel(sType: String; AOwner: TWinControl; APanel:TFilePanelSelect; FileSource: TFileSource);
+function TfrmMain.CreateFileView(sType: String; FileSource: TFileSource;
+                                 Page: TFileViewPage): TFileView;
 var
-  FileView: TFileView = nil;
+  Panel: TFilePanelSelect;
 begin
   // This function should be changed to a separate TFileView factory.
 
   if sType = 'columns' then
   begin
-    FileView := TColumnsFileView.Create(AOwner, FileSource);
+    Result := TColumnsFileView.Create(Page, FileSource);
   end
   else
-    Exit;
-
-  with FileView do
   begin
-    PanelSelect := APanel;  // should be removed when notebook will be custom class
-                            // and will store where each view is (left or right)
-{
-  do this with observer pattern:
+    Result := nil;
+    Exit;
+  end;
 
-    // Set before changing directory.
+  with Result do
+  begin
     OnBeforeChangeDirectory := @FramepnlFileBeforeChangeDirectory;
     OnAfterChangeDirectory := @FramepnlFileAfterChangeDirectory;
-}
   end;
 end;
 
@@ -2511,7 +2521,7 @@ begin
      (iPageIndex >= 0) and
      (iPageIndex < ANoteBook.PageCount) then
   begin
-    if ANoteBook.Page[iPageIndex].Tag > 0 then
+    if ANoteBook.Page[iPageIndex].LockState <> tlsNormal then
       case msgYesNoCancel(Format(rsMsgCloseLockedTab, [ANoteBook.Page[iPageIndex].Caption])) of
         mmrNo:
           Exit(1);
@@ -2519,20 +2529,9 @@ begin
           Exit(2);
       end;
 
-    ANoteBook.Pages.Delete(iPageIndex);
-
-    if (nboMultiLine in ANoteBook.Options) and
-       ANoteBook.ClientRectNeedsInterfaceUpdate then
-    begin
-      // The height of the tabs (nr of lines) has changed.
-      // Recalculate size of each page.
-      ANoteBook.InvalidateClientRectCache(False);
-      ANoteBook.ReAlign;
-    end;
-
+    ANoteBook.RemovePage(iPageIndex);
     Result:= 0;
   end;
-  ANoteBook.ShowTabs:= ((ANoteBook.PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
 end;
 
 procedure TfrmMain.ReLoadTabs(ANoteBook: TFileViewNotebook);
@@ -2566,8 +2565,7 @@ var
   I, J: Integer;
   sIndex,
   TabsSection: String;
-  fpsPanel: TFilePanelSelect;
-  sCurrentDir,  
+  sCurrentDir,
   sPath, sColumnSet,
   sCaption: String;
   iActiveTab: Integer;
@@ -2576,12 +2574,10 @@ begin
   if ANoteBook = nbLeft then
     begin
       TabsSection:= 'lefttabs';
-      fpsPanel:= fpLeft;
     end
   else
     begin
       TabsSection:= 'righttabs';
-      fpsPanel:= fpRight;
     end;
 
   I:= 0;
@@ -2609,19 +2605,17 @@ begin
 
       Page := ANoteBook.AddPage;
 
-      CreatePanel('columns', Page, fpsPanel,
-                  TFileSystemFileSource.Create(sPath));
+      if not Assigned(CreateFileView('columns', TFileSystemFileSource.Create(sPath), Page)) then
+      begin
+        ANoteBook.RemovePage(Page);
+        continue;
+      end;
 
       Page.LockState := TTabLockState(gIni.ReadInteger(TabsSection, sIndex + '_options', 0));
       if Page.LockState = tlsResettingPath then // if locked tab with directory change
         Page.LockPath := sPath;
 
-      if sCaption <> '' then
-        if (tb_text_length_limit in gDirTabOptions) and (Length(sCaption) > gDirTabLimit) then
-          Page.Caption := Copy(sCaption, 1, gDirTabLimit) + '...'
-        else
-          Page.Caption := sCaption;
-
+      Page.UpdateCaption(sCaption);
       Page.FileView.LoadConfiguration(TabsSection, StrToInt(sIndex));
 
       Inc(I);
