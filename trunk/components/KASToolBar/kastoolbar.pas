@@ -277,7 +277,7 @@ var
 begin
   BeginUpdate;
 
-  for I:= ButtonList.Count downto 1 do
+  for I:= ButtonList.Count - 1 downto 0 do
     begin
       TSpeedButton(ButtonList.Items[0]).Free;
       ButtonList.Delete(0);
@@ -311,12 +311,10 @@ destructor TKASToolBar.Destroy;
 var
   I: Integer;
 begin
-  for I:= 0 to ButtonList.Count - 1 do
-    if TControl(ButtonList[I]) is TSpeedButton then
-      TSpeedButton(ButtonList.Items[I]).Free;
+  Clear;
 
   if Assigned(FBarFile) then
-    FBarFile.Free;
+    FreeAndNil(FBarFile);
 
   inherited Destroy;
 end;
