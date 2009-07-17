@@ -33,7 +33,6 @@ type
     class function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
     class function GetProperties: TFileSourceProperties; override;
 
-    function GetSourceAddress: string; override;
     function GetOperation(OperationType: TFileSourceOperationType): TFileSourceOperation; override;
     function GetFiles: TFiles; override;
 
@@ -54,6 +53,7 @@ constructor TFileSystemFileSource.Create(Path: String);
 begin
   inherited Create;
   FCurrentPath := Path;
+  FCurrentAddress := '';
 end;
 
 class function TFileSystemFileSource.GetOperationsTypes: TFileSourceOperationTypes;
@@ -97,11 +97,6 @@ end;
 class function TFileSystemFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
   Result := TFileSystemFile.GetSupportedProperties;
-end;
-
-function TFileSystemFileSource.GetSourceAddress: string;
-begin
-  Result := '';
 end;
 
 function TFileSystemFileSource.GetOperation(OperationType: TFileSourceOperationType): TFileSourceOperation;

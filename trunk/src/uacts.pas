@@ -28,7 +28,8 @@ unit uActs;
 interface
 
 uses
-  Classes, SysUtils, Dialogs, typinfo, ExtCtrls, StringHashList, ActnList;
+  Classes, SysUtils, Dialogs, typinfo, ExtCtrls, StringHashList, ActnList,
+  uFileView;
   
   
 const cf_Null=0;
@@ -98,6 +99,7 @@ const cf_Null=0;
    procedure DoRemoveTab(Notebook: TNotebook; PageIndex: Integer);
    procedure DoToggleLockTab(Notebook: TNotebook; PageIndex: Integer);
    procedure DoToggleLockDcaTab(Notebook: TNotebook; PageIndex: Integer);
+   procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; FullNames: Boolean);
    //---------------------
 
   published
@@ -563,6 +565,41 @@ begin
   end;
 end;
 
+procedure TActs.DoCopySelectedFileNamesToClipboard(FileView: TFileView; FullNames: Boolean);
+var
+  I: Integer;
+  sl: TStringList = nil;
+  SelectedFiles: TFiles = nil;
+  PathToAdd: String;
+begin
+  SelectedFiles := FileView.SelectedFiles;
+  try
+    if SelectedFiles.Count > 0 then
+    begin
+      sl := TStringList.Create;
+      for I := 0 to SelectedFiles.Count - 1 do
+      begin
+        if FullNames then
+          PathToAdd := FileView.CurrentAddress
+                     + FileView.CurrentPath
+        else
+          PathToAdd := '';
+
+        sl.Add(PathToAdd + SelectedFiles[I].Name);
+      end;
+
+      Clipboard.Clear;   // prevent multiple formats in Clipboard (specially synedit)
+      Clipboard.AsText := sl.Text;
+    end;
+
+  finally
+    if Assigned(sl) then
+      FreeAndNil(sl);
+    if Assigned(SelectedFiles) then
+      FreeAndNil(SelectedFiles);
+  end;
+end;
+
 //------------------------------------------------------
 //Published methods
 //------------------------------------------------------
@@ -673,47 +710,13 @@ begin
 end;
 
 procedure TActs.cm_CopyFullNamesToClip(param:string);
-var
-  I: Integer;
-  sl: TStringList;
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_CopyFullNamesToClip', param);
-  with frmmain.ActiveFrame do
-  begin
-{
-    if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
-    sl:= TStringList.Create;
-    for I:=0 to pnlFile.FileList.Count - 1 do
-      if pnlFile.FileList.GetItem(I)^.bSelected then
-        sl.Add(ActiveDir + pnlFile.FileList.GetItem(I)^.sName);
-    Clipboard.Clear;   // prevent multiple formats in Clipboard (specially synedit)
-    Clipboard.AsText:= sl.Text;
-    UnMarkAll;
-}
-  end;
-  FreeAndNil(sl);
+  DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, True);
 end;
 
 procedure TActs.cm_CopyNamesToClip(param:string);
-var
-  I: Integer;
-  sl: TStringList;
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_CopyNamesToClip', param);
-  with frmMain.ActiveFrame do
-  begin
-{
-    if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
-    sl:= TStringList.Create;
-    for I:=0 to pnlFile.FileList.Count - 1 do
-      if pnlFile.FileList.GetItem(I)^.bSelected then
-        sl.Add(pnlFile.FileList.GetItem(I)^.sName);
-    Clipboard.Clear;   // prevent multiple formats in Clipboard (specially synedit)
-    Clipboard.AsText:= sl.Text;
-    UnMarkAll;
-}
-  end;
-  FreeAndNil(sl);
+  DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, False);
 end;
 
 //------------------------------------------------------
