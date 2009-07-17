@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="62">
+    <Units Count="67">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -458,6 +458,31 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMethodsList"/>
       </Unit61>
+      <Unit62>
+        <Filename Value="newdesign\ufilesourcecopyinoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceCopyInOperation"/>
+      </Unit62>
+      <Unit63>
+        <Filename Value="newdesign\ufilesourcecopyoutoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceCopyOutOperation"/>
+      </Unit63>
+      <Unit64>
+        <Filename Value="newdesign\ufilesourcedeleteoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceDeleteOperation"/>
+      </Unit64>
+      <Unit65>
+        <Filename Value="newdesign\ufilesystemcopyoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemCopyOperation"/>
+      </Unit65>
+      <Unit66>
+        <Filename Value="ufileviewnotebook.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileViewNotebook"/>
+      </Unit66>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
