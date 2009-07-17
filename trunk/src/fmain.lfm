@@ -3,7 +3,7 @@ object frmMain: TfrmMain
   Height = 659
   Top = 54
   Width = 659
-  ActiveControl = nbRight
+  ActiveControl = pnlSyncSize
   Caption = 'Double Commander'
   ClientHeight = 639
   ClientWidth = 659
@@ -112,20 +112,6 @@ object frmMain: TfrmMain
       TabOrder = 0
       OnDblClick = pnlLeftRightDblClick
       OnResize = pnlLeftResize
-      object nbLeft: TNotebook
-        Left = 0
-        Height = 299
-        Top = 24
-        Width = 170
-        TabStop = False
-        Align = alClient
-        OnCloseTabClicked = NoteBookCloseTabClicked
-        OnMouseDown = nbPageMouseDown
-        OnMouseUp = nbPageMouseUp
-        OnPageChanged = nbPageChanged
-        Options = [nboShowCloseButtons]
-        TabOrder = 0
-      end
       object pnlLeftTools: TPanel
         Left = 0
         Height = 24
@@ -135,7 +121,7 @@ object frmMain: TfrmMain
         BevelOuter = bvNone
         ClientHeight = 24
         ClientWidth = 170
-        TabOrder = 1
+        TabOrder = 0
         object btnLeftDrive: TSpeedButton
           Left = 0
           Height = 24
@@ -231,20 +217,6 @@ object frmMain: TfrmMain
       ClientWidth = 484
       TabOrder = 1
       OnDblClick = pnlLeftRightDblClick
-      object nbRight: TNotebook
-        Left = 0
-        Height = 299
-        Top = 24
-        Width = 484
-        TabStop = False
-        Align = alClient
-        OnCloseTabClicked = NoteBookCloseTabClicked
-        OnMouseDown = nbPageMouseDown
-        OnMouseUp = nbPageMouseUp
-        OnPageChanged = nbPageChanged
-        Options = [nboShowCloseButtons]
-        TabOrder = 0
-      end
       object pnlRightTools: TPanel
         Left = 0
         Height = 24
@@ -254,7 +226,7 @@ object frmMain: TfrmMain
         BevelOuter = bvNone
         ClientHeight = 24
         ClientWidth = 484
-        TabOrder = 1
+        TabOrder = 0
         object btnRightDrive: TSpeedButton
           Left = 0
           Height = 24

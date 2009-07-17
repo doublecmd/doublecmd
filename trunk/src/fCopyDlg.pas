@@ -41,26 +41,28 @@ type
 implementation
 
 uses
-  fMain, LCLType, uGlobs, uFilePanelSelect, uFileView;
+  fMain, LCLType, uGlobs, uFilePanelSelect, uFileView, uFileViewNotebook;
 
-var noteb:TNotebook;
+var
+  noteb: TFileViewNotebook;
+
 procedure TfrmCopyDlg.TabsSelector(Sender: TObject);
 begin
-  edtDst.Text:=TFileView(noteb.Page[(sender as TBitBtn).tag].Components[0]).CurrentPath;
+  edtDst.Text:=noteb[(sender as TBitBtn).tag].CurrentPath;
 end;
 
 procedure TfrmCopyDlg.TabsSelectorMouseDown(Sender: TObject; Button: TMouseButton;
                                             Shift: TShiftState; X, Y: Integer);
 begin
-  edtDst.Text:=TFileView(noteb.Page[(sender as TBitBtn).tag].Components[0]).CurrentPath;
+  edtDst.Text:=noteb[(sender as TBitBtn).tag].CurrentPath;
 end;
 
 function TfrmCopyDlg.ShowTabsSelector: integer;
 var btnS,btnL:TBitBtn; i,tc:integer; st:TStringList; s:string;
 begin
   if frmmain.SelectedPanel=fpRight
-  then noteb:=frmmain.nbLeft
-  else noteb:=frmmain.nbRight;
+  then noteb:=frmmain.LeftTabs
+  else noteb:=frmmain.RightTabs;
 
   if noteb.PageCount=1 then
     begin
@@ -71,9 +73,9 @@ begin
   st:=TStringList.Create;
   try
     for i:=0 to tc-1 do
-    if TFileView(noteb.Page[i].Components[0]).Visible=true then
+    if noteb.View[i].Visible=true then
       begin
-       s:=TFileView(noteb.Page[i].Components[0]).CurrentPath;
+       s:=noteb[i].CurrentPath;
         if st.IndexOf(s)=-1 then
           begin
             st.Add(s);

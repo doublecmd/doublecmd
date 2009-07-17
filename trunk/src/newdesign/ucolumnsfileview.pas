@@ -424,7 +424,8 @@ uses
   uFileSourceOperationTypes,
   uFileSystemFile,
   fColumnsSetConf,
-  uKeyboard
+  uKeyboard,
+  uFileViewNotebook
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   , GtkProc  // for ReleaseMouseCapture
   , GTKGlobals  // for DblClickTime
@@ -441,8 +442,8 @@ begin
   if frmMain.Visible and dgPanel.CanFocus then
     dgPanel.SetFocus;
   lblPath.SetActive(True);
-  if Parent is TPage then
-    frmMain.UpdateSelectedDrive(Parent.Parent as TNoteBook);
+  if Parent is TFileViewPage then
+    frmMain.UpdateSelectedDrive((Parent as TFileViewPage).Notebook);
 
   // Create a Panel-Changed-Event for this?
   frmMain.UpdatePrompt;
@@ -2448,14 +2449,14 @@ begin
 
             FreeAndNil(frmColumnsSetConf);
             //TODO: Reload current columns in panels
-            frmMain.ReLoadTabs(frmMain.nbLeft);
-            frmMain.ReLoadTabs(frmMain.nbRight);
+            frmMain.ReLoadTabs(frmMain.LeftTabs);
+            frmMain.ReLoadTabs(frmMain.RightTabs);
           end;
     1001: //All columns
           begin
             Actions.cm_Options('15');
-            frmMain.ReLoadTabs(frmMain.nbLeft);
-            frmMain.ReLoadTabs(frmMain.nbRight);
+            frmMain.ReLoadTabs(frmMain.LeftTabs);
+            frmMain.ReLoadTabs(frmMain.RightTabs);
           end;
 
   else
