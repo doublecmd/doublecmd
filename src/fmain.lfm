@@ -1127,6 +1127,13 @@ object frmMain: TfrmMain
         Action = actShowSysFiles
         OnClick = actExecute
       end
+      object miLine13: TMenuItem
+        Caption = '-'
+      end
+      object mnuShowOperations: TMenuItem
+        Caption = 'Operations viewer'
+        OnClick = mnuShowOperationsClick
+      end
     end
     object mnuConfig: TMenuItem
       Caption = 'C&onfiguration'

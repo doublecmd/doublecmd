@@ -19,7 +19,7 @@ type
     function GetFiles: TFiles;
 
   public
-    constructor Create; virtual;
+    constructor Create; override;
     destructor Destroy; override;
 
     // Retrieves files and revokes ownership of TFiles list.
@@ -35,10 +35,13 @@ implementation
 constructor TFileSourceListOperation.Create;
 begin
   FFiles := TFiles.Create;
+  inherited Create;
 end;
 
 destructor TFileSourceListOperation.Destroy;
 begin
+  inherited Destroy;
+
   if Assigned(FFiles) then
     FreeAndNil(FFiles);
 end;

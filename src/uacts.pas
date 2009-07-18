@@ -240,7 +240,8 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
      fOptions,fCompareFiles,fFindDlg,fSymLink,fHardLink,fMultiRename, uHash,
      uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit,
      HelpIntfs, dmHelpManager, uShellExecute, uClipboard, uCheckSumThread, fCheckSumCalc,
-     uFileSorting, uFilePanelSelect, uFile, uFileSystemFileSource;
+     uFileSorting, uFilePanelSelect, uFile, uFileSystemFileSource,
+     uFileSystemCopyOperation, uOperationsManager;
 
 { TActs }
 
@@ -1280,7 +1281,21 @@ begin
 end;
 
 procedure TActs.cm_Copy(param:string);
+var
+  Operation: TFileSystemCopyOutOperation;
+  OperationHandle: TOperationHandle;
+  CopyDialog: TfrmFileOp;
 begin
+  // Dummy operation for testing.
+  debugln('Starting copy operation');
+  Operation := TFileSystemCopyOutOperation.Create(nil,nil,nil,nil);
+  OperationHandle := OperationsManager.AddOperation(Operation, True);
+
+  // The OperationHandle should now be passed to the dialog displaying progress.
+
+  CopyDialog := TfrmFileOp.Create(OperationHandle);
+  CopyDialog.Show;
+
 {
   File source operation.
 

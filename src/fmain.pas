@@ -139,6 +139,8 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     lblCommandPath: TLabel;
+    mnuShowOperations: TMenuItem;
+    miLine13: TMenuItem;
     miLogClear: TMenuItem;
     miLogHide: TMenuItem;
     miLine25: TMenuItem;
@@ -338,6 +340,7 @@ type
     procedure miLogMenuClick(Sender: TObject);
     procedure miTrayIconExitClick(Sender: TObject);
     procedure miTrayIconRestoreClick(Sender: TObject);
+    procedure mnuShowOperationsClick(Sender: TObject);
     procedure PanelButtonClick(Button: TSpeedButton; SourceFrame: TFileView;
                                PanelSelect: TFilePanelSelect);
     procedure DeleteClick(Sender: TObject);
@@ -440,7 +443,7 @@ type
 
   public
     procedure HandleActionHotKeys(var Key: Word; Shift: TShiftState);
-    
+
     Function ActiveFrame: TFileView;  // get Active frame
     Function NotActiveFrame: TFileView; // get NotActive frame :)
     function ActiveNotebook: TFileViewNotebook;
@@ -516,7 +519,7 @@ uses
   fSymLink, fHardLink, uDCUtils, uLog, fMultiRename, uGlobsPaths, fMsg, fPackDlg,
   fExtractDlg, fLinker, fSplitter, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls, uFileSorting,
-  uFileSystemFileSource
+  uFileSystemFileSource, uOperationsManager, fViewOperations
   {$IFDEF LCLQT}
     , qtwidgets, qtobjects
   {$ENDIF}
@@ -697,6 +700,14 @@ end;
 procedure TfrmMain.miTrayIconRestoreClick(Sender: TObject);
 begin
   RestoreFromTray;
+end;
+
+procedure TfrmMain.mnuShowOperationsClick(Sender: TObject);
+begin
+  if not Assigned(frmViewOperations) then
+    Application.CreateForm(TfrmViewOperations, frmViewOperations);
+
+  frmViewOperations.ShowOnTop;
 end;
 
 procedure TfrmMain.PanelButtonClick(Button: TSpeedButton; SourceFrame: TFileView;
