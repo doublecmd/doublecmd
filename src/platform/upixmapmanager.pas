@@ -540,7 +540,7 @@ end;
 constructor TPixMapManager.Create;
 {$IFDEF MSWINDOWS}
 var
-  FileInfo : TSHFileInfo;
+  FileInfo : TSHFileInfoW;
   iIconSize : Integer;
 {$ENDIF}
 begin
@@ -558,7 +558,7 @@ begin
     else
       iIconSize := SHGFI_LARGEICON;
       
-    FSysImgList := SHGetFileInfo('C:\',
+    FSysImgList := SHGetFileInfoW(PWideChar(UTF8Decode(mbGetCurrentDir)),
                            0,
                            FileInfo,
                            SizeOf(FileInfo),
