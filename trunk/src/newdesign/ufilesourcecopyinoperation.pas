@@ -26,7 +26,7 @@ type
   TFileSourceCopyInOperation = class(TFileSourceOperation)
 
   public
-    constructor Create; virtual;
+    constructor Create; override;
     destructor Destroy; override;
 
   end;
@@ -35,10 +35,12 @@ implementation
 
 constructor TFileSourceCopyInOperation.Create;
 begin
+  inherited;
 end;
 
 destructor TFileSourceCopyInOperation.Destroy;
 begin
+  inherited;
 end;
 
 end.

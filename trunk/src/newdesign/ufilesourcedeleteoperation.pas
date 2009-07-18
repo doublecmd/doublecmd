@@ -17,7 +17,7 @@ type
   TFileSourceDeleteOperation = class(TFileSourceOperation)
 
   public
-    constructor Create; virtual;
+    constructor Create; override;
     destructor Destroy; override;
 
   end;
@@ -26,10 +26,12 @@ implementation
 
 constructor TFileSourceDeleteOperation.Create;
 begin
+  inherited;
 end;
 
 destructor TFileSourceDeleteOperation.Destroy;
 begin
+  inherited;
 end;
 
 end.

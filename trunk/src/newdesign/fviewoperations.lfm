@@ -1,0 +1,41 @@
+object frmViewOperations: TfrmViewOperations
+  Left = 295
+  Height = 246
+  Top = 181
+  Width = 634
+  Caption = 'frmViewOperations'
+  ClientHeight = 246
+  ClientWidth = 634
+  OnCreate = FormCreate
+  LCLVersion = '0.9.27'
+  object lblOperationsCount: TLabel
+    Left = 24
+    Height = 18
+    Top = 16
+    Width = 99
+    Caption = 'Active operations:'
+    ParentColor = False
+  end
+  object lblCount: TLabel
+    Left = 144
+    Height = 18
+    Top = 16
+    Width = 47
+    Caption = 'lblCount'
+    ParentColor = False
+  end
+  object lblProgress: TLabel
+    Left = 224
+    Height = 18
+    Top = 16
+    Width = 61
+    Caption = 'lblProgress'
+    ParentColor = False
+  end
+  object UpdateTimer: TTimer
+    Interval = 100
+    OnTimer = OnUpdateTimer
+    left = 19
+    top = 212
+  end
+end

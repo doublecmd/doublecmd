@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="69">
+    <Units Count="72">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -493,6 +493,24 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uRealFileSource"/>
       </Unit68>
+      <Unit69>
+        <Filename Value="newdesign\uoperationsmanager.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uOperationsManager"/>
+      </Unit69>
+      <Unit70>
+        <Filename Value="newdesign\uoperationthread.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uOperationThread"/>
+      </Unit70>
+      <Unit71>
+        <Filename Value="newdesign\fviewoperations.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmViewOperations"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fViewOperations"/>
+      </Unit71>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

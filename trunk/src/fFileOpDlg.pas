@@ -20,7 +20,8 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, Buttons;
+  Dialogs, StdCtrls, ComCtrls, Buttons, ExtCtrls,
+  uOperationsManager;
 
 type
 
@@ -43,6 +44,10 @@ type
     procedure FormShow(Sender: TObject);
   private
     { Private declarations }
+    FOperationHandle: TOperationHandle;
+    FUpdateTimer: TTimer;
+
+    procedure OnUpdateTimer(Sender: TObject);
 
   public
     iProgress1Max: Integer;
@@ -53,6 +58,8 @@ type
     sFileNameFrom,
     sFileNameTo: String;
     Thread: TThread;
+
+    constructor Create(OperationHandle: TOperationHandle); overload;
     procedure ToggleProgressBarStyle;
     procedure UpdateDlg;
   end;
@@ -60,7 +67,7 @@ type
 implementation
 
 uses
-   fMain, dmCommonData, uFileOpThread;
+   fMain, dmCommonData, uFileOpThread, uFileSourceOperation, LCLProc;
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
 begin
@@ -90,9 +97,11 @@ end;
 procedure TfrmFileOp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
    CloseAction:= caFree;
+{
    frmMain.frameLeft.Reload;
    frmMain.frameRight.Reload;
    frmMain.ActiveFrame.SetFocus;
+}
 end;
 
 procedure TfrmFileOp.FormCreate(Sender: TObject);
@@ -110,6 +119,13 @@ begin
   pbFirst.DoubleBuffered:= True;
   pbSecond.DoubleBuffered:= True;
   Self.DoubleBuffered:= True;
+
+  FUpdateTimer := TTimer.Create(Self);
+  FUpdateTimer.Interval := 100;
+  FUpdateTimer.OnTimer := @OnUpdateTimer;
+  FUpdateTimer.Enabled := True;
+
+  pbFirst.Max := 100;
 end;
 
 procedure TfrmFileOp.FormShow(Sender: TObject);
@@ -120,6 +136,30 @@ begin
   Hint:= Caption;
   if btnPauseStart.Visible then
     dmComData.ImageList.GetBitmap(1, btnPauseStart.Glyph);
+end;
+
+constructor TfrmFileOp.Create(OperationHandle: TOperationHandle);
+begin
+  FOperationHandle := OperationHandle;
+  inherited Create(Application);
+end;
+
+procedure TfrmFileOp.OnUpdateTimer(Sender: TObject);
+var
+  Operation: TFileSourceOperation;
+begin
+  Operation := OperationsManager.OperationByHandle[FOperationHandle];
+  if Assigned(Operation) then
+  begin
+    pbFirst.Position := Operation.Progress;
+  end
+  else
+  begin
+    // Operation has finished.
+    // if CloseOnFinish then
+    Close;
+    // if BeepOnFinish then Beep;
+  end;
 end;
 
 procedure TfrmFileOp.ToggleProgressBarStyle;

@@ -45,6 +45,11 @@ type
     FSourceFiles: TFiles;
     FTargetFiles: TFiles;
 
+    FProgress: Integer;
+
+  protected
+    function GetProgress: Integer; override;
+
   public
     constructor Create(SourceFileSource: TFileSystemFileSource;
                        TargetFileSource: TFileSystemFileSource;
@@ -89,10 +94,25 @@ begin
   FTargetFileSource := TargetFileSource;
   FSourceFiles := SourceFiles;
   FTargetFiles := TargetFiles;
+
+  FProgress := 0;
+end;
+
+function TFileSystemCopyOutOperation.GetProgress: Integer;
+begin
+  Result := FProgress;
 end;
 
 procedure TFileSystemCopyOutOperation.Execute;
+var
+  i: Integer;
 begin
+  // Some dummy long operation for now.
+  for i := 1 to 300 do
+  begin
+    Sleep(50);
+    FProgress := (i * 100)  div  300;
+  end;
 end;
 
 end.
