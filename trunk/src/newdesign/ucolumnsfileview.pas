@@ -234,6 +234,12 @@ type
     lblPath: TPathLabel;
     dgPanel: TDrawGridEx;
 
+    {en
+       Private constructor used to create an object intended to be a clone
+       (with its properties copied from another object).
+    }
+    constructor Create(AOwner: TWinControl; AFileSource: TFileSource; Cloning: Boolean = False); overload;
+
     function GetGridHorzLine: Boolean;
     function GetGridVertLine: Boolean;
     procedure SetGridHorzLine(const AValue: Boolean);
@@ -1621,25 +1627,28 @@ begin
 
   SizeSupported := fpSize in FileSource.SupportedFileProperties;
 
-  for i := 0 to FFiles.Count - 1 do
+  if Assigned(FFiles) then
   begin
-    with FFiles[i] do
+    for i := 0 to FFiles.Count - 1 do
     begin
-      if TheFile.Name = '..' then Continue;
-
-      inc(FilesInDir);
-      if Selected then
-        inc(FilesSelected);
-
-      // Count size if Size property is supported.
-      if SizeSupported then
+      with FFiles[i] do
       begin
-        SizeProperty := TheFile.Properties[fpSize] as TFileSizeProperty;
+        if TheFile.Name = '..' then Continue;
 
+        inc(FilesInDir);
         if Selected then
-          SizeSelected := SizeSelected + SizeProperty.Value;
+          inc(FilesSelected);
 
-        SizeInDir := SizeInDir + SizeProperty.Value;
+        // Count size if Size property is supported.
+        if SizeSupported then
+        begin
+          SizeProperty := TheFile.Properties[fpSize] as TFileSizeProperty;
+
+          if Selected then
+            SizeSelected := SizeSelected + SizeProperty.Value;
+
+          SizeInDir := SizeInDir + SizeProperty.Value;
+        end;
       end;
     end;
   end;
@@ -2498,12 +2507,17 @@ end;
 
 constructor TColumnsFileView.Create(AOwner: TWinControl; AFileSource: TFileSource);
 begin
+  Create(AOwner, AFileSource, False);
+end;
+
+constructor TColumnsFileView.Create(AOwner: TWinControl; AFileSource: TFileSource; Cloning: Boolean = False);
+begin
   DebugLn('TColumnsFileView.Create components');
   inherited Create(AOwner, AFileSource);
   Parent := AOwner;
   Align := alClient;
 
-  FFiles := TColumnsViewFiles.Create;
+  FFiles := nil;
   FFileSourceFiles := nil;
 
   ActiveColmSlave := nil;
@@ -2517,11 +2531,10 @@ begin
   FUpdateFileCount := True;
   FUpdateDiskFreeSpace := True;
 
-  FSorting := TFileListSorting.Create;
+  FSorting := nil;
   // default to sorting by 0-th column
   FSortCol := 0;
   FSortDirect := sdAscending;
-  FSorting.AddSorting(FSortCol, FSortDirect);
 
   // -- other components
 
@@ -2618,8 +2631,17 @@ begin
   pmColumnsMenu := TPopupMenu.Create(Self);
   pmColumnsMenu.Parent := Self;
 
-  MakeFileSourceFileList;
-  MakeDisplayFileList; //
+  // Statements which should not be executed
+  // when the object is created for cloning.
+  if not Cloning then
+  begin
+    FFiles := TColumnsViewFiles.Create;
+
+    FSorting := TFileListSorting.Create;
+    FSorting.AddSorting(FSortCol, FSortDirect);
+
+    MakeFileSourceFileList;
+  end;
 
 //  setup column widths
   SetColWidths;
@@ -2645,7 +2667,7 @@ var
 begin
   FileSourceCloned := FileSource.Clone;
   try
-    Result := TColumnsFileView.Create(NewParent, FileSourceCloned);
+    Result := TColumnsFileView.Create(NewParent, FileSourceCloned, True);
     CloneTo(Result);
   except
     FreeAndNil(FileSourceCloned);
@@ -2660,8 +2682,9 @@ begin
 
     with FileView as TColumnsFileView do
     begin
-      FFiles := Self.FFiles.Clone;
+      // Clone file source files before display files because they are the reference files.
       FFileSourceFiles := Self.FFileSourceFiles.Clone;
+      FFiles := Self.FFiles.Clone(Self.FFileSourceFiles, FFileSourceFiles);
 
       FLastActive := Self.FLastActive;
       FLastMark := Self.FLastMark;
@@ -2686,6 +2709,13 @@ begin
       isSlave := self.isSlave;
 
       // All the visual controls don't need cloning.
+
+      // Update row count because we set display files list.
+      dgPanel.RowCount := FFiles.Count
+                        + dgPanel.FixedRows; // header rows
+
+      Select(FLastActive);
+      UpDatelblInfo;
     end;
   end;
 end;
@@ -2719,26 +2749,32 @@ var
   AFile: TColumnsViewFile;
   i: Integer;
 begin
-  FFiles.Clear;
-
-  Sort;
-
-  for i := 0 to FFileSourceFiles.Count - 1 do
+  if Assigned(FFileSourceFiles) then
   begin
-    if gShowSystemFiles = False then
+    FFiles.Clear;
+
+    Sort;
+
+    for i := 0 to FFileSourceFiles.Count - 1 do
     begin
-      if FFileSourceFiles[i].IsSysFile then Continue;
+      if gShowSystemFiles = False then
+      begin
+        if FFileSourceFiles[i].IsSysFile then Continue;
+      end;
+
+      AFile := TColumnsViewFile.Create(FFileSourceFiles[i]);
+      if gShowIcons then
+        AFile.IconID := PixMapManager.GetIconByFile(AFile.TheFile,
+                                                    fspDirectAccess in FileSource.Properties);
+      FFiles.Add(AFile);
     end;
 
-    AFile := TColumnsViewFile.Create(FFileSourceFiles[i]);
-    if gShowIcons then
-      AFile.IconID := PixMapManager.GetIconByFile(AFile.TheFile, fspDirectAccess in FileSource.Properties);
-    FFiles.Add(AFile);
-  end;
+    // Update row count.
+    dgPanel.RowCount := FFiles.Count
+                      + dgPanel.FixedRows; // header rows
 
-  // Update row count.
-  dgPanel.RowCount := FFiles.Count
-                    + dgPanel.FixedRows; // header rows
+    UpDatelblInfo;
+  end;
 end;
 
 procedure TColumnsFileView.Reload;
@@ -2771,8 +2807,10 @@ begin
     pnlFile.FileList.UpdateFileInformation(pnlFile.PanelMode);
 }
 
-  MakeDisplayFileList;
-  UpDatelblInfo;
+  if Assigned(FFiles) then
+  begin
+    MakeDisplayFileList;
+  end;
 end;
 
 function TColumnsFileView.GetActiveItem: TColumnsViewFile;
