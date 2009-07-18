@@ -14,8 +14,10 @@
 unit uExts;
 
 interface
+
 uses
-  Classes, Contnrs, uTypes;
+  Classes, Contnrs, uTypes, uFile;
+
 type
   {en
      Class for storage actions by file extensions
@@ -104,12 +106,12 @@ type
     }
     procedure SaveToFile(const sName:String);
     {en
-       Return action command by extension and action name
-       @param(sExt File extension)
+       Return action command by file and action name
+       @param(aFile File for which action is sought)
        @param(sActionName Action name)
        @returns(Action command)
     }
-    function GetExtActionCmd(FileRecItem: TFileRecItem; const sActionName:String):String;
+    function GetExtActionCmd(aFile: TFile; const sActionName:String):String;
     {en
        Return list of actions by extension
        @param(sExt File extension)
@@ -453,16 +455,16 @@ begin
   FExtList.Delete(Index);
 end;
 
-function TExts.GetExtActionCmd(FileRecItem: TFileRecItem; const sActionName:String):String;
+function TExts.GetExtActionCmd(aFile: TFile; const sActionName:String):String;
 var
   I: Integer;
   sMask: String;
 begin
   Result:= '';
-  if (FPS_ISDIR(FileRecItem.iMode) or (FileRecItem.bLinkIsDir)) then
+  if aFile.IsDirectory or aFile.IsLinkToDirectory then
     sMask:= cMaskFolder
   else
-    sMask:= LowerCase(FileRecItem.sExt);
+    sMask:= LowerCase(aFile.Extension);
   if sMask = '' then Exit;
   if sMask[1] = '.' then
     Delete(sMask, 1, 1);
