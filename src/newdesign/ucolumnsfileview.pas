@@ -935,7 +935,10 @@ begin
   if iRow >= dgPanel.FixedRows then
     AFile := FFiles[iRow - dgPanel.FixedRows]; // substract fixed rows (header)
 
-  if Assigned(AFile) and AFile.TheFile.IsDirectory and (Y < dgPanel.GridHeight) then
+  if Assigned(AFile) and
+     (AFile.TheFile.IsDirectory or AFile.TheFile.IsLinkToDirectory) and
+     (Y < dgPanel.GridHeight)
+  then
     begin
       if State = dsDragLeave then
         // Mouse is leaving the control or drop will occur immediately.
@@ -1233,7 +1236,7 @@ begin
       Exit;
     end;
 }
-    if TheFile.IsDirectory then // deeper and deeper
+    if TheFile.IsDirectory or TheFile.IsLinkToDirectory then // deeper and deeper
     begin
       cdDownLevel(TheFile);
       Exit;
@@ -2244,7 +2247,9 @@ debugln('panelkeydown');
     begin
       if IsActiveItemValid then
       begin
-        if GetActiveItem.TheFile.IsDirectory then
+        if GetActiveItem.TheFile.IsDirectory or
+           GetActiveItem.TheFile.IsLinkToDirectory
+        then
           CalculateSpace(False);
 
         SelectFile(GetActiveItem);
@@ -2994,7 +2999,8 @@ begin
         AFile := FFiles[iRow - dgPanel.FixedRows];
 
         // If dropped into a directory modify destination path accordingly.
-        if Assigned(AFile) and AFile.TheFile.IsDirectory then
+        if Assigned(AFile) and
+           (AFile.TheFile.IsDirectory or AFile.TheFile.IsLinkToDirectory) then
         begin
           if AFile.TheFile.Name = '..' then
             // remove the last subdirectory in the path
@@ -3401,7 +3407,7 @@ begin
   AFile := TargetPanel.FFiles[iRow - FixedRows]; // substract fixed rows (header)
 
   if Assigned(AFile) and
-     (AFile.TheFile.IsDirectory{ or fri^.bLinkIsDir}) and
+     (AFile.TheFile.IsDirectory or AFile.TheFile.IsLinkToDirectory) and
      (ClientPoint.Y < GridHeight) then
     // It is a directory or link.
     begin

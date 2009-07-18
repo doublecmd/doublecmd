@@ -841,7 +841,9 @@ begin
               fsfName:
                  begin
                    // Show square brackets around directories
-                   if gDirBrackets and AFile.IsDirectory then
+                   if gDirBrackets and
+                      (AFile.IsDirectory or AFile.IsLinkToDirectory)
+                   then
                      Result:= '[' + AFile.Name + ']'
                    else
                      Result:= AFile.Name;
@@ -852,7 +854,7 @@ begin
 
               fsfSize:
                 begin
-                  if AFile.IsDirectory and
+                  if (AFile.IsDirectory or AFile.IsLinkToDirectory) and
                      ((AFile.Properties[fpSize] as TFileSizeProperty).Value = 0)
                   then
                     Result := '<DIR>'
@@ -878,7 +880,9 @@ begin
               fsfNameNoExtension:
                 begin
                    // Show square brackets around directories
-                   if gDirBrackets and AFile.IsDirectory then
+                   if gDirBrackets and
+                      (AFile.IsDirectory or AFile.IsLinkToDirectory)
+                   then
                      Result:= '[' + AFile.NameNoExt + ']'
                    else
                      Result:= AFile.NameNoExt;
