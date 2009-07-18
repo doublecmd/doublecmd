@@ -62,7 +62,7 @@ type
 
     procedure UpdateView; virtual abstract;
 
-    procedure ExecuteCommand(CommandName: String; Parameter: String); virtual;
+    procedure ExecuteCommand(CommandName: String; Parameter: String = ''); virtual;
 
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property CurrentAddress: String read GetCurrentAddress;

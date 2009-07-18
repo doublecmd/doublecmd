@@ -27,38 +27,39 @@ unit uShellExecute;
 interface
 
 uses
-  Classes, SysUtils, uTypes;
+  Classes, SysUtils, uTypes, uFile;
 
-procedure ReplaceExtCommand(var sCmd:String; pfr:PFileRecItem; ActiveDir: String);
+procedure ReplaceExtCommand(var sCmd:String; aFile: TFile; ActiveDir: String='');
 function ProcessExtCommand(sCmd:String; ActiveDir: String): Boolean;
 function ShellExecuteEx(sCmd, sFileName, sActiveDir: String): Boolean;
 
 implementation
 
 uses
-  Process, UTF8Process, StrUtils, uDCUtils, uShowForm, uGlobs, uOSUtils;
+  Process, UTF8Process, StrUtils, uDCUtils, uShowForm, uGlobs, uOSUtils,
+  uFileSystemFile;
 
-procedure ReplaceExtCommand(var sCmd:String; pfr:PFileRecItem; ActiveDir: String);
+procedure ReplaceExtCommand(var sCmd:String; aFile: TFile; ActiveDir: String);
 var
   sDir: String;
   iStart,
   iCount: Integer;
   Process: TProcessUTF8;
 begin
-  with pfr^ do
+  with aFile do
   begin
-    sDir:= IfThen(sPath<>'', sPath, ActiveDir);
+    sDir:= IfThen(Path<>'', Path, ActiveDir); // Why ActiveDir if we have Path?
     sCmd:= GetCmdDirFromEnvVar(sCmd);
-    sCmd:= StringReplace(sCmd,'%f',QuoteStr(ExtractFileName(sName)),[rfReplaceAll]);
-    sCmd:= StringReplace(sCmd,'%d',QuoteStr(sDir),[rfReplaceAll]);
-    sCmd:= StringReplace(sCmd,'%p',QuoteStr(sDir+ExtractFileName(sName)),[rfReplaceAll]);
+    sCmd:= StringReplace(sCmd,'%f',QuoteStr(Name),[rfReplaceAll]);
+    sCmd:= StringReplace(sCmd,'%d',QuoteStr(Path),[rfReplaceAll]);
+    sCmd:= StringReplace(sCmd,'%p',QuoteStr(Path + Name),[rfReplaceAll]);
     sCmd:= Trim(sCmd);
     // get output from command between '<?' and '?>'
     if Pos('<?', sCmd) <> 0 then
       begin
         iStart:= Pos('<?', sCmd) + 2;
         iCount:= Pos('?>', sCmd) - iStart;
-        sDir:= GetTempFolder + ExtractFileName(sName) + '.tmp';
+        sDir:= GetTempFolder + Name + '.tmp';
         Process:= TProcessUTF8.Create(nil);
         Process.CommandLine:= Format(fmtRunInShell, [GetShell, Copy(sCmd, iStart, iCount) + ' > ' + sDir]);
         Process.Options:= [poNoConsole, poWaitOnExit];
@@ -101,23 +102,24 @@ end;
 
 function ShellExecuteEx(sCmd, sFileName, sActiveDir: String): Boolean;
 var
-  FileRecItem: TFileRecItem;
+  aFile: TFileSystemFile;
   sCommand: String;
 begin
   Result:= False;
-  FillChar(FileRecItem, SizeOf(FileRecItem), #0);
-  with FileRecItem do
-  begin
-    sName:= ExtractFileName(sFileName);
-    sPath:= ExtractFilePath(sFileName);
-    sExt:= ExtractFileExt(sFileName);
-    sCommand:= gExts.GetExtActionCmd(FileRecItem, sCmd);
-  end;
+
+  // Executing files directly only works for FileSystem.
+
+  aFile := TFileSystemFile.Create;
+  aFile.Path := ExtractFilePath(sFileName);
+  aFile.Name := ExtractFileName(sFileName);
+
+  sCommand:= gExts.GetExtActionCmd(aFile, sCmd);
   if sCommand <> '' then
     begin
-      ReplaceExtCommand(sCommand, @FileRecItem, sActiveDir);
+      ReplaceExtCommand(sCommand, aFile, sActiveDir);
       Result:= ProcessExtCommand(sCommand, sActiveDir);
     end;
+
   if not Result then
     begin
       mbSetCurrentDir(sActiveDir);

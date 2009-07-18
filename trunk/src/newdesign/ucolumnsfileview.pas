@@ -220,8 +220,8 @@ type
     fUpdateDiskFreeSpace: Boolean;
 
     FSorting: TFileListSorting;
-    FSortCol:Integer;
-    fSortDirect:TSortDirection;
+    FSortColumn: Integer;
+    FSortDirection: TSortDirection;
 
     pnlFooter: TPanel;
     lblInfo: TLabel;
@@ -415,20 +415,29 @@ type
 
   published  // commands
     procedure cm_MarkInvert(param: string='');
+    procedure cm_MarkMarkAll(param: string='');
+    procedure cm_MarkUnmarkAll(param: string='');
+    procedure cm_MarkPlus(param: string='');
+    procedure cm_MarkMinus(param: string='');
+    procedure cm_MarkCurrentExtension(param: string='');
+    procedure cm_UnmarkCurrentExtension(param: string='');
     procedure cm_QuickSearch(param: string='');
-
+    procedure cm_Open(param: string='');
+    procedure cm_SortByColumn(param: string='');
+    procedure cm_CalculateSpace(param: string='');
   end;
 
 implementation
 
 uses
   LCLProc, Masks, uLng, uShowMsg, uGlobs, GraphType, uPixmapManager,
-  uDCUtils, uOSUtils, math, fMain, fSymLink, fHardLink,
+  uDCUtils, uOSUtils, math, fMain, fSymLink, fHardLink, uShellExecute,
   uFileSourceListOperation,
   uFileProperty, uDefaultFilePropertyFormatter,
   uFileSourceProperty,
   uFileSourceOperationTypes,
   uFileSystemFile,
+  uFileSystemFileSource,
   fColumnsSetConf,
   uKeyboard,
   uFileViewNotebook
@@ -1197,6 +1206,8 @@ end;
 }
 
 procedure TColumnsFileView.ChooseFile(AFile: TColumnsViewFile; FolderMode: Boolean = False);
+var
+  sOpenCmd: String;
 begin
   with AFile do
   begin
@@ -1229,31 +1240,36 @@ begin
     end;
 
     if FolderMode then exit;
-{
-    //now test if exists Open command in doublecmd.ext :)
-    sOpenCmd:= gExts.GetExtActionCmd(pfri^, 'open');
-    if (sOpenCmd<>'') then
-    begin
-      if Pos('{!VFS}',sOpenCmd)>0 then
-      begin
-        if fVFS.FindModule(sName) then
-        begin
-          LoadPanelVFS(pfri);
-          Exit;
-        end;
-      end;
-      LastActive:=sName;
 
-      ReplaceExtCommand(sOpenCmd, pfri, ActiveDir);
-      if ProcessExtCommand(sOpenCmd, ActiveDir) then
-        Exit;
+    LastActive := TheFile.Name;
+
+    // For now work only for FileSystem until temporary file system is done.
+    if FileSource is TFileSystemFileSource then
+    begin
+      //now test if exists Open command in doublecmd.ext :)
+      sOpenCmd:= gExts.GetExtActionCmd(AFile.TheFile, 'open');
+      if (sOpenCmd<>'') then
+      begin
+  {
+        if Pos('{!VFS}',sOpenCmd)>0 then
+        begin
+          if fVFS.FindModule(sName) then
+          begin
+            LoadPanelVFS(pfri);
+            Exit;
+          end;
+        end;
+  }
+        ReplaceExtCommand(sOpenCmd, TheFile, CurrentPath);
+        if ProcessExtCommand(sOpenCmd, CurrentPath) then
+          Exit;
+      end;
+
+      // and at the end try to open by system
+      mbSetCurrentDir(CurrentPath);
+      ShellExecute(TheFile.Name);
+      Reload;
     end;
-    // and at the end try to open by system
-    mbSetCurrentDir(ActiveDir);
-    LastActive:= sName;
-    ShellExecute(sName);
-    LoadPanel;
-}
   end;
 end;
 
@@ -1352,8 +1368,8 @@ begin
   if (iColumn >= 0) and (iColumn < ColumnsClass.ColumnsCount) then
   begin
     FSorting.Clear;
-    FSorting.AddSorting(iColumn, fSortDirect);
-    FSortCol := iColumn;
+    FSorting.AddSorting(iColumn, FSortDirection);
+    FSortColumn := iColumn;
     MakeDisplayFileList; // sorted here
     RedrawGrid;
   end;
@@ -2533,8 +2549,8 @@ begin
 
   FSorting := nil;
   // default to sorting by 0-th column
-  FSortCol := 0;
-  FSortDirect := sdAscending;
+  FSortColumn := 0;
+  FSortDirection := sdAscending;
 
   // -- other components
 
@@ -2638,7 +2654,7 @@ begin
     FFiles := TColumnsViewFiles.Create;
 
     FSorting := TFileListSorting.Create;
-    FSorting.AddSorting(FSortCol, FSortDirect);
+    FSorting.AddSorting(FSortColumn, FSortDirection);
 
     MakeFileSourceFileList;
   end;
@@ -2701,8 +2717,8 @@ begin
       }
 
       FSorting := Self.FSorting.Clone;
-      FSortCol := Self.FSortCol;
-      fSortDirect := Self.fSortDirect;
+      FSortColumn := Self.FSortColumn;
+      FSortDirection := Self.FSortDirection;
 
       ActiveColm := Self.ActiveColm;
       ActiveColmSlave := nil;    // set to nil because only used in preview?
@@ -3045,9 +3061,72 @@ begin
   InvertAll;
 end;
 
+procedure TColumnsFileView.cm_MarkMarkAll(param: string='');
+begin
+  MarkAll;
+end;
+
+procedure TColumnsFileView.cm_MarkUnmarkAll(param: string='');
+begin
+  UnMarkAll;
+end;
+
+procedure TColumnsFileView.cm_MarkPlus(param: string='');
+begin
+  MarkPlus;
+end;
+
+procedure TColumnsFileView.cm_MarkMinus(param: string='');
+begin
+  MarkMinus;
+end;
+
+procedure TColumnsFileView.cm_MarkCurrentExtension(param: string='');
+begin
+  MarkShiftPlus;
+end;
+
+procedure TColumnsFileView.cm_UnmarkCurrentExtension(param: string='');
+begin
+  MarkShiftMinus;
+end;
+
 procedure TColumnsFileView.cm_QuickSearch(param: string='');
 begin
   ShowAltPanel;
+end;
+
+procedure TColumnsFileView.cm_Open(param: string='');
+begin
+  if Assigned(GetActiveItem) then
+    ChooseFile(GetActiveItem);
+end;
+
+procedure TColumnsFileView.cm_SortByColumn(param: string='');
+var
+  ColumnNumber: Integer;
+begin
+  if TryStrToInt(param, ColumnNumber) then
+  begin
+    if FSortColumn = ColumnNumber then
+      FSortDirection := ReverseSortDirection(FSortDirection)
+    else
+      FSortDirection := sdAscending;
+
+    SortByColumn(ColumnNumber);
+  end;
+end;
+
+procedure TColumnsFileView.cm_CalculateSpace(param: string='');
+begin
+  // For now only works for FileSystem.
+  if FileSource is TFileSystemFileSource then
+  begin
+    // Selection validation in CalculateSpace.
+    CalculateSpace(True);
+  end
+  else
+    msgWarning(rsMsgNotImplemented);
 end;
 
 { TDrawGridEx }

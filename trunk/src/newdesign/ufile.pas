@@ -95,6 +95,7 @@ type
     function IsDirectory: Boolean;
     function IsSysFile: Boolean;
     function IsLink: Boolean;
+    function IsLinkToDirectory: Boolean;
     function IsExecutable: Boolean;   // for ShellExecute
   end;
 
@@ -268,6 +269,13 @@ begin
   end
   else
     Result := False;
+end;
+
+function TFile.IsLinkToDirectory: Boolean;
+begin
+  // For now IsDirectory also returns True when the link points to directory.
+  // Maybe this should be changed?
+  Result := False;
 end;
 
 function TFile.IsExecutable: Boolean;

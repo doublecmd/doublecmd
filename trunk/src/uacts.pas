@@ -147,6 +147,7 @@ const cf_Null=0;
    procedure cm_LeftEqualRight(param:string='');
    procedure cm_RightEqualLeft(param:string='');
    procedure cm_PackFiles(param: string='');
+   procedure cm_ExtractFiles(param: string='');
    procedure cm_QuickSearch(param: string='');
    procedure cm_RightOpenDrives(param: string='');
    procedure cm_ShowButtonMenu(param: string='');
@@ -173,7 +174,6 @@ const cf_Null=0;
    procedure cm_CopyNamesToClip(param: string='');
    procedure cm_FocusCmdLine(param: string='');
    procedure cm_FileAssoc(param: string='');
-   procedure cm_ExtractFiles(param: string='');
    procedure cm_HelpIndex(param: string='');
    procedure cm_Keyboard(param: string='');
    procedure cm_VisitHomePage(param: string='');
@@ -187,12 +187,12 @@ const cf_Null=0;
    procedure cm_MarkInvert(param: string='');
    procedure cm_MarkMarkAll(param: string='');
    procedure cm_MarkUnmarkAll(param: string='');
-   procedure cm_Search(param: string='');
-   procedure cm_HardLink(param: string='');
-   procedure cm_MarkMinus(param: string='');
    procedure cm_MarkPlus(param: string='');
+   procedure cm_MarkMinus(param: string='');
    procedure cm_MarkCurrentExtension(param: string='');
    procedure cm_UnmarkCurrentExtension(param: string='');
+   procedure cm_Search(param: string='');
+   procedure cm_HardLink(param: string='');
    procedure cm_MultiRename(param: string='');
    procedure cm_ReverseOrder(param: string='');
    procedure cm_SortByAttr(param: string='');
@@ -240,7 +240,7 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
      fOptions,fCompareFiles,fFindDlg,fSymLink,fHardLink,fMultiRename, uHash,
      uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit,
      HelpIntfs, dmHelpManager, uShellExecute, uClipboard, uCheckSumThread, fCheckSumCalc,
-     uFileSorting, uFilePanelSelect, uFile;
+     uFileSorting, uFilePanelSelect, uFile, uFileSystemFileSource;
 
 { TActs }
 
@@ -836,13 +836,6 @@ end;
 procedure TActs.cm_Open(param:string);
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_Open', param);
-{
-  with frmMain.ActiveFrame.pnlFile do
-  begin
-    if IsItemValid(GetActiveItem) then
-      ChooseFile(GetActiveItem);
-  end;
-}
 end;
 
 procedure TActs.cm_OpenVFSList(param:string);
@@ -891,6 +884,47 @@ begin
       end;
     end;  // IsBlocked
  end;
+}
+end;
+
+procedure TActs.cm_ExtractFiles(param:string);
+var
+  fl : TFileList;
+  Result: Boolean;
+begin
+// This command will probably be removed?
+// Because extracting files will be simply copying from archive file source.
+{
+with frmMain do
+begin
+  Result:= False;
+  if not IsBlocked then
+    begin
+      with ActiveFrame do
+        begin
+          if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+
+          fl:=TFileList.Create;
+          CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
+
+          fl.CurrentDirectory := ActiveDir;
+        end;
+      try
+        Result:= ShowExtractDlg(ActiveFrame, fl, NotActiveFrame.CurrentPath);
+      finally
+        if Result then
+          begin
+            frameLeft.RefreshPanel;
+            frameRight.RefreshPanel;
+          end
+        else
+          begin
+            with ActiveFrame do
+	      UnSelectFileIfSelected(GetActiveItem);
+          end;
+      end;
+    end;  // IsBlocked
+end;
 }
 end;
 
@@ -1095,37 +1129,37 @@ end;
 
 procedure TActs.cm_View(param:string);
 var
-  sl:TStringList;
-  i:Integer;
-  fr:PFileRecItem;
-  VFSFileList : TFileList;
+  sl: TStringList = nil;
+  i: Integer;
   sViewCmd,
   sFileName,
   sFilePath: String;
   bDeleteAfterView: Boolean;
+  SelectedFiles: TFiles = nil;
+  aFile: TFile;
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_View', param);
-{
-with frmMain do
-begin
-  with ActiveFrame do
+  with frmMain do
+  // For now only works for FileSystem.
+  if ActiveFrame.FileSource is TFileSystemFileSource then
   begin
-    if IsEmpty then Exit;
-
-    SelectFileIfNoSelected(GetActiveItem);
-
-    sl:= TStringList.Create;
+    sl := TStringList.Create;
     try
-      for i:=0 to pnlFile.FileList.Count-1 do
+      SelectedFiles := ActiveFrame.SelectedFiles;
+
+      for i := 0 to SelectedFiles.Count - 1 do
       begin
-        fr:=pnlFile.GetFileItemPtr(i);
-        if fr^.bSelected and not (FPS_ISDIR(fr^.iMode) or fr^.bLinkIsDir) then
+        aFile := SelectedFiles[i];
+
+        if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
         begin
           if (log_info in gLogOptions) then
-            logWrite('View.Add: ' + ActiveDir + fr^.sName, lmtInfo);
+            logWrite('View.Add: ' + ActiveFrame.CurrentPath + aFile.Name, lmtInfo);
 
           //now test if exists View command in doublecmd.ext :)
-          sViewCmd:= gExts.GetExtActionCmd(fr^, 'view');
+          sViewCmd:= gExts.GetExtActionCmd(aFile, 'view');
+
+{
+ // Use TemporaryFileSystem for this when it's done.
 
           case pnlFile.PanelMode of
           pmArchive, pmVFS: // if in Virtual File System
@@ -1153,109 +1187,103 @@ begin
                  Dispose(fr);
                 end;
             end;
-          pmDirectory:
+}
+          if (sViewCmd<>'') then
             begin
-              if (sViewCmd<>'') then
-                begin
-                  ReplaceExtCommand(sViewCmd, fr, pnlFile.CurrentPath);
-                  ProcessExtCommand(sViewCmd, pnlFile.CurrentPath);
-                end
-              else
-                begin
-                  sFileName := fr^.sName;
-                  sFilePath := ActiveDir;
-                  sl.Add(GetSplitFileName(sFileName, sFilePath));
-                  bDeleteAfterView:= False;
-                end;
+              ReplaceExtCommand(sViewCmd, aFile);
+              ProcessExtCommand(sViewCmd, ActiveFrame.CurrentPath);
+            end
+          else
+            begin
+              sFileName := aFile.Name;
+              sFilePath := ActiveFrame.CurrentPath; // aFile.Path;
+              sl.Add(GetSplitFileName(sFileName, sFilePath));
+              bDeleteAfterView:= False;
             end;
-          end; // case
         end; // if selected
       end; // for
+
       // if sl has files then view it
       if sl.Count > 0 then
         ShowViewerByGlobList(sl, bDeleteAfterView)
       else
         begin
-          fr := pnlFile.GetActiveItem;
-          if Assigned(fr) and ((FPS_ISDIR(fr^.iMode) or fr^.bLinkIsDir)) then
+          // Enter directories using View command.
+          aFile := ActiveFrame.ActiveFile;
+          if Assigned(aFile) and (aFile.IsDirectory or
+                                  aFile.IsLinkToDirectory) then
             begin
-              Screen.Cursor:=crHourGlass;
-              try
-                pnlFile.ChooseFile(fr);
-                UpDatelblInfo;
-              finally
-                dgPanel.Invalidate;
-                Screen.Cursor:=crDefault;
-              end;
+              ActiveFrame.ExecuteCommand('cm_Open');
+              // or change ActiveFrame.CurrentPath directly?
+              // or use GoDownLevel (GoToSubDir(aFile)) command or similar?
             end
         end;
+
     finally
-      FreeAndNil(sl);
-      ActiveFrame.UnMarkAll;
+      if Assigned(sl) then
+        FreeAndNil(sl);
+      if Assigned(SelectedFiles) then
+        FreeAndNil(SelectedFiles);
     end;
-  end;
-end;
-}
+  end
+  else
+    msgWarning(rsMsgNotImplemented);
 end;
 
 procedure TActs.cm_Edit(param:string);
 var
-  i:Integer;
-  fr:PFileRecItem;
+  i: Integer;
   sEditCmd,
   sFileName,
   sFilePath : String;
+  aFile: TFile;
+  SelectedFiles: TFiles;
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_Edit', param);
-{
   with frmMain do
+  // For now only works for FileSystem.
+  if ActiveFrame.FileSource is TFileSystemFileSource then
   begin
-    with ActiveFrame do
-    begin
-      if pnlFile.PanelMode in [pmArchive, pmVFS] then
+    SelectedFiles := ActiveFrame.SelectedFiles;
+    try
+      for i := 0 to SelectedFiles.Count - 1 do
+      begin
+        aFile := SelectedFiles[i];
+
+        // For now we only process one file.
+        if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
         begin
-          msgWarning(rsMsgErrNotSupported);
-          UnMarkAll;
-          Exit;
+          //now test if exists View command in doublecmd.ext :)
+          sEditCmd:= gExts.GetExtActionCmd(aFile, 'edit');
+
+          if (sEditCmd<>'') then
+            begin
+              ReplaceExtCommand(sEditCmd, aFile);
+              ProcessExtCommand(sEditCmd, ActiveFrame.CurrentPath);
+            end
+          else
+            begin
+              sFileName := aFile.Name;
+              sFilePath := ActiveFrame.CurrentPath;
+              ShowEditorByGlob(GetSplitFileName(sFileName, sFilePath));
+            end;
+          Break;
         end;
-
-      if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
-
-      try
-      // in this time we only one file process
-        for i:=0 to pnlFile.FileList.Count-1 do
-        begin
-        fr:=pnlFile.GetFileItemPtr(i);
-        if fr^.bSelected and not (FPS_ISDIR(fr^.iMode)) then
-          begin
-            //now test if exists Edit command in doublecmd.ext :)
-            sEditCmd:= gExts.GetExtActionCmd(fr^, 'edit');
-
-            if (sEditCmd<>'') then
-              begin
-                ReplaceExtCommand(sEditCmd, fr, pnlFile.CurrentPath);
-                ProcessExtCommand(sEditCmd, pnlFile.CurrentPath);
-              end
-            else
-              begin
-                sFileName := fr^.sName;
-                sFilePath := ActiveDir;
-                ShowEditorByGlob(GetSplitFileName(sFileName, sFilePath));
-              end;
-            Break;
-          end;
-        end;
-      finally
-        ActiveFrame.UnMarkAll;
       end;
+
+    finally
+      if Assigned(SelectedFiles) then
+        FreeAndNil(SelectedFiles);
     end;
-  end;
-}
+  end
+  else
+    msgWarning(rsMsgNotImplemented);
 end;
 
 procedure TActs.cm_Copy(param:string);
 begin
 {
+  File source operation.
+
   // Selection validation in CopyFile.
   frmMain.CopyFile(frmMain.NotActiveFrame.CurrentPath);
 }
@@ -1264,6 +1292,8 @@ end;
 procedure TActs.cm_Rename(param:string);
 begin
 {
+  File source operation.
+
   // Selection validation in RenameFile.
   frmMain.RenameFile(frmMain.NotActiveFrame.CurrentPath);
 }
@@ -1274,6 +1304,8 @@ var
   sPath:String;
 begin
 {
+  File source operation.
+
 with frmMain do
 begin
   with ActiveFrame do
@@ -1346,6 +1378,8 @@ var
   MsgDelSel, MsgDelFlDr : string;
 begin
 {
+  File source operation.
+
 with frmMain do
 begin
   with ActiveFrame do
@@ -1536,7 +1570,6 @@ begin
   if (not gCmdLine) and (frmMain.IsCommandLineVisible = False) then
   begin
     frmMain.pnlCommand.Show;
-//    frmMain.UpdatePrompt; // needed?
   end;
 
   frmMain.edtCommand.SetFocus;
@@ -1545,47 +1578,6 @@ end;
 procedure TActs.cm_FileAssoc(param:string);
 begin
   ShowFileAssocDlg;
-end;
-
-procedure TActs.cm_ExtractFiles(param:string);
-var
-  fl : TFileList;
-  Result: Boolean;
-begin
-// This command will probably be removed?
-// Because extracting files will be simply copying from archive file source.
-{
-with frmMain do
-begin
-  Result:= False;
-  if not IsBlocked then
-    begin
-      with ActiveFrame do
-        begin
-          if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
-
-          fl:=TFileList.Create;
-          CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
-
-          fl.CurrentDirectory := ActiveDir;
-        end;
-      try
-        Result:= ShowExtractDlg(ActiveFrame, fl, NotActiveFrame.CurrentPath);
-      finally
-        if Result then
-          begin
-            frameLeft.RefreshPanel;
-            frameRight.RefreshPanel;
-          end
-        else
-          begin
-            with ActiveFrame do
-	      UnSelectFileIfSelected(GetActiveItem);
-          end;
-      end;
-    end;  // IsBlocked
-end;
-}
 end;
 
 procedure TActs.cm_HelpIndex(param: string='');
@@ -1750,16 +1742,15 @@ end;
 
 procedure TActs.cm_ShowMenu(param:string);
 begin
-  //gtk_menu_item_select(PGtkMenuItem(mnuFiles.Handle));
+  // Show main menu on demand when hidden?
 end;
 
 procedure TActs.cm_Refresh(param:string);
 begin
-  inherited;
   frmMain.ActiveFrame.Reload;
 end;
 
-  //------------------------------------------------------
+//------------------------------------------------------
   
 procedure TActs.cm_MarkInvert(param:string);
 begin
@@ -1769,24 +1760,39 @@ end;
 procedure TActs.cm_MarkMarkAll(param:string);
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_MarkMarkAll', param);
-{
-  frmMain.ActiveFrame.MarkAll;
-}
 end;
 
 procedure TActs.cm_MarkUnmarkAll(param:string);
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_MarkUnmarkAll', param);
-{
-  frmMain.ActiveFrame.UnMarkAll;
-}
 end;
+
+procedure TActs.cm_MarkPlus(param:string);
+begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_MarkPlus', param);
+end;
+
+procedure TActs.cm_MarkMinus(param:string);
+begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_MarkMinus', param);
+end;
+
+procedure TActs.cm_MarkCurrentExtension(param: string);
+begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_MarkCurrentExtension', param);
+end;
+
+procedure TActs.cm_UnmarkCurrentExtension(param: string);
+begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_UnmarkCurrentExtension', param);
+end;
+
+//------------------------------------------------------
 
 procedure TActs.cm_DirHotList(param:string);
 var
   p:TPoint;
 begin
-  inherited;
   frmMain.CreatePopUpHotDir;// TODO: i thing in future this must call on create or change
   p:=frmMain.ActiveFrame.ClientToScreen(Classes.Point(0,0));
   frmMain.pmHotList.Popup(p.X,p.Y);
@@ -1794,46 +1800,12 @@ end;
 
 procedure TActs.cm_Search(param:string);
 begin
-  inherited;
   DebugLn('ShowFindDlg');
   ShowFindDlg(frmMain.ActiveFrame.CurrentPath);
 end;
 
 
 //------------------------------------------------------
-
-procedure TActs.cm_MarkPlus(param:string);
-begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_MarkPlus', param);
-{
-  frmMain.ActiveFrame.MarkPlus;
-}
-end;
-
-procedure TActs.cm_MarkCurrentExtension(param: string);
-begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_MarkCurrentExtension', param);
-{
-  frmMain.ActiveFrame.MarkShiftPlus;
-}
-end;
-
-procedure TActs.cm_UnmarkCurrentExtension(param: string);
-begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_UnmarkCurrentExtension', param);
-{
-  frmMain.ActiveFrame.MarkShiftMinus;
-}
-end;
-
-procedure TActs.cm_MarkMinus(param:string);
-begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_MarkMinus', param);
-{
-  frmMain.ActiveFrame.MarkMinus;
-}
-end;
-
 
 procedure TActs.cm_SymLink(param:string);
 var
@@ -2017,24 +1989,8 @@ end;
 // Parameters:
 // Number of the column to sort by.
 procedure TActs.cm_SortByColumn(param: string='');
-var
-  ColumnNumber: Integer;
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_SortByColumn', param);
-{
-  with frmMain.ActiveFrame do
-  begin
-    if TryStrToInt(param, ColumnNumber) then
-    begin
-      if pnlFile.SortColumn = ColumnNumber then
-        pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection)
-      else
-        pnlFile.SortDirection := sdAscending;
-      pnlFile.SortByCol(ColumnNumber);
-      RefreshPanel;
-    end;
-  end;
-}
 end;
 
 procedure TActs.cm_MultiRename(param:string);
@@ -2086,36 +2042,45 @@ procedure TActs.cm_EditNew(param:string);
 var
   sNewFile: String;
   hFile: Integer = 0;
+  aFile: TFile;
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_EditNew', param);
-{
-with frmMain do
-begin
-  if ActiveFrame.IsActiveItemValid then
-    sNewFile:= ActiveFrame.GetActiveItem^.sName
-  else
-    sNewFile:= rsEditNewFile;
-  if not InputQuery(rsEditNewOpen, rsEditNewFileName, sNewFile) then Exit;
 
-  // If user entered only a filename prepend it with current directory.
-  if ExtractFilePath(sNewFile) = '' then
-    sNewFile:= ActiveFrame.CurrentPath + sNewFile;
+  // For now only works for FileSystem.
 
-  if not mbFileExists(sNewFile) then
+  with frmMain do
+  if ActiveFrame.FileSource is TFileSystemFileSource then
+  begin
+    aFile := ActiveFrame.ActiveFile;
+    if Assigned(aFile) and aFile.IsNameValid then
+      sNewFile:= aFile.Name
+    else
+      sNewFile:= rsEditNewFile;
+
+    if not InputQuery(rsEditNewOpen, rsEditNewFileName, sNewFile) then Exit;
+
+    // If user entered only a filename prepend it with current directory.
+    if ExtractFilePath(sNewFile) = '' then
+      sNewFile:= ActiveFrame.CurrentPath + sNewFile;
+
+    if not mbFileExists(sNewFile) then
+      try
+        hFile:= mbFileCreate(sNewFile);
+      finally
+        if hFile > 0 then
+          FileClose(hFile);
+      end;
+
     try
-      hFile:= mbFileCreate(sNewFile);
+      ShowEditorByGlob(sNewFile);
+
     finally
-      if hFile > 0 then
-        FileClose(hFile);
+      frameLeft.Reload;
+      frameRight.Reload;
     end;
-  try
-    ShowEditorByGlob(sNewFile);
-  finally
-    frameLeft.RefreshPanel;
-    frameRight.RefreshPanel;
-  end;
-end;
-}
+  end
+  else
+    msgWarning(rsMsgNotImplemented);
 end;
 
 procedure TActs.cm_DirHistory(param:string);
@@ -2153,13 +2118,6 @@ end;
 procedure TActs.cm_CalculateSpace(param:string);
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_CalculateSpace', param);
-  with frmMain.ActiveFrame do
-  begin
-    // Selection validation in CalculateSpace.
-{
-    frmMain.CalculateSpace(True);
-}
-  end;
 end;
 
 procedure TActs.cm_CountDirContent(param: string);
@@ -2221,7 +2179,8 @@ procedure TActs.cm_FileProperties(param:string);
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_FileProperties', param);
 {
-  inherited;
+  Command for file source.
+
   with frmMain do
   begin
     with ActiveFrame do
@@ -2248,8 +2207,6 @@ begin
   end;
 }
 end;
-
-
 
 procedure TActs.cm_FileLinker(param:string);
 var
@@ -2344,25 +2301,25 @@ end;
 
 function SendToClipboard(ClipboardMode: uClipboard.TClipboardOperation):Boolean;
 var
-  sl: TStringList;
+  sl: TStringList = nil;
   i : Integer;
+  theSelectedFiles: TFiles = nil;
 begin
   // Will probably work only for file system.
-{
+
+  // For now we check file source type here.
+
   Result := False;
 
-  with frmMain.ActiveFrame.pnlFile do
+  with frmMain.ActiveFrame do
+  if FileSource is TFileSystemFileSource then
   begin
-    if (PanelMode in [pmArchive, pmVFS]) or IsEmpty then Exit;
-
-    if frmMain.ActiveFrame.SelectFileIfNoSelected(GetActiveItem) = False then Exit;
-
     sl := TStringList.Create;
-
     try
-      for i := 0 to FileList.Count-1 do
-        if GetFileItem(i).bSelected then
-          sl.Add(ActiveDir + GetFileItem(i).sName);
+      theSelectedFiles := SelectedFiles;
+
+      for i := 0 to theSelectedFiles.Count - 1 do
+        sl.Add(CurrentPath + theSelectedFiles[i].Name);
 
       case ClipboardMode of
         uClipboard.ClipboardCut:
@@ -2371,12 +2328,16 @@ begin
         uClipboard.ClipboardCopy:
             Result := uClipboard.CopyToClipboard(sl);
       end;
+
     finally
-      FreeAndNil(sl);
-      frmMain.ActiveFrame.UnSelectFileIfSelected(GetActiveItem);
+      if Assigned(sl) then
+        FreeAndNil(sl);
+      if Assigned(theSelectedFiles) then
+        FreeAndNil(theSelectedFiles);
     end;
-  end;
-}
+  end
+  else
+    msgWarning(rsMsgErrNotSupported);
 end;
 
 procedure TActs.cm_CopyToClipboard(param: string='');
