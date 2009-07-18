@@ -119,6 +119,8 @@ end;
 
 
 function ICompareByDirectory(item1, item2: TFile; bSortNegative: Boolean):Integer;
+var
+  IsDir1, IsDir2: Boolean;
 begin
 {> 0 (positive)   Item1 is less than Item2
   0              Item1 is equal to Item2
@@ -126,30 +128,19 @@ begin
 
   Result:=0;
 
-{
-  if (not (FPS_ISDIR(item1^.iMode) or item1^.bLinkIsDir)) and
-     (not (FPS_ISDIR(item2^.iMode) or item2^.bLinkIsDir)) then  Exit;
-}
-  if (not item1.IsDirectory) and (not item2.IsDirectory) then
-    Exit;
-{
-  if (not (FPS_ISDIR(item1^.iMode) or item1^.bLinkIsDir)) and
-     (FPS_ISDIR(item2^.iMode) or item2^.bLinkIsDir) then
-}
-  if (not item1.IsDirectory) and item2.IsDirectory then
+  IsDir1 := item1.IsDirectory or item1.IsLinkToDirectory;
+  IsDir2 := item2.IsDirectory or item2.IsLinkToDirectory;
+
+  if (not IsDir1) and (not IsDir2) then
+    Exit
+  else if (not IsDir1) and IsDir2 then
   begin
     Result:=+1;
   end
-  else if item1.IsDirectory and (not item2.IsDirectory) then
-  {
-  if (FPS_ISDIR(item1^.iMode) or item1^.bLinkIsDir) and
-      (not (FPS_ISDIR(item2^.iMode) or item2^.bLinkIsDir)) then
-  }
+  else if IsDir1 and (not IsDir2) then
   begin
     Result:=-1;
   end
-// both is directory, compare it
-//  if item1.fName=item2.fName then Exit;
   // handle .. first
   else if item1.Name='..' then
   begin
@@ -187,15 +178,16 @@ begin
   Result := 0;
 
   // Don't sort directories only by name.
-  if item1.IsDirectory or item2.IsDirectory then
+  if item1.IsDirectory or item1.IsLinkToDirectory or
+     item2.IsDirectory or item2.IsLinkToDirectory then
   begin
     // Sort by full name.
     Result := ICompareByName(item1, item2, bSortNegative);
   end
   else
   begin
-    name1 := item1.NameNoExt;// ExtractOnlyFileName(item1.Name);
-    name2 := item2.NameNoExt;// ExtractOnlyFileName(item2.Name);
+    name1 := item1.NameNoExt;
+    name2 := item2.NameNoExt;
 
     if gCaseSensitiveSort then
       Result := StrComp(PChar(name1), PChar(name2))

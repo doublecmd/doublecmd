@@ -887,7 +887,7 @@ begin
       Exit;
     end;
 
-    if IsLink and IsDirectory then
+    if IsLinkToDirectory then
     begin
       Result := FiDirLinkIconID;
       Exit;
