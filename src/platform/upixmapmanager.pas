@@ -35,7 +35,7 @@ unit uPixMapManager;
 interface
 uses
   Classes, SysUtils, uTypes, Graphics, uOSUtils, uFileSorting,
-  uFile
+  uFile, uColumnsFileViewFiles
   {$IF DEFINED(UNIX) and DEFINED(LCLGTK2)}
   , uClassesEx
   {$ENDIF};
@@ -86,6 +86,7 @@ type
     function GetBitmap(iIndex : Integer; BkColor : TColor) : TBitmap; // Always returns new copy.
 //    function GetStretchBitmap(iIndex: Integer; BkColor : TColor; iSize : Integer): TBitmap;
     function DrawBitmap(iIndex: Integer; Canvas : TCanvas; Rect : TRect) : Boolean;
+    function DrawBitmap(AFile: TColumnsViewFile; Canvas : TCanvas; Rect : TRect) : Boolean;
     function GetIconBySortingDirection(SortingDirection: TSortDirection): PtrInt;
     function GetIconByFile(AFile: TFile; DirectAccess: Boolean):PtrInt;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
@@ -111,7 +112,7 @@ uses
     , gtkdef, gtk2, gdk2pixbuf, gdk2, glib2
   {$ENDIF}
   {$IFDEF MSWINDOWS}
-    , CommCtrl, ShellAPI, Windows, uIcoFiles, uGdiPlus, IntfGraphics
+    , CommCtrl, ShellAPI, Windows, uIcoFiles, uGdiPlus, IntfGraphics, uShlObjAdditional
   {$ENDIF}
 ;
 
@@ -834,7 +835,7 @@ begin
         ImageList_Draw(FSysImgList, iIndex - $1000, Canvas.Handle, Rect.Left, Rect.Top, ILD_TRANSPARENT)
       else
         try
-          hicn:= ImageList_ExtractIcon(0, FSysImgList, iIndex - $1000);
+          hicn:= ImageList_GetIcon(FSysImgList, iIndex - $1000, 0);
           if IsGdiPlusLoaded then
             Result:= GdiPlusStretchDraw(hicn, Canvas.Handle, Rect.Left, Rect.Top, gIconsSize, gIconsSize)
           else
@@ -849,6 +850,21 @@ begin
 {$ELSE}
     Result:= False;
 {$ENDIF}
+end;
+
+function TPixMapManager.DrawBitmap(AFile: TColumnsViewFile; Canvas: TCanvas; Rect: TRect): Boolean;
+var
+  I: Integer;
+begin
+  Result:= DrawBitmap(AFile.IconID, Canvas, Rect);
+  {$IFDEF MSWINDOWS}
+  if gIconOverlays then
+    begin
+      I:= SHGetOverlayIconIndex(AFile.TheFile.Path + AFile.TheFile.Name);
+      if I >= 0 then
+        Result:= DrawBitmap(I + $1000, Canvas, Rect);
+    end;
+  {$ENDIF}
 end;
 
 function TPixMapManager.GetIconBySortingDirection(SortingDirection: TSortDirection): PtrInt;
