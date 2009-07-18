@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uFileSource;
+  uRealFileSource;
 
 type
 
@@ -15,7 +15,7 @@ type
      Empty placeholder for now, allows to check
      whether a certain file source is local.
   }
-  TLocalFileSource = class(TFileSource)
+  TLocalFileSource = class(TRealFileSource)
   end;
 
 implementation
