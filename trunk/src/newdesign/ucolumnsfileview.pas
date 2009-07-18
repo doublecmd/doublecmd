@@ -1895,7 +1895,7 @@ var
       begin
         Tr      := Rect;
         Tr.Left := Tr.Left + 1;
-        PixMapManager.DrawBitmap(AFile.IconID, Canvas, Tr);
+        PixMapManager.DrawBitmap(AFile, Canvas, Tr);
       end;
 
       s := ActiveColmSlave.GetColumnItemResultString(ACol, AFile.TheFile);

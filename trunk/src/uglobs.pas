@@ -151,7 +151,8 @@ var
   gCursorText : TColor; //text color under cursor
   gUseInvertedSelection:boolean=false;
   
-  gShowIcons : Boolean;
+  gShowIcons,
+  gIconOverlays : Boolean;
   gIconsSize,
   gNewIconsSize : Integer;
   gUseMmapInSearch : Boolean;
@@ -568,6 +569,7 @@ begin
   gWatchDirsExclude := gIni.ReadString('Configuration', 'WatchDirsExclude', '');
 
   gShowIcons := gIni.ReadBool('Configuration', 'ShowIcons', True);
+  gIconOverlays:= gIni.ReadBool('Configuration', 'IconOverlays', True);
   gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
   gNewIconsSize:= gIconsSize;
   gCustomDriveIcons := gIni.ReadBool('Configuration', 'CustomDriveIcons', False);
@@ -766,6 +768,7 @@ begin
   gIni.WriteString('Configuration', 'WatchDirsExclude', gWatchDirsExclude);
 
   gIni.WriteBool('Configuration', 'ShowIcons', gShowIcons);
+  gIni.WriteBool('Configuration', 'IconOverlays', gIconOverlays);
   gIni.WriteInteger('Configuration', 'IconsSize', gNewIconsSize);
   
   gIni.WriteBool('Configuration', 'CutTextToColWidth', gCutTextToColWidth);
