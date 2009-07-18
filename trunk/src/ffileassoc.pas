@@ -406,12 +406,19 @@ begin
 end;
 
 procedure TfrmFileAssoc.sbtnIconClick(Sender: TObject);
+var
+  bmpTemp: TBitmap;
 begin
   OpenPictureDialog.FileName:= edtIconFileName.Text;
   if OpenPictureDialog.Execute then
     begin
       edtIconFileName.Text := OpenPictureDialog.FileName;
-      sbtnIcon.Glyph := LoadBitmapFromFile(edtIconFileName.Text, 32, sbtnIcon.Color);
+      bmpTemp:= LoadBitmapFromFile(edtIconFileName.Text, 32, sbtnIcon.Color);
+      if Assigned(bmpTemp) then
+        begin
+          sbtnIcon.Glyph.Assign(bmpTemp);
+          FreeAndNil(bmpTemp);
+        end;
       with lbFileTypes do
       begin
         // save icon for use in OnDrawItem procedure
@@ -431,9 +438,13 @@ begin
   begin
     if ItemIndex < 0 then Exit;
     // free icon
-    sbtnIcon.Glyph.FreeImage;
+    sbtnIcon.Glyph.Clear;
     edtIconFileName.Text:= '';
-    TBitmap(Items.Objects[ItemIndex]).Free;
+    if Assigned(Items.Objects[ItemIndex]) then
+      begin
+        TBitmap(Items.Objects[ItemIndex]).Free;
+        Items.Objects[ItemIndex]:= nil;
+      end;
     Exts.Items[ItemIndex].Icon:= '';
     // and set IconIndex
     Exts.Items[ItemIndex].IconIndex:= 0;
