@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="67">
+    <Units Count="69">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -483,6 +483,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFileViewNotebook"/>
       </Unit66>
+      <Unit67>
+        <Filename Value="newdesign\uvirtualfilesource.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uVirtualFileSource"/>
+      </Unit67>
+      <Unit68>
+        <Filename Value="newdesign\urealfilesource.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uRealFileSource"/>
+      </Unit68>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
