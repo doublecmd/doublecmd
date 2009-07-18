@@ -35,7 +35,9 @@ type
     {en
        Creates an identical copy of the object (as far as object data is concerned).
     }
-    function Clone: TColumnsViewFile; virtual;
+    function Clone(ReferenceFiles: TFiles;
+                   ClonedReferenceFiles: TFiles): TColumnsViewFile; virtual;
+
     procedure CloneTo(AFile: TColumnsViewFile); virtual;
 
     property TheFile: TFile read FFile write FFile;
@@ -62,9 +64,17 @@ type
 
     {en
        Create a list with cloned files.
+       @param(ReferenceFiles
+              A list to which reference file of each columns view file item is pointing.)
+       @param(ClonedReferenceFiles
+              A cloned list of reference files to which each cloned columns view file item should point.)
     }
-    function Clone: TColumnsViewFiles; virtual;
-    procedure CloneTo(Files: TColumnsViewFiles); virtual;
+    function Clone(ReferenceFiles: TFiles;
+                   ClonedReferenceFiles: TFiles): TColumnsViewFiles; virtual;
+
+    procedure CloneTo(Files: TColumnsViewFiles;
+                      ReferenceFiles: TFiles;
+                      ClonedReferenceFiles: TFiles); virtual;
 
     function Add(AFile: TColumnsViewFile): Integer;
     procedure Clear;
@@ -87,11 +97,26 @@ begin
   TheFile := ReferenceFile;
 end;
 
-function TColumnsViewFile.Clone: TColumnsViewFile;
+function TColumnsViewFile.Clone(ReferenceFiles: TFiles;
+                                ClonedReferenceFiles: TFiles): TColumnsViewFile;
 var
-  ClonedFile: TFile;
+  ClonedFile: TFile = nil;
+  i: Integer;
 begin
-  ClonedFile := FFile.Clone;
+  // Search reference list for own reference file and clone this columns view file
+  // with a reference file pointing to the cloned reference file.
+  for i := 0 to ReferenceFiles.Count - 1 do
+  begin
+    if TheFile = ReferenceFiles[i] then
+    begin
+      ClonedFile := ClonedReferenceFiles[i];
+      break;
+    end;
+  end;
+
+  if not Assigned(ClonedFile) then
+    raise Exception.Create('Invalid reference file');
+
   try
     Result := TColumnsViewFile.Create(ClonedFile);
     CloneTo(Result);
@@ -124,19 +149,22 @@ begin
   inherited;
 end;
 
-function TColumnsViewFiles.Clone: TColumnsViewFiles;
+function TColumnsViewFiles.Clone(ReferenceFiles: TFiles;
+                                 ClonedReferenceFiles: TFiles): TColumnsViewFiles;
 begin
   Result := TColumnsViewFiles.Create;
-  CloneTo(Result);
+  CloneTo(Result, ReferenceFiles, ClonedReferenceFiles);
 end;
 
-procedure TColumnsViewFiles.CloneTo(Files: TColumnsViewFiles);
+procedure TColumnsViewFiles.CloneTo(Files: TColumnsViewFiles;
+                                    ReferenceFiles: TFiles;
+                                    ClonedReferenceFiles: TFiles);
 var
   i: Integer;
 begin
   for i := 0 to FList.Count - 1 do
   begin
-    Files.Add(Get(i).Clone);
+    Files.Add(Get(i).Clone(ReferenceFiles, ClonedReferenceFiles));
   end;
 end;
 

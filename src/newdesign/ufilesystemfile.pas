@@ -170,6 +170,8 @@ begin
     FreeAndNil(FSize);
   if Assigned(FModificationTime) then
     FreeAndNil(FModificationTime);
+
+  inherited;
 end;
 
 function TFileSystemFile.Clone: TFileSystemFile;
@@ -183,14 +185,7 @@ begin
   if Assigned(AFile) then
   begin
     inherited CloneTo(AFile);
-
-    with AFile as TFileSystemFile do
-    begin
-      FSize := Self.FSize.Clone;
-      FAttributes := Self.FAttributes.Clone;
-      FModificationTime := Self.FModificationTime.Clone;
-      AssignProperties;
-    end;
+    // All properties are cloned in base class.
   end;
 end;
 

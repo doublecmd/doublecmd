@@ -159,6 +159,8 @@ begin
 end;
 
 procedure TFile.CloneTo(AFile: TFile);
+var
+  PropertyType: TFilePropertyType;
 begin
   if Assigned(AFile) then
   begin
@@ -166,6 +168,17 @@ begin
     AFile.FPath := FPath;
     AFile.FExtension := FExtension;
     AFile.FNameNoExt := FNameNoExt;
+
+    // Properties were already created and assigned in the constructor
+    // of the appropriate class, so we already have objects to clone them to.
+
+    for PropertyType := Low(TFilePropertyType) to High(TFilePropertyType) do
+    begin
+      if PropertyType in SupportedProperties then
+      begin
+        Self.Properties[PropertyType].CloneTo(AFile.Properties[PropertyType]);
+      end;
+    end;
   end;
 end;
 
