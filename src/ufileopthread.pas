@@ -23,8 +23,6 @@ uses
   Classes, uFileList, fFileOpDlg, uTypes, uDescr, fMsg, uShowMsg {$IFNDEF NOFAKETHREAD}, uFakeThread{$ENDIF};
 
 type
-  TFileOpDlgLook = set of (fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb);
-
   { TFileOpThread }
 {$IFDEF NOFAKETHREAD}
   TFileOpThread = class(TThread)

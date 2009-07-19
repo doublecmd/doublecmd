@@ -21,9 +21,12 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, Buttons, ExtCtrls,
-  uOperationsManager;
+  uOperationsManager, uFileSourceOperation;
 
 type
+
+  TFileOpDlgLook = set of (fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb);
+
 
   { TfrmFileOp }
 
@@ -45,9 +48,15 @@ type
   private
     { Private declarations }
     FOperationHandle: TOperationHandle;
-    FUpdateTimer: TTimer;
+    FUpdateTimer: TTimer;  //<en Timer for updating statistics.
 
     procedure OnUpdateTimer(Sender: TObject);
+
+    procedure InitializeControls(FileOpDlgLook: TFileOpDlgLook);
+
+    procedure InitializeCopyOperation(Operation: TFileSourceOperation);
+    procedure UpdateCopyOperation(Operation: TFileSourceOperation);
+
 
   public
     iProgress1Max: Integer;
@@ -67,7 +76,9 @@ type
 implementation
 
 uses
-   fMain, dmCommonData, uFileOpThread, uFileSourceOperation, LCLProc;
+   fMain, dmCommonData, uFileOpThread, LCLProc, uLng,
+   uFileSourceOperationTypes,
+   uFileSourceCopyOperation;
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
 begin
@@ -105,8 +116,11 @@ begin
 end;
 
 procedure TfrmFileOp.FormCreate(Sender: TObject);
+var
+  Operation: TFileSourceOperation;
 begin
   Thread:= nil;
+{
   pbFirst.Position:= 0;
   pbSecond.Position:= 0;
   pbFirst.Max:= 1;
@@ -115,17 +129,36 @@ begin
   iProgress2Max:= 0;
   iProgress1Pos:= 0;
   iProgress2Pos:= 0;
+}
+
+  lblFileNameFrom.Caption := '';
+  lblFileNameTo.Caption := '';
+  lblEstimated.Caption := '';
 
   pbFirst.DoubleBuffered:= True;
   pbSecond.DoubleBuffered:= True;
   Self.DoubleBuffered:= True;
 
+  Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
+  if Assigned(Operation) then
+  begin
+    case Operation.ID of
+
+      fsoCopyIn, fsoCopyOut:
+        InitializeCopyOperation(Operation);
+
+      else
+        begin
+          Caption := 'Unknown operation';
+          InitializeControls([fodl_first_pb]);
+        end;
+    end;
+  end;
+
   FUpdateTimer := TTimer.Create(Self);
   FUpdateTimer.Interval := 100;
   FUpdateTimer.OnTimer := @OnUpdateTimer;
   FUpdateTimer.Enabled := True;
-
-  pbFirst.Max := 100;
 end;
 
 procedure TfrmFileOp.FormShow(Sender: TObject);
@@ -142,16 +175,37 @@ constructor TfrmFileOp.Create(OperationHandle: TOperationHandle);
 begin
   FOperationHandle := OperationHandle;
   inherited Create(Application);
+
+  AutoSize := True;
 end;
 
 procedure TfrmFileOp.OnUpdateTimer(Sender: TObject);
 var
   Operation: TFileSourceOperation;
 begin
-  Operation := OperationsManager.OperationByHandle[FOperationHandle];
+  Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
   if Assigned(Operation) then
   begin
-    pbFirst.Position := Operation.Progress;
+    case Operation.ID of
+
+      fsoCopyOut:
+          UpdateCopyOperation(Operation);
+
+      else
+        // Operation not currently supported for display.
+        // Only show general progress.
+        pbFirst.Position := Operation.Progress;
+    end;
+
+    Caption := IntToStr(Operation.Progress) + '% ' + Hint;
+{
+    // Estimate remaining time somehow (by progress or individual statistics).
+    if sEstimated <> lblEstimated.Caption then
+    begin
+      lblEstimated.Caption:= sEstimated;
+      lblEstimated.Invalidate;
+    end;
+}
   end
   else
   begin
@@ -159,6 +213,50 @@ begin
     // if CloseOnFinish then
     Close;
     // if BeepOnFinish then Beep;
+  end;
+end;
+
+procedure TfrmFileOp.InitializeControls(FileOpDlgLook: TFileOpDlgLook);
+begin
+  lblFrom.Visible         := fodl_from_lbl in FileOpDlgLook;
+  lblFileNameFrom.Visible := fodl_from_lbl in FileOpDlgLook;
+  lblTo.Visible           := fodl_to_lbl in FileOpDlgLook;
+  lblFileNameTo.Visible   := fodl_to_lbl in FileOpDlgLook;
+  pbFirst.Visible         := fodl_first_pb in FileOpDlgLook;
+  pbSecond.Visible        := fodl_second_pb in FileOpDlgLook;
+end;
+
+procedure TfrmFileOp.InitializeCopyOperation(Operation: TFileSourceOperation);
+var
+  CopyOperation: TFileSourceCopyOperation;
+begin
+  //CopyOperation := Operation as TFileSourceCopyOperation;
+  Caption := rsDlgCp;
+  InitializeControls([fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
+end;
+
+procedure TfrmFileOp.UpdateCopyOperation(Operation: TFileSourceOperation);
+var
+  CopyOperation: TFileSourceCopyOperation;
+  CopyStatistics: TFileSourceCopyOperationStatistics;
+begin
+  CopyOperation := Operation as TFileSourceCopyOperation;
+  CopyStatistics := CopyOperation.RetrieveStatistics;
+
+  with CopyStatistics do
+  begin
+    lblFileNameFrom.Caption := CurrentFileFrom;
+    lblFileNameTo.Caption := CurrentFileTo;
+
+    if CurrentFileTotalBytes <> 0 then
+      pbFirst.Position := (CurrentFileDoneBytes * 100) div CurrentFileTotalBytes
+    else
+      pbFirst.Position := pbFirst.Max;
+
+    if TotalBytes <> 0 then
+      pbSecond.Position := (DoneBytes * 100) div TotalBytes
+    else
+      pbSecond.Position := pbSecond.Max;
   end;
 end;
 

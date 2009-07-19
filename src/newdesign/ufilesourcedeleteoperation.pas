@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils,
-  uFileSourceOperation;
+  uFileSourceOperation,
+  uFileSourceOperationTypes;
 
 type
 
@@ -15,6 +16,9 @@ type
      File source should match the class type.
   }
   TFileSourceDeleteOperation = class(TFileSourceOperation)
+
+  protected
+    function GetID: TFileSourceOperationType; override;
 
   public
     constructor Create; override;
@@ -32,6 +36,11 @@ end;
 destructor TFileSourceDeleteOperation.Destroy;
 begin
   inherited;
+end;
+
+function TFileSourceDeleteOperation.GetID: TFileSourceOperationType;
+begin
+  Result := fsoDelete;
 end;
 
 end.
