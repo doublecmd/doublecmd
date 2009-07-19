@@ -349,6 +349,7 @@ type
     procedure dskToolButtonClick(Sender: TObject; NumberOfButton: Integer);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
     procedure FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
     procedure FormWindowStateChange(Sender: TObject);
@@ -759,6 +760,17 @@ begin
   {*Tool Bar*}
 
   DestroyDrivesList(DrivesList);
+end;
+
+procedure TfrmMain.FormCloseQuery(Sender: TObject; var CanClose: boolean);
+begin
+  if OperationsManager.OperationsCount > 0 then
+  begin
+    msgWarning('There are operations running!');
+    CanClose := False;
+  end
+  else
+    CanClose := True;
 end;
 
 procedure TfrmMain.FormDropFiles(Sender: TObject; const FileNames: array of String);

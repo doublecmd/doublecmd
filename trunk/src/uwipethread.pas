@@ -46,7 +46,7 @@ unit uWipeThread;
 interface
 
 uses
-  uFileOpThread, uFileList, uTypes, SysUtils, LCLProc;
+  uFileOpThread, uFileList, uTypes, SysUtils, LCLProc, fFileOpDlg;
 
 type
 

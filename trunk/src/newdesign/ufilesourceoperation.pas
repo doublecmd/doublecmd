@@ -5,7 +5,8 @@ unit uFileSourceOperation;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils,
+  uFileSourceOperationTypes;
 
 const
 
@@ -19,6 +20,7 @@ type
      fsosRunning,
      fsosPausing,     //<en responded to Pause command
      fsosPaused,
+     fsosWaitingForFeedback, //<en waiting for a response from a user through the assigned UI
      fsosStopping,    //<en responded to Stop command
      fsosStopped);    //<en finished due to Stop command or on its own
 
@@ -26,10 +28,13 @@ type
     (fssrFinished,        //<en normal finish
      fssrAborted);        //<en aborted due to Stop command (by user)
 
+
+  {en
+     Base class for each file source operation.
+  }
   TFileSourceOperation = class
-  protected
-    FState: TFileSourceOperationState;             // both must be synchronized
-    FStopReason: TFileSourceOperationStopReason;
+  private
+    FProgress: Integer;
 
     {en
        Should return a general progress (0-100) of the operation.
@@ -38,10 +43,26 @@ type
        It is only read from the main thread and written to by operation
        executing thread, thus probably doesn't need synchronization.
     }
-    function GetProgress: Integer; virtual abstract;
+    function GetProgress: Integer;
+
+  protected
+    FState: TFileSourceOperationState;             // both must be synchronized
+    FStopReason: TFileSourceOperationStopReason;
+
+    procedure UpdateProgress(NewProgress: Integer);
+
+    {en
+       This should be set to the correct file operation type in each concrete descendant.
+       We rely on this when making a decision based on operation type. This way
+       it's easier to maintain different sorts of things we can do with operations
+       and statistics, without having to include knowledge of those things
+       in the operations classes hierarchy.
+    }
+    function GetID: TFileSourceOperationType; virtual abstract;
 
   public
     constructor Create; virtual;
+    destructor Destroy; override;
 
     {en
        Tries to execute operation.
@@ -61,6 +82,7 @@ type
     procedure Stop; virtual abstract;
 
     property Progress: Integer read GetProgress;
+    property ID: TFileSourceOperationType read GetID;
   end;
 
   {en
@@ -90,10 +112,28 @@ implementation
 
 constructor TFileSourceOperation.Create;
 begin
-  inherited Create;
-
   FState := fsosNotStarted;
   FStopReason := fssrFinished;
+  FProgress := 0;
+
+  inherited Create;
+end;
+
+destructor TFileSourceOperation.Destroy;
+begin
+  inherited Destroy;
+end;
+
+function TFileSourceOperation.GetProgress: Integer;
+begin
+  // Doesn't need synchronization.
+  Result := FProgress;
+end;
+
+procedure TFileSourceOperation.UpdateProgress(NewProgress: Integer);
+begin
+  // Doesn't need synchronization.
+  FProgress := NewProgress;
 end;
 
 end.

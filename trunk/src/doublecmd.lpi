@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="72">
+    <Units Count="71">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -459,58 +459,53 @@
         <UnitName Value="uMethodsList"/>
       </Unit61>
       <Unit62>
-        <Filename Value="newdesign\ufilesourcecopyinoperation.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uFileSourceCopyInOperation"/>
-      </Unit62>
-      <Unit63>
-        <Filename Value="newdesign\ufilesourcecopyoutoperation.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uFileSourceCopyOutOperation"/>
-      </Unit63>
-      <Unit64>
         <Filename Value="newdesign\ufilesourcedeleteoperation.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFileSourceDeleteOperation"/>
-      </Unit64>
-      <Unit65>
+      </Unit62>
+      <Unit63>
         <Filename Value="newdesign\ufilesystemcopyoperation.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFileSystemCopyOperation"/>
-      </Unit65>
-      <Unit66>
+      </Unit63>
+      <Unit64>
         <Filename Value="ufileviewnotebook.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFileViewNotebook"/>
-      </Unit66>
-      <Unit67>
+      </Unit64>
+      <Unit65>
         <Filename Value="newdesign\uvirtualfilesource.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uVirtualFileSource"/>
-      </Unit67>
-      <Unit68>
+      </Unit65>
+      <Unit66>
         <Filename Value="newdesign\urealfilesource.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uRealFileSource"/>
-      </Unit68>
-      <Unit69>
+      </Unit66>
+      <Unit67>
         <Filename Value="newdesign\uoperationsmanager.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uOperationsManager"/>
-      </Unit69>
-      <Unit70>
+      </Unit67>
+      <Unit68>
         <Filename Value="newdesign\uoperationthread.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uOperationThread"/>
-      </Unit70>
-      <Unit71>
+      </Unit68>
+      <Unit69>
         <Filename Value="newdesign\fviewoperations.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmViewOperations"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fViewOperations"/>
-      </Unit71>
+      </Unit69>
+      <Unit70>
+        <Filename Value="newdesign\ufilesourcecopyoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceCopyOperation"/>
+      </Unit70>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

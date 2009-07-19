@@ -1,11 +1,12 @@
 object frmViewOperations: TfrmViewOperations
-  Left = 295
-  Height = 246
-  Top = 181
-  Width = 634
+  Left = 192
+  Height = 259
+  Top = 192
+  Width = 644
   Caption = 'frmViewOperations'
-  ClientHeight = 246
-  ClientWidth = 634
+  ClientHeight = 259
+  ClientWidth = 644
+  FormStyle = fsStayOnTop
   OnCreate = FormCreate
   LCLVersion = '0.9.27'
   object lblOperationsCount: TLabel
@@ -17,20 +18,21 @@ object frmViewOperations: TfrmViewOperations
     ParentColor = False
   end
   object lblCount: TLabel
-    Left = 144
+    Left = 224
     Height = 18
     Top = 16
     Width = 47
     Caption = 'lblCount'
     ParentColor = False
   end
-  object lblProgress: TLabel
-    Left = 224
-    Height = 18
-    Top = 16
-    Width = 61
-    Caption = 'lblProgress'
-    ParentColor = False
+  object sboxOperations: TScrollBox
+    Left = 22
+    Height = 161
+    Top = 47
+    Width = 594
+    TabOrder = 0
+    OnDblClick = sboxOperationsDblClick
+    OnPaint = sboxOperationsPaint
   end
   object UpdateTimer: TTimer
     Interval = 100

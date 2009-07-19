@@ -11,6 +11,7 @@ object frmMain: TfrmMain
   Menu = mnuMain
   OnActivate = FormActivate
   OnClose = frmMainClose
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnDropFiles = FormDropFiles

@@ -6,8 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uFileSourceCopyInOperation,
-  uFileSourceCopyOutOperation,
+  uFileSourceCopyOperation,
   uFileSystemFileSource,
   uFileSource,
   uFile;
@@ -44,11 +43,6 @@ type
     FTargetFileSource: TFileSystemFileSource;
     FSourceFiles: TFiles;
     FTargetFiles: TFiles;
-
-    FProgress: Integer;
-
-  protected
-    function GetProgress: Integer; override;
 
   public
     constructor Create(SourceFileSource: TFileSystemFileSource;
@@ -94,25 +88,51 @@ begin
   FTargetFileSource := TargetFileSource;
   FSourceFiles := SourceFiles;
   FTargetFiles := TargetFiles;
-
-  FProgress := 0;
-end;
-
-function TFileSystemCopyOutOperation.GetProgress: Integer;
-begin
-  Result := FProgress;
 end;
 
 procedure TFileSystemCopyOutOperation.Execute;
 var
   i: Integer;
+  Statistics: TFileSourceCopyOperationStatistics;
 begin
+  // Get initialized statistics; then we change only what is needed.
+  Statistics := RetrieveStatistics;
+
+  with Statistics do
+  begin
+    TotalBytes := 300 * 50;
+    TotalFiles := 300;
+  end;
+
   // Some dummy long operation for now.
   for i := 1 to 300 do
   begin
+    with Statistics do
+    begin
+      CurrentFileFrom := 'sourceFile_' + inttostr(i)  +'.pas';
+      CurrentFileTo := 'targetFile_'+ inttostr(i)+ '.pas';
+    end;
+
+    UpdateStatistics(Statistics);
+
+    // Main work single step.
     Sleep(50);
-    FProgress := (i * 100)  div  300;
+
+    // Update overall progress.
+    // (should this be under the same lock as statistics?)
+    UpdateProgress((i * 100)  div  300);
+
+    // Update specific statistics.
+    with Statistics do
+    begin
+      DoneFiles := DoneFiles + 1;
+      DoneBytes := DoneBytes + 50;
+    end;
   end;
+
+  // Final statistics.
+  UpdateStatistics(Statistics);
+  UpdateProgress(100);
 end;
 
 end.

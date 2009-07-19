@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, ExtCtrls, LCLIntf, syncobjs,
-  uOperationThread, uFileSourceOperation;
+  uOperationThread, uFileSourceOperation, lclproc;
 
 type
 
@@ -18,14 +18,25 @@ const
 
 type
 
+  {en
+     Possible options when adding a new operation.
+  }
+  TOperationStartingState =
+    (ossDontStart,      //<en Don't start automatically.
+     ossAutoStart,      //<en Start automatically.
+     ossQueue);         //<en Don't start automatically,
+                        //<en unless there are no other operations working.
+
   POperationsManagerEntry = ^TOperationsManagerEntry;
   TOperationsManagerEntry = record
-    Thread   : TOperationThread;
-    Operation: TFileSourceOperation;
-    Handle   : TOperationHandle;
+    Thread       : TOperationThread;
+    Operation    : TFileSourceOperation;
+    Handle       : TOperationHandle;
+    StartingState: TOperationStartingState;
   end;
 
   TOperationManagerEvent = procedure(Operation: TFileSourceOperation) of object;
+
   {en
      Manages file source operations.
      Executes them, stores threads, allows querying active operations
@@ -35,7 +46,7 @@ type
   private
     FOperations: TFPList;         //<en List of TOperationsManagerEntry
     FLock: TCriticalSection;
-    FNextUnusedHandle: TOperationHandle;
+    FLastUsedHandle: TOperationHandle;
 
     // Events follow.
     // (do this with multiple listeners, so many viewers can look through active operations).
@@ -53,8 +64,6 @@ type
     procedure ThreadTerminatedEvent(Sender: TObject);
 
     function GetOperationsCount: Integer;
-    function GetOperationByIndex(Index: Integer): TFileSourceOperation;
-    function GetOperationByHandle(Handle: TOperationHandle): TFileSourceOperation;
 
     function GetNextUnusedHandle: TOperationHandle;
 
@@ -63,10 +72,18 @@ type
     destructor Destroy; override;
 
     function AddOperation(Operation: TFileSourceOperation;
-                          StartImmediately: Boolean): TOperationHandle;
+                          StartingState: TOperationStartingState): TOperationHandle;
 
-    property OperationByIndex[Index: Integer]: TFileSourceOperation read GetOperationByIndex;
-    property OperationByHandle[Handle: TOperationHandle]: TFileSourceOperation read GetOperationByHandle;
+    {en
+       Operations retrieved this way can be safely used from the main GUI thread.
+       But they should not be stored for longer use, because they
+       may be destroyed by the Operations Manager when they finish.
+    }
+    function GetOperationByIndex(Index: Integer): TFileSourceOperation;
+    function GetOperationByHandle(Handle: TOperationHandle): TFileSourceOperation;
+
+    function GetHandleById(Index: Integer): TOperationHandle;
+
     property OperationsCount: Integer read GetOperationsCount;
 
     // Events.
@@ -85,7 +102,7 @@ constructor TOperationsManager.Create;
 begin
   FOperations := TFPList.Create;
   FLock := TCriticalSection.Create;
-  FNextUnusedHandle := 1;   // Start from 1.
+  FLastUsedHandle := 0;
 
   FOnOperationAdded    := nil;
   FOnOperationRemoved  := nil;
@@ -106,7 +123,7 @@ begin
 end;
 
 function TOperationsManager.AddOperation(Operation: TFileSourceOperation;
-                                         StartImmediately: Boolean): TOperationHandle;
+                                         StartingState: TOperationStartingState): TOperationHandle;
 var
   Thread: TOperationThread;
   Entry: POperationsManagerEntry;
@@ -128,6 +145,7 @@ begin
         Entry^.Operation := Operation;
         Entry^.Thread := Thread;
         Entry^.Handle := GetNextUnusedHandle;
+        Entry^.StartingState := StartingState;
 
         FOperations.Add(Entry);
 
@@ -141,7 +159,7 @@ begin
         if Assigned(FOnOperationAdded) then
           FOnOperationAdded(Operation);
 
-        if StartImmediately then
+        if StartingState = ossAutoStart then
         begin
           Thread.Resume;
 
@@ -171,7 +189,7 @@ begin
   if (Index >= 0) and (Index < FOperations.Count) then
   begin
     Entry := POperationsManagerEntry(FOperations.Items[Index]);
-    if Assigned(Entry) and Assigned(Entry^.Operation) then
+    if Assigned(Entry^.Operation) then
       Result := Entry^.Operation;
   end
   else
@@ -200,33 +218,45 @@ begin
   end;
 end;
 
+function TOperationsManager.GetHandleById(Index: Integer): TOperationHandle;
+var
+  Entry: POperationsManagerEntry = nil;
+begin
+  if (Index >= 0) and (Index < FOperations.Count) then
+  begin
+    Entry := POperationsManagerEntry(FOperations.Items[Index]);
+    Result := Entry^.Handle;
+  end
+  else
+    Result := InvalidOperationHandle;
+end;
+
 function TOperationsManager.GetNextUnusedHandle: TOperationHandle;
 begin
   // Handles are consecutively incremented.
   // Even if they overflow there is little probability that
   // there will be that many operations.
-  Result := InterLockedIncrement(FNextUnusedHandle);
+  Result := InterLockedIncrement(FLastUsedHandle);
   if Result = InvalidOperationHandle then
-    Result := InterLockedIncrement(FNextUnusedHandle);
+    Result := InterLockedIncrement(FLastUsedHandle);
 end;
 
 procedure TOperationsManager.ThreadTerminatedEvent(Sender: TObject);
 var
   Thread: TOperationThread;
   Entry: POperationsManagerEntry = nil;
-  i: Integer;
+  Index: Integer = -1;
 begin
-  // This function is executed from the main thread (through Synchronize).
+  // This function is executed from the GUI thread (through Synchronize).
 
   Thread := Sender as TOperationThread;
 
-  // Search the terminated in the operations list.
-  for i := 0 to FOperations.Count - 1 do
+  // Search the terminated thread in the operations list.
+  for Index := 0 to FOperations.Count - 1 do
   begin
-    Entry := POperationsManagerEntry(FOperations.Items[i]);
+    Entry := POperationsManagerEntry(FOperations.Items[Index]);
     if Entry^.Thread = Thread then
     begin
-      FOperations.Delete(i);
       break;
     end;
   end;
@@ -236,10 +266,12 @@ begin
     if Assigned(FOnOperationFinished) then
       FOnOperationFinished(Entry^.Operation);
 
-    FreeAndNil(Entry^.Thread);
+    FOperations.Delete(Index);
 
     if Assigned(FOnOperationRemoved) then
       FOnOperationRemoved(Entry^.Operation);
+
+    Entry^.Thread := nil;  // Thread frees himself automatically on terminate.
 
     // Here the operation should not be used anymore
     // (by the thread and by any operations viewer).

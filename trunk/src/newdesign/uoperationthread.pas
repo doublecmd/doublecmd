@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uFileSourceOperation;
+  uFileSourceOperation, LCLProc;
 
 type
 
@@ -36,7 +36,7 @@ implementation
 
 constructor TOperationThread.Create(CreateSuspended: Boolean; Operation: TFileSourceOperation);
 begin
-  FreeOnTerminate := False;
+  FreeOnTerminate := True;
 
   FOperation := Operation;
   //FOperation.UI.Terminate := @CheckTerminated;

@@ -7,6 +7,7 @@ interface
 uses
   Classes, SysUtils,
   uFileSourceOperation,
+  uFileSourceOperationTypes,
   uFile;
 
 type
@@ -17,6 +18,8 @@ type
     FFiles: TFiles;
 
     function GetFiles: TFiles;
+
+    function GetID: TFileSourceOperationType; override;
 
   public
     constructor Create; override;
@@ -44,6 +47,11 @@ begin
 
   if Assigned(FFiles) then
     FreeAndNil(FFiles);
+end;
+
+function TFileSourceListOperation.GetID: TFileSourceOperationType;
+begin
+  Result := fsoList;
 end;
 
 function TFileSourceListOperation.GetFiles: TFiles;
