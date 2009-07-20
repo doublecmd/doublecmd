@@ -38,7 +38,6 @@ implementation
 uses
   uOperationsManager,
   uFileSourceOperationTypes,
-  uFileSourceCopyOperation,
   uLng, LCLProc, fFileOpDlg;
 
 const
@@ -84,28 +83,22 @@ var
   OperationNumber: Integer;
   CursorPos: TPoint;
   Operation: TFileSourceOperation;
-  CopyDialog: TfrmFileOp;
+  OperationDialog: TfrmFileOp;
 begin
   CursorPos := Mouse.CursorPos;
   CursorPos := sboxOperations.ScreenToClient(CursorPos);
 
   OperationNumber := CursorPos.Y div aRowHeight;
 
-  Operation := OperationsManager.GetOperationByIndex(OperationNumber);
-  if Assigned(Operation) then
-  begin
-    // Example for Copy operation for now.
-    if Operation is TFileSourceCopyOutOperation then
-    begin
-      CopyDialog := TfrmFileOp.Create(OperationsManager.GetHandleById(OperationNumber));
-      CopyDialog.Show;
-    end;
-  end;
+  OperationDialog := TfrmFileOp.Create(OperationsManager.GetHandleById(OperationNumber));
+  OperationDialog.Show;
 end;
 
 procedure TfrmViewOperations.sboxOperationsPaint(Sender: TObject);
 var
   Operation: TFileSourceOperation;
+  OperationHandle: TOperationHandle;
+  StartingState: TOperationStartingState;
   i: Integer;
   OutString: String;
 begin
@@ -116,6 +109,8 @@ begin
     Operation := OperationsManager.GetOperationByIndex(i);
     if Assigned(Operation) then
     begin
+      OperationHandle := OperationsManager.GetHandleById(i);
+
       case Operation.ID of
         fsoCopyIn, fsoCopyOut:
           OutString := rsDlgCp;
@@ -123,9 +118,15 @@ begin
           OutString := 'Unknown operation';
       end;
 
-      OutString := IntToStr(OperationsManager.GetHandleById(i)) + ': '
+      OutString := IntToStr(OperationHandle) + ': '
                  + OutString + ' - '
-                 + IntToStr(Operation.Progress) + ' %';
+                 + IntToStr(Operation.Progress) + ' %'
+                 + ' (' + FileSourceOperationStateText[Operation.State] + ')';
+
+      StartingState := OperationsManager.GetStartingState(OperationHandle);
+      if StartingState <> ossInvalid then
+        if StartingState <> ossDontStart then
+          OutString := OutString + ' [' + OperationStartingStateText[StartingState] + ']';
 
       sboxOperations.Canvas.Brush.Color := Canvas.Brush.Color;
       sboxOperations.Canvas.Rectangle(0, 0 + (aRowHeight * i), sboxOperations.Width, aRowHeight + (aRowHeight * i));

@@ -17,8 +17,6 @@ type
   private
     FOperation: TFileSourceOperation;
 
-    function CheckTerminated: Boolean;
-
   protected
     procedure Execute; override;
 
@@ -39,7 +37,6 @@ begin
   FreeOnTerminate := True;
 
   FOperation := Operation;
-  //FOperation.UI.Terminate := @CheckTerminated;
 
   inherited Create(CreateSuspended, DefaultStackSize);
 end;
@@ -52,11 +49,6 @@ end;
 procedure TOperationThread.Execute;
 begin
   FOperation.Execute;
-end;
-
-function TOperationThread.CheckTerminated: Boolean;
-begin
-  Result := Terminated;
 end;
 
 end.

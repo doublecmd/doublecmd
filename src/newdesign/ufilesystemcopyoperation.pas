@@ -43,6 +43,8 @@ type
     FTargetFileSource: TFileSystemFileSource;
     FSourceFiles: TFiles;
     FTargetFiles: TFiles;
+    FStatistics: TFileSourceCopyOperationStatistics;
+    FCounter: Integer;
 
   public
     constructor Create(SourceFileSource: TFileSystemFileSource;
@@ -50,11 +52,18 @@ type
                        SourceFiles: TFiles;
                        TargetFiles: TFiles); reintroduce;
 
-    procedure Execute; override;
+    procedure fExecute; override;
+
+    procedure Initialize; override;
+    function  ExecuteStep: Boolean; override;
+    procedure Finalize; override;
 
   end;
 
 implementation
+
+uses
+  uFileSourceOperation;
 
 // -- TFileSystemCopyInOperation ----------------------------------------------
 
@@ -90,11 +99,16 @@ begin
   FTargetFiles := TargetFiles;
 end;
 
-procedure TFileSystemCopyOutOperation.Execute;
+procedure TFileSystemCopyOutOperation.fExecute;
 var
   i: Integer;
   Statistics: TFileSourceCopyOperationStatistics;
 begin
+  if GetDesiredState <> fsosRunning then
+    DoPause;
+
+  UpdateState(fsosStarting);
+
   // Get initialized statistics; then we change only what is needed.
   Statistics := RetrieveStatistics;
 
@@ -104,9 +118,26 @@ begin
     TotalFiles := 300;
   end;
 
+  UpdateState(fsosRunning);
+
+  // Main loop follows.
+
   // Some dummy long operation for now.
   for i := 1 to 300 do
   begin
+    case GetDesiredState of
+      fsosPaused:
+        begin
+          DoPause;
+        end;
+
+      fsosStopped:
+        begin
+          //cleanup
+          Exit;
+        end;
+    end;
+
     with Statistics do
     begin
       CurrentFileFrom := 'sourceFile_' + inttostr(i)  +'.pas';
@@ -133,6 +164,63 @@ begin
   // Final statistics.
   UpdateStatistics(Statistics);
   UpdateProgress(100);
+
+  // cleanup
+end;
+
+procedure TFileSystemCopyOutOperation.Initialize;
+begin
+  // Get initialized statistics; then we change only what is needed.
+  FStatistics := RetrieveStatistics;
+
+  with FStatistics do
+  begin
+    TotalBytes := 300 * 50;
+    TotalFiles := 300;
+  end;
+
+  FCounter := 1;
+end;
+
+function TFileSystemCopyOutOperation.ExecuteStep: Boolean;
+begin
+  // Some dummy long operation for now.
+  if FCounter <= 300 then
+  begin
+    with FStatistics do
+    begin
+      CurrentFileFrom := 'sourceFile_' + inttostr(FCounter)  +'.pas';
+      CurrentFileTo := 'targetFile_'+ inttostr(FCounter)+ '.pas';
+    end;
+
+    UpdateStatistics(FStatistics);
+
+    // Main work single step.
+    Sleep(50);
+
+    // Update overall progress.
+    // (should this be under the same lock as statistics?)
+    UpdateProgress((FCounter * 100)  div  300);
+
+    // Update specific statistics.
+    with FStatistics do
+    begin
+      DoneFiles := DoneFiles + 1;
+      DoneBytes := DoneBytes + 50;
+    end;
+
+    FCounter := FCounter + 1;
+
+    Result := True;
+  end
+  else
+    Result := False;
+end;
+
+procedure TFileSystemCopyOutOperation.Finalize;
+begin
+  // Final statistics.
+  UpdateStatistics(FStatistics);
 end;
 
 end.
