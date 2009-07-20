@@ -2,7 +2,7 @@ unit ufsplugin;    {Plugin definitions version 1.5}
 
 interface
 
-uses SysUtils, uOSUtils;
+uses SysUtils {$IFDEF WINDOWS}, Windows{$ENDIF};
 
 { ids for FsGetFile }
 
@@ -155,42 +155,40 @@ const
   
 type
   TInt64Rec = packed record
-      case Boolean of
-        True : (Value : Int64);
-        False : (Low,High : DWORD);
-   end;
+    case Boolean of
+      True : (Value : Int64);
+      False : (Low,High : DWORD);
+  end;
 
-   //---------------------
-   bool =type boolean;
-   HBITMAP = type LongWord;
-   //---------------------
-   
+  BOOL = LongBool;
+  HBITMAP = THandle;
+  HICON = THandle;
+
 type
-  {$ifdef UNICODE}
-     TBYTE = word;
-     TCHAR = widechar;
-     BCHAR = word;
-  {$else}
-     TBYTE = byte;
-     TCHAR = char;
-     BCHAR = BYTE;
-  {$endif}
+{$IFDEF WINDOWS}
+  FILETIME = Windows.FILETIME;
+{$ELSE}
+  FILETIME = record
+    dwLowDateTime : DWORD;
+    dwHighDateTime : DWORD;
+  end;
+{$ENDIF}
+  TFileTime = FILETIME;
+  PFileTime = ^FILETIME;
 
   WIN32_FIND_DATA = record
-          dwFileAttributes : DWORD;
-          ftCreationTime : TFILETIME;
-          ftLastAccessTime : TFILETIME;
-          ftLastWriteTime : TFILETIME;
-          nFileSizeHigh : DWORD;
-          nFileSizeLow : DWORD;
-          dwReserved0 : DWORD;
-          dwReserved1 : DWORD;
-          cFileName : array[0..(MAX_PATH)-1] of TCHAR;
-          cAlternateFileName : array[0..13] of TCHAR;
-       end;
-  tWIN32FINDDATA = WIN32_FIND_DATA;
-  HICON = THANDLE;
-
+    dwFileAttributes : DWORD;
+    ftCreationTime : TFILETIME;
+    ftLastAccessTime : TFILETIME;
+    ftLastWriteTime : TFILETIME;
+    nFileSizeHigh : DWORD;
+    nFileSizeLow : DWORD;
+    dwReserved0 : DWORD;
+    dwReserved1 : DWORD;
+    cFileName : array[0..(MAX_PATH)-1] of CHAR;
+    cAlternateFileName : array[0..13] of CHAR;
+  end;
+  TWin32FindData = WIN32_FIND_DATA;
 
 type
 

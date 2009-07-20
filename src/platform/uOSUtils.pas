@@ -75,10 +75,8 @@ type
     dwHighDateTime : DWORD;
   end;
 {$ENDIF}
-  LPFILETIME = ^FILETIME;
-  _FILETIME = FILETIME;
-  TFILETIME = FILETIME;
-  PFILETIME = ^FILETIME;
+  TFileTime = FILETIME;
+  PFileTime = ^FILETIME;
 
 type
   TFileMapRec = record
