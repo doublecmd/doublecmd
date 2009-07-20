@@ -1289,7 +1289,7 @@ begin
   // Dummy operation for testing.
   debugln('Starting copy operation');
   Operation := TFileSystemCopyOutOperation.Create(nil,nil,nil,nil);
-  OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+  OperationHandle := OperationsManager.AddOperation(Operation, ossAutoQueue);
 
   // The OperationHandle should now be passed to the dialog displaying progress.
 

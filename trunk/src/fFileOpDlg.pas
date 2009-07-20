@@ -45,6 +45,7 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+
   private
     { Private declarations }
     FOperationHandle: TOperationHandle;
@@ -53,6 +54,9 @@ type
     procedure OnUpdateTimer(Sender: TObject);
 
     procedure InitializeControls(FileOpDlgLook: TFileOpDlgLook);
+    procedure SetPauseGlyph;
+    procedure SetPlayGlyph;
+    procedure UpdatePauseStartButton(OperationState: TFileSourceOperationState);
 
     procedure InitializeCopyOperation(Operation: TFileSourceOperation);
     procedure UpdateCopyOperation(Operation: TFileSourceOperation);
@@ -81,7 +85,15 @@ uses
    uFileSourceCopyOperation;
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
+var
+  Operation: TFileSourceOperation;
 begin
+  Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
+  if Assigned(Operation) then
+  begin
+    Operation.Stop;
+  end;
+{
   if Assigned(Thread) then
     begin
       Thread.Terminate;
@@ -89,11 +101,29 @@ begin
         with Thread as TFileOpThread do
           if Paused then Paused:= False; 
     end;
+}
   ModalResult:= mrCancel;
 end;
 
 procedure TfrmFileOp.btnPauseStartClick(Sender: TObject);
+var
+  Operation: TFileSourceOperation;
 begin
+  Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
+  if Assigned(Operation) then
+  begin
+    if Operation.State in [fsosNotStarted, fsosPaused] then
+    begin
+      Operation.Start;
+      SetPauseGlyph;
+    end
+    else if Operation.State = fsosRunning then
+    begin
+      Operation.Pause;
+      SetPlayGlyph;
+    end;
+  end;
+{
   if Assigned(Thread) then
     begin
       if Thread is TFileOpThread then
@@ -103,6 +133,7 @@ begin
           dmComData.ImageList.GetBitmap(Integer(not Paused), btnPauseStart.Glyph);
         end;
     end;
+}
 end;
 
 procedure TfrmFileOp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -131,10 +162,6 @@ begin
   iProgress2Pos:= 0;
 }
 
-  lblFileNameFrom.Caption := '';
-  lblFileNameTo.Caption := '';
-  lblEstimated.Caption := '';
-
   pbFirst.DoubleBuffered:= True;
   pbSecond.DoubleBuffered:= True;
   Self.DoubleBuffered:= True;
@@ -153,6 +180,12 @@ begin
           InitializeControls([fodl_first_pb]);
         end;
     end;
+
+    UpdatePauseStartButton(Operation.State);
+  end
+  else
+  begin
+    Caption := 'Invalid operation';
   end;
 
   FUpdateTimer := TTimer.Create(Self);
@@ -166,9 +199,6 @@ begin
   sEstimated:= '';
   sFileNameFrom:= '';
   sFileNameTo:= '';
-  Hint:= Caption;
-  if btnPauseStart.Visible then
-    dmComData.ImageList.GetBitmap(1, btnPauseStart.Glyph);
 end;
 
 constructor TfrmFileOp.Create(OperationHandle: TOperationHandle);
@@ -182,6 +212,7 @@ end;
 procedure TfrmFileOp.OnUpdateTimer(Sender: TObject);
 var
   Operation: TFileSourceOperation;
+  NewCaption: String;
 begin
   Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
   if Assigned(Operation) then
@@ -197,7 +228,10 @@ begin
         pbFirst.Position := Operation.Progress;
     end;
 
-    Caption := IntToStr(Operation.Progress) + '% ' + Hint;
+    NewCaption := IntToStr(Operation.Progress) + '% ' + Hint;
+    if Operation.State <> fsosRunning then
+      NewCaption := NewCaption + ' [' + FileSourceOperationStateText[Operation.State] + ']';
+    Caption := NewCaption;
 {
     // Estimate remaining time somehow (by progress or individual statistics).
     if sEstimated <> lblEstimated.Caption then
@@ -224,6 +258,47 @@ begin
   lblFileNameTo.Visible   := fodl_to_lbl in FileOpDlgLook;
   pbFirst.Visible         := fodl_first_pb in FileOpDlgLook;
   pbSecond.Visible        := fodl_second_pb in FileOpDlgLook;
+
+  lblFileNameFrom.Caption := '';
+  lblFileNameTo.Caption := '';
+  lblEstimated.Caption := '';
+
+  Hint := Caption;
+end;
+
+procedure TfrmFileOp.SetPauseGlyph;
+begin
+  dmComData.ImageList.GetBitmap(1, btnPauseStart.Glyph);
+end;
+
+procedure TfrmFileOp.SetPlayGlyph;
+begin
+  dmComData.ImageList.GetBitmap(0, btnPauseStart.Glyph);
+end;
+
+procedure TfrmFileOp.UpdatePauseStartButton(OperationState: TFileSourceOperationState);
+begin
+  case OperationState of
+    fsosNotStarted, fsosStopped, fsosPaused:
+      begin
+        btnPauseStart.Enabled := True;
+        SetPlayGlyph;
+      end;
+
+    fsosStarting, fsosStopping, fsosPausing, fsosWaitingForFeedback:
+      begin
+        btnPauseStart.Enabled := False;
+      end;
+
+    fsosRunning:
+      begin
+        btnPauseStart.Enabled := True;
+        SetPauseGlyph;
+      end;
+
+    else
+      btnPauseStart.Enabled := False;
+  end;
 end;
 
 procedure TfrmFileOp.InitializeCopyOperation(Operation: TFileSourceOperation);
@@ -258,6 +333,8 @@ begin
     else
       pbSecond.Position := pbSecond.Max;
   end;
+
+  UpdatePauseStartButton(Operation.State);
 end;
 
 procedure TfrmFileOp.ToggleProgressBarStyle;

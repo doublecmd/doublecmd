@@ -231,7 +231,22 @@ resourcestring
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';
   rsMenuConfigureThisCustomColumn= 'Configure this custom columns view';
-  
+
+  // Operations.
+  rsOperNotStarted = 'Not started';
+  rsOperStarting = 'Starting';
+  rsOperRunning = 'Running';
+  rsOperPausing = 'Pausing';
+  rsOperPaused = 'Paused';
+  rsOperWaitingForFeedback = 'Waiting for user response';
+  rsOperStopping = 'Stopping';
+  rsOperStopped = 'Stopped';
+  rsOperFinished = 'Finished';
+  rsOperAborted = 'Aborted';
+  rsOperDontStart = 'Not auto-started';
+  rsOperAutoStart = 'Auto-started';
+  rsOperQueue = 'Queued';
+
 function GetLanguageName(poFileName : String) : String;
 procedure lngLoadLng(const sFileName:String);
 procedure DoLoadLng;

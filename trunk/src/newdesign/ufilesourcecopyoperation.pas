@@ -125,6 +125,8 @@ end;
 
 function TFileSourceCopyOperation.RetrieveStatistics: TFileSourceCopyOperationStatistics;
 begin
+  // Statistics have to be synchronized because there are multiple values
+  // and they all have to be consistent at every moment.
   FStatisticsLock.Acquire;
   try
     Result := Self.FStatistics;

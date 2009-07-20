@@ -1,11 +1,11 @@
 object frmViewOperations: TfrmViewOperations
   Left = 192
-  Height = 259
+  Height = 221
   Top = 192
-  Width = 644
+  Width = 656
   Caption = 'frmViewOperations'
-  ClientHeight = 259
-  ClientWidth = 644
+  ClientHeight = 221
+  ClientWidth = 656
   FormStyle = fsStayOnTop
   OnCreate = FormCreate
   LCLVersion = '0.9.27'
@@ -26,10 +26,12 @@ object frmViewOperations: TfrmViewOperations
     ParentColor = False
   end
   object sboxOperations: TScrollBox
-    Left = 22
-    Height = 161
+    Left = 0
+    Height = 174
     Top = 47
-    Width = 594
+    Width = 656
+    Align = alBottom
+    Anchors = [akTop, akLeft, akRight]
     TabOrder = 0
     OnDblClick = sboxOperationsDblClick
     OnPaint = sboxOperationsPaint

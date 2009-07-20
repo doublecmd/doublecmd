@@ -5,7 +5,7 @@ unit uOperationsManager;
 interface
 
 uses
-  Classes, SysUtils, ExtCtrls, LCLIntf, syncobjs,
+  Classes, SysUtils, ExtCtrls, LCLIntf, syncobjs, uLng,
   uOperationThread, uFileSourceOperation, lclproc;
 
 type
@@ -22,10 +22,19 @@ type
      Possible options when adding a new operation.
   }
   TOperationStartingState =
-    (ossDontStart,      //<en Don't start automatically.
+    (ossInvalid,
+     ossDontStart,      //<en Don't start automatically.
      ossAutoStart,      //<en Start automatically.
-     ossQueue);         //<en Don't start automatically,
+     ossQueue,          //<en Don't start automatically,
                         //<en unless there are no other operations working.
+     ossAutoQueue);     //<en If there are no operations running - autostart.
+                        //<en If there are operations running - queue.
+
+const
+  OperationStartingStateText: array[TOperationStartingState] of string =
+    ('', rsOperDontStart, rsOperAutoStart, rsOperQueue, '');
+
+type
 
   POperationsManagerEntry = ^TOperationsManagerEntry;
   TOperationsManagerEntry = record
@@ -67,6 +76,21 @@ type
 
     function GetNextUnusedHandle: TOperationHandle;
 
+    function GetEntryByHandle(Handle: TOperationHandle): POperationsManagerEntry;
+
+    {en
+       Checks if there is any queued operation and if all other operations
+       are stopped, then the next queued operations is started.
+    }
+    procedure CheckQueuedOperations;
+
+    {en
+       Returns @true if there is at least one operation currently running.
+    }
+    function AreOperationsRunning: Boolean;
+
+    procedure StartOperation(Entry: POperationsManagerEntry);
+
   public
     constructor Create;
     destructor Destroy; override;
@@ -81,8 +105,8 @@ type
     }
     function GetOperationByIndex(Index: Integer): TFileSourceOperation;
     function GetOperationByHandle(Handle: TOperationHandle): TFileSourceOperation;
-
     function GetHandleById(Index: Integer): TOperationHandle;
+    function GetStartingState(Handle: TOperationHandle): TOperationStartingState;
 
     property OperationsCount: Integer read GetOperationsCount;
 
@@ -159,14 +183,29 @@ begin
         if Assigned(FOnOperationAdded) then
           FOnOperationAdded(Operation);
 
-        if StartingState = ossAutoStart then
-        begin
-          Thread.Resume;
+        case StartingState of
+          ossAutoStart:
+            begin
+              StartOperation(Entry);
+            end;
 
-          if Assigned(FOnOperationStarted) then
-            FOnOperationStarted(Operation);
+          ossAutoQueue:
+            begin
+              if not AreOperationsRunning then
+                StartOperation(Entry)
+              else
+              begin
+                Entry^.StartingState := ossQueue; // change to Queued
+                Operation.PreventStart;
+              end;
+            end;
+
+          else
+            // It will be started by some user trigger.
+            Operation.PreventStart;
         end;
-        // else it will be started by some user trigger
+
+        Thread.Resume;
       end
       else
         Dispose(Entry);
@@ -180,6 +219,28 @@ end;
 function TOperationsManager.GetOperationsCount: Integer;
 begin
   Result := FOperations.Count;
+end;
+
+function TOperationsManager.GetEntryByHandle(Handle: TOperationHandle): POperationsManagerEntry;
+var
+  Entry: POperationsManagerEntry = nil;
+  i: Integer;
+begin
+  Result := nil;
+
+  if (Handle <> InvalidOperationHandle) then
+  begin
+    // Search for operation identified by given handle.
+    for i := 0 to FOperations.Count - 1 do
+    begin
+      Entry := POperationsManagerEntry(FOperations.Items[i]);
+      if Entry^.Handle = Handle then
+      begin
+        Result := Entry;
+        break;
+      end;
+    end;
+  end;
 end;
 
 function TOperationsManager.GetOperationByIndex(Index: Integer): TFileSourceOperation;
@@ -199,23 +260,12 @@ end;
 function TOperationsManager.GetOperationByHandle(Handle: TOperationHandle): TFileSourceOperation;
 var
   Entry: POperationsManagerEntry = nil;
-  i: Integer;
 begin
-  Result := nil;
-
-  if (Handle <> InvalidOperationHandle) then
-  begin
-    // Search for operation identified by given handle.
-    for i := 0 to FOperations.Count - 1 do
-    begin
-      Entry := POperationsManagerEntry(FOperations.Items[i]);
-      if Entry^.Handle = Handle then
-      begin
-        Result := Entry^.Operation;
-        break;
-      end;
-    end;
-  end;
+  Entry := GetEntryByHandle(Handle);
+  if Assigned(Entry) then
+    Result := Entry^.Operation
+  else
+    Result := nil;
 end;
 
 function TOperationsManager.GetHandleById(Index: Integer): TOperationHandle;
@@ -229,6 +279,17 @@ begin
   end
   else
     Result := InvalidOperationHandle;
+end;
+
+function TOperationsManager.GetStartingState(Handle: TOperationHandle): TOperationStartingState;
+var
+  Entry: POperationsManagerEntry = nil;
+begin
+  Entry := GetEntryByHandle(Handle);
+  if Assigned(Entry) then
+    Result := Entry^.StartingState
+  else
+    Result := ossInvalid;
 end;
 
 function TOperationsManager.GetNextUnusedHandle: TOperationHandle;
@@ -279,6 +340,53 @@ begin
 
     Dispose(Entry);
   end;
+
+  CheckQueuedOperations;
+end;
+
+procedure TOperationsManager.CheckQueuedOperations;
+var
+  i: Integer;
+  Entry: POperationsManagerEntry = nil;
+begin
+  if not AreOperationsRunning then
+  begin
+    for i := 0 to FOperations.Count - 1 do
+    begin
+      Entry := POperationsManagerEntry(FOperations.Items[i]);
+
+      if Entry^.StartingState = ossQueue then
+      begin
+        StartOperation(Entry);
+        Exit;
+      end;
+    end;
+  end;
+end;
+
+function TOperationsManager.AreOperationsRunning: Boolean;
+var
+  Entry: POperationsManagerEntry = nil;
+  Index: Integer = -1;
+begin
+  // Search for a running operation.
+  for Index := 0 to FOperations.Count - 1 do
+  begin
+    Entry := POperationsManagerEntry(FOperations.Items[Index]);
+
+    if not (Entry^.Operation.State in [fsosNotStarted, fsosStopped]) then
+      Exit(True);  // There is an operation running.
+  end;
+  Result := False;
+end;
+
+procedure TOperationsManager.StartOperation(Entry: POperationsManagerEntry);
+begin
+  Entry^.StartingState := ossDontStart; // Reset state.
+  Entry^.Operation.Start;
+
+  if Assigned(FOnOperationStarted) then
+    FOnOperationStarted(Entry^.Operation);
 end;
 
 initialization
