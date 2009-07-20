@@ -39,6 +39,8 @@ begin
   FOperation := Operation;
 
   inherited Create(CreateSuspended, DefaultStackSize);
+
+  FOperation.AssignThread(Self); // This may be executed from the thread already.
 end;
 
 destructor TOperationThread.Destroy;

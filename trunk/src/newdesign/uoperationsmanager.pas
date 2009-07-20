@@ -54,7 +54,6 @@ type
   TOperationsManager = class
   private
     FOperations: TFPList;         //<en List of TOperationsManagerEntry
-    FLock: TCriticalSection;
     FLastUsedHandle: TOperationHandle;
 
     // Events follow.
@@ -77,6 +76,7 @@ type
     function GetNextUnusedHandle: TOperationHandle;
 
     function GetEntryByHandle(Handle: TOperationHandle): POperationsManagerEntry;
+    function GetEntryByOperation(Operation: TFileSourceOperation): POperationsManagerEntry;
 
     {en
        Checks if there is any queued operation and if all other operations
@@ -90,6 +90,12 @@ type
     function AreOperationsRunning: Boolean;
 
     procedure StartOperation(Entry: POperationsManagerEntry);
+
+    procedure AddEventsListeners(Operation: TFileSourceOperation);
+    procedure RemoveEventsListeners(Operation: TFileSourceOperation);
+
+    procedure OperationStateChangedEvent(Operation: TFileSourceOperation;
+                                         Event: TFileSourceOperationEvent);
 
   public
     constructor Create;
@@ -146,7 +152,6 @@ implementation
 constructor TOperationsManager.Create;
 begin
   FOperations := TFPList.Create;
-  FLock := TCriticalSection.Create;
   FLastUsedHandle := 0;
 
   FOnOperationAdded    := nil;
@@ -160,10 +165,19 @@ begin
 end;
 
 destructor TOperationsManager.Destroy;
+var
+  i: Integer;
+  Entry: POperationsManagerEntry;
 begin
   inherited Destroy;
 
-  FreeAndNil(FLock);
+  // If any operations still exist, remove listeners as we're destroying the object.
+  for i := 0 to FOperations.Count - 1 do
+  begin
+    Entry := POperationsManagerEntry(FOperations.Items[i]);
+    RemoveEventsListeners(Entry^.Operation);
+  end;
+
   FreeAndNil(FOperations);
 end;
 
@@ -193,6 +207,8 @@ begin
         Entry^.StartingState := StartingState;
 
         FOperations.Add(Entry);
+
+        AddEventsListeners(Operation);
 
         Result := Entry^.Handle;
 
@@ -261,6 +277,24 @@ begin
         break;
       end;
     end;
+  end;
+end;
+
+function TOperationsManager.GetEntryByOperation(Operation: TFileSourceOperation): POperationsManagerEntry;
+var
+  Entry: POperationsManagerEntry;
+  i: Integer;
+begin
+  Result := nil;
+
+  for i := 0 to FOperations.Count - 1 do
+  begin
+    Entry := POperationsManagerEntry(FOperations.Items[i]);
+    if Entry^.Operation = Operation then
+    begin
+      Result := Entry;
+      Exit;
+    end
   end;
 end;
 
@@ -431,15 +465,35 @@ end;
 function TOperationsManager.OperationExists(Operation: TFileSourceOperation): Boolean;
 var
   Entry: POperationsManagerEntry = nil;
-  i: Integer;
 begin
-  for i := 0 to FOperations.Count - 1 do
+  Entry := GetEntryByOperation(Operation);
+  Result := Assigned(Entry);
+end;
+
+procedure TOperationsManager.AddEventsListeners(Operation: TFileSourceOperation);
+begin
+  Operation.AddEventsListener([fsoevStateChanged], @Self.OperationStateChangedEvent);
+end;
+
+procedure TOperationsManager.RemoveEventsListeners(Operation: TFileSourceOperation);
+begin
+  Operation.RemoveEventsListener([fsoevStateChanged], @Self.OperationStateChangedEvent);
+end;
+
+procedure TOperationsManager.OperationStateChangedEvent(Operation: TFileSourceOperation;
+                                                        Event: TFileSourceOperationEvent);
+var
+  Entry: POperationsManagerEntry;
+begin
+  Entry := GetEntryByOperation(Operation);
+  if Assigned(Entry) then
   begin
-    Entry := POperationsManagerEntry(FOperations.Items[i]);
-    if Entry^.Operation = Operation then
-      Exit(True);
+    if Operation.State <> fsosNotStarted then
+    begin
+      // Remove queue/auto-queue flag, because the operation is now not in NotStarted state.
+      Entry^.StartingState := ossDontStart;
+    end;
   end;
-  Result := False;
 end;
 
 initialization
