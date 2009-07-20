@@ -38,6 +38,17 @@ const
 
 type
 
+  TFileSourceOperation = class;
+
+  TFileSourceOperationEvent =
+    (fsoevStateChanged);   //<en State has changed (paused, started, stopped, etc.)
+
+  TFileSourceOperationEvents = set of TFileSourceOperationEvent;
+
+  TFileSourceOperationEventNotify =
+      procedure(Operation: TFileSourceOperation;
+                Event: TFileSourceOperationEvent) of object;
+
   {en
      Base class for each file source operation.
   }
@@ -68,6 +79,33 @@ type
        This event is used to wait for start and wait for unpausing.
     }
     FPauseEvent: PRTLEvent;
+
+    {en
+       An array of lists of listeners for each event type.
+       Does not have to be synchronized as it is read and written to from GUI thread only.
+    }
+    FEventsListeners: array[TFileSourceOperationEvent] of TFPList;
+
+    {en
+       The thread that runs this operation.
+       It is used for synchronizing events (notifying of them from the main thread).
+    }
+    FThread: TThread;
+
+    {en
+       Set of events that occurred and listeners have to be notified about.
+       Access must be synchronized with FEventsLock.
+    }
+    FEventsToNotify: TFileSourceOperationEvents;
+    FEventsLock: TCriticalSection; // used to synchronize access to FEventsToNotify
+
+    {en
+       This function must be run from the GUI thread.
+       It posts a function to the application message queue that will call
+       all the needed event functions.
+    }
+    procedure QueueEventsListeners;
+    procedure CallEventsListeners(Data: PtrInt);
 
   protected
 
@@ -100,6 +138,12 @@ type
     procedure Initialize; virtual abstract;
     function  ExecuteStep: Boolean; virtual abstract;
     procedure Finalize; virtual abstract;
+
+    {en
+       Notifies all listeners that an event has occurred (or multiple events).
+       This function will be called from the operation thread.
+    }
+    procedure NotifyEvents(Events: TFileSourceOperationEvents);
 
   public
     constructor Create; virtual;
@@ -138,6 +182,23 @@ type
     }
     procedure PreventStart;
 
+    {en
+       Sets the thread assigned to this operation.
+    }
+    procedure AssignThread(Thread: TThread);
+
+    {en
+       Adds a function to call on specific events.
+    }
+    procedure AddEventsListener(Events: TFileSourceOperationEvents;
+                                FunctionToCall: TFileSourceOperationEventNotify);
+
+    {en
+       Removes a registered function callback for events.
+    }
+    procedure RemoveEventsListener(Events: TFileSourceOperationEvents;
+                                   FunctionToCall: TFileSourceOperationEventNotify);
+
     property Progress: Integer read FProgress;
     property ID: TFileSourceOperationType read GetID;
     property State: TFileSourceOperationState read FState;
@@ -165,7 +226,18 @@ type
 
 implementation
 
+uses
+  Forms;
+
+type
+  PEventsListEntry = ^TEventsListEntry;
+  TEventsListEntry = record
+    EventFunction: TFileSourceOperationEventNotify;
+  end;
+
 constructor TFileSourceOperation.Create;
+var
+  Event: TFileSourceOperationEvent;
 begin
   FState := fsosNotStarted;
   FDesiredState := fsosRunning;  // set for auto-start unless prevented by PreventStart
@@ -173,16 +245,34 @@ begin
   FProgress := 0;
   FPauseEvent := RTLEventCreate;
   FStateLock := TCriticalSection.Create;
+  FEventsLock := TCriticalSection.Create;
+  FThread := nil;
+  FEventsToNotify := [];
+
+  for Event := Low(FEventsListeners) to High(FEventsListeners) do
+    FEventsListeners[Event] := TFPList.Create;
 
   inherited Create;
 end;
 
 destructor TFileSourceOperation.Destroy;
+var
+  Event: TFileSourceOperationEvent;
+  i: Integer;
 begin
   inherited Destroy;
 
+  for Event := Low(FEventsListeners) to High(FEventsListeners) do
+  begin
+    for i := 0 to FEventsListeners[Event].Count - 1 do
+      Dispose(PEventsListEntry(FEventsListeners[Event].Items[i]));
+
+    FreeAndNil(FEventsListeners[Event]);
+  end;
+
   RTLeventdestroy(FPauseEvent);
   FreeAndNil(FStateLock);
+  FreeAndNil(FEventsLock);
 end;
 
 procedure TFileSourceOperation.Execute;
@@ -243,6 +333,8 @@ begin
   finally
     FStateLock.Release;
   end;
+
+  NotifyEvents([fsoevStateChanged]);
 end;
 
 function TFileSourceOperation.GetDesiredState: TFileSourceOperationState;
@@ -303,6 +395,112 @@ end;
 procedure TFileSourceOperation.PreventStart;
 begin
   FDesiredState := fsosNotStarted;
+end;
+
+procedure TFileSourceOperation.AssignThread(Thread: TThread);
+begin
+  FThread := Thread;
+end;
+
+procedure TFileSourceOperation.AddEventsListener(Events: TFileSourceOperationEvents;
+                                                 FunctionToCall: TFileSourceOperationEventNotify);
+var
+  Entry: PEventsListEntry;
+  Event: TFileSourceOperationEvent;
+begin
+  for Event := Low(TFileSourceOperationEvent) to High(TFileSourceOperationEvent) do
+  begin
+    if Event in Events then
+    begin
+      Entry := New(PEventsListEntry);
+      Entry^.EventFunction := FunctionToCall;
+      FEventsListeners[Event].Add(Entry);
+    end;
+  end;
+end;
+
+procedure TFileSourceOperation.RemoveEventsListener(Events: TFileSourceOperationEvents;
+                                                    FunctionToCall: TFileSourceOperationEventNotify);
+var
+  Entry: PEventsListEntry;
+  Event: TFileSourceOperationEvent;
+  i: Integer;
+begin
+  for Event := Low(TFileSourceOperationEvent) to High(TFileSourceOperationEvent) do
+  begin
+    if Event in Events then
+    begin
+      for i := 0 to FEventsListeners[Event].Count - 1 do
+      begin
+        Entry := PEventsListEntry(FEventsListeners[Event].Items[i]);
+        if Entry^.EventFunction = FunctionToCall then
+        begin
+          FEventsListeners[Event].Delete(i);
+          break;  // break from one for only
+        end;
+      end;
+    end;
+  end;
+end;
+
+procedure TFileSourceOperation.NotifyEvents(Events: TFileSourceOperationEvents);
+begin
+  // Add events to set of events to notify about.
+  FEventsLock.Acquire;
+  try
+    FEventsToNotify := FEventsToNotify + Events;
+  finally
+    FEventsLock.Release;
+  end;
+
+  // NotifyEvents() is run from the operation thread so we cannot call event
+  // listeners directly, because they may update the GUI. Instead they will be
+  // queued to be called by the main thread (through application message queue).
+  // We don't want to call events listeners through Synchronize because the
+  // operation thread would be suspended while the listeners are executing and
+  // it would slow down executing of the operation.
+  if Assigned(FThread) then
+    TThread.Synchronize(FThread, @Self.QueueEventsListeners); // queueing must be from the GUI thread
+  // Notifying of events not through a thread not supported for now.
+end;
+
+procedure TFileSourceOperation.QueueEventsListeners;
+begin
+  // While this function is executing the operation thread is suspended,
+  // so only queue function and quickly exit.
+  Application.QueueAsyncCall(@Self.CallEventsListeners, 0);
+end;
+
+procedure TFileSourceOperation.CallEventsListeners(Data: PtrInt);
+var
+  Event: TFileSourceOperationEvent;
+  Entry: PEventsListEntry;
+  i: Integer;
+  LocalEventsToNotify: TFileSourceOperationEvents;
+begin
+  // This function is run from the main thread, so we are sure that
+  // while it is executing no registered listener is destroyed.
+
+  FEventsLock.Acquire;
+  try
+    LocalEventsToNotify := FEventsToNotify; // read events to notify
+    FEventsToNotify := [];                  // clear events to notify
+  finally
+    FEventsLock.Release;
+  end;
+
+  for Event := Low(TFileSourceOperationEvent) to High(TFileSourceOperationEvent) do
+  begin
+    if Event in LocalEventsToNotify then // Check if this event occurred.
+    begin
+      // Call each listener function.
+      for i := 0 to FEventsListeners[Event].Count - 1 do
+      begin
+        Entry := PEventsListEntry(FEventsListeners[Event].Items[i]);
+        Entry^.EventFunction(Self, Event);
+      end;
+    end;
+  end;
 end;
 
 end.
