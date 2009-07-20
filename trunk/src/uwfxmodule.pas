@@ -38,9 +38,7 @@ const
   OP_COPYOUT = 0;
   OP_COPYIN = 1;
 
-  INVALID_HANDLE_VALUE = THandle(-1);
-
-Type
+type
   TWFXModule = class;
 
   { CopyIn/CopyOut thread }
