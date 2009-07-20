@@ -21,6 +21,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure OnUpdateTimer(Sender: TObject);
     procedure sboxOperationsDblClick(Sender: TObject);
+    procedure sboxOperationsMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure sboxOperationsPaint(Sender: TObject);
 
   private
@@ -92,6 +93,26 @@ begin
 
   OperationDialog := TfrmFileOp.Create(OperationsManager.GetHandleById(OperationNumber));
   OperationDialog.Show;
+end;
+
+procedure TfrmViewOperations.sboxOperationsMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  OperationNumber: Integer;
+  CursorPos: TPoint;
+  Operation: TFileSourceOperation;
+  OperationDialog: TfrmFileOp;
+begin
+  CursorPos := Mouse.CursorPos;
+  CursorPos := sboxOperations.ScreenToClient(CursorPos);
+
+  OperationNumber := CursorPos.Y div aRowHeight;
+
+  case Button of
+    mbMiddle:
+      OperationsManager.MoveOperation(OperationNumber, OperationNumber - 1);
+    mbRight:
+      OperationsManager.MoveOperation(OperationNumber, OperationNumber + 1);
+  end;
 end;
 
 procedure TfrmViewOperations.sboxOperationsPaint(Sender: TObject);
