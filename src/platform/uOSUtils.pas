@@ -893,7 +893,7 @@ begin
       MappedFile := nil;
       FileHandle:= fpOpen(PChar(sFileName), O_RDONLY);
 
-      if FileHandle = InvalidHandleValue then Exit;
+      if FileHandle = feInvalidHandle then Exit;
       if fpfstat(FileHandle, StatInfo) <> 0 then
         begin
           UnMapFile(FileMapRec);
@@ -947,10 +947,10 @@ end;
 begin
   with FileMapRec do
     begin
-      if FileHandle <> InvalidHandleValue then
+      if FileHandle <> feInvalidHandle then
       begin
         fpClose(FileHandle);
-        FileHandle := InvalidHandleValue;
+        FileHandle := feInvalidHandle;
       end;
 
       if Assigned(MappedFile) then
