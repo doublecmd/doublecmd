@@ -27,7 +27,7 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes, LCLProc, uDCUtils, uClassesEx
+    SysUtils, Classes, LCLProc, uDCUtils, uClassesEx, ufsplugin
     {$IFDEF MSWINDOWS}
     , Windows, ShellApi, uNTFSLinks, uMyWindows, JwaWinNetWk
     {$ELSE}
@@ -67,14 +67,6 @@ type
   end;
   PDrive = ^TDrive;
 
-{$IFDEF MSWINDOWS}
-  FILETIME = Windows.FILETIME;
-{$ELSE}
-  FILETIME = record
-    dwLowDateTime : DWORD;
-    dwHighDateTime : DWORD;
-  end;
-{$ENDIF}
   TFileTime = FILETIME;
   PFileTime = ^FILETIME;
 
