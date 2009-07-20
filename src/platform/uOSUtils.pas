@@ -35,7 +35,6 @@ uses
     {$ENDIF};
     
 const
-  InvalidHandleValue = THandle(-1);
   {$IFDEF MSWINDOWS}
   faFolder = faDirectory;
   faSymLink   = $00000400;
@@ -860,13 +859,13 @@ begin
     begin
       MappedFile := nil;
       MappingHandle := 0;
-      FileHandle := InvalidHandleValue;
+      FileHandle := feInvalidHandle;
 
       FileSize := mbFileSize(sFileName);
       if FileSize = 0 then Exit;   // Cannot map empty files
 
       FileHandle := mbFileOpen(sFileName, fmOpenRead);
-      if FileHandle = InvalidHandleValue then Exit;
+      if FileHandle = feInvalidHandle then Exit;
 
       MappingHandle := CreateFileMapping(FileHandle, nil, PAGE_READONLY, 0, 0, nil);
       if MappingHandle <> 0 then
@@ -939,10 +938,10 @@ begin
         MappingHandle := 0;
       end;
 
-      if FileHandle <> InvalidHandleValue then
+      if FileHandle <> feInvalidHandle then
       begin
         FileClose(FileHandle);
-        FileHandle := InvalidHandleValue;
+        FileHandle := feInvalidHandle;
       end;
     end;
 end;

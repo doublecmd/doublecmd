@@ -87,7 +87,7 @@ begin
   if Mode = fmCreate then
     begin
       FHandle:= mbFileCreate(AFileName);
-      if FHandle = InvalidHandleValue then
+      if FHandle = feInvalidHandle then
         raise EFCreateError.CreateFmt(SFCreateError, [AFileName])
       else
         inherited Create(FHandle);	  
@@ -95,7 +95,7 @@ begin
   else
     begin 
       FHandle:= mbFileOpen(AFileName, Mode);
-      if FHandle = InvalidHandleValue then
+      if FHandle = feInvalidHandle then
         raise EFOpenError.CreateFmt(SFOpenError, [AFilename])
       else
         inherited Create(FHandle);	  

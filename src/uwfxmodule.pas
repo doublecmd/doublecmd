@@ -188,7 +188,7 @@ var
 
 begin
   Handle := FsFindFirst(PChar(UTF8ToSys(srcPath)), FindData);
-  if Handle = INVALID_HANDLE_VALUE then
+  if Handle = feInvalidHandle then
   begin
     Exit;
   end;
