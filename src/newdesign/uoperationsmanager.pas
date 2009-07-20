@@ -102,11 +102,32 @@ type
        Operations retrieved this way can be safely used from the main GUI thread.
        But they should not be stored for longer use, because they
        may be destroyed by the Operations Manager when they finish.
+       Operation handle can always be used to safely query OperationsManager
+       for a specific operation.
+       Also OperationExists function can be used to query OperationsManager
+       if the given pointer to a operation is still registered (and thus not
+       yet destroyed).
     }
     function GetOperationByIndex(Index: Integer): TFileSourceOperation;
     function GetOperationByHandle(Handle: TOperationHandle): TFileSourceOperation;
     function GetHandleById(Index: Integer): TOperationHandle;
     function GetStartingState(Handle: TOperationHandle): TOperationStartingState;
+
+    {en
+       Changes the entry's (and thus operation's) position in the list.
+       It is used to change the order of execution of queued operations.
+       @param(FromIndex is an index in the operations list of the entry that should be moved.)
+       @param(ToIndex is an index in the operations list where the entry should be moved to.)
+    }
+    procedure MoveOperation(FromIndex: Integer; ToIndex: Integer);
+
+    {en
+       This function is used to check if the pointer to an operation is still
+       valid. If an operation is registered in OperationsManager the function
+       returns @true.
+       @param(Operation is the pointer which should be checked.)
+    }
+    function OperationExists(Operation: TFileSourceOperation): Boolean;
 
     property OperationsCount: Integer read GetOperationsCount;
 
@@ -349,6 +370,9 @@ var
   i: Integer;
   Entry: POperationsManagerEntry = nil;
 begin
+  // Should a queued operation start when there are paused operations?
+  // How about operations that are waiting for input from user?
+
   if not AreOperationsRunning then
   begin
     for i := 0 to FOperations.Count - 1 do
@@ -387,6 +411,35 @@ begin
 
   if Assigned(FOnOperationStarted) then
     FOnOperationStarted(Entry^.Operation);
+end;
+
+procedure TOperationsManager.MoveOperation(FromIndex: Integer; ToIndex: Integer);
+var
+  Entry: POperationsManagerEntry = nil;
+begin
+  if (FromIndex >= 0) and (FromIndex < FOperations.Count) and
+     (ToIndex >= 0) and (ToIndex < FOperations.Count) then
+  begin
+    Entry := POperationsManagerEntry(FOperations.Items[FromIndex]);
+
+    // This has to be in exactly this order: first delete then insert.
+    FOperations.Delete(FromIndex);
+    FOperations.Insert(ToIndex, Entry);
+  end;
+end;
+
+function TOperationsManager.OperationExists(Operation: TFileSourceOperation): Boolean;
+var
+  Entry: POperationsManagerEntry = nil;
+  i: Integer;
+begin
+  for i := 0 to FOperations.Count - 1 do
+  begin
+    Entry := POperationsManagerEntry(FOperations.Items[i]);
+    if Entry^.Operation = Operation then
+      Exit(True);
+  end;
+  Result := False;
 end;
 
 initialization

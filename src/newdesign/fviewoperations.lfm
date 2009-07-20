@@ -34,6 +34,7 @@ object frmViewOperations: TfrmViewOperations
     Anchors = [akTop, akLeft, akRight]
     TabOrder = 0
     OnDblClick = sboxOperationsDblClick
+    OnMouseDown = sboxOperationsMouseDown
     OnPaint = sboxOperationsPaint
   end
   object UpdateTimer: TTimer
