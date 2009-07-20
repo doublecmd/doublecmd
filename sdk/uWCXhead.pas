@@ -70,7 +70,7 @@ type
   TArcHandle = type PtrUInt;
 
 const
-  INVALID_HANDLE_VALUE = TArcHandle(-1);
+  wcxInvalidHandle = TArcHandle(-1);
 
 type
   {Definition of callback functions called by the DLL}

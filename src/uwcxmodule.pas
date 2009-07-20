@@ -847,8 +847,8 @@ begin
 
 
   WCXModule := Self;  // set WCXModule variable to current module
-  SetChangeVolProc(INVALID_HANDLE_VALUE, ChangeVolProc);
-  SetProcessDataProc(INVALID_HANDLE_VALUE, ProcessDataProc);
+  SetChangeVolProc(wcxInvalidHandle, ChangeVolProc);
+  SetProcessDataProc(wcxInvalidHandle, ProcessDataProc);
 
   iResult := PackFiles(PChar(UTF8ToSys(FArchiveName)),
                        pDestPath, // no trailing path delimiter here
@@ -908,8 +908,8 @@ begin
   CountFiles(FileList, '*.*');
 
   WCXModule := Self;  // set WCXModule variable to current module
-  SetChangeVolProc(INVALID_HANDLE_VALUE, ChangeVolProc);
-  SetProcessDataProc(INVALID_HANDLE_VALUE, ProcessDataProc);
+  SetChangeVolProc(wcxInvalidHandle, ChangeVolProc);
+  SetProcessDataProc(wcxInvalidHandle, ProcessDataProc);
 
   iResult := DeleteFiles(PChar(UTF8ToSys(FArchiveName)),
                          PChar(UTF8ToSys(GetFileList(FileList, OP_DELETE))));
