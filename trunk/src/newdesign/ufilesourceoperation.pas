@@ -98,6 +98,17 @@ type
     }
     FEventsToNotify: TFileSourceOperationEvents;
     FEventsLock: TCriticalSection; // used to synchronize access to FEventsToNotify
+    {en
+       How many calls to CallEventsListeners are scheduled.
+       It is only modified from the main thread.
+    }
+    FScheduledEventsListenersCalls: Integer;
+
+    {en
+       Before finishing, the operation waits for this event, so that it doesn't
+       finish until all scheduled calls to CallEventsListeners are made.
+    }
+    FNoEventsListenersCallsScheduledEvent: PRTLEvent;
 
     {en
        This function must be run from the GUI thread.
@@ -248,6 +259,10 @@ begin
   FEventsLock := TCriticalSection.Create;
   FThread := nil;
   FEventsToNotify := [];
+  FScheduledEventsListenersCalls := 0;
+  FNoEventsListenersCallsScheduledEvent := RTLEventCreate;
+  // Set at start because we don't have any calls scheduled at this time.
+  RTLeventSetEvent(FNoEventsListenersCallsScheduledEvent);
 
   for Event := Low(FEventsListeners) to High(FEventsListeners) do
     FEventsListeners[Event] := TFPList.Create;
@@ -271,6 +286,7 @@ begin
   end;
 
   RTLeventdestroy(FPauseEvent);
+  RTLeventdestroy(FNoEventsListenersCallsScheduledEvent);
   FreeAndNil(FStateLock);
   FreeAndNil(FEventsLock);
 end;
@@ -318,6 +334,10 @@ begin
 
   UpdateState(fsosStopped);
   UpdateProgress(100);
+
+  // Wait until all the scheduled calls to events listeners have been processed
+  // by the main thread (otherwise the calls can be made to a freed memory location).
+  RTLeventWaitFor(FNoEventsListenersCallsScheduledEvent);
 end;
 
 procedure TFileSourceOperation.UpdateProgress(NewProgress: Integer);
@@ -446,9 +466,17 @@ end;
 procedure TFileSourceOperation.NotifyEvents(Events: TFileSourceOperationEvents);
 begin
   // Add events to set of events to notify about.
-  FEventsLock.Acquire;
+  FEventsLock.Acquire; // must be done under the same lock as in CallEventsListeners
   try
     FEventsToNotify := FEventsToNotify + Events;
+
+    // If there is already a scheduled (queued) call to CallEventsListeners,
+    // it will also notify about the new events set above, so we don't have to
+    // schedule another one. This must be done under lock, because it must be
+    // synchronized with adding new events to FEventsToNotify.
+    if FScheduledEventsListenersCalls > 0 then
+      Exit;
+
   finally
     FEventsLock.Release;
   end;
@@ -469,6 +497,9 @@ begin
   // While this function is executing the operation thread is suspended,
   // so only queue function and quickly exit.
   Application.QueueAsyncCall(@Self.CallEventsListeners, 0);
+
+  Inc(FScheduledEventsListenersCalls, 1); // don't have to do under lock, operation thread is suspended here
+  RTLeventResetEvent(FNoEventsListenersCallsScheduledEvent);
 end;
 
 procedure TFileSourceOperation.CallEventsListeners(Data: PtrInt);
@@ -481,26 +512,36 @@ begin
   // This function is run from the main thread, so we are sure that
   // while it is executing no registered listener is destroyed.
 
-  FEventsLock.Acquire;
+  FEventsLock.Acquire; // must be done under the same lock as in NotifyEvents
   try
     LocalEventsToNotify := FEventsToNotify; // read events to notify
     FEventsToNotify := [];                  // clear events to notify
+    Dec(FScheduledEventsListenersCalls, 1); // must be under lock too as it needs to be
+                                            // synchronized with clearing FEventsToNotify
   finally
     FEventsLock.Release;
   end;
 
-  for Event := Low(TFileSourceOperationEvent) to High(TFileSourceOperationEvent) do
+  if LocalEventsToNotify <> [] then
   begin
-    if Event in LocalEventsToNotify then // Check if this event occurred.
+    for Event := Low(TFileSourceOperationEvent) to High(TFileSourceOperationEvent) do
     begin
-      // Call each listener function.
-      for i := 0 to FEventsListeners[Event].Count - 1 do
+      if Event in LocalEventsToNotify then // Check if this event occurred.
       begin
-        Entry := PEventsListEntry(FEventsListeners[Event].Items[i]);
-        Entry^.EventFunction(Self, Event);
+        // Call each listener function.
+        for i := 0 to FEventsListeners[Event].Count - 1 do
+        begin
+          Entry := PEventsListEntry(FEventsListeners[Event].Items[i]);
+          Entry^.EventFunction(Self, Event);
+        end;
       end;
     end;
   end;
+
+  if FScheduledEventsListenersCalls = 0 then
+    // After setting this event the operation object (Self) may already
+    // be destroyed, so it must be the last thing to do.
+    RTLeventSetEvent(FNoEventsListenersCallsScheduledEvent);
 end;
 
 end.

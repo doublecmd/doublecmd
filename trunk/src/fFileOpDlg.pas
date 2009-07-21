@@ -215,7 +215,7 @@ var
   NewCaption: String;
 begin
   Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
-  if Assigned(Operation) then
+  if Assigned(Operation) and (Operation.State <> fsosStopped) then
   begin
     case Operation.ID of
 
