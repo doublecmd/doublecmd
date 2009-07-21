@@ -108,7 +108,7 @@ begin
   if GetDesiredState <> fsosRunning then
     DoPause;
 
-  UpdateState(fsosStarting);
+//  UpdateState(fsosStarting);
 
   // Get initialized statistics; then we change only what is needed.
   Statistics := RetrieveStatistics;
@@ -119,7 +119,7 @@ begin
     TotalFiles := 300;
   end;
 
-  UpdateState(fsosRunning);
+//  UpdateState(fsosRunning);
 
   // Main loop follows.
 
