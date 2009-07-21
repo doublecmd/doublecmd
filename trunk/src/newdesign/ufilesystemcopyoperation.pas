@@ -9,6 +9,7 @@ uses
   uFileSourceCopyOperation,
   uFileSystemFileSource,
   uFileSource,
+  uFileSourceOperation,
   uFile;
 
 type
@@ -55,7 +56,7 @@ type
     procedure fExecute; override;
 
     procedure Initialize; override;
-    function  ExecuteStep: Boolean; override;
+    function  ExecuteStep: TFileSourceOperationExecuteStepResult; override;
     procedure Finalize; override;
 
   end;
@@ -63,7 +64,7 @@ type
 implementation
 
 uses
-  uFileSourceOperation;
+  uFileSourceOperationUI, LCLProc;
 
 // -- TFileSystemCopyInOperation ----------------------------------------------
 
@@ -182,7 +183,9 @@ begin
   FCounter := 1;
 end;
 
-function TFileSystemCopyOutOperation.ExecuteStep: Boolean;
+function TFileSystemCopyOutOperation.ExecuteStep: TFileSourceOperationExecuteStepResult;
+var
+  UIResponse: TFileSourceOperationUIResponse;
 begin
   // Some dummy long operation for now.
   if FCounter <= 300 then
@@ -198,6 +201,22 @@ begin
     // Main work single step.
     Sleep(50);
 
+    if FCounter = 300 div 2 then
+    begin
+      if AskQuestion('Half point.', 'Continue?',
+                     [fsourYes, fsourNo, fsourCancel],
+                     fsourYes, fsourNo, UIResponse) = fsoesrAborted
+      then
+        Exit(fsoesrAborted); // operation is being aborted
+
+      case UIResponse of
+        fsourNo:
+          Exit(fsoesrFinished);
+        fsourCancel:
+          Exit(fsoesrAborted);
+      end;
+    end;
+
     // Update overall progress.
     // (should this be under the same lock as statistics?)
     UpdateProgress((FCounter * 100)  div  300);
@@ -211,10 +230,10 @@ begin
 
     FCounter := FCounter + 1;
 
-    Result := True;
+    Result := fsoesrContinue;
   end
   else
-    Result := False;
+    Result := fsoesrFinished;
 end;
 
 procedure TFileSystemCopyOutOperation.Finalize;

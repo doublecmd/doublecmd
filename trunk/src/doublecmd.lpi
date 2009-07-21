@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="71">
+    <Units Count="73">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -106,6 +106,7 @@
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmMsg"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="fMsg"/>
       </Unit6>
       <Unit7>
@@ -506,6 +507,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFileSourceCopyOperation"/>
       </Unit70>
+      <Unit71>
+        <Filename Value="newdesign\ufilesourceoperationui.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceOperationUI"/>
+      </Unit71>
+      <Unit72>
+        <Filename Value="newdesign\ufilesourceoperationmessageboxesui.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceOperationMessageBoxesUI"/>
+      </Unit72>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

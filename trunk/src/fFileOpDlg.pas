@@ -21,7 +21,7 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, Buttons, ExtCtrls,
-  uOperationsManager, uFileSourceOperation;
+  uOperationsManager, uFileSourceOperation, uFileSourceOperationUI;
 
 type
 
@@ -50,6 +50,7 @@ type
     { Private declarations }
     FOperationHandle: TOperationHandle;
     FUpdateTimer: TTimer;  //<en Timer for updating statistics.
+    FUserInterface: TFileSourceOperationUI;
 
     procedure OnUpdateTimer(Sender: TObject);
 
@@ -72,7 +73,10 @@ type
     sFileNameTo: String;
     Thread: TThread;
 
+    // Change to override later.
     constructor Create(OperationHandle: TOperationHandle); overload;
+    destructor Destroy; override;
+
     procedure ToggleProgressBarStyle;
     procedure UpdateDlg;
   end;
@@ -82,7 +86,8 @@ implementation
 uses
    fMain, dmCommonData, uFileOpThread, LCLProc, uLng,
    uFileSourceOperationTypes,
-   uFileSourceCopyOperation;
+   uFileSourceCopyOperation,
+   uFileSourceOperationMessageBoxesUI;
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
 var
@@ -202,11 +207,38 @@ begin
 end;
 
 constructor TfrmFileOp.Create(OperationHandle: TOperationHandle);
+var
+  Operation: TFileSourceOperation;
 begin
   FOperationHandle := OperationHandle;
   inherited Create(Application);
 
   AutoSize := True;
+
+  Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
+  if Assigned(Operation) then
+  begin
+    FUserInterface := TFileSourceOperationMessageBoxesUI.Create;
+    Operation.AddUserInterface(FUserInterface);
+  end
+  else
+    FUserInterface := nil;
+end;
+
+destructor TfrmFileOp.Destroy;
+var
+  Operation: TFileSourceOperation;
+begin
+  inherited Destroy;
+
+  if Assigned(FUserInterface) then
+  begin
+    Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
+    if Assigned(Operation) then
+      Operation.RemoveUserInterface(FUserInterface);
+
+    FreeAndNil(FUserInterface);
+  end;
 end;
 
 procedure TfrmFileOp.OnUpdateTimer(Sender: TObject);
