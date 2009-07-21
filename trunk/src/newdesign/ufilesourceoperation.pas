@@ -149,16 +149,14 @@ type
     // This should be run from GUI thread only.
     procedure TryAskQuestion;
 
+    procedure UpdateState(NewState: TFileSourceOperationState);
+    function GetState: TFileSourceOperationState;
+
   protected
 
     procedure UpdateProgress(NewProgress: Integer);
-    procedure UpdateState(NewState: TFileSourceOperationState);
     function GetDesiredState: TFileSourceOperationState;
 
-    {en
-       Must be called from the controller thread (GUI).
-    }
-    procedure DoWaitForStart;
     {en
        Must be called from the operation thread.
     }
@@ -183,7 +181,8 @@ type
 
     {en
        Notifies all listeners that an event has occurred (or multiple events).
-       This function will be called from the operation thread.
+       This function can be called from the operation thread or from the main thread.
+       Don't call it under a lock.
     }
     procedure NotifyEvents(Events: TFileSourceOperationEvents);
 
@@ -265,7 +264,7 @@ type
 
     property Progress: Integer read FProgress;
     property ID: TFileSourceOperationType read GetID;
-    property State: TFileSourceOperationState read FState;
+    property State: TFileSourceOperationState read GetState;
   end;
 
   {en
@@ -375,9 +374,7 @@ begin
   FStopReason := fsosrFinished;
 
   if GetDesiredState <> fsosRunning then
-  begin
-    DoWaitForStart;
-  end;
+    DoPause;  // wait for start command
 
   UpdateState(fsosStarting);
 
@@ -398,28 +395,29 @@ begin
 
       fsosStopped:  // operation was asked to stop (via Stop function)
         begin
-          Finalize;
-          FStopReason := fsosrAborted;
-          UpdateState(fsosStopped);
-          Exit;
-        end;
-    end;
-
-    case ExecuteStep of
-      fsoesrFinished:
-        begin
-          FStopReason := fsosrFinished;
-          Break;
-        end;
-
-      fsoesrAborted:
-        begin
           FStopReason := fsosrAborted;
           Break;
         end;
-      // else continue
+
+      fsosRunning:
+        case ExecuteStep of
+          fsoesrFinished:
+            begin
+              FStopReason := fsosrFinished;
+              Break;
+            end;
+
+          fsoesrAborted:
+            begin
+              FStopReason := fsosrAborted;
+              Break;
+            end;
+          // else continue
+        end;
     end;
   end;
+
+  Finalize;
 
   UpdateState(fsosStopped);
   UpdateProgress(100);
@@ -451,18 +449,20 @@ begin
   Result := FDesiredState;
 end;
 
-procedure TFileSourceOperation.DoWaitForStart;
+function TFileSourceOperation.GetState: TFileSourceOperationState;
 begin
-  RTLeventResetEvent(FPauseEvent);
-  RTLeventWaitFor(FPauseEvent); // wait indefinitely
+  FStateLock.Acquire;
+  try
+    Result := FState;
+  finally
+    FStateLock.Release;
+  end;
 end;
 
 procedure TFileSourceOperation.DoPause;
 begin
-  UpdateState(fsosPaused);
   RTLeventResetEvent(FPauseEvent);
   RTLeventWaitFor(FPauseEvent); // wait indefinitely
-  UpdateState(fsosRunning);
 end;
 
 procedure TFileSourceOperation.DoUnPause;
@@ -472,43 +472,58 @@ end;
 
 procedure TFileSourceOperation.Start;
 begin
-  if State in [fsosNotStarted, fsosPaused] then
-  begin
-    UpdateState(fsosStarting);
-    DoUnPause;
-
-    FDesiredState := fsosRunning;
+  FStateLock.Acquire;
+  try
+    if FState in [fsosNotStarted, fsosPaused] then
+      FState := fsosStarting
+    else
+      Exit;
+  finally
+    FStateLock.Release;
   end;
+
+  NotifyEvents([fsoevStateChanged]);
+  FDesiredState := fsosRunning;
+  DoUnPause;
 end;
 
 procedure TFileSourceOperation.Pause;
 begin
-  if State = fsosRunning then
-  begin
-    UpdateState(fsosPausing);
-    FDesiredState := fsosPaused;
+  FStateLock.Acquire;
+  try
+    if FState = fsosRunning then
+      FState := fsosPausing
+    else
+      Exit;
+  finally
+    FStateLock.Release;
   end;
+
+  NotifyEvents([fsoevStateChanged]);
+  FDesiredState := fsosPaused;
 end;
 
 procedure TFileSourceOperation.Stop;
-var
-  WakeWaitingForUI: Boolean;
 begin
-  if State in [fsosNotStarted, fsosPaused, fsosRunning, fsosWaitingForFeedback] then
-  begin
-    // If the operation is waiting for the user's response
-    // wake it up, because it is being aborted.
-    WakeWaitingForUI := (State = fsosWaitingForFeedback);
-
-    UpdateState(fsosStopping);
-    DoUnPause;
-
-    // Wake after setting state to Stopping.
-    if WakeWaitingForUI then
-      RTLeventSetEvent(FUserInterfaceAssignedEvent);
-
-    FDesiredState := fsosStopped;
+  FStateLock.Acquire;
+  try
+    if FState in [fsosNotStarted, fsosPaused, fsosRunning, fsosWaitingForFeedback] then
+      FState := fsosStopping
+    else
+      Exit;
+  finally
+    FStateLock.Release;
   end;
+
+  NotifyEvents([fsoevStateChanged]);
+  FDesiredState := fsosStopped;
+
+  DoUnPause;
+
+  // The operation may be waiting for the user's response.
+  // Wake it up then, because it is being aborted
+  // (this must be after setting state to Stopping).
+  RTLeventSetEvent(FUserInterfaceAssignedEvent);
 end;
 
 procedure TFileSourceOperation.PreventStart;
@@ -587,18 +602,25 @@ begin
   // operation thread would be suspended while the listeners are executing and
   // it would slow down executing of the operation.
   if Assigned(FThread) then
-    TThread.Synchronize(FThread, @Self.QueueEventsListeners); // queueing must be from the GUI thread
-  // Notifying of events not through a thread not supported for now.
+    TThread.Synchronize(FThread, @Self.QueueEventsListeners) // queueing must be from the GUI thread
+  else
+  begin
+    // The function was called from main thread - call directly.
+    Inc(FScheduledEventsListenersCalls, 1);
+    RTLeventResetEvent(FNoEventsListenersCallsScheduledEvent);
+    CallEventsListeners(0);
+  end;
 end;
 
 procedure TFileSourceOperation.QueueEventsListeners;
 begin
   // While this function is executing the operation thread is suspended,
   // so only queue function and quickly exit.
-  Application.QueueAsyncCall(@Self.CallEventsListeners, 0);
 
   Inc(FScheduledEventsListenersCalls, 1); // don't have to do under lock, operation thread is suspended here
   RTLeventResetEvent(FNoEventsListenersCallsScheduledEvent);
+
+  Application.QueueAsyncCall(@Self.CallEventsListeners, 0);
 end;
 
 procedure TFileSourceOperation.CallEventsListeners(Data: PtrInt);
@@ -684,8 +706,19 @@ function TFileSourceOperation.AskQuestion(
              out UIResponse: TFileSourceOperationUIResponse): TFileSourceOperationExecuteStepResult;
 var
   i: Integer;
+  bStateChanged: Boolean = False;
 begin
-  UpdateState(fsosWaitingForFeedback);
+  FStateLock.Acquire;
+  try
+    if FState in [fsosStopping, fsosStopped] then
+      Exit(fsoesrAborted)
+    else
+      FState := fsosWaitingForFeedback;
+  finally
+    FStateLock.Release;
+  end;
+
+  NotifyEvents([fsoevStateChanged]);
 
   // Set up parameters through variables because
   // we cannot pass them via Synchronize call to TryAskQuestion.
@@ -710,7 +743,7 @@ begin
         RTLeventWaitFor(FUserInterfaceAssignedEvent);
 
         // Check why the event was set.
-        // Is it because an UI was assigned or is it because the operation is being aborted?
+        // It is either because an UI was assigned or because the operation is being aborted.
         if State in [fsosStopping, fsosStopped] then
         begin
           // The operation is being aborted.
@@ -742,8 +775,20 @@ begin
     Result := fsoesrContinue;
   end;
 
-  if GetDesiredState = fsosRunning then
-    UpdateState(fsosRunning);
+  FStateLock.Acquire;
+  try
+    // Check, if the state is still the same as before asking question.
+    if FState = fsosWaitingForFeedback then
+    begin
+      FState := fsosRunning;
+      bStateChanged := True;
+    end;
+  finally
+    FStateLock.Release;
+  end;
+
+  if bStateChanged then
+    NotifyEvents([fsoevStateChanged]);
 end;
 
 procedure TFileSourceOperation.TryAskQuestion;
