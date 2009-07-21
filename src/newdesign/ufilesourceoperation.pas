@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, syncobjs, uLng,
-  uFileSourceOperationTypes;
+  uFileSourceOperationTypes,
+  uFileSourceOperationUI, LCLProc;
 
 const
 
@@ -25,8 +26,13 @@ type
      fsosStopped);    //<en finished due to Stop command or on its own
 
   TFileSourceOperationStopReason =
-    (fssrFinished,        //<en normal finish
-     fssrAborted);        //<en aborted due to Stop command (by user)
+    (fsosrFinished,        //<en normal finish
+     fsosrAborted);        //<en aborted due to Stop command (by user)
+
+  TFileSourceOperationExecuteStepResult =
+    (fsoesrContinue,       //<en operation should normally continue
+     fsoesrAborted,        //<en operation was aborted (most probably by user after question was asked)
+     fsoesrFinished);      //<en operation has finished normally
 
 const
   FileSourceOperationStateText: array[TFileSourceOperationState] of string =
@@ -111,12 +117,37 @@ type
     FNoEventsListenersCallsScheduledEvent: PRTLEvent;
 
     {en
+       List of assigned user interfaces that operation can use to ask user questions.
+       Don't access this list from the operation thread.
+    }
+    FUserInterfaces: TFPList; // of TFileSourceOperationUI
+
+    {en
+       Event used to notify operation thread that an UI was assigned,
+       so it can wake up and ask questions.
+    }
+    FUserInterfaceAssignedEvent: PRTLEvent;
+
+    // Parameters for UI question.
+    // Used to pass from operation thread to GUI thread.
+    FUIMessage: String;
+    FUIQuestion: String;
+    FUIPossibleResponses: array of TFileSourceOperationUIResponse;
+    FUIDefaultOKResponse: TFileSourceOperationUIResponse;
+    FUIDefaultCancelResponse: TFileSourceOperationUIResponse;
+    FUIResponse: TFileSourceOperationUIResponse;
+    FTryAskQuestionResult: Boolean;
+
+    {en
        This function must be run from the GUI thread.
        It posts a function to the application message queue that will call
        all the needed event functions.
     }
     procedure QueueEventsListeners;
     procedure CallEventsListeners(Data: PtrInt);
+
+    // This should be run from GUI thread only.
+    procedure TryAskQuestion;
 
   protected
 
@@ -147,7 +178,7 @@ type
     function GetID: TFileSourceOperationType; virtual abstract;
 
     procedure Initialize; virtual abstract;
-    function  ExecuteStep: Boolean; virtual abstract;
+    function  ExecuteStep: TFileSourceOperationExecuteStepResult; virtual abstract;
     procedure Finalize; virtual abstract;
 
     {en
@@ -155,6 +186,24 @@ type
        This function will be called from the operation thread.
     }
     procedure NotifyEvents(Events: TFileSourceOperationEvents);
+
+    {en
+       General function to ask questions from operations.
+       It is run from the operation thread and is thread-safe.
+       The function stops executing the operation until the question can be
+       asked and the response from the user is received. While the operation
+       is waiting for a response it may be aborted by the user. Because of that
+       the result of this function _must_ be checked and if it is fsoesrAborted
+       the operation should exit.
+       The most recently (last) assigned user interface is used to ask the question.
+    }
+    function AskQuestion(
+               Msg: String; Question: String;
+               PossibleResponses: array of TFileSourceOperationUIResponse;
+               DefaultOKResponse: TFileSourceOperationUIResponse;
+               DefaultCancelResponse: TFileSourceOperationUIResponse;
+               out UIResponse: TFileSourceOperationUIResponse
+             ) : TFileSourceOperationExecuteStepResult;
 
   public
     constructor Create; virtual;
@@ -210,6 +259,10 @@ type
     procedure RemoveEventsListener(Events: TFileSourceOperationEvents;
                                    FunctionToCall: TFileSourceOperationEventNotify);
 
+    // These functions are run from the GUI thread.
+    procedure AddUserInterface(UserInterface: TFileSourceOperationUI);
+    procedure RemoveUserInterface(UserInterface: TFileSourceOperationUI);
+
     property Progress: Integer read FProgress;
     property ID: TFileSourceOperationType read GetID;
     property State: TFileSourceOperationState read FState;
@@ -246,23 +299,35 @@ type
     EventFunction: TFileSourceOperationEventNotify;
   end;
 
+  PUserInterfacesEntry = ^TUserInterfacesEntry;
+  TUserInterfacesEntry = record
+    UserInterface: TFileSourceOperationUI;
+  end;
+
 constructor TFileSourceOperation.Create;
 var
   Event: TFileSourceOperationEvent;
 begin
   FState := fsosNotStarted;
   FDesiredState := fsosRunning;  // set for auto-start unless prevented by PreventStart
-  FStopReason := fssrFinished;
+  FStopReason := fsosrFinished;
   FProgress := 0;
   FPauseEvent := RTLEventCreate;
   FStateLock := TCriticalSection.Create;
   FEventsLock := TCriticalSection.Create;
   FThread := nil;
+
   FEventsToNotify := [];
   FScheduledEventsListenersCalls := 0;
+
   FNoEventsListenersCallsScheduledEvent := RTLEventCreate;
   // Set at start because we don't have any calls scheduled at this time.
   RTLeventSetEvent(FNoEventsListenersCallsScheduledEvent);
+
+  FUserInterfaces := TFPList.Create;
+  FUserInterfaceAssignedEvent := RTLEventCreate;
+  // Reset at start because we have no interface assigned.
+  RTLeventResetEvent(FUserInterfaceAssignedEvent);
 
   for Event := Low(FEventsListeners) to High(FEventsListeners) do
     FEventsListeners[Event] := TFPList.Create;
@@ -285,8 +350,20 @@ begin
     FreeAndNil(FEventsListeners[Event]);
   end;
 
+  for i := 0 to FUserInterfaces.Count - 1 do
+    Dispose(PUserInterfacesEntry(FUserInterfaces.Items[i]));
+  FreeAndNil(FUserInterfaces);
+
+  // Just to be sure - set all events when we're destroying the object
+  // in case the thread is still waiting (this should normally not happen).
+  RTLeventSetEvent(FPauseEvent);
+  RTLeventSetEvent(FNoEventsListenersCallsScheduledEvent);
+  RTLeventSetEvent(FUserInterfaceAssignedEvent);
+
   RTLeventdestroy(FPauseEvent);
   RTLeventdestroy(FNoEventsListenersCallsScheduledEvent);
+  RTLeventdestroy(FUserInterfaceAssignedEvent);
+
   FreeAndNil(FStateLock);
   FreeAndNil(FEventsLock);
 end;
@@ -295,7 +372,7 @@ procedure TFileSourceOperation.Execute;
 begin
   UpdateState(fsosNotStarted);
   UpdateProgress(0);
-  FStopReason := fssrFinished;
+  FStopReason := fsosrFinished;
 
   if GetDesiredState <> fsosRunning then
   begin
@@ -319,17 +396,29 @@ begin
           UpdateState(fsosRunning);
         end;
 
-      fsosStopped:
+      fsosStopped:  // operation was asked to stop (via Stop function)
         begin
           Finalize;
-          FStopReason := fssrAborted;
+          FStopReason := fsosrAborted;
           UpdateState(fsosStopped);
           Exit;
         end;
     end;
 
-    if ExecuteStep = False then
-      Break;  // Operation has finished.
+    case ExecuteStep of
+      fsoesrFinished:
+        begin
+          FStopReason := fsosrFinished;
+          Break;
+        end;
+
+      fsoesrAborted:
+        begin
+          FStopReason := fsosrAborted;
+          Break;
+        end;
+      // else continue
+    end;
   end;
 
   UpdateState(fsosStopped);
@@ -402,11 +491,21 @@ begin
 end;
 
 procedure TFileSourceOperation.Stop;
+var
+  WakeWaitingForUI: Boolean;
 begin
-  if State in [fsosNotStarted, fsosPaused, fsosRunning] then
+  if State in [fsosNotStarted, fsosPaused, fsosRunning, fsosWaitingForFeedback] then
   begin
+    // If the operation is waiting for the user's response
+    // wake it up, because it is being aborted.
+    WakeWaitingForUI := (State = fsosWaitingForFeedback);
+
     UpdateState(fsosStopping);
     DoUnPause;
+
+    // Wake after setting state to Stopping.
+    if WakeWaitingForUI then
+      RTLeventSetEvent(FUserInterfaceAssignedEvent);
 
     FDesiredState := fsosStopped;
   end;
@@ -542,6 +641,137 @@ begin
     // After setting this event the operation object (Self) may already
     // be destroyed, so it must be the last thing to do.
     RTLeventSetEvent(FNoEventsListenersCallsScheduledEvent);
+end;
+
+procedure TFileSourceOperation.AddUserInterface(UserInterface: TFileSourceOperationUI);
+var
+  Entry: PUserInterfacesEntry;
+begin
+  Entry := New(PUserInterfacesEntry);
+  Entry^.UserInterface := UserInterface;
+  FUserInterfaces.Add(Entry);
+
+  // Notify a possibly waiting operation thread that an UI was assigned.
+  RTLeventSetEvent(FUserInterfaceAssignedEvent);
+end;
+
+procedure TFileSourceOperation.RemoveUserInterface(UserInterface: TFileSourceOperationUI);
+var
+  Entry: PUserInterfacesEntry;
+  i: Integer;
+begin
+  for i := 0 to FUserInterfaces.Count - 1 do
+  begin
+    Entry := PUserInterfacesEntry(FUserInterfaces.Items[i]);
+    if Entry^.UserInterface = UserInterface then
+    begin
+      FUserInterfaces.Delete(i);
+      break;
+    end;
+  end;
+
+  if FUserInterfaces.Count = 0 then
+    // Last interface was removed - reset event so that operation
+    // thread will wait for an UI if it wants to ask a question.
+    RTLeventResetEvent(FUserInterfaceAssignedEvent);
+end;
+
+function TFileSourceOperation.AskQuestion(
+             Msg: String; Question: String;
+             PossibleResponses: array of TFileSourceOperationUIResponse;
+             DefaultOKResponse: TFileSourceOperationUIResponse;
+             DefaultCancelResponse: TFileSourceOperationUIResponse;
+             out UIResponse: TFileSourceOperationUIResponse): TFileSourceOperationExecuteStepResult;
+var
+  i: Integer;
+begin
+  UpdateState(fsosWaitingForFeedback);
+
+  // Set up parameters through variables because
+  // we cannot pass them via Synchronize call to TryAskQuestion.
+  FUIMessage := Msg;
+  FUIQuestion := Question;
+  SetLength(FUIPossibleResponses, Length(PossibleResponses));
+  for i := 0 to Length(PossibleResponses) - 1 do
+    FUIPossibleResponses[i] := PossibleResponses[i];
+  FUIDefaultOKResponse := DefaultOKResponse;
+  FUIDefaultCancelResponse := DefaultCancelResponse;
+
+  if Assigned(FThread) then
+  begin
+    while True do
+    begin
+      TThread.Synchronize(FThread, @TryAskQuestion);
+
+      // Check result of TryAskQuestion.
+      if FTryAskQuestionResult = False then
+      begin
+        // There is no UI assigned - wait until it is assigned.
+        RTLeventWaitFor(FUserInterfaceAssignedEvent);
+
+        // Check why the event was set.
+        // Is it because an UI was assigned or is it because the operation is being aborted?
+        if State in [fsosStopping, fsosStopped] then
+        begin
+          // The operation is being aborted.
+          Result := fsoesrAborted;
+          break;
+        end;
+        // else we got an UI assigned - retry asking question
+      end
+      else
+      begin
+        // Received answer from the user.
+        UIResponse := FUIResponse;
+        Result := fsoesrContinue;
+        break;
+      end;
+    end;
+  end
+  else
+  begin
+    // The operation is probably run from main thread - call directly.
+    TryAskQuestion;
+
+    if FTryAskQuestionResult = False then
+      // There is no UI assigned - assume default OK answer.
+      UIResponse := DefaultOKResponse
+    else
+      UIResponse := FUIResponse;
+
+    Result := fsoesrContinue;
+  end;
+
+  if GetDesiredState = fsosRunning then
+    UpdateState(fsosRunning);
+end;
+
+procedure TFileSourceOperation.TryAskQuestion;
+var
+  Entry: PUserInterfacesEntry;
+begin
+  // This is run from GUI thread.
+
+  FTryAskQuestionResult := False; // We have no answer yet.
+
+  if FUserInterfaces.Count > 0 then
+  begin
+    // Get the UI that was most recently added.
+    Entry := PUserInterfacesEntry(FUserInterfaces.Last);
+
+    if Assigned(Entry) then
+    begin
+      FUIResponse := Entry^.UserInterface.AskQuestion(
+                        FUIMessage,
+                        FUIQuestion,
+                        FUIPossibleResponses,
+                        FUIDefaultOKResponse,
+                        FUIDefaultCancelResponse);
+
+      FTryAskQuestionResult := True;  // We do have an answer now.
+    end;
+  end;
+  // else We have no UIs assigned - cannot ask question.
 end;
 
 end.
