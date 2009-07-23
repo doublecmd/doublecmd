@@ -558,7 +558,7 @@ begin
 
   if ViewerControl.FileSize > 0 then
     begin
-      iPercent:= (ViewerControl.Position * 100) div ViewerControl.FileSize;
+      iPercent:= ViewerControl.Percent;
       if (ScrollBarVert.Position <> iPercent) then
         begin
           ScrollBarVert.Position:= iPercent;
@@ -703,30 +703,38 @@ begin
     scLineUp:
     begin
       ViewerControl.Up;
-      ScrollPos := ViewerControl.Position;
+      ScrollPos := ViewerControl.Percent;
     end;
     scLineDown:
     begin
       ViewerControl.Down;
-      ScrollPos := ViewerControl.Position;
+      ScrollPos := ViewerControl.Percent;
     end;
     scPageUp:
     begin
       ViewerControl.PageUp;
-      ScrollPos := ViewerControl.Position;
+      ScrollPos := ViewerControl.Percent;
     end;
     scPageDown:
     begin
       ViewerControl.PageDown;
-      ScrollPos := ViewerControl.Position;
+      ScrollPos := ViewerControl.Percent;
     end;
     scTop: ViewerControl.GoHome;
     scBottom: ViewerControl.GoEnd;
     scPosition:
     begin
-      ViewerControl.Position := ScrollPos;
-      if ViewerControl.UpLine then ViewerControl.DownLine;
-      ScrollPos := ViewerControl.Position;
+      if ScrollPos = 0 then
+        ViewerControl.GoHome
+      else if ScrollPos = 100 then
+        ViewerControl.GoEnd
+      else
+        begin
+          ViewerControl.Percent := ScrollPos;
+          if ViewerControl.UpLine then ViewerControl.DownLine;
+          ScrollPos := ViewerControl.Percent;
+        end;
+      Status.Panels[2].Text:= cnvFormatFileSize(ViewerControl.Position)+' ('+IntToStr(ScrollPos)+' %)';
     end;
   end;
 end;
