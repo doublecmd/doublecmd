@@ -52,6 +52,8 @@ type
   TViewerControl = class(TCustomControl)
 //  TViewerControl = class(TGraphicControl)
   private
+    function GetPercent: Integer;
+    procedure SetPercent(const AValue: Integer);
     { Private declarations }
   protected
     { Protected declarations }
@@ -118,6 +120,7 @@ type
     { Published declarations }
     property Encoding: String read FEncoding write FEncoding;
     property ViewerMode:TViewerMode read FViewerMode write SetViewerMode;
+    property Percent: Integer read GetPercent write SetPercent;
     property Position:PtrInt read FPosition write SetPosition;
     property FileSize:PtrInt read FFileSize;
     property OnMouseMove;
@@ -384,8 +387,6 @@ begin
   UpBy(H);
 end;
 
-
-
 procedure TViewerControl.PageDown;
 var
   H:Integer;
@@ -409,9 +410,7 @@ begin
   Up;
 end;
 
-
-
-Function TViewerControl.MapFile(const sFileName:String):Boolean;
+function TViewerControl.MapFile(const sFileName:String):Boolean;
 {$IFDEF MSWINDOWS}
 var
   wFileName: WideString;
@@ -726,6 +725,18 @@ begin
   MapFile(FTempName);
 end;
 {$ENDIF}
+
+function TViewerControl.GetPercent: Integer;
+begin
+  Result:= 0;
+  if FFileSize > 0 then
+    Result:= (FPosition * 100) div FFileSize;
+end;
+
+procedure TViewerControl.SetPercent(const AValue: Integer);
+begin
+  Position:= (AValue * FFileSize) div 100;
+end;
 
 procedure TViewerControl.OutText(aRect:TRect; x,y:Integer; sText:String);
 var
