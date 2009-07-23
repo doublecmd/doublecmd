@@ -3313,6 +3313,10 @@ msgstr "Funkce není podporována!"
 msgid "Syntax error in regular expression!"
 msgstr ""
 
+#: ulng.rsmsgerrrename
+msgid "Cannot rename file %s to %s"
+msgstr ""
+
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
 msgstr "Buffer je příliš malý"
@@ -3490,6 +3494,58 @@ msgstr ""
 #| msgid "No change;UPPERCASE;lowercase;First Char Big;"
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Neměnit;VELKÁ;malá;1. znak velký;"
+
+#: ulng.rsoperaborted
+msgid "Aborted"
+msgstr ""
+
+#: ulng.rsoperautostart
+msgid "Auto-started"
+msgstr ""
+
+#: ulng.rsoperdontstart
+msgid "Not auto-started"
+msgstr ""
+
+#: ulng.rsoperfinished
+msgid "Finished"
+msgstr ""
+
+#: ulng.rsopernotstarted
+msgid "Not started"
+msgstr ""
+
+#: ulng.rsoperpaused
+msgid "Paused"
+msgstr ""
+
+#: ulng.rsoperpausing
+msgid "Pausing"
+msgstr ""
+
+#: ulng.rsoperqueue
+msgid "Queued"
+msgstr ""
+
+#: ulng.rsoperrunning
+msgid "Running"
+msgstr ""
+
+#: ulng.rsoperstarting
+msgid "Starting"
+msgstr ""
+
+#: ulng.rsoperstopped
+msgid "Stopped"
+msgstr ""
+
+#: ulng.rsoperstopping
+msgid "Stopping"
+msgstr ""
+
+#: ulng.rsoperwaitingforfeedback
+msgid "Waiting for user response"
+msgstr ""
 
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
