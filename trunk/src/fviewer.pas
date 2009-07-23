@@ -734,9 +734,9 @@ begin
           if ViewerControl.UpLine then ViewerControl.DownLine;
           ScrollPos := ViewerControl.Percent;
         end;
-      Status.Panels[2].Text:= cnvFormatFileSize(ViewerControl.Position)+' ('+IntToStr(ScrollPos)+' %)';
     end;
   end;
+  Status.Panels[2].Text:= cnvFormatFileSize(ViewerControl.Position)+' ('+IntToStr(ScrollPos)+' %)';
 end;
 
 initialization
