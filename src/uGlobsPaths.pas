@@ -39,7 +39,7 @@ begin
     begin
       gpIniDir := GetAppConfigDir;//(False);
       if not mbDirectoryExists(gpIniDir) then
-        ForceDirectory(gpIniDir);
+        mbForceDirectory(gpIniDir);
       gpIniDir := IncludeTrailingPathDelimiter(gpIniDir);  // add if need path delimiter
     end;
   Ini.Free;

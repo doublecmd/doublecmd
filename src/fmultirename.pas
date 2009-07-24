@@ -715,7 +715,7 @@ begin
     begin
       if edFile.Text='' then
         edFile.Text:=lsvwFile.Items.Item[0].SubItems[1]+ PathDelim+'default.log';
-      ForceDirectory(ExtractFileDir(edFile.Text));
+      mbForceDirectory(ExtractFileDir(edFile.Text));
 
       if mbFileExists(edFile.Text) then
         begin

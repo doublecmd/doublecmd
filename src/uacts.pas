@@ -1288,7 +1288,7 @@ var
 begin
   // Dummy operation for testing.
   debugln('Starting copy operation');
-  Operation := TFileSystemCopyOutOperation.Create(nil,nil,nil,nil);
+  //Operation := TFileSystemCopyOutOperation.Create(nil,nil,nil,nil);
   OperationHandle := OperationsManager.AddOperation(Operation, ossAutoQueue);
 
   // The OperationHandle should now be passed to the dialog displaying progress.
@@ -1358,7 +1358,7 @@ begin
       end
       else
       begin
-        if not ForceDirectory(ActiveDir+sPath) then
+        if not mbForceDirectory(ActiveDir+sPath) then
           begin
             // write log
             if (log_dir_op in gLogOptions) and (log_errors in gLogOptions) then
