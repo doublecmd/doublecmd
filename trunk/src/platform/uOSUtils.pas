@@ -1511,7 +1511,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result:= FPCGetEnvStrFromP(Envp, Index);
+  Result:= GetEnvironmentString(Index);
 end;
 {$ENDIF}
 
