@@ -27,7 +27,7 @@ type
 
 implementation
 uses
-  SysUtils, FileUtil, uShowMsg, uLng, uGlobs, uLog, uDCUtils, uOSUtils;
+  SysUtils, FileUtil, uShowMsg, uLng, uGlobs, uLog, uFileProcs, uDCUtils, uOSUtils;
 
 
 procedure TMoveThread.MainExecute;
@@ -48,7 +48,7 @@ begin
 
   // Create destination path if it doesn't exist.
   if not mbDirectoryExists(sDstPath) then
-    ForceDirectory(sDstPath);
+    mbForceDirectory(sDstPath);
 
 // we first create dir structure
   for xIndex:=0 to NewFileList.Count-1 do // copy
@@ -57,7 +57,7 @@ begin
     if FPS_ISDIR(pr^.iMode) then
     begin
       if not mbDirectoryExists(sDstPath+pr^.sPath+ pr^.sNameNoExt) then
-        ForceDirectory(sDstPath+pr^.sPath+pr^.sNameNoExt);
+        mbForceDirectory(sDstPath+pr^.sPath+pr^.sNameNoExt);
 //      DebugLn('move:mkdir:',sDstPath+pr^.sNameNoExt);
     end;
   end;

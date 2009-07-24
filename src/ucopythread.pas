@@ -58,7 +58,7 @@ begin
 
   // Create destination path if it doesn't exist.
   if not mbDirectoryExists(sDstPath) then
-    ForceDirectory(sDstPath);
+    mbForceDirectory(sDstPath);
 
   for xIndex:=0 to NewFileList.Count-1 do // copy
   begin
