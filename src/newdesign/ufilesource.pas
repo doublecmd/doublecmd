@@ -20,7 +20,7 @@ type
   private
 
   protected
-    FCurrentPath: String;
+    FCurrentPath: String;    // Always includes trailing path delimiter.
     FCurrentAddress: String;
 
     {en
@@ -107,7 +107,10 @@ end;
 
 procedure TFileSource.SetCurrentPath(NewPath: String);
 begin
-  FCurrentPath := NewPath;
+  if NewPath = '' then
+    FCurrentPath := ''
+  else
+    FCurrentPath := IncludeTrailingPathDelimiter(NewPath);
 end;
 
 end.

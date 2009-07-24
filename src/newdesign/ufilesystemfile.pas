@@ -55,6 +55,9 @@ type
   end;
 
   TFileSystemFiles = class(TFiles)
+  protected
+    function Get(Index: Integer): TFileSystemFile;
+
   public
     function CreateObjectOfSameType: TFiles; override;
     function Clone: TFileSystemFiles; override;
@@ -65,7 +68,11 @@ type
               A list of absolute paths to files.)
     }
     procedure LoadFromFileNames(const FileNamesList: TStringList);
+
+    property Items[Index: Integer]: TFileSystemFile read Get{ write Put}; default;
   end;
+
+  EFileSystemFileNotExists = class(Exception);
 
 implementation
 
@@ -152,7 +159,7 @@ begin
   if FindFirstEx(FilePath, faAnyFile, SearchRecord) <> 0 then
   begin
     FindCloseEx(SearchRecord);
-    raise Exception.Create('File ' + FilePath + ' does not exist.');
+    raise EFileSystemFileNotExists.Create('File ' + FilePath + ' does not exist.');
   end
   else
     Create(SearchRecord);
@@ -260,6 +267,11 @@ begin
       AFile := TFileSystemFile.Create(FileNamesList[i]);
       Add(AFile);
     end;
+end;
+
+function TFileSystemFiles.Get(Index: Integer): TFileSystemFile;
+begin
+  Result := TFileSystemFile(List.Items[Index]);
 end;
 
 end.

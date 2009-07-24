@@ -14,8 +14,7 @@ type
 
   private
     FName: String;
-    FPath: String;  // Should this always include trailing path delimiter,
-                    // or never include it?
+    FPath: String;  // Always includes trailing path delimiter.
 
     // Cached values for extension and name.
     // Automatically set when name changes.
@@ -27,6 +26,7 @@ type
 
     function GetProperties: TFileProperties; virtual;
 
+    procedure SetPath(NewPath: String);
     function GetName: String;
     procedure SetName(Name: String);
     function GetExtension: String;
@@ -83,7 +83,7 @@ type
     }
     property SupportedProperties: TFilePropertiesTypes read GetSupportedProperties;
 
-    property Path: String read FPath write FPath;
+    property Path: String read FPath write SetPath;
     property Name: String read GetName write SetName;
     property NameNoExt: String read GetNameNoExt;
     property Extension: String read GetExtension;
@@ -228,6 +228,14 @@ begin
     FExtension := ExtractFileExt(FName);
     FNameNoExt := Copy(FName, 1, Length(FName) - Length(FExtension));
   end;
+end;
+
+procedure TFile.SetPath(NewPath: String);
+begin
+  if NewPath = '' then
+    FPath := ''
+  else
+    FPath := IncludeTrailingPathDelimiter(NewPath);
 end;
 
 function TFile.IsNameValid: Boolean;
