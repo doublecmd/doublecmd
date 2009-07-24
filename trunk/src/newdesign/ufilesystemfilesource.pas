@@ -56,7 +56,7 @@ end;
 constructor TFileSystemFileSource.Create(Path: String);
 begin
   inherited Create;
-  FCurrentPath := Path;
+  inherited SetCurrentPath(Path);
   FCurrentAddress := '';
 end;
 
@@ -107,9 +107,11 @@ end;
 procedure TFileSystemFileSource.SetCurrentPath(NewPath: String);
 begin
   if not mbDirectoryExists(NewPath) then
-    NewPath := mbGetCurrentDir;
+    NewPath := mbGetCurrentDir
+  else
+    mbSetCurrentDir(NewPath);
 
-  FCurrentPath := NewPath;
+  inherited SetCurrentPath(NewPath);
 end;
 
 class function TFileSystemFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
