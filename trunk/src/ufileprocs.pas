@@ -27,7 +27,7 @@ uses
    @returns(@true if DirectoryName already existed or was created succesfully.
    If it failed to create any of the parts, @false is returned.)
 }
-function ForceDirectory(DirectoryName: string): boolean;
+function mbForceDirectory(DirectoryName: string): boolean;
 {en
    Copies a file.
    @param(sSrc String expression that specifies the name of the file to be copied)
@@ -200,45 +200,33 @@ begin
   FileWrite(hFile, PChar(S)[0], Length(S));
 end;
 
-function ForceDirectory(DirectoryName: string): boolean;
+function mbForceDirectory(DirectoryName: string): boolean;
 var
   i: integer;
-  iBeg:Integer;
   sDir: string;
 begin
-  //DebugLn('ForceDirectory:',DirectoryName);
-  i:=1;
-  iBeg:=1;
-  if DirectoryName[Length(DirectoryName)]<>PathDelim then
-    DirectoryName:=DirectoryName+PathDelim;
-  //DebugLn('ForceDirectory:',DirectoryName);
-  
+  if DirectoryName = '' then Exit;
+
+  DirectoryName := IncludeTrailingPathDelimiter(DirectoryName);
+
   if Pos('\\', DirectoryName) = 1 then // if network path
     begin
       i := CharPos(PathDelim, DirectoryName, 3); // index of the end of computer name
       i := CharPos(PathDelim, DirectoryName, i + 1); // index of the end of first remote directory
     end;  
   
-  while i<=length(DirectoryName) do
+  for i := 1 to length(DirectoryName) do
   begin
     if DirectoryName[i]=PathDelim then
     begin
       sDir:=copy(DirectoryName,1,i-1);
-      if (sDir='') then
-        sDir:= mbGetCurrentDir;
 
-      //DebugLn('Dir: ' + sDir);
       if not mbDirectoryExists(sDir) then
       begin
-        //DebugLn(copy(DirectoryName,1,iBeg-1));
-        mbSetCurrentDir(copy(DirectoryName,1,iBeg-1));
-        Result:=mbCreateDir(Copy(DirectoryName, iBeg, i-iBeg));
+        Result:=mbCreateDir(sDir);
         if not Result then exit;
       end;
-      iBeg:=i+1;
-
     end;
-    inc(i);
   end;
   Result := True;
 end;

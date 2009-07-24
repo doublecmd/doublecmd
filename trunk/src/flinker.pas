@@ -147,7 +147,7 @@ var
   fTarget,fSource:TFileStreamEx;
 
 begin
-  if ForceDirectory(ExtractFileDir(edSave.Text)) then
+  if mbForceDirectory(ExtractFileDir(edSave.Text)) then
   begin
     fTarget:=TFileStreamEx.Create(edSave.Text,fmCreate);
     try

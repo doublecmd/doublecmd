@@ -233,7 +233,8 @@ function IsBlocked : Boolean;
 
 implementation
 uses Forms, SysUtils, Masks, uFileOp, uGlobs, uLog, uOSUtils, LCLProc,
-     uDCUtils, uLng, Controls, fPackInfoDlg, fDialogBox, uGlobsPaths, FileUtil;
+     uDCUtils, uLng, Controls, fPackInfoDlg, fDialogBox, uGlobsPaths, FileUtil,
+     uFileProcs;
 
 const
   WcxIniFileName = 'wcx.ini';
@@ -1004,7 +1005,7 @@ begin
     sDestPath := IncludeTrailingPathDelimiter(sDestPath);
 
     // Create path to destination directory (we don't have attributes for that).
-    ForceDirectory(sDestPath);
+    mbForceDirectory(sDestPath);
 
     CreatedPaths.Clear;
 
@@ -1024,7 +1025,7 @@ begin
           if (CreatedPaths.Find(TargetDir) = -1) and
              (not DirPathExists(TargetDir)) then
           begin
-             if ForceDirectory(TargetDir) = False then
+             if mbForceDirectory(TargetDir) = False then
              begin
                // Error, cannot create directory.
                Break; // Don't try to create subdirectories.

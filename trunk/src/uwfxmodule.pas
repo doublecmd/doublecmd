@@ -161,7 +161,7 @@ type
 implementation
 uses
   LCLProc, LCLType, uGlobs, uLog, uVFSutil, uFileOp, uOSUtils, uLng,
-  Dialogs, Forms, Controls, FileUtil, uDCUtils, uGlobsPaths;
+  Dialogs, Forms, Controls, FileUtil, uDCUtils, uGlobsPaths, uFileProcs;
 
 const
   WfxIniFileName = 'wfx.ini';
@@ -613,7 +613,7 @@ begin
 
       if FPS_ISDIR(FFileList.GetItem(I)^.iMode) then
         begin
-          ForceDirectory(LocalName);
+          mbForceDirectory(LocalName);
           Continue;
         end;
 
