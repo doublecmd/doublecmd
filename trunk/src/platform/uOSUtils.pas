@@ -237,6 +237,7 @@ function mbCreateDir(const NewDir: UTF8String): Boolean;
 function mbRemoveDir(const Dir: UTF8String): Boolean;
 { Other functions }
 function mbCompareText(const s1, s2: UTF8String): PtrInt;
+function mbGetEnvironmentString(Index : Integer) : UTF8String;
 function mbSetEnvironmentVariable(const sName, sValue: UTF8String): Boolean;
 function mbLoadLibrary(Name: UTF8String): TLibHandle;
 
@@ -1485,6 +1486,32 @@ end;
 {$ELSE}
 begin
   Result:= StrComp(PChar(UTF8LowerCase(s1)), PChar(UTF8LowerCase(s2)));
+end;
+{$ENDIF}
+
+function mbGetEnvironmentString(Index: Integer): UTF8String;
+{$IFDEF MSWINDOWS}
+var
+  hp, p: PWideChar;
+begin
+  Result:= '';
+  p:= GetEnvironmentStringsW;
+  hp:= p;
+  if (hp <> nil) then
+    begin
+      while (hp^ <> #0) and (Index > 1) do
+        begin
+          Dec(Index);
+          hp:= hp + lstrlenW(hp) + 1;
+        end;
+      if (hp^ <> #0) then
+        Result:= UTF8Encode(hp);
+    end;
+  FreeEnvironmentStringsW(p);
+end;
+{$ELSE}
+begin
+  Result:= FPCGetEnvStrFromP(Envp, Index);
 end;
 {$ENDIF}
 

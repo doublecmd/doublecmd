@@ -258,19 +258,18 @@ var
   EnvVarList: TStringList;
 begin
   if sFileName = EmptyStr then Exit(EmptyStr);
-  Result:= UTF8ToSys(sFileName);
+  Result:= sFileName;
   X:= GetEnvironmentVariableCount;
   if X = 0 then Exit;
   EnvVarList:= TStringList.Create;
   for I:= 1 to X do
     begin
-      EnvVarList.Add(GetEnvironmentString(I));
+      EnvVarList.Add(mbGetEnvironmentString(I));
       Result:= StringReplace(Result, '%'+EnvVarList.Names[I-1]+'%', EnvVarList.ValueFromIndex[I-1], [rfReplaceAll, rfIgnoreCase]);
     end;
   FreeAndNil(EnvVarList);
   if Pos(PathDelim, Result) <> 0 then
     Result:= ExpandFileName(Result);
-  Result:= SysToUTF8(Result);
 end;
 
 function GetTempFolder: String;
