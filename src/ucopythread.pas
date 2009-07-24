@@ -187,7 +187,7 @@ begin
     begin
       DebugLn('Force = ' + sDst+fr^.sPath+fr^.sNameNoExt);
       if not mbDirectoryExists(sDst+fr^.sPath+fr^.sNameNoExt) then
-        uFileProcs.ForceDirectory(sDst+fr^.sPath+fr^.sNameNoExt);
+        mbForceDirectory(sDst+fr^.sPath+fr^.sNameNoExt);
       Result:= True;
     end
   else

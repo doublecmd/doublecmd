@@ -206,16 +206,14 @@ var
   sDir: string;
 begin
   if DirectoryName = '' then Exit;
-
   DirectoryName := IncludeTrailingPathDelimiter(DirectoryName);
-
+  i:= 1;
   if Pos('\\', DirectoryName) = 1 then // if network path
     begin
       i := CharPos(PathDelim, DirectoryName, 3); // index of the end of computer name
       i := CharPos(PathDelim, DirectoryName, i + 1); // index of the end of first remote directory
-    end;  
-  
-  for i := 1 to length(DirectoryName) do
+    end;
+  while i<=length(DirectoryName) do
   begin
     if DirectoryName[i]=PathDelim then
     begin
@@ -227,6 +225,7 @@ begin
         if not Result then exit;
       end;
     end;
+    Inc(i);
   end;
   Result := True;
 end;
