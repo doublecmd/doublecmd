@@ -16,9 +16,12 @@ type
   TOperationThread = class(TThread)
   private
     FOperation: TFileSourceOperation;
+    FExceptionMessage: String;
 
   protected
     procedure Execute; override;
+
+    procedure ShowException;
 
   public
     {en
@@ -31,6 +34,9 @@ type
   end;
 
 implementation
+
+uses
+  Dialogs;
 
 constructor TOperationThread.Create(CreateSuspended: Boolean; Operation: TFileSourceOperation);
 begin
@@ -49,8 +55,36 @@ begin
 end;
 
 procedure TOperationThread.Execute;
+var
+  FrameCount: integer;
+  Frames: PPointer;
+  FrameNumber:Integer;
 begin
-  FOperation.Execute;
+  try
+    FOperation.Execute;
+  except
+    on e: Exception do
+    begin
+      FExceptionMessage := 'Unhandled exception ' + e.ClassName + ': ' + e.Message + LineEnding
+                         + 'Stack trace:' + LineEnding
+                         + BackTraceStrFunc(ExceptAddr) + LineEnding;
+
+      FrameCount:=ExceptFrameCount;
+      Frames:=ExceptFrames;
+      for FrameNumber := 0 to FrameCount-1 do
+        FExceptionMessage := FExceptionMessage + BackTraceStrFunc(Frames[FrameNumber]) + LineEnding;
+
+      if IsConsole then
+        DebugLn(FExceptionMessage);
+
+      Synchronize(@ShowException);
+    end;
+  end;
+end;
+
+procedure TOperationThread.ShowException;
+begin
+  MessageDlg('Double Commander error', FExceptionMessage, mtError, [mbOK], 0);
 end;
 
 end.
