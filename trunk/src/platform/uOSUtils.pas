@@ -82,18 +82,23 @@ type
 
   TLibHandle = PtrInt;
 
+  TFileAttrs = Cardinal;  // file attributes type regardless of system
+
+const
+  faInvalidAttributes: TFileAttrs = TFileAttrs(-1);
+
 {en
    Is file a directory
    @param(iAttr File attributes)
    @returns(@true if file is a directory, @false otherwise)
 }
-function FPS_ISDIR(iAttr:Cardinal) : Boolean;
+function FPS_ISDIR(iAttr: TFileAttrs) : Boolean;
 {en
    Is file a symbolic link
    @param(iAttr File attributes)
    @returns(@true if file is a symbolic link, @false otherwise)
 }
-function FPS_ISLNK(iAttr:Cardinal) : Boolean;
+function FPS_ISLNK(iAttr: TFileAttrs) : Boolean;
 {en
    Is file executable
    @param(sFileName File name)
@@ -107,7 +112,7 @@ function FileIsExeLib(const sFileName : String) : Boolean;
    @param(bDropReadOnlyFlag Drop read only attribute if @true)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function FileIsReadOnly(iAttr:Cardinal): Boolean;
+function FileIsReadOnly(iAttr: TFileAttrs): Boolean;
 function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Boolean;
 function ExecCmdFork(sCmdLine:String; bTerm : Boolean = False; sTerm : String = ''):Boolean;
 {en
@@ -209,8 +214,9 @@ function mbFileSetTime(const FileName: UTF8String; ModificationTime: Longint;
                        CreationTime: Longint = 0; LastAccessTime: Longint = 0): Longint;
 function mbFileExists(const FileName: UTF8String): Boolean;
 function mbFileAccess(const FileName: UTF8String; Mode: Integer): Boolean;
-function mbFileGetAttr(const FileName: UTF8String): LongInt;
-function mbFileSetAttr (const FileName: UTF8String; Attr: LongInt) : LongInt;
+function mbFileGetAttr(const FileName: UTF8String): TFileAttrs;
+function mbFileSetAttr (const FileName: UTF8String; Attr: TFileAttrs) : LongInt;
+// Returns True on success.
 function mbFileSetReadOnly(const FileName: UTF8String; ReadOnly: Boolean): Boolean;
 function mbDeleteFile(const FileName: UTF8String): Boolean;
 
@@ -297,10 +303,10 @@ type
 
 (*Is Directory*)
 
-function  FPS_ISDIR(iAttr:Cardinal) : Boolean;
+function  FPS_ISDIR(iAttr: TFileAttrs) : Boolean;
 {$IFDEF MSWINDOWS}
 begin
-  Result := Boolean(iAttr and faDirectory);
+  Result := (iAttr and faDirectory <> 0);
 end;
 {$ELSE}
 begin
@@ -310,10 +316,10 @@ end;
 
 (*Is Link*)
 
-function FPS_ISLNK(iAttr:Cardinal) : Boolean;
+function FPS_ISLNK(iAttr: TFileAttrs) : Boolean;
 {$IFDEF MSWINDOWS}
 begin
-  Result := Boolean(iAttr and faSymLink);
+  Result := (iAttr and faSymLink <> 0);
 end;
 {$ELSE}
 begin
@@ -345,10 +351,10 @@ begin
     end;
 end;
 
-function FileIsReadOnly(iAttr: Cardinal): Boolean;
+function FileIsReadOnly(iAttr: TFileAttrs): Boolean;
 {$IFDEF MSWINDOWS}
 begin
-  Result:= Boolean(iAttr and faReadOnly);
+  Result:= (iAttr and faReadOnly) <> 0;
 end;
 {$ELSE}
 begin
@@ -359,7 +365,7 @@ end;
 function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Boolean;
 {$IFDEF MSWINDOWS}
 var
-  iAttr : LongInt;
+  iAttr : TFileAttrs;
   ft : TFileTime;
   Handle: THandle;
 begin
@@ -369,7 +375,7 @@ begin
   GetFileTime(Handle,nil,nil,@ft);
   FileClose(Handle);
   //---------------------------------------------------------
-  if bDropReadOnlyFlag and Boolean(iAttr and faReadOnly) then
+  if bDropReadOnlyFlag and ((iAttr and faReadOnly) <> 0) then
     iAttr := (iAttr and not faReadOnly);
   Result := (mbFileSetAttr(sDst, iAttr) = 0);
   //---------------------------------------------------------
@@ -381,7 +387,7 @@ end;
 var
   StatInfo : BaseUnix.Stat;
   utb : BaseUnix.PUTimBuf;
-  mode : dword;
+  mode : TMode;
 begin
   fpStat(PChar(sSrc), StatInfo);
 //  DebugLN(AttrToStr(stat.st_mode));  // file time
@@ -1141,7 +1147,7 @@ begin
   Result:=False;
   wFileName:= UTF8Decode(FileName);
   Attr:= GetFileAttributesW(PWChar(wFileName));
-  if Attr <> $ffffffff then
+  if Attr <> DWORD(-1) then
     Result:= (Attr and FILE_ATTRIBUTE_DIRECTORY) = 0;
 end;
 {$ELSE}
@@ -1186,13 +1192,18 @@ begin
 end;
 {$ENDIF}
 
-function mbFileGetAttr(const FileName: UTF8String): Longint;
+{$IFOPT R+}
+{$DEFINE uOSUtilsRangeCheckOn}
+{$R-}
+{$ENDIF}
+
+function mbFileGetAttr(const FileName: UTF8String): TFileAttrs;
 {$IFDEF MSWINDOWS}
 var
   wFileName: WideString;
 begin
   wFileName:= UTF8Decode(FileName);
-  Result:= GetFileAttributesW(PWChar(wFileName));
+  Result := GetFileAttributesW(PWChar(wFileName));
 end;
 {$ELSE}
 var
@@ -1204,7 +1215,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileSetAttr(const FileName: UTF8String; Attr: LongInt): LongInt;
+function mbFileSetAttr(const FileName: UTF8String; Attr: TFileAttrs): LongInt;
 {$IFDEF MSWINDOWS}
 var
   wFileName: WideString;
@@ -1220,23 +1231,30 @@ begin
 end;
 {$ENDIF}
 
+{$IFDEF uOSUtilsRangeCheckOn}
+{$R+}
+{$UNDEF uOSUtilsRangeCheckOn}
+{$ENDIF}
+
 function mbFileSetReadOnly(const FileName: UTF8String; ReadOnly: Boolean): Boolean;
 {$IFDEF MSWINDOWS}
 var
-  iAttr: LongInt;
+  iAttr: DWORD;
+  wFileName: WideString;
 begin
-  iAttr:= mbFileGetAttr(FileName);
-  if iAttr = -1 then Exit(False);
+  wFileName:= UTF8Decode(FileName);
+  iAttr := GetFileAttributesW(PWChar(wFileName));
+  if iAttr = DWORD(-1) then Exit(False);
   if ReadOnly then
-    iAttr:= iAttr and faReadOnly
+    iAttr:= iAttr or faReadOnly
   else
     iAttr:= iAttr and not faReadOnly;
-  Result:= mbFileSetAttr(FileName, iAttr) = 0;
+  Result:= SetFileAttributesW(PWChar(wFileName), iAttr) = True;
 end;
 {$ELSE}
 var
   StatInfo: BaseUnix.Stat;
-  mode: dword;
+  mode: TMode;
 begin
   if fpStat(PChar(FileName), StatInfo) <> 0 then Exit(False);
   mode:= StatInfo.st_mode;
@@ -1418,7 +1436,7 @@ begin
   Result:= False;
   wDirectory:= UTF8Decode(Directory);
   Attr:= GetFileAttributesW(PWChar(wDirectory));
-  if Attr <> $ffffffff then
+  if Attr <> DWORD(-1) then
     Result:= (Attr and FILE_ATTRIBUTE_DIRECTORY) > 0;
 end;
 {$ELSE}
