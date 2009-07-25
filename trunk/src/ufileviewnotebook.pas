@@ -151,7 +151,6 @@ end;
 
 procedure TFileViewPage.SetFileView(aFileView: TFileView);
 var
-  i: Integer;
   aComponent: TComponent;
 begin
   while ComponentCount > 0 do
@@ -286,18 +285,18 @@ end;
 
 procedure TFileViewNotebook.ActivatePrevTab;
 begin
-  if PageIndex = PageCount - 1 then
-    Page[0].MakeActive
-  else
-    Page[PageIndex + 1].MakeActive;
-end;
-
-procedure TFileViewNotebook.ActivateNextTab;
-begin
   if PageIndex = 0 then
     Page[PageCount - 1].MakeActive
   else
     Page[PageIndex - 1].MakeActive;
+end;
+
+procedure TFileViewNotebook.ActivateNextTab;
+begin
+  if PageIndex = PageCount - 1 then
+    Page[0].MakeActive
+  else
+    Page[PageIndex + 1].MakeActive;
 end;
 
 end.
