@@ -2744,21 +2744,13 @@ end;
 
 procedure TColumnsFileView.MakeFileSourceFileList;
 var
-  ListOperation: TFileSourceListOperation;
   AFile: TColumnsViewFile;
   i: Integer;
 begin
-  //ListOperation := TFactory.GetListOperationObject(FileSource);
-  ListOperation := FileSource.GetOperation(fsoList) as TFileSourceListOperation;
-
-  ListOperation.Execute;
-
   if Assigned(FFileSourceFiles) then
     FreeAndNil(FFileSourceFiles);
 
-  FFileSourceFiles := FileSource.GetFiles; //ListOperation.ReleaseFiles;
-
-  FreeAndNil(ListOperation);
+  FFileSourceFiles := FileSource.GetFiles;
 
   // Make display file list from file source file list.
   MakeDisplayFileList;

@@ -522,7 +522,7 @@ uses
   fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls, uFileSorting,
   uFileSystemFileSource, uOperationsManager, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSystemCopyOperation,
-  fFileOpDlg
+  fFileOpDlg, uFileSourceOperation
 
   {$IFDEF LCLQT}
     , qtwidgets, qtobjects
@@ -1993,7 +1993,7 @@ var
   sDstMaskTemp: String;
   blDropReadOnlyFlag : Boolean;
   SourceFiles: TFiles = nil;
-  Operation: TFileSystemCopyOutOperation;
+  Operation: TFileSourceOperation;
   OperationHandle: TOperationHandle;
   ProgressDialog: TfrmFileOp;
 begin
@@ -2003,9 +2003,6 @@ begin
     msgWarning(rsMsgErrNotSupported);
     Exit;
   end;
-
-  // For now only FileSystem.
-  if not (ActiveFrame.FileSource is TFileSystemFileSource) then Exit;
 
   SourceFiles := ActiveFrame.SelectedFiles; // free at Thread end by thread
   try
@@ -2043,9 +2040,11 @@ begin
       end;
     end; //with
 
-    //ActiveFrame.FileSource.GetOperation(fsoCopyOut)
-    Operation := TFileSystemCopyOutOperation.Create(
-                     ActiveFrame.FileSource as TFileSystemFileSource,
+    // For now at least one must be FileSystem.
+    if not (ActiveFrame.FileSource is TFileSystemFileSource or
+            NotActiveFrame.FileSource is TFileSystemFileSource) then Exit;
+
+    Operation := ActiveFrame.FileSource.CreateCopyOutOperation(
                      NotActiveFrame.FileSource as TFileSystemFileSource,
                      SourceFiles,
                      sDestPath,
@@ -2058,7 +2057,9 @@ begin
 
       ProgressDialog := TfrmFileOp.Create(OperationHandle);
       ProgressDialog.Show;
-    end;
+    end
+    else
+      msgWarning(rsMsgNotImplemented);
 
   except
     FreeAndNil(SourceFiles);

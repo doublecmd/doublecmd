@@ -10,8 +10,7 @@ uses
   uFileSourceOperationTypes,
   uFileSourceProperty,
   uFileProperty,
-  uFile
-  ;
+  uFile;
 
 type
 
@@ -55,14 +54,22 @@ type
     // Retrieve some properties of the file source.
     class function GetProperties: TFileSourceProperties; virtual abstract;
 
-    // Creates an operation object specific to the file source.
-    function GetOperation(OperationType: TFileSourceOperationType): TFileSourceOperation; virtual abstract;
-
     // Retrieves a list of files.
     // This is the same as GetOperation(fsoList), executing it
     // and returning the result of Operation.ReleaseFiles.
     // Caller is responsible for freeing the result list.
     function GetFiles: TFiles; virtual abstract;
+
+    // These functions create an operation object specific to the file source.
+    function CreateListOperation: TFileSourceOperation; virtual abstract;
+    function CreateCopyInOperation(SourceFileSource: TFileSource;
+                                   SourceFiles: TFiles;
+                                   TargetPath: String;
+                                   FileMask: String): TFileSourceOperation; virtual abstract;
+    function CreateCopyOutOperation(TargetFileSource: TFileSource;
+                                    SourceFiles: TFiles;
+                                    TargetPath: String;
+                                    FileMask: String): TFileSourceOperation; virtual abstract;
 
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property CurrentAddress: String read GetCurrentAddress;

@@ -29,13 +29,13 @@ type
     FSourceFileSource: TFileSystemFileSource;
     FTargetFileSource: TFileSystemFileSource;
     FSourceFiles: TFiles;
-    FTargetFiles: TFiles;
 
   public
-    constructor Create(SourceFileSource: TFileSystemFileSource;
-                       TargetFileSource: TFileSystemFileSource;
+    constructor Create(SourceFileSource: TFileSource;
+                       TargetFileSource: TFileSource;
                        SourceFiles: TFiles;
-                       TargetFiles: TFiles); reintroduce;
+                       TargetPath: String;
+                       FileMask: String); reintroduce;
 
     procedure Execute; override;
 
@@ -75,8 +75,8 @@ type
     function ShowError(sMessage: String): TFileSourceOperationUIResponse;
 
   public
-    constructor Create(SourceFileSource: TFileSystemFileSource;
-                       TargetFileSource: TFileSystemFileSource;
+    constructor Create(SourceFileSource: TFileSource;
+                       TargetFileSource: TFileSource;
                        SourceFiles: TFiles;
                        TargetPath: String;
                        FileMask: String); reintroduce;
@@ -96,17 +96,17 @@ uses
 
 // -- TFileSystemCopyInOperation ----------------------------------------------
 
-constructor TFileSystemCopyInOperation.Create(SourceFileSource: TFileSystemFileSource;
-                                              TargetFileSource: TFileSystemFileSource;
+constructor TFileSystemCopyInOperation.Create(SourceFileSource: TFileSource;
+                                              TargetFileSource: TFileSource;
                                               SourceFiles: TFiles;
-                                              TargetFiles: TFiles);
+                                              TargetPath: String;
+                                              FileMask: String);
 begin
   inherited Create;
 
-  FSourceFileSource := SourceFileSource;
-  FTargetFileSource := TargetFileSource;
+  FSourceFileSource := SourceFileSource as TFileSystemFileSource;
+  FTargetFileSource := TargetFileSource as TFileSystemFileSource;
   FSourceFiles := SourceFiles;
-  FTargetFiles := TargetFiles;
 end;
 
 procedure TFileSystemCopyInOperation.Execute;
@@ -115,8 +115,8 @@ end;
 
 // -- TFileSystemCopyOutOperation ---------------------------------------------
 
-constructor TFileSystemCopyOutOperation.Create(SourceFileSource: TFileSystemFileSource;
-                                               TargetFileSource: TFileSystemFileSource;
+constructor TFileSystemCopyOutOperation.Create(SourceFileSource: TFileSource;
+                                               TargetFileSource: TFileSource;
                                                SourceFiles: TFiles;
                                                TargetPath: String;
                                                FileMask: String);
@@ -124,8 +124,8 @@ begin
   inherited Create;
 
   FBuffer := nil;
-  FSourceFileSource := SourceFileSource;
-  FTargetFileSource := TargetFileSource;
+  FSourceFileSource := SourceFileSource as TFileSystemFileSource;
+  FTargetFileSource := TargetFileSource as TFileSystemFileSource;
   FSourceFiles := SourceFiles;
   FTargetPath := TargetPath;
   FFileMask := FileMask;
