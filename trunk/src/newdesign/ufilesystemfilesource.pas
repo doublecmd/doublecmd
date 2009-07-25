@@ -37,8 +37,17 @@ type
     class function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
     class function GetProperties: TFileSourceProperties; override;
 
-    function GetOperation(OperationType: TFileSourceOperationType): TFileSourceOperation; override;
     function GetFiles: TFiles; override;
+
+    function CreateListOperation: TFileSourceOperation; override;
+    function CreateCopyInOperation(SourceFileSource: TFileSource;
+                                   SourceFiles: TFiles;
+                                   TargetPath: String;
+                                   FileMask: String): TFileSourceOperation; override;
+    function CreateCopyOutOperation(TargetFileSource: TFileSource;
+                                    SourceFiles: TFiles;
+                                    TargetPath: String;
+                                    FileMask: String): TFileSourceOperation; override;
 
     // ------------------------------------------------------
   end;
@@ -46,7 +55,7 @@ type
 implementation
 
 uses
-  uFileSystemListOperation, uOSUtils, uFileSystemFile;
+  uOSUtils, uFileSystemFile, uFileSystemListOperation, uFileSystemCopyOperation;
 
 constructor TFileSystemFileSource.Create;
 begin
@@ -119,21 +128,13 @@ begin
   Result := TFileSystemFile.GetSupportedProperties;
 end;
 
-function TFileSystemFileSource.GetOperation(OperationType: TFileSourceOperationType): TFileSourceOperation;
-begin
-  Result := nil;
-  case OperationType of
-    fsoList:
-      Result := TFileSystemListOperation.Create(Self);
-  end;
-end;
-
 function TFileSystemFileSource.GetFiles: TFiles;
 var
   ListOperation: TFileSystemListOperation;
 begin
-  ListOperation := TFileSystemListOperation.Create(Self);
+  Result := nil;
 
+  ListOperation := TFileSystemListOperation.Create(Self);
   try
     ListOperation.Execute;
     Result := ListOperation.ReleaseFiles;
@@ -141,6 +142,31 @@ begin
   finally
     FreeAndNil(ListOperation);
   end;
+end;
+
+function TFileSystemFileSource.CreateListOperation: TFileSourceOperation;
+begin
+  Result := TFileSystemListOperation.Create(Self);
+end;
+
+function TFileSystemFileSource.CreateCopyInOperation(SourceFileSource: TFileSource;
+                                                     SourceFiles: TFiles;
+                                                     TargetPath: String;
+                                                     FileMask: String): TFileSourceOperation;
+begin
+  Result := TFileSystemCopyInOperation.Create(
+                SourceFileSource, Self,
+                SourceFiles, TargetPath, FileMask);
+end;
+
+function TFileSystemFileSource.CreateCopyOutOperation(TargetFileSource: TFileSource;
+                                                      SourceFiles: TFiles;
+                                                      TargetPath: String;
+                                                      FileMask: String): TFileSourceOperation;
+begin
+  Result := TFileSystemCopyOutOperation.Create(
+                Self, TargetFileSource,
+                SourceFiles, TargetPath, FileMask);
 end;
 
 end.
