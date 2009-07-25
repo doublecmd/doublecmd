@@ -21,7 +21,9 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, Buttons, ExtCtrls,
-  uOperationsManager, uFileSourceOperation, uFileSourceOperationUI;
+  uOperationsManager, uFileSourceOperation, uFileSourceOperationUI,
+  uFileSourceCopyOperation;
+
 
 type
 
@@ -62,7 +64,6 @@ type
     procedure InitializeCopyOperation(Operation: TFileSourceOperation);
     procedure UpdateCopyOperation(Operation: TFileSourceOperation);
 
-
   public
     iProgress1Max: Integer;
     iProgress1Pos: Integer;
@@ -84,9 +85,8 @@ type
 implementation
 
 uses
-   fMain, dmCommonData, uFileOpThread, LCLProc, uLng,
+   fMain, dmCommonData, uFileOpThread, LCLProc, uLng, uDCUtils,
    uFileSourceOperationTypes,
-   uFileSourceCopyOperation,
    uFileSourceOperationMessageBoxesUI;
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
@@ -98,15 +98,7 @@ begin
   begin
     Operation.Stop;
   end;
-{
-  if Assigned(Thread) then
-    begin
-      Thread.Terminate;
-      if Thread is TFileOpThread then
-        with Thread as TFileOpThread do
-          if Paused then Paused:= False; 
-    end;
-}
+
   ModalResult:= mrCancel;
 end;
 
@@ -128,17 +120,6 @@ begin
       SetPlayGlyph;
     end;
   end;
-{
-  if Assigned(Thread) then
-    begin
-      if Thread is TFileOpThread then
-        with Thread as TFileOpThread do
-        begin
-          Paused:= not Paused;
-          dmComData.ImageList.GetBitmap(Integer(not Paused), btnPauseStart.Glyph);
-        end;
-    end;
-}
 end;
 
 procedure TfrmFileOp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -156,16 +137,6 @@ var
   Operation: TFileSourceOperation;
 begin
   Thread:= nil;
-{
-  pbFirst.Position:= 0;
-  pbSecond.Position:= 0;
-  pbFirst.Max:= 1;
-  pbSecond.Max:= 1;
-  iProgress1Max:= 0;
-  iProgress2Max:= 0;
-  iProgress1Pos:= 0;
-  iProgress2Pos:= 0;
-}
 
   pbFirst.DoubleBuffered:= True;
   pbSecond.DoubleBuffered:= True;
@@ -255,23 +226,17 @@ begin
           UpdateCopyOperation(Operation);
 
       else
+      begin
         // Operation not currently supported for display.
         // Only show general progress.
         pbFirst.Position := Operation.Progress;
+      end;
     end;
 
     NewCaption := IntToStr(Operation.Progress) + '% ' + Hint;
     if Operation.State <> fsosRunning then
       NewCaption := NewCaption + ' [' + FileSourceOperationStateText[Operation.State] + ']';
     Caption := NewCaption;
-{
-    // Estimate remaining time somehow (by progress or individual statistics).
-    if sEstimated <> lblEstimated.Caption then
-    begin
-      lblEstimated.Caption:= sEstimated;
-      lblEstimated.Invalidate;
-    end;
-}
   end
   else
   begin
@@ -358,13 +323,28 @@ begin
     if CurrentFileTotalBytes <> 0 then
       pbFirst.Position := (CurrentFileDoneBytes * 100) div CurrentFileTotalBytes
     else
-      pbFirst.Position := pbFirst.Max;
+      pbFirst.Position := 0;
 
     if TotalBytes <> 0 then
       pbSecond.Position := (DoneBytes * 100) div TotalBytes
     else
-      pbSecond.Position := pbSecond.Max;
+      pbSecond.Position := 0;
+
+    if Operation.State in [fsosNotStarted, fsosPaused, fsosWaitingForFeedback, fsosStopped] then
+      sEstimated := ''
+    else
+    begin
+      if BytesPerSecond = 0 then
+        sEstimated := 'Estimating time...'
+      else
+      begin
+        sEstimated := FormatDateTime('HH:MM:SS', RemainingTime);
+        sEstimated := Format(rsDlgSpeedTime, [cnvFormatFileSize(BytesPerSecond), sEstimated]);
+      end;
+    end;
   end;
+
+  lblEstimated.Caption := sEstimated;
 
   UpdatePauseStartButton(Operation.State);
 end;

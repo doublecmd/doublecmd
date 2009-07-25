@@ -494,6 +494,7 @@ var
   aFile: TColumnsViewFile;
 begin
   Result := FFileSourceFiles.CreateObjectOfSameType;
+  Result.Path := CurrentPath;
 
   for i := 0 to FFiles.Count - 1 do
   begin

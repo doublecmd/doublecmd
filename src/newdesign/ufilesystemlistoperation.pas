@@ -28,6 +28,7 @@ uses
 constructor TFileSystemListOperation.Create(FileSource: TFileSystemFileSource);
 begin
   FFileSource := FileSource;
+  FFiles := TFileSystemFiles.Create;
   inherited Create;
 end;
 

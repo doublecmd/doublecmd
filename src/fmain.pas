@@ -45,7 +45,7 @@ uses
   Buttons, SysUtils, Classes, Grids, KASToolBar, SynEdit, KASBarMenu, KASBarFiles,
   uColumns, uFileList, LCLType, uCmdBox, uFileSystemWatcher,
   uFileView, uColumnsFileView, uFilePanelSelect,
-  uFileSource, uFileViewNotebook
+  uFileSource, uFileViewNotebook, uFile
   {$IF NOT DEFINED(DARWIN)}
   , uTerminal
   {$ENDIF}
@@ -453,7 +453,7 @@ type
     function FrameRight: TFileView;
     procedure AppException(Sender: TObject; E: Exception);
     //check selected count and generate correct msg, parameters is lng indexs
-    Function GetFileDlgStr(sLngOne, sLngMulti : String):String;
+    Function GetFileDlgStr(sLngOne, sLngMulti : String; Files: TFiles):String;
     procedure HotDirSelected(Sender:TObject);
     procedure CreatePopUpHotDir;
     procedure CreatePopUpDirHistory;
@@ -520,7 +520,10 @@ uses
   fSymLink, fHardLink, uDCUtils, uLog, fMultiRename, uGlobsPaths, fMsg, fPackDlg,
   fExtractDlg, fLinker, fSplitter, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls, uFileSorting,
-  uFileSystemFileSource, uOperationsManager, fViewOperations
+  uFileSystemFileSource, uOperationsManager, fViewOperations,
+  uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSystemCopyOperation,
+  fFileOpDlg
+
   {$IFDEF LCLQT}
     , qtwidgets, qtobjects
   {$ENDIF}
@@ -1636,21 +1639,15 @@ begin
 end;
 
 
-Function TfrmMain.GetFileDlgStr(sLngOne, sLngMulti:String):String;
-var
-  iSelCnt:Integer;
+Function TfrmMain.GetFileDlgStr(sLngOne, sLngMulti: String; Files: TFiles):String;
 begin
-  with ActiveFrame do
-  begin
-{
-    iSelCnt:=pnlFile.GetSelectedCount;
-    if iSelCnt=0 then Abort;
-    if iSelCnt >1 then
-      Result:=Format(sLngMulti, [iSelCnt])
-    else
-      Result:=Format(sLngOne, [pnlFile.GetFirstSelectedItem^.sName])
-}
-  end;
+  if Files.Count = 0 then
+    raise Exception.Create(rsMsgNoFilesSelected);
+
+  if Files.Count > 1 then
+    Result := Format(sLngMulti, [Files.Count])
+  else
+    Result := Format(sLngOne, [Files[0].Name]);
 end;
 
 
@@ -1964,7 +1961,7 @@ begin
         else
           edtDst.Text := sDestPath + '*.*';
 
-        lblMoveSrc.Caption := GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr);
+        //lblMoveSrc.Caption := GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr);
         if ShowModal=mrCancel then
         begin
           FreeAndNil(fl); // Free now, because the thread won't be run.
@@ -1993,130 +1990,80 @@ end;
 
 procedure TfrmMain.CopyFile(sDestPath:String);
 var
-  fl: TFileList;
   sDstMaskTemp: String;
   blDropReadOnlyFlag : Boolean;
+  SourceFiles: TFiles = nil;
+  Operation: TFileSystemCopyOutOperation;
+  OperationHandle: TOperationHandle;
+  ProgressDialog: TfrmFileOp;
 begin
-{
-  if (ActiveFrame.pnlFile.PanelMode in [pmVFS, pmArchive]) then
+  if not ((fsoCopyOut in ActiveFrame.FileSource.GetOperationsTypes) and
+          (fsoCopyIn in NotActiveFrame.FileSource.GetOperationsTypes)) then
   begin
-    if (NotActiveFrame.pnlFile.PanelMode in [pmVFS, pmArchive]) then
-    begin
-      // At least one panel must be real file system.
-      msgWarning(rsMsgErrNotSupported);
-      Exit;
-    end;
-
-    if not (VFS_CAPS_COPYOUT in ActiveFrame.pnlFile.VFS.VFSmodule.VFSCaps) then
-    begin
-      msgWarning(rsMsgErrNotSupported);
-      Exit;
-    end;
+    msgWarning(rsMsgErrNotSupported);
+    Exit;
   end;
 
-  if (NotActiveFrame.pnlFile.PanelMode in [pmVFS, pmArchive]) then
-  begin
-    if not (VFS_CAPS_COPYIN in NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCaps) then
-    begin
-      msgWarning(rsMsgErrNotSupported);
-      Exit;
-    end;
-  end;
+  // For now only FileSystem.
+  if not (ActiveFrame.FileSource is TFileSystemFileSource) then Exit;
 
-  // Exit if no valid files selected.
-  if ActiveFrame.SelectFileIfNoSelected(ActiveFrame.GetActiveItem) = False then Exit;
-
-  fl:=TFileList.Create; // free at Thread end by thread
+  SourceFiles := ActiveFrame.SelectedFiles; // free at Thread end by thread
   try
-    fl.CurrentDirectory := ActiveFrame.CurrentPath;
-    CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.CurrentPath);
+    if SourceFiles.Count = 0 then
+    begin
+      FreeAndNil(SourceFiles);
+      Exit;
+    end;
 
-    (* Copy files between archive and real file system *)
-  
-    (* Check active panel *)
-    if ActiveFrame.pnlFile.PanelMode = pmArchive then
-      begin
-        if not IsBlocked then
-          begin
-            DebugLn('+++ Extract files from archive +++');
-            ShowExtractDlg(ActiveFrame, fl, sDestPath);
-            NotActiveFrame.RefreshPanel;
-          end
-          else
-            FreeAndNil(fl);
-        Exit;
-      end;
-
-    (* Check not active panel *)
-    if  NotActiveFrame.pnlFile.PanelMode = pmArchive then
-      begin
-        if not IsBlocked then
-          begin
-            DebugLn('+++ Pack files to archive +++');
-            ShowPackDlg(NotActiveFrame.pnlFile.VFS, fl, sDestPath, False);
-          end
-          else
-            FreeAndNil(fl);
-        Exit;
-      end;
-                                                        
     with TfrmCopyDlg.Create(Application) do
     begin
       try
-        if (fl.Count = 1) and
-           (not (FPS_ISDIR(fl.GetItem(0)^.iMode) or fl.GetItem(0)^.bLinkIsDir))
+        if (SourceFiles.Count = 1) and
+           (not (SourceFiles[0].IsDirectory or SourceFiles[0].IsLinkToDirectory))
         then
-          edtDst.Text := sDestPath + ExtractFileName(fl.GetItem(0)^.sName)
+          edtDst.Text := sDestPath + ExtractFileName(SourceFiles[0].Name)
         else
           edtDst.Text := sDestPath + '*.*';
 
-        lblCopySrc.Caption := GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr);
+        lblCopySrc.Caption := GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr, SourceFiles);
         cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
-        cbDropReadOnlyFlag.Visible := (NotActiveFrame.pnlFile.PanelMode = pmDirectory);
-        if ShowModal=mrCancel then
+        //cbDropReadOnlyFlag.Visible := (NotActiveFrame.pnlFile.PanelMode = pmDirectory);
+        if ShowModal = mrCancel then
         begin
-          FreeAndNil(fl); // Free now, because the thread won't be run.
+          FreeAndNil(SourceFiles); // Free now, because the thread won't be run.
           Exit ; // throught finally
         end;
 
-        GetDestinationPathAndMask(edtDst.Text, ActiveFrame.CurrentPath, sDestPath, sDstMaskTemp);
+        GetDestinationPathAndMask(edtDst.Text, SourceFiles.Path, sDestPath, sDstMaskTemp);
 
         blDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
 
       finally
-        with ActiveFrame do
-          UnSelectFileIfSelected(GetActiveItem);
-
         Free;
       end;
     end; //with
 
-    (* Copy files between VFS and real file system *)
-  
-    (* Check not active panel *)
-    if NotActiveFrame.pnlFile.PanelMode = pmVFS then
-      begin
-        DebugLn('+++ Copy files to VFS +++');
-        NotActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyInEx(fl, sDestPath, 0);
-        Exit;
-      end;
+    //ActiveFrame.FileSource.GetOperation(fsoCopyOut)
+    Operation := TFileSystemCopyOutOperation.Create(
+                     ActiveFrame.FileSource as TFileSystemFileSource,
+                     NotActiveFrame.FileSource as TFileSystemFileSource,
+                     SourceFiles,
+                     sDestPath,
+                     sDstMaskTemp);
 
-    (* Check active panel *)
-    if ActiveFrame.pnlFile.PanelMode = pmVFS then
-      begin
-        DebugLn('+++ Copy files from VFS +++');
-        ActiveFrame.pnlFile.VFS.VFSmodule.VFSCopyOutEx(fl, sDestPath, 0);
-        Exit;
-      end;
+    if Assigned(Operation) then
+    begin
+      // Start operation.
+      OperationHandle := OperationsManager.AddOperation(Operation, ossAutoQueue);
 
-    (* Copy files between real file system *)
-
-    RunCopyThread(fl, sDestPath, sDstMaskTemp, blDropReadOnlyFlag);
+      ProgressDialog := TfrmFileOp.Create(OperationHandle);
+      ProgressDialog.Show;
+    end;
 
   except
-    FreeAndNil(fl);
+    FreeAndNil(SourceFiles);
   end;
-}
+
 end;
 
 procedure TfrmMain.GetDestinationPathAndMask(EnteredPath: String; BaseDir: String;

@@ -123,7 +123,6 @@ object frmFileOp: TfrmFileOp
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
     BorderSpacing.Right = 6
-    Position = 20
     Smooth = True
     TabOrder = 1
     BarShowText = True

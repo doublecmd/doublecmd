@@ -229,10 +229,14 @@ function OctToDec(Value: String): LongInt;
 }
 function DecToOct(Value: LongInt): String;
 
+function EstimateRemainingTime(StartValue, CurrentValue, EndValue: Int64;
+                               StartTime: TDateTime; CurrentTime: TDateTime;
+                               out SpeedPerSecond: Int64): TDateTime;
+
 implementation
 
 uses
-   FileUtil, uOSUtils, uGlobs, uGlobsPaths;
+   FileUtil, uOSUtils, uGlobs, uGlobsPaths, dateutils;
 
 function GetCmdDirFromEnvVar(sPath: String): String;
 begin
@@ -813,6 +817,23 @@ begin
       Result:= IntToStr(iMod) + Result;
     end;
   Result:= IntToStr(Value) + Result;
+end;
+
+function EstimateRemainingTime(StartValue, CurrentValue, EndValue: Int64;
+                               StartTime: TDateTime; CurrentTime: TDateTime;
+                               out SpeedPerSecond: Int64): TDateTime;
+var
+  Speed: Double;
+begin
+  SpeedPerSecond := 0;
+  Result := 0;
+
+  if (CurrentValue > StartValue) and (CurrentTime > StartTime) then
+    begin
+      Speed := Double(CurrentValue - StartValue) / (CurrentTime - StartTime);
+      Result := Double(EndValue - CurrentValue) / Speed;
+      SpeedPerSecond := Trunc(Speed) div SecsPerDay;
+    end;
 end;
 
 end.
