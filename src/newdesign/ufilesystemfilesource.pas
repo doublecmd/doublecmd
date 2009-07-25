@@ -43,11 +43,11 @@ type
     function CreateCopyInOperation(SourceFileSource: TFileSource;
                                    SourceFiles: TFiles;
                                    TargetPath: String;
-                                   FileMask: String): TFileSourceOperation; override;
+                                   RenameMask: String): TFileSourceOperation; override;
     function CreateCopyOutOperation(TargetFileSource: TFileSource;
                                     SourceFiles: TFiles;
                                     TargetPath: String;
-                                    FileMask: String): TFileSourceOperation; override;
+                                    RenameMask: String): TFileSourceOperation; override;
 
     // ------------------------------------------------------
   end;
@@ -152,21 +152,21 @@ end;
 function TFileSystemFileSource.CreateCopyInOperation(SourceFileSource: TFileSource;
                                                      SourceFiles: TFiles;
                                                      TargetPath: String;
-                                                     FileMask: String): TFileSourceOperation;
+                                                     RenameMask: String): TFileSourceOperation;
 begin
   Result := TFileSystemCopyInOperation.Create(
                 SourceFileSource, Self,
-                SourceFiles, TargetPath, FileMask);
+                SourceFiles, TargetPath, RenameMask);
 end;
 
 function TFileSystemFileSource.CreateCopyOutOperation(TargetFileSource: TFileSource;
                                                       SourceFiles: TFiles;
                                                       TargetPath: String;
-                                                      FileMask: String): TFileSourceOperation;
+                                                      RenameMask: String): TFileSourceOperation;
 begin
   Result := TFileSystemCopyOutOperation.Create(
                 Self, TargetFileSource,
-                SourceFiles, TargetPath, FileMask);
+                SourceFiles, TargetPath, RenameMask);
 end;
 
 end.

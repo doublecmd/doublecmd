@@ -65,11 +65,11 @@ type
     function CreateCopyInOperation(SourceFileSource: TFileSource;
                                    SourceFiles: TFiles;
                                    TargetPath: String;
-                                   FileMask: String): TFileSourceOperation; virtual abstract;
+                                   RenameMask: String): TFileSourceOperation; virtual abstract;
     function CreateCopyOutOperation(TargetFileSource: TFileSource;
                                     SourceFiles: TFiles;
                                     TargetPath: String;
-                                    FileMask: String): TFileSourceOperation; virtual abstract;
+                                    RenameMask: String): TFileSourceOperation; virtual abstract;
 
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property CurrentAddress: String read GetCurrentAddress;

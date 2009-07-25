@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="73">
+    <Units Count="75">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -218,6 +218,7 @@
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmHardLink"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="fHardLink"/>
       </Unit21>
       <Unit22>
@@ -240,6 +241,7 @@
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmLinker"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="fLinker"/>
       </Unit24>
       <Unit25>
@@ -517,6 +519,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFileSourceOperationMessageBoxesUI"/>
       </Unit72>
+      <Unit73>
+        <Filename Value="newdesign\ufilesystemutil.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemUtil"/>
+      </Unit73>
+      <Unit74>
+        <Filename Value="newdesign\ufilesourceoperationoptions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceOperationOptions"/>
+      </Unit74>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
