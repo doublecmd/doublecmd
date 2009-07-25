@@ -35,7 +35,7 @@ type
                        TargetFileSource: TFileSource;
                        SourceFiles: TFiles;
                        TargetPath: String;
-                       FileMask: String); reintroduce;
+                       RenameMask: String); reintroduce;
 
     procedure Execute; override;
 
@@ -52,8 +52,8 @@ type
     FFullSourceFilesTree: TFileSystemFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     FTargetPath: String;
-    FFileMask: String;
-    FNameMask, FExtMask: String;
+    FRenameMask: String;
+    FRenameNameMask, FRenameExtMask: String;
     FDescription: TDescription;
 
     // Options.
@@ -79,7 +79,7 @@ type
                        TargetFileSource: TFileSource;
                        SourceFiles: TFiles;
                        TargetPath: String;
-                       FileMask: String); reintroduce;
+                       RenameMask: String); reintroduce;
 
     destructor Destroy; override;
 
@@ -100,7 +100,7 @@ constructor TFileSystemCopyInOperation.Create(SourceFileSource: TFileSource;
                                               TargetFileSource: TFileSource;
                                               SourceFiles: TFiles;
                                               TargetPath: String;
-                                              FileMask: String);
+                                              RenameMask: String);
 begin
   inherited Create;
 
@@ -119,7 +119,7 @@ constructor TFileSystemCopyOutOperation.Create(SourceFileSource: TFileSource;
                                                TargetFileSource: TFileSource;
                                                SourceFiles: TFiles;
                                                TargetPath: String;
-                                               FileMask: String);
+                                               RenameMask: String);
 begin
   inherited Create;
 
@@ -128,7 +128,7 @@ begin
   FTargetFileSource := TargetFileSource as TFileSystemFileSource;
   FSourceFiles := SourceFiles;
   FTargetPath := TargetPath;
-  FFileMask := FileMask;
+  FRenameMask := RenameMask;
 
   // Here we can read global settings if there are any.
   FSymLinkOption := fsooslNone;
@@ -163,7 +163,7 @@ end;
 
 procedure TFileSystemCopyOutOperation.Initialize;
 begin
-  SplitFileMask(FFileMask, FNameMask, FExtMask);
+  SplitFileMask(FRenameMask, FRenameNameMask, FRenameExtMask);
 
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
@@ -200,7 +200,8 @@ begin
     TargetName := GetAbsoluteTargetFileName(aFile,
                                             FSourceFileSource.CurrentPath,
                                             FTargetPath,
-                                            FNameMask, FExtMask);
+                                            FRenameNameMask,
+                                            FRenameExtMask);
 
     with FStatistics do
     begin
