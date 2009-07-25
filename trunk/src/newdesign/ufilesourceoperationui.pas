@@ -36,7 +36,8 @@ type
                          DefaultOKResponse: TFileSourceOperationUIResponse;
                          DefaultCancelResponse: TFileSourceOperationUIResponse
                         ) : TFileSourceOperationUIResponse; virtual abstract;
-
+    // Add possibility to display files properties (for example: to compare older - newer)
+    // Add general option "remember this choice for all files of this type" (checkbox)
   end;
 
 implementation

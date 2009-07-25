@@ -66,7 +66,7 @@ begin
     Buttons[i] := ResponseToButton[PossibleResponses[i]];
 
   TextMessage := Msg;
-  if Msg <> '' then
+  if (Msg <> '') and (Question <> '') then
     TextMessage := TextMessage { + LineEnding} + ' ';
   TextMessage := TextMessage + Question;
 

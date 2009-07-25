@@ -21,6 +21,8 @@ type
     DoneFiles: Int64;
     TotalBytes: Int64;
     DoneBytes: Int64;
+    BytesPerSecond: Int64;
+    RemainingTime: TDateTime;
   end;
 
   {en
@@ -30,10 +32,13 @@ type
 
   private
     FStatistics: TFileSourceCopyOperationStatistics;
+    FStatisticsAtStartTime: TFileSourceCopyOperationStatistics;
     FStatisticsLock: TCriticalSection;             //<en For synchronizing statistics.
 
   protected
     procedure UpdateStatistics(NewStatistics: TFileSourceCopyOperationStatistics);
+    procedure UpdateStatisticsAtStartTime; override;
+    procedure EstimateSpeedAndTime(var theStatistics: TFileSourceCopyOperationStatistics);
 
   public
     constructor Create; override;
@@ -84,6 +89,9 @@ type
 
 implementation
 
+uses
+  uDCUtils;
+
 // -- TFileSourceCopyOperation ------------------------------------------------
 
 constructor TFileSourceCopyOperation.Create;
@@ -99,6 +107,8 @@ begin
     DoneBytes := 0;
     CurrentFileTotalBytes := 0;
     CurrentFileDoneBytes := 0;
+    BytesPerSecond := 0;
+    RemainingTime := 0;
   end;
 
   FStatisticsLock := TCriticalSection.Create;
@@ -123,6 +133,16 @@ begin
   end;
 end;
 
+procedure TFileSourceCopyOperation.UpdateStatisticsAtStartTime;
+begin
+  FStatisticsLock.Acquire;
+  try
+    Self.FStatisticsAtStartTime := Self.FStatistics;
+  finally
+    FStatisticsLock.Release;
+  end;
+end;
+
 function TFileSourceCopyOperation.RetrieveStatistics: TFileSourceCopyOperationStatistics;
 begin
   // Statistics have to be synchronized because there are multiple values
@@ -130,6 +150,23 @@ begin
   FStatisticsLock.Acquire;
   try
     Result := Self.FStatistics;
+  finally
+    FStatisticsLock.Release;
+  end;
+end;
+
+procedure TFileSourceCopyOperation.EstimateSpeedAndTime(
+              var theStatistics: TFileSourceCopyOperationStatistics);
+begin
+  FStatisticsLock.Acquire;
+  try
+    theStatistics.RemainingTime :=
+        EstimateRemainingTime(FStatisticsAtStartTime.DoneBytes,
+                              theStatistics.DoneBytes,
+                              theStatistics.TotalBytes,
+                              StartTime,
+                              SysUtils.Now,
+                              theStatistics.BytesPerSecond);
   finally
     FStatisticsLock.Release;
   end;

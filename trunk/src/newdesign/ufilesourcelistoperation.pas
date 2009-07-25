@@ -37,7 +37,6 @@ implementation
 
 constructor TFileSourceListOperation.Create;
 begin
-  FFiles := TFiles.Create;
   inherited Create;
 end;
 

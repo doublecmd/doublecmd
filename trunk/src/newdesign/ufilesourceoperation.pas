@@ -139,6 +139,11 @@ type
     FTryAskQuestionResult: Boolean;
 
     {en
+       Last start time (when operation started or resumed after pause).
+    }
+    FStartTime: TDateTime;
+
+    {en
        This function must be run from the GUI thread.
        It posts a function to the application message queue that will call
        all the needed event functions.
@@ -151,6 +156,7 @@ type
 
     procedure UpdateState(NewState: TFileSourceOperationState);
     function GetState: TFileSourceOperationState;
+    procedure UpdateStartTime(NewStartTime: TDateTime);
 
   protected
 
@@ -176,7 +182,7 @@ type
     function GetID: TFileSourceOperationType; virtual abstract;
 
     procedure Initialize; virtual abstract;
-    function  ExecuteStep: TFileSourceOperationExecuteStepResult; virtual abstract;
+    function MainExecute: TFileSourceOperationExecuteStepResult; virtual abstract;
     procedure Finalize; virtual abstract;
 
     {en
@@ -191,18 +197,37 @@ type
        It is run from the operation thread and is thread-safe.
        The function stops executing the operation until the question can be
        asked and the response from the user is received. While the operation
-       is waiting for a response it may be aborted by the user. Because of that
-       the result of this function _must_ be checked and if it is fsoesrAborted
-       the operation should exit.
+       is waiting for a response it may be aborted by the user in which case
+       the function will throw EFileSourceOperationAborting exception.
        The most recently (last) assigned user interface is used to ask the question.
     }
     function AskQuestion(
                Msg: String; Question: String;
                PossibleResponses: array of TFileSourceOperationUIResponse;
                DefaultOKResponse: TFileSourceOperationUIResponse;
-               DefaultCancelResponse: TFileSourceOperationUIResponse;
-               out UIResponse: TFileSourceOperationUIResponse
-             ) : TFileSourceOperationExecuteStepResult;
+               DefaultCancelResponse: TFileSourceOperationUIResponse
+             ) : TFileSourceOperationUIResponse;
+
+    {en
+       Remember statistics at start time (used for estimating remaining time).
+    }
+    procedure UpdateStatisticsAtStartTime; virtual abstract;
+
+    {en
+       This function does some checks on the current and desired state of the
+       operation:
+       If the desired state is fsosPaused it pauses the thread.
+       If the desired state is fsosStopped it throws EFileSourceOperationAborting
+       exception.
+
+       The function should be run from the operation thread
+       from the most repeated points.
+    }
+    procedure CheckOperationState;
+
+    procedure RaiseAbortOperation;
+
+    property Thread: TThread read FThread;
 
   public
     constructor Create; virtual;
@@ -211,8 +236,6 @@ type
     {en
        Executes operation.
     }
-    procedure fExecute; virtual abstract;
-
     procedure Execute; virtual;
 
     {
@@ -244,7 +267,7 @@ type
     {en
        Sets the thread assigned to this operation.
     }
-    procedure AssignThread(Thread: TThread);
+    procedure AssignThread(AThread: TThread);
 
     {en
        Adds a function to call on specific events.
@@ -265,26 +288,12 @@ type
     property Progress: Integer read FProgress;
     property ID: TFileSourceOperationType read GetID;
     property State: TFileSourceOperationState read GetState;
+    property StartTime: TDateTime read FStartTime;
   end;
 
-  {en
-     Interface used by each operation to communicate
-     with the main application and the user.
-     The operations are able to use different interfaces for communicating
-     (message boxes, logging in edit controls or file with no questions,
-      through console, ...).
-     When operation has no communication interface it runs silent by
-     any options it has set (for example: overwrite all or skip all).
-  }
-  IFileSourceOperationUI = interface [guidIFileSourceOperationUI]
-
-    // While copying file exists. Ask what to do:
-    //function FileExists: what to do;
-
-    //         FileReadOnly
-    //         AskOverwrite
-    //         etc.
-
+  EFileSourceOperationAborting = class(Exception)
+  public
+    constructor Create; reintroduce;
   end;
 
 implementation
@@ -331,6 +340,8 @@ begin
   for Event := Low(FEventsListeners) to High(FEventsListeners) do
     FEventsListeners[Event] := TFPList.Create;
 
+  FStartTime := 0;
+
   inherited Create;
 end;
 
@@ -369,62 +380,41 @@ end;
 
 procedure TFileSourceOperation.Execute;
 begin
-  UpdateState(fsosNotStarted);
-  UpdateProgress(0);
-  FStopReason := fsosrFinished;
+  try
+    UpdateState(fsosNotStarted);
+    UpdateProgress(0);
+    FStopReason := fsosrAborted;
 
-  if GetDesiredState <> fsosRunning then
-    DoPause;  // wait for start command
+    if GetDesiredState <> fsosRunning then
+      DoPause;  // wait for start command
 
-  UpdateState(fsosStarting);
+    UpdateState(fsosStarting);
 
-  Initialize;
+    Initialize;
 
-  UpdateState(fsosRunning);
+    UpdateStartTime(SysUtils.Now);
+    UpdateState(fsosRunning);
 
-  // Main loop.
-  while True do
-  begin
-    case GetDesiredState of
-      fsosPaused:
-        begin
-          UpdateState(fsosPaused);
-          DoPause;
-          UpdateState(fsosRunning);
-        end;
-
-      fsosStopped:  // operation was asked to stop (via Stop function)
+    try
+      if MainExecute = fsoesrFinished then
+        FStopReason := fsosrFinished;
+    except
+      on EFileSourceOperationAborting do
         begin
           FStopReason := fsosrAborted;
-          Break;
-        end;
-
-      fsosRunning:
-        case ExecuteStep of
-          fsoesrFinished:
-            begin
-              FStopReason := fsosrFinished;
-              Break;
-            end;
-
-          fsoesrAborted:
-            begin
-              FStopReason := fsosrAborted;
-              Break;
-            end;
-          // else continue
         end;
     end;
+
+    Finalize;
+
+    UpdateState(fsosStopped);
+    UpdateProgress(100);
+
+  finally
+    // Wait until all the scheduled calls to events listeners have been processed
+    // by the main thread (otherwise the calls can be made to a freed memory location).
+    RTLeventWaitFor(FNoEventsListenersCallsScheduledEvent);
   end;
-
-  Finalize;
-
-  UpdateState(fsosStopped);
-  UpdateProgress(100);
-
-  // Wait until all the scheduled calls to events listeners have been processed
-  // by the main thread (otherwise the calls can be made to a freed memory location).
-  RTLeventWaitFor(FNoEventsListenersCallsScheduledEvent);
 end;
 
 procedure TFileSourceOperation.UpdateProgress(NewProgress: Integer);
@@ -468,6 +458,32 @@ end;
 procedure TFileSourceOperation.DoUnPause;
 begin
   RTLeventSetEvent(FPauseEvent);
+end;
+
+procedure TFileSourceOperation.CheckOperationState;
+begin
+  case GetDesiredState of
+    fsosPaused:
+      begin
+        UpdateState(fsosPaused);
+        DoPause;
+        UpdateStartTime(SysUtils.Now);
+        UpdateState(fsosRunning);
+      end;
+
+    fsosStopped:  // operation was asked to stop (via Stop function)
+      begin
+        RaiseAbortOperation;
+      end;
+
+    // else: we're left with fsosRunning
+  end;
+end;
+
+procedure TFileSourceOperation.UpdateStartTime(NewStartTime: TDateTime);
+begin
+  FStartTime := NewStartTime;
+  UpdateStatisticsAtStartTime;
 end;
 
 procedure TFileSourceOperation.Start;
@@ -531,9 +547,9 @@ begin
   FDesiredState := fsosNotStarted;
 end;
 
-procedure TFileSourceOperation.AssignThread(Thread: TThread);
+procedure TFileSourceOperation.AssignThread(AThread: TThread);
 begin
-  FThread := Thread;
+  FThread := AThread;
 end;
 
 procedure TFileSourceOperation.AddEventsListener(Events: TFileSourceOperationEvents;
@@ -607,7 +623,9 @@ begin
   begin
     // The function was called from main thread - call directly.
     Inc(FScheduledEventsListenersCalls, 1);
-    RTLeventResetEvent(FNoEventsListenersCallsScheduledEvent);
+    // Dont't have to reset FNoEventsListenersCallsScheduledEvent event here
+    // because calls are not scheduled but rather run directly by the main thread,
+    // so we never have to wait for their completion.
     CallEventsListeners(0);
   end;
 end;
@@ -702,8 +720,7 @@ function TFileSourceOperation.AskQuestion(
              Msg: String; Question: String;
              PossibleResponses: array of TFileSourceOperationUIResponse;
              DefaultOKResponse: TFileSourceOperationUIResponse;
-             DefaultCancelResponse: TFileSourceOperationUIResponse;
-             out UIResponse: TFileSourceOperationUIResponse): TFileSourceOperationExecuteStepResult;
+             DefaultCancelResponse: TFileSourceOperationUIResponse): TFileSourceOperationUIResponse;
 var
   i: Integer;
   bStateChanged: Boolean = False;
@@ -711,7 +728,7 @@ begin
   FStateLock.Acquire;
   try
     if FState in [fsosStopping, fsosStopped] then
-      Exit(fsoesrAborted)
+      RaiseAbortOperation
     else
       FState := fsosWaitingForFeedback;
   finally
@@ -747,7 +764,7 @@ begin
         if State in [fsosStopping, fsosStopped] then
         begin
           // The operation is being aborted.
-          Result := fsoesrAborted;
+          RaiseAbortOperation;
           break;
         end;
         // else we got an UI assigned - retry asking question
@@ -755,8 +772,7 @@ begin
       else
       begin
         // Received answer from the user.
-        UIResponse := FUIResponse;
-        Result := fsoesrContinue;
+        Result := FUIResponse;
         break;
       end;
     end;
@@ -768,11 +784,9 @@ begin
 
     if FTryAskQuestionResult = False then
       // There is no UI assigned - assume default OK answer.
-      UIResponse := DefaultOKResponse
+      Result := DefaultOKResponse
     else
-      UIResponse := FUIResponse;
-
-    Result := fsoesrContinue;
+      Result := FUIResponse;
   end;
 
   FStateLock.Acquire;
@@ -780,6 +794,7 @@ begin
     // Check, if the state is still the same as before asking question.
     if FState = fsosWaitingForFeedback then
     begin
+      UpdateStartTime(SysUtils.Now);
       FState := fsosRunning;
       bStateChanged := True;
     end;
@@ -817,6 +832,16 @@ begin
     end;
   end;
   // else We have no UIs assigned - cannot ask question.
+end;
+
+procedure TFileSourceOperation.RaiseAbortOperation;
+begin
+  raise EFileSourceOperationAborting.Create;
+end;
+
+constructor EFileSourceOperationAborting.Create;
+begin
+  inherited Create('aborting file source operation');
 end;
 
 end.
