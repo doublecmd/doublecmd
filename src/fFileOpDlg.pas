@@ -34,6 +34,7 @@ type
 
   TfrmFileOp = class(TForm)
     btnPauseStart: TBitBtn;
+    btnWorkInBackground: TButton;
     lblFrom: TLabel;
     lblTo: TLabel;
     lblFileNameTo: TLabel;
@@ -44,6 +45,7 @@ type
     btnCancel: TBitBtn;
     procedure btnCancelClick(Sender: TObject);
     procedure btnPauseStartClick(Sender: TObject);
+    procedure btnWorkInBackgroundClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -53,6 +55,7 @@ type
     FOperationHandle: TOperationHandle;
     FUpdateTimer: TTimer;  //<en Timer for updating statistics.
     FUserInterface: TFileSourceOperationUI;
+    FStopOperationOnClose: Boolean;
 
     procedure OnUpdateTimer(Sender: TObject);
 
@@ -77,6 +80,8 @@ type
     // Change to override later.
     constructor Create(OperationHandle: TOperationHandle); overload;
     destructor Destroy; override;
+
+    function CloseQuery: Boolean; override;
 
     procedure ToggleProgressBarStyle;
     procedure UpdateDlg;
@@ -122,9 +127,15 @@ begin
   end;
 end;
 
+procedure TfrmFileOp.btnWorkInBackgroundClick(Sender: TObject);
+begin
+  FStopOperationOnClose := False;
+  Close;
+end;
+
 procedure TfrmFileOp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-   CloseAction:= caFree;
+  CloseAction:= caFree;
 {
    frmMain.frameLeft.Reload;
    frmMain.frameRight.Reload;
@@ -186,6 +197,8 @@ begin
 
   AutoSize := True;
 
+  FStopOperationOnClose := True;
+
   Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
   if Assigned(Operation) then
   begin
@@ -209,6 +222,23 @@ begin
       Operation.RemoveUserInterface(FUserInterface);
 
     FreeAndNil(FUserInterface);
+  end;
+end;
+
+function TfrmFileOp.CloseQuery: Boolean;
+var
+  Operation: TFileSourceOperation;
+begin
+  Result := True;
+
+  if FStopOperationOnClose then
+  begin
+    Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
+    if Assigned(Operation) and (Operation.State <> fsosStopped) then
+    begin
+      Result := False;
+      Operation.Stop;
+    end
   end;
 end;
 
