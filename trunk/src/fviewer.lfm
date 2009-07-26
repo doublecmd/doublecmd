@@ -223,17 +223,14 @@ object frmViewer: TfrmViewer
       object miDiv3: TMenuItem
         Caption = '-'
       end
-      object miEncoding: TMenuItem
-        Caption = 'En&coding'
-      end
-      object miDiv4: TMenuItem
-        Caption = '-'
-      end
       object miSearch: TMenuItem
         Caption = 'Search'
         ShortCut = 114
         OnClick = miSearchClick
       end
+    end
+    object miEncoding: TMenuItem
+      Caption = 'En&coding'
     end
     object miImage: TMenuItem
       Caption = '&Image'
