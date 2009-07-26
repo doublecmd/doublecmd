@@ -25,21 +25,16 @@ type
      fsosStopping,    //<en responded to Stop command
      fsosStopped);    //<en finished due to Stop command or on its own
 
-  TFileSourceOperationStopReason =
-    (fsosrFinished,        //<en normal finish
-     fsosrAborted);        //<en aborted due to Stop command (by user)
-
-  TFileSourceOperationExecuteStepResult =
-    (fsoesrContinue,       //<en operation should normally continue
-     fsoesrAborted,        //<en operation was aborted (most probably by user after question was asked)
-     fsoesrFinished);      //<en operation has finished normally
+  TFileSourceOperationResult =
+    (fsorFinished,    //<en operation has finished successfully
+     fsorAborted);    //<en operation has been aborted by user
 
 const
   FileSourceOperationStateText: array[TFileSourceOperationState] of string =
     (rsOperNotStarted, rsOperStarting, rsOperRunning, rsOperPausing,
      rsOperPaused, rsOperWaitingForFeedback, rsOperStopping, rsOperStopped);
 
-  FileSourceOperationStopReasonText: array[TFileSourceOperationStopReason] of string =
+  FileSourceOperationResultText: array[TFileSourceOperationResult] of string =
     (rsOperFinished, rsOperAborted);
 
 type
@@ -76,7 +71,7 @@ type
     }
     FProgress: Integer;
     FDesiredState: TFileSourceOperationState;
-    FStopReason: TFileSourceOperationStopReason;
+    FOperationResult: TFileSourceOperationResult;
 
     FState: TFileSourceOperationState;
     FStateLock: TCriticalSection;
@@ -182,7 +177,7 @@ type
     function GetID: TFileSourceOperationType; virtual abstract;
 
     procedure Initialize; virtual abstract;
-    function MainExecute: TFileSourceOperationExecuteStepResult; virtual abstract;
+    procedure MainExecute; virtual abstract;
     procedure Finalize; virtual abstract;
 
     {en
@@ -289,6 +284,7 @@ type
     property ID: TFileSourceOperationType read GetID;
     property State: TFileSourceOperationState read GetState;
     property StartTime: TDateTime read FStartTime;
+    property Result: TFileSourceOperationResult read FOperationResult;
   end;
 
   EFileSourceOperationAborting = class(Exception)
@@ -318,7 +314,7 @@ var
 begin
   FState := fsosNotStarted;
   FDesiredState := fsosRunning;  // set for auto-start unless prevented by PreventStart
-  FStopReason := fsosrFinished;
+  FOperationResult := fsorFinished;
   FProgress := 0;
   FPauseEvent := RTLEventCreate;
   FStateLock := TCriticalSection.Create;
@@ -383,7 +379,7 @@ begin
   try
     UpdateState(fsosNotStarted);
     UpdateProgress(0);
-    FStopReason := fsosrAborted;
+    FOperationResult := fsorAborted;
 
     if GetDesiredState <> fsosRunning then
       DoPause;  // wait for start command
@@ -396,12 +392,12 @@ begin
     UpdateState(fsosRunning);
 
     try
-      if MainExecute = fsoesrFinished then
-        FStopReason := fsosrFinished;
+      MainExecute;
+      FOperationResult := fsorFinished;
     except
       on EFileSourceOperationAborting do
         begin
-          FStopReason := fsosrAborted;
+          FOperationResult := fsorAborted;
         end;
     end;
 

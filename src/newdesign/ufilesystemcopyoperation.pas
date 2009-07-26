@@ -84,7 +84,7 @@ type
     destructor Destroy; override;
 
     procedure Initialize; override;
-    function  MainExecute: TFileSourceOperationExecuteStepResult; override;
+    procedure MainExecute; override;
     procedure Finalize; override;
   end;
 
@@ -183,7 +183,7 @@ begin
   FDescription.Clear;
 end;
 
-function TFileSystemCopyOutOperation.MainExecute: TFileSourceOperationExecuteStepResult;
+procedure TFileSystemCopyOutOperation.MainExecute;
 var
   aFile: TFileSystemFile;
   iTotalDiskSize, iFreeDiskSize: Int64;
@@ -277,8 +277,6 @@ begin
 
     CheckOperationState;
   end;
-
-  Result := fsoesrFinished;
 end;
 
 procedure TFileSystemCopyOutOperation.Finalize;
