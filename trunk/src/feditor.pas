@@ -13,7 +13,9 @@ contributors:
 
 
 unit fEditor;
+
 {$mode objfpc}{$H+}
+
 interface
 
 uses
@@ -45,6 +47,8 @@ type
     actFileSaveAs: TAction;
     actFileNew: TAction;
     actFileExit: TAction;
+    miEncodingOut: TMenuItem;
+    miEncodingIn: TMenuItem;
     miEncoding: TMenuItem;
     miFindNext: TMenuItem;
     miDelete: TMenuItem;
@@ -143,8 +147,10 @@ type
     bSearchRegExp:Boolean;
     sSearchText, sReplaceText:String;
     sReplaceTextHistory, sSearchTextHistory:String;
-    sEncoding,
+    sEncodingIn,
+    sEncodingOut,
     sOriginalText: String;
+    procedure ChooseEncoding(mnuMenuItem: TMenuItem; sEncoding: String);
   public
     { Public declarations }
     SynEditSearch: TSynEditSearch;
@@ -154,7 +160,8 @@ type
     Function OpenFileNewTab(const sFileName:String):Integer;}
     procedure OpenFile(const sFileName:String);
     procedure UpdateStatus;
-    procedure SetEncoding(Sender:TObject);
+    procedure SetEncodingIn(Sender:TObject);
+    procedure SetEncodingOut(Sender:TObject);
     procedure SetHighLighter(Sender:TObject);
     procedure UpdateHighlighterStatus;
     procedure DoSearchReplaceText(AReplace: boolean; ABackwards: boolean);
@@ -212,16 +219,29 @@ begin
       miHighlight.Add(mi);
     end;
 // update menu encoding
-  miEncoding.Clear;
+  miEncodingIn.Clear;
+  miEncodingOut.Clear;
   EncodingsList:= TStringList.Create;
   GetSupportedEncodings(EncodingsList);
-  for I:=0 to EncodingsList.Count - 1 do
+  for I:= 0 to EncodingsList.Count - 1 do
     begin
-      mi:= TMenuItem.Create(miEncoding);
+      mi:= TMenuItem.Create(miEncodingIn);
       mi.Caption:= EncodingsList[I];
-      mi.Enabled:= True;
-      mi.OnClick:= @SetEncoding;
-      miEncoding.Add(mi);
+      mi.AutoCheck:= True;
+      mi.RadioItem:= True;
+      mi.GroupIndex:= 1;
+      mi.OnClick:= @SetEncodingIn;
+      miEncodingIn.Add(mi);
+    end;
+  for I:= 0 to EncodingsList.Count - 1 do
+    begin
+      mi:= TMenuItem.Create(miEncodingOut);
+      mi.Caption:= EncodingsList[I];
+      mi.AutoCheck:= True;
+      mi.RadioItem:= True;
+      mi.GroupIndex:= 2;
+      mi.OnClick:= @SetEncodingOut;
+      miEncodingOut.Add(mi);
     end;
   EncodingsList.Free;
 end;
@@ -248,9 +268,12 @@ begin
   end;
   // set up text encoding
   sOriginalText:= Editor.Lines.Text; // save original text
-  sEncoding:= GuessEncoding(sOriginalText); // try to guess encoding
-  if sEncoding <> EncodingUTF8 then
-    Editor.Lines.Text:= ConvertEncoding(sOriginalText, sEncoding, EncodingUTF8);
+  sEncodingIn:= GuessEncoding(sOriginalText); // try to guess encoding
+  ChooseEncoding(miEncodingIn, sEncodingIn);
+  sEncodingOut:= sEncodingIn; // by default
+  ChooseEncoding(miEncodingOut, sEncodingOut);
+  if sEncodingIn <> EncodingUTF8 then
+    Editor.Lines.Text:= ConvertEncoding(sOriginalText, sEncodingIn, EncodingUTF8);
   // set up highlighter
   h:= dmHighl.GetHighlighterByExt(ExtractFileExt(sFileName));
   SetupColorOfHighlighter(h);
@@ -507,7 +530,7 @@ begin
     try
       // restore encoding
       slStringList:= TStringListEx.Create;
-      slStringList.Text:= ConvertEncoding(Editor.Lines.Text, EncodingUTF8, sEncoding);
+      slStringList.Text:= ConvertEncoding(Editor.Lines.Text, EncodingUTF8, sEncodingOut);
       // save to file
       slStringList.SaveToFile(Caption);
     finally
@@ -529,7 +552,7 @@ begin
   try
     // restore encoding
     slStringList:= TStringListEx.Create;
-    slStringList.Text:= ConvertEncoding(Editor.Lines.Text, EncodingUTF8, sEncoding);
+    slStringList.Text:= ConvertEncoding(Editor.Lines.Text, EncodingUTF8, sEncodingOut);
     // save to file
     slStringList.SaveToFile(dmComData.SaveDialog.FileName);
   finally
@@ -554,10 +577,17 @@ begin
 //  StatusBar.Panels[2].Text:=IntToStr(Length(Editor.Lines.Text));
 end;
 
-procedure TfrmEditor.SetEncoding(Sender: TObject);
+procedure TfrmEditor.SetEncodingIn(Sender: TObject);
 begin
-  sEncoding:= (Sender as TMenuItem).Caption;
-  Editor.Lines.Text:= ConvertEncoding(sOriginalText, sEncoding, EncodingUTF8);
+  sEncodingIn:= (Sender as TMenuItem).Caption;
+  sEncodingOut:= sEncodingIn;
+  ChooseEncoding(miEncodingOut, sEncodingOut);
+  Editor.Lines.Text:= ConvertEncoding(sOriginalText, sEncodingIn, EncodingUTF8);
+end;
+
+procedure TfrmEditor.SetEncodingOut(Sender: TObject);
+begin
+  sEncodingOut:= (Sender as TMenuItem).Caption;
 end;
 
 procedure TfrmEditor.EditorStatusChange(Sender: TObject;
@@ -769,6 +799,14 @@ begin
   CloseAction:=caFree;
 end;
 
+procedure TfrmEditor.ChooseEncoding(mnuMenuItem: TMenuItem; sEncoding: String);
+var
+  I: Integer;
+begin
+  for I:= 0 to mnuMenuItem.Count - 1 do
+    if SameText(mnuMenuItem.Items[I].Caption, sEncoding) then
+      mnuMenuItem.Items[I].Checked:= True;
+end;
 
 initialization
  {$I feditor.lrs}
