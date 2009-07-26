@@ -6,11 +6,11 @@ Author   : radek.cervinka@centrum.cz
 
 This form used SynEdit and his Highlighters
 
-
 contributors:
 
-}
+Copyright (C) 2006-2009 Alexander Koblov (Alexx2000@mail.ru)
 
+}
 
 unit fEditor;
 
