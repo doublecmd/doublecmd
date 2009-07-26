@@ -1,12 +1,12 @@
 object frmFileOp: TfrmFileOp
   Left = 278
-  Height = 160
+  Height = 166
   Top = 234
   Width = 522
   ActiveControl = btnCancel
   Caption = 'Process file(s)'
   ChildSizing.TopBottomSpacing = 4
-  ClientHeight = 160
+  ClientHeight = 166
   ClientWidth = 522
   Constraints.MaxHeight = 180
   Constraints.MinWidth = 500
@@ -22,10 +22,10 @@ object frmFileOp: TfrmFileOp
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 55
+    Left = 49
     Height = 18
     Top = 8
-    Width = 455
+    Width = 461
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.Top = 8
@@ -56,7 +56,7 @@ object frmFileOp: TfrmFileOp
     Left = 10
     Height = 18
     Top = 8
-    Width = 39
+    Width = 33
     BorderSpacing.Left = 10
     BorderSpacing.Top = 8
     Caption = 'From:'
@@ -69,7 +69,7 @@ object frmFileOp: TfrmFileOp
     Left = 10
     Height = 18
     Top = 28
-    Width = 20
+    Width = 17
     BorderSpacing.Left = 10
     BorderSpacing.Top = 2
     Caption = 'To:'
@@ -81,10 +81,10 @@ object frmFileOp: TfrmFileOp
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 55
+    Left = 49
     Height = 18
     Top = 28
-    Width = 457
+    Width = 463
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 2
     BorderSpacing.Right = 10
@@ -163,5 +163,17 @@ object frmFileOp: TfrmFileOp
     OnClick = btnPauseStartClick
     Spacing = 0
     TabOrder = 3
+  end
+  object btnWorkInBackground: TButton
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = btnCancel
+    Left = 6
+    Height = 32
+    Top = 132
+    Width = 149
+    BorderSpacing.Left = 6
+    Caption = 'Work in &background'
+    OnClick = btnWorkInBackgroundClick
+    TabOrder = 4
   end
 end
