@@ -1132,6 +1132,12 @@ object frmEditor: TfrmEditor
     end
     object miEncoding: TMenuItem
       Caption = 'En&coding'
+      object miEncodingIn: TMenuItem
+        Caption = 'Open as'
+      end
+      object miEncodingOut: TMenuItem
+        Caption = 'Save as'
+      end
     end
     object miHighlight: TMenuItem
       Caption = 'Syntax highlight'
