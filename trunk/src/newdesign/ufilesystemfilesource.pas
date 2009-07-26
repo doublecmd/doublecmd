@@ -48,6 +48,7 @@ type
                                     SourceFiles: TFiles;
                                     TargetPath: String;
                                     RenameMask: String): TFileSourceOperation; override;
+    function CreateDeleteOperation(FilesToDelete: TFiles): TFileSourceOperation; override;
 
     // ------------------------------------------------------
   end;
@@ -55,7 +56,10 @@ type
 implementation
 
 uses
-  uOSUtils, uFileSystemFile, uFileSystemListOperation, uFileSystemCopyOperation;
+  uOSUtils, uFileSystemFile,
+  uFileSystemListOperation,
+  uFileSystemCopyOperation,
+  uFileSystemDeleteOperation;
 
 constructor TFileSystemFileSource.Create;
 begin
@@ -167,6 +171,11 @@ begin
   Result := TFileSystemCopyOutOperation.Create(
                 Self, TargetFileSource,
                 SourceFiles, TargetPath, RenameMask);
+end;
+
+function TFileSystemFileSource.CreateDeleteOperation(FilesToDelete: TFiles): TFileSourceOperation;
+begin
+  Result := TFileSystemDeleteOperation.Create(Self, FilesToDelete);
 end;
 
 end.

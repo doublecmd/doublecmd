@@ -20,8 +20,9 @@ type
      fsourRewriteAll,
      fsourSkip,
      fsourSkipAll,
-     fsourAll);
-     //fsourAbort
+     fsourAll,
+     fsourRetry,
+     fsourAbort);
 
   {en
      General interface for communication: operation <-> user.

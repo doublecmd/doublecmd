@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="75">
+    <Units Count="76">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -529,6 +529,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFileSourceOperationOptions"/>
       </Unit74>
+      <Unit75>
+        <Filename Value="newdesign\ufilesystemdeleteoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemDeleteOperation"/>
+      </Unit75>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

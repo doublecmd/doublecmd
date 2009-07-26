@@ -21,9 +21,7 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, Buttons, ExtCtrls,
-  uOperationsManager, uFileSourceOperation, uFileSourceOperationUI,
-  uFileSourceCopyOperation;
-
+  uOperationsManager, uFileSourceOperation, uFileSourceOperationUI;
 
 type
 
@@ -65,7 +63,9 @@ type
     procedure UpdatePauseStartButton(OperationState: TFileSourceOperationState);
 
     procedure InitializeCopyOperation(Operation: TFileSourceOperation);
+    procedure InitializeDeleteOperation(Operation: TFileSourceOperation);
     procedure UpdateCopyOperation(Operation: TFileSourceOperation);
+    procedure UpdateDeleteOperation(Operation: TFileSourceOperation);
 
   public
     iProgress1Max: Integer;
@@ -92,6 +92,8 @@ implementation
 uses
    fMain, dmCommonData, uFileOpThread, LCLProc, uLng, uDCUtils,
    uFileSourceOperationTypes,
+   uFileSourceCopyOperation,
+   uFileSourceDeleteOperation,
    uFileSourceOperationMessageBoxesUI;
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
@@ -160,6 +162,8 @@ begin
 
       fsoCopyIn, fsoCopyOut:
         InitializeCopyOperation(Operation);
+      fsoDelete:
+        InitializeDeleteOperation(Operation);
 
       else
         begin
@@ -253,7 +257,9 @@ begin
     case Operation.ID of
 
       fsoCopyOut:
-          UpdateCopyOperation(Operation);
+        UpdateCopyOperation(Operation);
+      fsoDelete:
+        UpdateDeleteOperation(Operation);
 
       else
       begin
@@ -262,6 +268,8 @@ begin
         pbFirst.Position := Operation.Progress;
       end;
     end;
+
+    UpdatePauseStartButton(Operation.State);
 
     NewCaption := IntToStr(Operation.Progress) + '% ' + Hint;
     if Operation.State <> fsosRunning then
@@ -337,6 +345,13 @@ begin
   InitializeControls([fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
 end;
 
+procedure TfrmFileOp.InitializeDeleteOperation(Operation: TFileSourceOperation);
+begin
+  Caption := rsDlgDel;
+  InitializeControls([fodl_from_lbl, fodl_first_pb]);
+  lblFrom.Caption := rsDlgDeleting;
+end;
+
 procedure TfrmFileOp.UpdateCopyOperation(Operation: TFileSourceOperation);
 var
   CopyOperation: TFileSourceCopyOperation;
@@ -375,8 +390,40 @@ begin
   end;
 
   lblEstimated.Caption := sEstimated;
+end;
 
-  UpdatePauseStartButton(Operation.State);
+procedure TfrmFileOp.UpdateDeleteOperation(Operation: TFileSourceOperation);
+var
+  DeleteOperation: TFileSourceDeleteOperation;
+  DeleteStatistics: TFileSourceDeleteOperationStatistics;
+begin
+  DeleteOperation := Operation as TFileSourceDeleteOperation;
+  DeleteStatistics := DeleteOperation.RetrieveStatistics;
+
+  with DeleteStatistics do
+  begin
+    lblFileNameFrom.Caption := CurrentFile;
+
+    if TotalFiles <> 0 then
+      pbFirst.Position := (DoneFiles * 100) div TotalFiles
+    else
+      pbFirst.Position := 0;
+
+    if Operation.State in [fsosNotStarted, fsosPaused, fsosWaitingForFeedback, fsosStopped] then
+      sEstimated := ''
+    else
+    begin
+      if FilesPerSecond = 0 then
+        sEstimated := 'Estimating time...'
+      else
+      begin
+        sEstimated := FormatDateTime('HH:MM:SS', RemainingTime);
+        sEstimated := Format(rsDlgSpeedTime, [IntToStr(FilesPerSecond), sEstimated]);
+      end;
+    end;
+  end;
+
+  lblEstimated.Caption := sEstimated;
 end;
 
 procedure TfrmFileOp.ToggleProgressBarStyle;

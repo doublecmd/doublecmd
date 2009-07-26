@@ -241,7 +241,8 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
      uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit,
      HelpIntfs, dmHelpManager, uShellExecute, uClipboard, uCheckSumThread, fCheckSumCalc,
      uFileSorting, uFilePanelSelect, uFile, uFileSystemFileSource,
-     uFileSystemCopyOperation, uOperationsManager;
+     uFileSystemCopyOperation, uOperationsManager, uFileSourceOperationTypes,
+     uFileSourceOperation, uFileSystemDeleteOperation;
 
 { TActs }
 
@@ -1369,90 +1370,76 @@ end;
 
 procedure TActs.cm_Delete(param:string);
 var
-  fl:TFileList;
-  DT : TDeleteThread;
+  theFilesToDelete: TFiles;
   // 12.05.2009 - if delete to trash, then show another messages
   MsgDelSel, MsgDelFlDr : string;
+  Operation: TFileSourceOperation;
+  OperationHandle: TOperationHandle;
+  ProgressDialog: TfrmFileOp;
 begin
-{
-  File source operation.
-
-with frmMain do
-begin
-  with ActiveFrame do
+  with frmMain.ActiveFrame do
   begin
-    if  pnlFile.PanelMode in [pmArchive, pmVFS] then // if in VFS
-      begin
-        if not (VFS_CAPS_DELETE in pnlFile.VFS.VFSModule.VFSCaps) then
-          begin
-            msgWarning(rsMsgErrNotSupported);
-            Exit;
-          end;
-      end; // in VFS
-
-    if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
-  end;
-  // 12.05.2009
-  // Showing delete dialog: to trash or to /dev/null :)
-  If (param = 'recycle') then
-   begin
-    MsgDelSel := rsMsgDelSelT;
-    MsgDelFlDr := rsMsgDelFlDrT;
-   end
-  else
-   begin
-    MsgDelSel := rsMsgDelSel;
-    MsgDelFlDr := rsMsgDelFlDr;
-   end;
-  // ------------------------------------------------------
-  case msgYesNoCancel(GetFileDlgStr(MsgDelSel,MsgDelFlDr)) of
-    mmrNo:
-      begin
-        ActiveFrame.UnMarkAll;
-        Exit;
-      end;
-    mmrCancel, mmrNone:
-      begin
-        with ActiveFrame do
-          UnSelectFileIfSelected(GetActiveItem);
-        Exit;
-      end;
-  end;
-
-  fl:= TFileList.Create; // free at Thread end by thread
-  fl.CurrentDirectory := ActiveFrame.CurrentPath;
-  try
-    CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.CurrentPath);
-
-    (* Delete files from VFS *)
-    if  ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then // if in VFS
-      begin
-        DebugLN('+++ Delete files +++');
-        ActiveFrame.pnlFile.VFS.VFSmodule.VFSDelete(fl);
-        ActiveFrame.RefreshPanel;
-        Exit;
-      end;
-
-    (* Delete files *)
-    try
-      DT := TDeleteThread.Create(fl);
-      // 30.04.2009 - передаем параметр корзины в поток.
-      If (param = 'recycle') then
-       DT.Recycle := true
-      else
-       If (param = '') then DT.Recycle := false;
-      DT.sDstPath:= NotActiveFrame.CurrentPath;
-      //DT.sDstMask:=sDstMaskTemp;
-      DT.Resume;
-    except
-      DT.Free;
+    if not (fsoDelete in FileSource.GetOperationsTypes) then
+    begin
+      msgWarning(rsMsgErrNotSupported);
+      Exit;
     end;
 
-  except
-    FreeAndNil(fl);
+    // 12.05.2009
+    // Showing delete dialog: to trash or to /dev/null :)
+    If (param = 'recycle') then
+     begin
+      MsgDelSel := rsMsgDelSelT;
+      MsgDelFlDr := rsMsgDelFlDrT;
+     end
+    else
+     begin
+      MsgDelSel := rsMsgDelSel;
+      MsgDelFlDr := rsMsgDelFlDr;
+     end;
+
+    // ------------------------------------------------------
+
+    theFilesToDelete := SelectedFiles; // free at Thread end by thread
+
+    if Assigned(theFilesToDelete) then
+    try
+      if theFilesToDelete.Count = 0 then
+        Exit;
+
+      if not msgYesNo(frmMain.GetFileDlgStr(MsgDelSel, MsgDelFlDr, theFilesToDelete)) then
+        Exit;
+
+      Operation := FileSource.CreateDeleteOperation(theFilesToDelete);
+      theFilesToDelete := nil; // revoke ownership of memory
+
+      if Assigned(Operation) then
+      begin
+        // Special case for filesystem - 'recycle' parameter.
+        if Operation is TFileSystemDeleteOperation then
+          with Operation as TFileSystemDeleteOperation do
+          begin
+            // 30.04.2009 - передаем параметр корзины в поток.
+            if param = 'recycle' then
+              Recycle := True
+          end;
+
+        // Start operation.
+        OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+
+        ProgressDialog := TfrmFileOp.Create(OperationHandle);
+        ProgressDialog.Show;
+      end
+      else
+      begin
+        msgWarning(rsMsgNotImplemented);
+      end;
+
+    finally
+      if Assigned(theFilesToDelete) then
+        FreeAndNil(theFilesToDelete);
+    end;
   end;
-end;
-}
 end;
 
 procedure TActs.cm_CheckSumCalc(param:string);

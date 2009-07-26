@@ -18,6 +18,9 @@ type
   TFileSourceOperationOptionDirectoryExists =
     (fsoodeNone, fsoodeSkip, fsoodeDelete, fsoodeCopyInto);
 
+  TFileSourceOperationOptionGeneral =
+    (fsoogNone, fsoogYes, fsoogNo);
+
 implementation
 
 end.
