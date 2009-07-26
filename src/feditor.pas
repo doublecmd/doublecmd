@@ -803,8 +803,9 @@ procedure TfrmEditor.ChooseEncoding(mnuMenuItem: TMenuItem; sEncoding: String);
 var
   I: Integer;
 begin
+  sEncoding:= NormalizeEncoding(sEncoding);
   for I:= 0 to mnuMenuItem.Count - 1 do
-    if SameText(mnuMenuItem.Items[I].Caption, sEncoding) then
+    if SameText(NormalizeEncoding(mnuMenuItem.Items[I].Caption), sEncoding) then
       mnuMenuItem.Items[I].Checked:= True;
 end;
 
