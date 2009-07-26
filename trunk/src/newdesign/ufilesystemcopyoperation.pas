@@ -91,7 +91,7 @@ type
 implementation
 
 uses
-  uOSUtils, uDCUtils, uFileProcs, uFileProperty, uLng,
+  uOSUtils, uDCUtils, uFileProcs, uLng,
   uFileSystemUtil, strutils, uClassesEx, FileUtil, LCLProc, uGlobs, uLog;
 
 // -- TFileSystemCopyInOperation ----------------------------------------------
@@ -188,7 +188,6 @@ var
   aFile: TFileSystemFile;
   iTotalDiskSize, iFreeDiskSize: Int64;
   bProceed: Boolean;
-  UIResponse: TFileSourceOperationUIResponse;
   TargetName: String;
   OldDoneBytes: Int64; // for if there was an error
   CurrentFileIndex: Integer;
@@ -294,10 +293,7 @@ var
   bIsSymLink: Boolean;
   iAttr: TFileAttrs;
   sMsg: String;
-  SourceFileName: String;
-  UIResponse: TFileSourceOperationUIResponse;
   bAppend: Boolean = False;
-  logMessage: String;
 begin
   // Check if copying to the same file.
   if CompareFilenames(aFile.Path + aFile.Name, AbsoluteTargetFileName) = 0 then
@@ -474,10 +470,9 @@ function TFileSystemCopyOutOperation.CopyFile(const SourceFileName, TargetFileNa
 var
   SourceFile, TargetFile: TFileStreamEx;
   iTotalDiskSize, iFreeDiskSize: Int64;
-  bRetry: Boolean;
-  BytesRead, BytesToRead: Int64;
+  bRetryRead, bRetryWrite: Boolean;
+  BytesRead, BytesToRead, BytesWrittenTry, BytesWritten: Int64;
   TotalBytesToRead: Int64 = 0;
-  logMessage: String;
 begin
   Result:= False;
   BytesToRead := FBufferSize;
@@ -505,38 +500,83 @@ begin
         if TotalBytesToRead < BytesToRead then
           BytesToRead := TotalBytesToRead;
 
-        BytesRead := SourceFile.Read(FBuffer^, BytesToRead);
-
-        if (BytesRead = 0) then
-          Raise EReadError.Create('read error');
-
-        TotalBytesToRead := TotalBytesToRead - BytesRead;
-
         repeat
           try
-            bRetry:= False;
-            TargetFile.WriteBuffer(FBuffer^, BytesRead);
-          except
-            on EWriteError do
-              begin
-                { Check disk free space }
-                GetDiskFreeSpace(FTargetPath, iFreeDiskSize, iTotalDiskSize);
-                if BytesRead > iFreeDiskSize then
+            bRetryRead := False;
+            BytesRead := SourceFile.Read(FBuffer^, BytesToRead);
+
+            if (BytesRead = 0) then
+              Raise EReadError.Create(mbSysErrorMessage(GetLastOSError));
+
+            TotalBytesToRead := TotalBytesToRead - BytesRead;
+            BytesWritten := 0;
+
+            repeat
+              try
+                bRetryWrite := False;
+                BytesWrittenTry := TargetFile.Write((FBuffer + BytesWritten)^, BytesRead);
+                BytesWritten := BytesWritten + BytesWrittenTry;
+                if BytesWrittenTry = 0 then
+                begin
+                  Raise EWriteError.Create(mbSysErrorMessage(GetLastOSError));
+                end
+                else if BytesWritten < BytesRead then
+                begin
+                  bRetryWrite := True;   // repeat and try to write the rest
+                end;
+              except
+                on E: EWriteError do
                   begin
-                    case AskQuestion(rsMsgNoFreeSpaceRetry, '',
-                                     [fsourYes, fsourNo, fsourSkip],
-                                     fsourYes, fsourNo) of
-                      fsourYes:
-                        bRetry:= True;
-                      fsourNo:
-                        RaiseAbortOperation;
-                      fsourSkip:
-                        Exit;
-                    end; // case
-                  end;
-              end; // on do
-          end; // except
-        until not bRetry;
+                    { Check disk free space }
+                    GetDiskFreeSpace(FTargetPath, iFreeDiskSize, iTotalDiskSize);
+                    if BytesRead > iFreeDiskSize then
+                      begin
+                        case AskQuestion(rsMsgNoFreeSpaceRetry, '',
+                                         [fsourYes, fsourNo, fsourSkip],
+                                         fsourYes, fsourNo) of
+                          fsourYes:
+                            bRetryWrite := True;
+                          fsourNo:
+                            RaiseAbortOperation;
+                          fsourSkip:
+                            Exit;
+                        end; // case
+                      end
+                    else
+                      begin
+                        case AskQuestion(rsMsgErrEWrite + ' ' + TargetFileName + ':',
+                                         E.Message,
+                                         [fsourRetry, fsourSkip, fsourAbort],
+                                         fsourRetry, fsourSkip) of
+                          fsourRetry:
+                            bRetryWrite := True;
+                          fsourAbort:
+                            RaiseAbortOperation;
+                          fsourSkip:
+                            Exit;
+                        end; // case
+                      end;
+
+                  end; // on do
+              end; // except
+            until not bRetryWrite;
+          except
+            on E: EReadError do
+              begin
+                case AskQuestion(rsMsgErrERead + ' ' + SourceFileName + ':',
+                                 E.Message,
+                                 [fsourRetry, fsourSkip, fsourAbort],
+                                 fsourRetry, fsourSkip) of
+                  fsourRetry:
+                    bRetryRead := True;
+                  fsourAbort:
+                    RaiseAbortOperation;
+                  fsourSkip:
+                    Exit;
+                end; // case
+              end;
+          end;
+        until not bRetryRead;
 
         with FStatistics do
         begin

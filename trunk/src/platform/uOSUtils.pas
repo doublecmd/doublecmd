@@ -240,6 +240,7 @@ function mbCompareText(const s1, s2: UTF8String): PtrInt;
 function mbGetEnvironmentString(Index : Integer) : UTF8String;
 function mbSetEnvironmentVariable(const sName, sValue: UTF8String): Boolean;
 function mbLoadLibrary(Name: UTF8String): TLibHandle;
+function mbSysErrorMessage(ErrorCode: Integer): UTF8String;
 
 {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
 // create all Hal object
@@ -1544,6 +1545,16 @@ begin
   Result:= TLibHandle(dlopen(PChar(Name), RTLD_LAZY));
 end;
 {$ENDIF}
+
+function mbSysErrorMessage(ErrorCode: Integer): UTF8String;
+begin
+  Result :=
+{$IFDEF WINDOWS}
+            UTF8Encode(SysErrorMessage(ErrorCode));
+{$ELSE}
+            SysErrorMessage(ErrorCode);
+{$ENDIF}
+end;
 
 {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
 // ************************** HAL section ***********************  //
