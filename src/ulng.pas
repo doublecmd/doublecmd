@@ -34,6 +34,7 @@ resourcestring
   rsMsgFileExistsRwrt = 'File %s exists, overwrite?';
   rsMsgFileChangedSave = 'File %s changed, save?';
   rsMsgFolderExistsRwrt = 'Folder %s exists, overwrite?';
+  rsMsgFileReadOnly = 'File %s is marked as read-only. Delete it?';
   rsMsgNewFile = 'New file';
   rsMsgDelFlDr = 'Delete %d selected files/directories?';
   rsMsgDelSel = 'Delete selected "%s"?';
@@ -52,7 +53,7 @@ resourcestring
   rsMsgPopUpHotAdd = '&Add %s';
   rsMsgPopUpHotCnf = '&Configure';
   rsMsgCloseLockedTab = 'This tab (%s) is locked! Close anyway?';
-  rsDlgButtons = '&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;';
+  rsDlgButtons = '&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;';
   rsSpaceMsg = 'Files: %d, Dirs: %d, Size: %s (%s bytes)';
   rsSelectDir = 'Select a directory';
   rsMarkPlus = 'Select mask';
@@ -122,12 +123,13 @@ resourcestring
   rsSavePosition = '&Save position';
   rsPositionSaved = 'Position saved.';
   // File operations dialog
-  rsDlgSpeedTime = 'Speed %s/s, remained time %s';
+  rsDlgSpeedTime = 'Speed %s/s, remaining time %s';
   rsDlgDel = 'Delete file(s)';
   rsDlgCp = 'Copy file(s)';
   rsDlgMv = 'Move file(s)';
   rsDlgPack = 'Packing...';
   rsDlgExtract = 'Extracting...';
+  rsDlgDeleting = 'Deleting';
   rsDlgCheckSumCalc = 'Calculate check sum...';
   rsDlgCheckSumVerify = 'Verify check sum...';
   // Viewer

@@ -92,7 +92,7 @@ implementation
 
 uses
   uOSUtils, uDCUtils, uFileProcs, uFileProperty, uLng,
-  uFilesystemUtil, strutils, uClassesEx, FileUtil, LCLProc, uGlobs, uLog;
+  uFileSystemUtil, strutils, uClassesEx, FileUtil, LCLProc, uGlobs, uLog;
 
 // -- TFileSystemCopyInOperation ----------------------------------------------
 
@@ -187,7 +187,7 @@ procedure TFileSystemCopyOutOperation.MainExecute;
 var
   aFile: TFileSystemFile;
   iTotalDiskSize, iFreeDiskSize: Int64;
-  bProceed, ProcessedOk: Boolean;
+  bProceed: Boolean;
   UIResponse: TFileSourceOperationUIResponse;
   TargetName: String;
   OldDoneBytes: Int64; // for if there was an error
@@ -255,24 +255,25 @@ begin
 
     if bProceed then
     begin
-      ProcessedOk := ProcessFile(FSourceFileSource, aFile, FTargetPath, TargetName);
+      bProceed := ProcessFile(FSourceFileSource, aFile, FTargetPath, TargetName);
     end;
 
-    if (not bProceed) or (not ProcessedOk) then
+    with FStatistics do
     begin
-      // Correct statistics as we don't know what state they are in after an error.
-      with FStatistics do
+      DoneFiles := DoneFiles + 1;
+
+      // Correct statistics if file not correctly processed.
+      if not bProceed then
       begin
-        DoneFiles := DoneFiles + 1;
         DoneBytes := OldDoneBytes + aFile.Size;
-
-        EstimateSpeedAndTime(FStatistics);
-        UpdateStatistics(FStatistics);
-
-        // Update overall progress.
-        if TotalBytes <> 0 then
-          UpdateProgress((DoneBytes * 100) div TotalBytes);
       end;
+
+      EstimateSpeedAndTime(FStatistics);
+      UpdateStatistics(FStatistics);
+
+      // Update overall progress.
+      if TotalBytes <> 0 then
+        UpdateProgress((DoneBytes * 100) div TotalBytes);
     end;
 
     CheckOperationState;
@@ -453,11 +454,8 @@ begin
           // write log success
           if (log_cp_mv_ln in gLogOptions) and (log_success in gLogOptions) then
           begin
-            logMessage := Format(rsMsgLogSuccess+rsMsgLogCopy, [aFile.Path + aFile.Name+' -> '+AbsoluteTargetFileName]);
-            if Assigned(Thread) then
-              logWrite(Thread, logMessage, lmtSuccess)
-            else
-              logWrite(logMessage, lmtSuccess);
+            logWrite(Thread, Format(rsMsgLogSuccess+rsMsgLogCopy,
+                     [aFile.Path + aFile.Name+' -> '+AbsoluteTargetFileName]), lmtSuccess);
           end;
         end
       else
@@ -465,11 +463,8 @@ begin
           // write log error
           if (log_cp_mv_ln in gLogOptions) and (log_errors in gLogOptions) then
           begin
-            logMessage := Format(rsMsgLogError+rsMsgLogCopy, [aFile.Path + aFile.Name+' -> '+AbsoluteTargetFileName]);
-            if Assigned(Thread) then
-              logWrite(Thread, logMessage, lmtError)
-            else
-              logWrite(logMessage, lmtError);
+            logWrite(Thread, Format(rsMsgLogError+rsMsgLogCopy,
+                     [aFile.Path + aFile.Name+' -> '+AbsoluteTargetFileName]), lmtError);
           end;
         end;
     end; // files and other stuff
@@ -593,11 +588,7 @@ function TFileSystemCopyOutOperation.ShowError(sMessage: String): TFileSourceOpe
 begin
   if gSkipFileOpError then
   begin
-    if Assigned(Thread) then
-      logWrite(Thread, sMessage, lmtError, True)
-    else
-      logWrite(sMessage, lmtError, True);
-
+    logWrite(Thread, sMessage, lmtError, True);
     Result := fsourSkip;
   end
   else

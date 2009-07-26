@@ -70,6 +70,7 @@ type
                                     SourceFiles: TFiles;
                                     TargetPath: String;
                                     RenameMask: String): TFileSourceOperation; virtual abstract;
+    function CreateDeleteOperation(FilesToDelete: TFiles): TFileSourceOperation; virtual abstract;
 
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property CurrentAddress: String read GetCurrentAddress;

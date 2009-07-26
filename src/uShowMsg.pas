@@ -21,10 +21,12 @@ uses
 
 type
   TMyMsgResult=(mmrOK, mmrNo, mmrYes, mmrCancel, mmrNone,
-                mmrAppend, mmrRewrite, mmrRewriteAll, mmrSkip, mmrSkipAll, mmrAll );
+                mmrAppend, mmrRewrite, mmrRewriteAll, mmrSkip, mmrSkipAll,
+                mmrAll, mmrRetry, mrAbort);
 
-  TMyMsgButton=(msmbOK, msmbNO, msmbYes, msmbCancel, msmbNone,
-                msmbAppend, msmbRewrite, msmbRewriteAll, msmbSkip, msmbSkipAll, msmbAll);
+  TMyMsgButton=(msmbOK, msmbNo, msmbYes, msmbCancel, msmbNone,
+                msmbAppend, msmbRewrite, msmbRewriteAll, msmbSkip, msmbSkipAll,
+                msmbAll, msmbRetry, msmbAbort);
 
 
   { TDlgOpThread }
