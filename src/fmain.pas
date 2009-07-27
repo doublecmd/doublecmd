@@ -45,7 +45,8 @@ uses
   Buttons, SysUtils, Classes, Grids, KASToolBar, SynEdit, KASBarMenu, KASBarFiles,
   uColumns, uFileList, LCLType, uCmdBox, uFileSystemWatcher,
   uFileView, uColumnsFileView, uFilePanelSelect,
-  uFileSource, uFileViewNotebook, uFile
+  uFileSource, uFileViewNotebook, uFile, uFileSourceOperation,
+  uOperationsManager
   {$IF NOT DEFINED(DARWIN)}
   , uTerminal
   {$ENDIF}
@@ -442,6 +443,8 @@ type
     }
     function GetWindowState: TWindowState;
 
+    procedure OperationFinishedEvent(Operation: TFileSourceOperation; Event: TOperationManagerEvent);
+
   public
     procedure HandleActionHotKeys(var Key: Word; Shift: TShiftState);
 
@@ -520,10 +523,9 @@ uses
   fSymLink, fHardLink, uDCUtils, uLog, fMultiRename, uGlobsPaths, fMsg, fPackDlg,
   fExtractDlg, fLinker, fSplitter, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls, uFileSorting,
-  uFileSystemFileSource, uOperationsManager, fViewOperations,
+  uFileSystemFileSource, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSystemCopyOperation,
-  fFileOpDlg, uFileSourceOperation
-
+  fFileOpDlg
   {$IFDEF LCLQT}
     , qtwidgets, qtobjects
   {$ENDIF}
@@ -624,6 +626,8 @@ begin
 
   UpdateWindowView;
   //DebugLn('frmMain.FormCreate Done');
+
+  OperationsManager.AddEventsListener([omevOperationFinished], @OperationFinishedEvent);
 end;
 
 procedure TfrmMain.btnLeftClick(Sender: TObject);
@@ -740,6 +744,8 @@ var
   slCommandHistory: TStringListEx;
 begin
   DebugLn('frmMain.Destroy');
+
+  OperationsManager.RemoveEventsListener([omevOperationFinished], @OperationFinishedEvent);
 
   //ColSet.Free;
 
@@ -3334,6 +3340,34 @@ begin
 
   edtCommand.Left := lblCommandPath.Width + 5;
   edtCommand.Width := TControl(edtCommand.Parent).Width - edtCommand.Left;
+end;
+
+procedure TfrmMain.OperationFinishedEvent(Operation: TFileSourceOperation; Event: TOperationManagerEvent);
+
+  procedure UpdateTabs(Notebook: TFileViewNotebook);
+  var
+    i: Integer;
+    aFileView: TFileView;
+    aChangedFileSource: TObject;
+  begin
+    // Reload all views which file source type and address match.
+    for i := 0 to Notebook.PageCount - 1 do
+    begin
+      aFileView := Notebook.View[i];
+      aChangedFileSource := Operation.ChangedFileSource;
+      if Assigned(aChangedFileSource) and
+         // Same type of file source and same address point to the same file source.
+         (aFileView.FileSource.ClassType = aChangedFileSource.ClassType) and
+         (aFileView.FileSource.CurrentAddress = (aChangedFileSource as TFileSource).CurrentAddress) then
+      begin
+        aFileView.Reload;
+      end;
+    end;
+  end;
+
+begin
+  UpdateTabs(LeftTabs);
+  UpdateTabs(RightTabs);
 end;
 
 initialization

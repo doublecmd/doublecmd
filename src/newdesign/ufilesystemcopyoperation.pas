@@ -65,8 +65,7 @@ type
     FDirExistsOption: TFileSourceOperationOptionDirectoryExists;
 
   protected
-    function ProcessFile(FileSource: TFileSystemFileSource;
-                         aFile: TFileSystemFile; TargetPath: String;
+    function ProcessFile(aFile: TFileSystemFile; TargetPath: String;
                          AbsoluteTargetFileName: String): Boolean;
 
     // ProcessFileNoQuestions (when we're sure the targets don't exist)
@@ -102,7 +101,7 @@ constructor TFileSystemCopyInOperation.Create(SourceFileSource: TFileSource;
                                               TargetPath: String;
                                               RenameMask: String);
 begin
-  inherited Create;
+  inherited Create(TargetFileSource, TargetFileSource);
 
   FSourceFileSource := SourceFileSource as TFileSystemFileSource;
   FTargetFileSource := TargetFileSource as TFileSystemFileSource;
@@ -121,7 +120,7 @@ constructor TFileSystemCopyOutOperation.Create(SourceFileSource: TFileSource;
                                                TargetPath: String;
                                                RenameMask: String);
 begin
-  inherited Create;
+  inherited Create(SourceFileSource, TargetFileSource);
 
   FBuffer := nil;
   FSourceFileSource := SourceFileSource as TFileSystemFileSource;
@@ -254,7 +253,7 @@ begin
 
     if bProceed then
     begin
-      bProceed := ProcessFile(FSourceFileSource, aFile, FTargetPath, TargetName);
+      bProceed := ProcessFile(aFile, FTargetPath, TargetName);
     end;
 
     with FStatistics do
@@ -284,7 +283,6 @@ begin
 end;
 
 function TFileSystemCopyOutOperation.ProcessFile(
-             FileSource: TFileSystemFileSource;
              aFile: TFileSystemFile; TargetPath: String;
              AbsoluteTargetFileName: String): Boolean;
 var

@@ -16,7 +16,7 @@ type
   private
     FFileSource: TFileSystemFileSource;
   public
-    constructor Create(FileSource: TFileSystemFileSource); reintroduce;
+    constructor Create(aFileSource: TFileSystemFileSource); reintroduce;
     procedure Execute; override;
   end;
 
@@ -25,11 +25,11 @@ implementation
 uses
   LCLProc, uFileSystemFile, uFindEx, uDCUtils;
 
-constructor TFileSystemListOperation.Create(FileSource: TFileSystemFileSource);
+constructor TFileSystemListOperation.Create(aFileSource: TFileSystemFileSource);
 begin
-  FFileSource := FileSource;
+  FFileSource := aFileSource;
   FFiles := TFileSystemFiles.Create;
-  inherited Create;
+  inherited Create(aFileSource);
 end;
 
 procedure TFileSystemListOperation.Execute;

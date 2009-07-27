@@ -74,7 +74,7 @@ begin
   else
     FDescription := nil;
 
-  inherited Create;
+  inherited Create(TargetFileSource);
 end;
 
 destructor TFileSystemDeleteOperation.Destroy;
