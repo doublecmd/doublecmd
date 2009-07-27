@@ -8,7 +8,8 @@ uses
   Classes, SysUtils,
   uFileSourceOperation,
   uFileSourceOperationTypes,
-  uFile;
+  uFile,
+  uFileSource;
 
 type
 
@@ -22,7 +23,7 @@ type
     function GetID: TFileSourceOperationType; override;
 
   public
-    constructor Create; override;
+    constructor Create(aFileSource: TFileSource); reintroduce;
     destructor Destroy; override;
 
     // Retrieves files and revokes ownership of TFiles list.
@@ -35,9 +36,9 @@ type
 
 implementation
 
-constructor TFileSourceListOperation.Create;
+constructor TFileSourceListOperation.Create(aFileSource: TFileSource);
 begin
-  inherited Create;
+  inherited Create(aFileSource, nil);
 end;
 
 destructor TFileSourceListOperation.Destroy;

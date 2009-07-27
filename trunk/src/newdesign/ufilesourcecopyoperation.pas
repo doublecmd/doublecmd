@@ -7,7 +7,8 @@ interface
 uses
   Classes, SysUtils, syncobjs,
   uFileSourceOperation,
-  uFileSourceOperationTypes;
+  uFileSourceOperationTypes,
+  uFileSource;
 
 type
 
@@ -41,7 +42,7 @@ type
     procedure EstimateSpeedAndTime(var theStatistics: TFileSourceCopyOperationStatistics);
 
   public
-    constructor Create; override;
+    constructor Create(aFileSource: TFileSource; aChangedFileSource: TFileSource); reintroduce;
     destructor Destroy; override;
 
     function RetrieveStatistics: TFileSourceCopyOperationStatistics;
@@ -94,7 +95,7 @@ uses
 
 // -- TFileSourceCopyOperation ------------------------------------------------
 
-constructor TFileSourceCopyOperation.Create;
+constructor TFileSourceCopyOperation.Create(aFileSource: TFileSource; aChangedFileSource: TFileSource);
 begin
   with FStatistics do
   begin
@@ -113,7 +114,7 @@ begin
 
   FStatisticsLock := TCriticalSection.Create;
 
-  inherited Create;
+  inherited Create(aFileSource, aChangedFileSource);
 end;
 
 destructor TFileSourceCopyOperation.Destroy;

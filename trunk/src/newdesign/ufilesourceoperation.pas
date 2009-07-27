@@ -139,6 +139,16 @@ type
     FStartTime: TDateTime;
 
     {en
+       File source on which this operation is executed.
+    }
+    FFileSource: TObject;
+    {en
+       File source that will experience changes due to this operation.
+       Can be nil.
+    }
+    FChangedFileSource: TObject;
+
+    {en
        This function must be run from the GUI thread.
        It posts a function to the application message queue that will call
        all the needed event functions.
@@ -225,7 +235,7 @@ type
     property Thread: TThread read FThread;
 
   public
-    constructor Create; virtual;
+    constructor Create(aFileSource: TObject; aChangedFileSource: TObject); virtual;
     destructor Destroy; override;
 
     {en
@@ -285,6 +295,8 @@ type
     property State: TFileSourceOperationState read GetState;
     property StartTime: TDateTime read FStartTime;
     property Result: TFileSourceOperationResult read FOperationResult;
+    property FileSource: TObject read FFileSource;
+    property ChangedFileSource: TObject read FChangedFileSource;
   end;
 
   EFileSourceOperationAborting = class(Exception)
@@ -308,7 +320,7 @@ type
     UserInterface: TFileSourceOperationUI;
   end;
 
-constructor TFileSourceOperation.Create;
+constructor TFileSourceOperation.Create(aFileSource: TObject; aChangedFileSource: TObject);
 var
   Event: TFileSourceOperationEvent;
 begin
@@ -337,6 +349,9 @@ begin
     FEventsListeners[Event] := TFPList.Create;
 
   FStartTime := 0;
+
+  FFileSource := aFileSource;
+  FChangedFileSource := aChangedFileSource;
 
   inherited Create;
 end;
