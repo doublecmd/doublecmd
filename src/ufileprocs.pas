@@ -213,6 +213,11 @@ begin
       i := CharPos(PathDelim, DirectoryName, 3); // index of the end of computer name
       i := CharPos(PathDelim, DirectoryName, i + 1); // index of the end of first remote directory
     end;
+
+  // Move past path delimiter at the beginning.
+  if (i = 1) and (DirectoryName[i] = PathDelim) then
+    i := i + 1;
+
   while i<=length(DirectoryName) do
   begin
     if DirectoryName[i]=PathDelim then
