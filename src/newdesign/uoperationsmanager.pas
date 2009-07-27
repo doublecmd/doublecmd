@@ -44,7 +44,16 @@ type
     StartingState: TOperationStartingState;
   end;
 
-  TOperationManagerEvent = procedure(Operation: TFileSourceOperation) of object;
+  TOperationManagerEvent =
+    (omevOperationAdded,
+     omevOperationRemoved,
+     omevOperationStarted,
+     omevOperationFinished);
+
+  TOperationManagerEvents = set of TOperationManagerEvent;
+
+  TOperationManagerEventNotify = procedure(Operation: TFileSourceOperation;
+                                           Event: TOperationManagerEvent) of object;
 
   {en
      Manages file source operations.
@@ -55,19 +64,7 @@ type
   private
     FOperations: TFPList;         //<en List of TOperationsManagerEntry
     FLastUsedHandle: TOperationHandle;
-
-    // Events follow.
-    // (do this with multiple listeners, so many viewers can look through active operations).
-
-    FOnOperationAdded   : TOperationManagerEvent;
-    FOnOperationRemoved : TOperationManagerEvent;
-
-    // These for are for current operation state.
-    // Or make one event: OperationStateChanged and caller will query operation for state?
-    FOnOperationStarted : TOperationManagerEvent;
-    FOnOperationFinished: TOperationManagerEvent;  // Where to put reason of stopping?
-    FOnOperationPaused  : TOperationManagerEvent;
-    FOnOperationResumed : TOperationManagerEvent;
+    FEventsListeners: array[TOperationManagerEvent] of TFPList;
 
     procedure ThreadTerminatedEvent(Sender: TObject);
 
@@ -91,11 +88,16 @@ type
 
     procedure StartOperation(Entry: POperationsManagerEntry);
 
-    procedure AddEventsListeners(Operation: TFileSourceOperation);
-    procedure RemoveEventsListeners(Operation: TFileSourceOperation);
+    procedure AddOperationListeners(Operation: TFileSourceOperation);
+    procedure RemoveOperationListeners(Operation: TFileSourceOperation);
 
     procedure OperationStateChangedEvent(Operation: TFileSourceOperation;
                                          Event: TFileSourceOperationEvent);
+
+    {en
+       Notifies all listeners that an event has occurred (or multiple events).
+    }
+    procedure NotifyEvents(Operation: TFileSourceOperation; Events: TOperationManagerEvents);
 
   public
     constructor Create;
@@ -135,13 +137,19 @@ type
     }
     function OperationExists(Operation: TFileSourceOperation): Boolean;
 
-    property OperationsCount: Integer read GetOperationsCount;
+    {en
+       Adds a function to call on specific events.
+    }
+    procedure AddEventsListener(Events: TOperationManagerEvents;
+                                FunctionToCall: TOperationManagerEventNotify);
 
-    // Events.
-    property OnOperationAdded   : TOperationManagerEvent read FOnOperationAdded write FOnOperationAdded;
-    property OnOperationRemoved : TOperationManagerEvent read FOnOperationRemoved write FOnOperationRemoved;
-    property OnOperationStarted : TOperationManagerEvent read FOnOperationStarted write FOnOperationStarted;
-    property OnOperationFinished: TOperationManagerEvent read FOnOperationFinished write FOnOperationFinished;
+    {en
+       Removes a registered function callback for events.
+    }
+    procedure RemoveEventsListener(Events: TOperationManagerEvents;
+                                   FunctionToCall: TOperationManagerEventNotify);
+
+    property OperationsCount: Integer read GetOperationsCount;
   end;
 
 var
@@ -149,17 +157,21 @@ var
 
 implementation
 
+type
+  PEventsListEntry = ^TEventsListEntry;
+  TEventsListEntry = record
+    EventFunction: TOperationManagerEventNotify;
+  end;
+
 constructor TOperationsManager.Create;
+var
+  Event: TOperationManagerEvent;
 begin
   FOperations := TFPList.Create;
   FLastUsedHandle := 0;
 
-  FOnOperationAdded    := nil;
-  FOnOperationRemoved  := nil;
-  FOnOperationStarted  := nil;
-  FOnOperationFinished := nil;
-  FOnOperationPaused   := nil;
-  FOnOperationResumed  := nil;
+  for Event := Low(FEventsListeners) to High(FEventsListeners) do
+    FEventsListeners[Event] := TFPList.Create;
 
   inherited Create;
 end;
@@ -168,6 +180,7 @@ destructor TOperationsManager.Destroy;
 var
   i: Integer;
   Entry: POperationsManagerEntry;
+  Event: TOperationManagerEvent;
 begin
   inherited Destroy;
 
@@ -175,7 +188,15 @@ begin
   for i := 0 to FOperations.Count - 1 do
   begin
     Entry := POperationsManagerEntry(FOperations.Items[i]);
-    RemoveEventsListeners(Entry^.Operation);
+    RemoveOperationListeners(Entry^.Operation);
+  end;
+
+  for Event := Low(FEventsListeners) to High(FEventsListeners) do
+  begin
+    for i := 0 to FEventsListeners[Event].Count - 1 do
+      Dispose(PEventsListEntry(FEventsListeners[Event].Items[i]));
+
+    FreeAndNil(FEventsListeners[Event]);
   end;
 
   FreeAndNil(FOperations);
@@ -208,7 +229,7 @@ begin
 
         FOperations.Add(Entry);
 
-        AddEventsListeners(Operation);
+        AddOperationListeners(Operation);
 
         Result := Entry^.Handle;
 
@@ -217,8 +238,7 @@ begin
         //  Thread.WaitFor  (or WaitForThreadTerminate(Thread.ThreadID))
         Thread.OnTerminate := @ThreadTerminatedEvent;
 
-        if Assigned(FOnOperationAdded) then
-          FOnOperationAdded(Operation);
+        NotifyEvents(Operation, [omevOperationAdded]);
 
         case StartingState of
           ossAutoStart:
@@ -379,13 +399,11 @@ begin
 
   if Assigned(Entry) then
   begin
-    if Assigned(FOnOperationFinished) then
-      FOnOperationFinished(Entry^.Operation);
+    NotifyEvents(Entry^.Operation, [omevOperationFinished]);
 
     FOperations.Delete(Index);
 
-    if Assigned(FOnOperationRemoved) then
-      FOnOperationRemoved(Entry^.Operation);
+    NotifyEvents(Entry^.Operation, [omevOperationRemoved]);
 
     Entry^.Thread := nil;  // Thread frees himself automatically on terminate.
 
@@ -443,8 +461,7 @@ begin
   Entry^.StartingState := ossDontStart; // Reset state.
   Entry^.Operation.Start;
 
-  if Assigned(FOnOperationStarted) then
-    FOnOperationStarted(Entry^.Operation);
+  NotifyEvents(Entry^.Operation, [omevOperationStarted]);
 end;
 
 procedure TOperationsManager.MoveOperation(FromIndex: Integer; ToIndex: Integer);
@@ -470,12 +487,12 @@ begin
   Result := Assigned(Entry);
 end;
 
-procedure TOperationsManager.AddEventsListeners(Operation: TFileSourceOperation);
+procedure TOperationsManager.AddOperationListeners(Operation: TFileSourceOperation);
 begin
   Operation.AddEventsListener([fsoevStateChanged], @Self.OperationStateChangedEvent);
 end;
 
-procedure TOperationsManager.RemoveEventsListeners(Operation: TFileSourceOperation);
+procedure TOperationsManager.RemoveOperationListeners(Operation: TFileSourceOperation);
 begin
   Operation.RemoveEventsListener([fsoevStateChanged], @Self.OperationStateChangedEvent);
 end;
@@ -492,6 +509,68 @@ begin
     begin
       // Remove queue/auto-queue flag, because the operation is now not in NotStarted state.
       Entry^.StartingState := ossDontStart;
+    end;
+  end;
+end;
+
+procedure TOperationsManager.AddEventsListener(Events: TOperationManagerEvents;
+                                               FunctionToCall: TOperationManagerEventNotify);
+var
+  Entry: PEventsListEntry;
+  Event: TOperationManagerEvent;
+begin
+  for Event := Low(TOperationManagerEvent) to High(TOperationManagerEvent) do
+  begin
+    if Event in Events then
+    begin
+      Entry := New(PEventsListEntry);
+      Entry^.EventFunction := FunctionToCall;
+      FEventsListeners[Event].Add(Entry);
+    end;
+  end;
+end;
+
+procedure TOperationsManager.RemoveEventsListener(Events: TOperationManagerEvents;
+                                                  FunctionToCall: TOperationManagerEventNotify);
+var
+  Entry: PEventsListEntry;
+  Event: TOperationManagerEvent;
+  i: Integer;
+begin
+  for Event := Low(TOperationManagerEvent) to High(TOperationManagerEvent) do
+  begin
+    if Event in Events then
+    begin
+      for i := 0 to FEventsListeners[Event].Count - 1 do
+      begin
+        Entry := PEventsListEntry(FEventsListeners[Event].Items[i]);
+        if Entry^.EventFunction = FunctionToCall then
+        begin
+          FEventsListeners[Event].Delete(i);
+          break;  // break from one for only
+        end;
+      end;
+    end;
+  end;
+end;
+
+procedure TOperationsManager.NotifyEvents(Operation: TFileSourceOperation;
+                                          Events: TOperationManagerEvents);
+var
+  Entry: PEventsListEntry;
+  Event: TOperationManagerEvent;
+  i: Integer;
+begin
+  for Event := Low(TOperationManagerEvent) to High(TOperationManagerEvent) do
+  begin
+    if Event in Events then
+    begin
+      // Call each listener function.
+      for i := 0 to FEventsListeners[Event].Count - 1 do
+      begin
+        Entry := PEventsListEntry(FEventsListeners[Event].Items[i]);
+        Entry^.EventFunction(Operation, Event);
+      end;
     end;
   end;
 end;

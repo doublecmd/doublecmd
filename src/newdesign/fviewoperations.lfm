@@ -8,6 +8,7 @@ object frmViewOperations: TfrmViewOperations
   ClientWidth = 656
   FormStyle = fsStayOnTop
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   LCLVersion = '0.9.27'
   object lblOperationsCount: TLabel
     Left = 24
