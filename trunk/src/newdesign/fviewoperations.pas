@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
   StdCtrls, ExtCtrls,
-  uFileSourceOperation;
+  uFileSourceOperation, uOperationsManager;
 
 type
 
@@ -19,13 +19,14 @@ type
     sboxOperations: TScrollBox;
     UpdateTimer: TTimer;
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure OnUpdateTimer(Sender: TObject);
     procedure sboxOperationsDblClick(Sender: TObject);
     procedure sboxOperationsMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure sboxOperationsPaint(Sender: TObject);
 
   private
-    procedure UpdateView(Operation: TFileSourceOperation);
+    procedure UpdateView(Operation: TFileSourceOperation; Event: TOperationManagerEvent);
 
   public
 
@@ -37,7 +38,6 @@ var
 implementation
 
 uses
-  uOperationsManager,
   uFileSourceOperationTypes,
   uLng, LCLProc, fFileOpDlg;
 
@@ -53,13 +53,15 @@ begin
   sboxOperations.AutoScroll := True;
   sboxOperations.VertScrollBar.Visible := True;
 
-  OperationsManager.OnOperationAdded := @UpdateView;
-  OperationsManager.OnOperationRemoved := @UpdateView;
-  OperationsManager.OnOperationStarted := @UpdateView;
-  OperationsManager.OnOperationFinished := @UpdateView;
+  OperationsManager.AddEventsListener([omevOperationAdded, omevOperationRemoved], @UpdateView);
 
   lblCount.Caption := IntToStr(OperationsManager.OperationsCount);
   sboxOperations.Invalidate;     // force redraw
+end;
+
+procedure TfrmViewOperations.FormDestroy(Sender: TObject);
+begin
+  OperationsManager.RemoveEventsListener([omevOperationAdded, omevOperationRemoved], @UpdateView);
 end;
 
 procedure TfrmViewOperations.OnUpdateTimer(Sender: TObject);
@@ -164,7 +166,8 @@ begin
   end;
 end;
 
-procedure TfrmViewOperations.UpdateView(Operation: TFileSourceOperation);
+procedure TfrmViewOperations.UpdateView(Operation: TFileSourceOperation;
+                                        Event: TOperationManagerEvent);
 begin
   lblCount.Caption := IntToStr(OperationsManager.OperationsCount);
   sboxOperations.Invalidate;     // force redraw
