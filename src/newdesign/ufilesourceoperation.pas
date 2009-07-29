@@ -597,6 +597,7 @@ begin
         if Entry^.EventFunction = FunctionToCall then
         begin
           FEventsListeners[Event].Delete(i);
+          Dispose(Entry);
           break;  // break from one for only
         end;
       end;
@@ -717,6 +718,7 @@ begin
     if Entry^.UserInterface = UserInterface then
     begin
       FUserInterfaces.Delete(i);
+      Dispose(Entry);
       break;
     end;
   end;
