@@ -547,6 +547,7 @@ begin
         if Entry^.EventFunction = FunctionToCall then
         begin
           FEventsListeners[Event].Delete(i);
+          Dispose(Entry);
           break;  // break from one for only
         end;
       end;
