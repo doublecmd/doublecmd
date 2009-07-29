@@ -61,16 +61,17 @@ type
     function GetFiles: TFiles; virtual abstract;
 
     // These functions create an operation object specific to the file source.
+    // Each parameter will be owned by the operation (will be freed).
     function CreateListOperation: TFileSourceOperation; virtual abstract;
-    function CreateCopyInOperation(SourceFileSource: TFileSource;
-                                   SourceFiles: TFiles;
+    function CreateCopyInOperation(var SourceFileSource: TFileSource;
+                                   var SourceFiles: TFiles;
                                    TargetPath: String;
                                    RenameMask: String): TFileSourceOperation; virtual abstract;
-    function CreateCopyOutOperation(TargetFileSource: TFileSource;
-                                    SourceFiles: TFiles;
+    function CreateCopyOutOperation(var TargetFileSource: TFileSource;
+                                    var SourceFiles: TFiles;
                                     TargetPath: String;
                                     RenameMask: String): TFileSourceOperation; virtual abstract;
-    function CreateDeleteOperation(FilesToDelete: TFiles): TFileSourceOperation; virtual abstract;
+    function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; virtual abstract;
 
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property CurrentAddress: String read GetCurrentAddress;

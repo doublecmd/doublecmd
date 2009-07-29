@@ -130,12 +130,12 @@ begin
     if aFile.IsDirectory and (not aFile.IsLinkToDirectory) then
     begin
       //inc(FDirCount);
-      NewFiles.Add(aFile); // add DIR to List
+      NewFiles.Add(aFile.Clone); // add DIR to List
       FillAndCountRec(aFile.Path + aFile.Name + DirectorySeparator);  // recursive browse child dir
     end
     else
     begin
-      NewFiles.Add(aFile);
+      NewFiles.Add(aFile.Clone);
       inc(FilesCount);
       inc(FilesSize, aFile.Size); // in first level we know file size -> use it
     end;

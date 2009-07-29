@@ -1411,7 +1411,6 @@ begin
         Exit;
 
       Operation := FileSource.CreateDeleteOperation(theFilesToDelete);
-      theFilesToDelete := nil; // revoke ownership of memory
 
       if Assigned(Operation) then
       begin

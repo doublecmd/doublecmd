@@ -21,8 +21,6 @@ type
   TFileSystemDeleteOperation = class(TFileSourceDeleteOperation)
 
   private
-    FFileSource: TFileSystemFileSource;
-    FFilesToDelete: TFiles;
     FFullFilesTreeToDelete: TFileSystemFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceDeleteOperationStatistics; // local copy of statistics
     FDescription: TDescription;
@@ -39,8 +37,8 @@ type
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
   public
-    constructor Create(TargetFileSource: TFileSource;
-                       FilesToDelete: TFiles); reintroduce;
+    constructor Create(var aTargetFileSource: TFileSource;
+                       var theFilesToDelete: TFiles); override;
 
     destructor Destroy; override;
 
@@ -58,23 +56,21 @@ uses
   uOSUtils, uLng,
   uFileSystemUtil, FileUtil, LCLProc;
 
-constructor TFileSystemDeleteOperation.Create(TargetFileSource: TFileSource;
-                                              FilesToDelete: TFiles);
+constructor TFileSystemDeleteOperation.Create(var aTargetFileSource: TFileSource;
+                                              var theFilesToDelete: TFiles);
 begin
-  FFileSource := TargetFileSource as TFileSystemFileSource;
-  FFilesToDelete := FilesToDelete;
-
   FSymLinkOption := fsooslNone;
   FSkipErrors := False;
   FRecycle := False;
   FDeleteReadOnly := fsoogNone;
+  FFullFilesTreeToDelete := nil;
 
   if gProcessComments then
     FDescription := TDescription.Create(True)
   else
     FDescription := nil;
 
-  inherited Create(TargetFileSource);
+  inherited Create(aTargetFileSource, theFilesToDelete);
 end;
 
 destructor TFileSystemDeleteOperation.Destroy;
@@ -87,8 +83,8 @@ begin
     FreeAndNil(FDescription);
   end;
 
-  if Assigned(FFilesToDelete) then
-    FreeAndNil(FFilesToDelete);
+  if Assigned(FFullFilesTreeToDelete) then
+    FreeAndNil(FFullFilesTreeToDelete);
 end;
 
 procedure TFileSystemDeleteOperation.Initialize;
@@ -96,7 +92,7 @@ begin
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
-  FillAndCount(FFilesToDelete as TFileSystemFiles,
+  FillAndCount(FilesToDelete as TFileSystemFiles,
                FFullFilesTreeToDelete,
                FStatistics.TotalFiles,
                FStatistics.TotalBytes);     // gets full list of files (recursive)

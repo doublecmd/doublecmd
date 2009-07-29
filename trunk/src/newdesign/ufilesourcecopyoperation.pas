@@ -8,7 +8,8 @@ uses
   Classes, SysUtils, syncobjs,
   uFileSourceOperation,
   uFileSourceOperationTypes,
-  uFileSource;
+  uFileSource,
+  uFile;
 
 type
 
@@ -35,14 +36,37 @@ type
     FStatistics: TFileSourceCopyOperationStatistics;
     FStatisticsAtStartTime: TFileSourceCopyOperationStatistics;
     FStatisticsLock: TCriticalSection;             //<en For synchronizing statistics.
+    FSourceFileSource: TFileSource;
+    FTargetFileSource: TFileSource;
+    FSourceFiles: TFiles;
+    FTargetPath: String;
 
   protected
     procedure UpdateStatistics(NewStatistics: TFileSourceCopyOperationStatistics);
     procedure UpdateStatisticsAtStartTime; override;
     procedure EstimateSpeedAndTime(var theStatistics: TFileSourceCopyOperationStatistics);
 
+    property SourceFiles: TFiles read FSourceFiles;
+    property TargetPath: String read FTargetPath;
+
   public
-    constructor Create(aFileSource: TFileSource; aChangedFileSource: TFileSource); reintroduce;
+    {en
+       @param(SourceFileSource
+              File source from which the files will be copied.
+              Class takes ownership of the pointer.)
+       @param(Target file source
+              File source to which the files will be copied.
+              Class takes ownership of the pointer.)
+       @param(SourceFiles
+              Files which are to be copied.
+              Class takes ownership of the pointer.)
+    }
+    constructor Create(var aSourceFileSource: TFileSource;
+                       var aTargetFileSource: TFileSource;
+                       var theSourceFiles: TFiles;
+                       aTargetPath: String;
+                       aRenameMask: String); virtual reintroduce;
+
     destructor Destroy; override;
 
     function RetrieveStatistics: TFileSourceCopyOperationStatistics;
@@ -95,7 +119,11 @@ uses
 
 // -- TFileSourceCopyOperation ------------------------------------------------
 
-constructor TFileSourceCopyOperation.Create(aFileSource: TFileSource; aChangedFileSource: TFileSource);
+constructor TFileSourceCopyOperation.Create(var aSourceFileSource: TFileSource;
+                                            var aTargetFileSource: TFileSource;
+                                            var theSourceFiles: TFiles;
+                                            aTargetPath: String;
+                                            aRenameMask: String);
 begin
   with FStatistics do
   begin
@@ -114,14 +142,38 @@ begin
 
   FStatisticsLock := TCriticalSection.Create;
 
-  inherited Create(aFileSource, aChangedFileSource);
+  case GetID of
+    fsoCopyIn:
+      // Copy into target - run on target (target is changed).
+      inherited Create(aTargetFileSource, aTargetFileSource);
+    fsoCopyOut:
+      // Copy out from source - run on source (target is changed).
+      inherited Create(aSourceFileSource, aTargetFileSource);
+    else
+      raise Exception.Create('Invalid file source type');
+  end;
+
+  FSourceFileSource := aSourceFileSource;
+  aSourceFileSource := nil;
+  FTargetFileSource := aTargetFileSource;
+  aTargetFileSource := nil;
+  FSourceFiles := theSourceFiles;
+  theSourceFiles := nil;
+  FTargetPath := aTargetPath;
 end;
 
 destructor TFileSourceCopyOperation.Destroy;
 begin
   inherited Destroy;
 
-  FreeAndNil(FStatisticsLock);
+  if Assigned(FStatisticsLock) then
+    FreeAndNil(FStatisticsLock);
+  if Assigned(FSourceFiles) then
+    FreeAndNil(FSourceFiles);
+  if Assigned(FSourceFileSource) then
+    FreeAndNil(FSourceFileSource);
+  if Assigned(FTargetFileSource) then
+    FreeAndNil(FTargetFileSource);
 end;
 
 procedure TFileSourceCopyOperation.UpdateStatistics(NewStatistics: TFileSourceCopyOperationStatistics);
