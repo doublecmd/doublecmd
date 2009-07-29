@@ -40,15 +40,15 @@ type
     function GetFiles: TFiles; override;
 
     function CreateListOperation: TFileSourceOperation; override;
-    function CreateCopyInOperation(SourceFileSource: TFileSource;
-                                   SourceFiles: TFiles;
+    function CreateCopyInOperation(var SourceFileSource: TFileSource;
+                                   var SourceFiles: TFiles;
                                    TargetPath: String;
                                    RenameMask: String): TFileSourceOperation; override;
-    function CreateCopyOutOperation(TargetFileSource: TFileSource;
-                                    SourceFiles: TFiles;
+    function CreateCopyOutOperation(var TargetFileSource: TFileSource;
+                                    var SourceFiles: TFiles;
                                     TargetPath: String;
                                     RenameMask: String): TFileSourceOperation; override;
-    function CreateDeleteOperation(FilesToDelete: TFiles): TFileSourceOperation; override;
+    function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
 
     // ------------------------------------------------------
   end;
@@ -138,7 +138,7 @@ var
 begin
   Result := nil;
 
-  ListOperation := TFileSystemListOperation.Create(Self);
+  ListOperation := CreateListOperation as TFileSystemListOperation;
   try
     ListOperation.Execute;
     Result := ListOperation.ReleaseFiles;
@@ -149,33 +149,45 @@ begin
 end;
 
 function TFileSystemFileSource.CreateListOperation: TFileSourceOperation;
+var
+  TargetFileSource: TFileSystemFileSource;
 begin
-  Result := TFileSystemListOperation.Create(Self);
+  TargetFileSource := Self.Clone;
+  Result := TFileSystemListOperation.Create(TargetFileSource);
 end;
 
-function TFileSystemFileSource.CreateCopyInOperation(SourceFileSource: TFileSource;
-                                                     SourceFiles: TFiles;
+function TFileSystemFileSource.CreateCopyInOperation(var SourceFileSource: TFileSource;
+                                                     var SourceFiles: TFiles;
                                                      TargetPath: String;
                                                      RenameMask: String): TFileSourceOperation;
+var
+  TargetFileSource: TFileSystemFileSource;
 begin
+  TargetFileSource := Self.Clone;
   Result := TFileSystemCopyInOperation.Create(
-                SourceFileSource, Self,
+                SourceFileSource, TargetFileSource,
                 SourceFiles, TargetPath, RenameMask);
 end;
 
-function TFileSystemFileSource.CreateCopyOutOperation(TargetFileSource: TFileSource;
-                                                      SourceFiles: TFiles;
+function TFileSystemFileSource.CreateCopyOutOperation(var TargetFileSource: TFileSource;
+                                                      var SourceFiles: TFiles;
                                                       TargetPath: String;
                                                       RenameMask: String): TFileSourceOperation;
+var
+  SourceFileSource: TFileSystemFileSource;
 begin
+  SourceFileSource := Self.Clone;
   Result := TFileSystemCopyOutOperation.Create(
-                Self, TargetFileSource,
+                SourceFileSource, TargetFileSource,
                 SourceFiles, TargetPath, RenameMask);
 end;
 
-function TFileSystemFileSource.CreateDeleteOperation(FilesToDelete: TFiles): TFileSourceOperation;
+function TFileSystemFileSource.CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
+var
+  TargetFileSource: TFileSystemFileSource;
 begin
-  Result := TFileSystemDeleteOperation.Create(Self, FilesToDelete);
+  TargetFileSource := Self.Clone;
+  Result := TFileSystemDeleteOperation.Create(TargetFileSource, FilesToDelete);
 end;
 
 end.

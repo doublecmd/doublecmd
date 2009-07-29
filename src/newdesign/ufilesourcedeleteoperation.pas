@@ -8,7 +8,8 @@ uses
   Classes, SysUtils, syncobjs,
   uFileSourceOperation,
   uFileSourceOperationTypes,
-  uFileSource;
+  uFileSource,
+  uFile;
 
 type
 
@@ -32,6 +33,8 @@ type
     FStatistics: TFileSourceDeleteOperationStatistics;
     FStatisticsAtStartTime: TFileSourceDeleteOperationStatistics;
     FStatisticsLock: TCriticalSection;             //<en For synchronizing statistics.
+    FFileSource: TFileSource;
+    FFilesToDelete: TFiles;
 
   protected
     function GetID: TFileSourceOperationType; override;
@@ -40,8 +43,12 @@ type
     procedure UpdateStatisticsAtStartTime; override;
     procedure EstimateSpeedAndTime(var theStatistics: TFileSourceDeleteOperationStatistics);
 
+    property FileSource: TFileSource read FFileSource;
+    property FilesToDelete: TFiles read FFilesToDelete;
+
   public
-    constructor Create(aFileSource: TFileSource); reintroduce;
+    constructor Create(var aTargetFileSource: TFileSource;
+                       var theFilesToDelete: TFiles); virtual reintroduce;
     destructor Destroy; override;
 
     function RetrieveStatistics: TFileSourceDeleteOperationStatistics;
@@ -52,7 +59,8 @@ implementation
 uses
   uDCUtils;
 
-constructor TFileSourceDeleteOperation.Create(aFileSource: TFileSource);
+constructor TFileSourceDeleteOperation.Create(var aTargetFileSource: TFileSource;
+                                              var theFilesToDelete: TFiles);
 begin
   with FStatistics do
   begin
@@ -68,14 +76,24 @@ begin
 
   FStatisticsLock := TCriticalSection.Create;
 
-  inherited Create(aFileSource, aFileSource);
+  inherited Create(aTargetFileSource, aTargetFileSource);
+
+  FFileSource := aTargetFileSource;
+  aTargetFileSource := nil;
+  FFilesToDelete := theFilesToDelete;
+  theFilesToDelete := nil;
 end;
 
 destructor TFileSourceDeleteOperation.Destroy;
 begin
   inherited Destroy;
 
-  FreeAndNil(FStatisticsLock);
+  if Assigned(FStatisticsLock) then
+    FreeAndNil(FStatisticsLock);
+  if Assigned(FFilesToDelete) then
+    FreeAndNil(FFilesToDelete);
+  if Assigned(FFileSource) then
+    FreeAndNil(FFileSource);
 end;
 
 function TFileSourceDeleteOperation.GetID: TFileSourceOperationType;

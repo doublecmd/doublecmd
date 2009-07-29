@@ -15,15 +15,19 @@ type
 
   TFileSourceListOperation = class(TFileSourceOperation)
 
+  private
+    FFileSource: TFileSource;
+
   protected
     FFiles: TFiles;
 
     function GetFiles: TFiles;
-
     function GetID: TFileSourceOperationType; override;
 
+    property FileSource: TFileSource read FFileSource;
+
   public
-    constructor Create(aFileSource: TFileSource); reintroduce;
+    constructor Create(var aFileSource: TFileSource); virtual reintroduce;
     destructor Destroy; override;
 
     // Retrieves files and revokes ownership of TFiles list.
@@ -36,9 +40,11 @@ type
 
 implementation
 
-constructor TFileSourceListOperation.Create(aFileSource: TFileSource);
+constructor TFileSourceListOperation.Create(var aFileSource: TFileSource);
 begin
-  inherited Create(aFileSource, nil);
+  FFileSource := aFileSource;
+  aFileSource := nil;
+  inherited Create(FFileSource, nil);
 end;
 
 destructor TFileSourceListOperation.Destroy;
@@ -47,6 +53,8 @@ begin
 
   if Assigned(FFiles) then
     FreeAndNil(FFiles);
+  if Assigned(FFileSource) then
+    FreeAndNil(FFileSource);
 end;
 
 function TFileSourceListOperation.GetID: TFileSourceOperationType;

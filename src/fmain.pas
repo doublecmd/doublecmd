@@ -1998,6 +1998,7 @@ procedure TfrmMain.CopyFile(sDestPath:String);
 var
   sDstMaskTemp: String;
   blDropReadOnlyFlag : Boolean;
+  TargetFileSource: TFileSource = nil;
   SourceFiles: TFiles = nil;
   Operation: TFileSourceOperation;
   OperationHandle: TOperationHandle;
@@ -2050,22 +2051,30 @@ begin
     if not (ActiveFrame.FileSource is TFileSystemFileSource or
             NotActiveFrame.FileSource is TFileSystemFileSource) then Exit;
 
-    Operation := ActiveFrame.FileSource.CreateCopyOutOperation(
-                     NotActiveFrame.FileSource as TFileSystemFileSource,
-                     SourceFiles,
-                     sDestPath,
-                     sDstMaskTemp);
+    TargetFileSource := NotActiveFrame.FileSource.Clone;
+    try
+      Operation := ActiveFrame.FileSource.CreateCopyOutOperation(
+                       TargetFileSource,
+                       SourceFiles,
+                       sDestPath,
+                       sDstMaskTemp);
 
-    if Assigned(Operation) then
-    begin
-      // Start operation.
-      OperationHandle := OperationsManager.AddOperation(Operation, ossAutoQueue);
+      if Assigned(Operation) then
+      begin
+        // Start operation.
+        OperationHandle := OperationsManager.AddOperation(Operation, ossAutoQueue);
 
-      ProgressDialog := TfrmFileOp.Create(OperationHandle);
-      ProgressDialog.Show;
-    end
-    else
-      msgWarning(rsMsgNotImplemented);
+        ProgressDialog := TfrmFileOp.Create(OperationHandle);
+        ProgressDialog.Show;
+      end
+      else
+        msgWarning(rsMsgNotImplemented);
+
+    except
+      if Assigned(TargetFileSource) then
+        FreeAndNil(TargetFileSource);
+      raise;
+    end;
 
   except
     FreeAndNil(SourceFiles);

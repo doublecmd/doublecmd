@@ -26,16 +26,13 @@ type
   TFileSystemCopyInOperation = class(TFileSourceCopyInOperation)
 
   private
-    FSourceFileSource: TFileSystemFileSource;
-    FTargetFileSource: TFileSystemFileSource;
-    FSourceFiles: TFiles;
 
   public
-    constructor Create(SourceFileSource: TFileSource;
-                       TargetFileSource: TFileSource;
-                       SourceFiles: TFiles;
-                       TargetPath: String;
-                       RenameMask: String); reintroduce;
+    constructor Create(var aSourceFileSource: TFileSource;
+                       var aTargetFileSource: TFileSource;
+                       var theSourceFiles: TFiles;
+                       aTargetPath: String;
+                       aRenameMask: String); override;
 
     procedure Execute; override;
 
@@ -46,12 +43,8 @@ type
   private
     FBuffer: Pointer;
     FBufferSize: LongWord;
-    FSourceFileSource: TFileSystemFileSource;
-    FTargetFileSource: TFileSystemFileSource;
-    FSourceFiles: TFiles;
     FFullSourceFilesTree: TFileSystemFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
-    FTargetPath: String;
     FRenameMask: String;
     FRenameNameMask, FRenameExtMask: String;
     FDescription: TDescription;
@@ -65,8 +58,7 @@ type
     FDirExistsOption: TFileSourceOperationOptionDirectoryExists;
 
   protected
-    function ProcessFile(aFile: TFileSystemFile; TargetPath: String;
-                         AbsoluteTargetFileName: String): Boolean;
+    function ProcessFile(aFile: TFileSystemFile; AbsoluteTargetFileName: String): Boolean;
 
     // ProcessFileNoQuestions (when we're sure the targets don't exist)
 
@@ -74,11 +66,11 @@ type
     function ShowError(sMessage: String): TFileSourceOperationUIResponse;
 
   public
-    constructor Create(SourceFileSource: TFileSource;
-                       TargetFileSource: TFileSource;
-                       SourceFiles: TFiles;
-                       TargetPath: String;
-                       RenameMask: String); reintroduce;
+    constructor Create(var aSourceFileSource: TFileSource;
+                       var aTargetFileSource: TFileSource;
+                       var theSourceFiles: TFiles;
+                       aTargetPath: String;
+                       aRenameMask: String); override;
 
     destructor Destroy; override;
 
@@ -95,17 +87,13 @@ uses
 
 // -- TFileSystemCopyInOperation ----------------------------------------------
 
-constructor TFileSystemCopyInOperation.Create(SourceFileSource: TFileSource;
-                                              TargetFileSource: TFileSource;
-                                              SourceFiles: TFiles;
-                                              TargetPath: String;
-                                              RenameMask: String);
+constructor TFileSystemCopyInOperation.Create(var aSourceFileSource: TFileSource;
+                                              var aTargetFileSource: TFileSource;
+                                              var theSourceFiles: TFiles;
+                                              aTargetPath: String;
+                                              aRenameMask: String);
 begin
-  inherited Create(TargetFileSource, TargetFileSource);
-
-  FSourceFileSource := SourceFileSource as TFileSystemFileSource;
-  FTargetFileSource := TargetFileSource as TFileSystemFileSource;
-  FSourceFiles := SourceFiles;
+  inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath, aRenameMask);
 end;
 
 procedure TFileSystemCopyInOperation.Execute;
@@ -114,20 +102,15 @@ end;
 
 // -- TFileSystemCopyOutOperation ---------------------------------------------
 
-constructor TFileSystemCopyOutOperation.Create(SourceFileSource: TFileSource;
-                                               TargetFileSource: TFileSource;
-                                               SourceFiles: TFiles;
-                                               TargetPath: String;
-                                               RenameMask: String);
+constructor TFileSystemCopyOutOperation.Create(var aSourceFileSource: TFileSource;
+                                               var aTargetFileSource: TFileSource;
+                                               var theSourceFiles: TFiles;
+                                               aTargetPath: String;
+                                               aRenameMask: String);
 begin
-  inherited Create(SourceFileSource, TargetFileSource);
-
   FBuffer := nil;
-  FSourceFileSource := SourceFileSource as TFileSystemFileSource;
-  FTargetFileSource := TargetFileSource as TFileSystemFileSource;
-  FSourceFiles := SourceFiles;
-  FTargetPath := TargetPath;
-  FRenameMask := RenameMask;
+  FFullSourceFilesTree := nil;
+  FRenameMask := aRenameMask;
 
   // Here we can read global settings if there are any.
   FSymLinkOption := fsooslNone;
@@ -141,6 +124,8 @@ begin
     FDescription := TDescription.Create(True)
   else
     FDescription := nil;
+
+  inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath, aRenameMask);
 end;
 
 destructor TFileSystemCopyOutOperation.Destroy;
@@ -158,6 +143,9 @@ begin
     FDescription.SaveDescription;
     FreeAndNil(FDescription);
   end;
+
+  if Assigned(FFullSourceFilesTree) then
+    FreeAndNil(FFullSourceFilesTree);
 end;
 
 procedure TFileSystemCopyOutOperation.Initialize;
@@ -167,14 +155,14 @@ begin
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
-  FillAndCount(FSourceFiles as TFileSystemFiles,
+  FillAndCount(SourceFiles as TFileSystemFiles,
                FFullSourceFilesTree,
                FStatistics.TotalFiles,
                FStatistics.TotalBytes);     // gets full list of files (recursive)
 
   // Create destination path if it doesn't exist.
-  if not mbDirectoryExists(FTargetPath) then
-    mbForceDirectory(FTargetPath);
+  if not mbDirectoryExists(TargetPath) then
+    mbForceDirectory(TargetPath);
 
   FBufferSize := gCopyBlockSize;
   GetMem(FBuffer, FBufferSize);
@@ -196,8 +184,8 @@ begin
     aFile := FFullSourceFilesTree[CurrentFileIndex] as TFileSystemFile;
 
     TargetName := GetAbsoluteTargetFileName(aFile,
-                                            FSourceFileSource.CurrentPath,
-                                            FTargetPath,
+                                            SourceFiles.Path,
+                                            TargetPath,
                                             FRenameNameMask,
                                             FRenameExtMask);
 
@@ -216,7 +204,7 @@ begin
     { Check disk free space }
     if FCheckFreeSpace = True then
     begin
-      GetDiskFreeSpace(FTargetPath, iFreeDiskSize, iTotalDiskSize);
+      GetDiskFreeSpace(TargetPath, iFreeDiskSize, iTotalDiskSize);
       if aFile.Size > iFreeDiskSize then
       begin
         if FSkipAllBigFiles = True then
@@ -253,7 +241,7 @@ begin
 
     if bProceed then
     begin
-      bProceed := ProcessFile(aFile, FTargetPath, TargetName);
+      bProceed := ProcessFile(aFile, TargetName);
     end;
 
     with FStatistics do
@@ -283,8 +271,7 @@ begin
 end;
 
 function TFileSystemCopyOutOperation.ProcessFile(
-             aFile: TFileSystemFile; TargetPath: String;
-             AbsoluteTargetFileName: String): Boolean;
+             aFile: TFileSystemFile; AbsoluteTargetFileName: String): Boolean;
 var
   sDstName: String;
   bIsFolder,
@@ -526,7 +513,7 @@ begin
                 on E: EWriteError do
                   begin
                     { Check disk free space }
-                    GetDiskFreeSpace(FTargetPath, iFreeDiskSize, iTotalDiskSize);
+                    GetDiskFreeSpace(TargetPath, iFreeDiskSize, iTotalDiskSize);
                     if BytesRead > iFreeDiskSize then
                       begin
                         case AskQuestion(rsMsgNoFreeSpaceRetry, '',

@@ -235,7 +235,7 @@ type
     property Thread: TThread read FThread;
 
   public
-    constructor Create(aFileSource: TObject; aChangedFileSource: TObject); virtual;
+    constructor Create(const aFileSource: TObject; const aChangedFileSource: TObject); virtual;
     destructor Destroy; override;
 
     {en
@@ -320,7 +320,7 @@ type
     UserInterface: TFileSourceOperationUI;
   end;
 
-constructor TFileSourceOperation.Create(aFileSource: TObject; aChangedFileSource: TObject);
+constructor TFileSourceOperation.Create(const aFileSource: TObject; const aChangedFileSource: TObject);
 var
   Event: TFileSourceOperationEvent;
 begin

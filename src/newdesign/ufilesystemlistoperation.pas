@@ -13,10 +13,8 @@ uses
 type
 
   TFileSystemListOperation = class(TFileSourceListOperation)
-  private
-    FFileSource: TFileSystemFileSource;
   public
-    constructor Create(aFileSource: TFileSystemFileSource); reintroduce;
+    constructor Create(var aFileSource: TFileSystemFileSource); reintroduce;
     procedure Execute; override;
   end;
 
@@ -25,9 +23,8 @@ implementation
 uses
   LCLProc, uFileSystemFile, uFindEx, uDCUtils;
 
-constructor TFileSystemListOperation.Create(aFileSource: TFileSystemFileSource);
+constructor TFileSystemListOperation.Create(var aFileSource: TFileSystemFileSource);
 begin
-  FFileSource := aFileSource;
   FFiles := TFileSystemFiles.Create;
   inherited Create(aFileSource);
 end;
@@ -41,13 +38,13 @@ var
   IsRootPath: Boolean;
 begin
   FFiles.Clear;
-  FFiles.Path := IncludeTrailingPathDelimiter(FFileSource.CurrentPath);
+  FFiles.Path := IncludeTrailingPathDelimiter(FileSource.CurrentPath);
 
   if FindFirstEx(FFiles.Path + '*', faAnyFile, sr) <> 0 then
   begin
     { No files have been found. }
     FindCloseEx(sr);
-    sParentDir := GetParentDir(FFileSource.CurrentPath);
+    sParentDir := GetParentDir(FileSource.CurrentPath);
 {
     if sParentDir <> EmptyStr then // if parent dir exists then add up level item
 	    AddUpLevel(sParentDir, fl);
@@ -55,11 +52,11 @@ begin
     Exit;
   end;
 
-  sDir := IncludeTrailingPathDelimiter(FFileSource.CurrentPath);
+  sDir := IncludeTrailingPathDelimiter(FileSource.CurrentPath);
   FFiles.Path := sDir;
 
   if (sDir = PathDelim) or
-     (sDir = ExtractFileDrive(FFileSource.CurrentPath){+PathDelim})
+     (sDir = ExtractFileDrive(FileSource.CurrentPath){+PathDelim})
   then
     IsRootPath := True
   else
