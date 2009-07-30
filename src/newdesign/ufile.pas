@@ -21,6 +21,10 @@ type
     FExtension: String;     //<en Extension.
     FNameNoExt: String;     //<en Name without extension.
 
+    procedure SplitIntoNameAndExtension(const FileName: string;
+                                        var aFileNameOnly: string;
+                                        var aExtension: string);
+
   protected
     FProperties: TFileProperties;
 
@@ -225,8 +229,7 @@ begin
   end
   else
   begin
-    FExtension := ExtractFileExt(FName);
-    FNameNoExt := Copy(FName, 1, Length(FName) - Length(FExtension));
+    SplitIntoNameAndExtension(FName, FNameNoExt, FExtension);
   end;
 end;
 
@@ -324,6 +327,27 @@ begin
             (Name <> '..') and
             (Name[1] = '.');
 {$ENDIF}
+end;
+
+procedure TFile.SplitIntoNameAndExtension(const FileName: string;
+                                          var aFileNameOnly: string;
+                                          var aExtension: string);
+var
+  i : longint;
+begin
+  I := Length(FileName);
+  while (I > 0) and (FileName[I] <> ExtensionSeparator) do
+    Dec(I);
+  if I > 0 then
+  begin
+    aFileNameOnly := Copy(FileName, 1, I - 1);
+    aExtension    := Copy(FileName, I + 1, MaxInt);
+  end
+  else
+  begin
+    aFileNameOnly := FileName;
+    aExtension := '';
+  end;
 end;
 
 // ----------------------------------------------------------------------------

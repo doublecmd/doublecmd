@@ -930,8 +930,9 @@ begin
       Result := FiDefaultIconID;
       Exit;
     end;
-    Ext := LowerCase(Copy(Extension, 2, Length(Extension)));
-    Result:= FExtList.IndexOf(Ext); // ignore .
+
+    Ext := UTF8LowerCase(Extension);
+    Result:= FExtList.IndexOf(Ext);
     if Result < 0 then
     begin
     {$IFDEF MSWINDOWS}
