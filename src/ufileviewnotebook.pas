@@ -263,6 +263,13 @@ end;
 
 procedure TFileViewNotebook.RemovePage(Index: Integer);
 begin
+{$IFDEF LCLGTK2}
+  // If removing currently active page, switch to another page first.
+  // Otherwise there can be no page selected.
+  if PageIndex = Index then
+    ActivateNextTab;
+{$ENDIF}
+
   Pages.Delete(Index);
 
   if (nboMultiLine in Options) and
