@@ -1701,20 +1701,30 @@ begin
 end;
 
 procedure TColumnsFileView.MarkShiftPlus;
+var
+  sGroup: String;
 begin
   if IsActiveItemValid then
   begin
-    MarkGroup('*' + GetActiveItem.TheFile.Extension, True);
+    sGroup := GetActiveItem.TheFile.Extension;
+    if sGroup <> '' then
+      sGroup := '.' + sGroup;
+    MarkGroup('*' + sGroup, True);
     UpDatelblInfo;
     dgPanel.Invalidate;
   end;
 end;
 
 procedure TColumnsFileView.MarkShiftMinus;
+var
+  sGroup: String;
 begin
   if IsActiveItemValid then
   begin
-    MarkGroup('*' + GetActiveItem.TheFile.Extension, False);
+    sGroup := GetActiveItem.TheFile.Extension;
+    if sGroup <> '' then
+      sGroup := '.' + sGroup;
+    MarkGroup('*' + sGroup, False);
     UpDatelblInfo;
     dgPanel.Invalidate;
   end;

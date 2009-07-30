@@ -850,7 +850,12 @@ begin
                  end;
 
               fsfExtension:
-                Result := AFile.Extension;
+                begin
+                  if AFile.Extension <> '' then
+                    Result := '.' + AFile.Extension
+                  else
+                    Result := '';
+                end;
 
               fsfSize:
                 begin

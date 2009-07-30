@@ -466,8 +466,6 @@ begin
   else
     sMask:= LowerCase(aFile.Extension);
   if sMask = '' then Exit;
-  if sMask[1] = '.' then
-    Delete(sMask, 1, 1);
   for I:= 0 to FExtList.Count - 1 do
     with GetItems(I) do
     begin
