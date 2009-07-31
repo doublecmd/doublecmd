@@ -25,7 +25,7 @@
 unit ZipFunc;
 
 interface
-uses uWCXhead, AbZipKit, AbArcTyp, AbZipTyp, DialogAPI, IniFiles,
+uses uWCXhead, AbZipKit, AbArcTyp, AbZipTyp, DialogAPI,
      AbExcept, AbUtils;
 
 type
@@ -55,18 +55,20 @@ procedure ConfigurePacker (Parent: THandle;  DllInstance: THandle);stdcall;
 {Dialog API function}
 procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);stdcall;
 
+const
+  IniFileName = 'zip.ini';
+
 var
   gProcessDataProc : TProcessDataProc;
   gSetDlgProcInfo: TSetDlgProcInfo;
   gCompressionMethodToUse : TAbZipSupportedMethod;
   gDeflationOption : TAbZipDeflationOption;
-  gIni: TIniFile;
   gPluginDir: UTF8String;
   gPluginConfDir: UTF8String;
   
 implementation
 
-uses SysUtils, Classes, ZipConfDlg
+uses SysUtils, Classes, ZipConfDlg, IniFiles
 {$IFDEF MSWINDOWS}
 , Windows
 {$ENDIF}
@@ -412,6 +414,8 @@ begin
 end;
 
 procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);
+var
+  gIni: TIniFile;
 begin
   gSetDlgProcInfo:= SetDlgProcInfo;
 
@@ -423,8 +427,12 @@ begin
   gSetDlgProcInfo.PluginConfDir := nil;
 
   // load configuration from ini file
-  gIni:= TIniFile.Create(gPluginConfDir + 'zip.ini');
-  LoadConfig;
+  gIni:= TIniFile.Create(gPluginConfDir + IniFileName);
+  try
+    LoadConfig;
+  finally
+    gIni.Free;
+  end;
 end;
 
 
@@ -452,7 +460,5 @@ begin
   end;
 end;
 
-finalization
-  gIni.Free;
 end.
 
