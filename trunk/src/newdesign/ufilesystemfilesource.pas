@@ -37,7 +37,7 @@ type
     class function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
     class function GetProperties: TFileSourceProperties; override;
 
-    function GetFiles: TFiles; override;
+    function IsAtRootPath: Boolean; override;
 
     function CreateListOperation: TFileSourceOperation; override;
     function CreateCopyInOperation(var SourceFileSource: TFileSource;
@@ -56,7 +56,8 @@ type
 implementation
 
 uses
-  uOSUtils, uFileSystemFile,
+  uOSUtils, uDCUtils,
+  uFileSystemFile,
   uFileSystemListOperation,
   uFileSystemCopyOperation,
   uFileSystemDeleteOperation;
@@ -127,25 +128,14 @@ begin
   inherited SetCurrentPath(NewPath);
 end;
 
+function TFileSystemFileSource.IsAtRootPath: Boolean;
+begin
+  Result := (GetParentDir(CurrentPath) = '');
+end;
+
 class function TFileSystemFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
   Result := TFileSystemFile.GetSupportedProperties;
-end;
-
-function TFileSystemFileSource.GetFiles: TFiles;
-var
-  ListOperation: TFileSystemListOperation;
-begin
-  Result := nil;
-
-  ListOperation := CreateListOperation as TFileSystemListOperation;
-  try
-    ListOperation.Execute;
-    Result := ListOperation.ReleaseFiles;
-
-  finally
-    FreeAndNil(ListOperation);
-  end;
 end;
 
 function TFileSystemFileSource.CreateListOperation: TFileSourceOperation;
