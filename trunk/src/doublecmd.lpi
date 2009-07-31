@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="76">
+    <Units Count="82">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -534,6 +534,36 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFileSystemDeleteOperation"/>
       </Unit75>
+      <Unit76>
+        <Filename Value="newdesign\ufilesourceutil.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceUtil"/>
+      </Unit76>
+      <Unit77>
+        <Filename Value="newdesign\uarchivefilesource.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uArchiveFileSource"/>
+      </Unit77>
+      <Unit78>
+        <Filename Value="newdesign\uwcxarchivefilesource.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveFileSource"/>
+      </Unit78>
+      <Unit79>
+        <Filename Value="newdesign\uwcxarchivelistoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveListOperation"/>
+      </Unit79>
+      <Unit80>
+        <Filename Value="newdesign\uarchivefile.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uArchiveFile"/>
+      </Unit80>
+      <Unit81>
+        <Filename Value="newdesign\uwcxarchivefile.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveFile"/>
+      </Unit81>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
