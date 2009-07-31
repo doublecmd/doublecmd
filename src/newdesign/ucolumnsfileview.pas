@@ -334,6 +334,9 @@ type
     function Clone(NewParent: TWinControl): TColumnsFileView; override;
     procedure CloneTo(FileView: TFileView); override;
 
+    procedure AddFileSource(aFileSource: TFileSource); override;
+    procedure RemoveLastFileSource; override;
+
     {en
        Retrieves file list from file source into FFileSourceFiles.
     }
@@ -440,7 +443,8 @@ uses
   uFileSystemFileSource,
   fColumnsSetConf,
   uKeyboard,
-  uFileViewNotebook
+  uFileViewNotebook,
+  uFileSourceUtil
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   , GtkProc  // for ReleaseMouseCapture
   , GTKGlobals  // for DblClickTime
@@ -571,13 +575,28 @@ var
   PreviousSubDirectory,
   sUpLevel: String;
 begin
-  PreviousSubDirectory := ExtractFileName(ExcludeTrailingPathDelimiter(CurrentPath));
+  // Check if this is root level of the current file source.
+  if FileSource.IsAtRootPath then
+  begin
+    // If there is a higher level file source then change to it.
+    if FileSourcesCount > 1 then
+    begin
+      RemoveLastFileSource;
+      Reload;
+      UpdateView;
+    end;
+  end
+  else
+  begin
+    PreviousSubDirectory := ExtractFileName(ExcludeTrailingPathDelimiter(CurrentPath));
 
-  sUpLevel:= GetParentDir(CurrentPath);
-  if sUpLevel = EmptyStr then Exit;
-  CurrentPath := sUpLevel;
-
-  Select(PreviousSubDirectory);
+    sUpLevel:= GetParentDir(CurrentPath);
+    if sUpLevel <> EmptyStr then
+    begin
+      CurrentPath := sUpLevel;
+      Select(PreviousSubDirectory);
+    end;
+  end;
 end;
 
 procedure TColumnsFileView.cdDownLevel(AFile: TFile);
@@ -1215,28 +1234,12 @@ var
 begin
   with AFile do
   begin
-    if AFile.TheFile.Name = '..' then
+    if TheFile.Name = '..' then
     begin
       cdUpLevel;
       Exit;
     end;
 
-{
-    if (fPanelMode=pmVFS) or ((sModeStr = 'wfx') and fVFS.FindModule(sPath + sName)) then
-    begin
-      LastActive:= '';
-      LoadPanelVFS(pfri);
-      fPanel.Row := 0;
-      Exit;
-    end;
-    if (fPanelMode=pmArchive) or (not FPS_ISDIR(iMode) and fVFS.FindModule(sPath + sName)) then
-    begin
-      LastActive:= '';
-      LoadPanelVFS(pfri);
-      fPanel.Row := 0;
-      Exit;
-    end;
-}
     if TheFile.IsDirectory or TheFile.IsLinkToDirectory then // deeper and deeper
     begin
       cdDownLevel(TheFile);
@@ -1246,34 +1249,7 @@ begin
     if FolderMode then exit;
 
     LastActive := TheFile.Name;
-
-    // For now work only for FileSystem until temporary file system is done.
-    if FileSource is TFileSystemFileSource then
-    begin
-      //now test if exists Open command in doublecmd.ext :)
-      sOpenCmd:= gExts.GetExtActionCmd(AFile.TheFile, 'open');
-      if (sOpenCmd<>'') then
-      begin
-  {
-        if Pos('{!VFS}',sOpenCmd)>0 then
-        begin
-          if fVFS.FindModule(sName) then
-          begin
-            LoadPanelVFS(pfri);
-            Exit;
-          end;
-        end;
-  }
-        ReplaceExtCommand(sOpenCmd, TheFile, CurrentPath);
-        if ProcessExtCommand(sOpenCmd, CurrentPath) then
-          Exit;
-      end;
-
-      // and at the end try to open by system
-      mbSetCurrentDir(CurrentPath);
-      ShellExecute(TheFile.Name);
-      Reload;
-    end;
+    uFileSourceUtil.ChooseFile(Self, AFile.TheFile);
   end;
 end;
 
@@ -2752,15 +2728,47 @@ begin
   end;
 end;
 
+procedure TColumnsFileView.AddFileSource(aFileSource: TFileSource);
+begin
+  LastActive := '';
+  inherited AddFileSource(aFileSource);
+  dgPanel.Row := 0;
+end;
+
+procedure TColumnsFileView.RemoveLastFileSource;
+var
+  FocusedFile: String;
+begin
+  // Temporary. Do this by remembering the file name in a list?
+  FocusedFile := ExtractFileName(FileSource.CurrentAddress);
+
+  inherited RemoveLastFileSource;
+
+  Select(FocusedFile);
+end;
+
 procedure TColumnsFileView.MakeFileSourceFileList;
 var
-  AFile: TColumnsViewFile;
+  AFile: TFileSystemFile;
   i: Integer;
 begin
   if Assigned(FFileSourceFiles) then
     FreeAndNil(FFileSourceFiles);
 
   FFileSourceFiles := FileSource.GetFiles;
+
+  if Assigned(FFileSourceFiles) then
+  begin
+    // Add '..' to go to higher level file source, if there is more than one.
+    if (FileSourcesCount > 1) and (FileSource.IsAtRootPath) then
+    begin
+      AFile := TFileSystemFile.Create; // Should be appropriate class type
+      AFile.Path := FileSource.CurrentPath;
+      AFile.Name := '..';
+      AFile.Attributes := faFolder;
+      FFileSourceFiles.Add(AFile);
+    end;
+  end;
 
   // Make display file list from file source file list.
   MakeDisplayFileList;
@@ -2773,10 +2781,10 @@ var
   AFile: TColumnsViewFile;
   i: Integer;
 begin
+  FFiles.Clear;
+
   if Assigned(FFileSourceFiles) then
   begin
-    FFiles.Clear;
-
     Sort;
 
     for i := 0 to FFileSourceFiles.Count - 1 do
@@ -2792,13 +2800,13 @@ begin
                                                     fspDirectAccess in FileSource.Properties);
       FFiles.Add(AFile);
     end;
-
-    // Update row count.
-    dgPanel.RowCount := FFiles.Count
-                      + dgPanel.FixedRows; // header rows
-
-    UpDatelblInfo;
   end;
+
+  // Update row count.
+  dgPanel.RowCount := FFiles.Count
+                    + dgPanel.FixedRows; // header rows
+
+  UpDatelblInfo;
 end;
 
 procedure TColumnsFileView.Reload;

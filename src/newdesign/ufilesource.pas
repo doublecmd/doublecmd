@@ -58,20 +58,26 @@ type
     // This is the same as GetOperation(fsoList), executing it
     // and returning the result of Operation.ReleaseFiles.
     // Caller is responsible for freeing the result list.
-    function GetFiles: TFiles; virtual abstract;
+    function GetFiles: TFiles; virtual;
 
     // These functions create an operation object specific to the file source.
     // Each parameter will be owned by the operation (will be freed).
-    function CreateListOperation: TFileSourceOperation; virtual abstract;
+    function CreateListOperation: TFileSourceOperation; virtual;
     function CreateCopyInOperation(var SourceFileSource: TFileSource;
                                    var SourceFiles: TFiles;
                                    TargetPath: String;
-                                   RenameMask: String): TFileSourceOperation; virtual abstract;
+                                   RenameMask: String): TFileSourceOperation; virtual;
     function CreateCopyOutOperation(var TargetFileSource: TFileSource;
                                     var SourceFiles: TFiles;
                                     TargetPath: String;
-                                    RenameMask: String): TFileSourceOperation; virtual abstract;
-    function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; virtual abstract;
+                                    RenameMask: String): TFileSourceOperation; virtual;
+    function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; virtual;
+
+    {en
+       Returns @true if the CurrentPath is the root path of the file source,
+       @false otherwise.
+    }
+    function IsAtRootPath: Boolean; virtual;
 
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property CurrentAddress: String read GetCurrentAddress;
@@ -81,6 +87,9 @@ type
   end;
 
 implementation
+
+uses
+  uFileSourceListOperation;
 
 constructor TFileSource.Create;
 begin
@@ -120,6 +129,62 @@ begin
     FCurrentPath := ''
   else
     FCurrentPath := IncludeTrailingPathDelimiter(NewPath);
+end;
+
+function TFileSource.IsAtRootPath: Boolean;
+begin
+  // Default root is '/'. Override in descendant classes for other.
+  Result := (CurrentPath = PathDelim);
+end;
+
+// Operations.
+
+function TFileSource.GetFiles: TFiles;
+var
+  Operation: TFileSourceOperation;
+  ListOperation: TFileSourceListOperation;
+begin
+  Result := nil;
+
+  if fsoList in GetOperationsTypes then
+  begin
+    Operation := CreateListOperation;
+    if Assigned(Operation) then
+      try
+        ListOperation := Operation as TFileSourceListOperation;
+        ListOperation.Execute;
+        Result := ListOperation.ReleaseFiles;
+
+      finally
+        FreeAndNil(Operation);
+      end;
+  end;
+end;
+
+function TFileSource.CreateListOperation: TFileSourceOperation;
+begin
+  Result := nil;
+end;
+
+function TFileSource.CreateCopyInOperation(var SourceFileSource: TFileSource;
+                                           var SourceFiles: TFiles;
+                                           TargetPath: String;
+                                           RenameMask: String): TFileSourceOperation;
+begin
+  Result := nil;
+end;
+
+function TFileSource.CreateCopyOutOperation(var TargetFileSource: TFileSource;
+                                var SourceFiles: TFiles;
+                                TargetPath: String;
+                                RenameMask: String): TFileSourceOperation;
+begin
+  Result := nil;
+end;
+
+function TFileSource.CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
+begin
+  Result := nil;
 end;
 
 end.

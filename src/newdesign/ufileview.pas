@@ -5,7 +5,7 @@ unit uFileView;
 interface
 
 uses
-  Classes, SysUtils, Controls, ExtCtrls,
+  Classes, SysUtils, Controls, ExtCtrls, contnrs,
   uFile, uFileSource, uFilePanelSelect, uMethodsList;
 
 type
@@ -20,12 +20,14 @@ type
   TFileView = class(TWinControl)
   private
     {en
-       The file source associated with this view.
+       The file sources hierarchy associated with this view.
+       Last element is the file source that is currently being viewed,
+       parent file source is (index-1) and so on up to zero (first file source).
 
-       For now it lives as long as TFileView lives (it is freed in destructor).
-       Don't know if this should be changed or not.
+       For now they all live as long as TFileView lives,
+       don't know if this should be changed or not.
     }
-    FFileSource: TFileSource;
+    FFileSources: TObjectList;
 
     FMethods: TMethodsList;
 
@@ -35,6 +37,9 @@ type
     function GetCurrentAddress: String;
 
     function GetNotebookPage: TCustomPage;
+
+    function GetFileSource: TFileSource;
+    function GetFileSourcesCount: Integer;
 
   protected
     function GetCurrentPath: String; virtual;
@@ -52,6 +57,9 @@ type
     function Clone(NewParent: TWinControl): TFileView; virtual;
     procedure CloneTo(FileView: TFileView); virtual;
 
+    procedure AddFileSource(aFileSource: TFileSource); virtual;
+    procedure RemoveLastFileSource; virtual;
+
     // Retrieves files from file source again and displays the new list of files.
     procedure Reload; virtual abstract;
 
@@ -66,7 +74,9 @@ type
 
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property CurrentAddress: String read GetCurrentAddress;
-    property FileSource: TFileSource read FFileSource write FFileSource;
+    property FileSource: TFileSource read GetFileSource;// write FFileSource;
+    property FileSourcesCount: Integer read GetFileSourcesCount;
+
     {en
        Currently active file.
        There should always be at least one file in the view at any time, but
@@ -98,7 +108,8 @@ uses
 
 constructor TFileView.Create(AOwner: TWinControl; FileSource: TFileSource);
 begin
-  FFileSource := FileSource;
+  FFileSources := TObjectList.Create(True); // True = Free objects on destroy.
+  FFileSources.Add(FileSource);
   FMethods := TMethodsList.Create(Self);
   inherited Create(AOwner);
 end;
@@ -106,8 +117,8 @@ end;
 destructor TFileView.Destroy;
 begin
   inherited;
-  FreeAndNil(FFileSource);
   FreeAndNil(FMethods);
+  FreeAndNil(FFileSources);
 end;
 
 function TFileView.Clone(NewParent: TWinControl): TFileView;
@@ -116,6 +127,8 @@ begin
 end;
 
 procedure TFileView.CloneTo(FileView: TFileView);
+var
+  i: Integer;
 begin
   if Assigned(FileView) then
   begin
@@ -123,6 +136,11 @@ begin
     // FMethods are created in FileView constructor.
     FileView.OnBeforeChangeDirectory := OnBeforeChangeDirectory;
     FileView.OnAfterChangeDirectory := OnAfterChangeDirectory;
+
+    for i := 0 to FFileSources.Count - 1 do
+    begin
+      FileView.FFileSources.Add((FFileSources.Items[i] as TFileSource).Clone);
+    end;
   end;
 end;
 
@@ -133,18 +151,17 @@ end;
 
 function TFileView.GetCurrentAddress: String;
 begin
-  Result := IncludeTrailingPathDelimiter(FFileSource.CurrentAddress);
+  Result := IncludeTrailingPathDelimiter(FileSource.CurrentAddress);
 end;
 
 function TFileView.GetCurrentPath: String;
 begin
-  Result := IncludeTrailingPathDelimiter(  // trailing path delim needed?
-              FFileSource.CurrentPath);
+  Result := FileSource.CurrentPath;
 end;
 
 procedure TFileView.SetCurrentPath(NewPath: String);
 begin
-  FFileSource.CurrentPath := NewPath;
+  FileSource.CurrentPath := NewPath;
 end;
 
 function TFileView.GetActiveFile: TFile;
@@ -163,6 +180,33 @@ begin
     // Command is supported - execute it.
     TCommandFunc(Method)(Parameter);
   end;
+end;
+
+procedure TFileView.AddFileSource(aFileSource: TFileSource);
+begin
+  FFileSources.Add(aFileSource);
+  Reload;
+  UpdateView;
+end;
+
+procedure TFileView.RemoveLastFileSource;
+begin
+  FFileSources.Delete(FFileSources.Count - 1);
+  Reload;
+  UpdateView;
+end;
+
+function TFileView.GetFileSource: TFileSource;
+begin
+  if FFileSources.Count > 0 then
+    Result := FFileSources.Last as TFileSource
+  else
+    Result := nil;
+end;
+
+function TFileView.GetFileSourcesCount: Integer;
+begin
+  Result := FFileSources.Count;
 end;
 
 end.
