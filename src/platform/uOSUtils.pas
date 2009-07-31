@@ -515,8 +515,16 @@ begin
   DesktopEnv:= GetDesktopEnvironment;
   case DesktopEnv of
   DE_UNKNOWN:
-    if FileIsExecutable(URL) then
-      sCmdLine:= Format('"%s"', [URL]);
+    begin
+      if FileIsExecutable(URL) then
+      begin
+        if GetPathType(URL) <> ptAbsolute then
+          sCmdLine := './';
+        sCmdLine:= sCmdLine + QuoteStr(URL);
+      end
+      else
+        sCmdLine:= 'xdg-open ' + QuoteStr(URL);
+    end;
   DE_KDE:
     sCmdLine:= 'kfmclient exec ' + QuoteStr(URL);
   DE_GNOME:
