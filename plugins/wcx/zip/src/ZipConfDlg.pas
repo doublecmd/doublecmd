@@ -38,7 +38,7 @@ procedure SaveConfig;
   
 implementation
 
-uses ZipFunc, AbZipTyp;
+uses ZipFunc, AbZipTyp, IniFiles;
 
 function DlgProc (pDlg: PtrUInt; DlgItemName: PChar; Msg, wParam, lParam: PtrInt): PtrInt; stdcall;
 var
@@ -113,15 +113,29 @@ begin
 end;
 
 procedure LoadConfig;
+var
+  gIni: TIniFile;
 begin
-  gCompressionMethodToUse:= TAbZipSupportedMethod(gIni.ReadInteger('Configuration', 'CompressionMethodToUse', 2));
-  gDeflationOption:= TAbZipDeflationOption(gIni.ReadInteger('Configuration', 'DeflationOption', 0));
+  gIni:= TIniFile.Create(gPluginConfDir + IniFileName);
+  try
+    gCompressionMethodToUse:= TAbZipSupportedMethod(gIni.ReadInteger('Configuration', 'CompressionMethodToUse', 2));
+    gDeflationOption:= TAbZipDeflationOption(gIni.ReadInteger('Configuration', 'DeflationOption', 0));
+  finally
+    gIni.Free;
+  end;
 end;
 
 procedure SaveConfig;
+var
+  gIni: TIniFile;
 begin
-  gIni.WriteInteger('Configuration', 'CompressionMethodToUse', Integer(gCompressionMethodToUse));
-  gIni.WriteInteger('Configuration', 'DeflationOption', Integer(gDeflationOption));
+  gIni:= TIniFile.Create(gPluginConfDir + IniFileName);
+  try
+    gIni.WriteInteger('Configuration', 'CompressionMethodToUse', Integer(gCompressionMethodToUse));
+    gIni.WriteInteger('Configuration', 'DeflationOption', Integer(gDeflationOption));
+  finally
+    gIni.Free;
+  end;
 end;
 
 end.
