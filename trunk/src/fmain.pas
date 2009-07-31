@@ -1474,7 +1474,8 @@ End;
 procedure TfrmMain.HandleActionHotKeys(var Key: Word; Shift: TShiftState);
 begin
   // ---- 30.04.2009 - переписал для удаления в корзину. ----
-  If (Key = VK_F8) or (Key = VK_DELETE) then
+  If ((Key = VK_F8) or (Key = VK_DELETE)) and
+     ((not IsCommandLineVisible) or ((not edtCommand.Focused) and (edtCommand.Tag = 0))) then
    begin
     if gUseTrash and mbCheckTrash then // 14.05.2009 - additional check for various linux distributives.
      begin
