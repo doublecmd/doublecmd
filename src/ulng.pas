@@ -83,6 +83,7 @@ resourcestring
   rsMsgPresetAlreadyExists = 'Preset "%s" already exists. Overwrite?';
   // for context menu
   rsMnuActions = 'Actions';
+  rsMnuOpenWith = 'Open with ...';
   rsMnuMount = 'Mount';
   rsMnuUmount = 'Umount';
   rsMnuEject = 'Eject';

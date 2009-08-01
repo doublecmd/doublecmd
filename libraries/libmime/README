@@ -1,0 +1,10 @@
+Simple library that gives MIME for files and retrieves/sets applications
+assigned to those MIME as per Freedesktop.org specification.
+
+All code has been borrowed from:
+
+PCManFM v0.5.1 (http://pcmanfm.sourceforge.net/)
+Copyright 2007 Houng Jen Yee (PCMan) <pcman.tw@gmail.com>
+Licenced under GPLv2 or later
+
+Thank you for your hard work ;-)

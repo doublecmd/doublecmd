@@ -114,11 +114,11 @@ type
     function GetExtActionCmd(aFile: TFile; const sActionName:String):String;
     {en
        Return list of actions by extension
-       @param(sExt File extension)
+       @param(File File which actions to retrieve)
        @param(slActions Actions list)
        @returns(The function returns @true if successful, @false otherwise)
     }
-    function GetExtActions(FileRecItem: TFileRecItem; var slActions:TStringList):Boolean;
+    function GetExtActions(aFile: TFile; var slActions:TStringList):Boolean;
     {en
        Indicates the number of items
     }
@@ -387,19 +387,19 @@ begin
   extFile.Free;
 end;
 
-function TExts.GetExtActions(FileRecItem: TFileRecItem; var slActions:TStringList):Boolean;
+function TExts.GetExtActions(aFile: TFile; var slActions:TStringList):Boolean;
 var
   I: Integer;
   sMask: String;
 begin
   Result:=False;
-  if (FPS_ISDIR(FileRecItem.iMode) or (FileRecItem.bLinkIsDir)) then
+  if aFile.IsDirectory or aFile.IsLinkToDirectory then
     sMask:= cMaskFolder
   else
-    sMask:= LowerCase(FileRecItem.sExt);
+    sMask:= LowerCase(aFile.Extension);
+
   if sMask = '' then Exit;
-  if sMask[1] = '.' then
-    Delete(sMask, 1, 1);
+
   for I:= 0 to FExtList.Count - 1 do
     with GetItems(i) do
     begin
