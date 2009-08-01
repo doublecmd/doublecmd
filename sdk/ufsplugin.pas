@@ -2,7 +2,7 @@ unit ufsplugin;    {Plugin definitions version 1.5}
 
 interface
 
-uses SysUtils {$IFDEF WINDOWS}, Windows{$ENDIF};
+uses SysUtils {$IFDEF MSWINDOWS}, Windows{$ENDIF};
 
 { ids for FsGetFile }
 
@@ -165,7 +165,7 @@ type
   HICON = THandle;
 
 type
-{$IFDEF WINDOWS}
+{$IFDEF MSWINDOWS}
   FILETIME = Windows.FILETIME;
 {$ELSE}
   FILETIME = record
@@ -176,6 +176,9 @@ type
   TFileTime = FILETIME;
   PFileTime = ^FILETIME;
 
+{$IFDEF MSWINDOWS}
+  WIN32_FIND_DATA = Windows.WIN32_FIND_DATA;
+{$ELSE}
   WIN32_FIND_DATA = record
     dwFileAttributes : DWORD;
     ftCreationTime : TFILETIME;
@@ -188,6 +191,7 @@ type
     cFileName : array[0..(MAX_PATH)-1] of CHAR;
     cAlternateFileName : array[0..13] of CHAR;
   end;
+{$ENDIF}
   TWin32FindData = WIN32_FIND_DATA;
 
 type
