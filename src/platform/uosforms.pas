@@ -62,7 +62,7 @@ procedure SetMyWndProc(Handle : THandle);
    @param(FileList List of files)
    @param(aPath Current file path)
 }  
-procedure ShowFilePropertiesDialog(const FileList:TFileList; const aPath:String);
+procedure ShowFilePropertiesDialog(const Files: TFiles; const aPath:String);
 {en
    Show file/folder context menu
    @param(Owner Parent window)
@@ -90,10 +90,12 @@ function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boo
 implementation
 
 uses
-  LCLProc, fMain, uOSUtils, uGlobs, uLng, uDCUtils, uShellExecute,
-  uMimeActions
+  LCLProc, fMain, uOSUtils, uGlobs, uLng, uDCUtils, uShellExecute
+  {$IF DEFINED(MSWINDOWS)}
+  , uFileSystemFile
+  {$ENDIF}
   {$IF DEFINED(LINUX)}
-  , uFileSystemWatcher, inotify
+  , uFileSystemWatcher, inotify, uMimeActions
   {$ENDIF}
   ;
 
@@ -230,7 +232,7 @@ begin
    Result := InsertMenuItemW(hMenu, Position, false, mi);
 end;
 
-function GetIContextMenu(Handle : THandle; FileList : TFileList): IContextMenu;
+function GetIContextMenu(Handle : THandle; Files : TFiles): IContextMenu;
 type
   TPIDLArray = array[0..0] of PItemIDList;
   PPIDLArray = ^TPIDLArray;
@@ -252,11 +254,11 @@ begin
   if not Succeeded(SHGetDesktopFolder(DeskTopFolder)) then Exit;
 
   try
-    List := malloc.Alloc(SizeOf(PItemIDList)*FileList.Count);
-    for I := 0 to FileList.Count - 1 do
+    List := malloc.Alloc(SizeOf(PItemIDList)*Files.Count);
+    for I := 0 to Files.Count - 1 do
       begin
       //**********   if s <> sPath then
-        S := UTF8Decode(FileList.GetItem(I)^.sPath);
+        S := UTF8Decode(Files[I].Path);
         
         OleCheck(DeskTopFolder.ParseDisplayName(Handle, nil, PWideChar(S), pchEaten, PathPIDL, dwAttributes));
         try
@@ -266,14 +268,14 @@ begin
         end;
       //*****************
 
-        S:=UTF8Decode(FileList.GetItem(I)^.sName);
+        S:=UTF8Decode(Files[I].Name);
         OleCheck(Folder.ParseDisplayName(Handle, nil, PWideChar(S), pchEaten, tmpPIDL, dwAttributes));
         List^[i] := tmpPIDL;
       end;
 
-    Folder.GetUIObjectOf(Handle, FileList.Count, PItemIDList(List^), IID_IContextMenu, nil, Result);
+    Folder.GetUIObjectOf(Handle, Files.Count, PItemIDList(List^), IID_IContextMenu, nil, Result);
   finally
-    for I := 0 to FileList.Count - 1 do
+    for I := 0 to Files.Count - 1 do
       malloc.Free(List^[i]);
     malloc.Free(List);
   end;
@@ -282,9 +284,8 @@ end;
 
 procedure ShowContextMenu(Owner: TWinControl; Files : TFiles; X, Y : Integer);
 {$IFDEF MSWINDOWS}
-(*
 var
-  fri : TFileRecItem;
+  aFile: TFile;
   sl: TStringList = nil;
   i:Integer;
   sCmd:String;  
@@ -301,24 +302,24 @@ var
 begin
 
   try
-    if FileList.Count = 0 then Exit;
+    if Files.Count = 0 then Exit;
 
-    contMenu := GetIContextMenu(Owner.Handle, FileList);
+    contMenu := GetIContextMenu(Owner.Handle, Files);
     menu := CreatePopupMenu;
     try
       OleCheck( contMenu.QueryContextMenu(menu, 0, 1, $7FFF, CMF_EXPLORE or CMF_CANRENAME) );
       contMenu.QueryInterface(IID_IContextMenu2, ICM2); // to handle submenus.
       //------------------------------------------------------------------------------
       { Actions submenu }
-      fri := FileList.GetItem(0)^;
-      if (FileList.Count = 1) then
+      aFile := Files[0];
+      if (Files.Count = 1) then
         begin
           hActionsSubMenu := CreatePopupMenu;
 
           // Read actions from doublecmd.ext
           sl:=TStringList.Create;
 
-          if gExts.GetExtActions(fri, sl) then
+          if gExts.GetExtActions(aFile, sl) then
             begin
             //founded any commands
               InsertMenuItemEx(menu, hActionsSubMenu, PWChar(UTF8Decode(rsMnuActions)), 0, 333, MFT_STRING);
@@ -326,14 +327,14 @@ begin
                 begin
                   sCmd:=sl.Strings[i];
                   if pos('VIEW=',sCmd)>0 then Continue;  // view command is only for viewer
-                  ReplaceExtCommand(sCmd, @fri, frmMain.ActiveFrame.CurrentPath);
+                  ReplaceExtCommand(sCmd, aFile, aFile.Path);
 
                   sCmd:= RemoveQuotation(sCmd);
                   InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 0, I + $1000, MFT_STRING);
                 end;
             end;
 
-          if not (FPS_ISDIR(fri.iMode) or (fri.bLinkIsDir)) then
+          if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
             begin
               if sl.Count = 0 then
                 InsertMenuItemEx(menu, hActionsSubMenu, PWChar(UTF8Decode(rsMnuActions)), 0, 333, MFT_STRING)
@@ -342,12 +343,12 @@ begin
                 InsertMenuItemEx(hActionsSubMenu,0, nil, 0, 0, MFT_SEPARATOR);
 
               // now add VIEW item
-              sCmd:= '{!VIEWER}' + fri.sPath + fri.sName;
+              sCmd:= '{!VIEWER}' + aFile.Path + aFile.Name;
               I := sl.Add(sCmd);
               InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 1, I + $1000, MFT_STRING);
 
               // now add EDITconfigure item
-              sCmd:= '{!EDITOR}' + fri.sPath + fri.sName;
+              sCmd:= '{!EDITOR}' + aFile.Path + aFile.Name;
               I := sl.Add(sCmd);
               InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 1, I + $1000, MFT_STRING);
             end;
@@ -377,18 +378,18 @@ begin
           end
         else if SameText(sVerb, sCmdVerbRename) then
           begin
-            if FileList.Count = 1 then
-              with FileList.GetItem(0)^ do
+            if Files.Count = 1 then
+              with Files[0] do
                 begin
-                  DebugLn(sNAme);
-                  DebugLn(ExtractFileDrive(sName));
-                  if sName <> (ExtractFileDrive(sName)+PathDelim) then
+                  DebugLn(Name);
+                  DebugLn(ExtractFileDrive(Name));
+                  if Name <> (ExtractFileDrive(Name)+PathDelim) then
                     frmMain.RenameFile('')
                   else  // change drive label
                     begin
-                      sCmd:= mbGetVolumeLabel(sName, True);
+                      sCmd:= mbGetVolumeLabel(Name, True);
                       if InputQuery(rsMsgSetVolumeLabel, rsMsgVolumeLabel, sCmd) then
-                        mbSetVolumeLabel(sName, sCmd);
+                        mbSetVolumeLabel(Name, sCmd);
                     end;
                 end
             else
@@ -397,10 +398,10 @@ begin
           end
         else if SameText(sVerb, sCmdVerbOpen) then
           begin
-            if FileList.Count = 1 then
-              with FileList.GetItem(0)^ do
+            if Files.Count = 1 then
+              with Files[0] do
                 begin
-                  if FPS_ISDIR(iMode) or (bLinkIsDir) then
+                  if IsDirectory or IsLinkToDirectory then
                     begin
 {
   Do this via Actions not by directly using ActiveFrame.
@@ -450,12 +451,12 @@ begin
     else if (cmd >= $1000) then // actions sub menu
       begin
         sCmd:= sl.Strings[cmd - $1000];
-        ReplaceExtCommand(sCmd, @fri, frmMain.ActiveFrame.CurrentPath);
+        ReplaceExtCommand(sCmd, aFile, aFile.Path);
         sCmd:= Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
         try
           with frmMain.ActiveFrame do
           begin
-{
+(*
   VFS via another file source
 
             if (Pos('{!VFS}',sCmd)>0) and pnlFile.VFS.FindModule(CurrentPath + fri.sName) then
@@ -463,22 +464,19 @@ begin
                 pnlFile.LoadPanelVFS(@fri);
                 Exit;
               end;
-
+*)
             if not ProcessExtCommand(sCmd, CurrentPath) then
               frmMain.ExecCmd(sCmd);
-}
           end;
         finally
           bHandled:= True;
         end;
       end;
   finally
-    FreeAndNil(FileList);
+    FreeAndNil(Files);
     if Assigned(sl) then
       FreeAndNil(sl);
   end;
-*)
-FreeAndNil(FileList);
 end;
 {$ELSE}
 var
@@ -670,13 +668,14 @@ end;
 procedure ShowDriveContextMenu(Owner: TWinControl; sPath: String; X, Y : Integer);
 {$IFDEF MSWINDOWS}
 var
-  fri: TFileRecItem;
-  FileList: TFileList;
+  aFile: TFileSystemFile;
+  Files: TFiles;
 begin
-  fri.sName:= sPath;
-  FileList:= TFileList.Create; // free in ShowContextMenu
-  FileList.AddItem(@fri);
-  ShowContextMenu(Owner, FileList, X, Y);
+  aFile := TFileSystemFile.Create;
+  aFile.Name := sPath;
+  Files:= TFiles.Create; // free in ShowContextMenu
+  Files.Add(aFile);
+  ShowContextMenu(Owner, Files, X, Y);
 end;
 {$ELSE}
 var
@@ -725,7 +724,7 @@ end;
 {$ENDIF}
 
 (* Show file properties dialog *)
-procedure ShowFilePropertiesDialog(const FileList:TFileList; const aPath:String);
+procedure ShowFilePropertiesDialog(const Files: TFiles; const aPath:String);
 {$IFDEF UNIX}
 begin
   ShowFileProperties(FileList, aPath);
@@ -736,27 +735,20 @@ var
   contMenu: IContextMenu;
   fl : TFileList;
 begin
-  if FileList.Count = 0 then Exit;
+  if Files.Count = 0 then Exit;
 
-  fl := TFileList.Create;
-  try
-    CopyListSelectedExpandNames(FileList, fl, aPath, False);
-    contMenu := GetIContextMenu(frmMain.Handle, fl);
+  contMenu := GetIContextMenu(frmMain.Handle, Files);
 
-    FillChar(cmici, sizeof(cmici), #0);
-    with cmici do
-      begin
-        cbSize := sizeof(cmici);
-        hwnd := frmMain.Handle;
-        lpVerb := 'properties';
-        nShow := SW_SHOWNORMAL;
-      end;
+  FillChar(cmici, sizeof(cmici), #0);
+  with cmici do
+    begin
+      cbSize := sizeof(cmici);
+      hwnd := frmMain.Handle;
+      lpVerb := 'properties';
+      nShow := SW_SHOWNORMAL;
+    end;
 
-    OleCheck(contMenu.InvokeCommand(cmici));
-
-  finally
-    fl.Free;
-  end;
+  OleCheck(contMenu.InvokeCommand(cmici));
 end;
 {$ENDIF}
 
