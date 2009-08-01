@@ -28,6 +28,7 @@ interface
 
 uses
   Classes, SysUtils, uTypes, uFileList, Menus, Controls, Graphics, ExtDlgs, Dialogs,
+  uFile,
   {$IFDEF UNIX}
   BaseUnix, Unix, fFileProperties;
   {$ELSE}
@@ -47,6 +48,7 @@ type
   TContextMenu = class(TPopupMenu)
     procedure ContextMenuSelect(Sender:TObject);
     procedure DriveContextMenuSelect(Sender:TObject);
+    procedure OpenWithMenuItemSelect(Sender:TObject);
   end;
 {$ENDIF}
 
@@ -68,7 +70,7 @@ procedure ShowFilePropertiesDialog(const FileList:TFileList; const aPath:String)
    @param(X X coordinate)
    @param(Y Y coordinate)
 }
-procedure ShowContextMenu(Owner: TWinControl; FileList : TFileList; X, Y : Integer);
+procedure ShowContextMenu(Owner: TWinControl; Files : TFiles; X, Y : Integer);
 {en
    Show drive context menu
    @param(Owner Parent window)
@@ -88,7 +90,8 @@ function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boo
 implementation
 
 uses
-  LCLProc, fMain, uOSUtils, uGlobs, uLng, uDCUtils, uShellExecute
+  LCLProc, fMain, uOSUtils, uGlobs, uLng, uDCUtils, uShellExecute,
+  uMimeActions
   {$IF DEFINED(LINUX)}
   , uFileSystemWatcher, inotify
   {$ENDIF}
@@ -100,7 +103,7 @@ var
   ICM2: IContextMenu2 = nil;
 {$ELSE}
   CM : TContextMenu = nil;
-  FileRecItem: TFileRecItem;
+  FileItem: TFile;
 {$ENDIF}
 
 {$IFDEF WIN64}
@@ -196,6 +199,14 @@ begin
   // execute command
   fpSystem(sExecCmd + sPath);
 end;
+
+procedure TContextMenu.OpenWithMenuItemSelect(Sender:TObject);
+var
+  ExecCmd: String;
+begin
+  ExecCmd := (Sender as TMenuItem).Hint;
+  ExecCmdFork(ExecCmd);
+end;
 {$ENDIF}
 
 {$IFDEF MSWINDOWS}
@@ -269,8 +280,9 @@ begin
 end;
 {$ENDIF}
 
-procedure ShowContextMenu(Owner: TWinControl; FileList : TFileList; X, Y : Integer);
+procedure ShowContextMenu(Owner: TWinControl; Files : TFiles; X, Y : Integer);
 {$IFDEF MSWINDOWS}
+(*
 var
   fri : TFileRecItem;
   sl: TStringList = nil;
@@ -443,7 +455,7 @@ begin
         try
           with frmMain.ActiveFrame do
           begin
-(*
+{
   VFS via another file source
 
             if (Pos('{!VFS}',sCmd)>0) and pnlFile.VFS.FindModule(CurrentPath + fri.sName) then
@@ -454,30 +466,35 @@ begin
 
             if not ProcessExtCommand(sCmd, CurrentPath) then
               frmMain.ExecCmd(sCmd);
-*)
+}
           end;
         finally
           bHandled:= True;
         end;
       end;
-
   finally
     FreeAndNil(FileList);
     if Assigned(sl) then
       FreeAndNil(sl);
   end;
+*)
+FreeAndNil(FileList);
 end;
 {$ELSE}
 var
-  fri: TFileRecItem;
+  aFile: TFile;
   sl: TStringList;
   i: Integer;
   sCmd: String;
-  mi, miActions: TMenuItem;
+  mi, miActions, miOpenWith: TMenuItem;
+  FileNames: TStringList;
+  DesktopEntries: TList = nil;
+  AddActionsMenu: Boolean = False;
+  AddOpenWithMenu: Boolean = False;
 begin
-  if FileList.Count = 0 then
+  if Files.Count = 0 then
   begin
-    FreeAndNil(FileList);
+    FreeAndNil(Files);
     Exit;
   end;
 
@@ -494,26 +511,26 @@ begin
   mi.Caption:='-';
   CM.Items.Add(mi);
 
-  fri := FileList.GetItem(0)^;
-  if (FileList.Count = 1) then
+  aFile := Files[0];
+  if (Files.Count = 1) then
     begin
-      FileRecItem:= fri;
+      FileItem:= aFile;
       miActions:=TMenuItem.Create(CM);
       miActions.Caption:= rsMnuActions;
-  
+
       { Actions submenu }
       // Read actions from doublecmd.ext
       sl:=TStringList.Create;
       try
-        if gExts.GetExtActions(fri, sl) then
+        if gExts.GetExtActions(aFile, sl) then
           begin
-            //founded any commands
-            CM.Items.Add(miActions);
+            AddActionsMenu := True;
+
             for i:=0 to sl.Count-1 do
               begin
                 sCmd:=sl.Strings[i];
                 if pos('VIEW=',sCmd)>0 then Continue;  // view command is only for viewer
-                ReplaceExtCommand(sCmd, @fri, frmMain.ActiveFrame.CurrentPath);
+                ReplaceExtCommand(sCmd, aFile, aFile.Path);
                 mi:=TMenuItem.Create(miActions);
                 mi.Caption:=RemoveQuotation(sCmd);
                 mi.Hint:=Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
@@ -522,10 +539,11 @@ begin
                 miActions.Add(mi);
               end;
           end;
-        if not (FPS_ISDIR(fri.iMode) or (fri.bLinkIsDir)) then
+
+        if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
           begin
             if sl.Count = 0 then
-              CM.Items.Add(miActions)
+              AddActionsMenu := True
             else
               begin
                 // now add delimiter
@@ -536,14 +554,14 @@ begin
 
             // now add VIEW item
             mi:=TMenuItem.Create(miActions);
-            mi.Caption:='{!VIEWER}' + fri.sPath + fri.sName;
+            mi.Caption:='{!VIEWER}' + aFile.Path + aFile.Name;
             mi.Hint:=mi.Caption;
             mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
             miActions.Add(mi);
 
             // now add EDITconfigure item
             mi:=TMenuItem.Create(miActions);
-            mi.Caption:='{!EDITOR}' + fri.sPath + fri.sName;
+            mi.Caption:='{!EDITOR}' + aFile.Path + aFile.Name;
             mi.Hint:=mi.Caption;
             mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
             miActions.Add(mi);
@@ -551,11 +569,56 @@ begin
       finally
         FreeAndNil(sl);
       end;
+
+      if AddActionsMenu then
+      begin
+        //founded any commands
+        CM.Items.Add(miActions);
+     end;
      { /Actions submenu }
 
-      mi:=TMenuItem.Create(CM);
-      mi.Caption:='-';
-      CM.Items.Add(mi);
+      //  Open with ...  (for now only for 1 selected file)
+      FileNames := TStringList.Create;
+      try
+        for i := 0 to Files.Count - 1 do
+          FileNames.Add(Files[i].Path + Files[i].Name);
+
+        DesktopEntries := GetDesktopEntries(FileNames);
+
+        if Assigned(DesktopEntries) and (DesktopEntries.Count > 0) then
+        begin
+          miOpenWith := TMenuItem.Create(CM);
+          miOpenWith.Caption := rsMnuOpenWith;
+          CM.Items.Add(miOpenWith);
+          AddOpenWithMenu := True;
+
+          for i := 0 to DesktopEntries.Count - 1 do
+          begin
+            mi := TMenuItem.Create(miOpenWith);
+            mi.Caption := PDesktopFileEntry(DesktopEntries[i])^.DisplayName;
+            mi.Hint := PDesktopFileEntry(DesktopEntries[i])^.Exec;
+            mi.OnClick := TContextMenu.OpenWithMenuItemSelect;
+            miOpenWith.Add(mi);
+          end;
+        end;
+
+      finally
+        FreeAndNil(FileNames);
+        if Assigned(DesktopEntries) then
+        begin
+          for i := 0 to DesktopEntries.Count - 1 do
+            Dispose(PDesktopFileEntry(DesktopEntries[i]));
+          FreeAndNil(DesktopEntries);
+        end;
+      end;
+
+      // Add separator after actions and openwith menu.
+      if AddActionsMenu or AddOpenWithMenu then
+      begin
+        mi:=TMenuItem.Create(CM);
+        mi.Caption:='-';
+        CM.Items.Add(mi);
+      end;
     end; // if count = 1
 
   mi:=TMenuItem.Create(CM);
@@ -600,7 +663,7 @@ begin
   
   CM.PopUp(X, Y);
 
-  FileList.Free;
+  Files.Free;
 end;
 {$ENDIF}
 

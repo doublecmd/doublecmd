@@ -681,35 +681,43 @@ var
   fl: TFileList;
   Point: TPoint;
   Rect: TRect;
+  SelectedFiles: TFiles;
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_ContextMenu', param);
-with frmMain, ActiveFrame do
+  //frmMain.ActiveFrame.ExecuteCommand('cm_ContextMenu', param);
+
+  // Temporarily work for Filesystem only.
+  with frmMain do
   begin
-{
-    if pnlFile.PanelMode in [pmArchive, pmVFS] then
+    if not (ActiveFrame.FileSource is TFileSystemFileSource) then
+    begin
+      msgWarning(rsMsgErrNotSupported);
+      Exit;
+    end;
+
+    SelectedFiles := ActiveFrame.SelectedFiles;
+    try
+      if SelectedFiles.Count > 0 then
       begin
-        msgWarning(rsMsgErrNotSupported);
-        UnMarkAll;
-        Exit;
+        if param  = 'OnMouseClick' then
+          ShowContextMenu(frmMain, SelectedFiles, Mouse.CursorPos.x, Mouse.CursorPos.y)
+        else
+          begin
+            Point.X := 0;
+            Point.Y := 0;
+            {Rect:= dgPanel.CellRect(0, dgPanel.Row);
+            Point.X:= Rect.Left + ((Rect.Right - Rect.Left) div 2);
+            Point.Y:= Rect.Top + ((Rect.Bottom - Rect.Top) div 2);
+            Point:= dgPanel.ClientToScreen(Point);}
+            ShowContextMenu(frmMain, SelectedFiles, Point.X, Point.Y)
+          end;
       end;
 
-    if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+      SelectedFiles := nil;  // freed by ShowContextMenu
 
-    fl := TFileList.Create;  // ShowContextMenu frees 'fl'.
-    CopyListSelectedExpandNames(pnlFile.FileList, fl, ActiveDir, False);
-
-    if param  = 'OnMouseClick' then
-      ShowContextMenu(frmMain, fl, Mouse.CursorPos.x, Mouse.CursorPos.y)
-    else
-      begin
-        Rect:= dgPanel.CellRect(0, dgPanel.Row);
-        Point.X:= Rect.Left + ((Rect.Right - Rect.Left) div 2);
-        Point.Y:= Rect.Top + ((Rect.Bottom - Rect.Top) div 2);
-        Point:= dgPanel.ClientToScreen(Point);
-        ShowContextMenu(frmMain, fl, Point.X, Point.Y)
-      end;
-    ActiveFrame.UnMarkAll;
-}
+    finally
+      if Assigned(SelectedFiles) then
+        FreeAndNil(SelectedFiles);
+    end;
   end;
 end;
 
