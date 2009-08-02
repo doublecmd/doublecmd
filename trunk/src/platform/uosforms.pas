@@ -727,7 +727,9 @@ end;
 procedure ShowFilePropertiesDialog(const Files: TFiles; const aPath:String);
 {$IFDEF UNIX}
 begin
+  { TODO: Fix Show File Properties under Linux
   ShowFileProperties(FileList, aPath);
+  }
 end;
 {$ELSE}
 var
