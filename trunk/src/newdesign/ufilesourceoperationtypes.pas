@@ -16,6 +16,7 @@ type
     fsoCopyIn,
     fsoCopyOut,
     fsoDelete,
+    fsoWipe,
     fsoSetName,
     fsoSetAttribute,
     fsoExecute

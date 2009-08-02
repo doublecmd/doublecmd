@@ -242,7 +242,7 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
      HelpIntfs, dmHelpManager, uShellExecute, uClipboard, uCheckSumThread, fCheckSumCalc,
      uFileSorting, uFilePanelSelect, uFile, uFileSystemFileSource,
      uFileSystemCopyOperation, uOperationsManager, uFileSourceOperationTypes,
-     uFileSourceOperation, uFileSystemDeleteOperation;
+     uFileSourceOperation, uFileSystemDeleteOperation, uFileSystemWipeOperation;
 
 { TActs }
 
@@ -996,53 +996,59 @@ end;
 
 procedure TActs.cm_Wipe(param:string);
 var
-  fl:TFileList;
-  WT : TWipeThread;
+  theFilesToWipe: TFiles;
+  // 12.05.2009 - if delete to trash, then show another messages
+  MsgDelSel, MsgDelFlDr : string;
+  Operation: TFileSourceOperation;
+  OperationHandle: TOperationHandle;
+  ProgressDialog: TfrmFileOp;
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_Wipe', param);
-{
-  with FrmMain.ActiveFrame do
+  with frmMain.ActiveFrame do
   begin
-    if  pnlFile.PanelMode in [pmArchive, pmVFS] then // if in VFS
-      begin
-        msgWarning(rsMsgErrNotSupported);
-        Exit;
-      end; // in VFS
-
-    if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
-  end;
-
-  case msgYesNoCancel(frmMain.GetFileDlgStr(rsMsgWipeSel,rsMsgWipeFlDr)) of
-    mmrNo:
-      begin
-        FrmMain.ActiveFrame.UnMarkAll;
-        Exit;
-      end;
-    mmrCancel:
-      begin
-        with FrmMain.ActiveFrame do
-          UnSelectFileIfSelected(GetActiveItem);
-        Exit;
-      end;
-  end;
-
-  fl:= TFileList.Create; // free at Thread end by thread
-  try
-    CopyListSelectedExpandNames(FrmMain.ActiveFrame.pnlFile.FileList,fl,FrmMain.ActiveFrame.CurrentPath);
-    (* Wipe files *)
-    try
-      WT:= TWipeThread.Create(fl);
-      WT.sDstPath:= FrmMain.NotActiveFrame.CurrentPath;
-      //DT.sDstMask:=sDstMaskTemp;
-      WT.Resume;
-    except
-      WT.Free;
+    if not (fsoWipe in FileSource.GetOperationsTypes) then
+    begin
+      msgWarning(rsMsgErrNotSupported);
+      Exit;
     end;
 
-  except
-    FreeAndNil(fl);
+
+
+      MsgDelSel := rsMsgDelSel;
+      MsgDelFlDr := rsMsgDelFlDr;
+
+
+    // ------------------------------------------------------
+
+    theFilesToWipe := SelectedFiles; // free at Thread end by thread
+
+    if Assigned(theFilesToWipe) then
+    try
+      if theFilesToWipe.Count = 0 then
+        Exit;
+
+      if not msgYesNo(frmMain.GetFileDlgStr(MsgDelSel, MsgDelFlDr, theFilesToWipe)) then
+        Exit;
+
+      Operation := FileSource.CreateWipeOperation(theFilesToWipe);
+
+      if Assigned(Operation) then
+      begin
+        // Start operation.
+        OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+
+        ProgressDialog := TfrmFileOp.Create(OperationHandle);
+        ProgressDialog.Show;
+      end
+      else
+      begin
+        msgWarning(rsMsgNotImplemented);
+      end;
+
+    finally
+      if Assigned(theFilesToWipe) then
+        FreeAndNil(theFilesToWipe);
+    end;
   end;
-}
 end;
 
 procedure TActs.cm_Exit(param:string);

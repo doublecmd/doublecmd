@@ -20,6 +20,9 @@ type
   {en
      Real file system.
   }
+
+  { TFileSystemFileSource }
+
   TFileSystemFileSource = class(TLocalFileSource)
 
   protected
@@ -49,6 +52,7 @@ type
                                     TargetPath: String;
                                     RenameMask: String): TFileSourceOperation; override;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
+    function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; override;
 
     // ------------------------------------------------------
   end;
@@ -60,7 +64,8 @@ uses
   uFileSystemFile,
   uFileSystemListOperation,
   uFileSystemCopyOperation,
-  uFileSystemDeleteOperation;
+  uFileSystemDeleteOperation,
+  uFileSystemWipeOperation;
 
 constructor TFileSystemFileSource.Create;
 begin
@@ -94,6 +99,7 @@ begin
              fsoCopyIn,
              fsoCopyOut,
              fsoDelete,
+             fsoWipe,
              fsoSetName,
              fsoSetAttribute,
              fsoExecute];
@@ -178,6 +184,14 @@ var
 begin
   TargetFileSource := Self.Clone;
   Result := TFileSystemDeleteOperation.Create(TargetFileSource, FilesToDelete);
+end;
+
+function TFileSystemFileSource.CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation;
+var
+  TargetFileSource: TFileSystemFileSource;
+begin
+  TargetFileSource := Self.Clone;
+  Result := TFileSystemWipeOperation.Create(TargetFileSource, FilesToWipe);
 end;
 
 end.
