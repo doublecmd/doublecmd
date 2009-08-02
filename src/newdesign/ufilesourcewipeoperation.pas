@@ -143,9 +143,9 @@ begin
   FStatisticsLock.Acquire;
   try
     theStatistics.RemainingTime :=
-        EstimateRemainingTime(FStatisticsAtStartTime.DoneFiles,
-                              theStatistics.DoneFiles,
-                              theStatistics.TotalFiles,
+        EstimateRemainingTime(FStatisticsAtStartTime.DoneBytes,
+                              theStatistics.DoneBytes,
+                              theStatistics.TotalBytes,
                               StartTime,
                               SysUtils.Now,
                               theStatistics.BytesPerSecond);
