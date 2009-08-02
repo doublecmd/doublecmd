@@ -51,7 +51,7 @@ uses
   uFileSourceOperationUI,
   uFile,
   uFileSystemFile,
-  uDescr, uGlobs, uLog, uClassesEx;
+  uDescr, uGlobs, uLog;
 
 type
 
@@ -65,7 +65,6 @@ type
     directories: Integer;
     buffer: array [0..4095] of Byte;
     procedure Fill(chr: Integer);
-    procedure WriteData(fsFileStream: TFileStreamEx);
     procedure SecureDelete(pass: Integer; FileName: String);
     procedure WipeDir(dir: string);
     procedure WipeFile(filename: String);
@@ -98,7 +97,7 @@ type
 implementation
 
 uses
-  uOSUtils, uLng, uFindEx,
+  uOSUtils, uLng, uFindEx, uClassesEx,
   uFileSystemUtil, FileUtil, LCLProc;
 
 constructor TFileSystemWipeOperation.Create(var aTargetFileSource: TFileSource;
@@ -148,6 +147,7 @@ procedure TFileSystemWipeOperation.MainExecute;
 var
   aFile: TFileSystemFile;
   CurrentFileIndex: Integer;
+  OldDoneBytes: Int64; // for if there was an error
 begin
   for CurrentFileIndex := FFullFilesTreeToDelete.Count - 1 downto 0 do
   begin
@@ -156,19 +156,25 @@ begin
     FStatistics.CurrentFile := aFile.Path + aFile.Name;
     UpdateStatistics(FStatistics);
 
+    // If there will be an error in Wipe the DoneBytes value
+    // will be inconsistent, so remember it here.
+    OldDoneBytes := FStatistics.DoneBytes;
+
     Wipe(aFile);
 
     with FStatistics do
     begin
       DoneFiles := DoneFiles + 1;
-      DoneBytes := DoneBytes + aFile.Size;
+      // Correct statistics if file not correctly processed.
+      if DoneBytes < (OldDoneBytes + aFile.Size) then
+        DoneBytes := OldDoneBytes + aFile.Size;
 
       EstimateSpeedAndTime(FStatistics);
       UpdateStatistics(FStatistics);
 
       // Update overall progress.
-      if TotalFiles <> 0 then
-        UpdateProgress((DoneFiles * 100) div TotalFiles);
+      if TotalBytes <> 0 then
+        UpdateProgress((DoneBytes * 100) div TotalBytes);
     end;
 
     CheckOperationState;
@@ -206,36 +212,12 @@ begin
    end;
 end;
 
-procedure TFileSystemWipeOperation.WriteData(fsFileStream: TFileStreamEx);
-var
-  n: Integer;
-  max: Int64;
-begin
-  max := fsFileStream.Size;
-  fsFileStream.Position := 0;
-  while max > 0 do
-  begin
-    if max > SizeOf(buffer) then
-      n := SizeOf(buffer)
-    else
-      n := max;
-    fsFileStream.Write(Buffer, n);
-    max := max - n;
-    //---------------Progress--------------
-    CheckOperationState; // check pause and stop
-    Inc(FStatistics.CurrentFileDoneBytes, n);
-    EstimateSpeedAndTime(FStatistics);
-    UpdateStatistics(FStatistics);
-    //-------------------------------------
-  end;
-  FileFlush(fsFileStream.Handle);
-end;
-
 procedure TFileSystemWipeOperation.SecureDelete(pass: Integer; FileName: String);
 var
-  i, j: Integer;
+  i, j, n: Integer;
+  max: Int64;
   fs: TFileStreamEx;
-  rena: String;                   // renames file to delete
+  rena: String; // renames file to delete
 begin
   try
     if mbRenameFile(filename,ExtractFilePath(filename)+'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaa') then
@@ -261,10 +243,33 @@ begin
       UpdateStatistics(FStatistics);
       //-------------------------------------
       for j:= 0 to 2 do
+      begin
+        fill(j);
+        max := fs.Size;
+        fs.Position := 0;
+        while max > 0 do
         begin
-          fill(j);
-          WriteData(fs);
+          if max > SizeOf(buffer) then
+             n := SizeOf(buffer)
+          else
+            n := max;
+          fs.Write(Buffer, n);
+          max := max - n;
+          //---------------Progress--------------
+          with FStatistics do
+          begin
+            Inc(CurrentFileDoneBytes, n);
+            Inc(DoneBytes, n div (3 * pass));
+            EstimateSpeedAndTime(FStatistics);
+            UpdateStatistics(FStatistics);
+            if TotalBytes <> 0 then
+              UpdateProgress((DoneBytes * 100) div TotalBytes);
+          end;
+          //-------------------------------------
         end;
+        FileFlush(fs.Handle);
+        CheckOperationState; // check pause and stop
+      end;
     end;
     FileTruncate(fs.Handle, 0);
     fs.Free;
