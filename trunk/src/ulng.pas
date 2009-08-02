@@ -126,6 +126,7 @@ resourcestring
   // File operations dialog
   rsDlgSpeedTime = 'Speed %s/s, remaining time %s';
   rsDlgDel = 'Delete file(s)';
+  rsDlgWipe = 'Wipe file(s)';
   rsDlgCp = 'Copy file(s)';
   rsDlgMv = 'Move file(s)';
   rsDlgPack = 'Packing...';

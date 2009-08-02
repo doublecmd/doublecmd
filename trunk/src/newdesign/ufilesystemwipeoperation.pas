@@ -135,7 +135,7 @@ begin
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
-  FillAndCount(FilesToDelete as TFileSystemFiles,
+  FillAndCount(FilesToWipe as TFileSystemFiles,
                FFullFilesTreeToDelete,
                FStatistics.TotalFiles,
                FStatistics.TotalBytes);     // gets full list of files (recursive)
