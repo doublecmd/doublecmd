@@ -46,7 +46,7 @@ type
     procedure EstimateSpeedAndTime(var theStatistics: TFileSourceWipeOperationStatistics);
 
     property FileSource: TFileSource read FFileSource;
-    property FilesToDelete: TFiles read FFilesToWipe;
+    property FilesToWipe: TFiles read FFilesToWipe;
 
   public
     constructor Create(var aTargetFileSource: TFileSource;

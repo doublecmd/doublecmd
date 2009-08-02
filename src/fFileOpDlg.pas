@@ -361,7 +361,7 @@ end;
 
 procedure TfrmFileOp.InitializeWipeOperation(Operation: TFileSourceOperation);
 begin
-  Caption := rsDlgDel;
+  Caption := rsDlgWipe;
   InitializeControls([fodl_from_lbl, fodl_first_pb, fodl_second_pb]);
   lblFrom.Caption := rsDlgDeleting;
 end;

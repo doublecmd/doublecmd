@@ -997,8 +997,6 @@ end;
 procedure TActs.cm_Wipe(param:string);
 var
   theFilesToWipe: TFiles;
-  // 12.05.2009 - if delete to trash, then show another messages
-  MsgDelSel, MsgDelFlDr : string;
   Operation: TFileSourceOperation;
   OperationHandle: TOperationHandle;
   ProgressDialog: TfrmFileOp;
@@ -1011,12 +1009,6 @@ begin
       Exit;
     end;
 
-
-
-      MsgDelSel := rsMsgDelSel;
-      MsgDelFlDr := rsMsgDelFlDr;
-
-
     // ------------------------------------------------------
 
     theFilesToWipe := SelectedFiles; // free at Thread end by thread
@@ -1026,7 +1018,7 @@ begin
       if theFilesToWipe.Count = 0 then
         Exit;
 
-      if not msgYesNo(frmMain.GetFileDlgStr(MsgDelSel, MsgDelFlDr, theFilesToWipe)) then
+      if not msgYesNo(frmMain.GetFileDlgStr(rsMsgWipeSel, rsMsgWipeFlDr, theFilesToWipe)) then
         Exit;
 
       Operation := FileSource.CreateWipeOperation(theFilesToWipe);
