@@ -137,6 +137,10 @@ begin
       case Operation.ID of
         fsoCopyIn, fsoCopyOut:
           OutString := rsDlgCp;
+        fsoDelete:
+          OutString := rsDlgDel;
+        fsoWipe:
+          OutString := rsDlgWipe;
         else
           OutString := 'Unknown operation';
       end;
