@@ -350,7 +350,7 @@ begin
           begin
             //remove read-only attr
             try
-              FileCopyAttr(sPath + Search.Name, sPath + Search.Name, True);
+              mbFileSetReadOnly(sPath + Search.Name, False);
             except
               DebugLn('wp: FAILED when trying to remove read-only attr on '+ sPath + Search.Name);
             end;
@@ -361,7 +361,7 @@ begin
           begin
           //remove read-only attr
             try
-              if not FileCopyAttr(sPath + Search.Name, sPath + Search.Name, True) then
+              if not mbFileSetReadOnly(sPath + Search.Name, False) then
                 DebugLn('wp: FAILED when trying to remove read-only attr on '+ sPath + Search.Name);
             except
               DebugLn('wp: FAILED when trying to remove read-only attr on '+ sPath + Search.Name);
