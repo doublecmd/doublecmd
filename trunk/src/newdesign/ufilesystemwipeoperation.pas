@@ -264,6 +264,7 @@ begin
             UpdateStatistics(FStatistics);
             if TotalBytes <> 0 then
               UpdateProgress((DoneBytes * 100) div TotalBytes);
+            CheckOperationState; // check pause and stop
           end;
           //-------------------------------------
         end;
