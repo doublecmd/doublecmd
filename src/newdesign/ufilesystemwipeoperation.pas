@@ -51,7 +51,7 @@ uses
   uFileSourceOperationUI,
   uFile,
   uFileSystemFile,
-  uDescr, uGlobs, uLog;
+  uDescr, uGlobs, uLog, uClassesEx;
 
 type
 
@@ -65,6 +65,7 @@ type
     directories: Integer;
     buffer: array [0..4095] of Byte;
     procedure Fill(chr: Integer);
+    procedure WriteData(fsFileStream: TFileStreamEx);
     procedure SecureDelete(pass: Integer; FileName: String);
     procedure WipeDir(dir: string);
     procedure WipeFile(filename: String);
@@ -98,7 +99,7 @@ implementation
 
 uses
   uOSUtils, uLng, uFindEx,
-  uFileSystemUtil, FileUtil, LCLProc, uClassesEx;
+  uFileSystemUtil, FileUtil, LCLProc;
 
 constructor TFileSystemWipeOperation.Create(var aTargetFileSource: TFileSource;
                                               var theFilesToWipe: TFiles);
@@ -205,12 +206,34 @@ begin
    end;
 end;
 
+procedure TFileSystemWipeOperation.WriteData(fsFileStream: TFileStreamEx);
+var
+  n: Integer;
+  max: Int64;
+begin
+  max := fsFileStream.Size;
+  fsFileStream.Position := 0;
+  while max > 0 do
+  begin
+    if max > SizeOf(buffer) then
+      n := SizeOf(buffer)
+    else
+      n := max;
+    fsFileStream.Write(Buffer, n);
+    max := max - n;
+    //---------------Progress--------------
+    CheckOperationState; // check pause and stop
+    Inc(FStatistics.CurrentFileDoneBytes, n);
+    EstimateSpeedAndTime(FStatistics);
+    UpdateStatistics(FStatistics);
+    //-------------------------------------
+  end;
+  FileFlush(fsFileStream.Handle);
+end;
+
 procedure TFileSystemWipeOperation.SecureDelete(pass: Integer; FileName: String);
 var
-  n, i: Integer;
-  max,
-  iPos,
-  iMax: Int64;
+  i, j: Integer;
   fs: TFileStreamEx;
   rena: String;                   // renames file to delete
 begin
@@ -233,78 +256,15 @@ begin
     begin
       //---------------Progress--------------
       CheckOperationState; // check pause and stop
-      iMax:= fs.Size * 3;
-      iPos:= 0;
-      FStatistics.CurrentFileTotalBytes:= iMax;
-      FStatistics.CurrentFileDoneBytes:= iPos;
+      FStatistics.CurrentFileTotalBytes:= fs.Size * 3;
+      FStatistics.CurrentFileDoneBytes:= 0;
       UpdateStatistics(FStatistics);
       //-------------------------------------
-
-      //with zeros
-      fill(0);
-      max := fs.Size;
-      fs.Position := 0;
-      while max > 0 do
-      begin
-        if max > SizeOf(buffer) then
-          n := SizeOf(buffer)
-        else
-          n := max;
-        fs.Write(Buffer, n);
-        max := max - n;
-        //---------------Progress--------------
-        CheckOperationState; // check pause and stop
-        Inc(iPos, n);
-        FStatistics.CurrentFileDoneBytes:= iPos;
-        EstimateSpeedAndTime(FStatistics);
-        UpdateStatistics(FStatistics);
-        //-------------------------------------
-      end;
-      FileFlush(fs.Handle);
-
-      //with ones
-      fill(1);
-      max := fs.Size;
-      fs.Position := 0;
-      while max > 0 do
-      begin
-        if max > SizeOf(buffer) then
-          n := SizeOf(buffer)
-        else
-          n := max;
-        fs.Write(Buffer, n);
-        max := max - n;
-        //---------------Progress--------------
-        CheckOperationState; // check pause and stop
-        Inc(iPos, n);
-        FStatistics.CurrentFileDoneBytes:= iPos;
-        EstimateSpeedAndTime(FStatistics);
-        UpdateStatistics(FStatistics);
-        //-------------------------------------
-      end;
-      FileFlush(fs.Handle);
-
-      //with random data
-      fill(2);
-      max := fs.Size;
-      fs.Position := 0;
-      while max > 0 do
-      begin
-        if max > SizeOf(buffer) then
-          n := SizeOf(buffer)
-        else
-          n := max;
-        fs.Write(Buffer, n);
-        max := max - n;
-        //---------------Progress--------------
-        CheckOperationState; // check pause and stop
-        Inc(iPos, n);
-        FStatistics.CurrentFileDoneBytes:= iPos;
-        EstimateSpeedAndTime(FStatistics);
-        UpdateStatistics(FStatistics);
-        //-------------------------------------
-      end;
-      FileFlush(fs.Handle);
+      for j:= 0 to 2 do
+        begin
+          fill(j);
+          WriteData(fs);
+        end;
     end;
     FileTruncate(fs.Handle, 0);
     fs.Free;
