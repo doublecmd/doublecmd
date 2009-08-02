@@ -668,6 +668,10 @@ msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Zrušit"
 
+#: TFRMFILEOP.BTNWORKINBACKGROUND.CAPTION
+msgid "Work in &background"
+msgstr ""
+
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
 msgstr "Zpracovat soubor(y)"
@@ -3044,7 +3048,9 @@ msgid "Customize column"
 msgstr "Nastavení sloupců:"
 
 #: ulng.rsdlgbuttons
-msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
+#, fuzzy
+#| msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
+msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
 msgstr "&OK;&Ne;&Ano;&Zrušit;&Není;&Připojit;&Přepsat;Přepsat &Vše;Pře&skočit;Přes&kočit vše;Vše;"
 
 #: ulng.rsdlgchecksumcalc
@@ -3066,6 +3072,10 @@ msgstr "Kopírovat soubor(y)"
 msgid "Delete file(s)"
 msgstr "Smazat soubor(y)"
 
+#: ulng.rsdlgdeleting
+msgid "Deleting"
+msgstr ""
+
 #: ulng.rsdlgextract
 msgid "Extracting..."
 msgstr "Dekomprese..."
@@ -3079,8 +3089,14 @@ msgid "Packing..."
 msgstr "Komprese..."
 
 #: ulng.rsdlgspeedtime
-msgid "Speed %s/s, remained time %s"
+#, fuzzy
+#| msgid "Speed %s/s, remained time %s"
+msgid "Speed %s/s, remaining time %s"
 msgstr "Rychlost %s/s, zbývající čas %s"
+
+#: ulng.rsdlgwipe
+msgid "Wipe file(s)"
+msgstr ""
 
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
@@ -3199,6 +3215,10 @@ msgstr "Vysunout"
 #: ulng.rsmnumount
 msgid "Mount"
 msgstr "Připojit"
+
+#: ulng.rsmnuopenwith
+msgid "Open with ..."
+msgstr ""
 
 #: ulng.rsmnuumount
 msgid "Umount"
@@ -3336,6 +3356,10 @@ msgstr "Soubor %s byl změněn, uložit?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Soubor %s existuje, přepsat?"
+
+#: ulng.rsmsgfilereadonly
+msgid "File %s is marked as read-only. Delete it?"
+msgstr ""
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"

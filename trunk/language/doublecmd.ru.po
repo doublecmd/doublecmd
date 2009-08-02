@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-07-09 00:31+0300\n"
+"PO-Revision-Date: 2009-08-02 14:43+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -650,6 +650,10 @@ msgstr "Открыть в просмотрщике"
 msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr ""
+
+#: TFRMFILEOP.BTNWORKINBACKGROUND.CAPTION
+msgid "Work in &background"
+msgstr "В фоне"
 
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
@@ -3017,7 +3021,9 @@ msgid "Customize column"
 msgstr "Настроить колонку: "
 
 #: ulng.rsdlgbuttons
-msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
+#, fuzzy
+#| msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
+msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
 msgstr "&OK;&Нет;&Да;&Отмена;&Ни одного;&Добавить;&Переписать;Переписать &все;&Пропустить;Проп&устить Все;Все;"
 
 #: ulng.rsdlgchecksumcalc
@@ -3039,6 +3045,10 @@ msgstr "Копировать файл(ы)"
 msgid "Delete file(s)"
 msgstr "Удалить файл(ы)"
 
+#: ulng.rsdlgdeleting
+msgid "Deleting"
+msgstr "Удаление"
+
 #: ulng.rsdlgextract
 msgid "Extracting..."
 msgstr "Распаковка..."
@@ -3052,8 +3062,14 @@ msgid "Packing..."
 msgstr "Упаковка..."
 
 #: ulng.rsdlgspeedtime
-msgid "Speed %s/s, remained time %s"
+#, fuzzy
+#| msgid "Speed %s/s, remained time %s"
+msgid "Speed %s/s, remaining time %s"
 msgstr "Скорость %s/с, осталось времени %s"
+
+#: ulng.rsdlgwipe
+msgid "Wipe file(s)"
+msgstr "Удалить файл(ы)"
 
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
@@ -3172,6 +3188,10 @@ msgstr "Извлечь"
 #: ulng.rsmnumount
 msgid "Mount"
 msgstr "Смонтировать"
+
+#: ulng.rsmnuopenwith
+msgid "Open with ..."
+msgstr "Открыть с помощью..."
 
 #: ulng.rsmnuumount
 msgid "Umount"
@@ -3308,6 +3328,10 @@ msgstr "Файл %s изменён, сохранить?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Файл %s существует, переписать?"
+
+#: ulng.rsmsgfilereadonly
+msgid "File %s is marked as read-only. Delete it?"
+msgstr ""
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"

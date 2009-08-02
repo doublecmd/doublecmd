@@ -652,6 +652,10 @@ msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr ""
 
+#: TFRMFILEOP.BTNWORKINBACKGROUND.CAPTION
+msgid "Work in &background"
+msgstr ""
+
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
 msgstr "Procesar fichero(s)"
@@ -3021,7 +3025,9 @@ msgid "Customize column"
 msgstr ""
 
 #: ulng.rsdlgbuttons
-msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
+#, fuzzy
+#| msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
+msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
 msgstr "&Aceptar;&No;&Sí;&Cancelar;&Ninguno;&Añadir;&Reescribir;Reescribir &Todo;&Saltar;S&altar todos;Todos;"
 
 #: ulng.rsdlgchecksumcalc
@@ -3043,6 +3049,10 @@ msgstr "Copiar fichero(s)"
 msgid "Delete file(s)"
 msgstr "Borrar fichero(s)"
 
+#: ulng.rsdlgdeleting
+msgid "Deleting"
+msgstr ""
+
 #: ulng.rsdlgextract
 msgid "Extracting..."
 msgstr "Extrayendo..."
@@ -3056,7 +3066,11 @@ msgid "Packing..."
 msgstr "Comprimiendo..."
 
 #: ulng.rsdlgspeedtime
-msgid "Speed %s/s, remained time %s"
+msgid "Speed %s/s, remaining time %s"
+msgstr ""
+
+#: ulng.rsdlgwipe
+msgid "Wipe file(s)"
 msgstr ""
 
 #: ulng.rseditabouttext
@@ -3175,6 +3189,10 @@ msgstr ""
 
 #: ulng.rsmnumount
 msgid "Mount"
+msgstr ""
+
+#: ulng.rsmnuopenwith
+msgid "Open with ..."
 msgstr ""
 
 #: ulng.rsmnuumount
@@ -3312,6 +3330,10 @@ msgstr "%s ha cambiado, guardar?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "%s existe, sobreescribir?"
+
+#: ulng.rsmsgfilereadonly
+msgid "File %s is marked as read-only. Delete it?"
+msgstr ""
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"

@@ -652,6 +652,10 @@ msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Отказ"
 
+#: TFRMFILEOP.BTNWORKINBACKGROUND.CAPTION
+msgid "Work in &background"
+msgstr ""
+
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
 msgstr "Обработка на файл(ове)"
@@ -3021,7 +3025,9 @@ msgid "Customize column"
 msgstr "Нагласяване на стълбове:"
 
 #: ulng.rsdlgbuttons
-msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
+#, fuzzy
+#| msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
+msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
 msgstr "&Добре;&Не;&Да;&Отказ;&Няма;&Довършване;&Замяна;Замяна &Всички;&Пропускане;П&ропускане на всички;Всички;"
 
 #: ulng.rsdlgchecksumcalc
@@ -3043,6 +3049,10 @@ msgstr "Презапис на на файл(ове)"
 msgid "Delete file(s)"
 msgstr "Изтриване на файл(ове)"
 
+#: ulng.rsdlgdeleting
+msgid "Deleting"
+msgstr ""
+
 #: ulng.rsdlgextract
 msgid "Extracting..."
 msgstr "Извличане..."
@@ -3056,8 +3066,14 @@ msgid "Packing..."
 msgstr "Сбиване..."
 
 #: ulng.rsdlgspeedtime
-msgid "Speed %s/s, remained time %s"
+#, fuzzy
+#| msgid "Speed %s/s, remained time %s"
+msgid "Speed %s/s, remaining time %s"
 msgstr "Скорост %s/s, остава %s"
+
+#: ulng.rsdlgwipe
+msgid "Wipe file(s)"
+msgstr ""
 
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
@@ -3176,6 +3192,10 @@ msgstr "Изваждане"
 #: ulng.rsmnumount
 msgid "Mount"
 msgstr "Прикачане"
+
+#: ulng.rsmnuopenwith
+msgid "Open with ..."
+msgstr ""
 
 #: ulng.rsmnuumount
 msgid "Umount"
@@ -3312,6 +3332,10 @@ msgstr "Фаълът %s е променен. Да бъде ли съхранен
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Съществува файл %s. Да бъде ли заменен?"
+
+#: ulng.rsmsgfilereadonly
+msgid "File %s is marked as read-only. Delete it?"
+msgstr ""
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"

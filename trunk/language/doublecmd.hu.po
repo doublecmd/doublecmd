@@ -652,6 +652,10 @@ msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Mégsem"
 
+#: TFRMFILEOP.BTNWORKINBACKGROUND.CAPTION
+msgid "Work in &background"
+msgstr ""
+
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
 msgstr "Fájl(ok) feldolgozása"
@@ -3032,8 +3036,8 @@ msgstr "Oszlop személyreszabása:"
 
 #: ulng.rsdlgbuttons
 #, fuzzy
-#| msgid "&OK;&No;&Yes;&Cancel;&None;&Append;&Rewrite;Rewrite &All;&Skip;S&kip All;All;"
-msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
+#| msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
+msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
 msgstr "&Oké;&Nem;&Igen;&Mégsem;&Egyik sem;&Hozzáfűz;&Felülír;Min&det felülír;&Kihagy;Minde&t kihagy;Mind;"
 
 #: ulng.rsdlgchecksumcalc
@@ -3055,6 +3059,10 @@ msgstr "Fájl(ok) másolása"
 msgid "Delete file(s)"
 msgstr "Fájl(ok) törlése"
 
+#: ulng.rsdlgdeleting
+msgid "Deleting"
+msgstr ""
+
 #: ulng.rsdlgextract
 msgid "Extracting..."
 msgstr "Kibontás..."
@@ -3068,8 +3076,14 @@ msgid "Packing..."
 msgstr "Tömörítés..."
 
 #: ulng.rsdlgspeedtime
-msgid "Speed %s/s, remained time %s"
+#, fuzzy
+#| msgid "Speed %s/s, remained time %s"
+msgid "Speed %s/s, remaining time %s"
 msgstr "Sebesség %s/s, hátralevő idő %s"
+
+#: ulng.rsdlgwipe
+msgid "Wipe file(s)"
+msgstr ""
 
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
@@ -3189,6 +3203,10 @@ msgstr "Kiadás"
 #: ulng.rsmnumount
 msgid "Mount"
 msgstr "Csatolás"
+
+#: ulng.rsmnuopenwith
+msgid "Open with ..."
+msgstr ""
 
 #: ulng.rsmnuumount
 msgid "Umount"
@@ -3325,6 +3343,10 @@ msgstr "A %s fájl megváltozott, menti?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "A %s fájl már létezik, felülírja?"
+
+#: ulng.rsmsgfilereadonly
+msgid "File %s is marked as read-only. Delete it?"
+msgstr ""
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
