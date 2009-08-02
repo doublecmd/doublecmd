@@ -3069,7 +3069,7 @@ msgstr "Скорость %s/с, осталось времени %s"
 
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
-msgstr "Удалить файл(ы)"
+msgstr "Стереть файл(ы)"
 
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
