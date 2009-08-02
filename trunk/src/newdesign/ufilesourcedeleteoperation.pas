@@ -39,9 +39,8 @@ type
   protected
     function GetID: TFileSourceOperationType; override;
 
-    procedure UpdateStatistics(NewStatistics: TFileSourceDeleteOperationStatistics);
+    procedure UpdateStatistics(var NewStatistics: TFileSourceDeleteOperationStatistics);
     procedure UpdateStatisticsAtStartTime; override;
-    procedure EstimateSpeedAndTime(var theStatistics: TFileSourceDeleteOperationStatistics);
 
     property FileSource: TFileSource read FFileSource;
     property FilesToDelete: TFiles read FFilesToDelete;
@@ -101,11 +100,31 @@ begin
   Result := fsoDelete;
 end;
 
-procedure TFileSourceDeleteOperation.UpdateStatistics(NewStatistics: TFileSourceDeleteOperationStatistics);
+procedure TFileSourceDeleteOperation.UpdateStatistics(var NewStatistics: TFileSourceDeleteOperationStatistics);
 begin
   FStatisticsLock.Acquire;
   try
-    Self.FStatistics := NewStatistics;
+    // Check if the value by which we calculate progress and remaining time has changed.
+    if FStatistics.DoneFiles <> NewStatistics.DoneFiles then
+    begin
+      with NewStatistics do
+      begin
+        RemainingTime :=
+            EstimateRemainingTime(FStatisticsAtStartTime.DoneFiles,
+                                  DoneFiles,
+                                  TotalFiles,
+                                  StartTime,
+                                  SysUtils.Now,
+                                  FilesPerSecond);
+
+        // Update overall progress.
+        if TotalFiles <> 0 then
+          UpdateProgress((DoneFiles * 100) div TotalFiles);
+      end;
+    end;
+
+    FStatistics := NewStatistics;
+
   finally
     FStatisticsLock.Release;
   end;
@@ -128,23 +147,6 @@ begin
   FStatisticsLock.Acquire;
   try
     Result := Self.FStatistics;
-  finally
-    FStatisticsLock.Release;
-  end;
-end;
-
-procedure TFileSourceDeleteOperation.EstimateSpeedAndTime(
-              var theStatistics: TFileSourceDeleteOperationStatistics);
-begin
-  FStatisticsLock.Acquire;
-  try
-    theStatistics.RemainingTime :=
-        EstimateRemainingTime(FStatisticsAtStartTime.DoneFiles,
-                              theStatistics.DoneFiles,
-                              theStatistics.TotalFiles,
-                              StartTime,
-                              SysUtils.Now,
-                              theStatistics.FilesPerSecond);
   finally
     FStatisticsLock.Release;
   end;

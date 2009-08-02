@@ -119,12 +119,7 @@ begin
       DoneFiles := DoneFiles + 1;
       DoneBytes := DoneBytes + aFile.Size;
 
-      EstimateSpeedAndTime(FStatistics);
       UpdateStatistics(FStatistics);
-
-      // Update overall progress.
-      if TotalFiles <> 0 then
-        UpdateProgress((DoneFiles * 100) div TotalFiles);
     end;
 
     CheckOperationState;

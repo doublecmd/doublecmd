@@ -169,12 +169,7 @@ begin
       if DoneBytes < (OldDoneBytes + aFile.Size) then
         DoneBytes := OldDoneBytes + aFile.Size;
 
-      EstimateSpeedAndTime(FStatistics);
       UpdateStatistics(FStatistics);
-
-      // Update overall progress.
-      if TotalBytes <> 0 then
-        UpdateProgress((DoneBytes * 100) div TotalBytes);
     end;
 
     CheckOperationState;
@@ -260,10 +255,7 @@ begin
           begin
             Inc(CurrentFileDoneBytes, n);
             Inc(DoneBytes, n div (3 * pass));
-            EstimateSpeedAndTime(FStatistics);
             UpdateStatistics(FStatistics);
-            if TotalBytes <> 0 then
-              UpdateProgress((DoneBytes * 100) div TotalBytes);
             CheckOperationState; // check pause and stop
           end;
           //-------------------------------------

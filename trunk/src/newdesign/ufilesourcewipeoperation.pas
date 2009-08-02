@@ -41,9 +41,8 @@ type
   protected
     function GetID: TFileSourceOperationType; override;
 
-    procedure UpdateStatistics(NewStatistics: TFileSourceWipeOperationStatistics);
+    procedure UpdateStatistics(var NewStatistics: TFileSourceWipeOperationStatistics);
     procedure UpdateStatisticsAtStartTime; override;
-    procedure EstimateSpeedAndTime(var theStatistics: TFileSourceWipeOperationStatistics);
 
     property FileSource: TFileSource read FFileSource;
     property FilesToWipe: TFiles read FFilesToWipe;
@@ -105,11 +104,31 @@ begin
   Result := fsoWipe;
 end;
 
-procedure TFileSourceWipeOperation.UpdateStatistics(NewStatistics: TFileSourceWipeOperationStatistics);
+procedure TFileSourceWipeOperation.UpdateStatistics(var NewStatistics: TFileSourceWipeOperationStatistics);
 begin
   FStatisticsLock.Acquire;
   try
-    Self.FStatistics := NewStatistics;
+    // Check if the value by which we calculate progress and remaining time has changed.
+    if FStatistics.DoneBytes <> NewStatistics.DoneBytes then
+    begin
+      with NewStatistics do
+      begin
+        RemainingTime :=
+          EstimateRemainingTime(FStatisticsAtStartTime.DoneBytes,
+                                DoneBytes,
+                                TotalBytes,
+                                StartTime,
+                                SysUtils.Now,
+                                BytesPerSecond);
+
+        // Update overall progress.
+        if TotalBytes <> 0 then
+          UpdateProgress((DoneBytes * 100) div TotalBytes);
+      end;
+    end;
+
+    FStatistics := NewStatistics;
+
   finally
     FStatisticsLock.Release;
   end;
@@ -132,23 +151,6 @@ begin
   FStatisticsLock.Acquire;
   try
     Result := Self.FStatistics;
-  finally
-    FStatisticsLock.Release;
-  end;
-end;
-
-procedure TFileSourceWipeOperation.EstimateSpeedAndTime(
-              var theStatistics: TFileSourceWipeOperationStatistics);
-begin
-  FStatisticsLock.Acquire;
-  try
-    theStatistics.RemainingTime :=
-        EstimateRemainingTime(FStatisticsAtStartTime.DoneBytes,
-                              theStatistics.DoneBytes,
-                              theStatistics.TotalBytes,
-                              StartTime,
-                              SysUtils.Now,
-                              theStatistics.BytesPerSecond);
   finally
     FStatisticsLock.Release;
   end;
