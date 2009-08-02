@@ -64,8 +64,10 @@ type
 
     procedure InitializeCopyOperation(Operation: TFileSourceOperation);
     procedure InitializeDeleteOperation(Operation: TFileSourceOperation);
+    procedure InitializeWipeOperation(Operation: TFileSourceOperation);
     procedure UpdateCopyOperation(Operation: TFileSourceOperation);
     procedure UpdateDeleteOperation(Operation: TFileSourceOperation);
+    procedure UpdateWipeOperation(Operation: TFileSourceOperation);
 
   public
     iProgress1Max: Integer;
@@ -94,6 +96,7 @@ uses
    uFileSourceOperationTypes,
    uFileSourceCopyOperation,
    uFileSourceDeleteOperation,
+   uFileSourceWipeOperation,
    uFileSourceOperationMessageBoxesUI;
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
@@ -164,6 +167,8 @@ begin
         InitializeCopyOperation(Operation);
       fsoDelete:
         InitializeDeleteOperation(Operation);
+      fsoWipe:
+        InitializeWipeOperation(Operation);
 
       else
         begin
@@ -260,6 +265,8 @@ begin
         UpdateCopyOperation(Operation);
       fsoDelete:
         UpdateDeleteOperation(Operation);
+      fsoWipe:
+        UpdateWipeOperation(Operation);
 
       else
       begin
@@ -352,6 +359,13 @@ begin
   lblFrom.Caption := rsDlgDeleting;
 end;
 
+procedure TfrmFileOp.InitializeWipeOperation(Operation: TFileSourceOperation);
+begin
+  Caption := rsDlgDel;
+  InitializeControls([fodl_from_lbl, fodl_first_pb, fodl_second_pb]);
+  lblFrom.Caption := rsDlgDeleting;
+end;
+
 procedure TfrmFileOp.UpdateCopyOperation(Operation: TFileSourceOperation);
 var
   CopyOperation: TFileSourceCopyOperation;
@@ -419,6 +433,45 @@ begin
       begin
         sEstimated := FormatDateTime('HH:MM:SS', RemainingTime);
         sEstimated := Format(rsDlgSpeedTime, [IntToStr(FilesPerSecond), sEstimated]);
+      end;
+    end;
+  end;
+
+  lblEstimated.Caption := sEstimated;
+end;
+
+procedure TfrmFileOp.UpdateWipeOperation(Operation: TFileSourceOperation);
+var
+  WipeOperation: TFileSourceWipeOperation;
+  WipeStatistics: TFileSourceWipeOperationStatistics;
+begin
+  WipeOperation := Operation as TFileSourceWipeOperation;
+  WipeStatistics := WipeOperation.RetrieveStatistics;
+
+  with WipeStatistics do
+  begin
+    lblFileNameFrom.Caption := CurrentFile;
+
+    if CurrentFileTotalBytes <> 0 then
+      pbFirst.Position := (CurrentFileDoneBytes * 100) div CurrentFileTotalBytes
+    else
+      pbFirst.Position := 0;
+
+    if TotalBytes <> 0 then
+      pbSecond.Position := (DoneBytes * 100) div TotalBytes
+    else
+      pbSecond.Position := 0;
+
+    if Operation.State in [fsosNotStarted, fsosPaused, fsosWaitingForFeedback, fsosStopped] then
+      sEstimated := ''
+    else
+    begin
+      if BytesPerSecond = 0 then
+        sEstimated := 'Estimating time...'
+      else
+      begin
+        sEstimated := FormatDateTime('HH:MM:SS', RemainingTime);
+        sEstimated := Format(rsDlgSpeedTime, [cnvFormatFileSize(BytesPerSecond), sEstimated]);
       end;
     end;
   end;

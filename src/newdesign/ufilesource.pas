@@ -14,6 +14,8 @@ uses
 
 type
 
+  { TFileSource }
+
   TFileSource = class(TObject)
 
   private
@@ -72,6 +74,7 @@ type
                                     TargetPath: String;
                                     RenameMask: String): TFileSourceOperation; virtual;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; virtual;
+    function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; virtual;
 
     {en
        Returns @true if the CurrentPath is the root path of the file source,
@@ -183,6 +186,11 @@ begin
 end;
 
 function TFileSource.CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
+begin
+  Result := nil;
+end;
+
+function TFileSource.CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation;
 begin
   Result := nil;
 end;
