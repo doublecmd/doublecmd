@@ -652,6 +652,10 @@ msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "取消"
 
+#: TFRMFILEOP.BTNWORKINBACKGROUND.CAPTION
+msgid "Work in &background"
+msgstr ""
+
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
 msgstr "处理文件:"
@@ -3021,7 +3025,9 @@ msgid "Customize column"
 msgstr "自定义列"
 
 #: ulng.rsdlgbuttons
-msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
+#, fuzzy
+#| msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
+msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
 msgstr "确定(&O);否(&N);是(&Y);取消(&C);无(&N);添加(&A);覆盖(&R);覆盖全部(&A);略过(&S);略过全部(&K);全部;"
 
 #: ulng.rsdlgchecksumcalc
@@ -3043,6 +3049,10 @@ msgstr "复制文件"
 msgid "Delete file(s)"
 msgstr "删除文件"
 
+#: ulng.rsdlgdeleting
+msgid "Deleting"
+msgstr ""
+
 #: ulng.rsdlgextract
 msgid "Extracting..."
 msgstr "解压缩..."
@@ -3056,8 +3066,14 @@ msgid "Packing..."
 msgstr "打包..."
 
 #: ulng.rsdlgspeedtime
-msgid "Speed %s/s, remained time %s"
+#, fuzzy
+#| msgid "Speed %s/s, remained time %s"
+msgid "Speed %s/s, remaining time %s"
 msgstr "速度 %s/秒, 剩余时间 %s"
+
+#: ulng.rsdlgwipe
+msgid "Wipe file(s)"
+msgstr ""
 
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
@@ -3176,6 +3192,10 @@ msgstr "弹出"
 #: ulng.rsmnumount
 msgid "Mount"
 msgstr "解挂"
+
+#: ulng.rsmnuopenwith
+msgid "Open with ..."
+msgstr ""
 
 #: ulng.rsmnuumount
 msgid "Umount"
@@ -3312,6 +3332,10 @@ msgstr "文件 %s 已修改, 是否保存?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "文件 %s 已存在, 是否覆盖?"
+
+#: ulng.rsmsgfilereadonly
+msgid "File %s is marked as read-only. Delete it?"
+msgstr ""
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
