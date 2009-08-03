@@ -579,6 +579,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(LazarusDir)\ide\;$(ProjOutDir)\"/>
+      <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)\"/>
       <OtherUnitFiles Value="$(ProjPath)\platform\;$(ProjPath)\platform\$(SrcOS)\;..\sdk\;$(ProjPath)\newdesign\;$(ProjPath)\newdesign\fileproperties\;newdesign\columnsview\"/>
       <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
       <SrcPath Value="$(LazarusDir)\lcl\;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType)\;$(fpcsrcdir)\packages\fcl-base\src\"/>
@@ -607,10 +608,6 @@
       </Debugging>
     </Linking>
     <Other>
-      <ConfigFile>
-        <CustomConfigFile Value="True"/>
-        <ConfigFilePath Value="doublecmd-fpc.cfg"/>
-      </ConfigFile>
       <CompilerPath Value="$(CompPath)"/>
       <ExecuteBefore>
         <Command Value="_getsvnrev.cmd $(LazarusDir)"/>
