@@ -765,33 +765,23 @@ end;
 
 procedure TActs.cm_OpenDirInNewTab(param:string);
 var
-  sDir: String;
-  bSetActive: Boolean;
+  NewPage: TFileViewPage;
+  NewPath: String;
+  aFile: TFile;
 begin
-  with FrmMain.ActiveFrame do
-  begin
-{
-    if IsEmpty then Exit;
-    if IsActiveItemValid and FPS_ISDIR(pnlFile.GetActiveItem^.iMode) then
-      sDir:= FrmMain.ActiveFrame.CurrentPath + pnlFile.GetActiveItem^.sName
-    else
-      sDir:= FrmMain.ActiveFrame.CurrentPath;
-}
-  end;
-
-  bSetActive:= tb_open_new_in_foreground in gDirTabOptions;
   with FrmMain do
   begin
-{
-   case SelectedPanel of
-    fpLeft:
-       CreatePanel(AddPage(LeftTabs, bSetActive), fpLeft, sDir);
-    fpRight:
-       CreatePanel(AddPage(RightTabs, bSetActive), fpRight, sDir);
+    aFile := ActiveFrame.ActiveFile;
+    if Assigned(aFile) and aFile.IsNameValid and
+       (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+    begin
+      NewPath := ActiveFrame.CurrentPath + aFile.Name;
+      NewPage := ActiveNotebook.AddPage;
+      ActiveFrame.Clone(NewPage);
+      NewPage.FileView.CurrentPath := NewPath;
+      if tb_open_new_in_foreground in gDirTabOptions then
+        NewPage.MakeActive;
     end;
-}
-    if bSetActive then
-      ActiveFrame.SetFocus;
   end;
 end;
 
