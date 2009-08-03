@@ -11,6 +11,7 @@ type
 
   TFileSourceOperationUIResponse =
     (fsourInvalid,
+     fsourOk,
      fsourNo,
      fsourYes,
      fsourCancel,

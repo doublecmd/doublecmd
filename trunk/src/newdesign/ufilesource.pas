@@ -5,7 +5,7 @@ unit uFileSource;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, uDCUtils,
   uFileSourceOperation,
   uFileSourceOperationTypes,
   uFileSourceProperty,
@@ -75,12 +75,15 @@ type
                                     RenameMask: String): TFileSourceOperation; virtual;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; virtual;
     function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; virtual;
+    function CreateCreateDirectoryOperation(DirectoryPath: String): TFileSourceOperation; virtual;
 
     {en
        Returns @true if the CurrentPath is the root path of the file source,
        @false otherwise.
     }
     function IsAtRootPath: Boolean; virtual;
+
+    class function GetPathType(sPath : String): TPathType; virtual;
 
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property CurrentAddress: String read GetCurrentAddress;
@@ -140,6 +143,19 @@ begin
   Result := (CurrentPath = PathDelim);
 end;
 
+class function TFileSource.GetPathType(sPath : String): TPathType;
+begin
+  Result := ptNone;
+  if sPath <> '' then
+  begin
+    // Default root is '/'. Override in descendant classes for other.
+    if (sPath[1] = PathDelim) then
+      Result := ptAbsolute
+    else if ( Pos( PathDelim, sPath ) > 0 ) then
+      Result := ptRelative;
+  end;
+end;
+
 // Operations.
 
 function TFileSource.GetFiles: TFiles;
@@ -191,6 +207,11 @@ begin
 end;
 
 function TFileSource.CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation;
+begin
+  Result := nil;
+end;
+
+function TFileSource.CreateCreateDirectoryOperation(DirectoryPath: String): TFileSourceOperation;
 begin
   Result := nil;
 end;

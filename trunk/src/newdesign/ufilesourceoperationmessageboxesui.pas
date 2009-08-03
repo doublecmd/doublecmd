@@ -32,11 +32,11 @@ uses
 
 const
   ResponseToButton: array[TFileSourceOperationUIResponse] of TMyMsgButton =
-    (msmbOK, msmbNO, msmbYes, msmbCancel, msmbNone, msmbAppend,
+    (msmbOK, msmbOK, msmbNo, msmbYes, msmbCancel, msmbNone, msmbAppend,
      msmbRewrite, msmbRewriteAll, msmbSkip, msmbSkipAll, msmbAll, msmbRetry, msmbAbort);
 
   ResultToResponse: array[TMyMsgResult] of TFileSourceOperationUIResponse =
-    (fsourInvalid, fsourNo, fsourYes, fsourCancel, fsourNone, fsourAppend,
+    (fsourOk, fsourNo, fsourYes, fsourCancel, fsourNone, fsourAppend,
      fsourRewrite, fsourRewriteAll, fsourSkip, fsourSkipAll, fsourAll, fsourRetry, fsourAbort);
 
 constructor TFileSourceOperationMessageBoxesUI.Create;

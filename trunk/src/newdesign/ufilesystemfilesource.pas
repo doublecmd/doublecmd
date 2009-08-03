@@ -5,7 +5,7 @@ unit uFileSystemFileSource;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, uDCUtils,
   uFileSourceOperation,
   uFileSourceOperationTypes,
   uLocalFileSource,
@@ -41,6 +41,7 @@ type
     class function GetProperties: TFileSourceProperties; override;
 
     function IsAtRootPath: Boolean; override;
+    class function GetPathType(sPath : String): TPathType; override;
 
     function CreateListOperation: TFileSourceOperation; override;
     function CreateCopyInOperation(var SourceFileSource: TFileSource;
@@ -53,6 +54,7 @@ type
                                     RenameMask: String): TFileSourceOperation; override;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
     function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; override;
+    function CreateCreateDirectoryOperation(DirectoryPath: String): TFileSourceOperation; override;
 
     // ------------------------------------------------------
   end;
@@ -60,12 +62,13 @@ type
 implementation
 
 uses
-  uOSUtils, uDCUtils,
+  uOSUtils,
   uFileSystemFile,
   uFileSystemListOperation,
   uFileSystemCopyOperation,
   uFileSystemDeleteOperation,
-  uFileSystemWipeOperation;
+  uFileSystemWipeOperation,
+  uFileSystemCreateDirectoryOperation;
 
 constructor TFileSystemFileSource.Create;
 begin
@@ -100,6 +103,7 @@ begin
              fsoCopyOut,
              fsoDelete,
              fsoWipe,
+             fsoCreateDirectory,
              fsoSetName,
              fsoSetAttribute,
              fsoExecute];
@@ -136,7 +140,12 @@ end;
 
 function TFileSystemFileSource.IsAtRootPath: Boolean;
 begin
-  Result := (GetParentDir(CurrentPath) = '');
+  Result := (uDCUtils.GetParentDir(CurrentPath) = '');
+end;
+
+class function TFileSystemFileSource.GetPathType(sPath : String): TPathType;
+begin
+  Result := uDCUtils.GetPathType(sPath);
 end;
 
 class function TFileSystemFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
@@ -192,6 +201,14 @@ var
 begin
   TargetFileSource := Self.Clone;
   Result := TFileSystemWipeOperation.Create(TargetFileSource, FilesToWipe);
+end;
+
+function TFileSystemFileSource.CreateCreateDirectoryOperation(DirectoryPath: String): TFileSourceOperation;
+var
+  TargetFileSource: TFileSystemFileSource;
+begin
+  TargetFileSource := Self.Clone;
+  Result := TFileSystemCreateDirectoryOperation.Create(TargetFileSource, DirectoryPath);
 end;
 
 end.
