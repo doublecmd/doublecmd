@@ -2280,6 +2280,18 @@ object frmOptions: TfrmOptions
             Caption = 'characters'
             ParentColor = False
           end
+          object lblTabsPosition: TLabel
+            AnchorSideLeft.Control = cbTabsActivateOnClick
+            AnchorSideTop.Control = cbTabsActivateOnClick
+            AnchorSideTop.Side = asrBottom
+            Left = 12
+            Height = 18
+            Top = 214
+            Width = 90
+            BorderSpacing.Top = 14
+            Caption = 'Tabs position:'
+            ParentColor = False
+          end
           object cbTabsAlwaysVisible: TCheckBox
             AnchorSideLeft.Control = gbTabs
             AnchorSideTop.Control = gbTabs
@@ -2386,6 +2398,21 @@ object frmOptions: TfrmOptions
             BorderSpacing.Top = 6
             Caption = 'Show tab close button'
             TabOrder = 8
+          end
+          object cmbTabsPosition: TComboBox
+            AnchorSideTop.Control = lblTabsPosition
+            AnchorSideTop.Side = asrCenter
+            Left = 150
+            Height = 29
+            Top = 209
+            Width = 100
+            ItemHeight = 0
+            Items.Strings = (
+              'Top'
+              'Bottom'
+            )
+            Style = csDropDownList
+            TabOrder = 9
           end
         end
       end
