@@ -6,9 +6,7 @@ interface
 
 uses
   Classes,
-  glib2, libc;
-
-{$linklib libmime.a}
+  glib2;
 
 type
   PDesktopFileEntry = ^TDesktopFileEntry;
@@ -43,13 +41,16 @@ type
     Hidden: gboolean;
   end;
 
-procedure mime_type_init; cdecl; external 'libmime';
-procedure mime_type_finalize; cdecl; external 'libmime';
-function mime_type_get_by_filename(filename: PChar; stat: Pointer) : PChar; cdecl; external 'libmime';
-function mime_type_get_actions(mimeType: PChar): PPChar; cdecl; external 'libmime';
-function mime_type_locate_desktop_file(DirectoryToCheck: PChar; DesktopFileId: PChar): PChar; cdecl; external 'libmime';
-function mime_get_desktop_entry(DesktopFileName: PChar): TCDesktopFileEntry; cdecl; external 'libmime';
-function translate_app_exec_to_command_line(const app: PCDesktopFileEntry; file_list: PGList): PChar; cdecl; external 'libmime';
+const  
+  libmime = 'libmime';
+
+procedure mime_type_init; cdecl; external libmime;
+procedure mime_type_finalize; cdecl; external libmime;
+function mime_type_get_by_filename(filename: PChar; stat: Pointer) : PChar; cdecl; external libmime;
+function mime_type_get_actions(mimeType: PChar): PPChar; cdecl; external libmime;
+function mime_type_locate_desktop_file(DirectoryToCheck: PChar; DesktopFileId: PChar): PChar; cdecl; external libmime;
+function mime_get_desktop_entry(DesktopFileName: PChar): TCDesktopFileEntry; cdecl; external libmime;
+function translate_app_exec_to_command_line(const app: PCDesktopFileEntry; file_list: PGList): PChar; cdecl; external libmime;
 
 function GetDesktopEntries(FileNames: TStringList): TList;
 var
