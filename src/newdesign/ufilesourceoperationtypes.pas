@@ -17,6 +17,9 @@ type
     fsoCopyOut,
     fsoDelete,
     fsoWipe,
+    fsoCreateDirectory,
+    //fsoCreateFile,
+    //fsoCreateLink,
     fsoSetName,
     fsoSetAttribute,
     fsoExecute

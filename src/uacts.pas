@@ -242,7 +242,8 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
      HelpIntfs, dmHelpManager, uShellExecute, uClipboard, uCheckSumThread, fCheckSumCalc,
      uFileSorting, uFilePanelSelect, uFile, uFileSystemFileSource,
      uFileSystemCopyOperation, uOperationsManager, uFileSourceOperationTypes,
-     uFileSourceOperation, uFileSystemDeleteOperation, uFileSystemWipeOperation;
+     uFileSourceOperation, uFileSystemDeleteOperation, uFileSystemWipeOperation,
+     uFileSourceOperationMessageBoxesUI;
 
 { TActs }
 
@@ -1296,72 +1297,38 @@ end;
 procedure TActs.cm_MakeDir(param:string);
 var
   sPath:String;
+  Operation: TFileSourceOperation;
+  UI: TFileSourceOperationMessageBoxesUI = nil;
 begin
-{
-  File source operation.
-
-with frmMain do
-begin
-  with ActiveFrame do
+  with frmMain do
   begin
-    try
-      if  pnlFile.PanelMode in [pmArchive, pmVFS] then // if in VFS
-        begin
-          if not (VFS_CAPS_MKDIR in pnlFile.VFS.VFSModule.VFSCaps) then
-            begin
-              msgWarning(rsMsgErrNotSupported);
-              Exit;
-            end;
-        end; // in VFS
+    if not (fsoCreateDirectory in ActiveFrame.FileSource.GetOperationsTypes) then
+    begin
+      msgWarning(rsMsgErrNotSupported);
+      Exit;
+    end;
 
-      sPath:=pnlFile.GetActiveItem^.sNameNoExt;     // 21.05.2009 - pass name from cursor to makedir form
-      if not frmMkDir.ShowMkDir(sPath) then Exit;   // show makedir dialog
-      if (sPath='') then Exit;
+    sPath := ActiveFrame.ActiveFile.Name;         // 21.05.2009 - pass name from cursor to makedir form
+    if not frmMkDir.ShowMkDir(sPath) then Exit;   // show makedir dialog
+    if (sPath='') then Exit;
 
-      { Create directory in VFS }
-        if  ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then
-        begin
-          DebugLN('+++ Create directory in VFS +++');
-          ActiveFrame.pnlFile.VFS.VFSmodule.VFSMkDir(ActiveDir + sPath);
-          ActiveFrame.RefreshPanel;
-          Exit;
-        end;
-
-      { Create directory }
-
-      if (mbDirectoryExists(ActiveDir+sPath)) then
-      begin
-        msgError(Format(rsMsgErrDirExists,[ActiveDir+sPath]));
-        RefreshPanel;
-        pnlFile.Select(sPath);
-      end
-      else
-      begin
-        if not mbForceDirectory(ActiveDir+sPath) then
-          begin
-            // write log
-            if (log_dir_op in gLogOptions) and (log_errors in gLogOptions) then
-              logWrite(Format(rsMsgLogError+rsMsgLogMkDir, [ActiveDir+sPath]), lmtError);
-
-            // Standart error modal dialog
-            msgError(Format(rsMsgErrForceDir,[ActiveDir+sPath]))
-          end
-        else
-        begin
-          // write log
-          if (log_dir_op in gLogOptions) and (log_success in gLogOptions) then
-            logWrite(Format(rsMsgLogSuccess+rsMsgLogMkDir,[ActiveDir+sPath]), lmtSuccess);
-
-          RefreshPanel;
-          pnlFile.Select(sPath);
-        end;
+    Operation := ActiveFrame.FileSource.CreateCreateDirectoryOperation(sPath);
+    if Assigned(Operation) then
+    begin
+      try
+        // Call directly - not through operations manager.
+        UI := TFileSourceOperationMessageBoxesUI.Create;
+        Operation.AddUserInterface(UI);
+        Operation.Execute;
+        ActiveFrame.Reload;
+        //sPath := ExtractFileName(ExcludeTrailingPathDelimiter(sPath));
+        //ActiveFrame.Select(sPath);
+      finally
+        FreeAndNil(Operation);
+        FreeAndNil(UI);
       end;
-    finally
-      ActiveFrame.SetFocus;
     end;
   end;
-end;
-}
 end;
 
 procedure TActs.cm_Delete(param:string);

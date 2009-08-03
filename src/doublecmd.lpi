@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="83">
+    <Units Count="85">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -569,6 +569,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMimeActions"/>
       </Unit82>
+      <Unit83>
+        <Filename Value="newdesign\ufilesourcecreatedirectoryoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceCreateDirectoryOperation"/>
+      </Unit83>
+      <Unit84>
+        <Filename Value="newdesign\ufilesystemcreatedirectoryoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemCreateDirectoryOperation"/>
+      </Unit84>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
