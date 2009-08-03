@@ -50,6 +50,9 @@ type
                          tb_close_on_dbl_click, tb_open_new_in_foreground,
                          tb_open_new_near_current, tb_show_asterisk_for_locked,
                          tb_activate_panel_on_click, tb_show_close_button);
+
+  TTabsPosition = (tbpos_top, tbpos_bottom);
+
 var
   { For localization }
   gPOFileName,
@@ -176,7 +179,8 @@ var
                                    tb_show_asterisk_for_locked,
                                    tb_activate_panel_on_click];
   gDirTabLimit : Integer;
-  
+  gDirTabPosition : TTabsPosition = tbpos_top;
+
   { Log page }
   gLogFile : Boolean;
   gLogFileName : String;
@@ -501,6 +505,7 @@ begin
 
   gDirTabOptions := TTabsOptions(gIni.ReadInteger('Configuration', 'DirTabOptions', Integer(gDirTabOptions)));
   gDirTabLimit :=  gIni.ReadInteger('Configuration', 'DirTabLimit', 32);
+  gDirTabPosition := TTabsPosition(gIni.ReadInteger('Configuration', 'DirTabPosition', Integer(gDirTabPosition)));
 
   gUseExtEdit := gIni.ReadBool('Configuration', 'UseExtEdit', False);
   gUseExtView := gIni.ReadBool('Configuration', 'UseExtView', False);
@@ -700,6 +705,7 @@ begin
 
   gIni.WriteInteger('Configuration', 'DirTabOptions', Integer(gDirTabOptions));
   gIni.WriteInteger('Configuration', 'DirTabLimit', gDirTabLimit);
+  gIni.WriteInteger('Configuration', 'DirTabPosition', Integer(gDirTabPosition));
 
   gIni.WriteBool('Configuration', 'UseExtEdit', gUseExtEdit);
   gIni.WriteBool('Configuration', 'UseExtView', gUseExtView);

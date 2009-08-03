@@ -124,6 +124,7 @@ type
     cbDeleteToTrash: TCheckBox;
     cbAlwaysShowTrayIcon: TCheckBox;
     cbSkipFileOpError: TCheckBox;
+    cmbTabsPosition: TComboBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
@@ -179,6 +180,7 @@ type
     gbShowGrid: TGroupBox;
     gbExtended: TGroupBox;
     gbAutoRefresh: TGroupBox;
+    lblTabsPosition: TLabel;
     lbCategories: TListBox;
     lblCategoryAttr: TLabel;
     lblCategoryColor: TLabel;
@@ -2072,6 +2074,11 @@ begin
   if cbTabsShowCloseButton.Visible then
     cbTabsShowCloseButton.Checked:= tb_show_close_button in gDirTabOptions;
   edtTabsLimitLength.Text:= IntToStr(gDirTabLimit);
+  case gDirTabPosition of
+    tbpos_top:    cmbTabsPosition.ItemIndex := 0;
+    tbpos_bottom: cmbTabsPosition.ItemIndex := 1;
+    else          cmbTabsPosition.ItemIndex := 0;
+  end;
 
   { Configuration storage }
   if gNewUseIniInProgramDir then
@@ -2253,6 +2260,11 @@ begin
     gDirTabOptions := gDirTabOptions + [tb_show_close_button];
 
   gDirTabLimit := StrToIntDef(edtTabsLimitLength.Text, 32);
+
+  case cmbTabsPosition.ItemIndex of
+    0: gDirTabPosition := tbpos_top;
+    1: gDirTabPosition := tbpos_bottom;
+  end;
 
   { Configuration storage }
   gNewUseIniInProgramDir := rbProgramDir.Checked;

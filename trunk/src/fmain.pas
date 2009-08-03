@@ -2778,6 +2778,12 @@ procedure TfrmMain.UpdateWindowView;
 
     NoteBook.MultilineTabs := tb_multiple_lines in gDirTabOptions;
 
+    case gDirTabPosition of
+      tbpos_top:    NoteBook.TabPosition := tpTop;
+      tbpos_bottom: NoteBook.TabPosition := tpBottom;
+      else          NoteBook.TabPosition := tpTop;
+    end;
+
     for I := 0 to NoteBook.PageCount - 1 do  //  change on all tabs
     begin
       NoteBook[I].UpdateView;
