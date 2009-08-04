@@ -567,9 +567,13 @@ begin
   if mbFileExists(gpIniDir+cHistoryFile) then
     begin
       slCommandHistory:= TStringListEx.Create;
-      slCommandHistory.LoadFromFile(gpIniDir+cHistoryFile);
-      edtCommand.Items.Assign(slCommandHistory);
-      slCommandHistory.Free;
+      try
+        slCommandHistory.LoadFromFile(gpIniDir+cHistoryFile);
+        edtCommand.Items.Assign(slCommandHistory);
+        edtCommand.Text := '';
+      finally
+        FreeAndNil(slCommandHistory);
+      end;
     end;
 
   LoadWindowState;
