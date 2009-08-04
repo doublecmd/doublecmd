@@ -300,6 +300,9 @@ type
     procedure btnSearchTemplateClick(Sender: TObject);
     procedure cbAlwaysShowTrayIconChange(Sender: TObject);
     procedure edHotKeyKeyPress(Sender: TObject; var Key: char);
+    procedure fneExtDifferChange(Sender: TObject);
+    procedure fneExtEditorChange(Sender: TObject);
+    procedure fneExtViewerChange(Sender: TObject);
     procedure miSearchTemplateClick(Sender: TObject);
     procedure btnWDXAddClick(Sender: TObject);
     procedure btnWFXAddClick(Sender: TObject);
@@ -1699,6 +1702,21 @@ begin
   btSetHotKey.Enabled := False;
 end;
 
+procedure TfrmOptions.fneExtDifferChange(Sender: TObject);
+begin
+  fneExtDiffer.FileName := fneExtDiffer.Caption;
+end;
+
+procedure TfrmOptions.fneExtEditorChange(Sender: TObject);
+begin
+  fneExtEditor.FileName := fneExtEditor.Caption;
+end;
+
+procedure TfrmOptions.fneExtViewerChange(Sender: TObject);
+begin
+  fneExtViewer.FileName := fneExtViewer.Caption;
+end;
+
 procedure TfrmOptions.miSearchTemplateClick(Sender: TObject);
 begin
   if Sender is TMenuItem then
@@ -2178,9 +2196,9 @@ begin
   gUseExtView:=cbExtViewer.Checked;
   gUseExtDiff:=cbExtDiffer.Checked;
 
-  gExtEdit:= fneExtEditor.FileName;
-  gExtView:= fneExtViewer.FileName;
-  gExtDiff:= fneExtDiffer.FileName;
+  gExtEdit:= fneExtEditor.Caption;
+  gExtView:= fneExtViewer.Caption;
+  gExtDiff:= fneExtDiffer.Caption;
   gRunTerm:= edtRunTerm.Text;
   
   gFontName:=cbMainFont.Text;
