@@ -1581,12 +1581,12 @@ var
   FilesToCompare: TStringList = nil;
   DirsToCompare: TStringList = nil;
 
-  procedure AddItem(const pItem: PFileRecItem; Directory: String);
+  procedure AddItem(const aFile: TFile);
   begin
-    if not FPS_ISDIR(pItem^.iMode) then
-      FilesToCompare.Add(Directory + pItem^.sName)
+    if not aFile.IsDirectory then
+      FilesToCompare.Add(aFile.Path + aFile.Name)
     else
-      DirsToCompare.Add(Directory + pItem^.sName);
+      DirsToCompare.Add(aFile.Path + aFile.Name);
   end;
 
   function FormatCommand(CompareList: TStringList): String;
@@ -1600,54 +1600,78 @@ var
 
 var
   i : Integer;
+  ActiveSelectedFiles: TFiles = nil;
+  NotActiveSelectedFiles: TFiles = nil;
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_CompareContents', param);
-{
+  //Maybe this will not be dependant on file view but file source.
+  //But will work only for non-virtual file sources.
+  //frmMain.ActiveFrame.ExecuteCommand('cm_CompareContents', param);
+
   with frmMain do
   begin
+    // For now work only for filesystem.
+    // Later use temporary file system for other file sources.
+
     try
       FilesToCompare := TStringList.Create;
       DirsToCompare := TStringList.Create;
 
       if param = 'dir' then
       begin
-        if (not FrameLeft.IsEmpty) and (not FrameRight.IsEmpty) then
-        begin
-          DirsToCompare.Add(FrameLeft.CurrentPath);
-          DirsToCompare.Add(FrameRight.CurrentPath);
-        end;
+        DirsToCompare.Add(FrameLeft.CurrentPath);
+        DirsToCompare.Add(FrameRight.CurrentPath);
       end
-      else if ActiveFrame.pnlFile.SelectedCount = 1 then
+      else
       begin
-        if NotActiveFrame.pnlFile.SelectedCount = 1 then
+        // For now work only for filesystem.
+        if not (ActiveFrame.FileSource is TFileSystemFileSource) then
         begin
-          { compare single selected files in both panels }
-
-          AddItem(ActiveFrame.pnlFile.GetFirstSelectedItem, ActiveFrame.CurrentPath);
-          AddItem(NotActiveFrame.pnlFile.GetFirstSelectedItem, NotActiveFrame.CurrentPath);
-        end
-        else
-        begin
-          // Only one file selected in active panel.
-          MsgWarning(rsMsgInvalidSelection);
+          msgWarning(rsMsgNotImplemented);
           Exit;
         end;
-      end
-      else if ActiveFrame.pnlFile.SelectedCount > 1 then
-      begin
-        { compare all selected files in active frame }
 
-        for i := 0 to ActiveFrame.pnlFile.FileList.Count - 1 do
-          if ActiveFrame.pnlFile.FileList.GetItem(i)^.bSelected then
-            AddItem(ActiveFrame.pnlFile.FileList.GetItem(i), ActiveFrame.CurrentPath);
-      end
-      else if FrameLeft.IsActiveItemValid and FrameRight.IsActiveItemValid then
-      begin
-        { no files selected in the active panel }
-        { compare ActiveItems in both panels }
+        try
+          ActiveSelectedFiles := ActiveFrame.SelectedFiles;
 
-        AddItem(FrameLeft.pnlFile.GetActiveItem, FrameLeft.CurrentPath);
-        AddItem(FrameRight.pnlFile.GetActiveItem, FrameRight.CurrentPath);
+          if ActiveSelectedFiles.Count = 1 then
+          begin
+            NotActiveSelectedFiles := NotActiveFrame.SelectedFiles;
+
+            if NotActiveSelectedFiles.Count = 1 then
+            begin
+              // For now work only for filesystem.
+              if not (NotActiveFrame.FileSource is TFileSystemFileSource) then
+              begin
+                msgWarning(rsMsgNotImplemented);
+                Exit;
+              end;
+
+              { compare single selected files in both panels }
+
+              AddItem(ActiveSelectedFiles[0]);
+              AddItem(NotActiveSelectedFiles[0]);
+            end
+            else
+            begin
+              // Only one file selected in active panel.
+              MsgWarning(rsMsgInvalidSelection);
+              Exit;
+            end;
+          end
+          else if ActiveSelectedFiles.Count > 1 then
+          begin
+            { compare all selected files in active frame }
+
+            for i := 0 to ActiveSelectedFiles.Count - 1 do
+              AddItem(ActiveSelectedFiles[i]);
+          end;
+
+        finally
+          if Assigned(ActiveSelectedFiles) then
+            FreeAndNil(ActiveSelectedFiles);
+          if Assigned(NotActiveSelectedFiles) then
+            FreeAndNil(NotActiveSelectedFiles);
+        end;
       end;
 
       if ((FilesToCompare.Count > 0) and (DirsToCompare.Count > 0))
@@ -1682,7 +1706,6 @@ begin
         FreeAndNil(DirsToCompare);
     end;
   end;
-}
 end;
 
 
