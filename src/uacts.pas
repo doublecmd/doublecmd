@@ -1820,45 +1820,52 @@ end;
 
 procedure TActs.cm_HardLink(param:string);
 var
-  sFile1, sFile2:String;
-  Result: Boolean;
+  sExistingFile, sLinkToCreate: String;
+  SelectedFiles: TFiles;
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_HardLink', param);
-{
-with frmMain do
-begin
-  inherited;
-  Result := False;
-  try
-    with ActiveFrame do
+  with frmMain do
+  begin
+    // Hard links work only for file system.
+    if not (ActiveFrame.FileSource is TFileSystemFileSource) then
     begin
-      if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
-
-      sFile2 := pnlFile.GetActiveItem^.sName;
-      sFile1 := ActiveDir + sFile2;
-      if param <> '' then
-        sFile2 := param + sFile2
-      else
-        sFile2 := NotActiveFrame.CurrentPath + sFile2;
+      msgWarning(rsMsgErrNotSupported);
+      Exit;
     end;
 
-    Result:= ShowHardLinkForm(sFile1, sFile2);
+    SelectedFiles := ActiveFrame.SelectedFiles;
+    try
+      if SelectedFiles.Count > 1 then
+        msgWarning(rsMsgTooManyFilesSelected)
+      else if SelectedFiles.Count = 0 then
+        msgWarning(rsMsgNoFilesSelected)
+      else
+      begin
+        sExistingFile := SelectedFiles[0].Path + SelectedFiles[0].Name;
 
-  finally
-    if Result then
-      begin
-        frameLeft.RefreshPanel;
-        frameRight.RefreshPanel;
-      end
-    else
-      begin
-        with ActiveFrame do
-	  UnSelectFileIfSelected(GetActiveItem);
+        if param <> '' then
+          sLinkToCreate := param
+        else
+        begin
+          if NotActiveFrame.FileSource is TFileSystemFileSource then
+            sLinkToCreate := NotActiveFrame.CurrentPath
+          else
+            sLinkToCreate := ActiveFrame.CurrentPath
+        end;
+
+        sLinkToCreate := sLinkToCreate + SelectedFiles[0].Name;
+
+        if ShowHardLinkForm(sExistingFile, sLinkToCreate, ActiveFrame.CurrentPath) then
+        begin
+          ActiveFrame.Reload;
+          if NotActiveFrame.FileSource is TFileSystemFileSource then
+            NotActiveFrame.Reload;
+        end;
       end;
-    ActiveFrame.SetFocus;
+
+    finally
+      FreeAndNil(SelectedFiles);
+    end;
   end;
-  end;
-}
 end;
 
 procedure TActs.cm_ReverseOrder(param:string);

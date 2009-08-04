@@ -3,68 +3,68 @@ object frmHardLink: TfrmHardLink
   Height = 160
   Top = 320
   Width = 400
-  HorzScrollBar.Page = 399
-  HorzScrollBar.Range = 392
-  VertScrollBar.Page = 151
-  VertScrollBar.Range = 146
-  ActiveControl = edtDst
+  ActiveControl = edtLinkToCreate
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Create hardlink'
   ChildSizing.LeftRightSpacing = 8
   ChildSizing.TopBottomSpacing = 8
-  ClientHeight = 152
+  ClientHeight = 160
   ClientWidth = 400
   Constraints.MaxHeight = 160
   Constraints.MaxWidth = 400
   KeyPreview = True
+  OnShow = FormShow
   Position = poScreenCenter
-  object lblNew: TLabel
-    AnchorSideTop.Control = edtDst
+  LCLVersion = '0.9.27'
+  object lblExistingFile: TLabel
+    AnchorSideTop.Control = edtLinkToCreate
     AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 14
-    Top = 58
-    Width = 197
+    Height = 18
+    Top = 65
+    Width = 259
     BorderSpacing.Top = 6
     Caption = 'Existing destination (where will link point)'
+    FocusControl = edtExistingFile
     ParentColor = False
   end
-  object lblDst: TLabel
+  object lblLinkToCreate: TLabel
     Left = 8
-    Height = 14
+    Height = 18
     Top = 8
-    Width = 48
+    Width = 62
     Caption = 'Link name'
+    FocusControl = edtLinkToCreate
     ParentColor = False
   end
-  object edtNew: TEdit
-    AnchorSideTop.Control = lblNew
+  object edtExistingFile: TEdit
+    AnchorSideTop.Control = lblExistingFile
     AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 24
-    Top = 78
+    Height = 27
+    Top = 89
     Width = 384
     BorderSpacing.Top = 6
     TabOrder = 1
   end
-  object edtDst: TEdit
-    AnchorSideTop.Control = lblDst
+  object edtLinkToCreate: TEdit
+    AnchorSideTop.Control = lblLinkToCreate
     AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 24
-    Top = 28
+    Height = 27
+    Top = 32
     Width = 384
     BorderSpacing.Top = 6
-    TabOrder = 3
+    TabOrder = 0
   end
   object btnOK: TBitBtn
-    AnchorSideTop.Control = edtNew
+    AnchorSideTop.Control = edtExistingFile
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnCancel
-    Left = 236
+    Left = 206
     Height = 32
-    Top = 114
+    Top = 128
     Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 12
@@ -77,16 +77,16 @@ object frmHardLink: TfrmHardLink
     NumGlyphs = 0
     OnClick = btnOKClick
     OnMouseDown = btnOKMouseDown
-    TabOrder = 0
+    TabOrder = 2
   end
   object btnCancel: TBitBtn
-    AnchorSideTop.Control = edtNew
+    AnchorSideTop.Control = edtExistingFile
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = edtNew
+    AnchorSideRight.Control = edtExistingFile
     AnchorSideRight.Side = asrBottom
-    Left = 317
+    Left = 302
     Height = 32
-    Top = 114
+    Top = 128
     Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 12
@@ -97,6 +97,6 @@ object frmHardLink: TfrmHardLink
     ModalResult = 2
     NumGlyphs = 0
     OnMouseDown = btnCancelMouseDown
-    TabOrder = 2
+    TabOrder = 3
   end
 end
