@@ -578,6 +578,7 @@ object frmOptions: TfrmOptions
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           TabOrder = 3
+          OnChange = fneExtEditorChange
         end
         object fneExtDiffer: TFileNameEdit
           AnchorSideTop.Control = cbExtDiffer
@@ -594,6 +595,7 @@ object frmOptions: TfrmOptions
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           TabOrder = 4
+          OnChange = fneExtDifferChange
         end
         object fneExtViewer: TFileNameEdit
           AnchorSideTop.Control = cbExtViewer
@@ -610,6 +612,7 @@ object frmOptions: TfrmOptions
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
           TabOrder = 5
+          OnChange = fneExtViewerChange
         end
       end
       object pgFonts: TPage
