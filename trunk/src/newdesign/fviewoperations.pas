@@ -141,6 +141,8 @@ begin
           OutString := rsDlgDel;
         fsoWipe:
           OutString := rsDlgWipe;
+        fsoCalcChecksum:
+          OutString := rsDlgCheckSumCalc;
         else
           OutString := 'Unknown operation';
       end;
