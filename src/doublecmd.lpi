@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="85">
+    <Units Count="87">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -579,6 +579,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFileSystemCreateDirectoryOperation"/>
       </Unit84>
+      <Unit85>
+        <Filename Value="newdesign\ufilesourcecalcchecksumoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceCalcChecksumOperation"/>
+      </Unit85>
+      <Unit86>
+        <Filename Value="newdesign\ufilesystemcalcchecksumoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemCalcChecksumOperation"/>
+      </Unit86>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

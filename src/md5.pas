@@ -20,6 +20,8 @@ unit md5;
 {$mode objfpc}
 {$inline on}
 {$h+}
+{$rangechecks off}
+{$overflowchecks off}
 
 interface
 

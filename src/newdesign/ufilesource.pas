@@ -76,6 +76,9 @@ type
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; virtual;
     function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; virtual;
     function CreateCreateDirectoryOperation(DirectoryPath: String): TFileSourceOperation; virtual;
+    function CreateCalcChecksumOperation(var theFiles: TFiles;
+                                         aTargetPath: String;
+                                         aTargetMask: String): TFileSourceOperation; virtual;
 
     {en
        Returns @true if the CurrentPath is the root path of the file source,
@@ -212,6 +215,13 @@ begin
 end;
 
 function TFileSource.CreateCreateDirectoryOperation(DirectoryPath: String): TFileSourceOperation;
+begin
+  Result := nil;
+end;
+
+function TFileSource.CreateCalcChecksumOperation(var theFiles: TFiles;
+                                                 aTargetPath: String;
+                                                 aTargetMask: String): TFileSourceOperation;
 begin
   Result := nil;
 end;

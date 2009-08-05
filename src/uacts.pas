@@ -243,7 +243,7 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
      uFileSorting, uFilePanelSelect, uFile, uFileSystemFileSource,
      uFileSystemCopyOperation, uOperationsManager, uFileSourceOperationTypes,
      uFileSourceOperation, uFileSystemDeleteOperation, uFileSystemWipeOperation,
-     uFileSourceOperationMessageBoxesUI;
+     uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation;
 
 { TActs }
 
@@ -1406,107 +1406,140 @@ end;
 
 procedure TActs.cm_CheckSumCalc(param:string);
 var
-  fl: TFileList;
   I: Integer;
   bSeparateFile: Boolean;
   HashAlgorithm: THashAlgorithm;
   sFileName: UTF8String;
+  SelectedFiles: TFiles;
+  Operation: TFileSourceCalcChecksumOperation;
+  OperationHandle: TOperationHandle;
+  ProgressDialog: TfrmFileOp;
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_CheckSumCalc', param);
-{
-  with frmMain.ActiveFrame do
+  // This will work only for filesystem.
+  // For other file sources use temp file system when it's done.
+
+  with frmMain do
   begin
-    if  pnlFile.PanelMode <> pmDirectory then Exit;
+    if not (fsoCalcChecksum in ActiveFrame.FileSource.GetOperationsTypes) then
+    begin
+      msgWarning(rsMsgNotImplemented);
+      Exit;
+      // Create temp file source.
+      // CopyOut ActiveFrame.FileSource to TempFileSource.
+      // Do command on TempFileSource and later delete it (or leave cached on disk?)
+    end;
 
-    if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
-
-    bSeparateFile:= False;
-    with pnlFile.FileList do
-    for I:= Count - 1 downto 0 do // find files in selection
-      if GetItem(I)^.bSelected and not FPS_ISDIR(GetItem(I)^.iMode) then
-        begin
-          bSeparateFile:= True;
-          Break;
-        end;
-    if not bSeparateFile then // if selected only directories
+    SelectedFiles := ActiveFrame.SelectedFiles;
+    try
+      if SelectedFiles.Count = 0 then
       begin
-        msgError(rsMsgNoFilesSelected);
+        msgWarning(rsMsgNoFilesSelected);
         Exit;
       end;
 
-    if pnlFile.GetSelectedCount > 1 then
-      sFileName:= ActiveDir + MakeFileName(ActiveDir, 'checksum')
-    else
-      sFileName:= ActiveDir + GetActiveItem^.sName;
+      bSeparateFile:= False;
+      for I := 0 to SelectedFiles.Count - 1 do // find files in selection
+        if not SelectedFiles[I].IsDirectory then
+          begin
+            bSeparateFile:= True;
+            Break;
+          end;
 
-    if not ShowCalcCheckSum(sFileName, bSeparateFile, HashAlgorithm) then Exit;
+      if SelectedFiles.Count > 1 then
+        sFileName:= ActiveFrame.CurrentPath + MakeFileName(ActiveFrame.CurrentPath, 'checksum')
+      else
+        sFileName:= ActiveFrame.CurrentPath + SelectedFiles[0].Name;
 
-    fl:= TFileList.Create; // free at thread end by thread
-    fl.CurrentDirectory := ActiveDir;
-    try
-      CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir, True, True);
+      if ShowCalcCheckSum(sFileName, bSeparateFile, HashAlgorithm) then
+      begin
+        Operation := ActiveFrame.FileSource.CreateCalcChecksumOperation(
+                       SelectedFiles, ActiveFrame.CurrentPath, sFileName) as TFileSourceCalcChecksumOperation;
 
-      // calculate check sum
-      with TCheckSumThread.Create(fl) do
-      try
-        sDstPath:= ActiveDir;
-        sDstMask:= sFileName;
-        CheckSumOp:= checksum_calc;
-        OneFile:= not bSeparateFile;
-        Algorithm:= HashAlgorithm;
-        Resume;
-      except
-        Free;
+        if Assigned(Operation) then
+        begin
+          Operation.Mode := checksum_calc;
+          Operation.OneFile := not bSeparateFile;
+          Operation.Algorithm := HashAlgorithm;
+
+          // Start operation.
+          OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+
+          ProgressDialog := TfrmFileOp.Create(OperationHandle);
+          ProgressDialog.Show;
+        end
+        else
+        begin
+          msgWarning(rsMsgNotImplemented);
+        end;
       end;
 
-    except
-      FreeAndNil(fl);
+    finally
+      if Assigned(SelectedFiles) then
+        FreeAndNil(SelectedFiles);
     end;
   end;
-}
 end;
 
 procedure TActs.cm_CheckSumVerify(param:string);
 var
-  fl: TFileList;
   I: Integer;
+  SelectedFiles: TFiles;
+  Operation: TFileSourceCalcChecksumOperation;
+  OperationHandle: TOperationHandle;
+  ProgressDialog: TfrmFileOp;
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_CheckSumVerify', param);
-  with frmMain.ActiveFrame do
+  // This will work only for filesystem.
+  // For other file sources use temp file system when it's done.
+
+  with frmMain do
   begin
-{
-    if  pnlFile.PanelMode <> pmDirectory then Exit;
+    if not (fsoCalcChecksum in ActiveFrame.FileSource.GetOperationsTypes) then
+    begin
+      msgWarning(rsMsgNotImplemented);
+      Exit;
+      // Create temp file source.
+      // CopyOut ActiveFrame.FileSource to TempFileSource.
+      // Do command on TempFileSource and later delete it (or leave cached on disk?)
+    end;
 
-    if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+    SelectedFiles := ActiveFrame.SelectedFiles;
+    try
+      if SelectedFiles.Count = 0 then
+      begin
+        msgWarning(rsMsgNoFilesSelected);
+        Exit;
+      end;
 
-    with pnlFile.FileList do
-    for I:= Count - 1 downto 0 do
-      if GetItem(I)^.bSelected and (mbCompareText(GetItem(I)^.sExt, '.md5') <> 0) and
-         (mbCompareText(GetItem(I)^.sExt, '.sha') <> 0) then
+      for I := 0 to SelectedFiles.Count - 1 do // find files in selection
+        if (mbCompareText(SelectedFiles[I].Extension, 'md5') <> 0) and
+           (mbCompareText(SelectedFiles[I].Extension, 'sha') <> 0) then
         begin
           msgError(rsMsgSelectOnlyCheckSumFiles);
           Exit;
         end;
 
-    fl:= TFileList.Create; // free at thread end by thread
-    fl.CurrentDirectory := ActiveDir;
-    try
-      CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir, True, True);
+      Operation := ActiveFrame.FileSource.CreateCalcChecksumOperation(
+                     SelectedFiles, '', '') as TFileSourceCalcChecksumOperation;
 
-      // verify check sum
-      with TCheckSumThread.Create(fl) do
-      try
-        sDstPath:= ActiveDir;
-        CheckSumOp:= checksum_verify;
-        Resume;
-      except
-        Free;
+      if Assigned(Operation) then
+      begin
+        Operation.Mode := checksum_verify;
+
+        // Start operation.
+        OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+
+        ProgressDialog := TfrmFileOp.Create(OperationHandle);
+        ProgressDialog.Show;
+      end
+      else
+      begin
+        msgWarning(rsMsgNotImplemented);
       end;
 
-    except
-      FreeAndNil(fl);
+    finally
+      if Assigned(SelectedFiles) then
+        FreeAndNil(SelectedFiles);
     end;
-}
   end;
 end;
 

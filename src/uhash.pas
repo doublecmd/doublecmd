@@ -41,14 +41,14 @@ type
 var
   HashFileExt: array[THashAlgorithm] of String = ('md5', 'sha');
 
-procedure HashInit(var Context: THashContext; const Algorithm: THashAlgorithm);
+procedure HashInit(out Context: THashContext; const Algorithm: THashAlgorithm);
 procedure HashUpdate(var Context: THashContext; var Buf; const BufLen: PtrUInt);
-procedure HashFinal(var Context: THashContext; var Digest: THashDigest);
+procedure HashFinal(var Context: THashContext; out Digest: THashDigest);
 function HashPrint(const Digest: THashDigest): String;
 
 implementation
 
-procedure HashInit(var Context: THashContext; const Algorithm: THashAlgorithm);
+procedure HashInit(out Context: THashContext; const Algorithm: THashAlgorithm);
 var
   MD5Context: PMDContext;
   SHA1Context: PSHA1Context;
@@ -81,7 +81,7 @@ begin
   end;
 end;
 
-procedure HashFinal(var Context: THashContext; var Digest: THashDigest);
+procedure HashFinal(var Context: THashContext; out Digest: THashDigest);
 var
   MD5Digest: TMD5Digest;
   SHA1Digest: TSHA1Digest;

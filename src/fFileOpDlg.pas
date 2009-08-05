@@ -65,9 +65,11 @@ type
     procedure InitializeCopyOperation(Operation: TFileSourceOperation);
     procedure InitializeDeleteOperation(Operation: TFileSourceOperation);
     procedure InitializeWipeOperation(Operation: TFileSourceOperation);
+    procedure InitializeCalcChecksumOperation(Operation: TFileSourceOperation);
     procedure UpdateCopyOperation(Operation: TFileSourceOperation);
     procedure UpdateDeleteOperation(Operation: TFileSourceOperation);
     procedure UpdateWipeOperation(Operation: TFileSourceOperation);
+    procedure UpdateCalcChecksumOperation(Operation: TFileSourceOperation);
 
   public
     iProgress1Max: Integer;
@@ -97,6 +99,7 @@ uses
    uFileSourceCopyOperation,
    uFileSourceDeleteOperation,
    uFileSourceWipeOperation,
+   uFileSourceCalcChecksumOperation,
    uFileSourceOperationMessageBoxesUI;
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
@@ -169,6 +172,8 @@ begin
         InitializeDeleteOperation(Operation);
       fsoWipe:
         InitializeWipeOperation(Operation);
+      fsoCalcChecksum:
+        InitializeCalcChecksumOperation(Operation);
 
       else
         begin
@@ -267,6 +272,8 @@ begin
         UpdateDeleteOperation(Operation);
       fsoWipe:
         UpdateWipeOperation(Operation);
+      fsoCalcChecksum:
+        UpdateCalcChecksumOperation(Operation);
 
       else
       begin
@@ -366,6 +373,13 @@ begin
   lblFrom.Caption := rsDlgDeleting;
 end;
 
+procedure TfrmFileOp.InitializeCalcChecksumOperation(Operation: TFileSourceOperation);
+begin
+  Caption := rsDlgCheckSumCalc;
+  InitializeControls([fodl_from_lbl, fodl_first_pb, fodl_second_pb]);
+  lblFrom.Visible := False;
+end;
+
 procedure TfrmFileOp.UpdateCopyOperation(Operation: TFileSourceOperation);
 var
   CopyOperation: TFileSourceCopyOperation;
@@ -449,6 +463,45 @@ begin
   WipeStatistics := WipeOperation.RetrieveStatistics;
 
   with WipeStatistics do
+  begin
+    lblFileNameFrom.Caption := CurrentFile;
+
+    if CurrentFileTotalBytes <> 0 then
+      pbFirst.Position := (CurrentFileDoneBytes * 100) div CurrentFileTotalBytes
+    else
+      pbFirst.Position := 0;
+
+    if TotalBytes <> 0 then
+      pbSecond.Position := (DoneBytes * 100) div TotalBytes
+    else
+      pbSecond.Position := 0;
+
+    if Operation.State in [fsosNotStarted, fsosPaused, fsosWaitingForFeedback, fsosStopped] then
+      sEstimated := ''
+    else
+    begin
+      if BytesPerSecond = 0 then
+        sEstimated := 'Estimating time...'
+      else
+      begin
+        sEstimated := FormatDateTime('HH:MM:SS', RemainingTime);
+        sEstimated := Format(rsDlgSpeedTime, [cnvFormatFileSize(BytesPerSecond), sEstimated]);
+      end;
+    end;
+  end;
+
+  lblEstimated.Caption := sEstimated;
+end;
+
+procedure TfrmFileOp.UpdateCalcChecksumOperation(Operation: TFileSourceOperation);
+var
+  CalcChecksumOperation: TFileSourceCalcChecksumOperation;
+  CalcChecksumStatistics: TFileSourceCalcChecksumOperationStatistics;
+begin
+  CalcChecksumOperation := Operation as TFileSourceCalcChecksumOperation;
+  CalcChecksumStatistics := CalcChecksumOperation.RetrieveStatistics;
+
+  with CalcChecksumStatistics do
   begin
     lblFileNameFrom.Caption := CurrentFile;
 

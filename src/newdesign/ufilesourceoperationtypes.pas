@@ -20,6 +20,7 @@ type
     fsoCreateDirectory,
     //fsoCreateFile,
     //fsoCreateLink,
+    fsoCalcChecksum,
     fsoSetName,
     fsoSetAttribute,
     fsoExecute
