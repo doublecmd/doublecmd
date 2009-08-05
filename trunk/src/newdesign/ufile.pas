@@ -30,6 +30,8 @@ type
 
     function GetProperties: TFileProperties; virtual;
 
+    function GetFullPath: String;
+    procedure SetFullPath(NewFullPath: String);
     procedure SetPath(NewPath: String);
     function GetName: String;
     procedure SetName(Name: String);
@@ -87,6 +89,12 @@ type
     }
     property SupportedProperties: TFilePropertiesTypes read GetSupportedProperties;
 
+    {en
+       Sets/gets absolute path to file.
+       On get returns Path + Name.
+       On set sets Path and Name accordingly.
+    }
+    property FullPath: String read GetFullPath write SetFullPath;
     property Path: String read FPath write SetPath;
     property Name: String read GetName write SetName;
     property NameNoExt: String read GetNameNoExt;
@@ -230,6 +238,32 @@ begin
   else
   begin
     SplitIntoNameAndExtension(FName, FNameNoExt, FExtension);
+  end;
+end;
+
+function TFile.GetFullPath: String;
+begin
+  Result := Path + Name;
+end;
+
+procedure TFile.SetFullPath(NewFullPath: String);
+var
+  aExtractedName: String;
+begin
+  if NewFullPath <> '' then
+  begin
+    if NewFullPath[Length(NewFullPath)] = PathDelim then
+    begin
+      // Only path passed.
+      SetPath(NewFullPath);
+      SetName('');
+    end
+    else
+    begin
+      aExtractedName := ExtractFileName(NewFullPath);
+      SetPath(Copy(NewFullPath, 1, Length(NewFullPath) - Length(aExtractedName)));
+      SetName(aExtractedName);
+    end;
   end;
 end;
 
