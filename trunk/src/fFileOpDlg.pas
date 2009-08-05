@@ -61,6 +61,8 @@ type
     procedure SetPauseGlyph;
     procedure SetPlayGlyph;
     procedure UpdatePauseStartButton(OperationState: TFileSourceOperationState);
+    procedure SetProgress(ProgressBar: TProgressBar; CurrentValue: Int64; MaxValue: Int64);
+    procedure SetSpeedAndTime(Operation: TFileSourceOperation; RemainingTime: TDateTime; Speed: String);
 
     procedure InitializeCopyOperation(Operation: TFileSourceOperation);
     procedure InitializeDeleteOperation(Operation: TFileSourceOperation);
@@ -144,11 +146,6 @@ end;
 procedure TfrmFileOp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   CloseAction:= caFree;
-{
-   frmMain.frameLeft.Reload;
-   frmMain.frameRight.Reload;
-   frmMain.ActiveFrame.SetFocus;
-}
 end;
 
 procedure TfrmFileOp.FormCreate(Sender: TObject);
@@ -350,6 +347,27 @@ begin
   end;
 end;
 
+procedure TfrmFileOp.SetProgress(ProgressBar: TProgressBar; CurrentValue: Int64; MaxValue: Int64);
+begin
+  if MaxValue <> 0 then
+    ProgressBar.Position := (CurrentValue * 100) div MaxValue
+  else
+    ProgressBar.Position := 0;
+end;
+
+procedure TfrmFileOp.SetSpeedAndTime(Operation: TFileSourceOperation; RemainingTime: TDateTime; Speed: String);
+begin
+  if Operation.State <> fsosRunning then
+    sEstimated := ''
+  else
+  begin
+    sEstimated := FormatDateTime('HH:MM:SS', RemainingTime);
+    sEstimated := Format(rsDlgSpeedTime, [Speed, sEstimated]);
+  end;
+
+  lblEstimated.Caption := sEstimated;
+end;
+
 procedure TfrmFileOp.InitializeCopyOperation(Operation: TFileSourceOperation);
 var
   CopyOperation: TFileSourceCopyOperation;
@@ -393,31 +411,10 @@ begin
     lblFileNameFrom.Caption := CurrentFileFrom;
     lblFileNameTo.Caption := CurrentFileTo;
 
-    if CurrentFileTotalBytes <> 0 then
-      pbFirst.Position := (CurrentFileDoneBytes * 100) div CurrentFileTotalBytes
-    else
-      pbFirst.Position := 0;
-
-    if TotalBytes <> 0 then
-      pbSecond.Position := (DoneBytes * 100) div TotalBytes
-    else
-      pbSecond.Position := 0;
-
-    if Operation.State in [fsosNotStarted, fsosPaused, fsosWaitingForFeedback, fsosStopped] then
-      sEstimated := ''
-    else
-    begin
-      if BytesPerSecond = 0 then
-        sEstimated := 'Estimating time...'
-      else
-      begin
-        sEstimated := FormatDateTime('HH:MM:SS', RemainingTime);
-        sEstimated := Format(rsDlgSpeedTime, [cnvFormatFileSize(BytesPerSecond), sEstimated]);
-      end;
-    end;
+    SetProgress(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgress(pbSecond, DoneBytes, TotalBytes);
+    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond));
   end;
-
-  lblEstimated.Caption := sEstimated;
 end;
 
 procedure TfrmFileOp.UpdateDeleteOperation(Operation: TFileSourceOperation);
@@ -432,26 +429,9 @@ begin
   begin
     lblFileNameFrom.Caption := CurrentFile;
 
-    if TotalFiles <> 0 then
-      pbFirst.Position := (DoneFiles * 100) div TotalFiles
-    else
-      pbFirst.Position := 0;
-
-    if Operation.State in [fsosNotStarted, fsosPaused, fsosWaitingForFeedback, fsosStopped] then
-      sEstimated := ''
-    else
-    begin
-      if FilesPerSecond = 0 then
-        sEstimated := 'Estimating time...'
-      else
-      begin
-        sEstimated := FormatDateTime('HH:MM:SS', RemainingTime);
-        sEstimated := Format(rsDlgSpeedTime, [IntToStr(FilesPerSecond), sEstimated]);
-      end;
-    end;
+    SetProgress(pbFirst, DoneFiles, TotalFiles);
+    SetSpeedAndTime(Operation, RemainingTime, IntToStr(FilesPerSecond));
   end;
-
-  lblEstimated.Caption := sEstimated;
 end;
 
 procedure TfrmFileOp.UpdateWipeOperation(Operation: TFileSourceOperation);
@@ -466,31 +446,10 @@ begin
   begin
     lblFileNameFrom.Caption := CurrentFile;
 
-    if CurrentFileTotalBytes <> 0 then
-      pbFirst.Position := (CurrentFileDoneBytes * 100) div CurrentFileTotalBytes
-    else
-      pbFirst.Position := 0;
-
-    if TotalBytes <> 0 then
-      pbSecond.Position := (DoneBytes * 100) div TotalBytes
-    else
-      pbSecond.Position := 0;
-
-    if Operation.State in [fsosNotStarted, fsosPaused, fsosWaitingForFeedback, fsosStopped] then
-      sEstimated := ''
-    else
-    begin
-      if BytesPerSecond = 0 then
-        sEstimated := 'Estimating time...'
-      else
-      begin
-        sEstimated := FormatDateTime('HH:MM:SS', RemainingTime);
-        sEstimated := Format(rsDlgSpeedTime, [cnvFormatFileSize(BytesPerSecond), sEstimated]);
-      end;
-    end;
+    SetProgress(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgress(pbSecond, DoneBytes, TotalBytes);
+    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond));
   end;
-
-  lblEstimated.Caption := sEstimated;
 end;
 
 procedure TfrmFileOp.UpdateCalcChecksumOperation(Operation: TFileSourceOperation);
@@ -505,31 +464,10 @@ begin
   begin
     lblFileNameFrom.Caption := CurrentFile;
 
-    if CurrentFileTotalBytes <> 0 then
-      pbFirst.Position := (CurrentFileDoneBytes * 100) div CurrentFileTotalBytes
-    else
-      pbFirst.Position := 0;
-
-    if TotalBytes <> 0 then
-      pbSecond.Position := (DoneBytes * 100) div TotalBytes
-    else
-      pbSecond.Position := 0;
-
-    if Operation.State in [fsosNotStarted, fsosPaused, fsosWaitingForFeedback, fsosStopped] then
-      sEstimated := ''
-    else
-    begin
-      if BytesPerSecond = 0 then
-        sEstimated := 'Estimating time...'
-      else
-      begin
-        sEstimated := FormatDateTime('HH:MM:SS', RemainingTime);
-        sEstimated := Format(rsDlgSpeedTime, [cnvFormatFileSize(BytesPerSecond), sEstimated]);
-      end;
-    end;
+    SetProgress(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgress(pbSecond, DoneBytes, TotalBytes);
+    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond));
   end;
-
-  lblEstimated.Caption := sEstimated;
 end;
 
 procedure TfrmFileOp.ToggleProgressBarStyle;

@@ -47,7 +47,6 @@ object frmFileOp: TfrmFileOp
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
     BorderSpacing.Right = 6
-    Caption = 'Estimated'
     ParentColor = False
   end
   object lblFrom: TLabel
