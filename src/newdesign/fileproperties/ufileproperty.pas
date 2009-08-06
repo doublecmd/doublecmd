@@ -148,7 +148,7 @@ type
     // Sets raw attributes.
     procedure SetAttributes(Attributes: TFileAttrs); virtual;
 
-    property Value: Cardinal read GetAttributes write SetAttributes;
+    property Value: TFileAttrs read GetAttributes write SetAttributes;
 
   end;
 
@@ -348,7 +348,7 @@ begin
   Create(0);
 end;
 
-constructor TFileAttributesProperty.Create(Attr: Cardinal);
+constructor TFileAttributesProperty.Create(Attr: TFileAttrs);
 begin
   inherited Create;
   FAttributes := Attr;
@@ -372,12 +372,12 @@ begin
   end;
 end;
 
-function TFileAttributesProperty.GetAttributes: Cardinal;
+function TFileAttributesProperty.GetAttributes: TFileAttrs;
 begin
   Result := FAttributes;
 end;
 
-procedure TFileAttributesProperty.SetAttributes(Attributes: Cardinal);
+procedure TFileAttributesProperty.SetAttributes(Attributes: TFileAttrs);
 begin
   FAttributes := Attributes;
 end;
