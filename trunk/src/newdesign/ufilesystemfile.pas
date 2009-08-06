@@ -118,7 +118,7 @@ begin
                            FileDateToDateTime(SearchRecord.Time));
 
   //Because symbolic link works on Windows 2k/XP for directories only
-  FIsLinkToDirectory := True;
+  FIsLinkToDirectory := FAttributes.IsLink;
 
   //Other times: SearchRecord.FindData.ftCreationTime ...?
 
