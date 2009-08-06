@@ -28,7 +28,7 @@ unit uColorExt;
 interface
 
 uses
-  Classes, Graphics, uTypes;
+  Classes, Graphics, uTypes, uFile;
 
 type
 
@@ -53,7 +53,7 @@ type
     destructor Destroy; override;
     function GetColorByExt(const sExt: String): TColor;
     function GetColorByAttr(const sModeStr: String): TColor;
-    function GetColorBy(FileRecItem: PFileRecItem): TColor;
+    function GetColorBy(const AFile: TFile): TColor;
     procedure Load;
     procedure Save;
     property  MaskItemList: TList read lslist write lslist;
@@ -75,7 +75,7 @@ destructor TColorExt.Destroy;
 begin
   if assigned(lsList) then
     begin
-      while lslist.Count>0 do
+      while lslist.Count > 0 do
        begin
          TMaskItem(lslist[0]).Free;
          lslist.Delete(0);
@@ -91,10 +91,10 @@ begin
 // Result:= gForeColor; //$0000ff00;
  for I:=0 to lslist.Count-1 do
    begin
-     if MatchesMaskList(sExt,TMAskItem(lslist[I]).sExt,';') then
+     if MatchesMaskList(sExt, TMaskItem(lslist[I]).sExt,';') then
        begin
-         Result:=TMAskItem(lslist[I]).cColor;
-         exit;
+         Result:= TMaskItem(lslist[I]).cColor;
+         Exit;
        end;
    end;
 end;
@@ -114,14 +114,14 @@ begin
    end;
 end;
 
-function TColorExt.GetColorBy(FileRecItem: PFileRecItem): TColor;
+function TColorExt.GetColorBy(const AFile: TFile): TColor;
 var
   I, J: Integer;
   MaskItem: TMaskItem;
 begin
  Result:= -1;//gForeColor; //$0000ff00;
  for I:= 0 to lslist.Count-1 do
-   with FileRecItem^ do
+   with AFile do
    begin
      MaskItem:= TMaskItem(lslist[I]);
      // get color by search template
@@ -130,15 +130,15 @@ begin
          with gSearchTemplateList do
          begin
            if (Templates[J].TemplateName = PChar(MaskItem.sExt)+1) and
-              Templates[J].CheckFile(FileRecItem^) then
+              Templates[J].CheckFile(AFile) then
              begin
                Result:= MaskItem.cColor;
                Exit;
              end;
          end;
      // get color by extension and attribute
-     if (MatchesMaskList(sExt,MaskItem.sExt,';')) and
-        (MatchesMaskList(sModeStr, MaskItem.sModeStr,';') or (MaskItem.sModeStr='')) then
+     if (MatchesMaskList(Extension,MaskItem.sExt,';')) {and     (* TODO: Color by attributes *)
+        (MatchesMaskList(sModeStr, MaskItem.sModeStr,';') or (MaskItem.sModeStr=''))} then
        begin
          Result:= MaskItem.cColor;
          Exit;
