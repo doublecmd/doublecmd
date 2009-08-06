@@ -16,7 +16,7 @@ type
   end;
 
 const
-  cCountSynAttrs=90;
+  cCountSynAttrs=87;
 //  cCountSynAttrs=1;
   csDefaultName='editor.col';
   
@@ -24,7 +24,7 @@ const
   cSynAttrNames: Array[0..cCountSynAttrs-1] of String =
 
   (SYNS_Untitled,
-   SYNS_AttrAsm, SYNS_AttrAsmComment, SYNS_AttrAsmKey,
+   //SYNS_AttrAsm, SYNS_AttrAsmComment, SYNS_AttrAsmKey,
    //4
    SYNS_AttrAssembler, SYNS_AttrAttributeName, SYNS_AttrAttributeValue,
    SYNS_AttrBlock, SYNS_Untitled, SYNS_AttrBrackets,
