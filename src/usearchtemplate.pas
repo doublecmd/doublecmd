@@ -27,7 +27,7 @@ unit uSearchTemplate;
 interface
 
 uses
-  Classes, SysUtils, uDSXPlugin, uClassesEx, uTypes;
+  Classes, SysUtils, uDSXPlugin, uClassesEx, uTypes, uFile;
 
 type
 
@@ -45,7 +45,7 @@ type
     SearchRecord: TSearchAttrRecord;
 
     constructor Create;
-    function CheckFile(const FileRecItem: TFileRecItem): Boolean;
+    function CheckFile(const AFile: TFile): Boolean;
     property TemplateName: UTF8String read FTemplateName write FTemplateName;
     property StartPath: UTF8String read FStartPath write FStartPath;
     property IsNotOlderThan: Boolean read FIsNotOlderThan write FIsNotOlderThan;
@@ -69,7 +69,7 @@ type
 implementation
 
 uses
-  DateUtils;
+  DateUtils, uFileProperty;
 
 { TSearchTemplate }
 
@@ -166,16 +166,18 @@ begin
   FillByte(SearchRecord, SizeOf(SearchRecord), 0);
 end;
 
-function TSearchTemplate.CheckFile(const FileRecItem: TFileRecItem): Boolean;
+function TSearchTemplate.CheckFile(const AFile: TFile): Boolean;
 begin
   Result:= True;
   with SearchRecord do
   begin
-    if (rIsDateFrom or rIsDateTo or rIsTimeFrom or rIsTimeTo or FIsNotOlderThan) then
-      Result:= CheckFileDate(FileRecItem.fTimeI);
+    if (fpModificationTime in AFile.GetSupportedProperties) then
+      if (rIsDateFrom or rIsDateTo or rIsTimeFrom or rIsTimeTo or FIsNotOlderThan) then
+        Result:= CheckFileDate((AFile.Properties[fpModificationTime] as TFileDateTimeProperty).Value);
 
-    if (rIsFileSizeFrom or rIsFileSizeTo) and Result then
-      Result := CheckFileSize(FileRecItem.iSize);
+    if (fpSize in AFile.GetSupportedProperties) then
+      if (rIsFileSizeFrom or rIsFileSizeTo) and Result then
+        Result:= CheckFileSize((AFile.Properties[fpSize] as TFileSizeProperty).Value);
   end;
 end;
 

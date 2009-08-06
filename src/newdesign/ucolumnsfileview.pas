@@ -1988,9 +1988,7 @@ var
 
       Canvas.FillRect(Rect);
 
-{
-      newColor := gColorExt.GetColorBy(frp);
-}
+      newColor := gColorExt.GetColorBy(AFile.TheFile);
 
       if AFile.Selected then
       begin
