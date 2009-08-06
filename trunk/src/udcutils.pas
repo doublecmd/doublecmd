@@ -363,29 +363,17 @@ begin
 end;
 
 function GetAbsoluteFileName(sPath, sRelativeFileName : String) : String;
-var
-  iPos : Integer;
-  sDir : String;
 begin
-  sDir := '';
-  if (Pos(PathDelim, sRelativeFileName)  <> 0) and (Pos(DriveDelim, sRelativeFileName) = 0) then
-    begin
-      iPos := Pos('..' + PathDelim, sRelativeFileName);
-      if iPos <> 0 then
-        sDir := sPath;
-      while iPos <> 0 do
-        begin
-          sDir := GetParentDir(sDir);
-          Delete(sRelativeFileName, iPos, 3);
-          iPos := Pos('..' + PathDelim, sRelativeFileName);
-        end;
-      Result := sDir + sRelativeFileName;
-    end
-  else
-    if Pos(DriveDelim, sRelativeFileName) = 0 then
-      Result := sPath + sRelativeFileName
-    else
+  case GetPathType(sRelativeFileName) of
+    ptNone:
+      Result := sPath + sRelativeFileName;
+
+    ptRelative:
+      Result := ExpandAbsolutePath(sPath + sRelativeFileName);
+
+    ptAbsolute:
       Result := sRelativeFileName;
+  end;
 end;
 
 function GetPathType(sPath : String): TPathType;
