@@ -34,7 +34,7 @@ procedure SHA1Final(var Context: TSHA1Context; var Digest: TSHA1Digest);
 
 //******************************************************************************
 implementation
-{$R-}
+{$R-}{$Q-}
 
 function LRot32(x: DWord; n: Byte): DWord;
 begin
