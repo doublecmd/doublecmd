@@ -18,6 +18,7 @@ type
     FSize: TFileSizeProperty;
     FAttributes: TFileAttributesProperty;
     FModificationTime: TFileModificationDateTimeProperty;
+    FIsLinkToDirectory: Boolean;
 
     procedure AssignProperties;
 
@@ -49,6 +50,8 @@ type
 
     class function GetSupportedProperties: TFilePropertiesTypes; override;
 
+    function IsLinkToDirectory: Boolean; override;
+
     property Size: Int64 read GetSize write SetSize;
     property Attributes: Cardinal read GetAttributes write SetAttributes;
     property ModificationTime: TDateTime read GetModificationTime write SetModificationTime;
@@ -79,7 +82,7 @@ implementation
 uses
   uFindEx
 {$IFDEF UNIX}
-  , BaseUnix, uUsersGroups
+  , BaseUnix, uUsersGroups, uDCUtils, FileUtil
 {$ENDIF}
   ;
 
@@ -90,6 +93,7 @@ begin
   FSize := TFileSizeProperty.Create;
   FAttributes := TNtfsFileAttributesProperty.Create;
   FModificationTime := TFileModificationDateTimeProperty.Create;
+  FIsLinkToDirectory := False;
 
   AssignProperties;
 
@@ -100,7 +104,8 @@ end;
 constructor TFileSystemFile.Create(SearchRecord: TSearchRec);
 {$IF DEFINED(UNIX)}
 var
-  sb: BaseUnix.Stat; //buffer for stat info
+  StatInfo: BaseUnix.Stat; //buffer for stat info
+  sFullPath: String;
 {$ENDIF}
 begin
   inherited Create;
@@ -112,16 +117,32 @@ begin
   FModificationTime := TFileModificationDateTimeProperty.Create(
                            FileDateToDateTime(SearchRecord.Time));
 
+  //Because symbolic link works on Windows 2k/XP for directories only
+  FIsLinkToDirectory := True;
+
   //Other times: SearchRecord.FindData.ftCreationTime ...?
 
 {$ELSEIF DEFINED(UNIX)}
 
-  sb := PUnixFindData(SearchRecord.FindHandle)^.StatRec;
+  StatInfo := PUnixFindData(SearchRecord.FindHandle)^.StatRec;
 
-  FAttributes := TUnixFileAttributesProperty.Create(sb.st_mode);
-  FSize := TFileSizeProperty.Create(sb.st_size);
+  FAttributes := TUnixFileAttributesProperty.Create(StatInfo.st_mode);
+  FSize := TFileSizeProperty.Create(StatInfo.st_size);
   FModificationTime := TFileModificationDateTimeProperty.Create(
-                           FileDateToDateTime(sb.st_mtime));
+                           FileDateToDateTime(StatInfo.st_mtime));
+
+  if FAttributes.IsLink then
+  begin
+    sFullPath := PUnixFindData(SearchRecord.FindHandle)^.sPath
+               + SearchRecord.Name;
+
+    // Stat (as opposed to Lstat) will take info of the file that the link points to (recursively).
+    fpStat(PChar(UTF8ToSys(sFullPath)), StatInfo);
+
+    FIsLinkToDirectory := FPS_ISDIR(StatInfo.st_mode);
+  end
+  else
+    FIsLinkToDirectory := False;
 
 {
     iOwner:=sb.st_uid;
@@ -132,16 +153,24 @@ begin
 
 {$ELSE}
 
-  // Create with default values.
-  FAttributes := TFileAttributesProperty.Create;
-  FSize := TFileSizeProperty.Create;
-  FModificationTime := TFileModificationDateTimeProperty.Create;
+  FAttributes := TFileAttributesProperty.Create(SearchRecord.Attributes);
+  FSize := TFileSizeProperty.Create(SearchRecord.Size);
+  FModificationTime := TFileModificationDateTimeProperty.Create(SearchRecord.Time);
+  FIsLinkToDirectory := False;
 
 {$ENDIF}
 
 {
   if IsLink then
-    sLinkTo := ReadSymLink(SearchRecord.Name)
+  begin
+    sLinkTo := ReadSymLink(PUnixFindData(SearchRecord.FindHandle)^.sPath + SearchRecord.Name);
+    if sLinkTo <> '' then
+    begin
+      case uDCUtils.GetPathType(sLinkTo) of
+        ptNone, ptRelative:
+          sLinkTo := PUnixFindData(SearchRecord.FindHandle)^.sPath + sLinkTo;
+      end;
+  end
   else
     sLinkTo := '';
 }
@@ -193,6 +222,11 @@ begin
   begin
     inherited CloneTo(AFile);
     // All properties are cloned in base class.
+
+    with AFile as TFileSystemFile do
+    begin
+      FIsLinkToDirectory := Self.FIsLinkToDirectory;
+    end;
   end;
 end;
 
@@ -236,6 +270,11 @@ end;
 procedure TFileSystemFile.SetModificationTime(NewTime: TDateTime);
 begin
   FModificationTime.Value := NewTime;
+end;
+
+function TFileSystemFile.IsLinkToDirectory: Boolean;
+begin
+  Result := FIsLinkToDirectory;
 end;
 
 // ----------------------------------------------------------------------------
