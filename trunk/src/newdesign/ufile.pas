@@ -107,7 +107,7 @@ type
     function IsDirectory: Boolean;
     function IsSysFile: Boolean;
     function IsLink: Boolean;
-    function IsLinkToDirectory: Boolean;
+    function IsLinkToDirectory: Boolean; virtual;
     function IsExecutable: Boolean;   // for ShellExecute
   end;
 
@@ -227,7 +227,7 @@ begin
   // Cache Extension and NameNoExt.
 
   if (FName = '') or
-     ((fpAttributes in SupportedProperties) and IsDirectory) or
+     ((fpAttributes in SupportedProperties) and (IsDirectory or IsLinkToDirectory)) or
      (FName[1] = '.')
   then
   begin
@@ -290,14 +290,7 @@ begin
   if fpAttributes in SupportedProperties then
   begin
     FileAttributes := Properties[fpAttributes] as TFileAttributesProperty;
-    Result := FileAttributes.IsDirectory
-{$IF DEFINED(MSWINDOWS)}
-              //Because symbolic link works on Windows 2k/XP for directories only
-              or FileAttributes.IsLink
-{$ELSEIF DEFINED(UNIX)}
-//              or (IsLink and IsDirByName(sLinkTo))
-{$ENDIF}
-              ;
+    Result := FileAttributes.IsDirectory;
   end
   else
     Result := False;
@@ -318,8 +311,7 @@ end;
 
 function TFile.IsLinkToDirectory: Boolean;
 begin
-  // For now IsDirectory also returns True when the link points to directory.
-  // Maybe this should be changed?
+  // Override in descendant classes.
   Result := False;
 end;
 
