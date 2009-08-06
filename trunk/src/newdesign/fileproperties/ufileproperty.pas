@@ -5,7 +5,7 @@ unit uFileProperty;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, uOSUtils;
 
 type
 
@@ -123,14 +123,12 @@ type
   TFileAttributesProperty = class(TFileProperty)
 
   private
-    // I don't know if there would be a file source with attributes of some other type
-    // than an integer number, but if there would we couldn't use Cardinal.
-    FAttributes: Cardinal;
+    FAttributes: TFileAttrs;
 
   public
     constructor Create; override;
 
-    constructor Create(Attr: Cardinal); virtual; overload;
+    constructor Create(Attr: TFileAttrs); virtual; overload;
 
     function Clone: TFileAttributesProperty; override;
     procedure CloneTo(FileProperty: TFileProperty); override;
@@ -145,10 +143,10 @@ type
     function IsLink: Boolean; virtual;
 
     // Retrieves raw attributes.
-    function GetAttributes: Cardinal; virtual;
+    function GetAttributes: TFileAttrs; virtual;
 
     // Sets raw attributes.
-    procedure SetAttributes(Attributes: Cardinal); virtual;
+    procedure SetAttributes(Attributes: TFileAttrs); virtual;
 
     property Value: Cardinal read GetAttributes write SetAttributes;
 
@@ -199,9 +197,6 @@ type
   end;
 
 implementation
-
-uses
-  uOSUtils;
 
 resourcestring
   rsSizeDescription = 'Size';
