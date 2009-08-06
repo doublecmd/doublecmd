@@ -184,18 +184,22 @@ end;
 constructor TFileSystemFile.Create(FilePath: String);
 var
   SearchRecord: TSearchRec;
+  FindResult: Longint;
 begin
-  if FindFirstEx(FilePath, faAnyFile, SearchRecord) <> 0 then
-  begin
+  FindResult := FindFirstEx(FilePath, faAnyFile, SearchRecord);
+  try
+    if FindResult <> 0 then
+    begin
+      raise EFileSystemFileNotExists.Create('File ' + FilePath + ' does not exist.');
+    end
+    else
+      Create(SearchRecord);
+
+    Path := ExtractFilePath(FilePath);
+
+  finally
     FindCloseEx(SearchRecord);
-    raise EFileSystemFileNotExists.Create('File ' + FilePath + ' does not exist.');
-  end
-  else
-    Create(SearchRecord);
-
-  Path := ExtractFilePath(FilePath);
-
-  FindCloseEx(SearchRecord);
+  end;
 end;
 
 destructor TFileSystemFile.Destroy;
