@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, Dialogs, typinfo, ExtCtrls, StringHashList, ActnList,
-  uFileView, uFileViewNotebook;
+  uFileView, uFileViewNotebook, uFileSourceOperation;
   
   
 const cf_Null=0;
@@ -54,6 +54,10 @@ const cf_Null=0;
    function GetList:TStrings;
    procedure EnableAction(ActionState: PActionState; Enabled: Boolean);
    class function Methods(AClass:TClass) : TStringList;
+
+   procedure OnCalcStatisticsStateChanged(Operation: TFileSourceOperation;
+                                          Event: TFileSourceOperationEvent);
+
   public
    FActionsState: TStringHashList;
    constructor Create;
@@ -234,7 +238,7 @@ const cf_Null=0;
 implementation
 
 uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
-     Clipbrd,uOSUtils,uWCXmodule,fPackDlg,uWipeThread,
+     Clipbrd,uOSUtils,uWCXmodule,fPackDlg,uWipeThread, strutils,
      fFileOpDlg,forms,uVFSutil,uShowForm,uDCUtils,uLog,uVFSTypes,
      fMkDir,LCLProc,uFileProcs,uDeleteThread,fFileAssoc,fExtractDlg,fAbout,
      fOptions,fCompareFiles,fFindDlg,fSymLink,fHardLink,fMultiRename, uHash,
@@ -242,8 +246,9 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
      HelpIntfs, dmHelpManager, uShellExecute, uClipboard, uCheckSumThread, fCheckSumCalc,
      uFileSorting, uFilePanelSelect, uFile, uFileSystemFileSource,
      uFileSystemCopyOperation, uOperationsManager, uFileSourceOperationTypes,
-     uFileSourceOperation, uFileSystemDeleteOperation, uFileSystemWipeOperation,
-     uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation;
+     uFileSystemDeleteOperation, uFileSystemWipeOperation,
+     uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
+     uFileSourceCalcStatisticsOperation;
 
 { TActs }
 
@@ -519,6 +524,25 @@ var
 begin
   for i := 0 to FActionsState.Count - 1 do
     EnableAction(PActionState(FActionsState.List[i]^.Data), Enable);
+end;
+
+//------------------------------------------------------
+
+procedure TActs.OnCalcStatisticsStateChanged(Operation: TFileSourceOperation;
+                                             Event: TFileSourceOperationEvent);
+var
+  CalcStatisticsOperation: TFileSourceCalcStatisticsOperation;
+  CalcStatisticsOperationStatistics: TFileSourceCalcStatisticsOperationStatistics;
+begin
+  if (Operation.State = fsosStopped) and (Operation.Result = fsorFinished) then
+  begin
+    CalcStatisticsOperation := Operation as TFileSourceCalcStatisticsOperation;
+    CalcStatisticsOperationStatistics := CalcStatisticsOperation.RetrieveStatistics;
+    with CalcStatisticsOperationStatistics do
+    begin
+      msgOK(Format(rsSpaceMsg, [Files, Directories, cnvFormatFileSize(Size), Numb2USA(IntToStr(Size))]));
+    end;
+  end;
 end;
 
 //------------------------------------------------------
@@ -2125,8 +2149,26 @@ begin
 end;
 
 procedure TActs.cm_CalculateSpace(param:string);
+var
+  SelectedFiles: TFiles;
+  Operation: TFileSourceOperation;
+  OperationHandle: TOperationHandle;
+  ProgressDialog: TfrmFileOp;
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_CalculateSpace', param);
+  with frmMain do
+  begin
+    SelectedFiles := ActiveFrame.SelectedFiles;
+    try
+      Operation := ActiveFrame.FileSource.CreateCalcStatisticsOperation(SelectedFiles);
+      Operation.AddEventsListener([fsoevStateChanged], @OnCalcStatisticsStateChanged);
+      OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+      ProgressDialog := TfrmFileOp.Create(OperationHandle);
+      ProgressDialog.Show;
+    finally
+      if Assigned(SelectedFiles) then
+        FreeAndNil(SelectedFiles);
+    end;
+  end;
 end;
 
 procedure TActs.cm_CountDirContent(param: string);

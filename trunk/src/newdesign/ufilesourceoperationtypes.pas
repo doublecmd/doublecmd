@@ -21,6 +21,7 @@ type
     //fsoCreateFile,
     //fsoCreateLink,
     fsoCalcChecksum,
+    fsoCalcStatistics,  // Should probably always be supported if fsoList is supported.
     fsoSetName,
     fsoSetAttribute,
     fsoExecute

@@ -79,6 +79,7 @@ type
     function CreateCalcChecksumOperation(var theFiles: TFiles;
                                          aTargetPath: String;
                                          aTargetMask: String): TFileSourceOperation; virtual;
+    function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation; virtual;
 
     {en
        Returns @true if the CurrentPath is the root path of the file source,
@@ -222,6 +223,11 @@ end;
 function TFileSource.CreateCalcChecksumOperation(var theFiles: TFiles;
                                                  aTargetPath: String;
                                                  aTargetMask: String): TFileSourceOperation;
+begin
+  Result := nil;
+end;
+
+function TFileSource.CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation;
 begin
   Result := nil;
 end;

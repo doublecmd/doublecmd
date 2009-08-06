@@ -58,6 +58,7 @@ type
     function CreateCalcChecksumOperation(var theFiles: TFiles;
                                          aTargetPath: String;
                                          aTargetMask: String): TFileSourceOperation; override;
+    function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation; override;
     // ------------------------------------------------------
   end;
 
@@ -71,7 +72,8 @@ uses
   uFileSystemDeleteOperation,
   uFileSystemWipeOperation,
   uFileSystemCreateDirectoryOperation,
-  uFileSystemCalcChecksumOperation;
+  uFileSystemCalcChecksumOperation,
+  uFileSystemCalcStatisticsOperation;
 
 constructor TFileSystemFileSource.Create;
 begin
@@ -108,6 +110,7 @@ begin
              fsoWipe,
              fsoCreateDirectory,
              fsoCalcChecksum,
+             fsoCalcStatistics,
              fsoSetName,
              fsoSetAttribute,
              fsoExecute];
@@ -227,6 +230,14 @@ begin
                 theFiles,
                 aTargetPath,
                 aTargetMask);
+end;
+
+function TFileSystemFileSource.CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation;
+var
+  TargetFileSource: TFileSystemFileSource;
+begin
+  TargetFileSource := Self.Clone;
+  Result := TFileSystemCalcStatisticsOperation.Create(TargetFileSource, theFiles);
 end;
 
 end.
