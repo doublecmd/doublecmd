@@ -24,6 +24,8 @@ type
     function GetFiles: TFiles;
     function GetID: TFileSourceOperationType; override;
 
+    procedure UpdateStatisticsAtStartTime; override;
+
     property FileSource: TFileSource read FFileSource;
 
   public
@@ -71,6 +73,11 @@ function TFileSourceListOperation.ReleaseFiles: TFiles;
 begin
   Result := FFiles;
   FFiles := nil; // revoke ownership
+end;
+
+procedure TFileSourceListOperation.UpdateStatisticsAtStartTime;
+begin
+  // Empty.
 end;
 
 end.

@@ -16,7 +16,7 @@ type
     FWcxArchiveFileSource: TWcxArchiveFileSource;
   public
     constructor Create(var aFileSource: TWcxArchiveFileSource); reintroduce;
-    procedure Execute; override;
+    procedure MainExecute; override;
   end;
 
 implementation
@@ -31,7 +31,7 @@ begin
   inherited Create(aFileSource);
 end;
 
-procedure TWcxArchiveListOperation.Execute;
+procedure TWcxArchiveListOperation.MainExecute;
 var
   I : Integer;
   CurrFileName : String;  // Current file name
