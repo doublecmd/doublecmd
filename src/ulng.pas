@@ -106,6 +106,7 @@ resourcestring
   rsMsgErrNoFiles = 'No files found';
   rsMsgErrTooManyFiles = 'Too many files to pack';
   rsMsgErrNotSupported = 'Function not supported!';
+  rsMsgErrInvalidLink = 'Invalid link';
   // Log file
   rsMsgLogSuccess = 'Done: ';
   rsMsgLogError = 'Error: ';
