@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="87">
+    <Units Count="89">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -129,6 +129,7 @@
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmEditorConf"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="fEditorConf"/>
       </Unit9>
       <Unit10>
@@ -589,6 +590,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFileSystemCalcChecksumOperation"/>
       </Unit86>
+      <Unit87>
+        <Filename Value="newdesign\ufilesystemcalcstatisticsoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemCalcStatisticsOperation"/>
+      </Unit87>
+      <Unit88>
+        <Filename Value="newdesign\ufilesourcecalcstatisticsoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceCalcStatisticsOperation"/>
+      </Unit88>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
