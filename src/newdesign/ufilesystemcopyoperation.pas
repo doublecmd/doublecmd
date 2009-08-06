@@ -34,7 +34,7 @@ type
                        aTargetPath: String;
                        aRenameMask: String); override;
 
-    procedure Execute; override;
+    procedure MainExecute; override;
 
   end;
 
@@ -96,7 +96,7 @@ begin
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath, aRenameMask);
 end;
 
-procedure TFileSystemCopyInOperation.Execute;
+procedure TFileSystemCopyInOperation.MainExecute;
 begin
 end;
 

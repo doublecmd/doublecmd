@@ -186,9 +186,9 @@ type
     }
     function GetID: TFileSourceOperationType; virtual abstract;
 
-    procedure Initialize; virtual abstract;
+    procedure Initialize; virtual;
     procedure MainExecute; virtual abstract;
-    procedure Finalize; virtual abstract;
+    procedure Finalize; virtual;
 
     {en
        Notifies all listeners that an event has occurred (or multiple events).
@@ -241,7 +241,7 @@ type
     {en
        Executes operation.
     }
-    procedure Execute; virtual;
+    procedure Execute;
 
     {
       The Start/Pause/Stop functions only have sense if the operation
@@ -387,6 +387,16 @@ begin
 
   FreeAndNil(FStateLock);
   FreeAndNil(FEventsLock);
+end;
+
+procedure TFileSourceOperation.Initialize;
+begin
+  // Override in descendant classes.
+end;
+
+procedure TFileSourceOperation.Finalize;
+begin
+  // Override in descendant classes.
 end;
 
 procedure TFileSourceOperation.Execute;
