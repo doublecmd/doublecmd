@@ -61,7 +61,7 @@ begin
 end;
 }
 var
-  iAttr: Cardinal;
+  iAttr: TFileAttrs;
 begin
   iAttr := FileProperty.Value;
 
