@@ -5,7 +5,7 @@ unit uFileSystemCalcChecksumOperation;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, contnrs,
   uFileSourceCalcChecksumOperation,
   uFileSource,
   uFileSourceOperation,
@@ -25,7 +25,7 @@ type
     FCheckSumFile: TStringListEx;
     FBuffer: Pointer;
     FBufferSize: LongWord;
-    FChecksumsList: TStringList;
+    FChecksumsList: TObjectList;
 
     // Options.
     FSymLinkOption: TFileSourceOperationOptionSymLink;
@@ -60,6 +60,13 @@ uses
   uFileSystemUtil, LCLProc,
   FileUtil, StrUtils, fCheckSumVerify;
 
+type
+  TChecksumEntry = class
+  public
+    Checksum: String;
+    Algorithm: THashAlgorithm;
+  end;
+
 constructor TFileSystemCalcChecksumOperation.Create(
                 var aTargetFileSource: TFileSource;
                 var theFiles: TFiles;
@@ -71,7 +78,7 @@ begin
   FSkipErrors := False;
   FFullFilesTree := nil;
   FCheckSumFile := TStringListEx.Create;
-  FChecksumsList := TStringList.Create;
+  FChecksumsList := TObjectList.Create(True);
 
   inherited Create(aTargetFileSource, theFiles,
                    aTargetPath, aTargetMask);
@@ -122,6 +129,7 @@ var
   aFile: TFileSystemFile;
   CurrentFileIndex: Integer;
   OldDoneBytes: Int64; // for if there was an error
+  Entry: TChecksumEntry;
 begin
   for CurrentFileIndex := 0 to FFullFilesTree.Count - 1 do
   begin
@@ -147,8 +155,9 @@ begin
 
       checksum_verify:
         begin
-          Algorithm := THashAlgorithm(FChecksumsList.Objects[CurrentFileIndex]);
-          VerifyChecksumProcessFile(aFile, FChecksumsList[CurrentFileIndex]);
+          Entry := FChecksumsList.Items[CurrentFileIndex] as TChecksumEntry;
+          Algorithm := Entry.Algorithm;
+          VerifyChecksumProcessFile(aFile, Entry.Checksum);
         end;
     end;
 
@@ -187,9 +196,9 @@ procedure TFileSystemCalcChecksumOperation.InitializeVerifyMode;
 var
   CurrentFileIndex, I: Integer;
   aFile, aFileToVerify: TFileSystemFile;
-  AddedItemIndex: Integer;
   anAlgorithm: THashAlgorithm;
   FileName: String;
+  Entry: TChecksumEntry;
 begin
   FFullFilesTree := TFileSystemFiles.Create;
   FChecksumsList.Clear;
@@ -215,8 +224,10 @@ begin
           end;
 
           FFullFilesTree.Add(aFileToVerify);
-          AddedItemIndex := FChecksumsList.Add(FCheckSumFile.Names[I]);
-          FChecksumsList.Objects[AddedItemIndex] := TObject(anAlgorithm);
+          Entry := TChecksumEntry.Create;
+          FChecksumsList.Add(Entry);
+          Entry.Checksum := FCheckSumFile.Names[I];
+          Entry.Algorithm := anAlgorithm;
 
         except
           FreeAndNil(aFileToVerify);
