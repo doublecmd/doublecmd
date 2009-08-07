@@ -3170,11 +3170,10 @@ begin
   DropRowIndex := -1;
 
   DoubleBuffered := True;
-  AutoFillColumns := True;
   Align := alClient;
-  ScrollBars := ssAutoVertical;
   Options := [goFixedVertLine, goFixedHorzLine, goTabs, goRowSelect,
-              goColSizing, goThumbTracking];
+              goColSizing, goThumbTracking, goSmoothScroll];
+
   TitleStyle := tsStandard;
   TabStop := False;
 
