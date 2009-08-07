@@ -1861,8 +1861,12 @@ var
 
       if gCutTextToColWidth then
       begin
-        while Canvas.TextWidth(s) - ((Rect.Right - Rect.Left) - TitleX) > 0 do
-          UTF8Delete(s, UTF8Length(s), 1);
+        if (Rect.Right - Rect.Left) < TitleX then
+          // Column too small to display text.
+          Exit
+        else
+          while Canvas.TextWidth(s) - ((Rect.Right - Rect.Left) - TitleX) > 0 do
+            UTF8Delete(s, UTF8Length(s), 1);
       end;
 
       Canvas.TextOut(Rect.Left + TitleX, iTextTop, s);
