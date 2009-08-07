@@ -6,7 +6,7 @@ msgstr ""
 "Last-Translator: Marc Fokker <ptp@extel.xs4all.nl>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
@@ -27,7 +27,7 @@ msgstr "Geen HTML browser kunnen vinden."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineoneinhelpconfigurehe
 msgid "No HTML Browser found.%sPlease define one in Help -> Configure Help -> Viewers"
-msgstr "Geen HTML browser gevonden. %sDefiniëer deze alstublieft via Help -> Configureer Help -> Viewers"
+msgstr "Geen HTML browser gevonden. %sDefinieer deze alstublieft via Help -> Configureer Help -> Viewers"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
 msgid "The help database %s%s%s was unable to find file %s%s%s."
