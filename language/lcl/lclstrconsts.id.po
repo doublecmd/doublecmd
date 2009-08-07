@@ -6,10 +6,9 @@ msgstr ""
 "Last-Translator: Zaenal Mutaqin <ade999@gmail.com>\n"
 "Language-Team: Zaenal Mutaqin <ade999@gmail.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Country: INDONESIA\n"
-"X-Poedit-SourceCharset: iso-8859-1\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
 msgid "Browser %s%s%s not executable."
