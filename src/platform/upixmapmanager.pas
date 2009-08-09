@@ -649,8 +649,8 @@ begin
   FiLinkIconID:=CheckAddPixmap('filesystems' + PathDelim + 'link.png');
   FiUpDirIconID:=CheckAddPixmap('actions' + PathDelim + 'go-up.png');
   FiArcIconID := CheckAddPixmap('mimetypes' + PathDelim + 'package-x-generic.png');
-  FiSortAscID := CheckAddPixmap('actions' + PathDelim + 'sort-asc.png');
-  FiSortDescID := CheckAddPixmap('actions' + PathDelim + 'sort-desc.png');
+  FiSortAscID := CheckAddPixmap('actions' + PathDelim + 'view-sort-ascending.png');
+  FiSortDescID := CheckAddPixmap('actions' + PathDelim + 'view-sort-descending.png');
 
   { Load icons from doublecmd.ext }
   for I := 0 to gExts.Count - 1 do
