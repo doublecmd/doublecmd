@@ -917,8 +917,7 @@ var
   fl : TFileList;
   Result: Boolean;
 begin
-// This command will probably be removed?
-// Because extracting files will be simply copying from archive file source.
+// This command is needed for extract whole archive by Alt+F9 (without opening it)
 {
 with frmMain do
 begin
