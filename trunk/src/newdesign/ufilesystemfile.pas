@@ -127,7 +127,12 @@ begin
   StatInfo := PUnixFindData(SearchRecord.FindHandle)^.StatRec;
 
   FAttributes := TUnixFileAttributesProperty.Create(StatInfo.st_mode);
-  FSize := TFileSizeProperty.Create(StatInfo.st_size);
+  if FAttributes.IsDirectory then
+    // On Unix a size for directory entry on filesystem is returned in StatInfo.
+    // We don't want to use it.
+    FSize := TFileSizeProperty.Create(0)
+  else
+    FSize := TFileSizeProperty.Create(StatInfo.st_size);
   FModificationTime := TFileModificationDateTimeProperty.Create(
                            FileDateToDateTime(StatInfo.st_mtime));
 
