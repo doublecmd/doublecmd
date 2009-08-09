@@ -648,7 +648,7 @@ begin
   FiDirLinkIconID:=CheckAddPixmap('filesystems' + PathDelim + 'folder-link.png');
   FiLinkIconID:=CheckAddPixmap('filesystems' + PathDelim + 'link.png');
   FiUpDirIconID:=CheckAddPixmap('actions' + PathDelim + 'go-up.png');
-  FiArcIconID := CheckAddPixmap('filesystems' + PathDelim + 'archive.png');
+  FiArcIconID := CheckAddPixmap('mimetypes' + PathDelim + 'package-x-generic.png');
   FiSortAscID := CheckAddPixmap('actions' + PathDelim + 'sort-asc.png');
   FiSortDescID := CheckAddPixmap('actions' + PathDelim + 'sort-desc.png');
 
