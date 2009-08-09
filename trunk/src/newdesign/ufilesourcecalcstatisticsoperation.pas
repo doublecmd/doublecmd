@@ -8,6 +8,7 @@ uses
   Classes, SysUtils, syncobjs,
   uFileSourceOperation,
   uFileSourceOperationTypes,
+  uFileSourceOperationOptions,
   uFileSource,
   uFileProperty,
   uFile;
@@ -42,6 +43,10 @@ type
     FFiles: TFiles;
 
   protected
+    // Options.
+    FSymLinkOption: TFileSourceOperationOptionSymLink;
+    FSkipErrors: Boolean;
+
     function GetID: TFileSourceOperationType; override;
 
     procedure UpdateStatistics(var NewStatistics: TFileSourceCalcStatisticsOperationStatistics);
@@ -57,12 +62,16 @@ type
     destructor Destroy; override;
 
     function RetrieveStatistics: TFileSourceCalcStatisticsOperationStatistics;
+
+    property SymLinkOption: TFileSourceOperationOptionSymLink
+             read FSymLinkOption write FSymLinkOption;
+    property SkipErrors: Boolean read FSkipErrors write FSkipErrors;
   end;
 
 implementation
 
 uses
-  uDCUtils;
+  uDCUtils, uGlobs;
 
 constructor TFileSourceCalcStatisticsOperation.Create(
                 var aTargetFileSource: TFileSource;
@@ -90,6 +99,9 @@ begin
   aTargetFileSource := nil;
   FFiles := theFiles;
   theFiles := nil;
+
+  FSymLinkOption := fsooslNone;
+  FSkipErrors := gSkipFileOpError;
 end;
 
 destructor TFileSourceCalcStatisticsOperation.Destroy;

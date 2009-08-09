@@ -9,7 +9,6 @@ uses
   uFileSourceCalcStatisticsOperation,
   uFileSource,
   uFileSourceOperation,
-  uFileSourceOperationOptions,
   uFileSourceOperationUI,
   uFile,
   uFileSystemFile,
@@ -21,10 +20,6 @@ type
 
   private
     FStatistics: TFileSourceCalcStatisticsOperationStatistics; // local copy of statistics
-
-    // Options.
-    FSymLinkOption: TFileSourceOperationOptionSymLink;
-    FSkipErrors: Boolean;
 
     procedure ProcessFile(aFile: TFileSystemFile);
     procedure ProcessLink(aFile: TFileSystemFile);
@@ -44,6 +39,7 @@ type
 implementation
 
 uses
+  uFileSourceOperationOptions,
   uDCUtils, uOSUtils, uLng,
   uFileSystemUtil, LCLProc,
   FileUtil, StrUtils, uFindEx;
@@ -52,9 +48,6 @@ constructor TFileSystemCalcStatisticsOperation.Create(
                 var aTargetFileSource: TFileSource;
                 var theFiles: TFiles);
 begin
-  FSymLinkOption := fsooslNone;
-  FSkipErrors := False;
-
   inherited Create(aTargetFileSource, theFiles);
 end;
 

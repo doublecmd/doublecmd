@@ -270,6 +270,9 @@ type
 
     function GetActiveItem: TColumnsViewFile;
 
+    procedure CalculateSpaceOfAllDirectories;
+    procedure CalculateSpace(theFile: TColumnsViewFile);
+
     // -- Events --------------------------------------------------------------
 
     procedure edtPathExit(Sender: TObject);
@@ -409,8 +412,6 @@ type
     procedure DoDragDropOperation(Operation: TDragDropOperation;
                                   DropParams: TDropParams);
 
-    procedure CalculateSpace(bDisplayMessage:Boolean);
-
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property LastActive: String read FLastActive write FLastActive;
     property GridVertLine: Boolean read GetGridVertLine write SetGridVertLine;
@@ -427,7 +428,7 @@ type
     procedure cm_QuickSearch(param: string='');
     procedure cm_Open(param: string='');
     procedure cm_SortByColumn(param: string='');
-    procedure cm_CalculateSpace(param: string='');
+    procedure cm_CountDirContent(param: string='');
   end;
 
 implementation
@@ -438,7 +439,10 @@ uses
   uFileSourceListOperation,
   uFileProperty, uDefaultFilePropertyFormatter,
   uFileSourceProperty,
+  uFileSourceOperation,
   uFileSourceOperationTypes,
+  uFileSourceOperationOptions,
+  uFileSourceCalcStatisticsOperation,
   uFileSystemFile,
   uFileSystemFileSource,
   fColumnsSetConf,
@@ -2239,7 +2243,7 @@ debugln('panelkeydown');
         if GetActiveItem.TheFile.IsDirectory or
            GetActiveItem.TheFile.IsLinkToDirectory
         then
-          CalculateSpace(False);
+          CalculateSpace(GetActiveItem);
 
         SelectFile(GetActiveItem);
       end;
@@ -2871,88 +2875,57 @@ begin
     Result := ColSet.GetColumnSet(ActiveColm);
 end;
 
-procedure TColumnsFileView.CalculateSpace(bDisplayMessage:Boolean);
-{
+procedure TColumnsFileView.CalculateSpaceOfAllDirectories;
 var
-  fl:TFileList;
-  p:TFileRecItem;
-}
+  i: Integer;
 begin
-(*
-  fl:= TFileList.Create; // free at Thread end by thread
-  with ActiveFrame do
+  for i := 0 to FFiles.Count - 1 do
+    if IsItemValid(FFiles[i]) and FFiles[i].TheFile.IsDirectory then
+      CalculateSpace(FFiles[i]);
+end;
+
+procedure TColumnsFileView.CalculateSpace(theFile: TColumnsViewFile);
+var
+  Operation: TFileSourceOperation = nil;
+  CalcStatisticsOperation: TFileSourceCalcStatisticsOperation;
+  CalcStatisticsOperationStatistics: TFileSourceCalcStatisticsOperationStatistics;
+  TargetFiles: TFiles = nil;
+begin
+  if (fsoCalcStatistics in FileSource.GetOperationsTypes) and
+     (fpSize in theFile.TheFile.SupportedProperties) and
+     theFile.TheFile.IsDirectory then
   begin
-    if not bDisplayMessage then  // Calculate by <Space> key
-      begin
-{
-        if not IsActiveItemValid then
-        begin
-          FreeAndNil(fl);
-          Exit;
-        end;
-}
+    Screen.Cursor := crHourGlass;
 
-{
-        p:= GetActiveItem^;
-        p.sNameNoExt:= p.sName; //dstname
-        p.sName:= ActiveDir+p.sName;
-        p.sPath:= '';
+    TargetFiles := FFileSourceFiles.CreateObjectOfSameType;
+    try
+      TargetFiles.Add(theFile.TheFile.Clone);
 
-        fl.AddItem(@p);
-}
-      end
-    else
-      begin
-{
-        if SelectFileIfNoSelected(GetActiveItem) = False then
-        begin
-          FreeAndNil(fl);
-          Exit;
-        end;
+      Operation := FileSource.CreateCalcStatisticsOperation(TargetFiles);
+      CalcStatisticsOperation := Operation as TFileSourceCalcStatisticsOperation;
+      CalcStatisticsOperation.SkipErrors := True;
+      CalcStatisticsOperation.SymLinkOption := fsooslDontFollow;
 
-        CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
-}
-      end;
-  end;
+      Operation.Execute; // blocks until finished
 
-  try
-  with TSpaceThread.Create(fl, bDisplayMessage) do
-    begin
-      if not bDisplayMessage then
-        Screen.Cursor:= crHourGlass;
+      CalcStatisticsOperationStatistics := CalcStatisticsOperation.RetrieveStatistics;
 
-      // start thread
-      Resume;
+      (thefile.TheFile.Properties[fpSize] as TFileSizeProperty).Value := CalcStatisticsOperationStatistics.Size;
 
-      if not bDisplayMessage then
-        begin
-          WaitFor;
-          Screen.Cursor:= crDefault;
-        end;
+      RedrawGrid;
 
-{
-      with ActiveFrame.GetActiveItem^ do
-      begin
-        if (bDisplayMessage = False) then
-          iDirSize:= FilesSize;
-        ActiveFrame.pnlFile.LastActive:= sName;
-      end;
-}
+      // Needed to not block GUI as we're not executing operation in a thread.
+      Application.ProcessMessages;
 
-      if not bDisplayMessage then
-        Free;
-    end;
-  finally
-    with ActiveFrame do
-    begin
-      Screen.Cursor:= crDefault;
-//      UnMarkAll;
-{
-      pnlFile.UpdatePanel;
-}
+    finally
+      if Assigned(TargetFiles) then
+        FreeAndNil(TargetFiles);
+      if Assigned(Operation) then
+        FreeAndNil(Operation);
+
+      Screen.Cursor := crDefault;
     end;
   end;
-*)
 end;
 
 procedure TColumnsFileView.UTF8KeyPressEvent(Sender: TObject; var UTF8Key: TUTF8Char);
@@ -3136,16 +3109,9 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.cm_CalculateSpace(param: string='');
+procedure TColumnsFileView.cm_CountDirContent(param: string='');
 begin
-  // For now only works for FileSystem.
-  if FileSource is TFileSystemFileSource then
-  begin
-    // Selection validation in CalculateSpace.
-    CalculateSpace(True);
-  end
-  else
-    msgWarning(rsMsgNotImplemented);
+  CalculateSpaceOfAllDirectories;
 end;
 
 { TDrawGridEx }
