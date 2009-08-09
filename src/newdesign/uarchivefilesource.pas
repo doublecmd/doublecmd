@@ -26,7 +26,7 @@ implementation
 
 constructor TArchiveFileSource.Create(anArchiveFileName: String);
 begin
-  Create(anArchiveFileName, '/');
+  Create(anArchiveFileName, PathDelim);
 end;
 
 constructor TArchiveFileSource.Create(anArchiveFileName: String; aPath: String);
