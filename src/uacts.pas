@@ -248,7 +248,8 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
      uFileSystemCopyOperation, uOperationsManager, uFileSourceOperationTypes,
      uFileSystemDeleteOperation, uFileSystemWipeOperation,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
-     uFileSourceCalcStatisticsOperation;
+     uFileSourceCalcStatisticsOperation, uFileSystemFile, uFileSourceCopyOperation,
+     uFileSource;
 
 { TActs }
 
@@ -2355,9 +2356,7 @@ var
   i : Integer;
   theSelectedFiles: TFiles = nil;
 begin
-  // Will probably work only for file system.
-
-  // For now we check file source type here.
+  // Only works for file system.
 
   Result := False;
 
@@ -2404,46 +2403,91 @@ procedure TActs.cm_PasteFromClipboard(param: string='');
 var
   ClipboardOp: TClipboardOperation;
   filenamesList: TStringList;
-  FileList: TFileList;
+  Files: TFileSystemFiles = nil;
+  Operation: TFileSourceOperation = nil;
+  OperationHandle: TOperationHandle;
+  ProgressDialog: TfrmFileOp;
+  SourceFileSource: TFileSystemFileSource = nil;
+  TargetFileSource: TFileSource = nil;
 begin
-{
   with frmMain do
   begin
     if PasteFromClipboard(ClipboardOp, filenamesList) = True then
     try
       // fill file list with files
-      FileList:= TFileList.Create;
-      FileList.LoadFromFileNames(fileNamesList);
+      Files := TFileSystemFiles.Create;
+      Files.LoadFromFileNames(fileNamesList);
 
-      { If panel is in Archive of VFS mode - show dialog for the user to confirm. }
-      { Otherwise just start the operation thread. }
       case ClipboardOp of
 
         uClipboard.ClipboardCut:
         begin
+{
+          MoveOperation
+
+          if not (fsoMoveIn in ActiveFrame.FileSource.GetOperationsTypes) then
+          begin
+            msgWarning(rsMsgErrNotSupported);
+            Exit;
+          end;
+
           if ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then
             RenameFile(FileList, ActiveFrame, ActiveFrame.CurrentPath)
           else if ActiveFrame.pnlFile.PanelMode = pmDirectory then
             RunRenameThread(FileList, ActiveFrame.CurrentPath, '*.*');
+}
         end;
 
         uClipboard.ClipboardCopy:
         begin
-          if ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then
-            CopyFile(FileList, ActiveFrame, ActiveFrame.CurrentPath)
-          else if ActiveFrame.pnlFile.PanelMode = pmDirectory then
-            RunCopyThread(FileList, ActiveFrame.CurrentPath, '*.*', False);
-        end
+          if not (fsoCopyIn in ActiveFrame.FileSource.GetOperationsTypes) then
+          begin
+            msgWarning(rsMsgErrNotSupported);
+            Exit;
+          end;
+
+          SourceFileSource := TFileSystemFileSource.Create(Files.Path);
+          if ActiveFrame.FileSource is TFileSystemFileSource then
+          begin
+            // Make CopyOut for target filesystem.
+            TargetFileSource := ActiveFrame.FileSource.Clone;
+            Operation := SourceFileSource.CreateCopyOutOperation(
+                           TargetFileSource, Files,
+                           ActiveFrame.CurrentPath, '*.*');
+          end
+          else
+          begin
+            Operation := ActiveFrame.FileSource.CreateCopyInOperation(
+                           SourceFileSource, Files,
+                           ActiveFrame.CurrentPath, '*.*');
+          end;
+        end;
 
         else
-          FreeAndNil(FileList);
+          // Invalid clipboard operation.
+          Exit;
+
       end;
+
+      if Assigned(Operation) then
+      begin
+        OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+        ProgressDialog := TfrmFileOp.Create(OperationHandle);
+        ProgressDialog.Show;
+      end
+      else
+        msgWarning(rsMsgNotImplemented);
 
     finally
       FreeAndNil(fileNamesList);
+      if Assigned(Files) then
+        FreeAndNil(Files);
+      if Assigned(SourceFileSource) then
+        FreeAndNil(SourceFileSource);
+      if Assigned(TargetFileSource) then
+        FreeAndNil(TargetFileSource);
     end;
   end;
-}
 end;
 
 procedure TActs.cm_ChangeDirToRoot(param: string='');
