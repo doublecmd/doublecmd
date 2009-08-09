@@ -643,7 +643,7 @@ begin
   FPixmapSize := sPixMapSize;  // restore icon size path
 
   // add some standard icons
-  FiDefaultIconID:=CheckAddPixmap('mimetypes' + PathDelim + 'empty.png');
+  FiDefaultIconID:=CheckAddPixmap('mimetypes' + PathDelim + 'unknown.png');
   FiDirIconID:=CheckAddPixmap('filesystems' + PathDelim + 'folder.png');
   FiDirLinkIconID:=CheckAddPixmap('filesystems' + PathDelim + 'folder-link.png');
   FiLinkIconID:=CheckAddPixmap('filesystems' + PathDelim + 'link.png');
