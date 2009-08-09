@@ -59,8 +59,8 @@ type
 
   TFileSystemWipeOperation = class(TFileSourceWipeOperation)
   private
-    everythingOK: boolean;
-    errors,
+    FEverythingOK: Boolean;
+    FErrors,
     files,
     directories: Integer;
     buffer: array [0..4095] of Byte;
@@ -212,23 +212,30 @@ var
   i, j, n: Integer;
   max: Int64;
   fs: TFileStreamEx;
-  rena: String; // renames file to delete
+  sTempFileName: String; // renames file to delete
 begin
-  try
-    if mbRenameFile(filename,ExtractFilePath(filename)+'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaa') then
+  sTempFileName:= 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaa';
+  if mbFileAccess(FileName, fmOpenWrite) then
     begin
-     rena:= ExtractFilePath(filename)+'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaa';
-     filename:=rena;
+      sTempFileName:= ExtractFilePath(FileName) + sTempFileName;
+      if mbRenameFile(FileName, sTempFileName) then
+        begin
+          FileName:= sTempFileName;
+        end
+      else
+        begin
+          ShowError(Format(rsMsgErrRename, [FileName, sTempFileName]));
+          Exit;
+        end;
+    end
+  else
+    begin
+      ShowError(rsMsgErrEOpen + #32 + FileName);
+      Exit;
     end;
-  except
-    DebugLn('wp: error renaming file: '+filename);
-    everythingOK:=False;
-    errors:=errors+1;
-    Exit;
-  end;
 
-  fs := TFilestreamEx.Create(FileName, fmOpenReadWrite or fmShareExclusive);
   try
+    fs := TFilestreamEx.Create(FileName, fmOpenReadWrite or fmShareExclusive);
     for i := 1 to pass do
     begin
       //---------------Progress--------------
@@ -265,32 +272,24 @@ begin
       end;
     end;
     FileTruncate(fs.Handle, 0);
-    fs.Free;
+    FreeThenNil(fs);
   except
     on E: Exception do
     begin
-      DebugLn('wp: error wiping: '+filename+': '+E.Message);
-      fs.Free;
-      everythingOK:=False;
-      errors:=errors+1;
+      FreeThenNil(fs);
+      ShowError(E.Message);
       Exit;
     end;
   end;
-  try
-    mbDeleteFile(FileName);
-  except
-    on E: Exception do
+
+  if not mbDeleteFile(FileName) then
     begin
-      DebugLn('wp: error deleting: '+filename+': '+E.Message);
-      fs.Free;
-      everythingOK:=False;
-      errors:=errors+1;
+      ShowError(Format(rsMsgNotDelete, [FileName]));
       Exit;
     end;
-  end;
   files:= files+1;
   DebugLn('OK');
-  everythingOK:= True;
+  FEverythingOK:= True;
 end;
 
 procedure TFileSystemWipeOperation.WipeDir(dir: string);
@@ -304,28 +303,22 @@ begin
   while ok = 0 do  begin
     if ((Search.Name <> '.' ) and (Search.Name <> '..')) then
       begin
+        //remove read-only attr
+        try
+          if not mbFileSetReadOnly(sPath + Search.Name, False) then
+            DebugLn('wp: FAILED when trying to remove read-only attr on '+ sPath + Search.Name);
+        except
+          DebugLn('wp: FAILED when trying to remove read-only attr on '+ sPath + Search.Name);
+        end;
+
         if fpS_ISDIR(Search.Attr) then
           begin
-            //remove read-only attr
-            try
-              mbFileSetReadOnly(sPath + Search.Name, False);
-            except
-              DebugLn('wp: FAILED when trying to remove read-only attr on '+ sPath + Search.Name);
-            end;
-            DebugLn('entering '+ sPath + Search.Name);
+            DebugLn('Entering '+ sPath + Search.Name);
             WipeDir(sPath + Search.Name);
           end
         else
           begin
-          //remove read-only attr
-            try
-              if not mbFileSetReadOnly(sPath + Search.Name, False) then
-                DebugLn('wp: FAILED when trying to remove read-only attr on '+ sPath + Search.Name);
-            except
-              DebugLn('wp: FAILED when trying to remove read-only attr on '+ sPath + Search.Name);
-            end;
-            // do something with the file
-            DebugLn('wiping '+ sPath + Search.Name);
+            DebugLn('Wiping '+ sPath + Search.Name);
             SecureDelete(gWipePassNumber, sPath + Search.Name);
           end;
       end;
@@ -333,9 +326,9 @@ begin
   end;
   FindCloseEx(Search);
   try
-    if everythingOK then
+    if FEverythingOK then
       begin
-        DebugLn('wiping ' + dir);
+        DebugLn('Wiping ' + dir);
 
         if not mbRemoveDir(dir) then
           begin
@@ -370,28 +363,30 @@ begin
   if Found <> 0 then
     begin
       DebugLn('wp: file not found: ', filename);
-      errors:= errors+1;
-      exit;
+      FErrors:= FErrors + 1;
+      Exit;
     end;
     while Found = 0 do
     begin
       //remove read-only attr
       try
-        if not FileCopyAttr(sPath + SRec.Name, sPath + SRec.Name, True) then
+        if not mbFileSetReadOnly(sPath + SRec.Name, False) then
           DebugLn('wp: FAILED when trying to remove read-only attr on '+ sPath + SRec.Name);
       except
         DebugLn('wp: can''t wipe '+ sPath + SRec.Name + ', file might be in use.');
-        DebugLn('wipe stopped.');
-        errors:= errors+1;
-        everythingOK:= False;
-        exit;
+        FEverythingOK:= False;
+        FErrors:= FErrors + 1;
+        Exit;
       end;
 
-      DebugLn('wiping ' + sPath + SRec.Name);
+      DebugLn('Wiping ' + sPath + SRec.Name);
       SecureDelete(gWipePassNumber, sPath + SRec.Name);
-      if not everythingOK then
-         DebugLn('wp: couldn''t wipe ' + sPath + SRec.Name);
-
+      // write log -------------------------------------------------------------------
+      if FEverythingOK then
+        LogMessage(Format(rsMsgLogSuccess+rsMsgLogDelete, [sPath + SRec.Name]), [log_delete], lmtSuccess)
+      else
+        LogMessage(Format(rsMsgLogError+rsMsgLogDelete, [sPath + SRec.Name]), [log_delete], lmtError);
+      // -----------------------------------------------------------------------------
       Found:= FindNextEx(SRec);   { Find the next file }
     end;
     FindCloseEx(SRec);
@@ -418,6 +413,8 @@ end;
 
 function TFileSystemWipeOperation.ShowError(sMessage: String): TFileSourceOperationUIResponse;
 begin
+  FEverythingOK:= False;
+  Inc(FErrors);
   if gSkipFileOpError then
   begin
     if Assigned(Thread) then
