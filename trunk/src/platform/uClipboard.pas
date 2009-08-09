@@ -298,30 +298,31 @@ end;
 
 function GetClipboardFormatAsString(formatId: TClipboardFormat): String;
 var
-  PBuffer: PChar;
+  PBuffer: PChar = nil;
   stream: TMemoryStream;
 begin
+  Result := '';
+
   stream := TMemoryStream.Create;
   if stream <> nil then
-  begin
+  try
     Clipboard.GetFormat(formatId, stream);
     stream.Seek(0, soFromBeginning);
 
-    PBuffer := nil;
-    try
-      PBuffer := AllocMem(stream.GetSize);
-      if PBuffer <> nil then
-      begin
-        stream.Read(PBuffer^, stream.GetSize);
-        SetString(Result, PBuffer, stream.GetSize);
-      end;
-    finally
-      if PBuffer <> nil then
-      begin
-        FreeMem(PBuffer);
-        PBuffer := nil;
-      end;
+    PBuffer := AllocMem(stream.GetSize);
+    if PBuffer <> nil then
+    begin
+      stream.Read(PBuffer^, stream.GetSize);
+      SetString(Result, PBuffer, stream.GetSize);
     end;
+
+  finally
+    if PBuffer <> nil then
+    begin
+      FreeMem(PBuffer);
+      PBuffer := nil;
+    end;
+    FreeAndNil(stream);
   end;
 end;
 
