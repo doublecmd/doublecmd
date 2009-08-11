@@ -493,7 +493,7 @@ begin
     end;
     
   SplitCmdLine(sCmdLine, sFileName, sParams);
-  DebugLN('File: ' + sFileName + ' Params: ' + sParams + ' WorkDir: ' + wWorkDir);
+  DebugLn('File: ' + sFileName + ' Params: ' + sParams + ' WorkDir: ' + wWorkDir);
   wFileName:= UTF8Decode(sFileName);
   wParams:= UTF8Decode(sParams);
   Result := (ShellExecuteW(0, 'open', PWChar(wFileName), PWChar(wParams), PWChar(wWorkDir), SW_SHOW) > 32);
@@ -504,6 +504,8 @@ function ShellExecute(URL: String): Boolean;
 {$IFDEF MSWINDOWS}
 begin
   Result:= ExecCmdFork(Format('"%s"', [URL]));
+  if Result = False then
+      Result:= ExecCmdFork('rundll32 shell32.dll OpenAs_RunDLL ' + URL);
 end;
 {$ELSE}
 var
