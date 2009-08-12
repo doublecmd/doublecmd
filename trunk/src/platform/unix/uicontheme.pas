@@ -63,6 +63,7 @@ type
     FDirectories: TIconDirList;
     function LoadIconDirInfo(const sIconDirName: String): PIconDirInfo;
     function FindIconHelper(aIconName: String; AIconSize: Integer): UTF8String;
+  protected
     function LookupIcon(AIconName: String; AIconSize: Integer): UTF8String;
   public
     constructor Create(sThemeName: String);
@@ -319,7 +320,7 @@ begin
   // find in parent themes
   for I:= 0 to FInherits.Count - 1 do
     begin
-      Result:= TIconTheme(FInherits.Objects[I]).FindIcon(aIconName, AIconSize);
+      Result:= TIconTheme(FInherits.Objects[I]).LookupIcon(aIconName, AIconSize);
       if Result <> EmptyStr then
         Exit;
     end;
