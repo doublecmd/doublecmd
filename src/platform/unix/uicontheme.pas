@@ -61,6 +61,7 @@ type
     FComment: UTF8String;
     FInherits: TStringList;
     FDirectories: TIconDirList;
+    FBaseNameList: array of String;
     function LoadIconDirInfo(const sIconDirName: String): PIconDirInfo;
     function FindIconHelper(aIconName: String; AIconSize: Integer): UTF8String;
   protected
@@ -154,10 +155,26 @@ end;
 
 
 constructor TIconTheme.Create(sThemeName: String);
+var
+ I, J: Integer;
+ sElement: String;
 begin
   FTheme:= sThemeName;
   FInherits:= nil;
   FDirectories:= nil;
+  J:= 0;
+  SetLength(FBaseNameList, High(BaseNameList));
+  for I:= Low(BaseNameList) to  High(BaseNameList) do
+    begin
+      sElement:= BaseNameList[I];
+      // use only directories that has this theme
+      if DirectoryExists(sElement + PathDelim + FTheme) then
+        begin
+          FBaseNameList[J]:= sElement;
+          Inc(J);
+        end;
+    end;
+  SetLength(FBaseNameList, J);
 end;
 
 destructor TIconTheme.Destroy;
@@ -190,9 +207,9 @@ var
  ParentTheme: TIconTheme;
 begin
    Result:= False;
-   for I:= Low(BaseNameList) to  High(BaseNameList) do
+   for I:= Low(FBaseNameList) to  High(FBaseNameList) do
      begin
-       sElement:= BaseNameList[I] + PathDelim + FTheme + PathDelim + 'index.theme';
+       sElement:= FBaseNameList[I] + PathDelim + FTheme + PathDelim + 'index.theme';
        if FileExists(sElement) then
          begin
            sThemeName:= sElement;
@@ -261,11 +278,11 @@ var
   NewSize: Integer;
 begin
   for I:= 0 to FDirectories.Count - 1 do
-    for J:= Low(BaseNameList) to  High(BaseNameList) do
+    for J:= Low(FBaseNameList) to  High(FBaseNameList) do
       for K:= Low(IconExtensionList) to High(IconExtensionList) do
         if DirectoryMatchesSize(I, AIconSize) then
         begin
-          sFileName:= BaseNameList[J] + PathDelim + FTheme + PathDelim + FDirectories[I] + PathDelim + AIconName + '.' + IconExtensionList[K];
+          sFileName:= FBaseNameList[J] + PathDelim + FTheme + PathDelim + FDirectories[I] + PathDelim + AIconName + '.' + IconExtensionList[K];
           if FileExists(sFileName) then
             begin
     	      Result:= sFileName;
@@ -275,10 +292,10 @@ begin
 
   MinimalSize:= MaxInt;
   for I:= 0 to FDirectories.Count - 1 do
-    for J:= Low(BaseNameList) to  High(BaseNameList) do
+    for J:= Low(FBaseNameList) to  High(FBaseNameList) do
       for K:= Low(IconExtensionList) to High(IconExtensionList) do
         begin
-          sFileName:= BaseNameList[J] + PathDelim + FTheme + PathDelim + FDirectories[I] + PathDelim + AIconName + '.' + IconExtensionList[K];
+          sFileName:= FBaseNameList[J] + PathDelim + FTheme + PathDelim + FDirectories[I] + PathDelim + AIconName + '.' + IconExtensionList[K];
           if FileExists(sFileName) then
             begin
               NewSize:= DirectorySizeDistance(I, AIconSize);
