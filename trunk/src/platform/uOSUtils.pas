@@ -139,9 +139,20 @@ function CreateSymLink(Path, LinkName: string) : Boolean;
 {en
    Read destination of symbolic link
    @param(LinkName Name of symbolic link)
-   @returns(The file the symbolic link name is pointing to)
+   @returns(The file name/path the symbolic link name is pointing to.
+            The path may be relative to link's location.)
 }
 function ReadSymLink(LinkName : String) : String;
+{en
+   Reads the concrete file's name that the link points to.
+   If the link points to a link then it's resolved recursively
+   until a valid file name that is not a link is found.
+   @param(LinkName Name of symbolic link (absolute path))
+   @returns(The absolute filename the symbolic link name is pointing to,
+            or an empty string when the link is invalid or
+            the file it points to does not exist.)
+}
+function mbReadAllLinks(PathToLink : String) : String;
 {en
    Get the user home directory
    @returns(The user home directory)
@@ -216,6 +227,10 @@ function mbFileExists(const FileName: UTF8String): Boolean;
 function mbFileAccess(const FileName: UTF8String; Mode: Integer): Boolean;
 function mbFileGetAttr(const FileName: UTF8String): TFileAttrs;
 function mbFileSetAttr (const FileName: UTF8String; Attr: TFileAttrs) : LongInt;
+{en
+   Same as mbFileGetAttr, but dereferences any encountered links.
+}
+function mbFileGetAttrNoLinks(const FileName: UTF8String): TFileAttrs;
 // Returns True on success.
 function mbFileSetReadOnly(const FileName: UTF8String; ReadOnly: Boolean): Boolean;
 function mbDeleteFile(const FileName: UTF8String): Boolean;
@@ -628,6 +643,59 @@ begin
   Result := fpReadlink(LinkName);
 end;
 {$ENDIF}
+
+function mbReadAllLinks(PathToLink: String) : String;
+var
+  Attrs: TFileAttrs;
+  LinkTargets: TStringList;  // A list of encountered filenames (for detecting cycles)
+
+  function mbReadAllLinksRec(PathToLink: String): String;
+  begin
+    Result := ReadSymLink(PathToLink);
+    if Result <> '' then
+    begin
+      if GetPathType(Result) <> ptAbsolute then
+        Result := GetAbsoluteFileName(ExtractFilePath(PathToLink), Result);
+
+      if LinkTargets.IndexOf(Result) >= 0 then
+      begin
+        // Link already encountered - links form a cycle.
+        Result := '';
+{$IFDEF UNIX}
+        fpseterrno(ESysELOOP);
+{$ENDIF}
+        Exit;
+      end;
+
+      Attrs := mbFileGetAttr(Result);
+      if (Attrs <> faInvalidAttributes) then
+      begin
+        if FPS_ISLNK(Attrs) then
+        begin
+          // Points to a link - read recursively.
+          LinkTargets.Add(Result);
+          Result := mbReadAllLinksRec(Result);
+        end;
+        // else points to a file/dir
+      end
+      else
+      begin
+        Result := '';  // Target of link doesn't exist
+{$IFDEF UNIX}
+        fpseterrno(ESysENOENT);
+{$ENDIF}
+      end;
+    end;
+  end;
+
+begin
+  LinkTargets := TStringList.Create;
+  try
+    Result := mbReadAllLinksRec(PathToLink);
+  finally
+    FreeAndNil(LinkTargets);
+  end;
+end;
 
 (* Return home directory*)
 
@@ -1240,6 +1308,28 @@ end;
 {$ELSE}
 begin
   Result:= fpchmod(PChar(FileName), Attr);
+end;
+{$ENDIF}
+
+function mbFileGetAttrNoLinks(const FileName: UTF8String): TFileAttrs;
+{$IFDEF UNIX}
+var
+  Info: BaseUnix.Stat;
+begin
+  if fpStat(FileName, Info) >= 0 then
+    Result := Info.st_mode
+  else
+    Result := faInvalidAttributes;
+end;
+{$ELSE}
+var
+  LinkTarget: UTF8String;
+begin
+  LinkTarget := mbReadAllLinks(FileName);
+  if LinkTarget <> '' then
+    Result := mbFileGetAttr(LinkTarget)
+  else
+    Result := faInvalidAttributes;
 end;
 {$ENDIF}
 
