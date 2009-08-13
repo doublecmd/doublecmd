@@ -747,13 +747,17 @@ function TFileSourceOperation.AskQuestion(
 var
   i: Integer;
   bStateChanged: Boolean = False;
+  OldState: TFileSourceOperationState;
 begin
   FStateLock.Acquire;
   try
     if FState in [fsosStopping, fsosStopped] then
       RaiseAbortOperation
     else
+    begin
+      OldState := FState;
       FState := fsosWaitingForFeedback;
+    end;
   finally
     FStateLock.Release;
   end;
@@ -818,7 +822,7 @@ begin
     if FState = fsosWaitingForFeedback then
     begin
       UpdateStartTime(SysUtils.Now);
-      FState := fsosRunning;
+      FState := OldState;
       bStateChanged := True;
     end;
   finally
