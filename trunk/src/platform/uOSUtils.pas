@@ -31,7 +31,7 @@ uses
     {$IFDEF MSWINDOWS}
     , Windows, ShellApi, uNTFSLinks, uMyWindows, JwaWinNetWk
     {$ELSE}
-    , BaseUnix, Unix, UnixType, UnixUtil, dl, uMyUnix{$IFNDEF DARWIN}, libhal, dbus{$ENDIF}
+    , BaseUnix, Unix, UnixType, UnixUtil, dl, uMyUnix{$IFNDEF DARWIN}, libhal, dbus{$ENDIF}, syscall
     {$ENDIF};
     
 const
@@ -316,9 +316,8 @@ type
   begin
     FpWaitPid(FPID, nil, 0);
   end;
-{$ENDIF}
 
-{$IFDEF UNIX}
+
 function SetModeReadOnly(mode: TMode; ReadOnly: Boolean): TMode;
 begin
   mode := mode and not (S_IWUSR or S_IWGRP or S_IWOTH);
@@ -333,6 +332,12 @@ begin
   end;
   Result := mode;
 end;
+
+function fpLChown(path : pChar; owner : TUid; group : TGid): cInt;
+begin
+  fpLChown:=do_syscall(syscall_nr_lchown,TSysParam(path),TSysParam(owner),TSysParam(group));
+end;
+
 {$ENDIF}
 
 (*Is Directory*)
@@ -423,30 +428,43 @@ var
   utb : BaseUnix.PUTimBuf;
   mode : TMode;
 begin
-  fpStat(PChar(sSrc), StatInfo);
-//  DebugLN(AttrToStr(stat.st_mode));  // file time
-  new(utb);
-  utb^.actime:=StatInfo.st_atime;  //last access time // maybe now
-  utb^.modtime:=StatInfo.st_mtime; // last modification time
-  fputime(PChar(sDst),utb);
-  dispose(utb);
-// end file
+  fpLStat(PChar(sSrc), StatInfo);
 
-// owner & group
-  if fpChown(PChar(sDst),StatInfo.st_uid, StatInfo.st_gid)=-1 then
+  if FPS_ISLNK(StatInfo.st_mode) then
   begin
-    // development messages
-    DebugLN(Format('chown (%s) failed',[sSrc]));
-  end;
-  // mod
-  mode := StatInfo.st_mode;
-  if bDropReadOnlyFlag then
-    mode := SetModeReadOnly(mode, False);
-  if fpChmod(PChar(sDst), mode) = -1 then
+    // Can only set group/owner for links.
+    if fpLChown(PChar(sDst),StatInfo.st_uid, StatInfo.st_gid)=-1 then
+    begin
+      // development messages
+      DebugLN(Format('chown (%s) failed',[sDst]));
+    end;
+  end
+  else
   begin
-    // development messages
-    DebugLN(Format('chmod (%s) failed',[sSrc]));
+  // file time
+    new(utb);
+    utb^.actime:=StatInfo.st_atime;  // last access time
+    utb^.modtime:=StatInfo.st_mtime; // last modification time
+    fputime(PChar(sDst),utb);
+    dispose(utb);
+
+  // owner & group
+    if fpChown(PChar(sDst),StatInfo.st_uid, StatInfo.st_gid)=-1 then
+    begin
+      // development messages
+      DebugLN(Format('chown (%s) failed',[sDst]));
+    end;
+    // mod
+    mode := StatInfo.st_mode;
+    if bDropReadOnlyFlag then
+      mode := SetModeReadOnly(mode, False);
+    if fpChmod(PChar(sDst), mode) = -1 then
+    begin
+      // development messages
+      DebugLN(Format('chmod (%s) failed',[sDst]));
+    end;
   end;
+
   Result:=True;
 end;
 {$ENDIF}
