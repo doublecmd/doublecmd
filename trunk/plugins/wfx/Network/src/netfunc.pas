@@ -139,6 +139,7 @@ var
   NetRes: TNetRes;
 begin
   New(ListRec);
+  ListRec^.List:= nil;
   ListRec^.Index := 0;
   ListRec^.Handle := INVALID_HANDLE_VALUE;
   FillChar(FindData, SizeOf(FindData), #0);
@@ -245,7 +246,7 @@ begin
     //else
     //FindData.dwFileAttributes:= 0;
 
-    StrPCopy(FindData.cFileName, ExcludeTrailingPathDelimiters(PNetRes(ListRec^.List[ListRec^.Index])^.RemoteName));
+    StrPCopy(FindData.cFileName, ExtractFileName(ExcludeTrailingPathDelimiters(PNetRes(ListRec^.List[ListRec^.Index])^.RemoteName)));
 
     Result := True;
   end;
