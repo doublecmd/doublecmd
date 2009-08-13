@@ -5,7 +5,7 @@ unit uFile;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, contnrs,
   uFileProperty;
 
 type
@@ -150,6 +150,51 @@ type
     property Path: String read FPath write FPath;
 
   end;
+
+  {en
+     Tree structure representing directories/files hierarchy.
+  }
+  TFileTreeNode = class
+  private
+    {en
+       File object associated with this node.
+    }
+    FFile: TFile;
+    {en
+       Subnodes - usually files within a directory.
+       This is a list of TFileTreeNode.
+    }
+    FSubNodes: TFPList;
+    {en
+       Additional data stored in the node.
+       If assigned, it is automatically freed when node is destroyed.
+    }
+    FData: TObject;
+
+  protected
+    function Get(Index: Integer): TFileTreeNode;
+
+    function GetCount: Integer;
+    procedure SetCount(Count: Integer);
+
+    procedure SetData(NewData: TObject);
+
+  public
+    constructor Create; overload; virtual;
+    constructor Create(aFile: TFile); overload; virtual;
+    constructor Create(aFile: TFile; DataClass: TClass); overload; virtual;
+    destructor Destroy; override;
+
+    function AddSubNode(aFile: TFile): Integer;
+    procedure RemoveSubNode(Index: Integer);
+
+    property SubNodesCount: Integer read GetCount write SetCount;
+    property SubNodes[Index: Integer]: TFileTreeNode read Get;
+    property TheFile: TFile read FFile;
+    property Data: TObject read FData write SetData;
+  end;
+
+  TFileTree = TFileTreeNode;  // alias
 
 implementation
 
@@ -452,6 +497,100 @@ end;
 procedure TFiles.Put(Index: Integer; AFile: TFile);
 begin
   FList.Items[Index] := AFile;
+end;
+
+// ----------------------------------------------------------------------------
+
+constructor TFileTreeNode.Create;
+begin
+  Create(nil);
+end;
+
+constructor TFileTreeNode.Create(aFile: TFile);
+begin
+  FSubNodes := nil;
+  FFile := aFile;
+  FData := nil;
+  inherited Create;
+end;
+
+constructor TFileTreeNode.Create(aFile: TFile; DataClass: TClass);
+begin
+  Create(aFile);
+  FData := DataClass.Create;
+end;
+
+destructor TFileTreeNode.Destroy;
+var
+  i: Integer;
+begin
+  inherited Destroy;
+
+  if Assigned(FFile) then
+    FreeAndNil(FFile);
+
+  if Assigned(FSubNodes) then
+  begin
+    for i := 0 to FSubNodes.Count - 1 do
+      TFileTreeNode(FSubNodes.Items[i]).Free;
+    FreeAndNil(FSubNodes);
+  end;
+
+  if Assigned(FData) then
+    FreeAndNil(FData);
+end;
+
+function TFileTreeNode.AddSubNode(aFile: TFile): Integer;
+var
+  aNode: TFileTreeNode;
+begin
+  if not Assigned(FSubNodes) then
+    FSubNodes := TFPList.Create;
+  aNode := TFileTreeNode.Create(aFile);
+  Result := FSubNodes.Add(aNode);
+end;
+
+procedure TFileTreeNode.RemoveSubNode(Index: Integer);
+begin
+  if (Index >= 0) and (Index < FSubNodes.Count) then
+  begin
+    TFileTreeNode(FSubNodes.Items[Index]).Free;
+    FSubNodes.Delete(Index);
+  end;
+end;
+
+function TFileTreeNode.Get(Index: Integer): TFileTreeNode;
+begin
+  Result := TFileTreeNode(FSubNodes.Items[Index]);
+end;
+
+function TFileTreeNode.GetCount: Integer;
+begin
+  if Assigned(FSubNodes) then
+    Result := FSubNodes.Count
+  else
+    Result := 0;
+end;
+
+procedure TFileTreeNode.SetCount(Count: Integer);
+begin
+  if not Assigned(FSubNodes) then
+    FSubNodes := TFPList.Create;
+  FSubNodes.Count := Count;
+end;
+
+procedure TFileTreeNode.SetData(NewData: TObject);
+var
+  TmpData: TObject;
+begin
+  if Assigned(FData) then
+  begin
+    TmpData := FData;
+    FData := NewData;
+    TmpData.Free;
+  end
+  else
+    FData := NewData;
 end;
 
 end.
