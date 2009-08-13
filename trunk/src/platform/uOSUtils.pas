@@ -1252,8 +1252,8 @@ var
   Info: BaseUnix.Stat;
 begin
   Result:= False;
-  if fpStat(FileName, Info) >= 0 then
-    Result:= not (fpS_ISDIR(Info.st_mode) or FPS_ISLNK(Info.st_mode));
+  if fpLStat(FileName, Info) >= 0 then
+    Result:= not fpS_ISDIR(Info.st_mode);
 end;
 {$ENDIF}
 
@@ -1559,7 +1559,7 @@ var
   Info: BaseUnix.Stat;
 begin
   Result:= False;
-  if fpStat(Directory, Info) >= 0 then
+  if fpLStat(Directory, Info) >= 0 then
     Result:= fpS_ISDIR(Info.st_mode);
 end;
 {$ENDIF}
