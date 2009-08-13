@@ -243,7 +243,7 @@ function mbCheckTrash: Boolean;
 // ----------------
 function mbRenameFile(const OldName, NewName : UTF8String): Boolean;
 function mbFileSize(const FileName: UTF8String): Int64;
-function FileFlush(Handle: Integer): Boolean;
+function FileFlush(Handle: THandle): Boolean;
 { Directory handling functions}
 function mbGetCurrentDir: UTF8String;
 function mbSetCurrentDir(const NewDir: UTF8String): Boolean;
@@ -1504,7 +1504,7 @@ begin
 end;
 {$ENDIF}
 
-function FileFlush(Handle: Integer): Boolean;  
+function FileFlush(Handle: THandle): Boolean;  
 {$IFDEF MSWINDOWS}
 begin
   Result:= FlushFileBuffers(Handle);
