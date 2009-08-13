@@ -133,22 +133,16 @@ end;
 
 procedure TFileSystemCalcStatisticsOperation.ProcessLink(aFile: TFileSystemFile);
 var
-  PathToLink: String;
+  PathToFile: String;
   aLinkFile: TFileSystemFile = nil;
 begin
-  PathToLink := ReadSymLink(aFile.FullPath);
-  if PathToLink <> '' then
+  PathToFile := mbReadAllLinks(aFile.FullPath);
+  if PathToFile <> '' then
   begin
-    if uDCUtils.GetPathType(PathToLink) <> ptAbsolute then
-      PathToLink := GetAbsoluteFileName(aFile.Path, PathToLink);
-
     try
-      aLinkFile := TFileSystemFile.Create(PathToLink);
+      aLinkFile := TFileSystemFile.Create(PathToFile);
       try
-        if aLinkFile.IsLink then
-          ProcessLink(aLinkFile)
-        else
-          ProcessFile(aLinkFile);
+        ProcessFile(aLinkFile);
       finally
         FreeAndNil(aLinkFile);
       end;
@@ -156,13 +150,13 @@ begin
     except
       on EFileSystemFileNotExists do
         begin
-          LogMessage(rsMsgErrInvalidLink + ': ' + aFile.FullPath + ' -> ' + PathToLink, [log_errors], lmtError);
+          LogMessage(rsMsgErrInvalidLink + ': ' + aFile.FullPath + ' -> ' + PathToFile, [log_errors], lmtError);
         end;
     end;
   end
   else
   begin
-    LogMessage(rsMsgErrInvalidLink + ': ' + aFile.FullPath + ' -> ' + PathToLink, [log_errors], lmtError);
+    LogMessage(rsMsgErrInvalidLink + ': ' + aFile.FullPath + ' -> ' + PathToFile, [log_errors], lmtError);
   end;
 end;
 
