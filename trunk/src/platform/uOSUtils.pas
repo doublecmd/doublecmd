@@ -318,6 +318,23 @@ type
   end;
 {$ENDIF}
 
+{$IFDEF UNIX}
+function SetModeReadOnly(mode: TMode; ReadOnly: Boolean): TMode;
+begin
+  mode := mode and not (S_IWUSR or S_IWGRP or S_IWOTH);
+  if ReadOnly = False then
+  begin
+    if (mode AND S_IRUSR) = S_IRUSR then
+      mode := mode or S_IWUSR;
+    if (mode AND S_IRGRP) = S_IRGRP then
+      mode := mode or S_IWGRP;
+    if (mode AND S_IROTH) = S_IROTH then
+      mode := mode or S_IWOTH;
+  end;
+  Result := mode;
+end;
+{$ENDIF}
+
 (*Is Directory*)
 
 function  FPS_ISDIR(iAttr: TFileAttrs) : Boolean;
@@ -423,8 +440,8 @@ begin
   end;
   // mod
   mode := StatInfo.st_mode;
-  if bDropReadOnlyFlag and ((mode AND S_IRUSR) = S_IRUSR) and ((mode AND S_IWUSR) <> S_IWUSR) then
-    mode := (mode or S_IWUSR);
+  if bDropReadOnlyFlag then
+    mode := SetModeReadOnly(mode, False);
   if fpChmod(PChar(sDst), mode) = -1 then
   begin
     // development messages
@@ -1359,11 +1376,7 @@ var
   mode: TMode;
 begin
   if fpStat(PChar(FileName), StatInfo) <> 0 then Exit(False);
-  mode:= StatInfo.st_mode;
-  if ReadOnly then
-    mode := mode and not (S_IWUSR or S_IWGRP or S_IWOTH)
-  else
-    mode:=  mode or (S_IWUSR or S_IWGRP or S_IWOTH);
+  mode := SetModeReadOnly(StatInfo.st_mode, ReadOnly);
   Result:= fpchmod(PChar(FileName), mode) = 0;
 end;
 {$ENDIF}
