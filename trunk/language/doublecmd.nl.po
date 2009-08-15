@@ -2283,10 +2283,6 @@ msgstr "Toon &drive balk"
 msgid "Show d&rive menu button"
 msgstr "Toon d&rive menu knoppen"
 
-#: TFRMOPTIONS.CBSHOWICONS.CAPTION
-msgid "Show icons"
-msgstr "Laat iconen zien"
-
 #: TFRMOPTIONS.CBSHOWKEYSPANEL.CAPTION
 msgid "Show &function key buttons"
 msgstr "Toon &functietoets knoppen"
@@ -2531,10 +2527,6 @@ msgstr "Editor lettertype"
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key:"
 msgstr "Hot Key:"
-
-#: TFRMOPTIONS.LBLICONSSIZE.CAPTION
-msgid "Icons Size:"
-msgstr "Icoon Grootte:"
 
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
@@ -3646,6 +3638,10 @@ msgstr "Lettertypes"
 #: ulng.rsopthotkeys
 msgid "Hot keys"
 msgstr "Hot keys"
+
+#: ulng.rsopticons
+msgid "Icons"
+msgstr ""
 
 #: ulng.rsoptlanguage
 msgid "Language"

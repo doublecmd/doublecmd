@@ -2283,10 +2283,6 @@ msgstr "Mostrar barra de &discos"
 msgid "Show d&rive menu button"
 msgstr "Mostrar botón de &menú de discos"
 
-#: TFRMOPTIONS.CBSHOWICONS.CAPTION
-msgid "Show icons"
-msgstr "Mostrar iconos"
-
 #: TFRMOPTIONS.CBSHOWKEYSPANEL.CAPTION
 msgid "Show &function key buttons"
 msgstr "Mostrar botones de tecla de &función"
@@ -2531,10 +2527,6 @@ msgstr "Fuente del editor"
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key:"
 msgstr ""
-
-#: TFRMOPTIONS.LBLICONSSIZE.CAPTION
-msgid "Icons Size:"
-msgstr "Tam. iconos:"
 
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
@@ -3644,6 +3636,10 @@ msgstr "Fuentes"
 #: ulng.rsopthotkeys
 msgid "Hot keys"
 msgstr "Teclas rápidas"
+
+#: ulng.rsopticons
+msgid "Icons"
+msgstr ""
 
 #: ulng.rsoptlanguage
 msgid "Language"

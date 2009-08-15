@@ -2286,10 +2286,6 @@ msgstr ""
 msgid "Show d&rive menu button"
 msgstr ""
 
-#: TFRMOPTIONS.CBSHOWICONS.CAPTION
-msgid "Show icons"
-msgstr ""
-
 #: TFRMOPTIONS.CBSHOWKEYSPANEL.CAPTION
 msgid "Show &function key buttons"
 msgstr ""
@@ -2535,10 +2531,6 @@ msgstr ""
 
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key:"
-msgstr ""
-
-#: TFRMOPTIONS.LBLICONSSIZE.CAPTION
-msgid "Icons Size:"
 msgstr ""
 
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
@@ -3649,6 +3641,10 @@ msgstr ""
 
 #: ulng.rsopthotkeys
 msgid "Hot keys"
+msgstr ""
+
+#: ulng.rsopticons
+msgid "Icons"
 msgstr ""
 
 #: ulng.rsoptlanguage

@@ -2283,10 +2283,6 @@ msgstr "显示驱动器栏(&D)"
 msgid "Show d&rive menu button"
 msgstr "显示驱动器菜单(&R)"
 
-#: TFRMOPTIONS.CBSHOWICONS.CAPTION
-msgid "Show icons"
-msgstr "显示图标"
-
 #: TFRMOPTIONS.CBSHOWKEYSPANEL.CAPTION
 msgid "Show &function key buttons"
 msgstr "显示功能键按钮(&F)"
@@ -2531,10 +2527,6 @@ msgstr "编辑器字体"
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key:"
 msgstr "热键:"
-
-#: TFRMOPTIONS.LBLICONSSIZE.CAPTION
-msgid "Icons Size:"
-msgstr "图标大小:"
 
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
@@ -3646,6 +3638,10 @@ msgstr "字体"
 #: ulng.rsopthotkeys
 msgid "Hot keys"
 msgstr "快捷键"
+
+#: ulng.rsopticons
+msgid "Icons"
+msgstr ""
 
 #: ulng.rsoptlanguage
 msgid "Language"
