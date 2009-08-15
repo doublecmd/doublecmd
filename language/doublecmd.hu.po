@@ -681,6 +681,7 @@ msgid "To:"
 msgstr ""
 
 #: TFRMFILEPROPERTIES.BTNALL.CAPTION
+msgctxt "TFRMFILEPROPERTIES.BTNALL.CAPTION"
 msgid "&All"
 msgstr "&Mind"
 
@@ -2196,6 +2197,10 @@ msgstr "Vízszintes vonalak"
 msgid "Vertical lines"
 msgstr "Függőleges vonalak"
 
+#: TFRMOPTIONS.CBICONSSHOWOVERLAY.CAPTION
+msgid "Show overlay i&cons, e.g. for links"
+msgstr ""
+
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr ""
@@ -2422,6 +2427,10 @@ msgstr "Fájltípus színek"
 msgid "General options"
 msgstr "Általános beállítások"
 
+#: TFRMOPTIONS.GBICONSSIZE.CAPTION
+msgid " Icon &size "
+msgstr ""
+
 #: TFRMOPTIONS.GBLOCCONFIGFILES.CAPTION
 msgid "Location of configuration files"
 msgstr "Konfigurációs állományok helye"
@@ -2453,6 +2462,10 @@ msgstr " Képernyő felosztása "
 #: TFRMOPTIONS.GBSHOWGRID.CAPTION
 msgid "Show grid in file panel"
 msgstr "Rácsok megjelenítése a fájlpanelen"
+
+#: TFRMOPTIONS.GBSHOWICONSMODE.CAPTION
+msgid " Show icons to the left of the filename "
+msgstr ""
 
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
@@ -2555,6 +2568,10 @@ msgstr "Futtatás terminálban:"
 msgid "Run terminal:"
 msgstr "Terminál indítása"
 
+#: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
+msgid "Tabs position:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Nézőke betűtípus"
@@ -2602,6 +2619,23 @@ msgstr "Al&t+Betű"
 #: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
 msgid "&Ctrl+Alt+Letters"
 msgstr "&Ctrl+Alt+Betű"
+
+#: TFRMOPTIONS.RBICONSSHOWALL.CAPTION
+msgctxt "TFRMOPTIONS.RBICONSSHOWALL.CAPTION"
+msgid "&All"
+msgstr "&Mind"
+
+#: TFRMOPTIONS.RBICONSSHOWALLANDEXE.CAPTION
+msgid "All associated + &EXE/LNK (slow)"
+msgstr ""
+
+#: TFRMOPTIONS.RBICONSSHOWNONE.CAPTION
+msgid "&No icons"
+msgstr ""
+
+#: TFRMOPTIONS.RBICONSSHOWSTANDARD.CAPTION
+msgid "&Only standard icons"
+msgstr ""
 
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
 msgid "L&etter only"
@@ -3303,6 +3337,10 @@ msgstr "Hiba a fájl írásakor"
 #: ulng.rsmsgerrforcedir
 msgid "Can not create directory %s!"
 msgstr "Nem lehet létrehozni a %s mappát!"
+
+#: ulng.rsmsgerrinvalidlink
+msgid "Invalid link"
+msgstr ""
 
 #: ulng.rsmsgerrnofiles
 msgid "No files found"

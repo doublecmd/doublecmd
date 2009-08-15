@@ -700,6 +700,7 @@ msgid "To:"
 msgstr ""
 
 #: TFRMFILEPROPERTIES.BTNALL.CAPTION
+msgctxt "TFRMFILEPROPERTIES.BTNALL.CAPTION"
 msgid "&All"
 msgstr "&Vše"
 
@@ -2208,6 +2209,10 @@ msgstr "Horizontální linky"
 msgid "Vertical lines"
 msgstr "Vertikální linky"
 
+#: TFRMOPTIONS.CBICONSSHOWOVERLAY.CAPTION
+msgid "Show overlay i&cons, e.g. for links"
+msgstr ""
+
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr "16x16"
@@ -2434,6 +2439,10 @@ msgstr "Obarvování souborů dle typu"
 msgid "General options"
 msgstr "Hlavní volby"
 
+#: TFRMOPTIONS.GBICONSSIZE.CAPTION
+msgid " Icon &size "
+msgstr ""
+
 #: TFRMOPTIONS.GBLOCCONFIGFILES.CAPTION
 msgid "Location of configuration files"
 msgstr "Umístění konfiguračních souborů"
@@ -2465,6 +2474,10 @@ msgstr "Vzhled obrazovky"
 #: TFRMOPTIONS.GBSHOWGRID.CAPTION
 msgid "Show grid in file panel"
 msgstr "Zobrazit mřížku v panelu souborů"
+
+#: TFRMOPTIONS.GBSHOWICONSMODE.CAPTION
+msgid " Show icons to the left of the filename "
+msgstr ""
 
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
@@ -2568,6 +2581,10 @@ msgstr "Spustit v terminálu:"
 msgid "Run terminal:"
 msgstr "Spustit terminál:"
 
+#: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
+msgid "Tabs position:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Písmo prohlížeče"
@@ -2615,6 +2632,23 @@ msgstr "Al&t+Písmenko"
 #: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
 msgid "&Ctrl+Alt+Letters"
 msgstr "&Ctrl+Alt+Písmenko"
+
+#: TFRMOPTIONS.RBICONSSHOWALL.CAPTION
+msgctxt "TFRMOPTIONS.RBICONSSHOWALL.CAPTION"
+msgid "&All"
+msgstr "&Vše"
+
+#: TFRMOPTIONS.RBICONSSHOWALLANDEXE.CAPTION
+msgid "All associated + &EXE/LNK (slow)"
+msgstr ""
+
+#: TFRMOPTIONS.RBICONSSHOWNONE.CAPTION
+msgid "&No icons"
+msgstr ""
+
+#: TFRMOPTIONS.RBICONSSHOWSTANDARD.CAPTION
+msgid "&Only standard icons"
+msgstr ""
 
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
 msgid "L&etter only"
@@ -3316,6 +3350,10 @@ msgstr "Chyba při zápisu do souboru"
 #: ulng.rsmsgerrforcedir
 msgid "Can not create directory %s!"
 msgstr "Nelze vytvořit adresář %s!"
+
+#: ulng.rsmsgerrinvalidlink
+msgid "Invalid link"
+msgstr ""
 
 #: ulng.rsmsgerrnofiles
 msgid "No files found"

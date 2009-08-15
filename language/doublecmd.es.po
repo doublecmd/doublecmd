@@ -684,6 +684,7 @@ msgid "To:"
 msgstr ""
 
 #: TFRMFILEPROPERTIES.BTNALL.CAPTION
+msgctxt "TFRMFILEPROPERTIES.BTNALL.CAPTION"
 msgid "&All"
 msgstr "&Todo"
 
@@ -2189,6 +2190,10 @@ msgstr ""
 msgid "Vertical lines"
 msgstr ""
 
+#: TFRMOPTIONS.CBICONSSHOWOVERLAY.CAPTION
+msgid "Show overlay i&cons, e.g. for links"
+msgstr ""
+
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr "16x16"
@@ -2415,6 +2420,10 @@ msgstr "Colores de tipos de ficheros"
 msgid "General options"
 msgstr "Opciones generales"
 
+#: TFRMOPTIONS.GBICONSSIZE.CAPTION
+msgid " Icon &size "
+msgstr ""
+
 #: TFRMOPTIONS.GBLOCCONFIGFILES.CAPTION
 msgid "Location of configuration files"
 msgstr "Situación de ficheros de configuración"
@@ -2445,6 +2454,10 @@ msgstr " Distribución de pantalla"
 
 #: TFRMOPTIONS.GBSHOWGRID.CAPTION
 msgid "Show grid in file panel"
+msgstr ""
+
+#: TFRMOPTIONS.GBSHOWICONSMODE.CAPTION
+msgid " Show icons to the left of the filename "
 msgstr ""
 
 #: TFRMOPTIONS.GBTABS.CAPTION
@@ -2547,6 +2560,10 @@ msgstr ""
 msgid "Run terminal:"
 msgstr "Run terminal:"
 
+#: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
+msgid "Tabs position:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Fuente del visor"
@@ -2594,6 +2611,23 @@ msgstr "Al&t+Letras"
 #: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
 msgid "&Ctrl+Alt+Letters"
 msgstr "&Ctrl+Alt+Letras"
+
+#: TFRMOPTIONS.RBICONSSHOWALL.CAPTION
+msgctxt "TFRMOPTIONS.RBICONSSHOWALL.CAPTION"
+msgid "&All"
+msgstr "&Todo"
+
+#: TFRMOPTIONS.RBICONSSHOWALLANDEXE.CAPTION
+msgid "All associated + &EXE/LNK (slow)"
+msgstr ""
+
+#: TFRMOPTIONS.RBICONSSHOWNONE.CAPTION
+msgid "&No icons"
+msgstr ""
+
+#: TFRMOPTIONS.RBICONSSHOWSTANDARD.CAPTION
+msgid "&Only standard icons"
+msgstr ""
 
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
 msgid "L&etter only"
@@ -3290,6 +3324,10 @@ msgstr "Error escribiendo en el fichero"
 #: ulng.rsmsgerrforcedir
 msgid "Can not create directory %s!"
 msgstr "No se puede crear el directorio %s!"
+
+#: ulng.rsmsgerrinvalidlink
+msgid "Invalid link"
+msgstr ""
 
 #: ulng.rsmsgerrnofiles
 msgid "No files found"

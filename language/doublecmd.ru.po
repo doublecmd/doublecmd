@@ -683,6 +683,7 @@ msgid "To:"
 msgstr "в:"
 
 #: TFRMFILEPROPERTIES.BTNALL.CAPTION
+msgctxt "TFRMFILEPROPERTIES.BTNALL.CAPTION"
 msgid "&All"
 msgstr "Все"
 
@@ -2185,6 +2186,10 @@ msgstr "Горизонтальные линии"
 msgid "Vertical lines"
 msgstr "Вертикальные линии"
 
+#: TFRMOPTIONS.CBICONSSHOWOVERLAY.CAPTION
+msgid "Show overlay i&cons, e.g. for links"
+msgstr ""
+
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr ""
@@ -2411,6 +2416,10 @@ msgstr "Цвета по типу"
 msgid "General options"
 msgstr "Основные настройки"
 
+#: TFRMOPTIONS.GBICONSSIZE.CAPTION
+msgid " Icon &size "
+msgstr ""
+
 #: TFRMOPTIONS.GBLOCCONFIGFILES.CAPTION
 msgid "Location of configuration files"
 msgstr "Месторасположение файлов конфигурации"
@@ -2442,6 +2451,10 @@ msgstr " Компоненты основного окна "
 #: TFRMOPTIONS.GBSHOWGRID.CAPTION
 msgid "Show grid in file panel"
 msgstr "Показывать сетку в файловой панели"
+
+#: TFRMOPTIONS.GBSHOWICONSMODE.CAPTION
+msgid " Show icons to the left of the filename "
+msgstr ""
 
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
@@ -2543,6 +2556,10 @@ msgstr "Запустить в терминале:"
 msgid "Run terminal:"
 msgstr "Пуск терминала:"
 
+#: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
+msgid "Tabs position:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Просмотрщика"
@@ -2590,6 +2607,23 @@ msgstr "Al&t+Буква"
 #: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
 msgid "&Ctrl+Alt+Letters"
 msgstr "&Ctrl+Alt+Буква"
+
+#: TFRMOPTIONS.RBICONSSHOWALL.CAPTION
+msgctxt "TFRMOPTIONS.RBICONSSHOWALL.CAPTION"
+msgid "&All"
+msgstr "Все"
+
+#: TFRMOPTIONS.RBICONSSHOWALLANDEXE.CAPTION
+msgid "All associated + &EXE/LNK (slow)"
+msgstr ""
+
+#: TFRMOPTIONS.RBICONSSHOWNONE.CAPTION
+msgid "&No icons"
+msgstr ""
+
+#: TFRMOPTIONS.RBICONSSHOWSTANDARD.CAPTION
+msgid "&Only standard icons"
+msgstr ""
 
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
 msgid "L&etter only"
@@ -3288,6 +3322,10 @@ msgstr "Ошибка записи в файл"
 #: ulng.rsmsgerrforcedir
 msgid "Can not create directory %s!"
 msgstr "Не могу создать каталог %s!"
+
+#: ulng.rsmsgerrinvalidlink
+msgid "Invalid link"
+msgstr ""
 
 #: ulng.rsmsgerrnofiles
 msgid "No files found"
