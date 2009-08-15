@@ -466,6 +466,7 @@ begin
       Item[15].Text := rsOptColumns;
       Item[16].Text := rsOptMiscellaneous;
       Item[17].Text := rsOptAutoRefresh;
+      Item[18].Text := rsOptIcons;
     end;
   tvTreeView.Items.Item[0].Selected:= True;
 

@@ -2275,10 +2275,6 @@ msgstr "Zeige Schalter für Laufwerke"
 msgid "Show d&rive menu button"
 msgstr "Zeige Laufwerksmenü-Schalter"
 
-#: TFRMOPTIONS.CBSHOWICONS.CAPTION
-msgid "Show icons"
-msgstr "Zeige Icons"
-
 #: TFRMOPTIONS.CBSHOWKEYSPANEL.CAPTION
 msgid "Show &function key buttons"
 msgstr "Zeige Schalter der Funktionstasten"
@@ -2523,10 +2519,6 @@ msgstr "Schrift für Editor"
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key:"
 msgstr "Tastaturkürzel"
-
-#: TFRMOPTIONS.LBLICONSSIZE.CAPTION
-msgid "Icons Size:"
-msgstr "Icongrösse"
 
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
@@ -3638,6 +3630,10 @@ msgstr "Schriftart"
 #: ulng.rsopthotkeys
 msgid "Hot keys"
 msgstr "Tastaurkürzel"
+
+#: ulng.rsopticons
+msgid "Icons"
+msgstr ""
 
 #: ulng.rsoptlanguage
 msgid "Language"

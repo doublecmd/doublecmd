@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-08-15 19:28+0300\n"
+"PO-Revision-Date: 2009-08-15 19:35+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2279,10 +2279,6 @@ msgstr "Кнопки &дисков"
 msgid "Show d&rive menu button"
 msgstr "Кнопка меню дисков"
 
-#: TFRMOPTIONS.CBSHOWICONS.CAPTION
-msgid "Show icons"
-msgstr "Показывать значки"
-
 #: TFRMOPTIONS.CBSHOWKEYSPANEL.CAPTION
 msgid "Show &function key buttons"
 msgstr "Кнопки &функциональных клавиш"
@@ -2527,10 +2523,6 @@ msgstr "Редактора"
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key:"
 msgstr "Горячая клавиша:"
-
-#: TFRMOPTIONS.LBLICONSSIZE.CAPTION
-msgid "Icons Size:"
-msgstr "Размер:"
 
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
@@ -3641,6 +3633,10 @@ msgstr "Шрифты"
 #: ulng.rsopthotkeys
 msgid "Hot keys"
 msgstr "Горячие клавиши"
+
+#: ulng.rsopticons
+msgid "Icons"
+msgstr "Значки"
 
 #: ulng.rsoptlanguage
 msgid "Language"

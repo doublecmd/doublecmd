@@ -2290,10 +2290,6 @@ msgstr "&Meghajtógombok megjelenítése"
 msgid "Show d&rive menu button"
 msgstr "Meg&hajtómenü gomb megjelenítése"
 
-#: TFRMOPTIONS.CBSHOWICONS.CAPTION
-msgid "Show icons"
-msgstr "Ikonok megjelenítése"
-
 #: TFRMOPTIONS.CBSHOWKEYSPANEL.CAPTION
 msgid "Show &function key buttons"
 msgstr "&Funkcióbillentyűk megjelenítése"
@@ -2539,10 +2535,6 @@ msgstr "Szerkesztő betűtípus"
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key:"
 msgstr "Gyorsbillentyű:"
-
-#: TFRMOPTIONS.LBLICONSSIZE.CAPTION
-msgid "Icons Size:"
-msgstr "Ikonok mérete:"
 
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
@@ -3657,6 +3649,10 @@ msgstr "Betűtípusok"
 #: ulng.rsopthotkeys
 msgid "Hot keys"
 msgstr "Gyorsbillentyűk"
+
+#: ulng.rsopticons
+msgid "Icons"
+msgstr ""
 
 #: ulng.rsoptlanguage
 msgid "Language"

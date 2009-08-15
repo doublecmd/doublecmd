@@ -2302,10 +2302,6 @@ msgstr "Zobrazit &tlačitka disků"
 msgid "Show d&rive menu button"
 msgstr "Zobrazit se&znam disků"
 
-#: TFRMOPTIONS.CBSHOWICONS.CAPTION
-msgid "Show icons"
-msgstr "Zobrazit ikony"
-
 #: TFRMOPTIONS.CBSHOWKEYSPANEL.CAPTION
 msgid "Show &function key buttons"
 msgstr "Zobrazit &funkční tlačítka"
@@ -2552,10 +2548,6 @@ msgstr "Písmo editoru"
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key:"
 msgstr "Horká klávesa:"
-
-#: TFRMOPTIONS.LBLICONSSIZE.CAPTION
-msgid "Icons Size:"
-msgstr "Velikost ikon:"
 
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
@@ -3673,6 +3665,10 @@ msgstr "Písma"
 #: ulng.rsopthotkeys
 msgid "Hot keys"
 msgstr "Horké klávesy"
+
+#: ulng.rsopticons
+msgid "Icons"
+msgstr ""
 
 #: ulng.rsoptlanguage
 msgid "Language"
