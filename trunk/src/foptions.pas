@@ -90,7 +90,6 @@ type
     cbViewerFont: TComboBox;
     cbFlatInterface: TCheckBox;
     cbFlatToolBar: TCheckBox;
-    cbShowIcons: TCheckBox;
     cbTabsAlwaysVisible: TCheckBox;
     cbTabsMultiLines: TCheckBox;
     cbTabsLimitOption: TCheckBox;
@@ -230,7 +229,6 @@ type
     lblDateTimeExample: TLabel;
     lblDateTimeFormat: TLabel;
     lblCopyBufferSize: TLabel;
-    lblIconsSize: TLabel;
     lblWFXDescription: TLabel;
     lblBackground2: TLabel;
     lblMarkColor: TLabel;
@@ -338,7 +336,6 @@ type
     procedure cbColorBoxChange(Sender: TObject);
     procedure cbDateTimeFormatChange(Sender: TObject);
     procedure cbShowDiskPanelChange(Sender: TObject);
-    procedure cbShowIconsChange(Sender: TObject);
     procedure cbTermWindowChange(Sender: TObject);
     procedure cbTextColorChange(Sender: TObject);
     procedure cbColorBoxDropDown(Sender: TObject);
@@ -373,6 +370,7 @@ type
     procedure pbExamplePaint(Sender: TObject);
     procedure pcPluginsTypesChange(Sender: TObject);
     procedure pgBehavResize(Sender: TObject);
+    procedure rbIconsShowNoneChange(Sender: TObject);
     procedure stgCommandsResize(Sender: TObject);
     procedure stgCommandsSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
@@ -609,11 +607,6 @@ procedure TfrmOptions.cbShowDiskPanelChange(Sender: TObject);
 begin
   cbTwoDiskPanels.Enabled := cbShowDiskPanel.Checked;
   cbFlatDiskPanel.Enabled := cbShowDiskPanel.Checked;
-end;
-
-procedure TfrmOptions.cbShowIconsChange(Sender: TObject);
-begin
-  cbIconsSize.Enabled := cbShowIcons.Checked;
 end;
 
 procedure TfrmOptions.cbTermWindowChange(Sender: TObject);
@@ -962,6 +955,11 @@ begin
   iWidth:= (pgBehav.Width div 2) - 26;
   gbMisc1.Width:= iWidth;
   gbDateTimeFormat.Width:= iWidth;
+end;
+
+procedure TfrmOptions.rbIconsShowNoneChange(Sender: TObject);
+begin
+   cbIconsSize.Enabled := not rbIconsShowNone.Checked;
 end;
 
 procedure TfrmOptions.stgCommandsResize(Sender: TObject);
@@ -2078,8 +2076,6 @@ begin
   SetColorInColorBox(cbMarkColor,gMarkColor);
   SetColorInColorBox(cbCursorColor,gCursorColor);
   SetColorInColorBox(cbCursorText,gCursorText);
-
-  cbShowIcons.Checked := gShowIcons;
   cbbUseInvertedSelection.Checked:=gUseInvertedSelection;
 
   { File operations }
@@ -2161,6 +2157,13 @@ begin
   cbWatchFreeSpace.Checked := (watch_free_disk_space in gWatchDirs);
   edtWatchExcludeDrives.Text:= gWatchDirsExclude;
   { Icons sizes in file panels }
+  case gShowIcons of
+    sim_none: rbIconsShowNone.Checked:= True;
+    sim_standart: rbIconsShowStandard.Checked:= True;
+    sim_all: rbIconsShowAll.Checked:= True;
+    sim_all_and_exe: rbIconsShowAllAndExe.Checked := True;
+  end;
+  cbIconsShowOverlay.Checked:= gIconOverlays;
   cbIconsSize.Text := IntToStr(gNewIconsSize) + 'x' + IntToStr(gNewIconsSize);
   cbIconsSizeChange(nil);
 
@@ -2251,8 +2254,6 @@ begin
   gCursorColor := cbCursorColor.Color;
   gCursorText := cbCursorText.Color;
   gUseInvertedSelection:=cbbUseInvertedSelection.Checked;
-  
-  gShowIcons := cbShowIcons.Checked;
 
   { File operations }
   gCopyBlockSize := StrToIntDef(edtCopyBufferSize.Text, gCopyBlockSize) * 1024;
@@ -2350,6 +2351,17 @@ begin
   if cbWatchFreeSpace.Checked then
     Include(gWatchDirs, watch_free_disk_space);
   gWatchDirsExclude:= edtWatchExcludeDrives.Text;
+
+  { Icons }
+  if rbIconsShowNone.Checked then
+    gShowIcons:= sim_none
+  else if rbIconsShowStandard.Checked then
+    gShowIcons:= sim_standart
+  else if rbIconsShowAll.Checked then
+    gShowIcons:= sim_all
+  else if rbIconsShowAllAndExe.Checked then
+    gShowIcons:= sim_all_and_exe;
+  gIconOverlays:= cbIconsShowOverlay.Checked;
 
 //-------------------------------------------------
   if (gNewIconsSize <> StrToInt(Copy(cbIconsSize.Text, 1, 2))) or ((lngList.ItemIndex>-1) and
