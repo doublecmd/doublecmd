@@ -293,51 +293,42 @@ object frmOptions: TfrmOptions
           ClientHeight = 158
           ClientWidth = 252
           TabOrder = 4
-          object lblIconsSize: TLabel
-            AnchorSideTop.Side = asrCenter
-            Left = 14
-            Height = 14
-            Top = 36
-            Width = 53
-            Caption = 'Icons Size:'
-            ParentColor = False
-          end
           object lblMouseMode: TLabel
             AnchorSideTop.Control = cbMouseMode
             AnchorSideTop.Side = asrCenter
             Left = 14
             Height = 14
-            Top = 90
+            Top = 36
             Width = 31
             Caption = 'Mode:'
             ParentColor = False
           end
-          object cbShowIcons: TCheckBox
+          object cbSelectionByMouse: TCheckBox
+            AnchorSideTop.Control = gbMisc2
             Left = 13
             Height = 17
             Top = 6
-            Width = 71
-            Caption = 'Show icons'
-            OnChange = cbShowIconsChange
+            Width = 110
+            BorderSpacing.Left = 6
+            BorderSpacing.Top = 6
+            Caption = 'Selection by mouse'
             TabOrder = 0
           end
-          object cbSelectionByMouse: TCheckBox
-            Left = 13
-            Height = 17
-            Top = 60
-            Width = 110
-            Caption = 'Selection by mouse'
-            TabOrder = 1
-          end
           object cbMouseMode: TComboBox
+            AnchorSideLeft.Control = lblMouseMode
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = cbSelectionByMouse
+            AnchorSideTop.Side = asrBottom
             AnchorSideRight.Side = asrBottom
-            Left = 81
+            Left = 65
             Height = 21
-            Top = 87
+            Top = 33
             Width = 131
+            BorderSpacing.Left = 20
+            BorderSpacing.Top = 10
             ItemHeight = 13
             Style = csDropDownList
-            TabOrder = 2
+            TabOrder = 1
           end
         end
         object gbDateTimeFormat: TGroupBox
@@ -356,9 +347,9 @@ object frmOptions: TfrmOptions
           TabOrder = 5
           object lblDateTimeFormat: TLabel
             Left = 6
-            Height = 18
+            Height = 14
             Top = 6
-            Width = 139
+            Width = 107
             Caption = 'Date and time format:'
             ParentColor = False
           end
@@ -366,9 +357,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbDateTimeFormat
             AnchorSideTop.Side = asrBottom
             Left = 6
-            Height = 16
-            Top = 57
-            Width = 3
+            Height = 14
+            Top = 53
+            Width = 1
             BorderSpacing.Top = 6
             Font.Style = [fsBold]
             ParentColor = False
@@ -379,7 +370,7 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrBottom
             Left = 6
             Height = 21
-            Top = 30
+            Top = 26
             Width = 184
             BorderSpacing.Top = 6
             ItemHeight = 13
@@ -3100,7 +3091,6 @@ object frmOptions: TfrmOptions
             Width = 131
             BorderSpacing.Left = 10
             BorderSpacing.Right = 10
-            Enabled = False
             ItemHeight = 13
             ItemIndex = 0
             Items.Strings = (
@@ -3197,6 +3187,7 @@ object frmOptions: TfrmOptions
             BorderSpacing.Left = 10
             BorderSpacing.Top = 6
             Caption = '&No icons'
+            OnChange = rbIconsShowNoneChange
             TabOrder = 3
           end
           object rbIconsShowAllAndExe: TRadioButton

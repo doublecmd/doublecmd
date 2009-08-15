@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-08-02 14:43+0300\n"
+"PO-Revision-Date: 2009-08-15 19:28+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2188,7 +2188,7 @@ msgstr "Вертикальные линии"
 
 #: TFRMOPTIONS.CBICONSSHOWOVERLAY.CAPTION
 msgid "Show overlay i&cons, e.g. for links"
-msgstr ""
+msgstr "Показывать овер&лейные значки (например, для ярлыков)"
 
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
@@ -2418,7 +2418,7 @@ msgstr "Основные настройки"
 
 #: TFRMOPTIONS.GBICONSSIZE.CAPTION
 msgid " Icon &size "
-msgstr ""
+msgstr " &Размер значков "
 
 #: TFRMOPTIONS.GBLOCCONFIGFILES.CAPTION
 msgid "Location of configuration files"
@@ -2454,7 +2454,7 @@ msgstr "Показывать сетку в файловой панели"
 
 #: TFRMOPTIONS.GBSHOWICONSMODE.CAPTION
 msgid " Show icons to the left of the filename "
-msgstr ""
+msgstr " Показ значков, связанных с типом файлов "
 
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
@@ -2558,7 +2558,7 @@ msgstr "Пуск терминала:"
 
 #: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
 msgid "Tabs position:"
-msgstr ""
+msgstr "Положение вкладок:"
 
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
@@ -2615,15 +2615,15 @@ msgstr "Все"
 
 #: TFRMOPTIONS.RBICONSSHOWALLANDEXE.CAPTION
 msgid "All associated + &EXE/LNK (slow)"
-msgstr ""
+msgstr "Вс&е ассоциированные + EXE/LNK (медленно)"
 
 #: TFRMOPTIONS.RBICONSSHOWNONE.CAPTION
 msgid "&No icons"
-msgstr ""
+msgstr "&Не показывать значки"
 
 #: TFRMOPTIONS.RBICONSSHOWSTANDARD.CAPTION
 msgid "&Only standard icons"
-msgstr ""
+msgstr "Только &стандартные"
 
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
 msgid "L&etter only"

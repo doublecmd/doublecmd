@@ -52,6 +52,8 @@ type
                          tb_activate_panel_on_click, tb_show_close_button);
 
   TTabsPosition = (tbpos_top, tbpos_bottom);
+  { Show icons mode }
+  TShowIconsMode = (sim_none, sim_standart, sim_all, sim_all_and_exe);
 
 var
   { For localization }
@@ -154,7 +156,7 @@ var
   gCursorText : TColor; //text color under cursor
   gUseInvertedSelection:boolean=false;
   
-  gShowIcons,
+  gShowIcons: TShowIconsMode = sim_all_and_exe;
   gIconOverlays : Boolean;
   gIconsSize,
   gNewIconsSize : Integer;
@@ -573,7 +575,7 @@ begin
   gWatchDirs := TWatchOptions(gIni.ReadInteger('Configuration', 'WatchDirs', Integer(gWatchDirs)));
   gWatchDirsExclude := gIni.ReadString('Configuration', 'WatchDirsExclude', '');
 
-  gShowIcons := gIni.ReadBool('Configuration', 'ShowIcons', True);
+  gShowIcons := TShowIconsMode(gIni.ReadInteger('Configuration', 'ShowIcons', Integer(gShowIcons)));
   gIconOverlays:= gIni.ReadBool('Configuration', 'IconOverlays', True);
   gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
   gNewIconsSize:= gIconsSize;
@@ -773,7 +775,7 @@ begin
   gIni.WriteInteger('Configuration', 'WatchDirs', Integer(gWatchDirs));
   gIni.WriteString('Configuration', 'WatchDirsExclude', gWatchDirsExclude);
 
-  gIni.WriteBool('Configuration', 'ShowIcons', gShowIcons);
+  gIni.WriteInteger('Configuration', 'ShowIcons', Integer(gShowIcons));
   gIni.WriteBool('Configuration', 'IconOverlays', gIconOverlays);
   gIni.WriteInteger('Configuration', 'IconsSize', gNewIconsSize);
   

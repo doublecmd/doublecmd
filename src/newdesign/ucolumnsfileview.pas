@@ -1263,7 +1263,7 @@ begin
 
   edtRename.Width := dgPanel.ColWidths[0]+dgPanel.ColWidths[1]-16;
   edtRename.Top := (dgPanel.CellRect(0,dgPanel.Row).Top-2);
-  if gShowIcons then
+  if gShowIcons <> sim_none then
     edtRename.Left:= gIconsSize + 3
   else
     edtRename.Left:= 2;
@@ -1886,7 +1886,7 @@ var
   begin
     with dgPanel do
     begin
-      if (AFile.IconID >= 0) and gShowIcons then
+      if (AFile.IconID >= 0) and (gShowIcons <> sim_none) then
       begin
         Tr      := Rect;
         Tr.Left := Tr.Left + 1;
@@ -1901,7 +1901,7 @@ var
           Delete(s, Length(s), 1);
       end;
       Canvas.Brush.Style := bsClear;
-      if gShowIcons then
+      if (gShowIcons <> sim_none) then
         Canvas.TextOut(Rect.Left + gIconsSize + 3, iTextTop, s)
       else
         Canvas.TextOut(Rect.Left + 2, iTextTop, s);
@@ -2801,7 +2801,7 @@ begin
       end;
 
       AFile := TColumnsViewFile.Create(FFileSourceFiles[i]);
-      if gShowIcons then
+      if (gShowIcons <> sim_none) then
         AFile.IconID := PixMapManager.GetIconByFile(AFile.TheFile,
                                                     fspDirectAccess in FileSource.Properties);
       FFiles.Add(AFile);
