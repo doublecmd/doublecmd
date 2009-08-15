@@ -992,8 +992,9 @@ begin
 
     if IsDirectory then
       {$IFDEF MSWINDOWS}
-      if not mbFileExists(Path + Name + '\desktop.ini') and
-         (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16) then
+      if (gShowIcons = sim_standart) or
+         ((not mbFileExists(Path + Name + '\desktop.ini')) and
+         (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16)) then
       {$ENDIF}
     begin
       Result := FiDirIconID;
@@ -1030,7 +1031,10 @@ begin
     if Result < 0 then
     begin
     {$IFDEF MSWINDOWS}
-    
+
+    if gShowIcons = sim_standart then
+      Exit(FiDefaultIconID);
+
     if DirectAccess then
       begin
         _para2 := 0;
