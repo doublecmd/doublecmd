@@ -36,7 +36,7 @@ interface
 uses
   Classes, SysUtils, uTypes, Graphics, uOSUtils, uFileSorting,
   uFile, uColumnsFileViewFiles
-  {$IF DEFINED(UNIX) and DEFINED(LCLGTK2)}
+  {$IF DEFINED(UNIX)}
   , uClassesEx
   {$ENDIF};
 
@@ -67,6 +67,8 @@ type
     FPixmapSize : String;
     {$IFDEF MSWINDOWS}
     FSysImgList : THandle;
+    {$ELSE}
+    FIconTheme: Pointer;
     {$ENDIF}
     {$IFDEF LCLGTK2}
     FPixbufList : TStringList;
@@ -74,7 +76,10 @@ type
   protected
     function CheckLoadPixmap(const sName : String; bUsePixmapPath : Boolean = True) : TBitmap;
     function CheckAddPixmap(const sName : String; bUsePixmapPath : Boolean = True):Integer;
-  {$IF DEFINED(UNIX) and DEFINED(LCLGTK2)}
+  {$IF DEFINED(UNIX)}
+    procedure CreateIconTheme;
+    procedure DestroyIconTheme;
+    function LoadIconThemeIcon(AFileExt, AIconName: String; AIconSize: Integer): Boolean;
     procedure LoadMimeIcons;
     function GetGenericIcons(const slGenericIcons: TStringListEx): Boolean;
   {$ENDIF}
@@ -108,12 +113,17 @@ uses
   GraphType, LCLIntf, LCLType, LCLProc, Forms, FileUtil, uGlobsPaths, uWCXhead,
   uGlobs, uDCUtils, uFileSystemFile
   {$IFDEF LCLGTK2}
-    , StrUtils
     , gtkdef, gtk2, gdk2pixbuf, gdk2, glib2
   {$ENDIF}
   {$IFDEF MSWINDOWS}
     , CommCtrl, ShellAPI, Windows, uIcoFiles, uGdiPlus, IntfGraphics, uShlObjAdditional
+  {$ELSE}
+    , StrUtils
+    {$IFNDEF LCLGTK2}
+    , uIconTheme, uMyIconTheme
+    {$ENDIF}
   {$ENDIF}
+
 ;
 
 {$IFDEF MSWINDOWS}
@@ -418,7 +428,83 @@ begin
   {$ENDIF}
 end;
 
-{$IF DEFINED(UNIX) and DEFINED(LCLGTK2)}
+{$IF DEFINED(UNIX)}
+
+procedure TPixMapManager.CreateIconTheme;
+{$IFDEF LCLGTK2}
+var
+  GtkIconTheme: PGtkIconTheme;
+begin
+  // get current gtk theme
+  GtkIconTheme:= gtk_icon_theme_get_for_screen(gdk_screen_get_default);
+  { // load custom theme
+  GtkIconTheme:= gtk_icon_theme_new;
+  gtk_icon_theme_set_custom_theme(GtkIconTheme, 'oxygen');
+  }
+  FIconTheme:= GtkIconTheme;
+end;
+{$ELSE}
+var
+  IconTheme: TIconTheme;
+begin
+  FIconTheme:= nil;
+  IconTheme:= TIconTheme.Create(GetCurrentIconTheme);
+  if IconTheme.Load then
+    FIconTheme:= Pointer(IconTheme);
+end;
+{$ENDIF}
+
+procedure TPixMapManager.DestroyIconTheme;
+{$IFDEF LCLGTK2}
+begin
+  FIconTheme:= nil;
+end;
+{$ELSE}
+var
+  IconTheme: TIconTheme;
+begin
+  IconTheme:= TIconTheme(FIconTheme);
+  FreeThenNil(IconTheme);
+end;
+{$ENDIF}
+
+function TPixMapManager.LoadIconThemeIcon(AFileExt, AIconName: String; AIconSize: Integer): Boolean;
+{$IFDEF LCLGTK2}
+var
+  GtkIconTheme: PGtkIconTheme;
+  pbPicture: PGdkPixbuf;
+  pgcIconName: Pgchar;
+  iPixMap: PtrInt;
+begin
+  Result:= False;
+  GtkIconTheme:= PGtkIconTheme(FIconTheme);
+  pgcIconName:= Pgchar(AIconName);
+  pbPicture:= gtk_icon_theme_load_icon(GtkIconTheme, pgcIconName, AIconSize, GTK_ICON_LOOKUP_NO_SVG, nil);
+  if pbPicture <> nil then
+    begin
+     iPixMap:= FPixbufList.AddObject(AFileExt, TObject(pbPicture));
+     FExtList.AddObject(AFileExt, TObject(iPixMap));
+     Result:= True;
+    end;
+end;
+{$ELSE}
+var
+  IconTheme: TIconTheme;
+  sIconFileName: String;
+  iPixMap: PtrInt;
+begin
+  Result:= False;
+  IconTheme:= TIconTheme(FIconTheme);
+  sIconFileName:= IconTheme.FindIcon(AIconName, AIconSize);
+  if sIconFileName <> EmptyStr then
+  begin
+    iPixMap:= CheckAddPixmap(sIconFileName, False);
+    FExtList.AddObject(AFileExt, TObject(iPixMap));
+    Result:= True;
+  end;
+end;
+{$ENDIF}
+
 procedure TPixMapManager.LoadMimeIcons;
 const
   // From update-mime-database.c
@@ -427,24 +513,19 @@ const
         'inode', 'video', 'message', 'model', 'multipart',
         'x-content', 'x-epoc');
 var
-  GtkIconTheme: PGtkIconTheme;
-  pbPicture: PGdkPixbuf;
   slGenericIcons: TStringListEx;
   I, J: Integer;
   iPixMap: PtrInt;
-  pgcIconName: Pgchar;
+  scIconName: String;
   sExt, sIconName: String;
+  bResult: Boolean;
 begin
   slGenericIcons:= TStringListEx.Create;
   //slGenericIcons.LoadFromFile(gpIniDir + 'mimetypes.txt');
   if GetGenericIcons(slGenericIcons) then
     begin
-      // get current gtk theme
-      GtkIconTheme:= gtk_icon_theme_get_for_screen(gdk_screen_get_default);
-      { // load custom theme
-      GtkIconTheme:= gtk_icon_theme_new;
-      gtk_icon_theme_set_custom_theme(GtkIconTheme, 'oxygen');
-      }
+      // get current icon theme
+      CreateIconTheme;
       // load theme icons
       for I:= 0 to slGenericIcons.Count - 1 do
         begin
@@ -452,37 +533,31 @@ begin
           if FExtList.IndexOf(sExt) >= 0 then Continue;
           sIconName:= slGenericIcons.ValueFromIndex[I];
           // try to load mime icon
-          pgcIconName:= Pgchar(Copy2SymbDel(sIconName, ':'));
-          pbPicture:= gtk_icon_theme_load_icon(GtkIconTheme, pgcIconName, gIconsSize, GTK_ICON_LOOKUP_NO_SVG, nil);
+          scIconName:= Copy2SymbDel(sIconName, ':');
+          bResult:= LoadIconThemeIcon(sExt, scIconName, gIconsSize);
           // if icon not found then try to load generic icon
-          if (pbPicture = nil) and (sIconName <> '') then
+          if (bResult = False) and (sIconName <> '') then
             begin
-              pgcIconName:= Pgchar(sIconName);
-              pbPicture:= gtk_icon_theme_load_icon(GtkIconTheme, pgcIconName, gIconsSize, GTK_ICON_LOOKUP_NO_SVG, nil);
+              scIconName:= sIconName;
+              bResult:= LoadIconThemeIcon(sExt, scIconName, gIconsSize);
             end;
           // Shared-mime-info spec says:
           // "If [generic-icon] is not specified then the mimetype is used to generate the
           // generic icon by using the top-level media type (e.g. "video" in "video/ogg")
           // and appending "-x-generic" (i.e. "video-x-generic" in the previous example)."
-          if pbPicture = nil then
+          if bResult = False then
             begin
               sIconName:= slGenericIcons.ValueFromIndex[I];
               for J:= Low(media_types) to High(media_types) do
                 begin
                   if Pos(media_types[J], sIconName) = 1 then
                     begin
-                      pgcIconName:= Pgchar(media_types[J] + '-x-generic');
-                      pbPicture:= gtk_icon_theme_load_icon(GtkIconTheme, pgcIconName, gIconsSize, GTK_ICON_LOOKUP_NO_SVG, nil);
-                      if pbPicture <> nil then Break;
+                      scIconName:= media_types[J] + '-x-generic';
+                      bResult:= LoadIconThemeIcon(sExt, scIconName, gIconsSize);
+                      if bResult = True then Break;
                     end; // if
                 end; // for
             end; // if
-          //WriteLn(sExt, ' = ', pgcIconName);
-          if pbPicture <> nil then
-            begin
-              iPixMap:= FPixbufList.AddObject(sExt, TObject(pbPicture));
-              FExtList.AddObject(sExt, TObject(iPixMap));
-            end;
         end;
     end;
   slGenericIcons.Free;
@@ -536,7 +611,8 @@ begin
       FreeAndNil(generic_icons);
   end;
 end;
-{$ENDIF}
+
+{$ENDIF} // Unix
 
 constructor TPixMapManager.Create;
 {$IFDEF MSWINDOWS}
@@ -608,6 +684,8 @@ begin
 
   {$IFDEF MSWINDOWS}
   ImageList_Destroy(FSysImgList);
+  {$ELSE}
+  DestroyIconTheme;
   {$ENDIF}
   inherited Destroy;
 end;
@@ -719,7 +797,7 @@ begin
   
   (* /Set archive icons *)
 
-  {$IF DEFINED(UNIX) and DEFINED(LCLGTK2)}
+  {$IF DEFINED(UNIX)}
   LoadMimeIcons;
   {$ENDIF}
 end;
