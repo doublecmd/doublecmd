@@ -684,6 +684,7 @@ msgid "To:"
 msgstr ""
 
 #: TFRMFILEPROPERTIES.BTNALL.CAPTION
+msgctxt "TFRMFILEPROPERTIES.BTNALL.CAPTION"
 msgid "&All"
 msgstr "&Всички"
 
@@ -2189,6 +2190,10 @@ msgstr "Водоравни черти"
 msgid "Vertical lines"
 msgstr "Отвесни черти"
 
+#: TFRMOPTIONS.CBICONSSHOWOVERLAY.CAPTION
+msgid "Show overlay i&cons, e.g. for links"
+msgstr ""
+
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr "16x16"
@@ -2415,6 +2420,10 @@ msgstr "Оцветяване на файловете според вида им"
 msgid "General options"
 msgstr "Общи настройки"
 
+#: TFRMOPTIONS.GBICONSSIZE.CAPTION
+msgid " Icon &size "
+msgstr ""
+
 #: TFRMOPTIONS.GBLOCCONFIGFILES.CAPTION
 msgid "Location of configuration files"
 msgstr "Положение на настроечните файлове"
@@ -2446,6 +2455,10 @@ msgstr "Екранна подредба"
 #: TFRMOPTIONS.GBSHOWGRID.CAPTION
 msgid "Show grid in file panel"
 msgstr "Показване на решетка във вайловите крила"
+
+#: TFRMOPTIONS.GBSHOWICONSMODE.CAPTION
+msgid " Show icons to the left of the filename "
+msgstr ""
 
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
@@ -2547,6 +2560,10 @@ msgstr "Изпълняване в терминал:"
 msgid "Run terminal:"
 msgstr "Изпълняване в терминал:"
 
+#: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
+msgid "Tabs position:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Шрифт на прегледа"
@@ -2594,6 +2611,23 @@ msgstr "Al&t+букви"
 #: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
 msgid "&Ctrl+Alt+Letters"
 msgstr "&Ctrl+Alt+букви"
+
+#: TFRMOPTIONS.RBICONSSHOWALL.CAPTION
+msgctxt "TFRMOPTIONS.RBICONSSHOWALL.CAPTION"
+msgid "&All"
+msgstr "&Всички"
+
+#: TFRMOPTIONS.RBICONSSHOWALLANDEXE.CAPTION
+msgid "All associated + &EXE/LNK (slow)"
+msgstr ""
+
+#: TFRMOPTIONS.RBICONSSHOWNONE.CAPTION
+msgid "&No icons"
+msgstr ""
+
+#: TFRMOPTIONS.RBICONSSHOWSTANDARD.CAPTION
+msgid "&Only standard icons"
+msgstr ""
 
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
 msgid "L&etter only"
@@ -3292,6 +3326,10 @@ msgstr "Грешка при запис във файла"
 #: ulng.rsmsgerrforcedir
 msgid "Can not create directory %s!"
 msgstr "Създаването на папка %s е невъзможно!"
+
+#: ulng.rsmsgerrinvalidlink
+msgid "Invalid link"
+msgstr ""
 
 #: ulng.rsmsgerrnofiles
 msgid "No files found"

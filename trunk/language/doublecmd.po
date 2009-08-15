@@ -682,6 +682,7 @@ msgid "To:"
 msgstr ""
 
 #: TFRMFILEPROPERTIES.BTNALL.CAPTION
+msgctxt "TFRMFILEPROPERTIES.BTNALL.CAPTION"
 msgid "&All"
 msgstr ""
 
@@ -2191,6 +2192,11 @@ msgstr ""
 msgid "Vertical lines"
 msgstr ""
 
+#: TFRMOPTIONS.CBICONSSHOWOVERLAY.CAPTION
+msgctxt "TFRMOPTIONS.CBICONSSHOWOVERLAY.CAPTION"
+msgid "Show overlay i&cons, e.g. for links"
+msgstr ""
+
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
 msgstr ""
@@ -2417,6 +2423,11 @@ msgstr ""
 msgid "General options"
 msgstr ""
 
+#: TFRMOPTIONS.GBICONSSIZE.CAPTION
+msgctxt "TFRMOPTIONS.GBICONSSIZE.CAPTION"
+msgid " Icon &size "
+msgstr ""
+
 #: TFRMOPTIONS.GBLOCCONFIGFILES.CAPTION
 msgid "Location of configuration files"
 msgstr ""
@@ -2447,6 +2458,11 @@ msgstr ""
 
 #: TFRMOPTIONS.GBSHOWGRID.CAPTION
 msgid "Show grid in file panel"
+msgstr ""
+
+#: TFRMOPTIONS.GBSHOWICONSMODE.CAPTION
+msgctxt "TFRMOPTIONS.GBSHOWICONSMODE.CAPTION"
+msgid " Show icons to the left of the filename "
 msgstr ""
 
 #: TFRMOPTIONS.GBTABS.CAPTION
@@ -2549,6 +2565,10 @@ msgstr ""
 msgid "Run terminal:"
 msgstr ""
 
+#: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
+msgid "Tabs position:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr ""
@@ -2595,6 +2615,26 @@ msgstr ""
 
 #: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
 msgid "&Ctrl+Alt+Letters"
+msgstr ""
+
+#: TFRMOPTIONS.RBICONSSHOWALL.CAPTION
+msgctxt "TFRMOPTIONS.RBICONSSHOWALL.CAPTION"
+msgid "&All"
+msgstr ""
+
+#: TFRMOPTIONS.RBICONSSHOWALLANDEXE.CAPTION
+msgctxt "TFRMOPTIONS.RBICONSSHOWALLANDEXE.CAPTION"
+msgid "All associated + &EXE/LNK (slow)"
+msgstr ""
+
+#: TFRMOPTIONS.RBICONSSHOWNONE.CAPTION
+msgctxt "TFRMOPTIONS.RBICONSSHOWNONE.CAPTION"
+msgid "&No icons"
+msgstr ""
+
+#: TFRMOPTIONS.RBICONSSHOWSTANDARD.CAPTION
+msgctxt "TFRMOPTIONS.RBICONSSHOWSTANDARD.CAPTION"
+msgid "&Only standard icons"
 msgstr ""
 
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
@@ -3291,6 +3331,10 @@ msgstr ""
 
 #: ulng.rsmsgerrforcedir
 msgid "Can not create directory %s!"
+msgstr ""
+
+#: ulng.rsmsgerrinvalidlink
+msgid "Invalid link"
 msgstr ""
 
 #: ulng.rsmsgerrnofiles

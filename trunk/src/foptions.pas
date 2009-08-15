@@ -79,6 +79,7 @@ type
     cbExtDiffer: TCheckBox;
     cbExtEditor: TCheckBox;
     cbExtViewer: TCheckBox;
+    cbIconsShowOverlay: TCheckBox;
     cbIconsSize: TComboBox;
     cbLynxLike: TCheckBox;
     cbMainFont: TComboBox;
@@ -180,6 +181,13 @@ type
     gbShowGrid: TGroupBox;
     gbExtended: TGroupBox;
     gbAutoRefresh: TGroupBox;
+    gbShowIconsMode: TGroupBox;
+    rbIconsShowAllAndExe: TRadioButton;
+    rbIconsShowAll: TRadioButton;
+    rbIconsShowNone: TRadioButton;
+    rbIconsShowStandard: TRadioButton;
+    pnlIconExample: TPanel;
+    imgIconExample: TImage;
     lblTabsPosition: TLabel;
     lbCategories: TListBox;
     lblCategoryAttr: TLabel;
@@ -204,6 +212,7 @@ type
     lbxCategories: TListBox;
     lbxHotkeys: TListBox;
     lstColumnsSets: TListBox;
+    pgIcons: TPage;
     pgAutoRefresh: TPage;
     pgMisc: TPage;
     pnlButtons: TPanel;
@@ -276,6 +285,7 @@ type
     seWipePassNumber: TSpinEdit;
     stgPlugins: TStringGrid;
     stgCommands: TStringGrid;
+    gbIconsSize: TGroupBox;
     tsWLX: TTabSheet;
     tsDSX: TTabSheet;
     tsWDX: TTabSheet;
@@ -299,6 +309,7 @@ type
     procedure btnEnablePluginClick(Sender: TObject);
     procedure btnSearchTemplateClick(Sender: TObject);
     procedure cbAlwaysShowTrayIconChange(Sender: TObject);
+    procedure cbIconsSizeChange(Sender: TObject);
     procedure edHotKeyKeyPress(Sender: TObject; var Key: char);
     procedure fneExtDifferChange(Sender: TObject);
     procedure fneExtEditorChange(Sender: TObject);
@@ -1695,6 +1706,21 @@ begin
   cbMinimizeToTray.Enabled:= not cbAlwaysShowTrayIcon.Checked;
 end;
 
+procedure TfrmOptions.cbIconsSizeChange(Sender: TObject);
+var
+  bmpTemp: TBitmap;
+  iSize: Integer;
+begin
+  case cbIconsSize.ItemIndex of
+    0: iSize:= 16;
+    1: iSize:= 22;
+    2: iSize:= 32;
+  end;
+  bmpTemp:= PixmapManager.GetDefaultDriveIcon(iSize, pnlIconExample.Color);
+  imgIconExample.Picture.Bitmap.Assign(bmpTemp);
+  FreeThenNil(bmpTemp);
+end;
+
 procedure TfrmOptions.edHotKeyKeyPress(Sender: TObject; var Key: char);
 begin
   Key := #0;
@@ -1978,7 +2004,7 @@ end;
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
 begin
   //DebugLN('Page index == ' + IntToStr(Node.Index));
-  if tvTreeView.Selected.ImageIndex = 17 then // special for "Colors" item
+  if tvTreeView.Selected.ImageIndex = 18 then // special for "Colors" item
     begin
       nbNotebook.PageIndex := 4;
       pnlCaption.Caption := tvTreeView.Items.Item[5].Text;
@@ -2136,6 +2162,7 @@ begin
   edtWatchExcludeDrives.Text:= gWatchDirsExclude;
   { Icons sizes in file panels }
   cbIconsSize.Text := IntToStr(gNewIconsSize) + 'x' + IntToStr(gNewIconsSize);
+  cbIconsSizeChange(nil);
 
   FillLngListBox;
   FillFontLists;
