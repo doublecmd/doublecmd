@@ -800,7 +800,8 @@ begin
   (* /Set archive icons *)
 
   {$IF DEFINED(UNIX)}
-  LoadMimeIcons;
+  if (gShowIcons <> sim_none) and (gShowIcons <> sim_standart) then
+    LoadMimeIcons;
   {$ENDIF}
 end;
 
