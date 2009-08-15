@@ -61,6 +61,7 @@ type
     FiLinkIconID : PtrInt;
     FiUpDirIconID : PtrInt;
     FiDefaultIconID : PtrInt;
+    FiExeIconID : PtrInt;
     FiArcIconID : PtrInt;
     FiSortAscID : PtrInt;
     FiSortDescID : PtrInt;
@@ -727,6 +728,7 @@ begin
   FiLinkIconID:=CheckAddPixmap('filesystems' + PathDelim + 'link.png');
   FiUpDirIconID:=CheckAddPixmap('actions' + PathDelim + 'go-up.png');
   FiArcIconID := CheckAddPixmap('mimetypes' + PathDelim + 'package-x-generic.png');
+  FiExeIconID:= CheckAddPixmap('mimetypes' + PathDelim + 'application-x-executable.png');
   FiSortAscID := CheckAddPixmap('actions' + PathDelim + 'view-sort-ascending.png');
   FiSortDescID := CheckAddPixmap('actions' + PathDelim + 'view-sort-descending.png');
 
@@ -1010,6 +1012,19 @@ begin
     end;
 
     Ext := UTF8LowerCase(Extension);
+
+    {$IFDEF MSWINDOWS}
+    if gShowIcons <> sim_all_and_exe then
+      begin
+        if Ext = 'exe' then
+          Exit(FiExeIconID)
+        else if Ext = 'lnk' then
+          Exit(FiLinkIconID)
+        else if Ext = 'ico' then
+          Exit(FiDefaultIconID)
+      end;
+    {$ENDIF}
+
     Result:= FExtList.IndexOf(Ext);
     if Result < 0 then
     begin
