@@ -75,6 +75,7 @@ type
     FPixbufList : TStringList;
     {$ENDIF}
   protected
+    function LoadBitmap(AIconFileNAme: String; out ABitmap: TBitmap): Boolean;
     function CheckLoadPixmap(const sName : String; bUsePixmapPath : Boolean = True) : TBitmap;
     function CheckAddPixmap(const sName : String; bUsePixmapPath : Boolean = True):Integer;
   {$IF DEFINED(UNIX)}
@@ -108,8 +109,8 @@ var
 
 procedure LoadPixMapManager;
 
-
 implementation
+
 uses
   GraphType, LCLIntf, LCLType, LCLProc, Forms, FileUtil, uGlobsPaths, uWCXhead,
   uGlobs, uDCUtils, uFileSystemFile
@@ -124,8 +125,7 @@ uses
     , uIconTheme, uMyIconTheme
     {$ENDIF}
   {$ENDIF}
-
-;
+  ;
 
 {$IFDEF MSWINDOWS}
 function GetRGBColor(Value: TColor): DWORD;
@@ -343,29 +343,53 @@ end;
 
 { TPixMapManager }
 
+function TPixMapManager.LoadBitmap(AIconFileNAme: String; out ABitmap: TBitmap): Boolean;
+var
+  pngBitmap: TPortableNetworkGraphic;
+begin
+  Result:= False;
+  ABitmap:= nil;
+  if CompareFileExt(AIconFileNAme, 'png', False) = 0 then
+    begin
+      pngBitmap:= TPortableNetworkGraphic.Create;
+      try
+        pngBitmap.LoadFromFile(AIconFileNAme);
+        // if unsupported BitsPerPixel then exit
+        if pngBitmap.RawImage.Description.BitsPerPixel > 32 then
+          Exit;
+        pngBitmap.Transparent:= True;
+        ABitmap:= Graphics.TBitmap.Create;
+        ABitmap.Assign(pngBitmap);
+        Result:= True;
+      finally
+        FreeAndNil(pngBitmap);
+      end;
+    end
+  else
+    begin
+      ABitmap:= Graphics.TBitMap.Create;
+      ABitmap.LoadFromFile(AIconFileNAme);
+      Result:= True;
+    end;
+end;
+
 function TPixMapManager.CheckLoadPixmap(const sName: String; bUsePixmapPath : Boolean = True): Graphics.TBitmap;
 var
-  png : TPortableNetworkGraphic;
-  sFileName : String;
+  sFileName: String;
 begin
   Result:= nil;
 
   if bUsePixmapPath then
-    sFileName := gpPixmapPath+FPixmapSize+sName
+    sFileName:= gpPixmapPath+FPixmapSize+sName
   else
-    sFileName := sName;
+    sFileName:= sName;
     
   if not mbFileExists(sFileName) then
-  begin
-    DebugLn(Format('Warning: pixmap [%s] not exists!',[sFileName]));
-    Exit;
-  end;
-  png:=TPortableNetworkGraphic.Create;
-  png.LoadFromFile(sFileName);
-  png.Transparent:=True;
-  Result := Graphics.TBitmap.Create;
-  Result.Assign(png);
-  FreeAndNil(png);
+    begin
+      DebugLn(Format('Warning: pixmap [%s] not exists!',[sFileName]));
+      Exit;
+    end;
+  LoadBitmap(sFileName, Result);
 end;
 
 function TPixMapManager.CheckAddPixmap(const sName: String; bUsePixmapPath : Boolean = True): Integer;
@@ -374,22 +398,21 @@ var
   {$IFDEF LCLGTK2}
   pbPicture : PGdkPixbuf;
   {$ELSE}
-  bmp: Graphics.TBitmap;
-  png: TPortableNetworkGraphic;
+  bmpBitmap: Graphics.TBitmap;
   {$ENDIF}
 begin
-  Result:=-1;
+  Result:= -1;
   
   if bUsePixmapPath then
-    sFileName := gpPixmapPath+FPixmapSize+sName
+    sFileName:= gpPixmapPath+FPixmapSize+sName
   else
-    sFileName := sName;
+    sFileName:= sName;
   
   if not mbFileExists(sFileName) then
-  begin
-    DebugLn(Format('Warning: pixmap [%s] not exists!',[sFileName]));
-    Exit;
-  end;
+    begin
+      DebugLn(Format('Warning: pixmap [%s] not exists!',[sFileName]));
+      Exit;
+    end;
   // determine: known this file?
   {$IFDEF LCLGTK2}
   Result:= FPixbufList.IndexOf(sName);
@@ -407,24 +430,8 @@ begin
   Result:= FPixmapList.IndexOf(sName);
   if Result < 0 then // no
     begin
-      if CompareFileExt(sFileName, 'png', False) = 0 then
-        begin
-          png := TPortableNetworkGraphic.Create;
-          try
-            png.LoadFromFile(sFileName);
-            png.Transparent:=True;
-            bmp := Graphics.TBitmap.Create;
-            bmp.Assign(png);
-          finally
-            FreeAndNil(png);
-          end;
-        end
-      else
-        begin
-          bmp := Graphics.TBitMap.Create;
-          bmp.LoadFromFile(sFileName);
-        end;
-      Result:= FPixmapList.AddObject(sName, bmp); // add to list
+      if LoadBitmap(sFileName, bmpBitmap) then
+        Result:= FPixmapList.AddObject(sName, bmpBitmap); // add to list
     end;
   {$ENDIF}
 end;
@@ -492,6 +499,7 @@ end;
 var
   IconTheme: TIconTheme;
   sIconFileName: String;
+  bmpBitmap: TBitmap;
   iPixMap: PtrInt;
 begin
   Result:= False;
@@ -499,9 +507,18 @@ begin
   sIconFileName:= IconTheme.FindIcon(AIconName, AIconSize);
   if sIconFileName <> EmptyStr then
   begin
-    iPixMap:= CheckAddPixmap(sIconFileName, False);
-    FExtList.AddObject(AFileExt, TObject(iPixMap));
-    Result:= True;
+    iPixMap:= FPixmapList.IndexOf(sIconFileName);
+    if (iPixMap >= 0) then
+      begin
+        FExtList.AddObject(AFileExt, TObject(iPixMap));
+        Result:= True;
+      end
+    else if LoadBitmap(sIconFileName, bmpBitmap) then
+      begin
+        iPixMap:= FPixmapList.AddObject(sIconFileName, bmpBitmap);
+        FExtList.AddObject(AFileExt, TObject(iPixMap));
+        Result:= True;
+      end;
   end;
 end;
 {$ENDIF}
@@ -594,9 +611,9 @@ begin
     if Assigned(generic_icons) then
       for I:= 0 to globs.Count - 1 do
         begin
-          sGenericIconName:= ':' + generic_icons.Values[globs.Names[I]];
+          sGenericIconName:= generic_icons.Values[globs.Names[I]];
           sMimeIconName:= StringReplace(globs.Names[I], '/', '-', []);
-          slGenericIcons.Add(PChar(globs.ValueFromIndex[I])+2 + '=' + sMimeIconName + sGenericIconName);
+          slGenericIcons.Add(PChar(globs.ValueFromIndex[I])+2 + '=' + sMimeIconName + ':' + sGenericIconName);
         end
     else
       for I:= 0 to globs.Count - 1 do
