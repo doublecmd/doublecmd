@@ -40,6 +40,8 @@ type
     FTargetFileSource: TFileSource;
     FSourceFiles: TFiles;
     FTargetPath: String;
+    FRenameMask: String;
+    FDropReadOnlyAttribute: Boolean;
 
   protected
     procedure UpdateStatistics(var NewStatistics: TFileSourceCopyOperationStatistics);
@@ -63,12 +65,14 @@ type
     constructor Create(var aSourceFileSource: TFileSource;
                        var aTargetFileSource: TFileSource;
                        var theSourceFiles: TFiles;
-                       aTargetPath: String;
-                       aRenameMask: String); virtual reintroduce;
+                       aTargetPath: String); virtual reintroduce;
 
     destructor Destroy; override;
 
     function RetrieveStatistics: TFileSourceCopyOperationStatistics;
+
+    property RenameMask: String read FRenameMask write FRenameMask;
+    property DropReadOnlyAttribute: Boolean read FDropReadOnlyAttribute write FDropReadOnlyAttribute;
   end;
 
   {en
@@ -121,8 +125,7 @@ uses
 constructor TFileSourceCopyOperation.Create(var aSourceFileSource: TFileSource;
                                             var aTargetFileSource: TFileSource;
                                             var theSourceFiles: TFiles;
-                                            aTargetPath: String;
-                                            aRenameMask: String);
+                                            aTargetPath: String);
 begin
   with FStatistics do
   begin
@@ -159,6 +162,9 @@ begin
   FSourceFiles := theSourceFiles;
   theSourceFiles := nil;
   FTargetPath := aTargetPath;
+
+  FRenameMask := '';
+  FDropReadOnlyAttribute := False;
 end;
 
 destructor TFileSourceCopyOperation.Destroy;

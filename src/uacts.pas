@@ -1316,6 +1316,7 @@ begin
   // Selection validation in RenameFile.
   frmMain.RenameFile(frmMain.NotActiveFrame.CurrentPath);
 }
+frmmain.MoveFile(frmMain.NotActiveFrame.CurrentPath);
 end;
 
 procedure TActs.cm_MakeDir(param:string);
@@ -2453,13 +2454,13 @@ begin
             TargetFileSource := ActiveFrame.FileSource.Clone;
             Operation := SourceFileSource.CreateCopyOutOperation(
                            TargetFileSource, Files,
-                           ActiveFrame.CurrentPath, '*.*');
+                           ActiveFrame.CurrentPath);
           end
           else
           begin
             Operation := ActiveFrame.FileSource.CreateCopyInOperation(
                            SourceFileSource, Files,
-                           ActiveFrame.CurrentPath, '*.*');
+                           ActiveFrame.CurrentPath);
           end;
         end;
 

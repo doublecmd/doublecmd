@@ -21,11 +21,11 @@ uses
 
 type
   TMyMsgResult=(mmrOK, mmrNo, mmrYes, mmrCancel, mmrNone,
-                mmrAppend, mmrRewrite, mmrRewriteAll, mmrSkip, mmrSkipAll,
+                mmrAppend, mmrCopyInto, mmrRewrite, mmrRewriteAll, mmrSkip, mmrSkipAll,
                 mmrAll, mmrRetry, mrAbort);
 
   TMyMsgButton=(msmbOK, msmbNo, msmbYes, msmbCancel, msmbNone,
-                msmbAppend, msmbRewrite, msmbRewriteAll, msmbSkip, msmbSkipAll,
+                msmbAppend, msmbCopyInto, msmbRewrite, msmbRewriteAll, msmbSkip, msmbSkipAll,
                 msmbAll, msmbRetry, msmbAbort);
 
 

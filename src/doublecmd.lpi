@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="89">
+    <Units Count="91">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -600,6 +600,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFileSourceCalcStatisticsOperation"/>
       </Unit88>
+      <Unit89>
+        <Filename Value="newdesign\ufilesourcemoveoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceMoveOperation"/>
+      </Unit89>
+      <Unit90>
+        <Filename Value="newdesign\ufilesystemmoveoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemMoveOperation"/>
+      </Unit90>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

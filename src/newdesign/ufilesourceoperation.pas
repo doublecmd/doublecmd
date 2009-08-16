@@ -50,6 +50,15 @@ type
       procedure(Operation: TFileSourceOperation;
                 Event: TFileSourceOperationEvent) of object;
 
+  TAskQuestionFunction =
+      function(Msg: String; Question: String;
+               PossibleResponses: array of TFileSourceOperationUIResponse;
+               DefaultOKResponse: TFileSourceOperationUIResponse;
+               DefaultCancelResponse: TFileSourceOperationUIResponse
+             ) : TFileSourceOperationUIResponse of object;
+  TAbortOperationFunction = procedure of object;
+  TCheckOperationStateFunction = procedure of object;
+
   {en
      Base class for each file source operation.
   }
@@ -230,7 +239,7 @@ type
     }
     procedure CheckOperationState;
 
-    procedure RaiseAbortOperation;
+    class procedure RaiseAbortOperation;
 
     property Thread: TThread read FThread;
 
@@ -861,7 +870,7 @@ begin
   // else We have no UIs assigned - cannot ask question.
 end;
 
-procedure TFileSourceOperation.RaiseAbortOperation;
+class procedure TFileSourceOperation.RaiseAbortOperation;
 begin
   raise EFileSourceOperationAborting.Create;
 end;

@@ -67,12 +67,12 @@ type
     function CreateListOperation: TFileSourceOperation; virtual;
     function CreateCopyInOperation(var SourceFileSource: TFileSource;
                                    var SourceFiles: TFiles;
-                                   TargetPath: String;
-                                   RenameMask: String): TFileSourceOperation; virtual;
+                                   TargetPath: String): TFileSourceOperation; virtual;
     function CreateCopyOutOperation(var TargetFileSource: TFileSource;
                                     var SourceFiles: TFiles;
-                                    TargetPath: String;
-                                    RenameMask: String): TFileSourceOperation; virtual;
+                                    TargetPath: String): TFileSourceOperation; virtual;
+    function CreateMoveOperation(var SourceFiles: TFiles;
+                                 TargetPath: String): TFileSourceOperation; virtual;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; virtual;
     function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; virtual;
     function CreateCreateDirectoryOperation(DirectoryPath: String): TFileSourceOperation; virtual;
@@ -191,16 +191,20 @@ end;
 
 function TFileSource.CreateCopyInOperation(var SourceFileSource: TFileSource;
                                            var SourceFiles: TFiles;
-                                           TargetPath: String;
-                                           RenameMask: String): TFileSourceOperation;
+                                           TargetPath: String): TFileSourceOperation;
 begin
   Result := nil;
 end;
 
 function TFileSource.CreateCopyOutOperation(var TargetFileSource: TFileSource;
                                 var SourceFiles: TFiles;
-                                TargetPath: String;
-                                RenameMask: String): TFileSourceOperation;
+                                TargetPath: String): TFileSourceOperation;
+begin
+  Result := nil;
+end;
+
+function TFileSource.CreateMoveOperation(var SourceFiles: TFiles;
+                                         TargetPath: String): TFileSourceOperation;
 begin
   Result := nil;
 end;

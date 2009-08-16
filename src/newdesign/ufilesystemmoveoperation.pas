@@ -1,4 +1,4 @@
-unit uFileSystemCopyOperation;
+unit uFileSystemMoveOperation;
 
 {$mode objfpc}{$H+}
 
@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uFileSourceCopyOperation,
+  uFileSourceMoveOperation,
   uFileSource,
   uFileSourceOperation,
   uFileSourceOperationOptions,
@@ -15,32 +15,12 @@ uses
   uFileSystemUtil;
 
 type
-  {
-    Both operations are the same, just source and target reversed.
-    Implement them in terms of the same functions,
-    or have one use the other.
-  }
-
-  TFileSystemCopyInOperation = class(TFileSourceCopyInOperation)
-
-  private
-
-  public
-    constructor Create(var aSourceFileSource: TFileSource;
-                       var aTargetFileSource: TFileSource;
-                       var theSourceFiles: TFiles;
-                       aTargetPath: String); override;
-
-    procedure MainExecute; override;
-
-  end;
-
-  TFileSystemCopyOutOperation = class(TFileSourceCopyOutOperation)
+  TFileSystemMoveOperation = class(TFileSourceMoveOperation)
 
   private
     FOperationHelper: TFileSystemOperationHelper;
     FSourceFilesTree: TFileTree;  // source files including all files/dirs in subdirectories
-    FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
+    FStatistics: TFileSourceMoveOperationStatistics; // local copy of statistics
 
     // Options.
     FCheckFreeSpace: Boolean;
@@ -48,14 +28,12 @@ type
     FSymLinkOption: TFileSourceOperationOptionSymLink;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
     FDirExistsOption: TFileSourceOperationOptionDirectoryExists;
+    FCorrectSymlinks: Boolean;
 
   protected
 
-    // ProcessFileNoQuestions (when we're sure the targets don't exist)
-
   public
-    constructor Create(var aSourceFileSource: TFileSource;
-                       var aTargetFileSource: TFileSource;
+    constructor Create(var aFileSource: TFileSource;
                        var theSourceFiles: TFiles;
                        aTargetPath: String); override;
 
@@ -71,26 +49,9 @@ implementation
 uses
   uOSUtils, FileUtil, LCLProc, uGlobs;
 
-// -- TFileSystemCopyInOperation ----------------------------------------------
-
-constructor TFileSystemCopyInOperation.Create(var aSourceFileSource: TFileSource;
-                                              var aTargetFileSource: TFileSource;
-                                              var theSourceFiles: TFiles;
-                                              aTargetPath: String);
-begin
-  inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
-end;
-
-procedure TFileSystemCopyInOperation.MainExecute;
-begin
-end;
-
-// -- TFileSystemCopyOutOperation ---------------------------------------------
-
-constructor TFileSystemCopyOutOperation.Create(var aSourceFileSource: TFileSource;
-                                               var aTargetFileSource: TFileSource;
-                                               var theSourceFiles: TFiles;
-                                               aTargetPath: String);
+constructor TFileSystemMoveOperation.Create(var aFileSource: TFileSource;
+                                            var theSourceFiles: TFiles;
+                                            aTargetPath: String);
 begin
   FSourceFilesTree := nil;
   FOperationHelper := nil;
@@ -101,11 +62,12 @@ begin
   FDirExistsOption := fsoodeNone;
   FCheckFreeSpace := True;
   FSkipAllBigFiles := False;
+  FCorrectSymlinks := False;
 
-  inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
+  inherited Create(aFileSource, theSourceFiles, aTargetPath);
 end;
 
-destructor TFileSystemCopyOutOperation.Destroy;
+destructor TFileSystemMoveOperation.Destroy;
 begin
   inherited Destroy;
 
@@ -116,7 +78,7 @@ begin
     FreeAndNil(FOperationHelper);
 end;
 
-procedure TFileSystemCopyOutOperation.Initialize;
+procedure TFileSystemMoveOperation.Initialize;
 var
   TreeBuilder: TFileSystemTreeBuilder;
 begin
@@ -127,9 +89,8 @@ begin
                         @AskQuestion,
                         @CheckOperationState);
   try
-    // disable follow links temporarily
+    // In move operation don't follow symlinks.
     TreeBuilder.SymLinkOption := fsooslDontFollow;
-
     TreeBuilder.BuildFromFiles(SourceFiles as TFileSystemFiles);
     FSourceFilesTree := TreeBuilder.ReleaseTree;
     FStatistics.TotalFiles := TreeBuilder.FilesCount;
@@ -147,22 +108,21 @@ begin
                         @CheckOperationState,
                         @UpdateStatistics,
                         Thread,
-                        fsohmCopy,
+                        fsohmMove,
                         SourceFiles.Path,
                         TargetPath,
                         FStatistics);
 
   FOperationHelper.RenameMask := RenameMask;
-  FOperationHelper.DropReadOnlyAttribute := DropReadOnlyAttribute;
   FOperationHelper.Initialize;
 end;
 
-procedure TFileSystemCopyOutOperation.MainExecute;
+procedure TFileSystemMoveOperation.MainExecute;
 begin
   FOperationHelper.ProcessTree(FSourceFilesTree);
 end;
 
-procedure TFileSystemCopyOutOperation.Finalize;
+procedure TFileSystemMoveOperation.Finalize;
 begin
   if Assigned(FOperationHelper) then
     FreeAndNil(FOperationHelper);

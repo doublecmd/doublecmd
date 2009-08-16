@@ -53,7 +53,7 @@ resourcestring
   rsMsgPopUpHotAdd = '&Add %s';
   rsMsgPopUpHotCnf = '&Configure';
   rsMsgCloseLockedTab = 'This tab (%s) is locked! Close anyway?';
-  rsDlgButtons = '&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;';
+  rsDlgButtons = '&OK;&No;&Yes;&Cancel;Non&e;A&ppend;Copy &Into;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;';
   rsSpaceMsg = 'Files: %d, Dirs: %d, Size: %s (%s bytes)';
   rsSelectDir = 'Select a directory';
   rsMarkPlus = 'Select mask';
