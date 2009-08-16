@@ -157,9 +157,10 @@ var
   gUseInvertedSelection:boolean=false;
   
   gShowIcons: TShowIconsMode = sim_all_and_exe;
+  gShowIconsNew: TShowIconsMode;
   gIconOverlays : Boolean;
   gIconsSize,
-  gNewIconsSize : Integer;
+  gIconsSizeNew : Integer;
   gUseMmapInSearch : Boolean;
   gCustomDriveIcons : Boolean; // for use custom drive icons under windows
   
@@ -191,7 +192,7 @@ var
 
   { Configuration page }
   gUseIniInProgramDir,
-  gNewUseIniInProgramDir,
+  gUseIniInProgramDirNew,
   gSaveDirHistory,
   gSaveCmdLineHistory,
   gSaveFileMaskHistory : Boolean;
@@ -463,7 +464,7 @@ begin
   { Load location of configuration files }
   Ini := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini', fmOpenRead);
   gUseIniInProgramDir := Ini.ReadBool('Configuration', 'UseIniInProgramDir', False);
-  gNewUseIniInProgramDir:= gUseIniInProgramDir;
+  gUseIniInProgramDirNew:= gUseIniInProgramDir;
   Ini.Free;
   
   { Layout page }
@@ -576,9 +577,10 @@ begin
   gWatchDirsExclude := gIni.ReadString('Configuration', 'WatchDirsExclude', '');
 
   gShowIcons := TShowIconsMode(gIni.ReadInteger('Configuration', 'ShowIcons', Integer(gShowIcons)));
+  gShowIconsNew:= gShowIcons;
   gIconOverlays:= gIni.ReadBool('Configuration', 'IconOverlays', True);
   gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
-  gNewIconsSize:= gIconsSize;
+  gIconsSizeNew:= gIconsSize;
   gCustomDriveIcons := gIni.ReadBool('Configuration', 'CustomDriveIcons', False);
 
   gCutTextToColWidth := gIni.ReadBool('Configuration', 'CutTextToColWidth', True);
@@ -647,13 +649,13 @@ procedure SaveGlobs;
 var
   Ini: TIniFileEx;
 begin
-  if gNewUseIniInProgramDir <> gUseIniInProgramDir then
+  if gUseIniInProgramDirNew <> gUseIniInProgramDir then
     begin
       gIni.Free;
       { Save location of configuration files }
       try
         Ini:= TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
-        Ini.WriteBool('Configuration', 'UseIniInProgramDir', gNewUseIniInProgramDir);
+        Ini.WriteBool('Configuration', 'UseIniInProgramDir', gUseIniInProgramDirNew);
       finally
         Ini.Free;
       end;
@@ -775,9 +777,9 @@ begin
   gIni.WriteInteger('Configuration', 'WatchDirs', Integer(gWatchDirs));
   gIni.WriteString('Configuration', 'WatchDirsExclude', gWatchDirsExclude);
 
-  gIni.WriteInteger('Configuration', 'ShowIcons', Integer(gShowIcons));
+  gIni.WriteInteger('Configuration', 'ShowIcons', Integer(gShowIconsNew));
   gIni.WriteBool('Configuration', 'IconOverlays', gIconOverlays);
-  gIni.WriteInteger('Configuration', 'IconsSize', gNewIconsSize);
+  gIni.WriteInteger('Configuration', 'IconsSize', gIconsSizeNew);
   
   gIni.WriteBool('Configuration', 'CutTextToColWidth', gCutTextToColWidth);
 

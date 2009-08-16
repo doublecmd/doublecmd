@@ -2122,7 +2122,7 @@ begin
   end;
 
   { Configuration storage }
-  if gNewUseIniInProgramDir then
+  if gUseIniInProgramDirNew then
     rbProgramDir.Checked := True
   else
     rbUserHomeDir.Checked := True;
@@ -2158,14 +2158,14 @@ begin
   cbWatchFreeSpace.Checked := (watch_free_disk_space in gWatchDirs);
   edtWatchExcludeDrives.Text:= gWatchDirsExclude;
   { Icons sizes in file panels }
-  case gShowIcons of
+  case gShowIconsNew of
     sim_none: rbIconsShowNone.Checked:= True;
     sim_standart: rbIconsShowStandard.Checked:= True;
     sim_all: rbIconsShowAll.Checked:= True;
     sim_all_and_exe: rbIconsShowAllAndExe.Checked := True;
   end;
   cbIconsShowOverlay.Checked:= gIconOverlays;
-  cbIconsSize.Text := IntToStr(gNewIconsSize) + 'x' + IntToStr(gNewIconsSize);
+  cbIconsSize.Text := IntToStr(gIconsSizeNew) + 'x' + IntToStr(gIconsSizeNew);
   cbIconsSizeChange(nil);
 
   FillLngListBox;
@@ -2314,7 +2314,7 @@ begin
   end;
 
   { Configuration storage }
-  gNewUseIniInProgramDir := rbProgramDir.Checked;
+  gUseIniInProgramDirNew := rbProgramDir.Checked;
   gSaveDirHistory := cbDirHistory.Checked;
   gSaveCmdLineHistory := cbCmdLineHistory.Checked;
   gSaveFileMaskHistory := cbFileMaskHistory.Checked;
@@ -2355,20 +2355,21 @@ begin
 
   { Icons }
   if rbIconsShowNone.Checked then
-    gShowIcons:= sim_none
+    gShowIconsNew:= sim_none
   else if rbIconsShowStandard.Checked then
-    gShowIcons:= sim_standart
+    gShowIconsNew:= sim_standart
   else if rbIconsShowAll.Checked then
-    gShowIcons:= sim_all
+    gShowIconsNew:= sim_all
   else if rbIconsShowAllAndExe.Checked then
-    gShowIcons:= sim_all_and_exe;
+    gShowIconsNew:= sim_all_and_exe;
   gIconOverlays:= cbIconsShowOverlay.Checked;
 
 //-------------------------------------------------
-  if (gNewIconsSize <> StrToInt(Copy(cbIconsSize.Text, 1, 2))) or ((lngList.ItemIndex>-1) and
-    (Trim(gPOFileName) <> Trim(lngList.Items.Names[lngList.ItemIndex]))) then
+  if (gIconsSizeNew <> StrToInt(Copy(cbIconsSize.Text, 1, 2))) or
+     (gShowIconsNew <> gShowIcons) or ((lngList.ItemIndex>-1) and
+     (Trim(gPOFileName) <> Trim(lngList.Items.Names[lngList.ItemIndex]))) then
     begin
-      gNewIconsSize:= StrToInt(Copy(cbIconsSize.Text, 1, 2)); // new file panel icons size
+      gIconsSizeNew:= StrToInt(Copy(cbIconsSize.Text, 1, 2)); // new file panel icons size
       if lngList.ItemIndex > -1 then
         gPOFileName:= lngList.Items.Names[lngList.ItemIndex]; // new language file
       msgOk(rsMsgRestartForApplyChanges);
