@@ -16,7 +16,8 @@ type
      fsourYes,
      fsourCancel,
      fsourNone,
-     fsourAppend,
+     fsourAppend,      // for files
+     fsourCopyInto,    // for directories
      fsourRewrite,
      fsourRewriteAll,
      fsourSkip,

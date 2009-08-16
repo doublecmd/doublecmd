@@ -15,6 +15,7 @@ type
     fsoList,
     fsoCopyIn,
     fsoCopyOut,
+    fsoMove,            // Move/rename files within the same file source.
     fsoDelete,
     fsoWipe,
     fsoCreateDirectory,

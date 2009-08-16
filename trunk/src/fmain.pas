@@ -469,6 +469,7 @@ type
 //    procedure RenameFile(srcFileList: TFileList; dstFramePanel: TFileView; sDestPath: String);
 //    procedure CopyFile(srcFileList: TFileList; dstFramePanel: TFileView; sDestPath: String);
     procedure RenameFile(sDestPath:String); // this is for F6 and Shift+F6
+    procedure MoveFile(sDestPath:String);
     procedure CopyFile(sDestPath:String); //  this is for F5 and Shift+F5
     procedure GetDestinationPathAndMask(EnteredPath: String; BaseDir: String;
                                         out DestPath, DestMask: String);
@@ -524,7 +525,7 @@ uses
   fExtractDlg, fLinker, fSplitter, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls, uFileSorting,
   uFileSystemFileSource, fViewOperations,
-  uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSystemCopyOperation,
+  uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   fFileOpDlg
   {$IFDEF LCLQT}
     , qtwidgets, qtobjects
@@ -1935,6 +1936,94 @@ begin
   RunCopyThread(srcFileList, sDestPath, sDstMaskTemp, blDropReadOnlyFlag);
 end;
 }
+
+procedure TfrmMain.MoveFile(sDestPath:String);
+var
+  sDstMaskTemp: String;
+  TargetFileSource: TFileSource = nil;
+  SourceFiles: TFiles = nil;
+  Operation: TFileSourceMoveOperation;
+  OperationHandle: TOperationHandle;
+  ProgressDialog: TfrmFileOp;
+  bMove: Boolean;
+begin
+  // Only allow moving within the same file source.
+  if (ActiveFrame.FileSource.InheritsFrom(NotActiveFrame.FileSource.ClassType) or
+      NotActiveFrame.FileSource.InheritsFrom(ActiveFrame.FileSource.ClassType)) and
+     (ActiveFrame.FileSource.CurrentAddress = NotActiveFrame.FileSource.CurrentAddress) and
+     (fsoMove in ActiveFrame.FileSource.GetOperationsTypes) and
+     (fsoMove in NotActiveFrame.FileSource.GetOperationsTypes) then
+  begin
+    bMove := True;
+  end
+  else if ((fsoCopyOut in ActiveFrame.FileSource.GetOperationsTypes) and
+           (fsoCopyIn in NotActiveFrame.FileSource.GetOperationsTypes)) then
+  begin
+    bMove := False;  // copy + delete through temporary file system
+    msgWarning(rsMsgNotImplemented);
+    Exit;
+  end
+  else
+  begin
+    msgWarning(rsMsgErrNotSupported);
+    Exit;
+  end;
+
+  SourceFiles := ActiveFrame.SelectedFiles; // free at Thread end by thread
+  try
+    if SourceFiles.Count = 0 then
+      Exit;
+
+    with TfrmMoveDlg.Create(Application) do
+    begin
+      try
+        if (SourceFiles.Count = 1) and
+           (not (SourceFiles[0].IsDirectory or SourceFiles[0].IsLinkToDirectory))
+        then
+          edtDst.Text := sDestPath + ExtractFileName(SourceFiles[0].Name)
+        else
+          edtDst.Text := sDestPath + '*.*';
+
+        lblMoveSrc.Caption := GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr, SourceFiles);
+        if ShowModal = mrCancel then
+          Exit;
+
+        GetDestinationPathAndMask(edtDst.Text, SourceFiles.Path, sDestPath, sDstMaskTemp);
+
+      finally
+        Free;
+      end;
+    end;
+
+    if bMove then
+    begin
+      Operation := ActiveFrame.FileSource.CreateMoveOperation(
+                     SourceFiles, sDestPath) as TFileSourceMoveOperation;
+
+      if Assigned(Operation) then
+      begin
+        Operation.RenameMask := sDstMaskTemp;
+
+        // Start operation.
+        OperationHandle := OperationsManager.AddOperation(Operation, ossAutoQueue);
+
+        ProgressDialog := TfrmFileOp.Create(OperationHandle);
+        ProgressDialog.Show;
+      end
+      else
+        msgWarning(rsMsgNotImplemented);
+    end
+    else
+    begin
+      // Use CopyOut, CopyIn operations.
+    end;
+
+  finally
+    if Assigned(SourceFiles) then
+      FreeAndNil(SourceFiles);
+  end;
+end;
+
 procedure TfrmMain.RenameFile(sDestPath:String);
 var
   fl:TFileList;
@@ -2005,7 +2094,7 @@ var
   blDropReadOnlyFlag : Boolean;
   TargetFileSource: TFileSource = nil;
   SourceFiles: TFiles = nil;
-  Operation: TFileSourceOperation;
+  Operation: TFileSourceCopyOperation;
   OperationHandle: TOperationHandle;
   ProgressDialog: TfrmFileOp;
 begin
@@ -2061,11 +2150,12 @@ begin
       Operation := ActiveFrame.FileSource.CreateCopyOutOperation(
                        TargetFileSource,
                        SourceFiles,
-                       sDestPath,
-                       sDstMaskTemp);
+                       sDestPath) as TFileSourceCopyOperation;
 
       if Assigned(Operation) then
       begin
+        Operation.RenameMask := sDstMaskTemp;
+
         // Start operation.
         OperationHandle := OperationsManager.AddOperation(Operation, ossAutoQueue);
 
