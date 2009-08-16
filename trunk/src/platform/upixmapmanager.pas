@@ -343,7 +343,7 @@ end;
 
 { TPixMapManager }
 
-function TPixMapManager.LoadBitmap(AIconFileNAme: String; out ABitmap: TBitmap): Boolean;
+function TPixMapManager.LoadBitmap(AIconFileNAme: String; out ABitmap: Graphics.TBitmap): Boolean;
 var
   pngBitmap: TPortableNetworkGraphic;
 begin
