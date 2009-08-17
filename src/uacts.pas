@@ -2247,69 +2247,98 @@ end;
 
 procedure TActs.cm_FileLinker(param:string);
 var
-  sl:TStringList;
-  i:Integer;
-begin
-{
-  with frmMain do
-  begin
-    with ActiveFrame do
-    begin
-      if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
-      sl:=TStringList.Create;
-      try
-        for i:=0 to pnlFile.FileList.Count-1 do
-          if pnlFile.GetFileItem(i).bSelected then
-            sl.Add(ActiveDir+pnlFile.GetFileItem(i).sName);
-        if sl.Count>1 then
-          ShowLinkerFilesForm(sl);
-      finally
-        FreeAndNil(sl);
-        FrameLeft.RefreshPanel;
-        FrameRight.RefreshPanel;
-        ActiveFrame.SetFocus;
-      end;
-    end;
-  end;
-}
-end;
-
-procedure TActs.cm_FileSpliter(param:string);
-var
-  sl:TStringList;
-  i:Integer;
+  sl: TStringList = nil;
+  I: Integer;
   Result: Boolean;
+  aSelectedFiles: TFiles = nil;
+  aFile: TFile;
 begin
-{
-  with frmMain do
+  with frmMain, frmMain.ActiveFrame do
   begin
-    with ActiveFrame do
+    // For now only works for FileSystem.
+    if FileSource is TFileSystemFileSource then
     begin
-      if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
-
-      sl:=TStringList.Create;
+      //if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+      sl:= TStringList.Create;
       try
-        for i:=0 to pnlFile.FileList.Count-1 do
-          if pnlFile.GetFileItem(i).bSelected then
-            sl.Add(ActiveDir+pnlFile.GetFileItem(i).sName);
-        if sl.Count>0 then
-          Result:= ShowSplitterFileForm(sl);
+        Result:= False;
+        aSelectedFiles := SelectedFiles;
+
+        for I := 0 to aSelectedFiles.Count - 1 do
+          begin
+            aFile := aSelectedFiles[I];
+            if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+              sl.Add(CurrentPath + aFile.Name);
+          end;
+
+        if sl.Count > 1 then
+          Result:= ShowLinkerFilesForm(sl);
       finally
-        FreeAndNil(sl);
+        FreeThenNil(sl);
+        FreeThenNil(aSelectedFiles);
         if Result then
           begin
-            frameLeft.RefreshPanel;
-            frameRight.RefreshPanel;
-          end
+            ActiveFrame.Reload;
+            NotActiveFrame.Reload;
+          end;
+        {
         else
           begin
             UnSelectFileIfSelected(GetActiveItem);
           end;
+        }
         ActiveFrame.SetFocus;
-      end;
-    end; // with
-  end;
-}
+      end; // try
+    end; // if
+  end; // with
+end;
+
+procedure TActs.cm_FileSpliter(param:string);
+var
+  sl: TStringList = nil;
+  I: Integer;
+  Result: Boolean;
+  aSelectedFiles: TFiles = nil;
+  aFile: TFile;
+begin
+  with frmMain, frmMain.ActiveFrame do
+  begin
+    // For now only works for FileSystem.
+    if FileSource is TFileSystemFileSource then
+    begin
+      //if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+      sl:= TStringList.Create;
+      try
+        Result:= False;
+        aSelectedFiles := SelectedFiles;
+
+        for I := 0 to aSelectedFiles.Count - 1 do
+          begin
+            aFile := aSelectedFiles[I];
+            if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+              sl.Add(CurrentPath + aFile.Name);
+          end;
+
+        if sl.Count > 0 then
+          Result:= ShowSplitterFileForm(sl);
+      finally
+        FreeThenNil(sl);
+        FreeThenNil(aSelectedFiles);
+        if Result then
+          begin
+            ActiveFrame.Reload;
+            NotActiveFrame.Reload;
+          end;
+         {
+         else
+          begin
+            UnSelectFileIfSelected(GetActiveItem);
+          end;
+        }
+        ActiveFrame.SetFocus;
+      end; // try
+    end; // if
+  end; // with
 end;
 
 procedure TActs.cm_PanelsSplitterPerPos(param: string);
