@@ -30,7 +30,8 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, uFileList, Buttons, ComCtrls;
+  Dialogs, StdCtrls, Buttons, ComCtrls, uOSUtils,
+  uFile, uFileProperty;
 
 type
 
@@ -101,46 +102,62 @@ type
     procedure btnSkipClick(Sender: TObject);
   private
     bPerm: Boolean;
-    iCurrent:Integer;
-    fFileList:TFileList;
+    iCurrent: Integer;
+    fFiles: TFiles;
+    FPropertyFormatter: IFilePropertyFormatter;
+    ChangeTriggersEnabled: Boolean;
 
-    procedure ShowAttr(iMode:Integer);
+    procedure ShowAttr(Mode: TFileAttrs);
     procedure ChangeMod;
     procedure ChangeOwner;
-    function GetModeFromForm:Integer;
-  public
-    szPath:String;
-
+    function GetModeFromForm: TFileAttrs;
     procedure ShowFile(iIndex:Integer);
-    procedure StoreData(FileList:TFileList);
-    function FindNextSelected:Boolean;
+    procedure AllowChange(Allow: Boolean);
+
+  public
+    constructor Create(AOwner: TComponent; theFiles: TFiles);
+    destructor Destroy; override;
   end;
 
 
-procedure ShowFileProperties(FileList:TFileList; const aPath:String);
+procedure ShowFileProperties(const Files: TFiles);
 
 implementation
 
 uses
-  LCLType, uLng, uFileOp, BaseUnix, uUsersGroups, uDCUtils;
+  LCLType, uLng, uFileOp, BaseUnix, uUsersGroups, uDCUtils,
+  uDefaultFilePropertyFormatter, uFileSystemFile;
 
-procedure ShowFileProperties(FileList:TFileList; const aPath:String);
+procedure ShowFileProperties(const Files: TFiles);
 begin
-  with TfrmFileProperties.Create(Application) do
-  try
-    szPath:=aPath;
-    StoreData(FileList);
-    if FindNextSelected then
-    begin
-      ShowFile(iCurrent);
+  if Files.Count > 0 then
+  begin
+    with TfrmFileProperties.Create(Application, Files) do
+    try
       ShowModal;
+    finally
+      Free;
     end;
-  finally
-    Free;
   end;
 end;
 
-function TfrmFileProperties.GetModeFromForm:Integer;
+constructor TfrmFileProperties.Create(AOwner: TComponent; theFiles: TFiles);
+begin
+  iCurrent := 0;
+  fFiles := theFiles;
+  FPropertyFormatter := MaxDetailsFilePropertyFormatter;
+  ChangeTriggersEnabled := True;
+
+  inherited Create(AOwner);
+end;
+
+destructor TfrmFileProperties.Destroy;
+begin
+  inherited Destroy;
+  FPropertyFormatter := nil; // free interface
+end;
+
+function TfrmFileProperties.GetModeFromForm: TFileAttrs;
 begin
   Result:=0;
   if cbReadOwner.Checked then Result:=(Result OR S_IRUSR);
@@ -160,13 +177,17 @@ end;
 
 procedure TfrmFileProperties.ChangeMod;
 begin
-  fpchmod(PChar(szPath + ffileList.GetItem(iCurrent)^.sName),GetModeFromForm);
+  if not fFiles[iCurrent].IsLink then
+    fpchmod(PChar(fFiles[iCurrent].FullPath), GetModeFromForm);
+  //show error
 end;
 
 procedure TfrmFileProperties.ChangeOwner;
 begin
-  fpchown(PChar(ffileList.GetItem(iCurrent)^.sName),StrToUID(cbxUsers.Text),
-               StrToGID(cbxGroups.Text));
+  fplchown(PChar(fFiles[iCurrent].FullPath),
+           StrToUID(cbxUsers.Text),
+           StrToGID(cbxGroups.Text));
+  //show error
 end;
 
 procedure TfrmFileProperties.btnCloseClick(Sender: TObject);
@@ -176,7 +197,12 @@ end;
 
 procedure TfrmFileProperties.cbChangeModeClick(Sender: TObject);
 begin
-  edtOctal.Text:= DecToOct(GetModeFromForm);
+  if ChangeTriggersEnabled then
+  begin
+    ChangeTriggersEnabled := False;
+    edtOctal.Text:= DecToOct(GetModeFromForm);
+    ChangeTriggersEnabled := True;
+  end;
 end;
 
 procedure TfrmFileProperties.edtOctalKeyPress(Sender: TObject; var Key: char);
@@ -188,7 +214,12 @@ end;
 procedure TfrmFileProperties.edtOctalKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  ShowAttr(OctToDec(edtOctal.Text));
+  if ChangeTriggersEnabled then
+  begin
+    ChangeTriggersEnabled := False;
+    ShowAttr(OctToDec(edtOctal.Text));
+    ChangeTriggersEnabled := True;
+  end;
 end;
 
 procedure TfrmFileProperties.btnAllClick(Sender: TObject);
@@ -198,136 +229,151 @@ begin
     if(bPerm) then
       ChangeOwner;
     inc (iCurrent);
-  until not FindNextSelected;
+  until (iCurrent = fFiles.Count);
   Close;
 end;
 
-procedure TfrmFileProperties.ShowAttr(iMode:Integer);
+procedure TfrmFileProperties.ShowAttr(Mode: TFileAttrs);
 begin
-  cbReadOwner.Checked:= ((iMode AND S_IRUSR) = S_IRUSR);
-  cbWriteOwner.Checked:= ((iMode AND S_IWUSR) = S_IWUSR);
-  cbExecOwner.Checked:= ((iMode AND S_IXUSR) = S_IXUSR);
+  cbReadOwner.Checked:= ((Mode AND S_IRUSR) = S_IRUSR);
+  cbWriteOwner.Checked:= ((Mode AND S_IWUSR) = S_IWUSR);
+  cbExecOwner.Checked:= ((Mode AND S_IXUSR) = S_IXUSR);
   
-  cbReadGroup.Checked:= ((iMode AND S_IRGRP) = S_IRGRP);
-  cbWriteGroup.Checked:= ((iMode AND S_IWGRP) = S_IWGRP);
-  cbExecGroup.Checked:= ((iMode AND S_IXGRP) = S_IXGRP);
+  cbReadGroup.Checked:= ((Mode AND S_IRGRP) = S_IRGRP);
+  cbWriteGroup.Checked:= ((Mode AND S_IWGRP) = S_IWGRP);
+  cbExecGroup.Checked:= ((Mode AND S_IXGRP) = S_IXGRP);
   
-  cbReadOther.Checked:= ((iMode AND S_IROTH) = S_IROTH);
-  cbWriteOther.Checked:= ((iMode AND S_IWOTH) = S_IWOTH);
-  cbExecOther.Checked:= ((iMode AND S_IXOTH) = S_IXOTH);
+  cbReadOther.Checked:= ((Mode AND S_IROTH) = S_IROTH);
+  cbWriteOther.Checked:= ((Mode AND S_IWOTH) = S_IWOTH);
+  cbExecOther.Checked:= ((Mode AND S_IXOTH) = S_IXOTH);
 
-  cbSuid.Checked:= ((iMode AND S_ISUID) = S_ISUID);
-  cbSgid.Checked:= ((iMode AND S_ISGID) = S_ISGID);
-  cbSticky.Checked:= ((iMode AND S_ISVTX) = S_ISVTX);
+  cbSuid.Checked:= ((Mode AND S_ISUID) = S_ISUID);
+  cbSgid.Checked:= ((Mode AND S_ISGID) = S_ISGID);
+  cbSticky.Checked:= ((Mode AND S_ISVTX) = S_ISVTX);
 end;
 
 procedure TfrmFileProperties.ShowFile(iIndex:Integer);
 var
   sb: BaseUnix.Stat;
-  dtFileDates:TDateTime;
+  dtFileDates: TDateTime;
   iMyUID: Cardinal;
+  Attrs: TFileAttrs;
+  isFileSystem: Boolean;
+  hasSize: Boolean;
 begin
-  try
-    with fFileList.GetItem(iIndex)^ do
+  isFileSystem := fFiles[iIndex] is TFileSystemFile;
+
+  with fFiles[iIndex] do
+  begin
+    lblFileName.Caption:= Name;
+    lblFileName1.Caption:= Name;
+    lblFolder.Caption:= Path;
+
+    // Size
+    hasSize := (fpSize in SupportedProperties) and (not IsDirectory);
+    lblSize.Visible := hasSize;
+    lblSizeStr.Visible := hasSize;
+    if hasSize then
+      lblSize.Caption := Properties[fpSize].Format(FPropertyFormatter);
+
+    // Times
+    if isFileSystem then
     begin
-      fpStat(PChar(szPath + sName), sb);
-
-      lblFileName.Caption:= sName;
-      lblFileName1.Caption:= sName;
-      lblFolder.Caption:= MinimizeFilePath(szPath, lblFolder.Canvas, lblFolder.Width);
-      if not FPS_ISDIR(iMode) then
-        lblSize.Caption:= IntToStr(iSize);
-      
+      fpLStat(PChar(FullPath), sb);
       dtFileDates := FileDateToDateTime(sb.st_atime);
-      lblLastAccess.Caption:=DateTimeToStr(dtFileDates);
-      dtFileDates := FileDateToDateTime(sb.st_mtime);
-      lblLastModif.Caption:=DateTimeToStr(dtFileDates);
+      lblLastAccess.Caption := DateTimeToStr(dtFileDates);
       dtFileDates := FileDateToDateTime(sb.st_ctime);
-      lblLastStChange.Caption:=DateTimeToStr(dtFileDates);
-      
-      if (bIsLink = True) then
-        lblSymlink.Caption:=Format(rsPropsYes, [sLinkTo])
-      else
-        lblSymlink.Caption:=rsPropsNo;
-        
-      // Chown
+      lblLastStChange.Caption := DateTimeToStr(dtFileDates);
+    end
+    else
+    begin
+      lblLastAccess.Caption:='';
+      lblLastStChange.Caption:='';
+    end;
 
-      begin
-        iMyUID:=fpGetUID; //get user's UID
-        bPerm:=(iMyUID=iOwner);
-        cbxUsers.Text:=sOwner;
-        if(imyUID=0) then GetUsers(cbxUsers.Items); //huh, a ROOT :))
-          cbxUsers.Enabled:=(imyUID=0);
-        cbxGroups.Text:=sGroup;
-        if(bPerm or (iMyUID=0)) then
-          GetUsrGroups(iMyUID,cbxGroups.Items);
-        cbxGroups.Enabled:=(bPerm or (iMyUID=0));
-      end;
+    // Modification time
+    lblLastModif.Visible := fpModificationTime in SupportedProperties;
+    lblLastModifStr.Visible := fpModificationTime in SupportedProperties;
+    if fpModificationTime in SupportedProperties then
+      lblLastModif.Caption := DateTimeToStr((Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value);
+                             //Properties[fpModificationTime].Format(FPropertyFormatter);
 
+    // Chown
+    if isFileSystem then
+    begin
+      iMyUID:=fpGetUID; //get user's UID
+      bPerm:=(iMyUID=sb.uid);
+      cbxUsers.Text:=UIDToStr(sb.uid);
+      if(imyUID=0) then
+        GetUsers(cbxUsers.Items); //huh, a ROOT :))
+      cbxUsers.Enabled:=(imyUID=0);
+      cbxGroups.Text:=GIDToStr(sb.gid);
+      if(bPerm or (iMyUID=0)) then
+        GetUsrGroups(iMyUID, cbxGroups.Items);
+      cbxGroups.Enabled:=(bPerm or (iMyUID=0));
+    end;
 
-      
-      ShowAttr(iMode);
+    // Attributes
+    if fpAttributes in SupportedProperties then
+    begin
+      Attrs := (Properties[fpAttributes] as TFileAttributesProperty).Value;
+      //if Attrs is TUnixFileAttributesProperty
+      //if Attrs is TNtfsFileAttributesProperty
+
+      ShowAttr(Attrs);
       edtOctal.Text:= DecToOct(GetModeFromForm);
-      lblAttrText.Caption:=sModeStr; // + 666 like
+      lblAttrText.Caption:=AttrToStr(Attrs);
 
-      if FPS_ISDIR(iMode) then
+      if FPS_ISDIR(Attrs) then
         lblType.Caption:=rsPropsFolder
-      else if FPS_ISREG(iMode) then
+      else if FPS_ISREG(Attrs) then
         lblType.Caption:=rsPropsFile
-      else if FPS_ISCHR(iMode) then
+      else if FPS_ISCHR(Attrs) then
         lblType.Caption:=rsPropsSpChrDev
-      else if FPS_ISBLK(iMode) then
+      else if FPS_ISBLK(Attrs) then
         lblType.Caption:=rsPropsSpBlkDev
-      else if FPS_ISFIFO(iMode) then
+      else if FPS_ISFIFO(Attrs) then
         lblType.Caption:=rsPropsNmdPipe
-      else if FPS_ISLNK(iMode) then
+      else if FPS_ISLNK(Attrs) then
         lblType.Caption:=rsPropsSymLink
-      else if FPS_ISSOCK(iMode) then
+      else if FPS_ISSOCK(Attrs) then
         lblType.Caption:=rsPropsSocket
       else
         lblType.Caption:=rsPropsUnknownType;
-    end;
-  finally
-  end;
-end;
 
-procedure TfrmFileProperties.StoreData(FileList:TFileList);
-var
-  i, nSelCount:Integer;
-begin
-  fFileList:=FileList;
-  iCurrent:=0;
-  nSelCount:=0;
-
-  for i:=iCurrent to fFileList.Count-1 do
-  begin
-    if fFileList.GetItem(i)^.bSelected then
-      inc(nSelCount);
-  end;
-end;
-
-function TfrmFileProperties.FindNextSelected:Boolean;
-var
-  i:Integer;
-begin
-  for i:=iCurrent to fFileList.Count-1 do
-  begin
-    if fFileList.GetItem(i)^.bSelected then
+      lblSymlink.Visible := FPS_ISLNK(Attrs);
+      lblSymlinkStr.Visible := FPS_ISLNK(Attrs);
+      if FPS_ISLNK(Attrs) and isFileSystem then
+      begin
+        //lblSymlink.Caption := sLinkTo; // maybe make property for this
+        lblSymlink.Caption := ReadSymLink(FullPath);
+      end
+      else
+      begin
+        lblSymlink.Visible := False;
+        lblSymlinkStr.Visible := False;
+      end;
+    end
+    else
     begin
-      iCurrent:=i;
-      Result:=True;
-      Exit;
+      edtOctal.Text:=rsMsgErrNotSupported;
+      lblAttrText.Caption:=rsMsgErrNotSupported;
+      lblType.Caption:=rsPropsUnknownType;
+      lblSymlink.Caption:='';
     end;
   end;
-  Result:=False;
-end;
 
+  // Only allow changes for file system file.
+  AllowChange(isFileSystem);
+end;
 
 procedure TfrmFileProperties.FormCreate(Sender: TObject);
 begin
-  inherited;
   lblFileNameStr.Font.Style:=[fsBold];
   lblFileName.Font.Style:=[fsBold];
+
+  AllowChange(False);
+  ShowFile(0);
 end;
 
 procedure TfrmFileProperties.btnOKClick(Sender: TObject);
@@ -341,10 +387,16 @@ end;
 procedure TfrmFileProperties.btnSkipClick(Sender: TObject);
 begin
   inc(iCurrent);
-  if not FindNextSelected Then
+  if iCurrent >= fFiles.Count Then
     Close
   else
     ShowFile(iCurrent);
+end;
+
+procedure TfrmFileProperties.AllowChange(Allow: Boolean);
+begin
+  btnAll.Enabled := Allow;
+  btnOK.Enabled := Allow;
 end;
 
 initialization

@@ -20,8 +20,19 @@ type
 
   end;
 
+  TMaxDetailsFilePropertyFormatter = class(TInterfacedObject, IFilePropertyFormatter)
+
+  public
+    function FormatFileSize(FileProperty: TFileSizeProperty): String;
+    function FormatDateTime(FileProperty: TFileDateTimeProperty): String;
+    function FormatModificationDateTime(FileProperty: TFileModificationDateTimeProperty): String;
+    function FormatAttributes(FileProperty: TFileAttributesProperty): String;
+
+  end;
+
 var
   DefaultFilePropertyFormatter: IFilePropertyFormatter = nil;
+  MaxDetailsFilePropertyFormatter: IFilePropertyFormatter = nil;
 
 implementation
 
@@ -107,13 +118,55 @@ begin
 {$ENDIF}
 end;
 
+// ----------------------------------------------------------------------------
+
+function TMaxDetailsFilePropertyFormatter.FormatFileSize(
+           FileProperty: TFileSizeProperty): String;
+var
+  d: Double;
+begin
+  d := FileProperty.Value;
+  Result := Format('%.0n', [d]);
+end;
+
+function TMaxDetailsFilePropertyFormatter.FormatDateTime(
+            FileProperty: TFileDateTimeProperty): String;
+var
+  Tv: TTimeVal;
+  Tz: TTimeZone;
+  Sign: String = '';
+begin
+  // Get time zone difference.
+  fpGetTimeOfDay(@Tv, @Tz);
+  Tz.tz_minuteswest := -Tz.tz_minuteswest; // make minutes east
+  if Tz.tz_minuteswest > 0 then
+    Sign := '+';
+
+  Result := SysUtils.FormatDateTime('ddd, dd mmmm yyyy hh:nn:ss', FileProperty.Value)
+          + ' UT' + Sign
+          + Format('%.2D%.2D', [Tz.tz_minuteswest div 60, Tz.tz_minuteswest mod 60]);
+end;
+
+function TMaxDetailsFilePropertyFormatter.FormatModificationDateTime(
+           FileProperty: TFileModificationDateTimeProperty): String;
+begin
+  Result := FormatDateTime(FileProperty);
+end;
+
+function TMaxDetailsFilePropertyFormatter.FormatAttributes(FileProperty: TFileAttributesProperty): String;
+begin
+  Result := DefaultFilePropertyFormatter.FormatAttributes(FileProperty);
+end;
+
 initialization
 
   DefaultFilePropertyFormatter := TDefaultFilePropertyFormatter.Create as IFilePropertyFormatter;
+  MaxDetailsFilePropertyFormatter := TMaxDetailsFilePropertyFormatter.Create as IFilePropertyFormatter;
 
 finalization
 
   DefaultFilePropertyFormatter := nil; // frees the interface
+  MaxDetailsFilePropertyFormatter := nil;
 
 end.
 

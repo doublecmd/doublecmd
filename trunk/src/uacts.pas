@@ -2228,36 +2228,21 @@ begin
 end;
 
 procedure TActs.cm_FileProperties(param:string);
+var
+  SelectedFiles: TFiles;
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_FileProperties', param);
-{
-  Command for file source.
-
   with frmMain do
   begin
-    with ActiveFrame do
-    begin
-      case pnlFile.PanelMode of
-        pmVFS:
-          msgWarning(rsMsgErrNotSupported);
-
-        pmArchive:
-          if IsActiveItemValid then
-            pnlFile.VFS.VFSmodule.VFSRun(GetActiveItem^.sName);
-
-        pmDirectory:
-          try
-            if SelectFileIfNoSelected(GetActiveItem) = True then
-              ShowFilePropertiesDialog(pnlFile.FileList, ActiveDir);
-          finally
-            frameLeft.RefreshPanel;
-            frameRight.RefreshPanel;
-            ActiveFrame.SetFocus;
-          end;
-      end;
+    SelectedFiles := ActiveFrame.SelectedFiles;
+    if Assigned(SelectedFiles) then
+    try
+      ShowFilePropertiesDialog(SelectedFiles);
+      if ActiveFrame.FileSource is TFileSystemFileSource then
+        ActiveFrame.Reload;
+    finally
+      FreeAndNil(SelectedFiles);
     end;
   end;
-}
 end;
 
 procedure TActs.cm_FileLinker(param:string);

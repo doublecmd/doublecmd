@@ -9,6 +9,7 @@ object frmFileProperties: TfrmFileProperties
   ClientWidth = 458
   Constraints.MinHeight = 432
   Constraints.MinWidth = 458
+  OnCreate = FormCreate
   Position = poScreenCenter
   LCLVersion = '0.9.27'
   object btnClose: TButton
@@ -36,14 +37,14 @@ object frmFileProperties: TfrmFileProperties
     TabOrder = 1
     object tsProperties: TTabSheet
       Caption = 'Properties'
-      ClientHeight = 232
+      ClientHeight = 230
       ClientWidth = 436
       object lblFileNameStr: TLabel
         AnchorSideTop.Control = tsProperties
         Left = 16
-        Height = 18
+        Height = 20
         Top = 12
-        Width = 46
+        Width = 44
         BorderSpacing.Top = 12
         Caption = 'Name:'
         Font.Color = clBlack
@@ -53,9 +54,9 @@ object frmFileProperties: TfrmFileProperties
       object lblFileName: TLabel
         AnchorSideTop.Control = tsProperties
         Left = 194
-        Height = 18
+        Height = 20
         Top = 12
-        Width = 22
+        Width = 25
         BorderSpacing.Top = 12
         Caption = '???'
         ParentColor = False
@@ -65,8 +66,8 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblFileNameStr
         AnchorSideTop.Side = asrBottom
         Left = 16
-        Height = 18
-        Top = 36
+        Height = 20
+        Top = 38
         Width = 37
         BorderSpacing.Top = 6
         Caption = 'Path:'
@@ -79,7 +80,7 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideRight.Side = asrBottom
         Left = 194
         Height = 19
-        Top = 36
+        Top = 38
         Width = 230
         Anchors = [akTop, akLeft, akRight]
         AutoSize = False
@@ -93,9 +94,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblFolderStr
         AnchorSideTop.Side = asrBottom
         Left = 16
-        Height = 18
-        Top = 60
-        Width = 37
+        Height = 20
+        Top = 64
+        Width = 38
         BorderSpacing.Top = 6
         Caption = 'Type:'
         ParentColor = False
@@ -104,9 +105,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblFolder
         AnchorSideTop.Side = asrBottom
         Left = 194
-        Height = 18
-        Top = 61
-        Width = 22
+        Height = 20
+        Top = 63
+        Width = 25
         BorderSpacing.Top = 6
         Caption = '???'
         ParentColor = False
@@ -116,20 +117,20 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblTypeStr
         AnchorSideTop.Side = asrBottom
         Left = 16
-        Height = 18
-        Top = 84
-        Width = 56
+        Height = 20
+        Top = 90
+        Width = 74
         BorderSpacing.Top = 6
-        Caption = 'Symlink:'
+        Caption = 'Symlink to:'
         ParentColor = False
       end
       object lblSymlink: TLabel
         AnchorSideTop.Control = lblType
         AnchorSideTop.Side = asrBottom
         Left = 194
-        Height = 18
-        Top = 85
-        Width = 22
+        Height = 20
+        Top = 89
+        Width = 25
         BorderSpacing.Top = 6
         Caption = '???'
         ParentColor = False
@@ -139,8 +140,8 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblSymlinkStr
         AnchorSideTop.Side = asrBottom
         Left = 16
-        Height = 18
-        Top = 108
+        Height = 20
+        Top = 116
         Width = 34
         BorderSpacing.Top = 6
         Caption = 'Size:'
@@ -150,9 +151,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblSymlink
         AnchorSideTop.Side = asrBottom
         Left = 194
-        Height = 18
-        Top = 109
-        Width = 22
+        Height = 20
+        Top = 115
+        Width = 25
         BorderSpacing.Top = 6
         Caption = '???'
         ParentColor = False
@@ -162,9 +163,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblSizeStr
         AnchorSideTop.Side = asrBottom
         Left = 16
-        Height = 18
-        Top = 138
-        Width = 87
+        Height = 20
+        Top = 148
+        Width = 84
         BorderSpacing.Top = 12
         Caption = 'Last access:'
         ParentColor = False
@@ -173,9 +174,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblSize
         AnchorSideTop.Side = asrBottom
         Left = 238
-        Height = 18
-        Top = 139
-        Width = 22
+        Height = 20
+        Top = 147
+        Width = 25
         BorderSpacing.Top = 12
         Caption = '???'
         ParentColor = False
@@ -185,8 +186,8 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblLastAccessStr
         AnchorSideTop.Side = asrBottom
         Left = 16
-        Height = 18
-        Top = 162
+        Height = 20
+        Top = 174
         Width = 122
         BorderSpacing.Top = 6
         Caption = 'Last modification:'
@@ -196,9 +197,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblLastAccess
         AnchorSideTop.Side = asrBottom
         Left = 238
-        Height = 18
-        Top = 163
-        Width = 22
+        Height = 20
+        Top = 173
+        Width = 25
         BorderSpacing.Top = 6
         Caption = '???'
         ParentColor = False
@@ -208,9 +209,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblLastModifStr
         AnchorSideTop.Side = asrBottom
         Left = 16
-        Height = 18
-        Top = 186
-        Width = 137
+        Height = 20
+        Top = 200
+        Width = 133
         BorderSpacing.Top = 6
         Caption = 'Last status change:'
         ParentColor = False
@@ -219,9 +220,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblLastModif
         AnchorSideTop.Side = asrBottom
         Left = 238
-        Height = 18
-        Top = 187
-        Width = 22
+        Height = 20
+        Top = 199
+        Width = 25
         BorderSpacing.Top = 6
         Caption = '???'
         ParentColor = False
@@ -230,14 +231,14 @@ object frmFileProperties: TfrmFileProperties
     end
     object tsAttributes: TTabSheet
       Caption = 'Attributes'
-      ClientHeight = 232
+      ClientHeight = 230
       ClientWidth = 436
       object lblFile: TLabel
         AnchorSideTop.Control = tsAttributes
         Left = 8
-        Height = 18
+        Height = 20
         Top = 12
-        Width = 65
+        Width = 64
         BorderSpacing.Top = 12
         Caption = 'File name'
         ParentColor = False
@@ -245,9 +246,9 @@ object frmFileProperties: TfrmFileProperties
       object lblFileName1: TLabel
         AnchorSideTop.Control = tsAttributes
         Left = 104
-        Height = 18
+        Height = 20
         Top = 12
-        Width = 65
+        Width = 64
         BorderSpacing.Top = 12
         Caption = 'File name'
         Font.Color = clBlack
@@ -258,8 +259,8 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = cbReadOwner
         AnchorSideTop.Side = asrCenter
         Left = 8
-        Height = 18
-        Top = 64
+        Height = 20
+        Top = 67
         Width = 45
         Caption = 'Owner'
         ParentColor = False
@@ -268,8 +269,8 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblFileName1
         AnchorSideTop.Side = asrBottom
         Left = 176
-        Height = 18
-        Top = 38
+        Height = 20
+        Top = 40
         Width = 37
         BorderSpacing.Top = 8
         Caption = 'Write'
@@ -279,9 +280,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblFileName1
         AnchorSideTop.Side = asrBottom
         Left = 104
-        Height = 18
-        Top = 38
-        Width = 35
+        Height = 20
+        Top = 40
+        Width = 36
         BorderSpacing.Top = 8
         Caption = 'Read'
         ParentColor = False
@@ -290,9 +291,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblFileName1
         AnchorSideTop.Side = asrBottom
         Left = 240
-        Height = 18
-        Top = 38
-        Width = 59
+        Height = 20
+        Top = 40
+        Width = 55
         BorderSpacing.Top = 8
         Caption = 'Execute'
         ParentColor = False
@@ -301,9 +302,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = cbReadGroup
         AnchorSideTop.Side = asrCenter
         Left = 8
-        Height = 18
-        Top = 92
-        Width = 40
+        Height = 20
+        Top = 96
+        Width = 43
         Caption = 'Group'
         ParentColor = False
       end
@@ -311,9 +312,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = cbReadOther
         AnchorSideTop.Side = asrCenter
         Left = 8
-        Height = 18
-        Top = 120
-        Width = 41
+        Height = 20
+        Top = 125
+        Width = 40
         Caption = 'Other'
         ParentColor = False
       end
@@ -322,9 +323,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = edtOctal
         AnchorSideTop.Side = asrBottom
         Left = 8
-        Height = 18
-        Top = 203
-        Width = 161
+        Height = 20
+        Top = 215
+        Width = 153
         BorderSpacing.Left = 8
         BorderSpacing.Top = 6
         Caption = 'Representation in text:'
@@ -334,8 +335,8 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblAttrTextStr
         AnchorSideTop.Side = asrCenter
         Left = 160
-        Height = 18
-        Top = 203
+        Height = 20
+        Top = 215
         Width = 67
         Caption = '-----------'
         Font.Color = clBlack
@@ -346,9 +347,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = cbSuid
         AnchorSideTop.Side = asrCenter
         Left = 8
-        Height = 18
-        Top = 148
-        Width = 33
+        Height = 20
+        Top = 154
+        Width = 31
         Caption = 'Bits:'
         ParentColor = False
       end
@@ -357,9 +358,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = edtOctal
         AnchorSideTop.Side = asrCenter
         Left = 8
-        Height = 18
-        Top = 176
-        Width = 43
+        Height = 20
+        Top = 185
+        Width = 42
         BorderSpacing.Left = 8
         Caption = 'Octal:'
         ParentColor = False
@@ -368,10 +369,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblRead
         AnchorSideTop.Side = asrBottom
         Left = 112
-        Height = 22
-        Top = 62
-        Width = 24
-        AllowGrayed = True
+        Height = 23
+        Top = 66
+        Width = 20
         BorderSpacing.Top = 6
         OnClick = cbChangeModeClick
         TabOrder = 0
@@ -380,10 +380,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblWrite
         AnchorSideTop.Side = asrBottom
         Left = 184
-        Height = 22
-        Top = 62
-        Width = 24
-        AllowGrayed = True
+        Height = 23
+        Top = 66
+        Width = 20
         BorderSpacing.Top = 6
         OnClick = cbChangeModeClick
         TabOrder = 1
@@ -392,10 +391,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = lblExec
         AnchorSideTop.Side = asrBottom
         Left = 256
-        Height = 22
-        Top = 62
-        Width = 24
-        AllowGrayed = True
+        Height = 23
+        Top = 66
+        Width = 20
         BorderSpacing.Top = 6
         OnClick = cbChangeModeClick
         TabOrder = 2
@@ -404,10 +402,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = cbReadOwner
         AnchorSideTop.Side = asrBottom
         Left = 112
-        Height = 22
-        Top = 90
-        Width = 24
-        AllowGrayed = True
+        Height = 23
+        Top = 95
+        Width = 20
         BorderSpacing.Top = 6
         OnClick = cbChangeModeClick
         TabOrder = 3
@@ -416,10 +413,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = cbWriteOwner
         AnchorSideTop.Side = asrBottom
         Left = 184
-        Height = 22
-        Top = 90
-        Width = 24
-        AllowGrayed = True
+        Height = 23
+        Top = 95
+        Width = 20
         BorderSpacing.Top = 6
         OnClick = cbChangeModeClick
         TabOrder = 4
@@ -428,10 +424,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = cbExecOwner
         AnchorSideTop.Side = asrBottom
         Left = 256
-        Height = 22
-        Top = 90
-        Width = 24
-        AllowGrayed = True
+        Height = 23
+        Top = 95
+        Width = 20
         BorderSpacing.Top = 6
         OnClick = cbChangeModeClick
         TabOrder = 5
@@ -440,10 +435,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = cbReadGroup
         AnchorSideTop.Side = asrBottom
         Left = 112
-        Height = 22
-        Top = 118
-        Width = 24
-        AllowGrayed = True
+        Height = 23
+        Top = 124
+        Width = 20
         BorderSpacing.Top = 6
         OnClick = cbChangeModeClick
         TabOrder = 6
@@ -452,10 +446,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = cbWriteGroup
         AnchorSideTop.Side = asrBottom
         Left = 184
-        Height = 22
-        Top = 118
-        Width = 24
-        AllowGrayed = True
+        Height = 23
+        Top = 124
+        Width = 20
         BorderSpacing.Top = 6
         OnClick = cbChangeModeClick
         TabOrder = 7
@@ -464,10 +457,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = cbReadGroup
         AnchorSideTop.Side = asrBottom
         Left = 256
-        Height = 22
-        Top = 118
-        Width = 24
-        AllowGrayed = True
+        Height = 23
+        Top = 124
+        Width = 20
         BorderSpacing.Top = 6
         OnClick = cbChangeModeClick
         TabOrder = 8
@@ -476,10 +468,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = cbReadOther
         AnchorSideTop.Side = asrBottom
         Left = 112
-        Height = 22
-        Top = 146
-        Width = 56
-        AllowGrayed = True
+        Height = 23
+        Top = 153
+        Width = 55
         BorderSpacing.Top = 6
         Caption = 'SUID'
         OnClick = cbChangeModeClick
@@ -489,10 +480,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = cbWriteOther
         AnchorSideTop.Side = asrBottom
         Left = 184
-        Height = 22
-        Top = 146
-        Width = 57
-        AllowGrayed = True
+        Height = 23
+        Top = 153
+        Width = 56
         BorderSpacing.Top = 6
         Caption = 'SGID'
         OnClick = cbChangeModeClick
@@ -502,10 +492,9 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = cbExecOther
         AnchorSideTop.Side = asrBottom
         Left = 256
-        Height = 22
-        Top = 146
-        Width = 65
-        AllowGrayed = True
+        Height = 23
+        Top = 153
+        Width = 61
         BorderSpacing.Top = 6
         Caption = 'Sticky'
         OnClick = cbChangeModeClick
@@ -515,8 +504,8 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideTop.Control = cbSuid
         AnchorSideTop.Side = asrBottom
         Left = 115
-        Height = 23
-        Top = 174
+        Height = 27
+        Top = 182
         Width = 80
         BorderSpacing.Top = 6
         MaxLength = 4
@@ -574,7 +563,7 @@ object frmFileProperties: TfrmFileProperties
     Width = 440
     Anchors = [akTop, akLeft, akRight]
     Caption = 'Owner'
-    ClientHeight = 86
+    ClientHeight = 84
     ClientWidth = 436
     TabOrder = 5
     object lblOwnerStr: TLabel
@@ -582,8 +571,8 @@ object frmFileProperties: TfrmFileProperties
       AnchorSideTop.Control = cbxUsers
       AnchorSideTop.Side = asrCenter
       Left = 24
-      Height = 18
-      Top = 17
+      Height = 20
+      Top = 16
       Width = 45
       BorderSpacing.Left = 24
       Caption = 'Owner'
@@ -594,9 +583,9 @@ object frmFileProperties: TfrmFileProperties
       AnchorSideTop.Control = cbxGroups
       AnchorSideTop.Side = asrCenter
       Left = 24
-      Height = 18
-      Top = 50
-      Width = 40
+      Height = 20
+      Top = 49
+      Width = 43
       BorderSpacing.Left = 24
       Caption = 'Group'
       ParentColor = False
@@ -608,10 +597,8 @@ object frmFileProperties: TfrmFileProperties
       Top = 12
       Width = 227
       Anchors = [akTop, akLeft, akRight]
-      AutoComplete = False
       BorderSpacing.Top = 12
       ItemHeight = 0
-      ItemWidth = 0
       Sorted = True
       TabOrder = 0
     end
@@ -623,10 +610,8 @@ object frmFileProperties: TfrmFileProperties
       Top = 45
       Width = 227
       Anchors = [akTop, akLeft, akRight]
-      AutoComplete = False
       BorderSpacing.Top = 4
       ItemHeight = 0
-      ItemWidth = 0
       Sorted = True
       TabOrder = 1
     end
