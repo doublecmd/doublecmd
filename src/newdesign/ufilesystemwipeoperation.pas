@@ -359,7 +359,7 @@ var
 begin
   sPath:= ExtractFilePath(filename);
   { Use FindFirst so we can specify wild cards in the filename }
-  Found:= FindFirstEx(filename,faReadOnly or faSysFile or faArchive or faSysFile,SRec);
+  Found:= FindFirstEx(filename,faReadOnly or faSysFile or faArchive or faHidden, SRec);
   if Found <> 0 then
     begin
       DebugLn('wp: file not found: ', filename);
