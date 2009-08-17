@@ -257,6 +257,10 @@ function mbSetEnvironmentVariable(const sName, sValue: UTF8String): Boolean;
 function mbLoadLibrary(Name: UTF8String): TLibHandle;
 function mbSysErrorMessage(ErrorCode: Integer): UTF8String;
 
+{$IF DEFINED(UNIX)}
+function fpLChown(path : pChar; owner : TUid; group : TGid): cInt;
+{$ENDIF}
+
 {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
 // create all Hal object
 procedure CreateHal;

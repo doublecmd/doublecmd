@@ -59,10 +59,9 @@ type
 procedure SetMyWndProc(Handle : THandle);
 {en
    Show file/folder properties dialog
-   @param(FileList List of files)
-   @param(aPath Current file path)
-}  
-procedure ShowFilePropertiesDialog(const Files: TFiles; const aPath:String);
+   @param(Files List of files to show properties for)
+}
+procedure ShowFilePropertiesDialog(const Files: TFiles);
 {en
    Show file/folder context menu
    @param(Owner Parent window)
@@ -727,12 +726,10 @@ end;
 {$ENDIF}
 
 (* Show file properties dialog *)
-procedure ShowFilePropertiesDialog(const Files: TFiles; const aPath:String);
+procedure ShowFilePropertiesDialog(const Files: TFiles);
 {$IFDEF UNIX}
 begin
-  { TODO: Fix Show File Properties under Linux
-  ShowFileProperties(FileList, aPath);
-  }
+  ShowFileProperties(Files);
 end;
 {$ELSE}
 var
