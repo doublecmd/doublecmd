@@ -42,9 +42,8 @@ type
   private
     { Private declarations }
   public
-    sDirectory: String;
-    procedure LoadLng;
     { Public declarations }
+    sDirectory: String;    
   end;
 
 function ShowLinkerFilesForm(const lsFiles:TStringList):Boolean;
@@ -54,19 +53,10 @@ implementation
 uses
   LCLProc, uLng, uFileProcs, uClassesEx;
 
-//var gDirectory:string;
-
-procedure TfrmLinker.LoadLng;
-begin
-  //Caption:= StringReplace(lngGetString(clngMnuFileCombine),'&','',[rfReplaceAll]);
-  //dlgSaveAll.Title:=lngGetString(clngLinkDialogSave);
-end;
-
 function ShowLinkerFilesForm(const lsFiles:TStringList):Boolean;
 var
   c:Integer;
 begin
-
   With TfrmLinker.Create(Application) do
   begin
     try
@@ -76,7 +66,6 @@ begin
         DebugLn(ExtractFileName(lsFiles[c]));
         Add(ExtractFileName(lsFiles[c]));
       end;
-      LoadLng;
       prbrWork.Max:=lsFiles.Count;
       prbrWork.Position:=0;
       prbrWork.Min:=0;

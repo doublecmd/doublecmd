@@ -45,7 +45,7 @@ type
 
   end;
 
-  function ShowSplitterFileForm(const sFile:TStringList):boolean;
+  function ShowSplitterFileForm(const sFile: TStringList; const sTargetDir: String): Boolean;
 
 
 implementation
@@ -53,12 +53,13 @@ implementation
 uses
   uLng, uClassesEx, uOSUtils;
 
-function ShowSplitterFileForm(const sFile:TStringList):boolean;
+function ShowSplitterFileForm(const sFile: TStringList; const sTargetDir: String): Boolean;
 begin
   with TfrmSplitter.Create(Application) do
   begin
     try
-      edFileSource.Text:=sFile[0];
+      edFileSource.Text:= sFile[0];
+      edDirTarget.Text:= ExtractFileDir(sTargetDir);
       Result:= (ShowModal = mrOK);
     finally
       Free;
@@ -70,11 +71,11 @@ procedure TfrmSplitter.btnFTChoiceClick(Sender: TObject);
 var
   sDir: string;
 begin
-  if SelectDirectory(rsSplitSelDir,'',sDir) then
+  if SelectDirectory(rsSplitSelDir, '', sDir) then
   // Select directory:
   // must change on linux!!!
   begin
-    edDirTarget.Text:=sDir;
+    edDirTarget.Text:= sDir;
   end;
 end;
 
