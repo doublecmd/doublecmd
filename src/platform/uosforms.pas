@@ -33,7 +33,7 @@ uses
   BaseUnix, Unix, fFileProperties;
   {$ELSE}
   FileUtil, Windows, ShlObj, ActiveX, uShlObjAdditional,
-  uMyWindows, JwaShlGuid, JwaDbt, JwaWinUser;
+  JwaShlGuid, JwaDbt, uMyWindows;
   {$ENDIF}
 const
   sCmdVerbOpen = 'open';

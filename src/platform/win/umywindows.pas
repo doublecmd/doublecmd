@@ -29,6 +29,31 @@ interface
 uses
   Classes, SysUtils, Windows;
 
+type
+  tagMENUITEMINFOW = record
+    cbSize: UINT;
+    fMask: UINT;
+    fType: UINT;            // used if MIIM_TYPE (4.0) or MIIM_FTYPE (>4.0)
+    fState: UINT;           // used if MIIM_STATE
+    wID: UINT;              // used if MIIM_ID
+    hSubMenu: HMENU;        // used if MIIM_SUBMENU
+    hbmpChecked: HBITMAP;   // used if MIIM_CHECKMARKS
+    hbmpUnchecked: HBITMAP; // used if MIIM_CHECKMARKS
+    dwItemData: ULONG_PTR;  // used if MIIM_DATA
+    dwTypeData: LPWSTR;     // used if MIIM_TYPE (4.0) or MIIM_STRING (>4.0)
+    cch: UINT;              // used if MIIM_TYPE (4.0) or MIIM_STRING (>4.0)
+    hbmpItem: HBITMAP;      // used if MIIM_BITMAP
+  end;
+
+  MENUITEMINFOW = tagMENUITEMINFOW;
+  LPMENUITEMINFOW = ^MENUITEMINFOW;
+  LPCMENUITEMINFOW = ^MENUITEMINFOW;
+  TMenuItemInfoW = MENUITEMINFOW;
+  PMenuItemInfoW = LPMENUITEMINFOW;
+
+function InsertMenuItemW(hMenu: HMENU; uItem: UINT; fByPosition: BOOL;
+                         const lpmii: MENUITEMINFOW): BOOL; stdcall; external 'user32' name 'InsertMenuItemW';
+
 {en
    Checks readiness of a drive
    @param(sDrv  String specifying the root directory of a file system volume)
