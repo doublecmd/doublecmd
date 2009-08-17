@@ -254,6 +254,7 @@ begin
 
   try
     List := malloc.Alloc(SizeOf(PItemIDList)*Files.Count);
+    {$R-}
     for I := 0 to Files.Count - 1 do
       begin
       //**********   if s <> sPath then
