@@ -2320,7 +2320,7 @@ begin
           end;
 
         if sl.Count > 0 then
-          Result:= ShowSplitterFileForm(sl);
+          Result:= ShowSplitterFileForm(sl, NotActiveFrame.CurrentPath);
       finally
         FreeThenNil(sl);
         FreeThenNil(aSelectedFiles);
