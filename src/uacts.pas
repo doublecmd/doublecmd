@@ -57,6 +57,8 @@ const cf_Null=0;
 
    procedure OnCalcStatisticsStateChanged(Operation: TFileSourceOperation;
                                           Event: TFileSourceOperationEvent);
+   procedure OnCalcChecksumStateChanged(Operation: TFileSourceOperation;
+                                        Event: TFileSourceOperationEvent);
 
   public
    FActionsState: TStringHashList;
@@ -242,7 +244,7 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
      fFileOpDlg,forms,uVFSutil,uShowForm,uDCUtils,uLog,uVFSTypes,
      fMkDir,LCLProc,uFileProcs,uDeleteThread,fFileAssoc,fExtractDlg,fAbout,
      fOptions,fCompareFiles,fFindDlg,fSymLink,fHardLink,fMultiRename, uHash,
-     uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit,
+     uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit, fCheckSumVerify,
      HelpIntfs, dmHelpManager, uShellExecute, uClipboard, uCheckSumThread, fCheckSumCalc,
      uFileSorting, uFilePanelSelect, uFile, uFileSystemFileSource,
      uFileSystemCopyOperation, uOperationsManager, uFileSourceOperationTypes,
@@ -543,6 +545,19 @@ begin
     begin
       msgOK(Format(rsSpaceMsg, [Files, Directories, cnvFormatFileSize(Size), Numb2USA(IntToStr(Size))]));
     end;
+  end;
+end;
+
+procedure TActs.OnCalcChecksumStateChanged(Operation: TFileSourceOperation;
+                                           Event: TFileSourceOperationEvent);
+var
+  CalcChecksumOperation: TFileSourceCalcChecksumOperation;
+begin
+  if (Operation.State = fsosStopped) and (Operation.Result = fsorFinished) then
+  begin
+    CalcChecksumOperation := Operation as TFileSourceCalcChecksumOperation;
+    if CalcChecksumOperation.Mode = checksum_verify then
+      ShowVerifyCheckSum(CalcChecksumOperation.Result);
   end;
 end;
 
@@ -1548,6 +1563,7 @@ begin
 
       if Assigned(Operation) then
       begin
+        Operation.AddEventsListener([fsoevStateChanged], @OnCalcChecksumStateChanged);
         Operation.Mode := checksum_verify;
 
         // Start operation.
