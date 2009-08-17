@@ -216,6 +216,7 @@ function InsertMenuItemEx(hMenu, SubMenu: HMENU; Caption: PWChar;
 var
   mi: TMenuItemInfoW;
 begin
+   FillChar(mi, SizeOf(mi), 0);
    with mi do
    begin
       cbSize := SizeOf(mi);
