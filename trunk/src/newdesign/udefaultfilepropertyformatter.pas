@@ -131,6 +131,7 @@ end;
 
 function TMaxDetailsFilePropertyFormatter.FormatDateTime(
             FileProperty: TFileDateTimeProperty): String;
+{$IFDEF UNIX}
 var
   Tv: TTimeVal;
   Tz: TTimeZone;
@@ -146,6 +147,12 @@ begin
           + ' UT' + Sign
           + Format('%.2D%.2D', [Tz.tz_minuteswest div 60, Tz.tz_minuteswest mod 60]);
 end;
+{$ELSE}
+begin
+  // TODO: More info about date/time under Windows
+  Result := SysUtils.FormatDateTime(gDateTimeFormat, FileProperty.Value);
+end;
+{$ENDIF}
 
 function TMaxDetailsFilePropertyFormatter.FormatModificationDateTime(
            FileProperty: TFileModificationDateTimeProperty): String;
