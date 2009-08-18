@@ -131,28 +131,41 @@ end;
 
 function TMaxDetailsFilePropertyFormatter.FormatDateTime(
             FileProperty: TFileDateTimeProperty): String;
-{$IFDEF UNIX}
 var
+  Bias: LongInt = 0;
+  Sign: String = '';
+{$IFDEF UNIX}
   Tv: TTimeVal;
   Tz: TTimeZone;
-  Sign: String = '';
 begin
   // Get time zone difference.
   fpGetTimeOfDay(@Tv, @Tz);
-  Tz.tz_minuteswest := -Tz.tz_minuteswest; // make minutes east
-  if Tz.tz_minuteswest > 0 then
+  Bias := -Tz.tz_minuteswest; // make minutes east
+{$ELSE}
+  TimeZone: TTIMEZONEINFORMATION;
+begin
+  case GetTimeZoneInformation(TimeZone) of
+    TIME_ZONE_ID_INVALID:
+      begin
+        Result := DefaultFilePropertyFormatter.FormatDateTime(FileProperty);
+        Exit;
+      end;
+
+    TIME_ZONE_ID_UNKNOWN, TIME_ZONE_ID_STANDARD:
+      Bias := -(TimeZone.Bias + TimeZone.StandardBias);
+
+    TIME_ZONE_ID_DAYLIGHT:
+      Bias := -(TimeZone.Bias + TimeZone.DaylightBias);
+  end;
+{$ENDIF}
+
+  if Bias >= 0 then
     Sign := '+';
 
   Result := SysUtils.FormatDateTime('ddd, dd mmmm yyyy hh:nn:ss', FileProperty.Value)
           + ' UT' + Sign
-          + Format('%.2D%.2D', [Tz.tz_minuteswest div 60, Tz.tz_minuteswest mod 60]);
+          + Format('%.2D%.2D', [Bias div 60, Bias mod 60]);
 end;
-{$ELSE}
-begin
-  // TODO: More info about date/time under Windows
-  Result := SysUtils.FormatDateTime(gDateTimeFormat, FileProperty.Value);
-end;
-{$ENDIF}
 
 function TMaxDetailsFilePropertyFormatter.FormatModificationDateTime(
            FileProperty: TFileModificationDateTimeProperty): String;
