@@ -8,6 +8,7 @@ uses
   {$IFDEF UNIX}
   cthreads,
   //cwstring,
+  clocale,
   {$ENDIF}
   Interfaces,
   InterfaceBase,
