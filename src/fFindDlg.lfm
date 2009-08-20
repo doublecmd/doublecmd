@@ -79,7 +79,7 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideTop.Side = asrCenter
           Left = 8
           Height = 14
-          Top = 102
+          Top = 104
           Width = 108
           BorderSpacing.Left = 8
           Caption = 'Search su&bdirectories:'
@@ -94,9 +94,7 @@ object frmFindDlg: TfrmFindDlg
           Top = 25
           Width = 645
           Anchors = [akTop, akLeft, akRight]
-          AutoComplete = False
           ItemHeight = 13
-          ItemWidth = 0
           TabOrder = 0
           Text = '*'
         end
@@ -107,7 +105,7 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideRight.Side = asrBottom
           Left = 8
           Height = 146
-          Top = 149
+          Top = 151
           Width = 645
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
@@ -121,7 +119,7 @@ object frmFindDlg: TfrmFindDlg
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = cbEncoding
             AnchorSideTop.Side = asrCenter
-            Left = 291
+            Left = 299
             Height = 14
             Top = 94
             Width = 48
@@ -137,84 +135,81 @@ object frmFindDlg: TfrmFindDlg
             Left = 6
             Height = 17
             Top = 93
-            Width = 86
+            Width = 89
             BorderSpacing.Left = 6
             Caption = 'Case sens&itive'
-            TabOrder = 3
-          end
-          object edtFindText: TEdit
-            AnchorSideLeft.Control = gbFindData
-            AnchorSideRight.Control = gbFindData
-            AnchorSideRight.Side = asrBottom
-            Left = 6
-            Height = 24
-            Top = 9
-            Width = 629
-            Anchors = [akTop, akLeft, akRight]
-            BorderSpacing.Left = 6
-            BorderSpacing.Right = 6
-            TabOrder = 0
+            TabOrder = 1
           end
           object cbNoThisText: TCheckBox
             AnchorSideLeft.Control = cbCaseSens
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = cbEncoding
             AnchorSideTop.Side = asrCenter
-            Left = 104
+            Left = 107
             Height = 17
             Top = 93
-            Width = 175
+            Width = 180
             BorderSpacing.Left = 12
             Caption = 'Find files N&OT containing the text'
-            TabOrder = 4
+            TabOrder = 2
           end
           object cbReplaceText: TCheckBox
             AnchorSideLeft.Control = gbFindData
-            AnchorSideTop.Control = edtFindText
             AnchorSideTop.Side = asrBottom
             Left = 6
             Height = 17
             Top = 39
-            Width = 78
+            Width = 81
             BorderSpacing.Left = 6
             BorderSpacing.Top = 6
             Caption = 'Re&place text'
             OnChange = cbReplaceTextChange
-            TabOrder = 1
+            TabOrder = 0
           end
-          object edtReplaceText: TEdit
+          object cbEncoding: TComboBox
+            AnchorSideLeft.Control = lblEncoding
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Side = asrBottom
+            Left = 353
+            Height = 21
+            Top = 91
+            Width = 100
+            BorderSpacing.Left = 6
+            BorderSpacing.Top = 6
+            ItemHeight = 13
+            OnSelect = cbEncodingSelect
+            Style = csDropDownList
+            TabOrder = 3
+          end
+          object cmbFindText: TComboBox
+            AnchorSideLeft.Control = gbFindData
+            AnchorSideRight.Control = gbFindData
+            AnchorSideRight.Side = asrBottom
+            Left = 6
+            Height = 21
+            Top = 9
+            Width = 629
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Left = 6
+            BorderSpacing.Right = 6
+            ItemHeight = 13
+            TabOrder = 4
+          end
+          object cmbReplaceText: TComboBox
             AnchorSideLeft.Control = gbFindData
             AnchorSideTop.Control = cbReplaceText
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = gbFindData
             AnchorSideRight.Side = asrBottom
             Left = 6
-            Height = 23
+            Height = 21
             Top = 62
             Width = 629
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Left = 6
             BorderSpacing.Top = 6
             BorderSpacing.Right = 6
-            Enabled = False
-            TabOrder = 2
-          end
-          object cbEncoding: TComboBox
-            AnchorSideLeft.Control = lblEncoding
-            AnchorSideLeft.Side = asrBottom
-            AnchorSideTop.Control = edtReplaceText
-            AnchorSideTop.Side = asrBottom
-            Left = 345
-            Height = 21
-            Top = 91
-            Width = 100
-            AutoComplete = False
-            BorderSpacing.Left = 6
-            BorderSpacing.Top = 6
             ItemHeight = 13
-            ItemWidth = 0
-            OnSelect = cbEncodingSelect
-            Style = csDropDownList
             TabOrder = 5
           end
         end
@@ -223,8 +218,8 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideTop.Side = asrBottom
           Left = 12
           Height = 17
-          Top = 126
-          Width = 85
+          Top = 128
+          Width = 91
           BorderSpacing.Top = 6
           Caption = 'Find &text in file'
           OnChange = cbFindInFileChange
@@ -235,7 +230,7 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 8
-          Height = 21
+          Height = 23
           Top = 72
           Width = 620
           ShowHidden = False
@@ -251,8 +246,8 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideTop.Side = asrCenter
           Left = 8
           Height = 17
-          Top = 309
-          Width = 106
+          Top = 311
+          Width = 108
           BorderSpacing.Left = 8
           Caption = '&Use search plugin:'
           OnChange = cbUsePluginChange
@@ -265,18 +260,16 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = tsStandard
           AnchorSideRight.Side = asrBottom
-          Left = 120
+          Left = 122
           Height = 21
-          Top = 307
-          Width = 533
+          Top = 309
+          Width = 531
           Anchors = [akTop, akLeft, akRight]
-          AutoComplete = False
           BorderSpacing.Left = 6
           BorderSpacing.Top = 12
           BorderSpacing.Right = 6
           Enabled = False
           ItemHeight = 13
-          ItemWidth = 0
           MaxLength = 65535
           TabOrder = 7
         end
@@ -287,13 +280,11 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideTop.Side = asrBottom
           Left = 122
           Height = 21
-          Top = 99
+          Top = 101
           Width = 184
-          AutoComplete = False
           BorderSpacing.Left = 6
           BorderSpacing.Top = 6
           ItemHeight = 13
-          ItemWidth = 0
           Style = csDropDownList
           TabOrder = 2
         end
@@ -304,8 +295,8 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideTop.Side = asrCenter
           Left = 318
           Height = 17
-          Top = 101
-          Width = 113
+          Top = 103
+          Width = 117
           BorderSpacing.Left = 12
           Caption = '&Regular expressions'
           TabOrder = 3
@@ -452,7 +443,6 @@ object frmFindDlg: TfrmFindDlg
           Height = 21
           Top = 163
           Width = 110
-          AutoComplete = False
           BorderSpacing.Top = 6
           Enabled = False
           ItemHeight = 13
@@ -464,7 +454,6 @@ object frmFindDlg: TfrmFindDlg
             'Month(s)'
             'Year(s)'
           )
-          ItemWidth = 0
           Style = csDropDownList
           TabOrder = 10
         end
@@ -544,7 +533,6 @@ object frmFindDlg: TfrmFindDlg
           Height = 21
           Top = 249
           Width = 72
-          AutoComplete = False
           Enabled = False
           ItemHeight = 13
           ItemIndex = 1
@@ -554,7 +542,6 @@ object frmFindDlg: TfrmFindDlg
             'Mbyte'
             'Gbyte'
           )
-          ItemWidth = 0
           Style = csDropDownList
           TabOrder = 15
           Text = 'Kbyte'
