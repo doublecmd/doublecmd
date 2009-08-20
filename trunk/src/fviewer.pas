@@ -659,26 +659,30 @@ var
   iSizeData:Integer;
 begin
   inherited;
-// fi
+  // fi
   PAdr:=ViewerControl.GetDataAdr; // begin of data in memory
   inc(PAdr,ViewerControl.Position); // move to current position
   iSizeData:=ViewerControl.FileSize - ViewerControl.Position;
   if iSizeData<=0 then Exit;
-// in first use create dialog
+  // in first use create dialog
   if not assigned(FFindDialog) then
      FFindDialog:=TfrmFindView.Create(Application);
+  // Load search history
+  FFindDialog.cbDataToFind.Items.Assign(glsSearchHistory);
   if FFindDialog.ShowModal <> mrOK then Exit;
-  if FFindDialog.cbDataToFind.Text='' then Exit;
+  if FFindDialog.cbDataToFind.Text = '' then Exit;
+  // Save search history
+  glsSearchHistory.Assign(FFindDialog.cbDataToFind.Items);
 
   PAdr:= PosMem(PAdr, iSizeData, FFindDialog.cbDataToFind.Text, FFindDialog.cbCaseSens.Checked);
 
-  if (PtrInt(PAdr)<>-1) then
+  if (PtrInt(PAdr) <> -1) then
   begin
-// founded, set position to ViewerControl
+    // founded, set position to ViewerControl
     ViewerControl.Position:= PtrInt(PAdr)-PtrInt(ViewerControl.GetDataAdr);
     ViewerControl.Up;
-// position is property and have write method  (repaint widget)
-     UpDateScrollBar;
+    // position is property and have write method  (repaint widget)
+    UpDateScrollBar;
   end;
   SetFocus;
 end;
