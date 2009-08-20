@@ -677,7 +677,7 @@ begin
   aFile.Name := sPath;
   Files:= TFiles.Create; // free in ShowContextMenu
   Files.Add(aFile);
-  OldErrorMode:= SetErrorMode(SEM_NOOPENFILEERRORBOX);
+  OldErrorMode:= SetErrorMode(SEM_FAILCRITICALERRORS or SEM_NOOPENFILEERRORBOX);
   ShowContextMenu(Owner, Files, X, Y);
   SetErrorMode(OldErrorMode);
 end;
