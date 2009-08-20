@@ -83,6 +83,7 @@ type
     rgSearchDirection: TRadioGroup;
     procedure btnOKClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
+    procedure FormShow(Sender: TObject);
   private
     function GetSearchBackwards: boolean;
     function GetSearchCaseSensitive: boolean;
@@ -170,6 +171,16 @@ begin
         cbReplaceText.Items.Insert(0, s);
     end;
   end;
+end;
+
+procedure TfrmEditSearchReplace.FormShow(Sender: TObject);
+begin
+  if cbSearchText.Text = EmptyStr then
+    begin
+      if cbSearchText.Items.Count > 0 then
+        cbSearchText.Text:= cbSearchText.Items[0];
+    end;
+  cbSearchText.SelectAll;
 end;
 
 function TfrmEditSearchReplace.GetSearchBackwards: boolean;

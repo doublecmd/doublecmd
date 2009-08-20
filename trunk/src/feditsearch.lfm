@@ -12,6 +12,7 @@ object frmEditSearchReplace: TfrmEditSearchReplace
   ClientHeight = 222
   ClientWidth = 409
   OnCloseQuery = FormCloseQuery
+  OnShow = FormShow
   Position = poOwnerFormCenter
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.27'
