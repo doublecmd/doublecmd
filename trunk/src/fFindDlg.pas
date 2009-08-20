@@ -67,13 +67,14 @@ type
     cbEncoding: TComboBox;
     cbSearchDepth: TComboBox;
     cbRegExp: TCheckBox;
+    cmbReplaceText: TComboBox;
+    cmbFindText: TComboBox;
     deDateFrom: TDateEdit;
     deDateTo: TDateEdit;
     edtFindPathStart: TDirectoryEdit;
     edtAttrib: TEdit;
     edtTimeFrom: TEdit;
     edtTimeTo: TEdit;
-    edtReplaceText: TEdit;
     gbAttributes: TGroupBox;
     btnSearchDelete: TButton;
     btnSearchLoad: TButton;
@@ -98,7 +99,6 @@ type
     cmbFindFileMask: TComboBox;
     gbFindData: TGroupBox;
     cbCaseSens: TCheckBox;
-    edtFindText: TEdit;
     tsAdvanced: TTabSheet;
     Panel1: TPanel;
     Panel3: TPanel;
@@ -285,10 +285,10 @@ procedure TfrmFindDlg.cbFindInFileChange(Sender: TObject);
 begin
   gbFindData.Enabled:=cbFindInFile.Checked;
 
-  if edtFindText.Enabled and edtFindText.CanFocus then
+  if cmbFindText.Enabled and cmbFindText.CanFocus then
   begin
-    edtFindText.SetFocus;
-    edtFindText.SelectAll;
+    cmbFindText.SetFocus;
+    cmbFindText.SelectAll;
   end;
 end;
 
@@ -382,14 +382,14 @@ begin
     cbNoThisText.Checked:= rIsNoThisText;
     cbFindInFile.Checked:= rFindInFiles;
     cbCaseSens.Checked:= rCaseSens;
-    edtFindText.Text:= '';
+    cmbFindText.Text:= '';
     if rFindInFiles then
-      edtFindText.Text:= rFindData;
+      cmbFindText.Text:= rFindData;
     // replace text
     cbReplaceText.Checked:= rReplaceInFiles;
-    edtReplaceText.Text:= '';
+    cmbReplaceText.Text:= '';
     if rReplaceInFiles then
-      edtReplaceText.Text:= rReplaceData;
+      cmbReplaceText.Text:= rReplaceData;
   end;
 end;
 
@@ -471,10 +471,10 @@ begin
       SearchDepth:= cbSearchDepth.ItemIndex - 1;
       IsNoThisText:= cbNoThisText.Checked;
       FindInFiles:= cbFindInFile.Checked;
-      FindData:= ConvertEncoding(edtFindText.Text, EncodingUTF8, cbEncoding.Text);
+      FindData:= ConvertEncoding(cmbFindText.Text, EncodingUTF8, cbEncoding.Text);
       CaseSensitive:= cbCaseSens.Checked;
       ReplaceInFiles:= cbReplaceText.Checked;
-      ReplaceData:= edtReplaceText.Text;
+      ReplaceData:= cmbReplaceText.Text;
       (* Date search *)
       if cbDateFrom.Checked then
          begin
@@ -754,14 +754,14 @@ end;
 
 procedure TfrmFindDlg.cbReplaceTextChange(Sender: TObject);
 begin
-  edtReplaceText.Enabled := cbReplaceText.Checked;
+  cmbReplaceText.Enabled := cbReplaceText.Checked;
   cbNoThisText.Checked := False;
   cbNoThisText.Enabled := not cbReplaceText.Checked;
 
-  if edtReplaceText.Enabled and edtReplaceText.CanFocus then
+  if cmbReplaceText.Enabled and cmbReplaceText.CanFocus then
   begin
-    edtReplaceText.SetFocus;
-    edtReplaceText.SelectAll;
+    cmbReplaceText.SetFocus;
+    cmbReplaceText.SelectAll;
   end;
 end;
 
@@ -845,6 +845,9 @@ begin
     cmbFindFileMask.SelectAll;
 
   cmbFindFileMask.Items.Assign(glsMaskHistory);
+  cmbFindText.Items.Assign(glsSearchHistory);
+  cmbReplaceText.Items.Assign(glsReplaceHistory);
+
   DSL.Load(gini);
   cbbSPlugins.Clear;
   for i:=0 to DSL.Count-1 do
