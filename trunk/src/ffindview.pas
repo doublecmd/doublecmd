@@ -46,14 +46,32 @@ uses
 
 procedure TfrmFindView.FormShow(Sender: TObject);
 begin
-  inherited;
+  if cbDataToFind.Text = EmptyStr then
+    begin
+      if cbDataToFind.Items.Count > 0 then
+        cbDataToFind.Text:= cbDataToFind.Items[0];
+    end;
   cbDataToFind.SelectAll;
 end;
 
 procedure TfrmFindView.btnFindClick(Sender: TObject);
+var
+  s: string;
+  i: integer;
 begin
-  inherited;
-  cbDataToFind.Items.Add(cbDataToFind.Text);
+  s := cbDataToFind.Text;
+  if s <> '' then
+  begin
+    i := cbDataToFind.Items.IndexOf(s);
+    if i > -1 then
+      begin
+        cbDataToFind.Items.Delete(i);
+        cbDataToFind.Items.Insert(0, s);
+        cbDataToFind.Text := s;
+      end
+    else
+      cbDataToFind.Items.Insert(0, s);
+  end;
   ModalResult:= mrOk;
 end;
 
