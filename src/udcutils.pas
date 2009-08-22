@@ -213,6 +213,7 @@ function RemoveQuotation(const Str: String): String;
 procedure SplitArgs(var Args: TOpenStringArray; CmdLine: String);
 
 procedure ParseLineToList(sLine: String; ssItems: TStrings);
+procedure InsertFirstItem(sLine: String; ssItems: TStrings);
 
 function StrNewW(const mbString: UTF8String): PWideChar;
 procedure StrDisposeW(var pStr : PWideChar);
@@ -763,6 +764,21 @@ begin
       else
         ssItems.Add(Copy(sLine, 1, xPos - 1));
       Delete(sLine, 1, xPos);
+    end;
+end;
+
+procedure InsertFirstItem(sLine: String; ssItems: TStrings);
+var
+  I: Integer;
+begin
+  if sLine = EmptyStr then Exit;
+  I:= ssItems.IndexOf(sLine);
+  if I < 0 then
+    ssItems.Insert(0, sLine)
+  else
+    begin
+      ssItems.Delete(I);
+      ssItems.Insert(0, sLine);
     end;
 end;
 

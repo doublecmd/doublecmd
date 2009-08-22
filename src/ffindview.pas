@@ -42,7 +42,7 @@ type
 implementation
 
 uses
-  LCLProc;
+  LCLProc, uDCUtils;
 
 procedure TfrmFindView.FormShow(Sender: TObject);
 begin
@@ -55,23 +55,8 @@ begin
 end;
 
 procedure TfrmFindView.btnFindClick(Sender: TObject);
-var
-  s: string;
-  i: integer;
 begin
-  s := cbDataToFind.Text;
-  if s <> '' then
-  begin
-    i := cbDataToFind.Items.IndexOf(s);
-    if i > -1 then
-      begin
-        cbDataToFind.Items.Delete(i);
-        cbDataToFind.Items.Insert(0, s);
-        cbDataToFind.Text := s;
-      end
-    else
-      cbDataToFind.Items.Insert(0, s);
-  end;
+  InsertFirstItem(cbDataToFind.Text, cbDataToFind.Items);
   ModalResult:= mrOk;
 end;
 

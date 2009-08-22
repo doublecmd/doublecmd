@@ -171,7 +171,7 @@ implementation
 
 uses
   LCLProc, LCLType, LConvEncoding, DateUtils, fViewer, uLng, uGlobs, uShowForm, fMain,
-  uTypes, uFileOp, uOSUtils, uSearchTemplate;
+  uTypes, uFileOp, uOSUtils, uSearchTemplate, uDCUtils;
 
 procedure SAddFileProc(PlugNr:integer; FoundFile:pchar); stdcall;
 var s:string;
@@ -602,15 +602,21 @@ procedure TfrmFindDlg.btnStartClick(Sender: TObject);
 var
   sr:TSearchAttrRecord;
 begin
-  if cmbFindFileMask.Items.IndexOf(cmbFindFileMask.Text) < 0 then
-    cmbFindFileMask.Items.Add(cmbFindFileMask.Text);
-            
   if not mbDirectoryExists(edtFindPathStart.Text) then
   begin
     ShowMessage(Format(rsFindDirNoEx,[edtFindPathStart.Text]));
     Exit;
   end;
-  
+
+  // add to find mask history
+  InsertFirstItem(cmbFindFileMask.Text, cmbFindFileMask.Items);
+  // add to search text history
+  if cbFindInFile.Checked then
+    InsertFirstItem(cmbFindText.Text, cmbFindText.Items);
+  // add to replace text history
+  if cbReplaceText.Checked then
+    InsertFirstItem(cmbReplaceText.Text, cmbReplaceText.Items);
+
   Panel1.Visible := True;
   Splitter1.Visible := True;
   Height := (Screen.Height * 4) div 5;
