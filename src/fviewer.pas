@@ -40,6 +40,7 @@ type
 
   TfrmViewer = class(TForm)
     Image: TImage;
+    miSearchNext: TMenuItem;
     pmiSelectAll: TMenuItem;
     miDiv5: TMenuItem;
     pmiCopy: TMenuItem;
@@ -82,6 +83,7 @@ type
     procedure FormCreate(Sender : TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure miPluginsClick(Sender: TObject);
+    procedure miSearchNextClick(Sender: TObject);
     procedure ScrollBoxResize(Sender: TObject);
     procedure ViewerControlMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -268,6 +270,11 @@ begin
     Status.Panels[2].Text:= WlxPlugins.GetWLxModule(ActivePlugin).Name
   else
     ViewerControl.MapFile(FileList.Strings[iActiveFile]);
+end;
+
+procedure TfrmViewer.miSearchNextClick(Sender: TObject);
+begin
+  DoSearch(True);
 end;
 
 procedure TfrmViewer.ScrollBoxResize(Sender: TObject);
