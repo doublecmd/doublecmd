@@ -190,8 +190,13 @@ object frmViewer: TfrmViewer
       end
       object miSearch: TMenuItem
         Caption = 'Search'
-        ShortCut = 114
+        ShortCut = 16454
         OnClick = miSearchClick
+      end
+      object miSearchNext: TMenuItem
+        Caption = 'Search next'
+        ShortCut = 114
+        OnClick = miSearchNextClick
       end
     end
     object miView: TMenuItem
