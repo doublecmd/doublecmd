@@ -100,6 +100,7 @@ var
   gCaseSensitiveSort:Boolean=True;
   gLynxLike:Boolean=True;
   gDirSelect:Boolean=True;
+  gFirstTextSearch: Boolean = True;
 
   gMouseSelectionEnabled: Boolean = True;
   gMouseSelectionButton: Integer = 0;

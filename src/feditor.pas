@@ -183,7 +183,7 @@ begin
   gEditorPos.Restore(editor);
   try
     LoadAttrFromFile(gpIniDir + csDefaultName);
-    if sFileName='' then
+    if sFileName = '' then
       editor.actFileNew.Execute
     else
       editor.OpenFile(sFileName);
@@ -242,15 +242,26 @@ begin
       miEncodingOut.Add(mi);
     end;
   EncodingsList.Free;
+  // if we already search text then use last searched text
+  if not gFirstTextSearch then
+    begin
+      if glsSearchHistory.Count > 0 then
+        sSearchText:= glsSearchHistory[0];
+    end;
 end;
 
 procedure TfrmEditor.actEditFindNextExecute(Sender: TObject);
 begin
+  if gFirstTextSearch then
+    begin
+      ShowSearchReplaceDialog(False);
+      Exit;
+    end;
   if sSearchText <> '' then
     begin
       DoSearchReplaceText(False, bSearchBackwards);
       bSearchFromCaret:= True;
-  end;
+    end;
 end;
 
 procedure TfrmEditor.OpenFile(const sFileName:String);
@@ -700,9 +711,11 @@ begin
         glsReplaceHistory.CommaText := ReplaceTextHistory;
       end;
 //      bSearchFromCaret := gbSearchFromCaret;
-      if sSearchText <> '' then begin
+      if sSearchText <> '' then
+      begin
         DoSearchReplaceText(AReplace, bSearchBackwards);
-        bSearchFromCaret := TRUE;
+        bSearchFromCaret:= True;
+        gFirstTextSearch:= False;
       end;
     end;
   finally
