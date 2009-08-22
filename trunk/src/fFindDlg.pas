@@ -839,20 +839,27 @@ begin
 end;
 
 procedure TfrmFindDlg.frmFindDlgShow(Sender: TObject);
-var i:integer;
+var
+  I: Integer;
 begin
   if cmbFindFileMask.Visible then
     cmbFindFileMask.SelectAll;
 
   cmbFindFileMask.Items.Assign(glsMaskHistory);
   cmbFindText.Items.Assign(glsSearchHistory);
+  // if we already search text then use last searched text
+  if not gFirstTextSearch then
+    begin
+      if glsSearchHistory.Count > 0 then
+        cmbFindText.Text:= glsSearchHistory[0];
+    end;
   cmbReplaceText.Items.Assign(glsReplaceHistory);
 
   DSL.Load(gini);
   cbbSPlugins.Clear;
-  for i:=0 to DSL.Count-1 do
+  for I:= 0 to DSL.Count-1 do
     begin
-      cbbSPlugins.AddItem(DSL.GetDSXModule(i).Name+' ('+DSL.GetDSXModule(i).Descr+' )',nil);
+      cbbSPlugins.AddItem(DSL.GetDSXModule(i).Name+' ('+DSL.GetDSXModule(I).Descr+' )',nil);
     end;
   if (cbbSPlugins.Items.Count>0) then cbbSPlugins.ItemIndex:=0;
 end;

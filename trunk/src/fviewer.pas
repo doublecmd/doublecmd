@@ -130,7 +130,7 @@ type
     Function CheckGraphics(const sFileName:String):Boolean;
     procedure AdjustImageSize;
     procedure LoadGraphics(const sFileName:String);
-    procedure DoSearch;
+    procedure DoSearch(bQuickSearch: Boolean);
     procedure ChooseEncoding(mnuMenuItem: TMenuItem; sEncoding: String);
   public
     procedure LoadFile(iIndex:Integer);
@@ -328,6 +328,14 @@ procedure TfrmViewer.frmViewerKeyDown(Sender: TObject; var Key: Word;
 begin
   if (key=VK_Q) then Close;
   if bImage then Exit;
+
+  if (Key=VK_F3) or ((Key=VK_F) and (Shift=[ssCtrl])) then
+    begin
+      DoSearch(Key=VK_F3);
+      Key:= 0;
+      Exit;
+    end;
+
   // now handle shortcuts to viewer
   if Shift<>[] then Exit;
   if Key=VK_Down then
@@ -342,13 +350,8 @@ begin
     ViewerControl.PageUp;
   if Key=VK_NEXT then
     ViewerControl.PageDown;
-    
-  if (Key=VK_F3) or ((Key=VK_F) and (Shift=[ssCtrl])) then
-  begin
-    DoSearch;
-    Key:=0;
-  end;
-// To prevent editor open on key F4 in viewer
+
+  // To prevent editor open on key F4 in viewer
   if (Key=VK_F4) then  Key:=0;
 
   UpDateScrollBar;
@@ -441,7 +444,7 @@ end;
 
 procedure TfrmViewer.miSearchClick(Sender: TObject);
 begin
-  DoSearch;
+  DoSearch(False);
 end;
 
 procedure TfrmViewer.FormCreate(Sender: TObject);
@@ -653,37 +656,48 @@ begin
   miEncoding.Visible:= False;
 end;
 
-procedure TfrmViewer.DoSearch;
+procedure TfrmViewer.DoSearch(bQuickSearch: Boolean);
 var
-  PAdr:PChar;
-  iSizeData:Integer;
+  PAdr: PChar;
+  iSizeData: Integer;
+  sSearchText: UTF8String;
 begin
-  inherited;
-  // fi
-  PAdr:=ViewerControl.GetDataAdr; // begin of data in memory
-  inc(PAdr,ViewerControl.Position); // move to current position
-  iSizeData:=ViewerControl.FileSize - ViewerControl.Position;
-  if iSizeData<=0 then Exit;
-  // in first use create dialog
-  if not assigned(FFindDialog) then
-     FFindDialog:=TfrmFindView.Create(Application);
-  // Load search history
-  FFindDialog.cbDataToFind.Items.Assign(glsSearchHistory);
-  if FFindDialog.ShowModal <> mrOK then Exit;
-  if FFindDialog.cbDataToFind.Text = '' then Exit;
-  // Save search history
-  glsSearchHistory.Assign(FFindDialog.cbDataToFind.Items);
+  PAdr:= ViewerControl.GetDataAdr; // begin of data in memory
+  inc(PAdr, ViewerControl.Position); // move to current position
+  iSizeData:= ViewerControl.FileSize - ViewerControl.Position;
+  if iSizeData <= 0 then Exit;
 
-  PAdr:= PosMem(PAdr, iSizeData, FFindDialog.cbDataToFind.Text, FFindDialog.cbCaseSens.Checked);
+  // in first use create dialog
+  if not Assigned(FFindDialog) then
+     FFindDialog:= TfrmFindView.Create(Application);
+
+  if (bQuickSearch and gFirstTextSearch) or not bQuickSearch then
+    begin
+      // Load search history
+      FFindDialog.cbDataToFind.Items.Assign(glsSearchHistory);
+      if FFindDialog.ShowModal <> mrOK then Exit;
+      if FFindDialog.cbDataToFind.Text = '' then Exit;
+      sSearchText:= FFindDialog.cbDataToFind.Text;
+      // Save search history
+      glsSearchHistory.Assign(FFindDialog.cbDataToFind.Items);
+      gFirstTextSearch:= False;
+    end
+  else
+    begin
+      if glsSearchHistory.Count > 0 then
+        sSearchText:= glsSearchHistory[0];
+    end;
+
+  PAdr:= PosMem(PAdr, iSizeData, sSearchText, FFindDialog.cbCaseSens.Checked);
 
   if (PtrInt(PAdr) <> -1) then
-  begin
-    // founded, set position to ViewerControl
-    ViewerControl.Position:= PtrInt(PAdr)-PtrInt(ViewerControl.GetDataAdr);
-    ViewerControl.Up;
-    // position is property and have write method  (repaint widget)
-    UpDateScrollBar;
-  end;
+    begin
+      // founded, set position to ViewerControl
+      ViewerControl.Position:= PtrInt(PAdr)-PtrInt(ViewerControl.GetDataAdr);
+      ViewerControl.Up;
+      // position is property and have write method  (repaint widget)
+      UpDateScrollBar;
+    end;
   SetFocus;
 end;
 
