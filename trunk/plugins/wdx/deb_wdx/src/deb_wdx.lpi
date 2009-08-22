@@ -147,6 +147,7 @@
       </SyntaxOptions>
     </Parsing>
     <Linking>
+      <LinkSmart Value="True"/>
       <Options>
         <ExecutableType Value="Library"/>
       </Options>

@@ -47,6 +47,7 @@
       <SmartLinkUnit Value="True"/>
     </CodeGeneration>
     <Linking>
+      <LinkSmart Value="True"/>
       <Debugging>
         <GenerateDebugInfo Value="True"/>
       </Debugging>
