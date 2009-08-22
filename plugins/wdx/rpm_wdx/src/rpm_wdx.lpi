@@ -119,7 +119,8 @@
     <CodeGeneration>
       <Generate Value="Faster"/>
     </CodeGeneration>
-	    <Linking>
+    <Linking>
+      <LinkSmart Value="True"/>
       <Options>
         <ExecutableType Value="Library"/>
       </Options>
