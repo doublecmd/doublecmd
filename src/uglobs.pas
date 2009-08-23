@@ -430,11 +430,11 @@ end;
 
 procedure DeInitGlobs;
 begin
-  if assigned(gColorExt) then
+  if Assigned(gColorExt) then
     FreeAndNil(gColorExt);
-  if assigned(glsDirHistory) then
+  if Assigned(glsDirHistory) then
     FreeAndNil(glsDirHistory);
-  if assigned(glsHotDir) then
+  if Assigned(glsHotDir) then
     FreeAndNil(glsHotDir);
   if Assigned(glsMaskHistory) then
     FreeAndNil(glsMaskHistory);
@@ -503,7 +503,6 @@ begin
   gCaseSensitiveSort := gIni.ReadBool('Configuration', 'CaseSensitiveSort', False);
   gLynxLike := gIni.ReadBool('Configuration', 'LynxLike', True);
   gDirSelect := gIni.ReadBool('Configuration', 'DirSelect', True);
-  glsHotDir.CommaText := gIni.ReadString('Configuration', 'HotDir', '');
   gShortFileSizeFormat := gIni.ReadBool('Configuration', 'ShortFileSizeFormat', True);
   gScrollMode := gIni.ReadInteger('Configuration', 'ScrollMode', 0);
   gMinimizeToTray := gIni.ReadBool('Configuration', 'MinimizeToTray', False);
@@ -596,6 +595,8 @@ begin
 
   gViewerImageStretch:=  gIni.ReadBool('Viewer', 'Image.Stretch', False);
 
+  gIni.ReadSectionRaw('DirectoryHotList', glsHotDir);
+
   if mbFileExists(gpIniDir + 'doublecmd.ext') then
     gExts.LoadFromFile(gpIniDir + 'doublecmd.ext');
 
@@ -663,6 +664,7 @@ end;
 procedure SaveGlobs;
 var
   Ini: TIniFileEx;
+  I: LongInt;
 begin
   if gUseIniInProgramDirNew <> gUseIniInProgramDir then
     begin
@@ -677,7 +679,11 @@ begin
       LoadPaths;
       gIni := TIniFileEx.Create(gpIniDir + 'doublecmd.ini');
     end;
-    
+
+  gIni.EraseSection('DirectoryHotList');
+  for I:= 0 to glsHotDir.Count - 1 do
+    gIni.WriteString('DirectoryHotList', glsHotDir.Names[I], glsHotDir.ValueFromIndex[I]);
+
   if gSaveDirHistory then
     glsDirHistory.SaveToFile(gpIniDir + 'dirhistory.txt');
   if gSaveFileMaskHistory then
@@ -713,7 +719,7 @@ begin
   gIni.WriteBool('Configuration', 'CaseSensitiveSort', gCaseSensitiveSort);
   gIni.WriteBool('Configuration', 'LynxLike', gLynxLike);
   gIni.WriteBool('Configuration', 'DirSelect', gDirSelect);
-  gIni.WriteString('Configuration', 'HotDir', glsHotDir.CommaText);
+
   gIni.WriteBool('Configuration', 'ShortFileSizeFormat', gShortFileSizeFormat);
   gIni.WriteInteger('Configuration', 'ScrollMode', gScrollMode);
   gIni.WriteBool('Configuration', 'MinimizeToTray', gMinimizeToTray);

@@ -64,29 +64,29 @@ end;
 
 procedure TfrmHotDir.btnOKClick(Sender: TObject);
 begin
-  inherited;
   SaveToGlob;
 end;
 
 procedure TfrmHotDir.btnAddManClick(Sender: TObject);
-var sDir:String;
+var
+  sDir: String;
 begin
-  inherited;
-  if InputQuery('Manually add hot path','Enter path:',sDir) then
-    lsHotDir.ItemIndex:=lsHotDir.Items.Add(sDir+DirectorySeparator);
-  btnDelete.Enabled:= (lsHotDir.Items.Count>0);
-  btnEdit.Enabled:= (lsHotDir.Items.Count>0);
+  if InputQuery('Manually add hot path', 'Enter name and path:', sDir) then
+    lsHotDir.ItemIndex:= lsHotDir.Items.Add(IncludeTrailingBackSlash(sDir));
+  btnDelete.Enabled:= (lsHotDir.Items.Count > 0);
+  btnEdit.Enabled:= (lsHotDir.Items.Count > 0);
 end;
 
 procedure TfrmHotDir.btnEditClick(Sender: TObject);
-var sDir:String;
+var
+  sDir: String;
 begin
-     If lsHotDir.Items.Count<1 Then Exit;
-     sDir:=lsHotDir.Items[lsHotDir.ItemIndex];
-     if InputQuery('Manualy edit hot path','Enter path:',sDir) then
-        lsHotDir.Items[lsHotDir.ItemIndex]:=SDir;
-     btnDelete.Enabled:= (lsHotDir.Items.Count>0);
-     btnEdit.Enabled:= (lsHotDir.Items.Count>0);
+  if lsHotDir.Items.Count < 1 then Exit;
+  sDir:= lsHotDir.Items[lsHotDir.ItemIndex];
+  if InputQuery('Manualy edit hot path', 'Enter name and path:', sDir) then
+    lsHotDir.Items[lsHotDir.ItemIndex]:= IncludeTrailingBackSlash(sDir);
+  btnDelete.Enabled:= (lsHotDir.Items.Count > 0);
+  btnEdit.Enabled:= (lsHotDir.Items.Count > 0);
 end;
 
 procedure TfrmHotDir.btnDeleteClick(Sender: TObject);
@@ -106,13 +106,16 @@ end;
 
 procedure TfrmHotDir.btnADDClick(Sender: TObject);
 var
-  sDir:String;
+  sName,
+  sPath: String;
 begin
-  inherited;
-  if SelectDirectory(rsSelectDir,'',sDir,False) then
-    lsHotDir.ItemIndex:=lsHotDir.Items.Add(sDir+DirectorySeparator);
-  btnDelete.Enabled:= (lsHotDir.Items.Count>0);
-  btnEdit.Enabled:= (lsHotDir.Items.Count>0);
+  if SelectDirectory(rsSelectDir, '', sPath, False) then
+    begin
+      sName:= ExtractFileName(sPath);
+      lsHotDir.ItemIndex:= lsHotDir.Items.Add(sName + '=' + sPath + PathDelim);
+    end;
+  btnDelete.Enabled:= (lsHotDir.Items.Count > 0);
+  btnEdit.Enabled:= (lsHotDir.Items.Count > 0);
 end;
 
 procedure TfrmHotDir.FormCreate(Sender: TObject);
