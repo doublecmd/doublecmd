@@ -1127,7 +1127,7 @@ msgstr "Показать контекстное меню"
 
 #: TFRMMAIN.ACTCOPY.CAPTION
 msgid "Copy F5"
-msgstr "Копир F5"
+msgstr "Копировать F5"
 
 #: TFRMMAIN.ACTCOPYFULLNAMESTOCLIP.CAPTION
 msgid "Copy Filename(s) with Full &Path"
@@ -2928,7 +2928,7 @@ msgstr "О просмотрщике..."
 
 #: TFRMVIEWER.MIBIN.CAPTION
 msgid "Show as &Bin"
-msgstr "В виде дв. &кода"
+msgstr "В &двоичном виде (фиксированная длина строки)"
 
 #: TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION
 msgid "Copy To Clipboard"
