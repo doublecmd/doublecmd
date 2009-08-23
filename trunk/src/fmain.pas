@@ -1759,13 +1759,14 @@ end;
 
 procedure TfrmMain.HotDirSelected(Sender:TObject);
 var
-  sDummy:String;
+  sDummy: String;
 begin
- // this handler is used by HotDir and DirHistory
- // must extract & from Caption
-  sDummy:=(Sender As TMenuItem).Caption;
-  SDummy:=StringReplace(sDummy,'&','',[rfReplaceAll]);
-  ActiveFrame.CurrentPath := sDummy;
+  // this handler is used by HotDir and DirHistory
+  // must extract & from Caption
+  sDummy:= (Sender as TMenuItem).Caption;
+  sDummy:= StringReplace(sDummy, '&', '', [rfReplaceAll]);
+  sDummy:= mbExpandFileName(sDummy);
+  ActiveFrame.CurrentPath:= sDummy;
 end;
 
 procedure TfrmMain.edtCommandKeyUp(Sender: TObject; var Key: Word;
