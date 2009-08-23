@@ -46,7 +46,7 @@ type
     procedure MainExecute; override;
     procedure Finalize; override;
 
-    // 30.04.2009 - свойство для удаления в корзину
+    // For delete to trash
     property Recycle : boolean read FRecycle write FRecycle default false;
   end;
 
@@ -83,8 +83,11 @@ begin
     FreeAndNil(FDescription);
   end;
 
-  if Assigned(FFullFilesTreeToDelete) then
-    FreeAndNil(FFullFilesTreeToDelete);
+  if not FRecycle then
+  begin
+    if Assigned(FFullFilesTreeToDelete) then
+      FreeAndNil(FFullFilesTreeToDelete);
+  end;
 end;
 
 procedure TFileSystemDeleteOperation.Initialize;
@@ -92,10 +95,18 @@ begin
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
-  FillAndCount(FilesToDelete as TFileSystemFiles,
-               FFullFilesTreeToDelete,
-               FStatistics.TotalFiles,
-               FStatistics.TotalBytes);     // gets full list of files (recursive)
+  if FRecycle then
+    begin
+      FFullFilesTreeToDelete:= FilesToDelete as TFileSystemFiles;
+      FStatistics.TotalFiles:= FFullFilesTreeToDelete.Count;
+    end
+  else
+    begin
+      FillAndCount(FilesToDelete as TFileSystemFiles,
+                   FFullFilesTreeToDelete,
+                   FStatistics.TotalFiles,
+                   FStatistics.TotalBytes);     // gets full list of files (recursive)
+    end;
 
   FDescription.Clear;
 end;
@@ -182,7 +193,7 @@ begin
     end
     else
     begin
-      // 30.04.2009 - Вызов удаления в корзину. Файлы и папки удаляются одной функцией.
+      // Delete to trash (one function for file and folder)
       Result := mbDeleteToTrash(FileName);
     end;
 
