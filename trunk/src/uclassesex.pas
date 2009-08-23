@@ -47,6 +47,7 @@ type
 
   TStringListEx = class(TStringList)
   public
+    function IndexOfValue(const Value: String): Integer;
     procedure LoadFromFile(const FileName: String); override;
     procedure SaveToFile(const FileName: String); override;
   end;   
@@ -111,6 +112,24 @@ begin
 end;
 
 { TStringListEx }
+
+function TStringListEx.IndexOfValue(const Value: String): Integer;
+var
+  iStart: LongInt;
+  sTemp: String;
+begin
+  CheckSpecialChars;
+  Result:= 0;
+  while (Result < Count) do
+    begin
+    sTemp:= Strings[Result];
+    iStart:= Pos(NameValueSeparator, sTemp) + 1;
+    if (iStart > 0) and (DoCompareText(Value, Copy(sTemp, iStart, MaxInt)) = 0) then
+      Exit;
+    Inc(result);
+    end;
+  Result:= -1;
+end;
 
 procedure TStringListEx.LoadFromFile(const FileName: String);
 var

@@ -1664,23 +1664,23 @@ end;
 
 
 procedure TfrmMain.miHotAddClick(Sender: TObject);
+var
+  sName: UTF8String;
 begin
-  inherited;
-  glsHotDir.Add(ActiveFrame.CurrentPath);
-//  pmHotList.Items.Add();
-// OnClick:=HotDirSelected;
+  sName:= ExtractFileName(ExcludeTrailingBackSlash(ActiveFrame.CurrentPath));
+  glsHotDir.Add(sName + '=' + ActiveFrame.CurrentPath);
 end;
 
 procedure TfrmMain.miHotDeleteClick(Sender: TObject);
-var i : integer;
+var
+  I: Integer;
 begin
-  i:= glsHotDir.IndexOf(ActiveFrame.CurrentPath);
-  if i > 0 then glsHotDir.Delete(i);
+  I:= glsHotDir.IndexOfValue(ActiveFrame.CurrentPath);
+  if I > 0 then glsHotDir.Delete(I);
 end;
 
 procedure TfrmMain.miHotConfClick(Sender: TObject);
 begin
-  inherited;
   with TfrmHotDir.Create(Application) do
   begin
     try
@@ -1694,23 +1694,24 @@ end;
 
 procedure TfrmMain.CreatePopUpDirHistory;
 var
-  mi:TMenuItem;
-  i:Integer;
+  mi: TMenuItem;
+  I: Integer;
 begin
   pmDirHistory.Items.Clear;
 
   // store only first gDirHistoryCount of DirHistory
-  for i:=glsDirHistory.Count-1 downto 0 do
-    if i>gDirHistoryCount then
-      glsDirHistory.Delete(i)
+  for I:= glsDirHistory.Count - 1 downto 0 do
+    if I > gDirHistoryCount then
+      glsDirHistory.Delete(I)
     else
       Break;
 
-  for i:=0 to glsDirHistory.Count-1 do
+  for I:= 0 to glsDirHistory.Count - 1 do
   begin
-    mi:=TMenuItem.Create(pmDirHistory);
-    mi.Caption:=glsDirHistory.Strings[i];
-    mi.OnClick:=@HotDirSelected;
+    mi:= TMenuItem.Create(pmDirHistory);
+    mi.Caption:= glsDirHistory[I];
+    mi.Hint:= mi.Caption;
+    mi.OnClick:= @HotDirSelected;
     pmDirHistory.Items.Add(mi);
   end;
 
@@ -1719,52 +1720,51 @@ end;
 
 procedure TfrmMain.CreatePopUpHotDir;
 var
-  mi:TMenuItem;
-  i:Integer;
+  mi: TMenuItem;
+  I: Integer;
 begin
   // Create All popup menu
   pmHotList.Items.Clear;
-  for i:=0 to glsHotDir.Count-1 do
+  for I:= 0 to glsHotDir.Count - 1 do
   begin
-    mi:=TMenuItem.Create(pmHotList);
-    mi.Caption:=glsHotDir.Strings[i];
-    mi.OnClick:=@HotDirSelected;
+    mi:= TMenuItem.Create(pmHotList);
+    mi.Caption:= glsHotDir.Names[I];
+    mi.Hint:= glsHotDir.ValueFromIndex[I];
+    mi.OnClick:= @HotDirSelected;
     pmHotList.Items.Add(mi);
   end;
   // now add delimiter
-  mi:=TMenuItem.Create(pmHotList);
-  mi.Caption:='-';
+  mi:= TMenuItem.Create(pmHotList);
+  mi.Caption:= '-';
   pmHotList.Items.Add(mi);
   // now add ADD or DELETE item
 
-  mi:=TMenuItem.Create(pmHotList);
-  if glsHotDir.IndexOf(ActiveFrame.CurrentPath)>0 then
-  begin
-    mi.Caption:=Format(rsMsgPopUpHotDelete,[ActiveFrame.CurrentPath]);
-    mi.OnClick:=@miHotDeleteClick;
-  end
+  mi:= TMenuItem.Create(pmHotList);
+  if glsHotDir.IndexOfValue(ActiveFrame.CurrentPath) > 0 then
+    begin
+      mi.Caption:= Format(rsMsgPopUpHotDelete,[ActiveFrame.CurrentPath]);
+      mi.OnClick:= @miHotDeleteClick;
+    end
   else
-  begin
-    mi.Caption:=Format(rsMsgPopUpHotAdd,[ActiveFrame.CurrentPath]);
-    mi.OnClick:=@miHotAddClick;
-  end;
+    begin
+      mi.Caption:= Format(rsMsgPopUpHotAdd,[ActiveFrame.CurrentPath]);
+      mi.OnClick:= @miHotAddClick;
+    end;
   pmHotList.Items.Add(mi);
 
   // now add configure item
-  mi:=TMenuItem.Create(pmHotList);
-  mi.Caption:=rsMsgPopUpHotCnf;
-  mi.OnClick:=@miHotConfClick;
+  mi:= TMenuItem.Create(pmHotList);
+  mi.Caption:= rsMsgPopUpHotCnf;
+  mi.OnClick:= @miHotConfClick;
   pmHotList.Items.Add(mi);
 end;
 
-procedure TfrmMain.HotDirSelected(Sender:TObject);
+procedure TfrmMain.HotDirSelected(Sender: TObject);
 var
   sDummy: String;
 begin
   // this handler is used by HotDir and DirHistory
-  // must extract & from Caption
-  sDummy:= (Sender as TMenuItem).Caption;
-  sDummy:= StringReplace(sDummy, '&', '', [rfReplaceAll]);
+  sDummy:= (Sender as TMenuItem).Hint;
   sDummy:= mbExpandFileName(sDummy);
   ActiveFrame.CurrentPath:= sDummy;
 end;
