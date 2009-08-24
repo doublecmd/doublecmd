@@ -149,7 +149,7 @@ begin
       Item.Caption:=Fbar.GetButtonX(I,MenuX);
       //------------------------------------------------------
       if Assigned(FOnLoadButtonGlyph) then
-        BitmapTmp := FOnLoadButtonGlyph(FBar.GetButtonX(I,ButtonX), 16, clFuchsia)
+        BitmapTmp := FOnLoadButtonGlyph(FBar.GetButtonX(I,ButtonX), 16, clMenu)
       else
         BitmapTmp := LoadBtnIcon(FBar.GetButtonX(I,ButtonX));
 
