@@ -1108,7 +1108,6 @@ begin
   if GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) < 15 then Exit;
   if (not gCustomDriveIcons) and (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16) then
     begin
-      SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON);
       SFI.hIcon := 0;
       Result := Graphics.TBitMap.Create;
       case IconSize of
@@ -1119,9 +1118,8 @@ begin
           else
             _para5 := SHGFI_LARGEICON;
 
-          SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), _para5 or SHGFI_ICON);
-
-          if SFI.hIcon <> 0 then
+          if (SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), _para5 or SHGFI_ICON) <> 0) and
+             (SFI.hIcon <> 0) then
             try
               Icon := CreateIconFromHandle(SFI.hIcon);
               IntfImage := Icon.CreateIntfImage;
@@ -1131,18 +1129,24 @@ begin
                 FreeAndNil(Icon);
               if Assigned(IntfImage) then
                 FreeAndNil(IntfImage);
+              DestroyIcon(SFI.hIcon);
             end;
         end;
       else  // for non standart icon size we Convert HIcon to TBitMap
         begin
-          SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON);
-          Result.Width := GetSystemMetrics(SM_CXICON);
-          Result.Height := GetSystemMetrics(SM_CYICON);
-          Result.Canvas.Brush.Color := clBackColor;
-          Result.Canvas.FillRect(Result.Canvas.ClipRect);
-          Windows.DrawIcon(Result.Canvas.Handle,0,0,SFI.hIcon);
+          if (SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON) <> 0) and
+             (SFI.hIcon <> 0) then
+          try
+            Result.Width := GetSystemMetrics(SM_CXICON);
+            Result.Height := GetSystemMetrics(SM_CYICON);
+            Result.Canvas.Brush.Color := clBackColor;
+            Result.Canvas.FillRect(Result.Canvas.ClipRect);
+            Windows.DrawIcon(Result.Canvas.Handle,0,0,SFI.hIcon);
 
-          Result := StretchBitmap(Result, IconSize, clBackColor, True);
+            Result := StretchBitmap(Result, IconSize, clBackColor, True);
+          finally
+            DestroyIcon(SFI.hIcon);
+          end;
         end;
       end;  //  case
     end // not gCustomDriveIcons
