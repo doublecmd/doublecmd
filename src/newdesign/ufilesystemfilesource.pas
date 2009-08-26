@@ -164,7 +164,7 @@ end;
 
 function TFileSystemFileSource.CreateListOperation: TFileSourceOperation;
 var
-  TargetFileSource: TFileSystemFileSource;
+  TargetFileSource: TFileSource;
 begin
   TargetFileSource := Self.Clone;
   Result := TFileSystemListOperation.Create(TargetFileSource);
@@ -174,7 +174,7 @@ function TFileSystemFileSource.CreateCopyInOperation(var SourceFileSource: TFile
                                                      var SourceFiles: TFiles;
                                                      TargetPath: String): TFileSourceOperation;
 var
-  TargetFileSource: TFileSystemFileSource;
+  TargetFileSource: TFileSource;
 begin
   TargetFileSource := Self.Clone;
   Result := TFileSystemCopyInOperation.Create(
@@ -186,7 +186,7 @@ function TFileSystemFileSource.CreateCopyOutOperation(var TargetFileSource: TFil
                                                       var SourceFiles: TFiles;
                                                       TargetPath: String): TFileSourceOperation;
 var
-  SourceFileSource: TFileSystemFileSource;
+  SourceFileSource: TFileSource;
 begin
   SourceFileSource := Self.Clone;
   Result := TFileSystemCopyOutOperation.Create(
@@ -197,7 +197,7 @@ end;
 function TFileSystemFileSource.CreateMoveOperation(var SourceFiles: TFiles;
                                                    TargetPath: String): TFileSourceOperation;
 var
-  TargetFileSource: TFileSystemFileSource;
+  TargetFileSource: TFileSource;
 begin
   TargetFileSource := Self.Clone;
   Result := TFileSystemMoveOperation.Create(TargetFileSource, SourceFiles, TargetPath);
@@ -205,7 +205,7 @@ end;
 
 function TFileSystemFileSource.CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
 var
-  TargetFileSource: TFileSystemFileSource;
+  TargetFileSource: TFileSource;
 begin
   TargetFileSource := Self.Clone;
   Result := TFileSystemDeleteOperation.Create(TargetFileSource, FilesToDelete);
@@ -213,7 +213,7 @@ end;
 
 function TFileSystemFileSource.CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation;
 var
-  TargetFileSource: TFileSystemFileSource;
+  TargetFileSource: TFileSource;
 begin
   TargetFileSource := Self.Clone;
   Result := TFileSystemWipeOperation.Create(TargetFileSource, FilesToWipe);
@@ -221,7 +221,7 @@ end;
 
 function TFileSystemFileSource.CreateCreateDirectoryOperation(DirectoryPath: String): TFileSourceOperation;
 var
-  TargetFileSource: TFileSystemFileSource;
+  TargetFileSource: TFileSource;
 begin
   TargetFileSource := Self.Clone;
   Result := TFileSystemCreateDirectoryOperation.Create(TargetFileSource, DirectoryPath);
@@ -231,7 +231,7 @@ function TFileSystemFileSource.CreateCalcChecksumOperation(var theFiles: TFiles;
                                                            aTargetPath: String;
                                                            aTargetMask: String): TFileSourceOperation;
 var
-  TargetFileSource: TFileSystemFileSource;
+  TargetFileSource: TFileSource;
 begin
   TargetFileSource := Self.Clone;
   Result := TFileSystemCalcChecksumOperation.Create(
@@ -243,7 +243,7 @@ end;
 
 function TFileSystemFileSource.CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation;
 var
-  TargetFileSource: TFileSystemFileSource;
+  TargetFileSource: TFileSource;
 begin
   TargetFileSource := Self.Clone;
   Result := TFileSystemCalcStatisticsOperation.Create(TargetFileSource, theFiles);
