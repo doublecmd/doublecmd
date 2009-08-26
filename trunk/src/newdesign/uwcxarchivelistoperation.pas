@@ -7,7 +7,8 @@ interface
 uses
   Classes, SysUtils,
   uFileSourceListOperation,
-  uWcxArchiveFileSource;
+  uWcxArchiveFileSource,
+  uFileSource;
 
 type
 
@@ -15,7 +16,7 @@ type
   private
     FWcxArchiveFileSource: TWcxArchiveFileSource;
   public
-    constructor Create(var aFileSource: TWcxArchiveFileSource); reintroduce;
+    constructor Create(var aFileSource: TFileSource); reintroduce;
     procedure MainExecute; override;
   end;
 
@@ -24,10 +25,10 @@ implementation
 uses
   LCLProc, uFileSystemFile, uFindEx, uOSUtils, uDCUtils, uWcxArchiveFile, uFile;
 
-constructor TWcxArchiveListOperation.Create(var aFileSource: TWcxArchiveFileSource);
+constructor TWcxArchiveListOperation.Create(var aFileSource: TFileSource);
 begin
   FFiles := TFiles.Create;
-  FWcxArchiveFileSource := aFileSource;
+  FWcxArchiveFileSource := aFileSource as TWcxArchiveFileSource;
   inherited Create(aFileSource);
 end;
 

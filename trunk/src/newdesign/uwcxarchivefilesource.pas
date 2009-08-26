@@ -324,7 +324,7 @@ end;
 
 function TWcxArchiveFileSource.CreateListOperation: TFileSourceOperation;
 var
-  TargetFileSource: TWcxArchiveFileSource;
+  TargetFileSource: TFileSource;
 begin
   TargetFileSource := Self.Clone;
   Result := TWcxArchiveListOperation.Create(TargetFileSource);

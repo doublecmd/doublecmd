@@ -2434,11 +2434,11 @@ procedure TActs.cm_PasteFromClipboard(param: string='');
 var
   ClipboardOp: TClipboardOperation;
   filenamesList: TStringList;
-  Files: TFileSystemFiles = nil;
+  Files: TFiles = nil;
   Operation: TFileSourceOperation = nil;
   OperationHandle: TOperationHandle;
   ProgressDialog: TfrmFileOp;
-  SourceFileSource: TFileSystemFileSource = nil;
+  SourceFileSource: TFileSource = nil;
   TargetFileSource: TFileSource = nil;
 begin
   with frmMain do
@@ -2447,7 +2447,8 @@ begin
     try
       // fill file list with files
       Files := TFileSystemFiles.Create;
-      Files.LoadFromFileNames(fileNamesList);
+      with Files as TFileSystemFiles do
+        LoadFromFileNames(fileNamesList);
 
       case ClipboardOp of
 

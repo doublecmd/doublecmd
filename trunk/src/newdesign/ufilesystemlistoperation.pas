@@ -7,14 +7,14 @@ interface
 uses
   Classes, SysUtils,
   uFileSourceListOperation,
-  uFileSystemFileSource
+  uFileSource
   ;
 
 type
 
   TFileSystemListOperation = class(TFileSourceListOperation)
   public
-    constructor Create(var aFileSource: TFileSystemFileSource); reintroduce;
+    constructor Create(var aFileSource: TFileSource); reintroduce;
     procedure MainExecute; override;
   end;
 
@@ -23,7 +23,7 @@ implementation
 uses
   LCLProc, uFileSystemFile, uFindEx, uDCUtils;
 
-constructor TFileSystemListOperation.Create(var aFileSource: TFileSystemFileSource);
+constructor TFileSystemListOperation.Create(var aFileSource: TFileSource);
 begin
   FFiles := TFileSystemFiles.Create;
   inherited Create(aFileSource);
