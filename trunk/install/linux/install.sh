@@ -12,6 +12,7 @@ mkdir -p $DC_INSTALL_DIR/plugins
 mkdir -p $DC_INSTALL_DIR/plugins/wcx
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/cpio
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/deb
+mkdir -p $DC_INSTALL_DIR/plugins/wcx/lzma
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/rpm
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/unrar
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/unbz2
@@ -45,6 +46,7 @@ cp -a default.bar                  $DC_INSTALL_DIR/
 # WCX
 cp -a plugins/wcx/cpio/lib/cpio.wcx        $DC_INSTALL_DIR/plugins/wcx/cpio/
 cp -a plugins/wcx/deb/lib/deb.wcx          $DC_INSTALL_DIR/plugins/wcx/deb/
+cp -a plugins/wcx/lzma/lib/lzma.wcx        $DC_INSTALL_DIR/plugins/wcx/lzma/
 cp -a plugins/wcx/rpm/lib/rpm.wcx          $DC_INSTALL_DIR/plugins/wcx/rpm/
 cp -a plugins/wcx/unrar/lib/unrar.wcx      $DC_INSTALL_DIR/plugins/wcx/unrar/
 cp -a plugins/wcx/unbz2/lib/unbz2.wcx      $DC_INSTALL_DIR/plugins/wcx/unbz2/
