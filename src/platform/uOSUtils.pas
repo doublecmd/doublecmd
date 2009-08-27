@@ -223,6 +223,12 @@ function mbFileAge(const FileName: UTF8String): LongInt;
 // On success returns non-zero value.
 function mbFileSetTime(const FileName: UTF8String; ModificationTime: Longint;
                        CreationTime: Longint = 0; LastAccessTime: Longint = 0): Longint;
+{en
+   Checks if a given file exists - it can be a real file or a link to a file,
+   but it can be opened and read from.
+   Even if the result is @false, we can't be sure a file by that name can be created,
+   because there may still exist a directory or link by that name.
+}
 function mbFileExists(const FileName: UTF8String): Boolean;
 function mbFileAccess(const FileName: UTF8String; Mode: Integer): Boolean;
 function mbFileGetAttr(const FileName: UTF8String): TFileAttrs;
@@ -247,6 +253,11 @@ function FileFlush(Handle: THandle): Boolean;
 { Directory handling functions}
 function mbGetCurrentDir: UTF8String;
 function mbSetCurrentDir(const NewDir: UTF8String): Boolean;
+{en
+   Checks if a given directory exists - it may be a real directory or a link to directory.
+   Even if the result is @false, we can't be sure a directory by that name can be created,
+   because there may still exist a file or link by that name.
+}
 function mbDirectoryExists(const Directory : UTF8String) : Boolean;
 function mbCreateDir(const NewDir: UTF8String): Boolean;
 function mbRemoveDir(const Dir: UTF8String): Boolean;
@@ -1274,8 +1285,9 @@ var
   Info: BaseUnix.Stat;
 begin
   Result:= False;
-  if fpLStat(FileName, Info) >= 0 then
-    Result:= not fpS_ISDIR(Info.st_mode);
+  // Can use fpStat, because link to an existing filename can be opened as if it were a real file.
+  if fpStat(FileName, Info) >= 0 then
+    Result:= fpS_ISREG(Info.st_mode);
 end;
 {$ENDIF}
 
@@ -1581,7 +1593,12 @@ var
   Info: BaseUnix.Stat;
 begin
   Result:= False;
-  if fpLStat(Directory, Info) >= 0 then
+  // We can use fpStat here instead of fpLstat, so that True is returned
+  // when target is a directory or a link to an existing directory.
+  // Note that same behaviour would be achieved by passing paths
+  // that end with path delimiter to fpLstat.
+  // Paths with links can be used the same way as if they were real directories.
+  if fpStat(Directory, Info) >= 0 then
     Result:= fpS_ISDIR(Info.st_mode);
 end;
 {$ENDIF}
