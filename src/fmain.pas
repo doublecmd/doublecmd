@@ -463,9 +463,6 @@ type
     procedure miHotAddClick(Sender: TObject);
     procedure miHotDeleteClick(Sender: TObject);
     procedure miHotConfClick(Sender: TObject);
-    procedure RunRenameThread(srcFileList: TFileList; sDestPath: String; sDestMask: String);
-    procedure RunCopyThread(srcFileList: TFileList; sDestPath: String; sDestMask: String;
-                            bDropReadOnlyFlag: Boolean);
 //    procedure RenameFile(srcFileList: TFileList; dstFramePanel: TFileView; sDestPath: String);
 //    procedure CopyFile(srcFileList: TFileList; dstFramePanel: TFileView; sDestPath: String);
     procedure RenameFile(sDestPath:String); // this is for F6 and Shift+F6
@@ -519,8 +516,8 @@ implementation
 
 uses
   Clipbrd, LCLIntf, uTypes, fAbout, uGlobs, uLng, fOptions, fconfigtoolbar, fFileAssoc,
-  uCopyThread, uWCXModule, uVFSTypes, Masks, fMkDir, fCopyDlg, fCompareFiles,
-  fMoveDlg, uMoveThread, uShowMsg, uClassesEx, fFindDlg, uSpaceThread, fHotDir,
+  uWCXModule, uVFSTypes, Masks, fMkDir, fCopyDlg, fCompareFiles,
+  fMoveDlg, uShowMsg, uClassesEx, fFindDlg, fHotDir,
   fSymLink, fHardLink, uDCUtils, uLog, fMultiRename, uGlobsPaths, fMsg, fPackDlg,
   fExtractDlg, fLinker, fSplitter, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls, uFileSorting,
@@ -1780,45 +1777,6 @@ begin
   end;
 end;
 
-// Frees srcFileList.
-procedure TfrmMain.RunRenameThread(srcFileList: TFileList; sDestPath: String; sDestMask: String);
-var
-  MT: TMoveThread = nil;
-begin
-  try
-    MT:= TMoveThread.Create(srcFileList);
-    MT.sDstPath:= sDestPath;
-    MT.sDstMask:= sDestMask;
-    MT.Resume; // srcFileList is freed when thread finishes
-  except
-    if MT <> nil then
-      MT.Free // frees srcFileList
-    else
-      FreeAndNil(srcFileList);
-  end;
-end;
-
-// Frees srcFileList.
-procedure TfrmMain.RunCopyThread(srcFileList: TFileList;
-                                 sDestPath: String; sDestMask: String;
-                                 bDropReadOnlyFlag: Boolean);
-var
-  CT: TCopyThread = nil;
-begin
-  try
-    CT:= TCopyThread.Create(srcFileList);
-    CT.sDstPath:= sDestPath;
-    CT.sDstMask:= sDestMask;
-    CT.bDropReadOnlyFlag:= bDropReadOnlyFlag;
-    CT.Resume; // srcFileList is freed when thread finishes
-  except
-    if CT <> nil then
-      CT.Free // frees srcFileList
-    else
-      FreeAndNil(srcFileList);
-  end;
-end;
-
 (* Used for drag&drop move from external application *)
 // Frees srcFileList automatically.
 {procedure TfrmMain.RenameFile(srcFileList: TFileList; dstFramePanel: TFileView; sDestPath: String);
@@ -2030,6 +1988,7 @@ var
   fl:TFileList;
   sDstMaskTemp:String;
 begin
+(*
   // Exit if no valid files selected.
 {
   if ActiveFrame.SelectFileIfNoSelected(ActiveFrame.GetActiveItem) = False then Exit;
@@ -2086,7 +2045,7 @@ begin
 
   except
     FreeAndNil(fl);
-  end;
+  end;*)
 end;
 
 procedure TfrmMain.CopyFile(sDestPath:String);

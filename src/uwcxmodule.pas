@@ -397,6 +397,7 @@ end;
 
 function ProcessDataProc(FileName: PChar; Size: Integer): Integer; stdcall;
 begin
+{
   //DebugLn('Working ' + FileName + ' Size = ' + IntToStr(Size));
 
   Result := 1;
@@ -439,6 +440,7 @@ begin
         Application.ProcessMessages;
       end;
   end; //with
+}
 end;
 
 procedure TWCXModule.ShowErrorMessage;
@@ -1113,6 +1115,7 @@ end;
 
 procedure TWCXModule.PrepareDialog(Operation: TWCXOperation);
 begin
+{
   FFileOpDlg:= TfrmFileOp.Create(nil);
   FFileOpDlg.iProgress1Max:=100;
   FFileOpDlg.iProgress2Max:=100;
@@ -1125,6 +1128,7 @@ begin
 
   FFileOpDlg.Thread := TThread(CT);
   FFileOpDlg.Show;
+}
 end;
 
 procedure TWCXModule.FinishDialog;

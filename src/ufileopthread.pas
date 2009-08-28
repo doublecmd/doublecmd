@@ -52,7 +52,6 @@ type
 
     procedure Execute; override;
     procedure MainExecute; virtual; abstract; // main loop for copy /delete ...
-    procedure CreateForm;
     procedure FillAndCount;
     procedure FillAndCountRec(const srcPath, dstPath:String); // rekursive called
     procedure EstimateTime(iSizeCoped:Int64);
@@ -70,7 +69,6 @@ type
     bDropReadOnlyFlag : Boolean; // for copy operation
     constructor Create(aFileList:TFileList);virtual;
     destructor Destroy; override;
-    function UseForm:Boolean; virtual;
     function FreeAtEnd:Boolean; virtual;
     function DlgFileExist(const sMsg:String):Boolean; // result=true > rewrite file
     function DlgFollowSymLink(const sMsg:String):Boolean;
@@ -210,22 +208,8 @@ try
       FDescr:= TDescription.Create(True);
 
     FBeginTime:=Now;
-    if UseForm then
-    begin
-      Synchronize(@CreateForm);  // create progress form in main thread
-      FFileOpDlg.iProgress2Pos:= 0;
-      FFileOpDlg.iProgress2Max:= 100;
-      Synchronize(@FFileOpDlg.ToggleProgressBarStyle);
-      Synchronize(@FFileOpDlg.UpdateDlg);
-    end;
 
     FillAndCount; // gets full list of files (rekursive)
-
-    if UseForm then
-      begin
-        Synchronize(@FFileOpDlg.ToggleProgressBarStyle);
-        Synchronize(@FFileOpDlg.UpdateDlg);
-      end;
 
     MainExecute; // main executive (virtual)
 
@@ -235,11 +219,6 @@ try
         FDescr.SaveDescription;
         FreeAndNil(FDescr);
       end;
-    if UseForm then
-      begin
-        Synchronize(@FFileOpDlg.Close);
-        DebugLN('TFileOpThread finally');
-      end;
     if Assigned(NewFileList) then
       FreeAndNil(NewFileList);
   end;
@@ -247,35 +226,6 @@ except
   on E:Exception do
     msgOK(Self, E.Message);
 end;
-end;
-
-procedure TFileOpThread.CreateForm;
-var
-  FileOpDlgLook: TFileOpDlgLook;
-begin
-  DebugLn('TFileOpThread.CreateForm');
-  FFileOpDlg:= TfrmFileOp.Create(Application);
-  FFileOpDlg.Thread:= TThread(Self);
-  FFileOpDlg.btnPauseStart.Visible:= True;
-  FFileOpDlg.Caption:= GetCaptionLng;
-  //----------------------------------------------------------------------------
-  FileOpDlgLook:= GetFileOpDlgLook;
-  FFileOpDlg.lblFrom.Visible:= (fodl_from_lbl in FileOpDlgLook);
-  FFileOpDlg.lblFileNameFrom.Visible:= FFileOpDlg.lblFrom.Visible;
-  FFileOpDlg.lblTo.Visible:= (fodl_to_lbl in FileOpDlgLook);
-  FFileOpDlg.lblFileNameTo.Visible:= FFileOpDlg.lblTo.Visible;
-  FFileOpDlg.pbFirst.Visible:= (fodl_first_pb in FileOpDlgLook);
-  FFileOpDlg.pbSecond.Visible:= (fodl_second_pb in FileOpDlgLook);
-  //----------------------------------------------------------------------------
-  FFileOpDlg.AutoSize:= True;
-  FFileOpDlg.Show;
-  FFileOpDlg.AutoSize:= False;
-  FFileOpDlg.Update;
-end;
-
-function TFileOpThread.UseForm:Boolean;
-begin
-  Result:= True;
 end;
 
 function TFileOpThread.FreeAtEnd:Boolean;
@@ -288,35 +238,7 @@ begin
 end;
 
 procedure TFileOpThread.EstimateTime(iSizeCoped: Int64);
-var
-  iSec: Integer; // passed seconds
-  iSpeed: Integer;  // operation speed
-  dtEstimatedTime: TDateTime; // remained time
 begin
-  if not UseForm then Exit;
-
-  iSec:= 0;
-  iSpeed:= 0;
-
-  with FFileOpDlg do
-  begin
-    if iSizeCoped = 0 then
-      sEstimated:= '????'
-    else
-      begin
-        iSec:= SecondsBetween(FBeginTime, Now);
-
-        if iSec > 0 then
-          iSpeed:= iSizeCoped div iSec;
-        if iSpeed > 0 then
-          dtEstimatedTime:= ((FFilesSize-iSizeCoped) div iSpeed) / SecsPerDay;
-
-        sEstimated:= FormatDateTime('HH:MM:SS', dtEstimatedTime);
-        sEstimated:= Format(rsDlgSpeedTime, [cnvFormatFileSize(iSpeed), sEstimated]);
-      end;
-
-    Synchronize(@FFileOpDlg.UpdateDlg);
-  end;
 end;
 
 function TFileOpThread.DlgFileExist(const sMsg:String):Boolean; // result=true > rewrite file

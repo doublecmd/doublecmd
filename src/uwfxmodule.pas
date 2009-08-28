@@ -350,6 +350,7 @@ end;
 {CallBack functions}
 function MainProgressProc(PluginNr: Integer; SourceName, TargetName: PChar; PercentDone: Integer): Integer; stdcall;
 begin
+{
   Result:= 0;
   DebugLN('MainProgressProc ('+IntToStr(PluginNr)+','+SourceName+','+TargetName+','+inttostr(PercentDone)+')' ,inttostr(result));
 
@@ -382,6 +383,7 @@ begin
         Application.ProcessMessages;
       end;
   end; //with
+}
 end;
 
 procedure MainLogProc(PluginNr, MsgType: Integer; LogString: PChar); stdcall;
@@ -708,8 +710,10 @@ begin
   try
     FFileOpDlg:= TfrmFileOp.Create(nil);
     FFileOpDlg.Show;
+{
     FFileOpDlg.iProgress1Max:=100;
     FFileOpDlg.iProgress2Max:=100;
+}
     FFileOpDlg.Caption := rsDlgCp;
 
     FFileList := flSrcList;
@@ -734,8 +738,10 @@ begin
   try
     FFileOpDlg:= TfrmFileOp.Create(nil);
     FFileOpDlg.Show;
+{
     FFileOpDlg.iProgress1Max:=100;
     FFileOpDlg.iProgress2Max:=100;
+}
     FFileOpDlg.Caption := rsDlgCp;
 
     FFileList := flSrcList;
@@ -756,6 +762,7 @@ end;
 function TWFXModule.VFSCopyOutEx(var flSrcList: TFileList; sDstPath: String;
   Flags: Integer): Boolean;
 begin
+{
   //VFSCopyOut(flSrcList, sDstPath, Flags);
   Result := True;
   try
@@ -778,11 +785,13 @@ begin
   except
     Result := False;
   end;
+}
 end;
 
 function TWFXModule.VFSCopyInEx(var flSrcList: TFileList; sDstName: String;
   Flags: Integer): Boolean;
 begin
+{
   Result := True;
   try
     FFileOpDlg:= TfrmFileOp.Create(nil);
@@ -804,6 +813,7 @@ begin
   except
     Result := False
   end;
+}
 end;
 
 function TWFXModule.VFSRename(const sSrcName, sDstName: String): Boolean;
@@ -833,8 +843,10 @@ begin
   try
     FFileOpDlg:= TfrmFileOp.Create(nil);
     FFileOpDlg.Show;
+{
     FFileOpDlg.iProgress1Max := 100;
     FFileOpDlg.iProgress2Max := 100;
+}
     FFileOpDlg.Caption := rsDlgDel;
 
     CT := nil;
