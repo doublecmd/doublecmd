@@ -240,17 +240,17 @@ const cf_Null=0;
 implementation
 
 uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
-     Clipbrd,uOSUtils,uWCXmodule,fPackDlg,uWipeThread, strutils,
-     fFileOpDlg,forms,uVFSutil,uShowForm,uDCUtils,uLog,uVFSTypes,
-     fMkDir,LCLProc,uFileProcs,uDeleteThread,fFileAssoc,fExtractDlg,fAbout,
+     Clipbrd,uOSUtils,fPackDlg,strutils,
+     fFileOpDlg,forms,uShowForm,uDCUtils,uLog,
+     fMkDir,LCLProc,fFileAssoc,fExtractDlg,fAbout,
      fOptions,fCompareFiles,fFindDlg,fSymLink,fHardLink,fMultiRename, uHash,
-     uSpaceThread,fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit, fCheckSumVerify,
-     HelpIntfs, dmHelpManager, uShellExecute, uClipboard, uCheckSumThread, fCheckSumCalc,
-     uFileSorting, uFilePanelSelect, uFile, uFileSystemFileSource,
-     uFileSystemCopyOperation, uOperationsManager, uFileSourceOperationTypes,
-     uFileSystemDeleteOperation, uFileSystemWipeOperation,
+     fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit, fCheckSumVerify,
+     HelpIntfs, dmHelpManager, uShellExecute, uClipboard, fCheckSumCalc,
+     uFilePanelSelect, uFile, uFileSystemFileSource,
+     uOperationsManager, uFileSourceOperationTypes,
+     uFileSystemDeleteOperation,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
-     uFileSourceCalcStatisticsOperation, uFileSystemFile, uFileSourceCopyOperation,
+     uFileSourceCalcStatisticsOperation, uFileSystemFile,
      uFileSource;
 
 { TActs }

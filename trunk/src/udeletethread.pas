@@ -18,8 +18,7 @@ unit uDeleteThread;
 interface
 
 uses
-  uFileOpThread, uFileList, uTypes, SysUtils, LCLProc,
-  fFileOpDlg;
+  uFileOpThread, uFileList, uTypes, SysUtils, LCLProc;
 
 type
 
@@ -34,7 +33,6 @@ type
     function DeleteFile(fr:PFileRecItem):Boolean;
     function GetCaptionLng: String; override;
     function CheckFile(FileRecItem: PFileRecItem): Boolean; override;
-    function GetFileOpDlgLook: TFileOpDlgLook; override;
  public
     constructor Create(aFileList:TFileList); override;
     // 30.04.2009 - свойство для удаления в корзину
@@ -49,33 +47,20 @@ constructor TDeleteThread.Create(aFileList: TFileList);
 begin
   inherited Create(aFileList);
   FSymLinkAll:= True;
+  FRecycle := False;
 end;
 
 procedure TDeleteThread.MainExecute;
 var
   pr:PFileRecItem;
   xIndex:Integer;
-  iCopied:Int64;
 begin
-  iCopied:=0;
-  FFileOpDlg.iProgress1Max:= 1;
-  FFileOpDlg.iProgress1Pos:= 1; // in delete use only 1 progress
-
-  Synchronize(@FFileOpDlg.UpdateDlg);
-
   for xIndex:=NewFileList.Count-1 downto 0 do // deleting
   begin
     if Terminated then Exit;
     if Paused then Suspend;
     pr:=NewFileList.GetItem(xIndex);
-    FFileOpDlg.sFileNameFrom:= pr^.sName;
-    Synchronize(@FFileOpDlg.UpdateDlg);
-    inc(iCopied,pr^.iSize);
-    EstimateTime(iCopied);
     DeleteFile(pr);
-    if FFilesSize <> 0 then
-      FFileOpDlg.iProgress2Pos:= (iCopied * 100) div FFilesSize;
-    Synchronize(@FFileOpDlg.UpdateDlg);
   end;
 end;
 
@@ -149,11 +134,6 @@ begin
   Result:= inherited CheckFile(FileRecItem);
   if FileIsReadOnly(FileRecItem^.iMode) then
     mbFileSetReadOnly(FileRecItem^.sName, False);
-end;
-
-function TDeleteThread.GetFileOpDlgLook: TFileOpDlgLook;
-begin
-  Result:= [fodl_from_lbl, fodl_second_pb];
 end;
 
 end.

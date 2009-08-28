@@ -46,7 +46,6 @@ type
     procedure btnWorkInBackgroundClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
-    procedure FormShow(Sender: TObject);
 
   private
     { Private declarations }
@@ -74,15 +73,6 @@ type
     procedure UpdateCalcChecksumOperation(Operation: TFileSourceOperation);
 
   public
-    iProgress1Max: Integer;
-    iProgress1Pos: Integer;
-    iProgress2Max: Integer;
-    iProgress2Pos: Integer;
-    sEstimated: ShortString;  // bugbug, must be short string
-    sFileNameFrom,
-    sFileNameTo: String;
-    Thread: TThread;
-
     // Change to override later.
     constructor Create(OperationHandle: TOperationHandle); overload;
     destructor Destroy; override;
@@ -90,13 +80,12 @@ type
     function CloseQuery: Boolean; override;
 
     procedure ToggleProgressBarStyle;
-    procedure UpdateDlg;
   end;
 
 implementation
 
 uses
-   fMain, dmCommonData, uFileOpThread, LCLProc, uLng, uDCUtils,
+   fMain, dmCommonData, LCLProc, uLng, uDCUtils,
    uFileSourceOperationTypes,
    uFileSourceCopyOperation,
    uFileSourceDeleteOperation,
@@ -152,8 +141,6 @@ procedure TfrmFileOp.FormCreate(Sender: TObject);
 var
   Operation: TFileSourceOperation;
 begin
-  Thread:= nil;
-
   pbFirst.DoubleBuffered:= True;
   pbSecond.DoubleBuffered:= True;
   Self.DoubleBuffered:= True;
@@ -190,13 +177,6 @@ begin
   FUpdateTimer.Interval := 100;
   FUpdateTimer.OnTimer := @OnUpdateTimer;
   FUpdateTimer.Enabled := True;
-end;
-
-procedure TfrmFileOp.FormShow(Sender: TObject);
-begin
-  sEstimated:= '';
-  sFileNameFrom:= '';
-  sFileNameTo:= '';
 end;
 
 constructor TfrmFileOp.Create(OperationHandle: TOperationHandle);
@@ -356,6 +336,8 @@ begin
 end;
 
 procedure TfrmFileOp.SetSpeedAndTime(Operation: TFileSourceOperation; RemainingTime: TDateTime; Speed: String);
+var
+  sEstimated: String;
 begin
   if Operation.State <> fsosRunning then
     sEstimated := ''
@@ -482,65 +464,6 @@ begin
       pbFirst.Style:= pbstMarquee;
       pbSecond.Style:= pbstMarquee;
     end;
-end;
-
-procedure TfrmFileOp.UpdateDlg;
-var
-  bP1, bP2: Boolean; // repaint if needed
-begin
-// in processor intensive task we force repaint immedially
-  bP1:= False;
-  bP2:= False;
-
-  if pbFirst.Max<> iProgress1Max then
-  begin
-    if iProgress1Max > 0 then
-      pbFirst.Max:= iProgress1Max;
-    bP1:= True;
-  end;
-  if pbFirst.Position <> iProgress1Pos then
-  begin
-    if iProgress1Pos >= 0 then
-      pbFirst.Position:= iProgress1Pos;
-    bP1:= True;
-  end;
-
-  if pbSecond.Max <> iProgress2Max then
-  begin
-    if iProgress2Max > 0 then
-      pbSecond.Max:= iProgress2Max;
-    bP2:= True;
-  end;
-  if pbSecond.Position <> iProgress2Pos then
-  begin
-    if iProgress2Pos > 0 then
-      pbSecond.Position:= iProgress2Pos;
-    bP2:= True;
-  end;
-  
-  if bp1 then
-    pbFirst.Invalidate;
-  if bp2 then
-    pbSecond.Invalidate;
-
-  if bp2 then
-    Caption:= IntToStr(iProgress2Pos) + '% ' + Hint;
-
-  if sEstimated <> lblEstimated.Caption then
-  begin
-    lblEstimated.Caption:= sEstimated;
-    lblEstimated.Invalidate;
-  end;
-  if sFileNameFrom <> lblFileNameFrom.Caption then
-  begin
-    lblFileNameFrom.Caption:= sFileNameFrom;
-    lblFileNameFrom.Invalidate;
-  end;
-  if sFileNameTo <> lblFileNameTo.Caption then
-  begin
-    lblFileNameTo.Caption:= sFileNameTo;
-    lblFileNameTo.Invalidate;
-  end;
 end;
 
 initialization
