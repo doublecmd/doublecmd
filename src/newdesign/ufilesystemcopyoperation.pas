@@ -127,9 +127,6 @@ begin
                         @AskQuestion,
                         @CheckOperationState);
   try
-    // disable follow links temporarily
-    TreeBuilder.SymLinkOption := fsooslDontFollow;
-
     TreeBuilder.BuildFromFiles(SourceFiles as TFileSystemFiles);
     FSourceFilesTree := TreeBuilder.ReleaseTree;
     FStatistics.TotalFiles := TreeBuilder.FilesCount;
@@ -148,7 +145,6 @@ begin
                         @UpdateStatistics,
                         Thread,
                         fsohmCopy,
-                        SourceFiles.Path,
                         TargetPath,
                         FStatistics);
 

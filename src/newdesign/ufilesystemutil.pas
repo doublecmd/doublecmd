@@ -14,7 +14,6 @@ uses
   uFileSourceCopyOperation;
 
   procedure SplitFileMask(const DestMask: String; out DestNameMask: String; out DestExtMask: String);
-  function ApplyMask(const TargetString: String; Mask: String): String;
   function GetAbsoluteTargetFileName(aFile: TFile; SourcePath: String; TargetPath: String;
                                      NameMask: String; ExtMask: String): String;
   procedure FillAndCount(Files: TFileSystemFiles; out NewFiles: TFileSystemFiles;
@@ -55,9 +54,10 @@ type
     procedure AddItem(aFile: TFileSystemFile; CurrentNode: TFileTreeNode);
     procedure AddFilesInDirectory(srcPath: String; CurrentNode: TFileTreeNode);
     procedure AddFile(aFile: TFileSystemFile; CurrentNode: TFileTreeNode);
-    procedure AddLinkTarget(aFile: TFileSystemFile; CurrentNode: TFileTreeNode);
     procedure AddLink(aFile: TFileSystemFile; CurrentNode: TFileTreeNode);
+    procedure AddLinkTarget(aFile: TFileSystemFile; CurrentNode: TFileTreeNode);
     procedure AddDirectory(aFile: TFileSystemFile; CurrentNode: TFileTreeNode);
+    procedure DecideOnLink(aFile: TFileSystemFile; CurrentNode: TFileTreeNode);
 
   public
     constructor Create(AskQuestionFunction: TAskQuestionFunction;
@@ -81,8 +81,7 @@ type
     FMode: TFileSystemOperationHelperMode;
     FBuffer: Pointer;
     FBufferSize: LongWord;
-    FSourcePath: String;
-    FTargetPath: String;
+    FRootTargetPath: String;
     FRenameMask: String;
     FRenameNameMask, FRenameExtMask: String;
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
@@ -109,18 +108,21 @@ type
     function CopyFile(SourceFile: TFileSystemFile; TargetFileName: String; bAppend: Boolean): Boolean;
     function MoveFile(SourceFile: TFileSystemFile; TargetFileName: String; bAppend: Boolean): Boolean;
 
-    function ProcessNode(aFileTreeNode: TFileTreeNode): Boolean;
+    function ProcessNode(aFileTreeNode: TFileTreeNode; CurrentTargetPath: String): Boolean;
     function ProcessDirectory(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
     function ProcessLink(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
     function ProcessFile(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
 
-    function TargetExists(aFile: TFileSystemFile; AbsoluteTargetFileName: String)
+    function TargetExists(aNode: TFileTreeNode; AbsoluteTargetFileName: String)
                  : TFileSystemOperationTargetExistsResult;
     function DirExists(aFile: TFileSystemFile;
-                       AbsoluteTargetFileName: String): TFileSourceOperationOptionDirectoryExists;
+                       AbsoluteTargetFileName: String;
+                       AllowCopyInto: Boolean): TFileSourceOperationOptionDirectoryExists;
     function FileExists(aFile: TFileSystemFile;
                         AbsoluteTargetFileName: String;
                         AllowAppend: Boolean): TFileSourceOperationOptionFileExists;
+
+    procedure CountStatistics(aNode: TFileTreeNode);
 
   public
     constructor Create(AskQuestionFunction: TAskQuestionFunction;
@@ -129,7 +131,7 @@ type
                        UpdateStatisticsFunction: TUpdateStatisticsFunction;
                        OperationThread: TThread;
                        Mode: TFileSystemOperationHelperMode;
-                       SourcePath: String; TargetPath: String;
+                       TargetPath: String;
                        StartingStatistics: TFileSourceCopyOperationStatistics);
     destructor Destroy; override;
 
@@ -161,42 +163,41 @@ begin
     DestExtMask:='.*';}
 end;
 
-function ApplyMask(const TargetString: String; Mask: String): String;
-var
-  i:Integer;
-begin
-  if Mask = '' then
+function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): String;
+
+  function ApplyMask(const TargetString: String; Mask: String): String;
+  var
+    i:Integer;
   begin
-    Result := TargetString;
-  end
-  else
-  begin
-    Result:='';
-    for i:=1 to length(Mask) do
+    if Mask = '' then
     begin
-      if Mask[i]= '?' then
-        Result:=Result + TargetString[i]
-      else
-      if Mask[i]= '*' then
-        Result:=Result + Copy(TargetString, i, Length(TargetString) - i + 1)
-      else
-        Result:=Result + Mask[i];
+      Result := TargetString;
+    end
+    else
+    begin
+      Result:='';
+      for i:=1 to length(Mask) do
+      begin
+        if Mask[i]= '?' then
+          Result:=Result + TargetString[i]
+        else
+        if Mask[i]= '*' then
+          Result:=Result + Copy(TargetString, i, Length(TargetString) - i + 1)
+        else
+          Result:=Result + Mask[i];
+      end;
     end;
   end;
-end;
 
-function GetAbsoluteTargetFileName(aFile: TFile; SourcePath: String; TargetPath: String;
-                                   NameMask: String; ExtMask: String): String;
 var
   sDstExt: String;
   sDstName: String;
-  NewName: String;
 begin
   if ((NameMask = '') and (ExtMask = '')) or
      // Only change name for files.
      aFile.IsDirectory or aFile.IsLink then
   begin
-    NewName := aFile.Name;
+    Result := aFile.Name;
   end
   else
   begin
@@ -204,12 +205,17 @@ begin
     sDstName := ApplyMask(sDstName, NameMask);
     sDstExt  := ApplyMask(sDstExt, ExtMask);
 
-    NewName := sDstName;
+    Result := sDstName;
     if sDstExt <> '.' then
-      NewName := NewName + sDstExt;
+      Result := Result + sDstExt;
   end;
+end;
 
-  Result := TargetPath + ExtractDirLevel(SourcePath, aFile.Path) + NewName;
+function GetAbsoluteTargetFileName(aFile: TFile; SourcePath: String; TargetPath: String;
+                                   NameMask: String; ExtMask: String): String;
+begin
+  Result := TargetPath + ExtractDirLevel(SourcePath, aFile.Path)
+          + ApplyRenameMask(aFile, NameMask, ExtMask);
 end;
 
 procedure FillAndCount(Files: TFileSystemFiles; out NewFiles: TFileSystemFiles;
@@ -335,70 +341,56 @@ begin
 
   Inc(FFilesCount);
   Inc(FFilesSize, aFile.Size);
-  if aFile.IsLink then
-    (CurrentNode.Data as TFileTreeNodeData).SubnodesHaveLinks := True;
+end;
+
+procedure TFileSystemTreeBuilder.AddLink(aFile: TFileSystemFile; CurrentNode: TFileTreeNode);
+var
+  AddedNode: TFileTreeNode;
+  AddedIndex: Integer;
+begin
+  AddedIndex := CurrentNode.AddSubNode(aFile);
+  AddedNode := CurrentNode.SubNodes[AddedIndex];
+  AddedNode.Data := TFileTreeNodeData.Create;
+
+  (CurrentNode.Data as TFileTreeNodeData).SubnodesHaveLinks := True;
+
+  Inc(FFilesCount);
 end;
 
 procedure TFileSystemTreeBuilder.AddLinkTarget(aFile: TFileSystemFile; CurrentNode: TFileTreeNode);
 var
   LinkedFilePath: String;
   LinkedFile: TFileSystemFile = nil;
+  AddedNode: TFileTreeNode;
+  AddedIndex: Integer;
 begin
   LinkedFilePath := mbReadAllLinks(aFile.FullPath);
   if LinkedFilePath <> '' then
   begin
     try
       LinkedFile := TFileSystemFile.Create(LinkedFilePath);
-      FreeAndNil(aFile);
-      AddItem(LinkedFile, CurrentNode);
+
+      // Add link to current node.
+      AddedIndex := CurrentNode.AddSubNode(aFile);
+      AddedNode := CurrentNode.SubNodes[AddedIndex];
+      AddedNode.Data := TFileTreeNodeData.Create;
+      (CurrentNode.Data as TFileTreeNodeData).SubnodesHaveLinks := True;
+
+      // Then add linked file/directory as a subnode of the link.
+      AddItem(LinkedFile, AddedNode);
+
     except
       on EFileSystemFileNotExists do
         begin
           // Link target doesn't exist - add symlink instead of target (or ask user).
-          AddFile(aFile, CurrentNode);
+          AddLink(aFile, CurrentNode);
         end;
     end;
   end
   else
   begin
     // error - cannot follow symlink - adding symlink instead of target (or ask user)
-    AddFile(aFile, CurrentNode);
-  end;
-end;
-
-procedure TFileSystemTreeBuilder.AddLink(aFile: TFileSystemFile; CurrentNode: TFileTreeNode);
-begin
-  case FSymLinkOption of
-    fsooslFollow:
-      AddLinkTarget(aFile, CurrentNode);
-    fsooslDontFollow:
-      AddFile(aFile, CurrentNode);
-    fsooslNone:
-      begin
-        case AskQuestion('', Format(rsMsgFollowSymlink, [aFile.Name]),
-                       [fsourYes, fsourAll, fsourNo, fsourSkipAll],
-                       fsourYes, fsourNo)
-        of
-          fsourYes:
-            AddLinkTarget(aFile, CurrentNode);
-          fsourAll:
-            begin
-              FSymLinkOption := fsooslFollow;
-              AddLinkTarget(aFile, CurrentNode);
-            end;
-          fsourNo:
-            AddFile(aFile, CurrentNode);
-          fsourSkipAll:
-            begin
-              FSymLinkOption := fsooslDontFollow;
-              AddFile(aFile, CurrentNode);
-            end;
-          else
-            raise Exception.Create('Invalid user response');
-        end;
-      end;
-    else
-      raise Exception.Create('Invalid symlink option');
+    AddLink(aFile, CurrentNode);
   end;
 end;
 
@@ -420,12 +412,48 @@ begin
   end;
 end;
 
+procedure TFileSystemTreeBuilder.DecideOnLink(aFile: TFileSystemFile; CurrentNode: TFileTreeNode);
+begin
+  case FSymLinkOption of
+    fsooslFollow:
+      AddLinkTarget(aFile, CurrentNode);
+    fsooslDontFollow:
+      AddLink(aFile, CurrentNode);
+    fsooslNone:
+      begin
+        case AskQuestion('', Format(rsMsgFollowSymlink, [aFile.Name]),
+                       [fsourYes, fsourAll, fsourNo, fsourSkipAll],
+                       fsourYes, fsourNo)
+        of
+          fsourYes:
+            AddLinkTarget(aFile, CurrentNode);
+          fsourAll:
+            begin
+              FSymLinkOption := fsooslFollow;
+              AddLinkTarget(aFile, CurrentNode);
+            end;
+          fsourNo:
+            AddLink(aFile, CurrentNode);
+          fsourSkipAll:
+            begin
+              FSymLinkOption := fsooslDontFollow;
+              AddLink(aFile, CurrentNode);
+            end;
+          else
+            raise Exception.Create('Invalid user response');
+        end;
+      end;
+    else
+      raise Exception.Create('Invalid symlink option');
+  end;
+end;
+
 procedure TFileSystemTreeBuilder.AddItem(aFile: TFileSystemFile; CurrentNode: TFileTreeNode);
 begin
   if aFile.IsDirectory then
     AddDirectory(aFile, CurrentNode)
   else if aFile.IsLink then
-    AddLink(aFile, CurrentNode)
+    DecideOnLink(aFile, CurrentNode)
   else
     AddFile(aFile, CurrentNode);
 end;
@@ -468,7 +496,7 @@ constructor TFileSystemOperationHelper.Create(AskQuestionFunction: TAskQuestionF
                                          UpdateStatisticsFunction: TUpdateStatisticsFunction;
                                          OperationThread: TThread;
                                          Mode: TFileSystemOperationHelperMode;
-                                         SourcePath: String; TargetPath: String;
+                                         TargetPath: String;
                                          StartingStatistics: TFileSourceCopyOperationStatistics);
 begin
   AskQuestion := AskQuestionFunction;
@@ -488,8 +516,7 @@ begin
   FSymlinkOption := fsooslNone;
   FFileExistsOption := fsoofeNone;
   FDirExistsOption := fsoodeNone;
-  FSourcePath := SourcePath;
-  FTargetPath := TargetPath;
+  FRootTargetPath := TargetPath;
   FRenameMask := '';
   FStatistics := StartingStatistics;
   FRenamingFiles := False;
@@ -541,13 +568,14 @@ begin
   FRenamingFiles := (FRenameMask <> '*.*') and (FRenameMask <> '*') and (FRenameMask <> '');
 
   // Create destination path if it doesn't exist.
-  if not mbDirectoryExists(FTargetPath) then
-    mbForceDirectory(FTargetPath);
+  if not mbDirectoryExists(FRootTargetPath) then
+    if not mbForceDirectory(FRootTargetPath) then
+      Exit; // do error
 end;
 
 procedure TFileSystemOperationHelper.ProcessTree(aFileTree: TFileTree);
 begin
-  ProcessNode(aFileTree);
+  ProcessNode(aFileTree, FRootTargetPath);
 end;
 
 // ----------------------------------------------------------------------------
@@ -758,7 +786,8 @@ begin
     Result := True;
 end;
 
-function TFileSystemOperationHelper.ProcessNode(aFileTreeNode: TFileTreeNode): Boolean;
+function TFileSystemOperationHelper.ProcessNode(aFileTreeNode: TFileTreeNode;
+                                                CurrentTargetPath: String): Boolean;
 var
   aFile: TFileSystemFile;
   ProcessedOk: Boolean;
@@ -774,13 +803,7 @@ begin
     CurrentSubNode := aFileTreeNode.SubNodes[CurrentFileIndex];
     aFile := CurrentSubNode.TheFile as TFileSystemFile;
 
-    TargetName := GetAbsoluteTargetFileName(aFile,
-                                            FSourcePath,
-                                            FTargetPath,
-                                            FRenameNameMask,
-                                            FRenameExtMask);
-
-    debugln('Processing: ' + aFile.FullPath + ' -> ' + TargetName);
+    TargetName := CurrentTargetPath + ApplyRenameMask(aFile, FRenameNameMask, FRenameExtMask);
 
     with FStatistics do
     begin
@@ -792,13 +815,12 @@ begin
 
     UpdateStatistics(FStatistics);
 
-    // If there will be an error in ProcessFile the DoneBytes value
-    // will be inconsistent, so remember it here.
-    OldDoneBytes := FStatistics.DoneBytes;
-
     // Check if moving to the same file.
     if CompareFilenames(aFile.Path + aFile.Name, TargetName) = 0 then
-      ProcessedOk := False
+    begin
+      ProcessedOk := False;
+      CountStatistics(CurrentSubNode);
+    end
     else if aFile.IsDirectory then
       ProcessedOk := ProcessDirectory(CurrentSubNode, TargetName)
     else if aFile.IsLink then
@@ -808,19 +830,6 @@ begin
 
     if not ProcessedOk then
       Result := False;
-
-    with FStatistics do
-    begin
-      DoneFiles := DoneFiles + 1;
-
-      // Correct statistics if file not correctly processed.
-      if not ProcessedOk then
-      begin
-        DoneBytes := OldDoneBytes + aFile.Size;
-      end;
-
-      UpdateStatistics(FStatistics);
-    end;
 
     CheckOperationState;
   end;
@@ -832,12 +841,14 @@ var
   aFile: TFileSystemFile;
 begin
   bRemoveDirectory := (FMode = fsohmMove);
-
   aFile := aNode.TheFile as TFileSystemFile;
 
-  case TargetExists(aFile, AbsoluteTargetFileName) of
+  case TargetExists(aNode, AbsoluteTargetFileName) of
     fsoterSkip:
-      Exit(False);
+      begin
+        Result := False;
+        CountStatistics(aNode);
+      end;
 
     fsoterDeleted, fsoterNotExists:
       begin
@@ -851,7 +862,7 @@ begin
            mbRenameFile(aNode.TheFile.FullPath, AbsoluteTargetFileName) then
         begin
           // Success.
-          // FixStatistics(aNode); for all subnodes
+          CountStatistics(aNode);
           Result := True;
           bRemoveDirectory := False;
         end
@@ -862,14 +873,14 @@ begin
           begin
             FileCopyAttr(aNode.TheFile.FullPath, AbsoluteTargetFileName, False);
             // Copy/Move all files inside.
-            Result := ProcessNode(aNode);
+            Result := ProcessNode(aNode, IncludeTrailingPathDelimiter(AbsoluteTargetFileName));
           end
           else
           begin
-            // error
+            // Error - all files inside not copied/moved.
             ShowError(rsMsgLogError + Format(rsMsgErrForceDir, [AbsoluteTargetFileName]));
             Result := False;
-            // All files inside also not copied/moved.
+            CountStatistics(aNode);
           end;
         end;
       end;
@@ -877,7 +888,7 @@ begin
     fsoterAddToTarget:
       begin
         // Don't create existing directory, but copy files into it.
-        Result := ProcessNode(aNode);
+        Result := ProcessNode(aNode, IncludeTrailingPathDelimiter(AbsoluteTargetFileName));
       end;
 
     else
@@ -885,25 +896,42 @@ begin
   end;
 
   if bRemoveDirectory and Result then
-    mbRemoveDir(aNode.TheFile.FullPath);
+    mbRemoveDir(aFile.FullPath);
 end;
 
 function TFileSystemOperationHelper.ProcessLink(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
 var
   LinkTarget: String;
   aFile: TFileSystemFile;
+  aSubNode: TFileTreeNode;
 begin
   aFile := aNode.TheFile as TFileSystemFile;
   Result := True;
 
-  case TargetExists(aFile, AbsoluteTargetFileName) of
+  // If link was followed then it's target is stored in a subnode.
+  if aNode.SubNodesCount > 0 then
+  begin
+    aSubNode := aNode.SubNodes[0];
+    //DebugLn('Link ' + aFile.FullPath + ' followed to '
+    //        + (aSubNode.TheFile as TFileSystemFile).FullPath
+    //        + ' will be copied as: ' + AbsoluteTargetFileName);
+    aFile := aSubNode.TheFile as TFileSystemFile;
+    if aFile.IsDirectory then
+      Result := ProcessDirectory(aSubNode, AbsoluteTargetFileName)
+    else
+      Result := ProcessFile(aSubNode, AbsoluteTargetFileName);
+
+    Exit; // exit without counting statistics, because they are not counted for followed links
+  end;
+
+  case TargetExists(aNode, AbsoluteTargetFileName) of
     fsoterSkip:
-      Exit(False);
+      Result := False;
 
     fsoterDeleted, fsoterNotExists:
       begin
         if (FMode <> fsohmMove) or
-           (not mbRenameFile(aNode.TheFile.FullPath, AbsoluteTargetFileName)) then
+           (not mbRenameFile(aFile.FullPath, AbsoluteTargetFileName)) then
         begin
           LinkTarget := ReadSymLink(aFile.Path + aFile.Name);     // use sLinkTo ?
           if LinkTarget <> '' then
@@ -933,21 +961,32 @@ begin
         end;
       end;
 
+    fsoterAddToTarget:
+      raise Exception.Create('Cannot add to link');
+
     else
       raise Exception.Create('Invalid TargetExists result');
   end;
+
+  Inc(FStatistics.DoneFiles);
+  UpdateStatistics(FStatistics);
 end;
 
 function TFileSystemOperationHelper.ProcessFile(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
 var
   aFile: TFileSystemFile;
+  OldDoneBytes: Int64; // for if there was an error
 begin
   aFile := aNode.TheFile as TFileSystemFile;
   Result:= False;
 
-  case TargetExists(aFile, AbsoluteTargetFileName) of
+  // If there will be an error the DoneBytes value
+  // will be inconsistent, so remember it here.
+  OldDoneBytes := FStatistics.DoneBytes;
+
+  case TargetExists(aNode, AbsoluteTargetFileName) of
     fsoterSkip:
-      Exit(False);
+      Result := False;
 
     fsoterDeleted, fsoterNotExists:
       Result := MoveOrCopy(aFile, AbsoluteTargetFileName, False);
@@ -980,19 +1019,27 @@ begin
       LogMessage(Format(rsMsgLogError+FLogCaption, [aFile.FullPath + ' -> ' + AbsoluteTargetFileName]),
                  [log_cp_mv_ln], lmtError);
     end;
+
+  with FStatistics do
+  begin
+    DoneFiles := DoneFiles + 1;
+    DoneBytes := OldDoneBytes + aFile.Size;
+    UpdateStatistics(FStatistics);
+  end;
 end;
 
 // ----------------------------------------------------------------------------
 
 function TFileSystemOperationHelper.TargetExists(
-             aFile: TFileSystemFile;
+             aNode: TFileTreeNode;
              AbsoluteTargetFileName: String): TFileSystemOperationTargetExistsResult;
 var
   Attrs, LinkTargetAttrs: TFileAttrs;
+  aFile: TFileSystemFile;
 
-  function DoDirectoryExists: TFileSystemOperationTargetExistsResult;
+  function DoDirectoryExists(AllowCopyInto: Boolean): TFileSystemOperationTargetExistsResult;
   begin
-    case DirExists(aFile, AbsoluteTargetFileName) of
+    case DirExists(aFile, AbsoluteTargetFileName, AllowCopyInto) of
       fsoodeSkip:
         Exit(fsoterSkip);
       fsoodeDelete:
@@ -1031,25 +1078,54 @@ var
     end;
   end;
 
+  function IsLinkFollowed: Boolean;
+  begin
+    // If link was followed then it's target is stored in a subnode.
+    Result := aFile.IsLink and (aNode.SubNodesCount > 0);
+  end;
+
+  function AllowAppendFile: Boolean;
+  begin
+    Result := (not aFile.IsDirectory) and
+              ((not aFile.IsLink) or
+               (IsLinkFollowed and (not aNode.SubNodes[0].TheFile.IsDirectory)));
+  end;
+
+  function AllowCopyInto: Boolean;
+  begin
+    Result := aFile.IsDirectory or
+              (IsLinkFollowed and aNode.SubNodes[0].TheFile.IsDirectory);
+  end;
+
 begin
   Attrs := mbFileGetAttr(AbsoluteTargetFileName);
   if Attrs <> faInvalidAttributes then
   begin
+    aFile := aNode.TheFile as TFileSystemFile;
+
     // Target exists - ask user what to do.
     if FPS_ISDIR(Attrs) then
     begin
-      Result := DoDirectoryExists
+      Result := DoDirectoryExists(AllowCopyInto)
     end
     else if FPS_ISLNK(Attrs) then
     begin
+      // Check if target of the link exists.
       LinkTargetAttrs := mbFileGetAttrNoLinks(AbsoluteTargetFileName);
-      if (LinkTargetAttrs <> faInvalidAttributes) and FPS_ISDIR(LinkTargetAttrs) then
-        Result := DoDirectoryExists
+      if (LinkTargetAttrs <> faInvalidAttributes) then
+      begin
+        if FPS_ISDIR(LinkTargetAttrs) then
+          Result := DoDirectoryExists(AllowCopyInto)
+        else
+          Result := DoFileExists(AllowAppendFile);
+      end
       else
-        Result := DoFileExists(False); // no append for links
+        // Target of link doesn't exist. Treat link as file and don't allow append.
+        Result := DoFileExists(False);
     end
     else
-      Result := DoFileExists(True);
+      // Existing target is a file.
+      Result := DoFileExists(AllowAppendFile);
   end
   else
     Result := fsoterNotExists;
@@ -1057,11 +1133,24 @@ end;
 
 function TFileSystemOperationHelper.DirExists(
              aFile: TFileSystemFile;
-             AbsoluteTargetFileName: String): TFileSourceOperationOptionDirectoryExists;
+             AbsoluteTargetFileName: String;
+             AllowCopyInto: Boolean): TFileSourceOperationOptionDirectoryExists;
+const
+  Responses: array[0..4] of TFileSourceOperationUIResponse
+    = (fsourRewrite, fsourCopyInto, fsourSkip, fsourRewriteAll, fsourSkipAll);
+  ResponsesNoCopyInto: array[0..3] of TFileSourceOperationUIResponse
+    = (fsourRewrite, fsourSkip, fsourRewriteAll, fsourSkipAll);
+var
+  PossibleResponses: array of TFileSourceOperationUIResponse;
 begin
   case FDirExistsOption of
     fsoodeNone:
       begin
+        case AllowCopyInto of
+          True :  PossibleResponses := Responses;
+          False:  PossibleResponses := ResponsesNoCopyInto;
+        end;
+
         case AskQuestion(Format(rsMsgFolderExistsRwrt, [AbsoluteTargetFileName]), '',
                          [fsourRewrite, fsourCopyInto, fsourSkip, fsourRewriteAll, fsourSkipAll],
                          fsourCopyInto, fsourSkip) of
@@ -1117,7 +1206,7 @@ begin
             Result := fsoofeSkip;
           fsourAppend:
             begin
-              FFileExistsOption := fsoofeAppend;
+              //FFileExistsOption := fsoofeAppend; - for AppendAll
               Result := fsoofeAppend;
             end;
           fsourRewriteAll:
@@ -1170,6 +1259,46 @@ begin
   begin
     logWrite(FOperationThread, sMessage, logMsgType);
   end;
+end;
+
+procedure TFileSystemOperationHelper.CountStatistics(aNode: TFileTreeNode);
+  procedure CountNodeStatistics(aNode: TFileTreeNode);
+  var
+    aFile: TFileSystemFile;
+    i: Integer;
+  begin
+    aFile := aNode.TheFile as TFileSystemFile;
+
+    with FStatistics do
+    begin
+      if aFile.IsDirectory then
+      begin
+        // No statistics for directory.
+        // Go through subdirectories.
+        for i := 0 to aNode.SubNodesCount - 1 do
+          CountNodeStatistics(aNode.SubNodes[i]);
+      end
+      else if aFile.IsLink then
+      begin
+        // Count only not-followed links.
+        if aNode.SubNodesCount = 0 then
+          DoneFiles := DoneFiles + 1
+        else
+          // Count target of link.
+          CountNodeStatistics(aNode.SubNodes[0]);
+      end
+      else
+      begin
+        // Count files.
+        DoneFiles := DoneFiles + 1;
+        DoneBytes := DoneBytes + aFile.Size;
+      end;
+    end;
+  end;
+
+begin
+  CountNodeStatistics(aNode);
+  UpdateStatistics(FStatistics);
 end;
 
 end.

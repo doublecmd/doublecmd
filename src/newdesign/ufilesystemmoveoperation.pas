@@ -109,7 +109,6 @@ begin
                         @UpdateStatistics,
                         Thread,
                         fsohmMove,
-                        SourceFiles.Path,
                         TargetPath,
                         FStatistics);
 
