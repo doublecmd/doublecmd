@@ -122,15 +122,14 @@ procedure DelTree(const sFolderName: String);
 var
   fl: TFileList;
   DT: TDeleteThread = nil;
-  pfri: PFileRecItem;
+  fri: TFileRecItem;
 begin
   fl:= TFileList.Create; // free at Thread end by thread
   try
-    New(pfri);
-    pfri^.sName:= sFolderName;
-    pfri^.iMode:= faFolder;
-    pfri^.bLinkIsDir:= False;
-    fl.AddItem(pfri);
+    fri.sName:= sFolderName;
+    fri.iMode:= faFolder;
+    fri.bLinkIsDir:= False;
+    fl.AddItem(@fri);
 
     DT:= TDeleteThread.Create(fl);
     //DT.sDstMask:=sDstMaskTemp;
