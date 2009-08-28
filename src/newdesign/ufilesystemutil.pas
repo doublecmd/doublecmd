@@ -1142,18 +1142,26 @@ const
     = (fsourRewrite, fsourSkip, fsourRewriteAll, fsourSkipAll);
 var
   PossibleResponses: array of TFileSourceOperationUIResponse;
+  DefaultOkResponse: TFileSourceOperationUIResponse;
 begin
   case FDirExistsOption of
     fsoodeNone:
       begin
         case AllowCopyInto of
-          True :  PossibleResponses := Responses;
-          False:  PossibleResponses := ResponsesNoCopyInto;
+          True :
+            begin
+              PossibleResponses := Responses;
+              DefaultOkResponse := fsourCopyInto;
+            end;
+          False:
+            begin
+              PossibleResponses := ResponsesNoCopyInto;
+              DefaultOkResponse := fsourRewrite;
+            end;
         end;
 
         case AskQuestion(Format(rsMsgFolderExistsRwrt, [AbsoluteTargetFileName]), '',
-                         [fsourRewrite, fsourCopyInto, fsourSkip, fsourRewriteAll, fsourSkipAll],
-                         fsourCopyInto, fsourSkip) of
+                         PossibleResponses, DefaultOkResponse, fsourSkip) of
           fsourRewrite:
             Result := fsoodeDelete;
           fsourCopyInto:
