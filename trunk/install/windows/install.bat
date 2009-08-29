@@ -11,6 +11,7 @@ rem WCX plugins directories
 mkdir  %DC_INSTALL_DIR%\plugins\wcx
 mkdir  %DC_INSTALL_DIR%\plugins\wcx\cpio
 mkdir  %DC_INSTALL_DIR%\plugins\wcx\deb
+mkdir  %DC_INSTALL_DIR%\plugins\wcx\lzma
 mkdir  %DC_INSTALL_DIR%\plugins\wcx\rpm
 mkdir  %DC_INSTALL_DIR%\plugins\wcx\unrar
 mkdir  %DC_INSTALL_DIR%\plugins\wcx\unbz2
@@ -40,12 +41,13 @@ rem copy plugins
 rem WCX
 copy  plugins\wcx\cpio\lib\cpio.wcx        %DC_INSTALL_DIR%\plugins\wcx\cpio\
 copy  plugins\wcx\deb\lib\deb.wcx          %DC_INSTALL_DIR%\plugins\wcx\deb\
+copy  plugins\wcx\lzma\lib\lzma.wcx        %DC_INSTALL_DIR%\plugins\wcx\lzma\
 copy  plugins\wcx\rpm\lib\rpm.wcx          %DC_INSTALL_DIR%\plugins\wcx\rpm\
 copy  plugins\wcx\unrar\lib\unrar.wcx      %DC_INSTALL_DIR%\plugins\wcx\unrar\
 copy  plugins\wcx\unbz2\lib\unbz2.wcx      %DC_INSTALL_DIR%\plugins\wcx\unbz2\
 copy  plugins\wcx\zip\lib\zip.wcx          %DC_INSTALL_DIR%\plugins\wcx\zip\
-copy  plugins\wcx\zip\ZipConfDlg.lfm       %DC_INSTALL_DIR%\plugins\wcx\zip\
+copy  plugins\wcx\zip\src\ZipConfDlg.lfm   %DC_INSTALL_DIR%\plugins\wcx\zip\
 rem WDX
 copy  plugins\wdx\rpm_wdx\lib\rpm_wdx.wdx  %DC_INSTALL_DIR%\plugins\wdx\rpm_wdx\
 copy  plugins\wdx\deb_wdx\lib\deb_wdx.wdx  %DC_INSTALL_DIR%\plugins\wdx\deb_wdx\
-copy  plugins\wdx\scripts\*                 %DC_INSTALL_DIR%\plugins\wdx\scripts\
+copy  plugins\wdx\scripts\*                %DC_INSTALL_DIR%\plugins\wdx\scripts\
