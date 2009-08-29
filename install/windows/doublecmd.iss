@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=Double Commander
-AppVerName=Double Commander 0.4 beta
+AppVerName=Double Commander 0.4.6 beta
 AppPublisherURL=http://doublecmd.sourceforge.net
 AppSupportURL=http://doublecmd.sourceforge.net
 AppUpdatesURL=http://doublecmd.sourceforge.net
@@ -12,7 +12,7 @@ DefaultGroupName=Double Commander
 AllowNoIcons=yes
 LicenseFile=doublecmd\doc\COPYING
 OutputDir=release
-OutputBaseFilename=doublecmd-0.4.0.i386-win32
+OutputBaseFilename=doublecmd-0.4.6.i386-win32
 Compression=lzma
 SolidCompression=yes
 
