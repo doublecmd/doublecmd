@@ -396,25 +396,28 @@ end;
 procedure InitGlobs;
 begin
   { Create default configuration files if need }
-  // main ini file
-  if not mbFileExists(gpIniDir + 'doublecmd.ini') then
-    CopyFile(gpCfgDir + 'doublecmd.ini', gpIniDir + 'doublecmd.ini');
-  // toolbar file
-  if not mbFileExists(gpIniDir + 'default.bar') then
-    CopyFile(gpCfgDir + 'default.bar', gpIniDir + 'default.bar');
-  // extension file
-  if not mbFileExists(gpIniDir + 'doublecmd.ext') then
-    CopyFile(gpCfgDir + 'doublecmd.ext.example', gpIniDir + 'doublecmd.ext.example');
-  // pixmaps file
-  if not mbFileExists(gpIniDir + 'pixmaps.txt') then
-    CopyFile(gpCfgDir + 'pixmaps.txt', gpIniDir + 'pixmaps.txt');
-  // editor highlight file1
-  if not mbFileExists(gpIniDir + 'editor.col') then
-    CopyFile(gpCfgDir + 'editor.col', gpIniDir + 'editor.col');
-  // editor highlight file2
-  if not mbFileExists(gpIniDir + 'twilight.col') then
-    CopyFile(gpCfgDir + 'twilight.col', gpIniDir + 'twilight.col');
-	
+  if gpIniDir <> gpCfgDir then
+    begin
+      // main ini file
+      if not mbFileExists(gpIniDir + 'doublecmd.ini') then
+        CopyFile(gpCfgDir + 'doublecmd.ini', gpIniDir + 'doublecmd.ini');
+      // toolbar file
+      if not mbFileExists(gpIniDir + 'default.bar') then
+        CopyFile(gpCfgDir + 'default.bar', gpIniDir + 'default.bar');
+      // extension file
+      if not mbFileExists(gpIniDir + 'doublecmd.ext') then
+        CopyFile(gpCfgDir + 'doublecmd.ext.example', gpIniDir + 'doublecmd.ext.example');
+      // pixmaps file
+      if not mbFileExists(gpIniDir + 'pixmaps.txt') then
+        CopyFile(gpCfgDir + 'pixmaps.txt', gpIniDir + 'pixmaps.txt');
+      // editor highlight file1
+      if not mbFileExists(gpIniDir + 'editor.col') then
+        CopyFile(gpCfgDir + 'editor.col', gpIniDir + 'editor.col');
+      // editor highlight file2
+      if not mbFileExists(gpIniDir + 'twilight.col') then
+        CopyFile(gpCfgDir + 'twilight.col', gpIniDir + 'twilight.col');
+    end;
+
   gIni := TIniFileEx.Create(gpIniDir + 'doublecmd.ini');
   gExts := TExts.Create;
   gColorExt := TColorExt.Create;
