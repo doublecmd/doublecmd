@@ -1,100 +1,55 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-
-  
-  <meta content="text/html; charset=Windows-1251" http-equiv="content-type">
-
-  
-  <title>Structure of doublecmd.ext</title>
+  <title>Structure of doublecmd.ext file</title>
+  <link rel="STYLESHEET" type="text/css" href="doublecmd.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 
-
 <body>
-
-Double Commander extension file<br>
-
-Based on Midnight Commander 3.0 extension file<br>
-
-<br>
-
-All lines starting with # or empty lines are thrown away.<br>
-
-All actions for file is showed in "Actions" submenu of file context popup menu<br>
-
-<br>
-
-File format:<br>
-
-<br>
-
-[extension1|extension2|...|extensionX]<br>
-
-Name=Category name<br>
-
-Icon=Path to icon<br>
-
-action1=command1<br>
-
-action2=command2<br>
-
-actionX=commandX<br>
-
-<br>
-
-Where:<br>
-
-<br>
-
-[extension] or [extension1|extension2 ...] - list of extensions (case insensitive !!no regular expression!!)<br>
-Also you can use "default" keyword as extension. In this case, if
-command had not found for sought file type, then will be used command
-from this section.<br>
-
-<br>
-
-Name - Name of this category (showed in file association manager)<br>
-
-<br>
-
-Icon - Path to icon that displays for this file types in file panel<br>
-
-<br>
-
-Action can be:<br>
-
-&nbsp; Open - used with tap on Enter or DblClick<br>
-
-&nbsp; View - used with tap on F3<br>
-
-&nbsp; Edit - used with tap on F4<br>
-
-&nbsp; other actions only is showed in "Actions" submenu of file context popup menu<br>
-
-<br>
-
-Command is any one-line shell command, with the simple macro substitution.<br>
-
-<br>
-
-Macros should be (case sensitive):<br>
-
-&nbsp; {!VFS}&nbsp;&nbsp;&nbsp; - for archives - use virtual file system<br>
-
-&nbsp; {!EDITOR} - call editor (internal or external by configuration}<br>
-
-&nbsp; {!VIEWER} - call viewer (the same) <br>
-
-&nbsp; {!SHELL}&nbsp; - use shell from configuration to execute program (see mplayer)<br>
-
-&nbsp; &lt;?command?&gt; - execute 'command' in system shell and save
-stdout output to file and transfer it as parameter to previous command
-(see rpm for example...)<br>
-
-&nbsp; %f - filename<br>
-
-&nbsp; %d - directory<br>
-
-&nbsp; %p - path(directory+filename)
+  <div class="CHAPTER">
+	<h1>Structure of <tt>doublecmd.ext</tt> file</h1>
+	
+	<div class="SECT1">
+	  <p>Double Commander extension file based on Midnight Commander 3.0 extension file</p>
+	  <p>All lines starting with # or empty lines are thrown away. All actions for file is showed in "Actions" submenu of file context popup menu.</p>
+	  <p>File format:</p>
+	  <pre class="CODE">
+	[extension1|extension2|...|extensionX]
+	Name=Category name
+	Icon=Path to icon
+	action1=command1
+	action2=command2
+	actionX=commandX</pre>
+	  <p>Where:</p>
+	  <p><span class="bold">[extension]</span> or <span class="bold">[extension1|extension2 ...]</span>
+	 &nbsp;&mdash; list of extensions (case insensitive !!no regular expression!!). ТAlso you can use "default" keyword as extension. In this case, if command had not found for sought file type, then will be used command from this section.</p>
+	 <p><span class="bold">Name</span>&nbsp;&mdash; Name of this category (showed in file association manager)</p>
+	 <p><span class="bold">Icon</span>&nbsp;&mdash; Path to icon that displays for this file types in file panel</p>
+	 <p>Action can be:</p>
+	 <ul>
+	  <li><p>open&nbsp;&mdash; used with tap on <kbd>Enter</kbd> or mouse double click</p></li>
+	  <li><p>view&nbsp;&mdash; used with tap on <kbd>F3</kbd></p></li>
+	  <li><p>edit&nbsp;&mdash; used with tap on <kbd>F4</kbd></p></li>
+	 </ul>
+	 <p>other actions only is showed in "Actions" submenu of file context popup menu.</p>
+	</div>
+	<p>Command is any one-line shell command, with the simple macro substitution.</p>
+	<p>Macros should be (case sensitive):</p>
+	<ul>
+	  <li><p><tt>{!VFS}</tt>&nbsp;&mdash; for archives&nbsp;&mdash; use virtual file system</p></li>
+	  <li><p><tt>{!EDITOR}</tt>&nbsp;&mdash; вcall editor (internal or external by configuration)</p></li>
+	  <li><p><tt>{!VIEWER}</tt>&nbsp;&mdash; call viewer (the same)</p></li>
+	  <li><p><tt>{!SHELL}</tt>&nbsp;&mdash; иuse shell from configuration to execute program (see mplayer)</p></li>
+	  <li><p><tt>&lt;?command?&gt;</tt>&nbsp;&mdash; execute 'command' in system shell and save stdout output to file and transfer it as parameter to previous command (see rpm for example...)</p></li>
+	  <li><p><tt>%f</tt>&nbsp;&mdash; filename</p></li>
+	  <li><p><tt>%d</tt>&nbsp;&mdash; directory</p></li>
+	  <li><p><tt>%p</tt>&nbsp;&mdash; path(directory+filename)</p></li>
+	</ul>
+  </div>
+	<div class="SECT1">
+	  <p class="NAVBACK"><a href="index.html">Home</a></p>
+	</div>
 </body>
+
 </html>

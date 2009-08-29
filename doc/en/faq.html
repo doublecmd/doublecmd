@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+  <title>Frequently Asked Questions (FAQ)</title>
+  <link rel="STYLESHEET" type="text/css" href="doublecmd.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+
+<body>
+  <div class="CHAPTER">
+	<h1>Frequently Asked Questions (FAQ)</h1>
+  
+  <div class="TOC">
+	<dl>
+	  <dt class="bold">Content</dt>
+	  <dt><a name="common">1. Common questions</a></dt>
+	  <dd>
+		<dl>
+		  <dt>1.1. <a href="#whatisit">What is a Double Commander?</a></dt>
+		  <dt>1.2. <a href="#whatsnew"> What's new in this version?</a></dt>
+		  <dt>1.3. <a href="#linux">It is a Total Commander® for Linux, yes?</a></dt>
+		  <dt>1.4. <a href="#wincmd">What is the difference between this program and my favorite Total Commander®?</a></dt>
+		  <dt>1.5. <a href="#opsys">I have a 64-bit Operating System. Can I download Double Commander for it?</a></dt>
+		  <dt>1.6. <a href="#link">How can I contact the developers of Double Commander?</a></dt>
+		</dl>
+	  </dd>
+	  <dt><a name="tux">2. Issues related to GNU/Linux</a></dt>
+	  <dd>
+		<dl>
+		  <dt>2.1. <a href="#version">Which version do I download?</a></dt>
+		  <dt>2.2. <a href="#repo">Where is the project repository?</a></dt>
+		  <dt>2.3. <a href="#plugins">Plugins from Total Commander® does not work!?</a></dt>
+		</dl>
+	  </dd>
+	  <dt><a name="interface">3. Interface configuration</a></dt>
+	  <dd>
+		<dl>
+		  <dt>3.1. <a href="#color">How can I change color settings for the panels?</a></dt>
+		  <dt>3.2. <a href="#colorbuttons">What are buttons <kbd>R</kbd> and <kbd>All</kbd> at the color's settings?</a></dt>
+		  <dt>3.3. <a href="#columns">Text at some columns overwrites each other!</a></dt>
+
+<!-- Sash0k: неактуально для английской версии?
+		  <dt>3.4. <a href="#tab_eng">Почему заголовок табулятора, при первом запуске в linux 
+		  на английском?</a></dt>
+-->
+		  <dt>3.4. <a href="#icons">How to associate my own icons with some file types?</a></dt>
+<!-- Sash0k: пофиксили же? из русской тоже надо убрать...
+		  <dt>3.6. <a href="#lcl_err">ERROR: [TGtkWidgetSet.GetSysColor] Bad Value: 45. Valid Range
+		  between 0 and 31. Что это?</a></dt>
+-->
+		  <dt>3.5. <a href="#icons">How to create splitter at the buttons panel?</a></dt>
+		</dl>
+	  </dd>
+	  <dt><a name="navigation">4. Issues related to control and navigation</a></dt>
+	  <dd>
+		<dl>
+<!-- Sash0k: изменяю ответ, теперь есть в настойках -->
+		  <dt>4.1. <a href="#cursor_down">What can I do to move the cursor down one line after select by <kbd>Space?</kbd></a></dt>
+<!-- Sash0k: изменяю ответ, теперь есть  -->
+		  <dt>4.2. <a href="#queue">Is there an ability to create a file operations queue?</a></dt>
+<!-- Sash0k: изменяю ответ, работает вроде  -->
+		  <dt>4.3. <a href="#hotkeys_default"><kbd>Ctrl+A</kbd> doesn't work, how to enable it?</a></dt>
+<!-- Sash0k: реализовано, убираю
+		  <dt>4.4. <a href="#copy_rename">Скопировать папку с переименованием не получается.</a></dt>
+-->
+		  <dt>4.4. <a href="#context_menu_create">How to create own context menu in this program?</a></dt>
+		  <dt>4.5. <a href="#context_menu_edit">How to custom context menu, for example, add the item "Open With"?</a></dt>
+		</dl>
+	  </dd>
+	  <dt><a name="viewer">5. Issues related to the built-viewer (F3)</a></dt>
+	  <dd>
+		<dl>
+		  <dt>5.1. <a href="#f3_compiz">Editor and browser windows appear in random position, when the Compiz is enabled</a></dt>
+		  <dt>5.2. <a href="#f3_font">Internal editor have strange font &nbsp;&mdash; horizontal characters overwrites each other</a></dt>
+		  <dt>5.3. <a href="#f3_jpg"> Viewer does not work with few images, but works with much other</a></dt>
+		  <dt>5.4. <a href="#f3_gif">Viewer cann't work with gif files..?</a></dt>
+		  <dt>5.5. <a href="#f3_hscroll">On some text files lines goes behind the window's edge</a></dt>
+		</dl>
+	  </dd>
+	</dl>
+  </div>
+  
+  <hr/>
+  
+  <div class="SECT1">
+	<h2>1. Common questions</h2>
+	<p class="bold"><a name="whatisit">Q: What is a Double Commander?</a></p>
+	<p><span class="bold">A:</span> Double Commander&nbsp;&mdash; is a cross-platform file manager with two panels.
+	Details see <a href="about.html">here.</a></p>
+	
+	<br/>
+	
+	<p class="bold"><a name="whatsnew">Q: What's new in this version?</a></p>
+	<p><span class="bold">A:</span> History log can be found online at <a href="http://doublecmd.sourceforge.net/site/eng/news.html">this</a> page. But now the project is under development so last <a href="http://www.firebirdsql.su/dc/">nightly builds</a> contain many new features and improvements.</p>
+	
+	<br/>
+	
+	<p class="bold"><a name="linux">Q: It is a Total Commander® for Linux, yes?</a></p>
+	<p><span class="bold">A:</span>  No, this is another program from other developers. Now supports OS Windows® and GNU/Linux with toolkits GTK2 and Qt. In the future, quite possibly support for other operating systems like Mac OS.</p>
+	
+	<br/>
+	
+	<p class="bold"><a name="wincmd">Q: What is the difference between this program and my favorite Total Commander®?</a></p>
+	<p><span class="bold">A:</span>  The goal of the project&nbsp;&mdash; to create a program, close to the TC via the maximum compatible with it to the plugins and configuration files. But Double Commander has some important advantages: it's free to use, works with different operating systems, and open source.</p>
+	
+	<br/>
+	
+	<p class="bold"><a name="opsys">Q: I have a 64-bit Operating System. Can I download Double Commander for it?</a></p>
+	<p><span class="bold">A:</span> Yes, builds for x64 exist under both supported platforms.</p>
+	
+	<br/>
+	
+	<p class="bold"><a name="link">Q: How can I contact the developers of Double Commander?</a></p>
+	<p><span class="bold">A:</span> Just write to the official project's <a href="http://doublecmd.sourceforge.net/forum/">forum</a> and developers, possibly, have pay attention to yours suggestion.</p>
+	
+	<p class="NAVBACK"><a href="#common">on top</a></p>
+  </div>
+  
+  <div class="SECT1">
+	<h2>2. Issues related to GNU/Linux</h2>
+	<p class="bold"><a name="version">Q: Which version do I download?</a></p>
+	<p><span class="bold">A:</span> If you have KDE - download a Qt-build, other case (Gnome, Xfce, LXDE) build for GTK toolkit.</p>
+	
+	<br/>
+	
+	<p class="bold"><a name="repo">Q: Where is the project repository?</a></p>
+	<p><span class="bold">A:</span> There is no the repository yet. But you can download installation packages deb, rpm or "portable" (binaries packed with bz2) from the official site. Also you can download the source code and compile DC by yourself.</p>
+	
+	<br/>
+	
+	<p class="bold"><a name="plugins">Q: Plugins from Total Commander® does not work!?</a></p>
+	<p><span class="bold">A:</span> They work, but not all. Plugins from TC compiled for Windows®. Therefore, they could be use only with Windows® version of Double Commander. But if plugin have an open source code, you can try to build it for GNU/Linux (or ask the plugin developer to do it :)).</p>
+	
+	<p class="NAVBACK"><a href="#tux">on top</a></p>
+  </div>
+  
+  <div class="SECT1">
+	<h2>3. Interface configuration</h2>
+	<p class="bold"><a name="color">Q: How can I change color settings for the panels?</a></p>
+	<p><span class="bold">A:</span> To change the color, you must do the following:</a></p>
+	<ul>
+	  <li><p>Configurations&nbsp;&rarr; Options&nbsp;&rarr; Colors (but first you must create own columns style)</p></li>
+	  <li><p>Configurations&nbsp;&rarr; Options&nbsp;&rarr; Columns, set default style, click "Edit" and configure :)</p></li>
+	</ul>
+	
+	<br/>
+	
+	<p class="bold"><a name="colorbuttons">Q: What are buttons R and All at the color's settings?</a></p>
+	<p><span class="bold">A:</span> It's simply:</p>
+	<ul>
+	  <li><p><kbd>R</kbd>&nbsp;&mdash;  restore color by default..</p></li>
+	  <li><p><kbd>All</kbd>&nbsp;&mdash; apply selected color to all colunms.</p></li>
+	</ul>
+	
+	<br/>
+	
+	<p class="bold"><a name="columns">Q: Text at some columns overwrites each other!</a></p>
+	<p><span class="bold">A:</span> Configurations&nbsp;&rarr; Options&nbsp;&rarr; Behaviors, set checkbox "Cut text to column width".</p>
+	
+	<br/>
+<!-- Sash0k: неактуально для английской версии?	
+	<p class="bold"><a name="tab_eng">Q: Почему заголовок табулятора, при первом запуске в
+	linux на английском?</a></p>
+	<p><span class="bold">A:</span> При первом запуске DC определяет язык системы на основании локали.
+	В дальнейшем текст заголовков сохраняется в <tt>doublecmd.ini</tt> и считывается из него. Изменить заголовки
+	можно в настройках колонок.</p>
+	
+	<br/>
+-->
+	<p class="bold"><a name="icons">Q: How to associate my own icons with some file types?</a></p>
+	<p><span class="bold">A:</span> You can edit the configuration file <tt>doublecmd.ext</tt>. For example, to associate a icon with image file types:</p>
+<pre class="CODE">
+[jpeg|jpg|gif|png]
+Name=images
+Icon=/home/rust/progs/doublecmd/pixmaps/32x32/mimetypes/image.png
+open=gthumb '%p'</pre>
+	<p>In this case, all of the above extensions will be displayed with <tt>image.png</tt>.</p>
+	
+	<br/>
+<!-- Sash0k: пофиксили же? из русской тоже надо убрать...	
+	<p class="bold"><a name="lcl_err">Q: ERROR: [TGtkWidgetSet.GetSysColor] Bad Value: 45.
+	Valid Range between 0 and 31. Что это?</a></p>
+	<p><span class="bold">A:</span> Это известная ошибка, она связана с переходом на новую версию
+	Lazarus IDE (точнее, библиотеки LCL). Чтобы избавиться от этой ошибки, нужно в диалоге настроек
+	на странице "Цвета"&nbsp;&rarr; "Файловые панели" заново выбрать цвет "Текст под курсором", а
+	также в "Настройка"&nbsp;&rarr; "Параметры"&nbsp;&rarr; "Колонки" проделать то же самое.</p>
+	
+	
+	<br/>
+-->	
+	<p class="bold"><a name="lcl_err">Q: How to create splitter at the buttons panel?</a></p>
+	<p><span class="bold">A:</span> To get the splitter, you need to specify "-" as hint.</p>
+	
+	<p class="NAVBACK"><a href="#interface">on top</a></p>
+  </div>
+  
+  <div class="SECT1">
+	<h2>4. Issues related to control and navigation</h2>
+	<p class="bold"><a name="cursor_down">Q: What can I do to move the cursor down one line after select by <kbd>Space?</kbd></a></p>
+	<p><span class="bold">A:</span> Set the key</p>
+	<pre class="CODE">SpaceMovesDown = 1</pre>
+	<p> in [Configuration] section file <tt>doublecmd.ini</tt>. Or just enable it at the Options.</p>
+	<br/>
+	
+	<p class="bold"><a name="queue">Q: Is there an ability to create a file operations queue?</a></p>
+	<p><span class="bold">A:</span> File operations queue was implemented in version 0.4.6 alpha, and will be added to the next stable release.</p>
+	
+	<br/>
+	
+	<p class="bold"><a name="hotkeys_default">Q: <kbd>Ctrl+A</kbd> doesn't work, how to enable it?</a></p>
+	<p><span class="bold">A:</span> How to enable:</p>
+	<ul>
+	  <li><p>Configurations&nbsp;&rarr; Options&nbsp;&rarr; Hot keys, set key for internal command <tt>cm_MarkMarkAll</tt><p></li>
+	  <li><p>Add these strings to file <tt>shortcuts.ini</tt>:<pre class="CODE">
+[Ctrl+A]
+Command0=cm_MarkMarkAll
+Object0=frmMain
+Form0=frmMain</pre><p></li>
+	</ul>
+	
+	<br/>
+<!-- Sash0k: реализовано, убираю
+	<p class="bold"><a name="copy_rename">Q: Скопировать папку с переименованием не
+	получается.</a></p>
+	<p><span class="bold">A:</span> Ситуация с переименованием директории на данный момент не
+	обрабатывается. Возможность будет реализована позже.</p>
+	
+	<br/>
+-->	
+	<p class="bold"><a name="context_menu_create">Q: How to create own context menu in this program?</a></p>
+	<p><span class="bold">A:</span>  Add button to the toolbar, choose <tt>cm_ShowButtonMenu</tt> as a command, and also add path to the *. bar file to the parameters.</p>
+	
+	<br/>
+	
+	<p class="bold"><a name="context_menu_edit">Q: How to custom context menu, for example, add the item "Open With"?</a></p>
+	<p><span class="bold">A:</span> This can be done in association files manually, associate programs with specified file types and also set default program.</p>
+	<p>"Configuration"&nbsp;&mdash; "File associations"&nbsp;&mdash; "File types" (enter any name here, e.g. <span class="bold">media</span>)&nbsp;&mdash; "Extensions" (add, e.g.
+	<span class="bold">avi</span>)&nbsp;&mdash; "Actions"&nbsp;&mdash; click button "Add" (type
+	<span class="bold">open</span>&nbsp;&mdash; "Command" type, e.g. <span class="bold">totem-xine "%p"</span>
+	or <span class="bold">mplayer "%p"</span> or <span class="bold">smplayer "%p"</span> etc..&nbsp;).
+	After these actions you can choose what to open the file by right-click.</p>
+	<p>By the way, it's easy to open any directory with root privileges, e.g. with Nautilus. You can add new type to the "File associations" (e.g. <span class="bold">dir</span>), set <span class="bold">folder</span> as extension, set <span class="bold">Open as root</span> as action and type command: <span class="bold">gksu nautilus "%p"</span>. After this just right click on any folder, choose <span class="bold">Open as root</span> and enter password :)</p>
+	
+	<p class="NAVBACK"><a href="#navigation">on top</a></p>
+  </div>
+  
+  <div class="SECT1">
+	<h2>5. Issues related to the built-viewer (F3)</h2>
+	<p class="bold"><a name="f3_compiz">Q: Editor and browser windows appear in random position, when the Compiz is enabled.</a></p>
+	<p><span class="bold">A:</span> Edit Compiz settings: place windows&nbsp;&rarr; windows with fixed positions and window rules&nbsp;&rarr; fixed size windows.</p>
+	<pre class="CODE">Code: (class=Doublecmd) & (title=/)</pre>
+	
+	<br/>
+	
+	<p class="bold"><a name="f3_font">Q: Internal editor have strange font  — horizontal characters overwrites each other.</a></p>
+	<p><span class="bold">A:</span> You must use monospace fonts as in the viewer or editor.</p>
+	
+	<br/>
+	
+	<p class="bold"><a name="f3_jpg">Q:  Viewer does not work with few images, but works with much other.</a></p>
+	<p><span class="bold">A:</span> A component used to view the images did not support some JPG files...</p>
+	
+	<br/>
+	
+	<p class="bold"><a name="f3_gif">Q: Viewer cann't work with gif files..?</a></p>
+	<p><span class="bold">A:</span> Yes this is true, but it will be implemented soon..</p>
+	
+	<br/>
+	
+	<p class="bold"><a name="f3_hscroll">Q: On some text files lines goes behind the window's edge.</a></p>
+	<p><span class="bold">A:</span> Use "Show as Wrap text" option in Viewer.</p>
+	
+	<p class="NAVBACK"><a href="#viewer">on top</a></p>
+  </div>
+  
+  </div>
+	<div class="SECT1">
+	  <p class="NAVBACK"><a href="index.html">Home</a></p>
+	</div>
+</body>
+
+</html>

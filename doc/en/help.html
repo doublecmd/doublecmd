@@ -1,0 +1,767 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+  <title>Basic Help</title>
+  <link rel="STYLESHEET" type="text/css" href="doublecmd.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+
+<body>
+  <div class="CHAPTER">
+	<h1>Basic Help</h1>
+	
+	<div class="TOC">
+	  <dl>
+	    <dt class="bold"><a name="TOC">Content</a></dt>
+		<dt>1. <a href="#intro">Introduction</a></dt>
+		<dt>2. <a href="#congif_files">Сonfiguration files</a></dt>
+		<dt>3. <a href="#iface">Interface</a></dt>
+		<dd>
+		  <dl>
+			<dt>3.1. <a href="#iface_menu">Menu bar</a></dt>
+			<dd>
+			  <dl>
+				<dt>3.1.1. <a href="#mnu_file">"Files"</a></dt>
+				<dt>3.1.2. <a href="#mnu_select">"Mark"</a></dt>
+				<dt>3.1.3. <a href="#mnu_commands">"Commands"</a></dt>
+				<dt>3.1.4. <a href="#mnu_tabs">"Tabs"</a></dt>
+				<dt>3.1.5. <a href="#mnu_view">"Show"</a></dt>
+				<dt>3.1.6. <a href="#mnu_config">"Configuration"</a></dt>
+				<dt>3.1.7. <a href="#mnu_help">"Help"</a></dt>
+			  </dl>
+			</dd>
+			<dt>3.2. <a href="#iface_tools">Button toolbar</a></dt>
+			<dt>3.3. <a href="#iface_drive_pane">Drives button bar</a></dt>
+			<dt>3.4. <a href="#iface_drive_btn">Drives list</a></dt>
+			<dt>3.5. <a href="#iface_tabs">Tabs bar</a></dt>
+			<dt>3.6. <a href="#iface_dir">Current directory bar</a></dt>
+			<dt>3.7. <a href="#iface_columns">Tabstop headers bar</a></dt>
+			<dt>3.8. <a href="#iface_status">Statusbar</a></dt>
+			<dt>3.9. <a href="#iface_console">Terminal window</a></dt>
+			<dt>3.10. <a href="#iface_path">Command line</a></dt>
+			<dt>3.11. <a href="#iface_buttons">Function key buttons bar</a></dt>
+		  </dl>
+		</dd>
+	  </dl>
+	</div>
+	
+	<hr/>
+	
+	<p>Double Commander&nbsp;&mdash; is project started by Russian programmer Alexander Koblov
+	(Alexx2000@mail.ru), as a fork of Sexi Commander (author&nbsp;&mdash; Radek Cervinka,
+	radek.cervinka@centrum.cz).</p>
+	<p>Double Commander is cross-platform (both GNU/Linux and Windows) file manager, supports
+	WCX, WFX, WDX, WLX and DSX plugin types. Last type is own DC search plugin type.
+	Windows version of Double Commander compatible with many plugins from Total Commander (TC), which is more than half of those which I tried. And Linux version, has no such programs at all. DC comes with installed some WCX (archiver) plugins to work with cpio, deb, rpm, bz2, rar, zip, tar, gz, tgz archives as a directories, and also search plugin (DSX) and lister videoplayer plugin for Linux (WLX), other plugins can be installed manually.</p>
+	<p class="FIGURE"><img title="Double Commander" alt="Double Commander" src="images/imgDC/ris05.png" width="651" height="440"/></p>
+	
+	<div class="SECT1">
+	  <h2><a name="intro">1. Introduction</a></h2>
+	  <p>At the program <a href="http://sourceforge.net/project/showfiles.php?group_id=188452">download page</a>
+	  we can see several versions, what available to download. First, we must choose for operating system (Windows or Linux)
+	  and the bit (32 or 64). After that, can select the type of distribution.
+	  For Windows there are an executable file <tt>.ехе</tt> or archive <tt>.zip</tt> (which is the so-called portable version).</p>
+	  <p>For Linux there are versions for most popular Linux distributions and desktops environments.
+	  You can download compiled <tt>deb</tt> packets for Debian-based distributives (e.g,
+	  Ubuntu), and <tt>rpm</tt> for Linux Mandriva. Also available portable version of the archive <tt>tar.bz2</tt>, it is the same 	  source from which you can build a program yourself. For various DE there are versions, based on 
+	  Gtk2 toolkit, and version for KDE, based on Qt. I must note, that program is not yet available from repositories.</p>
+	  <p>At the first launch Double Commander automatically detect system language, and set it for interface.
+          DC translated into 8 languages. In the future, the language can be changed in the menu 
+	  "<a href="#5_1_1_yazik">Configuration  &nbsp;&rarr; Options&nbsp;&rarr; Language</a>".
+	  Also Double Commander determine and set system theme. It looks like this:</p>
+	  <p class="FIGURE"><img title="Main program window" alt="Main window" src="images/imgDC/ris1.png" width="651" height="456"/></p>
+	  <p>As can be seen from the figure, there are two file panels, black terminal window and command line (as in TC)
+	  and a lower window that the log window (it shows all the action that has a file manager).</p>
+	</div>
+	
+	<div class="SECT1">
+	  <h2><a name="congif_files">2. Сonfiguration files</a></h2>
+	  <p>Double Commander keeps settings in configuration files at the program directory or at the user home directory.
+	  Main files are:</p>
+	  <ul>
+		<li><p><tt><a href="doublecmd.ini.html">doublecmd.ini</a></tt>&nbsp;&mdash; all the main setup program
+	   	(similar to <tt>wincmd.ini</tt>)</p></li>
+		<li><p><tt>default.bar</tt>&nbsp;&mdash; toolbar settings (like TC)</p></li>
+		<li><p><tt>editor.col</tt>&nbsp;&mdash; editor settings</p></li>
+		<li><p><tt><a href="shortcuts.html">shortcuts.ini</a></tt>&nbsp;&mdash; keyboard layout settings</p></li>
+		<li><p><tt>cmdhistory.txt</tt>&nbsp;&mdash; command line history</p></li>
+		<li><p><tt>dirhistory.txt</tt>&nbsp;&mdash; directories history</p></li>
+		<li><p><tt>edithistory.txt</tt>&nbsp;&mdash; edit files history (using <kbd>F4</kbd>)</p></li>
+		<li><p><tt>maskhistory.txt</tt>&nbsp;&mdash; the history of the use of masks to search, highlight, etc.</p></li>
+		<li><p><tt>doublecmd.log</tt>&nbsp;&mdash; log all operations</p></li>
+		<li><p><tt><a href="doublecmd.ext.html">doublecmd.ext.example</a></tt>&nbsp;&mdash; sample file associations configuration</p></li>
+	  </ul>
+	  <p>The structure of these files is described in detail in the topic. Almost all the settings in these files can be changed from the program GUI.</p>
+	</div>
+	
+	<div class="SECT1">
+	  <h2><a name="iface">3. Interface</a></h2>
+	  <p>Double Commander's interface</p>
+	</div>
+	
+	<div class="SECT2">
+	  <h3><a name="iface_menu">3.1. Menu bar</a></h3>
+	  <p class="FIGURE"><img title="Menu bar" alt="Menu bar" src="images/imgDC/ris2.png" width="532" height="48"/></p>
+	  <p>Menu Bar provides access to all features of Double Commander. But do not forget that the majority of actions you can 		  perform in other ways: by using hot keys or buttons on the toolbar.
+	</p>
+	</div>
+	
+	<div class="SECT3">
+	  <h4><a name="mnu_file">3.1.1. "Files"</a></h4>
+	  <p>This menu contained almost all that can be made over the files. Consider all of the items.</p>
+	  
+	  <p><a name="01_ssilka"><span class="bold">Create link</span></a> (internal command
+	  <tt><a name="cm_HardLink">cm_HardLink</a></tt>). On this item, Double Commander creates <a href="http://en.wikipedia.org/wiki/Hard_link">hard</a > link to the file under cursor, and place it to a folder, open on another panel.</p>
+	  <p class="FIGURE"><img alt="Hard link" title="Hard link" src="images/imgDC/ris10-5.png" width="347" height="161"/></p>
+	  <p><span class="italic">Link name</span>&nbsp;&mdash; here the path to link and its name. 
+	  The name is the last word after the last slash in the line.</p>
+	  <p><span class="italic">Existing destination</span>&nbsp;&mdash; object, on which link is created.</p>	  <p><a name="02_ssilka2"><span class="bold">Create symlink</span></a> (internal command 
+	  <tt><a name="cm_SymLink">cm_SymLink</a></tt>). All its like one point above, but link is <a href="http://en.wikipedia.org/wiki/Symlink">symbolic</a>.</p>
+	  
+	  <p>Selecting <a name="03_svoistva"><span class="bold">Show file properties...</span></a>
+	  (internal command <tt><a name="cm_FileProperties">cm_FileProperties</a></tt>) we get a window like that:</p>
+	  <p class="FIGURE"><img alt="Show file properties" title="Show file properties" src="images/imgDC/ris11.png" width="383" height="378"/>&nbsp;
+	  <img alt="Show file properties" title="Show file properties" src="images/imgDC/ris12.png" width="383" height="378"/></p>
+	  <p>which indicates the file or folder name, size, write and last access time, and also owner and group. On the 		  "Properties" tab you can change the access to the file (if you have the rights to do so). But only for a file or folder 		  under the cursor.</p>
+	  
+	  <p>Using item <a name="04_redakt_comment"><span class="bold">
+	  Edit comment...</span></a> (internal command <tt><a name="cm_EditComment">cm_cm_EditComment</a></tt>) you can create or
+	  change comments in UTF, ISO, KOI or ANSI encodings.</p>
+	  
+	  <p><a name="05_rasschet_mesta"><span class="bold">Calculate Occupied Space</span></a> (internal command <tt><a name="cm_CalculateSpace">cm_CalculateSpace</a></tt>) item calculates size of selected objects in rounded units and in bytes.</p>
+	  <p class="FIGURE"><img alt="Calculate size" title="Calculate size" src="images/imgDC/ris13.png" width="345" height="101"/></p>
+	  
+	  <p><a name="06_sravnit"><span class="bold">Compare by Contents</span></a>
+	  (internal command <tt><a name="cm_CompareContents">cm_CompareContents</a></tt>) shows window with two panels with the files to compare (usually text).</p>
+	  <p class="FIGURE"><img alt="Compare dialog" title="Compare dialog" src="images/imgDC/ris13-5.png" width="765" height="243"/></p>
+	  <p><span class="italic">Compare files</span>&nbsp;&mdash; starts the process of comparison files. Different lines 		  highlighted in red by default. You can choose any files. Also there is a vertical and horizontal scrolling.</p>
+	  <p><span class="italic">Next difference</span>&nbsp;&mdash; step to next different lines.</p>
+	  <p><span class="italic">Previous difference</span>&nbsp;&mdash; step to previous different lines.</p>
+	  <p><span class="italic">Binary mode</span>&nbsp;&mdash; result is presented in binary form.</p>
+	  <p><span class="italic">Keep scrolling</span>&nbsp;&mdash; allow to synchronize scrolling.</p>
+	  <p><span class="italic">Close</span>&nbsp;&mdash; closes comparison window.</p>
+	  
+	  <p><a name="07_mnog_imen"><span class="bold">Multi Rename Tool</span></a>
+	  (internal command <tt><a name="cm_MultiRename">cm_MultiRename</a></tt>)</p>
+	  <p class="FIGURE"><img alt="Multi Rename Tool" title="Multi Rename Tool"
+	  src="images/imgDC/ris14.png" width="524" height="300"/></p>
+	  <p>Allow to rename any files by defined mask. E.g. some files with different names could be
+	  renamed into Picture 1, Picture 2, Picture 3, etc.. Select files to rename and get window (see figure above).
+	  There you can see old and new names of your files.</p>
+	  <p>On the panel <span class="italic">Mask</span> you can set mask to rename. Following macroses are avaiable:</p>
+	  <ul>
+		<li><p><tt>[N]</tt>&nbsp;&mdash; is the same name as a source file</p></li>
+		<li><p><tt>[Nx]</tt>&nbsp;&mdash; get x-character from original name. E.g. if source file named
+		"Picture" choice [N5] would mean that will be used only character "u" (fifth in the name)</p></li>
+		<li><p><tt>[Nx:x]</tt>&nbsp;&mdash; get character from x to x. E.g. if source file named
+		"Picture" choice [N1:4] would mean "Pict"</p></li>
+		<li><p><tt>[C]</tt>&nbsp;&mdash; is counter, its parameters are listed on 
+		<span class="italic">Counter</span> panel.</p></li>
+		<li><p>You can combine the use of macros, and your own text (see figure).</p></li>
+	  </ul>
+	  <p>Panel <span class="italic">Find & Replace</span> will help when you need to replace parts of the file name
+	 (e.g to change "a" to "i", so change word "race" to "rice"). <a href="regexp.html">Regular expressions</a> are also 	    available.</p>
+	  <p>At the panel <span class="italic">Counter</span> set the parameters of counter: first number, number width (1, 01, 001, 0001, etc..), interval.</p>
+	  <p>At the list <span class="italic">File Name Style</span> you can choose from the following:</p>
+	  <ul>
+		<li><p>No change&nbsp;&mdash; the new names will be same as the old one.</p></li>
+		<li><p>UPPERCASE&nbsp;&mdash; the new names will be uppercase.</p></li>
+		<li><p>lowercase&nbsp;&mdash; the new names will be only lowercase.</p></li>
+		<li><p>First Char Big&nbsp;&mdash; the new file names will begin with a capital character.</p></li>
+	  </ul>
+	  <p>At the list <span class="italic">Log Result</span> you can enable logfile and specify path to it.</p>
+	  
+	  <p>By selecting item <a name="08_upakovat"><span class="bold">Pack files</span></a> (internal command
+	  <tt><a name="cm_PackFiles">cm_PackFiles</a></tt>) we call standard dialog to pack files to the zip, tar.gz, tgz and, possibly, rar formats.</p>
+	  <p class="FIGURE"><img alt="Pack" title="Pack" src="images/imgDC/ris14-5.png" width="368" height="183"/></p>
+	  
+	  <p>Also we can unpack files by <a name="09_raspakovat">
+	  <span class="bold">Extract Files</span></a> (internal command <tt><a name="cm_ExtractFiles">cm_ExtractFiles</a></tt>). Same dialog is called when you copy files from the archive.</p>
+	  <p class="FIGURE"><img alt="Unpack" title="Unpack" src="images/imgDC/ris14-6.png" width="364" height="170"/></p>
+	  <p>First line specifies destination directory (where the archive will be unpacked).
+	  It can be changed manually or by clicking on the button right of the line.
+	  At the line <span class="italic">Files to unpack</span>, you can specify mask, which files will be unpacked.  	  The history of masks can be found in the drop-down list. Checkbox <span class="italic">
+	  Unpack each archive to a separate subdir (name of the arcive)</span> allows to uncompress several archives 		  isolated, each in its folder.</p>
+	  
+	  <p>Items <a name="010_11_razrezat_sobrat">
+	  <span class="bold">Split file</span> and <span class="bold">Combine files</span></a> (internal commands
+	  <tt><a name="cm_FileSpliter">cm_FileSpliter</a></tt> and <tt>cm_FileLinker</tt>)</p>
+	  <p class="FIGURE"><img alt="Split file" title="Split file" src="images/imgDC/ris14-7.png" width="331" height="232"/></p>
+	  <p><span class="italic">File source</span>&nbsp;&mdash; specifies a file to split.</p>
+	  <p><span class="italic">Directory target</span>&nbsp;&mdash; need to specify destination folder of files</p>
+	  <p><span class="italic">File size</span>&nbsp;&mdash; select size of splitted parts. You can also enter your own value. Presets are:</p>
+	  <ul>
+		<li><p>1457664B — 3.5"&nbsp;&mdash; Floppy drive 3.5</p></li>
+		<li><p>98078KB - ZIP 100MB&nbsp;&mdash; ZIP drive</p></li>
+		<li><p>650MB - CD 650MB&nbsp;&mdash; CD drive size</p></li>
+		<li><p>700MB - CD 700MB&nbsp;&mdash; CD drive size</p></li>
+	  </ul>
+	  <p>On click OK button you get some files with extension .split at the target directory. To combine file again, select all ".split" parts and click <span class="bold">Combine files</span>(<tt><a name="cm_FileLinker">cm_FileLinker</a></tt>). You need also specify order of slpit parts to combine.</p>
+	  <p class="FIGURE"><img alt="Combine files" title="Combine files" src="images/imgDC/ris14-8.png" width="258" height="275"/></p>
+	  <p>This function is very useful, if you have small drives and large files. It is possible to move the file parts (as in the TC).</p>
+	  
+	  <p>Item <a name="012_controlnaya_summa">
+	  <span class="bold">Calculate check sum...</span></a> (internal command <tt><a name="cm_CheckSumCalc">cm_CheckSumCalc</a></tt>) is used to calculate the  <a href="http://en.wikipedia.org/wiki/Checksum">checksum</a> (<span class="bold">MD5</span>
+	   and <span class="bold">SHA1</span>) to check files integrity.
+	  <p class="FIGURE"><img alt="Calculate checksum" title="Calculate checksum" src="images/imgDC/ris14-8-1.png" width="468" height="165"/></p>
+	  <p><span class="italic">Save check sum file(s) to:</span>&nbsp;&mdash; line scpecifies name and path to
+	  the calculated checksum. 
+	  <p><span class="italic">Create separate MD5 files for each file</span>&nbsp;&mdash; if checksum calculates for multiple files, this option allow to create own MD5 file for each one.
+	  <p><span class="italic">MD5 and SHA1</span>&nbsp;&mdash; select algorithm which will calculate <a href="http://en.wikipedia.org/wiki/Checksum">checksums</a>.
+	  
+	</div>
+	
+	<p class="NAVBACK"><a href="#TOC">on top</a></p>
+	
+	<div class="SECT3">
+	  <h4><a name="mnu_select">3.1.2."Mark"</a></h4>
+	  <p>There are some commands at this group with which you can select files by different ways.</p>
+	  
+	  <p>First and second items <span class="bold"><a name="11_videlit_gruppu">Select a group</a></span> and <span class="bold">Unselect a group</span> (internal commands <tt><a name="cm_MarkPlus">cm_MarkPlus</a></tt> and <tt><a name="cm_MarkMinus">cm_MarkMinus</a></tt>). This commands select group of files by mask. As mask you can specify file names or extensions.</p>
+	  <p class="FIGURE"><img alt="Select a group" title="Select a group" src="images/imgDC/ris14-9.png" width="275" height="115"/></p>
+	  <p>E.g. will be selected all files that have extension <tt>.png</tt>. Also there is a drop list with masks history.</p>
+	  
+	  <p>Third and fourth items<span class="bold"><a name="12_videlit_vse">Select all</a></span> (internal command <tt><a name="cm_MarkMarkAll">cm_MarkMarkAll</a></tt>)
+	  и <span class="bold">Unselect all</span> (internal command <tt><a name="cm_MarkUnmarkAll">cm_MarkUnmarkAll</a></tt>). They help to select or unselect all items from panel.</p>
+	  
+	  <p>Fifth item is <span class="bold"><a name="13_inversia">Invert selections</a></span> (internal command <tt><a name="cm_MarkInvert">cm_MarkInvert</a></tt>). It makes selected files unselected and mark unselected.</p>
+	  
+	  <p>Sixth and seventh items <span class="bold"><a name="14_videlit_po_rash">Select all with same extension</a></span> (internal command
+	  <tt><a name="cm_MarkCurrentExtension">cm_MarkCurrentExtension</a></tt>) и <span class="bold">Unselect all with same extension</span>
+	  (internal command <tt><a name="cm_UnmarkCurrentExtension">cm_UnmarkCurrentExtension</a></tt>). These functions help to select and unselect files with some extension as the file under the cursor.</p>
+	  
+	  <p>Eighth and ninth items<span class="bold"><a name="15_kopir_imena">Copy Filename(s) to Clipboard</a></span> (internal command
+	  <tt><a name="cm_CopyNamesToClip">cm_CopyNamesToClip</a></tt>) and <span class="bold">Copy Filename(s) with Full Path</span> (internal command
+	  <tt><a name="cm_CopyFullNamesToClip">cm_CopyFullNamesToClip</a></tt>). First command copies selected filelist to clipboard, second copies too, but with full file paths.</p>
+	</div>
+	
+	<p class="NAVBACK"><a href="#TOC">on top</a></p>
+	
+	<div class="SECT3">
+	  <h4><a name="mnu_commands">3.1.3. "Commands"</a></h4>
+	  <p>First item is <span class="bold"><a name="21_poisk">Search</a></span> (internal command <tt><a name="cm_Search">cm_Search</a></tt>).</p>
+	  <p class="FIGURE"><img alt="Search" title="Search" src="images/imgDC/ris15.png" width="543" height="468"/></p>
+	  <p>Line <span class="italic">File mask</span> set the mask to search.</p>
+	  <p>Next line <span class="italic">Directory</span> specifies directory to start search, default is "/".</p>
+	  <p><span class="italic">Search subdirectories</span> can have:</p>
+	  <ul>
+		<li><p>current dir only</p></li>
+		<li><p>some levels (from 1 to 100)</p></li>
+		<li><p>all (unlimited depth)</p></li>
+	  </ul>
+	  <p>This setting control search depth at the filesystem tree. Set 
+	  "current dir only", we will search only in specified "Directory" (not any subdirs).</p>
+	  <p>Also you can use <a href="regexp.html">regular expressions</a>.</p>
+	  <p>If checkbox <span class="italic">Find text in file</span> enabled, process will search text, what specified
+	  at line <span class="italic">Find Data</span> at the files. You can also replace this text to any, specified at line<span class="italic">
+	  Replace text</span> and enabled checkbox.</p>
+	  <p><span class="italic">Case sensiteive</span>&nbsp;&mdash; said that the capital letters should be distinguished from the line. E.g. "Fallout" and "fallout" would be different.</p>
+	  <p><span class="italic">Find files NOT containing the text</span>, makes process to display files, what have not text, specified at the <span class="italic">Find Data</span> field. Also you can set encoding here (UTF,
+	  ISO, KOI, DOS, ANSI etc..).</p>
+	  <p><span class="italic">Use search plugin</span>: Use Locate plugin to make search.</p>
+	  <p>At the bottom of the window is a field in which search results are displayed, and a few buttons.</p>
+	  <p><span class="italic">View</span>&nbsp;&mdash; opens selected file with viewer (<kbd>F3</kbd>).</p>
+	  <p><span class="italic">New search</span>&nbsp;&mdash; clean result and allow to research (perhaps with new conditions).).</p>
+	  <p><span class="italic">Go to file</span>&nbsp;&mdash; closes search window and set cursor on selected file at the panel.</p>
+	  <p><span class="italic">Feed to listbox</span>&nbsp;&mdash; gives a list of files with full paths at the file panel.</p>
+	  <p>Tab <span class="italic">Advanced</span> let to specify additional conditions: Date (from .. to), Time (from .. to), Size (from .. to), also attributes and file age.</p>
+	  
+	  <p>Second item is <span class="bold"><a name="22_lichnue_catalogi">Directory hotlist</a></span> (internal command <tt><a name="cm_DirHotList">cm_DirHotList</a></tt>).
+	  This command same as pressing <a href="#btn_dirlist">"*"</a> button.</p>
+	  <p>Selecting this item we get popup menu, at which we can choose, add, delete or configure bookmarks.</p>
+	  <p class="FIGURE"><img alt="" src="images/imgDC/ris5-1-1.png" width="183" height="104"/></p>
+	  <p><span class="italic">Add</span>&nbsp;&mdash; opens a dialog add a new bookmark.</p>
+	  <p class="FIGURE"><img alt="" src="images/imgDC/ris5-2.png" width="312" height="316"/></p>
+	  <p><span class="italic">Delete</span>&nbsp;&mdash; deletes bookmark.</p>
+	  <p><span class="italic">Add manually</span>&nbsp;&mdash; allows to enter path of new bookmark from keyboard.</p>
+	  <p><span class="italic">Edit</span>&nbsp;&mdash; allows to edit added bookmark (Settings keep at section [Configuration] of doublecmd.ini,  HotDir= all bookmarks, separated by commas).</p>
+	  
+	  <p>Third item is <span class="bold"><a name="23_pusk_term">Run Term</a></span> (internal command <tt><a name="cm_RunTerm">cm_RunTerm</a></tt>)&nbsp;&mdash; opens terminal at current directory (settings at <a href="#5_1_2_2_pusk_terminala">Run terminal</a>).</p>
+	  
+	  <p>Fourth item is <span class="bold"><a name="24_otkr_VFS">Open VFS list</a></span> (virtual file system) used by plugins (WFX, WCX, etc), that needs own filesystem. If you add and configure the relevant plugins, the command will open the list, providing an opportunity to work with them.</p>
+	  
+	  <p>Fifth item <span class="bold"><a name="25_pomenyat_mestami">Swap Panels</a></span> (internal command <tt><a name="cm_Exchange">cm_Exchange</a></tt>), swaps left and right panels.</p>
+	  
+	  <p>Sixth item is <span class="bold"><a name="26_dve_paneli">Target = Source</a></span> (internal command <tt><a name="cm_TargetEqualSource">cm_TargetEqualSource</a></tt>) &nbsp;&mdash; opens same directory at inactive panel. This command same as pressing <a href="#btn_dirlist">"="</a>.</p>
+	</div>
+	
+	<p class="NAVBACK"><a href="#TOC">on top</a></p>
+	
+	<div class="SECT3">
+	  <h4><a name="mnu_tabs">3.1.4. "Tabs"</a></h4>
+	  <p>This group needs to manage the tabbed file panels.</p>
+	  
+	  <p>First item is <span class="bold"><a name="31_new_tab">New Tab</a></span> (internal command <tt><a name="cm_NewTab">cm_NewTab</a></tt>)&nbsp;&mdash; adds new tab at the panel and choose it.</p>
+	  
+	  <p>Second items is <span class="bold"><a name="32_otkr_vkladka">Open folder in new tab</a></span> (internal command
+	  <tt><a name="cm_OpenDirInNewTab">cm_OpenDirInNewTab</a></tt>)&nbsp;&mdash; opens new tab for directory under cursor, but not choose it.</p>
+	  
+	  <p>Third item is <span class="bold"><a name="33_del_vkladka">Remove tab </a></span> (internal command <tt><a name="cm_RemoveTab">cm_RemoveTab</a></tt>)&nbsp;
+	  &mdash; closes active tab and switch panel to the next tab (or previous, if you close last tab).</p>
+	  
+	  <p>Fourth item is <span class="bold"><a name="34_delalltabs">Remove all tabs </a></span> (internal command <tt><a name="cm_RemoveAllTabs">cm_RemoveAllTabs</a></tt>)
+	  &nbsp;&mdash; closes all inactive tabs. If they consist locked tab, it shall issue a <a href="#5_1_11_0_vopros">question</a>.</p>
+	  
+	  <p>Fifth item <span class="bold"><a name="35_blok_smena">Locked, but directory change allowed</a></span> (internal command
+	  <tt><a name="cm_ToggleLockDcaTab">cm_ToggleLockDcaTab</a></tt>)&nbsp;&mdash; if you lock tab with this method, you can change directory, but after change tab (or DC restart) will be opened locked directory.</p>
+	  
+	  <p>Sixth item is <span class="bold"><a name="36_block_bezsmena">Lock this tab</a></span> (internal command <tt><a name="cm_ToggleLockTab">cm_ToggleLockTab</a></tt>)
+	  &nbsp;&mdash; makes tab locked, another directories will be opened at new tab.</p>
+	  
+	  <p>Seventh and eighth items are <span class="bold"><a name="37_perekluch_tab">Switch to next tab</a></span> (internal command
+	  <tt><a name="cm_NextTab">cm_NextTab</a></tt>) and <span class="bold">Switch to previous tab</span> (internal command <tt><a name="cm_PrevTab">cm_PrevTab</a></tt>) &nbsp;&mdash; to switch to the right tab (the next) and the left (previous) tab.</p>
+	</div>
+	
+	<p class="NAVBACK"><a href="#TOC">on top</a></p>
+	
+	<div class="SECT3">
+	  <h4><a name="mnu_view">3.1.5. "Show"</a></h4>
+	  <p>Allows to control the display of the contents of the file panels.</p>
+	  
+	  <p>The first five items: <span class="bold"><a name="41_imya_attr">Sort by name</a></span> (internal command <tt><a name="cm_SortByName">cm_SortByName</a></tt>),<span class="bold">Sort by extension</span> (internal command <tt><a name="cm_SortByExt">cm_SortByExt</a></tt>), <span class="bold">Sort by size</span> (internal command <tt><a name="cm_SortBySize">cm_SortBySize</a></tt>), <span class="bold">Sort by date</span> (internal command <tt><a name="cm_SortByDate">cm_SortByDate</a></tt>), <span class="bold">Sort by attrib</span> (internal command <tt><a name="cm_SortByAttr">cm_SortByAttr</a></tt>)&nbsp;&mdash; are for some kinds of sorting at file panels. Also you can always click left mouse button on <a href="#iface_columns">column headers</a>.</p>
+	  
+	  <p>Sixth item is <span class="bold"><a name="42_obr_porr">Reverse order</a></span> (internal command <tt><a name="cm_ReverseOrder">cm_ReverseOrder</a></tt>) &nbsp;&mdash; invert sort order at active panel.</p>
+	  
+	  <p>Seventh item is <span class="bold"><a name="43_obnovit">Refresh</a></span> (internal command <tt><a name="cm_Refresh">cm_Refresh</a></tt>)&nbsp;&mdash; makes Double Commander refresh panels.</p>
+	  
+	  <p>Eighth item is <span class="bold"><a name="44_sysfiles">Show hidden/system files</a></span> (internal command <tt><a name="cm_ShowSysFiles">cm_ShowSysFiles</a></tt>) controls displaying of hidden files and directories. In Linux these are "dotted" files. Same in configuration &nbsp;&mdash; <a href="#5_1_2_10_skritie_faily">Show hidden/system files</a>.</p>
+	</div>
+	
+	<p class="NAVBACK"><a href="#TOC">on top</a></p>
+	
+	<div class="SECT3">
+	  <h4><a name="mnu_config">3.1.6. "Configuration"</a></h4>
+	  <p>First item is <span class="bold"><a name="5_1_parametry">Options</a></span> (internal command <tt><a name="cm_Options">cm_Options</a></tt>), it calls "Options" window. Here are most of all settings of program!!! Consider all sections of this window.</p>
+	  
+	  <p>First section is <span class="bold"><a name="5_1_1_yazik">Language</a></span>.
+	  There are some variants of translation here. You must choose you language.</p>
+	  <p class="FIGURE"><img alt="Language" title="Language" src="images/imgDC/ris16.png" width="312" height="284"/></p>
+	  
+	  <p>Next section is <span class="bold"><a name="5_1_2_povedenie">Behaviors</a></span></p>
+	  <p class="FIGURE"><img alt="Behaviors" title="Behaviors" src="images/imgDC/ris17.png" width="517" height="382"/></p>
+	  <p>Line <span class="italic">Run in terminal</span>: I set <tt>gnome-terminal
+	  -e sh -c</tt>, default <tt>xterm -e sh -c</tt>, because of use Gnome. You can set any other program here. Note, that keys <tt>-e sh -c</tt> needs for launch console programs from Double Commander (<kbd>Shift+Enter</kbd> by default).</p>
+	  <p><span class="italic"><a name="5_1_2_2_pusk_terminala">Run terminal</a></span>&nbsp;&mdash; set program, that must run on pressing
+	   <kbd>F9</kbd> or command <a href="#23_pusk_term">Run terminal</a> (it can be not only terminal program ;) ).</p>
+	  <p><span class="italic">Select directory with keypad</span>&nbsp;&nbsp; I dont know that mean this option, because of use notebook.</p>
+	  <p><span class="italic">Lynx like movement</span>&nbsp;&mdash; <tt>right arrow</tt> opens directory or run program under cursor, <tt>left arrow</tt> opens parent directory.</p>
+	  <p><span class="italic">Case sensitive sorting</span>&nbsp;&mdash;if this option is enabled, first files will be sorted, if their name has capital letters, and then the will be sorted other..</p>
+	  <p><span class="italic">Short Filesize format</span>&nbsp;&mdash; file size rounded before diplay at colunm "Size" at Mb, kb, Gb, Tb, etc.</p>
+	  <p><span class="italic">Move icon to system tray when minimized</span>&nbsp;&mdash;  Double Commander will have tray icon on minimize.</p>
+	  <p><span class="italic">Date and time format</span>&nbsp;&mdash; can vary from "day, mounth, year" to "day, mounth, year, hour, minute, second". Date will be display at column <a href="#5_1_15_2_data">Date</a> on panels.</p>
+	  <p><span class="italic">Cut text to column width</span>&nbsp;&mdash; sometimes columns text can overwrite each other.</p>
+	  <p><span class="italic"><a name="5_1_2_10_skritie_faily">Show hidden/system files</a></span>&nbsp;&mdash; to display "dotted" files (in Linux). Also can be changed from main menu.</p>
+	  <p><span class="italic">Show icons, Icons Size</span>&nbsp;&mdash; to display the icons of files and folders at file panels. The size can be 16x16, 22x22 and 32x32 pixels.</p>
+	  <p><span class="italic">Selection by mouse, Mode</span>&nbsp;&mdash; ability to select and unselect files and folders with a mouse. Mode is set <tt>left button</tt> or <tt>right button</tt>.</p>
+	  <p><span class="italic">Scrolling</span>&nbsp;&mdash; ability to use mouse wheel to list files at panels.</p>
+	  <ul>
+		<li><p>Line by line with cursor movement&nbsp;&mdash; list will be move to some lines, cursor will be move to one line.</p></li>
+		<li><p>Line by line&nbsp;&mdash; the same, but without cursor movement.</p></li>
+		<li><p>Page by page&nbsp;&mdash; the same, but without cursor movement</p></li>
+	  </ul>
+	  <p><span class="italic">Drive black list</span>&nbsp;&mdash; write disks at this line, which should not be displayed on the panel disks. If multiple drives, they come across a semicolon ";" with no spaces (e.g: home;local).</p>
+	  
+	  <p>Section <span class="bold"><a name="5_1_3_instruments">Tools</a></span>. You can specify you programs for edit (<kbd>F4</kbd>), view (<kbd>F3</kbd>) and find differences.</p>
+	  
+	  <p>Section <span class="bold"><a name="5_1_4_shrifty">Fonts</a></span></p>
+	  <p class="FIGURE"><img alt="Fonts" title="Fonts" src="images/imgDC/ris18.png" width="449" height="339"/></p>
+	  <p>You can select fonts for the editor (<kbd>F4</kbd>), viewer (<kbd>F3</kbd>) and main font for the program, and also their size. The bottom line for each allow to see how to display the selected font. One important note: the fonts for the editor and viewer must be <span class="red">MONOSPACE</span>, except when watching and allocation letters will be owerwrite each other.</p>
+	  <p class="FIGURE"><img alt="Font Differences" title="Font Differences" src="images/imgDC/ris19.png" width="470" height="368"/></p>
+	  <p>Normal font above, monospaced below.</p>
+	  
+	  <p>Section <span class="bold"><a name="5_1_5_cveta_panelei">Colors, File panels</a></span></p>
+	  <p class="FIGURE"><img alt="Color settings" title="Color settings" src="images/imgDC/ris20.png" width="449" height="339"/></p>
+	  <p>Note that all the changes, which will be held in this section does not appear on the appearance of Double Commander. This is due to the fact that global settings apply only when creating a new (own) style. Double Commander allow to configure styles for each panel, and more, for each TAB! customize the appearance of Commander, you must adjust the current style of the columns (by default, two Default and Breif) or create own style and apply it for any tab.</p>
+	  <p>Here you can choose colors that will be used to process the file panels.
+	  <span class="italic">Text Color, Background, Background2</span> (you can choose 2 backgrounds to make DC as zebra))) <span class="italic">Mark color, Cursor Color</span>, and also<span class="italic">Cursor Text</span>.</p>
+	  <p><span class="red">Note!!!</span> Line "Background" specified color of empty space at file panel.</p>
+	  <p><span class="italic">Use Inverted Selection</span>&nbsp;&mdash; inverts colors of marked text and marked text under cursor. More details about color setting are in section <a href="#5_1_15_colonki">Columns</a>.</p>
+	  
+	  <p>Section <span class="bold"><a name="5_1_6_cveta_failov">Colors, File types</a></span></p>
+	  <p class="FIGURE"><img alt="File types by color" title="File types by color" src="images/imgDC/ris21.png" width="427" height="337"/></p>
+	  <p>Here you can specify file types that should be given a different color.</p>
+	  <p>In line <span class="italic">Category name</span> you want to write a description of the file, what he does or what program to open.</p>
+	  <p>In line <span class="italic">Category mask</span> fits mask (parts of name and extension), to recognize different types. Some masks could be wtitten through the semicolon ";" without spaces. Symbol "*" means any count of any symbols.</p>
+	  <p>In line <span class="italic">Category attributes</span> you want to write file attributes, with which program also will recognize different types.</p>
+	  <p>Do not forget to click "Apply" button after customization.</p>
+	  
+	  <p>Section <span class="bold"><a name="5_1_7_hotKeys">Hot Keys</a></span></p>
+	  <p class="FIGURE"><img alt="Hot Keys" title="Hot Keys" src="images/imgDC/ris22.png" width="478" height="347"/></p>
+	  <p>At this section you can set keys to launch commands, and also specify parameters for these commands.</p>
+	  <p><span class="italic">Categories</span>&nbsp;&mdash; shows the category of hot keys (combinations). Main - the main category.</p>
+	  <p><span class="italic">Commands</span>&nbsp;&mdash; list of aviable <a href="cmds.html">shortcuts</a> of Double Commander. List shown as a table with three columns</p>
+	  <ul>
+		<li><p>Commands (names of internal commands)</p></li>
+		<li><p>Comments (short description)</p></li>
+		<li><p>Hotkeys (assigned shortcuts)</p></li>
+	  </ul>
+	  <p><span class="italic">Filter</span>&nbsp;&mdash; search in internal commands.</p>
+	  <p><span class="italic">Hot Key</span>&nbsp;&mdash; new shortcut displays here. Set cursor at this line and press combination on keyboard enter hot key.</p>
+	  <p><span class="italic">Hot Keys</span>&nbsp;&mdash; this line shows assigned shortcuts for selected commadn. And also displays warning if you want to set shortcut, that already used.</p>
+	  <p><span class="italic">Param</span>&nbsp;&mdash; line to set some parameter for command.</p>
+	  <p><span class="italic">Set HotKey</span>&nbsp;&mdash; sets new shortcut. It will be moved from line "Hot Key" to "Hot Keys". And added to the third column of "Commands" table.</p>
+	  <p><span class="italic">Clear HotKey</span>&nbsp;&mdash; clear shortcut from line "Hot Keys".</p>
+	  <p>E.g. to reassign drive popup menu from <kbd>Alt+F1</kbd> and <kbd>Alt+F2</kbd> to <kbd>Ctrl+F1</kbd> and <kbd>Ctrl+F2</kbd> (in Linux) you must select command <tt>cm_RightOpenDrives</tt>, set cursor to the line "Hot Key" and press <kbd>Ctrl+F2</kbd> Then you must set нажать "Set HotKey" button. Same actions for command <tt>cm_LeftOpenDrives</tt> and shortcut <kbd>Ctrl+F1</kbd>.</p>
+	  
+	  <p>Section <span class="bold"><a name="5_1_8_plaginy">Plugins</a></span> Information will be added later...</p>
+	  
+	  <p>Section <span class="bold"><a name="5_1_9_vidOkna">Layout</a></span></p>
+	  <p class="FIGURE"><img alt="Layout" title="Layout" src="images/imgDC/ris23.png" width="415" height="330"/></p>
+	  <p>You can change layout of main window here. I suppose, all options explains on upper screenshot.</p>
+	  <p class="FIGURE"><img alt="Layout DC" title="Layout DC" src="images/imgDC/ris24.png" width="630" height="382"/></p>
+	  
+	  <p>Section <span class="bold"><a name="5_1_10_fileOper">File operations</a></span></p>
+	  <p class="FIGURE"><img alt="" src="images/imgDC/ris25.png" width="489" height="335"/></p>
+	  <p><span class="italic">Buffer Size (Kb)</span>&nbsp;&mdash; sets memory buffer for file operations.</p>
+	  <p><span class="italic">Use memory mapping for search text in files.</span>
+	  &nbsp;&mdash; file copies into virtual memory before search. Its faster, but needs more powerful computer.</p>
+	  <p><span class="italic">Use stream for search in text files</span>&nbsp;&mdash; file splits into parts, then search begins.(slower, but fewer resources requires).</p>
+	  <p><span class="italic">Number of wipe pass</span> (internal command <tt><a name="cm_Wipe">cm_Wipe</a></tt>)
+	  &nbsp;&mdash; function for the complete destruction of files from your hard disk (<kbd>Alt+Del</kbd> by default). Erasing uses several owerwrites of file, you can specify the number of rewrites.</p>
+	  <p><span class="italic">Drop readonly flag</span>&nbsp;&mdash; if enabled, Double Commander will drop this flag at Windows, and add "w" attribute at Linux.</p>
+	  <p><span class="italic">Process comments with files/folders</span>&nbsp;&mdash; flag for comments.</p>
+	  <p><span class="italic">Select only the name then renaming (not the extension)</span>&nbsp;&mdash; Selects only name before "." on renaming.</p>
+	  <p><span class="italic">Show tab select in copy/move dialog</span>
+	  &nbsp;&mdash; If panel have more than one tab, on copy/move you can choose destination tab.</p>
+	  <p class="FIGURE"><img alt="Show tab select in copy/move dialog enabled" title="Show tab select in copy/move dialog enabled" src="images/imgDC/ris25-1.png" width="285" height="174"/>
+	  &nbsp;<img alt="Show tab select in copy/move dialog disabled" title="Show tab select in copy/move dialog disabled" src="images/imgDC/ris25-2.png" width="272" height="174"/></p>
+<!-- еще две опции не описаны, на момент написания доки их похоже не было -->	  
+	  <p>Section <span class="bold"><a name="5_1_11_vkladki">Folder tabs</a></span></p>
+	  <p class="FIGURE"><img alt="Folder tabs" title="Folder tabs" src="images/imgDC/ris26.png" width="444" height="316"/></p>
+	  <p><span class="italic">Show tab header also when there is only one tab</span>&nbsp;&mdash; If option disabled and there is only one tab at the panel, tab headers makes invisible (usually more comfortable).</p>
+<!-- не нашел в установленной версии этой опции
+	  <p><span class="italic">Размещать вкладки в несколько рядов</span>&nbsp;&mdash; когда открыто
+	  большое количество вкладок, и они не умещаются в одну строчку, то по умолчанию по бокам появляются
+	  стрелки, за которые и уходят заголовки вкладок. А если отмечена эта опция, то заголовки вкладок
+	  выстраиваются в два или три ряда.</p>
+-->
+	  <p><span class="italic">Limit tab title length to</span>&nbsp;&mdash; Long named tabs can be limits by size.</p>
+	  <p><span class="italic"><a name="5_1_11_0_vopros">Confirm close all tabs</a></span>&nbsp;&mdash; option to keep tabs from unexpected run of <a href="#34_delalltabs">Remove all tabs</a> command.</p>
+	  <p><span class="italic"><a name="5_1_12_1_zvezda">Show locked tabs with an asterisk *</a></span>&nbsp;&mdash; to distinguish locked and unlocked tabs. Locked tabs will be marked by *.</p>
+	  <p class="FIGURE"><img alt="Tabs" title="Tabs" src="images/imgDC/ris6.png" width="445" height="33"/></p>
+	  <p>Tab <tt>wine</tt> is locked here, and tab <tt>rust</tt> is not locked.</p>
+	  <p><span class="italic">Activate target panel when clicking on one of its Tabs</span>&nbsp;&mdash; if enabled, then when you switch the mouse on the tab the next panel, the focus will automatically be transferred to it. The cursor will be in a position where he stayed until switching to that tab.</p>
+	  
+	  <p>Section <span class="bold"><a name="5_1_12_protokol">Log</a></span></p>
+	  <p class="FIGURE"><img alt="Log" title="Log" src="images/imgDC/ris26-3.png" width="475" height="289"/></p>
+	  <p>Here you can choose file log Double Commander's operations. And also choose logged operations, their appearance and type.</p>
+	  
+	  <p>Section <span class="bold"><a name="5_1_13_Configur">Configuration</a></span></p>
+	  <p class="FIGURE"><img alt="Configuration" title="Configuration" src="images/imgDC/ris26-4.png" width="475" height="289"/></p>
+	  <p>Here you can choose a place for all configuration files</p>
+	  <p><span class="italic">Edit</span>&nbsp;&mdash; button for manually edit of doublecmd.ini configuration file.</p>
+	  <p>You can also customize what kind of logs will keep Double Commander, it is useful to facilitate navigation.</p>
+	  <p><span class="italic">Directory history</span>&nbsp;&mdash; saves history of all visited directories.</p>
+	  <p><span class="italic">Command line history</span>&nbsp;&mdash; saves the history of commands that were entered at the command line.</p>
+	  <p><span class="italic">File mask history</span>&nbsp;&mdash; helps you remember which files you have already searched for and generally what the mask files you used.</p>
+	  
+	  <p>Section <span class="bold"><a name="5_1_14_bystrPoisk">Quick search</a></span></p>
+	  <p class="FIGURE"><img alt="Quick search" title="Quick search" src="images/imgDC/ris26-5.png" width="475" height="289"/></p>
+	  <p>Quick search is search on files at the panel. Here you can set keyboard shortcut on it, and also set some parameters.</p>
+	  <p><span class="italic">Exact name match: Beginning </span>&nbsp;
+	  &mdash; means that cursor will be set on file, that begins from searched mask.</p>
+	  <p><span class="italic">Exact name match: Ending</span>
+	  &nbsp;&mdash; it helps, if you know only end of filename, e.g. <tt>...us.ext</tt>, so you can find this file using mask <tt>*us.ext</tt>.</p>
+	  
+	  <p>Section <span class="bold"><a name="5_1_15_colonki">Columns</a></span></p>
+	  <p class="FIGURE"><img alt="Columns" title="Columns" src="images/imgDC/ris27.png" width="498" height="285"/></p>
+	  <p>At this section you can customize panels appearance, columns, colors, fonts, etc.</p>
+	  <p><span class="italic">Configure columns to the file system</span>&nbsp;&mdash; if any installed WFX-plugins have file system, that differ from standart FS, this line contents set of styles especially for that.
+	  <P>Main windows displays list of existing column styles. There are two deafult styles: Default и Brief. (on screenshot you can see also my style called my_style).</p>
+	  <p><span class="italic">New</span>&nbsp;&mdash; creates new column set. It opens columns editor window, where you can enter name and also custom you new style.</p>
+	  <p><span class="italic">Delete</span>&nbsp;&mdash; deletes selected columns set.</p>
+	  <p><span class="italic">Copy</span>&nbsp;&mdash; copies columns set. New set called as target set +  <tt>_Copy</tt> added. It helps to create some different sets from one parent.</p>
+	  <p><span class="italic">Edit</span>&nbsp;&mdash; opens columns editor window.</p>
+	  <p class="FIGURE"><img alt="Column set custom window" title="Column set custom window" src="images/imgDC/ris28.png" width="540" height="307"/></p>
+	  <p><span class="italic"><a name="5_1_15_1_nastroika_nabora">Configure view nr: 1 Name</a></span>&nbsp;&mdash; line for the name of column set. Number of set is order at the list <a href="#5_1_15_colonki">Columns</a>.</p>
+	  <p><span class="italic">Cursor border</span>&nbsp;&mdash; able to custom color of cursor border or disable it.  
+	  <p>Customization table&nbsp;&mdash; allows to set number, name, content, place and size of columns.</p>
+	  <p><span class="italic">Customize column :1 'Name'</span>&nbsp;&mdash; buttons at this line can choose column to edit. And also expand fonts and colors customization dialog.</p>
+	  <p><span class="italic">Preview</span>&nbsp;&mdash; displays new style on the panel before applying.</p>
+	  <p>Here is customization table</p>
+	  <p class="FIGURE"><img alt="Customization table" title="Customization table" src="images/imgDC/ris28-1.png" width="607" height="47"/></p>
+	  <p>Count of lines equal to count of columns at the set.</p>
+	  <p>The parameters that determine the table for the column:</p>
+	  <p><span class="italic">Delete</span>&nbsp;&mdash; allows you to remove any line, which is pressed the appropriate cell.</p>
+	  <p><span class="italic">Caption</span>&nbsp;&mdash; specifies the name of the column, then that will be displayed in the <a href="#iface_columns">tabstop headers bar</a>. You can set any name.</p>
+	  <p><span class="italic">Width</span>&nbsp;&mdash; column width (pixels), that will be set on program start. Note, that width may depends on column content, e.g. for file extension column will have small width.</p>
+	  <p><span class="italic">Align</span>&nbsp;&mdash; sets position of column name. Variants are:</p>
+	  <ul>
+		<li><p><tt>(&lt; -)</tt> by left border</p></li>
+		<li><p><tt>(- &gt;)</tt> by right border</p></li>
+		<li><p><tt>( = )</tt> middle</p></li>
+	  </ul>
+	  <p><span class="italic">Field contents</span>&nbsp;&mdash; sets basic content of column. You can select from following variants:</p>
+	  <ul>
+		<li><p><tt>GETFILENAME</tt>&nbsp;&mdash; file name and extension (<tt>text.txt</tt>).</p></li>
+		<li><p><tt>GETFILENAMENOEXT</tt>&nbsp;&mdash; file name and no extension (<tt>text</tt>).</p></li>
+		<li><p><tt>GETFILEEXT</tt>&nbsp;&mdash; file extension (from end downto dot, e.g. <tt>.txt</tt> or <tt>.example</tt>).</p></li>
+		<li><p><tt>GETFILESIZE</tt>&nbsp;&mdash; file or directory size. Appearance depends on option at section <a href="#5_1_2_povedenie">Behaviors</a>.</p></li>
+		<li><p><tt><a name="5_1_15_2_data">GETFILETIME</a></tt>&nbsp;&mdash; file or directory date. Appearance depends on option at section <a href="#5_1_2_povedenie">Behaviors</a>.</p></li>
+		<li><p><tt>GETFILEATTR</tt>&nbsp;&mdash; file or directory attributes.</p></li>
+		<li><p><tt>GETFILEPATH</tt>&nbsp;&mdash; path to current item. Uses, usually, for search results.</p></li>
+		<li><p><tt>GETFILEGROUP</tt>&nbsp;&mdash; displays group of file.</p></li>
+		<li><p><tt>GETFILEOWNER</tt>&nbsp;&mdash; displays owner of file.</p></li>
+		<li><p><tt>GETFILELINKTO</tt>&nbsp;&mdash; displays path and file (if exist), what linked with symlink.</p></li>
+	  </ul>
+	  <p><span class="italic">Move</span>&nbsp;&mdash; allows you to move lines. Upper line is more left.</p>
+	  <p><span class="italic">Colors</span>&nbsp;&mdash; lets you customize column's color and font. Window to edit color you can see below.</p>
+	  <p class="FIGURE"><img alt="Column's color editor" title="Column's color editor" src="images/imgDC/ris29.png" width="619" height="435"/></p>
+	  <p>To call this window you must click buttons in line <span class="italic"> Customize column 1: 'Name'</span>.</p>
+	  <p><span class="italic">Font</span>&nbsp;&mdash; you can choose font for this column. To use system fonts list, click button <tt>&laquo;...&raquo;</tt>.</p>
+	  <p><span class="italic">Size</span>&nbsp;&mdash; you can set font size here.</p>
+	  <p><span class="italic">R</span>&nbsp;&mdash; Restores default font settings.</p>
+	  <p><span class="italic">All</span>&nbsp;&mdash; Applies setting to all other columns.</p>
+	  <p><span class="italic">Allow Overcolor</span>&nbsp;&mdash; this option enables ability to display the names of files in a different color selected in the section <a href="#5_1_6_cveta_failov">Colors, File types</a>.</p>
+	  <p>It is possible to choose a color for the following elements: Text Color, Background, Background 2, Mark Color, Cursor Color, Cursor Text.</p>
+	  <p class="bold"><span class="italic">Somethig about color</span></p>
+	  <p>There are 20 preset color from gray to black (well, a red and green there))). And also there is <span class="bold">nice ability</span> to set system theme color settings So, <span class="red">program appearance will change on different system themes</span> Textures from system theme <span class="bold">can be used for columns sets</span>.</p>
+	  <p><span class="italic">&gt;&gt;</span>&nbsp;&mdash; button for choosing some color from palette.</p>
+	  <p><span class="italic">R</span>&nbsp;&mdash; restores default settings from section <a
+	  href="#5_1_5_cveta_panelei">Colors, File types</a>.</p>
+	  <p><span class="italic">All</span>&nbsp;&mdash; applies setting to all other columns.</p>
+	  <p>Sample of using system columns for DC (right panel).</p>
+	  <p class="FIGURE"><img alt="Color Sample 1" title="Color Sample 1" src="images/imgDC/column1.png" width="900" height="269"/></p>
+	  <p>Sample of using independent settings for columns.</p>
+	  <p class="FIGURE"><img alt="Color Sample 2" title="Color Sample 2" src="images/imgDC/column2.png" width="900" height="295"/></p>
+	  <p>Sample of using textures.</p>
+	  <p class="FIGURE"><img alt="Color Sample 3" title="Color Sample 3" src="images/imgDC/column3.png" width="900" height="263"/></p>
+	  
+	  <p>Section <span class="bold"><a name="5_1_16_raznoe">Miscellaneous</a></span></p>
+	  <p class="FIGURE"><img alt="Miscellaneous" title="Miscellaneous" src="images/imgDC/ris30.png" width="498" height="285"/></p>
+	  <p><span class="italic">Vertical lines</span>&nbsp;&mdash; enables vertical table lines at the panels.</p>
+	  <p><span class="italic">Horizontal lines</span>&nbsp;&mdash; enables horizontal table lines at the panels.</p>
+	  <p class="FIGURE"><img alt="with lines" title="with lines" src="images/imgDC/ris31-5.png" width="333" height="131"/>&nbsp;
+	  <img alt="without lines" title="without lines" src="images/imgDC/ris31-6.png" width="333" height="130"/></p>
+	  <p><span class="italic">Show warning messages ("Ok" button only)</span>&nbsp;&mdash; shows warning messages if enabled.</p>
+	  <p><span class="italic">When selectiong files with SPACEBAR, move down to next file</span>
+	  &nbsp;&mdash; moves cursor down on selection with SPACEBAR. Default keys are <kbd>Shift+Down</kbd>  or <kbd>Shift+Up</kbd>.</p>
+	  <p><span class="italic">Show square brackets around directories</span>&nbsp;&mdash; helps to visually distinguish directories from files when icons disabled.</p>
+	  
+	  <p>Section <span class="bold"><a name="5_1_17_avtoobnov">Auto refresh</a></span></p>
+	  <p>Allows Double Commander to refresh panels automatically, as <kbd>Ctrl+R</kbd>.</p>
+	  <p class="FIGURE"><img alt="Auto refresh" title="Auto refresh" src="images/imgDC/ris32.png" width="442" height="286"/></p>
+	  <p>There are some options at this section:</p>
+	  <p><span class="italic">Refresh when files are created, deleted, and renamed</span>.</p>
+	  <p><span class="italic">Also when size, date or attributes change</span>.</p>
+	  <p><span class="italic">Don't react to updates while in the background</span>&nbsp;&mdash; if Double Commander window minimized or in background, auto refresh will be stopped.</p>
+	  <p><span class="italic">Update footer (total number of files)</span>&nbsp;&mdash; updates also status line not only panels.</p>
+	  <p><span class="italic">Update header (free disk space)</span>.</p>
+	  <p><span class="italic">No refresh for these drives</span>&nbsp;&mdash; you can set disk, that must be disabled for refres. Specify full path, values separated by semicolons ";" without spaces (e.g. <tt>/home;/media/cdrom</tt>).</p>
+	  
+	  <p>Item <span class="bold"><a name="5_2_fileAssoc">File associations</a></span> (internal command <tt><a name="cm_FileAssoc">cm_FileAssoc</a></tt>)<p>
+	  <p>This item opens the configuration file associations. All associations sets to file <tt>doublecmd.ext</tt>. Associations example, called <tt>doublecmd.ext.example</tt>, is in the program directory.</p>
+	  <p>Here you can custom file associations, sets commands or scripts for some types. Commands will display at the context menu (internal command <tt><a name="cm_ContextMenu">cm_ContextMenu</a></tt>).</p>
+	  <p><span class="italic">File types</span>&nbsp;&mdash; contains a list of extensions. Each group can contain many file extensions, and such a group can be associated with various programs.</p>
+	  <p><span class="italic">Add</span>&nbsp;&mdash; adds new group. You must enter group name, e.g. <tt>Sound</tt>.</p>
+	  <p><span class="italic">Remove</span>&nbsp;&mdash; deletes group.</p>
+	  <p><span class="italic">Rename</span>&nbsp;&mdash; allows to set new name for group.</p>
+	  <p class="FIGURE"><img alt="File associations" title="File associations"
+	  src="images/imgDC/ris33.png" width="393" height="428"/></p>
+	  <p><span class="italic">Extensions</span>&nbsp;&mdash; here you can set extensions for selected gropp, e.g. <tt>mp3, wma, ogg</tt> etc.</p>
+	  <p><span class="italic">Add</span>&nbsp;&mdash; adds extension to group.</p>
+	  <p><span class="italic">Remove</span>&nbsp;&mdash; deletes extension from group.</p>
+	  <p><span class="italic">Actions</span>&nbsp;&mdash; here you can set commands for group.</p>
+	  <p><span class="italic">Add</span>&nbsp;&mdash; adds action to list.</p>
+	  <p><span class="italic">Remove</span>&nbsp;&mdash;  deletes action from list.</p>
+	  <p><span class="italic">Up, Down</span>&nbsp;&mdash; moves action.</p>
+	  <p><span class="italic">Action:</span>&nbsp;&mdash; sets type of action. Variants:</p>
+	  <ul>
+		<li><p>From popup menu<p>
+		  <ul>
+			<li><p>Open&nbsp;&mdash; action will be run after pressing <kbd>Enter</kbd> or double click.</p></li>
+			<li><p>View&nbsp;&mdash; action will be run after pressing (<kbd>F3</kbd>).</p></li>
+			<li><p>Edit&nbsp;&mdash; action will be run after pressing (<kbd>F4</kbd>).</p></li>
+		  </ul>
+		</li>
+		<li><p>Other actions displays at subsection "Commands".<p></li>
+	  </ul>
+	  <p><span class="italic">Command</span>&nbsp;&mdash; any command from Desktop Environment, where you can set macro commands (right button). Macroses are (case sensitive!):</p>
+	  <ul>
+		<li><p><tt>{!VFS}</tt>&nbsp;&mdash; use virtual file system for archives</p></li>
+		<li><p><tt>{!EDITOR}</tt>&nbsp;&mdash; call editor (internal or external, depends on configuration)</p></li>
+		<li><p><tt>{!VIEWER}</tt>&nbsp;&mdash; call viewer (same as editor)</p></li>
+		<li><p><tt>{!SHELL}</tt>&nbsp;&mdash; use terminal to run program</p></li>
+		<li><p><tt>&lt;?command?&gt;</tt>&nbsp;&mdash; run 'command' at the system shell and puts output to next command</p></li>
+		<li><p><tt>%f</tt>&nbsp;&mdash; file name</p></li>
+		<li><p><tt>%d</tt>&nbsp;&mdash; directory</p></li>
+		<li><p><tt>%p</tt>&nbsp;&mdash; full path (directory + file name)</p></li>
+	  </ul>
+	  <p>Samples:</p>
+	  <p><tt>audacious '%p'</tt>&nbsp;&mdash; opens file with Audacious.</p>
+	  <p><tt>mkisofs -o %p.iso -jcharset koi8-r -r %p</tt>&nbsp;&mdash; creates image from directory (only for directories).</p>
+	  <p class="FIGURE"><img alt="Context menu" title="Context menu" src="images/imgDC/ris34.png" width="450" height="262"/>
+	  &nbsp;<img alt="For directories" title="For directories" src="images/imgDC/ris35.png" width="450" height="261"/></p>
+	  <p>To allow Double Commander make some actions with directories, you must create group (e.g. <tt>Dir</tt>) and set extension <tt>folder</tt>. All avaiable actions will display in the menu 'Commands' at context menu. E.g. how to open directory with root privilegies on Ubuntu: set action <tt>Open as root</tt>, command <tt>gksu nautilus '%p'</tt>.</p>
+	  <p><span class="italic">Icon</span>&nbsp;&mdash; you can set path to icon for group.</p>
+	</div>
+	
+	<p class="NAVBACK"><a href="#TOC">on top</a></p>
+	
+	<div class="SECT3">
+	  <h4><a name="mnu_help">3.1.7. "Help"</a></h4>
+	  <p>Here you can get help information and information about the program:</p>
+	  <ul>
+		<li><p><span class="bold">Contents</span>&nbsp;&mdash; opens help index page</p></li>
+		<li><p><span class="bold">Keyboard</span>&nbsp;&mdash; opens keyboard shortcuts page</p></li>
+		<li><p><span class="bold">Visit Double Commander Web page</span>&nbsp;&mdash; go to project homepage if you online</p></li>
+		<li><p><span class="bold">About</span>&nbsp;&mdash; shows information about version and developers</p></li>
+	  </ul>
+	</div>
+	
+	<p class="NAVBACK"><a href="#TOC">on top</a></p>
+	
+	<div class="SECT2">
+	  <h3><a name="iface_tools">3.2 Button toolbar</a></h3>
+	  <p class="FIGURE"><img title="Button toolbar" alt="Button toolbar" src="images/imgDC/ris3.png" width="240" height="30"/></p>
+	  <p>It helps you to call internal commands and external programs on buttons with hints.</p>
+	  
+	  <p>To edit panel just click right button on it and choose item <span class="bold">Edit</span>.</p>
+	  <p class="FIGURE"><img title="Button toolbar edit" alt="Button toolbar edit"
+	  src="images/imgDC/ris3-1.png" width="222" height="62"/></p>
+	  
+	  <p>"Change button bar" window</p>
+	  <p class="FIGURE"><img title="Change button bar" alt="Change button bar"
+	  src="images/imgDC/ris10.png" width="509" height="265"/></p>
+	  
+	  <p>First line shows place, where Double Commander keeps settings for button bar (as in TC), below you can see added buttons.</p>
+	  
+	  <p><span class="italic">Append</span>&nbsp;&mdash; adds new empty button to the bar.</p>
+	  <p><span class="italic">Delete</span>&nbsp;&mdash; deletes button.</p>
+	  <p><span class="italic">Size</span>&nbsp;&mdash; sets size of buttons. Better sizes are 16, 22 or 32, but you can set any size (in pixels).</p>
+	  <p><span class="italic">Flat icons</span>&nbsp;&mdash; makes buttons as icons.</p>
+	  <p><span class="italic">Command</span>&nbsp;&mdash; here you can set any
+	  <a href="cmds.html">internal command</a> or specify any own command.</p>
+	  <p><span class="italic">Parameters</span>&nbsp;&mdash; sets parameter for command.</p>
+	  <p><span class="italic">Start path</span>&nbsp;&mdash; uses for full path to command (if necessary).</p>
+	  <p><span class="italic">Icon file</span>&nbsp;&mdash; sets path to button icon.</p>
+	  <p><span class="italic">Icon</span>&nbsp;&mdash; previews button.
+	  панели.</p>
+	  <p><span class="italic">Tooltip</span>&nbsp;&mdash; hint to button for the bar.</p>
+	  <p class="FIGURE"><img title="Tooltip" alt="Tooltip"
+	  src="images/imgDC/ris10-3.png" width="226" height="132"/></p>
+	  
+	  <p>To create buttons splitter, set new button with <span class="italic">Tooltip</span> =
+	   "-" (minus).</p>
+	  
+	  <p>Also there is an ability to create a drop-down menu:</p>
+	  <p class="FIGURE"><img title="drop-down menu" alt="drop-down menu" src="images/imgDC/ris10-4.png" width="470" height="254"/></p>
+	  <p>Set <span class="italic">Command</span> to <tt><a name="cm_ShowButtonMenu">
+	  cm_ShowButtonMenu</a></tt>, and specify file with menu as <span class="italic">Parameters</span>.</p>
+	</div>
+	
+	<p class="NAVBACK"><a href="#TOC">on top</a></p>
+	
+	<div class="SECT2">
+	  <h3><a name="iface_drive_pane">3.3. Drives button bar</a></h3>
+	  <p class="FIGURE"><img title="Drives button bar" alt="Drives button bar"
+	  src="images/imgDC/ris4.png" width="564" height="32"/></p>
+	  <p>Drives button bar helps you to change drive quickly with one mouse click. Right click calls context menu that contain operations as mount/unmount, format, etc. (depends on OS and drive).</p>
+	  <p class="FIGURE"><img alt="Drives context menu" title="Drives context menu"
+	  src="images/imgDC/ris4-1.png" width="229" height="117"/></p>
+	</div>
+	
+	<p class="NAVBACK"><a href="#TOC">on top</a></p>
+	
+	<div class="SECT2">
+	  <h3><a name="iface_drive_btn">3.4. Drives list</a></h3>
+	  <p class="FIGURE"><img alt="Drives list" title="Drives list"
+	  src="images/imgDC/ris5.png" width="642" height="25"/></p>
+	  <p>Helps to change drive, also contains additional information: size, free space, navigation buttons&mdash; <tt>« / .. * ~ =»</tt>.</p>
+	  
+	  <p>Internal commands are <tt><a name="cm_LeftOpenDrives">cm_LeftOpenDrives</a></tt> for left panel and <tt><a name="cm_RightOpenDrives">cm_RightOpenDrives</a></tt>&nbsp;&mdash; for right. Default shortcuts: (<kbd>Alt+F1</kbd> and <kbd>Alt+F2</kbd> but they don't work for must Linux Desktop Environments.</p>
+	  <p class="FIGURE"><img alt="Drives list" title="Drives list"
+	  src="images/imgDC/ris5-0.png" width="101" height="116"/></p>
+	  
+	  <p>Additional navigation buttons:</p>
+	  <p><tt>&laquo;/&raquo;</tt>&nbsp;&mdash; go to file system root</p>
+	  <p><tt>&laquo;..&raquo;</tt>&nbsp;&mdash; go to parent directory</p>
+	  <p><tt><a name="btn_dirlist">&laquo;*&raquo;</a></tt>&nbsp;&mdash; calls hotlist. See section <a href="#22_lichnue_catalogi">Directory hotlist</a></p>
+	  <p class="FIGURE"><img alt="Directory hotlist" title="Directory hotlist" src="images/imgDC/ris5-1.png" width="195" height="137"/></p>
+	  <p><tt>&laquo;~&raquo;</tt>&nbsp;&mdash; go to home directory</p>
+	  <p><tt><a name="btn_eq">&laquo;=&raquo;</a></tt>&nbsp;&mdash; see command <a href="#26_dve_paneli">Target = Source</a> (<kbd>Alt+Z</kbd> by default).</p>
+	</div>
+	
+	<p class="NAVBACK"><a href="#TOC">on top</a></p>
+	
+	<div class="SECT2">
+	  <h3><a name="iface_tabs">3.5. Tabs bar</a></h3>
+	  <p class="FIGURE"><img alt="Tabs bar" title="Tabs bar"
+	  src="images/imgDC/ris6.png" width="445" height="33"/></p>
+	  <p>To display tabs and change it (<kbd>Ctrl+Tab</kbd> and <kbd>Ctrl+Shift+Tab</kbd> by default). Locked tabs marks with asterisk (if <a href="#5_1_12_1_zvezda">Show locked tabs with an asterisk *</a> enabled).</p>
+	</div>
+	
+	<p class="NAVBACK"><a href="#TOC">on top</a></p>
+	
+	<div class="SECT2">
+	  <h3><a name="iface_dir">3.6. Current directory bar</a></h3>
+	  <p class="FIGURE"><img alt="Current directory bar" title="Current directory bar" src="images/imgDC/ris7.png" width="634" height="25"/></p>
+	  <p>Displays name of the current directory. On left click there is a directories history (internal command <tt><a name="cm_DirHistory">cm_DirHistory</a></tt>)</p>
+	  <p class="FIGURE"><img alt="Directories history" title="Directories history"
+	  src="images/imgDC/ris7-4.png" width="538" height="165"/></p>
+	  <p>On right click you can copy path or enter it manually.</p>
+	</div>
+	
+	<p class="NAVBACK"><a href="#TOC">on top</a></p>
+	
+	<div class="SECT2">
+	  <h3><a name="iface_columns">3.7. Tabstop headers bar</a></h3>
+	  <p class="FIGURE"><img alt="Tabstop headers bar" title="Tabstop headers bar"
+	  src="images/imgDC/ris7-5.png" width="609" height="24"/></p>
+	  <p>Shows column's names. On left click <a href="#41_imya_attr">sorts</a> files by column. On right click calls menu to change and edit column set style.</p>
+	  <p class="FIGURE"><img alt="column set style dialog" title="column set style dialog"
+	  src="images/imgDC/ris7-6.png" width="259" height="153"/></p>
+	  <p><span class="italic">Defaut, Brief, my_style</span>&nbsp;&mdash; existing styles</p>
+	  <p><span class="italic">Configure this custom columns view</span>&nbsp;&mdash; opens column set customization window. See <a href="#5_1_15_1_nastroika_nabora">here</a>.</p>
+	  <p><span class="italic">Configure custom columns</span>&nbsp;&mdash; opens <a href="#5_1_15_colonki">Columns</a> section.</p>
+	</div>
+	
+	<p class="NAVBACK"><a href="#TOC">on top</a></p>
+	
+	<div class="SECT2">
+	  <h3><a name="iface_status">3.8. Status bar</a></h3>
+	  <p class="FIGURE"><img alt="Statusbar" title="Statusbar" src="images/imgDC/ris8.png" width="370" height="26"/></p>
+	  <p>Shows couns of selected items and its total size, also shows all items count.</p>
+	</div>
+	
+	<p class="NAVBACK"><a href="#TOC">on top</a></p>
+	
+	<div class="SECT2">
+	  <h3><a name="iface_console">3.9. Terminal window</a></h3>
+	  <p class="FIGURE"><img alt="Terminal window" title="Terminal window" src="images/imgDC/ris9-1.png" width="687" height="135"/></p>
+	  <p>Shows output of conlose commands.</p>
+	</div>
+	
+	<p class="NAVBACK"><a href="#TOC">on top</a></p>
+	
+	<div class="SECT2">
+	  <h3><a name="iface_path">3.10. Command line</a></h3>
+	  <p class="FIGURE"><img alt="Command line" title="Command line" src="images/imgDC/ris9-2.png" width="691" height="27"/></p>
+	  <p>Uses to enter commands manually. Path to active directory shows in line beginning (<tt>/home/rust/</tt> on screenshot). Right button opens history of commands.</p>
+	  <p>On right click context menu displays:</p>
+	  <p class="FIGURE"><img alt="Input methods" title="Input methods" src="images/imgDC/ris9-3.png" width="383" height="253"/>&nbsp;
+	  <img src="images/imgDC/ris9-4.png" title="Unicode characters" alt="Unicode characters" width="383" height="163"/></p>
+	  <p>that contains standart commands <span class="italic">Cut, Copy, Paste, Delete, Select All</spab>, and also submenus <span class="italic">Input Methods</span> and <span class="italic">Insert Unicode Control Character</span>.</p>
+	</div>
+	
+	<p class="NAVBACK"><a href="#TOC">on top</a></p>
+	
+	<div class="SECT2">
+	  <h3><a name="iface_buttons">3.11. Function key buttons bar</a></h3>
+	  <p class="FIGURE"><img alt="Function key buttons bar" title="Function key buttons bar" src="images/imgDC/ris9.png" width="930" height="22"/></p>
+	  <p>Displays F3 - F9 hotkeys, to use commands with mouse click.</p>
+	</div>
+	
+	<div class="SECT2">
+	  <br/><br/>
+	  <p class="NAVBACK">Created by Rustem (dok_rust@bk.ru)</p>
+	  <br/><br/>
+	</div>
+	<div class="SECT1">
+	  <p class="NAVBACK"><a href="index.html">Home</a></p>
+	</div>
+  </div>
+  
+</body>
+
+</html>
