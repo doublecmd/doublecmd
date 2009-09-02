@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="91">
+    <Units Count="92">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -205,6 +205,7 @@
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmHotDir"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="fHotDir"/>
       </Unit19>
       <Unit20>
@@ -610,6 +611,14 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFileSystemMoveOperation"/>
       </Unit90>
+      <Unit91>
+        <Filename Value="fcalendar.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmCalendar"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fCalendar"/>
+      </Unit91>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
