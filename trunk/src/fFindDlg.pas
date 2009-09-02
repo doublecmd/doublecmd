@@ -69,8 +69,8 @@ type
     cbRegExp: TCheckBox;
     cmbReplaceText: TComboBox;
     cmbFindText: TComboBox;
-    deDateFrom: TDateEdit;
-    deDateTo: TDateEdit;
+    deDateFrom: TEditButton;
+    deDateTo: TEditButton;
     edtFindPathStart: TDirectoryEdit;
     edtAttrib: TEdit;
     edtTimeFrom: TEdit;
@@ -114,6 +114,7 @@ type
     procedure cbEncodingSelect(Sender: TObject);
     procedure cbFindInFileChange(Sender: TObject);
     procedure cbUsePluginChange(Sender: TObject);
+    procedure deDateButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGoToPathClick(Sender: TObject);
     procedure btnNewSearchClick(Sender: TObject);
@@ -170,7 +171,7 @@ procedure ShowFindDlg(const sActPath:String);
 implementation
 
 uses
-  LCLProc, LCLType, LConvEncoding, DateUtils, fViewer, uLng, uGlobs, uShowForm, fMain,
+  LCLProc, LCLType, LConvEncoding, DateUtils, fCalendar, fViewer, uLng, uGlobs, uShowForm, fMain,
   uTypes, uFileOp, uOSUtils, uSearchTemplate, uDCUtils;
 
 procedure SAddFileProc(PlugNr:integer; FoundFile:pchar); stdcall;
@@ -266,6 +267,13 @@ begin
   end;
 end;
 
+procedure TfrmFindDlg.deDateButtonClick(Sender: TObject);
+var
+  ebDate: TEditButton absolute Sender;
+begin
+  ebDate.Text:= ShowCalendarDialog(ebDate.Text, Mouse.CursorPos);
+end;
+
 procedure TfrmFindDlg.cbEncodingSelect(Sender: TObject);
 begin
   if cbEncoding.ItemIndex <> cbEncoding.Items.IndexOf(EncodingAnsi) then
@@ -325,9 +333,9 @@ begin
     deDateFrom.Text:= '';
     deDateTo.Text:= '';
     if rIsDateFrom then
-      deDateFrom.Date:= Trunc(rDateTimeFrom);
+      deDateFrom.Text:= DateToStr(rDateTimeFrom);
     if rIsDateTo then
-      deDateTo.Date:= Trunc(rDateTimeTo);
+      deDateTo.Text:= DateToStr(rDateTimeTo);
     // file time
     cbTimeFrom.Checked:= rIsTimeFrom;
     cbTimeTo.Checked:= rIsTimeTo;
@@ -456,7 +464,7 @@ end;
 
 procedure TfrmFindDlg.PrepareSearch;
 var
-  dtTime, dtNow: TDateTime;
+  dtTemp, dtNow: TDateTime;
   iCount: Integer;
 begin
   FFindThread:=TFindThread.Create;
@@ -479,28 +487,30 @@ begin
       if cbDateFrom.Checked then
          begin
            IsDateFrom := True;
-           DateTimeFrom := deDateFrom.Date;
+           if TryStrToDate(deDateFrom.Text, dtTemp) then
+             DateTimeFrom := dtTemp;
          end;
       if cbDateTo.Checked then
          begin
            IsDateTo := True;
-           DateTimeTo := deDateTo.Date;
+           if TryStrToDate(deDateTo.Text, dtTemp) then
+             DateTimeTo := dtTemp;
          end;
       (* Time search *)
       if cbTimeFrom.Checked then
          begin
            IsTimeFrom := True;
-           dtTime := 0;
-           if TryStrToTime(edtTimeFrom.Text, dtTime) then
-             DateTimeFrom := DateTimeFrom + dtTime;
+           dtTemp := 0;
+           if TryStrToTime(edtTimeFrom.Text, dtTemp) then
+             DateTimeFrom := DateTimeFrom + dtTemp;
          end;
 
       if cbTimeTo.Checked then
          begin
            IsTimeTo := True;
-           dtTime := 0;
-           if TryStrToTime(edtTimeTo.Text, dtTime) then
-             DateTimeTo := DateTimeTo +  dtTime;
+           dtTemp := 0;
+           if TryStrToTime(edtTimeTo.Text, dtTemp) then
+             DateTimeTo := DateTimeTo +  dtTemp;
          end;
       (* Not Older Than *)
        if cbNotOlderThan.Checked then
