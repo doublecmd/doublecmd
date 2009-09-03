@@ -516,14 +516,15 @@ implementation
 
 uses
   Clipbrd, LCLIntf, uTypes, fAbout, uGlobs, uLng, fOptions, fconfigtoolbar, fFileAssoc,
-  uWCXModule, uVFSTypes, Masks, fMkDir, fCopyDlg, fCompareFiles,
-  fMoveDlg, uShowMsg, uClassesEx, fFindDlg, fHotDir,
+  uWCXModule, uVFSTypes, Masks, fMkDir, fCopyMoveDlg, fCompareFiles,
+  uShowMsg, uClassesEx, fFindDlg, fHotDir,
   fSymLink, fHardLink, uDCUtils, uLog, fMultiRename, uGlobsPaths, fMsg, fPackDlg,
   fExtractDlg, fLinker, fSplitter, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls, uFileSorting,
   uFileSystemFileSource, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
-  fFileOpDlg
+  fFileOpDlg, uFileSystemCopyOperation, uFileSystemMoveOperation,
+  uFileSourceOperationOptions
   {$IFDEF LCLQT}
     , qtwidgets, qtobjects
   {$ENDIF}
@@ -1933,7 +1934,7 @@ begin
     if SourceFiles.Count = 0 then
       Exit;
 
-    with TfrmMoveDlg.Create(Application) do
+    with TfrmCopyDlg.Create(Application, cmdtMove) do
     begin
       try
         if (SourceFiles.Count = 1) and
@@ -1943,39 +1944,48 @@ begin
         else
           edtDst.Text := sDestPath + '*.*';
 
-        lblMoveSrc.Caption := GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr, SourceFiles);
+        lblCopySrc.Caption := GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr, SourceFiles);
+
         if ShowModal = mrCancel then
           Exit;
 
         GetDestinationPathAndMask(edtDst.Text, SourceFiles.Path, sDestPath, sDstMaskTemp);
 
+        // For now at least one must be FileSystem.
+        if not (ActiveFrame.FileSource is TFileSystemFileSource or
+                NotActiveFrame.FileSource is TFileSystemFileSource) then Exit;
+
+        if bMove then
+        begin
+          Operation := ActiveFrame.FileSource.CreateMoveOperation(
+                         SourceFiles, sDestPath) as TFileSourceMoveOperation;
+
+          if Assigned(Operation) then
+          begin
+            // Set operation options based on settings in dialog.
+            Operation.RenameMask := sDstMaskTemp;
+
+            if Operation is TFileSystemMoveOperation then
+              SetOperationOptions(Operation as TFileSystemMoveOperation);
+
+            // Start operation.
+            OperationHandle := OperationsManager.AddOperation(Operation, ossAutoQueue);
+
+            ProgressDialog := TfrmFileOp.Create(OperationHandle);
+            ProgressDialog.Show;
+          end
+          else
+            msgWarning(rsMsgNotImplemented);
+        end
+        else
+        begin
+          // Use CopyOut, CopyIn operations.
+        end;
+
       finally
         Free;
       end;
-    end;
-
-    if bMove then
-    begin
-      Operation := ActiveFrame.FileSource.CreateMoveOperation(
-                     SourceFiles, sDestPath) as TFileSourceMoveOperation;
-
-      if Assigned(Operation) then
-      begin
-        Operation.RenameMask := sDstMaskTemp;
-
-        // Start operation.
-        OperationHandle := OperationsManager.AddOperation(Operation, ossAutoQueue);
-
-        ProgressDialog := TfrmFileOp.Create(OperationHandle);
-        ProgressDialog.Show;
-      end
-      else
-        msgWarning(rsMsgNotImplemented);
-    end
-    else
-    begin
-      // Use CopyOut, CopyIn operations.
-    end;
+    end; //with
 
   finally
     if Assigned(SourceFiles) then
@@ -2051,7 +2061,6 @@ end;
 procedure TfrmMain.CopyFile(sDestPath:String);
 var
   sDstMaskTemp: String;
-  blDropReadOnlyFlag : Boolean;
   TargetFileSource: TFileSource = nil;
   SourceFiles: TFiles = nil;
   Operation: TFileSourceCopyOperation;
@@ -2073,7 +2082,7 @@ begin
       Exit;
     end;
 
-    with TfrmCopyDlg.Create(Application) do
+    with TfrmCopyDlg.Create(Application, cmdtCopy) do
     begin
       try
         if (SourceFiles.Count = 1) and
@@ -2084,7 +2093,6 @@ begin
           edtDst.Text := sDestPath + '*.*';
 
         lblCopySrc.Caption := GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr, SourceFiles);
-        cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
         //cbDropReadOnlyFlag.Visible := (NotActiveFrame.pnlFile.PanelMode = pmDirectory);
         if ShowModal = mrCancel then
         begin
@@ -2094,42 +2102,44 @@ begin
 
         GetDestinationPathAndMask(edtDst.Text, SourceFiles.Path, sDestPath, sDstMaskTemp);
 
-        blDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
+        // For now at least one must be FileSystem.
+        if not (ActiveFrame.FileSource is TFileSystemFileSource or
+                NotActiveFrame.FileSource is TFileSystemFileSource) then Exit;
+
+        TargetFileSource := NotActiveFrame.FileSource.Clone;
+        try
+          Operation := ActiveFrame.FileSource.CreateCopyOutOperation(
+                           TargetFileSource,
+                           SourceFiles,
+                           sDestPath) as TFileSourceCopyOperation;
+
+          if Assigned(Operation) then
+          begin
+            // Set operation options based on settings in dialog.
+            Operation.RenameMask := sDstMaskTemp;
+
+            if Operation is TFileSystemCopyOutOperation then
+              SetOperationOptions(Operation as TFileSystemCopyOutOperation);
+
+            // Start operation.
+            OperationHandle := OperationsManager.AddOperation(Operation, ossAutoQueue);
+
+            ProgressDialog := TfrmFileOp.Create(OperationHandle);
+            ProgressDialog.Show;
+          end
+          else
+            msgWarning(rsMsgNotImplemented);
+
+        except
+          if Assigned(TargetFileSource) then
+            FreeAndNil(TargetFileSource);
+          raise;
+        end;
 
       finally
         Free;
       end;
     end; //with
-
-    // For now at least one must be FileSystem.
-    if not (ActiveFrame.FileSource is TFileSystemFileSource or
-            NotActiveFrame.FileSource is TFileSystemFileSource) then Exit;
-
-    TargetFileSource := NotActiveFrame.FileSource.Clone;
-    try
-      Operation := ActiveFrame.FileSource.CreateCopyOutOperation(
-                       TargetFileSource,
-                       SourceFiles,
-                       sDestPath) as TFileSourceCopyOperation;
-
-      if Assigned(Operation) then
-      begin
-        Operation.RenameMask := sDstMaskTemp;
-
-        // Start operation.
-        OperationHandle := OperationsManager.AddOperation(Operation, ossAutoQueue);
-
-        ProgressDialog := TfrmFileOp.Create(OperationHandle);
-        ProgressDialog.Show;
-      end
-      else
-        msgWarning(rsMsgNotImplemented);
-
-    except
-      if Assigned(TargetFileSource) then
-        FreeAndNil(TargetFileSource);
-      raise;
-    end;
 
   except
     FreeAndNil(SourceFiles);

@@ -23,7 +23,8 @@ unit uGlobs;
 interface
 uses
   Classes, Controls, Forms, uExts, uColorExt, Graphics, uClassesEx, uWDXModule,
-  uColumns,uhotkeymanger,uActs, uWFXModule, uWCXModule, uSearchTemplate;
+  uColumns,uhotkeymanger,uActs, uWFXModule, uWCXModule, uSearchTemplate,
+  uFileSourceOperationOptions;
 
 type
   TControlPosition = object
@@ -223,7 +224,14 @@ var
   
   {Actions}
   Actions:TActs;
-  
+
+  {Copy/Move operation options}
+  gOperationOptionSymLinks: TFileSourceOperationOptionSymLink = fsooslNone;
+  gOperationOptionCorrectLinks: Boolean = False;
+  gOperationOptionFileExists: TFileSourceOperationOptionFileExists = fsoofeNone;
+  gOperationOptionDirectoryExists: TFileSourceOperationOptionDirectoryExists = fsoodeNone;
+  gOperationOptionCheckFreeSpace: Boolean = True;
+
 function LoadGlobs : Boolean;
 procedure SaveGlobs;
 function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boolean;
@@ -598,6 +606,16 @@ begin
 
   gViewerImageStretch:=  gIni.ReadBool('Viewer', 'Image.Stretch', False);
 
+  { Operations options }
+  gOperationOptionSymLinks := TFileSourceOperationOptionSymLink(
+                                gIni.ReadInteger('Operations', 'Symlink', Integer(gOperationOptionSymLinks)));
+  gOperationOptionCorrectLinks := gIni.ReadBool('Operations', 'CorrectLinks', gOperationOptionCorrectLinks);
+  gOperationOptionFileExists := TFileSourceOperationOptionFileExists(
+                                  gIni.ReadInteger('Operations', 'FileExists', Integer(gOperationOptionFileExists)));
+  gOperationOptionDirectoryExists := TFileSourceOperationOptionDirectoryExists(
+                                       gIni.ReadInteger('Operations', 'DirectoryExists', Integer(gOperationOptionDirectoryExists)));
+  gOperationOptionCheckFreeSpace := gIni.ReadBool('Operations', 'CheckFreeSpace', gOperationOptionCheckFreeSpace);
+
   gIni.ReadSectionRaw('DirectoryHotList', glsHotDir);
 
   if mbFileExists(gpIniDir + 'doublecmd.ext') then
@@ -811,6 +829,13 @@ begin
   gIni.WriteBool('Configuration', 'CutTextToColWidth', gCutTextToColWidth);
 
   gIni.WriteBool('Viewer', 'Image.Stretch', gViewerImageStretch);
+
+  { Operations options }
+  gIni.WriteInteger('Operations', 'Symlink', Integer(gOperationOptionSymLinks));
+  gIni.WriteBool('Operations', 'CorrectLinks', gOperationOptionCorrectLinks);
+  gIni.WriteInteger('Operations', 'FileExists', Integer(gOperationOptionFileExists));
+  gIni.WriteInteger('Operations', 'DirectoryExists', Integer(gOperationOptionDirectoryExists));
+  gIni.WriteBool('Operations', 'CheckFreeSpace', gOperationOptionCheckFreeSpace);
 
   SaveWindowPos(gViewerPos, 'Viewer.');
   SaveWindowPos(gEditorPos, 'Editor.');
