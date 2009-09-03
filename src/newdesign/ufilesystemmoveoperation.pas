@@ -25,7 +25,6 @@ type
     // Options.
     FCheckFreeSpace: Boolean;
     FSkipAllBigFiles: Boolean;
-    FSymLinkOption: TFileSourceOperationOptionSymLink;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
     FDirExistsOption: TFileSourceOperationOptionDirectoryExists;
     FCorrectSymlinks: Boolean;
@@ -42,6 +41,12 @@ type
     procedure Initialize; override;
     procedure MainExecute; override;
     procedure Finalize; override;
+
+    property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
+    property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
+    property CorrectSymLinks: Boolean read FCorrectSymLinks write FCorrectSymLinks;
+    property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
+    property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
   end;
 
 implementation
@@ -57,7 +62,6 @@ begin
   FOperationHelper := nil;
 
   // Here we can read global settings if there are any.
-  FSymLinkOption := fsooslNone;
   FFileExistsOption := fsoofeNone;
   FDirExistsOption := fsoodeNone;
   FCheckFreeSpace := True;
@@ -113,6 +117,12 @@ begin
                         FStatistics);
 
   FOperationHelper.RenameMask := RenameMask;
+//  FOperation.OnlyFilesMask := OnlyFilesMask;
+  FOperationHelper.CheckFreeSpace := CheckFreeSpace;
+  FOperationHelper.SkipAllBigFiles := SkipAllBigFiles;
+  FOperationHelper.CorrectSymLinks := CorrectSymLinks;
+  FOperationHelper.FileExistsOption := FileExistsOption;
+  FOperationHelper.DirExistsOption := DirExistsOption;
   FOperationHelper.Initialize;
 end;
 

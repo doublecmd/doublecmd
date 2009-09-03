@@ -88,7 +88,6 @@ type
     FDescription: TDescription;
     FLogCaption: String;
     FRenamingFiles: Boolean;
-    FSymlinkOption: TFileSourceOperationOptionSymLink;
     FCheckFreeSpace: Boolean;
     FSkipAllBigFiles: Boolean;
     FDropReadOnlyAttribute: Boolean;
@@ -141,7 +140,6 @@ type
 
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
     property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
-    property SymLinkOption: TFileSourceOperationOptionSymLink read FSymlinkOption write FSymlinkOption;
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
     property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
     property DropReadOnlyAttribute: Boolean read FDropReadOnlyAttribute write FDropReadOnlyAttribute;
@@ -513,7 +511,6 @@ begin
   FCheckFreeSpace := True;
   FSkipAllBigFiles := False;
   FDropReadOnlyAttribute := False;
-  FSymlinkOption := fsooslNone;
   FFileExistsOption := fsoofeNone;
   FDirExistsOption := fsoodeNone;
   FRootTargetPath := TargetPath;
@@ -901,7 +898,7 @@ end;
 
 function TFileSystemOperationHelper.ProcessLink(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
 var
-  LinkTarget: String;
+  LinkTarget, CorrectedLink: String;
   aFile: TFileSystemFile;
   aSubNode: TFileTreeNode;
 begin
@@ -938,9 +935,13 @@ begin
           begin
             if FCorrectSymlinks then
             begin
-              LinkTarget := GetAbsoluteFileName(aFile.Path, LinkTarget);
-              // Get relative to new link path.
-              //LinkTarget := ExtractRelativepath(ExtractFilePath(AbsoluteTargetFileName), LinkTarget);
+              CorrectedLink := GetAbsoluteFileName(aFile.Path, LinkTarget);
+
+              // If the link was relative - make also the corrected link relative.
+              if uDCUtils.GetPathType(LinkTarget) = ptRelative then
+                LinkTarget := ExtractRelativepath(AbsoluteTargetFileName, CorrectedLink)
+              else
+                LinkTarget := CorrectedLink;
             end;
 
             if CreateSymlink(LinkTarget, AbsoluteTargetFileName) then

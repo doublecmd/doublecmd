@@ -46,6 +46,7 @@ type
     FCheckFreeSpace: Boolean;
     FSkipAllBigFiles: Boolean;
     FSymLinkOption: TFileSourceOperationOptionSymLink;
+    FCorrectSymLinks: Boolean;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
     FDirExistsOption: TFileSourceOperationOptionDirectoryExists;
 
@@ -64,6 +65,13 @@ type
     procedure Initialize; override;
     procedure MainExecute; override;
     procedure Finalize; override;
+
+    property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
+    property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
+    property SymLinkOption: TFileSourceOperationOptionSymLink read FSymLinkOption write FSymLinkOption;
+    property CorrectSymLinks: Boolean read FCorrectSymLinks write FCorrectSymLinks;
+    property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
+    property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
   end;
 
 implementation
@@ -127,6 +135,8 @@ begin
                         @AskQuestion,
                         @CheckOperationState);
   try
+    TreeBuilder.SymLinkOption := Self.SymLinkOption;
+
     TreeBuilder.BuildFromFiles(SourceFiles as TFileSystemFiles);
     FSourceFilesTree := TreeBuilder.ReleaseTree;
     FStatistics.TotalFiles := TreeBuilder.FilesCount;
@@ -149,7 +159,14 @@ begin
                         FStatistics);
 
   FOperationHelper.RenameMask := RenameMask;
+//  FOperation.OnlyFilesMask := OnlyFilesMask;
   FOperationHelper.DropReadOnlyAttribute := DropReadOnlyAttribute;
+  FOperationHelper.CheckFreeSpace := CheckFreeSpace;
+  FOperationHelper.SkipAllBigFiles := SkipAllBigFiles;
+  FOperationHelper.CorrectSymLinks := CorrectSymLinks;
+  FOperationHelper.FileExistsOption := FileExistsOption;
+  FOperationHelper.DirExistsOption := DirExistsOption;
+
   FOperationHelper.Initialize;
 end;
 
