@@ -497,6 +497,7 @@ type
     procedure EnableHotkeys(Enable: Boolean);
     procedure ExecuteCommandLine(bRunInTerm: Boolean);
     procedure UpdatePrompt;
+    procedure UpdateFreeSpace(Panel: TFilePanelSelect);
     procedure ReLoadTabs(ANoteBook: TFileViewNotebook);
   published
     // For now we allow to write here.
@@ -992,9 +993,9 @@ end;
 
 procedure TfrmMain.lblDriveInfoDblClick(Sender: TObject);
 begin
-  if (Sender as TLabel).Name = 'lblRightDriveInfo' then
+  if Sender = lblRightDriveInfo then
       SetActiveFrame(fpRight)
-  else if (Sender as TLabel).Name = 'lblLeftDriveInfo' then
+  else if Sender = lblLeftDriveInfo then
       SetActiveFrame(fpLeft);
   Actions.cm_DirHotList('');
 //  actDirHotList.Execute;
@@ -2389,6 +2390,7 @@ begin
         RightFrameWatcher.WatchPath:= NewDir;
 
       UpdateSelectedDrive(ANoteBook);
+      UpdateFreeSpace(ANoteBook.Side);
     end;
 end;
 
@@ -2943,6 +2945,9 @@ begin
   ToggleConsole;
   ToggleFileSystemWatcher;
   ShowTrayIcon(gAlwaysShowTrayIcon);
+
+  UpdateFreeSpace(fpLeft);
+  UpdateFreeSpace(fpRight);
 end;
 
 procedure TfrmMain.edtCommandKeyDown(Sender: TObject; var Key: Word;
@@ -3399,10 +3404,8 @@ begin
 end;
 
 procedure TfrmMain.UpdatePrompt;
-const PTLen=40;
-var
-  FreeSize,
-  TotalSize : Int64;
+const
+  PTLen = 40;
 begin
   with lblCommandPath do
   begin
@@ -3420,6 +3423,31 @@ begin
 
   edtCommand.Left := lblCommandPath.Width + 5;
   edtCommand.Width := TControl(edtCommand.Parent).Width - edtCommand.Left;
+end;
+
+procedure TfrmMain.UpdateFreeSpace(Panel: TFilePanelSelect);
+var
+  FreeSize, TotalSize: Int64;
+  lblDriveInfo: TLabel;
+  FileSource: TFileSource;
+begin
+  case Panel of
+    fpLeft :
+      begin
+        lblDriveInfo := lblLeftDriveInfo;
+        FileSource := FrameLeft.FileSource;
+      end;
+    fpRight:
+      begin
+        lblDriveInfo := lblRightDriveInfo;
+        FileSource := FrameRight.FileSource;
+      end;
+  end;
+
+  if FileSource.GetFreeSpace(FreeSize, TotalSize) then
+    lblDriveInfo.Caption := Format(rsFreeMsg, [cnvFormatFileSize(FreeSize), cnvFormatFileSize(TotalSize)])
+  else
+    lblDriveInfo.Caption := '';
 end;
 
 procedure TfrmMain.OperationFinishedEvent(Operation: TFileSourceOperation; Event: TOperationManagerEvent);

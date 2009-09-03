@@ -470,6 +470,7 @@ begin
 
   // Create a Panel-Changed-Event for this?
   frmMain.UpdatePrompt;
+  frmMain.UpdateFreeSpace((Parent as TFileViewPage).Notebook.Side);
 end;
 
 function TColumnsFileView.GetActiveFile: TFile;
@@ -2819,6 +2820,7 @@ procedure TColumnsFileView.Reload;
 begin
   MakeFileSourceFileList;
   Refresh;
+  frmMain.UpdateFreeSpace((Parent as TFileViewPage).Notebook.Side);
 end;
 
 procedure TColumnsFileView.Refresh;

@@ -43,6 +43,8 @@ type
     function IsAtRootPath: Boolean; override;
     class function GetPathType(sPath : String): TPathType; override;
 
+    function GetFreeSpace(out FreeSize, TotalSize : Int64) : Boolean; override;
+
     function CreateListOperation: TFileSourceOperation; override;
     function CreateCopyInOperation(var SourceFileSource: TFileSource;
                                    var SourceFiles: TFiles;
@@ -155,6 +157,11 @@ end;
 class function TFileSystemFileSource.GetPathType(sPath : String): TPathType;
 begin
   Result := uDCUtils.GetPathType(sPath);
+end;
+
+function TFileSystemFileSource.GetFreeSpace(out FreeSize, TotalSize : Int64) : Boolean;
+begin
+  Result := GetDiskFreeSpace(CurrentPath, FreeSize, TotalSize);
 end;
 
 class function TFileSystemFileSource.GetSupportedFileProperties: TFilePropertiesTypes;

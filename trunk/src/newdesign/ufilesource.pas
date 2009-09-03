@@ -89,6 +89,8 @@ type
 
     class function GetPathType(sPath : String): TPathType; virtual;
 
+    function GetFreeSpace(out FreeSize, TotalSize : Int64) : Boolean; virtual;
+
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property CurrentAddress: String read GetCurrentAddress;
     property Properties: TFileSourceProperties read GetProperties;
@@ -158,6 +160,11 @@ begin
     else if ( Pos( PathDelim, sPath ) > 0 ) then
       Result := ptRelative;
   end;
+end;
+
+function TFileSource.GetFreeSpace(out FreeSize, TotalSize : Int64) : Boolean;
+begin
+  Result := False; // not supported by default
 end;
 
 // Operations.
