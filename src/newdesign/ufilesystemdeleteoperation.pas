@@ -108,7 +108,8 @@ begin
                    FStatistics.TotalBytes);     // gets full list of files (recursive)
     end;
 
-  FDescription.Clear;
+  if gProcessComments then
+    FDescription.Clear;
 end;
 
 procedure TFileSystemDeleteOperation.MainExecute;
@@ -200,7 +201,7 @@ begin
     if Result then
     begin // success
       // process comments if need
-      if gProcessComments and Assigned(FDescription) then
+      if gProcessComments then
         FDescription.DeleteDescription(FileName);
 
       if aFile.IsDirectory then

@@ -140,7 +140,8 @@ begin
                FStatistics.TotalFiles,
                FStatistics.TotalBytes);     // gets full list of files (recursive)
 
-  FDescription.Clear;
+  if gProcessComments then
+    FDescription.Clear;
 end;
 
 procedure TFileSystemWipeOperation.MainExecute;
@@ -404,7 +405,7 @@ begin
       WipeFile(FileName);
 
     // process comments if need
-    if gProcessComments and Assigned(FDescription) then
+    if gProcessComments then
       FDescription.DeleteDescription(FileName);
   except
     DebugLn('Can not wipe ', FileName);
