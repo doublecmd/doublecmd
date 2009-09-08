@@ -245,7 +245,7 @@ function mbDeleteFile(const FileName: UTF8String): Boolean;
 // 12.05.2009 - added implementation for Linux via gvfs-trash.
 function mbDeleteToTrash(const FileName: UTF8String): Boolean;
 // 14.05.2009 - this funtion checks 'gvfs-trash' BEFORE deleting. Need for various linux disributives.
-function mbCheckTrash: Boolean;
+function mbCheckTrash(sPath: UTF8String): Boolean;
 // ----------------
 function mbRenameFile(const OldName, NewName : UTF8String): Boolean;
 function mbFileSize(const FileName: UTF8String): Int64;
@@ -1461,20 +1461,48 @@ end;
 // --------------------------------------------------------------------------------
 
 // 14.05.2009 ---------------------------------------------------------------------
-function mbCheckTrash: Boolean;
-begin
+function mbCheckTrash(sPath: UTF8String): Boolean;
 {$IFDEF UNIX}
+begin
   // Checking gvfs-trash.
   Result := mbFileExists(_PATH_GVFS_TRASH);
-{$ELSE}
-  // 14.05.2009
-  {
-   сюда можно поставить проверку на доступность корзины в Windows
-   конкретного способа пока не знаю. Предполагаю, для этого нужно лезть в реестр винды.
-  }
-  Result := true; {stub}
-{$ENDIF}
 end;
+{$ELSE}
+const
+  wsRoot: WideString = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\BitBucket\';
+var
+  Key: HKEY;
+  Value: DWORD;
+  ValueSize: LongInt;
+begin
+  Result:= False;
+  ValueSize:= SizeOf(DWORD);
+  if RegOpenKeyExW(HKEY_LOCAL_MACHINE, PWideChar(wsRoot), 0, KEY_READ, Key) = ERROR_SUCCESS then
+    begin
+      if RegQueryValueExW(Key, 'UseGlobalSettings', nil, nil, @Value, @ValueSize) <> ERROR_SUCCESS then
+        Value:= 1; // use global settings by default
+      if (Value = 1) then
+        begin
+          if RegQueryValueExW(Key, 'NukeOnDelete', nil, nil, @Value, @ValueSize) <> ERROR_SUCCESS then
+            Value:= 0; // delete to trash by default
+          Result:= (Value = 0);
+          RegCloseKey(Key);
+        end
+      else
+        begin
+          RegCloseKey(Key);
+          if RegOpenKeyExW(HKEY_LOCAL_MACHINE, PWideChar(wsRoot + sPath[1]), 0, KEY_READ, Key) = ERROR_SUCCESS then
+            begin
+              if RegQueryValueExW(Key, 'NukeOnDelete', nil, nil, @Value, @ValueSize) <> ERROR_SUCCESS then
+                Value:= 0; // delete to trash by default
+              Result:= (Value = 0);
+              RegCloseKey(Key);
+            end;
+        end;
+    end;
+end;
+{$ENDIF}
+
 // --------------------------------------------------------------------------------
 
 function mbRenameFile(const OldName, NewName: UTF8String): Boolean;

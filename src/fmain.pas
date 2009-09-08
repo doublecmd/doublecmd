@@ -646,7 +646,7 @@ begin
   cmd:='cm_'+copy(cmd,4,length(cmd)-3);
   try
     // 14.05.2009 - fix delete to trash from context menu;
-    If (cmd = 'cm_Delete') and gUseTrash and mbCheckTrash then
+    If (cmd = 'cm_Delete') and gUseTrash and mbCheckTrash(ActiveFrame.CurrentPath) then
      Actions.Execute(cmd,'recycle')
     else
     Actions.Execute(cmd);
@@ -1481,7 +1481,7 @@ begin
   If ((Key = VK_F8) or (Key = VK_DELETE)) and
      ((not IsCommandLineVisible) or ((not edtCommand.Focused) and (edtCommand.Tag = 0))) then
    begin
-    if gUseTrash and mbCheckTrash then // 14.05.2009 - additional check for various linux distributives.
+    if gUseTrash and mbCheckTrash(ActiveFrame.CurrentPath) then // 14.05.2009 - additional check for various linux distributives.
      begin
       if Shift=[ssShift] then // если шифт - удаляем напрямую
        Actions.cm_Delete('')
