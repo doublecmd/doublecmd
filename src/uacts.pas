@@ -251,7 +251,7 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
      uFileSystemDeleteOperation,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
      uFileSourceCalcStatisticsOperation, uFileSystemFile,
-     uFileSource;
+     uFileSource, uFileSourceProperty;
 
 { TActs }
 
@@ -2370,15 +2370,20 @@ begin
 end;
 
 procedure TActs.cm_EditComment(param: string);
+var
+  aFile: TFile;
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_EditComment', param);
-{
   with frmMain.ActiveFrame do
   begin
-    if IsActiveItemValid then
-      ShowDescrEditDlg(ActiveDir + pnlFile.GetActiveItem^.sName);
+    if not (fspDirectAccess in FileSource.GetProperties) then
+      msgWarning(rsMsgErrNotSupported)
+    else
+      begin
+        aFile:= ActiveFile;
+        if Assigned(aFile) then
+          ShowDescrEditDlg(CurrentPath + aFile.Name)
+      end;
   end;
-}
 end;
 
 function SendToClipboard(ClipboardMode: uClipboard.TClipboardOperation):Boolean;
