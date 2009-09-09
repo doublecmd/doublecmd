@@ -248,7 +248,7 @@ function TWLXModule.CallListLoad(ParentWin: HWND; FileToLoad: string;
 begin
   if not assigned(ListLoad) then exit; //To prevent crash.
   {$IFDEF LCLQT}
-    FPluginWindow:=ListLoad(Integer(TQtWidget(ParentWin).GetContainerWidget), pChar(UTF8ToSys(FileToLoad)), ShowFlags);
+    FPluginWindow:=ListLoad(PtrInt(TQtWidget(ParentWin).GetContainerWidget), pChar(UTF8ToSys(FileToLoad)), ShowFlags);
   {$ENDIF}
   {$IFNDEF LCLQT}
     FPluginWindow:=ListLoad(ParentWin, pChar(UTF8ToSys(FileToLoad)), ShowFlags);
@@ -262,7 +262,7 @@ function TWLXModule.CallListLoadNext(ParentWin: HWND;
 begin
   if assigned(ListLoadNext) then
   {$IFDEF LCLQT}
-   Result:=ListLoadNext(Integer(TQtWidget(ParentWin).GetContainerWidget),FPluginWindow, pChar(UTF8ToSys(FileToLoad)), ShowFlags);
+   Result:=ListLoadNext(PtrInt(TQtWidget(ParentWin).GetContainerWidget),FPluginWindow, pChar(UTF8ToSys(FileToLoad)), ShowFlags);
   {$ENDIF}
   {$IFNDEF LCLQT}
    Result:=ListLoadNext(ParentWin,FPluginWindow,PChar(UTF8ToSys(FileToLoad)),ShowFlags)
