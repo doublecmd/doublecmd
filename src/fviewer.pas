@@ -32,7 +32,7 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, LCLProc, Menus,
-  viewercontrol, fFindView,uwlxmodule;
+  viewercontrol, fFindView, WLXPlugin, uWLXModule;
 
 type
 
@@ -720,13 +720,18 @@ end;
 
 procedure TfrmViewer.miCopyToClipboardClick(Sender: TObject);
 begin
-  ViewerControl.CopyToClipboard;
+  if bPlugin then
+    WlxPlugins.GetWLxModule(ActivePlugin).CallListSendCommand(lc_copy, 0)
+  else
+    ViewerControl.CopyToClipboard;
 end;
 
 procedure TfrmViewer.miSelectAllClick(Sender: TObject);
 begin
-  inherited;
-  ViewerControl.SelectAll;
+  if bPlugin then
+    WlxPlugins.GetWLxModule(ActivePlugin).CallListSendCommand(lc_selectall, 0)
+  else
+    ViewerControl.SelectAll;
 end;
 
 procedure TfrmViewer.miChangeEncodingClick(Sender: TObject);
