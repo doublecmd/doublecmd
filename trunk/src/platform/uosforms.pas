@@ -91,7 +91,7 @@ implementation
 uses
   LCLProc, fMain, uOSUtils, uGlobs, uLng, uDCUtils, uShellExecute
   {$IF DEFINED(MSWINDOWS)}
-  , uFileSystemFile
+  , uFileSystemFile, uTotalCommander
   {$ENDIF}
   {$IF DEFINED(LINUX)}
   , uFileSystemWatcher, inotify, uMimeActions
@@ -141,6 +141,7 @@ procedure SetMyWndProc(Handle : THandle);
 {$IFDEF MSWINDOWS}
 begin
   OldWProc := WNDPROC(SetWindowLong(Handle, GWL_WNDPROC, LONG_PTR(@MyWndProc)));
+  CreateTotalCommanderWindow(Handle);
 end;
 {$ELSE}
 begin
