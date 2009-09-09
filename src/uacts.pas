@@ -2381,7 +2381,12 @@ begin
       begin
         aFile:= ActiveFile;
         if Assigned(aFile) then
-          ShowDescrEditDlg(CurrentPath + aFile.Name)
+          begin
+            if aFile.IsNameValid then
+              ShowDescrEditDlg(CurrentPath + aFile.Name)
+            else
+              msgWarning(rsMsgNoFilesSelected);
+          end;
       end;
   end;
 end;
