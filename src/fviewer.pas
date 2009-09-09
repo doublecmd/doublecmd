@@ -675,6 +675,12 @@ begin
 
   if (bQuickSearch and gFirstTextSearch) or not bQuickSearch then
     begin
+      if bPlugin then
+        begin
+          // if plugin has specific search dialog
+          if WlxPlugins.GetWLxModule(ActivePlugin).CallListSearchDialog(0) = LISTPLUGIN_OK then
+            Exit;
+        end;
       // Load search history
       FFindDialog.cbDataToFind.Items.Assign(glsSearchHistory);
       if FFindDialog.ShowModal <> mrOK then Exit;
@@ -686,6 +692,12 @@ begin
     end
   else
     begin
+      if bPlugin then
+        begin
+          // if plugin has specific search dialog
+          if WlxPlugins.GetWLxModule(ActivePlugin).CallListSearchDialog(1) = LISTPLUGIN_OK then
+            Exit;
+        end;
       if glsSearchHistory.Count > 0 then
         sSearchText:= glsSearchHistory[0];
     end;
