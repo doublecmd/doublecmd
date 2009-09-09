@@ -669,11 +669,6 @@ var
   iSizeData: Integer;
   sSearchText: UTF8String;
 begin
-  PAdr:= ViewerControl.GetDataAdr; // begin of data in memory
-  inc(PAdr, ViewerControl.Position); // move to current position
-  iSizeData:= ViewerControl.FileSize - ViewerControl.Position;
-  if iSizeData <= 0 then Exit;
-
   // in first use create dialog
   if not Assigned(FFindDialog) then
      FFindDialog:= TfrmFindView.Create(Application);
@@ -695,17 +690,32 @@ begin
         sSearchText:= glsSearchHistory[0];
     end;
 
-  PAdr:= PosMem(PAdr, iSizeData, sSearchText, FFindDialog.cbCaseSens.Checked);
-
-  if (PtrInt(PAdr) <> -1) then
+  if bPlugin then
     begin
-      // founded, set position to ViewerControl
-      ViewerControl.Position:= PtrInt(PAdr)-PtrInt(ViewerControl.GetDataAdr);
-      ViewerControl.Up;
-      // position is property and have write method  (repaint widget)
-      UpDateScrollBar;
+      iSizeData:= 0;
+      if FFindDialog.cbCaseSens.Checked then
+        iSizeData:= lcs_matchcase;
+      WlxPlugins.GetWLxModule(ActivePlugin).CallListSearchText(sSearchText, iSizeData);
+    end
+  else
+    begin
+      PAdr:= ViewerControl.GetDataAdr; // begin of data in memory
+      Inc(PAdr, ViewerControl.Position); // move to current position
+      iSizeData:= ViewerControl.FileSize - ViewerControl.Position;
+      if iSizeData <= 0 then Exit;
+
+      PAdr:= PosMem(PAdr, iSizeData, sSearchText, FFindDialog.cbCaseSens.Checked);
+
+      if (PtrInt(PAdr) <> -1) then
+        begin
+          // founded, set position to ViewerControl
+          ViewerControl.Position:= PtrInt(PAdr)-PtrInt(ViewerControl.GetDataAdr);
+          ViewerControl.Up;
+          // position is property and have write method  (repaint widget)
+          UpDateScrollBar;
+        end;
+      SetFocus;
     end;
-  SetFocus;
 end;
 
 procedure TfrmViewer.ChooseEncoding(mnuMenuItem: TMenuItem; sEncoding: String);
