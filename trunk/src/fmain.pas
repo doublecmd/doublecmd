@@ -841,14 +841,14 @@ procedure TfrmMain.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
 var
   ModifierKeys: TShiftState;
 begin
-debugln('formutf8keypress');
-{  // Either left or right panel has to be focused.
+  DebugLn('FormUTF8KeyPress');
+  // Either left or right panel has to be focused.
   if not FrameLeft.Focused and
      not FrameRight.Focused then
   begin
     Exit;
   end;
-}
+
   if (edtCommand.Tag = 0) then
     begin
       // quick search by Letter only
@@ -1545,15 +1545,13 @@ procedure TfrmMain.FormKeyPress(Sender: TObject; var Key: Char);
 var
   CmdText : UTF8String;
 begin
-debugln('formkeypress');
+  DebugLn('FormKeyPress');
   // Either left or right panel has to be focused.
-{
-  if not FrameLeft.dgPanel.Focused and
-     not FrameRight.dgPanel.Focused then
+  if not FrameLeft.Focused and
+     not FrameRight.Focused then
   begin
     Exit;
   end;
-}
 
   if gCmdLine then  // If command line is enabled
   begin
@@ -2123,15 +2121,13 @@ var
   ModifierKeys: TShiftState;
   UTF8Char: TUTF8Char;
 begin
-debugln('formkeydown');
-{
+  DebugLn('FormKeyDown');
   // Either left or right panel has to be focused.
   if not FrameLeft.Focused and
      not FrameRight.Focused then
   begin
     Exit;
   end;
-}
 
   // used for quick search by Ctrl+Alt+Letter and Alt+Letter
   if gQuickSearch and (edtCommand.Tag = 0) then
