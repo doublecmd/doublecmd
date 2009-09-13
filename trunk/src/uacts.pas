@@ -2045,31 +2045,24 @@ end;
 
 procedure TActs.cm_MultiRename(param:string);
 var
-  fl: TFileList;
-  I: Integer;
+  aFiles: TFiles;
 begin
-{
-// MultiRename should also use TFileSource
-// as well as selection of files from the view.
-
-with frmMain do
-begin
-  with ActiveFrame do
+  with frmMain do
   begin
-    if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+    if not (fsoMove in ActiveFrame.FileSource.GetOperationsTypes) then
+      begin
+        msgWarning(rsMsgErrNotSupported);
+        Exit;
+      end;
 
-    fl:= TFileList.Create;  // ShowMultiRenameForm frees 'fl'.
-    try
-      for I:= 0 to pnlFile.FileList.Count-1 do
-        if pnlFile.GetFileItem(I).bSelected then
-          fl.AddItem(pnlFile.GetFileItemPtr(I));
-      ShowMultiRenameForm(fl);
-    except
-      FreeAndNil(fl);
-    end;
+    aFiles:= ActiveFrame.SelectedFiles;
+    if Assigned(aFiles) then
+      try
+        ShowMultiRenameForm(ActiveFrame.FileSource, aFiles);
+      except
+        FreeAndNil(aFiles);
+      end;
   end;
-end;
-}
 end;
 
 //------------------------------------------------------
