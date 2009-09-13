@@ -386,7 +386,7 @@ begin
                   DebugLn(Name);
                   DebugLn(ExtractFileDrive(Name));
                   if Name <> (ExtractFileDrive(Name)+PathDelim) then
-                    frmMain.RenameFile('')
+                    frmMain.actRenameOnly.Execute
                   else  // change drive label
                     begin
                       sCmd:= mbGetVolumeLabel(Name, True);

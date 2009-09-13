@@ -465,7 +465,6 @@ type
     procedure miHotConfClick(Sender: TObject);
 //    procedure RenameFile(srcFileList: TFileList; dstFramePanel: TFileView; sDestPath: String);
 //    procedure CopyFile(srcFileList: TFileList; dstFramePanel: TFileView; sDestPath: String);
-    procedure RenameFile(sDestPath:String); // this is for F6 and Shift+F6
     procedure MoveFile(sDestPath:String);
     procedure CopyFile(sDestPath:String); //  this is for F5 and Shift+F5
     procedure GetDestinationPathAndMask(EnteredPath: String; BaseDir: String;
@@ -1992,71 +1991,6 @@ begin
     if Assigned(SourceFiles) then
       FreeAndNil(SourceFiles);
   end;
-end;
-
-procedure TfrmMain.RenameFile(sDestPath:String);
-var
-  fl:TFileList;
-  sDstMaskTemp:String;
-begin
-(*
-  // Exit if no valid files selected.
-{
-  if ActiveFrame.SelectFileIfNoSelected(ActiveFrame.GetActiveItem) = False then Exit;
-}
-
-{
-  if (sDestPath = '') and (ActiveFrame.pnlFile.GetSelectedCount = 1) then
-    with ActiveFrame do
-    begin
-      if IsActiveItemValid then
-        ShowRenameFileEdit(ActiveDir + GetActiveItem^.sName);
-      Exit;
-    end;
-}
-
-  fl := TFileList.Create; // free at Thread end by thread
-  try
-{
-    fl.CurrentDirectory := ActiveFrame.CurrentPath;
-    CopyListSelectedExpandNames(ActiveFrame.pnlFile.FileList,fl,ActiveFrame.CurrentPath);
-}
-
-    with TfrmMoveDlg.Create(Application) do
-    begin
-      try
-        if (fl.Count = 1) and
-           (not (FPS_ISDIR(fl.GetItem(0)^.iMode) or fl.GetItem(0)^.bLinkIsDir))
-        then
-          edtDst.Text := sDestPath + ExtractFileName(fl.GetItem(0)^.sName)
-        else
-          edtDst.Text := sDestPath + '*.*';
-
-        //lblMoveSrc.Caption := GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr);
-        if ShowModal=mrCancel then
-        begin
-          FreeAndNil(fl); // Free now, because the thread won't be run.
-          Exit; // throught finally
-        end;
-
-        GetDestinationPathAndMask(edtDst.Text, ActiveFrame.CurrentPath, sDestPath, sDstMaskTemp);
-
-      finally
-{
-        with ActiveFrame do
-          UnSelectFileIfSelected(GetActiveItem);
-}
-        Free;
-      end;
-    end;
-  
-    (* Move files *)
-
-    RunRenameThread(fl, sDestPath, sDstMaskTemp);
-
-  except
-    FreeAndNil(fl);
-  end;*)
 end;
 
 procedure TfrmMain.CopyFile(sDestPath:String);
