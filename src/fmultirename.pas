@@ -186,7 +186,7 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uLng, uGlobs, uFileProcs, uDCUtils, uOSUtils, uShowMsg, uFileSourceUtil;
+  LCLProc, FileUtil, uLng, uGlobs, uFileProcs, uDCUtils, uOSUtils, uShowMsg, uFileSourceUtil, uFileProperty;
 
 const
   sPresetsSection = 'MultiRenamePresets';
@@ -527,9 +527,11 @@ begin
   sNew:=sReplaceXX(sNew,'[N',sOrigName);
 //type[Exx]
   sNew:=sReplaceXX(sNew,'[E',sOrigExt);
-//type [h][m][s][Y][M][D]
-  //sNew:= sReplaceDateTime(sNew, FFileList.GetItem(count)^.fTimeI);
-  Result:=sNew;
+//type [h][n][s][Y][M][D]
+  with FFiles.Items[count] do
+  if (fpModificationTime in GetSupportedProperties) then
+    sNew:= sReplaceDateTime(sNew, (Properties[fpModificationTime] as TFileDateTimeProperty).Value);
+  Result:= sNew;
 end;
 
 function TfrmMultiRename.sReplaceXX(sMask,sSymbol,sOrig:string):string;
