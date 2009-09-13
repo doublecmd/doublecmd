@@ -21,7 +21,7 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, ComCtrls, Menus, Buttons, SynRegExpr, LCLType,
-  uClassesEx, uFileList, StringHashList;
+  uClassesEx, uFile, uFileSource, StringHashList;
 
 type
 
@@ -134,7 +134,8 @@ type
  private
     IniPropStorage: TIniPropStorageEx;
     FLastPreset: String;
-    FFileList: TFileList;
+    FFileSource: TFileSource;
+    FFiles: TFiles;
     FPresets: TStringHashList; // of PMultiRenamePreset
 
     {Function sReplace call sReplaceXX with parametres}
@@ -175,26 +176,26 @@ type
     procedure ClearPresetsList;
   public
     { Public declarations }
-    constructor Create(TheOwner: TComponent; FileList: TFileList); reintroduce;
+    constructor Create(TheOwner: TComponent; aFileSource: TFileSource; aFiles: TFiles); reintroduce;
     destructor Destroy; override;
   end;
 
 {initialization function}
-  function ShowMultiRenameForm(const srcFileList: TFileList):Boolean;
+  function ShowMultiRenameForm(aFileSource: TFileSource; const aFiles: TFiles):Boolean;
 
 implementation
 
 uses
-  LCLProc, FileUtil, uLng, uGlobs, uFileProcs, uDCUtils, uOSUtils, uShowMsg;
+  LCLProc, FileUtil, uLng, uGlobs, uFileProcs, uDCUtils, uOSUtils, uShowMsg, uFileSourceUtil;
 
 const
   sPresetsSection = 'MultiRenamePresets';
 
-function ShowMultiRenameForm(const srcFileList: TFileList):Boolean;
+function ShowMultiRenameForm(aFileSource: TFileSource; const aFiles: TFiles):Boolean;
 begin
   Result:= True;
   try
-    with TfrmMultiRename.Create(Application, srcFileList) do
+    with TfrmMultiRename.Create(Application, aFileSource, aFiles) do
     begin
       Show;
     end;
@@ -203,10 +204,11 @@ begin
   end;
 end;
 
-constructor TfrmMultiRename.Create(TheOwner: TComponent; FileList: TFileList);
+constructor TfrmMultiRename.Create(TheOwner: TComponent; aFileSource: TFileSource; aFiles: TFiles);
 begin
   FPresets := TStringHashList.Create(False);
-  FFileList := FileList;
+  FFileSource := aFileSource;
+  FFiles := aFiles;
   inherited Create(TheOwner);
 end;
 
@@ -232,13 +234,14 @@ begin
   IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item2_Width';
 
   // Fill the files list.
-  for i := 0 to FFileList.Count - 1 do
+  for i := 0 to FFiles.Count - 1 do
   with lsvwFile.Items do
   begin
     Add;
-    Item[i].Caption := ExtractFileName(FFileList.GetItem(i)^.sName);
+    Item[i].Data:= FFiles.Items[i];
+    Item[i].Caption := ExtractFileName(FFiles.Items[i].Name);
     Item[i].SubItems.Add('');
-    Item[i].SubItems.Add(ExcludeTrailingBackslash(FFileList.GetItem(i)^.sPath));
+    Item[i].SubItems.Add(ExcludeTrailingBackslash(FFiles.Items[i].Path));
   end;
 
   // Set default values for controls.
@@ -273,8 +276,8 @@ begin
     IniPropStorage.StoredValue['lsvwFile_Columns.Item2_Width']:= IntToStr(Items[2].Width);
   end;
 
-  if Assigned(FFileList) then
-    FreeAndNil(FFileList);
+  if Assigned(FFiles) then
+    FreeAndNil(FFiles);
 end;
 
 procedure TfrmMultiRename.miDayClick(Sender: TObject);
@@ -525,7 +528,7 @@ begin
 //type[Exx]
   sNew:=sReplaceXX(sNew,'[E',sOrigExt);
 //type [h][m][s][Y][M][D]
-  sNew:= sReplaceDateTime(sNew, FFileList.GetItem(count)^.fTimeI);
+  //sNew:= sReplaceDateTime(sNew, FFileList.GetItem(count)^.fTimeI);
   Result:=sNew;
 end;
 
@@ -730,7 +733,7 @@ begin
     for c:=0 to lsvwFile.Items.Count-1 do
       with lsvwFile.Items do
       begin
-        if mbRenameFile(Item[c].SubItems[1]+pathDelim+item[c].Caption,
+        if RenameFile(FFileSource, TFile(Item[c].Data).Clone,
             Item[c].SubItems[1]+pathdelim+Item[c].SubItems[0]) = True then
         begin
           item[c].Caption := Item[c].SubItems[0];  // write the new name to table
