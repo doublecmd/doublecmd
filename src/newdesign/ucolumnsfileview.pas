@@ -429,6 +429,7 @@ type
     procedure cm_Open(param: string='');
     procedure cm_SortByColumn(param: string='');
     procedure cm_CountDirContent(param: string='');
+    procedure cm_RenameOnly(param: string='');
   end;
 
 implementation
@@ -1796,16 +1797,7 @@ begin
         OldFileNameAbsolute := edtRename.Hint;
         NewFileNameAbsolute := ExtractFilePath(OldFileNameAbsolute) + NewFileName;
 
-        if mbFileExists(NewFileNameAbsolute) then
-        begin
-          if MsgBox(Format(rsMsgFileExistsRwrt, [NewFileName]),
-                    [msmbYes, msmbNo], msmbYes, msmbNo) = mmrNo then
-          begin
-            Exit;
-          end;
-        end;
-
-        if mbRenameFile(OldFileNameAbsolute, NewFileNameAbsolute) = True then
+        if RenameFile(FileSource, ActiveFile.Clone, NewFileNameAbsolute) = True then
         begin
           edtRename.Visible:=False;
           LastActive := NewFileName;
@@ -3002,7 +2994,7 @@ begin
 
         ddoMove:
           if GetDragDropType = ddtInternal then
-            frmMain.RenameFile(TargetDir)
+            frmMain.MoveFile(TargetDir)
           else
           begin
 //            frmMain.RenameFile(FileList, TargetPanel, TargetDir); // will free FileList
@@ -3114,6 +3106,20 @@ end;
 procedure TColumnsFileView.cm_CountDirContent(param: string='');
 begin
   CalculateSpaceOfAllDirectories;
+end;
+
+procedure TColumnsFileView.cm_RenameOnly(param: string='');
+var
+  aFile: TFile;
+begin
+  if (fsoMove in FileSource.GetOperationsTypes) then
+    begin
+      aFile:= ActiveFile;
+      if Assigned(aFile) and aFile.IsNameValid then
+        begin
+          ShowRenameFileEdit(CurrentPath + aFile.Name);
+        end;
+    end;
 end;
 
 { TDrawGridEx }

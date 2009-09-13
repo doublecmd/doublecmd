@@ -2084,8 +2084,6 @@ end;
 procedure TActs.cm_RenameOnly(param:string);
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_RenameOnly', param);
-  // Selection validation in RenameFile.
-  frmMain.RenameFile('');
 end;
 
 procedure TActs.cm_EditNew(param:string);
