@@ -27,6 +27,24 @@ object frmMain: TfrmMain
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.27'
   Visible = True
+  object MainToolBar: TKASToolBar
+    AnchorSideTop.Control = Owner
+    Left = 0
+    Height = 20
+    Top = 0
+    Width = 659
+    AutoSize = True
+    Constraints.MinHeight = 20
+    Flat = True
+    TabOrder = 2
+    OnDragDrop = MainToolBarDragDrop
+    OnDragOver = MainToolBarDragOver
+    OnMouseUp = MainToolBarMouseUp
+    OnToolButtonClick = MainToolBarToolButtonClick
+    OnLoadButtonGlyph = MainToolBarLoadButtonGlyph
+    GlyphSize = 16
+    EnvVar = '%commander_path%'
+  end
   object pnlSyncSize: TPanel
     AnchorSideTop.Control = MainToolBar
     AnchorSideTop.Side = asrBottom
@@ -418,24 +436,6 @@ object frmMain: TfrmMain
       OnMouseMove = MainSplitterMouseMove
       OnMouseUp = MainSplitterMouseUp
     end
-  end
-  object MainToolBar: TKASToolBar
-    AnchorSideTop.Control = Owner
-    Left = 0
-    Height = 20
-    Top = 0
-    Width = 659
-    AutoSize = True
-    Constraints.MinHeight = 20
-    Flat = True
-    TabOrder = 2
-    OnDragDrop = MainToolBarDragDrop
-    OnDragOver = MainToolBarDragOver
-    OnMouseUp = MainToolBarMouseUp
-    OnToolButtonClick = MainToolBarToolButtonClick
-    OnLoadButtonGlyph = MainToolBarLoadButtonGlyph
-    GlyphSize = 16
-    EnvVar = '%commander_path%'
   end
   object pnlKeys: TPanel
     Left = 0
