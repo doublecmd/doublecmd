@@ -2182,9 +2182,8 @@ var
   ModifierKeys: TShiftState;
   UTF8Char: TUTF8Char;
 begin
-debugln('panelkeydown');
   // used for quick search by Ctrl+Alt+Letter and Alt+Letter
-  if gQuickSearch {and (edtCommand.Tag = 0)} then
+  if gQuickSearch then
   begin
     ModifierKeys := GetKeyShiftStateEx;
 
@@ -2209,192 +2208,187 @@ debugln('panelkeydown');
     end;
   end;
 
-  // cursors keys in Lynx like mode
-  if (Shift=[]) and (Key=VK_LEFT) and gLynxLike then
-  begin
-    cdUpLevel;
-    Key:=0;
-    Exit;
-  end;
-
-  if (Shift=[]) and (Key=VK_RIGHT) and gLynxLike then
-  begin
-    if Assigned(GetActiveItem) then
-      ChooseFile(GetActiveItem, True);
-    Key:=0;
-    Exit;
-  end;
-
-  // handle Space key
-  if (Shift=[]) and (Key=VK_Space) and
-     ((not frmMain.IsCommandLineVisible) or (frmMain.edtCommand.Text='')) then
-  begin
-    if not IsEmpty then
-    begin
-      if IsActiveItemValid then
-      begin
-        if GetActiveItem.TheFile.IsDirectory or
-           GetActiveItem.TheFile.IsLinkToDirectory
-        then
-          CalculateSpace(GetActiveItem);
-
-        SelectFile(GetActiveItem);
-      end;
-
-      if gSpaceMovesDown then
-        dgPanel.Row := dgPanel.Row + 1;
-
-      dgPanel.Invalidate;
-      MakeSelectedVisible;
-    end;
-    Key := 0;
-    Exit;
-  end;
-
-  if (Shift=[]) and (Key=VK_BACK) and
-     ((not frmMain.IsCommandLineVisible) or (frmMain.edtCommand.Text='')) then
-  begin
-    if (frmMain.edtCommand.Tag = 0) then
-    begin
-      cdUpLevel;
-      RedrawGrid;
-    end;
-    Key := 0;
-    Exit;
-  end;
-
   case Key of
     VK_APPS:
       begin
         cm_ContextMenu('');
         Key := 0;
-        Exit;
       end;
-  end;
 
-  if Key=VK_INSERT then
-  begin
-    if not IsEmpty then
-    begin
-      if IsActiveItemValid then
-        SelectFile(GetActiveItem);
-      dgPanel.InvalidateRow(dgPanel.Row);
-      if dgPanel.Row<dgPanel.RowCount-1 then
-        dgPanel.Row:=dgPanel.Row+1;
-      MakeSelectedVisible;
-    end;
-    Key := 0;
-    Exit;
-  end;
-
-  if Key=VK_MULTIPLY then
-  begin
-    InvertAll;
-    Key := 0;
-    Exit;
-  end;
-
-  if Key=VK_ADD then
-  begin
-    if shift=[ssCtrl] then
-      MarkAll;
-    if shift=[] then
-      MarkPlus;
-    if shift=[ssShift] then
-      MarkShiftPlus;
-    Key := 0;
-    Exit;
-  end;
-
-  if Key=VK_SUBTRACT then
-  begin
-    if shift=[ssCtrl] then
-      UnMarkAll;
-
-    if shift=[] then
-      MarkMinus;
-    if shift=[ssShift] then
-      MarkShiftMinus;
-    Key := 0;
-    Exit;
-  end;
-
-  if Key = VK_SHIFT then
-    begin
-      FLastSelectionStartRow:= dgPanel.Row;
-      Key := 0;
-      Exit;
-    end;
-
-  if ((Key=VK_END) or (Key=VK_HOME) or (Key=VK_NEXT) or (Key=VK_PRIOR)) and (ssShift in Shift) then
-  begin
-    //Application.QueueAsyncCall(@SelectRange, -1); // needed?
-    SelectRange(-1);
-    Key := 0;
-    Exit;
-  end;
-
-  if ((Key=VK_DOWN) or (Key=VK_UP)) and (ssShift in Shift) then
-    begin
-      if IsActiveItemValid then
+    VK_INSERT:
       begin
-        SelectFile(GetActiveItem);
-        if (dgPanel.Row=dgPanel.RowCount-1) or (dgPanel.Row=dgPanel.FixedRows) then
-          dgPanel.Invalidate;
-        Key := 0;
-        Exit;
-      end;
-    end;
-
-  {$IFDEF LCLGTK2}
-   if ((dgPanel.Row=dgPanel.RowCount-1) and (key=VK_DOWN))
-   or ((dgPanel.Row=dgPanel.FixedRows) and (key=VK_UP)) then
-    key:=0;
-  {$ENDIF}
-
-  if (Key = VK_RETURN) or (Key = VK_SELECT) then
-  begin
-    if (Shift=[]) or (Shift=[ssCaps]) then // 21.05.2009 - не учитываем CapsLock при перемещении по панелям
-    begin
-      // Only if there are items in the panel.
-      if not IsEmpty then
-      begin
-        Screen.Cursor := crHourGlass;
-        try
-          ChooseFile(GetActiveItem);
-          UpDatelblInfo;
-        finally
-          dgPanel.Invalidate;
-          Screen.Cursor := crDefault;
+        if not IsEmpty then
+        begin
+          if IsActiveItemValid then
+            SelectFile(GetActiveItem);
+          dgPanel.InvalidateRow(dgPanel.Row);
+          if dgPanel.Row < dgPanel.RowCount-1 then
+            dgPanel.Row := dgPanel.Row+1;
+          MakeSelectedVisible;
         end;
         Key := 0;
-        Exit;
       end;
-    end
-    // execute active file in terminal (Shift+Enter)
-    else if Shift=[ssShift] then
-    begin
-      if IsActiveItemValid then
+
+    VK_MULTIPLY:
       begin
-        mbSetCurrentDir(CurrentPath);
-        ExecCmdFork(CurrentPath + GetActiveItem.TheFile.Name, True, gRunInTerm);
+        InvertAll;
         Key := 0;
-        Exit;
       end;
-    end;
-  end;
 
-  if dgPanel.Dragging and (Key = VK_MENU) then // Alt key
-  begin
-    // Force transform to external dragging in anticipation of user
-    // pressing Alt+Tab to change active application window.
+    VK_ADD:
+      begin
+        if Shift = [ssCtrl] then
+          MarkAll
+        else if Shift = [] then
+          MarkPlus
+        else if Shift = [ssShift] then
+          MarkShiftPlus;
+        Key := 0;
+      end;
 
-    // Disable flag, so that dragging isn't immediately transformed
-    // back to internal before the other application window is shown.
-    uDragDropEx.AllowTransformToInternal := False;
+    VK_SUBTRACT:
+      begin
+        if Shift = [ssCtrl] then
+          UnMarkAll
+        else if Shift = [] then
+          MarkMinus
+        else if Shift = [ssShift] then
+          MarkShiftMinus;
+        Key := 0;
+      end;
 
-    GetCursorPos(ScreenPoint);
-    dgPanel.TransformDraggingToExternal(ScreenPoint);
+    VK_SHIFT:
+      begin
+        FLastSelectionStartRow:= dgPanel.Row;
+        Key := 0;
+      end;
+
+    VK_HOME, VK_END, VK_PRIOR, VK_NEXT:
+      if (ssShift in Shift) then
+      begin
+        //Application.QueueAsyncCall(@SelectRange, -1); // needed?
+        SelectRange(-1);
+        Key := 0;
+      end;
+
+    // cursors keys in Lynx like mode
+    VK_LEFT:
+      if (Shift = []) and gLynxLike then
+      begin
+        cdUpLevel;
+        Key := 0;
+      end;
+
+    VK_RIGHT:
+      if (Shift = []) and gLynxLike then
+      begin
+        if Assigned(GetActiveItem) then
+          ChooseFile(GetActiveItem, True);
+        Key := 0;
+      end;
+
+    VK_UP, VK_DOWN:
+      begin
+        if ssShift in Shift then
+        begin
+          if IsActiveItemValid then
+          begin
+            SelectFile(GetActiveItem);
+            if (dgPanel.Row = dgPanel.RowCount-1) or (dgPanel.Row = dgPanel.FixedRows) then
+              dgPanel.Invalidate;
+            Key := 0;
+          end;
+        end
+{$IFDEF LCLGTK2}
+        else
+        begin
+          if ((dgPanel.Row = dgPanel.RowCount-1) and (Key = VK_DOWN))
+          or ((dgPanel.Row = dgPanel.FixedRows) and (Key = VK_UP)) then
+            Key := 0;
+        end;
+{$ENDIF}
+      end;
+
+    VK_SPACE:
+      if (Shift = []) and
+         ((not frmMain.IsCommandLineVisible) or (frmMain.edtCommand.Text = '')) then
+      begin
+        if not IsEmpty then
+        begin
+          if IsActiveItemValid then
+          begin
+            if GetActiveItem.TheFile.IsDirectory or
+               GetActiveItem.TheFile.IsLinkToDirectory
+            then
+              CalculateSpace(GetActiveItem);
+
+            SelectFile(GetActiveItem);
+          end;
+
+          if gSpaceMovesDown then
+            dgPanel.Row := dgPanel.Row + 1;
+
+          dgPanel.Invalidate;
+          MakeSelectedVisible;
+        end;
+        Key := 0;
+      end;
+
+    VK_BACK:
+      if (Shift = []) and
+         ((not frmMain.IsCommandLineVisible) or (frmMain.edtCommand.Text = '')) then
+      begin
+        if (frmMain.edtCommand.Tag = 0) then
+        begin
+          cdUpLevel;
+          RedrawGrid;
+        end;
+        Key := 0;
+      end;
+
+    VK_RETURN, VK_SELECT:
+      begin
+        if (Shift=[]) or (Shift=[ssCaps]) then // 21.05.2009 - не учитываем CapsLock при перемещении по панелям
+        begin
+          // Only if there are items in the panel.
+          if not IsEmpty then
+          begin
+            Screen.Cursor := crHourGlass;
+            try
+              ChooseFile(GetActiveItem);
+              UpDatelblInfo;
+            finally
+              dgPanel.Invalidate;
+              Screen.Cursor := crDefault;
+            end;
+            Key := 0;
+          end;
+        end
+        // execute active file in terminal (Shift+Enter)
+        else if Shift=[ssShift] then
+        begin
+          if IsActiveItemValid then
+          begin
+            mbSetCurrentDir(CurrentPath);
+            ExecCmdFork(CurrentPath + GetActiveItem.TheFile.Name, True, gRunInTerm);
+            Key := 0;
+          end;
+        end;
+      end;
+
+    VK_MENU:  // Alt key
+      if dgPanel.Dragging then
+      begin
+        // Force transform to external dragging in anticipation of user
+        // pressing Alt+Tab to change active application window.
+
+        // Disable flag, so that dragging isn't immediately transformed
+        // back to internal before the other application window is shown.
+        uDragDropEx.AllowTransformToInternal := False;
+
+        GetCursorPos(ScreenPoint);
+        dgPanel.TransformDraggingToExternal(ScreenPoint);
+      end;
   end;
 end;
 
