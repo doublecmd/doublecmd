@@ -430,6 +430,7 @@ type
     procedure cm_SortByColumn(param: string='');
     procedure cm_CountDirContent(param: string='');
     procedure cm_RenameOnly(param: string='');
+    procedure cm_ContextMenu(param: string='');
   end;
 
 implementation
@@ -916,8 +917,7 @@ begin
       else if (Y < (Sender as TDrawGridEx).GridHeight)
            and ((gMouseSelectionButton<>1) or not gMouseSelectionEnabled) then
         begin
-          Actions.cm_ContextMenu('OnMouseClick');
-          //actContextMenu.Execute;
+          Actions.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y);
         end;
     end;
 end;
@@ -2263,6 +2263,15 @@ debugln('panelkeydown');
     Exit;
   end;
 
+  case Key of
+    VK_APPS:
+      begin
+        cm_ContextMenu('');
+        Key := 0;
+        Exit;
+      end;
+  end;
+
   if Key=VK_INSERT then
   begin
     if not IsEmpty then
@@ -3120,6 +3129,18 @@ begin
           ShowRenameFileEdit(CurrentPath + aFile.Name);
         end;
     end;
+end;
+
+procedure TColumnsFileView.cm_ContextMenu(param: string='');
+var
+  Rect: TRect;
+  Point: TPoint;
+begin
+  Rect := dgPanel.CellRect(0, dgPanel.Row);
+  Point.X := Rect.Left + ((Rect.Right - Rect.Left) div 2);
+  Point.Y := Rect.Top + ((Rect.Bottom - Rect.Top) div 2);
+  Point := dgPanel.ClientToScreen(Point);
+  Actions.DoContextMenu(Self, Point.X, Point.Y);
 end;
 
 { TDrawGridEx }
