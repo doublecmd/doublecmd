@@ -1492,19 +1492,6 @@ begin
    end;
   // ---------------------------------------------------------
 
-  if Shift=[] then
-  begin
-    case Key of
-     VK_APPS:
-       begin
-         Actions.cm_ContextMenu('');
-         //actContextMenu.Execute;
-         Key := 0;
-         Exit;
-       end;
-    end; // case
-  end; // Shift=[]
-
   if (Key=VK_Return) or (Key=VK_SELECT) then
   begin
     with ActiveFrame do

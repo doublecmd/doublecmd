@@ -107,6 +107,7 @@ const cf_Null=0;
    procedure DoToggleLockDcaTab(Tab: TFileViewPage);
    procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; FullNames: Boolean);
    procedure DoNewTab(Notebook: TFileViewNotebook);
+   procedure DoContextMenu(Panel: TFileView; X, Y: Integer);
    //---------------------
 
   published
@@ -653,6 +654,34 @@ begin
   NewPage.UpdateCaption(GetLastDir(ExcludeTrailingPathDelimiter(NewPage.FileView.CurrentPath)));
 end;
 
+procedure TActs.DoContextMenu(Panel: TFileView; X, Y: Integer);
+var
+  SelectedFiles: TFiles;
+begin
+  // Temporarily work for Filesystem only.
+  with frmMain do
+  begin
+    if not (Panel.FileSource is TFileSystemFileSource) then
+    begin
+      msgWarning(rsMsgErrNotSupported);
+      Exit;
+    end;
+
+    SelectedFiles := Panel.SelectedFiles;
+    try
+      if SelectedFiles.Count > 0 then
+      begin
+        ShowContextMenu(Panel, SelectedFiles, X, Y);
+        SelectedFiles := nil;  // freed by ShowContextMenu
+      end;
+
+    finally
+      if Assigned(SelectedFiles) then
+        FreeAndNil(SelectedFiles);
+    end;
+  end;
+end;
+
 //------------------------------------------------------
 //Published methods
 //------------------------------------------------------
@@ -718,48 +747,9 @@ begin
 end;
 
 procedure TActs.cm_ContextMenu(param:string);
-var
-  fl: TFileList;
-  Point: TPoint;
-  Rect: TRect;
-  SelectedFiles: TFiles;
 begin
-  //frmMain.ActiveFrame.ExecuteCommand('cm_ContextMenu', param);
-
-  // Temporarily work for Filesystem only.
-  with frmMain do
-  begin
-    if not (ActiveFrame.FileSource is TFileSystemFileSource) then
-    begin
-      msgWarning(rsMsgErrNotSupported);
-      Exit;
-    end;
-
-    SelectedFiles := ActiveFrame.SelectedFiles;
-    try
-      if SelectedFiles.Count > 0 then
-      begin
-        if param  = 'OnMouseClick' then
-          ShowContextMenu(frmMain, SelectedFiles, Mouse.CursorPos.x, Mouse.CursorPos.y)
-        else
-          begin
-            Point.X := 0;
-            Point.Y := 0;
-            {Rect:= dgPanel.CellRect(0, dgPanel.Row);
-            Point.X:= Rect.Left + ((Rect.Right - Rect.Left) div 2);
-            Point.Y:= Rect.Top + ((Rect.Bottom - Rect.Top) div 2);
-            Point:= dgPanel.ClientToScreen(Point);}
-            ShowContextMenu(frmMain, SelectedFiles, Point.X, Point.Y)
-          end;
-      end;
-
-      SelectedFiles := nil;  // freed by ShowContextMenu
-
-    finally
-      if Assigned(SelectedFiles) then
-        FreeAndNil(SelectedFiles);
-    end;
-  end;
+  // Let file view handle displaying context menu at appropriate position.
+  frmMain.ActiveFrame.ExecuteCommand('cm_ContextMenu', '');
 end;
 
 procedure TActs.cm_DriveContextMenu(param: string);
