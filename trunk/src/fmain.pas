@@ -841,7 +841,6 @@ procedure TfrmMain.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
 var
   ModifierKeys: TShiftState;
 begin
-  DebugLn('FormUTF8KeyPress');
   // Either left or right panel has to be focused.
   if not FrameLeft.Focused and
      not FrameRight.Focused then
@@ -1529,10 +1528,7 @@ begin
 end;
 
 procedure TfrmMain.FormKeyPress(Sender: TObject; var Key: Char);
-var
-  CmdText : UTF8String;
 begin
-  DebugLn('FormKeyPress');
   // Either left or right panel has to be focused.
   if not FrameLeft.Focused and
      not FrameRight.Focused then
@@ -1542,26 +1538,19 @@ begin
 
   if gCmdLine then  // If command line is enabled
   begin
-    if Key=#27 then
-      edtCommand.Text := '';
-
-    if ((ord(key)>31) and (ord(key)<255)) or (ord(Key) = VK_BACK) then
-    begin
-      if ((Key='-') or (Key='*') or (Key='+') or (Key=' '))and (Trim(edtCommand.Text)='') then Exit;
-      if (edtCommand.Tag = 0) then
+    case Key of
+      #32..#254:
       begin
-        edtCommand.SetFocus; // handle first char of command line specially
-        CmdText := edtCommand.Text;
-        if ord(Key) = VK_BACK then  // backspace
-        begin
-          UTF8Delete(CmdText, UTF8Length(CmdText), 1);
-          edtCommand.Text := CmdText;
-        end
-        else
-          edtCommand.Text := CmdText + Key;
+        if (Key in ['-', '*', '+', ' ']) and (Trim(edtCommand.Text) = '') then
+          Exit;
 
-        edtCommand.SelStart := UTF8Length(edtCommand.Text) + 1;
-        Key:=#0;
+        if (edtCommand.Tag = 0) then
+        begin
+          edtCommand.SetFocus; // handle first char of command line specially
+          edtCommand.Text := edtCommand.Text + Key;
+          edtCommand.SelStart := UTF8Length(edtCommand.Text) + 1;
+          Key := #0;
+        end;
       end;
     end;
   end;
@@ -2105,10 +2094,8 @@ end;
 procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 var
-  ModifierKeys: TShiftState;
-  UTF8Char: TUTF8Char;
+  CmdText : UTF8String;
 begin
-  DebugLn('FormKeyDown');
   // Either left or right panel has to be focused.
   if not FrameLeft.Focused and
      not FrameRight.Focused then
@@ -2116,39 +2103,39 @@ begin
     Exit;
   end;
 
-  // used for quick search by Ctrl+Alt+Letter and Alt+Letter
-  if gQuickSearch and (edtCommand.Tag = 0) then
-  begin
-    ModifierKeys := GetKeyShiftStateEx;
-
-    if ((gQuickSearchMode <> []) and
-        // Check only Ctrl and Alt as quicksearch keys.
-       (ModifierKeys * [ssCtrl, ssAlt] = gQuickSearchMode))
-{$IFDEF MSWINDOWS}
-    // Entering international characters with Ctrl+Alt on Windows.
-    or ((gQuickSearchMode = []) and
-       (ModifierKeys * [ssCtrl, ssAlt] = [ssCtrl, ssAlt]) and
-       (ModifierKeys - [ssCtrl, ssAlt, ssShift, ssCaps] = []))
-{$ENDIF}
-    then
-    begin
-      UTF8Char := VirtualKeyToUTF8Char(Key, ModifierKeys - gQuickSearchMode);
-      if UTF8Char <> '' then
+  case Key of
+    VK_BACK:
+      if edtCommand.Text <> '' then
       begin
-        // Delegated to ActiveFrame.
-        Exit;
-      end;
-    end;
-  end;
+        // Delete last character.
+        CmdText := edtCommand.Text;
+        UTF8Delete(CmdText, UTF8Length(CmdText), 1);
+        edtCommand.Text := CmdText;
 
-  if Key=VK_TAB then
-  begin
-    Key:=0;
-    case PanelSelected of
-      fpLeft: SetActiveFrame(fpRight);
-      fpRight: SetActiveFrame(fpLeft);
-    end;
-    Exit;
+        edtCommand.SetFocus;
+        edtCommand.SelStart := UTF8Length(edtCommand.Text) + 1;
+        Key := 0;
+      end;
+
+    VK_ESCAPE:
+      if edtCommand.Text <> '' then
+      begin
+        edtCommand.Text := '';
+        Key := 0;
+      end;
+
+    VK_TAB:
+      begin
+        // Select opposite panel.
+        case PanelSelected of
+          fpLeft: SetActiveFrame(fpRight);
+          fpRight: SetActiveFrame(fpLeft);
+        end;
+        Key := 0;
+      end;
+
+    else
+      HandleActionHotKeys(Key, Shift);
   end;
 
   // CTRL+PgUp
@@ -2184,9 +2171,6 @@ begin
     Key:=0;
     Exit;
   end;
-
-  HandleActionHotKeys(Key, Shift);
-  if Key = 0 then Exit;
 end;
 
 procedure TfrmMain.FormActivate(Sender: TObject);
