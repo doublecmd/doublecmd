@@ -91,7 +91,7 @@ end;
 function TfrmCopyDlg.ShowTabsSelector: integer;
 var
   btnS, btnL: TButton;
-  i, tc: Integer;
+  i, tc: PtrInt;
   st: TStringList;
   s: String;
 begin
