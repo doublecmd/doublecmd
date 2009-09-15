@@ -438,11 +438,6 @@ type
     procedure RestoreFromTray;
     procedure ShowTrayIcon(bShow: Boolean);
 
-    {en
-       Retrieves current window state, with a workaround for QT minimized state.
-    }
-    function GetWindowState: TWindowState;
-
     procedure OperationFinishedEvent(Operation: TFileSourceOperation; Event: TOperationManagerEvent);
 
   public
@@ -876,7 +871,7 @@ end;
 
 procedure TfrmMain.FormWindowStateChange(Sender: TObject);
 begin
-  if (GetWindowState = wsMinimized) then
+  if WindowState = wsMinimized then
   begin  // Minimized
     MainToolBar.Top:= 0; // restore toolbar position
     if not HiddenToTray then
@@ -978,7 +973,7 @@ end;
 
 procedure TfrmMain.MainTrayIconClick(Sender: TObject);
 begin
-  if GetWindowState = wsMinimized then
+  if WindowState = wsMinimized then
   begin
     RestoreFromTray;
   end
@@ -3250,23 +3245,6 @@ begin
   begin
     MainTrayIcon.Visible := bShow;
   end;
-end;
-
-function TfrmMain.GetWindowState: TWindowState;
-{$IFDEF LCLQT}
-var
-  WindowStates: QtWindowStates;
-{$ENDIF}
-begin
-{$IFDEF LCLQT}
-  // On QT reported window state can be maximized and minimized at the same time
-  // (meaning a minimized window which should be in a maximized state when shown again).
-  WindowStates := QWidget_windowState(TQtWidget(Self.Handle).Widget);
-  if (WindowStates and QtWindowMinimized) <> 0 then
-    Result := wsMinimized
-  else
-{$ENDIF}
-  Result := Self.WindowState;
 end;
 
 procedure TfrmMain.EnableHotkeys(Enable: Boolean);
