@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-21 14:17+0800\n"
+"PO-Revision-Date: 2009-09-07 10:38+0800\n"
 "Last-Translator: wwfifi <wwfifi@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -110,25 +110,25 @@ msgstr "确定"
 #: TFRMCHECKSUMCALC.BTNCANCEL.CAPTION
 msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: TFRMCHECKSUMCALC.BTNOK.CAPTION
 msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
 msgid "&OK"
-msgstr ""
+msgstr "确定(&O)"
 
 #: TFRMCHECKSUMCALC.CAPTION
 msgctxt "TFRMCHECKSUMCALC.CAPTION"
 msgid "Calculate check sum..."
-msgstr ""
+msgstr "产生校验..."
 
 #: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
 msgid "Create separate MD5/SHA1 files for each file"
-msgstr ""
+msgstr "为每个文件分别创建MD5/SHA1文件"
 
 #: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
 msgid "Save check sum file(s) to:"
-msgstr ""
+msgstr "保存校验数据到文件："
 
 #: TFRMCOLUMSPROPS.BITBTN1.CAPTION
 msgid "&ОК"
@@ -654,7 +654,7 @@ msgstr "取消"
 
 #: TFRMFILEOP.BTNWORKINBACKGROUND.CAPTION
 msgid "Work in &background"
-msgstr ""
+msgstr "后台运行"
 
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
@@ -673,15 +673,15 @@ msgstr "文件名"
 
 #: TFRMFILEOP.LBLFILENAMETO.CAPTION
 msgid "File name to"
-msgstr ""
+msgstr "文件命名为："
 
 #: TFRMFILEOP.LBLFROM.CAPTION
 msgid "From:"
-msgstr ""
+msgstr "从："
 
 #: TFRMFILEOP.LBLTO.CAPTION
 msgid "To:"
-msgstr ""
+msgstr "到"
 
 #: TFRMFILEPROPERTIES.BTNALL.CAPTION
 msgctxt "TFRMFILEPROPERTIES.BTNALL.CAPTION"
@@ -777,7 +777,7 @@ msgstr "上次修改状态:"
 
 #: TFRMFILEPROPERTIES.LBLOCTAL.CAPTION
 msgid "Octal:"
-msgstr ""
+msgstr "八进制："
 
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgid "Read"
@@ -824,11 +824,11 @@ msgstr "删除(&D)"
 
 #: TFRMFINDDLG.BTNSEARCHLOAD.CAPTION
 msgid "L&oad"
-msgstr ""
+msgstr "载入(&O)"
 
 #: TFRMFINDDLG.BTNSEARCHSAVE.CAPTION
 msgid "S&ave"
-msgstr ""
+msgstr "保存(&A)"
 
 #: TFRMFINDDLG.BTNSTART.CAPTION
 msgid "&Start"
@@ -875,7 +875,7 @@ msgstr "天"
 #: TFRMFINDDLG.CBDIRECTORY.CAPTION
 msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
 msgid "Directory"
-msgstr ""
+msgstr "目录"
 
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 #, fuzzy
@@ -959,7 +959,7 @@ msgstr "确定"
 
 #: TFRMFINDDLG.EDTATTRIB.HINT
 msgid "Use '-' to off attribute and '?' to any"
-msgstr ""
+msgstr "用 '-' 关闭属性，'?' 属性设置任意"
 
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
@@ -984,7 +984,7 @@ msgstr "文件所在目录"
 
 #: TFRMFINDDLG.LBLFOUND.CAPTION
 msgid "Found"
-msgstr ""
+msgstr "找到"
 
 #: TFRMFINDDLG.LBLINFO.CAPTION
 msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
@@ -1000,7 +1000,7 @@ msgstr "状态"
 
 #: TFRMFINDDLG.LBLTEMPLATEHEADER.CAPTION
 msgid "&Previous searches:"
-msgstr ""
+msgstr "最近搜索(&P)："
 
 #: TFRMFINDDLG.MISHOWINVIEWER.CAPTION
 msgid "Show In Viewer"
@@ -1012,7 +1012,7 @@ msgstr "高级"
 
 #: TFRMFINDDLG.TSLOADSAVE.CAPTION
 msgid "Load/Save"
-msgstr ""
+msgstr "载入/保存"
 
 #: TFRMFINDDLG.TSSTANDARD.CAPTION
 msgid "Standard"
@@ -1081,11 +1081,11 @@ msgstr "关于"
 
 #: TFRMMAIN.ACTADDFILENAMETOCMDLINE.CAPTION
 msgid "Add file name to command line"
-msgstr ""
+msgstr "添加文件名到命令行"
 
 #: TFRMMAIN.ACTADDPATHANDFILENAMETOCMDLINE.CAPTION
 msgid "Add path and file name to command line"
-msgstr ""
+msgstr "添加路径和文件名到命令行"
 
 #: TFRMMAIN.ACTADDPATHTOCMDLINE.CAPTION
 msgid "Copy path to command line"
@@ -1097,29 +1097,29 @@ msgstr "计算已用空间..."
 
 #: TFRMMAIN.ACTCHANGEDIR.CAPTION
 msgid "Change directory"
-msgstr ""
+msgstr "切换目录"
 
 #: TFRMMAIN.ACTCHANGEDIRTOROOT.CAPTION
 msgid "Change directory to root"
-msgstr ""
+msgstr "切换到根目录"
 
 #: TFRMMAIN.ACTCHECKSUMCALC.CAPTION
 msgctxt "TFRMMAIN.ACTCHECKSUMCALC.CAPTION"
 msgid "Calculate check sum..."
-msgstr ""
+msgstr "产生校验..."
 
 #: TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION
 msgctxt "TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION"
 msgid "Verify check sum..."
-msgstr ""
+msgstr "验证校验..."
 
 #: TFRMMAIN.ACTCLEARLOGFILE.CAPTION
 msgid "Clear log file"
-msgstr ""
+msgstr "清除日志文件"
 
 #: TFRMMAIN.ACTCLEARLOGWINDOW.CAPTION
 msgid "Clear log window"
-msgstr ""
+msgstr "清除日志窗口"
 
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
@@ -1151,7 +1151,7 @@ msgstr "复制"
 
 #: TFRMMAIN.ACTCOUNTDIRCONTENT.CAPTION
 msgid "Sho&w occupied space"
-msgstr ""
+msgstr "显示文件夹容量(&W)"
 
 #: TFRMMAIN.ACTCUTTOCLIPBOARD.CAPTION
 msgid "Cu&t"
@@ -1172,7 +1172,7 @@ msgstr "常用目录列表"
 
 #: TFRMMAIN.ACTDRIVECONTEXTMENU.CAPTION
 msgid "Drive context menu"
-msgstr ""
+msgstr "驱动器右键菜单"
 
 #: TFRMMAIN.ACTEDIT.CAPTION
 msgid "Edit F4"
@@ -1234,7 +1234,7 @@ msgstr "热键列表"
 
 #: TFRMMAIN.ACTLEFTEQUALRIGHT.CAPTION
 msgid "Left &= Right"
-msgstr ""
+msgstr "左 &= 右"
 
 #: TFRMMAIN.ACTLEFTOPENDRIVES.CAPTION
 msgid "Open left drive list"
@@ -1270,7 +1270,7 @@ msgstr "全部不选"
 
 #: TFRMMAIN.ACTMINIMIZE.CAPTION
 msgid "Minimize window"
-msgstr ""
+msgstr "最小化窗口"
 
 #: TFRMMAIN.ACTMULTIRENAME.CAPTION
 msgid "Multi Rename Tool"
@@ -1311,7 +1311,7 @@ msgstr "打包文件"
 
 #: TFRMMAIN.ACTPANELSSPLITTERPERPOS.CAPTION
 msgid "Set splitter position"
-msgstr ""
+msgstr "设置分隔符位置"
 
 #: TFRMMAIN.ACTPASTEFROMCLIPBOARD.CAPTION
 msgid "&Paste"
@@ -1353,7 +1353,7 @@ msgstr "反序排列"
 
 #: TFRMMAIN.ACTRIGHTEQUALLEFT.CAPTION
 msgid "Right &= Left"
-msgstr ""
+msgstr "右 &= 左"
 
 #: TFRMMAIN.ACTRIGHTOPENDRIVES.CAPTION
 msgid "Open right drive list"
@@ -1390,7 +1390,7 @@ msgstr "属性"
 
 #: TFRMMAIN.ACTSORTBYCOLUMN.CAPTION
 msgid "Sort by column"
-msgstr ""
+msgstr "按列排序"
 
 #: TFRMMAIN.ACTSORTBYDATE.CAPTION
 msgid "Sort by date"
@@ -1460,7 +1460,7 @@ msgstr "*"
 
 #: TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.HINT
 msgid "Directory hotlist"
-msgstr ""
+msgstr "常用目录列表"
 
 #: TFRMMAIN.BTNLEFTHOME.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTHOME.CAPTION"
@@ -1469,7 +1469,7 @@ msgstr "~"
 
 #: TFRMMAIN.BTNLEFTHOME.HINT
 msgid "Go to home directory"
-msgstr ""
+msgstr "转到用户主目录"
 
 #: TFRMMAIN.BTNLEFTROOT.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTROOT.CAPTION"
@@ -1478,16 +1478,16 @@ msgstr "/"
 
 #: TFRMMAIN.BTNLEFTROOT.HINT
 msgid "Go to root directory"
-msgstr ""
+msgstr "转到根目录"
 
 #: TFRMMAIN.BTNLEFTTARGETEQUALSOURCE.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTTARGETEQUALSOURCE.CAPTION"
 msgid "="
-msgstr ""
+msgstr "="
 
 #: TFRMMAIN.BTNLEFTTARGETEQUALSOURCE.HINT
 msgid "Show same directory in opposite panel"
-msgstr ""
+msgstr "相邻的面板显示相同的目录"
 
 #: TFRMMAIN.BTNLEFTUP.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTUP.CAPTION"
@@ -1496,7 +1496,7 @@ msgstr ".."
 
 #: TFRMMAIN.BTNLEFTUP.HINT
 msgid "Go to parent directory"
-msgstr ""
+msgstr "转到父目录"
 
 #: TFRMMAIN.BTNRIGHTDIRECTORYHOTLIST.CAPTION
 msgctxt "TFRMMAIN.BTNRIGHTDIRECTORYHOTLIST.CAPTION"
@@ -1516,7 +1516,7 @@ msgstr "/"
 #: TFRMMAIN.BTNRIGHTTARGETEQUALSOURCE.CAPTION
 msgctxt "TFRMMAIN.BTNRIGHTTARGETEQUALSOURCE.CAPTION"
 msgid "="
-msgstr ""
+msgstr "="
 
 #: TFRMMAIN.BTNRIGHTUP.CAPTION
 msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
@@ -1676,7 +1676,7 @@ msgstr "-"
 
 #: TFRMMAIN.MILOGCLEAR.CAPTION
 msgid "Clear"
-msgstr ""
+msgstr "清除"
 
 #: TFRMMAIN.MILOGCOPY.CAPTION
 msgctxt "TFRMMAIN.MILOGCOPY.CAPTION"
@@ -1685,7 +1685,7 @@ msgstr "复制"
 
 #: TFRMMAIN.MILOGHIDE.CAPTION
 msgid "Hide"
-msgstr ""
+msgstr "隐藏"
 
 #: TFRMMAIN.MILOGSELECTALL.CAPTION
 msgctxt "TFRMMAIN.MILOGSELECTALL.CAPTION"
@@ -1708,7 +1708,7 @@ msgstr "退出"
 
 #: TFRMMAIN.MITRAYICONRESTORE.CAPTION
 msgid "Restore"
-msgstr ""
+msgstr "还原"
 
 #: TFRMMAIN.MNUCMD.CAPTION
 msgid "&Commands"
@@ -2065,7 +2065,7 @@ msgstr "移除"
 #: TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT
 msgctxt "TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT"
 msgid "Template..."
-msgstr ""
+msgstr "模板..."
 
 #: TFRMOPTIONS.BTNSELEDITFNT.CAPTION
 msgctxt "TFRMOPTIONS.BTNSELEDITFNT.CAPTION"
@@ -2100,7 +2100,7 @@ msgstr "背景色:"
 
 #: TFRMOPTIONS.CBALWAYSSHOWTRAYICON.CAPTION
 msgid "Always show tray icon"
-msgstr ""
+msgstr "总是显示托盘图标"
 
 #: TFRMOPTIONS.CBBFILESYSTEM.TEXT
 msgid "General"
@@ -2124,11 +2124,11 @@ msgstr "按列宽裁剪文本"
 
 #: TFRMOPTIONS.CBDELETETOTRASH.CAPTION
 msgid "&F8/Del deletes to recycle bin (Shift=directly)"
-msgstr ""
+msgstr "&F8/Del 删除文件到回收站 (Shift=彻底删除)"
 
 #: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
 msgid "Show square brackets around directories"
-msgstr ""
+msgstr "目录用方括号包含"
 
 #: TFRMOPTIONS.CBDIRHISTORY.CAPTION
 msgctxt "TFRMOPTIONS.CBDIRHISTORY.CAPTION"
@@ -2192,7 +2192,7 @@ msgstr "垂直列"
 
 #: TFRMOPTIONS.CBICONSSHOWOVERLAY.CAPTION
 msgid "Show overlay i&cons, e.g. for links"
-msgstr ""
+msgstr "显示覆盖图标，比如链接"
 
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
@@ -2269,7 +2269,7 @@ msgstr "显示命令行(&L)"
 
 #: TFRMOPTIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION
 msgid "Show tab select panel in copy/move dialog"
-msgstr ""
+msgstr "在复制/移动对话框显示标签页"
 
 #: TFRMOPTIONS.CBSHOWCURDIR.CAPTION
 msgid "Show &current directory"
@@ -2314,15 +2314,15 @@ msgstr "显示所有警告信息(仅有“确定”按钮)"
 
 #: TFRMOPTIONS.CBSKIPFILEOPERROR.CAPTION
 msgid "Skip file operations errors and write them to log window"
-msgstr ""
+msgstr "忽略文件操作错误，并记录到日志窗口"
 
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr ""
+msgstr "当用空格键 <SPACEBAR>选文件时, 自动移动到下一文件 (相当于执行插入键<INSERT>)"
 
 #: TFRMOPTIONS.CBTABSACTIVATEONCLICK.CAPTION
 msgid "Activate target &panel when clicking on one of its Tabs"
-msgstr ""
+msgstr "点击标签页后激活目标面板"
 
 #: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION
 msgid "&Show tab header also when there is only one tab"
@@ -2350,7 +2350,7 @@ msgstr "Ctrl+&Up 前台打开新标签页"
 
 #: TFRMOPTIONS.CBTABSSHOWCLOSEBUTTON.CAPTION
 msgid "Show tab close button"
-msgstr ""
+msgstr "标签页显示关闭"
 
 #: TFRMOPTIONS.CBTERMWINDOW.CAPTION
 msgid "Show terminal window"
@@ -2362,23 +2362,23 @@ msgstr "显示2个驱动按钮栏"
 
 #: TFRMOPTIONS.CBWATCHATTRIBUTESCHANGE.CAPTION
 msgid "Also when &size, date, or attributes change"
-msgstr ""
+msgstr "当大小、日期、其他属性修改时"
 
 #: TFRMOPTIONS.CBWATCHFILECOUNT.CAPTION
 msgid "Update &footer (total number of files)"
-msgstr ""
+msgstr "更新脚(总文件数)(&F)"
 
 #: TFRMOPTIONS.CBWATCHFILENAMECHANGE.CAPTION
 msgid "Refresh when files are &created, deleted and renamed"
-msgstr ""
+msgstr "当文件创建、删除，改名时刷新(&C)"
 
 #: TFRMOPTIONS.CBWATCHFREESPACE.CAPTION
 msgid "Update &header (free disk space)"
-msgstr ""
+msgstr "更新头(磁盘可用空间)(&H)"
 
 #: TFRMOPTIONS.CBWATCHONLYFOREGROUND.CAPTION
 msgid "Don't &react to updates while in the background"
-msgstr ""
+msgstr "后台时不激活刷新"
 
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
@@ -2386,7 +2386,7 @@ msgstr "文本颜色:"
 
 #: TFRMOPTIONS.GBAUTOREFRESH.CAPTION
 msgid "Auto-Refresh when the file system changes"
-msgstr ""
+msgstr "当文件系统修改时自动刷新"
 
 #: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
 msgid "&Buffer size for files:"
@@ -2418,7 +2418,7 @@ msgstr "一般选项"
 
 #: TFRMOPTIONS.GBICONSSIZE.CAPTION
 msgid " Icon &size "
-msgstr ""
+msgstr "图标大小(&S)"
 
 #: TFRMOPTIONS.GBLOCCONFIGFILES.CAPTION
 msgid "Location of configuration files"
@@ -2454,7 +2454,7 @@ msgstr "文件面板显示栅格"
 
 #: TFRMOPTIONS.GBSHOWICONSMODE.CAPTION
 msgid " Show icons to the left of the filename "
-msgstr ""
+msgstr "在文件名左侧显示图标"
 
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
@@ -2462,15 +2462,15 @@ msgstr "文件夹标签页头"
 
 #: TFRMOPTIONS.LBCOMMANDS.CAPTION
 msgid "Commands:"
-msgstr ""
+msgstr "命令："
 
 #: TFRMOPTIONS.LBFILTER.CAPTION
 msgid "Filter"
-msgstr ""
+msgstr "过滤"
 
 #: TFRMOPTIONS.LBHOTKEYS.CAPTION
 msgid "Hot Keys"
-msgstr ""
+msgstr "热键"
 
 #: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
 msgid "Background 2:"
@@ -2554,7 +2554,7 @@ msgstr "开启终端:"
 
 #: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
 msgid "Tabs position:"
-msgstr ""
+msgstr "标签页位置："
 
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
@@ -2562,7 +2562,7 @@ msgstr "查看器字体"
 
 #: TFRMOPTIONS.LBLWATCHEXCLUDEDRIVES.CAPTION
 msgid "No refresh for &these drives:"
-msgstr ""
+msgstr "不刷新这些驱动器(&T)"
 
 #: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
 msgid "Packer plugins are used to work with archives."
@@ -2611,15 +2611,15 @@ msgstr "全部(&A)"
 
 #: TFRMOPTIONS.RBICONSSHOWALLANDEXE.CAPTION
 msgid "All associated + &EXE/LNK (slow)"
-msgstr ""
+msgstr "所有关联+&EXE/LNK (慢)"
 
 #: TFRMOPTIONS.RBICONSSHOWNONE.CAPTION
 msgid "&No icons"
-msgstr ""
+msgstr "无图标(&N)"
 
 #: TFRMOPTIONS.RBICONSSHOWSTANDARD.CAPTION
 msgid "&Only standard icons"
-msgstr ""
+msgstr "仅标准图标(&O)"
 
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
 msgid "L&etter only"
@@ -3059,12 +3059,12 @@ msgstr "确定(&O);否(&N);是(&Y);取消(&C);无(&N);添加(&A);覆盖(&R);覆�
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"
 msgid "Calculate check sum..."
-msgstr ""
+msgstr "产生校验..."
 
 #: ulng.rsdlgchecksumverify
 msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
-msgstr ""
+msgstr "验证校验..."
 
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
@@ -3077,7 +3077,7 @@ msgstr "删除文件"
 
 #: ulng.rsdlgdeleting
 msgid "Deleting"
-msgstr ""
+msgstr "删除中"
 
 #: ulng.rsdlgextract
 msgid "Extracting..."
@@ -3099,7 +3099,7 @@ msgstr "速度 %s/秒, 剩余时间 %s"
 
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
-msgstr ""
+msgstr "擦除文件"
 
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
@@ -3152,15 +3152,15 @@ msgstr "目录 %s 不存在!"
 
 #: ulng.rsfindfound
 msgid "Found: %d"
-msgstr ""
+msgstr "找到: %d"
 
 #: ulng.rsfindsavetemplatecaption
 msgid "Save search template"
-msgstr ""
+msgstr "保存搜索模板"
 
 #: ulng.rsfindsavetemplatetitle
 msgid "Template name:"
-msgstr ""
+msgstr "模板名："
 
 #: ulng.rsfindscanned
 msgid "Scanned: %d"
@@ -3168,7 +3168,7 @@ msgstr "已扫描: %d"
 
 #: ulng.rsfindscanning
 msgid "Scanning"
-msgstr ""
+msgstr "扫描"
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
@@ -3221,7 +3221,7 @@ msgstr "解挂"
 
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
-msgstr ""
+msgstr "打开..."
 
 #: ulng.rsmnuumount
 msgid "Umount"
@@ -3237,7 +3237,7 @@ msgstr "移除所有非活动标签吗?"
 
 #: ulng.rsmsgcloselockedtab
 msgid "This tab (%s) is locked! Close anyway?"
-msgstr ""
+msgstr "这个标签页 (%s) 已锁定! 仍旧关闭吗?"
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -3253,7 +3253,7 @@ msgstr "删除 %d 选中的文件/目录吗?"
 
 #: ulng.rsmsgdelfldrt
 msgid "Delete %d selected files/directories into trash can?"
-msgstr ""
+msgstr "删除 %d 个选择的文件/目录到回收站?"
 
 #: ulng.rsmsgdelsel
 msgid "Delete selected \"%s\"?"
@@ -3261,7 +3261,7 @@ msgstr "删除选中的 \"%s\"?"
 
 #: ulng.rsmsgdelselt
 msgid "Delete selected \"%s\" into trash can?"
-msgstr ""
+msgstr "删除选中的文件\"%s\"到回收站?"
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
@@ -3321,7 +3321,7 @@ msgstr "不能创建目录 %s!"
 
 #: ulng.rsmsgerrinvalidlink
 msgid "Invalid link"
-msgstr ""
+msgstr "无效的链接"
 
 #: ulng.rsmsgerrnofiles
 msgid "No files found"
@@ -3337,11 +3337,11 @@ msgstr "不支持的功能!"
 
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
-msgstr ""
+msgstr "正则表达式语法错误！"
 
 #: ulng.rsmsgerrrename
 msgid "Cannot rename file %s to %s"
-msgstr ""
+msgstr "不能重命名文件 %s 为 %s"
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -3365,7 +3365,7 @@ msgstr "文件 %s 已存在, 是否覆盖?"
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
-msgstr ""
+msgstr "文件 %s 只读. 删除吗?"
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
@@ -3377,11 +3377,11 @@ msgstr "允许符号链接\"%s\"吗?"
 
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
-msgstr ""
+msgstr "无效的文件名"
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
-msgstr ""
+msgstr "无效的选择"
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
@@ -3441,7 +3441,7 @@ msgstr "将解包下一卷"
 
 #: ulng.rsmsgnofilesselected
 msgid "No files selected."
-msgstr ""
+msgstr "没有选中文件"
 
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
@@ -3457,7 +3457,7 @@ msgstr "不能删除文件 %s"
 
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
-msgstr ""
+msgstr "没有实现。"
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
@@ -3473,7 +3473,7 @@ msgstr "删除(&D) %s"
 
 #: ulng.rsmsgpresetalreadyexists
 msgid "Preset \"%s\" already exists. Overwrite?"
-msgstr ""
+msgstr "\"%s\" 已存在. 覆盖吗?"
 
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
@@ -3493,7 +3493,7 @@ msgstr "选中 %s 总大小 %s, 选中 %d 总文件数 %d files"
 
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only check sum files!"
-msgstr ""
+msgstr "只能选择校验文件！"
 
 #: ulng.rsmsgsellocnextvol
 msgid "Please select location of next volume"
@@ -3505,7 +3505,7 @@ msgstr "设置卷标"
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
-msgstr ""
+msgstr "选择了太多文件"
 
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
@@ -3513,11 +3513,11 @@ msgstr "卷标:"
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
-msgstr ""
+msgstr "擦除 %d 个选择的文件/目录?"
 
 #: ulng.rsmsgwipesel
 msgid "Wipe selected \"%s\"?"
-msgstr ""
+msgstr "擦除选中的文件 \"%s\"?"
 
 #: ulng.rsmulrenfilenamestylelist
 #, fuzzy
@@ -3527,55 +3527,55 @@ msgstr "不修改;大写;小写;首字大写;"
 
 #: ulng.rsoperaborted
 msgid "Aborted"
-msgstr ""
+msgstr "终止"
 
 #: ulng.rsoperautostart
 msgid "Auto-started"
-msgstr ""
+msgstr "自动开始"
 
 #: ulng.rsoperdontstart
 msgid "Not auto-started"
-msgstr ""
+msgstr "不要自动开始"
 
 #: ulng.rsoperfinished
 msgid "Finished"
-msgstr ""
+msgstr "已结束"
 
 #: ulng.rsopernotstarted
 msgid "Not started"
-msgstr ""
+msgstr "未开始"
 
 #: ulng.rsoperpaused
 msgid "Paused"
-msgstr ""
+msgstr "暂停"
 
 #: ulng.rsoperpausing
 msgid "Pausing"
-msgstr ""
+msgstr "暂停中"
 
 #: ulng.rsoperqueue
 msgid "Queued"
-msgstr ""
+msgstr "队列"
 
 #: ulng.rsoperrunning
 msgid "Running"
-msgstr ""
+msgstr "运行中"
 
 #: ulng.rsoperstarting
 msgid "Starting"
-msgstr ""
+msgstr "正开始"
 
 #: ulng.rsoperstopped
 msgid "Stopped"
-msgstr ""
+msgstr "已停止"
 
 #: ulng.rsoperstopping
 msgid "Stopping"
-msgstr ""
+msgstr "正停止"
 
 #: ulng.rsoperwaitingforfeedback
 msgid "Waiting for user response"
-msgstr ""
+msgstr "等待用户响应"
 
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
@@ -3583,7 +3583,7 @@ msgstr " \"%s\" 相关插件:"
 
 #: ulng.rsoptautorefresh
 msgid "Auto refresh"
-msgstr ""
+msgstr "自动刷新"
 
 #: ulng.rsoptbehav
 msgid "Behaviors"
@@ -3641,7 +3641,7 @@ msgstr "快捷键"
 
 #: ulng.rsopticons
 msgid "Icons"
-msgstr ""
+msgstr "图标"
 
 #: ulng.rsoptlanguage
 msgid "Language"
