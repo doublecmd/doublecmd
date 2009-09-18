@@ -72,7 +72,7 @@ type
     constructor Create(ParentControl: TWinControl;
                        NotebookSide: TFilePanelSelect); reintroduce;
 
-    function AddPage: TFileViewPage;
+    function AddPage(aCaption: String = ''): TFileViewPage;
     procedure RemovePage(Index: Integer);
     procedure RemovePage(var aPage: TFileViewPage);
     procedure ActivatePrevTab;
@@ -251,11 +251,14 @@ begin
   end;
 end;
 
-function TFileViewNotebook.AddPage: TFileViewPage;
+function TFileViewNotebook.AddPage(aCaption: String): TFileViewPage;
 var
   PageNr: Integer;
 begin
-  PageNr := Pages.Add(IntToStr(PageCount));
+  if aCaption = '' then
+    aCaption := IntToStr(PageCount);
+
+  PageNr := Pages.Add(aCaption);
   Result := GetPage(PageNr);
 
   ShowTabs:= ((PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;

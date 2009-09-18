@@ -2559,7 +2559,11 @@ begin
           sCaption:= GetLastDir(ExcludeTrailingPathDelimiter(sPath));
         end;
 
-      Page := ANoteBook.AddPage;
+      if sCaption <> '' then
+        if (tb_text_length_limit in gDirTabOptions) and (Length(sCaption) > gDirTabLimit) then
+          sCaption := Copy(sCaption, 1, gDirTabLimit) + '...';
+
+      Page := ANoteBook.AddPage(sCaption);
 
       if not Assigned(CreateFileView('columns', TFileSystemFileSource.Create(sPath), Page)) then
       begin
@@ -2571,7 +2575,6 @@ begin
       if Page.LockState = tlsResettingPath then // if locked tab with directory change
         Page.LockPath := sPath;
 
-      Page.UpdateCaption(sCaption);
       Page.FileView.LoadConfiguration(TabsSection, StrToInt(sIndex));
 
       Inc(I);
