@@ -1388,6 +1388,14 @@ begin
         begin
           PopUpPoint := NoteBook.ClientToScreen(Point(X, Y));
 
+{$IFDEF LCLQT}
+          // In QT the NoteBook.ClientToScreen calculates coordinates
+          // relative to Page contents (client rectangle),
+          // so we must substract the height and width of the tab bar.
+          PopUpPoint.X := PopUpPoint.X - (NoteBook.Width - NoteBook.ClientWidth);
+          PopUpPoint.Y := PopUpPoint.Y - (NoteBook.Height - NoteBook.ClientHeight);
+{$ENDIF}
+
           // Check lock option items.
           Index := pmTabMenu.Items.IndexOf(miToggleLockTab);
           pmTabMenu.Items.Items[Index].Checked := (NoteBook.Page[TabNr].LockState = tlsLockedPath);
