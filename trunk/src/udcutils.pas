@@ -35,7 +35,7 @@ unit uDCUtils;
 interface
 
 uses
-  Classes, SysUtils, Graphics;
+  Classes, SysUtils, Graphics, StdCtrls;
 
 const
   QuotationCharacters = [' ', '"', '''', '(', ')', ':', '&'];
@@ -213,7 +213,7 @@ function RemoveQuotation(const Str: String): String;
 procedure SplitArgs(var Args: TOpenStringArray; CmdLine: String);
 
 procedure ParseLineToList(sLine: String; ssItems: TStrings);
-procedure InsertFirstItem(sLine: String; ssItems: TStrings);
+procedure InsertFirstItem(sLine: String; comboBox: TCustomComboBox);
 
 function StrNewW(const mbString: UTF8String): PWideChar;
 procedure StrDisposeW(var pStr : PWideChar);
@@ -767,18 +767,19 @@ begin
     end;
 end;
 
-procedure InsertFirstItem(sLine: String; ssItems: TStrings);
+procedure InsertFirstItem(sLine: String; comboBox: TCustomComboBox);
 var
   I: Integer;
 begin
   if sLine = EmptyStr then Exit;
-  I:= ssItems.IndexOf(sLine);
+  I:= comboBox.Items.IndexOf(sLine);
   if I < 0 then
-    ssItems.Insert(0, sLine)
+    comboBox.Items.Insert(0, sLine)
   else
     begin
-      ssItems.Delete(I);
-      ssItems.Insert(0, sLine);
+      comboBox.Items.Move(I, 0);
+      // Reset selected item (and combobox text), because Move has destroyed it.
+      comboBox.ItemIndex := 0;
     end;
 end;
 
