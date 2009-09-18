@@ -136,7 +136,7 @@ uses
 
 procedure TfrmEditSearchReplace.btnOKClick(Sender: TObject);
 begin
-  InsertFirstItem(cbSearchText.Text, cbSearchText.Items);
+  InsertFirstItem(cbSearchText.Text, cbSearchText);
   ModalResult := mrOK
 end;
 
@@ -144,7 +144,7 @@ procedure TfrmEditSearchReplace.FormCloseQuery(Sender: TObject;
   var CanClose: boolean);
 begin
   if ModalResult = mrOK then
-    InsertFirstItem(cbReplaceText.Text, cbReplaceText.Items);
+    InsertFirstItem(cbReplaceText.Text, cbReplaceText);
 end;
 
 procedure TfrmEditSearchReplace.FormShow(Sender: TObject);

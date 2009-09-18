@@ -619,13 +619,13 @@ begin
   end;
 
   // add to find mask history
-  InsertFirstItem(cmbFindFileMask.Text, cmbFindFileMask.Items);
+  InsertFirstItem(cmbFindFileMask.Text, cmbFindFileMask);
   // add to search text history
   if cbFindInFile.Checked then
-    InsertFirstItem(cmbFindText.Text, cmbFindText.Items);
+    InsertFirstItem(cmbFindText.Text, cmbFindText);
   // add to replace text history
   if cbReplaceText.Checked then
-    InsertFirstItem(cmbReplaceText.Text, cmbReplaceText.Items);
+    InsertFirstItem(cmbReplaceText.Text, cmbReplaceText);
 
   Panel1.Visible := True;
   Splitter1.Visible := True;

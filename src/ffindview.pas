@@ -56,7 +56,7 @@ end;
 
 procedure TfrmFindView.btnFindClick(Sender: TObject);
 begin
-  InsertFirstItem(cbDataToFind.Text, cbDataToFind.Items);
+  InsertFirstItem(cbDataToFind.Text, cbDataToFind);
   ModalResult:= mrOk;
 end;
 
