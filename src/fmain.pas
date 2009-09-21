@@ -121,7 +121,7 @@ type
     actTransferLeft: TAction;
     actRightOpenDrives: TAction;
     actLeftOpenDrives: TAction;
-    actOpenVFSList: TAction;
+    actOpenVirtualFileSystemList: TAction;
     actPackFiles: TAction;
     actRemoveTab: TAction;
     actNewTab: TAction;
