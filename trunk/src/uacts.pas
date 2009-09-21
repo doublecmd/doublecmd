@@ -149,7 +149,7 @@ const cf_Null=0;
    procedure cm_OpenArchive(param:string='');
    procedure cm_OpenDirInNewTab(param:string='');
    procedure cm_Open(param:string='');
-   procedure cm_OpenVFSList(param:string='');
+   procedure cm_OpenVirtualFileSystemList(param:string='');
    procedure cm_TargetEqualSource(param:string='');
    procedure cm_LeftEqualRight(param:string='');
    procedure cm_RightEqualLeft(param:string='');
@@ -252,7 +252,7 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
      uFileSystemDeleteOperation,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
      uFileSourceCalcStatisticsOperation, uFileSystemFile,
-     uFileSource, uFileSourceProperty;
+     uFileSource, uFileSourceProperty, uVfsFileSource;
 
 { TActs }
 
@@ -869,11 +869,17 @@ begin
   frmMain.ActiveFrame.ExecuteCommand('cm_Open', param);
 end;
 
-procedure TActs.cm_OpenVFSList(param:string);
+procedure TActs.cm_OpenVirtualFileSystemList(param:string);
+var
+  FileSource: TFileSource;
 begin
-{
-  FrmMain.ActiveFrame.pnlFile.LoadVFSListInPanel;
-}
+  with frmMain do
+  begin
+    if gWFXPlugins.Count = 0 then Exit;
+    FileSource:= TVfsFileSource.Create(gWFXPlugins);
+    if Assigned(FileSource) then
+      ActiveFrame.AddFileSource(FileSource);
+  end;
 end;
 
 //------------------------------------------------------

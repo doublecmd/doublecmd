@@ -1025,7 +1025,7 @@ object frmMain: TfrmMain
         Caption = '-'
       end
       object mnuOpenVFSList: TMenuItem
-        Action = actOpenVFSList
+        Action = actOpenVirtualFileSystemList
         OnClick = actExecute
       end
       object mnuCmdSwapSourceTarget: TMenuItem
@@ -1430,7 +1430,7 @@ object frmMain: TfrmMain
       Caption = 'Extract files...'
       OnExecute = actExecute
     end
-    object actOpenVFSList: TAction
+    object actOpenVirtualFileSystemList: TAction
       Category = 'Commands'
       Caption = 'Open VFS List'
       OnExecute = actExecute
