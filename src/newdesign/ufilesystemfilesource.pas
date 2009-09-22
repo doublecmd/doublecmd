@@ -57,6 +57,7 @@ type
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
     function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; override;
     function CreateCreateDirectoryOperation(DirectoryPath: String): TFileSourceOperation; override;
+    function CreateExecuteOperation(ExecutablePath, Verb: String): TFileSourceOperation; override;
     function CreateCalcChecksumOperation(var theFiles: TFiles;
                                          aTargetPath: String;
                                          aTargetMask: String): TFileSourceOperation; override;
@@ -75,6 +76,7 @@ uses
   uFileSystemDeleteOperation,
   uFileSystemWipeOperation,
   uFileSystemCreateDirectoryOperation,
+  uFileSystemExecuteOperation,
   uFileSystemCalcChecksumOperation,
   uFileSystemCalcStatisticsOperation;
 
@@ -232,6 +234,14 @@ var
 begin
   TargetFileSource := Self.Clone;
   Result := TFileSystemCreateDirectoryOperation.Create(TargetFileSource, DirectoryPath);
+end;
+
+function TFileSystemFileSource.CreateExecuteOperation(ExecutablePath, Verb: String): TFileSourceOperation;
+var
+  TargetFileSource: TFileSource;
+begin
+  TargetFileSource := Self.Clone;
+  Result:=  TFileSystemExecuteOperation.Create(TargetFileSource, ExecutablePath, Verb);
 end;
 
 function TFileSystemFileSource.CreateCalcChecksumOperation(var theFiles: TFiles;

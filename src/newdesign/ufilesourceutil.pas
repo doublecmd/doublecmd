@@ -15,12 +15,14 @@ implementation
 
 uses
   uFileSystemFileSource, uGlobs, uShellExecute, uOSUtils,
-  uFileSourceOperation, uFileSourceMoveOperation, uWcxArchiveFileSource, LCLProc;
+  uFileSourceOperation, uFileSourceExecuteOperation, uFileSourceMoveOperation,
+  uWcxArchiveFileSource, uFileSourceOperationTypes, LCLProc;
 
 procedure ChooseFile(aFileView: TFileView; aFile: TFile);
 var
   sOpenCmd: String;
   FileSource: TFileSource;
+  Operation: TFileSourceExecuteOperation;
 begin
   // For now work only for FileSystem until temporary file system is done.
   if aFileView.FileSource is TFileSystemFileSource then
@@ -51,12 +53,19 @@ begin
       if ProcessExtCommand(sOpenCmd, aFileView.FileSource.CurrentPath) then
         Exit;
     end;
-
-    // and at the end try to open by system
-    mbSetCurrentDir(aFileView.FileSource.CurrentPath);
-    ShellExecute(aFile.Name);
-    aFileView.Reload;
   end;
+
+  if (fsoExecute in aFileView.FileSource.GetOperationsTypes) then
+    begin
+      Operation := aFileView.FileSource.CreateExecuteOperation(aFile.Name, 'open') as TFileSourceExecuteOperation;
+      if Assigned(Operation) then
+        try
+          Operation.Execute;
+        finally
+          FreeAndNil(Operation);
+          aFileView.Reload;
+        end;
+    end;
 end;
 
 function RenameFile(aFileSource: TFileSource; aFile: TFile; NewFileName: UTF8String): Boolean;
