@@ -1,7 +1,7 @@
 object frmFindDlg: TfrmFindDlg
   Left = 210
   Height = 555
-  Top = 123
+  Top = 0
   Width = 768
   ActiveControl = cmbFindFileMask
   Caption = 'Find files'
@@ -21,25 +21,25 @@ object frmFindDlg: TfrmFindDlg
     Cursor = crVSplit
     Left = 0
     Height = 1
-    Top = 380
+    Top = 388
     Width = 768
     Align = alTop
     ResizeAnchor = akTop
   end
   object Panel2: TPanel
     Left = 0
-    Height = 380
+    Height = 388
     Top = 0
     Width = 768
     Align = alTop
     BevelOuter = bvNone
-    ClientHeight = 380
+    ClientHeight = 388
     ClientWidth = 768
     FullRepaint = False
     TabOrder = 0
     object pgcSearch: TPageControl
       Left = 0
-      Height = 380
+      Height = 388
       Top = 0
       Width = 667
       ActivePage = tsStandard
@@ -50,15 +50,15 @@ object frmFindDlg: TfrmFindDlg
         Caption = 'Standard'
         ChildSizing.LeftRightSpacing = 6
         ChildSizing.TopBottomSpacing = 6
-        ClientHeight = 349
-        ClientWidth = 663
+        ClientHeight = 361
+        ClientWidth = 665
         object lblFindPathStart: TLabel
           AnchorSideTop.Control = cmbFindFileMask
           AnchorSideTop.Side = asrBottom
           Left = 8
           Height = 18
-          Top = 60
-          Width = 75
+          Top = 61
+          Width = 71
           BorderSpacing.Top = 6
           Caption = '&Directory'
           FocusControl = edtFindPathStart
@@ -68,7 +68,7 @@ object frmFindDlg: TfrmFindDlg
           Left = 8
           Height = 18
           Top = 4
-          Width = 72
+          Width = 74
           Caption = '&File mask'
           FocusControl = cmbFindFileMask
           ParentColor = False
@@ -79,21 +79,24 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideTop.Side = asrCenter
           Left = 8
           Height = 18
-          Top = 123
-          Width = 161
+          Top = 120
+          Width = 155
           BorderSpacing.Left = 8
           Caption = 'Search su&bdirectories:'
           FocusControl = cbSearchDepth
           ParentColor = False
         end
         object cmbFindFileMask: TComboBox
+          AnchorSideTop.Control = lblFindFileMask
+          AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = tsStandard
           AnchorSideRight.Side = asrBottom
           Left = 8
           Height = 29
-          Top = 25
-          Width = 649
+          Top = 26
+          Width = 651
           Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Top = 4
           ItemHeight = 0
           TabOrder = 0
           Text = '*'
@@ -104,14 +107,14 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideRight.Control = tsStandard
           AnchorSideRight.Side = asrBottom
           Left = 8
-          Height = 146
-          Top = 182
-          Width = 649
+          Height = 148
+          Top = 175
+          Width = 651
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 6
+          BorderSpacing.Top = 4
           Caption = 'Find Data'
-          ClientHeight = 127
-          ClientWidth = 645
+          ClientHeight = 129
+          ClientWidth = 647
           Enabled = False
           TabOrder = 5
           object lblEncoding: TLabel
@@ -119,10 +122,10 @@ object frmFindDlg: TfrmFindDlg
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = cbEncoding
             AnchorSideTop.Side = asrCenter
-            Left = 403
+            Left = 390
             Height = 18
-            Top = 97
-            Width = 66
+            Top = 102
+            Width = 64
             BorderSpacing.Left = 12
             BorderSpacing.Top = 6
             Caption = 'Encoding:'
@@ -134,8 +137,8 @@ object frmFindDlg: TfrmFindDlg
             AnchorSideTop.Side = asrCenter
             Left = 6
             Height = 22
-            Top = 95
-            Width = 123
+            Top = 100
+            Width = 119
             BorderSpacing.Left = 6
             Caption = 'Case sens&itive'
             TabOrder = 1
@@ -145,21 +148,22 @@ object frmFindDlg: TfrmFindDlg
             AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = cbEncoding
             AnchorSideTop.Side = asrCenter
-            Left = 141
+            Left = 137
             Height = 22
-            Top = 95
-            Width = 250
+            Top = 100
+            Width = 241
             BorderSpacing.Left = 12
             Caption = 'Find files N&OT containing the text'
             TabOrder = 2
           end
           object cbReplaceText: TCheckBox
             AnchorSideLeft.Control = gbFindData
+            AnchorSideTop.Control = cmbFindText
             AnchorSideTop.Side = asrBottom
             Left = 6
             Height = 22
             Top = 39
-            Width = 113
+            Width = 105
             BorderSpacing.Left = 6
             BorderSpacing.Top = 6
             Caption = 'Re&place text'
@@ -169,13 +173,14 @@ object frmFindDlg: TfrmFindDlg
           object cbEncoding: TComboBox
             AnchorSideLeft.Control = lblEncoding
             AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = cmbReplaceText
             AnchorSideTop.Side = asrBottom
-            Left = 475
+            Left = 460
             Height = 31
-            Top = 91
+            Top = 96
             Width = 100
             BorderSpacing.Left = 6
-            BorderSpacing.Top = 6
+            BorderSpacing.Top = 4
             ItemHeight = 0
             OnSelect = cbEncodingSelect
             Style = csDropDownList
@@ -183,14 +188,16 @@ object frmFindDlg: TfrmFindDlg
           end
           object cmbFindText: TComboBox
             AnchorSideLeft.Control = gbFindData
+            AnchorSideTop.Control = gbFindData
             AnchorSideRight.Control = gbFindData
             AnchorSideRight.Side = asrBottom
             Left = 6
             Height = 29
-            Top = 9
-            Width = 633
+            Top = 4
+            Width = 635
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Left = 6
+            BorderSpacing.Top = 4
             BorderSpacing.Right = 6
             ItemHeight = 0
             TabOrder = 4
@@ -203,11 +210,11 @@ object frmFindDlg: TfrmFindDlg
             AnchorSideRight.Side = asrBottom
             Left = 6
             Height = 29
-            Top = 67
-            Width = 633
+            Top = 63
+            Width = 635
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Left = 6
-            BorderSpacing.Top = 6
+            BorderSpacing.Top = 2
             BorderSpacing.Right = 6
             ItemHeight = 0
             TabOrder = 5
@@ -218,9 +225,9 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideTop.Side = asrBottom
           Left = 12
           Height = 22
-          Top = 154
-          Width = 124
-          BorderSpacing.Top = 6
+          Top = 149
+          Width = 121
+          BorderSpacing.Top = 4
           Caption = 'Find &text in file'
           OnChange = cbFindInFileChange
           TabOrder = 4
@@ -231,13 +238,13 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideRight.Side = asrBottom
           Left = 8
           Height = 27
-          Top = 84
-          Width = 624
+          Top = 83
+          Width = 626
           ShowHidden = False
           ButtonWidth = 23
           NumGlyphs = 1
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 6
+          BorderSpacing.Top = 4
           TabOrder = 1
         end
         object cbUsePlugin: TCheckBox
@@ -246,8 +253,8 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideTop.Side = asrCenter
           Left = 8
           Height = 22
-          Top = 343
-          Width = 145
+          Top = 332
+          Width = 144
           BorderSpacing.Left = 8
           Caption = '&Use search plugin:'
           OnChange = cbUsePluginChange
@@ -260,13 +267,13 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = tsStandard
           AnchorSideRight.Side = asrBottom
-          Left = 159
+          Left = 158
           Height = 29
-          Top = 340
-          Width = 498
+          Top = 329
+          Width = 501
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 6
-          BorderSpacing.Top = 12
+          BorderSpacing.Top = 6
           BorderSpacing.Right = 6
           Enabled = False
           ItemHeight = 0
@@ -278,12 +285,12 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = edtFindPathStart
           AnchorSideTop.Side = asrBottom
-          Left = 175
+          Left = 169
           Height = 31
-          Top = 117
+          Top = 114
           Width = 184
           BorderSpacing.Left = 6
-          BorderSpacing.Top = 6
+          BorderSpacing.Top = 4
           ItemHeight = 0
           Style = csDropDownList
           TabOrder = 2
@@ -293,10 +300,10 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = cbSearchDepth
           AnchorSideTop.Side = asrCenter
-          Left = 371
+          Left = 365
           Height = 22
-          Top = 121
-          Width = 157
+          Top = 118
+          Width = 155
           BorderSpacing.Left = 12
           Caption = '&Regular expressions'
           TabOrder = 3
@@ -304,8 +311,8 @@ object frmFindDlg: TfrmFindDlg
       end
       object tsAdvanced: TTabSheet
         Caption = 'Advanced'
-        ClientHeight = 349
-        ClientWidth = 663
+        ClientHeight = 353
+        ClientWidth = 665
         ImageIndex = 1
         object cbDateFrom: TCheckBox
           AnchorSideLeft.Control = tsAdvanced
@@ -699,8 +706,8 @@ object frmFindDlg: TfrmFindDlg
       end
       object tsLoadSave: TTabSheet
         Caption = 'Load/Save'
-        ClientHeight = 349
-        ClientWidth = 663
+        ClientHeight = 353
+        ClientWidth = 665
         OnShow = tsLoadSaveShow
         object lblTemplateHeader: TLabel
           AnchorSideLeft.Control = tsLoadSave
@@ -724,9 +731,9 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = lblSearchContents
           Left = 12
-          Height = 240
+          Height = 244
           Top = 26
-          Width = 639
+          Width = 641
           Anchors = [akTop, akLeft, akRight, akBottom]
           BorderSpacing.Left = 12
           BorderSpacing.Top = 6
@@ -744,8 +751,8 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideBottom.Control = btnSearchLoad
           Left = 12
           Height = 17
-          Top = 278
-          Width = 639
+          Top = 282
+          Width = 641
           Alignment = taLeftJustify
           Anchors = [akLeft, akRight, akBottom]
           BorderSpacing.Bottom = 12
@@ -756,9 +763,9 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideRight.Control = btnSearchSave
           AnchorSideBottom.Control = tsLoadSave
           AnchorSideBottom.Side = asrBottom
-          Left = 139
+          Left = 140
           Height = 30
-          Top = 307
+          Top = 311
           Width = 120
           Anchors = [akRight, akBottom]
           BorderSpacing.Right = 12
@@ -772,9 +779,9 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideLeft.Side = asrCenter
           AnchorSideBottom.Control = tsLoadSave
           AnchorSideBottom.Side = asrBottom
-          Left = 271
+          Left = 272
           Height = 30
-          Top = 307
+          Top = 311
           Width = 120
           Anchors = [akLeft, akBottom]
           BorderSpacing.Bottom = 12
@@ -788,9 +795,9 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = tsLoadSave
           AnchorSideBottom.Side = asrBottom
-          Left = 403
+          Left = 404
           Height = 30
-          Top = 307
+          Top = 311
           Width = 120
           Anchors = [akLeft, akBottom]
           BorderSpacing.Left = 12
@@ -844,13 +851,15 @@ object frmFindDlg: TfrmFindDlg
     end
   end
   object Panel1: TPanel
+    AnchorSideTop.Control = Panel2
+    AnchorSideTop.Side = asrBottom
     Left = 0
-    Height = 174
-    Top = 381
+    Height = 166
+    Top = 389
     Width = 768
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 174
+    ClientHeight = 166
     ClientWidth = 768
     FullRepaint = False
     TabOrder = 1
@@ -871,9 +880,9 @@ object frmFindDlg: TfrmFindDlg
         AnchorSideTop.Control = lblCurrent
         AnchorSideTop.Side = asrBottom
         Left = 10
-        Height = 16
-        Top = 28
-        Width = 36
+        Height = 18
+        Top = 30
+        Width = 49
         BorderSpacing.Left = 10
         BorderSpacing.Top = 6
         Caption = 'Status'
@@ -886,9 +895,9 @@ object frmFindDlg: TfrmFindDlg
         AnchorSideLeft.Control = Panel3
         AnchorSideTop.Control = Panel3
         Left = 10
-        Height = 16
+        Height = 18
         Top = 6
-        Width = 43
+        Width = 58
         BorderSpacing.Left = 10
         BorderSpacing.Top = 6
         Caption = 'Current'
@@ -902,10 +911,10 @@ object frmFindDlg: TfrmFindDlg
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = lblStatus
         AnchorSideBottom.Side = asrCenter
-        Left = 720
-        Height = 16
-        Top = 28
-        Width = 36
+        Left = 710
+        Height = 18
+        Top = 30
+        Width = 46
         Anchors = [akRight, akBottom]
         BorderSpacing.Right = 12
         Caption = 'Found'
@@ -917,7 +926,7 @@ object frmFindDlg: TfrmFindDlg
     end
     object lsFoundedFiles: TListBox
       Left = 0
-      Height = 58
+      Height = 50
       Top = 58
       Width = 768
       Align = alClient
@@ -932,7 +941,7 @@ object frmFindDlg: TfrmFindDlg
     object Panel4: TPanel
       Left = 0
       Height = 58
-      Top = 116
+      Top = 108
       Width = 768
       Align = alBottom
       ClientHeight = 58
