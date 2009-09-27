@@ -110,9 +110,9 @@ begin
         inc(iDiffed);
       end;
       sLeftLine:=sLeftLine+ConvertByte(bLeft);
+      sLeftHexLine:=sLeftHexLine+Byte2Hex(bLeft);
       sRightLine:=sRightLine+ConvertByte(bRight);
       sRightHexLine:=sRightHexLine+Byte2Hex(bRight);
-      sLeftHexLine:=sLeftHexLine+Byte2Hex(bRight);
       inc(iColumnCount);
       if iColumnCount>=cColumnSize then
       begin
