@@ -1883,6 +1883,7 @@ var
       begin
         Tr      := Rect;
         Tr.Left := Tr.Left + 1;
+        Tr.Top  := Tr.Top + (RowHeights[ARow] - gIconsSize) div 2; // center icon vertically
         PixMapManager.DrawBitmap(AFile, Canvas, Tr);
       end;
 
@@ -2053,7 +2054,7 @@ begin
 
     NewPrepareColors;
 
-    iTextTop := Rect.Top + (gIconsSize div 2) - (dgPanel.Canvas.TextHeight('Pp') div 2);
+    iTextTop := Rect.Top + (dgPanel.RowHeights[ARow] - dgPanel.Canvas.TextHeight('Pp')) div 2;
 
     if ACol = 0 then
       DrawIconCell  // Draw icon in the first column
@@ -3175,14 +3176,62 @@ begin
 end;
 
 procedure TDrawGridEx.UpdateView;
+
+  function CalculateDefaultRowHeight: Integer;
+  var
+    OldFont, NewFont: TFont;
+    i: Integer;
+    MaxFontHeight: Integer = 0;
+    CurrentHeight: Integer;
+    ColumnsSet: TPanelColumnsClass;
+  begin
+    // Start with height of the icons.
+    if gShowIcons <> sim_none then
+      MaxFontHeight := gIconsSize;
+
+    // Get columns settings.
+    with (Parent as TColumnsFileView) do
+    begin
+      if not isSlave then
+        ColumnsSet := ColSet.GetColumnSet(ActiveColm)
+      else
+        ColumnsSet := ActiveColmSlave;
+    end;
+
+    // Assign temporary font.
+    OldFont     := Canvas.Font;
+    NewFont     := TFont.Create;
+    Canvas.Font := NewFont;
+
+    // Search columns settings for the biggest font (in height).
+    for i := 0 to ColumnsSet.Count - 1 do
+    begin
+      Canvas.Font.Name  := ColumnsSet.GetColumnFontName(i);
+      Canvas.Font.Style := ColumnsSet.GetColumnFontStyle(i);
+      Canvas.Font.Size  := ColumnsSet.GetColumnFontSize(i);
+
+      CurrentHeight := Canvas.GetTextHeight('Pp');
+      MaxFontHeight := Max(MaxFontHeight, CurrentHeight);
+    end;
+
+    // Restore old font.
+    Canvas.Font := OldFont;
+    FreeAndNil(NewFont);
+
+    Result := MaxFontHeight;
+  end;
+
 var
   TabHeaderHeight: Integer;
+  TempRowHeight: Integer;
 begin
   Flat := gInterfaceFlat;
   Color := gBackColor;
 
-  // Set height of each row.
-  DefaultRowHeight := gIconsSize;
+  // Calculate row height.
+  TempRowHeight := CalculateDefaultRowHeight;
+  if TempRowHeight > 0 then
+    DefaultRowHeight := TempRowHeight;
 
   // Set rows of header.
   if gTabHeader then
@@ -3192,7 +3241,7 @@ begin
 
     FixedRows := 1;
 
-    TabHeaderHeight := gIconsSize + 1;
+    TabHeaderHeight := Max(gIconsSize, Canvas.TextHeight('Pp'));
     if not gInterfaceFlat then
     begin
       TabHeaderHeight := TabHeaderHeight + 2;
