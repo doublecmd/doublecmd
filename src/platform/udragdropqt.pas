@@ -170,8 +170,6 @@ function TDragDropTargetQT.RegisterEvents(DragEnterEvent: uDragDropEx.TDragEnter
                                           DragOverEvent : uDragDropEx.TDragOverEvent;
                                           DropEvent     : uDragDropEx.TDropEvent;
                                           DragLeaveEvent: uDragDropEx.TDragLeaveEvent): Boolean;
-var
-  Method: TMethod;
 begin
   inherited;
 
@@ -182,8 +180,7 @@ begin
 
   // Tap into target widget's events.
   FEventHook := QObject_hook_create(GetWidget);
-  TEventFilterMethod(Method) := @EventFilter;
-  QObject_hook_hook_events(FEventHook, Method);
+  QObject_hook_hook_events(FEventHook, @EventFilter);
 
   Result := True;
 end;
