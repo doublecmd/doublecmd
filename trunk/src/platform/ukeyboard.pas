@@ -801,14 +801,11 @@ end;
 
 {$IF DEFINED(UNIX) and DEFINED(LCLQT)}
 constructor TKeyboardLayoutChangedHook.Create(QObject: QObjectH);
-var
-  Method: TMethod;
 begin
   EventHook := QObject_hook_create(QObject);
   if Assigned(EventHook) then
   begin
-    TEventFilterMethod(Method) := @EventFilter;
-    QObject_hook_hook_events(EventHook, Method);
+    QObject_hook_hook_events(EventHook, @EventFilter);
   end;
 end;
 
