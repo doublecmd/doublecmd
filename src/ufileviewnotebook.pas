@@ -270,7 +270,12 @@ begin
   // If removing currently active page, switch to another page first.
   // Otherwise there can be no page selected.
   if PageIndex = Index then
-    ActivateNextTab;
+  begin
+    if Index = PageCount - 1 then
+      Page[Index - 1].MakeActive
+    else
+      Page[Index + 1].MakeActive;
+  end;
 {$ENDIF}
 
   Pages.Delete(Index);
