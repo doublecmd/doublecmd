@@ -1,24 +1,22 @@
 object frmTweakPlugin: TfrmTweakPlugin
   Left = 354
-  Height = 384
+  Height = 443
   Top = 184
   Width = 478
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Tweak plugin'
-  ClientHeight = 384
+  ClientHeight = 443
   ClientWidth = 478
-  Font.Height = -11
-  Font.Name = 'Tahoma'
   Position = poScreenCenter
-  LCLVersion = '0.9.25'
+  LCLVersion = '0.9.27'
   object btnOK: TButton
     AnchorSideTop.Control = btnCancel
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = btnCancel
     Left = 298
     Height = 32
-    Top = 344
+    Top = 400
     Width = 82
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 8
@@ -35,7 +33,7 @@ object frmTweakPlugin: TfrmTweakPlugin
     AnchorSideRight.Side = asrBottom
     Left = 388
     Height = 32
-    Top = 344
+    Top = 400
     Width = 82
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 8
@@ -47,49 +45,52 @@ object frmTweakPlugin: TfrmTweakPlugin
   end
   object nbTweakAll: TNotebook
     Left = 8
-    Height = 336
+    Height = 392
+    Top = 0
     Width = 462
-    PageIndex = 1
+    PageIndex = 0
     ShowTabs = False
     TabOrder = 2
     object pgTweakPacker: TPage
-      ClientWidth = 454
-      ClientHeight = 328
-      object pnlTweak: TGroupBox
+      ClientWidth = 458
+      ClientHeight = 388
+      object grpTweak: TGroupBox
         AnchorSideLeft.Control = pgTweakPacker
         AnchorSideTop.Control = pgTweakPacker
         AnchorSideRight.Control = pgTweakPacker
         AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = pgTweakPacker
+        AnchorSideBottom.Side = asrBottom
         Left = 6
-        Height = 322
-        Width = 442
-        Anchors = [akTop, akLeft, akRight]
+        Height = 376
+        Top = 6
+        Width = 446
+        Anchors = [akTop, akLeft, akRight, akBottom]
         AutoSize = True
-        BorderSpacing.Left = 6
-        BorderSpacing.Right = 6
+        BorderSpacing.Around = 6
         ChildSizing.LeftRightSpacing = 6
         ChildSizing.TopBottomSpacing = 6
-        ClientHeight = 304
-        ClientWidth = 438
+        ClientHeight = 372
+        ClientWidth = 442
         TabOrder = 0
         object lblFlagsValue: TLabel
           AnchorSideLeft.Control = lblFlags
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = lblFlags
           AnchorSideTop.Side = asrBottom
-          Left = 8
-          Height = 14
-          Top = 84
-          Width = 27
+          Left = 7
+          Height = 20
+          Top = 102
+          Width = 38
           Caption = '(000)'
           ParentColor = False
         end
         object lblPlugin: TLabel
-          AnchorSideTop.Control = pnlTweak
+          AnchorSideTop.Control = grpTweak
           Left = 6
-          Height = 14
+          Height = 20
           Top = 12
-          Width = 33
+          Width = 46
           BorderSpacing.Top = 12
           Caption = 'Plugin:'
           ParentColor = False
@@ -99,9 +100,9 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Control = lblPlugin
           AnchorSideTop.Side = asrBottom
           Left = 6
-          Height = 14
-          Top = 44
-          Width = 52
+          Height = 20
+          Top = 50
+          Width = 70
           BorderSpacing.Top = 18
           Caption = 'Extension:'
           ParentColor = False
@@ -111,9 +112,9 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Control = lblExtension
           AnchorSideTop.Side = asrBottom
           Left = 6
-          Height = 14
-          Top = 70
-          Width = 30
+          Height = 20
+          Top = 82
+          Width = 41
           BorderSpacing.Top = 12
           Caption = 'Flags:'
           ParentColor = False
@@ -122,7 +123,7 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Control = lblPlugin
           AnchorSideTop.Side = asrCenter
           Left = 75
-          Height = 21
+          Height = 27
           Top = 9
           Width = 345
           TabOrder = 0
@@ -132,11 +133,10 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Control = lblExtension
           AnchorSideTop.Side = asrCenter
           Left = 75
-          Height = 21
-          Top = 41
+          Height = 31
+          Top = 45
           Width = 73
-          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-          ItemHeight = 13
+          ItemHeight = 0
           OnChange = cbExtChange
           Style = csDropDownList
           TabOrder = 1
@@ -144,9 +144,9 @@ object frmTweakPlugin: TfrmTweakPlugin
         object cbPK_CAPS_NEW: TCheckBox
           AnchorSideTop.Control = lblFlags
           Left = 74
-          Height = 19
-          Top = 70
-          Width = 145
+          Height = 23
+          Top = 82
+          Width = 183
           Caption = 'Can create new archives'
           TabOrder = 5
         end
@@ -154,9 +154,9 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Control = cbPK_CAPS_NEW
           AnchorSideTop.Side = asrBottom
           Left = 74
-          Height = 19
-          Top = 89
-          Width = 165
+          Height = 23
+          Top = 105
+          Width = 213
           Caption = 'Can modify exisiting archives'
           TabOrder = 6
         end
@@ -164,9 +164,9 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Control = cbPK_CAPS_MODIFY
           AnchorSideTop.Side = asrBottom
           Left = 74
-          Height = 19
-          Top = 108
-          Width = 181
+          Height = 23
+          Top = 128
+          Width = 237
           Caption = 'Archive can contain multiple files'
           TabOrder = 7
         end
@@ -174,9 +174,9 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Control = cbPK_CAPS_MULTIPLE
           AnchorSideTop.Side = asrBottom
           Left = 74
-          Height = 19
-          Top = 127
-          Width = 100
+          Height = 23
+          Top = 151
+          Width = 124
           Caption = 'Can delete files'
           TabOrder = 8
         end
@@ -184,9 +184,9 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Control = cbPK_CAPS_DELETE
           AnchorSideTop.Side = asrBottom
           Left = 74
-          Height = 19
-          Top = 146
-          Width = 175
+          Height = 23
+          Top = 174
+          Width = 230
           Caption = 'Supports the options dialogbox'
           TabOrder = 9
         end
@@ -194,9 +194,9 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Control = cbPK_CAPS_OPTIONS
           AnchorSideTop.Side = asrBottom
           Left = 74
-          Height = 19
-          Top = 165
-          Width = 160
+          Height = 23
+          Top = 197
+          Width = 208
           Caption = 'Supports packing in memory'
           TabOrder = 10
         end
@@ -204,9 +204,9 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Control = cbPK_CAPS_MEMPACK
           AnchorSideTop.Side = asrBottom
           Left = 74
-          Height = 19
-          Top = 184
-          Width = 176
+          Height = 23
+          Top = 220
+          Width = 226
           Caption = 'Detect archive type by content'
           TabOrder = 11
         end
@@ -214,9 +214,9 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Control = cbPK_CAPS_BY_CONTENT
           AnchorSideTop.Side = asrBottom
           Left = 74
-          Height = 19
-          Top = 203
-          Width = 194
+          Height = 23
+          Top = 243
+          Width = 252
           Caption = 'Allow searching for text in archives'
           TabOrder = 12
         end
@@ -224,9 +224,9 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Control = cbPK_CAPS_SEARCHTEXT
           AnchorSideTop.Side = asrBottom
           Left = 74
-          Height = 19
-          Top = 222
-          Width = 211
+          Height = 23
+          Top = 266
+          Width = 279
           Caption = 'Show as normal files (hide packer icon)'
           TabOrder = 13
         end
@@ -235,7 +235,7 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Side = asrCenter
           Left = 242
           Height = 32
-          Top = 35
+          Top = 44
           Width = 89
           Caption = 'Add new'
           OnClick = btnAddClick
@@ -246,7 +246,7 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Side = asrCenter
           Left = 154
           Height = 32
-          Top = 35
+          Top = 44
           Width = 89
           Caption = 'Remove'
           OnClick = btnRemoveClick
@@ -257,7 +257,7 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Side = asrBottom
           Left = 72
           Height = 32
-          Top = 266
+          Top = 318
           Width = 105
           BorderSpacing.Top = 6
           Caption = 'Default'
@@ -269,7 +269,7 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Side = asrCenter
           Left = 331
           Height = 32
-          Top = 35
+          Top = 44
           Width = 89
           Caption = 'Change'
           OnClick = btnChangeClick
@@ -279,132 +279,146 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Control = cbPK_CAPS_HIDE
           AnchorSideTop.Side = asrBottom
           Left = 74
-          Height = 19
-          Top = 241
-          Width = 123
+          Height = 23
+          Top = 289
+          Width = 155
           Caption = 'Supports encryption'
           TabOrder = 14
         end
       end
     end
     object pgTweakOther: TPage
-      ClientWidth = 454
-      ClientHeight = 328
-      object GroupBox1: TGroupBox
-        Height = 328
-        Width = 454
-        Align = alClient
-        ClientHeight = 310
-        ClientWidth = 450
+      ClientWidth = 458
+      ClientHeight = 388
+      object grpTweakOther: TGroupBox
+        AnchorSideLeft.Control = pgTweakOther
+        AnchorSideTop.Control = pgTweakOther
+        AnchorSideRight.Control = pgTweakOther
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = pgTweakOther
+        Left = 6
+        Height = 388
+        Top = 6
+        Width = 446
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Around = 6
+        ClientHeight = 384
+        ClientWidth = 442
         TabOrder = 0
         object lblName: TLabel
-          AnchorSideLeft.Control = GroupBox1
-          AnchorSideTop.Control = ledPlugin
+          AnchorSideLeft.Control = grpTweakOther
+          AnchorSideTop.Control = edtPlugin1
           AnchorSideTop.Side = asrBottom
           Left = 10
-          Height = 14
-          Top = 43
-          Width = 32
+          Height = 20
+          Top = 69
+          Width = 44
           BorderSpacing.Left = 10
           BorderSpacing.Top = 8
           Caption = 'Name:'
           ParentColor = False
         end
         object lblDetectStr: TLabel
-          AnchorSideLeft.Control = GroupBox1
+          AnchorSideLeft.Control = grpTweakOther
           AnchorSideTop.Control = edtName
           AnchorSideTop.Side = asrBottom
           Left = 10
-          Height = 14
-          Top = 94
-          Width = 67
+          Height = 20
+          Top = 130
+          Width = 93
           BorderSpacing.Left = 10
           BorderSpacing.Top = 8
           Caption = 'Detect string:'
           ParentColor = False
         end
         object lblDescription: TLabel
-          AnchorSideLeft.Control = GroupBox1
+          AnchorSideLeft.Control = grpTweakOther
           AnchorSideTop.Control = edtDetectStr
           AnchorSideTop.Side = asrBottom
           Left = 10
-          Height = 14
-          Top = 145
-          Width = 58
+          Height = 20
+          Top = 191
+          Width = 80
           BorderSpacing.Left = 10
           BorderSpacing.Top = 8
           Caption = 'Description:'
           ParentColor = False
         end
-        object ledPlugin: TLabeledEdit
-          AnchorSideLeft.Control = GroupBox1
-          AnchorSideRight.Control = GroupBox1
-          AnchorSideRight.Side = asrBottom
-          Left = 10
-          Height = 23
-          Top = 12
-          Width = 430
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Left = 10
-          BorderSpacing.Right = 10
-          EditLabel.AnchorSideLeft.Control = ledPlugin
-          EditLabel.AnchorSideBottom.Control = ledPlugin
-          EditLabel.Left = 10
-          EditLabel.Height = 14
-          EditLabel.Top = -5
-          EditLabel.Width = 33
-          EditLabel.Caption = 'Plugin:'
-          EditLabel.ParentColor = False
-          ParentColor = False
-          TabOrder = 0
-        end
         object edtName: TEdit
-          AnchorSideLeft.Control = GroupBox1
+          AnchorSideLeft.Control = grpTweakOther
           AnchorSideTop.Control = lblName
           AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = GroupBox1
+          AnchorSideRight.Control = grpTweakOther
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 23
-          Top = 63
-          Width = 430
+          Height = 27
+          Top = 95
+          Width = 422
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Left = 10
+          BorderSpacing.Top = 6
+          BorderSpacing.Right = 10
+          TabOrder = 0
+        end
+        object edtDetectStr: TEdit
+          AnchorSideLeft.Control = grpTweakOther
+          AnchorSideTop.Control = lblDetectStr
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = grpTweakOther
+          AnchorSideRight.Side = asrBottom
+          Left = 10
+          Height = 27
+          Top = 156
+          Width = 422
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 6
           BorderSpacing.Right = 10
           TabOrder = 1
         end
-        object edtDetectStr: TEdit
-          AnchorSideLeft.Control = GroupBox1
-          AnchorSideTop.Control = lblDetectStr
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = GroupBox1
-          AnchorSideRight.Side = asrBottom
-          Left = 10
-          Height = 23
-          Top = 114
-          Width = 430
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Left = 10
-          BorderSpacing.Top = 6
-          BorderSpacing.Right = 10
-          TabOrder = 2
-        end
         object edtDescription: TEdit
-          AnchorSideLeft.Control = GroupBox1
+          AnchorSideLeft.Control = grpTweakOther
           AnchorSideTop.Control = lblDescription
           AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = GroupBox1
+          AnchorSideRight.Control = grpTweakOther
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 23
-          Top = 167
-          Width = 430
+          Height = 27
+          Top = 219
+          Width = 422
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 8
           BorderSpacing.Right = 10
+          TabOrder = 2
+        end
+        object edtPlugin1: TEdit
+          AnchorSideLeft.Control = grpTweakOther
+          AnchorSideTop.Control = lblPlugin1
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = grpTweakOther
+          AnchorSideRight.Side = asrBottom
+          Left = 10
+          Height = 27
+          Top = 34
+          Width = 422
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Left = 10
+          BorderSpacing.Top = 6
+          BorderSpacing.Right = 10
           TabOrder = 3
+        end
+        object lblPlugin1: TLabel
+          AnchorSideLeft.Control = grpTweakOther
+          AnchorSideTop.Control = grpTweakOther
+          Left = 10
+          Height = 20
+          Top = 8
+          Width = 46
+          BorderSpacing.Left = 10
+          BorderSpacing.Top = 8
+          Caption = 'Plugin:'
+          ParentColor = False
         end
       end
     end

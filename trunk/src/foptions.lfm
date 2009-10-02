@@ -13,7 +13,7 @@ object frmOptions: TfrmOptions
   Position = poScreenCenter
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stNever
-  LCLVersion = '0.9.27'
+  LCLVersion = '0.9.29'
   object Panel1: TPanel
     Left = 0
     Height = 43
@@ -2957,23 +2957,25 @@ object frmOptions: TfrmOptions
           Top = 10
           Width = 504
           Anchors = [akTop, akLeft, akRight]
+          AutoSize = True
           BorderSpacing.Left = 10
           BorderSpacing.Top = 10
           BorderSpacing.Right = 10
           Caption = 'Auto-Refresh when the file system changes'
+          ChildSizing.TopBottomSpacing = 6
           ClientHeight = 182
           ClientWidth = 500
           TabOrder = 0
           object lblWatchExcludeDrives: TLabel
             AnchorSideLeft.Control = gbAutoRefresh
-            AnchorSideTop.Control = edtWatchExcludeDrives
-            AnchorSideTop.Side = asrCenter
+            AnchorSideTop.Control = cbWatchFreeSpace
+            AnchorSideTop.Side = asrBottom
             Left = 12
-            Height = 16
-            Top = 123
-            Width = 247
-            AutoSize = False
+            Height = 20
+            Top = 151
+            Width = 195
             BorderSpacing.Left = 12
+            BorderSpacing.Top = 6
             Caption = 'No refresh for &these drives:'
             FocusControl = edtWatchExcludeDrives
             ParentColor = False
@@ -3045,16 +3047,18 @@ object frmOptions: TfrmOptions
           object edtWatchExcludeDrives: TEdit
             AnchorSideLeft.Control = lblWatchExcludeDrives
             AnchorSideLeft.Side = asrBottom
-            AnchorSideTop.Control = cbWatchFreeSpace
-            AnchorSideTop.Side = asrBottom
-            Left = 259
-            Height = 21
-            Top = 121
-            Width = 123
+            AnchorSideTop.Control = lblWatchExcludeDrives
+            AnchorSideTop.Side = asrCenter
+            AnchorSideRight.Control = gbAutoRefresh
+            AnchorSideRight.Side = asrBottom
+            Left = 207
+            Height = 27
+            Top = 148
+            Width = 285
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Left = 6
             BorderSpacing.Top = 6
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            ParentFont = False
+            BorderSpacing.Right = 12
             TabOrder = 5
           end
         end
