@@ -1,96 +1,117 @@
 object frmExtractDlg: TfrmExtractDlg
-  Left = 371
-  Height = 183
-  Top = 326
-  Width = 447
+  Left = 520
+  Height = 203
+  Top = 330
+  Width = 497
   HelpContext = 160
   HorzScrollBar.Page = 446
   HorzScrollBar.Range = 437
   VertScrollBar.Page = 182
   VertScrollBar.Range = 177
-  ActiveControl = cbFileMask
-  AutoScroll = False
+  ActiveControl = edtExtractTo
+  AutoSize = True
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Unpack files'
-  ClientHeight = 183
-  ClientWidth = 447
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  ParentFont = False
+  ChildSizing.LeftRightSpacing = 6
+  ChildSizing.TopBottomSpacing = 5
+  ClientHeight = 203
+  ClientWidth = 497
   Position = poScreenCenter
-  LCLVersion = '0.9.27'
+  LCLVersion = '0.9.29'
   object lblExtractTo: TLabel
-    Left = 4
-    Height = 16
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 6
+    Height = 20
     Top = 5
-    Width = 385
-    AutoSize = False
+    Width = 98
     Caption = 'Unpack file to:'
+    FocusControl = edtExtractTo
     ParentColor = False
   end
   object lblFileMask: TLabel
-    Left = 4
-    Height = 16
-    Top = 51
-    Width = 129
-    AutoSize = False
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = cbFileMask
+    AnchorSideTop.Side = asrCenter
+    Left = 6
+    Height = 20
+    Top = 58
+    Width = 116
     Caption = '&Files to unpack:'
     FocusControl = cbFileMask
     ParentColor = False
   end
   object cbFileMask: TComboBox
-    Left = 134
-    Height = 25
-    Top = 49
-    Width = 302
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
+    AnchorSideLeft.Control = lblFileMask
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = edtExtractTo
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Side = asrBottom
+    Left = 127
+    Height = 29
+    Top = 54
+    Width = 361
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 5
+    BorderSpacing.Top = 2
+    ItemHeight = 0
     ParentFont = False
-    TabOrder = 0
+    TabOrder = 1
     Text = '*.*'
   end
   object cbExtractPath: TCheckBox
-    Left = 4
-    Height = 21
-    Top = 73
-    Width = 266
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = cbFileMask
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 23
+    Top = 91
+    Width = 275
+    BorderSpacing.Top = 8
     Caption = '&Unpack path names if stored with files'
-    Checked = True
-    Enabled = False
-    State = cbChecked
-    TabOrder = 1
-  end
-  object cbOverwrite: TCheckBox
-    Left = 4
-    Height = 21
-    Top = 95
-    Width = 167
-    Caption = '&Overwrite existing files'
     Checked = True
     Enabled = False
     State = cbChecked
     TabOrder = 2
   end
+  object cbOverwrite: TCheckBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = cbExtractPath
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 23
+    Top = 114
+    Width = 171
+    Caption = '&Overwrite existing files'
+    Checked = True
+    Enabled = False
+    State = cbChecked
+    TabOrder = 3
+  end
   object btnOK: TButton
+    AnchorSideTop.Control = cbInSeparateFolder
+    AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnCancel
-    Left = 168
+    Left = 218
     Height = 32
-    Top = 145
+    Top = 166
     Width = 85
     Anchors = [akTop, akRight]
+    BorderSpacing.Top = 6
     BorderSpacing.Right = 6
     BorderSpacing.InnerBorder = 4
     Caption = 'OK'
     Default = True
     ModalResult = 1
-    TabOrder = 4
+    TabOrder = 5
   end
   object btnCancel: TButton
+    AnchorSideTop.Control = btnOK
     AnchorSideRight.Control = btnHelp
-    Left = 259
+    Left = 309
     Height = 32
-    Top = 145
+    Top = 166
     Width = 85
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 6
@@ -98,37 +119,45 @@ object frmExtractDlg: TfrmExtractDlg
     Cancel = True
     Caption = 'Cancel'
     ModalResult = 2
-    TabOrder = 5
+    TabOrder = 6
   end
   object btnHelp: TButton
+    AnchorSideTop.Control = btnCancel
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 350
+    Left = 400
     Height = 32
-    Top = 145
+    Top = 166
     Width = 85
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 12
     BorderSpacing.InnerBorder = 4
     Caption = 'Help'
-    TabOrder = 6
+    TabOrder = 7
   end
   object cbInSeparateFolder: TCheckBox
-    Left = 4
-    Height = 21
-    Top = 117
-    Width = 429
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = cbOverwrite
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 23
+    Top = 137
+    Width = 440
     Caption = 'Unpack each archive to a &separate subdir (name of the archive)'
-    TabOrder = 3
+    TabOrder = 4
   end
   object edtExtractTo: TDirectoryEdit
-    Left = 4
-    Height = 23
-    Top = 24
-    Width = 410
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblExtractTo
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 27
+    Top = 25
+    Width = 458
+    ShowHidden = False
     ButtonWidth = 23
     NumGlyphs = 1
-    ParentColor = False
-    TabOrder = 7
+    Anchors = [akTop, akLeft, akRight]
+    TabOrder = 0
   end
 end
