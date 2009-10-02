@@ -13,7 +13,6 @@ object frmPackDlg: TfrmPackDlg
   ChildSizing.TopBottomSpacing = 5
   ClientHeight = 260
   ClientWidth = 670
-  Font.Name = 'Default'
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '0.9.27'
@@ -128,8 +127,6 @@ object frmPackDlg: TfrmPackDlg
     BorderSpacing.Top = 6
     BorderSpacing.Right = 8
     Enabled = False
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
     ItemHeight = 0
     OnChange = cbOtherPluginsChange
     ParentFont = False
