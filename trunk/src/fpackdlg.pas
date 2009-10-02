@@ -52,6 +52,7 @@ type
     cbRecurse: TCheckBox;
     cbStoredir: TCheckBox;
     rgPacker: TRadioGroup;
+    pnlOptions: TPanel;
     procedure btnConfigClick(Sender: TObject);
     procedure cbOtherPluginsChange(Sender: TObject);
     procedure edtPackCmdAcceptDirectory(Sender: TObject; var Value: String);
