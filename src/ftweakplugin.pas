@@ -82,7 +82,8 @@ type
     iPrevIndex: Integer;
     function GetDefaultFlags(PluginFileName: String): PtrInt;
   public
-    { public declarations }
+    constructor Create(TheOwner: TComponent); override;
+    destructor Destroy; override;
   end; 
 
 function ShowTweakPluginDlg(PluginType: TPluginType; PluginIndex: Integer): Boolean;
@@ -171,7 +172,6 @@ begin
                 end;
             end;
           tmpWCXPlugins.Assign(FWCXPlugins);
-          FWCXPlugins.Free;
         end;
       ptWDX:
         begin
@@ -197,6 +197,20 @@ begin
 end;
 
 { TfrmTweakPlugin }
+
+constructor TfrmTweakPlugin.Create(TheOwner: TComponent);
+begin
+  FWCXPlugins := nil;
+  iPrevIndex := -1;
+  inherited;
+end;
+
+destructor TfrmTweakPlugin.Destroy;
+begin
+  inherited;
+  if Assigned(FWCXPlugins) then
+    FreeAndNil(FWCXPlugins);
+end;
 
 procedure TfrmTweakPlugin.cbExtChange(Sender: TObject);
 var
