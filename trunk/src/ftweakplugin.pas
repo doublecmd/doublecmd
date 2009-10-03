@@ -253,14 +253,18 @@ end;
 
 procedure TfrmTweakPlugin.btnRemoveClick(Sender: TObject);
 var
-  I: Integer;
+  I, OldIndex: Integer;
 begin
+  iPrevIndex:= -1;  // Must be before cbExt.Items.Delete, because it may trigger cbExtChange.
+  OldIndex := cbExt.ItemIndex;
   I:= FWCXPlugins.IndexOfName(cbExt.Text);
   FWCXPlugins.Delete(I);
   cbExt.Items.Delete(cbExt.ItemIndex);
-  cbExt.ItemIndex:= 0;
-  iPrevIndex:= -1;
-  cbExtChange(cbExt);
+  if OldIndex >= cbExt.Items.Count then
+    OldIndex := OldIndex - 1;
+  cbExt.ItemIndex := OldIndex;
+  if iPrevIndex = -1 then // Call only if not already triggerred.
+    cbExtChange(cbExt);
   btnRemove.Enabled:= (cbExt.Items.Count > 1);
 end;
 
