@@ -69,7 +69,7 @@ type
     FFileOpDlg: TfrmFileOp; // progress window
     function WFXCopyOut : Boolean; {Copy files from VFS}
     function WFXCopyIn : Boolean;  {Copy files in VFS}
-  protected
+  public
   {Mandatory}
     FsInit : TFsInit;
     FsFindFirst : TFsFindFirst;
@@ -123,7 +123,7 @@ type
     function VFSClose:Boolean;override;
     function VFSRefresh : Boolean;override;
     
-    function VFSMkDir(const sDirName:String ):Boolean;override;
+
     function VFSRmDir(const sDirName:String):Boolean;override;
     
     function VFSCopyOut(var flSrcList : TFileList; sDstPath:String; Flags: Integer):Boolean;override;
@@ -560,27 +560,6 @@ end;
 function TWFXModule.VFSRefresh: Boolean;
 begin
   Result := True;
-end;
-
-function TWFXModule.VFSMkDir(const sDirName: String): Boolean;
-begin
-  WFXStatusInfo(FFolder, FS_STATUS_START, FS_STATUS_OP_MKDIR);
-  if Assigned(FsMkDir) then
-    Result:= FsMkDir(PChar(UTF8ToSys(sDirName)))
-  else
-    Result:= False;
-  WFXStatusInfo(FFolder, FS_STATUS_END, FS_STATUS_OP_MKDIR);
-
-  { Log messages }
-  if Result then
-    // write log success
-    if (log_vfs_op in gLogOptions) and (log_success in gLogOptions) then
-      logWrite(Format(rsMsgLogSuccess+rsMsgLogMkDir, [sDirName]), lmtSuccess)
-  else
-    // write log error
-    if (log_vfs_op in gLogOptions) and (log_errors in gLogOptions) then
-      logWrite(Format(rsMsgLogError+rsMsgLogMkDir, [sDirName]), lmtError);
-  {/ Log messages }
 end;
 
 function TWFXModule.VFSRmDir(const sDirName: String): Boolean;

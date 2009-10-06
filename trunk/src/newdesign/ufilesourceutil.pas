@@ -16,7 +16,7 @@ implementation
 uses
   uFileSystemFileSource, uGlobs, uShellExecute, uOSUtils,
   uFileSourceOperation, uFileSourceExecuteOperation, uFileSourceMoveOperation,
-  uWcxArchiveFileSource, uFileSourceOperationTypes, LCLProc;
+  uVfsFileSource, uWcxArchiveFileSource, uWfxPluginFileSource, uFileSourceOperationTypes, LCLProc;
 
 procedure ChooseFile(aFileView: TFileView; aFile: TFile);
 var
@@ -52,6 +52,18 @@ begin
       ReplaceExtCommand(sOpenCmd, aFile, aFileView.FileSource.CurrentPath);
       if ProcessExtCommand(sOpenCmd, aFileView.FileSource.CurrentPath) then
         Exit;
+    end;
+  end;
+
+  // Work only for TVfsFileSource.
+  if aFileView.FileSource is TVfsFileSource then
+  begin
+    // Check if it is registered plugin by file system root name.
+    FileSource := TWfxPluginFileSource.CreateByRootName(aFile.Name);
+    if Assigned(FileSource) then
+    begin
+      aFileView.AddFileSource(FileSource);
+      Exit;
     end;
   end;
 
