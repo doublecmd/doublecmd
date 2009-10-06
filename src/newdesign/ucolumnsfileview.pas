@@ -796,6 +796,10 @@ begin
   if IsEmpty then Exit;
 
   dgPanel.MouseToCell(X, Y, iCol, iRow);
+
+  if iRow < dgPanel.FixedRows then  // clicked on header
+    Exit;
+
   case Button of
     mbRight: begin
       dgPanel.Row := iRow;
@@ -3353,6 +3357,8 @@ begin
   Result := 0;
   for i := 0 to FixedRows-1 do
     Result := Result + RowHeights[i];
+  if Flat and (BorderStyle = bsSingle) then // TCustomGrid.GetBorderWidth
+    Result := Result + 1;
 end;
 
 procedure TDrawGridEx.ChangeDropRowIndex(NewIndex: Integer);
@@ -3411,7 +3417,7 @@ function TDrawGridEx.OnExDragOver(var DropEffect: TDropEffect; ScreenPoint: TPoi
 var
   ClientPoint: TPoint;
   Dummy, iRow: Integer;
-  AFile: TColumnsViewFile;
+  AFile: TColumnsViewFile = nil;
   TargetPanel: TColumnsFileView = nil;
 begin
   Result := False;
@@ -3430,8 +3436,9 @@ begin
 
   MouseToCell(ClientPoint.X, ClientPoint.Y, Dummy, iRow);
 
-  // Get the item over which there is something dragged.
-  AFile := TargetPanel.FFiles[iRow - FixedRows]; // substract fixed rows (header)
+  if iRow >= FixedRows then
+    // Get the item over which there is something dragged.
+    AFile := TargetPanel.FFiles[iRow - FixedRows]; // substract fixed rows (header)
 
   if Assigned(AFile) and
      (AFile.TheFile.IsDirectory or AFile.TheFile.IsLinkToDirectory) and
