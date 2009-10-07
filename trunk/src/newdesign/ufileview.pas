@@ -72,6 +72,13 @@ type
 
     procedure ExecuteCommand(CommandName: String; Parameter: String = ''); virtual;
 
+    {en
+       Returns @true if at least one file is somehow selected.
+       What "selected" means depends on the concrete file view implementation.
+       (Usually it will be a different method of selecting than ActiveFile.)
+    }
+    function HasSelectedFiles: Boolean; virtual abstract;
+
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property CurrentAddress: String read GetCurrentAddress;
     property FileSource: TFileSource read GetFileSource;// write FFileSource;
@@ -81,7 +88,8 @@ type
        Currently active file.
        There should always be at least one file in the view at any time, but
        what 'active' means depends on the specific view, so ActiveFile may
-       return 'nil' if there is no file active.
+       return 'nil' if there is no file active. Usually it is the file pointed
+       to by a cursor or some other indicator.
     }
     property ActiveFile: TFile read GetActiveFile;
     {en

@@ -405,6 +405,8 @@ type
     function IsItemValid(AFile: TColumnsViewFile): Boolean;
     function IsActiveItemValid: Boolean;
 
+    function HasSelectedFiles: Boolean; override;
+
     function GetColumnsClass: TPanelColumnsClass;
 
     {  Executes operations with dropped files, can handle any TDragDropOperation.
@@ -2154,6 +2156,18 @@ end;
 function TColumnsFileView.IsActiveItemValid:Boolean;
 begin
   Result := IsItemValid(GetActiveItem);
+end;
+
+function TColumnsFileView.HasSelectedFiles: Boolean;
+var
+  i: Integer;
+begin
+  for i := 0 to FFiles.Count - 1 do
+  begin
+    if FFiles[i].Selected then
+      Exit(True);
+  end;
+  Result := False;
 end;
 
 procedure TColumnsFileView.lblPathClick(Sender: TObject);
