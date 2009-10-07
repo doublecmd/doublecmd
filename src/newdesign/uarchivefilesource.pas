@@ -15,11 +15,12 @@ type
 
   protected
     procedure SetCurrentPath(NewPath: String); override;
-    property ArchiveFileName: String read FCurrentAddress;
 
   public
     constructor Create(anArchiveFileName: String); virtual reintroduce overload;
     constructor Create(anArchiveFileName: String; aPath: String); virtual reintroduce overload;
+
+    property ArchiveFileName: String read FCurrentAddress;
   end;
 
 implementation

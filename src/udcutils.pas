@@ -194,6 +194,11 @@ procedure ChangeFileListRoot(sNewRootPath: String; var Files: TFiles);
 function ExtractDirLevel(const sPrefix, sPath: String): String;
 
 {en
+   Removes a path delimiter at the beginning of the string, if it exists.
+}
+function ExcludeFrontPathDelimiter(s: String): String;
+
+{en
    Return position of character in string begun from start position
    @param(C character)
    @param(S String)
@@ -692,6 +697,14 @@ begin
   end
   else
     Result := sPath;
+end;
+
+function ExcludeFrontPathDelimiter(s: String): String;
+begin
+  if (Length(s) > 0) and (s[1] = PathDelim) then
+    Result := Copy(s, 2, Length(s) - 1)
+  else
+    Result := s;
 end;
 
 procedure DivFileName(const sFileName:String; out n,e:String);
