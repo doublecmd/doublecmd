@@ -27,11 +27,12 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes, LCLProc, uDCUtils, uClassesEx, ufsplugin
+    SysUtils, Classes, LCLProc, uClassesEx
     {$IFDEF MSWINDOWS}
     , Windows, ShellApi, uNTFSLinks, uMyWindows, JwaWinNetWk
     {$ELSE}
-    , BaseUnix, Unix, UnixType, UnixUtil, dl, uMyUnix{$IFNDEF DARWIN}, libhal, dbus{$ENDIF}, syscall
+    , BaseUnix, Unix, UnixType, UnixUtil, dl, uMyUnix, syscall, ufsplugin
+      {$IFNDEF DARWIN}, libhal, dbus{$ENDIF}
     {$ENDIF};
     
 const
@@ -294,7 +295,7 @@ var
 implementation
 
 uses
-  FileUtil
+  FileUtil, uDCUtils
   // 30.04.2009 - для удаления в корзину
   {$IFDEF MSWINDOWS}
   , Win32Int, InterfaceBase
