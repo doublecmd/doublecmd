@@ -2502,25 +2502,9 @@ procedure TfrmMain.ReLoadTabs(ANoteBook: TFileViewNotebook);
 var
   I : Integer;
 begin
-  DebugLn('FSetCol='+inttostr(colset.Items.Count));
-
-  for i:=0 to ANoteBook.PageCount-1 do
+  for I := 0 to ANoteBook.PageCount - 1 do
   begin
-    with ANoteBook.View[I] do
-    begin
-{
-      DebugLn('ActiveColmRET'+Inttostr(I)+'='+ActiveColm);
-      if ColSet.Items.IndexOf(ActiveColm)=-1 then
-        if ColSet.Items.Count>0 then
-          ActiveColm:=ColSet.Items[0]
-        else
-          ActiveColm:='Default';
-
-      Colset.GetColumnSet(ActiveColm).Load(gini,ActiveColm);
-      SetColWidths;
-      UpdateColumnsView;
-}
-    end;
+    ANoteBook.View[I].UpdateView;
   end;
 end;
 

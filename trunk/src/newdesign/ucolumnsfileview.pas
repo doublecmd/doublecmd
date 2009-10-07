@@ -276,6 +276,8 @@ type
     procedure CalculateSpaceOfAllDirectories;
     procedure CalculateSpace(theFile: TColumnsViewFile);
 
+    procedure SetColumnsWidths;
+
     // -- Events --------------------------------------------------------------
 
     procedure edtPathExit(Sender: TObject);
@@ -382,8 +384,6 @@ type
     procedure MarkPlus;
     procedure MarkShiftPlus;
     procedure MarkShiftMinus;
-
-    procedure SetColWidths;
 
     procedure RedrawGrid;
     procedure RefreshPanel(bUpdateFileCount: Boolean = True; bUpdateDiskFreeSpace: Boolean = True);
@@ -537,6 +537,8 @@ begin
 
   ActiveColm := gIni.ReadString(Section, sIndex + '_columnsset', 'Default');
 
+  UpdateColumnsView;
+
   // Load sorting options.
   FSorting.Clear;
   ColumnsClass := GetColumnsClass;
@@ -551,8 +553,6 @@ begin
     end;
   end;
 
-  SetColWidths;
-  UpdateColumnsView;
   RefreshPanel;
 end;
 
@@ -1453,7 +1453,7 @@ begin
     dgPanel.Columns.Delete(0);
 end;
 
-procedure TColumnsFileView.SetColWidths;
+procedure TColumnsFileView.SetColumnsWidths;
 var
   x: Integer;
   ColumnsClass: TPanelColumnsClass;
@@ -1907,10 +1907,25 @@ procedure TColumnsFileView.UpdateColumnsView;
 var
   ColumnsClass: TPanelColumnsClass;
 begin
-  ColumnsClass := GetColumnsClass;
+  if ActiveColm <> '' then
+  begin
+    // If the columns set doesn't exist load the first one or the default one.
+    if ColSet.Items.IndexOf(ActiveColm) = -1 then
+      if ColSet.Items.Count > 0 then
+        ActiveColm := ColSet.Items[0]
+      else
+        ActiveColm := 'Default';
 
-  dgPanel.FocusRectVisible := ColumnsClass.GetCursorBorder;
-  dgPanel.FocusColor := ColumnsClass.GetCursorBorderColor;
+    Colset.GetColumnSet(ActiveColm).Load(gIni, ActiveColm);
+
+    SetColumnsWidths;
+
+    ColumnsClass := GetColumnsClass;
+
+    dgPanel.FocusRectVisible := ColumnsClass.GetCursorBorder;
+    dgPanel.FocusColor := ColumnsClass.GetCursorBorderColor;
+  end;
+  // else No columns set yet.
 end;
 
 procedure TColumnsFileView.dgPanelKeyUp(Sender: TObject; var Key: Word;
@@ -2238,7 +2253,6 @@ begin
   else
     begin
       ActiveColm:=ColSet.Items[(Sender as TMenuItem).Tag];
-      SetColWidths;
       UpdateColumnsView;
 //      ActiveFrame.dgPanel.ColCount:=ColSet.GetColumnSet(ActiveFrame.ActiveColm).ColumnsCount;
 
@@ -2411,9 +2425,6 @@ begin
     MakeFileSourceFileList;
   end;
 
-//  setup column widths
-  SetColWidths;
-  UpdateColumnsView;
   UpdateView;
   UpdatePathLabel;
 end;
@@ -2484,6 +2495,7 @@ begin
 
       Select(FLastActive);
       UpDatelblInfo;
+      UpdateView;
     end;
   end;
 end;
@@ -2597,6 +2609,7 @@ begin
   GridHorzLine:= gGridHorzLine;
 
   dgPanel.UpdateView;
+  UpdateColumnsView;
 
 {
   if gShowIcons then

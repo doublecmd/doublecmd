@@ -281,7 +281,6 @@ var i,indx:integer;
   ColumnClass.SetCursorBorder(cbCursorBorder.Checked);
   ColumnClass.SetCursorBorderColor(cbCursorBorderColor.Color);
 
-  PreviewPan.SetColWidths;
   PreviewPan.UpdateColumnsView;
   PreviewPan.Repaint;
 end;
@@ -602,7 +601,6 @@ begin
             AddNewField;
         end;
 
-    PreviewPan.SetColWidths;
     PreviewPan.UpdateColumnsView;
 
     cbCursorBorder.Checked := ColumnClass.GetCursorBorder;
