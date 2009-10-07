@@ -35,7 +35,7 @@ unit uDCUtils;
 interface
 
 uses
-  Classes, SysUtils, Graphics, StdCtrls;
+  Classes, SysUtils, Graphics, StdCtrls, uFile;
 
 const
   QuotationCharacters = [' ', '"', '''', '(', ')', ':', '&'];
@@ -157,6 +157,28 @@ function ExpandAbsolutePath(Path: String): String;
     IsInPath('/home', '/home/somedir/', False) = True
 }
 function IsInPath(sBasePath : String; sPathToCheck : String; AllowSubDirs: Boolean) : Boolean;
+
+{en
+  Checks if a filename matches any filename in the filelist or
+  if it could be in any directory of the file list or any of their subdirectories.
+  @param(Files
+         List of files to which the filename must be matched.)
+  @param(FileName
+         Path to a file that will be matched. This may be absolute, relative
+         or contain no path at all (only filename).
+}
+function MatchesFileList(const Files: TFiles; FileName: String): Boolean;
+
+{en
+  Changes all the files' paths making them relative to 'sNewRootPath'.
+  It is done by removing 'sNewRootPath' prefix from the paths and setting
+  the general path (Files.Path) to sNewRootPath.
+  @param(sNewRootPath
+         Path that specifies new 'root' directory for all filenames.)
+  @param(Files
+         Contains list of files to change.)
+}
+procedure ChangeFileListRoot(sNewRootPath: String; var Files: TFiles);
 
 {en
    Changes a path to be relative to some parent directory.
@@ -618,6 +640,45 @@ begin
         Result := True;
     end;
   end;
+end;
+
+function MatchesFileList(const Files: TFiles; FileName: String): Boolean;
+var
+  i: Integer;
+  aFile: TFile;
+begin
+  Result := False;
+  for i := 0 to Files.Count - 1 do
+  begin
+    aFile := Files[i];
+
+    if aFile.IsDirectory then
+    begin
+      // Check if 'FileName' is in this directory or any of its subdirectories.
+      if IsInPath(aFile.FullPath, FileName, True) then
+        Result := True;
+    end
+    else
+    begin
+      // Item in the list is a file, only compare names.
+      if aFile.FullPath = FileName then
+        Result := True;
+    end;
+  end;
+end;
+
+procedure ChangeFileListRoot(sNewRootPath: String; var Files: TFiles);
+var
+  i: Integer;
+  aFile: TFile;
+begin
+  for i := 0 to Files.Count - 1 do
+  begin
+    aFile := Files[i];
+    aFile.Path := ExtractDirLevel(sNewRootPath, aFile.Path);
+  end;
+
+  Files.Path := ExtractDirLevel(sNewRootPath, Files.Path);
 end;
 
 function ExtractDirLevel(const sPrefix, sPath: String): String;
