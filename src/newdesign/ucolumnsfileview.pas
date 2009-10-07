@@ -2513,7 +2513,10 @@ var
   i: Integer;
 begin
   if Assigned(FFileSourceFiles) then
+  begin
+    FFiles.Clear; // Clear references to files from the source.
     FreeAndNil(FFileSourceFiles);
+  end;
 
   FFileSourceFiles := FileSource.GetFiles;
 
