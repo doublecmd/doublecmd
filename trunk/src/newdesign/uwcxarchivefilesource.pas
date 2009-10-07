@@ -5,76 +5,22 @@ unit uWcxArchiveFileSource;
 interface
 
 uses
-  Classes, SysUtils, contnrs, Dialogs, DialogAPI,
-  uWCXprototypes, uWCXhead, dynlibs, uClassesEx,
-  StringHashList, uFile, uFileSourceProperty, uFileSourceOperationTypes,
+  Classes, SysUtils, contnrs, Dialogs, StringHashList, uOSUtils,
+  uWCXhead, uWCXmodule, uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uArchiveFileSource, uFileProperty, uFileSource, uFileSourceOperation;
 
 type
-
-  { Handles THeaderData and THeaderDataEx }
-  TWCXHeader = class
-  private
-    function PCharLToUTF8(CharString: PChar; MaxSize: Integer): UTF8String;
-
-  public
-    ArcName: UTF8String;
-    FileName: UTF8String;
-    Flags,
-    HostOS,
-    FileCRC,
-    FileTime,
-    UnpVer,
-    Method,
-    FileAttr: Longint;
-    PackSize,
-    UnpSize: Int64;
-    Cmt: UTF8String;
-    CmtState: Longint;
-
-    constructor Create(const Data: PHeaderData); overload;
-    constructor Create(const Data: PHeaderDataEx); overload;
-    constructor Create; overload; // allows creating empty record
-  end;
-
   TWcxArchiveFileSource = class(TArchiveFileSource)
   private
     FModuleFileName: String;
-    FModuleHandle: TLibHandle;  // Handle to .DLL or .so
     FPluginFlags: PtrInt;
     FArcFileList : TObjectList;
-
-    // module's functions
-  //**mandatory:
-    OpenArchive : TOpenArchive;
-    ReadHeader : TReadHeader;
-    ProcessFile : TProcessFile;
-    CloseArchive : TCloseArchive;
-  //**optional:
-    ReadHeaderEx : TReadHeaderEx;
-    PackFiles : TPackFiles;
-    DeleteFiles : TDeleteFiles;
-    GetPackerCaps : TGetPackerCaps;
-    ConfigurePacker : TConfigurePacker;
-    SetChangeVolProc : TSetChangeVolProc;
-    SetProcessDataProc : TSetProcessDataProc;
-    StartMemPack : TStartMemPack;
-    PackToMem : TPackToMem;
-    DoneMemPack : TDoneMemPack;
-    CanYouHandleThisFile : TCanYouHandleThisFile;
-    PackSetDefaultParams : TPackSetDefaultParams;
-    // Dialog API
-    SetDlgProc: TSetDlgProc;
+    FWcxModule: TWCXModule;
 
     function LoadModule: Boolean;
     procedure UnloadModule;
 
     function ReadArchive(bCanYouHandleThisFile : Boolean = False): Boolean;
-
-    { Reads WCX header using ReadHeaderEx if available or ReadHeader. }
-    function ReadWCXHeader(hArcData: TArcHandle;
-                           out HeaderData: TWCXHeader): Integer;
-
 
   protected
     class function GetSupportedFileProperties: TFilePropertiesTypes; override;
@@ -104,30 +50,26 @@ type
                                    var SourceFiles: TFiles;
                                    TargetPath: String;
                                    RenameMask: String): TFileSourceOperation; virtual abstract;
+}
     function CreateCopyOutOperation(var TargetFileSource: TFileSource;
                                     var SourceFiles: TFiles;
-                                    TargetPath: String;
-                                    RenameMask: String): TFileSourceOperation; virtual abstract;
+                                    TargetPath: String): TFileSourceOperation; override;
+{
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; virtual abstract;
 }
 
     class function CreateByArchiveName(anArchiveFileName: String): TWcxArchiveFileSource;
 
     property ArchiveFileList: TObjectList read FArcFileList;
+    property PluginFlags: PtrInt read FPluginFlags;
+    property WcxModule: TWCXModule read FWcxModule;
   end;
-
 
 implementation
 
-uses Forms, Masks, uGlobs, uLog, uOSUtils, LCLProc,
-     uDCUtils, uLng, Controls, fPackInfoDlg, fDialogBox, uGlobsPaths, FileUtil,
-     uFileProcs, uFileSystemFile, uWcxArchiveListOperation;
-
-const
-  WcxIniFileName = 'wcx.ini';
-
-{var
-  WCXModule : TWCXModule = nil;  // used in ProcessDataProc}
+uses Forms, Controls, uGlobs, LCLProc, uDCUtils,
+     uGlobsPaths, FileUtil, uWcxArchiveFile, uWcxArchiveListOperation,
+     uWcxArchiveCopyOutOperation;
 
 class function TWcxArchiveFileSource.CreateByArchiveName(anArchiveFileName: String): TWcxArchiveFileSource;
 var
@@ -169,7 +111,7 @@ begin
   FModuleFileName := aWcxPluginFileName;
   FPluginFlags := aWcxPluginFlags;
   FArcFileList := TObjectList.Create(True);
-  FModuleHandle := 0;
+  FWcxModule := TWCXModule.Create;
 
   LoadModule;
   ReadArchive;
@@ -177,9 +119,14 @@ end;
 
 destructor TWcxArchiveFileSource.Destroy;
 begin
+  UnloadModule;
+
+  inherited;
+
   if Assigned(FArcFileList) then
     FreeAndNil(FArcFileList);
-  UnloadModule;
+  if Assigned(FWcxModule) then
+    FreeAndNil(FWcxModule);
 end;
 
 function TWcxArchiveFileSource.Clone: TWcxArchiveFileSource;
@@ -201,7 +148,7 @@ end;
 
 class function TWcxArchiveFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result := [fsoList];
+  Result := [fsoList, fsoCopyOut];
 end;
 
 class function TWcxArchiveFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
@@ -216,110 +163,18 @@ end;
 
 class function TWcxArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
-  Result := [];
+  Result := TWcxArchiveFile.GetSupportedProperties;
 end;
 
 function TWcxArchiveFileSource.LoadModule: Boolean;
-var
-  PackDefaultParamStruct : TPackDefaultParamStruct;
-  SetDlgProcInfo: TSetDlgProcInfo;
-  sPluginDir: WideString;
-  sPluginConfDir: WideString;
 begin
-  FModuleHandle := mbLoadLibrary(FModuleFileName);
-  debugln('loaded ' + FModuleFileName + ' at ' + hexStr(Pointer(FModuleHandle)));
-  if FModuleHandle = 0 then
-    Exit;
-
-  // mandatory functions
-  OpenArchive:= TOpenArchive(GetProcAddress(FModuleHandle,'OpenArchive'));
-  ReadHeader:= TReadHeader(GetProcAddress(FModuleHandle,'ReadHeader'));
-  ReadHeaderEx:= TReadHeaderEx(GetProcAddress(FModuleHandle,'ReadHeaderEx'));
-  ProcessFile:= TProcessFile(GetProcAddress(FModuleHandle,'ProcessFile'));
-  CloseArchive:= TCloseArchive(GetProcAddress(FModuleHandle,'CloseArchive'));
-  if (OpenArchive = nil) or (ReadHeader = nil) or
-     (ProcessFile = nil) or (CloseArchive = nil) then
-    begin
-      OpenArchive := nil;
-      ReadHeader:= nil;
-      ProcessFile := nil;
-      CloseArchive := nil;
-      Result := False;
-      Exit;
-    end;
-  // optional functions
-  PackFiles:= TPackFiles(GetProcAddress(FModuleHandle,'PackFiles'));
-  DeleteFiles:= TDeleteFiles(GetProcAddress(FModuleHandle,'DeleteFiles'));
-  GetPackerCaps:= TGetPackerCaps(GetProcAddress(FModuleHandle,'GetPackerCaps'));
-  ConfigurePacker:= TConfigurePacker(GetProcAddress(FModuleHandle,'ConfigurePacker'));
-  SetChangeVolProc:= TSetChangeVolProc(GetProcAddress(FModuleHandle,'SetChangeVolProc'));
-  SetProcessDataProc:= TSetProcessDataProc(GetProcAddress(FModuleHandle,'SetProcessDataProc'));
-  StartMemPack:= TStartMemPack(GetProcAddress(FModuleHandle,'StartMemPack'));
-  PackToMem:= TPackToMem(GetProcAddress(FModuleHandle,'PackToMem'));
-  DoneMemPack:= TDoneMemPack(GetProcAddress(FModuleHandle,'DoneMemPack'));
-  CanYouHandleThisFile:= TCanYouHandleThisFile(GetProcAddress(FModuleHandle,'CanYouHandleThisFile'));
-  PackSetDefaultParams:= TPackSetDefaultParams(GetProcAddress(FModuleHandle,'PackSetDefaultParams'));
-  // Dialog API function
-  SetDlgProc:= TSetDlgProc(GetProcAddress(FModuleHandle,'SetDlgProc'));
-
-  if Assigned(PackSetDefaultParams) then
-    begin
-      with PackDefaultParamStruct do
-        begin
-          Size := SizeOf(PackDefaultParamStruct);
-          PluginInterfaceVersionLow := 10;
-          PluginInterfaceVersionHi := 2;
-          DefaultIniName := gpIniDir + WcxIniFileName;
-        end;
-      PackSetDefaultParams(@PackDefaultParamStruct);
-    end;
-
-  // Dialog API
-  if Assigned(SetDlgProc) then
-    begin
-      sPluginDir := UTF8Decode(ExtractFilePath(FModuleFileName));
-      sPluginConfDir := UTF8Decode(gpIniDir);
-
-      with SetDlgProcInfo do
-      begin
-        PluginDir:= PWideChar(sPluginDir);
-        PluginConfDir:= PWideChar(sPluginConfDir);
-        InputBox:= @fDialogBox.InputBox;
-        MessageBox:= @fDialogBox.MessageBox;
-        DialogBox:= @fDialogBox.DialogBox;
-        DialogBoxEx:= @fDialogBox.DialogBoxEx;
-        SendDlgMsg:= @fDialogBox.SendDlgMsg;
-      end;
-      SetDlgProc(SetDlgProcInfo);
-    end;
-
-  Result := True;
+  WcxModule.VFSInit(FPluginFlags);
+  Result := WcxModule.LoadModule(FModuleFileName);
 end;
 
 procedure TWcxArchiveFileSource.UnloadModule;
 begin
-  if FModuleHandle <> 0 then
-  begin
-    FreeLibrary(FModuleHandle);
-    FModuleHandle := 0;
-  end;
-
-  OpenArchive:= nil;
-  ReadHeader:= nil;
-  ReadHeaderEx:= nil;
-  ProcessFile:= nil;
-  CloseArchive:= nil;
-  PackFiles:= nil;
-  DeleteFiles:= nil;
-  GetPackerCaps:= nil;
-  ConfigurePacker:= nil;
-  SetChangeVolProc:= nil;
-  SetProcessDataProc:= nil;
-  StartMemPack:= nil;
-  PackToMem:= nil;
-  DoneMemPack:= nil;
-  CanYouHandleThisFile:= nil;
-  PackSetDefaultParams:= nil;
+  WcxModule.UnloadModule;
 end;
 
 function TWcxArchiveFileSource.CreateListOperation: TFileSourceOperation;
@@ -328,6 +183,19 @@ var
 begin
   TargetFileSource := Self.Clone;
   Result := TWcxArchiveListOperation.Create(TargetFileSource);
+end;
+
+function TWcxArchiveFileSource.CreateCopyOutOperation(
+            var TargetFileSource: TFileSource;
+            var SourceFiles: TFiles;
+            TargetPath: String): TFileSourceOperation;
+var
+  SourceFileSource: TFileSource;
+begin
+  SourceFileSource := Self.Clone;
+  Result := TWcxArchiveCopyOutOperation.Create(SourceFileSource,
+                                               TargetFileSource,
+                                               SourceFiles, TargetPath);
 end;
 
 function TWcxArchiveFileSource.ReadArchive(bCanYouHandleThisFile : Boolean = False): Boolean;
@@ -356,12 +224,12 @@ function TWcxArchiveFileSource.ReadArchive(bCanYouHandleThisFile : Boolean = Fal
 
 var
   ArcHandle : TArcHandle;
-  ArcFile : tOpenArchiveData;
   Header: TWCXHeader;
   AllDirsList, ExistsDirList : TStringHashList;
   I : Integer;
   NameLength: Integer;
   iResult : Integer;
+  lOpenResult : Longint;
 begin
   if not mbFileAccess(ArchiveFileName, fmOpenRead) then
     begin
@@ -369,29 +237,20 @@ begin
       Exit;
     end;
 
-  if bCanYouHandleThisFile and Assigned(CanYouHandleThisFile) then
+  if bCanYouHandleThisFile and Assigned(WcxModule.CanYouHandleThisFile) then
     begin
-      Result := CanYouHandleThisFile(PChar(UTF8ToSys(ArchiveFileName)));
+      Result := WcxModule.CanYouHandleThisFile(PChar(UTF8ToSys(ArchiveFileName)));
       if not Result then Exit;
     end;
 
   DebugLN('Open Archive');
 
   (*Open Archive*)
-  FillChar(ArcFile, SizeOf(ArcFile), #0);
-  ArcFile.ArcName := PChar(UTF8ToSys(ArchiveFileName));
-  ArcFile.OpenMode := PK_OM_LIST;
-
-  try
-    ArcHandle := OpenArchive(ArcFile);
-  except
-    ArcHandle := 0;
-  end;
-
+  ArcHandle := WcxModule.OpenArchiveHandle(ArchiveFileName, PK_OM_LIST, lOpenResult);
   if ArcHandle = 0 then
     begin
       {if not bCanYouHandleThisFile then
-        ShowErrorMsg(ArcFile.OpenResult);}
+        ShowErrorMsg(lOpenResult);}
       Result := False;
       Exit;
     end;
@@ -407,7 +266,7 @@ begin
   AllDirsList := TStringHashList.Create(True);
 
   try
-    while (ReadWCXHeader(ArcHandle, Header) = E_SUCCESS) do
+    while (WcxModule.ReadWCXHeader(ArcHandle, Header) = E_SUCCESS) do
       begin
         // Some plugins end directories with path delimiter. Delete it if present.
         if FPS_ISDIR(Header.FileAttr) then
@@ -433,7 +292,7 @@ begin
         FArcFileList.Add(Header);
 
         // get next file
-        iResult := ProcessFile(ArcHandle, PK_SKIP, nil, nil);
+        iResult := WcxModule.ProcessFile(ArcHandle, PK_SKIP, nil, nil);
 
         //Check for errors
         {if iResult <> E_SUCCESS then
@@ -462,104 +321,10 @@ begin
   finally
     AllDirsList.Free;
     ExistsDirList.Free;
-    CloseArchive(ArcHandle);
+    WcxModule.CloseArchive(ArcHandle);
   end;
 
   Result := True;
-end;
-
-function TWcxArchiveFileSource.ReadWCXHeader(hArcData: TArcHandle;
-                                             out HeaderData: TWCXHeader): Integer;
-var
-  ArcHeader : THeaderData;
-  ArcHeaderEx : THeaderDataEx;
-begin
-  HeaderData := nil;
-
-  if Assigned(ReadHeaderEx) then
-  begin
-    FillChar(ArcHeaderEx, SizeOf(ArcHeaderEx), #0);
-    Result := ReadHeaderEx(hArcData, ArcHeaderEx);
-    if Result = E_SUCCESS then
-    begin
-      HeaderData := TWCXHeader.Create(PHeaderDataEx(@ArcHeaderEx));
-    end;
-  end
-  else if Assigned(ReadHeader) then
-  begin
-    FillChar(ArcHeader, SizeOf(ArcHeader), #0);
-    Result := ReadHeader(hArcData, ArcHeader);
-    if Result = E_SUCCESS then
-    begin
-      HeaderData := TWCXHeader.Create(PHeaderData(@ArcHeader));
-    end;
-  end
-  else
-  begin
-    Result := E_NOT_SUPPORTED;
-  end;
-end;
-
-{ TWCXHeader }
-
-constructor TWCXHeader.Create(const Data: PHeaderData);
-begin
-  ArcName  := PCharLToUTF8(Data^.ArcName, SizeOf(Data^.ArcName));
-  FileName := PCharLToUTF8(Data^.FileName, SizeOf(Data^.FileName));
-  Flags    := Data^.Flags;
-  HostOS   := Data^.HostOS;
-  FileCRC  := Data^.FileCRC;
-  FileTime := Data^.FileTime;
-  UnpVer   := Data^.UnpVer;
-  Method   := Data^.Method;
-  FileAttr := Data^.FileAttr;
-  PackSize := Data^.PackSize;
-  UnpSize  := Data^.UnpSize;
-  if Assigned(Data^.CmtBuf) then
-    Cmt := PCharLToUTF8(Data^.CmtBuf, Data^.CmtSize);
-  CmtState := Data^.CmtState;
-end;
-
-constructor TWCXHeader.Create(const Data: PHeaderDataEx);
-
-  function Combine64(High, Low: Longint): Int64;
-  begin
-    Result := Int64(High) shl (SizeOf(Int64) shl 2);
-    Result := Result + Int64(Low);
-  end;
-
-begin
-  ArcName  := PCharLToUTF8(Data^.ArcName, SizeOf(Data^.ArcName));
-  FileName := PCharLToUTF8(Data^.FileName, SizeOf(Data^.FileName));
-  Flags    := Data^.Flags;
-  HostOS   := Data^.HostOS;
-  FileCRC  := Data^.FileCRC;
-  FileTime := Data^.FileTime;
-  UnpVer   := Data^.UnpVer;
-  Method   := Data^.Method;
-  FileAttr := Data^.FileAttr;
-  PackSize := Combine64(Data^.PackSizeHigh, Data^.PackSize);
-  UnpSize  := Combine64(Data^.UnpSizeHigh, Data^.UnpSize);
-  if Assigned(Data^.CmtBuf) then
-    Cmt := PCharLToUTF8(Data^.CmtBuf, Data^.CmtSize);
-  CmtState := Data^.CmtState;
-end;
-
-constructor TWCXHeader.Create;
-begin
-end;
-
-function TWCXHeader.PCharLToUTF8(CharString: PChar; MaxSize: Integer): UTF8String;
-var
-  NameLength: Integer;
-  TempString: AnsiString;
-begin
-  NameLength := strlen(CharString);
-  if NameLength > MaxSize then
-    NameLength := MaxSize;
-
-  SetString(TempString, CharString, NameLength);
-  Result := SysToUTF8(TempString);
 end;
 
 end.

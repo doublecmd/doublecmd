@@ -6,13 +6,15 @@ interface
 
 uses
   Classes, SysUtils,
-  uArchiveFile, uWcxArchiveFileSource;
+  uArchiveFile, uWcxArchiveFileSource, uFileProperty, uWCXmodule;
 
 type
 
   TWcxArchiveFile = class(TArchiveFile)
   public
     constructor Create(WcxHeader: TWCXHeader); overload;
+
+    class function GetSupportedProperties: TFilePropertiesTypes; override;
   end;
 
 implementation
@@ -36,6 +38,11 @@ begin
 
   // Set name after assigning Attributes property, because it is used to get extension.
   Name := ExtractFileName(WcxHeader.FileName);
+end;
+
+class function TWcxArchiveFile.GetSupportedProperties: TFilePropertiesTypes;
+begin
+  Result := inherited GetSupportedProperties;
 end;
 
 end.
