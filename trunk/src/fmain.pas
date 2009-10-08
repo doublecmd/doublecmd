@@ -2673,13 +2673,18 @@ begin
           Cons.CmdBox:= CmdBox1;
           Cons.Resume;
         end;
+
+      // Disable AutoSize before using the splitter
+      // (using both together causes an error).
+      if pnlCommand.AutoSize then
+        pnlCommand.AutoSize:= False;
     end
   else
     begin
       if Assigned(Cons) then
         FreeAndNil(Cons);
     end;
-  pnlCommand.AutoSize:= True;
+
   nbConsole.Visible:= gTermWindow;
   Splitter1.Visible:= gTermWindow;
   pnlCommand.AutoSize:= not gTermWindow;
@@ -2833,7 +2838,7 @@ begin
   for I := 0 to pnlKeys.ControlCount - 1 do  // function keys
     if pnlKeys.Controls[I] is TSpeedButton then
       (pnlKeys.Controls[I] as TSpeedButton).Flat := gInterfaceFlat;
-        
+
   pnlCommand.Visible := gCmdLine;
   edtCommand.Tag := 0;
   pnlKeys.Visible := gKeyButtons;
