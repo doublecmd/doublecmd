@@ -97,7 +97,6 @@ begin
   AllocConsole();
   FConsoleWindow:= GetConsoleWindow();
   ShowWindow(FConsoleWindow, SW_HIDE);
-  SetConsoleCtrlHandler(nil, True);
 end;
 
 destructor TWinTerm.Destroy;
@@ -209,11 +208,12 @@ end;
 
 function TWinTerm.SendBreak_pty(): Boolean;
 begin
-  Result:= GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0);
+  Result:= SendSignal_pty(CTRL_C_EVENT);
 end;
 
 function TWinTerm.SendSignal_pty(Sig: Cint): Boolean;
 begin
+  SetConsoleCtrlHandler(nil, True);
   Result:= GenerateConsoleCtrlEvent(Sig, 0);
 end;
 
