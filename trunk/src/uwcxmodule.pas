@@ -431,7 +431,7 @@ end;
 
 function TWCXModuleList.GetAEnabled(Index: Integer): Boolean;
 begin
-  Result:= Boolean(Objects[Index]);
+  Result:= Boolean(PtrInt(Objects[Index]));
 end;
 
 function TWCXModuleList.GetAExt(Index: Integer): String;
@@ -512,7 +512,7 @@ begin
   Ini.EraseSection('PackerPlugins');
   for I := 0 to Count - 1 do
     begin
-      if Boolean(Objects[I]) then
+      if Enabled[I] then
         begin
           Ini.WriteString('PackerPlugins', Names[I], ValueFromIndex[I])
         end
