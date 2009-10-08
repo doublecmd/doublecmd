@@ -2216,7 +2216,7 @@ end;
 
 procedure TColumnsFileView.pnlHeaderResize(Sender: TObject);
 begin
-  lblPath.Width:=pnlHeader.Width - 4;
+  UpdatePathLabel;
 end;
 
 procedure TColumnsFileView.ColumnsMenuClick(Sender: TObject);
@@ -2300,6 +2300,7 @@ begin
   inherited Create(AOwner, AFileSource);
   Parent := AOwner;
   Align := alClient;
+  BorderStyle := bsNone;
 
   FFiles := nil;
   FFileSourceFiles := nil;
@@ -2326,17 +2327,16 @@ begin
 
   pnlHeader:=TPanel.Create(Self);
   pnlHeader.Parent:=Self;
-  pnlHeader.Height:=24;
   pnlHeader.Align:=alTop;
-
   pnlHeader.BevelInner:=bvNone;
   pnlHeader.BevelOuter:=bvNone;
+  pnlHeader.AutoSize := True;
 
   lblPath:=TPathLabel.Create(pnlHeader);
   lblPath.Parent:=pnlHeader;
-  lblPath.Top := 2;
   lblPath.AutoSize:=False;
-  lblPath.Width:=pnlHeader.Width - 4;
+  lblPath.Height := lblPath.Canvas.TextHeight('Wg');
+  lblPath.Align := alTop;
 
   edtPath:=TEdit.Create(lblPath);
   edtPath.Parent:=pnlHeader;
@@ -2346,18 +2346,15 @@ begin
   pnlFooter:=TPanel.Create(Self);
   pnlFooter.Parent:=Self;
   pnlFooter.Align:=alBottom;
-
-  pnlFooter.Anchors:=[akLeft, akRight, akBottom];
-  pnlFooter.Height:=20;
-  pnlFooter.Top:=Height-20;
-
   pnlFooter.BevelInner:=bvNone;
   pnlFooter.BevelOuter:=bvNone;
+  pnlFooter.AutoSize := True;
 
   lblInfo:=TLabel.Create(pnlFooter);
   lblInfo.Parent:=pnlFooter;
-  lblInfo.Width:=250;//  pnlFooter.Width;
-  lblInfo.AutoSize:=True;
+  lblInfo.AutoSize:=False;
+  lblInfo.Height := lblInfo.Canvas.TextHeight('Wg');
+  lblInfo.Align := alClient;
 
   edtRename:=TEdit.Create(dgPanel);
   edtRename.Parent:=dgPanel;
@@ -2369,14 +2366,13 @@ begin
   pnAltSearch.Parent:=Self;
   pnAltSearch.Caption:=rsQuickSearchPanel;
   pnAltSearch.Alignment:=taLeftJustify;
+  pnAltSearch.Visible := False;
 
   edtSearch:=TEdit.Create(pnAltSearch);
   edtSearch.Parent:=pnAltSearch;
   edtSearch.TabStop:=False;
   edtSearch.Left:=64;
   edtSearch.Top:=1;
-
-  pnAltSearch.Visible := False;
 
   // ---
   dgPanel.OnUTF8KeyPress := @UTF8KeyPressEvent;

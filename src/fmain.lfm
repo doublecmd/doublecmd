@@ -25,7 +25,7 @@ object frmMain: TfrmMain
   Position = poScreenCenter
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.27'
+  LCLVersion = '0.9.29'
   Visible = True
   object MainToolBar: TKASToolBar
     AnchorSideTop.Control = Owner
@@ -343,30 +343,31 @@ object frmMain: TfrmMain
         Top = 140
         Width = 655
         Align = alBottom
+        AutoSize = True
         BevelOuter = bvNone
         ChildSizing.TopBottomSpacing = 2
         ClientHeight = 28
         ClientWidth = 655
         TabOrder = 0
         object lblCommandPath: TLabel
+          AnchorSideTop.Control = edtCommand
           AnchorSideTop.Side = asrCenter
-          Left = 1
-          Height = 19
-          Top = 5
-          Width = 29
-          Alignment = taRightJustify
+          Left = 0
+          Height = 20
+          Top = 6
+          Width = 33
           Caption = 'Path'
           ParentColor = False
           ShowAccelChar = False
         end
         object edtCommand: TComboBox
           AnchorSideTop.Control = Panel1
-          Left = 56
-          Height = 21
+          Left = 49
+          Height = 29
           Top = 2
-          Width = 590
+          Width = 597
           Anchors = [akTop, akLeft, akRight]
-          ItemHeight = 13
+          ItemHeight = 0
           OnEnter = edtCommandEnter
           OnExit = edtCommandExit
           OnKeyDown = edtCommandKeyDown
