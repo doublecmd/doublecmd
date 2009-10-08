@@ -94,15 +94,19 @@ end;
 
 constructor TWinTerm.Create;
 begin
-  AllocConsole();
-  FConsoleWindow:= GetConsoleWindow();
-  ShowWindow(FConsoleWindow, SW_HIDE);
+  if not isConsole then
+    begin
+      AllocConsole();
+      FConsoleWindow:= GetConsoleWindow();
+      ShowWindow(FConsoleWindow, SW_HIDE);
+    end;
 end;
 
 destructor TWinTerm.Destroy;
 begin
   KillShell;
-  FreeConsole();
+  if not isConsole then
+    FreeConsole();
   inherited Destroy;
 end;
 
