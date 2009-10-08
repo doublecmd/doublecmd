@@ -446,88 +446,92 @@ object frmMain: TfrmMain
     Align = alBottom
     Anchors = [akLeft, akRight]
     BevelOuter = bvLowered
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
+    ChildSizing.ShrinkVertical = crsHomogenousChildResize
+    ChildSizing.Layout = cclTopToBottomThenLeftToRight
     ClientHeight = 25
     ClientWidth = 659
     FullRepaint = False
     TabOrder = 3
-    OnResize = pnlKeysResize
     object btnF3: TSpeedButton
-      Left = 1
-      Height = 23
-      Top = 1
-      Width = 75
+      Left = 0
+      Height = 25
+      Top = 0
+      Width = 83
       Action = actView
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
     object btnF4: TSpeedButton
-      Left = 76
-      Height = 23
-      Top = 1
-      Width = 75
+      Left = 83
+      Height = 25
+      Top = 0
+      Width = 83
       Action = actEdit
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
     object btnF5: TSpeedButton
-      Left = 151
-      Height = 23
-      Top = 1
-      Width = 75
+      Left = 166
+      Height = 25
+      Top = 0
+      Width = 83
       Action = actCopy
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
     object btnF6: TSpeedButton
-      Left = 226
-      Height = 23
-      Top = 1
-      Width = 75
+      Left = 249
+      Height = 25
+      Top = 0
+      Width = 83
       Action = actRename
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
     object btnF7: TSpeedButton
-      Left = 301
-      Height = 23
-      Top = 1
-      Width = 75
+      Left = 332
+      Height = 25
+      Top = 0
+      Width = 83
       Action = actMakeDir
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
     object btnF8: TSpeedButton
-      Left = 376
-      Height = 23
-      Top = 1
-      Width = 75
+      Left = 415
+      Height = 25
+      Top = 0
+      Width = 83
       Action = actDelete
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
-    object btnF10: TSpeedButton
-      Left = 539
-      Height = 23
-      Top = 1
-      Width = 75
-      Action = actExit
+    object btnF9: TSpeedButton
+      Left = 581
+      Height = 25
+      Top = 0
+      Width = 78
+      Action = actRunTerm
+      Caption = 'Terminal F9'
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
-    object btnF9: TSpeedButton
-      Left = 448
-      Height = 23
-      Top = 1
-      Width = 89
-      Action = actRunTerm
-      Caption = 'Terminal F9'
+    object btnF10: TSpeedButton
+      Left = 498
+      Height = 25
+      Top = 0
+      Width = 83
+      Action = actExit
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0

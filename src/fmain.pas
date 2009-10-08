@@ -390,7 +390,6 @@ type
     procedure pmButtonMenuMenuButtonClick(Sender: TObject;
       NumberOfButton: Integer);
     procedure pmDropMenuClose(Sender: TObject);
-    procedure pnlKeysResize(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure edtCommandKeyUp(Sender: TObject; var Key: Word;
@@ -1430,37 +1429,6 @@ procedure TfrmMain.pmButtonMenuMenuButtonClick(Sender: TObject;
   NumberOfButton: Integer);
 begin
     ExecCmdEx(Sender, NumberOfButton);
-end;
-
-procedure TfrmMain.pnlKeysResize(Sender: TObject);
-var
-  iWidth:Integer;
-begin
-  iWidth:=pnlKeys.Width div 8;
-  btnF3.Left:=(pnlKeys.Width mod 8) div 2;
-  btnF3.Width:=iWidth;
-
-  btnF4.Left:=btnF3.Left+btnF3.Width;
-  btnF4.Width:=iWidth;
-
-  btnF5.Left:=btnF4.Left+btnF4.Width;
-  btnF5.Width:=iWidth;
-
-  btnF6.Left:=btnF5.Left+btnF5.Width;
-  btnF6.Width:=iWidth;
-
-  btnF7.Left:=btnF6.Left+btnF6.Width;
-  btnF7.Width:=iWidth;
-
-  btnF8.Left:=btnF7.Left+btnF7.Width;
-  btnF8.Width:=iWidth;
-
-  btnF9.Left:=btnF8.Left+btnF8.Width;
-  btnF9.Width:=iWidth;
-
-  btnF10.Left:=btnF9.Left+btnF9.Width;
-  btnF10.Width:=iWidth;
-
 end;
 
 procedure TfrmMain.FormResize(Sender: TObject);
@@ -2841,7 +2809,11 @@ begin
 
   pnlCommand.Visible := gCmdLine;
   edtCommand.Tag := 0;
+
+  // Function keys.
   pnlKeys.Visible := gKeyButtons;
+  pnlKeys.Height := Canvas.TextHeight('Wg') + 4;
+
   LogSplitter.Visible := gLogWindow or (not miLogHide.Enabled);
   seLogWindow.Visible := gLogWindow or (not miLogHide.Enabled);
   seLogWindow.Font.Name := gEditorFontName;
