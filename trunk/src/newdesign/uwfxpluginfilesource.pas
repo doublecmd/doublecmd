@@ -5,7 +5,7 @@ unit uWfxPluginFileSource;
 interface
 
 uses
-  Classes, SysUtils, uWFXModule,
+  Classes, SysUtils, uWFXModule, ufsplugin,
   uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uFileProperty, uFileSource, uFileSourceOperation;
 
@@ -20,9 +20,10 @@ type
 
   TWfxPluginFileSource = class(TFileSource)
   private
-    FModuleFileName: UTF8String;
+    FModuleFileName,
+    FPluginRootName: UTF8String;
     FWFXModule: TWFXModule;
-
+    FCurrentOperation: TFileSourceOperation;
   protected
     class function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function GetCurrentAddress: String; override;
@@ -32,8 +33,10 @@ type
     function WfxMkDir(const sDirName: UTF8String): LongInt;
     function WfxRemoveDir(const sDirName: UTF8String): Boolean;
     function WfxDeleteFile(const sFileName: UTF8String): Boolean;
+    function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
+                         RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
   public
-    constructor Create(aModuleFileName: UTF8String); reintroduce;
+    constructor Create(aModuleFileName, aPluginRootName: UTF8String); reintroduce;
     destructor Destroy; override;
 
     function Clone: TWfxPluginFileSource; override;
@@ -64,17 +67,182 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uGlobs, uDCUtils,
+  LCLProc, FileUtil, uGlobs, uDCUtils, uLog, uLng,
   uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation, uWfxPluginDeleteOperation,
-  uWfxPluginFile, ufsplugin;
+  uWfxPluginFile;
 
-constructor TWfxPluginFileSource.Create(aModuleFileName: UTF8String);
+var
+  // Used in callback functions
+  WfxFileSourceList: TList = nil;
+
+{ CallBack functions }
+
+function MainProgressProc(PluginNr: Integer; SourceName, TargetName: PChar; PercentDone: Integer): Integer; stdcall;
+begin
+{
+  Result:= 0;
+  DebugLN('MainProgressProc ('+IntToStr(PluginNr)+','+SourceName+','+TargetName+','+inttostr(PercentDone)+')' ,inttostr(result));
+
+  with TWFXModule(WFXModuleList.Items[PluginNr]) do
+  begin
+    if not Assigned(FFileOpDlg) then Exit;
+    if FFileOpDlg.ModalResult = mrCancel then // Cancel operation
+      Result:= 1;
+
+    DebugLN('Percent1 = ' + IntToStr(PercentDone));
+
+    FFileOpDlg.iProgress1Pos:= PercentDone;
+
+    if (FLastFileSize > 0) and (PercentDone = 100) then
+    begin
+      FPercent:= FPercent + ((FLastFileSize * 100) / FFilesSize);
+      DebugLN('Percent2 = ' + IntToStr(Round(FPercent)));
+
+      FFileOpDlg.iProgress2Pos:= Round(FPercent);
+    end;
+
+    FFileOpDlg.sFileNameFrom:= SysToUTF8(SourceName);
+    FFileOpDlg.sFileNameTo:= SysToUTF8(TargetName);
+
+    if Assigned(CT) then
+      CT.Synchronize(FFileOpDlg.UpdateDlg)
+    else
+      begin
+        FFileOpDlg.UpdateDlg;
+        Application.ProcessMessages;
+      end;
+  end; //with
+}
+end;
+
+procedure MainLogProc(PluginNr, MsgType: Integer; LogString: PChar); stdcall;
+var
+  sMsg: String;
+  LogMsgType: TLogMsgType = lmtInfo;
+  bLogFile: Boolean;
+  bLock: Boolean = True;
+Begin
+  sMsg:= rsMsgLogInfo;
+  bLogFile:= ((log_vfs_op in gLogOptions) and (log_info in gLogOptions));
+  case MsgType of
+    msgtype_connect:
+      begin
+        sMsg:= sMsg + 'msgtype_connect';
+        ShowLogWindow(True, @bLock);
+      end;
+    msgtype_disconnect: sMsg:= sMsg + 'msgtype_disconnect';
+    msgtype_details: sMsg:= sMsg + 'msgtype_details';
+    msgtype_transfercomplete: sMsg:= sMsg + 'msgtype_transfercomplete';
+    msgtype_connectcomplete: sMsg:= sMsg + 'msgtype_connectcomplete';
+    msgtype_importanterror:
+      begin
+        sMsg:= rsMsgLogError + 'msgtype_importanterror';
+        LogMsgType:= lmtError;
+        bLogFile:= (log_vfs_op in gLogOptions) and (log_errors in gLogOptions);
+      end;
+    msgtype_operationcomplete: sMsg:= sMsg + 'msgtype_operationcomplete';
+  end;
+  // write log info
+  logWrite(sMsg + ', ' + logString, LogMsgType, False, bLogFile);
+
+  //DebugLN('MainLogProc ('+ sMsg + ',' + logString + ')');
+end;
+
+function MainRequestProc(PluginNr, RequestType: Integer; CustomTitle, CustomText, ReturnedText: PChar; MaxLen: Integer): Bool; stdcall;
+var
+  sReq,
+  sCustomTitle,
+  sReturnedText: String;
+begin
+{
+  Result:= False;
+  if CustomTitle = '' then
+    sCustomTitle:= 'Double Commander'
+  else
+    sCustomTitle:= CustomTitle;
+  sReturnedText:= StrPas(ReturnedText);
+
+  case RequestType of
+    RT_Other:
+      begin
+        sReq:= 'RT_Other';
+        Result:= InputQuery(sCustomTitle, CustomText, sReturnedText);
+      end;
+    RT_UserName:
+      begin
+        sReq:= 'RT_UserName';
+        Result:= InputQuery(sCustomTitle, 'User name request', sReturnedText);
+      end;
+    RT_Password:
+      begin
+        sReq:= 'RT_Password';
+        Result:= InputQuery(sCustomTitle, 'Password request', True, sReturnedText);
+      end;
+    RT_Account:
+      begin
+        sReq:= 'RT_Account';
+        Result:= InputQuery(sCustomTitle, 'Account request', sReturnedText);
+      end;
+    RT_UserNameFirewall:
+      begin
+        sReq:= 'RT_UserNameFirewall';
+        Result:= InputQuery(sCustomTitle, 'Firewall username request', sReturnedText);
+      end;
+    RT_PasswordFirewall:
+      begin
+        sReq:= 'RT_PasswordFirewall';
+        Result:= InputQuery(sCustomTitle, 'Firewall password request', True, sReturnedText);
+      end;
+    RT_TargetDir:
+      begin
+        sReq:= 'RT_TargetDir';
+        Result:= SelectDirectory('Directory selection request', '', sReturnedText, False);
+      end;
+    RT_URL:
+      begin
+        sReq:= 'RT_URL';
+        Result:= InputQuery(sCustomTitle, 'URL request', sReturnedText);
+      end;
+    RT_MsgOK:
+      begin
+        sReq:= 'RT_MsgOK';
+        Result:= (MessageBoxFunction(CustomText, CustomTitle, MB_OK) = IDOK);
+      end;
+    RT_MsgYesNo:
+      begin
+        sReq:= 'RT_MsgYesNo';
+        Result:= (MessageBoxFunction (CustomText, CustomTitle, MB_YESNO) = IDYES);
+      end;
+    RT_MsgOKCancel:
+      begin
+        sReq:= 'RT_MsgOKCancel';
+        Result:= (MessageBoxFunction(CustomText, CustomTitle, MB_OKCANCEL) = IDOK);
+      end;
+  end;
+  if Result then
+    begin
+      if ReturnedText <> nil then
+        StrPCopy(ReturnedText, Copy(sReturnedText, 1, MaxLen));
+    end;
+}
+  DebugLn('MainRequestProc ('+IntToStr(PluginNr)+','+sReq+','+CustomTitle+','+CustomText+','+ReturnedText+')', BoolToStr(Result, True));
+end;
+
+{ TWfxPluginFileSource }
+
+constructor TWfxPluginFileSource.Create(aModuleFileName, aPluginRootName: UTF8String);
 begin
   inherited Create;
   CurrentPath:= PathDelim;
   FModuleFileName:= aModuleFileName;
-  FWFXModule:= TWFXModule.Create;
-  FWFXModule.LoadModule(FModuleFileName);
+  FPluginRootName:= aPluginRootName;
+  FWfxModule:= TWFXModule.Create;
+  FCurrentOperation:= nil;
+  if FWfxModule.LoadModule(FModuleFileName) then
+    begin
+      FWfxModule.VFSInit(0);
+      FWfxModule.FsInit(WfxFileSourceList.Add(Self), @MainProgressProc, @MainLogProc, @MainRequestProc);
+    end;
 end;
 
 destructor TWfxPluginFileSource.Destroy;
@@ -84,7 +252,7 @@ end;
 
 function TWfxPluginFileSource.Clone: TWfxPluginFileSource;
 begin
-  Result := TWfxPluginFileSource.Create(FModuleFileName);
+  Result := TWfxPluginFileSource.Create(FModuleFileName, FPluginRootName);
   CloneTo(Result);
 end;
 
@@ -118,7 +286,7 @@ end;
 
 function TWfxPluginFileSource.GetCurrentAddress: String;
 begin
-  Result:= 'wfx://' + FModuleFileName;
+  Result:= 'wfx://' + FPluginRootName + CurrentPath;
 end;
 
 procedure TWfxPluginFileSource.FillAndCount(Files: TFiles; out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
@@ -230,6 +398,35 @@ begin
   end;
 end;
 
+function TWfxPluginFileSource.WfxCopyMove(sSourceFile, sTargetFile: UTF8String;
+                                          Flags: LongInt; RemoteInfo: PRemoteInfo;
+                                          Internal, CopyMoveIn: Boolean): LongInt;
+var
+  bMove,
+  bOverWrite: Boolean;
+  pcSourceName,
+  pcTargetName: PChar;
+begin
+  with FWfxModule do
+  begin
+    pcSourceName:= PChar(UTF8ToSys(sSourceFile));
+    pcTargetName:= PChar(UTF8ToSys(sTargetFile));
+    if Internal then
+      begin
+        bMove:= ((Flags and FS_COPYFLAGS_MOVE) <> 0);
+        bOverWrite:= ((Flags and FS_COPYFLAGS_OVERWRITE) <> 0);
+        Result:= FsRenMovFile(pcSourceName, pcTargetName, bMove, bOverWrite, RemoteInfo);
+      end
+    else
+      begin
+        if CopyMoveIn then
+          Result:= FsPutFile(pcSourceName, pcTargetName, Flags)
+        else
+          Result:= FsGetFile(pcSourceName, pcTargetName, Flags, RemoteInfo);
+      end;
+  end;
+end;
+
 function TWfxPluginFileSource.CreateListOperation: TFileSourceOperation;
 var
   TargetFileSource: TFileSource;
@@ -267,11 +464,17 @@ begin
   if sModuleFileName <> EmptyStr then
     begin
       sModuleFileName:= GetCmdDirFromEnvVar(sModuleFileName);
-      Result:= TWfxPluginFileSource.Create(sModuleFileName);
+      Result:= TWfxPluginFileSource.Create(sModuleFileName, aRootName);
 
       DebugLn('Registered plugin ' + sModuleFileName + ' for file system ' + aRootName);
     end;
 end;
+
+initialization
+  WfxFileSourceList:= TList.Create;
+finalization
+  if Assigned(WfxFileSourceList) then
+    FreeAndNil(WfxFileSourceList);
 
 end.
 
