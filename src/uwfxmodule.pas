@@ -119,12 +119,6 @@ type
     function VFSCaps : TVFSCaps;override;
 
     function VFSConfigure(Parent: THandle):Boolean;override;
-    function VFSOpen(const sName:String; bCanYouHandleThisFile : Boolean = False):Boolean;override;
-    function VFSClose:Boolean;override;
-    function VFSRefresh : Boolean;override;
-    
-
-    function VFSRmDir(const sDirName:String):Boolean;override;
     
     function VFSCopyOut(var flSrcList : TFileList; sDstPath:String; Flags: Integer):Boolean;override;
     function VFSCopyIn(var flSrcList : TFileList; sDstName:String; Flags : Integer):Boolean;override;
@@ -132,9 +126,7 @@ type
     function VFSCopyInEx(var flSrcList : TFileList; sDstName:String; Flags : Integer):Boolean;override;
     function VFSRename(const sSrcName, sDstName:String):Boolean;override;
     function VFSRun(const sName:String):Boolean;override;
-    function VFSDelete(var flNameList:TFileList):Boolean;override;
-    
-    function VFSList(const sDir:String; var fl:TFileList):Boolean;override;
+
     function VFSMisc: PtrUInt; override;
   end;
 
@@ -159,15 +151,13 @@ type
   end;
 
 implementation
+
 uses
   LCLProc, LCLType, uGlobs, uLog, uVFSutil, uFileOp, uOSUtils, uLng,
   Dialogs, Forms, Controls, FileUtil, uDCUtils, uGlobsPaths, uFileProcs;
 
 const
   WfxIniFileName = 'wfx.ini';
-
-var
-  WFXModuleList: TList = nil;
   
 { TWFXModule }
 
@@ -347,157 +337,6 @@ begin
   FsContentGetDefaultView := nil;
 end;
 
-{CallBack functions}
-function MainProgressProc(PluginNr: Integer; SourceName, TargetName: PChar; PercentDone: Integer): Integer; stdcall;
-begin
-{
-  Result:= 0;
-  DebugLN('MainProgressProc ('+IntToStr(PluginNr)+','+SourceName+','+TargetName+','+inttostr(PercentDone)+')' ,inttostr(result));
-
-  with TWFXModule(WFXModuleList.Items[PluginNr]) do
-  begin
-    if not Assigned(FFileOpDlg) then Exit;
-    if FFileOpDlg.ModalResult = mrCancel then // Cancel operation
-      Result:= 1;
-  
-    DebugLN('Percent1 = ' + IntToStr(PercentDone));
-
-    FFileOpDlg.iProgress1Pos:= PercentDone;
-
-    if (FLastFileSize > 0) and (PercentDone = 100) then
-    begin
-      FPercent:= FPercent + ((FLastFileSize * 100) / FFilesSize);
-      DebugLN('Percent2 = ' + IntToStr(Round(FPercent)));
-
-      FFileOpDlg.iProgress2Pos:= Round(FPercent);
-    end;
-
-    FFileOpDlg.sFileNameFrom:= SysToUTF8(SourceName);
-    FFileOpDlg.sFileNameTo:= SysToUTF8(TargetName);
-
-    if Assigned(CT) then
-      CT.Synchronize(FFileOpDlg.UpdateDlg)
-    else
-      begin
-        FFileOpDlg.UpdateDlg;
-        Application.ProcessMessages;
-      end;
-  end; //with
-}
-end;
-
-procedure MainLogProc(PluginNr, MsgType: Integer; LogString: PChar); stdcall;
-var
-  sMsg: String;
-  LogMsgType: TLogMsgType = lmtInfo;
-  bLogFile: Boolean;
-  bLock: Boolean = True;
-Begin
-  sMsg:= rsMsgLogInfo;
-  bLogFile:= ((log_vfs_op in gLogOptions) and (log_info in gLogOptions));
-  case MsgType of
-    msgtype_connect:
-      begin
-        sMsg:= sMsg + 'msgtype_connect';
-        ShowLogWindow(True, @bLock);
-      end;
-    msgtype_disconnect: sMsg:= sMsg + 'msgtype_disconnect';
-    msgtype_details: sMsg:= sMsg + 'msgtype_details';
-    msgtype_transfercomplete: sMsg:= sMsg + 'msgtype_transfercomplete';
-    msgtype_connectcomplete: sMsg:= sMsg + 'msgtype_connectcomplete';
-    msgtype_importanterror:
-      begin
-        sMsg:= rsMsgLogError + 'msgtype_importanterror';
-        LogMsgType:= lmtError;
-        bLogFile:= (log_vfs_op in gLogOptions) and (log_errors in gLogOptions);
-      end;
-    msgtype_operationcomplete: sMsg:= sMsg + 'msgtype_operationcomplete';
-  end;
-  // write log info
-  logWrite(sMsg + ', ' + logString, LogMsgType, False, bLogFile);
-    
-  //DebugLN('MainLogProc ('+ sMsg + ',' + logString + ')');
-End;
-
-function MainRequestProc(PluginNr, RequestType: Integer; CustomTitle, CustomText, ReturnedText: PChar; MaxLen: Integer): LongBool; stdcall;
-var
-  sReq,
-  sCustomTitle,
-  sReturnedText: String;
-begin
-  Result:= False;
-  if CustomTitle = '' then
-    sCustomTitle:= 'Double Commander'
-  else
-    sCustomTitle:= CustomTitle;
-  sReturnedText:= StrPas(ReturnedText);
-
-  case RequestType of
-    RT_Other:
-      begin
-        sReq:= 'RT_Other';
-        Result:= InputQuery(sCustomTitle, CustomText, sReturnedText);
-      end;
-    RT_UserName:
-      begin
-        sReq:= 'RT_UserName';
-        Result:= InputQuery(sCustomTitle, 'User name request', sReturnedText);
-      end;
-    RT_Password:
-      begin
-        sReq:= 'RT_Password';
-        Result:= InputQuery(sCustomTitle, 'Password request', True, sReturnedText);
-      end;
-    RT_Account:
-      begin
-        sReq:= 'RT_Account';
-        Result:= InputQuery(sCustomTitle, 'Account request', sReturnedText);
-      end;
-    RT_UserNameFirewall:
-      begin
-        sReq:= 'RT_UserNameFirewall';
-        Result:= InputQuery(sCustomTitle, 'Firewall username request', sReturnedText);
-      end;
-    RT_PasswordFirewall:
-      begin
-        sReq:= 'RT_PasswordFirewall';
-        Result:= InputQuery(sCustomTitle, 'Firewall password request', True, sReturnedText);
-      end;
-    RT_TargetDir:
-      begin
-        sReq:= 'RT_TargetDir';
-        Result:= SelectDirectory('Directory selection request', '', sReturnedText, False);
-      end;
-    RT_URL:
-      begin
-        sReq:= 'RT_URL';
-        Result:= InputQuery(sCustomTitle, 'URL request', sReturnedText);
-      end;
-    RT_MsgOK:
-      begin
-        sReq:= 'RT_MsgOK';
-        Result:= (MessageBoxFunction(CustomText, CustomTitle, MB_OK) = IDOK);
-      end;
-    RT_MsgYesNo:
-      begin
-        sReq:= 'RT_MsgYesNo';
-        Result:= (MessageBoxFunction (CustomText, CustomTitle, MB_YESNO) = IDYES);
-      end;
-    RT_MsgOKCancel:
-      begin
-        sReq:= 'RT_MsgOKCancel';
-        Result:= (MessageBoxFunction(CustomText, CustomTitle, MB_OKCANCEL) = IDOK);
-      end;
-  end;
-  if Result then
-    begin
-      if ReturnedText <> nil then
-        StrPCopy(ReturnedText, Copy(sReturnedText, 1, MaxLen));
-    end;
-  DebugLn('MainRequestProc ('+IntToStr(PluginNr)+','+sReq+','+CustomTitle+','+CustomText+','+ReturnedText+')', BoolToStr(Result, True));
-end;
-{/CallBack functions}
-
 function TWFXModule.VFSInit(Data: PtrInt): Boolean;
 var
   dps: pFsDefaultParamStruct;
@@ -543,33 +382,6 @@ begin
   except
     Result:= False;
   end;	
-end;
-
-function TWFXModule.VFSOpen(const sName: String; bCanYouHandleThisFile : Boolean = False): Boolean;
-begin
-  Debugln('WFXVFSOpen Entered');
-  Result := (FsInit(WFXModuleList.Add(Self), @MainProgressProc, @MainLogProc, @MainRequestProc) = 0);
-  Debugln('WFXVFSOpen Leaved');
-end;
-
-function TWFXModule.VFSClose: Boolean;
-begin
-  Result:= True;
-end;
-
-function TWFXModule.VFSRefresh: Boolean;
-begin
-  Result := True;
-end;
-
-function TWFXModule.VFSRmDir(const sDirName: String): Boolean;
-begin
-  WFXStatusInfo(FFolder, FS_STATUS_START, FS_STATUS_OP_DELETE);
-  if Assigned(FsRemoveDir) then
-    Result := FsRemoveDir(PChar(UTF8ToSys(sDirName)))
-  else
-    Result:=false;
-  WFXStatusInfo(FFolder, FS_STATUS_END, FS_STATUS_OP_DELETE);
 end;
 
 function TWFXModule.WFXCopyOut: Boolean;
@@ -813,116 +625,6 @@ begin
   WFXStatusInfo(FFolder, FS_STATUS_END, FS_STATUS_OP_EXEC);
 end;
 
-function TWFXModule.VFSDelete(var flNameList: TFileList): Boolean;
-var
-  Count, I : Integer;
-  sLogMsg : String;
-begin
-  WFXStatusInfo(FFolder, FS_STATUS_START, FS_STATUS_OP_DELETE);
-  try
-    FFileOpDlg:= TfrmFileOp.Create(nil);
-    FFileOpDlg.Show;
-{
-    FFileOpDlg.iProgress1Max := 100;
-    FFileOpDlg.iProgress2Max := 100;
-}
-    FFileOpDlg.Caption := rsDlgDel;
-
-    CT := nil;
-
-    Count := flNameList.Count - 1;
-    for I := 0 to Count do
-      begin
-        DebugLN('Delete name == ' + flNameList.GetFileName(I));
-      
-        if FPS_ISDIR(flNameList.GetItem(I)^.iMode) then
-          begin
-            sLogMsg := rsMsgLogRmDir;
-            if Assigned(FsRemoveDir) then
-              Result := FsRemoveDir(PChar(UTF8ToSys(flNameList.GetFileName(I))))
-            else
-              Result := false;
-          end
-        else
-          begin
-            sLogMsg := rsMsgLogDelete;
-            if Assigned(FsDeleteFile) then
-              Result := FsDeleteFile(PChar(UTF8ToSys(flNameList.GetFileName(I))))
-            else
-              Result:=false;
-          end;
-          
-        { Log messages }
-        if Result then
-          // write log success
-          if (log_vfs_op in gLogOptions) and (log_success in gLogOptions) then
-            logWrite(Format(rsMsgLogSuccess+sLogMsg, [flNameList.GetFileName(I)]), lmtSuccess)
-        else
-          // write log error
-          if (log_vfs_op in gLogOptions) and (log_errors in gLogOptions) then
-            logWrite(Format(rsMsgLogError+sLogMsg, [flNameList.GetFileName(I)]), lmtError);
-        {/ Log messages }
-      end;
-    FFileOpDlg.Close;
-  except
-    Result := False;
-  end;
-
-  FreeAndNil(flNameList);
-  FFileOpDlg := nil;
-
-  WFXStatusInfo(FFolder, FS_STATUS_END, FS_STATUS_OP_DELETE);
-end;
-
-function TWFXModule.VFSList(const sDir: String; var fl: TFileList): Boolean;
-var
-  FindData : TWIN32FINDDATA;
-  Handle:THandle;
-  fr : TFileRecItem;
-  CurrFileName : String;  // Current file name
-begin
-  WFXStatusInfo(sDir, FS_STATUS_START, FS_STATUS_OP_LIST);
-  fl.Clear;
-  FFolder:= sDir; // save current folder
-  AddUpLevel(GetParentDir(sDir), fl);
-  
-  fl.CurrentDirectory := sDir;
-  Handle := FsFindFirst(PChar(UTF8ToSys(sDir)), FindData);
-  repeat
-//  Debugln('Repeat in vfsList entered');
-
-  with fr do
-    begin
-      CurrFileName := SysToUTF8(FindData.cFileName);
-      if (CurrFileName = '.') or  (CurrFileName = '..') then Continue;
-//      Debugln('ListItem filename= '+CurrFileName);
-      sName := CurrFileName;
-      //DebugLN('CurrFileName ==' + CurrFileName);
-      iMode := FindData.dwFileAttributes;
-      sModeStr := AttrToStr(iMode);
-      bLinkIsDir := False;
-      bSelected := False;
-      if FPS_ISDIR(iMode) then
-        sExt:=''
-      else
-        sExt:=ExtractFileExt(sName);
-      sNameNoExt:=Copy(sName,1,length(sName)-length(sExt));
-      sPath := sDir;
-
-      iSize := (Int64(FindData.nFileSizeHigh) * MAXDWORD)+FindData.nFileSizeLow;
-      fTimeI := FileTimeToDateTime(FindData.ftLastWriteTime);
-      sTime := FormatDateTime(gDateTimeFormat, fTimeI);
-    end;
-  fl.AddItem(@fr);
-//  if FsFindNext(Handle, FindData) then DebugLn('FsFindNex=true') else DebugLn('FsFindNex=false');
-  until (not FsFindNext(Handle, FindData));
-  
-  FsFindClose(Handle);
-  WFXStatusInfo(sDir, FS_STATUS_END, FS_STATUS_OP_LIST);
-
-  Result := True;
-end;
-
 function TWFXModule.VFSMisc: PtrUInt;
 var
   pPlgName : PChar;
@@ -1049,9 +751,4 @@ begin
   if Result=Count then Result:=-1;
 end;
 
-initialization
-    WFXModuleList:= TList.Create
-finalization
-  if Assigned(WFXModuleList) then
-    FreeAndNil(WFXModuleList);
 end.

@@ -236,7 +236,7 @@ type
 
   TRequestProc=function(PluginNr,RequestType:integer;CustomTitle,CustomText,
 
-    ReturnedText:pchar;maxlen:integer):boolean; stdcall;
+    ReturnedText:pchar;maxlen:integer):bool; stdcall;
 
 { Function prototypes - the callback functions MUST be implemented exactly like this! }
 
