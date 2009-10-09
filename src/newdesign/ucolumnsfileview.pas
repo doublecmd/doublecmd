@@ -1790,6 +1790,15 @@ begin
         OldFileNameAbsolute := edtRename.Hint;
         NewFileNameAbsolute := ExtractFilePath(OldFileNameAbsolute) + NewFileName;
 
+        if (FileSource is TFileSystemFileSource) and mbFileExists(NewFileNameAbsolute) then
+        begin
+          if MsgBox(Format(rsMsgFileExistsRwrt, [NewFileName]),
+                    [msmbYes, msmbNo], msmbYes, msmbNo) = mmrNo then
+          begin
+            Exit;
+          end;
+        end;
+
         if RenameFile(FileSource, ActiveFile.Clone, NewFileNameAbsolute) = True then
         begin
           edtRename.Visible:=False;
