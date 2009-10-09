@@ -155,10 +155,12 @@ uses
 procedure SplitFileMask(const DestMask: String; out DestNameMask: String; out DestExtMask: String);
 begin
   DivFileName(DestMask, DestNameMask, DestExtMask);
-{  if DestNameMask='' then
-    DestNameMask:='*';
-  if DestExtMask='' then
-    DestExtMask:='.*';}
+  // Treat empty mask as '*.*'.
+  if (DestNameMask = '') and (DestExtMask = '') then
+  begin
+    DestNameMask := '*';
+    DestExtMask  := '.*';
+  end;
 end;
 
 function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): String;
@@ -167,23 +169,16 @@ function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): Strin
   var
     i:Integer;
   begin
-    if Mask = '' then
+    Result:='';
+    for i:=1 to Length(Mask) do
     begin
-      Result := TargetString;
-    end
-    else
-    begin
-      Result:='';
-      for i:=1 to length(Mask) do
-      begin
-        if Mask[i]= '?' then
-          Result:=Result + TargetString[i]
-        else
-        if Mask[i]= '*' then
-          Result:=Result + Copy(TargetString, i, Length(TargetString) - i + 1)
-        else
-          Result:=Result + Mask[i];
-      end;
+      if Mask[i]= '?' then
+        Result:=Result + TargetString[i]
+      else
+      if Mask[i]= '*' then
+        Result:=Result + Copy(TargetString, i, Length(TargetString) - i + 1)
+      else
+        Result:=Result + Mask[i];
     end;
   end;
 
@@ -191,7 +186,7 @@ var
   sDstExt: String;
   sDstName: String;
 begin
-  if ((NameMask = '') and (ExtMask = '')) or
+  if ((NameMask = '*') and (ExtMask = '.*')) or
      // Only change name for files.
      aFile.IsDirectory or aFile.IsLink then
   begin
@@ -562,7 +557,7 @@ procedure TFileSystemOperationHelper.Initialize;
 begin
   SplitFileMask(FRenameMask, FRenameNameMask, FRenameExtMask);
 
-  FRenamingFiles := (FRenameMask <> '*.*') and (FRenameMask <> '*') and (FRenameMask <> '');
+  FRenamingFiles := (FRenameMask <> '*.*') and (FRenameMask <> '');
 
   // Create destination path if it doesn't exist.
   if not mbDirectoryExists(FRootTargetPath) then
