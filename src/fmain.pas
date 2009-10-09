@@ -2066,6 +2066,11 @@ begin
     // Destination is a file name or mask.
     DestPath := ExtractFilePath(AbsolutePath);
     DestMask := ExtractFileName(AbsolutePath);
+
+    // For convenience, treat '*' as "whole file name".
+    // To remove extension '*.' can be used.
+    if DestMask = '*' then
+      DestMask := '*.*';
   end;
 end;
 
