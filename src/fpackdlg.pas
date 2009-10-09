@@ -29,7 +29,8 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Buttons, uFileList, uVFS, EditBtn, ExtCtrls;
+  Buttons, EditBtn, ExtCtrls, uWcxArchiveFileSource,
+  uArchiveFileSource, uFile, uFileSource;
 
 type
 
@@ -60,69 +61,124 @@ type
     procedure arbChange(Sender: TObject);
 
   private
-    CurrentVFS : TVFS;
+
   public
     { public declarations }
   end;
 
-// Frees 'fl'.
-function ShowPackDlg(VFS : TVFS; var fl : TFileList; sDestPath:String; bNewArchive : Boolean = True): Boolean;
+  // Frees 'Files'.
+  function ShowPackDlg(const SourceFileSource: TFileSource;
+                       const TargetFileSource: TArchiveFileSource;
+                       var Files: TFiles;
+                       TargetArchivePath: String;
+                       TargetPathInArchive: String;
+                       bNewArchive : Boolean = True): Boolean;
 
 implementation
-uses
-  uWCXhead, uGlobs, uDCUtils;
 
-function ShowPackDlg(VFS : TVFS; var fl: TFileList; sDestPath:String; bNewArchive : Boolean = True): Boolean;
+uses
+  uWCXhead, uWCXmodule, uGlobs, uDCUtils, uFileSourceOperation,
+  uOperationsManager, fFileOpDlg;
+
+function ShowPackDlg(const SourceFileSource: TFileSource;
+                     const TargetFileSource: TArchiveFileSource;
+                     var Files: TFiles;
+                     TargetArchivePath: String;
+                     TargetPathInArchive: String;
+                     bNewArchive : Boolean = True): Boolean;
 var
-  Flags : LongInt;
+  ClonedSourceFileSource: TFileSource;
+  NewTargetFileSource: TArchiveFileSource = nil;
+  aFlags : PtrInt;
+  Operation: TFileSourceOperation;
+  OperationHandle: TOperationHandle;
+  ProgressDialog: TfrmFileOp;
+  bTargetFileSourceCreated: Boolean = False;
 begin
-  with TfrmPackDlg.Create(nil) do
-    begin
-      if bNewArchive then  // create new archive
-        (* if one file selected *)
-        if fl.Count = 1 then
-          begin
-            edtPackCmd.Text := sDestPath + ExtractFileName(fl.GetFileName(0));
-            edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.none');
-          end
-        else
-        (* if some files selected *)
-          begin
-            edtPackCmd.Text := sDestPath + MakeFileName(fl.CurrentDirectory, 'archive') + '.none';
-          end
-      else  // pack in exsists archive
-        edtPackCmd.Text := VFS.ArcFullName;
-        
-      CurrentVFS := VFS;
-      Result:= (ShowModal = mrOK);
-      if Result then
-        begin
-          if VFS.FindModule(edtPackCmd.Text, False) then
+  try
+    with TfrmPackDlg.Create(nil) do
+      begin
+        if bNewArchive then  // create new archive
+          (* if one file selected *)
+          if Files.Count = 1 then
             begin
-              Flags := 0;
-              if cbMoveToArchive.Checked then Flags := Flags or PK_PACK_MOVE_FILES;
-              if cbStoredir.Checked then Flags := Flags or PK_PACK_SAVE_PATHS;
-              if cbEncrypt.Checked then Flags := Flags or PK_PACK_ENCRYPT;
-              if bNewArchive then
-                begin
-                  VFS.LoadAndOpen(edtPackCmd.Text, False);
-                  VFS.VFSmodule.VFSCopyIn(fl, '', Flags);
-                  VFS.VFSmodule.VFSClose;
-                end
-              else
-                begin
-                  VFS.LoadAndOpen(edtPackCmd.Text, True);
-                  VFS.VFSmodule.VFSCopyIn(fl, sDestPath, Flags)
-                end;
+              edtPackCmd.Text := TargetArchivePath + Files[0].Name;
+              edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.none');
+            end
+          else
+          (* if some files selected *)
+            begin
+              edtPackCmd.Text := TargetArchivePath + MakeFileName(Files.Path, 'archive') + '.none';
+            end
+        else  // pack in exsists archive
+        begin
+          if Assigned(TargetFileSource) then
+            edtPackCmd.Text := TargetFileSource.ArchiveFileName;
+        end;
+
+        Result:= (ShowModal = mrOK);
+
+        if Result then
+          begin
+            if Assigned(TargetFileSource) then
+            begin
+              // Already have a target file source.
+              // It must be an archive file source.
+              if not (TargetFileSource is TArchiveFileSource) then
+                raise Exception.Create('Invalid target file source type');
+
+              NewTargetFileSource := TargetFileSource as TArchiveFileSource; // Don't need to clone.
             end
             else
-              FreeAndNil(fl);
-        end
-        else
-          FreeAndNil(fl);
+            begin
+              // Create a new target file source.
+              bTargetFileSourceCreated := True;
 
-      Free;
-    end;
+              // Only WCX now.
+              NewTargetFileSource := TWcxArchiveFileSource.CreateByArchiveName(edtPackCmd.Text);
+            end;
+
+            if Assigned(NewTargetFileSource) then
+              begin
+                with NewTargetFileSource as TWcxArchiveFileSource do
+                begin
+                  // Set flags according to user selection in the pack dialog.
+                  aFlags := 0;
+                  if cbMoveToArchive.Checked then aFlags := aFlags or PK_PACK_MOVE_FILES;
+                  if cbStoredir.Checked then aFlags := aFlags or PK_PACK_SAVE_PATHS;
+                  if cbEncrypt.Checked then aFlags := aFlags or PK_PACK_ENCRYPT;
+
+                  PluginFlags := aFlags;
+                end;
+
+                ClonedSourceFileSource := SourceFileSource.Clone;
+                Operation := NewTargetFileSource.CreateCopyInOperation(
+                                 ClonedSourceFileSource,
+                                 Files,
+                                 NewTargetFileSource.CurrentPath);
+
+                if Assigned(Operation) then
+                begin
+                  // TODO: Check if another operation is not running first (for WCX).
+
+                  // Start operation.
+                  OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+
+                  ProgressDialog := TfrmFileOp.Create(OperationHandle);
+                  ProgressDialog.Show;
+                end;
+              end;
+          end;
+
+        Free;
+      end;
+
+  finally
+    if Assigned(Files) then
+      FreeAndNil(Files);
+    if bTargetFileSourceCreated and Assigned(NewTargetFileSource) then
+      FreeAndNil(NewTargetFileSource);
+  end;
 end;
 
 { TfrmPackDlg }
@@ -131,7 +187,7 @@ procedure TfrmPackDlg.FormShow(Sender: TObject);
 var
  iIndex,
  I, J : Integer;
- bExsistArchive : Boolean;
+ bExistsArchive : Boolean;
  sExt,
  sCurrentPlugin : String;
  iCurPlugCaps : Integer;
@@ -139,62 +195,66 @@ begin
   J := 0;
   sExt := ExtractFileExt(edtPackCmd.Text);
   Delete(sExt, 1, 1);  // delete a dot
-  bExsistArchive := (sExt <> 'none');
-  with CurrentVFS do
-    begin
-      for I:=0 to gWCXPlugins.Count - 1 do
-        if gWCXPlugins.Enabled[I] then
-        begin
-          sCurrentPlugin := gWCXPlugins.ValueFromIndex[i];
-          iCurPlugCaps := StrToInt(Copy(sCurrentPlugin, 1, Pos(',',sCurrentPlugin) - 1));
-          if (iCurPlugCaps and PK_CAPS_NEW) = PK_CAPS_NEW then
-            begin
-              (* First 9 plugins we display as  RadioButtons *)
-              if J < 9 then
-                begin
-                  iIndex := rgPacker.Items.Add(gWCXPlugins.Names[I]);
-                  if bExsistArchive then
-                    if (sExt = gWCXPlugins.Names[I]) then
-                      rgPacker.ItemIndex := iIndex
-                    else
-                      rgPacker.Controls[iIndex + 1].Enabled := False;
-                  J := J + 1;
-                end
-              else
-                (* Other plugins we add in ComboBox *)
-                begin
-                  iIndex := cbPackerList.Items.Add(gWCXPlugins.Names[I]);
-                  if bExsistArchive and (sExt = gWCXPlugins.Names[I]) then
-                    cbPackerList.ItemIndex := iIndex;
-                end;
-            end;
-        end; //for
-        
-        if (rgPacker.Items.Count > 0) and (rgPacker.ItemIndex < 0) then
-          rgPacker.ItemIndex := 0;
-        if cbPackerList.Items.Count > 0 then
-          begin
-            cbOtherPlugins.Visible := True;
-            cbPackerList.Visible := True;
+  bExistsArchive := (sExt <> 'none');
 
-            if bExsistArchive then
-              cbPackerList.Enabled:= False
-            else
-              cbOtherPlugins.Enabled := True;
-              
-            if cbPackerList.ItemIndex < 0 then
-              cbPackerList.ItemIndex := 0;
-          end
+  for I:=0 to gWCXPlugins.Count - 1 do
+    if gWCXPlugins.Enabled[I] then
+    begin
+      sCurrentPlugin := gWCXPlugins.ValueFromIndex[i];
+      iCurPlugCaps := StrToInt(Copy(sCurrentPlugin, 1, Pos(',',sCurrentPlugin) - 1));
+      if (iCurPlugCaps and PK_CAPS_NEW) = PK_CAPS_NEW then
+        begin
+          (* First 9 plugins we display as  RadioButtons *)
+          if J < 9 then
+            begin
+              iIndex := rgPacker.Items.Add(gWCXPlugins.Names[I]);
+              if bExistsArchive then
+                if (sExt = gWCXPlugins.Names[I]) then
+                  rgPacker.ItemIndex := iIndex
+                else
+                  rgPacker.Controls[iIndex + 1].Enabled := False;
+              J := J + 1;
+            end
+          else
+            (* Other plugins we add in ComboBox *)
+            begin
+              iIndex := cbPackerList.Items.Add(gWCXPlugins.Names[I]);
+              if bExistsArchive and (sExt = gWCXPlugins.Names[I]) then
+                cbPackerList.ItemIndex := iIndex;
+            end;
+        end;
+    end; //for
+
+    if (rgPacker.Items.Count > 0) and (rgPacker.ItemIndex < 0) then
+      rgPacker.ItemIndex := 0;
+    if cbPackerList.Items.Count > 0 then
+      begin
+        cbOtherPlugins.Visible := True;
+        cbPackerList.Visible := True;
+
+        if bExistsArchive then
+          cbPackerList.Enabled:= False
         else
-          btnConfig.AnchorToCompanion(akTop, 6, rgPacker);
-    end;
+          cbOtherPlugins.Enabled := True;
+
+        if cbPackerList.ItemIndex < 0 then
+          cbPackerList.ItemIndex := 0;
+      end
+    else
+      btnConfig.AnchorToCompanion(akTop, 6, rgPacker);
 end;
 
 procedure TfrmPackDlg.btnConfigClick(Sender: TObject);
+var
+  WcxFileSource: TWcxArchiveFileSource;
 begin
-   with CurrentVFS do
-   if FindModule(edtPackCmd.Text, False) and LoadAndOpen(edtPackCmd.Text, False) then
-     VFSmodule.VFSConfigure(Handle);
+  WcxFileSource := TWcxArchiveFileSource.CreateByArchiveName(edtPackCmd.Text);
+  if Assigned(WcxFileSource) then
+  try
+    WcxFileSource.WcxModule.VFSConfigure(Handle);
+  finally
+    FreeAndNil(WcxFileSource);
+  end;
 end;
 
 procedure TfrmPackDlg.cbOtherPluginsChange(Sender: TObject);
@@ -212,8 +272,7 @@ begin
   cbPackerList.Enabled := cbOtherPlugins.Checked;
 end;
 
-procedure TfrmPackDlg.edtPackCmdAcceptDirectory(Sender: TObject; var Value: String
-  );
+procedure TfrmPackDlg.edtPackCmdAcceptDirectory(Sender: TObject; var Value: String);
 begin
   Value := IncludeTrailingPathDelimiter(Value) + ExtractFileName(edtPackCmd.Text);
 end;

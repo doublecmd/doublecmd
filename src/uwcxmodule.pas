@@ -30,7 +30,7 @@ interface
 uses
   uWCXprototypes, uWCXhead, uFileList, dynlibs, Classes, uVFSModule,
   uVFSTypes, fFileOpDlg, Dialogs, DialogAPI, uClassesEx,
-  StringHashList, uOSUtils;
+  StringHashList, uOSUtils, uFile;
 
 Type
   TWCXOperation = (OP_EXTRACT, OP_PACK, OP_DELETE);
@@ -143,6 +143,7 @@ Type
     property Enabled[Index: Integer]: Boolean read GetAEnabled write SetAEnabled;
   end;
 
+  function GetFileList(const theFiles: TFiles; Operation: TWCXOperation): String;
   function GetErrorMsg(iErrorMsg : Integer): String;
 
 implementation
@@ -337,20 +338,20 @@ begin
     ConfigurePacker(Parent, FModuleHandle);
 end;
 
-function GetFileList(var fl:TFileList; Operation: TWCXOperation) : String;
+function GetFileList(const theFiles: TFiles; Operation: TWCXOperation): String;
 var
   I        : Integer;
   FileName : String;
 begin
   Result := '';
 
-  for I := 0 to fl.Count - 1 do
+  for I := 0 to theFiles.Count - 1 do
     begin
       // Filenames must be relative to archive root and shouldn't start with path delimiter.
-      FileName := ExcludeFrontPathDelimiter(fl.GetItem(I)^.sName);
+      FileName := ExtractDirLevel(theFiles.Path, theFiles[I].FullPath);
 
       // Special treatment of directories.
-      if FPS_ISDIR(fl.GetItem(I)^.iMode) then
+      if theFiles[i].IsDirectory then
       begin
         case Operation of
           OP_PACK:

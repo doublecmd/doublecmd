@@ -883,45 +883,27 @@ begin
 end;
 
 //------------------------------------------------------
-(* Pack files in archive *)
+(* Pack files in archive by creating a new archive *)
 procedure TActs.cm_PackFiles(param:string);
 var
-  fl : TFileList;
-  Result: Boolean;
+  SelectedFiles: TFiles;
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_PackFiles', param);
-{
-with frmMain do
-begin
-  Result:= False;
-  if not IsBlocked then
-    begin
-      with FrmMain.ActiveFrame do
-        begin
-          if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+  with frmMain do
+  begin
+    SelectedFiles := ActiveFrame.SelectedFiles;
+    try
+      ShowPackDlg(ActiveFrame.FileSource,
+                  nil, // No specific target (create new)
+                  SelectedFiles,
+                  NotActiveFrame.CurrentPath,
+                  PathDelim { Copy to root of archive } {NotActiveFrame.FileSource.GetRootString}
+                 );
 
-          fl:=TFileList.Create;
-          CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
-
-          fl.CurrentDirectory := ActiveDir;
-        end;
-      try
-        Result:= ShowPackDlg(FrmMain.NotActiveFrame.pnlFile.VFS, fl, FrmMain.NotActiveFrame.CurrentPath);
-      finally
-        if Result then
-          begin
-            frameLeft.RefreshPanel;
-            frameRight.RefreshPanel;
-          end
-        else
-          begin
-            with FrmMain.ActiveFrame do
-              UnSelectFileIfSelected(GetActiveItem);
-          end;
-      end;
-    end;  // IsBlocked
- end;
-}
+    finally
+      if Assigned(SelectedFiles) then
+        FreeAndNil(SelectedFiles);
+    end;
+  end;
 end;
 
 procedure TActs.cm_ExtractFiles(param:string);
