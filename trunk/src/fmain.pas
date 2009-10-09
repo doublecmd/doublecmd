@@ -463,7 +463,8 @@ type
 //    procedure CopyFile(srcFileList: TFileList; dstFramePanel: TFileView; sDestPath: String);
     procedure MoveFile(sDestPath:String);
     procedure CopyFile(sDestPath:String); //  this is for F5 and Shift+F5
-    procedure GetDestinationPathAndMask(EnteredPath: String; BaseDir: String;
+    procedure GetDestinationPathAndMask(TargetFileSource: TFileSource;
+                                        EnteredPath: String; BaseDir: String;
                                         out DestPath, DestMask: String);
     procedure SetNotActFrmByActFrm;
     procedure SetActiveFrame(panel: TFilePanelSelect);
@@ -520,7 +521,7 @@ uses
   uFileSystemFileSource, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   fFileOpDlg, uFileSystemCopyOperation, uFileSystemMoveOperation,
-  uFileSourceOperationOptions
+  uFileSourceOperationOptions, uArchiveFileSource
   {$IFDEF LCLQT}
     , qtwidgets, qtobjects
   {$ENDIF}
@@ -1901,7 +1902,8 @@ begin
         if ShowModal = mrCancel then
           Exit;
 
-        GetDestinationPathAndMask(edtDst.Text, SourceFiles.Path, sDestPath, sDstMaskTemp);
+        GetDestinationPathAndMask(NotActiveFrame.FileSource, edtDst.Text,
+                                  SourceFiles.Path, sDestPath, sDstMaskTemp);
 
         // For now at least one must be FileSystem.
         if not (ActiveFrame.FileSource is TFileSystemFileSource or
@@ -1949,6 +1951,7 @@ procedure TfrmMain.CopyFile(sDestPath:String);
 var
   sDstMaskTemp: String;
   TargetFileSource: TFileSource = nil;
+  SourceFileSource: TFileSource = nil;
   SourceFiles: TFiles = nil;
   Operation: TFileSourceCopyOperation;
   OperationHandle: TOperationHandle;
@@ -1987,44 +1990,62 @@ begin
           Exit ; // throught finally
         end;
 
-        GetDestinationPathAndMask(edtDst.Text, SourceFiles.Path, sDestPath, sDstMaskTemp);
+        GetDestinationPathAndMask(NotActiveFrame.FileSource, edtDst.Text, SourceFiles.Path, sDestPath, sDstMaskTemp);
 
         // For now at least one must be FileSystem.
-        if not (ActiveFrame.FileSource is TFileSystemFileSource or
-                NotActiveFrame.FileSource is TFileSystemFileSource) then Exit;
 
-        TargetFileSource := NotActiveFrame.FileSource.Clone;
-        try
+        if NotActiveFrame.FileSource is TFileSystemFileSource then
+        begin
+          // CopyOut to filesystem.
+          TargetFileSource := NotActiveFrame.FileSource.Clone;
           Operation := ActiveFrame.FileSource.CreateCopyOutOperation(
                            TargetFileSource,
                            SourceFiles,
                            sDestPath) as TFileSourceCopyOperation;
-
-          if Assigned(Operation) then
+        end
+        else if ActiveFrame.FileSource is TFileSystemFileSource then
+        begin
+          {if TargetFileSource is TArchiveFileSource then
           begin
-            // Set operation options based on settings in dialog.
-            Operation.RenameMask := sDstMaskTemp;
+            ShowPackDlg(ActiveFrame.FileSource,
+                        NotActiveFrame.FileSource as TArchiveFileSource,
+                        SourceFiles,
+                        NotActiveFrame.CurrentPath);
+            Exit;
+          end;}
 
-            if Operation is TFileSystemCopyOutOperation then
-              SetOperationOptions(Operation as TFileSystemCopyOutOperation);
-
-            // Start operation.
-            OperationHandle := OperationsManager.AddOperation(Operation, ossAutoQueue);
-
-            ProgressDialog := TfrmFileOp.Create(OperationHandle);
-            ProgressDialog.Show;
-          end
-          else
-            msgWarning(rsMsgNotImplemented);
-
-        except
-          if Assigned(TargetFileSource) then
-            FreeAndNil(TargetFileSource);
-          raise;
+          // CopyIn from filesystem.
+          SourceFileSource := ActiveFrame.FileSource.Clone;
+          Operation := NotActiveFrame.FileSource.CreateCopyInOperation(
+                           SourceFileSource,
+                           SourceFiles,
+                           sDestPath) as TFileSourceCopyOperation;
         end;
+
+        if Assigned(Operation) then
+        begin
+          // Set operation options based on settings in dialog.
+          Operation.RenameMask := sDstMaskTemp;
+
+          if Operation is TFileSystemCopyOutOperation then
+            SetOperationOptions(Operation as TFileSystemCopyOutOperation);
+
+          // Start operation.
+          OperationHandle := OperationsManager.AddOperation(Operation, ossAutoQueue);
+
+          ProgressDialog := TfrmFileOp.Create(OperationHandle);
+          ProgressDialog.Show;
+        end
+        else
+          msgWarning(rsMsgNotImplemented);
 
       finally
         Free;
+
+        if Assigned(SourceFileSource) then
+          FreeAndNil(SourceFileSource);
+        if Assigned(TargetFileSource) then
+          FreeAndNil(TargetFileSource);
       end;
     end; //with
 
@@ -2034,20 +2055,28 @@ begin
 
 end;
 
-procedure TfrmMain.GetDestinationPathAndMask(EnteredPath: String; BaseDir: String;
+procedure TfrmMain.GetDestinationPathAndMask(TargetFileSource: TFileSource;
+                                             EnteredPath: String; BaseDir: String;
                                              out DestPath, DestMask: String);
 var
   AbsolutePath: String;
 begin
-  if GetPathType(EnteredPath) = ptAbsolute then
+  if TargetFileSource.GetPathType(EnteredPath) = ptAbsolute then
     AbsolutePath := EnteredPath
   else
-    AbsolutePath := BaseDir + EnteredPath;
+  begin
+    // This only work for filesystem for now.
+    if TargetFileSource is TFileSystemFileSource then
+      AbsolutePath := BaseDir + EnteredPath
+    else
+      AbsolutePath := PathDelim{TargetFileSource.GetRoot} + EnteredPath;
+  end;
 
   DoDirSeparators(AbsolutePath);  // normalize path delimiters
   AbsolutePath := ExpandAbsolutePath(AbsolutePath);
 
-  if AbsolutePath[Length(AbsolutePath)] = PathDelim then
+  if (TargetFileSource is TFileSystemFileSource) and
+     (AbsolutePath[Length(AbsolutePath)] = PathDelim) then
   begin
     // If the entered path ends with a path delimiter
     // treat it as a path to a not yet existing directory
@@ -2055,7 +2084,8 @@ begin
     DestPath := AbsolutePath;
     DestMask := '*.*';
   end
-  else if mbDirectoryExists(AbsolutePath) then
+  else if (TargetFileSource is TFileSystemFileSource) and
+          mbDirectoryExists(AbsolutePath) then
   begin
     // Destination is a directory.
     DestPath := IncludeTrailingPathDelimiter(AbsolutePath);

@@ -46,11 +46,9 @@ type
     // These functions create an operation object specific to the file source.
     // Each parameter will be owned by the operation (will be freed).
     function CreateListOperation: TFileSourceOperation; override;
-{    function CreateCopyInOperation(var SourceFileSource: TFileSource;
+    function CreateCopyInOperation(var SourceFileSource: TFileSource;
                                    var SourceFiles: TFiles;
-                                   TargetPath: String;
-                                   RenameMask: String): TFileSourceOperation; virtual abstract;
-}
+                                   TargetPath: String): TFileSourceOperation; override;
     function CreateCopyOutOperation(var TargetFileSource: TFileSource;
                                     var SourceFiles: TFiles;
                                     TargetPath: String): TFileSourceOperation; override;
@@ -61,7 +59,7 @@ type
     class function CreateByArchiveName(anArchiveFileName: String): TWcxArchiveFileSource;
 
     property ArchiveFileList: TObjectList read FArcFileList;
-    property PluginFlags: PtrInt read FPluginFlags;
+    property PluginFlags: PtrInt read FPluginFlags write FPluginFlags;
     property WcxModule: TWCXModule read FWcxModule;
   end;
 
@@ -69,7 +67,7 @@ implementation
 
 uses Forms, Controls, uGlobs, LCLProc, uDCUtils,
      uGlobsPaths, FileUtil, uWcxArchiveFile, uWcxArchiveListOperation,
-     uWcxArchiveCopyOutOperation;
+     uWcxArchiveCopyInOperation, uWcxArchiveCopyOutOperation;
 
 class function TWcxArchiveFileSource.CreateByArchiveName(anArchiveFileName: String): TWcxArchiveFileSource;
 var
@@ -148,7 +146,7 @@ end;
 
 class function TWcxArchiveFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result := [fsoList, fsoCopyOut];
+  Result := [fsoList, fsoCopyIn, fsoCopyOut];
 end;
 
 class function TWcxArchiveFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
@@ -183,6 +181,19 @@ var
 begin
   TargetFileSource := Self.Clone;
   Result := TWcxArchiveListOperation.Create(TargetFileSource);
+end;
+
+function TWcxArchiveFileSource.CreateCopyInOperation(
+            var SourceFileSource: TFileSource;
+            var SourceFiles: TFiles;
+            TargetPath: String): TFileSourceOperation;
+var
+  TargetFileSource: TFileSource;
+begin
+  TargetFileSource := Self.Clone;
+  Result := TWcxArchiveCopyInOperation.Create(SourceFileSource,
+                                              TargetFileSource,
+                                              SourceFiles, TargetPath);
 end;
 
 function TWcxArchiveFileSource.CreateCopyOutOperation(
