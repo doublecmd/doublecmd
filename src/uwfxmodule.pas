@@ -92,7 +92,6 @@ type
     FsContentGetDefaultView:TFsContentGetDefaultView;
 
     //---------------------
-    procedure FsFillAndCount(var fl:TFileList; out FilesSize : Int64);
     procedure WFXStatusInfo(RemoteDir: String; InfoStartEnd, InfoOperation: Integer);
   public
     constructor Create;
@@ -161,75 +160,6 @@ begin
 end;
   
 { TWFXModule }
-
-procedure TWFXModule.FsFillAndCount(var fl: TFileList; out FilesSize: Int64);
-var
-  I:Integer;
-  ptr:PFileRecItem;
-  sRealName : String;
-  NewFileList: TFileList;
-
-procedure FillAndCountRec(const srcPath, dstPath:String);
-var
-  FindData : TWIN32FINDDATA;
-  Handle:THandle;
-  fr:TFileRecItem;
-
-begin
-  Handle := FsFindFirst(PChar(UTF8ToSys(srcPath)), FindData);
-  if Handle = feInvalidHandle then
-  begin
-    Exit;
-  end;
-  repeat
-    if (FindData.cFileName='.') or (FindData.cFileName='..') then Continue;
-    fr.sName:=ExtractDirLevel(fl.CurrentDirectory, srcPath+SysToUTF8(FindData.cFileName));
-    fr.sPath:=dstPath;
-    fr.sNameNoExt:=SysToUTF8(FindData.cFileName); // we use to save dstname
-
-    fr.iMode := FindData.dwFileAttributes;
-
-    fr.bSelected:=False;
-    fr.iSize := Int64(FindData.nFileSizeHigh) shl 32 + FindData.nFileSizeLow;;
-
-    NewFileList.AddItem(@fr);
-
-    if FPS_ISDIR(fr.iMode) then
-      begin
-        FillAndCountRec(srcPath+SysToUTF8(FindData.cFileName)+DirectorySeparator, dstPath+SysToUTF8(FindData.cFileName)+DirectorySeparator);
-      end
-    else
-      inc(FilesSize, fr.iSize);
-  until not FsFindNext(Handle, FindData);
-  FsFindClose(Handle);
-end;
-
-
-
-begin
-  NewFileList:=TFileList.Create;
-  NewFileList.CurrentDirectory := fl.CurrentDirectory;
-  for I:=0 to fl.Count-1 do
-  begin
-    ptr:=fl.GetItem(I);
-
-    if FPS_ISDIR(ptr^.iMode) and (not ptr^.bLinkIsDir) then
-    begin
-      sRealName := ptr^.sName;
-      ptr^.sName := ExtractDirLevel(fl.CurrentDirectory, ptr^.sName);
-      NewFileList.AddItem(ptr); // add DIR to List
-      FillAndCountRec(sRealName + DirectorySeparator, ptr^.sNameNoExt + DirectorySeparator);  // rekursive browse child dir
-    end
-    else
-    begin
-      ptr^.sName := ExtractDirLevel(fl.CurrentDirectory, ptr^.sName);
-      NewFileList.AddItem(ptr);
-      inc(FilesSize, ptr^.iSize);
-    end;
-  end;
-  fl.Free;
-  fl := NewFileList;
-end;
 
 procedure TWFXModule.WFXStatusInfo(RemoteDir: String; InfoStartEnd, InfoOperation: Integer);
 begin
