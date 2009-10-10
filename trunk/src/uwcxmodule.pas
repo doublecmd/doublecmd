@@ -143,7 +143,6 @@ Type
     property Enabled[Index: Integer]: Boolean read GetAEnabled write SetAEnabled;
   end;
 
-  function GetFileList(const theFiles: TFiles; Operation: TWCXOperation): String;
   function GetErrorMsg(iErrorMsg : Integer): String;
 
 implementation
@@ -336,36 +335,6 @@ function TWCXModule.VFSConfigure(Parent: THandle): Boolean;
 begin
   if Assigned(ConfigurePacker) then
     ConfigurePacker(Parent, FModuleHandle);
-end;
-
-function GetFileList(const theFiles: TFiles; Operation: TWCXOperation): String;
-var
-  I        : Integer;
-  FileName : String;
-begin
-  Result := '';
-
-  for I := 0 to theFiles.Count - 1 do
-    begin
-      // Filenames must be relative to archive root and shouldn't start with path delimiter.
-      FileName := ExtractDirLevel(theFiles.Path, theFiles[I].FullPath);
-
-      // Special treatment of directories.
-      if theFiles[i].IsDirectory then
-      begin
-        case Operation of
-          OP_PACK:
-              FileName := IncludeTrailingPathDelimiter(FileName);
-
-          OP_DELETE:
-              FileName := IncludeTrailingPathDelimiter(FileName) + '*.*';
-        end;
-      end;
-
-      Result := Result + FileName + #0;
-    end;
-
-  Result := Result + #0;
 end;
 
 function TWCXModule.ReadWCXHeader(hArcData: TArcHandle;

@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="93">
+    <Units Count="94">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -623,6 +623,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWcxArchiveCopyInOperation"/>
       </Unit92>
+      <Unit93>
+        <Filename Value="newdesign\uwcxarchivedeleteoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveDeleteOperation"/>
+      </Unit93>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

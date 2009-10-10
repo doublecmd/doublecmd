@@ -21,6 +21,10 @@ type
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     FFullFilesTree: TFileSystemFiles;
 
+    {en
+      Convert TFiles into a string separated with #0 (format used by WCX).
+    }
+    function GetFileList(const theFiles: TFiles): String;
     procedure ShowError(sMessage: String; logOptions: TLogOptions = []);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
@@ -180,7 +184,7 @@ begin
                PAnsiChar(UTF8ToSys(FWcxArchiveFileSource.ArchiveFileName)),
                pDestPath, // no trailing path delimiter here
                PAnsiChar(UTF8ToSys(IncludeTrailingPathDelimiter(FFullFilesTree.Path))), // end with path delimiter here
-               PAnsiChar(UTF8ToSys(uWcxModule.GetFileList(FFullFilesTree, OP_PACK))),  // Convert TFileList into PChar
+               PAnsiChar(UTF8ToSys(GetFileList(FFullFilesTree))),  // Convert TFiles into PAnsiChar
                FWcxArchiveFileSource.PluginFlags);
 
   // Check for errors.
@@ -200,6 +204,29 @@ end;
 procedure TWcxArchiveCopyInOperation.Finalize;
 begin
   WcxCopyInOperation := nil;
+end;
+
+function TWcxArchiveCopyInOperation.GetFileList(const theFiles: TFiles): String;
+var
+  I        : Integer;
+  FileName : String;
+begin
+  Result := '';
+
+  for I := 0 to theFiles.Count - 1 do
+    begin
+      // Filenames must be relative to the current directory.
+      FileName := ExtractDirLevel(theFiles.Path, theFiles[I].FullPath);
+
+      // Special treatment of directories.
+      if theFiles[i].IsDirectory then
+        // TC ends paths to directories to be packed with '\'.
+        FileName := IncludeTrailingPathDelimiter(FileName);
+
+      Result := Result + FileName + #0;
+    end;
+
+  Result := Result + #0;
 end;
 
 procedure TWcxArchiveCopyInOperation.ShowError(sMessage: String; logOptions: TLogOptions);
