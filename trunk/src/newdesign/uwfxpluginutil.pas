@@ -76,7 +76,7 @@ type
 implementation
 
 uses
-  uFileProcs, uDCUtils, uLng, ufsplugin, uWfxModule, uFileSystemUtil;
+  uFileProcs, uDCUtils, uLng, ufsplugin, uWfxModule, uFileSystemUtil, uOSUtils;
 
 { TWfxPluginOperationHelper }
 
@@ -135,7 +135,9 @@ end;
 function TWfxPluginOperationHelper.ProcessFile(aFile: TFileSystemFile;
   AbsoluteTargetFileName: String): LongInt;
 var
-  iFlags : Integer;
+  iFlags: Integer;
+  RemoteInfo: TRemoteInfo;
+  iTemp: TInt64Rec;
   OldDoneBytes: Int64; // for if there was an error
 begin
   // If there will be an error the DoneBytes value
@@ -147,7 +149,15 @@ begin
   { FCurrentFileSize:= aFile.Size;
   }
       iFlags:= 0;
-      Result := WfxCopyMove(aFile.Path + aFile.Name, AbsoluteTargetFileName, iFlags, nil, FInternal, FMode = wpohmCopyMoveIn);
+      with RemoteInfo do
+      begin
+        iTemp.Value := aFile.Size;
+        SizeLow := iTemp.Low;
+        SizeHigh := iTemp.High;
+        LastWriteTime := DateTimeToFileTime(aFile.ModificationTime);
+        Attr := aFile.Attributes;
+      end;
+      Result := WfxCopyMove(aFile.Path + aFile.Name, AbsoluteTargetFileName, iFlags, @RemoteInfo, FInternal, FMode = wpohmCopyMoveIn);
 
       case Result of
       FS_FILE_EXISTS, // The file already exists, and resume isn't supported
@@ -163,7 +173,7 @@ begin
           else
             raise Exception.Create('Invalid file exists option');
           end;
-          Result := WfxCopyMove(aFile.Path + aFile.Name, AbsoluteTargetFileName, iFlags, nil, FInternal, FMode = wpohmCopyMoveIn);
+          Result := WfxCopyMove(aFile.Path + aFile.Name, AbsoluteTargetFileName, iFlags, @RemoteInfo, FInternal, FMode = wpohmCopyMoveIn);
         end;
       end;
    end;
