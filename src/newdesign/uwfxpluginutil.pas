@@ -279,14 +279,15 @@ var
   sSourceFile,
   sTargetFile : UTF8String;
   aFile: TFileSystemFile;
-  ProcessedOk: Boolean;
 begin
   for I:= 0 to aFiles.Count - 1 do
     with FWfxPluginFileSource do
     begin
       aFile:= aFiles.Items[I] as TFileSystemFile;
       sSourceFile := aFile.Path + aFile.Name;
-      sTargetFile := FRootTargetPath + ApplyRenameMask(aFile, FRenameNameMask, FRenameExtMask);
+      // Filenames must be relative to the current directory.
+      sTargetFile := FRootTargetPath + ExtractDirLevel(aFiles.Path, aFile.Path);
+      sTargetFile := sTargetFile + ApplyRenameMask(aFile, FRenameNameMask, FRenameExtMask);
 
       DebugLn('Source name == ' + sSourceFile);
       DebugLn('Target name == ' + sTargetFile);
