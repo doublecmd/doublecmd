@@ -86,6 +86,9 @@ begin
                                     FStatistics.TotalFiles,
                                     FStatistics.TotalBytes);     // gets full list of files (recursive)
 
+  // Make filenames relative to current directory.
+  FFullFilesTreeToCopy.Path := SourceFiles.Path;
+
   if Assigned(FOperationHelper) then
     FreeAndNil(FOperationHelper);
 
