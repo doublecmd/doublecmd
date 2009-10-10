@@ -35,8 +35,9 @@ uses
  dynlibs, uTypes, fFileOpDlg, uClassesEx;
 
 const
-  OP_COPYOUT = 0;
-  OP_COPYIN = 1;
+  WFX_SUCCESS      =  0;
+  WFX_NOTSUPPORTED = -1;
+  WFX_ERROR        = -2;
 
 type
   TWFXModule = class;
@@ -121,10 +122,7 @@ type
     function VFSConfigure(Parent: THandle):Boolean;override;
     
     function VFSCopyOut(var flSrcList : TFileList; sDstPath:String; Flags: Integer):Boolean;override;
-    function VFSCopyIn(var flSrcList : TFileList; sDstName:String; Flags : Integer):Boolean;override;
     function VFSCopyOutEx(var flSrcList : TFileList; sDstPath:String; Flags: Integer):Boolean;override;
-    function VFSCopyInEx(var flSrcList : TFileList; sDstName:String; Flags : Integer):Boolean;override;
-    function VFSRename(const sSrcName, sDstName:String):Boolean;override;
     function VFSRun(const sName:String):Boolean;override;
 
     function VFSMisc: PtrUInt; override;
@@ -150,6 +148,8 @@ type
     property Enabled[Index: Integer]: Boolean read GetAEnabled write SetAEnabled;
   end;
 
+  function GetErrorMsg(iErrorMsg: LongInt): UTF8String;
+
 implementation
 
 uses
@@ -158,6 +158,25 @@ uses
 
 const
   WfxIniFileName = 'wfx.ini';
+
+function GetErrorMsg(iErrorMsg: LongInt): UTF8String;
+begin
+  case iErrorMsg of
+  WFX_ERROR:
+    Result:= 'Unknown error!';
+  WFX_NOTSUPPORTED,
+  FS_FILE_NOTSUPPORTED:
+    Result:= rsMsgErrNotSupported;
+  FS_FILE_NOTFOUND:
+    Result:= 'File not found!';
+  FS_FILE_READERROR:
+    Result:= rsMsgErrERead;
+  FS_FILE_WRITEERROR:
+    Result:= rsMsgErrEWrite;
+  FS_FILE_USERABORT:
+    Result:= rsMsgErrEAborted;
+  end;
+end;
   
 { TWFXModule }
 
@@ -522,34 +541,6 @@ begin
   FFileOpDlg := nil;
 end;
 
-function TWFXModule.VFSCopyIn(var flSrcList: TFileList; sDstName: String;
-  Flags: Integer): Boolean;
-begin
-  Result := True;
-  try
-    FFileOpDlg:= TfrmFileOp.Create(nil);
-    FFileOpDlg.Show;
-{
-    FFileOpDlg.iProgress1Max:=100;
-    FFileOpDlg.iProgress2Max:=100;
-}
-    FFileOpDlg.Caption := rsDlgCp;
-
-    FFileList := flSrcList;
-    FDstPath := sDstName;
-    FFlags := Flags;
-
-    CT := nil;
-    WFXCopyIn;
-    FFileOpDlg.Close;
-
-  except
-    Result := False
-  end;
-
-  FFileOpDlg := nil;
-end;
-
 function TWFXModule.VFSCopyOutEx(var flSrcList: TFileList; sDstPath: String;
   Flags: Integer): Boolean;
 begin
@@ -577,39 +568,6 @@ begin
     Result := False;
   end;
 }
-end;
-
-function TWFXModule.VFSCopyInEx(var flSrcList: TFileList; sDstName: String;
-  Flags: Integer): Boolean;
-begin
-{
-  Result := True;
-  try
-    FFileOpDlg:= TfrmFileOp.Create(nil);
-    FFileOpDlg.Show;
-    FFileOpDlg.iProgress1Max:=100;
-    FFileOpDlg.iProgress2Max:=100;
-    FFileOpDlg.Caption := rsDlgCp;
-
-    FFileList := flSrcList;
-    FDstPath := sDstName;
-    FFlags := Flags;
-
-    CT := TWFXCopyThread.Create(True);
-    CT.FreeOnTerminate := True;
-    CT.Operation := OP_COPYIN;
-    CT.WFXModule := Self;
-    FFileOpDlg.Thread := TThread(CT);
-    CT.Resume;
-  except
-    Result := False
-  end;
-}
-end;
-
-function TWFXModule.VFSRename(const sSrcName, sDstName: String): Boolean;
-begin
-
 end;
 
 function TWFXModule.VFSRun(const sName: String): Boolean;
@@ -644,7 +602,7 @@ end;
 procedure TWFXCopyThread.Execute;
 begin
 // main archive thread code started here
-  try
+{  try
     with WFXModule do
       begin
       case Operation of
@@ -661,7 +619,7 @@ begin
   except
     DebugLN('Error in "WFXCopyThread.Execute"');
   end;
-
+ }
   Synchronize(WFXModule.FFileOpDlg.Close);
   WFXModule.FFileOpDlg := nil;
 end;

@@ -26,7 +26,7 @@ type
 implementation
 
 uses
-  uFileSourceOperationUI, uWfxPluginFile, uFileProcs, uLog, uLng, uGlobs, uOSUtils, ufsplugin;
+  uFileSourceOperationUI, uWfxPluginFile, uFileProcs, uLog, uLng, uGlobs, uOSUtils, uWfxModule, ufsplugin;
 
 constructor TWfxPluginCreateDirectoryOperation.Create(
                 var aTargetFileSource: TFileSource;

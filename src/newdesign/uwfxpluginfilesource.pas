@@ -9,11 +9,6 @@ uses
   uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uFileProperty, uFileSource, uFileSourceOperation;
 
-const
-  WFX_SUCCESS      =  0;
-  WFX_NOTSUPPORTED = -1;
-  WFX_ERROR        = -2;
-
 type
 
   { TWfxPluginFileSource }
@@ -23,7 +18,7 @@ type
     FModuleFileName,
     FPluginRootName: UTF8String;
     FWFXModule: TWFXModule;
-    FCurrentOperation: TFileSourceOperation;
+    FPluginNumber: LongInt;
   protected
     class function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function GetCurrentAddress: String; override;
@@ -54,35 +49,39 @@ type
     // These functions create an operation object specific to the file source.
     // Each parameter will be owned by the operation (will be freed).
     function CreateListOperation: TFileSourceOperation; override;
+    function CreateCopyInOperation(var SourceFileSource: TFileSource;
+                                   var SourceFiles: TFiles;
+                                   TargetPath: String): TFileSourceOperation; override;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
     function CreateCreateDirectoryOperation(DirectoryPath: String): TFileSourceOperation; override;
 
     class function CreateByRootName(aRootName: String): TWfxPluginFileSource;
 
+    property PluginNumber: LongInt read FPluginNumber;
     property WfxModule: TWfxModule read FWfxModule;
 
   end;
 
+var
+  // Used in callback functions
+  WfxOperationList: TList = nil;
 
 implementation
 
 uses
   LCLProc, FileUtil, uGlobs, uDCUtils, uLog, uLng,
+  uWfxPluginCopyInOperation,
   uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation, uWfxPluginDeleteOperation,
   uWfxPluginFile;
-
-var
-  // Used in callback functions
-  WfxFileSourceList: TList = nil;
 
 { CallBack functions }
 
 function MainProgressProc(PluginNr: Integer; SourceName, TargetName: PChar; PercentDone: Integer): Integer; stdcall;
 begin
-{
+
   Result:= 0;
   DebugLN('MainProgressProc ('+IntToStr(PluginNr)+','+SourceName+','+TargetName+','+inttostr(PercentDone)+')' ,inttostr(result));
-
+{
   with TWFXModule(WFXModuleList.Items[PluginNr]) do
   begin
     if not Assigned(FFileOpDlg) then Exit;
@@ -237,11 +236,11 @@ begin
   FModuleFileName:= aModuleFileName;
   FPluginRootName:= aPluginRootName;
   FWfxModule:= TWFXModule.Create;
-  FCurrentOperation:= nil;
   if FWfxModule.LoadModule(FModuleFileName) then
     begin
       FWfxModule.VFSInit(0);
-      FWfxModule.FsInit(WfxFileSourceList.Add(Self), @MainProgressProc, @MainLogProc, @MainRequestProc);
+      FPluginNumber:= WfxOperationList.Add(nil);
+      FWfxModule.FsInit(FPluginNumber, @MainProgressProc, @MainLogProc, @MainRequestProc);
     end;
 end;
 
@@ -266,7 +265,7 @@ end;
 
 class function TWfxPluginFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result := [fsoList, fsoDelete, fsoCreateDirectory];
+  Result := [fsoList, fsoCopyIn, fsoDelete, fsoCreateDirectory];
 end;
 
 class function TWfxPluginFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
@@ -435,6 +434,19 @@ begin
   Result := TWfxPluginListOperation.Create(TargetFileSource);
 end;
 
+function TWfxPluginFileSource.CreateCopyInOperation(
+           var SourceFileSource: TFileSource;
+           var SourceFiles: TFiles;
+           TargetPath: String): TFileSourceOperation;
+var
+  TargetFileSource: TFileSource;
+begin
+  TargetFileSource := Self.Clone;
+  Result := TWfxPluginCopyInOperation.Create(SourceFileSource,
+                                              TargetFileSource,
+                                              SourceFiles, TargetPath);
+end;
+
 function TWfxPluginFileSource.CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
 var
   TargetFileSource: TFileSource;
@@ -471,10 +483,10 @@ begin
 end;
 
 initialization
-  WfxFileSourceList:= TList.Create;
+  WfxOperationList:= TList.Create;
 finalization
-  if Assigned(WfxFileSourceList) then
-    FreeAndNil(WfxFileSourceList);
+  if Assigned(WfxOperationList) then
+    FreeAndNil(WfxOperationList);
 
 end.
 
