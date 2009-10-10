@@ -2431,7 +2431,6 @@ begin
   end;
 
   UpdateView;
-  UpdatePathLabel;
 end;
 
 destructor TColumnsFileView.Destroy;
@@ -2613,6 +2612,7 @@ begin
   GridVertLine:= gGridVertLine;
   GridHorzLine:= gGridHorzLine;
 
+  UpdatePathLabel;
   dgPanel.UpdateView;
   UpdateColumnsView;
 
