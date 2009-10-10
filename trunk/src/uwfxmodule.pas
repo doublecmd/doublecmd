@@ -40,19 +40,6 @@ const
   WFX_ERROR        = -2;
 
 type
-  TWFXModule = class;
-
-  { CopyIn/CopyOut thread }
-
-   { TWFXCopyThread }
-
-   TWFXCopyThread = class(TThread)
-   protected
-     procedure Execute; override;
-   public
-     Operation : Integer;
-     WFXModule : TWFXModule;
-   end;
 
   { TWFXModule }
 
@@ -66,10 +53,7 @@ type
     FLastFileSize,
     FFilesSize: Int64;
     FPercent : Double;
-    CT : TWFXCopyThread;         // CopyIn/CopyOut thread
     FFileOpDlg: TfrmFileOp; // progress window
-    function WFXCopyOut : Boolean; {Copy files from VFS}
-    function WFXCopyIn : Boolean;  {Copy files in VFS}
   public
   {Mandatory}
     FsInit : TFsInit;
@@ -121,8 +105,6 @@ type
 
     function VFSConfigure(Parent: THandle):Boolean;override;
     
-    function VFSCopyOut(var flSrcList : TFileList; sDstPath:String; Flags: Integer):Boolean;override;
-    function VFSCopyOutEx(var flSrcList : TFileList; sDstPath:String; Flags: Integer):Boolean;override;
     function VFSRun(const sName:String):Boolean;override;
 
     function VFSMisc: PtrUInt; override;
@@ -403,173 +385,6 @@ begin
   end;	
 end;
 
-function TWFXModule.WFXCopyOut: Boolean;
-var
-  Count, I : Integer;
-  ri : TRemoteInfo;
-  iInt64Rec : TInt64Rec;
-  RemoteName,
-  LocalName : String;
-  iResult : Integer;
-begin
-  FsFillAndCount(FFileList, FFilesSize);
-  Count := FFileList.Count - 1;
-
-  for I := 0 to Count do
-    begin
-      RemoteName := FFileList.CurrentDirectory + FFileList.GetFileName(I);
-      LocalName := ExtractFilePath(FDstPath) +  FFileList.GetFileName(I);
-
-      DebugLN('Remote name == ' + RemoteName);
-      DebugLN('Local name == ' + LocalName);
-
-      if FPS_ISDIR(FFileList.GetItem(I)^.iMode) then
-        begin
-          mbForceDirectory(LocalName);
-          Continue;
-        end;
-
-      with ri, FFileList.GetItem(I)^ do
-        begin
-          iInt64Rec.Value := iSize;
-          SizeLow := iInt64Rec.Low;
-          SizeHigh := iInt64Rec.High;
-          LastWriteTime := DateTimeToFileTime(fTimeI);
-          Attr := iMode;
-        end;
-
-      FLastFileSize := FFileList.GetItem(I)^.iSize;
-
-      iResult := FsGetFile(PChar(UTF8ToSys(RemoteName)), PChar(UTF8ToSys(LocalName)), FFlags, @ri);
-
-      if iResult = FS_FILE_USERABORT then
-      begin
-        FreeAndNil(FFileList);
-        Exit; //Copying was aborted by the user (through ProgressProc)
-      end;
-
-      Result := (iResult = FS_FILE_OK);
-
-      { Log messages }
-      if Result then
-        // write log success
-        if (log_vfs_op in gLogOptions) and (log_success in gLogOptions) then
-          logWrite(CT, Format(rsMsgLogSuccess+rsMsgLogCopy, [RemoteName+' -> '+LocalName]), lmtSuccess)
-      else
-        // write log error
-        if (log_vfs_op in gLogOptions) and (log_errors in gLogOptions) then
-          logWrite(CT, Format(rsMsgLogError+rsMsgLogCopy, [RemoteName+' -> '+LocalName]), lmtError);
-      {/ Log messages }
-    end;
-  FreeAndNil(FFileList);
-end;
-
-function TWFXModule.WFXCopyIn: Boolean;
-var
-  Count, I : Integer;
-  LocalName,
-  RemoteName : String;
-  iResult : Integer;
-begin
-  FillAndCount(FFileList, FFilesSize);
-  Count := FFileList.Count - 1;
-  for I := 0 to Count do
-    begin
-      LocalName := FFileList.CurrentDirectory + FFileList.GetFileName(I);
-      RemoteName := ExtractFilePath(FDstPath) +  FFileList.GetFileName(I);
-
-      DebugLN('Local name == ' + LocalName);
-      DebugLN('Remote name == ' + RemoteName);
-
-      if FPS_ISDIR(FFileList.GetItem(I)^.iMode) then
-        begin
-          FsMkDir(PChar(UTF8ToSys(RemoteName)));
-          Continue;
-        end;
-
-      FLastFileSize := FFileList.GetItem(I)^.iSize;
-
-      iResult := FsPutFile(PChar(UTF8ToSys(LocalName)), PChar(UTF8ToSys(RemoteName)), FFlags);
-
-      if iResult = FS_FILE_USERABORT then
-      begin
-        FreeAndNil(FFileList);
-        Exit; //Copying was aborted by the user (through ProgressProc)
-      end;
-
-      Result := (iResult = FS_FILE_OK);
-      
-      { Log messages }
-      if Result then
-        // write log success
-        if (log_vfs_op in gLogOptions) and (log_success in gLogOptions) then
-          logWrite(CT, Format(rsMsgLogSuccess+rsMsgLogCopy, [LocalName+' -> '+RemoteName]), lmtSuccess)
-      else
-        // write log error
-        if (log_vfs_op in gLogOptions) and (log_errors in gLogOptions) then
-          logWrite(CT, Format(rsMsgLogError+rsMsgLogCopy, [LocalName+' -> '+RemoteName]), lmtError);
-      {/ Log messages }
-    end;
-  FreeAndNil(FFileList);
-end;
-
-function TWFXModule.VFSCopyOut(var flSrcList: TFileList; sDstPath: String;
-  Flags: Integer): Boolean;
-begin
-  Result := True;
-  try
-    FFileOpDlg:= TfrmFileOp.Create(nil);
-    FFileOpDlg.Show;
-{
-    FFileOpDlg.iProgress1Max:=100;
-    FFileOpDlg.iProgress2Max:=100;
-}
-    FFileOpDlg.Caption := rsDlgCp;
-
-    FFileList := flSrcList;
-    FDstPath := sDstPath;
-    FFlags := Flags;
-
-    CT := nil;
-    WFXCopyOut;
-    FFileOpDlg.Close;
-
-  except
-    Result := False;
-  end;
-
-  FFileOpDlg := nil;
-end;
-
-function TWFXModule.VFSCopyOutEx(var flSrcList: TFileList; sDstPath: String;
-  Flags: Integer): Boolean;
-begin
-{
-  //VFSCopyOut(flSrcList, sDstPath, Flags);
-  Result := True;
-  try
-    FFileOpDlg:= TfrmFileOp.Create(nil);
-    FFileOpDlg.Show;
-    FFileOpDlg.iProgress1Max:=100;
-    FFileOpDlg.iProgress2Max:=100;
-    FFileOpDlg.Caption := rsDlgCp;
-
-    FFileList := flSrcList;
-    FDstPath := sDstPath;
-    FFlags := Flags;
-
-    CT := TWFXCopyThread.Create(True);
-    CT.FreeOnTerminate := True;
-    CT.Operation := OP_COPYOUT;
-    CT.WFXModule := Self;
-    FFileOpDlg.Thread := TThread(CT);
-    CT.Resume;
-  except
-    Result := False;
-  end;
-}
-end;
-
 function TWFXModule.VFSRun(const sName: String): Boolean;
 var
   pcRemoteName: PChar;
@@ -595,33 +410,6 @@ begin
     end
   else
     Result:=0;
-end;
-
-{ TWFXCopyThread }
-
-procedure TWFXCopyThread.Execute;
-begin
-// main archive thread code started here
-{  try
-    with WFXModule do
-      begin
-      case Operation of
-        OP_COPYOUT:
-          begin
-            WFXCopyOut;
-          end;
-        OP_COPYIN:
-          begin
-            WFXCopyIn;
-          end;
-      end; //case
-    end; //with
-  except
-    DebugLN('Error in "WFXCopyThread.Execute"');
-  end;
- }
-  Synchronize(WFXModule.FFileOpDlg.Close);
-  WFXModule.FFileOpDlg := nil;
 end;
 
 { TWFXModuleList }

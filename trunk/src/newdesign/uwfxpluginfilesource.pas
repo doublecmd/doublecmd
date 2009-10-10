@@ -52,6 +52,9 @@ type
     function CreateCopyInOperation(var SourceFileSource: TFileSource;
                                    var SourceFiles: TFiles;
                                    TargetPath: String): TFileSourceOperation; override;
+    function CreateCopyOutOperation(var TargetFileSource: TFileSource;
+                                    var SourceFiles: TFiles;
+                                    TargetPath: String): TFileSourceOperation; override;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
     function CreateCreateDirectoryOperation(DirectoryPath: String): TFileSourceOperation; override;
 
@@ -70,7 +73,7 @@ implementation
 
 uses
   LCLProc, FileUtil, uGlobs, uDCUtils, uLog, uLng,
-  uWfxPluginCopyInOperation,
+  uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,
   uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation, uWfxPluginDeleteOperation,
   uWfxPluginFile;
 
@@ -265,7 +268,7 @@ end;
 
 class function TWfxPluginFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result := [fsoList, fsoCopyIn, fsoDelete, fsoCreateDirectory];
+  Result := [fsoList, fsoCopyIn, fsoCopyOut, fsoDelete, fsoCreateDirectory];
 end;
 
 class function TWfxPluginFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
@@ -443,6 +446,19 @@ var
 begin
   TargetFileSource := Self.Clone;
   Result := TWfxPluginCopyInOperation.Create(SourceFileSource,
+                                              TargetFileSource,
+                                              SourceFiles, TargetPath);
+end;
+
+function TWfxPluginFileSource.CreateCopyOutOperation(
+            var TargetFileSource: TFileSource;
+            var SourceFiles: TFiles;
+            TargetPath: String): TFileSourceOperation;
+var
+  SourceFileSource: TFileSource;
+begin
+  SourceFileSource := Self.Clone;
+  Result := TWfxPluginCopyOutOperation.Create(SourceFileSource,
                                               TargetFileSource,
                                               SourceFiles, TargetPath);
 end;
