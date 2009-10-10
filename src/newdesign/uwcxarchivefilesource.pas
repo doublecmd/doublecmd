@@ -52,9 +52,7 @@ type
     function CreateCopyOutOperation(var TargetFileSource: TFileSource;
                                     var SourceFiles: TFiles;
                                     TargetPath: String): TFileSourceOperation; override;
-{
-    function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; virtual abstract;
-}
+    function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
 
     class function CreateByArchiveName(anArchiveFileName: String): TWcxArchiveFileSource;
 
@@ -66,8 +64,11 @@ type
 implementation
 
 uses Forms, Controls, uGlobs, LCLProc, uDCUtils,
-     uGlobsPaths, FileUtil, uWcxArchiveFile, uWcxArchiveListOperation,
-     uWcxArchiveCopyInOperation, uWcxArchiveCopyOutOperation;
+     uGlobsPaths, FileUtil, uWcxArchiveFile,
+     uWcxArchiveListOperation,
+     uWcxArchiveCopyInOperation,
+     uWcxArchiveCopyOutOperation,
+     uWcxArchiveDeleteOperation;
 
 class function TWcxArchiveFileSource.CreateByArchiveName(anArchiveFileName: String): TWcxArchiveFileSource;
 var
@@ -146,7 +147,7 @@ end;
 
 class function TWcxArchiveFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result := [fsoList, fsoCopyIn, fsoCopyOut];
+  Result := [fsoList, fsoCopyIn, fsoCopyOut, fsoDelete];
 end;
 
 class function TWcxArchiveFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
@@ -207,6 +208,15 @@ begin
   Result := TWcxArchiveCopyOutOperation.Create(SourceFileSource,
                                                TargetFileSource,
                                                SourceFiles, TargetPath);
+end;
+
+function TWcxArchiveFileSource.CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
+var
+  TargetFileSource: TFileSource;
+begin
+  TargetFileSource := Self.Clone;
+  Result := TWcxArchiveDeleteOperation.Create(TargetFileSource,
+                                              FilesToDelete);
 end;
 
 function TWcxArchiveFileSource.ReadArchive(bCanYouHandleThisFile : Boolean = False): Boolean;
