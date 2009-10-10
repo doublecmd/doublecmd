@@ -14,6 +14,7 @@ uses
   uFileSourceCopyOperation;
 
   procedure SplitFileMask(const DestMask: String; out DestNameMask: String; out DestExtMask: String);
+  function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): String;
   function GetAbsoluteTargetFileName(aFile: TFile; SourcePath: String; TargetPath: String;
                                      NameMask: String; ExtMask: String): String;
   procedure FillAndCount(Files: TFileSystemFiles; out NewFiles: TFileSystemFiles;
