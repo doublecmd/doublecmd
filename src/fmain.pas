@@ -406,6 +406,7 @@ type
 
     function FramepnlFileBeforeChangeDirectory(Sender: TCustomPage; const NewDir : String): Boolean;
     procedure FramepnlFileAfterChangeDirectory(Sender: TCustomPage; const NewDir : String);
+    procedure FramepnlFileChangeFileSource(Sender: TCustomPage);
     procedure edtCommandKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure edtCommandEnter(Sender: TObject);
@@ -747,6 +748,12 @@ begin
   DebugLn('frmMain.Destroy');
 
   OperationsManager.RemoveEventsListener([omevOperationFinished], @OperationFinishedEvent);
+
+  // Disable file watcher.
+  if Assigned(LeftFrameWatcher) then
+    FreeAndNil(LeftFrameWatcher);
+  if Assigned(RightFrameWatcher) then
+    FreeAndNil(RightFrameWatcher);
 
   //ColSet.Free;
 
@@ -2298,10 +2305,34 @@ begin
         end;
 
       // update file system watcher directory
-      if (ANoteBook = nbLeft) and Assigned(LeftFrameWatcher) then
-        LeftFrameWatcher.WatchPath:= NewDir
-      else if (ANoteBook = nbRight) and Assigned(RightFrameWatcher) then
-        RightFrameWatcher.WatchPath:= NewDir;
+      if (Page.FileView.FileSource is TFileSystemFileSource) then
+      begin
+        if (ANoteBook = nbLeft) and Assigned(LeftFrameWatcher) then
+          LeftFrameWatcher.WatchPath:= NewDir
+        else if (ANoteBook = nbRight) and Assigned(RightFrameWatcher) then
+            RightFrameWatcher.WatchPath:= NewDir;
+      end;
+
+      UpdateSelectedDrive(ANoteBook);
+      UpdateFreeSpace(ANoteBook.Side);
+    end;
+end;
+
+procedure TfrmMain.FramepnlFileChangeFileSource(Sender: TCustomPage);
+var
+  ANoteBook : TFileViewNotebook;
+  Page: TFileViewPage;
+  sCaption : String;
+begin
+  if Sender is TFileViewPage then
+    begin
+      Page := Sender as TFileViewPage;
+      ANoteBook := Page.Notebook;
+
+      sCaption := GetLastDir(ExcludeTrailingPathDelimiter(Page.FileView.FileSource.CurrentPath));
+      Page.UpdateCaption(sCaption);
+
+      ToggleFileSystemWatcher;
 
       UpdateSelectedDrive(ANoteBook);
       UpdateFreeSpace(ANoteBook.Side);
@@ -2478,6 +2509,7 @@ begin
   begin
     OnBeforeChangeDirectory := @FramepnlFileBeforeChangeDirectory;
     OnAfterChangeDirectory := @FramepnlFileAfterChangeDirectory;
+    OnChangeFileSource := @FramepnlFileChangeFileSource;
   end;
 end;
 
@@ -2702,19 +2734,29 @@ procedure TfrmMain.ToggleFileSystemWatcher;
 var
   WatchFilter: TWatchFilter;
 begin
-  if gWatchDirs <> [] then
+  WatchFilter:= [];
+  if (watch_file_name_change in gWatchDirs) then
+    Include(WatchFilter, wfFileNameChange);
+  if (watch_attributes_change in gWatchDirs) then
+    Include(WatchFilter, wfAttributesChange);
+
+  if (gWatchDirs <> []) and (FrameLeft.FileSource is TFileSystemFileSource) then
     begin
-      WatchFilter:= [];
-      if (watch_file_name_change in gWatchDirs) then
-        Include(WatchFilter, wfFileNameChange);
-      if (watch_attributes_change in gWatchDirs) then
-        Include(WatchFilter, wfAttributesChange);
       if not Assigned(LeftFrameWatcher) then
         begin
           LeftFrameWatcher:= TFileSystemWatcher.Create(nbLeft, FrameLeft.CurrentPath, WatchFilter);
           LeftFrameWatcher.OnWatcherNotifyEvent:= @FramePanelOnWatcherNotifyEvent;
           LeftFrameWatcher.Active:= True;
         end;
+    end
+  else
+    begin
+      if Assigned(LeftFrameWatcher) then
+        FreeAndNil(LeftFrameWatcher);
+    end;
+
+  if (gWatchDirs <> []) and (FrameRight.FileSource is TFileSystemFileSource) then
+    begin
       if not Assigned(RightFrameWatcher) then
         begin
           RightFrameWatcher:= TFileSystemWatcher.Create(nbRight, FrameRight.CurrentPath, WatchFilter);
@@ -2724,8 +2766,6 @@ begin
     end
   else
     begin
-      if Assigned(LeftFrameWatcher) then
-        FreeAndNil(LeftFrameWatcher);
       if Assigned(RightFrameWatcher) then
         FreeAndNil(RightFrameWatcher);
     end;
@@ -2953,10 +2993,12 @@ begin
       sWatchDirsExclude:= gWatchDirsExclude;
       repeat
         sDrive:= Copy2SymbDel(sWatchDirsExclude, ';');
-        if Pos(sDrive, FileView.CurrentPath) = 1 then Exit;
+        if IsInPath(UTF8UpperCase(sDrive), UTF8UpperCase(FileView.CurrentPath), True) then
+          Exit;
       until sWatchDirsExclude = '';
     end;
-//  FileView.RefreshPanel((watch_total_number_files in gWatchDirs), (watch_free_disk_space in gWatchDirs));
+
+  FileView.Reload;
 end;
 
 procedure TfrmMain.tmHALTimer(Sender: TObject);

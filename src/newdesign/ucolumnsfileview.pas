@@ -2507,7 +2507,12 @@ end;
 procedure TColumnsFileView.AddFileSource(aFileSource: TFileSource);
 begin
   LastActive := '';
+
   inherited AddFileSource(aFileSource);
+
+  if Assigned(OnChangeFileSource) then
+    OnChangeFileSource(Parent as TCustomPage);
+
   dgPanel.Row := 0;
 end;
 
@@ -2519,6 +2524,9 @@ begin
   FocusedFile := ExtractFileName(FileSource.CurrentAddress);
 
   inherited RemoveLastFileSource;
+
+  if Assigned(OnChangeFileSource) then
+    OnChangeFileSource(Parent as TCustomPage);
 
   Select(FocusedFile);
 end;

@@ -104,7 +104,8 @@ var
 begin
   hNotifyFilter:= 0;
   if wfFileNameChange in FWatchFilter then
-    hNotifyFilter:= hNotifyFilter or FILE_NOTIFY_CHANGE_FILE_NAME;
+    hNotifyFilter:= hNotifyFilter or FILE_NOTIFY_CHANGE_FILE_NAME
+                                  or FILE_NOTIFY_CHANGE_DIR_NAME;
   if wfAttributesChange in FWatchFilter then
     hNotifyFilter:= hNotifyFilter or FILE_NOTIFY_CHANGE_ATTRIBUTES;
 
@@ -277,7 +278,10 @@ begin
   else
     begin
       if Assigned(FWatcherThread) then
+      begin
         FWatcherThread.Terminate;
+        FWatcherThread := nil;
+      end;
       FActive:= AValue;
     end;
 end;
@@ -300,7 +304,10 @@ end;
 destructor TFileSystemWatcher.Destroy;
 begin
   if Assigned(FWatcherThread) then
+  begin
     FWatcherThread.Terminate;
+    FWatcherThread := nil;
+  end;
   inherited Destroy;
 end;
 
