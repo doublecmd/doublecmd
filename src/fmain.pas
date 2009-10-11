@@ -2719,7 +2719,7 @@ begin
       if Assigned(Cons) then
         FreeAndNil(Cons);
     end;
-
+  pnlCommand.ClientHeight:= nbConsole.Height;
   nbConsole.Visible:= gTermWindow;
   Splitter1.Visible:= gTermWindow;
   pnlCommand.AutoSize:= not gTermWindow;
