@@ -17,6 +17,13 @@ uses
 
 type
 
+  TUpdateProgress = function(SourceName, TargetName: UTF8String; PercentDone: Integer): Integer of object;
+
+  TUpdateProgressClass = class
+  public
+    UpdateProgressFunction: TUpdateProgress;
+  end;
+
   TWfxPluginOperationHelperMode =
     (wpohmCopyMoveIn, wpohmCopyMoveOut);
 

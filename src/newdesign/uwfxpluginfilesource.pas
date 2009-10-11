@@ -75,46 +75,23 @@ uses
   LCLProc, FileUtil, uGlobs, uDCUtils, uLog, uLng,
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,
   uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation, uWfxPluginDeleteOperation,
-  uWfxPluginFile;
+  uWfxPluginFile, uWfxPluginUtil;
 
 { CallBack functions }
 
 function MainProgressProc(PluginNr: Integer; SourceName, TargetName: PChar; PercentDone: Integer): Integer; stdcall;
+var
+  UpdateProgressClass: TUpdateProgressClass;
 begin
-
   Result:= 0;
-  DebugLN('MainProgressProc ('+IntToStr(PluginNr)+','+SourceName+','+TargetName+','+inttostr(PercentDone)+')' ,inttostr(result));
-{
-  with TWFXModule(WFXModuleList.Items[PluginNr]) do
-  begin
-    if not Assigned(FFileOpDlg) then Exit;
-    if FFileOpDlg.ModalResult = mrCancel then // Cancel operation
-      Result:= 1;
 
-    DebugLN('Percent1 = ' + IntToStr(PercentDone));
+  DebugLn('MainProgressProc ('+IntToStr(PluginNr)+','+SourceName+','+TargetName+','+IntToStr(PercentDone)+')=' ,IntTostr(Result));
 
-    FFileOpDlg.iProgress1Pos:= PercentDone;
+  UpdateProgressClass:= TUpdateProgressClass(WfxOperationList.Items[PluginNr]);
 
-    if (FLastFileSize > 0) and (PercentDone = 100) then
-    begin
-      FPercent:= FPercent + ((FLastFileSize * 100) / FFilesSize);
-      DebugLN('Percent2 = ' + IntToStr(Round(FPercent)));
+  if not Assigned(UpdateProgressClass) then Exit;
 
-      FFileOpDlg.iProgress2Pos:= Round(FPercent);
-    end;
-
-    FFileOpDlg.sFileNameFrom:= SysToUTF8(SourceName);
-    FFileOpDlg.sFileNameTo:= SysToUTF8(TargetName);
-
-    if Assigned(CT) then
-      CT.Synchronize(FFileOpDlg.UpdateDlg)
-    else
-      begin
-        FFileOpDlg.UpdateDlg;
-        Application.ProcessMessages;
-      end;
-  end; //with
-}
+  Result:= UpdateProgressClass.UpdateProgressFunction(SysToUTF8(SourceName), SysToUTF8(TargetName), PercentDone);
 end;
 
 procedure MainLogProc(PluginNr, MsgType: Integer; LogString: PChar); stdcall;
