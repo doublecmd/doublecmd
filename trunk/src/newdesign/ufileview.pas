@@ -12,6 +12,7 @@ type
 
   TOnBeforeChangeDirectory = function (FileView: TCustomPage; const NewDir : String): Boolean of object;
   TOnAfterChangeDirectory = procedure (FileView: TCustomPage; const NewDir : String) of object;
+  TOnChangeFileSource = procedure (FileView: TCustomPage) of object;
 
   {en
      Base class for any view of a file or files.
@@ -33,6 +34,7 @@ type
 
     FOnBeforeChangeDirectory : TOnBeforeChangeDirectory;
     FOnAfterChangeDirectory : TOnAfterChangeDirectory;
+    FOnChangeFileSource : TOnChangeFileSource;
 
     function GetCurrentAddress: String;
 
@@ -107,6 +109,7 @@ type
     property NotebookPage: TCustomPage read GetNotebookPage;
     property OnBeforeChangeDirectory : TOnBeforeChangeDirectory read FOnBeforeChangeDirectory write FOnBeforeChangeDirectory;
     property OnAfterChangeDirectory : TOnAfterChangeDirectory read FOnAfterChangeDirectory write FOnAfterChangeDirectory;
+    property OnChangeFileSource : TOnChangeFileSource read FOnChangeFileSource write FOnChangeFileSource;
   end;
 
 implementation
@@ -116,9 +119,14 @@ uses
 
 constructor TFileView.Create(AOwner: TWinControl; FileSource: TFileSource);
 begin
+  FOnBeforeChangeDirectory := nil;
+  FOnAfterChangeDirectory := nil;
+  FOnChangeFileSource := nil;
+
   FFileSources := TObjectList.Create(True); // True = Free objects on destroy.
   FFileSources.Add(FileSource);
   FMethods := TMethodsList.Create(Self);
+
   inherited Create(AOwner);
 end;
 
