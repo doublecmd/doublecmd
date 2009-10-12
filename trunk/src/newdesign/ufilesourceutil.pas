@@ -82,8 +82,11 @@ begin
               // CopyOut file to temp file system and execute
             end;
           fseorSymLink:
-            // change directory to new path (returned in Operation.ExecutablePath)
-            DebugLn('Change directory to ', Operation.ExecutablePath);
+            begin
+              // change directory to new path (returned in Operation.ExecutablePath)
+              DebugLn('Change directory to ', Operation.ExecutablePath);
+              aFileView.FileSource.CurrentPath:= Operation.ExecutablePath;
+            end;
           end;
         finally
           FreeAndNil(Operation);

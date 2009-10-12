@@ -58,7 +58,7 @@ begin
   Attributes := FindData.dwFileAttributes;
   Size := (Int64(FindData.nFileSizeHigh) * MAXDWORD) + FindData.nFileSizeLow;
   ModificationTime := FileTimeToDateTime(FindData.ftLastWriteTime);
-  FIsLinkToDirectory := FPS_ISLNK(FindData.dwFileAttributes);
+  FIsLinkToDirectory := FPS_ISLNK(FindData.dwFileAttributes) and FPS_ISDIR(FindData.dwFileAttributes);
 
   // Set name after assigning Attributes property, because it is used to get extension.
   Name := SysToUTF8(FindData.cFileName);

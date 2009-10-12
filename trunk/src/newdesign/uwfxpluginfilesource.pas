@@ -418,10 +418,12 @@ begin
     Result:= WFX_NOTSUPPORTED;
     if Assigned(FsExecuteFile) then
       begin
-        pcRemoteName:= PChar(UTF8ToSys(sFileName));
+        pcRemoteName:= GetMem(MAX_PATH);
+        StrPCopy(pcRemoteName, UTF8ToSys(sFileName));
         Result:= FsExecuteFile(0, pcRemoteName, PChar(UTF8ToSys(sVerb)));
         if Result = FS_EXEC_SYMLINK then
           sNewPath:= SysToUTF8(pcRemoteName);
+        FreeMem(pcRemoteName);
       end;
   end;
 end;
