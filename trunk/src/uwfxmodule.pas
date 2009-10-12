@@ -31,8 +31,8 @@ unit uWFXmodule;
 
 interface
 uses
- sysutils, Classes, uFileList, uVFSModule, uVFSTypes, ufsplugin, uWFXprototypes,
- dynlibs, uTypes, fFileOpDlg, uClassesEx;
+ SysUtils, Classes, uVFSModule, uVFSTypes, ufsplugin, uWFXprototypes,
+ dynlibs, uTypes, uClassesEx;
 
 const
   WFX_SUCCESS      =  0;
@@ -45,22 +45,14 @@ type
 
   TWFXModule = class (TVFSModule)
   private
-    FModuleHandle:TLibHandle;  // Handle to .DLL or .so
-    FFileList : TFileList;
-    FFlags : Integer;
-    FDstPath,
-    FFolder : String; // current directory
-    FLastFileSize,
-    FFilesSize: Int64;
-    FPercent : Double;
-    FFileOpDlg: TfrmFileOp; // progress window
+    FModuleHandle: TLibHandle;  // Handle to .DLL or .so
   public
-  {Mandatory}
+  { Mandatory }
     FsInit : TFsInit;
     FsFindFirst : TFsFindFirst;
     FsFindNext : TFsFindNext;
     FsFindClose : TFsFindClose;
-  {Optional}
+  { Optional }
     FsGetDefRootName : TFsGetDefRootName;
     FsGetFile : TFsGetFile;
     FsPutFile : TFsPutFile;
@@ -90,21 +82,18 @@ type
     FsContentGetSupportedFieldFlags:TFsContentGetSupportedFieldFlags;
     FsContentSetValue:TFsContentSetValue;
     FsContentGetDefaultView:TFsContentGetDefaultView;
-
     //---------------------
     procedure WFXStatusInfo(RemoteDir: String; InfoStartEnd, InfoOperation: Integer);
   public
     constructor Create;
     destructor Destroy; override;
-    function LoadModule(const sName:String):Boolean;override; {Load plugin}
+    function LoadModule(const sName: String):Boolean;override; {Load plugin}
     procedure UnloadModule;override;
     function VFSInit(Data: PtrInt):Boolean;override;
     procedure VFSDestroy;override;
     function VFSCaps : TVFSCaps;override;
 
     function VFSConfigure(Parent: THandle):Boolean;override;
-    
-    function VFSRun(const sName:String):Boolean;override;
 
     function VFSMisc: PtrUInt; override;
   end;
@@ -169,8 +158,7 @@ end;
 
 constructor TWFXModule.Create;
 begin
-  FFilesSize := 0;
-  FPercent := 0;
+
 end;
 
 destructor TWFXModule.Destroy;
@@ -188,12 +176,12 @@ begin
   FModuleHandle := mbLoadLibrary(sName);
   Result := (FModuleHandle <> 0);
   if  FModuleHandle = 0 then exit;
-{Mandatory}
+{ Mandatory }
   FsInit := TFsInit(GetProcAddress(FModuleHandle,'FsInit'));
   FsFindFirst := TFsFindFirst(GetProcAddress(FModuleHandle,'FsFindFirst'));
   FsFindNext := TFsFindNext(GetProcAddress(FModuleHandle,'FsFindNext'));
   FsFindClose := TFsFindClose(GetProcAddress(FModuleHandle,'FsFindClose'));
-{Optional}
+{ Optional }
   FsGetDefRootName := TFsGetDefRootName(GetProcAddress(FModuleHandle,'FsGetDefRootName'));
   FsExecuteFile := TFsExecuteFile(GetProcAddress(FModuleHandle,'FsExecuteFile'));
   FsGetFile := TFsGetFile(GetProcAddress(FModuleHandle,'FsGetFile'));
@@ -204,27 +192,25 @@ begin
   FsStatusInfo := TFsStatusInfo(GetProcAddress(FModuleHandle,'FsStatusInfo'));
   FsSetDefaultParams := TFsSetDefaultParams(GetProcAddress(FModuleHandle,'FsSetDefaultParams'));
   FsContentPluginUnloading := TFsContentPluginUnloading(GetProcAddress(FModuleHandle,'FsContentPluginUnloading'));
-//---------------------
-    FsSetAttr := TFsSetAttr (GetProcAddress(FModuleHandle,'FsSetAttr'));
-    FsSetTime := TFsSetTime (GetProcAddress(FModuleHandle,'FsSetTime'));
-    FsExtractCustomIcon := TFsExtractCustomIcon (GetProcAddress(FModuleHandle,'FsExtractCustomIcon'));
-    FsRenMovFile := TFsRenMovFile (GetProcAddress(FModuleHandle,'FsRenMovFile'));
-    FsDisconnect := TFsDisconnect (GetProcAddress(FModuleHandle,'FsDisconnect'));
-    FsGetPreviewBitmap := TFsGetPreviewBitmap (GetProcAddress(FModuleHandle,'FsGetPreviewBitmap'));
-    FsLinksToLocalFiles := TFsLinksToLocalFiles (GetProcAddress(FModuleHandle,'FsLinksToLocalFiles'));
-    FsGetLocalName := TFsGetLocalName (GetProcAddress(FModuleHandle,'FsGetLocalName'));
-    //---------------------
-    FsContentGetDetectString := TFsContentGetDetectString (GetProcAddress(FModuleHandle,'FsContentGetDetectString'));
-    FsContentGetSupportedField := TFsContentGetSupportedField (GetProcAddress(FModuleHandle,'FsContentGetSupportedField'));
-    FsContentGetValue := TFsContentGetValue (GetProcAddress(FModuleHandle,'FsContentGetValue'));
-    FsContentSetDefaultParams := TFsContentSetDefaultParams (GetProcAddress(FModuleHandle,'FsContentSetDefaultParams'));
-    FsContentStopGetValue := TFsContentStopGetValue (GetProcAddress(FModuleHandle,'FsContentStopGetValue'));
-    FsContentGetDefaultSortOrder := TFsContentGetDefaultSortOrder (GetProcAddress(FModuleHandle,'FsContentGetDefaultSortOrder'));
-    FsContentGetSupportedFieldFlags := TFsContentGetSupportedFieldFlags (GetProcAddress(FModuleHandle,'FsContentGetSupportedFieldFlags'));
-    FsContentSetValue := TFsContentSetValue (GetProcAddress(FModuleHandle,'FsContentSetValue'));
-    FsContentGetDefaultView := TFsContentGetDefaultView (GetProcAddress(FModuleHandle,'FsContentGetDefaultView'));
-
-  
+  //---------------------
+  FsSetAttr := TFsSetAttr (GetProcAddress(FModuleHandle,'FsSetAttr'));
+  FsSetTime := TFsSetTime (GetProcAddress(FModuleHandle,'FsSetTime'));
+  FsExtractCustomIcon := TFsExtractCustomIcon (GetProcAddress(FModuleHandle,'FsExtractCustomIcon'));
+  FsRenMovFile := TFsRenMovFile (GetProcAddress(FModuleHandle,'FsRenMovFile'));
+  FsDisconnect := TFsDisconnect (GetProcAddress(FModuleHandle,'FsDisconnect'));
+  FsGetPreviewBitmap := TFsGetPreviewBitmap (GetProcAddress(FModuleHandle,'FsGetPreviewBitmap'));
+  FsLinksToLocalFiles := TFsLinksToLocalFiles (GetProcAddress(FModuleHandle,'FsLinksToLocalFiles'));
+  FsGetLocalName := TFsGetLocalName (GetProcAddress(FModuleHandle,'FsGetLocalName'));
+  //---------------------
+  FsContentGetDetectString := TFsContentGetDetectString (GetProcAddress(FModuleHandle,'FsContentGetDetectString'));
+  FsContentGetSupportedField := TFsContentGetSupportedField (GetProcAddress(FModuleHandle,'FsContentGetSupportedField'));
+  FsContentGetValue := TFsContentGetValue (GetProcAddress(FModuleHandle,'FsContentGetValue'));
+  FsContentSetDefaultParams := TFsContentSetDefaultParams (GetProcAddress(FModuleHandle,'FsContentSetDefaultParams'));
+  FsContentStopGetValue := TFsContentStopGetValue (GetProcAddress(FModuleHandle,'FsContentStopGetValue'));
+  FsContentGetDefaultSortOrder := TFsContentGetDefaultSortOrder (GetProcAddress(FModuleHandle,'FsContentGetDefaultSortOrder'));
+  FsContentGetSupportedFieldFlags := TFsContentGetSupportedFieldFlags (GetProcAddress(FModuleHandle,'FsContentGetSupportedFieldFlags'));
+  FsContentSetValue := TFsContentSetValue (GetProcAddress(FModuleHandle,'FsContentSetValue'));
+  FsContentGetDefaultView := TFsContentGetDefaultView (GetProcAddress(FModuleHandle,'FsContentGetDefaultView'));
 end;
 
 procedure TWFXModule.UnloadModule;
@@ -232,12 +218,12 @@ begin
   if FModuleHandle <> 0 then
     FreeLibrary(FModuleHandle);
   FModuleHandle := 0;
-{Mandatory}
+{ Mandatory }
   FsInit := nil;
   FsFindFirst := nil;
   FsFindNext := nil;
   FsFindClose := nil;
-{Optional}
+{ Optional }
   FsGetDefRootName := nil;
   FsGetFile := nil;
   FsPutFile := nil;
@@ -313,19 +299,6 @@ begin
   except
     Result:= False;
   end;	
-end;
-
-function TWFXModule.VFSRun(const sName: String): Boolean;
-var
-  pcRemoteName: PChar;
-begin
-  WFXStatusInfo(FFolder, FS_STATUS_START, FS_STATUS_OP_EXEC);
-  if Assigned(FsExecuteFile) then
-    begin
-      StrPCopy(pcRemoteName, FFolder + UTF8ToSys(sName));
-      FsExecuteFile(0, pcRemoteName, 'open');
-    end;
-  WFXStatusInfo(FFolder, FS_STATUS_END, FS_STATUS_OP_EXEC);
 end;
 
 function TWFXModule.VFSMisc: PtrUInt;
