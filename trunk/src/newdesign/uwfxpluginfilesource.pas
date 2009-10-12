@@ -74,7 +74,7 @@ var
 implementation
 
 uses
-  LCLProc, FileUtil, uGlobs, uDCUtils, uLog, uLng,
+  LCLProc, FileUtil,{} Forms, Dialogs, LCLType,{} uGlobs, uDCUtils, uLog, uLng,
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation, uWfxPluginExecuteOperation,
   uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation, uWfxPluginDeleteOperation,
   uWfxPluginFile, uWfxPluginUtil;
@@ -135,8 +135,8 @@ var
   sCustomTitle,
   sReturnedText: String;
 begin
-{
   Result:= False;
+  // Use operation UI for this?
   if CustomTitle = '' then
     sCustomTitle:= 'Double Commander'
   else
@@ -205,7 +205,7 @@ begin
       if ReturnedText <> nil then
         StrPCopy(ReturnedText, Copy(sReturnedText, 1, MaxLen));
     end;
-}
+
   DebugLn('MainRequestProc ('+IntToStr(PluginNr)+','+sReq+','+CustomTitle+','+CustomText+','+ReturnedText+')', BoolToStr(Result, True));
 end;
 
