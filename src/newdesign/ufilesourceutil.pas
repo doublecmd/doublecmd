@@ -73,6 +73,18 @@ begin
       if Assigned(Operation) then
         try
           Operation.Execute;
+          case Operation.ExecuteOperationResult of
+          fseorError:
+            // Show error message
+            DebugLn('Execution error!');
+          fseorYourSelf:
+            begin
+              // CopyOut file to temp file system and execute
+            end;
+          fseorSymLink:
+            // change directory to new path (returned in Operation.ExecutablePath)
+            DebugLn('Change directory to ', Operation.ExecutablePath);
+          end;
         finally
           FreeAndNil(Operation);
           aFileView.Reload;

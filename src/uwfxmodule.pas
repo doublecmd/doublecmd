@@ -36,8 +36,8 @@ uses
 
 const
   WFX_SUCCESS      =  0;
-  WFX_NOTSUPPORTED = -1;
-  WFX_ERROR        = -2;
+  WFX_NOTSUPPORTED = -10;
+  WFX_ERROR        = -20;
 
 type
 

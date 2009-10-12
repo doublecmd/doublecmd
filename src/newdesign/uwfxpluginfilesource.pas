@@ -30,6 +30,7 @@ type
     function WfxDeleteFile(const sFileName: UTF8String): Boolean;
     function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
+    function WfxExecuteFile(const sFileName, sVerb: UTF8String; out sNewPath: UTF8String): LongInt;
   public
     constructor Create(aModuleFileName, aPluginRootName: UTF8String); reintroduce;
     destructor Destroy; override;
@@ -57,6 +58,7 @@ type
                                     TargetPath: String): TFileSourceOperation; override;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
     function CreateCreateDirectoryOperation(DirectoryPath: String): TFileSourceOperation; override;
+    function CreateExecuteOperation(ExecutablePath, Verb: String): TFileSourceOperation; override;
 
     class function CreateByRootName(aRootName: String): TWfxPluginFileSource;
 
@@ -73,7 +75,7 @@ implementation
 
 uses
   LCLProc, FileUtil, uGlobs, uDCUtils, uLog, uLng,
-  uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,
+  uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation, uWfxPluginExecuteOperation,
   uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation, uWfxPluginDeleteOperation,
   uWfxPluginFile, uWfxPluginUtil;
 
@@ -245,7 +247,7 @@ end;
 
 class function TWfxPluginFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result := [fsoList, fsoCopyIn, fsoCopyOut, fsoDelete, fsoCreateDirectory];
+  Result := [fsoList, fsoCopyIn, fsoCopyOut, fsoDelete, fsoCreateDirectory, fsoExecute];
 end;
 
 class function TWfxPluginFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
@@ -406,6 +408,24 @@ begin
   end;
 end;
 
+function TWfxPluginFileSource.WfxExecuteFile(const sFileName, sVerb: UTF8String;
+                                             out sNewPath: UTF8String): LongInt;
+var
+  pcRemoteName: PChar;
+begin
+  with FWfxModule do
+  begin
+    Result:= WFX_NOTSUPPORTED;
+    if Assigned(FsExecuteFile) then
+      begin
+        pcRemoteName:= PChar(UTF8ToSys(sFileName));
+        Result:= FsExecuteFile(0, pcRemoteName, PChar(UTF8ToSys(sVerb)));
+        if Result = FS_EXEC_SYMLINK then
+          sNewPath:= SysToUTF8(pcRemoteName);
+      end;
+  end;
+end;
+
 function TWfxPluginFileSource.CreateListOperation: TFileSourceOperation;
 var
   TargetFileSource: TFileSource;
@@ -454,6 +474,14 @@ var
 begin
   TargetFileSource := Self.Clone;
   Result := TWfxPluginCreateDirectoryOperation.Create(TargetFileSource, DirectoryPath);
+end;
+
+function TWfxPluginFileSource.CreateExecuteOperation(ExecutablePath, Verb: String): TFileSourceOperation;
+var
+  TargetFileSource: TFileSource;
+begin
+  TargetFileSource := Self.Clone;
+  Result:=  TWfxPluginExecuteOperation.Create(TargetFileSource, ExecutablePath, Verb);
 end;
 
 class function TWfxPluginFileSource.CreateByRootName(aRootName: String): TWfxPluginFileSource;
