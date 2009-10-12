@@ -13,23 +13,27 @@ uses
 
 type
 
+  TFileSourceExecuteOperationResult =
+     (fseorSuccess,  //<en the command was executed successfully
+      fseorError,    //<en execution failed
+      fseorYourSelf, //<en DC should download the file and execute it locally
+      fseorSymLink); //<en this was a (symbolic) link or .lnk file pointing to a different directory
+
+  { TFileSourceExecuteOperation }
+
   TFileSourceExecuteOperation = class(TFileSourceOperation)
 
   private
     FFileSource: TFileSource;
-    FExecutablePath: String;
-    FAbsolutePath: String;
-    FRelativePath: String;
-    FVerb: String;
+    FAbsolutePath: UTF8String;
+    FRelativePath: UTF8String;
+    FVerb: UTF8String;
 
   protected
+    FExecutablePath: UTF8String;
+    FExecuteOperationResult: TFileSourceExecuteOperationResult;
     function GetID: TFileSourceOperationType; override;
     procedure UpdateStatisticsAtStartTime; override;
-
-    property ExecutablePath: String read FExecutablePath;
-    property AbsolutePath: String read FAbsolutePath;
-    property RelativePath: String read FRelativePath;
-    property Verb: String read FVerb;
 
   public
     {en
@@ -44,6 +48,12 @@ type
                        aExecutablePath, aVerb: UTF8String); virtual reintroduce;
 
     destructor Destroy; override;
+
+    property ExecutablePath: UTF8String read FExecutablePath write FExecutablePath;
+    property AbsolutePath: UTF8String read FAbsolutePath;
+    property RelativePath: UTF8String read FRelativePath;
+    property Verb: UTF8String read FVerb;
+    property ExecuteOperationResult: TFileSourceExecuteOperationResult read FExecuteOperationResult;
   end;
 
 implementation
