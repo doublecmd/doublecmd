@@ -116,9 +116,9 @@ end;
 function DialogBox(DlgData: PWideChar; DlgProc: TDlgProc): PtrUInt;stdcall;
 var
   DataString: UTF8String;
-  LFMStream,
-  BinStream: TStringStream;
-  Dialog: TDialogBox;
+  LFMStream: TStringStream = nil;
+  BinStream: TStringStream = nil;
+  Dialog: TDialogBox = nil;
 begin
   try
     DataString:= UTF8Encode(DlgData);
@@ -135,11 +135,15 @@ begin
       fDlgProc:= DlgProc;
       ShowModal;
     end;
-    Result:= PtrUInt(Pointer(Dialog));
-    
+    Result:= PtrUInt(Dialog.DialogButton);
+
   finally
-    FreeAndNil(LFMStream);
-    FreeAndNil(BinStream);
+    if Assigned(Dialog) then
+      FreeAndNil(Dialog);
+    if Assigned(LFMStream) then
+      FreeAndNil(LFMStream);
+    if Assigned(BinStream) then
+      FreeAndNil(BinStream);
   end;
 end;
 
