@@ -27,7 +27,7 @@ unit uShellExecute;
 interface
 
 uses
-  Classes, SysUtils, uTypes, uFile;
+  Classes, SysUtils, uFile;
 
 procedure ReplaceExtCommand(var sCmd:String; aFile: TFile; ActiveDir: String='');
 function ProcessExtCommand(sCmd:String; ActiveDir: String): Boolean;

@@ -41,17 +41,14 @@ interface
 
 uses
   LResources,
-  Graphics, Forms, Menus, Controls, Dialogs, ComCtrls, StdCtrls, ExtCtrls, ActnList,
-  Buttons, SysUtils, Classes, Grids, KASToolBar, SynEdit, KASBarMenu, KASBarFiles,
-  uColumns, uFileList, LCLType, uCmdBox, uFileSystemWatcher,
-  uFileView, uColumnsFileView, uFilePanelSelect,
-  uFileSource, uFileViewNotebook, uFile, uFileSourceOperation,
-  uOperationsManager
+  Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList,
+  Buttons, SysUtils, Classes, SynEdit, LCLType,
+  KASToolBar, KASBarMenu, KASBarFiles,
+  uCmdBox, uFileSystemWatcher, uFilePanelSelect,
+  uFileView, uColumnsFileView, uFileSource, uFileViewNotebook, uFile,
+  uFileSourceOperation, uOperationsManager
   {$IF NOT DEFINED(DARWIN)}
   , uTerminal
-  {$ENDIF}
-  {$IFDEF LCLQT}
-  , qt4
   {$ENDIF}
   ;
 
@@ -372,7 +369,6 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure MainToolBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
     procedure frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure frmMainKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure frmMainAfterShow(Data: PtrInt);
     procedure frmMainShow(Sender: TObject);
     procedure mnuDropClick(Sender: TObject);
@@ -397,7 +393,6 @@ type
 
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure FormActivate(Sender: TObject);
 
     procedure pnlLeftResize(Sender: TObject);
     procedure pnlLeftRightDblClick(Sender: TObject);
@@ -513,18 +508,14 @@ var
 implementation
 
 uses
-  Clipbrd, LCLIntf, uTypes, fAbout, uGlobs, uLng, fOptions, fconfigtoolbar, fFileAssoc,
-  uWCXModule, uVFSTypes, Masks, fMkDir, fCopyMoveDlg, fCompareFiles,
-  uShowMsg, uClassesEx, fFindDlg, fHotDir,
-  fSymLink, fHardLink, uDCUtils, uLog, fMultiRename, uGlobsPaths, fMsg, fPackDlg,
-  fExtractDlg, fLinker, fSplitter, LCLProc, uOSUtils, uOSForms, uPixMapManager,
-  fColumnsSetConf, uDragDropEx, StrUtils, uKeyboard, WSExtCtrls, uFileSorting,
-  uFileSystemFileSource, fViewOperations,
+  LCLIntf, uGlobs, uLng, fConfigToolBar, Masks, fCopyMoveDlg,
+  uShowMsg, uClassesEx, fHotDir, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
+  uDragDropEx, StrUtils, uKeyboard, uFileSystemFileSource, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   fFileOpDlg, uFileSystemCopyOperation, uFileSystemMoveOperation,
-  uFileSourceOperationOptions, uArchiveFileSource
+  uArchiveFileSource
   {$IFDEF LCLQT}
-    , qtwidgets, qtobjects
+    , qtwidgets
   {$ENDIF}
   ;
 
@@ -590,11 +581,6 @@ begin
 
   PanelSelected:=fpLeft;
 
-  pnlNotebooks.Width:=Width div 2;
-
-  //DebugLN('dskLeft.Width == ' + IntToStr(dskLeft.Width));
-  //DebugLN('dskRight.Width == ' + IntToStr(dskRight.Width));
-
   DrivesList := nil;
 
   LeftFrameWatcher:= nil;
@@ -658,7 +644,6 @@ end;
 procedure TfrmMain.btnLeftDirectoryHotlistClick(Sender: TObject);
 Var P:TPoint;
 begin
-  inherited;
   SetActiveFrame(fpLeft);
   CreatePopUpHotDir;// TODO: i thing in future this must call on create or change
   p := Classes.Point(btnLeftDirectoryHotlist.Left,btnLeftDirectoryHotlist.Height);
@@ -674,7 +659,6 @@ end;
 procedure TfrmMain.btnRightDirectoryHotlistClick(Sender: TObject);
 Var P:TPoint;
 begin
-  inherited;
   SetActiveFrame(fpRight);
   CreatePopUpHotDir;// TODO: i thing in future this must call on create or change
   p := Classes.Point(btnRightDirectoryHotlist.Left,btnRightDirectoryHotlist.Height);
@@ -754,8 +738,6 @@ begin
     FreeAndNil(LeftFrameWatcher);
   if Assigned(RightFrameWatcher) then
     FreeAndNil(RightFrameWatcher);
-
-  //ColSet.Free;
 
   if gSaveCmdLineHistory then
     begin
@@ -1176,12 +1158,6 @@ begin
   Cons.Free;
 {$ENDIF}
   Application.Terminate;
-end;
-
-procedure TfrmMain.frmMainKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-//
 end;
 
 procedure TfrmMain.frmMainAfterShow(Data: PtrInt);
@@ -1860,7 +1836,6 @@ end;
 procedure TfrmMain.MoveFile(sDestPath:String);
 var
   sDstMaskTemp: String;
-  TargetFileSource: TFileSource = nil;
   SourceFiles: TFiles = nil;
   Operation: TFileSourceMoveOperation;
   OperationHandle: TOperationHandle;
@@ -2193,15 +2168,7 @@ begin
   end;
 end;
 
-procedure TfrmMain.FormActivate(Sender: TObject);
-begin
-//  ActiveFrame.SetFocus;
-//  DebugLn('Activate');
-end;
-
 procedure TfrmMain.SetNotActFrmByActFrm;
-var
-  pfr:PFileRecItem;
 begin
   with ActiveFrame do
   begin
@@ -2266,7 +2233,6 @@ function TfrmMain.FramepnlFileBeforeChangeDirectory(Sender: TCustomPage; const N
 var
   ANoteBook: TFileViewNotebook;
   Page, NewPage: TFileViewPage;
-  Panel: TFilePanelSelect;
 begin
   Result:= True;
   if Sender is TFileViewPage then
@@ -2490,8 +2456,6 @@ end;
 
 function TfrmMain.CreateFileView(sType: String; FileSource: TFileSource;
                                  Page: TFileViewPage): TFileView;
-var
-  Panel: TFilePanelSelect;
 begin
   // This function should be changed to a separate TFileView factory.
 
@@ -2545,12 +2509,11 @@ end;
 
 procedure TfrmMain.LoadTabs(ANoteBook: TFileViewNotebook);
 var
-  I, J: Integer;
+  I: Integer;
   sIndex,
   TabsSection: String;
   sCurrentDir,
-  sPath, sColumnSet,
-  sCaption: String;
+  sPath, sCaption: String;
   iActiveTab: Integer;
   Page: TFileViewPage;
 begin
@@ -2622,7 +2585,7 @@ end;
 
 procedure TfrmMain.SaveTabs(ANoteBook: TFileViewNotebook);
 var
-  I, J, Count: Integer;
+  I, Count: Integer;
   sIndex,
   TabsSection: String;
   sPath : String;

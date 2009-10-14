@@ -210,7 +210,7 @@ type
 implementation
 
 uses
-  uLng, uOSUtils, uFileSystemFileSource;
+  uLng, uFileSystemFileSource;
 
 const
   pnlCustHeight: Integer = 130;

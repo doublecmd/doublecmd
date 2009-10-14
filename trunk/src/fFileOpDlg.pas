@@ -19,8 +19,7 @@ interface
 
 uses
   LResources,
-  SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, Buttons, ExtCtrls,
+  SysUtils, Classes, Controls, Forms, StdCtrls, ComCtrls, Buttons, ExtCtrls,
   uOperationsManager, uFileSourceOperation, uFileSourceOperationUI;
 
 type
@@ -85,7 +84,7 @@ type
 implementation
 
 uses
-   fMain, dmCommonData, LCLProc, uLng, uDCUtils,
+   dmCommonData, uLng, uDCUtils,
    uFileSourceOperationTypes,
    uFileSourceCopyOperation,
    uFileSourceDeleteOperation,

@@ -817,8 +817,6 @@ begin
 end;
 
 procedure TActs.cm_TargetEqualSource(param:string);
-var
-  NewPage: TFileViewPage;
 begin
   with frmMain do
   begin
@@ -830,8 +828,6 @@ begin
 end;
 
 procedure TActs.cm_LeftEqualRight(param: string);
-var
-  NewPage: TFileViewPage;
 begin
   with frmMain do
   begin
@@ -842,8 +838,6 @@ begin
 end;
 
 procedure TActs.cm_RightEqualLeft(param: string);
-var
-  NewPage: TFileViewPage;
 begin
   with frmMain do
   begin
@@ -1057,8 +1051,6 @@ begin
 end;
 
 procedure TActs.cm_NewTab(param:string);
-var
-  PanelSelected: TFilePanelSelect;
 begin
   DoNewTab(frmMain.ActiveNotebook);
 end;

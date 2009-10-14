@@ -302,12 +302,12 @@ begin
     if isFileSystem then
     begin
       iMyUID:=fpGetUID; //get user's UID
-      bPerm:=(iMyUID=sb.uid);
-      cbxUsers.Text:=UIDToStr(sb.uid);
+      bPerm:=(iMyUID=sb.st_uid);
+      cbxUsers.Text:=UIDToStr(sb.st_uid);
       if(imyUID=0) then
         GetUsers(cbxUsers.Items); //huh, a ROOT :))
       cbxUsers.Enabled:=(imyUID=0);
-      cbxGroups.Text:=GIDToStr(sb.gid);
+      cbxGroups.Text:=GIDToStr(sb.st_gid);
       if(bPerm or (iMyUID=0)) then
         GetUsrGroups(iMyUID, cbxGroups.Items);
       cbxGroups.Enabled:=(bPerm or (iMyUID=0));

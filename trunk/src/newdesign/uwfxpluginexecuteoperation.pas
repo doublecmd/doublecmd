@@ -6,10 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uFileSourceOperation,
-  uFileSourceOperationTypes,
   uFileSource,
-  uFile,
   uFileSourceExecuteOperation,
   uWfxPluginFileSource;
 
@@ -40,7 +37,7 @@ type
 implementation
 
 uses
-  uOSUtils, ufsplugin;
+  ufsplugin;
 
 constructor TWfxPluginExecuteOperation.Create(
                 var aTargetFileSource: TFileSource;

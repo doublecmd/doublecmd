@@ -28,9 +28,8 @@ unit uWCXmodule;
 interface
 
 uses
-  uWCXprototypes, uWCXhead, uFileList, dynlibs, Classes, uVFSModule,
-  uVFSTypes, fFileOpDlg, Dialogs, DialogAPI, uClassesEx,
-  StringHashList, uOSUtils, uFile;
+  uWCXprototypes, uWCXhead, dynlibs, Classes, uVFSModule,
+  uVFSTypes, Dialogs, DialogAPI, uClassesEx, uOSUtils;
 
 Type
   TWCXOperation = (OP_EXTRACT, OP_PACK, OP_DELETE);
@@ -147,8 +146,7 @@ Type
 
 implementation
 
-uses Forms, SysUtils, uGlobs, LCLProc, uDCUtils,
-     uLng, Controls, fPackInfoDlg, fDialogBox, uGlobsPaths, FileUtil;
+uses SysUtils, LCLProc, uLng, fDialogBox, uGlobsPaths, FileUtil;
 
 const
   WcxIniFileName = 'wcx.ini';

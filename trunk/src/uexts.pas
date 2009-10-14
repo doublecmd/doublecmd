@@ -16,7 +16,7 @@ unit uExts;
 interface
 
 uses
-  Classes, Contnrs, uTypes, uFile;
+  Classes, Contnrs, uFile;
 
 type
   {en
@@ -135,8 +135,9 @@ const
   cMaskFile = 'file';
 
 implementation
+
 uses
-  LCLProc, SysUtils, uLog, uClassesEx, uOSUtils;
+  SysUtils, uLog, uClassesEx;
 
 constructor TExtAction.Create;
 begin

@@ -458,8 +458,6 @@ procedure TFileSystemTreeBuilder.AddFilesInDirectory(
 var
   sr: TSearchRec;
   aFile: TFileSystemFile;
-  AddedNode: TFileTreeNode;
-  AddedIndex: Integer;
 begin
   if FindFirstEx(srcPath + '*', faAnyFile, sr) = 0 then
   begin
@@ -785,7 +783,6 @@ var
   aFile: TFileSystemFile;
   ProcessedOk: Boolean;
   TargetName: String;
-  OldDoneBytes: Int64; // for if there was an error
   CurrentFileIndex: Integer;
   CurrentSubNode: TFileTreeNode;
 begin

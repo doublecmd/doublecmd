@@ -32,7 +32,7 @@ unit uWFXmodule;
 interface
 uses
  SysUtils, Classes, uVFSModule, uVFSTypes, ufsplugin, uWFXprototypes,
- dynlibs, uTypes, uClassesEx;
+ dynlibs, uClassesEx;
 
 const
   WFX_SUCCESS      =  0;
@@ -123,8 +123,7 @@ type
 implementation
 
 uses
-  LCLProc, LCLType, uGlobs, uLog, uVFSutil, uFileOp, uOSUtils, uLng,
-  Dialogs, Forms, Controls, FileUtil, uDCUtils, uGlobsPaths, uFileProcs;
+  uOSUtils, uLng, FileUtil, uGlobsPaths;
 
 const
   WfxIniFileName = 'wfx.ini';

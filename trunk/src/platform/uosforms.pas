@@ -27,14 +27,14 @@ unit uOSForms;
 interface
 
 uses
-  Classes, SysUtils, uTypes, uFileList, Menus, Controls, Graphics, ExtDlgs, Dialogs,
-  uFile,
+  Classes, SysUtils, Menus, Controls, ExtDlgs, uFile,
   {$IFDEF UNIX}
   BaseUnix, Unix, fFileProperties;
   {$ELSE}
   FileUtil, Windows, ShlObj, ActiveX, uShlObjAdditional,
   JwaShlGuid, JwaDbt, uMyWindows;
   {$ENDIF}
+
 const
   sCmdVerbOpen = 'open';
   sCmdVerbRename = 'rename';
@@ -89,9 +89,9 @@ function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boo
 implementation
 
 uses
-  LCLProc, fMain, uOSUtils, uGlobs, uLng, uDCUtils, uShellExecute
+  fMain, uOSUtils, uGlobs, uLng, uDCUtils, uShellExecute
   {$IF DEFINED(MSWINDOWS)}
-  , uFileSystemFile, uTotalCommander
+  , Dialogs, Graphics, uFileSystemFile, uTotalCommander
   {$ENDIF}
   {$IF DEFINED(LINUX)}
   , uFileSystemWatcher, inotify, uMimeActions
@@ -104,7 +104,6 @@ var
   ICM2: IContextMenu2 = nil;
 {$ELSE}
   CM : TContextMenu = nil;
-  FileItem: TFile;
 {$ENDIF}
 
 {$IFDEF WIN64}
@@ -383,8 +382,6 @@ begin
             if Files.Count = 1 then
               with Files[0] do
                 begin
-                  DebugLn(Name);
-                  DebugLn(ExtractFileDrive(Name));
                   if Name <> (ExtractFileDrive(Name)+PathDelim) then
                     frmMain.actRenameOnly.Execute
                   else  // change drive label
@@ -514,7 +511,6 @@ begin
   aFile := Files[0];
   if (Files.Count = 1) then
     begin
-      FileItem:= aFile;
       miActions:=TMenuItem.Create(CM);
       miActions.Caption:= rsMnuActions;
 
@@ -738,7 +734,6 @@ end;
 var
   cmici: TCMINVOKECOMMANDINFO;
   contMenu: IContextMenu;
-  fl : TFileList;
 begin
   if Files.Count = 0 then Exit;
 

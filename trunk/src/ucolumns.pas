@@ -29,9 +29,7 @@ unit uColumns;
 interface
 
 uses
-  Classes, SysUtils, uClassesEx, LCLProc, uTypes, uOSUtils, uDCUtils, Graphics,
-  uFile
-  ;
+  Classes, SysUtils, uClassesEx, LCLProc, Graphics, uFile;
 
   type
 

@@ -44,9 +44,7 @@ interface
 uses
   Classes, SysUtils,
   uFileSourceWipeOperation,
-  uFileSystemFileSource,
   uFileSource,
-  uFileSourceOperation,
   uFileSourceOperationOptions,
   uFileSourceOperationUI,
   uFile,
@@ -97,8 +95,7 @@ type
 implementation
 
 uses
-  uOSUtils, uLng, uFindEx, uClassesEx,
-  uFileSystemUtil, FileUtil, LCLProc;
+  uOSUtils, uLng, uFindEx, uClassesEx, uFileSystemUtil, LCLProc;
 
 constructor TFileSystemWipeOperation.Create(var aTargetFileSource: TFileSource;
                                               var theFilesToWipe: TFiles);

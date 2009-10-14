@@ -8,7 +8,6 @@ uses
   Classes, SysUtils,
   uFileSourceCopyOperation,
   uFileSource,
-  uFileSourceOperation,
   uFileSourceOperationOptions,
   uFile,
   uFileSystemFile,
@@ -75,9 +74,6 @@ type
   end;
 
 implementation
-
-uses
-  uOSUtils, FileUtil, LCLProc, uGlobs;
 
 // -- TFileSystemCopyInOperation ----------------------------------------------
 

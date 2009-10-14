@@ -28,7 +28,7 @@ unit uColorExt;
 interface
 
 uses
-  Classes, Graphics, uTypes, uFile;
+  Classes, Graphics, uFile;
 
 type
 

@@ -6,10 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uFileSourceOperation,
-  uFileSourceOperationTypes,
   uFileSource,
-  uFile,
   uFileSourceExecuteOperation,
   uFileSystemFileSource;
 

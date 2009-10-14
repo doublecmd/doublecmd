@@ -19,7 +19,7 @@ unit uVFSutil;
 interface
 
 uses
-  Classes, uTypes, uFileList;
+  uTypes, uFileList;
 
 procedure FillAndCount(var fl:TFileList; out FilesSize : Int64);
 procedure AddUpLevel(sUpPath : String; var ls:TFileList);
@@ -29,7 +29,7 @@ procedure AddUpLevel(sUpPath : String; var ls:TFileList);
 implementation
 
 uses
-  SysUtils, uFileOp, uOSUtils, uFindEx, LCLProc, uDCUtils
+  SysUtils, uOSUtils, uFileOp, uFindEx, uDCUtils
   {$IFDEF UNIX}, BaseUnix{$ENDIF}
   {$IF DEFINED(MSWINDOWS)} , Windows {$ENDIF};
 

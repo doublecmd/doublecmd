@@ -1341,7 +1341,7 @@ end;
 var
   Info: BaseUnix.Stat;
 begin
-  Result:= -1;
+  Result:= faInvalidAttributes;
   if fpLStat(FileName, @Info) >= 0 then
     Result:= Info.st_mode;
 end;

@@ -5,7 +5,7 @@ unit uFile;
 interface
 
 uses
-  Classes, SysUtils, contnrs,
+  Classes, SysUtils,
   uFileProperty;
 
 type
@@ -198,12 +198,10 @@ type
 
 implementation
 
-uses
-  uOSUtils
 {$IFDEF UNIX}
-  , BaseUnix
+uses
+  BaseUnix;
 {$ENDIF}
-  ;
 
 constructor TFile.Create;
 begin
@@ -381,8 +379,10 @@ begin
 end;
 
 function TFile.IsSysFile: Boolean;
+{$IFDEF MSWINDOWS}
 var
   FileAttributes: TFileAttributesProperty;
+{$ENDIF}
 begin
 {$IFDEF MSWINDOWS}
   if fpAttributes in SupportedProperties then

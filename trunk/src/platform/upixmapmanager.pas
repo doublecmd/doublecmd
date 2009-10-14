@@ -34,7 +34,7 @@ unit uPixMapManager;
 
 interface
 uses
-  Classes, SysUtils, uTypes, Graphics, uOSUtils, uFileSorting,
+  Classes, SysUtils, Graphics, uOSUtils, uFileSorting,
   uFile, uColumnsFileViewFiles
   {$IF DEFINED(UNIX)}
   , uClassesEx
@@ -533,7 +533,6 @@ const
 var
   slGenericIcons: TStringListEx;
   I, J: Integer;
-  iPixMap: PtrInt;
   scIconName: String;
   sExt, sIconName: String;
   bResult: Boolean;
@@ -951,8 +950,10 @@ begin
 end;
 
 function TPixMapManager.DrawBitmap(AFile: TColumnsViewFile; Canvas: TCanvas; Rect: TRect): Boolean;
+{$IFDEF MSWINDOWS}
 var
   I: Integer;
+{$ENDIF}
 begin
   Result:= DrawBitmap(AFile.IconID, Canvas, Rect);
   {$IFDEF MSWINDOWS}
@@ -982,8 +983,8 @@ end;
 function TPixMapManager.GetIconByFile(AFile: TFile; DirectAccess: Boolean): PtrInt;
 var
   Ext: String;
-  sFileName: String;
 {$IFDEF MSWINDOWS}
+  sFileName: String;
     FileInfo: TSHFileInfoW;
     _para2: DWORD;
     _para5: UINT;
@@ -994,7 +995,6 @@ begin
 
   with AFile do
   begin
-//    writeln(sExt);
     if Name = '..' then
     begin
       Result := FiUpDirIconID;

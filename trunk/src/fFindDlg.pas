@@ -30,7 +30,7 @@ interface
 
 uses
   LResources,
-  SysUtils, Classes, Graphics, Controls, Forms,
+  SysUtils, Classes, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, Buttons, uFindThread, Menus,
   EditBtn, Spin, MaskEdit, udsxmodule, udsxplugin;
 
@@ -172,7 +172,7 @@ implementation
 
 uses
   LCLProc, LCLType, LConvEncoding, DateUtils, fCalendar, fViewer, uLng, uGlobs, uShowForm, fMain,
-  uTypes, uFileOp, uOSUtils, uSearchTemplate, uDCUtils;
+  uTypes, uOSUtils, uSearchTemplate, uDCUtils;
 
 procedure SAddFileProc(PlugNr:integer; FoundFile:pchar); stdcall;
 var s:string;
