@@ -26,7 +26,7 @@ type
     FWfxPluginFileSource: TWfxPluginFileSource;
     FOperationHelper: TWfxPluginOperationHelper;
     FUpdateProgressClass: TUpdateProgressClass;
-    FFullFilesTreeToCopy: TFileSystemFiles;  // source files including all files/dirs in subdirectories
+    FFullFilesTreeToCopy: TFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     // Options
     FInternal: Boolean;
