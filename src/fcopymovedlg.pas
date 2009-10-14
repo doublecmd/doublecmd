@@ -68,7 +68,7 @@ type
 implementation
 
 uses
-  fMain, LCLType, uGlobs, uFilePanelSelect, uFileView, uFileSourceOperationOptions, uLng;
+  fMain, LCLType, uGlobs, uFilePanelSelect, uFileSourceOperationOptions, uLng;
 
 constructor TfrmCopyDlg.Create(TheOwner: TComponent; DialogType: TCopyMoveDlgType);
 begin

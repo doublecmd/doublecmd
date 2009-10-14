@@ -21,7 +21,7 @@ type
 implementation
 
 uses
-  LCLProc, uFileSystemFile, uFindEx, uDCUtils;
+  uFileSystemFile, uFindEx;
 
 constructor TFileSystemListOperation.Create(var aFileSource: TFileSource);
 begin

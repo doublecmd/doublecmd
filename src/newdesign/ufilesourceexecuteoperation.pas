@@ -8,8 +8,7 @@ uses
   Classes, SysUtils,
   uFileSourceOperation,
   uFileSourceOperationTypes,
-  uFileSource,
-  uFile;
+  uFileSource;
 
 type
 

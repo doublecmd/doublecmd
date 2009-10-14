@@ -5,13 +5,9 @@ unit uColumnsFileView;
 interface
 
 uses
-  Classes, SysUtils,
-
-  Graphics, Controls, Forms, LMessages, LCLIntf,
-  Dialogs, StdCtrls, ComCtrls, ExtCtrls, Grids,
-  Buttons, LCLType, Menus,
+  Classes, SysUtils, Graphics, Controls, Forms, StdCtrls, ExtCtrls, Grids,
+  LMessages, LCLIntf, LCLType, Menus,
   uDragDropEx,
-
   uFile,
   uFileView,
   uFileSource,
@@ -187,12 +183,11 @@ type
     procedure MouseMoveEvent(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure MouseLeaveEvent(Sender: TObject);
 
-  protected
-    procedure Paint; override;
-
   public
 
     constructor Create(AOwner: TComponent); override;
+
+    procedure Paint; override;
 
     {en
        Changes drawing colors depending active/inactive state.
@@ -438,10 +433,9 @@ type
 implementation
 
 uses
-  LCLProc, Masks, uLng, uShowMsg, uGlobs, GraphType, uPixmapManager,
-  uDCUtils, uOSUtils, math, fMain, fSymLink, fHardLink, uShellExecute,
-  uFileSourceListOperation,
-  uFileProperty, uDefaultFilePropertyFormatter,
+  LCLProc, Masks, uLng, uShowMsg, uGlobs, uPixmapManager,
+  uDCUtils, uOSUtils, math, fMain,
+  uFileProperty,
   uFileSourceProperty,
   uFileSourceOperation,
   uFileSourceOperationTypes,
@@ -720,7 +714,7 @@ end;
 function TColumnsFileView.StartDragEx(MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
 var
   fileNamesList: TStringList;
-  draggedFileItem, AFile: TColumnsViewFile;
+  draggedFileItem: TColumnsViewFile;
   i: Integer;
 begin
   Result := False;
@@ -1228,8 +1222,6 @@ end;
 }
 
 procedure TColumnsFileView.ChooseFile(AFile: TColumnsViewFile; FolderMode: Boolean = False);
-var
-  sOpenCmd: String;
 begin
   with AFile do
   begin
@@ -1832,10 +1824,6 @@ end;
 
 procedure TColumnsFileView.dgPanelExit(Sender: TObject);
 begin
-//  DebugLn(Self.Name+'.dgPanelExit');
-//  edtRename.OnExit(Sender);        // this is hack, because onExit is NOT called
-{  if pnAltSearch.Visible then
-    CloseAltPanel;}
   FActive:= False;
   lblPath.SetActive(False);
 end;
@@ -1880,7 +1868,6 @@ begin
      (Point.Y >= dgPanel.GridHeight) or
      IsEmpty then Exit;
 
-//  if pnlFile.PanelMode = pmDirectory then
     Screen.Cursor:=crHourGlass;
   try
     ChooseFile(GetActiveItem);
@@ -1897,9 +1884,6 @@ end;
 
 procedure TColumnsFileView.dgPanelEnter(Sender: TObject);
 begin
-//  DebugLn(Self.Name+'.OnEnter');
-  CloseAltPanel;
-//  edtRename.OnExit(Sender);        // this is hack, bacause onExit is NOT called
   FActive:= True;
   SetFocus;
   UpDatelblInfo;
@@ -2248,7 +2232,7 @@ begin
             frmColumnsSetConf.ShowModal;
 
             FreeAndNil(frmColumnsSetConf);
-            //TODO: Reload current columns in panels
+
             frmMain.ReLoadTabs(frmMain.LeftTabs);
             frmMain.ReLoadTabs(frmMain.RightTabs);
           end;
@@ -2263,11 +2247,6 @@ begin
     begin
       ActiveColm:=ColSet.Items[(Sender as TMenuItem).Tag];
       UpdateColumnsView;
-//      ActiveFrame.dgPanel.ColCount:=ColSet.GetColumnSet(ActiveFrame.ActiveColm).ColumnsCount;
-
-//      if ColSet.GetColumnSet(ActiveFrame.ActiveColm).ColumnsCount>0 then
- //      for x:=0 to ColSet.GetColumnSet(ActiveFrame.ActiveColm).ColumnsCount-1 do
-   //     ActiveFrame.dgPanel.ColWidths[x]:=ColSet.GetColumnSet(ActiveFrame.ActiveColm).GetColumnWidth(x);
     end;
   end;
 end;
@@ -2534,7 +2513,6 @@ end;
 procedure TColumnsFileView.MakeFileSourceFileList;
 var
   AFile: TFileSystemFile;
-  i: Integer;
 begin
   if Assigned(FFileSourceFiles) then
   begin
@@ -2624,11 +2602,6 @@ begin
   dgPanel.UpdateView;
   UpdateColumnsView;
 
-{
-  if gShowIcons then
-    pnlFile.FileList.UpdateFileInformation(pnlFile.PanelMode);
-}
-
   if Assigned(FFiles) then
   begin
     MakeDisplayFileList;
@@ -2716,31 +2689,27 @@ procedure TColumnsFileView.UTF8KeyPressEvent(Sender: TObject; var UTF8Key: TUTF8
 var
   ModifierKeys: TShiftState;
 begin
-debugln('panelutf8keypress');
-//  if (edtCommand.Tag = 0) then
+  // quick search by Letter only
+
+  // Check for certain Ascii keys.
+  if (Length(UTF8Key) = 1) and ((Ord(UTF8Key[1]) <= 32) or
+     (UTF8Key[1] in ['+','-','*','/','\'])) then Exit;
+
+  ModifierKeys := GetKeyShiftStateEx;
+
+  if gQuickSearch and (gQuickSearchMode = []) and
+     // Check only ssCtrl and ssAlt.
+     (ModifierKeys * [ssCtrl, ssAlt] = gQuickSearchMode) then
     begin
-      // quick search by Letter only
+      // Make upper case if either caps-lock is toggled or shift pressed.
+      if (ssCaps in ModifierKeys) xor (ssShift in ModifierKeys) then
+        UTF8Key := UTF8UpperCase(UTF8Key)
+      else
+        UTF8Key := UTF8LowerCase(UTF8Key);
 
-      // Check for certain Ascii keys.
-      if (Length(UTF8Key) = 1) and ((Ord(UTF8Key[1]) <= 32) or
-         (UTF8Key[1] in ['+','-','*','/','\'])) then Exit;
-
-      ModifierKeys := GetKeyShiftStateEx;
-
-      if gQuickSearch and (gQuickSearchMode = []) and
-         // Check only ssCtrl and ssAlt.
-         (ModifierKeys * [ssCtrl, ssAlt] = gQuickSearchMode) then
-        begin
-          // Make upper case if either caps-lock is toggled or shift pressed.
-          if (ssCaps in ModifierKeys) xor (ssShift in ModifierKeys) then
-            UTF8Key := UTF8UpperCase(UTF8Key)
-          else
-            UTF8Key := UTF8LowerCase(UTF8Key);
-
-          ShowAltPanel(UTF8Key);
-          UTF8Key:= '';
-        end;
-    end
+      ShowAltPanel(UTF8Key);
+      UTF8Key:= '';
+    end;
 end;
 
 procedure TColumnsFileView.DoDragDropOperation(Operation: TDragDropOperation;

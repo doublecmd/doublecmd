@@ -8,7 +8,6 @@ uses
   Classes, SysUtils,
   uFileSourceCalcStatisticsOperation,
   uFileSource,
-  uFileSourceOperation,
   uFileSourceOperationUI,
   uFile,
   uFileSystemFile,
@@ -39,10 +38,7 @@ type
 implementation
 
 uses
-  uFileSourceOperationOptions,
-  uDCUtils, uOSUtils, uLng,
-  uFileSystemUtil, LCLProc,
-  FileUtil, StrUtils, uFindEx;
+  uFileSourceOperationOptions, uOSUtils, uLng, uFindEx;
 
 constructor TFileSystemCalcStatisticsOperation.Create(
                 var aTargetFileSource: TFileSource;

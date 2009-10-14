@@ -308,8 +308,6 @@ begin
 end;
 
 destructor TKASToolBar.Destroy;
-var
-  I: Integer;
 begin
   Clear;
 

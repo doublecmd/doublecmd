@@ -9,7 +9,6 @@ object frmMain: TfrmMain
   ClientWidth = 659
   KeyPreview = True
   Menu = mnuMain
-  OnActivate = FormActivate
   OnClose = frmMainClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
@@ -17,7 +16,6 @@ object frmMain: TfrmMain
   OnDropFiles = FormDropFiles
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
-  OnKeyUp = frmMainKeyUp
   OnResize = FormResize
   OnShow = frmMainShow
   OnUTF8KeyPress = FormUTF8KeyPress

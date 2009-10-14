@@ -8,7 +8,6 @@ uses
   Classes, SysUtils,
   uFileSourceMoveOperation,
   uFileSource,
-  uFileSourceOperation,
   uFileSourceOperationOptions,
   uFile,
   uFileSystemFile,
@@ -50,9 +49,6 @@ type
   end;
 
 implementation
-
-uses
-  uOSUtils, FileUtil, LCLProc, uGlobs;
 
 constructor TFileSystemMoveOperation.Create(var aFileSource: TFileSource;
                                             var theSourceFiles: TFiles;

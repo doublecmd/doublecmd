@@ -84,7 +84,7 @@ type
 implementation
 
 uses
-  uOSUtils, uGlobs, uDCUtils, uFileProperty, lclproc;
+  uOSUtils, uGlobs, uFileProperty, lclproc;
 
 
 function HasSortFunction(FileFunctions: TFileFunctions;

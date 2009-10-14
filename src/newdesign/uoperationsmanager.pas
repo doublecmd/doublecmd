@@ -5,7 +5,7 @@ unit uOperationsManager;
 interface
 
 uses
-  Classes, SysUtils, ExtCtrls, LCLIntf, syncobjs, uLng,
+  Classes, SysUtils, ExtCtrls, LCLIntf, uLng,
   uOperationThread, uFileSourceOperation, lclproc;
 
 type

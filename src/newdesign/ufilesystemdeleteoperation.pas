@@ -7,9 +7,7 @@ interface
 uses
   Classes, SysUtils,
   uFileSourceDeleteOperation,
-  uFileSystemFileSource,
   uFileSource,
-  uFileSourceOperation,
   uFileSourceOperationOptions,
   uFileSourceOperationUI,
   uFile,
@@ -53,8 +51,7 @@ type
 implementation
 
 uses
-  uOSUtils, uLng,
-  uFileSystemUtil, FileUtil, LCLProc;
+  uOSUtils, uLng, uFileSystemUtil;
 
 constructor TFileSystemDeleteOperation.Create(var aTargetFileSource: TFileSource;
                                               var theFilesToDelete: TFiles);

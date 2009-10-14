@@ -488,7 +488,6 @@ end;
 
 class function TWfxPluginFileSource.CreateByRootName(aRootName: String): TWfxPluginFileSource;
 var
-  I: Integer;
   sModuleFileName: UTF8String;
 begin
   Result:= nil;

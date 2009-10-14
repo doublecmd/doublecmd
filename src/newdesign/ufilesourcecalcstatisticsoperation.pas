@@ -71,7 +71,7 @@ type
 implementation
 
 uses
-  uDCUtils, uGlobs;
+  uGlobs;
 
 constructor TFileSourceCalcStatisticsOperation.Create(
                 var aTargetFileSource: TFileSource;

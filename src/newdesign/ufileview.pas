@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, ExtCtrls, contnrs,
-  uFile, uFileSource, uFilePanelSelect, uMethodsList;
+  uFile, uFileSource, uMethodsList;
 
 type
 
@@ -115,7 +115,7 @@ type
 implementation
 
 uses
-  uOSUtils, uActs, LCLProc;
+  uActs, LCLProc;
 
 constructor TFileView.Create(AOwner: TWinControl; FileSource: TFileSource);
 begin
@@ -188,7 +188,6 @@ end;
 procedure TFileView.ExecuteCommand(CommandName: String; Parameter: String);
 var
   Method: TMethod;
-  Result: Integer;
 begin
   Method := FMethods.GetMethod(CommandName);
   if Assigned(Method.Code) then

@@ -12,7 +12,6 @@ uses
   uFileSourceOperationOptions,
   uFile,
   uFileSystemFile,
-  uWfxPluginFile,
   uWfxPluginFileSource,
   uWfxPluginUtil;
 
@@ -54,7 +53,7 @@ type
 implementation
 
 uses
-  uOSUtils, FileUtil, LCLProc, uGlobs, ufsplugin, uFileSystemUtil;
+  ufsplugin, uFileSystemUtil;
 
 // -- TWfxPluginCopyInOperation ---------------------------------------------
 
