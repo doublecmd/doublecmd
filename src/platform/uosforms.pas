@@ -764,8 +764,8 @@ var
 begin
   opdDialog := nil;
 {$IFDEF MSWINDOWS}
-  sFilter := GraphicFilter(TGraphic)+'|'+ 'Programs and Libraries(*.exe;*.dll)|*.exe;*.dll'+'|'+
-                       Format('All files (%s)',[GetAllFilesMask]);
+  sFilter := GraphicFilter(TGraphic)+'|'+ 'Programs and Libraries (*.exe;*.dll)|*.exe;*.dll'+'|'+
+                       Format('All files (%s)|%s',[GetAllFilesMask, GetAllFilesMask]);
   bAlreadyOpen := False;
   iPos :=Pos(',', sFileName);
   if iPos <> 0 then
