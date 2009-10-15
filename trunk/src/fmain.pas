@@ -992,36 +992,33 @@ end;
 
 procedure TfrmMain.MainToolBarDragDrop(Sender, Source: TObject; X, Y: Integer);
 var
-  sFileName: String;
   IniBarFile: TIniFileEx;
+  aFile: TFile;
 begin
-{
-  // Should probably use Sender or Source here.
-
-  if ActiveFrame.IsActiveItemValid then
-  with ActiveFrame, ActiveFrame.GetActiveItem^ do
-    begin
-      sFileName := ActiveDir + sName;
-      MainToolBar.AddButtonX('', sFileName, '', sPath, ExtractOnlyFileName(sName), '',  sFileName);
-      try
-        IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
-        MainToolBar.SaveToIniFile(IniBarFile);
-      finally
-        FreeThenNil(IniBarFile);
-      end;
+  aFile := ActiveFrame.ActiveFile;
+  if Assigned(aFile) and aFile.IsNameValid then
+  begin
+    MainToolBar.AddButtonX('', aFile.FullPath, '', aFile.Path,
+                           aFile.Name, '',  aFile.FullPath);
+    IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
+    try
+      MainToolBar.SaveToIniFile(IniBarFile);
+    finally
+      FreeThenNil(IniBarFile);
     end;
-}
+  end;
 end;
 
 procedure TfrmMain.MainToolBarDragOver(Sender, Source: TObject; X, Y: Integer;
   State: TDragState; var Accept: Boolean);
+var
+  aFile: TFile;
 begin
-{
-  if ActiveFrame.IsActiveItemValid then
+  aFile := ActiveFrame.ActiveFile;
+  if Assigned(aFile) and aFile.IsNameValid then
     Accept := True
   else
     Accept := False;
-}
 end;
 
 function TfrmMain.MainToolBarLoadButtonGlyph(sIconFileName: String;
