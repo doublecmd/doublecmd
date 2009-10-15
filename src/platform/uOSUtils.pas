@@ -392,17 +392,20 @@ var
 {$ENDIF}
 begin
   Result := False;
-  if mbFileExists(sFileName) then
+  if mbFileExists(sFileName) and (mbFileSize(sFileName) > 0) then
     begin
       fsExeLib := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
-      {$IFDEF MSWINDOWS}
-      wSign := fsExeLib.ReadWord;
-      Result := (wSign = $5A4D);
-      {$ELSE}
-      dwSign := fsExeLib.ReadDWord;
-      Result := (dwSign = $464C457F);
-      {$ENDIF}
-      fsExeLib.Free;
+      try
+        {$IFDEF MSWINDOWS}
+        wSign := fsExeLib.ReadWord;
+        Result := (wSign = $5A4D);
+        {$ELSE}
+        dwSign := fsExeLib.ReadDWord;
+        Result := (dwSign = $464C457F);
+        {$ENDIF}
+      finally
+        fsExeLib.Free;
+      end;
     end;
 end;
 
