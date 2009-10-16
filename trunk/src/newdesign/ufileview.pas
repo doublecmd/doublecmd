@@ -5,7 +5,7 @@ unit uFileView;
 interface
 
 uses
-  Classes, SysUtils, Controls, ExtCtrls, contnrs,
+  Classes, SysUtils, Controls, ExtCtrls,
   uFile, uFileSource, uMethodsList;
 
 type
@@ -28,7 +28,7 @@ type
        For now they all live as long as TFileView lives,
        don't know if this should be changed or not.
     }
-    FFileSources: TObjectList;
+    FFileSources: TFileSources;
 
     FMethods: TMethodsList;
 
@@ -40,7 +40,8 @@ type
 
     function GetNotebookPage: TCustomPage;
 
-    function GetFileSource: TFileSource;
+    function GetLastFileSource: TFileSource;
+    function GetFileSource(Index: Integer): TFileSource;
     function GetFileSourcesCount: Integer;
 
   protected
@@ -61,6 +62,11 @@ type
 
     procedure AddFileSource(aFileSource: TFileSource); virtual;
     procedure RemoveLastFileSource; virtual;
+    {en
+       Sets the list of file sources so that each file source is a clone
+       of the file source from 'otherFileSources'.
+    }
+    procedure AssignFileSources(otherFileSources: TFileSources); virtual;
 
     // Retrieves files from file source again and displays the new list of files.
     procedure Reload; virtual abstract;
@@ -83,7 +89,9 @@ type
 
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property CurrentAddress: String read GetCurrentAddress;
-    property FileSource: TFileSource read GetFileSource;// write FFileSource;
+    property FileSource: TFileSource read GetLastFileSource;
+    property FileSources[Index: Integer]: TFileSource read GetFileSource;
+    property FileSourcesList: TFileSources read FFileSources;
     property FileSourcesCount: Integer read GetFileSourcesCount;
 
     {en
@@ -123,7 +131,7 @@ begin
   FOnAfterChangeDirectory := nil;
   FOnChangeFileSource := nil;
 
-  FFileSources := TObjectList.Create(True); // True = Free objects on destroy.
+  FFileSources := TFileSources.Create(True); // True = Free objects on destroy.
   FFileSources.Add(FileSource);
   FMethods := TMethodsList.Create(Self);
 
@@ -155,7 +163,7 @@ begin
 
     for i := 0 to FFileSources.Count - 1 do
     begin
-      FileView.FFileSources.Add((FFileSources.Items[i] as TFileSource).Clone);
+      FileView.FFileSources.Add(FileSources[i].Clone);
     end;
   end;
 end;
@@ -211,12 +219,28 @@ begin
   UpdateView;
 end;
 
-function TFileView.GetFileSource: TFileSource;
+procedure TFileView.AssignFileSources(otherFileSources: TFileSources);
+var
+  i: Integer;
+begin
+  FFileSources.Clear;
+  for i := 0 to otherFileSources.Count - 1 do
+    FFileSources.Add(otherFileSources.Items[i].Clone);
+  Reload;
+  UpdateView;
+end;
+
+function TFileView.GetLastFileSource: TFileSource;
 begin
   if FFileSources.Count > 0 then
     Result := FFileSources.Last as TFileSource
   else
     Result := nil;
+end;
+
+function TFileView.GetFileSource(Index: Integer): TFileSource;
+begin
+  Result := FFileSources.Items[Index] as TFileSource;
 end;
 
 function TFileView.GetFileSourcesCount: Integer;

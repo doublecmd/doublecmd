@@ -8,7 +8,21 @@ uses
   Classes, SysUtils,
   uFileSource, uFileView, uFile;
 
+{en
+   Decides what should be done when user chooses a file in a file view.
+   This function may add/remove a file source from the view,
+   change path, execute a file or a command, etc.
+}
 procedure ChooseFile(aFileView: TFileView; aFile: TFile);
+
+{en
+   Checks if choosing the given file will change to another file source,
+   and adds this new file source to the view if it does.
+   @returns @true if the file matched any rules and a new file source was created,
+            @false otherwise, which means no action was taken.
+}
+function ChooseFileSource(aFileView: TFileView; aFile: TFile): Boolean;
+
 function RenameFile(aFileSource: TFileSource; aFile: TFile; NewFileName: UTF8String): Boolean;
 
 implementation
@@ -21,20 +35,15 @@ uses
 procedure ChooseFile(aFileView: TFileView; aFile: TFile);
 var
   sOpenCmd: String;
-  FileSource: TFileSource;
   Operation: TFileSourceExecuteOperation;
 begin
+  // First test for file sources.
+  if ChooseFileSource(aFileView, aFile) then
+    Exit;
+
   // For now work only for FileSystem until temporary file system is done.
   if aFileView.FileSource is TFileSystemFileSource then
   begin
-    // Check if it is registered plugin (for archives).
-    FileSource := TWcxArchiveFileSource.CreateByArchiveName(aFile.Path + aFile.Name);
-    if Assigned(FileSource) then
-    begin
-      aFileView.AddFileSource(FileSource);
-      Exit;
-    end;
-
     //now test if exists Open command in doublecmd.ext :)
     sOpenCmd:= gExts.GetExtActionCmd(aFile, 'open');
     if (sOpenCmd<>'') then
@@ -52,18 +61,6 @@ begin
       ReplaceExtCommand(sOpenCmd, aFile, aFileView.FileSource.CurrentPath);
       if ProcessExtCommand(sOpenCmd, aFileView.FileSource.CurrentPath) then
         Exit;
-    end;
-  end;
-
-  // Work only for TVfsFileSource.
-  if aFileView.FileSource is TVfsFileSource then
-  begin
-    // Check if it is registered plugin by file system root name.
-    FileSource := TWfxPluginFileSource.CreateByRootName(aFile.Name);
-    if Assigned(FileSource) then
-    begin
-      aFileView.AddFileSource(FileSource);
-      Exit;
     end;
   end;
 
@@ -93,6 +90,37 @@ begin
           aFileView.Reload;
         end;
     end;
+end;
+
+function ChooseFileSource(aFileView: TFileView; aFile: TFile): Boolean;
+var
+  FileSource: TFileSource;
+begin
+  Result := False;
+
+  // Opening archives directly only from FileSystem.
+  if aFileView.FileSource is TFileSystemFileSource then
+  begin
+    // Check if it is registered plugin (for archives).
+    FileSource := TWcxArchiveFileSource.CreateByArchiveName(aFile.Path + aFile.Name);
+    if Assigned(FileSource) then
+    begin
+      aFileView.AddFileSource(FileSource);
+      Exit(True);
+    end;
+  end;
+
+  // Work only for TVfsFileSource.
+  if aFileView.FileSource is TVfsFileSource then
+  begin
+    // Check if it is registered plugin by file system root name.
+    FileSource := TWfxPluginFileSource.CreateByRootName(aFile.Name);
+    if Assigned(FileSource) then
+    begin
+      aFileView.AddFileSource(FileSource);
+      Exit(True);
+    end;
+  end;
 end;
 
 function RenameFile(aFileSource: TFileSource; aFile: TFile; NewFileName: UTF8String): Boolean;

@@ -108,6 +108,7 @@ const cf_Null=0;
    procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; FullNames: Boolean);
    procedure DoNewTab(Notebook: TFileViewNotebook);
    procedure DoContextMenu(Panel: TFileView; X, Y: Integer);
+   procedure DoTransferFileSources(SourcePage: TFileViewPage; TargetPage: TFileViewPage);
    //---------------------
 
   published
@@ -252,7 +253,7 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
      uFileSystemDeleteOperation,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
      uFileSourceCalcStatisticsOperation, uFileSystemFile,
-     uFileSource, uFileSourceProperty, uVfsFileSource;
+     uFileSource, uFileSourceProperty, uVfsFileSource, uFileSourceUtil;
 
 { TActs }
 
@@ -682,6 +683,35 @@ begin
   end;
 end;
 
+procedure TActs.DoTransferFileSources(SourcePage: TFileViewPage; TargetPage: TFileViewPage);
+var
+  aFile: TFile;
+begin
+  aFile := SourcePage.FileView.ActiveFile;
+  if Assigned(aFile) then
+  begin
+    TargetPage.FileView.AssignFileSources(SourcePage.FileView.FileSourcesList);
+
+    if aFile.IsDirectory then
+    begin
+      if aFile.Name = '..' then
+      begin
+        TargetPage.FileView.CurrentPath := GetParentDir(SourcePage.FileView.CurrentPath)
+      end
+      else
+      begin
+        // Change to a subdirectory.
+        TargetPage.FileView.CurrentPath := aFile.FullPath;
+      end;
+    end
+    else
+    begin
+      // Change file source, if the file under cursor can be opened as another file source.
+      ChooseFileSource(TargetPage.FileView, aFile);
+    end;
+  end;
+end;
+
 //------------------------------------------------------
 //Published methods
 //------------------------------------------------------
@@ -982,13 +1012,15 @@ end;
 procedure TActs.cm_TransferLeft(param:string);
 begin
   if (frmMain.SelectedPanel = fpRight) then
-    frmMain.SetNotActFrmByActFrm;
+    DoTransferFileSources(frmMain.RightTabs.ActivePage,
+                          frmMain.LeftTabs.ActivePage);
 end;
 
 procedure TActs.cm_TransferRight(param:string);
 begin
   if (frmMain.SelectedPanel = fpLeft) then
-    frmMain.SetNotActFrmByActFrm;
+    DoTransferFileSources(frmMain.LeftTabs.ActivePage,
+    frmMain.RightTabs.ActivePage);
 end;
 
 procedure TActs.cm_Minimize(param:string);
