@@ -166,11 +166,13 @@ end;
 function TWCXModule.OpenArchiveHandle(FileName: String; anOpenMode: Longint; out OpenResult: Longint): TArcHandle;
 var
   ArcFile: tOpenArchiveData;
+  AnsiFileName: String;
 begin
   if (anOpenMode >= PK_OM_LIST) and (anOpenMode <= PK_OM_EXTRACT) then
   begin
     FillChar(ArcFile, SizeOf(ArcFile), #0);
-    ArcFile.ArcName := PAnsiChar(UTF8ToSys(FileName));
+    AnsiFileName := UTF8ToSys(FileName);
+    ArcFile.ArcName := PAnsiChar(AnsiFileName); // Pointer to local variable.
     ArcFile.OpenMode := anOpenMode;
     Result := OpenArchive(ArcFile);
     if Result = 0 then
