@@ -2396,6 +2396,7 @@ begin
   pnlHeader.OnResize := @pnlHeaderResize;
 
   lblPath.OnClick := @lblPathClick;
+  lblPath.OnMouseUp := @lblPathMouseUp;
 
   pmColumnsMenu := TPopupMenu.Create(Self);
   pmColumnsMenu.Parent := Self;
