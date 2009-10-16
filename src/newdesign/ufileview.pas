@@ -175,7 +175,7 @@ end;
 
 function TFileView.GetCurrentAddress: String;
 begin
-  Result := IncludeTrailingPathDelimiter(FileSource.CurrentAddress);
+  Result := FileSource.CurrentAddress;
 end;
 
 function TFileView.GetCurrentPath: String;

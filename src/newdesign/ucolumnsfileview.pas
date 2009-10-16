@@ -165,7 +165,7 @@ type
     {en
        How much space to leave between the text and left border.
     }
-    LeftSpacing: Integer;
+    FLeftSpacing: Integer;
 
     {en
        If a user clicks on a parent directory of the path,
@@ -185,7 +185,7 @@ type
 
   public
 
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(AOwner: TComponent; AllowHighlight: Boolean = False); reintroduce;
 
     procedure Paint; override;
 
@@ -195,6 +195,8 @@ type
     procedure SetActive(Active: Boolean);
 
     function GetSelectedDir: String;
+
+    property LeftSpacing: Integer read FLeftSpacing write FLeftSpacing;
   end;
 
   { TColumnsFileView }
@@ -230,6 +232,7 @@ type
     edtPath: TEdit;
     edtRename: TEdit;
     lblPath: TPathLabel;
+    lblAddress: TPathLabel;
     dgPanel: TDrawGridEx;
 
     {en
@@ -246,6 +249,7 @@ type
     procedure UpdateColCount(NewColCount: Integer);
     procedure ChooseFile(AFile: TColumnsViewFile; FolderMode: Boolean = False);
     procedure SortByColumn(iColumn: Integer);
+    procedure UpdateAddressLabel;
     procedure UpdatePathLabel;
     procedure UpdateCountStatus;
 
@@ -272,6 +276,11 @@ type
     procedure CalculateSpace(theFile: TColumnsViewFile);
 
     procedure SetColumnsWidths;
+
+    {en
+       Changes drawing colors depending on if this panel is active.
+    }
+    procedure SetActive(Active: Boolean);
 
     // -- Events --------------------------------------------------------------
 
@@ -462,7 +471,9 @@ procedure TColumnsFileView.SetFocus;
 begin
   if frmMain.Visible and dgPanel.CanFocus then
     dgPanel.SetFocus;
-  lblPath.SetActive(True);
+
+  SetActive(True);
+
   if Parent is TFileViewPage then
     frmMain.UpdateSelectedDrive((Parent as TFileViewPage).Notebook);
 
@@ -1284,6 +1295,19 @@ begin
   end;
 end;
 
+procedure TColumnsFileView.UpdateAddressLabel;
+begin
+  if CurrentAddress = '' then
+  begin
+    lblAddress.Visible := False;
+  end
+  else
+  begin
+    lblAddress.Visible := True;
+    lblAddress.Caption := CurrentAddress;
+  end;
+end;
+
 procedure TColumnsFileView.UpdatePathLabel;
 begin
   lblPath.Caption := MinimizeFilePath(CurrentPath, lblPath.Canvas, lblPath.Width);
@@ -1461,6 +1485,12 @@ begin
         dgPanel.ColWidths[x]:= ColumnsClass.GetColumnWidth(x);
         dgPanel.Columns.Items[x].Title.Caption:= ColumnsClass.GetColumnTitle(x);
       end;
+end;
+
+procedure TColumnsFileView.SetActive(Active: Boolean);
+begin
+  lblAddress.SetActive(Active);
+  lblPath.SetActive(Active);
 end;
 
 procedure TColumnsFileView.edtPathExit(Sender: TObject);
@@ -1825,7 +1855,7 @@ end;
 procedure TColumnsFileView.dgPanelExit(Sender: TObject);
 begin
   FActive:= False;
-  lblPath.SetActive(False);
+  SetActive(False);
 end;
 
 procedure TColumnsFileView.MakeSelectedVisible;
@@ -2209,6 +2239,7 @@ end;
 
 procedure TColumnsFileView.pnlHeaderResize(Sender: TObject);
 begin
+  UpdateAddressLabel;
   UpdatePathLabel;
 end;
 
@@ -2323,11 +2354,21 @@ begin
   pnlHeader.BevelOuter:=bvNone;
   pnlHeader.AutoSize := True;
 
-  lblPath:=TPathLabel.Create(pnlHeader);
-  lblPath.Parent:=pnlHeader;
-  lblPath.AutoSize:=False;
+  lblAddress := TPathLabel.Create(pnlHeader, False);
+  lblAddress.Parent := pnlHeader;
+  lblAddress.AutoSize := False;
+  lblAddress.Height := lblAddress.Canvas.TextHeight('Wg');
+  lblAddress.Align := alTop;
+  lblAddress.BorderSpacing.Bottom := 1;
+
+  lblPath := TPathLabel.Create(pnlHeader, True);
+  lblPath.Parent := pnlHeader;
+  lblPath.AutoSize := False;
   lblPath.Height := lblPath.Canvas.TextHeight('Wg');
-  lblPath.Align := alTop;
+  lblPath.Anchors := [akTop, akLeft, akRight];
+  // Anchor path below address.
+  lblPath.AnchorSide[akTop].Control := lblAddress;
+  lblPath.AnchorSide[akTop].Side := asrBottom;
 
   edtPath:=TEdit.Create(lblPath);
   edtPath.Parent:=pnlHeader;
@@ -2497,6 +2538,8 @@ begin
     OnChangeFileSource(Parent as TCustomPage);
 
   dgPanel.Row := 0;
+
+  UpdateAddressLabel;
 end;
 
 procedure TColumnsFileView.RemoveLastFileSource;
@@ -2512,6 +2555,8 @@ begin
     OnChangeFileSource(Parent as TCustomPage);
 
   Select(FocusedFile);
+
+  UpdateAddressLabel;
 end;
 
 procedure TColumnsFileView.MakeFileSourceFileList;
@@ -2602,6 +2647,7 @@ begin
   GridVertLine:= gGridVertLine;
   GridHorzLine:= gGridHorzLine;
 
+  UpdateAddressLabel;
   UpdatePathLabel;
   dgPanel.UpdateView;
   UpdateColumnsView;
@@ -3624,11 +3670,11 @@ end;
 
 { TPathLabel }
 
-constructor TPathLabel.Create(AOwner: TComponent);
+constructor TPathLabel.Create(AOwner: TComponent; AllowHighlight: Boolean);
 begin
-  LeftSpacing := 3; // set before painting
+  FLeftSpacing := 3; // set before painting
 
-  inherited;
+  inherited Create(AOwner);
 
   SelectedDir := '';
 
@@ -3637,9 +3683,12 @@ begin
 
   SetActive(False);
 
-  OnMouseEnter:=@MouseEnterEvent;
-  OnMouseMove :=@MouseMoveEvent;
-  OnMouseLeave:=@MouseLeaveEvent;
+  if AllowHighlight then
+  begin
+    OnMouseEnter:=@MouseEnterEvent;
+    OnMouseMove :=@MouseMoveEvent;
+    OnMouseLeave:=@MouseLeaveEvent;
+  end;
 end;
 
 procedure TPathLabel.Paint;
