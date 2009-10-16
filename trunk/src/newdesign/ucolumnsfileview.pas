@@ -455,7 +455,7 @@ uses
 
 function TColumnsFileView.Focused: Boolean;
 begin
-  Result := dgPanel.Focused;
+  Result := Assigned(dgPanel) and dgPanel.Focused;
 end;
 
 procedure TColumnsFileView.SetFocus;
@@ -2285,10 +2285,13 @@ end;
 constructor TColumnsFileView.Create(AOwner: TWinControl; AFileSource: TFileSource; Cloning: Boolean = False);
 begin
   DebugLn('TColumnsFileView.Create components');
+
+  dgPanel := nil;
+
+  BorderStyle := bsNone; // Before Create or the window may be recreated
   inherited Create(AOwner, AFileSource);
   Parent := AOwner;
   Align := alClient;
-  BorderStyle := bsNone;
 
   FFiles := nil;
   FFileSourceFiles := nil;
