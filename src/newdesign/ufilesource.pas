@@ -5,7 +5,7 @@ unit uFileSource;
 interface
 
 uses
-  Classes, SysUtils, uDCUtils,
+  Classes, SysUtils, uDCUtils, contnrs,
   uFileSourceOperation,
   uFileSourceOperationTypes,
   uFileSourceProperty,
@@ -97,6 +97,16 @@ type
     property Properties: TFileSourceProperties read GetProperties;
     property SupportedFileProperties: TFilePropertiesTypes read GetSupportedFileProperties;
 
+  end;
+
+  { TFileSources }
+
+  TFileSources = class(TObjectList)
+  private
+    function Get(I: Integer): TFileSource;
+
+  public
+    property Items[I: Integer]: TFileSource read Get; default;
   end;
 
 implementation
@@ -247,6 +257,16 @@ end;
 function TFileSource.CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation;
 begin
   Result := nil;
+end;
+
+{ TFileSources }
+
+function TFileSources.Get(I: Integer): TFileSource;
+begin
+  if (I >= 0) and (I < Count) then
+    Result := inherited Items[I] as TFileSource
+  else
+    Result := nil;
 end;
 
 end.

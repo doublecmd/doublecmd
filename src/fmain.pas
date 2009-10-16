@@ -462,7 +462,6 @@ type
     procedure GetDestinationPathAndMask(TargetFileSource: TFileSource;
                                         EnteredPath: String; BaseDir: String;
                                         out DestPath, DestMask: String);
-    procedure SetNotActFrmByActFrm;
     procedure SetActiveFrame(panel: TFilePanelSelect);
     procedure UpdateDiskCount;
     procedure CreateDrivesMenu;
@@ -2162,25 +2161,6 @@ begin
     end;
     Key:=0;
     Exit;
-  end;
-end;
-
-procedure TfrmMain.SetNotActFrmByActFrm;
-begin
-  with ActiveFrame do
-  begin
-{
-    pfr:=pnlFile.GetActiveItem;
-    if not assigned(pfr) then Exit;
-    if FPS_ISDIR(pfr^.iMode) and (not (pfr^.sName = '..')) then
-    begin
-      NotActiveFrame.pnlFile.CurrentPath := ActiveDir + pfr^.sName;
-    end
-    else
-    begin
-      NotActiveFrame.pnlFile.CurrentPath := ActiveDir;
-    end;
-}
   end;
 end;
 
