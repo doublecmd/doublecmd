@@ -109,6 +109,8 @@ type
     property Items[I: Integer]: TFileSource read Get; default;
   end;
 
+  EFileSourceException = class(Exception);
+
 implementation
 
 uses

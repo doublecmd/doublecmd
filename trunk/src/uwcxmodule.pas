@@ -116,6 +116,8 @@ Type
     function VFSRun(const sName:String):Boolean;override;
 
     function VFSMisc : PtrUInt;override;
+
+    function IsLoaded: Boolean;
   end;
 
   { TWCXModuleList }
@@ -188,9 +190,10 @@ var
   sPluginConfDir: WideString;
 begin
   FModuleHandle := mbLoadLibrary(sName);
-  debugln('loaded ' + sName + ' at ' + hexStr(Pointer(FModuleHandle)));
   if FModuleHandle = 0 then
     Exit(False);
+
+  DebugLn('WCX module loaded ' + sName + ' at ' + hexStr(Pointer(FModuleHandle)));
 
   // mandatory functions
   OpenArchive:= TOpenArchive(GetProcAddress(FModuleHandle,'OpenArchive'));
@@ -393,6 +396,11 @@ begin
     Result := GetPackerCaps()
   else
     Result := 0;
+end;
+
+function TWCXModule.IsLoaded: Boolean;
+begin
+  Result := (FModuleHandle <> 0);
 end;
 
 { TWCXModuleList }

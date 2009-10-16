@@ -707,7 +707,12 @@ begin
     else
     begin
       // Change file source, if the file under cursor can be opened as another file source.
-      ChooseFileSource(TargetPage.FileView, aFile);
+      try
+        ChooseFileSource(TargetPage.FileView, aFile);
+      except
+        on e: EFileSourceException do
+          MessageDlg('Error', e.Message, mtError, [mbOK], 0);
+      end;
     end;
   end;
 end;

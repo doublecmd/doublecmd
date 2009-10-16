@@ -442,7 +442,7 @@ type
 implementation
 
 uses
-  LCLProc, Masks, uLng, uShowMsg, uGlobs, uPixmapManager,
+  LCLProc, Masks, Dialogs, uLng, uShowMsg, uGlobs, uPixmapManager,
   uDCUtils, uOSUtils, math, fMain,
   uFileProperty,
   uFileSourceProperty,
@@ -1251,7 +1251,14 @@ begin
     if FolderMode then exit;
 
     LastActive := TheFile.Name;
-    uFileSourceUtil.ChooseFile(Self, AFile.TheFile);
+
+    try
+      uFileSourceUtil.ChooseFile(Self, AFile.TheFile);
+
+    except
+      on e: Exception do
+        MessageDlg('Error', e.Message, mtError, [mbOK], 0);
+    end;
   end;
 end;
 

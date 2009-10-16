@@ -61,6 +61,8 @@ type
     property WcxModule: TWCXModule read FWcxModule;
   end;
 
+  EModuleNotLoadedException = class(EFileSourceException);
+
 implementation
 
 uses Forms, Controls, uGlobs, LCLProc, uDCUtils,
@@ -112,7 +114,9 @@ begin
   FArcFileList := TObjectList.Create(True);
   FWcxModule := TWCXModule.Create;
 
-  LoadModule;
+  if LoadModule = False then
+    raise EModuleNotLoadedException.Create('Cannot load WCX module ' + FModuleFileName);
+
   ReadArchive;
 end;
 
