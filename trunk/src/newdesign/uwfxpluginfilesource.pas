@@ -220,9 +220,9 @@ begin
   FWfxModule:= TWFXModule.Create;
   if FWfxModule.LoadModule(FModuleFileName) then
     begin
-      FWfxModule.VFSInit(0);
       FPluginNumber:= WfxOperationList.Add(nil);
       FWfxModule.FsInit(FPluginNumber, @MainProgressProc, @MainLogProc, @MainRequestProc);
+      FWfxModule.VFSInit(0);
     end;
 end;
 
@@ -267,7 +267,7 @@ end;
 
 function TWfxPluginFileSource.GetCurrentAddress: String;
 begin
-  Result:= 'wfx://' + FPluginRootName + CurrentPath;
+  Result:= 'wfx://' + FPluginRootName;
 end;
 
 procedure TWfxPluginFileSource.FillAndCount(Files: TFiles; out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
@@ -511,4 +511,3 @@ finalization
     FreeAndNil(WfxOperationList);
 
 end.
-
