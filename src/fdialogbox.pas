@@ -37,9 +37,11 @@ type
   TDialogBox = class(TForm)
     DialogButton: TButton;
     DialogComboBox: TComboBox;
+    DialogListBox: TListBox;
+    DialogCheckBox: TCheckBox;    
     DialogGroupBox: TGroupBox;
     DialogLabel: TLabel;
-    DialogListBox: TListBox;
+    DialogEdit: TEdit;
     // Dialog events
     procedure DialogBoxShow(Sender: TObject);
     // Button events

@@ -32,7 +32,7 @@ unit uWFXmodule;
 interface
 uses
  SysUtils, Classes, uVFSModule, uVFSTypes, ufsplugin, uWFXprototypes,
- dynlibs, uClassesEx;
+ dynlibs, uClassesEx, DialogAPI;
 
 const
   WFX_SUCCESS      =  0;
@@ -46,6 +46,7 @@ type
   TWFXModule = class (TVFSModule)
   private
     FModuleHandle: TLibHandle;  // Handle to .DLL or .so
+    FModuleFileName: UTF8String;
   public
   { Mandatory }
     FsInit : TFsInit;
@@ -82,6 +83,8 @@ type
     FsContentGetSupportedFieldFlags:TFsContentGetSupportedFieldFlags;
     FsContentSetValue:TFsContentSetValue;
     FsContentGetDefaultView:TFsContentGetDefaultView;
+    { Dialog API }
+    SetDlgProc: TSetDlgProc;
     //---------------------
     procedure WFXStatusInfo(RemoteDir: String; InfoStartEnd, InfoOperation: Integer);
   public
@@ -123,7 +126,7 @@ type
 implementation
 
 uses
-  uOSUtils, uLng, FileUtil, uGlobsPaths;
+  uOSUtils, uLng, FileUtil, uGlobsPaths, fDialogBox;
 
 const
   WfxIniFileName = 'wfx.ini';
@@ -175,6 +178,7 @@ begin
   FModuleHandle := mbLoadLibrary(sName);
   Result := (FModuleHandle <> 0);
   if  FModuleHandle = 0 then exit;
+  FModuleFileName:= sName;
 { Mandatory }
   FsInit := TFsInit(GetProcAddress(FModuleHandle,'FsInit'));
   FsFindFirst := TFsFindFirst(GetProcAddress(FModuleHandle,'FsFindFirst'));
@@ -210,6 +214,8 @@ begin
   FsContentGetSupportedFieldFlags := TFsContentGetSupportedFieldFlags (GetProcAddress(FModuleHandle,'FsContentGetSupportedFieldFlags'));
   FsContentSetValue := TFsContentSetValue (GetProcAddress(FModuleHandle,'FsContentSetValue'));
   FsContentGetDefaultView := TFsContentGetDefaultView (GetProcAddress(FModuleHandle,'FsContentGetDefaultView'));
+  { Dialog API }
+  SetDlgProc:= TSetDlgProc(GetProcAddress(FModuleHandle,'SetDlgProc'));
 end;
 
 procedure TWFXModule.UnloadModule;
@@ -251,11 +257,16 @@ begin
   FsContentGetSupportedFieldFlags := nil;
   FsContentSetValue := nil;
   FsContentGetDefaultView := nil;
+  { Dialog API }
+  SetDlgProc:= nil;
 end;
 
 function TWFXModule.VFSInit(Data: PtrInt): Boolean;
 var
   dps: pFsDefaultParamStruct;
+  SetDlgProcInfo: TSetDlgProcInfo;
+  sPluginDir: WideString;
+  sPluginConfDir: WideString;
 begin
     if Assigned(FsSetDefaultParams) then
     begin
@@ -266,6 +277,26 @@ begin
       dps.size:=SizeOf(tFsDefaultParamStruct);
       FsSetDefaultParams(dps);
       FreeMem(dps,SizeOf(tFsDefaultParamStruct));
+    end;
+
+  // Dialog API
+  if Assigned(SetDlgProc) then
+    begin
+      sPluginDir := UTF8Decode(ExtractFilePath(FModuleFileName));
+      sPluginConfDir := UTF8Decode(gpIniDir);
+
+      with SetDlgProcInfo do
+      begin
+        PluginDir:= PWideChar(sPluginDir);
+        PluginConfDir:= PWideChar(sPluginConfDir);
+        InputBox:= @fDialogBox.InputBox;
+        MessageBox:= @fDialogBox.MessageBox;
+        DialogBox:= @fDialogBox.DialogBox;
+        DialogBoxEx:= @fDialogBox.DialogBoxEx;
+        SendDlgMsg:= @fDialogBox.SendDlgMsg;
+      end;
+
+      SetDlgProc(SetDlgProcInfo);
     end;
 end;
 
