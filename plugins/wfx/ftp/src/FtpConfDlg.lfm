@@ -223,6 +223,7 @@ object DialogBox: TDialogBox
     Anchors = [akRight, akBottom]
     BorderSpacing.Bottom = 12
     Caption = 'Cancel'
+    OnClick = ButtonClick
     TabOrder = 9
   end
   object btnOK: TButton
@@ -237,6 +238,7 @@ object DialogBox: TDialogBox
     BorderSpacing.Right = 12
     BorderSpacing.Bottom = 12
     Caption = '&OK'
+    OnClick = ButtonClick
     TabOrder = 10
   end
 end

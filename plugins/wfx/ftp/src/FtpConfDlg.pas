@@ -33,68 +33,42 @@ procedure ShowFtpConfDlg;
   
 implementation
 
-uses FtpFunc;
+uses
+  FtpFunc;
 
 function DlgProc (pDlg: PtrUInt; DlgItemName: PChar; Msg, wParam, lParam: PtrInt): PtrInt; stdcall;
 var
- iIndex: Integer;
+ Data: PtrInt;
+ wsText: WideString;
 begin
-{
   with gSetDlgProcInfo do
   begin
     case Msg of
-      DN_INITDIALOG:
-        begin
-          case gCompressionMethodToUse of
-            smStored:
-              SendDlgMsg(pDlg, 'cbCompressionMethodToUse', DM_LISTSETITEMINDEX, 0, 0);
-            smDeflated:
-              SendDlgMsg(pDlg, 'cbCompressionMethodToUse', DM_LISTSETITEMINDEX, 1, 0);
-            smBestMethod:
-              SendDlgMsg(pDlg, 'cbCompressionMethodToUse', DM_LISTSETITEMINDEX, 2, 0);
-          end; // case
-          case gDeflationOption of
-            doNormal:
-              SendDlgMsg(pDlg, 'cbDeflationOption', DM_LISTSETITEMINDEX, 0, 0);
-            doMaximum:
-              SendDlgMsg(pDlg, 'cbDeflationOption', DM_LISTSETITEMINDEX, 1, 0);
-            doFast:
-              SendDlgMsg(pDlg, 'cbDeflationOption', DM_LISTSETITEMINDEX, 2, 0);
-            doSuperFast:
-              SendDlgMsg(pDlg, 'cbDeflationOption', DM_LISTSETITEMINDEX, 3, 0);
-          end; // case
-        end;
       DN_CLICK:
         if DlgItemName = 'btnOK' then
           begin
-            iIndex:= SendDlgMsg(pDlg, 'cbCompressionMethodToUse', DM_LISTGETITEMINDEX, 0, 0);
-            case iIndex of
-              0:
-                gCompressionMethodToUse:= smStored;
-              1:
-                gCompressionMethodToUse:= smDeflated;
-              2:
-                gCompressionMethodToUse:= smBestMethod;
-            end; // case
-            iIndex:= SendDlgMsg(pDlg, 'cbDeflationOption', DM_LISTGETITEMINDEX, 0, 0);
-            case iIndex of
-              0:
-                gDeflationOption:= doNormal;
-              1:
-                gDeflationOption:= doMaximum;
-              2:
-                gDeflationOption:= doFast;
-              3:
-                gDeflationOption:= doSuperFast;
-            end; // case
-            SaveConfig;
+            Data:= SendDlgMsg(pDlg, 'edtName', DM_GETTEXT, 0, 0);
+            wsText:= PWideChar(Data);
+            gConnection.ConnectionName:= wsText;
+            Data:= SendDlgMsg(pDlg, 'edtHost', DM_GETTEXT, 0, 0);
+            wsText:= PWideChar(Data);
+            gConnection.Host:= wsText;
+            Data:= SendDlgMsg(pDlg, 'edtUserName', DM_GETTEXT, 0, 0);
+            wsText:= PWideChar(Data);
+            gConnection.UserName:= wsText;
+            Data:= SendDlgMsg(pDlg, 'edtRemoteDir', DM_GETTEXT, 0, 0);
+            wsText:= PWideChar(Data);
+            gConnection.Path:= wsText;
+            // close dialog
             SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 0, 0);
           end
         else if DlgItemName = 'btnCancel' then
-          SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 0, 0);
+          begin
+            // close dialog
+            SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 0, 0);
+          end;
     end;// case
   end; // with
-}
 end;
 
 procedure ShowFtpConfDlg;

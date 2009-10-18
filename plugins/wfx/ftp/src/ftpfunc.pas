@@ -42,6 +42,14 @@ type
       const Value: string);
   end;
 
+  TConnection = class
+  public
+    ConnectionName, Path, Host: AnsiString;
+    Port: AnsiString;
+    UserName: AnsiString;
+    Password: AnsiString;
+  end;
+
 function FsInit(PluginNr: Integer; pProgressProc: TProgressProc;
   pLogProc: TLogProc; pRequestProc: TRequestProc): Integer; stdcall;
 
@@ -74,6 +82,7 @@ procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);stdcall;
 var
   gSetDlgProcInfo: TSetDlgProcInfo;
   gPluginDir: UTF8String;
+  gConnection: TConnection;
 
 implementation
 
@@ -100,14 +109,6 @@ type
     FtpSend: TFTPSendEx;
   end;
   PListRec = ^TListRec;
-
-  TConnection = class
-  public
-    ConnectionName, Path, Host: AnsiString;
-    Port: AnsiString;
-    UserName: AnsiString;
-    Password: AnsiString;
-  end;
 
 procedure ReadConnectionList;
 var
@@ -285,25 +286,31 @@ const
   MAX_PATH = 256;
 var
   pcTemp: PAnsiChar;
-  Connection: TConnection;
   bCancel: Boolean;
 begin
   bCancel := True;
-  Connection := TConnection.Create;
-  GetMem(pcTemp, MAX_PATH);
+  gConnection := TConnection.Create;
+  ShowFtpConfDlg;
+  begin
+      ConnectionList.AddObject(gConnection.ConnectionName, gConnection);
+      bCancel := False;
+  end;
+//-----------------------------------------------------------------------
+{  GetMem(pcTemp, MAX_PATH);
   if RequestProc(PluginNumber, RT_Other, nil, nil, pcTemp, MAX_PATH) then
   begin
-    Connection.ConnectionName := pcTemp;
+    gConnection.ConnectionName := pcTemp;
     if AddQuickConnection(Connection) then
     begin
-      ConnectionList.AddObject(Connection.ConnectionName, Connection);
+      ConnectionList.AddObject(gConnection.ConnectionName, gConnection);
       bCancel := False;
     end;
   end;
-  FreeMem(pcTemp);
+  FreeMem(pcTemp); }
+//------------------------------------------------------------------------
 
   if bCancel then
-    Connection.Free
+    FreeAndNil(gConnection)
   else
     WriteConnectionList;
 end;
@@ -499,8 +506,7 @@ var
 begin
   Result:= FS_EXEC_YOURSELF;
   if (RemoteName = '') then Exit;
-  ShowFtpConfDlg;
-  Exit;
+
   if Verb = 'open' then
     begin
       if (ExtractFileDir(RemoteName) = PathDelim) then // root path
