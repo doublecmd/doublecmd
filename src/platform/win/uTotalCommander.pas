@@ -42,8 +42,19 @@ var
 
 function WindowProc(hWnd: HWND; uiMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
 begin
-  // resend message to real main window
-  SendMessage(hMainWindow, uiMsg, wParam, lParam);
+  {
+    Resend message to DoubleCommander main window.
+
+    Disabled currently, because it may interfere with LCL, especially since the fake
+    TotalCmd window is also a main app window (WS_OVERLAPPEDWINDOW). May be enabled
+    in future if any plugins need this, but following messages should be skipped
+    because they are known to cause conflict:
+    - WM_ACTIVATEAPP
+      Confuses LCL about which main form (window) is currently active and
+      it stops calling OnExit events for controls (see TWinControl.WMKillFocus).
+  }
+  //SendMessage(hMainWindow, uiMsg, wParam, lParam);
+
   {$IFDEF DEBUG}
   WriteLn(uiMsg);
   {$ENDIF}
