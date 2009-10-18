@@ -37,7 +37,7 @@ type
 implementation
 
 uses
-  uOSUtils;
+  Forms, Controls, uOSUtils;
 
 constructor TFileSystemExecuteOperation.Create(
                 var aTargetFileSource: TFileSource;
@@ -49,6 +49,7 @@ end;
 
 procedure TFileSystemExecuteOperation.Initialize;
 begin
+  Screen.Cursor:= crHourGlass;
 end;
 
 procedure TFileSystemExecuteOperation.MainExecute;
@@ -60,6 +61,7 @@ end;
 
 procedure TFileSystemExecuteOperation.Finalize;
 begin
+  Screen.Cursor:= crDefault;
 end;
 
 end.

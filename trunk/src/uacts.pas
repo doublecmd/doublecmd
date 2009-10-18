@@ -250,7 +250,7 @@ uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
      HelpIntfs, dmHelpManager, uShellExecute, uClipboard, fCheckSumCalc,
      uFilePanelSelect, uFile, uFileSystemFileSource,
      uOperationsManager, uFileSourceOperationTypes,
-     uFileSystemDeleteOperation,
+     uFileSystemDeleteOperation, uFileSourceExecuteOperation,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
      uFileSourceCalcStatisticsOperation, uFileSystemFile,
      uFileSource, uFileSourceProperty, uVfsFileSource, uFileSourceUtil;
@@ -2244,18 +2244,34 @@ end;
 procedure TActs.cm_FileProperties(param:string);
 var
   SelectedFiles: TFiles;
+  Operation: TFileSourceExecuteOperation;
+  aFile: TFile;
 begin
   with frmMain do
   begin
-    SelectedFiles := ActiveFrame.SelectedFiles;
-    if Assigned(SelectedFiles) then
-    try
-      ShowFilePropertiesDialog(SelectedFiles);
-      if ActiveFrame.FileSource is TFileSystemFileSource then
-        ActiveFrame.Reload;
-    finally
-      FreeAndNil(SelectedFiles);
-    end;
+    if ActiveFrame.FileSource is TFileSystemFileSource then
+      begin
+        SelectedFiles := ActiveFrame.SelectedFiles;
+        if Assigned(SelectedFiles) then
+        try
+          ShowFilePropertiesDialog(SelectedFiles);
+          ActiveFrame.Reload;
+        finally
+          FreeAndNil(SelectedFiles);
+        end;
+      end
+    else
+      begin
+        aFile:= ActiveFrame.ActiveFile;
+        if Assigned(aFile) then
+          try
+            Operation:= ActiveFrame.FileSource.CreateExecuteOperation(aFile.Path + aFile.Name, 'properties') as TFileSourceExecuteOperation;
+            if Assigned(Operation) then
+              Operation.Execute;
+          finally
+            FreeThenNil(Operation);
+          end;
+      end;
   end;
 end;
 

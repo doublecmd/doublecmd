@@ -1181,7 +1181,6 @@ begin
            UpDatelblInfo;
         finally
            dgPanel.Invalidate;
-           Screen.Cursor:=crDefault;
         end;
         {LaBero end}
       end;
@@ -1905,13 +1904,11 @@ begin
      (Point.Y >= dgPanel.GridHeight) or
      IsEmpty then Exit;
 
-    Screen.Cursor:=crHourGlass;
   try
     ChooseFile(GetActiveItem);
     UpDatelblInfo;
   finally
     dgPanel.Invalidate;
-    Screen.Cursor:=crDefault;
   end;
 
 {$IFDEF LCLGTK2}
@@ -2146,13 +2143,11 @@ begin
           // Only if there are items in the panel.
           if not IsEmpty then
           begin
-            Screen.Cursor := crHourGlass;
             try
               ChooseFile(GetActiveItem);
               UpDatelblInfo;
             finally
               dgPanel.Invalidate;
-              Screen.Cursor := crDefault;
             end;
             Key := 0;
           end;
