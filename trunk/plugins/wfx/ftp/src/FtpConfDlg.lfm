@@ -8,8 +8,8 @@ object DialogBox: TDialogBox
   Caption = 'FTP'
   ClientHeight = 300
   ClientWidth = 400
-  LCLVersion = '0.9.29'
   OnShow = DialogBoxShow
+  LCLVersion = '0.9.29'
   object lblName: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = edtName

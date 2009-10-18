@@ -81,12 +81,12 @@ begin
             wsText:= PWideChar(Data);
             gConnection.Path:= wsText;
             // close dialog
-            SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 0, 0);
+            SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 1, 0);
           end
         else if DlgItemName = 'btnCancel' then
           begin
             // close dialog
-            SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 0, 0);
+            SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 2, 0);
           end;
     end;// case
   end; // with

@@ -192,6 +192,8 @@ begin
   DM_CLOSE:
     begin
       DialogBox.Close;
+      if wParam <> -1 then
+        DialogBox.ModalResult:= wParam;
     end;
   DM_ENABLE:
     begin
