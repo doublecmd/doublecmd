@@ -62,8 +62,8 @@ type
   { Definition of callback functions called by the DLL }
   TInputBoxProc = function(Caption, Prompt, DefaultText : PWideChar): PWideChar;stdcall;
   TMessageBoxProc = function(Text, Caption: PWideChar; Flags: Longint): Integer;stdcall;
-  TDialogBoxProc = function(DlgData: PWideChar; DlgProc: TDlgProc): PtrUInt;stdcall;
-  TDialogBoxExProc = function(lfmFileName: PWideChar; DlgProc: TDlgProc): PtrUInt;stdcall;
+  TDialogBoxProc = function(DlgData: PWideChar; DlgProc: TDlgProc): Boolean;stdcall;
+  TDialogBoxExProc = function(lfmFileName: PWideChar; DlgProc: TDlgProc): Boolean;stdcall;
 
 type
   TSetDlgProcInfo = packed record

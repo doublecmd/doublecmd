@@ -151,6 +151,7 @@ object DialogBox: TDialogBox
     BorderSpacing.Left = 12
     BorderSpacing.Top = 6
     Caption = 'Send command to keep connection alive:'
+    OnChange = CheckBoxChange
     TabOrder = 6
   end
   object lblCommand: TLabel
@@ -177,6 +178,7 @@ object DialogBox: TDialogBox
     Width = 100
     BorderSpacing.Left = 10
     BorderSpacing.Top = 6
+    Enabled = False
     ItemHeight = 13
     Items.Strings = (
       'NOOP'
@@ -209,6 +211,7 @@ object DialogBox: TDialogBox
     Width = 80
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 6
+    Enabled = False
     TabOrder = 8
   end
   object btnCancel: TButton
@@ -223,6 +226,7 @@ object DialogBox: TDialogBox
     Anchors = [akRight, akBottom]
     BorderSpacing.Bottom = 12
     Caption = 'Cancel'
+    ModalResult = 2
     OnClick = ButtonClick
     TabOrder = 9
   end
@@ -238,6 +242,7 @@ object DialogBox: TDialogBox
     BorderSpacing.Right = 12
     BorderSpacing.Bottom = 12
     Caption = '&OK'
+    ModalResult = 1
     OnClick = ButtonClick
     TabOrder = 10
   end

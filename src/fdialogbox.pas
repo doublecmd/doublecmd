@@ -74,6 +74,8 @@ type
     procedure ListBoxExit(Sender: TObject);
     procedure ListBoxKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure ListBoxKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    // CheckBox events
+    procedure CheckBoxChange(Sender: TObject);
   private
     fDlgProc: TDlgProc;
   public
@@ -82,8 +84,8 @@ type
 
 function InputBox(Caption, Prompt, DefaultText : PWideChar): PWideChar;stdcall;
 function MessageBox(Text, Caption: PWideChar; Flags: Longint): Integer;stdcall;
-function DialogBox(DlgData: PWideChar; DlgProc: TDlgProc): PtrUInt;stdcall;
-function DialogBoxEx(lfmFileName: PWideChar; DlgProc: TDlgProc): PtrUInt;stdcall;
+function DialogBox(DlgData: PWideChar; DlgProc: TDlgProc): Boolean;stdcall;
+function DialogBoxEx(lfmFileName: PWideChar; DlgProc: TDlgProc): Boolean;stdcall;
 function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PChar; Msg, wParam, lParam: PtrInt): PtrInt; stdcall;
 
 implementation
@@ -115,7 +117,7 @@ begin
   Result:= Application.MessageBox(PChar(sText), PChar(sCaption), Flags);
 end;
 
-function DialogBox(DlgData: PWideChar; DlgProc: TDlgProc): PtrUInt;stdcall;
+function DialogBox(DlgData: PWideChar; DlgProc: TDlgProc): Boolean;stdcall;
 var
   DataString: UTF8String;
   LFMStream: TStringStream = nil;
@@ -135,9 +137,8 @@ begin
     with Dialog do
     begin
       fDlgProc:= DlgProc;
-      ShowModal;
+      Result:= (ShowModal = mrOK);
     end;
-    Result:= PtrUInt(Dialog.DialogButton);
 
   finally
     if Assigned(Dialog) then
@@ -149,7 +150,7 @@ begin
   end;
 end;
 
-function DialogBoxEx(lfmFileName: PWideChar; DlgProc: TDlgProc): PtrUInt;stdcall;
+function DialogBoxEx(lfmFileName: PWideChar; DlgProc: TDlgProc): Boolean;stdcall;
 var
   lfmStringList: TStringListEx;
   wDlgData: WideString;
@@ -625,6 +626,14 @@ procedure TDialogBox.ListBoxKeyUp(Sender: TObject; var Key: Word;
 begin
   if Assigned(fDlgProc) then
     fDlgProc(PtrUInt(Pointer(Self)), PChar((Sender as TControl).Name), DN_KEYUP,Key,0);
+end;
+
+procedure TDialogBox.CheckBoxChange(Sender: TObject);
+begin
+  if Assigned(fDlgProc) then
+    begin
+      fDlgProc(PtrUInt(Pointer(Self)), PChar((Sender as TControl).Name), DN_CHANGE, PtrInt((Sender as TCheckBox).Checked),0);
+    end;
 end;
 
 initialization
