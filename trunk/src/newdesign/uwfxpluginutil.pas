@@ -162,7 +162,7 @@ begin
         SizeLow := iTemp.Low;
         SizeHigh := iTemp.High;
         LastWriteTime := DateTimeToFileTime(aFile.ModificationTime);
-        Attr := aFile.Attributes;
+        Attr := LongInt(aFile.Attributes);
       end;
       Result := WfxCopyMove(aFile.Path + aFile.Name, AbsoluteTargetFileName, iFlags, @RemoteInfo, FInternal, FMode = wpohmCopyMoveIn);
 

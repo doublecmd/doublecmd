@@ -122,6 +122,7 @@ var
   DataString: UTF8String;
   LFMStream: TStringStream = nil;
   BinStream: TStringStream = nil;
+  LResource: TLResource = nil;
   Dialog: TDialogBox = nil;
 begin
   try
@@ -131,7 +132,11 @@ begin
     BinStream:= TStringStream.Create('');
     LRSObjectTextToBinary(LFMStream, BinStream);
 
-    LazarusResources.Add('TDialogBox','FORMDATA', BinStream.DataString);
+    LResource:= LazarusResources.Find('TDialogBox','FORMDATA');
+    if Assigned(LResource) then
+      LResource.Value:= BinStream.DataString
+    else
+      LazarusResources.Add('TDialogBox','FORMDATA', BinStream.DataString);
 
     Dialog:= TDialogBox.Create(nil);
     with Dialog do
