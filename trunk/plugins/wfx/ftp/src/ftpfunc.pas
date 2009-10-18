@@ -96,6 +96,7 @@ var
   LogProc: TLogProc;
   RequestProc: TRequestProc;
   PluginNumber: Integer;
+  HasDialogAPI: Boolean = False;
 
 const
   cAddConnection = '<Add connection>';
@@ -290,24 +291,29 @@ var
 begin
   bCancel := True;
   gConnection := TConnection.Create;
-  ShowFtpConfDlg;
-  begin
-      ConnectionList.AddObject(gConnection.ConnectionName, gConnection);
-      bCancel := False;
-  end;
-//-----------------------------------------------------------------------
-{  GetMem(pcTemp, MAX_PATH);
-  if RequestProc(PluginNumber, RT_Other, nil, nil, pcTemp, MAX_PATH) then
-  begin
-    gConnection.ConnectionName := pcTemp;
-    if AddQuickConnection(Connection) then
+
+  if HasDialogAPI then
     begin
-      ConnectionList.AddObject(gConnection.ConnectionName, gConnection);
-      bCancel := False;
+      if ShowFtpConfDlg then
+        begin
+          ConnectionList.AddObject(gConnection.ConnectionName, gConnection);
+          bCancel := False;
+        end;
+    end
+  else
+    begin
+      GetMem(pcTemp, MAX_PATH);
+      if RequestProc(PluginNumber, RT_Other, nil, nil, pcTemp, MAX_PATH) then
+      begin
+        gConnection.ConnectionName := pcTemp;
+        if AddQuickConnection(gConnection) then
+        begin
+          ConnectionList.AddObject(gConnection.ConnectionName, gConnection);
+          bCancel := False;
+        end;
+      end;
+      FreeMem(pcTemp);
     end;
-  end;
-  FreeMem(pcTemp); }
-//------------------------------------------------------------------------
 
   if bCancel then
     FreeAndNil(gConnection)
@@ -712,6 +718,7 @@ begin
   // Clear so they are not used anymore.
   gSetDlgProcInfo.PluginDir := nil;
   gSetDlgProcInfo.PluginConfDir := nil;
+  HasDialogAPI:= True;
 end;
 
 

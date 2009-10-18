@@ -29,7 +29,7 @@ interface
 uses
   SysUtils, DialogAPI;
 
-procedure ShowFtpConfDlg;
+function ShowFtpConfDlg: Boolean;
   
 implementation
 
@@ -44,6 +44,12 @@ begin
   with gSetDlgProcInfo do
   begin
     case Msg of
+      DN_CHANGE:
+        if DlgItemName = 'chkSendCommand' then
+          begin
+            SendDlgMsg(pDlg, 'cmbCommand', DM_ENABLE, wParam, 0);
+            SendDlgMsg(pDlg, 'edtInterval', DM_ENABLE, wParam, 0);
+          end;
       DN_CLICK:
         if DlgItemName = 'btnOK' then
           begin
@@ -71,7 +77,7 @@ begin
   end; // with
 end;
 
-procedure ShowFtpConfDlg;
+function ShowFtpConfDlg: Boolean;
 var
   wFileName: WideString;
 begin
@@ -79,7 +85,7 @@ begin
 
   with gSetDlgProcInfo do
   begin
-    DialogBoxEx(PWideChar(wFileName), @DlgProc);
+    Result:= DialogBoxEx(PWideChar(wFileName), @DlgProc);
   end;
 end;
 
