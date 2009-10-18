@@ -32,7 +32,7 @@ type
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
     function WfxExecuteFile(const sFileName, sVerb: UTF8String; out sNewPath: UTF8String): LongInt;
   public
-    constructor Create(aModuleFileName, aPluginRootName: UTF8String); reintroduce;
+    constructor Create(aModuleFileName, aPluginRootName: UTF8String; aWfxModule: TWfxModule); reintroduce;
     destructor Destroy; override;
 
     function Clone: TWfxPluginFileSource; override;
@@ -211,13 +211,20 @@ end;
 
 { TWfxPluginFileSource }
 
-constructor TWfxPluginFileSource.Create(aModuleFileName, aPluginRootName: UTF8String);
+constructor TWfxPluginFileSource.Create(aModuleFileName, aPluginRootName: UTF8String; aWfxModule: TWfxModule);
 begin
   inherited Create;
   CurrentPath:= PathDelim;
   FModuleFileName:= aModuleFileName;
   FPluginRootName:= aPluginRootName;
-  FWfxModule:= TWFXModule.Create;
+
+  if Assigned(aWfxModule) then
+    begin
+      FWfxModule:= aWfxModule;
+      Exit;
+    end;
+
+  FWfxModule:= TWfxModule.Create;
   if FWfxModule.LoadModule(FModuleFileName) then
     begin
       FPluginNumber:= WfxOperationList.Add(nil);
@@ -233,7 +240,8 @@ end;
 
 function TWfxPluginFileSource.Clone: TWfxPluginFileSource;
 begin
-  Result := TWfxPluginFileSource.Create(FModuleFileName, FPluginRootName);
+  Result := TWfxPluginFileSource.Create(FModuleFileName, FPluginRootName, FWfxModule);
+  Result.FPluginNumber:= FPluginNumber;
   CloneTo(Result);
 end;
 
@@ -498,7 +506,7 @@ begin
   if sModuleFileName <> EmptyStr then
     begin
       sModuleFileName:= GetCmdDirFromEnvVar(sModuleFileName);
-      Result:= TWfxPluginFileSource.Create(sModuleFileName, aRootName);
+      Result:= TWfxPluginFileSource.Create(sModuleFileName, aRootName, nil);
 
       DebugLn('Registered plugin ' + sModuleFileName + ' for file system ' + aRootName);
     end;

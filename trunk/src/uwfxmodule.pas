@@ -126,7 +126,7 @@ type
 implementation
 
 uses
-  uOSUtils, uLng, FileUtil, uGlobsPaths, fDialogBox;
+  LCLProc, uOSUtils, uLng, FileUtil, uGlobsPaths, fDialogBox;
 
 const
   WfxIniFileName = 'wfx.ini';
@@ -177,7 +177,10 @@ function TWFXModule.LoadModule(const sName: String): Boolean;
 begin
   FModuleHandle := mbLoadLibrary(sName);
   Result := (FModuleHandle <> 0);
-  if  FModuleHandle = 0 then exit;
+  if  FModuleHandle = 0 then Exit(False);
+
+  DebugLn('WFX module loaded ' + sName + ' at ' + hexStr(Pointer(FModuleHandle)));
+
   FModuleFileName:= sName;
 { Mandatory }
   FsInit := TFsInit(GetProcAddress(FModuleHandle,'FsInit'));
