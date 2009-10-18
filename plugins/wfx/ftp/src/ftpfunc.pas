@@ -321,6 +321,24 @@ begin
     WriteConnectionList;
 end;
 
+procedure EditConnection(ConnectionName: AnsiString);
+var
+  I: Integer;
+begin
+  if HasDialogAPI then
+    begin
+      I := ConnectionList.IndexOf(ConnectionName);
+      if I >= 0 then
+        begin
+          gConnection:= TConnection(ConnectionList.Objects[I]);
+          if ShowFtpConfDlg then
+            WriteConnectionList
+          else
+            gConnection:= nil;
+        end;
+    end;
+end;
+
 function ExtractConnectionName(const sPath: AnsiString): AnsiString;
 var
   Index: Integer;
@@ -549,9 +567,10 @@ begin
       end;
     end
   else if Verb = 'properties' then
-    begin
-      ShowFtpConfDlg;
-    end;
+    if (ExtractFileDir(RemoteName) = PathDelim) and (RemoteName[1] <> '<') then // connection
+      begin
+        EditConnection(RemoteName + 1);
+      end;
 end;
 
 function FsRenMovFile(OldName, NewName: PAnsiChar; Move, OverWrite: BOOL;

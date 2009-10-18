@@ -44,6 +44,21 @@ begin
   with gSetDlgProcInfo do
   begin
     case Msg of
+      DN_INITDIALOG:
+        begin
+          wsText:= gConnection.ConnectionName;
+          Data:= PtrInt(PWideChar(wsText));
+          SendDlgMsg(pDlg, 'edtName', DM_SETTEXT, Data, 0);
+          wsText:= gConnection.Host;
+          Data:= PtrInt(PWideChar(wsText));
+          SendDlgMsg(pDlg, 'edtHost', DM_SETTEXT, Data, 0);
+          wsText:= gConnection.UserName;
+          Data:= PtrInt(PWideChar(wsText));
+          SendDlgMsg(pDlg, 'edtUserName', DM_SETTEXT, Data, 0);
+          wsText:= gConnection.Path;
+          Data:= PtrInt(PWideChar(wsText));
+          SendDlgMsg(pDlg, 'edtRemoteDir', DM_SETTEXT, Data, 0);
+        end;
       DN_CHANGE:
         if DlgItemName = 'chkSendCommand' then
           begin

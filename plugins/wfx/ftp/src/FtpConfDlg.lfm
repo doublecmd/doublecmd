@@ -9,6 +9,7 @@ object DialogBox: TDialogBox
   ClientHeight = 300
   ClientWidth = 400
   LCLVersion = '0.9.29'
+  OnShow = DialogBoxShow
   object lblName: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = edtName
