@@ -1,0 +1,242 @@
+object DialogBox: TDialogBox
+  Left = 290
+  Height = 300
+  Top = 144
+  Width = 400
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'FTP'
+  ClientHeight = 300
+  ClientWidth = 400
+  LCLVersion = '0.9.29'
+  object lblName: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = edtName
+    AnchorSideTop.Side = asrCenter
+    Left = 12
+    Height = 14
+    Top = 15
+    Width = 88
+    BorderSpacing.Left = 12
+    Caption = 'Connection name:'
+    ParentColor = False
+  end
+  object edtName: TEdit
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 128
+    Height = 21
+    Top = 12
+    Width = 260
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 12
+    BorderSpacing.Right = 12
+    TabOrder = 0
+  end
+  object lblHost: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = edtHost
+    AnchorSideTop.Side = asrCenter
+    Left = 12
+    Height = 14
+    Top = 42
+    Width = 59
+    BorderSpacing.Left = 12
+    Caption = 'Host[:Port]:'
+    ParentColor = False
+  end
+  object edtHost: TEdit
+    AnchorSideLeft.Control = edtName
+    AnchorSideTop.Control = edtName
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = edtName
+    AnchorSideRight.Side = asrBottom
+    Left = 128
+    Height = 21
+    Top = 39
+    Width = 260
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    TabOrder = 1
+  end
+  object lblUserName: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = edtUserName
+    AnchorSideTop.Side = asrCenter
+    Left = 12
+    Height = 14
+    Top = 100
+    Width = 56
+    BorderSpacing.Left = 12
+    Caption = 'User name:'
+    ParentColor = False
+  end
+  object edtUserName: TEdit
+    AnchorSideLeft.Control = btnAnonymous
+    AnchorSideTop.Control = btnAnonymous
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnAnonymous
+    AnchorSideRight.Side = asrBottom
+    Left = 128
+    Height = 21
+    Top = 97
+    Width = 260
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    TabOrder = 2
+  end
+  object btnAnonymous: TButton
+    AnchorSideLeft.Control = edtHost
+    AnchorSideTop.Control = edtHost
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = edtHost
+    AnchorSideRight.Side = asrBottom
+    Left = 128
+    Height = 25
+    Top = 66
+    Width = 260
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    Caption = 'Anonymous'
+    TabOrder = 3
+  end
+  object edtRemoteDir: TEdit
+    AnchorSideLeft.Control = edtUserName
+    AnchorSideTop.Control = edtUserName
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = edtUserName
+    AnchorSideRight.Side = asrBottom
+    Left = 128
+    Height = 21
+    Top = 124
+    Width = 260
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    TabOrder = 4
+  end
+  object lblRemoteDir: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = edtRemoteDir
+    AnchorSideTop.Side = asrCenter
+    Left = 12
+    Height = 14
+    Top = 127
+    Width = 57
+    BorderSpacing.Left = 12
+    Caption = 'Remote dir:'
+    ParentColor = False
+  end
+  object chkPassiveMode: TCheckBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = edtRemoteDir
+    AnchorSideTop.Side = asrBottom
+    Left = 12
+    Height = 17
+    Top = 163
+    Width = 273
+    BorderSpacing.Left = 12
+    BorderSpacing.Top = 18
+    Caption = 'Use passive mode for transfers (like a WWW brower)'
+    TabOrder = 5
+  end
+  object chkSendCommand: TCheckBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = chkPassiveMode
+    AnchorSideTop.Side = asrBottom
+    Left = 12
+    Height = 17
+    Top = 186
+    Width = 213
+    BorderSpacing.Left = 12
+    BorderSpacing.Top = 6
+    Caption = 'Send command to keep connection alive:'
+    TabOrder = 6
+  end
+  object lblCommand: TLabel
+    AnchorSideLeft.Control = chkSendCommand
+    AnchorSideTop.Control = cmbCommand
+    AnchorSideTop.Side = asrCenter
+    Left = 18
+    Height = 14
+    Top = 212
+    Width = 52
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    Caption = 'Command:'
+    ParentColor = False
+  end
+  object cmbCommand: TComboBox
+    AnchorSideLeft.Control = lblCommand
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = chkSendCommand
+    AnchorSideTop.Side = asrBottom
+    Left = 80
+    Height = 21
+    Top = 209
+    Width = 100
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 6
+    ItemHeight = 13
+    Items.Strings = (
+      'NOOP'
+      'PWD'
+      'SYST'
+    )
+    TabOrder = 7
+  end
+  object lblInterval: TLabel
+    AnchorSideTop.Control = edtInterval
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = edtInterval
+    Left = 212
+    Height = 14
+    Top = 212
+    Width = 84
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 12
+    Caption = 'Send interval (s):'
+    ParentColor = False
+  end
+  object edtInterval: TEdit
+    AnchorSideTop.Control = chkSendCommand
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = edtRemoteDir
+    AnchorSideRight.Side = asrBottom
+    Left = 308
+    Height = 21
+    Top = 209
+    Width = 80
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 6
+    TabOrder = 8
+  end
+  object btnCancel: TButton
+    AnchorSideRight.Control = edtRemoteDir
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 313
+    Height = 25
+    Top = 263
+    Width = 75
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Bottom = 12
+    Caption = 'Cancel'
+    TabOrder = 9
+  end
+  object btnOK: TButton
+    AnchorSideRight.Control = btnCancel
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 226
+    Height = 25
+    Top = 263
+    Width = 75
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Right = 12
+    BorderSpacing.Bottom = 12
+    Caption = '&OK'
+    TabOrder = 10
+  end
+end
