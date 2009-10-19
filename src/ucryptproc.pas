@@ -15,8 +15,9 @@ type
   private
     FMasterKey: AnsiString;
   public
-    function WritePassword(Prefix, Name: UTF8String; const Password: AnsiString): Boolean;
-    function ReadPassword(Prefix, Name: UTF8String; out Password: AnsiString): Boolean;
+    function HasMasterKey: Boolean;
+    function WritePassword(Prefix, Name, Connection: UTF8String; const Password: AnsiString): Boolean;
+    function ReadPassword(Prefix, Name, Connection: UTF8String; out Password: AnsiString): Boolean;
   end;
 
 function Encode(MasterKey, Data: AnsiString): AnsiString;
@@ -28,7 +29,7 @@ var
 implementation
 
 uses
-  LCLProc, Base64, BlowFish, uGlobsPaths;
+  LCLProc, Dialogs, Base64, BlowFish, uGlobsPaths;
 
 type
   TBlowFishKeyRec = record
@@ -91,24 +92,54 @@ end;
 
 { TPasswordStore }
 
-function TPasswordStore.WritePassword(Prefix, Name: UTF8String;
-  const Password: AnsiString): Boolean;
+function TPasswordStore.HasMasterKey: Boolean;
 begin
-
+  Result:= (Length(FMasterKey) <> 0);
 end;
 
-function TPasswordStore.ReadPassword(Prefix, Name: UTF8String; out
-  Password: AnsiString): Boolean;
+function TPasswordStore.WritePassword(Prefix, Name, Connection: UTF8String;
+                                      const Password: AnsiString): Boolean;
+var
+  Data: AnsiString;
 begin
-
+  Result:= False;
+  if Length(FMasterKey) = 0 then
+    begin
+      if not InputQuery('Double Commander', 'Enter master password:', True, FMasterKey) then
+        Exit;
+    end;
+  Data:= Encode(FMasterKey, Password);
+  WriteString(Prefix + '_' + Name, Connection, Data);
+  Result:= True;
 end;
 
-initialization
+function TPasswordStore.ReadPassword(Prefix, Name, Connection: UTF8String;
+                                     out Password: AnsiString): Boolean;
+var
+  Data: AnsiString;
+begin
+  Result:= False;
+  if Length(FMasterKey) = 0 then
+    begin
+      if not InputQuery('Double Commander', 'Enter master password:', True, FMasterKey) then
+        Exit;
+    end;
+  Data:= ReadString(Prefix + '_' + Name, Connection, Data);
+  Password:= Decode(FMasterKey, Data);
+  Result:= True;
+end;
+
+procedure InitPasswordStore;
+begin
   try
     PasswordStore:= TPasswordStore.Create(gpIniDir + 'pwd.ini', fmOpenReadWrite);
   except
     DebugLn('Can not create secure password store!');
   end;
+end;
+
+initialization
+  InitPasswordStore;
 
 finalization
   FreeThenNil(PasswordStore);

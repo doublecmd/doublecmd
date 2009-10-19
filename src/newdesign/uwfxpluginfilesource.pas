@@ -74,7 +74,7 @@ var
 implementation
 
 uses
-  LCLProc, FileUtil,{} Forms, Dialogs, LCLType,{} uGlobs, uDCUtils, uLog, uLng,
+  LCLProc, FileUtil,{} Forms, Dialogs, LCLType,{} uGlobs, uDCUtils, uLog, uLng, uCryptProc,
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation, uWfxPluginExecuteOperation,
   uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation, uWfxPluginDeleteOperation,
   uWfxPluginFile, uWfxPluginUtil;
@@ -207,6 +207,49 @@ begin
     end;
 
   DebugLn('MainRequestProc ('+IntToStr(PluginNr)+','+sReq+','+CustomTitle+','+CustomText+','+ReturnedText+')', BoolToStr(Result, True));
+end;
+
+function CryptProc(PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionName, Password: PChar; MaxLen: Integer): Integer; stdcall;
+const
+  cPrefix = 'wfx';
+var
+  sPassword: AnsiString;
+begin
+  case Mode of
+  FS_CRYPT_SAVE_PASSWORD:
+    begin
+      if PasswordStore.WritePassword(cPrefix, 'Test', ConnectionName, Password) then
+        Result:= FS_FILE_OK
+      else
+        Result:= FS_FILE_WRITEERROR;
+    end;
+  FS_CRYPT_LOAD_PASSWORD,
+  FS_CRYPT_LOAD_PASSWORD_NO_UI:
+    begin
+      Result:= FS_FILE_READERROR;
+      if (Mode = FS_CRYPT_LOAD_PASSWORD_NO_UI) and (PasswordStore.HasMasterKey = False) then
+        Exit(FS_FILE_NOTFOUND);
+      if PasswordStore.ReadPassword(cPrefix, 'Test', ConnectionName, sPassword) then
+        begin
+          StrPLCopy(Password, sPassword, MaxLen);
+          Result:= FS_FILE_OK;
+        end;
+    end;
+  FS_CRYPT_COPY_PASSWORD:
+    begin
+      Result:= FS_FILE_READERROR;
+      if PasswordStore.ReadPassword(cPrefix, 'Test', ConnectionName, sPassword) then
+        begin
+          if not PasswordStore.WritePassword(cPrefix, 'Test', ConnectionName, sPassword) then
+            Exit(FS_FILE_WRITEERROR);
+          Result:= FS_FILE_OK;
+        end;
+    end;
+  FS_CRYPT_MOVE_PASSWORD:
+    ;
+  FS_CRYPT_DELETE_PASSWORD:
+    ;
+  end;
 end;
 
 { TWfxPluginFileSource }
