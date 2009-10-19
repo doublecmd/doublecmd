@@ -153,9 +153,8 @@ begin
                  + ' (' + FileSourceOperationStateText[Operation.State] + ')';
 
       StartingState := OperationsManager.GetStartingState(OperationHandle);
-      if StartingState <> ossInvalid then
-        if StartingState <> ossDontStart then
-          OutString := OutString + ' [' + OperationStartingStateText[StartingState] + ']';
+      if not (StartingState in [ossInvalid, ossManualStart]) then
+        OutString := OutString + ' [' + OperationStartingStateText[StartingState] + ']';
 
       sboxOperations.Canvas.Brush.Color := Canvas.Brush.Color;
       sboxOperations.Canvas.Rectangle(0, 0 + (aRowHeight * i), sboxOperations.Width, aRowHeight + (aRowHeight * i));

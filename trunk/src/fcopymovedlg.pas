@@ -5,11 +5,10 @@ unit fCopyMoveDlg;
 interface
 
 uses
-  LResources,
-  SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, ExtCtrls, lclproc,
-  uFileSystemCopyOperation, uFileSystemMoveOperation,
-  uFileViewNotebook;
+  LResources, SysUtils, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls,
+  Buttons, ExtCtrls, lclproc, EditBtn, ButtonPanel, ComCtrls, Arrow, Menus,
+  uFileSystemCopyOperation, uFileSystemMoveOperation, uFileViewNotebook,
+  uOperationsManager;
 
 type
 
@@ -35,22 +34,34 @@ type
     lblDirectoryExists: TLabel;
     lblCopySrc: TLabel;
     lblFileType: TLabel;
+    miAutoStart: TMenuItem;
+    miQueueFirst: TMenuItem;
+    miQueueLast: TMenuItem;
+    miManualStart: TMenuItem;
     pnlCheckboxes: TPanel;
     pnlSelector: TPanel;
+    btnStartMode: TSpeedButton;
+    pmOperationStartMode: TPopupMenu;
     procedure btnCancelMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure btnOKMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure btnOptionsClick(Sender: TObject);
     procedure btnSaveOptionsClick(Sender: TObject);
+    procedure btnStartModeClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure frmCopyDlgKeyPress(Sender: TObject; var Key: Char);
     procedure frmCopyDlgShow(Sender: TObject);
+    procedure miAutoStartClick(Sender: TObject);
+    procedure miManualStartClick(Sender: TObject);
+    procedure miQueueFirstClick(Sender: TObject);
+    procedure miQueueLastClick(Sender: TObject);
 
   private
     FDialogType: TCopyMoveDlgType;
     noteb: TFileViewNotebook;
+    FOperationStartingState: TOperationStartingState;
 
     function ShowTabsSelector: integer;
     procedure TabsSelector(Sender: TObject);
@@ -58,10 +69,15 @@ type
                                     Shift: TShiftState; X, Y: Integer);
     procedure ShowOptions(bShow: Boolean);
 
+    procedure SetStartModeMenuText;
+    procedure UnCheckStartModeMenuItems;
+
   public
     constructor Create(TheOwner: TComponent; DialogType: TCopyMoveDlgType); reintroduce;
     procedure SetOperationOptions(CopyOperation: TFileSystemCopyOutOperation); overload;
     procedure SetOperationOptions(MoveOperation: TFileSystemMoveOperation); overload;
+
+    property OperationStartingState: TOperationStartingState read FOperationStartingState;
   end;
 
 
@@ -74,6 +90,8 @@ constructor TfrmCopyDlg.Create(TheOwner: TComponent; DialogType: TCopyMoveDlgTyp
 begin
   noteb := nil;
   FDialogType := DialogType;
+  FOperationStartingState := ossAutoStart;
+  pmOperationStartMode := nil;
   inherited Create(TheOwner);
 end;
 
@@ -182,6 +200,38 @@ begin
   edtDst.SetFocus;
 end;
 
+procedure TfrmCopyDlg.miAutoStartClick(Sender: TObject);
+begin
+  btnOK.Caption := rsOperStartStateAutoStart;
+  UnCheckStartModeMenuItems;
+  miAutoStart.Checked := True;
+  FOperationStartingState := ossAutoStart;
+end;
+
+procedure TfrmCopyDlg.miManualStartClick(Sender: TObject);
+begin
+  btnOK.Caption := rsOperStartStateManualStart;
+  UnCheckStartModeMenuItems;
+  miManualStart.Checked := True;
+  FOperationStartingState := ossManualStart;
+end;
+
+procedure TfrmCopyDlg.miQueueFirstClick(Sender: TObject);
+begin
+  btnOK.Caption := rsOperStartStateQueueFirst;
+  UnCheckStartModeMenuItems;
+  miQueueFirst.Checked := True;
+  FOperationStartingState := ossQueueFirst;
+end;
+
+procedure TfrmCopyDlg.miQueueLastClick(Sender: TObject);
+begin
+  btnOK.Caption := rsOperStartStateQueueLast;
+  UnCheckStartModeMenuItems;
+  miQueueLast.Checked := True;
+  FOperationStartingState := ossQueueLast;
+end;
+
 procedure TfrmCopyDlg.frmCopyDlgKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key=#27 then
@@ -195,7 +245,6 @@ begin
     Key:=#0;
   end;
 end;
-
 
 procedure TfrmCopyDlg.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
@@ -213,13 +262,15 @@ end;
 procedure TfrmCopyDlg.btnCancelMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  ModalResult := btnCancel.ModalResult;
+  if Button = mbLeft then
+    ModalResult := btnCancel.ModalResult;
 end;
 
 procedure TfrmCopyDlg.btnOKMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  ModalResult := btnOk.ModalResult;
+  if Button = mbLeft then
+    ModalResult := btnOk.ModalResult;
 end;
 
 procedure TfrmCopyDlg.btnOptionsClick(Sender: TObject);
@@ -248,6 +299,11 @@ begin
   end;
   gOperationOptionCorrectLinks := cbCorrectLinks.Checked;
   gOperationOptionCheckFreeSpace := cbCheckFreeSpace.Checked;
+end;
+
+procedure TfrmCopyDlg.btnStartModeClick(Sender: TObject);
+begin
+  btnOK.PopupMenu.PopUp;
 end;
 
 procedure TfrmCopyDlg.FormCreate(Sender: TObject);
@@ -283,6 +339,10 @@ begin
   end;
   cbCorrectLinks.Checked := gOperationOptionCorrectLinks;
   cbCheckFreeSpace.Checked := gOperationOptionCheckFreeSpace;
+
+  // Start mode menu.
+  SetStartModeMenuText;
+  miAutoStartClick(nil);
 end;
 
 procedure TfrmCopyDlg.ShowOptions(bShow: Boolean);
@@ -297,6 +357,22 @@ begin
     grpOptions.Visible := False;
     Self.Height := grpOptions.Top;
   end;
+end;
+
+procedure TfrmCopyDlg.SetStartModeMenuText;
+begin
+  miAutoStart.Caption   := rsOperStartStateAutoStart;
+  miManualStart.Caption := rsOperStartStateManualStart;
+  miQueueFirst.Caption  := rsOperStartStateQueueFirst;
+  miQueueLast.Caption   := rsOperStartStateQueueLast;
+end;
+
+procedure TfrmCopyDlg.UnCheckStartModeMenuItems;
+var
+  i: Integer;
+begin
+  for i := 0 to pmOperationStartMode.Items.Count - 1 do
+    pmOperationStartMode.Items[i].Checked := False;
 end;
 
 procedure TfrmCopyDlg.SetOperationOptions(CopyOperation: TFileSystemCopyOutOperation);

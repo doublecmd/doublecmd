@@ -40,7 +40,7 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Side = asrBottom
     Left = 506
     Height = 34
-    Top = 111
+    Top = 109
     Width = 88
     Anchors = [akTop, akRight]
     BorderSpacing.InnerBorder = 2
@@ -54,20 +54,57 @@ object frmCopyDlg: TfrmCopyDlg
   end
   object btnOK: TBitBtn
     AnchorSideTop.Control = btnOptions
-    AnchorSideRight.Control = btnCancel
-    Left = 412
+    AnchorSideRight.Control = btnStartMode
+    Left = 389
     Height = 34
-    Top = 111
+    Top = 109
     Width = 88
     Anchors = [akTop, akRight]
-    BorderSpacing.Right = 6
+    AutoSize = True
     BorderSpacing.InnerBorder = 2
-    Caption = '&OK'
+    Constraints.MinHeight = 34
+    Constraints.MinWidth = 88
     Default = True
-    Kind = bkOK
+    Glyph.Data = {
+      36040000424D3604000000000000360000002800000010000000100000000100
+      2000000000000004000064000000640000000000000000000000000000000000
+      000004733AFF21824FFF638272FF000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000004733AFF7ACFA4FF2C8C5AFF3D7659FFAEAEAEFF00000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000004733AFF82D8ACFF76D6A6FF3C9D6AFF27744CFFACAEADFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000009773FFF83DBAEFF1FC671FF72DEA7FF4BB27FFF177445FFA8ADAAFF0000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000004733AFF83DCAFFF11C369FF1ACC73FF69DFA3FF5AC28DFF137643FF9EA7
+      A3FF000000000000000000000000000000000000000000000000000000000000
+      000004733AFFA9DCC1FF10BD65FF11C167FF13C269FF59D395FF67C998FF167C
+      47FF889C92FF0000000000000000000000000000000000000000000000000000
+      000004733AFFA9DCC1FF0DB35EFF0EB660FF0EB660FF0DB45FFF47C484FF70CA
+      9CFF1D824DFF678C79FF00000000000000000000000000000000000000000000
+      000004733AFFA9DCC1FF0CAA58FF12AE5EFF15AF60FF16AD61FF13AA5DFF3AB6
+      77FF75C79DFF288957FF4E8367FF000000000000000000000000000000000000
+      000004733AFFA9DCC1FF2EAD6BFF2BAD6AFF27AB68FF22A964FF1CA55FFF41B2
+      78FF78C69FFF298858FF678C79FF000000000000000000000000000000000000
+      000004733AFFA9DCC1FF36AD70FF32AC6DFF2DAA6AFF28A866FF58BC89FF78C5
+      9DFF1F804EFF839A8EFF00000000000000000000000000000000000000000000
+      000004733AFFA9DCC1FF3EB176FF3AAF73FF36AE70FF6FC598FF71BF97FF187B
+      49FFA6B0ABFF0000000000000000000000000000000000000000000000000000
+      000004733AFFA9DCC1FF45B47BFF47B47CFF82CCA6FF67B68CFF177745FFC1C5
+      C3FF000000000000000000000000000000000000000000000000000000000000
+      000004733AFFA5DABFFF57BB87FF90D2B0FF5BAB82FF23774CFFD4D5D4FF0000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000004733AFFA9DCC1FF9BD5B7FF4C9F73FF3D7D5CFF00000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000004733AFFA4D9BEFF3D9366FF5F8873FF0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000004733AFF2D8859FF859C90FF000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000
+    }
     ModalResult = 1
     NumGlyphs = 0
     OnMouseDown = btnOKMouseDown
+    PopupMenu = pmOperationStartMode
     TabOrder = 3
   end
   object edtDst: TEdit
@@ -77,7 +114,7 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 27
+    Height = 25
     Top = 34
     Width = 586
     Anchors = [akTop, akLeft, akRight]
@@ -92,7 +129,7 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 34
-    Top = 111
+    Top = 109
     Width = 88
     BorderSpacing.Top = 4
     Caption = 'O&ptions'
@@ -108,13 +145,13 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 8
-    Height = 153
-    Top = 151
+    Height = 155
+    Top = 149
     Width = 586
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Top = 6
     BorderSpacing.Bottom = 4
-    ClientHeight = 149
+    ClientHeight = 137
     ClientWidth = 582
     Color = clBtnFace
     ParentColor = False
@@ -123,9 +160,9 @@ object frmCopyDlg: TfrmCopyDlg
       AnchorSideLeft.Control = grpOptions
       AnchorSideTop.Control = grpOptions
       Left = 8
-      Height = 20
+      Height = 18
       Top = 8
-      Width = 68
+      Width = 53
       BorderSpacing.Left = 8
       BorderSpacing.Top = 8
       Caption = 'Only type:'
@@ -137,9 +174,9 @@ object frmCopyDlg: TfrmCopyDlg
       AnchorSideTop.Control = cmbFileType
       AnchorSideTop.Side = asrBottom
       Left = 8
-      Height = 20
-      Top = 41
-      Width = 105
+      Height = 18
+      Top = 38
+      Width = 88
       BorderSpacing.Top = 8
       Caption = 'When file exists'
       FocusControl = cmbFileExists
@@ -150,9 +187,9 @@ object frmCopyDlg: TfrmCopyDlg
       AnchorSideTop.Control = cmbFileExists
       AnchorSideTop.Side = asrBottom
       Left = 8
-      Height = 20
-      Top = 75
-      Width = 145
+      Height = 18
+      Top = 68
+      Width = 118
       BorderSpacing.Top = 8
       Caption = 'When directory exists'
       FocusControl = cmbDirectoryExists
@@ -162,23 +199,23 @@ object frmCopyDlg: TfrmCopyDlg
       AnchorSideTop.Control = lblFileType
       AnchorSideTop.Side = asrCenter
       Left = 193
-      Height = 29
-      Top = 4
+      Height = 25
+      Top = 5
       Width = 109
       Anchors = [akTop]
       Enabled = False
-      ItemHeight = 0
+      ItemHeight = 17
       TabOrder = 0
     end
     object cmbFileExists: TComboBox
       AnchorSideTop.Control = lblFileExists
       AnchorSideTop.Side = asrCenter
       Left = 193
-      Height = 31
-      Top = 36
+      Height = 25
+      Top = 35
       Width = 109
       Anchors = [akTop]
-      ItemHeight = 0
+      ItemHeight = 17
       Items.Strings = (
         'Ask'
         'Overwrite'
@@ -191,11 +228,11 @@ object frmCopyDlg: TfrmCopyDlg
       AnchorSideTop.Control = lblDirectoryExists
       AnchorSideTop.Side = asrCenter
       Left = 193
-      Height = 31
-      Top = 70
+      Height = 25
+      Top = 65
       Width = 109
       Anchors = [akTop]
-      ItemHeight = 0
+      ItemHeight = 17
       Items.Strings = (
         'Ask'
         'Overwrite'
@@ -211,10 +248,10 @@ object frmCopyDlg: TfrmCopyDlg
       AnchorSideTop.Control = cmbDirectoryExists
       AnchorSideTop.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
-      Left = 187
-      Height = 29
-      Top = 114
-      Width = 209
+      Left = 197
+      Height = 27
+      Top = 104
+      Width = 189
       Anchors = [akLeft, akBottom]
       AutoSize = True
       BorderSpacing.Top = 20
@@ -228,10 +265,10 @@ object frmCopyDlg: TfrmCopyDlg
       AnchorSideTop.Control = grpOptions
       AnchorSideRight.Control = grpOptions
       AnchorSideRight.Side = asrBottom
-      Left = 431
-      Height = 92
+      Left = 451
+      Height = 84
       Top = 4
-      Width = 143
+      Width = 123
       Anchors = [akTop, akRight]
       AutoSize = True
       BorderSpacing.Top = 4
@@ -239,39 +276,39 @@ object frmCopyDlg: TfrmCopyDlg
       BevelOuter = bvNone
       BevelWidth = 8
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
-      ClientHeight = 92
-      ClientWidth = 143
+      ClientHeight = 84
+      ClientWidth = 123
       TabOrder = 3
       object cbCheckFreeSpace: TCheckBox
         Left = 0
-        Height = 23
+        Height = 21
         Top = 0
-        Width = 143
+        Width = 123
         Caption = 'Check free space'
         TabOrder = 0
       end
       object cbDropReadOnlyFlag: TCheckBox
         Left = 0
-        Height = 23
-        Top = 23
-        Width = 143
+        Height = 21
+        Top = 21
+        Width = 123
         Caption = 'Drop readonly flag'
         TabOrder = 1
       end
       object cbFollowLinks: TCheckBox
         Left = 0
-        Height = 23
-        Top = 46
-        Width = 143
+        Height = 21
+        Top = 42
+        Width = 123
         AllowGrayed = True
         Caption = 'Follow links'
         TabOrder = 2
       end
       object cbCorrectLinks: TCheckBox
         Left = 0
-        Height = 23
-        Top = 69
-        Width = 143
+        Height = 21
+        Top = 63
+        Width = 123
         Caption = 'Correct links'
         TabOrder = 3
       end
@@ -285,11 +322,48 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Side = asrBottom
     Left = 8
     Height = 38
-    Top = 69
+    Top = 67
     Width = 586
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 8
     BevelOuter = bvNone
     TabOrder = 1
+  end
+  object btnStartMode: TSpeedButton
+    AnchorSideTop.Control = btnOK
+    AnchorSideRight.Control = btnCancel
+    AnchorSideBottom.Control = btnOK
+    AnchorSideBottom.Side = asrBottom
+    Left = 477
+    Height = 34
+    Top = 109
+    Width = 23
+    Anchors = [akTop, akRight, akBottom]
+    BorderSpacing.Right = 6
+    Color = clBtnFace
+    Glyph.Data = {
+      72000000424D7200000000000000360000002800000005000000030000000100
+      2000000000003C00000064000000640000000000000000000000000000000000
+      0000000000FF000000000000000000000000000000FF000000FF000000FF0000
+      0000000000FF000000FF000000FF000000FF000000FF
+    }
+    NumGlyphs = 0
+    OnClick = btnStartModeClick
+  end
+  object pmOperationStartMode: TPopupMenu
+    left = 568
+    top = 8
+    object miAutoStart: TMenuItem
+      OnClick = miAutoStartClick
+    end
+    object miQueueFirst: TMenuItem
+      OnClick = miQueueFirstClick
+    end
+    object miQueueLast: TMenuItem
+      OnClick = miQueueLastClick
+    end
+    object miManualStart: TMenuItem
+      OnClick = miManualStartClick
+    end
   end
 end
