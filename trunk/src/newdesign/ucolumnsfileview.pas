@@ -2360,17 +2360,17 @@ begin
   lblAddress.Parent := pnlHeader;
   lblAddress.AutoSize := False;
   lblAddress.Height := lblAddress.Canvas.TextHeight('Wg');
-  lblAddress.Align := alTop;
   lblAddress.BorderSpacing.Bottom := 1;
 
   lblPath := TPathLabel.Create(pnlHeader, True);
   lblPath.Parent := pnlHeader;
   lblPath.AutoSize := False;
   lblPath.Height := lblPath.Canvas.TextHeight('Wg');
-  lblPath.Anchors := [akTop, akLeft, akRight];
-  // Anchor path below address.
-  lblPath.AnchorSide[akTop].Control := lblAddress;
-  lblPath.AnchorSide[akTop].Side := asrBottom;
+
+  // Display path below address.
+  // For correct alignment, first put path at the top, then address at the top.
+  lblPath.Align := alTop;
+  lblAddress.Align := alTop;
 
   edtPath:=TEdit.Create(lblPath);
   edtPath.Parent:=pnlHeader;
