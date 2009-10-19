@@ -81,6 +81,8 @@ resourcestring
   rsMsgInvalidFilename = 'Invalid filename';
   rsMsgSelectOnlyCheckSumFiles = 'Please select only check sum files!';
   rsMsgPresetAlreadyExists = 'Preset "%s" already exists. Overwrite?';
+  rsMsgMasterPassword = 'Master Password';
+  rsMsgMasterPasswordEnter = 'Please enter the master password:';
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuOpenWith = 'Open with ...';
