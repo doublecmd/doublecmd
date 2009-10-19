@@ -573,7 +573,7 @@ Begin
   //DebugLn('PathX ' , Result);
   if Canvas.TextWidth(Result) > MaxLen + Canvas.TextWidth('XXX') then
        begin
-         while Canvas.TextWidth(Result) > MaxLen do
+         while (Length(Result) > 0) and (Canvas.TextWidth(Result) > MaxLen) do
            begin
              Delete(Result, Length(Result), 1);
            end;
