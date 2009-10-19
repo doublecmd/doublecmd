@@ -150,8 +150,28 @@ const FS_BITMAP_NONE=0;
 
       FS_BITMAP_CACHE=256;
 
+{Flags for crypto callback function}
+
+      FS_CRYPT_SAVE_PASSWORD=1;
+
+      FS_CRYPT_LOAD_PASSWORD=2;
+
+      FS_CRYPT_LOAD_PASSWORD_NO_UI=3; {Load password only if master password has already been entered!}
+
+      FS_CRYPT_COPY_PASSWORD=4;
+
+      FS_CRYPT_MOVE_PASSWORD=5;
+
+      FS_CRYPT_DELETE_PASSWORD=6;
+
+      FS_CRYPTOPT_MASTERPASS_SET=1;   {The user already has a master password defined}
+
+{ Some Windows specific stuff }
+
 const
   MAXDWORD = DWORD($FFFFFFFF);
+  FILE_ATTRIBUTE_DIRECTORY = 16;
+  FILE_ATTRIBUTE_REPARSE_POINT = $0400;
   
 type
   TInt64Rec = packed record
@@ -238,6 +258,10 @@ type
 
     ReturnedText:pchar;maxlen:integer):bool; stdcall;
 
+  TCryptProc=function(PluginNr,CryptoNumber:integer;mode:integer;ConnectionName,
+
+    Password:pchar;maxlen:integer):integer; stdcall;
+
 { Function prototypes - the callback functions MUST be implemented exactly like this! }
 
 {
@@ -245,6 +269,8 @@ type
 function FsInit(PluginNr:integer;pProgressProc:tProgressProc;pLogProc:tLogProc;
 
                 pRequestProc:tRequestProc):integer; stdcall;
+
+procedure FsSetCryptCallback(pCryptProc:TCryptProc;CryptoNr,Flags:integer); stdcall;
 
 function FsFindFirst(path :pchar;var FindData:tWIN32FINDDATA):thandle; stdcall;
 

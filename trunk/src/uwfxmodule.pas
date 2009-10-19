@@ -54,6 +54,7 @@ type
     FsFindNext : TFsFindNext;
     FsFindClose : TFsFindClose;
   { Optional }
+    FsSetCryptCallback: TFsSetCryptCallback;
     FsGetDefRootName : TFsGetDefRootName;
     FsGetFile : TFsGetFile;
     FsPutFile : TFsPutFile;
@@ -188,6 +189,7 @@ begin
   FsFindNext := TFsFindNext(GetProcAddress(FModuleHandle,'FsFindNext'));
   FsFindClose := TFsFindClose(GetProcAddress(FModuleHandle,'FsFindClose'));
 { Optional }
+  FsSetCryptCallback:= TFsSetCryptCallback(GetProcAddress(FModuleHandle,'FsSetCryptCallback'));
   FsGetDefRootName := TFsGetDefRootName(GetProcAddress(FModuleHandle,'FsGetDefRootName'));
   FsExecuteFile := TFsExecuteFile(GetProcAddress(FModuleHandle,'FsExecuteFile'));
   FsGetFile := TFsGetFile(GetProcAddress(FModuleHandle,'FsGetFile'));
@@ -232,6 +234,7 @@ begin
   FsFindNext := nil;
   FsFindClose := nil;
 { Optional }
+  FsSetCryptCallback := nil;
   FsGetDefRootName := nil;
   FsGetFile := nil;
   FsPutFile := nil;

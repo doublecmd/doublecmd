@@ -17,6 +17,7 @@ type
 {R}  TFsFindNext=function(Hdl:thandle;var FindData:tWIN32FINDDATA):boolean;stdcall;
 {R}  TFsFindClose=function(Hdl:thandle):integer;stdcall;
 {Optional}
+{R}  TFsSetCryptCallback = procedure(pCryptProc:TCryptProc;CryptoNr,Flags:integer); stdcall;
 {R}  TFsMkDir = function(RemoteDir:pchar):boolean; stdcall;
 {R}  TFsGetFile = function(RemoteName,LocalName:pchar;CopyFlags:integer; RemoteInfo:pRemoteInfo):integer; stdcall;
 {R}  TFsPutFile=function(LocalName,RemoteName:pchar;CopyFlags:integer):integer; stdcall;
