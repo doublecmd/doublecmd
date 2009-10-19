@@ -1901,7 +1901,7 @@ begin
               SetOperationOptions(Operation as TFileSystemMoveOperation);
 
             // Start operation.
-            OperationHandle := OperationsManager.AddOperation(Operation, ossAutoQueue);
+            OperationHandle := OperationsManager.AddOperation(Operation, OperationStartingState);
 
             ProgressDialog := TfrmFileOp.Create(OperationHandle);
             ProgressDialog.Show;
@@ -2009,7 +2009,7 @@ begin
             SetOperationOptions(Operation as TFileSystemCopyOutOperation);
 
           // Start operation.
-          OperationHandle := OperationsManager.AddOperation(Operation, ossAutoQueue);
+          OperationHandle := OperationsManager.AddOperation(Operation, OperationStartingState);
 
           ProgressDialog := TfrmFileOp.Create(OperationHandle);
           ProgressDialog.Show;

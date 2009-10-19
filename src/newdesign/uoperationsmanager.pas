@@ -23,16 +23,19 @@ type
   }
   TOperationStartingState =
     (ossInvalid,
-     ossDontStart,      //<en Don't start automatically.
-     ossAutoStart,      //<en Start automatically.
-     ossQueue,          //<en Don't start automatically,
+     ossManualStart,    //<en Don't start automatically. Must be explicitly started.
+     ossAutoStart,      //<en Start automatically, regardless if any operations are currently running.
+     ossQueueFirst,     //<en Don't start automatically,
                         //<en unless there are no other operations working.
-     ossAutoQueue);     //<en If there are no operations running - autostart.
-                        //<en If there are operations running - queue.
+                        //<en Will be started when there are no operation running.
+                        //<en This option will put the operation to the head of the queue.
+     ossQueueLast       //<en Same as ossQueueFirst, but this option will put the
+                        //<en operation to the back of the queue.
+    );
 
 const
   OperationStartingStateText: array[TOperationStartingState] of string =
-    ('', rsOperDontStart, rsOperAutoStart, rsOperQueue, '');
+    ('', rsOperManualStart, rsOperAutoStart, rsOperQueue, rsOperQueue);
 
 type
 
@@ -227,7 +230,10 @@ begin
         Entry^.Handle := GetNextUnusedHandle;
         Entry^.StartingState := StartingState;
 
-        FOperations.Add(Entry);
+        if StartingState = ossQueueFirst then
+          FOperations.Insert(0, Entry)  // Insert at the top of the queue.
+        else
+          FOperations.Add(Entry);       // Add at the back of the queue.
 
         AddOperationListeners(Operation);
 
@@ -246,13 +252,13 @@ begin
               StartOperation(Entry);
             end;
 
-          ossAutoQueue:
+          ossQueueFirst, ossQueueLast:
             begin
               if not AreOperationsRunning then
                 StartOperation(Entry)
               else
               begin
-                Entry^.StartingState := ossQueue; // change to Queued
+                // It will be started later when currently running operations finish.
                 Operation.PreventStart;
               end;
             end;
@@ -431,7 +437,7 @@ begin
     begin
       Entry := POperationsManagerEntry(FOperations.Items[i]);
 
-      if Entry^.StartingState = ossQueue then
+      if Entry^.StartingState in [ossQueueFirst, ossQueueLast] then
       begin
         StartOperation(Entry);
         Exit;
@@ -458,7 +464,7 @@ end;
 
 procedure TOperationsManager.StartOperation(Entry: POperationsManagerEntry);
 begin
-  Entry^.StartingState := ossDontStart; // Reset state.
+  Entry^.StartingState := ossManualStart; // Reset state.
   Entry^.Operation.Start;
 
   NotifyEvents(Entry^.Operation, [omevOperationStarted]);
@@ -507,8 +513,8 @@ begin
   begin
     if Operation.State <> fsosNotStarted then
     begin
-      // Remove queue/auto-queue flag, because the operation is now not in NotStarted state.
-      Entry^.StartingState := ossDontStart;
+      // Remove 'queue' flag, because the operation was manually started by the user.
+      Entry^.StartingState := ossManualStart;
     end;
   end;
 end;

@@ -9,7 +9,7 @@ object frmViewOperations: TfrmViewOperations
   FormStyle = fsStayOnTop
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '0.9.27'
+  LCLVersion = '0.9.29'
   object lblOperationsCount: TLabel
     Left = 24
     Height = 18
