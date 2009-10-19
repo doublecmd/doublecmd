@@ -215,40 +215,48 @@ const
 var
   sPassword: AnsiString;
 begin
-  case Mode of
-  FS_CRYPT_SAVE_PASSWORD:
-    begin
-      if PasswordStore.WritePassword(cPrefix, 'Test', ConnectionName, Password) then
-        Result:= FS_FILE_OK
-      else
-        Result:= FS_FILE_WRITEERROR;
+  try
+    case Mode of
+    FS_CRYPT_SAVE_PASSWORD:
+      begin
+        if PasswordStore.WritePassword(cPrefix, 'Test', ConnectionName, Password) then
+          Result:= FS_FILE_OK
+        else
+          Result:= FS_FILE_WRITEERROR;
+      end;
+    FS_CRYPT_LOAD_PASSWORD,
+    FS_CRYPT_LOAD_PASSWORD_NO_UI:
+      begin
+        Result:= FS_FILE_READERROR;
+        if (Mode = FS_CRYPT_LOAD_PASSWORD_NO_UI) and (PasswordStore.HasMasterKey = False) then
+          Exit(FS_FILE_NOTFOUND);
+        if PasswordStore.ReadPassword(cPrefix, 'Test', ConnectionName, sPassword) then
+          begin
+            StrPLCopy(Password, sPassword, MaxLen);
+            Result:= FS_FILE_OK;
+          end;
+      end;
+    FS_CRYPT_COPY_PASSWORD,
+    FS_CRYPT_MOVE_PASSWORD:
+      begin
+        Result:= FS_FILE_READERROR;
+        if PasswordStore.ReadPassword(cPrefix, 'Test', ConnectionName, sPassword) then
+          begin
+            if not PasswordStore.WritePassword(cPrefix, 'Test', Password, sPassword) then
+              Exit(FS_FILE_WRITEERROR);
+            if Mode = FS_CRYPT_MOVE_PASSWORD then
+              PasswordStore.DeletePassword(cPrefix, 'Test', ConnectionName);
+            Result:= FS_FILE_OK;
+          end;
+      end;
+    FS_CRYPT_DELETE_PASSWORD:
+      begin
+        PasswordStore.DeletePassword(cPrefix, 'Test', ConnectionName);
+        Result:= FS_FILE_OK;
+      end;
     end;
-  FS_CRYPT_LOAD_PASSWORD,
-  FS_CRYPT_LOAD_PASSWORD_NO_UI:
-    begin
-      Result:= FS_FILE_READERROR;
-      if (Mode = FS_CRYPT_LOAD_PASSWORD_NO_UI) and (PasswordStore.HasMasterKey = False) then
-        Exit(FS_FILE_NOTFOUND);
-      if PasswordStore.ReadPassword(cPrefix, 'Test', ConnectionName, sPassword) then
-        begin
-          StrPLCopy(Password, sPassword, MaxLen);
-          Result:= FS_FILE_OK;
-        end;
-    end;
-  FS_CRYPT_COPY_PASSWORD:
-    begin
-      Result:= FS_FILE_READERROR;
-      if PasswordStore.ReadPassword(cPrefix, 'Test', ConnectionName, sPassword) then
-        begin
-          if not PasswordStore.WritePassword(cPrefix, 'Test', ConnectionName, sPassword) then
-            Exit(FS_FILE_WRITEERROR);
-          Result:= FS_FILE_OK;
-        end;
-    end;
-  FS_CRYPT_MOVE_PASSWORD:
-    ;
-  FS_CRYPT_DELETE_PASSWORD:
-    ;
+  except
+    Result:= FS_FILE_NOTSUPPORTED;
   end;
 end;
 

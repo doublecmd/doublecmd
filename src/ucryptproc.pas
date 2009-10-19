@@ -1,3 +1,25 @@
+{
+    Double Commander
+    -------------------------------------------------------------------------
+    This unit contains Encrypt/Decrypt classes and functions.
+
+    Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+}
+
 unit uCryptProc;
 
 {$mode objfpc}{$H+}
@@ -18,7 +40,16 @@ type
     function HasMasterKey: Boolean;
     function WritePassword(Prefix, Name, Connection: UTF8String; const Password: AnsiString): Boolean;
     function ReadPassword(Prefix, Name, Connection: UTF8String; out Password: AnsiString): Boolean;
+    function DeletePassword(Prefix, Name, Connection: UTF8String): Boolean;
   end;
+
+  { EEncryptDecryptFailed }
+
+  EEncryptDecryptFailed = class(Exception)
+  public
+    constructor Create; reintroduce;
+  end;
+
 
 function Encode(MasterKey, Data: AnsiString): AnsiString;
 function Decode(MasterKey, Data: AnsiString): AnsiString;
@@ -29,7 +60,7 @@ var
 implementation
 
 uses
-  LCLProc, Dialogs, Base64, BlowFish, uGlobsPaths;
+  LCLProc, Dialogs, Base64, BlowFish, uGlobsPaths, uLng;
 
 type
   TBlowFishKeyRec = record
@@ -105,10 +136,12 @@ begin
   Result:= False;
   if Length(FMasterKey) = 0 then
     begin
-      if not InputQuery('Double Commander', 'Enter master password:', True, FMasterKey) then
+      if not InputQuery(rsMsgMasterPassword, rsMsgMasterPasswordEnter, True, FMasterKey) then
         Exit;
     end;
   Data:= Encode(FMasterKey, Password);
+  if Data = EmptyStr then
+    raise EEncryptDecryptFailed.Create;
   WriteString(Prefix + '_' + Name, Connection, Data);
   Result:= True;
 end;
@@ -121,12 +154,19 @@ begin
   Result:= False;
   if Length(FMasterKey) = 0 then
     begin
-      if not InputQuery('Double Commander', 'Enter master password:', True, FMasterKey) then
+      if not InputQuery(rsMsgMasterPassword, rsMsgMasterPasswordEnter, True, FMasterKey) then
         Exit;
     end;
   Data:= ReadString(Prefix + '_' + Name, Connection, Data);
+  if Data = EmptyStr then
+    raise EEncryptDecryptFailed.Create;
   Password:= Decode(FMasterKey, Data);
   Result:= True;
+end;
+
+function TPasswordStore.DeletePassword(Prefix, Name, Connection: UTF8String): Boolean;
+begin
+  DeleteKey(Prefix + '_' + Name, Connection);
 end;
 
 procedure InitPasswordStore;
@@ -136,6 +176,13 @@ begin
   except
     DebugLn('Can not create secure password store!');
   end;
+end;
+
+{ EEncryptDecryptFailed }
+
+constructor EEncryptDecryptFailed.Create;
+begin
+  inherited Create('Encrypt/Decrypt failed');
 end;
 
 initialization
