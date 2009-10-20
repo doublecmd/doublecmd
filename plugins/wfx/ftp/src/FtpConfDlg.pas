@@ -55,6 +55,18 @@ begin
           wsText:= gConnection.UserName;
           Data:= PtrInt(PWideChar(wsText));
           SendDlgMsg(pDlg, 'edtUserName', DM_SETTEXT, Data, 0);
+          if gConnection.MasterPassword then
+            begin
+              SendDlgMsg(pDlg, 'chkMasterPassword', DM_SETCHECK, 1, 0);
+              SendDlgMsg(pDlg, 'edtPassword', DM_SHOWITEM, 0, 0);
+              SendDlgMsg(pDlg, 'btnChangePassword', DM_SHOWITEM, 1, 0);
+            end
+          else
+            begin
+              wsText:= gConnection.Password;
+              Data:= PtrInt(PWideChar(wsText));
+              SendDlgMsg(pDlg, 'edtPassword', DM_SETTEXT, Data, 0);
+            end;
           wsText:= gConnection.Path;
           Data:= PtrInt(PWideChar(wsText));
           SendDlgMsg(pDlg, 'edtRemoteDir', DM_SETTEXT, Data, 0);
@@ -77,6 +89,11 @@ begin
             Data:= SendDlgMsg(pDlg, 'edtUserName', DM_GETTEXT, 0, 0);
             wsText:= PWideChar(Data);
             gConnection.UserName:= wsText;
+            Data:= SendDlgMsg(pDlg, 'edtPassword', DM_GETTEXT, 0, 0);
+            wsText:= PWideChar(Data);
+            gConnection.Password:= wsText;
+            Data:= SendDlgMsg(pDlg, 'chkMasterPassword', DM_GETCHECK, 0, 0);
+            gConnection.MasterPassword:= Boolean(Data);
             Data:= SendDlgMsg(pDlg, 'edtRemoteDir', DM_GETTEXT, 0, 0);
             wsText:= PWideChar(Data);
             gConnection.Path:= wsText;

@@ -1,12 +1,12 @@
 object DialogBox: TDialogBox
   Left = 290
-  Height = 300
+  Height = 341
   Top = 144
   Width = 400
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'FTP'
-  ClientHeight = 300
+  ClientHeight = 341
   ClientWidth = 400
   OnShow = DialogBoxShow
   LCLVersion = '0.9.29'
@@ -103,14 +103,14 @@ object DialogBox: TDialogBox
     TabOrder = 3
   end
   object edtRemoteDir: TEdit
-    AnchorSideLeft.Control = edtUserName
-    AnchorSideTop.Control = edtUserName
+    AnchorSideLeft.Control = edtPassword
+    AnchorSideTop.Control = chkMasterPassword
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = edtUserName
+    AnchorSideRight.Control = edtPassword
     AnchorSideRight.Side = asrBottom
     Left = 128
     Height = 21
-    Top = 124
+    Top = 174
     Width = 260
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
@@ -122,7 +122,7 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrCenter
     Left = 12
     Height = 14
-    Top = 127
+    Top = 177
     Width = 57
     BorderSpacing.Left = 12
     Caption = 'Remote dir:'
@@ -134,7 +134,7 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     Left = 12
     Height = 17
-    Top = 163
+    Top = 213
     Width = 273
     BorderSpacing.Left = 12
     BorderSpacing.Top = 18
@@ -147,7 +147,7 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     Left = 12
     Height = 17
-    Top = 186
+    Top = 236
     Width = 213
     BorderSpacing.Left = 12
     BorderSpacing.Top = 6
@@ -161,7 +161,7 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrCenter
     Left = 18
     Height = 14
-    Top = 212
+    Top = 262
     Width = 52
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
@@ -175,7 +175,7 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     Left = 80
     Height = 21
-    Top = 209
+    Top = 259
     Width = 100
     BorderSpacing.Left = 10
     BorderSpacing.Top = 6
@@ -194,7 +194,7 @@ object DialogBox: TDialogBox
     AnchorSideRight.Control = edtInterval
     Left = 212
     Height = 14
-    Top = 212
+    Top = 262
     Width = 84
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 12
@@ -208,7 +208,7 @@ object DialogBox: TDialogBox
     AnchorSideRight.Side = asrBottom
     Left = 308
     Height = 21
-    Top = 209
+    Top = 259
     Width = 80
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 6
@@ -222,7 +222,7 @@ object DialogBox: TDialogBox
     AnchorSideBottom.Side = asrBottom
     Left = 313
     Height = 25
-    Top = 263
+    Top = 304
     Width = 75
     Anchors = [akRight, akBottom]
     BorderSpacing.Bottom = 12
@@ -237,7 +237,7 @@ object DialogBox: TDialogBox
     AnchorSideBottom.Side = asrBottom
     Left = 226
     Height = 25
-    Top = 263
+    Top = 304
     Width = 75
     Anchors = [akRight, akBottom]
     BorderSpacing.Right = 12
@@ -246,5 +246,62 @@ object DialogBox: TDialogBox
     ModalResult = 1
     OnClick = ButtonClick
     TabOrder = 10
+  end
+  object edtPassword: TEdit
+    AnchorSideLeft.Control = edtUserName
+    AnchorSideTop.Control = edtUserName
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = edtUserName
+    AnchorSideRight.Side = asrBottom
+    Left = 128
+    Height = 21
+    Top = 124
+    Width = 260
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    TabOrder = 11
+  end
+  object lblPassword: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = edtPassword
+    AnchorSideTop.Side = asrCenter
+    Left = 12
+    Height = 14
+    Top = 127
+    Width = 51
+    BorderSpacing.Left = 12
+    Caption = 'Password:'
+    ParentColor = False
+  end
+  object chkMasterPassword: TCheckBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = edtPassword
+    AnchorSideTop.Side = asrBottom
+    Left = 12
+    Height = 17
+    Top = 151
+    Width = 240
+    BorderSpacing.Left = 12
+    BorderSpacing.Top = 6
+    Caption = 'Use master password to protect the password'
+    OnChange = CheckBoxChange
+    TabOrder = 12
+  end
+  object btnChangePassword: TButton
+    AnchorSideLeft.Control = edtUserName
+    AnchorSideTop.Control = edtUserName
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = edtUserName
+    AnchorSideRight.Side = asrBottom
+    Left = 128
+    Height = 25
+    Top = 124
+    Width = 260
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    Caption = 'Change password...'
+    OnClick = ButtonClick
+    TabOrder = 13
+    Visible = False
   end
 end

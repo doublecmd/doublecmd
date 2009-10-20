@@ -31,7 +31,7 @@
         <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <Units Count="2">
+    <Units Count="4">
       <Unit0>
         <Filename Value="ftp.dpr"/>
         <IsPartOfProject Value="True"/>
@@ -41,6 +41,19 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="FtpUtils"/>
       </Unit1>
+      <Unit2>
+        <Filename Value="FtpConfDlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DialogBox"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="FtpConfDlg"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="ftpfunc.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="FtpFunc"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

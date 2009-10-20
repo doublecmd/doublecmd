@@ -277,10 +277,13 @@ begin
 
   FWfxModule:= TWfxModule.Create;
   if FWfxModule.LoadModule(FModuleFileName) then
+    with FWfxModule do
     begin
       FPluginNumber:= WfxOperationList.Add(nil);
-      FWfxModule.FsInit(FPluginNumber, @MainProgressProc, @MainLogProc, @MainRequestProc);
-      FWfxModule.VFSInit(0);
+      FsInit(FPluginNumber, @MainProgressProc, @MainLogProc, @MainRequestProc);
+      if Assigned(FsSetCryptCallback) then
+        FsSetCryptCallback(@CryptProc, 0, 0);
+      VFSInit(0);
     end;
 end;
 

@@ -5,7 +5,7 @@ library ftp;
 {$ENDIF}
 
 uses
-  Classes, FtpFunc, FtpUtils;
+  Classes, FtpFunc, FtpUtils, FtpConfDlg;
 
 exports
   FsInit,
@@ -20,6 +20,7 @@ exports
   FsMkDir,
   FsRemoveDir,
   FsDisconnect,
+  FsSetCryptCallback,
   FsGetDefRootName,
   FsSetDefaultParams,
   SetDlgProc;
