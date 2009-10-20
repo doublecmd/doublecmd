@@ -49,6 +49,7 @@ type
     Password: AnsiString;
     MasterPassword: Boolean;
     PassiveMode: Boolean;
+    InitCommands: AnsiString;
   end;
 
 function FsInit(PluginNr: Integer; pProgressProc: TProgressProc;
@@ -87,7 +88,7 @@ var
 implementation
 
 uses
-  IniFiles, FtpUtils, FtpConfDlg;
+  IniFiles, StrUtils, FtpUtils, FtpConfDlg;
 
 var
   ActiveConnectionList, ConnectionList: TStringList;
@@ -135,6 +136,7 @@ begin
     else
       Connection.Password := DecodeBase64(IniFile.ReadString('FTP', 'Connection' + sIndex + 'Password', EmptyStr));
     Connection.PassiveMode:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'PassiveMode', True);
+    Connection.InitCommands := IniFile.ReadString('FTP', 'Connection' + sIndex + 'InitCommands', EmptyStr);
     // add connection to connection list
     ConnectionList.AddObject(Connection.ConnectionName, Connection);
   end;
@@ -164,6 +166,7 @@ begin
     else
       IniFile.WriteString('FTP', 'Connection' + sIndex + 'Password', EncodeBase64(Connection.Password));
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'PassiveMode', Connection.PassiveMode);
+    IniFile.WriteString('FTP', 'Connection' + sIndex + 'InitCommands', Connection.InitCommands);
   end;
 end;
 
@@ -206,6 +209,7 @@ function FtpConnect(const ConnectionName: AnsiString; out FtpSend: TFTPSendEx): 
 var
   I: Integer;
   Connection: TConnection;
+  sTemp: AnsiString;
 begin
   Result:= False;
   if ActiveConnectionList.IndexOf(ConnectionName) < 0 then
@@ -241,6 +245,10 @@ begin
       if FtpSend.Login then
         begin
           LogProc(PluginNumber, MSGTYPE_CONNECT, PAnsiChar('CONNECT ' + ConnectionName));
+          sTemp:= Connection.InitCommands;
+          repeat
+            FtpSend.FTPCommand(Copy2SymbDel(sTemp, ';'));
+          until sTemp = EmptyStr;
           ActiveConnectionList.AddObject(ConnectionName, FtpSend);
           Result:= True;
         end

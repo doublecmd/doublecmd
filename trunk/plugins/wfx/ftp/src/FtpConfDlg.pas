@@ -71,6 +71,9 @@ begin
           wsText:= gConnection.Path;
           Data:= PtrInt(PWideChar(wsText));
           SendDlgMsg(pDlg, 'edtRemoteDir', DM_SETTEXT, Data, 0);
+          wsText:= gConnection.InitCommands;
+          Data:= PtrInt(PWideChar(wsText));
+          SendDlgMsg(pDlg, 'edtInitCommands', DM_SETTEXT, Data, 0);
           Data:= PtrInt(gConnection.PassiveMode);
           SendDlgMsg(pDlg, 'chkPassiveMode', DM_SETCHECK, Data, 0);
         end;
@@ -106,6 +109,9 @@ begin
             Data:= SendDlgMsg(pDlg, 'edtRemoteDir', DM_GETTEXT, 0, 0);
             wsText:= PWideChar(Data);
             gConnection.Path:= wsText;
+            Data:= SendDlgMsg(pDlg, 'edtInitCommands', DM_GETTEXT, 0, 0);
+            wsText:= PWideChar(Data);
+            gConnection.InitCommands:= wsText;
             Data:= SendDlgMsg(pDlg, 'chkPassiveMode', DM_GETCHECK, 0, 0);
             gConnection.PassiveMode:= Boolean(Data);
             // close dialog
