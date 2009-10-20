@@ -74,34 +74,94 @@ const
 
 function ModeStr2Mode(const sMode: String): Integer;
 
+function EncodeBase64(Data: AnsiString): AnsiString;
+function DecodeBase64(Data: AnsiString): AnsiString;
+
 implementation
+
+uses
+  Base64;
 
 function ModeStr2Mode(const sMode: String): Integer;
 begin
-  // stupid conversion
   Result:= 0;
-//  if sMode[1]='-' then Result:=Result+10;
-  if sMode[1]='d' then Result:= Result or S_IFDIR;
-  if sMode[1]='l' then Result:= Result or S_IFLNK;
-  if sMode[1]='s' then Result:= Result or S_IFSOCK;
-  if sMode[1]='f' then Result:= Result or S_IFIFO;
-  if sMode[1]='b' then Result:= Result or S_IFBLK;
-  if sMode[1]='c' then Result:= Result or S_IFCHR;
 
-  if sMode[2]='r' then Result:= Result or S_IRUSR;
-  if sMode[3]='w' then Result:= Result or S_IWUSR;
-  if sMode[4]='x' then Result:= Result or S_IXUSR;
-  if sMode[5]='r' then Result:= Result or S_IRGRP;
-  if sMode[6]='w' then Result:= Result or S_IWGRP;
-  if sMode[7]='x' then Result:= Result or S_IXGRP;
-  if sMode[8]='r' then Result:= Result or S_IROTH;
-  if sMode[9]='w' then Result:= Result or S_IWOTH;
-  if sMode[10]='x' then Result:= Result or S_IXOTH;
+  if sMode[1] = 'd' then Result:= Result or S_IFDIR;
+  if sMode[1] = 'l' then Result:= Result or S_IFLNK;
+  if sMode[1] = 's' then Result:= Result or S_IFSOCK;
+  if sMode[1] = 'f' then Result:= Result or S_IFIFO;
+  if sMode[1] = 'b' then Result:= Result or S_IFBLK;
+  if sMode[1] = 'c' then Result:= Result or S_IFCHR;
 
-  if sMode[4]='s' then Result:=Result or S_ISUID;
-  if sMode[7]='s' then Result:=Result or S_ISGID;
+  if sMode[2] = 'r' then Result:= Result or S_IRUSR;
+  if sMode[3] = 'w' then Result:= Result or S_IWUSR;
+  if sMode[4] = 'x' then Result:= Result or S_IXUSR;
+  if sMode[5] = 'r' then Result:= Result or S_IRGRP;
+  if sMode[6] = 'w' then Result:= Result or S_IWGRP;
+  if sMode[7] = 'x' then Result:= Result or S_IXGRP;
+  if sMode[8] = 'r' then Result:= Result or S_IROTH;
+  if sMode[9] = 'w' then Result:= Result or S_IWOTH;
+  if sMode[10] = 'x' then Result:= Result or S_IXOTH;
+
+  if sMode[4] = 's' then Result:= Result or S_ISUID;
+  if sMode[7] = 's' then Result:= Result or S_ISGID;
 end;
 
+function EncodeBase64(Data: AnsiString): AnsiString;
+var
+  StringStream1,
+  StringStream2: TStringStream;
+begin
+  Result:= EmptyStr;
+  if Data = EmptyStr then Exit;
+  StringStream1:= TStringStream.Create(Data);
+  try
+    StringStream1.Position:= 0;
+    StringStream2:= TStringStream.Create(EmptyStr);
+    try
+      with TBase64EncodingStream.Create(StringStream2) do
+        try
+          CopyFrom(StringStream1, StringStream1.Size);
+        finally
+          Free;
+        end;
+      Result:= StringStream2.DataString;
+    finally
+      StringStream2.Free;
+    end;
+ finally
+   StringStream1.Free;
+ end;
+end;
+
+function DecodeBase64(Data: AnsiString): AnsiString;
+var
+  StringStream1,
+  StringStream2: TStringStream;
+  Base64DecodingStream: TBase64DecodingStream;
+begin
+  Result:= EmptyStr;
+  if Data = EmptyStr then Exit;
+  StringStream1:= TStringStream.Create(Data);
+  try
+    StringStream1.Position:= 0;
+    StringStream2:= TStringStream.Create(EmptyStr);
+    try
+      Base64DecodingStream:= TBase64DecodingStream.Create(StringStream1);
+      with StringStream2 do
+        try
+          CopyFrom(Base64DecodingStream, Base64DecodingStream.Size);
+        finally
+          Base64DecodingStream.Free;
+        end;
+      Result:= StringStream2.DataString;
+    finally
+      StringStream2.Free;
+    end;
+ finally
+   StringStream1.Free;
+ end;
+end;
 
 end.
 

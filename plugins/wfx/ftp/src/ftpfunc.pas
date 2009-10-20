@@ -131,8 +131,12 @@ begin
     Connection.Host := IniFile.ReadString('FTP', 'Connection' + sIndex + 'Host', EmptyStr);
     Connection.Port := IniFile.ReadString('FTP', 'Connection' + sIndex + 'Port', EmptyStr);
     Connection.UserName := IniFile.ReadString('FTP', 'Connection' + sIndex + 'UserName', EmptyStr);
-    Connection.Password := IniFile.ReadString('FTP', 'Connection' + sIndex + 'Password', EmptyStr);
     Connection.MasterPassword := IniFile.ReadBool('FTP', 'Connection' + sIndex + 'MasterPassword', False);
+    if Connection.MasterPassword then
+      Connection.Password := EmptyStr
+    else
+      Connection.Password := DecodeBase64(IniFile.ReadString('FTP', 'Connection' + sIndex + 'Password', EmptyStr));
+    // add connection to connection list
     ConnectionList.AddObject(Connection.ConnectionName, Connection);
   end;
 end;
@@ -155,8 +159,11 @@ begin
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'Host', Connection.Host);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'Port', Connection.Port);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'UserName', Connection.UserName);
-    IniFile.WriteString('FTP', 'Connection' + sIndex + 'Password', Connection.Password);
     IniFile.WriteBool('FTP', 'Connection' + sIndex + 'MasterPassword', Connection.MasterPassword);
+    if Connection.MasterPassword then
+      IniFile.DeleteKey('FTP', 'Connection' + sIndex + 'Password')
+    else
+      IniFile.WriteString('FTP', 'Connection' + sIndex + 'Password', EncodeBase64(Connection.Password));
   end;
 end;
 
