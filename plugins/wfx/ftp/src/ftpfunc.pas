@@ -38,8 +38,7 @@ uses
 type
   TFTPSendEx = class(TFTPSend)
   public
-    procedure FTPStatus(Sender: TObject; Response: Boolean;
-      const Value: string);
+    procedure FTPStatus(Sender: TObject; Response: Boolean; const Value: String);
   end;
 
   TConnection = class
@@ -49,18 +48,17 @@ type
     UserName: AnsiString;
     Password: AnsiString;
     MasterPassword: Boolean;
+    PassiveMode: Boolean;
   end;
 
 function FsInit(PluginNr: Integer; pProgressProc: TProgressProc;
   pLogProc: TLogProc; pRequestProc: TRequestProc): Integer; stdcall;
 
-function FsFindFirst(Path: PAnsiChar; var FindData: TWin32FindData): THandle;
-  stdcall;
+function FsFindFirst(Path: PAnsiChar; var FindData: TWin32FindData): THandle; stdcall;
 function FsFindNext(Hdl: THandle; var FindData: TWin32FindData): BOOL; stdcall;
 function FsFindClose(Hdl: THandle): Integer; stdcall;
 
-function FsExecuteFile(MainWin: THandle; RemoteName, Verb: PAnsiChar): Integer;
-  stdcall;
+function FsExecuteFile(MainWin: THandle; RemoteName, Verb: PAnsiChar): Integer; stdcall;
 function FsRenMovFile(OldName, NewName: PAnsiChar; Move, OverWrite: BOOL;
   RemoteInfo: pRemoteInfo): Integer; stdcall;
 function FsGetFile(RemoteName, LocalName: PAnsiChar; CopyFlags: Integer;
@@ -78,8 +76,8 @@ procedure FsSetCryptCallback(pCryptProc: TCryptProc; CryptoNr, Flags: Integer); 
 procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); stdcall;
 procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); stdcall;
 
-{Dialog API function}
-procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);stdcall;
+{ Dialog API function }
+procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo); stdcall;
 
 var
   gSetDlgProcInfo: TSetDlgProcInfo;
@@ -136,6 +134,7 @@ begin
       Connection.Password := EmptyStr
     else
       Connection.Password := DecodeBase64(IniFile.ReadString('FTP', 'Connection' + sIndex + 'Password', EmptyStr));
+    Connection.PassiveMode:= IniFile.ReadBool('FTP', 'Connection' + sIndex + 'PassiveMode', True);
     // add connection to connection list
     ConnectionList.AddObject(Connection.ConnectionName, Connection);
   end;
@@ -164,6 +163,7 @@ begin
       IniFile.DeleteKey('FTP', 'Connection' + sIndex + 'Password')
     else
       IniFile.WriteString('FTP', 'Connection' + sIndex + 'Password', EncodeBase64(Connection.Password));
+    IniFile.WriteBool('FTP', 'Connection' + sIndex + 'PassiveMode', Connection.PassiveMode);
   end;
 end;
 
@@ -181,9 +181,14 @@ begin
   end;
 end;
 
+function CryptFunc(Mode: LongInt; ConnectionName: AnsiString; var Password: AnsiString): LongInt;
+begin
+  if (Mode = FS_CRYPT_LOAD_PASSWORD) or (Mode = FS_CRYPT_LOAD_PASSWORD_NO_UI) then
+    SetLength(Password, MAX_PATH);
+  Result:= CryptProc(PluginNumber, CryptoNumber, Mode, PAnsiChar(ConnectionName), PAnsiChar(Password), MAX_PATH);
+end;
+
 function ShowPasswordDialog(out Password: AnsiString): Boolean;
-const
-  MAX_PATH = 256;
 var
   pcTemp: PAnsiChar;
 begin
@@ -197,9 +202,7 @@ begin
   FreeMem(pcTemp);
 end;
 
-
-function FtpConnect(const ConnectionName: AnsiString; out FtpSend: TFTPSendEx)
-  : Boolean;
+function FtpConnect(const ConnectionName: AnsiString; out FtpSend: TFTPSendEx): Boolean;
 var
   I: Integer;
   Connection: TConnection;
@@ -215,22 +218,25 @@ begin
       FtpSend := TFTPSendEx.Create;
       FtpSend.OnStatus:= FtpSend.FTPStatus;
       FtpSend.TargetHost := Connection.Host;
+      FtpSend.PassiveMode:= Connection.PassiveMode;
       if Connection.Port <> EmptyStr then
         FtpSend.TargetPort := Connection.Port;
       if Connection.UserName <> EmptyStr then
         FtpSend.UserName := Connection.UserName;
-      if Connection.Password <> EmptyStr then
-        FtpSend.Password := Connection.Password
-      else  // if no saved password then ask it
+      if Connection.MasterPassword then
+         begin
+           if CryptFunc(FS_CRYPT_LOAD_PASSWORD, Connection.ConnectionName, Connection.Password) <> FS_FILE_OK then
+             Connection.Password:= EmptyStr;
+         end;
+      if Connection.Password = EmptyStr then // if no saved password then ask it
         begin
-          if ShowPasswordDialog(Connection.Password) then
-            FtpSend.Password := Connection.Password
-          else
+          if not ShowPasswordDialog(Connection.Password) then
             begin
               FreeAndNil(FtpSend);
               Exit;
             end;
         end;
+      FtpSend.Password := Connection.Password;
       // try to connect
       if FtpSend.Login then
         begin
@@ -247,10 +253,7 @@ begin
   end;
 end;
 
-
 function AddQuickConnection(const Connection: TConnection): Boolean;
-const
-  MAX_PATH = 256;
 var
   pcTemp: PAnsiChar;
 begin
@@ -298,8 +301,6 @@ end;
 
 
 procedure AddConnection;
-const
-  MAX_PATH = 256;
 var
   pcTemp: PAnsiChar;
   bCancel: Boolean;
@@ -314,7 +315,7 @@ begin
         begin
           if MasterPassword then
           begin
-            if CryptProc(PluginNumber, CryptoNumber, FS_CRYPT_SAVE_PASSWORD, PAnsiChar(ConnectionName), PAnsiChar(Password), Length(Password)) = FS_FILE_OK then
+            if CryptFunc(FS_CRYPT_SAVE_PASSWORD, ConnectionName, Password) = FS_FILE_OK then
               Password:= EmptyStr;
           end;
           ConnectionList.AddObject(ConnectionName, gConnection);

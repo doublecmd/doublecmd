@@ -58,6 +58,7 @@ begin
           if gConnection.MasterPassword then
             begin
               SendDlgMsg(pDlg, 'chkMasterPassword', DM_SETCHECK, 1, 0);
+              SendDlgMsg(pDlg, 'chkMasterPassword', DM_ENABLE, 0, 0);
               SendDlgMsg(pDlg, 'edtPassword', DM_SHOWITEM, 0, 0);
               SendDlgMsg(pDlg, 'btnChangePassword', DM_SHOWITEM, 1, 0);
             end
@@ -70,6 +71,8 @@ begin
           wsText:= gConnection.Path;
           Data:= PtrInt(PWideChar(wsText));
           SendDlgMsg(pDlg, 'edtRemoteDir', DM_SETTEXT, Data, 0);
+          Data:= PtrInt(gConnection.PassiveMode);
+          SendDlgMsg(pDlg, 'chkPassiveMode', DM_SETCHECK, Data, 0);
         end;
       DN_CHANGE:
         if DlgItemName = 'chkSendCommand' then
@@ -78,7 +81,13 @@ begin
             SendDlgMsg(pDlg, 'edtInterval', DM_ENABLE, wParam, 0);
           end;
       DN_CLICK:
-        if DlgItemName = 'btnOK' then
+        if DlgItemName = 'btnAnonymous' then
+          begin
+            wsText:= 'anonymous';
+            Data:= PtrInt(PWideChar(wsText));
+            SendDlgMsg(pDlg, 'edtUserName', DM_SETTEXT, Data, 0);
+          end
+        else if DlgItemName = 'btnOK' then
           begin
             Data:= SendDlgMsg(pDlg, 'edtName', DM_GETTEXT, 0, 0);
             wsText:= PWideChar(Data);
@@ -97,6 +106,8 @@ begin
             Data:= SendDlgMsg(pDlg, 'edtRemoteDir', DM_GETTEXT, 0, 0);
             wsText:= PWideChar(Data);
             gConnection.Path:= wsText;
+            Data:= SendDlgMsg(pDlg, 'chkPassiveMode', DM_GETCHECK, 0, 0);
+            gConnection.PassiveMode:= Boolean(Data);
             // close dialog
             SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 1, 0);
           end

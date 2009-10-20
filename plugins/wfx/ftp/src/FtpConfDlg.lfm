@@ -99,7 +99,7 @@ object DialogBox: TDialogBox
     Width = 260
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
-    Caption = 'Anonymous'
+    Caption = 'Anonymous login (e-mail address as password)'
     TabOrder = 3
   end
   object edtRemoteDir: TEdit
@@ -110,7 +110,7 @@ object DialogBox: TDialogBox
     AnchorSideRight.Side = asrBottom
     Left = 128
     Height = 21
-    Top = 174
+    Top = 176
     Width = 260
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
@@ -122,7 +122,7 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrCenter
     Left = 12
     Height = 14
-    Top = 177
+    Top = 179
     Width = 57
     BorderSpacing.Left = 12
     Caption = 'Remote dir:'
@@ -134,7 +134,7 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     Left = 12
     Height = 17
-    Top = 213
+    Top = 215
     Width = 273
     BorderSpacing.Left = 12
     BorderSpacing.Top = 18
@@ -147,7 +147,7 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     Left = 12
     Height = 17
-    Top = 236
+    Top = 238
     Width = 213
     BorderSpacing.Left = 12
     BorderSpacing.Top = 6
@@ -161,7 +161,7 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrCenter
     Left = 18
     Height = 14
-    Top = 262
+    Top = 264
     Width = 52
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
@@ -175,18 +175,20 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     Left = 80
     Height = 21
-    Top = 259
+    Top = 261
     Width = 100
     BorderSpacing.Left = 10
     BorderSpacing.Top = 6
     Enabled = False
     ItemHeight = 13
+    ItemIndex = 0
     Items.Strings = (
       'NOOP'
       'PWD'
       'SYST'
     )
     TabOrder = 7
+    Text = 'NOOP'
   end
   object lblInterval: TLabel
     AnchorSideTop.Control = edtInterval
@@ -194,7 +196,7 @@ object DialogBox: TDialogBox
     AnchorSideRight.Control = edtInterval
     Left = 212
     Height = 14
-    Top = 262
+    Top = 264
     Width = 84
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 12
@@ -208,12 +210,14 @@ object DialogBox: TDialogBox
     AnchorSideRight.Side = asrBottom
     Left = 308
     Height = 21
-    Top = 259
+    Top = 261
     Width = 80
+    Alignment = taRightJustify
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 6
     Enabled = False
     TabOrder = 8
+    Text = '90'
   end
   object btnCancel: TButton
     AnchorSideRight.Control = edtRemoteDir
@@ -275,14 +279,14 @@ object DialogBox: TDialogBox
   end
   object chkMasterPassword: TCheckBox
     AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = edtPassword
+    AnchorSideTop.Control = lblPassword
     AnchorSideTop.Side = asrBottom
     Left = 12
     Height = 17
-    Top = 151
+    Top = 153
     Width = 240
     BorderSpacing.Left = 12
-    BorderSpacing.Top = 6
+    BorderSpacing.Top = 12
     Caption = 'Use master password to protect the password'
     OnChange = CheckBoxChange
     TabOrder = 12
