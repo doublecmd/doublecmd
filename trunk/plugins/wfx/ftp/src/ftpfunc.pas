@@ -48,6 +48,7 @@ type
     Port: AnsiString;
     UserName: AnsiString;
     Password: AnsiString;
+    MasterPassword: Boolean;
   end;
 
 function FsInit(PluginNr: Integer; pProgressProc: TProgressProc;
@@ -73,6 +74,7 @@ function FsRemoveDir(RemoteName: PAnsiChar): BOOL; stdcall;
 
 function FsDisconnect(DisconnectRoot: PAnsiChar): BOOL; stdcall;
 
+procedure FsSetCryptCallback(pCryptProc: TCryptProc; CryptoNr, Flags: Integer); stdcall;
 procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); stdcall;
 procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); stdcall;
 
@@ -96,6 +98,8 @@ var
   LogProc: TLogProc;
   RequestProc: TRequestProc;
   PluginNumber: Integer;
+  CryptProc: TCryptProc;
+  CryptoNumber: Integer;
   HasDialogAPI: Boolean = False;
 
 const
@@ -127,6 +131,8 @@ begin
     Connection.Host := IniFile.ReadString('FTP', 'Connection' + sIndex + 'Host', EmptyStr);
     Connection.Port := IniFile.ReadString('FTP', 'Connection' + sIndex + 'Port', EmptyStr);
     Connection.UserName := IniFile.ReadString('FTP', 'Connection' + sIndex + 'UserName', EmptyStr);
+    Connection.Password := IniFile.ReadString('FTP', 'Connection' + sIndex + 'Password', EmptyStr);
+    Connection.MasterPassword := IniFile.ReadBool('FTP', 'Connection' + sIndex + 'MasterPassword', False);
     ConnectionList.AddObject(Connection.ConnectionName, Connection);
   end;
 end;
@@ -149,6 +155,8 @@ begin
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'Host', Connection.Host);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'Port', Connection.Port);
     IniFile.WriteString('FTP', 'Connection' + sIndex + 'UserName', Connection.UserName);
+    IniFile.WriteString('FTP', 'Connection' + sIndex + 'Password', Connection.Password);
+    IniFile.WriteBool('FTP', 'Connection' + sIndex + 'MasterPassword', Connection.MasterPassword);
   end;
 end;
 
@@ -295,8 +303,14 @@ begin
   if HasDialogAPI then
     begin
       if ShowFtpConfDlg then
+        with gConnection do
         begin
-          ConnectionList.AddObject(gConnection.ConnectionName, gConnection);
+          if MasterPassword then
+          begin
+            if CryptProc(PluginNumber, CryptoNumber, FS_CRYPT_SAVE_PASSWORD, PAnsiChar(ConnectionName), PAnsiChar(Password), Length(Password)) = FS_FILE_OK then
+              Password:= EmptyStr;
+          end;
+          ConnectionList.AddObject(ConnectionName, gConnection);
           bCancel := False;
         end;
     end
@@ -712,6 +726,12 @@ begin
     ActiveConnectionList.Delete(ActiveConnectionList.IndexOfObject(FtpSend));
     FreeAndNil(FtpSend);
   end;
+end;
+
+procedure FsSetCryptCallback(pCryptProc: TCryptProc; CryptoNr, Flags: Integer); stdcall;
+begin
+  CryptProc:= pCryptProc;
+  CryptoNumber:= CryptoNr;
 end;
 
 procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); stdcall;
