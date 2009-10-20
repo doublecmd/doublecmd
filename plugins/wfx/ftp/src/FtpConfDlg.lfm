@@ -1,12 +1,12 @@
 object DialogBox: TDialogBox
   Left = 290
-  Height = 341
+  Height = 357
   Top = 144
   Width = 400
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'FTP'
-  ClientHeight = 341
+  ClientHeight = 357
   ClientWidth = 400
   OnShow = DialogBoxShow
   LCLVersion = '0.9.29'
@@ -100,6 +100,7 @@ object DialogBox: TDialogBox
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     Caption = 'Anonymous login (e-mail address as password)'
+    OnClick = ButtonClick
     TabOrder = 3
   end
   object edtRemoteDir: TEdit
@@ -130,11 +131,11 @@ object DialogBox: TDialogBox
   end
   object chkPassiveMode: TCheckBox
     AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = edtRemoteDir
+    AnchorSideTop.Control = edtInitCommands
     AnchorSideTop.Side = asrBottom
     Left = 12
     Height = 17
-    Top = 215
+    Top = 238
     Width = 273
     BorderSpacing.Left = 12
     BorderSpacing.Top = 18
@@ -147,7 +148,7 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     Left = 12
     Height = 17
-    Top = 238
+    Top = 261
     Width = 213
     BorderSpacing.Left = 12
     BorderSpacing.Top = 6
@@ -161,7 +162,7 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrCenter
     Left = 18
     Height = 14
-    Top = 264
+    Top = 287
     Width = 52
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
@@ -175,7 +176,7 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     Left = 80
     Height = 21
-    Top = 261
+    Top = 284
     Width = 100
     BorderSpacing.Left = 10
     BorderSpacing.Top = 6
@@ -196,7 +197,7 @@ object DialogBox: TDialogBox
     AnchorSideRight.Control = edtInterval
     Left = 212
     Height = 14
-    Top = 264
+    Top = 287
     Width = 84
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 12
@@ -210,7 +211,7 @@ object DialogBox: TDialogBox
     AnchorSideRight.Side = asrBottom
     Left = 308
     Height = 21
-    Top = 261
+    Top = 284
     Width = 80
     Alignment = taRightJustify
     Anchors = [akTop, akRight]
@@ -226,7 +227,7 @@ object DialogBox: TDialogBox
     AnchorSideBottom.Side = asrBottom
     Left = 313
     Height = 25
-    Top = 304
+    Top = 320
     Width = 75
     Anchors = [akRight, akBottom]
     BorderSpacing.Bottom = 12
@@ -241,7 +242,7 @@ object DialogBox: TDialogBox
     AnchorSideBottom.Side = asrBottom
     Left = 226
     Height = 25
-    Top = 304
+    Top = 320
     Width = 75
     Anchors = [akRight, akBottom]
     BorderSpacing.Right = 12
@@ -307,5 +308,31 @@ object DialogBox: TDialogBox
     OnClick = ButtonClick
     TabOrder = 13
     Visible = False
+  end
+  object edtInitCommands: TEdit
+    AnchorSideLeft.Control = edtRemoteDir
+    AnchorSideTop.Control = edtRemoteDir
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = edtRemoteDir
+    AnchorSideRight.Side = asrBottom
+    Left = 128
+    Height = 21
+    Top = 203
+    Width = 260
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    TabOrder = 14
+  end
+  object lblInitCommands: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = edtInitCommands
+    AnchorSideTop.Side = asrCenter
+    Left = 12
+    Height = 14
+    Top = 206
+    Width = 74
+    BorderSpacing.Left = 12
+    Caption = 'Init commands:'
+    ParentColor = False
   end
 end
