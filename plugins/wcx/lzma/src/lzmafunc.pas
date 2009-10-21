@@ -30,7 +30,7 @@ unit lzmafunc;
 interface
 
 uses
-  uWCXhead, ULZMACommon;
+  WcxPlugin, ULZMACommon;
 
 type
   TEncoderOptions = record

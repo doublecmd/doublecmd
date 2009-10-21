@@ -2,10 +2,9 @@
 <CONFIG>
   <ProjectOptions>
     <PathDelim Value="\"/>
-    <Version Value="6"/>
+    <Version Value="7"/>
     <General>
       <MainUnit Value="0"/>
-      <IconPath Value=".\"/>
       <TargetFileExt Value=""/>
       <ActiveEditorIndexAtStart Value="3"/>
     </General>
@@ -37,10 +36,11 @@
         <Filename Value="rpm_wdx.dpr"/>
         <IsPartOfProject Value="True"/>
         <CursorPos X="6" Y="20"/>
-        <TopLine Value="1"/>
+        <TopLine Value="6"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
+        <SyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
         <Filename Value="rpm_io.pas"/>
@@ -48,9 +48,10 @@
         <UnitName Value="rpm_io"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
+        <SyntaxHighlighter Value="Delphi"/>
       </Unit1>
       <Unit2>
         <Filename Value="rpm_wdx_intf.pas"/>
@@ -61,6 +62,7 @@
         <EditorIndex Value="2"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
+        <SyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
         <Filename Value="rpm_def.pas"/>
@@ -71,6 +73,7 @@
         <EditorIndex Value="1"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
+        <SyntaxHighlighter Value="Delphi"/>
       </Unit3>
       <Unit4>
         <Filename Value="contplug.pas"/>
@@ -78,15 +81,15 @@
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
         <UsageCount Value="10"/>
+        <SyntaxHighlighter Value="Delphi"/>
       </Unit4>
       <Unit5>
         <Filename Value="ucontplugin.pas"/>
         <UnitName Value="ucontplugin"/>
         <CursorPos X="15" Y="5"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="3"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+        <SyntaxHighlighter Value="Delphi"/>
       </Unit5>
       <Unit6>
         <Filename Value="uOSUtils.pas"/>
@@ -94,6 +97,7 @@
         <CursorPos X="1" Y="35"/>
         <TopLine Value="8"/>
         <UsageCount Value="10"/>
+        <SyntaxHighlighter Value="Delphi"/>
       </Unit6>
       <Unit7>
         <Filename Value="ufindex.pas"/>
@@ -101,24 +105,23 @@
         <CursorPos X="5" Y="44"/>
         <TopLine Value="29"/>
         <UsageCount Value="10"/>
+        <SyntaxHighlighter Value="Delphi"/>
       </Unit7>
     </Units>
     <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="5"/>
-	   <SearchPaths>
-         <UnitOutputDirectory Value="..\lib"/>
-       </SearchPaths>
+    <Version Value="8"/>
     <PathDelim Value="\"/>
+    <SearchPaths>
+      <OtherUnitFiles Value="..\..\..\..\sdk\"/>
+      <UnitOutputDirectory Value="..\lib"/>
+    </SearchPaths>
     <Parsing>
       <SyntaxOptions>
-        <DelphiCompat Value="True"/>
+        <SyntaxMode Value="Delphi"/>
       </SyntaxOptions>
     </Parsing>
-    <CodeGeneration>
-      <Generate Value="Faster"/>
-    </CodeGeneration>
     <Linking>
       <LinkSmart Value="True"/>
       <Options>

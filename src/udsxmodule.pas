@@ -29,7 +29,7 @@ unit udsxmodule;
 interface
 
 uses
-  Classes, SysUtils, dynlibs,LCLProc,uGlobs,udsxplugin,uClassesEx, uDCUtils, uOSUtils;
+  Classes, SysUtils, dynlibs, LCLProc, uGlobs, DsxPlugin,uClassesEx, uDCUtils, uOSUtils;
 
 type
 

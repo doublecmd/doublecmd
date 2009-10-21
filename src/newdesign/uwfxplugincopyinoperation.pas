@@ -53,7 +53,7 @@ type
 implementation
 
 uses
-  ufsplugin, uFileSystemUtil;
+  WfxPlugin, uFileSystemUtil;
 
 // -- TWfxPluginCopyInOperation ---------------------------------------------
 

@@ -4,8 +4,8 @@ unit uwdxprototypes;
 
 interface
 
-uses ucontplugin,
-  Classes, SysUtils;
+uses
+  Classes, SysUtils, WdxPlugin;
   
   type
   //   Mandatory (must be implemented)

@@ -22,7 +22,7 @@ unit deb_wdx_intf;
 interface
 
 uses
-  Classes, contplug;
+  Classes, WdxPlugin;
 
 procedure ContentGetDetectString(DetectString:pchar; maxlen:integer); stdcall;
 function ContentGetSupportedField(FieldIndex:integer;FieldName:pchar;

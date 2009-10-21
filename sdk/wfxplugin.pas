@@ -1,4 +1,4 @@
-unit ufsplugin;    {Plugin definitions version 1.5}
+unit WfxPlugin;    {Plugin definitions version 1.5}
 
 interface
 

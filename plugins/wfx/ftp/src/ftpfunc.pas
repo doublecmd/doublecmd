@@ -33,7 +33,7 @@ uses
   {$IFDEF MSWINDOWS}
   Windows,
   {$ENDIF}
-  ufsplugin, FtpSend, DialogAPI;
+  WfxPlugin, FtpSend, DialogAPI;
 
 type
   TFTPSendEx = class(TFTPSend)

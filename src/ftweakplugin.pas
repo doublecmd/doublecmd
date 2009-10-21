@@ -90,7 +90,7 @@ function ShowTweakPluginDlg(PluginType: TPluginType; PluginIndex: Integer): Bool
 
 implementation
 uses
-  fOptions, uWCXHead, uDCUtils, uLng;
+  fOptions, WcxPlugin, uDCUtils, uLng;
 
 function ShowTweakPluginDlg(PluginType: TPluginType; PluginIndex: Integer): Boolean;
 var

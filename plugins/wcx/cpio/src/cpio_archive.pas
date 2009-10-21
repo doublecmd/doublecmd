@@ -28,7 +28,7 @@ interface
 
 uses
   Classes,
-  uWCXhead, uUnixTime,
+  WcxPlugin, uUnixTime,
   cpio_def, cpio_io;
 
 const

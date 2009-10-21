@@ -47,7 +47,7 @@ type
 implementation
 
 uses
-  uOSUtils, uDCUtils, uLng, uWCXmodule, uWCXhead, Masks, FileUtil, LCLProc;
+  uOSUtils, uDCUtils, uLng, uWCXmodule, WcxPlugin, Masks, FileUtil, LCLProc;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks

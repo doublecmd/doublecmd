@@ -14,7 +14,7 @@ library deb_wdx;
 uses
   SysUtils,
   Classes,
-  contplug in 'contplug.pas',
+  WdxPlugin,
   deb_wdx_intf in 'deb_wdx_intf.pas';
 
 {$E wdx}

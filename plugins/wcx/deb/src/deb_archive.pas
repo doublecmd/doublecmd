@@ -6,7 +6,7 @@ interface
 
 uses
   Classes,
-  uWCXhead, uUnixTime,
+  WcxPlugin, uUnixTime,
   deb_def, deb_io;
 
 const

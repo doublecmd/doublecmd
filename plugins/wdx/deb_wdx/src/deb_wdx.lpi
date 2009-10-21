@@ -137,6 +137,7 @@
     <PathDelim Value="\"/>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)\"/>
+      <OtherUnitFiles Value="..\..\..\..\sdk\"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
     <Parsing>

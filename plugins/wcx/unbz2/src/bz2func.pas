@@ -29,7 +29,9 @@
 unit bz2func;
 
 interface
-uses uWCXhead;
+
+uses 
+  WcxPlugin;
 
 { Mandatory functions }
 function OpenArchive (var ArchiveData : tOpenArchiveData) : TArcHandle;stdcall;

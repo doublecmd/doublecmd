@@ -5,7 +5,7 @@ unit uWfxPluginFileSource;
 interface
 
 uses
-  Classes, SysUtils, uWFXModule, ufsplugin,
+  Classes, SysUtils, uWFXModule, WfxPlugin,
   uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uFileProperty, uFileSource, uFileSourceOperation;
 

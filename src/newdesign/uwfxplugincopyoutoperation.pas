@@ -51,7 +51,7 @@ type
 implementation
 
 uses
-  ufsplugin;
+  WfxPlugin;
 
 // -- TWfxPluginCopyOutOperation ---------------------------------------------
 

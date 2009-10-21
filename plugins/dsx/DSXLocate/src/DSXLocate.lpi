@@ -1,11 +1,9 @@
 <?xml version="1.0"?>
 <CONFIG>
   <ProjectOptions>
-    <PathDelim Value="/"/>
-    <Version Value="6"/>
+    <Version Value="7"/>
     <General>
       <MainUnit Value="0"/>
-      <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="DSXLocate"/>
       <ActiveEditorIndexAtStart Value="0"/>
@@ -32,7 +30,7 @@
         <Filename Value="DSXLocate.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DSXLocate"/>
-        <CursorPos X="31" Y="78"/>
+        <CursorPos X="25" Y="69"/>
         <TopLine Value="64"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="25"/>
@@ -43,15 +41,13 @@
         <UnitName Value="udsxplugin"/>
         <CursorPos X="1" Y="37"/>
         <TopLine Value="8"/>
-        <EditorIndex Value="2"/>
         <UsageCount Value="13"/>
-        <Loaded Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="un_process.pas"/>
         <UnitName Value="un_process"/>
         <CursorPos X="14" Y="27"/>
-        <TopLine Value="12"/>
+        <TopLine Value="13"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="13"/>
         <Loaded Value="True"/>
@@ -113,13 +109,11 @@
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="5"/>
+    <Version Value="8"/>
     <SearchPaths>
+      <OtherUnitFiles Value="../../../../sdk/"/>
       <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
-    <CodeGeneration>
-      <Generate Value="Faster"/>
-    </CodeGeneration>
     <Linking>
       <LinkSmart Value="True"/>
       <Options>

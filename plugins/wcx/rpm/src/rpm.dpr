@@ -16,7 +16,7 @@ library rpm;
 uses
   SysUtils,
   Classes,
-  uWCXhead in 'uWCXhead.pas',
+  WcxPlugin,
   rpm_io in 'rpm_io.pas',
   rpm_def in 'rpm_def.pas',
   rpm_archive in 'rpm_archive.pas';

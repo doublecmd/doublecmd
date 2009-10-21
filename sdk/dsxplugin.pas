@@ -1,4 +1,4 @@
-unit udsxplugin;
+unit DsxPlugin;
 
 interface
 
@@ -44,8 +44,8 @@ end;
 
 {Prototypes}
 {Callbacks procs}
-{удалить PlugNr -это не нужно}
-TSAddFileProc=procedure (PlugNr:integer; FoundFile:pchar); stdcall;
+TSAddFileProc=procedure (PlugNr:integer; FoundFile:pchar); stdcall; //if FoundFile='' then searching is finished
+
 TSUpdateStatusProc=procedure (PlugNr:integer; CurrentFile:pchar; FilesScaned:integer); stdcall;
 
 {Mandatory (must be implemented)}

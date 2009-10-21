@@ -37,7 +37,7 @@ uses
     Windows,
   {$ENDIF}
     Classes, SysUtils,uClassesEx,
-    uwdxprototypes,ucontplugin,
+    uwdxprototypes,WdxPlugin,
     dynlibs, uDCUtils, uOSUtils,
     uDetectStr, uTypes,lua,LCLProc;
   
