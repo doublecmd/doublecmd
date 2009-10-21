@@ -31,7 +31,7 @@ uses
     {$IFDEF MSWINDOWS}
     , Windows, ShellApi, uNTFSLinks, uMyWindows, JwaWinNetWk
     {$ELSE}
-    , BaseUnix, Unix, UnixType, UnixUtil, dl, uMyUnix, syscall, ufsplugin
+    , BaseUnix, Unix, UnixType, UnixUtil, dl, uMyUnix, syscall, WfxPlugin
       {$IFNDEF DARWIN}, libhal, dbus{$ENDIF}
     {$ENDIF};
     
