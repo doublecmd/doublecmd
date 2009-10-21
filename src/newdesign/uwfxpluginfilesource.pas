@@ -152,12 +152,12 @@ begin
     RT_UserName:
       begin
         sReq:= 'RT_UserName';
-        Result:= InputQuery(sCustomTitle, 'User name request', sReturnedText);
+        Result:= InputQuery(sCustomTitle, 'User name:', sReturnedText);
       end;
     RT_Password:
       begin
         sReq:= 'RT_Password';
-        Result:= InputQuery(sCustomTitle, 'Password request', True, sReturnedText);
+        Result:= InputQuery(sCustomTitle, 'Password:', True, sReturnedText);
       end;
     RT_Account:
       begin
@@ -177,12 +177,12 @@ begin
     RT_TargetDir:
       begin
         sReq:= 'RT_TargetDir';
-        Result:= SelectDirectory('Directory selection request', '', sReturnedText, False);
+        Result:= InputQuery(sCustomTitle, 'Target path:', sReturnedText);
       end;
     RT_URL:
       begin
         sReq:= 'RT_URL';
-        Result:= InputQuery(sCustomTitle, 'URL request', sReturnedText);
+        Result:= InputQuery(sCustomTitle, 'URL:', sReturnedText);
       end;
     RT_MsgOK:
       begin
