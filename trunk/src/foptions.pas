@@ -1430,8 +1430,7 @@ begin
   odOpenDialog.Filter := 'Viewer plugins (*.wlx)|*.wlx';
   if odOpenDialog.Execute then
     begin
-      sPluginName := ExtractFileName(odOpenDialog.FileName);
-      delete(sPluginName,length(sPluginName)-4,4);
+      sPluginName := ExtractOnlyFileName(odOpenDialog.FileName);
       I:= tmpWLXPlugins.Add(sPluginName,odOpenDialog.FileName,'');
 
       tmpWLXPlugins.LoadModule(sPluginName);
