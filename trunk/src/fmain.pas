@@ -2335,9 +2335,17 @@ begin
       begin
         miTmp := TMenuItem.Create(pmDrivesMenu);
         miTmp.Tag := I;
-        miTmp.Caption := Name;
-        miTmp.ShortCut:= TextToShortCut(Name[1]);
-        
+
+        if Length(Name) > 0 then
+        begin
+          miTmp.Caption := Name;
+          miTmp.ShortCut:= TextToShortCut(Name[1]);
+        end
+        else
+        begin
+          miTmp.Caption := Path;
+        end;
+
         // get disk icon
         BitmapTmp := PixMapManager.GetDriveIcon(Drive, 16, clMenu);
         miTmp.Bitmap := BitmapTmp;
