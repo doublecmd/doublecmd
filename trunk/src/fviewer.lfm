@@ -67,6 +67,7 @@ object frmViewer: TfrmViewer
     Width = 952
     Align = alClient
     TabOrder = 2
+    OnResize = pnlListerResize
   end
   object Status: TStatusBar
     Height = 22

@@ -84,6 +84,7 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure miPluginsClick(Sender: TObject);
     procedure miSearchNextClick(Sender: TObject);
+    procedure pnlListerResize(Sender: TObject);
     procedure ScrollBoxResize(Sender: TObject);
     procedure ViewerControlMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -275,6 +276,12 @@ end;
 procedure TfrmViewer.miSearchNextClick(Sender: TObject);
 begin
   DoSearch(True);
+end;
+
+procedure TfrmViewer.pnlListerResize(Sender: TObject);
+begin
+  if bPlugin then
+    WlxPlugins.GetWlxModule(ActivePlugin).ResizeWindow(pnlLister.ClientRect);
 end;
 
 procedure TfrmViewer.ScrollBoxResize(Sender: TObject);
