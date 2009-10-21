@@ -28,7 +28,7 @@ unit uWCXmodule;
 interface
 
 uses
-  uWCXprototypes, uWCXhead, dynlibs, Classes, uVFSModule,
+  uWCXprototypes, WcxPlugin, dynlibs, Classes, uVFSModule,
   uVFSTypes, Dialogs, DialogAPI, uClassesEx, uOSUtils;
 
 Type

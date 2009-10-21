@@ -11,7 +11,7 @@ function ContentGetValue(FileName:pchar;FieldIndex,UnitIndex:integer;FieldValue:
 
 implementation
 
-uses SysUtils, {contplug,}ucontplugin, rpm_io, rpm_def;
+uses SysUtils, WdxPlugin, rpm_io, rpm_def;
 
 const
   IDX_PACKAGE    = 0;

@@ -32,7 +32,7 @@ uses
   LResources,
   SysUtils, Classes, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, Buttons, uFindThread, Menus,
-  EditBtn, Spin, MaskEdit, udsxmodule, udsxplugin;
+  EditBtn, Spin, MaskEdit, udsxmodule, DsxPlugin;
 
 type
 

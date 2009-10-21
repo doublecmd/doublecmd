@@ -10,7 +10,7 @@ uses
    baseunix,
 {$ENDIF}
   Classes,
-  ufsplugin,
+  WfxPlugin,
   SysUtils;
 
 

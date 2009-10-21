@@ -16,7 +16,7 @@ library cpio;
 uses
   SysUtils,
   Classes,
-  uWCXhead in 'uWCXhead.pas',
+  WcxPlugin,
   cpio_io in 'cpio_io.pas',
   cpio_def in 'cpio_def.pas',
   cpio_archive in 'cpio_archive.pas';

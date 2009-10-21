@@ -1,11 +1,9 @@
 <?xml version="1.0"?>
 <CONFIG>
   <ProjectOptions>
-    <PathDelim Value="/"/>
-    <Version Value="6"/>
+    <Version Value="7"/>
     <General>
       <MainUnit Value="0"/>
-      <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <ActiveEditorIndexAtStart Value="0"/>
     </General>
@@ -31,7 +29,7 @@
         <Filename Value="sample.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Sample"/>
-        <CursorPos X="50" Y="32"/>
+        <CursorPos X="40" Y="26"/>
         <TopLine Value="22"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="20"/>
@@ -42,9 +40,7 @@
         <UnitName Value="ufsplugin"/>
         <CursorPos X="1" Y="252"/>
         <TopLine Value="238"/>
-        <EditorIndex Value="3"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="uOSUtils.pas"/>
@@ -58,30 +54,24 @@
         <UnitName Value="uWFXmodule"/>
         <CursorPos X="3" Y="726"/>
         <TopLine Value="694"/>
-        <EditorIndex Value="2"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="PLUGIN_TYPES.pas"/>
         <UnitName Value="PLUGIN_Types"/>
         <CursorPos X="1" Y="149"/>
         <TopLine Value="121"/>
-        <EditorIndex Value="1"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit4>
     </Units>
     <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="5"/>
+    <Version Value="8"/>
     <SearchPaths>
+      <OtherUnitFiles Value="../../../../sdk/"/>
       <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
-    <CodeGeneration>
-      <Generate Value="Faster"/>
-    </CodeGeneration>
     <Linking>
       <LinkSmart Value="True"/>
       <Options>

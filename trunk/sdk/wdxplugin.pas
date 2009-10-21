@@ -1,4 +1,4 @@
-unit ucontplugin; { Contents of file contplug.pas }
+unit WdxPlugin; { Content plugins }
 
 interface
 

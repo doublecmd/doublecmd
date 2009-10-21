@@ -3,7 +3,7 @@
 // Lister API Guide, which can be found at http://ghisler.com.
 // Version: 1.8.
 
-unit WLXPlugin;
+unit WlxPlugin;
 
 interface
 

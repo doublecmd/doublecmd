@@ -112,7 +112,7 @@ procedure LoadPixMapManager;
 implementation
 
 uses
-  GraphType, LCLIntf, LCLType, LCLProc, Forms, FileUtil, uGlobsPaths, uWCXhead,
+  GraphType, LCLIntf, LCLType, LCLProc, Forms, FileUtil, uGlobsPaths, WcxPlugin,
   uGlobs, uDCUtils, uFileSystemFile
   {$IFDEF LCLGTK2}
     , gtkdef, gtk2, gdk2pixbuf, gdk2, glib2

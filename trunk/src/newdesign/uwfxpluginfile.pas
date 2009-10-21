@@ -9,7 +9,7 @@ uses
   uFile,
   uFileSystemFile,
   uFileProperty,
-  ufsplugin,
+  WfxPlugin,
   uOSUtils;
 
 type

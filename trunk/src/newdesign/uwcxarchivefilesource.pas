@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, contnrs, Dialogs, StringHashList, uOSUtils,
-  uWCXhead, uWCXmodule, uFile, uFileSourceProperty, uFileSourceOperationTypes,
+  WcxPlugin, uWCXmodule, uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uArchiveFileSource, uFileProperty, uFileSource, uFileSourceOperation;
 
 type

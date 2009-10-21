@@ -25,8 +25,10 @@
 unit ZipFunc;
 
 interface
-uses uWCXhead, AbZipKit, AbArcTyp, AbZipTyp, DialogAPI,
-     AbExcept, AbUtils;
+
+uses 
+  WcxPlugin, AbZipKit, AbArcTyp, AbZipTyp, DialogAPI,
+  AbExcept, AbUtils;
 
 type
   TAbZipKitEx = class (TAbZipKit)

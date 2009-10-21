@@ -28,7 +28,7 @@ library DSXLocate;
 {$mode objfpc}{$H+}
 
 uses
-  Classes,sysutils,udsxplugin,un_process;
+  Classes, SysUtils, DsxPlugin, un_process;
 
 var List:TStringList;
     LocatePath:String;

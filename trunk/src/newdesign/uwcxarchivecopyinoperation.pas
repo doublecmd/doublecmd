@@ -46,7 +46,7 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uDCUtils, uWCXhead, uWCXmodule, uLng,
+  LCLProc, FileUtil, uDCUtils, WcxPlugin, uWCXmodule, uLng,
   uFileSourceOperationUI, uFileSystemUtil;
 
 // ----------------------------------------------------------------------------

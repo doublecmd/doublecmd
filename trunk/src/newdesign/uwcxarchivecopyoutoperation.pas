@@ -68,7 +68,7 @@ type
 implementation
 
 uses
-  LCLProc, Masks, FileUtil, contnrs, uOSUtils, uDCUtils, uWCXhead,
+  LCLProc, Masks, FileUtil, contnrs, uOSUtils, uDCUtils, WcxPlugin,
   uFileSourceOperationUI, uWCXmodule, uFileProcs, uLng;
 
 // ----------------------------------------------------------------------------

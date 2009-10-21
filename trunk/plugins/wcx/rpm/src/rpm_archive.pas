@@ -29,7 +29,7 @@ interface
 
 uses
   Classes,
-  uWCXhead, uUnixTime,
+  WcxPlugin, uUnixTime,
   rpm_def, rpm_io;
 
 const

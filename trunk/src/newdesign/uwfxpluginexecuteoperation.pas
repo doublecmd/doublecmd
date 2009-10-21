@@ -37,7 +37,7 @@ type
 implementation
 
 uses
-  ufsplugin;
+  WfxPlugin;
 
 constructor TWfxPluginExecuteOperation.Create(
                 var aTargetFileSource: TFileSource;

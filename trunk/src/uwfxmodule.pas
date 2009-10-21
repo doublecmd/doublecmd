@@ -31,7 +31,7 @@ unit uWFXmodule;
 
 interface
 uses
- SysUtils, Classes, uVFSModule, uVFSTypes, ufsplugin, uWFXprototypes,
+ SysUtils, Classes, uVFSModule, uVFSTypes, WfxPlugin, uWFXprototypes,
  dynlibs, uClassesEx, DialogAPI;
 
 const

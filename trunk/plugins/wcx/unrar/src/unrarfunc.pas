@@ -26,7 +26,8 @@ unit UnRARFunc;
 
 interface
 
-uses uWCXhead;
+uses 
+  WcxPlugin;
 
 const
   UCM_CHANGEVOLUME    =  0;

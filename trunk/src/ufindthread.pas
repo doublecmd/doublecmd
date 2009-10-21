@@ -28,7 +28,7 @@ unit uFindThread;
 interface
 
 uses
-  Classes, StdCtrls, SysUtils, udsxplugin;
+  Classes, StdCtrls, SysUtils, DsxPlugin;
 
 type
 

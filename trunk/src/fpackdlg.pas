@@ -77,7 +77,7 @@ type
 implementation
 
 uses
-  uWCXhead, uGlobs, uDCUtils, uFileSourceOperation,
+  WcxPlugin, uGlobs, uDCUtils, uFileSourceOperation,
   uOperationsManager, fFileOpDlg;
 
 function ShowPackDlg(const SourceFileSource: TFileSource;

@@ -83,7 +83,7 @@ type
 implementation
 
 uses
-  uFileProcs, uDCUtils, uLng, ufsplugin, uWfxModule, uFileSystemUtil, uOSUtils;
+  uFileProcs, uDCUtils, uLng, WfxPlugin, uWfxModule, uFileSystemUtil, uOSUtils;
 
 { TWfxPluginOperationHelper }
 

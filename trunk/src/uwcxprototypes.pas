@@ -5,7 +5,7 @@ unit uWCXprototypes;
 interface
 
 uses
-  LCLType, uWCXhead;
+  LCLType, WcxPlugin;
 type
 {mandatory}
   TOpenArchive = function (var ArchiveData : tOpenArchiveData): TArcHandle;stdcall;

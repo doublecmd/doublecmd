@@ -7,7 +7,7 @@ unit NetFunc;
 interface
 
 uses
-  Windows, SysUtils, Classes, NetUtils, ufsplugin;
+  Windows, SysUtils, Classes, NetUtils, WfxPlugin;
 
 function FsInit(PluginNr: Integer; pProgressProc: TProgressProc; pLogProc: TLogProc; pRequestProc: TRequestProc): Integer; stdcall;
 

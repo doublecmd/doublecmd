@@ -49,7 +49,7 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uOSUtils, uLng, ufsplugin;
+  LCLProc, FileUtil, uOSUtils, uLng, WfxPlugin;
 
 constructor TWfxPluginDeleteOperation.Create(var aTargetFileSource: TFileSource;
                                               var theFilesToDelete: TFiles);

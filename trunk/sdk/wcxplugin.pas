@@ -1,7 +1,7 @@
 { Contents of file wcxhead.pas }
 { It contains definitions of error codes, flags and callbacks }
 
-unit uWCXhead;
+unit WcxPlugin;
 
 interface
 uses
