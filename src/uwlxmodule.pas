@@ -35,6 +35,9 @@ interface
 uses
   Classes, SysUtils, dynlibs, uDetectStr, uwlxprototypes, WLXPlugin,
   uClassesEx, uDCUtils, uGlobs,LCLProc, LCLType
+  {$IFDEF LCLWIN32}
+    , Windows
+  {$ENDIF}
   {$IFDEF LCLGTK}
     ,gtk,glib,gdk
   {$ENDIF}
@@ -98,6 +101,8 @@ type
         //---------------------
 //        function FileParamVSDetectStr(ptr:PFileRecItem):boolean; overload;
         function FileParamVSDetectStr(AFileName:String):boolean; //overload;
+        //---------------------
+        procedure ResizeWindow(aRect: TRect);
         //---------------------
         property IsLoaded:boolean read GIsLoaded;
         property ModuleHandle:TLibHandle read FModuleHandle write FModuleHandle;
@@ -339,6 +344,15 @@ begin
   DebugLn('DetectStr = '+FParser.DetectStr);
   DebugLn('AFileName = '+AFileName);
   Result:=FParser.TestFileResult(AFileName);
+end;
+
+procedure TWLXModule.ResizeWindow(aRect: TRect);
+begin
+  //ToDo: Implement for other widgetsets
+  {$IF DEFINED(LCLWIN32)}
+  with aRect do
+  MoveWindow(FPluginWindow, Left, Top, Right - Left, Bottom - Top, True);
+  {$ENDIF}
 end;
 
 function TWLXModule.CallListPrint(FileToPrint,  DefPrinter: string; PrintFlags: integer; var Margins: trect): integer;
