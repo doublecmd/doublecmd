@@ -242,6 +242,7 @@ begin
            Continue;
          end;
        ActivePlugin:= I;
+       WlxPlugins.GetWlxModule(ActivePlugin).ResizeWindow(pnlLister.ClientRect);
        Exit;
      end
    else  I:= I + 1;
