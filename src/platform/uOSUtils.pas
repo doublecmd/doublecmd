@@ -903,23 +903,41 @@ end;
   function CheckMountEntry(DriveList: TList; MountEntry: PMountEntry): Boolean;
   var
     J: Integer;
+    MountPoint: String;
   begin
     Result:= False;
     with MountEntry^ do
     begin
-      // check mount dir first
-      if (mnt_dir = '/') or (mnt_dir = 'none') or (mnt_fsname = 'none') or
-         (mnt_dir = 'swap') or (mnt_dir = '/proc') or
+      // check filesystem
+      if (mnt_fsname = 'proc') then Exit;
+
+      // check mount dir
+      if (mnt_dir = '') or
+         (mnt_dir = '/') or
+         (mnt_dir = 'none') or
+         (mnt_dir = '/proc') or
          (mnt_dir = '/dev/pts') then Exit;
+
       // check file system type
-      if (mnt_type = 'tmpfs') or (mnt_type = 'proc') or (mnt_type = 'sysfs') or
-         (mnt_type = 'devpts') or (mnt_type = 'fusectl') or (mnt_type = 'securityfs') or
-         (mnt_type = 'binfmt_misc') or (mnt_type = 'fuse.gvfs-fuse-daemon') or 
-         (mnt_type = 'fuse.truecrypt') or (mnt_type = 'nfsd') or
-		 (mnt_type = 'rpc_pipefs') then Exit;
+      if (mnt_type = 'ignore') or
+         (mnt_type = 'tmpfs') or
+         (mnt_type = 'proc') or
+         (mnt_type = 'swap') or
+         (mnt_type = 'sysfs') or
+         (mnt_type = 'devpts') or
+         (mnt_type = 'fusectl') or
+         (mnt_type = 'securityfs') or
+         (mnt_type = 'binfmt_misc') or
+         (mnt_type = 'fuse.gvfs-fuse-daemon') or
+         (mnt_type = 'fuse.truecrypt') or
+         (mnt_type = 'nfsd') or
+         (mnt_type = 'rpc_pipefs') then Exit;
+
+      MountPoint := ExcludeTrailingPathDelimiter(mnt_dir);
+
       // if already added
       for J:= 0 to DriveList.Count - 1 do
-        if PDrive(DriveList.Items[J])^.Path = mnt_dir then
+        if PDrive(DriveList.Items[J])^.Path = MountPoint then
           Exit;
     end;
     Result:= True;
@@ -944,8 +962,16 @@ begin
          New(Drive);
          with Drive^ do
          begin
-           Name := ExtractFileName(pme.mnt_dir);
-           Path := pme.mnt_dir;
+           Path := StrPas(pme.mnt_dir);
+           Path := ExcludeTrailingPathDelimiter(Path);
+           Name := ExtractFileName(Path);
+           if Name = '' then
+             Name := Path;
+
+           {$IFDEF DEBUG}
+           DebugLn('Adding drive "' + Name + '" with mount point "' + Path + '"');
+           {$ENDIF}
+
            // TODO more correct detect icons by drive type on Linux
            if (Pos('ISO9660', UpperCase(pme.mnt_type)) > 0) or (Pos('CDROM', UpperCase(pme.mnt_dir)) > 0) or
               (Pos('CDRW', UpperCase(pme.mnt_dir)) > 0) or (Pos('DVD', UpperCase(pme.mnt_dir)) > 0) then DriveType := dtCDROM else
