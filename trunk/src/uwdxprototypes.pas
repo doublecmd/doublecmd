@@ -8,14 +8,14 @@ uses
   Classes, SysUtils, WdxPlugin;
   
   type
-  //   Mandatory (must be implemented)
+  { Mandatory (must be implemented) }
   TContentGetSupportedField = function (FieldIndex:integer;FieldName:pchar;
                                          Units:pchar;maxlen:integer):integer; stdcall;
   
   TContentGetValue = function (FileName:pchar;FieldIndex,UnitIndex:integer;
                                FieldValue:pbyte;  maxlen,flags:integer):integer; stdcall;
                                
-  // Optional (must NOT be implemented if unsupported!)
+  { Optional (must NOT be implemented if unsupported!) }
   TContentGetDetectString = procedure (DetectString:pchar;maxlen:integer); stdcall;
   
   TContentSetDefaultParams = procedure (dps:pContentDefaultParamStruct); stdcall;
@@ -36,6 +36,17 @@ uses
                                 langidentifier:pchar):integer; stdcall;
                                 
   TContentSendStateInformation = procedure (state:integer;path:pchar); stdcall;
+
+  { Unicode }
+  TContentGetValueW = function (FileName:pwidechar;FieldIndex,UnitIndex:integer;
+                                FieldValue:pbyte; maxlen,flags:integer):integer; stdcall;
+
+  TContentStopGetValueW = procedure (FileName:pwidechar); stdcall;
+
+  TContentSetValueW = function (FileName:pwidechar;FieldIndex,UnitIndex,FieldType:integer;
+                                FieldValue:pbyte;flags:integer):integer; stdcall;
+
+  TContentSendStateInformationW = procedure (state:integer;path:pwidechar); stdcall;
 
 implementation
 

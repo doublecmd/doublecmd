@@ -125,6 +125,11 @@ type
         ContentSetValue:TContentSetValue;
         ContentEditValue:TContentEditValue;
         ContentSendStateInformation:TContentSendStateInformation;
+        //c) Unicode
+        ContentGetValueW: TContentGetValueW;
+        ContentStopGetValueW: TContentStopGetValueW;
+        ContentSetValueW: TContentSetValueW;
+        ContentSendStateInformationW: TContentSendStateInformationW;
       public
         //---------------------
         constructor Create;
@@ -541,10 +546,10 @@ begin
   FModuleHandle := mbLoadLibrary(Self.FileName);
   Result := (FModuleHandle <> 0);
   if  FModuleHandle = 0 then exit;
-        {Mandatory}
+        { Mandatory }
         ContentGetSupportedField := TContentGetSupportedField (GetProcAddress(FModuleHandle,'ContentGetSupportedField'));
         ContentGetValue := TContentGetValue (GetProcAddress(FModuleHandle,'ContentGetValue'));
-        {Optional (must NOT be implemented if unsupported!)}
+        { Optional (must NOT be implemented if unsupported!) }
         ContentGetDetectString := TContentGetDetectString (GetProcAddress(FModuleHandle,'ContentGetDetectString'));
         ContentSetDefaultParams := TContentSetDefaultParams (GetProcAddress(FModuleHandle,'ContentSetDefaultParams'));
         ContentStopGetValue := TContentStopGetValue (GetProcAddress(FModuleHandle,'ContentStopGetValue'));
@@ -554,6 +559,11 @@ begin
         ContentSetValue := TContentSetValue (GetProcAddress(FModuleHandle,'ContentSetValue'));
         ContentEditValue := TContentEditValue (GetProcAddress(FModuleHandle,'ContentEditValue'));
         ContentSendStateInformation := TContentSendStateInformation (GetProcAddress(FModuleHandle,'ContentSendStateInformation'));
+        { Unicode }
+        ContentGetValueW := TContentGetValueW (GetProcAddress(FModuleHandle, 'ContentGetValueW'));
+        ContentStopGetValueW := TContentStopGetValueW (GetProcAddress(FModuleHandle, 'ContentStopGetValueW'));
+        ContentSetValueW := TContentSetValueW (GetProcAddress(FModuleHandle, 'ContentSetValueW'));
+        ContentSendStateInformationW := TContentSendStateInformationW (GetProcAddress(FModuleHandle, 'ContentSendStateInformationW'));
 
     CallContentSetDefaultParams;
     CallContentGetSupportedField;
@@ -579,8 +589,10 @@ end;
 
 procedure TPluginWDX.CallContentStopGetValue(FileName: string);
 begin
- if Assigned(ContentStopGetValue) then
-  ContentStopGetValue(PChar(UTF8ToSys(FileName)));
+ if Assigned(ContentStopGetValueW) then
+  ContentStopGetValueW(PWideChar(UTF8Decode(FileName)))
+ else if Assigned(ContentStopGetValue) then
+  ContentStopGetValue(PAnsiChar(UTF8ToSys(FileName)));
 end;
 
 function TPluginWDX.CallContentGetDefaultSortOrder(FieldIndex: integer
@@ -606,10 +618,10 @@ begin
     FreeLibrary(FModuleHandle);
   FModuleHandle := 0;
 
-        {Mandatory}
+        { Mandatory }
         ContentGetSupportedField := nil;
         ContentGetValue := nil;
-        //b) Optional (must NOT be implemented if unsupported!)
+        { Optional (must NOT be implemented if unsupported!) }
         ContentGetDetectString := nil;
         ContentSetDefaultParams := nil;
         ContentStopGetValue := nil;
@@ -619,6 +631,11 @@ begin
         ContentSetValue := nil;
         ContentEditValue := nil;
         ContentSendStateInformation := nil;
+        { Unicode }
+        ContentGetValueW := nil;
+        ContentStopGetValueW := nil;
+        ContentSetValueW := nil;
+        ContentSendStateInformationW := nil;
 end;
 
 procedure TPluginWDX.CallContentGetSupportedField;
@@ -684,8 +701,11 @@ var Rez:integer;
     stime: TSystemTime;
     dtime: TDateTime absolute buf;
 begin
+  if Assigned(ContentGetValueW) then
+    Rez:= ContentGetValueW(PWideChar(UTF8Decode(FileName)),FieldIndex,UnitIndex,@Buf,SizeOf(buf),flags)
+  else if Assigned(ContentGetValue) then
+    Rez:= ContentGetValue(PAnsiChar(UTF8ToSys(FileName)),FieldIndex,UnitIndex,@Buf,SizeOf(buf),flags);
 
-  Rez:=ContentGetValue(PChar(UTF8ToSys(FileName)),FieldIndex,UnitIndex,@Buf,SizeOf(buf),flags);
   case Rez of
     ft_fieldempty:       Result:='';
     ft_numeric_32:       Result:= IntToStr(fnval);
@@ -713,6 +733,7 @@ begin
     ft_multiplechoice,
     ft_string,
     ft_fulltext:         Result:= SysToUTF8(StrPas(Buf));
+    ft_stringw:          Result:= UTF8Encode(WideString(Buf));
  //TODO: FT_DELAYED,ft_ondemand
   else Result:='';
   end;
