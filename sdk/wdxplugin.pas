@@ -15,6 +15,7 @@ const ft_nomorefields=0;
       ft_string=8;
       ft_fulltext=9;
       ft_datetime=10;
+      ft_stringw=11;
 
 // for ContentGetValue
       ft_nosuchfield=-1;
@@ -74,23 +75,33 @@ type ttimeformat=record
      ptimeformat=^ttimeformat;
 
 { Function prototypes: }
+
 {
+
 procedure ContentGetDetectString(DetectString:pchar;maxlen:integer); stdcall;
 function ContentGetSupportedField(FieldIndex:integer;FieldName:pchar;
-  Units:pchar;maxlen:integer):integer; stdcall;
-function ContentGetValue(FileName:pchar;FieldIndex,UnitIndex:integer;FieldValue:pbyte;
-  maxlen,flags:integer):integer; stdcall;
+         Units:pchar;maxlen:integer):integer; stdcall;
+function ContentGetValue(FileName:pchar;FieldIndex,UnitIndex:integer;
+         FieldValue:pbyte; maxlen,flags:integer):integer; stdcall;
+function ContentGetValueW(FileName:pwidechar;FieldIndex,UnitIndex:integer;
+         FieldValue:pbyte; maxlen,flags:integer):integer; stdcall;
 procedure ContentSetDefaultParams(dps:pContentDefaultParamStruct); stdcall;
 procedure ContentPluginUnloading; stdcall;
 procedure ContentStopGetValue(FileName:pchar); stdcall;
+procedure ContentStopGetValueW(FileName:pwidechar); stdcall;
 function ContentGetDefaultSortOrder(FieldIndex:integer):integer; stdcall;
 function ContentGetSupportedFieldFlags(FieldIndex:integer):integer; stdcall;
 function ContentSetValue(FileName:pchar;FieldIndex,UnitIndex,FieldType:integer;
-  FieldValue:pbyte;flags:integer):integer; stdcall;
+         FieldValue:pbyte;flags:integer):integer; stdcall;
+function ContentSetValueW(FileName:pwidechar;FieldIndex,UnitIndex,FieldType:integer;
+         FieldValue:pbyte;flags:integer):integer; stdcall;
 procedure ContentSendStateInformation(state:integer;path:pchar); stdcall;
+procedure ContentSendStateInformationW(state:integer;path:pwidechar); stdcall;
 function ContentEditValue(handle:thandle;FieldIndex,UnitIndex,FieldType:integer;
-    FieldValue:pchar;maxlen:integer;flags:integer;langidentifier:pchar):integer; stdcall;
+         FieldValue:pchar;maxlen:integer;flags:integer;langidentifier:pchar):integer; stdcall;
+
 }
+
 implementation
 end.
 
