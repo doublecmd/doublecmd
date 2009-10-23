@@ -69,6 +69,12 @@ type
         ListNotificationReceived:TListNotificationReceived;
         ListSetDefaultParams:TListSetDefaultParams;
         ListGetPreviewBitmap:TListGetPreviewBitmap;
+        //c) Unicode
+        ListLoadW: TListLoadW;
+        ListLoadNextW: TListLoadNextW;
+        ListSearchTextW: TListSearchTextW;
+        ListPrintW: TListPrintW;
+        ListGetPreviewBitmapW: TListGetPreviewBitmapW;
       private
         FModuleHandle:TLibHandle;  // Handle to .DLL or .so
         FForce:boolean;
@@ -214,8 +220,9 @@ begin
   FModuleHandle := mbLoadLibrary(Self.FileName);
   Result := (FModuleHandle <> 0);
   if  FModuleHandle = 0 then exit;
-
+        { Mandatory }
         ListLoad:=TListLoad(GetProcAddress(FModuleHandle,'ListLoad'));
+        { Optional }
         ListLoadNext:=TListLoadNext(GetProcAddress(FModuleHandle,'ListLoadNext'));
         ListCloseWindow:=TListCloseWindow(GetProcAddress(FModuleHandle,'ListCloseWindow'));
         ListGetDetectString:=TListGetDetectString(GetProcAddress(FModuleHandle,'ListGetDetectString'));
@@ -226,6 +233,12 @@ begin
         ListNotificationReceived:=TListNotificationReceived(GetProcAddress(FModuleHandle,'ListNotificationReceived'));
         ListSetDefaultParams:=TListSetDefaultParams(GetProcAddress(FModuleHandle,'ListSetDefaultParams'));
         ListGetPreviewBitmap:=TListGetPreviewBitmap(GetProcAddress(FModuleHandle,'ListGetPreviewBitmap'));
+        { Unicode }
+        ListLoadW:= TListLoadW(GetProcAddress(FModuleHandle, 'ListLoadW'));
+        ListLoadNextW:= TListLoadNextW(GetProcAddress(FModuleHandle, 'ListLoadNextW'));
+        ListSearchTextW:= TListSearchTextW(GetProcAddress(FModuleHandle, 'ListSearchTextW'));
+        ListPrintW:= TListPrintW(GetProcAddress(FModuleHandle, 'ListPrintW'));
+        ListGetPreviewBitmapW:= TListGetPreviewBitmapW(GetProcAddress(FModuleHandle, 'ListGetPreviewBitmapW'));
 //DebugLn('WLXM LoadModule Leaved');
 end;
 
@@ -234,8 +247,9 @@ begin
   if FModuleHandle <> 0 then
     FreeLibrary(FModuleHandle);
   FModuleHandle := 0;
-
+  { Mandatory }
   ListLoad:=nil;
+  { Optional }
   ListLoadNext:=nil;
   ListCloseWindow:=nil;
   ListGetDetectString:=nil;
@@ -246,32 +260,43 @@ begin
   ListNotificationReceived:=nil;
   ListSetDefaultParams:=nil;
   ListGetPreviewBitmap:=nil;
+  { Unicode }
+  ListLoadW:= nil;
+  ListLoadNextW:= nil;
+  ListSearchTextW:= nil;
+  ListPrintW:= nil;
+  ListGetPreviewBitmapW:= nil;
 end;
 
 function TWLXModule.CallListLoad(ParentWin: HWND; FileToLoad: string;
   ShowFlags: integer): THandle;
 begin
-  if not assigned(ListLoad) then exit; //To prevent crash.
   {$IFDEF LCLQT}
-    FPluginWindow:=ListLoad(PtrInt(TQtWidget(ParentWin).GetContainerWidget), pChar(UTF8ToSys(FileToLoad)), ShowFlags);
-  {$ENDIF}
-  {$IFNDEF LCLQT}
-    FPluginWindow:=ListLoad(ParentWin, pChar(UTF8ToSys(FileToLoad)), ShowFlags);
+  ParentWin:= PtrInt(TQtWidget(ParentWin).GetContainerWidget);
   {$ENDIF}
 
-  Result:=FPluginWindow;
+  if Assigned(ListLoadW) then
+    FPluginWindow:= ListLoadW(ParentWin, PWideChar(UTF8Decode(FileToLoad)), ShowFlags)
+  else if Assigned(ListLoad) then
+    FPluginWindow:= ListLoad(ParentWin, PAnsiChar(UTF8ToSys(FileToLoad)), ShowFlags)
+  else
+    Exit(feInvalidHandle);
+
+  Result:= FPluginWindow;
 end;
 
 function TWLXModule.CallListLoadNext(ParentWin: HWND;
   FileToLoad: string; ShowFlags: integer): integer;
 begin
-  if assigned(ListLoadNext) then
   {$IFDEF LCLQT}
-   Result:=ListLoadNext(PtrInt(TQtWidget(ParentWin).GetContainerWidget),FPluginWindow, pChar(UTF8ToSys(FileToLoad)), ShowFlags);
+  ParentWin:= PtrInt(TQtWidget(ParentWin).GetContainerWidget);
   {$ENDIF}
-  {$IFNDEF LCLQT}
-   Result:=ListLoadNext(ParentWin,FPluginWindow,PChar(UTF8ToSys(FileToLoad)),ShowFlags)
-  {$ENDIF}
+
+  if Assigned(ListLoadNextW) then
+    Result:= ListLoadNextW(ParentWin, FPluginWindow, PWideChar(UTF8Decode(FileToLoad)), ShowFlags)
+  else if Assigned(ListLoadNext) then
+    Result:= ListLoadNext(ParentWin, FPluginWindow, PAnsiChar(UTF8ToSys(FileToLoad)), ShowFlags);
+
   //else Result:=LISTPLUGIN_ERROR;
 end;
 
@@ -306,11 +331,11 @@ end;
 function TWLXModule.CallListSearchText(SearchString: string;
   SearchParameter: integer): integer;
 begin
-    if Assigned(ListSearchText) then
-      begin
-        Result:=ListSearchText(FPluginWindow, PChar(UTF8ToSys(SearchString)), SearchParameter);
-      end
-    else Result:=LISTPLUGIN_ERROR;
+  if Assigned(ListSearchTextW) then
+    Result:= ListSearchTextW(FPluginWindow, PWideChar(UTF8Decode(SearchString)), SearchParameter)
+  else if Assigned(ListSearchText) then
+    Result:= ListSearchText(FPluginWindow, PAnsiChar(UTF8ToSys(SearchString)), SearchParameter)
+  else Result:= LISTPLUGIN_ERROR;
 end;
 
 function TWLXModule.CallListSearchDialog(FindNext: integer
@@ -357,11 +382,11 @@ end;
 
 function TWLXModule.CallListPrint(FileToPrint,  DefPrinter: string; PrintFlags: integer; var Margins: trect): integer;
 begin
-  if Assigned(ListPrint) then
-    begin
-      Result:=ListPrint(FPluginWindow, PChar(UTF8ToSys(FileToPrint)), PChar(DefPrinter), PrintFlags, Margins);
-    end
-  else Result:=LISTPLUGIN_ERROR;
+  if Assigned(ListPrintW) then
+    Result:= ListPrintW(FPluginWindow, PWideChar(UTF8Decode(FileToPrint)), PWideChar(UTF8Decode(DefPrinter)), PrintFlags, Margins)
+  else if Assigned(ListPrint) then
+    Result:= ListPrint(FPluginWindow, PAnsiChar(UTF8ToSys(FileToPrint)), PAnsiChar(UTF8ToSys(DefPrinter)), PrintFlags, Margins)
+  else Result:= LISTPLUGIN_ERROR;
 end;
 
 function TWLXModule.CallListNotificationReceived(Msg, wParam, lParam: integer): integer;
@@ -389,8 +414,10 @@ end;
 function TWLXModule.CallListGetPreviewBitmap(FileToLoad: string; width,
   height: integer; contentbuf: string): hbitmap;
 begin
-  if Assigned(ListGetPreviewBitmap) then
-      Result:=ListGetPreviewBitmap(PChar(UTF8ToSys(FileToLoad)), width, height, PChar(contentbuf), length(contentbuf));
+  if Assigned(ListGetPreviewBitmapW) then
+      Result:= ListGetPreviewBitmapW(PWideChar(UTF8Decode(FileToLoad)), width, height, PChar(contentbuf), length(contentbuf))
+  else if Assigned(ListGetPreviewBitmap) then
+      Result:= ListGetPreviewBitmap(PAnsiChar(UTF8ToSys(FileToLoad)), width, height, PChar(contentbuf), length(contentbuf));
 end;
 
 { TWLXModuleList }

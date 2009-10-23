@@ -1,7 +1,7 @@
 // Lister API definitions.
 // This unit is written by Christian Ghisler, it's from Total Commander
 // Lister API Guide, which can be found at http://ghisler.com.
-// Version: 1.8.
+// Version: 2.0.
 
 unit WlxPlugin;
 
@@ -63,21 +63,26 @@ type HBITMAP = type LongWord;
 
 
 { Function prototypes: Functions need to be defined exactly like this!}
+
 {
+
 function ListLoad(ParentWin:thandle;FileToLoad:pchar;ShowFlags:integer):thandle; stdcall;
+function ListLoadW(ParentWin:thandle;FileToLoad:pwidechar;ShowFlags:integer):thandle; stdcall;
 function ListLoadNext(ParentWin,PluginWin:thandle;FileToLoad:pchar;ShowFlags:integer):integer; stdcall;
+function ListLoadNextW(ParentWin,PluginWin:thandle;FileToLoad:pwidechar;ShowFlags:integer):integer; stdcall;
 procedure ListCloseWindow(ListWin:thandle); stdcall;
 procedure ListGetDetectString(DetectString:pchar;maxlen:integer); stdcall;
-function ListSearchText(ListWin:thandle;SearchString:pchar;
-                        SearchParameter:integer):integer; stdcall;
+function ListSearchText(ListWin:thandle;SearchString:pchar; SearchParameter:integer):integer; stdcall;
+function ListSearchTextW(ListWin:thandle;SearchString:pwidechar; SearchParameter:integer):integer; stdcall;
 function ListSearchDialog(ListWin:thandle;FindNext:integer):integer; stdcall;
 function ListSendCommand(ListWin:thandle;Command,Parameter:integer):integer; stdcall;
-function ListPrint(ListWin:thandle;FileToPrint,DefPrinter:pchar;
-                   PrintFlags:integer;var Margins:trect):integer; stdcall;
+function ListPrint(ListWin:thandle;FileToPrint,DefPrinter:pchar; PrintFlags:integer;var Margins:trect):integer; stdcall;
+function ListPrintW(ListWin:thandle;FileToPrint,DefPrinter:pwidechar; PrintFlags:integer;var Margins:trect):integer; stdcall;
 function ListNotificationReceived(ListWin:thandle;Message,wParam,lParam:integer):integer; stdcall;
 procedure ListSetDefaultParams(dps:pListDefaultParamStruct); stdcall;
-function ListGetPreviewBitmap(FileToLoad:pchar;width,height:integer;
-    contentbuf:pchar;contentbuflen:integer):hbitmap; stdcall;
+function ListGetPreviewBitmap(FileToLoad:pchar;width,height:integer; contentbuf:pchar;contentbuflen:integer):hbitmap; stdcall;
+function ListGetPreviewBitmapW(FileToLoad:pwidechar;width,height:integer; contentbuf:pchar;contentbuflen:integer):hbitmap; stdcall;
+
 }
 
 implementation
