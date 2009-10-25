@@ -389,21 +389,31 @@ begin
 end;
 
 procedure TfrmViewer.miNextClick(Sender: TObject);
+var
+  I: Integer;
 begin
-  inherited;
-  if iActiveFile+1>=FileList.Count then
-    LoadFile(0)
+  I:= iActiveFile + 1;
+  if I >= FileList.Count then
+    I:= 0;
+
+  if bPlugin then
+    WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, FileList[I], 0)
   else
-    LoadFile(iActiveFile+1);
+    LoadFile(I);
 end;
 
 procedure TfrmViewer.miPrevClick(Sender: TObject);
+var
+  I: Integer;
 begin
-  inherited;
-  if iActiveFile>0 then
-    LoadFile(iActiveFile-1)
+  I:= iActiveFile - 1;
+  if I < 0 then
+    I:= FileList.Count - 1;
+
+  if bPlugin then
+    WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, FileList[I], 0)
   else
-    LoadFile(FileList.Count-1);
+    LoadFile(I);
 end;
 
 procedure TfrmViewer.miSavePosClick(Sender: TObject);
