@@ -295,9 +295,8 @@ begin
   if Assigned(ListLoadNextW) then
     Result:= ListLoadNextW(ParentWin, FPluginWindow, PWideChar(UTF8Decode(FileToLoad)), ShowFlags)
   else if Assigned(ListLoadNext) then
-    Result:= ListLoadNext(ParentWin, FPluginWindow, PAnsiChar(UTF8ToSys(FileToLoad)), ShowFlags);
-
-  //else Result:=LISTPLUGIN_ERROR;
+    Result:= ListLoadNext(ParentWin, FPluginWindow, PAnsiChar(UTF8ToSys(FileToLoad)), ShowFlags)
+  else Result:= LISTPLUGIN_ERROR;
 end;
 
 procedure TWLXModule.CallListCloseWindow;
