@@ -20,24 +20,25 @@ uses
 function FsInit(PluginNr:integer;pProgressProc:tProgressProc;pLogProc:tLogProc;
                 pRequestProc:tRequestProc):integer; stdcall;
 begin
-result:=0;
+  Result:= 0;
 end;
 
 function FsFindFirst(path :pchar;var FindData:tWIN32FINDDATA):thandle; stdcall;
 begin
-FindData.dwFileAttributes :=0; //0 - обычный файл без каких-либо атрибутов
-StrPCopy(FindData.cFileName,'Hello, world.txt'); //имя файла
-result:=0; //функция нормально отработала}
+  FillChar(FindData, SizeOf(FindData), 0);
+  FindData.dwFileAttributes :=0; //0 - обычный файл без каких-либо атрибутов
+  StrPCopy(FindData.cFileName,'Hello, world.txt'); //имя файла
+  Result:= 1985; //функция нормально отработала}
 end;
 
-function FsFindNext(Hdl:thandle;var FindData:tWIN32FINDDATA):boolean; stdcall;
+function FsFindNext(Hdl:thandle;var FindData:tWIN32FINDDATA): BOOL; stdcall;
 begin
- Result:=false;
+ Result:= False;
 end;
 
 function FsFindClose(Hdl:thandle):integer; stdcall;
 begin
-result:=0;
+  Result:= 0;
 end;
 
 
