@@ -397,9 +397,12 @@ begin
     I:= 0;
 
   if bPlugin then
-    WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, FileList[I], 0)
-  else
-    LoadFile(I);
+    begin
+      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, FileList[I], 0) <> LISTPLUGIN_ERROR then
+        Exit;
+    end;
+
+  LoadFile(I);
 end;
 
 procedure TfrmViewer.miPrevClick(Sender: TObject);
@@ -411,9 +414,12 @@ begin
     I:= FileList.Count - 1;
 
   if bPlugin then
-    WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, FileList[I], 0)
-  else
-    LoadFile(I);
+    begin
+      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, FileList[I], 0) <> LISTPLUGIN_ERROR then
+        Exit;
+    end;
+
+  LoadFile(I);
 end;
 
 procedure TfrmViewer.miSavePosClick(Sender: TObject);
