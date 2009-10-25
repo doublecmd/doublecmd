@@ -161,6 +161,11 @@ object frmViewer: TfrmViewer
         ShortCut = 78
         OnClick = miNextClick
       end
+      object miPrint: TMenuItem
+        Caption = 'Print...'
+        ShortCut = 16464
+        OnClick = miPrintClick
+      end
       object miSeparator: TMenuItem
         Caption = '-'
       end
