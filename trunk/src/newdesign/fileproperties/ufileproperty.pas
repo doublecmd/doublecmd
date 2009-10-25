@@ -152,12 +152,20 @@ type
 
   end;
 
+  { TNtfsFileAttributesProperty }
+
   TNtfsFileAttributesProperty = class(TFileAttributesProperty)
   public
     function Clone: TNtfsFileAttributesProperty; override;
 
+    // Is the file a directory.
+    function IsDirectory: Boolean; override;
+
     // Is this a system file.
     function IsSysFile: boolean; override;
+
+    // Is it a symbolic link.
+    function IsLink: Boolean; override;
 
     function IsReadOnly: Boolean;
     function IsHidden: Boolean;
@@ -167,12 +175,20 @@ type
     function Format(Formatter: IFilePropertyFormatter): String; override;
   end;
 
+  { TUnixFileAttributesProperty }
+
   TUnixFileAttributesProperty = class(TFileAttributesProperty)
   public
     function Clone: TUnixFileAttributesProperty; override;
 
+    // Is the file a directory.
+    function IsDirectory: Boolean; override;
+
     // Is this a system file.
     function IsSysFile: boolean; override;
+
+    // Is it a symbolic link.
+    function IsLink: Boolean; override;
 
     function IsOwnerRead: Boolean;
     function IsOwnerWrite: Boolean;
@@ -197,6 +213,9 @@ type
   end;
 
 implementation
+
+uses
+  uFileAttributes;
 
 resourcestring
   rsSizeDescription = 'Size';
@@ -400,10 +419,20 @@ begin
   CloneTo(Result);
 end;
 
+function TNtfsFileAttributesProperty.IsDirectory: Boolean;
+begin
+  Result:= ((FAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0);
+end;
+
 function TNtfsFileAttributesProperty.IsSysFile: boolean;
 begin
   Result := ((FAttributes and faSysFile) <> 0) or
             ((FAttributes and faHidden) <> 0);
+end;
+
+function TNtfsFileAttributesProperty.IsLink: Boolean;
+begin
+  Result:= ((FAttributes and FILE_ATTRIBUTE_REPARSE_POINT) <> 0);
 end;
 
 function TNtfsFileAttributesProperty.IsReadOnly: Boolean;
@@ -433,9 +462,19 @@ begin
   CloneTo(Result);
 end;
 
+function TUnixFileAttributesProperty.IsDirectory: Boolean;
+begin
+  Result:= ((FAttributes and S_IFMT) = S_IFDIR);
+end;
+
 function TUnixFileAttributesProperty.IsSysFile: Boolean;
 begin
   Result := False;
+end;
+
+function TUnixFileAttributesProperty.IsLink: Boolean;
+begin
+  Result:= ((FAttributes and S_IFMT) = S_IFLNK);
 end;
 
 function TUnixFileAttributesProperty.IsOwnerRead: Boolean;
