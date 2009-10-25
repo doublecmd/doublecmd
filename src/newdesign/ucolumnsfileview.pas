@@ -2056,9 +2056,8 @@ begin
     VK_HOME, VK_END, VK_PRIOR, VK_NEXT:
       if (ssShift in Shift) then
       begin
-        //Application.QueueAsyncCall(@SelectRange, -1); // needed?
-        SelectRange(-1);
-        Key := 0;
+        Application.QueueAsyncCall(@SelectRange, -1);
+        //Key := 0; // not needed!
       end;
 
     // cursors keys in Lynx like mode
@@ -2086,7 +2085,7 @@ begin
             SelectFile(GetActiveItem);
             if (dgPanel.Row = dgPanel.RowCount-1) or (dgPanel.Row = dgPanel.FixedRows) then
               dgPanel.Invalidate;
-            Key := 0;
+            //Key := 0; // not needed!
           end;
         end
 {$IFDEF LCLGTK2}
@@ -3233,46 +3232,50 @@ var
     Canvas.Font.Size   := ColumnsSet.GetColumnFontSize(ACol);
     Canvas.Font.Style  := ColumnsSet.GetColumnFontStyle(ACol);
 
+    // Set up default brush color first
+    if (gdSelected in aState) and Panel.FActive then
+      Canvas.Brush.Color := ColumnsSet.GetColumnCursorColor(ACol)
+    else
+      begin
+        // Alternate rows background color.
+        if odd(ARow) then
+          Canvas.Brush.Color := ColumnsSet.GetColumnBackground(ACol)
+        else
+          Canvas.Brush.Color := ColumnsSet.GetColumnBackground2(ACol);
+      end;
+
     newColor := gColorExt.GetColorBy(AFile.TheFile);
 
     if AFile.Selected then
     begin
       if gUseInvertedSelection then
-      begin
-        //------------------------------------------------------
-        if (gdSelected in aState) and Panel.FActive then
         begin
-          Canvas.Brush.Color := ColumnsSet.GetColumnCursorColor(ACol);
-          Canvas.Font.Color := InvertColor(ColumnsSet.GetColumnCursorText(ACol));
+          //------------------------------------------------------
+          if (gdSelected in aState) and Panel.FActive then
+            begin
+              Canvas.Brush.Color := ColumnsSet.GetColumnCursorColor(ACol);
+              Canvas.Font.Color := InvertColor(ColumnsSet.GetColumnCursorText(ACol));
+            end
+          else
+            begin
+              Canvas.Brush.Color := ColumnsSet.GetColumnMarkColor(ACol);
+              TextSelect;
+            end;
+          //------------------------------------------------------
         end
-        else
-        begin
-          Canvas.Brush.Color := ColumnsSet.GetColumnMarkColor(ACol);
-          TextSelect;
-        end;
-        //------------------------------------------------------
-      end
       else
-      begin
-        Canvas.Font.Color := ColumnsSet.GetColumnMarkColor(ACol);
-        Canvas.Brush.Color := ColumnsSet.GetColumnCursorColor(ACol);
-      end;
+        begin
+          Canvas.Font.Color := ColumnsSet.GetColumnMarkColor(ACol);
+        end;
     end
     else if (gdSelected in aState) and Panel.FActive then
-    begin
-      Canvas.Font.Color := ColumnsSet.GetColumnCursorText(ACol);
-      Canvas.Brush.Color := ColumnsSet.GetColumnCursorColor(ACol);
-    end
+      begin
+        Canvas.Font.Color := ColumnsSet.GetColumnCursorText(ACol);
+      end
     else
-    begin
-      TextSelect;
-
-      // Alternate rows background color.
-      if odd(ARow) then
-        Canvas.Brush.Color := ColumnsSet.GetColumnBackground(ACol)
-      else
-        Canvas.Brush.Color := ColumnsSet.GetColumnBackground2(ACol);
-    end;
+      begin
+        TextSelect;
+      end;
 
     // Draw background.
     Canvas.Brush.Style := bsSolid;
