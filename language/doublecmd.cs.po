@@ -3078,8 +3078,8 @@ msgstr "Nastavení sloupců:"
 
 #: ulng.rsdlgbuttons
 #, fuzzy
-#| msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
-msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
+#| msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
+msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;Copy &Into;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
 msgstr "&OK;&Ne;&Ano;&Zrušit;&Není;&Připojit;&Přepsat;Přepsat &Vše;Pře&skočit;Přes&kočit vše;Vše;"
 
 #: ulng.rsdlgchecksumcalc
@@ -3459,6 +3459,14 @@ msgstr "Hotovo:"
 msgid "Create symlink %s"
 msgstr "Vytvořit symbolický odkaz %s"
 
+#: ulng.rsmsgmasterpassword
+msgid "Master Password"
+msgstr ""
+
+#: ulng.rsmsgmasterpasswordenter
+msgid "Please enter the master password:"
+msgstr ""
+
 #: ulng.rsmsgnewfile
 msgid "New file"
 msgstr "Nový soubor"
@@ -3564,13 +3572,13 @@ msgstr "Přerušeno"
 msgid "Auto-started"
 msgstr "Automaticky spuštěno"
 
-#: ulng.rsoperdontstart
-msgid "Not auto-started"
-msgstr "Není automaticky spuštěno"
-
 #: ulng.rsoperfinished
 msgid "Finished"
 msgstr "Hotovo"
+
+#: ulng.rsopermanualstart
+msgid "Manually started"
+msgstr ""
 
 #: ulng.rsopernotstarted
 msgid "Not started"
@@ -3595,6 +3603,22 @@ msgstr "Běží"
 #: ulng.rsoperstarting
 msgid "Starting"
 msgstr "Spouštím"
+
+#: ulng.rsoperstartstateautostart
+msgid "Start"
+msgstr ""
+
+#: ulng.rsoperstartstatemanualstart
+msgid "Manual start"
+msgstr ""
+
+#: ulng.rsoperstartstatequeuefirst
+msgid "Queue as first"
+msgstr ""
+
+#: ulng.rsoperstartstatequeuelast
+msgid "Queue as last"
+msgstr ""
 
 #: ulng.rsoperstopped
 msgid "Stopped"

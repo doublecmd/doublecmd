@@ -3048,8 +3048,8 @@ msgstr "Настроить колонку: "
 
 #: ulng.rsdlgbuttons
 #, fuzzy
-#| msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
-msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
+#| msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
+msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;Copy &Into;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
 msgstr "&OK;&Нет;&Да;&Отмена;&Ни одного;&Добавить;&Переписать;Переписать &все;&Пропустить;Проп&устить Все;Все;"
 
 #: ulng.rsdlgchecksumcalc
@@ -3427,6 +3427,14 @@ msgstr "Выполнено: "
 msgid "Create symlink %s"
 msgstr "Создание символьной ссылки %s"
 
+#: ulng.rsmsgmasterpassword
+msgid "Master Password"
+msgstr ""
+
+#: ulng.rsmsgmasterpasswordenter
+msgid "Please enter the master password:"
+msgstr ""
+
 #: ulng.rsmsgnewfile
 msgid "New file"
 msgstr "Новый файл"
@@ -3528,12 +3536,12 @@ msgstr ""
 msgid "Auto-started"
 msgstr ""
 
-#: ulng.rsoperdontstart
-msgid "Not auto-started"
-msgstr ""
-
 #: ulng.rsoperfinished
 msgid "Finished"
+msgstr ""
+
+#: ulng.rsopermanualstart
+msgid "Manually started"
 msgstr ""
 
 #: ulng.rsopernotstarted
@@ -3558,6 +3566,22 @@ msgstr ""
 
 #: ulng.rsoperstarting
 msgid "Starting"
+msgstr ""
+
+#: ulng.rsoperstartstateautostart
+msgid "Start"
+msgstr ""
+
+#: ulng.rsoperstartstatemanualstart
+msgid "Manual start"
+msgstr ""
+
+#: ulng.rsoperstartstatequeuefirst
+msgid "Queue as first"
+msgstr ""
+
+#: ulng.rsoperstartstatequeuelast
+msgid "Queue as last"
 msgstr ""
 
 #: ulng.rsoperstopped
