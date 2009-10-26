@@ -3059,7 +3059,7 @@ msgid "Customize column"
 msgstr ""
 
 #: ulng.rsdlgbuttons
-msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
+msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;Copy &Into;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
 msgstr ""
 
 #: ulng.rsdlgchecksumcalc
@@ -3437,6 +3437,14 @@ msgstr ""
 msgid "Create symlink %s"
 msgstr ""
 
+#: ulng.rsmsgmasterpassword
+msgid "Master Password"
+msgstr ""
+
+#: ulng.rsmsgmasterpasswordenter
+msgid "Please enter the master password:"
+msgstr ""
+
 #: ulng.rsmsgnewfile
 msgid "New file"
 msgstr ""
@@ -3537,12 +3545,12 @@ msgstr ""
 msgid "Auto-started"
 msgstr ""
 
-#: ulng.rsoperdontstart
-msgid "Not auto-started"
-msgstr ""
-
 #: ulng.rsoperfinished
 msgid "Finished"
+msgstr ""
+
+#: ulng.rsopermanualstart
+msgid "Manually started"
 msgstr ""
 
 #: ulng.rsopernotstarted
@@ -3567,6 +3575,22 @@ msgstr ""
 
 #: ulng.rsoperstarting
 msgid "Starting"
+msgstr ""
+
+#: ulng.rsoperstartstateautostart
+msgid "Start"
+msgstr ""
+
+#: ulng.rsoperstartstatemanualstart
+msgid "Manual start"
+msgstr ""
+
+#: ulng.rsoperstartstatequeuefirst
+msgid "Queue as first"
+msgstr ""
+
+#: ulng.rsoperstartstatequeuelast
+msgid "Queue as last"
 msgstr ""
 
 #: ulng.rsoperstopped

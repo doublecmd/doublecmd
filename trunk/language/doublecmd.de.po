@@ -3044,8 +3044,8 @@ msgstr "Spalten anpassen"
 
 #: ulng.rsdlgbuttons
 #, fuzzy
-#| msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;"
-msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
+#| msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
+msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;Copy &Into;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
 msgstr "&OK;&Nein;&Ja;&Abbruch;&Keine;&Anhängen;&Überschreiben;Überschreibe &alle;&Überspringen;Übers&pringe alle;Alle;"
 
 #: ulng.rsdlgchecksumcalc
@@ -3423,6 +3423,14 @@ msgstr "Fertig:"
 msgid "Create symlink %s"
 msgstr "Erstelle symb. Link für %s"
 
+#: ulng.rsmsgmasterpassword
+msgid "Master Password"
+msgstr ""
+
+#: ulng.rsmsgmasterpasswordenter
+msgid "Please enter the master password:"
+msgstr ""
+
 #: ulng.rsmsgnewfile
 msgid "New file"
 msgstr "Neue Datei"
@@ -3525,13 +3533,13 @@ msgstr "Abgebrochen"
 msgid "Auto-started"
 msgstr "Automatisch gestartet"
 
-#: ulng.rsoperdontstart
-msgid "Not auto-started"
-msgstr "Nicht automatisch gestartet"
-
 #: ulng.rsoperfinished
 msgid "Finished"
 msgstr "Beendet"
+
+#: ulng.rsopermanualstart
+msgid "Manually started"
+msgstr ""
 
 #: ulng.rsopernotstarted
 msgid "Not started"
@@ -3556,6 +3564,22 @@ msgstr "Wird ausgeführt"
 #: ulng.rsoperstarting
 msgid "Starting"
 msgstr "Wird gestartet"
+
+#: ulng.rsoperstartstateautostart
+msgid "Start"
+msgstr ""
+
+#: ulng.rsoperstartstatemanualstart
+msgid "Manual start"
+msgstr ""
+
+#: ulng.rsoperstartstatequeuefirst
+msgid "Queue as first"
+msgstr ""
+
+#: ulng.rsoperstartstatequeuelast
+msgid "Queue as last"
+msgstr ""
 
 #: ulng.rsoperstopped
 msgid "Stopped"
