@@ -13,7 +13,7 @@ uses
   uFileSourceOperationUI,
   uFileSourceCopyOperation,
   uWfxPluginFileSource,
-  uFileSystemFile;
+  uWfxPluginFile;
 
 type
 
@@ -53,10 +53,10 @@ type
     procedure ShowError(sMessage: String);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
-    function ProcessDirectory(aFile: TFileSystemFile; AbsoluteTargetFileName: String): LongInt;
-    function ProcessFile(aFile: TFileSystemFile; AbsoluteTargetFileName: String): LongInt;
+    function ProcessDirectory(aFile: TFile; AbsoluteTargetFileName: String): LongInt;
+    function ProcessFile(aFile: TFile; AbsoluteTargetFileName: String): LongInt;
 
-    function FileExists(aFile: TFileSystemFile;
+    function FileExists(aFile: TFile;
                         AbsoluteTargetFileName: String;
                         AllowAppend: Boolean): TFileSourceOperationOptionFileExists;
 
@@ -83,7 +83,7 @@ type
 implementation
 
 uses
-  uFileProcs, uDCUtils, uLng, WfxPlugin, uWfxModule, uFileSystemUtil, uOSUtils;
+  uFileProcs, uDCUtils, uLng, WfxPlugin, uWfxModule, uFileSystemUtil, uFileProperty, uOSUtils;
 
 { TWfxPluginOperationHelper }
 
@@ -122,7 +122,7 @@ begin
   end;
 end;
 
-function TWfxPluginOperationHelper.ProcessDirectory(aFile: TFileSystemFile;
+function TWfxPluginOperationHelper.ProcessDirectory(aFile: TFile;
   AbsoluteTargetFileName: String): LongInt;
 begin
   Result:= WFX_ERROR;
@@ -139,7 +139,7 @@ begin
   end;
 end;
 
-function TWfxPluginOperationHelper.ProcessFile(aFile: TFileSystemFile;
+function TWfxPluginOperationHelper.ProcessFile(aFile: TFile;
   AbsoluteTargetFileName: String): LongInt;
 var
   iFlags: Integer;
@@ -158,11 +158,11 @@ begin
       iFlags:= 0;
       with RemoteInfo do
       begin
-        iTemp.Value := aFile.Size;
+        iTemp.Value := (aFile.Properties[fpSize] as TFileSizeProperty).Value;
         SizeLow := iTemp.Low;
         SizeHigh := iTemp.High;
-        LastWriteTime := DateTimeToFileTime(aFile.ModificationTime);
-        Attr := LongInt(aFile.Attributes);
+        LastWriteTime := DateTimeToFileTime((aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value);
+        Attr := LongInt((aFile.Properties[fpAttributes] as TFileAttributesProperty).Value);
       end;
       Result := WfxCopyMove(aFile.Path + aFile.Name, AbsoluteTargetFileName, iFlags, @RemoteInfo, FInternal, FMode = wpohmCopyMoveIn);
 
@@ -188,12 +188,12 @@ begin
   with FStatistics do
   begin
     DoneFiles := DoneFiles + 1;
-    DoneBytes := OldDoneBytes + aFile.Size;
+    DoneBytes := OldDoneBytes + (aFile.Properties[fpSize] as TFileSizeProperty).Value;
     UpdateStatistics(FStatistics);
   end;
 end;
 
-function TWfxPluginOperationHelper.FileExists(aFile: TFileSystemFile;
+function TWfxPluginOperationHelper.FileExists(aFile: TFile;
   AbsoluteTargetFileName: String; AllowAppend: Boolean
   ): TFileSourceOperationOptionFileExists;
 const
@@ -295,12 +295,12 @@ var
   iResult: LongInt;
   sSourceFile,
   sTargetFile : UTF8String;
-  aFile: TFileSystemFile;
+  aFile: TFile;
 begin
   for I:= 0 to aFiles.Count - 1 do
     with FWfxPluginFileSource do
     begin
-      aFile:= aFiles.Items[I] as TFileSystemFile;
+      aFile:= aFiles.Items[I];
       sSourceFile := aFile.Path + aFile.Name;
       // Filenames must be relative to the current directory.
       sTargetFile := FRootTargetPath + ExtractDirLevel(aFiles.Path, aFile.Path);
@@ -313,7 +313,7 @@ begin
       begin
         CurrentFileFrom := aFile.Path + aFile.Name;
         CurrentFileTo := sTargetFile;
-        CurrentFileTotalBytes := aFile.Size;
+        CurrentFileTotalBytes := (aFile.Properties[fpSize] as TFileSizeProperty).Value;
         CurrentFileDoneBytes := 0;
       end;
 
