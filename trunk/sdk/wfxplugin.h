@@ -249,10 +249,10 @@ int __stdcall FsInitW(int PluginNr,tProgressProcW pProgressProcW,
                      tLogProcW pLogProcW,tRequestProcW pRequestProcW);
 void __stdcall FsSetCryptCallback(tCryptProc pCryptProc,int CryptoNr,int Flags);
 void __stdcall FsSetCryptCallbackW(tCryptProcW pCryptProcW,int CryptoNr,int Flags);
-HANDLE __stdcall FsFindFirst(char* Path,WIN32_FIND_DATA *FindData);
+HANDLE __stdcall FsFindFirst(char* Path,WIN32_FIND_DATAA *FindData);
 HANDLE __stdcall FsFindFirstW(WCHAR* Path,WIN32_FIND_DATAW *FindData);
 
-BOOL __stdcall FsFindNext(HANDLE Hdl,WIN32_FIND_DATA *FindData);
+BOOL __stdcall FsFindNext(HANDLE Hdl,WIN32_FIND_DATAA *FindData);
 BOOL __stdcall FsFindNextW(HANDLE Hdl,WIN32_FIND_DATAW *FindData);
 int __stdcall FsFindClose(HANDLE Hdl);
 BOOL __stdcall FsMkDir(char* Path);
