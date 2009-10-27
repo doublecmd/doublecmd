@@ -1,6 +1,6 @@
 1 VERSIONINFO
-FILEVERSION 0,4,0,0
-PRODUCTVERSION 0,4,0,0
+FILEVERSION 0,4,6,0
+PRODUCTVERSION 0,4,6,0
 {
  BLOCK "StringFileInfo"
  {
@@ -9,13 +9,13 @@ PRODUCTVERSION 0,4,0,0
    VALUE "Comments", "\000"
    VALUE "CompanyName", "\000"
    VALUE "FileDescription", "Double Commander is a cross platform open source file manager with two panels side by side\000"
-   VALUE "FileVersion", "0.4.0.0\000"
+   VALUE "FileVersion", "0.4.6.0\000"
    VALUE "InternalName", "DOUBLECMD\000"
-   VALUE "LegalCopyright", "Copyright (C) 2006-2008  Koblov Alexander\000"
+   VALUE "LegalCopyright", "Copyright (C) 2006-2009  Koblov Alexander\000"
    VALUE "LegalTrademarks", "\000"
    VALUE "OriginalFilename", "\000"
    VALUE "ProductName", "Double Commander\000"
-   VALUE "ProductVersion", "0.4.0.0\000"
+   VALUE "ProductVersion", "0.4.6.0\000"
   }
  }
  BLOCK "VarFileInfo"
