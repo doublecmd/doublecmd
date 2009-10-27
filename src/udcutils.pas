@@ -244,6 +244,7 @@ procedure InsertFirstItem(sLine: String; comboBox: TCustomComboBox);
 
 function StrNewW(const mbString: UTF8String): PWideChar;
 procedure StrDisposeW(var pStr : PWideChar);
+function StrLCopyW(Dest, Source: PWideChar; MaxLen: SizeInt): PWideChar;
 {en
    Convert a number specified as an octal number to it's decimal value.
    @param(Value Octal number as string)
@@ -874,6 +875,21 @@ procedure StrDisposeW(var pStr : PWideChar);
 begin
   FreeMem(pStr);
   pStr := nil;
+end;
+
+function StrLCopyW(Dest, Source: PWideChar; MaxLen: SizeInt): PWideChar;
+var
+  I: SizeInt;
+begin
+  Result := Dest;
+  for I:= 0 to MaxLen - 1 do
+  begin
+    if Source^ = #0 then Break;
+    Dest^ := Source^;
+    Inc(Source);
+    Inc(Dest);
+  end;
+  Dest^ := #0;
 end;
 
 function OctToDec(Value: String): LongInt;

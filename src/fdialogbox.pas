@@ -82,38 +82,35 @@ type
     { public declarations }
   end; 
 
-function InputBox(Caption, Prompt, DefaultText : PWideChar): PWideChar;stdcall;
-function MessageBox(Text, Caption: PWideChar; Flags: Longint): Integer;stdcall;
-function DialogBox(DlgData: PWideChar; DlgProc: TDlgProc): Boolean;stdcall;
-function DialogBoxEx(lfmFileName: PWideChar; DlgProc: TDlgProc): Boolean;stdcall;
+function InputBox(Caption, Prompt: PWideChar; MaskInput: Boolean; Value: PWideChar; ValueMaxLen: Integer): Boolean; stdcall;
+function MessageBox(Text, Caption: PWideChar; Flags: Longint): Integer; stdcall;
+function DialogBox(DlgData: PWideChar; DlgProc: TDlgProc): Boolean; stdcall;
+function DialogBoxEx(lfmFileName: PWideChar; DlgProc: TDlgProc): Boolean; stdcall;
 function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PChar; Msg, wParam, lParam: PtrInt): PtrInt; stdcall;
 
 implementation
 
 uses
-  uClassesEx;
+  uClassesEx, uDCUtils;
 
-var
-  wInputBoxResult: WideString;
-
-function InputBox(Caption, Prompt, DefaultText: PWideChar): PWideChar;stdcall;
+function InputBox(Caption, Prompt: PWideChar; MaskInput: Boolean; Value: PWideChar; ValueMaxLen: Integer): Boolean; stdcall;
 var
   sCaption,
   sPrompt,
-  sDefaultText: UTF8String;
-  sResult: UTF8String;
+  sValue: UTF8String;
 begin
+  Result:= False;
   sCaption:= UTF8Encode(WideString(Caption));
   sPrompt:= UTF8Encode(WideString(Prompt));
-  sDefaultText:= UTF8Encode(WideString(DefaultText));
-  sResult:= Dialogs.InputBox(sCaption, sPrompt, sDefaultText);
-  wInputBoxResult:= UTF8Decode(sResult);
-  // The function returns pointer to global variable, so may not be thread-safe.
-  // (or should it allocate memory for a new string?)
-  Result:= PWideChar(wInputBoxResult);
+  sValue:= UTF8Encode(WideString(Value));
+  if Dialogs.InputQuery(sCaption, sPrompt, MaskInput, sValue) then
+    begin
+      StrLCopyW(Value, PWideChar(UTF8Decode(sValue)), ValueMaxLen);
+      Result:= True;
+    end;
 end;
 
-function MessageBox(Text, Caption: PWideChar; Flags: Longint): Integer;stdcall;
+function MessageBox(Text, Caption: PWideChar; Flags: Longint): Integer; stdcall;
 var
   sText,
   sCaption: String;
