@@ -1716,7 +1716,7 @@ begin
           hp:= hp + lstrlenW(hp) + 1;
         end;
       if (hp^ <> #0) then
-        Result:= UTF8Encode(hp);
+        Result:= UTF8Encode(WideString(hp));
     end;
   FreeEnvironmentStringsW(p);
 end;
