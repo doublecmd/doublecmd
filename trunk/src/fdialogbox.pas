@@ -93,18 +93,24 @@ implementation
 uses
   uClassesEx;
 
+var
+  wInputBoxResult: WideString;
+
 function InputBox(Caption, Prompt, DefaultText: PWideChar): PWideChar;stdcall;
 var
   sCaption,
   sPrompt,
   sDefaultText: UTF8String;
-  wResult: WideString;
+  sResult: UTF8String;
 begin
   sCaption:= UTF8Encode(WideString(Caption));
   sPrompt:= UTF8Encode(WideString(Prompt));
   sDefaultText:= UTF8Encode(WideString(DefaultText));
-  wResult:= Dialogs.InputBox(sCaption, sPrompt, sDefaultText);
-  Result:= PWideChar(UTF8Decode(wResult));
+  sResult:= Dialogs.InputBox(sCaption, sPrompt, sDefaultText);
+  wInputBoxResult:= UTF8Decode(sResult);
+  // The function returns pointer to global variable, so may not be thread-safe.
+  // (or should it allocate memory for a new string?)
+  Result:= PWideChar(wInputBoxResult);
 end;
 
 function MessageBox(Text, Caption: PWideChar; Flags: Longint): Integer;stdcall;
