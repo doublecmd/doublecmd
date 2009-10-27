@@ -100,9 +100,9 @@ var
   sDefaultText: UTF8String;
   wResult: WideString;
 begin
-  sCaption:= UTF8Encode(Caption);
-  sPrompt:= UTF8Encode(Prompt);
-  sDefaultText:= UTF8Encode(DefaultText);
+  sCaption:= UTF8Encode(WideString(Caption));
+  sPrompt:= UTF8Encode(WideString(Prompt));
+  sDefaultText:= UTF8Encode(WideString(DefaultText));
   wResult:= Dialogs.InputBox(sCaption, sPrompt, sDefaultText);
   Result:= PWideChar(UTF8Decode(wResult));
 end;
@@ -112,8 +112,8 @@ var
   sText,
   sCaption: String;
 begin
-  sText:= UTF8Encode(Text);
-  sCaption:= UTF8Encode(Caption);
+  sText:= UTF8Encode(WideString(Text));
+  sCaption:= UTF8Encode(WideString(Caption));
   Result:= Application.MessageBox(PChar(sText), PChar(sCaption), Flags);
 end;
 
@@ -126,7 +126,7 @@ var
   Dialog: TDialogBox = nil;
 begin
   try
-    DataString:= UTF8Encode(DlgData);
+    DataString:= UTF8Encode(WideString(DlgData));
 
     LFMStream:= TStringStream.Create(DataString);
     BinStream:= TStringStream.Create('');
@@ -162,7 +162,7 @@ var
 begin
   try
     lfmStringList:= TStringListEx.Create;
-    lfmStringList.LoadFromFile(UTF8Encode(lfmFileName));
+    lfmStringList.LoadFromFile(UTF8Encode(WideString(lfmFileName)));
     wDlgData:= lfmStringList.Text;
     Result:= DialogBox(PWideChar(wDlgData), DlgProc);
   finally
@@ -262,7 +262,7 @@ begin
     end;
   DM_LISTINDEXOF:
     begin
-      sText:= UTF8Encode(PWideChar(lParam));
+      sText:= UTF8Encode(WideString(PWideChar(lParam)));
       if Control is TComboBox then
         Result:= (Control as TComboBox).Items.IndexOf(sText);
       if Control is TListBox then
@@ -270,7 +270,7 @@ begin
     end;
   DM_LISTINSERT:
     begin
-      sText:= UTF8Encode(PWideChar(lParam));
+      sText:= UTF8Encode(WideString(PWideChar(lParam)));
       if Control is TComboBox then
         (Control as TComboBox).Items.Insert(wParam, sText);
       if Control is TListBox then
@@ -316,7 +316,7 @@ begin
     end;
   DM_LISTUPDATE :
     begin
-      sText:= UTF8Encode(PWideChar(lParam));
+      sText:= UTF8Encode(WideString(PWideChar(lParam)));
       if Control is TComboBox then
         (Control as TComboBox).Items[wParam]:= sText;
       if Control is TListBox then
@@ -424,7 +424,7 @@ begin
     end;
   DM_SETTEXT:
     begin
-      sText:= UTF8Encode(PWideChar(wParam));
+      sText:= UTF8Encode(WideString(PWideChar(wParam)));
       if Control is TButton then
         (Control as TButton).Caption:= sText;
       if Control is TComboBox then

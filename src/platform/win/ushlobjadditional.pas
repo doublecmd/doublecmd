@@ -1848,7 +1848,7 @@ var
   ShellHandle: THandle;
   SHChangeIcon: TSHChangeIconProc;
   SHChangeIconW: TSHChangeIconProcW;
-  Buf: array[0..MAX_PATH] of Char;
+  Buf: array[0..MAX_PATH] of AnsiChar;
   BufW: array[0..MAX_PATH] of WideChar;
 begin
   Result := False;
@@ -1869,7 +1869,7 @@ begin
       BufW := UTF8Decode(FileName);
       Result := SHChangeIconW(hOwner, BufW, SizeOf(BufW), IconIndex) = 1;
       if Result then
-        FileName := UTF8Encode(BufW);
+        FileName := UTF8Encode(WideString(BufW));
     end
     else if Assigned(SHChangeIcon) then
     begin

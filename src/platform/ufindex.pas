@@ -67,7 +67,7 @@ begin
     FileTimeToDosDateTime(LocalFileTime, LongRec(Time).Hi, LongRec(Time).Lo);
     Size:= (Int64(wFindData.nFileSizeHigh) shl 32) + wFindData.nFileSizeLow;
     Attr:= wFindData.dwFileAttributes;
-    Name:= UTF8Encode(wFindData.cFileName);
+    Name:= UTF8Encode(WideString(wFindData.cFileName));
   end;
   Result:= 0;
 end;
