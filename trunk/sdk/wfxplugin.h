@@ -207,6 +207,12 @@ typedef struct _WIN32_FIND_DATAW {
 
 #define FS_CRYPTOPT_MASTERPASS_SET 1   // The user already has a master password defined
 
+// flags for FsFindFirst/FsFindNext
+
+#define FILE_ATTRIBUTE_DIRECTORY 16
+
+#define FILE_ATTRIBUTE_UNIX_MODE 0x80000000
+
 typedef struct {
 
     DWORD SizeLow,SizeHigh;
