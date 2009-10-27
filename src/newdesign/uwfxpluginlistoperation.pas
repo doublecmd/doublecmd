@@ -23,7 +23,7 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uOSUtils, uDCUtils, uWfxPluginFile, uFile, WfxPlugin;
+  LCLProc, FileUtil, uOSUtils, uDCUtils, uWfxPluginFile, uFile, uFileAttributes, WfxPlugin;
 
 constructor TWfxPluginListOperation.Create(var aFileSource: TFileSource);
 begin
@@ -52,7 +52,7 @@ begin
       aFile := TWfxPluginFile.Create;
       aFile.Path := sPath;
       aFile.Name := '..';
-      aFile.Attributes := faFolder;
+      aFile.Attributes := FILE_ATTRIBUTE_DIRECTORY; // Windows attributes by default
       FFiles.Add(aFile);
     end;
 
