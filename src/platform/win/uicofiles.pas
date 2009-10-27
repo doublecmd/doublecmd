@@ -71,7 +71,7 @@ type
     destructor Destroy;override;
     procedure loadFromStream(Stream:TStream);
     procedure loadFromHandle(h:hicon);
-    procedure saveTrueColorFrom32(icoNo:integer;var IconData:TIconData);
+    procedure saveTrueColorFrom32(icoNo:integer;out IconData:TIconData);
     procedure saveToStream(Stream:TStream);
     procedure check;
     procedure draw(icoNo,x,y:integer;dest:hdc;drawMask,drawImage,drawAlpha:boolean);overload;
@@ -84,6 +84,7 @@ type
     }
     procedure Add(IconData:TIconData);
     procedure AddCopy(IconData:TIconData);
+    procedure DestroyIconData(IconData: TIconData);
   end;
   
 function getIconHandleForFile(fn:string;large:boolean): hicon;
@@ -114,15 +115,7 @@ var
   i: integer;
 begin
   for i:=low(FIcons) to high(FIcons) do
-    with FIcons[i] do
-      begin
-        if BitmapInfo<>nil then
-          FreeMem(BitmapInfo,sizeof(BITMAPINFOHEADER)+iRgbTable);
-        if MaskBitmapInfo<>nil then
-          FreeMem(MaskBitmapInfo,sizeof(BITMAPINFOHEADER)+sizeof(RGBQUAD)*2);
-        BitmapInfo := nil;
-        MaskBitmapInfo := nil;
-      end;
+    DestroyIconData(FIcons[i]);
   inherited;
 end;
 
@@ -218,9 +211,8 @@ begin
         Assert(bmiHeader.biCompression=0);
         if bmiHeader.biBitCount > 16 then
           iRgbTable := 0
-        else
-          if bmiHeader.biClrUsed = 0 then
-            iRgbTable := SizeOf(TRGBQuad)*(1 shl bmiHeader.biBitCount)
+        else if bmiHeader.biClrUsed = 0 then
+          iRgbTable := SizeOf(TRGBQuad)*(1 shl bmiHeader.biBitCount)
         else
           iRgbTable := SizeOf(TRGBQuad)*bmiHeader.biClrUsed;
       end;
@@ -236,7 +228,8 @@ begin
       DeleteDC(DC);
     end;
   except
-    freeMem(BitmapInfo,SizeOf(BitmapInfo^.bmiHeader)+iRgbTable);
+    freeMem(BitmapInfo);
+    BitmapInfo := nil;
     raise;
   end;
 end;
@@ -293,7 +286,7 @@ begin
   end;
 end;
 
-procedure TIcoFile.saveTrueColorFrom32(icoNo:integer;var IconData:TIconData);
+procedure TIcoFile.saveTrueColorFrom32(icoNo:integer;out IconData:TIconData);
 var 
   useAlpha: boolean;
   Bitmap1,Bitmap2: Graphics.TBitmap;
@@ -303,8 +296,12 @@ begin
   with IconData do
     begin
       if BitmapInfo <> nil then
-        freeMem(BitmapInfo,sizeOf(BitmapInfo^.bmiHeader)+iRgbTable);
+      begin
+        freeMem(BitmapInfo);
+        BitmapInfo := nil;
+      end;
       InternalGetDIB(h,iRgbTable,BitmapInfo,ImageBits);
+      Assert(BitmapInfo <> nil);
 
       with Info do
         begin
@@ -613,6 +610,7 @@ begin
       if not IcoFile.IsValidAlpha(I) then
         begin
           IcoFile.saveTrueColorFrom32(I, IconData);
+          IcoFile.DestroyIconData(IcoFile.Icons[i]);
           IcoFile.Icons[I] := IconData;
         end;
     IcoFile.saveToStream(memstream);
@@ -763,6 +761,20 @@ begin
       move(IconData.BitmapInfo^,BitmapInfo^,sizeof(BITMAPINFOHEADER)+iRgbTable);
       move(IconData.MaskBitmapInfo^,MaskBitmapInfo^,sizeof(BITMAPINFOHEADER)+sizeof(RGBQUAD)*2);
     end;
+end;
+
+procedure TIcoFile.DestroyIconData(IconData: TIconData);
+begin
+  with IconData do
+  begin
+    if BitmapInfo<>nil then
+      FreeMem(BitmapInfo);
+    BitmapInfo := nil;
+
+    if MaskBitmapInfo<>nil then
+      FreeMem(MaskBitmapInfo);
+    MaskBitmapInfo := nil;
+  end;
 end;
 
 end.
