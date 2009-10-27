@@ -41,6 +41,8 @@ type
     class function GetProperties: TFileSourceProperties; override;
 
     function IsAtRootPath: Boolean; override;
+
+    class function GetRootDir(sPath: String): String; override;
     class function GetPathType(sPath : String): TPathType; override;
 
     function GetFreeSpace(out FreeSize, TotalSize : Int64) : Boolean; override;
@@ -154,6 +156,11 @@ end;
 function TFileSystemFileSource.IsAtRootPath: Boolean;
 begin
   Result := (uDCUtils.GetParentDir(CurrentPath) = '');
+end;
+
+class function TFileSystemFileSource.GetRootDir(sPath : String): String;
+begin
+  Result := uDCUtils.GetRootDir(sPath);
 end;
 
 class function TFileSystemFileSource.GetPathType(sPath : String): TPathType;

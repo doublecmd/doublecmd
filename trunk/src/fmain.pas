@@ -2129,18 +2129,6 @@ begin
       HandleActionHotKeys(Key, Shift);
   end;
 
-  // CTRL+PgUp
-  if (Shift=[ssCtrl]) and (Key=VK_PRIOR) then
-  begin
-   // Delegate to ActiveFrame (actually should be via hotkey and appropriate command).
-{
-    ActiveFrame.pnlFile.cdUpLevel;
-    Key:=0;
-
-    Exit;
-}
-  end;
-
   // CTRL+PgDown
   if (Shift=[ssCtrl]) and (Key=VK_NEXT) then
   begin

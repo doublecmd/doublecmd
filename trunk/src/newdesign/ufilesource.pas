@@ -88,6 +88,8 @@ type
     }
     function IsAtRootPath: Boolean; virtual;
 
+    class function GetParentDir(sPath : String): String; virtual;
+    class function GetRootDir(sPath : String): String; virtual;
     class function GetPathType(sPath : String): TPathType; virtual;
 
     function GetFreeSpace(out FreeSize, TotalSize : Int64) : Boolean; virtual;
@@ -160,6 +162,16 @@ function TFileSource.IsAtRootPath: Boolean;
 begin
   // Default root is '/'. Override in descendant classes for other.
   Result := (CurrentPath = PathDelim);
+end;
+
+class function TFileSource.GetParentDir(sPath : String): String;
+begin
+  Result := uDCUtils.GetParentDir(sPath);
+end;
+
+class function TFileSource.GetRootDir(sPath : String): String;
+begin
+  Result := PathDelim;
 end;
 
 class function TFileSource.GetPathType(sPath : String): TPathType;
