@@ -227,6 +227,7 @@ const cf_Null=0;
    procedure cm_CutToClipboard(param: string='');
    procedure cm_PasteFromClipboard(param: string='');
    procedure cm_ChangeDirToRoot(param: string='');
+   procedure cm_ChangeDirToParent(param: string='');
    procedure cm_ChangeDir(param: string='');
    procedure cm_ClearLogWindow(param: string='');
    procedure cm_ClearLogFile(param: string='');
@@ -2548,10 +2549,22 @@ end;
 
 procedure TActs.cm_ChangeDirToRoot(param: string='');
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_ChangeDirToRoot', param);
-{
-  FrmMain.ActiveFrame.pnlFile.cdRootLevel;
-}
+  with frmMain.ActiveFrame do
+  begin
+    CurrentPath := FileSource.GetRootDir(CurrentPath);
+  end;
+end;
+
+procedure TActs.cm_ChangeDirToParent(param: string='');
+var
+  NewPath: String;
+begin
+  with frmMain.ActiveFrame do
+  begin
+    NewPath := FileSource.GetParentDir(CurrentPath);
+    if NewPath <> '' then
+      CurrentPath := NewPath;
+  end;
 end;
 
 // Parameters:
