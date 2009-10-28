@@ -105,8 +105,13 @@ type
     { private declarations }
     Exts : TExts;
     procedure UpdateEnabledButtons;
+    {en
+       Frees icon cached in lbFileTypes.Items.Objects[Index].
+    }
+    procedure FreeIcon(iIndex: Integer);
   public
     { public declarations }
+    destructor Destroy; override;
   end; 
 
 procedure ShowFileAssocDlg;
@@ -127,6 +132,16 @@ begin
 end;
 
 { TfrmFileAssoc }
+
+destructor TfrmFileAssoc.Destroy;
+var
+  i: Integer;
+begin
+  for i := 0 to lbFileTypes.Items.Count - 1 do
+    FreeIcon(i);
+
+  inherited;
+end;
 
 procedure TfrmFileAssoc.FormCreate(Sender: TObject);
 var
@@ -237,10 +252,14 @@ procedure TfrmFileAssoc.btnRemoveTypeClick(Sender: TObject);
 var
   iIndex : Integer;
 begin
-  iIndex := lbFileTypes.ItemIndex;
-  if iIndex < 0 then Exit;
-  lbFileTypes.ItemIndex := iIndex - 1;
-  lbFileTypes.Items.Delete(iIndex);
+  with lbFileTypes do
+  begin
+    iIndex := ItemIndex;
+    if iIndex < 0 then Exit;
+    ItemIndex := iIndex - 1;
+    FreeIcon(iIndex);
+    Items.Delete(iIndex);
+  end;
   // remove file type from TExts object
   Exts.DeleteItem(iIndex);
 end;
@@ -305,7 +324,10 @@ begin
 
     iTextTop := MR.Top + (gIconsSize div 2) - (Canvas.TextHeight(Items[Index]) div 2);
     if ExtAction.IconIndex < 0 then
-      Canvas.Draw(MR.Left + 2, MR.Top + 1, TBitmap(Items.Objects[Index]))
+    begin
+      if Assigned(Items.Objects[Index]) then
+        Canvas.Draw(MR.Left + 2, MR.Top + 1, TBitmap(Items.Objects[Index]));
+    end
     else
       PixMapManager.DrawBitmap(ExtAction.IconIndex, Canvas, MR);
     Canvas.TextOut(MR.Left + gIconsSize + 6, iTextTop, Items[Index]);
@@ -318,6 +340,7 @@ procedure TfrmFileAssoc.lbFileTypesSelectionChange(Sender: TObject;
 var
   ExtCommand : TExtAction;
   I, iCount : Integer;
+  bmpTemp: TBitmap = nil;
 begin
   with Sender as TListBox do
     begin
@@ -333,9 +356,15 @@ begin
         end;
       lbActions.ItemIndex := iCount;
     end;
-  if Assigned(sbtnIcon.Glyph) then
-    sbtnIcon.Glyph.FreeImage;
-  sbtnIcon.Glyph := LoadBitmapFromFile(ExtCommand.Icon, 32, sbtnIcon.Color);
+
+  bmpTemp := LoadBitmapFromFile(ExtCommand.Icon, 32, sbtnIcon.Color);
+  try
+    sbtnIcon.Glyph := bmpTemp;
+  finally
+    if Assigned(bmpTemp) then
+      FreeAndNil(bmpTemp);
+  end;
+
   edtIconFileName.Text:= ExtCommand.Icon;
   UpdateEnabledButtons;
 end;
@@ -418,17 +447,25 @@ begin
         begin
           sbtnIcon.Glyph.Assign(bmpTemp);
           FreeAndNil(bmpTemp);
-        end;
-      with lbFileTypes do
-      begin
-        // save icon for use in OnDrawItem procedure
-        Items.Objects[ItemIndex]:= LoadBitmapFromFile(edtIconFileName.Text, gIconsSize, Color);
-        Exts.Items[ItemIndex].Icon:= edtIconFileName.Text;
-        // and set IconIndex
-        Exts.Items[ItemIndex].IconIndex:= -1;
-        Exts.Items[ItemIndex].IsChanged:= True;
-        Repaint;
-      end;
+
+          with lbFileTypes do
+          begin
+            // save icon for use in OnDrawItem procedure
+            FreeIcon(ItemIndex);
+            Items.Objects[ItemIndex]:= LoadBitmapFromFile(edtIconFileName.Text, gIconsSize, Color);
+            if Assigned(Items.Objects[ItemIndex]) then
+            begin
+              Exts.Items[ItemIndex].Icon:= edtIconFileName.Text;
+              // and set IconIndex
+              Exts.Items[ItemIndex].IconIndex:= -1;
+              Exts.Items[ItemIndex].IsChanged:= True;
+              Repaint;
+            end;
+          end;
+        end
+        else
+          MessageDlg('Error', 'Cannot load ' + edtIconFileName.Text,
+                     mtError, [mbOK], 0);
     end;
 end;
 
@@ -440,11 +477,7 @@ begin
     // free icon
     sbtnIcon.Glyph.Clear;
     edtIconFileName.Text:= '';
-    if Assigned(Items.Objects[ItemIndex]) then
-      begin
-        TBitmap(Items.Objects[ItemIndex]).Free;
-        Items.Objects[ItemIndex]:= nil;
-      end;
+    FreeIcon(ItemIndex);
     Exts.Items[ItemIndex].Icon:= '';
     // and set IconIndex
     Exts.Items[ItemIndex].IconIndex:= 0;
@@ -606,6 +639,18 @@ end;
 procedure TfrmFileAssoc.btnCommandsClick(Sender: TObject);
 begin
   pmCommands.PopUp();
+end;
+
+procedure TfrmFileAssoc.FreeIcon(iIndex: Integer);
+begin
+  with lbFileTypes do
+  begin
+    if Assigned(Items.Objects[iIndex]) then
+    begin
+      Items.Objects[iIndex].Free;
+      Items.Objects[iIndex] := nil;
+    end;
+  end;
 end;
 
 initialization
