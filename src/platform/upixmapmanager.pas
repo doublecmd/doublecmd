@@ -75,7 +75,7 @@ type
     FPixbufList : TStringList;
     {$ENDIF}
   protected
-    function LoadBitmap(AIconFileNAme: String; out ABitmap: TBitmap): Boolean;
+    function LoadBitmap(AIconFileName: String; out ABitmap: TBitmap): Boolean;
     function CheckLoadPixmap(const sName : String; bUsePixmapPath : Boolean = True) : TBitmap;
     function CheckAddPixmap(const sName : String; bUsePixmapPath : Boolean = True):Integer;
   {$IF DEFINED(UNIX)}
@@ -194,6 +194,7 @@ var
   phiconLarge,
   phiconSmall : HIcon;
   IntfImage: TLazIntfImage = nil;
+  Icon : TIcon = nil;
 {$ENDIF}
   AFile: TFileSystemFile;
   iIndex : Integer;
@@ -201,16 +202,14 @@ var
   sGraphicFilter : String;
   bFreeAtEnd : Boolean;
   bmStandartBitmap : Graphics.TBitMap = nil;
-  {$IFNDEF LCLGTK2}
-  PNG : TPortableNetworkGraphic;
-  Icon : TIcon = nil;
-  {$ENDIF}
   {$IFDEF LCLGTK2}
   pbPicture : PGdkPixbuf;
   iPixbufWidth : Integer;
   iPixbufHeight : Integer;
   {$ENDIF}
 begin
+  Result := nil;
+
   sFileName:= mbExpandFileName(sFileName);
 {$IFDEF MSWINDOWS}
   iIconIndex := -1;
@@ -275,48 +274,24 @@ begin
       if (Pos(sExtFilter, sGraphicFilter) <> 0) and (mbFileExists(sFileName)) then
       begin
         {$IFDEF LCLGTK2}
-        bmStandartBitmap := TBitMap.Create;
         pbPicture := gdk_pixbuf_new_from_file(PChar(sFileName), nil);
         if pbPicture <> nil then
         begin
           iPixbufWidth := gdk_pixbuf_get_width(pbPicture);
           iPixbufHeight := gdk_pixbuf_get_height(pbPicture);
 
+          bmStandartBitmap := TBitMap.Create;
           bmStandartBitmap.SetSize(iPixbufWidth, iPixbufHeight);
           bmStandartBitmap.Canvas.Brush.Color := clBackColor;
           bmStandartBitmap.Canvas.FillRect(0, 0, iPixbufWidth, iPixbufHeight);
 
           DrawPixbufAtCanvas(bmStandartBitmap.Canvas, pbPicture, 0, 0, 0, 0, iPixbufWidth, iPixbufHeight);
           gdk_pixmap_unref(pbPicture);
-        end;
+        end
+        else // Try loading the standard way.
         {$ELSE}
-        if CompareFileExt(sFileName, 'png', false) = 0 then
-          begin
-            PNG := TPortableNetworkGraphic.Create;
-            try
-              PNG.LoadFromFile(sFileName);
-              bmStandartBitmap := Graphics.TBitmap.Create;
-              bmStandartBitmap.Assign(PNG);
-            finally
-              FreeAndNil(PNG);
-            end;
-          end
-        else if CompareFileExt(sFileName, 'ico', false) = 0 then
-          begin
-            Icon := TIcon.Create;
-            try
-              Icon.LoadFromFile(sFileName);
-              bmStandartBitmap := Graphics.TBitmap.Create;
-              bmStandartBitmap.Assign(Icon);
-            finally
-              FreeAndNil(Icon);
-            end;
-          end
-        else
-          begin
-            bmStandartBitmap := Graphics.TBitMap.Create;
-            bmStandartBitmap.LoadFromFile(sFileName);
-          end
+        if not PixMapManager.LoadBitmap(sFileName, bmStandartBitmap) then
+          Exit;
         {$ENDIF}
       end
       else // get file icon by ext
@@ -333,6 +308,7 @@ begin
               Exit(nil);
             end;
         end;
+
       // if need stretch icon
       if  (iIconSize <> bmStandartBitmap.Height) or (iIconSize <> bmStandartBitmap.Width) then
         Result := StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, bFreeAtEnd)
@@ -343,34 +319,37 @@ end;
 
 { TPixMapManager }
 
-function TPixMapManager.LoadBitmap(AIconFileNAme: String; out ABitmap: Graphics.TBitmap): Boolean;
+function TPixMapManager.LoadBitmap(AIconFileName: String; out ABitmap: Graphics.TBitmap): Boolean;
 var
-  pngBitmap: TPortableNetworkGraphic;
+  Picture: TPicture;
 begin
   Result:= False;
   ABitmap:= nil;
-  if CompareFileExt(AIconFileNAme, 'png', False) = 0 then
-    begin
-      pngBitmap:= TPortableNetworkGraphic.Create;
-      try
-        pngBitmap.LoadFromFile(AIconFileNAme);
-        // if unsupported BitsPerPixel then exit
-        if pngBitmap.RawImage.Description.BitsPerPixel > 32 then
-          Exit;
-        pngBitmap.Transparent:= True;
-        ABitmap:= Graphics.TBitmap.Create;
-        ABitmap.Assign(pngBitmap);
-        Result:= True;
-      finally
-        FreeAndNil(pngBitmap);
-      end;
-    end
-  else
-    begin
-      ABitmap:= Graphics.TBitMap.Create;
-      ABitmap.LoadFromFile(AIconFileNAme);
+  try
+    Picture := TPicture.Create;
+    try
+      Picture.LoadFromFile(AIconFileName);
+      //Picture.Graphic.Transparent := True;
+
+      ABitmap := Graphics.TBitmap.Create;
+      ABitmap.Assign(Picture.Bitmap);
+
+      // if unsupported BitsPerPixel then exit
+      if ABitmap.RawImage.Description.BitsPerPixel > 32 then
+        raise EInvalidGraphic.Create('Unsupported bits per pixel');
+
       Result:= True;
+    finally
+      FreeAndNil(Picture);
     end;
+  except
+    on e: Exception do
+      begin
+        if Assigned(ABitmap) then
+          FreeAndNil(ABitmap);
+        DebugLn(Format('Error: Cannot load pixmap [%s] : %s',[AIconFileName, e.Message]));
+      end;
+  end;
 end;
 
 function TPixMapManager.CheckLoadPixmap(const sName: String; bUsePixmapPath : Boolean = True): Graphics.TBitmap;
@@ -754,8 +733,8 @@ begin
       sPixMap := gExts.Items[I].Icon;
       if mbFileExists(sPixMap) then
         begin
-          iPixMap:= CheckAddPixmap(sPixMap, False);
-          if iPixMap < 0 then Continue;
+            iPixMap:= CheckAddPixmap(sPixMap, False);
+            if iPixMap < 0 then Continue;
           gExts.Items[I].IconIndex:= iPixMap;
           //DebugLn('sPixMap = ',sPixMap, ' Index = ', IntToStr(iPixMap));
 
