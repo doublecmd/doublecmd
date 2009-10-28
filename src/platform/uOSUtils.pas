@@ -1331,11 +1331,16 @@ const
 var
   hFile: THandle;
   wFileName: WideString;
+  dwDesiredAccess: DWORD;
+  dwShareMode: DWORD = 0;
 begin
   Result:= False;
   wFileName:= UTF8Decode(FileName);
-  hFile:= CreateFileW(PWChar(wFileName), AccessMode[Mode and 3],
-                       0, nil, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+  dwDesiredAccess := AccessMode[Mode and 3];
+  if dwDesiredAccess = GENERIC_READ then
+    dwShareMode := FILE_SHARE_READ;
+  hFile:= CreateFileW(PWChar(wFileName), dwDesiredAccess, dwShareMode,
+                      nil, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
   if hFile <> INVALID_HANDLE_VALUE then
     begin
       Result:= True;
