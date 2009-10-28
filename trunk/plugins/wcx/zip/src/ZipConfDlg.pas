@@ -92,10 +92,10 @@ begin
                 gDeflationOption:= doSuperFast;
             end; // case
             SaveConfig;
-            SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 0, 0);
+            SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 1, 0);
           end
         else if DlgItemName = 'btnCancel' then
-          SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 0, 0);
+          SendDlgMsg(pDlg, DlgItemName, DM_CLOSE, 2, 0);
     end;// case
   end; // with
 end;
