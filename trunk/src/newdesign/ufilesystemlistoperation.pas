@@ -26,7 +26,7 @@ uses
 constructor TFileSystemListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
   FFiles := TFileSystemFiles.Create;
-  inherited Create(aFileSource, Path);
+  inherited Create(aFileSource, aPath);
 end;
 
 procedure TFileSystemListOperation.MainExecute;

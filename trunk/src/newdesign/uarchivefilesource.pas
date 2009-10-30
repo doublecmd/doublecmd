@@ -22,7 +22,6 @@ type
   private
 
   protected
-//    procedure SetCurrentPath(NewPath: String); override;
     function GetCurrentAddress: String;
 
   public
@@ -42,25 +41,13 @@ end;
 constructor TArchiveFileSource.Create(anArchiveFileName: String; aPath: String);
 begin
   FCurrentAddress := anArchiveFileName;
-//  SetCurrentPath(aPath);
+  inherited Create;
 end;
 
 function TArchiveFileSource.GetCurrentAddress: String;
 begin
   Result := FCurrentAddress;
 end;
-
-{
-procedure TArchiveFileSource.SetCurrentPath(NewPath: String);
-begin
-  if (NewPath = '') or (NewPath[1] <> PathDelim) then
-  begin
-    ; // error - invalid path (throw exception?)
-  end
-  else
-    inherited SetCurrentPath(NewPath);
-end;
-}
 
 end.
 

@@ -91,11 +91,6 @@ end;
 destructor TFileSourceExecuteOperation.Destroy;
 begin
   inherited Destroy;
-
-{
-  if Assigned(FFileSource) then
-    FreeAndNil(FFileSource);
-}
 end;
 
 procedure TFileSourceExecuteOperation.UpdateStatisticsAtStartTime;

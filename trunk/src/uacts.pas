@@ -691,7 +691,7 @@ begin
   aFile := SourcePage.FileView.ActiveFile;
   if Assigned(aFile) then
   begin
-    TargetPage.FileView.AssignFileSources(SourcePage.FileView.FileSourcesList);
+    TargetPage.FileView.AssignFileSources(SourcePage.FileView);
 
     if aFile.IsDirectory then
     begin
@@ -908,7 +908,7 @@ begin
     if gWFXPlugins.Count = 0 then Exit;
     FileSource:= TVfsFileSource.Create(gWFXPlugins);
     if Assigned(FileSource) then
-      ActiveFrame.AddFileSource(FileSource);
+      ActiveFrame.AddFileSource(FileSource, FileSource.GetRootDir);
   end;
 end;
 

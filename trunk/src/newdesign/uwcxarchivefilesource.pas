@@ -109,7 +109,7 @@ begin
                                              ModuleFileName,
                                              gWCXPlugins.Flags[I]);
 
-      debugln('Registered plugin ' + ModuleFileName + ' for archive');
+      DebugLn('Found registered plugin ' + ModuleFileName + ' for archive ' + anArchiveFileName);
       break;
     end;
   end;
