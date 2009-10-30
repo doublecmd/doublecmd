@@ -1490,7 +1490,6 @@ BOOL RemoteFindNext(HANDLE Hdl, WIN32_FIND_DATAA *FindData)
   char *sDir;
   GError *error;
   GFileInfo *info;
-  TVFSResult res;
   g_print ("(EE) RemoteFindNext: Enter\n");
   ListRec = (PListRec) Hdl;
   globs = ListRec->globs;
@@ -1498,20 +1497,19 @@ BOOL RemoteFindNext(HANDLE Hdl, WIN32_FIND_DATAA *FindData)
 
   if (globs->file == NULL) {
     g_print ("(EE) RemoteFindNext: globs->file == NULL !\n");
-    return cVFS_Failed;
+    return FALSE;
   }
   if (globs->enumerator == NULL) {
     g_print ("(EE) RemoteFindNext: globs->enumerator == NULL !\n");
-    return cVFS_Failed;
+    return FALSE;
   }
 
   error = NULL;
   info = g_file_enumerator_next_file (globs->enumerator, NULL, &error);
   if (error) {
     g_print ("(EE) RemoteFindNext: g_file_enumerator_next_file() error: %s\n", error->message);
-    res = g_error_to_TVFSResult (error);
     g_error_free (error);
-    return res;
+    return FALSE;
   }
   if (! error && ! info)
     return FALSE;
