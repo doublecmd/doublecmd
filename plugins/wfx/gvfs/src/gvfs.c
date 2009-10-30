@@ -110,20 +110,17 @@ g_error_to_TVFSResult (GError *error)
   switch (error->code) {
     case G_IO_ERROR_FAILED:
     case G_IO_ERROR_NOT_FOUND:
-      return cVFS_Failed;
+      return FS_FILE_NOTFOUND;
       break;
     case G_IO_ERROR_PERMISSION_DENIED:
       return cVFS_PermissionDenied;
       break;
     case G_IO_ERROR_CANCELLED:
-      return cVFS_Cancelled;
+      return FS_FILE_USERABORT;
       break;
     case G_IO_ERROR_NOT_SUPPORTED:
     case G_IO_ERROR_FILENAME_TOO_LONG:
-      return cVFS_Not_Supported;
-      break;
-    case G_IO_ERROR_NO_SPACE:
-      return cVFS_NoSpaceLeft;
+      return FS_FILE_NOTSUPPORTED;
       break;
     case G_IO_ERROR_IS_DIRECTORY:
     case G_IO_ERROR_NOT_REGULAR_FILE:
@@ -139,8 +136,9 @@ g_error_to_TVFSResult (GError *error)
     case G_IO_ERROR_TIMED_OUT:
     case G_IO_ERROR_WOULD_RECURSE:
     case G_IO_ERROR_HOST_NOT_FOUND:
-      return cVFS_ReadErr;
+      return FS_FILE_READERROR;
       break;
+    case G_IO_ERROR_NO_SPACE:
     case G_IO_ERROR_EXISTS:
     case G_IO_ERROR_NOT_EMPTY:
     case G_IO_ERROR_CLOSED:
@@ -150,11 +148,11 @@ g_error_to_TVFSResult (GError *error)
     case G_IO_ERROR_BUSY:
     case G_IO_ERROR_WOULD_BLOCK:
     case G_IO_ERROR_WOULD_MERGE:
-      return cVFS_WriteErr;
+      return FS_FILE_WRITEERROR;
       break;
     case G_IO_ERROR_FAILED_HANDLED:
     default:
-      return cVFS_Failed;
+      return FS_FILE_NOTSUPPORTED;
   }
 }
 
@@ -758,54 +756,6 @@ TVFSResult VFSRemove (struct TVFSGlobs *globs, const char *APath)
     g_error_free (error);
     return res;
   }
-  return cVFS_OK;
-}
-
-TVFSResult VFSRename (struct TVFSGlobs *globs, const char *sSrcName, const char *sDstName)
-{
-  GFile *src, *dst;
-  GError *error;
-  TVFSResult res;
-
-  if (globs->file == NULL) {
-    g_print ("(EE) VFSRename: globs->file == NULL !\n");
-    return cVFS_Failed;
-  }
-
-  src = g_file_resolve_relative_path (globs->file, sSrcName);
-  if (src == NULL) {
-    g_print ("(EE) VFSRename: g_file_resolve_relative_path() failed.\n");
-    return cVFS_Failed;
-  }
-
-  g_print ("VFSRename: '%s' --> '%s'\n", sSrcName, sDstName);
-
-  error = NULL;
-  g_file_set_display_name (src, sDstName, NULL, &error);
-  if (error) {
-    g_print ("(WW) VFSRename: g_file_set_display_name() failed (\"%s\"), using fallback g_file_move()\n", error->message);
-    g_error_free (error);
-
-    dst = g_file_resolve_relative_path (src, sDstName);
-    if (dst == NULL) {
-      g_print ("(EE) VFSRename: g_file_resolve_relative_path() failed.\n");
-      g_object_unref (src);
-      return cVFS_Failed;
-    }
-    error = NULL;
-    g_file_move (src, dst, G_FILE_COPY_NO_FALLBACK_FOR_MOVE, NULL, NULL, NULL, &error);
-    if (error) {
-      g_print ("(EE) VFSRename: g_file_move() error: %s\n", error->message);
-      res = g_error_to_TVFSResult (error);
-      g_error_free (error);
-      g_object_unref (src);
-      g_object_unref (dst);
-      return res;
-    }
-    g_object_unref (dst);
-  }
-
-  g_object_unref (src);
   return cVFS_OK;
 }
 
@@ -1798,6 +1748,67 @@ BOOL __stdcall FsRemoveDir(char* RemoteName)
   return (VFSRemove(globs, globs->RemotePath) == cVFS_OK);
 }
 
+int __stdcall FsRenMovFile(char* OldName,char* NewName,BOOL Move,
+                           BOOL OverWrite,RemoteInfoStruct* ri)
+{
+  struct TVFSGlobs *globs;
+  GFile *src, *dst;
+  GError *error;
+  TVFSResult res;
+  char *sSrcName;
+  char *sDstName;
+
+  globs = GetConnectionByPath(OldName);
+
+  if (globs == NULL) {
+    g_print ("(EE) FsRenMovFile: globs == NULL !\n");
+    return FS_FILE_NOTSUPPORTED;
+  }
+  if (globs->file == NULL) {
+    g_print ("(EE) FsRenMovFile: globs->file == NULL !\n");
+    return FS_FILE_NOTSUPPORTED;
+  }
+
+  sSrcName = globs->RemotePath;
+  sDstName = ExtractRemoteFileName(NewName);
+
+  src = g_file_resolve_relative_path (globs->file, sSrcName);
+  if (src == NULL) {
+    g_print ("(EE) FsRenMovFile: g_file_resolve_relative_path() failed.\n");
+    return FS_FILE_NOTFOUND;
+  }
+
+  g_print ("FsRenMovFile: '%s' --> '%s'\n", sSrcName, sDstName);
+
+  error = NULL;
+  g_file_set_display_name (src, sDstName, NULL, &error);
+  if (error) {
+    g_print ("(WW) FsRenMovFile: g_file_set_display_name() failed (\"%s\"), using fallback g_file_move()\n", error->message);
+    g_error_free (error);
+
+    dst = g_file_resolve_relative_path (src, sDstName);
+    if (dst == NULL) {
+      g_print ("(EE) FsRenMovFile: g_file_resolve_relative_path() failed.\n");
+      g_object_unref (src);
+      return FS_FILE_NOTFOUND;
+    }
+    error = NULL;
+    g_file_move (src, dst, G_FILE_COPY_NO_FALLBACK_FOR_MOVE, NULL, NULL, NULL, &error);
+    if (error) {
+      g_print ("(EE) FsRenMovFile: g_file_move() error: %s\n", error->message);
+      res = g_error_to_TVFSResult (error);
+      g_error_free (error);
+      g_object_unref (src);
+      g_object_unref (dst);
+      return res;
+    }
+    g_object_unref (dst);
+  }
+
+  g_object_unref (src);
+  return FS_FILE_OK;
+}
+
 int __stdcall FsExecuteFile(HWND MainWin,char* RemoteName,char* Verb)
 {
    g_print("FsExecuteFile: Item = %s, Verb = %s\n", RemoteName + 1, Verb);
@@ -1844,13 +1855,13 @@ BOOL __stdcall FsDeleteFile(char* RemoteName)
 }
 
 BOOL __stdcall FsSetTime(char* RemoteName,FILETIME *CreationTime,
-                         FILETIME *LastAccessTime,FILETIME *LastWriteTime);
+                         FILETIME *LastAccessTime,FILETIME *LastWriteTime)
 {
   struct TVFSGlobs *globs;
   GFile *f;
   GError *error;
   long mtime;
-  long atime
+  long atime;
   long ctime;
 
   globs = GetConnectionByPath(RemoteName);
