@@ -907,43 +907,6 @@ TVFSResult VFSChown (struct TVFSGlobs *globs, const char *FileName, const uint U
   return cVFS_OK;
 }
 
-TVFSResult VFSChangeTimes (struct TVFSGlobs *globs, char *APath, long mtime, long atime)
-{
-  GFile *f;
-  GError *error;
-  TVFSResult res;
-
-  if (globs->file == NULL) {
-    g_print ("(EE) VFSChangeTimes: globs->file == NULL !\n");
-    return cVFS_Failed;
-  }
-
-  f = g_file_resolve_relative_path (globs->file, APath);
-  if (f == NULL) {
-    g_print ("(EE) VFSChangeTimes: g_file_resolve_relative_path() failed.\n");
-    return cVFS_Failed;
-  }
-
-  error = NULL;
-  g_file_set_attribute_uint64 (f, G_FILE_ATTRIBUTE_TIME_MODIFIED, mtime, G_FILE_QUERY_INFO_NONE, NULL, &error);
-  if (error) {
-    g_print ("(EE) VFSChangeTimes: g_file_set_attribute_uint64() error: %s\n", error->message);
-    res = g_error_to_TVFSResult (error);
-    g_error_free (error);
-    g_object_unref (f);
-    return res;
-  }
-  error = NULL;
-  g_file_set_attribute_uint64 (f, G_FILE_ATTRIBUTE_TIME_ACCESS, atime, G_FILE_QUERY_INFO_NONE, NULL, &error);
-  if (error) {
-    g_print ("(EE) VFSChangeTimes: g_file_set_attribute_uint64() error: %s\n", error->message);
-    g_error_free (error);
-    /*  Silently drop the error, atime is not commonly supported on most systems  */
-  }
-  g_object_unref (f);
-  return cVFS_OK;
-}
-
 /**************************************************************************************************************************************/
 /**************************************************************************************************************************************/
 
@@ -1878,6 +1841,63 @@ BOOL __stdcall FsDeleteFile(char* RemoteName)
   struct TVFSGlobs *globs;
   globs = GetConnectionByPath(RemoteName);
   return (VFSRemove(globs, globs->RemotePath) == cVFS_OK);
+}
+
+BOOL __stdcall FsSetTime(char* RemoteName,FILETIME *CreationTime,
+                         FILETIME *LastAccessTime,FILETIME *LastWriteTime);
+{
+  struct TVFSGlobs *globs;
+  GFile *f;
+  GError *error;
+  long mtime;
+  long atime
+  long ctime;
+
+  globs = GetConnectionByPath(RemoteName);
+
+  if (globs == NULL) {
+    g_print ("(EE) FsSetTime: globs == NULL !\n");
+    return FALSE;
+  }  
+  if (globs->file == NULL) {
+    g_print ("(EE) FsSetTime: globs->file == NULL !\n");
+    return FALSE;
+  }
+
+  f = g_file_resolve_relative_path (globs->file, globs->RemotePath);
+  if (f == NULL) {
+    g_print ("(EE) FsSetTime: g_file_resolve_relative_path() failed.\n");
+    return FALSE;
+  }
+
+  ctime = FileTimeToUnixTime(CreationTime);
+  atime = FileTimeToUnixTime(LastAccessTime);
+  mtime = FileTimeToUnixTime(LastWriteTime);
+  
+  error = NULL;
+  g_file_set_attribute_uint64 (f, G_FILE_ATTRIBUTE_TIME_MODIFIED, mtime, G_FILE_QUERY_INFO_NONE, NULL, &error);
+  if (error) {
+    g_print ("(EE) FsSetTime: g_file_set_attribute_uint64() error: %s\n", error->message);
+    g_error_free (error);
+    g_object_unref (f);
+    return FALSE;
+  }
+  error = NULL;
+  g_file_set_attribute_uint64 (f, G_FILE_ATTRIBUTE_TIME_ACCESS, atime, G_FILE_QUERY_INFO_NONE, NULL, &error);
+  if (error) {
+    g_print ("(EE) FsSetTime: g_file_set_attribute_uint64() error: %s\n", error->message);
+    g_error_free (error);
+    /*  Silently drop the error, atime is not commonly supported on most systems  */
+  }
+  error = NULL;
+  g_file_set_attribute_uint64 (f, G_FILE_ATTRIBUTE_TIME_CREATED, ctime, G_FILE_QUERY_INFO_NONE, NULL, &error);
+  if (error) {
+    g_print ("(EE) FsSetTime: g_file_set_attribute_uint64() error: %s\n", error->message);
+    g_error_free (error);
+    /*  Silently drop the error, ctime is not commonly supported on most systems  */
+  }  
+  g_object_unref (f);
+  return TRUE;
 }
 
 void __stdcall FsSetDefaultParams(FsDefaultParamStruct* dps)
