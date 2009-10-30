@@ -1016,53 +1016,6 @@ VFSCopyOut (struct TVFSGlobs *globs, const char *sSrcName, const char *sDstName,
   return res;
 }
 
-TVFSResult
-VFSCopyIn (struct TVFSGlobs *globs, const char *sSrcName, const char *sDstName, gboolean Append)
-{
-  GFile *src, *dst;
-  GError *error;
-  TVFSResult res;
-
-
-  if (globs->file == NULL) {
-    g_print ("(EE) VFSCopyIn: globs->file == NULL !\n");
-    return cVFS_Failed;
-  }
-
-  g_print ("(II) VFSCopyIn: '%s' --> '%s'\n", sSrcName, sDstName);
-
-  src = g_file_new_for_path (sSrcName);
-  if (src == NULL) {
-    g_print ("(EE) VFSCopyIn: g_file_resolve_relative_path() failed.\n");
-    return cVFS_Failed;
-  }
-  dst = g_file_resolve_relative_path (globs->file, sDstName);
-  if (dst == NULL) {
-    g_print ("(EE) VFSCopyIn: g_file_resolve_relative_path() failed.\n");
-    return cVFS_Failed;
-  }
-
-  globs->cancellable = g_cancellable_new ();
-
-  res = cVFS_OK;
-  error = NULL;
-  /* FIXME: Appending not supported */
-  g_file_copy (src, dst, TUXCMD_DEFAULT_COPY_FLAGS, globs->cancellable, vfs_copy_progress_callback, globs, &error);
-  if (error) {
-    g_print ("(EE) VFSCopyIn: g_file_copy() error: %s\n", error->message);
-//    res = g_error_to_TVFSResult (error);
-    if (error->code == G_IO_ERROR_CANCELLED)
-      res = cVFS_Cancelled;
-    else res = cVFS_WriteErr;
-    g_error_free (error);
-  }
-
-  g_object_unref (globs->cancellable);
-  g_object_unref (src);
-  g_object_unref (dst);
-  return res;
-}
-
 //--------------------------------------------------------------------------------------------
 
 #define Int32x32To64(a,b) ((gint64)(a)*(gint64)(b))
@@ -1807,6 +1760,64 @@ int __stdcall FsRenMovFile(char* OldName,char* NewName,BOOL Move,
 
   g_object_unref (src);
   return FS_FILE_OK;
+}
+
+int __stdcall FsPutFile(char* LocalName,char* RemoteName,int CopyFlags)
+{
+  struct TVFSGlobs *globs;
+  GFile *src, *dst;
+  GError *error;
+  TVFSResult res;
+  char *sSrcName;
+  char *sDstName;
+
+  globs = GetConnectionByPath(RemoteName);
+
+  if (globs == NULL) {
+    g_print ("(EE) FsPutFile: globs == NULL !\n");
+    return FS_FILE_NOTSUPPORTED;
+  }
+  if (globs->file == NULL) {
+    g_print ("(EE) FsPutFile: globs->file == NULL !\n");
+    return FS_FILE_NOTSUPPORTED;
+  }
+
+  sSrcName = LocalName;
+  sDstName = globs->RemotePath;
+
+  g_print ("(II) FsPutFile: '%s' --> '%s'\n", sSrcName, sDstName);
+
+  src = g_file_new_for_path (sSrcName);
+  if (src == NULL) {
+    g_print ("(EE) FsPutFile: g_file_resolve_relative_path() failed.\n");
+    return FS_FILE_NOTFOUND;
+  }
+  dst = g_file_resolve_relative_path (globs->file, sDstName);
+  if (dst == NULL) {
+    g_print ("(EE) FsPutFile: g_file_resolve_relative_path() failed.\n");
+    return FS_FILE_NOTFOUND;
+  }
+
+  globs->cancellable = g_cancellable_new ();
+
+  res = FS_FILE_OK;
+  error = NULL;
+  /* FIXME: Appending not supported */
+  g_file_copy (src, dst, TUXCMD_DEFAULT_COPY_FLAGS, globs->cancellable, vfs_copy_progress_callback, globs, &error);
+  if (error) {
+    g_print ("(EE) FsPutFile: g_file_copy() error: %s\n", error->message);
+//    res = g_error_to_TVFSResult (error);
+    if (error->code == G_IO_ERROR_CANCELLED)
+      res = FS_FILE_USERABORT;
+    else
+      res = FS_FILE_WRITEERROR;
+    g_error_free (error);
+  }
+
+  g_object_unref (globs->cancellable);
+  g_object_unref (src);
+  g_object_unref (dst);
+  return res;
 }
 
 int __stdcall FsExecuteFile(HWND MainWin,char* RemoteName,char* Verb)
