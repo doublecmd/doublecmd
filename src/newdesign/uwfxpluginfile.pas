@@ -34,6 +34,7 @@ type
 
   public
     constructor Create; override;
+    constructor Create(FileAttributes: TFileAttributesProperty); overload;
     constructor Create(FindData: TWin32FindData); overload;
 
     destructor Destroy; override;
@@ -63,6 +64,21 @@ begin
   inherited Create;
 
   FAttributes := TNtfsFileAttributesProperty.Create;
+  FSize := TFileSizeProperty.Create;
+  FModificationTime := TFileModificationDateTimeProperty.Create;
+  FIsLinkToDirectory := False;
+
+  AssignProperties;
+
+  // Set name after assigning Attributes property, because it is used to get extension.
+  Name := '';
+end;
+
+constructor TWfxPluginFile.Create(FileAttributes: TFileAttributesProperty);
+begin
+  inherited Create;
+
+  FAttributes := FileAttributes.Clone;
   FSize := TFileSizeProperty.Create;
   FModificationTime := TFileModificationDateTimeProperty.Create;
   FIsLinkToDirectory := False;
@@ -116,7 +132,7 @@ end;
 
 function TWfxPluginFile.Clone: TWfxPluginFile;
 begin
-  Result := TWfxPluginFile.Create;
+  Result := TWfxPluginFile.Create(FAttributes);
   CloneTo(Result);
 end;
 
