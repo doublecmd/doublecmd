@@ -62,13 +62,13 @@ type
     function Clone(NewParent: TWinControl): TFileView; virtual;
     procedure CloneTo(FileView: TFileView); virtual;
 
-    procedure AddFileSource(aFileSource: IFileSource); virtual;
+    procedure AddFileSource(aFileSource: IFileSource; aPath: String); virtual;
     procedure RemoveLastFileSource; virtual;
     {en
-       Sets the list of file sources so that each file source is a clone
-       of the file source from 'otherFileSources'.
+       Assigns the list of file sources and paths into those file sources
+       from another file view.
     }
-    procedure AssignFileSources(otherFileSources: TFileSources); virtual;
+    procedure AssignFileSources(const otherFileView: TFileView); virtual;
 
     // Retrieves files from file source again and displays the new list of files.
     procedure Reload; virtual abstract;
@@ -93,7 +93,7 @@ type
     property CurrentAddress: String read GetCurrentAddress;
     property FileSource: IFileSource read GetLastFileSource;
     property FileSources[Index: Integer]: IFileSource read GetFileSource;
-    property FileSourcesList: TFileSources read FFileSources;
+//    property FileSourcesList: TFileSources read FFileSources;
     property FileSourcesCount: Integer read GetFileSourcesCount;
 
     {en
@@ -135,10 +135,10 @@ begin
 
   FFileSources := TFileSources.Create;
   FFileSources.Add(FileSource);
-  FMethods := TMethodsList.Create(Self);
-
   FCurrentPaths := TStringList.Create;
   FCurrentPaths.Add(Path);
+
+  FMethods := TMethodsList.Create(Self);
 
   inherited Create(AOwner);
 end;
@@ -157,20 +157,16 @@ begin
 end;
 
 procedure TFileView.CloneTo(FileView: TFileView);
-var
-  i: Integer;
 begin
   if Assigned(FileView) then
   begin
     // FFileSource should have been passed to FileView constructor already.
     // FMethods are created in FileView constructor.
-    FileView.OnBeforeChangeDirectory := OnBeforeChangeDirectory;
-    FileView.OnAfterChangeDirectory := OnAfterChangeDirectory;
+    FileView.OnBeforeChangeDirectory := Self.OnBeforeChangeDirectory;
+    FileView.OnAfterChangeDirectory := Self.OnAfterChangeDirectory;
 
-    for i := 0 to FFileSources.Count - 1 do
-    begin
-      FileView.FFileSources.Add(FileSources[i]);
-    end;
+    FileView.FFileSources.Assign(Self.FFileSources);
+    FileView.FCurrentPaths.Assign(Self.FCurrentPaths);
   end;
 end;
 
@@ -214,9 +210,11 @@ begin
   end;
 end;
 
-procedure TFileView.AddFileSource(aFileSource: IFileSource);
+procedure TFileView.AddFileSource(aFileSource: IFileSource;
+                                  aPath: String);
 begin
   FFileSources.Add(aFileSource);
+  FCurrentPaths.Add(aPath);
   Reload;
   UpdateView;
 end;
@@ -224,17 +222,16 @@ end;
 procedure TFileView.RemoveLastFileSource;
 begin
   FFileSources.Delete(FFileSources.Count - 1);
+  FCurrentPaths.Delete(FCurrentPaths.Count - 1);
   Reload;
   UpdateView;
 end;
 
-procedure TFileView.AssignFileSources(otherFileSources: TFileSources);
-var
-  i: Integer;
+procedure TFileView.AssignFileSources(const otherFileView: TFileView);
 begin
-  FFileSources.Clear;
-  for i := 0 to otherFileSources.Count - 1 do
-    FFileSources.Add(otherFileSources.Items[i]);
+  FFileSources.Assign(otherFileView.FFileSources);
+  FCurrentPaths.Assign(otherFileView.FCurrentPaths);
+
   Reload;
   UpdateView;
 end;

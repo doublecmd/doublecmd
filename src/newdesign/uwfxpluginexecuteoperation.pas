@@ -24,7 +24,7 @@ type
        @param(aCurrentPath
               Path of the file source where the execution should take place.)
        @param(aExecutablePath
-              Absolute or relative (to TargetFileSource.CurrentPath) path
+              Absolute or relative (to aCurrentPath) path
               to a executable that should be executed.)
     }
     constructor Create(aTargetFileSource: IFileSource;

@@ -344,7 +344,7 @@ type
     function Clone(NewParent: TWinControl): TColumnsFileView; override;
     procedure CloneTo(FileView: TFileView); override;
 
-    procedure AddFileSource(aFileSource: IFileSource); override;
+    procedure AddFileSource(aFileSource: IFileSource; aPath: String); override;
     procedure RemoveLastFileSource; override;
 
     {en
@@ -1204,7 +1204,7 @@ begin
 
     AddDirToHistory(fActiveDir);
 }
-//    FileSource.CurrentPath := NewPath; // TODO: error handling (exception?)
+    inherited SetCurrentPath(NewPath);
 
     LastActive := '';
     dgPanel.Row := 0;
@@ -2524,11 +2524,11 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.AddFileSource(aFileSource: IFileSource);
+procedure TColumnsFileView.AddFileSource(aFileSource: IFileSource; aPath: String);
 begin
   LastActive := '';
 
-  inherited AddFileSource(aFileSource);
+  inherited AddFileSource(aFileSource, aPath);
 
   if Assigned(OnChangeFileSource) then
     OnChangeFileSource(Parent as TCustomPage);

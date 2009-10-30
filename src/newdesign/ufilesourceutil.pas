@@ -111,7 +111,7 @@ begin
 
     if Assigned(FileSource) then
     begin
-      aFileView.AddFileSource(FileSource);
+      aFileView.AddFileSource(FileSource, FileSource.GetRootDir);
       Exit(True);
     end;
   end;
@@ -126,7 +126,7 @@ begin
 
     if Assigned(FileSource) then
     begin
-      aFileView.AddFileSource(FileSource);
+      aFileView.AddFileSource(FileSource, FileSource.GetRootDir);
       Exit(True);
     end;
   end;

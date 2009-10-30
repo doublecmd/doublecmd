@@ -51,7 +51,8 @@ type
 
     function IsPathAtRoot(Path: String): Boolean;
     function GetParentDir(sPath : String): String;
-    function GetRootDir(sPath : String): String;
+    function GetRootDir(sPath : String): String; overload;
+    function GetRootDir: String; overload;
     function GetPathType(sPath : String): TPathType;
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;
 
@@ -137,6 +138,7 @@ type
 
     function GetParentDir(sPath : String): String; virtual;
     function GetRootDir(sPath : String): String; virtual;
+    function GetRootDir: String; virtual;
     function GetPathType(sPath : String): TPathType; virtual;
 
 {
@@ -173,6 +175,8 @@ type
     function Get(I: Integer): IFileSource;
 
   public
+    procedure Assign(otherFileSources: TFileSources);
+
     property Items[I: Integer]: IFileSource read Get; default;
   end;
 
@@ -182,12 +186,13 @@ type
   private
     FFileSources: TFileSources;
 
+    // Only allow adding and removing to/from Manager by TFileSource constructor and destructor.
+    procedure Add(aFileSource: IFileSource);
+    procedure Remove(aFileSource: IFileSource);
+
   public
     constructor Create;
     destructor Destroy; override;
-
-    procedure Add(aFileSource: IFileSource);
-    procedure Remove(aFileSource: IFileSource);
 
     function Find(FileSourceClass: TClass; Address: String): IFileSource;
   end;
@@ -210,13 +215,45 @@ begin
     raise Exception.Create('Cannot construct abstract class');
   inherited Create;
 
-  FileSourceManager.Add(Self);
+  FileSourceManager.Add(Self); // Increases RefCount
+
+  // We don't want to count the reference in Manager, because we want to detect
+  // when there are no more references other than this single one in the Manager.
+  // So, we remove this reference here.
+  // When RefCount reaches 0 Destroy gets called and the last remaining reference
+  // (in the Manager) is removed there.
+  InterLockedDecrement(frefcount);
+
+  writeln('Creating ', ClassName);
 end;
 
 destructor TFileSource.Destroy;
 begin
-  FileSourceManager.Remove(Self);
-  inherited;
+  writeln('Destroying ', ClassName, ' when refcount=', refcount);
+  if (RefCount = 0) and Assigned(FileSourceManager) then
+  begin
+    // Restore reference removed in Create and
+    // remove the instance remaining in Manager.
+
+    // Increase refcount by 2, because we don't want removing the last instance
+    // from Manager to trigger another Destroy.
+
+    // RefCount = 0
+    InterLockedIncrement(frefcount);
+    InterLockedIncrement(frefcount);
+    // RefCount = 2
+    FileSourceManager.Remove(Self);
+    // RefCount = 1
+    InterLockedDecrement(frefcount);
+    // RefCount = 0 (back at the final value)
+  end
+  else
+    Writeln('Error: Cannot remove file source - manager already destroyed!');
+
+  if RefCount <> 0 then
+    Writeln('Error: RefCount <> 0 for ', Self.ClassName);
+
+  inherited Destroy;
 end;
 
 function TFileSource.IsInterface(InterfaceGuid: TGuid): Boolean;
@@ -265,6 +302,11 @@ begin
     else if ( Pos( PathDelim, sPath ) > 0 ) then
       Result := ptRelative;
   end;
+end;
+
+function TFileSource.GetRootDir: String;
+begin
+  Result := GetRootDir('');
 end;
 
 function TFileSource.GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;
@@ -378,6 +420,15 @@ begin
     Result := nil;
 end;
 
+procedure TFileSources.Assign(otherFileSources: TFileSources);
+var
+  i: Integer;
+begin
+  Clear;
+  for i := 0 to otherFileSources.Count - 1 do
+    Add(otherFileSources.Items[i]);
+end;
+
 { TFileSourceManager }
 
 constructor TFileSourceManager.Create;
@@ -386,7 +437,23 @@ begin
 end;
 
 destructor TFileSourceManager.Destroy;
+var
+  i: Integer;
 begin
+  if FFileSources.Count > 0 then
+  begin
+    WriteLn('Warning: Destroying manager with existing file sources!');
+
+    for i := 0 to FFileSources.Count - 1 do
+    begin
+      // Restore the reference taken in TFileSource.Create before removing
+      // all file sources from the list.
+      FFileSources[i]._AddRef;
+      // Free instance.
+      FFileSources.put(i, nil);
+    end;
+  end;
+
   if Assigned(FFileSources) then
     FreeAndNil(FFileSources);
 
@@ -397,9 +464,10 @@ procedure TFileSourceManager.Add(aFileSource: IFileSource);
 begin
   if FFileSources.IndexOf(aFileSource) < 0 then
   begin
-    WriteLn('Warning: File source already exists in manager.');
     FFileSources.Add(aFileSource);
-  end;
+  end
+  else
+    WriteLn('Error: File source already exists in manager!');
 end;
 
 procedure TFileSourceManager.Remove(aFileSource: IFileSource);

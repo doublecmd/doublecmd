@@ -576,7 +576,7 @@ begin
       sModuleFileName:= GetCmdDirFromEnvVar(sModuleFileName);
       Result:= TWfxPluginFileSource.Create(nil, sModuleFileName, aRootName);
 
-      DebugLn('Registered plugin ' + sModuleFileName + ' for file system ' + aRootName);
+      DebugLn('Found registered plugin ' + sModuleFileName + ' for file system ' + aRootName);
     end;
 end;
 
