@@ -14,9 +14,9 @@ type
 
   TWcxArchiveListOperation = class(TFileSourceListOperation)
   private
-    FWcxArchiveFileSource: TWcxArchiveFileSource;
+    FWcxArchiveFileSource: IWcxArchiveFileSource;
   public
-    constructor Create(var aFileSource: TFileSource); reintroduce;
+    constructor Create(aFileSource: IFileSource; aPath: String); override;
     procedure MainExecute; override;
   end;
 
@@ -25,11 +25,11 @@ implementation
 uses
   LCLProc, uOSUtils, uDCUtils, uWcxArchiveFile, uFile, uWCXmodule;
 
-constructor TWcxArchiveListOperation.Create(var aFileSource: TFileSource);
+constructor TWcxArchiveListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
   FFiles := TFiles.Create;
-  FWcxArchiveFileSource := aFileSource as TWcxArchiveFileSource;
-  inherited Create(aFileSource);
+  FWcxArchiveFileSource := aFileSource as IWcxArchiveFileSource;
+  inherited Create(aFileSource, aPath);
 end;
 
 procedure TWcxArchiveListOperation.MainExecute;
@@ -40,12 +40,12 @@ var
   aFile: TWcxArchiveFile;
 begin
   FFiles.Clear;
-  FFiles.Path := IncludeTrailingPathDelimiter(FileSource.CurrentPath);
+  FFiles.Path := IncludeTrailingPathDelimiter(Path);
 
-  if not FileSource.IsAtRootPath then
+  if not FileSource.IsPathAtRoot(Path) then
   begin
     aFile := TWcxArchiveFile.Create;
-    aFile.Path := FileSource.CurrentPath;
+    aFile.Path := Path;
     aFile.Name := '..';
     aFile.Attributes := faFolder;
     FFiles.Add(AFile);
@@ -56,11 +56,11 @@ begin
     begin
       CurrFileName := PathDelim + TWCXHeader(ArcFileList.Items[I]).FileName;
 
-      if not IsInPath(FileSource.CurrentPath, CurrFileName, False) then
+      if not IsInPath(Path, CurrFileName, False) then
         Continue;
 
       aFile := TWcxArchiveFile.Create(TWCXHeader(ArcFileList.Items[I]));
-      aFile.Path := FileSource.CurrentPath;
+      aFile.Path := Path;
       FFiles.Add(AFile);
     end;
 end;

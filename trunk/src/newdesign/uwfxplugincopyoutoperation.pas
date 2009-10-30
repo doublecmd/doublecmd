@@ -21,7 +21,7 @@ type
   TWfxPluginCopyOutOperation = class(TFileSourceCopyOutOperation)
 
   private
-    FWfxPluginFileSource: TWfxPluginFileSource;
+    FWfxPluginFileSource: IWfxPluginFileSource;
     FOperationHelper: TWfxPluginOperationHelper;
     FUpdateProgressClass: TUpdateProgressClass;
     FFullFilesTreeToCopy: TFiles;  // source files including all files/dirs in subdirectories
@@ -33,8 +33,8 @@ type
     function UpdateProgress(SourceName, TargetName: UTF8String; PercentDone: Integer): Integer;
 
   public
-    constructor Create(var aSourceFileSource: TFileSource;
-                       var aTargetFileSource: TFileSource;
+    constructor Create(aSourceFileSource: IFileSource;
+                       aTargetFileSource: IFileSource;
                        var theSourceFiles: TFiles;
                        aTargetPath: String); override;
 
@@ -77,14 +77,14 @@ begin
   end;
 end;
 
-constructor TWfxPluginCopyOutOperation.Create(var aSourceFileSource: TFileSource;
-                                               var aTargetFileSource: TFileSource;
-                                               var theSourceFiles: TFiles;
-                                               aTargetPath: String);
+constructor TWfxPluginCopyOutOperation.Create(aSourceFileSource: IFileSource;
+                                              aTargetFileSource: IFileSource;
+                                              var theSourceFiles: TFiles;
+                                              aTargetPath: String);
 begin
-  FWfxPluginFileSource:= aSourceFileSource as TWfxPluginFileSource;
+  FWfxPluginFileSource:= aSourceFileSource as IWfxPluginFileSource;
   FUpdateProgressClass:= TUpdateProgressClass.Create;
-  FInternal:= aTargetFileSource is TWfxPluginFileSource;
+  FInternal:= aTargetFileSource.IsInterface(IWfxPluginFileSource);
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;
 
@@ -100,7 +100,7 @@ begin
   FUpdateProgressClass.UpdateProgressFunction:= @UpdateProgress;
   with FWfxPluginFileSource do
   begin
-    WfxStatusInfo(CurrentPath, FS_STATUS_START, FS_STATUS_OP_PUT_MULTI);
+    WfxStatusInfo({CurrentPath}SourceFiles.Path, FS_STATUS_START, FS_STATUS_OP_PUT_MULTI);
     WfxOperationList[PluginNumber]:= FUpdateProgressClass;
     // Get initialized statistics; then we change only what is needed.
     FStatistics := RetrieveStatistics;
@@ -143,7 +143,7 @@ procedure TWfxPluginCopyOutOperation.Finalize;
 begin
   with FWfxPluginFileSource do
   begin
-    WfxStatusInfo(CurrentPath, FS_STATUS_END, FS_STATUS_OP_PUT_MULTI);
+    WfxStatusInfo({CurrentPath}SourceFiles.Path, FS_STATUS_END, FS_STATUS_OP_PUT_MULTI);
     WfxOperationList[PluginNumber]:= nil;
   end;
 end;

@@ -134,7 +134,7 @@ type
  private
     IniPropStorage: TIniPropStorageEx;
     FLastPreset: String;
-    FFileSource: TFileSource;
+    FFileSource: IFileSource;
     FFiles: TFiles;
     FPresets: TStringHashList; // of PMultiRenamePreset
 
@@ -176,12 +176,12 @@ type
     procedure ClearPresetsList;
   public
     { Public declarations }
-    constructor Create(TheOwner: TComponent; aFileSource: TFileSource; aFiles: TFiles); reintroduce;
+    constructor Create(TheOwner: TComponent; aFileSource: IFileSource; aFiles: TFiles); reintroduce;
     destructor Destroy; override;
   end;
 
 {initialization function}
-  function ShowMultiRenameForm(aFileSource: TFileSource; const aFiles: TFiles):Boolean;
+  function ShowMultiRenameForm(aFileSource: IFileSource; const aFiles: TFiles):Boolean;
 
 implementation
 
@@ -191,7 +191,7 @@ uses
 const
   sPresetsSection = 'MultiRenamePresets';
 
-function ShowMultiRenameForm(aFileSource: TFileSource; const aFiles: TFiles):Boolean;
+function ShowMultiRenameForm(aFileSource: IFileSource; const aFiles: TFiles):Boolean;
 begin
   Result:= True;
   try
@@ -204,7 +204,7 @@ begin
   end;
 end;
 
-constructor TfrmMultiRename.Create(TheOwner: TComponent; aFileSource: TFileSource; aFiles: TFiles);
+constructor TfrmMultiRename.Create(TheOwner: TComponent; aFileSource: IFileSource; aFiles: TFiles);
 begin
   FPresets := TStringHashList.Create(False);
   FFileSource := aFileSource;

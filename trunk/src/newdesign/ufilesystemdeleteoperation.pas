@@ -35,7 +35,7 @@ type
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
   public
-    constructor Create(var aTargetFileSource: TFileSource;
+    constructor Create(aTargetFileSource: IFileSource;
                        var theFilesToDelete: TFiles); override;
 
     destructor Destroy; override;
@@ -53,7 +53,7 @@ implementation
 uses
   uOSUtils, uLng, uFileSystemUtil;
 
-constructor TFileSystemDeleteOperation.Create(var aTargetFileSource: TFileSource;
+constructor TFileSystemDeleteOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToDelete: TFiles);
 begin
   FSymLinkOption := fsooslNone;

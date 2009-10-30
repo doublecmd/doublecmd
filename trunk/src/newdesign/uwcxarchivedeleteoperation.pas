@@ -19,7 +19,7 @@ type
   TWcxArchiveDeleteOperation = class(TFileSourceDeleteOperation)
 
   private
-    FWcxArchiveFileSource: TWcxArchiveFileSource;
+    FWcxArchiveFileSource: IWcxArchiveFileSource;
     FStatistics: TFileSourceDeleteOperationStatistics; // local copy of statistics
 
     procedure CountFiles(const theFiles: TFiles; FileMask: String);
@@ -34,7 +34,7 @@ type
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
   public
-    constructor Create(var aTargetFileSource: TFileSource;
+    constructor Create(aTargetFileSource: IFileSource;
                        var theFilesToDelete: TFiles); override;
 
     destructor Destroy; override;
@@ -120,10 +120,10 @@ end;
 
 // ----------------------------------------------------------------------------
 
-constructor TWcxArchiveDeleteOperation.Create(var aTargetFileSource: TFileSource;
+constructor TWcxArchiveDeleteOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToDelete: TFiles);
 begin
-  FWcxArchiveFileSource := aTargetFileSource as TWcxArchiveFileSource;
+  FWcxArchiveFileSource := aTargetFileSource as IWcxArchiveFileSource;
 
   inherited Create(aTargetFileSource, theFilesToDelete);
 end;

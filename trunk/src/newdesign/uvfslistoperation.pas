@@ -14,9 +14,9 @@ type
 
   TVfsListOperation = class(TFileSourceListOperation)
   private
-    FVfsFileSource: TVfsFileSource;
+    FVfsFileSource: IVfsFileSource;
   public
-    constructor Create(var aFileSource: TFileSource); reintroduce;
+    constructor Create(aFileSource: IFileSource; aPath: String); override;
     procedure MainExecute; override;
   end;
 
@@ -25,11 +25,11 @@ implementation
 uses
   LCLProc, uOSUtils, uDCUtils, uVfsFile, uFile;
 
-constructor TVfsListOperation.Create(var aFileSource: TFileSource);
+constructor TVfsListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
   FFiles := TFiles.Create;
-  FVfsFileSource := aFileSource as TVfsFileSource;
-  inherited Create(aFileSource);
+  FVfsFileSource := aFileSource as IVfsFileSource;
+  inherited Create(aFileSource, aPath);
 end;
 
 procedure TVfsListOperation.MainExecute;
@@ -38,14 +38,14 @@ var
   aFile: TVfsFile;
 begin
   FFiles.Clear;
-  FFiles.Path := IncludeTrailingPathDelimiter(FileSource.CurrentPath);
+  FFiles.Path := IncludeTrailingPathDelimiter(Path);
 
   with FVfsFileSource do
   for I := 0 to VfsFileList.Count - 1 do
     begin
       aFile := TVfsFile.Create;
       aFile.Name:= VfsFileList.Name[I];
-      aFile.Path := FileSource.CurrentPath;
+      aFile.Path := Path;
       aFile.ModificationTime:= FileDateToDateTime(mbFileAge(VfsFileList.FileName[I]));
       FFiles.Add(aFile);
     end;

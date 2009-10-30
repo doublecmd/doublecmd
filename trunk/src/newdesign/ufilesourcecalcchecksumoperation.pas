@@ -37,7 +37,7 @@ type
     FStatistics: TFileSourceCalcChecksumOperationStatistics;
     FStatisticsAtStartTime: TFileSourceCalcChecksumOperationStatistics;
     FStatisticsLock: TCriticalSection;             //<en For synchronizing statistics.
-    FFileSource: TFileSource;
+    FFileSource: IFileSource;
     FFiles: TFiles;
     FMode: TCalcCheckSumOperationMode;
     FTargetPath: String;
@@ -53,13 +53,13 @@ type
     procedure UpdateStatistics(var NewStatistics: TFileSourceCalcChecksumOperationStatistics);
     procedure UpdateStatisticsAtStartTime; override;
 
-    property FileSource: TFileSource read FFileSource;
+    property FileSource: IFileSource read FFileSource;
     property Files: TFiles read FFiles;
     property TargetPath: String read FTargetPath;
     property TargetMask: String read FTargetMask;
 
   public
-    constructor Create(var aTargetFileSource: TFileSource;
+    constructor Create(aTargetFileSource: IFileSource;
                        var theFiles: TFiles;
                        aTargetPath: String;
                        aTargetMask: String); virtual reintroduce;
@@ -80,7 +80,7 @@ uses
   uDCUtils;
 
 constructor TFileSourceCalcChecksumOperation.Create(
-                var aTargetFileSource: TFileSource;
+                aTargetFileSource: IFileSource;
                 var theFiles: TFiles;
                 aTargetPath: String;
                 aTargetMask: String);
@@ -102,7 +102,6 @@ begin
   inherited Create(aTargetFileSource, aTargetFileSource);
 
   FFileSource := aTargetFileSource;
-  aTargetFileSource := nil;
   FFiles := theFiles;
   theFiles := nil;
 
@@ -123,8 +122,6 @@ begin
     FreeAndNil(FStatisticsLock);
   if Assigned(FFiles) then
     FreeAndNil(FFiles);
-  if Assigned(FFileSource) then
-    FreeAndNil(FFileSource);
   if Assigned(FResult) then
     FreeAndNil(FResult);
 end;

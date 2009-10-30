@@ -67,8 +67,8 @@ type
   end;
 
   // Frees 'Files'.
-  function ShowPackDlg(const SourceFileSource: TFileSource;
-                       const TargetFileSource: TArchiveFileSource;
+  function ShowPackDlg(const SourceFileSource: IFileSource;
+                       const TargetFileSource: IArchiveFileSource;
                        var Files: TFiles;
                        TargetArchivePath: String;
                        TargetPathInArchive: String;
@@ -80,15 +80,14 @@ uses
   WcxPlugin, uGlobs, uDCUtils, uFileSourceOperation,
   uOperationsManager, fFileOpDlg;
 
-function ShowPackDlg(const SourceFileSource: TFileSource;
-                     const TargetFileSource: TArchiveFileSource;
+function ShowPackDlg(const SourceFileSource: IFileSource;
+                     const TargetFileSource: IArchiveFileSource;
                      var Files: TFiles;
                      TargetArchivePath: String;
                      TargetPathInArchive: String;
                      bNewArchive : Boolean = True): Boolean;
 var
-  ClonedSourceFileSource: TFileSource;
-  NewTargetFileSource: TArchiveFileSource = nil;
+  NewTargetFileSource: IArchiveFileSource = nil;
   aFlags : PtrInt;
   Operation: TFileSourceOperation;
   OperationHandle: TOperationHandle;
@@ -124,10 +123,10 @@ begin
             begin
               // Already have a target file source.
               // It must be an archive file source.
-              if not (TargetFileSource is TArchiveFileSource) then
+              if not (TargetFileSource.IsClass(TArchiveFileSource)) then
                 raise Exception.Create('Invalid target file source type');
 
-              NewTargetFileSource := TargetFileSource as TArchiveFileSource; // Don't need to clone.
+              NewTargetFileSource := TargetFileSource;
             end
             else
             begin
@@ -140,7 +139,7 @@ begin
 
             if Assigned(NewTargetFileSource) then
               begin
-                with NewTargetFileSource as TWcxArchiveFileSource do
+                if NewTargetFileSource.IsInterface(IWcxArchiveFileSource) then
                 begin
                   // Set flags according to user selection in the pack dialog.
                   aFlags := 0;
@@ -148,14 +147,16 @@ begin
                   if cbStoredir.Checked then aFlags := aFlags or PK_PACK_SAVE_PATHS;
                   if cbEncrypt.Checked then aFlags := aFlags or PK_PACK_ENCRYPT;
 
-                  PluginFlags := aFlags;
+                  with NewTargetFileSource as IWcxArchiveFileSource do
+                  begin
+                    PluginFlags := aFlags;
+                  end;
                 end;
 
-                ClonedSourceFileSource := SourceFileSource.Clone;
                 Operation := NewTargetFileSource.CreateCopyInOperation(
-                                 ClonedSourceFileSource,
+                                 SourceFileSource,
                                  Files,
-                                 NewTargetFileSource.CurrentPath);
+                                 TargetPathInArchive);
 
                 if Assigned(Operation) then
                 begin
@@ -246,14 +247,14 @@ end;
 
 procedure TfrmPackDlg.btnConfigClick(Sender: TObject);
 var
-  WcxFileSource: TWcxArchiveFileSource;
+  WcxFileSource: IWcxArchiveFileSource;
 begin
   WcxFileSource := TWcxArchiveFileSource.CreateByArchiveName(edtPackCmd.Text);
   if Assigned(WcxFileSource) then
   try
     WcxFileSource.WcxModule.VFSConfigure(Handle);
   finally
-    FreeAndNil(WcxFileSource);
+    WcxFileSource := nil; // free interface
   end;
 end;
 

@@ -13,9 +13,10 @@ type
 
   TFileSystemCreateDirectoryOperation = class(TFileSourceCreateDirectoryOperation)
   private
-    FFileSystemFileSource: TFileSystemFileSource;
+    FFileSystemFileSource: IFileSystemFileSource;
   public
-    constructor Create(var aTargetFileSource: TFileSource;
+    constructor Create(aTargetFileSource: IFileSource;
+                       aCurrentPath: String;
                        aDirectoryPath: String); override;
 
     procedure Initialize; override;
@@ -29,11 +30,12 @@ uses
   uFileSourceOperationUI, uFileProcs, uLog, uLng, uGlobs, uOSUtils;
 
 constructor TFileSystemCreateDirectoryOperation.Create(
-                var aTargetFileSource: TFileSource;
+                aTargetFileSource: IFileSource;
+                aCurrentPath: String;
                 aDirectoryPath: String);
 begin
-  FFileSystemFileSource := aTargetFileSource as TFileSystemFileSource;
-  inherited Create(aTargetFileSource, aDirectoryPath);
+  FFileSystemFileSource := aTargetFileSource as IFileSystemFileSource;
+  inherited Create(aTargetFileSource, aCurrentPath, aDirectoryPath);
 end;
 
 procedure TFileSystemCreateDirectoryOperation.Initialize;

@@ -23,7 +23,7 @@ procedure ChooseFile(aFileView: TFileView; aFile: TFile);
 }
 function ChooseFileSource(aFileView: TFileView; aFile: TFile): Boolean;
 
-function RenameFile(aFileSource: TFileSource; aFile: TFile; NewFileName: UTF8String): Boolean;
+function RenameFile(aFileSource: IFileSource; aFile: TFile; NewFileName: UTF8String): Boolean;
 
 implementation
 
@@ -42,7 +42,7 @@ begin
     Exit;
 
   // For now work only for FileSystem until temporary file system is done.
-  if aFileView.FileSource is TFileSystemFileSource then
+  if aFileView.FileSource.IsClass(TFileSystemFileSource) then
   begin
     //now test if exists Open command in doublecmd.ext :)
     sOpenCmd:= gExts.GetExtActionCmd(aFile, 'open');
@@ -58,15 +58,18 @@ begin
         end;
       end;
 }
-      ReplaceExtCommand(sOpenCmd, aFile, aFileView.FileSource.CurrentPath);
-      if ProcessExtCommand(sOpenCmd, aFileView.FileSource.CurrentPath) then
+      ReplaceExtCommand(sOpenCmd, aFile, aFileView.CurrentPath);
+      if ProcessExtCommand(sOpenCmd, aFileView.CurrentPath) then
         Exit;
     end;
   end;
 
   if (fsoExecute in aFileView.FileSource.GetOperationsTypes) then
     begin
-      Operation := aFileView.FileSource.CreateExecuteOperation(aFile.Name, 'open') as TFileSourceExecuteOperation;
+      Operation := aFileView.FileSource.CreateExecuteOperation(
+                       aFileView.CurrentPath,
+                       aFile.Name, 'open') as TFileSourceExecuteOperation;
+
       if Assigned(Operation) then
         try
           Operation.Execute;
@@ -82,7 +85,7 @@ begin
             begin
               // change directory to new path (returned in Operation.ExecutablePath)
               DebugLn('Change directory to ', Operation.ExecutablePath);
-              aFileView.FileSource.CurrentPath:= Operation.ExecutablePath;
+              aFileView.CurrentPath:= Operation.ExecutablePath;
             end;
           end;
         finally
@@ -94,15 +97,18 @@ end;
 
 function ChooseFileSource(aFileView: TFileView; aFile: TFile): Boolean;
 var
-  FileSource: TFileSource;
+  FileSource: IFileSource;
 begin
   Result := False;
 
   // Opening archives directly only from FileSystem.
-  if aFileView.FileSource is TFileSystemFileSource then
+  if aFileView.FileSource.IsClass(TFileSystemFileSource) then
   begin
-    // Check if it is registered plugin (for archives).
-    FileSource := TWcxArchiveFileSource.CreateByArchiveName(aFile.Path + aFile.Name);
+    // Check if there is a registered WCX plugin for possible archive.
+    FileSource := FileSourceManager.Find(TWcxArchiveFileSource, aFile.Path + aFile.Name);
+    if not Assigned(FileSource) then
+      FileSource := TWcxArchiveFileSource.CreateByArchiveName(aFile.Path + aFile.Name);
+
     if Assigned(FileSource) then
     begin
       aFileView.AddFileSource(FileSource);
@@ -111,10 +117,13 @@ begin
   end;
 
   // Work only for TVfsFileSource.
-  if aFileView.FileSource is TVfsFileSource then
+  if aFileView.FileSource.IsClass(TVfsFileSource) then
   begin
-    // Check if it is registered plugin by file system root name.
-    FileSource := TWfxPluginFileSource.CreateByRootName(aFile.Name);
+    // Check if there is a registered WFX plugin by file system root name.
+    FileSource := FileSourceManager.Find(TWfxPluginFileSource, aFile.Path + aFile.Name);
+    if not Assigned(FileSource) then
+      FileSource := TWfxPluginFileSource.CreateByRootName(aFile.Name);
+
     if Assigned(FileSource) then
     begin
       aFileView.AddFileSource(FileSource);
@@ -123,14 +132,14 @@ begin
   end;
 end;
 
-function RenameFile(aFileSource: TFileSource; aFile: TFile; NewFileName: UTF8String): Boolean;
+function RenameFile(aFileSource: IFileSource; aFile: TFile; NewFileName: UTF8String): Boolean;
 var
   aFiles: TFiles;
   sDestPath: UTF8String;
   Operation: TFileSourceMoveOperation;
 begin
   Result:= False;
-  with aFileSource.GetFiles do
+  with aFileSource.GetFiles(aFile.Path) do
   begin
     aFiles:= CreateObjectOfSameType;
     Free;

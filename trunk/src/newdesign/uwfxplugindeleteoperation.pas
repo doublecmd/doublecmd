@@ -21,7 +21,7 @@ type
   TWfxPluginDeleteOperation = class(TFileSourceDeleteOperation)
 
   private
-    FWfxPluginFileSource: TWfxPluginFileSource;
+    FWfxPluginFileSource: IWfxPluginFileSource;
     FFullFilesTreeToDelete: TFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceDeleteOperationStatistics; // local copy of statistics
 
@@ -36,7 +36,7 @@ type
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
   public
-    constructor Create(var aTargetFileSource: TFileSource;
+    constructor Create(aTargetFileSource: IFileSource;
                        var theFilesToDelete: TFiles); override;
 
     destructor Destroy; override;
@@ -51,14 +51,14 @@ implementation
 uses
   LCLProc, FileUtil, uOSUtils, uLng, WfxPlugin;
 
-constructor TWfxPluginDeleteOperation.Create(var aTargetFileSource: TFileSource;
-                                              var theFilesToDelete: TFiles);
+constructor TWfxPluginDeleteOperation.Create(aTargetFileSource: IFileSource;
+                                             var theFilesToDelete: TFiles);
 begin
   FSymLinkOption := fsooslNone;
   FSkipErrors := False;
   FDeleteReadOnly := fsoogNone;
   FFullFilesTreeToDelete := nil;
-  FWfxPluginFileSource:= aTargetFileSource as TWfxPluginFileSource;
+  FWfxPluginFileSource:= aTargetFileSource as IWfxPluginFileSource;
 
   inherited Create(aTargetFileSource, theFilesToDelete);
 end;
@@ -71,7 +71,8 @@ end;
 procedure TWfxPluginDeleteOperation.Initialize;
 begin
   with FWfxPluginFileSource do
-  WfxStatusInfo(CurrentPath, FS_STATUS_START, FS_STATUS_OP_DELETE);
+    WfxStatusInfo({CurrentPath}FilesToDelete.Path, FS_STATUS_START, FS_STATUS_OP_DELETE);
+
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
@@ -110,7 +111,7 @@ end;
 procedure TWfxPluginDeleteOperation.Finalize;
 begin
   with FWfxPluginFileSource do
-  WfxStatusInfo(CurrentPath, FS_STATUS_END, FS_STATUS_OP_DELETE);
+    WfxStatusInfo({CurrentPath}FilesToDelete.Path, FS_STATUS_END, FS_STATUS_OP_DELETE);
 end;
 
 function TWfxPluginDeleteOperation.ProcessFile(aFile: TWfxPluginFile): Boolean;

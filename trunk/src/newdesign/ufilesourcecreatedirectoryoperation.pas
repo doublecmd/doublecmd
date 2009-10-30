@@ -15,7 +15,8 @@ type
   TFileSourceCreateDirectoryOperation = class(TFileSourceOperation)
 
   private
-    FFileSource: TFileSource;
+    FFileSource: IFileSource;
+    FBasePath: String;
     FDirectoryPath: String;
     FAbsolutePath: String;
     FRelativePath: String;
@@ -24,6 +25,7 @@ type
     function GetID: TFileSourceOperationType; override;
     procedure UpdateStatisticsAtStartTime; override;
 
+    property BasePath: String read FBasePath;
     property DirectoryPath: String read FDirectoryPath;
     property AbsolutePath: String read FAbsolutePath;
     property RelativePath: String read FRelativePath;
@@ -31,13 +33,16 @@ type
   public
     {en
        @param(aTargetFileSource
-              File source where the directory should be created.
-              Class takes ownership of the pointer.)
+              File source where the directory should be created.)
+       @param(aCurrentPath
+              Absolute path to current directory where the new directory
+              should be created (if its path is not absolute).)
        @param(aDirectoryPath
               Absolute or relative (to TargetFileSource.CurrentPath) path
-              to a directory that should be created.
+              to a directory that should be created.)
     }
-    constructor Create(var aTargetFileSource: TFileSource;
+    constructor Create(aTargetFileSource: IFileSource;
+                       aCurrentPath: String;
                        aDirectoryPath: String); virtual reintroduce;
 
     destructor Destroy; override;
@@ -49,23 +54,24 @@ uses
   uDCUtils;
 
 constructor TFileSourceCreateDirectoryOperation.Create(
-                var aTargetFileSource: TFileSource;
+                aTargetFileSource: IFileSource;
+                aCurrentPath: String;
                 aDirectoryPath: String);
 begin
   inherited Create(aTargetFileSource, aTargetFileSource);
 
   FFileSource := aTargetFileSource;
-  aTargetFileSource := nil;
+  FBasePath := aCurrentPath;
   FDirectoryPath := aDirectoryPath;
 
   if FFileSource.GetPathType(FDirectoryPath) = ptAbsolute then
   begin
     FAbsolutePath := FDirectoryPath;
-    FRelativePath := ExtractDirLevel(FFileSource.CurrentPath, FDirectoryPath);
+    FRelativePath := ExtractDirLevel(aCurrentPath, FDirectoryPath);
   end
   else
   begin
-    FAbsolutePath := FFileSource.CurrentPath + FDirectoryPath;
+    FAbsolutePath := aCurrentPath + FDirectoryPath;
     FRelativePath := FDirectoryPath;
   end;
 end;
@@ -73,9 +79,6 @@ end;
 destructor TFileSourceCreateDirectoryOperation.Destroy;
 begin
   inherited Destroy;
-
-  if Assigned(FFileSource) then
-    FreeAndNil(FFileSource);
 end;
 
 procedure TFileSourceCreateDirectoryOperation.UpdateStatisticsAtStartTime;

@@ -16,17 +16,20 @@ type
 
   TFileSystemExecuteOperation = class(TFileSourceExecuteOperation)
   private
-    FFileSystemFileSource: TFileSystemFileSource;
+    FFileSystemFileSource: IFileSystemFileSource;
   public
     {en
        @param(aTargetFileSource
               File source where the directory should be created.
               Class takes ownership of the pointer.)
+       @param(aCurrentPath
+              Path of the file source where the execution should take place.)
        @param(aExecutablePath
-              Absolute or relative (to TargetFileSource.CurrentPath) path
-              to a executable that should be executed.
+              Absolute or relative (to aCurrentPath) path
+              to a executable that should be executed.)
     }
-    constructor Create(var aTargetFileSource: TFileSource;
+    constructor Create(aTargetFileSource: IFileSource;
+                       aCurrentPath: String;
                        aExecutablePath, aVerb: UTF8String); override;
 
     procedure Initialize; override;
@@ -40,11 +43,12 @@ uses
   Forms, Controls, uOSUtils;
 
 constructor TFileSystemExecuteOperation.Create(
-                var aTargetFileSource: TFileSource;
+                aTargetFileSource: IFileSource;
+                aCurrentPath: String;
                 aExecutablePath, aVerb: UTF8String);
 begin
-  FFileSystemFileSource := aTargetFileSource as TFileSystemFileSource;
-  inherited Create(aTargetFileSource, aExecutablePath, aVerb);
+  FFileSystemFileSource := aTargetFileSource as IFileSystemFileSource;
+  inherited Create(aTargetFileSource, aCurrentPath, aExecutablePath, aVerb);
 end;
 
 procedure TFileSystemExecuteOperation.Initialize;
@@ -55,7 +59,7 @@ end;
 procedure TFileSystemExecuteOperation.MainExecute;
 begin
   // try to open by system
-  mbSetCurrentDir(FFileSystemFileSource.CurrentPath);
+  mbSetCurrentDir(CurrentPath);
   ShellExecute(RelativePath);
 end;
 

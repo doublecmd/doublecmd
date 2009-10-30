@@ -254,6 +254,7 @@ var
   aFile: TFileSystemFile;
 begin
   NewFiles := TFileSystemFiles.Create;
+  NewFiles.Path := Files.Path;
   FilesCount:= 0;
   FilesSize:= 0;
   for i := 0 to Files.Count - 1 do

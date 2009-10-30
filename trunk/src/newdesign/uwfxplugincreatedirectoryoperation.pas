@@ -13,9 +13,10 @@ type
 
   TWfxPluginCreateDirectoryOperation = class(TFileSourceCreateDirectoryOperation)
   private
-    FWfxPluginFileSource: TWfxPluginFileSource;
+    FWfxPluginFileSource: IWfxPluginFileSource;
   public
-    constructor Create(var aTargetFileSource: TFileSource;
+    constructor Create(aTargetFileSource: IFileSource;
+                       aCurrentPath: String;
                        aDirectoryPath: String); override;
 
     procedure Initialize; override;
@@ -29,11 +30,12 @@ uses
   uFileSourceOperationUI, uLog, uLng, uGlobs, uWfxModule;
 
 constructor TWfxPluginCreateDirectoryOperation.Create(
-                var aTargetFileSource: TFileSource;
+                aTargetFileSource: IFileSource;
+                aCurrentPath: String;
                 aDirectoryPath: String);
 begin
-  FWfxPluginFileSource := aTargetFileSource as TWfxPluginFileSource;
-  inherited Create(aTargetFileSource, aDirectoryPath);
+  FWfxPluginFileSource := aTargetFileSource as IWfxPluginFileSource;
+  inherited Create(aTargetFileSource, aCurrentPath, aDirectoryPath);
 end;
 
 procedure TWfxPluginCreateDirectoryOperation.Initialize;
@@ -44,7 +46,7 @@ procedure TWfxPluginCreateDirectoryOperation.MainExecute;
 begin
   with FWfxPluginFileSource do
   begin
-    case WfxMkDir(AbsolutePath) of
+    case WfxMkDir(BasePath, AbsolutePath) of
     WFX_NOTSUPPORTED:
       AskQuestion(rsMsgErrNotSupported, '', [fsourOk], fsourOk, fsourOk);
     WFX_SUCCESS:

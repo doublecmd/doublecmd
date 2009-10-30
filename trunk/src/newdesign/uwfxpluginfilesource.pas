@@ -11,21 +11,45 @@ uses
 
 type
 
+  { IWfxPluginFileSource }
+
+  IWfxPluginFileSource = interface(IFileSource)
+    ['{F1F728C6-F718-4B17-8DE2-BE0134134ED8}']
+
+    procedure FillAndCount(Files: TFiles; out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
+    procedure WfxStatusInfo(RemoteDir: UTF8String; InfoStartEnd, InfoOperation: Integer);
+    function WfxMkDir(const sBasePath: String; const sDirName: UTF8String): LongInt;
+    function WfxRemoveDir(const sDirName: UTF8String): Boolean;
+    function WfxDeleteFile(const sFileName: UTF8String): Boolean;
+    function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
+                         RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
+    function WfxExecuteFile(const sFileName, sVerb: UTF8String; out sNewPath: UTF8String): LongInt;
+
+    function GetPluginNumber: LongInt;
+    function GetWfxModule: TWfxModule;
+
+    property PluginNumber: LongInt read GetPluginNumber;
+    property WfxModule: TWfxModule read GetWfxModule;
+  end;
+
   { TWfxPluginFileSource }
 
-  TWfxPluginFileSource = class(TFileSource)
+  TWfxPluginFileSource = class(TFileSource, IWfxPluginFileSource)
   private
     FModuleFileName,
     FPluginRootName: UTF8String;
     FWFXModule: TWFXModule;
     FPluginNumber: LongInt;
+
+    function GetPluginNumber: LongInt;
+    function GetWfxModule: TWfxModule;
   protected
-    class function GetSupportedFileProperties: TFilePropertiesTypes; override;
+    function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function GetCurrentAddress: String; override;
   public
     procedure FillAndCount(Files: TFiles; out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
     procedure WfxStatusInfo(RemoteDir: UTF8String; InfoStartEnd, InfoOperation: Integer);
-    function WfxMkDir(const sDirName: UTF8String): LongInt;
+    function WfxMkDir(const sBasePath: String; const sDirName: UTF8String): LongInt;
     function WfxRemoveDir(const sDirName: UTF8String): Boolean;
     function WfxDeleteFile(const sFileName: UTF8String): Boolean;
     function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
@@ -35,32 +59,28 @@ type
     constructor Create(aWfxModule: TWfxModule; aModuleFileName, aPluginRootName: UTF8String); reintroduce;
     destructor Destroy; override;
 
-    function Clone: TWfxPluginFileSource; override;
-    procedure CloneTo(FileSource: TFileSource); override;
-
     // Retrieve operations permitted on the source.  = capabilities?
-    class function GetOperationsTypes: TFileSourceOperationTypes; override;
+    function GetOperationsTypes: TFileSourceOperationTypes; override;
 
     // Returns a list of property types supported by this source for each file.
-    class function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
+    function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
 
     // Retrieve some properties of the file source.
-    class function GetProperties: TFileSourceProperties; override;
+    function GetProperties: TFileSourceProperties; override;
 
     // These functions create an operation object specific to the file source.
-    // Each parameter will be owned by the operation (will be freed).
-    function CreateListOperation: TFileSourceOperation; override;
-    function CreateCopyInOperation(var SourceFileSource: TFileSource;
+    function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
+    function CreateCopyInOperation(SourceFileSource: IFileSource;
                                    var SourceFiles: TFiles;
                                    TargetPath: String): TFileSourceOperation; override;
-    function CreateCopyOutOperation(var TargetFileSource: TFileSource;
+    function CreateCopyOutOperation(TargetFileSource: IFileSource;
                                     var SourceFiles: TFiles;
                                     TargetPath: String): TFileSourceOperation; override;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
-    function CreateCreateDirectoryOperation(DirectoryPath: String): TFileSourceOperation; override;
-    function CreateExecuteOperation(ExecutablePath, Verb: String): TFileSourceOperation; override;
+    function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation; override;
+    function CreateExecuteOperation(BasePath, ExecutablePath, Verb: String): TFileSourceOperation; override;
 
-    class function CreateByRootName(aRootName: String): TWfxPluginFileSource;
+    class function CreateByRootName(aRootName: String): IWfxPluginFileSource;
 
     property PluginNumber: LongInt read FPluginNumber;
     property WfxModule: TWfxModule read FWfxModule;
@@ -265,7 +285,6 @@ end;
 constructor TWfxPluginFileSource.Create(aWfxModule: TWfxModule; aModuleFileName, aPluginRootName: UTF8String);
 begin
   inherited Create;
-  CurrentPath:= PathDelim;
   FModuleFileName:= aModuleFileName;
   FPluginRootName:= aPluginRootName;
 
@@ -292,37 +311,22 @@ begin
   inherited Destroy;
 end;
 
-function TWfxPluginFileSource.Clone: TWfxPluginFileSource;
-begin
-  Result := TWfxPluginFileSource.Create(FWfxModule, FModuleFileName, FPluginRootName);
-  CloneTo(Result);
-end;
-
-procedure TWfxPluginFileSource.CloneTo(FileSource: TFileSource);
-begin
-  if Assigned(FileSource) then
-  begin
-    inherited CloneTo(FileSource);
-    (FileSource as TWfxPluginFileSource).FPluginNumber:= FPluginNumber;
-  end;
-end;
-
-class function TWfxPluginFileSource.GetOperationsTypes: TFileSourceOperationTypes;
+function TWfxPluginFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
   Result := [fsoList, fsoCopyIn, fsoCopyOut, fsoDelete, fsoCreateDirectory, fsoExecute];
 end;
 
-class function TWfxPluginFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
+function TWfxPluginFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
 begin
   Result := nil;
 end;
 
-class function TWfxPluginFileSource.GetProperties: TFileSourceProperties;
+function TWfxPluginFileSource.GetProperties: TFileSourceProperties;
 begin
   Result := [];
 end;
 
-class function TWfxPluginFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
+function TWfxPluginFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
   Result := [];
 end;
@@ -330,6 +334,16 @@ end;
 function TWfxPluginFileSource.GetCurrentAddress: String;
 begin
   Result:= 'wfx://' + FPluginRootName;
+end;
+
+function TWfxPluginFileSource.GetPluginNumber: LongInt;
+begin
+  Result := FPluginNumber;
+end;
+
+function TWfxPluginFileSource.GetWfxModule: TWfxModule;
+begin
+  Result := FWFXModule;
 end;
 
 procedure TWfxPluginFileSource.FillAndCount(Files: TFiles; out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
@@ -400,19 +414,19 @@ begin
   end;
 end;
 
-function TWfxPluginFileSource.WfxMkDir(const sDirName: UTF8String): LongInt;
+function TWfxPluginFileSource.WfxMkDir(const sBasePath: String; const sDirName: UTF8String): LongInt;
 begin
   with FWfxModule do
   begin
     Result:= WFX_NOTSUPPORTED;
     if Assigned(FsMkDir) then
       begin
-        WfxStatusInfo(CurrentPath, FS_STATUS_START, FS_STATUS_OP_MKDIR);
+        WfxStatusInfo(sBasePath, FS_STATUS_START, FS_STATUS_OP_MKDIR);
         if FsMkDir(PChar(UTF8ToSys(sDirName))) then
           Result:= WFX_SUCCESS
         else
           Result:= WFX_ERROR;
-        WfxStatusInfo(CurrentPath, FS_STATUS_END, FS_STATUS_OP_MKDIR);
+        WfxStatusInfo(sBasePath, FS_STATUS_END, FS_STATUS_OP_MKDIR);
       end;
   end;
 end;
@@ -490,35 +504,35 @@ begin
   end;
 end;
 
-function TWfxPluginFileSource.CreateListOperation: TFileSourceOperation;
+function TWfxPluginFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
 var
-  TargetFileSource: TFileSource;
+  TargetFileSource: IFileSource;
 begin
-  TargetFileSource := Self.Clone;
-  Result := TWfxPluginListOperation.Create(TargetFileSource);
+  TargetFileSource := Self;
+  Result := TWfxPluginListOperation.Create(TargetFileSource, TargetPath);
 end;
 
 function TWfxPluginFileSource.CreateCopyInOperation(
-           var SourceFileSource: TFileSource;
+           SourceFileSource: IFileSource;
            var SourceFiles: TFiles;
            TargetPath: String): TFileSourceOperation;
 var
-  TargetFileSource: TFileSource;
+  TargetFileSource: IFileSource;
 begin
-  TargetFileSource := Self.Clone;
+  TargetFileSource := Self;
   Result := TWfxPluginCopyInOperation.Create(SourceFileSource,
                                               TargetFileSource,
                                               SourceFiles, TargetPath);
 end;
 
 function TWfxPluginFileSource.CreateCopyOutOperation(
-            var TargetFileSource: TFileSource;
+            TargetFileSource: IFileSource;
             var SourceFiles: TFiles;
             TargetPath: String): TFileSourceOperation;
 var
-  SourceFileSource: TFileSource;
+  SourceFileSource: IFileSource;
 begin
-  SourceFileSource := Self.Clone;
+  SourceFileSource := Self;
   Result := TWfxPluginCopyOutOperation.Create(SourceFileSource,
                                               TargetFileSource,
                                               SourceFiles, TargetPath);
@@ -526,29 +540,29 @@ end;
 
 function TWfxPluginFileSource.CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
 var
-  TargetFileSource: TFileSource;
+  TargetFileSource: IFileSource;
 begin
-  TargetFileSource := Self.Clone;
+  TargetFileSource := Self;
   Result := TWfxPluginDeleteOperation.Create(TargetFileSource, FilesToDelete);
 end;
 
-function TWfxPluginFileSource.CreateCreateDirectoryOperation(DirectoryPath: String): TFileSourceOperation;
+function TWfxPluginFileSource.CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation;
 var
-  TargetFileSource: TFileSource;
+  TargetFileSource: IFileSource;
 begin
-  TargetFileSource := Self.Clone;
-  Result := TWfxPluginCreateDirectoryOperation.Create(TargetFileSource, DirectoryPath);
+  TargetFileSource := Self;
+  Result := TWfxPluginCreateDirectoryOperation.Create(TargetFileSource, BasePath, DirectoryPath);
 end;
 
-function TWfxPluginFileSource.CreateExecuteOperation(ExecutablePath, Verb: String): TFileSourceOperation;
+function TWfxPluginFileSource.CreateExecuteOperation(BasePath, ExecutablePath, Verb: String): TFileSourceOperation;
 var
-  TargetFileSource: TFileSource;
+  TargetFileSource: IFileSource;
 begin
-  TargetFileSource := Self.Clone;
-  Result:=  TWfxPluginExecuteOperation.Create(TargetFileSource, ExecutablePath, Verb);
+  TargetFileSource := Self;
+  Result:=  TWfxPluginExecuteOperation.Create(TargetFileSource, BasePath, ExecutablePath, Verb);
 end;
 
-class function TWfxPluginFileSource.CreateByRootName(aRootName: String): TWfxPluginFileSource;
+class function TWfxPluginFileSource.CreateByRootName(aRootName: String): IWfxPluginFileSource;
 var
   sModuleFileName: UTF8String;
 begin

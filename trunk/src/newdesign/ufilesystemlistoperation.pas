@@ -14,7 +14,7 @@ type
 
   TFileSystemListOperation = class(TFileSourceListOperation)
   public
-    constructor Create(var aFileSource: TFileSource); reintroduce;
+    constructor Create(aFileSource: IFileSource; aPath: String); override;
     procedure MainExecute; override;
   end;
 
@@ -23,10 +23,10 @@ implementation
 uses
   uFileSystemFile, uFindEx;
 
-constructor TFileSystemListOperation.Create(var aFileSource: TFileSource);
+constructor TFileSystemListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
   FFiles := TFileSystemFiles.Create;
-  inherited Create(aFileSource);
+  inherited Create(aFileSource, Path);
 end;
 
 procedure TFileSystemListOperation.MainExecute;
@@ -37,7 +37,7 @@ var
   IsRootPath: Boolean;
 begin
   FFiles.Clear;
-  FFiles.Path := FileSource.CurrentPath;
+  FFiles.Path := Path;
 
   if FindFirstEx(FFiles.Path + '*', faAnyFile, sr) <> 0 then
   begin
@@ -51,7 +51,7 @@ begin
     Exit;
   end;
 
-  IsRootPath := FileSource.IsAtRootPath;
+  IsRootPath := FileSource.IsPathAtRoot(Path);
 
   repeat
     if sr.Name='.' then Continue;
@@ -61,7 +61,7 @@ begin
       Continue;
 
     AFile := TFileSystemFile.Create(sr);
-    AFile.Path := FileSource.CurrentPath;
+    AFile.Path := Path;
     FFiles.Add(AFile);
 
   until FindNextEx(sr)<>0;
