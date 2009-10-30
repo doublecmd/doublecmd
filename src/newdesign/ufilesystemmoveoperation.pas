@@ -31,7 +31,7 @@ type
   protected
 
   public
-    constructor Create(var aFileSource: TFileSource;
+    constructor Create(aFileSource: IFileSource;
                        var theSourceFiles: TFiles;
                        aTargetPath: String); override;
 
@@ -50,7 +50,7 @@ type
 
 implementation
 
-constructor TFileSystemMoveOperation.Create(var aFileSource: TFileSource;
+constructor TFileSystemMoveOperation.Create(aFileSource: IFileSource;
                                             var theSourceFiles: TFiles;
                                             aTargetPath: String);
 begin

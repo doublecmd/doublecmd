@@ -663,7 +663,7 @@ begin
   // Temporarily work for Filesystem only.
   with frmMain do
   begin
-    if not (Panel.FileSource is TFileSystemFileSource) then
+    if not (Panel.FileSource.IsClass(TFileSystemFileSource)) then
     begin
       msgWarning(rsMsgErrNotSupported);
       Exit;
@@ -901,7 +901,7 @@ end;
 
 procedure TActs.cm_OpenVirtualFileSystemList(param:string);
 var
-  FileSource: TFileSource;
+  FileSource: IFileSource;
 begin
   with frmMain do
   begin
@@ -1186,7 +1186,7 @@ var
 begin
   with frmMain do
   // For now only works for FileSystem.
-  if ActiveFrame.FileSource is TFileSystemFileSource then
+  if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
   begin
     sl := TStringList.Create;
     try
@@ -1287,7 +1287,7 @@ var
 begin
   with frmMain do
   // For now only works for FileSystem.
-  if ActiveFrame.FileSource is TFileSystemFileSource then
+  if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
   begin
     SelectedFiles := ActiveFrame.SelectedFiles;
     try
@@ -1360,7 +1360,7 @@ begin
     if not frmMkDir.ShowMkDir(sPath) then Exit;   // show makedir dialog
     if (sPath='') then Exit;
 
-    Operation := ActiveFrame.FileSource.CreateCreateDirectoryOperation(sPath);
+    Operation := ActiveFrame.FileSource.CreateCreateDirectoryOperation(ActiveFrame.CurrentPath, sPath);
     if Assigned(Operation) then
     begin
       try
@@ -1706,7 +1706,7 @@ begin
       else
       begin
         // For now work only for filesystem.
-        if not (ActiveFrame.FileSource is TFileSystemFileSource) then
+        if not (ActiveFrame.FileSource.IsClass(TFileSystemFileSource)) then
         begin
           msgWarning(rsMsgNotImplemented);
           Exit;
@@ -1722,7 +1722,7 @@ begin
             if NotActiveSelectedFiles.Count = 1 then
             begin
               // For now work only for filesystem.
-              if not (NotActiveFrame.FileSource is TFileSystemFileSource) then
+              if not (NotActiveFrame.FileSource.IsClass(TFileSystemFileSource)) then
               begin
                 msgWarning(rsMsgNotImplemented);
                 Exit;
@@ -1908,7 +1908,7 @@ begin
   with frmMain do
   begin
     // Hard links work only for file system.
-    if not (ActiveFrame.FileSource is TFileSystemFileSource) then
+    if not (ActiveFrame.FileSource.IsClass(TFileSystemFileSource)) then
     begin
       msgWarning(rsMsgErrNotSupported);
       Exit;
@@ -1928,7 +1928,7 @@ begin
           sLinkToCreate := param
         else
         begin
-          if NotActiveFrame.FileSource is TFileSystemFileSource then
+          if NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
             sLinkToCreate := NotActiveFrame.CurrentPath
           else
             sLinkToCreate := ActiveFrame.CurrentPath
@@ -1939,7 +1939,7 @@ begin
         if ShowHardLinkForm(sExistingFile, sLinkToCreate, ActiveFrame.CurrentPath) then
         begin
           ActiveFrame.Reload;
-          if NotActiveFrame.FileSource is TFileSystemFileSource then
+          if NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
             NotActiveFrame.Reload;
         end;
       end;
@@ -2098,7 +2098,7 @@ begin
   // For now only works for FileSystem.
 
   with frmMain do
-  if ActiveFrame.FileSource is TFileSystemFileSource then
+  if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
   begin
     aFile := ActiveFrame.ActiveFile;
     if Assigned(aFile) and aFile.IsNameValid then
@@ -2250,7 +2250,7 @@ var
 begin
   with frmMain do
   begin
-    if ActiveFrame.FileSource is TFileSystemFileSource then
+    if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
       begin
         SelectedFiles := ActiveFrame.SelectedFiles;
         if Assigned(SelectedFiles) then
@@ -2266,7 +2266,10 @@ begin
         aFile:= ActiveFrame.ActiveFile;
         if Assigned(aFile) then
           try
-            Operation:= ActiveFrame.FileSource.CreateExecuteOperation(aFile.Path + aFile.Name, 'properties') as TFileSourceExecuteOperation;
+            Operation:= ActiveFrame.FileSource.CreateExecuteOperation(
+                            ActiveFrame.CurrentPath,
+                            aFile.Path + aFile.Name,
+                            'properties') as TFileSourceExecuteOperation;
             if Assigned(Operation) then
               Operation.Execute;
           finally
@@ -2287,7 +2290,7 @@ begin
   with frmMain, frmMain.ActiveFrame do
   begin
     // For now only works for FileSystem.
-    if FileSource is TFileSystemFileSource then
+    if FileSource.IsClass(TFileSystemFileSource) then
     begin
       //if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
       sl:= TStringList.Create;
@@ -2335,7 +2338,7 @@ begin
   with frmMain, frmMain.ActiveFrame do
   begin
     // For now only works for FileSystem.
-    if FileSource is TFileSystemFileSource then
+    if FileSource.IsClass(TFileSystemFileSource) then
     begin
       //if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
       sl:= TStringList.Create;
@@ -2417,7 +2420,7 @@ begin
   Result := False;
 
   with frmMain.ActiveFrame do
-  if FileSource is TFileSystemFileSource then
+  if FileSource.IsClass(TFileSystemFileSource) then
   begin
     sl := TStringList.Create;
     try
@@ -2463,8 +2466,7 @@ var
   Operation: TFileSourceOperation = nil;
   OperationHandle: TOperationHandle;
   ProgressDialog: TfrmFileOp;
-  SourceFileSource: TFileSource = nil;
-  TargetFileSource: TFileSource = nil;
+  SourceFileSource: IFileSource = nil;
 begin
   with frmMain do
   begin
@@ -2503,13 +2505,13 @@ begin
             Exit;
           end;
 
-          SourceFileSource := TFileSystemFileSource.Create(Files.Path);
-          if ActiveFrame.FileSource is TFileSystemFileSource then
+          SourceFileSource := TFileSystemFileSource.Create;
+
+          if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
           begin
             // Make CopyOut for target filesystem.
-            TargetFileSource := ActiveFrame.FileSource.Clone;
             Operation := SourceFileSource.CreateCopyOutOperation(
-                           TargetFileSource, Files,
+                           ActiveFrame.FileSource, Files,
                            ActiveFrame.CurrentPath);
           end
           else
@@ -2518,6 +2520,7 @@ begin
                            SourceFileSource, Files,
                            ActiveFrame.CurrentPath);
           end;
+
         end;
 
         else
@@ -2539,10 +2542,6 @@ begin
       FreeAndNil(fileNamesList);
       if Assigned(Files) then
         FreeAndNil(Files);
-      if Assigned(SourceFileSource) then
-        FreeAndNil(SourceFileSource);
-      if Assigned(TargetFileSource) then
-        FreeAndNil(TargetFileSource);
     end;
   end;
 end;

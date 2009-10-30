@@ -23,7 +23,8 @@ type
   TFileSourceExecuteOperation = class(TFileSourceOperation)
 
   private
-    FFileSource: TFileSource;
+    FFileSource: IFileSource;
+    FCurrentPath: String;
     FAbsolutePath: UTF8String;
     FRelativePath: UTF8String;
     FVerb: UTF8String;
@@ -37,17 +38,20 @@ type
   public
     {en
        @param(aTargetFileSource
-              File source where the directory should be created.
-              Class takes ownership of the pointer.)
+              File source where the directory should be created.)
+       @param(aCurrentPath
+              Path of the file source where the execution should take place.)
        @param(aExecutablePath
-              Absolute or relative (to TargetFileSource.CurrentPath) path
-              to a executable that should be executed.
+              Absolute or relative (to aCurrentPath) path
+              to a executable that should be executed.)
     }
-    constructor Create(var aTargetFileSource: TFileSource;
+    constructor Create(aTargetFileSource: IFileSource;
+                       aCurrentPath: String;
                        aExecutablePath, aVerb: UTF8String); virtual reintroduce;
 
     destructor Destroy; override;
 
+    property CurrentPath: UTF8String read FCurrentPath;
     property ExecutablePath: UTF8String read FExecutablePath write FExecutablePath;
     property AbsolutePath: UTF8String read FAbsolutePath;
     property RelativePath: UTF8String read FRelativePath;
@@ -61,24 +65,25 @@ uses
   uDCUtils;
 
 constructor TFileSourceExecuteOperation.Create(
-                var aTargetFileSource: TFileSource;
+                aTargetFileSource: IFileSource;
+                aCurrentPath: String;
                 aExecutablePath, aVerb: UTF8String);
 begin
   inherited Create(aTargetFileSource, aTargetFileSource);
 
   FFileSource := aTargetFileSource;
-  aTargetFileSource := nil;
+  FCurrentPath := aCurrentPath;
   FExecutablePath := aExecutablePath;
   FVerb := aVerb;
 
   if FFileSource.GetPathType(FExecutablePath) = ptAbsolute then
   begin
     FAbsolutePath := FExecutablePath;
-    FRelativePath := ExtractDirLevel(FFileSource.CurrentPath, FExecutablePath);
+    FRelativePath := ExtractDirLevel(aCurrentPath, FExecutablePath);
   end
   else
   begin
-    FAbsolutePath := FFileSource.CurrentPath + FExecutablePath;
+    FAbsolutePath := aCurrentPath + FExecutablePath;
     FRelativePath := FExecutablePath;
   end;
 end;
@@ -87,8 +92,10 @@ destructor TFileSourceExecuteOperation.Destroy;
 begin
   inherited Destroy;
 
+{
   if Assigned(FFileSource) then
     FreeAndNil(FFileSource);
+}
 end;
 
 procedure TFileSourceExecuteOperation.UpdateStatisticsAtStartTime;

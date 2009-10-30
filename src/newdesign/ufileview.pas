@@ -29,6 +29,7 @@ type
        don't know if this should be changed or not.
     }
     FFileSources: TFileSources;
+    FCurrentPaths: TStringList;   // always include trailing path delimiter
 
     FMethods: TMethodsList;
 
@@ -40,8 +41,8 @@ type
 
     function GetNotebookPage: TCustomPage;
 
-    function GetLastFileSource: TFileSource;
-    function GetFileSource(Index: Integer): TFileSource;
+    function GetLastFileSource: IFileSource;
+    function GetFileSource(Index: Integer): IFileSource;
     function GetFileSourcesCount: Integer;
 
   protected
@@ -53,14 +54,15 @@ type
 
   public
     constructor Create(AOwner: TWinControl;
-                       FileSource: TFileSource); virtual reintroduce;
+                       FileSource: IFileSource;
+                       Path: String); virtual reintroduce;
 
     destructor Destroy; override;
 
     function Clone(NewParent: TWinControl): TFileView; virtual;
     procedure CloneTo(FileView: TFileView); virtual;
 
-    procedure AddFileSource(aFileSource: TFileSource); virtual;
+    procedure AddFileSource(aFileSource: IFileSource); virtual;
     procedure RemoveLastFileSource; virtual;
     {en
        Sets the list of file sources so that each file source is a clone
@@ -89,8 +91,8 @@ type
 
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property CurrentAddress: String read GetCurrentAddress;
-    property FileSource: TFileSource read GetLastFileSource;
-    property FileSources[Index: Integer]: TFileSource read GetFileSource;
+    property FileSource: IFileSource read GetLastFileSource;
+    property FileSources[Index: Integer]: IFileSource read GetFileSource;
     property FileSourcesList: TFileSources read FFileSources;
     property FileSourcesCount: Integer read GetFileSourcesCount;
 
@@ -125,15 +127,18 @@ implementation
 uses
   uActs, LCLProc;
 
-constructor TFileView.Create(AOwner: TWinControl; FileSource: TFileSource);
+constructor TFileView.Create(AOwner: TWinControl; FileSource: IFileSource; Path: String);
 begin
   FOnBeforeChangeDirectory := nil;
   FOnAfterChangeDirectory := nil;
   FOnChangeFileSource := nil;
 
-  FFileSources := TFileSources.Create(True); // True = Free objects on destroy.
+  FFileSources := TFileSources.Create;
   FFileSources.Add(FileSource);
   FMethods := TMethodsList.Create(Self);
+
+  FCurrentPaths := TStringList.Create;
+  FCurrentPaths.Add(Path);
 
   inherited Create(AOwner);
 end;
@@ -143,6 +148,7 @@ begin
   inherited;
   FreeAndNil(FMethods);
   FreeAndNil(FFileSources);
+  FreeAndNil(FCurrentPaths);
 end;
 
 function TFileView.Clone(NewParent: TWinControl): TFileView;
@@ -163,7 +169,7 @@ begin
 
     for i := 0 to FFileSources.Count - 1 do
     begin
-      FileView.FFileSources.Add(FileSources[i].Clone);
+      FileView.FFileSources.Add(FileSources[i]);
     end;
   end;
 end;
@@ -180,12 +186,15 @@ end;
 
 function TFileView.GetCurrentPath: String;
 begin
-  Result := FileSource.CurrentPath;
+  Result := FCurrentPaths.Strings[FCurrentPaths.Count - 1];
 end;
 
 procedure TFileView.SetCurrentPath(NewPath: String);
 begin
-  FileSource.CurrentPath := NewPath;
+  if NewPath <> '' then
+    NewPath := IncludeTrailingPathDelimiter(NewPath);
+
+  FCurrentPaths.Strings[FCurrentPaths.Count - 1] := NewPath;
 end;
 
 function TFileView.GetActiveFile: TFile;
@@ -205,7 +214,7 @@ begin
   end;
 end;
 
-procedure TFileView.AddFileSource(aFileSource: TFileSource);
+procedure TFileView.AddFileSource(aFileSource: IFileSource);
 begin
   FFileSources.Add(aFileSource);
   Reload;
@@ -225,22 +234,22 @@ var
 begin
   FFileSources.Clear;
   for i := 0 to otherFileSources.Count - 1 do
-    FFileSources.Add(otherFileSources.Items[i].Clone);
+    FFileSources.Add(otherFileSources.Items[i]);
   Reload;
   UpdateView;
 end;
 
-function TFileView.GetLastFileSource: TFileSource;
+function TFileView.GetLastFileSource: IFileSource;
 begin
   if FFileSources.Count > 0 then
-    Result := FFileSources.Last as TFileSource
+    Result := FFileSources.Last as IFileSource
   else
     Result := nil;
 end;
 
-function TFileView.GetFileSource(Index: Integer): TFileSource;
+function TFileView.GetFileSource(Index: Integer): IFileSource;
 begin
-  Result := FFileSources.Items[Index] as TFileSource;
+  Result := FFileSources.Items[Index] as IFileSource;
 end;
 
 function TFileView.GetFileSourcesCount: Integer;

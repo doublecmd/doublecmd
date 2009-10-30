@@ -16,7 +16,7 @@ type
   TWcxArchiveCopyOutOperation = class(TFileSourceCopyOutOperation)
 
   private
-    FWcxArchiveFileSource: TWcxArchiveFileSource;
+    FWcxArchiveFileSource: IWcxArchiveFileSource;
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     FCurrentFileSize: Int64;
 
@@ -53,8 +53,8 @@ type
   protected
 
   public
-    constructor Create(var aSourceFileSource: TFileSource;
-                       var aTargetFileSource: TFileSource;
+    constructor Create(aSourceFileSource: IFileSource;
+                       aTargetFileSource: IFileSource;
                        var theSourceFiles: TFiles;
                        aTargetPath: String); override;
 
@@ -141,12 +141,12 @@ end;
 
 // ----------------------------------------------------------------------------
 
-constructor TWcxArchiveCopyOutOperation.Create(var aSourceFileSource: TFileSource;
-                                               var aTargetFileSource: TFileSource;
+constructor TWcxArchiveCopyOutOperation.Create(aSourceFileSource: IFileSource;
+                                               aTargetFileSource: IFileSource;
                                                var theSourceFiles: TFiles;
                                                aTargetPath: String);
 begin
-  FWcxArchiveFileSource := aSourceFileSource as TWcxArchiveFileSource;
+  FWcxArchiveFileSource := aSourceFileSource as IWcxArchiveFileSource;
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;

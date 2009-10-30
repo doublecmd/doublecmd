@@ -459,7 +459,7 @@ type
 //    procedure CopyFile(srcFileList: TFileList; dstFramePanel: TFileView; sDestPath: String);
     procedure MoveFile(sDestPath:String);
     procedure CopyFile(sDestPath:String); //  this is for F5 and Shift+F5
-    procedure GetDestinationPathAndMask(TargetFileSource: TFileSource;
+    procedure GetDestinationPathAndMask(TargetFileSource: IFileSource;
                                         EnteredPath: String; BaseDir: String;
                                         out DestPath, DestMask: String);
     procedure SetActiveFrame(panel: TFilePanelSelect);
@@ -467,7 +467,7 @@ type
     procedure CreateDrivesMenu;
     procedure DrivesMenuClick(Sender: TObject);
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
-    function CreateFileView(sType: String; FileSource: TFileSource; Page: TFileViewPage): TFileView;
+    function CreateFileView(sType: String; FileSource: IFileSource; Path: String; Page: TFileViewPage): TFileView;
     function RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer): LongInt;
     procedure LoadTabs(ANoteBook: TFileViewNotebook);
     procedure SaveTabs(ANoteBook: TFileViewNotebook);
@@ -1839,8 +1839,8 @@ var
   bMove: Boolean;
 begin
   // Only allow moving within the same file source.
-  if (ActiveFrame.FileSource.InheritsFrom(NotActiveFrame.FileSource.ClassType) or
-      NotActiveFrame.FileSource.InheritsFrom(ActiveFrame.FileSource.ClassType)) and
+  if (ActiveFrame.FileSource.IsInterface(NotActiveFrame.FileSource) or
+      NotActiveFrame.FileSource.IsInterface(ActiveFrame.FileSource)) and
      (ActiveFrame.FileSource.CurrentAddress = NotActiveFrame.FileSource.CurrentAddress) and
      (fsoMove in ActiveFrame.FileSource.GetOperationsTypes) and
      (fsoMove in NotActiveFrame.FileSource.GetOperationsTypes) then
@@ -1884,8 +1884,8 @@ begin
                                   SourceFiles.Path, sDestPath, sDstMaskTemp);
 
         // For now at least one must be FileSystem.
-        if not (ActiveFrame.FileSource is TFileSystemFileSource or
-                NotActiveFrame.FileSource is TFileSystemFileSource) then Exit;
+        if not (ActiveFrame.FileSource.IsClass(TFileSystemFileSource) or
+                NotActiveFrame.FileSource.IsClass(TFileSystemFileSource)) then Exit;
 
         if bMove then
         begin
@@ -1928,8 +1928,8 @@ end;
 procedure TfrmMain.CopyFile(sDestPath:String);
 var
   sDstMaskTemp: String;
-  TargetFileSource: TFileSource = nil;
-  SourceFileSource: TFileSource = nil;
+  TargetFileSource: IFileSource = nil;
+  SourceFileSource: IFileSource = nil;
   SourceFiles: TFiles = nil;
   Operation: TFileSourceCopyOperation;
   OperationHandle: TOperationHandle;
@@ -1972,16 +1972,16 @@ begin
 
         // For now at least one must be FileSystem.
 
-        if NotActiveFrame.FileSource is TFileSystemFileSource then
+        if NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
         begin
           // CopyOut to filesystem.
-          TargetFileSource := NotActiveFrame.FileSource.Clone;
+          TargetFileSource := NotActiveFrame.FileSource;
           Operation := ActiveFrame.FileSource.CreateCopyOutOperation(
                            TargetFileSource,
                            SourceFiles,
                            sDestPath) as TFileSourceCopyOperation;
         end
-        else if ActiveFrame.FileSource is TFileSystemFileSource then
+        else if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
         begin
           {if TargetFileSource is TArchiveFileSource then
           begin
@@ -1993,7 +1993,7 @@ begin
           end;}
 
           // CopyIn from filesystem.
-          SourceFileSource := ActiveFrame.FileSource.Clone;
+          SourceFileSource := ActiveFrame.FileSource;
           Operation := NotActiveFrame.FileSource.CreateCopyInOperation(
                            SourceFileSource,
                            SourceFiles,
@@ -2033,7 +2033,7 @@ begin
 
 end;
 
-procedure TfrmMain.GetDestinationPathAndMask(TargetFileSource: TFileSource;
+procedure TfrmMain.GetDestinationPathAndMask(TargetFileSource: IFileSource;
                                              EnteredPath: String; BaseDir: String;
                                              out DestPath, DestMask: String);
 var
@@ -2044,7 +2044,7 @@ begin
   else
   begin
     // This only work for filesystem for now.
-    if TargetFileSource is TFileSystemFileSource then
+    if TargetFileSource.IsClass(TFileSystemFileSource) then
       AbsolutePath := BaseDir + EnteredPath
     else
       AbsolutePath := PathDelim{TargetFileSource.GetRoot} + EnteredPath;
@@ -2053,7 +2053,7 @@ begin
   DoDirSeparators(AbsolutePath);  // normalize path delimiters
   AbsolutePath := ExpandAbsolutePath(AbsolutePath);
 
-  if (TargetFileSource is TFileSystemFileSource) and
+  if (TargetFileSource.IsClass(TFileSystemFileSource)) and
      (AbsolutePath[Length(AbsolutePath)] = PathDelim) then
   begin
     // If the entered path ends with a path delimiter
@@ -2062,7 +2062,7 @@ begin
     DestPath := AbsolutePath;
     DestMask := '*.*';
   end
-  else if (TargetFileSource is TFileSystemFileSource) and
+  else if (TargetFileSource.IsClass(TFileSystemFileSource)) and
           mbDirectoryExists(AbsolutePath) then
   begin
     // Destination is a directory.
@@ -2236,7 +2236,7 @@ begin
         end;
 
       // update file system watcher directory
-      if (Page.FileView.FileSource is TFileSystemFileSource) then
+      if (Page.FileView.FileSource.IsClass(TFileSystemFileSource)) then
       begin
         if (ANoteBook = nbLeft) and Assigned(LeftFrameWatcher) then
           LeftFrameWatcher.WatchPath:= NewDir
@@ -2260,7 +2260,7 @@ begin
       Page := Sender as TFileViewPage;
       ANoteBook := Page.Notebook;
 
-      sCaption := GetLastDir(ExcludeTrailingPathDelimiter(Page.FileView.FileSource.CurrentPath));
+      sCaption := GetLastDir(ExcludeTrailingPathDelimiter(Page.FileView.CurrentPath));
       Page.UpdateCaption(sCaption);
 
       ToggleFileSystemWatcher;
@@ -2427,14 +2427,14 @@ begin
     AddSpecialButtons(dskPanel);
 end;
 
-function TfrmMain.CreateFileView(sType: String; FileSource: TFileSource;
-                                 Page: TFileViewPage): TFileView;
+function TfrmMain.CreateFileView(sType: String; FileSource: IFileSource;
+                                 Path: String; Page: TFileViewPage): TFileView;
 begin
   // This function should be changed to a separate TFileView factory.
 
   if sType = 'columns' then
   begin
-    Result := TColumnsFileView.Create(Page, FileSource);
+    Result := TColumnsFileView.Create(Page, FileSource, Path);
   end
   else
   begin
@@ -2489,6 +2489,7 @@ var
   sPath, sCaption: String;
   iActiveTab: Integer;
   Page: TFileViewPage;
+  aFileSource: IFileSource;
 begin
   if ANoteBook = nbLeft then
     begin
@@ -2528,7 +2529,11 @@ begin
 
       Page := ANoteBook.AddPage(sCaption);
 
-      if not Assigned(CreateFileView('columns', TFileSystemFileSource.Create(sPath), Page)) then
+      aFileSource := FileSourceManager.Find(TFileSystemFileSource, '');
+      if not Assigned(aFileSource) then
+        aFileSource := TFileSystemFileSource.Create;
+
+      if not Assigned(CreateFileView('columns', aFileSource, sPath, Page)) then
       begin
         ANoteBook.RemovePage(Page);
         continue;
@@ -2676,7 +2681,7 @@ begin
   if (watch_attributes_change in gWatchDirs) then
     Include(WatchFilter, wfAttributesChange);
 
-  if (gWatchDirs <> []) and (FrameLeft.FileSource is TFileSystemFileSource) then
+  if (gWatchDirs <> []) and (FrameLeft.FileSource.IsClass(TFileSystemFileSource)) then
     begin
       if not Assigned(LeftFrameWatcher) then
         begin
@@ -2691,7 +2696,7 @@ begin
         FreeAndNil(LeftFrameWatcher);
     end;
 
-  if (gWatchDirs <> []) and (FrameRight.FileSource is TFileSystemFileSource) then
+  if (gWatchDirs <> []) and (FrameRight.FileSource.IsClass(TFileSystemFileSource)) then
     begin
       if not Assigned(RightFrameWatcher) then
         begin
@@ -3326,22 +3331,22 @@ procedure TfrmMain.UpdateFreeSpace(Panel: TFilePanelSelect);
 var
   FreeSize, TotalSize: Int64;
   lblDriveInfo: TLabel;
-  FileSource: TFileSource;
+  aFileView: TFileView;
 begin
   case Panel of
     fpLeft :
       begin
         lblDriveInfo := lblLeftDriveInfo;
-        FileSource := FrameLeft.FileSource;
+        aFileView := FrameLeft;
       end;
     fpRight:
       begin
         lblDriveInfo := lblRightDriveInfo;
-        FileSource := FrameRight.FileSource;
+        aFileView := FrameRight;
       end;
   end;
 
-  if FileSource.GetFreeSpace(FreeSize, TotalSize) then
+  if aFileView.FileSource.GetFreeSpace(aFileView.CurrentPath, FreeSize, TotalSize) then
     lblDriveInfo.Caption := Format(rsFreeMsg, [cnvFormatFileSize(FreeSize), cnvFormatFileSize(TotalSize)])
   else
     lblDriveInfo.Caption := '';
@@ -3353,17 +3358,17 @@ procedure TfrmMain.OperationFinishedEvent(Operation: TFileSourceOperation; Event
   var
     i: Integer;
     aFileView: TFileView;
-    aChangedFileSource: TObject;
+    aChangedFileSource: IFileSource;
   begin
     // Reload all views which file source type and address match.
     for i := 0 to Notebook.PageCount - 1 do
     begin
       aFileView := Notebook.View[i];
-      aChangedFileSource := Operation.ChangedFileSource;
+      aChangedFileSource := Operation.ChangedFileSource as IFileSource;
       if Assigned(aChangedFileSource) and
          // Same type of file source and same address point to the same file source.
-         (aFileView.FileSource.ClassType = aChangedFileSource.ClassType) and
-         (aFileView.FileSource.CurrentAddress = (aChangedFileSource as TFileSource).CurrentAddress) then
+         (aChangedFileSource.IsInterface(aFileView.FileSource)) and
+         (aChangedFileSource.CurrentAddress = aFileView.FileSource.CurrentAddress) then
       begin
         aFileView.Reload;
       end;

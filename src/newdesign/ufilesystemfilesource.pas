@@ -21,50 +21,56 @@ type
      Real file system.
   }
 
+  IFileSystemFileSource = interface(ILocalFileSource)
+    ['{59EDCF45-F151-4AE2-9DCE-3586E6191496}']
+  end;
+
   { TFileSystemFileSource }
 
-  TFileSystemFileSource = class(TLocalFileSource)
+  TFileSystemFileSource = class(TLocalFileSource, IFileSystemFileSource)
 
   protected
-    procedure SetCurrentPath(NewPath: String); override;
 
   public
     constructor Create; override;
-    constructor Create(Path: String); overload;
 
-    function Clone: TFileSystemFileSource; override;
-    procedure CloneTo(FileSource: TFileSource); override;
+    function GetSupportedFileProperties: TFilePropertiesTypes; override;
+    function GetOperationsTypes: TFileSourceOperationTypes; override;
+    function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
+    function GetProperties: TFileSourceProperties; override;
 
-    class function GetSupportedFileProperties: TFilePropertiesTypes; override;
-    class function GetOperationsTypes: TFileSourceOperationTypes; override;
-    class function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
-    class function GetProperties: TFileSourceProperties; override;
+    function IsPathAtRoot(Path: String): Boolean; override;
 
-    function IsAtRootPath: Boolean; override;
+    function GetRootDir(sPath: String): String; override;
+    function GetPathType(sPath : String): TPathType; override;
 
-    class function GetRootDir(sPath: String): String; override;
-    class function GetPathType(sPath : String): TPathType; override;
+    function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; override;
 
-    function GetFreeSpace(out FreeSize, TotalSize : Int64) : Boolean; override;
-
-    function CreateListOperation: TFileSourceOperation; override;
-    function CreateCopyInOperation(var SourceFileSource: TFileSource;
+    function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
+    function CreateCopyInOperation(SourceFileSource: IFileSource;
                                    var SourceFiles: TFiles;
                                    TargetPath: String): TFileSourceOperation; override;
-    function CreateCopyOutOperation(var TargetFileSource: TFileSource;
+    function CreateCopyOutOperation(TargetFileSource: IFileSource;
                                     var SourceFiles: TFiles;
                                     TargetPath: String): TFileSourceOperation; override;
     function CreateMoveOperation(var SourceFiles: TFiles;
                                  TargetPath: String): TFileSourceOperation; override;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
     function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; override;
-    function CreateCreateDirectoryOperation(DirectoryPath: String): TFileSourceOperation; override;
-    function CreateExecuteOperation(ExecutablePath, Verb: String): TFileSourceOperation; override;
+    function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation; override;
+    function CreateExecuteOperation(BasePath, ExecutablePath, Verb: String): TFileSourceOperation; override;
     function CreateCalcChecksumOperation(var theFiles: TFiles;
                                          aTargetPath: String;
                                          aTargetMask: String): TFileSourceOperation; override;
     function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation; override;
     // ------------------------------------------------------
+  end;
+
+  { TFileSystemFileSourceConnection }
+
+  TFileSystemFileSourceConnection = class(TFileSourceConnection)
+  protected
+    procedure SetCurrentPath(NewPath: String); override;
   end;
 
 implementation
@@ -84,31 +90,10 @@ uses
 
 constructor TFileSystemFileSource.Create;
 begin
-  Create(mbGetCurrentDir);
-end;
-
-constructor TFileSystemFileSource.Create(Path: String);
-begin
   inherited Create;
-  inherited SetCurrentPath(Path);
-  FCurrentAddress := '';
 end;
 
-function TFileSystemFileSource.Clone: TFileSystemFileSource;
-begin
-  Result := TFileSystemFileSource.Create(FCurrentPath);
-  CloneTo(Result);
-end;
-
-procedure TFileSystemFileSource.CloneTo(FileSource: TFileSource);
-begin
-  if Assigned(FileSource) then
-  begin
-    inherited CloneTo(FileSource);
-  end;
-end;
-
-class function TFileSystemFileSource.GetOperationsTypes: TFileSourceOperationTypes;
+function TFileSystemFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
   Result := [fsoList,
              fsoCopyIn,
@@ -125,7 +110,7 @@ begin
              //fsoSetPath / fsoChangePath
 end;
 
-class function TFileSystemFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
+function TFileSystemFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
 begin
   SetLength(Result, 2);
 
@@ -133,7 +118,7 @@ begin
   Result[1] := TFileModificationDateTimeProperty.GetDescription;
 end;
 
-class function TFileSystemFileSource.GetProperties: TFileSourceProperties;
+function TFileSystemFileSource.GetProperties: TFileSourceProperties;
 begin
   Result := [
     fspDirectAccess
@@ -143,68 +128,58 @@ begin
   ];
 end;
 
-procedure TFileSystemFileSource.SetCurrentPath(NewPath: String);
+function TFileSystemFileSource.IsPathAtRoot(Path: String): Boolean;
 begin
-  if not mbDirectoryExists(NewPath) then
-    NewPath := mbGetCurrentDir
-  else
-    mbSetCurrentDir(NewPath);
-
-  inherited SetCurrentPath(NewPath);
+  Result := (uDCUtils.GetParentDir(Path) = '');
 end;
 
-function TFileSystemFileSource.IsAtRootPath: Boolean;
-begin
-  Result := (uDCUtils.GetParentDir(CurrentPath) = '');
-end;
-
-class function TFileSystemFileSource.GetRootDir(sPath : String): String;
+function TFileSystemFileSource.GetRootDir(sPath : String): String;
 begin
   Result := uDCUtils.GetRootDir(sPath);
 end;
 
-class function TFileSystemFileSource.GetPathType(sPath : String): TPathType;
+function TFileSystemFileSource.GetPathType(sPath : String): TPathType;
 begin
   Result := uDCUtils.GetPathType(sPath);
 end;
 
-function TFileSystemFileSource.GetFreeSpace(out FreeSize, TotalSize : Int64) : Boolean;
+function TFileSystemFileSource.GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;
 begin
-  Result := GetDiskFreeSpace(CurrentPath, FreeSize, TotalSize);
+  Result := GetDiskFreeSpace(Path, FreeSize, TotalSize);
 end;
 
-class function TFileSystemFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
+function TFileSystemFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
   Result := TFileSystemFile.GetSupportedProperties;
 end;
 
-function TFileSystemFileSource.CreateListOperation: TFileSourceOperation;
+function TFileSystemFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
 var
-  TargetFileSource: TFileSource;
+  TargetFileSource: IFileSource;
 begin
-  TargetFileSource := Self.Clone;
-  Result := TFileSystemListOperation.Create(TargetFileSource);
+  TargetFileSource := Self;
+  Result := TFileSystemListOperation.Create(TargetFileSource, TargetPath);
 end;
 
-function TFileSystemFileSource.CreateCopyInOperation(var SourceFileSource: TFileSource;
+function TFileSystemFileSource.CreateCopyInOperation(SourceFileSource: IFileSource;
                                                      var SourceFiles: TFiles;
                                                      TargetPath: String): TFileSourceOperation;
 var
-  TargetFileSource: TFileSource;
+  TargetFileSource: IFileSource;
 begin
-  TargetFileSource := Self.Clone;
+  TargetFileSource := Self;
   Result := TFileSystemCopyInOperation.Create(
                 SourceFileSource, TargetFileSource,
                 SourceFiles, TargetPath);
 end;
 
-function TFileSystemFileSource.CreateCopyOutOperation(var TargetFileSource: TFileSource;
+function TFileSystemFileSource.CreateCopyOutOperation(TargetFileSource: IFileSource;
                                                       var SourceFiles: TFiles;
                                                       TargetPath: String): TFileSourceOperation;
 var
-  SourceFileSource: TFileSource;
+  SourceFileSource: IFileSource;
 begin
-  SourceFileSource := Self.Clone;
+  SourceFileSource := Self;
   Result := TFileSystemCopyOutOperation.Create(
                 SourceFileSource, TargetFileSource,
                 SourceFiles, TargetPath);
@@ -213,51 +188,51 @@ end;
 function TFileSystemFileSource.CreateMoveOperation(var SourceFiles: TFiles;
                                                    TargetPath: String): TFileSourceOperation;
 var
-  TargetFileSource: TFileSource;
+  TargetFileSource: IFileSource;
 begin
-  TargetFileSource := Self.Clone;
+  TargetFileSource := Self;
   Result := TFileSystemMoveOperation.Create(TargetFileSource, SourceFiles, TargetPath);
 end;
 
 function TFileSystemFileSource.CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
 var
-  TargetFileSource: TFileSource;
+  TargetFileSource: IFileSource;
 begin
-  TargetFileSource := Self.Clone;
+  TargetFileSource := Self;
   Result := TFileSystemDeleteOperation.Create(TargetFileSource, FilesToDelete);
 end;
 
 function TFileSystemFileSource.CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation;
 var
-  TargetFileSource: TFileSource;
+  TargetFileSource: IFileSource;
 begin
-  TargetFileSource := Self.Clone;
+  TargetFileSource := Self;
   Result := TFileSystemWipeOperation.Create(TargetFileSource, FilesToWipe);
 end;
 
-function TFileSystemFileSource.CreateCreateDirectoryOperation(DirectoryPath: String): TFileSourceOperation;
+function TFileSystemFileSource.CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation;
 var
-  TargetFileSource: TFileSource;
+  TargetFileSource: IFileSource;
 begin
-  TargetFileSource := Self.Clone;
-  Result := TFileSystemCreateDirectoryOperation.Create(TargetFileSource, DirectoryPath);
+  TargetFileSource := Self;
+  Result := TFileSystemCreateDirectoryOperation.Create(TargetFileSource, BasePath, DirectoryPath);
 end;
 
-function TFileSystemFileSource.CreateExecuteOperation(ExecutablePath, Verb: String): TFileSourceOperation;
+function TFileSystemFileSource.CreateExecuteOperation(BasePath, ExecutablePath, Verb: String): TFileSourceOperation;
 var
-  TargetFileSource: TFileSource;
+  TargetFileSource: IFileSource;
 begin
-  TargetFileSource := Self.Clone;
-  Result:=  TFileSystemExecuteOperation.Create(TargetFileSource, ExecutablePath, Verb);
+  TargetFileSource := Self;
+  Result:=  TFileSystemExecuteOperation.Create(TargetFileSource, BasePath, ExecutablePath, Verb);
 end;
 
 function TFileSystemFileSource.CreateCalcChecksumOperation(var theFiles: TFiles;
                                                            aTargetPath: String;
                                                            aTargetMask: String): TFileSourceOperation;
 var
-  TargetFileSource: TFileSource;
+  TargetFileSource: IFileSource;
 begin
-  TargetFileSource := Self.Clone;
+  TargetFileSource := Self;
   Result := TFileSystemCalcChecksumOperation.Create(
                 TargetFileSource,
                 theFiles,
@@ -267,10 +242,22 @@ end;
 
 function TFileSystemFileSource.CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation;
 var
-  TargetFileSource: TFileSource;
+  TargetFileSource: IFileSource;
 begin
-  TargetFileSource := Self.Clone;
+  TargetFileSource := Self;
   Result := TFileSystemCalcStatisticsOperation.Create(TargetFileSource, theFiles);
+end;
+
+{ TFileSystemFileSourceConnection }
+
+procedure TFileSystemFileSourceConnection.SetCurrentPath(NewPath: String);
+begin
+  if not mbDirectoryExists(NewPath) then
+    NewPath := mbGetCurrentDir
+  else
+    mbSetCurrentDir(NewPath);
+
+  inherited SetCurrentPath(NewPath);
 end;
 
 end.

@@ -239,7 +239,8 @@ type
        Private constructor used to create an object intended to be a clone
        (with its properties copied from another object).
     }
-    constructor Create(AOwner: TWinControl; AFileSource: TFileSource; Cloning: Boolean = False); overload;
+    constructor Create(AOwner: TWinControl; AFileSource: IFileSource;
+                       APath: String; Cloning: Boolean = False); overload;
 
     function GetGridHorzLine: Boolean;
     function GetGridVertLine: Boolean;
@@ -336,14 +337,14 @@ type
     isSlave:boolean;
 //---------------------
 
-    constructor Create(AOwner: TWinControl; AFileSource: TFileSource); override;
+    constructor Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String); override;
 
     destructor Destroy; override;
 
     function Clone(NewParent: TWinControl): TColumnsFileView; override;
     procedure CloneTo(FileView: TFileView); override;
 
-    procedure AddFileSource(aFileSource: TFileSource); override;
+    procedure AddFileSource(aFileSource: IFileSource); override;
     procedure RemoveLastFileSource; override;
 
     {en
@@ -590,7 +591,7 @@ var
   sUpLevel: String;
 begin
   // Check if this is root level of the current file source.
-  if FileSource.IsAtRootPath then
+  if FileSource.IsPathAtRoot(CurrentPath) then
   begin
     // If there is a higher level file source then change to it.
     if FileSourcesCount > 1 then
@@ -1203,7 +1204,7 @@ begin
 
     AddDirToHistory(fActiveDir);
 }
-    FileSource.CurrentPath := NewPath; // TODO: error handling (exception?)
+//    FileSource.CurrentPath := NewPath; // TODO: error handling (exception?)
 
     LastActive := '';
     dgPanel.Row := 0;
@@ -1818,7 +1819,7 @@ begin
         OldFileNameAbsolute := edtRename.Hint;
         NewFileNameAbsolute := ExtractFilePath(OldFileNameAbsolute) + NewFileName;
 
-        if (FileSource is TFileSystemFileSource) and mbFileExists(NewFileNameAbsolute) then
+        if (FileSource.IsClass(TFileSystemFileSource)) and mbFileExists(NewFileNameAbsolute) then
         begin
           if MsgBox(Format(rsMsgFileExistsRwrt, [NewFileName]),
                     [msmbYes, msmbNo], msmbYes, msmbNo) = mmrNo then
@@ -2309,19 +2310,20 @@ begin
     dgPanel.Options := dgPanel.Options - [goVertLine]
 end;
 
-constructor TColumnsFileView.Create(AOwner: TWinControl; AFileSource: TFileSource);
+constructor TColumnsFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String);
 begin
-  Create(AOwner, AFileSource, False);
+  Create(AOwner, AFileSource, APath, False);
 end;
 
-constructor TColumnsFileView.Create(AOwner: TWinControl; AFileSource: TFileSource; Cloning: Boolean = False);
+constructor TColumnsFileView.Create(AOwner: TWinControl; AFileSource: IFileSource;
+                                    APath: String; Cloning: Boolean = False);
 begin
   DebugLn('TColumnsFileView.Create components');
 
   dgPanel := nil;
 
   BorderStyle := bsNone; // Before Create or the window may be recreated
-  inherited Create(AOwner, AFileSource);
+  inherited Create(AOwner, AFileSource, APath);
   Parent := AOwner;
   Align := alClient;
 
@@ -2470,16 +2472,9 @@ begin
 end;
 
 function TColumnsFileView.Clone(NewParent: TWinControl): TColumnsFileView;
-var
-  FileSourceCloned: TFileSource;
 begin
-  FileSourceCloned := FileSource.Clone;
-  try
-    Result := TColumnsFileView.Create(NewParent, FileSourceCloned, True);
-    CloneTo(Result);
-  except
-    FreeAndNil(FileSourceCloned);
-  end;
+  Result := TColumnsFileView.Create(NewParent, FileSource, CurrentPath, True);
+  CloneTo(Result);
 end;
 
 procedure TColumnsFileView.CloneTo(FileView: TFileView);
@@ -2529,7 +2524,7 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.AddFileSource(aFileSource: TFileSource);
+procedure TColumnsFileView.AddFileSource(aFileSource: IFileSource);
 begin
   LastActive := '';
 
@@ -2570,15 +2565,15 @@ begin
     FreeAndNil(FFileSourceFiles);
   end;
 
-  FFileSourceFiles := FileSource.GetFiles;
+  FFileSourceFiles := FileSource.GetFiles(CurrentPath);
 
   if Assigned(FFileSourceFiles) then
   begin
     // Add '..' to go to higher level file source, if there is more than one.
-    if (FileSourcesCount > 1) and (FileSource.IsAtRootPath) then
+    if (FileSourcesCount > 1) and (FileSource.IsPathAtRoot(CurrentPath)) then
     begin
       AFile := TFileSystemFile.Create; // Should be appropriate class type
-      AFile.Path := FileSource.CurrentPath;
+      AFile.Path := CurrentPath;
       AFile.Name := '..';
       AFile.Attributes := faFolder;
       FFileSourceFiles.Add(AFile);

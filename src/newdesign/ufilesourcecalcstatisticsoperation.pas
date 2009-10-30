@@ -39,7 +39,7 @@ type
   private
     FStatistics: TFileSourceCalcStatisticsOperationStatistics;
     FStatisticsLock: TCriticalSection;             //<en For synchronizing statistics.
-    FFileSource: TFileSource;
+    FFileSource: IFileSource;
     FFiles: TFiles;
 
   protected
@@ -52,11 +52,11 @@ type
     procedure UpdateStatistics(var NewStatistics: TFileSourceCalcStatisticsOperationStatistics);
     procedure UpdateStatisticsAtStartTime; override;
 
-    property FileSource: TFileSource read FFileSource;
+    property FileSource: IFileSource read FFileSource;
     property Files: TFiles read FFiles;
 
   public
-    constructor Create(var aTargetFileSource: TFileSource;
+    constructor Create(aTargetFileSource: IFileSource;
                        var theFiles: TFiles); virtual reintroduce;
 
     destructor Destroy; override;
@@ -74,7 +74,7 @@ uses
   uGlobs;
 
 constructor TFileSourceCalcStatisticsOperation.Create(
-                var aTargetFileSource: TFileSource;
+                aTargetFileSource: IFileSource;
                 var theFiles: TFiles);
 begin
   with FStatistics do
@@ -96,7 +96,6 @@ begin
   inherited Create(aTargetFileSource, nil);
 
   FFileSource := aTargetFileSource;
-  aTargetFileSource := nil;
   FFiles := theFiles;
   theFiles := nil;
 
@@ -112,8 +111,6 @@ begin
     FreeAndNil(FStatisticsLock);
   if Assigned(FFiles) then
     FreeAndNil(FFiles);
-  if Assigned(FFileSource) then
-    FreeAndNil(FFileSource);
 end;
 
 function TFileSourceCalcStatisticsOperation.GetID: TFileSourceOperationType;

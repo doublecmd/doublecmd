@@ -82,7 +82,7 @@ type
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
   public
-    constructor Create(var aTargetFileSource: TFileSource;
+    constructor Create(aTargetFileSource: IFileSource;
                        var theFilesToWipe: TFiles); override;
 
     destructor Destroy; override;
@@ -97,8 +97,8 @@ implementation
 uses
   uOSUtils, uLng, uFindEx, uClassesEx, uFileSystemUtil, LCLProc;
 
-constructor TFileSystemWipeOperation.Create(var aTargetFileSource: TFileSource;
-                                              var theFilesToWipe: TFiles);
+constructor TFileSystemWipeOperation.Create(aTargetFileSource: IFileSource;
+                                            var theFilesToWipe: TFiles);
 begin
   FSymLinkOption := fsooslNone;
   FSkipErrors := False;

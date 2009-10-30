@@ -11,32 +11,38 @@ uses
 
 type
 
-  TVfsFileSource = class(TVirtualFileSource)
+  IVfsFileSource = interface(IVirtualFileSource)
+    ['{87D0A3EF-C168-44C1-8B10-3AEC0753846A}']
+
+    function GetWfxModuleList: TWFXModuleList;
+
+    property VfsFileList: TWFXModuleList read GetWfxModuleList;
+  end;
+
+  TVfsFileSource = class(TVirtualFileSource, IVfsFileSource)
   private
     FWFXModuleList: TWFXModuleList;
 
+    function GetWfxModuleList: TWFXModuleList;
+
   protected
-    class function GetSupportedFileProperties: TFilePropertiesTypes; override;
+    function GetSupportedFileProperties: TFilePropertiesTypes; override;
 
   public
     constructor Create(aWFXModuleList: TWFXModuleList); reintroduce;
     destructor Destroy; override;
 
-    function Clone: TVfsFileSource; override;
-    procedure CloneTo(FileSource: TFileSource); override;
-
     // Retrieve operations permitted on the source.  = capabilities?
-    class function GetOperationsTypes: TFileSourceOperationTypes; override;
+    function GetOperationsTypes: TFileSourceOperationTypes; override;
 
     // Returns a list of property types supported by this source for each file.
-    class function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
+    function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
 
     // Retrieve some properties of the file source.
-    class function GetProperties: TFileSourceProperties; override;
+    function GetProperties: TFileSourceProperties; override;
 
     // These functions create an operation object specific to the file source.
-    // Each parameter will be owned by the operation (will be freed).
-    function CreateListOperation: TFileSourceOperation; override;
+    function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
 
     property VfsFileList: TWFXModuleList read FWFXModuleList;
 
@@ -62,46 +68,37 @@ begin
   inherited Destroy;
 end;
 
-function TVfsFileSource.Clone: TVfsFileSource;
-begin
-  Result := TVfsFileSource.Create(FWFXModuleList);
-  CloneTo(Result);
-end;
-
-procedure TVfsFileSource.CloneTo(FileSource: TFileSource);
-begin
-  if Assigned(FileSource) then
-  begin
-    inherited CloneTo(FileSource);
-  end;
-end;
-
-class function TVfsFileSource.GetOperationsTypes: TFileSourceOperationTypes;
+function TVfsFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
   Result := [fsoList];
 end;
 
-class function TVfsFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
+function TVfsFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
 begin
   Result := nil;
 end;
 
-class function TVfsFileSource.GetProperties: TFileSourceProperties;
+function TVfsFileSource.GetProperties: TFileSourceProperties;
 begin
   Result := [fspVirtual];
 end;
 
-class function TVfsFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
+function TVfsFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
   Result := [];
 end;
 
-function TVfsFileSource.CreateListOperation: TFileSourceOperation;
-var
-  TargetFileSource: TFileSource;
+function TVfsFileSource.GetWfxModuleList: TWFXModuleList;
 begin
-  TargetFileSource := Self.Clone;
-  Result := TVfsListOperation.Create(TargetFileSource);
+  Result := FWFXModuleList;
+end;
+
+function TVfsFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
+var
+  TargetFileSource: IFileSource;
+begin
+  TargetFileSource := Self;
+  Result := TVfsListOperation.Create(TargetFileSource, TargetPath);
 end;
 
 end.

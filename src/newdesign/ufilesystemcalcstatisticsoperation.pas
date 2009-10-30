@@ -26,7 +26,7 @@ type
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
   public
-    constructor Create(var aTargetFileSource: TFileSource;
+    constructor Create(aTargetFileSource: IFileSource;
                        var theFiles: TFiles); override;
 
     destructor Destroy; override;
@@ -41,7 +41,7 @@ uses
   uFileSourceOperationOptions, uOSUtils, uLng, uFindEx;
 
 constructor TFileSystemCalcStatisticsOperation.Create(
-                var aTargetFileSource: TFileSource;
+                aTargetFileSource: IFileSource;
                 var theFiles: TFiles);
 begin
   inherited Create(aTargetFileSource, theFiles);

@@ -150,12 +150,12 @@ type
     {en
        File source on which this operation is executed.
     }
-    FFileSource: TObject;
+    FFileSource: IInterface;
     {en
        File source that will experience changes due to this operation.
        Can be nil.
     }
-    FChangedFileSource: TObject;
+    FChangedFileSource: IInterface;
 
     {en
        This function must be run from the GUI thread.
@@ -244,7 +244,7 @@ type
     property Thread: TThread read FThread;
 
   public
-    constructor Create(const aFileSource: TObject; const aChangedFileSource: TObject); virtual;
+    constructor Create(const aFileSource: IInterface; const aChangedFileSource: IInterface); virtual;
     destructor Destroy; override;
 
     {en
@@ -304,8 +304,8 @@ type
     property State: TFileSourceOperationState read GetState;
     property StartTime: TDateTime read FStartTime;
     property Result: TFileSourceOperationResult read FOperationResult;
-    property FileSource: TObject read FFileSource;
-    property ChangedFileSource: TObject read FChangedFileSource;
+    property FileSource: IInterface read FFileSource;
+    property ChangedFileSource: IInterface read FChangedFileSource;
   end;
 
   EFileSourceOperationAborting = class(Exception)
@@ -329,7 +329,7 @@ type
     UserInterface: TFileSourceOperationUI;
   end;
 
-constructor TFileSourceOperation.Create(const aFileSource: TObject; const aChangedFileSource: TObject);
+constructor TFileSourceOperation.Create(const aFileSource: IInterface; const aChangedFileSource: IInterface);
 var
   Event: TFileSourceOperationEvent;
 begin

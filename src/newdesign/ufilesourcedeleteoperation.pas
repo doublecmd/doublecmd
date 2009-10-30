@@ -33,7 +33,7 @@ type
     FStatistics: TFileSourceDeleteOperationStatistics;
     FStatisticsAtStartTime: TFileSourceDeleteOperationStatistics;
     FStatisticsLock: TCriticalSection;             //<en For synchronizing statistics.
-    FFileSource: TFileSource;
+    FFileSource: IFileSource;
     FFilesToDelete: TFiles;
 
   protected
@@ -42,11 +42,11 @@ type
     procedure UpdateStatistics(var NewStatistics: TFileSourceDeleteOperationStatistics);
     procedure UpdateStatisticsAtStartTime; override;
 
-    property FileSource: TFileSource read FFileSource;
+    property FileSource: IFileSource read FFileSource;
     property FilesToDelete: TFiles read FFilesToDelete;
 
   public
-    constructor Create(var aTargetFileSource: TFileSource;
+    constructor Create(aTargetFileSource: IFileSource;
                        var theFilesToDelete: TFiles); virtual reintroduce;
     destructor Destroy; override;
 
@@ -58,7 +58,7 @@ implementation
 uses
   uDCUtils;
 
-constructor TFileSourceDeleteOperation.Create(var aTargetFileSource: TFileSource;
+constructor TFileSourceDeleteOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToDelete: TFiles);
 begin
   with FStatistics do
@@ -91,8 +91,6 @@ begin
     FreeAndNil(FStatisticsLock);
   if Assigned(FFilesToDelete) then
     FreeAndNil(FFilesToDelete);
-  if Assigned(FFileSource) then
-    FreeAndNil(FFileSource);
 end;
 
 function TFileSourceDeleteOperation.GetID: TFileSourceOperationType;

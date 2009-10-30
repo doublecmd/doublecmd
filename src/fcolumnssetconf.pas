@@ -210,7 +210,7 @@ type
 implementation
 
 uses
-  uLng, uFileSystemFileSource;
+  uLng, uFileSystemFileSource, uOSUtils;
 
 const
   pnlCustHeight: Integer = 130;
@@ -464,7 +464,7 @@ begin
 
   // Initialize property storage
   InitPropStorage(Self);
-  PreviewPan := TColumnsFileView.Create(pnlPreview, TFileSystemFileSource.Create);
+  PreviewPan := TColumnsFileView.Create(pnlPreview, TFileSystemFileSource.Create, mbGetCurrentDir);
 
   CreateEditingControls;
 end;

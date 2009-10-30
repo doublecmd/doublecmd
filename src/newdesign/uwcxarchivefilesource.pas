@@ -10,7 +10,20 @@ uses
   uArchiveFileSource, uFileProperty, uFileSource, uFileSourceOperation;
 
 type
-  TWcxArchiveFileSource = class(TArchiveFileSource)
+  IWcxArchiveFileSource = interface(IArchiveFileSource)
+    ['{DB32E8A8-486B-4053-9448-4C145C1A33FA}']
+
+    function GetArcFileList: TObjectList;
+    function GetPluginFlags: PtrInt;
+    procedure SetPluginFlags(NewPluginFlags: PtrInt);
+    function GetWcxModule: TWcxModule;
+
+    property ArchiveFileList: TObjectList read GetArcFileList;
+    property PluginFlags: PtrInt read GetPluginFlags write SetPluginFlags;
+    property WcxModule: TWCXModule read GetWcxModule;
+  end;
+
+  TWcxArchiveFileSource = class(TArchiveFileSource, IWcxArchiveFileSource)
   private
     FModuleFileName: String;
     FPluginFlags: PtrInt;
@@ -22,8 +35,13 @@ type
 
     function ReadArchive(bCanYouHandleThisFile : Boolean = False): Boolean;
 
+    function GetArcFileList: TObjectList;
+    function GetPluginFlags: PtrInt;
+    procedure SetPluginFlags(NewPluginFlags: PtrInt);
+    function GetWcxModule: TWcxModule;
+
   protected
-    class function GetSupportedFileProperties: TFilePropertiesTypes; override;
+    function GetSupportedFileProperties: TFilePropertiesTypes; override;
 
   public
     constructor Create(anArchiveFileName: String;
@@ -31,30 +49,26 @@ type
                        aWcxPluginFlags: PtrInt); reintroduce;
     destructor Destroy; override;
 
-    function Clone: TWcxArchiveFileSource; override;
-    procedure CloneTo(FileSource: TFileSource); override;
-
     // Retrieve operations permitted on the source.  = capabilities?
-    class function GetOperationsTypes: TFileSourceOperationTypes; override;
+    function GetOperationsTypes: TFileSourceOperationTypes; override;
 
     // Returns a list of property types supported by this source for each file.
-    class function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
+    function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
 
     // Retrieve some properties of the file source.
-    class function GetProperties: TFileSourceProperties; override;
+    function GetProperties: TFileSourceProperties; override;
 
     // These functions create an operation object specific to the file source.
-    // Each parameter will be owned by the operation (will be freed).
-    function CreateListOperation: TFileSourceOperation; override;
-    function CreateCopyInOperation(var SourceFileSource: TFileSource;
+    function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
+    function CreateCopyInOperation(SourceFileSource: IFileSource;
                                    var SourceFiles: TFiles;
                                    TargetPath: String): TFileSourceOperation; override;
-    function CreateCopyOutOperation(var TargetFileSource: TFileSource;
+    function CreateCopyOutOperation(TargetFileSource: IFileSource;
                                     var SourceFiles: TFiles;
                                     TargetPath: String): TFileSourceOperation; override;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
 
-    class function CreateByArchiveName(anArchiveFileName: String): TWcxArchiveFileSource;
+    class function CreateByArchiveName(anArchiveFileName: String): IWcxArchiveFileSource;
 
     property ArchiveFileList: TObjectList read FArcFileList;
     property PluginFlags: PtrInt read FPluginFlags write FPluginFlags;
@@ -72,7 +86,7 @@ uses Forms, Controls, uGlobs, LCLProc, uDCUtils,
      uWcxArchiveCopyOutOperation,
      uWcxArchiveDeleteOperation;
 
-class function TWcxArchiveFileSource.CreateByArchiveName(anArchiveFileName: String): TWcxArchiveFileSource;
+class function TWcxArchiveFileSource.CreateByArchiveName(anArchiveFileName: String): IWcxArchiveFileSource;
 var
   i: Integer;
   ModuleFileName: String;
@@ -132,39 +146,22 @@ begin
     FreeAndNil(FWcxModule);
 end;
 
-function TWcxArchiveFileSource.Clone: TWcxArchiveFileSource;
-begin
-  Result := TWcxArchiveFileSource.Create(FCurrentAddress, FModuleFileName, FPluginFlags);
-  CloneTo(Result);
-end;
-
-procedure TWcxArchiveFileSource.CloneTo(FileSource: TFileSource);
-begin
-  if Assigned(FileSource) then
-  begin
-    inherited CloneTo(FileSource);
-
-    // Clone FArcFileList : TList;
-    // probably don't copy module handle and function addresses?
-  end;
-end;
-
-class function TWcxArchiveFileSource.GetOperationsTypes: TFileSourceOperationTypes;
+function TWcxArchiveFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
   Result := [fsoList, fsoCopyIn, fsoCopyOut, fsoDelete];
 end;
 
-class function TWcxArchiveFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
+function TWcxArchiveFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
 begin
   Result := nil;
 end;
 
-class function TWcxArchiveFileSource.GetProperties: TFileSourceProperties;
+function TWcxArchiveFileSource.GetProperties: TFileSourceProperties;
 begin
   Result := [];
 end;
 
-class function TWcxArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
+function TWcxArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
   Result := TWcxArchiveFile.GetSupportedProperties;
 end;
@@ -180,35 +177,55 @@ begin
   WcxModule.UnloadModule;
 end;
 
-function TWcxArchiveFileSource.CreateListOperation: TFileSourceOperation;
-var
-  TargetFileSource: TFileSource;
+function TWcxArchiveFileSource.GetArcFileList: TObjectList;
 begin
-  TargetFileSource := Self.Clone;
-  Result := TWcxArchiveListOperation.Create(TargetFileSource);
+  Result := FArcFileList;
+end;
+
+function TWcxArchiveFileSource.GetPluginFlags: PtrInt;
+begin
+  Result := FPluginFlags;
+end;
+
+procedure TWcxArchiveFileSource.SetPluginFlags(NewPluginFlags: PtrInt);
+begin
+  FPluginFlags := NewPluginFlags;
+end;
+
+function TWcxArchiveFileSource.GetWcxModule: TWcxModule;
+begin
+  Result := FWcxModule;
+end;
+
+function TWcxArchiveFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
+var
+  TargetFileSource: IFileSource;
+begin
+  TargetFileSource := Self;
+  Result := TWcxArchiveListOperation.Create(TargetFileSource, TargetPath);
 end;
 
 function TWcxArchiveFileSource.CreateCopyInOperation(
-            var SourceFileSource: TFileSource;
+            SourceFileSource: IFileSource;
             var SourceFiles: TFiles;
             TargetPath: String): TFileSourceOperation;
 var
-  TargetFileSource: TFileSource;
+  TargetFileSource: IFileSource;
 begin
-  TargetFileSource := Self.Clone;
+  TargetFileSource := Self;
   Result := TWcxArchiveCopyInOperation.Create(SourceFileSource,
                                               TargetFileSource,
                                               SourceFiles, TargetPath);
 end;
 
 function TWcxArchiveFileSource.CreateCopyOutOperation(
-            var TargetFileSource: TFileSource;
+            TargetFileSource: IFileSource;
             var SourceFiles: TFiles;
             TargetPath: String): TFileSourceOperation;
 var
-  SourceFileSource: TFileSource;
+  SourceFileSource: IFileSource;
 begin
-  SourceFileSource := Self.Clone;
+  SourceFileSource := Self;
   Result := TWcxArchiveCopyOutOperation.Create(SourceFileSource,
                                                TargetFileSource,
                                                SourceFiles, TargetPath);
@@ -216,9 +233,9 @@ end;
 
 function TWcxArchiveFileSource.CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
 var
-  TargetFileSource: TFileSource;
+  TargetFileSource: IFileSource;
 begin
-  TargetFileSource := Self.Clone;
+  TargetFileSource := Self;
   Result := TWcxArchiveDeleteOperation.Create(TargetFileSource,
                                               FilesToDelete);
 end;

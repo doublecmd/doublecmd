@@ -14,9 +14,9 @@ type
 
   TWfxPluginListOperation = class(TFileSourceListOperation)
   private
-    FWfxPluginFileSource: TWfxPluginFileSource;
+    FWfxPluginFileSource: IWfxPluginFileSource;
   public
-    constructor Create(var aFileSource: TFileSource); reintroduce;
+    constructor Create(aFileSource: IFileSource; aPath: String); override;
     procedure MainExecute; override;
   end;
 
@@ -25,11 +25,11 @@ implementation
 uses
   LCLProc, FileUtil, uOSUtils, uDCUtils, uWfxPluginFile, uFile, uFileAttributes, WfxPlugin;
 
-constructor TWfxPluginListOperation.Create(var aFileSource: TFileSource);
+constructor TWfxPluginListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
   FFiles := TFiles.Create;
-  FWfxPluginFileSource := aFileSource as TWfxPluginFileSource;
-  inherited Create(aFileSource);
+  FWfxPluginFileSource := aFileSource as IWfxPluginFileSource;
+  inherited Create(aFileSource, aPath);
 end;
 
 procedure TWfxPluginListOperation.MainExecute;
@@ -41,13 +41,13 @@ var
 begin
   with FWfxPluginFileSource.WFXModule do
   begin
-    sPath:= FileSource.CurrentPath;
+    sPath:= Path;
     WFXStatusInfo(sPath, FS_STATUS_START, FS_STATUS_OP_LIST);
 
     FFiles.Clear;
     FFiles.Path := IncludeTrailingPathDelimiter(sPath);
 
-    if not FileSource.IsAtRootPath then
+    if not FileSource.IsPathAtRoot(Path) then
     begin
       aFile := TWfxPluginFile.Create;
       aFile.Path := sPath;

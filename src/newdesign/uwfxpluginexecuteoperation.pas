@@ -16,17 +16,19 @@ type
 
   TWfxPluginExecuteOperation = class(TFileSourceExecuteOperation)
   private
-    FWfxPluginFileSource: TWfxPluginFileSource;
+    FWfxPluginFileSource: IWfxPluginFileSource;
   public
     {en
        @param(aTargetFileSource
-              File source where the directory should be created.
-              Class takes ownership of the pointer.)
+              File source where the directory should be created.)
+       @param(aCurrentPath
+              Path of the file source where the execution should take place.)
        @param(aExecutablePath
               Absolute or relative (to TargetFileSource.CurrentPath) path
-              to a executable that should be executed.
+              to a executable that should be executed.)
     }
-    constructor Create(var aTargetFileSource: TFileSource;
+    constructor Create(aTargetFileSource: IFileSource;
+                       aCurrentPath: String;
                        aExecutablePath, aVerb: UTF8String); override;
 
     procedure Initialize; override;
@@ -40,11 +42,12 @@ uses
   WfxPlugin;
 
 constructor TWfxPluginExecuteOperation.Create(
-                var aTargetFileSource: TFileSource;
+                aTargetFileSource: IFileSource;
+                aCurrentPath: String;
                 aExecutablePath, aVerb: UTF8String);
 begin
-  FWfxPluginFileSource := aTargetFileSource as TWfxPluginFileSource;
-  inherited Create(aTargetFileSource, aExecutablePath, aVerb);
+  FWfxPluginFileSource := aTargetFileSource as IWfxPluginFileSource;
+  inherited Create(aTargetFileSource, aCurrentPath, aExecutablePath, aVerb);
 end;
 
 procedure TWfxPluginExecuteOperation.Initialize;

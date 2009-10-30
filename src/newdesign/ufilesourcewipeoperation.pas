@@ -35,7 +35,7 @@ type
     FStatistics: TFileSourceWipeOperationStatistics;
     FStatisticsAtStartTime: TFileSourceWipeOperationStatistics;
     FStatisticsLock: TCriticalSection;             //<en For synchronizing statistics.
-    FFileSource: TFileSource;
+    FFileSource: IFileSource;
     FFilesToWipe: TFiles;
 
   protected
@@ -44,11 +44,11 @@ type
     procedure UpdateStatistics(var NewStatistics: TFileSourceWipeOperationStatistics);
     procedure UpdateStatisticsAtStartTime; override;
 
-    property FileSource: TFileSource read FFileSource;
+    property FileSource: IFileSource read FFileSource;
     property FilesToWipe: TFiles read FFilesToWipe;
 
   public
-    constructor Create(var aTargetFileSource: TFileSource;
+    constructor Create(aTargetFileSource: IFileSource;
                        var theFilesToWipe: TFiles); virtual reintroduce;
     destructor Destroy; override;
 
@@ -60,8 +60,8 @@ implementation
 uses
   uDCUtils;
 
-constructor TFileSourceWipeOperation.Create(var aTargetFileSource: TFileSource;
-                                              var theFilesToWipe: TFiles);
+constructor TFileSourceWipeOperation.Create(aTargetFileSource: IFileSource;
+                                            var theFilesToWipe: TFiles);
 begin
   with FStatistics do
   begin
@@ -82,7 +82,6 @@ begin
   inherited Create(aTargetFileSource, aTargetFileSource);
 
   FFileSource := aTargetFileSource;
-  aTargetFileSource := nil;
   FFilesToWipe := theFilesToWipe;
   theFilesToWipe := nil;
 end;
@@ -95,8 +94,6 @@ begin
     FreeAndNil(FStatisticsLock);
   if Assigned(FFilesToWipe) then
     FreeAndNil(FFilesToWipe);
-  if Assigned(FFileSource) then
-    FreeAndNil(FFileSource);
 end;
 
 function TFileSourceWipeOperation.GetID: TFileSourceOperationType;

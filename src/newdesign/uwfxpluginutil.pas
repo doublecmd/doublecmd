@@ -33,7 +33,7 @@ type
 
   TWfxPluginOperationHelper = class
   private
-    FWfxPluginFileSource: TWfxPluginFileSource;
+    FWfxPluginFileSource: IWfxPluginFileSource;
     FOperationThread: TThread;
     FMode: TWfxPluginOperationHelperMode;
     FRootTargetPath: String;
@@ -61,7 +61,7 @@ type
                         AllowAppend: Boolean): TFileSourceOperationOptionFileExists;
 
   public
-    constructor Create(FileSource: TFileSource;
+    constructor Create(FileSource: IFileSource;
                        AskQuestionFunction: TAskQuestionFunction;
                        AbortOperationFunction: TAbortOperationFunction;
                        CheckOperationStateFunction: TCheckOperationStateFunction;
@@ -129,7 +129,7 @@ begin
   case FMode of
   wpohmCopyMoveIn:
     begin
-      Result:= FWfxPluginFileSource.WfxMkDir(AbsoluteTargetFileName);
+      Result:= FWfxPluginFileSource.WfxMkDir('', AbsoluteTargetFileName);
     end;
   wpohmCopyMoveOut:
     begin
@@ -242,7 +242,7 @@ begin
 end;
 
 
-constructor TWfxPluginOperationHelper.Create(FileSource: TFileSource;
+constructor TWfxPluginOperationHelper.Create(FileSource: IFileSource;
                                              AskQuestionFunction: TAskQuestionFunction;
                                              AbortOperationFunction: TAbortOperationFunction;
                                              CheckOperationStateFunction: TCheckOperationStateFunction;
@@ -252,7 +252,7 @@ constructor TWfxPluginOperationHelper.Create(FileSource: TFileSource;
                                              TargetPath: String;
                                              StartingStatistics: TFileSourceCopyOperationStatistics);
 begin
-  FWfxPluginFileSource:= FileSource as TWfxPluginFileSource;
+  FWfxPluginFileSource:= FileSource as IWfxPluginFileSource;
   AskQuestion := AskQuestionFunction;
   AbortOperation := AbortOperationFunction;
   CheckOperationState := CheckOperationStateFunction;

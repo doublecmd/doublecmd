@@ -36,8 +36,8 @@ type
     FStatistics: TFileSourceCopyOperationStatistics;
     FStatisticsAtStartTime: TFileSourceCopyOperationStatistics;
     FStatisticsLock: TCriticalSection;             //<en For synchronizing statistics.
-    FSourceFileSource: TFileSource;
-    FTargetFileSource: TFileSource;
+    FSourceFileSource: IFileSource;
+    FTargetFileSource: IFileSource;
     FSourceFiles: TFiles;
     FTargetPath: String;
     FRenameMask: String;
@@ -53,17 +53,15 @@ type
   public
     {en
        @param(SourceFileSource
-              File source from which the files will be copied.
-              Class takes ownership of the pointer.)
+              File source from which the files will be copied.)
        @param(Target file source
-              File source to which the files will be copied.
-              Class takes ownership of the pointer.)
+              File source to which the files will be copied.)
        @param(SourceFiles
               Files which are to be copied.
               Class takes ownership of the pointer.)
     }
-    constructor Create(var aSourceFileSource: TFileSource;
-                       var aTargetFileSource: TFileSource;
+    constructor Create(aSourceFileSource: IFileSource;
+                       aTargetFileSource: IFileSource;
                        var theSourceFiles: TFiles;
                        aTargetPath: String); virtual reintroduce;
 
@@ -122,8 +120,8 @@ uses
 
 // -- TFileSourceCopyOperation ------------------------------------------------
 
-constructor TFileSourceCopyOperation.Create(var aSourceFileSource: TFileSource;
-                                            var aTargetFileSource: TFileSource;
+constructor TFileSourceCopyOperation.Create(aSourceFileSource: IFileSource;
+                                            aTargetFileSource: IFileSource;
                                             var theSourceFiles: TFiles;
                                             aTargetPath: String);
 begin
@@ -156,9 +154,7 @@ begin
   end;
 
   FSourceFileSource := aSourceFileSource;
-  aSourceFileSource := nil;
   FTargetFileSource := aTargetFileSource;
-  aTargetFileSource := nil;
   FSourceFiles := theSourceFiles;
   theSourceFiles := nil;
   FTargetPath := aTargetPath;
@@ -175,10 +171,6 @@ begin
     FreeAndNil(FStatisticsLock);
   if Assigned(FSourceFiles) then
     FreeAndNil(FSourceFiles);
-  if Assigned(FSourceFileSource) then
-    FreeAndNil(FSourceFileSource);
-  if Assigned(FTargetFileSource) then
-    FreeAndNil(FTargetFileSource);
 end;
 
 procedure TFileSourceCopyOperation.UpdateStatistics(var NewStatistics: TFileSourceCopyOperationStatistics);

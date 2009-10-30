@@ -26,7 +26,7 @@ type
     FStatistics: TFileSourceMoveOperationStatistics;
     FStatisticsAtStartTime: TFileSourceMoveOperationStatistics;
     FStatisticsLock: TCriticalSection;             //<en For synchronizing statistics.
-    FFileSource: TFileSource;
+    FFileSource: IFileSource;
     FSourceFiles: TFiles;
     FTargetPath: String;
     FRenameMask: String;
@@ -37,7 +37,7 @@ type
     procedure UpdateStatistics(var NewStatistics: TFileSourceMoveOperationStatistics);
     procedure UpdateStatisticsAtStartTime; override;
 
-    property FileSource: TFileSource read FFileSource;
+    property FileSource: IFileSource read FFileSource;
     property SourceFiles: TFiles read FSourceFiles;
     property TargetPath: String read FTargetPath;
 
@@ -50,7 +50,7 @@ type
               Files which are to be moved.
               Class takes ownership of the pointer.)
     }
-    constructor Create(var aFileSource: TFileSource;
+    constructor Create(aFileSource: IFileSource;
                        var theSourceFiles: TFiles;
                        aTargetPath: String); virtual reintroduce;
 
@@ -68,7 +68,7 @@ uses
 
 // -- TFileSourceMoveOperation ------------------------------------------------
 
-constructor TFileSourceMoveOperation.Create(var aFileSource: TFileSource;
+constructor TFileSourceMoveOperation.Create(aFileSource: IFileSource;
                                             var theSourceFiles: TFiles;
                                             aTargetPath: String);
 begin
@@ -92,7 +92,6 @@ begin
   inherited Create(aFileSource, aFileSource);
 
   FFileSource := aFileSource;
-  aFileSource := nil;
   FSourceFiles := theSourceFiles;
   theSourceFiles := nil;
   FTargetPath := aTargetPath;
@@ -108,8 +107,6 @@ begin
     FreeAndNil(FStatisticsLock);
   if Assigned(FSourceFiles) then
     FreeAndNil(FSourceFiles);
-  if Assigned(FFileSource) then
-    FreeAndNil(FFileSource);
 end;
 
 procedure TFileSourceMoveOperation.UpdateStatistics(var NewStatistics: TFileSourceMoveOperationStatistics);

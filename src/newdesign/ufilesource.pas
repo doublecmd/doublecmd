@@ -14,14 +14,59 @@ uses
 
 type
 
+  TFileSource = class;
+
+  { IFileSource }
+
+  IFileSource = interface(IInterface)
+    ['{B7F0C4C8-59F6-4A35-A54C-E8242F4AD809}']
+
+    function IsInterface(InterfaceGuid: TGuid): Boolean;
+    function IsClass(ClassType: TClass): Boolean;
+
+    function GetCurrentAddress: String;
+    function GetSupportedFileProperties: TFilePropertiesTypes;
+    function GetOperationsTypes: TFileSourceOperationTypes;
+    function GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
+    function GetProperties: TFileSourceProperties;
+    function GetFiles(TargetPath: String): TFiles;
+
+    function CreateListOperation(TargetPath: String): TFileSourceOperation;
+    function CreateCopyInOperation(SourceFileSource: IFileSource;
+                                   var SourceFiles: TFiles;
+                                   TargetPath: String): TFileSourceOperation;
+    function CreateCopyOutOperation(TargetFileSource: IFileSource;
+                                    var SourceFiles: TFiles;
+                                    TargetPath: String): TFileSourceOperation;
+    function CreateMoveOperation(var SourceFiles: TFiles;
+                                 TargetPath: String): TFileSourceOperation;
+    function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
+    function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation;
+    function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation;
+    function CreateExecuteOperation(BasePath, ExecutablePath, Verb: String): TFileSourceOperation;
+    function CreateCalcChecksumOperation(var theFiles: TFiles;
+                                         aTargetPath: String;
+                                         aTargetMask: String): TFileSourceOperation;
+    function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation;
+
+    function IsPathAtRoot(Path: String): Boolean;
+    function GetParentDir(sPath : String): String;
+    function GetRootDir(sPath : String): String;
+    function GetPathType(sPath : String): TPathType;
+    function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;
+
+    property CurrentAddress: String read GetCurrentAddress;
+    property Properties: TFileSourceProperties read GetProperties;
+    property SupportedFileProperties: TFilePropertiesTypes read GetSupportedFileProperties;
+  end;
+
   { TFileSource }
 
-  TFileSource = class(TObject)
+  TFileSource = class(TInterfacedObject, IFileSource)
 
   private
 
   protected
-    FCurrentPath: String;    // Always includes trailing path delimiter.
     FCurrentAddress: String;
 
     {en
@@ -33,111 +78,159 @@ type
        etc.
     }
     function GetCurrentAddress: String; virtual;
-    function GetCurrentPath: String; virtual;
-    procedure SetCurrentPath(NewPath: String); virtual;
 
     {en
        Returns all the properties supported by the file type of the given file source.
     }
-    class function GetSupportedFileProperties: TFilePropertiesTypes; virtual abstract;
+    function GetSupportedFileProperties: TFilePropertiesTypes; virtual abstract;
+//    class function ClassGetSupportedFileProperties: TFilePropertiesTypes;
 
   public
     constructor Create; virtual;
+    destructor Destroy; override;
 
-    function Clone: TFileSource; virtual;
-    procedure CloneTo(FileSource: TFileSource); virtual;
+    function IsInterface(InterfaceGuid: TGuid): Boolean;
+    function IsClass(aClassType: TClass): Boolean;
 
     // Retrieve operations permitted on the source.  = capabilities?
-    class function GetOperationsTypes: TFileSourceOperationTypes; virtual abstract;
+    function GetOperationsTypes: TFileSourceOperationTypes; virtual abstract;
+//    class function ClassGetOperationsTypes: TFileSourceOperationTypes;
 
     // Returns a list of property types supported by this source for each file.
-    class function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; virtual abstract;
+    function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; virtual abstract;
+//    class function ClassGetFilePropertiesDescriptions: TFilePropertiesDescriptions;
 
     // Retrieve some properties of the file source.
-    class function GetProperties: TFileSourceProperties; virtual abstract;
+    function GetProperties: TFileSourceProperties; virtual abstract;
+//    class function ClassGetProperties: TFileSourceProperties;
 
     // Retrieves a list of files.
     // This is the same as GetOperation(fsoList), executing it
     // and returning the result of Operation.ReleaseFiles.
     // Caller is responsible for freeing the result list.
-    function GetFiles: TFiles; virtual;
+    function GetFiles(TargetPath: String): TFiles; virtual;
 
     // These functions create an operation object specific to the file source.
-    // Each parameter will be owned by the operation (will be freed).
-    function CreateListOperation: TFileSourceOperation; virtual;
-    function CreateCopyInOperation(var SourceFileSource: TFileSource;
+    function CreateListOperation(TargetPath: String): TFileSourceOperation; virtual;
+    function CreateCopyInOperation(SourceFileSource: IFileSource;
                                    var SourceFiles: TFiles;
                                    TargetPath: String): TFileSourceOperation; virtual;
-    function CreateCopyOutOperation(var TargetFileSource: TFileSource;
+    function CreateCopyOutOperation(TargetFileSource: IFileSource;
                                     var SourceFiles: TFiles;
                                     TargetPath: String): TFileSourceOperation; virtual;
     function CreateMoveOperation(var SourceFiles: TFiles;
                                  TargetPath: String): TFileSourceOperation; virtual;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; virtual;
     function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; virtual;
-    function CreateCreateDirectoryOperation(DirectoryPath: String): TFileSourceOperation; virtual;
-    function CreateExecuteOperation(ExecutablePath, Verb: String): TFileSourceOperation; virtual;
+    function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation; virtual;
+    function CreateExecuteOperation(BasePath, ExecutablePath, Verb: String): TFileSourceOperation; virtual;
     function CreateCalcChecksumOperation(var theFiles: TFiles;
                                          aTargetPath: String;
                                          aTargetMask: String): TFileSourceOperation; virtual;
     function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation; virtual;
 
     {en
-       Returns @true if the CurrentPath is the root path of the file source,
+       Returns @true if the given path is the root path of the file source,
        @false otherwise.
     }
-    function IsAtRootPath: Boolean; virtual;
+    function IsPathAtRoot(Path: String): Boolean; virtual;
 
-    class function GetParentDir(sPath : String): String; virtual;
-    class function GetRootDir(sPath : String): String; virtual;
-    class function GetPathType(sPath : String): TPathType; virtual;
+    function GetParentDir(sPath : String): String; virtual;
+    function GetRootDir(sPath : String): String; virtual;
+    function GetPathType(sPath : String): TPathType; virtual;
 
-    function GetFreeSpace(out FreeSize, TotalSize : Int64) : Boolean; virtual;
+{
+    class function ClassGetParentDir(sPath : String): String;
+    class function ClassGetRootDir(sPath : String): String;
+    class function ClassGetPathType(sPath : String): TPathType;
+}
 
-    property CurrentPath: String read GetCurrentPath write SetCurrentPath;
+    function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; virtual;
+
     property CurrentAddress: String read GetCurrentAddress;
     property Properties: TFileSourceProperties read GetProperties;
     property SupportedFileProperties: TFilePropertiesTypes read GetSupportedFileProperties;
 
   end;
 
-  { TFileSources }
+  { TFileSourceConnection }
 
-  TFileSources = class(TObjectList)
-  private
-    function Get(I: Integer): TFileSource;
+  TFileSourceConnection = class
+  protected
+    FCurrentPath: String;    // Always includes trailing path delimiter.
+
+    function GetCurrentPath: String; virtual;
+    procedure SetCurrentPath(NewPath: String); virtual;
 
   public
-    property Items[I: Integer]: TFileSource read Get; default;
+    property CurrentPath: String read GetCurrentPath write SetCurrentPath;
+  end;
+
+  { TFileSources }
+
+  TFileSources = class(TInterfaceList)
+  private
+    function Get(I: Integer): IFileSource;
+
+  public
+    property Items[I: Integer]: IFileSource read Get; default;
+  end;
+
+  { TFileSourceManager }
+
+  TFileSourceManager = class
+  private
+    FFileSources: TFileSources;
+
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure Add(aFileSource: IFileSource);
+    procedure Remove(aFileSource: IFileSource);
+
+    function Find(FileSourceClass: TClass; Address: String): IFileSource;
   end;
 
   EFileSourceException = class(Exception);
+
+var
+  FileSourceManager: TFileSourceManager;
 
 implementation
 
 uses
   uFileSourceListOperation;
 
+{ TFileSource }
+
 constructor TFileSource.Create;
 begin
   if ClassType = TFileSource then
     raise Exception.Create('Cannot construct abstract class');
   inherited Create;
+
+  FileSourceManager.Add(Self);
 end;
 
-function TFileSource.Clone: TFileSource;
+destructor TFileSource.Destroy;
 begin
-  Result := TFileSource.Create;
-  CloneTo(Result);
+  FileSourceManager.Remove(Self);
+  inherited;
 end;
 
-procedure TFileSource.CloneTo(FileSource: TFileSource);
+function TFileSource.IsInterface(InterfaceGuid: TGuid): Boolean;
+var
+  t: TObject;
 begin
-  if Assigned(FileSource) then
-  begin
-    FileSource.FCurrentPath := FCurrentPath;
-    FileSource.FCurrentAddress := FCurrentAddress;
-  end;
+  Result := (Self.QueryInterface(InterfaceGuid, t) = S_OK);
+  if Result then
+    _Release;  // QueryInterface increases refcount.
+end;
+
+function TFileSource.IsClass(aClassType: TClass): Boolean;
+begin
+  Result := Self is aClassType;
 end;
 
 function TFileSource.GetCurrentAddress: String;
@@ -145,36 +238,23 @@ begin
   Result := FCurrentAddress;
 end;
 
-function TFileSource.GetCurrentPath: String;
-begin
-  Result := FCurrentPath;
-end;
-
-procedure TFileSource.SetCurrentPath(NewPath: String);
-begin
-  if NewPath = '' then
-    FCurrentPath := ''
-  else
-    FCurrentPath := IncludeTrailingPathDelimiter(NewPath);
-end;
-
-function TFileSource.IsAtRootPath: Boolean;
+function TFileSource.IsPathAtRoot(Path: String): Boolean;
 begin
   // Default root is '/'. Override in descendant classes for other.
-  Result := (CurrentPath = PathDelim);
+  Result := (Path = PathDelim);
 end;
 
-class function TFileSource.GetParentDir(sPath : String): String;
+function TFileSource.GetParentDir(sPath : String): String;
 begin
   Result := uDCUtils.GetParentDir(sPath);
 end;
 
-class function TFileSource.GetRootDir(sPath : String): String;
+function TFileSource.GetRootDir(sPath : String): String;
 begin
   Result := PathDelim;
 end;
 
-class function TFileSource.GetPathType(sPath : String): TPathType;
+function TFileSource.GetPathType(sPath : String): TPathType;
 begin
   Result := ptNone;
   if sPath <> '' then
@@ -187,14 +267,14 @@ begin
   end;
 end;
 
-function TFileSource.GetFreeSpace(out FreeSize, TotalSize : Int64) : Boolean;
+function TFileSource.GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;
 begin
   Result := False; // not supported by default
 end;
 
 // Operations.
 
-function TFileSource.GetFiles: TFiles;
+function TFileSource.GetFiles(TargetPath: String): TFiles;
 var
   Operation: TFileSourceOperation;
   ListOperation: TFileSourceListOperation;
@@ -203,7 +283,7 @@ begin
 
   if fsoList in GetOperationsTypes then
   begin
-    Operation := CreateListOperation;
+    Operation := CreateListOperation(TargetPath);
     if Assigned(Operation) then
       try
         ListOperation := Operation as TFileSourceListOperation;
@@ -216,21 +296,21 @@ begin
   end;
 end;
 
-function TFileSource.CreateListOperation: TFileSourceOperation;
+function TFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
 begin
   Result := nil;
 end;
 
-function TFileSource.CreateCopyInOperation(var SourceFileSource: TFileSource;
+function TFileSource.CreateCopyInOperation(SourceFileSource: IFileSource;
                                            var SourceFiles: TFiles;
                                            TargetPath: String): TFileSourceOperation;
 begin
   Result := nil;
 end;
 
-function TFileSource.CreateCopyOutOperation(var TargetFileSource: TFileSource;
-                                var SourceFiles: TFiles;
-                                TargetPath: String): TFileSourceOperation;
+function TFileSource.CreateCopyOutOperation(TargetFileSource: IFileSource;
+                                            var SourceFiles: TFiles;
+                                            TargetPath: String): TFileSourceOperation;
 begin
   Result := nil;
 end;
@@ -251,12 +331,12 @@ begin
   Result := nil;
 end;
 
-function TFileSource.CreateCreateDirectoryOperation(DirectoryPath: String): TFileSourceOperation;
+function TFileSource.CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation;
 begin
   Result := nil;
 end;
 
-function TFileSource.CreateExecuteOperation(ExecutablePath, Verb: String): TFileSourceOperation;
+function TFileSource.CreateExecuteOperation(BasePath, ExecutablePath, Verb: String): TFileSourceOperation;
 begin
   Result := nil;
 end;
@@ -273,15 +353,81 @@ begin
   Result := nil;
 end;
 
+{ TFileSourceConnection }
+
+function TFileSourceConnection.GetCurrentPath: String;
+begin
+  Result := FCurrentPath;
+end;
+
+procedure TFileSourceConnection.SetCurrentPath(NewPath: String);
+begin
+  if NewPath <> '' then
+    NewPath := IncludeTrailingPathDelimiter(NewPath);
+
+  FCurrentPath := NewPath;
+end;
+
 { TFileSources }
 
-function TFileSources.Get(I: Integer): TFileSource;
+function TFileSources.Get(I: Integer): IFileSource;
 begin
   if (I >= 0) and (I < Count) then
-    Result := inherited Items[I] as TFileSource
+    Result := inherited Items[I] as IFileSource
   else
     Result := nil;
 end;
+
+{ TFileSourceManager }
+
+constructor TFileSourceManager.Create;
+begin
+  FFileSources := TFileSources.Create;
+end;
+
+destructor TFileSourceManager.Destroy;
+begin
+  if Assigned(FFileSources) then
+    FreeAndNil(FFileSources);
+
+  inherited;
+end;
+
+procedure TFileSourceManager.Add(aFileSource: IFileSource);
+begin
+  if FFileSources.IndexOf(aFileSource) < 0 then
+  begin
+    WriteLn('Warning: File source already exists in manager.');
+    FFileSources.Add(aFileSource);
+  end;
+end;
+
+procedure TFileSourceManager.Remove(aFileSource: IFileSource);
+begin
+  FFileSources.Remove(aFileSource);
+end;
+
+function TFileSourceManager.Find(FileSourceClass: TClass; Address: String): IFileSource;
+var
+  i: Integer;
+begin
+  for i := 0 to FFileSources.Count - 1 do
+  begin
+    if (FFileSources[i].IsClass(FileSourceClass)) and
+       (FFileSources[i].CurrentAddress = Address) then
+    begin
+      Result := FFileSources[i];
+      Exit;
+    end;
+  end;
+  Result := nil;
+end;
+
+initialization
+  FileSourceManager := TFileSourceManager.Create;
+
+finalization
+  FreeAndNil(FileSourceManager);
 
 end.
 

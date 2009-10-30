@@ -17,7 +17,7 @@ type
   TWcxArchiveCopyInOperation = class(TFileSourceCopyInOperation)
 
   private
-    FWcxArchiveFileSource: TWcxArchiveFileSource;
+    FWcxArchiveFileSource: IWcxArchiveFileSource;
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     FFullFilesTree: TFileSystemFiles;
 
@@ -31,8 +31,8 @@ type
   protected
 
   public
-    constructor Create(var aSourceFileSource: TFileSource;
-                       var aTargetFileSource: TFileSource;
+    constructor Create(aSourceFileSource: IFileSource;
+                       aTargetFileSource: IFileSource;
                        var theSourceFiles: TFiles;
                        aTargetPath: String); override;
 
@@ -119,12 +119,12 @@ end;
 
 // ----------------------------------------------------------------------------
 
-constructor TWcxArchiveCopyInOperation.Create(var aSourceFileSource: TFileSource;
-                                              var aTargetFileSource: TFileSource;
+constructor TWcxArchiveCopyInOperation.Create(aSourceFileSource: IFileSource;
+                                              aTargetFileSource: IFileSource;
                                               var theSourceFiles: TFiles;
                                               aTargetPath: String);
 begin
-  FWcxArchiveFileSource := aTargetFileSource as TWcxArchiveFileSource;
+  FWcxArchiveFileSource := aTargetFileSource as IWcxArchiveFileSource;
   FFullFilesTree := nil;
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);

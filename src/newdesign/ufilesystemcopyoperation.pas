@@ -25,8 +25,8 @@ type
   private
 
   public
-    constructor Create(var aSourceFileSource: TFileSource;
-                       var aTargetFileSource: TFileSource;
+    constructor Create(aSourceFileSource: IFileSource;
+                       aTargetFileSource: IFileSource;
                        var theSourceFiles: TFiles;
                        aTargetPath: String); override;
 
@@ -54,8 +54,8 @@ type
     // ProcessFileNoQuestions (when we're sure the targets don't exist)
 
   public
-    constructor Create(var aSourceFileSource: TFileSource;
-                       var aTargetFileSource: TFileSource;
+    constructor Create(aSourceFileSource: IFileSource;
+                       aTargetFileSource: IFileSource;
                        var theSourceFiles: TFiles;
                        aTargetPath: String); override;
 
@@ -77,8 +77,8 @@ implementation
 
 // -- TFileSystemCopyInOperation ----------------------------------------------
 
-constructor TFileSystemCopyInOperation.Create(var aSourceFileSource: TFileSource;
-                                              var aTargetFileSource: TFileSource;
+constructor TFileSystemCopyInOperation.Create(aSourceFileSource: IFileSource;
+                                              aTargetFileSource: IFileSource;
                                               var theSourceFiles: TFiles;
                                               aTargetPath: String);
 begin
@@ -91,8 +91,8 @@ end;
 
 // -- TFileSystemCopyOutOperation ---------------------------------------------
 
-constructor TFileSystemCopyOutOperation.Create(var aSourceFileSource: TFileSource;
-                                               var aTargetFileSource: TFileSource;
+constructor TFileSystemCopyOutOperation.Create(aSourceFileSource: IFileSource;
+                                               aTargetFileSource: IFileSource;
                                                var theSourceFiles: TFiles;
                                                aTargetPath: String);
 begin

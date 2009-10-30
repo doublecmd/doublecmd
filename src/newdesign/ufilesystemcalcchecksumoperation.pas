@@ -41,7 +41,7 @@ type
     function VerifyChecksumProcessFile(aFile: TFileSystemFile; ExpectedChecksum: String): Boolean;
 
   public
-    constructor Create(var aTargetFileSource: TFileSource;
+    constructor Create(aTargetFileSource: IFileSource;
                        var theFiles: TFiles;
                        aTargetPath: String;
                        aTargetMask: String); override;
@@ -68,7 +68,7 @@ type
   end;
 
 constructor TFileSystemCalcChecksumOperation.Create(
-                var aTargetFileSource: TFileSource;
+                aTargetFileSource: IFileSource;
                 var theFiles: TFiles;
                 aTargetPath: String;
                 aTargetMask: String);
@@ -259,7 +259,8 @@ begin
 
   sCheckSum := CheckSumCalc(aFile);
   FCheckSumFile.Add(sCheckSum + ' *' +
-                    ExtractDirLevel(FileSource.CurrentPath, aFile.Path) + aFile.Name);
+                    ExtractDirLevel({FileSource.CurrentPath}FFullFilesTree.Path,
+                                    aFile.Path) + aFile.Name);
 
   if not OneFile then
     FCheckSumFile.SaveToFile(FileName + '.' + HashFileExt[Algorithm]);
@@ -275,7 +276,7 @@ begin
 
   sCheckSum:= CheckSumCalc(aFile);
   bResult:= (StrComp(PChar(sCheckSum), PChar(ExpectedChecksum)) = 0);
-  FResult.Add(ExtractDirLevel(FileSource.CurrentPath, aFile.Path) +
+  FResult.Add(ExtractDirLevel(FFullFilesTree.Path{FileSource.CurrentPath}, aFile.Path) +
               aFile.Name + ': ' +
               IfThen(bResult, 'True', 'False'));
 end;

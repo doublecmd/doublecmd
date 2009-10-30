@@ -16,7 +16,8 @@ type
   TFileSourceListOperation = class(TFileSourceOperation)
 
   private
-    FFileSource: TFileSource;
+    FFileSource: IFileSource;
+    FPath: String;
 
   protected
     FFiles: TFiles;
@@ -26,10 +27,10 @@ type
 
     procedure UpdateStatisticsAtStartTime; override;
 
-    property FileSource: TFileSource read FFileSource;
+    property FileSource: IFileSource read FFileSource;
 
   public
-    constructor Create(var aFileSource: TFileSource); virtual reintroduce;
+    constructor Create(aFileSource: IFileSource; aPath: String); virtual reintroduce;
     destructor Destroy; override;
 
     // Retrieves files and revokes ownership of TFiles list.
@@ -37,15 +38,16 @@ type
     function ReleaseFiles: TFiles;
 
     property Files: TFiles read GetFiles;
+    property Path: String read FPath;
 
   end;
 
 implementation
 
-constructor TFileSourceListOperation.Create(var aFileSource: TFileSource);
+constructor TFileSourceListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
   FFileSource := aFileSource;
-  aFileSource := nil;
+  FPath := aPath;
   inherited Create(FFileSource, nil);
 end;
 
@@ -55,8 +57,6 @@ begin
 
   if Assigned(FFiles) then
     FreeAndNil(FFiles);
-  if Assigned(FFileSource) then
-    FreeAndNil(FFileSource);
 end;
 
 function TFileSourceListOperation.GetID: TFileSourceOperationType;
