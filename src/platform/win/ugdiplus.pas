@@ -309,20 +309,25 @@ begin
     BitmapInfo.bmiHeader.biSize := Sizeof(BitmapInfo.bmiHeader);
     GetDIBits(hCanvas, IconInfo.hbmColor, 0, 0, nil, @BitmapInfo, 0);
 
-    // Get pixels data.
-    pixels := GetBitmapPixels(hCanvas, @BitmapInfo, IconInfo.hbmColor);
-
-    // Check if the bitmap has alpha channel (have to be 32bpp to have ARGB format).
-    if (BitmapInfo.bmiHeader.biBitCount = 32) and { only 32bpp }
-        HasAlphaChannel(pixels, BitmapInfo.bmiHeader.biWidth,
-                                BitmapInfo.bmiHeader.biHeight) then
+    if (BitmapInfo.bmiHeader.biBitCount = 32) then { only 32bpp }
     begin
-      // GdipCreateBitmapFromHICON and GdipCreateBitmapFromHBITMAP functions
-      // destroy alpha channel (they write alpha=255 for each pixel).
-      // Copy the ARGB values manually.
-      pIcon := GetBitmapFromARGBPixels(pCanvas, pixels,
-                                       BitmapInfo.bmiHeader.biWidth,
-                                       BitmapInfo.bmiHeader.biHeight);
+      // Get pixels data.
+      pixels := GetBitmapPixels(hCanvas, @BitmapInfo, IconInfo.hbmColor);
+
+      // Check if the bitmap has alpha channel (have to be 32bpp to have ARGB format).
+      if HasAlphaChannel(pixels, BitmapInfo.bmiHeader.biWidth,
+                                 BitmapInfo.bmiHeader.biHeight) then
+      begin
+        // GdipCreateBitmapFromHICON and GdipCreateBitmapFromHBITMAP functions
+        // destroy alpha channel (they write alpha=255 for each pixel).
+        // Copy the ARGB values manually.
+        pIcon := GetBitmapFromARGBPixels(pCanvas, pixels,
+                                         BitmapInfo.bmiHeader.biWidth,
+                                         BitmapInfo.bmiHeader.biHeight);
+      end
+      else
+        // This is OK for bitmaps without alpha channel or < 32bpp.
+        GdipCreateBitmapFromHICON(hicn, pIcon);
     end
     else
       // This is OK for bitmaps without alpha channel or < 32bpp.
