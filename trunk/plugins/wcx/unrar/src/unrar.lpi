@@ -2,10 +2,12 @@
 <CONFIG>
   <ProjectOptions>
     <PathDelim Value="\"/>
-    <Version Value="6"/>
+    <Version Value="7"/>
     <General>
+      <Flags>
+        <LRSInOutputDirectory Value="False"/>
+      </Flags>
       <MainUnit Value="0"/>
-      <IconPath Value="./"/>
       <TargetFileExt Value=".wcx"/>
       <ActiveEditorIndexAtStart Value="0"/>
     </General>
@@ -77,7 +79,7 @@
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="5"/>
+    <Version Value="8"/>
     <PathDelim Value="\"/>
     <SearchPaths>
       <OtherUnitFiles Value="..\..\..\..\sdk\"/>
@@ -85,11 +87,10 @@
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
-        <DelphiCompat Value="True"/>
+        <SyntaxMode Value="Delphi"/>
       </SyntaxOptions>
     </Parsing>
     <CodeGeneration>
-      <Generate Value="Faster"/>
       <Optimizations>
         <OptimizationLevel Value="2"/>
       </Optimizations>

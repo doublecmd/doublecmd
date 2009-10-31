@@ -28,7 +28,7 @@
       <local>
         <FormatVersion Value="1"/>
         <HostApplicationFilename Value="D:\totalcmd\totalcmd.exe"/>
-        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+        <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
     <Units Count="4">
@@ -77,6 +77,7 @@
       </Options>
     </Linking>
     <Other>
+      <CustomOptions Value="-fPIC"/>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>

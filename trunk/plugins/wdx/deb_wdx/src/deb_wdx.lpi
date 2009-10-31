@@ -158,6 +158,7 @@
         <CustomConfigFile Value="True"/>
         <ConfigFilePath Value="fpc-extra.cfg"/>
       </ConfigFile>
+      <CustomOptions Value="-fPIC"/>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>

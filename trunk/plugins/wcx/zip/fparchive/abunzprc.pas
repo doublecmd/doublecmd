@@ -203,7 +203,7 @@ uses
 procedure AbReverseBits(var W : Word);{$IFDEF UseGreedyAsm}assembler;{$ENDIF}
   {-Reverse the order of the bits in W}
 register;
-const
+var
   RevTable : array[0..255] of Byte = ($00, $80, $40, $C0, $20, $A0, $60,
    $E0, $10, $90, $50, $D0, $30, $B0, $70, $F0, $08, $88, $48, $C8, $28,
    $A8, $68, $E8, $18, $98, $58, $D8, $38, $B8, $78, $F8, $04, $84, $44,

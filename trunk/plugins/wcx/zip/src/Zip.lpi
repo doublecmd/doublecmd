@@ -35,7 +35,6 @@
     <SearchPaths>
       <OtherUnitFiles Value="../fparchive/;../../../../sdk/"/>
       <UnitOutputDirectory Value="../lib"/>
-      <SrcPath Value="$(FPCSrcDir)/rtl/objpas/"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
@@ -60,6 +59,7 @@
         <CustomConfigFile Value="True"/>
         <ConfigFilePath Value="fpc-extra.cfg"/>
       </ConfigFile>
+      <CustomOptions Value="-fPIC"/>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
