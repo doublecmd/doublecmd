@@ -35,7 +35,7 @@ unit uPixMapManager;
 interface
 uses
   Classes, SysUtils, Graphics, uOSUtils, uFileSorting,
-  uFile, uColumnsFileViewFiles
+  uFile
   {$IF DEFINED(UNIX)}
   , uClassesEx
   {$ENDIF};
@@ -417,8 +417,26 @@ begin
   if Result < 0 then // no
     begin
       if LoadBitmap(sFileName, bmpBitmap) then
+      begin
+        // Shrink big bitmaps before putting them into PixmapManager,
+        // to speed up later drawing.
+        //
+        // Note: Transparent bitmaps may lose transparency, because
+        // they must drawn onto a background, so we allow smaller bitmaps
+        // up to 48x48 (icons for example) to load in full size and they
+        // are resized upon drawing.
+        //
+        // TODO:
+        // This should resize any non-transparent,
+        // non-alpha channel bitmaps to gIconsSize
+        // (so if Width<>gIconsSize or Height<>gIconsSize then Resize).
+        if (bmpBitmap.Width > 48) or (bmpBitmap.Height > 48) then
+        begin
+          bmpBitmap := StretchBitmap(bmpBitmap, gIconsSize, clBlack, True);
+        end;
         Result:= FPixmapList.AddObject(sName, bmpBitmap); // add to list
       end;
+    end;
   {$ENDIF}
 end;
 
