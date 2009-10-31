@@ -5,7 +5,7 @@ unit uFileSource;
 interface
 
 uses
-  Classes, SysUtils, uDCUtils, contnrs,
+  Classes, SysUtils, uDCUtils,
   uFileSourceOperation,
   uFileSourceOperationTypes,
   uFileSourceProperty,
@@ -205,7 +205,7 @@ var
 implementation
 
 uses
-  uFileSourceListOperation;
+  LCLProc, uFileSourceListOperation;
 
 { TFileSource }
 
@@ -224,12 +224,12 @@ begin
   // (in the Manager) is removed there.
   InterLockedDecrement(frefcount);
 
-  writeln('Creating ', ClassName);
+  DebugLn('Creating ', ClassName);
 end;
 
 destructor TFileSource.Destroy;
 begin
-  writeln('Destroying ', ClassName, ' when refcount=', refcount);
+  DebugLn('Destroying ', ClassName, ' when refcount=', DbgS(refcount));
   if (RefCount = 0) and Assigned(FileSourceManager) then
   begin
     // Restore reference removed in Create and
@@ -248,10 +248,10 @@ begin
     // RefCount = 0 (back at the final value)
   end
   else
-    Writeln('Error: Cannot remove file source - manager already destroyed!');
+    DebugLn('Error: Cannot remove file source - manager already destroyed!');
 
   if RefCount <> 0 then
-    Writeln('Error: RefCount <> 0 for ', Self.ClassName);
+    DebugLn('Error: RefCount <> 0 for ', Self.ClassName);
 
   inherited Destroy;
 end;
@@ -442,7 +442,7 @@ var
 begin
   if FFileSources.Count > 0 then
   begin
-    WriteLn('Warning: Destroying manager with existing file sources!');
+    DebugLn('Warning: Destroying manager with existing file sources!');
 
     for i := 0 to FFileSources.Count - 1 do
     begin
@@ -467,7 +467,7 @@ begin
     FFileSources.Add(aFileSource);
   end
   else
-    WriteLn('Error: File source already exists in manager!');
+    DebugLn('Error: File source already exists in manager!');
 end;
 
 procedure TFileSourceManager.Remove(aFileSource: IFileSource);
