@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
 <CONFIG>
   <ProjectOptions>
-    <PathDelim Value="/"/>
-    <Version Value="5"/>
+    <Version Value="7"/>
     <General>
+      <Flags>
+        <LRSInOutputDirectory Value="False"/>
+      </Flags>
       <MainUnit Value="0"/>
-      <IconPath Value="./"/>
       <TargetFileExt Value=".wcx"/>
       <ActiveEditorIndexAtStart Value="0"/>
     </General>
@@ -74,19 +75,16 @@
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="5"/>
+    <Version Value="8"/>
     <SearchPaths>
       <OtherUnitFiles Value="../../../../sdk/"/>
       <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
-        <DelphiCompat Value="True"/>
+        <SyntaxMode Value="Delphi"/>
       </SyntaxOptions>
     </Parsing>
-    <CodeGeneration>
-      <Generate Value="Faster"/>
-    </CodeGeneration>
     <Linking>
       <LinkSmart Value="True"/>
       <Options>
@@ -98,6 +96,7 @@
         <CustomConfigFile Value="True"/>
         <ConfigFilePath Value="fpc-extra.cfg"/>
       </ConfigFile>
+      <CustomOptions Value="-fPIC"/>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>

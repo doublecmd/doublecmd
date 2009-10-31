@@ -15,7 +15,6 @@
     </VersionInfo>
     <PublishOptions>
       <Version Value="2"/>
-      <DestinationDirectory Value="$(TestDir)\publishedproject\"/>
       <IgnoreBinaries Value="False"/>
       <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
       <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
@@ -133,6 +132,7 @@
         <CustomConfigFile Value="True"/>
         <ConfigFilePath Value="fpc-extra.cfg"/>
       </ConfigFile>
+      <CustomOptions Value="-fPIC"/>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
