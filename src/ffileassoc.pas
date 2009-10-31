@@ -339,7 +339,7 @@ begin
         Canvas.Draw(MR.Left + 2, MR.Top + 1, TBitmap(Items.Objects[Index]));
     end
     else
-      PixMapManager.DrawBitmap(ExtAction.IconIndex, Canvas, MR);
+      PixMapManager.DrawBitmap(ExtAction.IconIndex, Canvas, MR.Left + 2, MR.Top + 1);
     Canvas.TextOut(MR.Left + gIconsSize + 6, iTextTop, Items[Index]);
   end;
 

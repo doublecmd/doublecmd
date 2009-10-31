@@ -91,9 +91,16 @@ type
     destructor Destroy; override;
     procedure Load(const sFileName : String);
     function GetBitmap(iIndex : Integer; BkColor : TColor) : TBitmap; // Always returns new copy.
-//    function GetStretchBitmap(iIndex: Integer; BkColor : TColor; iSize : Integer): TBitmap;
-    function DrawBitmap(iIndex: Integer; Canvas : TCanvas; Rect : TRect) : Boolean;
-    function DrawBitmap(AFile: TColumnsViewFile; Canvas : TCanvas; Rect : TRect) : Boolean;
+    function DrawBitmap(iIndex: Integer; Canvas : TCanvas; X, Y: Integer) : Boolean;
+    {en
+       Draws bitmap stretching it if needed to Width x Height.
+       If Width is 0 then full bitmap width is used.
+       If Height is 0 then full bitmap height is used.
+       @param(iIndex
+              Index of pixmap manager's bitmap.)
+    }
+    function DrawBitmap(iIndex: Integer; Canvas : TCanvas; X, Y, Width, Height: Integer) : Boolean;
+    function DrawBitmap(iIndex: Integer; aFilePath: String; Canvas : TCanvas; X, Y: Integer) : Boolean;
     function GetIconBySortingDirection(SortingDirection: TSortDirection): PtrInt;
     function GetIconByFile(AFile: TFile; DirectAccess: Boolean):PtrInt;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
@@ -786,12 +793,12 @@ begin
           sExt := Plugins.Names[I];
           if (Length(sExt) > 0) and (sExt[1] <> '#') then // if plugin not disabled
             begin
-              iCurPlugCaps := StrToInt(Copy(sCurrentPlugin, 1, Pos(',',sCurrentPlugin) - 1));
-              if (iCurPlugCaps and PK_CAPS_HIDE) <> PK_CAPS_HIDE then
-                begin
-                  if FExtList.IndexOf(sExt) < 0 then
-                    FExtList.AddObject(sExt, TObject(FiArcIconID));
-                end;
+          iCurPlugCaps := StrToInt(Copy(sCurrentPlugin, 1, Pos(',',sCurrentPlugin) - 1));
+          if (iCurPlugCaps and PK_CAPS_HIDE) <> PK_CAPS_HIDE then
+            begin
+                if FExtList.IndexOf(sExt) < 0 then
+                  FExtList.AddObject(sExt, TObject(FiArcIconID));
+            end;
             end;
         end; //for
   Plugins.Free;
@@ -857,31 +864,25 @@ begin
 {$ENDIF}
 end;
 
-{
-function TPixMapManager.GetStretchBitmap(iIndex: Integer; BkColor: TColor;
-  iSize: Integer): Graphics.TBitmap;
-var
-  BitmapTmp: TBitmap;
+function TPixMapManager.DrawBitmap(iIndex: Integer; Canvas : TCanvas; X, Y: Integer) : Boolean;
 begin
-  Result := Graphics.TBitMap.Create;
-  with Result do
-  begin
-    Width := iSize;
-    Height := iSize;
-
-    Canvas.Brush.Color := BkColor;
-    Canvas.FillRect(Canvas.ClipRect);
-    BitmapTmp := GetBitmap(iIndex, BkColor);
-    Canvas.StretchDraw(Canvas.ClipRect, BitmapTmp);
-    FreeAndNil(BitmapTmp);
-  end;
+  Result := DrawBitmap(iIndex, Canvas, X, Y, gIconsSize, gIconsSize); // X, Y, 0, 0 - No bitmap stretching.
 end;
-}
 
-function TPixMapManager.DrawBitmap(iIndex: Integer; Canvas: TCanvas; Rect: TRect): Boolean;
+function TPixMapManager.DrawBitmap(iIndex: Integer; Canvas: TCanvas; X, Y, Width, Height: Integer): Boolean;
+
+  procedure TrySetSize(aWidth, aHeight: Integer);
+  begin
+    if Width = 0 then
+      Width := aWidth;
+    if Height = 0 then
+      Height := aHeight;
+  end;
+
   {$IFDEF MSWINDOWS}
 var
   hicn: HICON;
+  cx, cy: Integer;
   {$ENDIF}
 
   {$IFDEF LCLGTK2}
@@ -889,6 +890,10 @@ var
   pbPicture : PGdkPixbuf;
   iPixbufWidth : Integer;
   iPixbufHeight : Integer;
+  {$ELSE}
+var
+  Bitmap: Graphics.TBitmap;
+  aRect: TRect;
   {$ENDIF}
 begin
   Result := True;
@@ -898,31 +903,43 @@ begin
     pbPicture := PGdkPixbuf(FPixbufList.Objects[iIndex]);
     iPixbufWidth :=  gdk_pixbuf_get_width(pbPicture);
     iPixbufHeight :=  gdk_pixbuf_get_height(pbPicture);
-
-    DrawPixbufAtCanvas(Canvas, pbPicture, 0, 0, Rect.Left, Rect.Top, iPixbufWidth, iPixbufHeight);
+    TrySetSize(iPixbufWidth, iPixbufHeight);
+    DrawPixbufAtCanvas(Canvas, pbPicture, 0, 0, X, Y, Width, Height);
   end
   else
   {$ELSE}
   if iIndex < FPixmapList.Count then
-    Canvas.Draw(Rect.Left, Rect.Top ,Graphics.TBitmap(FPixmapList.Objects[iIndex]))
+  begin
+    Bitmap := Graphics.TBitmap(FPixmapList.Objects[iIndex]);
+    TrySetSize(Bitmap.Width, Bitmap.Height);
+    aRect := Classes.Bounds(X, Y, Width, Height);
+    Canvas.StretchDraw(aRect, Bitmap);
+  end
   else
   {$ENDIF}
 {$IFDEF MSWINDOWS}
   if iIndex >= $1000 then
     try
-      if gIconsSize in [16, 32] then
-        // for transparent
-        ImageList_Draw(FSysImgList, iIndex - $1000, Canvas.Handle, Rect.Left, Rect.Top, ILD_TRANSPARENT)
+      if ImageList_GetIconSize(FSysImgList, @cx, @cy) then
+        TrySetSize(cx, cy)
       else
+        TrySetSize(gIconsSize, gIconsSize);
+
+      if Height in [16, 32] then
+        // for transparent
+        ImageList_Draw(FSysImgList, iIndex - $1000, Canvas.Handle, X, Y, ILD_TRANSPARENT)
+      else
+      begin
+        hicn:= ImageList_GetIcon(FSysImgList, iIndex - $1000, 0);
         try
-          hicn:= ImageList_GetIcon(FSysImgList, iIndex - $1000, 0);
           if IsGdiPlusLoaded then
-            Result:= GdiPlusStretchDraw(hicn, Canvas.Handle, Rect.Left, Rect.Top, gIconsSize, gIconsSize)
+            Result:= GdiPlusStretchDraw(hicn, Canvas.Handle, X, Y, Width, Height)
           else
-            Result:= DrawIconEx(Canvas.Handle, Rect.Left, Rect.Top, hicn, gIconsSize, gIconsSize, 0, 0, DI_NORMAL);
+            Result:= DrawIconEx(Canvas.Handle, X, Y, hicn, Width, Height, 0, 0, DI_NORMAL);
         finally
           DestroyIcon(hicn);
         end;
+      end;
     except
       Result:= False;
     end;
@@ -932,19 +949,19 @@ begin
 {$ENDIF}
 end;
 
-function TPixMapManager.DrawBitmap(AFile: TColumnsViewFile; Canvas: TCanvas; Rect: TRect): Boolean;
+function TPixMapManager.DrawBitmap(iIndex: Integer; aFilePath: String; Canvas: TCanvas; X, Y: Integer): Boolean;
 {$IFDEF MSWINDOWS}
 var
   I: Integer;
 {$ENDIF}
 begin
-  Result:= DrawBitmap(AFile.IconID, Canvas, Rect);
+  Result:= DrawBitmap(iIndex, Canvas, X, Y);
   {$IFDEF MSWINDOWS}
   if gIconOverlays then
     begin
-      I:= SHGetOverlayIconIndex(AFile.TheFile.Path + AFile.TheFile.Name);
+      I:= SHGetOverlayIconIndex(aFilePath);
       if I >= 0 then
-        Result:= DrawBitmap(I + $1000, Canvas, Rect);
+        Result:= DrawBitmap(I + $1000, Canvas, X, Y);
     end;
   {$ENDIF}
 end;
