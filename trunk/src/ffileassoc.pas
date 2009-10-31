@@ -147,6 +147,7 @@ procedure TfrmFileAssoc.FormCreate(Sender: TObject);
 var
   I, iCount : Integer;
   sName : String;
+  Bitmap : TBitmap;
 begin
   Exts := TExts.Create;
   // load extension file
@@ -162,7 +163,16 @@ begin
       sName := Exts.Items[I].Name;
       if sName = '' then
         sName := Exts.Items[I].SectionName;
-      lbFileTypes.Items.AddObject(sName, nil);
+
+      if Exts.Items[I].IconIndex < 0 then
+      begin
+        // load icon for use in OnDrawItem procedure
+        Bitmap := LoadBitmapFromFile(Exts.Items[I].Icon, gIconsSize, lbFileTypes.Color);
+      end
+      else
+        Bitmap := nil;
+
+      lbFileTypes.Items.AddObject(sName, Bitmap);
     end;
   if iCount > 0 then
     lbFileTypes.ItemIndex:= 0;
