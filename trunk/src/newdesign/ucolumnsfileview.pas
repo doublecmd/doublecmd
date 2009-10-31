@@ -3118,7 +3118,9 @@ var
     begin
       TitleX := TitleX + gIconsSize;
       PixMapManager.DrawBitmap(
-        PixMapManager.GetIconBySortingDirection(SortingDirection), Canvas, aRect);
+          PixMapManager.GetIconBySortingDirection(SortingDirection),
+          Canvas,
+          aRect.Left, aRect.Top);
     end;
 
     TitleX := max(TitleX, 4);
@@ -3145,9 +3147,12 @@ var
 
     if (AFile.IconID >= 0) and (gShowIcons <> sim_none) then
     begin
-      aRect.Left := aRect.Left + 1;
-      aRect.Top  := aRect.Top + (RowHeights[ARow] - gIconsSize) div 2; // center icon vertically
-      PixMapManager.DrawBitmap(AFile, Canvas, aRect);
+      PixMapManager.DrawBitmap(AFile.IconID,
+                               AFile.TheFile.FullPath,
+                               Canvas,
+                               aRect.Left + 1,
+                               // center icon vertically
+                               aRect.Top + (RowHeights[ARow] - gIconsSize) div 2);
     end;
 
     s := ColumnsSet.GetColumnItemResultString(ACol, AFile.TheFile);
@@ -3159,7 +3164,7 @@ var
     end;
 
     if (gShowIcons <> sim_none) then
-      Canvas.TextOut(aRect.Left + gIconsSize + 3, iTextTop, s)
+      Canvas.TextOut(aRect.Left + gIconsSize + 4, iTextTop, s)
     else
       Canvas.TextOut(aRect.Left + 2, iTextTop, s);
   end; //of DrawIconCell
