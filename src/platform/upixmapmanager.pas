@@ -268,10 +268,10 @@ begin
 {$ENDIF}
     begin
       bFreeAtEnd := True;
-      sExtFilter := ExtractFileExt(sFileName) + ';';
+      sExtFilter := UTF8LowerCase(ExtractFileExt(sFileName)) + ';';
       sGraphicFilter := GraphicFilter(TGraphic);
       // if file is graphic
-      if (Pos(sExtFilter, sGraphicFilter) <> 0) and (mbFileExists(sFileName)) then
+      if (Pos(sExtFilter, sGraphicFilter) <> 0) and mbFileExists(sFileName) then
       begin
         {$IFDEF LCLGTK2}
         pbPicture := gdk_pixbuf_new_from_file(PChar(sFileName), nil);
@@ -411,7 +411,7 @@ begin
     begin
       if LoadBitmap(sFileName, bmpBitmap) then
         Result:= FPixmapList.AddObject(sName, bmpBitmap); // add to list
-    end;
+      end;
   {$ENDIF}
 end;
 
@@ -733,8 +733,8 @@ begin
       sPixMap := gExts.Items[I].Icon;
       if mbFileExists(sPixMap) then
         begin
-            iPixMap:= CheckAddPixmap(sPixMap, False);
-            if iPixMap < 0 then Continue;
+          iPixMap:= CheckAddPixmap(sPixMap, False);
+          if iPixMap < 0 then Continue;
           gExts.Items[I].IconIndex:= iPixMap;
           //DebugLn('sPixMap = ',sPixMap, ' Index = ', IntToStr(iPixMap));
 
@@ -783,11 +783,15 @@ begin
   for I:=0 to Plugins.Count - 1 do
         begin
           sCurrentPlugin := Plugins.ValueFromIndex[I];
-          iCurPlugCaps := StrToInt(Copy(sCurrentPlugin, 1, Pos(',',sCurrentPlugin) - 1));
-          if (iCurPlugCaps and PK_CAPS_HIDE) <> PK_CAPS_HIDE then
+          sExt := Plugins.Names[I];
+          if (Length(sExt) > 0) and (sExt[1] <> '#') then // if plugin not disabled
             begin
-              if FExtList.IndexOf(Plugins.Names[I]) < 0 then
-                FExtList.AddObject(Plugins.Names[I], TObject(FiArcIconID));
+              iCurPlugCaps := StrToInt(Copy(sCurrentPlugin, 1, Pos(',',sCurrentPlugin) - 1));
+              if (iCurPlugCaps and PK_CAPS_HIDE) <> PK_CAPS_HIDE then
+                begin
+                  if FExtList.IndexOf(sExt) < 0 then
+                    FExtList.AddObject(sExt, TObject(FiArcIconID));
+                end;
             end;
         end; //for
   Plugins.Free;
