@@ -295,6 +295,7 @@ begin
 
   FFilesTree := nil;
   FRecursive := True;
+  FSymlinkOption := fsooslNone;
 end;
 
 destructor TFileSystemTreeBuilder.Destroy;
