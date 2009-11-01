@@ -14,14 +14,6 @@ exports
   SetChangeVolProc,
   SetProcessDataProc;
 
-const
-  {$IFDEF MSWINDOWS}
-  _unrar = 'unrar.dll';
-  {$ELSE UNIX}
-  _unrar = 'libunrar.so';
-  {$ENDIF}
-var
-  ModuleHandle : THandle;
 begin
   ModuleHandle := LoadLibrary(_unrar);
   if ModuleHandle > 0 then
