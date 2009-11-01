@@ -5,16 +5,15 @@
     <Version Value="7"/>
     <General>
       <Flags>
+        <SaveClosedFiles Value="False"/>
         <LRSInOutputDirectory Value="False"/>
       </Flags>
+      <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
       <TargetFileExt Value=".wcx"/>
-      <ActiveEditorIndexAtStart Value="0"/>
     </General>
     <VersionInfo>
       <ProjectVersion Value=""/>
-      <Language Value=""/>
-      <CharSet Value=""/>
     </VersionInfo>
     <PublishOptions>
       <Version Value="2"/>
@@ -25,58 +24,15 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+        <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <Units Count="3">
+    <Units Count="1">
       <Unit0>
         <Filename Value="unrar.dpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="6" Y="3"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="0"/>
-        <UsageCount Value="20"/>
-        <Loaded Value="True"/>
       </Unit0>
-      <Unit1>
-        <Filename Value="unrardll.pas"/>
-        <UnitName Value="UnRARDLL"/>
-        <CursorPos X="19" Y="8"/>
-        <TopLine Value="1"/>
-        <UsageCount Value="10"/>
-      </Unit1>
-      <Unit2>
-        <Filename Value="unrarfunc.pas"/>
-        <UnitName Value="UnRARFunc"/>
-        <CursorPos X="38" Y="7"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="1"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-      </Unit2>
     </Units>
-    <JumpHistory Count="5" HistoryIndex="4">
-      <Position1>
-        <Filename Value="unrarfunc.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position1>
-      <Position2>
-        <Filename Value="unrarfunc.pas"/>
-        <Caret Line="29" Column="12" TopLine="8"/>
-      </Position2>
-      <Position3>
-        <Filename Value="unrarfunc.pas"/>
-        <Caret Line="7" Column="22" TopLine="1"/>
-      </Position3>
-      <Position4>
-        <Filename Value="unrarfunc.pas"/>
-        <Caret Line="136" Column="30" TopLine="117"/>
-      </Position4>
-      <Position5>
-        <Filename Value="unrarfunc.pas"/>
-        <Caret Line="29" Column="12" TopLine="9"/>
-      </Position5>
-    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="8"/>
@@ -106,14 +62,4 @@
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
-  <Debugging>
-    <Exceptions Count="2">
-      <Item1>
-        <Name Value="ECodetoolError"/>
-      </Item1>
-      <Item2>
-        <Name Value="EFOpenError"/>
-      </Item2>
-    </Exceptions>
-  </Debugging>
 </CONFIG>

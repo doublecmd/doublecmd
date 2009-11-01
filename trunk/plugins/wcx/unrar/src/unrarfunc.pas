@@ -30,6 +30,13 @@ uses
   WcxPlugin;
 
 const
+  {$IFDEF MSWINDOWS}
+  _unrar = 'unrar.dll';
+  {$ELSE UNIX}
+  _unrar = 'libunrar.so';
+  {$ENDIF}
+
+const
   UCM_CHANGEVOLUME    =  0;
   UCM_PROCESSDATA     =  1;
   UCM_NEEDPASSWORD    =  2;
@@ -111,11 +118,13 @@ type
   TRARSetPassword = procedure(hArcData: THandle; Password: PChar);stdcall;
 
 var
-  RAROpenArchive : TRAROpenArchive;
-  RARReadHeader : TRARReadHeader;
-  RARProcessFile : TRARProcessFile;
-  RARCloseArchive : TRARCloseArchive;
-  RARSetCallback : TRARSetCallback;
+  RAROpenArchive : TRAROpenArchive = nil;
+  RARReadHeader : TRARReadHeader = nil;
+  RARProcessFile : TRARProcessFile = nil;
+  RARCloseArchive : TRARCloseArchive = nil;
+  RARSetCallback : TRARSetCallback = nil;
+
+  ModuleHandle : THandle = 0;
 
 function OpenArchive(var ArchiveData: RAROpenArchiveData) : THandle;stdcall;
 function ReadHeader(hArcData: THandle; var HeaderData: RARHeaderData) : Integer;stdcall;
@@ -125,6 +134,9 @@ procedure SetChangeVolProc (hArcData : THandle; pChangeVolProc : TChangeVolProc)
 procedure SetProcessDataProc (hArcData : THandle; pProcessDataProc : TProcessDataProc);stdcall;
 
 implementation
+
+uses
+  DynLibs;
 
 var
   ChangeVolProc : TChangeVolProc;
@@ -151,9 +163,16 @@ end;
 function OpenArchive(var ArchiveData: RAROpenArchiveData) : THandle;stdcall;
 begin
   if Assigned(RAROpenArchive) then
+  begin
     Result := RAROpenArchive(ArchiveData);
-  if Result <> 0 then
-    RARSetCallback(Result, UnrarCallback, 0);
+    if Result <> 0 then
+      RARSetCallback(Result, UnrarCallback, 0);
+  end
+  else
+  begin
+    ArchiveData.OpenResult := E_EOPEN;
+    Result := 0;
+  end;
 end;
 
 function ReadHeader(hArcData: THandle; var HeaderData: RARHeaderData) : Integer;stdcall;
@@ -162,19 +181,25 @@ begin
     begin
       Result := RARReadHeader(hArcData, HeaderData);
       gHeaderData := HeaderData;
-    end;
+    end
+  else
+    Result := E_EOPEN;
 end;
 
 function ProcessFile(hArcData: THandle; Operation: Integer; DestPath, DestName: PChar) : Integer;stdcall;
 begin
   if Assigned(RARProcessFile) then
-    Result := RARProcessFile(hArcData, Operation, DestPath, DestName);
+    Result := RARProcessFile(hArcData, Operation, DestPath, DestName)
+  else
+    Result := E_EOPEN;
 end;
 
 function CloseArchive(hArcData: THandle) : Integer;stdcall;
 begin
   if Assigned(RARCloseArchive) then
-    Result := RARCloseArchive(hArcData);
+    Result := RARCloseArchive(hArcData)
+  else
+    Result := E_EOPEN;
 end;
 
 procedure SetChangeVolProc (hArcData : THandle; pChangeVolProc : TChangeVolProc);stdcall;
@@ -187,4 +212,9 @@ begin
   ProcessDataProc := pProcessDataProc;
 end;
 
+finalization
+  if ModuleHandle <> 0 then
+    UnloadLibrary(ModuleHandle);
+
 end.
+
