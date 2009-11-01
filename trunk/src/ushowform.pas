@@ -47,7 +47,7 @@ uses
   uDCUtils;
 
 const
-  sCmdLine = '"%s" "%s"';
+  sCmdLine = '%s "%s"';
 
 function ShowEditorByGlob(sFileName:String):Boolean;
 begin

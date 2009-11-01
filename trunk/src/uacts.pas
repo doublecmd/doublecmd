@@ -1675,7 +1675,7 @@ var
   var
     i : Integer;
   begin
-    Result := '"' + gExtDiff + '"';
+    Result := gExtDiff;
     for i := 0 to CompareList.Count - 1 do
       Result := Result + ' "' + CompareList.Strings[i] + '"';
   end;
