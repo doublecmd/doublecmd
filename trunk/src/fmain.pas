@@ -705,19 +705,38 @@ end;
 
 procedure TfrmMain.PanelButtonClick(Button: TSpeedButton; SourceFrame: TFileView;
                                     PanelSelect: TFilePanelSelect);
+var
+  i: Integer;
+  aFileSource: IFileSource;
 begin
-  with Button do
+  with SourceFrame do
   begin
-{
-   // Should those buttons only be in columns view?
-   // or on every view?
-    if Caption = '/' then
-      SourceFrame.cdRootLevel
-    else if Caption = '..' then
-      SourceFrame.cdUpLevel
-    else if Caption = '~' then
-      SourceFrame.CurrentPath := GetHomeDir;
-}
+    if Button.Caption = '/' then
+      CurrentPath := FileSource.GetRootDir(CurrentPath)
+    else if Button.Caption = '..' then
+      CurrentPath := FileSource.GetParentDir(CurrentPath)
+    else if Button.Caption = '~' then
+    begin
+      // Search for filesystem file source in this view, and remove others.
+      for i := FileSourcesCount - 1 downto 0 do
+      begin
+        if FileSources[i].IsClass(TFileSystemFileSource) then
+        begin
+          CurrentPath := GetHomeDir;
+          Break;
+        end
+        else
+          RemoveLastFileSource;
+      end;
+      if FileSourcesCount = 0 then
+      begin
+        // If not found, create a new filesystem file source.
+        aFileSource := FileSourceManager.Find(TFileSystemFileSource, '');
+        if not Assigned(aFileSource) then
+          aFileSource := TFileSystemFileSource.Create;
+        AddFileSource(aFileSource, GetHomeDir);
+      end;
+    end;
   end;
 
   SetActiveFrame(PanelSelect);
