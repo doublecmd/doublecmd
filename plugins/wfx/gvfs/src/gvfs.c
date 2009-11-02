@@ -1764,6 +1764,16 @@ int __stdcall FsExecuteFile(HWND MainWin,char* RemoteName,char* Verb)
    {
      return FS_EXEC_OK;
    }
+   else if (strstr(Verb, "chmod ") != NULL)
+   {
+     struct TVFSGlobs *globs;
+     uint Mode = (uint) strtol(strchr(Verb, 0x20) + 1, NULL, 8);
+     globs = GetConnectionByPath(RemoteName);
+     if (VFSChmod(globs, globs->RemotePath, Mode) != cVFS_OK)
+     {
+       return FS_EXEC_ERROR;
+     }
+   }
    return FS_EXEC_OK;
 }
 
