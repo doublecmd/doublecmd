@@ -230,7 +230,17 @@ end;
 destructor TFileSource.Destroy;
 begin
   DebugLn('Destroying ', ClassName, ' when refcount=', DbgS(refcount));
-  if (RefCount = 0) and Assigned(FileSourceManager) then
+
+  if RefCount <> 0 then
+  begin
+    // There could have been an exception raised in the constructor
+    // in which case RefCount will be 1, so only issue warning if there was no exception.
+    // This will check for any exception, but it's enough for a warning.
+    if not Assigned(ExceptObject) then
+      DebugLn('Error: RefCount <> 0 for ', Self.ClassName);
+  end;
+
+  if Assigned(FileSourceManager) then
   begin
     // Restore reference removed in Create and
     // remove the instance remaining in Manager.
@@ -249,9 +259,6 @@ begin
   end
   else
     DebugLn('Error: Cannot remove file source - manager already destroyed!');
-
-  if RefCount <> 0 then
-    DebugLn('Error: RefCount <> 0 for ', Self.ClassName);
 
   inherited Destroy;
 end;
