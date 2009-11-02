@@ -69,7 +69,6 @@ struct TVFSGlobs {
   gboolean ftp_anonymous;
 
   TVFSAskQuestionCallback callback_ask_question;
-  TVFSProgressCallback callback_progress;
   void *callback_data;
 };
 
@@ -106,8 +105,23 @@ PConnection gConnection;
 
 //---------------------------------------------------------------------
 
-static TVFSResult
-g_error_to_TVFSResult (GError *error)
+unsigned long FileTimeToUnixTime(LPFILETIME ft)
+{
+	gint64 ll = ft->dwHighDateTime;
+	ll = (ll << 32) | ft->dwLowDateTime;
+	ll = (ll - 116444736000000000) / 10000000;
+	return (unsigned long)ll;
+}
+
+gboolean UnixTimeToFileTime(unsigned long mtime, LPFILETIME ft)
+{
+	gint64 ll = Int32x32To64(mtime, 10000000) + 116444736000000000;
+	ft->dwLowDateTime = (DWORD)ll;
+	ft->dwHighDateTime = ll >> 32;
+	return TRUE;
+}
+
+static TVFSResult g_error_to_TVFSResult (GError *error)
 {
   g_print ("g_error_to_TVFSResult: code = %d\n", error->code);
   switch (error->code) {
@@ -159,13 +173,12 @@ g_error_to_TVFSResult (GError *error)
   }
 }
 
-static void
-ask_password_cb (GMountOperation *op,
-                 const char      *message,
-                 const char      *default_user,
-                 const char      *default_domain,
-                 GAskPasswordFlags flags,
-                 gpointer          user_data)
+static void ask_password_cb (GMountOperation *op,
+                             const char      *message,
+                             const char      *default_user,
+                             const char      *default_domain,
+                             GAskPasswordFlags flags,
+                             gpointer          user_data)
 {
   struct TVFSGlobs *globs;
   char username[MAX_PATH];
@@ -207,10 +220,6 @@ ask_password_cb (GMountOperation *op,
 
   if (gRequestProc) {
     fprintf (stderr, "  (II) Spawning callback_ask_password (%p)...\n", gRequestProc);
-//    result = globs->callback_ask_password (message, default_user, default_domain, NULL, flags,
-//                                           &username, &password, &anonymous, &domain, &password_save,
-//                                           globs->callback_data);
-//    fprintf (stderr, "    (II) Received result = %d\n", result);
 
     strcpy(username, default_user);
     strcpy(domain, default_domain);
@@ -263,11 +272,10 @@ ask_password_cb (GMountOperation *op,
   g_mount_operation_reply (op, G_MOUNT_OPERATION_ABORTED);
 }
 
-static void
-ask_question_cb (GMountOperation *op,
-                 const gchar     *message,
-                 const gchar     *choices[],
-                 gpointer         user_data)
+static void ask_question_cb (GMountOperation *op,
+                             const gchar     *message,
+                             const gchar     *choices[],
+                             gpointer         user_data)
 {
   struct TVFSGlobs *globs;
   int len;
@@ -304,10 +312,9 @@ ask_question_cb (GMountOperation *op,
   g_mount_operation_reply (op, G_MOUNT_OPERATION_UNHANDLED);
 }
 
-static void
-mount_done_cb (GObject *object,
-               GAsyncResult *res,
-               gpointer user_data)
+static void mount_done_cb (GObject *object,
+                           GAsyncResult *res,
+                           gpointer user_data)
 {
   struct TVFSGlobs *globs;
   gboolean succeeded;
@@ -331,8 +338,7 @@ mount_done_cb (GObject *object,
   g_main_loop_quit (globs->mount_main_loop);
 }
 
-static TVFSResult
-vfs_handle_mount (struct TVFSGlobs *globs, GFile *file)
+static TVFSResult vfs_handle_mount (struct TVFSGlobs *globs, GFile *file)
 {
   GMountOperation *op;
 
@@ -363,36 +369,14 @@ struct TVFSGlobs * VFSNew ()
   globs = (struct TVFSGlobs *) malloc (sizeof (struct TVFSGlobs));
   memset (globs, 0, sizeof (struct TVFSGlobs));
 
-  //globs->log_func ("GVFS plugin: VFSInit");
-
   globs->file = NULL;
   globs->enumerator = NULL;
   globs->cancellable = NULL;
 
   globs->callback_data = NULL;
   globs->callback_ask_question = NULL;
-  globs->callback_progress = NULL;
 
   return globs;
-}
-
-void
-VFSSetCallbacks (struct TVFSGlobs *globs,
-                 TVFSAskQuestionCallback ask_question_callback,
-                 TVFSAskPasswordCallback ask_password_callback,
-                 TVFSProgressCallback progress_func,
-                 void *data)
-{
-  globs->callback_ask_question = ask_question_callback;
-//  globs->callback_ask_password = ask_password_callback;
-  globs->callback_progress = progress_func;
-  globs->callback_data = data;
-}
-
-void VFSFree (struct TVFSGlobs *globs)
-{
-//  globs->log_func ("GVFS plugin: VFSDestroy");
-  free (globs);
 }
 
 char * VFSGetServices ()
@@ -420,8 +404,7 @@ char * VFSGetServices ()
   return l;
 }
 
-char *
-VFSGetPrefix (struct TVFSGlobs *globs)
+char * VFSGetPrefix (struct TVFSGlobs *globs)
 {
   GFile *f;
   char *s;
@@ -434,17 +417,6 @@ VFSGetPrefix (struct TVFSGlobs *globs)
   }
   else
     return NULL;
-}
-
-TVFSResult VFSClose (struct TVFSGlobs *globs)
-{
-  g_print ("(II) VFSClose\n");
-
-  if (globs->file)
-    g_object_unref (globs->file);
-  globs->file = NULL;
-
-  return cVFS_OK;
 }
 
 char * VFSGetPath (struct TVFSGlobs *globs)
@@ -523,7 +495,6 @@ guint64 VFSGetFileSystemSize (struct TVFSGlobs *globs, char *APath)
   g_object_unref (info);
   return res;
 }
-
 
 /**************************************************************************************************************************************/
 /**************************************************************************************************************************************/
@@ -611,59 +582,47 @@ TVFSResult VFSChangeDir (struct TVFSGlobs *globs, char *NewPath)
 /**************************************************************************************************************************************/
 /**************************************************************************************************************************************/
 
-static void
-g_file_info_to_TVFSItem (GFileInfo *info, struct TVFSItem *Item)
+static void GFileInfoToWin32FindData (GFileInfo *info, WIN32_FIND_DATAA *FindData)
 {
   g_assert (info != NULL);
-  g_assert (Item != NULL);
+  g_assert (FindData != NULL);
 
-  Item->FName = g_strdup (g_file_info_get_name (info));
-  Item->FDisplayName = g_strdup (g_file_info_get_display_name (info));
-  Item->sLinkTo = g_file_info_get_symlink_target (info) == NULL ? NULL : g_strdup (g_file_info_get_symlink_target (info));
-  Item->iSize = g_file_info_get_size (info);
-  Item->iPackedSize = -1;
-  Item->iMode = g_file_info_get_attribute_uint32 (info, G_FILE_ATTRIBUTE_UNIX_MODE);
+  strcpy(FindData->cFileName, g_strdup (g_file_info_get_name (info)));
+  // File size
+  goffset filesize = g_file_info_get_size (info);
+  FindData->nFileSizeLow = (DWORD)filesize;
+  FindData->nFileSizeHigh = filesize >> 32;
+  // File attributes
+  if (g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY)
+    FindData->dwFileAttributes |= FILE_ATTRIBUTE_DIRECTORY;
+  FindData->dwFileAttributes |= FILE_ATTRIBUTE_UNIX_MODE;
+  FindData->dwReserved0 = g_file_info_get_attribute_uint32 (info, G_FILE_ATTRIBUTE_UNIX_MODE);
+  // File date/time
+  if (!UnixTimeToFileTime(g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_MODIFIED), &FindData->ftLastWriteTime))
+    {
+          FindData->ftLastWriteTime.dwHighDateTime = 0xFFFFFFFF;
+          FindData->ftLastWriteTime.dwLowDateTime = 0xFFFFFFFE;
+	}
+  if (!UnixTimeToFileTime(g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_ACCESS), &FindData->ftLastAccessTime))
+    {
+          FindData->ftLastAccessTime.dwHighDateTime = 0xFFFFFFFF;
+          FindData->ftLastAccessTime.dwLowDateTime = 0xFFFFFFFE;
+	}
+  if (!UnixTimeToFileTime(g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_CREATED), &FindData->ftCreationTime))
+    {
+          FindData->ftCreationTime.dwHighDateTime = 0xFFFFFFFF;
+          FindData->ftCreationTime.dwLowDateTime = 0xFFFFFFFE;
+	}
 
-  Item->m_time = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_MODIFIED);
-  Item->a_time = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_ACCESS);
-  Item->c_time = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_CHANGED);
-  Item->iUID = g_file_info_get_attribute_uint32 (info, G_FILE_ATTRIBUTE_UNIX_UID);
-  Item->iGID = g_file_info_get_attribute_uint32 (info, G_FILE_ATTRIBUTE_UNIX_GID);
-
-//  g_print ("(II) g_file_info_to_TVFSItem: type = %d\n", g_file_info_get_file_type (info));
-//  g_print ("(II) g_file_info_to_TVFSItem: UNIX_MODE = %d\n", Item->iMode);
-
-  if (g_file_info_get_is_symlink (info)) {
-    Item->ItemType = vSymlink;
-  }
-  else
-  {
-    switch (g_file_info_get_file_type (info)) {
-      case G_FILE_TYPE_REGULAR:
-        Item->ItemType = vRegular;
-        break;
-      case G_FILE_TYPE_DIRECTORY:
-      case G_FILE_TYPE_SHORTCUT:   /*  Used in network:/// */
-      case G_FILE_TYPE_MOUNTABLE:
-        Item->ItemType = vDirectory;
-        break;
-      case G_FILE_TYPE_SYMBOLIC_LINK:
-        Item->ItemType = vSymlink;
-        break;
-      case G_FILE_TYPE_SPECIAL: /* socket, fifo, blockdev, chardev */
-        Item->ItemType = vBlockdev;
-        break;
-      case G_FILE_TYPE_UNKNOWN:
-      default: Item->ItemType = vRegular;
-    }
-  }
+//  g_print ("(II) GFileInfoToWin32FindData: type = %d\n", g_file_info_get_file_type (info));
+//  g_print ("(II) GFileInfoToWin32FindData: UNIX_MODE = %d\n", FindData->dwReserved0);
 
   /*  fallback to default file mode if read fails  */
-  if (Item->iMode == 0) {
-    if (Item->ItemType == vDirectory)
-      Item->iMode = S_IFDIR + S_IRWXU + S_IRGRP + S_IXGRP + S_IROTH + S_IXOTH;
+  if (FindData->dwReserved0 == 0) {
+    if ((FindData->dwFileAttributes && FILE_ATTRIBUTE_DIRECTORY) != 0)
+      FindData->dwReserved0 = S_IFDIR + S_IRWXU + S_IRGRP + S_IXGRP + S_IROTH + S_IXOTH;
     else
-      Item->iMode = S_IRUSR + S_IWUSR + S_IRGRP + S_IROTH;
+      FindData->dwReserved0 = S_IRUSR + S_IWUSR + S_IRGRP + S_IROTH;
   }
 }
 
@@ -700,7 +659,7 @@ long VFSFileExists (struct TVFSGlobs *globs, const char *FileName, const long Us
   return TRUE;
 }
 
-TVFSResult VFSFileInfo (struct TVFSGlobs *globs, char *AFileName, struct TVFSItem *Item)
+TVFSResult VFSFileInfo (struct TVFSGlobs *globs, char *AFileName, WIN32_FIND_DATAA *FindData)
 {
   GFile *f;
   GError *error;
@@ -728,7 +687,7 @@ TVFSResult VFSFileInfo (struct TVFSGlobs *globs, char *AFileName, struct TVFSIte
     g_error_free (error);
     return res;
   }
-  g_file_info_to_TVFSItem (info, Item);
+  GFileInfoToWin32FindData (info, FindData);
   g_object_unref (info);
   return cVFS_OK;
 }
@@ -919,8 +878,7 @@ gboolean VFSIsOnSameFS (struct TVFSGlobs *globs, const char *Path1, const char *
   return res;
 }
 
-gboolean
-VFSTwoSameFiles (struct TVFSGlobs *globs, const char *Path1, const char *Path2)
+gboolean VFSTwoSameFiles (struct TVFSGlobs *globs, const char *Path1, const char *Path2)
 {
   GFile *file1, *file2;
   gboolean res;
@@ -952,10 +910,9 @@ VFSTwoSameFiles (struct TVFSGlobs *globs, const char *Path1, const char *Path2)
 /**************************************************************************************************************************************/
 /**************************************************************************************************************************************/
 
-static void
-vfs_copy_progress_callback (goffset current_num_bytes,
-                            goffset total_num_bytes,
-                            gpointer user_data)
+static void vfs_copy_progress_callback (goffset current_num_bytes,
+                                        goffset total_num_bytes,
+                                        gpointer user_data)
 {
   struct TVFSGlobs *globs;
 
@@ -965,29 +922,15 @@ vfs_copy_progress_callback (goffset current_num_bytes,
     return;
   globs = (struct TVFSGlobs *)user_data;
 
+/*
   if (globs->callback_progress) {
     if (! globs->callback_progress (current_num_bytes, total_num_bytes, globs->callback_data))
       g_cancellable_cancel (globs->cancellable);
   }
+*/
 }
 
 //--------------------------------------------------------------------------------------------
-
-unsigned long FileTimeToUnixTime(LPFILETIME ft)
-{
-	gint64 ll = ft->dwHighDateTime;
-	ll = (ll << 32) | ft->dwLowDateTime;
-	ll = (ll - 116444736000000000) / 10000000;
-	return (unsigned long)ll;
-}
-
-gboolean UnixTimeToFileTime(unsigned long mtime, LPFILETIME ft)
-{
-	gint64 ll = Int32x32To64(mtime, 10000000) + 116444736000000000;
-	ft->dwLowDateTime = (DWORD)ll;
-	ft->dwHighDateTime = ll >> 32;
-	return TRUE;
-}
 
 PConnection g_list_lookup(GList *list, gchar *value)
 {
@@ -1036,50 +979,6 @@ gboolean g_key_file_save_to_file(GKeyFile *key_file, const gchar *file)
     return TRUE;
   }
   return FALSE;
-}
-
-static void GFileInfoToWin32FindData (GFileInfo *info, WIN32_FIND_DATAA *FindData)
-{
-  g_assert (info != NULL);
-  g_assert (FindData != NULL);
-
-  strcpy(FindData->cFileName, g_strdup (g_file_info_get_name (info)));
-  // File size
-  goffset filesize = g_file_info_get_size (info);
-  FindData->nFileSizeLow = (DWORD)filesize;
-  FindData->nFileSizeHigh = filesize >> 32;
-  // File attributes
-  if (g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY)
-    FindData->dwFileAttributes |= FILE_ATTRIBUTE_DIRECTORY;
-  FindData->dwFileAttributes |= FILE_ATTRIBUTE_UNIX_MODE;
-  FindData->dwReserved0 = g_file_info_get_attribute_uint32 (info, G_FILE_ATTRIBUTE_UNIX_MODE);
-  // File date/time
-  if (!UnixTimeToFileTime(g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_MODIFIED), &FindData->ftLastWriteTime)) 
-    {
-          FindData->ftLastWriteTime.dwHighDateTime = 0xFFFFFFFF;
-          FindData->ftLastWriteTime.dwLowDateTime = 0xFFFFFFFE;
-	}
-  if (!UnixTimeToFileTime(g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_ACCESS), &FindData->ftLastAccessTime)) 
-    {
-          FindData->ftLastAccessTime.dwHighDateTime = 0xFFFFFFFF;
-          FindData->ftLastAccessTime.dwLowDateTime = 0xFFFFFFFE;
-	}  
-  if (!UnixTimeToFileTime(g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_CREATED), &FindData->ftCreationTime)) 
-    {
-          FindData->ftCreationTime.dwHighDateTime = 0xFFFFFFFF;
-          FindData->ftCreationTime.dwLowDateTime = 0xFFFFFFFE;
-	}    
-  
-//  g_print ("(II) GFileInfoToWin32FindData: type = %d\n", g_file_info_get_file_type (info));
-//  g_print ("(II) GFileInfoToWin32FindData: UNIX_MODE = %d\n", FindData->dwReserved0);
-
-  /*  fallback to default file mode if read fails  */
-  if (FindData->dwReserved0 == 0) {
-    if ((FindData->dwFileAttributes && FILE_ATTRIBUTE_DIRECTORY) != 0)
-      FindData->dwReserved0 = S_IFDIR + S_IRWXU + S_IRGRP + S_IXGRP + S_IROTH + S_IXOTH;
-    else
-      FindData->dwReserved0 = S_IRUSR + S_IWUSR + S_IRGRP + S_IROTH;
-  }
 }
 
 PConnection NewConnection()
@@ -1865,6 +1764,7 @@ int __stdcall FsExecuteFile(HWND MainWin,char* RemoteName,char* Verb)
    {
      return FS_EXEC_OK;
    }
+   return FS_EXEC_OK;
 }
 
 BOOL __stdcall FsDeleteFile(char* RemoteName)
@@ -1929,6 +1829,23 @@ BOOL __stdcall FsSetTime(char* RemoteName,FILETIME *CreationTime,
   }  
   g_object_unref (f);
   return TRUE;
+}
+
+BOOL __stdcall FsDisconnect(char *DisconnectRoot)
+{
+   struct TVFSGlobs *globs;
+   g_print("FsDisconnect: DisconnectRoot == %s\n", DisconnectRoot);
+   globs = (struct TVFSGlobs *) g_list_lookup_globs(ActiveConnectionList, DisconnectRoot);
+   if (globs != NULL)
+   {
+     if (globs->file)
+       g_object_unref (globs->file);
+     globs->file = NULL;
+     ActiveConnectionList = g_list_remove(ActiveConnectionList, globs);
+     free (globs);
+     return TRUE;
+   }
+   return FALSE;
 }
 
 void __stdcall FsSetDefaultParams(FsDefaultParamStruct* dps)

@@ -48,17 +48,6 @@ typedef enum {
   VFS_PASSWORD_SAVE_PERMANENTLY
 } TVFSPasswordSave;
 
-
-typedef void (* TVFSLogFunc)(const char *s);
-typedef void *TVFSFileDes;
-
-
-/*  Return FALSE to break the operation  */
-typedef int (* TVFSProgressCallback)
-                (u_int64_t  position,
-                 u_int64_t  max,
-                 void      *user_data);
-
 /*  Return index of the choice selected or negative number when dialog has been cancelled  */
 typedef void (* TVFSAskQuestionCallback)
                 (const char *message,
@@ -66,35 +55,6 @@ typedef void (* TVFSAskQuestionCallback)
                  int        *choice,
                  int         cancel_choice,
                  void       *user_data);
-
-typedef int (* TVFSAskPasswordCallback)
-                (const char *message,
-                 const char *default_user,
-                 const char *default_domain,
-                 const char *default_password,
-                 TVFSAskPasswordFlags flags,
-                 char      **username,
-                 char      **password,
-                 int        *anonymous,
-                 char       **domain,
-                 TVFSPasswordSave *password_save,
-                 void       *user_data);
-
-
-static const int cVFSVersion = 4;     //  current version of the VFS API
-
-//  Capabilities
-static const int capVFS_nil = 0;
-static const int capVFS_List = 1 << 0;
-static const int capVFS_CopyOut = 1 << 1;
-static const int capVFS_CopyIn = 1 << 2;
-static const int capVFS_MkDir = 1 << 3;
-static const int capVFS_RmDir = 1 << 4;
-static const int capVFS_Multiple = 1 << 5;  //  support multiple files = background copy & thread safe
-static const int capVFS_Delete = 1 << 6;
-static const int capVFS_Rename = 1 << 7;
-static const int capVFS_Execute = 1 << 8;
-static const int capVFS_Append = 1 << 9;
 
 //  Error codes (TVFSResult)
 enum {
@@ -113,50 +73,5 @@ enum {
   cVFS_MissingVolume = 12,
   cVFS_CorruptedArchive = 13
 };
-
-
-//  Open modes
-enum {
-  cVFS_OpenRead,
-  cVFS_OpenWrite,
-  cVFS_OpenAppend
-};
-
-
-//  Item Type enum
-enum TVFSItemType {
-  vRegular = 0,
-  vSymlink = 1,
-  vChardev = 2,
-  vBlockdev = 3,
-  vDirectory = 4,
-  vFifo = 5,
-  vSock = 6,
-  vOther = 7
-};
-
-
-struct TVFSItem {
-  char *FName;
-  char *FDisplayName;   //  valid UTF-8 string
-  int64_t iSize;
-  int64_t iPackedSize;  //  set to -1 if plugin doesn't support this feature
-  __time_t m_time;      //  numbers should be located before the other variables (bug?)
-  __time_t a_time;
-  __time_t c_time;
-  __mode_t iMode;
-  char *sLinkTo;
-  __uid_t iUID;
-  __gid_t iGID;
-  enum TVFSItemType ItemType;
-};
-
-struct TVFSInfo {
-  char *ID;         //  unique identifier, not shown in GUI
-  char *Name;       //  plugin name, GUI string (UTF-8)
-  char *About;      //  GUI string (UTF-8)
-  char *Copyright;  //  GUI string (UTF-8)
-};
-
 
 #endif /* __VFS_TYPES_H__ */
