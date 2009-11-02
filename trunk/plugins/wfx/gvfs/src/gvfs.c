@@ -185,7 +185,7 @@ static void ask_password_cb (GMountOperation *op,
   char password[MAX_PATH];
   int   anonymous;
   char  domain[MAX_PATH];
-  TVFSPasswordSave password_save;
+  GPasswordSave password_save;
 
   globs = (struct TVFSGlobs*) user_data;
   g_assert (globs != NULL);
@@ -216,7 +216,7 @@ static void ask_password_cb (GMountOperation *op,
   domain[0] = 0;
   password[0] = 0;
   anonymous = FALSE;
-  password_save = VFS_PASSWORD_SAVE_NEVER;
+  password_save = G_PASSWORD_SAVE_NEVER;
 
   if (gRequestProc) {
     fprintf (stderr, "  (II) Spawning callback_ask_password (%p)...\n", gRequestProc);
