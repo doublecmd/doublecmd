@@ -36,7 +36,6 @@
 #include <gio/gio.h>
 #include <glib/gtypes.h>
 
-#include "vfs_types.h"
 #include "wfxplugin.h"
 
 
@@ -55,6 +54,7 @@
 #define IS_DIR_SEP(ch) ((ch) == '/')
 #define Int32x32To64(a,b) ((gint64)(a)*(gint64)(b))
 
+typedef int TVFSResult;
 
 struct TVFSGlobs {
   gchar ConnectionName[MAX_PATH];
@@ -67,9 +67,6 @@ struct TVFSGlobs {
   TVFSResult mount_result;
   int mount_try;
   gboolean ftp_anonymous;
-
-  TVFSAskQuestionCallback callback_ask_question;
-  void *callback_data;
 };
 
 typedef struct _Connection
@@ -127,10 +124,8 @@ static TVFSResult g_error_to_TVFSResult (GError *error)
   switch (error->code) {
     case G_IO_ERROR_FAILED:
     case G_IO_ERROR_NOT_FOUND:
-      return FS_FILE_NOTFOUND;
-      break;
     case G_IO_ERROR_PERMISSION_DENIED:
-      return cVFS_PermissionDenied;
+      return FS_FILE_NOTFOUND;
       break;
     case G_IO_ERROR_CANCELLED:
       return FS_FILE_USERABORT;
@@ -293,9 +288,10 @@ static void ask_question_cb (GMountOperation *op,
   }
 
   choice = -1;
+/*
   if (globs->callback_ask_question) {
     fprintf (stderr, "  (II) Spawning callback_ask_question (%p)...\n", globs->callback_ask_question);
-    /*  At this moment, only SFTP uses ask_question and the second button is cancellation  */
+    // At this moment, only SFTP uses ask_question and the second button is cancellation
     globs->callback_ask_question (message, choices, &choice, 1, globs->callback_data);
     fprintf (stderr, "    (II) Received choice = %d\n", choice);
 
@@ -308,7 +304,7 @@ static void ask_question_cb (GMountOperation *op,
     }
     return;
   }
-
+*/
   g_mount_operation_reply (op, G_MOUNT_OPERATION_UNHANDLED);
 }
 
@@ -331,7 +327,7 @@ static void mount_done_cb (GObject *object,
     g_error_free (error);
   }
   else {
-    globs->mount_result = cVFS_OK;
+    globs->mount_result = FS_FILE_OK;
     g_print ("(II) Mount successful.\n");
   }
 
@@ -347,7 +343,7 @@ static TVFSResult vfs_handle_mount (struct TVFSGlobs *globs, GFile *file)
   op = g_mount_operation_new ();
   g_signal_connect (op, "ask-password", (GCallback)ask_password_cb, globs);
   g_signal_connect (op, "ask-question", (GCallback)ask_question_cb, globs);
-  globs->mount_result = cVFS_Failed;
+  globs->mount_result = FS_FILE_NOTFOUND;
   globs->mount_try = 0;
 
   /*  Inspiration taken from Bastien Nocera's http://svn.gnome.org/viewvc/totem-pl-parser/trunk/plparse/totem-disc.c?view=markup  */
@@ -372,9 +368,6 @@ struct TVFSGlobs * VFSNew ()
   globs->file = NULL;
   globs->enumerator = NULL;
   globs->cancellable = NULL;
-
-  globs->callback_data = NULL;
-  globs->callback_ask_question = NULL;
 
   return globs;
 }
@@ -512,7 +505,7 @@ TVFSResult VFSChangeDir (struct TVFSGlobs *globs, char *NewPath)
 
   if (globs->file == NULL) {
     g_print ("(EE) VFSChangeDir: globs->file == NULL !\n");
-    return cVFS_Failed;
+    return FS_FILE_NOTFOUND;
   }
 
   g_print ("(II) VFSChangeDir: changing dir to '%s'\n", NewPath);
@@ -520,10 +513,10 @@ TVFSResult VFSChangeDir (struct TVFSGlobs *globs, char *NewPath)
   f = g_file_resolve_relative_path (globs->file, NewPath);
   if (f == NULL) {
     g_print ("(EE) VFSChangeDir: g_file_resolve_relative_path() failed.\n");
-    return cVFS_Failed;
+    return FS_FILE_NOTFOUND;
   }
 
-  res = cVFS_OK;
+  res = FS_FILE_OK;
   while (1) {
     error = NULL;
     en = g_file_enumerate_children (f, CONST_DEFAULT_QUERY_INFO_ATTRIBUTES,
@@ -553,7 +546,7 @@ TVFSResult VFSChangeDir (struct TVFSGlobs *globs, char *NewPath)
     if (error && g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_MOUNTED)) {
       g_error_free (error);
       res = vfs_handle_mount (globs, f);
-      if (res != cVFS_OK) {
+      if (res != FS_FILE_OK) {
         g_object_unref (f);
         return res;
       }
@@ -637,13 +630,13 @@ long VFSFileExists (struct TVFSGlobs *globs, const char *FileName, const long Us
 
   if (globs->file == NULL) {
     g_print ("(EE) VFSFileExists: globs->file == NULL !\n");
-    return cVFS_Failed;
+    return FS_FILE_NOTFOUND;
   }
 
   f = g_file_resolve_relative_path (globs->file, FileName);
   if (f == NULL) {
     g_print ("(EE) VFSMkDir: g_file_resolve_relative_path() failed.\n");
-    return cVFS_Failed;
+    return FS_FILE_NOTFOUND;
   }
 
   error = NULL;
@@ -668,13 +661,13 @@ TVFSResult VFSFileInfo (struct TVFSGlobs *globs, char *AFileName, WIN32_FIND_DAT
 
   if (globs->file == NULL) {
     g_print ("(EE) VFSFileInfo: globs->file == NULL !\n");
-    return cVFS_Failed;
+    return FS_FILE_NOTFOUND;
   }
 
   f = g_file_resolve_relative_path (globs->file, AFileName);
   if (f == NULL) {
     g_print ("(EE) VFSMkDir: g_file_resolve_relative_path() failed.\n");
-    return cVFS_Failed;
+    return FS_FILE_NOTFOUND;
   }
 
   error = NULL;
@@ -689,7 +682,7 @@ TVFSResult VFSFileInfo (struct TVFSGlobs *globs, char *AFileName, WIN32_FIND_DAT
   }
   GFileInfoToWin32FindData (info, FindData);
   g_object_unref (info);
-  return cVFS_OK;
+  return FS_FILE_OK;
 }
 
 TVFSResult VFSRemove (struct TVFSGlobs *globs, const char *APath)
@@ -700,13 +693,13 @@ TVFSResult VFSRemove (struct TVFSGlobs *globs, const char *APath)
 
   if (globs->file == NULL) {
     g_print ("(EE) VFSRemove: globs->file == NULL !\n");
-    return cVFS_Failed;
+    return FS_FILE_NOTFOUND;
   }
 
   f = g_file_resolve_relative_path (globs->file, APath);
   if (f == NULL) {
     g_print ("(EE) VFSRemove: g_file_resolve_relative_path() failed.\n");
-    return cVFS_Failed;
+    return FS_FILE_NOTFOUND;
   }
 
   error = NULL;
@@ -718,7 +711,7 @@ TVFSResult VFSRemove (struct TVFSGlobs *globs, const char *APath)
     g_error_free (error);
     return res;
   }
-  return cVFS_OK;
+  return FS_FILE_OK;
 }
 
 TVFSResult VFSMakeSymLink (struct TVFSGlobs *globs, const char *NewFileName, const char *PointTo)
@@ -729,13 +722,13 @@ TVFSResult VFSMakeSymLink (struct TVFSGlobs *globs, const char *NewFileName, con
 
   if (globs->file == NULL) {
     g_print ("(EE) VFSMakeSymLink: globs->file == NULL !\n");
-    return cVFS_Failed;
+    return FS_FILE_NOTFOUND;
   }
 
   f = g_file_resolve_relative_path (globs->file, NewFileName);
   if (f == NULL) {
     g_print ("(EE) VFSMakeSymLink: g_file_resolve_relative_path() failed.\n");
-    return cVFS_Failed;
+    return FS_FILE_NOTFOUND;
   }
 
   error = NULL;
@@ -747,7 +740,7 @@ TVFSResult VFSMakeSymLink (struct TVFSGlobs *globs, const char *NewFileName, con
     g_error_free (error);
     return res;
   }
-  return cVFS_OK;
+  return FS_FILE_OK;
 }
 
 TVFSResult VFSChmod (struct TVFSGlobs *globs, const char *FileName, const uint Mode)
@@ -758,13 +751,13 @@ TVFSResult VFSChmod (struct TVFSGlobs *globs, const char *FileName, const uint M
 
   if (globs->file == NULL) {
     g_print ("(EE) VFSChmod: globs->file == NULL !\n");
-    return cVFS_Failed;
+    return FS_FILE_NOTFOUND;
   }
 
   f = g_file_resolve_relative_path (globs->file, FileName);
   if (f == NULL) {
     g_print ("(EE) VFSChmod: g_file_resolve_relative_path() failed.\n");
-    return cVFS_Failed;
+    return FS_FILE_NOTFOUND;
   }
 //  g_print ("(II) VFSChmod (%s, %d): Going to set permissions on '%s'\n", FileName, Mode, g_file_get_uri (f));
 
@@ -777,7 +770,7 @@ TVFSResult VFSChmod (struct TVFSGlobs *globs, const char *FileName, const uint M
     g_error_free (error);
     return res;
   }
-  return cVFS_OK;
+  return FS_FILE_OK;
 }
 
 TVFSResult VFSChown (struct TVFSGlobs *globs, const char *FileName, const uint UID, const uint GID)
@@ -788,13 +781,13 @@ TVFSResult VFSChown (struct TVFSGlobs *globs, const char *FileName, const uint U
 
   if (globs->file == NULL) {
     g_print ("(EE) VFSChown: globs->file == NULL !\n");
-    return cVFS_Failed;
+    return FS_FILE_NOTFOUND;
   }
 
   f = g_file_resolve_relative_path (globs->file, FileName);
   if (f == NULL) {
     g_print ("(EE) VFSChown: g_file_resolve_relative_path() failed.\n");
-    return cVFS_Failed;
+    return FS_FILE_NOTFOUND;
   }
 
   error = NULL;
@@ -816,7 +809,7 @@ TVFSResult VFSChown (struct TVFSGlobs *globs, const char *FileName, const uint U
     return res;
   }
   g_object_unref (f);
-  return cVFS_OK;
+  return FS_FILE_OK;
 }
 
 /**************************************************************************************************************************************/
@@ -1177,7 +1170,7 @@ struct TVFSGlobs * NetworkConnect(gchar *ConnectionName)
            g_error_free (error);
            error = NULL;
            res = vfs_handle_mount (globs, f);
-           if (res != cVFS_OK)
+           if (res != FS_FILE_OK)
              return NULL;
            else
              continue;
@@ -1485,15 +1478,15 @@ int __stdcall FsFindClose(HANDLE Hdl)
 
   if (ListRec->globs == NULL) {
     g_print ("(EE) FsFindClose: ListRec->globs == NULL !\n");
-    return cVFS_Failed;
+    return FS_FILE_NOTSUPPORTED;
   }
   if (ListRec->globs->file == NULL) {
     g_print ("(EE) FsFindClose: ListRec->globs->file == NULL !\n");
-    return cVFS_Failed;
+    return FS_FILE_NOTSUPPORTED;
   }
   if (ListRec->globs->enumerator == NULL) {
     g_print ("(EE) FsFindClose: ListRec->globs->enumerator == NULL !\n");
-    return cVFS_Failed;
+    return FS_FILE_NOTSUPPORTED;
   }
   g_print ("(II) FsFindClose\n");
 
@@ -1507,7 +1500,7 @@ int __stdcall FsFindClose(HANDLE Hdl)
     g_error_free (error);
     return res;
   }
-  return cVFS_OK;
+  return FS_FILE_OK;
 }
 
 BOOL __stdcall FsMkDir(char* Path)
@@ -1548,7 +1541,7 @@ BOOL __stdcall FsRemoveDir(char* RemoteName)
 {
   struct TVFSGlobs *globs;
   globs = GetConnectionByPath(RemoteName);
-  return (VFSRemove(globs, globs->RemotePath) == cVFS_OK);
+  return (VFSRemove(globs, globs->RemotePath) == FS_FILE_OK);
 }
 
 int __stdcall FsRenMovFile(char* OldName,char* NewName,BOOL Move,
@@ -1769,7 +1762,7 @@ int __stdcall FsExecuteFile(HWND MainWin,char* RemoteName,char* Verb)
      struct TVFSGlobs *globs;
      uint Mode = (uint) strtol(strchr(Verb, 0x20) + 1, NULL, 8);
      globs = GetConnectionByPath(RemoteName);
-     if (VFSChmod(globs, globs->RemotePath, Mode) != cVFS_OK)
+     if (VFSChmod(globs, globs->RemotePath, Mode) != FS_FILE_OK)
      {
        return FS_EXEC_ERROR;
      }
@@ -1781,7 +1774,7 @@ BOOL __stdcall FsDeleteFile(char* RemoteName)
 {
   struct TVFSGlobs *globs;
   globs = GetConnectionByPath(RemoteName);
-  return (VFSRemove(globs, globs->RemotePath) == cVFS_OK);
+  return (VFSRemove(globs, globs->RemotePath) == FS_FILE_OK);
 }
 
 BOOL __stdcall FsSetTime(char* RemoteName,FILETIME *CreationTime,
