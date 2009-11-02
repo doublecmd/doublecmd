@@ -512,7 +512,7 @@ uses
   uDragDropEx, StrUtils, uKeyboard, uFileSystemFileSource, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   fFileOpDlg, uFileSystemCopyOperation, uFileSystemMoveOperation,
-  uArchiveFileSource
+  uArchiveFileSource, uShellExecute, uActs
   {$IFDEF LCLQT}
     , qtwidgets
   {$ENDIF}
@@ -2604,7 +2604,7 @@ end;
 
 function TfrmMain.ExecCmd(Cmd: string; param:string=''): Boolean;
 begin
-  if Actions.Execute(Cmd, Param)>-1 then
+  if Actions.Execute(Cmd, Param) <> uActs.cf_Error then
     Result:= True
   else
     Result:= ExecCmdFork(Format('"%s" %s', [Cmd, Param]));
@@ -2612,26 +2612,33 @@ end;
 
 function TfrmMain.ExecCmdEx(Sender: TObject; NumberOfButton: Integer): Boolean;
 var
-  Cmd, Param: String;
+  Cmd, Param, Path: String;
 begin
   if Sender is TKASToolBar then
     with Sender as TKASToolBar do
     begin
       Cmd:= GetButtonX(NumberOfButton, CmdX);
       Param:= GetButtonX(NumberOfButton, ParamX);
+      Path:= GetButtonX(NumberOfButton, PathX);
     end;
   if Sender is TKASBarMenu then
     with Sender as TKASBarMenu do
     begin
       Cmd:= BarFile.GetButtonX(NumberOfButton, CmdX);
       Param:= BarFile.GetButtonX(NumberOfButton, ParamX);
+      Path:= BarFile.GetButtonX(NumberOfButton, PathX);
     end;
   Param:= mbExpandFileName(Param);
-  if Actions.Execute(Cmd, Param) > -1 then
+  if Actions.Execute(Cmd, Param) <> uActs.cf_Error then
     Result:= True
   else
     begin
       Cmd:= mbExpandFileName(Cmd);
+      Path:= mbExpandFileName(Path);
+      ReplaceExtCommand(Param, FrameLeft, FrameRight, ActiveFrame);
+      ReplaceExtCommand(Path, FrameLeft, FrameRight, ActiveFrame);
+      if Path <> '' then
+        mbSetCurrentDir(Path);
       Result:= ExecCmdFork(Format('"%s" %s', [Cmd, Param]));
     end;
 end;
