@@ -8,7 +8,7 @@ uses
   {Classes, SysUtils,} WfxPlugin, uOSUtils;
 
 type
-{File system plugins API (version 1.5) for TC}
+{File system plugins API (version 2.0) for TC}
 {R}//Realized
 {U}//Unrealized
 {Mandatory}
@@ -47,6 +47,31 @@ type
 {U}  TFsContentGetSupportedFieldFlags = function (FieldIndex:integer):integer; stdcall;
 {U}  TFsContentSetValue = function (FileName:pchar;FieldIndex,UnitIndex,FieldType:integer; FieldValue:pbyte;flags:integer):integer; stdcall;
 {U}  TFsContentGetDefaultView = function (ViewContents,ViewHeaders,ViewWidths, ViewOptions:pchar;maxlen:integer):boolean; stdcall;
+{ Unicode }
+     TFsInitW = function(PluginNr:integer;pProgressProcW:tProgressProcW;pLogProcW:tLogProcW; pRequestProcW:tRequestProcW):integer; stdcall;
+     TFsFindFirstW = function(path :pwidechar;var FindData:tWIN32FINDDATAW):thandle; stdcall;
+     TFsFindNextW = function(Hdl:thandle;var FindDataW:tWIN32FINDDATAW):bool; stdcall;
+//------------------------------------------------------
+     TFsSetCryptCallbackW = procedure(CryptProcW:TCryptProcW;CryptoNr,Flags:integer); stdcall;
+     TFsMkDirW = function(RemoteDir:pwidechar):bool; stdcall;
+     TFsExecuteFileW = function(MainWin:thandle;RemoteName,Verb:pwidechar):integer; stdcall;
+     TFsRenMovFileW = function(OldName,NewName:pwidechar;Move,OverWrite:bool; RemoteInfo:pRemoteInfo):integer; stdcall;
+     TFsGetFileW = function(RemoteName,LocalName:pwidechar;CopyFlags:integer; RemoteInfo:pRemoteInfo):integer; stdcall;
+     TFsPutFileW = function(LocalName,RemoteName:pwidechar;CopyFlags:integer):integer; stdcall;
+     TFsDeleteFileW = function(RemoteName:pwidechar):bool; stdcall;
+     TFsRemoveDirW = function(RemoteName:pwidechar):bool; stdcall;
+     TFsDisconnectW = function(DisconnectRoot:pwidechar):bool; stdcall;
+     TFsSetAttrW = function(RemoteName:pwidechar;NewAttr:integer):bool; stdcall;
+     TFsSetTimeW = function(RemoteName:pwidechar;CreationTime,LastAccessTime, LastWriteTime:PFileTime):bool; stdcall;
+     TFsStatusInfoW = procedure(RemoteDir:pwidechar;InfoStartEnd,InfoOperation:integer); stdcall;
+     TFsExtractCustomIconW = function(RemoteName:pwidechar;ExtractFlags:integer; var TheIcon:hicon):integer; stdcall;
+     TFsGetPreviewBitmapW = function(RemoteName:pwidechar;width,height:integer; var ReturnedBitmap:hbitmap):integer; stdcall;
+     TFsGetLocalNameW = function(RemoteName:pwidechar;maxlen:integer):bool; stdcall;
+//------------------------------------------------------
+     TFsContentGetValueW = function(FileName:pwidechar;FieldIndex,UnitIndex:integer;FieldValue:pbyte; maxlen,flags:integer):integer; stdcall;
+     TFsContentStopGetValueW = procedure(FileName:pwidechar); stdcall;
+     TFsContentSetValueW = function(FileName:pwidechar;FieldIndex,UnitIndex,FieldType:integer; FieldValue:pbyte;flags:integer):integer; stdcall;
+     TFsContentGetDefaultViewW = function(ViewContents,ViewHeaders,ViewWidths, ViewOptions:pwidechar;maxlen:integer):bool; stdcall;
 //------------------------------------------------------
 
 implementation

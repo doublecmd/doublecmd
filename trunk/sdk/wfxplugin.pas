@@ -198,9 +198,9 @@ type
   PFileTime = ^FILETIME;
 
 {$IFDEF MSWINDOWS}
-  WIN32_FIND_DATA = Windows.WIN32_FIND_DATA;
+  WIN32_FIND_DATAA = Windows.WIN32_FIND_DATA;
 {$ELSE}
-  WIN32_FIND_DATA = record
+  WIN32_FIND_DATAA = record
     dwFileAttributes : DWORD;
     ftCreationTime : TFILETIME;
     ftLastAccessTime : TFILETIME;
@@ -213,7 +213,25 @@ type
     cAlternateFileName : array[0..13] of CHAR;
   end;
 {$ENDIF}
-  TWin32FindData = WIN32_FIND_DATA;
+  TWin32FindData = WIN32_FIND_DATAA;
+
+{$IFDEF MSWINDOWS}
+  WIN32_FIND_DATAW = Windows.WIN32_FIND_DATAW;
+{$ELSE}
+  WIN32_FIND_DATAW = record
+    dwFileAttributes : DWORD;
+    ftCreationTime : TFILETIME;
+    ftLastAccessTime : TFILETIME;
+    ftLastWriteTime : TFILETIME;
+    nFileSizeHigh : DWORD;
+    nFileSizeLow : DWORD;
+    dwReserved0 : DWORD;
+    dwReserved1 : DWORD;
+    cFileName : array[0..(MAX_PATH)-1] of WCHAR;
+    cAlternateFileName : array[0..13] of WCHAR;
+  end;
+{$ENDIF}
+  TWin32FindDataW = WIN32_FIND_DATAW;
 
 type
 
@@ -252,16 +270,30 @@ type
   TProgressProc=function(PluginNr:integer;SourceName,
 
     TargetName:pchar;PercentDone:integer):integer; stdcall;
+  
+  TProgressProcW=function(PluginNr:integer;SourceName,
+
+    TargetName:pwidechar;PercentDone:integer):integer; stdcall;  
 
   TLogProc=procedure(PluginNr,MsgType:integer;LogString:pchar); stdcall;
+  
+  TLogProcW=procedure(PluginNr,MsgType:integer;LogString:pwidechar); stdcall;
 
   TRequestProc=function(PluginNr,RequestType:integer;CustomTitle,CustomText,
 
     ReturnedText:pchar;maxlen:integer):bool; stdcall;
+  
+  TRequestProcW=function(PluginNr,RequestType:integer;CustomTitle,CustomText,
+
+    ReturnedText:pwidechar;maxlen:integer):bool; stdcall;
 
   TCryptProc=function(PluginNr,CryptoNumber:integer;mode:integer;ConnectionName,
 
     Password:pchar;maxlen:integer):integer; stdcall;
+    
+  TCryptProcW=function(PluginNr,CryptoNumber:integer;mode:integer;ConnectionName,
+
+    Password:pwidechar;maxlen:integer):integer; stdcall;
 
 { Function prototypes - the callback functions MUST be implemented exactly like this! }
 
@@ -271,19 +303,37 @@ function FsInit(PluginNr:integer;pProgressProc:tProgressProc;pLogProc:tLogProc;
 
                 pRequestProc:tRequestProc):integer; stdcall;
 
-procedure FsSetCryptCallback(pCryptProc:TCryptProc;CryptoNr,Flags:integer); stdcall;
+function FsInitW(PluginNr:integer;pProgressProcW:tProgressProcW;pLogProcW:tLogProcW;
+
+                pRequestProcW:tRequestProcW):integer; stdcall;
+
+procedure FsSetCryptCallback(CryptProc:TCryptProc;CryptoNr,Flags:integer); stdcall;
+
+procedure FsSetCryptCallbackW(CryptProcW:TCryptProcW;CryptoNr,Flags:integer); stdcall;
 
 function FsFindFirst(path :pchar;var FindData:tWIN32FINDDATA):thandle; stdcall;
 
+function FsFindFirstW(path :pwidechar;var FindData:tWIN32FINDDATAW):thandle; stdcall;
+
 function FsFindNext(Hdl:thandle;var FindData:tWIN32FINDDATA):bool; stdcall;
+
+function FsFindNextW(Hdl:thandle;var FindDataW:tWIN32FINDDATAW):bool; stdcall;
 
 function FsFindClose(Hdl:thandle):integer; stdcall;
 
 function FsMkDir(RemoteDir:pchar):bool; stdcall;
 
+function FsMkDirW(RemoteDir:pwidechar):bool; stdcall;
+
 function FsExecuteFile(MainWin:thandle;RemoteName,Verb:pchar):integer; stdcall;
 
+function FsExecuteFileW(MainWin:thandle;RemoteName,Verb:pwidechar):integer; stdcall;
+
 function FsRenMovFile(OldName,NewName:pchar;Move,OverWrite:bool;
+
+  RemoteInfo:pRemoteInfo):integer; stdcall;
+
+function FsRenMovFileW(OldName,NewName:pwidechar;Move,OverWrite:bool;
 
   RemoteInfo:pRemoteInfo):integer; stdcall;
 
@@ -291,21 +341,41 @@ function FsGetFile(RemoteName,LocalName:pchar;CopyFlags:integer;
 
   RemoteInfo:pRemoteInfo):integer; stdcall;
 
+function FsGetFileW(RemoteName,LocalName:pwidechar;CopyFlags:integer;
+
+  RemoteInfo:pRemoteInfo):integer; stdcall;
+
 function FsPutFile(LocalName,RemoteName:pchar;CopyFlags:integer):integer; stdcall;
+
+function FsPutFileW(LocalName,RemoteName:pwidechar;CopyFlags:integer):integer; stdcall;
 
 function FsDeleteFile(RemoteName:pchar):bool; stdcall;
 
+function FsDeleteFileW(RemoteName:pwidechar):bool; stdcall;
+
 function FsRemoveDir(RemoteName:pchar):bool; stdcall;
+
+function FsRemoveDirW(RemoteName:pwidechar):bool; stdcall;
 
 function FsDisconnect(DisconnectRoot:pchar):bool; stdcall;
 
+function FsDisconnectW(DisconnectRoot:pwidechar):bool; stdcall;
+
 function FsSetAttr(RemoteName:pchar;NewAttr:integer):bool; stdcall;
+
+function FsSetAttrW(RemoteName:pwidechar;NewAttr:integer):bool; stdcall;
 
 function FsSetTime(RemoteName:pchar;CreationTime,LastAccessTime,
 
   LastWriteTime:PFileTime):bool; stdcall;
 
+function FsSetTimeW(RemoteName:pwidechar;CreationTime,LastAccessTime,
+
+  LastWriteTime:PFileTime):bool; stdcall;
+
 procedure FsStatusInfo(RemoteDir:pchar;InfoStartEnd,InfoOperation:integer); stdcall;
+
+procedure FsStatusInfoW(RemoteDir:pwidechar;InfoStartEnd,InfoOperation:integer); stdcall;
 
 procedure FsGetDefRootName(DefRootName:pchar;maxlen:integer); stdcall;
 
@@ -313,15 +383,25 @@ function FsExtractCustomIcon(RemoteName:pchar;ExtractFlags:integer;
 
   var TheIcon:hicon):integer; stdcall;
 
+function FsExtractCustomIconW(RemoteName:pwidechar;ExtractFlags:integer;
+
+  var TheIcon:hicon):integer; stdcall;
+
 procedure FsSetDefaultParams(dps:pFsDefaultParamStruct); stdcall;
 
-function FsGetPreviewBitmap(RemoteName:pchar,width,height:integer,
+function FsGetPreviewBitmap(RemoteName:pchar;width,height:integer,
+
+  var ReturnedBitmap:hbitmap):integer; stdcall;
+
+function FsGetPreviewBitmapW(RemoteName:pwidechar;width,height:integer,
 
   var ReturnedBitmap:hbitmap):integer; stdcall;
 
 function FsLinksToLocalFiles:bool; stdcall;
 
 function FsGetLocalName(RemoteName:pchar;maxlen:integer):bool; stdcall;
+
+function FsGetLocalNameW(RemoteName:pwidechar;maxlen:integer):bool; stdcall;
 
 }
 
@@ -348,6 +428,8 @@ const ft_nomorefields=0;
       ft_fulltext=9;
 
       ft_datetime=10;
+      
+      ft_stringw=11;
 
 // for ContentGetValue
 
@@ -417,9 +499,15 @@ function FsContentGetValue(FileName:pchar;FieldIndex,UnitIndex:integer;FieldValu
 
   maxlen,flags:integer):integer; stdcall;
 
+function FsContentGetValueW(FileName:pwidechar;FieldIndex,UnitIndex:integer;FieldValue:pbyte;
+
+  maxlen,flags:integer):integer; stdcall;
+
 procedure FsContentSetDefaultParams(dps:pContentDefaultParamStruct); stdcall;
 
 procedure FsContentStopGetValue(FileName:pchar); stdcall;
+
+procedure FsContentStopGetValueW(FileName:pwidechar); stdcall;
 
 function FsContentGetDefaultSortOrder(FieldIndex:integer):integer; stdcall;
 
@@ -429,9 +517,17 @@ function FsContentSetValue(FileName:pchar;FieldIndex,UnitIndex,FieldType:integer
 
   FieldValue:pbyte;flags:integer):integer; stdcall;
 
+function FsContentSetValueW(FileName:pwidechar;FieldIndex,UnitIndex,FieldType:integer;
+
+  FieldValue:pbyte;flags:integer):integer; stdcall;
+
 function FsContentGetDefaultView(ViewContents,ViewHeaders,ViewWidths,
 
   ViewOptions:pchar;maxlen:integer):bool; stdcall;
+
+function FsContentGetDefaultViewW(ViewContents,ViewHeaders,ViewWidths,
+
+  ViewOptions:pwidechar;maxlen:integer):bool; stdcall;
 
 }
 
