@@ -2639,7 +2639,10 @@ begin
       ReplaceExtCommand(Path, FrameLeft, FrameRight, ActiveFrame);
       if Path <> '' then
         mbSetCurrentDir(Path);
-      Result:= ExecCmdFork(Format('"%s" %s', [Cmd, Param]));
+      // Only add a space after command if there are parameters.
+      if Length(Param) > 0 then
+        Param := ' ' + Param;
+      Result:= ExecCmdFork(Format('"%s"%s', [Cmd, Param]));
     end;
 end;
 
