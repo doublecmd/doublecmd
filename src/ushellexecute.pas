@@ -125,20 +125,19 @@ var
 
   function BuildName(aFile: TFile): String;
   begin
-    Result := state.prefix;
     case state.funct of
       ftName:
-        Result := Result + QuoteStr(aFile.Name);
+        Result := aFile.Name;
       ftDir:
-        Result := Result + QuoteStr(ExcludeTrailingPathDelimiter(aFile.Path));
+        Result := ExcludeTrailingPathDelimiter(aFile.Path);
       ftPath:
-        Result := Result + QuoteStr(aFile.FullPath);
+        Result := aFile.FullPath;
       ftSingleDir:
-        Result := Result + QuoteStr(ExcludeTrailingPathDelimiter(state.dir));
+        Result := ExcludeTrailingPathDelimiter(state.dir);
       else
         Exit('');
     end;
-    Result := Result + state.postfix;
+    Result := state.prefix + {$IFDEF UNIX}QuoteStr{$ENDIF}(Result) + state.postfix;
   end;
 
   function BuildAllNames: String;
