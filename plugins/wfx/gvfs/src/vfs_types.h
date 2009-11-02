@@ -30,24 +30,6 @@
 
 typedef int TVFSResult;
 
-/*  Compatible with gio/GAskPasswordFlags  */
-typedef enum {
-  VFS_ASK_PASSWORD_NEED_PASSWORD       = 1<<0,
-  VFS_ASK_PASSWORD_NEED_USERNAME       = 1<<1,
-  VFS_ASK_PASSWORD_NEED_DOMAIN         = 1<<2,
-  VFS_ASK_PASSWORD_SAVING_SUPPORTED    = 1<<3,
-  VFS_ASK_PASSWORD_ANONYMOUS_SUPPORTED = 1<<4,
-  VFS_ASK_PASSWORD_SAVE_INTERNAL       = 1<<14,
-  VFS_ASK_PASSWORD_ARCHIVE_MODE        = 1<<15
-} TVFSAskPasswordFlags;
-
-/*  Compatible with gio/GPasswordSave  */
-typedef enum {
-  VFS_PASSWORD_SAVE_NEVER,
-  VFS_PASSWORD_SAVE_FOR_SESSION,
-  VFS_PASSWORD_SAVE_PERMANENTLY
-} TVFSPasswordSave;
-
 /*  Return index of the choice selected or negative number when dialog has been cancelled  */
 typedef void (* TVFSAskQuestionCallback)
                 (const char *message,
