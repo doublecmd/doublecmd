@@ -232,8 +232,6 @@ var
   end;
 
 begin
-  sCmd:= GetCmdDirFromEnvVar(sCmd);
-
   try
     BuildSelectedFilesList(leftFiles, leftPanel);
     BuildSelectedFilesList(rightFiles, rightPanel);

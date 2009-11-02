@@ -39,6 +39,7 @@ uses
 
 const
   QuotationCharacters = [' ', '"', '''', '(', ')', ':', '&'];
+  EnvVarCommanderPath = '%commander_path%';
 
 type
   TOpenStringArray = array of String;
@@ -47,6 +48,11 @@ type
 
 function GetCmdDirFromEnvVar(sPath : String) : String;
 function SetCmdDirAsEnvVar(sPath : String) : String;
+{en
+   Replaces environment variables of form %<NAME>% with their values.
+   Also replaces the internal "%commander_path%".
+}
+function ReplaceEnvVars(const sText: String): String;
 {en
    Expands the file name with environment variables by replacing them by absolute path.
    @param(sFileName File name to expand.)
@@ -270,8 +276,8 @@ uses
 function GetCmdDirFromEnvVar(sPath: String): String;
 begin
   DoDirSeparators(sPath);
-  if Pos('%commander_path%', sPath) <> 0 then
-    Result := StringReplace(sPath, '%commander_path%', ExcludeTrailingPathDelimiter(gpExePath), [rfIgnoreCase])
+  if Pos(EnvVarCommanderPath, sPath) <> 0 then
+    Result := StringReplace(sPath, EnvVarCommanderPath, ExcludeTrailingPathDelimiter(gpExePath), [rfIgnoreCase])
   else
     Result := sPath;
 end;
@@ -280,18 +286,18 @@ function SetCmdDirAsEnvVar(sPath: String): String;
 begin
   DoDirSeparators(sPath);
   if Pos(gpExePath, sPath) <> 0 then
-    Result := StringReplace(sPath, ExcludeTrailingPathDelimiter(gpExePath), '%commander_path%', [rfIgnoreCase])
+    Result := StringReplace(sPath, ExcludeTrailingPathDelimiter(gpExePath), EnvVarCommanderPath, [rfIgnoreCase])
   else
     Result := sPath;
 end;
 
-function mbExpandFileName(const sFileName: UTF8String): UTF8String;
+function ReplaceEnvVars(const sText: String): String;
 var
   I, X: Integer;
   EnvVarList: TStringList;
 begin
-  if sFileName = EmptyStr then Exit(EmptyStr);
-  Result:= sFileName;
+  if sText = EmptyStr then Exit(EmptyStr);
+  Result:= sText;
   X:= GetEnvironmentVariableCount;
   if X = 0 then Exit;
   EnvVarList:= TStringList.Create;
@@ -301,6 +307,13 @@ begin
       Result:= StringReplace(Result, '%'+EnvVarList.Names[I-1]+'%', EnvVarList.ValueFromIndex[I-1], [rfReplaceAll, rfIgnoreCase]);
     end;
   FreeAndNil(EnvVarList);
+
+  StringReplace(Result, EnvVarCommanderPath, ExcludeTrailingPathDelimiter(gpExePath), [rfReplaceAll, rfIgnoreCase]);
+end;
+
+function mbExpandFileName(const sFileName: UTF8String): UTF8String;
+begin
+  Result := ReplaceEnvVars(sFileName);
   if Pos(PathDelim, Result) <> 0 then
     Result:= ExpandFileName(Result);
 end;
