@@ -2628,13 +2628,13 @@ begin
       Param:= BarFile.GetButtonX(NumberOfButton, ParamX);
       Path:= BarFile.GetButtonX(NumberOfButton, PathX);
     end;
-  Param:= mbExpandFileName(Param);
+  Param:= ReplaceEnvVars(Param);
   if Actions.Execute(Cmd, Param) <> uActs.cf_Error then
     Result:= True
   else
     begin
       Cmd:= mbExpandFileName(Cmd);
-      Path:= mbExpandFileName(Path);
+      Path:= ReplaceEnvVars(Path);
       ReplaceExtCommand(Param, FrameLeft, FrameRight, ActiveFrame);
       ReplaceExtCommand(Path, FrameLeft, FrameRight, ActiveFrame);
       if Path <> '' then
