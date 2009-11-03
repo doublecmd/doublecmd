@@ -129,7 +129,7 @@ type
     function WfxFindFirst(Path: UTF8String; var FindData: TWfxFindData): THandle;
     function WfxFindNext(Hdl: THandle; var FindData: TWfxFindData): Boolean;
     procedure WfxStatusInfo(RemoteDir: UTF8String; InfoStartEnd, InfoOperation: Integer);
-    function WfxExecuteFile(MainWin: HWND; RemoteName, Verb: UTF8String): Integer;
+    function WfxExecuteFile(MainWin: HWND; var RemoteName: UTF8String; Verb: UTF8String): Integer;
     function WfxSetAttr(RemoteName: UTF8String; NewAttr: LongInt): Boolean;
     function WfxRemoveDir(const sDirName: UTF8String): Boolean;
     function WfxDeleteFile(const sFileName: UTF8String): Boolean;
@@ -172,7 +172,7 @@ type
 implementation
 
 uses
-  LCLProc, uLng, FileUtil, uGlobsPaths, fDialogBox;
+  LCLProc, uLng, FileUtil, uGlobsPaths, uDCUtils, fDialogBox;
 
 const
   WfxIniFileName = 'wfx.ini';
@@ -282,14 +282,30 @@ begin
     FsStatusInfo(PAnsiChar(UTF8ToSys(RemoteDir)), InfoStartEnd, InfoOperation);
 end;
 
-function TWFXModule.WfxExecuteFile(MainWin: HWND; RemoteName, Verb: UTF8String): Integer;
+function TWFXModule.WfxExecuteFile(MainWin: HWND; var RemoteName: UTF8String; Verb: UTF8String): Integer;
+var
+  pacRemoteName: PAnsiChar;
+  pwcRemoteName: PWideChar;
 begin
+  Result:= WFX_NOTSUPPORTED;
   if Assigned(FsExecuteFileW) then
-    Result:= FsExecuteFileW(MainWin, PWideChar(UTF8Decode(RemoteName)), PWideChar(UTF8Decode(Verb)))
+    begin
+      pwcRemoteName:= GetMem(MAX_PATH * SizeOf(WideChar));
+      StrPCopyW(pwcRemoteName, UTF8Decode(RemoteName));
+      Result:= FsExecuteFileW(MainWin, pwcRemoteName, PWideChar(UTF8Decode(Verb)));
+      if Result = FS_EXEC_SYMLINK then
+          RemoteName:= UTF8Encode(WideString(pwcRemoteName));
+      FreeMem(pwcRemoteName);
+    end
   else if Assigned(FsExecuteFile) then
-    Result:= FsExecuteFile(MainWin, PAnsiChar(UTF8ToSys(RemoteName)), PAnsiChar(UTF8ToSys(Verb)))
-  else
-    Result:= WFX_NOTSUPPORTED;
+    begin
+      pacRemoteName:= GetMem(MAX_PATH);
+      StrPCopy(pacRemoteName, UTF8ToSys(RemoteName));
+      Result:= FsExecuteFile(MainWin, pacRemoteName, PAnsiChar(UTF8ToSys(Verb)));
+      if Result = FS_EXEC_SYMLINK then
+          RemoteName:= SysToUTF8(StrPas(pacRemoteName));
+      FreeMem(pacRemoteName);
+    end;
 end;
 
 function TWFXModule.WfxSetAttr(RemoteName: UTF8String; NewAttr: LongInt): Boolean;
@@ -525,10 +541,13 @@ begin
 end;
 
 function TWFXModule.VFSConfigure(Parent: System.THandle): Boolean;
+var
+  RemoteName: UTF8String;
 begin
   try
+    RemoteName:= PathDelim;
     WFXStatusInfo(PathDelim, FS_STATUS_START, FS_STATUS_OP_EXEC);
-    Result:= (WfxExecuteFile(Parent, PathDelim, 'properties') = FS_EXEC_OK);
+    Result:= (WfxExecuteFile(Parent, RemoteName, 'properties') = FS_EXEC_OK);
     WFXStatusInfo(PathDelim, FS_STATUS_END, FS_STATUS_OP_EXEC);
   except
     Result:= False;

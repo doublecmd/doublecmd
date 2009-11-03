@@ -58,9 +58,12 @@ end;
 
 procedure TWfxPluginExecuteOperation.MainExecute;
 var
+  RemoteName: UTF8String;
   iResult: LongInt;
 begin
-    iResult:= FWfxPluginFileSource.WfxExecuteFile(AbsolutePath, Verb, FExecutablePath);
+    RemoteName:= AbsolutePath;
+    iResult:= FWfxPluginFileSource.WfxModule.WfxExecuteFile(0, RemoteName, Verb);
+    FExecutablePath:= RemoteName;
     case iResult of
     FS_EXEC_OK:
       FExecuteOperationResult:= fseorSuccess;
