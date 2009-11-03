@@ -6,13 +6,19 @@ interface
 
 uses
   Classes, SysUtils, Controls, ExtCtrls,
-  uFile, uFileSource, uMethodsList;
+  uFile, uFileSource, uMethodsList, uDragDropEx;
 
 type
 
   TOnBeforeChangeDirectory = function (FileView: TCustomPage; const NewDir : String): Boolean of object;
   TOnAfterChangeDirectory = procedure (FileView: TCustomPage; const NewDir : String) of object;
   TOnChangeFileSource = procedure (FileView: TCustomPage) of object;
+
+  TDropParams = class;
+  TDragDropType = (ddtInternal, ddtExternal);
+  // Lists all operations supported by dragging and dropping items
+  // in the panel (external, internal and via menu).
+  TDragDropOperation = (ddoCopy, ddoMove, ddoSymLink, ddoHardLink);
 
   {en
      Base class for any view of a file or files.
@@ -89,6 +95,14 @@ type
     }
     function HasSelectedFiles: Boolean; virtual abstract;
 
+    {en
+       Handles drag&drop operations onto the file view.
+       Does any graphic work and executes operations with dropped files if allowed.
+       Handles freeing DropParams.
+    }
+    procedure DoDragDropOperation(Operation: TDragDropOperation;
+                                  var DropParams: TDropParams); virtual abstract;
+
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property CurrentAddress: String read GetCurrentAddress;
     property FileSource: IFileSource read GetLastFileSource;
@@ -121,6 +135,50 @@ type
     property OnAfterChangeDirectory : TOnAfterChangeDirectory read FOnAfterChangeDirectory write FOnAfterChangeDirectory;
     property OnChangeFileSource : TOnChangeFileSource read FOnChangeFileSource write FOnChangeFileSource;
   end;
+
+  { TDropParams }
+
+  {  Parameters passed to functions handling drag&drop.
+
+     FileList
+        List of files dropped (the class handles freeing it).
+     DropEffect
+        Desired action to take with regard to the files.
+     ScreenDropPoint
+        Point where the drop occurred.
+     DropIntoDirectories
+        If true it is/was allowed to drop into specific directories
+        (directories may have been tracked while dragging).
+        Target path will be modified accordingly if ScreenDropPoint points
+        to a directory in the target panel.
+     SourcePanel
+        If drag drop type is internal, this field points to the source panel.
+     TargetPanel
+        Panel, where the drop occurred. }
+  TDropParams = class
+  public
+    Files: TFiles;
+    DropEffect: TDropEffect;
+    ScreenDropPoint: TPoint;
+    DropIntoDirectories: Boolean;
+    SourcePanel: TFileView;
+    TargetPanel: TFileView;
+    TargetPath: String;
+
+    constructor Create(var aFiles: TFiles;
+                       aDropEffect: TDropEffect;
+                       aScreenDropPoint: TPoint;
+                       aDropIntoDirectories: Boolean;
+                       aSourcePanel: TFileView;
+                       aTargetPanel: TFileView;
+                       aTargetPath: String);
+    destructor Destroy; override;
+
+    // States, whether the drag&drop operation was internal or external.
+    // If SourcePanel is not nil, then it's assumed it was internal.
+    function GetDragDropType: TDragDropType;
+  end;
+  PDropParams = ^TDropParams;
 
 implementation
 
@@ -253,6 +311,41 @@ end;
 function TFileView.GetFileSourcesCount: Integer;
 begin
   Result := FFileSources.Count;
+end;
+
+{ TDropParams }
+
+constructor TDropParams.Create(
+                  var aFiles: TFiles;
+                  aDropEffect: TDropEffect;
+                  aScreenDropPoint: TPoint;
+                  aDropIntoDirectories: Boolean;
+                  aSourcePanel: TFileView;
+                  aTargetPanel: TFileView;
+                  aTargetPath: String);
+begin
+  Files := aFiles;
+  aFiles := nil;
+  DropEffect := aDropEffect;
+  ScreenDropPoint := aScreenDropPoint;
+  DropIntoDirectories := aDropIntoDirectories;
+  SourcePanel := aSourcePanel;
+  TargetPanel := aTargetPanel;
+  TargetPath := aTargetPath;
+end;
+
+destructor TDropParams.Destroy;
+begin
+  if Assigned(Files) then
+    FreeAndNil(Files);
+end;
+
+function TDropParams.GetDragDropType: TDragDropType;
+begin
+  if Assigned(SourcePanel) then
+    Result := ddtInternal
+  else
+    Result := ddtExternal;
 end;
 
 end.

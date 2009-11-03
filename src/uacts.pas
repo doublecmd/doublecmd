@@ -1327,19 +1327,13 @@ end;
 
 procedure TActs.cm_Copy(param:string);
 begin
-  // Selection validation in CopyFile.
-  frmMain.CopyFile(frmMain.NotActiveFrame.CurrentPath);
+  // Selection validation in CopyFiles.
+  frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath);
 end;
 
 procedure TActs.cm_Rename(param:string);
 begin
-{
-  File source operation.
-
-  // Selection validation in RenameFile.
-  frmMain.RenameFile(frmMain.NotActiveFrame.CurrentPath);
-}
-frmmain.MoveFile(frmMain.NotActiveFrame.CurrentPath);
+  frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath);
 end;
 
 procedure TActs.cm_MakeDir(param:string);
@@ -2078,8 +2072,8 @@ end;
 procedure TActs.cm_CopySamePanel(param:string);
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_CopySamePanel', param);
-  // Selection validation in CopyFile.
-  frmMain.CopyFile('');
+  // Selection validation in CopyFiles.
+  frmMain.CopyFiles('');
 end;
 
 procedure TActs.cm_RenameOnly(param:string);
@@ -2520,7 +2514,9 @@ begin
             Exit;
           end;
 
-          SourceFileSource := TFileSystemFileSource.Create;
+          SourceFileSource := FileSourceManager.Find(TFileSystemFileSource, '');
+          if not Assigned(SourceFileSource) then
+            SourceFileSource := TFileSystemFileSource.Create;
 
           if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
           begin

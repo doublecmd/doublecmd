@@ -38,16 +38,7 @@ type
 
   PFileListSorting = ^TFileListSorting;
 
-  // DragDrop
-
-  TDragDropType = (ddtInternal, ddtExternal);
-
-  // Lists all operations supported by dragging and dropping items
-  // in the panel (external, internal and via menu).
-  TDragDropOperation = (ddoCopy, ddoMove, ddoSymLink, ddoHardLink);
-
   TColumnsFileView = class;
-  TDropParams = class;
 
   { TDrawGridEx }
 
@@ -108,53 +99,7 @@ type
 
     // Returns height of all the header rows.
     function GetHeaderHeight: Integer;
-
-    {  This function is called from various points to handle dropping files
-       into the panel. It converts drop effects available on the system
-       into TDragDropOperation operations.
-       Handles freeing DropParams. }
-    procedure DropFiles(DropParams: TDropParams);
   end;
-
-  { TDropParams }
-
-  {  Parameters passed to functions handling drag&drop.
-
-     FileList
-        List of files dropped (the class handles freeing it).
-     DropEffect
-        Desired action to take with regard to the files.
-     ScreenDropPoint
-        Point where the drop occurred.
-     DropIntoDirectories
-        If true it is/was allowed to drop into specific directories
-        (directories may have been tracked while dragging).
-        Target path will be modified accordingly if ScreenDropPoint points
-        to a directory in the target panel.
-     SourcePanel
-        If drag drop type is internal, this field points to the source panel.
-     TargetPanel
-        Panel, where the drop occurred. }
-  TDropParams = class
-  public
-    Files: TFiles;
-    DropEffect: TDropEffect;
-    ScreenDropPoint: TPoint;
-    DropIntoDirectories: Boolean;
-    SourcePanel: TColumnsFileView;
-    TargetPanel: TColumnsFileView;
-
-    constructor Create(aFiles: TFiles; aDropEffect: TDropEffect;
-                       aScreenDropPoint: TPoint; aDropIntoDirectories: Boolean;
-                       aSourcePanel: TColumnsFileView;
-                       aTargetPanel: TColumnsFileView);
-    destructor Destroy; override;
-
-    // States, whether the drag&drop operation was internal or external.
-    // If SourcePanel is not nil, then it's assumed it was internal.
-    function GetDragDropType: TDragDropType;
-  end;
-  PDropParams = ^TDropParams;
 
   { TPathLabel }
 
@@ -414,10 +359,8 @@ type
 
     function GetColumnsClass: TPanelColumnsClass;
 
-    {  Executes operations with dropped files, can handle any TDragDropOperation.
-       Handles freeing DropParams. }
     procedure DoDragDropOperation(Operation: TDragDropOperation;
-                                  DropParams: TDropParams);
+                                  var DropParams: TDropParams); override;
 
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property LastActive: String read FLastActive write FLastActive;
@@ -731,7 +674,7 @@ var
 begin
   Result := False;
 
-  if dgPanel.DragRowIndex >= dgPanel.FixedRows then
+  if Assigned(dgPanel.DragDropSource) and (dgPanel.DragRowIndex >= dgPanel.FixedRows) then
   begin
     draggedFileItem := FFiles[dgPanel.DragRowIndex - dgPanel.FixedRows]; // substract fixed rows (header)
 
@@ -1026,42 +969,34 @@ end;
 procedure TColumnsFileView.dgPanelDragDrop(Sender, Source: TObject; X, Y: Integer);
 var
   SourcePanel: TColumnsFileView;
-  FileList: TFiles;
+  SourceFiles: TFiles;
+  DropParams: TDropParams;
 begin
   if (Sender is TDrawGridEx) and (Source is TDrawGridEx) then
   begin
     SourcePanel := ((Source as TDrawGridEx).Parent) as TColumnsFileView;
 
     // Get file names from source panel.
-    with SourcePanel do
-    begin
-      if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+    SourceFiles := SourcePanel.SelectedFiles;
+    try
+      // Drop onto target panel.
+      with Sender as TDrawGridEx do
+      begin
+        DropParams := TDropParams.Create(
+          SourceFiles, // Will be freed automatically.
+          GetDropEffectByKeyAndMouse(GetKeyShiftState,
+                                    (Source as TDrawGridEx).LastMouseButton),
+          ClientToScreen(Classes.Point(X, Y)),
+          True,
+          SourcePanel,
+          Self, Self.CurrentPath);
 
-      FileList := TFiles.Create;
-      try
-{
-        CopyListSelectedExpandNames(pnlFile.FileList, FileList, ActiveDir);
-}
-        UnSelectFileIfSelected(GetActiveItem);
-      except
-        FreeAndNil(FileList);
-        UnSelectFileIfSelected(GetActiveItem);
-        Exit;
+        frmMain.DropFiles(DropParams);
+        ChangeDropRowIndex(-1);
       end;
-    end;
-
-    // Drop onto target panel.
-    with Sender as TDrawGridEx do
-    begin
-      DropFiles(TDropParams.Create(
-        Files, // Will be freed automatically.
-        GetDropEffectByKeyAndMouse(GetKeyShiftState,
-                                  (Source as TDrawGridEx).LastMouseButton),
-        ClientToScreen(Classes.Point(X, Y)),
-        True,
-        SourcePanel,
-        Self));
-      ChangeDropRowIndex(-1);
+    except
+      FreeAndNil(SourceFiles);
+      raise;
     end;
   end;
 end;
@@ -2759,92 +2694,50 @@ begin
 end;
 
 procedure TColumnsFileView.DoDragDropOperation(Operation: TDragDropOperation;
-                                               DropParams: TDropParams);
+                                               var DropParams: TDropParams);
 var
   AFile: TColumnsViewFile;
-  TargetDir: string;
   iCol, iRow: Integer;
   ClientDropPoint: TPoint;
-  SourceFileName, TargetFileName: string;
 begin
-  with DropParams do
-  begin
-    if Files.Count > 0 then
+  try
+    with DropParams do
     begin
-      ClientDropPoint := dgPanel.ScreenToClient(ScreenDropPoint);
-      dgPanel.MouseToCell(ClientDropPoint.X, ClientDropPoint.Y, iCol, iRow);
-
-      // default to current active directory in the destination panel
-      TargetDir := Self.CurrentPath;
-
-      if (DropIntoDirectories = True) and
-         (iRow >= dgPanel.FixedRows) and
-         (ClientDropPoint.Y < dgPanel.GridHeight) then
+      if Files.Count > 0 then
       begin
-        AFile := FFiles[iRow - dgPanel.FixedRows];
+        ClientDropPoint := dgPanel.ScreenToClient(ScreenDropPoint);
+        dgPanel.MouseToCell(ClientDropPoint.X, ClientDropPoint.Y, iCol, iRow);
 
-        // If dropped into a directory modify destination path accordingly.
-        if Assigned(AFile) and
-           (AFile.TheFile.IsDirectory or AFile.TheFile.IsLinkToDirectory) then
+        // default to current active directory in the destination panel
+        TargetPath := Self.CurrentPath;
+
+        if (DropIntoDirectories = True) and
+           (iRow >= dgPanel.FixedRows) and
+           (ClientDropPoint.Y < dgPanel.GridHeight) then
         begin
-          if AFile.TheFile.Name = '..' then
-            // remove the last subdirectory in the path
-            TargetDir := GetParentDir(TargetDir)
-          else
-            TargetDir := TargetDir + AFile.TheFile.Name + DirectorySeparator;
+          AFile := FFiles[iRow - dgPanel.FixedRows];
+
+          // If dropped into a directory modify destination path accordingly.
+          if Assigned(AFile) and
+             (AFile.TheFile.IsDirectory or AFile.TheFile.IsLinkToDirectory) then
+          begin
+            if AFile.TheFile.Name = '..' then
+              // remove the last subdirectory in the path
+              TargetPath := GetParentDir(TargetPath)
+            else
+              TargetPath := TargetPath + AFile.TheFile.Name + DirectorySeparator;
+          end;
         end;
       end;
-
-      case Operation of
-
-        ddoMove:
-          if GetDragDropType = ddtInternal then
-            frmMain.MoveFile(TargetDir)
-          else
-          begin
-//            frmMain.RenameFile(FileList, TargetPanel, TargetDir); // will free FileList
-            Files := nil;
-          end;
-
-        ddoCopy:
-          if GetDragDropType = ddtInternal then
-            frmMain.CopyFile(TargetDir)
-          else
-          begin
-//            frmMain.CopyFile(FileList, TargetPanel, TargetDir);   // will free FileList
-            Files := nil;
-          end;
-
-        ddoSymLink, ddoHardLink:
-          begin
-{
-            if ((GetDragDropType = ddtInternal) and
-               (SourcePanel.pnlFile.PanelMode in [pmArchive, pmVFS]))
-            or (TargetPanel.pnlFile.PanelMode in [pmArchive, pmVFS]) then
-            begin
-              msgWarning(rsMsgErrNotSupported);
-            end
-            else
-            begin
-              // TODO: process multiple files
-
-              SourceFileName := FileList.GetFileName(0);
-              TargetFileName := TargetDir + ExtractFileName(SourceFileName);
-
-              if ((Operation = ddoSymLink) and
-                 ShowSymLinkForm(SourceFileName, TargetFileName))
-              or ((Operation = ddoHardLink) and
-                 ShowHardLinkForm(SourceFileName, TargetFileName))
-              then
-                RefreshPanel;
-            end;
-}
-          end;
-      end;
     end;
-  end;
 
-  FreeAndNil(DropParams);
+    // Execute the operation.
+    frmMain.DoDragDropOperation(Operation, DropParams);
+
+  finally
+    if Assigned(DropParams) then
+      FreeAndNil(DropParams);
+  end;
 end;
 
 procedure TColumnsFileView.cm_MarkInvert(param: string='');
@@ -3525,15 +3418,27 @@ end;
 function TDrawGridEx.OnExDrop(const FileNamesList: TStringList; DropEffect: TDropEffect;
                               ScreenPoint: TPoint):Boolean;
 var
-  Files: TFileSystemFiles;
+  Files: TFiles;
+  DropParams: TDropParams;
+  TargetFileView: TFileView;
 begin
   if FileNamesList.Count > 0 then
   begin
     Files := TFileSystemFiles.Create;
-    Files.LoadFromFileNames(FileNamesList);
-    DropFiles(TDropParams.Create(
-      Files, DropEffect, ScreenPoint, True,
-      nil, Self.Parent as TColumnsFileView));
+    try
+      (Files as TFileSystemFiles).LoadFromFileNames(FileNamesList);
+
+      TargetFileView := Self.Parent as TFileView;
+
+      DropParams := TDropParams.Create(
+        Files, DropEffect, ScreenPoint, True,
+        nil, TargetFileView, TargetFileView.CurrentPath);
+
+      frmMain.DropFiles(DropParams);
+    except
+      FreeAndNil(Files);
+      raise;
+    end;
   end;
 
   ChangeDropRowIndex(-1);
@@ -3593,40 +3498,6 @@ begin
   Result := True;
 end;
 
-procedure TDrawGridEx.DropFiles(DropParams: TDropParams);
-begin
-  if Assigned(DropParams) then
-  begin
-    if DropParams.Files.Count > 0 then
-    begin
-      case DropParams.DropEffect of
-
-        DropMoveEffect:
-          DropParams.TargetPanel.DoDragDropOperation(ddoMove, DropParams);
-
-        DropCopyEffect:
-          DropParams.TargetPanel.DoDragDropOperation(ddoCopy, DropParams);
-
-        DropLinkEffect:
-          DropParams.TargetPanel.DoDragDropOperation(ddoSymLink, DropParams);
-
-        DropAskEffect:
-          begin
-            // Ask the user what he would like to do by displaying a menu.
-            // Returns immediately after showing menu.
-            frmMain.pmDropMenu.PopUp(DropParams);
-          end;
-
-        else
-          FreeAndNil(DropParams);
-
-      end;
-    end
-    else
-      FreeAndNil(DropParams);
-  end;
-end;
-
 procedure TDrawGridEx.ClearMouseButtonAfterDrag;
 begin
   // Clear some control specific flags.
@@ -3642,36 +3513,6 @@ begin
   Result := ((Now - fLastDoubleClickTime) <= ((1/86400)*(DblClickTime/1000)));
 end;
 {$ENDIF}
-
-{ TDropParams }
-
-constructor TDropParams.Create(
-                  aFiles: TFiles; aDropEffect: TDropEffect;
-                  aScreenDropPoint: TPoint; aDropIntoDirectories: Boolean;
-                  aSourcePanel: TColumnsFileView;
-                  aTargetPanel: TColumnsFileView);
-begin
-  Files := aFiles;
-  DropEffect := aDropEffect;
-  ScreenDropPoint := aScreenDropPoint;
-  DropIntoDirectories := aDropIntoDirectories;
-  SourcePanel := aSourcePanel;
-  TargetPanel := aTargetPanel;
-end;
-
-destructor TDropParams.Destroy;
-begin
-  if Assigned(Files) then
-    FreeAndNil(Files);
-end;
-
-function TDropParams.GetDragDropType: TDragDropType;
-begin
-  if Assigned(SourcePanel) then
-    Result := ddtInternal
-  else
-    Result := ddtExternal;
-end;
 
 { TPathLabel }
 
