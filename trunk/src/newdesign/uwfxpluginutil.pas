@@ -129,7 +129,7 @@ begin
   case FMode of
   wpohmCopyMoveIn:
     begin
-      Result:= FWfxPluginFileSource.WfxMkDir('', AbsoluteTargetFileName);
+      Result:= FWfxPluginFileSource.WfxModule.WfxMkDir('', AbsoluteTargetFileName);
     end;
   wpohmCopyMoveOut:
     begin
