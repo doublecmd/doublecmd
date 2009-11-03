@@ -344,31 +344,31 @@ procedure TWfxPluginFileSource.FillAndCount(Files: TFiles; out NewFiles: TFiles;
 
   procedure FillAndCountRec(const srcPath: UTF8String);
   var
-    FindData: TWin32FindData;
+    FindData: TWfxFindData;
     Handle: THandle;
     aFile: TWfxPluginFile;
   begin
     with FWfxModule do
     begin
-      Handle := FsFindFirst(PChar(UTF8ToSys(srcPath)), FindData);
+      Handle := WfxFindFirst(srcPath, FindData);
       if Handle = feInvalidHandle then Exit;
 
       repeat
-        if (FindData.cFileName = '.') or (FindData.cFileName = '..') then Continue;
+        if (FindData.FileName = '.') or (FindData.FileName = '..') then Continue;
         aFile:= TWfxPluginFile.Create(FindData);
         aFile.Path:= srcPath;
         NewFiles.Add(aFile);
 
         if aFile.IsDirectory then
           begin
-            FillAndCountRec(srcPath + SysToUTF8(FindData.cFileName) + PathDelim);
+            FillAndCountRec(srcPath + FindData.FileName + PathDelim);
           end
         else
           begin
             Inc(FilesSize, aFile.Size);
             Inc(FilesCount);
           end;
-      until not FsFindNext(Handle, FindData);
+      until not WfxFindNext(Handle, FindData);
 
       FsFindClose(Handle);
     end;

@@ -23,7 +23,8 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uOSUtils, uDCUtils, uWfxPluginFile, uFile, uFileAttributes, WfxPlugin;
+  LCLProc, FileUtil, uOSUtils, uDCUtils, uWfxPluginFile, uFile, uFileAttributes,
+  WfxPlugin, uWfxModule;
 
 constructor TWfxPluginListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
@@ -34,7 +35,7 @@ end;
 
 procedure TWfxPluginListOperation.MainExecute;
 var
-  FindData : TWIN32FINDDATA;
+  FindData : TWfxFindData;
   Handle: THandle;
   aFile: TWfxPluginFile;
   sPath : UTF8String;
@@ -56,15 +57,15 @@ begin
       FFiles.Add(aFile);
     end;
 
-    Handle := FsFindFirst(PChar(UTF8ToSys(sPath)), FindData);
+    Handle := WfxFindFirst(sPath, FindData);
     if Handle = feInvalidHandle then Exit;
     repeat
-      if (FindData.cFileName = '.') or (FindData.cFileName = '..') then Continue;
+      if (FindData.FileName = '.') or (FindData.FileName = '..') then Continue;
 
       aFile := TWfxPluginFile.Create(FindData);
       aFile.Path := sPath;
       FFiles.Add(aFile);
-    until (not FsFindNext(Handle, FindData));
+    until (not WfxFindNext(Handle, FindData));
 
     FsFindClose(Handle);
 
