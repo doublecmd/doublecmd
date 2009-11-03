@@ -9,10 +9,6 @@ uses
   uFileSourceOperationTypes,
   uFileSourceOperationUI, LCLProc;
 
-const
-
-  guidIFileSourceOperationUI = '{3BC28C8B-8A3E-4F71-8828-52483B8C057A}';
-
 type
 
   TFileSourceOperationState =
@@ -22,6 +18,7 @@ type
      fsosPausing,     //<en responded to Pause command
      fsosPaused,
      fsosWaitingForFeedback, //<en waiting for a response from a user through the assigned UI
+     fsosWaitingForConnection, //<en waiting for an available connection to TFileSource
      fsosStopping,    //<en responded to Stop command
      fsosStopped);    //<en finished due to Stop command or on its own
 
@@ -32,7 +29,8 @@ type
 const
   FileSourceOperationStateText: array[TFileSourceOperationState] of string =
     (rsOperNotStarted, rsOperStarting, rsOperRunning, rsOperPausing,
-     rsOperPaused, rsOperWaitingForFeedback, rsOperStopping, rsOperStopped);
+     rsOperPaused, rsOperWaitingForFeedback, rsOperWaitingForConnection,
+     rsOperStopping, rsOperStopped);
 
   FileSourceOperationResultText: array[TFileSourceOperationResult] of string =
     (rsOperFinished, rsOperAborted);
@@ -89,6 +87,11 @@ type
        This event is used to wait for start and wait for unpausing.
     }
     FPauseEvent: PRTLEvent;
+
+    {en
+       This event is used to wait for an available connection to TFileSource.
+    }
+    FConnectionAvailableEvent: PRTLEvent;
 
     {en
        An array of lists of listeners for each event type.
@@ -158,6 +161,11 @@ type
     FChangedFileSource: IInterface;
 
     {en
+       File source connection.
+    }
+    FConnection: TObject;
+
+    {en
        This function must be run from the GUI thread.
        It posts a function to the application message queue that will call
        all the needed event functions.
@@ -172,11 +180,6 @@ type
     function GetState: TFileSourceOperationState;
     procedure UpdateStartTime(NewStartTime: TDateTime);
 
-  protected
-
-    procedure UpdateProgress(NewProgress: Integer);
-    function GetDesiredState: TFileSourceOperationState;
-
     {en
        Must be called from the operation thread.
     }
@@ -185,6 +188,30 @@ type
        Must be called from the controller thread (GUI).
     }
     procedure DoUnPause;
+
+    procedure DoWaitForConnection;
+
+  protected
+    {en
+       If @true a connection is requested from file source before the operation
+       starts. By default this is @true if file source has fspUsesConnections
+       property, but this variable may be changed on a per-operation basis
+       in the operation's constructor.
+    }
+    FNeedsConnection: Boolean;
+
+    procedure UpdateProgress(NewProgress: Integer);
+    function GetDesiredState: TFileSourceOperationState;
+
+    {en
+       Pauses the operation until it is notified that a connection is available.
+    }
+    procedure WaitForConnection;
+
+    {en
+       Retrieves an available connection from the file source (TFileSourceConnection).
+    }
+    function GetConnection: TObject; virtual;
 
     {en
        This should be set to the correct file operation type in each concrete descendant.
@@ -279,6 +306,14 @@ type
     procedure PreventStart;
 
     {en
+       Notifies the operation that possibly a connection is available from
+       the file source, but it does not guarantee it. The operation should
+       ask the file source for the connection.
+       Usually will be called from the file source.
+    }
+    procedure ConnectionAvailableNotify;
+
+    {en
        Sets the thread assigned to this operation.
     }
     procedure AssignThread(AThread: TThread);
@@ -316,7 +351,7 @@ type
 implementation
 
 uses
-  Forms;
+  Forms, uFileSource, uFileSourceProperty;
 
 type
   PEventsListEntry = ^TEventsListEntry;
@@ -338,9 +373,11 @@ begin
   FOperationResult := fsorFinished;
   FProgress := 0;
   FPauseEvent := RTLEventCreate;
+  FConnectionAvailableEvent := RTLEventCreate;
   FStateLock := TCriticalSection.Create;
   FEventsLock := TCriticalSection.Create;
   FThread := nil;
+  FConnection := nil;
 
   FEventsToNotify := [];
   FScheduledEventsListenersCalls := 0;
@@ -362,6 +399,8 @@ begin
   FFileSource := aFileSource;
   FChangedFileSource := aChangedFileSource;
 
+  FNeedsConnection := (fspUsesConnections in (FileSource as IFileSource).Properties);
+
   inherited Create;
 end;
 
@@ -371,6 +410,10 @@ var
   i: Integer;
 begin
   inherited Destroy;
+
+  // Remove operation from the queue of operations waiting for a connection
+  // (it can still be there if it was aborted while waiting).
+  (FileSource as IFileSource).RemoveFromConnectionQueue(Self);
 
   for Event := Low(FEventsListeners) to High(FEventsListeners) do
   begin
@@ -387,10 +430,12 @@ begin
   // Just to be sure - set all events when we're destroying the object
   // in case the thread is still waiting (this should normally not happen).
   RTLeventSetEvent(FPauseEvent);
+  RTLeventSetEvent(FConnectionAvailableEvent);
   RTLeventSetEvent(FNoEventsListenersCallsScheduledEvent);
   RTLeventSetEvent(FUserInterfaceAssignedEvent);
 
   RTLeventdestroy(FPauseEvent);
+  RTLeventdestroy(FConnectionAvailableEvent);
   RTLeventdestroy(FNoEventsListenersCallsScheduledEvent);
   RTLeventdestroy(FUserInterfaceAssignedEvent);
 
@@ -409,24 +454,54 @@ begin
 end;
 
 procedure TFileSourceOperation.Execute;
+var
+  initialized: Boolean = False;
 begin
   try
     UpdateState(fsosNotStarted);
     UpdateProgress(0);
     FOperationResult := fsorAborted;
 
-    if GetDesiredState <> fsosRunning then
-      DoPause;  // wait for start command
-
-    UpdateState(fsosStarting);
-
-    Initialize;
-
-    UpdateStartTime(SysUtils.Now);
-    UpdateState(fsosRunning);
-
     try
+      // Wait for manual start if not started automatically.
+      if GetDesiredState <> fsosRunning then
+        DoPause;  // wait for start command
+
+      // Check if wasn't aborted while paused.
+      CheckOperationState;
+
+      if FNeedsConnection then
+      begin
+        // Wait for connection to file source.
+        while True do
+        begin
+          FConnection := GetConnection;
+
+          if Assigned(FConnection) then
+            break;
+
+          if State <> fsosWaitingForConnection then
+            UpdateState(fsosWaitingForConnection);
+
+          DoWaitForConnection;
+
+          // Allow pausing and aborting the operation.
+          CheckOperationState;
+        end;
+      end;
+
+      // Initialize.
+
+      UpdateState(fsosStarting);
+
+      Initialize;
+      initialized := True;
+
+      UpdateStartTime(SysUtils.Now);
+      UpdateState(fsosRunning);
+
       MainExecute;
+
       FOperationResult := fsorFinished;
     except
       on EFileSourceOperationAborting do
@@ -435,12 +510,14 @@ begin
         end;
     end;
 
-    Finalize;
+    if initialized then
+      Finalize;
 
-    UpdateState(fsosStopped);
     UpdateProgress(100);
 
   finally
+    UpdateState(fsosStopped);
+
     // Wait until all the scheduled calls to events listeners have been processed
     // by the main thread (otherwise the calls can be made to a freed memory location).
     RTLeventWaitFor(FNoEventsListenersCallsScheduledEvent);
@@ -490,6 +567,32 @@ begin
   RTLeventSetEvent(FPauseEvent);
 end;
 
+procedure TFileSourceOperation.DoWaitForConnection;
+begin
+  RTLeventResetEvent(FConnectionAvailableEvent);
+  RTLeventWaitFor(FConnectionAvailableEvent); // wait indefinitely
+end;
+
+procedure TFileSourceOperation.WaitForConnection;
+begin
+  UpdateState(fsosWaitingForConnection);
+
+  DoWaitForConnection;
+
+  UpdateStartTime(SysUtils.Now);
+  UpdateState(fsosRunning);
+end;
+
+procedure TFileSourceOperation.ConnectionAvailableNotify;
+begin
+  RTLeventSetEvent(FConnectionAvailableEvent);
+end;
+
+function TFileSourceOperation.GetConnection: TObject;
+begin
+  Result := (FileSource as IFileSource).GetConnection(Self);
+end;
+
 procedure TFileSourceOperation.CheckOperationState;
 begin
   case GetDesiredState of
@@ -518,6 +621,8 @@ end;
 
 procedure TFileSourceOperation.Start;
 begin
+  FDesiredState := fsosRunning;
+
   FStateLock.Acquire;
   try
     if FState in [fsosNotStarted, fsosPaused] then
@@ -529,16 +634,22 @@ begin
   end;
 
   NotifyEvents([fsoevStateChanged]);
-  FDesiredState := fsosRunning;
   DoUnPause;
 end;
 
 procedure TFileSourceOperation.Pause;
 begin
+  FDesiredState := fsosPaused;
+
   FStateLock.Acquire;
   try
     if FState = fsosRunning then
       FState := fsosPausing
+    else if FState = fsosWaitingForConnection then
+    begin
+      FState := fsosPausing;
+      ConnectionAvailableNotify; // wake up from waiting
+    end
     else
       Exit;
   finally
@@ -546,14 +657,15 @@ begin
   end;
 
   NotifyEvents([fsoevStateChanged]);
-  FDesiredState := fsosPaused;
 end;
 
 procedure TFileSourceOperation.Stop;
 begin
+  FDesiredState := fsosStopped;
+
   FStateLock.Acquire;
   try
-    if FState in [fsosNotStarted, fsosPaused, fsosRunning, fsosWaitingForFeedback] then
+    if not (FState in [fsosStarting, fsosPausing, fsosStopped]) then
       FState := fsosStopping
     else
       Exit;
@@ -562,9 +674,12 @@ begin
   end;
 
   NotifyEvents([fsoevStateChanged]);
-  FDesiredState := fsosStopped;
 
   DoUnPause;
+
+  // Also set "Connection available" event in case the operation is waiting
+  // for connection and the user wants to abort it.
+  ConnectionAvailableNotify;
 
   // The operation may be waiting for the user's response.
   // Wake it up then, because it is being aborted

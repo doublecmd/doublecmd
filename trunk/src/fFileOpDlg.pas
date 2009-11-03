@@ -117,7 +117,7 @@ begin
       Operation.Start;
       SetPauseGlyph;
     end
-    else if Operation.State = fsosRunning then
+    else if Operation.State in [fsosRunning, fsosWaitingForConnection] then
     begin
       Operation.Pause;
       SetPlayGlyph;
@@ -315,7 +315,7 @@ begin
         btnPauseStart.Enabled := False;
       end;
 
-    fsosRunning:
+    fsosRunning, fsosWaitingForConnection:
       begin
         btnPauseStart.Enabled := True;
         SetPauseGlyph;
