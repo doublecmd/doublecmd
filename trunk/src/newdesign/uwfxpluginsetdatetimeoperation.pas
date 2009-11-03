@@ -1,4 +1,4 @@
-unit uFileSystemSetDateTimeOperation;
+unit uWfxPluginSetDateTimeOperation;
 
 {$mode objfpc}{$H+}
 
@@ -11,15 +11,17 @@ uses
   uFileSourceOperationOptions,
   uFileSourceOperationUI,
   uFile,
-  uFileSystemFile,
-  uGlobs, uLog, uOSUtils;
+  uWfxPluginFileSource,
+  uWfxPluginFile,
+  uGlobs, uLog;
 
 type
 
-  TFileSystemSetDateTimeOperation = class(TFileSourceSetDateTimeOperation)
+  TWfxPluginSetDateTimeOperation = class(TFileSourceSetDateTimeOperation)
 
   private
-    FFullFilesTreeToSetDateTime: TFileSystemFiles;  // source files including all files/dirs in subdirectories
+    FWfxPluginFileSource: IWfxPluginFileSource;
+    FFullFilesTreeToSetDateTime: TFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceSetDateTimeOperationStatistics; // local copy of statistics
 
     // Options.
@@ -27,7 +29,7 @@ type
     FSkipErrors: Boolean;
 
   protected
-    function ProcessFile(aFile: TFileSystemFile): Boolean;
+    function ProcessFile(aFile: TWfxPluginFile): Boolean;
 
   public
     constructor Create(aTargetFileSource: IFileSource;
@@ -44,19 +46,20 @@ type
 implementation
 
 uses
-  uLng, uFileSystemUtil;
+  uFileProperty, uLng, uDCUtils, WfxPlugin, uOSUtils;
 
-constructor TFileSystemSetDateTimeOperation.Create(aTargetFileSource: IFileSource;
+constructor TWfxPluginSetDateTimeOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToSetDateTime: TFiles; aLastWriteTime: TDateTime);
 begin
   FSymLinkOption := fsooslNone;
   FSkipErrors := False;
   FFullFilesTreeToSetDateTime := nil;
+  FWfxPluginFileSource:= aTargetFileSource as IWfxPluginFileSource;
 
   inherited Create(aTargetFileSource, theFilesToSetDateTime, aLastWriteTime);
 end;
 
-destructor TFileSystemSetDateTimeOperation.Destroy;
+destructor TWfxPluginSetDateTimeOperation.Destroy;
 begin
   inherited Destroy;
 
@@ -67,33 +70,35 @@ begin
   end;
 end;
 
-procedure TFileSystemSetDateTimeOperation.Initialize;
+procedure TWfxPluginSetDateTimeOperation.Initialize;
 begin
+  with FWfxPluginFileSource do
+  WfxModule.WfxStatusInfo(FilesToSetDateTime.Path, FS_STATUS_START, FS_STATUS_OP_ATTRIB);
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
   if not Recursive then
     begin
-      FFullFilesTreeToSetDateTime:= FilesToSetDateTime as TFileSystemFiles;
+      FFullFilesTreeToSetDateTime:= FilesToSetDateTime;
       FStatistics.TotalFiles:= FFullFilesTreeToSetDateTime.Count;
     end
   else
     begin
-      FillAndCount(FilesToSetDateTime as TFileSystemFiles,
-                   FFullFilesTreeToSetDateTime,
-                   FStatistics.TotalFiles,
-                   FStatistics.TotalBytes);     // gets full list of files (recursive)
+      FWfxPluginFileSource.FillAndCount(FilesToSetDateTime,
+                                        FFullFilesTreeToSetDateTime,
+                                        FStatistics.TotalFiles,
+                                        FStatistics.TotalBytes);     // gets full list of files (recursive)
     end;
 end;
 
-procedure TFileSystemSetDateTimeOperation.MainExecute;
+procedure TWfxPluginSetDateTimeOperation.MainExecute;
 var
-  aFile: TFileSystemFile;
+  aFile: TWfxPluginFile;
   CurrentFileIndex: Integer;
 begin
   for CurrentFileIndex := FFullFilesTreeToSetDateTime.Count - 1 downto 0 do
   begin
-    aFile := FFullFilesTreeToSetDateTime[CurrentFileIndex] as TFileSystemFile;
+    aFile := FFullFilesTreeToSetDateTime[CurrentFileIndex] as TWfxPluginFile;
 
     FStatistics.CurrentFile := aFile.Path + aFile.Name;
     UpdateStatistics(FStatistics);
@@ -112,30 +117,33 @@ begin
   end;
 end;
 
-procedure TFileSystemSetDateTimeOperation.Finalize;
+procedure TWfxPluginSetDateTimeOperation.Finalize;
 begin
+  with FWfxPluginFileSource do
+  WfxModule.WfxStatusInfo(FilesToSetDateTime.Path, FS_STATUS_END, FS_STATUS_OP_ATTRIB);
 end;
 
-function TFileSystemSetDateTimeOperation.ProcessFile(aFile: TFileSystemFile): Boolean;
+function TWfxPluginSetDateTimeOperation.ProcessFile(aFile: TWfxPluginFile): Boolean;
 var
   FileName: String;
   bRetry: Boolean;
   sMessage, sQuestion: String;
-  fdLastWriteTime,
-  fdCreationTime,
-  fdLastAccessTime: LongInt;
+  ftLastWriteTime,
+  ftCreationTime,
+  ftLastAccessTime: TFileTime;
 begin
   Result := False;
   FileName := aFile.Path + aFile.Name;
 
-  fdLastWriteTime:= DateTimeToFileDate(LastWriteTime);
-  fdCreationTime:= DateTimeToFileDate(CreationTime);
-  fdLastAccessTime:= DateTimeToFileDate(LastAccessTime);
+  ftLastWriteTime:= DateTimeToFileTime(LastWriteTime);
+  ftCreationTime:= DateTimeToFileTime(CreationTime);
+  ftLastAccessTime:= DateTimeToFileTime(LastAccessTime);
 
   repeat
     bRetry := False;
 
-    Result:= mbFileSetTime(FileName, fdLastWriteTime, fdCreationTime, fdLastAccessTime) <> 0;
+    with FWfxPluginFileSource.WfxModule do
+    Result:= WfxSetTime(FileName, ftCreationTime, ftLastAccessTime, ftLastWriteTime);
 
     if not Result then
       begin
