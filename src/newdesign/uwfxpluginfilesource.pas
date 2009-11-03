@@ -20,7 +20,6 @@ type
     function WfxMkDir(const sBasePath: String; const sDirName: UTF8String): LongInt;
     function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
-    function WfxExecuteFile(const sFileName, sVerb: UTF8String; out sNewPath: UTF8String): LongInt;
 
     function GetPluginNumber: LongInt;
     function GetWfxModule: TWfxModule;
@@ -48,7 +47,6 @@ type
     function WfxMkDir(const sBasePath: String; const sDirName: UTF8String): LongInt;
     function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
-    function WfxExecuteFile(const sFileName, sVerb: UTF8String; out sNewPath: UTF8String): LongInt;
   public
     constructor Create(aWfxModule: TWfxModule; aModuleFileName, aPluginRootName: UTF8String); reintroduce;
     destructor Destroy; override;
@@ -441,26 +439,6 @@ begin
           Result:= FsPutFile(pcSourceName, pcTargetName, Flags)
         else
           Result:= FsGetFile(pcSourceName, pcTargetName, Flags, RemoteInfo);
-      end;
-  end;
-end;
-
-function TWfxPluginFileSource.WfxExecuteFile(const sFileName, sVerb: UTF8String;
-                                             out sNewPath: UTF8String): LongInt;
-var
-  pcRemoteName: PChar;
-begin
-  with FWfxModule do
-  begin
-    Result:= WFX_NOTSUPPORTED;
-    if Assigned(FsExecuteFile) then
-      begin
-        pcRemoteName:= GetMem(MAX_PATH);
-        StrPCopy(pcRemoteName, UTF8ToSys(sFileName));
-        Result:= FsExecuteFile(0, pcRemoteName, PChar(UTF8ToSys(sVerb)));
-        if Result = FS_EXEC_SYMLINK then
-          sNewPath:= SysToUTF8(pcRemoteName);
-        FreeMem(pcRemoteName);
       end;
   end;
 end;
