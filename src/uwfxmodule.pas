@@ -131,6 +131,7 @@ type
     procedure WfxStatusInfo(RemoteDir: UTF8String; InfoStartEnd, InfoOperation: Integer);
     function WfxExecuteFile(MainWin: HWND; var RemoteName: UTF8String; Verb: UTF8String): Integer;
     function WfxSetAttr(RemoteName: UTF8String; NewAttr: LongInt): Boolean;
+    function WfxSetTime(RemoteName: UTF8String; CreationTime, LastAccessTime, LastWriteTime: TFileTime): Boolean;
     function WfxMkDir(const sBasePath, sDirName: UTF8String): LongInt;
     function WfxRemoveDir(const sDirName: UTF8String): Boolean;
     function WfxDeleteFile(const sFileName: UTF8String): Boolean;
@@ -316,6 +317,16 @@ begin
     Result:= FsSetAttrW(PWideChar(UTF8Decode(RemoteName)), NewAttr)
   else if Assigned(FsSetAttr) then
     Result:= FsSetAttr(PAnsiChar(UTF8ToSys(RemoteName)), NewAttr);
+end;
+
+function TWFXModule.WfxSetTime(RemoteName: UTF8String; CreationTime,
+                               LastAccessTime, LastWriteTime: TFileTime): Boolean;
+begin
+  Result:= False;
+  if Assigned(FsSetTimeW) then
+    Result:= FsSetTimeW(PWideChar(UTF8Decode(RemoteName)), @CreationTime, @LastAccessTime, @LastWriteTime)
+  else if Assigned(FsSetTime) then
+    Result:= FsSetTime(PAnsiChar(UTF8ToSys(RemoteName)), @CreationTime, @LastAccessTime, @LastWriteTime);
 end;
 
 function TWFXModule.WfxMkDir(const sBasePath, sDirName: UTF8String): LongInt;
