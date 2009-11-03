@@ -600,6 +600,11 @@ begin
       begin
         UpdateState(fsosPaused);
         DoPause;
+
+        // Check if the operation was unpaused because it is being aborted.
+        if GetDesiredState = fsosStopped then
+          RaiseAbortOperation;
+
         UpdateStartTime(SysUtils.Now);
         UpdateState(fsosRunning);
       end;
