@@ -2038,11 +2038,6 @@ begin
 
       finally
         Free;
-
-        if Assigned(SourceFileSource) then
-          FreeAndNil(SourceFileSource);
-        if Assigned(TargetFileSource) then
-          FreeAndNil(TargetFileSource);
       end;
     end; //with
 
