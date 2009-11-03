@@ -63,10 +63,12 @@ type
     procedure SetSpeedAndTime(Operation: TFileSourceOperation; RemainingTime: TDateTime; Speed: String);
 
     procedure InitializeCopyOperation(Operation: TFileSourceOperation);
+    procedure InitializeMoveOperation(Operation: TFileSourceOperation);
     procedure InitializeDeleteOperation(Operation: TFileSourceOperation);
     procedure InitializeWipeOperation(Operation: TFileSourceOperation);
     procedure InitializeCalcChecksumOperation(Operation: TFileSourceOperation);
     procedure UpdateCopyOperation(Operation: TFileSourceOperation);
+    procedure UpdateMoveOperation(Operation: TFileSourceOperation);
     procedure UpdateDeleteOperation(Operation: TFileSourceOperation);
     procedure UpdateWipeOperation(Operation: TFileSourceOperation);
     procedure UpdateCalcChecksumOperation(Operation: TFileSourceOperation);
@@ -87,6 +89,7 @@ uses
    dmCommonData, uLng, uDCUtils,
    uFileSourceOperationTypes,
    uFileSourceCopyOperation,
+   uFileSourceMoveOperation,
    uFileSourceDeleteOperation,
    uFileSourceWipeOperation,
    uFileSourceCalcChecksumOperation,
@@ -151,6 +154,8 @@ begin
 
       fsoCopyIn, fsoCopyOut:
         InitializeCopyOperation(Operation);
+      fsoMove:
+        InitializeMoveOperation(Operation);
       fsoDelete:
         InitializeDeleteOperation(Operation);
       fsoWipe:
@@ -242,8 +247,10 @@ begin
   begin
     case Operation.ID of
 
-      fsoCopyOut:
+      fsoCopyIn, fsoCopyOut:
         UpdateCopyOperation(Operation);
+      fsoMove:
+        UpdateMoveOperation(Operation);
       fsoDelete:
         UpdateDeleteOperation(Operation);
       fsoWipe:
@@ -350,11 +357,14 @@ begin
 end;
 
 procedure TfrmFileOp.InitializeCopyOperation(Operation: TFileSourceOperation);
-var
-  CopyOperation: TFileSourceCopyOperation;
 begin
-  //CopyOperation := Operation as TFileSourceCopyOperation;
   Caption := rsDlgCp;
+  InitializeControls([fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
+end;
+
+procedure TfrmFileOp.InitializeMoveOperation(Operation: TFileSourceOperation);
+begin
+  Caption := rsDlgMv;
   InitializeControls([fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
 end;
 
@@ -388,6 +398,25 @@ begin
   CopyStatistics := CopyOperation.RetrieveStatistics;
 
   with CopyStatistics do
+  begin
+    lblFileNameFrom.Caption := CurrentFileFrom;
+    lblFileNameTo.Caption := CurrentFileTo;
+
+    SetProgress(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgress(pbSecond, DoneBytes, TotalBytes);
+    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond));
+  end;
+end;
+
+procedure TfrmFileOp.UpdateMoveOperation(Operation: TFileSourceOperation);
+var
+  MoveOperation: TFileSourceMoveOperation;
+  MoveStatistics: TFileSourceMoveOperationStatistics;
+begin
+  MoveOperation := Operation as TFileSourceMoveOperation;
+  MoveStatistics := MoveOperation.RetrieveStatistics;
+
+  with MoveStatistics do
   begin
     lblFileNameFrom.Caption := CurrentFileFrom;
     lblFileNameTo.Caption := CurrentFileTo;
