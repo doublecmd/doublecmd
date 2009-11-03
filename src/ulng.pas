@@ -247,6 +247,7 @@ resourcestring
   rsOperPausing = 'Pausing';
   rsOperPaused = 'Paused';
   rsOperWaitingForFeedback = 'Waiting for user response';
+  rsOperWaitingForConnection = 'Waiting for access to file source';
   rsOperStopping = 'Stopping';
   rsOperStopped = 'Stopped';
   rsOperFinished = 'Finished';

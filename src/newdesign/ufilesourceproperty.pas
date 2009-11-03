@@ -28,7 +28,13 @@ type
        Non-virtual files are all files that are physical
        (regardless if they are directly accessible).
     }
-    fspVirtual
+    fspVirtual,
+
+    {en
+       Set, if the file source uses TFileSourceConnection objects
+       for access by operations.
+    }
+    fspUsesConnections
 
   );
 

@@ -10,6 +10,11 @@ uses
   uArchiveFileSource, uFileProperty, uFileSource, uFileSourceOperation;
 
 type
+
+  TWcxArchiveFileSourceConnection = class;
+
+  { IWcxArchiveFileSource }
+
   IWcxArchiveFileSource = interface(IArchiveFileSource)
     ['{DB32E8A8-486B-4053-9448-4C145C1A33FA}']
 
@@ -22,6 +27,8 @@ type
     property PluginFlags: PtrInt read GetPluginFlags write SetPluginFlags;
     property WcxModule: TWCXModule read GetWcxModule;
   end;
+
+  { TWcxArchiveFileSource }
 
   TWcxArchiveFileSource = class(TArchiveFileSource, IWcxArchiveFileSource)
   private
@@ -39,6 +46,10 @@ type
     function GetPluginFlags: PtrInt;
     procedure SetPluginFlags(NewPluginFlags: PtrInt);
     function GetWcxModule: TWcxModule;
+
+    function CreateConnection: TFileSourceConnection; override;
+    procedure FinishedUsingConnection(connection: TFileSourceConnection); override;
+    procedure NotifyNextWaitingOperation(allowedOps: TFileSourceOperationTypes);
 
   protected
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
@@ -70,8 +81,22 @@ type
 
     class function CreateByArchiveName(anArchiveFileName: String): IWcxArchiveFileSource;
 
+    function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection; override;
+
     property ArchiveFileList: TObjectList read FArcFileList;
     property PluginFlags: PtrInt read FPluginFlags write FPluginFlags;
+    property WcxModule: TWCXModule read FWcxModule;
+  end;
+
+  { TWcxArchiveFileSourceConnection }
+
+  TWcxArchiveFileSourceConnection = class(TFileSourceConnection)
+  private
+    FWcxModule: TWCXModule;
+
+  public
+    constructor Create(aWcxModule: TWCXModule);
+
     property WcxModule: TWCXModule read FWcxModule;
   end;
 
@@ -85,6 +110,12 @@ uses Forms, Controls, uGlobs, LCLProc, uDCUtils,
      uWcxArchiveCopyInOperation,
      uWcxArchiveCopyOutOperation,
      uWcxArchiveDeleteOperation;
+
+const
+  connCopyIn  = 0;
+  connCopyOut = 1;
+  connMove    = 2;
+  connDelete  = 3;
 
 class function TWcxArchiveFileSource.CreateByArchiveName(anArchiveFileName: String): IWcxArchiveFileSource;
 var
@@ -132,6 +163,12 @@ begin
     raise EModuleNotLoadedException.Create('Cannot load WCX module ' + FModuleFileName);
 
   ReadArchive;
+
+  // Reserve some connections.
+  FConnections.Add(CreateConnection); // connCopyIn
+  FConnections.Add(CreateConnection); // connCopyOut
+  FConnections.Add(CreateConnection); // connMove
+  FConnections.Add(CreateConnection); // connDelete
 end;
 
 destructor TWcxArchiveFileSource.Destroy;
@@ -158,7 +195,7 @@ end;
 
 function TWcxArchiveFileSource.GetProperties: TFileSourceProperties;
 begin
-  Result := [];
+  Result := [fspUsesConnections];
 end;
 
 function TWcxArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
@@ -367,6 +404,88 @@ begin
   end;
 
   Result := True;
+end;
+
+function TWcxArchiveFileSource.GetConnection(Operation: TFileSourceOperation): TFileSourceConnection;
+begin
+  Result := nil;
+  case Operation.ID of
+    fsoCopyIn:
+      Result := TryAcquireConnection(FConnections[connCopyIn] as TFileSourceConnection, Operation);
+    fsoCopyOut:
+      Result := TryAcquireConnection(FConnections[connCopyOut] as TFileSourceConnection, Operation);
+    fsoMove:
+      Result := TryAcquireConnection(FConnections[connMove] as TFileSourceConnection, Operation);
+    fsoDelete:
+      Result := TryAcquireConnection(FConnections[connDelete] as TFileSourceConnection, Operation);
+    else
+      Result := GetNewConnection(Operation);
+  end;
+
+  // No available connection - wait.
+  if not Assigned(Result) then
+    AddToConnectionQueue(operation);
+end;
+
+function TWcxArchiveFileSource.CreateConnection: TFileSourceConnection;
+begin
+  Result := TWcxArchiveFileSourceConnection.Create(FWcxModule);
+end;
+
+procedure TWcxArchiveFileSource.FinishedUsingConnection(connection: TFileSourceConnection);
+begin
+  FConnectionsLock.Acquire;
+  try
+    // If there are operations waiting, take the first one and notify
+    // that a connection is available.
+    // Only check operations for which there are reserved connections.
+    if connection = FConnections[connCopyIn] then
+      NotifyNextWaitingOperation([fsoCopyIn])
+    else if connection = FConnections[connCopyOut] then
+      NotifyNextWaitingOperation([fsoCopyOut])
+    else if connection = FConnections[connMove] then
+      NotifyNextWaitingOperation([fsoMove])
+    else if connection = FConnections[connDelete] then
+      NotifyNextWaitingOperation([fsoDelete])
+    else
+    begin
+      RemoveConnection(connection);
+    end;
+
+  finally
+    FConnectionsLock.Release;
+  end;
+end;
+
+procedure TWcxArchiveFileSource.NotifyNextWaitingOperation(allowedOps: TFileSourceOperationTypes);
+var
+  i: Integer;
+  operation: TFileSourceOperation;
+begin
+  FOperationsQueueLock.Acquire;
+  try
+    for i := 0 to FOperationsQueue.Count - 1 do
+    begin
+      operation := FOperationsQueue.Items[i] as TFileSourceOperation;
+      if (operation.State = fsosWaitingForConnection) and
+         (operation.ID in allowedOps) then
+      begin
+        operation.ConnectionAvailableNotify;
+        Exit;
+      end;
+    end;
+
+  finally
+    FOperationsQueueLock.Release;
+  end;
+end;
+
+{ TWcxArchiveFileSourceConnection }
+
+constructor TWcxArchiveFileSourceConnection.Create(aWcxModule: TWCXModule);
+begin
+  FWcxModule := aWcxModule;
+  inherited Create;
 end;
 
 end.

@@ -5,7 +5,7 @@ unit uFileSource;
 interface
 
 uses
-  Classes, SysUtils, uDCUtils,
+  Classes, SysUtils, uDCUtils, contnrs, syncobjs,
   uFileSourceOperation,
   uFileSourceOperationTypes,
   uFileSourceProperty,
@@ -15,6 +15,7 @@ uses
 type
 
   TFileSource = class;
+  TFileSourceConnection = class;
 
   { IFileSource }
 
@@ -56,6 +57,9 @@ type
     function GetPathType(sPath : String): TPathType;
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;
 
+    function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection;
+    procedure RemoveFromConnectionQueue(Operation: TFileSourceOperation);
+
     property CurrentAddress: String read GetCurrentAddress;
     property Properties: TFileSourceProperties read GetProperties;
     property SupportedFileProperties: TFilePropertiesTypes read GetSupportedFileProperties;
@@ -69,6 +73,13 @@ type
 
   protected
     FCurrentAddress: String;
+
+    // These lists are made protected to be able to use them in descendant classes.
+    // Always use appropriate lock to access them.
+    FConnections: TObjectList; // store connections created by this file source
+    FOperationsQueue: TObjectList; // store queued operations, use only under FOperationsQueueLock
+    FConnectionsLock: TCriticalSection; // used to synchronize access to connections
+    FOperationsQueueLock: TCriticalSection; // used to synchronize access to operations queue
 
     {en
        Retrieves the full address of the file source
@@ -85,6 +96,47 @@ type
     }
     function GetSupportedFileProperties: TFilePropertiesTypes; virtual abstract;
 //    class function ClassGetSupportedFileProperties: TFilePropertiesTypes;
+
+    procedure AddToConnectionQueue(Operation: TFileSourceOperation);
+    procedure RemoveFromConnectionQueue(Operation: TFileSourceOperation);
+    procedure AddConnection(Connection: TFileSourceConnection);
+    procedure RemoveConnection(Connection: TFileSourceConnection);
+
+    {en
+       Creates a new connection object.
+    }
+    function CreateConnection: TFileSourceConnection; virtual;
+    {en
+       Returns a new connection for the operation.
+    }
+    function GetNewConnection(Operation: TFileSourceOperation): TFileSourceConnection; virtual;
+    {en
+       Checks if the connection is available and, if it is, assigns it to the operation.
+       @returns(Connection object if the connection is available,
+                @nil otherwise.)
+    }
+    function TryAcquireConnection(connection: TFileSourceConnection;
+                                  operation: TFileSourceOperation): TFileSourceConnection; virtual;
+
+    {en
+       Searches connections list for a connection assigned to operation.
+    }
+    function FindConnectionByOperation(operation: TFileSourceOperation): TFileSourceConnection; virtual;
+    {en
+       This function is called when an operation finishes
+       and the connection is free again.
+       By default it just destroys the connection.
+       Override if other logic needed (connection reuse for example).
+    }
+    procedure FinishedUsingConnection(connection: TFileSourceConnection); virtual;
+
+    procedure NotifyNextWaitingOperation;
+
+    {en
+       Callback called when an operation assigned to a connection finishes.
+    }
+    procedure OperationFinished(Operation: TFileSourceOperation;
+                                Event: TFileSourceOperationEvent);
 
   public
     constructor Create; virtual;
@@ -149,6 +201,8 @@ type
 
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; virtual;
 
+    function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection; virtual;
+
     property CurrentAddress: String read GetCurrentAddress;
     property Properties: TFileSourceProperties read GetProperties;
     property SupportedFileProperties: TFilePropertiesTypes read GetSupportedFileProperties;
@@ -158,13 +212,28 @@ type
   { TFileSourceConnection }
 
   TFileSourceConnection = class
+  private
+    FAssignedOperation: TFileSourceOperation;
+    FOperationLock: TCriticalSection;
+
+    function GetAssignedOperation: TFileSourceOperation;
+
   protected
     FCurrentPath: String;    // Always includes trailing path delimiter.
 
     function GetCurrentPath: String; virtual;
     procedure SetCurrentPath(NewPath: String); virtual;
 
+    property AssignedOperation: TFileSourceOperation read GetAssignedOperation;
+
   public
+    constructor Create; virtual;
+    destructor Destroy; override;
+
+    function IsAvailable: Boolean;
+    function Acquire(Operation: TFileSourceOperation): Boolean;
+    procedure Release;
+
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
   end;
 
@@ -215,6 +284,11 @@ begin
     raise Exception.Create('Cannot construct abstract class');
   inherited Create;
 
+  FConnections := TObjectList.Create(True); // True = destroy objects when destroying list
+  FConnectionsLock := TCriticalSection.Create;
+  FOperationsQueue := TObjectList.Create(False); // False = don't destroy operations (only store references)
+  FOperationsQueueLock := TCriticalSection.Create;
+
   FileSourceManager.Add(Self); // Increases RefCount
 
   // We don't want to count the reference in Manager, because we want to detect
@@ -261,6 +335,15 @@ begin
     DebugLn('Error: Cannot remove file source - manager already destroyed!');
 
   inherited Destroy;
+
+  if Assigned(FConnections) then
+    FreeAndNil(FConnections);
+  if Assigned(FConnectionsLock) then
+    FreeAndNil(FConnectionsLock);
+  if Assigned(FOperationsQueue) then
+    FreeAndNil(FOperationsQueue);
+  if Assigned(FOperationsQueueLock) then
+    FreeAndNil(FOperationsQueueLock);
 end;
 
 function TFileSource.IsInterface(InterfaceGuid: TGuid): Boolean;
@@ -402,7 +485,176 @@ begin
   Result := nil;
 end;
 
+function TFileSource.GetConnection(Operation: TFileSourceOperation): TFileSourceConnection;
+begin
+  // By default always return a new connection.
+  // Override this logic in descendant classes.
+  Result := GetNewConnection(Operation);
+end;
+
+function TFileSource.TryAcquireConnection(connection: TFileSourceConnection;
+                                          operation: TFileSourceOperation): TFileSourceConnection;
+begin
+  if connection.Acquire(operation) then
+  begin
+    // We must know when the operation is finished,
+    // that is when the connection is free again.
+    operation.AddEventsListener([fsoevStateChanged], @OperationFinished);
+    Result := connection;
+  end
+  else
+  begin
+    Result := nil;
+  end;
+end;
+
+procedure TFileSource.FinishedUsingConnection(connection: TFileSourceConnection);
+begin
+  RemoveConnection(connection);
+end;
+
+function TFileSource.GetNewConnection(Operation: TFileSourceOperation): TFileSourceConnection;
+begin
+  Result := CreateConnection;
+  if Assigned(Result) then
+  begin
+    AddConnection(Result);
+    Result := TryAcquireConnection(Result, Operation);
+  end;
+end;
+
+function TFileSource.CreateConnection: TFileSourceConnection;
+begin
+  Result := nil;
+end;
+
+procedure TFileSource.AddToConnectionQueue(Operation: TFileSourceOperation);
+begin
+  FOperationsQueueLock.Acquire;
+  try
+    if FOperationsQueue.IndexOf(Operation) < 0 then
+      FOperationsQueue.Add(Operation);
+  finally
+    FOperationsQueueLock.Release;
+  end;
+end;
+
+procedure TFileSource.RemoveFromConnectionQueue(Operation: TFileSourceOperation);
+begin
+  FOperationsQueueLock.Acquire;
+  try
+    FOperationsQueue.Remove(Operation);
+  finally
+    FOperationsQueueLock.Release;
+  end;
+end;
+
+procedure TFileSource.AddConnection(Connection: TFileSourceConnection);
+begin
+  FConnectionsLock.Acquire;
+  try
+    if FConnections.IndexOf(Connection) < 0 then
+      FConnections.Add(Connection);
+  finally
+    FConnectionsLock.Release;
+  end;
+end;
+
+procedure TFileSource.RemoveConnection(Connection: TFileSourceConnection);
+begin
+  FConnectionsLock.Acquire;
+  try
+    FConnections.Remove(Connection);
+  finally
+    FConnectionsLock.Release;
+  end;
+end;
+
+procedure TFileSource.NotifyNextWaitingOperation;
+var
+  i: Integer;
+  operation: TFileSourceOperation;
+begin
+  FOperationsQueueLock.Acquire;
+  try
+    for i := 0 to FOperationsQueue.Count - 1 do
+    begin
+      operation := FOperationsQueue.Items[i] as TFileSourceOperation;
+      if operation.State = fsosWaitingForConnection then
+      begin
+        operation.ConnectionAvailableNotify;
+        Exit;
+      end;
+    end;
+  finally
+    FOperationsQueueLock.Release;
+  end;
+end;
+
+function TFileSource.FindConnectionByOperation(operation: TFileSourceOperation): TFileSourceConnection;
+var
+  i: Integer;
+  connection: TFileSourceConnection;
+begin
+  Result := nil;
+  FConnectionsLock.Acquire;
+  try
+    for i := 0 to FConnections.Count - 1 do
+    begin
+      connection := FConnections[i] as TFileSourceConnection;
+      if connection.AssignedOperation = operation then
+        Exit(connection);
+    end;
+  finally
+    FConnectionsLock.Release;
+  end;
+end;
+
+procedure TFileSource.OperationFinished(Operation: TFileSourceOperation;
+                                        Event: TFileSourceOperationEvent);
+var
+  connection: TFileSourceConnection;
+begin
+  if (Operation.State = fsosStopped) then
+  begin
+    operation.RemoveEventsListener([fsoevStateChanged], @OperationFinished);
+    connection := FindConnectionByOperation(Operation);
+    if Assigned(connection) then
+    begin
+      connection.Release; // unassign operation
+      FinishedUsingConnection(connection);
+    end;
+  end;
+end;
+
 { TFileSourceConnection }
+
+constructor TFileSourceConnection.Create;
+begin
+  FAssignedOperation := nil;
+  FOperationLock := TCriticalSection.Create;
+  inherited Create;
+  debugln('Creating connection ', ClassName);
+end;
+
+destructor TFileSourceConnection.Destroy;
+begin
+  if Assigned(FAssignedOperation) and (FAssignedOperation.State <> fsosStopped) then
+    DebugLn('Error: Destroying connection ', ClassName, ' with active operation ', FAssignedOperation.ClassName);
+
+  inherited Destroy;
+
+  DebugLn('Destroying connection ', ClassName);
+
+  if Assigned(FOperationLock) then
+    FreeAndNil(FOperationLock);
+end;
+
+function TFileSourceConnection.GetAssignedOperation: TFileSourceOperation;
+begin
+  // For just reading lock is probably not needed here.
+  Result := FAssignedOperation;
+end;
 
 function TFileSourceConnection.GetCurrentPath: String;
 begin
@@ -415,6 +667,33 @@ begin
     NewPath := IncludeTrailingPathDelimiter(NewPath);
 
   FCurrentPath := NewPath;
+end;
+
+function TFileSourceConnection.IsAvailable: Boolean;
+begin
+  Result := (GetAssignedOperation() = nil);
+end;
+
+function TFileSourceConnection.Acquire(Operation: TFileSourceOperation): Boolean;
+begin
+  FOperationLock.Acquire;
+  try
+    Result := (FAssignedOperation = nil);
+    if Result then
+      FAssignedOperation := Operation;
+  finally
+    FOperationLock.Release;
+  end;
+end;
+
+procedure TFileSourceConnection.Release;
+begin
+  FOperationLock.Acquire;
+  try
+    FAssignedOperation := nil;
+  finally
+    FOperationLock.Release;
+  end;
 end;
 
 { TFileSources }
