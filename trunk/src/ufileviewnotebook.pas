@@ -60,6 +60,8 @@ type
   TFileViewNotebook = class(TCustomNotebook)
   private
     FNotebookSide: TFilePanelSelect;
+    FStartDrag: Boolean;
+    FDraggedPageIndex: Integer;
 
     function GetActivePage: TFileViewPage;
     function GetActiveView: TFileView;
@@ -68,15 +70,23 @@ type
 
     procedure SetMultilineTabs(Multiline: Boolean);
 
+    procedure DragOverEvent(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
+    procedure DragDropEvent(Sender, Source: TObject; X, Y: Integer);
+
   public
     constructor Create(ParentControl: TWinControl;
                        NotebookSide: TFilePanelSelect); reintroduce;
 
     function AddPage(aCaption: String = ''): TFileViewPage;
+    function InsertPage(Index: Integer; aCaption: String = ''): TFileViewPage;
     procedure RemovePage(Index: Integer);
     procedure RemovePage(var aPage: TFileViewPage);
     procedure ActivatePrevTab;
     procedure ActivateNextTab;
+
+    procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
+    procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
+    procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
 
     property ActivePage: TFileViewPage read GetActivePage;
     property ActiveView: TFileView read GetActiveView;
@@ -191,6 +201,10 @@ begin
   TabStop := False;
 
   FNotebookSide := NotebookSide;
+  FStartDrag := False;
+
+  OnDragOver := @DragOverEvent;
+  OnDragDrop := @DragDropEvent;
 end;
 
 function TFileViewNotebook.GetActivePage: TFileViewPage;
@@ -252,14 +266,17 @@ begin
 end;
 
 function TFileViewNotebook.AddPage(aCaption: String): TFileViewPage;
-var
-  PageNr: Integer;
+begin
+  Result := InsertPage(PageCount, aCaption);
+end;
+
+function TFileViewNotebook.InsertPage(Index: Integer; aCaption: String = ''): TFileViewPage;
 begin
   if aCaption = '' then
-    aCaption := IntToStr(PageCount);
+    aCaption := IntToStr(Index);
 
-  PageNr := Pages.Add(aCaption);
-  Result := GetPage(PageNr);
+  Pages.Insert(Index, aCaption);
+  Result := GetPage(Index);
 
   ShowTabs:= ((PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
 end;
@@ -290,6 +307,11 @@ begin
   end;
 
   ShowTabs:= ((PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
+
+{$IFNDEF LCLGTK2}
+  // Force-activate current page.
+  Page[PageIndex].MakeActive;
+{$ENDIF}
 end;
 
 procedure TFileViewNotebook.RemovePage(var aPage: TFileViewPage);
@@ -312,6 +334,83 @@ begin
     Page[0].MakeActive
   else
     Page[PageIndex + 1].MakeActive;
+end;
+
+procedure TFileViewNotebook.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  inherited;
+
+  if Button = mbLeft then
+  begin
+    FDraggedPageIndex := TabIndexAtClientPos(Classes.Point(X, Y));
+    FStartDrag := (FDraggedPageIndex <> -1);
+  end;
+end;
+
+procedure TFileViewNotebook.MouseMove(Shift: TShiftState; X, Y: Integer);
+begin
+  inherited;
+
+  if FStartDrag then
+  begin
+    FStartDrag := False;
+    BeginDrag(False);
+  end;
+end;
+
+procedure TFileViewNotebook.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  inherited;
+
+  FStartDrag := False;
+end;
+
+procedure TFileViewNotebook.DragOverEvent(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
+var
+  TabIndex: Integer;
+begin
+  if (Source is TFileViewNotebook) and (Sender is TFileViewNotebook) then
+  begin
+    TabIndex := TabIndexAtClientPos(Classes.Point(X, Y));
+    Accept := (TabIndex <> -1) and
+              ((Source <> Sender) or (TabIndex <> FDraggedPageIndex));
+  end
+  else
+    Accept := False;
+end;
+
+procedure TFileViewNotebook.DragDropEvent(Sender, Source: TObject; X, Y: Integer);
+var
+  SourceNotebook: TFileViewNotebook;
+  TabIndex: Integer;
+  NewPage, DraggedPage: TFileViewPage;
+begin
+  if (Source is TFileViewNotebook) and (Sender is TFileViewNotebook) then
+  begin
+    TabIndex := TabIndexAtClientPos(Classes.Point(X, Y));
+    if TabIndex = -1 then
+      Exit;
+
+    if Source = Sender then
+    begin
+      // Move within the same panel.
+      Pages.Move(FDraggedPageIndex, TabIndex);
+    end
+    else
+    begin
+      // Move page between panels.
+      SourceNotebook := (Source as TFileViewNotebook);
+      DraggedPage := SourceNotebook.Page[SourceNotebook.FDraggedPageIndex];
+
+      // Create a clone of the page in the panel.
+      NewPage := InsertPage(TabIndex, DraggedPage.Caption);
+      DraggedPage.FileView.Clone(NewPage);
+      NewPage.MakeActive;
+
+      // Remove page from source panel.
+      SourceNotebook.RemovePage(DraggedPage);
+    end;
+  end;
 end;
 
 end.
