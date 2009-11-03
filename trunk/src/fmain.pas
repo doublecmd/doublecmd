@@ -63,7 +63,7 @@ type
 
   public
     constructor Create(AOwner: TComponent); override;
-    procedure PopUp(DropParams: TDropParams); reintroduce;
+    procedure PopUp(var DropParams: TDropParams); reintroduce;
   end;
 
 
@@ -455,10 +455,12 @@ type
     procedure miHotAddClick(Sender: TObject);
     procedure miHotDeleteClick(Sender: TObject);
     procedure miHotConfClick(Sender: TObject);
-//    procedure RenameFile(srcFileList: TFileList; dstFramePanel: TFileView; sDestPath: String);
-//    procedure CopyFile(srcFileList: TFileList; dstFramePanel: TFileView; sDestPath: String);
-    procedure MoveFile(sDestPath:String);
-    procedure CopyFile(sDestPath:String); //  this is for F5 and Shift+F5
+    procedure CopyFiles(SourceFileSource, TargetFileSource: IFileSource;
+                        var SourceFiles: TFiles; TargetPath: String); overload;
+    procedure MoveFiles(SourceFileSource, TargetFileSource: IFileSource;
+                        var SourceFiles: TFiles; TargetPath: String); overload;
+    procedure CopyFiles(sDestPath: String); overload; //  this is for F5 and Shift+F5
+    procedure MoveFiles(sDestPath: String); overload;
     procedure GetDestinationPathAndMask(TargetFileSource: IFileSource;
                                         EnteredPath: String; BaseDir: String;
                                         out DestPath, DestMask: String);
@@ -490,6 +492,21 @@ type
     procedure UpdatePrompt;
     procedure UpdateFreeSpace(Panel: TFilePanelSelect);
     procedure ReLoadTabs(ANoteBook: TFileViewNotebook);
+
+    {en
+       This function is called from various points to handle dropping files
+       into the panel. It converts drop effects available on the system
+       into TDragDropOperation operations.
+       Handles freeing DropParams. }
+    procedure DropFiles(var DropParams: TDropParams);
+
+    {en
+       Performs all drag&drop actions.
+       Frees DropParams.
+    }
+    procedure DoDragDropOperation(Operation: TDragDropOperation;
+                                  var DropParams: TDropParams);
+
   published
     // For now we allow to write here.
     // Should be changed via event 'Active-file-view-changed' or something like that.
@@ -512,7 +529,8 @@ uses
   uDragDropEx, StrUtils, uKeyboard, uFileSystemFileSource, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   fFileOpDlg, uFileSystemCopyOperation, uFileSystemMoveOperation,
-  uArchiveFileSource, uShellExecute, uActs
+  uArchiveFileSource, uShellExecute, uActs, uFileSystemFile,
+  fSymLink, fHardLink
   {$IFDEF LCLQT}
     , qtwidgets
   {$ENDIF}
@@ -791,55 +809,180 @@ begin
 end;
 
 procedure TfrmMain.FormDropFiles(Sender: TObject; const FileNames: array of String);
-// This should not be needed for now as drag&drop should work through uDragDropEx.
-{var
-  FileView: TFileView;
+var
+  TargetFileView: TFileView;
+  TargetControl: TControl;
   I: Integer;
-  FileList: TFileList;
-  FileNamesList: TStringList;
+  Files: TFiles = nil;
+  FileNamesList: TStringList = nil;
   Point: TPoint;
-  DropParams: TDropParams;}
+  DropParams: TDropParams;
 begin
-{  FrameFilePanel:= nil;
-  // drop on left panel
-  if FindLCLControl(Mouse.CursorPos) = FrameLeft.dgPanel then
-    FrameFilePanel:= FrameLeft;
-  // drop on right panel
-  if FindLCLControl(Mouse.CursorPos) = FrameRight.dgPanel then
-    FrameFilePanel:= FrameRight;
-  if not Assigned(FrameFilePanel) then Exit;
+  TargetFileView := nil;
 
-  // fill file list by files
+  TargetControl := FindLCLControl(Mouse.CursorPos);
+  while TargetControl <> nil do
+  begin
+    if TargetControl = FrameLeft then
+    begin
+      // drop on left panel
+      TargetFileView := FrameLeft;
+      break;
+    end
+    else if TargetControl = FrameRight then
+    begin
+      // drop on right panel
+      TargetFileView := FrameRight;
+      break;
+    end;
 
-  FileList:= TFileList.Create;
-  FileNamesList := TStringList.Create;
+    TargetControl := TargetControl.Parent;
+  end;
+
+  if Assigned(TargetFileView) then
   try
-    for I:= Low(FileNames) to High(FileNames) do
+    Files := TFileSystemFiles.Create;
+    FileNamesList := TStringList.Create;
+
+    // fill file list by files
+    for I := Low(FileNames) to High(FileNames) do
       FileNamesList.Add(FileNames[I]);
 
-    FileList.LoadFromFileNames(FileNamesList);
-  except
-    FreeAndNil(FileList);
-    FreeAndNil(FileNamesList);
-    Exit;
-  end;
+    (Files as TFileSystemFiles).LoadFromFileNames(FileNamesList);
 
-  FreeAndNil(FileNamesList); // don't need it anymore
+    GetCursorPos(Point);
 
-  GetCursorPos(Point);
-
-  try
     DropParams := TDropParams.Create(
-        FileList,
+        Files,
         GetDropEffectByKeyAndMouse(GetKeyShiftState, mbLeft),
         Point, False,
-        nil, FrameFilePanel);
-  except
-    FreeAndNil(FileList);
-    Exit;
-  end;
+        nil, TargetFileView,
+        TargetFileView.CurrentPath);
 
-  FrameFilePanel.dgPanel.DropFiles(DropParams);}
+    DropFiles(DropParams);
+
+  finally
+    if Assigned(Files) then
+      FreeAndNil(Files);
+    if Assigned(FileNamesList) then
+      FreeAndNil(FileNamesList);
+  end;
+end;
+
+procedure TfrmMain.DropFiles(var DropParams: TDropParams);
+begin
+  if Assigned(DropParams) then
+  begin
+    if DropParams.Files.Count > 0 then
+    begin
+      case DropParams.DropEffect of
+
+        DropMoveEffect:
+          DropParams.TargetPanel.DoDragDropOperation(ddoMove, DropParams);
+
+        DropCopyEffect:
+          DropParams.TargetPanel.DoDragDropOperation(ddoCopy, DropParams);
+
+        DropLinkEffect:
+          DropParams.TargetPanel.DoDragDropOperation(ddoSymLink, DropParams);
+
+        DropAskEffect:
+          begin
+            // Ask the user what he would like to do by displaying a menu.
+            // Returns immediately after showing menu.
+
+            //Disabled temporarily.
+            //pmDropMenu.PopUp(DropParams);
+          end;
+
+        else
+          FreeAndNil(DropParams);
+
+      end;
+    end
+    else
+      FreeAndNil(DropParams);
+  end;
+end;
+
+procedure TfrmMain.DoDragDropOperation(Operation: TDragDropOperation;
+                                       var DropParams: TDropParams);
+var
+  SourceFileName, TargetFileName: string;
+  SourceFileSource: IFileSource;
+begin
+  try
+    with DropParams do
+    begin
+      case Operation of
+
+        ddoMove:
+          if GetDragDropType = ddtInternal then
+          begin
+            Self.MoveFiles(SourcePanel.FileSource,
+                           TargetPanel.FileSource,
+                           Files, TargetPath);
+          end
+          else
+          begin
+            SourceFileSource := FileSourceManager.Find(TFileSystemFileSource, '');
+            if not Assigned(SourceFileSource) then
+              SourceFileSource := TFileSystemFileSource.Create;
+
+            Self.MoveFiles(SourceFileSource,
+                           TargetPanel.FileSource,
+                           Files, TargetPath);
+          end;
+
+        ddoCopy:
+          if GetDragDropType = ddtInternal then
+          begin
+            Self.CopyFiles(SourcePanel.FileSource,
+                           TargetPanel.FileSource,
+                           Files, TargetPath);
+          end
+          else
+          begin
+            SourceFileSource := FileSourceManager.Find(TFileSystemFileSource, '');
+            if not Assigned(SourceFileSource) then
+              SourceFileSource := TFileSystemFileSource.Create;
+
+            Self.CopyFiles(SourceFileSource,
+                           TargetPanel.FileSource,
+                           Files, TargetPath);
+          end;
+
+        ddoSymLink, ddoHardLink:
+          begin
+            // Only for filesystem.
+            if  ((GetDragDropType = ddtExternal) or
+                (SourcePanel.FileSource.IsClass(TFileSystemFileSource)))
+            and (TargetPanel.FileSource.IsClass(TFileSystemFileSource)) then
+            begin
+              // TODO: process multiple files
+
+              SourceFileName := Files.Items[0].FullPath;
+              TargetFileName := TargetPath + ExtractFileName(SourceFileName);
+
+              if ((Operation = ddoSymLink) and
+                 ShowSymLinkForm(SourceFileName, TargetFileName))
+              or ((Operation = ddoHardLink) and
+                 ShowHardLinkForm(SourceFileName, TargetFileName, TargetPath))
+              then
+                TargetPanel.Reload;
+            end
+            else
+            begin
+              msgWarning(rsMsgErrNotSupported);
+            end;
+          end;
+      end;
+    end;
+
+  finally
+    if Assigned(DropParams) then
+      FreeAndNil(DropParams);
+  end;
 end;
 
 procedure TfrmMain.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
@@ -1233,14 +1376,15 @@ begin
   inherited;
 end;
 
-procedure TDropPopupMenu.PopUp(DropParams: TDropParams);
+procedure TDropPopupMenu.PopUp(var DropParams: TDropParams);
 begin
   // Disposing of the params is handled in pmDropMenuClose or mnuDropClick.
   if Assigned(DropParams) then
   begin
     FDropParams := DropParams;
-    inherited PopUp(DropParams.ScreenDropPoint.X,
-                    DropParams.ScreenDropPoint.Y);
+    DropParams := nil;
+    inherited PopUp(FDropParams.ScreenDropPoint.X,
+                    FDropParams.ScreenDropPoint.Y);
   end;
 end;
 
@@ -1729,158 +1873,131 @@ begin
   end;
 end;
 
-(* Used for drag&drop move from external application *)
-// Frees srcFileList automatically.
-{procedure TfrmMain.RenameFile(srcFileList: TFileList; dstFramePanel: TFileView; sDestPath: String);
+procedure TfrmMain.CopyFiles(SourceFileSource, TargetFileSource: IFileSource;
+                             var SourceFiles: TFiles; TargetPath: String);
 var
   sDstMaskTemp: String;
-  sCopyQuest: String;
+  Operation: TFileSourceCopyOperation;
+  OperationHandle: TOperationHandle;
+  ProgressDialog: TfrmFileOp;
 begin
-  if (srcFileList.Count=1) and not (FPS_ISDIR(srcFileList.GetItem(0)^.iMode) or srcFileList.GetItem(0)^.bLinkIsDir) then
+  try
+    if not ((fsoCopyOut in SourceFileSource.GetOperationsTypes) and
+            (fsoCopyIn  in TargetFileSource.GetOperationsTypes)) then
     begin
-      sCopyQuest:= Format(rsMsgRenSel, [srcFileList.GetItem(0)^.sName]);
-      sDestPath:= sDestPath + ExtractFileName(srcFileList.GetItem(0)^.sName);
-    end
-  else
-    begin
-      sCopyQuest:= Format(rsMsgRenFlDr, [srcFileList.Count]);
-      sDestPath:= sDestPath + '*.*';
-    end;
-
-  with TfrmMoveDlg.Create(Application) do
-  begin
-    try
-      edtDst.Text:= sDestPath;
-      lblMoveSrc.Caption:= sCopyQuest;
-      if ShowModal = mrCancel then
-      begin
-         FreeAndNil(srcFileList);
-         Exit; // throught finally
-      end;
-
-      GetDestinationPathAndMask(edtDst.Text, dstFramePanel.CurrentPath, sDestPath, sDstMaskTemp);
-
-    finally
-      Free;
-    end;
-  end;
-
-  (* Move files *)
-
-  RunRenameThread(srcFileList, sDestPath, sDstMaskTemp);
-
-end;
-
-(* Used for drag&drop copy from external application *)
-// Frees srcFileList automatically.
-procedure TfrmMain.CopyFile(srcFileList: TFileList; dstFramePanel: TFileView; sDestPath: String);
-var
-  sCopyQuest,
-  sDstMaskTemp: String;
-  blDropReadOnlyFlag: Boolean;
-begin
-  (* Copy files between archive and real file system *)
-
-  if  dstFramePanel.pnlFile.PanelMode = pmArchive then
-    begin
-      if not IsBlocked then
-        begin
-          if  (VFS_CAPS_COPYIN in dstFramePanel.pnlFile.VFS.VFSmodule.VFSCaps) then
-            begin
-              DebugLn('+++ Pack files to archive +++');
-              ShowPackDlg(dstFramePanel.pnlFile.VFS, srcFileList, sDestPath, False);
-            end
-          else
-            msgWarning(rsMsgErrNotSupported);
-        end;
+      msgWarning(rsMsgErrNotSupported);
       Exit;
     end;
 
-  if (srcFileList.Count=1) and not (FPS_ISDIR(srcFileList.GetItem(0)^.iMode) or srcFileList.GetItem(0)^.bLinkIsDir) then
+    if SourceFiles.Count = 0 then
+      Exit;
+
+    with TfrmCopyDlg.Create(Application, cmdtCopy) do
     begin
-      sCopyQuest:= Format(rsMsgCpSel, [srcFileList.GetItem(0)^.sName]);
-      sDestPath:= sDestPath + ExtractFileName(srcFileList.GetItem(0)^.sName);
-    end
-  else
-    begin
-      sCopyQuest:= Format(rsMsgCpFlDr, [srcFileList.Count]);
-      sDestPath:= sDestPath + '*.*';
-    end;
+      try
+        if (SourceFiles.Count = 1) and
+           (not (SourceFiles[0].IsDirectory or SourceFiles[0].IsLinkToDirectory))
+        then
+          edtDst.Text := TargetPath + ExtractFileName(SourceFiles[0].Name)
+        else
+          edtDst.Text := TargetPath + '*.*';
 
-  with TfrmCopyDlg.Create(Application) do
-  begin
-    try
-      edtDst.Text:=sDestPath;
-      lblCopySrc.Caption := sCopyQuest;
-      cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
-      cbDropReadOnlyFlag.Visible := (dstFramePanel.pnlFile.PanelMode = pmDirectory);
-      if ShowModal = mrCancel then
-      begin
-        FreeAndNil(srcFileList);
-        Exit; // throught finally
-      end;
+        lblCopySrc.Caption := GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr, SourceFiles);
 
-      GetDestinationPathAndMask(edtDst.Text, dstFramePanel.CurrentPath, sDestPath, sDstMaskTemp);
+        if ShowModal = mrCancel then
+          Exit;
 
-      blDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
-    finally
-      Free;
-    end;
-  end; //with
+        GetDestinationPathAndMask(TargetFileSource, edtDst.Text,
+                                  SourceFiles.Path, TargetPath, sDstMaskTemp);
 
-  (* Copy files between VFS and real file system *)
+        // For now at least one must be FileSystem.
 
-  if dstFramePanel.pnlFile.PanelMode = pmVFS then
-    begin
-      if  (VFS_CAPS_COPYIN in dstFramePanel.pnlFile.VFS.VFSmodule.VFSCaps) then
+        if TargetFileSource.IsClass(TFileSystemFileSource) then
         begin
-          DebugLn('+++ Copy files to VFS +++');
-          dstFramePanel.pnlFile.VFS.VFSmodule.VFSCopyInEx(srcFileList, sDestPath, 0);
+          // CopyOut to filesystem.
+          Operation := SourceFileSource.CreateCopyOutOperation(
+                           TargetFileSource,
+                           SourceFiles,
+                           TargetPath) as TFileSourceCopyOperation;
         end
-      else
-        msgOK(rsMsgErrNotSupported);
-      Exit;
-    end;
+        else if SourceFileSource.IsClass(TFileSystemFileSource) then
+        begin
+          {if TargetFileSource is TArchiveFileSource then
+          begin
+            ShowPackDlg(SourceFileSource,
+                        TargetFileSource as TArchiveFileSource,
+                        SourceFiles,
+                        TargetPath);
+            Exit;
+          end;}
 
-  (* Copy files between real file system *)
+          // CopyIn from filesystem.
+          Operation := TargetFileSource.CreateCopyInOperation(
+                           SourceFileSource,
+                           SourceFiles,
+                           TargetPath) as TFileSourceCopyOperation;
+        end;
 
-  RunCopyThread(srcFileList, sDestPath, sDstMaskTemp, blDropReadOnlyFlag);
+        if Assigned(Operation) then
+        begin
+          // Set operation options based on settings in dialog.
+          Operation.RenameMask := sDstMaskTemp;
+
+          if Operation is TFileSystemCopyOutOperation then
+            SetOperationOptions(Operation as TFileSystemCopyOutOperation);
+
+          // Start operation.
+          OperationHandle := OperationsManager.AddOperation(Operation, OperationStartingState);
+
+          ProgressDialog := TfrmFileOp.Create(OperationHandle);
+          ProgressDialog.Show;
+        end
+        else
+          msgWarning(rsMsgNotImplemented);
+
+      finally
+        Free;
+      end;
+    end; //with
+
+  finally
+    if Assigned(SourceFiles) then
+      FreeAndNil(SourceFiles);
+  end;
 end;
-}
 
-procedure TfrmMain.MoveFile(sDestPath:String);
+procedure TfrmMain.MoveFiles(SourceFileSource, TargetFileSource: IFileSource;
+                             var SourceFiles: TFiles; TargetPath: String);
 var
   sDstMaskTemp: String;
-  SourceFiles: TFiles = nil;
   Operation: TFileSourceMoveOperation;
   OperationHandle: TOperationHandle;
   ProgressDialog: TfrmFileOp;
   bMove: Boolean;
 begin
-  // Only allow moving within the same file source.
-  if (ActiveFrame.FileSource.IsInterface(NotActiveFrame.FileSource) or
-      NotActiveFrame.FileSource.IsInterface(ActiveFrame.FileSource)) and
-     (ActiveFrame.FileSource.CurrentAddress = NotActiveFrame.FileSource.CurrentAddress) and
-     (fsoMove in ActiveFrame.FileSource.GetOperationsTypes) and
-     (fsoMove in NotActiveFrame.FileSource.GetOperationsTypes) then
-  begin
-    bMove := True;
-  end
-  else if ((fsoCopyOut in ActiveFrame.FileSource.GetOperationsTypes) and
-           (fsoCopyIn in NotActiveFrame.FileSource.GetOperationsTypes)) then
-  begin
-    bMove := False;  // copy + delete through temporary file system
-    msgWarning(rsMsgNotImplemented);
-    Exit;
-  end
-  else
-  begin
-    msgWarning(rsMsgErrNotSupported);
-    Exit;
-  end;
-
-  SourceFiles := ActiveFrame.SelectedFiles; // free at Thread end by thread
   try
+    // Only allow moving within the same file source.
+    if (SourceFileSource.IsInterface(TargetFileSource) or
+        TargetFileSource.IsInterface(SourceFileSource)) and
+       (SourceFileSource.CurrentAddress = TargetFileSource.CurrentAddress) and
+       (fsoMove in SourceFileSource.GetOperationsTypes) and
+       (fsoMove in TargetFileSource.GetOperationsTypes) then
+    begin
+      bMove := True;
+    end
+    else if ((fsoCopyOut in SourceFileSource.GetOperationsTypes) and
+             (fsoCopyIn in TargetFileSource.GetOperationsTypes)) then
+    begin
+      bMove := False;  // copy + delete through temporary file system
+      msgWarning(rsMsgNotImplemented);
+      Exit;
+    end
+    else
+    begin
+      msgWarning(rsMsgErrNotSupported);
+      Exit;
+    end;
+
     if SourceFiles.Count = 0 then
       Exit;
 
@@ -1890,26 +2007,26 @@ begin
         if (SourceFiles.Count = 1) and
            (not (SourceFiles[0].IsDirectory or SourceFiles[0].IsLinkToDirectory))
         then
-          edtDst.Text := sDestPath + ExtractFileName(SourceFiles[0].Name)
+          edtDst.Text := TargetPath + ExtractFileName(SourceFiles[0].Name)
         else
-          edtDst.Text := sDestPath + '*.*';
+          edtDst.Text := TargetPath + '*.*';
 
         lblCopySrc.Caption := GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr, SourceFiles);
 
         if ShowModal = mrCancel then
           Exit;
 
-        GetDestinationPathAndMask(NotActiveFrame.FileSource, edtDst.Text,
-                                  SourceFiles.Path, sDestPath, sDstMaskTemp);
+        GetDestinationPathAndMask(TargetFileSource, edtDst.Text,
+                                  SourceFiles.Path, TargetPath, sDstMaskTemp);
 
         // For now at least one must be FileSystem.
-        if not (ActiveFrame.FileSource.IsClass(TFileSystemFileSource) or
-                NotActiveFrame.FileSource.IsClass(TFileSystemFileSource)) then Exit;
+        if not (SourceFileSource.IsClass(TFileSystemFileSource) or
+                TargetFileSource.IsClass(TFileSystemFileSource)) then Exit;
 
         if bMove then
         begin
-          Operation := ActiveFrame.FileSource.CreateMoveOperation(
-                         SourceFiles, sDestPath) as TFileSourceMoveOperation;
+          Operation := SourceFileSource.CreateMoveOperation(
+                         SourceFiles, TargetPath) as TFileSourceMoveOperation;
 
           if Assigned(Operation) then
           begin
@@ -1944,107 +2061,34 @@ begin
   end;
 end;
 
-procedure TfrmMain.CopyFile(sDestPath:String);
+procedure TfrmMain.CopyFiles(sDestPath: String);
 var
-  sDstMaskTemp: String;
-  TargetFileSource: IFileSource = nil;
-  SourceFileSource: IFileSource = nil;
   SourceFiles: TFiles = nil;
-  Operation: TFileSourceCopyOperation;
-  OperationHandle: TOperationHandle;
-  ProgressDialog: TfrmFileOp;
 begin
-  if not ((fsoCopyOut in ActiveFrame.FileSource.GetOperationsTypes) and
-          (fsoCopyIn in NotActiveFrame.FileSource.GetOperationsTypes)) then
-  begin
-    msgWarning(rsMsgErrNotSupported);
-    Exit;
-  end;
-
-  SourceFiles := ActiveFrame.SelectedFiles; // free at Thread end by thread
+  SourceFiles := ActiveFrame.SelectedFiles;
+  if Assigned(SourceFiles) then
   try
-    if SourceFiles.Count = 0 then
-    begin
+    MoveFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
+              SourceFiles, sDestPath);
+  finally
+    if Assigned(SourceFiles) then
       FreeAndNil(SourceFiles);
-      Exit;
-    end;
-
-    with TfrmCopyDlg.Create(Application, cmdtCopy) do
-    begin
-      try
-        if (SourceFiles.Count = 1) and
-           (not (SourceFiles[0].IsDirectory or SourceFiles[0].IsLinkToDirectory))
-        then
-          edtDst.Text := sDestPath + ExtractFileName(SourceFiles[0].Name)
-        else
-          edtDst.Text := sDestPath + '*.*';
-
-        lblCopySrc.Caption := GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr, SourceFiles);
-        //cbDropReadOnlyFlag.Visible := (NotActiveFrame.pnlFile.PanelMode = pmDirectory);
-        if ShowModal = mrCancel then
-        begin
-          FreeAndNil(SourceFiles); // Free now, because the thread won't be run.
-          Exit ; // throught finally
-        end;
-
-        GetDestinationPathAndMask(NotActiveFrame.FileSource, edtDst.Text, SourceFiles.Path, sDestPath, sDstMaskTemp);
-
-        // For now at least one must be FileSystem.
-
-        if NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
-        begin
-          // CopyOut to filesystem.
-          TargetFileSource := NotActiveFrame.FileSource;
-          Operation := ActiveFrame.FileSource.CreateCopyOutOperation(
-                           TargetFileSource,
-                           SourceFiles,
-                           sDestPath) as TFileSourceCopyOperation;
-        end
-        else if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
-        begin
-          {if TargetFileSource is TArchiveFileSource then
-          begin
-            ShowPackDlg(ActiveFrame.FileSource,
-                        NotActiveFrame.FileSource as TArchiveFileSource,
-                        SourceFiles,
-                        NotActiveFrame.CurrentPath);
-            Exit;
-          end;}
-
-          // CopyIn from filesystem.
-          SourceFileSource := ActiveFrame.FileSource;
-          Operation := NotActiveFrame.FileSource.CreateCopyInOperation(
-                           SourceFileSource,
-                           SourceFiles,
-                           sDestPath) as TFileSourceCopyOperation;
-        end;
-
-        if Assigned(Operation) then
-        begin
-          // Set operation options based on settings in dialog.
-          Operation.RenameMask := sDstMaskTemp;
-
-          if Operation is TFileSystemCopyOutOperation then
-            SetOperationOptions(Operation as TFileSystemCopyOutOperation);
-
-          // Start operation.
-          OperationHandle := OperationsManager.AddOperation(Operation, OperationStartingState);
-
-          ProgressDialog := TfrmFileOp.Create(OperationHandle);
-          ProgressDialog.Show;
-        end
-        else
-          msgWarning(rsMsgNotImplemented);
-
-      finally
-        Free;
-      end;
-    end; //with
-
-  except
-    FreeAndNil(SourceFiles);
   end;
+end;
 
+procedure TfrmMain.MoveFiles(sDestPath: String);
+var
+  SourceFiles: TFiles = nil;
+begin
+  SourceFiles := ActiveFrame.SelectedFiles;
+  if Assigned(SourceFiles) then
+  try
+    MoveFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
+              SourceFiles, sDestPath);
+  finally
+    if Assigned(SourceFiles) then
+      FreeAndNil(SourceFiles);
+  end;
 end;
 
 procedure TfrmMain.GetDestinationPathAndMask(TargetFileSource: IFileSource;
