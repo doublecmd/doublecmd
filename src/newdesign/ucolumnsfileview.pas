@@ -949,6 +949,9 @@ var
 begin
   Accept := False;
 
+  if (not (Source is TDrawGridEx)) or (not (Sender is TDrawGridEx)) then
+    Exit;
+
   // Always allow dropping into an empty panel.
   // And it is also allowed to drop onto header in case all visible items
   // are directories and the user wants to drop into panel's current directory.
@@ -959,14 +962,11 @@ begin
     Exit;
   end;
 
-  if (Source is TDrawGridEx) and (Sender is TDrawGridEx) then
-  begin
-    SourcePanel := ((Source as TDrawGridEx).Parent) as TColumnsFileView;
-    TargetPanel := ((Sender as TDrawGridEx).Parent) as TColumnsFileView;
+  SourcePanel := ((Source as TDrawGridEx).Parent) as TColumnsFileView;
+  TargetPanel := ((Sender as TDrawGridEx).Parent) as TColumnsFileView;
 
-    SourceDir := SourcePanel.CurrentPath;
-    TargetDir := TargetPanel.CurrentPath;
-  end;
+  SourceDir := SourcePanel.CurrentPath;
+  TargetDir := TargetPanel.CurrentPath;
 
   dgPanel.MouseToCell(X, Y, Dummy, iRow);
 
