@@ -621,8 +621,6 @@ end;
 
 procedure TFileSourceOperation.Start;
 begin
-  FDesiredState := fsosRunning;
-
   FStateLock.Acquire;
   try
     if FState in [fsosNotStarted, fsosPaused] then
@@ -634,22 +632,16 @@ begin
   end;
 
   NotifyEvents([fsoevStateChanged]);
+  FDesiredState := fsosRunning;
   DoUnPause;
 end;
 
 procedure TFileSourceOperation.Pause;
 begin
-  FDesiredState := fsosPaused;
-
   FStateLock.Acquire;
   try
-    if FState = fsosRunning then
+    if FState in [fsosRunning, fsosWaitingForConnection] then
       FState := fsosPausing
-    else if FState = fsosWaitingForConnection then
-    begin
-      FState := fsosPausing;
-      ConnectionAvailableNotify; // wake up from waiting
-    end
     else
       Exit;
   finally
@@ -657,12 +649,16 @@ begin
   end;
 
   NotifyEvents([fsoevStateChanged]);
+  FDesiredState := fsosPaused;
+
+  // Also set "Connection available" event in case the operation is waiting
+  // for a connection and the user wants to pause it
+  // (this must be after setting desired state).
+  ConnectionAvailableNotify;
 end;
 
 procedure TFileSourceOperation.Stop;
 begin
-  FDesiredState := fsosStopped;
-
   FStateLock.Acquire;
   try
     if not (FState in [fsosStarting, fsosPausing, fsosStopped]) then
@@ -674,11 +670,13 @@ begin
   end;
 
   NotifyEvents([fsoevStateChanged]);
+  FDesiredState := fsosStopped;
 
   DoUnPause;
 
   // Also set "Connection available" event in case the operation is waiting
-  // for connection and the user wants to abort it.
+  // for a connection and the user wants to abort it
+  // (this must be after setting desired state).
   ConnectionAvailableNotify;
 
   // The operation may be waiting for the user's response.
