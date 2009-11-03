@@ -184,6 +184,7 @@ type
   BOOL = LongBool;
   HBITMAP = THandle;
   HICON = THandle;
+  HWND = THandle;
 
 type
 {$IFDEF MSWINDOWS}

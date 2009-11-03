@@ -84,10 +84,37 @@ type
     FsContentGetSupportedFieldFlags:TFsContentGetSupportedFieldFlags;
     FsContentSetValue:TFsContentSetValue;
     FsContentGetDefaultView:TFsContentGetDefaultView;
+    { Unicode }
+    FsInitW: TFsInitW;
+    FsFindFirstW: TFsFindFirstW;
+    FsFindNextW: TFsFindNextW;
+    //---------------------
+    FsSetCryptCallbackW: TFsSetCryptCallbackW;
+    FsMkDirW: TFsMkDirW;
+    FsExecuteFileW: TFsExecuteFileW;
+    FsRenMovFileW: TFsRenMovFileW;
+    FsGetFileW: TFsGetFileW;
+    FsPutFileW: TFsPutFileW;
+    FsDeleteFileW: TFsDeleteFileW;
+    FsRemoveDirW: TFsRemoveDirW;
+    FsDisconnectW: TFsDisconnectW;
+    FsSetAttrW: TFsSetAttrW;
+    FsSetTimeW: TFsSetTimeW;
+    FsStatusInfoW: TFsStatusInfoW;
+    FsExtractCustomIconW: TFsExtractCustomIconW;
+    FsGetPreviewBitmapW: TFsGetPreviewBitmapW;
+    FsGetLocalNameW: TFsGetLocalNameW;
+    //-----------------------
+    FsContentGetValueW: TFsContentGetValueW;
+    FsContentStopGetValueW: TFsContentStopGetValueW;
+    FsContentSetValueW: TFsContentSetValueW;
+    FsContentGetDefaultViewW: TFsContentGetDefaultViewW;
     { Dialog API }
     SetDlgProc: TSetDlgProc;
-    //---------------------
-    procedure WFXStatusInfo(RemoteDir: String; InfoStartEnd, InfoOperation: Integer);
+  public
+    procedure WfxStatusInfo(RemoteDir: UTF8String; InfoStartEnd, InfoOperation: Integer);
+    function WfxExecuteFile(MainWin: HWND; RemoteName, Verb: UTF8String): Integer;
+    function WfxSetAttr(RemoteName: UTF8String; NewAttr: LongInt): Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -153,10 +180,31 @@ end;
   
 { TWFXModule }
 
-procedure TWFXModule.WFXStatusInfo(RemoteDir: String; InfoStartEnd, InfoOperation: Integer);
+procedure TWFXModule.WFXStatusInfo(RemoteDir: UTF8String; InfoStartEnd, InfoOperation: Integer);
 begin
-  if Assigned(FsStatusInfo) then
-    FsStatusInfo(PChar(UTF8ToSys(RemoteDir)), InfoStartEnd, InfoOperation);
+  if Assigned(FsStatusInfoW) then
+    FsStatusInfoW(PWideChar(UTF8Decode(RemoteDir)), InfoStartEnd, InfoOperation)
+  else if Assigned(FsStatusInfo) then
+    FsStatusInfo(PAnsiChar(UTF8ToSys(RemoteDir)), InfoStartEnd, InfoOperation);
+end;
+
+function TWFXModule.WfxExecuteFile(MainWin: HWND; RemoteName, Verb: UTF8String): Integer;
+begin
+  if Assigned(FsExecuteFileW) then
+    Result:= FsExecuteFileW(MainWin, PWideChar(UTF8Decode(RemoteName)), PWideChar(UTF8Decode(Verb)))
+  else if Assigned(FsExecuteFile) then
+    Result:= FsExecuteFile(MainWin, PAnsiChar(UTF8ToSys(RemoteName)), PAnsiChar(UTF8ToSys(Verb)))
+  else
+    Result:= WFX_NOTSUPPORTED;
+end;
+
+function TWFXModule.WfxSetAttr(RemoteName: UTF8String; NewAttr: LongInt): Boolean;
+begin
+  Result:= False;
+  if Assigned(FsSetAttrW) then
+    Result:= FsSetAttrW(PWideChar(UTF8Decode(RemoteName)), NewAttr)
+  else if Assigned(FsSetAttr) then
+    Result:= FsSetAttr(PAnsiChar(UTF8ToSys(RemoteName)), NewAttr);
 end;
 
 constructor TWFXModule.Create;
@@ -219,7 +267,26 @@ begin
   FsContentGetSupportedFieldFlags := TFsContentGetSupportedFieldFlags (GetProcAddress(FModuleHandle,'FsContentGetSupportedFieldFlags'));
   FsContentSetValue := TFsContentSetValue (GetProcAddress(FModuleHandle,'FsContentSetValue'));
   FsContentGetDefaultView := TFsContentGetDefaultView (GetProcAddress(FModuleHandle,'FsContentGetDefaultView'));
-  { Dialog API }
+{ Unicode }
+  FsInitW := TFsInitW(GetProcAddress(FModuleHandle,'FsInitW'));
+  FsFindFirstW := TFsFindFirstW(GetProcAddress(FModuleHandle,'FsFindFirstW'));
+  FsFindNextW := TFsFindNextW(GetProcAddress(FModuleHandle,'FsFindNextW'));
+  //---------------------
+  FsSetCryptCallbackW:= TFsSetCryptCallbackW(GetProcAddress(FModuleHandle,'FsSetCryptCallbackW'));
+  FsMkDirW := TFsMkDirW(GetProcAddress(FModuleHandle,'FsMkDirW'));
+  FsExecuteFileW := TFsExecuteFileW(GetProcAddress(FModuleHandle,'FsExecuteFileW'));
+  FsRenMovFileW := TFsRenMovFileW(GetProcAddress(FModuleHandle,'FsRenMovFileW'));
+  FsGetFileW := TFsGetFileW(GetProcAddress(FModuleHandle,'FsGetFileW'));
+  FsPutFileW := TFsPutFileW(GetProcAddress(FModuleHandle,'FsPutFileW'));
+  FsDeleteFileW := TFsDeleteFileW(GetProcAddress(FModuleHandle,'FsDeleteFileW'));
+  FsRemoveDirW := TFsRemoveDirW(GetProcAddress(FModuleHandle,'FsRemoveDirW'));
+  FsDisconnectW := TFsDisconnectW(GetProcAddress(FModuleHandle,'FsDisconnectW'));
+  FsSetAttrW := TFsSetAttrW (GetProcAddress(FModuleHandle,'FsSetAttrW'));
+  FsSetTimeW := TFsSetTimeW (GetProcAddress(FModuleHandle,'FsSetTimeW'));
+  FsStatusInfoW := TFsStatusInfoW(GetProcAddress(FModuleHandle,'FsStatusInfoW'));
+  FsExtractCustomIconW := TFsExtractCustomIconW(GetProcAddress(FModuleHandle,'FsExtractCustomIconW'));
+  FsGetLocalNameW := TFsGetLocalNameW(GetProcAddress(FModuleHandle,'FsGetLocalNameW'));
+{ Dialog API }
   SetDlgProc:= TSetDlgProc(GetProcAddress(FModuleHandle,'SetDlgProc'));
 end;
 
@@ -263,7 +330,26 @@ begin
   FsContentGetSupportedFieldFlags := nil;
   FsContentSetValue := nil;
   FsContentGetDefaultView := nil;
-  { Dialog API }
+{ Unicode }
+  FsInitW := nil;
+  FsFindFirstW := nil;
+  FsFindNextW := nil;
+  //---------------------
+  FsSetCryptCallbackW:= nil;
+  FsMkDirW := nil;
+  FsExecuteFileW := nil;
+  FsRenMovFileW := nil;
+  FsGetFileW := nil;
+  FsPutFileW := nil;
+  FsDeleteFileW := nil;
+  FsRemoveDirW := nil;
+  FsDisconnectW := nil;
+  FsSetAttrW := nil;
+  FsSetTimeW := nil;
+  FsStatusInfoW := nil;
+  FsExtractCustomIconW := nil;
+  FsGetLocalNameW := nil;
+{ Dialog API }
   SetDlgProc:= nil;
 end;
 
@@ -330,7 +416,7 @@ function TWFXModule.VFSConfigure(Parent: System.THandle): Boolean;
 begin
   try
     WFXStatusInfo(PathDelim, FS_STATUS_START, FS_STATUS_OP_EXEC);
-    Result:= (FsExecuteFile(Parent, PathDelim, 'properties') = FS_EXEC_OK);
+    Result:= (WfxExecuteFile(Parent, PathDelim, 'properties') = FS_EXEC_OK);
     WFXStatusInfo(PathDelim, FS_STATUS_END, FS_STATUS_OP_EXEC);
   except
     Result:= False;
