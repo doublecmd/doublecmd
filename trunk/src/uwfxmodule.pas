@@ -32,7 +32,7 @@ unit uWFXmodule;
 interface
 uses
  SysUtils, Classes, uVFSModule, uVFSTypes, WfxPlugin, uWFXprototypes,
- dynlibs, uClassesEx, DialogAPI;
+ dynlibs, uClassesEx, DialogAPI, uOSUtils;
 
 const
   WFX_SUCCESS      =  0;
@@ -40,6 +40,20 @@ const
   WFX_ERROR        = -20;
 
 type
+
+  { TWfxFindData }
+
+  TWfxFindData = record
+    FileAttributes : TFileAttrs;
+    CreationTime,
+    LastAccessTime,
+    LastWriteTime : TDateTime;
+    FileSize : Int64;
+    Reserved0,
+    Reserved1 : LongWord;
+    FileName : UTF8String;
+    AlternateFileName : UTF8String;
+  end;
 
   { TWFXModule }
 
@@ -112,6 +126,8 @@ type
     { Dialog API }
     SetDlgProc: TSetDlgProc;
   public
+    function WfxFindFirst(Path: UTF8String; var FindData: TWfxFindData): THandle;
+    function WfxFindNext(Hdl: THandle; var FindData: TWfxFindData): Boolean;
     procedure WfxStatusInfo(RemoteDir: UTF8String; InfoStartEnd, InfoOperation: Integer);
     function WfxExecuteFile(MainWin: HWND; RemoteName, Verb: UTF8String): Integer;
     function WfxSetAttr(RemoteName: UTF8String; NewAttr: LongInt): Boolean;
@@ -156,7 +172,7 @@ type
 implementation
 
 uses
-  LCLProc, uOSUtils, uLng, FileUtil, uGlobsPaths, fDialogBox;
+  LCLProc, uLng, FileUtil, uGlobsPaths, fDialogBox;
 
 const
   WfxIniFileName = 'wfx.ini';
@@ -179,8 +195,84 @@ begin
     Result:= rsMsgErrEAborted;
   end;
 end;
-  
+
+{ TWfxFindData }
+
+function LoadWfxFindData(const FindData: TWin32FindData): TWfxFindData; overload;
+begin
+  with Result do
+  begin
+    FileAttributes:= FindData.dwFileAttributes;
+    CreationTime:= FileTimeToDateTime(FindData.ftCreationTime);
+    LastAccessTime:= FileTimeToDateTime(FindData.ftLastAccessTime);
+    LastWriteTime:= FileTimeToDateTime(FindData.ftLastWriteTime);
+    FileSize:= (Int64(FindData.nFileSizeHigh) * MAXDWORD) + FindData.nFileSizeLow;
+    Reserved0:= FindData.dwReserved0;
+    Reserved1:= FindData.dwReserved1;
+    FileName:= SysToUTF8(FindData.cFileName);
+    AlternateFileName:= SysToUTF8(FindData.cAlternateFileName);
+  end;
+end;
+
+function LoadWfxFindData(const FindData: TWin32FindDataW): TWfxFindData; overload;
+begin
+  with Result do
+  begin
+    FileAttributes:= FindData.dwFileAttributes;
+    CreationTime:= FileTimeToDateTime(FindData.ftCreationTime);
+    LastAccessTime:= FileTimeToDateTime(FindData.ftLastAccessTime);
+    LastWriteTime:= FileTimeToDateTime(FindData.ftLastWriteTime);
+    FileSize:= (Int64(FindData.nFileSizeHigh) * MAXDWORD) + FindData.nFileSizeLow;
+    Reserved0:= FindData.dwReserved0;
+    Reserved1:= FindData.dwReserved1;
+    FileName:= UTF8Encode(WideString(FindData.cFileName));
+    AlternateFileName:= UTF8Encode(WideString(FindData.cAlternateFileName));
+  end;
+end;
+
 { TWFXModule }
+
+function TWFXModule.WfxFindFirst(Path: UTF8String; var FindData: TWfxFindData): THandle;
+var
+  FindDataA: TWin32FindData;
+  FindDataW: TWin32FindDataW;
+begin
+  if Assigned(FsFindFirstW) then
+    begin
+      FillChar(FindDataW, SizeOf(FindDataW), 0);
+      Result:= FsFindFirstW(PWideChar(UTF8Decode(Path)), FindDataW);
+      if Result <> feInvalidHandle then
+        FindData:= LoadWfxFindData(FindDataW);
+    end
+  else if Assigned(FsFindFirst) then
+    begin
+      FillChar(FindDataA, SizeOf(FindDataA), 0);
+      Result:= FsFindFirst(PAnsiChar(UTF8ToSys(Path)), FindDataA);
+      if Result <> feInvalidHandle then
+        FindData:= LoadWfxFindData(FindDataA);
+    end;
+end;
+
+function TWFXModule.WfxFindNext(Hdl: THandle; var FindData: TWfxFindData): Boolean;
+var
+  FindDataA: TWin32FindData;
+  FindDataW: TWin32FindDataW;
+begin
+  if Assigned(FsFindFirstW) then
+    begin
+      FillChar(FindDataW, SizeOf(FindDataW), 0);
+      Result:= FsFindNextW(Hdl, FindDataW);
+      if Result then
+        FindData:= LoadWfxFindData(FindDataW);
+    end
+  else if Assigned(FsFindFirst) then
+    begin
+      FillChar(FindDataA, SizeOf(FindDataA), 0);
+      Result:= FsFindNext(Hdl, FindDataA);
+      if Result then
+        FindData:= LoadWfxFindData(FindDataA);
+    end;
+end;
 
 procedure TWFXModule.WFXStatusInfo(RemoteDir: UTF8String; InfoStartEnd, InfoOperation: Integer);
 begin

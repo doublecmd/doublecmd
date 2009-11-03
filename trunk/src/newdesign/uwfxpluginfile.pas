@@ -9,6 +9,7 @@ uses
   uFile,
   uFileProperty,
   WfxPlugin,
+  uWfxModule,
   uOSUtils;
 
 type
@@ -35,7 +36,7 @@ type
   public
     constructor Create; override;
     constructor Create(FileAttributes: TFileAttributesProperty); overload;
-    constructor Create(FindData: TWin32FindData); overload;
+    constructor Create(FindData: TWfxFindData); overload;
 
     destructor Destroy; override;
 
@@ -89,33 +90,33 @@ begin
   Name := '';
 end;
 
-constructor TWfxPluginFile.Create(FindData: TWin32FindData);
+constructor TWfxPluginFile.Create(FindData: TWfxFindData);
 begin
   inherited Create;
 
   // Check that attributes is used
-  if (FindData.dwFileAttributes and FILE_ATTRIBUTE_UNIX_MODE) = 0 then // Windows attributes
+  if (FindData.FileAttributes and FILE_ATTRIBUTE_UNIX_MODE) = 0 then // Windows attributes
     begin
-      FIsLinkToDirectory := (FindData.dwFileAttributes and FILE_ATTRIBUTE_REPARSE_POINT) <> 0;
-      FAttributes:= TNtfsFileAttributesProperty.Create(FindData.dwFileAttributes);
+      FIsLinkToDirectory := (FindData.FileAttributes and FILE_ATTRIBUTE_REPARSE_POINT) <> 0;
+      FAttributes:= TNtfsFileAttributesProperty.Create(FindData.FileAttributes);
     end
   else  // Unix attributes
     begin
-      FIsLinkToDirectory := ((FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0) and
-                            ((FindData.dwReserved0 and S_IFMT) = S_IFLNK);
-      if ((FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0) and
-         ((FindData.dwReserved0 and S_IFMT) <> S_IFDIR) then
-        FindData.dwReserved0:= FindData.dwReserved0 or S_IFDIR;
-      FAttributes:= TUnixFileAttributesProperty.Create(FindData.dwReserved0);
+      FIsLinkToDirectory := ((FindData.FileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0) and
+                            ((FindData.Reserved0 and S_IFMT) = S_IFLNK);
+      if ((FindData.FileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0) and
+         ((FindData.Reserved0 and S_IFMT) <> S_IFDIR) then
+        FindData.Reserved0:= FindData.Reserved0 or S_IFDIR;
+      FAttributes:= TUnixFileAttributesProperty.Create(FindData.Reserved0);
     end;
 
-  FSize := TFileSizeProperty.Create((Int64(FindData.nFileSizeHigh) * MAXDWORD) + FindData.nFileSizeLow);
-  FModificationTime := TFileModificationDateTimeProperty.Create(FileTimeToDateTime(FindData.ftLastWriteTime));
+  FSize := TFileSizeProperty.Create(FindData.FileSize);
+  FModificationTime := TFileModificationDateTimeProperty.Create(FindData.LastWriteTime);
 
   AssignProperties;
 
   // Set name after assigning Attributes property, because it is used to get extension.
-  Name := SysToUTF8(FindData.cFileName);
+  Name := FindData.FileName;
 end;
 
 destructor TWfxPluginFile.Destroy;
