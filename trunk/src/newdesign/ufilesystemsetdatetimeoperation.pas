@@ -1,4 +1,4 @@
-unit uFileSystemSetAttributeOperation;
+unit uFileSystemSetDateTimeOperation;
 
 {$mode objfpc}{$H+}
 
@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uFileSourceSetAttributeOperation,
+  uFileSourceSetDateTimeOperation,
   uFileSource,
   uFileSourceOperationOptions,
   uFileSourceOperationUI,
@@ -16,11 +16,11 @@ uses
 
 type
 
-  TFileSystemSetAttributeOperation = class(TFileSourceSetAttributeOperation)
+  TFileSystemSetDateTimeOperation = class(TFileSourceSetDateTimeOperation)
 
   private
-    FFullFilesTreeToSetAttribute: TFileSystemFiles;  // source files including all files/dirs in subdirectories
-    FStatistics: TFileSourceSetAttributeOperationStatistics; // local copy of statistics
+    FFullFilesTreeToSetDateTime: TFileSystemFiles;  // source files including all files/dirs in subdirectories
+    FStatistics: TFileSourceSetDateTimeOperationStatistics; // local copy of statistics
 
     // Options.
     FSymLinkOption: TFileSourceOperationOptionSymLink;
@@ -31,7 +31,7 @@ type
 
   public
     constructor Create(aTargetFileSource: IFileSource;
-                       var theFilesToSetAttribute: TFiles; aNewAttributes: TFileAttrs); override;
+                       var theFilesToSetDateTime: TFiles; aLastWriteTime: TDateTime); override;
 
     destructor Destroy; override;
 
@@ -46,54 +46,54 @@ implementation
 uses
   uLng, uFileSystemUtil;
 
-constructor TFileSystemSetAttributeOperation.Create(aTargetFileSource: IFileSource;
-                                              var theFilesToSetAttribute: TFiles; aNewAttributes: TFileAttrs);
+constructor TFileSystemSetDateTimeOperation.Create(aTargetFileSource: IFileSource;
+                                              var theFilesToSetDateTime: TFiles; aLastWriteTime: TDateTime);
 begin
   FSymLinkOption := fsooslNone;
   FSkipErrors := False;
-  FFullFilesTreeToSetAttribute := nil;
+  FFullFilesTreeToSetDateTime := nil;
 
-  inherited Create(aTargetFileSource, theFilesToSetAttribute, aNewAttributes);
+  inherited Create(aTargetFileSource, theFilesToSetDateTime, aLastWriteTime);
 end;
 
-destructor TFileSystemSetAttributeOperation.Destroy;
+destructor TFileSystemSetDateTimeOperation.Destroy;
 begin
   inherited Destroy;
 
   if Recursive then
   begin
-    if Assigned(FFullFilesTreeToSetAttribute) then
-      FreeAndNil(FFullFilesTreeToSetAttribute);
+    if Assigned(FFullFilesTreeToSetDateTime) then
+      FreeAndNil(FFullFilesTreeToSetDateTime);
   end;
 end;
 
-procedure TFileSystemSetAttributeOperation.Initialize;
+procedure TFileSystemSetDateTimeOperation.Initialize;
 begin
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
   if not Recursive then
     begin
-      FFullFilesTreeToSetAttribute:= FilesToSetAttribute as TFileSystemFiles;
-      FStatistics.TotalFiles:= FFullFilesTreeToSetAttribute.Count;
+      FFullFilesTreeToSetDateTime:= FilesToSetDateTime as TFileSystemFiles;
+      FStatistics.TotalFiles:= FFullFilesTreeToSetDateTime.Count;
     end
   else
     begin
-      FillAndCount(FilesToSetAttribute as TFileSystemFiles,
-                   FFullFilesTreeToSetAttribute,
+      FillAndCount(FilesToSetDateTime as TFileSystemFiles,
+                   FFullFilesTreeToSetDateTime,
                    FStatistics.TotalFiles,
                    FStatistics.TotalBytes);     // gets full list of files (recursive)
     end;
 end;
 
-procedure TFileSystemSetAttributeOperation.MainExecute;
+procedure TFileSystemSetDateTimeOperation.MainExecute;
 var
   aFile: TFileSystemFile;
   CurrentFileIndex: Integer;
 begin
-  for CurrentFileIndex := FFullFilesTreeToSetAttribute.Count - 1 downto 0 do
+  for CurrentFileIndex := FFullFilesTreeToSetDateTime.Count - 1 downto 0 do
   begin
-    aFile := FFullFilesTreeToSetAttribute[CurrentFileIndex] as TFileSystemFile;
+    aFile := FFullFilesTreeToSetDateTime[CurrentFileIndex] as TFileSystemFile;
 
     FStatistics.CurrentFile := aFile.Path + aFile.Name;
     UpdateStatistics(FStatistics);
@@ -112,28 +112,34 @@ begin
   end;
 end;
 
-procedure TFileSystemSetAttributeOperation.Finalize;
+procedure TFileSystemSetDateTimeOperation.Finalize;
 begin
 end;
 
-function TFileSystemSetAttributeOperation.ProcessFile(aFile: TFileSystemFile): Boolean;
+function TFileSystemSetDateTimeOperation.ProcessFile(aFile: TFileSystemFile): Boolean;
 var
   FileName: String;
   bRetry: Boolean;
   sMessage, sQuestion: String;
+  fdLastWriteTime,
+  fdCreationTime,
+  fdLastAccessTime: LongInt;
 begin
   Result := False;
   FileName := aFile.Path + aFile.Name;
 
+  fdLastWriteTime:= DateTimeToFileDate(LastWriteTime);
+  fdCreationTime:= DateTimeToFileDate(CreationTime);
+  fdLastAccessTime:= DateTimeToFileDate(LastAccessTime);
+
   repeat
     bRetry := False;
-
-    Result:= mbFileSetAttr(FileName, NewAttributes) = 0;
+    Result:= mbFileSetTime(FileName, fdLastWriteTime, fdCreationTime, fdLastAccessTime) <> 0;
 
     if not Result then
       begin
-        sMessage := Format(rsMsgLogError + rsMsgErrSetAttribute, [FileName]);
-        sQuestion := Format(rsMsgErrSetAttribute, [FileName]);
+        sMessage := Format(rsMsgLogError + rsMsgErrSetDateTime, [FileName]);
+        sQuestion := Format(rsMsgErrSetDateTime, [FileName]);
 
         if gSkipFileOpError or (FSkipErrors = True) then
           logWrite(Thread, sMessage, lmtError)

@@ -9,8 +9,7 @@ uses
   uFileSourceOperation,
   uFileSourceOperationTypes,
   uFileSource,
-  uFile,
-  uOSUtils;
+  uFile;
 
 type
 
@@ -91,6 +90,8 @@ begin
   aTargetFileSource := nil;
   FFilesToSetDateTime := theFilesToSetDateTime;
   theFilesToSetDateTime := nil;
+  FCreationTime:= 0;
+  FLastAccessTime:= 0;
   FLastWriteTime:= aLastWriteTime;
   FRecursive:= False;
 end;

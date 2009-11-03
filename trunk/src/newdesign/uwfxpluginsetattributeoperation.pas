@@ -143,8 +143,8 @@ begin
 
     if not Result then
       begin
-        sMessage := Format(rsMsgLogError + 'Can not set attributes for "%s"', [FileName]);
-        sQuestion := Format('Can not set attributes for "%s"', [FileName]);
+        sMessage := Format(rsMsgLogError + rsMsgErrSetAttribute, [FileName]);
+        sQuestion := Format(rsMsgErrSetAttribute, [FileName]);
 
         if gSkipFileOpError or (FSkipErrors = True) then
           logWrite(Thread, sMessage, lmtError)
