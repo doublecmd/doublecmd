@@ -105,7 +105,7 @@ begin
              fsoCreateDirectory,
              fsoCalcChecksum,
              fsoCalcStatistics,
-             fsoSetName,
+             fsoSetDateTime,
              fsoSetAttribute,
              fsoExecute];
              //fsoSetPath / fsoChangePath

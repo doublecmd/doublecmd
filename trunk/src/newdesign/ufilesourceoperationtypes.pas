@@ -23,7 +23,7 @@ type
     //fsoCreateLink,
     fsoCalcChecksum,
     fsoCalcStatistics,  // Should probably always be supported if fsoList is supported.
-    fsoSetName,
+    fsoSetDateTime,
     fsoSetAttribute,
     fsoExecute
     //fsoSetPath / fsoChangePath
