@@ -131,6 +131,7 @@ type
     procedure WfxStatusInfo(RemoteDir: UTF8String; InfoStartEnd, InfoOperation: Integer);
     function WfxExecuteFile(MainWin: HWND; var RemoteName: UTF8String; Verb: UTF8String): Integer;
     function WfxSetAttr(RemoteName: UTF8String; NewAttr: LongInt): Boolean;
+    function WfxMkDir(const sBasePath, sDirName: UTF8String): LongInt;
     function WfxRemoveDir(const sDirName: UTF8String): Boolean;
     function WfxDeleteFile(const sFileName: UTF8String): Boolean;
   public
@@ -315,6 +316,29 @@ begin
     Result:= FsSetAttrW(PWideChar(UTF8Decode(RemoteName)), NewAttr)
   else if Assigned(FsSetAttr) then
     Result:= FsSetAttr(PAnsiChar(UTF8ToSys(RemoteName)), NewAttr);
+end;
+
+function TWFXModule.WfxMkDir(const sBasePath, sDirName: UTF8String): LongInt;
+begin
+  Result:= WFX_NOTSUPPORTED;
+  if Assigned(FsMkDirW) then
+    begin
+      WfxStatusInfo(sBasePath, FS_STATUS_START, FS_STATUS_OP_MKDIR);
+      if FsMkDirW(PWideChar(UTF8Decode(sDirName))) then
+        Result:= WFX_SUCCESS
+      else
+        Result:= WFX_ERROR;
+      WfxStatusInfo(sBasePath, FS_STATUS_END, FS_STATUS_OP_MKDIR);
+    end
+  else if Assigned(FsMkDir) then
+    begin
+      WfxStatusInfo(sBasePath, FS_STATUS_START, FS_STATUS_OP_MKDIR);
+      if FsMkDir(PAnsiChar(UTF8ToSys(sDirName))) then
+        Result:= WFX_SUCCESS
+      else
+        Result:= WFX_ERROR;
+      WfxStatusInfo(sBasePath, FS_STATUS_END, FS_STATUS_OP_MKDIR);
+    end;
 end;
 
 function TWFXModule.WfxRemoveDir(const sDirName: UTF8String): Boolean;

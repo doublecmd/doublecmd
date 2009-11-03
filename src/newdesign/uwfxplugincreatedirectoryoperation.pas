@@ -46,7 +46,7 @@ procedure TWfxPluginCreateDirectoryOperation.MainExecute;
 begin
   with FWfxPluginFileSource do
   begin
-    case WfxMkDir(BasePath, AbsolutePath) of
+    case WfxModule.WfxMkDir(BasePath, AbsolutePath) of
     WFX_NOTSUPPORTED:
       AskQuestion(rsMsgErrNotSupported, '', [fsourOk], fsourOk, fsourOk);
     WFX_SUCCESS:

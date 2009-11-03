@@ -17,7 +17,6 @@ type
     ['{F1F728C6-F718-4B17-8DE2-BE0134134ED8}']
 
     procedure FillAndCount(Files: TFiles; out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
-    function WfxMkDir(const sBasePath: String; const sDirName: UTF8String): LongInt;
     function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
 
@@ -44,7 +43,6 @@ type
     function GetCurrentAddress: String; override;
   public
     procedure FillAndCount(Files: TFiles; out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
-    function WfxMkDir(const sBasePath: String; const sDirName: UTF8String): LongInt;
     function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
   public
@@ -393,23 +391,6 @@ begin
       begin
         Inc(FilesCount);
         Inc(FilesSize, aFile.Size); // in first level we know file size -> use it
-      end;
-  end;
-end;
-
-function TWfxPluginFileSource.WfxMkDir(const sBasePath: String; const sDirName: UTF8String): LongInt;
-begin
-  with FWfxModule do
-  begin
-    Result:= WFX_NOTSUPPORTED;
-    if Assigned(FsMkDir) then
-      begin
-        WfxStatusInfo(sBasePath, FS_STATUS_START, FS_STATUS_OP_MKDIR);
-        if FsMkDir(PChar(UTF8ToSys(sDirName))) then
-          Result:= WFX_SUCCESS
-        else
-          Result:= WFX_ERROR;
-        WfxStatusInfo(sBasePath, FS_STATUS_END, FS_STATUS_OP_MKDIR);
       end;
   end;
 end;
