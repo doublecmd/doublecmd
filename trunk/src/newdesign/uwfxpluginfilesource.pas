@@ -17,10 +17,7 @@ type
     ['{F1F728C6-F718-4B17-8DE2-BE0134134ED8}']
 
     procedure FillAndCount(Files: TFiles; out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
-    procedure WfxStatusInfo(RemoteDir: UTF8String; InfoStartEnd, InfoOperation: Integer);
     function WfxMkDir(const sBasePath: String; const sDirName: UTF8String): LongInt;
-    function WfxRemoveDir(const sDirName: UTF8String): Boolean;
-    function WfxDeleteFile(const sFileName: UTF8String): Boolean;
     function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
     function WfxExecuteFile(const sFileName, sVerb: UTF8String; out sNewPath: UTF8String): LongInt;
@@ -48,10 +45,7 @@ type
     function GetCurrentAddress: String; override;
   public
     procedure FillAndCount(Files: TFiles; out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
-    procedure WfxStatusInfo(RemoteDir: UTF8String; InfoStartEnd, InfoOperation: Integer);
     function WfxMkDir(const sBasePath: String; const sDirName: UTF8String): LongInt;
-    function WfxRemoveDir(const sDirName: UTF8String): Boolean;
-    function WfxDeleteFile(const sFileName: UTF8String): Boolean;
     function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
     function WfxExecuteFile(const sFileName, sVerb: UTF8String; out sNewPath: UTF8String): LongInt;
@@ -405,15 +399,6 @@ begin
   end;
 end;
 
-procedure TWfxPluginFileSource.WfxStatusInfo(RemoteDir: UTF8String; InfoStartEnd, InfoOperation: Integer);
-begin
-  with FWfxModule do
-  begin
-    if Assigned(FsStatusInfo) then
-      FsStatusInfo(PChar(UTF8ToSys(RemoteDir)), InfoStartEnd, InfoOperation);
-  end;
-end;
-
 function TWfxPluginFileSource.WfxMkDir(const sBasePath: String; const sDirName: UTF8String): LongInt;
 begin
   with FWfxModule do
@@ -427,30 +412,6 @@ begin
         else
           Result:= WFX_ERROR;
         WfxStatusInfo(sBasePath, FS_STATUS_END, FS_STATUS_OP_MKDIR);
-      end;
-  end;
-end;
-
-function TWfxPluginFileSource.WfxRemoveDir(const sDirName: UTF8String): Boolean;
-begin
-  with FWfxModule do
-  begin
-    Result:= False;
-    if Assigned(FsRemoveDir) then
-      begin
-        Result:= FsRemoveDir(PChar(UTF8ToSys(sDirName)));
-      end;
-  end;
-end;
-
-function TWfxPluginFileSource.WfxDeleteFile(const sFileName: UTF8String): Boolean;
-begin
-  with FWfxModule do
-  begin
-    Result:= False;
-    if Assigned(FsDeleteFile) then
-      begin
-        Result:= FsDeleteFile(PChar(UTF8ToSys(sFileName)));
       end;
   end;
 end;

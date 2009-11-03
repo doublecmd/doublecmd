@@ -71,7 +71,7 @@ end;
 procedure TWfxPluginDeleteOperation.Initialize;
 begin
   with FWfxPluginFileSource do
-    WfxStatusInfo({CurrentPath}FilesToDelete.Path, FS_STATUS_START, FS_STATUS_OP_DELETE);
+  WfxModule.WfxStatusInfo({CurrentPath}FilesToDelete.Path, FS_STATUS_START, FS_STATUS_OP_DELETE);
 
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
@@ -111,7 +111,7 @@ end;
 procedure TWfxPluginDeleteOperation.Finalize;
 begin
   with FWfxPluginFileSource do
-    WfxStatusInfo({CurrentPath}FilesToDelete.Path, FS_STATUS_END, FS_STATUS_OP_DELETE);
+  WfxModule.WfxStatusInfo({CurrentPath}FilesToDelete.Path, FS_STATUS_END, FS_STATUS_OP_DELETE);
 end;
 
 function TWfxPluginDeleteOperation.ProcessFile(aFile: TWfxPluginFile): Boolean;
@@ -153,13 +153,14 @@ begin
     //if FileIsReadOnly(aFile.Attributes) then
     //  mbFileSetReadOnly(FileName, False);
 
+    with FWfxPluginFileSource.WfxModule do
     if aFile.IsDirectory then // directory
       begin
-        Result := FWfxPluginFileSource.WfxRemoveDir(FileName);
+        Result := WfxRemoveDir(FileName);
       end
     else
       begin // files and other stuff
-        Result := FWfxPluginFileSource.WfxDeleteFile(FileName);
+        Result := WfxDeleteFile(FileName);
       end;
 
     if Result then

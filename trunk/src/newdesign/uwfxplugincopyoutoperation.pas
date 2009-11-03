@@ -100,7 +100,7 @@ begin
   FUpdateProgressClass.UpdateProgressFunction:= @UpdateProgress;
   with FWfxPluginFileSource do
   begin
-    WfxStatusInfo({CurrentPath}SourceFiles.Path, FS_STATUS_START, FS_STATUS_OP_PUT_MULTI);
+    WfxModule.WfxStatusInfo({CurrentPath}SourceFiles.Path, FS_STATUS_START, FS_STATUS_OP_PUT_MULTI);
     WfxOperationList[PluginNumber]:= FUpdateProgressClass;
     // Get initialized statistics; then we change only what is needed.
     FStatistics := RetrieveStatistics;
@@ -143,7 +143,7 @@ procedure TWfxPluginCopyOutOperation.Finalize;
 begin
   with FWfxPluginFileSource do
   begin
-    WfxStatusInfo({CurrentPath}SourceFiles.Path, FS_STATUS_END, FS_STATUS_OP_PUT_MULTI);
+    WfxModule.WfxStatusInfo({CurrentPath}SourceFiles.Path, FS_STATUS_END, FS_STATUS_OP_PUT_MULTI);
     WfxOperationList[PluginNumber]:= nil;
   end;
 end;

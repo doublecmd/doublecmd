@@ -115,6 +115,8 @@ type
     procedure WfxStatusInfo(RemoteDir: UTF8String; InfoStartEnd, InfoOperation: Integer);
     function WfxExecuteFile(MainWin: HWND; RemoteName, Verb: UTF8String): Integer;
     function WfxSetAttr(RemoteName: UTF8String; NewAttr: LongInt): Boolean;
+    function WfxRemoveDir(const sDirName: UTF8String): Boolean;
+    function WfxDeleteFile(const sFileName: UTF8String): Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -205,6 +207,24 @@ begin
     Result:= FsSetAttrW(PWideChar(UTF8Decode(RemoteName)), NewAttr)
   else if Assigned(FsSetAttr) then
     Result:= FsSetAttr(PAnsiChar(UTF8ToSys(RemoteName)), NewAttr);
+end;
+
+function TWFXModule.WfxRemoveDir(const sDirName: UTF8String): Boolean;
+begin
+  Result:= False;
+  if Assigned(FsRemoveDirW) then
+    Result:= FsRemoveDirW(PWideChar(UTF8Decode(sDirName)))
+  else if Assigned(FsRemoveDir) then
+    Result:= FsRemoveDir(PAnsiChar(UTF8ToSys(sDirName)));
+end;
+
+function TWFXModule.WfxDeleteFile(const sFileName: UTF8String): Boolean;
+begin
+  Result:= False;
+  if Assigned(FsDeleteFileW) then
+    Result:= FsDeleteFileW(PWideChar(UTF8Decode(sFileName)))
+  else if Assigned(FsDeleteFile) then
+    Result:= FsDeleteFile(PAnsiChar(UTF8ToSys(sFileName)));
 end;
 
 constructor TWFXModule.Create;

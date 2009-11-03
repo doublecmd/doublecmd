@@ -53,7 +53,7 @@ end;
 procedure TWfxPluginExecuteOperation.Initialize;
 begin
   with FWfxPluginFileSource do
-  WfxStatusInfo(CurrentPath, FS_STATUS_START, FS_STATUS_OP_EXEC);
+  WfxModule.WfxStatusInfo(CurrentPath, FS_STATUS_START, FS_STATUS_OP_EXEC);
 end;
 
 procedure TWfxPluginExecuteOperation.MainExecute;
@@ -76,7 +76,7 @@ end;
 procedure TWfxPluginExecuteOperation.Finalize;
 begin
   with FWfxPluginFileSource do
-  WfxStatusInfo(CurrentPath, FS_STATUS_END, FS_STATUS_OP_EXEC);
+  WfxModule.WfxStatusInfo(CurrentPath, FS_STATUS_END, FS_STATUS_OP_EXEC);
 end;
 
 end.
