@@ -3343,6 +3343,14 @@ msgstr "正则表达式语法错误！"
 msgid "Cannot rename file %s to %s"
 msgstr "不能重命名文件 %s 为 %s"
 
+#: ulng.rsmsgerrsetattribute
+msgid "Can not set attributes for \"%s\""
+msgstr ""
+
+#: ulng.rsmsgerrsetdatetime
+msgid "Can not set date/time for \"%s\""
+msgstr ""
+
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
 msgstr "缓冲区太小"
@@ -3596,6 +3604,10 @@ msgstr "已停止"
 #: ulng.rsoperstopping
 msgid "Stopping"
 msgstr "正停止"
+
+#: ulng.rsoperwaitingforconnection
+msgid "Waiting for access to file source"
+msgstr ""
 
 #: ulng.rsoperwaitingforfeedback
 msgid "Waiting for user response"

@@ -3341,6 +3341,14 @@ msgstr ""
 msgid "Cannot rename file %s to %s"
 msgstr ""
 
+#: ulng.rsmsgerrsetattribute
+msgid "Can not set attributes for \"%s\""
+msgstr ""
+
+#: ulng.rsmsgerrsetdatetime
+msgid "Can not set date/time for \"%s\""
+msgstr ""
+
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
 msgstr "Buffer demasiado pequeño"
@@ -3593,6 +3601,10 @@ msgstr ""
 
 #: ulng.rsoperstopping
 msgid "Stopping"
+msgstr ""
+
+#: ulng.rsoperwaitingforconnection
+msgid "Waiting for access to file source"
 msgstr ""
 
 #: ulng.rsoperwaitingforfeedback
