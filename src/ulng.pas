@@ -83,6 +83,8 @@ resourcestring
   rsMsgPresetAlreadyExists = 'Preset "%s" already exists. Overwrite?';
   rsMsgMasterPassword = 'Master Password';
   rsMsgMasterPasswordEnter = 'Please enter the master password:';
+  rsMsgErrSetAttribute = 'Can not set attributes for "%s"';
+  rsMsgErrSetDateTime = 'Can not set date/time for "%s"';
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuOpenWith = 'Open with ...';

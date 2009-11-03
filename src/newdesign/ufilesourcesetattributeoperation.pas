@@ -25,7 +25,7 @@ type
   end;
 
   {en
-     Operation that deletes files from an arbitrary file source.
+     Operation that set attributes for files from an arbitrary file source.
      File source should match the class type.
   }
   TFileSourceSetAttributeOperation = class(TFileSourceOperation)

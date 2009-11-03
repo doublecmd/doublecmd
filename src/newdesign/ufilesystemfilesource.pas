@@ -87,7 +87,8 @@ uses
   uFileSystemCreateDirectoryOperation,
   uFileSystemExecuteOperation,
   uFileSystemCalcChecksumOperation,
-  uFileSystemCalcStatisticsOperation;
+  uFileSystemCalcStatisticsOperation,
+  uFileSystemSetDateTimeOperation;
 
 constructor TFileSystemFileSource.Create;
 begin
