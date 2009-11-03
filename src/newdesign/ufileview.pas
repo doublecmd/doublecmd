@@ -164,6 +164,7 @@ begin
     // FMethods are created in FileView constructor.
     FileView.OnBeforeChangeDirectory := Self.OnBeforeChangeDirectory;
     FileView.OnAfterChangeDirectory := Self.OnAfterChangeDirectory;
+    FileView.OnChangeFileSource := Self.OnChangeFileSource;
 
     FileView.FFileSources.Assign(Self.FFileSources);
     FileView.FCurrentPaths.Assign(Self.FCurrentPaths);
