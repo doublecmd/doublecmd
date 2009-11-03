@@ -2481,20 +2481,35 @@ begin
 
         uClipboard.ClipboardCut:
         begin
-{
-          MoveOperation
+          SourceFileSource := TFileSystemFileSource.Create;
 
-          if not (fsoMoveIn in ActiveFrame.FileSource.GetOperationsTypes) then
+          if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
           begin
-            msgWarning(rsMsgErrNotSupported);
-            Exit;
-          end;
+            if not (fsoMove in ActiveFrame.FileSource.GetOperationsTypes) then
+            begin
+              msgWarning(rsMsgErrNotSupported);
+              Exit;
+            end;
 
-          if ActiveFrame.pnlFile.PanelMode in [pmArchive, pmVFS] then
-            RenameFile(FileList, ActiveFrame, ActiveFrame.CurrentPath)
-          else if ActiveFrame.pnlFile.PanelMode = pmDirectory then
-            RunRenameThread(FileList, ActiveFrame.CurrentPath, '*.*');
+            Operation := SourceFileSource.CreateMoveOperation(
+                           Files, ActiveFrame.CurrentPath);
+          end
+          else
+          begin
+            if (not (fsoCopyIn in ActiveFrame.FileSource.GetOperationsTypes)) or
+               (not (fsoDelete in SourceFileSource.GetOperationsTypes)) then
+            begin
+              msgWarning(rsMsgErrNotSupported);
+              Exit;
+            end;
+{
+            // Meta-operation: CopyIn + Delete
+
+            Operation := ActiveFrame.FileSource.CreateCopyInOperation(
+                           SourceFileSource, Files,
+                           ActiveFrame.CurrentPath);
 }
+          end;
         end;
 
         uClipboard.ClipboardCopy:
@@ -2509,7 +2524,6 @@ begin
 
           if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
           begin
-            // Make CopyOut for target filesystem.
             Operation := SourceFileSource.CreateCopyOutOperation(
                            ActiveFrame.FileSource, Files,
                            ActiveFrame.CurrentPath);
@@ -2520,7 +2534,6 @@ begin
                            SourceFileSource, Files,
                            ActiveFrame.CurrentPath);
           end;
-
         end;
 
         else
