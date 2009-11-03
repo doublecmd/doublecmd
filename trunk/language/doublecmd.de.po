@@ -3335,6 +3335,14 @@ msgstr "Syntax-fehler im regulären Ausdruck!"
 msgid "Cannot rename file %s to %s"
 msgstr "Kann Datei %s nicht zu %s umbenennen"
 
+#: ulng.rsmsgerrsetattribute
+msgid "Can not set attributes for \"%s\""
+msgstr ""
+
+#: ulng.rsmsgerrsetdatetime
+msgid "Can not set date/time for \"%s\""
+msgstr ""
+
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
 msgstr "Puffer zu klein"
@@ -3588,6 +3596,10 @@ msgstr "Gestoppt"
 #: ulng.rsoperstopping
 msgid "Stopping"
 msgstr "Stoppe"
+
+#: ulng.rsoperwaitingforconnection
+msgid "Waiting for access to file source"
+msgstr ""
 
 #: ulng.rsoperwaitingforfeedback
 msgid "Waiting for user response"

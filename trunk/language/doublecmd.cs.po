@@ -3371,6 +3371,14 @@ msgstr "Chybý syntax v regulárním výrazu!"
 msgid "Cannot rename file %s to %s"
 msgstr "Nelze přejmenovat soubor %s na %s"
 
+#: ulng.rsmsgerrsetattribute
+msgid "Can not set attributes for \"%s\""
+msgstr ""
+
+#: ulng.rsmsgerrsetdatetime
+msgid "Can not set date/time for \"%s\""
+msgstr ""
+
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
 msgstr "Buffer je příliš malý"
@@ -3627,6 +3635,10 @@ msgstr "Zastaveno"
 #: ulng.rsoperstopping
 msgid "Stopping"
 msgstr "Zastavuji"
+
+#: ulng.rsoperwaitingforconnection
+msgid "Waiting for access to file source"
+msgstr ""
 
 #: ulng.rsoperwaitingforfeedback
 msgid "Waiting for user response"
