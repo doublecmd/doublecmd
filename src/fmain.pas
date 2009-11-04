@@ -2057,7 +2057,7 @@ begin
   SourceFiles := ActiveFrame.SelectedFiles;
   if Assigned(SourceFiles) then
   try
-    MoveFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
+    CopyFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
               SourceFiles, sDestPath);
   finally
     if Assigned(SourceFiles) then
