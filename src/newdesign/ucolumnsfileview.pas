@@ -53,6 +53,8 @@ type
     DragRowIndex,
     DropRowIndex: Integer;
     LastMouseButton: TMouseButton; // Mouse button that initiated dragging
+    FMouseDown: Boolean; // Used to check if button-up was received after button-down
+                         // or after dropping something after dragging with right mouse button
 
     // Updates the drop row index, which is used to draw a rectangle
     // on directories during drag&drop operations.
@@ -2841,6 +2843,7 @@ begin
   DragDropSource := nil;
   DragDropTarget := nil;
   TransformDragging := False;
+  FMouseDown := False;
 
 {$IFDEF LCLGTK2}
   FLastDoubleClickTime := Now;
@@ -3228,6 +3231,16 @@ var
 begin
   inherited MouseMove(Shift, X, Y);
 
+  if FMouseDown and Self.Dragging then
+  begin
+    // If dragging has started then clear MouseDown flag.
+    if (Abs(DragStartPoint.X - X) > DragManager.DragThreshold) or
+       (Abs(DragStartPoint.Y - Y) > DragManager.DragThreshold) then
+    begin
+      FMouseDown := False;
+    end;
+  end;
+
   // If dragging is currently in effect, the window has mouse capture and
   // we can retrieve the window over which the mouse cursor currently is.
   if Self.Dragging and uDragDropEx.IsExternalDraggingSupported then
@@ -3277,8 +3290,6 @@ end;
 
 procedure TDrawGridEx.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
-var
-  WasDragging: Boolean;
 begin
 {$IFDEF LCLGTK2}
   // Workaround for two doubleclicks being sent on GTK.
@@ -3289,13 +3300,14 @@ begin
 
   StartDrag := False;
 
-  WasDragging := Self.Dragging;
-
-  inherited MouseUp(Button, Shift, X, Y);  // will stop any dragging
+  inherited MouseUp(Button, Shift, X, Y);
 
   // Call handler only if button-up was not lifted to finish drag&drop operation.
-  if (WasDragging = False) then
+  if FMouseDown then
+  begin
     (Parent as TColumnsFileView).dgPanelMouseUp(Self, Button, Shift, X, Y);
+    FMouseDown := False;
+  end;
 end;
 
 procedure TDrawGridEx.MouseDown(Button: TMouseButton; Shift: TShiftState; X,Y: Integer);
@@ -3306,6 +3318,8 @@ begin
   // doubleclick events we have to also drop MouseDown events that precede them.
   if TooManyDoubleClicks then Exit;
 {$ENDIF}
+
+  FMouseDown := True;
 
   inherited;
 end;
