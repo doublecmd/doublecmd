@@ -57,16 +57,6 @@ const
 
 type
 
-  TDropPopupMenu = class(TPopupMenu)
-  private
-    FDropParams: TDropParams;
-
-  public
-    constructor Create(AOwner: TComponent); override;
-    procedure PopUp(var DropParams: TDropParams); reintroduce;
-  end;
-
-
   { TfrmMain }
 
   TfrmMain = class(TForm)
@@ -224,7 +214,7 @@ type
     pmDrivesMenu: TPopupMenu;
     LogSplitter: TSplitter;
     pmColumnsMenu: TPopupMenu;
-    pmDropMenu: TDropPopupMenu;
+    pmDropMenu: TPopupMenu;
     pmTabMenu: TPopupMenu;
     pmTrayIconMenu: TPopupMenu;
     pmLogMenu: TPopupMenu;
@@ -419,6 +409,10 @@ type
     HiddenToTray: Boolean;
     HidingTrayIcon: Boolean; // @true if the icon is in the process of hiding
     nbLeft, nbRight: TFileViewNotebook;
+    {en
+       Used to pass drag&drop parameters to pmDropMenu. Single variable
+       can be used, because the user can do only one menu popup at a time. }
+    FDropParams: TDropParams;
 
     // frost_asm begin
     // mainsplitter
@@ -436,6 +430,8 @@ type
     procedure HideTrayIconDelayed(Data: PtrInt);
 
     procedure OperationFinishedEvent(Operation: TFileSourceOperation; Event: TOperationManagerEvent);
+
+    procedure PopupDragDropMenu(var DropParams: TDropParams);
 
   public
     procedure HandleActionHotKeys(var Key: Word; Shift: TShiftState);
@@ -595,6 +591,7 @@ begin
   actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
 
   AllowDropFiles := not uDragDropEx.IsExternalDraggingSupported;
+  FDropParams := nil;
 
   PanelSelected:=fpLeft;
 
@@ -890,9 +887,7 @@ begin
           begin
             // Ask the user what he would like to do by displaying a menu.
             // Returns immediately after showing menu.
-
-            //Disabled temporarily.
-            //pmDropMenu.PopUp(DropParams);
+            PopupDragDropMenu(DropParams);
           end;
 
         else
@@ -1337,12 +1332,12 @@ procedure TfrmMain.mnuDropClick(Sender: TObject);
 var
   DropParamsRef: TDropParams;
 begin
-  if (Sender is TMenuItem) and Assigned(pmDropMenu.FDropParams) then
+  if (Sender is TMenuItem) and Assigned(FDropParams) then
     begin
       // Make a copy of the reference to parameters and clear FDropParams,
       // so that they're not destroyed if pmDropMenuClose is called while we're processing.
-      DropParamsRef := pmDropMenu.FDropParams;
-      pmDropMenu.FDropParams := nil; // release ownership
+      DropParamsRef := FDropParams;
+      FDropParams := nil; // release ownership
 
       with DropParamsRef do
       begin
@@ -1370,29 +1365,23 @@ begin
     end;
 end;
 
-constructor TDropPopupMenu.Create(AOwner: TComponent);
-begin
-  FDropParams := nil;
-  inherited;
-end;
-
-procedure TDropPopupMenu.PopUp(var DropParams: TDropParams);
+procedure TfrmMain.PopupDragDropMenu(var DropParams: TDropParams);
 begin
   // Disposing of the params is handled in pmDropMenuClose or mnuDropClick.
   if Assigned(DropParams) then
   begin
     FDropParams := DropParams;
     DropParams := nil;
-    inherited PopUp(FDropParams.ScreenDropPoint.X,
-                    FDropParams.ScreenDropPoint.Y);
+    pmDropMenu.PopUp(FDropParams.ScreenDropPoint.X,
+                     FDropParams.ScreenDropPoint.Y);
   end;
 end;
 
 procedure TfrmMain.pmDropMenuClose(Sender: TObject);
 begin
   // Free drop parameters given to drop menu.
-  if Assigned(pmDropMenu.FDropParams) then
-    FreeAndNil(pmDropMenu.FDropParams);
+  if Assigned(FDropParams) then
+    FreeAndNil(FDropParams);
 end;
 
 procedure TfrmMain.mnuSplitterPercentClick(Sender: TObject);
