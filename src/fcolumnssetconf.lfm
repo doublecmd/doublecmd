@@ -1,20 +1,22 @@
 object fColumnsSetConf: TfColumnsSetConf
-  Left = 115
-  Height = 600
-  Top = 91
+  Left = 129
+  Height = 583
+  Top = 5
   Width = 900
   ActiveControl = Panel1
   Caption = 'Configure custom columns view'
-  ClientHeight = 600
+  ClientHeight = 583
   ClientWidth = 900
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
   SessionProperties = 'Height;Width;WindowState;Left;Top'
-  LCLVersion = '0.9.27'
+  LCLVersion = '0.9.29'
   object Panel1: TPanel
+    Left = 0
     Height = 36
+    Top = 0
     Width = 900
     Align = alTop
     ClientHeight = 36
@@ -22,9 +24,9 @@ object fColumnsSetConf: TfColumnsSetConf
     TabOrder = 0
     object lblConfigViewNr: TLabel
       Left = 8
-      Height = 19
+      Height = 14
       Top = 11
-      Width = 121
+      Width = 90
       Caption = 'Configure view nr:'
       ParentColor = False
     end
@@ -32,10 +34,10 @@ object fColumnsSetConf: TfColumnsSetConf
       AnchorSideLeft.Control = lblConfigViewNr
       AnchorSideLeft.Side = asrBottom
       AnchorSideRight.Control = lblName
-      Left = 131
-      Height = 19
+      Left = 100
+      Height = 14
       Top = 11
-      Width = 83
+      Width = 114
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 2
       BorderSpacing.Right = 2
@@ -44,15 +46,15 @@ object fColumnsSetConf: TfColumnsSetConf
     end
     object lblName: TLabel
       Left = 216
-      Height = 19
+      Height = 14
       Top = 10
-      Width = 45
+      Width = 32
       Caption = 'Name:'
       ParentColor = False
     end
     object edtNameofColumnsSet: TEdit
       Left = 255
-      Height = 23
+      Height = 21
       Top = 4
       Width = 640
       Anchors = [akTop, akLeft, akRight]
@@ -60,16 +62,17 @@ object fColumnsSetConf: TfColumnsSetConf
     end
   end
   object Panel2: TPanel
-    Height = 490
+    Left = 0
+    Height = 473
     Top = 68
     Width = 900
     Align = alClient
-    ClientHeight = 490
+    ClientHeight = 473
     ClientWidth = 900
     TabOrder = 1
     object stgColumns: TStringGrid
       Left = 1
-      Height = 134
+      Height = 93
       Top = 1
       Width = 898
       Align = alClient
@@ -121,7 +124,7 @@ object fColumnsSetConf: TfColumnsSetConf
     object pnlPrevCont: TPanel
       Left = 1
       Height = 180
-      Top = 309
+      Top = 292
       Width = 898
       Align = alBottom
       ClientHeight = 180
@@ -141,7 +144,7 @@ object fColumnsSetConf: TfColumnsSetConf
       Cursor = crVSplit
       Left = 1
       Height = 5
-      Top = 304
+      Top = 287
       Width = 898
       Align = alBottom
       MinSize = 180
@@ -151,7 +154,7 @@ object fColumnsSetConf: TfColumnsSetConf
       AnchorSideBottom.Control = SplitterPreview
       Left = 1
       Height = 19
-      Top = 285
+      Top = 268
       Width = 898
       Align = alBottom
       Caption = 'Preview'
@@ -161,560 +164,579 @@ object fColumnsSetConf: TfColumnsSetConf
     object pnlCustCont: TPanel
       AnchorSideBottom.Control = pnlPreviewHead
       Left = 1
-      Height = 130
-      Top = 155
+      Height = 154
+      Top = 114
       Width = 898
       Align = alBottom
-      ClientHeight = 130
+      ClientHeight = 154
       ClientWidth = 898
-      Constraints.MaxHeight = 130
+      Constraints.MaxHeight = 154
       TabOrder = 4
-      object Label3: TLabel
-        AnchorSideRight.Control = edtFont
+      object chkUseCustomView: TCheckBox
+        AnchorSideLeft.Control = pnlCustCont
+        AnchorSideTop.Control = pnlCustCont
         Left = 14
-        Height = 18
-        Top = 9
-        Width = 90
-        Anchors = [akTop, akLeft, akRight]
-        Caption = 'Font:'
-        ParentColor = False
-      end
-      object Label4: TLabel
-        AnchorSideLeft.Control = btnFontSelect
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideRight.Control = sneFontSize
-        Left = 507
-        Height = 18
-        Top = 9
-        Width = 68
-        Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Left = 10
-        Caption = 'Size:'
-        ParentColor = False
-      end
-      object cTextLabel: TLabel
-        AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Control = cbTextColor
-        Left = 14
-        Height = 18
-        Top = 41
-        Width = 146
-        Anchors = [akTop, akLeft, akRight]
-        Caption = 'Text Color:'
-        ParentColor = False
-      end
-      object cBackGrndLabel: TLabel
-        AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Control = cbBackColor
-        Left = 14
-        Height = 18
-        Top = 71
-        Width = 146
-        Anchors = [akTop, akLeft, akRight]
-        Caption = 'BackGround:'
-        ParentColor = False
-      end
-      object lblBackground2: TLabel
-        AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Control = cbBackColor2
-        Left = 14
-        Height = 18
-        Top = 101
-        Width = 146
-        Anchors = [akTop, akLeft, akRight]
-        Caption = 'Background 2:'
-        ParentColor = False
-      end
-      object lblMarkColor: TLabel
-        AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Control = cbMarkColor
-        Left = 458
-        Height = 18
-        Top = 41
-        Width = 150
-        Anchors = [akTop, akLeft, akRight]
-        Caption = 'Mark Color:'
-        ParentColor = False
-      end
-      object lblCursorColor: TLabel
-        AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Control = cbCursorColor
-        Left = 458
-        Height = 18
-        Top = 70
-        Width = 150
-        Anchors = [akTop, akLeft, akRight]
-        Caption = 'Cursor Color:'
-        ParentColor = False
-      end
-      object lblCursorText: TLabel
-        Tag = 3
-        AnchorSideTop.Side = asrCenter
-        AnchorSideRight.Control = cbCursorText
-        Left = 458
-        Height = 18
-        Top = 101
-        Width = 150
-        Anchors = [akTop, akLeft, akRight]
-        Caption = 'Cursor Text:'
-        ParentColor = False
-      end
-      object edtFont: TEdit
-        AnchorSideLeft.Control = Label3
-        AnchorSideLeft.Side = asrBottom
-        Left = 104
-        Height = 23
-        Top = 4
-        Width = 358
-        ReadOnly = True
+        Height = 17
+        Top = 6
+        Width = 143
+        BorderSpacing.Left = 14
+        BorderSpacing.Top = 6
+        Caption = 'Use custom font and color'
+        OnChange = chkUseCustomViewChange
         TabOrder = 0
       end
-      object btnFontSelect: TBitBtn
-        AnchorSideLeft.Control = edtFont
-        AnchorSideLeft.Side = asrBottom
-        Left = 462
-        Height = 23
-        Top = 4
-        Width = 35
-        Caption = '...'
-        NumGlyphs = 0
-        OnClick = btnFontSelectClick
+      object pnlCustomView: TPanel
+        Left = 1
+        Height = 127
+        Top = 26
+        Width = 896
+        Align = alBottom
+        BevelInner = bvLowered
+        BevelOuter = bvNone
+        ClientHeight = 127
+        ClientWidth = 896
+        Constraints.MaxHeight = 130
+        Enabled = False
         TabOrder = 1
-      end
-      object sneFontSize: TSpinEdit
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Side = asrCenter
-        Left = 575
-        Height = 23
-        Top = 4
-        Width = 48
-        MaxValue = 25
-        MinValue = 8
-        OnChange = sneFontSizeChange
-        TabOrder = 2
-        Value = 8
-      end
-      object cbCursorText: TColorBox
-        AnchorSideTop.Side = asrBottom
-        Left = 608
-        Height = 33
-        Top = 96
-        Width = 144
-        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-        BorderSpacing.Top = 8
-        ItemHeight = 16
-        OnChange = cbCursorTextChange
-        OnDropDown = cbTextColorDropDown
-        TabOrder = 3
-      end
-      object cbCursorColor: TColorBox
-        AnchorSideTop.Side = asrBottom
-        Left = 608
-        Height = 33
-        Top = 66
-        Width = 144
-        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-        BorderSpacing.Top = 8
-        ItemHeight = 16
-        OnChange = cbCursorColorChange
-        OnDropDown = cbTextColorDropDown
-        TabOrder = 4
-      end
-      object cbMarkColor: TColorBox
-        AnchorSideTop.Side = asrBottom
-        Left = 608
-        Height = 33
-        Top = 36
-        Width = 144
-        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-        BorderSpacing.Top = 8
-        ItemHeight = 16
-        OnChange = cbMarkColorChange
-        OnDropDown = cbTextColorDropDown
-        TabOrder = 5
-      end
-      object cbBackColor2: TColorBox
-        AnchorSideTop.Side = asrBottom
-        Left = 160
-        Height = 33
-        Top = 96
-        Width = 144
-        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-        BorderSpacing.Top = 8
-        ItemHeight = 16
-        OnChange = cbBackColor2Change
-        OnDropDown = cbTextColorDropDown
-        TabOrder = 6
-      end
-      object cbBackColor: TColorBox
-        AnchorSideTop.Side = asrBottom
-        Left = 160
-        Height = 33
-        Top = 66
-        Width = 144
-        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-        BorderSpacing.Top = 8
-        ItemHeight = 16
-        OnChange = cbBackColorChange
-        OnDropDown = cbTextColorDropDown
-        TabOrder = 7
-      end
-      object cbTextColor: TColorBox
-        Left = 160
-        Height = 33
-        Top = 36
-        Width = 144
-        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-        ItemHeight = 16
-        OnChange = cbTextColorChange
-        OnDropDown = cbTextColorDropDown
-        TabOrder = 8
-      end
-      object btnForeColor: TButton
-        AnchorSideLeft.Control = cbTextColor
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbTextColor
-        AnchorSideBottom.Control = cbTextColor
-        AnchorSideBottom.Side = asrBottom
-        Left = 310
-        Height = 33
-        Top = 36
-        Width = 28
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        BorderSpacing.InnerBorder = 4
-        Caption = '>>'
-        OnClick = btnForeColorClick
-        TabOrder = 9
-      end
-      object btnBackColor: TButton
-        AnchorSideLeft.Control = cbBackColor
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbBackColor
-        AnchorSideBottom.Control = cbBackColor
-        AnchorSideBottom.Side = asrBottom
-        Left = 310
-        Height = 33
-        Top = 66
-        Width = 28
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        BorderSpacing.InnerBorder = 4
-        Caption = '>>'
-        OnClick = btnBackColorClick
-        TabOrder = 10
-      end
-      object btnBackColor2: TButton
-        AnchorSideLeft.Control = cbBackColor2
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbBackColor2
-        AnchorSideBottom.Control = cbBackColor2
-        AnchorSideBottom.Side = asrBottom
-        Left = 310
-        Height = 33
-        Top = 96
-        Width = 28
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        BorderSpacing.InnerBorder = 4
-        Caption = '>>'
-        OnClick = btnBackColor2Click
-        TabOrder = 11
-      end
-      object btnMarkColor: TButton
-        AnchorSideLeft.Control = cbMarkColor
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbMarkColor
-        AnchorSideBottom.Control = cbMarkColor
-        AnchorSideBottom.Side = asrBottom
-        Left = 758
-        Height = 33
-        Top = 36
-        Width = 28
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        BorderSpacing.InnerBorder = 4
-        Caption = '>>'
-        OnClick = btnMarkColorClick
-        TabOrder = 12
-      end
-      object btnCursorColor: TButton
-        AnchorSideLeft.Control = cbCursorColor
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbCursorColor
-        AnchorSideBottom.Control = cbCursorColor
-        AnchorSideBottom.Side = asrBottom
-        Left = 758
-        Height = 33
-        Top = 66
-        Width = 28
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        BorderSpacing.InnerBorder = 4
-        Caption = '>>'
-        OnClick = btnCursorColorClick
-        TabOrder = 13
-      end
-      object btnCursorText: TButton
-        AnchorSideLeft.Control = cbCursorText
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbCursorText
-        AnchorSideBottom.Control = cbCursorText
-        AnchorSideBottom.Side = asrBottom
-        Left = 758
-        Height = 33
-        Top = 96
-        Width = 28
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        BorderSpacing.InnerBorder = 4
-        Caption = '>>'
-        OnClick = btnCursorTextClick
-        TabOrder = 14
-      end
-      object ResCurText: TButton
-        AnchorSideLeft.Control = btnCursorText
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbCursorText
-        AnchorSideBottom.Control = cbCursorText
-        AnchorSideBottom.Side = asrBottom
-        Left = 792
-        Height = 33
-        Top = 96
-        Width = 30
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        Caption = 'R'
-        OnClick = ResCurTextClick
-        TabOrder = 15
-      end
-      object ResCurCol: TButton
-        AnchorSideLeft.Control = btnCursorColor
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbCursorColor
-        AnchorSideBottom.Control = cbCursorColor
-        AnchorSideBottom.Side = asrBottom
-        Left = 792
-        Height = 33
-        Top = 66
-        Width = 30
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        Caption = 'R'
-        OnClick = ResCurColClick
-        TabOrder = 16
-      end
-      object ResMark: TButton
-        AnchorSideLeft.Control = btnMarkColor
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbMarkColor
-        AnchorSideBottom.Control = cbMarkColor
-        AnchorSideBottom.Side = asrBottom
-        Left = 792
-        Height = 33
-        Top = 36
-        Width = 30
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        Caption = 'R'
-        OnClick = ResMarkClick
-        TabOrder = 17
-      end
-      object ResBack2: TButton
-        AnchorSideLeft.Control = btnBackColor2
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbBackColor2
-        AnchorSideBottom.Control = cbBackColor2
-        AnchorSideBottom.Side = asrBottom
-        Left = 344
-        Height = 33
-        Top = 96
-        Width = 30
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        Caption = 'R'
-        OnClick = ResBack2Click
-        TabOrder = 18
-      end
-      object ResBack: TButton
-        AnchorSideLeft.Control = btnBackColor
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbBackColor
-        AnchorSideBottom.Control = cbBackColor
-        AnchorSideBottom.Side = asrBottom
-        Left = 344
-        Height = 33
-        Top = 66
-        Width = 30
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        Caption = 'R'
-        OnClick = ResBackClick
-        TabOrder = 19
-      end
-      object ResText: TButton
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbTextColor
-        AnchorSideBottom.Control = cbTextColor
-        AnchorSideBottom.Side = asrBottom
-        Left = 344
-        Height = 33
-        Top = 36
-        Width = 30
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        Caption = 'R'
-        OnClick = ResTextClick
-        TabOrder = 20
-      end
-      object cbOverColor: TCheckBox
-        Tag = 1
-        AnchorSideLeft.Control = btnAllFont
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = btnAllFont
-        AnchorSideTop.Side = asrCenter
-        Left = 711
-        Height = 21
-        Top = 5
-        Width = 120
-        BorderSpacing.Left = 6
-        Caption = 'Allow Overcolor'
-        OnChange = cbOvercolorChange
-        TabOrder = 21
-      end
-      object btnAllText: TButton
-        Tag = 1
-        AnchorSideLeft.Control = ResText
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbTextColor
-        AnchorSideBottom.Control = cbTextColor
-        AnchorSideBottom.Side = asrBottom
-        Left = 380
-        Height = 33
-        Top = 36
-        Width = 40
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        Caption = 'All'
-        OnClick = btnAllTextClick
-        TabOrder = 22
-      end
-      object btnAllBack: TButton
-        Tag = 2
-        AnchorSideLeft.Control = ResBack
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbBackColor
-        AnchorSideBottom.Control = cbBackColor
-        AnchorSideBottom.Side = asrBottom
-        Left = 380
-        Height = 33
-        Top = 66
-        Width = 40
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        Caption = 'All'
-        OnClick = btnAllTextClick
-        TabOrder = 23
-      end
-      object btnAllBack2: TButton
-        Tag = 3
-        AnchorSideLeft.Control = ResBack2
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbBackColor2
-        AnchorSideBottom.Control = cbBackColor2
-        AnchorSideBottom.Side = asrBottom
-        Left = 380
-        Height = 33
-        Top = 96
-        Width = 40
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        Caption = 'All'
-        OnClick = btnAllTextClick
-        TabOrder = 24
-      end
-      object btnAllCurCol: TButton
-        Tag = 5
-        AnchorSideLeft.Control = ResCurCol
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbCursorColor
-        AnchorSideBottom.Control = cbCursorColor
-        AnchorSideBottom.Side = asrBottom
-        Left = 828
-        Height = 33
-        Top = 66
-        Width = 40
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        Caption = 'All'
-        OnClick = btnAllTextClick
-        TabOrder = 25
-      end
-      object btnAllCurText: TButton
-        Tag = 6
-        AnchorSideLeft.Control = ResCurText
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbCursorText
-        AnchorSideBottom.Control = cbCursorText
-        AnchorSideBottom.Side = asrBottom
-        Left = 828
-        Height = 33
-        Top = 96
-        Width = 40
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        Caption = 'All'
-        OnClick = btnAllTextClick
-        TabOrder = 26
-      end
-      object btnAllMarc: TButton
-        Tag = 4
-        AnchorSideLeft.Control = ResMark
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = cbMarkColor
-        AnchorSideBottom.Control = cbMarkColor
-        AnchorSideBottom.Side = asrBottom
-        Left = 828
-        Height = 33
-        Top = 36
-        Width = 40
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        Caption = 'All'
-        OnClick = btnAllTextClick
-        TabOrder = 27
-      end
-      object ResFont: TButton
-        AnchorSideLeft.Control = sneFontSize
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = sneFontSize
-        AnchorSideBottom.Control = sneFontSize
-        AnchorSideBottom.Side = asrBottom
-        Left = 629
-        Height = 23
-        Top = 4
-        Width = 30
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        Caption = 'R'
-        OnClick = ResFontClick
-        TabOrder = 28
-      end
-      object btnAllFont: TButton
-        AnchorSideLeft.Control = ResFont
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = ResFont
-        AnchorSideBottom.Control = ResFont
-        AnchorSideBottom.Side = asrBottom
-        Left = 665
-        Height = 23
-        Top = 4
-        Width = 40
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 6
-        Caption = 'All'
-        OnClick = btnAllTextClick
-        TabOrder = 29
+        object Label3: TLabel
+          Left = 14
+          Height = 14
+          Top = 9
+          Width = 90
+          Anchors = [akTop, akLeft, akRight]
+          Caption = 'Font:'
+          ParentColor = False
+        end
+        object edtFont: TEdit
+          AnchorSideLeft.Control = Label3
+          AnchorSideLeft.Side = asrBottom
+          Left = 104
+          Height = 21
+          Top = 4
+          Width = 358
+          ReadOnly = True
+          TabOrder = 0
+        end
+        object btnFontSelect: TBitBtn
+          AnchorSideLeft.Control = edtFont
+          AnchorSideLeft.Side = asrBottom
+          Left = 462
+          Height = 23
+          Top = 4
+          Width = 35
+          Caption = '...'
+          NumGlyphs = 0
+          OnClick = btnFontSelectClick
+          TabOrder = 1
+        end
+        object Label4: TLabel
+          AnchorSideLeft.Control = btnFontSelect
+          AnchorSideLeft.Side = asrBottom
+          Left = 507
+          Height = 14
+          Top = 9
+          Width = 68
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Left = 10
+          Caption = 'Size:'
+          ParentColor = False
+        end
+        object sneFontSize: TSpinEdit
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Side = asrCenter
+          Left = 575
+          Height = 21
+          Top = 4
+          Width = 48
+          MaxValue = 25
+          MinValue = 8
+          OnChange = sneFontSizeChange
+          TabOrder = 2
+          Value = 8
+        end
+        object ResFont: TButton
+          AnchorSideLeft.Control = sneFontSize
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = sneFontSize
+          AnchorSideBottom.Control = sneFontSize
+          AnchorSideBottom.Side = asrBottom
+          Left = 629
+          Height = 21
+          Top = 4
+          Width = 30
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          Caption = 'R'
+          OnClick = ResFontClick
+          TabOrder = 3
+        end
+        object btnAllFont: TButton
+          AnchorSideLeft.Control = ResFont
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = ResFont
+          AnchorSideBottom.Control = ResFont
+          AnchorSideBottom.Side = asrBottom
+          Left = 665
+          Height = 21
+          Top = 4
+          Width = 40
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          Caption = 'All'
+          OnClick = btnAllTextClick
+          TabOrder = 4
+        end
+        object cbOverColor: TCheckBox
+          Tag = 1
+          AnchorSideLeft.Control = btnAllFont
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = btnAllFont
+          AnchorSideTop.Side = asrCenter
+          Left = 711
+          Height = 17
+          Top = 6
+          Width = 93
+          BorderSpacing.Left = 6
+          Caption = 'Allow Overcolor'
+          OnChange = cbOvercolorChange
+          TabOrder = 5
+        end
+        object cTextLabel: TLabel
+          AnchorSideTop.Side = asrCenter
+          Left = 14
+          Height = 14
+          Top = 41
+          Width = 146
+          Anchors = [akTop, akLeft, akRight]
+          Caption = 'Text Color:'
+          ParentColor = False
+        end
+        object cBackGrndLabel: TLabel
+          AnchorSideTop.Side = asrCenter
+          Left = 14
+          Height = 14
+          Top = 71
+          Width = 146
+          Anchors = [akTop, akLeft, akRight]
+          Caption = 'BackGround:'
+          ParentColor = False
+        end
+        object lblBackground2: TLabel
+          AnchorSideTop.Side = asrCenter
+          Left = 14
+          Height = 14
+          Top = 101
+          Width = 146
+          Anchors = [akTop, akLeft, akRight]
+          Caption = 'Background 2:'
+          ParentColor = False
+        end
+        object cbTextColor: TColorBox
+          Left = 160
+          Height = 22
+          Top = 36
+          Width = 144
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          ItemHeight = 16
+          OnChange = cbTextColorChange
+          OnDropDown = cbTextColorDropDown
+          TabOrder = 6
+        end
+        object cbBackColor: TColorBox
+          AnchorSideTop.Side = asrBottom
+          Left = 160
+          Height = 22
+          Top = 66
+          Width = 144
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          BorderSpacing.Top = 8
+          ItemHeight = 16
+          OnChange = cbBackColorChange
+          OnDropDown = cbTextColorDropDown
+          TabOrder = 7
+        end
+        object cbBackColor2: TColorBox
+          AnchorSideTop.Side = asrBottom
+          Left = 160
+          Height = 22
+          Top = 96
+          Width = 144
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          BorderSpacing.Top = 8
+          ItemHeight = 16
+          OnChange = cbBackColor2Change
+          OnDropDown = cbTextColorDropDown
+          TabOrder = 8
+        end
+        object btnForeColor: TButton
+          AnchorSideLeft.Control = cbTextColor
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbTextColor
+          AnchorSideBottom.Control = cbTextColor
+          AnchorSideBottom.Side = asrBottom
+          Left = 310
+          Height = 22
+          Top = 36
+          Width = 28
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          BorderSpacing.InnerBorder = 4
+          Caption = '>>'
+          OnClick = btnForeColorClick
+          TabOrder = 9
+        end
+        object btnBackColor: TButton
+          AnchorSideLeft.Control = cbBackColor
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbBackColor
+          AnchorSideBottom.Control = cbBackColor
+          AnchorSideBottom.Side = asrBottom
+          Left = 310
+          Height = 22
+          Top = 66
+          Width = 28
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          BorderSpacing.InnerBorder = 4
+          Caption = '>>'
+          OnClick = btnBackColorClick
+          TabOrder = 10
+        end
+        object btnBackColor2: TButton
+          AnchorSideLeft.Control = cbBackColor2
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbBackColor2
+          AnchorSideBottom.Control = cbBackColor2
+          AnchorSideBottom.Side = asrBottom
+          Left = 310
+          Height = 22
+          Top = 96
+          Width = 28
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          BorderSpacing.InnerBorder = 4
+          Caption = '>>'
+          OnClick = btnBackColor2Click
+          TabOrder = 11
+        end
+        object ResText: TButton
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbTextColor
+          AnchorSideBottom.Control = cbTextColor
+          AnchorSideBottom.Side = asrBottom
+          Left = 344
+          Height = 22
+          Top = 36
+          Width = 30
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          Caption = 'R'
+          OnClick = ResTextClick
+          TabOrder = 12
+        end
+        object ResBack: TButton
+          AnchorSideLeft.Control = btnBackColor
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbBackColor
+          AnchorSideBottom.Control = cbBackColor
+          AnchorSideBottom.Side = asrBottom
+          Left = 344
+          Height = 22
+          Top = 66
+          Width = 30
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          Caption = 'R'
+          OnClick = ResBackClick
+          TabOrder = 13
+        end
+        object ResBack2: TButton
+          AnchorSideLeft.Control = btnBackColor2
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbBackColor2
+          AnchorSideBottom.Control = cbBackColor2
+          AnchorSideBottom.Side = asrBottom
+          Left = 344
+          Height = 22
+          Top = 96
+          Width = 30
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          Caption = 'R'
+          OnClick = ResBack2Click
+          TabOrder = 14
+        end
+        object btnAllText: TButton
+          Tag = 1
+          AnchorSideLeft.Control = ResText
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbTextColor
+          AnchorSideBottom.Control = cbTextColor
+          AnchorSideBottom.Side = asrBottom
+          Left = 380
+          Height = 22
+          Top = 36
+          Width = 40
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          Caption = 'All'
+          OnClick = btnAllTextClick
+          TabOrder = 15
+        end
+        object btnAllBack: TButton
+          Tag = 2
+          AnchorSideLeft.Control = ResBack
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbBackColor
+          AnchorSideBottom.Control = cbBackColor
+          AnchorSideBottom.Side = asrBottom
+          Left = 380
+          Height = 22
+          Top = 66
+          Width = 40
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          Caption = 'All'
+          OnClick = btnAllTextClick
+          TabOrder = 16
+        end
+        object btnAllBack2: TButton
+          Tag = 3
+          AnchorSideLeft.Control = ResBack2
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbBackColor2
+          AnchorSideBottom.Control = cbBackColor2
+          AnchorSideBottom.Side = asrBottom
+          Left = 380
+          Height = 22
+          Top = 96
+          Width = 40
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          Caption = 'All'
+          OnClick = btnAllTextClick
+          TabOrder = 17
+        end
+        object lblMarkColor: TLabel
+          AnchorSideTop.Side = asrCenter
+          Left = 458
+          Height = 14
+          Top = 41
+          Width = 150
+          Anchors = [akTop, akLeft, akRight]
+          Caption = 'Mark Color:'
+          ParentColor = False
+        end
+        object lblCursorColor: TLabel
+          AnchorSideTop.Side = asrCenter
+          Left = 458
+          Height = 14
+          Top = 70
+          Width = 150
+          Anchors = [akTop, akLeft, akRight]
+          Caption = 'Cursor Color:'
+          ParentColor = False
+        end
+        object lblCursorText: TLabel
+          Tag = 3
+          AnchorSideTop.Side = asrCenter
+          Left = 458
+          Height = 14
+          Top = 101
+          Width = 150
+          Anchors = [akTop, akLeft, akRight]
+          Caption = 'Cursor Text:'
+          ParentColor = False
+        end
+        object cbMarkColor: TColorBox
+          AnchorSideTop.Side = asrBottom
+          Left = 608
+          Height = 22
+          Top = 36
+          Width = 144
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          BorderSpacing.Top = 8
+          ItemHeight = 16
+          OnChange = cbMarkColorChange
+          OnDropDown = cbTextColorDropDown
+          TabOrder = 18
+        end
+        object cbCursorColor: TColorBox
+          AnchorSideTop.Side = asrBottom
+          Left = 608
+          Height = 22
+          Top = 66
+          Width = 144
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          BorderSpacing.Top = 8
+          ItemHeight = 16
+          OnChange = cbCursorColorChange
+          OnDropDown = cbTextColorDropDown
+          TabOrder = 19
+        end
+        object cbCursorText: TColorBox
+          AnchorSideTop.Side = asrBottom
+          Left = 608
+          Height = 22
+          Top = 96
+          Width = 144
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          BorderSpacing.Top = 8
+          ItemHeight = 16
+          OnChange = cbCursorTextChange
+          OnDropDown = cbTextColorDropDown
+          TabOrder = 20
+        end
+        object btnMarkColor: TButton
+          AnchorSideLeft.Control = cbMarkColor
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbMarkColor
+          AnchorSideBottom.Control = cbMarkColor
+          AnchorSideBottom.Side = asrBottom
+          Left = 758
+          Height = 22
+          Top = 36
+          Width = 28
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          BorderSpacing.InnerBorder = 4
+          Caption = '>>'
+          OnClick = btnMarkColorClick
+          TabOrder = 21
+        end
+        object btnCursorColor: TButton
+          AnchorSideLeft.Control = cbCursorColor
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbCursorColor
+          AnchorSideBottom.Control = cbCursorColor
+          AnchorSideBottom.Side = asrBottom
+          Left = 758
+          Height = 22
+          Top = 66
+          Width = 28
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          BorderSpacing.InnerBorder = 4
+          Caption = '>>'
+          OnClick = btnCursorColorClick
+          TabOrder = 22
+        end
+        object btnCursorText: TButton
+          AnchorSideLeft.Control = cbCursorText
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbCursorText
+          AnchorSideBottom.Control = cbCursorText
+          AnchorSideBottom.Side = asrBottom
+          Left = 758
+          Height = 22
+          Top = 96
+          Width = 28
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          BorderSpacing.InnerBorder = 4
+          Caption = '>>'
+          OnClick = btnCursorTextClick
+          TabOrder = 23
+        end
+        object ResMark: TButton
+          AnchorSideLeft.Control = btnMarkColor
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbMarkColor
+          AnchorSideBottom.Control = cbMarkColor
+          AnchorSideBottom.Side = asrBottom
+          Left = 792
+          Height = 22
+          Top = 36
+          Width = 30
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          Caption = 'R'
+          OnClick = ResMarkClick
+          TabOrder = 24
+        end
+        object ResCurCol: TButton
+          AnchorSideLeft.Control = btnCursorColor
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbCursorColor
+          AnchorSideBottom.Control = cbCursorColor
+          AnchorSideBottom.Side = asrBottom
+          Left = 792
+          Height = 22
+          Top = 66
+          Width = 30
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          Caption = 'R'
+          OnClick = ResCurColClick
+          TabOrder = 25
+        end
+        object ResCurText: TButton
+          AnchorSideLeft.Control = btnCursorText
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbCursorText
+          AnchorSideBottom.Control = cbCursorText
+          AnchorSideBottom.Side = asrBottom
+          Left = 792
+          Height = 22
+          Top = 96
+          Width = 30
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          Caption = 'R'
+          OnClick = ResCurTextClick
+          TabOrder = 26
+        end
+        object btnAllMarc: TButton
+          Tag = 4
+          AnchorSideLeft.Control = ResMark
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbMarkColor
+          AnchorSideBottom.Control = cbMarkColor
+          AnchorSideBottom.Side = asrBottom
+          Left = 828
+          Height = 22
+          Top = 36
+          Width = 40
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          Caption = 'All'
+          OnClick = btnAllTextClick
+          TabOrder = 27
+        end
+        object btnAllCurCol: TButton
+          Tag = 5
+          AnchorSideLeft.Control = ResCurCol
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbCursorColor
+          AnchorSideBottom.Control = cbCursorColor
+          AnchorSideBottom.Side = asrBottom
+          Left = 828
+          Height = 22
+          Top = 66
+          Width = 40
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          Caption = 'All'
+          OnClick = btnAllTextClick
+          TabOrder = 28
+        end
+        object btnAllCurText: TButton
+          Tag = 6
+          AnchorSideLeft.Control = ResCurText
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbCursorText
+          AnchorSideBottom.Control = cbCursorText
+          AnchorSideBottom.Side = asrBottom
+          Left = 828
+          Height = 22
+          Top = 96
+          Width = 40
+          Anchors = [akTop, akLeft, akBottom]
+          BorderSpacing.Left = 6
+          Caption = 'All'
+          OnClick = btnAllTextClick
+          TabOrder = 29
+        end
       end
     end
     object SplitterCustomize: TSplitter
@@ -722,7 +744,7 @@ object fColumnsSetConf: TfColumnsSetConf
       Cursor = crVSplit
       Left = 1
       Height = 1
-      Top = 154
+      Top = 113
       Width = 898
       Align = alBottom
       MinSize = 130
@@ -734,7 +756,7 @@ object fColumnsSetConf: TfColumnsSetConf
       AnchorSideBottom.Control = SplitterCustomize
       Left = 1
       Height = 19
-      Top = 135
+      Top = 94
       Width = 898
       Align = alBottom
       Caption = 'Customize column:'
@@ -765,8 +787,9 @@ object fColumnsSetConf: TfColumnsSetConf
     end
   end
   object Panel3: TPanel
+    Left = 0
     Height = 42
-    Top = 558
+    Top = 541
     Width = 900
     Align = alBottom
     ClientHeight = 42
@@ -774,18 +797,18 @@ object fColumnsSetConf: TfColumnsSetConf
     TabOrder = 2
     object Label2: TLabel
       Left = 24
-      Height = 18
+      Height = 14
       Top = 29
-      Width = 42
+      Width = 32
       Caption = 'Label2'
       ParentColor = False
       Visible = False
     end
     object Label1: TLabel
       Left = 24
-      Height = 18
+      Height = 14
       Top = 18
-      Width = 42
+      Width = 32
       Caption = 'Label1'
       ParentColor = False
       Visible = False
@@ -818,9 +841,10 @@ object fColumnsSetConf: TfColumnsSetConf
     end
     object ComboBox1: TComboBox
       Left = 16
-      Height = 27
+      Height = 21
       Top = -6
       Width = 100
+      ItemHeight = 13
       MaxLength = 65535
       TabOrder = 2
       Text = 'ComboBox1'
@@ -830,6 +854,7 @@ object fColumnsSetConf: TfColumnsSetConf
   object pnlGlobalSettings: TPanel
     AnchorSideTop.Control = Panel1
     AnchorSideTop.Side = asrBottom
+    Left = 0
     Height = 32
     Top = 36
     Width = 900
@@ -842,9 +867,9 @@ object fColumnsSetConf: TfColumnsSetConf
       AnchorSideTop.Control = cbCursorBorderColor
       AnchorSideTop.Side = asrCenter
       Left = 8
-      Height = 21
-      Top = 6
-      Width = 107
+      Height = 17
+      Top = 4
+      Width = 85
       BorderSpacing.Left = 8
       Caption = 'Cursor border'
       OnChange = cbCursorBorderChange
@@ -854,11 +879,13 @@ object fColumnsSetConf: TfColumnsSetConf
       AnchorSideLeft.Control = cbCursorBorder
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = pnlGlobalSettings
-      Left = 121
-      Height = 33
+      Left = 99
+      Height = 24
+      Top = 0
       Width = 144
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
       BorderSpacing.Left = 6
+      ItemHeight = 16
       OnChange = cbCursorBorderColorChange
       OnDropDown = cbTextColorDropDown
       TabOrder = 1
@@ -869,8 +896,9 @@ object fColumnsSetConf: TfColumnsSetConf
       AnchorSideTop.Control = cbCursorBorderColor
       AnchorSideBottom.Control = cbCursorBorderColor
       AnchorSideBottom.Side = asrBottom
-      Left = 271
-      Height = 33
+      Left = 249
+      Height = 24
+      Top = 0
       Width = 28
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Left = 6
@@ -893,10 +921,13 @@ object fColumnsSetConf: TfColumnsSetConf
     top = 104
   end
   object dlgfont: TFontDialog
+    MinFontSize = 0
+    MaxFontSize = 0
     left = 96
     top = 104
   end
   object dlgcolor: TColorDialog
+    Color = clBlack
     CustomColors.Strings = (
       'ColorA=000000'
       'ColorB=000080'

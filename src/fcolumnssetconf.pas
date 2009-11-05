@@ -43,34 +43,39 @@ type
   { TfColumnsSetConf }
 
   TfColumnsSetConf = class(TForm)
+    btnAllBack: TButton;
+    btnAllBack2: TButton;
+    btnAllCurCol: TButton;
+    btnAllCurText: TButton;
+    btnAllFont: TButton;
+    btnAllMarc: TButton;
+    btnAllText: TButton;
     btnBackColor: TButton;
     btnBackColor2: TButton;
+    btnCursorBorderColor: TButton;
     btnCursorColor: TButton;
     btnCursorText: TButton;
     btnFontSelect: TBitBtn;
     btnForeColor: TButton;
-    btnCursorBorderColor: TButton;
     btnMarkColor: TButton;
     btnOk: TBitBtn;
     btnCancel: TBitBtn;
     btnNext: TButton;
     btnPrev: TButton;
-    cbCursorBorder: TCheckBox;
-    cbCursorBorderColor: TColorBox;
-    ResFont: TButton;
-    btnAllFont: TButton;
-    cbOvercolor: TCheckBox;
-    ResCurText: TButton;
     cBackGrndLabel: TLabel;
     cbBackColor: TColorBox;
     cbBackColor2: TColorBox;
+    cbCursorBorder: TCheckBox;
+    cbCursorBorderColor: TColorBox;
     cbCursorColor: TColorBox;
     cbCursorText: TColorBox;
     cbMarkColor: TColorBox;
+    cbOverColor: TCheckBox;
     cbTextColor: TColorBox;
+    chkUseCustomView: TCheckBox;
+    cTextLabel: TLabel;
     dlgcolor: TColorDialog;
     ComboBox1: TComboBox;
-    cTextLabel: TLabel;
     edtFont: TEdit;
     edtNameofColumnsSet: TEdit;
     dlgfont: TFontDialog;
@@ -89,6 +94,7 @@ type
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
+    pnlCustomView: TPanel;
     pnlGlobalSettings: TPanel;
     pnlCustCont: TPanel;
     pnlCustHead: TPanel;
@@ -97,17 +103,13 @@ type
     pnlPreview: TPanel;
     pmStringGrid: TPopupMenu;
     pmFields: TPopupMenu;
-    ResCurCol: TButton;
-    ResMark: TButton;
-    ResBack2: TButton;
     ResBack: TButton;
+    ResBack2: TButton;
+    ResCurCol: TButton;
+    ResCurText: TButton;
+    ResFont: TButton;
+    ResMark: TButton;
     ResText: TButton;
-    btnAllText: TButton;
-    btnAllBack: TButton;
-    btnAllBack2: TButton;
-    btnAllCurCol: TButton;
-    btnAllCurText: TButton;
-    btnAllMarc: TButton;
     sneFontSize: TSpinEdit;
     SplitterPreview: TSplitter;
     SplitterCustomize: TSplitter;
@@ -128,6 +130,7 @@ type
     procedure cbCursorBorderChange(Sender: TObject);
     procedure cbCursorBorderColorChange(Sender: TObject);
     procedure cbOvercolorChange(Sender: TObject);
+    procedure chkUseCustomViewChange(Sender: TObject);
     procedure ResFontClick(Sender: TObject);
     procedure ResBack2Click(Sender: TObject);
     procedure ResBackClick(Sender: TObject);
@@ -213,7 +216,7 @@ uses
   uLng, uFileSystemFileSource, uOSUtils;
 
 const
-  pnlCustHeight: Integer = 130;
+  pnlCustHeight: Integer = 154;
   PnlContHeight: Integer = 180;
 
 procedure SetColorBoxColor(ColorBox: TColorBox; Color: TColor);
@@ -278,6 +281,7 @@ var i,indx:integer;
        ColumnClass.SetColumnPrm(Indx,TColPrm(stgColumns.Objects[6,i]));
      end;
 
+  ColumnClass.CustomView:= chkUseCustomView.Checked;
   ColumnClass.SetCursorBorder(cbCursorBorder.Checked);
   ColumnClass.SetCursorBorderColor(cbCursorBorderColor.Color);
 
@@ -603,6 +607,7 @@ begin
 
     PreviewPan.UpdateColumnsView;
 
+    chkUseCustomView.Checked:= ColumnClass.CustomView;
     cbCursorBorder.Checked := ColumnClass.GetCursorBorder;
     SetColorInColorBox(cbCursorBorderColor, ColumnClass.GetCursorBorderColor);
 
@@ -741,6 +746,11 @@ procedure TfColumnsSetConf.cbOvercolorChange(Sender: TObject);
 begin
   TColPrm(stgColumns.Objects[6,IndexRaw+1]).Overcolor:=cbOvercolor.Checked;
     EditorSaveResult(nil);
+end;
+
+procedure TfColumnsSetConf.chkUseCustomViewChange(Sender: TObject);
+begin
+  pnlCustomView.Enabled:= chkUseCustomView.Checked;
 end;
 
 procedure TfColumnsSetConf.ResFontClick(Sender: TObject);

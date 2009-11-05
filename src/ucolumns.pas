@@ -130,6 +130,7 @@ type
    fSetName:string;
 
    // Global settings for columns view.
+   FCustomView: Boolean;
    FCursorBorder: Boolean;
    FCursorBorderColor: TColor;
   //------------------------------------------------------
@@ -209,6 +210,7 @@ type
     //---------------------
     property ColumnsCount:Integer read GetCount;
     property Count:Integer read GetCount;
+    property CustomView: Boolean read FCustomView write FCustomView;
     property CurrentColumnsFile:string read FCurrentColumnsFile;
     property CurrentColumnsSetName:string read fSetName write fSetName;
     property SetName:string read fSetName write fSetName;
@@ -306,82 +308,98 @@ end;
 
 function TPanelColumnsClass.GetColumnFontName(const Index: integer): string;
 begin
-if Index>=Flist.Count then exit;
-  Result:=TPanelColumn(Flist[Index]).FontName;
+  if FCustomView and (Index < Flist.Count) then
+    Result:= TPanelColumn(Flist[Index]).FontName
+  else
+    Result:= gFontName;
 end;
 
 function TPanelColumnsClass.GetColumnFontSize(const Index: integer): integer;
 begin
-if Index>=Flist.Count then exit;
-  Result:=TPanelColumn(Flist[Index]).FontSize;
+  if FCustomView and (Index < Flist.Count) then
+    Result:= TPanelColumn(Flist[Index]).FontSize
+  else
+    Result:= gFontSize;
 end;
 
 function TPanelColumnsClass.GetColumnFontStyle(const Index: Integer): TFontStyles;
 begin
-if Index>=Flist.Count then exit;
-  Result:=TPanelColumn(Flist[Index]).FontStyle;
+  if FCustomView and (Index < Flist.Count) then
+    Result:= TPanelColumn(Flist[Index]).FontStyle
+  else
+    Result:= gFontStyle;
 end;
 
 function TPanelColumnsClass.GetColumnOvercolor(const Index: integer): boolean;
 begin
-if Index>=Flist.Count then
-begin
-  result:=true;
-  exit;
-end;
-  Result:=TPanelColumn(Flist[Index]).Overcolor;
+  if FCustomView and (Index < Flist.Count) then
+    Result:= TPanelColumn(Flist[Index]).Overcolor
+  else
+    Result:= True;
 end;
 
 function TPanelColumnsClass.GetColumnTextColor(const Index: integer): TColor;
 begin
-if Index>=Flist.Count then exit;
-  Result:=TPanelColumn(Flist[Index]).TextColor;
+  if FCustomView and (Index < Flist.Count) then
+    Result:= TPanelColumn(Flist[Index]).TextColor
+  else
+    Result:= gForeColor;
 end;
 
 function TPanelColumnsClass.GetColumnBackground(const Index: integer): TColor;
 begin
-if Index>=Flist.Count then exit;
-  Result:=TPanelColumn(Flist[Index]).Background;
+  if FCustomView and (Index < Flist.Count) then
+    Result:= TPanelColumn(Flist[Index]).Background
+  else
+    Result:= gBackColor;
 end;
 
 function TPanelColumnsClass.GetColumnBackground2(const Index: integer): TColor;
 begin
-if Index>=Flist.Count then exit;
-  Result:=TPanelColumn(Flist[Index]).Background2;
+  if FCustomView and (Index < Flist.Count) then
+    Result:= TPanelColumn(Flist[Index]).Background2
+  else
+    Result:= gBackColor2;
 end;
 
 function TPanelColumnsClass.GetColumnMarkColor(const Index: integer): TColor;
 begin
-if Index>=Flist.Count then exit;
-  Result:=TPanelColumn(Flist[Index]).MarkColor;
+  if FCustomView and (Index < Flist.Count) then
+    Result:= TPanelColumn(Flist[Index]).MarkColor
+  else
+    Result:= gMarkColor;
 end;
 
 function TPanelColumnsClass.GetColumnCursorColor(const Index: integer): TColor;
 begin
-if Index>=Flist.Count then exit;
-  Result:=TPanelColumn(Flist[Index]).CursorColor;
+  if FCustomView and (Index < Flist.Count) then
+    Result:= TPanelColumn(Flist[Index]).CursorColor
+  else
+    Result:= gCursorColor;
 end;
 
 function TPanelColumnsClass.GetColumnCursorText(const Index: integer): TColor;
 begin
-if Index>=Flist.Count then exit;
-  Result:=TPanelColumn(Flist[Index]).CursorText;
+  if FCustomView and (Index < Flist.Count) then
+    Result:= TPanelColumn(Flist[Index]).CursorText
+  else
+    Result:= gCursorText;
 end;
 
 function TPanelColumnsClass.GetColumnPrm(const Index: integer): TColPrm;
 begin
-if Index>=Flist.Count then exit;
-Result:=TColPrm.Create;
-Result.Overcolor:=GetColumnOvercolor(Index);
-Result.Background:=GetColumnBackground(Index);
-Result.Background2:=GetColumnBackground2(Index);
-Result.CursorColor:=GetColumnCursorColor(Index);
-Result.CursorText:=GetColumnCursorText(Index);
-Result.FontName:=GetColumnFontName(Index);
-Result.FontSize:=GetColumnFontSize(Index);
-Result.FontStyle:=GetColumnFontStyle(Index);
-Result.MarkColor:=GetColumnMarkColor(Index);
-Result.TextColor:=GetColumnTextColor(Index);
+  if Index >= Flist.Count then Exit;
+  Result:=TColPrm.Create;
+  Result.Overcolor:=GetColumnOvercolor(Index);
+  Result.Background:=GetColumnBackground(Index);
+  Result.Background2:=GetColumnBackground2(Index);
+  Result.CursorColor:=GetColumnCursorColor(Index);
+  Result.CursorText:=GetColumnCursorText(Index);
+  Result.FontName:=GetColumnFontName(Index);
+  Result.FontSize:=GetColumnFontSize(Index);
+  Result.FontStyle:=GetColumnFontStyle(Index);
+  Result.MarkColor:=GetColumnMarkColor(Index);
+  Result.TextColor:=GetColumnTextColor(Index);
 end;
 
 function TPanelColumnsClass.GetCursorBorder: Boolean;
@@ -552,18 +570,17 @@ end;
 
 procedure TPanelColumnsClass.SetColumnPrm(const Index: integer; Value: TColPrm);
 begin
- if Index>=Flist.Count then exit;
-SetColumnBackground(Index, Value.Background);
-SetColumnBackground2(Index, Value.Background2);
-SetColumnCursorColor(Index, Value.CursorColor);
-SetColumnCursorText(Index, Value.CursorText);
-SetColumnFontName(Index, Value.FontName);
-SetColumnFontSize(Index, Value.FontSize);
-SetColumnFontStyle(Index, Value.FontStyle);
-SetColumnMarkColor(Index, Value.MarkColor);
-SetColumnTextColor(Index, Value.TextColor);
-SetColumnOvercolor(Index,Value.Overcolor);
-
+  if Index >= Flist.Count then Exit;
+  SetColumnBackground(Index, Value.Background);
+  SetColumnBackground2(Index, Value.Background2);
+  SetColumnCursorColor(Index, Value.CursorColor);
+  SetColumnCursorText(Index, Value.CursorText);
+  SetColumnFontName(Index, Value.FontName);
+  SetColumnFontSize(Index, Value.FontSize);
+  SetColumnFontStyle(Index, Value.FontStyle);
+  SetColumnMarkColor(Index, Value.MarkColor);
+  SetColumnTextColor(Index, Value.TextColor);
+  SetColumnOvercolor(Index,Value.Overcolor);
 end;
 
 procedure TPanelColumnsClass.SetCursorBorder(ShowBorder: Boolean);
@@ -678,6 +695,7 @@ begin
            //---------------------
         end;
     //---------------------
+    FCustomView:= Ini.ReadBool(fSetName, 'CustomView', False);
     SetCursorBorder(Ini.ReadBool(fSetName, 'CursorBorder', False));
     SetCursorBorderColor(TColor(Ini.ReadInteger(fSetName, 'CursorBorderColor', gCursorColor)));
 end;
@@ -743,6 +761,7 @@ begin
 
       end;
 
+    Ini.WriteBool(fSetName, 'CustomView', FCustomView);
     Ini.WriteBool(fSetName, 'CursorBorder', GetCursorBorder);
     if GetCursorBorderColor <> clNone then
       Ini.WriteInteger(fSetName, 'CursorBorderColor', GetCursorBorderColor);
