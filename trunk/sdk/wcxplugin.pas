@@ -1,11 +1,11 @@
 { Contents of file wcxhead.pas }
 { It contains definitions of error codes, flags and callbacks }
+{ Ver. 2.20 with Unicode support }
 
 unit WcxPlugin;
 
 interface
-uses
- SysUtils {$IFNDEF FPC}, Windows {$ENDIF};
+
 const       {Error codes returned to calling application}
   E_SUCCESS=          0;       {Success}
   E_END_ARCHIVE=     10;       {No more files in archive}
@@ -66,6 +66,16 @@ const       {Error codes returned to calling application}
   MEMPACK_OK=           0;    {Function call finished OK, but there is more data}
   MEMPACK_DONE=         1;    {Function call finished OK, there is no more data}
 
+  {Flags for PkCryptProc callback}
+  PK_CRYPT_SAVE_PASSWORD=1;
+  PK_CRYPT_LOAD_PASSWORD=2;
+  PK_CRYPT_LOAD_PASSWORD_NO_UI=3;   { Load password only if master password has already been entered!}
+  PK_CRYPT_COPY_PASSWORD=4;         { Copy encrypted password to new archive name}
+  PK_CRYPT_MOVE_PASSWORD=5;         { Move password when renaming an archive}
+  PK_CRYPT_DELETE_PASSWORD=6;       { Delete password}
+
+  PK_CRYPTOPT_MASTERPASS_SET = 1;   // The user already has a master password defined
+
 type
   TArcHandle = type PtrUInt;
 
@@ -77,9 +87,19 @@ type
   {Ask to swap disk for multi-volume archive}
   PChangeVolProc=^TChangeVolProc;
   TChangeVolProc=function(ArcName:pchar;Mode:longint):longint; stdcall;
+  PChangeVolProcW=^TChangeVolProcW;
+  TChangeVolProcW=function(ArcName:pwidechar;Mode:longint):longint; stdcall;
   {Notify that data is processed - used for progress dialog}
   PProcessDataProc=^TProcessDataProc;
-  TProcessDataProc=function(FileName: PChar; Size: Integer): Integer; stdcall;
+  TProcessDataProc=function(FileName:pchar;Size:longint):longint; stdcall;
+  PProcessDataProcW=^TProcessDataProcW;
+  TProcessDataProcW=function(FileName:pwidechar;Size:longint):longint; stdcall;
+  PPkPluginCryptProc=^TPkPluginCryptProc;
+  TPkPluginCryptProc=function(CryptoNr:integer;mode:integer;ArchiveName,
+    Password:pchar;maxlen:integer):integer; stdcall;
+  PPkPluginCryptProcW=^TPkPluginCryptProcW;
+  TPkPluginCryptProcW=function(CryptoNr:integer;mode:integer;ArchiveName,
+    Password:pwidechar;maxlen:integer):integer; stdcall;
 
 type
   PHeaderData = ^THeaderData;
@@ -123,6 +143,27 @@ type
     Reserved:array[0..1023] of char;
   end;
 
+  THeaderDataExW=packed record
+    ArcName:array [0..1023] of widechar;
+    FileName:array [0..1023] of widechar;
+    Flags,
+    PackSize,
+    PackSizeHigh,
+    UnpSize,
+    UnpSizeHigh,
+    HostOS,
+    FileCRC,
+    FileTime,
+    UnpVer,
+    Method,
+    FileAttr:longint;
+    CmtBuf:pchar;
+    CmtBufSize,
+    CmtSize,
+    CmtState:longint;
+    Reserved:array[0..1023] of char;
+  end;
+
   tOpenArchiveData=packed record
     ArcName:pchar;
     OpenMode,
@@ -133,11 +174,21 @@ type
     CmtState:longint;
   end;
 
+  tOpenArchiveDataW=packed record
+    ArcName:pwidechar;
+    OpenMode,
+    OpenResult:longint;
+    CmtBuf:pwidechar;
+    CmtBufSize,
+    CmtSize,
+    CmtState:longint;
+  end;
+
   tPackDefaultParamStruct=record
     size,
     PluginInterfaceVersionLow,
     PluginInterfaceVersionHi:longint;
-    DefaultIniName:array[0..MAX_PATH-1] of char;
+    DefaultIniName:array[0..259] of char;
   end;
   pPackDefaultParamStruct=^tPackDefaultParamStruct;
 
