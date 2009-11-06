@@ -53,6 +53,7 @@ type
 
   protected
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
+    function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
 
   public
     constructor Create(anArchiveFileName: String;
@@ -201,6 +202,32 @@ end;
 function TWcxArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
   Result := TWcxArchiveFile.GetSupportedProperties;
+end;
+
+function TWcxArchiveFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
+var
+  I: Integer;
+  Header: TWCXHeader;
+begin
+  Result := False;
+  if Length(NewDir) > 0 then
+  begin
+    if NewDir = GetRootDir() then
+      Exit(True);
+
+    NewDir := IncludeTrailingPathDelimiter(NewDir);
+
+    // Search file list for a directory with name NewDir.
+    for I := 0 to FArcFileList.Count - 1 do
+    begin
+      Header := TWCXHeader(FArcFileList.Items[I]);
+      if FPS_ISDIR(Header.FileAttr) and (Length(Header.FileName) > 0) then
+      begin
+        if NewDir = IncludeTrailingPathDelimiter(GetRootDir() + Header.FileName) then
+          Exit(True);
+      end;
+    end;
+  end;
 end;
 
 function TWcxArchiveFileSource.LoadModule: Boolean;

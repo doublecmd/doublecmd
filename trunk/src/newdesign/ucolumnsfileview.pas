@@ -1132,13 +1132,14 @@ begin
     if Assigned(OnBeforeChangeDirectory) then
       if not OnBeforeChangeDirectory(Parent as TCustomPage, NewPath) then
         Exit;
-{
-    if not FileSource.ChangePath(NewPath) then
-      begin
-        msgError(Format(rsMsgChDirFailed, [NewPath]));
-        Exit;   // chdir failed
-      end;
 
+    if not FileSource.SetCurrentWorkingDirectory(NewPath) then
+    begin
+      msgError(Format(rsMsgChDirFailed, [NewPath]));
+      Exit;   // chdir failed
+    end;
+
+{
     AddDirToHistory(fActiveDir);
 }
     inherited SetCurrentPath(NewPath);
