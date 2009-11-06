@@ -26,6 +26,9 @@ type
     function IsClass(ClassType: TClass): Boolean;
 
     function GetCurrentAddress: String;
+    function GetCurrentWorkingDirectory: String;
+    function SetCurrentWorkingDirectory(NewDir: String): Boolean;
+
     function GetSupportedFileProperties: TFilePropertiesTypes;
     function GetOperationsTypes: TFileSourceOperationTypes;
     function GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
@@ -90,6 +93,17 @@ type
        etc.
     }
     function GetCurrentAddress: String; virtual;
+
+    {en
+       Retrieves the current directory of the file source.
+    }
+    function GetCurrentWorkingDirectory: String; virtual;
+    {en
+       Sets the current directory for the file source.
+       @returns(@true if path change was successful,
+                @false otherwise)
+    }
+    function SetCurrentWorkingDirectory(NewDir: String): Boolean; virtual;
 
     {en
        Returns all the properties supported by the file type of the given file source.
@@ -363,6 +377,17 @@ end;
 function TFileSource.GetCurrentAddress: String;
 begin
   Result := FCurrentAddress;
+end;
+
+function TFileSource.GetCurrentWorkingDirectory: String;
+begin
+  Result := '';
+end;
+
+function TFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
+begin
+  // By default every path setting succeeds.
+  Result := True;
 end;
 
 function TFileSource.IsPathAtRoot(Path: String): Boolean;

@@ -30,6 +30,8 @@ type
   TFileSystemFileSource = class(TLocalFileSource, IFileSystemFileSource)
 
   protected
+    function GetCurrentWorkingDirectory: String; override;
+    function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
 
   public
     constructor Create; override;
@@ -128,6 +130,21 @@ begin
   , fspCaseSensitive
 {$ENDIF}
   ];
+end;
+
+function TFileSystemFileSource.GetCurrentWorkingDirectory: String;
+begin
+  Result := mbGetCurrentDir();
+  if Result <> '' then
+    Result := IncludeTrailingPathDelimiter(Result);
+end;
+
+function TFileSystemFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
+begin
+  if not mbDirectoryExists(NewDir) then
+    Result := False
+  else
+    Result := mbSetCurrentDir(NewDir);
 end;
 
 function TFileSystemFileSource.IsPathAtRoot(Path: String): Boolean;
