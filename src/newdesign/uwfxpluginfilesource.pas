@@ -91,7 +91,7 @@ uses
 
 { CallBack functions }
 
-function MainProgressProc(PluginNr: Integer; SourceName, TargetName: PChar; PercentDone: Integer): Integer; stdcall;
+function MainProgressProc(PluginNr: Integer; SourceName, TargetName: UTF8String; PercentDone: Integer): Integer;
 var
   UpdateProgressClass: TUpdateProgressClass;
 begin
@@ -103,7 +103,27 @@ begin
 
   if not Assigned(UpdateProgressClass) then Exit;
 
-  Result:= UpdateProgressClass.UpdateProgressFunction(SysToUTF8(SourceName), SysToUTF8(TargetName), PercentDone);
+  Result:= UpdateProgressClass.UpdateProgressFunction(SourceName, TargetName, PercentDone);
+end;
+
+function MainProgressProcW(PluginNr: Integer; SourceName, TargetName: PWideChar; PercentDone: Integer): Integer; stdcall;
+var
+  sSourceName,
+  sTargetName: UTF8String;
+begin
+  sSourceName:= UTF8Encode(WideString(SourceName));
+  sTargetName:= UTF8Encode(WideString(TargetName));
+  Result:= MainProgressProc(PluginNr, sSourceName, sTargetName, PercentDone);
+end;
+
+function MainProgressProcA(PluginNr: Integer; SourceName, TargetName: PAnsiChar; PercentDone: Integer): Integer; stdcall;
+var
+  sSourceName,
+  sTargetName: UTF8String;
+begin
+  sSourceName:= SysToUTF8(StrPas(SourceName));
+  sTargetName:= SysToUTF8(StrPas(TargetName));
+  Result:= MainProgressProc(PluginNr, sSourceName, sTargetName, PercentDone);
 end;
 
 procedure MainLogProc(PluginNr, MsgType: Integer; LogString: PChar); stdcall;
@@ -289,7 +309,7 @@ begin
     with FWfxModule do
     begin
       FPluginNumber:= WfxOperationList.Add(nil);
-      FsInit(FPluginNumber, @MainProgressProc, @MainLogProc, @MainRequestProc);
+      FsInit(FPluginNumber, @MainProgressProcA, @MainLogProc, @MainRequestProc);
       if Assigned(FsSetCryptCallback) then
         FsSetCryptCallback(@CryptProc, 0, 0);
       VFSInit(0);
