@@ -82,6 +82,7 @@ procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); stdcall;
 procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo); stdcall;
 
 function ReadPassword(ConnectionName: UTF8String): AnsiString;
+function DeletePassword(ConnectionName: UTF8String): Boolean;
 
 var
   gSetDlgProcInfo: TSetDlgProcInfo;
@@ -792,6 +793,12 @@ begin
     Result:= EmptyStr;
 end;
 
+function DeletePassword(ConnectionName: UTF8String): Boolean;
+var
+  Password: AnsiString;
+begin
+  Result:= CryptFunc(FS_CRYPT_DELETE_PASSWORD, ConnectionName, Password) = FS_FILE_OK;
+end;
 
 { TFTPSendEx }
 
