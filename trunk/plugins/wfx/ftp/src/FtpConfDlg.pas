@@ -78,7 +78,14 @@ begin
           SendDlgMsg(pDlg, 'chkPassiveMode', DM_SETCHECK, Data, 0);
         end;
       DN_CHANGE:
-        if DlgItemName = 'chkSendCommand' then
+        if DlgItemName = 'chkMasterPassword' then
+          begin
+            Data:= SendDlgMsg(pDlg, 'chkMasterPassword', DM_GETCHECK, 0, 0);
+            gConnection.MasterPassword:= Boolean(Data);
+            if not gConnection.MasterPassword then
+              DeletePassword(gConnection.ConnectionName);
+          end
+        else if DlgItemName = 'chkSendCommand' then
           begin
             SendDlgMsg(pDlg, 'cmbCommand', DM_ENABLE, wParam, 0);
             SendDlgMsg(pDlg, 'edtInterval', DM_ENABLE, wParam, 0);
@@ -92,9 +99,7 @@ begin
           end
         else if DlgItemName = 'btnChangePassword' then
           begin
-            Data:= SendDlgMsg(pDlg, 'edtName', DM_GETTEXT, 0, 0);
-            wsText:= PWideChar(Data);
-            wsText:= ReadPassword(wsText);
+            wsText:= ReadPassword(gConnection.ConnectionName);
             if wsText <> EmptyStr then
               begin
                 Data:= PtrInt(PWideChar(wsText));
