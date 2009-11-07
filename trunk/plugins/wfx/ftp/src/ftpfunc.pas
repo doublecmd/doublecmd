@@ -50,6 +50,7 @@ type
     MasterPassword: Boolean;
     PassiveMode: Boolean;
     InitCommands: AnsiString;
+    PasswordChanged: Boolean;
   end;
 
 function FsInit(PluginNr: Integer; pProgressProc: TProgressProc;
@@ -79,6 +80,8 @@ procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); stdcall;
 
 { Dialog API function }
 procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo); stdcall;
+
+function ReadPassword(ConnectionName: UTF8String): AnsiString;
 
 var
   gSetDlgProcInfo: TSetDlgProcInfo;
@@ -362,9 +365,16 @@ begin
         begin
           gConnection:= TConnection(ConnectionList.Objects[I]);
           if ShowFtpConfDlg then
-            WriteConnectionList
-          else
-            gConnection:= nil;
+            begin
+              with gConnection do
+              if MasterPassword and PasswordChanged then
+                begin
+                  if CryptFunc(FS_CRYPT_SAVE_PASSWORD, ConnectionName, Password) = FS_FILE_OK then
+                    Password:= EmptyStr;
+                end;
+              WriteConnectionList;
+            end;
+          gConnection:= nil;
         end;
     end;
 end;
@@ -774,6 +784,12 @@ begin
   gSetDlgProcInfo.PluginDir := nil;
   gSetDlgProcInfo.PluginConfDir := nil;
   HasDialogAPI:= True;
+end;
+
+function ReadPassword(ConnectionName: UTF8String): AnsiString;
+begin
+  if CryptFunc(FS_CRYPT_LOAD_PASSWORD, ConnectionName, Result) <> FS_FILE_OK then
+    Result:= EmptyStr;
 end;
 
 
