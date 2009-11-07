@@ -35,9 +35,13 @@ type
 
   TPasswordStore = class(TIniFileEx)
   private
-    FMasterKey: AnsiString;
+    FMasterKey,
+    FMasterKeyHash: AnsiString;
   public
+    constructor Create(const AFileName: String; Mode: Word); override;
+    destructor Destroy; override;
     function HasMasterKey: Boolean;
+    function CheckMasterKey: Boolean;
     function WritePassword(Prefix, Name, Connection: UTF8String; const Password: AnsiString): Boolean;
     function ReadPassword(Prefix, Name, Connection: UTF8String; out Password: AnsiString): Boolean;
     function DeletePassword(Prefix, Name, Connection: UTF8String): Boolean;
@@ -54,13 +58,15 @@ type
 function Encode(MasterKey, Data: AnsiString): AnsiString;
 function Decode(MasterKey, Data: AnsiString): AnsiString;
 
+procedure InitPasswordStore;
+
 var
   PasswordStore: TPasswordStore = nil;
 
 implementation
 
 uses
-  LCLProc, Dialogs, Base64, BlowFish, uGlobsPaths, uLng;
+  LCLProc, Dialogs, Base64, BlowFish, md5, uGlobsPaths, uLng;
 
 type
   TBlowFishKeyRec = record
@@ -123,22 +129,62 @@ end;
 
 { TPasswordStore }
 
+constructor TPasswordStore.Create(const AFileName: String; Mode: Word);
+begin
+  inherited Create(AFileName, Mode);
+  FMasterKeyHash:= ReadString('General', 'MasterKey', EmptyStr);
+end;
+
+destructor TPasswordStore.Destroy;
+begin
+  WriteString('General', 'MasterKey', FMasterKeyHash);
+  inherited Destroy;
+end;
+
 function TPasswordStore.HasMasterKey: Boolean;
 begin
   Result:= (Length(FMasterKey) <> 0);
 end;
 
-function TPasswordStore.WritePassword(Prefix, Name, Connection: UTF8String;
-                                      const Password: AnsiString): Boolean;
+function TPasswordStore.CheckMasterKey: Boolean;
 var
-  Data: AnsiString;
+  MasterKey,
+  MasterKeyHash: AnsiString;
 begin
   Result:= False;
   if Length(FMasterKey) = 0 then
     begin
-      if not InputQuery(rsMsgMasterPassword, rsMsgMasterPasswordEnter, True, FMasterKey) then
+      if not InputQuery(rsMsgMasterPassword, rsMsgMasterPasswordEnter, True, MasterKey) then
         Exit;
+      if Length(MasterKey) = 0 then Exit;
     end;
+  MasterKeyHash:= Encode(MasterKey, MasterKey);
+  MasterKeyHash:= MD5Print(MD5String(MasterKeyHash));
+  if FMasterKeyHash = EmptyStr then
+    begin
+      FMasterKeyHash:= MasterKeyHash;
+      FMasterKey:= MasterKey;
+      Result:= True;
+    end
+  else if SameText(FMasterKeyHash, MasterKeyHash) then
+    begin
+      FMasterKey:= MasterKey;
+      Result:= True;
+    end
+  else
+    begin
+      MessageDlg('Error!', 'Wrong password!'#13'Please try again!', mtError, [mbOK], 0);
+    end;
+end;
+
+function TPasswordStore.WritePassword(Prefix, Name, Connection: UTF8String;
+                                      const Password: AnsiString): Boolean;
+var
+  Data,
+  MasterKey: AnsiString;
+begin
+  Result:= False;
+  if CheckMasterKey = False then Exit;
   Data:= Encode(FMasterKey, Password);
   if Data = EmptyStr then
     raise EEncryptDecryptFailed.Create;
@@ -152,11 +198,7 @@ var
   Data: AnsiString;
 begin
   Result:= False;
-  if Length(FMasterKey) = 0 then
-    begin
-      if not InputQuery(rsMsgMasterPassword, rsMsgMasterPasswordEnter, True, FMasterKey) then
-        Exit;
-    end;
+  if CheckMasterKey = False then Exit;
   Data:= ReadString(Prefix + '_' + Name, Connection, Data);
   if Data = EmptyStr then
     raise EEncryptDecryptFailed.Create;
@@ -184,9 +226,6 @@ constructor EEncryptDecryptFailed.Create;
 begin
   inherited Create('Encrypt/Decrypt failed');
 end;
-
-initialization
-  InitPasswordStore;
 
 finalization
   FreeThenNil(PasswordStore);

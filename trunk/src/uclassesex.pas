@@ -58,7 +58,7 @@ type
   private
     FIniFileStream: TFileStreamEx;
   public
-    constructor Create(const AFileName: String; Mode: Word);
+    constructor Create(const AFileName: String; Mode: Word); virtual;
     constructor Create(const AFileName: string; AEscapeLineFeeds : Boolean = False); override;
     destructor Destroy; override;
     procedure UpdateFile; override;
