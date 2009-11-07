@@ -23,6 +23,7 @@ uses
   fAbout,
   fMkDir,
   dmHigh, dmHelpManager, dmCommonData,
+  uCryptProc,
   uPixMapManager,
   uKeyboard;
 
@@ -68,6 +69,7 @@ begin
   Application.CreateForm(TfrmHackForm, frmHackForm);
   if LoadGlobs then
      begin
+       InitPasswordStore;
        LoadPixMapManager;
        Application.CreateForm(TfrmMain, frmMain); // main form
        Application.CreateForm(TdmHighl, dmHighl); // highlighters
