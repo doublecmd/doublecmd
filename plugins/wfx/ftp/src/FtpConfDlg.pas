@@ -90,6 +90,21 @@ begin
             Data:= PtrInt(PWideChar(wsText));
             SendDlgMsg(pDlg, 'edtUserName', DM_SETTEXT, Data, 0);
           end
+        else if DlgItemName = 'btnChangePassword' then
+          begin
+            Data:= SendDlgMsg(pDlg, 'edtName', DM_GETTEXT, 0, 0);
+            wsText:= PWideChar(Data);
+            wsText:= ReadPassword(wsText);
+            if wsText <> EmptyStr then
+              begin
+                Data:= PtrInt(PWideChar(wsText));
+                SendDlgMsg(pDlg, 'edtPassword', DM_SETTEXT, Data, 0);
+                SendDlgMsg(pDlg, 'edtPassword', DM_SHOWITEM, 1, 0);
+                SendDlgMsg(pDlg, 'btnChangePassword', DM_SHOWITEM, 0, 0);
+                SendDlgMsg(pDlg, 'chkMasterPassword', DM_ENABLE, 1, 0);
+                gConnection.PasswordChanged:= True;
+              end;
+          end
         else if DlgItemName = 'btnOK' then
           begin
             Data:= SendDlgMsg(pDlg, 'edtName', DM_GETTEXT, 0, 0);

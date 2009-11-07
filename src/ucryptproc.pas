@@ -152,12 +152,10 @@ var
   MasterKeyHash: AnsiString;
 begin
   Result:= False;
-  if Length(FMasterKey) = 0 then
-    begin
-      if not InputQuery(rsMsgMasterPassword, rsMsgMasterPasswordEnter, True, MasterKey) then
-        Exit;
-      if Length(MasterKey) = 0 then Exit;
-    end;
+  if Length(FMasterKey) <> 0 then Exit(True);
+  if not InputQuery(rsMsgMasterPassword, rsMsgMasterPasswordEnter, True, MasterKey) then
+    Exit;
+  if Length(MasterKey) = 0 then Exit;
   MasterKeyHash:= Encode(MasterKey, MasterKey);
   MasterKeyHash:= MD5Print(MD5String(MasterKeyHash));
   if FMasterKeyHash = EmptyStr then
