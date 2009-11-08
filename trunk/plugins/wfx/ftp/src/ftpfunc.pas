@@ -474,7 +474,7 @@ begin
       begin
         FillChar(FindData, SizeOf(FindData), 0);
         StrPCopy(FindData.cFileName, FtpSend.FtpList.Items[I].FileName);
-        FindData.dwFileAttributes := FindData.dwFileAttributes or faUnixMode;
+        FindData.dwFileAttributes := FindData.dwFileAttributes or FILE_ATTRIBUTE_UNIX_MODE;
         if FtpSend.FtpList.Items[I].Directory then
           FindData.dwFileAttributes := FindData.dwFileAttributes or FILE_ATTRIBUTE_DIRECTORY
         else
