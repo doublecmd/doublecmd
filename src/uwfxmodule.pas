@@ -130,6 +130,9 @@ type
     function WfxFindNext(Hdl: THandle; var FindData: TWfxFindData): Boolean;
     procedure WfxStatusInfo(RemoteDir: UTF8String; InfoStartEnd, InfoOperation: Integer);
     function WfxExecuteFile(MainWin: HWND; var RemoteName: UTF8String; Verb: UTF8String): Integer;
+    function WfxRenMovFile(OldName, NewName: UTF8String; Move, OverWrite: Boolean; RemoteInfo: PRemoteInfo): Integer;
+    function WfxGetFile(RemoteName, LocalName: UTF8String; CopyFlags: Integer; RemoteInfo: PRemoteInfo): Integer;
+    function WfxPutFile(LocalName, RemoteName: UTF8String; CopyFlags: Integer): Integer;
     function WfxSetAttr(RemoteName: UTF8String; NewAttr: LongInt): Boolean;
     function WfxSetTime(RemoteName: UTF8String; CreationTime, LastAccessTime, LastWriteTime: TFileTime): Boolean;
     function WfxMkDir(const sBasePath, sDirName: UTF8String): LongInt;
@@ -308,6 +311,35 @@ begin
           RemoteName:= SysToUTF8(StrPas(pacRemoteName));
       FreeMem(pacRemoteName);
     end;
+end;
+
+function TWFXModule.WfxRenMovFile(OldName, NewName: UTF8String; Move,
+                                  OverWrite: Boolean; RemoteInfo: PRemoteInfo): Integer;
+begin
+  Result:= FS_FILE_NOTSUPPORTED;
+  if Assigned(FsRenMovFileW) then
+    Result:= FsRenMovFileW(PWideChar(UTF8Decode(OldName)), PWideChar(UTF8Decode(NewName)), Move, OverWrite, RemoteInfo)
+  else if Assigned(FsRenMovFile) then
+    Result:= FsRenMovFile(PAnsiChar(UTF8ToSys(OldName)), PAnsiChar(UTF8ToSys(NewName)), Move, OverWrite, RemoteInfo);
+end;
+
+function TWFXModule.WfxGetFile(RemoteName, LocalName: UTF8String;
+                               CopyFlags: Integer; RemoteInfo: PRemoteInfo): Integer;
+begin
+  Result:= FS_FILE_NOTSUPPORTED;
+  if Assigned(FsGetFileW) then
+    Result:= FsGetFileW(PWideChar(UTF8Decode(RemoteName)), PWideChar(UTF8Decode(LocalName)), CopyFlags, RemoteInfo)
+  else if Assigned(FsGetFile) then
+    Result:= FsGetFile(PAnsiChar(UTF8ToSys(RemoteName)), PAnsiChar(UTF8ToSys(LocalName)), CopyFlags, RemoteInfo);
+end;
+
+function TWFXModule.WfxPutFile(LocalName, RemoteName: UTF8String; CopyFlags: Integer): Integer;
+begin
+  Result:= FS_FILE_NOTSUPPORTED;
+  if Assigned(FsPutFileW) then
+    Result:= FsPutFileW(PWideChar(UTF8Decode(LocalName)), PWideChar(UTF8Decode(RemoteName)), CopyFlags)
+  else if Assigned(FsPutFile) then
+    Result:= FsPutFile(PAnsiChar(UTF8ToSys(LocalName)), PAnsiChar(UTF8ToSys(RemoteName)), CopyFlags);
 end;
 
 function TWFXModule.WfxSetAttr(RemoteName: UTF8String; NewAttr: LongInt): Boolean;
