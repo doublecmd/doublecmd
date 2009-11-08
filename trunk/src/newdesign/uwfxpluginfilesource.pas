@@ -459,25 +459,21 @@ function TWfxPluginFileSource.WfxCopyMove(sSourceFile, sTargetFile: UTF8String;
 var
   bMove,
   bOverWrite: Boolean;
-  pcSourceName,
-  pcTargetName: PChar;
 begin
   with FWfxModule do
   begin
-    pcSourceName:= PChar(UTF8ToSys(sSourceFile));
-    pcTargetName:= PChar(UTF8ToSys(sTargetFile));
     if Internal then
       begin
         bMove:= ((Flags and FS_COPYFLAGS_MOVE) <> 0);
         bOverWrite:= ((Flags and FS_COPYFLAGS_OVERWRITE) <> 0);
-        Result:= FsRenMovFile(pcSourceName, pcTargetName, bMove, bOverWrite, RemoteInfo);
+        Result:= WfxRenMovFile(sSourceFile, sTargetFile, bMove, bOverWrite, RemoteInfo);
       end
     else
       begin
         if CopyMoveIn then
-          Result:= FsPutFile(pcSourceName, pcTargetName, Flags)
+          Result:= WfxPutFile(sSourceFile, sTargetFile, Flags)
         else
-          Result:= FsGetFile(pcSourceName, pcTargetName, Flags, RemoteInfo);
+          Result:= WfxGetFile(sSourceFile, sTargetFile, Flags, RemoteInfo);
       end;
   end;
 end;
