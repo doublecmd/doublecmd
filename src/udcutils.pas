@@ -252,6 +252,7 @@ function StrNewW(const mbString: UTF8String): PWideChar;
 procedure StrDisposeW(var pStr : PWideChar);
 function StrLCopyW(Dest, Source: PWideChar; MaxLen: SizeInt): PWideChar;
 function StrPCopyW(Dest: PWideChar; const Source: WideString): PWideChar;
+function StrPLCopyW(Dest: PWideChar; const Source: WideString; MaxLen: Cardinal): PWideChar;
 {en
    Convert a number specified as an octal number to it's decimal value.
    @param(Value Octal number as string)
@@ -909,6 +910,11 @@ end;
 function StrPCopyW(Dest: PWideChar; const Source: WideString): PWideChar;
 begin
   Result := StrLCopyW(Dest, PWideChar(Source), Length(Source));
+end;
+
+function StrPLCopyW(Dest: PWideChar; const Source: WideString; MaxLen: Cardinal): PWideChar;
+begin
+  Result := StrLCopyW(Dest, PWideChar(Source), MaxLen);
 end;
 
 function OctToDec(Value: String): LongInt;
