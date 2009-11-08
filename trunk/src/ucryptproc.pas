@@ -156,8 +156,8 @@ begin
   if not InputQuery(rsMsgMasterPassword, rsMsgMasterPasswordEnter, True, MasterKey) then
     Exit;
   if Length(MasterKey) = 0 then Exit;
-  MasterKeyHash:= Encode(MasterKey, MasterKey);
-  MasterKeyHash:= MD5Print(MD5String(MasterKeyHash));
+  MasterKeyHash:= MD5Print(MD5String(MasterKey));
+  MasterKeyHash:= Encode(MasterKey, MasterKeyHash);
   if FMasterKeyHash = EmptyStr then
     begin
       FMasterKeyHash:= MasterKeyHash;
