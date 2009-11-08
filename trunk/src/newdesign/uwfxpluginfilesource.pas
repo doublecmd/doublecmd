@@ -106,16 +106,6 @@ begin
   Result:= UpdateProgressClass.UpdateProgressFunction(SourceName, TargetName, PercentDone);
 end;
 
-function MainProgressProcW(PluginNr: Integer; SourceName, TargetName: PWideChar; PercentDone: Integer): Integer; stdcall;
-var
-  sSourceName,
-  sTargetName: UTF8String;
-begin
-  sSourceName:= UTF8Encode(WideString(SourceName));
-  sTargetName:= UTF8Encode(WideString(TargetName));
-  Result:= MainProgressProc(PluginNr, sSourceName, sTargetName, PercentDone);
-end;
-
 function MainProgressProcA(PluginNr: Integer; SourceName, TargetName: PAnsiChar; PercentDone: Integer): Integer; stdcall;
 var
   sSourceName,
@@ -126,7 +116,17 @@ begin
   Result:= MainProgressProc(PluginNr, sSourceName, sTargetName, PercentDone);
 end;
 
-procedure MainLogProc(PluginNr, MsgType: Integer; LogString: PChar); stdcall;
+function MainProgressProcW(PluginNr: Integer; SourceName, TargetName: PWideChar; PercentDone: Integer): Integer; stdcall;
+var
+  sSourceName,
+  sTargetName: UTF8String;
+begin
+  sSourceName:= UTF8Encode(WideString(SourceName));
+  sTargetName:= UTF8Encode(WideString(TargetName));
+  Result:= MainProgressProc(PluginNr, sSourceName, sTargetName, PercentDone);
+end;
+
+procedure MainLogProc(PluginNr, MsgType: Integer; LogString: UTF8String);
 var
   sMsg: String;
   LogMsgType: TLogMsgType = lmtInfo;
@@ -159,84 +159,118 @@ Begin
   //DebugLN('MainLogProc ('+ sMsg + ',' + logString + ')');
 end;
 
-function MainRequestProc(PluginNr, RequestType: Integer; CustomTitle, CustomText, ReturnedText: PChar; MaxLen: Integer): Bool; stdcall;
+procedure MainLogProcA(PluginNr, MsgType: Integer; LogString: PAnsiChar); stdcall;
+begin
+  MainLogProc(PluginNr, MsgType, SysToUTF8(StrPas(LogString)));
+end;
+
+procedure MainLogProcW(PluginNr, MsgType: Integer; LogString: PWideChar); stdcall;
+begin
+  MainLogProc(PluginNr, MsgType, UTF8Encode(WideString(LogString)));
+end;
+
+function MainRequestProc(PluginNr, RequestType: Integer; CustomTitle, CustomText: UTF8String; var ReturnedText: UTF8String): Bool;
 var
-  sReq,
-  sCustomTitle,
-  sReturnedText: String;
+  sReq: UTF8String;
 begin
   Result:= False;
   // Use operation UI for this?
   if CustomTitle = '' then
-    sCustomTitle:= 'Double Commander'
-  else
-    sCustomTitle:= CustomTitle;
-  sReturnedText:= StrPas(ReturnedText);
+    CustomTitle:= 'Double Commander';
 
   case RequestType of
     RT_Other:
       begin
         sReq:= 'RT_Other';
-        Result:= InputQuery(sCustomTitle, CustomText, sReturnedText);
+        Result:= InputQuery(CustomTitle, CustomText, ReturnedText);
       end;
     RT_UserName:
       begin
         sReq:= 'RT_UserName';
-        Result:= InputQuery(sCustomTitle, 'User name:', sReturnedText);
+        Result:= InputQuery(CustomTitle, 'User name:', ReturnedText);
       end;
     RT_Password:
       begin
         sReq:= 'RT_Password';
-        Result:= InputQuery(sCustomTitle, 'Password:', True, sReturnedText);
+        Result:= InputQuery(CustomTitle, 'Password:', True, ReturnedText);
       end;
     RT_Account:
       begin
         sReq:= 'RT_Account';
-        Result:= InputQuery(sCustomTitle, 'Account request', sReturnedText);
+        Result:= InputQuery(CustomTitle, 'Account request', ReturnedText);
       end;
     RT_UserNameFirewall:
       begin
         sReq:= 'RT_UserNameFirewall';
-        Result:= InputQuery(sCustomTitle, 'Firewall username request', sReturnedText);
+        Result:= InputQuery(CustomTitle, 'Firewall username request', ReturnedText);
       end;
     RT_PasswordFirewall:
       begin
         sReq:= 'RT_PasswordFirewall';
-        Result:= InputQuery(sCustomTitle, 'Firewall password request', True, sReturnedText);
+        Result:= InputQuery(CustomTitle, 'Firewall password request', True, ReturnedText);
       end;
     RT_TargetDir:
       begin
         sReq:= 'RT_TargetDir';
-        Result:= InputQuery(sCustomTitle, 'Target path:', sReturnedText);
+        Result:= InputQuery(CustomTitle, 'Target path:', ReturnedText);
       end;
     RT_URL:
       begin
         sReq:= 'RT_URL';
-        Result:= InputQuery(sCustomTitle, 'URL:', sReturnedText);
+        Result:= InputQuery(CustomTitle, 'URL:', ReturnedText);
       end;
     RT_MsgOK:
       begin
         sReq:= 'RT_MsgOK';
-        Result:= (MessageBoxFunction(CustomText, CustomTitle, MB_OK) = IDOK);
+        Result:= (MessageBoxFunction(PAnsiChar(CustomText), PAnsiChar(CustomTitle), MB_OK) = IDOK);
       end;
     RT_MsgYesNo:
       begin
         sReq:= 'RT_MsgYesNo';
-        Result:= (MessageBoxFunction (CustomText, CustomTitle, MB_YESNO) = IDYES);
+        Result:= (MessageBoxFunction (PAnsiChar(CustomText), PAnsiChar(CustomTitle), MB_YESNO) = IDYES);
       end;
     RT_MsgOKCancel:
       begin
         sReq:= 'RT_MsgOKCancel';
-        Result:= (MessageBoxFunction(CustomText, CustomTitle, MB_OKCANCEL) = IDOK);
+        Result:= (MessageBoxFunction(PAnsiChar(CustomText), PAnsiChar(CustomTitle), MB_OKCANCEL) = IDOK);
       end;
   end;
+
+  DebugLn('MainRequestProc ('+IntToStr(PluginNr)+','+sReq+','+CustomTitle+','+CustomText+','+ReturnedText+')', BoolToStr(Result, True));
+end;
+
+function MainRequestProcA(PluginNr, RequestType: Integer; CustomTitle, CustomText, ReturnedText: PAnsiChar; MaxLen: Integer): Bool; stdcall;
+var
+  sCustomTitle,
+  sCustomText,
+  sReturnedText: UTF8String;
+begin
+  sCustomTitle:= SysToUTF8(StrPas(CustomTitle));
+  sCustomText:=  SysToUTF8(StrPas(CustomText));
+  sReturnedText:= SysToUTF8(StrPas(ReturnedText));
+  Result:= MainRequestProc(PluginNr, RequestType, sCustomTitle, sCustomText, sReturnedText);
   if Result then
     begin
       if ReturnedText <> nil then
-        StrPCopy(ReturnedText, Copy(sReturnedText, 1, MaxLen));
+        StrPLCopy(ReturnedText, UTF8ToSys(sReturnedText), MaxLen);
     end;
+end;
 
-  DebugLn('MainRequestProc ('+IntToStr(PluginNr)+','+sReq+','+CustomTitle+','+CustomText+','+ReturnedText+')', BoolToStr(Result, True));
+function MainRequestProcW(PluginNr, RequestType: Integer; CustomTitle, CustomText, ReturnedText: PWideChar; MaxLen: Integer): Bool; stdcall;
+var
+  sCustomTitle,
+  sCustomText,
+  sReturnedText: UTF8String;
+begin
+  sCustomTitle:= UTF8Encode(WideString(CustomTitle));
+  sCustomText:=  UTF8Encode(WideString(CustomText));
+  sReturnedText:= UTF8Encode(WideString(ReturnedText));
+  Result:= MainRequestProc(PluginNr, RequestType, sCustomTitle, sCustomText, sReturnedText);
+  if Result then
+    begin
+      if ReturnedText <> nil then
+        StrPLCopyW(ReturnedText, UTF8Decode(sReturnedText), MaxLen);
+    end;
 end;
 
 function CryptProc(PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionName, Password: PChar; MaxLen: Integer): Integer; stdcall;
@@ -311,7 +345,9 @@ begin
     with FWfxModule do
     begin
       FPluginNumber:= WfxOperationList.AddObject(FPluginRootName, nil);
-      FsInit(FPluginNumber, @MainProgressProcA, @MainLogProc, @MainRequestProc);
+      FsInit(FPluginNumber, @MainProgressProcA, @MainLogProcA, @MainRequestProcA);
+      if Assigned(FsInitW) then
+        FsInitW(FPluginNumber, @MainProgressProcW, @MainLogProcW, @MainRequestProcW);
       if Assigned(FsSetCryptCallback) then
         FsSetCryptCallback(@CryptProc, FPluginNumber, 0);
       VFSInit(0);
