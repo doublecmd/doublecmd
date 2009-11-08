@@ -34,7 +34,7 @@ function ShowFtpConfDlg: Boolean;
 implementation
 
 uses
-  FtpFunc;
+  FtpFunc, FtpUtils;
 
 function DlgProc (pDlg: PtrUInt; DlgItemName: PChar; Msg, wParam, lParam: PtrInt): PtrInt; stdcall;
 var
@@ -50,6 +50,8 @@ begin
           Data:= PtrInt(PWideChar(wsText));
           SendDlgMsg(pDlg, 'edtName', DM_SETTEXT, Data, 0);
           wsText:= gConnection.Host;
+          if gConnection.Port <> EmptyStr then
+            wsText:= wsText + ':' + gConnection.Port;
           Data:= PtrInt(PWideChar(wsText));
           SendDlgMsg(pDlg, 'edtHost', DM_SETTEXT, Data, 0);
           wsText:= gConnection.UserName;
@@ -117,7 +119,8 @@ begin
             gConnection.ConnectionName:= wsText;
             Data:= SendDlgMsg(pDlg, 'edtHost', DM_GETTEXT, 0, 0);
             wsText:= PWideChar(Data);
-            gConnection.Host:= wsText;
+            gConnection.Host:= ExtractConnectionHost(wsText);
+            gConnection.Port:= ExtractConnectionPort(wsText);
             Data:= SendDlgMsg(pDlg, 'edtUserName', DM_GETTEXT, 0, 0);
             wsText:= PWideChar(Data);
             gConnection.UserName:= wsText;

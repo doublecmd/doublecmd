@@ -29,53 +29,53 @@ unit FtpUtils;
 interface
 
 uses
-  Classes, SysUtils; 
+  Classes, SysUtils;
 
 const
-  faUnixMode = $80000000;
-
-  const
-     S_IFMT = $F000;
+  S_IFMT   = $F000;
   { first-in/first-out (FIFO/pipe)            }
-     S_IFIFO = $1000;
+  S_IFIFO  = $1000;
   { character-special file (tty/console)      }
-     S_IFCHR = $2000;
+  S_IFCHR  = $2000;
   { directory                                 }
-     S_IFDIR = $4000;
+  S_IFDIR  = $4000;
   { blocking device (unused)                  }
-     S_IFBLK = $6000;
+  S_IFBLK  = $6000;
   { regular                                   }
-     S_IFREG = $8000;
+  S_IFREG  = $8000;
   { symbolic link (unused)                    }
-     S_IFLNK = $A000;
+  S_IFLNK  = $A000;
   { Berkeley socket                           }
-     S_IFSOCK = $C000;
-     S_IRWXU = $01C0;
-     S_IRUSR = $0100;
-     S_IWUSR = $0080;
-     S_IXUSR = $0040;
-     S_IREAD = S_IRUSR;
-     S_IWRITE = S_IWUSR;
-     S_IEXEC = S_IXUSR;
+  S_IFSOCK = $C000;
+  S_IRWXU  = $01C0;
+  S_IRUSR  = $0100;
+  S_IWUSR  = $0080;
+  S_IXUSR  = $0040;
+  S_IREAD  = S_IRUSR;
+  S_IWRITE = S_IWUSR;
+  S_IEXEC  = S_IXUSR;
   { POSIX file modes: group permission...  }
-     S_IRWXG = $0038;
-     S_IRGRP = $0020;
-     S_IWGRP = $0010;
-     S_IXGRP = $0008;
+  S_IRWXG  = $0038;
+  S_IRGRP  = $0020;
+  S_IWGRP  = $0010;
+  S_IXGRP  = $0008;
   { POSIX file modes: other permission...  }
-     S_IRWXO = $0007;
-     S_IROTH = $0004;
-     S_IWOTH = $0002;
-     S_IXOTH = $0001;
+  S_IRWXO  = $0007;
+  S_IROTH  = $0004;
+  S_IWOTH  = $0002;
+  S_IXOTH  = $0001;
   { POSIX setuid(), setgid(), and sticky...  }
-     S_ISUID = $0800;
-     S_ISGID = $0400;
-     S_ISVTX = $0200;
+  S_ISUID  = $0800;
+  S_ISGID  = $0400;
+  S_ISVTX  = $0200;
 
 function ModeStr2Mode(const sMode: String): Integer;
 
 function EncodeBase64(Data: AnsiString): AnsiString;
 function DecodeBase64(Data: AnsiString): AnsiString;
+
+function ExtractConnectionHost(Connection: AnsiString): AnsiString;
+function ExtractConnectionPort(Connection: AnsiString): AnsiString;
 
 implementation
 
@@ -161,6 +161,31 @@ begin
  finally
    StringStream1.Free;
  end;
+end;
+
+function ExtractConnectionHost(Connection: AnsiString): AnsiString;
+var
+  I: Integer;
+begin
+  I:= Pos(':', Connection);
+  if I > 0 then
+    Result:= Copy(Connection, 1, I - 1)
+  else
+    Result:= Connection;
+end;
+
+function ExtractConnectionPort(Connection: AnsiString): AnsiString;
+var
+  I, J: Integer;
+begin
+  Result:= EmptyStr;
+  I:= Pos(':', Connection);
+  if I > 0 then
+    begin
+      J:= Pos('/', Connection);
+      if J = 0 then J:= MaxInt;
+      Result:= Trim(Copy(Connection, I + 1, J));
+    end;
 end;
 
 end.
