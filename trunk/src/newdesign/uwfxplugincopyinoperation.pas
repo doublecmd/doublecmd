@@ -103,7 +103,7 @@ begin
   with FWfxPluginFileSource do
   begin
     WfxModule.WfxStatusInfo({CurrentPath} SourceFiles.Path, FS_STATUS_START, FS_STATUS_OP_PUT_MULTI);
-    WfxOperationList[PluginNumber]:= FUpdateProgressClass;
+    WfxOperationList.Objects[PluginNumber]:= FUpdateProgressClass;
   end;
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
@@ -146,7 +146,7 @@ begin
   with FWfxPluginFileSource do
   begin
     WfxModule.WfxStatusInfo({CurrentPath}SourceFiles.Path, FS_STATUS_END, FS_STATUS_OP_PUT_MULTI);
-    WfxOperationList[PluginNumber]:= nil;
+    WfxOperationList.Objects[PluginNumber]:= nil;
   end;
 end;
 

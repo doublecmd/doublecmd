@@ -79,7 +79,7 @@ type
 
 var
   // Used in callback functions
-  WfxOperationList: TList = nil;
+  WfxOperationList: TStringList = nil;
 
 implementation
 
@@ -99,7 +99,7 @@ begin
 
   DebugLn('MainProgressProc ('+IntToStr(PluginNr)+','+SourceName+','+TargetName+','+IntToStr(PercentDone)+')=' ,IntTostr(Result));
 
-  UpdateProgressClass:= TUpdateProgressClass(WfxOperationList.Items[PluginNr]);
+  UpdateProgressClass:= TUpdateProgressClass(WfxOperationList.Objects[PluginNr]);
 
   if not Assigned(UpdateProgressClass) then Exit;
 
@@ -243,13 +243,15 @@ function CryptProc(PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionNam
 const
   cPrefix = 'wfx';
 var
+  sGroup,
   sPassword: AnsiString;
 begin
   try
+    sGroup:= WfxOperationList[CryptoNumber];
     case Mode of
     FS_CRYPT_SAVE_PASSWORD:
       begin
-        if PasswordStore.WritePassword(cPrefix, 'Test', ConnectionName, Password) then
+        if PasswordStore.WritePassword(cPrefix, sGroup, ConnectionName, Password) then
           Result:= FS_FILE_OK
         else
           Result:= FS_FILE_WRITEERROR;
@@ -260,7 +262,7 @@ begin
         Result:= FS_FILE_READERROR;
         if (Mode = FS_CRYPT_LOAD_PASSWORD_NO_UI) and (PasswordStore.HasMasterKey = False) then
           Exit(FS_FILE_NOTFOUND);
-        if PasswordStore.ReadPassword(cPrefix, 'Test', ConnectionName, sPassword) then
+        if PasswordStore.ReadPassword(cPrefix, sGroup, ConnectionName, sPassword) then
           begin
             StrPLCopy(Password, sPassword, MaxLen);
             Result:= FS_FILE_OK;
@@ -270,18 +272,18 @@ begin
     FS_CRYPT_MOVE_PASSWORD:
       begin
         Result:= FS_FILE_READERROR;
-        if PasswordStore.ReadPassword(cPrefix, 'Test', ConnectionName, sPassword) then
+        if PasswordStore.ReadPassword(cPrefix, sGroup, ConnectionName, sPassword) then
           begin
-            if not PasswordStore.WritePassword(cPrefix, 'Test', Password, sPassword) then
+            if not PasswordStore.WritePassword(cPrefix, sGroup, Password, sPassword) then
               Exit(FS_FILE_WRITEERROR);
             if Mode = FS_CRYPT_MOVE_PASSWORD then
-              PasswordStore.DeletePassword(cPrefix, 'Test', ConnectionName);
+              PasswordStore.DeletePassword(cPrefix, sGroup, ConnectionName);
             Result:= FS_FILE_OK;
           end;
       end;
     FS_CRYPT_DELETE_PASSWORD:
       begin
-        PasswordStore.DeletePassword(cPrefix, 'Test', ConnectionName);
+        PasswordStore.DeletePassword(cPrefix, sGroup, ConnectionName);
         Result:= FS_FILE_OK;
       end;
     end;
@@ -308,10 +310,10 @@ begin
   if FWfxModule.LoadModule(FModuleFileName) then
     with FWfxModule do
     begin
-      FPluginNumber:= WfxOperationList.Add(nil);
+      FPluginNumber:= WfxOperationList.AddObject(FPluginRootName, nil);
       FsInit(FPluginNumber, @MainProgressProcA, @MainLogProc, @MainRequestProc);
       if Assigned(FsSetCryptCallback) then
-        FsSetCryptCallback(@CryptProc, 0, 0);
+        FsSetCryptCallback(@CryptProc, FPluginNumber, 0);
       VFSInit(0);
     end;
 end;
@@ -521,7 +523,7 @@ begin
 end;
 
 initialization
-  WfxOperationList:= TList.Create;
+  WfxOperationList:= TStringList.Create;
 finalization
   if Assigned(WfxOperationList) then
     FreeAndNil(WfxOperationList);
