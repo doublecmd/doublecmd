@@ -139,26 +139,27 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbZDecoder.DecodeBuffer( var Buffer; Count : Integer );     
   {-decodes the next Count bytes of Buffer}                            
-type
-  TByteArray = array[0..65520] of Byte;
 var
-  Buf : TByteArray absolute Buffer;
+  Buf : PByte;
   i : Integer;
   Temp : Word;
 begin
+  Buf := @Buffer;
+
   for i := 0 to pred( Count ) do begin
     Temp := Word( FZipKeys[2] ) or 2;
-    Buf[i] := Buf[i] xor ( ( Temp * ( Temp xor 1 ) ) shr 8 );
+    Buf^ := Buf^ xor ( ( Temp * ( Temp xor 1 ) ) shr 8 );
 
-    {begin of AbUpdateKeys( Buf[i], FZipKeys );}
-    FZipKeys[0] := AbUpdateCrc32( Buf[i], FZipKeys[0] );
+    {begin of AbUpdateKeys( Buf^, FZipKeys );}
+    FZipKeys[0] := AbUpdateCrc32( Buf^, FZipKeys[0] );
     FZipKeys[1] := FZipKeys[1] + ( FZipKeys[0] and $FF );
     FZipKeys[1] := ( FZipKeys[1] * AbZipMagicNumber ) + 1;
     {FZipKeys[2] := AbUpdateCrc32( FZipKeys[1] shr 24, FZipKeys[2] );}
     FZipKeys[2] := AbCrc32Table[ Byte( FZipKeys[1] shr 24 xor
                                        DWORD( FZipKeys[2] ) ) ] xor    
                                  ( (FZipKeys[2] shr 8) and $00FFFFFF );
-    {end of AbUpdateKeys( Buf[i], FZipKeys );}
+    {end of AbUpdateKeys( Buf^, FZipKeys );}
+    Inc(Buf, 1);
   end;
 end;
 { -------------------------------------------------------------------------- }
@@ -192,26 +193,27 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbZDecoder.EncodeBuffer( var Buffer; Count : Integer );
   {-encodes the next Count bytes of Buffer}
-type
-  TByteArray = array[0..65520] of Byte;
 var
-  Buf : TByteArray absolute Buffer;
+  Buf : PByte;
   i : Integer;
   t : Word;
 begin
+  Buf := @Buffer;
+
   for i := 0 to pred( Count ) do begin
     t := Word( FZipKeys[2] ) or 2;
     t := ( t * ( t xor 1 ) ) shr 8;
-    {begin of AbUpdateKeys( Buf[i], FZipKeys );}
-    FZipKeys[0] := AbUpdateCrc32( Buf[i], FZipKeys[0] );
+    {begin of AbUpdateKeys( Buf^, FZipKeys );}
+    FZipKeys[0] := AbUpdateCrc32( Buf^, FZipKeys[0] );
     FZipKeys[1] := FZipKeys[1] + ( FZipKeys[0] and $FF );
     FZipKeys[1] := ( FZipKeys[1] * AbZipMagicNumber ) + 1;
     {FZipKeys[2] := AbUpdateCrc32( FZipKeys[1] shr 24, FZipKeys[2] );}
     FZipKeys[2] := AbCrc32Table[ Byte( FZipKeys[1] shr 24 xor
                                        DWORD( FZipKeys[2] ) ) ] xor
                                  ( (FZipKeys[2] shr 8) and $00FFFFFF );
-    {end of AbUpdateKeys( Buf[i], FZipKeys );}
-    Buf[i] := t xor Buf[i];
+    {end of AbUpdateKeys( Buf^, FZipKeys );}
+    Buf^ := t xor Buf^;
+    Inc(Buf, 1);
   end;
 end;
 { -------------------------------------------------------------------------- }

@@ -221,11 +221,12 @@ end;
 {--------}       
 function TabSlidingWindowStream.Read(var Buffer; Count : Longint) : Longint;
 var              
-  BufAsBytes  : TByteArray absolute Buffer;
-  BufInx      : Longint;
+  BufPtr      : PByte;
   BytesToGo   : Longint;
   BytesToRead : integer;
-begin            
+begin
+  BufPtr := @Buffer;
+
   {$IFDEF DebugTrace}
   System.Writeln(bsF, 'Read:  ', Count, ' bytes');
   {$ENDIF}       
@@ -251,24 +252,22 @@ begin
   {remember to return the result of our calculation}
   Result := BytesToGo;
                  
-  {initialise the byte index for the caller's buffer}
-  BufInx := 0;   
   {calculate the number of bytes we can read prior to the loop}
   BytesToRead := ChunkSize - bsPosInChunk;
   if (BytesToRead > BytesToGo) then
     BytesToRead := BytesToGo;
   {copy from the stream buffer to the caller's buffer}
   if (BytesToRead = 1) then
-    BufAsBytes[BufInx] := bsChunks[bsCurChunk]^[bsPosInChunk]
+    BufPtr^ := bsChunks[bsCurChunk]^[bsPosInChunk]
   else           
-    Move(bsChunks[bsCurChunk]^[bsPosInChunk], BufAsBytes[BufInx], BytesToRead);
+    Move(bsChunks[bsCurChunk]^[bsPosInChunk], BufPtr^, BytesToRead);
   {calculate the number of bytes still to read}
   dec(BytesToGo, BytesToRead);
                  
   {while we have bytes to read, read them}
   while (BytesToGo > 0) do begin
-    {advance the byte index for the caller's buffer}
-    inc(BufInx, BytesToRead);
+    {advance the pointer for the caller's buffer}
+    inc(BufPtr, BytesToRead);
     {as we've exhausted this chunk, advance to the next}
     inc(bsCurChunk);
     bsPosInChunk := 0;
@@ -277,7 +276,7 @@ begin
     if (BytesToRead > BytesToGo) then
       BytesToRead := BytesToGo;
     {copy from the stream buffer to the caller's buffer}
-    Move(bsChunks[bsCurChunk]^, BufAsBytes[BufInx], BytesToRead);
+    Move(bsChunks[bsCurChunk]^, BufPtr^, BytesToRead);
     {calculate the number of bytes still to read}
     dec(BytesToGo, BytesToRead);
   end;           
@@ -319,11 +318,12 @@ end;
 {--------}       
 function TabSlidingWindowStream.Write(const Buffer; Count : Longint) : Longint;
 var              
-  BufAsBytes  : TByteArray absolute Buffer;
-  BufInx      : Longint;
+  BufPtr      : PByte;
   BytesToGo   : Longint;
   BytesToWrite: integer;
-begin            
+begin
+  BufPtr := @Buffer;
+
   {$IFDEF DebugTrace}
   System.Writeln(bsF, 'Write: ', Count, ' bytes');
   {$ENDIF}       
@@ -348,17 +348,15 @@ begin
   {remember to return the result of our calculation}
   Result := BytesToGo;
                  
-  {initialise the byte index for the caller's buffer}
-  BufInx := 0;   
   {calculate the number of bytes we can write prior to the loop}
   BytesToWrite := ChunkSize - bsPosInChunk;
   if (BytesToWrite > BytesToGo) then
     BytesToWrite := BytesToGo;
   {copy from the caller's buffer to the stream buffer}
   if (BytesToWrite = 1) then
-    bsChunks[pred(abSWChunkCount)]^[bsPosInChunk] := BufAsBytes[BufInx]
+    bsChunks[pred(abSWChunkCount)]^[bsPosInChunk] := BufPtr^
   else           
-    Move(BufAsBytes[BufInx],
+    Move(BufPtr^,
          bsChunks[pred(abSWChunkCount)]^[bsPosInChunk],
          BytesToWrite);
   {mark our buffer as requiring a save to the actual stream}
@@ -370,14 +368,14 @@ begin
   while (BytesToGo > 0) do begin
     {slide the buffer}
     bsSlide;     
-    {advance the byte index for the caller's buffer}
-    inc(BufInx, BytesToWrite);
+    {advance the pointer for the caller's buffer}
+    inc(BufPtr, BytesToWrite);
     {calculate the number of bytes we can write in this cycle}
     BytesToWrite := ChunkSize;
     if (BytesToWrite > BytesToGo) then
       BytesToWrite := BytesToGo;
     {copy from the caller's buffer to our buffer}
-    Move(BufAsBytes[BufInx],
+    Move(BufPtr^,
          bsChunks[pred(abSWChunkCount)]^,
          BytesToWrite);
     {calculate the number of bytes still to write}

@@ -495,8 +495,7 @@ end;
 {--------}
 function TAbVirtualMemoryStream.Write(const Buffer; Count : Longint) : Longint;
 var
-  BufAsBytes  : TByteArray absolute Buffer;
-  BufInx      : Int64;
+  BufPtr      : PByte;
   Page        : PvmsPage;
   PageDataInx : integer;
   Posn        : Int64;
@@ -512,7 +511,7 @@ begin
   {initialise some variables, note that the complex calc in the
    expression for PageDataInx is the offset of the start of the page
    where Posn is found.}
-  BufInx := 0;
+  BufPtr := @Buffer;
   Posn := vmsPosition;
   PageDataInx := Posn - (Posn and (not pred(AB_VMSPageSize)));
   BytesToWrite := AB_VMSPageSize - PageDataInx;
@@ -529,11 +528,11 @@ begin
       Page := vmsCachePage
     else
       Page := vmsGetPageForOffset(StartOfs);
-    Move(BufAsBytes[BufInx], Page^.vpData[PageDataInx], BytesToWrite);
+    Move(BufPtr^, Page^.vpData[PageDataInx], BytesToWrite);
     Page^.vpDirty := True;
     dec(BytesToGo, BytesToWrite);
     inc(Posn, BytesToWrite);
-    inc(BufInx, BytesToWrite);
+    inc(BufPtr, BytesToWrite);
     PageDataInx := 0;
     BytesToWrite := AB_VMSPageSize;
   end;

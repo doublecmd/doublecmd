@@ -230,7 +230,8 @@ begin
   {save the on progress handler}
   if Assigned(aOnProgress) and (aStreamSize > 0) then begin
     FOnProgress := aOnProgress;
-    FStreamSize := aStreamSize;
+    //FStreamSize := aStreamSize;
+    FStreamSize := aStream.Size - aStream.Position;
   end;
 end;
 {--------}
