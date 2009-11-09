@@ -55,13 +55,11 @@
 {$A+ Force alignment on word/dword boundaries}
 {$S- No stack checking}
 
-{$IFNDEF LINUX}
 {---Global compiler defines for 32-bit OS's---}
 {====Global fixed compiler options (do NOT change)====}
 
 {$B- Incomplete boolean evaluation}
 {$H+ Long string support}
-{$J+ Writeable typed constants}
 {$P- No open string parameters}
 {$Q- Arithmetic overflow checking} {!! - Needs to be turned on!}
 {$R- Range checking}               {!! - Needs to be turned on!}
@@ -69,11 +67,6 @@
 {$V- No var string checking}
 {$X+ Extended syntax}
 {$Z1 Enumerations are byte sized}
-{$ELSE}
-{---Global compiler defines for Linux ---}
-{====Global fixed compiler options (do NOT change)====}
-{$J+ Writeable typed constants}
-{$ENDIF LINUX}
 
 {===========!! DO NOT ALTER ANYTHING BEYOND THIS POINT !!==================}
 {===========!! DO NOT ALTER ANYTHING BEYOND THIS POINT !!==================}

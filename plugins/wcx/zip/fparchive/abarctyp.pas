@@ -38,7 +38,8 @@ interface
 uses
   Classes,
   AbUtils,
-  SysUtils;
+  SysUtils,
+  Types;
 
 { ===== TAbArchiveItem ====================================================== }
 type
@@ -51,20 +52,20 @@ type
     FDiskFileName     : string;
     FExternalFileAttributes : LongWord;
     FFileName         : string;
+    FIsDirectory      : Boolean;
     FIsEncrypted      : Boolean;
     FLastModFileTime  : Word;
     FLastModFileDate  : Word;
     FTagged           : Boolean;
     FUncompressedSize : Int64;
 
-  protected
-    class function GetMaxFileSize(): Int64; virtual;
   protected {property methods}
     function GetCompressedSize : Int64; virtual;
     function GetCRC32 : Longint; virtual;
     function GetDiskPath : string;
     function GetExternalFileAttributes : LongWord; virtual;
     function GetFileName : string; virtual;
+    function GetIsDirectory: Boolean;
     function GetIsEncrypted : Boolean; virtual;
     function GetLastModDateTime : TDateTime; virtual;
     function GetLastModFileDate : Word; virtual;
@@ -83,6 +84,7 @@ type
     procedure SetCRC32(const Value : Longint); virtual;
     procedure SetExternalFileAttributes( Value : LongWord ); virtual;
     procedure SetFileName(const Value : string); virtual;
+    procedure SetIsDirectory(const Value: Boolean);
     procedure SetIsEncrypted(Value : Boolean); virtual;
     procedure SetLastModDateTime(const Value : TDateTime); virtual;
     procedure SetLastModFileDate(const Value : Word); virtual;
@@ -124,6 +126,9 @@ type
     property FileName : string
       read GetFileName
       write SetFileName;
+    property IsDirectory: Boolean
+      read GetIsDirectory
+      write SetIsDirectory;
     property IsEncrypted : Boolean
       read GetIsEncrypted
       write SetIsEncrypted;
@@ -305,12 +310,14 @@ type
     FOnSave                : TAbArchiveEvent;
 
   protected {methods}
+    constructor CreateInit;
     procedure CheckValid;
+    function  ConfirmPath(Item : TAbArchiveItem; const NewName : string;
+      out UseName : string) : Boolean;
     procedure FreshenAt(Index : Integer);
     function  FreshenRequired(Item : TAbArchiveItem) : Boolean;
     procedure GetFreshenTarget(Item : TAbArchiveItem);
     function  GetItemCount : Integer;
-    procedure Init;
     procedure Lock;
     procedure MakeLogEntry(const FN: string; LT : TAbLogType);
     procedure MakeFullNames(const SourceFileName: String;
@@ -324,6 +331,8 @@ type
     procedure SetLogging(Value : Boolean);
     procedure Unlock;
 
+   	class function SupportsEmptyFolder: Boolean; virtual;
+
   protected {abstract methods}
     function CreateItem(const SourceFileName : string;
                         const ArchiveDirectory : string): TAbArchiveItem;
@@ -336,7 +345,7 @@ type
       ArchiveDirectory    = files/storage  (or files/storage/)
       -> name in archive  = files/storage/subdir/file}
       virtual; abstract;
-    procedure ExtractItemAt(Index : Integer; const NewName : string);
+    procedure ExtractItemAt(Index : Integer; const UseName : string);
       virtual; abstract;
     procedure ExtractItemToStreamAt(Index : Integer; aStream : TStream);
       virtual; abstract;
@@ -358,6 +367,8 @@ type
       virtual;
     procedure DoArchiveItemProgress(Item : TAbArchiveItem; Progress : Byte;
       var Abort : Boolean);
+      virtual;
+    procedure DoConfirmOverwrite(var FileName : string; var Confirm : Boolean);
       virtual;
     procedure DoConfirmProcessItem(Item : TAbArchiveItem;
       const ProcessType : TAbProcessType; var Confirm : Boolean);
@@ -385,7 +396,8 @@ type
   public {methods}
     constructor Create(const FileName : string; Mode : Word);
       virtual;
-    constructor CreateFromStream(aStream : TStream; const aArchiveName : string); virtual; {!!.05 Added Virtual}
+    constructor CreateFromStream(aStream : TStream; const aArchiveName : string);
+      virtual;
     destructor  Destroy;
       override;
     procedure Add(aItem : TAbArchiveItem);
@@ -513,6 +525,44 @@ type
   end;
 
 
+{ ===== TAbExtraField ======================================================= }
+type
+  PAbExtraSubField = ^TAbExtraSubField;
+  TAbExtraSubField = packed record
+    ID : Word;
+    Len : Word;
+    Data : record end;
+  end;
+
+  TAbExtraField = class
+  private {fields}
+    FBuffer : TByteDynArray;
+  private {methods}
+    procedure DeleteField(aSubField : PAbExtraSubField);
+    function FindField(aID : Word; out aSubField : PAbExtraSubField) : Boolean;
+    function FindNext(var aCurField : PAbExtraSubField) : Boolean;
+    function GetCount : Integer;
+    function GetID(aIndex : Integer): Word;
+    procedure SetBuffer(const aValue : TByteDynArray);
+  protected {methods}
+    procedure Changed; virtual;
+  public {methods}
+    procedure Clear;
+    procedure Delete(aID : Word);
+    function Get(aID : Word; out aData : Pointer; out aDataSize : Word) : Boolean;
+    procedure LoadFromStream(aStream : TStream; aSize : Word);
+    procedure Put(aID : Word; const aData; aDataSize : Word);
+  public {properties}
+    property Count : Integer
+      read GetCount;
+    property Buffer : TByteDynArray
+      read FBuffer
+      write SetBuffer;
+    property IDs[aIndex : Integer]: Word
+      read GetID;
+  end;
+
+
 const
   AbDefAutoSave = False;
   AbDefExtractOptions = [eoCreateDirs];
@@ -521,63 +571,15 @@ const
   AbLastDisk = -1;
   AbLastImage = -1;
 
-
-function AbConfirmPath(const BaseDirectory : string; var NewName : string;
-  ExtractOptions : TAbExtractOptions;
-  ConfirmOverwrite : TAbConfirmOverwriteEvent) : Boolean;
-
 implementation
 
 {.$R ABRES.R32}
 
 uses
+  RTLConsts,
   AbExcept,
-  AbSpanSt,
   AbDfBase,
   AbConst;
-const
-  CRLF = #13 + #10;
-  ProcessTypeToLogType : array[TAbProcessType] of TAbLogType =
-    (ltAdd, ltDelete, ltExtract, ltFreshen, ltMove, ltReplace, ltFoundUnhandled);
-
-
-function AbConfirmPath(const BaseDirectory : string; var NewName : string;
-  ExtractOptions : TAbExtractOptions;
-  ConfirmOverwrite : TAbConfirmOverwriteEvent) : Boolean;
-var
-  FMessage   : string;
-  TestPath : string;
-begin
-  Result := True;
-  TestPath := NewName;
-  FMessage := BaseDirectory;
-
-  {BaseDirectory is the drive:\directory\sub where we currently want files}
-  {NewName is the optionalpath\sub\filename.ext where we want the file}
-  AbUnfixName(TestPath);
-  
-  if (FMessage <> '') and (FMessage[Length(FMessage)] <> AbPathDelim) then
-    FMessage := FMessage + AbPathDelim;                                      
-  if (eoRestorePath in ExtractOptions) then
-    FMessage := FMessage + TestPath
-  else
-    FMessage := FMessage + ExtractFileName(TestPath);
-
-  TestPath := ExtractFilePath(FMessage);
-  if (Length(TestPath) > 0) and (TestPath[Length(TestPath)] = AbPathDelim) then
-      System.Delete(TestPath, Length(TestPath), 1);
-  if (Length(TestPath) > 0) and (not AbDirectoryExists(TestPath)) then
-    if (eoCreateDirs in ExtractOptions) then
-      AbCreateDirectory(TestPath)
-    else
-      raise EAbNoSuchDirectory.Create;
-
-  if FileExists(FMessage) and Assigned(ConfirmOverwrite) then
-    ConfirmOverwrite(FMessage, Result);
-
-  if Result then
-    NewName := FMessage;
-end;
 
 
 { TAbArchiveItem implementation ============================================ }
@@ -597,11 +599,6 @@ end;
 destructor TAbArchiveItem.Destroy;
 begin
   inherited Destroy;
-end;
-{ -------------------------------------------------------------------------- }
-class function TAbArchiveItem.GetMaxFileSize: Int64;
-begin
-    Result := High(LongWord);
 end;
 { -------------------------------------------------------------------------- }
 function TAbArchiveItem.GetCompressedSize : Int64;
@@ -627,6 +624,11 @@ end;
 function TAbArchiveItem.GetFileName : string;
 begin
   Result := FFileName;
+end;
+{ -------------------------------------------------------------------------- }
+function TAbArchiveItem.GetIsDirectory: Boolean;
+begin
+  Result := FIsDirectory;
 end;
 { -------------------------------------------------------------------------- }
 function TAbArchiveItem.GetIsEncrypted : Boolean;
@@ -698,6 +700,8 @@ begin
   Value := Dir + Name;
   Name := FileName;
   AbUnfixName(Name);
+  if IsDirectory then
+    Name := ExcludeTrailingPathDelimiter(Name);
   Result := AbFileMatch(Name, Value, Recursive);
 end;
 { -------------------------------------------------------------------------- }
@@ -774,6 +778,11 @@ begin
   FFileName := Value;
 end;
 { -------------------------------------------------------------------------- }
+procedure TAbArchiveItem.SetIsDirectory(const Value: Boolean);
+begin
+  FIsDirectory := Value;
+end;
+{ -------------------------------------------------------------------------- }
 procedure TAbArchiveItem.SetIsEncrypted(Value : Boolean);
 begin
   FIsEncrypted := Value;
@@ -812,8 +821,9 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchiveItem.SetUnCompressedSize(const Value : Int64);
 begin
+  if Value > High(LongWord) then
+    raise EAbFileTooLarge.Create;
   FUnCompressedSize := Value;
-  if Value > GetMaxFileSize() then raise EAbFileTooLarge.Create();
 end;
 { -------------------------------------------------------------------------- }
 
@@ -828,6 +838,7 @@ end;
 { -------------------------------------------------------------------------- }
 destructor TAbArchiveList.Destroy;
 begin
+  Clear;
   FList.Free;
   inherited Destroy;
 end;
@@ -843,7 +854,11 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchiveList.Clear;
+var
+  i : Integer;
 begin
+  for i := 0 to Count - 1 do
+    TObject(FList[i]).Free;
   FList.Clear;
   FillChar(HashTable, SizeOf(HashTable), #0);
 end;
@@ -967,64 +982,40 @@ end;
 
 { TAbArchive implementation ================================================ }
 { TAbArchive }
+constructor TAbArchive.CreateInit;
+begin
+  inherited Create;
+  FIsDirty := False;
+  FAutoSave := False;
+  FItemList := TAbArchiveList.Create;
+  FPadLock := TAbPadLock.Create;
+  StoreOptions := [];
+  ExtractOptions := [];
+  FStatus := asIdle;
+  FOnProgress := DoProgress;
+  BaseDirectory := ExtractFilePath(ParamStr(0));
+end;
+{ -------------------------------------------------------------------------- }
 constructor TAbArchive.Create(const FileName : string; Mode : Word);
   {create an archive by opening a filestream on filename with the given mode}
 begin
-  inherited Create;
-  FStatus := asInvalid;
-  if AbDriveIsRemovable(FileName) then
-    FStream := TAbSpanStream.Create(FileName, Mode, mtRemoveable, FSpanningThreshold)
-  else
-    FStream := TAbSpanStream.Create(FileName, Mode, mtLocal, FSpanningThreshold);
-// !!.05 The following is a test to use TFileStream directly if not spanning
-// This removes the headaches of not being able to seek() when not spanning.
-// Allowing features such as TestTagged, and Add then Extract to work without
-// having to close reopen the archive.
-//   FStream := TFileStream.Create(FileName,Mode);
-
-  if (FStream is TAbSpanStream) then {!!.05}
-   begin
-    TAbSpanStream(FStream).OnRequestImage := DoSpanningMediaRequest;
-    TAbSpanStream(FStream).OnArchiveProgress := DoArchiveSaveProgress;   {!!.04}
-   end;
-
-  FLogStream := nil;
   FOwnsStream := True;
-  FArchiveName := FileName;
-  FOnProgress := DoProgress;
-  FSpanned := False;
+  CreateFromStream(TFileStream.Create(FileName, Mode), FileName);
   FMode := Mode;
-  BaseDirectory := ExtractFilePath(ParamStr(0));
-  Init;
 end;
 { -------------------------------------------------------------------------- }
 constructor TAbArchive.CreateFromStream(aStream : TStream; const aArchiveName : string);
   {create an archive based on an existing stream}
 begin
-  inherited Create;
-  FStatus := asInvalid;
-  FLogStream := nil;
+  CreateInit;
   FArchiveName := aArchiveName;
-  FOnProgress := DoProgress;
-  FOwnsStream := False;
-  FSpanned := False;
   FStream := aStream;
-  FMode := 0;
-  Init;
 end;
 { -------------------------------------------------------------------------- }
 destructor TAbArchive.Destroy;
-var
-  i : Integer;
 begin
-  if Assigned(FItemList) then begin
-    if Count > 0 then
-      for i := pred(Count) downto 0 do
-        TObject(FItemList.Items[i]).Free;
-    FItemList.Clear;
-    FItemList.Free;
-    FItemList := nil;
-  end;
+  FItemList.Free;
+  FItemList := nil;
   FPadLock.Free;
   FPadLock := nil;
   if FOwnsStream then begin
@@ -1228,6 +1219,36 @@ begin
       TAbArchiveItem(FItemList[i]).Tagged := False;
 end;
 { -------------------------------------------------------------------------- }
+function TAbArchive.ConfirmPath(Item : TAbArchiveItem; const NewName : string;
+  out UseName : string) : Boolean;
+var
+  Path : string;
+begin
+  if (NewName = '') then begin
+    UseName := Item.FileName;
+    if Item.IsDirectory then
+      UseName := ExcludeTrailingPathDelimiter(UseName);
+    AbUnfixName(UseName);
+    if (not (eoRestorePath in ExtractOptions)) then
+      UseName := ExtractFileName(UseName);
+  end
+  else
+    UseName := NewName;
+  if (AbGetPathType(UseName) <> ptAbsolute) then
+    UseName := AbAddBackSlash(BaseDirectory) + UseName;
+
+  Path := ExtractFileDir(UseName);
+  if (Path <> '') and not AbDirectoryExists(Path) then
+    if (eoCreateDirs in ExtractOptions) then
+      AbCreateDirectory(Path)
+    else
+      raise EAbNoSuchDirectory.Create;
+
+  Result := True;
+  if FileExists(UseName) then
+    DoConfirmOverwrite(UseName, Result);
+end;
+{ -------------------------------------------------------------------------- }
 procedure TAbArchive.Delete(aItem : TAbArchiveItem);
   {delete an item from the archive}
 var
@@ -1348,8 +1369,18 @@ begin
     FOnArchiveItemProgress(Self, Item, Progress, Abort);
 end;
 { -------------------------------------------------------------------------- }
+procedure TAbArchive.DoConfirmOverwrite(var FileName : string; var Confirm : Boolean);
+begin
+  Confirm := True;
+  if Assigned(FOnConfirmOverwrite) then
+    FOnConfirmOverwrite(FileName, Confirm);
+end;
+{ -------------------------------------------------------------------------- }
 procedure TAbArchive.DoConfirmProcessItem(Item : TAbArchiveItem;
   const ProcessType : TAbProcessType; var Confirm : Boolean);
+const
+  ProcessTypeToLogType : array[TAbProcessType] of TAbLogType =
+    (ltAdd, ltDelete, ltExtract, ltFreshen, ltMove, ltReplace, ltFoundUnhandled);
 begin
   Confirm := True;
   if Assigned(FOnConfirmProcessItem) then
@@ -1418,7 +1449,7 @@ var
   Confirm : Boolean;
   ErrorClass : TAbErrorClass;
   ErrorCode : Integer;
-  TempNewName : string;
+  UseName : string;
 begin
   CheckValid;
   SaveIfNeeded(FItemList[Index]);
@@ -1427,20 +1458,13 @@ begin
     DoConfirmProcessItem(FItemList[Index], ptExtract, Confirm);
     if not Confirm then
       Exit;
-    TempNewName := NewName;
-    if (TempNewName = '') then begin
-      TempNewName := TAbArchiveItem(FItemList[Index]).FileName;
-      AbUnfixName(TempNewName);
 
-      if (not (eoRestorePath in ExtractOptions)) then
-      	TempNewName := ExtractFileName(TempNewName);
-
-      TempNewName := AbAddBackSlash(BaseDirectory) + TempNewName;
-	end;
+    if not ConfirmPath(FItemList[Index], NewName, UseName) then
+      Exit;
 
     try
       FCurrentItem := FItemList[Index];
-      ExtractItemAt(Index, TempNewName);
+      ExtractItemAt(Index, UseName);
     except
       on E : Exception do begin
         AbConvertException(E, ErrorClass, ErrorCode);
@@ -1500,38 +1524,15 @@ procedure TAbArchive.ExtractFilesEx(const FileMask, ExclusionMask : string);
 var
   i : Integer;
   Abort : Boolean;
-{$IFNDEF Linux}
-//  Buff : array [0..MAX_PATH] of Char;                      {!!.03}
-{$ENDIF}
 begin
-{!!.03 - Added}
-{$IFDEF Linux}
- { do nothing to BaseDirectory }
-{$ELSE}
-// [ 752491 ] I question the need for the following code, it fails the unit test 
-// AbUnZperTest.pas -> TAbUnZipperTests.TestLocale2
-// I have removed this...  If you know your directory exists but
-// this routine says it does not, check to see if your directory
-// is using locale specific characters, if it is uncomment this section
-// if it works, then report it as a bug in the trackers at
-//  sf.net/projects/tpabbrevia  and include the directory name your using
-// the code pages and locale of your system.  Maybe then I might understand
-// why we had this here to begin with.
-//  if AreFileApisANSI then begin
-//    StrPCopy(Buff, BaseDirectory);
-//    OEMToAnsi(Buff, Buff);
-//    BaseDirectory := StrPas(Buff);
-//  end;
-{$ENDIF}
-{!!.03 - End Added }
-
   CheckValid;
   if Count > 0 then begin
     for i := 0 to pred(Count) do begin
       with TAbArchiveItem(FItemList[i]) do
-        if MatchesStoredNameEx(FileMask) then
-          if not MatchesStoredNameEx(ExclusionMask) then
-            ExtractAt(i, '');
+        if MatchesStoredNameEx(FileMask) and
+           not MatchesStoredNameEx(ExclusionMask) and
+           ((eoCreateDirs in ExtractOptions) or not IsDirectory) then
+          ExtractAt(i, '');
       DoArchiveProgress(AbPercentage(succ(i), Count), Abort);
       if Abort then
         raise EAbUserAbort.Create;
@@ -1560,7 +1561,6 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-
 procedure TAbArchive.TestTaggedItems;
   {test all tagged items in the archive}
 var
@@ -1636,6 +1636,7 @@ procedure TAbArchive.Freshen(aItem : TAbArchiveItem);
   {freshen the item}
 var
   Index : Integer;
+//  temp : String;
 begin
   CheckValid;
   Index := FindItem(aItem);
@@ -1713,11 +1714,6 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 function TAbArchive.FreshenRequired(Item : TAbArchiveItem) : Boolean;
-type
-  DW = packed record
-    Lo : Word;
-    Hi : Word;
-  end;
 var
   FS : TFileStream;
   DateTime : LongInt;
@@ -1734,14 +1730,12 @@ begin
                               fmOpenRead or fmShareDenyWrite);
     try
       DateTime := FileGetDate(FS.Handle);
-      FileTime := DW(DateTime).Lo;
-      FileDate := DW(DateTime).Hi;
+      FileTime := LongRec(DateTime).Lo;
+      FileDate := LongRec(DateTime).Hi;
       Matched := (Item.LastModFileDate = FileDate) and
-                 (Item.LastModFileTime = FileTime);
+                 (Item.LastModFileTime = FileTime) and
+                 (Item.UncompressedSize = FS.Size);
       Result := not Matched;
-      // 887909 soFreshen isn't working (Specifically when date/time the same)
-      if not result then { Check for size change }
-        result := (FS.Size <> Item.UncompressedSize);
     finally
       FS.Free;
     end;
@@ -1827,17 +1821,6 @@ begin
     Result := 0;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbArchive.Init;
-begin
-  FIsDirty := False;
-  FAutoSave := False;
-  FItemList := TAbArchiveList.Create;
-  FPadLock := TAbPadLock.Create;
-  StoreOptions := [];
-  ExtractOptions := [];
-  FStatus := asIdle;
-end;
-{ -------------------------------------------------------------------------- }
 procedure TAbArchive.Load;
   {load the archive}
 begin
@@ -1858,29 +1841,16 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchive.MakeLogEntry(const FN: string; LT : TAbLogType);
+const
+  LogTypeRes : array[TAbLogType] of Integer =
+    (AbLtAdd, AbLtDelete, AbLtExtract, AbLtFreshen, AbLtMove, AbLtReplace,
+     AbLtStart, AbUnhandledEntity);
 var
-  Buf : array[0..255] of Char;
+  Buf : string;
 begin
   if Assigned(FLogStream) then begin
-    case LT of
-      ltAdd     : StrPCopy(Buf, FN + AbStrRes(AbLtAdd) +
-        DateTimeToStr(Now) + CRLF);
-      ltDelete  : StrPCopy(Buf, FN + AbStrRes(AbLtDelete) +
-        DateTimeToStr(Now) + CRLF);
-      ltExtract : StrPCopy(Buf, FN + AbStrRes(AbLtExtract) +
-        DateTimeToStr(Now) + CRLF);
-      ltFreshen : StrPCopy(Buf, FN + AbStrRes(AbLtFreshen) +
-        DateTimeToStr(Now) + CRLF);
-      ltMove    : StrPCopy(Buf, FN + AbStrRes(AbLtMove) +
-        DateTimeToStr(Now) + CRLF);
-      ltReplace : StrPCopy(Buf, FN + AbStrRes(AbLtReplace) +
-        DateTimeToStr(Now) + CRLF);
-      ltStart   : StrPCopy(Buf, FN + AbStrRes(AbLtStart) +
-        DateTimeToStr(Now) + CRLF);
-      ltFoundUnhandled : StrPCopy(Buf, FN + AbStrRes(AbUnhandledEntity) +
-        DateTimeToStr(Now) + CRLF);
-    end;
-    FLogStream.Write(Buf, StrLen(Buf));
+    Buf := FN + AbStrRes(LogTypeRes[LT]) + DateTimeToStr(Now) + sLineBreak;
+    FLogStream.Write(Buf[1], Length(Buf) * SizeOf(Char));
   end;
 end;
 { -------------------------------------------------------------------------- }
@@ -2105,9 +2075,159 @@ procedure TAbArchive.DoSpanningMediaRequest(Sender: TObject;
 begin
   raise EAbSpanningNotSupported.Create;
 end;
+{ -------------------------------------------------------------------------- }
+class function TAbArchive.SupportsEmptyFolder: Boolean;
+begin
+	Result := False;
+end;
+{ -------------------------------------------------------------------------- }
+
+{ TAbExtraField implementation ============================================= }
+procedure TAbExtraField.Changed;
+begin
+  // No-op
+end;
+{ -------------------------------------------------------------------------- }
+procedure TAbExtraField.Clear;
+begin
+  FBuffer := nil;
+  Changed;
+end;
+{ -------------------------------------------------------------------------- }
+procedure TAbExtraField.Delete(aID : Word);
+var
+  SubField : PAbExtraSubField;
+begin
+  if FindField(aID, SubField) then begin
+    DeleteField(SubField);
+    Changed;
+  end;
+end;
+{ -------------------------------------------------------------------------- }
+procedure TAbExtraField.DeleteField(aSubField : PAbExtraSubField);
+var
+  Len, Offset : Integer;
+begin
+  Len := SizeOf(TAbExtraSubField) + aSubField.Len;
+  Offset := Cardinal(aSubField) - Cardinal(FBuffer);
+  if Offset + Len < Length(FBuffer) then
+    Move(FBuffer[Offset + Len], aSubField^, Length(FBuffer) - Offset - Len);
+  SetLength(FBuffer, Length(FBuffer) - Len);
+end;
+{ -------------------------------------------------------------------------- }
+function TAbExtraField.FindField(aID : Word;
+  out aSubField : PAbExtraSubField) : Boolean;
+begin
+  Result := False;
+  aSubField := nil;
+  while FindNext(aSubField) do
+    if aSubField.ID = aID then begin
+      Result := True;
+      Break;
+    end;
+end;
+{ -------------------------------------------------------------------------- }
+function TAbExtraField.FindNext(var aCurField : PAbExtraSubField) : Boolean;
+var
+  BytesLeft : Integer;
+begin
+  if aCurField = nil then begin
+    aCurField := PAbExtraSubField(FBuffer);
+    BytesLeft := Length(FBuffer);
+  end
+  else begin
+    BytesLeft := Length(FBuffer) -
+      Integer(Cardinal(aCurField) - Cardinal(FBuffer)) -
+      SizeOf(TAbExtraSubField) - aCurField.Len;
+    Inc(Cardinal(aCurField), aCurField.Len + SizeOf(TAbExtraSubField));
+  end;
+  Result := (BytesLeft >= SizeOf(TAbExtraSubField));
+  if Result and (BytesLeft < SizeOf(TAbExtraSubField) + aCurField.Len) then
+    aCurField.Len := BytesLeft - SizeOf(TAbExtraSubField);
+end;
+{ -------------------------------------------------------------------------- }
+function TAbExtraField.Get(aID : Word; out aData : Pointer;
+  out aDataSize : Word) : Boolean;
+var
+  SubField : PAbExtraSubField;
+begin
+  Result := FindField(aID, SubField);
+  if Result then begin
+    aData := @SubField.Data;
+    aDataSize := SubField.Len;
+  end
+  else begin
+    aData := nil;
+    aDataSize := 0;
+  end;
+end;
+{ -------------------------------------------------------------------------- }
+function TAbExtraField.GetCount : Integer;
+var
+  SubField : PAbExtraSubField;
+begin
+  Result := 0;
+  SubField := nil;
+  while FindNext(SubField) do
+    Inc(Result);
+end;
+{ -------------------------------------------------------------------------- }
+function TAbExtraField.GetID(aIndex : Integer): Word;
+var
+  i: Integer;
+  SubField : PAbExtraSubField;
+begin
+  i := 0;
+  SubField := nil;
+  while FindNext(SubField) do
+    if i = aIndex then begin
+      Result := SubField.ID;
+      Exit;
+    end
+    else
+      Inc(i);
+  raise EListError.CreateFmt(SListIndexError, [aIndex]);
+end;
+{ -------------------------------------------------------------------------- }
+procedure TAbExtraField.LoadFromStream(aStream : TStream; aSize : Word);
+begin
+  SetLength(FBuffer, aSize);
+  if aSize > 0 then
+    aStream.ReadBuffer( FBuffer[0], aSize);
+end;
+{ -------------------------------------------------------------------------- }
+procedure TAbExtraField.Put(aID : Word; const aData; aDataSize : Word);
+var
+  Offset : Cardinal;
+  SubField : PAbExtraSubField;
+begin
+  if FindField(aID, SubField) then begin
+    if SubField.Len = aDataSize then begin
+      Move(aData, SubField.Data, aDataSize);
+      Changed;
+      Exit;
+    end
+    else DeleteField(SubField);
+  end;
+  Offset := Length(FBuffer);
+  SetLength(FBuffer, Length(FBuffer) + SizeOf(TAbExtraSubField) + aDataSize);
+  SubField := PAbExtraSubField(@FBuffer[Offset]);
+  SubField.ID := aID;
+  SubField.Len := aDataSize;
+  Move(aData, SubField.Data, aDataSize);
+  Changed;
+end;
+{ -------------------------------------------------------------------------- }
+procedure TAbExtraField.SetBuffer(const aValue : TByteDynArray);
+begin
+  SetLength(FBuffer, Length(aValue));
+  if Length(FBuffer) > 0 then
+    Move(aValue[0], FBuffer[0], Length(FBuffer));
+  Changed;
+end;
+{ -------------------------------------------------------------------------- }
 
 { ========================================================================== }
-
 { TAbArchiveStreamHelper }
 
 constructor TAbArchiveStreamHelper.Create(AStream: TStream);

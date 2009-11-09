@@ -53,7 +53,7 @@ type
                                  var Confirm : Boolean);
       virtual;
     procedure DoNeedPassword(Sender : TObject;
-                             var NewPassword : string);
+                             var NewPassword : AnsiString);
       virtual;
     procedure InitArchive; override;
     procedure SetExtractOptions(Value : TAbExtractOptions);
@@ -151,7 +151,7 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbCustomUnZipper.DoNeedPassword(Sender : TObject;
-                                           var NewPassword : string);
+                                           var NewPassword : AnsiString);
 begin
   if Assigned(FOnNeedPassword) then begin
     FOnNeedPassword(Self, NewPassword);
@@ -267,12 +267,12 @@ end;
 procedure TAbCustomUnZipper.SetFileName(const aFileName: string);
 begin
   if aFileName <> '' then
-   begin
-      if Not FileExists(aFileName) then  {!!.05}
-         raise EAbFileNotFound.Create;
-      if AbFileGetSize(aFileName) <= 0 then {!!.05}
-         raise EAbBadStream.Create;
-   end;
+  begin
+    if not FileExists(aFileName) then  {!!.05}
+      raise EAbFileNotFound.Create;
+    if AbFileGetSize(aFileName) <= 0 then {!!.05}
+      raise EAbBadStream.Create;
+  end;
 
   inherited SetFileName(aFileName);
 end;

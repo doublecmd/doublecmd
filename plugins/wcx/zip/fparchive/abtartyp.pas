@@ -421,7 +421,7 @@ type
     function CreateItem(const SourceFileName   : string;
                         const ArchiveDirectory : string): TAbArchiveItem;
       override;
-    procedure ExtractItemAt(Index : Integer; const NewName : string);
+    procedure ExtractItemAt(Index : Integer; const UseName : string);
       override;
     procedure ExtractItemToStreamAt(Index : Integer; aStream : TStream);
       override;
@@ -492,7 +492,7 @@ begin
   end;
 end;
 
-function IntToOctal(Value : Integer): string;
+function IntToOctal(Value : Integer): AnsiString;
 const
   OctDigits  : array[0..7] of AnsiChar = '01234567';
 begin
@@ -564,7 +564,7 @@ begin
   end;
 end;
 
-function PadString(const S : string; Places : Integer) : string;
+function PadString(const S : AnsiString; Places : Integer) : AnsiString;
 {
 Pads a string (S) with one right space and as many left spaces as
 needed to fill Places
@@ -579,7 +579,7 @@ begin
     Result := S
   else begin
     Result := S + ' ';
-    Result := StringOfChar(' ', Places - Length(Result)) + Result;
+    Result := StringOfChar(AnsiChar(' '), Places - Length(Result)) + Result;
   end;
 end;
 { Round UP to the nearest Tar Block Boundary. }
@@ -1267,7 +1267,7 @@ var
   j : Integer;
   PHeader :  PAbTarHeaderRec;
   HdrChkSum : Integer;
-  HdrChkStr : string;
+  HdrChkStr : AnsiString;
   HdrBuffer : PAnsiChar;
   SkipNextChkSum: Integer;
   SkipChkSum: Boolean;
@@ -1335,7 +1335,7 @@ end;
 
 procedure TAbTarItem.SetCompressedSize(const Value: Int64);
 var
-  S : string;
+  S : AnsiString;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
@@ -1348,7 +1348,7 @@ end;
 
 procedure TAbTarItem.SetDevMajor(const Value: Integer);
 var
-  S : string;
+  S : AnsiString;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
@@ -1362,7 +1362,7 @@ end;
 
 procedure TAbTarItem.SetDevMinor(const Value: Integer);
 var
-  S : string;
+  S : AnsiString;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
@@ -1376,7 +1376,7 @@ end;
 
 procedure TAbTarItem.SetExternalFileAttributes(Value: LongWord);
 var
-  S : string;
+  S : AnsiString;
   I: Integer;
   Permissions: LongWord;
   LinkFlag: AnsiChar;
@@ -1701,7 +1701,7 @@ end;
 
 procedure TAbTarItem.SetGroupID(const Value: Integer);
 var
-  S : string;
+  S : AnsiString;
 //  I: Integer;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
@@ -1751,7 +1751,7 @@ procedure TAbTarItem.SetLastModFileDate(const Value: Word);
 var
   D : TDateTime;
   UT : LongInt;
-  DStr : string;
+  DStr : AnsiString;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
@@ -1776,7 +1776,7 @@ procedure TAbTarItem.SetLastModFileTime(const Value: Word);
 var
   T : TDateTime;
   UT : LongInt;
-  TStr : string;
+  TStr : AnsiString;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
@@ -1946,7 +1946,7 @@ end;
 
 procedure TAbTarItem.SetUncompressedSize(const Value: Int64);
 var
-  S : string;
+  S : AnsiString;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
@@ -1959,7 +1959,7 @@ end;
 
 procedure TAbTarItem.SetUserID(const Value: Integer);
 var
-  S : string;
+  S : AnsiString;
 //  I: Integer;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
@@ -2263,17 +2263,15 @@ begin
 end;
 
 
-procedure TAbTarArchive.ExtractItemAt(Index: Integer; const NewName: string);
+procedure TAbTarArchive.ExtractItemAt(Index: Integer; const UseName: string);
 var
   OutStream : TFileStream;
-  UseName : string;
   CurItem : TAbTarItem;
 begin
   { Check the index is not out of range. }
   if(Index >= ItemList.Count) then
 	  raise EListError.CreateFmt(SListIndexError, [Index]);
 
-  UseName := NewName;
   CurItem := TAbTarItem(ItemList[Index]);
 
   if CurItem.ItemType in [UNKNOWN_ITEM] then
@@ -2284,34 +2282,29 @@ begin
     raise EAbTarBadOp.Create; { Unsupported Type, Cannot Extract }
   { We will allow extractions if the file name/Link name are strickly less than 100 chars }
 
-  { check if path to save to is okay }
-  if AbConfirmPath(BaseDirectory, UseName, ExtractOptions, FOnConfirmOverwrite) then
-  begin
-    OutStream := TFileStream.Create(UseName, fmCreate or fmShareDenyNone);
+  OutStream := TFileStream.Create(UseName, fmCreate or fmShareDenyNone);
+  try
+    try {OutStream}
+      ExtractItemToStreamAt(Index, OutStream);
+    finally {OutStream}
+      OutStream.Free;
+    end; {OutStream}
 
-    try
-      try {OutStream}
-        ExtractItemToStreamAt(Index, OutStream);
-      finally {OutStream}
-        OutStream.Free;
-      end; {OutStream}
+    // [ 880505 ]  Need to Set Attributes after File is closed {!!.05}
 
-      // [ 880505 ]  Need to Set Attributes after File is closed {!!.05}
+    AbSetFileTime(UseName, CurItem.SystemSpecificLastModFileTime);
+    AbFileSetAttr(UseName, CurItem.SystemSpecificAttributes);
 
-      AbSetFileTime(UseName, CurItem.SystemSpecificLastModFileTime);
-      AbFileSetAttr(UseName, CurItem.SystemSpecificAttributes);
-
-    except
-      on E : EAbUserAbort do begin
-        FStatus := asInvalid;
-        if FileExists(UseName) then
-          DeleteFile(UseName);
-        raise;
-      end else begin
-        if FileExists(UseName) then
-          DeleteFile(UseName);
-        raise;
-      end;
+  except
+    on E : EAbUserAbort do begin
+      FStatus := asInvalid;
+      if FileExists(UseName) then
+        DeleteFile(UseName);
+      raise;
+    end else begin
+      if FileExists(UseName) then
+        DeleteFile(UseName);
+      raise;
     end;
   end;
 end;
@@ -2591,20 +2584,14 @@ begin
     end
     else begin
       { need new stream to write }
-      FStream.Free;
-      FStream := TAbSpanStream.Create(FArchiveName, fmCreate or fmShareDenyWrite, mtLocal, FSpanningThreshold);
-
+      FreeAndNil(FStream);
+      FStream := TFileStream.Create(FArchiveName, fmCreate or fmShareDenyWrite);
       try
-        TAbSpanStream(FStream).ArchiveTotalSize := NewStream.Size;
-
         if NewStream.Size > 0 then
           FStream.CopyFrom(NewStream, NewStream.Size);
       except
         raise EAbBadStream.Create;
       end;
-
-      TAbSpanStream(FStream).OnRequestImage := DoSpanningMediaRequest;
-      TAbSpanStream(FStream).OnArchiveProgress := DoArchiveSaveProgress;
     end;
 
     {update Items list}

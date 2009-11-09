@@ -41,7 +41,7 @@ uses
 type
   TAbBitBucketStream = class(TStream)
     private
-      FBuffer  : PChar;
+      FBuffer  : {$IFDEF UNICODE}PByte{$ELSE}PAnsiChar{$ENDIF};
       FBufSize : longint;
       FBufPosn : longint;
       FPosn    : Int64;

@@ -70,7 +70,7 @@ type
     procedure SetFileName(const aFileName : string);
       override;
     procedure SetStoreOptions( Value : TAbStoreOptions );
-    procedure SetZipfileComment(const Value : string);
+    procedure SetZipfileComment(const Value : AnsiString);
       override;
     procedure ZipProc(Sender : TObject; Item : TAbArchiveItem;
                       OutStream : TStream);
@@ -429,17 +429,15 @@ procedure TAbCustomZipper.SetFileName(const aFileName : string);
 var
   ArcType : TAbArchiveType;
 begin
-
   FFileName := aFileName;
   if (csDesigning in ComponentState) then
     Exit;
 
   if Assigned(FArchive) then
-   begin
-     FArchive.Save;
-     FArchive.Free;
-     FArchive := nil;
-   end;
+  begin
+    FArchive.Save;
+    FreeAndNil(FArchive);
+  end;
 
   ArcType := ArchiveType;
 
@@ -525,7 +523,7 @@ begin
     ZipArchive.StoreOptions := Value;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCustomZipper.SetZipfileComment(const Value : string);
+procedure TAbCustomZipper.SetZipfileComment(const Value : AnsiString);
 begin
   if (ZipArchive <> nil) then
     (ZipArchive as TAbZipArchive).ZipfileComment := Value
@@ -578,7 +576,6 @@ begin
 end;
 {!!.04 - Added end}
 { -------------------------------------------------------------------------- }
-
 
 end.
 

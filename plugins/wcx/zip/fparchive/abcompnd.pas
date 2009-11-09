@@ -1471,7 +1471,11 @@ procedure TAbCompoundFile.AddFile(FName : string; FileData : TStream;
      I := Succ(Word(Length(PathName)));                                {!!.01}
      repeat                                                            {!!.01}
        Dec(I);                                                         {!!.01}
+{$IFDEF UNICODE}
+     until SysUtils.CharInSet(PathName[I], ['\',':']) or (I = 0);      {!!.01}
+{$ELSE}
      until (PathName[I] in ['\',':']) or (I = 0);                      {!!.01}
+{$ENDIF}
      Result := System.Copy(PathName, Succ(I), rdEntryNameSize);        {!!.01}
    end;                                                                {!!.01}
 

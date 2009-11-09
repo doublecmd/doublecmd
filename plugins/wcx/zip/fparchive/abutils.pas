@@ -89,7 +89,7 @@ var
 
 type
   TAbArchiveType = (atUnknown, atZip, atSpannedZip, atSelfExtZip,
-                    atTar, atGzip, atGzippedTar, atCab, atBZip, atBzippedTar);
+                    atTar, atGzip, atGzippedTar, atCab);
 
 
 {$IFDEF LINUX}
@@ -189,6 +189,7 @@ type
   end;
 
   {===Helper functions===}
+  function AbCopyFile(const Source, Destination: string; FailIfExists: Boolean): Boolean;
 
   function AbAttrIsDir(Attributes: LongWord): Boolean;
     { Returns True, if Attributes have 'directory' flag. }
@@ -247,7 +248,7 @@ type
   function AbFindNthSlash( const Path : string; n : Integer ) : Integer;
     {return the position of the character just before the nth backslash}
 
-  function AbGetDriveFreeSpace(const ArchiveName : string) : int64;
+  function AbGetDriveFreeSpace(const ArchiveName : string) : Int64;
     {return the available space on the specified drive }
 
   function AbGetPathType( const Value : string ) : TAbPathType;
@@ -389,6 +390,10 @@ const
     AB_FPERMISSION_GROUPREAD or
     AB_FPERMISSION_OTHERREAD;
 
+{ Unicode backwards compatibility functions }
+{$IFNDEF UNICODE}
+function CharInSet(C: AnsiChar; CharSet: TSysCharSet): Boolean;
+{$ENDIF}
 
 implementation
 
@@ -457,6 +462,37 @@ end;
 
 
 { ========================================================================== }
+function AbCopyFile(const Source, Destination: string; FailIfExists: Boolean): Boolean;
+{$IFDEF LINUX}
+var
+  DesStream, SrcStream: TFileStream;
+{$ENDIF}
+begin
+{$IFDEF LINUX}
+  Result := False;
+  if not FailIfExists or not FileExists(Destination) then
+    try
+      SrcStream := TFileStream.Create(Source, fmOpenRead or fmShareDenyWrite);
+      try
+        DesStream := TFileStream.Create(Destination, fmCreate);
+        try
+          DesStream.CopyFrom(SrcStream, 0);
+          Result := True;
+        finally
+          DesStream.Free;
+        end;
+      finally
+        SrcStream.Free;
+      end;
+    except
+      // Ignore errors and just return false
+    end;
+{$ENDIF LINUX}
+{$IFDEF MSWINDOWS}
+  Result := CopyFile(PChar(Source), PChar(Destination), FailIfExists);
+{$ENDIF MSWINDOWS}
+end;
+{ -------------------------------------------------------------------------- }
 function AbAttrIsDir(Attributes: LongWord): Boolean;
 begin
 {$IFDEF MSWINDOWS}
@@ -1057,10 +1093,10 @@ end;
 procedure AbIncFilename( var Filename : string; Value : Word );
 { place value at the end of filename, e.g. Files.C04 }
 var
-  Ext : string[4];
+  Ext : string;
   I : Word;
 begin
-  I := (Value +1) mod 100;
+  I := (Value + 1) mod 100;
   Ext := ExtractFileExt(Filename);
   if (Length(Ext) < 2) then
     Ext := '.' + Format('%.2d', [I])
@@ -1275,11 +1311,11 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 function AbWriteVolumeLabel(const VolName : string;
-                                Drive : AnsiChar) : Cardinal;
+                                Drive : Char) : Cardinal;
 var
   Temp : string;
-  Vol : array[0..11] of AnsiChar;
-  Root : array[0..3] of AnsiChar;
+  Vol : array[0..11] of Char;
+  Root : array[0..3] of Char;
 begin
   Temp := VolName;
   StrCopy(Root, '%:' + AbPathDelim);
@@ -1376,7 +1412,6 @@ begin
   if Mo < 1 then Mo := 1;
   if Mo > 12 then Mo := 12;
 
-
   Dy := FileDate and 31;
   if Dy < 1 then Dy := 1;
   if Dy > DaysInAMonth(Yr, Mo) then
@@ -1389,7 +1424,7 @@ begin
   if Mn > 59 then Mn := 59;
 
   S  := FileTime and 31 shl 1;
-  if S * 2 > 59 then S := 29;
+  if S > 59 then S := 59;
 
   Result :=
     EncodeDate(Yr, Mo, Dy) +
@@ -1772,5 +1807,12 @@ begin
 end;
 {!!.04 - Added End }
 
+{ Unicode backwards compatibility functions }
+{$IFNDEF UNICODE}
+function CharInSet(C: AnsiChar; CharSet: TSysCharSet): Boolean;
+begin
+Result := C in CharSet;
+end;
+{$ENDIF}
 
 end.
