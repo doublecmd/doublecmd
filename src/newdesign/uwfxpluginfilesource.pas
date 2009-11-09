@@ -361,7 +361,20 @@ end;
 
 function TWfxPluginFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result := [fsoList, fsoCopyIn, fsoCopyOut, fsoDelete, fsoCreateDirectory, fsoExecute];
+  with WfxModule do
+  begin
+    Result := [fsoList]; // supports by any plugin
+    if Assigned(FsPutFile) or Assigned(FsPutFileW) then
+      Result:= Result + [fsoCopyIn];
+    if Assigned(FsGetFile) or Assigned(FsGetFileW) then
+      Result:= Result + [fsoCopyOut];
+    if Assigned(FsDeleteFile) or Assigned(FsDeleteFileW) then
+        Result:= Result + [fsoDelete];
+    if Assigned(FsMkDir) or Assigned(FsMkDirW) then
+        Result:= Result + [fsoCreateDirectory];
+    if Assigned(FsExecuteFile) or Assigned(FsExecuteFileW) then
+        Result:= Result + [fsoExecute];
+  end;
 end;
 
 function TWfxPluginFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
@@ -376,7 +389,7 @@ end;
 
 function TWfxPluginFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
-  Result := [];
+  Result := TWfxPluginFile.GetSupportedProperties;
 end;
 
 function TWfxPluginFileSource.GetCurrentAddress: String;

@@ -21,6 +21,8 @@ type
     FSize: TFileSizeProperty;
     FAttributes: TFileAttributesProperty;
     FModificationTime: TFileModificationDateTimeProperty;
+    FLastAccessTime,
+    FCreationTime: TFileDateTimeProperty;
     FIsLinkToDirectory: Boolean;
 
     procedure AssignProperties;
@@ -67,6 +69,8 @@ begin
   FAttributes := TNtfsFileAttributesProperty.Create;
   FSize := TFileSizeProperty.Create;
   FModificationTime := TFileModificationDateTimeProperty.Create;
+  FLastAccessTime := TFileDateTimeProperty.Create;
+  FCreationTime := TFileDateTimeProperty.Create;
   FIsLinkToDirectory := False;
 
   AssignProperties;
@@ -82,6 +86,8 @@ begin
   FAttributes := FileAttributes.Clone;
   FSize := TFileSizeProperty.Create;
   FModificationTime := TFileModificationDateTimeProperty.Create;
+  FLastAccessTime := TFileDateTimeProperty.Create;
+  FCreationTime := TFileDateTimeProperty.Create;
   FIsLinkToDirectory := False;
 
   AssignProperties;
@@ -112,6 +118,8 @@ begin
 
   FSize := TFileSizeProperty.Create(FindData.FileSize);
   FModificationTime := TFileModificationDateTimeProperty.Create(FindData.LastWriteTime);
+  FLastAccessTime := TFileDateTimeProperty.Create(FindData.LastAccessTime);
+  FCreationTime := TFileDateTimeProperty.Create(FindData.CreationTime);
 
   AssignProperties;
 
@@ -121,12 +129,11 @@ end;
 
 destructor TWfxPluginFile.Destroy;
 begin
-  if Assigned(FAttributes) then
-    FreeAndNil(FAttributes);
-  if Assigned(FSize) then
-    FreeAndNil(FSize);
-  if Assigned(FModificationTime) then
-    FreeAndNil(FModificationTime);
+  FreeThenNil(FAttributes);
+  FreeThenNil(FSize);
+  FreeThenNil(FModificationTime);
+  FreeThenNil(FLastAccessTime);
+  FreeThenNil(FCreationTime);
 
   inherited Destroy;
 end;
@@ -156,11 +163,13 @@ begin
   FProperties[fpSize] := FSize;
   FProperties[fpAttributes] := FAttributes;
   FProperties[fpModificationTime] := FModificationTime;
+  FProperties[fpCreationTime] := FCreationTime;
+  FProperties[fpLastAccessTime] := FLastAccessTime;
 end;
 
 class function TWfxPluginFile.GetSupportedProperties: TFilePropertiesTypes;
 begin
-  Result := [{fpName, }fpSize, fpAttributes, fpModificationTime];
+  Result := [{fpName, }fpSize, fpAttributes, fpModificationTime, fpCreationTime, fpLastAccessTime];
 end;
 
 function TWfxPluginFile.GetAttributes: Cardinal;
