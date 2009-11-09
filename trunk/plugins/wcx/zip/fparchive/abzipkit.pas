@@ -50,7 +50,7 @@ type
   protected {methods}
     procedure DoConfirmOverwrite(var Name : string; var Confirm : Boolean);
       virtual;
-    procedure DoNeedPassword(Sender : TObject; var NewPassword : string);
+    procedure DoNeedPassword(Sender : TObject; var NewPassword : AnsiString);
       virtual;
     procedure InitArchive;
       override;
@@ -168,7 +168,7 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbCustomZipKit.DoNeedPassword( Sender : TObject;
-                                    var NewPassword : string );
+                                    var NewPassword : AnsiString );
 begin
   if Assigned( FOnNeedPassword ) then begin
     FOnNeedPassword( Self, NewPassword );

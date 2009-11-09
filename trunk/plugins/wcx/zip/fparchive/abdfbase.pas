@@ -107,7 +107,7 @@ type
       FOnProgressStep : TAbProgressStep;
       FOptions        : longint;
       FPartSize       : Int64;
-      FPassphrase     : string;
+      FPassphrase     : AnsiString;
       FSizeCompressed : Int64;
       FSizeNormal     : Int64;
       FStreamSize     : Int64;
@@ -121,7 +121,7 @@ type
       procedure dhSetMaxLazy(aValue : longint);
       procedure dhSetOnProgressStep(aValue : TAbProgressStep);
       procedure dhSetOptions(aValue : longint);
-      procedure dhSetPassphrase(const aValue : string);
+      procedure dhSetPassphrase(const aValue : AnsiString);
       procedure dhSetWindowSize(aValue : longint);
       procedure dhSetZipOption(aValue : AnsiChar);
     public
@@ -143,7 +143,7 @@ type
                   read FOptions write dhSetOptions;
       property PartialSize : Int64
                   read FPartSize write FPartSize;
-      property Passphrase : string
+      property Passphrase : AnsiString
                   read FPassphrase write dhSetPassphrase;
       property PKZipOption : AnsiChar
                   read FZipOption write dhSetZipOption;
@@ -342,7 +342,7 @@ begin
   end;
 end;
 {--------}
-procedure TAbDeflateHelper.dhSetPassphrase(const aValue : string);
+procedure TAbDeflateHelper.dhSetPassphrase(const aValue : AnsiString);
 begin
   FPassphrase := aValue;
 end;

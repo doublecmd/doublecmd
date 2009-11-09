@@ -87,9 +87,6 @@ type
 implementation
 
 uses
-  {$IFDEF TrialRun}
-  AbTrial,
-  {$ENDIF}
   AbConst;
 
 { -------------------------------------------------------------------------- }

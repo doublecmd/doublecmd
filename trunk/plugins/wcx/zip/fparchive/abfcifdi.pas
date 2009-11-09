@@ -109,18 +109,18 @@ type
     iDisk                 : Integer;
     fFailOnIncompressible : Integer;
     setID                 : Word;
-    szDisk                : array[0..255] of Char;
-    szCab                 : array[0..255] of Char;
-    szCabPath             : array[0..255] of Char;
+    szDisk                : array[0..255] of AnsiChar;
+    szCab                 : array[0..255] of AnsiChar;
+    szCabPath             : array[0..255] of AnsiChar;
   end;
 
   {FDI notification structure}
   PFDINotification = ^FDINotification;
   FDINotification  = record
     cb       : Longint;
-    psz1     : PChar;
-    psz2     : PChar;
-    psz3     : PChar;
+    psz1     : PAnsiChar;
+    psz2     : PAnsiChar;
+    psz3     : PAnsiChar;
     pv       : Pointer;
     hf       : Integer;
     date     : Word;
@@ -150,7 +150,7 @@ type
       cdecl;
 {----------------------------------------------------------------------------}
   TFDICopy =
-    function(hfdi : HFDI; pszCabinet, pszCabPath : PChar;
+    function(hfdi : HFDI; pszCabinet, pszCabPath : PAnsiChar;
       flags : Integer; pfnfdin, pfnfdid : FARPROC; Archive : Pointer) : Boolean;
       cdecl;
 {----------------------------------------------------------------------------}
@@ -165,7 +165,7 @@ type
       cdecl;
 {----------------------------------------------------------------------------}
   TFCIAddFile =
-    function(hfci : HFCI; pszFilePath, pszFileName : PChar;
+    function(hfci : HFCI; pszFilePath, pszFileName : PAnsiChar;
       fExecute : Boolean; pfnfcignc, pfnfcis, pfnfcigoi : FARPROC;
       typeCompress : Word) : Boolean;
       cdecl;
@@ -205,7 +205,7 @@ function FDIIsCabinet(hfdi : HFDI; hf : Integer;
   {  hf     - cabinet file handle }
   {  pfdici - pointer to FDI cabinet info structure }
 {----------------------------------------------------------------------------}
-function FDICopy(hfdi : HFDI; pszCabinet, pszCabPath : PChar;
+function FDICopy(hfdi : HFDI; pszCabinet, pszCabPath : PAnsiChar;
   flags : Integer; pfnfdin, pfnfdid : FARPROC;
   Archive : Pointer) : Boolean;
   {enumerates every file in the cabinet.  The callback function
@@ -240,7 +240,7 @@ function FCICreate(pError : PCabErrorRecord;
   {  pccab     - pointer to FCI cabinet infor structure }
   {  Archive   - the calling TAbCabArchive instance }
 {----------------------------------------------------------------------------}
-function FCIAddFile(hfci : HFCI; pszFilePath, pszFileName : PChar;
+function FCIAddFile(hfci : HFCI; pszFilePath, pszFileName : PAnsiChar;
   fExecute : Boolean; pfnfcignc, pfnfcis, pfnfcigoi : FARPROC;
   typeCompress : Word) : Boolean;
   {adds a file to the cabinet}
@@ -339,7 +339,7 @@ begin
     Result := False;
 end;
 {----------------------------------------------------------------------------}
-function FDICopy(hfdi : HFDI; pszCabinet, pszCabPath : PChar;
+function FDICopy(hfdi : HFDI; pszCabinet, pszCabPath : PAnsiChar;
   flags : Integer; pfnfdin, pfnfdid : FARPROC;
   Archive : Pointer) : Boolean;
 begin
@@ -374,7 +374,7 @@ begin
     Result := nil;
 end;
 {----------------------------------------------------------------------------}
-function FCIAddFile(hfci : HFCI; pszFilePath, pszFileName : PChar;
+function FCIAddFile(hfci : HFCI; pszFilePath, pszFileName : PAnsiChar;
   fExecute : Boolean; pfnfcignc, pfnfcis, pfnfcigoi : FARPROC;
   typeCompress : Word) : Boolean;
 begin

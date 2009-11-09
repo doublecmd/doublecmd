@@ -34,8 +34,6 @@
 {$I AbDefine.inc}
 
 unit AbCabTyp;
-{$WARN UNIT_PLATFORM OFF}  
-{$WARN SYMBOL_PLATFORM OFF}
 
 interface
 
@@ -80,15 +78,15 @@ type
   TAbCabArchive = class(TAbArchive)
   protected {private}
     {internal variables}
-    FCabName         : array[0..255] of Char;
-    FCabPath         : array[0..255] of Char;
+    FCabName         : AnsiString;
+    FCabPath         : AnsiString;
     FFCICabInfo      : FCICabInfo;
     FFCIContext      : HFCI;
     FFDIContext      : HFDI;
     FFDICabInfo      : FDICabInfo;
     FErrors          : CabErrorRecord;
-    FFileHandle      : Integer;
     FItemInProgress  : TAbCabItem;
+    FItemStream      : TStream;
     FIIPName         : string;
     FItemProgress    : DWord;
     FNextCabinet     : string;
@@ -115,17 +113,17 @@ type
     procedure DoCabItemProcessed;
     procedure DoCabItemProgress(BytesCompressed : DWord;
       var Abort : Boolean);
-    procedure DoConfirmOverwrite(var FileName : string; var Confirm : Boolean);
-      virtual;
     procedure DoGetNextCabinet(CabIndex : Integer; var CabName : string;
                                var Abort : Boolean);
     procedure ExtractItemAt(Index : Integer; const NewName : string);
       override;
     procedure ExtractItemToStreamAt(Index : Integer; OutStream : TStream);
       override;
+    function  GetItem(ItemIndex : Integer) : TAbCabItem;
     procedure LoadArchive;
       override;
     procedure OpenCabFile;
+    procedure PutItem( Index : Integer; Value : TAbCabItem );
     procedure SaveArchive;
       override;
     procedure SetFolderThreshold(Value : LongWord);
@@ -137,6 +135,8 @@ type
 
   public {methods}
     constructor Create(const FileName : string; Mode : Word);
+      override;
+    constructor CreateFromStream(aStream : TStream; const aArchiveName : string);
       override;
     destructor Destroy;
       override;
@@ -162,6 +162,9 @@ type
       read  FHasPrev;
     property HasNext : Boolean
       read  FHasNext;
+    property Items[Index : Integer] : TAbCabItem
+      read  GetItem
+      write PutItem; default;
     property ItemProgress : DWord
       read  FItemProgress
       write FItemProgress;
@@ -173,9 +176,13 @@ type
 function VerifyCab(const Fn : string) : TAbArchiveType;
 
 implementation
+
 uses
   AbExcept;
-  
+
+{$WARN UNIT_PLATFORM OFF}
+{$WARN SYMBOL_PLATFORM OFF}
+
 type
   PWord    = ^Word;
   PInteger = ^Integer;
@@ -213,12 +220,12 @@ procedure FXI_FreeMem(lpBuffer : Pointer);
   cdecl;
   {free memory}
 begin
-  Freemem(lpBuffer);
+  Dispose(lpBuffer);
 end;
 
 
 { == FCI Callback Functions - cdecl calling convention ===================== }
-function FCI_FileOpen(lpPathName: PChar; Flag, Mode: Integer;
+function FCI_FileOpen(lpPathName: PAnsiChar; Flag, Mode: Integer;
   PError: PInteger; Archive: TAbCabArchive) : HFILE;
   cdecl;
   {open a file}
@@ -268,12 +275,12 @@ begin
     raise EAbFCIFileSeekError.Create;
 end;
 { -------------------------------------------------------------------------- }
-function FCI_FileDelete(lpFilename: PChar;  PError: PInteger;
+function FCI_FileDelete(lpFilename: PAnsiChar;  PError: PInteger;
   Archive: TAbCabArchive) : Boolean;
   cdecl;
   {delete a file}
 begin
-  Result := SysUtils.DeleteFile(StrPas(lpFilename));
+  Result := SysUtils.DeleteFile(string(lpFilename));
   if (Result = False) then
     raise EAbFCIFileDeleteError.Create;
 end;
@@ -288,16 +295,16 @@ var
 begin
   Abort := False;
   with lpCCab^ do begin
-    CabName := StrPas(szCab);                                            {!!.02}
+    CabName := string(szCab);                                            {!!.02}
     {obtain next cabinet.  Make index zero-based}
     Archive.DoGetNextCabinet(Pred(iCab), CabName, Abort);
     if not Abort then
-      StrPCopy(szCab, CabName);                                          {!!.02}
+      StrPLCopy(szCab, AnsiString(CabName), Length(szCab));              {!!.02}
   end;
   Result := not Abort;
 end;
 { -------------------------------------------------------------------------- }
-function FCI_FileDest(PCCab: PFCICabInfo; PFilename: PChar; cbFile: Longint;
+function FCI_FileDest(PCCab: PFCICabInfo; PFilename: PAnsiChar; cbFile: Longint;
   Continuation: Boolean; Archive: TAbCabArchive) : Integer;
   cdecl;
   {currently not used}
@@ -305,7 +312,7 @@ begin
   Result := 0;
 end;
 { -------------------------------------------------------------------------- }
-function FCI_GetOpenInfo(lpPathname: PChar; PDate, PTime, PAttribs : PWord;
+function FCI_GetOpenInfo(lpPathname: PAnsiChar; PDate, PTime, PAttribs : PWord;
   PError: PInteger; Archive: TAbCabArchive) : Integer;
   cdecl;
   {open a file and return date/attributes}
@@ -315,7 +322,7 @@ begin
   Result := _lopen(lpPathname, OF_READ or OF_SHARE_DENY_NONE);
   if (Result = -1) then
     raise EAbFCIFileOpenError.Create;
-  PAttribs^ := AbFileGetAttr(StrPas(lpPathname));
+  PAttribs^ := AbFileGetAttr(string(lpPathname));
   DT := FileGetDate(Result);
   PDate^ := DT shr 16;
   PTime^ := DT and $0FFFF;
@@ -341,57 +348,61 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-function FCI_GetTempFile(lpTempName: PChar; TempNameSize: Integer;
+function FCI_GetTempFile(lpTempName: PAnsiChar; TempNameSize: Integer;
                          Archive: TAbCabArchive) : Integer; cdecl;
   {obtain temporary filename}
 var
-  TempPath : array[0..255] of Char;
-  Prefix : array[0..10] of Char;
+  TempPath : array[0..255] of AnsiChar;
 begin
   Archive.FTempFileID := Archive.FTempFileID + 1;
-  StrPCopy(Prefix, 'VMS');
   if (Archive.TempDirectory <> '') then
-    StrPCopy(TempPath, Archive.TempDirectory)                            {!!.02}
+    StrPLCopy(TempPath, AnsiString(Archive.TempDirectory), Length(TempPath)){!!.02}
   else
-    GetTempPath(255, TempPath);                                          {!!.02}
-  GetTempFileName(TempPath, Prefix, Archive.FTempFileID, lpTempName);    {!!.02}
+    GetTempPathA(255, TempPath);                                         {!!.02}
+  GetTempFileNameA(TempPath, 'VMS', Archive.FTempFileID, lpTempName);    {!!.02}
   Result := 1;
 end;
 
 { == FDI Callback Functions - cdecl calling convention ===================== }
-function FDI_FileOpen(lpPathName: PChar; Flag, Mode: Integer) : Integer;
+function FDI_FileOpen(lpPathName: PAnsiChar; Flag, Mode: Integer) : Integer;
   cdecl;
   {open a file}
+var
+  Handle : Integer;
 begin
-  Result := _lopen(lpPathName, Mode);
+  Handle := FileOpen(string(lpPathName), fmOpenRead or fmShareDenyWrite);
+  if Handle <> -1 then
+    Result := Integer(TFileStream.Create(Handle))
+  else
+    Result := -1;
 end;
 { -------------------------------------------------------------------------- }
 function FDI_FileRead(hFile: HFILE; lpBuffer: Pointer; uBytes: UINT) : UINT;
   cdecl;
   {read from a file}
 begin
-  Result := _lread(hFile, lpBuffer, uBytes);
+  Result := TStream(hFile).Read(lpBuffer^, uBytes);
 end;
 { -------------------------------------------------------------------------- }
 function FDI_FileWrite(hFile: HFILE; lpBuffer: Pointer; uBytes: UINT) : UINT;
   cdecl;
   {write to a file}
 begin
-  Result := _lwrite(hFile, lpBuffer, uBytes);
+  Result := TStream(hFile).Write(lpBuffer^, uBytes);
 end;
 { -------------------------------------------------------------------------- }
 procedure FDI_FileClose(hFile : HFILE);
   cdecl;
   {close a file}
 begin
-  _lclose(hFile);
+  TStream(hFile).Free;
 end;
 { -------------------------------------------------------------------------- }
 function FDI_FileSeek(hFile : HFILE; Offset : Longint; Origin : Integer) : Longint;
   cdecl;
   {reposition file pointer}
 begin
-  Result := _llseek(hFile, Offset, Origin);
+  Result := TStream(hFile).Seek(Offset, Origin);
 end;
 { -------------------------------------------------------------------------- }
 function FDI_EnumerateFiles(fdint : FDINOTIFICATIONTYPE;
@@ -409,15 +420,15 @@ begin
       begin
         FSetID := pfdin^.setID;
         FCurrentCab := pfdin^.iCabinet;
-        FNextCabinet := StrPas(pfdin^.psz1);
-        FNextDisk    := StrPas(pfdin^.psz2);
+        FNextCabinet := string(pfdin^.psz1);
+        FNextDisk    := string(pfdin^.psz2);
         Result := 0;
       end;
     FDINT_Copy_File, FDINT_Partial_File :
       begin
         Item := TAbCabItem.Create;
         with Item do begin
-          Filename := StrPas(pfdin^.psz1);
+          Filename := string(pfdin^.psz1);
           UnCompressedSize := pfdin^.cb;
           LastModFileDate := pfdin^.date;
           LastModFileTime := pfdin^.time;
@@ -437,60 +448,35 @@ function FDI_ExtractFiles(fdint : FDINOTIFICATIONTYPE;
   {extract file from cabinet}
 var
   Archive : TAbCabArchive;
-  NewFilename : string;
   NextCabName : string;
-  NewFilePath : string;
-  Confirm     : Boolean;
 begin
   Result := 0;
-  Archive :=pfdin^.pv;
+  Archive := pfdin^.pv;
   case fdint of
     FDINT_Copy_File :
       begin
-        NewFilename := StrPas(pfdin^.psz1);
-        if (NewFilename = Archive.FItemInProgress.FileName) then begin
+        if (string(pfdin^.psz1) = Archive.FItemInProgress.FileName) then
           if Archive.FIIPName <> '' then
-            NewFilename := Archive.FIIPName
-          else begin
-            if not (eoRestorePath in Archive.ExtractOptions) then
-              NewFilename := ExtractFileName(NewFileName);
-            if (Archive.BaseDirectory <> '') then
-              NewFilename := Archive.BaseDirectory + '\' + NewFilename;
-          end;
-          NewFilePath := ExtractFilePath(NewFilename);
-          if (Length(NewFilePath) > 0 ) and
-            (NewFilePath[Length(NewFilePath)] = '\') then
-            System.Delete(NewFilePath, Length(NewFilePath), 1);
-          if (Length(NewFilePath) > 0 ) and
-            (not AbDirectoryExists(NewFilePath)) then
-            if (eoCreateDirs in Archive.ExtractOptions) then
-               AbCreateDirectory(NewFilePath)
-            else
-               raise EAbNoSuchDirectory.Create;
-          if FileExists(NewFilename) then begin
-            Archive.DoConfirmOverwrite(NewFilename, Confirm);
-            if not Confirm then
-              Result := 0 {skip file}
-            else
-              Result := FileOpen(NewFilename, fmOpenWrite or fmShareDenyNone);
-          end else
-            Result := FileCreate(NewFilename);
-        end else
-          Result := 0;   {skip file}
-//        Application.ProcessMessages;                                 {!!.04}
+            Result := Integer(TFileStream.Create(Archive.FIIPName, fmCreate))
+          else
+            Result := Integer(Archive.FItemStream)
+        else
+          Result := 0;
       end;
     FDINT_Next_Cabinet :
       begin
         Result := 1;
-        NextCabName := StrPas(pfdin^.psz3) + StrPas(pfdin^.psz1);
+        NextCabName := string(pfdin^.psz3) + string(pfdin^.psz1);
       end;
     FDINT_Close_File_Info :
       begin
-        _lclose(pfdin^.hf);
-        // [ 880505 ]  Need to Set Attributes after File is closed {!!.05}
-        AbFileSetAttr(NewFilename, pfdin^.attribs);
-        // Need to test as Handle maybe invalid after _lclose
-        FileSetDate(pfdin^.hf, Longint(pfdin^.date) shl 16 + pfdin^.time);
+        if Archive.FIIPName <> '' then begin
+          FileSetDate(TFileStream(pfdin^.hf).Handle,
+            Longint(pfdin^.date) shl 16 + pfdin^.time);
+          TFileStream(pfdin^.hf).Free;
+          // [ 880505 ]  Need to Set Attributes after File is closed {!!.05}
+          AbFileSetAttr(Archive.FIIPName, pfdin^.attribs);
+        end;
         Archive.DoCabItemProcessed;
       end;
   end;
@@ -502,19 +488,21 @@ constructor TAbCabArchive.Create(const FileName : string; Mode : Word );
 begin
   {Mode is used to identify which interface to use: }
   {  fmOpenWrite - FCI, fmOpenRead - FDI}
+  inherited CreateInit;
   FMode := Mode and fmOpenWrite;
-  FStatus := asInvalid;
   FArchiveName := FileName;
-  BaseDirectory := ExtractFilePath(ParamStr(0));
-  FItemList := TAbArchiveList.Create;
-  FPadLock := TAbPadLock.Create;
-  FStatus := asIdle;
-  StrPCopy(FCabName, ExtractFileName(FileName));
-  StrPCopy(FCabPath, ExtractFilePath(FileName));
+  FCabName := AnsiString(ExtractFileName(FileName));
+  FCabPath := AnsiString(ExtractFilePath(FileName));
   SpanningThreshold := AbDefCabSpanningThreshold;
   FFolderThreshold := AbDefFolderThreshold;
   FItemInProgress := nil;
   FItemProgress := 0;
+end;
+{ -------------------------------------------------------------------------- }
+constructor TAbCabArchive.CreateFromStream(aStream : TStream;
+  const aArchiveName : string);
+begin
+  raise EAbCabException.Create('TAbCabArchive does not support CreateFromStream');
 end;
 { -------------------------------------------------------------------------- }
 destructor TAbCabArchive.Destroy;
@@ -526,10 +514,9 @@ end;
 procedure TAbCabArchive.Add(aItem : TAbArchiveItem);
   {add a file to the cabinet}
 var
-  FH : HFILE;
-  newFileName:  string;
   Confirm, DoExecute : Boolean;
-  FP, FN : array[0..255] of Char;
+  FP, FN : array[0..255] of AnsiChar;
+  FH : HFILE;
   Item : TAbCabItem;
 begin
   if (FMode <> fmOpenWrite) then begin
@@ -545,7 +532,7 @@ begin
   if not Confirm then
     Exit;
   Item.Action := aaAdd;
-  StrPCopy(FP, Item.DiskFilename);                                           {!!.02}
+  StrPLCopy(FP, AnsiString(Item.DiskFilename), Length(FP));              {!!.02}
   FH := _lopen(FP, OF_READ or OF_SHARE_DENY_NONE);                       {!!.02}
   if (FH <> HFILE_ERROR) then begin
     aItem.UncompressedSize := _llseek(FH, 0, 2);
@@ -555,20 +542,12 @@ begin
   end else
     raise EAbFileNotFound.Create;
 
-
-    newFileName := Item.FileName;
-    if (soStripPath in StoreOptions) then
-    	Item.FileName := ExtractFileName(newFileName);
-
-    if (soRemoveDots in StoreOptions) then AbStripDots(newFileName);
-
-  StrPCopy(FN, newFileName);                          {!!.02}
+  StrPLCopy(FN, AnsiString(Item.FileName), Length(FN));                  {!!.02}
   if not FCIAddFile(FFCIContext, FP, FN, DoExecute, @FCI_GetNextCab,
     @FCI_Status, @FCI_GetOpenInfo, CompressionTypeMap[FCompressionType]) then
     raise EAbFCIAddFileError.Create;
 
-	//TODO: Verify after flushing cab we can write to it again
-    FIsDirty := true;
+  FIsDirty := True;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbCabArchive.CloseCabFile;
@@ -609,8 +588,8 @@ begin
     fFailOnIncompressible := 0;
     setID             := SetID;
     StrPCopy(szDisk, '');
-    StrCopy(szCab, FCabName);
-    StrCopy(szCabPath , FCabPath);
+    StrPLCopy(szCab, FCabName, Length(szCab));
+    StrPLCopy(szCabPath, FCabPath, Length(szCabPath));
   end;
 
     {obtain an FCI context}
@@ -663,14 +642,6 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCabArchive.DoConfirmOverwrite(var FileName : string;
-  var Confirm : Boolean);
-begin
-  Confirm := True;
-  if Assigned(FOnConfirmOverwrite) then
-    FOnConfirmOverwrite( FileName, Confirm );
-end;
-{ -------------------------------------------------------------------------- }
 procedure TAbCabArchive.DoGetNextCabinet(CabIndex : Integer;
   var CabName : string; var Abort : Boolean);
   {fire OnRequestImage event}
@@ -685,11 +656,11 @@ end;
 procedure TAbCabArchive.ExtractItemAt(Index : Integer; const NewName : string);
   {extract a file from the cabinet}
 begin
-  FItemInProgress := TAbCabItem(ItemList.Items[Index]);
+  FItemInProgress := GetItem(Index);
   FIIPName := NewName;
   try
-    if not FDICopy(FFDIContext, FCabName, FCabPath, 0, @FDI_ExtractFiles,
-                   nil, Self) then
+    if not FDICopy(FFDIContext, PAnsiChar(FCabName), PAnsiChar(FCabPath), 0,
+                   @FDI_ExtractFiles, nil, Self) then
       DoProcessItemFailure(FItemInProgress, ptExtract, ecCabError, 0);
   finally
     FIIPName := '';
@@ -699,6 +670,21 @@ end;
 procedure TAbCabArchive.ExtractItemToStreamAt(Index : Integer; OutStream : TStream);
 begin
   {not implemented for cabinet archives}
+  FItemInProgress := GetItem(Index);
+  FItemStream := OutStream;
+  try
+    if not FDICopy(FFDIContext, PAnsiChar(FCabName), PAnsiChar(FCabPath), 0,
+                   @FDI_ExtractFiles, nil, Self) then
+      DoProcessItemFailure(FItemInProgress, ptExtract, ecCabError, 0);
+  finally
+    FItemStream := nil;
+  end;
+end;
+{----------------------------------------------------------------------------}
+function TAbCabArchive.GetItem(ItemIndex : Integer) : TAbCabItem;
+  {fetch an item from the file list}
+begin
+  Result := TAbCabItem(FItemList.Items[ItemIndex]);
 end;
 {----------------------------------------------------------------------------}
 procedure TAbCabArchive.LoadArchive;
@@ -733,18 +719,20 @@ procedure TAbCabArchive.OpenCabFile;
   {Open an existing cabinet}
 var
   Abort : Boolean;
+  Stream : TFileStream;
 begin
     {verify that the archive can be opened and is a cabinet}
-  FFileHandle := FileOpen(FArchiveName, fmOpenRead or fmShareDenyNone);
-  if (FFileHandle <= 0) then
-    raise EAbReadError.Create;
-  if not FDIIsCabinet(FFDIContext, FFileHandle, @FFDICabInfo) then begin
-    CloseCabFile;
-    raise EAbInvalidCabFile.Create;
+  Stream := TFileStream.Create(FArchiveName, fmOpenRead or fmShareDenyNone);
+  try
+    if not FDIIsCabinet(FFDIContext, Integer(Stream), @FFDICabInfo) then begin
+      CloseCabFile;
+      raise EAbInvalidCabFile.Create;
+    end;
+  finally
+    Stream.Free;
   end;
 
     {store information about the cabinet}
-  FileClose(FFileHandle);
   FCabSize := FFDICabInfo.cbCabinet;
   FFolderCount := FFDICabInfo.cFolders;
   FFileCount := FFDICabInfo.cFiles;
@@ -753,12 +741,18 @@ begin
   FHasNext := FFDICabInfo.hasNext;
 
     {Enumerate the files and build the file list}
-  if not FDICopy(FFDIContext, FCabName, FCabPath, 0,
+  if not FDICopy(FFDIContext, PAnsiChar(FCabName), PAnsiChar(FCabPath), 0,
     @FDI_EnumerateFiles, nil, Self) then begin
     CloseCabFile;
     raise EAbFDICopyError.Create;
   end;
   DoArchiveProgress(100, Abort);
+end;
+{ -------------------------------------------------------------------------- }
+procedure TAbCabArchive.PutItem( Index : Integer; Value : TAbCabItem );
+  {replace an existing item in the file list}
+begin
+  FItemList.Items[Index] := Value;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbCabArchive.SaveArchive;

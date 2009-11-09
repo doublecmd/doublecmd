@@ -246,7 +246,7 @@ type
     FLogging                : Boolean;
     FSpanningThreshold      : Longint;
     FOutline                : TAbZipDisplayOutline;
-    FPassword               : string;
+    FPassword               : AnsiString;
     FPasswordRetries        : Byte;
     FStoreOptions           : TAbStoreOptions;
     FTempDirectory          : string;
@@ -330,7 +330,7 @@ type
     procedure DoMouseWheel(Sender : TObject; Shift : TShiftState;
                            Delta, XPos, YPos : Word); virtual;
 {$ENDIF}
-    procedure DoNeedPassword(Sender : TObject; var NewPassword : string);
+    procedure DoNeedPassword(Sender : TObject; var NewPassword : AnsiString);
                              virtual;
     procedure DoSave(Sender : TObject); virtual;
 {$IFDEF WIN32}
@@ -358,7 +358,7 @@ type
     function GetSelectedZipItem : TAbZipItem;
     function GetStatus : TAbArchiveStatus;
     function GetVersion : string;
-    function GetZipfileComment : string;
+    function GetZipfileComment : AnsiString;
     procedure InitArchive;
     procedure Loaded; override;
     procedure Notification(Component: TComponent; Operation: TOperation);
@@ -390,7 +390,7 @@ type
     procedure SetOnRequestNthDisk(Value : TAbRequestNthDiskEvent);
     procedure SetOnRequestBlankDisk(Value : TAbRequestDiskEvent);
     procedure SetOnWindowsDrop(Value : TWindowsDropEvent);
-    procedure SetPassword(Value : string);
+    procedure SetPassword(Value : AnsiString);
     procedure SetPasswordRetries(Value : Byte);
     procedure SetPictureDirectory(Value : TBitmap);                   
     procedure SetPictureFile(Value : TBitmap);
@@ -405,7 +405,7 @@ type
     procedure SetTempDirectory(Value : string);
     procedure SetSpanningThreshold(Value : Longint);
     procedure SetVersion(Value : string);
-    procedure SetZipfileComment(Value : string);
+    procedure SetZipfileComment(Value : AnsiString);
     procedure TestItemProc(Sender : TObject; Item : TAbArchiveItem);
     procedure UnzipProc(Sender : TObject; Item : TAbArchiveItem;
                         const NewName : string);
@@ -486,7 +486,7 @@ type
     property OnWindowsDrop : TWindowsDropEvent
              read  FOnWindowsDrop
              write SetOnWindowsDrop;
-    property Password : string
+    property Password : AnsiString
              read  FPassword
              write SetPassword;
     property PasswordRetries : Byte
@@ -698,7 +698,7 @@ type
     property TempDirectory : string
              read FTempDirectory
              write SetTempDirectory;
-    property ZipfileComment : string
+    property ZipfileComment : AnsiString
              read GetZipfileComment
              write SetZipfileComment;
   end;
@@ -973,15 +973,13 @@ var
   FileName : string;
   I : Integer;
   NumFiles : Integer;
-  DroppedName : array [0..79] of Char;
 begin
   Msg.Result := 1;
-  NumFiles := DragQueryFile(Msg.Drop, Cardinal(-1), DroppedName,
-                             sizeof(DroppedName));
+  NumFiles := DragQueryFile(Msg.Drop, Cardinal(-1), nil, 0);
   try
     for I := 0 to pred(NumFiles) do begin
-      DragQueryFile(Msg.Drop, I, DroppedName, sizeof(DroppedName));
-      FileName := StrPas(DroppedName);
+      SetLength(FileName, DragQueryFile(Msg.Drop, I, nil, 0));
+      DragQueryFile(Msg.Drop, I, PChar(FileName), Length(FileName) + 1);
       DoOnWindowsDrop(FileName);
     end;
   finally
@@ -1599,7 +1597,7 @@ end;
 {$ENDIF}
 { -------------------------------------------------------------------------- }
 procedure TAbCustomZipOutline.DoNeedPassword(Sender : TObject;
-                                        var NewPassword : string);
+                                        var NewPassword : AnsiString);
 begin
   if Assigned(FOnNeedPassword) then begin
     FOnNeedPassword(Sender, NewPassword);
@@ -1877,7 +1875,7 @@ begin
   Result := AbVersion;
 end;
 { -------------------------------------------------------------------------- }
-function TAbCustomZipOutline.GetZipfileComment : string;
+function TAbCustomZipOutline.GetZipfileComment : AnsiString;
 begin
   if Assigned(FArchive) then
     Result := TAbZipArchive(FArchive).ZipfileComment
@@ -2200,7 +2198,7 @@ begin
     FOutline.OnWindowsDrop := nil;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCustomZipOutline.SetPassword(Value : string);
+procedure TAbCustomZipOutline.SetPassword(Value : AnsiString);
 begin
   FPassword := Value;
   if Assigned(FArchive) then
@@ -2317,7 +2315,7 @@ begin
   {NOP}
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCustomZipOutline.SetZipfileComment(Value : string);
+procedure TAbCustomZipOutline.SetZipfileComment(Value : AnsiString);
 begin
   if Assigned(FArchive) then
     TAbZipArchive(FArchive).ZipfileComment := Value;

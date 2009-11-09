@@ -37,7 +37,8 @@ interface
 
 uses
   SysUtils, Classes,
-  AbBrowse, AbExcept, AbUtils, AbArcTyp, AbZipTyp, AbTarTyp, AbGzTyp, AbSpanSt;
+  AbBrowse,
+  AbBase, AbExcept, AbUtils, AbArcTyp, AbZipTyp, AbTarTyp, AbGzTyp, AbSpanSt;
 
 type
   TAbCustomZipBrowser = class(TAbBaseBrowser)
@@ -46,7 +47,7 @@ type
     procedure SetTarAutoHandle(const Value: Boolean);
   protected {private}
     FSpanStream        : TAbSpanStream;
-    FPassword          : string;
+    FPassword          : AnsiString;
     FOnRequestLastDisk : TAbRequestDiskEvent;
     FOnRequestNthDisk  : TAbRequestNthDiskEvent;
     FOnRequestBlankDisk     : TAbRequestDiskEvent;
@@ -55,7 +56,7 @@ type
   protected {methods}
     function  GetItem(Index : Integer) : TAbZipItem; virtual;
     function  GetZipArchive : {TAbZipArchive} TAbArchive;
-    function  GetZipfileComment : string;
+    function  GetZipfileComment : AnsiString;
     procedure InitArchive;
       override;
     procedure SetFileName(const aFileName : string);
@@ -65,12 +66,12 @@ type
     procedure SetOnRequestBlankDisk(Value : TAbRequestDiskEvent);
     procedure SetOnRequestImage(Value : TAbRequestImageEvent); override;
 
-    procedure SetPassword(const Value : string);
-    procedure SetZipfileComment(const Value : string);
+    procedure SetPassword(const Value : AnsiString);
+    procedure SetZipfileComment(const Value : AnsiString);
       virtual;
 
   protected {properties}
-    property Password : string
+    property Password : AnsiString
       read  FPassword
       write SetPassword;
 
@@ -94,7 +95,7 @@ type
       read  GetItem; default;
     property ZipArchive : {TAbZipArchive} TAbArchive
       read GetZipArchive;
-    property ZipfileComment : string
+    property ZipfileComment : AnsiString
       read GetZipfileComment
       write SetZipfileComment;
 
@@ -163,9 +164,9 @@ begin
     Result := nil;
 end;
 { -------------------------------------------------------------------------- }
-function TAbCustomZipBrowser.GetZipfileComment : string;
+function TAbCustomZipBrowser.GetZipfileComment : AnsiString;
 begin
-  if (ZipArchive<> nil) then
+  if (ZipArchive <> nil) then
     Result := (ZipArchive as TAbZipArchive).ZipfileComment
   else
     Result := '';
@@ -284,7 +285,7 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCustomZipBrowser.SetPassword(const Value : string);
+procedure TAbCustomZipBrowser.SetPassword(const Value : AnsiString);
 begin
   FPassword := Value;
   if (ZipArchive <> nil) then
@@ -305,7 +306,7 @@ begin
   end;
 end;
 
-procedure TAbCustomZipBrowser.SetZipfileComment(const Value : string);
+procedure TAbCustomZipBrowser.SetZipfileComment(const Value : AnsiString);
 begin
   {NOP - descendents wishing to set this property should override}
 end;

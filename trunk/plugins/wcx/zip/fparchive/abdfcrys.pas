@@ -47,7 +47,7 @@ type
       FReady : boolean;
       FState : array [0..2] of longint;
     protected
-      procedure zdeInitState(const aPassphrase : string);
+      procedure zdeInitState(const aPassphrase : AnsiString);
     public
       constructor Create;
 
@@ -57,7 +57,7 @@ type
         {-decodes a buffer}
 
       function VerifyHeader(const aHeader     : TAbZipEncryptHeader;
-                            const aPassphrase : string;
+                            const aPassphrase : AnsiString;
                                   aCheckValue : longint) : boolean;
         {-validate an encryption header}
     end;
@@ -66,14 +66,14 @@ type
     private
       FCheckValue : longint;
       FEngine     : TAbZipDecryptEngine;
-      FPassphrase : string;
+      FPassphrase : AnsiString;
       FReady      : boolean;
       FStream     : TStream;
     protected
     public
       constructor Create(aStream     : TStream;
                          aCheckValue : longint;
-                   const aPassphrase : string);
+                   const aPassphrase : AnsiString);
       destructor Destroy; override;                            {!!.02}
 
       function IsValid : boolean;
@@ -88,7 +88,7 @@ type
       FReady : boolean;
       FState : array [0..2] of longint;
     protected
-      procedure zeeInitState(const aPassphrase : string);
+      procedure zeeInitState(const aPassphrase : AnsiString);
     public
       constructor Create;
 
@@ -98,7 +98,7 @@ type
         {-encodes a buffer}
 
       procedure CreateHeader(var aHeader     : TAbZipEncryptHeader;
-                           const aPassphrase : string;
+                           const aPassphrase : AnsiString;
                                  aCheckValue : longint);
         {-generate an encryption header}
     end;
@@ -113,7 +113,7 @@ type
     public
       constructor Create(aStream     : TStream;
                          aCheckValue : longint;
-                   const aPassphrase : string);
+                   const aPassphrase : AnsiString);
       destructor Destroy; override;
 
       function Read(var aBuffer; aCount : longint) : longint; override;
@@ -228,7 +228,7 @@ begin
 end;
 {--------}
 function TAbZipDecryptEngine.VerifyHeader(const aHeader     : TAbZipEncryptHeader;
-                                          const aPassphrase : string;
+                                          const aPassphrase : AnsiString;
                                                 aCheckValue : longint) : boolean;
 type
   TLongAsBytes = packed record
@@ -270,7 +270,7 @@ begin
   FReady := Result;
 end;
 {--------}
-procedure TAbZipDecryptEngine.zdeInitState(const aPassphrase : string);
+procedure TAbZipDecryptEngine.zdeInitState(const aPassphrase : AnsiString);
 var
   i : integer;
 begin
@@ -293,7 +293,7 @@ end;
 {====================================================================}
 constructor TAbDfDecryptStream.Create(aStream     : TStream;
                                       aCheckValue : longint;
-                                const aPassphrase : string);
+                                const aPassphrase : AnsiString);
 begin
   {create the ancestor}
   inherited Create;
@@ -375,7 +375,7 @@ end;
 {--------}
 procedure TAbZipEncryptEngine.CreateHeader(
                                 var aHeader     : TAbZipEncryptHeader;
-                              const aPassphrase : string;
+                              const aPassphrase : AnsiString;
                                     aCheckValue : longint);
 type
   TLongAsBytes = packed record
@@ -530,7 +530,7 @@ begin
   FState[2] := WorkState[2];
 end;
 {--------}
-procedure TAbZipEncryptEngine.zeeInitState(const aPassphrase : string);
+procedure TAbZipEncryptEngine.zeeInitState(const aPassphrase : AnsiString);
 var
   i : integer;
 begin
@@ -553,7 +553,7 @@ end;
 {===TAbDfEncryptStream===============================================}
 constructor TAbDfEncryptStream.Create(aStream     : TStream;
                                       aCheckValue : longint;
-                                const aPassphrase : string);
+                                const aPassphrase : AnsiString);
 var
   Header : TAbZipEncryptHeader;
 begin

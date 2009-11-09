@@ -70,9 +70,10 @@ var
   AbSymbolTranslator : TAbDfTranslator;
 
 implementation
+
 uses
   AbDfBase;
-  
+
 {====================================================================}
 constructor TAbDfTranslator.Create;
 begin
