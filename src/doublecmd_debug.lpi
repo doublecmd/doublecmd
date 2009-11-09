@@ -1,0 +1,676 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectOptions>
+    <PathDelim Value="\"/>
+    <Version Value="7"/>
+    <General>
+      <Flags>
+        <SaveClosedFiles Value="False"/>
+        <MainUnitHasUsesSectionForAllUnits Value="False"/>
+      </Flags>
+      <SessionStorage Value="InProjectDir"/>
+      <MainUnit Value="0"/>
+      <TargetFileExt Value=""/>
+      <Title Value="Double Commander"/>
+      <UseXPManifest Value="True"/>
+    </General>
+    <i18n>
+      <EnableI18N Value="True"/>
+      <OutDir Value="..\language"/>
+    </i18n>
+    <VersionInfo>
+      <UseVersionInfo Value="True"/>
+      <CurrentMajorRevNr Value="4"/>
+      <CurrentMinorRevNr Value="6"/>
+      <ProjectVersion Value="0.4.6.0"/>
+      <FileDescription Value="Double Commander is a cross platform open source file manager with two panels side by side"/>
+      <InternalName Value="DOUBLECMD"/>
+      <LegalCopyright Value="Copyright (C) 2006-2009  Koblov Alexander"/>
+      <ProductName Value="Double Commander"/>
+    </VersionInfo>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="5">
+      <Item1>
+        <PackageName Value="cmdbox"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="KASComp"/>
+        <MinVersion Major="1" Release="1" Build="1" Valid="True"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="LCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="SynEdit"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="viewerpackage"/>
+      </Item5>
+    </RequiredPackages>
+    <Units Count="94">
+      <Unit0>
+        <Filename Value="doublecmd.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="doublecmd"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="fconfigtoolbar.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmConfigToolBar"/>
+        <HasResources Value="True"/>
+        <UnitName Value="fConfigToolBar"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="fmain.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmMain"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fMain"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="uwcxprototypes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWCXprototypes"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="fviewer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmViewer"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fViewer"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="feditor.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmEditor"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fEditor"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="fMsg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmMsg"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fMsg"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="dmcommondata.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dmComData"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="dmCommonData"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="dmhigh.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dmHighl"/>
+        <HasResources Value="True"/>
+        <UnitName Value="dmHigh"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="feditorconf.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmEditorConf"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fEditorConf"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="ffindview.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmFindView"/>
+        <HasResources Value="True"/>
+        <UnitName Value="fFindView"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="fAbout.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmAbout"/>
+        <HasResources Value="True"/>
+        <UnitName Value="fAbout"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="foptions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptions"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fOptions"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="fFileOpDlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmFileOp"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fFileOpDlg"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="fmkdir.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmMkDir"/>
+        <HasResources Value="True"/>
+        <UnitName Value="fMkDir"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="fcopymovedlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmCopyDlg"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fCopyMoveDlg"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="fcomparefiles.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmCompareFiles"/>
+        <HasResources Value="True"/>
+        <UnitName Value="fCompareFiles"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="fFindDlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmFindDlg"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fFindDlg"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="fhotdir.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmHotDir"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fHotDir"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="fsymlink.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmSymLink"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fSymLink"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="fhardlink.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmHardLink"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fHardLink"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="fmultirename.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmMultiRename"/>
+        <HasResources Value="True"/>
+        <UnitName Value="fMultiRename"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="fpackdlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmPackDlg"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fPackDlg"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="flinker.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmLinker"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fLinker"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="fsplitter.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmSplitter"/>
+        <HasResources Value="True"/>
+        <UnitName Value="fSplitter"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="ffileproperties.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmFileProperties"/>
+        <HasResources Value="True"/>
+        <UnitName Value="fFileProperties"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="fextractdlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmExtractDlg"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fExtractDlg"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="ulng.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uLng"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="ffileassoc.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmFileAssoc"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fFileAssoc"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="fcolumnssetconf.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fColumnsSetConf"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fColumnsSetConf"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="fhackform.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmHackForm"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fHackForm"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="fpackinfodlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmPackInfoDlg"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fPackInfoDlg"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="ftweakplugin.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmTweakPlugin"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fTweakPlugin"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="udescr.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDescr"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="fdescredit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmDescrEdit"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fDescrEdit"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="platform\win\ugdiplus.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uGdiPlus"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="platform\win\umywindows.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uMyWindows"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="platform\unix\umyunix.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uMyUnix"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="dmhelpmanager.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dmHelpManager"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="dmHelpManager"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="feditsearch.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmEditSearchReplace"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fEditSearch"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="platform\udragdropex.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDragDropEx"/>
+      </Unit40>
+      <Unit41>
+        <Filename Value="ushellexecute.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uShellExecute"/>
+      </Unit41>
+      <Unit42>
+        <Filename Value="platform\uClipboard.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uClipboard"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="platform\udragdropgtk.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDragDropGtk"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="usearchtemplate.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uSearchTemplate"/>
+      </Unit44>
+      <Unit45>
+        <Filename Value="platform\ukeyboard.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uKeyboard"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="platform\udragdropqt.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDragDropQt"/>
+      </Unit46>
+      <Unit47>
+        <Filename Value="fchecksumverify.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmCheckSumVerify"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fCheckSumVerify"/>
+      </Unit47>
+      <Unit48>
+        <Filename Value="fchecksumcalc.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmCheckSumCalc"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fCheckSumCalc"/>
+      </Unit48>
+      <Unit49>
+        <Filename Value="newdesign\ulocalfilesource.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uLocalFileSource"/>
+      </Unit49>
+      <Unit50>
+        <Filename Value="newdesign\ufilesystemfilesource.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemFileSource"/>
+      </Unit50>
+      <Unit51>
+        <Filename Value="newdesign\ufilesystemlistoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemListOperation"/>
+      </Unit51>
+      <Unit52>
+        <Filename Value="newdesign\ufactory.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ufactory"/>
+      </Unit52>
+      <Unit53>
+        <Filename Value="newdesign\ufilesourcelistoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceListOperation"/>
+      </Unit53>
+      <Unit54>
+        <Filename Value="newdesign\ufilesourceoperationtypes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceOperationTypes"/>
+      </Unit54>
+      <Unit55>
+        <Filename Value="newdesign\ufilesourceproperty.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceProperty"/>
+      </Unit55>
+      <Unit56>
+        <Filename Value="newdesign\udefaultfilepropertyformatter.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDefaultFilePropertyFormatter"/>
+      </Unit56>
+      <Unit57>
+        <Filename Value="newdesign\ulocalfile.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uLocalFile"/>
+      </Unit57>
+      <Unit58>
+        <Filename Value="newdesign\ufilesystemfile.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemFile"/>
+      </Unit58>
+      <Unit59>
+        <Filename Value="newdesign\ufilepanelselect.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFilePanelSelect"/>
+      </Unit59>
+      <Unit60>
+        <Filename Value="newdesign\umethodslist.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uMethodsList"/>
+      </Unit60>
+      <Unit61>
+        <Filename Value="newdesign\ufilesourcedeleteoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceDeleteOperation"/>
+      </Unit61>
+      <Unit62>
+        <Filename Value="newdesign\ufilesystemcopyoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemCopyOperation"/>
+      </Unit62>
+      <Unit63>
+        <Filename Value="ufileviewnotebook.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileViewNotebook"/>
+      </Unit63>
+      <Unit64>
+        <Filename Value="newdesign\uvirtualfilesource.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uVirtualFileSource"/>
+      </Unit64>
+      <Unit65>
+        <Filename Value="newdesign\urealfilesource.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uRealFileSource"/>
+      </Unit65>
+      <Unit66>
+        <Filename Value="newdesign\uoperationsmanager.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uOperationsManager"/>
+      </Unit66>
+      <Unit67>
+        <Filename Value="newdesign\uoperationthread.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uOperationThread"/>
+      </Unit67>
+      <Unit68>
+        <Filename Value="newdesign\fviewoperations.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmViewOperations"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fViewOperations"/>
+      </Unit68>
+      <Unit69>
+        <Filename Value="newdesign\ufilesourcecopyoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceCopyOperation"/>
+      </Unit69>
+      <Unit70>
+        <Filename Value="newdesign\ufilesourceoperationui.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceOperationUI"/>
+      </Unit70>
+      <Unit71>
+        <Filename Value="newdesign\ufilesourceoperationmessageboxesui.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceOperationMessageBoxesUI"/>
+      </Unit71>
+      <Unit72>
+        <Filename Value="newdesign\ufilesystemutil.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemUtil"/>
+      </Unit72>
+      <Unit73>
+        <Filename Value="newdesign\ufilesourceoperationoptions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceOperationOptions"/>
+      </Unit73>
+      <Unit74>
+        <Filename Value="newdesign\ufilesystemdeleteoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemDeleteOperation"/>
+      </Unit74>
+      <Unit75>
+        <Filename Value="newdesign\ufilesourceutil.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceUtil"/>
+      </Unit75>
+      <Unit76>
+        <Filename Value="newdesign\uarchivefilesource.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uArchiveFileSource"/>
+      </Unit76>
+      <Unit77>
+        <Filename Value="newdesign\uwcxarchivefilesource.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveFileSource"/>
+      </Unit77>
+      <Unit78>
+        <Filename Value="newdesign\uwcxarchivelistoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveListOperation"/>
+      </Unit78>
+      <Unit79>
+        <Filename Value="newdesign\uarchivefile.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uArchiveFile"/>
+      </Unit79>
+      <Unit80>
+        <Filename Value="newdesign\uwcxarchivefile.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveFile"/>
+      </Unit80>
+      <Unit81>
+        <Filename Value="umimeactions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uMimeActions"/>
+      </Unit81>
+      <Unit82>
+        <Filename Value="newdesign\ufilesourcecreatedirectoryoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceCreateDirectoryOperation"/>
+      </Unit82>
+      <Unit83>
+        <Filename Value="newdesign\ufilesystemcreatedirectoryoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemCreateDirectoryOperation"/>
+      </Unit83>
+      <Unit84>
+        <Filename Value="newdesign\ufilesourcecalcchecksumoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceCalcChecksumOperation"/>
+      </Unit84>
+      <Unit85>
+        <Filename Value="newdesign\ufilesystemcalcchecksumoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemCalcChecksumOperation"/>
+      </Unit85>
+      <Unit86>
+        <Filename Value="newdesign\ufilesystemcalcstatisticsoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemCalcStatisticsOperation"/>
+      </Unit86>
+      <Unit87>
+        <Filename Value="newdesign\ufilesourcecalcstatisticsoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceCalcStatisticsOperation"/>
+      </Unit87>
+      <Unit88>
+        <Filename Value="newdesign\ufilesourcemoveoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceMoveOperation"/>
+      </Unit88>
+      <Unit89>
+        <Filename Value="newdesign\ufilesystemmoveoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemMoveOperation"/>
+      </Unit89>
+      <Unit90>
+        <Filename Value="fcalendar.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmCalendar"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fCalendar"/>
+      </Unit90>
+      <Unit91>
+        <Filename Value="newdesign\uwcxarchivecopyoutoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveCopyOutOperation"/>
+      </Unit91>
+      <Unit92>
+        <Filename Value="newdesign\uwcxarchivecopyinoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveCopyInOperation"/>
+      </Unit92>
+      <Unit93>
+        <Filename Value="newdesign\uwcxarchivedeleteoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveDeleteOperation"/>
+      </Unit93>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="8"/>
+    <PathDelim Value="\"/>
+    <Target>
+      <Filename Value="..\doublecmd"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(LazarusDir)\ide\;$(ProjOutDir)\"/>
+      <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)\"/>
+      <OtherUnitFiles Value="$(ProjPath)\platform\;$(ProjPath)\platform\$(SrcOS)\;..\sdk\;$(ProjPath)\newdesign\;$(ProjPath)\newdesign\fileproperties\;newdesign\columnsview\"/>
+      <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
+      <SrcPath Value="$(LazarusDir)\lcl\;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType)\;$(fpcsrcdir)\packages\fcl-base\src\"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
+        <IncludeAssertionCode Value="True"/>
+        <UseAnsiStrings Value="True"/>
+      </SyntaxOptions>
+    </Parsing>
+    <CodeGeneration>
+      <Checks>
+        <IOChecks Value="True"/>
+        <StackChecks Value="True"/>
+      </Checks>
+      <Optimizations>
+        <OptimizationLevel Value="0"/>
+      </Optimizations>
+    </CodeGeneration>
+    <Linking>
+      <Debugging>
+        <GenerateDwarf Value="True"/>
+      </Debugging>
+    </Linking>
+    <Other>
+      <CustomOptions Value="-dNIGHTLY_BUILD"/>
+      <CompilerPath Value="$(CompPath)"/>
+      <ExecuteBefore>
+        <Command Value="_getsvnrev.cmd $(LazarusDir)"/>
+        <CompileReasons Run="False"/>
+      </ExecuteBefore>
+    </Other>
+  </CompilerOptions>
+</CONFIG>
