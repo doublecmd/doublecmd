@@ -16,6 +16,9 @@ uses
   LResources,
   SysUtils,
   Forms,
+  {$IFDEF NIGHTLY_BUILD}
+  un_lineinfo,
+  {$ENDIF}
   uGlobsPaths,
   uGlobs,
   fHackForm,
@@ -42,6 +45,11 @@ const
 
 begin
   {$I doublecmd.lrs}
+
+  {$IFDEF NIGHTLY_BUILD}
+  InitLineInfo(nil);
+  {$ENDIF}
+
   Application.Title:= 'Double Commander';
   Application.Initialize;
 
