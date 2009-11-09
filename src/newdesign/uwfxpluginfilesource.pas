@@ -46,7 +46,7 @@ type
     function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
   public
-    constructor Create(aWfxModule: TWfxModule; aModuleFileName, aPluginRootName: UTF8String); reintroduce;
+    constructor Create(aModuleFileName, aPluginRootName: UTF8String); reintroduce;
     destructor Destroy; override;
 
     // Retrieve operations permitted on the source.  = capabilities?
@@ -273,7 +273,7 @@ begin
     end;
 end;
 
-function CryptProc(PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionName, Password: PChar; MaxLen: Integer): Integer; stdcall;
+function CryptProc(PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionName: UTF8String; var Password: UTF8String): Integer;
 const
   cPrefix = 'wfx';
 var
@@ -296,11 +296,8 @@ begin
         Result:= FS_FILE_READERROR;
         if (Mode = FS_CRYPT_LOAD_PASSWORD_NO_UI) and (PasswordStore.HasMasterKey = False) then
           Exit(FS_FILE_NOTFOUND);
-        if PasswordStore.ReadPassword(cPrefix, sGroup, ConnectionName, sPassword) then
-          begin
-            StrPLCopy(Password, sPassword, MaxLen);
-            Result:= FS_FILE_OK;
-          end;
+        if PasswordStore.ReadPassword(cPrefix, sGroup, ConnectionName, Password) then
+          Result:= FS_FILE_OK;
       end;
     FS_CRYPT_COPY_PASSWORD,
     FS_CRYPT_MOVE_PASSWORD:
@@ -326,19 +323,43 @@ begin
   end;
 end;
 
+function CryptProcA(PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionName, Password: PAnsiChar; MaxLen: Integer): Integer; stdcall;
+var
+  sConnectionName,
+  sPassword: UTF8String;
+begin
+  sConnectionName:= SysToUTF8(StrPas(ConnectionName));
+  sPassword:= SysToUTF8(StrPas(Password));
+  Result:= CryptProc(PluginNr, CryptoNumber, Mode, sConnectionName, sPassword);
+  if Result = FS_FILE_OK then
+    begin
+      if Password <> nil then
+        StrPLCopy(Password, UTF8ToSys(sPassword), MaxLen);
+    end;
+end;
+
+function CryptProcW(PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionName, Password: PWideChar; MaxLen: Integer): Integer; stdcall;
+var
+  sConnectionName,
+  sPassword: UTF8String;
+begin
+  sConnectionName:= UTF8Encode(WideString(ConnectionName));
+  sPassword:= UTF8Encode(WideString(Password));
+  Result:= CryptProc(PluginNr, CryptoNumber, Mode, sConnectionName, sPassword);
+  if Result = FS_FILE_OK then
+    begin
+      if Password <> nil then
+        StrPLCopyW(Password, UTF8Decode(sPassword), MaxLen);
+    end;
+end;
+
 { TWfxPluginFileSource }
 
-constructor TWfxPluginFileSource.Create(aWfxModule: TWfxModule; aModuleFileName, aPluginRootName: UTF8String);
+constructor TWfxPluginFileSource.Create(aModuleFileName, aPluginRootName: UTF8String);
 begin
   inherited Create;
   FModuleFileName:= aModuleFileName;
   FPluginRootName:= aPluginRootName;
-
-  if Assigned(aWfxModule) then
-    begin
-      FWfxModule:= aWfxModule;
-      Exit;
-    end;
 
   FWfxModule:= TWfxModule.Create;
   if FWfxModule.LoadModule(FModuleFileName) then
@@ -349,7 +370,9 @@ begin
       if Assigned(FsInitW) then
         FsInitW(FPluginNumber, @MainProgressProcW, @MainLogProcW, @MainRequestProcW);
       if Assigned(FsSetCryptCallback) then
-        FsSetCryptCallback(@CryptProc, FPluginNumber, 0);
+        FsSetCryptCallback(@CryptProcA, FPluginNumber, 0);
+      if Assigned(FsSetCryptCallbackW) then
+        FsSetCryptCallbackW(@CryptProcW, FPluginNumber, 0);
       VFSInit(0);
     end;
 end;
@@ -561,7 +584,7 @@ begin
   if sModuleFileName <> EmptyStr then
     begin
       sModuleFileName:= GetCmdDirFromEnvVar(sModuleFileName);
-      Result:= TWfxPluginFileSource.Create(nil, sModuleFileName, aRootName);
+      Result:= TWfxPluginFileSource.Create(sModuleFileName, aRootName);
 
       DebugLn('Found registered plugin ' + sModuleFileName + ' for file system ' + aRootName);
     end;
