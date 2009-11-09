@@ -37,7 +37,7 @@ interface
 
 uses
   SysUtils, Classes,
-  AbBrowse, AbZBrows, AbUtils, AbArcTyp, AbZipTyp, AbTarTyp, AbGzTyp;
+  AbBrowse, AbZBrows, AbUtils, AbArcTyp, AbZipTyp;
 
 type
   TAbCustomZipper = class(TAbCustomZipBrowser)
@@ -175,7 +175,9 @@ implementation
 
 uses
   AbExcept,
-  AbZipPrc;
+  AbZipPrc,
+  AbTarTyp,
+  AbGzTyp;
 
 { -------------------------------------------------------------------------- }
 constructor TAbCustomZipper.Create( AOwner : TComponent );
@@ -447,7 +449,6 @@ begin
     if not ForceType then
       ArcType := AbDetermineArcType(FileName, atUnknown);
 
-
       case ArcType of
         atZip, atSpannedZip, atSelfExtZip : begin                        {!!.02}
          FArchive := TAbZipArchive.Create(FileName, fmOpenRead or fmShareDenyNone);
@@ -485,24 +486,24 @@ begin
 
       case ArcType of                                                    {!!.01}
         atZip : begin                                                    
-          FArchive := TAbZipArchive.Create(FileName, fmCreate);
+          FArchive := TAbZipArchive.Create(FileName, fmCreate or fmShareDenyWrite);
           InitArchive;
         end;
 
         atTar : begin
-          FArchive := TAbTarArchive.Create(FileName, fmCreate or fmShareDenyNone);
+          FArchive := TAbTarArchive.Create(FileName, fmCreate or fmShareDenyWrite);
           inherited InitArchive;
         end;
 
         atGZip : begin
-          FArchive := TAbGzipArchive.Create(FileName, fmCreate or fmShareDenyNone);
+          FArchive := TAbGzipArchive.Create(FileName, fmCreate or fmShareDenyWrite);
           TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
           TAbGzipArchive(FArchive).IsGzippedTar := False;
           inherited InitArchive;
         end;
 
         atGZippedTar : begin
-          FArchive := TAbGzipArchive.Create(FileName, fmCreate or fmShareDenyNone);
+          FArchive := TAbGzipArchive.Create(FileName, fmCreate or fmShareDenyWrite);
           TAbGzipArchive(FArchive).TarAutoHandle := FTarAutoHandle;
           TAbGzipArchive(FArchive).IsGzippedTar := True;
           inherited InitArchive;

@@ -313,7 +313,7 @@ type
     FFileCommentLength      : Word;
     FDiskNumberStart        : Word;
     FInternalFileAttributes : Word;
-    FExternalFileAttributes : Longint;
+    FExternalFileAttributes : LongWord;
     FRelativeOffset         : LongWord;
     FFileComment            : PChar;
   public {methods}
@@ -330,7 +330,7 @@ type
       read FDiskNumberStart write FDiskNumberStart;
     property InternalFileAttributes : Word
       read FInternalFileAttributes write FInternalFileAttributes;
-    property ExternalFileAttributes : Longint
+    property ExternalFileAttributes : LongWord
       read FExternalFileAttributes write FExternalFileAttributes;
     property RelativeOffset : LongWord
       read FRelativeOffset write FRelativeOffset;
@@ -1572,7 +1572,7 @@ begin
 {$ENDIF}
 {$IFDEF UNIX}
   if (SystemCode = hosMSDOS) or (SystemCode = hosNTFS) then
-    AbDOS2UnixFileAttributes(Result)
+    Result := AbDOS2UnixFileAttributes(Result)
   else
     Result := Result shr 16;
 {$ENDIF}

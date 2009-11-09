@@ -109,8 +109,9 @@ function TAbBitBucketStream.Read(var Buffer; Count : Longint) : Longint;
 var
   Chunk2Size : Int64;
   Chunk1Size : Int64;
-  OutBuffer  : TByteArray absolute Buffer;
+  OutBuffer  : PByte;
 begin
+  OutBuffer := @Buffer;
   {we cannot read more bytes than there is buffer}
   if (Count > FBufSize) then
     raise EAbBBSReadTooManyBytes.Create(Count, 0);
@@ -138,13 +139,13 @@ begin
     raise EAbBBSReadTooManyBytes.Create(Count, 0);
   {perform the read}
   if (Chunk1Size > 0) then begin
-    Move(FBuffer[FBufPosn], OutBuffer[0], Chunk1Size);
+    Move(FBuffer[FBufPosn], OutBuffer^, Chunk1Size);
     inc(FBufPosn, Chunk1Size);
     inc(FPosn, Chunk1Size);
   end;
   if (Chunk2Size > 0) then begin
     {we've wrapped}
-    Move(FBuffer[0], OutBuffer[Chunk1Size], Chunk2Size);
+    Move(FBuffer[0], (OutBuffer + Chunk1Size)^, Chunk2Size);
     FBufPosn := Chunk2Size;
     inc(FPosn, Chunk2Size);
   end;
@@ -155,8 +156,9 @@ function TAbBitBucketStream.Write(const Buffer; Count : Longint) : Longint;
 var
   Chunk2Size : longint;
   Chunk1Size : longint;
-  InBuffer   : TByteArray absolute Buffer;
+  InBuffer   : PByte;
 begin
+  InBuffer := @Buffer;
   {we cannot write more bytes than there is buffer}
   if (Count > FBufSize) then
     raise EAbBBSWriteTooManyBytes.Create(Count, 0);
@@ -171,13 +173,13 @@ begin
   end;
   {write the first chunk}
   if (Chunk1Size > 0) then begin
-    Move(InBuffer[0], FBuffer[FTail], Chunk1Size);
+    Move(InBuffer^, FBuffer[FTail], Chunk1Size);
     inc(FTail, Chunk1Size);
   end;
   {if the second chunk size is not zero, write the second chunk; note
    that we have wrapped}
   if (Chunk2Size > 0) then begin
-    Move(InBuffer[Chunk1Size], FBuffer[0], Chunk2Size);
+    Move((InBuffer + Chunk1Size)^, FBuffer[0], Chunk2Size);
     FTail := Chunk2Size;
   end;
   {the stream size and position have changed}
