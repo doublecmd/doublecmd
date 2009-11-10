@@ -612,7 +612,7 @@ static void GFileInfoToWin32FindData (GFileInfo *info, WIN32_FIND_DATAA *FindDat
 
   /*  fallback to default file mode if read fails  */
   if (FindData->dwReserved0 == 0) {
-    if ((FindData->dwFileAttributes && FILE_ATTRIBUTE_DIRECTORY) != 0)
+    if ((FindData->dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0)
       FindData->dwReserved0 = S_IFDIR + S_IRWXU + S_IRGRP + S_IXGRP + S_IROTH + S_IXOTH;
     else
       FindData->dwReserved0 = S_IRUSR + S_IWUSR + S_IRGRP + S_IROTH;
