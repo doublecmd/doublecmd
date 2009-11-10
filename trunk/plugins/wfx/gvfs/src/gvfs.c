@@ -1450,7 +1450,11 @@ HANDLE __stdcall FsFindFirst(char* Path,WIN32_FIND_DATAA *FindData)
     }
     VFSChangeDir(ListRec->globs, ListRec->globs->RemotePath);
     g_print("Call RemoteFindNext = %s\n", ListRec->globs->RemotePath);
-    RemoteFindNext(Handle, FindData);
+    if (!RemoteFindNext(Handle, FindData))
+    {
+      free(ListRec);
+      return (HANDLE)(-1);
+    }
     return Handle;
   }
 }
