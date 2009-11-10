@@ -26,6 +26,9 @@ function FsRemoveDir(RemoteName: PAnsiChar): BOOL; stdcall;
 function FsSetAttr(RemoteName: PAnsiChar; NewAttr: Integer): BOOL; stdcall;
 function FsSetTime(RemoteName: PAnsiChar; CreationTime, LastAccessTime, LastWriteTime: PFileTime): BOOL; stdcall;
 
+function FsLinksToLocalFiles: BOOL; stdcall;
+function FsGetLocalName(RemoteName: PAnsiChar; MaxLen: Integer): BOOL; stdcall;
+
 procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); stdcall;
 
 implementation
@@ -485,6 +488,22 @@ begin
 
   Result := SetFileTime(hFile, CreationTime, LastAccessTime, LastWriteTime);
   CloseHandle(hFile);
+end;
+
+function FsLinksToLocalFiles: BOOL; stdcall;
+begin
+  Result:= True;
+end;
+
+function FsGetLocalName(RemoteName: PAnsiChar; MaxLen: Integer): BOOL; stdcall;
+var
+  sFileName: String;
+begin
+  Result:= False;
+  sFileName := ExtractNetworkFileName(RemoteName);
+  if sFileName = EmptyStr then Exit;
+  StrPLCopy(RemoteName, sFileName, MaxLen);
+  Result:= True;
 end;
 
 procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); stdcall;

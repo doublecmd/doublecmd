@@ -21,6 +21,8 @@ exports
   FsRemoveDir,
   FsSetAttr,
   FsSetTime,
+  FsLinksToLocalFiles,
+  FsGetLocalName,
   FsGetDefRootName;
 
 begin
