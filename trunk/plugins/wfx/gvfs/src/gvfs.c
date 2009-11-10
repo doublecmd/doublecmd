@@ -56,8 +56,18 @@
 
 typedef int TVFSResult;
 
+typedef struct _Connection
+{
+  gchar *Name;
+  gchar *Type;
+  gchar *Host;
+  gchar *UserName;
+  gchar *Password;
+  gchar *Path;
+} TConnection, *PConnection;
+
 struct TVFSGlobs {
-  gchar ConnectionName[MAX_PATH];
+  PConnection Connection;
   gchar *RemotePath;
   GFile *file;
   GFileEnumerator *enumerator;
@@ -68,16 +78,6 @@ struct TVFSGlobs {
   int mount_try;
   gboolean ftp_anonymous;
 };
-
-typedef struct _Connection
-{
-  gchar *Name;
-  gchar *Type;
-  gchar *Host;
-  gchar *UserName;
-  gchar *Password;
-  gchar *Path;
-} TConnection, *PConnection;
 
 typedef struct
 {
@@ -346,6 +346,15 @@ static TVFSResult vfs_handle_mount (struct TVFSGlobs *globs, GFile *file)
   globs->mount_result = FS_FILE_NOTFOUND;
   globs->mount_try = 0;
 
+  if (globs->Connection->UserName != NULL)
+  {
+    g_mount_operation_set_username (op, globs->Connection->UserName);
+  }
+  if (globs->Connection->Password != NULL)
+  {
+    g_mount_operation_set_password (op, globs->Connection->Password);
+  }
+  
   /*  Inspiration taken from Bastien Nocera's http://svn.gnome.org/viewvc/totem-pl-parser/trunk/plparse/totem-disc.c?view=markup  */
   globs->mount_main_loop = g_main_loop_new (NULL, FALSE);
   g_file_mount_enclosing_volume (file, G_MOUNT_MOUNT_NONE, op, NULL, mount_done_cb, globs);
@@ -949,7 +958,7 @@ struct TVFSGlobs * g_list_lookup_globs(GList *list, gchar *value)
   {
     globs = (struct TVFSGlobs *) l->data;
 //    g_print("g_list_lookup: Item = %s\n", Connection->Name);
-    if (strcmp(value, globs->ConnectionName) == 0)
+    if (strcmp(value, globs->Connection->Name) == 0)
     {
       return globs;
     }
@@ -1128,6 +1137,7 @@ struct TVFSGlobs * NetworkConnect(gchar *ConnectionName)
        globs = VFSNew(NULL);
        globs->file = NULL;
        globs->ftp_anonymous = FALSE;
+       globs->Connection = Connection;
 
        g_print("NetworkConnect: Host = %s\n", Connection->Host);
        gchar *Host = Connection->Host;
@@ -1188,7 +1198,6 @@ struct TVFSGlobs * NetworkConnect(gchar *ConnectionName)
        } // while
 
       globs->file = f;
-      strcpy(globs->ConnectionName, Connection->Name);
       ActiveConnectionList = g_list_append(ActiveConnectionList, globs);
       g_print("NetworkConnect: Exit = True\n");
       return globs;
@@ -1242,7 +1251,7 @@ gboolean QuickConnection()
 
   if (!Result)
   {
-    //FreeConnection(Connection);
+    FreeConnection(Connection);
   }
   g_print("QuickConnection: Exit\n");
   return Result;
@@ -1255,7 +1264,7 @@ void AddConnection()
   gboolean bCancel = TRUE;
   name[0] = 0;
   gConnection = NewConnection();
-  if (gRequestProc(gPluginNumber, RT_Other, NULL, NULL, name, MAX_PATH))
+  if (gRequestProc(gPluginNumber, RT_Other, "Network", "Connection name:", name, MAX_PATH))
   {
     gConnection->Name = strdup(name);
     if (AddQuickConnection(gConnection))
