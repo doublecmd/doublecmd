@@ -194,6 +194,20 @@ static void ask_password_cb (GMountOperation *op,
       g_mount_operation_reply (op, G_MOUNT_OPERATION_HANDLED);
       return;
     }
+    if ((flags & G_ASK_PASSWORD_NEED_USERNAME) && (globs->Connection->UserName != NULL))
+    {
+      printf ("(WW) ask_password_cb: mount_try = %d, trying login with saved username...\n", globs->mount_try);
+      g_mount_operation_set_username (op, globs->Connection->UserName);
+      g_mount_operation_reply (op, G_MOUNT_OPERATION_HANDLED);
+      return;
+    }
+    if ((flags & G_ASK_PASSWORD_NEED_PASSWORD) && (globs->Connection->Password != NULL))
+    {
+      printf ("(WW) ask_password_cb: mount_try = %d, trying login with saved password...\n", globs->mount_try);
+      g_mount_operation_set_password (op, globs->Connection->Password);
+      g_mount_operation_reply (op, G_MOUNT_OPERATION_HANDLED);
+      return;
+    }
   }
 
   /*  Ask user for password  */
@@ -345,15 +359,6 @@ static TVFSResult vfs_handle_mount (struct TVFSGlobs *globs, GFile *file)
   g_signal_connect (op, "ask-question", (GCallback)ask_question_cb, globs);
   globs->mount_result = FS_FILE_NOTFOUND;
   globs->mount_try = 0;
-
-  if (globs->Connection->UserName != NULL)
-  {
-    g_mount_operation_set_username (op, globs->Connection->UserName);
-  }
-  if (globs->Connection->Password != NULL)
-  {
-    g_mount_operation_set_password (op, globs->Connection->Password);
-  }
   
   /*  Inspiration taken from Bastien Nocera's http://svn.gnome.org/viewvc/totem-pl-parser/trunk/plparse/totem-disc.c?view=markup  */
   globs->mount_main_loop = g_main_loop_new (NULL, FALSE);
