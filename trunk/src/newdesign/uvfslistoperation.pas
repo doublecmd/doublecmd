@@ -46,7 +46,7 @@ begin
       aFile := TVfsFile.Create;
       aFile.Name:= VfsFileList.Name[I];
       aFile.Path := Path;
-      aFile.ModificationTime:= FileDateToDateTime(mbFileAge(VfsFileList.FileName[I]));
+      //aFile.ModificationTime:= FileDateToDateTime(mbFileAge(VfsFileList.FileName[I]));
       FFiles.Add(aFile);
     end;
 end;
