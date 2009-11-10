@@ -312,8 +312,10 @@ implementation
 
   function InitLineInfo(someaddr: pointer): longbool;
   var
-    dwarfsize: SizeInt;
-    dli, dc, ts: TStream;
+    DwarfSize: Qword;
+    ExeImageBase: QWord;
+    dli: TStream = nil;
+    dc, ts: TStream;
     unit_base, next_base: dword; // QWord?
     header_length: QWord;
     unit_length: QWord;
@@ -325,12 +327,11 @@ implementation
     i, din: PtrInt;
     s: ansistring;
 
-    opcode, extended_opcode : Byte;
+    opcode, extended_opcode : Integer;
     extended_opcode_length : PtrInt;
     adjusted_opcode : Int64;
     addrIncrement, lineIncrement: PtrInt;
     _dwarf: pointer;
-    ExeImageBase: cardinal;
 
     filename, exname: ansistring;
 
@@ -345,9 +346,9 @@ implementation
       if (dli.Position < next_base) then begin
         bytesread := dli.Read(b, sizeof(b));
         ReadNext := b;
+        if (bytesread <> 1) then
+          ReadNext := -1;
       end;
-      if (bytesread <> 1) then
-        ReadNext := -1;
     end;
 
     { Reads an unsigned LEB encoded number from the input stream }
@@ -407,7 +408,7 @@ implementation
       DEBUG_ADDLOG('Skipping LEB128 : %0',[temp]);
     end;
     
-    function CalculateAddressIncrement(_opcode : Byte) : Int64;
+    function CalculateAddressIncrement(_opcode : Integer) : Int64;
     begin
       Result := _opcode - header64.opcode_base; // adjusted_opcode
       Result := (Result div header64.line_range) * header64.minimum_instruction_length;
@@ -456,7 +457,11 @@ implementation
           SetLength(dtable, length(dtable) + 1);
           with dtable[high(dtable)] do begin
             //account for thepossible relocation (in 99% cases ExeImagebase = base_addr)
-            addr:= state.address - ExeImagebase + base_addr;
+{$PUSH}
+{$overflowchecks off}
+{$rangechecks off}
+            addr:= state.address + base_addr - ExeImageBase;
+{$POP}
             line:= state.line;
             column:= state.column;
             fileind:= state.file_id - 1;
@@ -504,72 +509,54 @@ implementation
       Result:= true;
       fillchar(CompilationUnit[high(CompilationUnit)], sizeof(TCompilationUnit), 0);
 
-     // a hack: the next compilation unit can have an unpredictable ofset,
-     // so we try to find it by checking the most common values of the header
+      if unit_base + sizeof(header32) >= dli.Size then begin
+        DEBUG_WRITE('The stream end reached, no more units.');
+        Exit(false);
+      end;
 
-     // Why is this needed? In tests j is always 0.
+      dli.Seek(unit_base, soBeginning);
+      dli.Read(temp_length, sizeof(temp_length));
+      dli.Seek(-sizeof(temp_length), soCurrent);
 
-      j:= 0;
-//      repeat
-        if unit_base + j + sizeof(header32) + 2 > dli.Size then begin
-          DEBUG_ADDLOG('The stream end reached, no more units.');
-          Exit(false);
-        end;
+      if (temp_length <> $ffffffff) then begin
+        DEBUG_WRITE('32 bit DWARF detected');
+        DwarfBits := 32;
 
-        dli.Seek(unit_base + j, soBeginning);
-        dli.Read(temp_length, sizeof(temp_length));
-        dli.Seek(-sizeof(temp_length), soCurrent);
+        dli.Read(header32, sizeof(header32));
+        header64.magic := $ffffffff;
+        header64.unit_length := header32.unit_length;
+        header64.version := header32.version;
+        header64.length := header32.length;
+        header64.minimum_instruction_length := header32.minimum_instruction_length;
+        header64.default_is_stmt := header32.default_is_stmt;
+        header64.line_base := header32.line_base;
+        header64.line_range := header32.line_range;
+        header64.opcode_base := header32.opcode_base;
 
-        if (temp_length <> $ffffffff) then begin
-          DEBUG_WRITE('32 bit DWARF detected');
-          DwarfBits := 32;
+        header_length := QWord(header32.length) +
+                         sizeof(header32.length) +
+                         sizeof(header32.version) +
+                         sizeof(header32.unit_length);
 
-          dli.Read(header32, sizeof(header32));
-          header64.magic := $ffffffff;
-          header64.unit_length := header32.unit_length;
-          header64.version := header32.version;
-          header64.length := header32.length;
-          header64.minimum_instruction_length := header32.minimum_instruction_length;
-          header64.default_is_stmt := header32.default_is_stmt;
-          header64.line_base := header32.line_base;
-          header64.line_range := header32.line_range;
-          header64.opcode_base := header32.opcode_base;
+        unit_length := QWord(header32.unit_length) +
+                       sizeof(header32.unit_length);
 
-          header_length := header32.length +
-                           sizeof(header32.length) +
-                           sizeof(header32.version) +
-                           sizeof(header32.unit_length);
+      end else begin
+        DEBUG_WRITE('64 bit DWARF detected');
+        DwarfBits := 64;
 
-          unit_length := header32.unit_length + sizeof(header32.unit_length);
+        dli.Read(header64, sizeof(header64));
 
-        end else begin
-          DEBUG_WRITE('64 bit DWARF detected');
-          DwarfBits := 64;
-
-          dli.Read(header64, sizeof(header64));
-
-          header_length := header64.length +
-                           sizeof(header64.magic) +
-                           sizeof(header64.length) +
-                           sizeof(header64.version) +
-                           sizeof(header64.unit_length);
-
-          unit_length := header64.unit_length +
+        header_length := header64.length +
                          sizeof(header64.magic) +
+                         sizeof(header64.length) +
+                         sizeof(header64.version) +
                          sizeof(header64.unit_length);
-        end;
 
-{
-        with header64 do begin
-          if (version = 2) and (line_range = 255) and (opcode_base = 13) then begin
-            unit_base+= j;
-            DEBUG_ADDLOG('rand_offset=%8, p=%9, unit_length %0 version %1  length %2  min_instr_leng %3 def_is_stmt %4 line_base %5 line_range %6 opcode_base %7',        [unit_length, version, length, minimum_instruction_length, default_is_stmt, line_base, line_range, opcode_base, j, pointer(unit_base)]);
-            Break;
-          end;
-        end;
-        inc(j);
-      until false;
-}
+        unit_length := header64.unit_length +
+                       sizeof(header64.magic) +
+                       sizeof(header64.unit_length);
+      end;
 
       next_base:= unit_base + unit_length;
 
@@ -589,7 +576,7 @@ implementation
           if (s = '') then break;
           SetLength(dirs, length(dirs) + 1);
           dirs[high(dirs)]:= s;
-          DEBUG_ADDLOG('Dir %0: %1',[high(dirs), AnsiToWide(s)]);
+          DEBUG_WRITE('Dir ', high(dirs), ' ', s);
         end;
 
 
@@ -600,7 +587,7 @@ implementation
           with files[high(files)] do begin
             name:= s;
             dirind:= ReadULEB128(); { the directory index for the file }
-            DEBUG_ADDLOG('File %0 (dir %2): %1',[high(files), AnsiToWide(name), dirind]);
+            DEBUG_WRITE('File ', high(files), ' ', s);
           end;
           SkipULEB128(); { skip last modification time for file }
           SkipULEB128(); { skip length of file }
@@ -613,7 +600,7 @@ implementation
 
         while dli.Position < unit_base + unit_length do begin
           opcode := ReadNext();
-          if opcode = byte(-1) then
+          if opcode = -1 then
             Break;
 
           DEBUG_ADDLOG('Next opcode: %0  (stream pos. %1 ( %2 / %3 )',[opcode, dli.position, dli.position - unit_base, unit_length]);
@@ -623,18 +610,19 @@ implementation
             0 : begin
               extended_opcode_length := ReadULEB128();
               extended_opcode := ReadNext();
-              if extended_opcode = byte(-1) then
+              if extended_opcode = -1 then
                 break;
 
               case (extended_opcode) of
                 DW_LNE_END_SEQUENCE : begin
                   state.end_sequence := true;
                   state.append_row := true;
-                  DEBUG_ADDLOG('DW_LNE_END_SEQUENCE');
+                  DEBUG_WRITE('DW_LNE_END_SEQUENCE');
                 end;
                 DW_LNE_SET_ADDRESS : begin
+                  // Size of address should be extended_opcode_length - 1.
                   state.address := ReadAddress();
-                  DEBUG_ADDLOG('DW_LNE_SET_ADDRESS (%0)', [pointer(state.address)]);
+                  DEBUG_WRITE('DW_LNE_SET_ADDRESS (', hexstr(pointer(state.address)), ')');
                 end;
                 DW_LNE_DEFINE_FILE : begin
                   {$ifdef DEBUG_DWARF_PARSER}s := {$endif}ReadString();
@@ -644,7 +632,7 @@ implementation
                   DEBUG_ADDLOG('DW_LNE_DEFINE_FILE (' + s + ')');
                 end;
                 else begin
-                  DEBUG_ADDLOG('Unknown extended opcode (opcode %0 length %1)', [extended_opcode, extended_opcode_length]);
+                  DEBUG_WRITE('Unknown extended opcode ', extended_opcode, ' (length ', extended_opcode_length, ')');
                   dli.Position:= dli.Position + extended_opcode_length - 1;
                 end;
               end;
@@ -663,7 +651,7 @@ implementation
             end;
             DW_LNS_ADVANCE_LINE : begin
               state.line := state.line + ReadLEB128();
-              DEBUG_ADDLOG('DW_LNS_ADVANCE_LINE (%0)', [state.line]);
+              DEBUG_WRITE('DW_LNS_ADVANCE_LINE (', state.line, ')');
             end;
             DW_LNS_SET_FILE : begin
               state.file_id := ReadULEB128();
@@ -739,10 +727,12 @@ implementation
     
     
   begin
+    Result:= False;
+
     if someaddr = nil then someaddr:=@InitLineInfo;
     GetModuleByAddr(someaddr, base_addr, filename);
     if filename = '' then
-      Exit(True); // No module found at this address.
+      Exit(False); // No module found at this address.
 
     din:= -1;
     for i:=0 to high(ExecutableUnit) do
@@ -767,74 +757,76 @@ implementation
     {$endif}
 
     try
-      Result:= false;
-     {  First, try the external file with line information.
-        Failing that, try to parse the executable itself }
+      try
+       {  First, try the external file with line information.
+          Failing that, try to parse the executable itself }
 
-      exname:= DlnNameByExename(filename);
-      i:= -1;
-      repeat
-//{$ifdef cge}addlog('%0  %1', [exname, FileExists(exname)]);{$endif}
-        if FileExists(exname)
-          then break
-          else exname:='';
-        inc(i);
-        if i > high(LineInfoPaths) then break;
-        exname:= LineInfopaths[i] + DlnNameByExename(ExtractFileName(filename));
-      until false;
-      
-      if exname <> ''
-        //and (FileAge(filename) <= FileAge(DlnNameByExename(filename)))
-      then begin
-        WriteLn('Reading debug info from external file ', exname);
-        //the compression streams are unable to seek,
-        //so we decompress to a memory stream first.
-        ts:=TFileStream.Create(exname, fmOpenRead);
-        dc:=TDecompressionStream.Create(ts);
-        dli:= TMemoryStream.Create;
-        dc.Read(DwarfSize, 4);
-        dc.Read(ExeImageBase, 4);
-        dli.CopyFrom(dc, DwarfSize);
-        dc.Free;
-        ts.Free;
-      end
-      else begin
-        WriteLn('Reading debug info from ', filename);
-        if not ExtractDwarfLineInfo(filename, _dwarf, DwarfSize, ExeImageBase) then begin
-          WriteLn('Debug info not found.');
-          LineInfoError:= ExtractDwarfLineInfoError;
-          Exit(false);
-        end;
-        dli:= TMemoryStream.Create;
-        dli.Write(_dwarf^, DwarfSize);
-        FreeMem(_dwarf);
-      end;
+        exname:= DlnNameByExename(filename);
+        i:= -1;
+        repeat
+          if FileExists(exname)
+            then break
+            else exname:='';
+          inc(i);
+          if i > high(LineInfoPaths) then break;
+          exname:= LineInfopaths[i] + DlnNameByExename(ExtractFileName(filename));
+        until false;
 
-      dli.Position:= 0;
-      next_base:= 0;
-      
-      DEBUG_WRITE('dwarf line info: ',dli.size,' bytes.');
-      
-      With ExecutableUnit[din] do
-        while next_base < dli.Size do begin
-          SetLength(CompilationUnit, length(CompilationUnit) + 1);
-          unit_base:= next_base;
-          if not ParseCompilationUnit(CompilationUnit) then begin
-            SetLength(CompilationUnit, length(CompilationUnit) - 1);
-            Break;
+        if exname <> ''
+          //and (FileAge(filename) <= FileAge(DlnNameByExename(filename)))
+        then begin
+          WriteLn('Reading debug info from external file ', exname);
+          //the compression streams are unable to seek,
+          //so we decompress to a memory stream first.
+          ts:=TFileStream.Create(exname, fmOpenRead);
+          dc:=TDecompressionStream.Create(ts);
+          dli:= TMemoryStream.Create;
+          dc.Read(DwarfSize, SizeOf(DwarfSize));       // 8 bytes (QWORD)
+          dc.Read(ExeImageBase, SizeOf(ExeImageBase)); // 8 bytes (QWORD)
+          dli.CopyFrom(dc, DwarfSize);
+          dc.Free;
+          ts.Free;
+        end
+        else begin
+          WriteLn('Reading debug info from ', filename);
+          if not ExtractDwarfLineInfo(filename, _dwarf, DwarfSize, ExeImageBase) then begin
+            WriteLn('Debug info not found.');
+            LineInfoError:= ExtractDwarfLineInfoError;
+            Exit(false);
           end;
+          dli:= TMemoryStream.Create;
+          dli.Write(_dwarf^, DwarfSize);
+          FreeMem(_dwarf);
         end;
-    except
-      LineInfoError:=
-        {$ifdef cge}RuEn('Крах при парсинге отладочной информации: ',{$endif}
-        'Crashed parsing the dwarf line info: '{$ifdef cge}){$endif}
-        + (ExceptObject as Exception).Message;
-      dli.Free;
-      Result:=false;
+
+        dli.Position:= 0;
+        next_base:= 0;
+
+        DEBUG_WRITE('dwarf line info: ',dli.size,' bytes.');
+
+        With ExecutableUnit[din] do
+          while next_base < dli.Size do begin
+            SetLength(CompilationUnit, length(CompilationUnit) + 1);
+            unit_base:= next_base;
+            if not ParseCompilationUnit(CompilationUnit) then begin
+              SetLength(CompilationUnit, length(CompilationUnit) - 1);
+              Break;
+            end;
+          end;
+      except
+        LineInfoError:= 'Crashed parsing the dwarf line info: ' +
+                        (ExceptObject as Exception).Message;
+        Result:= False;
+      end;
+    finally
+      if Assigned(dli) then
+        FreeAndNil(dli);
     end;
+
     if {Result and} (length(ExecutableUnit[din].CompilationUnit) > 0)
       then begin
         initialized:= true;
+        Result := True;
         {$ifdef cge}
         AddLog(RuEn('  найдено %0 блоков.','  found %0 units.'), [length(ExecutableUnit[din].CompilationUnit)])
         {$else}
@@ -846,13 +838,14 @@ implementation
         AddLog(RuEn('  не найдено ни одного блока для %0.','  not found any units in %0.'), [ExecutableUnit[din].name]);
         {$endif}
         LineInfoError:= 'no compilation units found.';
-        Result:=false;
+        Result := False;
       end;
-    dli.Free;
-    Result:= True;
-  end;
-  
 
+    if Result then
+      Writeln('Successfully parsed DWARF debug line info.')
+    else
+      Writeln('Cannot read DWARF debug line info: ', LineInfoError);
+  end;
 
 
   procedure GetLineInfo(addr: pointer; var exe, src: ansistring; var line, column: integer);
