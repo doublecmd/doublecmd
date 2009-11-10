@@ -51,6 +51,7 @@
 #define PathDelim "/"
 #define cAddConnection "<Add connection>"
 #define cQuickConnection "<Quick connection>"
+#define cAnonymous "anonymous"
 #define IS_DIR_SEP(ch) ((ch) == '/')
 #define Int32x32To64(a,b) ((gint64)(a)*(gint64)(b))
 
@@ -181,7 +182,8 @@ static void ask_password_cb (GMountOperation *op,
   int   anonymous;
   char  domain[MAX_PATH];
   GPasswordSave password_save;
-
+  gboolean mount_handled = FALSE;
+  
   globs = (struct TVFSGlobs*) user_data;
   g_assert (globs != NULL);
   globs->mount_try++;
@@ -198,16 +200,19 @@ static void ask_password_cb (GMountOperation *op,
     {
       printf ("(WW) ask_password_cb: mount_try = %d, trying login with saved username...\n", globs->mount_try);
       g_mount_operation_set_username (op, globs->Connection->UserName);
-      g_mount_operation_reply (op, G_MOUNT_OPERATION_HANDLED);
-      return;
+      mount_handled = TRUE;
     }
     if ((flags & G_ASK_PASSWORD_NEED_PASSWORD) && (globs->Connection->Password != NULL))
     {
       printf ("(WW) ask_password_cb: mount_try = %d, trying login with saved password...\n", globs->mount_try);
       g_mount_operation_set_password (op, globs->Connection->Password);
+      mount_handled = TRUE;
+    }
+    if (mount_handled)  
+    {
       g_mount_operation_reply (op, G_MOUNT_OPERATION_HANDLED);
       return;
-    }
+    }  
   }
 
   /*  Ask user for password  */
@@ -1147,9 +1152,9 @@ struct TVFSGlobs * NetworkConnect(gchar *ConnectionName)
        g_print("NetworkConnect: Host = %s\n", Connection->Host);
        gchar *Host = Connection->Host;
 
-       if (strstr (Host, "@") == NULL) {
-          /*  test for FTP protocol (we only enable anonymous here)  */
-          globs->ftp_anonymous = strcasestr (Host, "ftp://") == Host;
+       if (strcmp (Connection->UserName, cAnonymous) == 0) 
+       {          
+         globs->ftp_anonymous = TRUE;
        }
 
        g_print ("(II) NetworkConnect: opening URI '%s'\n", Host);
@@ -1227,6 +1232,15 @@ gboolean AddQuickConnection(PConnection Connection)
     if (gRequestProc(gPluginNumber, RT_TargetDir, NULL, NULL, home_dir, MAX_PATH))
     {
       Connection->Path = strdup(home_dir);
+      /*  test for FTP protocol (we only enable anonymous here)  */
+      if (strcasestr (host, "ftp://") == host)
+      {
+	if (gRequestProc(gPluginNumber, RT_MsgYesNo, NULL, "Use anonymous login?", NULL, MAX_PATH))
+	{
+	  Connection->UserName = strdup(cAnonymous);
+	  return TRUE;
+	}
+      }
       if (gRequestProc(gPluginNumber, RT_UserName, NULL, NULL, user, MAX_PATH))
       {
         Connection->UserName = strdup(user);
