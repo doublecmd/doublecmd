@@ -49,8 +49,8 @@ interface
   function ExtractDwarfLineInfo(
     ExeFileName: ansistring;
     out _dlnfo: pointer;
-    out _dlnfoSize: Sizeint;
-    out Imagebase: cardinal): longbool;
+    out _dlnfoSize: QWord;
+    out Imagebase: QWord): longbool;
   {
   Reads the dwarf line info from an executable.
     In case of error, see ExtractDwarfLineInfoError for details.
@@ -311,9 +311,9 @@ type
 
 function ExtractElf32(
   f: TFileStream;
-  out DwarfLineInfoSize: Sizeint;
+  out DwarfLineInfoSize: QWord;
   out DwarfLineInfoOffset: Int64;
-  out Imagebase: cardinal;
+  out Imagebase: QWord;
   out IsCompressed: Boolean): boolean;
 var
   header : TElf32_Ehdr;
@@ -384,9 +384,9 @@ end;
 
 function ExtractElf64(
   f: TFileStream;
-  out DwarfLineInfoSize: Sizeint;
+  out DwarfLineInfoSize: QWord;
   out DwarfLineInfoOffset: Int64;
-  out Imagebase: cardinal;
+  out Imagebase: QWord;
   out IsCompressed: Boolean): boolean;
 var
   header : TElf64_Ehdr;
@@ -457,9 +457,9 @@ end;
 
 function CheckWindowsExe(
   f: TFileStream;
-  out DwarfLineInfoSize: Sizeint;
+  out DwarfLineInfoSize: QWord;
   out DwarfLineInfoOffset: Int64;
-  out Imagebase: cardinal;
+  out Imagebase: QWord;
   out IsCompressed: Boolean): TCheckResult;
 
 var
@@ -558,9 +558,9 @@ end;
 
 function CheckUnixElf(
   f: TFileStream;
-  out DwarfLineInfoSize: Sizeint;
+  out DwarfLineInfoSize: QWord;
   out DwarfLineInfoOffset: Int64;
-  out Imagebase: cardinal;
+  out Imagebase: QWord;
   out IsCompressed: Boolean): TCheckResult;
 var
   fileIdentBuf : array[0..El_NIDENT-1] of byte;
@@ -617,11 +617,11 @@ end;
 function ExtractDwarfLineInfo(
   ExeFileName: ansistring;
   out _dlnfo: pointer;
-  out _dlnfoSize: Sizeint;
-  out Imagebase: cardinal): longbool;
+  out _dlnfoSize: QWord;
+  out Imagebase: QWord): longbool;
 var
   DwarfOffset : int64;
-  DwarfSize : SizeInt;
+  DwarfSize : QWord;
   IsCompressed: boolean = False;
   f : TFileStream;
   DC: TDecompressionStream;
@@ -648,8 +648,8 @@ begin
       if IsCompressed then begin
         f.Position:= DwarfOffset;
         DC:= TDecompressionStream.Create(f);
-        DC.Read(DwarfSize, sizeof(DwarfSize));
-        DC.Read(ImageBase, sizeof(ImageBase));
+        DC.Read(DwarfSize, sizeof(DwarfSize)); // 8 bytes (QWORD)
+        DC.Read(ImageBase, sizeof(ImageBase)); // 8 bytes (QWORD)
         _dlnfoSize:= DwarfSize;
         GetMem(_dlnfo, DwarfSize);
         DC.Read(_dlnfo^, DwarfSize);
