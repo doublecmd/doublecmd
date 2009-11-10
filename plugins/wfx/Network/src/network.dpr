@@ -12,9 +12,15 @@ exports
   FsFindFirst,
   FsFindNext,
   FsFindClose,
+  FsExecuteFile,
+  FsRenMovFile,
   FsGetFile,
+  FsPutFile,
+  FsDeleteFile,
   FsMkDir,
   FsRemoveDir,
+  FsSetAttr,
+  FsSetTime,
   FsGetDefRootName;
 
 begin

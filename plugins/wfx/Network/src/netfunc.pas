@@ -7,20 +7,26 @@ unit NetFunc;
 interface
 
 uses
-  Windows, SysUtils, Classes, NetUtils, WfxPlugin;
+  Windows, ShellApi, SysUtils, Classes, NetUtils, WfxPlugin;
 
 function FsInit(PluginNr: Integer; pProgressProc: TProgressProc; pLogProc: TLogProc; pRequestProc: TRequestProc): Integer; stdcall;
 
-function FsFindFirst(Path: PChar; var FindData: TWin32FindData): THandle; stdcall;
+function FsFindFirst(Path: PAnsiChar; var FindData: TWin32FindData): THandle; stdcall;
 function FsFindNext(Hdl: THandle; var FindData: TWin32FindData): BOOL; stdcall;
 function FsFindClose(Hdl: THandle): Integer; stdcall;
 
-function FsGetFile(RemoteName, LocalName: PChar; CopyFlags: Integer; RemoteInfo: PRemoteInfo): Integer; stdcall;
+function FsExecuteFile(MainWin: HWND; RemoteName, Verb: PAnsiChar): Integer; stdcall;
+function FsRenMovFile(OldName, NewName: PAnsiChar; Move, OverWrite: BOOL; RemoteInfo: PRemoteInfo): Integer; stdcall;
+function FsGetFile(RemoteName, LocalName: PAnsiChar; CopyFlags: Integer; RemoteInfo: PRemoteInfo): Integer; stdcall;
+function FsPutFile(LocalName, RemoteName: PAnsiChar; CopyFlags: Integer): Integer; stdcall;
+function FsDeleteFile(RemoteName: PAnsiChar): BOOL; stdcall;
 
-function FsMkDir(RemoteDir: PChar): BOOL; stdcall;
-function FsRemoveDir(RemoteName: PChar): BOOL; stdcall;
+function FsMkDir(RemoteDir: PAnsiChar): BOOL; stdcall;
+function FsRemoveDir(RemoteName: PAnsiChar): BOOL; stdcall;
+function FsSetAttr(RemoteName: PAnsiChar; NewAttr: Integer): BOOL; stdcall;
+function FsSetTime(RemoteName: PAnsiChar; CreationTime, LastAccessTime, LastWriteTime: PFileTime): BOOL; stdcall;
 
-procedure FsGetDefRootName(DefRootName: PChar; MaxLen: Integer); stdcall;
+procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); stdcall;
 
 implementation
 
@@ -40,8 +46,8 @@ type
 
 type
   TProgressInfo = record
-    RemoteName,
-    LocalName: PAnsiChar;
+    SourceName,
+    TargetName: PAnsiChar;
   end;
   PProgressInfo = ^TProgressInfo;
 
@@ -49,13 +55,13 @@ type
 const
   kernel32 = 'kernel32.dll';
 
-function MoveFileWithProgress(lpExistingFileName, lpNewFileName: PChar; lpProgressRoutine: Pointer; lpData: Pointer; dwFlags: DWORD): BOOL; stdcall; external kernel32 Name 'MoveFileWithProgressA';
-function CopyFileEx(lpExistingFileName, lpNewFileName: PChar; lpProgressRoutine: Pointer; lpData: Pointer; pbCancel: PBool; dwCopyFlags: DWORD): BOOL; stdcall; external kernel32 Name 'CopyFileExA';
+function MoveFileWithProgress(lpExistingFileName, lpNewFileName: PAnsiChar; lpProgressRoutine: Pointer; lpData: Pointer; dwFlags: DWORD): BOOL; stdcall; external kernel32 Name 'MoveFileWithProgressA';
+function CopyFileEx(lpExistingFileName, lpNewFileName: PAnsiChar; lpProgressRoutine: Pointer; lpData: Pointer; pbCancel: PBool; dwCopyFlags: DWORD): BOOL; stdcall; external kernel32 Name 'CopyFileExA';
 {$ELSE}
 const
   AllowDirectorySeparators: set of char = ['\', '/'];
 
-Function GetDirs(Var DirName: String; Var Dirs: Array of PChar): Longint;
+Function GetDirs(Var DirName: String; Var Dirs: Array of PAnsiChar): Longint;
 Var
   I: Longint;
 begin
@@ -107,6 +113,26 @@ begin
   Result := '\\' + Result;
 end;
 
+function FsGetLastError: LongInt;
+var
+  err: Integer;
+begin
+  err := GetLastError();
+  case (err) of
+    ERROR_FILE_NOT_FOUND,
+    ERROR_PATH_NOT_FOUND,
+    ERROR_TOO_MANY_OPEN_FILES,
+    ERROR_ACCESS_DENIED:
+      Result := FS_FILE_NOTFOUND;
+    ERROR_FILE_EXISTS:
+      Result := FS_FILE_EXISTS;
+    ERROR_REQUEST_ABORTED:
+      Result := FS_FILE_USERABORT;
+  else
+    Result := FS_FILE_READERROR;
+  end; // case
+end;
+
 function CopyProgressRoutine(TotalFileSize, TotalBytesTransferred, StreamSize, StreamBytesTransferred: Int64; dwStreamNumber, dwCallbackReason: DWORD; hSourceFile, hDestinationFile: THandle; lpData: Pointer): DWORD; stdcall;
 var
   Percent: Integer;
@@ -117,7 +143,7 @@ begin
   else
     Percent := TotalBytesTransferred * 100 div TotalFileSize;
   ProgressInfo := PProgressInfo(lpData);
-  Result := ProgressProc(PluginNumber, ProgressInfo^.RemoteName, ProgressInfo^.LocalName, Percent);
+  Result := ProgressProc(PluginNumber, ProgressInfo^.SourceName, ProgressInfo^.TargetName, Percent);
 end;
 
 function FsInit(PluginNr: Integer; pProgressProc: tProgressProc; pLogProc: tLogProc; pRequestProc: tRequestProc): Integer; stdcall;
@@ -129,13 +155,13 @@ begin
   Result := 0;
 end;
 
-function FsFindFirst(Path: PChar; var FindData: TWin32FindData): THandle; stdcall;
+function FsFindFirst(Path: PAnsiChar; var FindData: TWin32FindData): THandle; stdcall;
 var
   ListRec: PListRec;
   I, iCount: Integer;
   bFound: Boolean;
   sDirName: AnsiString;
-  Dirs: Array[0..127] of PChar;
+  Dirs: Array[0..127] of PAnsiChar;
   NetRes: TNetRes;
 begin
   New(ListRec);
@@ -162,7 +188,7 @@ begin
     if iCount > 3 then
     begin
       sDirName := ExtractNetworkFileName(Path) + PathDelim + '*';
-      ListRec^.Handle := FindFirstFile(PChar(sDirName), FindData);
+      ListRec^.Handle := FindFirstFile(PAnsiChar(sDirName), FindData);
       Result := THandle(ListRec);
       Exit;
     end;
@@ -264,7 +290,62 @@ begin
   Dispose(ListRec);
 end;
 
-function FsGetFile(RemoteName, LocalName: PChar; CopyFlags: Integer; RemoteInfo: PRemoteInfo): Integer; stdcall;
+function FsExecuteFile(MainWin: HWND; RemoteName, Verb: PAnsiChar): Integer; stdcall;
+var
+  sFileName: AnsiString;
+begin
+  Result := FS_EXEC_ERROR;
+  sFileName:= ExtractNetworkFileName(RemoteName);
+  if sFileName = EmptyStr then Exit;
+  RemoteName:= PAnsiChar(sFileName);
+  if ShellExecute(MainWin, Verb, RemoteName, nil, nil, SW_SHOW) > 32 then
+    Result:= FS_EXEC_OK;
+end;
+
+function FsRenMovFile(OldName, NewName: PAnsiChar; Move, OverWrite: BOOL;
+                      RemoteInfo: PRemoteInfo): Integer; stdcall;
+var
+  err: Integer;
+  ok: Boolean;
+  sOldName,
+  sNewName: AnsiString;
+  ProgressInfo: TProgressInfo;
+begin
+  sOldName:= ExtractNetworkFileName(OldName);
+  sNewName:= ExtractNetworkFileName(NewName);
+  if (sOldName = EmptyStr) or (sNewName = EmptyStr) then
+  begin
+    Result := FS_FILE_NOTFOUND;
+    Exit;
+  end;
+  OldName := PAnsiChar(sOldName);
+  NewName := PAnsiChar(sNewName);
+  err := ProgressProc(PluginNumber, OldName, NewName, 0);
+  if (err = 1) then
+    Result := FS_FILE_USERABORT;
+
+  ProgressInfo.SourceName := OldName;
+  ProgressInfo.TargetName := NewName;
+
+  if OverWrite then
+    DeleteFile(NewName);
+  if Move then
+    ok := MoveFileWithProgress(OldName, NewName, @CopyProgressRoutine, @ProgressInfo, MOVEFILE_COPY_ALLOWED)
+  else
+    ok := CopyFileEx(OldName, NewName, @CopyProgressRoutine, @ProgressInfo, nil, 0);
+
+  if ok then
+    begin
+      ProgressProc(PluginNumber, OldName, NewName, 100);
+      Result := FS_FILE_OK;
+    end
+  else
+    begin
+      Result:= FsGetLastError;
+    end;
+end;
+
+function FsGetFile(RemoteName, LocalName: PAnsiChar; CopyFlags: Integer; RemoteInfo: PRemoteInfo): Integer; stdcall;
 var
   err: Integer;
   ok, OverWrite, Resume, Move: Boolean;
@@ -283,13 +364,13 @@ begin
     Result := FS_FILE_NOTFOUND;
     Exit;
   end;
-  RemoteName := PChar(sRemoteName);
+  RemoteName := PAnsiChar(sRemoteName);
   err := ProgressProc(PluginNumber, RemoteName, LocalName, 0);
   if (err = 1) then
     Result := FS_FILE_USERABORT;
 
-  ProgressInfo.RemoteName := RemoteName;
-  ProgressInfo.LocalName := LocalName;
+  ProgressInfo.SourceName := RemoteName;
+  ProgressInfo.TargetName := LocalName;
 
   if OverWrite then
     DeleteFile(LocalName);
@@ -299,46 +380,114 @@ begin
     ok := CopyFileEx(RemoteName, LocalName, @CopyProgressRoutine, @ProgressInfo, nil, 0);
 
   if ok then
-  begin
-    ProgressProc(PluginNumber, RemoteName, LocalName, 100);
-    Result := FS_FILE_OK;
-  end
+    begin
+      ProgressProc(PluginNumber, RemoteName, LocalName, 100);
+      Result := FS_FILE_OK;
+    end
   else
-  begin
-    err := GetLastError();
-    case (err) of
-      ERROR_FILE_NOT_FOUND,
-      ERROR_PATH_NOT_FOUND,
-      ERROR_TOO_MANY_OPEN_FILES,
-      ERROR_ACCESS_DENIED:
-        Result := FS_FILE_NOTFOUND;
-      ERROR_FILE_EXISTS:
-        Result := FS_FILE_EXISTS;
-      ERROR_REQUEST_ABORTED:
-        Result := FS_FILE_USERABORT;
-      else
-        Result := FS_FILE_READERROR;
-    end; // case
-  end;
+    begin
+      Result:= FsGetLastError;
+    end;
 end;
 
-function FsMkDir(RemoteDir: PChar): BOOL; stdcall;
+function FsPutFile(LocalName, RemoteName: PAnsiChar; CopyFlags: Integer): Integer; stdcall;
+var
+  err: Integer;
+  ok, OverWrite, Resume, Move: Boolean;
+  sRemoteName: String;
+  ProgressInfo: TProgressInfo;
+begin
+  OverWrite := (CopyFlags and FS_COPYFLAGS_OVERWRITE) = 1;
+  Resume := (CopyFlags and FS_COPYFLAGS_RESUME) = 1;
+  Move := (CopyFlags and FS_COPYFLAGS_MOVE) = 1;
+
+  if (Resume) then
+    Result := FS_FILE_NOTSUPPORTED;
+  sRemoteName := ExtractNetworkFileName(RemoteName);
+  if sRemoteName = EmptyStr then
+  begin
+    Result := FS_FILE_NOTFOUND;
+    Exit;
+  end;
+  RemoteName := PAnsiChar(sRemoteName);
+  err := ProgressProc(PluginNumber, LocalName, RemoteName, 0);
+  if (err = 1) then
+    Result := FS_FILE_USERABORT;
+
+  ProgressInfo.SourceName := LocalName;
+  ProgressInfo.TargetName := RemoteName;
+
+  if OverWrite then
+    DeleteFile(RemoteName);
+  if Move then
+    ok := MoveFileWithProgress(LocalName, RemoteName, @CopyProgressRoutine, @ProgressInfo, MOVEFILE_COPY_ALLOWED)
+  else
+    ok := CopyFileEx(LocalName, RemoteName, @CopyProgressRoutine, @ProgressInfo, nil, 0);
+
+  if ok then
+    begin
+      ProgressProc(PluginNumber, LocalName, RemoteName, 100);
+      Result := FS_FILE_OK;
+    end
+  else
+    begin
+      Result:= FsGetLastError;
+    end;
+end;
+
+function FsDeleteFile(RemoteName: PAnsiChar): BOOL; stdcall;
+var
+  sFileName: String;
+begin
+  sFileName := ExtractNetworkFileName(RemoteName);
+  Result := DeleteFile(PAnsiChar(sFileName));
+end;
+
+function FsMkDir(RemoteDir: PAnsiChar): BOOL; stdcall;
 var
   sDirName: String;
 begin
   sDirName := ExtractNetworkFileName(RemoteDir);
-  Result := CreateDirectory(PChar(sDirName), nil);
+  Result := CreateDirectory(PAnsiChar(sDirName), nil);
 end;
 
-function FsRemoveDir(RemoteName: PChar): BOOL; stdcall;
+function FsRemoveDir(RemoteName: PAnsiChar): BOOL; stdcall;
 var
   sDirName: String;
 begin
   sDirName := ExtractNetworkFileName(RemoteName);
-  Result := RemoveDirectory(PChar(sDirName));
+  Result := RemoveDirectory(PAnsiChar(sDirName));
 end;
 
-procedure FsGetDefRootName(DefRootName: PChar; MaxLen: Integer); stdcall;
+function FsSetAttr(RemoteName: PAnsiChar; NewAttr: Integer): BOOL; stdcall;
+var
+  sFileName: String;
+begin
+  sFileName := ExtractNetworkFileName(RemoteName);
+  Result := SetFileAttributes(PAnsiChar(sFileName), NewAttr);
+end;
+
+function FsSetTime(RemoteName: PAnsiChar; CreationTime, LastAccessTime,
+                   LastWriteTime: PFileTime): BOOL; stdcall;
+var
+  sFileName: String;
+  hFile: THandle;
+begin
+  sFileName := ExtractNetworkFileName(RemoteName);
+  hFile:= CreateFile(PAnsiChar(sFileName),
+                      GENERIC_WRITE,          // Open for writing
+                      0,                      // Do not share
+                      nil,                   // No security
+                      OPEN_EXISTING,          // Existing file only
+                      FILE_ATTRIBUTE_NORMAL,  // Normal file
+                      0);
+  if hFile = feInvalidHandle then Exit(False);
+
+  Result := SetFileTime(hFile, CreationTime, LastAccessTime, LastWriteTime);
+  CloseHandle(hFile);
+end;
+
+procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); stdcall;
 begin
   StrPLCopy(DefRootName, 'Network', MaxLen);
 end;
