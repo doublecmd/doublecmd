@@ -250,9 +250,8 @@ begin
         begin
           LogProc(PluginNumber, MSGTYPE_CONNECT, PAnsiChar('CONNECT ' + ConnectionName));
           sTemp:= Connection.InitCommands;
-          repeat
+          while sTemp <> EmptyStr do
             FtpSend.FTPCommand(Copy2SymbDel(sTemp, ';'));
-          until sTemp = EmptyStr;
           ActiveConnectionList.AddObject(ConnectionName, FtpSend);
           Result:= True;
         end
