@@ -605,8 +605,6 @@ static void GFileInfoToWin32FindData (GFileInfo *info, WIN32_FIND_DATAA *FindDat
   FindData->nFileSizeLow = (DWORD)filesize;
   FindData->nFileSizeHigh = filesize >> 32;
   // File attributes
-  if (g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY)
-    FindData->dwFileAttributes |= FILE_ATTRIBUTE_DIRECTORY;
   FindData->dwFileAttributes |= FILE_ATTRIBUTE_UNIX_MODE;
   FindData->dwReserved0 = g_file_info_get_attribute_uint32 (info, G_FILE_ATTRIBUTE_UNIX_MODE);
   // File date/time
@@ -628,6 +626,17 @@ static void GFileInfoToWin32FindData (GFileInfo *info, WIN32_FIND_DATAA *FindDat
 
 //  g_print ("(II) GFileInfoToWin32FindData: type = %d\n", g_file_info_get_file_type (info));
 //  g_print ("(II) GFileInfoToWin32FindData: UNIX_MODE = %d\n", FindData->dwReserved0);
+
+  switch (g_file_info_get_file_type (info)) {
+      case G_FILE_TYPE_DIRECTORY:
+      case G_FILE_TYPE_SHORTCUT:   /*  Used in network:/// */
+      case G_FILE_TYPE_MOUNTABLE:
+        FindData->dwFileAttributes |= FILE_ATTRIBUTE_DIRECTORY;
+        break;
+      case G_FILE_TYPE_SYMBOLIC_LINK:
+        FindData->dwReserved0 |= S_IFLNK;
+        break;
+    }
 
   /*  fallback to default file mode if read fails  */
   if (FindData->dwReserved0 == 0) {
