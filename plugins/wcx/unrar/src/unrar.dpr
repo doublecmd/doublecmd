@@ -3,25 +3,35 @@ library unrar;
 uses
   DynLibs, UnRARFunc;
 
-{$E wcx}
-
 exports
-  { Mandatory }
   OpenArchive,
+  OpenArchiveW,
   ReadHeader,
+  ReadHeaderEx,
+  ReadHeaderExW,
   ProcessFile,
+  ProcessFileW,
   CloseArchive,
   SetChangeVolProc,
-  SetProcessDataProc;
+  SetChangeVolProcW,
+  SetProcessDataProc,
+  SetProcessDataProcW;
 
 begin
   ModuleHandle := LoadLibrary(_unrar);
   if ModuleHandle > 0 then
     begin
-      RAROpenArchive := GetProcAddress(ModuleHandle, 'RAROpenArchive');
-      RARReadHeader := GetProcAddress(ModuleHandle, 'RARReadHeader');
-      RARProcessFile := GetProcAddress(ModuleHandle, 'RARProcessFile');
-      RARCloseArchive := GetProcAddress(ModuleHandle, 'RARCloseArchive');
-      RARSetCallback := GetProcAddress(ModuleHandle, 'RARSetCallback');
+      RAROpenArchive := TRAROpenArchive(GetProcAddress(ModuleHandle, 'RAROpenArchive'));
+      RAROpenArchiveEx := TRAROpenArchiveEx(GetProcAddress(ModuleHandle, 'RAROpenArchiveEx'));
+      RARCloseArchive := TRARCloseArchive(GetProcAddress(ModuleHandle, 'RARCloseArchive'));
+      RARReadHeader := TRARReadHeader(GetProcAddress(ModuleHandle, 'RARReadHeader'));
+      RARReadHeaderEx := TRARReadHeaderEx(GetProcAddress(ModuleHandle, 'RARReadHeaderEx'));
+      RARProcessFile := TRARProcessFile(GetProcAddress(ModuleHandle, 'RARProcessFile'));
+      RARProcessFileW := TRARProcessFileW(GetProcAddress(ModuleHandle, 'RARProcessFileW'));
+      RARSetCallback := TRARSetCallback(GetProcAddress(ModuleHandle, 'RARSetCallback'));
+      RARSetChangeVolProc := TRARSetChangeVolProc(GetProcAddress(ModuleHandle, 'RARSetChangeVolProc'));
+      RARSetProcessDataProc := TRARSetProcessDataProc(GetProcAddress(ModuleHandle, 'RARSetProcessDataProc'));
+      RARSetPassword := TRARSetPassword(GetProcAddress(ModuleHandle, 'RARSetPassword'));
+      RARGetDllVersion := TRARGetDllVersion(GetProcAddress(ModuleHandle, 'RARGetDllVersion'));
     end;
 end.
