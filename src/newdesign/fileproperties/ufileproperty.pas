@@ -130,6 +130,9 @@ type
 
     constructor Create(Attr: TFileAttrs); virtual; overload;
 
+    class function CreateOSAttributes: TFileAttributesProperty; overload;
+    class function CreateOSAttributes(Attr: TFileAttrs): TFileAttributesProperty; overload;
+
     function Clone: TFileAttributesProperty; override;
     procedure CloneTo(FileProperty: TFileProperty); override;
 
@@ -208,7 +211,8 @@ type
     function FormatFileSize(FileProperty: TFileSizeProperty): String;
     function FormatDateTime(FileProperty: TFileDateTimeProperty): String;
     function FormatModificationDateTime(FileProperty: TFileModificationDateTimeProperty): String;
-    function FormatAttributes(FileProperty: TFileAttributesProperty): String;
+    function FormatNtfsAttributes(FileProperty: TNtfsFileAttributesProperty): String;
+    function FormatUnixAttributes(FileProperty: TUnixFileAttributesProperty): String;
 
   end;
 
@@ -294,7 +298,7 @@ end;
 
 constructor TFileDateTimeProperty.Create;
 begin
-  Self.Create(0);
+  Self.Create(SysUtils.Now);
 end;
 
 constructor TFileDateTimeProperty.Create(DateTime: TDateTime);
@@ -371,6 +375,22 @@ constructor TFileAttributesProperty.Create(Attr: TFileAttrs);
 begin
   inherited Create;
   FAttributes := Attr;
+end;
+
+class function TFileAttributesProperty.CreateOSAttributes: TFileAttributesProperty;
+begin
+  Result := CreateOSAttributes(0);
+end;
+
+class function TFileAttributesProperty.CreateOSAttributes(Attr: TFileAttrs): TFileAttributesProperty;
+begin
+{$IF DEFINED(WINDOWS)}
+  Result := TNtfsFileAttributesProperty.Create(Attr);
+{$ELSEIF DEFINED(UNIX)}
+  Result := TUnixFileAttributesProperty.Create(Attr);
+{$ELSE}
+  Result := nil;
+{$ENDIF}
 end;
 
 function TFileAttributesProperty.Clone: TFileAttributesProperty;
@@ -451,7 +471,7 @@ end;
 
 function TNtfsFileAttributesProperty.Format(Formatter: IFilePropertyFormatter): String;
 begin
-  Result := Formatter.FormatAttributes(Self)
+  Result := Formatter.FormatNtfsAttributes(Self)
 end;
 
 // ----------------------------------------------------------------------------
@@ -495,7 +515,7 @@ end;
 
 function TUnixFileAttributesProperty.Format(Formatter: IFilePropertyFormatter): String;
 begin
-  Result := Formatter.FormatAttributes(Self);
+  Result := Formatter.FormatUnixAttributes(Self);
 end;
 
 end.

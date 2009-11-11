@@ -53,7 +53,7 @@ begin
       aFile := TWfxPluginFile.Create;
       aFile.Path := sPath;
       aFile.Name := '..';
-      aFile.Attributes := FILE_ATTRIBUTE_DIRECTORY; // Windows attributes by default
+      aFile.Attributes := faFolder;
       FFiles.Add(aFile);
     end;
 

@@ -53,7 +53,7 @@ constructor TArchiveFile.Create;
 begin
   FSize := TFileSizeProperty.Create;
   FCompressedSize := TFileSizeProperty.Create;
-  FAttributes := TNtfsFileAttributesProperty.Create;
+  FAttributes := TFileAttributesProperty.CreateOSAttributes;
   FModificationTime := TFileModificationDateTimeProperty.Create;
 
   AssignProperties;
