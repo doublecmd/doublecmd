@@ -1812,6 +1812,7 @@ begin
     mi:= TMenuItem.Create(pmHotList);
     mi.Caption:= glsHotDir.Names[I];
     mi.Hint:= glsHotDir.ValueFromIndex[I];
+    mi.ShortCut:= TextToShortCut(Copy(mi.Caption, 1, 1));
     mi.OnClick:= @HotDirSelected;
     pmHotList.Items.Add(mi);
   end;
