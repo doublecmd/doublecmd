@@ -62,7 +62,7 @@ type
 implementation
 
 uses
-  SysUtils, uGlobs, Masks;
+  SysUtils, uGlobs, Masks, uFileProperty;
 
 
 constructor TColorExt.Create;
@@ -121,7 +121,6 @@ var
 begin
  Result:= -1;//gForeColor; //$0000ff00;
  for I:= 0 to lslist.Count-1 do
-   with AFile do
    begin
      MaskItem:= TMaskItem(lslist[I]);
      // get color by search template
@@ -136,9 +135,13 @@ begin
                Exit;
              end;
          end;
+
      // get color by extension and attribute
-     if (MatchesMaskList(Extension,MaskItem.sExt,';')) {and     (* TODO: Color by attributes *)
-        (MatchesMaskList(sModeStr, MaskItem.sModeStr,';') or (MaskItem.sModeStr=''))} then
+     if ((MaskItem.sExt     = '') or
+          MatchesMaskList(AFile.Name, MaskItem.sExt , ';')) and
+        ((MaskItem.sModeStr = '') or
+          not (fpAttributes in AFile.SupportedProperties) or
+          MatchesMaskList(AFile.Properties[fpAttributes].AsString, MaskItem.sModeStr, ';')) then
        begin
          Result:= MaskItem.cColor;
          Exit;
