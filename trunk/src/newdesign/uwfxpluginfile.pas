@@ -66,7 +66,7 @@ constructor TWfxPluginFile.Create;
 begin
   inherited Create;
 
-  FAttributes := TNtfsFileAttributesProperty.Create;
+  FAttributes := TFileAttributesProperty.CreateOSAttributes;
   FSize := TFileSizeProperty.Create;
   FModificationTime := TFileModificationDateTimeProperty.Create;
   FLastAccessTime := TFileDateTimeProperty.Create;

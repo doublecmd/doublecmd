@@ -21,7 +21,7 @@ type
 implementation
 
 uses
-  uFileSystemFile, uFindEx;
+  uFileSystemFile, uFindEx, uOSUtils;
 
 constructor TFileSystemListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
@@ -33,25 +33,29 @@ procedure TFileSystemListOperation.MainExecute;
 var
   AFile: TFileSystemFile;
   sr: TSearchRec;
-  sParentDir: UTF8String;
   IsRootPath: Boolean;
 begin
   FFiles.Clear;
   FFiles.Path := Path;
 
+  IsRootPath := FileSource.IsPathAtRoot(Path);
+
   if FindFirstEx(FFiles.Path + '*', faAnyFile, sr) <> 0 then
   begin
     { No files have been found. }
     FindCloseEx(sr);
-{
-    sParentDir := GetParentDir(FileSource.CurrentPath);
-    if sParentDir <> EmptyStr then // if parent dir exists then add up level item
-	    AddUpLevel(sParentDir, fl);
-}
+
+    if not IsRootPath then
+    begin
+      AFile := TFileSystemFile.Create;
+      AFile.Path := Path;
+      AFile.Name := '..';
+      AFile.Attributes := faFolder;
+      FFiles.Add(AFile);
+    end;
+
     Exit;
   end;
-
-  IsRootPath := FileSource.IsPathAtRoot(Path);
 
   repeat
     if sr.Name='.' then Continue;

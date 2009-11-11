@@ -90,11 +90,7 @@ constructor TFileSystemFile.Create;
 begin
   inherited Create;
 
-  {$IF DEFINED(MSWINDOWS)}
-  FAttributes := TNtfsFileAttributesProperty.Create;
-  {$ELSEIF DEFINED(UNIX)}
-  FAttributes := TUnixFileAttributesProperty.Create;
-  {$ENDIF}
+  FAttributes := TFileAttributesProperty.CreateOSAttributes;
   FSize := TFileSizeProperty.Create;
   FModificationTime := TFileModificationDateTimeProperty.Create;
   FIsLinkToDirectory := False;
