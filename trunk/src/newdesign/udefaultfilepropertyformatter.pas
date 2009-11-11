@@ -39,11 +39,14 @@ var
 implementation
 
 uses
-  uGlobs, uDCUtils, uOSUtils, uFileAttributes
+  uGlobs, uDCUtils, uOSUtils
 {$IFDEF UNIX}
   , BaseUnix, Unix
 {$ENDIF}
-  ;
+{$IFDEF MSWINDOWS}
+  , Windows
+{$ENDIF}
+  , uFileAttributes;
 
 function TDefaultFilePropertyFormatter.FormatFileSize(
            FileProperty: TFileSizeProperty): String;
