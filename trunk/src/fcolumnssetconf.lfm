@@ -199,28 +199,30 @@ object fColumnsSetConf: TfColumnsSetConf
         Enabled = False
         TabOrder = 1
         object Label3: TLabel
+          AnchorSideLeft.Control = pnlCustomView
           Left = 14
           Height = 14
           Top = 9
-          Width = 90
-          Anchors = [akTop, akLeft, akRight]
+          Width = 27
+          BorderSpacing.Left = 14
           Caption = 'Font:'
           ParentColor = False
         end
         object edtFont: TEdit
           AnchorSideLeft.Control = Label3
           AnchorSideLeft.Side = asrBottom
-          Left = 104
+          Left = 65
           Height = 21
           Top = 4
           Width = 358
+          BorderSpacing.Left = 24
           ReadOnly = True
           TabOrder = 0
         end
         object btnFontSelect: TBitBtn
           AnchorSideLeft.Control = edtFont
           AnchorSideLeft.Side = asrBottom
-          Left = 462
+          Left = 423
           Height = 23
           Top = 4
           Width = 35
@@ -232,22 +234,23 @@ object fColumnsSetConf: TfColumnsSetConf
         object Label4: TLabel
           AnchorSideLeft.Control = btnFontSelect
           AnchorSideLeft.Side = asrBottom
-          Left = 507
+          Left = 468
           Height = 14
           Top = 9
-          Width = 68
-          Anchors = [akTop, akLeft, akRight]
+          Width = 24
           BorderSpacing.Left = 10
           Caption = 'Size:'
           ParentColor = False
         end
         object sneFontSize: TSpinEdit
+          AnchorSideLeft.Control = Label4
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Side = asrCenter
-          Left = 575
+          Left = 500
           Height = 21
           Top = 4
           Width = 48
+          BorderSpacing.Left = 8
           MaxValue = 25
           MinValue = 8
           OnChange = sneFontSizeChange
@@ -260,7 +263,7 @@ object fColumnsSetConf: TfColumnsSetConf
           AnchorSideTop.Control = sneFontSize
           AnchorSideBottom.Control = sneFontSize
           AnchorSideBottom.Side = asrBottom
-          Left = 629
+          Left = 554
           Height = 21
           Top = 4
           Width = 30
@@ -276,7 +279,7 @@ object fColumnsSetConf: TfColumnsSetConf
           AnchorSideTop.Control = ResFont
           AnchorSideBottom.Control = ResFont
           AnchorSideBottom.Side = asrBottom
-          Left = 665
+          Left = 590
           Height = 21
           Top = 4
           Width = 40
@@ -292,7 +295,7 @@ object fColumnsSetConf: TfColumnsSetConf
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = btnAllFont
           AnchorSideTop.Side = asrCenter
-          Left = 711
+          Left = 636
           Height = 17
           Top = 6
           Width = 93
@@ -307,7 +310,6 @@ object fColumnsSetConf: TfColumnsSetConf
           Height = 14
           Top = 41
           Width = 146
-          Anchors = [akTop, akLeft, akRight]
           Caption = 'Text Color:'
           ParentColor = False
         end
@@ -317,7 +319,6 @@ object fColumnsSetConf: TfColumnsSetConf
           Height = 14
           Top = 71
           Width = 146
-          Anchors = [akTop, akLeft, akRight]
           Caption = 'BackGround:'
           ParentColor = False
         end
@@ -327,7 +328,6 @@ object fColumnsSetConf: TfColumnsSetConf
           Height = 14
           Top = 101
           Width = 146
-          Anchors = [akTop, akLeft, akRight]
           Caption = 'Background 2:'
           ParentColor = False
         end
@@ -523,7 +523,6 @@ object fColumnsSetConf: TfColumnsSetConf
           Height = 14
           Top = 41
           Width = 150
-          Anchors = [akTop, akLeft, akRight]
           Caption = 'Mark Color:'
           ParentColor = False
         end
@@ -533,7 +532,6 @@ object fColumnsSetConf: TfColumnsSetConf
           Height = 14
           Top = 70
           Width = 150
-          Anchors = [akTop, akLeft, akRight]
           Caption = 'Cursor Color:'
           ParentColor = False
         end
@@ -544,7 +542,6 @@ object fColumnsSetConf: TfColumnsSetConf
           Height = 14
           Top = 101
           Width = 150
-          Anchors = [akTop, akLeft, akRight]
           Caption = 'Cursor Text:'
           ParentColor = False
         end
@@ -868,7 +865,7 @@ object fColumnsSetConf: TfColumnsSetConf
       AnchorSideTop.Side = asrCenter
       Left = 8
       Height = 17
-      Top = 4
+      Top = 3
       Width = 85
       BorderSpacing.Left = 8
       Caption = 'Cursor border'
@@ -880,7 +877,7 @@ object fColumnsSetConf: TfColumnsSetConf
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = pnlGlobalSettings
       Left = 99
-      Height = 24
+      Height = 22
       Top = 0
       Width = 144
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
@@ -897,7 +894,7 @@ object fColumnsSetConf: TfColumnsSetConf
       AnchorSideBottom.Control = cbCursorBorderColor
       AnchorSideBottom.Side = asrBottom
       Left = 249
-      Height = 24
+      Height = 22
       Top = 0
       Width = 28
       Anchors = [akTop, akLeft, akBottom]
