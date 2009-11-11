@@ -28,6 +28,8 @@ type
     // Don't know if it will be really needed.
     class function GetDescription: String; virtual abstract;
 
+    function AsString: String; virtual;
+
     // Formats the property value as a string using some formatter object.
     function Format(Formatter: IFilePropertyFormatter): String; virtual abstract;
   end;
@@ -219,7 +221,7 @@ type
 implementation
 
 uses
-  uFileAttributes;
+  uFileAttributes, uDefaultFilePropertyFormatter;
 
 resourcestring
   rsSizeDescription = 'Size';
@@ -240,6 +242,11 @@ end;
 
 procedure TFileProperty.CloneTo(FileProperty: TFileProperty);
 begin
+end;
+
+function TFileProperty.AsString: String;
+begin
+  Result := Format(DefaultFilePropertyFormatter);
 end;
 
 // ----------------------------------------------------------------------------
