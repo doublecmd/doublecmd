@@ -47,7 +47,7 @@ begin
   {$I doublecmd.lrs}
 
   {$IFDEF NIGHTLY_BUILD}
-  InitLineInfo(nil);
+  InitLineInfo;
   {$ENDIF}
 
   Application.Title:= 'Double Commander';

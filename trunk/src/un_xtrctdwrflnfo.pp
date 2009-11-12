@@ -25,11 +25,10 @@
     These as of Jan. 2008 / FPC 2.2.0 both didn't work
     and had several limitations (e.g. inability to be used
     from a DLL)
-}
-{
+
     Oct 2009, by cobines
       Now can extract from ELF32, ELF64, PE regardless of base platform (Linux and Win).
-      Fixed reading .debug_line section from PE files.
+      Fixed reading .debug_line section from PE files (now long section name is used).
 }
 
 {$mode delphi}
@@ -44,38 +43,40 @@ unit un_xtrctdwrflnfo;
 
 
 interface
-  uses SysUtils, Classes, zstream;
 
-  function ExtractDwarfLineInfo(
-    ExeFileName: ansistring;
-    out _dlnfo: pointer;
-    out _dlnfoSize: QWord;
-    out Imagebase: QWord): longbool;
-  {
-  Reads the dwarf line info from an executable.
-    In case of error, see ExtractDwarfLineInfoError for details.
-  ImageBase is nil for unix DLLs
-    in all other cases the value it receives must be substracted
-    from the addresses in the dwarf line info (and then the real
-    base address added, to account for the possible relocation)
-  NOTE: currently in unix it is also NIL for the main executable,
-    corresponding the GetModuleByAddr() in un_lineinfo
-    also returning NIL as the base address for the main executable.
-  }
+uses
+  SysUtils, Classes;
 
-  function DlnNameByExename(exename: string): string;
-  {generates file names with .dwrlnfo extension.
-     For unix, gives .elf.drwlnfo if the source name
-     has no extension (as most executables do).
-   Use in cases when both your windows and linux binaries are placed
-     in the same folder }
-  
-  var
-    ExtractDwarfLineInfoError: WideString = '';
-    
-    
+function ExtractDwarfLineInfo(
+  ExeFileName: ansistring;
+  out _dlnfo: pointer;
+  out _dlnfoSize: QWord;
+  out Imagebase: QWord): longbool;
+{
+Reads the dwarf line info from an executable.
+  In case of error, see ExtractDwarfLineInfoError for details.
+ImageBase is nil for unix DLLs
+  in all other cases the value it receives must be substracted
+  from the addresses in the dwarf line info (and then the real
+  base address added, to account for the possible relocation)
+NOTE: currently in unix it is also NIL for the main executable,
+  corresponding the GetModuleByAddr() in un_lineinfo
+  also returning NIL as the base address for the main executable.
+}
+
+function DlnNameByExename(exename: string): string;
+{generates file names with .zdli extension.
+ Use in cases when both your windows and linux binaries are placed
+   in the same folder }
+
+var
+  ExtractDwarfLineInfoError: WideString = '';
+
 
 implementation
+
+uses
+  zstream;
 
 const
   DwarfDebugLine: string = '.debug_line';
@@ -84,15 +85,15 @@ const
 type
   TCheckResult = (header_not_found, header_invalid, no_debug_info, found_debug_info);
 
-  function DlnNameByExename(exename: string): string;
-  begin
-    Result := ChangeFileExt(exename, '.zdli');
-  end;
-
 {$MACRO ON}
 
-{define DEBUG_ADDLOG := DebugLn} //needs Cheb's Game Engine's units to work
-{$define DEBUG_ADDLOG := //}
+{$ifdef DEBUG_DWARF_PARSER}
+  {$define DEBUG_WRITELN := WriteLn}
+  {$define DEBUG_COMMENT :=  }
+{$else}
+  {$define DEBUG_WRITELN := //}
+  {$define DEBUG_COMMENT := //}
+{$endif}
 
 { ELF Header structures types}
 type
@@ -296,18 +297,23 @@ type
     aux     : byte;
   end;
 
-  function cntostr(cn: pchar): string;
-  var
-    i: integer = 0;
-  begin
-    Result:='';
-    repeat
-      if cn^ = #0 then break;
-      Result+= cn^;
-      inc(i);
-      inc(cn);
-    until i = 8;
-  end;
+function DlnNameByExename(exename: string): string;
+begin
+  Result := ChangeFileExt(exename, '.zdli');
+end;
+
+function cntostr(cn: pchar): string;
+var
+  i: integer = 0;
+begin
+  Result:='';
+  repeat
+    if cn^ = #0 then break;
+    Result+= cn^;
+    inc(i);
+    inc(cn);
+  until i = 8;
+end;
 
 function ExtractElf32(
   f: TFileStream;
@@ -358,23 +364,23 @@ begin
     end;
     buf[sizeof(buf)-1] := #0;
 
-    DEBUG_ADDLOG('This section is ', pchar(@buf[0]), ', offset ', IntToStr(cursec_header.sh_offset), ', size ', IntToStr(cursec_header.sh_size));
+    DEBUG_WRITELN('This section is ', pchar(@buf[0]), ', offset ', IntToStr(cursec_header.sh_offset), ', size ', IntToStr(cursec_header.sh_size));
 
     sectionName := StrPas(pchar(@buf[0]));
 
     if sectionName = DwarfDebugLine then begin
-      DEBUG_ADDLOG(sectionName + ' section found');
+      DEBUG_WRITELN(sectionName + ' section found');
       DwarfLineInfoOffset := cursec_header.sh_offset;
       DwarfLineInfoSize := cursec_header.sh_size;
       { more checks }
-      DEBUG_ADDLOG(' offset %d,  size %d', [DwarfLineInfoOffset, DwarfLineInfoSize]);
+      DEBUG_WRITELN(' offset ', DwarfLineInfoOffset, ',  size ', DwarfLineInfoSize);
       Result := (DwarfLineInfoOffset >= 0) and (DwarfLineInfoSize > 0);
       break;
     end;
     if sectionName = DwarfZDebugLine then begin
-      DEBUG_ADDLOG(sectionName + ' section found');
+      DEBUG_WRITELN(sectionName + ' section found');
       DwarfLineInfoOffset := cursec_header.sh_offset;
-      DEBUG_ADDLOG(' offset %d', [DwarfLineInfoOffset]);
+      DEBUG_WRITELN(' offset ', DwarfLineInfoOffset);
       IsCompressed:= true;
       Result := (DwarfLineInfoOffset >= 0);
       break;
@@ -431,23 +437,23 @@ begin
     end;
     buf[sizeof(buf)-1] := #0;
 
-    DEBUG_ADDLOG('This section is ', pchar(@buf[0]), ', offset ', IntToStr(cursec_header.sh_offset), ', size ', IntToStr(cursec_header.sh_size));
+    DEBUG_WRITELN('This section is ', pchar(@buf[0]), ', offset ', IntToStr(cursec_header.sh_offset), ', size ', IntToStr(cursec_header.sh_size));
 
     sectionName := StrPas(pchar(@buf[0]));
 
     if sectionName = DwarfDebugLine then begin
-      DEBUG_ADDLOG(sectionName + ' section found');
+      DEBUG_WRITELN(sectionName + ' section found');
       DwarfLineInfoOffset := cursec_header.sh_offset;
       DwarfLineInfoSize := cursec_header.sh_size;
       { more checks }
-      DEBUG_ADDLOG(' offset %d,  size %d', [DwarfLineInfoOffset, DwarfLineInfoSize]);
+      DEBUG_WRITELN(' offset ', DwarfLineInfoOffset, ',  size ', DwarfLineInfoSize);
       Result := (DwarfLineInfoOffset >= 0) and (DwarfLineInfoSize > 0);
       break;
     end;
     if sectionName = DwarfZDebugLine then begin
-      DEBUG_ADDLOG(sectionName + ' section found');
+      DEBUG_WRITELN(sectionName + ' section found');
       DwarfLineInfoOffset := cursec_header.sh_offset;
-      DEBUG_ADDLOG(' offset %d', [DwarfLineInfoOffset]);
+      DEBUG_WRITELN(' offset ', DwarfLineInfoOffset);
       IsCompressed:= true;
       Result := (DwarfLineInfoOffset >= 0);
       break;
@@ -511,7 +517,7 @@ begin
         if peheader.pemagic = $4550 then
         begin
           // Found header.
-          WriteLn('Found Windows Portable Executable header.');
+          DEBUG_WRITELN('Found Windows Portable Executable header.');
 
           stringsSectionOffset := peheader.PointerToSymbolTable
                                 + peheader.NumberOfSymbols * sizeof(coffsymbol);
@@ -529,7 +535,7 @@ begin
                // Section name longer than 8 characters.
                sectionName := GetLongSectionName(sectionName);
 
-             DEBUG_ADDLOG(sectionName);
+             DEBUG_WRITELN(sectionName);
 
              if sectionName = DwarfDebugLine then begin
                DwarfLineInfoOffset:= coffsec.datapos;
@@ -588,7 +594,7 @@ begin
     case fileIdentBuf[EI_CLASS] of
       ELFCLASS32:
         begin
-          WriteLn('Found Unix ELF 32-bit header.');
+          DEBUG_WRITELN('Found Unix ELF 32-bit header.');
 
           if ExtractElf32(f, DwarfLineInfoSize, DwarfLineInfoOffset, Imagebase, IsCompressed) then
             Result := found_debug_info
@@ -597,7 +603,7 @@ begin
         end;
       ELFCLASS64:
         begin
-          WriteLn('Found Unix ELF 64-bit header.');
+          DEBUG_WRITELN('Found Unix ELF 64-bit header.');
 
           if ExtractElf64(f, DwarfLineInfoSize, DwarfLineInfoOffset, Imagebase, IsCompressed) then
             Result := found_debug_info
@@ -627,7 +633,7 @@ var
   DC: TDecompressionStream;
   CheckResult: TCheckResult;
 begin
-  DEBUG_ADDLOG('Reading dwarf line info from %s', [ExeFileName]);
+  DEBUG_WRITELN('Reading dwarf line info from ', ExeFileName);
   Result := False;
 
   f:= TFileStream.Create(ExeFileName, fmOpenRead or fmShareDenyNone);
@@ -665,11 +671,11 @@ begin
     else
       case CheckResult of
         header_not_found:
-          ExtractDwarfLineInfoError:= 'File not supported.';
+          ExtractDwarfLineInfoError := 'File not supported.';
         header_invalid:
           ExtractDwarfLineInfoError := 'Invalid header.';
         no_debug_info:
-          ExtractDwarfLineInfoError:= 'The debug line info section not found.';
+          ExtractDwarfLineInfoError := 'The debug line info section not found.';
       end;
 
   finally

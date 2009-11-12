@@ -661,6 +661,7 @@
     </CodeGeneration>
     <Linking>
       <Debugging>
+        <UseLineInfoUnit Value="False"/>
         <GenerateDwarf Value="True"/>
       </Debugging>
     </Linking>
