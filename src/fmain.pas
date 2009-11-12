@@ -1732,7 +1732,7 @@ var
 begin
   // Write exception backtrace to a file.
 
-  filename := ExtractOnlyFileName(Application.ExeName) + '.err';
+  filename := gpIniDir + ExtractOnlyFileName(Application.ExeName) + '.err';
   AssignFile(f, filename);
   if not FileExists(filename) then
     Rewrite(f)
