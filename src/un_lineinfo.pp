@@ -156,8 +156,13 @@ implementation
 
 {$MACRO ON}
 
-//{$define DEBUG_WRITE := WriteLn}
-{$define DEBUG_WRITE := //}
+{$ifdef DEBUG_DWARF_PARSER}
+  {$define DEBUG_WRITE   := WriteLn}
+  {$define DEBUG_COMMENT :=  }
+{$else}
+  {$define DEBUG_WRITE   := //}
+  {$define DEBUG_COMMENT := //}
+{$endif}
 {$define DEBUG_ADDLOG := //}
 
   function ChelinfoBackTraceStr(addr : Pointer) : ShortString;
@@ -229,6 +234,7 @@ implementation
       epilouge_begin : Boolean;
       isa : QWord; //DWord;
       append_row : Boolean;
+      first_row : Boolean;
     end;
 
 
@@ -259,6 +265,7 @@ implementation
 
     TDwarfChunk = packed record
       addr: pointer;
+      first_row: boolean;
       line: integer;
       column, fileind: smallint; // it is sooo unlikely for them
     end;                         // to go beyond the 32767 limit...
@@ -280,6 +287,61 @@ implementation
     base_addr: pointer = nil;
     ExecutableUnit: array of TExecutableUnit;
     
+
+  {$IFDEF DEBUG_DWARF_PARSER_TABLE}
+  procedure SaveTable(FileName: String);
+  var
+    i, j, k: Integer;
+    f: Text;
+    sz:longint;
+  begin
+    if not initialized then
+      if not InitLineInfo(nil) then exit;
+
+    Assign(f, FileName);
+    Rewrite(f);
+    sz:=0;
+    try
+      for i:=0 to high(ExecutableUnit) do
+      with ExecutableUnit[i] do
+      begin
+    inc(sz, length(name)+2);
+        WriteLn(f, 'Executable ', i, ': ', ExecutableUnit[i].name);
+        for j:=0 to high(CompilationUnit) do
+        begin
+          with CompilationUnit[j] do
+          begin
+          for k:=0 to high(Files) do
+            inc(sz, length(files[k].name)+2 + sizeof(cardinal));
+          for k:=0 to high(Dirs) do
+            inc(sz, length(dirs[k])+2);
+            for k:=0 to high(dtable) do
+            begin
+            inc(sz, sizeof(TDwarftable));
+              if (k = 0) or (dtable[k].fileind <> dtable[k-1].fileind) then
+                WriteLn(f, 'Compilation unit ', j, ', file ',
+                           files[dtable[k].fileind].dirind, ' = ',
+                           files[dtable[k].fileind].name);
+
+              Write(f, 'DTable ', k, ' [', hexStr(dtable[k].addr));
+              if (k<high(dtable)) and not (dtable[k+1].first_row) then
+                Write(f, '-', hexStr(dtable[k+1].addr))
+              else
+                Write(f, '         ');
+              Write(f, '], line ', dtable[k].line, ', file ', Files[dtable[k].fileind].name);
+              if dtable[k].first_row then
+                Write(f, ' SEQUENCE START');
+              Writeln(f);
+            end;
+          end;
+        end;
+      end;
+      writeln(f, 'total size = ', sz);
+    finally
+      Close(f);
+    end;
+  end;
+  {$ENDIF}
 
   procedure GetModuleByAddr(addr: pointer; var baseaddr: pointer; var filename: string);
   {$ifdef unix}
@@ -442,6 +504,7 @@ implementation
         epilouge_begin := false;
         isa := 0;
         append_row := false;
+        first_row := true;
       end;
     end;
     
@@ -462,6 +525,7 @@ implementation
 {$rangechecks off}
             addr:= state.address + base_addr - ExeImageBase;
 {$POP}
+            first_row := state.first_row;
             line:= state.line;
             column:= state.column;
             fileind:= state.file_id - 1;
@@ -713,6 +777,7 @@ implementation
 
             AddRow;
             state.append_row := false;
+            state.first_row := false;
 
             if (state.end_sequence) then begin
               // Reset state machine when sequence ends.
@@ -841,10 +906,12 @@ implementation
         Result := False;
       end;
 
-    if Result then
-      Writeln('Successfully parsed DWARF debug line info.')
-    else
+    if not Result then
       Writeln('Cannot read DWARF debug line info: ', LineInfoError);
+
+    {$IFDEF DEBUG_DWARF_PARSER_TABLE}
+    SaveTable(filename + '.lntbl');
+    {$ENDIF}
   end;
 
 
@@ -852,18 +919,12 @@ implementation
   var
     i,j,k, ei: integer;
     ubase: pointer;
-    prev_src: ansistring;
-    prev_line: Integer;
-    prev_column: Integer;
   begin
     src:='';
     exe:='';
     line:= -1;
     column:= -1;
-    prev_line := 0;
-    prev_column := -1;
-    prev_src := '';
-    //LineInfoError:= '';
+    LineInfoError:= '';
 
     if not initialized then
       if not InitLineInfo(addr) then exit;
@@ -888,21 +949,12 @@ implementation
           begin
             for i:=0 to high(dtable) do
             begin
-              {$IFDEF DEBUG}
-              write('DTable ',i, ' [' , hexStr(dtable[i].addr));
-              if i<high(dtable) then
-                write('-', hexStr(dtable[i+1].addr))
-              else
-                write('         ');
-              writeln('], line ', dtable[i].line, ', file ', Files[dtable[i].fileind].name);
-             {$ENDIF}
-
-              // Addresses can only rise in a single sequence, so when we find
+              // Addresses can only rise in a single compilation unit, so when we find
               // a higher address then all of the following addresses are also higher.
               if (dtable[i].addr >= addr) then begin
 
-                // Special check for first address in the table.
-                if (i = 0) then
+                // Special check for first address of each sequence.
+                if dtable[i].first_row then
                 begin
                   // If the address is the same we can return this row's data, which should be accurate.
                   if (dtable[i].addr = addr) then
@@ -913,16 +965,24 @@ implementation
                     src := src + Files[dtable[i].fileind].name;
                     line:= dtable[i].line;
                     column:= -1;
+                    Exit;
+                  end
+                  else
+                  begin
+                    // If it is higher then the address was not found in
+                    // this compilation unit. Continue checking in the next one.
+                    break;
                   end;
-                  // else
-                  // If it is higher then the address was not found.
                 end
                 else
                 begin
                   { when we have found the address we need to return the previous
                     line because that contains the call instruction }
-                  src:= prev_src;
-                  line:= prev_line;
+                  src := Dirs[Files[dtable[i-1].fileind].dirind];
+                  if src <> '' then
+                    src := src + PathDelim;
+                  src := src + Files[dtable[i-1].fileind].name;
+                  line:= dtable[i-1].line;
                   column:= -1;
 
                   //now check if the same line appears twice with different columns
@@ -933,19 +993,11 @@ implementation
                        (dtable[k].column <> dtable[i].column) and
                        (dtable[k].fileind = dtable[i].fileind)
                     then
-                      column := prev_column; // set column
+                      column := dtable[i-1].column; // set column
+
+                  Exit;
                 end;
-
-                LineInfoError:= '';
-                Exit;
               end;
-
-              prev_src := Dirs[Files[dtable[i].fileind].dirind];
-              if prev_src <> '' then
-                prev_src := prev_src + PathDelim;
-              prev_src := prev_src + Files[dtable[i].fileind].name;
-              prev_line := dtable[i].line;
-              prev_column := dtable[i].column;
             end;
           end;
         end;
@@ -954,6 +1006,6 @@ implementation
       LineInfoError:= (ExceptObject as Exception).Message;
     end;
   end;
-  
+
 end.
 
