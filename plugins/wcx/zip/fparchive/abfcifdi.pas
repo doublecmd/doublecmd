@@ -33,6 +33,8 @@
 
 unit AbFciFdi;
 
+{$mode delphi}
+
 interface
 
 uses
@@ -208,7 +210,7 @@ function FDIIsCabinet(hfdi : HFDI; hf : Integer;
 function FDICopy(hfdi : HFDI; pszCabinet, pszCabPath : PAnsiChar;
   flags : Integer; pfnfdin, pfnfdid : FARPROC;
   Archive : Pointer) : Boolean;
-  {enumerates every file in the cabinet.  The callback function
+  {enumerates every file in the cabinet.  The callback function}
   {should indicate whether or not to extract a given file}
   {  hfdi       - FDI context }
   {  pszCabinet - cabinet file name }
