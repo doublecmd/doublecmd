@@ -71,7 +71,7 @@ procedure TfrmHotDir.btnAddManClick(Sender: TObject);
 var
   sDir: String;
 begin
-  if InputQuery('Manually add hot path', 'Enter name and path:', sDir) then
+  if InputQuery(rsMsgManualAddHotDir, rsMsgManualHotDirQuery, sDir) then
     lsHotDir.ItemIndex:= lsHotDir.Items.Add(IncludeTrailingBackSlash(sDir));
   btnDelete.Enabled:= (lsHotDir.Items.Count > 0);
   btnEdit.Enabled:= (lsHotDir.Items.Count > 0);
@@ -83,7 +83,7 @@ var
 begin
   if lsHotDir.Items.Count < 1 then Exit;
   sDir:= lsHotDir.Items[lsHotDir.ItemIndex];
-  if InputQuery('Manualy edit hot path', 'Enter name and path:', sDir) then
+  if InputQuery(rsMsgManualEditHotDir, rsMsgManualHotDirQuery, sDir) then
     lsHotDir.Items[lsHotDir.ItemIndex]:= IncludeTrailingBackSlash(sDir);
   btnDelete.Enabled:= (lsHotDir.Items.Count > 0);
   btnEdit.Enabled:= (lsHotDir.Items.Count > 0);
