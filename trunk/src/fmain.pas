@@ -1726,12 +1726,30 @@ begin
 end;
 
 procedure TfrmMain.AppException(Sender: TObject; E: Exception);
+var
+  filename: String;
+  f: System.Text;
 begin
-  WriteLn(stdErr,'Exception:',E.Message);
-  WriteLn(stdErr,'Func:',BackTraceStrFunc(get_caller_frame(get_frame)));
-  Dump_Stack(StdErr, get_caller_frame(get_frame));
-end;
+  // Write exception backtrace to a file.
 
+  filename := ExtractOnlyFileName(Application.ExeName) + '.err';
+  AssignFile(f, filename);
+  if not FileExists(filename) then
+    Rewrite(f)
+  else
+    Append(f);
+
+  if TextRec(f).mode <> fmClosed then
+  begin
+    WriteLn(f, '-------- ', FormatDateTime('dddddd', SysUtils.Now), ' --------');
+    WriteLn(f, 'Unhandled exception: ',Exception(ExceptObject).Message);
+    WriteLn(f, '  Stack trace:');
+
+    System.DumpExceptionBackTrace(f);
+
+    CloseFile(f);
+  end;
+end;
 
 Function TfrmMain.GetFileDlgStr(sLngOne, sLngMulti: String; Files: TFiles):String;
 begin
