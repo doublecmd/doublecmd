@@ -105,6 +105,7 @@ type
     function GetIconByFile(AFile: TFile; DirectAccess: Boolean):PtrInt;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
+    function GetArchiveIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;
   end;
 
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
@@ -1224,6 +1225,27 @@ var
   Drive: TDrive = (Name: ''; Path: ''; DriveLabel: ''; DriveType: dtFixed);
 begin
   Result := GetBuiltInDriveIcon(@Drive, IconSize, clBackColor);
+end;
+
+function TPixMapManager.GetArchiveIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;
+var
+  Bitmap: Graphics.TBitmap;
+begin
+  Bitmap := GetBitmap(FiArcIconID, clBackColor);
+  if Assigned(Bitmap) then
+  begin
+    //  if need stretch icon
+    if (IconSize <> gIconsSize) then
+      begin
+        Result := StretchBitmap(Bitmap, IconSize, clBackColor, False);
+      end
+    else
+      begin
+        Result := Graphics.TBitmap.Create;
+        Result.Assign(Bitmap);
+      end;
+    // 'Bitmap' should not be freed, because it only points to DriveIconList.
+  end;
 end;
 
 procedure LoadPixMapManager;

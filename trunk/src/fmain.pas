@@ -480,8 +480,8 @@ type
     procedure SaveShortCuts;
     procedure LoadShortCuts;
     function  IsCommandLineVisible: Boolean;
-    procedure UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; Path: String);
-    procedure UpdateDriveButtonMenuSelection(DriveButton: TSpeedButton; Path: String);
+    procedure UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileView: TFileView);
+    procedure UpdateDriveButtonMenuSelection(DriveButton: TSpeedButton; FileView: TFileView);
     procedure UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
     procedure EnableHotkeys(Enable: Boolean);
     procedure ExecuteCommandLine(bRunInTerm: Boolean);
@@ -2830,10 +2830,10 @@ begin
   dskLeft.Visible := (gDriveBar1 and gDriveBar2);
   dskRight.Visible := gDriveBar1;
 
-  UpdateDriveToolbarSelection(dskLeft, FrameLeft.CurrentPath);
-  UpdateDriveToolbarSelection(dskRight, FrameRight.CurrentPath);
-  UpdateDriveButtonMenuSelection(btnLeftDrive, FrameLeft.CurrentPath);
-  UpdateDriveButtonMenuSelection(btnRightDrive, FrameRight.CurrentPath);
+  UpdateDriveToolbarSelection(dskLeft, FrameLeft);
+  UpdateDriveToolbarSelection(dskRight, FrameRight);
+  UpdateDriveButtonMenuSelection(btnLeftDrive, FrameLeft);
+  UpdateDriveButtonMenuSelection(btnRightDrive, FrameRight);
 
   pnlSyncSize.Visible := gDriveBar1;
   (*/ Disk Panels *)
@@ -3144,11 +3144,14 @@ begin
   Result := (edtCommand.Visible and pnlCommand.Visible);
 end;
 
-procedure TfrmMain.UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; Path: String);
+procedure TfrmMain.UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileView: TFileView);
 var
   i : Integer;
   ToolButtonPath : String;
+  Path: String;
 begin
+  Path := FileView.CurrentPath;
+
   for i := 0 to DriveToolbar.ButtonCount - 1 do
   begin
     ToolButtonPath := DriveToolbar.Buttons[i].Hint;
@@ -3164,12 +3167,15 @@ begin
   DriveToolbar.UncheckAllButtons;
 end;
 
-procedure TfrmMain.UpdateDriveButtonMenuSelection(DriveButton: TSpeedButton; Path: String);
+procedure TfrmMain.UpdateDriveButtonMenuSelection(DriveButton: TSpeedButton; FileView: TFileView);
 var
   i : Integer;
   BitmapTmp: Graphics.TBitmap;
   Drive: PDrive;
+  Path: String;
 begin
+  Path := FileView.CurrentPath;
+
   for i := 0 to pmDrivesMenu.Items.Count - 1 do
   begin
     Drive := PDrive(DrivesList.Items[pmDrivesMenu.Items[i].Tag]);
@@ -3202,8 +3208,13 @@ begin
 
   DriveButton.Caption := '';
 
-  BitmapTmp := PixMapManager.GetDefaultDriveIcon(DriveButton.Height - 2,
-                                                 DriveButton.Color);
+  if FileView.FileSource.IsClass(TArchiveFileSource) then
+    BitmapTmp := PixMapManager.GetArchiveIcon(DriveButton.Height - 2,
+                                              DriveButton.Color)
+  else
+    BitmapTmp := PixMapManager.GetDefaultDriveIcon(DriveButton.Height - 2,
+                                                   DriveButton.Color);
+
   DriveButton.Glyph := BitmapTmp;
 
   if Assigned(BitmapTmp) then
@@ -3215,30 +3226,27 @@ end;
 
 procedure TfrmMain.UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
 var
-  Path : String;
   FileView: TFileView;
 begin
   FileView := ANoteBook.ActiveView;
   if Assigned(FileView) then
   begin
-    Path := FileView.CurrentPath;
-
     // Change left drive toolbar for left drive button.
     if (ANoteBook = nbLeft) then
     begin
-      UpdateDriveToolbarSelection(dskLeft, Path);
-      UpdateDriveButtonMenuSelection(btnLeftDrive, Path);
+      UpdateDriveToolbarSelection(dskLeft, FileView);
+      UpdateDriveButtonMenuSelection(btnLeftDrive, FileView);
 
       // If only one drive toolbar is displayed then also change it.
       if gDriveBar1 and not gDriveBar2 then
         // dskRight is the main toolbar.
-        UpdateDriveToolbarSelection(dskRight, Path);
+        UpdateDriveToolbarSelection(dskRight, FileView);
     end
     // Change right drive toolbar for right drive button
     else if (ANoteBook = nbRight) then
     begin
-      UpdateDriveToolbarSelection(dskRight, Path);
-      UpdateDriveButtonMenuSelection(btnRightDrive, Path);
+      UpdateDriveToolbarSelection(dskRight, FileView);
+      UpdateDriveButtonMenuSelection(btnRightDrive, FileView);
     end;
   end;
 end;
