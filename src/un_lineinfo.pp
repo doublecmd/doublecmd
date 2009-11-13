@@ -100,6 +100,12 @@ procedure InitLineInfo;
   Installs the custom BackTraceStr handler.
 }
 
+procedure AddLineInfoPath(const Path: String);
+{
+ Adds a path that will be searched for .zdli files.
+ Paths can be absolute or relative to the directory with the executable module.
+}
+
 procedure GetModuleByAddr(addr: pointer; var baseaddr: pointer; var filename: string);
 {
   This function allows you to know which executable (i.e. the main exe
@@ -115,9 +121,6 @@ procedure GetModuleByAddr(addr: pointer; var baseaddr: pointer; var filename: st
 
 var
   LineInfoError: WideString = '';
-  LineInfoPaths: array of string = nil;
-  {you can store the .zdli files in a different folder than the EXe itself.
-    Just fill in this array.}
 
 implementation
 
@@ -138,6 +141,18 @@ uses
   {$define DEBUG_WRITELN := //}
   {$define DEBUG_COMMENT := //}
 {$endif}
+
+var
+  {You can store the .zdli files in a different folder than the Exe itself.
+   Just fill in this array.
+   Paths can be absolute or relative to BaseModulePath.
+   For example:
+     AddLineInfoPath('debug') - will search in <executable_path>/debug/
+  }
+  LineInfoPaths: array of string = nil;
+
+  {Path where the executable module is.}
+  BaseModulePath: String;
 
 function ChelinfoBackTraceStr(addr : Pointer) : ShortString;
 var
@@ -259,6 +274,13 @@ end;
 procedure InitLineInfo;
 begin
   BackTraceStrFunc := @ChelinfoBacktraceStr;
+  BaseModulePath := ExtractFilePath(ParamStr(0));
+end;
+
+procedure AddLineInfoPath(const Path: String);
+begin
+  SetLength(LineInfoPaths, Length(LineInfoPaths) + 1);
+  LineInfoPaths[Length(LineInfoPaths) - 1] := ExcludeTrailingPathDelimiter(Path);
 end;
 
 function GetLineInfo(addr: Pointer;
@@ -722,6 +744,64 @@ var
     end; //while
   end;
 
+  type
+    TPathType = ( ptNone, ptRelative, ptAbsolute );
+
+  function GetPathType(sPath : String): TPathType;
+  begin
+    Result := ptNone;
+  {$IFDEF MSWINDOWS}
+  {check for drive/unc info}
+    if ( Pos( '\\', sPath ) > 0 ) or ( Pos( DriveDelim, sPath ) > 0 ) then
+  {$ENDIF MSWINDOWS}
+  {$IFDEF UNIX}
+  { UNIX absolute paths start with a slash }
+    if (sPath[1] = PathDelim) then
+  {$ENDIF UNIX}
+      Result := ptAbsolute
+    else if ( Pos( PathDelim, sPath ) > 0 ) then
+      Result := ptRelative;
+  end;
+
+  function ExpandAbsolutePath(Path: String): String;
+  var
+    I, J: Integer;
+  begin
+    {First remove all references to '\.\'}
+    I := Pos (DirectorySeparator + '.' + DirectorySeparator, Path);
+    while I <> 0 do
+        begin
+            Delete (Path, I, 2);
+            I := Pos (DirectorySeparator + '.' + DirectorySeparator, Path);
+        end;
+
+    {Then remove all references to '\..\'}
+    I := Pos (DirectorySeparator + '..', Path);
+    while (I <> 0) do
+        begin
+            J := Pred (I);
+            while (J > 0) and (Path [J] <> DirectorySeparator) do
+                Dec (J);
+            if (J = 0) then
+                Delete (Path, I, 3)
+            else
+                Delete (Path, J, I - J + 3);
+            I := Pos (DirectorySeparator + '..', Path);
+        end;
+
+    Result := Path;
+  end;
+
+  function GetAbsoluteFileName(const sPath, sRelativeFileName : String) : String;
+  begin
+    case GetPathType(sRelativeFileName) of
+      ptNone, ptRelative:
+        Result := ExpandAbsolutePath(sPath + sRelativeFileName);
+      else
+        Result := sRelativeFileName;
+    end;
+  end;
+
 var
   i: Integer;
   dc, ts: TStream;
@@ -743,6 +823,11 @@ begin
   if moduleFile = '' then
     Exit(False); // No module found at this address.
 
+  // Never read modules or .zdli files from current directory.
+  // If module path is relative make it relative to BaseModulePath.
+  // (for example ./doublecmd must be expanded).
+  moduleFile := GetAbsoluteFileName(BaseModulePath, moduleFile);
+
   DEBUG_WRITELN('Module ', moduleFile, ' at $', hexStr(base_addr));
 
   try
@@ -753,6 +838,8 @@ begin
       externalFile := DlnNameByExename(moduleFile);
       i:= -1;
       repeat
+        DEBUG_WRITELN('Checking external file: ', externalFile);
+
         if FileExists(externalFile) then
           break
         else
@@ -762,7 +849,9 @@ begin
         if i > high(LineInfoPaths) then
           break;
 
-        externalFile := LineInfopaths[i] +
+        // Check additional paths.
+        externalFile := GetAbsoluteFileName(BaseModulePath, LineInfoPaths[i]);
+        externalFile := IncludeTrailingPathDelimiter(externalFile) +
                         DlnNameByExename(ExtractFileName(moduleFile));
       until False;
 
