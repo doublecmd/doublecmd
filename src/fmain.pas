@@ -1741,7 +1741,7 @@ begin
 
   if TextRec(f).mode <> fmClosed then
   begin
-    WriteLn(f, '-------- ', FormatDateTime('dddddd', SysUtils.Now), ' --------');
+    WriteLn(f, '-------- ', FormatDateTime('dd-mm-yyyy, hh:nn:ss', SysUtils.Now), ' --------');
     WriteLn(f, 'Unhandled exception: ',Exception(ExceptObject).Message);
     WriteLn(f, '  Stack trace:');
 
