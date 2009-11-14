@@ -1245,7 +1245,9 @@ begin
         Result.Assign(Bitmap);
       end;
     // 'Bitmap' should not be freed, because it only points to DriveIconList.
-  end;
+  end
+  else
+    Result := nil;
 end;
 
 procedure LoadPixMapManager;
