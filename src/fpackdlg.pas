@@ -92,7 +92,6 @@ var
   Operation: TFileSourceOperation;
   OperationHandle: TOperationHandle;
   ProgressDialog: TfrmFileOp;
-  bTargetFileSourceCreated: Boolean = False;
 begin
   try
     with TfrmPackDlg.Create(nil) do
@@ -131,7 +130,6 @@ begin
             else
             begin
               // Create a new target file source.
-              bTargetFileSourceCreated := True;
 
               // Only WCX now.
               NewTargetFileSource := TWcxArchiveFileSource.CreateByArchiveName(edtPackCmd.Text);
@@ -177,8 +175,6 @@ begin
   finally
     if Assigned(Files) then
       FreeAndNil(Files);
-    if bTargetFileSourceCreated and Assigned(NewTargetFileSource) then
-      FreeAndNil(NewTargetFileSource);
   end;
 end;
 
