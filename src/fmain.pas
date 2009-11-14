@@ -2326,8 +2326,11 @@ begin
       Page := Sender as TFileViewPage;
       ANoteBook := Page.Notebook;
 
-      sCaption := GetLastDir(ExcludeTrailingPathDelimiter(Page.FileView.CurrentPath));
-      Page.UpdateCaption(sCaption);
+      if Page.LockState = tlsNormal then // if not locked tab
+        begin
+          sCaption := GetLastDir(ExcludeTrailingPathDelimiter(Page.FileView.CurrentPath));
+          Page.UpdateCaption(sCaption);
+        end;
 
       ToggleFileSystemWatcher;
 
