@@ -164,11 +164,10 @@ end;
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
                        clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
 var
-  bmStretchBitmap : Graphics.TBitMap;
   memstream: TMemoryStream;
 begin
-  bmStretchBitmap:= Graphics.TBitMap.Create;
-    with bmStretchBitmap do
+  Result := Graphics.TBitMap.Create;
+    with Result do
       begin
         Width := iIconSize;
         Height := iIconSize;
@@ -189,7 +188,6 @@ begin
         TransparentColor := clBackColor;
         if bFreeAtEnd then
           FreeAndNil(bmBitmap);
-        Result := bmStretchBitmap;
       end; //  with
 end;
 
@@ -836,7 +834,7 @@ var
   memstream: TMemoryStream;
 {$ENDIF}
 begin
-  if iIndex<FPixmapList.Count then
+  if (iIndex >= 0) and (iIndex < FPixmapList.Count) then
   begin
     // Make a new copy.
     Result := Graphics.TBitmap.Create;
@@ -917,7 +915,7 @@ var
 begin
   Result := True;
   {$IFDEF LCLGTK2}
-  if iIndex < FPixbufList.Count then
+  if (iIndex >= 0) and (iIndex < FPixbufList.Count) then
   begin
     pbPicture := PGdkPixbuf(FPixbufList.Objects[iIndex]);
     iPixbufWidth :=  gdk_pixbuf_get_width(pbPicture);
@@ -927,7 +925,7 @@ begin
   end
   else
   {$ELSE}
-  if iIndex < FPixmapList.Count then
+  if (iIndex >= 0) and (iIndex < FPixmapList.Count) then
   begin
     Bitmap := Graphics.TBitmap(FPixmapList.Objects[iIndex]);
     TrySetSize(Bitmap.Width, Bitmap.Height);
@@ -996,6 +994,8 @@ begin
       begin
         Result := FiSortAscID;
       end;
+    else
+      Result := -1;
   end;
 end;
 
@@ -1182,7 +1182,7 @@ var
   Bitmap: Graphics.TBitmap;
 begin
 {$IFDEF MSWINDOWS}
-  if GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) < 15 then Exit;
+  if GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) < 15 then Exit(nil);
 {$ENDIF}
   case IconSize of
   16: // Standart 16x16 icon size
