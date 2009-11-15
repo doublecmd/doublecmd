@@ -50,6 +50,7 @@ checkinstall -S --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$DC
 mkdir -p $BUILD_PACK_DIR
 install/linux/install.sh $BUILD_PACK_DIR
 cd $BUILD_PACK_DIR
+sed -i -e 's/UseIniInProgramDir=0/UseIniInProgramDir=1/' doublecmd/doublecmd.ini
 tar -cvjf $PACK_DIR/doublecmd-$DC_VER-1.$lcl.$DC_ARCH.tar.bz2 doublecmd
 
 # Clean DC build dir
