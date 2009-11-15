@@ -84,6 +84,7 @@ type
     function LoadIconThemeIcon(AFileExt, AIconName: String; AIconSize: Integer): Boolean;
     procedure LoadMimeIcons;
     function GetGenericIcons(const slGenericIcons: TStringListEx): Boolean;
+    function GetIconByDesktopFile(sFileName: UTF8String; iDefaultIcon: PtrInt): PtrInt;
   {$ENDIF}
     function GetBuiltInDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
   public
@@ -632,6 +633,58 @@ begin
   end;
 end;
 
+function TPixMapManager.GetIconByDesktopFile(sFileName: UTF8String; iDefaultIcon: PtrInt): PtrInt;
+var
+  I: PtrInt;
+  iniDesktop: TIniFileEx;
+  sIconName: UTF8String;
+begin
+  Result:= iDefaultIcon;
+  //DebugLn(sFileName);
+  try
+    iniDesktop:= TIniFileEx.Create(sFileName, fmOpenRead);
+    sIconName:= iniDesktop.ReadString('Desktop Entry', 'Icon', EmptyStr);
+  finally
+    FreeThenNil(iniDesktop);
+  end;
+
+  if sIconName <> EmptyStr then
+  begin
+    if GetPathType(sIconName) = ptAbsolute then
+      begin
+        sFileName:= sIconName;
+        sIconName:= ExtractOnlyFileName(sIconName);
+        I:= FExtList.IndexOf(sIconName);
+        if I >= 0 then
+          Result:= PtrInt(FExtList.Objects[I])
+        else
+          begin
+            I:= CheckAddPixmap(sFileName, False);
+            if I >= 0 then
+              begin
+                FExtList.AddObject(sIconName, TObject(I));
+                Result:= I;
+              end;
+          end;
+      end
+    else
+      begin
+        I:= FExtList.IndexOf(sIconName);
+        if I >= 0 then
+          Result:= PtrInt(FExtList.Objects[I])
+        else
+          begin
+            if LoadIconThemeIcon(sIconName, sIconName, gIconsSize) then
+              begin
+                I:= FExtList.IndexOf(sIconName);
+                Result:= PtrInt(FExtList.Objects[I]);
+              end;
+          end;
+      end;
+    //DebugLn(sIconName);
+  end;
+end;
+
 {$ENDIF} // Unix
 
 constructor TPixMapManager.Create;
@@ -1027,14 +1080,24 @@ begin
     end;
 
     if IsDirectory then
+    begin
       {$IFDEF MSWINDOWS}
       if ((gShowIcons = sim_standart) or
          (not mbFileExists(Path + Name + '\desktop.ini'))) and
          (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16) then
+      {$ELSE}
+      if (gShowIcons = sim_all_and_exe) and
+         (mbFileExists(Path + Name + '/.directory')) then
+        begin
+          Result:= GetIconByDesktopFile(Path + Name + '/.directory', FiDirIconID);
+          Exit;
+        end
+      else
       {$ENDIF}
-    begin
-      Result := FiDirIconID;
-      Exit;
+        begin
+          Result := FiDirIconID;
+          Exit;
+        end;
     end;
 
     if IsLink then
@@ -1060,6 +1123,15 @@ begin
           Exit(FiLinkIconID)
         else if Ext = 'ico' then
           Exit(FiDefaultIconID)
+      end;
+    {$ELSE}
+    if gShowIcons = sim_all_and_exe then
+      begin
+        if Ext = 'desktop' then
+          begin
+            Result:= GetIconByDesktopFile(Path + Name, FiDefaultIconID);
+            Exit;
+          end;
       end;
     {$ENDIF}
 
