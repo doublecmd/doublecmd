@@ -36,6 +36,16 @@ rem Copy libraries
 copy windows\lib\*.dll %BUILD_DC_TMP_DIR%\
 
 cd /D %BUILD_DC_TMP_DIR%
+
+rem Get processor architecture
+if "%DC_ARCH%" == "" (
+  if "%PROCESSOR_ARCHITECTURE%" == "x86" (
+    set DC_ARCH=i386
+  ) else if "%PROCESSOR_ARCHITECTURE%" == "AMD64" (
+    set DC_ARCH=x86_64
+  )
+)
+
 rem Build all components of Double Commander
 call _make.bat all
 
@@ -51,7 +61,7 @@ move release\*.exe %PACK_DIR%
 
 rem Create *.zip package
 patch doublecmd/doublecmd.ini portable.diff
-zip -9 -Dr %PACK_DIR%\doublecmd-%DC_VER%.i386-win32.zip doublecmd 
+zip -9 -Dr %PACK_DIR%\doublecmd-%DC_VER%.%DC_ARCH%-win32.zip doublecmd 
 
 rem Clean temp directories
 cd \
