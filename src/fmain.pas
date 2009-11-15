@@ -1828,9 +1828,8 @@ begin
   for I:= 0 to glsHotDir.Count - 1 do
   begin
     mi:= TMenuItem.Create(pmHotList);
-    mi.Caption:= glsHotDir.Names[I];
+    mi.Caption:= '&' + glsHotDir.Names[I];
     mi.Hint:= glsHotDir.ValueFromIndex[I];
-    mi.ShortCut:= TextToShortCut(Copy(mi.Caption, 1, 1));
     mi.OnClick:= @HotDirSelected;
     pmHotList.Items.Add(mi);
   end;
@@ -2394,14 +2393,9 @@ begin
         miTmp.Tag := I;
 
         if Length(Name) > 0 then
-        begin
-          miTmp.Caption := Name;
-          miTmp.ShortCut:= TextToShortCut(Name[1]);
-        end
+          miTmp.Caption := '&' + Name
         else
-        begin
           miTmp.Caption := Path;
-        end;
 
         // get disk icon
         BitmapTmp := PixMapManager.GetDriveIcon(Drive, 16, clMenu);
