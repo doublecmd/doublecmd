@@ -27,8 +27,10 @@ rem Prepare package build dir
 rm -rf %BUILD_PACK_DIR%
 mkdir %BUILD_PACK_DIR%
 mkdir %BUILD_PACK_DIR%\release
-rem Copy package description file
+
+rem Copy needed files
 copy windows\doublecmd.iss %BUILD_PACK_DIR%\
+copy windows\portable.diff %BUILD_PACK_DIR%\
 
 rem Copy libraries
 copy windows\lib\*.dll %BUILD_DC_TMP_DIR%\
@@ -48,6 +50,7 @@ rem Move created package
 move release\*.exe %PACK_DIR%
 
 rem Create *.zip package
+patch doublecmd/doublecmd.ini portable.diff
 zip -9 -Dr %PACK_DIR%\doublecmd-%DC_VER%.i386-win32.zip doublecmd 
 
 rem Clean temp directories

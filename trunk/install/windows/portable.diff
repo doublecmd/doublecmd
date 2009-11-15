@@ -1,0 +1,4 @@
+2c2
+< UseIniInProgramDir=0
+---
+> UseIniInProgramDir=1
