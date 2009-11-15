@@ -404,7 +404,7 @@ begin
   Result:= FPixbufList.IndexOf(sName);
   if Result < 0 then
   begin
-    pbPicture := gdk_pixbuf_new_from_file(PChar(sFileName), nil);
+    pbPicture := gdk_pixbuf_new_from_file_at_size(PChar(sFileName), gIconsSize, gIconsSize, nil);
     if pbPicture = nil then
     begin
       DebugLn(Format('Error: pixmap [%s] not loaded!', [sFileName]));
