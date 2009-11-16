@@ -2282,6 +2282,10 @@ msgstr ""
 msgid "Show &current directory"
 msgstr "Aktuális &könyvtár megjelenítése"
 
+#: TFRMOPTIONS.CBSHOWDIALOGONDRAGDROP.CAPTION
+msgid "Show confirmation dialog on drag&&drop operations"
+msgstr ""
+
 #: TFRMOPTIONS.CBSHOWDISKPANEL.CAPTION
 msgid "Show &drive buttons"
 msgstr "&Meghajtógombok megjelenítése"

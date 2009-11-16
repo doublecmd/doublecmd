@@ -3076,8 +3076,8 @@ object frmOptions: TfrmOptions
         end
       end
       object pgIcons: TPage
-        ClientWidth = 524
-        ClientHeight = 501
+        ClientWidth = 530
+        ClientHeight = 275
         object gbIconsSize: TGroupBox
           AnchorSideLeft.Control = pgIcons
           AnchorSideTop.Control = gbShowIconsMode
@@ -3085,16 +3085,18 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = pgIcons
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 76
-          Top = 160
-          Width = 504
+          Height = 83
+          Top = 178
+          Width = 510
           Anchors = [akTop, akLeft, akRight]
+          AutoSize = True
           BorderSpacing.Left = 10
           BorderSpacing.Top = 6
           BorderSpacing.Right = 10
           Caption = ' Icon &size '
-          ClientHeight = 58
-          ClientWidth = 500
+          ChildSizing.TopBottomSpacing = 8
+          ClientHeight = 64
+          ClientWidth = 506
           TabOrder = 0
           object cbIconsSize: TComboBox
             AnchorSideLeft.Control = gbIconsSize
@@ -3102,8 +3104,8 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Side = asrBottom
             Left = 10
-            Height = 21
-            Top = 19
+            Height = 29
+            Top = 18
             Width = 131
             BorderSpacing.Left = 10
             BorderSpacing.Right = 10
@@ -3121,12 +3123,11 @@ object frmOptions: TfrmOptions
           end
           object pnlIconExample: TPanel
             AnchorSideTop.Control = gbIconsSize
-            AnchorSideTop.Side = asrCenter
             AnchorSideRight.Control = gbIconsSize
             AnchorSideRight.Side = asrBottom
-            Left = 442
+            Left = 448
             Height = 48
-            Top = 5
+            Top = 8
             Width = 48
             Anchors = [akTop, akRight]
             BorderSpacing.Right = 10
@@ -3155,25 +3156,27 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = pgIcons
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 148
+          Height = 166
           Top = 6
-          Width = 504
+          Width = 510
           Anchors = [akTop, akLeft, akRight]
+          AutoSize = True
           BorderSpacing.Left = 10
           BorderSpacing.Top = 6
           BorderSpacing.Right = 10
           Caption = ' Show icons to the left of the filename '
-          ClientHeight = 130
-          ClientWidth = 500
+          ChildSizing.TopBottomSpacing = 8
+          ClientHeight = 147
+          ClientWidth = 506
           TabOrder = 1
           object rbIconsShowAll: TRadioButton
             AnchorSideLeft.Control = gbShowIconsMode
             AnchorSideTop.Control = rbIconsShowAllAndExe
             AnchorSideTop.Side = asrBottom
             Left = 10
-            Height = 17
-            Top = 29
-            Width = 29
+            Height = 21
+            Top = 35
+            Width = 40
             BorderSpacing.Left = 10
             BorderSpacing.Top = 6
             Caption = '&All'
@@ -3184,9 +3187,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = rbIconsShowAll
             AnchorSideTop.Side = asrBottom
             Left = 10
-            Height = 17
-            Top = 52
-            Width = 113
+            Height = 21
+            Top = 62
+            Width = 152
             BorderSpacing.Left = 10
             BorderSpacing.Top = 6
             Caption = '&Only standard icons'
@@ -3197,9 +3200,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = rbIconsShowStandard
             AnchorSideTop.Side = asrBottom
             Left = 10
-            Height = 17
-            Top = 75
-            Width = 58
+            Height = 21
+            Top = 89
+            Width = 79
             BorderSpacing.Left = 10
             BorderSpacing.Top = 6
             Caption = '&No icons'
@@ -3210,11 +3213,10 @@ object frmOptions: TfrmOptions
             AnchorSideLeft.Control = gbShowIconsMode
             AnchorSideTop.Control = gbShowIconsMode
             Left = 10
-            Height = 17
-            Top = 6
-            Width = 169
+            Height = 21
+            Top = 8
+            Width = 232
             BorderSpacing.Left = 10
-            BorderSpacing.Top = 6
             Caption = 'All associated + &EXE/LNK (slow)'
             TabOrder = 0
           end
@@ -3223,9 +3225,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = rbIconsShowNone
             AnchorSideTop.Side = asrBottom
             Left = 10
-            Height = 17
-            Top = 100
-            Width = 177
+            Height = 21
+            Top = 118
+            Width = 238
             BorderSpacing.Left = 10
             BorderSpacing.Top = 8
             Caption = 'Show overlay i&cons, e.g. for links'

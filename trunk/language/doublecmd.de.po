@@ -2267,6 +2267,10 @@ msgstr "Zeige Auswahldialog für Tabs im Kopieren/Verschieben-Dialog"
 msgid "Show &current directory"
 msgstr "Zeige aktuelles Verzeichnis"
 
+#: TFRMOPTIONS.CBSHOWDIALOGONDRAGDROP.CAPTION
+msgid "Show confirmation dialog on drag&&drop operations"
+msgstr ""
+
 #: TFRMOPTIONS.CBSHOWDISKPANEL.CAPTION
 msgid "Show &drive buttons"
 msgstr "Zeige Schalter für Laufwerke"

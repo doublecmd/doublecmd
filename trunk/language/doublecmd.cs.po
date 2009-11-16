@@ -2297,6 +2297,10 @@ msgstr "Zobrazit výběr záložky v dialogu \"kopírovat/přesunout\""
 msgid "Show &current directory"
 msgstr "Zobrazit &aktuální adresář"
 
+#: TFRMOPTIONS.CBSHOWDIALOGONDRAGDROP.CAPTION
+msgid "Show confirmation dialog on drag&&drop operations"
+msgstr ""
+
 #: TFRMOPTIONS.CBSHOWDISKPANEL.CAPTION
 msgid "Show &drive buttons"
 msgstr "Zobrazit &tlačitka disků"
