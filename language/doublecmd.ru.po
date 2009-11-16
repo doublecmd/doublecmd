@@ -2271,6 +2271,10 @@ msgstr "Показывать панель выбора вкладок в диа�
 msgid "Show &current directory"
 msgstr "Имя &текущего каталога"
 
+#: TFRMOPTIONS.CBSHOWDIALOGONDRAGDROP.CAPTION
+msgid "Show confirmation dialog on drag&&drop operations"
+msgstr ""
+
 #: TFRMOPTIONS.CBSHOWDISKPANEL.CAPTION
 msgid "Show &drive buttons"
 msgstr "Кнопки &дисков"
