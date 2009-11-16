@@ -920,7 +920,8 @@ begin
           begin
             Self.MoveFiles(SourcePanel.FileSource,
                            TargetPanel.FileSource,
-                           Files, TargetPath, True);
+                           Files, TargetPath,
+                           gShowDialogOnDragDrop);
           end
           else
           begin
@@ -930,7 +931,8 @@ begin
 
             Self.MoveFiles(SourceFileSource,
                            TargetPanel.FileSource,
-                           Files, TargetPath, True);
+                           Files, TargetPath,
+                           gShowDialogOnDragDrop);
           end;
 
         ddoCopy:
@@ -938,7 +940,8 @@ begin
           begin
             Self.CopyFiles(SourcePanel.FileSource,
                            TargetPanel.FileSource,
-                           Files, TargetPath, True);
+                           Files, TargetPath,
+                           gShowDialogOnDragDrop);
           end
           else
           begin
@@ -948,7 +951,8 @@ begin
 
             Self.CopyFiles(SourceFileSource,
                            TargetPanel.FileSource,
-                           Files, TargetPath, True);
+                           Files, TargetPath,
+                           gShowDialogOnDragDrop);
           end;
 
         ddoSymLink, ddoHardLink:

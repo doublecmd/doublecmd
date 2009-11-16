@@ -105,6 +105,7 @@ TFRMOPTIONS.CBRENAMESELONLYNAME.CAPTION=Select only the file name then renaming 
 TFRMOPTIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION=Show tab select panel in copy/move dialog
 TFRMOPTIONS.CBDELETETOTRASH.CAPTION=&F8/Del deletes to recycle bin (Shift=directly)
 TFRMOPTIONS.CBSKIPFILEOPERROR.CAPTION=Skip file operations errors and write them to log window
+TFRMOPTIONS.CBSHOWDIALOGONDRAGDROP.CAPTION=Show confirmation dialog on drag&&drop operations
 TFRMOPTIONS.GBFILESEARCH.CAPTION=File search
 TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION=Use memory mapping for search text in files
 TFRMOPTIONS.RBUSESTREAMINSEARCH.CAPTION=Use stream for search text in files
