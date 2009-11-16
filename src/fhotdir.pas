@@ -1,5 +1,7 @@
 unit fHotDir;
+
 {$mode objfpc}{$H+}
+
 interface
 
 uses
@@ -44,7 +46,7 @@ type
 implementation
 
 uses
-  uGlobs, uLng;
+  uDCUtils, uGlobs, uLng;
 
 procedure TfrmHotDir.LoadFromGlob;
 begin
@@ -111,8 +113,8 @@ var
 begin
   if SelectDirectory(rsSelectDir, '', sPath, False) then
     begin
-      sName:= ExtractFileName(sPath);
-      lsHotDir.ItemIndex:= lsHotDir.Items.Add(sName + '=' + sPath + PathDelim);
+      sName:= GetLastDir(sPath);
+      lsHotDir.ItemIndex:= lsHotDir.Items.Add(sName + '=' + IncludeTrailingPathDelimiter(sPath));
     end;
   btnDelete.Enabled:= (lsHotDir.Items.Count > 0);
   btnEdit.Enabled:= (lsHotDir.Items.Count > 0);
