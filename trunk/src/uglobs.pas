@@ -178,6 +178,7 @@ var
   gShowCopyTabSelectPanel:boolean;
   gUseTrash : Boolean = True; // 05.05.2009 - global trash variable. Enabled by default.
   gRenameSelOnlyName:boolean;
+  gShowDialogOnDragDrop: Boolean = False;
 
   { Folder tabs page }
 
@@ -573,6 +574,7 @@ begin
   gRenameSelOnlyName:= gIni.ReadBool('Configuration', 'RenameSelOnlyName', false);
   gShowCopyTabSelectPanel:= gIni.ReadBool('Configuration', 'ShowCopyTabSelectPanel', false);
   gUseTrash := gIni.ReadBool('Configuration', 'UseTrash', True); // 05.05.2009 - read global trash option from configuration file
+  gShowDialogOnDragDrop := gIni.ReadBool('Configuration', 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
 
   { Log }
   gLogFile := gIni.ReadBool('Configuration', 'LogFile', True);
@@ -800,6 +802,7 @@ begin
   gIni.WriteBool('Configuration', 'RenameSelOnlyName', gRenameSelOnlyName);
   gIni.WriteBool('Configuration', 'ShowCopyTabSelectPanel', gShowCopyTabSelectPanel);
   gIni.WriteBool('Configuration', 'UseTrash', gUseTrash);
+  gIni.WriteBool('Configuration', 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
 
   { Log }
   gIni.WriteBool('Configuration', 'LogFile', gLogFile);

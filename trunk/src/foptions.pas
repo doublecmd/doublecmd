@@ -124,6 +124,7 @@ type
     cbDeleteToTrash: TCheckBox;
     cbAlwaysShowTrayIcon: TCheckBox;
     cbSkipFileOpError: TCheckBox;
+    cbShowDialogOnDragDrop: TCheckBox;
     cmbTabsPosition: TComboBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
@@ -2088,6 +2089,7 @@ begin
   cbProcessComments.Checked:= gProcessComments;
   cbShowCopyTabSelectPanel.Checked:=gShowCopyTabSelectPanel;
   cbDeleteToTrash.Checked:= gUseTrash;
+  cbShowDialogOnDragDrop.Checked := gShowDialogOnDragDrop;
 
   { Log file }
   cbLogFile.Checked := gLogFile;
@@ -2265,6 +2267,7 @@ begin
   gProcessComments:= cbProcessComments.Checked;
   gShowCopyTabSelectPanel:=cbShowCopyTabSelectPanel.Checked;
   gUseTrash:= cbDeleteToTrash.Checked;
+  gShowDialogOnDragDrop := cbShowDialogOnDragDrop.Checked;
 
   { Log file }
   gLogFile := cbLogFile.Checked;
