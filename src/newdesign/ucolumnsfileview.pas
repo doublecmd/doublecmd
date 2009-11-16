@@ -3045,7 +3045,7 @@ var
     if (AFile.IconID >= 0) and (gShowIcons <> sim_none) then
     begin
       PixMapManager.DrawBitmap(AFile.IconID,
-                               AFile.TheFile.FullPath,
+                               AFile.TheFile,
                                Canvas,
                                aRect.Left + 1,
                                // center icon vertically

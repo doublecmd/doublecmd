@@ -33,6 +33,7 @@ unit uPixMapManager;
 {$mode objfpc}{$H+}
 
 interface
+
 uses
   Classes, SysUtils, Graphics, uOSUtils, uFileSorting,
   uFile
@@ -59,6 +60,7 @@ type
     FiDirIconID : PtrInt;
     FiDirLinkIconID : PtrInt;
     FiLinkIconID : PtrInt;
+    FiEmblemLinkID: PtrInt;
     FiUpDirIconID : PtrInt;
     FiDefaultIconID : PtrInt;
     FiExeIconID : PtrInt;
@@ -77,7 +79,7 @@ type
   protected
     function LoadBitmap(AIconFileName: String; out ABitmap: TBitmap): Boolean;
     function CheckLoadPixmap(const sName : String; bUsePixmapPath : Boolean = True) : TBitmap;
-    function CheckAddPixmap(const sName : String; bUsePixmapPath : Boolean = True):Integer;
+    function CheckAddPixmap(const sName : String; IconSize : Integer = 0; bUsePixmapPath : Boolean = True): Integer;
   {$IF DEFINED(UNIX)}
     procedure CreateIconTheme;
     procedure DestroyIconTheme;
@@ -101,7 +103,7 @@ type
               Index of pixmap manager's bitmap.)
     }
     function DrawBitmap(iIndex: Integer; Canvas : TCanvas; X, Y, Width, Height: Integer) : Boolean;
-    function DrawBitmap(iIndex: Integer; aFilePath: String; Canvas : TCanvas; X, Y: Integer) : Boolean;
+    function DrawBitmap(iIndex: Integer; AFile: TFile; Canvas : TCanvas; X, Y: Integer) : Boolean;
     function GetIconBySortingDirection(SortingDirection: TSortDirection): PtrInt;
     function GetIconByFile(AFile: TFile; DirectAccess: Boolean):PtrInt;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
@@ -378,7 +380,7 @@ begin
   LoadBitmap(sFileName, Result);
 end;
 
-function TPixMapManager.CheckAddPixmap(const sName: String; bUsePixmapPath : Boolean = True): Integer;
+function TPixMapManager.CheckAddPixmap(const sName: String; IconSize : Integer; bUsePixmapPath : Boolean): Integer;
 var
   sFileName : String;
   {$IFDEF LCLGTK2}
@@ -388,9 +390,11 @@ var
   {$ENDIF}
 begin
   Result:= -1;
-  
+
+  if IconSize = 0 then IconSize:= gIconsSize;
+
   if bUsePixmapPath then
-    sFileName:= gpPixmapPath+FPixmapSize+sName
+    sFileName:= gpPixmapPath + FPixmapSize + sName
   else
     sFileName:= sName;
   
@@ -404,7 +408,7 @@ begin
   Result:= FPixbufList.IndexOf(sName);
   if Result < 0 then
   begin
-    pbPicture := gdk_pixbuf_new_from_file_at_size(PChar(sFileName), gIconsSize, gIconsSize, nil);
+    pbPicture := gdk_pixbuf_new_from_file_at_size(PChar(sFileName), IconSize, IconSize, nil);
     if pbPicture = nil then
     begin
       DebugLn(Format('Error: pixmap [%s] not loaded!', [sFileName]));
@@ -432,7 +436,7 @@ begin
         // (so if Width<>gIconsSize or Height<>gIconsSize then Resize).
         if (bmpBitmap.Width > 48) or (bmpBitmap.Height > 48) then
         begin
-          bmpBitmap := StretchBitmap(bmpBitmap, gIconsSize, clBlack, True);
+          bmpBitmap := StretchBitmap(bmpBitmap, IconSize, clBlack, True);
         end;
         Result:= FPixmapList.AddObject(sName, bmpBitmap); // add to list
       end;
@@ -659,7 +663,7 @@ begin
           Result:= PtrInt(FExtList.Objects[I])
         else
           begin
-            I:= CheckAddPixmap(sFileName, False);
+            I:= CheckAddPixmap(sFileName, gIconsSize, False);
             if I >= 0 then
               begin
                 FExtList.AddObject(sIconName, TObject(I));
@@ -791,6 +795,13 @@ begin
       bmMediaFlash := CheckLoadPixmap('devices' + PathDelim + 'media-flash.png');
       bmMediaOptical := CheckLoadPixmap('devices' + PathDelim + 'media-optical.png');
     end;
+  // load emblems
+  if gIconsSize = 22 then
+    I:= 16
+  else
+    I:= gIconsSize div 2;
+  FPixmapSize := IntToStr(I) + 'x' + IntToStr(I) + PathDelim;
+  FiEmblemLinkID:= CheckAddPixmap('emblems' + PathDelim + 'emblem-symbolic-link.png', gIconsSize div 2);
   FPixmapSize := sPixMapSize;  // restore icon size path
 
   // add some standard icons
@@ -810,7 +821,7 @@ begin
       sPixMap := gExts.Items[I].Icon;
       if mbFileExists(sPixMap) then
         begin
-          iPixMap:= CheckAddPixmap(sPixMap, False);
+          iPixMap:= CheckAddPixmap(sPixMap, gIconsSize, False);
           if iPixMap < 0 then Continue;
           gExts.Items[I].IconIndex:= iPixMap;
           //DebugLn('sPixMap = ',sPixMap, ' Index = ', IntToStr(iPixMap));
@@ -826,7 +837,7 @@ begin
     end;
   {/ Load icons from doublecmd.ext }  
   
-  if FileExists(sFileName) then
+  if mbFileExists(sFileName) then
   begin
     slPixmapList:= TStringList.Create;
     slPixmapList.LoadFromFile(sFileName);
@@ -1019,21 +1030,27 @@ begin
 {$ENDIF}
 end;
 
-function TPixMapManager.DrawBitmap(iIndex: Integer; aFilePath: String; Canvas: TCanvas; X, Y: Integer): Boolean;
-{$IFDEF MSWINDOWS}
+function TPixMapManager.DrawBitmap(iIndex: Integer; AFile: TFile; Canvas: TCanvas; X, Y: Integer): Boolean;
 var
   I: Integer;
-{$ENDIF}
 begin
   Result:= DrawBitmap(iIndex, Canvas, X, Y);
-  {$IFDEF MSWINDOWS}
+
   if gIconOverlays then
     begin
-      I:= SHGetOverlayIconIndex(aFilePath);
+    {$IFDEF MSWINDOWS}
+      I:= SHGetOverlayIconIndex(AFile.FullPath);
       if I >= 0 then
         Result:= DrawBitmap(I + $1000, Canvas, X, Y);
+    {$ELSE}
+      if AFile.IsLink then
+        begin
+          I:= gIconsSize div 2;
+          Result:= DrawBitmap(FiEmblemLinkID, Canvas, X, Y + I, I, I);
+        end;
+    {$ENDIF}
     end;
-  {$ENDIF}
+
 end;
 
 function TPixMapManager.GetIconBySortingDirection(SortingDirection: TSortDirection): PtrInt;
@@ -1075,6 +1092,11 @@ begin
 
     if IsLinkToDirectory then
     begin
+    {$IFDEF UNIX}
+      if gIconOverlays then
+        Result:= FiDirIconID
+      else
+    {$ENDIF}
       Result := FiDirLinkIconID;
       Exit;
     end;
@@ -1100,7 +1122,7 @@ begin
         end;
     end;
 
-    if IsLink then
+    if IsLink and not gIconOverlays then
     begin
       Result := FiLinkIconID;
       Exit;
