@@ -75,6 +75,9 @@ type
 
 implementation
 
+uses
+  uGlobs;
+
 // -- TFileSystemCopyInOperation ----------------------------------------------
 
 constructor TFileSystemCopyInOperation.Create(aSourceFileSource: IFileSource;
@@ -100,11 +103,12 @@ begin
   FOperationHelper := nil;
 
   // Here we can read global settings if there are any.
-  FSymLinkOption := fsooslNone;
-  FFileExistsOption := fsoofeNone;
-  FDirExistsOption := fsoodeNone;
-  FCheckFreeSpace := True;
+  FSymLinkOption := gOperationOptionSymLinks;
+  FFileExistsOption := gOperationOptionFileExists;
+  FDirExistsOption := gOperationOptionDirectoryExists;
+  FCheckFreeSpace := gOperationOptionCheckFreeSpace;
   FSkipAllBigFiles := False;
+  FCorrectSymLinks := gOperationOptionCorrectLinks;
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;

@@ -79,6 +79,8 @@ type
     actAddFilenameToCmdLine: TAction;
     actAddPathAndFilenameToCmdLine: TAction;
     actDriveContextMenu: TAction;
+    actCopyNoAsk: TAction;
+    actRenameNoAsk: TAction;
     actSortByColumn: TAction;
     actPanelsSplitterPerPos: TAction;
     actMinimize: TAction;
@@ -452,11 +454,13 @@ type
     procedure miHotDeleteClick(Sender: TObject);
     procedure miHotConfClick(Sender: TObject);
     procedure CopyFiles(SourceFileSource, TargetFileSource: IFileSource;
-                        var SourceFiles: TFiles; TargetPath: String); overload;
+                        var SourceFiles: TFiles; TargetPath: String;
+                        bShowDialog: Boolean); overload;
     procedure MoveFiles(SourceFileSource, TargetFileSource: IFileSource;
-                        var SourceFiles: TFiles; TargetPath: String); overload;
-    procedure CopyFiles(sDestPath: String); overload; //  this is for F5 and Shift+F5
-    procedure MoveFiles(sDestPath: String); overload;
+                        var SourceFiles: TFiles; TargetPath: String;
+                        bShowDialog: Boolean); overload;
+    procedure CopyFiles(sDestPath: String; bShowDialog: Boolean); overload; //  this is for F5 and Shift+F5
+    procedure MoveFiles(sDestPath: String; bShowDialog: Boolean); overload;
     procedure GetDestinationPathAndMask(TargetFileSource: IFileSource;
                                         EnteredPath: String; BaseDir: String;
                                         out DestPath, DestMask: String);
@@ -916,7 +920,7 @@ begin
           begin
             Self.MoveFiles(SourcePanel.FileSource,
                            TargetPanel.FileSource,
-                           Files, TargetPath);
+                           Files, TargetPath, True);
           end
           else
           begin
@@ -926,7 +930,7 @@ begin
 
             Self.MoveFiles(SourceFileSource,
                            TargetPanel.FileSource,
-                           Files, TargetPath);
+                           Files, TargetPath, True);
           end;
 
         ddoCopy:
@@ -934,7 +938,7 @@ begin
           begin
             Self.CopyFiles(SourcePanel.FileSource,
                            TargetPanel.FileSource,
-                           Files, TargetPath);
+                           Files, TargetPath, True);
           end
           else
           begin
@@ -944,7 +948,7 @@ begin
 
             Self.CopyFiles(SourceFileSource,
                            TargetPanel.FileSource,
-                           Files, TargetPath);
+                           Files, TargetPath, True);
           end;
 
         ddoSymLink, ddoHardLink:
@@ -1881,12 +1885,16 @@ begin
 end;
 
 procedure TfrmMain.CopyFiles(SourceFileSource, TargetFileSource: IFileSource;
-                             var SourceFiles: TFiles; TargetPath: String);
+                             var SourceFiles: TFiles; TargetPath: String;
+                             bShowDialog: Boolean);
 var
+  sDestination: String;
   sDstMaskTemp: String;
   Operation: TFileSourceCopyOperation;
   OperationHandle: TOperationHandle;
   ProgressDialog: TfrmFileOp;
+  CopyDialog: TfrmCopyDlg = nil;
+  OperationStartingState: TOperationStartingState = ossAutoStart;
 begin
   try
     if not ((fsoCopyOut in SourceFileSource.GetOperationsTypes) and
@@ -1899,88 +1907,102 @@ begin
     if SourceFiles.Count = 0 then
       Exit;
 
-    with TfrmCopyDlg.Create(Application, cmdtCopy) do
-    begin
-      try
-        if (SourceFiles.Count = 1) and
-           (not (SourceFiles[0].IsDirectory or SourceFiles[0].IsLinkToDirectory))
-        then
-          edtDst.Text := TargetPath + ExtractFileName(SourceFiles[0].Name)
-        else
-          edtDst.Text := TargetPath + '*.*';
+    if (SourceFiles.Count = 1) and
+       (not (SourceFiles[0].IsDirectory or SourceFiles[0].IsLinkToDirectory))
+    then
+      sDestination := TargetPath + ExtractFileName(SourceFiles[0].Name)
+    else
+      sDestination := TargetPath + '*.*';
 
+    if bShowDialog then
+    begin
+      CopyDialog := TfrmCopyDlg.Create(Application, cmdtCopy);
+
+      with CopyDialog do
+      begin
+        edtDst.Text := sDestination;
         lblCopySrc.Caption := GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr, SourceFiles);
 
         if ShowModal = mrCancel then
           Exit;
 
-        GetDestinationPathAndMask(TargetFileSource, edtDst.Text,
-                                  SourceFiles.Path, TargetPath, sDstMaskTemp);
-
-        // For now at least one must be FileSystem.
-
-        if TargetFileSource.IsClass(TFileSystemFileSource) then
-        begin
-          // CopyOut to filesystem.
-          Operation := SourceFileSource.CreateCopyOutOperation(
-                           TargetFileSource,
-                           SourceFiles,
-                           TargetPath) as TFileSourceCopyOperation;
-        end
-        else if SourceFileSource.IsClass(TFileSystemFileSource) then
-        begin
-          {if TargetFileSource is TArchiveFileSource then
-          begin
-            ShowPackDlg(SourceFileSource,
-                        TargetFileSource as TArchiveFileSource,
-                        SourceFiles,
-                        TargetPath);
-            Exit;
-          end;}
-
-          // CopyIn from filesystem.
-          Operation := TargetFileSource.CreateCopyInOperation(
-                           SourceFileSource,
-                           SourceFiles,
-                           TargetPath) as TFileSourceCopyOperation;
-        end;
-
-        if Assigned(Operation) then
-        begin
-          // Set operation options based on settings in dialog.
-          Operation.RenameMask := sDstMaskTemp;
-
-          if Operation is TFileSystemCopyOutOperation then
-            SetOperationOptions(Operation as TFileSystemCopyOutOperation);
-
-          // Start operation.
-          OperationHandle := OperationsManager.AddOperation(Operation, OperationStartingState);
-
-          ProgressDialog := TfrmFileOp.Create(OperationHandle);
-          ProgressDialog.Show;
-        end
-        else
-          msgWarning(rsMsgNotImplemented);
-
-      finally
-        Free;
+        sDestination := edtDst.Text;
       end;
-    end; //with
+
+      OperationStartingState := CopyDialog.OperationStartingState;
+    end;
+
+    GetDestinationPathAndMask(TargetFileSource, sDestination,
+                              SourceFiles.Path, TargetPath, sDstMaskTemp);
+
+    // For now at least one must be FileSystem.
+
+    if TargetFileSource.IsClass(TFileSystemFileSource) then
+    begin
+      // CopyOut to filesystem.
+      Operation := SourceFileSource.CreateCopyOutOperation(
+                       TargetFileSource,
+                       SourceFiles,
+                       TargetPath) as TFileSourceCopyOperation;
+    end
+    else if SourceFileSource.IsClass(TFileSystemFileSource) then
+    begin
+      {if TargetFileSource is TArchiveFileSource then
+      begin
+        ShowPackDlg(SourceFileSource,
+                    TargetFileSource as TArchiveFileSource,
+                    SourceFiles,
+                    TargetPath);
+        Exit;
+      end;}
+
+      // CopyIn from filesystem.
+      Operation := TargetFileSource.CreateCopyInOperation(
+                       SourceFileSource,
+                       SourceFiles,
+                       TargetPath) as TFileSourceCopyOperation;
+    end;
+
+    if Assigned(Operation) then
+    begin
+      // Set operation options based on settings in dialog.
+      Operation.RenameMask := sDstMaskTemp;
+
+      if Assigned(CopyDialog) then
+      begin
+        if Operation is TFileSystemCopyOutOperation then
+          CopyDialog.SetOperationOptions(Operation as TFileSystemCopyOutOperation);
+      end;
+
+      // Start operation.
+      OperationHandle := OperationsManager.AddOperation(Operation, OperationStartingState);
+
+      ProgressDialog := TfrmFileOp.Create(OperationHandle);
+      ProgressDialog.Show;
+    end
+    else
+      msgWarning(rsMsgNotImplemented);
 
   finally
     if Assigned(SourceFiles) then
       FreeAndNil(SourceFiles);
+    if Assigned(CopyDialog) then
+      FreeAndNil(CopyDialog);
   end;
 end;
 
 procedure TfrmMain.MoveFiles(SourceFileSource, TargetFileSource: IFileSource;
-                             var SourceFiles: TFiles; TargetPath: String);
+                             var SourceFiles: TFiles; TargetPath: String;
+                             bShowDialog: Boolean);
 var
+  sDestination: String;
   sDstMaskTemp: String;
   Operation: TFileSourceMoveOperation;
   OperationHandle: TOperationHandle;
   ProgressDialog: TfrmFileOp;
   bMove: Boolean;
+  MoveDialog: TfrmCopyDlg = nil;
+  OperationStartingState: TOperationStartingState = ossAutoStart;
 begin
   try
     // Only allow moving within the same file source.
@@ -2008,67 +2030,77 @@ begin
     if SourceFiles.Count = 0 then
       Exit;
 
-    with TfrmCopyDlg.Create(Application, cmdtMove) do
-    begin
-      try
-        if (SourceFiles.Count = 1) and
-           (not (SourceFiles[0].IsDirectory or SourceFiles[0].IsLinkToDirectory))
-        then
-          edtDst.Text := TargetPath + ExtractFileName(SourceFiles[0].Name)
-        else
-          edtDst.Text := TargetPath + '*.*';
+    if (SourceFiles.Count = 1) and
+       (not (SourceFiles[0].IsDirectory or SourceFiles[0].IsLinkToDirectory))
+    then
+      sDestination := TargetPath + ExtractFileName(SourceFiles[0].Name)
+    else
+      sDestination := TargetPath + '*.*';
 
+    if bShowDialog then
+    begin
+      MoveDialog := TfrmCopyDlg.Create(Application, cmdtMove);
+
+      with MoveDialog do
+      begin
+        edtDst.Text := sDestination;
         lblCopySrc.Caption := GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr, SourceFiles);
 
         if ShowModal = mrCancel then
           Exit;
 
-        GetDestinationPathAndMask(TargetFileSource, edtDst.Text,
-                                  SourceFiles.Path, TargetPath, sDstMaskTemp);
+        sDestination := edtDst.Text;
+      end;
 
-        // For now at least one must be FileSystem.
-        if not (SourceFileSource.IsClass(TFileSystemFileSource) or
-                TargetFileSource.IsClass(TFileSystemFileSource)) then Exit;
+      OperationStartingState := MoveDialog.OperationStartingState;
+    end;
 
-        if bMove then
+    GetDestinationPathAndMask(TargetFileSource, sDestination,
+                              SourceFiles.Path, TargetPath, sDstMaskTemp);
+
+    // For now at least one must be FileSystem.
+    if not (SourceFileSource.IsClass(TFileSystemFileSource) or
+            TargetFileSource.IsClass(TFileSystemFileSource)) then Exit;
+
+    if bMove then
+    begin
+      Operation := SourceFileSource.CreateMoveOperation(
+                     SourceFiles, TargetPath) as TFileSourceMoveOperation;
+
+      if Assigned(Operation) then
+      begin
+        // Set operation options based on settings in dialog.
+        Operation.RenameMask := sDstMaskTemp;
+
+        if Assigned(MoveDialog) then
         begin
-          Operation := SourceFileSource.CreateMoveOperation(
-                         SourceFiles, TargetPath) as TFileSourceMoveOperation;
-
-          if Assigned(Operation) then
-          begin
-            // Set operation options based on settings in dialog.
-            Operation.RenameMask := sDstMaskTemp;
-
-            if Operation is TFileSystemMoveOperation then
-              SetOperationOptions(Operation as TFileSystemMoveOperation);
-
-            // Start operation.
-            OperationHandle := OperationsManager.AddOperation(Operation, OperationStartingState);
-
-            ProgressDialog := TfrmFileOp.Create(OperationHandle);
-            ProgressDialog.Show;
-          end
-          else
-            msgWarning(rsMsgNotImplemented);
-        end
-        else
-        begin
-          // Use CopyOut, CopyIn operations.
+          if Operation is TFileSystemMoveOperation then
+            MoveDialog.SetOperationOptions(Operation as TFileSystemMoveOperation);
         end;
 
-      finally
-        Free;
-      end;
-    end; //with
+        // Start operation.
+        OperationHandle := OperationsManager.AddOperation(Operation, OperationStartingState);
+
+        ProgressDialog := TfrmFileOp.Create(OperationHandle);
+        ProgressDialog.Show;
+      end
+      else
+        msgWarning(rsMsgNotImplemented);
+    end
+    else
+    begin
+      // Use CopyOut, CopyIn operations.
+    end;
 
   finally
     if Assigned(SourceFiles) then
       FreeAndNil(SourceFiles);
+    if Assigned(MoveDialog) then
+      FreeAndNil(MoveDialog);
   end;
 end;
 
-procedure TfrmMain.CopyFiles(sDestPath: String);
+procedure TfrmMain.CopyFiles(sDestPath: String; bShowDialog: Boolean);
 var
   SourceFiles: TFiles = nil;
 begin
@@ -2076,14 +2108,14 @@ begin
   if Assigned(SourceFiles) then
   try
     CopyFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
-              SourceFiles, sDestPath);
+              SourceFiles, sDestPath, bShowDialog);
   finally
     if Assigned(SourceFiles) then
       FreeAndNil(SourceFiles);
   end;
 end;
 
-procedure TfrmMain.MoveFiles(sDestPath: String);
+procedure TfrmMain.MoveFiles(sDestPath: String; bShowDialog: Boolean);
 var
   SourceFiles: TFiles = nil;
 begin
@@ -2091,7 +2123,7 @@ begin
   if Assigned(SourceFiles) then
   try
     MoveFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
-              SourceFiles, sDestPath);
+              SourceFiles, sDestPath, bShowDialog);
   finally
     if Assigned(SourceFiles) then
       FreeAndNil(SourceFiles);

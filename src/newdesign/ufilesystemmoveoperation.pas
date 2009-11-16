@@ -50,6 +50,9 @@ type
 
 implementation
 
+uses
+  uGlobs;
+
 constructor TFileSystemMoveOperation.Create(aFileSource: IFileSource;
                                             var theSourceFiles: TFiles;
                                             aTargetPath: String);
@@ -58,11 +61,11 @@ begin
   FOperationHelper := nil;
 
   // Here we can read global settings if there are any.
-  FFileExistsOption := fsoofeNone;
-  FDirExistsOption := fsoodeNone;
-  FCheckFreeSpace := True;
+  FFileExistsOption := gOperationOptionFileExists;
+  FDirExistsOption := gOperationOptionDirectoryExists;
+  FCheckFreeSpace := gOperationOptionCheckFreeSpace;
   FSkipAllBigFiles := False;
-  FCorrectSymlinks := False;
+  FCorrectSymlinks := gOperationOptionCorrectLinks;
 
   inherited Create(aFileSource, theSourceFiles, aTargetPath);
 end;

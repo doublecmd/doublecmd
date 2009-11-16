@@ -1673,6 +1673,16 @@ object frmMain: TfrmMain
       Caption = 'Drive context menu'
       OnExecute = actExecute
     end
+    object actCopyNoAsk: TAction
+      Category = 'Commands'
+      Caption = 'Copy files without asking for confirmation'
+      OnExecute = actExecute
+    end
+    object actRenameNoAsk: TAction
+      Category = 'Commands'
+      Caption = 'Move/Rename files without asking for confirmation'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     left = 152
