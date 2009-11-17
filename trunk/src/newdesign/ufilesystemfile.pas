@@ -81,7 +81,7 @@ implementation
 uses
   uFindEx
 {$IFDEF UNIX}
-  , BaseUnix, uUsersGroups, uDCUtils, FileUtil
+  , BaseUnix, uUsersGroups, FileUtil
 {$ENDIF}
   ;
 
