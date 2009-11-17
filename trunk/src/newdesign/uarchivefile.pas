@@ -101,7 +101,8 @@ end;
 
 class function TArchiveFile.GetSupportedProperties: TFilePropertiesTypes;
 begin
-  Result := [{fpName, }fpSize, fpCompressedSize, fpAttributes, fpModificationTime];
+  Result := inherited GetSupportedProperties
+          + [fpSize, fpCompressedSize, fpAttributes, fpModificationTime];
 end;
 
 function TArchiveFile.GetAttributes: Cardinal;

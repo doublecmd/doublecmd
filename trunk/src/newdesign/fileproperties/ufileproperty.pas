@@ -9,6 +9,22 @@ uses
 
 type
 
+  TFilePropertyType = (
+    fpName,
+    fpSize,             // = fpUncompressedSize
+    fpCompressedSize,
+    fpAttributes,
+    fpDateTime,         // non-specific - should be used?
+                        // maybe it should be a default time
+    fpModificationTime,
+    fpCreationTime,
+    fpLastAccessTime
+  );
+
+  TFilePropertiesTypes = set of TFilePropertyType;
+
+  TFilePropertiesDescriptions = array of String;//TFileProperty;
+
   // Forward declarations.
   IFilePropertyFormatter = interface;
 
@@ -28,29 +44,14 @@ type
     // Don't know if it will be really needed.
     class function GetDescription: String; virtual abstract;
 
+    class function GetID: TFilePropertyType; virtual abstract;
+
     function AsString: String; virtual;
 
     // Formats the property value as a string using some formatter object.
     function Format(Formatter: IFilePropertyFormatter): String; virtual abstract;
   end;
 
-
-  TFilePropertyType = (
-    //fpName,
-    //fpPath,
-    fpSize,           // = fpUncompressedSize?
-    fpCompressedSize,
-    fpAttributes,
-    fpDateTime,         // non-specific - should be used?
-                        // maybe it should be a default time
-    fpModificationTime,
-    fpCreationTime,
-    fpLastAccessTime  // Last write?
-  );
-
-  TFilePropertiesTypes = set of TFilePropertyType;
-
-  TFilePropertiesDescriptions = array of String;//TFileProperty;
 
   TFileProperties = array [TFilePropertyType] of TFileProperty//class(TList)
   {
@@ -63,6 +64,25 @@ type
   ;
 
   // -- Concrete properties ---------------------------------------------------
+
+  TFileNameProperty = class(TFileProperty)
+  private
+    FName: UTF8String;   // only name, no path
+
+  public
+    constructor Create; override;
+    constructor Create(Name: UTF8String); virtual; overload;
+
+    function Clone: TFileNameProperty; override;
+    procedure CloneTo(FileProperty: TFileProperty); override;
+
+    class function GetDescription: String; override;
+    class function GetID: TFilePropertyType; override;
+
+    function Format(Formatter: IFilePropertyFormatter): String; override;
+
+    property Value: UTF8String read FName write FName;
+  end;
 
   TFileSizeProperty = class(TFileProperty)
 
@@ -77,6 +97,7 @@ type
     procedure CloneTo(FileProperty: TFileProperty); override;
 
     class function GetDescription: String; override;
+    class function GetID: TFilePropertyType; override;
 
     // Retrieve possible values for the property.
     function GetMinimumValue: Int64; //Cardinal;
@@ -100,6 +121,7 @@ type
     procedure CloneTo(FileProperty: TFileProperty); override;
 
     class function GetDescription: String; override;
+    class function GetID: TFilePropertyType; override;
 
     // Retrieve possible values for the property.
     function GetMinimumValue: TDateTime;
@@ -115,6 +137,27 @@ type
     function Clone: TFileModificationDateTimeProperty; override;
 
     class function GetDescription: String; override;
+    class function GetID: TFilePropertyType; override;
+
+    function Format(Formatter: IFilePropertyFormatter): String; override;
+  end;
+
+  TFileCreationDateTimeProperty = class(TFileDateTimeProperty)
+  public
+    function Clone: TFileCreationDateTimeProperty; override;
+
+    class function GetDescription: String; override;
+    class function GetID: TFilePropertyType; override;
+
+    function Format(Formatter: IFilePropertyFormatter): String; override;
+  end;
+
+  TFileLastAccessDateTimeProperty = class(TFileDateTimeProperty)
+  public
+    function Clone: TFileLastAccessDateTimeProperty; override;
+
+    class function GetDescription: String; override;
+    class function GetID: TFilePropertyType; override;
 
     function Format(Formatter: IFilePropertyFormatter): String; override;
   end;
@@ -137,6 +180,8 @@ type
 
     function Clone: TFileAttributesProperty; override;
     procedure CloneTo(FileProperty: TFileProperty); override;
+
+    class function GetID: TFilePropertyType; override;
 
     // Is the file a directory.
     function IsDirectory: Boolean; virtual;
@@ -210,6 +255,7 @@ type
   IFilePropertyFormatter = interface(IInterface)
     ['{18EF8E34-1010-45CD-8DC9-678C7C2DC89F}']
 
+    function FormatFileName(FileProperty: TFileNameProperty): String;
     function FormatFileSize(FileProperty: TFileSizeProperty): String;
     function FormatDateTime(FileProperty: TFileDateTimeProperty): String;
     function FormatModificationDateTime(FileProperty: TFileModificationDateTimeProperty): String;
@@ -251,6 +297,53 @@ end;
 
 // ----------------------------------------------------------------------------
 
+constructor TFileNameProperty.Create;
+begin
+  Self.Create('');
+end;
+
+constructor TFileNameProperty.Create(Name: UTF8String);
+begin
+  inherited Create;
+  Value := Name;
+end;
+
+function TFileNameProperty.Clone: TFileNameProperty;
+begin
+  Result := TFileNameProperty.Create;
+  CloneTo(Result);
+end;
+
+procedure TFileNameProperty.CloneTo(FileProperty: TFileProperty);
+begin
+  if Assigned(FileProperty) then
+  begin
+    inherited CloneTo(FileProperty);
+
+    with FileProperty as TFileNameProperty do
+    begin
+      FName := Self.FName;
+    end;
+  end;
+end;
+
+class function TFileNameProperty.GetDescription: String;
+begin
+  Result := 'name';
+end;
+
+class function TFileNameProperty.GetID: TFilePropertyType;
+begin
+  Result := fpName;
+end;
+
+function TFileNameProperty.Format(Formatter: IFilePropertyFormatter): String;
+begin
+  Result := Formatter.FormatFileName(Self);
+end;
+
+// ----------------------------------------------------------------------------
+
 constructor TFileSizeProperty.Create;
 begin
   Self.Create(0);
@@ -284,6 +377,11 @@ end;
 class function TFileSizeProperty.GetDescription: String;
 begin
   Result := rsSizeDescription;
+end;
+
+class function TFileSizeProperty.GetID: TFilePropertyType;
+begin
+  Result := fpSize;
 end;
 
 function TFileSizeProperty.GetMinimumValue: Int64;
@@ -338,6 +436,11 @@ begin
   Result := rsDateTimeDescription;
 end;
 
+class function TFileDateTimeProperty.GetID: TFilePropertyType;
+begin
+  Result := fpDateTime;
+end;
+
 function TFileDateTimeProperty.GetMinimumValue: TDateTime;
 begin
   Result := 0;
@@ -366,9 +469,60 @@ begin
   Result := rsModificationDateTimeDescription;
 end;
 
+class function TFileModificationDateTimeProperty.GetID: TFilePropertyType;
+begin
+  Result := fpModificationTime;
+end;
+
 function TFileModificationDateTimeProperty.Format(Formatter: IFilePropertyFormatter): String;
 begin
   Result := Formatter.FormatModificationDateTime(Self);
+end;
+
+// ----------------------------------------------------------------------------
+
+function TFileCreationDateTimeProperty.Clone: TFileCreationDateTimeProperty;
+begin
+  Result := TFileCreationDateTimeProperty.Create;
+  CloneTo(Result);
+end;
+
+class function TFileCreationDateTimeProperty.GetDescription: String;
+begin
+  Result := rsDateTimeDescription;
+end;
+
+class function TFileCreationDateTimeProperty.GetID: TFilePropertyType;
+begin
+  Result := fpCreationTime;
+end;
+
+function TFileCreationDateTimeProperty.Format(Formatter: IFilePropertyFormatter): String;
+begin
+  Result := Formatter.FormatDateTime(Self);
+end;
+
+// ----------------------------------------------------------------------------
+
+function TFileLastAccessDateTimeProperty.Clone: TFileLastAccessDateTimeProperty;
+begin
+  Result := TFileLastAccessDateTimeProperty.Create;
+  CloneTo(Result);
+end;
+
+class function TFileLastAccessDateTimeProperty.GetDescription: String;
+begin
+  Result := rsDateTimeDescription;
+end;
+
+class function TFileLastAccessDateTimeProperty.GetID: TFilePropertyType;
+begin
+  Result := fpLastAccessTime;
+end;
+
+function TFileLastAccessDateTimeProperty.Format(Formatter: IFilePropertyFormatter): String;
+begin
+  Result := Formatter.FormatDateTime(Self);
 end;
 
 // ----------------------------------------------------------------------------
@@ -416,6 +570,11 @@ begin
       FAttributes := Self.FAttributes;
     end;
   end;
+end;
+
+class function TFileAttributesProperty.GetID: TFilePropertyType;
+begin
+  Result := fpAttributes;
 end;
 
 function TFileAttributesProperty.GetAttributes: TFileAttrs;

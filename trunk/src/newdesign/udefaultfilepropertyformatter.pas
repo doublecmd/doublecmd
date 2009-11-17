@@ -13,6 +13,7 @@ type
   TDefaultFilePropertyFormatter = class(TInterfacedObject, IFilePropertyFormatter)
 
   public
+    function FormatFileName(FileProperty: TFileNameProperty): String;
     function FormatFileSize(FileProperty: TFileSizeProperty): String;
     function FormatDateTime(FileProperty: TFileDateTimeProperty): String;
     function FormatModificationDateTime(FileProperty: TFileModificationDateTimeProperty): String;
@@ -24,6 +25,7 @@ type
   TMaxDetailsFilePropertyFormatter = class(TInterfacedObject, IFilePropertyFormatter)
 
   public
+    function FormatFileName(FileProperty: TFileNameProperty): String;
     function FormatFileSize(FileProperty: TFileSizeProperty): String;
     function FormatDateTime(FileProperty: TFileDateTimeProperty): String;
     function FormatModificationDateTime(FileProperty: TFileModificationDateTimeProperty): String;
@@ -47,6 +49,12 @@ uses
   , Windows
 {$ENDIF}
   , uFileAttributes;
+
+function TDefaultFilePropertyFormatter.FormatFileName(
+           FileProperty: TFileNameProperty): String;
+begin
+  Result := FileProperty.Value;
+end;
 
 function TDefaultFilePropertyFormatter.FormatFileSize(
            FileProperty: TFileSizeProperty): String;
@@ -125,6 +133,12 @@ begin
 end;
 
 // ----------------------------------------------------------------------------
+
+function TMaxDetailsFilePropertyFormatter.FormatFileName(
+           FileProperty: TFileNameProperty): String;
+begin
+  Result := FileProperty.Value;
+end;
 
 function TMaxDetailsFilePropertyFormatter.FormatFileSize(
            FileProperty: TFileSizeProperty): String;

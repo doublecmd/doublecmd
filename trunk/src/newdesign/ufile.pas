@@ -43,6 +43,7 @@ type
 
   public
     constructor Create; virtual;
+    destructor Destroy; override;
 
     {en
        Creates an identical copy of the object (as far as object data is concerned).
@@ -205,7 +206,24 @@ uses
 
 constructor TFile.Create;
 begin
-  inherited;
+  inherited Create;
+
+  // For now don't assign fpName property (for speed) - use FName instead.
+  // To be consistent maybe it should be assigned in the future,
+  // but for now it doesn't break anything yet.
+  {$IFDEF AssignFileNameProperty}
+  FProperties[fpName] := TFileNameProperty.Create;
+  {$ENDIF}
+end;
+
+destructor TFile.Destroy;
+begin
+  inherited Destroy;
+
+  {$IFDEF AssignFileNameProperty}
+  if Assigned(FProperties[fpName]) then
+    FreeAndNil(FProperties[fpName]);
+  {$ENDIF}
 end;
 
 function TFile.Clone: TFile;
@@ -230,7 +248,7 @@ begin
 
     for PropertyType := Low(TFilePropertyType) to High(TFilePropertyType) do
     begin
-      if PropertyType in SupportedProperties then
+      if Assigned(Self.Properties[PropertyType]) then
       begin
         Self.Properties[PropertyType].CloneTo(AFile.Properties[PropertyType]);
       end;
@@ -240,7 +258,7 @@ end;
 
 class function TFile.GetSupportedProperties: TFilePropertiesTypes;
 begin
-  Result := [];
+  Result := [fpName];
 end;
 
 function TFile.GetProperties: TFileProperties;
@@ -266,6 +284,9 @@ end;
 procedure TFile.SetName(Name: String);
 begin
   FName := Name;
+  {$IFDEF AssignFileNameProperty}
+  (FProperties[fpName] as TFileNameProperty).Value := Name;
+  {$ENDIF}
 
   // Cache Extension and NameNoExt.
 

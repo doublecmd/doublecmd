@@ -41,6 +41,8 @@ type
     function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
     function GetProperties: TFileSourceProperties; override;
 
+    function CreateFiles: TFiles; override;
+
     function IsPathAtRoot(Path: String): Boolean; override;
 
     function GetRootDir(sPath: String): String; override; overload;
@@ -66,6 +68,8 @@ type
                                          aTargetPath: String;
                                          aTargetMask: String): TFileSourceOperation; override;
     function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation; override;
+    function CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
+                                            theNewProperties: TFileProperties): TFileSourceOperation; override;
     // ------------------------------------------------------
   end;
 
@@ -90,6 +94,7 @@ uses
   uFileSystemExecuteOperation,
   uFileSystemCalcChecksumOperation,
   uFileSystemCalcStatisticsOperation,
+  uFileSystemSetFilePropertyOperation,
   uFileSystemSetDateTimeOperation;
 
 constructor TFileSystemFileSource.Create;
@@ -108,10 +113,10 @@ begin
              fsoCreateDirectory,
              fsoCalcChecksum,
              fsoCalcStatistics,
+             fsoSetFileProperty,
              fsoSetDateTime,
              fsoSetAttribute,
              fsoExecute];
-             //fsoSetPath / fsoChangePath
 end;
 
 function TFileSystemFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
@@ -130,6 +135,11 @@ begin
   , fspCaseSensitive
 {$ENDIF}
   ];
+end;
+
+function TFileSystemFileSource.CreateFiles: TFiles;
+begin
+  Result := TFileSystemFiles.Create;
 end;
 
 function TFileSystemFileSource.GetCurrentWorkingDirectory: String;
@@ -270,6 +280,18 @@ var
 begin
   TargetFileSource := Self;
   Result := TFileSystemCalcStatisticsOperation.Create(TargetFileSource, theFiles);
+end;
+
+function TFileSystemFileSource.CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
+                                                              theNewProperties: TFileProperties): TFileSourceOperation;
+var
+  TargetFileSource: IFileSource;
+begin
+  TargetFileSource := Self;
+  Result := TFileSystemSetFilePropertyOperation.Create(
+                TargetFileSource,
+                theTargetFiles,
+                theNewProperties);
 end;
 
 { TFileSystemFileSourceConnection }
