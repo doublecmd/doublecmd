@@ -1766,7 +1766,7 @@ begin
           end;
         end;
 
-        if RenameFile(FileSource, ActiveFile.Clone, NewFileNameAbsolute) = True then
+        if RenameFile(FileSource, ActiveFile, NewFileNameAbsolute) = True then
         begin
           edtRename.Visible:=False;
           LastActive := NewFileName;

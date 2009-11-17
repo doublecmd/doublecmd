@@ -23,14 +23,21 @@ procedure ChooseFile(aFileView: TFileView; aFile: TFile);
 }
 function ChooseFileSource(aFileView: TFileView; aFile: TFile): Boolean;
 
-function RenameFile(aFileSource: IFileSource; aFile: TFile; NewFileName: UTF8String): Boolean;
+function RenameFile(aFileSource: IFileSource; const aFile: TFile; const NewFileName: UTF8String): Boolean;
 
 implementation
 
 uses
-  uFileSystemFileSource, uGlobs, uShellExecute, uOSUtils,
-  uFileSourceOperation, uFileSourceExecuteOperation, uFileSourceMoveOperation,
-  uVfsFileSource, uWcxArchiveFileSource, uWfxPluginFileSource, uFileSourceOperationTypes, LCLProc;
+  LCLProc, uGlobs, uShellExecute,
+  uFileSourceOperation,
+  uFileSourceSetFilePropertyOperation,
+  uFileSourceExecuteOperation,
+  uVfsFileSource,
+  uFileSystemFileSource,
+  uWcxArchiveFileSource,
+  uWfxPluginFileSource,
+  uFileSourceOperationTypes,
+  uFileProperty;
 
 procedure ChooseFile(aFileView: TFileView; aFile: TFile);
 var
@@ -132,30 +139,41 @@ begin
   end;
 end;
 
-function RenameFile(aFileSource: IFileSource; aFile: TFile; NewFileName: UTF8String): Boolean;
+function RenameFile(aFileSource: IFileSource; const aFile: TFile; const NewFileName: UTF8String): Boolean;
 var
   aFiles: TFiles;
-  sDestPath: UTF8String;
-  Operation: TFileSourceMoveOperation;
+  Operation: TFileSourceSetFilePropertyOperation = nil;
+  NewProperties: TFileProperties;
 begin
   Result:= False;
-  with aFileSource.GetFiles(aFile.Path) do
+  aFiles := aFileSource.CreateFiles;
+  aFiles.Add(aFile.Clone);
+
+  if fsoSetFileProperty in aFileSource.GetOperationsTypes then
   begin
-    aFiles:= CreateObjectOfSameType;
-    Free;
-  end;
-  aFiles.Add(aFile);
-  sDestPath:= ExtractFilePath(NewFileName);
-  Operation := aFileSource.CreateMoveOperation(
-                         aFiles, sDestPath) as TFileSourceMoveOperation;
-  if Assigned(Operation) then
+    FillByte(NewProperties, SizeOf(NewProperties), 0);
+    NewProperties[fpName] := TFileNameProperty.Create(NewFileName);
     try
-      Operation.RenameMask := ExtractFileName(NewFileName);
-      Operation.Execute;
-      Result:= True;
+      Operation := aFileSource.CreateSetFilePropertyOperation(
+                     aFiles,
+                     NewProperties) as TFileSourceSetFilePropertyOperation;
+
+      if Assigned(Operation) then
+      begin
+        // Only if the operation can change file name.
+        if fpName in Operation.SupportedProperties then
+        begin
+          Operation.Execute;
+          Result := (Operation.Result = fsorFinished);
+        end;
+      end;
+
     finally
-      FreeAndNil(Operation);
+      FreeThenNil(NewProperties[fpName]);
+      FreeThenNil(Operation);
     end;
+  end;
+
   FreeThenNil(aFiles);
 end;
 
