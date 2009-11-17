@@ -49,9 +49,9 @@ function CheckAttrMask(DefaultAttr : Cardinal; sAttr : String; Attr : Cardinal) 
 implementation
 
 uses
-  LCLProc,
+  LCLProc
   {$IFDEF UNIX}
-  UnixUtil, uMyUnix, Unix
+  , UnixUtil, uMyUnix, Unix
   {$ENDIF};
 
 function mbFindMatchingFile(var Rslt: TSearchRec): Integer;
