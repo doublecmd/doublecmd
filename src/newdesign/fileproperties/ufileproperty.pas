@@ -87,7 +87,7 @@ type
   TFileSizeProperty = class(TFileProperty)
 
   private
-    FSize: Int64; // Cardinal;
+    FSize: Int64;
 
   public
     constructor Create; override;
@@ -100,12 +100,19 @@ type
     class function GetID: TFilePropertyType; override;
 
     // Retrieve possible values for the property.
-    function GetMinimumValue: Int64; //Cardinal;
-    function GetMaximumValue: Int64; //Cardinal;
+    function GetMinimumValue: Int64;
+    function GetMaximumValue: Int64;
 
     function Format(Formatter: IFilePropertyFormatter): String; override;
 
     property Value: Int64 read FSize write FSize;
+  end;
+
+  TFileCompressedSizeProperty = class(TFileSizeProperty)
+  public
+    function Clone: TFileCompressedSizeProperty; override;
+
+    class function GetID: TFilePropertyType; override;
   end;
 
   TFileDateTimeProperty = class(TFileProperty)
@@ -397,6 +404,19 @@ end;
 function TFileSizeProperty.Format(Formatter: IFilePropertyFormatter): String;
 begin
   Result := Formatter.FormatFileSize(Self);
+end;
+
+// ----------------------------------------------------------------------------
+
+function TFileCompressedSizeProperty.Clone: TFileCompressedSizeProperty;
+begin
+  Result := TFileCompressedSizeProperty.Create;
+  CloneTo(Result);
+end;
+
+class function TFileCompressedSizeProperty.GetID: TFilePropertyType;
+begin
+  Result := fpCompressedSize;
 end;
 
 // ----------------------------------------------------------------------------
