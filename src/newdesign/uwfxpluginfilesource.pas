@@ -69,6 +69,8 @@ type
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
     function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation; override;
     function CreateExecuteOperation(BasePath, ExecutablePath, Verb: String): TFileSourceOperation; override;
+    function CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
+                                            var theNewProperties: TFileProperties): TFileSourceOperation; override;
 
     class function CreateByRootName(aRootName: String): IWfxPluginFileSource;
 
@@ -87,7 +89,8 @@ uses
   LCLProc, FileUtil,{} Forms, Dialogs, LCLType,{} uGlobs, uDCUtils, uLog, uLng, uCryptProc,
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation, uWfxPluginExecuteOperation,
   uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation, uWfxPluginDeleteOperation,
-  uWfxPluginSetAttributeOperation, uWfxPluginSetDateTimeOperation, uWfxPluginFile, uWfxPluginUtil;
+  uWfxPluginSetAttributeOperation, uWfxPluginSetDateTimeOperation, uWfxPluginFile, uWfxPluginUtil,
+  uWfxPluginSetFilePropertyOperation;
 
 { CallBack functions }
 
@@ -570,6 +573,19 @@ var
 begin
   TargetFileSource := Self;
   Result:=  TWfxPluginExecuteOperation.Create(TargetFileSource, BasePath, ExecutablePath, Verb);
+end;
+
+function TWfxPluginFileSource.CreateSetFilePropertyOperation(
+             var theTargetFiles: TFiles;
+             var theNewProperties: TFileProperties): TFileSourceOperation;
+var
+  TargetFileSource: IFileSource;
+begin
+  TargetFileSource := Self;
+  Result := TWfxPluginSetFilePropertyOperation.Create(
+                TargetFileSource,
+                theTargetFiles,
+                theNewProperties);
 end;
 
 class function TWfxPluginFileSource.CreateByRootName(aRootName: String): IWfxPluginFileSource;

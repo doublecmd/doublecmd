@@ -55,7 +55,7 @@ type
                                          aTargetMask: String): TFileSourceOperation;
     function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation;
     function CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
-                                            theNewProperties: TFileProperties): TFileSourceOperation;
+                                            var theNewProperties: TFileProperties): TFileSourceOperation;
 
     function IsPathAtRoot(Path: String): Boolean;
     function GetParentDir(sPath : String): String;
@@ -203,7 +203,7 @@ type
                                          aTargetMask: String): TFileSourceOperation; virtual;
     function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation; virtual;
     function CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
-                                            theNewProperties: TFileProperties): TFileSourceOperation; virtual;
+                                            var theNewProperties: TFileProperties): TFileSourceOperation; virtual;
 
     {en
        Returns @true if the given path is the root path of the file source,
@@ -525,7 +525,7 @@ begin
 end;
 
 function TFileSource.CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
-                                                    theNewProperties: TFileProperties): TFileSourceOperation;
+                                                    var theNewProperties: TFileProperties): TFileSourceOperation;
 begin
   Result := nil;
 end;
