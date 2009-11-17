@@ -143,7 +143,7 @@ begin
     bRetry := False;
 
     with FWfxPluginFileSource.WfxModule do
-    Result:= WfxSetTime(FileName, ftCreationTime, ftLastAccessTime, ftLastWriteTime);
+    Result:= WfxSetTime(FileName, @ftCreationTime, @ftLastAccessTime, @ftLastWriteTime);
 
     if not Result then
       begin
