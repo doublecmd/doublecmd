@@ -115,7 +115,7 @@ type
     procedure AllowChange(Allow: Boolean);
 
   public
-    constructor Create(AOwner: TComponent; theFiles: TFiles);
+    constructor Create(AOwner: TComponent; theFiles: TFiles); reintroduce;
     destructor Destroy; override;
   end;
 

@@ -91,7 +91,7 @@ uses
   {$IF DEFINED(MSWINDOWS)}
   ,Windows
   {$ELSEIF DEFINED(LINUX)}
-  ,inotify, Unix, BaseUnix, UnixUtil, UnixType
+  ,inotify, Unix, BaseUnix
   {$ENDIF};
 
 { TWatcherThread }

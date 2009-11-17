@@ -27,7 +27,7 @@ unit uFindEx;
 interface
 
 uses
-   SysUtils {$IFDEF UNIX}, BaseUnix, UnixUtil, uMyUnix{$ELSE}, Windows{$ENDIF};
+   SysUtils {$IFDEF UNIX}, BaseUnix{$ELSE}, Windows{$ENDIF};
 
 {$IFDEF UNIX}
 type
@@ -49,7 +49,10 @@ function CheckAttrMask(DefaultAttr : Cardinal; sAttr : String; Attr : Cardinal) 
 implementation
 
 uses
-  LCLProc;
+  LCLProc,
+  {$IFDEF UNIX}
+  UnixUtil, uMyUnix, Unix
+  {$ENDIF};
 
 function mbFindMatchingFile(var Rslt: TSearchRec): Integer;
 {$IFDEF MSWINDOWS}
@@ -259,8 +262,8 @@ begin
   if sAttr[9]='x' then Result:=Result and ((Attr AND S_IXOTH) = S_IXOTH)
   else if sAttr[9]='-' then Result:=Result and ((Attr AND S_IXOTH) <> S_IXOTH);
 
-  if sAttr[3]='s' then Result:=Result and ((Attr AND S_ISUID) = S_ISUID);
-  if sAttr[6]='s' then Result:=Result and ((Attr AND S_ISGID) = S_ISGID);
+  if sAttr[3]='s' then Result:=Result and ((Attr AND STAT_ISUID) = STAT_ISUID);
+  if sAttr[6]='s' then Result:=Result and ((Attr AND STAT_ISGID) = STAT_ISGID);
 end;
 {$ENDIF}
 

@@ -42,7 +42,7 @@ uses
     ,gtk,glib,gdk
   {$ENDIF}
   {$IFDEF LCLGTK2}
-    ,gtk2,glib2,gdk2
+    ,gtk2,glib2
   {$ENDIF}
   {$IFDEF LCLQT}
     ,qt4,qtwidgets

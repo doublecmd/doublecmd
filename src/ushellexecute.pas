@@ -117,8 +117,6 @@ var
   parseStartIndex: Integer;
 
   procedure BuildSelectedFilesList(var files: TFiles; panel: TFileView);
-  var
-    aFile: TFile;
   begin
     files := panel.SelectedFiles;
   end;
