@@ -13,7 +13,7 @@ type
   TArchiveFile = class(TLocalFile)
   private
     FSize: TFileSizeProperty;
-    FCompressedSize: TFileSizeProperty; // TFileCompressedSizeProperty?
+    FCompressedSize: TFileCompressedSizeProperty;
     FAttributes: TFileAttributesProperty;
     FModificationTime: TFileModificationDateTimeProperty;
 
@@ -52,7 +52,7 @@ implementation
 constructor TArchiveFile.Create;
 begin
   FSize := TFileSizeProperty.Create;
-  FCompressedSize := TFileSizeProperty.Create;
+  FCompressedSize := TFileCompressedSizeProperty.Create;
   FAttributes := TFileAttributesProperty.CreateOSAttributes;
   FModificationTime := TFileModificationDateTimeProperty.Create;
 
