@@ -248,7 +248,8 @@ end;
 
 class function TFileSystemFile.GetSupportedProperties: TFilePropertiesTypes;
 begin
-  Result := [{fpName, }fpSize, fpAttributes, fpModificationTime];
+  Result := inherited GetSupportedProperties
+          + [fpSize, fpAttributes, fpModificationTime];
 end;
 
 function TFileSystemFile.GetAttributes: Cardinal;

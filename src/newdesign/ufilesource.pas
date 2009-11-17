@@ -35,6 +35,8 @@ type
     function GetProperties: TFileSourceProperties;
     function GetFiles(TargetPath: String): TFiles;
 
+    function CreateFiles: TFiles;
+
     function CreateListOperation(TargetPath: String): TFileSourceOperation;
     function CreateCopyInOperation(SourceFileSource: IFileSource;
                                    var SourceFiles: TFiles;
@@ -52,6 +54,8 @@ type
                                          aTargetPath: String;
                                          aTargetMask: String): TFileSourceOperation;
     function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation;
+    function CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
+                                            theNewProperties: TFileProperties): TFileSourceOperation;
 
     function IsPathAtRoot(Path: String): Boolean;
     function GetParentDir(sPath : String): String;
@@ -177,6 +181,9 @@ type
     // Caller is responsible for freeing the result list.
     function GetFiles(TargetPath: String): TFiles; virtual;
 
+    // Create an empty TFiles object of appropriate type for the file source.
+    function CreateFiles: TFiles; virtual;
+
     // These functions create an operation object specific to the file source.
     function CreateListOperation(TargetPath: String): TFileSourceOperation; virtual;
     function CreateCopyInOperation(SourceFileSource: IFileSource;
@@ -195,6 +202,8 @@ type
                                          aTargetPath: String;
                                          aTargetMask: String): TFileSourceOperation; virtual;
     function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation; virtual;
+    function CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
+                                            theNewProperties: TFileProperties): TFileSourceOperation; virtual;
 
     {en
        Returns @true if the given path is the root path of the file source,
@@ -453,6 +462,11 @@ begin
   end;
 end;
 
+function TFileSource.CreateFiles: TFiles;
+begin
+  Result := TFiles.Create;
+end;
+
 function TFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
 begin
   Result := nil;
@@ -506,6 +520,12 @@ begin
 end;
 
 function TFileSource.CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation;
+begin
+  Result := nil;
+end;
+
+function TFileSource.CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
+                                                    theNewProperties: TFileProperties): TFileSourceOperation;
 begin
   Result := nil;
 end;

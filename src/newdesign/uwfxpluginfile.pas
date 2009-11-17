@@ -69,8 +69,8 @@ begin
   FAttributes := TFileAttributesProperty.CreateOSAttributes;
   FSize := TFileSizeProperty.Create;
   FModificationTime := TFileModificationDateTimeProperty.Create;
-  FLastAccessTime := TFileDateTimeProperty.Create;
-  FCreationTime := TFileDateTimeProperty.Create;
+  FLastAccessTime := TFileLastAccessDateTimeProperty.Create;
+  FCreationTime := TFileCreationDateTimeProperty.Create;
   FIsLinkToDirectory := False;
 
   AssignProperties;
@@ -86,8 +86,8 @@ begin
   FAttributes := FileAttributes.Clone;
   FSize := TFileSizeProperty.Create;
   FModificationTime := TFileModificationDateTimeProperty.Create;
-  FLastAccessTime := TFileDateTimeProperty.Create;
-  FCreationTime := TFileDateTimeProperty.Create;
+  FLastAccessTime := TFileLastAccessDateTimeProperty.Create;
+  FCreationTime := TFileCreationDateTimeProperty.Create;
   FIsLinkToDirectory := False;
 
   AssignProperties;
@@ -118,8 +118,8 @@ begin
 
   FSize := TFileSizeProperty.Create(FindData.FileSize);
   FModificationTime := TFileModificationDateTimeProperty.Create(FindData.LastWriteTime);
-  FLastAccessTime := TFileDateTimeProperty.Create(FindData.LastAccessTime);
-  FCreationTime := TFileDateTimeProperty.Create(FindData.CreationTime);
+  FLastAccessTime := TFileLastAccessDateTimeProperty.Create(FindData.LastAccessTime);
+  FCreationTime := TFileCreationDateTimeProperty.Create(FindData.CreationTime);
 
   AssignProperties;
 
@@ -169,7 +169,8 @@ end;
 
 class function TWfxPluginFile.GetSupportedProperties: TFilePropertiesTypes;
 begin
-  Result := [{fpName, }fpSize, fpAttributes, fpModificationTime, fpCreationTime, fpLastAccessTime];
+  Result := inherited GetSupportedProperties
+          + [fpSize, fpAttributes, fpModificationTime, fpCreationTime, fpLastAccessTime];
 end;
 
 function TWfxPluginFile.GetAttributes: Cardinal;
