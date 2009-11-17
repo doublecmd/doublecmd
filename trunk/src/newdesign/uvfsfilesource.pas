@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, uWFXModule,
-  uFile, uFileSourceProperty, uFileSourceOperationTypes,
+  uFileSourceProperty, uFileSourceOperationTypes,
   uVirtualFileSource, uFileProperty, uFileSource, uFileSourceOperation;
 
 type

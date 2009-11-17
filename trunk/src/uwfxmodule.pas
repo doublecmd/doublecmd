@@ -31,7 +31,7 @@ unit uWFXmodule;
 
 interface
 uses
- SysUtils, Classes, uVFSModule, uVFSTypes, WfxPlugin, uWFXprototypes,
+ SysUtils, Classes, uVFSTypes, WfxPlugin, uWFXprototypes,
  dynlibs, uClassesEx, DialogAPI, uOSUtils;
 
 const
@@ -57,7 +57,7 @@ type
 
   { TWFXModule }
 
-  TWFXModule = class (TVFSModule)
+  TWFXModule = class
   private
     FModuleHandle: TLibHandle;  // Handle to .DLL or .so
     FModuleFileName: UTF8String;
@@ -144,15 +144,15 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    function LoadModule(const sName: String):Boolean;override; {Load plugin}
-    procedure UnloadModule;override;
-    function VFSInit(Data: PtrInt):Boolean;override;
-    procedure VFSDestroy;override;
-    function VFSCaps : TVFSCaps;override;
+    function LoadModule(const sName: String):Boolean; {Load plugin}
+    procedure UnloadModule;
+    procedure VFSInit(Data: PtrInt);
+    procedure VFSDestroy;
+    function VFSCaps : TVFSCaps;
 
-    function VFSConfigure(Parent: THandle):Boolean;override;
+    function VFSConfigure(Parent: THandle):Boolean;
 
-    function VFSMisc: PtrUInt; override;
+    function VFSMisc: PtrUInt;
   end;
 
   { TWFXModuleList }
@@ -551,7 +551,7 @@ begin
   SetDlgProc:= nil;
 end;
 
-function TWFXModule.VFSInit(Data: PtrInt): Boolean;
+procedure TWFXModule.VFSInit(Data: PtrInt);
 var
   dps: pFsDefaultParamStruct;
   SetDlgProcInfo: TSetDlgProcInfo;

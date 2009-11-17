@@ -5,15 +5,14 @@ unit uWfxPluginUtil;
 interface
 
 uses
-  Classes, SysUtils, LCLProc, uDescr, uLog, uGlobs,
+  Classes, SysUtils, LCLProc, uLog, uGlobs,
   uFile,
   uFileSource,
   uFileSourceOperation,
   uFileSourceOperationOptions,
   uFileSourceOperationUI,
   uFileSourceCopyOperation,
-  uWfxPluginFileSource,
-  uWfxPluginFile;
+  uWfxPluginFileSource;
 
 type
 

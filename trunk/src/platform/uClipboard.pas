@@ -345,7 +345,6 @@ var
   DragDropInfo: TDragDropInfo;
   i: Integer;
   hGlobalBuffer: HGLOBAL;
-  pBuffer: LPVOID;
   PreferredEffect: DWORD = DROPEFFECT_COPY;
   formatEtc: TFormatEtc = (CfFormat: 0; Ptd: nil; dwAspect: 0; lindex: 0; tymed: TYMED_HGLOBAL);
 const

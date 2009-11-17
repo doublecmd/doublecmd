@@ -8,8 +8,7 @@ uses
   Classes, SysUtils,
   uLocalFile,
   uFile,
-  uFileProperty,
-  uOSUtils;
+  uFileProperty;
 
 type
 

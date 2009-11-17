@@ -23,7 +23,7 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uOSUtils, uDCUtils, uWfxPluginFile, uFile, uFileAttributes,
+  LCLProc, FileUtil, uOSUtils, uWfxPluginFile, uFile,
   WfxPlugin, uWfxModule;
 
 constructor TWfxPluginListOperation.Create(aFileSource: IFileSource; aPath: String);

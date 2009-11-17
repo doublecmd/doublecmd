@@ -9,8 +9,7 @@ uses
   uFile,
   uFileProperty,
   WfxPlugin,
-  uWfxModule,
-  uOSUtils;
+  uWfxModule;
 
 type
 

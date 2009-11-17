@@ -47,7 +47,9 @@ procedure FindCloseEx(var Rslt: TSearchRec);
 function CheckAttrMask(DefaultAttr : Cardinal; sAttr : String; Attr : Cardinal) : Boolean;
 
 implementation
-uses LCLProc, uFileOp;
+
+uses
+  LCLProc;
 
 function mbFindMatchingFile(var Rslt: TSearchRec): Integer;
 {$IFDEF MSWINDOWS}

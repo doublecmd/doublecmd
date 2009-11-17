@@ -172,7 +172,7 @@ type
 implementation
 
 uses
-  dmCommonData, dmHigh, uLng, uFileProcs, uOSUtils,
+  dmCommonData, dmHigh, uLng,
   SynEditHighlighter, uShowMsg, fMsg, fEditSearch,
   SynEditTypes, uGlobsPaths, uGlobs, fEditorConf, LCLType, LConvEncoding;
 

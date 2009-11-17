@@ -178,8 +178,7 @@ end;
 function TPasswordStore.WritePassword(Prefix, Name, Connection: UTF8String;
                                       const Password: AnsiString): Boolean;
 var
-  Data,
-  MasterKey: AnsiString;
+  Data: AnsiString;
 begin
   Result:= False;
   if CheckMasterKey = False then Exit;
@@ -207,6 +206,7 @@ end;
 function TPasswordStore.DeletePassword(Prefix, Name, Connection: UTF8String): Boolean;
 begin
   DeleteKey(Prefix + '_' + Name, Connection);
+  Result := True;
 end;
 
 procedure InitPasswordStore;

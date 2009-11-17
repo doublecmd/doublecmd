@@ -46,7 +46,7 @@ type
 implementation
 
 uses
-  uFileProperty, uLng, uDCUtils, WfxPlugin, uOSUtils;
+  uLng, WfxPlugin, uOSUtils;
 
 constructor TWfxPluginSetDateTimeOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToSetDateTime: TFiles; aLastWriteTime: TDateTime);

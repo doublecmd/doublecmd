@@ -38,7 +38,6 @@ type
     FLastDescrFile: String;
     FDestDescr: TDescription;
     procedure PrepareDescrFile(FileName: String);
-    function Find(const S: string; var Index: Integer): Boolean; override;
     function GetDescription(Index: Integer): String;
     function GetDescription(const FileName: String): String;
     procedure SetDescription(Index: Integer; const AValue: String);
@@ -96,6 +95,9 @@ type
        Save all changes to description file
     }
     procedure SaveDescription;
+
+    function Find(const S: string; var Index: Integer): Boolean; override;
+
     {en
        Get description by file name
     }

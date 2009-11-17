@@ -201,7 +201,6 @@ end;
 function DosToWinTime (const DTime: LongInt; var Wtime: TFileTime): LongBool;
 var
   lft : TFileTime;
-  DosTime: LongRec;
 begin
   Result := DosDateTimeToFileTime(Longrec(Dtime).Hi, Longrec(Dtime).Lo, lft) and
                 LocalFileTimeToFileTime(lft, WTime);
