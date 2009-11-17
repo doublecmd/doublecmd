@@ -31,7 +31,7 @@ type
   public
     constructor Create(aTargetFileSource: IFileSource;
                        var theTargetFiles: TFiles;
-                       theNewProperties: TFileProperties); override;
+                       var theNewProperties: TFileProperties); override;
 
     destructor Destroy; override;
 
@@ -48,7 +48,7 @@ uses
 
 constructor TWfxPluginSetFilePropertyOperation.Create(aTargetFileSource: IFileSource;
                                                       var theTargetFiles: TFiles;
-                                                      theNewProperties: TFileProperties);
+                                                      var theNewProperties: TFileProperties);
 begin
   FSymLinkOption := fsooslNone;
   FFullFilesTree := nil;

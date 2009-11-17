@@ -69,7 +69,7 @@ type
                                          aTargetMask: String): TFileSourceOperation; override;
     function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation; override;
     function CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
-                                            theNewProperties: TFileProperties): TFileSourceOperation; override;
+                                            var theNewProperties: TFileProperties): TFileSourceOperation; override;
     // ------------------------------------------------------
   end;
 
@@ -283,7 +283,7 @@ begin
 end;
 
 function TFileSystemFileSource.CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
-                                                              theNewProperties: TFileProperties): TFileSourceOperation;
+                                                              var theNewProperties: TFileProperties): TFileSourceOperation;
 var
   TargetFileSource: IFileSource;
 begin

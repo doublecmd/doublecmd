@@ -107,7 +107,7 @@ type
     }
     constructor Create(aTargetFileSource: IFileSource;
                        var theTargetFiles: TFiles;
-                       theNewProperties: TFileProperties); virtual reintroduce;
+                       var theNewProperties: TFileProperties); virtual reintroduce;
 
     destructor Destroy; override;
 
@@ -128,7 +128,7 @@ uses
 
 constructor TFileSourceSetFilePropertyOperation.Create(aTargetFileSource: IFileSource;
                                                        var theTargetFiles: TFiles;
-                                                       theNewProperties: TFileProperties);
+                                                       var theNewProperties: TFileProperties);
 begin
   with FStatistics do
   begin
@@ -148,6 +148,7 @@ begin
   FTargetFiles := theTargetFiles;
   theTargetFiles := nil;
   FNewProperties := theNewProperties;
+  FillByte(theNewProperties, SizeOf(theNewProperties), 0);
   FTemplateFiles := nil;
   FRecursive := False;
   FSkipErrors := gSkipFileOpError;
