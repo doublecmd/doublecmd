@@ -134,7 +134,10 @@ type
     function WfxGetFile(RemoteName, LocalName: UTF8String; CopyFlags: Integer; RemoteInfo: PRemoteInfo): Integer;
     function WfxPutFile(LocalName, RemoteName: UTF8String; CopyFlags: Integer): Integer;
     function WfxSetAttr(RemoteName: UTF8String; NewAttr: LongInt): Boolean;
-    function WfxSetTime(RemoteName: UTF8String; CreationTime, LastAccessTime, LastWriteTime: TFileTime): Boolean;
+    {en
+       Each of CreationTime, LastAccessTime, LastWriteTime may be @nil to leave the value unchanged.
+    }
+    function WfxSetTime(RemoteName: UTF8String; pCreationTime, pLastAccessTime, pLastWriteTime: PFileTime): Boolean;
     function WfxMkDir(const sBasePath, sDirName: UTF8String): LongInt;
     function WfxRemoveDir(const sDirName: UTF8String): Boolean;
     function WfxDeleteFile(const sFileName: UTF8String): Boolean;
@@ -351,14 +354,14 @@ begin
     Result:= FsSetAttr(PAnsiChar(UTF8ToSys(RemoteName)), NewAttr);
 end;
 
-function TWFXModule.WfxSetTime(RemoteName: UTF8String; CreationTime,
-                               LastAccessTime, LastWriteTime: TFileTime): Boolean;
+function TWFXModule.WfxSetTime(RemoteName: UTF8String; pCreationTime,
+                               pLastAccessTime, pLastWriteTime: PFileTime): Boolean;
 begin
   Result:= False;
   if Assigned(FsSetTimeW) then
-    Result:= FsSetTimeW(PWideChar(UTF8Decode(RemoteName)), @CreationTime, @LastAccessTime, @LastWriteTime)
+    Result:= FsSetTimeW(PWideChar(UTF8Decode(RemoteName)), pCreationTime, pLastAccessTime, pLastWriteTime)
   else if Assigned(FsSetTime) then
-    Result:= FsSetTime(PAnsiChar(UTF8ToSys(RemoteName)), @CreationTime, @LastAccessTime, @LastWriteTime);
+    Result:= FsSetTime(PAnsiChar(UTF8ToSys(RemoteName)), pCreationTime, pLastAccessTime, pLastWriteTime);
 end;
 
 function TWFXModule.WfxMkDir(const sBasePath, sDirName: UTF8String): LongInt;
