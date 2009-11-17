@@ -2062,7 +2062,7 @@ var
 begin
   with frmMain do
   begin
-    if not (fsoMove in ActiveFrame.FileSource.GetOperationsTypes) then
+    if not (fsoSetFileProperty in ActiveFrame.FileSource.GetOperationsTypes) then
       begin
         msgWarning(rsMsgErrNotSupported);
         Exit;

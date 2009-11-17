@@ -23,7 +23,8 @@ procedure ChooseFile(aFileView: TFileView; aFile: TFile);
 }
 function ChooseFileSource(aFileView: TFileView; aFile: TFile): Boolean;
 
-function RenameFile(aFileSource: IFileSource; const aFile: TFile; const NewFileName: UTF8String): Boolean;
+function RenameFile(aFileSource: IFileSource; const aFile: TFile;
+                    const NewFileName: UTF8String; Interactive: Boolean): Boolean;
 
 implementation
 
@@ -37,6 +38,7 @@ uses
   uWcxArchiveFileSource,
   uWfxPluginFileSource,
   uFileSourceOperationTypes,
+  uFileSourceOperationMessageBoxesUI,
   uFileProperty;
 
 procedure ChooseFile(aFileView: TFileView; aFile: TFile);
@@ -139,11 +141,13 @@ begin
   end;
 end;
 
-function RenameFile(aFileSource: IFileSource; const aFile: TFile; const NewFileName: UTF8String): Boolean;
+function RenameFile(aFileSource: IFileSource; const aFile: TFile;
+                    const NewFileName: UTF8String; Interactive: Boolean): Boolean;
 var
   aFiles: TFiles;
   Operation: TFileSourceSetFilePropertyOperation = nil;
   NewProperties: TFileProperties;
+  UserInterface: TFileSourceOperationMessageBoxesUI = nil;
 begin
   Result:= False;
   aFiles := aFileSource.CreateFiles;
@@ -163,6 +167,14 @@ begin
         // Only if the operation can change file name.
         if fpName in Operation.SupportedProperties then
         begin
+          Operation.SkipErrors := not Interactive;
+
+          if Interactive then
+          begin
+            UserInterface := TFileSourceOperationMessageBoxesUI.Create;
+            Operation.AddUserInterface(UserInterface);
+          end;
+
           Operation.Execute;
           Result := (Operation.Result = fsorFinished);
         end;
@@ -171,6 +183,7 @@ begin
     finally
       FreeThenNil(NewProperties[fpName]);
       FreeThenNil(Operation);
+      FreeThenNil(UserInterface);
     end;
   end;
 
