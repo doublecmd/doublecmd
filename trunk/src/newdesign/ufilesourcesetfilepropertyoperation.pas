@@ -13,17 +13,6 @@ uses
   uFileProperty,
   uLng;
 
-const
-  SetFilePropertyErrMsg: array[TFilePropertyType] of String =
-    (rsMsgErrRename,
-     rsMsgLogError,
-     rsMsgLogError,
-     rsMsgErrSetAttribute,
-     rsMsgErrSetDateTime,
-     rsMsgErrSetDateTime,
-     rsMsgErrSetDateTime,
-     rsMsgErrSetDateTime);
-
 type
 
   TFileSourceSetFilePropertyOperationStatistics = record
@@ -92,6 +81,8 @@ type
     procedure SetProperties(aFile: TFile; aTemplateFile: TFile);
     function SetNewProperty(aFile: TFile; aTemplateProperty: TFileProperty): Boolean; virtual abstract;
 
+    function GetErrorString(aFile: TFile; aProperty: TFileProperty): String;
+
     property FileSource: IFileSource read FFileSource;
     property TargetFiles: TFiles read FTargetFiles;
 
@@ -119,6 +110,7 @@ type
     property TemplateFiles: TFiles read FTemplateFiles; // set by SetTemplateFiles because can't use "var" in properties
     property Recursive: Boolean read FRecursive write FRecursive;
     property SupportedProperties: TFilePropertiesTypes read FSupportedProperties;
+    property SkipErrors: Boolean read FSkipErrors write FSkipErrors;
   end;
 
 implementation
@@ -245,12 +237,13 @@ procedure TFileSourceSetFilePropertyOperation.SetProperties(aFile: TFile;
 var
   prop: TFilePropertyType;
   templateProperty: TFileProperty;
-  {$IFNDEF AssignFileNameProperty}
-  aNameProperty: TFileNameProperty = nil;
-  {$ENDIF}
   bRetry: Boolean;
   sMessage, sQuestion: String;
   Success: Boolean;
+  {$IFNDEF AssignFileNameProperty}
+  TargetName: UTF8String;  // for reporting errors when setting fpName property
+  {$ENDIF}
+  ErrorString: String;
 begin
   // Iterate over all properties supported by this operation.
   for prop := Low(SupportedProperties) to High(SupportedProperties) do
@@ -264,12 +257,14 @@ begin
       begin
         if Assigned(aTemplateFile) then
         begin
-          aNameProperty := TFileNameProperty.Create(aTemplateFile.Name);
-          Success := SetNewProperty(aFile, aNameProperty);
-          FreeAndNil(aNameProperty);
+          templateProperty := TFileNameProperty.Create(aTemplateFile.Name);
+          TargetName := aTemplateFile.Name;
+          Success := SetNewProperty(aFile, templateProperty);
+          FreeAndNil(templateProperty);
         end
         else if Assigned(NewProperties[fpName]) then
         begin
+          TargetName := (NewProperties[fpName] as TFileNameProperty).Value;
           Success := SetNewProperty(aFile, NewProperties[fpName]);
         end;
       end
@@ -291,8 +286,19 @@ begin
 
       if not Success then
         begin
-          sMessage := Format(rsMsgLogError + SetFilePropertyErrMsg[prop], [aFile.FullPath]);
-          sQuestion := Format(SetFilePropertyErrMsg[prop], [aFile.FullPath]);
+          {$IFNDEF AssignFileNameProperty}
+          if prop = fpName then
+          begin
+            templateProperty := TFileNameProperty.Create(TargetName);
+            ErrorString := GetErrorString(aFile, templateProperty);
+            FreeAndNil(templateProperty);
+          end
+          else
+          {$ENDIF}
+          ErrorString := GetErrorString(aFile, templateProperty);
+
+          sMessage := rsMsgLogError + ErrorString;
+          sQuestion := ErrorString;
 
           if FSkipErrors then
             logWrite(Thread, sMessage, lmtError)
@@ -311,6 +317,23 @@ begin
             end;
         end;
     until bRetry = False;
+  end;
+end;
+
+function TFileSourceSetFilePropertyOperation.GetErrorString(aFile: TFile; aProperty: TFileProperty): String;
+begin
+  case aProperty.GetID of
+    fpName:
+      Result := Format(rsMsgErrRename, [aFile.FullPath, (aProperty as TFileNameProperty).Value]);
+
+    fpAttributes:
+      Result := Format(rsMsgErrSetAttribute, [aFile.FullPath]);
+
+    fpDateTime, fpModificationTime, fpCreationTime, fpLastAccessTime:
+      Result := Format(rsMsgErrSetDateTime, [aFile.FullPath]);
+
+    else
+      Result := rsMsgLogError;
   end;
 end;
 
