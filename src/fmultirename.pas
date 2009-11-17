@@ -217,6 +217,8 @@ begin
   inherited;
   ClearPresetsList;
   FreeAndNil(FPresets);
+  if Assigned(FFiles) then
+    FreeAndNil(FFiles);
 end;
 
 procedure TfrmMultiRename.FormCreate(Sender: TObject);
@@ -239,7 +241,7 @@ begin
   begin
     Add;
     Item[i].Data:= FFiles.Items[i];
-    Item[i].Caption := ExtractFileName(FFiles.Items[i].Name);
+    Item[i].Caption := FFiles.Items[i].Name;
     Item[i].SubItems.Add('');
     Item[i].SubItems.Add(ExcludeTrailingBackslash(FFiles.Items[i].Path));
   end;
@@ -275,9 +277,6 @@ begin
     IniPropStorage.StoredValue['lsvwFile_Columns.Item1_Width']:= IntToStr(Items[1].Width);
     IniPropStorage.StoredValue['lsvwFile_Columns.Item2_Width']:= IntToStr(Items[2].Width);
   end;
-
-  if Assigned(FFiles) then
-    FreeAndNil(FFiles);
 end;
 
 procedure TfrmMultiRename.miDayClick(Sender: TObject);
@@ -735,10 +734,11 @@ begin
     for c:=0 to lsvwFile.Items.Count-1 do
       with lsvwFile.Items do
       begin
-        if RenameFile(FFileSource, TFile(Item[c].Data).Clone,
-            Item[c].SubItems[1]+pathdelim+Item[c].SubItems[0]) = True then
+        if RenameFile(FFileSource, TFile(Item[c].Data),
+            Item[c].SubItems[1]+pathdelim+Item[c].SubItems[0], True) = True then
         begin
-          item[c].Caption := Item[c].SubItems[0];  // write the new name to table
+          Item[c].Caption          := Item[c].SubItems[0]; // write the new name to table
+          TFile(Item[c].Data).Name := Item[c].SubItems[0]; // and to the file object
           sResult := 'OK    ';
         end
         else
