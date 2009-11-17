@@ -68,8 +68,10 @@ type
   end;
   PDrive = ^TDrive;
 
+  {$IFNDEF WINDOWS}
   TFileTime = FILETIME;
   PFileTime = ^FILETIME;
+  {$ENDIF}
 
 type
   TFileMapRec = record

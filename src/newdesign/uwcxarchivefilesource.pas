@@ -47,11 +47,12 @@ type
     procedure SetPluginFlags(NewPluginFlags: PtrInt);
     function GetWcxModule: TWcxModule;
 
-    function CreateConnection: TFileSourceConnection; override;
-    procedure FinishedUsingConnection(connection: TFileSourceConnection); override;
     procedure NotifyNextWaitingOperation(allowedOps: TFileSourceOperationTypes);
 
   protected
+    function CreateConnection: TFileSourceConnection; override;
+    procedure FinishedUsingConnection(connection: TFileSourceConnection); override;
+
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
 
@@ -96,7 +97,7 @@ type
     FWcxModule: TWCXModule;
 
   public
-    constructor Create(aWcxModule: TWCXModule);
+    constructor Create(aWcxModule: TWCXModule); reintroduce;
 
     property WcxModule: TWCXModule read FWcxModule;
   end;
@@ -106,7 +107,7 @@ type
 implementation
 
 uses Forms, Controls, uGlobs, LCLProc, uDCUtils,
-     uGlobsPaths, FileUtil, uWcxArchiveFile,
+     FileUtil, uWcxArchiveFile,
      uWcxArchiveListOperation,
      uWcxArchiveCopyInOperation,
      uWcxArchiveCopyOutOperation,

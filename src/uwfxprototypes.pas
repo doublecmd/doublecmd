@@ -5,7 +5,7 @@ unit uWFXprototypes;
 interface
 
 uses
-  {Classes, SysUtils,} WfxPlugin, uOSUtils;
+  WfxPlugin;
 
 type
 {File system plugins API (version 2.0) for TC}

@@ -387,9 +387,9 @@ begin
   begin
     FileAttributes := Properties[fpAttributes] as TFileAttributesProperty;
 {$IF DEFINED(MSWINDOWS)}
-    Result := not IsDirectory;
+    Result := not FileAttributes.IsDirectory;
 {$ELSEIF DEFINED(UNIX)}
-    Result := (not IsDirectory) and
+    Result := (not FileAttributes.IsDirectory) and
               (FileAttributes.Value AND (S_IXUSR OR S_IXGRP OR S_IXOTH)>0);
 {$ELSE}
     Result := False;

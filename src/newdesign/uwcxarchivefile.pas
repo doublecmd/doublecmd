@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uArchiveFile, uWcxArchiveFileSource, uFileProperty, uWCXmodule;
+  uArchiveFile, uFileProperty, uWCXmodule;
 
 type
 

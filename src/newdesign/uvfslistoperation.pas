@@ -23,7 +23,7 @@ type
 implementation
 
 uses
-  LCLProc, uOSUtils, uDCUtils, uVfsFile, uFile;
+  LCLProc, uVfsFile, uFile;
 
 constructor TVfsListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin

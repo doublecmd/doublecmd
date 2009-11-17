@@ -28,7 +28,7 @@ unit fExtractDlg;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls, uVFS, uFileList,
+  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
   EditBtn;
 
 type
@@ -56,11 +56,14 @@ TfrmExtractDlg = class(TForm)
 //function  ShowExtractDlg(ActiveFrame:TFrameFilePanel; var fl : TFileList; sDestPath:String): Boolean;
 
 implementation
+
 uses
-  uTypes, uGlobs, uDCUtils;
+  uGlobs, uDCUtils;
   
+{
 var
   CurrentVFS : TVFS;
+}
 
 {
 function ShowExtractDlg(ActiveFrame:TFrameFilePanel; var fl: TFileList; sDestPath: String): Boolean;

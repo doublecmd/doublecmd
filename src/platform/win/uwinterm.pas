@@ -55,7 +55,7 @@ type
      function SendSignal_pty(Sig: Cint): Boolean; override;
      function SetScreenSize(ColCount, RowCount: Integer): Boolean; override;
      //---------------------
-     function KillShell: LongInt;
+     function KillShell: LongInt; override;
    end;
 
   { TWinConThread }

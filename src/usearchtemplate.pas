@@ -27,7 +27,7 @@ unit uSearchTemplate;
 interface
 
 uses
-  Classes, SysUtils, DsxPlugin, uClassesEx, uTypes, uFile;
+  Classes, SysUtils, DsxPlugin, uClassesEx, uFile;
 
 type
 

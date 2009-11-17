@@ -28,7 +28,7 @@ unit uWCXmodule;
 interface
 
 uses
-  uWCXprototypes, WcxPlugin, dynlibs, Classes, uVFSModule,
+  uWCXprototypes, WcxPlugin, dynlibs, Classes,
   uVFSTypes, Dialogs, DialogAPI, uClassesEx, uOSUtils;
 
 Type
@@ -64,7 +64,7 @@ Type
   
   { TWCXModule }
 
-  TWCXModule = class (TVFSModule)
+  TWCXModule = class
   private
     FPackerCaps : Integer;
 
@@ -104,18 +104,18 @@ Type
 
     function OpenArchiveHandle(FileName: String; anOpenMode: Longint; out OpenResult: Longint): TArcHandle;
 
-    function LoadModule(const sName:String):Boolean;override; {Load WCX plugin}
-    procedure UnloadModule;override;                          {UnLoad WCX plugin}
+    function LoadModule(const sName:String):Boolean; {Load WCX plugin}
+    procedure UnloadModule;                          {UnLoad WCX plugin}
 
-    function VFSInit(Data: PtrInt):Boolean;override;
-    procedure VFSDestroy;override;
-    function VFSCaps : TVFSCaps;override;
+    procedure VFSInit(Data: PtrInt);
+    procedure VFSDestroy;
+    function VFSCaps : TVFSCaps;
 
-    function VFSConfigure(Parent: THandle):Boolean;override;
+    procedure VFSConfigure(Parent: THandle);
 
-    function VFSRun(const sName:String):Boolean;override;
+    function VFSRun(const sName:String):Boolean;
 
-    function VFSMisc : PtrUInt;override;
+    function VFSMisc : PtrUInt;
 
     function IsLoaded: Boolean;
   end;
@@ -314,7 +314,7 @@ begin
   end;
 end;
 
-function TWCXModule.VFSInit(Data: PtrInt): Boolean;
+procedure TWCXModule.VFSInit(Data: PtrInt);
 begin
   FPackerCaps:= Data;
 end;
@@ -334,7 +334,7 @@ begin
     Include(Result, VFS_CAPS_DELETE);
 end;
 
-function TWCXModule.VFSConfigure(Parent: THandle): Boolean;
+procedure TWCXModule.VFSConfigure(Parent: THandle);
 begin
   if Assigned(ConfigurePacker) then
     ConfigurePacker(Parent, FModuleHandle);

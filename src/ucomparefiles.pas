@@ -15,7 +15,7 @@ function CompareFiles(const sLeftFileName, sRightFileName:UTF8String; {Var}
 
 implementation
 uses
-  SysUtils, uClassesEx, uShowMsg, uTextCompare;
+  SysUtils, uClassesEx, uTextCompare;
 
 function ConvertByte(b:Byte):Char;
 begin

@@ -122,7 +122,7 @@ implementation
 
 
 uses
-  FileUtil, uShowMsg, uFindEx, uOSUtils;
+  FileUtil, uFindEx, uOSUtils;
 
 procedure SetupColorOfHighlighter(var h: TSynCustomHighlighter);
 var

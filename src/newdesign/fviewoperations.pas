@@ -85,7 +85,6 @@ procedure TfrmViewOperations.sboxOperationsDblClick(Sender: TObject);
 var
   OperationNumber: Integer;
   CursorPos: TPoint;
-  Operation: TFileSourceOperation;
   OperationDialog: TfrmFileOp;
 begin
   CursorPos := Mouse.CursorPos;
@@ -101,8 +100,6 @@ procedure TfrmViewOperations.sboxOperationsMouseDown(Sender: TObject; Button: TM
 var
   OperationNumber: Integer;
   CursorPos: TPoint;
-  Operation: TFileSourceOperation;
-  OperationDialog: TfrmFileOp;
 begin
   CursorPos := Mouse.CursorPos;
   CursorPos := sboxOperations.ScreenToClient(CursorPos);

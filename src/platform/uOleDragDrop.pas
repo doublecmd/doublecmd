@@ -559,7 +559,7 @@ begin
     else
     begin
 
-      FileList := FileList + Utf8ToAnsi(Self.Files[0]) + #0;
+      FileList := Utf8ToAnsi(Self.Files[0]) + #0;
 
       Result := MakeHGlobal(PAnsiChar(FileList),
                             Length(FileList) * SizeOf(AnsiChar));
@@ -789,9 +789,9 @@ var
 
   DropFiles: PDropFiles;
 
-  FileList: AnsiString;
+  FileList: AnsiString = '';
 
-  wsFileList: WideString;
+  wsFileList: WideString = '';
 
 begin
 
