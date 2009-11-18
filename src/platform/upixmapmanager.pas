@@ -590,11 +590,13 @@ end;
 
 function TPixMapManager.GetGenericIcons(const slGenericIcons: TStringListEx): Boolean;
 const
+  pixmaps_cache = 'pixmaps.cache';
   mime_globs = '/usr/share/mime/globs';
   mime_generic_icons = '/usr/share/mime/generic-icons';
 var
   globs,
   generic_icons: TStringListEx;
+  mTime: LongInt;
   I: Integer;
   sMimeIconName,
   sGenericIconName: String;
@@ -603,6 +605,13 @@ begin
     Result:= False;
     globs:= nil;
     generic_icons:= nil;
+    // try to load from cache
+    mTime:= mbFileAge(mime_globs);
+    if mbFileAge(gpIniDir + pixmaps_cache) = mTime then
+      begin
+        slGenericIcons.LoadFromFile(gpIniDir + pixmaps_cache);
+        Exit(True);
+      end;
     // load mime types list
     globs:= TStringListEx.Create;
     globs.NameValueSeparator:= ':';
@@ -629,6 +638,9 @@ begin
           slGenericIcons.Add(PChar(globs.ValueFromIndex[I])+2 + '=' + sMimeIconName);
         end;
     Result:= True;
+    // save to cache
+    slGenericIcons.SaveToFile(gpIniDir + pixmaps_cache);
+    mbFileSetTime(gpIniDir + pixmaps_cache, mTime, 0, 0);
   finally
     if Assigned(globs) then
       FreeAndNil(globs);
