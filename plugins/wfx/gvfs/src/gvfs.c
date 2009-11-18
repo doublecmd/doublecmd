@@ -1460,6 +1460,8 @@ int __stdcall FsInit(int PluginNr,tProgressProc pProgressProc,
   ActiveConnectionList = NULL;
   ConnectionList = NULL;
 
+  g_type_init();  
+  
   return 0;
 }
 
