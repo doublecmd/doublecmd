@@ -94,8 +94,7 @@ uses
   uFileSystemExecuteOperation,
   uFileSystemCalcChecksumOperation,
   uFileSystemCalcStatisticsOperation,
-  uFileSystemSetFilePropertyOperation,
-  uFileSystemSetDateTimeOperation;
+  uFileSystemSetFilePropertyOperation;
 
 constructor TFileSystemFileSource.Create;
 begin
@@ -114,8 +113,6 @@ begin
              fsoCalcChecksum,
              fsoCalcStatistics,
              fsoSetFileProperty,
-             fsoSetDateTime,
-             fsoSetAttribute,
              fsoExecute];
 end;
 

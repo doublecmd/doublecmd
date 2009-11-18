@@ -89,8 +89,7 @@ uses
   LCLProc, FileUtil,{} Forms, Dialogs, LCLType,{} uGlobs, uDCUtils, uLog, uLng, uCryptProc,
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation, uWfxPluginExecuteOperation,
   uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation, uWfxPluginDeleteOperation,
-  uWfxPluginSetAttributeOperation, uWfxPluginSetDateTimeOperation, uWfxPluginFile, uWfxPluginUtil,
-  uWfxPluginSetFilePropertyOperation;
+  uWfxPluginFile, uWfxPluginUtil, uWfxPluginSetFilePropertyOperation;
 
 { CallBack functions }
 
