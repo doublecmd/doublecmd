@@ -207,6 +207,8 @@ var
   gQuickSearchMode : TShiftState = [ssCtrl, ssAlt];
   gQuickSearchMatchBeginning,
   gQuickSearchMatchEnding : Boolean;
+  gQuickFilter : Boolean = False;
+  gQuickFilterMode : TShiftState = [];
 
   { Misc page }
   gGridVertLine,
@@ -299,6 +301,7 @@ begin
       AddHotKey('Ctrl+Right','cm_TransferRight','','FrmMain','FrmMain');
       AddHotKey('Ctrl+PgDn','cm_OpenArchive','','FrmMain','FrmMain');
       AddHotKey('Ctrl+S','cm_QuickSearch','','FrmMain','FrmMain');
+      AddHotKey('Ctrl+F','cm_QuickFilter','','FrmMain','FrmMain');
       AddHotKey('Ctrl+Alt+X','cm_CopyNamesToClip','','FrmMain','FrmMain');
       AddHotKey('Ctrl+Alt+C','cm_CopyFullNamesToClip','','FrmMain','FrmMain');
       AddHotKey('Alt+Z','cm_TargetEqualSource','','FrmMain','FrmMain');
@@ -589,6 +592,8 @@ begin
   gQuickSearchMode := TShiftState(gIni.ReadInteger('Configuration', 'QuickSearchMode', Integer(gQuickSearchMode)));
   gQuickSearchMatchBeginning := gIni.ReadBool('Configuration', 'QuickSearchMatchBeginning', True);
   gQuickSearchMatchEnding := gIni.ReadBool('Configuration', 'QuickSearchMatchEnding', True);
+  gQuickFilter := gIni.ReadBool('Configuration', 'QuickFilter', gQuickFilter);
+  gQuickFilterMode := TShiftState(gIni.ReadInteger('Configuration', 'QuickFilterMode', Integer(gQuickFilterMode)));
   { Misc page }
   gGridVertLine:= gIni.ReadBool('Configuration', 'GridVertLine', False);
   gGridHorzLine:= gIni.ReadBool('Configuration', 'GridHorzLine', False);
@@ -817,6 +822,8 @@ begin
   gIni.WriteInteger('Configuration', 'QuickSearchMode', Integer(gQuickSearchMode));
   gIni.WriteBool('Configuration', 'QuickSearchMatchBeginning', gQuickSearchMatchBeginning);
   gIni.WriteBool('Configuration', 'QuickSearchMatchEnding', gQuickSearchMatchEnding);
+  gIni.WriteBool('Configuration', 'QuickFilter', gQuickFilter);
+  gIni.WriteInteger('Configuration', 'QuickFilterMode', Integer(gQuickFilterMode));
   { Misc page }
   gIni.WriteBool('Configuration', 'GridVertLine', gGridVertLine);
   gIni.WriteBool('Configuration', 'GridHorzLine', gGridHorzLine);

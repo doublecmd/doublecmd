@@ -1683,6 +1683,11 @@ object frmMain: TfrmMain
       Caption = 'Move/Rename files without asking for confirmation'
       OnExecute = actExecute
     end
+    object actQuickFilter: TAction
+      Category = 'Commands'
+      Caption = 'Quick filter'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     left = 152

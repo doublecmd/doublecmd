@@ -182,6 +182,15 @@ type
     gbExtended: TGroupBox;
     gbAutoRefresh: TGroupBox;
     gbShowIconsMode: TGroupBox;
+    grpQuickSearchFilterKeys: TGroupBox;
+    lblQuickSearch: TLabel;
+    lblQuickFilter: TLabel;
+    pnlQuickSearch: TPanel;
+    pnlQuickFilter: TPanel;
+    rbAltLetterQF: TRadioButton;
+    rbCtrlAltLetterQF: TRadioButton;
+    rbLetterQF: TRadioButton;
+    rbNoneQF: TRadioButton;
     rbIconsShowAllAndExe: TRadioButton;
     rbIconsShowAll: TRadioButton;
     rbIconsShowNone: TRadioButton;
@@ -276,7 +285,6 @@ type
     pgHotKey: TPage;
     pgLng: TPage;
     pgTools: TPage;
-    gbQuickSearch: TGroupBox;
     rbProgramDir: TRadioButton;
     rbUserHomeDir: TRadioButton;
     rbUseMmapInSearch: TRadioButton;
@@ -372,6 +380,7 @@ type
     procedure pcPluginsTypesChange(Sender: TObject);
     procedure pgBehavResize(Sender: TObject);
     procedure rbIconsShowNoneChange(Sender: TObject);
+    procedure rbQuickSearchFilterKeyChange(Sender: TObject);
     procedure stgCommandsResize(Sender: TObject);
     procedure stgCommandsSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
@@ -470,6 +479,12 @@ begin
       Item[18].Text := rsOptIcons;
     end;
   tvTreeView.Items.Item[0].Selected:= True;
+
+  // Set QuickFilter radio buttons captions same as QuickSearch.
+  rbCtrlAltLetterQF.Caption := rbCtrlAltLetterQS.Caption;
+  rbAltLetterQF.Caption     := rbAltLetterQS.Caption;
+  rbLetterQF.Caption        := rbLetterQS.Caption;
+  rbNoneQF.Caption          := rbNoneQS.Caption;
 
   // create plugins lists
   tmpDSXPlugins:= TDSXModuleList.Create;
@@ -962,6 +977,16 @@ end;
 procedure TfrmOptions.rbIconsShowNoneChange(Sender: TObject);
 begin
    cbIconsSize.Enabled := not rbIconsShowNone.Checked;
+end;
+
+procedure TfrmOptions.rbQuickSearchFilterKeyChange(Sender: TObject);
+begin
+  rbCtrlAltLetterQF.Enabled := not rbCtrlAltLetterQS.Checked;
+  rbAltLetterQF.Enabled     := not rbAltLetterQS.Checked;
+  rbLetterQF.Enabled        := not rbLetterQS.Checked;
+  rbCtrlAltLetterQS.Enabled := not rbCtrlAltLetterQF.Checked;
+  rbAltLetterQS.Enabled     := not rbAltLetterQF.Checked;
+  rbLetterQS.Enabled        := not rbLetterQF.Checked;
 end;
 
 procedure TfrmOptions.stgCommandsResize(Sender: TObject);
@@ -2144,6 +2169,18 @@ begin
   else
     rbNoneQS.Checked := True;
 
+  if gQuickFilter then
+    begin
+      if (gQuickFilterMode = [ssCtrl, ssAlt]) then
+        rbCtrlAltLetterQF.Checked := True
+      else if (gQuickFilterMode = [ssAlt]) then
+        rbAltLetterQF.Checked := True
+      else if gQuickFilterMode = [] then
+        rbLetterQF.Checked := True;
+    end
+  else
+    rbNoneQF.Checked := True;
+
   cbExactBeginning.Checked := gQuickSearchMatchBeginning;
   cbExactEnding.Checked := gQuickSearchMatchEnding;
   { Misc page }
@@ -2331,6 +2368,15 @@ begin
     gQuickSearchMode := [ssAlt];
   if rbLetterQS.Checked then
     gQuickSearchMode := [];
+
+  gQuickFilter := not rbNoneQF.Checked;
+
+  if rbCtrlAltLetterQF.Checked then
+    gQuickFilterMode := [ssCtrl, ssAlt];
+  if rbAltLetterQF.Checked then
+    gQuickFilterMode := [ssAlt];
+  if rbLetterQF.Checked then
+    gQuickFilterMode := [];
 
   gQuickSearchMatchBeginning := cbExactBeginning.Checked;
   gQuickSearchMatchEnding := cbExactEnding.Checked;

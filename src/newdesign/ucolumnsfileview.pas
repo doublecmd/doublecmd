@@ -162,6 +162,7 @@ type
     fSearchDirect,
     fNext,
     fPrevious : Boolean;
+    FFileFilter: String;
 
     fUpdateFileCount,
     fUpdateDiskFreeSpace: Boolean;
@@ -175,7 +176,10 @@ type
     pnlHeader: TPanel;
     pmColumnsMenu: TPopupMenu;
     pnAltSearch: TPanel;
+    pnlFilter: TPanel;
     edtSearch: TEdit;
+    edtFilter: TEdit;
+    btnCloseFilter: TButton;
     edtPath: TEdit;
     edtRename: TEdit;
     lblPath: TPathLabel;
@@ -215,8 +219,10 @@ type
 
     procedure ShowRenameFileEdit(const sFileName:String);
     procedure ShowPathEdit;
-    procedure ShowAltPanel(Char : TUTF8Char = #0);
-    procedure CloseAltPanel;
+    procedure ShowSearchPanel(Char : TUTF8Char = #0);
+    procedure CloseSearchPanel;
+    procedure ShowFilterPanel(Char : TUTF8Char = #0);
+    procedure CloseFilterPanel;
 
     function GetActiveItem: TColumnsViewFile;
 
@@ -230,18 +236,23 @@ type
     }
     procedure SetActive(Active: Boolean);
 
+    procedure SetFileFilter(NewFilter: String);
+
     // -- Events --------------------------------------------------------------
 
     procedure edtPathExit(Sender: TObject);
     procedure edtSearchExit(Sender: TObject);
     procedure edtRenameExit(Sender: TObject);
+    procedure edtFilterExit(Sender: TObject);
 
     procedure edtSearchChange(Sender: TObject);
     procedure edtSearchKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure edtPathKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure edtRenameKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure edtPathKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edtRenameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edtFilterChange(Sender: TObject);
+    procedure edtFilterKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+
+    procedure btnCloseFilterClick(Sender: TObject);
 
     procedure dgPanelEnter(Sender: TObject);
     procedure dgPanelExit(Sender: TObject);
@@ -271,6 +282,9 @@ type
     procedure ColumnsMenuClick(Sender: TObject);
 
     procedure UTF8KeyPressEvent(Sender: TObject; var UTF8Key: TUTF8Char);
+
+
+    property FileFilter: String read FFileFilter write SetFileFilter;
 
   protected
     procedure SetCurrentPath(NewPath: String); override;
@@ -378,6 +392,7 @@ type
     procedure cm_MarkCurrentExtension(param: string='');
     procedure cm_UnmarkCurrentExtension(param: string='');
     procedure cm_QuickSearch(param: string='');
+    procedure cm_QuickFilter(param: string='');
     procedure cm_Open(param: string='');
     procedure cm_SortByColumn(param: string='');
     procedure cm_CountDirContent(param: string='');
@@ -641,7 +656,7 @@ var
   LastSelection: String;
 begin
   if pnAltSearch.Visible then
-    CloseAltPanel;
+    CloseSearchPanel;
 
   if Assigned(GetActiveItem) then
     LastSelection := GetActiveItem.TheFile.Name
@@ -1090,7 +1105,7 @@ begin
 
     VK_TAB:
       begin
-        CloseAltPanel;
+        CloseSearchPanel;
         SetFocus;
         Key := 0;
       end;
@@ -1098,7 +1113,7 @@ begin
     VK_ESCAPE:
       begin
         Key := 0;
-        CloseAltPanel;
+        CloseSearchPanel;
         SetFocus;
       end;
 
@@ -1106,7 +1121,7 @@ begin
     VK_SELECT:
       begin
         Key := 0;
-        CloseAltPanel;
+        CloseSearchPanel;
         SetFocus;
 
         {LaBero begin}
@@ -1438,6 +1453,12 @@ begin
   lblPath.SetActive(Active);
 end;
 
+procedure TColumnsFileView.SetFileFilter(NewFilter: String);
+begin
+  FFileFilter := NewFilter;
+  MakeDisplayFileList;
+end;
+
 procedure TColumnsFileView.edtPathExit(Sender: TObject);
 begin
   edtPath.Visible := False;
@@ -1446,7 +1467,7 @@ end;
 procedure TColumnsFileView.edtSearchExit(Sender: TObject);
 begin
   // sometimes must be search panel closed this way
-  CloseAltPanel;
+  CloseSearchPanel;
   RedrawGrid;
 end;
 
@@ -1454,6 +1475,12 @@ procedure TColumnsFileView.edtRenameExit(Sender: TObject);
 begin
   edtRename.Visible := False;
   UnMarkAll;
+end;
+
+procedure TColumnsFileView.edtFilterExit(Sender: TObject);
+begin
+  if edtFilter.Text = '' then
+    CloseFilterPanel;
 end;
 
 procedure TColumnsFileView.edtSearchChange(Sender: TObject);
@@ -1464,7 +1491,7 @@ var
   sSearchNameNoExt,
   sSearchExt : String;
 begin
-  if edtSearch.Text='' then Exit;
+  if (edtSearch.Text='') or IsEmpty then Exit;
   //DebugLn('edtSearchChange: '+ edtSearch.Text);
 
   sSearchName := AnsiLowerCase(edtSearch.Text);
@@ -1540,14 +1567,21 @@ begin
   fPrevious := False;
 end;
 
-procedure TColumnsFileView.CloseAltPanel;
+procedure TColumnsFileView.CloseSearchPanel;
 begin
   pnAltSearch.Visible:=False;
   edtSearch.Text:='';
   FActive:= False;
 end;
 
-procedure TColumnsFileView.ShowAltPanel(Char : TUTF8Char);
+procedure TColumnsFileView.CloseFilterPanel;
+begin
+  edtFilter.Text := '';      // Automatically triggers edtFilterChange.
+  pnlFilter.Visible := False;
+  SetFocus;
+end;
+
+procedure TColumnsFileView.ShowSearchPanel(Char : TUTF8Char);
 begin
   frmMain.EnableHotkeys(False);
 
@@ -1570,6 +1604,26 @@ begin
   edtSearch.Text := Char;
   edtSearch.SelStart := UTF8Length(edtSearch.Text) + 1;
   FActive:= True;
+end;
+
+procedure TColumnsFileView.ShowFilterPanel(Char : TUTF8Char = #0);
+begin
+  frmMain.EnableHotkeys(False);
+
+  pnlFilter.Visible := True;
+  edtFilter.Width  := pnlFilter.Width div 2;
+  edtFilter.SetFocus;
+
+  if Char <> #0 then
+  begin
+    edtFilter.Text := Char;
+    edtFilter.SelStart := UTF8Length(edtFilter.Text) + 1;
+    edtFilter.SelLength := 0;
+  end
+  else
+  begin
+    edtFilter.SelectAll;
+  end;
 end;
 
 procedure TColumnsFileView.UpDatelblInfo;
@@ -1786,6 +1840,33 @@ begin
   end;
 end;
 
+procedure TColumnsFileView.edtFilterChange(Sender: TObject);
+begin
+  FileFilter := edtFilter.Text;
+end;
+
+procedure TColumnsFileView.edtFilterKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  case Key of
+    VK_TAB, VK_RETURN, VK_SELECT:
+      begin
+        SetFocus;
+        Key := 0;
+      end;
+
+    VK_ESCAPE:  // Close panel and remove filter with Escape.
+      begin
+        CloseFilterPanel;
+        Key := 0;
+      end;
+  end;
+end;
+
+procedure TColumnsFileView.btnCloseFilterClick(Sender: TObject);
+begin
+  CloseFilterPanel;
+end;
+
 procedure TColumnsFileView.MakeVisible(iRow:Integer);
 begin
   with dgPanel do
@@ -1906,35 +1987,53 @@ end;
 
 procedure TColumnsFileView.dgPanelKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
-var
-  ScreenPoint: TPoint;
-  ModifierKeys: TShiftState;
-  UTF8Char: TUTF8Char;
-begin
-  // used for quick search by Ctrl+Alt+Letter and Alt+Letter
-  if gQuickSearch then
-  begin
-    ModifierKeys := GetKeyShiftStateEx;
 
-    if ((gQuickSearchMode <> []) and
-        // Check only Ctrl and Alt as quicksearch keys.
-       (ModifierKeys * [ssCtrl, ssAlt] = gQuickSearchMode))
-{$IFDEF MSWINDOWS}
-    // Entering international characters with Ctrl+Alt on Windows.
-    or ((gQuickSearchMode = []) and
-       (ModifierKeys * [ssCtrl, ssAlt] = [ssCtrl, ssAlt]) and
-       (ModifierKeys - [ssCtrl, ssAlt, ssShift, ssCaps] = []))
-{$ENDIF}
-    then
+  function CheckSearchOrFilter(ModifierKeys: TShiftState;
+                               SearchOrFilterEnabled: Boolean;
+                               SearchOrFilterMode: TShiftState;
+                               out UTF8Char: TUTF8Char): Boolean;
+  begin
+    Result := False;
+
+    // used for quick search/filter by Ctrl+Alt+Letter and Alt+Letter
+    if SearchOrFilterEnabled then
     begin
-      UTF8Char := VirtualKeyToUTF8Char(Key, ModifierKeys - gQuickSearchMode);
-      if UTF8Char <> '' then
+      if ((SearchOrFilterMode <> []) and
+          // Check only Ctrl and Alt.
+         (ModifierKeys * [ssCtrl, ssAlt] = SearchOrFilterMode))
+  {$IFDEF MSWINDOWS}
+      // Entering international characters with Ctrl+Alt on Windows.
+      or ((SearchOrFilterMode = []) and
+         (ModifierKeys * [ssCtrl, ssAlt] = [ssCtrl, ssAlt]) and
+         (ModifierKeys - [ssCtrl, ssAlt, ssShift, ssCaps] = []))
+  {$ENDIF}
+      then
       begin
-        ShowAltPanel(UTF8Char);
-        Key := 0;
-        Exit;
+        UTF8Char := VirtualKeyToUTF8Char(Key, ModifierKeys - SearchOrFilterMode);
+        Result := UTF8Char <> '';
       end;
     end;
+  end;
+
+var
+  ModifierKeys: TShiftState;
+  ScreenPoint: TPoint;
+  UTF8Char: TUTF8Char;
+begin
+  ModifierKeys := GetKeyShiftStateEx;
+
+  if CheckSearchOrFilter(ModifierKeys, gQuickSearch, gQuickSearchMode, UTF8Char) then
+  begin
+    ShowSearchPanel(UTF8Char);
+    Key := 0;
+    Exit;
+  end;
+
+  if CheckSearchOrFilter(ModifierKeys, gQuickFilter, gQuickFilterMode, UTF8Char) then
+  begin
+    ShowFilterPanel(UTF8Char);
+    Key := 0;
+    Exit;
   end;
 
   case Key of
@@ -2347,6 +2446,29 @@ begin
   edtSearch.Left:=64;
   edtSearch.Top:=1;
 
+  // Create filter panel.
+  pnlFilter := TPanel.Create(Self);
+  pnlFilter.Parent := Self;
+  pnlFilter.Visible := False;
+  pnlFilter.Align := alBottom;
+  pnlFilter.AutoSize := True;
+  pnlFilter.Caption := rsQuickFilterPanel;
+  pnlFilter.Alignment := taLeftJustify;
+  pnlFilter.BevelWidth := 1;
+  pnlFilter.BevelInner := bvSpace;
+
+  edtFilter := TEdit.Create(pnlFilter);
+  edtFilter.Parent := pnlFilter;
+  edtFilter.TabStop := False;
+  edtfilter.BorderSpacing.Left := 64;
+  edtFilter.Align := alLeft;
+
+  btnCloseFilter := TButton.Create(pnlFilter);
+  btnCloseFilter.Parent := pnlFilter;
+  btnCloseFilter.Align := alRight;
+  btnCloseFilter.Caption := 'x';
+  btnCloseFilter.AutoSize := True;
+
   // ---
   dgPanel.OnUTF8KeyPress := @UTF8KeyPressEvent;
   dgPanel.OnMouseDown := @dgPanelMouseDown;
@@ -2369,11 +2491,17 @@ begin
   edtSearch.OnKeyDown := @edtSearchKeyDown;
   edtSearch.OnExit := @edtSearchExit;
 
+  edtFilter.OnChange := @edtFilterChange;
+  edtFilter.OnKeyDown := @edtFilterKeyDown;
+  edtFilter.OnExit := @edtFilterExit;
+
   edtPath.OnKeyDown := @edtPathKeyDown;
   edtPath.OnExit := @edtPathExit;
 
   edtRename.OnKeyDown := @edtRenameKeyDown;
   edtRename.OnExit := @edtRenameExit;
+
+  btnCloseFilter.OnClick := @btnCloseFilterClick;
 
   pnlHeader.OnResize := @pnlHeaderResize;
 
@@ -2528,6 +2656,8 @@ procedure TColumnsFileView.MakeDisplayFileList;
 var
   AFile: TColumnsViewFile;
   i: Integer;
+  invalidFilter: Boolean = False;
+  localFilter: String;
 begin
   FFiles.Clear;
 
@@ -2535,11 +2665,43 @@ begin
   begin
     Sort;
 
+    // Prepare filter string based on options.
+    if FileFilter <> EmptyStr then
+    begin
+      localFilter := FileFilter;
+      if not gQuickSearchMatchBeginning then
+        localFilter := '*' + localFilter;
+      if not gQuickSearchMatchEnding then
+        localFilter := localFilter + '*';
+    end;
+
     for i := 0 to FFileSourceFiles.Count - 1 do
     begin
       if gShowSystemFiles = False then
       begin
         if FFileSourceFiles[i].IsSysFile then Continue;
+      end;
+
+      // Filter files.
+      if (FileFilter <> EmptyStr) and (invalidFilter = False) then
+      begin
+        try
+          if (FFileSourceFiles[i].Name <> '..') and
+             (FFileSourceFiles[i].Name <> '.') and
+
+             // Don't filter directories.
+             not (FFileSourceFiles[i].IsDirectory or
+                  FFileSourceFiles[i].IsLinkToDirectory) and
+
+             not MatchesMask(UTF8LowerCase(FFileSourceFiles[i].Name),
+                             UTF8LowerCase(localFilter))
+          then
+            Continue;
+
+        except
+          on EConvertError do
+            invalidFilter := True;
+        end;
       end;
 
       AFile := TColumnsViewFile.Create(FFileSourceFiles[i]);
@@ -2670,6 +2832,28 @@ begin
 end;
 
 procedure TColumnsFileView.UTF8KeyPressEvent(Sender: TObject; var UTF8Key: TUTF8Char);
+
+
+  function CheckSearchOrFilter(ModifierKeys: TShiftState;
+                               SearchOrFilterEnabled: Boolean;
+                               SearchOrFilterMode: TShiftState): Boolean;
+  begin
+    if SearchOrFilterEnabled and (SearchOrFilterMode = []) and
+       // Check only ssCtrl and ssAlt.
+       (ModifierKeys * [ssCtrl, ssAlt] = SearchOrFilterMode) then
+      begin
+        // Make upper case if either caps-lock is toggled or shift pressed.
+        if (ssCaps in ModifierKeys) xor (ssShift in ModifierKeys) then
+          UTF8Key := UTF8UpperCase(UTF8Key)
+        else
+          UTF8Key := UTF8LowerCase(UTF8Key);
+
+        Result := True;
+      end
+    else
+      Result := False;
+  end;
+
 var
   ModifierKeys: TShiftState;
 begin
@@ -2681,19 +2865,16 @@ begin
 
   ModifierKeys := GetKeyShiftStateEx;
 
-  if gQuickSearch and (gQuickSearchMode = []) and
-     // Check only ssCtrl and ssAlt.
-     (ModifierKeys * [ssCtrl, ssAlt] = gQuickSearchMode) then
-    begin
-      // Make upper case if either caps-lock is toggled or shift pressed.
-      if (ssCaps in ModifierKeys) xor (ssShift in ModifierKeys) then
-        UTF8Key := UTF8UpperCase(UTF8Key)
-      else
-        UTF8Key := UTF8LowerCase(UTF8Key);
-
-      ShowAltPanel(UTF8Key);
-      UTF8Key:= '';
-    end;
+  if CheckSearchOrFilter(ModifierKeys, gQuickSearch, gQuickSearchMode) then
+  begin
+    ShowSearchPanel(UTF8Key);
+    UTF8Key := '';
+  end
+  else if CheckSearchOrFilter(ModifierKeys, gQuickFilter, gQuickFilterMode) then
+  begin
+    ShowFilterPanel(UTF8Key);
+    UTF8Key := '';
+  end
 end;
 
 procedure TColumnsFileView.DoDragDropOperation(Operation: TDragDropOperation;
@@ -2780,7 +2961,12 @@ end;
 
 procedure TColumnsFileView.cm_QuickSearch(param: string='');
 begin
-  ShowAltPanel;
+  ShowSearchPanel;
+end;
+
+procedure TColumnsFileView.cm_QuickFilter(param: string='');
+begin
+  ShowFilterPanel;
 end;
 
 procedure TColumnsFileView.cm_Open(param: string='');
