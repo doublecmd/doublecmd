@@ -129,6 +129,7 @@ resourcestring
   rsMsgLogExtract = 'Extract file %s';
 
   rsQuickSearchPanel = 'Find:';
+  rsQuickFilterPanel = 'Filter:';
   rsSavePosition = '&Save position';
   rsPositionSaved = 'Position saved.';
   // File operations dialog
@@ -226,7 +227,7 @@ resourcestring
   rsOptFolderTabs = 'Folder tabs';
   rsOptLog = 'Log';
   rsOptConfig = 'Configuration';
-  rsOptQuickSearch = 'Quick search';
+  rsOptQuickSearch = 'Quick search/filter';
   rsOptColumns = 'Columns';
   rsOptMiscellaneous = 'Miscellaneous';
   rsOptAutoRefresh = 'Auto refresh';

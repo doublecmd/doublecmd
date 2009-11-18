@@ -80,6 +80,7 @@ type
     actAddPathAndFilenameToCmdLine: TAction;
     actDriveContextMenu: TAction;
     actCopyNoAsk: TAction;
+    actQuickFilter: TAction;
     actRenameNoAsk: TAction;
     actSortByColumn: TAction;
     actPanelsSplitterPerPos: TAction;
@@ -1009,9 +1010,10 @@ begin
 
       ModifierKeys := GetKeyShiftStateEx;
 
-      if gQuickSearch and (gQuickSearchMode = []) and
+      if ((gQuickSearch and (gQuickSearchMode = [])) or
+          (gQuickFilter and (gQuickFilterMode = []))) and
          // Check only ssCtrl and ssAlt.
-         (ModifierKeys * [ssCtrl, ssAlt] = gQuickSearchMode) then
+         (ModifierKeys * [ssCtrl, ssAlt] = []) then
         begin
           // Let the panel receive this message.
         end

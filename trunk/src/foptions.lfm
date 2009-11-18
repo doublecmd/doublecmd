@@ -104,12 +104,13 @@ object frmOptions: TfrmOptions
       466F6C64657220746162730B0000000B000000FFFFFFFFFFFFFFFF0000000000
       00000000080000004C6F672066696C650C0000000C000000FFFFFFFFFFFFFFFF
       0000000000000000000D000000436F6E66696775726174696F6E0D0000000D00
-      0000FFFFFFFFFFFFFFFF0000000000000000000C000000517569636B20736561
-      7263680E0000000E000000FFFFFFFFFFFFFFFF00000000000000000007000000
-      436F6C756D6E730F0000000F00000000000000FFFFFFFF000000000000000000
-      0D0000004D697363656C6C616E656F7573100000001000000000000000FFFFFF
-      FF0000000000000000000C0000004175746F2072656672657368110000001100
-      000000000000FFFFFFFF0000000000000000000500000049636F6E73
+      0000FFFFFFFFFFFFFFFF00000000000000000013000000517569636B20736561
+      7263682F66696C7465720E0000000E000000FFFFFFFFFFFFFFFF000000000000
+      00000007000000436F6C756D6E730F0000000F00000000000000FFFFFFFF0000
+      000000000000000D0000004D697363656C6C616E656F75731000000010000000
+      00000000FFFFFFFF0000000000000000000C0000004175746F20726566726573
+      68110000001100000000000000FFFFFFFF000000000000000000050000004963
+      6F6E73
     }
   end
   object Panel3: TPanel
@@ -2643,93 +2644,202 @@ object frmOptions: TfrmOptions
         end
       end
       object pgQuickSearch: TPage
-        ClientWidth = 524
-        ClientHeight = 501
-        object gbQuickSearch: TGroupBox
-          Left = 10
-          Height = 154
-          Top = 4
-          Width = 500
-          Anchors = [akTop, akLeft, akRight]
-          Caption = 'Quick search (current dir)'
-          ClientHeight = 136
-          ClientWidth = 496
-          TabOrder = 0
-          object rbCtrlAltLetterQS: TRadioButton
-            Left = 10
-            Height = 17
-            Top = 6
-            Width = 91
-            Caption = '&Ctrl+Alt+Letters'
-            Checked = True
-            State = cbChecked
-            TabOrder = 0
-          end
-          object rbAltLetterQS: TRadioButton
-            AnchorSideTop.Control = rbCtrlAltLetterQS
-            AnchorSideTop.Side = asrBottom
-            Left = 10
-            Height = 17
-            Top = 29
-            Width = 70
-            BorderSpacing.Top = 6
-            Caption = 'Al&t+Letters'
-            TabOrder = 1
-            TabStop = False
-          end
-          object rbLetterQS: TRadioButton
-            AnchorSideTop.Control = rbAltLetterQS
-            AnchorSideTop.Side = asrBottom
-            Left = 10
-            Height = 17
-            Top = 52
-            Width = 69
-            BorderSpacing.Top = 6
-            Caption = 'L&etter only'
-            TabOrder = 2
-            TabStop = False
-          end
-          object rbNoneQS: TRadioButton
-            AnchorSideTop.Control = rbLetterQS
-            AnchorSideTop.Side = asrBottom
-            Left = 10
-            Height = 17
-            Top = 75
-            Width = 61
-            BorderSpacing.Top = 6
-            Caption = 'Di&sabled'
-            TabOrder = 3
-            TabStop = False
-          end
-        end
+        ClientWidth = 526
+        ClientHeight = 503
         object gbExactNameMatch: TGroupBox
-          AnchorSideTop.Control = gbQuickSearch
+          AnchorSideLeft.Control = grpQuickSearchFilterKeys
+          AnchorSideTop.Control = grpQuickSearchFilterKeys
           AnchorSideTop.Side = asrBottom
-          Left = 10
-          Height = 88
-          Top = 164
-          Width = 500
+          AnchorSideRight.Control = grpQuickSearchFilterKeys
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Side = asrBottom
+          Left = 6
+          Height = 72
+          Top = 152
+          Width = 514
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 6
-          Caption = 'Exact &name match:'
-          ClientHeight = 70
-          ClientWidth = 496
+          AutoSize = True
+          Caption = 'Exact name match:'
+          ChildSizing.TopBottomSpacing = 4
+          ChildSizing.VerticalSpacing = 4
+          ClientHeight = 54
+          ClientWidth = 510
           TabOrder = 1
           object cbExactBeginning: TCheckBox
+            AnchorSideLeft.Control = gbExactNameMatch
+            AnchorSideTop.Control = gbExactNameMatch
             Left = 10
-            Height = 17
+            Height = 21
             Top = 6
-            Width = 268
+            Width = 318
+            BorderSpacing.Left = 10
+            BorderSpacing.Top = 6
             Caption = '&Beginning (name must start with first typed character)'
             TabOrder = 0
           end
           object cbExactEnding: TCheckBox
+            AnchorSideLeft.Control = cbExactBeginning
+            AnchorSideTop.Control = cbExactBeginning
+            AnchorSideTop.Side = asrBottom
+            AnchorSideBottom.Control = gbExactNameMatch
+            AnchorSideBottom.Side = asrBottom
             Left = 10
             Height = 17
-            Top = 32
-            Width = 278
+            Top = 31
+            Width = 325
+            Anchors = [akTop, akLeft, akBottom]
+            BorderSpacing.Bottom = 6
             Caption = 'En&ding (last character before a typed dot . must match)'
             TabOrder = 1
+          end
+        end
+        object grpQuickSearchFilterKeys: TGroupBox
+          AnchorSideLeft.Control = pgQuickSearch
+          AnchorSideRight.Control = pgQuickSearch
+          AnchorSideRight.Side = asrBottom
+          Left = 6
+          Height = 148
+          Top = 4
+          Width = 514
+          Anchors = [akTop, akLeft, akRight]
+          AutoSize = True
+          BorderSpacing.Left = 6
+          BorderSpacing.Right = 6
+          Caption = 'Keys settings'
+          ChildSizing.LeftRightSpacing = 10
+          ChildSizing.TopBottomSpacing = 6
+          ChildSizing.HorizontalSpacing = 6
+          ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+          ChildSizing.EnlargeVertical = crsHomogenousSpaceResize
+          ChildSizing.ShrinkHorizontal = crsHomogenousSpaceResize
+          ChildSizing.ShrinkVertical = crsHomogenousSpaceResize
+          ChildSizing.Layout = cclTopToBottomThenLeftToRight
+          ClientHeight = 130
+          ClientWidth = 510
+          TabOrder = 0
+          object pnlQuickSearch: TPanel
+            Left = 10
+            Height = 118
+            Top = 6
+            Width = 266
+            BevelOuter = bvNone
+            ChildSizing.TopBottomSpacing = 4
+            ChildSizing.VerticalSpacing = 2
+            ChildSizing.ShrinkHorizontal = crsHomogenousSpaceResize
+            ChildSizing.Layout = cclLeftToRightThenTopToBottom
+            ClientHeight = 118
+            ClientWidth = 266
+            TabOrder = 0
+            object lblQuickSearch: TLabel
+              Left = 0
+              Height = 18
+              Top = 4
+              Width = 75
+              Caption = 'Quick &search:'
+              FocusControl = rbNoneQS
+              ParentColor = False
+            end
+            object rbCtrlAltLetterQS: TRadioButton
+              Left = 0
+              Height = 21
+              Top = 24
+              Width = 111
+              Caption = 'Ctrl+Alt+Letters'
+              Checked = True
+              OnChange = rbQuickSearchFilterKeyChange
+              State = cbChecked
+              TabOrder = 0
+            end
+            object rbAltLetterQS: TRadioButton
+              Left = 0
+              Height = 21
+              Top = 47
+              Width = 111
+              Caption = 'Alt+Letters'
+              OnChange = rbQuickSearchFilterKeyChange
+              TabOrder = 1
+              TabStop = False
+            end
+            object rbLetterQS: TRadioButton
+              Left = 0
+              Height = 21
+              Top = 70
+              Width = 111
+              Caption = 'Letter only'
+              OnChange = rbQuickSearchFilterKeyChange
+              TabOrder = 2
+              TabStop = False
+            end
+            object rbNoneQS: TRadioButton
+              Left = 0
+              Height = 21
+              Top = 93
+              Width = 111
+              Caption = 'Disabled'
+              OnChange = rbQuickSearchFilterKeyChange
+              TabOrder = 3
+              TabStop = False
+            end
+          end
+          object pnlQuickFilter: TPanel
+            Left = 282
+            Height = 118
+            Top = 6
+            Width = 218
+            BevelOuter = bvNone
+            ChildSizing.TopBottomSpacing = 4
+            ChildSizing.VerticalSpacing = 2
+            ChildSizing.ShrinkHorizontal = crsHomogenousSpaceResize
+            ChildSizing.Layout = cclLeftToRightThenTopToBottom
+            ClientHeight = 118
+            ClientWidth = 218
+            TabOrder = 1
+            object lblQuickFilter: TLabel
+              Left = 0
+              Height = 18
+              Top = 4
+              Width = 63
+              Caption = 'Quick &filter:'
+              FocusControl = rbNoneQF
+              ParentColor = False
+            end
+            object rbCtrlAltLetterQF: TRadioButton
+              Left = 0
+              Height = 21
+              Top = 24
+              Width = 63
+              Checked = True
+              OnChange = rbQuickSearchFilterKeyChange
+              State = cbChecked
+              TabOrder = 0
+            end
+            object rbAltLetterQF: TRadioButton
+              Left = 0
+              Height = 21
+              Top = 47
+              Width = 63
+              OnChange = rbQuickSearchFilterKeyChange
+              TabOrder = 1
+              TabStop = False
+            end
+            object rbLetterQF: TRadioButton
+              Left = 0
+              Height = 21
+              Top = 70
+              Width = 63
+              OnChange = rbQuickSearchFilterKeyChange
+              TabOrder = 2
+              TabStop = False
+            end
+            object rbNoneQF: TRadioButton
+              Left = 0
+              Height = 21
+              Top = 93
+              Width = 63
+              OnChange = rbQuickSearchFilterKeyChange
+              TabOrder = 3
+              TabStop = False
+            end
           end
         end
       end

@@ -157,6 +157,7 @@ const cf_Null=0;
    procedure cm_PackFiles(param: string='');
    procedure cm_ExtractFiles(param: string='');
    procedure cm_QuickSearch(param: string='');
+   procedure cm_QuickFilter(param: string='');
    procedure cm_RightOpenDrives(param: string='');
    procedure cm_ShowButtonMenu(param: string='');
    procedure cm_TransferLeft(param: string='');
@@ -981,6 +982,11 @@ end;
 procedure TActs.cm_QuickSearch(param:string);
 begin
   FrmMain.ActiveFrame.ExecuteCommand('cm_QuickSearch', param);
+end;
+
+procedure TActs.cm_QuickFilter(param: string='');
+begin
+  FrmMain.ActiveFrame.ExecuteCommand('cm_QuickFilter', param);
 end;
 
 procedure TActs.cm_RightOpenDrives(param:string);
