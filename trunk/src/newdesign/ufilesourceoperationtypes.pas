@@ -24,8 +24,6 @@ type
     fsoCalcChecksum,
     fsoCalcStatistics,  // Should probably always be supported if fsoList is supported.
     fsoSetFileProperty,
-    fsoSetDateTime,
-    fsoSetAttribute,
     fsoExecute
   );
 
