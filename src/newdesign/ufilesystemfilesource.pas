@@ -36,6 +36,8 @@ type
   public
     constructor Create; override;
 
+    class function GetFileSource: IFileSystemFileSource;
+
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function GetOperationsTypes: TFileSourceOperationTypes; override;
     function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
@@ -99,6 +101,17 @@ uses
 constructor TFileSystemFileSource.Create;
 begin
   inherited Create;
+end;
+
+class function TFileSystemFileSource.GetFileSource: IFileSystemFileSource;
+var
+  aFileSource: IFileSource;
+begin
+  aFileSource := FileSourceManager.Find(TFileSystemFileSource, '');
+  if not Assigned(aFileSource) then
+    Result := TFileSystemFileSource.Create
+  else
+    Result := aFileSource as IFileSystemFileSource;
 end;
 
 function TFileSystemFileSource.GetOperationsTypes: TFileSourceOperationTypes;
