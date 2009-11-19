@@ -457,7 +457,7 @@ begin
   if lsFoundedFiles.ItemIndex <> -1 then
   begin
     frmMain.ActiveFrame.CurrentPath := ExtractFilePath(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
-    //frmMain.ActiveFrame.Select(ExtractFileName(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]));
+    frmMain.ActiveFrame.SetActiveFile(ExtractFileName(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]));
     Close;
   end;
 end;
