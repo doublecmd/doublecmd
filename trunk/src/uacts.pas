@@ -28,7 +28,7 @@ unit uActs;
 interface
 
 uses
-  Classes, SysUtils, Dialogs, typinfo, ExtCtrls, StringHashList, ActnList,
+  Classes, SysUtils, Dialogs, StringHashList, ActnList,
   uFileView, uFileViewNotebook, uFileSourceOperation;
   
   
@@ -245,13 +245,12 @@ const cf_Null=0;
 
 implementation
 
-uses uLng,fMain,uGlobs,uFileList,uTypes,uShowMsg,uOSForms,Controls,
-     Clipbrd,uOSUtils,fPackDlg,strutils,
-     fFileOpDlg,forms,uShowForm,uDCUtils,uLog,
-     fMkDir,LCLProc,fFileAssoc,fExtractDlg,fAbout,
-     fOptions,fCompareFiles,fFindDlg,fSymLink,fHardLink,fMultiRename, uHash,
-     fLinker,fSplitter,uGlobsPaths, uClassesEx, fDescrEdit, fCheckSumVerify,
-     HelpIntfs, dmHelpManager, uShellExecute, uClipboard, fCheckSumCalc,
+uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager,
+     fMain, fPackDlg, fFileOpDlg, fMkDir, fFileAssoc, fExtractDlg, fAbout,
+     fOptions, fCompareFiles, fFindDlg, fSymLink, fHardLink, fMultiRename,
+     fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc,
+     uGlobs, uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uGlobsPaths,
+     uClassesEx, uShowForm, uShellExecute, uClipboard, uHash,
      uFilePanelSelect, uFile, uFileSystemFileSource,
      uOperationsManager, uFileSourceOperationTypes,
      uFileSystemDeleteOperation, uFileSourceExecuteOperation,
@@ -1854,44 +1853,53 @@ end;
 
 procedure TActs.cm_SymLink(param:string);
 var
-  sFile1, sFile2:String;
-  Result: Boolean;
+  sExistingFile, sLinkToCreate: String;
+  SelectedFiles: TFiles;
 begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_SymLink', param);
-{
-with frmMain do
-begin
-  Result := False;
-  try
-    with ActiveFrame do
+  with frmMain do
+  begin
+    // Symlinks work only for file system.
+    if not (ActiveFrame.FileSource.IsClass(TFileSystemFileSource)) then
     begin
-      if SelectFileIfNoSelected(GetActiveItem) = False then Exit; // through finally
-
-      sFile2 := pnlFile.GetActiveItem^.sName;
-      sFile1 := ActiveDir + sFile2;
-      if param <> '' then
-        sFile2 := param + sFile2
-      else
-        sFile2 := NotActiveFrame.CurrentPath + sFile2;
+      msgWarning(rsMsgErrNotSupported);
+      Exit;
+      // Or create a symlink in temp filesystem and CopyIn to target file source.
     end;
 
-    Result:= ShowSymLinkForm(sFile1, sFile2);
+    SelectedFiles := ActiveFrame.SelectedFiles;
+    try
+      if SelectedFiles.Count > 1 then
+        msgWarning(rsMsgTooManyFilesSelected)
+      else if SelectedFiles.Count = 0 then
+        msgWarning(rsMsgNoFilesSelected)
+      else
+      begin
+        sExistingFile := SelectedFiles[0].Path + SelectedFiles[0].Name;
 
-  finally
-    if Result then
-      begin
-        frameLeft.RefreshPanel;
-        frameRight.RefreshPanel;
-      end
-    else
-      begin
-        with ActiveFrame do
-          UnSelectFileIfSelected(GetActiveItem);
+        if param <> '' then
+          sLinkToCreate := param
+        else
+        begin
+          if NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
+            sLinkToCreate := NotActiveFrame.CurrentPath
+          else
+            sLinkToCreate := ActiveFrame.CurrentPath
+        end;
+
+        sLinkToCreate := sLinkToCreate + SelectedFiles[0].Name;
+
+        if ShowSymLinkForm(sExistingFile, sLinkToCreate, ActiveFrame.CurrentPath) then
+        begin
+          ActiveFrame.Reload;
+          if NotActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
+            NotActiveFrame.Reload;
+        end;
       end;
-    ActiveFrame.SetFocus;
+
+    finally
+      FreeAndNil(SelectedFiles);
+    end;
   end;
-end;
-}
 end;
 
 procedure TActs.cm_HardLink(param:string);
@@ -2180,58 +2188,8 @@ begin
 end;
 
 procedure TActs.cm_CountDirContent(param: string);
-var
-  I: Integer;
-  dstFileList: TFileList;
-  p: TFileRecItem;
-  LastSelection: String;
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_CountDirContent', param);
-{
-  with frmMain, ActiveFrame do
-  begin
-    if pnlFile.PanelMode <> pmDirectory then Exit;
-    Screen.Cursor:= crHourGlass;
-
-    if Assigned(pnlFile.GetActiveItem) then
-      LastSelection := pnlFile.GetActiveItem^.sName
-    else
-      LastSelection := '';
-
-    for I:= 0 to pnlFile.FileList.Count - 1 do
-      begin
-        p:= pnlFile.FileList.GetItem(I)^;
-        if (not FPS_ISDIR(p.iMode)) or (p.sName = '..') then Continue;
-        p.sNameNoExt:= p.sName;
-        p.sName:= ActiveDir + p.sNameNoExt;
-        p.sPath:= '';
-        //DebugLn(p.sName);
-        dstFileList:= TFileList.Create; // free at Thread end by thread
-        dstFileList.CurrentDirectory:= ActiveDir;
-        dstFileList.AddItem(@p);
-        Application.ProcessMessages;
-        with TSpaceThread.Create(dstFileList, False) do
-        begin
-          // start thread
-          Resume;
-          // wait while calculating
-          WaitFor;
-          // set up directory size
-          pnlFile.FileList.GetItem(I)^.iDirSize:= FilesSize;
-          // free space thread
-          Free;
-          // update panel
-          pnlFile.Select(LastSelection);
-          pnlFile.UpdatePanel;
-          RedrawGrid;
-       end; // with
-      end; // for
-
-    pnlFile.Select(LastSelection);
-
-  end; // with
-  Screen.Cursor:= crDefault;
-}
 end;
 
 procedure TActs.cm_FileProperties(param:string);
@@ -2284,7 +2242,6 @@ begin
     // For now only works for FileSystem.
     if FileSource.IsClass(TFileSystemFileSource) then
     begin
-      //if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
       sl:= TStringList.Create;
       try
         Result:= False;
@@ -2307,12 +2264,6 @@ begin
             ActiveFrame.Reload;
             NotActiveFrame.Reload;
           end;
-        {
-        else
-          begin
-            UnSelectFileIfSelected(GetActiveItem);
-          end;
-        }
         ActiveFrame.SetFocus;
       end; // try
     end; // if
@@ -2332,7 +2283,6 @@ begin
     // For now only works for FileSystem.
     if FileSource.IsClass(TFileSystemFileSource) then
     begin
-      //if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
       sl:= TStringList.Create;
       try
         Result:= False;
@@ -2355,12 +2305,6 @@ begin
             ActiveFrame.Reload;
             NotActiveFrame.Reload;
           end;
-         {
-         else
-          begin
-            UnSelectFileIfSelected(GetActiveItem);
-          end;
-        }
         ActiveFrame.SetFocus;
       end; // try
     end; // if
