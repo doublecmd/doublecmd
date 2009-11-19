@@ -157,7 +157,6 @@ type
     FActive: Boolean;           //<en Is this view active
     FLastActive: String;        //<en Last active file
     FLastMark: String;
-    FLastAutoSelect: Boolean;
     FLastSelectionStartRow: Integer;
     fSearchDirect,
     fNext,
@@ -331,17 +330,14 @@ type
     procedure cdUpLevel;
     procedure cdDownLevel(AFile: TFile);
 
-    { Returns True if at least one file is/was selected. }
-    function  SelectFileIfNoSelected(AFile: TColumnsViewFile):Boolean;
-    procedure UnSelectFileIfSelected(AFile: TColumnsViewFile);
-
     procedure SelectFile(AFile: TColumnsViewFile);
     procedure MakeVisible(iRow:Integer);
     procedure MakeSelectedVisible;
+
     {en
        Moves the selection focus to the file specified by FileName.
     }
-    procedure Select(const FileName: String);
+    procedure SetActiveFile(const aFileName: String); override;
 
     procedure InvertAll;
     procedure MarkAll;
@@ -569,7 +565,7 @@ begin
     if sUpLevel <> EmptyStr then
     begin
       CurrentPath := sUpLevel;
-      Select(PreviousSubDirectory);
+      SetActiveFile(PreviousSubDirectory);
     end;
   end;
 end;
@@ -597,41 +593,6 @@ var
 begin
   for i := 0 to FFiles.Count - 1 do
     MarkFile(FFiles[i], bMarked);
-end;
-
-function TColumnsFileView.SelectFileIfNoSelected(AFile: TColumnsViewFile):Boolean;
-var
-  i: Integer;
-begin
-  FLastAutoSelect := False;
-  for i := 0 to FFiles.Count-1 do
-  begin
-    if FFiles[i].Selected then
-    begin
-      Result := True;
-      Exit;
-    end;
-  end;
-
-  if IsItemValid(AFile) then
-  begin
-    InvertFileSelection(AFile);
-    UpDatelblInfo;
-    FLastAutoSelect:= True;
-    Result := True;
-  end
-  else
-    Result := False;
-end;
-
-procedure TColumnsFileView.UnSelectFileIfSelected(AFile: TColumnsViewFile);
-begin
-  if FLastAutoSelect and Assigned(AFile) and (AFile.Selected) then
-    begin
-      InvertFileSelection(AFile);
-      UpDatelblInfo;
-    end;
-  FLastAutoSelect:= False;
 end;
 
 procedure TColumnsFileView.InvertFileSelection(AFile: TColumnsViewFile);
@@ -664,7 +625,7 @@ begin
     LastSelection := '';
 
   RefreshCount(bUpdateFileCount, bUpdateDiskFreeSpace);
-  Select(LastSelection);
+  SetActiveFile(LastSelection);
 
   UpDatelblInfo;
 end;
@@ -697,7 +658,7 @@ begin
 
     fileNamesList := TStringList.Create;
     try
-      if SelectFileIfNoSelected(draggedFileItem) = True then
+      if IsItemValid(draggedFileItem) = True then
       begin
         for i := 0 to FFiles.Count-1 do
         begin
@@ -1890,18 +1851,18 @@ begin
     MakeVisible(dgPanel.Row);
 end;
 
-procedure TColumnsFileView.Select(const FileName: String);
+procedure TColumnsFileView.SetActiveFile(const aFileName: String);
 var
   i: Integer;
 begin
   LastActive := '';
-  if FileName <> '' then // find correct cursor position in Panel (drawgrid)
+  if aFileName <> '' then // find correct cursor position in Panel (drawgrid)
   begin
     for i := 0 to FFiles.Count - 1 do
-      if FFiles[i].TheFile.Name = FileName then
+      if FFiles[i].TheFile.Name = aFileName then
       begin
         dgPanel.Row := i + dgPanel.FixedRows;
-        LastActive := FileName;
+        LastActive := aFileName;
         Break;
       end;
   end;
@@ -2371,7 +2332,6 @@ begin
   isSlave := False;
   FLastSelectionStartRow := -1;
   FLastMark := '*';
-  FLastAutoSelect := False;
   FLastActive := '';
   FActive := False;
 
@@ -2557,7 +2517,6 @@ begin
 
       FLastActive := Self.FLastActive;
       FLastMark := Self.FLastMark;
-      FLastAutoSelect := Self.FLastAutoSelect;
       FLastSelectionStartRow := Self.FLastSelectionStartRow;
 
       {
@@ -2583,7 +2542,7 @@ begin
       dgPanel.RowCount := FFiles.Count
                         + dgPanel.FixedRows; // header rows
 
-      Select(FLastActive);
+      SetActiveFile(FLastActive);
       UpDatelblInfo;
       UpdateView;
     end;
@@ -2616,7 +2575,7 @@ begin
   if Assigned(OnChangeFileSource) then
     OnChangeFileSource(Parent as TCustomPage);
 
-  Select(FocusedFile);
+  SetActiveFile(FocusedFile);
 
   UpdateAddressLabel;
 end;
@@ -2731,7 +2690,7 @@ begin
   MakeDisplayFileList;
 
   if LastActive <> '' then
-    Select(LastActive);
+    SetActiveFile(LastActive);
 
   RedrawGrid;
 end;

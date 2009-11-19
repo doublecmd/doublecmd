@@ -55,6 +55,14 @@ type
     function GetCurrentPath: String; virtual;
     procedure SetCurrentPath(NewPath: String); virtual;
     function GetActiveFile: TFile; virtual;
+    {en
+       This function should set active file by reference of TFile
+       or at least by all the properties of the given TFile,
+       in case the object is a clone.
+       It could be useful in case there are multiple files with the
+       same name in the panel and SetActiveFile(String) is not enough.
+    }
+    procedure SetActiveFile(const aFile: TFile); virtual; overload;
     function GetDisplayedFiles: TFiles; virtual abstract;
     function GetSelectedFiles: TFiles; virtual abstract;
 
@@ -85,6 +93,8 @@ type
     procedure SaveConfiguration(Section: String; TabIndex: Integer); virtual abstract;
 
     procedure UpdateView; virtual abstract;
+
+    procedure SetActiveFile(const aFileName: String); virtual; overload;
 
     procedure ExecuteCommand(CommandName: String; Parameter: String = ''); virtual;
 
@@ -117,7 +127,7 @@ type
        return 'nil' if there is no file active. Usually it is the file pointed
        to by a cursor or some other indicator.
     }
-    property ActiveFile: TFile read GetActiveFile;
+    property ActiveFile: TFile read GetActiveFile write SetActiveFile;
     {en
        A list of currently displayed files.
        Caller is responsible for freeing the list.
@@ -255,6 +265,14 @@ end;
 function TFileView.GetActiveFile: TFile;
 begin
   Result := nil;
+end;
+
+procedure TFileView.SetActiveFile(const aFile: TFile);
+begin
+end;
+
+procedure TFileView.SetActiveFile(const aFileName: String);
+begin
 end;
 
 procedure TFileView.ExecuteCommand(CommandName: String; Parameter: String);

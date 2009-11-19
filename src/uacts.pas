@@ -1362,8 +1362,9 @@ begin
         Operation.AddUserInterface(UI);
         Operation.Execute;
         ActiveFrame.Reload;
-        //sPath := ExtractFileName(ExcludeTrailingPathDelimiter(sPath));
-        //ActiveFrame.Select(sPath);
+
+        sPath := ExtractFileName(ExcludeTrailingPathDelimiter(sPath));
+        ActiveFrame.SetActiveFile(sPath);
       finally
         FreeAndNil(Operation);
         FreeAndNil(UI);
