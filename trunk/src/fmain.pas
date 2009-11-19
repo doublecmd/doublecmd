@@ -727,7 +727,6 @@ procedure TfrmMain.PanelButtonClick(Button: TSpeedButton; SourceFrame: TFileView
                                     PanelSelect: TFilePanelSelect);
 var
   i: Integer;
-  aFileSource: IFileSource;
 begin
   with SourceFrame do
   begin
@@ -748,13 +747,11 @@ begin
         else
           RemoveLastFileSource;
       end;
+
       if FileSourcesCount = 0 then
       begin
-        // If not found, create a new filesystem file source.
-        aFileSource := FileSourceManager.Find(TFileSystemFileSource, '');
-        if not Assigned(aFileSource) then
-          aFileSource := TFileSystemFileSource.Create;
-        AddFileSource(aFileSource, GetHomeDir);
+        // If not found, get a new filesystem file source.
+        AddFileSource(TFileSystemFileSource.GetFileSource, GetHomeDir);
       end;
     end;
   end;
@@ -909,7 +906,6 @@ procedure TfrmMain.DoDragDropOperation(Operation: TDragDropOperation;
                                        var DropParams: TDropParams);
 var
   SourceFileName, TargetFileName: string;
-  SourceFileSource: IFileSource;
 begin
   try
     with DropParams do
@@ -926,11 +922,7 @@ begin
           end
           else
           begin
-            SourceFileSource := FileSourceManager.Find(TFileSystemFileSource, '');
-            if not Assigned(SourceFileSource) then
-              SourceFileSource := TFileSystemFileSource.Create;
-
-            Self.MoveFiles(SourceFileSource,
+            Self.MoveFiles(TFileSystemFileSource.GetFileSource,
                            TargetPanel.FileSource,
                            Files, TargetPath,
                            gShowDialogOnDragDrop);
@@ -946,11 +938,7 @@ begin
           end
           else
           begin
-            SourceFileSource := FileSourceManager.Find(TFileSystemFileSource, '');
-            if not Assigned(SourceFileSource) then
-              SourceFileSource := TFileSystemFileSource.Create;
-
-            Self.CopyFiles(SourceFileSource,
+            Self.CopyFiles(TFileSystemFileSource.GetFileSource,
                            TargetPanel.FileSource,
                            Files, TargetPath,
                            gShowDialogOnDragDrop);
@@ -2630,9 +2618,7 @@ begin
 
       Page := ANoteBook.AddPage(sCaption);
 
-      aFileSource := FileSourceManager.Find(TFileSystemFileSource, '');
-      if not Assigned(aFileSource) then
-        aFileSource := TFileSystemFileSource.Create;
+      aFileSource := TFileSystemFileSource.GetFileSource;
 
       if not Assigned(CreateFileView('columns', aFileSource, sPath, Page)) then
       begin

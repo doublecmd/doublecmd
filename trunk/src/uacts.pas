@@ -2473,7 +2473,7 @@ begin
 
         uClipboard.ClipboardCut:
         begin
-          SourceFileSource := TFileSystemFileSource.Create;
+          SourceFileSource := TFileSystemFileSource.GetFileSource;
 
           if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
           begin
@@ -2512,9 +2512,7 @@ begin
             Exit;
           end;
 
-          SourceFileSource := FileSourceManager.Find(TFileSystemFileSource, '');
-          if not Assigned(SourceFileSource) then
-            SourceFileSource := TFileSystemFileSource.Create;
+          SourceFileSource := TFileSystemFileSource.GetFileSource;
 
           if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
           begin
