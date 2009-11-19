@@ -5,7 +5,7 @@ unit uWcxArchiveFileSource;
 interface
 
 uses
-  Classes, SysUtils, contnrs, Dialogs, StringHashList, uOSUtils,
+  Classes, SysUtils, contnrs, syncobjs, StringHashList, uOSUtils,
   WcxPlugin, uWCXmodule, uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uArchiveFileSource, uFileProperty, uFileSource, uFileSourceOperation;
 
@@ -47,11 +47,24 @@ type
     procedure SetPluginFlags(NewPluginFlags: PtrInt);
     function GetWcxModule: TWcxModule;
 
+    function CreateConnection: TFileSourceConnection;
+
+    procedure AddToConnectionQueue(Operation: TFileSourceOperation);
+    procedure RemoveFromConnectionQueue(Operation: TFileSourceOperation);
+    procedure AddConnection(Connection: TFileSourceConnection);
+    procedure RemoveConnection(Connection: TFileSourceConnection);
+
+    {en
+       Searches connections list for a connection assigned to operation.
+    }
+    function FindConnectionByOperation(operation: TFileSourceOperation): TFileSourceConnection; virtual;
+
     procedure NotifyNextWaitingOperation(allowedOps: TFileSourceOperationTypes);
 
+    procedure ClearCurrentOperation(Operation: TFileSourceOperation);
+
   protected
-    function CreateConnection: TFileSourceConnection; override;
-    procedure FinishedUsingConnection(connection: TFileSourceConnection); override;
+    procedure OperationFinished(Operation: TFileSourceOperation); override;
 
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
@@ -84,6 +97,7 @@ type
     class function CreateByArchiveName(anArchiveFileName: String): IWcxArchiveFileSource;
 
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection; override;
+    procedure RemoveOperationFromQueue(Operation: TFileSourceOperation); override;
 
     property ArchiveFileList: TObjectList read FArcFileList;
     property PluginFlags: PtrInt read FPluginFlags write FPluginFlags;
@@ -106,18 +120,25 @@ type
 
 implementation
 
-uses Forms, Controls, uGlobs, LCLProc, uDCUtils,
-     FileUtil, uWcxArchiveFile,
-     uWcxArchiveListOperation,
-     uWcxArchiveCopyInOperation,
-     uWcxArchiveCopyOutOperation,
-     uWcxArchiveDeleteOperation;
+uses
+  uGlobs, LCLProc, uDCUtils,
+  FileUtil, uWcxArchiveFile,
+  uWcxArchiveListOperation,
+  uWcxArchiveCopyInOperation,
+  uWcxArchiveCopyOutOperation,
+  uWcxArchiveDeleteOperation;
 
 const
   connCopyIn  = 0;
   connCopyOut = 1;
-  connMove    = 2;
-  connDelete  = 3;
+  connDelete  = 2;
+
+var
+  // Always use appropriate lock to access these lists.
+  WcxConnections: TObjectList; // store connections created by Wcx file sources
+  WcxOperationsQueue: TObjectList; // store queued operations, use only under FOperationsQueueLock
+  WcxConnectionsLock: TCriticalSection; // used to synchronize access to connections
+  WcxOperationsQueueLock: TCriticalSection; // used to synchronize access to operations queue
 
 class function TWcxArchiveFileSource.CreateByArchiveName(anArchiveFileName: String): IWcxArchiveFileSource;
 var
@@ -166,11 +187,18 @@ begin
 
   ReadArchive;
 
-  // Reserve some connections.
-  FConnections.Add(CreateConnection); // connCopyIn
-  FConnections.Add(CreateConnection); // connCopyOut
-  FConnections.Add(CreateConnection); // connMove
-  FConnections.Add(CreateConnection); // connDelete
+  WcxConnectionsLock.Acquire;
+  try
+    if WcxConnections.Count = 0 then
+    begin
+      // Reserve some connections (only once).
+      WcxConnections.Add(CreateConnection); // connCopyIn
+      WcxConnections.Add(CreateConnection); // connCopyOut
+      WcxConnections.Add(CreateConnection); // connDelete
+    end;
+  finally
+    WcxConnectionsLock.Release;
+  end;
 end;
 
 destructor TWcxArchiveFileSource.Destroy;
@@ -362,9 +390,8 @@ begin
       Exit;
     end;
 
-//  WCXModule := Self;  // set WCXModule variable to current module
-{  SetChangeVolProc(ArcHandle, ChangeVolProc);
-  SetProcessDataProc(ArcHandle, ProcessDataProc);}
+  WcxModule.SetChangeVolProc(ArcHandle, nil {ChangeVolProc});
+  WcxModule.SetProcessDataProc(ArcHandle, nil {ProcessDataProc});
 
   DebugLN('Get File List');
   (*Get File List*)
@@ -434,25 +461,82 @@ begin
   Result := True;
 end;
 
+procedure TWcxArchiveFileSource.AddToConnectionQueue(Operation: TFileSourceOperation);
+begin
+  WcxOperationsQueueLock.Acquire;
+  try
+    if WcxOperationsQueue.IndexOf(Operation) < 0 then
+      WcxOperationsQueue.Add(Operation);
+  finally
+    WcxOperationsQueueLock.Release;
+  end;
+end;
+
+procedure TWcxArchiveFileSource.RemoveFromConnectionQueue(Operation: TFileSourceOperation);
+begin
+  WcxOperationsQueueLock.Acquire;
+  try
+    WcxOperationsQueue.Remove(Operation);
+  finally
+    WcxOperationsQueueLock.Release;
+  end;
+end;
+
+procedure TWcxArchiveFileSource.AddConnection(Connection: TFileSourceConnection);
+begin
+  WcxConnectionsLock.Acquire;
+  try
+    if WcxConnections.IndexOf(Connection) < 0 then
+      WcxConnections.Add(Connection);
+  finally
+    WcxConnectionsLock.Release;
+  end;
+end;
+
+procedure TWcxArchiveFileSource.RemoveConnection(Connection: TFileSourceConnection);
+begin
+  WcxConnectionsLock.Acquire;
+  try
+    WcxConnections.Remove(Connection);
+  finally
+    WcxConnectionsLock.Release;
+  end;
+end;
+
 function TWcxArchiveFileSource.GetConnection(Operation: TFileSourceOperation): TFileSourceConnection;
 begin
   Result := nil;
   case Operation.ID of
     fsoCopyIn:
-      Result := TryAcquireConnection(FConnections[connCopyIn] as TFileSourceConnection, Operation);
+      Result := WcxConnections[connCopyIn] as TFileSourceConnection;
     fsoCopyOut:
-      Result := TryAcquireConnection(FConnections[connCopyOut] as TFileSourceConnection, Operation);
-    fsoMove:
-      Result := TryAcquireConnection(FConnections[connMove] as TFileSourceConnection, Operation);
+      Result := WcxConnections[connCopyOut] as TFileSourceConnection;
     fsoDelete:
-      Result := TryAcquireConnection(FConnections[connDelete] as TFileSourceConnection, Operation);
+      Result := WcxConnections[connDelete] as TFileSourceConnection;
     else
-      Result := GetNewConnection(Operation);
+      begin
+        Result := CreateConnection;
+        if Assigned(Result) then
+          AddConnection(Result);
+      end;
   end;
+
+  if Assigned(Result) then
+    Result := TryAcquireConnection(Result, Operation);
 
   // No available connection - wait.
   if not Assigned(Result) then
-    AddToConnectionQueue(operation);
+    AddToConnectionQueue(Operation)
+  else
+    // Connection acquired.
+    // The operation may have been waiting in the queue
+    // for the connection, so remove it from the queue.
+    RemoveFromConnectionQueue(Operation);
+end;
+
+procedure TWcxArchiveFileSource.RemoveOperationFromQueue(Operation: TFileSourceOperation);
+begin
+  RemoveFromConnectionQueue(Operation);
 end;
 
 function TWcxArchiveFileSource.CreateConnection: TFileSourceConnection;
@@ -460,28 +544,55 @@ begin
   Result := TWcxArchiveFileSourceConnection.Create(FWcxModule);
 end;
 
-procedure TWcxArchiveFileSource.FinishedUsingConnection(connection: TFileSourceConnection);
+function TWcxArchiveFileSource.FindConnectionByOperation(operation: TFileSourceOperation): TFileSourceConnection;
+var
+  i: Integer;
+  connection: TFileSourceConnection;
 begin
-  FConnectionsLock.Acquire;
+  Result := nil;
+  WcxConnectionsLock.Acquire;
   try
-    // If there are operations waiting, take the first one and notify
-    // that a connection is available.
-    // Only check operations for which there are reserved connections.
-    if connection = FConnections[connCopyIn] then
-      NotifyNextWaitingOperation([fsoCopyIn])
-    else if connection = FConnections[connCopyOut] then
-      NotifyNextWaitingOperation([fsoCopyOut])
-    else if connection = FConnections[connMove] then
-      NotifyNextWaitingOperation([fsoMove])
-    else if connection = FConnections[connDelete] then
-      NotifyNextWaitingOperation([fsoDelete])
-    else
+    for i := 0 to WcxConnections.Count - 1 do
     begin
-      RemoveConnection(connection);
+      connection := WcxConnections[i] as TFileSourceConnection;
+      if connection.AssignedOperation = operation then
+        Exit(connection);
     end;
-
   finally
-    FConnectionsLock.Release;
+    WcxConnectionsLock.Release;
+  end;
+end;
+
+procedure TWcxArchiveFileSource.OperationFinished(Operation: TFileSourceOperation);
+var
+  allowedIDs: TFileSourceOperationTypes = [];
+  connection: TFileSourceConnection;
+begin
+  ClearCurrentOperation(Operation);
+
+  connection := FindConnectionByOperation(Operation);
+  if Assigned(connection) then
+  begin
+    connection.Release; // unassign operation
+
+    WcxConnectionsLock.Acquire;
+    try
+      // If there are operations waiting, take the first one and notify
+      // that a connection is available.
+      // Only check operation types for which there are reserved connections.
+      if Operation.ID in [fsoCopyIn, fsoCopyOut, fsoDelete] then
+      begin
+        Include(allowedIDs, Operation.ID);
+        NotifyNextWaitingOperation(allowedIDs);
+      end
+      else
+      begin
+        WcxConnections.Remove(connection);
+      end;
+
+    finally
+      WcxConnectionsLock.Release;
+    end;
   end;
 end;
 
@@ -490,11 +601,11 @@ var
   i: Integer;
   operation: TFileSourceOperation;
 begin
-  FOperationsQueueLock.Acquire;
+  WcxOperationsQueueLock.Acquire;
   try
-    for i := 0 to FOperationsQueue.Count - 1 do
+    for i := 0 to WcxOperationsQueue.Count - 1 do
     begin
-      operation := FOperationsQueue.Items[i] as TFileSourceOperation;
+      operation := WcxOperationsQueue.Items[i] as TFileSourceOperation;
       if (operation.State = fsosWaitingForConnection) and
          (operation.ID in allowedOps) then
       begin
@@ -502,9 +613,20 @@ begin
         Exit;
       end;
     end;
-
   finally
-    FOperationsQueueLock.Release;
+    WcxOperationsQueueLock.Release;
+  end;
+end;
+
+procedure TWcxArchiveFileSource.ClearCurrentOperation(Operation: TFileSourceOperation);
+begin
+  case Operation.ID of
+    fsoCopyIn:
+      TWcxArchiveCopyInOperation.ClearCurrentOperation;
+    fsoCopyOut:
+      TWcxArchiveCopyOutOperation.ClearCurrentOperation;
+    fsoDelete:
+      TWcxArchiveDeleteOperation.ClearCurrentOperation;
   end;
 end;
 
@@ -515,6 +637,18 @@ begin
   FWcxModule := aWcxModule;
   inherited Create;
 end;
+
+initialization
+  WcxConnections := TObjectList.Create(True); // True = destroy objects when destroying list
+  WcxConnectionsLock := TCriticalSection.Create;
+  WcxOperationsQueue := TObjectList.Create(False); // False = don't destroy operations (only store references)
+  WcxOperationsQueueLock := TCriticalSection.Create;
+
+finalization
+  FreeThenNil(WcxConnections);
+  FreeThenNil(WcxConnectionsLock);
+  FreeThenNil(WcxOperationsQueue);
+  FreeThenNil(WcxOperationsQueueLock);
 
 end.
 
