@@ -4,18 +4,17 @@ interface
 
 uses
   LResources,
-  SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons;
+  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons;
 
 type
 
   { TfrmSymLink }
 
   TfrmSymLink = class(TForm)
-    lblNew: TLabel;
-    lblDst: TLabel;
-    edtNew: TEdit;
-    edtDst: TEdit;
+    lblExistingFile: TLabel;
+    lblLinkToCreate: TLabel;
+    edtExistingFile: TEdit;
+    edtLinkToCreate: TEdit;
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
     procedure btnCancelMouseDown(Sender: TObject; Button: TMouseButton;
@@ -23,26 +22,30 @@ type
     procedure btnOKClick(Sender: TObject);
     procedure btnOKMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure FormShow(Sender: TObject);
+
   private
-    { Private declarations }
+    FCurrentPath: String;
+
   public
-    { Public declarations }
+    constructor Create(TheOwner: TComponent;
+                       CurrentPath: String); reintroduce;
   end;
 
-function ShowSymLinkForm(const sNew, sDst:String): Boolean;
+function ShowSymLinkForm(const sExistingFile, sLinkToCreate, CurrentPath: String): Boolean;
 
 implementation
 
 uses
-  FileUtil, uLng, uGlobs, uLog, uShowMsg, uOSUtils;
+  FileUtil, uLng, uGlobs, uLog, uShowMsg, uOSUtils, uDCUtils;
 
-function ShowSymLinkForm(const sNew, sDst:String): Boolean;
+function ShowSymLinkForm(const sExistingFile, sLinkToCreate, CurrentPath: String): Boolean;
 begin
-  with TfrmSymLink.Create(Application) do
+  with TfrmSymLink.Create(Application, CurrentPath) do
   begin
     try
-      edtDst.Text:=sDst;
-      edtNew.Text:=sNew;
+      edtLinkToCreate.Text := sLinkToCreate;
+      edtExistingFile.Text := sExistingFile;
       Result:= (ShowModal = mrOK);
     finally
       Free;
@@ -50,14 +53,28 @@ begin
   end;
 end;
 
+constructor TfrmSymLink.Create(TheOwner: TComponent;
+                               CurrentPath: String);
+begin
+  inherited Create(TheOwner);
+  FCurrentPath := CurrentPath;
+end;
+
 procedure TfrmSymLink.btnOKClick(Sender: TObject);
 var
   sSrc,sDst:String;
 begin
   inherited;
-  sSrc:=edtNew.Text;
-  sDst:=edtDst.Text;
+  sSrc:=edtExistingFile.Text;
+  sDst:=edtLinkToCreate.Text;
+
   if CompareFilenames(sSrc, sDst) = 0 then Exit;
+
+  if GetPathType(sSrc) <> ptAbsolute then
+    sSrc := FCurrentPath + sSrc;
+  if GetPathType(sDst) <> ptAbsolute then
+    sDst := FCurrentPath + sDst;
+
   if CreateSymLink(sSrc, sDst) then
     begin
       // write log
@@ -86,6 +103,11 @@ procedure TfrmSymLink.btnOKMouseDown(Sender: TObject; Button: TMouseButton;
 begin
   ModalResult := btnOK.ModalResult;
   btnOKClick(Sender);
+end;
+
+procedure TfrmSymLink.FormShow(Sender: TObject);
+begin
+  edtLinkToCreate.SelectAll;
 end;
 
 initialization

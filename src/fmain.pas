@@ -957,7 +957,7 @@ begin
               TargetFileName := TargetPath + ExtractFileName(SourceFileName);
 
               if ((Operation = ddoSymLink) and
-                 ShowSymLinkForm(SourceFileName, TargetFileName))
+                 ShowSymLinkForm(SourceFileName, TargetFileName, TargetPath))
               or ((Operation = ddoHardLink) and
                  ShowHardLinkForm(SourceFileName, TargetFileName, TargetPath))
               then

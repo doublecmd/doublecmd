@@ -4,8 +4,7 @@ interface
 
 uses
   LResources,
-  SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons;
+  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons;
 
 type
 
@@ -36,7 +35,6 @@ type
 function ShowHardLinkForm(const sExistingFile, sLinkToCreate, CurrentPath: String): Boolean;
 
 implementation
-
 
 uses
   FileUtil, uLng, uGlobs, uLog, uShowMsg, uOSUtils, uDCUtils;
