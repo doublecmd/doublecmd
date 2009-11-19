@@ -28,15 +28,15 @@ unit fExtractDlg;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  EditBtn;
+  Classes, SysUtils, LResources, Forms, Controls, StdCtrls, EditBtn,
+  uFile, uFileSource;
 
 type
 
-{ TfrmExtractDlg }
+  { TfrmExtractDlg }
 
-TfrmExtractDlg = class(TForm)
-  edtExtractTo: TDirectoryEdit;
+  TfrmExtractDlg = class(TForm)
+    edtExtractTo: TDirectoryEdit;
     lblExtractTo : TLabel;
     lblFileMask : TLabel;
     cbFileMask : TComboBox;
@@ -52,79 +52,164 @@ TfrmExtractDlg = class(TForm)
     { public declarations }
   end; 
 
-// Frees fl.
-//function  ShowExtractDlg(ActiveFrame:TFrameFilePanel; var fl : TFileList; sDestPath:String): Boolean;
+// Frees 'SourceFiles'.
+procedure ShowExtractDlg(SourceFileSource: IFileSource;
+                         var SourceFiles: TFiles;
+                         TargetFileSource: IFileSource;
+                         sDestPath: String);
 
 implementation
 
 uses
-  uGlobs, uDCUtils;
+  uGlobs, uDCUtils, uShowMsg, uLng,
+  uArchiveFileSource,
+  uFileSourceOperation,
+  uFileSystemFileSource,
+  uWcxArchiveFileSource,
+  uFileSourceOperationTypes,
+  uOperationsManager,
+  fFileOpDlg;
   
-{
-var
-  CurrentVFS : TVFS;
-}
-
-{
-function ShowExtractDlg(ActiveFrame:TFrameFilePanel; var fl: TFileList; sDestPath: String): Boolean;
+procedure ShowExtractDlg(SourceFileSource: IFileSource;
+                         var SourceFiles: TFiles;
+                         TargetFileSource: IFileSource;
+                         sDestPath: String);
 var
   I : Integer;
-  ExtractFileList : TFileList;
+  FilesToExtract: TFiles;
+  Operation: TFileSourceOperation;
+  OperationHandle: TOperationHandle;
+  ProgressDialog: TfrmFileOp;
+  ArchiveFileSource: IArchiveFileSource;
+  extractDialog: TfrmExtractDlg;
+  Result: Boolean;
+  sTmpPath: String;
 begin
-  with TfrmExtractDlg.Create(nil) do
-    begin
-      edtExtractTo.Text := sDestPath;
-      CurrentVFS := ActiveFrame.pnlFile.VFS;
+  if not TargetFileSource.IsClass(TFileSystemFileSource) then
+  begin
+    msgWarning(rsMsgErrNotSupported);
+    Exit;
+  end;
 
-      if ActiveFrame.pnlFile.PanelMode = pmArchive then
-        cbInSeparateFolder.Visible := False;
-      cbFileMask.Items.Assign(glsMaskHistory);
-      
-      Result:= (ShowModal = mrOK);
-      if Result then
-        begin
-          if glsMaskHistory.IndexOf(cbFileMask.Text) < 0 then
-            glsMaskHistory.Add(cbFileMask.Text);
-          sDestPath := IncludeTrailingPathDelimiter(edtExtractTo.Text) + cbFileMask.Text;
+  extractDialog := TfrmExtractDlg.Create(nil);
+  if Assigned(extractDialog) then
+  try
+    with extractDialog do
+      begin
+        edtExtractTo.Text := sDestPath;
 
-          // if in archive
-          if ActiveFrame.pnlFile.PanelMode = pmArchive then
-            begin
-              if CurrentVFS.FindModule(CurrentVFS.ArcFullName) then
-              begin
-                CurrentVFS.VFSmodule.VFSCopyOutEx(fl, sDestPath, 0);
-                fl := nil; // VFSCopyOutEx handles freeing it
-              end;
-            end
-          else
-          // if in real directory
-          if ActiveFrame.pnlFile.PanelMode = pmDirectory then
+        if SourceFileSource.IsClass(TArchiveFileSource) then
+          cbInSeparateFolder.Visible := False;
+        cbFileMask.Items.Assign(glsMaskHistory);
+
+        Result:= (ShowModal = mrOK);
+
+        if Result then
           begin
-            for I := 0 to fl.Count - 1 do // extract all selected archives
-              if CurrentVFS.FindModule(fl.GetFileName(I)) then
+            if glsMaskHistory.IndexOf(cbFileMask.Text) < 0 then
+              glsMaskHistory.Add(cbFileMask.Text);
+
+            sDestPath := IncludeTrailingPathDelimiter(edtExtractTo.Text);
+
+            // if in archive
+            if SourceFileSource.IsClass(TArchiveFileSource) then
+              begin
+                if fsoCopyOut in SourceFileSource.GetOperationsTypes then
                 begin
-                  ExtractFileList := TFileList.Create;
-                  ExtractFileList.CurrentDirectory := PathDelim;
-                  // if each archive in separate folder
-                  if cbInSeparateFolder.Checked then
-                    begin
-                      sDestPath := IncludeTrailingPathDelimiter(edtExtractTo.Text);
-                      sDestPath := sDestPath + ExtractOnlyFileName(CurrentVFS.ArcFullName) + PathDelim + cbFileMask.Text;
+                  Operation := SourceFileSource.CreateCopyOutOperation(
+                                 TargetFileSource,
+                                 SourceFiles,
+                                 sDestPath);
+
+                  if Assigned(Operation) then
+                  begin
+                    // Start operation.
+                    OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+
+                    ProgressDialog := TfrmFileOp.Create(OperationHandle);
+                    ProgressDialog.Show;
+                  end
+                  else
+                    msgWarning(rsMsgNotImplemented);
+                end
+                else
+                  msgWarning(rsMsgErrNotSupported);
+              end
+            else
+            // if filesystem
+            if SourceFileSource.IsClass(TFileSystemFileSource) then
+            begin
+              for I := 0 to SourceFiles.Count - 1 do // extract all selected archives
+              begin
+                // Check if there is a registered WCX plugin for this archive.
+                ArchiveFileSource := FileSourceManager.Find(TWcxArchiveFileSource, SourceFiles[i].FullPath) as IArchiveFileSource;
+                if not Assigned(ArchiveFileSource) then
+                  ArchiveFileSource := TWcxArchiveFileSource.CreateByArchiveName(SourceFiles[i].FullPath);
+
+                if Assigned(ArchiveFileSource) then
+                begin
+                  // Check if List and CopyOut are supported.
+                  if [fsoList, fsoCopyOut] * ArchiveFileSource.GetOperationsTypes = [fsoList, fsoCopyOut] then
+                  begin
+                    // Get files to extract.
+                    FilesToExtract := ArchiveFileSource.GetFiles(ArchiveFileSource.GetRootDir);
+
+                    if Assigned(FilesToExtract) then
+                    try
+                      sTmpPath := sDestPath;
+
+                      // if each archive in separate folder
+                      if cbInSeparateFolder.Checked then
+                        begin
+                          sTmpPath := sDestPath +
+                                      ExtractOnlyFileName(ArchiveFileSource.ArchiveFileName) +
+                                      PathDelim;
+                        end;
+
+                      // extract all files
+                      Operation := ArchiveFileSource.CreateCopyOutOperation(
+                                     TargetFileSource,
+                                     FilesToExtract,
+                                     sTmpPath);
+
+                      if Assigned(Operation) then
+                      begin
+                        // Start operation.
+                        OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+
+                        ProgressDialog := TfrmFileOp.Create(OperationHandle);
+                        ProgressDialog.Show;
+                      end
+                      else
+                        msgWarning(rsMsgNotImplemented);
+
+                    finally
+                      if Assigned(FilesToExtract) then
+                        FreeAndNil(FilesToExtract);
                     end;
-                  // select all files and extract
-                  CurrentVFS.VFSmodule.VFSList(PathDelim, ExtractFileList);
-                  CurrentVFS.VFSmodule.VFSCopyOut(ExtractFileList, sDestPath, 0);
+                  end
+                  else
+                    msgWarning(rsMsgErrNotSupported);
+
                 end;
-          end;
-        end; // if Result
 
-      if Assigned(fl) then
-        FreeAndNil(fl);
+                // Short pause, so that all operations are not spawned at once.
+                Sleep(100);
+              end; // for
+            end
+            else
+              msgWarning(rsMsgErrNotSupported);
 
-      Free;
-    end;
+          end; // if Result
+      end;
+
+  finally
+    if Assigned(extractDialog) then
+      FreeAndNil(extractDialog);
+    if Assigned(SourceFiles) then
+      FreeAndNil(SourceFiles);
+  end;
 end;
-}
 
 initialization
   {$I fextractdlg.lrs}

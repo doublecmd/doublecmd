@@ -939,44 +939,27 @@ begin
   end;
 end;
 
+// This command is needed for extracting whole archive by Alt+F9 (without opening it).
 procedure TActs.cm_ExtractFiles(param:string);
 var
-  fl : TFileList;
-  Result: Boolean;
+  SelectedFiles: TFiles;
 begin
-// This command is needed for extract whole archive by Alt+F9 (without opening it)
-{
-with frmMain do
-begin
-  Result:= False;
-  if not IsBlocked then
-    begin
-      with ActiveFrame do
-        begin
-          if SelectFileIfNoSelected(GetActiveItem) = False then Exit;
+  with frmMain do
+  begin
+    SelectedFiles := ActiveFrame.SelectedFiles;
+    if Assigned(SelectedFiles) then
+    try
+      if SelectedFiles.Count > 0 then
+        ShowExtractDlg(ActiveFrame.FileSource, SelectedFiles,
+                       NotActiveFrame.FileSource, NotActiveFrame.CurrentPath)
+      else
+        msgWarning(rsMsgNoFilesSelected);
 
-          fl:=TFileList.Create;
-          CopyListSelectedExpandNames(pnlFile.FileList,fl,ActiveDir);
-
-          fl.CurrentDirectory := ActiveDir;
-        end;
-      try
-        Result:= ShowExtractDlg(ActiveFrame, fl, NotActiveFrame.CurrentPath);
-      finally
-        if Result then
-          begin
-            frameLeft.RefreshPanel;
-            frameRight.RefreshPanel;
-          end
-        else
-          begin
-            with ActiveFrame do
-	      UnSelectFileIfSelected(GetActiveItem);
-          end;
-      end;
-    end;  // IsBlocked
-end;
-}
+    finally
+      if Assigned(SelectedFiles) then
+        FreeAndNil(SelectedFiles);
+    end;
+  end;
 end;
 
 procedure TActs.cm_QuickSearch(param:string);
