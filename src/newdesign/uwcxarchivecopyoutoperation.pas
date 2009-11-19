@@ -63,6 +63,8 @@ type
     procedure Initialize; override;
     procedure MainExecute; override;
     procedure Finalize; override;
+
+    class procedure ClearCurrentOperation;
   end;
 
 implementation
@@ -78,7 +80,7 @@ var
   // WCX interface cannot discern different operations (for reporting progress),
   // so this global variable is used to store currently running operation.
   // (There may be other running concurrently, but only one may report progress.)
-  WcxCopyOutOperation: TWcxArchiveCopyOutOperation; // used in ProcessDataProc
+  WcxCopyOutOperation: TWcxArchiveCopyOutOperation = nil;
 
 function ChangeVolProc(ArcName : Pchar; Mode:Longint):Longint; stdcall;
 begin
@@ -153,15 +155,16 @@ end;
 
 destructor TWcxArchiveCopyOutOperation.Destroy;
 begin
-  WcxCopyOutOperation := nil; // clear global variable pointing to self
-
+  ClearCurrentOperation;
   inherited Destroy;
 end;
 
 procedure TWcxArchiveCopyOutOperation.Initialize;
 begin
-  if Assigned(WcxCopyOutOperation) then
+  {$IFNDEF WcxAllowMultipleOperations}
+  if Assigned(WcxCopyOutOperation) and (WcxCopyOutOperation <> Self) then
     raise Exception.Create('Another WCX copy operation is already running');
+  {$ENDIF}
 
   WcxCopyOutOperation := Self;
 
@@ -169,7 +172,7 @@ begin
   FStatistics := RetrieveStatistics;
 end;
 
-procedure TWcxArchiveCopyOutOperation.MainExecute;  //Flags: Integer
+procedure TWcxArchiveCopyOutOperation.MainExecute;
 var
   ArcHandle: TArcHandle;
   Header: TWCXHeader;
@@ -207,8 +210,19 @@ begin
                             TargetPath, Files.Path,
                             CreatedPaths);
 
-    WcxModule.SetChangeVolProc(ArcHandle, @ChangeVolProc);
-    WcxModule.SetProcessDataProc(ArcHandle, @ProcessDataProc);
+    {$IFDEF WcxAllowMultipleOperations}
+    // Operation allowed to run, but not to report progress.
+    if WcxCopyOutOperation <> Self then
+    begin
+      WcxModule.SetChangeVolProc(ArcHandle, nil);
+      WcxModule.SetProcessDataProc(ArcHandle, nil);
+    end
+    else
+    {$ENDIF}
+    begin
+      WcxModule.SetChangeVolProc(ArcHandle, @ChangeVolProc);
+      WcxModule.SetProcessDataProc(ArcHandle, @ProcessDataProc);
+    end;
 
     while (WcxModule.ReadWCXHeader(ArcHandle, Header) = E_SUCCESS) do
     try
@@ -286,7 +300,7 @@ end;
 
 procedure TWcxArchiveCopyOutOperation.Finalize;
 begin
-  WcxCopyOutOperation := nil;
+  ClearCurrentOperation;
 end;
 
 procedure TWcxArchiveCopyOutOperation.CreateDirsAndCountFiles(
@@ -486,6 +500,11 @@ begin
   begin
     logWrite(Thread, sMessage, logMsgType);
   end;
+end;
+
+class procedure TWcxArchiveCopyOutOperation.ClearCurrentOperation;
+begin
+  WcxCopyOutOperation := nil;
 end;
 
 end.

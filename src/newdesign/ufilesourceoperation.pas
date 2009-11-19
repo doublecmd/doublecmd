@@ -413,7 +413,7 @@ begin
 
   // Remove operation from the queue of operations waiting for a connection
   // (it can still be there if it was aborted while waiting).
-  (FileSource as IFileSource).RemoveFromConnectionQueue(Self);
+  (FileSource as IFileSource).RemoveOperationFromQueue(Self);
 
   for Event := Low(FEventsListeners) to High(FEventsListeners) do
   begin

@@ -41,6 +41,8 @@ type
     procedure Initialize; override;
     procedure MainExecute; override;
     procedure Finalize; override;
+
+    class procedure ClearCurrentOperation;
   end;
 
 implementation
@@ -56,7 +58,7 @@ var
   // WCX interface cannot discern different operations (for reporting progress),
   // so this global variable is used to store currently running operation.
   // (There may be other running concurrently, but only one may report progress.)
-  WcxCopyInOperation: TWcxArchiveCopyInOperation; // used in ProcessDataProc
+  WcxCopyInOperation: TWcxArchiveCopyInOperation = nil;
 
 function ChangeVolProc(ArcName : Pchar; Mode:Longint):Longint; stdcall;
 begin
@@ -132,7 +134,7 @@ end;
 
 destructor TWcxArchiveCopyInOperation.Destroy;
 begin
-  WcxCopyInOperation := nil; // clear global variable pointing to self
+  ClearCurrentOperation;
 
   inherited Destroy;
 
@@ -142,7 +144,7 @@ end;
 
 procedure TWcxArchiveCopyInOperation.Initialize;
 begin
-  if Assigned(WcxCopyInOperation) then
+  if Assigned(WcxCopyInOperation) and (WcxCopyInOperation <> Self) then
     raise Exception.Create('Another WCX copy operation is already running');
 
   WcxCopyInOperation := Self;
@@ -203,7 +205,7 @@ end;
 
 procedure TWcxArchiveCopyInOperation.Finalize;
 begin
-  WcxCopyInOperation := nil;
+  ClearCurrentOperation;
 end;
 
 function TWcxArchiveCopyInOperation.GetFileList(const theFiles: TFiles): String;
@@ -260,6 +262,11 @@ begin
   begin
     logWrite(Thread, sMessage, logMsgType);
   end;
+end;
+
+class procedure TWcxArchiveCopyInOperation.ClearCurrentOperation;
+begin
+  WcxCopyInOperation := nil;
 end;
 
 end.

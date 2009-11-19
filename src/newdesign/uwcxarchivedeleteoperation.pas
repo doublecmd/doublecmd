@@ -42,6 +42,8 @@ type
     procedure Initialize; override;
     procedure MainExecute; override;
     procedure Finalize; override;
+
+    class procedure ClearCurrentOperation;
   end;
 
 implementation
@@ -56,7 +58,7 @@ var
   // WCX interface cannot discern different operations (for reporting progress),
   // so this global variable is used to store currently running operation.
   // (There may be other running concurrently, but only one may report progress.)
-  WcxDeleteOperation: TWcxArchiveDeleteOperation;
+  WcxDeleteOperation: TWcxArchiveDeleteOperation = nil;
 
 function ChangeVolProc(ArcName : Pchar; Mode:Longint):Longint; stdcall;
 begin
@@ -130,12 +132,13 @@ end;
 
 destructor TWcxArchiveDeleteOperation.Destroy;
 begin
+  ClearCurrentOperation;
   inherited Destroy;
 end;
 
 procedure TWcxArchiveDeleteOperation.Initialize;
 begin
-  if Assigned(WcxDeleteOperation) then
+  if Assigned(WcxDeleteOperation) and (WcxDeleteOperation <> Self) then
     raise Exception.Create('Another WCX delete operation is already running');
 
   WcxDeleteOperation := Self;
@@ -176,7 +179,7 @@ end;
 
 procedure TWcxArchiveDeleteOperation.Finalize;
 begin
-  WcxDeleteOperation := nil;
+  ClearCurrentOperation;
 end;
 
 procedure TWcxArchiveDeleteOperation.ShowError(sMessage: String; logOptions: TLogOptions);
@@ -261,6 +264,11 @@ begin
     end;
 
   Result := Result + #0;
+end;
+
+class procedure TWcxArchiveDeleteOperation.ClearCurrentOperation;
+begin
+  WcxDeleteOperation := nil;
 end;
 
 end.
