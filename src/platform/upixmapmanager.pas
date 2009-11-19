@@ -1334,26 +1334,16 @@ begin
 end;
 
 function TPixMapManager.GetArchiveIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;
-var
-  Bitmap: Graphics.TBitmap;
 begin
-  Bitmap := GetBitmap(FiArcIconID, clBackColor);
-  if Assigned(Bitmap) then
+  Result := GetBitmap(FiArcIconID, clBackColor);
+  if Assigned(Result) then
   begin
     //  if need stretch icon
     if (IconSize <> gIconsSize) then
       begin
-        Result := StretchBitmap(Bitmap, IconSize, clBackColor, False);
-      end
-    else
-      begin
-        Result := Graphics.TBitmap.Create;
-        Result.Assign(Bitmap);
+        Result := StretchBitmap(Result, IconSize, clBackColor, True);
       end;
-    // 'Bitmap' should not be freed, because it only points to DriveIconList.
-  end
-  else
-    Result := nil;
+  end;
 end;
 
 procedure LoadPixMapManager;
