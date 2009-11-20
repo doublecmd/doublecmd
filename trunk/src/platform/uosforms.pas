@@ -572,7 +572,7 @@ begin
         CM.Items.Add(miActions);
      end;
      { /Actions submenu }
-
+      {$IFDEF LINUX}
       //  Open with ...  (for now only for 1 selected file)
       FileNames := TStringList.Create;
       try
@@ -607,7 +607,7 @@ begin
           FreeAndNil(DesktopEntries);
         end;
       end;
-
+      {$ENDIF}
       // Add separator after actions and openwith menu.
       if AddActionsMenu or AddOpenWithMenu then
       begin

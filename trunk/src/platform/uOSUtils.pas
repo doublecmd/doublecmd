@@ -816,7 +816,7 @@ end;
 {$ENDIF}
 
 function IsAvailable(Path: String): Boolean;
-{$IFDEF MSWINDOWS}
+{$IF DEFINED(MSWINDOWS)}
 var
   Drv: String;
   DriveLabel: string;
@@ -833,6 +833,10 @@ begin
          mbWaitLabelChange(Drv, DriveLabel);
     end;
   Result:= mbDriveReady(Drv);
+end;
+{$ELSEIF DEFINED(DARWIN)}
+begin
+  Result:= True;
 end;
 {$ELSE}
 var
@@ -859,7 +863,7 @@ end;
 (*Return a list of drives in system*)
 
 function GetAllDrives : TList;
-{$IFDEF MSWINDOWS}
+{$IF DEFINED(MSWINDOWS)}
 var
   Drive : PDrive;
   DriveNum: Integer;
@@ -891,7 +895,10 @@ begin
   end;
 
 end;
-
+{$ELSEIF DEFINED(DARWIN)}
+begin
+  Result := TList.Create;
+end;
 {$ELSE}
   function CheckMountEntry(DriveList: TList; MountEntry: PMountEntry): Boolean;
   var
