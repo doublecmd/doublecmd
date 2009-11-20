@@ -31,7 +31,7 @@ uses
     {$IFDEF MSWINDOWS}
     , Windows, ShellApi, uNTFSLinks, uMyWindows, JwaWinNetWk
     {$ELSE}
-    , BaseUnix, Unix, UnixType, UnixUtil, dl, uMyUnix, syscall, WfxPlugin
+    , BaseUnix, Unix, UnixType, UnixUtil, dl, uMyUnix, WfxPlugin
       {$IFNDEF DARWIN}, libhal, dbus{$ENDIF}
     {$ENDIF};
     
@@ -271,10 +271,6 @@ function mbSetEnvironmentVariable(const sName, sValue: UTF8String): Boolean;
 function mbLoadLibrary(Name: UTF8String): TLibHandle;
 function mbSysErrorMessage(ErrorCode: Integer): UTF8String;
 
-{$IF DEFINED(UNIX)}
-function fpLChown(path : pChar; owner : TUid; group : TGid): cInt;
-{$ENDIF}
-
 {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
 // create all Hal object
 procedure CreateHal;
@@ -349,11 +345,6 @@ begin
       mode := mode or S_IWOTH;
   end;
   Result := mode;
-end;
-
-function fpLChown(path : pChar; owner : TUid; group : TGid): cInt;
-begin
-  fpLChown:=do_syscall(syscall_nr_lchown,TSysParam(path),TSysParam(owner),TSysParam(group));
 end;
 
 {$ENDIF}

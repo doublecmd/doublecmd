@@ -83,6 +83,7 @@ type
   TGroupRecord = group;
   PGroupRecord = ^TGroupRecord;
 
+{$IFDEF LINUX}
 {en
    Opens the file system description file
    @param(filename File system description file)
@@ -103,6 +104,7 @@ function getmntent(stream: PFILE): PMountEntry; cdecl; external libc name 'getmn
    @returns(The function always returns 1)
 }
 function endmntent(stream: PFILE): LongInt; cdecl; external libc name 'endmntent';
+{$ENDIF}
 {en
    Get password file entry
    @param(uid User ID)
@@ -140,6 +142,14 @@ function getgrnam(name: PChar): PGroupRecord; cdecl; external libc name 'getgrna
             insufficient space in the environment)
 }
 function setenv(const name, value: PChar; overwrite: LongInt): LongInt; cdecl; external libc name 'setenv';
+{en
+   Change owner and group of a file (does not follow symbolic links)
+   @param(path Full path to file)
+   @param(owner User ID)
+   @param(group Group ID)
+   @returns(On success, zero is returned. On error, -1 is returned, and errno is set appropriately)
+}
+function fpLChown(path : pChar; owner : TUid; group : TGid): cInt; {$IFDEF FPC_USE_LIBC}cdecl; external libc name 'lchown';{$ENDIF}
 
 {$IFNDEF DARWIN}
 function fpOpenDir(__name: PChar): pDir; cdecl; external libc name 'opendir';
@@ -152,6 +162,20 @@ function LinuxToWinAttr(pFileName: PChar; const srInfo: BaseUnix.Stat): Longint;
 function GetDesktopEnvironment: Cardinal;
 
 implementation
+
+{$IFNDEF FPC_USE_LIBC}
+uses
+  SysCall;
+{$ENDIF}
+
+{$IFNDEF FPC_USE_LIBC}
+
+function fpLChown(path : pChar; owner : TUid; group : TGid): cInt;
+begin
+  fpLChown:=do_syscall(syscall_nr_lchown,TSysParam(path),TSysParam(owner),TSysParam(group));
+end;
+
+{$ENDIF}
 
 function UnixToWinAge(UnixAge: time_t): LongInt;
 var
