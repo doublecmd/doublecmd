@@ -126,7 +126,7 @@ uses
 {$ENDIF}
   ;
 
-{$IF DEFINED(UNIX)}
+{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
 var
   {$IF DEFINED(LCLGTK)}
   XDisplay: PDisplay = nil;

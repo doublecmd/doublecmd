@@ -80,7 +80,7 @@ type
     function LoadBitmap(AIconFileName: String; out ABitmap: TBitmap): Boolean;
     function CheckLoadPixmap(const sName : String; bUsePixmapPath : Boolean = True) : TBitmap;
     function CheckAddPixmap(const sName : String; IconSize : Integer = 0; bUsePixmapPath : Boolean = True): Integer;
-  {$IF DEFINED(UNIX)}
+  {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
     procedure CreateIconTheme;
     procedure DestroyIconTheme;
     function LoadIconThemeIcon(AFileExt, AIconName: String; AIconSize: Integer): Boolean;
@@ -444,7 +444,7 @@ begin
   {$ENDIF}
 end;
 
-{$IF DEFINED(UNIX)}
+{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
 
 procedure TPixMapManager.CreateIconTheme;
 {$IFDEF LCLGTK2}
@@ -771,9 +771,9 @@ begin
   end;
   {$ENDIF}
 
-  {$IFDEF MSWINDOWS}
+  {$IF DEFINED(MSWINDOWS)}
   ImageList_Destroy(FSysImgList);
-  {$ELSE}
+  {$ELSEIF NOT DEFINED(DARWIN)}
   DestroyIconTheme;
   {$ENDIF}
   inherited Destroy;
@@ -898,7 +898,7 @@ begin
   
   (* /Set archive icons *)
 
-  {$IF DEFINED(UNIX)}
+  {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
   if (gShowIcons <> sim_none) and (gShowIcons <> sim_standart) then
     LoadMimeIcons;
   {$ENDIF}
@@ -1117,11 +1117,11 @@ begin
 
     if IsDirectory then
     begin
-      {$IFDEF MSWINDOWS}
+      {$IF DEFINED(MSWINDOWS)}
       if ((gShowIcons = sim_standart) or
          (not (DirectAccess and mbFileExists(Path + Name + '\desktop.ini')))) and
          (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16) then
-      {$ELSE}
+      {$ELSEIF NOT DEFINED(DARWIN)}
       if (gShowIcons = sim_all_and_exe) and
          (DirectAccess and mbFileExists(Path + Name + '/.directory')) then
         begin
@@ -1150,7 +1150,7 @@ begin
 
     Ext := UTF8LowerCase(Extension);
 
-    {$IFDEF MSWINDOWS}
+    {$IF DEFINED(MSWINDOWS)}
     if gShowIcons <> sim_all_and_exe then
       begin
         if Ext = 'exe' then
@@ -1160,7 +1160,7 @@ begin
         else if Ext = 'ico' then
           Exit(FiDefaultIconID)
       end;
-    {$ELSE}
+    {$ELSEIF NOT DEFINED(DARWIN)}
     if gShowIcons = sim_all_and_exe then
       begin
         if DirectAccess and (Ext = 'desktop') then

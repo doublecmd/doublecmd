@@ -24,6 +24,10 @@ unit uMyUnix;
 
 {$mode objfpc}{$H+}
 
+{$IFDEF DARWIN}
+{$DEFINE FPC_USE_LIBC}
+{$ENDIF}
+
 interface
 
 uses
