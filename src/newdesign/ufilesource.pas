@@ -180,8 +180,8 @@ type
     function IsPathAtRoot(Path: String): Boolean; virtual;
 
     function GetParentDir(sPath : String): String; virtual;
-    function GetRootDir(sPath : String): String; virtual;
-    function GetRootDir: String; virtual;
+    function GetRootDir(sPath : String): String; virtual; overload;
+    function GetRootDir: String; virtual; overload;
     function GetPathType(sPath : String): TPathType; virtual;
 
 {

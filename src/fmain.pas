@@ -2322,7 +2322,7 @@ begin
       ANoteBook := Page.Notebook;
       if Page.LockState = tlsNormal then // if not locked tab
         begin
-          sCaption := GetLastDir(ExcludeTrailingPathDelimiter(NewDir));
+          sCaption := GetLastDir(NewDir);
           Page.UpdateCaption(sCaption);
         end;
 
@@ -2353,7 +2353,7 @@ begin
 
       if Page.LockState = tlsNormal then // if not locked tab
         begin
-          sCaption := GetLastDir(ExcludeTrailingPathDelimiter(Page.FileView.CurrentPath));
+          sCaption := GetLastDir(Page.FileView.CurrentPath);
           Page.UpdateCaption(sCaption);
         end;
 
@@ -2600,7 +2600,7 @@ begin
         begin
           sCaption:= gIni.ReadString(TabsSection, sIndex + '_caption', EmptyStr);
           if sCaption = EmptyStr then
-            sCaption:= GetLastDir(ExcludeTrailingPathDelimiter(sPath));
+            sCaption:= GetLastDir(sPath);
         end
       else
         begin // find exists directory
@@ -2609,7 +2609,7 @@ begin
             if sPath = EmptyStr then
               sPath:= sCurrentDir;
           until mbDirectoryExists(sPath);
-          sCaption:= GetLastDir(ExcludeTrailingPathDelimiter(sPath));
+          sCaption:= GetLastDir(sPath);
         end;
 
       if sCaption <> '' then
