@@ -126,7 +126,7 @@ implementation
 
 uses
   LCLType, uLng, uFileOp, BaseUnix, uUsersGroups, uDCUtils,
-  uDefaultFilePropertyFormatter, uFileSystemFile;
+  uDefaultFilePropertyFormatter, uFileSystemFile, uMyUnix;
 
 procedure ShowFileProperties(const Files: TFiles);
 begin
