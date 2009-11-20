@@ -205,6 +205,7 @@ end;
 {$ELSEIF DEFINED(BSD)}
 var
   ke: TKEvent;
+  timeOut: TTimeSpec;
   hNotifyFilter: cuint;
 begin
   hNotifyFilter:= 0;
@@ -239,10 +240,13 @@ begin
     RaiseLastOSError;
   end;
 
+  // set up wait time out
+  timeOut.tv_sec:= 1;
+  timeOut.tv_nsec:= 0;
   FillByte(ke, SizeOf(ke), 0);
   // process events
   repeat
-    if (kevent(FNotifyHandle, nil, 0, @ke, 1, nil) <> -1) then
+    if (kevent(FNotifyHandle, nil, 0, @ke, 1, @timeOut) <> -1) then
       begin
         WriteLn('A file system event occurred');
         // call event handler
