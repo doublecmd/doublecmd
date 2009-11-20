@@ -1790,7 +1790,7 @@ function SHGetMalloc(var ppMalloc: IMalloc): HResult; stdcall;
 function SHGetDesktopFolder(var ppshf: IShellFolder): HResult; stdcall;
 
 function SHChangeIconDialog(hOwner: THandle; var FileName: UTF8String; var IconIndex: Integer): Boolean;
-function SHGetOverlayIconIndex(sFileName: UTF8String): Integer;
+function SHGetOverlayIconIndex(const sFilePath, sFileName: UTF8String): Integer;
 
 procedure OleError(ErrorCode: HResult);
 procedure OleCheck(Result: HResult);
@@ -1889,45 +1889,50 @@ begin
   end;
 end;
 
-function SHGetOverlayIconIndex(sFileName: UTF8String): Integer;
+function SHGetOverlayIconIndex(const sFilePath, sFileName: UTF8String): Integer;
 var
   Folder,
   DesktopFolder: IShellFolder;
   Pidl,
   ParentPidl: PItemIDList;
-  Malloc: IMalloc;
   IconOverlay: IShellIconOverlay;
-  pchEaten,
-  dwAttributes: ULONG;
+  pchEaten: ULONG;
+  dwAttributes: ULONG = 0;
   wsTemp: WideString;
 begin
   Result:= -1;
-  if Failed(SHGetMalloc(Malloc)) then Exit;
-  if Failed(SHGetDesktopFolder(DesktopFolder)) then Exit;
-  wsTemp:= UTF8Decode(ExtractFilePath(sFileName));
-  try
-    if Failed(DesktopFolder.ParseDisplayName(0, nil, PWideChar(wsTemp), pchEaten, ParentPidl, dwAttributes)) then Exit;
-    if Failed(DesktopFolder.BindToObject(ParentPidl, nil, IID_IShellFolder, Folder)) then Exit;
-    // Get an IShellIconOverlay interface
-    // for the folder.
-    if Folder.QueryInterface(IID_IShellIconOverlay, IconOverlay) = 0 then
+
+  if SHGetDesktopFolder(DesktopFolder) = S_OK then
+  begin
+    wsTemp:= UTF8Decode(sFilePath);
+    if DesktopFolder.ParseDisplayName(0, nil, PWideChar(wsTemp), pchEaten, ParentPidl, dwAttributes) = S_OK then
+    begin
+      if DesktopFolder.BindToObject(ParentPidl, nil, IID_IShellFolder, Folder) = S_OK then
       begin
-        // If we failed then this version of
+        // Get an IShellIconOverlay interface for the folder.
+        // If this fails then this version of
         // the shell does not have this
-        // interface. That's OK, though,
-        // because in that case we already
-        // have the overlay icons.
-        wsTemp:= UTF8Decode(ExtractFileName(sFileName));
-        // Get a pidl for the file.
-        if Failed(Folder.ParseDisplayName(0, nil, PWideChar(wsTemp), pchEaten, Pidl, dwAttributes)) then Exit;
-        // Get the overlay icon index.
-        if Failed(IconOverlay.GetOverlayIconIndex(Pidl, Result)) then
-          Result:= -1;
+        // interface.
+        if Folder.QueryInterface(IID_IShellIconOverlay, IconOverlay) = S_OK then
+          begin
+            // Get a pidl for the file.
+            wsTemp:= UTF8Decode(sFileName);
+            if Folder.ParseDisplayName(0, nil, PWideChar(wsTemp), pchEaten, Pidl, dwAttributes) = S_OK then
+            begin
+              // Get the overlay icon index.
+              if IconOverlay.GetOverlayIconIndex(Pidl, Result) <> S_OK then
+                Result:= -1;
+
+              CoTaskMemFree(Pidl);
+            end;
+        end;
+      end;
+
+      CoTaskMemFree(ParentPidl);
     end;
-  finally
-    Malloc.Free(Pidl);
-    Malloc.Free(ParentPidl);
-  end;
+
+    DesktopFolder._Release;
+  end; // SHGetDesktopFolder
 end;
 
 procedure OleError(ErrorCode: HResult);

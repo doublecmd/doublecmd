@@ -93,7 +93,7 @@ begin
     raise Exception.Create('Reference file cannot be nil');
 
   FSelected := False;
-  FIconID := 0;
+  FIconID := -1;
   TheFile := ReferenceFile;
 end;
 

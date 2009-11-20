@@ -3129,6 +3129,7 @@ var
   s:   string;
   iTextTop: Integer;
   AFile: TColumnsViewFile;
+  FileSourceDirectAccess: Boolean;
   Panel: TColumnsFileView;
   ColumnsSet: TPanelColumnsClass;
 
@@ -3191,6 +3192,7 @@ var
     begin
       PixMapManager.DrawBitmap(AFile.IconID,
                                AFile.TheFile,
+                               FileSourceDirectAccess,
                                Canvas,
                                aRect.Left + 1,
                                // center icon vertically
@@ -3354,6 +3356,7 @@ begin
   else if Panel.FFiles.Count > 0 then
   begin
     AFile := Panel.FFiles[ARow - FixedRows]; // substract fixed rows (header)
+    FileSourceDirectAccess := fspDirectAccess in Panel.FileSource.Properties;
 
     NewPrepareColors;
 
