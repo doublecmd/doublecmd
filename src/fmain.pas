@@ -2762,6 +2762,7 @@ begin
   Splitter1.Visible:= gTermWindow;
   pnlCommand.AutoSize:= not gTermWindow;
 {$ELSE} // temporarily while console not implemented under Mac OS X
+  pnlCommand.ClientHeight:= Panel1.Height;
   pnlCommand.AutoSize:= True;
   nbConsole.Visible:= False;
   Splitter1.Visible:= False;
