@@ -103,7 +103,7 @@ type
               Index of pixmap manager's bitmap.)
     }
     function DrawBitmap(iIndex: Integer; Canvas : TCanvas; X, Y, Width, Height: Integer) : Boolean;
-    function DrawBitmap(iIndex: Integer; AFile: TFile; Canvas : TCanvas; X, Y: Integer) : Boolean;
+    function DrawBitmap(iIndex: Integer; AFile: TFile; DirectAccess: Boolean; Canvas : TCanvas; X, Y: Integer) : Boolean;
     function GetIconBySortingDirection(SortingDirection: TSortDirection): PtrInt;
     function GetIconByFile(AFile: TFile; DirectAccess: Boolean):PtrInt;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
@@ -1042,7 +1042,7 @@ begin
 {$ENDIF}
 end;
 
-function TPixMapManager.DrawBitmap(iIndex: Integer; AFile: TFile; Canvas: TCanvas; X, Y: Integer): Boolean;
+function TPixMapManager.DrawBitmap(iIndex: Integer; AFile: TFile; DirectAccess: Boolean; Canvas: TCanvas; X, Y: Integer): Boolean;
 var
   I: Integer;
 begin
@@ -1051,9 +1051,12 @@ begin
   if gIconOverlays then
     begin
     {$IFDEF MSWINDOWS}
-      I:= SHGetOverlayIconIndex(AFile.FullPath);
-      if I >= 0 then
-        Result:= DrawBitmap(I + $1000, Canvas, X, Y);
+      if DirectAccess then
+      begin
+        I:= SHGetOverlayIconIndex(AFile.Path, AFile.Name);
+        if I >= 0 then
+          Result:= DrawBitmap(I + $1000, Canvas, X, Y);
+      end;
     {$ELSE}
       if AFile.IsLink then
         begin
@@ -1062,7 +1065,6 @@ begin
         end;
     {$ENDIF}
     end;
-
 end;
 
 function TPixMapManager.GetIconBySortingDirection(SortingDirection: TSortDirection): PtrInt;
@@ -1117,11 +1119,11 @@ begin
     begin
       {$IFDEF MSWINDOWS}
       if ((gShowIcons = sim_standart) or
-         (not mbFileExists(Path + Name + '\desktop.ini'))) and
+         (not (DirectAccess and mbFileExists(Path + Name + '\desktop.ini')))) and
          (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16) then
       {$ELSE}
       if (gShowIcons = sim_all_and_exe) and
-         (mbFileExists(Path + Name + '/.directory')) then
+         (DirectAccess and mbFileExists(Path + Name + '/.directory')) then
         begin
           Result:= GetIconByDesktopFile(Path + Name + '/.directory', FiDirIconID);
           Exit;
@@ -1161,7 +1163,7 @@ begin
     {$ELSE}
     if gShowIcons = sim_all_and_exe then
       begin
-        if Ext = 'desktop' then
+        if DirectAccess and (Ext = 'desktop') then
           begin
             Result:= GetIconByDesktopFile(Path + Name, FiDefaultIconID);
             Exit;
@@ -1215,7 +1217,6 @@ begin
       Exit;
     end;
     Result := PtrInt(FExtList.Objects[Result]);
-//    writeln(Result);
   end;
 end;
 
