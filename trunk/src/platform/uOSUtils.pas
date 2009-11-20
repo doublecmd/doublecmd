@@ -32,7 +32,11 @@ uses
     , Windows, ShellApi, uNTFSLinks, uMyWindows, JwaWinNetWk
     {$ELSE}
     , BaseUnix, Unix, UnixType, UnixUtil, dl, uMyUnix, WfxPlugin
-      {$IFNDEF DARWIN}, libhal, dbus{$ENDIF}
+      {$IFDEF DARWIN}
+      , MacOSAll
+      {$ELSE}
+      , libhal, dbus
+      {$ENDIF}
     {$ENDIF};
     
 const
@@ -836,6 +840,7 @@ begin
 end;
 {$ELSEIF DEFINED(DARWIN)}
 begin
+  // Because we show under Mac OS X only mounted volumes
   Result:= True;
 end;
 {$ELSE}
@@ -896,8 +901,101 @@ begin
 
 end;
 {$ELSEIF DEFINED(DARWIN)}
+var
+  Drive : PDrive;
+  osResult: OSStatus;
+  volumeIndex: ItemCount;
+  actualVolume: FSVolumeRefNum;
+  volumeName: HFSUniStr255;
+  volumeInfo: FSVolumeInfo;
+  volumeParms: GetVolParmsInfoBuffer;
+  pb: HParamBlockRec;
+  volNameAsCFString: CFStringRef;
+  volNameAsCString: array[0..255] of char;
 begin
   Result := TList.Create;
+  osResult:= noErr;
+  // Iterate across all mounted volumes using FSGetVolumeInfo. This will return nsvErr
+  // (no such volume) when volumeIndex becomes greater than the number of mounted volumes.
+  volumeIndex:= 1;
+  while (osResult = noErr) or (osResult <> nsvErr) do
+    begin
+      FillByte(volumeInfo, SizeOf(volumeInfo), 0);
+
+      // We're mostly interested in the volume reference number (actualVolume)
+      osResult:= FSGetVolumeInfo(kFSInvalidVolumeRefNum,
+                                 volumeIndex,
+                                 @actualVolume,
+                                 kFSVolInfoFSInfo,
+                                 @volumeInfo,
+                                 @volumeName,
+                                 nil);
+
+      if (osResult = noErr) then
+        begin
+          // Use the volume reference number to retrieve the volume parameters. See the documentation
+          // on PBHGetVolParmsSync for other possible ways to specify a volume.
+          pb.ioNamePtr := nil;
+          pb.ioVRefNum := actualVolume;
+          pb.ioBuffer := @volumeParms;
+          pb.ioReqCount := SizeOf(volumeParms);
+
+          // A version 4 GetVolParmsInfoBuffer contains the BSD node name in the vMDeviceID field.
+          // It is actually a char * value. This is mentioned in the header CoreServices/CarbonCore/Files.h.
+          osResult := PBHGetVolParmsSync(@pb);
+          if (osResult <> noErr) then
+            begin
+              WriteLn(stderr, 'PBHGetVolParmsSync returned %d\n', osResult);
+            end
+          else
+            begin
+              // The following code is just to convert the volume name from a HFSUniCharStr to
+              // a plain C string so we can use it. It'd be preferable to
+              // use CoreFoundation to work with the volume name in its Unicode form.
+
+              volNameAsCFString := CFStringCreateWithCharacters(kCFAllocatorDefault,
+                                                                volumeName.unicode,
+                                                                volumeName.length);
+
+              // If the conversion to a C string fails, then skip this volume.
+              if (not CFStringGetCString(volNameAsCFString,
+                                         volNameAsCString,
+                                         SizeOf(volNameAsCString),
+                                         kCFStringEncodingUTF8)) then
+                begin
+                  CFRelease(volNameAsCFString);
+                  Inc(volumeIndex);
+                  Continue;
+                end;
+
+              CFRelease(volNameAsCFString);
+
+              //---------------------------------------------------------------
+              New(Drive);
+              with Drive^ do
+              begin
+                // The volume is local if vMServerAdr is 0. Network volumes won't have a BSD node name.
+                if (volumeParms.vMServerAdr = 0) then
+                  begin
+                    Drive^.DriveType:= dtFixed;
+                    WriteLn(Format('Volume "%s" (vRefNum %d), BSD node /dev/%s',
+                        [volNameAsCString, actualVolume, PChar(volumeParms.vMDeviceID)]));
+                  end
+                else
+                  begin
+                    Drive^.DriveType:= dtNetwork;
+                    WriteLn(Format('Volume "%s" (vRefNum %d)', [volNameAsCString, actualVolume]));
+                  end;
+                Name:= volNameAsCString;
+                Path:= '/Volumes/' + volNameAsCString;
+                DriveLabel:= volNameAsCString;
+              end;
+              Result.Add(Drive);
+              //---------------------------------------------------------------
+              end;
+          Inc(volumeIndex);
+        end;
+    end; // while
 end;
 {$ELSE}
   function CheckMountEntry(DriveList: TList; MountEntry: PMountEntry): Boolean;
