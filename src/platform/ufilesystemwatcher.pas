@@ -286,6 +286,8 @@ begin
 end;
 {$ELSEIF DEFINED(BSD)}
 begin
+  // close queue handle
+  fpClose(FNotifyHandle);
   // close file handle
   fpClose(FFileHandle);
   inherited Destroy;
