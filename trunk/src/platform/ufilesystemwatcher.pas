@@ -246,7 +246,7 @@ begin
   FillByte(ke, SizeOf(ke), 0);
   // process events
   repeat
-    if (kevent(FNotifyHandle, nil, 0, @ke, 1, @timeOut) <> -1) then
+    if (kevent(FNotifyHandle, nil, 0, @ke, 1, @timeOut) > 0) then
       begin
         WriteLn('A file system event occurred');
         // call event handler
