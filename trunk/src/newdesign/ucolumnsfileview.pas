@@ -291,6 +291,8 @@ type
     function GetDisplayedFiles: TFiles; override;
     function GetSelectedFiles: TFiles; override;
 
+    property LastActive: String read FLastActive write FLastActive;
+
   public
     ActiveColm: String;
     ActiveColmSlave: TPanelColumnsClass;
@@ -316,8 +318,6 @@ type
        (filtered and sorted already?).
     }
     procedure MakeDisplayFileList;
-
-    procedure Refresh;
 
     procedure Reload; override;
 
@@ -375,7 +375,6 @@ type
                                   var DropParams: TDropParams); override;
 
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
-    property LastActive: String read FLastActive write FLastActive;
     property GridVertLine: Boolean read GetGridVertLine write SetGridVertLine;
     property GridHorzLine: Boolean read GetGridHorzLine write SetGridHorzLine;
 
@@ -1090,12 +1089,7 @@ begin
             Execute/open selected file/directory
             if the user press ENTER during QuickSearch
         }
-        try
-           ChooseFile(GetActiveItem);
-           UpDatelblInfo;
-        finally
-           dgPanel.Invalidate;
-        end;
+        ChooseFile(GetActiveItem);
         {LaBero end}
       end;
   end;
@@ -1880,16 +1874,12 @@ begin
   dgPanel.StartDrag:= False; // don't start drag on double click
   Point:= dgPanel.ScreenToClient(Mouse.CursorPos);
 
-  // If not on a file/directory then exit.
-  if (Point.Y <  dgPanel.GetHeaderHeight) or
-     (Point.Y >= dgPanel.GridHeight) or
-     IsEmpty then Exit;
-
-  try
+  // If on a file/directory then choose it.
+  if (Point.Y >=  dgPanel.GetHeaderHeight) and
+     (Point.Y <   dgPanel.GridHeight) and
+     (not IsEmpty) then
+  begin
     ChooseFile(GetActiveItem);
-    UpDatelblInfo;
-  finally
-    dgPanel.Invalidate;
   end;
 
 {$IFDEF LCLGTK2}
@@ -2141,12 +2131,7 @@ begin
           // Only if there are items in the panel.
           if not IsEmpty then
           begin
-            try
-              ChooseFile(GetActiveItem);
-              UpDatelblInfo;
-            finally
-              dgPanel.Invalidate;
-            end;
+            ChooseFile(GetActiveItem);
             Key := 0;
           end;
         end
@@ -2681,18 +2666,11 @@ end;
 procedure TColumnsFileView.Reload;
 begin
   MakeFileSourceFileList;
-  Refresh;
-  frmMain.UpdateFreeSpace((Parent as TFileViewPage).Notebook.Side);
-end;
-
-procedure TColumnsFileView.Refresh;
-begin
-  MakeDisplayFileList;
 
   if LastActive <> '' then
     SetActiveFile(LastActive);
 
-  RedrawGrid;
+  frmMain.UpdateFreeSpace((Parent as TFileViewPage).Notebook.Side);
 end;
 
 procedure TColumnsFileView.UpdateView;
