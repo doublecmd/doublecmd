@@ -89,9 +89,14 @@ implementation
 uses
   LCLProc
   {$IF DEFINED(MSWINDOWS)}
-  ,Windows
-  {$ELSEIF DEFINED(LINUX)}
-  ,inotify, Unix, BaseUnix
+  , Windows
+  {$ELSEIF DEFINED(UNIX)}
+  , Unix, BaseUnix
+    {$IF DEFINED(LINUX)}
+    , inotify
+    {$ELSEIF DEFINED(BSD)}
+    , BSD
+    {$ENDIF}
   {$ENDIF};
 
 { TWatcherThread }
@@ -197,6 +202,55 @@ begin
   FreeMem(buf);
  until Terminated;
 end;
+{$ELSEIF DEFINED(BSD)}
+var
+  ke: TKEvent;
+  hNotifyFilter: cuint;
+begin
+  hNotifyFilter:= 0;
+  if wfFileNameChange in FWatchFilter then
+    hNotifyFilter:= hNotifyFilter or NOTE_DELETE or NOTE_WRITE or NOTE_EXTEND or NOTE_RENAME;
+  if wfAttributesChange in FWatchFilter then
+    hNotifyFilter:= hNotifyFilter or NOTE_ATTRIB or NOTE_REVOKE;
+
+  WriteLn('Start watching');
+  // open file
+  FFileHandle:= fpOpen(PChar(FWatchPath), O_RDONLY);
+  if (FFileHandle < 0) then
+  begin
+   WatcherThreadError('fpOpen(): failed');
+   RaiseLastOSError;
+  end;
+
+  // start queue
+  FNotifyHandle:= kqueue();
+  if (FNotifyHandle < 0) then
+  begin
+    WatcherThreadError('kqueue(): failed');
+    RaiseLastOSError;
+  end;
+
+  FillByte(ke, SizeOf(ke), 0);
+  EV_SET(@ke, FFileHandle, EVFILT_VNODE, EV_ADD or EV_CLEAR,  hNotifyFilter, 0, nil);
+  // add watch
+  if (kevent(FNotifyHandle, @ke, 1, nil, 0, nil) = -1) then
+  begin
+    WatcherThreadError('kevent(): failed');
+    RaiseLastOSError;
+  end;
+
+  FillByte(ke, SizeOf(ke), 0);
+  // process events
+  repeat
+    if (kevent(FNotifyHandle, nil, 0, @ke, 1, nil) <> -1) then
+      begin
+        WriteLn('A file system event occurred');
+        // call event handler
+        Synchronize(@WatcherNotifyEvent);
+      end;
+    Sleep(1);
+  until Terminated;
+end;
 {$ELSE}
 begin
 end;
@@ -227,6 +281,12 @@ begin
   // remove watch
   inotify_rm_watch(FFileHandle, FNotifyHandle);
   // close inotify instance
+  fpClose(FFileHandle);
+  inherited Destroy;
+end;
+{$ELSEIF DEFINED(BSD)}
+begin
+  // close file handle
   fpClose(FFileHandle);
   inherited Destroy;
 end;
