@@ -31,8 +31,9 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, LCLProc, Menus,
-  viewercontrol, fFindView, WLXPlugin, uWLXModule;
+  StdCtrls, ExtCtrls, ComCtrls, LCLProc, Menus,
+  viewercontrol, fFindView, WLXPlugin, uWLXModule,
+  uFileSource;
 
 type
 
@@ -124,7 +125,7 @@ type
     bImage,
     bPlugin: Boolean;
     FFindDialog:TfrmFindView;
-    FDeleteAfterView : Boolean;
+    FFileSource: IFileSource;
     //---------------------
     WlxPlugins:TWLXModuleList;
     ActivePlugin:Integer;
@@ -138,12 +139,14 @@ type
     procedure DoSearch(bQuickSearch: Boolean);
     procedure ChooseEncoding(mnuMenuItem: TMenuItem; sEncoding: String);
   public
+    constructor Create(TheOwner: TComponent; aFileSource: IFileSource); reintroduce;
+    destructor Destroy; override;
     procedure LoadFile(iIndex:Integer);
     procedure ReMmapIfNeed;
   end;
 
 
-procedure ShowViewer(const FilesToView:TStringList; bDeleteAfterView : Boolean = False);
+procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSource = nil);
 
 implementation
 
@@ -151,16 +154,29 @@ uses
   uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx, uFindMmap, uDCUtils,
   uOSUtils;
 
-procedure ShowViewer(const FilesToView:TStringList; bDeleteAfterView : Boolean = False);
-var viewer: TfrmViewer;
+procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSource);
+var
+  viewer: TfrmViewer;
 begin
   //DebugLn('ShowViewer - Using Internal');
-  viewer := TfrmViewer.Create(Application);
+  viewer := TfrmViewer.Create(Application, aFileSource);
   gViewerPos.Restore(viewer);
   viewer.FileList.Assign(FilesToView); // Make a copy of the list
   viewer.LoadFile(0);
-  viewer.FDeleteAfterView := bDeleteAfterView;
   viewer.Show;
+end;
+
+constructor TfrmViewer.Create(TheOwner: TComponent; aFileSource: IFileSource);
+begin
+  inherited Create(TheOwner);
+  FFileSource := aFileSource;
+end;
+
+destructor TfrmViewer.Destroy;
+begin
+  FreeThenNil(FileList);
+  inherited Destroy;
+  FFileSource := nil; // If this is temp file source, the files will be deleted.
 end;
 
 procedure TfrmViewer.LoadFile(iIndex:Integer);
@@ -337,13 +353,6 @@ begin
   if not bImage then gViewerPos.Save(Self);
   gViewerImageStretch:= miStretch.Checked;
   ViewerControl.UnMapFile;
-  if FDeleteAfterView then
-    begin
-      Count := FileList.Count - 1;
-      //DebugLN('DeleteFile == ' + FileList.Strings[0]);
-      for I := 0 to Count do
-        mbDeleteFile(FileList.Strings[I]);
-    end;
   if Assigned(WlxPlugins) then
      begin
        ExitPluginMode;
@@ -537,7 +546,6 @@ begin
      begin
         FreeAndNil(WlxPlugins);
      end;
-  FileList.Free;
   if assigned(FFindDialog) then
      FreeAndNil(FFindDialog);
   inherited;

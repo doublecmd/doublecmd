@@ -15,8 +15,9 @@
 unit uShowForm;
 
 interface
+
 uses
-  Classes;
+  Classes, uFileSource;
 
 type
 
@@ -25,26 +26,27 @@ type
   TWaitThread = class(TThread)
   private
     FFileList : TStringList;
+    FFileSource: IFileSource;
 
   protected
     procedure Execute; override;
 
   public
-    // Files in FilesToView list will be deleted after viewing.
-    constructor Create(const FilesToView: TStringList);
+    constructor Create(const FilesToView: TStringList; const aFileSource: IFileSource);
     destructor Destroy; override;
   end;
 
 Function ShowEditorByGlob(sFileName:String):Boolean;
 Function ShowViewerByGlob(sFileName:String):Boolean;
 Function ShowViewerByGlobList(const FilesToView: TStringList;
-                              bDeleteAfterView : Boolean = False):Boolean;
+                              const aFileSource: IFileSource):Boolean;
 
 
 implementation
+
 uses
   SysUtils, Process, UTF8Process, LCLProc, uGlobs, uOSUtils, fEditor, fViewer,
-  uDCUtils;
+  uDCUtils, uTempFileSystemFileSource;
 
 const
   sCmdLine = '%s "%s"';
@@ -80,7 +82,7 @@ begin
 end;
 
 function ShowViewerByGlobList(const FilesToView : TStringList;
-                              bDeleteAfterView : Boolean = False):Boolean;
+                              const aFileSource: IFileSource):Boolean;
 var
   I : Integer;
   WaitThread : TWaitThread;
@@ -88,23 +90,23 @@ begin
   if gUseExtView then
   begin
     DebugLN('ShowViewerByGlobList - Use ExtView ');
-    if bDeleteAfterView then
+    if aFileSource.IsClass(TTempFileSystemFileSource) then
       begin
-        WaitThread := TWaitThread.Create(FilesToView);
+        WaitThread := TWaitThread.Create(FilesToView, aFileSource);
         WaitThread.Resume;
       end
     else
      for i:=0 to FilesToView.Count-1 do
-       ExecCmdFork(Format(sCmdLine, [gExtView, FilesToView.Strings[i]]))
+       ExecCmdFork(Format(sCmdLine, [gExtView, FilesToView.Strings[i]]));
   end // gUseExtView
   else
-    ShowViewer(FilesToView, bDeleteAfterView);
+    ShowViewer(FilesToView, aFileSource);
   Result:=True;
 end;
 
 { TWaitThread }
 
-constructor TWaitThread.Create(const FilesToView: TStringList);
+constructor TWaitThread.Create(const FilesToView: TStringList; const aFileSource: IFileSource);
 begin
   inherited Create(True);
 
@@ -113,12 +115,16 @@ begin
   FFileList := TStringList.Create;
   // Make a copy of list elements.
   FFileList.Assign(FilesToView);
+  FFileSource := aFileSource;
 end;
 
 destructor TWaitThread.Destroy;
 begin
   if Assigned(FFileList) then
     FreeAndNil(FFileList);
+
+  // Delete the temporary file source and all files inside.
+  FFileSource := nil;
 
   inherited Destroy;
 end;

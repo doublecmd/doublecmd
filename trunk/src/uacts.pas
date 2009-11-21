@@ -256,7 +256,8 @@ uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager,
      uFileSystemDeleteOperation, uFileSourceExecuteOperation,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
      uFileSourceCalcStatisticsOperation, uFileSystemFile,
-     uFileSource, uFileSourceProperty, uVfsFileSource, uFileSourceUtil;
+     uFileSource, uFileSourceProperty, uVfsFileSource, uFileSourceUtil,
+     uTempFileSystemFileSource;
 
 { TActs }
 
@@ -1167,103 +1168,110 @@ procedure TActs.cm_View(param:string);
 var
   sl: TStringList = nil;
   i: Integer;
-  sViewCmd,
-  sFileName,
-  sFilePath: String;
-  bDeleteAfterView: Boolean;
+  sViewCmd: String;
   SelectedFiles: TFiles = nil;
+  TempFiles: TFiles = nil;
   aFile: TFile;
+  TempFileSource: ITempFileSystemFileSource = nil;
+  Operation: TFileSourceOperation;
+  aFileSource: IFileSource;
 begin
   with frmMain do
-  // For now only works for FileSystem.
-  if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
-  begin
-    sl := TStringList.Create;
-    try
-      SelectedFiles := ActiveFrame.SelectedFiles;
+  try
+    SelectedFiles := ActiveFrame.SelectedFiles;
 
-      for i := 0 to SelectedFiles.Count - 1 do
-      begin
-        aFile := SelectedFiles[i];
-
-        if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
-        begin
-          if (log_info in gLogOptions) then
-            logWrite('View.Add: ' + ActiveFrame.CurrentPath + aFile.Name, lmtInfo);
-
-          //now test if exists View command in doublecmd.ext :)
-          sViewCmd:= gExts.GetExtActionCmd(aFile, 'view');
-
-{
- // Use TemporaryFileSystem for this when it's done.
-
-          case pnlFile.PanelMode of
-          pmArchive, pmVFS: // if in Virtual File System
-            begin
-              VFSFileList:= TFileList.Create;
-              VFSFileList.CurrentDirectory := ActiveDir;
-              sFileName:= ActiveDir + fr^.sName;
-              New(fr);
-              fr^.sName:= sFileName;
-              fr^.iMode:= 0;
-              fr^.sPath:= GetTempFolder;
-              VFSFileList.AddItem(fr);
-              {if }pnlFile.VFS.VFSmodule.VFSCopyOut(VFSFileList, fr^.sPath, 0);{ then}
-                begin
-                  if (sViewCmd<>'') then
-                    begin
-                      ReplaceExtCommand(sViewCmd, fr, pnlFile.CurrentPath);
-                      ProcessExtCommand(sViewCmd, pnlFile.CurrentPath);
-                    end
-                  else
-                    begin
-                      sl.Add(fr^.sPath + ExtractDirLevel(ActiveDir, fr^.sName));
-                      bDeleteAfterView:= True;
-                    end;
-                 Dispose(fr);
-                end;
-            end;
-}
-          if (sViewCmd<>'') then
-            begin
-              ReplaceExtCommand(sViewCmd, aFile);
-              ProcessExtCommand(sViewCmd, ActiveFrame.CurrentPath);
-            end
-          else
-            begin
-              sFileName := aFile.Name;
-              sFilePath := ActiveFrame.CurrentPath; // aFile.Path;
-              sl.Add(GetSplitFileName(sFileName, sFilePath));
-              bDeleteAfterView:= False;
-            end;
-        end; // if selected
-      end; // for
-
-      // if sl has files then view it
-      if sl.Count > 0 then
-        ShowViewerByGlobList(sl, bDeleteAfterView)
-      else
-        begin
-          // Enter directories using View command.
-          aFile := ActiveFrame.ActiveFile;
-          if Assigned(aFile) and (aFile.IsDirectory or
-                                  aFile.IsLinkToDirectory) then
-            begin
-              ActiveFrame.ExecuteCommand('cm_Open');
-              // or change ActiveFrame.CurrentPath directly?
-              // or use GoDownLevel (GoToSubDir(aFile)) command or similar?
-            end
-        end;
-
-    finally
-      if Assigned(sl) then
-        FreeAndNil(sl);
-      if Assigned(SelectedFiles) then
-        FreeAndNil(SelectedFiles);
+    // Enter directories using View command.
+    aFile := ActiveFrame.ActiveFile;
+    if Assigned(aFile) and (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+    begin
+      ActiveFrame.ExecuteCommand('cm_Open');
+      Exit;
     end;
-  end
-  else
-    msgWarning(rsMsgNotImplemented);
+
+    if SelectedFiles.Count = 0 then
+    begin
+      msgWarning(rsMsgNoFilesSelected);
+      Exit;
+    end;
+
+    // If files not directly accessible copy them to temp file source.
+    if not (fspDirectAccess in ActiveFrame.FileSource.Properties) then
+    begin
+      if not (fsoCopyOut in ActiveFrame.FileSource.GetOperationsTypes) then
+      begin
+        msgWarning(rsMsgErrNotSupported);
+        Exit;
+      end;
+
+      TempFiles := SelectedFiles.Clone;
+
+      TempFileSource := TTempFileSystemFileSource.GetFileSource;
+
+      Operation := ActiveFrame.FileSource.CreateCopyOutOperation(
+                       TempFileSource,
+                       TempFiles,
+                       TempFileSource.CurrentAddress);
+
+      if Assigned(Operation) then
+      begin
+        Operation.Execute;
+        FreeAndNil(Operation);
+
+        aFileSource := TempFileSource;
+        ChangeFileListRoot(TempFileSource.FileSystemRoot, SelectedFiles);
+      end
+      else
+      begin
+        msgWarning(rsMsgErrNotSupported);
+        Exit;
+      end;
+    end
+    else
+    begin
+      // We can use the file source directly.
+      aFileSource := ActiveFrame.FileSource;
+    end;
+
+    sl := TStringList.Create;
+    for i := 0 to SelectedFiles.Count - 1 do
+    begin
+      aFile := SelectedFiles[i];
+
+      if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+      begin
+        if (log_info in gLogOptions) then
+          logWrite('View.Add: ' + aFile.FullPath, lmtInfo);
+
+        //now test if exists View command in doublecmd.ext :)
+        sViewCmd:= gExts.GetExtActionCmd(aFile, 'view');
+
+        if (sViewCmd<>'') then
+          begin
+            ReplaceExtCommand(sViewCmd, aFile);
+            ProcessExtCommand(sViewCmd, ActiveFrame.CurrentPath);
+            // TODO:
+            // If TempFileSource is used, create a wait thread that will
+            // keep the TempFileSource alive until the command is finished.
+          end
+        else
+          begin
+            sl.Add(aFile.FullPath);
+          end;
+      end; // if selected
+    end; // for
+
+    // if sl has files then view it
+    if sl.Count > 0 then
+      ShowViewerByGlobList(sl, aFileSource);
+
+  finally
+    if Assigned(sl) then
+      FreeAndNil(sl);
+    if Assigned(SelectedFiles) then
+      FreeAndNil(SelectedFiles);
+    if Assigned(TempFiles) then
+      FreeAndNil(TempFiles);
+  end;
 end;
 
 procedure TActs.cm_Edit(param:string);
