@@ -96,6 +96,19 @@ type
 
     procedure SetActiveFile(const aFileName: String); virtual; overload;
 
+    {en
+       Changes the current path to a parent directory.
+       @param(AllowChangingFileSource
+              If this parameter is @true and current path is the root path
+              of the current file source, then the current file source will
+              be removed (closed) and a previous file source will be displayed.)
+    }
+    procedure ChangePathToParent(AllowChangingFileSource: Boolean); virtual;
+    {en
+       Change the current path to a subdirectory pointed to by aFile.
+    }
+    procedure ChangePathToChild(const aFile: TFile); virtual;
+
     procedure ExecuteCommand(CommandName: String; Parameter: String = ''); virtual;
 
     {en
@@ -273,6 +286,44 @@ end;
 
 procedure TFileView.SetActiveFile(const aFileName: String);
 begin
+end;
+
+procedure TFileView.ChangePathToParent(AllowChangingFileSource: Boolean);
+var
+  PreviousSubDirectory,
+  sUpLevel: String;
+begin
+  // Check if this is root level of the current file source.
+  if FileSource.IsPathAtRoot(CurrentPath) then
+  begin
+    // If there is a higher level file source then change to it.
+    if (FileSourcesCount > 1) and AllowChangingFileSource then
+    begin
+      RemoveLastFileSource;
+      Reload;
+      UpdateView;
+    end;
+  end
+  else
+  begin
+    PreviousSubDirectory := ExtractFileName(ExcludeTrailingPathDelimiter(CurrentPath));
+
+    sUpLevel:= FileSource.GetParentDir(CurrentPath);
+    if sUpLevel <> EmptyStr then
+    begin
+      CurrentPath := sUpLevel;
+      SetActiveFile(PreviousSubDirectory);
+    end;
+  end;
+end;
+
+procedure TFileView.ChangePathToChild(const aFile: TFile);
+begin
+  if Assigned(aFile) and aFile.IsNameValid and
+     (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+  begin
+    CurrentPath := CurrentPath + IncludeTrailingPathDelimiter(aFile.Name);
+  end;
 end;
 
 procedure TFileView.ExecuteCommand(CommandName: String; Parameter: String);

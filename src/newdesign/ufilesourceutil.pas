@@ -23,6 +23,8 @@ procedure ChooseFile(aFileView: TFileView; aFile: TFile);
 }
 function ChooseFileSource(aFileView: TFileView; aFile: TFile): Boolean;
 
+function ChooseArchive(aFileView: TFileView; aFile: TFile): Boolean;
+
 function RenameFile(aFileSource: IFileSource; const aFile: TFile;
                     const NewFileName: UTF8String; Interactive: Boolean): Boolean;
 
@@ -110,20 +112,8 @@ var
 begin
   Result := False;
 
-  // Opening archives directly only from FileSystem.
-  if aFileView.FileSource.IsClass(TFileSystemFileSource) then
-  begin
-    // Check if there is a registered WCX plugin for possible archive.
-    FileSource := FileSourceManager.Find(TWcxArchiveFileSource, aFile.Path + aFile.Name);
-    if not Assigned(FileSource) then
-      FileSource := TWcxArchiveFileSource.CreateByArchiveName(aFile.Path + aFile.Name);
-
-    if Assigned(FileSource) then
-    begin
-      aFileView.AddFileSource(FileSource, FileSource.GetRootDir);
-      Exit(True);
-    end;
-  end;
+  if ChooseArchive(aFileView, aFile) then
+    Exit;
 
   // Work only for TVfsFileSource.
   if aFileView.FileSource.IsClass(TVfsFileSource) then
@@ -132,6 +122,28 @@ begin
     FileSource := FileSourceManager.Find(TWfxPluginFileSource, aFile.Path + aFile.Name);
     if not Assigned(FileSource) then
       FileSource := TWfxPluginFileSource.CreateByRootName(aFile.Name);
+
+    if Assigned(FileSource) then
+    begin
+      aFileView.AddFileSource(FileSource, FileSource.GetRootDir);
+      Exit(True);
+    end;
+  end;
+end;
+
+function ChooseArchive(aFileView: TFileView; aFile: TFile): Boolean;
+var
+  FileSource: IFileSource;
+begin
+  Result := False;
+
+  // Opening archives directly only from FileSystem.
+  if aFileView.FileSource.IsClass(TFileSystemFileSource) then
+  begin
+    // Check if there is a registered WCX plugin for possible archive.
+    FileSource := FileSourceManager.Find(TWcxArchiveFileSource, aFile.Path + aFile.Name);
+    if not Assigned(FileSource) then
+      FileSource := TWcxArchiveFileSource.CreateByArchiveName(aFile.Path + aFile.Name);
 
     if Assigned(FileSource) then
     begin

@@ -887,14 +887,20 @@ begin
 end;
 
 procedure TActs.cm_OpenArchive(param:string);
+var
+  aFile: TFile;
 begin
-{
-  with frmMain.ActiveFrame.pnlFile do
+  with frmMain.ActiveFrame do
   begin
-    if IsItemValid(GetActiveItem) then
-      TryOpenArchive(GetActiveItem);
+    aFile := ActiveFile;
+    if Assigned(aFile) and aFile.IsNameValid then
+    begin
+      if aFile.IsDirectory or aFile.IsLinkToDirectory then
+        ChangePathToChild(aFile)
+      else
+        ChooseArchive(frmMain.ActiveFrame, aFile); // TryOpenArchive(aFile);
+    end;
   end;
-}
 end;
 
 procedure TActs.cm_Open(param:string);
@@ -2513,15 +2519,8 @@ begin
 end;
 
 procedure TActs.cm_ChangeDirToParent(param: string='');
-var
-  NewPath: String;
 begin
-  with frmMain.ActiveFrame do
-  begin
-    NewPath := FileSource.GetParentDir(CurrentPath);
-    if NewPath <> '' then
-      CurrentPath := NewPath;
-  end;
+  frmMain.ActiveFrame.ChangePathToParent(True);
 end;
 
 // Parameters:

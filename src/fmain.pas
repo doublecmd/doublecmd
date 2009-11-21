@@ -1583,56 +1583,32 @@ End;
 
 procedure TfrmMain.HandleActionHotKeys(var Key: Word; Shift: TShiftState);
 begin
-  // ---- 30.04.2009 - переписал для удаления в корзину. ----
-  If ((Key = VK_F8) or (Key = VK_DELETE)) and
-     ((not IsCommandLineVisible) or ((not edtCommand.Focused) and (edtCommand.Tag = 0))) then
-   begin
-    if gUseTrash and mbCheckTrash(ActiveFrame.CurrentPath) then // 14.05.2009 - additional check for various linux distributives.
-     begin
-      if Shift=[ssShift] then // если шифт - удаляем напрямую
-       Actions.cm_Delete('')
-      else Actions.cm_Delete('recycle'); // без шифта удаляем в корзину
-     end
-    else Actions.cm_Delete('');  // если корзина отключена в конфигурации, или (для линукс) нет программы gvsf-trash, то удалять напрямую.
-    Key := 0;
-    Exit;
-   end;
-  // ---------------------------------------------------------
-
-  if (Key=VK_Return) or (Key=VK_SELECT) then
-  begin
-    with ActiveFrame do
-    begin
-      if (Shift=[])or (Shift=[ssCaps]) then // 21.05.2009 - не учитываем CapsLock при перемещении по панелям
+  case Key of
+    VK_F8, VK_DELETE:
+      // ---- 30.04.2009 - переписал для удаления в корзину. ----
+      if ((not IsCommandLineVisible) or ((not edtCommand.Focused) and (edtCommand.Tag = 0))) then
       begin
-        if (not IsCommandLineVisible) or (edtCommand.Text='') then
+        if gUseTrash and mbCheckTrash(ActiveFrame.CurrentPath) then // 14.05.2009 - additional check for various linux distributives.
         begin
-          // Delegated to ActiveFrame.
+          if Shift=[ssShift] then // если шифт - удаляем напрямую
+            Actions.cm_Delete('')
+          else
+            Actions.cm_Delete('recycle'); // без шифта удаляем в корзину
         end
         else
-        begin
-          ExecuteCommandLine(False);
-          Key:=0;
-          Exit;
-        end;
-      end; //Shift=[] + 21.05.2009 - не учитываем CapsLock при перемещении по панелям
+          Actions.cm_Delete('');  // если корзина отключена в конфигурации, или (для линукс) нет программы gvsf-trash, то удалять напрямую.
+        Key := 0;
+       end;
 
-      // execute command line in terminal (Shift+Enter)
-      if Shift=[ssShift] then
+    VK_RETURN, VK_SELECT:
+      if IsCommandLineVisible and (edtCommand.Text <> '') and
+         (Shift - [ssCaps, ssShift] = []) then
       begin
-        if (not IsCommandLineVisible) or (edtCommand.Text='') then
-        begin
-          // Delegated to ActiveFrame.
-        end
-        else
-          begin
-            ExecuteCommandLine(True);
-            Key := 0;
-            Exit;
-          end;
+        // execute command line (in terminal with Shift)
+        ExecuteCommandLine(Shift = [ssShift]);
+        Key:=0;
       end;
-    end;
-  end;  // handle ENTER with some modifier
+  end;
 end;
 
 procedure TfrmMain.FormKeyPress(Sender: TObject; var Key: Char);
@@ -2218,28 +2194,6 @@ begin
 
     else
       HandleActionHotKeys(Key, Shift);
-  end;
-
-  // CTRL+PgDown
-  if (Shift=[ssCtrl]) and (Key=VK_NEXT) then
-  begin
-   // Delegate to ActiveFrame (actually should be via hotkey and appropriate command).
-
-    with ActiveFrame do
-    begin
-{
-      if IsActiveItemValid then
-        begin
-          if FPS_ISDIR(pnlFile.GetActiveItem^.iMode) or (pnlFile.GetActiveItem^.bLinkIsDir) then
-            pnlFile.cdDownLevel(pnlFile.GetActiveItem)
-          else
-            Actions.cm_OpenArchive('');
-            //actOpenArchive.Execute;
-        end;
-}
-    end;
-    Key:=0;
-    Exit;
   end;
 end;
 
