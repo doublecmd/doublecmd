@@ -327,9 +327,6 @@ type
     procedure LoadConfiguration(Section: String; TabIndex: Integer); override;
     procedure SaveConfiguration(Section: String; TabIndex: Integer); override;
 
-    procedure cdUpLevel;
-    procedure cdDownLevel(AFile: TFile);
-
     procedure SelectFile(AFile: TColumnsViewFile);
     procedure MakeVisible(iRow:Integer);
     procedure MakeSelectedVisible;
@@ -538,40 +535,6 @@ begin
     gIni.WriteInteger(Section, sIndex + '_sortdirection' + IntToStr(i),
                       Integer(SortingColumn^.SortDirection));
   end;
-end;
-
-procedure TColumnsFileView.cdUpLevel;
-var
-  PreviousSubDirectory,
-  sUpLevel: String;
-begin
-  // Check if this is root level of the current file source.
-  if FileSource.IsPathAtRoot(CurrentPath) then
-  begin
-    // If there is a higher level file source then change to it.
-    if FileSourcesCount > 1 then
-    begin
-      RemoveLastFileSource;
-      Reload;
-      UpdateView;
-    end;
-  end
-  else
-  begin
-    PreviousSubDirectory := ExtractFileName(ExcludeTrailingPathDelimiter(CurrentPath));
-
-    sUpLevel:= GetParentDir(CurrentPath);
-    if sUpLevel <> EmptyStr then
-    begin
-      CurrentPath := sUpLevel;
-      SetActiveFile(PreviousSubDirectory);
-    end;
-  end;
-end;
-
-procedure TColumnsFileView.cdDownLevel(AFile: TFile);
-begin
-  CurrentPath := CurrentPath + AFile.Name + DirectorySeparator;
 end;
 
 procedure TColumnsFileView.SelectFile(AFile: TColumnsViewFile);
@@ -1146,13 +1109,13 @@ begin
   begin
     if TheFile.Name = '..' then
     begin
-      cdUpLevel;
+      ChangePathToParent(True);
       Exit;
     end;
 
     if TheFile.IsDirectory or TheFile.IsLinkToDirectory then // deeper and deeper
     begin
-      cdDownLevel(TheFile);
+      ChangePathToChild(TheFile);
       Exit;
     end;
 
@@ -2053,7 +2016,7 @@ begin
     VK_LEFT:
       if (Shift = []) and gLynxLike then
       begin
-        cdUpLevel;
+        ChangePathToParent(True);
         Key := 0;
       end;
 
@@ -2118,7 +2081,7 @@ begin
       begin
         if (frmMain.edtCommand.Tag = 0) then
         begin
-          cdUpLevel;
+          ChangePathToParent(True);
           RedrawGrid;
         end;
         Key := 0;

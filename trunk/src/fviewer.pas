@@ -151,8 +151,7 @@ procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSour
 implementation
 
 uses
-  uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx, uFindMmap, uDCUtils,
-  uOSUtils;
+  uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx, uFindMmap, uDCUtils;
 
 procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSource);
 var
@@ -344,8 +343,6 @@ end;
 
 procedure TfrmViewer.frmViewerClose(Sender: TObject;
                                     var CloseAction: TCloseAction);
-var
-  I, Count : Integer;
 begin
   // TODO: may be better automtic save
   // (see also TfrmViewer.miSavePosClick)
