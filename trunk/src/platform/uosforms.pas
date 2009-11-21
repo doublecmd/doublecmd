@@ -374,7 +374,10 @@ begin
 
         if SameText(sVerb, sCmdVerbDelete) then
           begin
-            frmMain.actDelete.Execute;
+            if ssShift in GetKeyShiftState then
+              Actions.cm_Delete('recyclesettingrev')
+            else
+              Actions.cm_Delete('recyclesetting');
             bHandled := True;
           end
         else if SameText(sVerb, sCmdVerbRename) then
