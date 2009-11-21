@@ -1216,7 +1216,7 @@ begin
       Operation := ActiveFrame.FileSource.CreateCopyOutOperation(
                        TempFileSource,
                        TempFiles,
-                       TempFileSource.CurrentAddress);
+                       TempFileSource.FileSystemRoot);
 
       if Assigned(Operation) then
       begin
