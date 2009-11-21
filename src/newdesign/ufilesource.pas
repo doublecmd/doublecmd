@@ -360,8 +360,7 @@ end;
 
 function TFileSource.IsPathAtRoot(Path: String): Boolean;
 begin
-  // Default root is '/'. Override in descendant classes for other.
-  Result := (Path = PathDelim);
+  Result := (Path = GetRootDir(Path));
 end;
 
 function TFileSource.GetParentDir(sPath : String): String;
@@ -371,7 +370,13 @@ end;
 
 function TFileSource.GetRootDir(sPath : String): String;
 begin
+  // Default root is '/'. Override in descendant classes for other.
   Result := PathDelim;
+end;
+
+function TFileSource.GetRootDir: String;
+begin
+  Result := GetRootDir('');
 end;
 
 function TFileSource.GetPathType(sPath : String): TPathType;
@@ -385,11 +390,6 @@ begin
     else if ( Pos( PathDelim, sPath ) > 0 ) then
       Result := ptRelative;
   end;
-end;
-
-function TFileSource.GetRootDir: String;
-begin
-  Result := GetRootDir('');
 end;
 
 function TFileSource.GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;

@@ -693,13 +693,33 @@ var
   i: Integer;
   aFile: TFile;
 begin
-  for i := 0 to Files.Count - 1 do
+  if IsInPath(sNewRootPath, Files.Path, True) then
   begin
-    aFile := Files[i];
-    aFile.Path := ExtractDirLevel(sNewRootPath, aFile.Path);
-  end;
+    // Current path is a subpath of new root path.
 
-  Files.Path := ExtractDirLevel(sNewRootPath, Files.Path);
+    for i := 0 to Files.Count - 1 do
+    begin
+      aFile := Files[i];
+      aFile.Path := ExtractDirLevel(sNewRootPath, aFile.Path);
+    end;
+
+    Files.Path := ExtractDirLevel(sNewRootPath, Files.Path);
+  end
+  else
+  begin
+    // Current path has a different base than new root path.
+
+    if sNewRootPath <> EmptyStr then
+      sNewRootPath := IncludeTrailingPathDelimiter(sNewRootPath);
+
+    for i := 0 to Files.Count - 1 do
+    begin
+      aFile := Files[i];
+      aFile.Path := sNewRootPath + ExtractDirLevel(Files.Path, aFile.Path);
+    end;
+
+    Files.Path := sNewRootPath;
+  end;
 end;
 
 function ExtractDirLevel(const sPrefix, sPath: String): String;
