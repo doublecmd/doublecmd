@@ -13,10 +13,10 @@ type
   ITempFileSystemFileSource = interface(IFileSystemFileSource)
     ['{1B6CFF05-15D5-45AF-A382-9C12C1A52024}']
 
-    function GetDeleteAtEnd: Boolean;
-    procedure SetDeleteAtEnd(NewDeleteAtEnd: Boolean);
+    function GetDeleteOnDestroy: Boolean;
+    procedure SetDeleteOnDestroy(NewDeleteOnDestroy: Boolean);
 
-    property DeleteAtEnd: Boolean read GetDeleteAtEnd write SetDeleteAtEnd;
+    property DeleteOnDestroy: Boolean read GetDeleteOnDestroy write SetDeleteOnDestroy;
     property FileSystemRoot: String read GetRootDir;
   end;
 
@@ -26,17 +26,17 @@ type
      Filesystem file source that stores temporary files.
 
      Operations can be done like on a regular file system but all the contents
-     can be deleted when the file source is destroyed, depending on DeleteAtEnd
+     can be deleted when the file source is destroyed, depending on DeleteOnDestroy
      property.
   }
   TTempFileSystemFileSource = class(TFileSystemFileSource, ITempFileSystemFileSource)
 
   private
-    FDeleteAtEnd: Boolean;
+    FDeleteOnDestroy: Boolean;
     FTempRootDir: String;
 
-    function GetDeleteAtEnd: Boolean;
-    procedure SetDeleteAtEnd(NewDeleteAtEnd: Boolean);
+    function GetDeleteOnDestroy: Boolean;
+    procedure SetDeleteOnDestroy(NewDeleteOnDestroy: Boolean);
 
   protected
 
@@ -54,7 +54,7 @@ type
 
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; override;
 
-    property DeleteAtEnd: Boolean read FDeleteAtEnd write FDeleteAtEnd default True;
+    property DeleteOnDestroy: Boolean read FDeleteOnDestroy write FDeleteOnDestroy default True;
     property FilesystemRoot: String read FTempRootDir;
   end;
   
@@ -103,12 +103,12 @@ begin
 
   if (FTempRootDir = EmptyStr) or (mbForceDirectory(FTempRootDir) = False) then
   begin
-    FDeleteAtEnd := False;
+    FDeleteOnDestroy := False;
     raise ECannotCreateTempFileSourceException.Create('Cannot create temp file source');
   end;
 
   FCurrentAddress := FTempRootDir;
-  FDeleteAtEnd := True;
+  FDeleteOnDestroy := True;
 
   FTempRootDir := IncludeTrailingPathDelimiter(FTempRootDir);
 end;
@@ -117,21 +117,21 @@ destructor TTempFileSystemFileSource.Destroy;
 begin
   inherited Destroy;
 
-  if FDeleteAtEnd and mbDirectoryExists(FTempRootDir) then
+  if FDeleteOnDestroy and mbDirectoryExists(FTempRootDir) then
   begin
     DelTree(FCurrentAddress);
     mbRemoveDir(FCurrentAddress);
   end;
 end;
 
-function TTempFileSystemFileSource.GetDeleteAtEnd: Boolean;
+function TTempFileSystemFileSource.GetDeleteOnDestroy: Boolean;
 begin
-  Result := FDeleteAtEnd;
+  Result := FDeleteOnDestroy;
 end;
 
-procedure TTempFileSystemFileSource.SetDeleteAtEnd(NewDeleteAtEnd: Boolean);
+procedure TTempFileSystemFileSource.SetDeleteOnDestroy(NewDeleteOnDestroy: Boolean);
 begin
-  FDeleteAtEnd := NewDeleteAtEnd;
+  FDeleteOnDestroy := NewDeleteOnDestroy;
 end;
 
 class function TTempFileSystemFileSource.GetFileSource: ITempFileSystemFileSource;
