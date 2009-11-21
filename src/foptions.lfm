@@ -2169,10 +2169,10 @@ object frmOptions: TfrmOptions
             Left = 14
             Height = 21
             Top = 138
-            Width = 265
+            Width = 306
             BorderSpacing.Left = 14
             BorderSpacing.Top = 6
-            Caption = '&F8/Del deletes to recycle bin (Shift=directly)'
+            Caption = 'Delete to recycle bin (Shift key reverses this setting)'
             TabOrder = 5
           end
           object cbSkipFileOpError: TCheckBox

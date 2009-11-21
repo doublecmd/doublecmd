@@ -1387,6 +1387,12 @@ begin
   end;
 end;
 
+// Parameters:
+// "recycle"           - delete to trash can
+// "norecycle"         - delete directly
+// "recyclesetting"    - if gUseTrash then delete to trash, otherwise delete directly
+// "recyclesettingrev" - if gUseTrash then delete directly, otherwise delete to trash
+// no parameter        - depends on gUseTrash
 procedure TActs.cm_Delete(param:string);
 var
   theFilesToDelete: TFiles;
@@ -1395,6 +1401,7 @@ var
   Operation: TFileSourceOperation;
   OperationHandle: TOperationHandle;
   ProgressDialog: TfrmFileOp;
+  bRecycle: Boolean = False;
 begin
   with frmMain.ActiveFrame do
   begin
@@ -1404,9 +1411,18 @@ begin
       Exit;
     end;
 
+    if ((gUseTrash = True) and ((param = '') or (param = 'recyclesetting'))) or
+       ((gUseTrash = False) and (param = 'recyclesettingrev')) or
+       (param = 'recycle') and
+       FileSource.IsClass(TFileSystemFileSource) and
+       mbCheckTrash(CurrentPath) then
+    begin
+      bRecycle := True;
+    end;
+
     // 12.05.2009
     // Showing delete dialog: to trash or to /dev/null :)
-    If (param = 'recycle') then
+    If bRecycle then
      begin
       MsgDelSel := rsMsgDelSelT;
       MsgDelFlDr := rsMsgDelFlDrT;
@@ -1438,8 +1454,7 @@ begin
           with Operation as TFileSystemDeleteOperation do
           begin
             // 30.04.2009 - передаем параметр корзины в поток.
-            if param = 'recycle' then
-              Recycle := True
+            Recycle := bRecycle;
           end;
 
         // Start operation.

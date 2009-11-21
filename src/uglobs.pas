@@ -263,13 +263,17 @@ begin
   With HotMan do
     begin
       AddHotKey('Alt+X','cm_Exit','','FrmMain','FrmMain');
+      AddHotKey('F1','cm_About','','FrmMain','FrmMain');
       AddHotKey('F2','cm_RenameOnly','','FrmMain','FrmMain');
       AddHotKey('F3','cm_View','','FrmMain','FrmMain');
       AddHotKey('F4','cm_Edit','','FrmMain','FrmMain');
       AddHotKey('F5','cm_Copy','','FrmMain','FrmMain');
       AddHotKey('F6','cm_Rename','','FrmMain','FrmMain');
       AddHotKey('F7','cm_MakeDir','','FrmMain','FrmMain');
-      AddHotKey('F1','cm_About','','FrmMain','FrmMain');
+      AddHotKey('F8','cm_Delete','','FrmMain','FrmMain');
+      AddHotKey('Shift+F8','cm_Delete','recyclesettingrev','FrmMain','FrmMain');
+      AddHotKey('Del','cm_Delete','','FrmMain','FrmMain');
+      AddHotKey('Shift+Del','cm_Delete','recyclesettingrev','FrmMain','FrmMain');
       AddHotKey('F9','cm_RunTerm','','FrmMain','FrmMain');
       AddHotKey('Ctrl+A','cm_MarkMarkAll','','FrmMain','FrmMain');
       AddHotKey('Ctrl+R','cm_Refresh','','FrmMain','FrmMain');
