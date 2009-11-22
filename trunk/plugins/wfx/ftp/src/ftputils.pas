@@ -29,7 +29,7 @@ unit FtpUtils;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, WfxPlugin;
 
 const
   S_IFMT   = $F000;
@@ -77,10 +77,21 @@ function DecodeBase64(Data: AnsiString): AnsiString;
 function ExtractConnectionHost(Connection: AnsiString): AnsiString;
 function ExtractConnectionPort(Connection: AnsiString): AnsiString;
 
+function FileTimeToLocalFileTimeEx(const lpFileTime: TFileTime; var lpLocalFileTime: TFileTime): LongBool;
+function LocalFileTimeToFileTimeEx(const lpLocalFileTime: TFileTime; var lpFileTime: TFileTime): LongBool;
+function FileTimeToDateTime(ft : TFileTime) : TDateTime;
+function DateTimeToFileTime(dt : TDateTime) : TFileTime;
+
 implementation
 
 uses
-  Base64;
+  Base64
+  {$IFDEF MSWINDOWS}
+  , Windows
+  {$ELSE}
+  , UnixUtil
+  {$ENDIF}
+  ;
 
 function ModeStr2Mode(const sMode: String): Integer;
 begin
@@ -186,6 +197,42 @@ begin
       if J = 0 then J:= MaxInt;
       Result:= Trim(Copy(Connection, I + 1, J));
     end;
+end;
+
+function FileTimeToLocalFileTimeEx(const lpFileTime: TFileTime; var lpLocalFileTime: TFileTime): LongBool;
+{$IFDEF MSWINDOWS}
+begin
+  Result := FileTimeToLocalFileTime(lpFileTime, lpLocalFileTime);
+end;
+{$ELSE}
+begin
+  Int64(lpLocalFileTime) := Int64(lpFileTime) + 10000000 * Int64(TZSeconds);
+  Result := True;
+end;
+{$ENDIF}
+
+function LocalFileTimeToFileTimeEx(const lpLocalFileTime: TFileTime; var lpFileTime: TFileTime): LongBool;
+{$IFDEF MSWINDOWS}
+begin
+  Result := LocalFileTimeToFileTime(lpLocalFileTime, lpFileTime);
+end;
+{$ELSE}
+begin
+  Int64(lpFileTime) := Int64(lpLocalFileTime) - 10000000 * Int64(TZSeconds);
+  Result := True;
+end;
+{$ENDIF}
+
+function FileTimeToDateTime(ft : TFileTime) : TDateTime;
+begin
+  FileTimeToLocalFileTimeEx(ft,ft);
+  Result := (Int64(ft) / 864000000000.0) - 109205.0;
+end;
+
+function DateTimeToFileTime(dt : TDateTime) : TFileTime;
+begin
+  Int64(Result) := Round((dt + 109205.0) * 864000000000.0);
+  LocalFileTimeToFileTimeEx(Result, Result);
 end;
 
 end.
