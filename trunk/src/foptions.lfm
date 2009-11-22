@@ -1058,22 +1058,23 @@ object frmOptions: TfrmOptions
         ClientWidth = 524
         ClientHeight = 501
         object lblHotKey: TLabel
-          AnchorSideLeft.Control = stgCommands
-          AnchorSideTop.Control = edHotKey
-          AnchorSideRight.Control = edHotKey
-          Left = 8
-          Height = 14
-          Top = 393
-          Width = 177
-          Anchors = [akTop, akLeft, akRight]
+          AnchorSideLeft.Control = stgHotkeys
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideBottom.Control = edHotKey
+          Left = 281
+          Height = 18
+          Top = 410
+          Width = 46
+          Anchors = [akLeft, akBottom]
+          BorderSpacing.Left = 8
           Caption = 'Hot Key:'
           ParentColor = False
         end
         object lbtypes: TLabel
           Left = 8
-          Height = 14
-          Top = 4
-          Width = 57
+          Height = 18
+          Top = 0
+          Width = 63
           Caption = 'Categories:'
           ParentColor = False
         end
@@ -1082,102 +1083,81 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = lbxCategories
           AnchorSideTop.Side = asrBottom
           Left = 8
-          Height = 14
+          Height = 18
           Top = 72
-          Width = 57
+          Width = 68
           BorderSpacing.Top = 4
           Caption = 'Commands:'
           ParentColor = False
         end
         object lblParam: TLabel
-          AnchorSideLeft.Control = stgCommands
-          AnchorSideTop.Control = edtParam
-          AnchorSideRight.Control = edtParam
-          Left = 8
-          Height = 14
-          Top = 469
-          Width = 177
-          Anchors = [akTop, akLeft, akRight]
+          AnchorSideLeft.Control = lblHotKey
+          AnchorSideBottom.Control = edtParam
+          Left = 281
+          Height = 18
+          Top = 455
+          Width = 40
+          Anchors = [akLeft, akBottom]
           Caption = 'Param:'
           ParentColor = False
         end
         object lbFilter: TLabel
-          AnchorSideLeft.Control = stgCommands
-          AnchorSideTop.Control = stgCommands
-          AnchorSideTop.Side = asrBottom
+          AnchorSideTop.Control = edtFilter
+          AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = edtFilter
-          Left = 12
-          Height = 14
-          Top = 366
-          Width = 25
-          BorderSpacing.Left = 4
+          Left = 367
+          Height = 18
+          Top = 347
+          Width = 29
+          Anchors = [akTop, akRight]
           BorderSpacing.Top = 4
-          BorderSpacing.Right = 8
+          BorderSpacing.Right = 4
           Caption = 'Filter'
           ParentColor = False
         end
-        object lbHotKeys: TLabel
-          AnchorSideLeft.Control = stgCommands
-          AnchorSideTop.Control = lbxHotkeys
-          AnchorSideRight.Control = lbxHotkeys
-          Left = 8
-          Height = 14
-          Top = 418
-          Width = 177
-          Anchors = [akTop, akLeft, akRight]
-          Caption = 'Hot Keys'
-          ParentColor = False
-        end
         object lbPressedHotKeyCommand: TLabel
-          AnchorSideLeft.Control = edtFilter
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = edtFilter
-          AnchorSideTop.Side = asrCenter
-          AnchorSideRight.Control = btSetHotKey
-          AnchorSideRight.Side = asrBottom
-          Left = 160
-          Height = 14
-          Top = 372
-          Width = 343
-          Anchors = [akTop, akLeft, akRight]
-          AutoSize = False
-          BorderSpacing.Left = 8
+          AnchorSideLeft.Control = lblHotKey
+          AnchorSideBottom.Control = lblHotKey
+          Left = 281
+          Height = 18
+          Top = 388
+          Width = 1
+          Anchors = [akLeft, akBottom]
+          BorderSpacing.Bottom = 4
           Font.Color = clRed
           Font.Style = [fsBold]
           ParentColor = False
           ParentFont = False
         end
         object edHotKey: TEdit
-          AnchorSideTop.Control = edtFilter
-          AnchorSideTop.Side = asrBottom
+          AnchorSideLeft.Control = lblHotKey
           AnchorSideRight.Control = btSetHotKey
-          Left = 185
-          Height = 23
-          Top = 393
-          Width = 197
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 4
-          BorderSpacing.Right = 10
+          AnchorSideBottom.Control = lblParam
+          Left = 281
+          Height = 25
+          Top = 428
+          Width = 103
+          Anchors = [akLeft, akRight, akBottom]
+          BorderSpacing.Right = 8
+          BorderSpacing.Bottom = 2
           OnKeyDown = edHotKeyKeyDown
           OnKeyPress = edHotKeyKeyPress
-          TabOrder = 0
+          TabOrder = 4
         end
         object btSetHotKey: TButton
-          AnchorSideLeft.Control = edHotKey
-          AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = edHotKey
           AnchorSideRight.Control = stgCommands
           AnchorSideRight.Side = asrBottom
           Left = 392
           Height = 24
-          Top = 393
+          Top = 428
           Width = 111
           Anchors = [akTop, akRight]
           BorderSpacing.InnerBorder = 4
           Caption = 'Set HotKey'
           Enabled = False
           OnClick = btSetHotKeyClick
-          TabOrder = 2
+          TabOrder = 6
         end
         object btClearHotKey: TButton
           AnchorSideLeft.Side = asrBottom
@@ -1187,7 +1167,7 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Side = asrBottom
           Left = 392
           Height = 24
-          Top = 423
+          Top = 458
           Width = 111
           Anchors = [akTop, akRight]
           BorderSpacing.Left = 8
@@ -1196,7 +1176,7 @@ object frmOptions: TfrmOptions
           Caption = 'Clear HotKey'
           Enabled = False
           OnClick = btClearHotKeyClick
-          TabOrder = 3
+          TabOrder = 7
         end
         object lbxCategories: TListBox
           AnchorSideTop.Side = asrBottom
@@ -1208,57 +1188,43 @@ object frmOptions: TfrmOptions
           Anchors = [akTop, akLeft, akRight]
           ItemHeight = 0
           OnSelectionChange = lbxCategoriesSelectionChange
-          TabOrder = 5
+          TabOrder = 0
         end
         object edtParam: TEdit
-          AnchorSideLeft.Control = lbxHotkeys
-          AnchorSideTop.Control = lbxHotkeys
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = lbxHotkeys
-          AnchorSideRight.Side = asrBottom
-          Left = 185
-          Height = 23
-          Top = 469
-          Width = 197
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 3
-          TabOrder = 1
-        end
-        object edtFilter: TEdit
-          AnchorSideLeft.Control = lbFilter
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = lbFilter
-          Left = 49
-          Height = 19
-          Top = 370
-          Width = 103
-          BorderSpacing.Left = 12
-          BorderSpacing.Top = 4
-          OnChange = edtFilterChange
-          TabOrder = 4
-        end
-        object lbxHotkeys: TListBox
           AnchorSideLeft.Control = edHotKey
-          AnchorSideTop.Control = edHotKey
+          AnchorSideTop.Control = lblParam
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = edHotKey
           AnchorSideRight.Side = asrBottom
-          Left = 185
-          Height = 48
-          Top = 418
-          Width = 197
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 2
-          ItemHeight = 0
-          OnSelectionChange = lbxHotkeysSelectionChange
-          Sorted = True
-          TabOrder = 6
+          AnchorSideBottom.Control = stgHotkeys
+          AnchorSideBottom.Side = asrBottom
+          Left = 281
+          Height = 25
+          Top = 473
+          Width = 103
+          Anchors = [akLeft, akRight, akBottom]
+          BorderSpacing.Bottom = 4
+          TabOrder = 5
+        end
+        object edtFilter: TEdit
+          AnchorSideTop.Control = stgCommands
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = stgCommands
+          AnchorSideRight.Side = asrBottom
+          Left = 400
+          Height = 25
+          Top = 344
+          Width = 103
+          Anchors = [akTop, akRight]
+          BorderSpacing.Top = 4
+          OnChange = edtFilterChange
+          TabOrder = 3
         end
         object stgCommands: TStringGrid
           AnchorSideTop.Control = lbxCategories
           AnchorSideTop.Side = asrBottom
           Left = 8
-          Height = 274
+          Height = 252
           Top = 88
           Width = 495
           Anchors = [akTop, akLeft, akRight, akBottom]
@@ -1269,9 +1235,41 @@ object frmOptions: TfrmOptions
           MouseWheelOption = mwGrid
           Options = [goVertLine, goColSizing, goRowSelect, goThumbTracking, goDblClickAutoSize, goSmoothScroll]
           RowCount = 1
-          TabOrder = 7
+          TabOrder = 1
           OnResize = stgCommandsResize
           OnSelectCell = stgCommandsSelectCell
+        end
+        object stgHotkeys: TStringGrid
+          AnchorSideLeft.Control = stgCommands
+          AnchorSideTop.Control = stgCommands
+          AnchorSideTop.Side = asrBottom
+          Left = 8
+          Height = 158
+          Top = 344
+          Width = 265
+          AutoFillColumns = True
+          BorderSpacing.Top = 4
+          ColCount = 2
+          Columns = <          
+            item
+              Title.Caption = 'Hotkey'
+              Width = 130
+            end          
+            item
+              Title.Caption = 'Parameters'
+              Width = 131
+            end>
+          DefaultRowHeight = 20
+          FixedCols = 0
+          MouseWheelOption = mwGrid
+          Options = [goFixedVertLine, goFixedHorzLine, goRangeSelect, goColSizing, goRowSelect, goThumbTracking, goDblClickAutoSize, goSmoothScroll]
+          RowCount = 3
+          TabOrder = 2
+          OnSelectCell = stgHotkeysSelectCell
+          ColWidths = (
+            130
+            131
+          )
         end
       end
       object pgPlugins: TPage

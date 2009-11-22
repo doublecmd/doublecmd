@@ -242,6 +242,12 @@ resourcestring
   rsOptEnable = 'Enable';
   rsOptDisable = 'Disable';
   rsOptMouseSelectionButton = 'Left button;Right button;';
+  // Hotkeys
+  rsOptHotkeysShortCutUsed = 'Shortcut in use';
+  rsOptHotkeysShortCutUsedText1 = 'Shortcut %s is already used for %s.';
+  rsOptHotkeysShortCutUsedText2 = 'Change it to %s?';
+  rsOptHotkeysUsedBy = 'used by';
+
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';
   rsMenuConfigureThisCustomColumn= 'Configure this custom columns view';
