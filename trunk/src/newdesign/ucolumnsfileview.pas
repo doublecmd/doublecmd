@@ -625,8 +625,12 @@ begin
         for i := 0 to FFiles.Count-1 do
         begin
           if FFiles[i].Selected then
-            fileNamesList.Add(CurrentPath + FFiles[i].TheFile.Name);
+            fileNamesList.Add(FFiles[i].TheFile.FullPath);
         end;
+
+        // If there were no files selected add the dragged file.
+        if fileNamesList.Count = 0 then
+          fileNamesList.Add(draggedFileItem.TheFile.FullPath);
 
         // Initiate external drag&drop operation.
         Result := dgPanel.DragDropSource.DoDragDrop(fileNamesList, MouseButton, ScreenStartPoint);
