@@ -184,9 +184,9 @@ begin
   gtk_widget_show(widget);
 
 //*****
-  gtk_container_add (GTK_CONTAINER (PGtkWidget(Awidget)), widget);
+  //gtk_container_add (GTK_CONTAINER (PGtkWidget(Awidget)), widget);
   gtk_widget_realize(mySocket);
-  gtk_widget_hide(PGtkWidget(AWidget));
+  //gtk_widget_hide(PGtkWidget(AWidget));
 {$IFDEF LCLGTK}
   xid:=(PGdkWindowPrivate(widget^.window))^.xwindow;
 {$ENDIF}
