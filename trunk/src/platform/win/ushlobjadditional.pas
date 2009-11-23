@@ -1792,8 +1792,8 @@ function SHGetDesktopFolder(var ppshf: IShellFolder): HResult; stdcall;
 function SHChangeIconDialog(hOwner: THandle; var FileName: UTF8String; var IconIndex: Integer): Boolean;
 function SHGetOverlayIconIndex(const sFilePath, sFileName: UTF8String): Integer;
 
-procedure OleError(ErrorCode: HResult);
-procedure OleCheck(Result: HResult);
+procedure OleErrorUTF8(ErrorCode: HResult);
+procedure OleCheckUTF8(Result: HResult);
 
 implementation
 uses
@@ -1935,14 +1935,14 @@ begin
   end; // SHGetDesktopFolder
 end;
 
-procedure OleError(ErrorCode: HResult);
+procedure OleErrorUTF8(ErrorCode: HResult);
 begin
   raise EOleError.Create(UTF8Encode(SysErrorMessage(ErrorCode)));
 end;
 
-procedure OleCheck(Result: HResult);
+procedure OleCheckUTF8(Result: HResult);
 begin
-  if not Succeeded(Result) then OleError(Result);
+  if not Succeeded(Result) then OleErrorUTF8(Result);
 end;
 
 end. { ShlObjAdditional }

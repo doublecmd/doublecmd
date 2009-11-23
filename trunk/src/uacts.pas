@@ -55,6 +55,8 @@ const cf_Null=0;
    procedure EnableAction(ActionState: PActionState; Enabled: Boolean);
    class function Methods(AClass:TClass) : TStringList;
 
+   procedure ShowException(e: Exception);
+
    procedure OnCalcStatisticsStateChanged(Operation: TFileSourceOperation;
                                           Event: TFileSourceOperationEvent);
    procedure OnCalcChecksumStateChanged(Operation: TFileSourceOperation;
@@ -348,8 +350,8 @@ begin
     if Assigned(t.code) then
     begin
      Result:=cf_Null;
-     TCommandFunc(t)(param);
-    end;
+        TCommandFunc(t)(param);
+  end;
 end;
 
 
@@ -535,6 +537,11 @@ begin
     EnableAction(PActionState(FActionsState.List[i]^.Data), Enable);
 end;
 
+procedure TActs.ShowException(e: Exception);
+begin
+  MessageDlg(Application.Title, rsMsgLogError + LineEnding + e.Message, mtError, [mbOK], 0);
+end;
+
 //------------------------------------------------------
 
 procedure TActs.OnCalcStatisticsStateChanged(Operation: TFileSourceOperation;
@@ -675,9 +682,11 @@ begin
     SelectedFiles := Panel.SelectedFiles;
     try
       if SelectedFiles.Count > 0 then
-      begin
+      try
         ShowContextMenu(Panel, SelectedFiles, X, Y);
-        SelectedFiles := nil;  // freed by ShowContextMenu
+      except
+        on e: EContextMenuException do
+          ShowException(e);
       end;
 
     finally
@@ -712,9 +721,9 @@ begin
     begin
       // Change file source, if the file under cursor can be opened as another file source.
       try
-        ChooseFileSource(TargetPage.FileView, aFile);
-      except
-        on e: EFileSourceException do
+      ChooseFileSource(TargetPage.FileView, aFile);
+  except
+    on e: EFileSourceException do
           MessageDlg('Error', e.Message, mtError, [mbOK], 0);
       end;
     end;
