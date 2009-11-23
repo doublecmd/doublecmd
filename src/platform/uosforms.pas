@@ -159,19 +159,20 @@ var
   sCmd: String;
 begin
   // ShowMessage((Sender as TMenuItem).Hint);
-(*
+
   sCmd:= (Sender as TMenuItem).Hint;
   with frmMain.ActiveFrame do
   begin
+    (*
     if (Pos('{!VFS}',sCmd)>0) and pnlFile.VFS.FindModule(ActiveDir + FileRecItem.sName) then
      begin
         pnlFile.LoadPanelVFS(@FileRecItem);
         Exit;
       end;
-    if not ProcessExtCommand(sCmd, pnlFile.ActiveDir) then
+    *)
+    if not ProcessExtCommand(sCmd, CurrentPath) then
       frmMain.ExecCmd(sCmd);
   end;
-*)
 end;
 
 (* handling user commands from drive context menu *)
