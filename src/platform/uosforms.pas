@@ -65,11 +65,11 @@ procedure ShowFilePropertiesDialog(const Files: TFiles);
 {en
    Show file/folder context menu
    @param(Owner Parent window)
-   @param(FileList List of files. It is freed by this function.)
+   @param(Files List of files to show context menu for. It is freed by this function.)
    @param(X X coordinate)
    @param(Y Y coordinate)
 }
-procedure ShowContextMenu(Owner: TWinControl; Files : TFiles; X, Y : Integer);
+procedure ShowContextMenu(Owner: TWinControl; var Files : TFiles; X, Y : Integer);
 {en
    Show drive context menu
    @param(Owner Parent window)
@@ -234,56 +234,59 @@ end;
 
 function GetIContextMenu(Handle : THandle; Files : TFiles): IContextMenu;
 type
-  TPIDLArray = array[0..0] of PItemIDList;
-  PPIDLArray = ^TPIDLArray;
+  PPIDLArray = ^PItemIDList;
 
 var
   Folder,
   DesktopFolder: IShellFolder;
-  PathPIDL,
-  tmpPIDL: PItemIDList;
-  malloc: IMalloc;
+  PathPIDL: PItemIDList = nil;
+  tmpPIDL: PItemIDList = nil;
   S: WideString;
-  List: PPIDLArray;
+  List: PPIDLArray = nil;
   I : Integer;
-  pchEaten,
-  dwAttributes: ULONG;
+  pchEaten: ULONG;
+  dwAttributes: ULONG = 0;
 begin
   Result := nil;
-  if not Succeeded(SHGetMalloc(malloc)) then Exit;
-  if not Succeeded(SHGetDesktopFolder(DeskTopFolder)) then Exit;
 
+  OleCheck(SHGetDesktopFolder(DeskTopFolder));
   try
-    List := malloc.Alloc(SizeOf(PItemIDList)*Files.Count);
-    {$R-}
+    List := CoTaskMemAlloc(SizeOf(PItemIDList)*Files.Count);
+    ZeroMemory(List, SizeOf(PItemIDList)*Files.Count);
+
     for I := 0 to Files.Count - 1 do
       begin
-      //**********   if s <> sPath then
         S := UTF8Decode(Files[I].Path);
-        
+
         OleCheck(DeskTopFolder.ParseDisplayName(Handle, nil, PWideChar(S), pchEaten, PathPIDL, dwAttributes));
         try
           OleCheck(DeskTopFolder.BindToObject(PathPIDL, nil, IID_IShellFolder, Folder));
         finally
-          malloc.Free(PathPIDL);
+          CoTaskMemFree(PathPIDL);
         end;
-      //*****************
 
-        S:=UTF8Decode(Files[I].Name);
+        S := UTF8Decode(Files[I].Name);
         OleCheck(Folder.ParseDisplayName(Handle, nil, PWideChar(S), pchEaten, tmpPIDL, dwAttributes));
-        List^[i] := tmpPIDL;
+        (List + i)^ := tmpPIDL;
       end;
 
     Folder.GetUIObjectOf(Handle, Files.Count, PItemIDList(List^), IID_IContextMenu, nil, Result);
+
   finally
-    for I := 0 to Files.Count - 1 do
-      malloc.Free(List^[i]);
-    malloc.Free(List);
+    if Assigned(List) then
+    begin
+      for I := 0 to Files.Count - 1 do
+        if Assigned((List + i)^) then
+          CoTaskMemFree((List + i)^);
+      CoTaskMemFree(List);
+    end;
+
+    DesktopFolder._Release;
   end;
 end;
 {$ENDIF}
 
-procedure ShowContextMenu(Owner: TWinControl; Files : TFiles; X, Y : Integer);
+procedure ShowContextMenu(Owner: TWinControl; var Files : TFiles; X, Y : Integer);
 {$IFDEF MSWINDOWS}
 var
   aFile: TFile;
@@ -295,9 +298,8 @@ var
   hActionsSubMenu: HMENU = 0;
   cmd: UINT = 0;
   iCmd: Integer;
-  HR: HResult;
   cmici: TCMINVOKECOMMANDINFO;
-  bHandled : Boolean;
+  bHandled : Boolean = False;
   ZVerb: array[0..255] of char;
   sVerb : String;
 begin
@@ -306,9 +308,10 @@ begin
     if Files.Count = 0 then Exit;
 
     contMenu := GetIContextMenu(Owner.Handle, Files);
-    menu := CreatePopupMenu;
+    if Assigned(contMenu) then
     try
-      OleCheck( contMenu.QueryContextMenu(menu, 0, 1, $7FFF, CMF_EXPLORE or CMF_CANRENAME) );
+      menu := CreatePopupMenu;
+      OleCheck(contMenu.QueryContextMenu(menu, 0, 1, $7FFF, CMF_EXPLORE or CMF_CANRENAME));
       contMenu.QueryInterface(IID_IContextMenu2, ICM2); // to handle submenus.
       //------------------------------------------------------------------------------
       { Actions submenu }
@@ -368,9 +371,8 @@ begin
     if (cmd > 0) and (cmd < $1000) then
       begin
         iCmd := LongInt(Cmd) - 1;
-        HR := contMenu.GetCommandString(iCmd, GCS_VERBA, nil, ZVerb, SizeOf(ZVerb));
+        OleCheck(contMenu.GetCommandString(iCmd, GCS_VERBA, nil, ZVerb, SizeOf(ZVerb)));
         sVerb := StrPas(ZVerb);
-        bHandled := False;
 
         if SameText(sVerb, sCmdVerbDelete) then
           begin
@@ -405,14 +407,10 @@ begin
                 begin
                   if IsDirectory or IsLinkToDirectory then
                     begin
-{
-  Do this via Actions not by directly using ActiveFrame.
-
-                      if sName = '..' then
-                        frmMain.ActiveFrame.pnlFile.cdUpLevel
+                      if Name = '..' then
+                        frmMain.ActiveFrame.ChangePathToParent(True)
                       else
-                        frmMain.ActiveFrame.pnlFile.cdDownLevel(FileList.GetItem(0));
-}
+                        frmMain.ActiveFrame.ChangePathToChild(Files[0]);
                       bHandled := True;
                     end; // is dir
                 end; // with
@@ -443,11 +441,8 @@ begin
               lpVerb := PChar(cmd - 1);
               nShow := SW_NORMAL;
             end;
-            OleCheck( contMenu.InvokeCommand(cmici) );
+            OleCheck(contMenu.InvokeCommand(cmici));
           end;
-
-        if SameText(sVerb, sCmdVerbDelete) or SameText(sVerb, sCmdVerbPaste) then
-          frmMain.ActiveFrame.Reload;
 
       end // if cmd > 0
     else if (cmd >= $1000) then // actions sub menu
@@ -741,17 +736,19 @@ begin
   if Files.Count = 0 then Exit;
 
   contMenu := GetIContextMenu(frmMain.Handle, Files);
+  if Assigned(contMenu) then
+  begin
+    FillChar(cmici, sizeof(cmici), #0);
+    with cmici do
+      begin
+        cbSize := sizeof(cmici);
+        hwnd := frmMain.Handle;
+        lpVerb := 'properties';
+        nShow := SW_SHOWNORMAL;
+      end;
 
-  FillChar(cmici, sizeof(cmici), #0);
-  with cmici do
-    begin
-      cbSize := sizeof(cmici);
-      hwnd := frmMain.Handle;
-      lpVerb := 'properties';
-      nShow := SW_SHOWNORMAL;
-    end;
-
-  OleCheck(contMenu.InvokeCommand(cmici));
+    OleCheck(contMenu.InvokeCommand(cmici));
+  end;
 end;
 {$ENDIF}
 
