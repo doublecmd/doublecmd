@@ -830,6 +830,7 @@ begin
   { Load icons from doublecmd.ext }
   for I := 0 to gExts.Count - 1 do
     begin
+      gExts.Items[I].IconIndex:= FiDefaultIconID;
       sPixMap := gExts.Items[I].Icon;
       if mbFileExists(sPixMap) then
         begin
