@@ -1937,7 +1937,7 @@ end;
 
 procedure OleError(ErrorCode: HResult);
 begin
-  raise EOleSysError.Create('', ErrorCode, 0);
+  raise EOleError.Create(UTF8Encode(SysErrorMessage(ErrorCode)));
 end;
 
 procedure OleCheck(Result: HResult);
