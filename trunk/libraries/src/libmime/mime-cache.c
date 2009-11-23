@@ -40,7 +40,13 @@
 #include <fnmatch.h>
 
 #define LIB_MAJOR_VERSION 1
-#define LIB_MAX_MINOR_VERSION 1
+/* FIXME: since mime-cache 1.2, weight is splitted into three parts
+ * only lower 8 bit contains weight, and higher bits are flags and case-sensitivity.
+ * anyway, since we don't support weight at all, it'll be fixed later.
+ * We claimed that we support 1.2 to cheat pcmanfm as a temporary quick dirty fix
+ * for the broken file manager, but this should be correctly done in the future.
+ * Weight and case-sensitivity are not handled now. */
+#define LIB_MAX_MINOR_VERSION 2
 #define LIB_MIN_MINOR_VERSION 0
 
 /* handle byte order here */
@@ -57,7 +63,6 @@
 #define    GLOB_LIST    20
 #define    MAGIC_LIST    24
 #define    NAMESPACE_LIST    28
-#define    HEADER_SIZE    32
 
 MimeCache* mime_cache_new( const char* file_path )
 {
@@ -111,7 +116,7 @@ gboolean mime_cache_load( MimeCache* cache, const char* file_path )
     if ( fd < 0 )
         return FALSE;
 
-    if( fstat ( fd, &statbuf ) < 0 || statbuf.st_size < HEADER_SIZE )
+    if( fstat ( fd, &statbuf ) < 0 )
     {
         close( fd );
         return FALSE;
