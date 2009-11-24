@@ -22,7 +22,7 @@ uses
 type
   TMyMsgResult=(mmrOK, mmrNo, mmrYes, mmrCancel, mmrNone,
                 mmrAppend, mmrCopyInto, mmrRewrite, mmrRewriteAll, mmrSkip, mmrSkipAll,
-                mmrAll, mmrRetry, mrAbort);
+                mmrAll, mmrRetry, mmrAbort);
 
   TMyMsgButton=(msmbOK, msmbNo, msmbYes, msmbCancel, msmbNone,
                 msmbAppend, msmbCopyInto, msmbRewrite, msmbRewriteAll, msmbSkip, msmbSkipAll,
