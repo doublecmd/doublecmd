@@ -250,7 +250,7 @@ end;
 
 function ICompareByAttr(item1, item2: TFile; bSortNegative: Boolean):Integer;
 var
-  Attr1, Attr2: Cardinal;
+  Attr1, Attr2: TFileAttrs;
 begin
 {> 0 (positive)   Item1 is less than Item2
   0              Item1 is equal to Item2
@@ -278,8 +278,8 @@ end;
 
 function ICompareBySize(item1, item2: TFile; bSortNegative: Boolean):Integer;
 var
-  iSize1 : Cardinal;
-  iSize2 : Cardinal;
+  iSize1 : Int64;
+  iSize2 : Int64;
 begin
 {> 0 (positive)   Item1 is less than Item2
   0              Item1 is equal to Item2
