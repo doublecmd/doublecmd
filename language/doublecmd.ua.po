@@ -2132,7 +2132,7 @@ msgid "Cut text to column width"
 msgstr "Обрізати текст до ширини колонки"
 
 #: TFRMOPTIONS.CBDELETETOTRASH.CAPTION
-msgid "&F8/Del deletes to recycle bin (Shift=directly)"
+msgid "Delete to recycle bin (Shift key reverses this setting)"
 msgstr ""
 
 #: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
@@ -2393,6 +2393,10 @@ msgstr ""
 msgid "Don't &react to updates while in the background"
 msgstr ""
 
+#: TFRMOPTIONS.CHKAUTOFILLCOLUMNS.CAPTION
+msgid "Auto fill columns"
+msgstr ""
+
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
 msgstr "&Текст:"
@@ -2410,7 +2414,9 @@ msgid "Date and time"
 msgstr "Дата і час"
 
 #: TFRMOPTIONS.GBEXACTNAMEMATCH.CAPTION
-msgid "Exact &name match:"
+#, fuzzy
+#| msgid "Exact &name match:"
+msgid "Exact name match:"
 msgstr "Точне співпадання імені:"
 
 #: TFRMOPTIONS.GBEXAMPLE.CAPTION
@@ -2449,10 +2455,6 @@ msgstr "Протоколюємі дії:"
 msgid "Operation status:"
 msgstr "Протоколювати операції зі статусом:"
 
-#: TFRMOPTIONS.GBQUICKSEARCH.CAPTION
-msgid "Quick search (current dir)"
-msgstr "Пошук в поточному каталозі"
-
 #: TFRMOPTIONS.GBSAVEONEXIT.CAPTION
 msgid "Save on exit"
 msgstr "Зберігати при виході"
@@ -2473,6 +2475,10 @@ msgstr ""
 msgid "Folder tabs headers"
 msgstr "Заголовки вкладок"
 
+#: TFRMOPTIONS.GRPQUICKSEARCHFILTERKEYS.CAPTION
+msgid "Keys settings"
+msgstr ""
+
 #: TFRMOPTIONS.LBCOMMANDS.CAPTION
 msgid "Commands:"
 msgstr "Команди::"
@@ -2481,8 +2487,8 @@ msgstr "Команди::"
 msgid "Filter"
 msgstr ""
 
-#: TFRMOPTIONS.LBHOTKEYS.CAPTION
-msgid "Hot Keys"
+#: TFRMOPTIONS.LBLAUTOSIZECOLUMN.CAPTION
+msgid "Auto size column:"
 msgstr ""
 
 #: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
@@ -2557,6 +2563,14 @@ msgstr "Режим:"
 msgid "Param:"
 msgstr "Параметри:"
 
+#: TFRMOPTIONS.LBLQUICKFILTER.CAPTION
+msgid "Quick &filter:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLQUICKSEARCH.CAPTION
+msgid "Quick &search:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLRUNINTERM.CAPTION
 msgid "Run in terminal:"
 msgstr "Запустити в терміналі:"
@@ -2610,11 +2624,15 @@ msgid "Here you can enter one or more drives, separated by \";\"."
 msgstr "Тут ви можете ввести один або декілька дисків, розділених \";\"."
 
 #: TFRMOPTIONS.RBALTLETTERQS.CAPTION
-msgid "Al&t+Letters"
+#, fuzzy
+#| msgid "Al&t+Letters"
+msgid "Alt+Letters"
 msgstr "Al&t+Буква"
 
 #: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
-msgid "&Ctrl+Alt+Letters"
+#, fuzzy
+#| msgid "&Ctrl+Alt+Letters"
+msgid "Ctrl+Alt+Letters"
 msgstr "&Ctrl+Alt+Буква"
 
 #: TFRMOPTIONS.RBICONSSHOWALL.CAPTION
@@ -2635,11 +2653,15 @@ msgid "&Only standard icons"
 msgstr ""
 
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
-msgid "L&etter only"
+#, fuzzy
+#| msgid "L&etter only"
+msgid "Letter only"
 msgstr "Тільки буква"
 
 #: TFRMOPTIONS.RBNONEQS.CAPTION
-msgid "Di&sabled"
+#, fuzzy
+#| msgid "Di&sabled"
+msgid "Disabled"
 msgstr "Відключено"
 
 #: TFRMOPTIONS.RBPROGRAMDIR.CAPTION
@@ -3454,6 +3476,18 @@ msgstr "Виконано: "
 msgid "Create symlink %s"
 msgstr "Створення символьного посилання %s"
 
+#: ulng.rsmsgmanualaddhotdir
+msgid "Manually add hot path"
+msgstr ""
+
+#: ulng.rsmsgmanualedithotdir
+msgid "Manualy edit hot path"
+msgstr ""
+
+#: ulng.rsmsgmanualhotdirquery
+msgid "Enter name and path (format name=path):"
+msgstr ""
+
 #: ulng.rsmsgmasterpassword
 msgid "Master Password"
 msgstr ""
@@ -3690,6 +3724,22 @@ msgstr "Шрифти"
 msgid "Hot keys"
 msgstr "Гарячі клавіші"
 
+#: ulng.rsopthotkeysshortcutused
+msgid "Shortcut in use"
+msgstr ""
+
+#: ulng.rsopthotkeysshortcutusedtext1
+msgid "Shortcut %s is already used for %s."
+msgstr ""
+
+#: ulng.rsopthotkeysshortcutusedtext2
+msgid "Change it to %s?"
+msgstr ""
+
+#: ulng.rsopthotkeysusedby
+msgid "used by"
+msgstr ""
+
 #: ulng.rsopticons
 msgid "Icons"
 msgstr ""
@@ -3733,8 +3783,10 @@ msgid "Plugins"
 msgstr "Плагіни"
 
 #: ulng.rsoptquicksearch
+#, fuzzy
+#| msgid "Quick search"
 msgctxt "ulng.rsoptquicksearch"
-msgid "Quick search"
+msgid "Quick search/filter"
 msgstr "Швидкий пошук"
 
 #: ulng.rsopttools
@@ -3785,6 +3837,10 @@ msgstr "Невідомий тип"
 #: ulng.rspropsyes
 msgid "Yes (%s)"
 msgstr "Так (%s)"
+
+#: ulng.rsquickfilterpanel
+msgid "Filter:"
+msgstr ""
 
 #: ulng.rsquicksearchpanel
 msgid "Find:"

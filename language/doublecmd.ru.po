@@ -2119,7 +2119,9 @@ msgid "Cut text to column width"
 msgstr "Обрезать текст по ширине колонки"
 
 #: TFRMOPTIONS.CBDELETETOTRASH.CAPTION
-msgid "&F8/Del deletes to recycle bin (Shift=directly)"
+#, fuzzy
+#| msgid "&F8/Del deletes to recycle bin (Shift=directly)"
+msgid "Delete to recycle bin (Shift key reverses this setting)"
 msgstr "F8/Del - удаление в Корзину (с Shift - око&нчательно)"
 
 #: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
@@ -2380,6 +2382,10 @@ msgstr "Обновлять ин&формацию о свободном диск�
 msgid "Don't &react to updates while in the background"
 msgstr "Не реаг&ировать на изменения, если окно DC неактивно"
 
+#: TFRMOPTIONS.CHKAUTOFILLCOLUMNS.CAPTION
+msgid "Auto fill columns"
+msgstr ""
+
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
 msgstr "&Текст:"
@@ -2397,7 +2403,9 @@ msgid "Date and time"
 msgstr "Дата и время"
 
 #: TFRMOPTIONS.GBEXACTNAMEMATCH.CAPTION
-msgid "Exact &name match:"
+#, fuzzy
+#| msgid "Exact &name match:"
+msgid "Exact name match:"
 msgstr "Точное соответствие имени:"
 
 #: TFRMOPTIONS.GBEXAMPLE.CAPTION
@@ -2436,10 +2444,6 @@ msgstr "Протоколируемые действия:"
 msgid "Operation status:"
 msgstr "Протоколировать операции со статусом:"
 
-#: TFRMOPTIONS.GBQUICKSEARCH.CAPTION
-msgid "Quick search (current dir)"
-msgstr "Поиск в текущем каталоге"
-
 #: TFRMOPTIONS.GBSAVEONEXIT.CAPTION
 msgid "Save on exit"
 msgstr "Сохранять при выходе"
@@ -2460,6 +2464,10 @@ msgstr " Показ значков, связанных с типом файло�
 msgid "Folder tabs headers"
 msgstr "Заголовки вкладок"
 
+#: TFRMOPTIONS.GRPQUICKSEARCHFILTERKEYS.CAPTION
+msgid "Keys settings"
+msgstr ""
+
 #: TFRMOPTIONS.LBCOMMANDS.CAPTION
 msgid "Commands:"
 msgstr "Команды:"
@@ -2468,8 +2476,8 @@ msgstr "Команды:"
 msgid "Filter"
 msgstr "Фильтр"
 
-#: TFRMOPTIONS.LBHOTKEYS.CAPTION
-msgid "Hot Keys"
+#: TFRMOPTIONS.LBLAUTOSIZECOLUMN.CAPTION
+msgid "Auto size column:"
 msgstr ""
 
 #: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
@@ -2544,6 +2552,14 @@ msgstr "Режим:"
 msgid "Param:"
 msgstr "Параметр:"
 
+#: TFRMOPTIONS.LBLQUICKFILTER.CAPTION
+msgid "Quick &filter:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLQUICKSEARCH.CAPTION
+msgid "Quick &search:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLRUNINTERM.CAPTION
 msgid "Run in terminal:"
 msgstr "Запустить в терминале:"
@@ -2597,11 +2613,15 @@ msgid "Here you can enter one or more drives, separated by \";\"."
 msgstr "Здесь вы можете ввести один или несколько дисков, разделенных \";\"."
 
 #: TFRMOPTIONS.RBALTLETTERQS.CAPTION
-msgid "Al&t+Letters"
+#, fuzzy
+#| msgid "Al&t+Letters"
+msgid "Alt+Letters"
 msgstr "Al&t+Буква"
 
 #: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
-msgid "&Ctrl+Alt+Letters"
+#, fuzzy
+#| msgid "&Ctrl+Alt+Letters"
+msgid "Ctrl+Alt+Letters"
 msgstr "&Ctrl+Alt+Буква"
 
 #: TFRMOPTIONS.RBICONSSHOWALL.CAPTION
@@ -2622,11 +2642,15 @@ msgid "&Only standard icons"
 msgstr "Только &стандартные"
 
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
-msgid "L&etter only"
+#, fuzzy
+#| msgid "L&etter only"
+msgid "Letter only"
 msgstr "Только буква"
 
 #: TFRMOPTIONS.RBNONEQS.CAPTION
-msgid "Di&sabled"
+#, fuzzy
+#| msgid "Di&sabled"
+msgid "Disabled"
 msgstr "Отключен"
 
 #: TFRMOPTIONS.RBPROGRAMDIR.CAPTION
@@ -3437,6 +3461,18 @@ msgstr "Выполнено: "
 msgid "Create symlink %s"
 msgstr "Создание символьной ссылки %s"
 
+#: ulng.rsmsgmanualaddhotdir
+msgid "Manually add hot path"
+msgstr ""
+
+#: ulng.rsmsgmanualedithotdir
+msgid "Manualy edit hot path"
+msgstr ""
+
+#: ulng.rsmsgmanualhotdirquery
+msgid "Enter name and path (format name=path):"
+msgstr ""
+
 #: ulng.rsmsgmasterpassword
 msgid "Master Password"
 msgstr ""
@@ -3672,6 +3708,22 @@ msgstr "Шрифты"
 msgid "Hot keys"
 msgstr "Горячие клавиши"
 
+#: ulng.rsopthotkeysshortcutused
+msgid "Shortcut in use"
+msgstr ""
+
+#: ulng.rsopthotkeysshortcutusedtext1
+msgid "Shortcut %s is already used for %s."
+msgstr ""
+
+#: ulng.rsopthotkeysshortcutusedtext2
+msgid "Change it to %s?"
+msgstr ""
+
+#: ulng.rsopthotkeysusedby
+msgid "used by"
+msgstr ""
+
 #: ulng.rsopticons
 msgid "Icons"
 msgstr "Значки"
@@ -3714,8 +3766,10 @@ msgid "Plugins"
 msgstr "Плагины"
 
 #: ulng.rsoptquicksearch
+#, fuzzy
+#| msgid "Quick search"
 msgctxt "ulng.rsoptquicksearch"
-msgid "Quick search"
+msgid "Quick search/filter"
 msgstr "Быстрый поиск"
 
 #: ulng.rsopttools
@@ -3766,6 +3820,10 @@ msgstr "Неизвестный тип"
 #: ulng.rspropsyes
 msgid "Yes (%s)"
 msgstr "Да (%s)"
+
+#: ulng.rsquickfilterpanel
+msgid "Filter:"
+msgstr ""
 
 #: ulng.rsquicksearchpanel
 msgid "Find:"

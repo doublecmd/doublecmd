@@ -2145,7 +2145,9 @@ msgid "Cut text to column width"
 msgstr "Oříznout text na šířku sloupce"
 
 #: TFRMOPTIONS.CBDELETETOTRASH.CAPTION
-msgid "&F8/Del deletes to recycle bin (Shift=directly)"
+#, fuzzy
+#| msgid "&F8/Del deletes to recycle bin (Shift=directly)"
+msgid "Delete to recycle bin (Shift key reverses this setting)"
 msgstr "&F8/Del přesouvá do koše (Shift=smazat ihned)"
 
 #: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
@@ -2406,6 +2408,10 @@ msgstr "Aktualizace &záhlaví (volné místo na disku)"
 msgid "Don't &react to updates while in the background"
 msgstr "Nep&rovádět aktualizace, pokud je na pozadí"
 
+#: TFRMOPTIONS.CHKAUTOFILLCOLUMNS.CAPTION
+msgid "Auto fill columns"
+msgstr ""
+
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
 msgstr "Barva písma:"
@@ -2423,7 +2429,9 @@ msgid "Date and time"
 msgstr "Datum a čas"
 
 #: TFRMOPTIONS.GBEXACTNAMEMATCH.CAPTION
-msgid "Exact &name match:"
+#, fuzzy
+#| msgid "Exact &name match:"
+msgid "Exact name match:"
 msgstr "Upřesnění rychlého hledání"
 
 #: TFRMOPTIONS.GBEXAMPLE.CAPTION
@@ -2462,10 +2470,6 @@ msgstr "Log operací:"
 msgid "Operation status:"
 msgstr "Stav operace:"
 
-#: TFRMOPTIONS.GBQUICKSEARCH.CAPTION
-msgid "Quick search (current dir)"
-msgstr "Rychlé hledání (aktuální adr.)"
-
 #: TFRMOPTIONS.GBSAVEONEXIT.CAPTION
 msgid "Save on exit"
 msgstr "Uložit při ukončení"
@@ -2486,6 +2490,10 @@ msgstr "Zobrazit ikony nalevo od názvu souboru"
 msgid "Folder tabs headers"
 msgstr "Záhlaví záložek"
 
+#: TFRMOPTIONS.GRPQUICKSEARCHFILTERKEYS.CAPTION
+msgid "Keys settings"
+msgstr ""
+
 #: TFRMOPTIONS.LBCOMMANDS.CAPTION
 msgid "Commands:"
 msgstr "Příkazy:"
@@ -2494,9 +2502,9 @@ msgstr "Příkazy:"
 msgid "Filter"
 msgstr "Filtr"
 
-#: TFRMOPTIONS.LBHOTKEYS.CAPTION
-msgid "Hot Keys"
-msgstr "Horké klávesy"
+#: TFRMOPTIONS.LBLAUTOSIZECOLUMN.CAPTION
+msgid "Auto size column:"
+msgstr ""
 
 #: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
 msgid "Background 2:"
@@ -2572,6 +2580,14 @@ msgstr "Mód:"
 msgid "Param:"
 msgstr "Parametr:"
 
+#: TFRMOPTIONS.LBLQUICKFILTER.CAPTION
+msgid "Quick &filter:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLQUICKSEARCH.CAPTION
+msgid "Quick &search:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLRUNINTERM.CAPTION
 msgid "Run in terminal:"
 msgstr "Spustit v terminálu:"
@@ -2625,11 +2641,15 @@ msgid "Here you can enter one or more drives, separated by \";\"."
 msgstr "Sem zadejte jeden, nebo více disků oddělených \";\"."
 
 #: TFRMOPTIONS.RBALTLETTERQS.CAPTION
-msgid "Al&t+Letters"
+#, fuzzy
+#| msgid "Al&t+Letters"
+msgid "Alt+Letters"
 msgstr "Al&t+Písmenko"
 
 #: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
-msgid "&Ctrl+Alt+Letters"
+#, fuzzy
+#| msgid "&Ctrl+Alt+Letters"
+msgid "Ctrl+Alt+Letters"
 msgstr "&Ctrl+Alt+Písmenko"
 
 #: TFRMOPTIONS.RBICONSSHOWALL.CAPTION
@@ -2650,11 +2670,15 @@ msgid "&Only standard icons"
 msgstr "P&ouze standardní ikony"
 
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
-msgid "L&etter only"
+#, fuzzy
+#| msgid "L&etter only"
+msgid "Letter only"
 msgstr "&Pouze písmena"
 
 #: TFRMOPTIONS.RBNONEQS.CAPTION
-msgid "Di&sabled"
+#, fuzzy
+#| msgid "Di&sabled"
+msgid "Disabled"
 msgstr "&Zakázáno"
 
 #: TFRMOPTIONS.RBPROGRAMDIR.CAPTION
@@ -3471,6 +3495,18 @@ msgstr "Hotovo:"
 msgid "Create symlink %s"
 msgstr "Vytvořit symbolický odkaz %s"
 
+#: ulng.rsmsgmanualaddhotdir
+msgid "Manually add hot path"
+msgstr ""
+
+#: ulng.rsmsgmanualedithotdir
+msgid "Manualy edit hot path"
+msgstr ""
+
+#: ulng.rsmsgmanualhotdirquery
+msgid "Enter name and path (format name=path):"
+msgstr ""
+
 #: ulng.rsmsgmasterpassword
 msgid "Master Password"
 msgstr ""
@@ -3713,6 +3749,22 @@ msgstr "Písma"
 msgid "Hot keys"
 msgstr "Horké klávesy"
 
+#: ulng.rsopthotkeysshortcutused
+msgid "Shortcut in use"
+msgstr ""
+
+#: ulng.rsopthotkeysshortcutusedtext1
+msgid "Shortcut %s is already used for %s."
+msgstr ""
+
+#: ulng.rsopthotkeysshortcutusedtext2
+msgid "Change it to %s?"
+msgstr ""
+
+#: ulng.rsopthotkeysusedby
+msgid "used by"
+msgstr ""
+
 #: ulng.rsopticons
 msgid "Icons"
 msgstr "Ikony"
@@ -3755,8 +3807,10 @@ msgid "Plugins"
 msgstr "Zásuvné moduly"
 
 #: ulng.rsoptquicksearch
+#, fuzzy
+#| msgid "Quick search"
 msgctxt "ulng.rsoptquicksearch"
-msgid "Quick search"
+msgid "Quick search/filter"
 msgstr "Rychlé hledání"
 
 #: ulng.rsopttools
@@ -3807,6 +3861,10 @@ msgstr "Neznámý typ"
 #: ulng.rspropsyes
 msgid "Yes (%s)"
 msgstr "Ano (%s)"
+
+#: ulng.rsquickfilterpanel
+msgid "Filter:"
+msgstr ""
 
 #: ulng.rsquicksearchpanel
 msgid "Find:"

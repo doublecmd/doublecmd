@@ -2125,7 +2125,7 @@ msgid "Cut text to column width"
 msgstr ""
 
 #: TFRMOPTIONS.CBDELETETOTRASH.CAPTION
-msgid "&F8/Del deletes to recycle bin (Shift=directly)"
+msgid "Delete to recycle bin (Shift key reverses this setting)"
 msgstr ""
 
 #: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
@@ -2387,6 +2387,10 @@ msgstr ""
 msgid "Don't &react to updates while in the background"
 msgstr ""
 
+#: TFRMOPTIONS.CHKAUTOFILLCOLUMNS.CAPTION
+msgid "Auto fill columns"
+msgstr ""
+
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
 msgstr ""
@@ -2404,7 +2408,7 @@ msgid "Date and time"
 msgstr ""
 
 #: TFRMOPTIONS.GBEXACTNAMEMATCH.CAPTION
-msgid "Exact &name match:"
+msgid "Exact name match:"
 msgstr ""
 
 #: TFRMOPTIONS.GBEXAMPLE.CAPTION
@@ -2444,10 +2448,6 @@ msgstr ""
 msgid "Operation status:"
 msgstr ""
 
-#: TFRMOPTIONS.GBQUICKSEARCH.CAPTION
-msgid "Quick search (current dir)"
-msgstr ""
-
 #: TFRMOPTIONS.GBSAVEONEXIT.CAPTION
 msgid "Save on exit"
 msgstr ""
@@ -2469,6 +2469,10 @@ msgstr ""
 msgid "Folder tabs headers"
 msgstr ""
 
+#: TFRMOPTIONS.GRPQUICKSEARCHFILTERKEYS.CAPTION
+msgid "Keys settings"
+msgstr ""
+
 #: TFRMOPTIONS.LBCOMMANDS.CAPTION
 msgid "Commands:"
 msgstr ""
@@ -2477,8 +2481,8 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: TFRMOPTIONS.LBHOTKEYS.CAPTION
-msgid "Hot Keys"
+#: TFRMOPTIONS.LBLAUTOSIZECOLUMN.CAPTION
+msgid "Auto size column:"
 msgstr ""
 
 #: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
@@ -2553,6 +2557,14 @@ msgstr ""
 msgid "Param:"
 msgstr ""
 
+#: TFRMOPTIONS.LBLQUICKFILTER.CAPTION
+msgid "Quick &filter:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLQUICKSEARCH.CAPTION
+msgid "Quick &search:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLRUNINTERM.CAPTION
 msgid "Run in terminal:"
 msgstr ""
@@ -2606,11 +2618,11 @@ msgid "Here you can enter one or more drives, separated by \";\"."
 msgstr ""
 
 #: TFRMOPTIONS.RBALTLETTERQS.CAPTION
-msgid "Al&t+Letters"
+msgid "Alt+Letters"
 msgstr ""
 
 #: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
-msgid "&Ctrl+Alt+Letters"
+msgid "Ctrl+Alt+Letters"
 msgstr ""
 
 #: TFRMOPTIONS.RBICONSSHOWALL.CAPTION
@@ -2634,11 +2646,11 @@ msgid "&Only standard icons"
 msgstr ""
 
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
-msgid "L&etter only"
+msgid "Letter only"
 msgstr ""
 
 #: TFRMOPTIONS.RBNONEQS.CAPTION
-msgid "Di&sabled"
+msgid "Disabled"
 msgstr ""
 
 #: TFRMOPTIONS.RBPROGRAMDIR.CAPTION
@@ -3449,6 +3461,18 @@ msgstr ""
 msgid "Create symlink %s"
 msgstr ""
 
+#: ulng.rsmsgmanualaddhotdir
+msgid "Manually add hot path"
+msgstr ""
+
+#: ulng.rsmsgmanualedithotdir
+msgid "Manualy edit hot path"
+msgstr ""
+
+#: ulng.rsmsgmanualhotdirquery
+msgid "Enter name and path (format name=path):"
+msgstr ""
+
 #: ulng.rsmsgmasterpassword
 msgid "Master Password"
 msgstr ""
@@ -3683,6 +3707,22 @@ msgstr ""
 msgid "Hot keys"
 msgstr ""
 
+#: ulng.rsopthotkeysshortcutused
+msgid "Shortcut in use"
+msgstr ""
+
+#: ulng.rsopthotkeysshortcutusedtext1
+msgid "Shortcut %s is already used for %s."
+msgstr ""
+
+#: ulng.rsopthotkeysshortcutusedtext2
+msgid "Change it to %s?"
+msgstr ""
+
+#: ulng.rsopthotkeysusedby
+msgid "used by"
+msgstr ""
+
 #: ulng.rsopticons
 msgid "Icons"
 msgstr ""
@@ -3727,7 +3767,7 @@ msgstr ""
 
 #: ulng.rsoptquicksearch
 msgctxt "ulng.rsoptquicksearch"
-msgid "Quick search"
+msgid "Quick search/filter"
 msgstr ""
 
 #: ulng.rsopttools
@@ -3777,6 +3817,10 @@ msgstr ""
 
 #: ulng.rspropsyes
 msgid "Yes (%s)"
+msgstr ""
+
+#: ulng.rsquickfilterpanel
+msgid "Filter:"
 msgstr ""
 
 #: ulng.rsquicksearchpanel
