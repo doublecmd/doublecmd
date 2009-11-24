@@ -125,7 +125,9 @@ type
     cbAlwaysShowTrayIcon: TCheckBox;
     cbSkipFileOpError: TCheckBox;
     cbShowDialogOnDragDrop: TCheckBox;
+    chkAutoFillColumns: TCheckBox;
     cmbTabsPosition: TComboBox;
+    cmbAutoSizeColumn: TComboBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
@@ -183,6 +185,7 @@ type
     gbAutoRefresh: TGroupBox;
     gbShowIconsMode: TGroupBox;
     grpQuickSearchFilterKeys: TGroupBox;
+    lblAutoSizeColumn: TLabel;
     lblQuickSearch: TLabel;
     lblQuickFilter: TLabel;
     pnlQuickSearch: TPanel;
@@ -2080,6 +2083,9 @@ begin
   cbSelectionByMouse.Checked:=gMouseSelectionEnabled;
   cbMouseMode.ItemIndex := gMouseSelectionButton;
 
+  chkAutoFillColumns.Checked:= gAutoFillColumns;
+  cmbAutoSizeColumn.ItemIndex:= gAutoSizeColumn;
+
   cbExtEditor.Checked:=gUseExtEdit;
   cbExtViewer.Checked:=gUseExtView;
   cbExtDiffer.Checked:=gUseExtDiff;
@@ -2272,6 +2278,9 @@ begin
   
   gMouseSelectionEnabled := cbSelectionByMouse.Checked;
   gMouseSelectionButton := cbMouseMode.ItemIndex;
+
+  gAutoFillColumns:= chkAutoFillColumns.Checked;
+  gAutoSizeColumn:= cmbAutoSizeColumn.ItemIndex;
 
   gUseExtEdit:=cbExtEditor.Checked;
   gUseExtView:=cbExtViewer.Checked;
