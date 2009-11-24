@@ -446,6 +446,7 @@ type
     function FrameLeft: TFileView;
     function FrameRight: TFileView;
     procedure AppException(Sender: TObject; E: Exception);
+    procedure ShowExceptionDialog(E: Exception);
     //check selected count and generate correct msg, parameters is lng indexs
     Function GetFileDlgStr(sLngOne, sLngMulti : String; Files: TFiles):String;
     procedure HotDirSelected(Sender:TObject);
@@ -525,7 +526,7 @@ var
 implementation
 
 uses
-  LCLIntf, uGlobs, uLng, fConfigToolBar, Masks, fCopyMoveDlg,
+  LCLIntf, LCLStrConsts, Dialogs, uGlobs, uLng, fConfigToolBar, Masks, fCopyMoveDlg,
   uShowMsg, uClassesEx, fHotDir, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   uDragDropEx, StrUtils, uKeyboard, uFileSystemFileSource, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
@@ -643,18 +644,13 @@ begin
 end;
 
 procedure TfrmMain.actExecute(Sender: TObject);
-var cmd:string;
+var
+  cmd: string;
 begin
-  cmd:=(Sender as TAction).Name;
-  cmd:='cm_'+copy(cmd,4,length(cmd)-3);
-  try
-    Actions.Execute(cmd);
-  except
-    on e : Exception do
-      msgError(e.Message);
-  end;
+  cmd := (Sender as TAction).Name;
+  cmd := 'cm_' + Copy(cmd, 4, Length(cmd) - 3);
+  Actions.Execute(cmd);
 end;
-
 
 procedure TfrmMain.btnLeftDirectoryHotlistClick(Sender: TObject);
 Var P:TPoint;
@@ -1681,27 +1677,67 @@ end;
 
 procedure TfrmMain.AppException(Sender: TObject; E: Exception);
 var
-  filename: String;
   f: System.Text;
 begin
   // Write exception backtrace to a file.
 
-  filename := gpIniDir + ExtractOnlyFileName(Application.ExeName) + '.err';
-  AssignFile(f, filename);
-  if not FileExists(filename) then
-    Rewrite(f)
-  else
-    Append(f);
-
-  if TextRec(f).mode <> fmClosed then
+  if gErrorFile <> EmptyStr then
   begin
-    WriteLn(f, '-------- ', FormatDateTime('dd-mm-yyyy, hh:nn:ss', SysUtils.Now), ' --------');
-    WriteLn(f, 'Unhandled exception: ',Exception(ExceptObject).Message);
-    WriteLn(f, '  Stack trace:');
+    AssignFile(f, gErrorFile);
+    if not FileExists(gErrorFile) then
+      Rewrite(f)
+    else
+      Append(f);
 
-    System.DumpExceptionBackTrace(f);
+    if TextRec(f).mode <> fmClosed then
+    begin
+      WriteLn(f, '-------- ', FormatDateTime('dd-mm-yyyy, hh:nn:ss', SysUtils.Now), ' --------');
+      WriteLn(f, 'Unhandled exception: ', e.Message);
+      WriteLn(f, '  Stack trace:');
 
-    CloseFile(f);
+      System.DumpExceptionBackTrace(f);
+
+      CloseFile(f);
+    end;
+  end;
+
+  ShowExceptionDialog(e);
+end;
+
+procedure TfrmMain.ShowExceptionDialog(E: Exception);
+// Based on TApplication.ShowException.
+var
+  Msg: string;
+  MsgResult: Integer;
+begin
+  if AppNoExceptionMessages in Application.Flags then exit;
+  Msg := E.Message;
+  if FindInvalidUTF8Character(PChar(Msg), Length(Msg), False) > 0 then
+    Msg := AnsiToUtf8(Msg);
+  if (Msg <> '') and (Msg[length(Msg)] = LineEnding) then Delete(Msg, Length(Msg), 1);
+
+  with Application do
+  if (not Terminated) and (Self <> nil) and (AppInitialized in Flags) then
+  begin
+    DisableIdleHandler;
+    try
+      MsgResult := MessageDlg(
+        Application.Title + ' - ' + rsMtError,
+        rsMsgLogError + LineEnding + Msg + LineEnding + LineEnding +
+        Format(rsUnhandledExceptionMessage,
+          [LineEnding + gErrorFile + LineEnding + LineEnding,
+           StringReplace(rsMbIgnore, '&', '', [rfReplaceAll]),
+           StringReplace(rsMbAbort, '&', '', [rfReplaceAll])]),
+        mtError, [mbIgnore, mbAbort], 0, mbIgnore);
+
+    finally
+      EnableIdleHandler;
+    end;
+    if MsgResult = mrAbort then
+    begin
+      Flags := Flags + [AppNoExceptionMessages];
+      Halt;
+    end;
   end;
 end;
 
