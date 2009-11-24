@@ -235,6 +235,9 @@ var
   gOperationOptionDirectoryExists: TFileSourceOperationOptionDirectoryExists = fsoodeNone;
   gOperationOptionCheckFreeSpace: Boolean = True;
 
+  {Error file}
+  gErrorFile: String;
+
 function LoadGlobs : Boolean;
 procedure SaveGlobs;
 function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boolean;
@@ -254,8 +257,9 @@ var
   gIni:TIniFileEx = nil;
 
 implementation
+
 uses
-   LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils;
+   LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uDCUtils;
 
 procedure LoadDefaultHotkeyBindings;
 begin
@@ -446,6 +450,8 @@ begin
   
   HotMan:=THotKeyManager.Create;
   Actions:=TActs.Create;
+
+  gErrorFile := gpIniDir + ExtractOnlyFileName(Application.ExeName) + '.err';
 end;
 
 procedure DeInitGlobs;

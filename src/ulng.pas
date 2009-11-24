@@ -274,6 +274,12 @@ resourcestring
   rsOperStartStateQueueFirst = 'Queue as first';
   rsOperStartStateQueueLast = 'Queue as last';
 
+  // Unhandled error.
+  rsUnhandledExceptionMessage =
+     'Please report this error to the bug tracker with a description '
+   + 'of what you were doing and the following file:%s'
+   + 'Press %s to continue or %s to abort the program.';
+
 function GetLanguageName(poFileName : String) : String;
 procedure lngLoadLng(const sFileName:String);
 procedure DoLoadLng;
