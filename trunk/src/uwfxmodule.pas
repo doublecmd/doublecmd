@@ -249,14 +249,14 @@ begin
     begin
       FillChar(FindDataW, SizeOf(FindDataW), 0);
       Result:= FsFindFirstW(PWideChar(UTF8Decode(Path)), FindDataW);
-      if Result <> feInvalidHandle then
+      if Result <> hInvalidHandle then
         FindData:= LoadWfxFindData(FindDataW);
     end
   else if Assigned(FsFindFirst) then
     begin
       FillChar(FindDataA, SizeOf(FindDataA), 0);
       Result:= FsFindFirst(PAnsiChar(UTF8ToSys(Path)), FindDataA);
-      if Result <> feInvalidHandle then
+      if Result <> hInvalidHandle then
         FindData:= LoadWfxFindData(FindDataA);
     end;
 end;
@@ -610,7 +610,7 @@ begin
     Include(Result, VFS_CAPS_MKDIR);
 end;
 
-function TWFXModule.VFSConfigure(Parent: System.THandle): Boolean;
+function TWFXModule.VFSConfigure(Parent: THandle): Boolean;
 var
   RemoteName: UTF8String;
 begin
