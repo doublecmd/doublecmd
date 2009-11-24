@@ -2,7 +2,8 @@ unit WfxPlugin;    {Plugin definitions version 1.5}
 
 interface
 
-uses SysUtils {$IFDEF MSWINDOWS}, Windows{$ENDIF};
+uses
+  SysUtils {$IFDEF MSWINDOWS}, Windows{$ENDIF};
 
 { ids for FsGetFile }
 
@@ -165,6 +166,13 @@ const FS_BITMAP_NONE=0;
       FS_CRYPT_DELETE_PASSWORD=6;
 
       FS_CRYPTOPT_MASTERPASS_SET=1;   {The user already has a master password defined}
+
+type
+  { Unsigned integer with pointer size }
+  THandle = {$IFDEF CPU64}QWord{$ELSE}LongWord{$ENDIF};
+
+const
+  hInvalidHandle: THandle = THandle(-1);
 
 { Some Windows specific stuff }
 
