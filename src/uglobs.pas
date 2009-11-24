@@ -105,6 +105,9 @@ var
 
   gMouseSelectionEnabled: Boolean = True;
   gMouseSelectionButton: Integer = 0;
+
+  gAutoFillColumns: Boolean;
+  gAutoSizeColumn: Integer;
   
   glsHotDir:TStringListEx;
   glsDirHistory:TStringListEx;
@@ -540,6 +543,9 @@ begin
   gMouseSelectionEnabled:= gIni.ReadBool('Configuration', 'MouseSelectionEnabled', True);
   gMouseSelectionButton := gIni.ReadInteger('Configuration', 'MouseSelectionButton', 0);
 
+  gAutoFillColumns:= gIni.ReadBool('Configuration', 'AutoFillColumns', False);
+  gAutoSizeColumn := gIni.ReadInteger('Configuration', 'AutoSizeColumn', 1);
+
   gDirTabOptions := TTabsOptions(gIni.ReadInteger('Configuration', 'DirTabOptions', Integer(gDirTabOptions)));
   gDirTabLimit :=  gIni.ReadInteger('Configuration', 'DirTabLimit', 32);
   gDirTabPosition := TTabsPosition(gIni.ReadInteger('Configuration', 'DirTabPosition', Integer(gDirTabPosition)));
@@ -769,6 +775,9 @@ begin
   
   gIni.WriteBool('Configuration', 'MouseSelectionEnabled', gMouseSelectionEnabled);
   gIni.WriteInteger('Configuration', 'MouseSelectionButton', gMouseSelectionButton);
+
+  gIni.WriteBool('Configuration', 'AutoFillColumns', gAutoFillColumns);
+  gIni.WriteInteger('Configuration', 'AutoSizeColumn', gAutoSizeColumn);
 
   gIni.WriteInteger('Configuration', 'DirTabOptions', Integer(gDirTabOptions));
   gIni.WriteInteger('Configuration', 'DirTabLimit', gDirTabLimit);

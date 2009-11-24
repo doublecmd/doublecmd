@@ -1360,10 +1360,11 @@ begin
   ColumnsClass := GetColumnsClass;
 
   UpdateColCount(ColumnsClass.ColumnsCount);
-  if ColumnsClass.ColumnsCount>0 then
-    for x:=0 to ColumnsClass.ColumnsCount-1 do
+  if ColumnsClass.ColumnsCount > 0 then
+    for x:= 0 to ColumnsClass.ColumnsCount - 1 do
       begin
-        dgPanel.Columns.Items[x].SizePriority:= 0;
+        if not ((x = 0) and gAutoFillColumns and (gAutoSizeColumn = 0)) then
+          dgPanel.Columns.Items[x].SizePriority:= 0;
         dgPanel.ColWidths[x]:= ColumnsClass.GetColumnWidth(x);
         dgPanel.Columns.Items[x].Title.Caption:= ColumnsClass.GetColumnTitle(x);
       end;
@@ -3015,6 +3016,7 @@ var
 begin
   Flat := gInterfaceFlat;
   Color := gBackColor;
+  AutoFillColumns:= gAutoFillColumns;
 
   // Calculate row height.
   TempRowHeight := CalculateDefaultRowHeight;
