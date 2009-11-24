@@ -680,6 +680,7 @@ begin
     end;
 
     SelectedFiles := Panel.SelectedFiles;
+    if Assigned(SelectedFiles) then
     try
       if SelectedFiles.Count > 0 then
       try
@@ -2244,8 +2245,14 @@ begin
         SelectedFiles := ActiveFrame.SelectedFiles;
         if Assigned(SelectedFiles) then
         try
-          ShowFilePropertiesDialog(SelectedFiles);
-          ActiveFrame.Reload;
+          if SelectedFiles.Count > 0 then
+          try
+            ShowFilePropertiesDialog(SelectedFiles);
+            ActiveFrame.Reload;
+          except
+            on e: EContextMenuException do
+              ShowException(e);
+          end;
         finally
           FreeAndNil(SelectedFiles);
         end;
