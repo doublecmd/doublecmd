@@ -2123,7 +2123,9 @@ msgid "Cut text to column width"
 msgstr "按列宽裁剪文本"
 
 #: TFRMOPTIONS.CBDELETETOTRASH.CAPTION
-msgid "&F8/Del deletes to recycle bin (Shift=directly)"
+#, fuzzy
+#| msgid "&F8/Del deletes to recycle bin (Shift=directly)"
+msgid "Delete to recycle bin (Shift key reverses this setting)"
 msgstr "&F8/Del 删除文件到回收站 (Shift=彻底删除)"
 
 #: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
@@ -2384,6 +2386,10 @@ msgstr "更新头(磁盘可用空间)(&H)"
 msgid "Don't &react to updates while in the background"
 msgstr "后台时不激活刷新"
 
+#: TFRMOPTIONS.CHKAUTOFILLCOLUMNS.CAPTION
+msgid "Auto fill columns"
+msgstr ""
+
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
 msgstr "文本颜色:"
@@ -2401,7 +2407,9 @@ msgid "Date and time"
 msgstr "日期时间"
 
 #: TFRMOPTIONS.GBEXACTNAMEMATCH.CAPTION
-msgid "Exact &name match:"
+#, fuzzy
+#| msgid "Exact &name match:"
+msgid "Exact name match:"
 msgstr "扩展名匹配(&N)"
 
 #: TFRMOPTIONS.GBEXAMPLE.CAPTION
@@ -2440,10 +2448,6 @@ msgstr "操作日志:"
 msgid "Operation status:"
 msgstr "操作状态"
 
-#: TFRMOPTIONS.GBQUICKSEARCH.CAPTION
-msgid "Quick search (current dir)"
-msgstr "快速搜索(当前目录)"
-
 #: TFRMOPTIONS.GBSAVEONEXIT.CAPTION
 msgid "Save on exit"
 msgstr "保存并退出"
@@ -2464,6 +2468,10 @@ msgstr "在文件名左侧显示图标"
 msgid "Folder tabs headers"
 msgstr "文件夹标签页头"
 
+#: TFRMOPTIONS.GRPQUICKSEARCHFILTERKEYS.CAPTION
+msgid "Keys settings"
+msgstr ""
+
 #: TFRMOPTIONS.LBCOMMANDS.CAPTION
 msgid "Commands:"
 msgstr "命令："
@@ -2472,9 +2480,9 @@ msgstr "命令："
 msgid "Filter"
 msgstr "过滤"
 
-#: TFRMOPTIONS.LBHOTKEYS.CAPTION
-msgid "Hot Keys"
-msgstr "热键"
+#: TFRMOPTIONS.LBLAUTOSIZECOLUMN.CAPTION
+msgid "Auto size column:"
+msgstr ""
 
 #: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
 msgid "Background 2:"
@@ -2548,6 +2556,14 @@ msgstr "模式:"
 msgid "Param:"
 msgstr "参数:"
 
+#: TFRMOPTIONS.LBLQUICKFILTER.CAPTION
+msgid "Quick &filter:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLQUICKSEARCH.CAPTION
+msgid "Quick &search:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLRUNINTERM.CAPTION
 msgid "Run in terminal:"
 msgstr "在终端运行:"
@@ -2601,11 +2617,15 @@ msgid "Here you can enter one or more drives, separated by \";\"."
 msgstr "这里输入一个或多个驱动器,以分好分隔(;)"
 
 #: TFRMOPTIONS.RBALTLETTERQS.CAPTION
-msgid "Al&t+Letters"
+#, fuzzy
+#| msgid "Al&t+Letters"
+msgid "Alt+Letters"
 msgstr "Alt+字母(&T)"
 
 #: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
-msgid "&Ctrl+Alt+Letters"
+#, fuzzy
+#| msgid "&Ctrl+Alt+Letters"
+msgid "Ctrl+Alt+Letters"
 msgstr "Ctrl+Alt+字母(&C)"
 
 #: TFRMOPTIONS.RBICONSSHOWALL.CAPTION
@@ -2626,11 +2646,15 @@ msgid "&Only standard icons"
 msgstr "仅标准图标(&O)"
 
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
-msgid "L&etter only"
+#, fuzzy
+#| msgid "L&etter only"
+msgid "Letter only"
 msgstr "仅字母(&E)"
 
 #: TFRMOPTIONS.RBNONEQS.CAPTION
-msgid "Di&sabled"
+#, fuzzy
+#| msgid "Di&sabled"
+msgid "Disabled"
 msgstr "禁止(&S)"
 
 #: TFRMOPTIONS.RBPROGRAMDIR.CAPTION
@@ -3443,6 +3467,18 @@ msgstr "完成:"
 msgid "Create symlink %s"
 msgstr "创建符号链接 %s"
 
+#: ulng.rsmsgmanualaddhotdir
+msgid "Manually add hot path"
+msgstr ""
+
+#: ulng.rsmsgmanualedithotdir
+msgid "Manualy edit hot path"
+msgstr ""
+
+#: ulng.rsmsgmanualhotdirquery
+msgid "Enter name and path (format name=path):"
+msgstr ""
+
 #: ulng.rsmsgmasterpassword
 msgid "Master Password"
 msgstr ""
@@ -3679,6 +3715,22 @@ msgstr "字体"
 msgid "Hot keys"
 msgstr "快捷键"
 
+#: ulng.rsopthotkeysshortcutused
+msgid "Shortcut in use"
+msgstr ""
+
+#: ulng.rsopthotkeysshortcutusedtext1
+msgid "Shortcut %s is already used for %s."
+msgstr ""
+
+#: ulng.rsopthotkeysshortcutusedtext2
+msgid "Change it to %s?"
+msgstr ""
+
+#: ulng.rsopthotkeysusedby
+msgid "used by"
+msgstr ""
+
 #: ulng.rsopticons
 msgid "Icons"
 msgstr "图标"
@@ -3721,8 +3773,10 @@ msgid "Plugins"
 msgstr "插件"
 
 #: ulng.rsoptquicksearch
+#, fuzzy
+#| msgid "Quick search"
 msgctxt "ulng.rsoptquicksearch"
-msgid "Quick search"
+msgid "Quick search/filter"
 msgstr "快速搜索"
 
 #: ulng.rsopttools
@@ -3773,6 +3827,10 @@ msgstr "未知类型"
 #: ulng.rspropsyes
 msgid "Yes (%s)"
 msgstr "是 (%s)"
+
+#: ulng.rsquickfilterpanel
+msgid "Filter:"
+msgstr ""
 
 #: ulng.rsquicksearchpanel
 msgid "Find:"
