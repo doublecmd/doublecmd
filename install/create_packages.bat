@@ -56,7 +56,7 @@ call %BUILD_DC_TMP_DIR%\install\windows\install.bat
 
 cd /D %BUILD_PACK_DIR%
 rem Create *.exe package
-%ISCC_EXE% doublecmd.iss
+%ISCC_EXE% /F"doublecmd-%DC_VER%.%CPU_TARGET%-%OS_TARGET%" doublecmd.iss
 
 rem Move created package
 move release\*.exe %PACK_DIR%
