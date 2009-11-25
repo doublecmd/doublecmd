@@ -4,5 +4,5 @@ Comment=Double Commander is a cross platform open source file manager with two p
 Exec=/opt/doublecmd/doublecmd
 Terminal=false
 Type=Application
-Icon=doublecmd.png
+Icon=/usr/share/pixmaps/doublecmd.png
 Categories=Application;File Management;Utility;

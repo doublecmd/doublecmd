@@ -30,9 +30,9 @@ mkdir -p $DC_INSTALL_DIR/plugins/dsx
 mkdir -p $DC_INSTALL_DIR/plugins/dsx/DSXLocate
 
 # Copy directories
-cp -a language $DC_INSTALL_DIR/
-cp -a doc $DC_INSTALL_DIR/
-cp -a pixmaps $DC_INSTALL_DIR/
+cp -r language $DC_INSTALL_DIR/
+cp -r doc $DC_INSTALL_DIR/
+cp -r pixmaps $DC_INSTALL_DIR/
 # Copy files
 cp -a doublecmd                    $DC_INSTALL_DIR/
 cp -a install/linux/doublecmd.ini  $DC_INSTALL_DIR/
