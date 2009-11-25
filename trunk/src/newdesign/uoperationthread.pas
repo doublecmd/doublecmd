@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uFileSourceOperation, LCLProc;
+  uFileSourceOperation;
 
 type
 
@@ -17,6 +17,7 @@ type
   private
     FOperation: TFileSourceOperation;
     FExceptionMessage: String;
+    FExceptionBackTrace: String;
 
   protected
     procedure Execute; override;
@@ -36,7 +37,7 @@ type
 implementation
 
 uses
-  Dialogs;
+  LCLProc, uExceptions, uGlobs;
 
 constructor TOperationThread.Create(CreateSuspended: Boolean; Operation: TFileSourceOperation);
 begin
@@ -55,27 +56,17 @@ begin
 end;
 
 procedure TOperationThread.Execute;
-var
-  FrameCount: integer;
-  Frames: PPointer;
-  FrameNumber:Integer;
 begin
   try
     FOperation.Execute;
   except
     on e: Exception do
     begin
-      FExceptionMessage := 'Unhandled exception ' + e.ClassName + ': ' + e.Message + LineEnding
-                         + 'Stack trace:' + LineEnding
-                         + BackTraceStrFunc(ExceptAddr) + LineEnding;
+      FExceptionMessage := e.Message;
+      FExceptionBackTrace := ExceptionToString;
 
-      FrameCount:=ExceptFrameCount;
-      Frames:=ExceptFrames;
-      for FrameNumber := 0 to FrameCount-1 do
-        FExceptionMessage := FExceptionMessage + BackTraceStrFunc(Frames[FrameNumber]) + LineEnding;
-
-      if IsConsole then
-        DebugLn(FExceptionMessage);
+      if FExceptionBackTrace <> EmptyStr then
+        DebugLn(FExceptionBackTrace);
 
       Synchronize(@ShowException);
     end;
@@ -84,7 +75,8 @@ end;
 
 procedure TOperationThread.ShowException;
 begin
-  MessageDlg('Double Commander error', FExceptionMessage, mtError, [mbOK], 0);
+  WriteExceptionToFile(gErrorFile, FExceptionBackTrace);
+  ShowExceptionDialog(FExceptionMessage);
 end;
 
 end.
