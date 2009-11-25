@@ -117,7 +117,7 @@ function SetWindowLong(hWnd: HWND; nIndex: Integer; dwNewLong: LONG_PTR): LONG_P
 function MyWndProc(hWnd: HWND; uiMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
 begin
   case uiMsg of
-    (* For working with submenu of contex menu *)
+    (* For working with submenu of context menu *)
     WM_INITMENUPOPUP,
     WM_DRAWITEM,
     WM_MENUCHAR,
@@ -503,171 +503,174 @@ begin
     Exit;
   end;
 
-  if not Assigned(CM) then
-    CM:= TContextMenu.Create(Owner)
-  else
-    CM.Items.Clear;
+  try
+    if not Assigned(CM) then
+      CM:= TContextMenu.Create(Owner)
+    else
+      CM.Items.Clear;
 
-  mi:=TMenuItem.Create(CM);
-  mi.Action := frmMain.actOpen;
-  CM.Items.Add(mi);
+    mi:=TMenuItem.Create(CM);
+    mi.Action := frmMain.actOpen;
+    CM.Items.Add(mi);
 
-  mi:=TMenuItem.Create(CM);
-  mi.Caption:='-';
-  CM.Items.Add(mi);
+    mi:=TMenuItem.Create(CM);
+    mi.Caption:='-';
+    CM.Items.Add(mi);
 
-  aFile := Files[0];
-  if (Files.Count = 1) then
-    begin
-      miActions:=TMenuItem.Create(CM);
-      miActions.Caption:= rsMnuActions;
-
-      { Actions submenu }
-      // Read actions from doublecmd.ext
-      sl:=TStringList.Create;
-      try
-        if gExts.GetExtActions(aFile, sl) then
-          begin
-            AddActionsMenu := True;
-
-            for i:=0 to sl.Count-1 do
-              begin
-                sCmd:=sl.Strings[i];
-                if pos('VIEW=',sCmd)>0 then Continue;  // view command is only for viewer
-                ReplaceExtCommand(sCmd, aFile, aFile.Path);
-                mi:=TMenuItem.Create(miActions);
-                mi.Caption:=RemoveQuotation(sCmd);
-                mi.Hint:=Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
-                // length is bad, but in Copy is corrected
-                mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
-                miActions.Add(mi);
-              end;
-          end;
-
-        if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
-          begin
-            if sl.Count = 0 then
-              AddActionsMenu := True
-            else
-              begin
-                // now add delimiter
-                mi:=TMenuItem.Create(miActions);
-                mi.Caption:='-';
-                miActions.Add(mi);
-              end;
-
-            // now add VIEW item
-            mi:=TMenuItem.Create(miActions);
-            mi.Caption:='{!VIEWER}' + aFile.Path + aFile.Name;
-            mi.Hint:=mi.Caption;
-            mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
-            miActions.Add(mi);
-
-            // now add EDITconfigure item
-            mi:=TMenuItem.Create(miActions);
-            mi.Caption:='{!EDITOR}' + aFile.Path + aFile.Name;
-            mi.Hint:=mi.Caption;
-            mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
-            miActions.Add(mi);
-          end;
-      finally
-        FreeAndNil(sl);
-      end;
-
-      if AddActionsMenu then
+    aFile := Files[0];
+    if (Files.Count = 1) then
       begin
-        //founded any commands
-        CM.Items.Add(miActions);
-     end;
-     { /Actions submenu }
-      {$IFDEF LINUX}
-      //  Open with ...  (for now only for 1 selected file)
-      FileNames := TStringList.Create;
-      try
-        for i := 0 to Files.Count - 1 do
-          FileNames.Add(Files[i].Path + Files[i].Name);
+        miActions:=TMenuItem.Create(CM);
+        miActions.Caption:= rsMnuActions;
 
-        DesktopEntries := GetDesktopEntries(FileNames);
+        { Actions submenu }
+        // Read actions from doublecmd.ext
+        sl:=TStringList.Create;
+        try
+          if gExts.GetExtActions(aFile, sl) then
+            begin
+              AddActionsMenu := True;
 
-        if Assigned(DesktopEntries) and (DesktopEntries.Count > 0) then
-        begin
-          miOpenWith := TMenuItem.Create(CM);
-          miOpenWith.Caption := rsMnuOpenWith;
-          CM.Items.Add(miOpenWith);
-          AddOpenWithMenu := True;
+              for i:=0 to sl.Count-1 do
+                begin
+                  sCmd:=sl.Strings[i];
+                  if pos('VIEW=',sCmd)>0 then Continue;  // view command is only for viewer
+                  ReplaceExtCommand(sCmd, aFile, aFile.Path);
+                  mi:=TMenuItem.Create(miActions);
+                  mi.Caption:=RemoveQuotation(sCmd);
+                  mi.Hint:=Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
+                  // length is bad, but in Copy is corrected
+                  mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
+                  miActions.Add(mi);
+                end;
+            end;
 
-          for i := 0 to DesktopEntries.Count - 1 do
-          begin
-            mi := TMenuItem.Create(miOpenWith);
-            mi.Caption := PDesktopFileEntry(DesktopEntries[i])^.DisplayName;
-            mi.Hint := PDesktopFileEntry(DesktopEntries[i])^.Exec;
-            mi.OnClick := TContextMenu.OpenWithMenuItemSelect;
-            miOpenWith.Add(mi);
-          end;
+          if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+            begin
+              if sl.Count = 0 then
+                AddActionsMenu := True
+              else
+                begin
+                  // now add delimiter
+                  mi:=TMenuItem.Create(miActions);
+                  mi.Caption:='-';
+                  miActions.Add(mi);
+                end;
+
+              // now add VIEW item
+              mi:=TMenuItem.Create(miActions);
+              mi.Caption:='{!VIEWER}' + aFile.Path + aFile.Name;
+              mi.Hint:=mi.Caption;
+              mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
+              miActions.Add(mi);
+
+              // now add EDITconfigure item
+              mi:=TMenuItem.Create(miActions);
+              mi.Caption:='{!EDITOR}' + aFile.Path + aFile.Name;
+              mi.Hint:=mi.Caption;
+              mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
+              miActions.Add(mi);
+            end;
+        finally
+          FreeAndNil(sl);
         end;
 
-      finally
-        FreeAndNil(FileNames);
-        if Assigned(DesktopEntries) then
+        if AddActionsMenu then
         begin
-          for i := 0 to DesktopEntries.Count - 1 do
-            Dispose(PDesktopFileEntry(DesktopEntries[i]));
-          FreeAndNil(DesktopEntries);
+          //founded any commands
+          CM.Items.Add(miActions);
+       end;
+       { /Actions submenu }
+        {$IFDEF LINUX}
+        //  Open with ...  (for now only for 1 selected file)
+        FileNames := TStringList.Create;
+        try
+          for i := 0 to Files.Count - 1 do
+            FileNames.Add(Files[i].Path + Files[i].Name);
+
+          DesktopEntries := GetDesktopEntries(FileNames);
+
+          if Assigned(DesktopEntries) and (DesktopEntries.Count > 0) then
+          begin
+            miOpenWith := TMenuItem.Create(CM);
+            miOpenWith.Caption := rsMnuOpenWith;
+            CM.Items.Add(miOpenWith);
+            AddOpenWithMenu := True;
+
+            for i := 0 to DesktopEntries.Count - 1 do
+            begin
+              mi := TMenuItem.Create(miOpenWith);
+              mi.Caption := PDesktopFileEntry(DesktopEntries[i])^.DisplayName;
+              mi.Hint := PDesktopFileEntry(DesktopEntries[i])^.Exec;
+              mi.OnClick := TContextMenu.OpenWithMenuItemSelect;
+              miOpenWith.Add(mi);
+            end;
+          end;
+
+        finally
+          FreeAndNil(FileNames);
+          if Assigned(DesktopEntries) then
+          begin
+            for i := 0 to DesktopEntries.Count - 1 do
+              Dispose(PDesktopFileEntry(DesktopEntries[i]));
+            FreeAndNil(DesktopEntries);
+          end;
         end;
-      end;
-      {$ENDIF}
-      // Add separator after actions and openwith menu.
-      if AddActionsMenu or AddOpenWithMenu then
-      begin
-        mi:=TMenuItem.Create(CM);
-        mi.Caption:='-';
-        CM.Items.Add(mi);
-      end;
-    end; // if count = 1
+        {$ENDIF}
+        // Add separator after actions and openwith menu.
+        if AddActionsMenu or AddOpenWithMenu then
+        begin
+          mi:=TMenuItem.Create(CM);
+          mi.Caption:='-';
+          CM.Items.Add(mi);
+        end;
+      end; // if count = 1
 
-  mi:=TMenuItem.Create(CM);
-  mi.Action := frmMain.actRename;
-  CM.Items.Add(mi);
-  
-  mi:=TMenuItem.Create(CM);
-  mi.Action := frmMain.actCopy;
-  CM.Items.Add(mi);
-  
-  mi:=TMenuItem.Create(CM);
-  mi.Action := frmMain.actDelete;
-  CM.Items.Add(mi);
-  
-  mi:=TMenuItem.Create(CM);
-  mi.Action := frmMain.actRenameOnly;
-  CM.Items.Add(mi);
+    mi:=TMenuItem.Create(CM);
+    mi.Action := frmMain.actRename;
+    CM.Items.Add(mi);
 
-  mi:=TMenuItem.Create(CM);
-  mi.Caption:='-';
-  CM.Items.Add(mi);
-  
-  mi:=TMenuItem.Create(CM);
-  mi.Action := frmMain.actCutToClipboard;
-  CM.Items.Add(mi);
+    mi:=TMenuItem.Create(CM);
+    mi.Action := frmMain.actCopy;
+    CM.Items.Add(mi);
 
-  mi:=TMenuItem.Create(CM);
-  mi.Action := frmMain.actCopyToClipboard;
-  CM.Items.Add(mi);
+    mi:=TMenuItem.Create(CM);
+    mi.Action := frmMain.actDelete;
+    CM.Items.Add(mi);
 
-  mi:=TMenuItem.Create(CM);
-  mi.Action := frmMain.actPasteFromClipboard;
-  CM.Items.Add(mi);
+    mi:=TMenuItem.Create(CM);
+    mi.Action := frmMain.actRenameOnly;
+    CM.Items.Add(mi);
 
-  mi:=TMenuItem.Create(CM);
-  mi.Caption:='-';
-  CM.Items.Add(mi);
+    mi:=TMenuItem.Create(CM);
+    mi.Caption:='-';
+    CM.Items.Add(mi);
 
-  mi:=TMenuItem.Create(CM);
-  mi.Action := frmMain.actFileProperties;
-  CM.Items.Add(mi);
-  
-  CM.PopUp(X, Y);
+    mi:=TMenuItem.Create(CM);
+    mi.Action := frmMain.actCutToClipboard;
+    CM.Items.Add(mi);
 
-  Files.Free;
+    mi:=TMenuItem.Create(CM);
+    mi.Action := frmMain.actCopyToClipboard;
+    CM.Items.Add(mi);
+
+    mi:=TMenuItem.Create(CM);
+    mi.Action := frmMain.actPasteFromClipboard;
+    CM.Items.Add(mi);
+
+    mi:=TMenuItem.Create(CM);
+    mi.Caption:='-';
+    CM.Items.Add(mi);
+
+    mi:=TMenuItem.Create(CM);
+    mi.Action := frmMain.actFileProperties;
+    CM.Items.Add(mi);
+
+    CM.PopUp(X, Y);
+
+  finally
+    FreeAndNil(Files);
+  end;
 end;
 {$ENDIF}
 
