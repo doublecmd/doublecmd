@@ -7,17 +7,17 @@ rem CD to plugins directory
 pushd plugins
 
 rem WCX plugins
-%lazpath%\lazbuild.exe wcx\cpio\src\cpio.lpi
-%lazpath%\lazbuild.exe wcx\deb\src\deb.lpi
-%lazpath%\lazbuild.exe wcx\lzma\src\lzma.lpi
-%lazpath%\lazbuild.exe wcx\rpm\src\rpm.lpi
-%lazpath%\lazbuild.exe wcx\unbz2\src\unbz2.lpi
-%lazpath%\lazbuild.exe wcx\unrar\src\unrar.lpi
-%lazpath%\lazbuild.exe wcx\zip\src\zip.lpi
+%lazpath%\lazbuild.exe wcx\cpio\src\cpio.lpi %DC_ARCH%
+%lazpath%\lazbuild.exe wcx\deb\src\deb.lpi %DC_ARCH%
+%lazpath%\lazbuild.exe wcx\lzma\src\lzma.lpi %DC_ARCH%
+%lazpath%\lazbuild.exe wcx\rpm\src\rpm.lpi %DC_ARCH%
+%lazpath%\lazbuild.exe wcx\unbz2\src\unbz2.lpi %DC_ARCH%
+%lazpath%\lazbuild.exe wcx\unrar\src\unrar.lpi %DC_ARCH%
+%lazpath%\lazbuild.exe wcx\zip\src\zip.lpi %DC_ARCH%
 
 rem WDX plugins
-%lazpath%\lazbuild.exe wdx\rpm_wdx\src\rpm_wdx.lpi
-%lazpath%\lazbuild.exe wdx\deb_wdx\src\deb_wdx.lpi
+%lazpath%\lazbuild.exe wdx\rpm_wdx\src\rpm_wdx.lpi %DC_ARCH%
+%lazpath%\lazbuild.exe wdx\deb_wdx\src\deb_wdx.lpi %DC_ARCH%
 
 rem Strip and rename WCX
 pushd wcx\cpio\lib\
