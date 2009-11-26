@@ -8,7 +8,6 @@ uses
   Classes, SysUtils; 
 
 function ExceptionToString: String;
-procedure WriteExceptionToDebug;
 procedure WriteExceptionToFile(const aFileName: UTF8String; const ExceptionText: String = '');
 procedure ShowExceptionDialog(const ExceptionText: String = '');
 
@@ -40,15 +39,6 @@ begin
   Frames := ExceptFrames;
   for FrameNumber := 0 to FrameCount - 1 do
     Result := Result + BackTraceStrFunc(Frames[FrameNumber]) + LineEnding;
-end;
-
-procedure WriteExceptionToDebug;
-begin
-  if AppNoExceptionMessages in Application.Flags then exit;
-  {$ifndef DEBUG_ALLOW_DUMPBACKTRACE}
-  if (ExceptObject is Exception) and not (ExceptObject is EAbort) then
-    DebugLn(ExceptionToString);
-  {$endif}
 end;
 
 procedure WriteExceptionToFile(const aFileName: UTF8String; const ExceptionText: String);
