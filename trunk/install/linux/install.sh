@@ -51,7 +51,7 @@ cp -a plugins/wcx/rpm/lib/rpm.wcx          $DC_INSTALL_DIR/plugins/wcx/rpm/
 cp -a plugins/wcx/unrar/lib/unrar.wcx      $DC_INSTALL_DIR/plugins/wcx/unrar/
 cp -a plugins/wcx/unbz2/lib/unbz2.wcx      $DC_INSTALL_DIR/plugins/wcx/unbz2/
 cp -a plugins/wcx/zip/lib/zip.wcx          $DC_INSTALL_DIR/plugins/wcx/zip/
-cp -a plugins/wcx/zip/ZipConfDlg.lfm       $DC_INSTALL_DIR/plugins/wcx/zip/
+cp -a plugins/wcx/zip/src/ZipConfDlg.lfm   $DC_INSTALL_DIR/plugins/wcx/zip/
 # WDX
 cp -a plugins/wdx/rpm_wdx/lib/rpm_wdx.wdx  $DC_INSTALL_DIR/plugins/wdx/rpm_wdx/
 cp -a plugins/wdx/deb_wdx/lib/deb_wdx.wdx  $DC_INSTALL_DIR/plugins/wdx/deb_wdx/
@@ -64,7 +64,7 @@ cp -a plugins/dsx/DSXLocate/lib/DSXLocate.dsx  $DC_INSTALL_DIR/plugins/dsx/DSXLo
 if [ -z $1 ]
   then
     # Copy libraries
-    if [ "$(fpc -iTP)" = "x86_64" ]
+    if [ "$CPU_TARGET" = "x86_64" ]
       then
         install -m 644 *.so           /usr/lib64/
       else
