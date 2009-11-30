@@ -706,6 +706,7 @@ begin
         if Assigned(AFile) then
         begin
           InvertFileSelection(AFile);
+          UpDatelblInfo;
           dgPanel.Invalidate;
         end;
       end;
@@ -724,6 +725,7 @@ begin
             if Assigned(AFile) then
               begin
                 InvertFileSelection(AFile);
+                UpDatelblInfo;
                 dgPanel.Invalidate;
               end;
           end
