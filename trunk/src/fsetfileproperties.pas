@@ -95,6 +95,7 @@ type
     procedure btnOKClick(Sender: TObject);
     procedure cbChangeModeClick(Sender: TObject);
     procedure chkChangeAttrClick(Sender: TObject);
+    procedure deDateButtonClick(Sender: TObject);
     procedure edtOctalKeyPress(Sender: TObject; var Key: char);
     procedure edtOctalKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
@@ -113,7 +114,7 @@ function ShowChangeFilePropertiesDialog(const aOperation: TFileSourceSetFileProp
 implementation
 
 uses
-  LCLType, uFileAttributes, uDCUtils;
+  LCLType, fCalendar, uFileAttributes, uDCUtils;
 
 function ShowChangeFilePropertiesDialog(const aOperation: TFileSourceSetFilePropertyOperation): Boolean;
 begin
@@ -167,6 +168,13 @@ end;
 procedure TfrmSetFileProperties.chkChangeAttrClick(Sender: TObject);
 begin
 
+end;
+
+procedure TfrmSetFileProperties.deDateButtonClick(Sender: TObject);
+var
+  ebDate: TEditButton absolute Sender;
+begin
+  ebDate.Text:= ShowCalendarDialog(ebDate.Text, Mouse.CursorPos);
 end;
 
 procedure TfrmSetFileProperties.edtOctalKeyPress(Sender: TObject; var Key: char);
