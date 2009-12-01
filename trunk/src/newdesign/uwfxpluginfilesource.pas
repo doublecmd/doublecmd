@@ -399,6 +399,9 @@ begin
         Result:= Result + [fsoCreateDirectory];
     if Assigned(FsExecuteFile) or Assigned(FsExecuteFileW) then
         Result:= Result + [fsoExecute];
+    if Assigned(FsSetAttr) or Assigned(FsSetAttrW) or
+       Assigned(FsExecuteFile) or Assigned(FsExecuteFileW) then
+        Result:= Result + [fsoSetFileProperty];
   end;
 end;
 
