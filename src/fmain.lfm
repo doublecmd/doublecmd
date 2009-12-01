@@ -901,6 +901,10 @@ object frmMain: TfrmMain
       object miLine1: TMenuItem
         Caption = '-'
       end
+      object mnuSetFileProperties: TMenuItem
+        Action = actSetFileProperties
+        OnClick = actExecute
+      end
       object mnuFilesProperties: TMenuItem
         Action = actFileProperties
         OnClick = actExecute
@@ -1686,6 +1690,11 @@ object frmMain: TfrmMain
     object actQuickFilter: TAction
       Category = 'Commands'
       Caption = 'Quick filter'
+      OnExecute = actExecute
+    end
+    object actSetFileProperties: TAction
+      Category = 'File'
+      Caption = 'Change file properties'
       OnExecute = actExecute
     end
   end
