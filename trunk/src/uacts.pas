@@ -2244,38 +2244,47 @@ var
 begin
   with frmMain do
   begin
-    SelectedFiles := ActiveFrame.SelectedFiles;
-    begin
-      aFile:= ActiveFrame.ActiveFile;
-      if Assigned(aFile) then
-        try
-          FillByte(aFileProperties, SizeOf(aFileProperties), 0);
-          if fpAttributes in aFile.SupportedProperties then
-            aFileProperties[fpAttributes]:= AFile.Properties[fpAttributes].Clone;
-          if fpModificationTime in aFile.SupportedProperties then
-            aFileProperties[fpModificationTime]:= AFile.Properties[fpModificationTime].Clone;
-          if fpCreationTime in aFile.SupportedProperties then
-            aFileProperties[fpCreationTime]:= AFile.Properties[fpCreationTime].Clone;
-          if fpLastAccessTime in aFile.SupportedProperties then
-            aFileProperties[fpLastAccessTime]:= AFile.Properties[fpLastAccessTime].Clone;
+    if not (fsoSetFileProperty in ActiveFrame.FileSource.GetOperationsTypes) then
+      begin
+        msgWarning(rsMsgErrNotSupported);
+        Exit;
+      end;
 
-          Operation:= ActiveFrame.FileSource.CreateSetFilePropertyOperation(
-                          SelectedFiles,
-                          aFileProperties) as TFileSourceSetFilePropertyOperation;
-          if Assigned(Operation) then
-            begin
-              if ShowChangeFilePropertiesDialog(Operation) then
-                begin
-                  OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
-                  ProgressDialog := TfrmFileOp.Create(OperationHandle);
-                  ProgressDialog.Show;
-                end;
-            end;
-        finally
-          if Assigned(SelectedFiles) then
-            FreeAndNil(SelectedFiles);
-        end;
-    end;
+    SelectedFiles := ActiveFrame.SelectedFiles;
+    aFile:= ActiveFrame.ActiveFile;
+    if Assigned(aFile) then
+      try
+        FillByte(aFileProperties, SizeOf(aFileProperties), 0);
+        if fpAttributes in aFile.SupportedProperties then
+          aFileProperties[fpAttributes]:= AFile.Properties[fpAttributes].Clone;
+        if fpModificationTime in aFile.SupportedProperties then
+          aFileProperties[fpModificationTime]:= AFile.Properties[fpModificationTime].Clone;
+        if fpCreationTime in aFile.SupportedProperties then
+          aFileProperties[fpCreationTime]:= AFile.Properties[fpCreationTime].Clone;
+        if fpLastAccessTime in aFile.SupportedProperties then
+          aFileProperties[fpLastAccessTime]:= AFile.Properties[fpLastAccessTime].Clone;
+
+        Operation:= ActiveFrame.FileSource.CreateSetFilePropertyOperation(
+                        SelectedFiles,
+                        aFileProperties) as TFileSourceSetFilePropertyOperation;
+        if Assigned(Operation) then
+          begin
+            if ShowChangeFilePropertiesDialog(Operation) then
+              begin
+                OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+                ProgressDialog := TfrmFileOp.Create(OperationHandle);
+                ProgressDialog.Show;
+              end
+            else
+              begin
+                if Assigned(Operation) then
+                  FreeAndNil(Operation);
+              end;
+          end;
+      finally
+        if Assigned(SelectedFiles) then
+          FreeAndNil(SelectedFiles);
+      end;
   end;
 end;
 
