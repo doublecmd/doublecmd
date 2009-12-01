@@ -247,14 +247,12 @@ var
 begin
   if Assigned(FsFindFirstW) then
     begin
-      FillChar(FindDataW, SizeOf(FindDataW), 0);
       Result:= FsFindFirstW(PWideChar(UTF8Decode(Path)), FindDataW);
       if Result <> hInvalidHandle then
         FindData:= LoadWfxFindData(FindDataW);
     end
   else if Assigned(FsFindFirst) then
     begin
-      FillChar(FindDataA, SizeOf(FindDataA), 0);
       Result:= FsFindFirst(PAnsiChar(UTF8ToSys(Path)), FindDataA);
       if Result <> hInvalidHandle then
         FindData:= LoadWfxFindData(FindDataA);
@@ -268,14 +266,12 @@ var
 begin
   if Assigned(FsFindFirstW) then
     begin
-      FillChar(FindDataW, SizeOf(FindDataW), 0);
       Result:= FsFindNextW(Hdl, FindDataW);
       if Result then
         FindData:= LoadWfxFindData(FindDataW);
     end
   else if Assigned(FsFindFirst) then
     begin
-      FillChar(FindDataA, SizeOf(FindDataA), 0);
       Result:= FsFindNext(Hdl, FindDataA);
       if Result then
         FindData:= LoadWfxFindData(FindDataA);
