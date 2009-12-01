@@ -223,6 +223,7 @@ const cf_Null=0;
    procedure cm_ShowCmdLineHistory(param: string='');
    procedure cm_CalculateSpace(param: string='');
    procedure cm_CountDirContent(param: string='');
+   procedure cm_SetFileProperties(param: string='');
    procedure cm_FileProperties(param: string='');
    procedure cm_FileLinker(param: string='');
    procedure cm_FileSpliter(param: string='');
@@ -250,7 +251,7 @@ implementation
 uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager,
      fMain, fPackDlg, fFileOpDlg, fMkDir, fFileAssoc, fExtractDlg, fAbout,
      fOptions, fCompareFiles, fFindDlg, fSymLink, fHardLink, fMultiRename,
-     fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc,
+     fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
      uGlobs, uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uGlobsPaths,
      uClassesEx, uShowForm, uShellExecute, uClipboard, uHash,
      uFilePanelSelect, uFile, uFileSystemFileSource,
@@ -259,7 +260,7 @@ uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
      uFileSourceCalcStatisticsOperation, uFileSystemFile,
      uFileSource, uFileSourceProperty, uVfsFileSource, uFileSourceUtil,
-     uTempFileSystemFileSource;
+     uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation;
 
 { TActs }
 
@@ -2230,6 +2231,52 @@ end;
 procedure TActs.cm_CountDirContent(param: string);
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_CountDirContent', param);
+end;
+
+procedure TActs.cm_SetFileProperties(param: string);
+var
+  aFile: TFile;
+  SelectedFiles: TFiles;
+  aFileProperties: TFileProperties;
+  Operation: TFileSourceSetFilePropertyOperation;
+  OperationHandle: TOperationHandle;
+  ProgressDialog: TfrmFileOp;
+begin
+  with frmMain do
+  begin
+    SelectedFiles := ActiveFrame.SelectedFiles;
+    begin
+      aFile:= ActiveFrame.ActiveFile;
+      if Assigned(aFile) then
+        try
+          FillByte(aFileProperties, SizeOf(aFileProperties), 0);
+          if fpAttributes in aFile.SupportedProperties then
+            aFileProperties[fpAttributes]:= AFile.Properties[fpAttributes].Clone;
+          if fpModificationTime in aFile.SupportedProperties then
+            aFileProperties[fpModificationTime]:= AFile.Properties[fpModificationTime].Clone;
+          if fpCreationTime in aFile.SupportedProperties then
+            aFileProperties[fpCreationTime]:= AFile.Properties[fpCreationTime].Clone;
+          if fpLastAccessTime in aFile.SupportedProperties then
+            aFileProperties[fpLastAccessTime]:= AFile.Properties[fpLastAccessTime].Clone;
+
+          Operation:= ActiveFrame.FileSource.CreateSetFilePropertyOperation(
+                          SelectedFiles,
+                          aFileProperties) as TFileSourceSetFilePropertyOperation;
+          if Assigned(Operation) then
+            begin
+              if ShowChangeFilePropertiesDialog(Operation) then
+                begin
+                  OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+                  ProgressDialog := TfrmFileOp.Create(OperationHandle);
+                  ProgressDialog.Show;
+                end;
+            end;
+        finally
+          if Assigned(SelectedFiles) then
+            FreeAndNil(SelectedFiles);
+        end;
+    end;
+  end;
 end;
 
 procedure TActs.cm_FileProperties(param:string);
