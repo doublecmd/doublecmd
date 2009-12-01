@@ -1,0 +1,761 @@
+object frmSetFileProperties: TfrmSetFileProperties
+  Left = 301
+  Height = 315
+  Top = 98
+  Width = 375
+  Caption = 'Change file properties'
+  ClientHeight = 315
+  ClientWidth = 375
+  LCLVersion = '0.9.29'
+  object nbAttributes: TNotebook
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 0
+    Height = 240
+    Top = 0
+    Width = 375
+    Anchors = [akTop, akLeft, akRight]
+    PageIndex = 0
+    TabOrder = 0
+    object pgUnixMode: TPage
+      Caption = 'Attributes'
+      ClientWidth = 367
+      ClientHeight = 214
+      object lblAttrTextStr: TLabel
+        AnchorSideTop.Control = edtOctal
+        AnchorSideTop.Side = asrBottom
+        Left = 8
+        Height = 14
+        Top = 177
+        Width = 27
+        BorderSpacing.Left = 8
+        BorderSpacing.Top = 6
+        Caption = 'Text:'
+        ParentColor = False
+      end
+      object lblAttrText: TLabel
+        AnchorSideLeft.Control = edtOctal
+        AnchorSideTop.Control = lblAttrTextStr
+        AnchorSideTop.Side = asrCenter
+        Left = 115
+        Height = 14
+        Top = 177
+        Width = 45
+        Caption = '-----------'
+        Font.Color = clBlack
+        ParentColor = False
+        ParentFont = False
+      end
+      object edtOctal: TEdit
+        AnchorSideTop.Control = Bevel1
+        AnchorSideTop.Side = asrBottom
+        Left = 115
+        Height = 21
+        Top = 150
+        Width = 80
+        BorderSpacing.Top = 6
+        MaxLength = 4
+        OnKeyPress = edtOctalKeyPress
+        OnKeyUp = edtOctalKeyUp
+        TabOrder = 0
+      end
+      object lblOctal: TLabel
+        AnchorSideTop.Control = edtOctal
+        AnchorSideTop.Side = asrCenter
+        Left = 8
+        Height = 14
+        Top = 153
+        Width = 30
+        BorderSpacing.Left = 8
+        Caption = 'Octal:'
+        ParentColor = False
+      end
+      object lblAttrBitsStr: TLabel
+        AnchorSideTop.Control = cbSuid
+        AnchorSideTop.Side = asrCenter
+        Left = 8
+        Height = 14
+        Top = 118
+        Width = 22
+        Caption = 'Bits:'
+        ParentColor = False
+      end
+      object cbSuid: TCheckBox
+        AnchorSideTop.Control = Bevel2
+        AnchorSideTop.Side = asrBottom
+        Left = 112
+        Height = 17
+        Top = 117
+        Width = 42
+        BorderSpacing.Top = 6
+        Caption = 'SUID'
+        OnClick = cbChangeModeClick
+        TabOrder = 1
+      end
+      object cbSgid: TCheckBox
+        AnchorSideTop.Control = Bevel2
+        AnchorSideTop.Side = asrBottom
+        Left = 184
+        Height = 17
+        Top = 117
+        Width = 42
+        BorderSpacing.Top = 6
+        Caption = 'SGID'
+        OnClick = cbChangeModeClick
+        TabOrder = 2
+      end
+      object cbSticky: TCheckBox
+        AnchorSideTop.Control = Bevel2
+        AnchorSideTop.Side = asrBottom
+        Left = 256
+        Height = 17
+        Top = 117
+        Width = 46
+        BorderSpacing.Top = 6
+        Caption = 'Sticky'
+        OnClick = cbChangeModeClick
+        TabOrder = 3
+      end
+      object cbExecOther: TCheckBox
+        AnchorSideTop.Control = cbExecGroup
+        AnchorSideTop.Side = asrBottom
+        Left = 256
+        Height = 17
+        Top = 84
+        Width = 18
+        BorderSpacing.Top = 6
+        OnClick = cbChangeModeClick
+        TabOrder = 4
+      end
+      object cbWriteOther: TCheckBox
+        AnchorSideTop.Control = cbWriteGroup
+        AnchorSideTop.Side = asrBottom
+        Left = 184
+        Height = 17
+        Top = 84
+        Width = 18
+        BorderSpacing.Top = 6
+        OnClick = cbChangeModeClick
+        TabOrder = 5
+      end
+      object cbReadOther: TCheckBox
+        AnchorSideTop.Control = cbReadGroup
+        AnchorSideTop.Side = asrBottom
+        Left = 112
+        Height = 17
+        Top = 84
+        Width = 18
+        BorderSpacing.Top = 6
+        OnClick = cbChangeModeClick
+        TabOrder = 6
+      end
+      object lblAttrOtherStr: TLabel
+        AnchorSideTop.Control = cbReadOther
+        AnchorSideTop.Side = asrCenter
+        Left = 8
+        Height = 14
+        Top = 85
+        Width = 29
+        Caption = 'Other'
+        ParentColor = False
+      end
+      object lblAttrGroupStr: TLabel
+        AnchorSideTop.Control = cbReadGroup
+        AnchorSideTop.Side = asrCenter
+        Left = 8
+        Height = 14
+        Top = 62
+        Width = 30
+        Caption = 'Group'
+        ParentColor = False
+      end
+      object cbReadGroup: TCheckBox
+        AnchorSideTop.Control = cbReadOwner
+        AnchorSideTop.Side = asrBottom
+        Left = 112
+        Height = 17
+        Top = 61
+        Width = 18
+        BorderSpacing.Top = 6
+        OnClick = cbChangeModeClick
+        TabOrder = 7
+      end
+      object cbWriteGroup: TCheckBox
+        AnchorSideTop.Control = cbWriteOwner
+        AnchorSideTop.Side = asrBottom
+        Left = 184
+        Height = 17
+        Top = 61
+        Width = 18
+        BorderSpacing.Top = 6
+        OnClick = cbChangeModeClick
+        TabOrder = 8
+      end
+      object cbExecGroup: TCheckBox
+        AnchorSideTop.Control = cbExecOwner
+        AnchorSideTop.Side = asrBottom
+        Left = 256
+        Height = 17
+        Top = 61
+        Width = 18
+        BorderSpacing.Top = 6
+        OnClick = cbChangeModeClick
+        TabOrder = 9
+      end
+      object cbExecOwner: TCheckBox
+        AnchorSideTop.Control = lblExec
+        AnchorSideTop.Side = asrBottom
+        Left = 256
+        Height = 17
+        Top = 38
+        Width = 18
+        BorderSpacing.Top = 6
+        OnClick = cbChangeModeClick
+        TabOrder = 10
+      end
+      object cbWriteOwner: TCheckBox
+        AnchorSideTop.Control = lblWrite
+        AnchorSideTop.Side = asrBottom
+        Left = 184
+        Height = 17
+        Top = 38
+        Width = 18
+        BorderSpacing.Top = 6
+        OnClick = cbChangeModeClick
+        TabOrder = 11
+      end
+      object cbReadOwner: TCheckBox
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideTop.Control = lblRead
+        AnchorSideTop.Side = asrBottom
+        Left = 112
+        Height = 17
+        Top = 38
+        Width = 18
+        BorderSpacing.Top = 6
+        OnClick = cbChangeModeClick
+        TabOrder = 12
+      end
+      object lblAttrOwnerStr: TLabel
+        AnchorSideTop.Control = cbReadOwner
+        AnchorSideTop.Side = asrCenter
+        Left = 8
+        Height = 14
+        Top = 39
+        Width = 33
+        Caption = 'Owner'
+        ParentColor = False
+      end
+      object lblRead: TLabel
+        AnchorSideTop.Control = pgUnixMode
+        Left = 104
+        Height = 14
+        Top = 18
+        Width = 26
+        BorderSpacing.Top = 18
+        Caption = 'Read'
+        ParentColor = False
+      end
+      object lblWrite: TLabel
+        AnchorSideTop.Control = pgUnixMode
+        Left = 176
+        Height = 14
+        Top = 18
+        Width = 27
+        BorderSpacing.Top = 18
+        Caption = 'Write'
+        ParentColor = False
+      end
+      object lblExec: TLabel
+        AnchorSideTop.Control = pgUnixMode
+        Left = 240
+        Height = 14
+        Top = 18
+        Width = 40
+        BorderSpacing.Top = 18
+        Caption = 'Execute'
+        ParentColor = False
+      end
+      object Bevel1: TBevel
+        AnchorSideLeft.Control = pgUnixMode
+        AnchorSideTop.Control = cbSuid
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = pgUnixMode
+        AnchorSideRight.Side = asrBottom
+        Left = 6
+        Height = 4
+        Top = 140
+        Width = 355
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 6
+        BorderSpacing.Top = 6
+        BorderSpacing.Right = 6
+        Shape = bsTopLine
+        Style = bsRaised
+      end
+      object Bevel2: TBevel
+        AnchorSideLeft.Control = pgUnixMode
+        AnchorSideTop.Control = cbReadOther
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = pgUnixMode
+        AnchorSideRight.Side = asrBottom
+        Left = 6
+        Height = 4
+        Top = 107
+        Width = 355
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 6
+        BorderSpacing.Top = 6
+        BorderSpacing.Right = 6
+        Shape = bsTopLine
+        Style = bsRaised
+      end
+    end
+    object pgWinAttr: TPage
+      Caption = 'Attributes'
+      ClientWidth = 367
+      ClientHeight = 214
+      object chkArchive: TCheckBox
+        AnchorSideLeft.Control = pgWinAttr
+        AnchorSideTop.Control = pgWinAttr
+        Left = 24
+        Height = 17
+        Top = 18
+        Width = 54
+        AllowGrayed = True
+        BorderSpacing.Left = 24
+        BorderSpacing.Top = 18
+        Caption = 'Archive'
+        OnClick = chkChangeAttrClick
+        TabOrder = 0
+      end
+      object chkReadOnly: TCheckBox
+        AnchorSideLeft.Control = chkArchive
+        AnchorSideTop.Control = chkArchive
+        AnchorSideTop.Side = asrBottom
+        Left = 24
+        Height = 17
+        Top = 41
+        Width = 66
+        AllowGrayed = True
+        BorderSpacing.Top = 6
+        Caption = 'Read only'
+        OnClick = chkChangeAttrClick
+        TabOrder = 1
+      end
+      object chkHidden: TCheckBox
+        AnchorSideLeft.Control = chkArchive
+        AnchorSideTop.Control = pgWinAttr
+        Left = 224
+        Height = 17
+        Top = 18
+        Width = 51
+        AllowGrayed = True
+        BorderSpacing.Left = 200
+        BorderSpacing.Top = 18
+        Caption = 'Hidden'
+        OnClick = chkChangeAttrClick
+        TabOrder = 2
+      end
+      object chkSystem: TCheckBox
+        AnchorSideLeft.Control = chkHidden
+        AnchorSideTop.Control = chkHidden
+        AnchorSideTop.Side = asrBottom
+        Left = 224
+        Height = 17
+        Top = 43
+        Width = 53
+        AllowGrayed = True
+        BorderSpacing.Top = 8
+        Caption = 'System'
+        OnClick = chkChangeAttrClick
+        TabOrder = 3
+      end
+      object lblAttrInfo: TLabel
+        AnchorSideLeft.Control = chkReadOnly
+        AnchorSideTop.Control = chkReadOnly
+        AnchorSideTop.Side = asrBottom
+        Left = 24
+        Height = 14
+        Top = 70
+        Width = 212
+        BorderSpacing.Top = 12
+        Caption = '(gray = unchanged, checked=set attribute)'
+        ParentColor = False
+      end
+    end
+    object pgDateTime: TPage
+      Caption = 'Date/Time'
+      ClientWidth = 367
+      ClientHeight = 214
+      object pnlLastWriteTime: TPanel
+        AnchorSideLeft.Control = pgDateTime
+        AnchorSideTop.Control = pgDateTime
+        AnchorSideRight.Control = pgDateTime
+        AnchorSideRight.Side = asrBottom
+        Left = 0
+        Height = 33
+        Top = 12
+        Width = 367
+        Anchors = [akTop, akLeft, akRight]
+        AutoSize = True
+        BorderSpacing.Top = 12
+        BevelOuter = bvNone
+        ChildSizing.TopBottomSpacing = 6
+        ClientHeight = 33
+        ClientWidth = 367
+        Enabled = False
+        TabOrder = 0
+        object btnLastWriteTime: TSpeedButton
+          AnchorSideTop.Control = edtLastWriteTime
+          AnchorSideRight.Control = pnlLastWriteTime
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = edtLastWriteTime
+          AnchorSideBottom.Side = asrBottom
+          Left = 334
+          Height = 21
+          Top = 6
+          Width = 23
+          Anchors = [akTop, akRight, akBottom]
+          BorderSpacing.Right = 10
+          Color = clBtnFace
+          NumGlyphs = 0
+          OnClick = btnLastWriteTimeClick
+        end
+        object edtLastWriteTime: TEdit
+          AnchorSideTop.Control = edbLastWriteTime
+          AnchorSideTop.Side = asrCenter
+          AnchorSideRight.Control = btnLastWriteTime
+          AnchorSideBottom.Side = asrBottom
+          Left = 242
+          Height = 21
+          Top = 6
+          Width = 80
+          Anchors = [akTop, akRight]
+          BorderSpacing.Right = 12
+          TabOrder = 0
+        end
+        object edbLastWriteTime: TEditButton
+          AnchorSideTop.Control = pnlLastWriteTime
+          Left = 112
+          Height = 21
+          Top = 6
+          Width = 80
+          ButtonWidth = 23
+          CharCase = ecNormal
+          Glyph.Data = {
+            36040000424D3604000000000000360000002800000010000000100000000100
+            2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
+            FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+            FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00D69E
+            72C4D3996EF4D19668FFCE9263FFCB8E5EFFC98A5BFFC78756FFC38452FFC384
+            52FFC38452FFC38452FFC38452FFC38452FFBB7742B0FFFFFF00FFFFFF00D7A1
+            75FFF8F2EDFFF7F0EAFFF6EDE6FFF4EAE2FFF3E7DEFFF1E4DBFFF0E2D8FFEAD6
+            C8FFF2E5DCFFFAF4F1FFF9F3F0FFFAF5F2FFC58A5DFDFFFFFF00FFFFFF00D9A4
+            7AFFF9F3EEFFEBD2BEFFFFFFFFFFEBD3BFFFFFFFFFFFEBD3C0FFFFFFFFFFEAC7
+            ADFFECD9CDFFF1E4DBFFF9F3F0FFF9F2EFFFC68C5FFFFFFFFF00FFFFFF00DDA8
+            7EFFF9F3EFFFEBD0BAFFEBD0BBFF75B57AFF75B57AFF75B57AFFEBD1BDFFEACD
+            B5FFFAF4F0FFEBD9CCFFF1E4DBFFFAF4F1FFC68A5CFFFFFFFF00FFFFFF00DFAA
+            82FFF9F3EFFFEACEB7FFFFFFFFFF75B57AFF94D49BFF74B579FFFFFFFFFFEACF
+            BAFFFBF6F2FFFAF3F0FFEBD8CBFFF2E6DDFFC88D5FFFFFFFFF00FFFFFF00E1AE
+            87FFFAF4F0FFEACBB2FFEACCB3FF75B57AFF74B579FF73B478FFEACEB7FF70B3
+            75FF6FB274FF6EB172FFE8C8AEFFEAD7C9FFC48654FFFFFFFF00FFFFFF00E3B1
+            8CFFFAF6F1FFEAC9AEFFFFFFFFFFEAC9B0FFFFFFFFFFE9CBB3FFFFFFFFFF6FB1
+            73FF8ED295FF6BAF6FFFFFFFFFFFF1E5DBFFC68655FFFFFFFF00FFFFFF00E5B4
+            8FFFFAF6F2FFE9C6AAFFE9C6ACFFEAC7ACFFE9C7ADFFE9C9AEFFE9C9B0FF6CB0
+            71FF6AAF6EFF68AD6DFFE8CCB5FFF2E7DEFFC88A59FFFFFFFF00FFFFFF00E7B7
+            94FFFBF7F4FFE9C3A6FFFFFFFFFFE8C4A9FFFFFFFFFFE9C6AAFFFFFFFFFFE8C7
+            ACFFFFFFFFFFE8C8B0FFFFFFFFFFF7F1EBFFCB8F5FFFFFFFFF00FFFFFF00E9BA
+            98FFFBF7F4FF65A4FFFF64A3FFFF62A2FFFF61A1FFFF5F9FFFFF5C9DFFFF5A9A
+            FFFF5798FFFF5495FFFF5294FFFFFBF7F4FFCE9364FFFFFFFF00FFFFFF00EBBD
+            9BFFFBF7F4FF64A4FFFF79BDFFFF75BBFFFF71B9FFFF6DB8FFFF68B3FFFF61B0
+            FFFF5AABFFFF54A7FFFF3B7DFFFFFBF7F4FFD1976AFFFFFFFF00FFFFFF00ECBF
+            9EFFFBF7F4FF65A4FFFF64A3FFFF60A0FFFF5D9EFFFF5899FFFF5496FFFF4D90
+            FFFF478BFFFF4284FFFF3D7FFFFFFBF7F4FFD49B6FFFFFFFFF00FFFFFF00EEC1
+            A1EBFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7
+            F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFD7A074F8FFFFFF00FFFFFF00EFC2
+            A37EEFC1A2E3EDC09FFFEBBE9DFFEBBC9AFFE9BA96FFE7B793FFE6B590FFE4B2
+            8CFFE2AF88FFE0AC84FFDDA980FFDCA57DFFDAA37ACAFFFFFF00FFFFFF00FFFF
+            FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+            FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+          }
+          MaxLength = 0
+          NumGlyphs = 1
+          TabOrder = 1
+        end
+        object chkLastWriteTime: TCheckBox
+          AnchorSideTop.Control = edbLastWriteTime
+          AnchorSideTop.Side = asrCenter
+          Left = 12
+          Height = 17
+          Top = 8
+          Width = 62
+          BorderSpacing.Left = 12
+          Caption = 'Modified:'
+          TabOrder = 2
+        end
+      end
+      object pnlCreationTime: TPanel
+        AnchorSideLeft.Control = pgDateTime
+        AnchorSideTop.Control = pnlLastWriteTime
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = pgDateTime
+        AnchorSideRight.Side = asrBottom
+        Left = 0
+        Height = 33
+        Top = 45
+        Width = 367
+        Anchors = [akTop, akLeft, akRight]
+        AutoSize = True
+        BevelOuter = bvNone
+        ChildSizing.TopBottomSpacing = 6
+        ClientHeight = 33
+        ClientWidth = 367
+        Enabled = False
+        TabOrder = 1
+        object chkCreationTime: TCheckBox
+          AnchorSideTop.Control = edbCreationTime
+          AnchorSideTop.Side = asrCenter
+          Left = 12
+          Height = 17
+          Top = 8
+          Width = 61
+          BorderSpacing.Left = 12
+          Caption = 'Created:'
+          TabOrder = 0
+        end
+        object edbCreationTime: TEditButton
+          AnchorSideTop.Control = pnlCreationTime
+          Left = 112
+          Height = 21
+          Top = 6
+          Width = 80
+          ButtonWidth = 23
+          CharCase = ecNormal
+          Glyph.Data = {
+            36040000424D3604000000000000360000002800000010000000100000000100
+            2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
+            FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+            FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00D69E
+            72C4D3996EF4D19668FFCE9263FFCB8E5EFFC98A5BFFC78756FFC38452FFC384
+            52FFC38452FFC38452FFC38452FFC38452FFBB7742B0FFFFFF00FFFFFF00D7A1
+            75FFF8F2EDFFF7F0EAFFF6EDE6FFF4EAE2FFF3E7DEFFF1E4DBFFF0E2D8FFEAD6
+            C8FFF2E5DCFFFAF4F1FFF9F3F0FFFAF5F2FFC58A5DFDFFFFFF00FFFFFF00D9A4
+            7AFFF9F3EEFFEBD2BEFFFFFFFFFFEBD3BFFFFFFFFFFFEBD3C0FFFFFFFFFFEAC7
+            ADFFECD9CDFFF1E4DBFFF9F3F0FFF9F2EFFFC68C5FFFFFFFFF00FFFFFF00DDA8
+            7EFFF9F3EFFFEBD0BAFFEBD0BBFF75B57AFF75B57AFF75B57AFFEBD1BDFFEACD
+            B5FFFAF4F0FFEBD9CCFFF1E4DBFFFAF4F1FFC68A5CFFFFFFFF00FFFFFF00DFAA
+            82FFF9F3EFFFEACEB7FFFFFFFFFF75B57AFF94D49BFF74B579FFFFFFFFFFEACF
+            BAFFFBF6F2FFFAF3F0FFEBD8CBFFF2E6DDFFC88D5FFFFFFFFF00FFFFFF00E1AE
+            87FFFAF4F0FFEACBB2FFEACCB3FF75B57AFF74B579FF73B478FFEACEB7FF70B3
+            75FF6FB274FF6EB172FFE8C8AEFFEAD7C9FFC48654FFFFFFFF00FFFFFF00E3B1
+            8CFFFAF6F1FFEAC9AEFFFFFFFFFFEAC9B0FFFFFFFFFFE9CBB3FFFFFFFFFF6FB1
+            73FF8ED295FF6BAF6FFFFFFFFFFFF1E5DBFFC68655FFFFFFFF00FFFFFF00E5B4
+            8FFFFAF6F2FFE9C6AAFFE9C6ACFFEAC7ACFFE9C7ADFFE9C9AEFFE9C9B0FF6CB0
+            71FF6AAF6EFF68AD6DFFE8CCB5FFF2E7DEFFC88A59FFFFFFFF00FFFFFF00E7B7
+            94FFFBF7F4FFE9C3A6FFFFFFFFFFE8C4A9FFFFFFFFFFE9C6AAFFFFFFFFFFE8C7
+            ACFFFFFFFFFFE8C8B0FFFFFFFFFFF7F1EBFFCB8F5FFFFFFFFF00FFFFFF00E9BA
+            98FFFBF7F4FF65A4FFFF64A3FFFF62A2FFFF61A1FFFF5F9FFFFF5C9DFFFF5A9A
+            FFFF5798FFFF5495FFFF5294FFFFFBF7F4FFCE9364FFFFFFFF00FFFFFF00EBBD
+            9BFFFBF7F4FF64A4FFFF79BDFFFF75BBFFFF71B9FFFF6DB8FFFF68B3FFFF61B0
+            FFFF5AABFFFF54A7FFFF3B7DFFFFFBF7F4FFD1976AFFFFFFFF00FFFFFF00ECBF
+            9EFFFBF7F4FF65A4FFFF64A3FFFF60A0FFFF5D9EFFFF5899FFFF5496FFFF4D90
+            FFFF478BFFFF4284FFFF3D7FFFFFFBF7F4FFD49B6FFFFFFFFF00FFFFFF00EEC1
+            A1EBFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7
+            F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFD7A074F8FFFFFF00FFFFFF00EFC2
+            A37EEFC1A2E3EDC09FFFEBBE9DFFEBBC9AFFE9BA96FFE7B793FFE6B590FFE4B2
+            8CFFE2AF88FFE0AC84FFDDA980FFDCA57DFFDAA37ACAFFFFFF00FFFFFF00FFFF
+            FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+            FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+          }
+          MaxLength = 0
+          NumGlyphs = 1
+          TabOrder = 1
+        end
+        object edtCreationTime: TEdit
+          AnchorSideTop.Control = edbCreationTime
+          AnchorSideBottom.Control = edbCreationTime
+          AnchorSideBottom.Side = asrBottom
+          Left = 242
+          Height = 21
+          Top = 6
+          Width = 80
+          Anchors = [akTop, akRight, akBottom]
+          BorderSpacing.Right = 12
+          TabOrder = 2
+        end
+        object btnCreationTime: TSpeedButton
+          AnchorSideTop.Control = edtCreationTime
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = edtCreationTime
+          AnchorSideBottom.Side = asrBottom
+          Left = 334
+          Height = 21
+          Top = 6
+          Width = 23
+          Anchors = [akTop, akRight, akBottom]
+          BorderSpacing.Right = 10
+          Color = clBtnFace
+          NumGlyphs = 0
+          OnClick = btnCreationTimeClick
+        end
+      end
+      object pnlLastAccessTime: TPanel
+        AnchorSideLeft.Control = pgDateTime
+        AnchorSideTop.Control = pnlCreationTime
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = pgDateTime
+        AnchorSideRight.Side = asrBottom
+        Left = 0
+        Height = 33
+        Top = 78
+        Width = 367
+        Anchors = [akTop, akLeft, akRight]
+        AutoSize = True
+        BevelOuter = bvNone
+        ChildSizing.TopBottomSpacing = 6
+        ClientHeight = 33
+        ClientWidth = 367
+        Enabled = False
+        TabOrder = 2
+        object chkLastAccessTime: TCheckBox
+          AnchorSideTop.Control = edbLastAccessTime
+          AnchorSideTop.Side = asrCenter
+          Left = 12
+          Height = 17
+          Top = 8
+          Width = 67
+          BorderSpacing.Left = 12
+          Caption = 'Accessed:'
+          TabOrder = 0
+        end
+        object edbLastAccessTime: TEditButton
+          AnchorSideTop.Control = pnlLastAccessTime
+          Left = 112
+          Height = 21
+          Top = 6
+          Width = 80
+          ButtonWidth = 23
+          CharCase = ecNormal
+          Glyph.Data = {
+            36040000424D3604000000000000360000002800000010000000100000000100
+            2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
+            FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+            FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00D69E
+            72C4D3996EF4D19668FFCE9263FFCB8E5EFFC98A5BFFC78756FFC38452FFC384
+            52FFC38452FFC38452FFC38452FFC38452FFBB7742B0FFFFFF00FFFFFF00D7A1
+            75FFF8F2EDFFF7F0EAFFF6EDE6FFF4EAE2FFF3E7DEFFF1E4DBFFF0E2D8FFEAD6
+            C8FFF2E5DCFFFAF4F1FFF9F3F0FFFAF5F2FFC58A5DFDFFFFFF00FFFFFF00D9A4
+            7AFFF9F3EEFFEBD2BEFFFFFFFFFFEBD3BFFFFFFFFFFFEBD3C0FFFFFFFFFFEAC7
+            ADFFECD9CDFFF1E4DBFFF9F3F0FFF9F2EFFFC68C5FFFFFFFFF00FFFFFF00DDA8
+            7EFFF9F3EFFFEBD0BAFFEBD0BBFF75B57AFF75B57AFF75B57AFFEBD1BDFFEACD
+            B5FFFAF4F0FFEBD9CCFFF1E4DBFFFAF4F1FFC68A5CFFFFFFFF00FFFFFF00DFAA
+            82FFF9F3EFFFEACEB7FFFFFFFFFF75B57AFF94D49BFF74B579FFFFFFFFFFEACF
+            BAFFFBF6F2FFFAF3F0FFEBD8CBFFF2E6DDFFC88D5FFFFFFFFF00FFFFFF00E1AE
+            87FFFAF4F0FFEACBB2FFEACCB3FF75B57AFF74B579FF73B478FFEACEB7FF70B3
+            75FF6FB274FF6EB172FFE8C8AEFFEAD7C9FFC48654FFFFFFFF00FFFFFF00E3B1
+            8CFFFAF6F1FFEAC9AEFFFFFFFFFFEAC9B0FFFFFFFFFFE9CBB3FFFFFFFFFF6FB1
+            73FF8ED295FF6BAF6FFFFFFFFFFFF1E5DBFFC68655FFFFFFFF00FFFFFF00E5B4
+            8FFFFAF6F2FFE9C6AAFFE9C6ACFFEAC7ACFFE9C7ADFFE9C9AEFFE9C9B0FF6CB0
+            71FF6AAF6EFF68AD6DFFE8CCB5FFF2E7DEFFC88A59FFFFFFFF00FFFFFF00E7B7
+            94FFFBF7F4FFE9C3A6FFFFFFFFFFE8C4A9FFFFFFFFFFE9C6AAFFFFFFFFFFE8C7
+            ACFFFFFFFFFFE8C8B0FFFFFFFFFFF7F1EBFFCB8F5FFFFFFFFF00FFFFFF00E9BA
+            98FFFBF7F4FF65A4FFFF64A3FFFF62A2FFFF61A1FFFF5F9FFFFF5C9DFFFF5A9A
+            FFFF5798FFFF5495FFFF5294FFFFFBF7F4FFCE9364FFFFFFFF00FFFFFF00EBBD
+            9BFFFBF7F4FF64A4FFFF79BDFFFF75BBFFFF71B9FFFF6DB8FFFF68B3FFFF61B0
+            FFFF5AABFFFF54A7FFFF3B7DFFFFFBF7F4FFD1976AFFFFFFFF00FFFFFF00ECBF
+            9EFFFBF7F4FF65A4FFFF64A3FFFF60A0FFFF5D9EFFFF5899FFFF5496FFFF4D90
+            FFFF478BFFFF4284FFFF3D7FFFFFFBF7F4FFD49B6FFFFFFFFF00FFFFFF00EEC1
+            A1EBFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7
+            F4FFFBF7F4FFFBF7F4FFFBF7F4FFFBF7F4FFD7A074F8FFFFFF00FFFFFF00EFC2
+            A37EEFC1A2E3EDC09FFFEBBE9DFFEBBC9AFFE9BA96FFE7B793FFE6B590FFE4B2
+            8CFFE2AF88FFE0AC84FFDDA980FFDCA57DFFDAA37ACAFFFFFF00FFFFFF00FFFF
+            FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+            FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+          }
+          MaxLength = 0
+          NumGlyphs = 1
+          TabOrder = 1
+        end
+        object edtLastAccessTime: TEdit
+          AnchorSideTop.Control = edbLastAccessTime
+          AnchorSideBottom.Control = edbLastAccessTime
+          AnchorSideBottom.Side = asrBottom
+          Left = 242
+          Height = 21
+          Top = 6
+          Width = 80
+          Anchors = [akTop, akRight, akBottom]
+          BorderSpacing.Right = 12
+          TabOrder = 2
+        end
+        object btnLastAccessTime: TSpeedButton
+          AnchorSideTop.Control = edtLastAccessTime
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = edtLastAccessTime
+          AnchorSideBottom.Side = asrBottom
+          Left = 334
+          Height = 21
+          Top = 6
+          Width = 23
+          Anchors = [akTop, akRight, akBottom]
+          BorderSpacing.Right = 10
+          Color = clBtnFace
+          NumGlyphs = 0
+          OnClick = btnLastAccessTimeClick
+        end
+      end
+    end
+  end
+  object btnOK: TBitBtn
+    AnchorSideRight.Control = btnCancel
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 207
+    Height = 30
+    Top = 275
+    Width = 75
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 10
+    Caption = '&OK'
+    Default = True
+    Kind = bkOK
+    ModalResult = 1
+    OnClick = btnOKClick
+    TabOrder = 1
+  end
+  object btnCancel: TBitBtn
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 288
+    Height = 30
+    Top = 275
+    Width = 75
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Right = 12
+    BorderSpacing.Bottom = 10
+    Cancel = True
+    Caption = 'Cancel'
+    Kind = bkCancel
+    ModalResult = 2
+    TabOrder = 2
+  end
+  object chkRecursive: TCheckBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = nbAttributes
+    AnchorSideTop.Side = asrBottom
+    Left = 12
+    Height = 17
+    Top = 248
+    Width = 65
+    BorderSpacing.Left = 12
+    BorderSpacing.Top = 8
+    Caption = 'Recursive'
+    TabOrder = 3
+  end
+end
