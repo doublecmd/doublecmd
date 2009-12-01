@@ -80,6 +80,7 @@ type
     actAddPathAndFilenameToCmdLine: TAction;
     actDriveContextMenu: TAction;
     actCopyNoAsk: TAction;
+    actSetFileProperties: TAction;
     actQuickFilter: TAction;
     actRenameNoAsk: TAction;
     actSortByColumn: TAction;
@@ -130,6 +131,7 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     lblCommandPath: TLabel;
+    mnuSetFileProperties: TMenuItem;
     mnuShowOperations: TMenuItem;
     miLine13: TMenuItem;
     miLogClear: TMenuItem;
