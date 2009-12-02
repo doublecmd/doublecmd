@@ -105,8 +105,6 @@ const cf_Null=0;
    // parameters would have to be converted to and from strings).
    //
    procedure DoRemoveTab(Notebook: TFileViewNotebook; PageIndex: Integer);
-   procedure DoToggleLockTab(Tab: TFileViewPage);
-   procedure DoToggleLockDcaTab(Tab: TFileViewPage);
    procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; FullNames: Boolean);
    procedure DoNewTab(Notebook: TFileViewNotebook);
    procedure DoContextMenu(Panel: TFileView; X, Y: Integer);
@@ -172,8 +170,10 @@ const cf_Null=0;
    procedure cm_RemoveAllTabs(param: string='');
    procedure cm_NextTab(param: string='');
    procedure cm_PrevTab(param: string='');
-   procedure cm_ToggleLockTab(param: string='');
-   procedure cm_ToggleLockDcaTab(param: string='');
+   procedure cm_SetTabOptionNormal(param: string='');
+   procedure cm_SetTabOptionPathLocked(param: string='');
+   procedure cm_SetTabOptionPathResets(param: string='');
+   procedure cm_SetTabOptionDirsInNewTab(param: string='');
    procedure cm_Copy(param: string='');
    procedure cm_CopyNoAsk(param: string='');
    procedure cm_Delete(param: string='');
@@ -582,42 +582,6 @@ begin
   with frmMain do
   begin
     RemovePage(Notebook, PageIndex);
-    ActiveFrame.SetFocus;
-  end;
-end;
-
-procedure TActs.DoToggleLockTab(Tab: TFileViewPage);
-begin
-  with frmMain do
-  begin
-    if Tab.LockState <> tlsLockedPath then  // lock
-      begin
-        Tab.LockState := tlsLockedPath;
-      end
-    else // unlock
-      begin
-        Tab.LockState := tlsNormal;
-      end;
-
-    ActiveFrame.SetFocus;
-  end;
-end;
-
-procedure TActs.DoToggleLockDcaTab(Tab: TFileViewPage);
-begin
-  with frmMain do
-  begin
-    if Tab.LockState <> tlsResettingPath then  // lock
-      begin
-        Tab.LockState := tlsResettingPath;
-        Tab.LockPath := ActiveFrame.CurrentPath;
-      end
-    else // unlock
-      begin
-        Tab.LockState := tlsNormal;
-        Tab.LockPath := '';
-      end;
-
     ActiveFrame.SetFocus;
   end;
 end;
@@ -1145,38 +1109,28 @@ begin
   frmMain.ActiveNotebook.ActivatePrevTab;
 end;
 
-procedure TActs.cm_ToggleLockTab(param: string);
-var
-  nbNoteBook: TFileViewNotebook;
+procedure TActs.cm_SetTabOptionNormal(param: string='');
 begin
-  with frmMain do
-  begin
-    if param = 'LeftTabs' then
-      nbNoteBook := LeftTabs
-    else if param = 'RightTabs' then
-      nbNoteBook := RightTabs
-    else
-      nbNoteBook := ActiveNotebook;
-
-    DoToggleLockTab(nbNoteBook.ActivePage);
-  end;
+  with frmMain.ActiveNotebook.ActivePage do
+    LockState := tlsNormal;
 end;
 
-procedure TActs.cm_ToggleLockDcaTab(param: string);
-var
-  nbNoteBook: TFileViewNotebook;
+procedure TActs.cm_SetTabOptionPathLocked(param: string='');
 begin
-  with frmMain do
-  begin
-    if param = 'LeftTabs' then
-      nbNoteBook := LeftTabs
-    else if param = 'RightTabs' then
-      nbNoteBook := RightTabs
-    else
-      nbNoteBook := ActiveNotebook;
+  with frmMain.ActiveNotebook.ActivePage do
+    LockState := tlsPathLocked;
+end;
 
-    DoToggleLockDcaTab(nbNoteBook.ActivePage);
-  end;
+procedure TActs.cm_SetTabOptionPathResets(param: string='');
+begin
+  with frmMain.ActiveNotebook.ActivePage do
+    LockState := tlsPathResets;
+end;
+
+procedure TActs.cm_SetTabOptionDirsInNewTab(param: string='');
+begin
+  with frmMain.ActiveNotebook.ActivePage do
+    LockState := tlsDirsInNewTab;
 end;
 
 //------------------------------------------------------
