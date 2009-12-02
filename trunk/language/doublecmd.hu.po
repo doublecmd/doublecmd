@@ -324,6 +324,7 @@ msgid "Undo"
 msgstr "Visszavonás"
 
 #: TFRMEDITOR.ACTFILEEXIT.CAPTION
+msgctxt "TFRMEDITOR.ACTFILEEXIT.CAPTION"
 msgid "E&xit"
 msgstr "&Kilépés"
 
@@ -358,14 +359,17 @@ msgid "&Help"
 msgstr "&Súgó"
 
 #: TFRMEDITOR.MIEDIT.CAPTION
+msgctxt "TFRMEDITOR.MIEDIT.CAPTION"
 msgid "&Edit"
 msgstr "S&zerkesztés"
 
 #: TFRMEDITOR.MIENCODING.CAPTION
+msgctxt "TFRMEDITOR.MIENCODING.CAPTION"
 msgid "En&coding"
 msgstr "Kó&dolás"
 
 #: TFRMEDITOR.MIFILE.CAPTION
+msgctxt "TFRMEDITOR.MIFILE.CAPTION"
 msgid "&File"
 msgstr "&Fájl"
 
@@ -848,6 +852,7 @@ msgid "Cancel"
 msgstr "Mégsem"
 
 #: TFRMFINDDLG.BTNVIEW.CAPTION
+msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
 msgid "&View"
 msgstr "&Nézőke"
 
@@ -1161,6 +1166,10 @@ msgstr "Fájlnév másolása &teljes elérési úttal"
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "Fájlnév másolása a &vágólapra"
 
+#: TFRMMAIN.ACTCOPYNOASK.CAPTION
+msgid "Copy files without asking for confirmation"
+msgstr ""
+
 #: TFRMMAIN.ACTCOPYSAMEPANEL.CAPTION
 msgid "Copy to same panel"
 msgstr "Másolás ugyanarra a panelre"
@@ -1317,7 +1326,8 @@ msgstr "Archív megnyitásának kísérlete"
 msgid "Open folder in new tab"
 msgstr "Mappa megnyitása új fülön"
 
-#: TFRMMAIN.ACTOPENVFSLIST.CAPTION
+#: TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION
+msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
 msgid "Open VFS List"
 msgstr "VFS lista megnyitása"
 
@@ -1341,6 +1351,10 @@ msgstr "&Beillesztés"
 msgid "Switch to previous tab"
 msgstr "Váltás előző fülre"
 
+#: TFRMMAIN.ACTQUICKFILTER.CAPTION
+msgid "Quick filter"
+msgstr ""
+
 #: TFRMMAIN.ACTQUICKSEARCH.CAPTION
 msgctxt "TFRMMAIN.ACTQUICKSEARCH.CAPTION"
 msgid "Quick search"
@@ -1361,6 +1375,10 @@ msgstr "Fül bezárása"
 #: TFRMMAIN.ACTRENAME.CAPTION
 msgid "Move F6"
 msgstr "Áthely/Átnev. F6"
+
+#: TFRMMAIN.ACTRENAMENOASK.CAPTION
+msgid "Move/Rename files without asking for confirmation"
+msgstr ""
 
 #: TFRMMAIN.ACTRENAMEONLY.CAPTION
 msgctxt "TFRMMAIN.ACTRENAMEONLY.CAPTION"
@@ -1386,6 +1404,28 @@ msgstr "Terminál futtatás"
 #: TFRMMAIN.ACTSEARCH.CAPTION
 msgid "&Search"
 msgstr "&Keresés"
+
+#: TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION
+msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
+msgid "Change file properties"
+msgstr ""
+
+#: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
+msgid "Directories are opened in new tabs"
+msgstr ""
+
+#: TFRMMAIN.ACTSETTABOPTIONNORMAL.CAPTION
+msgid "Normal"
+msgstr ""
+
+#: TFRMMAIN.ACTSETTABOPTIONPATHLOCKED.CAPTION
+msgid "Locked"
+msgstr ""
+
+#: TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION
+msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
+msgid "Locked, but directory changes allowed"
+msgstr "Zárolva, de a könyvtárváltás engedélyezett"
 
 #: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
 msgid "Show button menu"
@@ -1436,14 +1476,6 @@ msgstr "Symlink készítése.."
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
 msgid "Target &= Source"
 msgstr "Cél &= Forrás"
-
-#: TFRMMAIN.ACTTOGGLELOCKDCATAB.CAPTION
-msgid "Locked, but directory changes allowed"
-msgstr "Zárolva, de a könyvtárváltás engedélyezett"
-
-#: TFRMMAIN.ACTTOGGLELOCKTAB.CAPTION
-msgid "Lock this tab"
-msgstr "Fül zárolása"
 
 #: TFRMMAIN.ACTTRANSFERLEFT.CAPTION
 msgid "Transfer dir under cursor to left window"
@@ -1614,6 +1646,11 @@ msgctxt "TFRMMAIN.MILINE12.CAPTION"
 msgid "-"
 msgstr ""
 
+#: TFRMMAIN.MILINE13.CAPTION
+msgctxt "TFRMMAIN.MILINE13.CAPTION"
+msgid "-"
+msgstr ""
+
 #: TFRMMAIN.MILINE14.CAPTION
 msgctxt "TFRMMAIN.MILINE14.CAPTION"
 msgid "-"
@@ -1636,6 +1673,11 @@ msgstr ""
 
 #: TFRMMAIN.MILINE18.CAPTION
 msgctxt "TFRMMAIN.MILINE18.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMAIN.MILINE19.CAPTION
+msgctxt "TFRMMAIN.MILINE19.CAPTION"
 msgid "-"
 msgstr ""
 
@@ -1721,6 +1763,10 @@ msgctxt "TFRMMAIN.MISYMLINK.CAPTION"
 msgid "Create symlink..."
 msgstr "Symlink készítése..."
 
+#: TFRMMAIN.MITABOPTIONS.CAPTION
+msgid "Tab options"
+msgstr ""
+
 #: TFRMMAIN.MITRAYICONEXIT.CAPTION
 msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
 msgid "Exit"
@@ -1762,6 +1808,15 @@ msgstr "Könyvtárak össze&hasonlítása"
 #: TFRMMAIN.MNUSHOW.CAPTION
 msgid "&Show"
 msgstr "&Nézet"
+
+#: TFRMMAIN.MNUSHOWOPERATIONS.CAPTION
+msgid "Operations viewer"
+msgstr ""
+
+#: TFRMMAIN.MNUTABOPTIONS.CAPTION
+msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
+msgid "Options"
+msgstr "Opciók"
 
 #: TFRMMAIN.MNUTABS.CAPTION
 msgid "&Tabs"
@@ -2110,6 +2165,7 @@ msgid "Set HotKey"
 msgstr "Gyorsbillentyű beállítása"
 
 #: TFRMOPTIONS.CAPTION
+msgctxt "TFRMOPTIONS.CAPTION"
 msgid "Options"
 msgstr "Opciók"
 
@@ -2835,6 +2891,7 @@ msgid "&OK"
 msgstr "&Oké"
 
 #: TFRMSETFILEPROPERTIES.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CAPTION"
 msgid "Change file properties"
 msgstr ""
 
@@ -3101,6 +3158,11 @@ msgstr "Beépülő:"
 msgid "Viewer"
 msgstr "Nézőke"
 
+#: TFRMVIEWER.MIABOUT.CAPTION
+msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
+msgid "About"
+msgstr "Névjegy"
+
 #: TFRMVIEWER.MIABOUT2.CAPTION
 msgid "About Viewer..."
 msgstr "Nézőke névjegye"
@@ -3110,8 +3172,49 @@ msgid "Show as &Bin"
 msgstr "Megjelenítés &binárisként"
 
 #: TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION
+msgctxt "TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION"
 msgid "Copy To Clipboard"
 msgstr "Másolás a vágólapra"
+
+#: TFRMVIEWER.MIDIV1.CAPTION
+msgctxt "TFRMVIEWER.MIDIV1.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMVIEWER.MIDIV2.CAPTION
+msgctxt "TFRMVIEWER.MIDIV2.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMVIEWER.MIDIV3.CAPTION
+msgctxt "TFRMVIEWER.MIDIV3.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMVIEWER.MIDIV5.CAPTION
+msgctxt "TFRMVIEWER.MIDIV5.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMVIEWER.MIEDIT.CAPTION
+msgctxt "TFRMVIEWER.MIEDIT.CAPTION"
+msgid "&Edit"
+msgstr "S&zerkesztés"
+
+#: TFRMVIEWER.MIENCODING.CAPTION
+msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
+msgid "En&coding"
+msgstr "Kó&dolás"
+
+#: TFRMVIEWER.MIEXIT.CAPTION
+msgctxt "TFRMVIEWER.MIEXIT.CAPTION"
+msgid "E&xit"
+msgstr "&Kilépés"
+
+#: TFRMVIEWER.MIFILE.CAPTION
+msgctxt "TFRMVIEWER.MIFILE.CAPTION"
+msgid "&File"
+msgstr "&Fájl"
 
 #: TFRMVIEWER.MIGRAPHICS.CAPTION
 msgid "Graphics"
@@ -3129,9 +3232,18 @@ msgstr "&Kép"
 msgid "&Next"
 msgstr "Kö&vetkező"
 
+#: TFRMVIEWER.MIPLUGINS.CAPTION
+msgctxt "TFRMVIEWER.MIPLUGINS.CAPTION"
+msgid "Plugins"
+msgstr "Beépülők"
+
 #: TFRMVIEWER.MIPREV.CAPTION
 msgid "&Previous"
 msgstr "&Előző"
+
+#: TFRMVIEWER.MIPRINT.CAPTION
+msgid "Print..."
+msgstr ""
 
 #: TFRMVIEWER.MISAVEPOS.CAPTION
 msgid "&Save Position"
@@ -3142,10 +3254,23 @@ msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
 msgid "Search"
 msgstr "Keresés"
 
+#: TFRMVIEWER.MISEARCHNEXT.CAPTION
+msgid "Search next"
+msgstr ""
+
+#: TFRMVIEWER.MISEARCHPREV.CAPTION
+msgid "Search prev"
+msgstr ""
+
 #: TFRMVIEWER.MISELECTALL.CAPTION
 msgctxt "TFRMVIEWER.MISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "Összes kijelölése"
+
+#: TFRMVIEWER.MISEPARATOR.CAPTION
+msgctxt "TFRMVIEWER.MISEPARATOR.CAPTION"
+msgid "-"
+msgstr ""
 
 #: TFRMVIEWER.MISTRETCH.CAPTION
 msgid "Stretch"
@@ -3155,17 +3280,29 @@ msgstr "Széthúzás"
 msgid "Show as &Text"
 msgstr "Megjelenítés &szövegként"
 
+#: TFRMVIEWER.MIVIEW.CAPTION
+msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
+msgid "&View"
+msgstr "&Nézőke"
+
 #: TFRMVIEWER.MIWRAPTEXT.CAPTION
 msgid "Show as &Wrap text"
 msgstr "Megjelenítés &tördelt szövegként"
 
-#: TFRMVIEWER.PGIMAGE.CAPTION
-msgid "pgImage"
+#: TFRMVIEWER.N1.CAPTION
+msgctxt "TFRMVIEWER.N1.CAPTION"
+msgid "-"
 msgstr ""
 
-#: TFRMVIEWER.PGTEXT.CAPTION
-msgid "pgText"
-msgstr ""
+#: TFRMVIEWER.PMICOPY.CAPTION
+msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
+msgid "Copy To Clipboard"
+msgstr "Másolás a vágólapra"
+
+#: TFRMVIEWER.PMISELECTALL.CAPTION
+msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
+msgid "Select All"
+msgstr "Összes kijelölése"
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -3919,6 +4056,7 @@ msgid "Page by page"
 msgstr "Oldalról oldalra"
 
 #: ulng.rsoptplugins
+msgctxt "ulng.rsoptplugins"
 msgid "Plugins"
 msgstr "Beépülők"
 
@@ -4036,4 +4174,12 @@ msgstr ""
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
 msgstr "A Double Commander belső nézőkéje"
+
+#: ulng.rsviewencoding
+msgid "Encoding"
+msgstr ""
+
+#: ulng.rsviewnotfound
+msgid "%s not found!"
+msgstr ""
 

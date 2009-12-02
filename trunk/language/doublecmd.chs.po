@@ -324,6 +324,7 @@ msgid "Undo"
 msgstr "撤销"
 
 #: TFRMEDITOR.ACTFILEEXIT.CAPTION
+msgctxt "TFRMEDITOR.ACTFILEEXIT.CAPTION"
 msgid "E&xit"
 msgstr "退出(&X)"
 
@@ -358,14 +359,17 @@ msgid "&Help"
 msgstr "帮助(&H)"
 
 #: TFRMEDITOR.MIEDIT.CAPTION
+msgctxt "TFRMEDITOR.MIEDIT.CAPTION"
 msgid "&Edit"
 msgstr "编辑(&E)"
 
 #: TFRMEDITOR.MIENCODING.CAPTION
+msgctxt "TFRMEDITOR.MIENCODING.CAPTION"
 msgid "En&coding"
 msgstr "编码(&C)"
 
 #: TFRMEDITOR.MIFILE.CAPTION
+msgctxt "TFRMEDITOR.MIFILE.CAPTION"
 msgid "&File"
 msgstr "文件(&F)"
 
@@ -852,6 +856,7 @@ msgid "Cancel"
 msgstr "取消"
 
 #: TFRMFINDDLG.BTNVIEW.CAPTION
+msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
 msgid "&View"
 msgstr "视图(&V)"
 
@@ -1153,6 +1158,10 @@ msgstr "复制包含完整路径的文件名"
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "复制文件名到剪贴板"
 
+#: TFRMMAIN.ACTCOPYNOASK.CAPTION
+msgid "Copy files without asking for confirmation"
+msgstr ""
+
 #: TFRMMAIN.ACTCOPYSAMEPANEL.CAPTION
 msgid "Copy to same panel"
 msgstr "复制到同面板下"
@@ -1309,7 +1318,8 @@ msgstr "尝试打开归档"
 msgid "Open folder in new tab"
 msgstr "新标签页打开文件夹"
 
-#: TFRMMAIN.ACTOPENVFSLIST.CAPTION
+#: TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION
+msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
 msgid "Open VFS List"
 msgstr "打开VFS列表"
 
@@ -1333,6 +1343,10 @@ msgstr "粘贴"
 msgid "Switch to previous tab"
 msgstr "切换到上一标签"
 
+#: TFRMMAIN.ACTQUICKFILTER.CAPTION
+msgid "Quick filter"
+msgstr ""
+
 #: TFRMMAIN.ACTQUICKSEARCH.CAPTION
 msgctxt "TFRMMAIN.ACTQUICKSEARCH.CAPTION"
 msgid "Quick search"
@@ -1353,6 +1367,10 @@ msgstr "删除标签页"
 #: TFRMMAIN.ACTRENAME.CAPTION
 msgid "Move F6"
 msgstr "改名 F6"
+
+#: TFRMMAIN.ACTRENAMENOASK.CAPTION
+msgid "Move/Rename files without asking for confirmation"
+msgstr ""
 
 #: TFRMMAIN.ACTRENAMEONLY.CAPTION
 msgctxt "TFRMMAIN.ACTRENAMEONLY.CAPTION"
@@ -1378,6 +1396,28 @@ msgstr "运行终端"
 #: TFRMMAIN.ACTSEARCH.CAPTION
 msgid "&Search"
 msgstr "搜索(&S)"
+
+#: TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION
+msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
+msgid "Change file properties"
+msgstr ""
+
+#: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
+msgid "Directories are opened in new tabs"
+msgstr ""
+
+#: TFRMMAIN.ACTSETTABOPTIONNORMAL.CAPTION
+msgid "Normal"
+msgstr ""
+
+#: TFRMMAIN.ACTSETTABOPTIONPATHLOCKED.CAPTION
+msgid "Locked"
+msgstr ""
+
+#: TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION
+msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
+msgid "Locked, but directory changes allowed"
+msgstr "锁定,但目录允许修改"
 
 #: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
 msgid "Show button menu"
@@ -1428,14 +1468,6 @@ msgstr "创建符号链接"
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
 msgid "Target &= Source"
 msgstr "目标 &= 源"
-
-#: TFRMMAIN.ACTTOGGLELOCKDCATAB.CAPTION
-msgid "Locked, but directory changes allowed"
-msgstr "锁定,但目录允许修改"
-
-#: TFRMMAIN.ACTTOGGLELOCKTAB.CAPTION
-msgid "Lock this tab"
-msgstr "锁定这个标签"
 
 #: TFRMMAIN.ACTTRANSFERLEFT.CAPTION
 msgid "Transfer dir under cursor to left window"
@@ -1606,6 +1638,11 @@ msgctxt "TFRMMAIN.MILINE12.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: TFRMMAIN.MILINE13.CAPTION
+msgctxt "TFRMMAIN.MILINE13.CAPTION"
+msgid "-"
+msgstr "-"
+
 #: TFRMMAIN.MILINE14.CAPTION
 msgctxt "TFRMMAIN.MILINE14.CAPTION"
 msgid "-"
@@ -1628,6 +1665,11 @@ msgstr "-"
 
 #: TFRMMAIN.MILINE18.CAPTION
 msgctxt "TFRMMAIN.MILINE18.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMMAIN.MILINE19.CAPTION
+msgctxt "TFRMMAIN.MILINE19.CAPTION"
 msgid "-"
 msgstr "-"
 
@@ -1713,6 +1755,10 @@ msgctxt "TFRMMAIN.MISYMLINK.CAPTION"
 msgid "Create symlink..."
 msgstr "创建符号链接"
 
+#: TFRMMAIN.MITABOPTIONS.CAPTION
+msgid "Tab options"
+msgstr ""
+
 #: TFRMMAIN.MITRAYICONEXIT.CAPTION
 msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
 msgid "Exit"
@@ -1754,6 +1800,15 @@ msgstr "编辑目录(&C)"
 #: TFRMMAIN.MNUSHOW.CAPTION
 msgid "&Show"
 msgstr "显示(&S)"
+
+#: TFRMMAIN.MNUSHOWOPERATIONS.CAPTION
+msgid "Operations viewer"
+msgstr ""
+
+#: TFRMMAIN.MNUTABOPTIONS.CAPTION
+msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
+msgid "Options"
+msgstr "选项"
 
 #: TFRMMAIN.MNUTABS.CAPTION
 msgid "&Tabs"
@@ -2103,6 +2158,7 @@ msgid "Set HotKey"
 msgstr "设置快捷键"
 
 #: TFRMOPTIONS.CAPTION
+msgctxt "TFRMOPTIONS.CAPTION"
 msgid "Options"
 msgstr "选项"
 
@@ -2829,6 +2885,7 @@ msgid "&OK"
 msgstr "确定(&O)"
 
 #: TFRMSETFILEPROPERTIES.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CAPTION"
 msgid "Change file properties"
 msgstr ""
 
@@ -3095,6 +3152,11 @@ msgstr "插件："
 msgid "Viewer"
 msgstr "查看器"
 
+#: TFRMVIEWER.MIABOUT.CAPTION
+msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
+msgid "About"
+msgstr "关于"
+
 #: TFRMVIEWER.MIABOUT2.CAPTION
 msgid "About Viewer..."
 msgstr "关于查看器"
@@ -3104,8 +3166,49 @@ msgid "Show as &Bin"
 msgstr "显示为二进制"
 
 #: TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION
+msgctxt "TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION"
 msgid "Copy To Clipboard"
 msgstr "复制到剪贴板"
+
+#: TFRMVIEWER.MIDIV1.CAPTION
+msgctxt "TFRMVIEWER.MIDIV1.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMVIEWER.MIDIV2.CAPTION
+msgctxt "TFRMVIEWER.MIDIV2.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMVIEWER.MIDIV3.CAPTION
+msgctxt "TFRMVIEWER.MIDIV3.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMVIEWER.MIDIV5.CAPTION
+msgctxt "TFRMVIEWER.MIDIV5.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMVIEWER.MIEDIT.CAPTION
+msgctxt "TFRMVIEWER.MIEDIT.CAPTION"
+msgid "&Edit"
+msgstr "编辑(&E)"
+
+#: TFRMVIEWER.MIENCODING.CAPTION
+msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
+msgid "En&coding"
+msgstr "编码(&C)"
+
+#: TFRMVIEWER.MIEXIT.CAPTION
+msgctxt "TFRMVIEWER.MIEXIT.CAPTION"
+msgid "E&xit"
+msgstr "退出(&X)"
+
+#: TFRMVIEWER.MIFILE.CAPTION
+msgctxt "TFRMVIEWER.MIFILE.CAPTION"
+msgid "&File"
+msgstr "文件(&F)"
 
 #: TFRMVIEWER.MIGRAPHICS.CAPTION
 msgid "Graphics"
@@ -3123,9 +3226,18 @@ msgstr "图片(&I)"
 msgid "&Next"
 msgstr "向后(&N)"
 
+#: TFRMVIEWER.MIPLUGINS.CAPTION
+msgctxt "TFRMVIEWER.MIPLUGINS.CAPTION"
+msgid "Plugins"
+msgstr "插件"
+
 #: TFRMVIEWER.MIPREV.CAPTION
 msgid "&Previous"
 msgstr "向前(&P)"
+
+#: TFRMVIEWER.MIPRINT.CAPTION
+msgid "Print..."
+msgstr ""
 
 #: TFRMVIEWER.MISAVEPOS.CAPTION
 msgid "&Save Position"
@@ -3136,10 +3248,23 @@ msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
 msgid "Search"
 msgstr "搜索"
 
+#: TFRMVIEWER.MISEARCHNEXT.CAPTION
+msgid "Search next"
+msgstr ""
+
+#: TFRMVIEWER.MISEARCHPREV.CAPTION
+msgid "Search prev"
+msgstr ""
+
 #: TFRMVIEWER.MISELECTALL.CAPTION
 msgctxt "TFRMVIEWER.MISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "全选"
+
+#: TFRMVIEWER.MISEPARATOR.CAPTION
+msgctxt "TFRMVIEWER.MISEPARATOR.CAPTION"
+msgid "-"
+msgstr "-"
 
 #: TFRMVIEWER.MISTRETCH.CAPTION
 msgid "Stretch"
@@ -3149,17 +3274,29 @@ msgstr "展开"
 msgid "Show as &Text"
 msgstr "显示为文本"
 
+#: TFRMVIEWER.MIVIEW.CAPTION
+msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
+msgid "&View"
+msgstr "视图(&V)"
+
 #: TFRMVIEWER.MIWRAPTEXT.CAPTION
 msgid "Show as &Wrap text"
 msgstr "显示为换行文本"
 
-#: TFRMVIEWER.PGIMAGE.CAPTION
-msgid "pgImage"
-msgstr "pgImage"
+#: TFRMVIEWER.N1.CAPTION
+msgctxt "TFRMVIEWER.N1.CAPTION"
+msgid "-"
+msgstr "-"
 
-#: TFRMVIEWER.PGTEXT.CAPTION
-msgid "pgText"
-msgstr "pgText"
+#: TFRMVIEWER.PMICOPY.CAPTION
+msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
+msgid "Copy To Clipboard"
+msgstr "复制到剪贴板"
+
+#: TFRMVIEWER.PMISELECTALL.CAPTION
+msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
+msgid "Select All"
+msgstr "全选"
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -3910,6 +4047,7 @@ msgid "Page by page"
 msgstr "一页页"
 
 #: ulng.rsoptplugins
+msgctxt "ulng.rsoptplugins"
 msgid "Plugins"
 msgstr "插件"
 
@@ -4025,4 +4163,12 @@ msgstr ""
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
 msgstr "Double Commander查看器"
+
+#: ulng.rsviewencoding
+msgid "Encoding"
+msgstr ""
+
+#: ulng.rsviewnotfound
+msgid "%s not found!"
+msgstr ""
 

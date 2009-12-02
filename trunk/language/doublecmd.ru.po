@@ -323,6 +323,7 @@ msgid "Undo"
 msgstr "Отменить"
 
 #: TFRMEDITOR.ACTFILEEXIT.CAPTION
+msgctxt "TFRMEDITOR.ACTFILEEXIT.CAPTION"
 msgid "E&xit"
 msgstr "Вы&ход"
 
@@ -357,14 +358,17 @@ msgid "&Help"
 msgstr "Помощь"
 
 #: TFRMEDITOR.MIEDIT.CAPTION
+msgctxt "TFRMEDITOR.MIEDIT.CAPTION"
 msgid "&Edit"
 msgstr "&Правка"
 
 #: TFRMEDITOR.MIENCODING.CAPTION
+msgctxt "TFRMEDITOR.MIENCODING.CAPTION"
 msgid "En&coding"
 msgstr "&Кодировка"
 
 #: TFRMEDITOR.MIFILE.CAPTION
+msgctxt "TFRMEDITOR.MIFILE.CAPTION"
 msgid "&File"
 msgstr "&Файл"
 
@@ -850,6 +854,7 @@ msgid "Cancel"
 msgstr "Отмена"
 
 #: TFRMFINDDLG.BTNVIEW.CAPTION
+msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
 msgid "&View"
 msgstr "&Просмотр"
 
@@ -1149,6 +1154,10 @@ msgstr "Копировать по&лные имена файлов"
 msgid "Copy &Filename(s) to Clipboard"
 msgstr "Копировать имена &файлов в буфер"
 
+#: TFRMMAIN.ACTCOPYNOASK.CAPTION
+msgid "Copy files without asking for confirmation"
+msgstr ""
+
 #: TFRMMAIN.ACTCOPYSAMEPANEL.CAPTION
 msgid "Copy to same panel"
 msgstr "Копировать в ту же панель"
@@ -1305,7 +1314,8 @@ msgstr ""
 msgid "Open folder in new tab"
 msgstr "Открыть каталог в новой вкладке"
 
-#: TFRMMAIN.ACTOPENVFSLIST.CAPTION
+#: TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION
+msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
 msgid "Open VFS List"
 msgstr "Открыть список VFS"
 
@@ -1329,6 +1339,10 @@ msgstr "Вставить"
 msgid "Switch to previous tab"
 msgstr "Переключиться на предыдущую вкладку"
 
+#: TFRMMAIN.ACTQUICKFILTER.CAPTION
+msgid "Quick filter"
+msgstr ""
+
 #: TFRMMAIN.ACTQUICKSEARCH.CAPTION
 msgctxt "TFRMMAIN.ACTQUICKSEARCH.CAPTION"
 msgid "Quick search"
@@ -1349,6 +1363,10 @@ msgstr "Удалить вкладку"
 #: TFRMMAIN.ACTRENAME.CAPTION
 msgid "Move F6"
 msgstr "Переместить F6"
+
+#: TFRMMAIN.ACTRENAMENOASK.CAPTION
+msgid "Move/Rename files without asking for confirmation"
+msgstr ""
 
 #: TFRMMAIN.ACTRENAMEONLY.CAPTION
 msgctxt "TFRMMAIN.ACTRENAMEONLY.CAPTION"
@@ -1374,6 +1392,28 @@ msgstr "Пуск &терминала"
 #: TFRMMAIN.ACTSEARCH.CAPTION
 msgid "&Search"
 msgstr "&Поиск..."
+
+#: TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION
+msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
+msgid "Change file properties"
+msgstr "Изменить свойства"
+
+#: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
+msgid "Directories are opened in new tabs"
+msgstr ""
+
+#: TFRMMAIN.ACTSETTABOPTIONNORMAL.CAPTION
+msgid "Normal"
+msgstr ""
+
+#: TFRMMAIN.ACTSETTABOPTIONPATHLOCKED.CAPTION
+msgid "Locked"
+msgstr ""
+
+#: TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION
+msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
+msgid "Locked, but directory changes allowed"
+msgstr "Заблокировать с возможностью смены каталога"
 
 #: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
 msgid "Show button menu"
@@ -1424,14 +1464,6 @@ msgstr "Создать символьную сс&ылку..."
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
 msgid "Target &= Source"
 msgstr "&Две одинаковых панели"
-
-#: TFRMMAIN.ACTTOGGLELOCKDCATAB.CAPTION
-msgid "Locked, but directory changes allowed"
-msgstr "Заблокировать с возможностью смены каталога"
-
-#: TFRMMAIN.ACTTOGGLELOCKTAB.CAPTION
-msgid "Lock this tab"
-msgstr "Заблокировать вкладку"
 
 #: TFRMMAIN.ACTTRANSFERLEFT.CAPTION
 msgid "Transfer dir under cursor to left window"
@@ -1602,6 +1634,11 @@ msgctxt "TFRMMAIN.MILINE12.CAPTION"
 msgid "-"
 msgstr ""
 
+#: TFRMMAIN.MILINE13.CAPTION
+msgctxt "TFRMMAIN.MILINE13.CAPTION"
+msgid "-"
+msgstr ""
+
 #: TFRMMAIN.MILINE14.CAPTION
 msgctxt "TFRMMAIN.MILINE14.CAPTION"
 msgid "-"
@@ -1624,6 +1661,11 @@ msgstr ""
 
 #: TFRMMAIN.MILINE18.CAPTION
 msgctxt "TFRMMAIN.MILINE18.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMAIN.MILINE19.CAPTION
+msgctxt "TFRMMAIN.MILINE19.CAPTION"
 msgid "-"
 msgstr ""
 
@@ -1709,6 +1751,10 @@ msgctxt "TFRMMAIN.MISYMLINK.CAPTION"
 msgid "Create symlink..."
 msgstr "Создать символьную сс&ылку..."
 
+#: TFRMMAIN.MITABOPTIONS.CAPTION
+msgid "Tab options"
+msgstr ""
+
 #: TFRMMAIN.MITRAYICONEXIT.CAPTION
 msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
 msgid "Exit"
@@ -1750,6 +1796,15 @@ msgstr "&Сравнить каталоги"
 #: TFRMMAIN.MNUSHOW.CAPTION
 msgid "&Show"
 msgstr "Ви&д"
+
+#: TFRMMAIN.MNUSHOWOPERATIONS.CAPTION
+msgid "Operations viewer"
+msgstr ""
+
+#: TFRMMAIN.MNUTABOPTIONS.CAPTION
+msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
+msgid "Options"
+msgstr "Настройка"
 
 #: TFRMMAIN.MNUTABS.CAPTION
 msgid "&Tabs"
@@ -2099,6 +2154,7 @@ msgid "Set HotKey"
 msgstr "Установить"
 
 #: TFRMOPTIONS.CAPTION
+msgctxt "TFRMOPTIONS.CAPTION"
 msgid "Options"
 msgstr "Настройка"
 
@@ -2825,6 +2881,7 @@ msgid "&OK"
 msgstr "&ОК"
 
 #: TFRMSETFILEPROPERTIES.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CAPTION"
 msgid "Change file properties"
 msgstr "Изменить свойства"
 
@@ -3091,6 +3148,11 @@ msgstr "Плагин:"
 msgid "Viewer"
 msgstr "Внутренняя программа просмотра"
 
+#: TFRMVIEWER.MIABOUT.CAPTION
+msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
+msgid "About"
+msgstr "О программе..."
+
 #: TFRMVIEWER.MIABOUT2.CAPTION
 msgid "About Viewer..."
 msgstr "О просмотрщике..."
@@ -3100,8 +3162,49 @@ msgid "Show as &Bin"
 msgstr "В &двоичном виде (фиксированная длина строки)"
 
 #: TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION
+msgctxt "TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION"
 msgid "Copy To Clipboard"
 msgstr "&Копировать в буфер"
+
+#: TFRMVIEWER.MIDIV1.CAPTION
+msgctxt "TFRMVIEWER.MIDIV1.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMVIEWER.MIDIV2.CAPTION
+msgctxt "TFRMVIEWER.MIDIV2.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMVIEWER.MIDIV3.CAPTION
+msgctxt "TFRMVIEWER.MIDIV3.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMVIEWER.MIDIV5.CAPTION
+msgctxt "TFRMVIEWER.MIDIV5.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMVIEWER.MIEDIT.CAPTION
+msgctxt "TFRMVIEWER.MIEDIT.CAPTION"
+msgid "&Edit"
+msgstr "&Правка"
+
+#: TFRMVIEWER.MIENCODING.CAPTION
+msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
+msgid "En&coding"
+msgstr "&Кодировка"
+
+#: TFRMVIEWER.MIEXIT.CAPTION
+msgctxt "TFRMVIEWER.MIEXIT.CAPTION"
+msgid "E&xit"
+msgstr "Вы&ход"
+
+#: TFRMVIEWER.MIFILE.CAPTION
+msgctxt "TFRMVIEWER.MIFILE.CAPTION"
+msgid "&File"
+msgstr "&Файл"
 
 #: TFRMVIEWER.MIGRAPHICS.CAPTION
 msgid "Graphics"
@@ -3119,9 +3222,18 @@ msgstr "&Рисунок"
 msgid "&Next"
 msgstr "&Следующий"
 
+#: TFRMVIEWER.MIPLUGINS.CAPTION
+msgctxt "TFRMVIEWER.MIPLUGINS.CAPTION"
+msgid "Plugins"
+msgstr "Плагины"
+
 #: TFRMVIEWER.MIPREV.CAPTION
 msgid "&Previous"
 msgstr "&Предыдущий"
+
+#: TFRMVIEWER.MIPRINT.CAPTION
+msgid "Print..."
+msgstr ""
 
 #: TFRMVIEWER.MISAVEPOS.CAPTION
 msgid "&Save Position"
@@ -3132,10 +3244,23 @@ msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
 msgid "Search"
 msgstr "&Найти..."
 
+#: TFRMVIEWER.MISEARCHNEXT.CAPTION
+msgid "Search next"
+msgstr ""
+
+#: TFRMVIEWER.MISEARCHPREV.CAPTION
+msgid "Search prev"
+msgstr ""
+
 #: TFRMVIEWER.MISELECTALL.CAPTION
 msgctxt "TFRMVIEWER.MISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "Выделить &всё"
+
+#: TFRMVIEWER.MISEPARATOR.CAPTION
+msgctxt "TFRMVIEWER.MISEPARATOR.CAPTION"
+msgid "-"
+msgstr ""
 
 #: TFRMVIEWER.MISTRETCH.CAPTION
 msgid "Stretch"
@@ -3145,17 +3270,29 @@ msgstr "&Растянуть"
 msgid "Show as &Text"
 msgstr "В виде &текста"
 
+#: TFRMVIEWER.MIVIEW.CAPTION
+msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
+msgid "&View"
+msgstr "&Просмотр"
+
 #: TFRMVIEWER.MIWRAPTEXT.CAPTION
 msgid "Show as &Wrap text"
 msgstr "В виде текста с &разрывами строк"
 
-#: TFRMVIEWER.PGIMAGE.CAPTION
-msgid "pgImage"
+#: TFRMVIEWER.N1.CAPTION
+msgctxt "TFRMVIEWER.N1.CAPTION"
+msgid "-"
 msgstr ""
 
-#: TFRMVIEWER.PGTEXT.CAPTION
-msgid "pgText"
-msgstr ""
+#: TFRMVIEWER.PMICOPY.CAPTION
+msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
+msgid "Copy To Clipboard"
+msgstr "&Копировать в буфер"
+
+#: TFRMVIEWER.PMISELECTALL.CAPTION
+msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
+msgid "Select All"
+msgstr "Выделить &всё"
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -3903,6 +4040,7 @@ msgid "Page by page"
 msgstr "Постранично"
 
 #: ulng.rsoptplugins
+msgctxt "ulng.rsoptplugins"
 msgid "Plugins"
 msgstr "Плагины"
 
@@ -4018,4 +4156,12 @@ msgstr ""
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
 msgstr "Внутренняя программа просмотра Double Commander"
+
+#: ulng.rsviewencoding
+msgid "Encoding"
+msgstr ""
+
+#: ulng.rsviewnotfound
+msgid "%s not found!"
+msgstr ""
 

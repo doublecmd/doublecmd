@@ -324,6 +324,7 @@ msgid "Undo"
 msgstr "Deshacer"
 
 #: TFRMEDITOR.ACTFILEEXIT.CAPTION
+msgctxt "TFRMEDITOR.ACTFILEEXIT.CAPTION"
 msgid "E&xit"
 msgstr "&Salir"
 
@@ -358,14 +359,17 @@ msgid "&Help"
 msgstr "A&yuda"
 
 #: TFRMEDITOR.MIEDIT.CAPTION
+msgctxt "TFRMEDITOR.MIEDIT.CAPTION"
 msgid "&Edit"
 msgstr "&Editar"
 
 #: TFRMEDITOR.MIENCODING.CAPTION
+msgctxt "TFRMEDITOR.MIENCODING.CAPTION"
 msgid "En&coding"
 msgstr ""
 
 #: TFRMEDITOR.MIFILE.CAPTION
+msgctxt "TFRMEDITOR.MIFILE.CAPTION"
 msgid "&File"
 msgstr "&Archivo"
 
@@ -852,6 +856,7 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #: TFRMFINDDLG.BTNVIEW.CAPTION
+msgctxt "TFRMFINDDLG.BTNVIEW.CAPTION"
 msgid "&View"
 msgstr "&Ver"
 
@@ -1153,6 +1158,10 @@ msgstr ""
 msgid "Copy &Filename(s) to Clipboard"
 msgstr ""
 
+#: TFRMMAIN.ACTCOPYNOASK.CAPTION
+msgid "Copy files without asking for confirmation"
+msgstr ""
+
 #: TFRMMAIN.ACTCOPYSAMEPANEL.CAPTION
 msgid "Copy to same panel"
 msgstr "Copiar al mismo panel"
@@ -1309,7 +1318,8 @@ msgstr "Intentar abrir archivo"
 msgid "Open folder in new tab"
 msgstr ""
 
-#: TFRMMAIN.ACTOPENVFSLIST.CAPTION
+#: TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION
+msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
 msgid "Open VFS List"
 msgstr "Ver unidades de red"
 
@@ -1333,6 +1343,10 @@ msgstr "Pegar"
 msgid "Switch to previous tab"
 msgstr ""
 
+#: TFRMMAIN.ACTQUICKFILTER.CAPTION
+msgid "Quick filter"
+msgstr ""
+
 #: TFRMMAIN.ACTQUICKSEARCH.CAPTION
 msgctxt "TFRMMAIN.ACTQUICKSEARCH.CAPTION"
 msgid "Quick search"
@@ -1353,6 +1367,10 @@ msgstr "Eliminar pestaña"
 #: TFRMMAIN.ACTRENAME.CAPTION
 msgid "Move F6"
 msgstr "Renombrar F6"
+
+#: TFRMMAIN.ACTRENAMENOASK.CAPTION
+msgid "Move/Rename files without asking for confirmation"
+msgstr ""
 
 #: TFRMMAIN.ACTRENAMEONLY.CAPTION
 msgctxt "TFRMMAIN.ACTRENAMEONLY.CAPTION"
@@ -1378,6 +1396,28 @@ msgstr "Lanzar terminal"
 #: TFRMMAIN.ACTSEARCH.CAPTION
 msgid "&Search"
 msgstr "&Buscar"
+
+#: TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION
+msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
+msgid "Change file properties"
+msgstr ""
+
+#: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
+msgid "Directories are opened in new tabs"
+msgstr ""
+
+#: TFRMMAIN.ACTSETTABOPTIONNORMAL.CAPTION
+msgid "Normal"
+msgstr ""
+
+#: TFRMMAIN.ACTSETTABOPTIONPATHLOCKED.CAPTION
+msgid "Locked"
+msgstr ""
+
+#: TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION
+msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
+msgid "Locked, but directory changes allowed"
+msgstr ""
 
 #: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
 msgid "Show button menu"
@@ -1427,14 +1467,6 @@ msgstr "Crear enlace simbólico"
 
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
 msgid "Target &= Source"
-msgstr ""
-
-#: TFRMMAIN.ACTTOGGLELOCKDCATAB.CAPTION
-msgid "Locked, but directory changes allowed"
-msgstr ""
-
-#: TFRMMAIN.ACTTOGGLELOCKTAB.CAPTION
-msgid "Lock this tab"
 msgstr ""
 
 #: TFRMMAIN.ACTTRANSFERLEFT.CAPTION
@@ -1606,6 +1638,11 @@ msgctxt "TFRMMAIN.MILINE12.CAPTION"
 msgid "-"
 msgstr ""
 
+#: TFRMMAIN.MILINE13.CAPTION
+msgctxt "TFRMMAIN.MILINE13.CAPTION"
+msgid "-"
+msgstr ""
+
 #: TFRMMAIN.MILINE14.CAPTION
 msgctxt "TFRMMAIN.MILINE14.CAPTION"
 msgid "-"
@@ -1628,6 +1665,11 @@ msgstr ""
 
 #: TFRMMAIN.MILINE18.CAPTION
 msgctxt "TFRMMAIN.MILINE18.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMAIN.MILINE19.CAPTION
+msgctxt "TFRMMAIN.MILINE19.CAPTION"
 msgid "-"
 msgstr ""
 
@@ -1713,6 +1755,10 @@ msgctxt "TFRMMAIN.MISYMLINK.CAPTION"
 msgid "Create symlink..."
 msgstr "Crear enlace simbólico"
 
+#: TFRMMAIN.MITABOPTIONS.CAPTION
+msgid "Tab options"
+msgstr ""
+
 #: TFRMMAIN.MITRAYICONEXIT.CAPTION
 msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
 msgid "Exit"
@@ -1754,6 +1800,15 @@ msgstr "&Comparar Directorios"
 #: TFRMMAIN.MNUSHOW.CAPTION
 msgid "&Show"
 msgstr "&Ver"
+
+#: TFRMMAIN.MNUSHOWOPERATIONS.CAPTION
+msgid "Operations viewer"
+msgstr ""
+
+#: TFRMMAIN.MNUTABOPTIONS.CAPTION
+msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
+msgid "Options"
+msgstr "Opciones"
 
 #: TFRMMAIN.MNUTABS.CAPTION
 msgid "&Tabs"
@@ -2103,6 +2158,7 @@ msgid "Set HotKey"
 msgstr "Elegir tecla rápida"
 
 #: TFRMOPTIONS.CAPTION
+msgctxt "TFRMOPTIONS.CAPTION"
 msgid "Options"
 msgstr "Opciones"
 
@@ -2824,9 +2880,10 @@ msgstr "Cancelar"
 #: TFRMSETFILEPROPERTIES.BTNOK.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.BTNOK.CAPTION"
 msgid "&OK"
-msgstr ""
+msgstr "&Aceptar"
 
 #: TFRMSETFILEPROPERTIES.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CAPTION"
 msgid "Change file properties"
 msgstr ""
 
@@ -3093,6 +3150,11 @@ msgstr ""
 msgid "Viewer"
 msgstr "Visor"
 
+#: TFRMVIEWER.MIABOUT.CAPTION
+msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
+msgid "About"
+msgstr "Acerca de"
+
 #: TFRMVIEWER.MIABOUT2.CAPTION
 msgid "About Viewer..."
 msgstr "Acerca del Visor..."
@@ -3102,8 +3164,49 @@ msgid "Show as &Bin"
 msgstr "Mostrar como &Bin"
 
 #: TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION
+msgctxt "TFRMVIEWER.MICOPYTOCLIPBOARD.CAPTION"
 msgid "Copy To Clipboard"
 msgstr "Copiar al portapapeles"
+
+#: TFRMVIEWER.MIDIV1.CAPTION
+msgctxt "TFRMVIEWER.MIDIV1.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMVIEWER.MIDIV2.CAPTION
+msgctxt "TFRMVIEWER.MIDIV2.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMVIEWER.MIDIV3.CAPTION
+msgctxt "TFRMVIEWER.MIDIV3.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMVIEWER.MIDIV5.CAPTION
+msgctxt "TFRMVIEWER.MIDIV5.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMVIEWER.MIEDIT.CAPTION
+msgctxt "TFRMVIEWER.MIEDIT.CAPTION"
+msgid "&Edit"
+msgstr "&Editar"
+
+#: TFRMVIEWER.MIENCODING.CAPTION
+msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
+msgid "En&coding"
+msgstr ""
+
+#: TFRMVIEWER.MIEXIT.CAPTION
+msgctxt "TFRMVIEWER.MIEXIT.CAPTION"
+msgid "E&xit"
+msgstr "&Salir"
+
+#: TFRMVIEWER.MIFILE.CAPTION
+msgctxt "TFRMVIEWER.MIFILE.CAPTION"
+msgid "&File"
+msgstr "&Archivo"
 
 #: TFRMVIEWER.MIGRAPHICS.CAPTION
 msgid "Graphics"
@@ -3121,9 +3224,18 @@ msgstr "&Imagen"
 msgid "&Next"
 msgstr "&Siguiente"
 
+#: TFRMVIEWER.MIPLUGINS.CAPTION
+msgctxt "TFRMVIEWER.MIPLUGINS.CAPTION"
+msgid "Plugins"
+msgstr "Extensiones"
+
 #: TFRMVIEWER.MIPREV.CAPTION
 msgid "&Previous"
 msgstr "&Anterior"
+
+#: TFRMVIEWER.MIPRINT.CAPTION
+msgid "Print..."
+msgstr ""
 
 #: TFRMVIEWER.MISAVEPOS.CAPTION
 msgid "&Save Position"
@@ -3134,10 +3246,23 @@ msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
 msgid "Search"
 msgstr "Búsqueda"
 
+#: TFRMVIEWER.MISEARCHNEXT.CAPTION
+msgid "Search next"
+msgstr ""
+
+#: TFRMVIEWER.MISEARCHPREV.CAPTION
+msgid "Search prev"
+msgstr ""
+
 #: TFRMVIEWER.MISELECTALL.CAPTION
 msgctxt "TFRMVIEWER.MISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "Seleccionar todo"
+
+#: TFRMVIEWER.MISEPARATOR.CAPTION
+msgctxt "TFRMVIEWER.MISEPARATOR.CAPTION"
+msgid "-"
+msgstr ""
 
 #: TFRMVIEWER.MISTRETCH.CAPTION
 msgid "Stretch"
@@ -3147,17 +3272,29 @@ msgstr "Estrechar"
 msgid "Show as &Text"
 msgstr "Mostrar como &Texto"
 
+#: TFRMVIEWER.MIVIEW.CAPTION
+msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
+msgid "&View"
+msgstr "&Ver"
+
 #: TFRMVIEWER.MIWRAPTEXT.CAPTION
 msgid "Show as &Wrap text"
 msgstr "Ajustar líneas"
 
-#: TFRMVIEWER.PGIMAGE.CAPTION
-msgid "pgImage"
-msgstr "pgImage"
+#: TFRMVIEWER.N1.CAPTION
+msgctxt "TFRMVIEWER.N1.CAPTION"
+msgid "-"
+msgstr ""
 
-#: TFRMVIEWER.PGTEXT.CAPTION
-msgid "pgText"
-msgstr "pgText"
+#: TFRMVIEWER.PMICOPY.CAPTION
+msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
+msgid "Copy To Clipboard"
+msgstr "Copiar al portapapeles"
+
+#: TFRMVIEWER.PMISELECTALL.CAPTION
+msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
+msgid "Select All"
+msgstr "Seleccionar todo"
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -3906,6 +4043,7 @@ msgid "Page by page"
 msgstr "Página a página"
 
 #: ulng.rsoptplugins
+msgctxt "ulng.rsoptplugins"
 msgid "Plugins"
 msgstr "Extensiones"
 
@@ -4021,4 +4159,12 @@ msgstr ""
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
 msgstr "Visor interno de Double Commander."
+
+#: ulng.rsviewencoding
+msgid "Encoding"
+msgstr ""
+
+#: ulng.rsviewnotfound
+msgid "%s not found!"
+msgstr ""
 
