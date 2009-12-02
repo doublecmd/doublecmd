@@ -23,7 +23,7 @@ type
   private
     FWfxPluginFileSource: IWfxPluginFileSource;
     FOperationHelper: TWfxPluginOperationHelper;
-    FUpdateProgressClass: TUpdateProgressClass;
+    FCallbackDataClass: TCallbackDataClass;
     FFullFilesTreeToCopy: TFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     // Options
@@ -83,25 +83,26 @@ constructor TWfxPluginCopyOutOperation.Create(aSourceFileSource: IFileSource;
                                               aTargetPath: String);
 begin
   FWfxPluginFileSource:= aSourceFileSource as IWfxPluginFileSource;
-  FUpdateProgressClass:= TUpdateProgressClass.Create;
+  FCallbackDataClass:= TCallbackDataClass.Create;
   FInternal:= aTargetFileSource.IsInterface(IWfxPluginFileSource);
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;
 
 destructor TWfxPluginCopyOutOperation.Destroy;
 begin
-  if Assigned(FUpdateProgressClass) then
-    FreeAndNil(FUpdateProgressClass);
+  if Assigned(FCallbackDataClass) then
+    FreeAndNil(FCallbackDataClass);
   inherited Destroy;
 end;
 
 procedure TWfxPluginCopyOutOperation.Initialize;
 begin
-  FUpdateProgressClass.UpdateProgressFunction:= @UpdateProgress;
+  FCallbackDataClass.FileSource:= FWfxPluginFileSource;
+  FCallbackDataClass.UpdateProgressFunction:= @UpdateProgress;
   with FWfxPluginFileSource do
   begin
     WfxModule.WfxStatusInfo({CurrentPath}SourceFiles.Path, FS_STATUS_START, FS_STATUS_OP_PUT_MULTI);
-    WfxOperationList.Objects[PluginNumber]:= FUpdateProgressClass;
+    WfxOperationList.Objects[PluginNumber]:= FCallbackDataClass;
     // Get initialized statistics; then we change only what is needed.
     FStatistics := RetrieveStatistics;
 

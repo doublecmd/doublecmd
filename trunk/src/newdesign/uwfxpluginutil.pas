@@ -18,8 +18,9 @@ type
 
   TUpdateProgress = function(SourceName, TargetName: UTF8String; PercentDone: Integer): Integer of object;
 
-  TUpdateProgressClass = class
+  TCallbackDataClass = class
   public
+    FileSource: IWfxPluginFileSource;
     UpdateProgressFunction: TUpdateProgress;
   end;
 
