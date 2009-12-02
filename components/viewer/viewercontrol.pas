@@ -204,7 +204,7 @@ type
               It is length in bytes of parsed data without any line endings.
               iStartPos is moved beyond the line endings though.)
     }
-    function CalcTextLineLength(var iStartPos: PtrInt; const aLimit: Int64; out DataLength: Integer): Integer;
+    function CalcTextLineLength(var iStartPos: PtrInt; const aLimit: Int64; out DataLength: PtrInt): Integer;
 
     function GetStartOfLine(aPosition: PtrInt): PtrInt;
     function GetEndOfLine(aPosition: PtrInt): PtrInt;
