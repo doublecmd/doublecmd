@@ -97,8 +97,10 @@ type
     actPrevTab: TAction;
     actNextTab: TAction;
     actRemoveAllTabs: TAction;
-    actToggleLockDcaTab: TAction;
-    actToggleLockTab: TAction;
+    actSetTabOptionNormal: TAction;
+    actSetTabOptionPathLocked: TAction;
+    actSetTabOptionPathResets: TAction;
+    actSetTabOptionDirsInNewTab: TAction;
     actUnmarkCurrentExtension: TAction;
     actMarkCurrentExtension: TAction;
     actWipe: TAction;
@@ -131,6 +133,16 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     lblCommandPath: TLabel;
+    miLine14: TMenuItem;
+    mnuTabOptionNormal: TMenuItem;
+    mnuTabOptionDirsInNewTabs: TMenuItem;
+    mnuTabOptions: TMenuItem;
+    miTabOptionPathResets: TMenuItem;
+    miTabOptionDirsInNewTab: TMenuItem;
+    miTabOptionPathLocked: TMenuItem;
+    miTabOptionNormal: TMenuItem;
+    miTabOptions: TMenuItem;
+    miLine19: TMenuItem;
     mnuSetFileProperties: TMenuItem;
     mnuShowOperations: TMenuItem;
     miLine13: TMenuItem;
@@ -156,18 +168,15 @@ type
     mnuNextTab: TMenuItem;
     miLine17: TMenuItem;
     miLine16: TMenuItem;
-    mnuToggleLockTab: TMenuItem;
-    mnuToggleLockDcaTab: TMenuItem;
+    mnuTabOptionPathLocked: TMenuItem;
+    mnuTabOptionPathResets: TMenuItem;
     mnuRemoveAllTabs: TMenuItem;
     mnuRemoveTab: TMenuItem;
     miLine15: TMenuItem;
     mnuOpenDirInNewTab: TMenuItem;
     mnuNewTab: TMenuItem;
     miRemoveAllTabs: TMenuItem;
-    miToggleLockDcaTab: TMenuItem;
-    miToggleLockTab: TMenuItem;
     miRemoveTab: TMenuItem;
-    miLine14: TMenuItem;
     miNewTab: TMenuItem;
     miEditComment: TMenuItem;
     mnuMarkCurrentExtension: TMenuItem;
@@ -1395,18 +1404,16 @@ begin
 
   // pmTabMenu.Tag stores tab page nr where the menu was activated.
 
-  if MenuItem.Action = actRemoveTab then
-
+  if MenuItem = miRemoveTab then
     Actions.DoRemoveTab(NoteBook, pmTabMenu.Tag)
-
-  else if MenuItem.Action = actToggleLockTab then
-
-    Actions.DoToggleLockTab(NoteBook.Page[pmTabMenu.Tag])
-
-  else if MenuItem.Action = actToggleLockDcaTab then
-
-    Actions.DoToggleLockDcaTab(NoteBook.Page[pmTabMenu.Tag])
-
+  else if MenuItem = miTabOptionNormal then
+    NoteBook.Page[pmTabMenu.Tag].LockState := tlsNormal
+  else if MenuItem = miTabOptionPathLocked then
+    NoteBook.Page[pmTabMenu.Tag].LockState := tlsPathLocked
+  else if MenuItem = miTabOptionPathResets then
+    NoteBook.Page[pmTabMenu.Tag].LockState := tlsPathResets
+  else if MenuItem = miTabOptionDirsInNewTab then
+    NoteBook.Page[pmTabMenu.Tag].LockState := tlsDirsInNewTab
   else
   begin
     Cmd:= MenuItem.Action.Name;
@@ -1460,7 +1467,7 @@ begin
   Page := Notebook.ActivePage;
   if Assigned(Page) then
   begin
-    if Page.LockState = tlsResettingPath then // if locked with directory change
+    if Page.LockState = tlsPathResets then // if locked with directory change
       Page.FileView.CurrentPath := Page.LockPath
     else if (Notebook = nbLeft) and (FrameLeft <> nil) then
       begin
@@ -1519,11 +1526,17 @@ begin
           PopUpPoint.Y := PopUpPoint.Y - (NoteBook.Height - NoteBook.ClientHeight);
 {$ENDIF}
 
-          // Check lock option items.
-          Index := pmTabMenu.Items.IndexOf(miToggleLockTab);
-          pmTabMenu.Items.Items[Index].Checked := (NoteBook.Page[TabNr].LockState = tlsLockedPath);
-          Index := pmTabMenu.Items.IndexOf(miToggleLockDcaTab);
-          pmTabMenu.Items.Items[Index].Checked := (NoteBook.Page[TabNr].LockState = tlsResettingPath);
+          // Check tab options items.
+          case NoteBook.Page[TabNr].LockState of
+            tlsNormal:
+              miTabOptionNormal.Checked := True;
+            tlsPathLocked:
+              miTabOptionPathLocked.Checked := True;
+            tlsDirsInNewTab:
+              miTabOptionDirsInNewTab.Checked := True;
+            tlsPathResets:
+              miTabOptionPathResets.Checked := True;
+          end;
 
           pmTabMenu.Parent := NoteBook;
           pmTabMenu.Tag := TabNr;
@@ -2207,18 +2220,23 @@ begin
   begin
     Page := Sender as TFileViewPage;
 
-    if Page.LockState = tlsLockedPath then
-      begin
-        Result:= False;  // do not change directory in this tab
+    case Page.LockState of
+      tlsPathLocked:
+        Result := False;  // do not change directory in this tab
 
-        ANoteBook := Page.Notebook;
+      tlsDirsInNewTab:
+        begin
+          Result := False;  // do not change directory in this tab
 
-        // Create same type
-        NewPage := ANoteBook.AddPage;
-        Page.FileView.Clone(NewPage);
-        NewPage.FileView.CurrentPath := NewDir;
-        NewPage.MakeActive;
-      end;
+          ANoteBook := Page.Notebook;
+
+          // Create same type
+          NewPage := ANoteBook.AddPage;
+          Page.FileView.Clone(NewPage);
+          NewPage.FileView.CurrentPath := NewDir;
+          NewPage.MakeActive;
+        end;
+    end;
   end;
 end;
 
@@ -2539,7 +2557,7 @@ begin
       end;
 
       Page.LockState := TTabLockState(gIni.ReadInteger(TabsSection, sIndex + '_options', 0));
-      if Page.LockState = tlsResettingPath then // if locked tab with directory change
+      if Page.LockState = tlsPathResets then // if locked tab with directory change
         Page.LockPath := sPath;
 
       Page.FileView.LoadConfiguration(TabsSection, StrToInt(sIndex));
@@ -2584,7 +2602,7 @@ begin
       // get page index in string representation
       sIndex:= IntToStr(I);
 
-      if Page.LockState = tlsResettingPath then // if locked tab with directory change
+      if Page.LockState = tlsPathResets then // if locked tab with directory change
         sPath := Page.LockPath
       else
         sPath := Page.FileView.CurrentPath;

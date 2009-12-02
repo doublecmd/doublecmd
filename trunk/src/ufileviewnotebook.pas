@@ -10,9 +10,11 @@ uses
 
 type
 
-  TTabLockState = (tlsNormal,          //<en Default state.
-                   tlsLockedPath,      //<en Path changes are not allowed.
-                   tlsResettingPath);  //<en Path is reset when activating page.
+  TTabLockState = (
+    tlsNormal,           //<en Default state.
+    tlsPathLocked,       //<en Path changes are not allowed.
+    tlsPathResets,       //<en Path is reset when activating the tab.
+    tlsDirsInNewTab);    //<en Path change opens a new tab.
 
   TFileViewNotebook = class;
 
@@ -185,6 +187,8 @@ end;
 procedure TFileViewPage.SetLockState(NewLockState: TTabLockState);
 begin
   FLockState := NewLockState;
+  if NewLockState = tlsPathResets then
+    LockPath := FileView.CurrentPath;
   UpdateTabLockState;
 end;
 

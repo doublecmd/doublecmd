@@ -1075,13 +1075,24 @@ object frmMain: TfrmMain
       object miLine16: TMenuItem
         Caption = '-'
       end
-      object mnuToggleLockDcaTab: TMenuItem
-        Action = actToggleLockDcaTab
-        OnClick = actExecute
-      end
-      object mnuToggleLockTab: TMenuItem
-        Action = actToggleLockTab
-        OnClick = actExecute
+      object mnuTabOptions: TMenuItem
+        Caption = 'Options'
+        object mnuTabOptionNormal: TMenuItem
+          Action = actSetTabOptionNormal
+          OnClick = actExecute
+        end
+        object mnuTabOptionPathLocked: TMenuItem
+          Action = actSetTabOptionPathLocked
+          OnClick = actExecute
+        end
+        object mnuTabOptionPathResets: TMenuItem
+          Action = actSetTabOptionPathResets
+          OnClick = actExecute
+        end
+        object mnuTabOptionDirsInNewTabs: TMenuItem
+          Action = actSetTabOptionDirsInNewTab
+          OnClick = actExecute
+        end
       end
       object miLine17: TMenuItem
         Caption = '-'
@@ -1421,12 +1432,6 @@ object frmMain: TfrmMain
       HelpType = htKeyword
       OnExecute = actExecute
     end
-    object actRemoveTab: TAction
-      Category = 'Tabs'
-      Caption = 'Remove tab'
-      HelpType = htKeyword
-      OnExecute = actExecute
-    end
     object actPackFiles: TAction
       Category = 'File'
       Caption = 'Pack files...'
@@ -1537,11 +1542,6 @@ object frmMain: TfrmMain
       Caption = 'Swap &Panels'
       OnExecute = actExecute
     end
-    object actOpenDirInNewTab: TAction
-      Category = 'Tabs'
-      Caption = 'Open folder in new tab'
-      OnExecute = actExecute
-    end
     object actWipe: TAction
       Category = 'Commands'
       Caption = 'Wipe'
@@ -1560,31 +1560,6 @@ object frmMain: TfrmMain
     object actEditComment: TAction
       Category = 'File'
       Caption = 'Edit comment...'
-      OnExecute = actExecute
-    end
-    object actToggleLockTab: TAction
-      Category = 'Tabs'
-      Caption = 'Lock this tab'
-      OnExecute = actExecute
-    end
-    object actToggleLockDcaTab: TAction
-      Category = 'Tabs'
-      Caption = 'Locked, but directory changes allowed'
-      OnExecute = actExecute
-    end
-    object actRemoveAllTabs: TAction
-      Category = 'Tabs'
-      Caption = 'Remove all tabs'
-      OnExecute = actExecute
-    end
-    object actNextTab: TAction
-      Category = 'Tabs'
-      Caption = 'Switch to next tab'
-      OnExecute = actExecute
-    end
-    object actPrevTab: TAction
-      Category = 'Tabs'
-      Caption = 'Switch to previous tab'
       OnExecute = actExecute
     end
     object actKeyboard: TAction
@@ -1695,6 +1670,52 @@ object frmMain: TfrmMain
     object actSetFileProperties: TAction
       Category = 'File'
       Caption = 'Change file properties'
+      OnExecute = actExecute
+    end
+    object actOpenDirInNewTab: TAction
+      Category = 'Tabs'
+      Caption = 'Open folder in new tab'
+      OnExecute = actExecute
+    end
+    object actRemoveTab: TAction
+      Category = 'Tabs'
+      Caption = 'Remove tab'
+      HelpType = htKeyword
+      OnExecute = actExecute
+    end
+    object actRemoveAllTabs: TAction
+      Category = 'Tabs'
+      Caption = 'Remove all tabs'
+      OnExecute = actExecute
+    end
+    object actSetTabOptionNormal: TAction
+      Category = 'Tabs'
+      Caption = 'Normal'
+      OnExecute = actExecute
+    end
+    object actSetTabOptionPathLocked: TAction
+      Category = 'Tabs'
+      Caption = 'Locked'
+      OnExecute = actExecute
+    end
+    object actSetTabOptionPathResets: TAction
+      Category = 'Tabs'
+      Caption = 'Locked, but directory changes allowed'
+      OnExecute = actExecute
+    end
+    object actSetTabOptionDirsInNewTab: TAction
+      Category = 'Tabs'
+      Caption = 'Directories are opened in new tabs'
+      OnExecute = actExecute
+    end
+    object actNextTab: TAction
+      Category = 'Tabs'
+      Caption = 'Switch to next tab'
+      OnExecute = actExecute
+    end
+    object actPrevTab: TAction
+      Category = 'Tabs'
+      Caption = 'Switch to previous tab'
       OnExecute = actExecute
     end
   end
@@ -1923,14 +1944,6 @@ object frmMain: TfrmMain
       Action = actNewTab
       OnClick = mnuTabMenuClick
     end
-    object miToggleLockTab: TMenuItem
-      Action = actToggleLockTab
-      OnClick = mnuTabMenuClick
-    end
-    object miToggleLockDcaTab: TMenuItem
-      Action = actToggleLockDcaTab
-      OnClick = mnuTabMenuClick
-    end
     object miLine14: TMenuItem
       Caption = '-'
     end
@@ -1941,6 +1954,36 @@ object frmMain: TfrmMain
     object miRemoveAllTabs: TMenuItem
       Action = actRemoveAllTabs
       OnClick = mnuTabMenuClick
+    end
+    object miLine19: TMenuItem
+      Caption = '-'
+    end
+    object miTabOptions: TMenuItem
+      Caption = 'Tab options'
+      object miTabOptionNormal: TMenuItem
+        Action = actSetTabOptionNormal
+        GroupIndex = 1
+        RadioItem = True
+        OnClick = mnuTabMenuClick
+      end
+      object miTabOptionPathLocked: TMenuItem
+        Action = actSetTabOptionPathLocked
+        GroupIndex = 1
+        RadioItem = True
+        OnClick = mnuTabMenuClick
+      end
+      object miTabOptionPathResets: TMenuItem
+        Action = actSetTabOptionPathResets
+        GroupIndex = 1
+        RadioItem = True
+        OnClick = mnuTabMenuClick
+      end
+      object miTabOptionDirsInNewTab: TMenuItem
+        Action = actSetTabOptionDirsInNewTab
+        GroupIndex = 1
+        RadioItem = True
+        OnClick = mnuTabMenuClick
+      end
     end
   end
   object tmHAL: TTimer
