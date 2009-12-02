@@ -721,34 +721,42 @@ msgid "Properties"
 msgstr "Vlastnosti"
 
 #: TFRMFILEPROPERTIES.CBSGID.CAPTION
+msgctxt "TFRMFILEPROPERTIES.CBSGID.CAPTION"
 msgid "SGID"
 msgstr "SGID"
 
 #: TFRMFILEPROPERTIES.CBSTICKY.CAPTION
+msgctxt "TFRMFILEPROPERTIES.CBSTICKY.CAPTION"
 msgid "Sticky"
 msgstr "Sticky"
 
 #: TFRMFILEPROPERTIES.CBSUID.CAPTION
+msgctxt "TFRMFILEPROPERTIES.CBSUID.CAPTION"
 msgid "SUID"
 msgstr "SUID"
 
 #: TFRMFILEPROPERTIES.LBLATTRBITSSTR.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLATTRBITSSTR.CAPTION"
 msgid "Bits:"
 msgstr "Bitů:"
 
 #: TFRMFILEPROPERTIES.LBLATTRGROUPSTR.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLATTRGROUPSTR.CAPTION"
 msgid "Group"
 msgstr "Skupina"
 
 #: TFRMFILEPROPERTIES.LBLATTROTHERSTR.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLATTROTHERSTR.CAPTION"
 msgid "Other"
 msgstr "Ostatní"
 
 #: TFRMFILEPROPERTIES.LBLATTROWNERSTR.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLATTROWNERSTR.CAPTION"
 msgid "Owner"
 msgstr "Vlastník"
 
 #: TFRMFILEPROPERTIES.LBLATTRTEXT.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXT.CAPTION"
 msgid "-----------"
 msgstr "-----------"
 
@@ -757,6 +765,7 @@ msgid "Representation in text:"
 msgstr "Reprezentováno v textu:"
 
 #: TFRMFILEPROPERTIES.LBLEXEC.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
 msgstr "Spustit"
 
@@ -792,10 +801,12 @@ msgstr "Poslední změna stavu:"
 
 #: TFRMFILEPROPERTIES.LBLOCTAL.CAPTION
 #, fuzzy
+msgctxt "TFRMFILEPROPERTIES.LBLOCTAL.CAPTION"
 msgid "Octal:"
 msgstr "Tečka:"
 
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLREAD.CAPTION"
 msgid "Read"
 msgstr "Čtení"
 
@@ -813,6 +824,7 @@ msgid "Type:"
 msgstr "Typ:"
 
 #: TFRMFILEPROPERTIES.LBLWRITE.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Zápis"
 
@@ -2831,6 +2843,136 @@ msgstr "Komprimátor:"
 msgid "Time:"
 msgstr "Čas:"
 
+#: TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: TFRMSETFILEPROPERTIES.BTNOK.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&OK"
+
+#: TFRMSETFILEPROPERTIES.CAPTION
+msgid "Change file properties"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.CBSGID.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CBSGID.CAPTION"
+msgid "SGID"
+msgstr "SGID"
+
+#: TFRMSETFILEPROPERTIES.CBSTICKY.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CBSTICKY.CAPTION"
+msgid "Sticky"
+msgstr "Sticky"
+
+#: TFRMSETFILEPROPERTIES.CBSUID.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CBSUID.CAPTION"
+msgid "SUID"
+msgstr "SUID"
+
+#: TFRMSETFILEPROPERTIES.CHKARCHIVE.CAPTION
+msgid "Archive"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.CHKCREATIONTIME.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CHKCREATIONTIME.CAPTION"
+msgid "Created:"
+msgstr "Vytvořeno:"
+
+#: TFRMSETFILEPROPERTIES.CHKHIDDEN.CAPTION
+msgid "Hidden"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.CHKLASTACCESSTIME.CAPTION
+msgid "Accessed:"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.CHKLASTWRITETIME.CAPTION
+msgid "Modified:"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.CHKREADONLY.CAPTION
+msgid "Read only"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.CHKRECURSIVE.CAPTION
+msgid "Recursive"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION
+msgid "System"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.LBLATTRBITSSTR.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTRBITSSTR.CAPTION"
+msgid "Bits:"
+msgstr "Bitů:"
+
+#: TFRMSETFILEPROPERTIES.LBLATTRGROUPSTR.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTRGROUPSTR.CAPTION"
+msgid "Group"
+msgstr "Skupina"
+
+#: TFRMSETFILEPROPERTIES.LBLATTRINFO.CAPTION
+msgid "(gray = unchanged, checked=set attribute)"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.LBLATTROTHERSTR.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTROTHERSTR.CAPTION"
+msgid "Other"
+msgstr "Ostatní"
+
+#: TFRMSETFILEPROPERTIES.LBLATTROWNERSTR.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTROWNERSTR.CAPTION"
+msgid "Owner"
+msgstr "Vlastník"
+
+#: TFRMSETFILEPROPERTIES.LBLATTRTEXT.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTRTEXT.CAPTION"
+msgid "-----------"
+msgstr "-----------"
+
+#: TFRMSETFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
+msgid "Text:"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION"
+msgid "Execute"
+msgstr "Spustit"
+
+#: TFRMSETFILEPROPERTIES.LBLOCTAL.CAPTION
+#, fuzzy
+msgctxt "TFRMSETFILEPROPERTIES.LBLOCTAL.CAPTION"
+msgid "Octal:"
+msgstr "Tečka:"
+
+#: TFRMSETFILEPROPERTIES.LBLREAD.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLREAD.CAPTION"
+msgid "Read"
+msgstr "Čtení"
+
+#: TFRMSETFILEPROPERTIES.LBLWRITE.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLWRITE.CAPTION"
+msgid "Write"
+msgstr "Zápis"
+
+#: TFRMSETFILEPROPERTIES.PGDATETIME.CAPTION
+msgid "Date/Time"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.PGUNIXMODE.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.PGUNIXMODE.CAPTION"
+msgid "Attributes"
+msgstr "Atributy"
+
+#: TFRMSETFILEPROPERTIES.PGWINATTR.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.PGWINATTR.CAPTION"
+msgid "Attributes"
+msgstr "Atributy"
+
 #: TFRMSPLITTER.BTNCANCEL.CAPTION
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
 msgid "Exit"
@@ -3895,6 +4037,7 @@ msgid "Unable to split the file!"
 msgstr "Nelze split soubor!"
 
 #: ulng.rssplitmsgcreated
+msgctxt "ulng.rssplitmsgcreated"
 msgid "Created:"
 msgstr "Vytvořeno:"
 
@@ -3909,6 +4052,10 @@ msgstr "Výběr adreáře:"
 #: ulng.rssymerrcreate
 msgid "Error creating symlink."
 msgstr "Chyba při vytváření zástupce."
+
+#: ulng.rsunhandledexceptionmessage
+msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
+msgstr ""
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
