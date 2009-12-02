@@ -130,7 +130,7 @@ end;
 
 procedure MainLogProc(PluginNr, MsgType: Integer; LogString: UTF8String);
 var
-  sMsg: String;
+  sMsg: UTF8String;
   LogMsgType: TLogMsgType = lmtInfo;
   bLogFile: Boolean;
   bLock: Boolean = True;
@@ -140,25 +140,26 @@ Begin
   case MsgType of
     msgtype_connect:
       begin
-        sMsg:= sMsg + 'msgtype_connect';
+        sMsg:= sMsg + '[' + IntToStr(MsgType) + ']';
         ShowLogWindow(True, @bLock);
       end;
-    msgtype_disconnect: sMsg:= sMsg + 'msgtype_disconnect';
-    msgtype_details: sMsg:= sMsg + 'msgtype_details';
-    msgtype_transfercomplete: sMsg:= sMsg + 'msgtype_transfercomplete';
-    msgtype_connectcomplete: sMsg:= sMsg + 'msgtype_connectcomplete';
+    msgtype_disconnect,
+    msgtype_details,
+    msgtype_operationcomplete,
+    msgtype_transfercomplete,
+    msgtype_connectcomplete:
+      sMsg:= sMsg + '[' + IntToStr(MsgType) + ']';
     msgtype_importanterror:
       begin
-        sMsg:= rsMsgLogError + 'msgtype_importanterror';
+        sMsg:= rsMsgLogError + '[' + IntToStr(MsgType) + ']';
         LogMsgType:= lmtError;
         bLogFile:= (log_vfs_op in gLogOptions) and (log_errors in gLogOptions);
       end;
-    msgtype_operationcomplete: sMsg:= sMsg + 'msgtype_operationcomplete';
   end;
   // write log info
   logWrite(sMsg + ', ' + logString, LogMsgType, False, bLogFile);
 
-  //DebugLN('MainLogProc ('+ sMsg + ',' + logString + ')');
+  //DebugLn('MainLogProc ('+ sMsg + ',' + logString + ')');
 end;
 
 procedure MainLogProcA(PluginNr, MsgType: Integer; LogString: PAnsiChar); stdcall;
