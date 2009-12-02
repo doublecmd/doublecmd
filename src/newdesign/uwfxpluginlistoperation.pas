@@ -8,16 +8,24 @@ uses
   Classes, SysUtils,
   uFileSourceListOperation,
   uWfxPluginFileSource,
+  uWfxPluginUtil,
   uFileSource;
 
 type
 
+  { TWfxPluginListOperation }
+
   TWfxPluginListOperation = class(TFileSourceListOperation)
   private
     FWfxPluginFileSource: IWfxPluginFileSource;
+    FCallbackDataClass: TCallbackDataClass;
   public
     constructor Create(aFileSource: IFileSource; aPath: String); override;
+    destructor Destroy; override;
+
+    procedure Initialize; override;
     procedure MainExecute; override;
+    procedure Finalize; override;
   end;
 
 implementation
@@ -30,7 +38,25 @@ constructor TWfxPluginListOperation.Create(aFileSource: IFileSource; aPath: Stri
 begin
   FFiles := TFiles.Create;
   FWfxPluginFileSource := aFileSource as IWfxPluginFileSource;
+  FCallbackDataClass:= TCallbackDataClass.Create;
   inherited Create(aFileSource, aPath);
+end;
+
+destructor TWfxPluginListOperation.Destroy;
+begin
+  if Assigned(FCallbackDataClass) then
+    FreeAndNil(FCallbackDataClass);
+  inherited Destroy;
+end;
+
+procedure TWfxPluginListOperation.Initialize;
+begin
+  FCallbackDataClass.FileSource:= FWfxPluginFileSource;
+  with FWfxPluginFileSource do
+  begin
+    WfxModule.WfxStatusInfo(Path, FS_STATUS_START, FS_STATUS_OP_LIST);
+    WfxOperationList.Objects[PluginNumber]:= FCallbackDataClass;
+  end;
 end;
 
 procedure TWfxPluginListOperation.MainExecute;
@@ -43,7 +69,6 @@ begin
   with FWfxPluginFileSource.WFXModule do
   begin
     sPath:= Path;
-    WFXStatusInfo(sPath, FS_STATUS_START, FS_STATUS_OP_LIST);
 
     FFiles.Clear;
     FFiles.Path := IncludeTrailingPathDelimiter(sPath);
@@ -69,8 +94,16 @@ begin
 
     FsFindClose(Handle);
 
-    WFXStatusInfo(sPath, FS_STATUS_END, FS_STATUS_OP_LIST);
   end; // with
+end;
+
+procedure TWfxPluginListOperation.Finalize;
+begin
+  with FWfxPluginFileSource do
+  begin
+    WfxModule.WfxStatusInfo(Path, FS_STATUS_END, FS_STATUS_OP_LIST);
+    WfxOperationList.Objects[PluginNumber]:= nil;
+  end;
 end;
 
 end.

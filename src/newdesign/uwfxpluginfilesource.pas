@@ -95,17 +95,17 @@ uses
 
 function MainProgressProc(PluginNr: Integer; SourceName, TargetName: UTF8String; PercentDone: Integer): Integer;
 var
-  UpdateProgressClass: TUpdateProgressClass;
+  CallbackDataClass: TCallbackDataClass;
 begin
   Result:= 0;
 
   DebugLn('MainProgressProc ('+IntToStr(PluginNr)+','+SourceName+','+TargetName+','+IntToStr(PercentDone)+')=' ,IntTostr(Result));
 
-  UpdateProgressClass:= TUpdateProgressClass(WfxOperationList.Objects[PluginNr]);
+  CallbackDataClass:= TCallbackDataClass(WfxOperationList.Objects[PluginNr]);
 
-  if not Assigned(UpdateProgressClass) then Exit;
+  if not Assigned(CallbackDataClass) then Exit;
 
-  Result:= UpdateProgressClass.UpdateProgressFunction(SourceName, TargetName, PercentDone);
+  Result:= CallbackDataClass.UpdateProgressFunction(SourceName, TargetName, PercentDone);
 end;
 
 function MainProgressProcA(PluginNr: Integer; SourceName, TargetName: PAnsiChar; PercentDone: Integer): Integer; stdcall;
