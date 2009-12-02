@@ -1,15 +1,14 @@
 object frmViewer: TfrmViewer
-  Left = 63
-  Height = 520
-  Top = 87
-  Width = 952
+  Left = 120
+  Height = 600
+  Top = 120
+  Width = 856
   HorzScrollBar.Page = 951
   VertScrollBar.Page = 491
   ActiveControl = pnlLister
-  AutoScroll = False
   Caption = 'Viewer'
-  ClientHeight = 492
-  ClientWidth = 952
+  ClientHeight = 570
+  ClientWidth = 856
   Constraints.MinHeight = 100
   Constraints.MinWidth = 200
   Icon.Data = {
@@ -58,91 +57,92 @@ object frmViewer: TfrmViewer
   OnDestroy = FormDestroy
   OnKeyDown = frmViewerKeyDown
   OnKeyPress = FormKeyPress
-  OnKeyUp = frmViewerKeyUp
+  OnShow = FormShow
   Position = poDefault
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.27'
+  LCLVersion = '0.9.29'
   object pnlLister: TPanel
-    Height = 470
-    Width = 952
+    Left = 0
+    Height = 548
+    Top = 0
+    Width = 856
     Align = alClient
-    TabOrder = 2
+    BevelOuter = bvNone
+    TabOrder = 1
     OnResize = pnlListerResize
   end
   object Status: TStatusBar
+    Left = 0
     Height = 22
-    Top = 470
-    Width = 952
+    Top = 548
+    Width = 856
     Panels = <    
       item
         Width = 200
       end    
       item
-        Width = 70
-      end    
-      item
-        Width = 150
-      end    
-      item
         Width = 50
+      end    
+      item
+        Width = 100
+      end    
+      item
+        Width = 100
+      end    
+      item
+        Width = 100
       end>
     SimplePanel = False
   end
-  object nbPages: TNotebook
-    Height = 470
-    Width = 952
+  object pnlText: TPanel
+    Left = 0
+    Height = 548
+    Top = 0
+    Width = 856
     Align = alClient
-    PageIndex = 1
-    ShowTabs = False
-    TabOrder = 0
-    object pgText: TPage
-      ClientWidth = 950
-      ClientHeight = 442
-      object ScrollBarVert: TScrollBar
-        Left = 935
-        Height = 442
-        Width = 15
-        Align = alRight
-        Anchors = [akTop, akRight]
-        Kind = sbVertical
-        PageSize = 1
-        Position = 50
-        TabOrder = 0
-        OnScroll = ScrollBarVertScroll
-      end
-      object ViewerControl: TViewerControl
-        Cursor = crIBeam
-        Height = 442
-        Width = 935
-        Encoding = 'ansi'
-        ViewerMode = vmText
-        OnMouseUp = ViewerControlMouseUp
-        Font.Height = -14
-        Font.Name = 'fixed'
-        Font.Pitch = fpFixed
-        Align = alClient
-        OnMouseWheelDown = ViewerControlMouseWheelDown
-        OnMouseWheelUp = ViewerControlMouseWheelUp
-      end
+    BevelOuter = bvNone
+    ClientHeight = 548
+    ClientWidth = 856
+    TabOrder = 2
+    object ViewerControl: TViewerControl
+      Left = 0
+      Height = 548
+      Top = 0
+      Width = 856
+      OnPositionChanged = ViewerPositionChanged
+      OnMouseUp = ViewerControlMouseUp
+      Align = alClient
     end
-    object pgImage: TPage
-      Caption = 'pgImage'
-      ClientWidth = 950
-      ClientHeight = 468
-      object ScrollBox: TScrollBox
-        Height = 468
-        Width = 950
-        Align = alClient
-        TabOrder = 0
-        TabStop = True
-        OnResize = ScrollBoxResize
-        object Image: TImage
-          Height = 464
-          Width = 946
-          AutoSize = True
-          Center = True
-          Proportional = True
-        end
+  end
+  object pnlImage: TPanel
+    Left = 0
+    Height = 548
+    Top = 0
+    Width = 856
+    Align = alClient
+    BevelOuter = bvNone
+    ClientHeight = 548
+    ClientWidth = 856
+    TabOrder = 3
+    object sboxImage: TScrollBox
+      Left = 0
+      Height = 548
+      Top = 0
+      Width = 856
+      Align = alClient
+      ClientHeight = 526
+      ClientWidth = 852
+      TabOrder = 0
+      TabStop = True
+      OnResize = sboxImageResize
+      object Image: TImage
+        Left = 0
+        Height = 464
+        Top = 0
+        Width = 946
+        AutoSize = True
+        Center = True
+        Proportional = True
       end
     end
   end
@@ -185,10 +185,12 @@ object frmViewer: TfrmViewer
       Caption = '&Edit'
       object miCopyToClipboard: TMenuItem
         Caption = 'Copy To Clipboard'
+        ShortCut = 16451
         OnClick = miCopyToClipboardClick
       end
       object miSelectAll: TMenuItem
         Caption = 'Select All'
+        ShortCut = 16449
         OnClick = miSelectAllClick
       end
       object miDiv3: TMenuItem
@@ -204,30 +206,54 @@ object frmViewer: TfrmViewer
         ShortCut = 114
         OnClick = miSearchNextClick
       end
+      object miSearchPrev: TMenuItem
+        Caption = 'Search prev'
+        ShortCut = 8306
+        OnClick = miSearchPrevClick
+      end
     end
     object miView: TMenuItem
       Caption = '&View'
       object miText: TMenuItem
+        AutoCheck = True
         Caption = 'Show as &Text'
+        GroupIndex = 1
+        RadioItem = True
+        ShortCut = 49
         OnClick = miTextClick
       end
       object miBin: TMenuItem
+        AutoCheck = True
         Caption = 'Show as &Bin'
+        GroupIndex = 1
+        RadioItem = True
+        ShortCut = 50
         OnClick = miBinClick
       end
       object miHex: TMenuItem
+        AutoCheck = True
         Caption = 'Show as &Hex'
+        GroupIndex = 1
+        RadioItem = True
+        ShortCut = 51
         OnClick = miHexClick
       end
       object miWrapText: TMenuItem
+        AutoCheck = True
         Caption = 'Show as &Wrap text'
+        GroupIndex = 1
+        RadioItem = True
+        ShortCut = 52
         OnClick = miWrapTextClick
       end
       object miDiv2: TMenuItem
         Caption = '-'
       end
       object miGraphics: TMenuItem
+        AutoCheck = True
         Caption = 'Graphics'
+        GroupIndex = 1
+        RadioItem = True
         ShortCut = 54
         OnClick = miGraphicsClick
       end
@@ -235,7 +261,10 @@ object frmViewer: TfrmViewer
         Caption = '-'
       end
       object miPlugins: TMenuItem
+        AutoCheck = True
         Caption = 'Plugins'
+        GroupIndex = 1
+        RadioItem = True
         ShortCut = 55
         OnClick = miPluginsClick
       end

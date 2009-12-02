@@ -1,19 +1,16 @@
 <?xml version="1.0"?>
 <CONFIG>
-  <Package Version="2">
+  <Package Version="3">
     <PathDelim Value="\"/>
     <Name Value="viewerpackage"/>
-    <Author Value="Radek Èervinka"/>
+    <Author Value="Radek ÄŒervinka"/>
     <CompilerOptions>
-      <Version Value="5"/>
+      <Version Value="8"/>
       <PathDelim Value="\"/>
       <SearchPaths>
         <OtherUnitFiles Value="$(LazarusDir)\lcl\units\$(TargetCPU)-$(TargetOS)\;$(LazarusDir)\lcl\units\$(TargetCPU)-$(TargetOS)\$(LCLWidgetType)\"/>
-        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)\"/>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
-      <CodeGeneration>
-        <Generate Value="Faster"/>
-      </CodeGeneration>
       <Linking>
         <Debugging>
           <GenerateDebugInfo Value="True"/>
@@ -24,12 +21,16 @@
       </Other>
     </CompilerOptions>
     <Version Major="1"/>
-    <Files Count="1">
+    <Files Count="2">
       <Item1>
         <Filename Value="viewercontrol.pas"/>
         <HasRegisterProc Value="True"/>
-        <UnitName Value="viewercontrol"/>
+        <UnitName Value="ViewerControl"/>
       </Item1>
+      <Item2>
+        <Filename Value="unicodeutils.pas"/>
+        <UnitName Value="unicodeutils"/>
+      </Item2>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="1">

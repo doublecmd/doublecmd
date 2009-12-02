@@ -31,7 +31,7 @@ interface
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  StdCtrls, ExtCtrls, ComCtrls, LCLProc, Menus,
+  ExtCtrls, ComCtrls, LCLProc, Menus, Dialogs, ExtDlgs, EditBtn,
   viewercontrol, fFindView, WLXPlugin, uWLXModule,
   uFileSource;
 
@@ -41,23 +41,22 @@ type
 
   TfrmViewer = class(TForm)
     Image: TImage;
+    miSearchPrev: TMenuItem;
     miPrint: TMenuItem;
     miSearchNext: TMenuItem;
     pmiSelectAll: TMenuItem;
     miDiv5: TMenuItem;
     pmiCopy: TMenuItem;
+    pnlImage: TPanel;
+    pnlText: TPanel;
     miDiv3: TMenuItem;
     miEncoding: TMenuItem;
     miPlugins: TMenuItem;
     miSeparator: TMenuItem;
     miSavePos: TMenuItem;
-    nbPages: TNotebook;
     pnlLister: TPanel;
-    pgText: TPage;
-    pgImage: TPage;
     pmEditMenu: TPopupMenu;
-    ScrollBarVert: TScrollBar;
-    ScrollBox: TScrollBox;
+    sboxImage: TScrollBox;
     Status: TStatusBar;
     MainMenu: TMainMenu;
     miFile: TMenuItem;
@@ -84,21 +83,18 @@ type
     ViewerControl: TViewerControl;
     procedure FormCreate(Sender : TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormShow(Sender: TObject);
     procedure miPluginsClick(Sender: TObject);
     procedure miPrintClick(Sender: TObject);
     procedure miSearchNextClick(Sender: TObject);
+    procedure miSearchPrevClick(Sender: TObject);
     procedure pnlListerResize(Sender: TObject);
-    procedure ScrollBoxResize(Sender: TObject);
+    procedure sboxImageResize(Sender: TObject);
     procedure ViewerControlMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure ViewerControlMouseWheelDown(Sender: TObject; Shift: TShiftState;
-      MousePos: TPoint; var Handled: Boolean);
-    procedure ViewerControlMouseWheelUp(Sender: TObject; Shift: TShiftState;
-      MousePos: TPoint; var Handled: Boolean);
     procedure frmViewerClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure frmViewerKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure frmViewerKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure miExitClick(Sender: TObject);
     procedure miNextClick(Sender: TObject);
     procedure miPrevClick(Sender: TObject);
@@ -116,33 +112,33 @@ type
     procedure miCopyToClipboardClick(Sender: TObject);
     procedure miSelectAllClick(Sender: TObject);
     procedure miChangeEncodingClick(Sender:TObject);
-    procedure ScrollBarVertScroll(Sender: TObject; ScrollCode: TScrollCode;
-      var ScrollPos: Integer);
+    procedure ViewerPositionChanged(Sender:TObject);
   private
-    { Private declarations }
     FileList: TStringList;
     iActiveFile:Integer;
     bImage,
     bPlugin: Boolean;
     FFindDialog:TfrmFindView;
     FFileSource: IFileSource;
+    FLastSearchPos: PtrInt;
     //---------------------
     WlxPlugins:TWLXModuleList;
     ActivePlugin:Integer;
     //---------------------
     function CheckPlugins(Index:integer; Force: boolean=false):boolean;
     procedure ExitPluginMode;
-    procedure UpDateScrollBar;
     Function CheckGraphics(const sFileName:String):Boolean;
     procedure AdjustImageSize;
     procedure LoadGraphics(const sFileName:String);
-    procedure DoSearch(bQuickSearch: Boolean);
-    procedure ChooseEncoding(mnuMenuItem: TMenuItem; sEncoding: String);
+    procedure DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
+    procedure MakeTextEncodingsMenu;
+    procedure ActivatePanel(Panel: TPanel);
+    procedure ReMmapIfNeed;
+
   public
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource); reintroduce;
     destructor Destroy; override;
     procedure LoadFile(iIndex:Integer);
-    procedure ReMmapIfNeed;
   end;
 
 
@@ -152,6 +148,20 @@ implementation
 
 uses
   uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx, uFindMmap, uDCUtils;
+
+const
+  // Status bar panels indexes.
+  sbpFileName             = 0;
+  sbpFileNr               = 1;
+  // Text
+  sbpPosition             = 2;
+  sbpFileSize             = 3;
+  sbpTextEncoding         = 4;
+  // WLX
+  sbpPluginName           = 2;
+  // Graphics
+  sbpCurrentResolution    = 2;
+  sbpFullResolution       = 3;
 
 procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSource);
 var
@@ -169,6 +179,7 @@ constructor TfrmViewer.Create(TheOwner: TComponent; aFileSource: IFileSource);
 begin
   inherited Create(TheOwner);
   FFileSource := aFileSource;
+  FLastSearchPos := -1;
 end;
 
 destructor TfrmViewer.Destroy;
@@ -179,39 +190,40 @@ begin
 end;
 
 procedure TfrmViewer.LoadFile(iIndex:Integer);
+var
+  i: Integer;
 begin
-//  DebugLn('Viewer: LoadFile:' + iIndex);
-  iActiveFile:=iIndex;
-  Caption:=FileList.Strings[iIndex];
+  FLastSearchPos := -1;
+  iActiveFile := iIndex;
+  Caption := FileList.Strings[iIndex];
+
+  // Clear text on status bar.
+  for i := 0 to Status.Panels.Count - 1 do
+    Status.Panels[i].Text := '';
+
   Screen.Cursor:=crHourGlass;
   try
     bPlugin:= CheckPlugins(iIndex);
     if bPlugin then
-      Status.Panels[2].Text:= WlxPlugins.GetWLxModule(ActivePlugin).Name
-//      DebugLn('View: BeforeCheckGraphics:' + iIndex);
+      begin
+        Status.Panels[sbpPluginName].Text:= WlxPlugins.GetWLxModule(ActivePlugin).Name;
+        ActivatePanel(pnlLister);
+      end
     else if CheckGraphics(FileList.Strings[iIndex]) then
       begin
-//        DebugLn('View: LoadGraphics:' + iIndex);
         LoadGraphics(FileList.Strings[iIndex]);
+        ActivatePanel(pnlImage);
       end
     else
       begin
-//        DebugLn('View: LoadIntoViewer:' + iIndex);
-
-        miImage.Visible:=False;
-        miEdit.Visible:=True;
-        miEncoding.Visible:= True;
-        bImage:=False;
-        nbPages.ActivePageComponent:=pgText;
-        ViewerControl.UnMapFile; // if any mapped
+        ViewerControl.FileName := FileList.Strings[iIndex];     //handled by miProcess.Click
+        ActivatePanel(pnlText);
 //        miProcess.Click;
-        ViewerControl.MapFile(FileList.Strings[iIndex]);     //handled by miProcess.Click
-        UpDateScrollBar;
-        ChooseEncoding(miEncoding, ViewerControl.Encoding);
       end;
-    Status.Panels[0].Text:=FileList.Strings[iIndex];
-    Status.Panels[1].Text:=Format('%d/%d',[iIndex+1,FileList.Count]);
-    Status.Panels[3].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
+
+    Status.Panels[sbpFileName].Text:=FileList.Strings[iIndex];
+    Status.Panels[sbpFileNr].Text:=Format('%d/%d',[iIndex+1,FileList.Count]);
+    Status.Panels[sbpFileSize].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
   finally
     Screen.Cursor:=crDefault;
   end;
@@ -219,22 +231,29 @@ end;
 
 procedure TfrmViewer.FormKeyPress(Sender: TObject; var Key: Char);
 begin
-  if (key='N') or (key='n') then
-    miNextClick(Sender);
+  case Key of
+    'N', 'n':
+      miNextClick(Sender);
+    'P', 'p':
+      miPrevClick(Sender);
+    '1':
+      ViewerControl.ViewerMode := vmText;
+    '2':
+      ViewerControl.ViewerMode := vmBin;
+    '3':
+      ViewerControl.ViewerMode := vmHex;
+    '4':
+      ViewerControl.ViewerMode := vmWrap;
+  end;
+end;
 
-  if (key='P') or (key='p') then
-    miPrevClick(Sender);
-
-
-  if Key='1' then
-    ViewerControl.ViewerMode:=vmText;
-  if Key='2' then
-    ViewerControl.ViewerMode:=vmBin;
-  if Key='3' then
-    ViewerControl.ViewerMode:=vmHex;
-  if Key='4' then
-    ViewerControl.ViewerMode:=vmWrap;
-
+procedure TfrmViewer.FormShow(Sender: TObject);
+begin
+  {if pnlText.Visible and ViewerControl.CanFocus then
+    ViewerControl.SetFocus;}
+  writeln('frmViewer: ', Self.Handle);
+  writeln('ViewCtrl : ', ViewerControl.Handle);
+  writeln('ViewPnl  : ', pnlText.Handle);
 end;
 
 function TfrmViewer.CheckPlugins(Index:integer; Force:boolean=false):boolean;
@@ -248,7 +267,6 @@ begin
      begin
        Result:= True;
        DebugLn('I = '+IntToStr(I));
-       nbPages.Visible:= False;
        if not WlxPrepareContainer(pnlLister.Handle) then {TODO: ERROR and exit;};
        WlxPlugins.LoadModule(I);
        DebugLn('WlxModule.Name = ', WlxPlugins.GetWLxModule(I).Name);
@@ -264,7 +282,6 @@ begin
      end
    else  I:= I + 1;
  // Plugin not found
- nbPages.Visible:= True;
  ActivePlugin:= -1;
  Result:= False;
 end;
@@ -277,18 +294,18 @@ begin
       WlxPlugins.GetWLxModule(ActivePlugin).CallListCloseWindow;
       WlxPlugins.GetWLxModule(ActivePlugin).UnloadModule;
     end;
-//  pnlLister.Hide;
-  nbPages.Show;
 end;
 
 procedure TfrmViewer.miPluginsClick(Sender: TObject);
 begin
-  ViewerControl.UnMapFile; // if any mapped
   bPlugin:= CheckPlugins(iActiveFile, True);
   if bPlugin then
-    Status.Panels[2].Text:= WlxPlugins.GetWLxModule(ActivePlugin).Name
+  begin
+    Status.Panels[sbpPluginName].Text:= WlxPlugins.GetWLxModule(ActivePlugin).Name;
+    ActivatePanel(pnlLister);
+  end
   else
-    ViewerControl.MapFile(FileList.Strings[iActiveFile]);
+    ViewerControl.FileName := FileList.Strings[iActiveFile];
 end;
 
 procedure TfrmViewer.miPrintClick(Sender: TObject);
@@ -304,7 +321,12 @@ end;
 
 procedure TfrmViewer.miSearchNextClick(Sender: TObject);
 begin
-  DoSearch(True);
+  DoSearch(True, False);
+end;
+
+procedure TfrmViewer.miSearchPrevClick(Sender: TObject);
+begin
+  DoSearch(True, True);
 end;
 
 procedure TfrmViewer.pnlListerResize(Sender: TObject);
@@ -313,7 +335,7 @@ begin
     WlxPlugins.GetWlxModule(ActivePlugin).ResizeWindow(pnlLister.ClientRect);
 end;
 
-procedure TfrmViewer.ScrollBoxResize(Sender: TObject);
+procedure TfrmViewer.sboxImageResize(Sender: TObject);
 begin
   if bImage then AdjustImageSize;
 end;
@@ -325,22 +347,6 @@ begin
     pmEditMenu.PopUp();
 end;
 
-procedure TfrmViewer.ViewerControlMouseWheelDown(Sender: TObject;
-  Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
-begin
-  ViewerControl.DownBy(3);
-  UpDateScrollBar;
-  Handled:=True;
-end;
-
-procedure TfrmViewer.ViewerControlMouseWheelUp(Sender: TObject;
-  Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
-begin
-  ViewerControl.UpBy(3);
-  UpDateScrollBar;
-  Handled:=True;
-end;
-
 procedure TfrmViewer.frmViewerClose(Sender: TObject;
                                     var CloseAction: TCloseAction);
 begin
@@ -349,7 +355,6 @@ begin
   CloseAction:=caFree;
   if not bImage then gViewerPos.Save(Self);
   gViewerImageStretch:= miStretch.Checked;
-  ViewerControl.UnMapFile;
   if Assigned(WlxPlugins) then
      begin
        ExitPluginMode;
@@ -360,50 +365,35 @@ end;
 procedure TfrmViewer.frmViewerKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if (key=VK_Q) then Close;
-  if bImage then Exit;
-
-  if (Key=VK_F3) or ((Key=VK_F) and (Shift=[ssCtrl])) then
-    begin
-      DoSearch(Key=VK_F3);
-      Key:= 0;
-      Exit;
-    end;
-
-  // now handle shortcuts to viewer
-  if Shift<>[] then Exit;
-  if Key=VK_Down then
-    ViewerControl.Down;
-  if Key=VK_Up then
-    ViewerControl.Up;
-  if Key=VK_Home then
-    ViewerControl.GoHome;
-  if Key=VK_End then
-    ViewerControl.GoEnd;
-  if Key=VK_PRIOR then
-    ViewerControl.PageUp;
-  if Key=VK_NEXT then
-    ViewerControl.PageDown;
-
-  // To prevent editor open on key F4 in viewer
-  if (Key=VK_F4) then  Key:=0;
-
-  UpDateScrollBar;
-end;
-
-procedure TfrmViewer.frmViewerKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if key=27 then
+  if Key in [VK_Q, VK_ESCAPE] then
   begin
-    Key:=0;
+    Key := 0;
     Close;
+    Exit;
   end;
+
+  if not (bImage or bPlugin) then
+    case Key of
+      VK_F:
+        if Shift = [ssCtrl] then
+        begin
+          DoSearch(False, False);
+          Key:= 0;
+          Exit;
+        end;
+
+      VK_F3:
+        if Shift - [ssShift] = [] then
+        begin
+          DoSearch(True, Shift = [ssShift]);
+          Key:= 0;
+          Exit;
+        end;
+    end;
 end;
 
 procedure TfrmViewer.miExitClick(Sender: TObject);
 begin
-  inherited;
   Close;
 end;
 
@@ -461,30 +451,40 @@ procedure TfrmViewer.miTextClick(Sender: TObject);
 begin
   ExitPluginMode;
   ReMmapIfNeed;
-  ViewerControl.ViewerMode:=vmText;
+  ViewerControl.ViewerMode := vmText;
+  ViewerControl.SetFocus;
+  ActivatePanel(pnlText);
+  miText.Checked := True;
 end;
 
 procedure TfrmViewer.miBinClick(Sender: TObject);
 begin
   ExitPluginMode;
   ReMmapIfNeed;
-  ViewerControl.ViewerMode:=vmBin;
+  ViewerControl.ViewerMode := vmBin;
+  ViewerControl.SetFocus;
+  ActivatePanel(pnlText);
+  miBin.Checked := True;
 end;
 
 procedure TfrmViewer.miHexClick(Sender: TObject);
 begin
-  inherited;
   ExitPluginMode;
   ReMmapIfNeed;
-  ViewerControl.ViewerMode:=vmHex;
+  ViewerControl.ViewerMode := vmHex;
+  ViewerControl.SetFocus;
+  ActivatePanel(pnlText);
+  miHex.Checked := True;
 end;
 
 procedure TfrmViewer.miWrapTextClick(Sender: TObject);
 begin
-  inherited;
   ExitPluginMode;
   ReMmapIfNeed;
-  ViewerControl.ViewerMode:=vmWrap;
+  ViewerControl.ViewerMode := vmWrap;
+  ViewerControl.SetFocus;
+  ActivatePanel(pnlText);
+  miWrapText.Checked := True;
 end;
 
 procedure TfrmViewer.miAbout2Click(Sender: TObject);
@@ -494,20 +494,16 @@ end;
 
 procedure TfrmViewer.miSearchClick(Sender: TObject);
 begin
-  DoSearch(False);
+  FLastSearchPos := -1;
+  DoSearch(False, False);
 end;
 
 procedure TfrmViewer.FormCreate(Sender: TObject);
-var
-  I: Integer;
-  mi: TMenuItem;
-  EncodingsList: TStringList;
 begin
-//  DebugLn('TfrmViewer.FormCreate');
-  ViewerControl.Color:= clWindow;
-  ViewerControl.Font.Name:= gViewerFontName;
-  ViewerControl.Font.Size:= gViewerFontSize;
-  ViewerControl.Font.Style:= gViewerFontStyle;
+  ViewerControl.Font.Name  := gViewerFontName;
+  ViewerControl.Font.Size  := gViewerFontSize;
+  ViewerControl.Font.Style := gViewerFontStyle;
+
   FileList := TStringList.Create;
 
   WlxPlugins:=TWLXModuleList.Create;
@@ -516,36 +512,23 @@ begin
 
   FFindDialog:=nil; // dialog is created in first use
   
-{  Status.Panels[0].Width:=50;
-  Status.Panels[1].Width:=50;}
   miStretch.Checked:= gViewerImageStretch;
-// update menu encoding
-  miEncoding.Clear;
-  EncodingsList:= TStringList.Create;
-  GetSupportedEncodings(EncodingsList);
-  for I:= 0 to EncodingsList.Count - 1 do
-    begin
-      mi:= TMenuItem.Create(miEncoding);
-      mi.Caption:= EncodingsList[I];
-      mi.AutoCheck:= True;
-      mi.RadioItem:= True;
-      mi.GroupIndex:= 1;
-      mi.OnClick:= @miChangeEncodingClick;
-      miEncoding.Add(mi);
-    end;
-  EncodingsList.Free;
- // DebugLn('TfrmViewer.FormCreate done');
+
+  MakeTextEncodingsMenu;
+
+  Status.Panels[sbpFileNr].Alignment := taRightJustify;
+  Status.Panels[sbpPosition].Alignment := taRightJustify;
+  Status.Panels[sbpFileSize].Alignment := taRightJustify;
+
+  ViewerPositionChanged(Self);
 end;
 
 procedure TfrmViewer.FormDestroy(Sender: TObject);
 begin
-  if assigned(WlxPlugins) then
-     begin
-        FreeAndNil(WlxPlugins);
-     end;
-  if assigned(FFindDialog) then
+  if Assigned(WlxPlugins) then
+     FreeAndNil(WlxPlugins);
+  if Assigned(FFindDialog) then
      FreeAndNil(FFindDialog);
-  inherited;
 end;
 
 procedure TfrmViewer.miProcessClick(Sender: TObject);
@@ -577,7 +560,6 @@ begin
     ViewerControl.UnMapFile;
     Status.Panels[2].Text:=IntToStr(ViewerControl.FileSize);
     Status.Panels[3].Text:=sViewCmd;
-    UpDateScrollBar;
     miProcess.Checked:=not miProcess.Checked;
   end;
 }
@@ -585,69 +567,56 @@ end;
 
 procedure TfrmViewer.ReMmapIfNeed;
 begin
-//  DebugLn('TfrmViewer.ReMmapIfNeed');
   if bImage or bPlugin then
   begin
-    bImage:=False;
-    bPlugin:= False;
-    ViewerControl.MapFile(FileList.Strings[iActiveFile]);
-    miImage.Visible:=False;
-    miEdit.Visible:=True;
-    miEncoding.Visible:= True;
-    bImage:=False;
-    nbPages.ActivePageComponent:=pgText;
-    ChooseEncoding(miEncoding, ViewerControl.Encoding);
-    image.Picture:=nil;
-    Status.Panels[2].Text:= '0 (0 %)';
+    Image.Picture := nil;
+    ViewerControl.FileName := FileList.Strings[iActiveFile];
+    ActivatePanel(pnlText);
   end;
-  Status.Panels[3].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
-  UpDateScrollBar;
-end;
-
-procedure TfrmViewer.UpDateScrollBar;
-var
-  iPercent: Integer;
-begin
-//  DebugLn('TfrmViewer.UpDateScrollBar');
-  if ScrollBarVert.Min <> 0 then
-    ScrollBarVert.Min:= 0;
-  if ScrollBarVert.Max <> 100 then
-    ScrollBarVert.Max:= 100;
-
-  if ViewerControl.FileSize > 0 then
-    begin
-      iPercent:= ViewerControl.Percent;
-      if (ScrollBarVert.Position <> iPercent) then
-        begin
-          ScrollBarVert.Position:= iPercent;
-          Status.Panels[2].Text:= cnvFormatFileSize(ViewerControl.Position)+' ('+IntToStr(iPercent)+' %)';
-        end;
-    end;
 end;
 
 procedure TfrmViewer.miGraphicsClick(Sender: TObject);
 begin
-  inherited;
-  nbPages.Show;
   if CheckGraphics(FileList.Strings[iActiveFile]) then
     begin
-      ViewerControl.UnMapFile; // if any mapped
+      ViewerControl.FileName := ''; // unload current file if any is loaded
       LoadGraphics(FileList.Strings[iActiveFile]);
     end;
 end;
 
-Function TfrmViewer.CheckGraphics(const sFileName:String):Boolean;
+procedure TfrmViewer.miCopyToClipboardClick(Sender: TObject);
+begin
+  if bPlugin then
+    WlxPlugins.GetWLxModule(ActivePlugin).CallListSendCommand(lc_copy, 0)
+  else
+    ViewerControl.CopyToClipboard;
+end;
+
+procedure TfrmViewer.miSelectAllClick(Sender: TObject);
+begin
+  if bPlugin then
+    WlxPlugins.GetWLxModule(ActivePlugin).CallListSendCommand(lc_selectall, 0)
+  else
+    ViewerControl.SelectAll;
+end;
+
+procedure TfrmViewer.miChangeEncodingClick(Sender: TObject);
+begin
+  ViewerControl.EncodingName := (Sender as TMenuItem).Caption;
+  Status.Panels[4].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
+end;
+
+function TfrmViewer.CheckGraphics(const sFileName:String):Boolean;
 var
   sExt:String;
 begin
-//  DebugLn('TfrmViewer.CheckGraphics');
   sExt:=Lowercase(ExtractFileExt(sFileName));
   Result:=(sExt='.bmp') or (sExt='.xpm') or (sExt='.png') or
        (sExt='.jpg') or (sExt='.jpeg') or (sExt='.ico') or
        (sExt='.ddw') or (sExt='.tga');
 end;
 
-// Adjust Image size (width and height) to ScrollBox size
+// Adjust Image size (width and height) to sboxImage size
 procedure TfrmViewer.AdjustImageSize;
 const
   fmtImageInfo = '%s (%s %%)';
@@ -657,35 +626,34 @@ var
 begin
   if Image.Stretch then
     begin
-      Image.Width:= ScrollBox.ClientWidth;
-      Image.Height:= ScrollBox.ClientHeight;
+      Image.Width:= sboxImage.ClientWidth;
+      Image.Height:= sboxImage.ClientHeight;
       // show image resolution and scale
       sResolution:= IntToStr(Image.ClientWidth) + 'x' + IntToStr(Image.ClientHeight);
       iScale:= (Image.ClientWidth * 100) div Image.Picture.Width;
-      Status.Panels[2].Text:= Format(fmtImageInfo, [sResolution, IntToStr(iScale)]);
+      Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [sResolution, IntToStr(iScale)]);
       sResolution:= IntToStr(Image.Picture.Width) + 'x' + IntToStr(Image.Picture.Height);
-      Status.Panels[3].Text:= Format(fmtImageInfo, [sResolution, '100']);
+      Status.Panels[sbpFullResolution].Text:= Format(fmtImageInfo, [sResolution, '100']);
     end
   else
     begin
       // show image resolution and scale
       sResolution:= IntToStr(Image.Picture.Width) + 'x' + IntToStr(Image.Picture.Height);
-      Status.Panels[2].Text:= Format(fmtImageInfo, [sResolution, '100']);
-      Status.Panels[3].Text:= Status.Panels[2].Text;
+      Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [sResolution, '100']);
+      Status.Panels[sbpFullResolution].Text:= Status.Panels[2].Text;
     end;
 end;
 
 procedure TfrmViewer.LoadGraphics(const sFileName:String);
 var
   sExt: String;
-  fsFileStream: TFileStreamEx;  
+  fsFileStream: TFileStreamEx = nil;
 begin
-//  DebugLn('TfrmViewer.Load graphics');
   bImage:= True;
   sExt:= ExtractFileExt(sFilename);
   System.Delete(sExt, 1, 1); // delete a dot
   try
-    fsFileStream:= TFileStreamEx.Create(sFileName, fmOpenRead);
+    fsFileStream:= TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
     try
       Image.Picture.LoadFromStreamWithFileExt(fsFileStream, sExt);
     except
@@ -695,17 +663,15 @@ begin
     end;
   finally
     if Assigned(fsFileStream) then
-      fsFileStream.Free;
+      FreeAndNil(fsFileStream);
   end;
+
   miStretch.Checked:= not miStretch.Checked;
   miStretchClick(nil);
-  nbPages.ActivePageComponent:= pgImage;
-  miImage.Visible:= True;
-  miEdit.Visible:= False;
-  miEncoding.Visible:= False;
+  ActivatePanel(pnlImage);
 end;
 
-procedure TfrmViewer.DoSearch(bQuickSearch: Boolean);
+procedure TfrmViewer.DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
 var
   PAdr: PChar;
   iSizeData: Integer;
@@ -753,100 +719,118 @@ begin
     end
   else
     begin
-      PAdr:= ViewerControl.GetDataAdr; // begin of data in memory
-      Inc(PAdr, ViewerControl.Position); // move to current position
-      iSizeData:= ViewerControl.FileSize - ViewerControl.Position;
-      if iSizeData <= 0 then Exit;
+      // Choose search start position.
+      if not bSearchBackwards then
+      begin
+        if FLastSearchPos = -1 then
+          FLastSearchPos := 0
+        else if FLastSearchPos < ViewerControl.FileSize - 1 then
+          FLastSearchPos := FLastSearchPos + 1;
+      end
+      else
+      begin
+        if FLastSearchPos = -1 then
+          FLastSearchPos := ViewerControl.FileSize - 1
+        else if FLastSearchPos > 0 then
+          FLastSearchPos := FLastSearchPos - 1;
+      end;
 
-      PAdr:= PosMem(PAdr, iSizeData, sSearchText, FFindDialog.cbCaseSens.Checked);
+      PAdr := PosMem(ViewerControl.GetDataAdr, ViewerControl.FileSize,
+                     FLastSearchPos, sSearchText, FFindDialog.cbCaseSens.Checked,
+                     bSearchBackwards);
 
-      if (PtrInt(PAdr) <> -1) then
+      if (PAdr <> Pointer(-1)) then
         begin
-          // founded, set position to ViewerControl
-          ViewerControl.Position:= PtrInt(PAdr)-PtrInt(ViewerControl.GetDataAdr);
-          ViewerControl.Up;
-          // position is property and have write method  (repaint widget)
-          UpDateScrollBar;
-        end;
-      SetFocus;
-    end;
-end;
-
-procedure TfrmViewer.ChooseEncoding(mnuMenuItem: TMenuItem; sEncoding: String);
-var
-  I: Integer;
-begin
-  sEncoding:= NormalizeEncoding(sEncoding);
-  for I:= 0 to mnuMenuItem.Count - 1 do
-    if SameText(NormalizeEncoding(mnuMenuItem.Items[I].Caption), sEncoding) then
-      mnuMenuItem.Items[I].Checked:= True;
-end;
-
-procedure TfrmViewer.miCopyToClipboardClick(Sender: TObject);
-begin
-  if bPlugin then
-    WlxPlugins.GetWLxModule(ActivePlugin).CallListSendCommand(lc_copy, 0)
-  else
-    ViewerControl.CopyToClipboard;
-end;
-
-procedure TfrmViewer.miSelectAllClick(Sender: TObject);
-begin
-  if bPlugin then
-    WlxPlugins.GetWLxModule(ActivePlugin).CallListSendCommand(lc_selectall, 0)
-  else
-    ViewerControl.SelectAll;
-end;
-
-procedure TfrmViewer.miChangeEncodingClick(Sender: TObject);
-begin
-  ViewerControl.Encoding:= (Sender as TMenuItem).Caption;
-  ViewerControl.Repaint;
-end;
-
-procedure TfrmViewer.ScrollBarVertScroll(Sender: TObject;
-  ScrollCode: TScrollCode; var ScrollPos: Integer);
-begin
-  inherited;
-  // RADEK
-  case ScrollCode of
-    scLineUp:
-    begin
-      ViewerControl.Up;
-      ScrollPos := ViewerControl.Percent;
-    end;
-    scLineDown:
-    begin
-      ViewerControl.Down;
-      ScrollPos := ViewerControl.Percent;
-    end;
-    scPageUp:
-    begin
-      ViewerControl.PageUp;
-      ScrollPos := ViewerControl.Percent;
-    end;
-    scPageDown:
-    begin
-      ViewerControl.PageDown;
-      ScrollPos := ViewerControl.Percent;
-    end;
-    scTop: ViewerControl.GoHome;
-    scBottom: ViewerControl.GoEnd;
-    scPosition:
-    begin
-      if ScrollPos = 0 then
-        ViewerControl.GoHome
-      else if ScrollPos = 100 then
-        ViewerControl.GoEnd
+          FLastSearchPos := PAdr - ViewerControl.GetDataAdr;
+          // text found, show it in ViewerControl if not visible
+          ViewerControl.MakeVisible(FLastSearchPos);
+          // Select found text.
+          ViewerControl.SelectText(FLastSearchPos, FLastSearchPos + UTF8Length(sSearchText));
+        end
       else
         begin
-          ViewerControl.Percent := ScrollPos;
-          if ViewerControl.UpLine then ViewerControl.DownLine;
-          ScrollPos := ViewerControl.Percent;
+          msgOK(Format(rsViewNotFound, ['"' + sSearchText + '"']));
+          FLastSearchPos := -1;
         end;
     end;
+end;
+
+procedure TfrmViewer.MakeTextEncodingsMenu;
+var
+  I: Integer;
+  mi: TMenuItem;
+  EncodingsList: TStringList;
+begin
+  miEncoding.Clear;
+  EncodingsList := TStringList.Create;
+  try
+    ViewerControl.GetSupportedEncodings(EncodingsList);
+    for I:= 0 to EncodingsList.Count - 1 do
+      begin
+        mi:= TMenuItem.Create(miEncoding);
+        mi.Caption:= EncodingsList[I];
+        mi.AutoCheck:= True;
+        mi.RadioItem:= True;
+        mi.GroupIndex:= 1;
+        mi.OnClick:= @miChangeEncodingClick;
+        if ViewerControl.EncodingName = EncodingsList[I] then
+          mi.Checked := True;
+        miEncoding.Add(mi);
+      end;
+  finally
+    FreeAndNil(EncodingsList);
   end;
-  Status.Panels[2].Text:= cnvFormatFileSize(ViewerControl.Position)+' ('+IntToStr(ScrollPos)+' %)';
+end;
+
+procedure TfrmViewer.ViewerPositionChanged(Sender:TObject);
+begin
+  if ViewerControl.FileSize > 0 then
+    begin
+      Status.Panels[sbpPosition].Text :=
+          cnvFormatFileSize(ViewerControl.Position) +
+          ' (' + IntToStr(ViewerControl.Percent) + ' %)';
+    end
+  else
+    Status.Panels[sbpPosition].Text:= cnvFormatFileSize(0) + ' (0 %)';
+end;
+
+procedure TfrmViewer.ActivatePanel(Panel: TPanel);
+begin
+  pnlLister.Hide;
+  pnlImage.Hide;
+  pnlText.Hide;
+
+  Panel.Visible := True;
+
+  bImage             := (Panel = pnlImage);
+  bPlugin            := (Panel = pnlLister);
+  miPlugins.Checked  := (Panel = pnlLister);
+  miGraphics.Checked := (Panel = pnlImage);
+  miImage.Visible    := (Panel = pnlImage);
+  miEdit.Visible     := (Panel = pnlText);
+  miEncoding.Visible := (Panel = pnlText);
+
+  if Panel = pnlLister then
+  begin
+  end
+  else if Panel = pnlText then
+  begin
+    if CanFocus and pnlText.CanFocus and ViewerControl.CanFocus then
+      ViewerControl.SetFocus;
+
+    case ViewerControl.ViewerMode of
+      vmText: miText.Checked := True;
+      vmWrap: miWrapText.Checked := True;
+      vmBin:  miBin.Checked := True;
+      vmHex:  miHex.Checked := True;
+    end;
+
+    Status.Panels[sbpFileSize].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
+    Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
+  end
+  else if Panel = pnlImage then
+  begin
+  end;
 end;
 
 initialization
