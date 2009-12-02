@@ -145,6 +145,8 @@ resourcestring
   rsDlgCheckSumVerify = 'Verify check sum...';
   // Viewer
   rsViewAboutText = 'Internal Viewer of Double Commander.';
+  rsViewNotFound = '%s not found!';
+  rsViewEncoding = 'Encoding';
   // Editor
   rsEditAboutText = 'Internal Editor of Double Commander.';
   

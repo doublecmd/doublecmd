@@ -1,5 +1,5 @@
-{ This file was automatically created by Lazarus. Do not edit!
-This source is only used to compile and install the package.
+{ This file was automatically created by Lazarus. do not edit ! 
+  This source is only used to compile and install the package.
  }
 
 unit viewerpackage; 
@@ -7,13 +7,13 @@ unit viewerpackage;
 interface
 
 uses
-  viewercontrol, LazarusPackageIntf; 
+  ViewerControl, UnicodeUtils, LazarusPackageIntf;
 
 implementation
 
 procedure Register; 
 begin
-  RegisterUnit('viewercontrol', @viewercontrol.Register); 
+  RegisterUnit('ViewerControl', @ViewerControl.Register); 
 end; 
 
 initialization

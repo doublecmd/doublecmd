@@ -277,7 +277,7 @@ begin
 
             for lastPos := 0 to DataRead - 1 do
             begin
-              if PosMem(@Buffer[lastPos], sDataLength, sData, bCase) <> Pointer(-1) then
+              if PosMem(@Buffer[lastPos], sDataLength, 0, sData, bCase, False) <> Pointer(-1) then
                 Exit(True); // found
             end;
 

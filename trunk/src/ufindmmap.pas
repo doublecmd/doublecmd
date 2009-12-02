@@ -21,7 +21,23 @@ interface
 type
   TAbortFunction = function: Boolean of object;
 
-function PosMem(pAdr:PChar; iLength:Integer; const sData:String; bCase:Boolean):Pointer;
+{en
+   Searches data in memory for a string.
+
+   @param(pDataAddr           Pointer to the beginning of the data buffer.)
+   @param(iDataLength         Length of the data buffer in bytes.)
+   @param(iStartPos           Position in the buffer from which to begin search.)
+   @param(sSearchText         Text that is searched for in the data buffer.)
+   @param(bCaseSensitive      If @true the search is case sensitive.)
+   @param(bSearchBackwards    If @true the search is done in iStartPos..0.
+                              If @false the search is done in iStartPos..(iLength-1).)
+   @returns(If the string was not found it returns -1.
+            If the string was found it returns pointer to the data buffer
+            where the searched text begins.)
+
+}
+function PosMem(pDataAddr: PChar; iDataLength, iStartPos: PtrInt; const sSearchText: String;
+                bCaseSensitive: Boolean; bSearchBackwards: Boolean): Pointer;
 
 {en
    Searches a file for a string using memory mapping.
@@ -43,38 +59,61 @@ implementation
 uses
   uOSUtils;
 
-function PosMem(pAdr:PChar; iLength:Integer; const sData:String; bCase:Boolean):Pointer;
+function PosMem(pDataAddr: PChar; iDataLength, iStartPos: PtrInt; const sSearchText: String;
+                bCaseSensitive: Boolean; bSearchBackwards: Boolean): Pointer;
 var
-  xIndex:Integer;
-  DataLength: Integer;
+  SearchTextLength: Integer;
 
-  function sPos2(pAdr:PChar):Boolean;
+  function sPos2(pAdr: PChar):Boolean;
   var
-    i:Integer;
+    i: Integer;
   begin
-    Result:=False;
-    for i:=1 to DataLength do
+    Result := False;
+    for i := 1 to SearchTextLength do
     begin
-      case bCase of
-       False:if UpCase(pAdr^)<>UpCase(sData[i]) then Exit;
-       True: if pAdr^<>sData[i] then Exit;
+      case bCaseSensitive of
+       False: if UpCase(pAdr^) <> UpCase(sSearchText[i]) then Exit; // Only for Ansi
+       True : if pAdr^ <> sSearchText[i] then Exit;
       end;
-      inc(pAdr);
+      Inc(pAdr);
     end;
     Result:=True;
   end;
 
+var
+  pCurrentAddr, pEndAddr: PAnsiChar;
 begin
-  Result:=pointer(-1);
-  DataLength := Length(sData);
-  for xIndex:=0 to iLength - DataLength do
+  Result := Pointer(-1);
+
+  SearchTextLength := Length(sSearchText);
+  if (SearchTextLength <= 0) or (iDataLength <= 0) then
+    Exit;
+
+  pCurrentAddr := pDataAddr + iStartPos;
+  pEndAddr := pDataAddr + iDataLength - SearchTextLength;
+
+  if bSearchBackwards and (pCurrentAddr > pEndAddr) then
+    // Move to the first possible position for searching backwards.
+    pCurrentAddr := pEndAddr;
+
+  if (pEndAddr < pDataAddr) or (pCurrentAddr < pDataAddr) or (pCurrentAddr > pEndAddr) then
+    Exit;
+
+  while True do
   begin
-    if sPos2(pAdr) then
+    if (pCurrentAddr > pEndAddr) or (pCurrentAddr < pDataAddr) then
+      Exit;
+
+    if sPos2(pCurrentAddr) then
     begin
-      Result:=pAdr;
+      Result := pCurrentAddr;
       Exit;
     end;
-    inc(pAdr);
+
+    case bSearchBackwards of
+      False: Inc(pCurrentAddr);
+      True : Dec(pCurrentAddr);
+    end;
   end;
 end;
 
