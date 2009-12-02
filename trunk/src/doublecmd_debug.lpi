@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="94">
+    <Units Count="95">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -628,6 +628,14 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWcxArchiveDeleteOperation"/>
       </Unit93>
+      <Unit94>
+        <Filename Value="fsetfileproperties.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmSetFileProperties"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fSetFileProperties"/>
+      </Unit94>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
