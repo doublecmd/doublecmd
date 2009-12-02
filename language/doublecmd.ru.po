@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-08-15 19:35+0300\n"
+"PO-Revision-Date: 2009-12-02 14:42+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2073,7 +2073,7 @@ msgstr "Удалить"
 #: TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT
 msgctxt "TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT"
 msgid "Template..."
-msgstr ""
+msgstr "Шаблон..."
 
 #: TFRMOPTIONS.BTNSELEDITFNT.CAPTION
 msgctxt "TFRMOPTIONS.BTNSELEDITFNT.CAPTION"
@@ -2826,7 +2826,7 @@ msgstr "&ОК"
 
 #: TFRMSETFILEPROPERTIES.CAPTION
 msgid "Change file properties"
-msgstr ""
+msgstr "Изменить свойства"
 
 #: TFRMSETFILEPROPERTIES.CBSGID.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CBSGID.CAPTION"
@@ -2845,7 +2845,7 @@ msgstr ""
 
 #: TFRMSETFILEPROPERTIES.CHKARCHIVE.CAPTION
 msgid "Archive"
-msgstr ""
+msgstr "Архивный"
 
 #: TFRMSETFILEPROPERTIES.CHKCREATIONTIME.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CHKCREATIONTIME.CAPTION"
@@ -2854,27 +2854,27 @@ msgstr "Создан:"
 
 #: TFRMSETFILEPROPERTIES.CHKHIDDEN.CAPTION
 msgid "Hidden"
-msgstr ""
+msgstr "Скрытый"
 
 #: TFRMSETFILEPROPERTIES.CHKLASTACCESSTIME.CAPTION
 msgid "Accessed:"
-msgstr ""
+msgstr "Открыт:"
 
 #: TFRMSETFILEPROPERTIES.CHKLASTWRITETIME.CAPTION
 msgid "Modified:"
-msgstr ""
+msgstr "Изменен:"
 
 #: TFRMSETFILEPROPERTIES.CHKREADONLY.CAPTION
 msgid "Read only"
-msgstr ""
+msgstr "Только для чтения"
 
 #: TFRMSETFILEPROPERTIES.CHKRECURSIVE.CAPTION
 msgid "Recursive"
-msgstr ""
+msgstr "Рекурсивно"
 
 #: TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION
 msgid "System"
-msgstr ""
+msgstr "Системный"
 
 #: TFRMSETFILEPROPERTIES.LBLATTRBITSSTR.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.LBLATTRBITSSTR.CAPTION"
@@ -2907,7 +2907,7 @@ msgstr ""
 
 #: TFRMSETFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
 msgid "Text:"
-msgstr ""
+msgstr "Текст:"
 
 #: TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION"
@@ -2931,7 +2931,7 @@ msgstr "Запись"
 
 #: TFRMSETFILEPROPERTIES.PGDATETIME.CAPTION
 msgid "Date/Time"
-msgstr ""
+msgstr "Дата/Время"
 
 #: TFRMSETFILEPROPERTIES.PGUNIXMODE.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.PGUNIXMODE.CAPTION"
