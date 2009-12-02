@@ -313,8 +313,8 @@ begin
       AddHotKey('Ctrl+PgDn','cm_OpenArchive','','FrmMain','FrmMain');
       AddHotKey('Ctrl+S','cm_QuickSearch','','FrmMain','FrmMain');
       AddHotKey('Ctrl+F','cm_QuickFilter','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+Alt+X','cm_CopyNamesToClip','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+Alt+C','cm_CopyFullNamesToClip','','FrmMain','FrmMain');
+      AddHotKey('Shift+Ctrl+X','cm_CopyNamesToClip','','FrmMain','FrmMain');
+      AddHotKey('Shift+Ctrl+C','cm_CopyFullNamesToClip','','FrmMain','FrmMain');
       AddHotKey('Alt+Z','cm_TargetEqualSource','','FrmMain','FrmMain');
       AddHotKey('Ctrl+U','cm_Exchange','','FrmMain','FrmMain');
       AddHotKey('Alt+Del','cm_Wipe','','FrmMain','FrmMain');
