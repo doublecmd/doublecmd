@@ -705,34 +705,42 @@ msgid "Properties"
 msgstr "Свойства"
 
 #: TFRMFILEPROPERTIES.CBSGID.CAPTION
+msgctxt "TFRMFILEPROPERTIES.CBSGID.CAPTION"
 msgid "SGID"
 msgstr ""
 
 #: TFRMFILEPROPERTIES.CBSTICKY.CAPTION
+msgctxt "TFRMFILEPROPERTIES.CBSTICKY.CAPTION"
 msgid "Sticky"
 msgstr "Закрепляющий бит"
 
 #: TFRMFILEPROPERTIES.CBSUID.CAPTION
+msgctxt "TFRMFILEPROPERTIES.CBSUID.CAPTION"
 msgid "SUID"
 msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLATTRBITSSTR.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLATTRBITSSTR.CAPTION"
 msgid "Bits:"
 msgstr "Биты:"
 
 #: TFRMFILEPROPERTIES.LBLATTRGROUPSTR.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLATTRGROUPSTR.CAPTION"
 msgid "Group"
 msgstr "Группа"
 
 #: TFRMFILEPROPERTIES.LBLATTROTHERSTR.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLATTROTHERSTR.CAPTION"
 msgid "Other"
 msgstr "Другие"
 
 #: TFRMFILEPROPERTIES.LBLATTROWNERSTR.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLATTROWNERSTR.CAPTION"
 msgid "Owner"
 msgstr "Владелец"
 
 #: TFRMFILEPROPERTIES.LBLATTRTEXT.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXT.CAPTION"
 msgid "-----------"
 msgstr ""
 
@@ -741,6 +749,7 @@ msgid "Representation in text:"
 msgstr "В виде текста:"
 
 #: TFRMFILEPROPERTIES.LBLEXEC.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
 msgid "Execute"
 msgstr "Выполнение"
 
@@ -775,10 +784,12 @@ msgid "Last status change:"
 msgstr "Последнее изменение статуса:"
 
 #: TFRMFILEPROPERTIES.LBLOCTAL.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLOCTAL.CAPTION"
 msgid "Octal:"
 msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLREAD.CAPTION"
 msgid "Read"
 msgstr "Чтение"
 
@@ -795,6 +806,7 @@ msgid "Type:"
 msgstr "Тип:"
 
 #: TFRMFILEPROPERTIES.LBLWRITE.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Запись"
 
@@ -2802,6 +2814,135 @@ msgstr "Архиватор:"
 msgid "Time:"
 msgstr "Время:"
 
+#: TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Отмена"
+
+#: TFRMSETFILEPROPERTIES.BTNOK.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&ОК"
+
+#: TFRMSETFILEPROPERTIES.CAPTION
+msgid "Change file properties"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.CBSGID.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CBSGID.CAPTION"
+msgid "SGID"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.CBSTICKY.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CBSTICKY.CAPTION"
+msgid "Sticky"
+msgstr "Закрепляющий бит"
+
+#: TFRMSETFILEPROPERTIES.CBSUID.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CBSUID.CAPTION"
+msgid "SUID"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.CHKARCHIVE.CAPTION
+msgid "Archive"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.CHKCREATIONTIME.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CHKCREATIONTIME.CAPTION"
+msgid "Created:"
+msgstr "Создан:"
+
+#: TFRMSETFILEPROPERTIES.CHKHIDDEN.CAPTION
+msgid "Hidden"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.CHKLASTACCESSTIME.CAPTION
+msgid "Accessed:"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.CHKLASTWRITETIME.CAPTION
+msgid "Modified:"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.CHKREADONLY.CAPTION
+msgid "Read only"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.CHKRECURSIVE.CAPTION
+msgid "Recursive"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION
+msgid "System"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.LBLATTRBITSSTR.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTRBITSSTR.CAPTION"
+msgid "Bits:"
+msgstr "Биты:"
+
+#: TFRMSETFILEPROPERTIES.LBLATTRGROUPSTR.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTRGROUPSTR.CAPTION"
+msgid "Group"
+msgstr "Группа"
+
+#: TFRMSETFILEPROPERTIES.LBLATTRINFO.CAPTION
+msgid "(gray = unchanged, checked=set attribute)"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.LBLATTROTHERSTR.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTROTHERSTR.CAPTION"
+msgid "Other"
+msgstr "Другие"
+
+#: TFRMSETFILEPROPERTIES.LBLATTROWNERSTR.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTROWNERSTR.CAPTION"
+msgid "Owner"
+msgstr "Владелец"
+
+#: TFRMSETFILEPROPERTIES.LBLATTRTEXT.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTRTEXT.CAPTION"
+msgid "-----------"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
+msgid "Text:"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION"
+msgid "Execute"
+msgstr "Выполнение"
+
+#: TFRMSETFILEPROPERTIES.LBLOCTAL.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLOCTAL.CAPTION"
+msgid "Octal:"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.LBLREAD.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLREAD.CAPTION"
+msgid "Read"
+msgstr "Чтение"
+
+#: TFRMSETFILEPROPERTIES.LBLWRITE.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLWRITE.CAPTION"
+msgid "Write"
+msgstr "Запись"
+
+#: TFRMSETFILEPROPERTIES.PGDATETIME.CAPTION
+msgid "Date/Time"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.PGUNIXMODE.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.PGUNIXMODE.CAPTION"
+msgid "Attributes"
+msgstr "Атрибуты"
+
+#: TFRMSETFILEPROPERTIES.PGWINATTR.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.PGWINATTR.CAPTION"
+msgid "Attributes"
+msgstr "Атрибуты"
+
 #: TFRMSPLITTER.BTNCANCEL.CAPTION
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
 msgid "Exit"
@@ -3854,6 +3995,7 @@ msgid "Unable to split the file!"
 msgstr "Не могу разрезать файл!"
 
 #: ulng.rssplitmsgcreated
+msgctxt "ulng.rssplitmsgcreated"
 msgid "Created:"
 msgstr "Создан:"
 
@@ -3868,6 +4010,10 @@ msgstr "Выберите каталог:"
 #: ulng.rssymerrcreate
 msgid "Error creating symlink."
 msgstr "Ошибка создания симв. ссылки."
+
+#: ulng.rsunhandledexceptionmessage
+msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
+msgstr ""
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
