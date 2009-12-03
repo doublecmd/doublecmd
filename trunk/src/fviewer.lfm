@@ -57,7 +57,6 @@ object frmViewer: TfrmViewer
   OnDestroy = FormDestroy
   OnKeyDown = frmViewerKeyDown
   OnKeyPress = FormKeyPress
-  OnShow = FormShow
   Position = poDefault
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.29'

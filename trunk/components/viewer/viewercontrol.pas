@@ -167,6 +167,7 @@ type
     procedure SetEncoding(AEncoding: TViewerEncoding);
     function GetEncodingName: string;
     procedure SetEncodingName(AEncodingName: string);
+    procedure SetViewerMode(Value: TViewerMode);
 
     {en
        Returns how many lines (given current FTextHeight) will fit into the window.
@@ -347,8 +348,7 @@ type
     procedure GoHome;
     procedure GoEnd;
 
-    procedure SetViewerMode(Value: TViewerMode);
-    function GetDataAdr: Pointer; inline;
+    function GetDataAdr: Pointer;
 
     procedure SelectAll;
     procedure SelectText(AStart, AEnd: PtrInt);
@@ -786,12 +786,12 @@ begin
   end;
 
   case FViewerMode of
-    vmBin: Result := GetStartOfLineFixed(cBinWidth);
-    vmHex: Result := GetStartOfLineFixed(cHexWidth);
+    vmBin:
+      Result := GetStartOfLineFixed(cBinWidth);
+    vmHex:
+      Result := GetStartOfLineFixed(cHexWidth);
     vmText, vmWrap:
-      begin
-        Result := GetStartOfLineText;
-      end;
+      Result := GetStartOfLineText;
     else
       Result := aPosition;
   end;
@@ -819,9 +819,12 @@ function TViewerControl.GetEndOfLine(aPosition: PtrInt): PtrInt;
 
 begin
   case FViewerMode of
-    vmBin: Result := GetEndOfLineFixed(cBinWidth);
-    vmHex: Result := GetEndOfLineFixed(cHexWidth);
-    vmText, vmWrap: Result := GetEndOfLineText;
+    vmBin:
+      Result := GetEndOfLineFixed(cBinWidth);
+    vmHex:
+      Result := GetEndOfLineFixed(cHexWidth);
+    vmText, vmWrap:
+      Result := GetEndOfLineText;
     else
       Result := aPosition;
   end;
@@ -926,9 +929,12 @@ begin
   end;
 
   case FViewerMode of
-    vmBin: Result := GetPrevLineFixed(cBinWidth);
-    vmHex: Result := GetPrevLineFixed(cHexWidth);
-    vmText, vmWrap: Result := GetPrevLineText;
+    vmBin:
+      Result := GetPrevLineFixed(cBinWidth);
+    vmHex:
+      Result := GetPrevLineFixed(cHexWidth);
+    vmText, vmWrap:
+      Result := GetPrevLineText;
     else
       Result := aPosition;
   end;
@@ -994,9 +1000,12 @@ begin
   end;
 
   case FViewerMode of
-    vmBin: Result := GetNextLineFixed(cBinWidth);
-    vmHex: Result := GetNextLineFixed(cHexWidth);
-    vmText, vmWrap: Result := GetNextLineText;
+    vmBin:
+      Result := GetNextLineFixed(cBinWidth);
+    vmHex:
+      Result := GetNextLineFixed(cHexWidth);
+    vmText, vmWrap:
+      Result := GetNextLineText;
     else
       Result := aPosition;
   end;
@@ -1042,20 +1051,13 @@ begin
     begin
       if MapFile(sFileName) then
       begin
-        FPosition  := 0;
         FFileName  := sFileName;
 
-        // Then detect encoding if needed.
+        // Detect encoding if needed.
         if FEncoding = veAutoDetect then
           FEncoding := DetectEncoding;
 
-        FBOMLength := GetBomLength;
-        UpdateLimits;
-
-        UpdateScrollbars;
-        Invalidate;
-
-        SetEncoding(FEncoding); // Force detect encoding if veAutoDetect.
+        ReReadFile;
       end;
     end;
   end
@@ -1183,7 +1185,6 @@ var
   DataLength: PtrInt;
 begin
   iPos := FPosition;
-
   for yIndex := 0 to GetClientHeightInLines - 1 do
   begin
     if iPos >= FHighLimit then
@@ -1366,7 +1367,7 @@ end;
 function TViewerControl.GetPercent: Integer;
 begin
   if FHighLimit - FLowLimit > 0 then
-    Result := Int64(Int64(FPosition - FLowLimit) * 100) div (FHighLimit - FLowLimit)
+    Result := (Int64(FPosition - FLowLimit) * 100) div Int64(FHighLimit - FLowLimit)
   else
     Result := 0;
 end;
@@ -1374,7 +1375,7 @@ end;
 procedure TViewerControl.SetPercent(const AValue: Integer);
 begin
   if FHighLimit - FLowLimit > 0 then
-    Position := Int64(Int64(AValue - FLowLimit) * 100) div (FHighLimit  - FLowLimit)
+    Position := Int64(AValue) * (Int64(FHighLimit  - FLowLimit) div 100) + FLowLimit
   else
     Position := 0;
 end;
@@ -1668,12 +1669,36 @@ begin
   if Shift = [] then
   begin
     case Key of
-      VK_DOWN:  Scroll(1);
-      VK_UP:    Scroll(-1);
-      VK_HOME:  GoHome;
-      VK_END:   GoEnd;
-      VK_PRIOR: PageUp;
-      VK_NEXT:  PageDown;
+      VK_DOWN:
+        begin
+          Key := 0;
+          Scroll(1);
+        end;
+      VK_UP:
+        begin
+          Key := 0;
+          Scroll(-1);
+        end;
+      VK_HOME:
+        begin
+          Key := 0;
+          GoHome;
+        end;
+      VK_END:
+        begin
+          Key := 0;
+          GoEnd;
+        end;
+      VK_PRIOR:
+        begin
+          Key := 0;
+          PageUp;
+        end;
+      VK_NEXT:
+        begin
+          Key := 0;
+          PageDown;
+        end;
       else
         inherited KeyDown(Key, Shift);
     end;
@@ -2144,7 +2169,7 @@ begin
 
   // Get position of first character of the line.
   StartLine := PtrInt(FLineList.Items[yIndex]);
-  // Get position of last charactrer of the line.
+  // Get position of last character of the line.
   EndLine   := GetEndOfLine(StartLine);
 
   if x = 0 then
@@ -2570,7 +2595,11 @@ begin
         else if ScrollPos = 100 then
           GoEnd
         else
-          Percent := ScrollPos;
+        begin
+          // This check helps avoiding loops when triggering scrollbar changes.
+          if ScrollPos <> FScrollBarPosition then
+            Percent := ScrollPos;
+        end;
       end;
     scEndScroll:
       begin
@@ -2603,7 +2632,7 @@ end;
 procedure TViewerControl.ViewerResize(Sender: TObject);
 begin
   UpdateScrollbars;
-  Position := Position;
+  Position := Position; // Force recalculating position.
 end;
 
 procedure TViewerControl.ReReadFile;

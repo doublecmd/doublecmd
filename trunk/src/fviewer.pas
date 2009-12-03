@@ -83,7 +83,6 @@ type
     ViewerControl: TViewerControl;
     procedure FormCreate(Sender : TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
-    procedure FormShow(Sender: TObject);
     procedure miPluginsClick(Sender: TObject);
     procedure miPrintClick(Sender: TObject);
     procedure miSearchNextClick(Sender: TObject);
@@ -245,15 +244,6 @@ begin
     '4':
       ViewerControl.ViewerMode := vmWrap;
   end;
-end;
-
-procedure TfrmViewer.FormShow(Sender: TObject);
-begin
-  {if pnlText.Visible and ViewerControl.CanFocus then
-    ViewerControl.SetFocus;}
-  writeln('frmViewer: ', Self.Handle);
-  writeln('ViewCtrl : ', ViewerControl.Handle);
-  writeln('ViewPnl  : ', pnlText.Handle);
 end;
 
 function TfrmViewer.CheckPlugins(Index:integer; Force:boolean=false):boolean;
