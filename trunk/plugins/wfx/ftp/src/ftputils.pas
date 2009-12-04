@@ -97,6 +97,8 @@ function ModeStr2Mode(const sMode: String): Integer;
 begin
   Result:= 0;
 
+  if Length(sMode) < 10 then Exit;
+
   if sMode[1] = 'd' then Result:= Result or S_IFDIR;
   if sMode[1] = 'l' then Result:= Result or S_IFLNK;
   if sMode[1] = 's' then Result:= Result or S_IFSOCK;

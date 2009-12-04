@@ -36,6 +36,23 @@ uses
   WfxPlugin, FtpSend, DialogAPI;
 
 type
+
+  { TFTPListRecEx }
+
+  TFTPListRecEx = class(TFTPListRec)
+  public
+    procedure Assign(Value: TFTPListRec); override;
+  end;
+
+  { TFTPListEx }
+
+  TFTPListEx = class(TFTPList)
+  public
+    procedure Assign(Value: TFTPList); override;
+  end;
+
+  { TFTPSendEx }
+
   TFTPSendEx = class(TFTPSend)
   public
     procedure FTPStatus(Sender: TObject; Response: Boolean; const Value: String);
@@ -114,7 +131,7 @@ type
   TListRec = record
     Path: AnsiString;
     Index: Integer;
-    FtpSend: TFTPSendEx;
+    FtpList: TFTPListEx;
   end;
   PListRec = ^TListRec;
 
@@ -461,26 +478,25 @@ function RemoteFindNext(Hdl: THandle; var FindData: TWin32FindData): Boolean;
 var
   ListRec: PListRec absolute Hdl;
   I: Integer;
-  FtpSend: TFTPSendEx;
   sTemp: AnsiString;
 begin
   Result := False;
-  if Assigned(ListRec^.FtpSend) then
+  if Assigned(ListRec^.FtpList) then
     with ListRec^ do
     begin
-      I := ListRec^.Index;
-      if I < FtpSend.FtpList.Count then
+      I := Index;
+      if I < FtpList.Count then
       begin
         FillChar(FindData, SizeOf(FindData), 0);
-        StrPCopy(FindData.cFileName, FtpSend.FtpList.Items[I].FileName);
+        StrPCopy(FindData.cFileName, FtpList.Items[I].FileName);
         FindData.dwFileAttributes := FindData.dwFileAttributes or FILE_ATTRIBUTE_UNIX_MODE;
-        if FtpSend.FtpList.Items[I].Directory then
+        if FtpList.Items[I].Directory then
           FindData.dwFileAttributes := FindData.dwFileAttributes or FILE_ATTRIBUTE_DIRECTORY
         else
-          FindData.nFileSizeLow := FtpSend.FtpList.Items[I].FileSize;
+          FindData.nFileSizeLow := FtpList.Items[I].FileSize;
         // set Unix permissions
-        FindData.dwReserved0 := ModeStr2Mode(FtpSend.FtpList.Items[I].Permission);
-        FindData.ftLastWriteTime := DateTimeToFileTime(FtpSend.FtpList.Items[I].FileTime);
+        FindData.dwReserved0 := ModeStr2Mode(FtpList.Items[I].Permission);
+        FindData.ftLastWriteTime := DateTimeToFileTime(FtpList.Items[I].FileTime);
         Inc(ListRec^.Index);
         Result := True;
       end;
@@ -496,13 +512,11 @@ begin
   PluginNumber := PluginNr;
   ActiveConnectionList := TStringList.Create;
   ConnectionList := TStringList.Create;
-  // ------------------------
-  // ------------------------
+
   Result := 0;
 end;
 
-function FsFindFirst(Path: PAnsiChar; var FindData: TWin32FindData): THandle;
-  stdcall;
+function FsFindFirst(Path: PAnsiChar; var FindData: TWin32FindData): THandle; stdcall;
 var
   ListRec: PListRec;
   I, iCount: Integer;
@@ -512,36 +526,49 @@ begin
   New(ListRec);
   ListRec.Path := Path;
   ListRec.Index := 0;
+  ListRec.FtpList:= nil;
+
   if Path = PathDelim then
-  begin
-    Result := THandle(ListRec);
-    LocalFindNext(Result, FindData);
-  end
+    begin
+      Result := THandle(ListRec);
+      LocalFindNext(Result, FindData);
+    end
   else
-  begin
-    if not GetConnectionByPath(Path, FtpSend, sPath) then
-      begin
-        Result := THandle(-1);
-        Exit;
-      end;
-    if Length(sPath) <> 1 then
-      sPath := sPath + '/';
-    FtpSend.FtpList.Clear;
-    if FtpSend.List(sPath, False) then
-      begin
-        ListRec.FtpSend := FtpSend; // cache object
-        Result := THandle(ListRec);
-        RemoteFindNext(Result, FindData);
-      end;
-    if FtpSend.FtpList.Count = 0 then
-      begin
-        Result := THandle(-1);
-        Dispose(ListRec);
-        {$IFDEF MSWINDOWS}
-        SetLastError(ERROR_NO_MORE_FILES);
-        {$ENDIF}
-      end;
-  end;
+    begin
+      if not GetConnectionByPath(Path, FtpSend, sPath) then
+        begin
+          Result := THandle(-1);
+          Dispose(ListRec);
+          Exit;
+        end;
+
+      if Length(sPath) <> 1 then
+        sPath := sPath + '/';
+
+      if FtpSend.List(sPath, False) then
+        begin
+          if FtpSend.FtpList.Count > 0 then
+            begin
+              ListRec.FtpList:= TFTPListEx.Create;
+              ListRec.FtpList.Assign(FtpSend.FtpList); // save file list
+              Result := THandle(ListRec);
+              RemoteFindNext(Result, FindData);
+            end
+          else
+            begin
+              Result := THandle(-1);
+              Dispose(ListRec);
+              {$IFDEF MSWINDOWS}
+              SetLastError(ERROR_NO_MORE_FILES);
+              {$ENDIF}
+            end;
+        end
+      else
+        begin
+          Result := THandle(-1);
+          Dispose(ListRec);
+        end;
+    end;
 end;
 
 function FsFindNext(Hdl: THandle; var FindData: TWin32FindData): BOOL; stdcall;
@@ -558,11 +585,16 @@ function FsFindClose(Hdl: THandle): Integer; stdcall;
 var
   ListRec: PListRec absolute Hdl;
 begin
-  Dispose(ListRec);
+  if Assigned(ListRec) then
+    begin
+      if Assigned(ListRec^.FtpList) then
+        FreeAndNil(ListRec^.FtpList);
+      Dispose(ListRec);
+    end;
+  Result:= 0;
 end;
 
-function FsExecuteFile(MainWin: THandle; RemoteName, Verb: PAnsiChar): Integer;
-  stdcall;
+function FsExecuteFile(MainWin: THandle; RemoteName, Verb: PAnsiChar): Integer; stdcall;
 var
   I: Integer;
   FtpSend: TFTPSendEx;
@@ -797,6 +829,33 @@ var
   Password: AnsiString;
 begin
   Result:= CryptFunc(FS_CRYPT_DELETE_PASSWORD, ConnectionName, Password) = FS_FILE_OK;
+end;
+
+{ TFTPListRecEx }
+
+procedure TFTPListRecEx.Assign(Value: TFTPListRec);
+begin
+  inherited Assign(Value);
+  Permission:= Value.Permission;
+end;
+
+{ TFTPListEx }
+
+procedure TFTPListEx.Assign(Value: TFTPList);
+var
+  flr: TFTPListRecEx;
+  n: integer;
+begin
+  Clear;
+  for n := 0 to Value.Count - 1 do
+  begin
+    flr := TFTPListRecEx.Create;
+    flr.Assign(Value[n]);
+    Flist.Add(flr);
+  end;
+  Lines.Assign(Value.Lines);
+  Masks.Assign(Value.Masks);
+  UnparsedLines.Assign(Value.UnparsedLines);
 end;
 
 { TFTPSendEx }
