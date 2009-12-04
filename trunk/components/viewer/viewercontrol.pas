@@ -2590,14 +2590,15 @@ begin
     scTrack,
     scPosition:
       begin
-        if ScrollPos = 0 then
-          GoHome
-        else if ScrollPos = 100 then
-          GoEnd
-        else
+        // This check helps avoiding loops if changing ScrollPos below
+        // triggers another scPosition message.
+        if (ScrollCode = scTrack) or (ScrollPos <> FScrollBarPosition) then
         begin
-          // This check helps avoiding loops when triggering scrollbar changes.
-          if ScrollPos <> FScrollBarPosition then
+          if ScrollPos = 0 then
+            GoHome
+          else if ScrollPos = 100 then
+            GoEnd
+          else
             Percent := ScrollPos;
         end;
       end;
