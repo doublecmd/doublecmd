@@ -19,6 +19,7 @@ type
   private
     FWfxPluginFileSource: IWfxPluginFileSource;
     FCallbackDataClass: TCallbackDataClass;
+    FCurrentPath: UTF8String;
   public
     constructor Create(aFileSource: IFileSource; aPath: String); override;
     destructor Destroy; override;
@@ -31,7 +32,7 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uOSUtils, uWfxPluginFile, uFile,
+  LCLProc, FileUtil, uOSUtils, uDCUtils, uWfxPluginFile, uFile,
   WfxPlugin, uWfxModule;
 
 constructor TWfxPluginListOperation.Create(aFileSource: IFileSource; aPath: String);
@@ -39,6 +40,7 @@ begin
   FFiles := TFiles.Create;
   FWfxPluginFileSource := aFileSource as IWfxPluginFileSource;
   FCallbackDataClass:= TCallbackDataClass.Create;
+  FCurrentPath:= ExcludeBackPathDelimiter(aPath);
   inherited Create(aFileSource, aPath);
 end;
 
@@ -54,7 +56,7 @@ begin
   FCallbackDataClass.FileSource:= FWfxPluginFileSource;
   with FWfxPluginFileSource do
   begin
-    WfxModule.WfxStatusInfo(Path, FS_STATUS_START, FS_STATUS_OP_LIST);
+    WfxModule.WfxStatusInfo(FCurrentPath, FS_STATUS_START, FS_STATUS_OP_LIST);
     WfxOperationList.Objects[PluginNumber]:= FCallbackDataClass;
   end;
 end;
@@ -82,7 +84,7 @@ begin
       FFiles.Add(aFile);
     end;
 
-    Handle := WfxFindFirst(sPath, FindData);
+    Handle := WfxFindFirst(FCurrentPath, FindData);
     if Handle = feInvalidHandle then Exit;
     repeat
       if (FindData.FileName = '.') or (FindData.FileName = '..') then Continue;
@@ -101,7 +103,7 @@ procedure TWfxPluginListOperation.Finalize;
 begin
   with FWfxPluginFileSource do
   begin
-    WfxModule.WfxStatusInfo(Path, FS_STATUS_END, FS_STATUS_OP_LIST);
+    WfxModule.WfxStatusInfo(FCurrentPath, FS_STATUS_END, FS_STATUS_OP_LIST);
     WfxOperationList.Objects[PluginNumber]:= nil;
   end;
 end;

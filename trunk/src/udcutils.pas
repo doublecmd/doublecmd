@@ -203,6 +203,10 @@ function ExtractDirLevel(const sPrefix, sPath: String): String;
    Removes a path delimiter at the beginning of the string, if it exists.
 }
 function ExcludeFrontPathDelimiter(s: String): String;
+{en
+   Removes a path delimiter at the ending of the string, if it exists.
+}
+function ExcludeBackPathDelimiter(const Path: UTF8String): UTF8String;
 
 {en
    Return position of character in string begun from start position
@@ -741,6 +745,17 @@ begin
     Result := Copy(s, 2, Length(s) - 1)
   else
     Result := s;
+end;
+
+function ExcludeBackPathDelimiter(const Path: UTF8String): UTF8String;
+var
+  L: Integer;
+begin
+  L:= Length(Path);
+  if (L > 1) and (Path[L] in AllowDirectorySeparators) then
+    Result:= Copy(Path, 1, L - 1)
+  else
+    Result:= Path;
 end;
 
 procedure DivFileName(const sFileName:String; out n,e:String);
