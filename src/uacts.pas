@@ -649,7 +649,7 @@ begin
     try
       if SelectedFiles.Count > 0 then
       try
-        ShowContextMenu(Panel, SelectedFiles, X, Y);
+        ShowContextMenu(frmMain, SelectedFiles, X, Y);
       except
         on e: EContextMenuException do
           ShowException(e);
