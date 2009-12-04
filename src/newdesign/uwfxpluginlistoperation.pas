@@ -85,7 +85,7 @@ begin
     end;
 
     Handle := WfxFindFirst(FCurrentPath, FindData);
-    if Handle = feInvalidHandle then Exit;
+    if Handle = wfxInvalidHandle then Exit;
     repeat
       if (FindData.FileName = '.') or (FindData.FileName = '..') then Continue;
 

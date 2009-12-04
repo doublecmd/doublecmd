@@ -447,7 +447,7 @@ procedure TWfxPluginFileSource.FillAndCount(Files: TFiles; out NewFiles: TFiles;
     with FWfxModule do
     begin
       Handle := WfxFindFirst(srcPath, FindData);
-      if Handle = hInvalidHandle then Exit;
+      if Handle = wfxInvalidHandle then Exit;
 
       repeat
         if (FindData.FileName = '.') or (FindData.FileName = '..') then Continue;

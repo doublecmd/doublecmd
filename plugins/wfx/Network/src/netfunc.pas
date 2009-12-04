@@ -172,51 +172,39 @@ begin
   ListRec^.Index := 0;
   ListRec^.Handle := INVALID_HANDLE_VALUE;
   FillChar(FindData, SizeOf(FindData), #0);
-  // root directory
-  if Path = PathDelim then
-  begin
-    ListRec^.List := GetContainerList(nil); // get list of networks
-    FindData.dwFileAttributes := FILE_ATTRIBUTE_DIRECTORY;
-    StrPCopy(FindData.cFileName, PNetRes(ListRec^.List[0])^.RemoteName);
-  end
-  else
-  begin
-    bFound := False;
-    sDirName := StrPas(Path);
-
-    iCount := GetDirs(sDirName, Dirs);
-    if iCount = 0 then
-      Exit;
-    // open shared folder
-    if iCount > 3 then
+  try
+    // root directory
+    if Path = PathDelim then
     begin
-      sDirName := ExtractNetworkFileName(Path) + PathDelim + '*';
-      ListRec^.Handle := FindFirstFile(PAnsiChar(sDirName), FindData);
-      Result := THandle(ListRec);
-      Exit;
-    end;
-
-    sDirName := Dirs[0];
-    ListRec^.List := GetContainerList(nil); // get list of networks
-    for I := 0 to ListRec^.List.Count - 1 do
-    begin
-      // open subnet
-      if PNetRes(ListRec^.List[i])^.RemoteName = sDirName then
-      begin
-        NetRes := PNetRes(ListRec^.List[I])^;
-        FreeNetResList(ListRec^.List);
-        ListRec^.List := GetContainerList(@NetRes);
-        bFound := True;
-        Break;
-      end;
-    end;
-    // open domen
-    if bFound and Assigned(ListRec^.List) and (iCount > 1) then
+      ListRec^.List := GetContainerList(nil); // get list of networks
+      FindData.dwFileAttributes := FILE_ATTRIBUTE_DIRECTORY;
+      StrPCopy(FindData.cFileName, PNetRes(ListRec^.List[0])^.RemoteName);
+    end
+    else
     begin
       bFound := False;
-      sDirName := Dirs[1];
+      sDirName := StrPas(Path);
+
+      iCount := GetDirs(sDirName, Dirs);
+      if iCount = 0 then
+        begin
+          Result:= wfxInvalidHandle;
+          Exit;
+        end;
+      // open shared folder
+      if iCount > 3 then
+      begin
+        sDirName := ExtractNetworkFileName(Path) + PathDelim + '*';
+        ListRec^.Handle := FindFirstFile(PAnsiChar(sDirName), FindData);
+        Result := THandle(ListRec);
+        Exit;
+      end;
+
+      sDirName := Dirs[0];
+      ListRec^.List := GetContainerList(nil); // get list of networks
       for I := 0 to ListRec^.List.Count - 1 do
       begin
+        // open subnet
         if PNetRes(ListRec^.List[i])^.RemoteName = sDirName then
         begin
           NetRes := PNetRes(ListRec^.List[I])^;
@@ -226,14 +214,14 @@ begin
           Break;
         end;
       end;
-      // open computer
-      if bFound and Assigned(ListRec^.List) and (iCount = 3) then
+      // open domen
+      if bFound and Assigned(ListRec^.List) and (iCount > 1) then
       begin
         bFound := False;
-        sDirName := Dirs[2];
+        sDirName := Dirs[1];
         for I := 0 to ListRec^.List.Count - 1 do
         begin
-          if PNetRes(ListRec^.List[i])^.RemoteName = '\\' + sDirName then
+          if PNetRes(ListRec^.List[i])^.RemoteName = sDirName then
           begin
             NetRes := PNetRes(ListRec^.List[I])^;
             FreeNetResList(ListRec^.List);
@@ -241,20 +229,40 @@ begin
             bFound := True;
             Break;
           end;
-        end; // for
-
-        if not Assigned(ListRec^.List) then
-        begin
-          Result := INVALID_HANDLE_VALUE;
-          Exit;
         end;
-      end; // openPC
-    end;   // open Domen
+        // open computer
+        if bFound and Assigned(ListRec^.List) and (iCount = 3) then
+        begin
+          bFound := False;
+          sDirName := Dirs[2];
+          for I := 0 to ListRec^.List.Count - 1 do
+          begin
+            if PNetRes(ListRec^.List[i])^.RemoteName = '\\' + sDirName then
+            begin
+              NetRes := PNetRes(ListRec^.List[I])^;
+              FreeNetResList(ListRec^.List);
+              ListRec^.List := GetContainerList(@NetRes);
+              bFound := True;
+              Break;
+            end;
+          end; // for
 
-    FindData.dwFileAttributes := FILE_ATTRIBUTE_DIRECTORY;
-    StrPCopy(FindData.cFileName, ExtractFileName(ExcludeTrailingPathDelimiters(PNetRes(ListRec^.List[0])^.RemoteName)));
-  end; // PathDelim
-  Result := THandle(ListRec);
+          if not Assigned(ListRec^.List) then
+          begin
+            Result := wfxInvalidHandle;
+            Exit;
+          end;
+        end; // openPC
+      end;   // open Domen
+
+      FindData.dwFileAttributes := FILE_ATTRIBUTE_DIRECTORY;
+      StrPCopy(FindData.cFileName, ExtractFileName(ExcludeTrailingPathDelimiters(PNetRes(ListRec^.List[0])^.RemoteName)));
+    end; // PathDelim
+
+    Result:= THandle(ListRec);
+  except
+    Result:= wfxInvalidHandle;
+  end;
 end;
 
 function FsFindNext(Hdl: THandle; var FindData: TWin32FindData): bool; stdcall;

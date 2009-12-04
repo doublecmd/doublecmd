@@ -172,7 +172,7 @@ type
   THandle = {$IFDEF CPU64}QWord{$ELSE}LongWord{$ENDIF};
 
 const
-  hInvalidHandle: THandle = THandle(-1);
+  wfxInvalidHandle: THandle = THandle(-1);
 
 { Some Windows specific stuff }
 

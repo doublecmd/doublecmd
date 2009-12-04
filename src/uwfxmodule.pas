@@ -245,18 +245,22 @@ var
   FindDataA: TWin32FindData;
   FindDataW: TWin32FindDataW;
 begin
-  if Assigned(FsFindFirstW) then
-    begin
-      Result:= FsFindFirstW(PWideChar(UTF8Decode(Path)), FindDataW);
-      if Result <> hInvalidHandle then
-        FindData:= LoadWfxFindData(FindDataW);
-    end
-  else if Assigned(FsFindFirst) then
-    begin
-      Result:= FsFindFirst(PAnsiChar(UTF8ToSys(Path)), FindDataA);
-      if Result <> hInvalidHandle then
-        FindData:= LoadWfxFindData(FindDataA);
-    end;
+  try
+    if Assigned(FsFindFirstW) then
+      begin
+        Result:= FsFindFirstW(PWideChar(UTF8Decode(Path)), FindDataW);
+        if Result <> wfxInvalidHandle then
+          FindData:= LoadWfxFindData(FindDataW);
+      end
+    else if Assigned(FsFindFirst) then
+      begin
+        Result:= FsFindFirst(PAnsiChar(UTF8ToSys(Path)), FindDataA);
+        if Result <> wfxInvalidHandle then
+          FindData:= LoadWfxFindData(FindDataA);
+      end;
+  except
+    Result:= wfxInvalidHandle;
+  end;
 end;
 
 function TWFXModule.WfxFindNext(Hdl: THandle; var FindData: TWfxFindData): Boolean;
