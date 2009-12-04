@@ -3412,6 +3412,7 @@ object frmOptions: TfrmOptions
   object dlgFnt: TFontDialog
     MinFontSize = 0
     MaxFontSize = 0
+    Options = [fdNoStyleSel]
     left = 48
     top = 368
   end

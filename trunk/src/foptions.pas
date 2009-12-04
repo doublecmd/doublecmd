@@ -742,10 +742,12 @@ end;
 
 procedure TfrmOptions.btnSelEditFntClick(Sender: TObject);
 begin
-  dlgFnt.Font.Name:=cbEditorFont.Text;
+  dlgFnt.Font.Name := cbEditorFont.Text;
+  dlgFnt.Font.Size := edtEditorSize.Value;
+  dlgFnt.Font.Style := [];
   if dlgFnt.Execute then
     begin
-      cbEditorFont.Text:=dlgFnt.Font.Name;
+      cbEditorFont.Text := dlgFnt.Font.Name;
       edtEditorSize.Value := dlgFnt.Font.Size;
       edtTest2.Font := dlgFnt.Font;
     end;
@@ -753,10 +755,12 @@ end;
 
 procedure TfrmOptions.btnSelMainFntClick(Sender: TObject);
 begin
-  dlgFnt.Font.Name:=cbMainFont.Text;
+  dlgFnt.Font.Name := cbMainFont.Text;
+  dlgFnt.Font.Size := edtMainSize.Value;
+  dlgFnt.Font.Style := [];
   if dlgFnt.Execute then
     begin
-      cbMainFont.Text:=dlgFnt.Font.Name;
+      cbMainFont.Text := dlgFnt.Font.Name;
       edtMainSize.Value := dlgFnt.Font.Size;
       edtTest1.Font := dlgFnt.Font;
     end;
@@ -764,10 +768,12 @@ end;
 
 procedure TfrmOptions.btnSelViewFntClick(Sender: TObject);
 begin
-  dlgFnt.Font.Name:=cbViewerFont.Text;
+  dlgFnt.Font.Name := cbViewerFont.Text;
+  dlgFnt.Font.Size := edtViewerSize.Value;
+  dlgFnt.Font.Style := [];
   if dlgFnt.Execute then
     begin
-      cbViewerFont.Text:=dlgFnt.Font.Name;
+      cbViewerFont.Text := dlgFnt.Font.Name;
       edtViewerSize.Value:= dlgFnt.Font.Size;
       edtTest3.Font := dlgFnt.Font;
     end;
