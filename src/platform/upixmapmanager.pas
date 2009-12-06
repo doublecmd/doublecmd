@@ -46,7 +46,8 @@ type
     bmMediaFloppy,
     bmDriveHardDisk,
     bmMediaFlash,
-    bmMediaOptical : TBitmap;
+    bmMediaOptical,
+    bmDriveNetwork: TBitmap;
   end;
 
   { TPixMapManager }
@@ -756,6 +757,7 @@ begin
         if Assigned(bmDriveHardDisk) then FreeAndNil(bmDriveHardDisk);
         if Assigned(bmMediaFlash) then FreeAndNil(bmMediaFlash);
         if Assigned(bmMediaOptical) then FreeAndNil(bmMediaOptical);
+        if Assigned(bmDriveNetwork) then FreeAndNil(bmDriveNetwork);
         Free;
       end;
     FreeAndNil(FDriveIconList);
@@ -806,6 +808,7 @@ begin
       bmDriveHardDisk := CheckLoadPixmap('devices' + PathDelim + 'drive-harddisk.png');
       bmMediaFlash := CheckLoadPixmap('devices' + PathDelim + 'media-flash.png');
       bmMediaOptical := CheckLoadPixmap('devices' + PathDelim + 'media-optical.png');
+      bmDriveNetwork:= CheckLoadPixmap('devices' + PathDelim + 'network-wired.png');
     end;
   // load emblems
   if gIconsSize = 22 then
@@ -1312,6 +1315,8 @@ begin
     Bitmap := bmMediaFlash;
   dtCDROM:
     Bitmap := bmMediaOptical;
+  dtNetwork:
+    Bitmap := bmDriveNetwork;
   else
     Bitmap := bmDriveHardDisk;
   end;
