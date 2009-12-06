@@ -2430,7 +2430,7 @@ begin
       // get drive icon
       BitmapTmp := PixMapManager.GetDriveIcon(Drive, dskPanel.GlyphSize, clBtnFace);
 
-      dskPanel.AddButtonX(Name, Path, '', '', Path, '', BitmapTmp);
+      dskPanel.AddButtonX(Name, Path, '', '', DriveLabel, '', BitmapTmp);
 
       if Assigned(BitmapTmp) then
         FreeAndNil(BitmapTmp);
