@@ -898,7 +898,7 @@ begin
      dtFloppy:
        DriveLabel:= Path;
      dtNetwork:
-       DriveLabel:= ExpandUNCFileName(Path);
+       DriveLabel:= mbGetRemoteFileName(Path);
      else
        DriveLabel:= mbGetVolumeLabel(Name, True);
      end;

@@ -85,6 +85,12 @@ procedure mbWaitLabelChange(const sDrv: UTF8String; const sCurLabel: UTF8String)
    @param(sDrv  String specifying the root directory of a drive)
 }
 procedure mbCloseCD(const sDrv: UTF8String);
+{en
+   Get remote file name by local file name
+   @param(sLocalName String specifying the local file name)
+   @returns(The function returns remote file name)
+}
+function mbGetRemoteFileName(const sLocalName: UTF8String): UTF8String;
 
 function WinToDosTime (const Wtime: TFileTime; var DTime: LongInt): LongBool;
 function DosToWinTime (const DTime: LongInt; var Wtime: TFileTime): LongBool;
@@ -92,7 +98,7 @@ function DosToWinTime (const DTime: LongInt; var Wtime: TFileTime): LongBool;
 implementation
 
 uses
-  LCLProc, ShellAPI, MMSystem;
+  LCLProc, ShellAPI, MMSystem, JwaWinNetWk;
 
 function mciSendCommand(IDDevice: MCIDEVICEID; uMsg: UINT; fdwCommand: DWORD; dwParam: DWORD_PTR): MCIERROR; stdcall; external 'winmm.dll' name 'mciSendCommandA';
 
@@ -188,6 +194,31 @@ begin
   mciSendCommand(0, MCI_OPEN, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, DWORD_PTR(@OpenParms));
   mciSendCommand(OpenParms.wDeviceID, MCI_SET, MCI_SET_DOOR_CLOSED, 0);
   mciSendCommand(OpenParms.wDeviceID, MCI_CLOSE, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, DWORD_PTR(@OpenParms));
+end;
+
+function mbGetRemoteFileName(const sLocalName: UTF8String): UTF8String;
+var
+  wsLocalName: WideString;
+  dwResult,
+  lpBufferSize: DWORD;
+  lpBuffer: PUniversalNameInfoW;
+begin
+  Result:= sLocalName;
+  wsLocalName:= UTF8Decode(sLocalName);
+  lpBufferSize:= SizeOf(TUniversalNameInfoW);
+  GetMem(lpBuffer, lpBufferSize);
+  try
+    dwResult:= WNetGetUniversalNameW(PWideChar(wsLocalName), UNIVERSAL_NAME_INFO_LEVEL, lpBuffer, lpBufferSize);
+    if dwResult = ERROR_MORE_DATA then
+      begin
+        lpBuffer:= ReallocMem(lpBuffer, lpBufferSize);
+        dwResult:= WNetGetUniversalNameW(PWideChar(wsLocalName), UNIVERSAL_NAME_INFO_LEVEL, lpBuffer, lpBufferSize);
+      end;
+    if dwResult = NO_ERROR then
+      Result:= UTF8Encode(WideString(lpBuffer^.lpUniversalName));
+  finally
+    FreeMem(lpBuffer);
+  end;
 end;
 
 function WinToDosTime (const Wtime: TFileTime; var DTime: LongInt): LongBool;
