@@ -894,13 +894,16 @@ begin
          else
            DriveType := dtFlash;
        end;
-     if (DriveType <> dtFloppy) and (DriveType <> dtNetwork) then
-       DriveLabel := mbGetVolumeLabel(Name, True)
+     case DriveType of
+     dtFloppy:
+       DriveLabel:= Path;
+     dtNetwork:
+       DriveLabel:= ExpandUNCFileName(Path);
      else
-       DriveLabel := Path;
+       DriveLabel:= mbGetVolumeLabel(Name, True);
+     end;
     end;
   end;
-
 end;
 {$ELSEIF DEFINED(DARWIN)}
 var
