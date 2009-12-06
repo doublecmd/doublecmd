@@ -1,4 +1,3 @@
-unit uShlObjAdditional;
 (*
    Daniel U. Thibault
    <D.U.Thibault@Bigfoot.com>
@@ -14,6 +13,9 @@ unit uShlObjAdditional;
    Add some functions, constants and types for Lazarus compability
 *)
 
+unit uShlObjAdditional;
+
+{$mode delphi}
 {$WEAKPACKAGEUNIT}
 
 interface
@@ -1626,6 +1628,14 @@ type
    end; { IShellChangeNotify }
 
 { IQueryInfo Interface }
+
+const
+  QITIPF_DEFAULT       = $00000000;
+  QITIPF_USENAME       = $00000001;
+  QITIPF_LINKNOTARGET  = $00000002;
+  QITIPF_LINKUSETARGET = $00000004;
+  QITIPF_USESLOWTIP    = $00000008;
+
 const
    IID_IQueryInfo : TGUID = (
    D1:$00021500; D2:$0000; D3:$0000; D4:($C0,$00,$00,$00,$00,$00,$00,$46));
@@ -1791,11 +1801,13 @@ function SHGetDesktopFolder(var ppshf: IShellFolder): HResult; stdcall;
 
 function SHChangeIconDialog(hOwner: THandle; var FileName: UTF8String; var IconIndex: Integer): Boolean;
 function SHGetOverlayIconIndex(const sFilePath, sFileName: UTF8String): Integer;
+function SHGetInfoTip(const sFilePath, sFileName: UTF8String): UTF8String;
 
 procedure OleErrorUTF8(ErrorCode: HResult);
 procedure OleCheckUTF8(Result: HResult);
 
 implementation
+
 uses
   SysUtils, ComObj;
 
@@ -1933,6 +1945,44 @@ begin
 
     DesktopFolder._Release;
   end; // SHGetDesktopFolder
+end;
+
+function SHGetInfoTip(const sFilePath, sFileName: UTF8String): UTF8String;
+var
+  DesktopFolder, Folder: IShellFolder;
+  pidlFolder: PItemIDList = nil;
+  pidlFile: PItemIDList = nil;
+  queryInfo: IQueryInfo;
+  ppwszTip: PWideChar = nil;
+  pchEaten: ULONG;
+  dwAttributes: ULONG = 0;
+  wsTemp: WideString;
+begin
+  Result:= EmptyStr;
+  if Succeeded(SHGetDesktopFolder(DesktopFolder)) then
+    try
+      wsTemp:= UTF8Decode(sFilePath);
+      if Succeeded(DesktopFolder.ParseDisplayName(0, nil, PWideChar(wsTemp), pchEaten, pidlFolder, dwAttributes)) then
+        if Succeeded(DesktopFolder.BindToObject(pidlFolder, nil, IID_IShellFolder, Folder)) then
+          try
+            wsTemp:= UTF8Decode(sFileName);
+            if Succeeded(Folder.ParseDisplayName(0, nil, PWideChar(wsTemp), pchEaten, pidlFile, dwAttributes)) then
+              if Succeeded(Folder.GetUIObjectOf(0, 1, pidlFile, IID_IQueryInfo, nil, queryInfo)) then
+                if Succeeded(queryInfo.GetInfoTip(QITIPF_USESLOWTIP, ppwszTip)) then
+                  Result:= UTF8Encode(WideString(ppwszTip));
+          finally
+            Folder:= nil;
+            queryInfo:= nil;
+            if Assigned(ppwszTip) then
+              CoTaskMemFree(ppwszTip);
+            if Assigned(pidlFile) then
+              CoTaskMemFree(pidlFile);
+          end;
+    finally
+      DesktopFolder:= nil;
+      if Assigned(pidlFolder) then
+        CoTaskMemFree(pidlFolder);
+    end;
 end;
 
 procedure OleErrorUTF8(ErrorCode: HResult);
