@@ -895,7 +895,9 @@ begin
            DriveType := dtFlash;
        end;
      if (DriveType <> dtFloppy) and (DriveType <> dtNetwork) then
-       DriveLabel := mbGetVolumeLabel(Name, True);
+       DriveLabel := mbGetVolumeLabel(Name, True)
+     else
+       DriveLabel := Path;
     end;
   end;
 
@@ -1062,6 +1064,7 @@ begin
          begin
            Path := StrPas(pme.mnt_dir);
            Path := ExcludeTrailingPathDelimiter(Path);
+           DriveLabel := Path;
            Name := ExtractFileName(Path);
            if Name = '' then
              Name := Path;
