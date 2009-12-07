@@ -10,9 +10,13 @@ uses
 
 type
 
-  TOnBeforeChangeDirectory = function (FileView: TCustomPage; const NewDir : String): Boolean of object;
-  TOnAfterChangeDirectory = procedure (FileView: TCustomPage; const NewDir : String) of object;
-  TOnChangeFileSource = procedure (FileView: TCustomPage) of object;
+  TFileView = class;
+
+  TOnBeforeChangeDirectory = function (FileView: TFileView; const NewDir : String): Boolean of object;
+  TOnAfterChangeDirectory = procedure (FileView: TFileView; const NewDir : String) of object;
+  TOnChangeFileSource = procedure (FileView: TFileView) of object;
+  TOnActivate = procedure (aFileView: TFileView) of object;
+  TOnReload = procedure (aFileView: TFileView) of object;
 
   TDropParams = class;
   TDragDropType = (ddtInternal, ddtExternal);
@@ -42,6 +46,8 @@ type
     FOnBeforeChangeDirectory : TOnBeforeChangeDirectory;
     FOnAfterChangeDirectory : TOnAfterChangeDirectory;
     FOnChangeFileSource : TOnChangeFileSource;
+    FOnActivate : TOnActivate;
+    FOnReload : TOnReload;
 
     function GetCurrentAddress: String;
 
@@ -159,6 +165,8 @@ type
     property OnBeforeChangeDirectory : TOnBeforeChangeDirectory read FOnBeforeChangeDirectory write FOnBeforeChangeDirectory;
     property OnAfterChangeDirectory : TOnAfterChangeDirectory read FOnAfterChangeDirectory write FOnAfterChangeDirectory;
     property OnChangeFileSource : TOnChangeFileSource read FOnChangeFileSource write FOnChangeFileSource;
+    property OnActivate : TOnActivate read FOnActivate write FOnActivate;
+    property OnReload : TOnReload read FOnReload write FOnReload;
   end;
 
   { TDropParams }
@@ -215,6 +223,8 @@ begin
   FOnBeforeChangeDirectory := nil;
   FOnAfterChangeDirectory := nil;
   FOnChangeFileSource := nil;
+  FOnActivate := nil;
+  FOnReload := nil;
 
   FFileSources := TFileSources.Create;
   FFileSources.Add(FileSource);
@@ -256,6 +266,8 @@ begin
     FileView.OnBeforeChangeDirectory := Self.OnBeforeChangeDirectory;
     FileView.OnAfterChangeDirectory := Self.OnAfterChangeDirectory;
     FileView.OnChangeFileSource := Self.OnChangeFileSource;
+    FileView.OnActivate := Self.OnActivate;
+    FileView.OnReload := Self.OnReload;
 
     FileView.FFileSources.Assign(Self.FFileSources);
     FileView.FCurrentPaths.Assign(Self.FCurrentPaths);
@@ -264,7 +276,10 @@ end;
 
 function TFileView.GetNotebookPage: TCustomPage;
 begin
-  Result := Parent as TCustomPage;
+  if Parent is TCustomPage then
+    Result := Parent as TCustomPage
+  else
+    Result := nil;
 end;
 
 function TFileView.GetCurrentAddress: String;
