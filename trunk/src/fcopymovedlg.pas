@@ -113,10 +113,7 @@ var
   st: TStringList;
   s: String;
 begin
-  if frmMain.SelectedPanel = fpRight then
-    noteb := frmMain.LeftTabs
-  else
-    noteb := frmMain.RightTabs;
+  noteb := frmMain.NotActiveNotebook;
 
   if noteb.PageCount = 1 then
     begin
