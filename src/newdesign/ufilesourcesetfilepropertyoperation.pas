@@ -74,6 +74,7 @@ type
     FSupportedProperties: TFilePropertiesTypes;
 
     function GetID: TFileSourceOperationType; override;
+    procedure DoReloadFileSources; override;
 
     procedure UpdateStatistics(var NewStatistics: TFileSourceSetFilePropertyOperationStatistics);
     procedure UpdateStatisticsAtStartTime; override;
@@ -133,7 +134,7 @@ begin
 
   FStatisticsLock := TCriticalSection.Create;
 
-  inherited Create(aTargetFileSource, aTargetFileSource);
+  inherited Create(aTargetFileSource);
 
   FFileSource := aTargetFileSource;
   aTargetFileSource := nil;
@@ -169,6 +170,11 @@ end;
 function TFileSourceSetFilePropertyOperation.GetID: TFileSourceOperationType;
 begin
   Result := fsoSetFileProperty;
+end;
+
+procedure TFileSourceSetFilePropertyOperation.DoReloadFileSources;
+begin
+  FFileSource.Reload(FTargetFiles.Path);
 end;
 
 procedure TFileSourceSetFilePropertyOperation.UpdateStatistics(var NewStatistics: TFileSourceSetFilePropertyOperationStatistics);

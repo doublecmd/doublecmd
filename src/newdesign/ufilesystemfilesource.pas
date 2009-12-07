@@ -72,6 +72,8 @@ type
     function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation; override;
     function CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
                                             var theNewProperties: TFileProperties): TFileSourceOperation; override;
+
+    procedure Reload(const PathsToReload: TPathsArray); override;
     // ------------------------------------------------------
   end;
 
@@ -86,6 +88,7 @@ implementation
 
 uses
   uOSUtils,
+  uFileSystemWatcher,
   uFileSystemFile,
   uFileSystemListOperation,
   uFileSystemCopyOperation,
@@ -302,6 +305,13 @@ begin
                 TargetFileSource,
                 theTargetFiles,
                 theNewProperties);
+end;
+
+procedure TFileSystemFileSource.Reload(const PathsToReload: TPathsArray);
+begin
+  // Don't reload if file watcher is used.
+  if not IsFileSystemWatcher then
+    inherited Reload(PathsToReload);
 end;
 
 { TFileSystemFileSourceConnection }

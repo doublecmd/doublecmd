@@ -40,6 +40,7 @@ type
 
   protected
     function GetID: TFileSourceOperationType; override;
+    procedure DoReloadFileSources; override;
 
     procedure UpdateStatistics(var NewStatistics: TFileSourceWipeOperationStatistics);
     procedure UpdateStatisticsAtStartTime; override;
@@ -79,7 +80,7 @@ begin
 
   FStatisticsLock := TCriticalSection.Create;
 
-  inherited Create(aTargetFileSource, aTargetFileSource);
+  inherited Create(aTargetFileSource);
 
   FFileSource := aTargetFileSource;
   FFilesToWipe := theFilesToWipe;
@@ -99,6 +100,11 @@ end;
 function TFileSourceWipeOperation.GetID: TFileSourceOperationType;
 begin
   Result := fsoWipe;
+end;
+
+procedure TFileSourceWipeOperation.DoReloadFileSources;
+begin
+  FFileSource.Reload(FFilesToWipe.Path);
 end;
 
 procedure TFileSourceWipeOperation.UpdateStatistics(var NewStatistics: TFileSourceWipeOperationStatistics);

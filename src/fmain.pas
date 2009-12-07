@@ -443,8 +443,6 @@ type
     procedure ShowTrayIcon(bShow: Boolean);
     procedure HideTrayIconDelayed(Data: PtrInt);
 
-    procedure OperationFinishedEvent(Operation: TFileSourceOperation; Event: TOperationManagerEvent);
-
     procedure PopupDragDropMenu(var DropParams: TDropParams);
 
   public
@@ -645,8 +643,6 @@ begin
 
   UpdateWindowView;
   //DebugLn('frmMain.FormCreate Done');
-
-  OperationsManager.AddEventsListener([omevOperationFinished], @OperationFinishedEvent);
 end;
 
 procedure TfrmMain.btnLeftClick(Sender: TObject);
@@ -768,8 +764,6 @@ var
   slCommandHistory: TStringListEx;
 begin
   DebugLn('frmMain.Destroy');
-
-  OperationsManager.RemoveEventsListener([omevOperationFinished], @OperationFinishedEvent);
 
   // Disable file watcher.
   if Assigned(LeftFrameWatcher) then
@@ -3386,34 +3380,6 @@ begin
     lblDriveInfo.Caption := Format(rsFreeMsg, [cnvFormatFileSize(FreeSize), cnvFormatFileSize(TotalSize)])
   else
     lblDriveInfo.Caption := '';
-end;
-
-procedure TfrmMain.OperationFinishedEvent(Operation: TFileSourceOperation; Event: TOperationManagerEvent);
-
-  procedure UpdateTabs(Notebook: TFileViewNotebook);
-  var
-    i: Integer;
-    aFileView: TFileView;
-    aChangedFileSource: IFileSource;
-  begin
-    // Reload all views which file source type and address match.
-    for i := 0 to Notebook.PageCount - 1 do
-    begin
-      aFileView := Notebook.View[i];
-      aChangedFileSource := Operation.ChangedFileSource as IFileSource;
-      if Assigned(aChangedFileSource) and
-         // Same type of file source and same address point to the same file source.
-         (aChangedFileSource.IsInterface(aFileView.FileSource)) and
-         (aChangedFileSource.CurrentAddress = aFileView.FileSource.CurrentAddress) then
-      begin
-        aFileView.Reload;
-      end;
-    end;
-  end;
-
-begin
-  UpdateTabs(LeftTabs);
-  UpdateTabs(RightTabs);
 end;
 
 initialization

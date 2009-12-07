@@ -319,7 +319,7 @@ type
     }
     procedure MakeDisplayFileList;
 
-    procedure Reload; override;
+    procedure Reload(const PathsToReload: TPathsArray = nil); override;
 
     function Focused: Boolean; override;
     procedure SetFocus; override;
@@ -345,9 +345,6 @@ type
     procedure MarkShiftMinus;
 
     procedure RedrawGrid;
-    procedure RefreshPanel(bUpdateFileCount: Boolean = True; bUpdateDiskFreeSpace: Boolean = True);
-    procedure RefreshCount(bUpdateFileCount: Boolean = True;
-                           bUpdateDiskFreeSpace: Boolean = True);
 
     procedure UpDatelblInfo;
     procedure UpdateColumnsView;
@@ -510,8 +507,6 @@ begin
       FSorting.AddSorting(SortColumn, SortDirection);
     end;
   end;
-
-  RefreshPanel;
 end;
 
 procedure TColumnsFileView.SaveConfiguration(Section: String; TabIndex: Integer);
@@ -572,38 +567,6 @@ begin
 
   UpDatelblInfo;
   dgPanel.Invalidate;
-end;
-
-procedure TColumnsFileView.RefreshPanel(bUpdateFileCount: Boolean = True; bUpdateDiskFreeSpace: Boolean = True);
-var
-  LastSelection: String;
-begin
-  if pnAltSearch.Visible then
-    CloseSearchPanel;
-
-  if Assigned(GetActiveItem) then
-    LastSelection := GetActiveItem.TheFile.Name
-  else
-    LastSelection := '';
-
-  RefreshCount(bUpdateFileCount, bUpdateDiskFreeSpace);
-  SetActiveFile(LastSelection);
-
-  UpDatelblInfo;
-end;
-
-procedure TColumnsFileView.RefreshCount(bUpdateFileCount: Boolean = True;
-                                        bUpdateDiskFreeSpace: Boolean = True);
-begin
-  // set up refresh parameters
-  FUpdateFileCount:= bUpdateFileCount;
-  FUpdateDiskFreeSpace:= bUpdateDiskFreeSpace;
-
-  Reload;
-
-  // restore default value
-  FUpdateFileCount:= True;
-  FUpdateDiskFreeSpace:= True;
 end;
 
 function TColumnsFileView.StartDragEx(MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
@@ -2633,8 +2596,26 @@ begin
   UpDatelblInfo;
 end;
 
-procedure TColumnsFileView.Reload;
+procedure TColumnsFileView.Reload(const PathsToReload: TPathsArray);
+var
+  i: Integer;
+  bReload: Boolean;
 begin
+  if Assigned(PathsToReload) then
+  begin
+    bReload := False;
+
+    for i := Low(PathsToReload) to High(PathsToReload) do
+      if IsInPath(PathsToReload[i], CurrentPath, True) then
+      begin
+        bReload := True;
+        break;
+      end;
+
+    if not bReload then
+      Exit;
+  end;
+
   MakeFileSourceFileList;
 
   if LastActive <> '' then

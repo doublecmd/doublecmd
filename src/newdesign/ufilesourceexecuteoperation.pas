@@ -34,6 +34,7 @@ type
     FExecuteOperationResult: TFileSourceExecuteOperationResult;
     function GetID: TFileSourceOperationType; override;
     procedure UpdateStatisticsAtStartTime; override;
+    procedure DoReloadFileSources; override;
 
   public
     {en
@@ -69,7 +70,7 @@ constructor TFileSourceExecuteOperation.Create(
                 aCurrentPath: String;
                 aExecutablePath, aVerb: UTF8String);
 begin
-  inherited Create(aTargetFileSource, aTargetFileSource);
+  inherited Create(aTargetFileSource);
 
   FFileSource := aTargetFileSource;
   FCurrentPath := aCurrentPath;
@@ -101,6 +102,11 @@ end;
 function TFileSourceExecuteOperation.GetID: TFileSourceOperationType;
 begin
   Result := fsoExecute;
+end;
+
+procedure TFileSourceExecuteOperation.DoReloadFileSources;
+begin
+  FFileSource.Reload(FCurrentPath);
 end;
 
 end.

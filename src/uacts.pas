@@ -1340,7 +1340,6 @@ begin
         UI := TFileSourceOperationMessageBoxesUI.Create;
         Operation.AddUserInterface(UI);
         Operation.Execute;
-        ActiveFrame.Reload;
 
         sPath := ExtractFileName(ExcludeTrailingPathDelimiter(sPath));
         ActiveFrame.SetActiveFile(sPath);
