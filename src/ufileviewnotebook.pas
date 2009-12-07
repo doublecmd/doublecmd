@@ -47,6 +47,7 @@ type
   public
     constructor Create(TheOwner: TComponent); override;
 
+    function IsActive: Boolean;
     procedure MakeActive;
     procedure UpdateCaption(NewCaption: String);
 
@@ -114,6 +115,11 @@ constructor TFileViewPage.Create(TheOwner: TComponent);
 begin
   FLockState := tlsNormal;
   inherited Create(TheOwner);
+end;
+
+function TFileViewPage.IsActive: Boolean;
+begin
+  Result := (Notebook.PageIndex = PageIndex);
 end;
 
 procedure TFileViewPage.MakeActive;

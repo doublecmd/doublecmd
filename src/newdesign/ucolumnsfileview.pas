@@ -404,7 +404,6 @@ uses
   uFileSystemFileSource,
   fColumnsSetConf,
   uKeyboard,
-  uFileViewNotebook,
   uFileSourceUtil
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   , GtkProc  // for ReleaseMouseCapture
@@ -419,17 +418,8 @@ end;
 
 procedure TColumnsFileView.SetFocus;
 begin
-  if frmMain.Visible and dgPanel.CanFocus then
+  if CanFocus and dgPanel.CanFocus then
     dgPanel.SetFocus;
-
-  SetActive(True);
-
-  if Parent is TFileViewPage then
-    frmMain.UpdateSelectedDrive((Parent as TFileViewPage).Notebook);
-
-  // Create a Panel-Changed-Event for this?
-  frmMain.UpdatePrompt;
-  frmMain.UpdateFreeSpace((Parent as TFileViewPage).Notebook.Side);
 end;
 
 function TColumnsFileView.GetActiveFile: TFile;
@@ -1032,7 +1022,7 @@ begin
   if NewPath <> '' then
   begin
     if Assigned(OnBeforeChangeDirectory) then
-      if not OnBeforeChangeDirectory(Parent as TCustomPage, NewPath) then
+      if not OnBeforeChangeDirectory(Self, NewPath) then
         Exit;
 
     if not FileSource.SetCurrentWorkingDirectory(NewPath) then
@@ -1059,7 +1049,7 @@ begin
     UpdatePathLabel;
 
     if Assigned(OnAfterChangeDirectory) then
-      OnAfterChangeDirectory(Parent as TCustomPage, CurrentPath);
+      OnAfterChangeDirectory(Self, CurrentPath);
   end;
 end;
 
@@ -1822,11 +1812,14 @@ end;
 
 procedure TColumnsFileView.dgPanelEnter(Sender: TObject);
 begin
-  FActive:= True;
-  SetFocus;
+  FActive := True;
   UpDatelblInfo;
   frmMain.EnableHotkeys(True);
-  frmMain.SelectedPanel := (NotebookPage as TFileViewPage).Notebook.Side;
+
+  SetActive(True);
+
+  if Assigned(OnActivate) then
+    OnActivate(Self);
 end;
 
 procedure TColumnsFileView.RedrawGrid;
@@ -2474,7 +2467,7 @@ begin
   inherited AddFileSource(aFileSource, aPath);
 
   if Assigned(OnChangeFileSource) then
-    OnChangeFileSource(Parent as TCustomPage);
+    OnChangeFileSource(Self);
 
   dgPanel.Row := 0;
 
@@ -2491,7 +2484,7 @@ begin
   inherited RemoveLastFileSource;
 
   if Assigned(OnChangeFileSource) then
-    OnChangeFileSource(Parent as TCustomPage);
+    OnChangeFileSource(Self);
 
   SetActiveFile(FocusedFile);
 
@@ -2621,7 +2614,8 @@ begin
   if LastActive <> '' then
     SetActiveFile(LastActive);
 
-  frmMain.UpdateFreeSpace((Parent as TFileViewPage).Notebook.Side);
+  if Assigned(OnReload) then
+    OnReload(Self);
 end;
 
 procedure TColumnsFileView.UpdateView;

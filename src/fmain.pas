@@ -403,9 +403,11 @@ type
     procedure seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
 
-    function FramepnlFileBeforeChangeDirectory(Sender: TCustomPage; const NewDir : String): Boolean;
-    procedure FramepnlFileAfterChangeDirectory(Sender: TCustomPage; const NewDir : String);
-    procedure FramepnlFileChangeFileSource(Sender: TCustomPage);
+    function FileViewBeforeChangeDirectory(Sender: TFileView; const NewDir : String): Boolean;
+    procedure FileViewAfterChangeDirectory(Sender: TFileView; const NewDir : String);
+    procedure FileViewChangeFileSource(Sender: TFileView);
+    procedure FileViewActivate(Sender: TFileView);
+    procedure FileViewReload(Sender: TFileView);
     procedure edtCommandKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure edtCommandEnter(Sender: TObject);
@@ -1480,6 +1482,7 @@ begin
        not (tb_activate_panel_on_click in gDirTabOptions) then
     begin
       UpdateSelectedDrive(Notebook);
+      UpdateFreeSpace(Notebook.Side);
     end;
   end;
 end;
@@ -2204,15 +2207,15 @@ begin
   end;
 end;
 
-function TfrmMain.FramepnlFileBeforeChangeDirectory(Sender: TCustomPage; const NewDir: String): Boolean;
+function TfrmMain.FileViewBeforeChangeDirectory(Sender: TFileView; const NewDir: String): Boolean;
 var
   ANoteBook: TFileViewNotebook;
   Page, NewPage: TFileViewPage;
 begin
   Result:= True;
-  if Sender is TFileViewPage then
+  if Sender.NotebookPage is TFileViewPage then
   begin
-    Page := Sender as TFileViewPage;
+    Page := Sender.NotebookPage as TFileViewPage;
 
     case Page.LockState of
       tlsPathLocked:
@@ -2234,15 +2237,15 @@ begin
   end;
 end;
 
-procedure TfrmMain.FramepnlFileAfterChangeDirectory(Sender: TCustomPage; const NewDir: String);
+procedure TfrmMain.FileViewAfterChangeDirectory(Sender: TFileView; const NewDir: String);
 var
   ANoteBook : TFileViewNotebook;
   Page: TFileViewPage;
   sCaption : String;
 begin
-  if Sender is TFileViewPage then
+  if Sender.NotebookPage is TFileViewPage then
     begin
-      Page := Sender as TFileViewPage;
+      Page := Sender.NotebookPage as TFileViewPage;
       ANoteBook := Page.Notebook;
       if Page.LockState = tlsNormal then // if not locked tab
         begin
@@ -2264,15 +2267,15 @@ begin
     end;
 end;
 
-procedure TfrmMain.FramepnlFileChangeFileSource(Sender: TCustomPage);
+procedure TfrmMain.FileViewChangeFileSource(Sender: TFileView);
 var
   ANoteBook : TFileViewNotebook;
   Page: TFileViewPage;
   sCaption : String;
 begin
-  if Sender is TFileViewPage then
+  if Sender.NotebookPage is TFileViewPage then
     begin
-      Page := Sender as TFileViewPage;
+      Page := Sender.NotebookPage as TFileViewPage;
       ANoteBook := Page.Notebook;
 
       if Page.LockState = tlsNormal then // if not locked tab
@@ -2281,10 +2284,42 @@ begin
           Page.UpdateCaption(sCaption);
         end;
 
-      ToggleFileSystemWatcher;
+      if Page.IsActive then
+      begin
+        ToggleFileSystemWatcher;
 
-      UpdateSelectedDrive(ANoteBook);
-      UpdateFreeSpace(ANoteBook.Side);
+        UpdateSelectedDrive(ANoteBook);
+        UpdateFreeSpace(ANoteBook.Side);
+      end;
+    end;
+end;
+
+procedure TfrmMain.FileViewActivate(Sender: TFileView);
+var
+  Page: TFileViewPage;
+begin
+  if Sender.NotebookPage is TFileViewPage then
+    begin
+      Page := Sender.NotebookPage as TFileViewPage;
+      SelectedPanel := Page.Notebook.Side;
+      UpdateSelectedDrive(Page.Notebook);
+      UpdatePrompt;
+      UpdateFreeSpace(Page.Notebook.Side);
+    end;
+end;
+
+procedure TfrmMain.FileViewReload(Sender: TFileView);
+var
+  Page: TFileViewPage;
+begin
+  if Sender.NotebookPage is TFileViewPage then
+    begin
+      Page := Sender.NotebookPage as TFileViewPage;
+
+      if Page.IsActive then
+      begin
+        UpdateFreeSpace(Page.Notebook.Side);
+      end;
     end;
 end;
 
@@ -2457,9 +2492,11 @@ begin
 
   with Result do
   begin
-    OnBeforeChangeDirectory := @FramepnlFileBeforeChangeDirectory;
-    OnAfterChangeDirectory := @FramepnlFileAfterChangeDirectory;
-    OnChangeFileSource := @FramepnlFileChangeFileSource;
+    OnBeforeChangeDirectory := @FileViewBeforeChangeDirectory;
+    OnAfterChangeDirectory := @FileViewAfterChangeDirectory;
+    OnChangeFileSource := @FileViewChangeFileSource;
+    OnActivate := @FileViewActivate;
+    OnReload := @FileViewReload;
   end;
 end;
 
