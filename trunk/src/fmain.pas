@@ -2359,6 +2359,8 @@ begin
 end;
 
 procedure TfrmMain.CreateDrivesMenu;
+const
+  Separator = #32#32 + '|' + #32#32;
 var
   I, Count : Integer;
   Drive : PDrive;
@@ -2376,9 +2378,9 @@ begin
         miTmp.Tag := I;
 
         if Length(Name) > 0 then
-          miTmp.Caption := '&' + Name
+          miTmp.Caption := '&' + Name + Separator + DriveLabel
         else
-          miTmp.Caption := Path;
+          miTmp.Caption := Path + Separator + DriveLabel;
 
         // get disk icon
         BitmapTmp := PixMapManager.GetDriveIcon(Drive, 16, clMenu);
