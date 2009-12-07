@@ -38,6 +38,7 @@ type
 
   protected
     function GetID: TFileSourceOperationType; override;
+    procedure DoReloadFileSources; override;
 
     procedure UpdateStatistics(var NewStatistics: TFileSourceDeleteOperationStatistics);
     procedure UpdateStatisticsAtStartTime; override;
@@ -75,7 +76,7 @@ begin
 
   FStatisticsLock := TCriticalSection.Create;
 
-  inherited Create(aTargetFileSource, aTargetFileSource);
+  inherited Create(aTargetFileSource);
 
   FFileSource := aTargetFileSource;
   aTargetFileSource := nil;
@@ -96,6 +97,11 @@ end;
 function TFileSourceDeleteOperation.GetID: TFileSourceOperationType;
 begin
   Result := fsoDelete;
+end;
+
+procedure TFileSourceDeleteOperation.DoReloadFileSources;
+begin
+  FFileSource.Reload(FFilesToDelete.Path);
 end;
 
 procedure TFileSourceDeleteOperation.UpdateStatistics(var NewStatistics: TFileSourceDeleteOperationStatistics);

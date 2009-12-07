@@ -84,10 +84,12 @@ type
     property OnWatcherNotifyEvent: TOnWatcherNotifyEvent write FOnWatcherNotifyEvent;
   end;
 
+  function IsFileSystemWatcher: Boolean; inline;
+
 implementation
 
 uses
-  LCLProc
+  LCLProc, uGlobs
   {$IF DEFINED(MSWINDOWS)}
   , Windows
   {$ELSEIF DEFINED(UNIX)}
@@ -375,6 +377,13 @@ begin
     FWatcherThread := nil;
   end;
   inherited Destroy;
+end;
+
+// ----------------------------------------------------------------------------
+
+function IsFileSystemWatcher: Boolean;
+begin
+  Result := (gWatchDirs <> []);
 end;
 
 end.

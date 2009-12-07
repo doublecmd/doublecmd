@@ -69,6 +69,8 @@ type
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
 
+    procedure DoReload(const PathsToReload: TPathsArray); override;
+
   public
     constructor Create(anArchiveFileName: String;
                        aWcxPluginFileName: String;
@@ -628,6 +630,11 @@ begin
     fsoDelete:
       TWcxArchiveDeleteOperation.ClearCurrentOperation;
   end;
+end;
+
+procedure TWcxArchiveFileSource.DoReload(const PathsToReload: TPathsArray);
+begin
+  ReadArchive;
 end;
 
 { TWcxArchiveFileSourceConnection }

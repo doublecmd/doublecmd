@@ -48,7 +48,7 @@ constructor TFileSourceListOperation.Create(aFileSource: IFileSource; aPath: Str
 begin
   FFileSource := aFileSource;
   FPath := aPath;
-  inherited Create(FFileSource, nil);
+  inherited Create(FFileSource);
 end;
 
 destructor TFileSourceListOperation.Destroy;

@@ -93,7 +93,7 @@ begin
 
   FStatisticsLock := TCriticalSection.Create;
 
-  inherited Create(aTargetFileSource, nil);
+  inherited Create(aTargetFileSource);
 
   FFileSource := aTargetFileSource;
   FFiles := theFiles;

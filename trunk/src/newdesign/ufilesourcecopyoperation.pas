@@ -44,6 +44,7 @@ type
     FDropReadOnlyAttribute: Boolean;
 
   protected
+    procedure DoReloadFileSources; override;
     procedure UpdateStatistics(var NewStatistics: TFileSourceCopyOperationStatistics);
     procedure UpdateStatisticsAtStartTime; override;
 
@@ -52,13 +53,15 @@ type
 
   public
     {en
-       @param(SourceFileSource
+       @param(aSourceFileSource
               File source from which the files will be copied.)
-       @param(Target file source
+       @param(aTargetFileSource
               File source to which the files will be copied.)
-       @param(SourceFiles
+       @param(theSourceFiles
               Files which are to be copied.
               Class takes ownership of the pointer.)
+       @param(aTargetPath
+              Path in the target file source where the files should be copied to.)
     }
     constructor Create(aSourceFileSource: IFileSource;
                        aTargetFileSource: IFileSource;
@@ -144,11 +147,11 @@ begin
 
   case GetID of
     fsoCopyIn:
-      // Copy into target - run on target (target is changed).
-      inherited Create(aTargetFileSource, aTargetFileSource);
+      // Copy into target - run on target.
+      inherited Create(aTargetFileSource);
     fsoCopyOut:
-      // Copy out from source - run on source (target is changed).
-      inherited Create(aSourceFileSource, aTargetFileSource);
+      // Copy out from source - run on source.
+      inherited Create(aSourceFileSource);
     else
       raise Exception.Create('Invalid file source type');
   end;
@@ -171,6 +174,11 @@ begin
     FreeAndNil(FStatisticsLock);
   if Assigned(FSourceFiles) then
     FreeAndNil(FSourceFiles);
+end;
+
+procedure TFileSourceCopyOperation.DoReloadFileSources;
+begin
+  FTargetFileSource.Reload(FTargetPath);
 end;
 
 procedure TFileSourceCopyOperation.UpdateStatistics(var NewStatistics: TFileSourceCopyOperationStatistics);

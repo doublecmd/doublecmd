@@ -24,6 +24,7 @@ type
   protected
     function GetID: TFileSourceOperationType; override;
     procedure UpdateStatisticsAtStartTime; override;
+    procedure DoReloadFileSources; override;
 
     property BasePath: String read FBasePath;
     property DirectoryPath: String read FDirectoryPath;
@@ -58,7 +59,7 @@ constructor TFileSourceCreateDirectoryOperation.Create(
                 aCurrentPath: String;
                 aDirectoryPath: String);
 begin
-  inherited Create(aTargetFileSource, aTargetFileSource);
+  inherited Create(aTargetFileSource);
 
   FFileSource := aTargetFileSource;
   FBasePath := aCurrentPath;
@@ -89,6 +90,11 @@ end;
 function TFileSourceCreateDirectoryOperation.GetID: TFileSourceOperationType;
 begin
   Result := fsoCreateDirectory;
+end;
+
+procedure TFileSourceCreateDirectoryOperation.DoReloadFileSources;
+begin
+  FFileSource.Reload(FFileSource.GetParentDir(FAbsolutePath));
 end;
 
 end.

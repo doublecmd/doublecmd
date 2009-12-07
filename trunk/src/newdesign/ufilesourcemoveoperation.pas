@@ -33,6 +33,7 @@ type
 
   protected
     function GetID: TFileSourceOperationType; override;
+    procedure DoReloadFileSources; override;
 
     procedure UpdateStatistics(var NewStatistics: TFileSourceMoveOperationStatistics);
     procedure UpdateStatisticsAtStartTime; override;
@@ -46,9 +47,11 @@ type
        @param(aFileSource
               File source within which the operation should take place.
               Class takes ownership of the pointer.)
-       @param(SourceFiles
+       @param(theSourceFiles
               Files which are to be moved.
               Class takes ownership of the pointer.)
+       @param(aTargetPath
+              Path in the file source where the files should be moved.)
     }
     constructor Create(aFileSource: IFileSource;
                        var theSourceFiles: TFiles;
@@ -89,7 +92,7 @@ begin
 
   FStatisticsLock := TCriticalSection.Create;
 
-  inherited Create(aFileSource, aFileSource);
+  inherited Create(aFileSource);
 
   FFileSource := aFileSource;
   FSourceFiles := theSourceFiles;
@@ -164,6 +167,16 @@ end;
 function TFileSourceMoveOperation.GetID: TFileSourceOperationType;
 begin
   Result := fsoMove;
+end;
+
+procedure TFileSourceMoveOperation.DoReloadFileSources;
+var
+  Paths: TPathsArray;
+begin
+  SetLength(Paths, 2);
+  Paths[0] := FSourceFiles.Path;  // Move source path
+  Paths[1] := FTargetPath;        // Move target path
+  FFileSource.Reload(Paths);
 end;
 
 end.

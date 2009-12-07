@@ -154,11 +154,6 @@ type
        File source on which this operation is executed.
     }
     FFileSource: IInterface;
-    {en
-       File source that will experience changes due to this operation.
-       Can be nil.
-    }
-    FChangedFileSource: IInterface;
 
     {en
        File source connection.
@@ -191,6 +186,16 @@ type
 
     procedure DoWaitForConnection;
 
+    {en
+       Pauses the operation until it is notified that a connection is available.
+    }
+    procedure WaitForConnection;
+
+    {en
+       Reloads any file sources changed by the operation.
+    }
+    procedure ReloadFileSources;
+
   protected
     {en
        If @true a connection is requested from file source before the operation
@@ -204,9 +209,10 @@ type
     function GetDesiredState: TFileSourceOperationState;
 
     {en
-       Pauses the operation until it is notified that a connection is available.
+       Reloads changed file sources.
+       It is called from main thread.
     }
-    procedure WaitForConnection;
+    procedure DoReloadFileSources; virtual;
 
     {en
        Retrieves an available connection from the file source (TFileSourceConnection).
@@ -271,7 +277,7 @@ type
     property Thread: TThread read FThread;
 
   public
-    constructor Create(const aFileSource: IInterface; const aChangedFileSource: IInterface); virtual;
+    constructor Create(const aFileSource: IInterface); virtual;
     destructor Destroy; override;
 
     {en
@@ -340,7 +346,6 @@ type
     property StartTime: TDateTime read FStartTime;
     property Result: TFileSourceOperationResult read FOperationResult;
     property FileSource: IInterface read FFileSource;
-    property ChangedFileSource: IInterface read FChangedFileSource;
   end;
 
   EFileSourceOperationAborting = class(Exception)
@@ -364,7 +369,7 @@ type
     UserInterface: TFileSourceOperationUI;
   end;
 
-constructor TFileSourceOperation.Create(const aFileSource: IInterface; const aChangedFileSource: IInterface);
+constructor TFileSourceOperation.Create(const aFileSource: IInterface);
 var
   Event: TFileSourceOperationEvent;
 begin
@@ -397,7 +402,6 @@ begin
   FStartTime := 0;
 
   FFileSource := aFileSource;
-  FChangedFileSource := aChangedFileSource;
 
   FNeedsConnection := (fspUsesConnections in (FileSource as IFileSource).Properties);
 
@@ -517,6 +521,9 @@ begin
 
   finally
     UpdateState(fsosStopped);
+
+    if initialized then
+      ReloadFileSources;
 
     // Wait until all the scheduled calls to events listeners have been processed
     // by the main thread (otherwise the calls can be made to a freed memory location).
@@ -986,6 +993,19 @@ begin
     end;
   end;
   // else We have no UIs assigned - cannot ask question.
+end;
+
+procedure TFileSourceOperation.ReloadFileSources;
+begin
+  if Assigned(FThread) then
+    TThread.Synchronize(FThread, @DoReloadFileSources) // Calls virtual function
+  else
+    DoReloadFileSources;
+end;
+
+procedure TFileSourceOperation.DoReloadFileSources;
+begin
+  // Nothing by default.
 end;
 
 class procedure TFileSourceOperation.RaiseAbortOperation;

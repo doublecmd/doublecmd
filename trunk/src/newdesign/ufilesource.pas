@@ -5,7 +5,7 @@ unit uFileSource;
 interface
 
 uses
-  Classes, SysUtils, uDCUtils, syncobjs,
+  Classes, SysUtils, uDCUtils, syncobjs, LCLProc,
   uFileSourceOperation,
   uFileSourceOperationTypes,
   uFileSourceProperty,
@@ -16,6 +16,12 @@ type
 
   TFileSource = class;
   TFileSourceConnection = class;
+  IFileSource = interface;
+
+  TPathsArray = array of string;
+
+  TFileSourceReloadEventNotify = procedure(const aFileSource: IFileSource;
+                                           const ReloadedPaths: TPathsArray) of object;
 
   { IFileSource }
 
@@ -67,6 +73,11 @@ type
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection;
     procedure RemoveOperationFromQueue(Operation: TFileSourceOperation);
 
+    procedure Reload(const PathsToReload: TPathsArray);
+    procedure Reload(const PathToReload: String);
+    procedure AddReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
+    procedure RemoveReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
+
     property CurrentAddress: String read GetCurrentAddress;
     property Properties: TFileSourceProperties read GetProperties;
     property SupportedFileProperties: TFilePropertiesTypes read GetSupportedFileProperties;
@@ -77,6 +88,8 @@ type
   TFileSource = class(TInterfacedObject, IFileSource)
 
   private
+    FReloadEventListeners: TMethodList;
+
     {en
        Callback called when an operation assigned to a connection finishes.
        It just redirects to a virtual function.
@@ -123,6 +136,15 @@ type
                                   operation: TFileSourceOperation): TFileSourceConnection; virtual;
 
     procedure OperationFinished(Operation: TFileSourceOperation); virtual;
+
+    {en
+       Reloads any internal file lists/caches.
+       @param(PathsToReload
+              Describes paths in file source from which file lists should be reloaded.
+              The function may also reload any subpaths, though that is
+              dependent on the specific file source implementation.)
+    }
+    procedure DoReload(const PathsToReload: TPathsArray); virtual;
 
   public
     constructor Create; virtual;
@@ -200,6 +222,17 @@ type
     }
     procedure RemoveOperationFromQueue(Operation: TFileSourceOperation); virtual;
 
+    {en
+       Reloads the file list from the file source.
+       This is used if a file source has any internal cache or file list.
+       Overwrite DoReload in descendant classes.
+    }
+    procedure Reload(const PathsToReload: TPathsArray); virtual;
+    procedure Reload(const PathToReload: String);
+
+    procedure AddReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
+    procedure RemoveReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
+
     property CurrentAddress: String read GetCurrentAddress;
     property Properties: TFileSourceProperties read GetProperties;
     property SupportedFileProperties: TFilePropertiesTypes read GetSupportedFileProperties;
@@ -270,7 +303,7 @@ var
 implementation
 
 uses
-  LCLProc, uFileSourceListOperation;
+  uFileSourceListOperation;
 
 { TFileSource }
 
@@ -279,6 +312,8 @@ begin
   if ClassType = TFileSource then
     raise Exception.Create('Cannot construct abstract class');
   inherited Create;
+
+  FReloadEventListeners := TMethodList.Create;
 
   FileSourceManager.Add(Self); // Increases RefCount
 
@@ -324,6 +359,8 @@ begin
   end
   else
     DebugLn('Error: Cannot remove file source - manager already destroyed!');
+
+  FreeThenNil(FReloadEventListeners);
 
   inherited Destroy;
 end;
@@ -529,6 +566,45 @@ end;
 procedure TFileSource.OperationFinished(Operation: TFileSourceOperation);
 begin
   // Nothing by default.
+end;
+
+procedure TFileSource.DoReload(const PathsToReload: TPathsArray);
+begin
+  // Nothing by default.
+end;
+
+procedure TFileSource.Reload(const PathsToReload: TPathsArray);
+var
+  i: Integer;
+  FunctionToCall: TFileSourceReloadEventNotify;
+begin
+  DoReload(PathsToReload);
+
+  if Assigned(FReloadEventListeners) then
+    for i := 0 to FReloadEventListeners.Count - 1 do
+    begin
+      FunctionToCall := TFileSourceReloadEventNotify(FReloadEventListeners.Items[i]);
+      FunctionToCall(Self, PathsToReload);
+    end;
+end;
+
+procedure TFileSource.Reload(const PathToReload: String);
+var
+  PathsToReload: TPathsArray;
+begin
+  SetLength(PathsToReload, 1);
+  PathsToReload[0] := PathToReload;
+  Reload(PathsToReload);
+end;
+
+procedure TFileSource.AddReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
+begin
+  FReloadEventListeners.Add(TMethod(FunctionToCall));
+end;
+
+procedure TFileSource.RemoveReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
+begin
+  FReloadEventListeners.Remove(TMethod(FunctionToCall));
 end;
 
 { TFileSourceConnection }

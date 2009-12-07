@@ -51,6 +51,8 @@ type
     function GetFileSource(Index: Integer): IFileSource;
     function GetFileSourcesCount: Integer;
 
+    procedure ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
+
   protected
     function GetCurrentPath: String; virtual;
     procedure SetCurrentPath(NewPath: String); virtual;
@@ -85,7 +87,7 @@ type
     procedure AssignFileSources(const otherFileView: TFileView); virtual;
 
     // Retrieves files from file source again and displays the new list of files.
-    procedure Reload; virtual abstract;
+    procedure Reload(const PathsToReload: TPathsArray = nil); virtual abstract;
 
     // For now we use here the knowledge that there are tabs.
     // Config should be independent of that in the future.
@@ -219,14 +221,22 @@ begin
   FCurrentPaths := TStringList.Create;
   FCurrentPaths.Add(Path);
 
+  FileSource.AddReloadEventListener(@ReloadEvent);
+
   FMethods := TMethodsList.Create(Self);
 
   inherited Create(AOwner);
 end;
 
 destructor TFileView.Destroy;
+var
+  i: Integer;
 begin
+  for i := 0 to FFileSources.Count - 1 do
+    FFileSources.Items[i].RemoveReloadEventListener(@ReloadEvent);
+
   inherited;
+
   FreeAndNil(FMethods);
   FreeAndNil(FFileSources);
   FreeAndNil(FCurrentPaths);
@@ -341,27 +351,32 @@ end;
 procedure TFileView.AddFileSource(aFileSource: IFileSource;
                                   aPath: String);
 begin
+  FileSource.RemoveReloadEventListener(@ReloadEvent);
   FFileSources.Add(aFileSource);
   FCurrentPaths.Add(aPath);
   Reload;
   UpdateView;
+  FileSource.AddReloadEventListener(@ReloadEvent);
 end;
 
 procedure TFileView.RemoveLastFileSource;
 begin
+  FileSource.RemoveReloadEventListener(@ReloadEvent);
   FFileSources.Delete(FFileSources.Count - 1);
   FCurrentPaths.Delete(FCurrentPaths.Count - 1);
   Reload;
   UpdateView;
+  FileSource.AddReloadEventListener(@ReloadEvent);
 end;
 
 procedure TFileView.AssignFileSources(const otherFileView: TFileView);
 begin
+  FileSource.RemoveReloadEventListener(@ReloadEvent);
   FFileSources.Assign(otherFileView.FFileSources);
   FCurrentPaths.Assign(otherFileView.FCurrentPaths);
-
   Reload;
   UpdateView;
+  FileSource.AddReloadEventListener(@ReloadEvent);
 end;
 
 function TFileView.GetLastFileSource: IFileSource;
@@ -380,6 +395,13 @@ end;
 function TFileView.GetFileSourcesCount: Integer;
 begin
   Result := FFileSources.Count;
+end;
+
+procedure TFileView.ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
+begin
+  // Reload file view, but only if the file source is currently viewed.
+  if aFileSource = FileSource then
+    Reload(ReloadedPaths);
 end;
 
 { TDropParams }
