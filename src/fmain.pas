@@ -520,9 +520,7 @@ type
                                   var DropParams: TDropParams);
 
   published
-    // For now we allow to write here.
-    // Should be changed via event 'Active-file-view-changed' or something like that.
-    property SelectedPanel:TFilePanelSelect read PanelSelected write PanelSelected;
+    property SelectedPanel: TFilePanelSelect read PanelSelected;
     property LeftTabs: TFileViewNotebook read nbLeft;
     property RightTabs: TFileViewNotebook read nbRight;
   end;
@@ -2301,7 +2299,7 @@ begin
   if Sender.NotebookPage is TFileViewPage then
     begin
       Page := Sender.NotebookPage as TFileViewPage;
-      SelectedPanel := Page.Notebook.Side;
+      PanelSelected := Page.Notebook.Side;
       UpdateSelectedDrive(Page.Notebook);
       UpdatePrompt;
       UpdateFreeSpace(Page.Notebook.Side);
